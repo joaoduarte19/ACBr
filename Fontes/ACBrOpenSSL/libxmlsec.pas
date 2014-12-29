@@ -1689,7 +1689,7 @@ end;
 var
    pxmlSecAttrAlgorithm: xmlCharPtr;
 
-function xmlSecAttrAlgorithm: xmlCharPtr;
+function xmlSecAttrAlgorithm: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrAlgorithm, 'xmlSecAttrAlgorithm');
   Result := pxmlSecAttrAlgorithm;
@@ -1698,7 +1698,7 @@ end;
 var
    pxmlSecAttrApplication: xmlCharPtr;
 
-function xmlSecAttrApplication: xmlCharPtr;
+function xmlSecAttrApplication: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrApplication, 'xmlSecAttrApplication');
   Result := pxmlSecAttrApplication;
@@ -1707,7 +1707,7 @@ end;
 var
    pxmlSecAttrEncoding: xmlCharPtr;
 
-function xmlSecAttrEncoding: xmlCharPtr;
+function xmlSecAttrEncoding: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrEncoding, 'xmlSecAttrEncoding');
   Result := pxmlSecAttrEncoding;
@@ -1716,7 +1716,7 @@ end;
 var
    pxmlSecAttrFilter: xmlCharPtr;
 
-function xmlSecAttrFilter: xmlCharPtr;
+function xmlSecAttrFilter: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrFilter, 'xmlSecAttrFilter');
   Result := pxmlSecAttrFilter;
@@ -1725,7 +1725,7 @@ end;
 var
    pxmlSecAttrId: xmlCharPtr;
 
-function xmlSecAttrId: xmlCharPtr;
+function xmlSecAttrId: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrId, 'xmlSecAttrId');
   Result := pxmlSecAttrId;
@@ -1734,7 +1734,7 @@ end;
 var
    pxmlSecAttrIdentifier: xmlCharPtr;
 
-function xmlSecAttrIdentifier: xmlCharPtr;
+function xmlSecAttrIdentifier: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrIdentifier, 'xmlSecAttrIdentifier');
   Result := pxmlSecAttrIdentifier;
@@ -1743,7 +1743,7 @@ end;
 var
    pxmlSecAttrMechanism: xmlCharPtr;
 
-function xmlSecAttrMechanism: xmlCharPtr;
+function xmlSecAttrMechanism: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrMechanism, 'xmlSecAttrMechanism');
   Result := pxmlSecAttrMechanism;
@@ -1752,7 +1752,7 @@ end;
 var
    pxmlSecAttrMimeType: xmlCharPtr;
 
-function xmlSecAttrMimeType: xmlCharPtr;
+function xmlSecAttrMimeType: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrMimeType, 'xmlSecAttrMimeType');
   Result := pxmlSecAttrMimeType;
@@ -1761,7 +1761,7 @@ end;
 var
    pxmlSecAttrNonce: xmlCharPtr;
 
-function xmlSecAttrNonce: xmlCharPtr;
+function xmlSecAttrNonce: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrNonce, 'xmlSecAttrNonce');
   Result := pxmlSecAttrNonce;
@@ -1770,7 +1770,7 @@ end;
 var
    pxmlSecAttrNotBefore: xmlCharPtr;
 
-function xmlSecAttrNotBefore: xmlCharPtr;
+function xmlSecAttrNotBefore: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrNotBefore, 'xmlSecAttrNotBefore');
   Result := pxmlSecAttrNotBefore;
@@ -1779,7 +1779,7 @@ end;
 var
    pxmlSecAttrNotOnOrAfter: xmlCharPtr;
 
-function xmlSecAttrNotOnOrAfter: xmlCharPtr;
+function xmlSecAttrNotOnOrAfter: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrNotOnOrAfter, 'xmlSecAttrNotOnOrAfter');
   Result := pxmlSecAttrNotOnOrAfter;
@@ -1788,7 +1788,7 @@ end;
 var
    pxmlSecAttrOriginalRequestId: xmlCharPtr;
 
-function xmlSecAttrOriginalRequestId: xmlCharPtr;
+function xmlSecAttrOriginalRequestId: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrOriginalRequestId, 'xmlSecAttrOriginalRequestId');
   Result := pxmlSecAttrOriginalRequestId;
@@ -1797,7 +1797,7 @@ end;
 var
    pxmlSecAttrPrefixList: xmlCharPtr;
 
-function xmlSecAttrPrefixList: xmlCharPtr;
+function xmlSecAttrPrefixList: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrPrefixList, 'xmlSecAttrPrefixList');
   Result := pxmlSecAttrPrefixList;
@@ -1806,7 +1806,7 @@ end;
 var
    pxmlSecAttrRecipient: xmlCharPtr;
 
-function xmlSecAttrRecipient: xmlCharPtr;
+function xmlSecAttrRecipient: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrRecipient, 'xmlSecAttrRecipient');
   Result := pxmlSecAttrRecipient;
@@ -1815,7 +1815,7 @@ end;
 var
    pxmlSecAttrRequestId: xmlCharPtr;
 
-function xmlSecAttrRequestId: xmlCharPtr;
+function xmlSecAttrRequestId: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrRequestId, 'xmlSecAttrRequestId');
   Result := pxmlSecAttrRequestId;
@@ -1824,7 +1824,7 @@ end;
 var
    pxmlSecAttrResponseLimit: xmlCharPtr;
 
-function xmlSecAttrResponseLimit: xmlCharPtr;
+function xmlSecAttrResponseLimit: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrResponseLimit, 'xmlSecAttrResponseLimit');
   Result := pxmlSecAttrResponseLimit;
@@ -1833,7 +1833,7 @@ end;
 var
    pxmlSecAttrResultMajor: xmlCharPtr;
 
-function xmlSecAttrResultMajor: xmlCharPtr;
+function xmlSecAttrResultMajor: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrResultMajor, 'xmlSecAttrResultMajor');
   Result := pxmlSecAttrResultMajor;
@@ -1842,7 +1842,7 @@ end;
 var
    pxmlSecAttrResultMinor: xmlCharPtr;
 
-function xmlSecAttrResultMinor: xmlCharPtr;
+function xmlSecAttrResultMinor: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrResultMinor, 'xmlSecAttrResultMinor');
   Result := pxmlSecAttrResultMinor;
@@ -1851,7 +1851,7 @@ end;
 var
    pxmlSecAttrService: xmlCharPtr;
 
-function xmlSecAttrService: xmlCharPtr;
+function xmlSecAttrService: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrService, 'xmlSecAttrService');
   Result := pxmlSecAttrService;
@@ -1860,7 +1860,7 @@ end;
 var
    pxmlSecAttrStatusValue: xmlCharPtr;
 
-function xmlSecAttrStatusValue: xmlCharPtr;
+function xmlSecAttrStatusValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrStatusValue, 'xmlSecAttrStatusValue');
   Result := pxmlSecAttrStatusValue;
@@ -1869,7 +1869,7 @@ end;
 var
    pxmlSecAttrTarget: xmlCharPtr;
 
-function xmlSecAttrTarget: xmlCharPtr;
+function xmlSecAttrTarget: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrTarget, 'xmlSecAttrTarget');
   Result := pxmlSecAttrTarget;
@@ -1878,7 +1878,7 @@ end;
 var
    pxmlSecAttrTime: xmlCharPtr;
 
-function xmlSecAttrTime: xmlCharPtr;
+function xmlSecAttrTime: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrTime, 'xmlSecAttrTime');
   Result := pxmlSecAttrTime;
@@ -1887,7 +1887,7 @@ end;
 var
    pxmlSecAttrType: xmlCharPtr;
 
-function xmlSecAttrType: xmlCharPtr;
+function xmlSecAttrType: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrType, 'xmlSecAttrType');
   Result := pxmlSecAttrType;
@@ -1896,7 +1896,7 @@ end;
 var
    pxmlSecAttrURI: xmlCharPtr;
 
-function xmlSecAttrURI: xmlCharPtr;
+function xmlSecAttrURI: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecAttrURI, 'xmlSecAttrURI');
   Result := pxmlSecAttrURI;
@@ -1905,7 +1905,7 @@ end;
 var
    pxmlSecDSigNs: xmlCharPtr;
 
-function xmlSecDSigNs: xmlCharPtr;
+function xmlSecDSigNs: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecDSigNs, 'xmlSecDSigNs');
   Result := pxmlSecDSigNs;
@@ -1914,7 +1914,7 @@ end;
 var
    pxmlSecEncNs: xmlCharPtr;
 
-function xmlSecEncNs: xmlCharPtr;
+function xmlSecEncNs: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecEncNs, 'xmlSecEncNs');
   Result := pxmlSecEncNs;
@@ -1923,7 +1923,7 @@ end;
 var
    pxmlSecHrefAESKeyValue: xmlCharPtr;
 
-function xmlSecHrefAESKeyValue: xmlCharPtr;
+function xmlSecHrefAESKeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefAESKeyValue, 'xmlSecHrefAESKeyValue');
   Result := pxmlSecHrefAESKeyValue;
@@ -1932,7 +1932,7 @@ end;
 var
    pxmlSecHrefAes128Cbc: xmlCharPtr;
 
-function xmlSecHrefAes128Cbc: xmlCharPtr;
+function xmlSecHrefAes128Cbc: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefAes128Cbc, 'xmlSecHrefAes128Cbc');
   Result := pxmlSecHrefAes128Cbc;
@@ -1941,7 +1941,7 @@ end;
 var
    pxmlSecHrefAes192Cbc: xmlCharPtr;
 
-function xmlSecHrefAes192Cbc: xmlCharPtr;
+function xmlSecHrefAes192Cbc: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefAes192Cbc, 'xmlSecHrefAes192Cbc');
   Result := pxmlSecHrefAes192Cbc;
@@ -1950,7 +1950,7 @@ end;
 var
    pxmlSecHrefAes256Cbc: xmlCharPtr;
 
-function xmlSecHrefAes256Cbc: xmlCharPtr;
+function xmlSecHrefAes256Cbc: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefAes256Cbc, 'xmlSecHrefAes256Cbc');
   Result := pxmlSecHrefAes256Cbc;
@@ -1959,7 +1959,7 @@ end;
 var
    pxmlSecHrefBase64: xmlCharPtr;
 
-function xmlSecHrefBase64: xmlCharPtr;
+function xmlSecHrefBase64: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefBase64, 'xmlSecHrefBase64');
   Result := pxmlSecHrefBase64;
@@ -1968,7 +1968,7 @@ end;
 var
    pxmlSecHrefC14N: xmlCharPtr;
 
-function xmlSecHrefC14N: xmlCharPtr;
+function xmlSecHrefC14N: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefC14N, 'xmlSecHrefC14N');
   Result := pxmlSecHrefC14N;
@@ -1977,7 +1977,7 @@ end;
 var
    pxmlSecHrefC14NWithComments: xmlCharPtr;
 
-function xmlSecHrefC14NWithComments: xmlCharPtr;
+function xmlSecHrefC14NWithComments: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefC14NWithComments, 'xmlSecHrefC14NWithComments');
   Result := pxmlSecHrefC14NWithComments;
@@ -1986,7 +1986,7 @@ end;
 var
    pxmlSecHrefDESKeyValue: xmlCharPtr;
 
-function xmlSecHrefDESKeyValue: xmlCharPtr;
+function xmlSecHrefDESKeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefDESKeyValue, 'xmlSecHrefDESKeyValue');
   Result := pxmlSecHrefDESKeyValue;
@@ -1995,7 +1995,7 @@ end;
 var
    pxmlSecHrefDSAKeyValue: xmlCharPtr;
 
-function xmlSecHrefDSAKeyValue: xmlCharPtr;
+function xmlSecHrefDSAKeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefDSAKeyValue, 'xmlSecHrefDSAKeyValue');
   Result := pxmlSecHrefDSAKeyValue;
@@ -2004,7 +2004,7 @@ end;
 var
    pxmlSecHrefDes3Cbc: xmlCharPtr;
 
-function xmlSecHrefDes3Cbc: xmlCharPtr;
+function xmlSecHrefDes3Cbc: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefDes3Cbc, 'xmlSecHrefDes3Cbc');
   Result := pxmlSecHrefDes3Cbc;
@@ -2013,7 +2013,7 @@ end;
 var
    pxmlSecHrefDsaSha1: xmlCharPtr;
 
-function xmlSecHrefDsaSha1: xmlCharPtr;
+function xmlSecHrefDsaSha1: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefDsaSha1, 'xmlSecHrefDsaSha1');
   Result := pxmlSecHrefDsaSha1;
@@ -2022,7 +2022,7 @@ end;
 var
    pxmlSecHrefEncryptedKey: xmlCharPtr;
 
-function xmlSecHrefEncryptedKey: xmlCharPtr;
+function xmlSecHrefEncryptedKey: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefEncryptedKey, 'xmlSecHrefEncryptedKey');
   Result := pxmlSecHrefEncryptedKey;
@@ -2031,7 +2031,7 @@ end;
 var
    pxmlSecHrefEnveloped: xmlCharPtr;
 
-function xmlSecHrefEnveloped: xmlCharPtr;
+function xmlSecHrefEnveloped: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefEnveloped, 'xmlSecHrefEnveloped');
   Result := pxmlSecHrefEnveloped;
@@ -2040,7 +2040,7 @@ end;
 var
    pxmlSecHrefExcC14N: xmlCharPtr;
 
-function xmlSecHrefExcC14N: xmlCharPtr;
+function xmlSecHrefExcC14N: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefExcC14N, 'xmlSecHrefExcC14N');
   Result := pxmlSecHrefExcC14N;
@@ -2049,7 +2049,7 @@ end;
 var
    pxmlSecHrefExcC14NWithComments: xmlCharPtr;
 
-function xmlSecHrefExcC14NWithComments: xmlCharPtr;
+function xmlSecHrefExcC14NWithComments: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefExcC14NWithComments, 'xmlSecHrefExcC14NWithComments');
   Result := pxmlSecHrefExcC14NWithComments;
@@ -2058,7 +2058,7 @@ end;
 var
    pxmlSecHrefGOST2001KeyValue: xmlCharPtr;
 
-function xmlSecHrefGOST2001KeyValue: xmlCharPtr;
+function xmlSecHrefGOST2001KeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefGOST2001KeyValue, 'xmlSecHrefGOST2001KeyValue');
   Result := pxmlSecHrefGOST2001KeyValue;
@@ -2067,7 +2067,7 @@ end;
 var
    pxmlSecHrefGost2001GostR3411_94: xmlCharPtr;
 
-function xmlSecHrefGost2001GostR3411_94: xmlCharPtr;
+function xmlSecHrefGost2001GostR3411_94: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefGost2001GostR3411_94, 'xmlSecHrefGost2001GostR3411_94');
   Result := pxmlSecHrefGost2001GostR3411_94;
@@ -2076,7 +2076,7 @@ end;
 var
    pxmlSecHrefGostR3411_94: xmlCharPtr;
 
-function xmlSecHrefGostR3411_94: xmlCharPtr;
+function xmlSecHrefGostR3411_94: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefGostR3411_94, 'xmlSecHrefGostR3411_94');
   Result := pxmlSecHrefGostR3411_94;
@@ -2085,7 +2085,7 @@ end;
 var
    pxmlSecHrefHMACKeyValue: xmlCharPtr;
 
-function xmlSecHrefHMACKeyValue: xmlCharPtr;
+function xmlSecHrefHMACKeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefHMACKeyValue, 'xmlSecHrefHMACKeyValue');
   Result := pxmlSecHrefHMACKeyValue;
@@ -2094,7 +2094,7 @@ end;
 var
    pxmlSecHrefHmacMd5: xmlCharPtr;
 
-function xmlSecHrefHmacMd5: xmlCharPtr;
+function xmlSecHrefHmacMd5: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefHmacMd5, 'xmlSecHrefHmacMd5');
   Result := pxmlSecHrefHmacMd5;
@@ -2103,7 +2103,7 @@ end;
 var
    pxmlSecHrefHmacRipemd160: xmlCharPtr;
 
-function xmlSecHrefHmacRipemd160: xmlCharPtr;
+function xmlSecHrefHmacRipemd160: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefHmacRipemd160, 'xmlSecHrefHmacRipemd160');
   Result := pxmlSecHrefHmacRipemd160;
@@ -2112,7 +2112,7 @@ end;
 var
    pxmlSecHrefHmacSha1: xmlCharPtr;
 
-function xmlSecHrefHmacSha1: xmlCharPtr;
+function xmlSecHrefHmacSha1: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefHmacSha1, 'xmlSecHrefHmacSha1');
   Result := pxmlSecHrefHmacSha1;
@@ -2121,7 +2121,7 @@ end;
 var
    pxmlSecHrefHmacSha224: xmlCharPtr;
 
-function xmlSecHrefHmacSha224: xmlCharPtr;
+function xmlSecHrefHmacSha224: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefHmacSha224, 'xmlSecHrefHmacSha224');
   Result := pxmlSecHrefHmacSha224;
@@ -2130,7 +2130,7 @@ end;
 var
    pxmlSecHrefHmacSha256: xmlCharPtr;
 
-function xmlSecHrefHmacSha256: xmlCharPtr;
+function xmlSecHrefHmacSha256: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefHmacSha256, 'xmlSecHrefHmacSha256');
   Result := pxmlSecHrefHmacSha256;
@@ -2139,7 +2139,7 @@ end;
 var
    pxmlSecHrefHmacSha384: xmlCharPtr;
 
-function xmlSecHrefHmacSha384: xmlCharPtr;
+function xmlSecHrefHmacSha384: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefHmacSha384, 'xmlSecHrefHmacSha384');
   Result := pxmlSecHrefHmacSha384;
@@ -2148,7 +2148,7 @@ end;
 var
    pxmlSecHrefHmacSha512: xmlCharPtr;
 
-function xmlSecHrefHmacSha512: xmlCharPtr;
+function xmlSecHrefHmacSha512: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefHmacSha512, 'xmlSecHrefHmacSha512');
   Result := pxmlSecHrefHmacSha512;
@@ -2157,7 +2157,7 @@ end;
 var
    pxmlSecHrefKWAes128: xmlCharPtr;
 
-function xmlSecHrefKWAes128: xmlCharPtr;
+function xmlSecHrefKWAes128: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefKWAes128, 'xmlSecHrefKWAes128');
   Result := pxmlSecHrefKWAes128;
@@ -2166,7 +2166,7 @@ end;
 var
    pxmlSecHrefKWAes192: xmlCharPtr;
 
-function xmlSecHrefKWAes192: xmlCharPtr;
+function xmlSecHrefKWAes192: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefKWAes192, 'xmlSecHrefKWAes192');
   Result := pxmlSecHrefKWAes192;
@@ -2175,7 +2175,7 @@ end;
 var
    pxmlSecHrefKWAes256: xmlCharPtr;
 
-function xmlSecHrefKWAes256: xmlCharPtr;
+function xmlSecHrefKWAes256: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefKWAes256, 'xmlSecHrefKWAes256');
   Result := pxmlSecHrefKWAes256;
@@ -2184,7 +2184,7 @@ end;
 var
    pxmlSecHrefKWDes3: xmlCharPtr;
 
-function xmlSecHrefKWDes3: xmlCharPtr;
+function xmlSecHrefKWDes3: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefKWDes3, 'xmlSecHrefKWDes3');
   Result := pxmlSecHrefKWDes3;
@@ -2193,7 +2193,7 @@ end;
 var
    pxmlSecHrefMd5: xmlCharPtr;
 
-function xmlSecHrefMd5: xmlCharPtr;
+function xmlSecHrefMd5: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefMd5, 'xmlSecHrefMd5');
   Result := pxmlSecHrefMd5;
@@ -2202,7 +2202,7 @@ end;
 var
    pxmlSecHrefPGPData: xmlCharPtr;
 
-function xmlSecHrefPGPData: xmlCharPtr;
+function xmlSecHrefPGPData: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefPGPData, 'xmlSecHrefPGPData');
   Result := pxmlSecHrefPGPData;
@@ -2211,7 +2211,7 @@ end;
 var
    pxmlSecHrefRSAKeyValue: xmlCharPtr;
 
-function xmlSecHrefRSAKeyValue: xmlCharPtr;
+function xmlSecHrefRSAKeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefRSAKeyValue, 'xmlSecHrefRSAKeyValue');
   Result := pxmlSecHrefRSAKeyValue;
@@ -2220,7 +2220,7 @@ end;
 var
    pxmlSecHrefRawX509Cert: xmlCharPtr;
 
-function xmlSecHrefRawX509Cert: xmlCharPtr;
+function xmlSecHrefRawX509Cert: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefRawX509Cert, 'xmlSecHrefRawX509Cert');
   Result := pxmlSecHrefRawX509Cert;
@@ -2229,7 +2229,7 @@ end;
 var
    pxmlSecHrefRipemd160: xmlCharPtr;
 
-function xmlSecHrefRipemd160: xmlCharPtr;
+function xmlSecHrefRipemd160: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefRipemd160, 'xmlSecHrefRipemd160');
   Result := pxmlSecHrefRipemd160;
@@ -2238,7 +2238,7 @@ end;
 var
    pxmlSecHrefRsaMd5: xmlCharPtr;
 
-function xmlSecHrefRsaMd5: xmlCharPtr;
+function xmlSecHrefRsaMd5: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefRsaMd5, 'xmlSecHrefRsaMd5');
   Result := pxmlSecHrefRsaMd5;
@@ -2247,7 +2247,7 @@ end;
 var
    pxmlSecHrefRsaOaep: xmlCharPtr;
 
-function xmlSecHrefRsaOaep: xmlCharPtr;
+function xmlSecHrefRsaOaep: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefRsaOaep, 'xmlSecHrefRsaOaep');
   Result := pxmlSecHrefRsaOaep;
@@ -2256,7 +2256,7 @@ end;
 var
    pxmlSecHrefRsaPkcs1: xmlCharPtr;
 
-function xmlSecHrefRsaPkcs1: xmlCharPtr;
+function xmlSecHrefRsaPkcs1: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefRsaPkcs1, 'xmlSecHrefRsaPkcs1');
   Result := pxmlSecHrefRsaPkcs1;
@@ -2265,7 +2265,7 @@ end;
 var
    pxmlSecHrefRsaRipemd160: xmlCharPtr;
 
-function xmlSecHrefRsaRipemd160: xmlCharPtr;
+function xmlSecHrefRsaRipemd160: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefRsaRipemd160, 'xmlSecHrefRsaRipemd160');
   Result := pxmlSecHrefRsaRipemd160;
@@ -2274,7 +2274,7 @@ end;
 var
    pxmlSecHrefRsaSha1: xmlCharPtr;
 
-function xmlSecHrefRsaSha1: xmlCharPtr;
+function xmlSecHrefRsaSha1: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefRsaSha1, 'xmlSecHrefRsaSha1');
   Result := pxmlSecHrefRsaSha1;
@@ -2283,7 +2283,7 @@ end;
 var
    pxmlSecHrefRsaSha224: xmlCharPtr;
 
-function xmlSecHrefRsaSha224: xmlCharPtr;
+function xmlSecHrefRsaSha224: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefRsaSha224, 'xmlSecHrefRsaSha224');
   Result := pxmlSecHrefRsaSha224;
@@ -2292,7 +2292,7 @@ end;
 var
    pxmlSecHrefRsaSha256: xmlCharPtr;
 
-function xmlSecHrefRsaSha256: xmlCharPtr;
+function xmlSecHrefRsaSha256: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefRsaSha256, 'xmlSecHrefRsaSha256');
   Result := pxmlSecHrefRsaSha256;
@@ -2301,7 +2301,7 @@ end;
 var
    pxmlSecHrefRsaSha384: xmlCharPtr;
 
-function xmlSecHrefRsaSha384: xmlCharPtr;
+function xmlSecHrefRsaSha384: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefRsaSha384, 'xmlSecHrefRsaSha384');
   Result := pxmlSecHrefRsaSha384;
@@ -2310,7 +2310,7 @@ end;
 var
    pxmlSecHrefRsaSha512: xmlCharPtr;
 
-function xmlSecHrefRsaSha512: xmlCharPtr;
+function xmlSecHrefRsaSha512: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefRsaSha512, 'xmlSecHrefRsaSha512');
   Result := pxmlSecHrefRsaSha512;
@@ -2319,7 +2319,7 @@ end;
 var
    pxmlSecHrefSPKIData: xmlCharPtr;
 
-function xmlSecHrefSPKIData: xmlCharPtr;
+function xmlSecHrefSPKIData: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefSPKIData, 'xmlSecHrefSPKIData');
   Result := pxmlSecHrefSPKIData;
@@ -2328,7 +2328,7 @@ end;
 var
    pxmlSecHrefSha1: xmlCharPtr;
 
-function xmlSecHrefSha1: xmlCharPtr;
+function xmlSecHrefSha1: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefSha1, 'xmlSecHrefSha1');
   Result := pxmlSecHrefSha1;
@@ -2337,7 +2337,7 @@ end;
 var
    pxmlSecHrefSha224: xmlCharPtr;
 
-function xmlSecHrefSha224: xmlCharPtr;
+function xmlSecHrefSha224: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefSha224, 'xmlSecHrefSha224');
   Result := pxmlSecHrefSha224;
@@ -2346,7 +2346,7 @@ end;
 var
    pxmlSecHrefSha256: xmlCharPtr;
 
-function xmlSecHrefSha256: xmlCharPtr;
+function xmlSecHrefSha256: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefSha256, 'xmlSecHrefSha256');
   Result := pxmlSecHrefSha256;
@@ -2355,7 +2355,7 @@ end;
 var
    pxmlSecHrefSha384: xmlCharPtr;
 
-function xmlSecHrefSha384: xmlCharPtr;
+function xmlSecHrefSha384: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefSha384, 'xmlSecHrefSha384');
   Result := pxmlSecHrefSha384;
@@ -2364,7 +2364,7 @@ end;
 var
    pxmlSecHrefSha512: xmlCharPtr;
 
-function xmlSecHrefSha512: xmlCharPtr;
+function xmlSecHrefSha512: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefSha512, 'xmlSecHrefSha512');
   Result := pxmlSecHrefSha512;
@@ -2373,7 +2373,7 @@ end;
 var
    pxmlSecHrefX509Data: xmlCharPtr;
 
-function xmlSecHrefX509Data: xmlCharPtr;
+function xmlSecHrefX509Data: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefX509Data, 'xmlSecHrefX509Data');
   Result := pxmlSecHrefX509Data;
@@ -2382,7 +2382,7 @@ end;
 var
    pxmlSecHrefXslt: xmlCharPtr;
 
-function xmlSecHrefXslt: xmlCharPtr;
+function xmlSecHrefXslt: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecHrefXslt, 'xmlSecHrefXslt');
   Result := pxmlSecHrefXslt;
@@ -2391,7 +2391,7 @@ end;
 var
    pxmlSecKeyBindingReasonIssuerTrust: xmlCharPtr;
 
-function xmlSecKeyBindingReasonIssuerTrust: xmlCharPtr;
+function xmlSecKeyBindingReasonIssuerTrust: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecKeyBindingReasonIssuerTrust, 'xmlSecKeyBindingReasonIssuerTrust');
   Result := pxmlSecKeyBindingReasonIssuerTrust;
@@ -2400,7 +2400,7 @@ end;
 var
    pxmlSecKeyBindingReasonRevocationStatus: xmlCharPtr;
 
-function xmlSecKeyBindingReasonRevocationStatus: xmlCharPtr;
+function xmlSecKeyBindingReasonRevocationStatus: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecKeyBindingReasonRevocationStatus, 'xmlSecKeyBindingReasonRevocationStatus');
   Result := pxmlSecKeyBindingReasonRevocationStatus;
@@ -2409,7 +2409,7 @@ end;
 var
    pxmlSecKeyBindingReasonSignature: xmlCharPtr;
 
-function xmlSecKeyBindingReasonSignature: xmlCharPtr;
+function xmlSecKeyBindingReasonSignature: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecKeyBindingReasonSignature, 'xmlSecKeyBindingReasonSignature');
   Result := pxmlSecKeyBindingReasonSignature;
@@ -2418,7 +2418,7 @@ end;
 var
    pxmlSecKeyBindingReasonValidityInterval: xmlCharPtr;
 
-function xmlSecKeyBindingReasonValidityInterval: xmlCharPtr;
+function xmlSecKeyBindingReasonValidityInterval: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecKeyBindingReasonValidityInterval, 'xmlSecKeyBindingReasonValidityInterval');
   Result := pxmlSecKeyBindingReasonValidityInterval;
@@ -2427,7 +2427,7 @@ end;
 var
    pxmlSecKeyBindingStatusIndeterminate: xmlCharPtr;
 
-function xmlSecKeyBindingStatusIndeterminate: xmlCharPtr;
+function xmlSecKeyBindingStatusIndeterminate: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecKeyBindingStatusIndeterminate, 'xmlSecKeyBindingStatusIndeterminate');
   Result := pxmlSecKeyBindingStatusIndeterminate;
@@ -2436,7 +2436,7 @@ end;
 var
    pxmlSecKeyBindingStatusInvalid: xmlCharPtr;
 
-function xmlSecKeyBindingStatusInvalid: xmlCharPtr;
+function xmlSecKeyBindingStatusInvalid: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecKeyBindingStatusInvalid, 'xmlSecKeyBindingStatusInvalid');
   Result := pxmlSecKeyBindingStatusInvalid;
@@ -2445,7 +2445,7 @@ end;
 var
    pxmlSecKeyBindingStatusValid: xmlCharPtr;
 
-function xmlSecKeyBindingStatusValid: xmlCharPtr;
+function xmlSecKeyBindingStatusValid: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecKeyBindingStatusValid, 'xmlSecKeyBindingStatusValid');
   Result := pxmlSecKeyBindingStatusValid;
@@ -2454,7 +2454,7 @@ end;
 var
    pxmlSecKeyUsageEncryption: xmlCharPtr;
 
-function xmlSecKeyUsageEncryption: xmlCharPtr;
+function xmlSecKeyUsageEncryption: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecKeyUsageEncryption, 'xmlSecKeyUsageEncryption');
   Result := pxmlSecKeyUsageEncryption;
@@ -2463,7 +2463,7 @@ end;
 var
    pxmlSecKeyUsageExchange: xmlCharPtr;
 
-function xmlSecKeyUsageExchange: xmlCharPtr;
+function xmlSecKeyUsageExchange: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecKeyUsageExchange, 'xmlSecKeyUsageExchange');
   Result := pxmlSecKeyUsageExchange;
@@ -2472,7 +2472,7 @@ end;
 var
    pxmlSecKeyUsageSignature: xmlCharPtr;
 
-function xmlSecKeyUsageSignature: xmlCharPtr;
+function xmlSecKeyUsageSignature: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecKeyUsageSignature, 'xmlSecKeyUsageSignature');
   Result := pxmlSecKeyUsageSignature;
@@ -2481,7 +2481,7 @@ end;
 var
    pxmlSecNameAESKeyValue: xmlCharPtr;
 
-function xmlSecNameAESKeyValue: xmlCharPtr;
+function xmlSecNameAESKeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameAESKeyValue, 'xmlSecNameAESKeyValue');
   Result := pxmlSecNameAESKeyValue;
@@ -2490,7 +2490,7 @@ end;
 var
    pxmlSecNameAes128Cbc: xmlCharPtr;
 
-function xmlSecNameAes128Cbc: xmlCharPtr;
+function xmlSecNameAes128Cbc: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameAes128Cbc, 'xmlSecNameAes128Cbc');
   Result := pxmlSecNameAes128Cbc;
@@ -2499,7 +2499,7 @@ end;
 var
    pxmlSecNameAes192Cbc: xmlCharPtr;
 
-function xmlSecNameAes192Cbc: xmlCharPtr;
+function xmlSecNameAes192Cbc: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameAes192Cbc, 'xmlSecNameAes192Cbc');
   Result := pxmlSecNameAes192Cbc;
@@ -2508,7 +2508,7 @@ end;
 var
    pxmlSecNameAes256Cbc: xmlCharPtr;
 
-function xmlSecNameAes256Cbc: xmlCharPtr;
+function xmlSecNameAes256Cbc: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameAes256Cbc, 'xmlSecNameAes256Cbc');
   Result := pxmlSecNameAes256Cbc;
@@ -2517,7 +2517,7 @@ end;
 var
    pxmlSecNameBase64: xmlCharPtr;
 
-function xmlSecNameBase64: xmlCharPtr;
+function xmlSecNameBase64: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameBase64, 'xmlSecNameBase64');
   Result := pxmlSecNameBase64;
@@ -2526,7 +2526,7 @@ end;
 var
    pxmlSecNameC14N: xmlCharPtr;
 
-function xmlSecNameC14N: xmlCharPtr;
+function xmlSecNameC14N: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameC14N, 'xmlSecNameC14N');
   Result := pxmlSecNameC14N;
@@ -2535,7 +2535,7 @@ end;
 var
    pxmlSecNameC14NWithComments: xmlCharPtr;
 
-function xmlSecNameC14NWithComments: xmlCharPtr;
+function xmlSecNameC14NWithComments: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameC14NWithComments, 'xmlSecNameC14NWithComments');
   Result := pxmlSecNameC14NWithComments;
@@ -2544,7 +2544,7 @@ end;
 var
    pxmlSecNameDESKeyValue: xmlCharPtr;
 
-function xmlSecNameDESKeyValue: xmlCharPtr;
+function xmlSecNameDESKeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameDESKeyValue, 'xmlSecNameDESKeyValue');
   Result := pxmlSecNameDESKeyValue;
@@ -2553,7 +2553,7 @@ end;
 var
    pxmlSecNameDSAKeyValue: xmlCharPtr;
 
-function xmlSecNameDSAKeyValue: xmlCharPtr;
+function xmlSecNameDSAKeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameDSAKeyValue, 'xmlSecNameDSAKeyValue');
   Result := pxmlSecNameDSAKeyValue;
@@ -2562,7 +2562,7 @@ end;
 var
    pxmlSecNameDes3Cbc: xmlCharPtr;
 
-function xmlSecNameDes3Cbc: xmlCharPtr;
+function xmlSecNameDes3Cbc: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameDes3Cbc, 'xmlSecNameDes3Cbc');
   Result := pxmlSecNameDes3Cbc;
@@ -2571,7 +2571,7 @@ end;
 var
    pxmlSecNameDsaSha1: xmlCharPtr;
 
-function xmlSecNameDsaSha1: xmlCharPtr;
+function xmlSecNameDsaSha1: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameDsaSha1, 'xmlSecNameDsaSha1');
   Result := pxmlSecNameDsaSha1;
@@ -2580,7 +2580,7 @@ end;
 var
    pxmlSecNameEncryptedKey: xmlCharPtr;
 
-function xmlSecNameEncryptedKey: xmlCharPtr;
+function xmlSecNameEncryptedKey: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameEncryptedKey, 'xmlSecNameEncryptedKey');
   Result := pxmlSecNameEncryptedKey;
@@ -2589,7 +2589,7 @@ end;
 var
    pxmlSecNameEnveloped: xmlCharPtr;
 
-function xmlSecNameEnveloped: xmlCharPtr;
+function xmlSecNameEnveloped: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameEnveloped, 'xmlSecNameEnveloped');
   Result := pxmlSecNameEnveloped;
@@ -2598,7 +2598,7 @@ end;
 var
    pxmlSecNameExcC14N: xmlCharPtr;
 
-function xmlSecNameExcC14N: xmlCharPtr;
+function xmlSecNameExcC14N: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameExcC14N, 'xmlSecNameExcC14N');
   Result := pxmlSecNameExcC14N;
@@ -2607,7 +2607,7 @@ end;
 var
    pxmlSecNameExcC14NWithComments: xmlCharPtr;
 
-function xmlSecNameExcC14NWithComments: xmlCharPtr;
+function xmlSecNameExcC14NWithComments: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameExcC14NWithComments, 'xmlSecNameExcC14NWithComments');
   Result := pxmlSecNameExcC14NWithComments;
@@ -2616,7 +2616,7 @@ end;
 var
    pxmlSecNameGOST2001KeyValue: xmlCharPtr;
 
-function xmlSecNameGOST2001KeyValue: xmlCharPtr;
+function xmlSecNameGOST2001KeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameGOST2001KeyValue, 'xmlSecNameGOST2001KeyValue');
   Result := pxmlSecNameGOST2001KeyValue;
@@ -2625,7 +2625,7 @@ end;
 var
    pxmlSecNameGost2001GostR3411_94: xmlCharPtr;
 
-function xmlSecNameGost2001GostR3411_94: xmlCharPtr;
+function xmlSecNameGost2001GostR3411_94: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameGost2001GostR3411_94, 'xmlSecNameGost2001GostR3411_94');
   Result := pxmlSecNameGost2001GostR3411_94;
@@ -2634,7 +2634,7 @@ end;
 var
    pxmlSecNameGostR3411_94: xmlCharPtr;
 
-function xmlSecNameGostR3411_94: xmlCharPtr;
+function xmlSecNameGostR3411_94: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameGostR3411_94, 'xmlSecNameGostR3411_94');
   Result := pxmlSecNameGostR3411_94;
@@ -2643,7 +2643,7 @@ end;
 var
    pxmlSecNameHMACKeyValue: xmlCharPtr;
 
-function xmlSecNameHMACKeyValue: xmlCharPtr;
+function xmlSecNameHMACKeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameHMACKeyValue, 'xmlSecNameHMACKeyValue');
   Result := pxmlSecNameHMACKeyValue;
@@ -2652,7 +2652,7 @@ end;
 var
    pxmlSecNameHmacMd5: xmlCharPtr;
 
-function xmlSecNameHmacMd5: xmlCharPtr;
+function xmlSecNameHmacMd5: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameHmacMd5, 'xmlSecNameHmacMd5');
   Result := pxmlSecNameHmacMd5;
@@ -2661,7 +2661,7 @@ end;
 var
    pxmlSecNameHmacRipemd160: xmlCharPtr;
 
-function xmlSecNameHmacRipemd160: xmlCharPtr;
+function xmlSecNameHmacRipemd160: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameHmacRipemd160, 'xmlSecNameHmacRipemd160');
   Result := pxmlSecNameHmacRipemd160;
@@ -2670,7 +2670,7 @@ end;
 var
    pxmlSecNameHmacSha1: xmlCharPtr;
 
-function xmlSecNameHmacSha1: xmlCharPtr;
+function xmlSecNameHmacSha1: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameHmacSha1, 'xmlSecNameHmacSha1');
   Result := pxmlSecNameHmacSha1;
@@ -2679,7 +2679,7 @@ end;
 var
    pxmlSecNameHmacSha224: xmlCharPtr;
 
-function xmlSecNameHmacSha224: xmlCharPtr;
+function xmlSecNameHmacSha224: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameHmacSha224, 'xmlSecNameHmacSha224');
   Result := pxmlSecNameHmacSha224;
@@ -2688,7 +2688,7 @@ end;
 var
    pxmlSecNameHmacSha256: xmlCharPtr;
 
-function xmlSecNameHmacSha256: xmlCharPtr;
+function xmlSecNameHmacSha256: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameHmacSha256, 'xmlSecNameHmacSha256');
   Result := pxmlSecNameHmacSha256;
@@ -2697,7 +2697,7 @@ end;
 var
    pxmlSecNameHmacSha384: xmlCharPtr;
 
-function xmlSecNameHmacSha384: xmlCharPtr;
+function xmlSecNameHmacSha384: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameHmacSha384, 'xmlSecNameHmacSha384');
   Result := pxmlSecNameHmacSha384;
@@ -2706,7 +2706,7 @@ end;
 var
    pxmlSecNameHmacSha512: xmlCharPtr;
 
-function xmlSecNameHmacSha512: xmlCharPtr;
+function xmlSecNameHmacSha512: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameHmacSha512, 'xmlSecNameHmacSha512');
   Result := pxmlSecNameHmacSha512;
@@ -2715,7 +2715,7 @@ end;
 var
    pxmlSecNameKWAes128: xmlCharPtr;
 
-function xmlSecNameKWAes128: xmlCharPtr;
+function xmlSecNameKWAes128: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameKWAes128, 'xmlSecNameKWAes128');
   Result := pxmlSecNameKWAes128;
@@ -2724,7 +2724,7 @@ end;
 var
    pxmlSecNameKWAes192: xmlCharPtr;
 
-function xmlSecNameKWAes192: xmlCharPtr;
+function xmlSecNameKWAes192: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameKWAes192, 'xmlSecNameKWAes192');
   Result := pxmlSecNameKWAes192;
@@ -2733,7 +2733,7 @@ end;
 var
    pxmlSecNameKWAes256: xmlCharPtr;
 
-function xmlSecNameKWAes256: xmlCharPtr;
+function xmlSecNameKWAes256: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameKWAes256, 'xmlSecNameKWAes256');
   Result := pxmlSecNameKWAes256;
@@ -2742,7 +2742,7 @@ end;
 var
    pxmlSecNameKWDes3: xmlCharPtr;
 
-function xmlSecNameKWDes3: xmlCharPtr;
+function xmlSecNameKWDes3: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameKWDes3, 'xmlSecNameKWDes3');
   Result := pxmlSecNameKWDes3;
@@ -2751,7 +2751,7 @@ end;
 var
    pxmlSecNameKeyName: xmlCharPtr;
 
-function xmlSecNameKeyName: xmlCharPtr;
+function xmlSecNameKeyName: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameKeyName, 'xmlSecNameKeyName');
   Result := pxmlSecNameKeyName;
@@ -2760,7 +2760,7 @@ end;
 var
    pxmlSecNameKeyValue: xmlCharPtr;
 
-function xmlSecNameKeyValue: xmlCharPtr;
+function xmlSecNameKeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameKeyValue, 'xmlSecNameKeyValue');
   Result := pxmlSecNameKeyValue;
@@ -2769,7 +2769,7 @@ end;
 var
    pxmlSecNameMd5: xmlCharPtr;
 
-function xmlSecNameMd5: xmlCharPtr;
+function xmlSecNameMd5: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameMd5, 'xmlSecNameMd5');
   Result := pxmlSecNameMd5;
@@ -2778,7 +2778,7 @@ end;
 var
    pxmlSecNameMemBuf: xmlCharPtr;
 
-function xmlSecNameMemBuf: xmlCharPtr;
+function xmlSecNameMemBuf: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameMemBuf, 'xmlSecNameMemBuf');
   Result := pxmlSecNameMemBuf;
@@ -2787,7 +2787,7 @@ end;
 var
    pxmlSecNamePGPData: xmlCharPtr;
 
-function xmlSecNamePGPData: xmlCharPtr;
+function xmlSecNamePGPData: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNamePGPData, 'xmlSecNamePGPData');
   Result := pxmlSecNamePGPData;
@@ -2796,7 +2796,7 @@ end;
 var
    pxmlSecNameRSAKeyValue: xmlCharPtr;
 
-function xmlSecNameRSAKeyValue: xmlCharPtr;
+function xmlSecNameRSAKeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameRSAKeyValue, 'xmlSecNameRSAKeyValue');
   Result := pxmlSecNameRSAKeyValue;
@@ -2805,7 +2805,7 @@ end;
 var
    pxmlSecNameRawX509Cert: xmlCharPtr;
 
-function xmlSecNameRawX509Cert: xmlCharPtr;
+function xmlSecNameRawX509Cert: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameRawX509Cert, 'xmlSecNameRawX509Cert');
   Result := pxmlSecNameRawX509Cert;
@@ -2814,7 +2814,7 @@ end;
 var
    pxmlSecNameRetrievalMethod: xmlCharPtr;
 
-function xmlSecNameRetrievalMethod: xmlCharPtr;
+function xmlSecNameRetrievalMethod: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameRetrievalMethod, 'xmlSecNameRetrievalMethod');
   Result := pxmlSecNameRetrievalMethod;
@@ -2823,7 +2823,7 @@ end;
 var
    pxmlSecNameRipemd160: xmlCharPtr;
 
-function xmlSecNameRipemd160: xmlCharPtr;
+function xmlSecNameRipemd160: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameRipemd160, 'xmlSecNameRipemd160');
   Result := pxmlSecNameRipemd160;
@@ -2832,7 +2832,7 @@ end;
 var
    pxmlSecNameRsaMd5: xmlCharPtr;
 
-function xmlSecNameRsaMd5: xmlCharPtr;
+function xmlSecNameRsaMd5: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameRsaMd5, 'xmlSecNameRsaMd5');
   Result := pxmlSecNameRsaMd5;
@@ -2841,7 +2841,7 @@ end;
 var
    pxmlSecNameRsaOaep: xmlCharPtr;
 
-function xmlSecNameRsaOaep: xmlCharPtr;
+function xmlSecNameRsaOaep: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameRsaOaep, 'xmlSecNameRsaOaep');
   Result := pxmlSecNameRsaOaep;
@@ -2850,7 +2850,7 @@ end;
 var
    pxmlSecNameRsaPkcs1: xmlCharPtr;
 
-function xmlSecNameRsaPkcs1: xmlCharPtr;
+function xmlSecNameRsaPkcs1: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameRsaPkcs1, 'xmlSecNameRsaPkcs1');
   Result := pxmlSecNameRsaPkcs1;
@@ -2859,7 +2859,7 @@ end;
 var
    pxmlSecNameRsaRipemd160: xmlCharPtr;
 
-function xmlSecNameRsaRipemd160: xmlCharPtr;
+function xmlSecNameRsaRipemd160: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameRsaRipemd160, 'xmlSecNameRsaRipemd160');
   Result := pxmlSecNameRsaRipemd160;
@@ -2868,7 +2868,7 @@ end;
 var
    pxmlSecNameRsaSha1: xmlCharPtr;
 
-function xmlSecNameRsaSha1: xmlCharPtr;
+function xmlSecNameRsaSha1: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameRsaSha1, 'xmlSecNameRsaSha1');
   Result := pxmlSecNameRsaSha1;
@@ -2877,7 +2877,7 @@ end;
 var
    pxmlSecNameRsaSha224: xmlCharPtr;
 
-function xmlSecNameRsaSha224: xmlCharPtr;
+function xmlSecNameRsaSha224: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameRsaSha224, 'xmlSecNameRsaSha224');
   Result := pxmlSecNameRsaSha224;
@@ -2886,7 +2886,7 @@ end;
 var
    pxmlSecNameRsaSha256: xmlCharPtr;
 
-function xmlSecNameRsaSha256: xmlCharPtr;
+function xmlSecNameRsaSha256: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameRsaSha256, 'xmlSecNameRsaSha256');
   Result := pxmlSecNameRsaSha256;
@@ -2895,7 +2895,7 @@ end;
 var
    pxmlSecNameRsaSha384: xmlCharPtr;
 
-function xmlSecNameRsaSha384: xmlCharPtr;
+function xmlSecNameRsaSha384: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameRsaSha384, 'xmlSecNameRsaSha384');
   Result := pxmlSecNameRsaSha384;
@@ -2904,7 +2904,7 @@ end;
 var
    pxmlSecNameRsaSha512: xmlCharPtr;
 
-function xmlSecNameRsaSha512: xmlCharPtr;
+function xmlSecNameRsaSha512: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameRsaSha512, 'xmlSecNameRsaSha512');
   Result := pxmlSecNameRsaSha512;
@@ -2913,7 +2913,7 @@ end;
 var
    pxmlSecNameSPKIData: xmlCharPtr;
 
-function xmlSecNameSPKIData: xmlCharPtr;
+function xmlSecNameSPKIData: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameSPKIData, 'xmlSecNameSPKIData');
   Result := pxmlSecNameSPKIData;
@@ -2922,7 +2922,7 @@ end;
 var
    pxmlSecNameSha1: xmlCharPtr;
 
-function xmlSecNameSha1: xmlCharPtr;
+function xmlSecNameSha1: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameSha1, 'xmlSecNameSha1');
   Result := pxmlSecNameSha1;
@@ -2931,7 +2931,7 @@ end;
 var
    pxmlSecNameSha224: xmlCharPtr;
 
-function xmlSecNameSha224: xmlCharPtr;
+function xmlSecNameSha224: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameSha224, 'xmlSecNameSha224');
   Result := pxmlSecNameSha224;
@@ -2940,7 +2940,7 @@ end;
 var
    pxmlSecNameSha256: xmlCharPtr;
 
-function xmlSecNameSha256: xmlCharPtr;
+function xmlSecNameSha256: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameSha256, 'xmlSecNameSha256');
   Result := pxmlSecNameSha256;
@@ -2949,7 +2949,7 @@ end;
 var
    pxmlSecNameSha384: xmlCharPtr;
 
-function xmlSecNameSha384: xmlCharPtr;
+function xmlSecNameSha384: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameSha384, 'xmlSecNameSha384');
   Result := pxmlSecNameSha384;
@@ -2958,7 +2958,7 @@ end;
 var
    pxmlSecNameSha512: xmlCharPtr;
 
-function xmlSecNameSha512: xmlCharPtr;
+function xmlSecNameSha512: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameSha512, 'xmlSecNameSha512');
   Result := pxmlSecNameSha512;
@@ -2967,7 +2967,7 @@ end;
 var
    pxmlSecNameX509Data: xmlCharPtr;
 
-function xmlSecNameX509Data: xmlCharPtr;
+function xmlSecNameX509Data: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameX509Data, 'xmlSecNameX509Data');
   Result := pxmlSecNameX509Data;
@@ -2976,7 +2976,7 @@ end;
 var
    pxmlSecNameX509Store: xmlCharPtr;
 
-function xmlSecNameX509Store: xmlCharPtr;
+function xmlSecNameX509Store: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameX509Store, 'xmlSecNameX509Store');
   Result := pxmlSecNameX509Store;
@@ -2985,7 +2985,7 @@ end;
 var
    pxmlSecNameXPath: xmlCharPtr;
 
-function xmlSecNameXPath: xmlCharPtr;
+function xmlSecNameXPath: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameXPath, 'xmlSecNameXPath');
   Result := pxmlSecNameXPath;
@@ -2994,7 +2994,7 @@ end;
 var
    pxmlSecNameXPath2: xmlCharPtr;
 
-function xmlSecNameXPath2: xmlCharPtr;
+function xmlSecNameXPath2: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameXPath2, 'xmlSecNameXPath2');
   Result := pxmlSecNameXPath2;
@@ -3003,7 +3003,7 @@ end;
 var
    pxmlSecNameXPointer: xmlCharPtr;
 
-function xmlSecNameXPointer: xmlCharPtr;
+function xmlSecNameXPointer: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameXPointer, 'xmlSecNameXPointer');
   Result := pxmlSecNameXPointer;
@@ -3012,7 +3012,7 @@ end;
 var
    pxmlSecNameXslt: xmlCharPtr;
 
-function xmlSecNameXslt: xmlCharPtr;
+function xmlSecNameXslt: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNameXslt, 'xmlSecNameXslt');
   Result := pxmlSecNameXslt;
@@ -3021,7 +3021,7 @@ end;
 var
    pxmlSecNodeAESKeyValue: xmlCharPtr;
 
-function xmlSecNodeAESKeyValue: xmlCharPtr;
+function xmlSecNodeAESKeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeAESKeyValue, 'xmlSecNodeAESKeyValue');
   Result := pxmlSecNodeAESKeyValue;
@@ -3030,7 +3030,7 @@ end;
 var
    pxmlSecNodeBody: xmlCharPtr;
 
-function xmlSecNodeBody: xmlCharPtr;
+function xmlSecNodeBody: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeBody, 'xmlSecNodeBody');
   Result := pxmlSecNodeBody;
@@ -3039,7 +3039,7 @@ end;
 var
    pxmlSecNodeCanonicalizationMethod: xmlCharPtr;
 
-function xmlSecNodeCanonicalizationMethod: xmlCharPtr;
+function xmlSecNodeCanonicalizationMethod: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeCanonicalizationMethod, 'xmlSecNodeCanonicalizationMethod');
   Result := pxmlSecNodeCanonicalizationMethod;
@@ -3048,7 +3048,7 @@ end;
 var
    pxmlSecNodeCarriedKeyName: xmlCharPtr;
 
-function xmlSecNodeCarriedKeyName: xmlCharPtr;
+function xmlSecNodeCarriedKeyName: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeCarriedKeyName, 'xmlSecNodeCarriedKeyName');
   Result := pxmlSecNodeCarriedKeyName;
@@ -3057,7 +3057,7 @@ end;
 var
    pxmlSecNodeCipherData: xmlCharPtr;
 
-function xmlSecNodeCipherData: xmlCharPtr;
+function xmlSecNodeCipherData: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeCipherData, 'xmlSecNodeCipherData');
   Result := pxmlSecNodeCipherData;
@@ -3066,7 +3066,7 @@ end;
 var
    pxmlSecNodeCipherReference: xmlCharPtr;
 
-function xmlSecNodeCipherReference: xmlCharPtr;
+function xmlSecNodeCipherReference: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeCipherReference, 'xmlSecNodeCipherReference');
   Result := pxmlSecNodeCipherReference;
@@ -3075,7 +3075,7 @@ end;
 var
    pxmlSecNodeCipherValue: xmlCharPtr;
 
-function xmlSecNodeCipherValue: xmlCharPtr;
+function xmlSecNodeCipherValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeCipherValue, 'xmlSecNodeCipherValue');
   Result := pxmlSecNodeCipherValue;
@@ -3084,7 +3084,7 @@ end;
 var
    pxmlSecNodeCode: xmlCharPtr;
 
-function xmlSecNodeCode: xmlCharPtr;
+function xmlSecNodeCode: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeCode, 'xmlSecNodeCode');
   Result := pxmlSecNodeCode;
@@ -3093,7 +3093,7 @@ end;
 var
    pxmlSecNodeCompoundRequest: xmlCharPtr;
 
-function xmlSecNodeCompoundRequest: xmlCharPtr;
+function xmlSecNodeCompoundRequest: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeCompoundRequest, 'xmlSecNodeCompoundRequest');
   Result := pxmlSecNodeCompoundRequest;
@@ -3102,7 +3102,7 @@ end;
 var
    pxmlSecNodeCompoundResult: xmlCharPtr;
 
-function xmlSecNodeCompoundResult: xmlCharPtr;
+function xmlSecNodeCompoundResult: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeCompoundResult, 'xmlSecNodeCompoundResult');
   Result := pxmlSecNodeCompoundResult;
@@ -3111,7 +3111,7 @@ end;
 var
    pxmlSecNodeDESKeyValue: xmlCharPtr;
 
-function xmlSecNodeDESKeyValue: xmlCharPtr;
+function xmlSecNodeDESKeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeDESKeyValue, 'xmlSecNodeDESKeyValue');
   Result := pxmlSecNodeDESKeyValue;
@@ -3120,7 +3120,7 @@ end;
 var
    pxmlSecNodeDSAG: xmlCharPtr;
 
-function xmlSecNodeDSAG: xmlCharPtr;
+function xmlSecNodeDSAG: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeDSAG, 'xmlSecNodeDSAG');
   Result := pxmlSecNodeDSAG;
@@ -3129,7 +3129,7 @@ end;
 var
    pxmlSecNodeDSAJ: xmlCharPtr;
 
-function xmlSecNodeDSAJ: xmlCharPtr;
+function xmlSecNodeDSAJ: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeDSAJ, 'xmlSecNodeDSAJ');
   Result := pxmlSecNodeDSAJ;
@@ -3138,7 +3138,7 @@ end;
 var
    pxmlSecNodeDSAKeyValue: xmlCharPtr;
 
-function xmlSecNodeDSAKeyValue: xmlCharPtr;
+function xmlSecNodeDSAKeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeDSAKeyValue, 'xmlSecNodeDSAKeyValue');
   Result := pxmlSecNodeDSAKeyValue;
@@ -3147,7 +3147,7 @@ end;
 var
    pxmlSecNodeDSAP: xmlCharPtr;
 
-function xmlSecNodeDSAP: xmlCharPtr;
+function xmlSecNodeDSAP: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeDSAP, 'xmlSecNodeDSAP');
   Result := pxmlSecNodeDSAP;
@@ -3156,7 +3156,7 @@ end;
 var
    pxmlSecNodeDSAPgenCounter: xmlCharPtr;
 
-function xmlSecNodeDSAPgenCounter: xmlCharPtr;
+function xmlSecNodeDSAPgenCounter: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeDSAPgenCounter, 'xmlSecNodeDSAPgenCounter');
   Result := pxmlSecNodeDSAPgenCounter;
@@ -3165,7 +3165,7 @@ end;
 var
    pxmlSecNodeDSAQ: xmlCharPtr;
 
-function xmlSecNodeDSAQ: xmlCharPtr;
+function xmlSecNodeDSAQ: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeDSAQ, 'xmlSecNodeDSAQ');
   Result := pxmlSecNodeDSAQ;
@@ -3174,7 +3174,7 @@ end;
 var
    pxmlSecNodeDSASeed: xmlCharPtr;
 
-function xmlSecNodeDSASeed: xmlCharPtr;
+function xmlSecNodeDSASeed: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeDSASeed, 'xmlSecNodeDSASeed');
   Result := pxmlSecNodeDSASeed;
@@ -3183,7 +3183,7 @@ end;
 var
    pxmlSecNodeDSAX: xmlCharPtr;
 
-function xmlSecNodeDSAX: xmlCharPtr;
+function xmlSecNodeDSAX: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeDSAX, 'xmlSecNodeDSAX');
   Result := pxmlSecNodeDSAX;
@@ -3192,7 +3192,7 @@ end;
 var
    pxmlSecNodeDSAY: xmlCharPtr;
 
-function xmlSecNodeDSAY: xmlCharPtr;
+function xmlSecNodeDSAY: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeDSAY, 'xmlSecNodeDSAY');
   Result := pxmlSecNodeDSAY;
@@ -3201,7 +3201,7 @@ end;
 var
    pxmlSecNodeDataReference: xmlCharPtr;
 
-function xmlSecNodeDataReference: xmlCharPtr;
+function xmlSecNodeDataReference: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeDataReference, 'xmlSecNodeDataReference');
   Result := pxmlSecNodeDataReference;
@@ -3210,7 +3210,7 @@ end;
 var
    pxmlSecNodeDetail: xmlCharPtr;
 
-function xmlSecNodeDetail: xmlCharPtr;
+function xmlSecNodeDetail: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeDetail, 'xmlSecNodeDetail');
   Result := pxmlSecNodeDetail;
@@ -3219,7 +3219,7 @@ end;
 var
    pxmlSecNodeDigestMethod: xmlCharPtr;
 
-function xmlSecNodeDigestMethod: xmlCharPtr;
+function xmlSecNodeDigestMethod: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeDigestMethod, 'xmlSecNodeDigestMethod');
   Result := pxmlSecNodeDigestMethod;
@@ -3228,7 +3228,7 @@ end;
 var
    pxmlSecNodeDigestValue: xmlCharPtr;
 
-function xmlSecNodeDigestValue: xmlCharPtr;
+function xmlSecNodeDigestValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeDigestValue, 'xmlSecNodeDigestValue');
   Result := pxmlSecNodeDigestValue;
@@ -3237,7 +3237,7 @@ end;
 var
    pxmlSecNodeEncryptedData: xmlCharPtr;
 
-function xmlSecNodeEncryptedData: xmlCharPtr;
+function xmlSecNodeEncryptedData: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeEncryptedData, 'xmlSecNodeEncryptedData');
   Result := pxmlSecNodeEncryptedData;
@@ -3246,7 +3246,7 @@ end;
 var
    pxmlSecNodeEncryptedKey: xmlCharPtr;
 
-function xmlSecNodeEncryptedKey: xmlCharPtr;
+function xmlSecNodeEncryptedKey: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeEncryptedKey, 'xmlSecNodeEncryptedKey');
   Result := pxmlSecNodeEncryptedKey;
@@ -3255,7 +3255,7 @@ end;
 var
    pxmlSecNodeEncryptionMethod: xmlCharPtr;
 
-function xmlSecNodeEncryptionMethod: xmlCharPtr;
+function xmlSecNodeEncryptionMethod: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeEncryptionMethod, 'xmlSecNodeEncryptionMethod');
   Result := pxmlSecNodeEncryptionMethod;
@@ -3264,7 +3264,7 @@ end;
 var
    pxmlSecNodeEncryptionProperties: xmlCharPtr;
 
-function xmlSecNodeEncryptionProperties: xmlCharPtr;
+function xmlSecNodeEncryptionProperties: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeEncryptionProperties, 'xmlSecNodeEncryptionProperties');
   Result := pxmlSecNodeEncryptionProperties;
@@ -3273,7 +3273,7 @@ end;
 var
    pxmlSecNodeEncryptionProperty: xmlCharPtr;
 
-function xmlSecNodeEncryptionProperty: xmlCharPtr;
+function xmlSecNodeEncryptionProperty: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeEncryptionProperty, 'xmlSecNodeEncryptionProperty');
   Result := pxmlSecNodeEncryptionProperty;
@@ -3282,7 +3282,7 @@ end;
 var
    pxmlSecNodeEnvelope: xmlCharPtr;
 
-function xmlSecNodeEnvelope: xmlCharPtr;
+function xmlSecNodeEnvelope: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeEnvelope, 'xmlSecNodeEnvelope');
   Result := pxmlSecNodeEnvelope;
@@ -3291,7 +3291,7 @@ end;
 var
    pxmlSecNodeFault: xmlCharPtr;
 
-function xmlSecNodeFault: xmlCharPtr;
+function xmlSecNodeFault: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeFault, 'xmlSecNodeFault');
   Result := pxmlSecNodeFault;
@@ -3300,7 +3300,7 @@ end;
 var
    pxmlSecNodeFaultActor: xmlCharPtr;
 
-function xmlSecNodeFaultActor: xmlCharPtr;
+function xmlSecNodeFaultActor: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeFaultActor, 'xmlSecNodeFaultActor');
   Result := pxmlSecNodeFaultActor;
@@ -3309,7 +3309,7 @@ end;
 var
    pxmlSecNodeFaultCode: xmlCharPtr;
 
-function xmlSecNodeFaultCode: xmlCharPtr;
+function xmlSecNodeFaultCode: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeFaultCode, 'xmlSecNodeFaultCode');
   Result := pxmlSecNodeFaultCode;
@@ -3318,7 +3318,7 @@ end;
 var
    pxmlSecNodeFaultDetail: xmlCharPtr;
 
-function xmlSecNodeFaultDetail: xmlCharPtr;
+function xmlSecNodeFaultDetail: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeFaultDetail, 'xmlSecNodeFaultDetail');
   Result := pxmlSecNodeFaultDetail;
@@ -3327,7 +3327,7 @@ end;
 var
    pxmlSecNodeFaultString: xmlCharPtr;
 
-function xmlSecNodeFaultString: xmlCharPtr;
+function xmlSecNodeFaultString: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeFaultString, 'xmlSecNodeFaultString');
   Result := pxmlSecNodeFaultString;
@@ -3336,7 +3336,7 @@ end;
 var
    pxmlSecNodeGOST2001KeyValue: xmlCharPtr;
 
-function xmlSecNodeGOST2001KeyValue: xmlCharPtr;
+function xmlSecNodeGOST2001KeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeGOST2001KeyValue, 'xmlSecNodeGOST2001KeyValue');
   Result := pxmlSecNodeGOST2001KeyValue;
@@ -3345,7 +3345,7 @@ end;
 var
    pxmlSecNodeHMACKeyValue: xmlCharPtr;
 
-function xmlSecNodeHMACKeyValue: xmlCharPtr;
+function xmlSecNodeHMACKeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeHMACKeyValue, 'xmlSecNodeHMACKeyValue');
   Result := pxmlSecNodeHMACKeyValue;
@@ -3354,7 +3354,7 @@ end;
 var
    pxmlSecNodeHMACOutputLength: xmlCharPtr;
 
-function xmlSecNodeHMACOutputLength: xmlCharPtr;
+function xmlSecNodeHMACOutputLength: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeHMACOutputLength, 'xmlSecNodeHMACOutputLength');
   Result := pxmlSecNodeHMACOutputLength;
@@ -3363,7 +3363,7 @@ end;
 var
    pxmlSecNodeHeader: xmlCharPtr;
 
-function xmlSecNodeHeader: xmlCharPtr;
+function xmlSecNodeHeader: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeHeader, 'xmlSecNodeHeader');
   Result := pxmlSecNodeHeader;
@@ -3372,7 +3372,7 @@ end;
 var
    pxmlSecNodeInclusiveNamespaces: xmlCharPtr;
 
-function xmlSecNodeInclusiveNamespaces: xmlCharPtr;
+function xmlSecNodeInclusiveNamespaces: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeInclusiveNamespaces, 'xmlSecNodeInclusiveNamespaces');
   Result := pxmlSecNodeInclusiveNamespaces;
@@ -3381,7 +3381,7 @@ end;
 var
    pxmlSecNodeIndeterminateReason: xmlCharPtr;
 
-function xmlSecNodeIndeterminateReason: xmlCharPtr;
+function xmlSecNodeIndeterminateReason: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeIndeterminateReason, 'xmlSecNodeIndeterminateReason');
   Result := pxmlSecNodeIndeterminateReason;
@@ -3390,7 +3390,7 @@ end;
 var
    pxmlSecNodeInvalidReason: xmlCharPtr;
 
-function xmlSecNodeInvalidReason: xmlCharPtr;
+function xmlSecNodeInvalidReason: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeInvalidReason, 'xmlSecNodeInvalidReason');
   Result := pxmlSecNodeInvalidReason;
@@ -3399,7 +3399,7 @@ end;
 var
    pxmlSecNodeKeyInfo: xmlCharPtr;
 
-function xmlSecNodeKeyInfo: xmlCharPtr;
+function xmlSecNodeKeyInfo: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeKeyInfo, 'xmlSecNodeKeyInfo');
   Result := pxmlSecNodeKeyInfo;
@@ -3408,7 +3408,7 @@ end;
 var
    pxmlSecNodeKeyName: xmlCharPtr;
 
-function xmlSecNodeKeyName: xmlCharPtr;
+function xmlSecNodeKeyName: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeKeyName, 'xmlSecNodeKeyName');
   Result := pxmlSecNodeKeyName;
@@ -3417,7 +3417,7 @@ end;
 var
    pxmlSecNodeKeyReference: xmlCharPtr;
 
-function xmlSecNodeKeyReference: xmlCharPtr;
+function xmlSecNodeKeyReference: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeKeyReference, 'xmlSecNodeKeyReference');
   Result := pxmlSecNodeKeyReference;
@@ -3426,7 +3426,7 @@ end;
 var
    pxmlSecNodeKeyUsage: xmlCharPtr;
 
-function xmlSecNodeKeyUsage: xmlCharPtr;
+function xmlSecNodeKeyUsage: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeKeyUsage, 'xmlSecNodeKeyUsage');
   Result := pxmlSecNodeKeyUsage;
@@ -3435,7 +3435,7 @@ end;
 var
    pxmlSecNodeKeyValue: xmlCharPtr;
 
-function xmlSecNodeKeyValue: xmlCharPtr;
+function xmlSecNodeKeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeKeyValue, 'xmlSecNodeKeyValue');
   Result := pxmlSecNodeKeyValue;
@@ -3444,7 +3444,7 @@ end;
 var
    pxmlSecNodeLocateRequest: xmlCharPtr;
 
-function xmlSecNodeLocateRequest: xmlCharPtr;
+function xmlSecNodeLocateRequest: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeLocateRequest, 'xmlSecNodeLocateRequest');
   Result := pxmlSecNodeLocateRequest;
@@ -3453,7 +3453,7 @@ end;
 var
    pxmlSecNodeLocateResult: xmlCharPtr;
 
-function xmlSecNodeLocateResult: xmlCharPtr;
+function xmlSecNodeLocateResult: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeLocateResult, 'xmlSecNodeLocateResult');
   Result := pxmlSecNodeLocateResult;
@@ -3462,7 +3462,7 @@ end;
 var
    pxmlSecNodeManifest: xmlCharPtr;
 
-function xmlSecNodeManifest: xmlCharPtr;
+function xmlSecNodeManifest: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeManifest, 'xmlSecNodeManifest');
   Result := pxmlSecNodeManifest;
@@ -3471,7 +3471,7 @@ end;
 var
    pxmlSecNodeMessageExtension: xmlCharPtr;
 
-function xmlSecNodeMessageExtension: xmlCharPtr;
+function xmlSecNodeMessageExtension: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeMessageExtension, 'xmlSecNodeMessageExtension');
   Result := pxmlSecNodeMessageExtension;
@@ -3480,7 +3480,7 @@ end;
 var
    pxmlSecNodeNode: xmlCharPtr;
 
-function xmlSecNodeNode: xmlCharPtr;
+function xmlSecNodeNode: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeNode, 'xmlSecNodeNode');
   Result := pxmlSecNodeNode;
@@ -3489,7 +3489,7 @@ end;
 var
    pxmlSecNodeObject: xmlCharPtr;
 
-function xmlSecNodeObject: xmlCharPtr;
+function xmlSecNodeObject: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeObject, 'xmlSecNodeObject');
   Result := pxmlSecNodeObject;
@@ -3498,7 +3498,7 @@ end;
 var
    pxmlSecNodeOpaqueClientData: xmlCharPtr;
 
-function xmlSecNodeOpaqueClientData: xmlCharPtr;
+function xmlSecNodeOpaqueClientData: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeOpaqueClientData, 'xmlSecNodeOpaqueClientData');
   Result := pxmlSecNodeOpaqueClientData;
@@ -3507,7 +3507,7 @@ end;
 var
    pxmlSecNodePGPData: xmlCharPtr;
 
-function xmlSecNodePGPData: xmlCharPtr;
+function xmlSecNodePGPData: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodePGPData, 'xmlSecNodePGPData');
   Result := pxmlSecNodePGPData;
@@ -3516,7 +3516,7 @@ end;
 var
    pxmlSecNodePendingNotification: xmlCharPtr;
 
-function xmlSecNodePendingNotification: xmlCharPtr;
+function xmlSecNodePendingNotification: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodePendingNotification, 'xmlSecNodePendingNotification');
   Result := pxmlSecNodePendingNotification;
@@ -3525,7 +3525,7 @@ end;
 var
    pxmlSecNodeQueryKeyBinding: xmlCharPtr;
 
-function xmlSecNodeQueryKeyBinding: xmlCharPtr;
+function xmlSecNodeQueryKeyBinding: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeQueryKeyBinding, 'xmlSecNodeQueryKeyBinding');
   Result := pxmlSecNodeQueryKeyBinding;
@@ -3534,7 +3534,7 @@ end;
 var
    pxmlSecNodeRSAExponent: xmlCharPtr;
 
-function xmlSecNodeRSAExponent: xmlCharPtr;
+function xmlSecNodeRSAExponent: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeRSAExponent, 'xmlSecNodeRSAExponent');
   Result := pxmlSecNodeRSAExponent;
@@ -3543,7 +3543,7 @@ end;
 var
    pxmlSecNodeRSAKeyValue: xmlCharPtr;
 
-function xmlSecNodeRSAKeyValue: xmlCharPtr;
+function xmlSecNodeRSAKeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeRSAKeyValue, 'xmlSecNodeRSAKeyValue');
   Result := pxmlSecNodeRSAKeyValue;
@@ -3552,7 +3552,7 @@ end;
 var
    pxmlSecNodeRSAModulus: xmlCharPtr;
 
-function xmlSecNodeRSAModulus: xmlCharPtr;
+function xmlSecNodeRSAModulus: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeRSAModulus, 'xmlSecNodeRSAModulus');
   Result := pxmlSecNodeRSAModulus;
@@ -3561,7 +3561,7 @@ end;
 var
    pxmlSecNodeRSAPrivateExponent: xmlCharPtr;
 
-function xmlSecNodeRSAPrivateExponent: xmlCharPtr;
+function xmlSecNodeRSAPrivateExponent: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeRSAPrivateExponent, 'xmlSecNodeRSAPrivateExponent');
   Result := pxmlSecNodeRSAPrivateExponent;
@@ -3570,7 +3570,7 @@ end;
 var
    pxmlSecNodeReason: xmlCharPtr;
 
-function xmlSecNodeReason: xmlCharPtr;
+function xmlSecNodeReason: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeReason, 'xmlSecNodeReason');
   Result := pxmlSecNodeReason;
@@ -3579,7 +3579,7 @@ end;
 var
    pxmlSecNodeReference: xmlCharPtr;
 
-function xmlSecNodeReference: xmlCharPtr;
+function xmlSecNodeReference: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeReference, 'xmlSecNodeReference');
   Result := pxmlSecNodeReference;
@@ -3588,7 +3588,7 @@ end;
 var
    pxmlSecNodeReferenceList: xmlCharPtr;
 
-function xmlSecNodeReferenceList: xmlCharPtr;
+function xmlSecNodeReferenceList: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeReferenceList, 'xmlSecNodeReferenceList');
   Result := pxmlSecNodeReferenceList;
@@ -3597,7 +3597,7 @@ end;
 var
    pxmlSecNodeRequestSignatureValue: xmlCharPtr;
 
-function xmlSecNodeRequestSignatureValue: xmlCharPtr;
+function xmlSecNodeRequestSignatureValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeRequestSignatureValue, 'xmlSecNodeRequestSignatureValue');
   Result := pxmlSecNodeRequestSignatureValue;
@@ -3606,7 +3606,7 @@ end;
 var
    pxmlSecNodeRespondWith: xmlCharPtr;
 
-function xmlSecNodeRespondWith: xmlCharPtr;
+function xmlSecNodeRespondWith: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeRespondWith, 'xmlSecNodeRespondWith');
   Result := pxmlSecNodeRespondWith;
@@ -3615,7 +3615,7 @@ end;
 var
    pxmlSecNodeResponseMechanism: xmlCharPtr;
 
-function xmlSecNodeResponseMechanism: xmlCharPtr;
+function xmlSecNodeResponseMechanism: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeResponseMechanism, 'xmlSecNodeResponseMechanism');
   Result := pxmlSecNodeResponseMechanism;
@@ -3624,7 +3624,7 @@ end;
 var
    pxmlSecNodeResult: xmlCharPtr;
 
-function xmlSecNodeResult: xmlCharPtr;
+function xmlSecNodeResult: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeResult, 'xmlSecNodeResult');
   Result := pxmlSecNodeResult;
@@ -3633,7 +3633,7 @@ end;
 var
    pxmlSecNodeRetrievalMethod: xmlCharPtr;
 
-function xmlSecNodeRetrievalMethod: xmlCharPtr;
+function xmlSecNodeRetrievalMethod: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeRetrievalMethod, 'xmlSecNodeRetrievalMethod');
   Result := pxmlSecNodeRetrievalMethod;
@@ -3642,7 +3642,7 @@ end;
 var
    pxmlSecNodeRole: xmlCharPtr;
 
-function xmlSecNodeRole: xmlCharPtr;
+function xmlSecNodeRole: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeRole, 'xmlSecNodeRole');
   Result := pxmlSecNodeRole;
@@ -3651,7 +3651,7 @@ end;
 var
    pxmlSecNodeRsaOAEPparams: xmlCharPtr;
 
-function xmlSecNodeRsaOAEPparams: xmlCharPtr;
+function xmlSecNodeRsaOAEPparams: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeRsaOAEPparams, 'xmlSecNodeRsaOAEPparams');
   Result := pxmlSecNodeRsaOAEPparams;
@@ -3660,7 +3660,7 @@ end;
 var
    pxmlSecNodeSPKIData: xmlCharPtr;
 
-function xmlSecNodeSPKIData: xmlCharPtr;
+function xmlSecNodeSPKIData: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeSPKIData, 'xmlSecNodeSPKIData');
   Result := pxmlSecNodeSPKIData;
@@ -3669,7 +3669,7 @@ end;
 var
    pxmlSecNodeSignature: xmlCharPtr;
 
-function xmlSecNodeSignature: xmlCharPtr;
+function xmlSecNodeSignature: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeSignature, 'xmlSecNodeSignature');
   Result := pxmlSecNodeSignature;
@@ -3678,7 +3678,7 @@ end;
 var
    pxmlSecNodeSignatureMethod: xmlCharPtr;
 
-function xmlSecNodeSignatureMethod: xmlCharPtr;
+function xmlSecNodeSignatureMethod: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeSignatureMethod, 'xmlSecNodeSignatureMethod');
   Result := pxmlSecNodeSignatureMethod;
@@ -3687,7 +3687,7 @@ end;
 var
    pxmlSecNodeSignatureProperties: xmlCharPtr;
 
-function xmlSecNodeSignatureProperties: xmlCharPtr;
+function xmlSecNodeSignatureProperties: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeSignatureProperties, 'xmlSecNodeSignatureProperties');
   Result := pxmlSecNodeSignatureProperties;
@@ -3696,7 +3696,7 @@ end;
 var
    pxmlSecNodeSignatureValue: xmlCharPtr;
 
-function xmlSecNodeSignatureValue: xmlCharPtr;
+function xmlSecNodeSignatureValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeSignatureValue, 'xmlSecNodeSignatureValue');
   Result := pxmlSecNodeSignatureValue;
@@ -3705,7 +3705,7 @@ end;
 var
    pxmlSecNodeSignedInfo: xmlCharPtr;
 
-function xmlSecNodeSignedInfo: xmlCharPtr;
+function xmlSecNodeSignedInfo: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeSignedInfo, 'xmlSecNodeSignedInfo');
   Result := pxmlSecNodeSignedInfo;
@@ -3714,7 +3714,7 @@ end;
 var
    pxmlSecNodeStatus: xmlCharPtr;
 
-function xmlSecNodeStatus: xmlCharPtr;
+function xmlSecNodeStatus: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeStatus, 'xmlSecNodeStatus');
   Result := pxmlSecNodeStatus;
@@ -3723,7 +3723,7 @@ end;
 var
    pxmlSecNodeStatusRequest: xmlCharPtr;
 
-function xmlSecNodeStatusRequest: xmlCharPtr;
+function xmlSecNodeStatusRequest: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeStatusRequest, 'xmlSecNodeStatusRequest');
   Result := pxmlSecNodeStatusRequest;
@@ -3732,7 +3732,7 @@ end;
 var
    pxmlSecNodeStatusResult: xmlCharPtr;
 
-function xmlSecNodeStatusResult: xmlCharPtr;
+function xmlSecNodeStatusResult: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeStatusResult, 'xmlSecNodeStatusResult');
   Result := pxmlSecNodeStatusResult;
@@ -3741,7 +3741,7 @@ end;
 var
    pxmlSecNodeSubcode: xmlCharPtr;
 
-function xmlSecNodeSubcode: xmlCharPtr;
+function xmlSecNodeSubcode: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeSubcode, 'xmlSecNodeSubcode');
   Result := pxmlSecNodeSubcode;
@@ -3750,7 +3750,7 @@ end;
 var
    pxmlSecNodeText: xmlCharPtr;
 
-function xmlSecNodeText: xmlCharPtr;
+function xmlSecNodeText: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeText, 'xmlSecNodeText');
   Result := pxmlSecNodeText;
@@ -3759,7 +3759,7 @@ end;
 var
    pxmlSecNodeTimeInstant: xmlCharPtr;
 
-function xmlSecNodeTimeInstant: xmlCharPtr;
+function xmlSecNodeTimeInstant: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeTimeInstant, 'xmlSecNodeTimeInstant');
   Result := pxmlSecNodeTimeInstant;
@@ -3768,7 +3768,7 @@ end;
 var
    pxmlSecNodeTransform: xmlCharPtr;
 
-function xmlSecNodeTransform: xmlCharPtr;
+function xmlSecNodeTransform: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeTransform, 'xmlSecNodeTransform');
   Result := pxmlSecNodeTransform;
@@ -3777,7 +3777,7 @@ end;
 var
    pxmlSecNodeTransforms: xmlCharPtr;
 
-function xmlSecNodeTransforms: xmlCharPtr;
+function xmlSecNodeTransforms: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeTransforms, 'xmlSecNodeTransforms');
   Result := pxmlSecNodeTransforms;
@@ -3786,7 +3786,7 @@ end;
 var
    pxmlSecNodeUnverifiedKeyBinding: xmlCharPtr;
 
-function xmlSecNodeUnverifiedKeyBinding: xmlCharPtr;
+function xmlSecNodeUnverifiedKeyBinding: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeUnverifiedKeyBinding, 'xmlSecNodeUnverifiedKeyBinding');
   Result := pxmlSecNodeUnverifiedKeyBinding;
@@ -3795,7 +3795,7 @@ end;
 var
    pxmlSecNodeUseKeyWith: xmlCharPtr;
 
-function xmlSecNodeUseKeyWith: xmlCharPtr;
+function xmlSecNodeUseKeyWith: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeUseKeyWith, 'xmlSecNodeUseKeyWith');
   Result := pxmlSecNodeUseKeyWith;
@@ -3804,7 +3804,7 @@ end;
 var
    pxmlSecNodeValidReason: xmlCharPtr;
 
-function xmlSecNodeValidReason: xmlCharPtr;
+function xmlSecNodeValidReason: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeValidReason, 'xmlSecNodeValidReason');
   Result := pxmlSecNodeValidReason;
@@ -3813,7 +3813,7 @@ end;
 var
    pxmlSecNodeValidateRequest: xmlCharPtr;
 
-function xmlSecNodeValidateRequest: xmlCharPtr;
+function xmlSecNodeValidateRequest: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeValidateRequest, 'xmlSecNodeValidateRequest');
   Result := pxmlSecNodeValidateRequest;
@@ -3822,7 +3822,7 @@ end;
 var
    pxmlSecNodeValidateResult: xmlCharPtr;
 
-function xmlSecNodeValidateResult: xmlCharPtr;
+function xmlSecNodeValidateResult: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeValidateResult, 'xmlSecNodeValidateResult');
   Result := pxmlSecNodeValidateResult;
@@ -3831,7 +3831,7 @@ end;
 var
    pxmlSecNodeValidityInterval: xmlCharPtr;
 
-function xmlSecNodeValidityInterval: xmlCharPtr;
+function xmlSecNodeValidityInterval: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeValidityInterval, 'xmlSecNodeValidityInterval');
   Result := pxmlSecNodeValidityInterval;
@@ -3840,7 +3840,7 @@ end;
 var
    pxmlSecNodeValue: xmlCharPtr;
 
-function xmlSecNodeValue: xmlCharPtr;
+function xmlSecNodeValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeValue, 'xmlSecNodeValue');
   Result := pxmlSecNodeValue;
@@ -3849,7 +3849,7 @@ end;
 var
    pxmlSecNodeX509CRL: xmlCharPtr;
 
-function xmlSecNodeX509CRL: xmlCharPtr;
+function xmlSecNodeX509CRL: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeX509CRL, 'xmlSecNodeX509CRL');
   Result := pxmlSecNodeX509CRL;
@@ -3858,7 +3858,7 @@ end;
 var
    pxmlSecNodeX509Certificate: xmlCharPtr;
 
-function xmlSecNodeX509Certificate: xmlCharPtr;
+function xmlSecNodeX509Certificate: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeX509Certificate, 'xmlSecNodeX509Certificate');
   Result := pxmlSecNodeX509Certificate;
@@ -3867,7 +3867,7 @@ end;
 var
    pxmlSecNodeX509Data: xmlCharPtr;
 
-function xmlSecNodeX509Data: xmlCharPtr;
+function xmlSecNodeX509Data: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeX509Data, 'xmlSecNodeX509Data');
   Result := pxmlSecNodeX509Data;
@@ -3876,7 +3876,7 @@ end;
 var
    pxmlSecNodeX509IssuerName: xmlCharPtr;
 
-function xmlSecNodeX509IssuerName: xmlCharPtr;
+function xmlSecNodeX509IssuerName: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeX509IssuerName, 'xmlSecNodeX509IssuerName');
   Result := pxmlSecNodeX509IssuerName;
@@ -3885,7 +3885,7 @@ end;
 var
    pxmlSecNodeX509IssuerSerial: xmlCharPtr;
 
-function xmlSecNodeX509IssuerSerial: xmlCharPtr;
+function xmlSecNodeX509IssuerSerial: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeX509IssuerSerial, 'xmlSecNodeX509IssuerSerial');
   Result := pxmlSecNodeX509IssuerSerial;
@@ -3894,7 +3894,7 @@ end;
 var
    pxmlSecNodeX509SKI: xmlCharPtr;
 
-function xmlSecNodeX509SKI: xmlCharPtr;
+function xmlSecNodeX509SKI: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeX509SKI, 'xmlSecNodeX509SKI');
   Result := pxmlSecNodeX509SKI;
@@ -3903,7 +3903,7 @@ end;
 var
    pxmlSecNodeX509SerialNumber: xmlCharPtr;
 
-function xmlSecNodeX509SerialNumber: xmlCharPtr;
+function xmlSecNodeX509SerialNumber: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeX509SerialNumber, 'xmlSecNodeX509SerialNumber');
   Result := pxmlSecNodeX509SerialNumber;
@@ -3912,7 +3912,7 @@ end;
 var
    pxmlSecNodeX509SubjectName: xmlCharPtr;
 
-function xmlSecNodeX509SubjectName: xmlCharPtr;
+function xmlSecNodeX509SubjectName: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeX509SubjectName, 'xmlSecNodeX509SubjectName');
   Result := pxmlSecNodeX509SubjectName;
@@ -3921,7 +3921,7 @@ end;
 var
    pxmlSecNodeXPath: xmlCharPtr;
 
-function xmlSecNodeXPath: xmlCharPtr;
+function xmlSecNodeXPath: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeXPath, 'xmlSecNodeXPath');
   Result := pxmlSecNodeXPath;
@@ -3930,7 +3930,7 @@ end;
 var
    pxmlSecNodeXPath2: xmlCharPtr;
 
-function xmlSecNodeXPath2: xmlCharPtr;
+function xmlSecNodeXPath2: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeXPath2, 'xmlSecNodeXPath2');
   Result := pxmlSecNodeXPath2;
@@ -3939,7 +3939,7 @@ end;
 var
    pxmlSecNodeXPointer: xmlCharPtr;
 
-function xmlSecNodeXPointer: xmlCharPtr;
+function xmlSecNodeXPointer: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNodeXPointer, 'xmlSecNodeXPointer');
   Result := pxmlSecNodeXPointer;
@@ -3948,7 +3948,7 @@ end;
 var
    pxmlSecNs: xmlCharPtr;
 
-function xmlSecNs: xmlCharPtr;
+function xmlSecNs: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNs, 'xmlSecNs');
   Result := pxmlSecNs;
@@ -3957,7 +3957,7 @@ end;
 var
    pxmlSecNsExcC14N: xmlCharPtr;
 
-function xmlSecNsExcC14N: xmlCharPtr;
+function xmlSecNsExcC14N: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNsExcC14N, 'xmlSecNsExcC14N');
   Result := pxmlSecNsExcC14N;
@@ -3966,7 +3966,7 @@ end;
 var
    pxmlSecNsExcC14NWithComments: xmlCharPtr;
 
-function xmlSecNsExcC14NWithComments: xmlCharPtr;
+function xmlSecNsExcC14NWithComments: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecNsExcC14NWithComments, 'xmlSecNsExcC14NWithComments');
   Result := pxmlSecNsExcC14NWithComments;
@@ -3975,7 +3975,7 @@ end;
 var
    pxmlSecRespondWithKeyName: xmlCharPtr;
 
-function xmlSecRespondWithKeyName: xmlCharPtr;
+function xmlSecRespondWithKeyName: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecRespondWithKeyName, 'xmlSecRespondWithKeyName');
   Result := pxmlSecRespondWithKeyName;
@@ -3984,7 +3984,7 @@ end;
 var
    pxmlSecRespondWithKeyValue: xmlCharPtr;
 
-function xmlSecRespondWithKeyValue: xmlCharPtr;
+function xmlSecRespondWithKeyValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecRespondWithKeyValue, 'xmlSecRespondWithKeyValue');
   Result := pxmlSecRespondWithKeyValue;
@@ -3993,7 +3993,7 @@ end;
 var
    pxmlSecRespondWithOCSP: xmlCharPtr;
 
-function xmlSecRespondWithOCSP: xmlCharPtr;
+function xmlSecRespondWithOCSP: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecRespondWithOCSP, 'xmlSecRespondWithOCSP');
   Result := pxmlSecRespondWithOCSP;
@@ -4002,7 +4002,7 @@ end;
 var
    pxmlSecRespondWithPGP: xmlCharPtr;
 
-function xmlSecRespondWithPGP: xmlCharPtr;
+function xmlSecRespondWithPGP: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecRespondWithPGP, 'xmlSecRespondWithPGP');
   Result := pxmlSecRespondWithPGP;
@@ -4011,7 +4011,7 @@ end;
 var
    pxmlSecRespondWithPGPWeb: xmlCharPtr;
 
-function xmlSecRespondWithPGPWeb: xmlCharPtr;
+function xmlSecRespondWithPGPWeb: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecRespondWithPGPWeb, 'xmlSecRespondWithPGPWeb');
   Result := pxmlSecRespondWithPGPWeb;
@@ -4020,7 +4020,7 @@ end;
 var
    pxmlSecRespondWithPrivateKey: xmlCharPtr;
 
-function xmlSecRespondWithPrivateKey: xmlCharPtr;
+function xmlSecRespondWithPrivateKey: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecRespondWithPrivateKey, 'xmlSecRespondWithPrivateKey');
   Result := pxmlSecRespondWithPrivateKey;
@@ -4029,7 +4029,7 @@ end;
 var
    pxmlSecRespondWithRetrievalMethod: xmlCharPtr;
 
-function xmlSecRespondWithRetrievalMethod: xmlCharPtr;
+function xmlSecRespondWithRetrievalMethod: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecRespondWithRetrievalMethod, 'xmlSecRespondWithRetrievalMethod');
   Result := pxmlSecRespondWithRetrievalMethod;
@@ -4038,7 +4038,7 @@ end;
 var
    pxmlSecRespondWithSPKI: xmlCharPtr;
 
-function xmlSecRespondWithSPKI: xmlCharPtr;
+function xmlSecRespondWithSPKI: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecRespondWithSPKI, 'xmlSecRespondWithSPKI');
   Result := pxmlSecRespondWithSPKI;
@@ -4047,7 +4047,7 @@ end;
 var
    pxmlSecRespondWithX509CRL: xmlCharPtr;
 
-function xmlSecRespondWithX509CRL: xmlCharPtr;
+function xmlSecRespondWithX509CRL: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecRespondWithX509CRL, 'xmlSecRespondWithX509CRL');
   Result := pxmlSecRespondWithX509CRL;
@@ -4056,7 +4056,7 @@ end;
 var
    pxmlSecRespondWithX509Cert: xmlCharPtr;
 
-function xmlSecRespondWithX509Cert: xmlCharPtr;
+function xmlSecRespondWithX509Cert: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecRespondWithX509Cert, 'xmlSecRespondWithX509Cert');
   Result := pxmlSecRespondWithX509Cert;
@@ -4065,7 +4065,7 @@ end;
 var
    pxmlSecRespondWithX509Chain: xmlCharPtr;
 
-function xmlSecRespondWithX509Chain: xmlCharPtr;
+function xmlSecRespondWithX509Chain: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecRespondWithX509Chain, 'xmlSecRespondWithX509Chain');
   Result := pxmlSecRespondWithX509Chain;
@@ -4074,7 +4074,7 @@ end;
 var
    pxmlSecResponseMechanismPending: xmlCharPtr;
 
-function xmlSecResponseMechanismPending: xmlCharPtr;
+function xmlSecResponseMechanismPending: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecResponseMechanismPending, 'xmlSecResponseMechanismPending');
   Result := pxmlSecResponseMechanismPending;
@@ -4083,7 +4083,7 @@ end;
 var
    pxmlSecResponseMechanismRepresent: xmlCharPtr;
 
-function xmlSecResponseMechanismRepresent: xmlCharPtr;
+function xmlSecResponseMechanismRepresent: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecResponseMechanismRepresent, 'xmlSecResponseMechanismRepresent');
   Result := pxmlSecResponseMechanismRepresent;
@@ -4092,7 +4092,7 @@ end;
 var
    pxmlSecResponseMechanismRequestSignatureValue: xmlCharPtr;
 
-function xmlSecResponseMechanismRequestSignatureValue: xmlCharPtr;
+function xmlSecResponseMechanismRequestSignatureValue: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecResponseMechanismRequestSignatureValue, 'xmlSecResponseMechanismRequestSignatureValue');
   Result := pxmlSecResponseMechanismRequestSignatureValue;
@@ -4101,7 +4101,7 @@ end;
 var
    pxmlSecResultMajorCodePending: xmlCharPtr;
 
-function xmlSecResultMajorCodePending: xmlCharPtr;
+function xmlSecResultMajorCodePending: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecResultMajorCodePending, 'xmlSecResultMajorCodePending');
   Result := pxmlSecResultMajorCodePending;
@@ -4110,7 +4110,7 @@ end;
 var
    pxmlSecResultMajorCodeReceiver: xmlCharPtr;
 
-function xmlSecResultMajorCodeReceiver: xmlCharPtr;
+function xmlSecResultMajorCodeReceiver: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecResultMajorCodeReceiver, 'xmlSecResultMajorCodeReceiver');
   Result := pxmlSecResultMajorCodeReceiver;
@@ -4119,7 +4119,7 @@ end;
 var
    pxmlSecResultMajorCodeRepresent: xmlCharPtr;
 
-function xmlSecResultMajorCodeRepresent: xmlCharPtr;
+function xmlSecResultMajorCodeRepresent: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecResultMajorCodeRepresent, 'xmlSecResultMajorCodeRepresent');
   Result := pxmlSecResultMajorCodeRepresent;
@@ -4128,7 +4128,7 @@ end;
 var
    pxmlSecResultMajorCodeSender: xmlCharPtr;
 
-function xmlSecResultMajorCodeSender: xmlCharPtr;
+function xmlSecResultMajorCodeSender: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecResultMajorCodeSender, 'xmlSecResultMajorCodeSender');
   Result := pxmlSecResultMajorCodeSender;
@@ -4137,7 +4137,7 @@ end;
 var
    pxmlSecResultMajorCodeSuccess: xmlCharPtr;
 
-function xmlSecResultMajorCodeSuccess: xmlCharPtr;
+function xmlSecResultMajorCodeSuccess: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecResultMajorCodeSuccess, 'xmlSecResultMajorCodeSuccess');
   Result := pxmlSecResultMajorCodeSuccess;
@@ -4146,7 +4146,7 @@ end;
 var
    pxmlSecResultMajorCodeVersionMismatch: xmlCharPtr;
 
-function xmlSecResultMajorCodeVersionMismatch: xmlCharPtr;
+function xmlSecResultMajorCodeVersionMismatch: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecResultMajorCodeVersionMismatch, 'xmlSecResultMajorCodeVersionMismatch');
   Result := pxmlSecResultMajorCodeVersionMismatch;
@@ -4155,7 +4155,7 @@ end;
 var
    pxmlSecResultMinorCodeFailure: xmlCharPtr;
 
-function xmlSecResultMinorCodeFailure: xmlCharPtr;
+function xmlSecResultMinorCodeFailure: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecResultMinorCodeFailure, 'xmlSecResultMinorCodeFailure');
   Result := pxmlSecResultMinorCodeFailure;
@@ -4164,7 +4164,7 @@ end;
 var
    pxmlSecResultMinorCodeIncomplete: xmlCharPtr;
 
-function xmlSecResultMinorCodeIncomplete: xmlCharPtr;
+function xmlSecResultMinorCodeIncomplete: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecResultMinorCodeIncomplete, 'xmlSecResultMinorCodeIncomplete');
   Result := pxmlSecResultMinorCodeIncomplete;
@@ -4173,7 +4173,7 @@ end;
 var
    pxmlSecResultMinorCodeMessageNotSupported: xmlCharPtr;
 
-function xmlSecResultMinorCodeMessageNotSupported: xmlCharPtr;
+function xmlSecResultMinorCodeMessageNotSupported: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecResultMinorCodeMessageNotSupported, 'xmlSecResultMinorCodeMessageNotSupported');
   Result := pxmlSecResultMinorCodeMessageNotSupported;
@@ -4182,7 +4182,7 @@ end;
 var
    pxmlSecResultMinorCodeNoAuthentication: xmlCharPtr;
 
-function xmlSecResultMinorCodeNoAuthentication: xmlCharPtr;
+function xmlSecResultMinorCodeNoAuthentication: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecResultMinorCodeNoAuthentication, 'xmlSecResultMinorCodeNoAuthentication');
   Result := pxmlSecResultMinorCodeNoAuthentication;
@@ -4191,7 +4191,7 @@ end;
 var
    pxmlSecResultMinorCodeNoMatch: xmlCharPtr;
 
-function xmlSecResultMinorCodeNoMatch: xmlCharPtr;
+function xmlSecResultMinorCodeNoMatch: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecResultMinorCodeNoMatch, 'xmlSecResultMinorCodeNoMatch');
   Result := pxmlSecResultMinorCodeNoMatch;
@@ -4200,7 +4200,7 @@ end;
 var
    pxmlSecResultMinorCodeNotSynchronous: xmlCharPtr;
 
-function xmlSecResultMinorCodeNotSynchronous: xmlCharPtr;
+function xmlSecResultMinorCodeNotSynchronous: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecResultMinorCodeNotSynchronous, 'xmlSecResultMinorCodeNotSynchronous');
   Result := pxmlSecResultMinorCodeNotSynchronous;
@@ -4209,7 +4209,7 @@ end;
 var
    pxmlSecResultMinorCodeRefused: xmlCharPtr;
 
-function xmlSecResultMinorCodeRefused: xmlCharPtr;
+function xmlSecResultMinorCodeRefused: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecResultMinorCodeRefused, 'xmlSecResultMinorCodeRefused');
   Result := pxmlSecResultMinorCodeRefused;
@@ -4218,7 +4218,7 @@ end;
 var
    pxmlSecResultMinorCodeTooManyResponses: xmlCharPtr;
 
-function xmlSecResultMinorCodeTooManyResponses: xmlCharPtr;
+function xmlSecResultMinorCodeTooManyResponses: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecResultMinorCodeTooManyResponses, 'xmlSecResultMinorCodeTooManyResponses');
   Result := pxmlSecResultMinorCodeTooManyResponses;
@@ -4227,7 +4227,7 @@ end;
 var
    pxmlSecResultMinorCodeUnknownResponseId: xmlCharPtr;
 
-function xmlSecResultMinorCodeUnknownResponseId: xmlCharPtr;
+function xmlSecResultMinorCodeUnknownResponseId: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecResultMinorCodeUnknownResponseId, 'xmlSecResultMinorCodeUnknownResponseId');
   Result := pxmlSecResultMinorCodeUnknownResponseId;
@@ -4236,7 +4236,7 @@ end;
 var
    pxmlSecSoap11Ns: xmlCharPtr;
 
-function xmlSecSoap11Ns: xmlCharPtr;
+function xmlSecSoap11Ns: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecSoap11Ns, 'xmlSecSoap11Ns');
   Result := pxmlSecSoap11Ns;
@@ -4245,7 +4245,7 @@ end;
 var
    pxmlSecSoap12Ns: xmlCharPtr;
 
-function xmlSecSoap12Ns: xmlCharPtr;
+function xmlSecSoap12Ns: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecSoap12Ns, 'xmlSecSoap12Ns');
   Result := pxmlSecSoap12Ns;
@@ -4254,7 +4254,7 @@ end;
 var
    pxmlSecSoapFaultCodeClient: xmlCharPtr;
 
-function xmlSecSoapFaultCodeClient: xmlCharPtr;
+function xmlSecSoapFaultCodeClient: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecSoapFaultCodeClient, 'xmlSecSoapFaultCodeClient');
   Result := pxmlSecSoapFaultCodeClient;
@@ -4263,7 +4263,7 @@ end;
 var
    pxmlSecSoapFaultCodeMustUnderstand: xmlCharPtr;
 
-function xmlSecSoapFaultCodeMustUnderstand: xmlCharPtr;
+function xmlSecSoapFaultCodeMustUnderstand: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecSoapFaultCodeMustUnderstand, 'xmlSecSoapFaultCodeMustUnderstand');
   Result := pxmlSecSoapFaultCodeMustUnderstand;
@@ -4272,7 +4272,7 @@ end;
 var
    pxmlSecSoapFaultCodeReceiver: xmlCharPtr;
 
-function xmlSecSoapFaultCodeReceiver: xmlCharPtr;
+function xmlSecSoapFaultCodeReceiver: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecSoapFaultCodeReceiver, 'xmlSecSoapFaultCodeReceiver');
   Result := pxmlSecSoapFaultCodeReceiver;
@@ -4281,7 +4281,7 @@ end;
 var
    pxmlSecSoapFaultCodeSender: xmlCharPtr;
 
-function xmlSecSoapFaultCodeSender: xmlCharPtr;
+function xmlSecSoapFaultCodeSender: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecSoapFaultCodeSender, 'xmlSecSoapFaultCodeSender');
   Result := pxmlSecSoapFaultCodeSender;
@@ -4290,7 +4290,7 @@ end;
 var
    pxmlSecSoapFaultCodeServer: xmlCharPtr;
 
-function xmlSecSoapFaultCodeServer: xmlCharPtr;
+function xmlSecSoapFaultCodeServer: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecSoapFaultCodeServer, 'xmlSecSoapFaultCodeServer');
   Result := pxmlSecSoapFaultCodeServer;
@@ -4299,7 +4299,7 @@ end;
 var
    pxmlSecSoapFaultCodeVersionMismatch: xmlCharPtr;
 
-function xmlSecSoapFaultCodeVersionMismatch: xmlCharPtr;
+function xmlSecSoapFaultCodeVersionMismatch: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecSoapFaultCodeVersionMismatch, 'xmlSecSoapFaultCodeVersionMismatch');
   Result := pxmlSecSoapFaultCodeVersionMismatch;
@@ -4308,7 +4308,7 @@ end;
 var
    pxmlSecSoapFaultDataEncodningUnknown: xmlCharPtr;
 
-function xmlSecSoapFaultDataEncodningUnknown: xmlCharPtr;
+function xmlSecSoapFaultDataEncodningUnknown: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecSoapFaultDataEncodningUnknown, 'xmlSecSoapFaultDataEncodningUnknown');
   Result := pxmlSecSoapFaultDataEncodningUnknown;
@@ -4317,7 +4317,7 @@ end;
 var
    pxmlSecStatusResultFailed: xmlCharPtr;
 
-function xmlSecStatusResultFailed: xmlCharPtr;
+function xmlSecStatusResultFailed: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecStatusResultFailed, 'xmlSecStatusResultFailed');
   Result := pxmlSecStatusResultFailed;
@@ -4326,7 +4326,7 @@ end;
 var
    pxmlSecStatusResultPending: xmlCharPtr;
 
-function xmlSecStatusResultPending: xmlCharPtr;
+function xmlSecStatusResultPending: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecStatusResultPending, 'xmlSecStatusResultPending');
   Result := pxmlSecStatusResultPending;
@@ -4335,7 +4335,7 @@ end;
 var
    pxmlSecStatusResultSuccess: xmlCharPtr;
 
-function xmlSecStatusResultSuccess: xmlCharPtr;
+function xmlSecStatusResultSuccess: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecStatusResultSuccess, 'xmlSecStatusResultSuccess');
   Result := pxmlSecStatusResultSuccess;
@@ -4344,7 +4344,7 @@ end;
 var
    pxmlSecStringCR: xmlCharPtr;
 
-function xmlSecStringCR: xmlCharPtr;
+function xmlSecStringCR: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecStringCR, 'xmlSecStringCR');
   Result := pxmlSecStringCR;
@@ -4353,7 +4353,7 @@ end;
 var
    pxmlSecStringEmpty: xmlCharPtr;
 
-function xmlSecStringEmpty: xmlCharPtr;
+function xmlSecStringEmpty: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecStringEmpty, 'xmlSecStringEmpty');
   Result := pxmlSecStringEmpty;
@@ -4362,7 +4362,7 @@ end;
 var
    pxmlSecTypeEncContent: xmlCharPtr;
 
-function xmlSecTypeEncContent: xmlCharPtr;
+function xmlSecTypeEncContent: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecTypeEncContent, 'xmlSecTypeEncContent');
   Result := pxmlSecTypeEncContent;
@@ -4371,7 +4371,7 @@ end;
 var
    pxmlSecTypeEncElement: xmlCharPtr;
 
-function xmlSecTypeEncElement: xmlCharPtr;
+function xmlSecTypeEncElement: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecTypeEncElement, 'xmlSecTypeEncElement');
   Result := pxmlSecTypeEncElement;
@@ -4380,7 +4380,7 @@ end;
 var
    pxmlSecXPath2FilterIntersect: xmlCharPtr;
 
-function xmlSecXPath2FilterIntersect: xmlCharPtr;
+function xmlSecXPath2FilterIntersect: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXPath2FilterIntersect, 'xmlSecXPath2FilterIntersect');
   Result := pxmlSecXPath2FilterIntersect;
@@ -4389,7 +4389,7 @@ end;
 var
    pxmlSecXPath2FilterSubtract: xmlCharPtr;
 
-function xmlSecXPath2FilterSubtract: xmlCharPtr;
+function xmlSecXPath2FilterSubtract: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXPath2FilterSubtract, 'xmlSecXPath2FilterSubtract');
   Result := pxmlSecXPath2FilterSubtract;
@@ -4398,7 +4398,7 @@ end;
 var
    pxmlSecXPath2FilterUnion: xmlCharPtr;
 
-function xmlSecXPath2FilterUnion: xmlCharPtr;
+function xmlSecXPath2FilterUnion: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXPath2FilterUnion, 'xmlSecXPath2FilterUnion');
   Result := pxmlSecXPath2FilterUnion;
@@ -4407,7 +4407,7 @@ end;
 var
    pxmlSecXPath2Ns: xmlCharPtr;
 
-function xmlSecXPath2Ns: xmlCharPtr;
+function xmlSecXPath2Ns: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXPath2Ns, 'xmlSecXPath2Ns');
   Result := pxmlSecXPath2Ns;
@@ -4416,7 +4416,7 @@ end;
 var
    pxmlSecXPathNs: xmlCharPtr;
 
-function xmlSecXPathNs: xmlCharPtr;
+function xmlSecXPathNs: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXPathNs, 'xmlSecXPathNs');
   Result := pxmlSecXPathNs;
@@ -4425,7 +4425,7 @@ end;
 var
    pxmlSecXPointerNs: xmlCharPtr;
 
-function xmlSecXPointerNs: xmlCharPtr;
+function xmlSecXPointerNs: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXPointerNs, 'xmlSecXPointerNs');
   Result := pxmlSecXPointerNs;
@@ -4434,7 +4434,7 @@ end;
 var
    pxmlSecXkmsFormatStrPlain: xmlCharPtr;
 
-function xmlSecXkmsFormatStrPlain: xmlCharPtr;
+function xmlSecXkmsFormatStrPlain: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXkmsFormatStrPlain, 'xmlSecXkmsFormatStrPlain');
   Result := pxmlSecXkmsFormatStrPlain;
@@ -4443,7 +4443,7 @@ end;
 var
    pxmlSecXkmsFormatStrSoap11: xmlCharPtr;
 
-function xmlSecXkmsFormatStrSoap11: xmlCharPtr;
+function xmlSecXkmsFormatStrSoap11: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXkmsFormatStrSoap11, 'xmlSecXkmsFormatStrSoap11');
   Result := pxmlSecXkmsFormatStrSoap11;
@@ -4452,7 +4452,7 @@ end;
 var
    pxmlSecXkmsFormatStrSoap12: xmlCharPtr;
 
-function xmlSecXkmsFormatStrSoap12: xmlCharPtr;
+function xmlSecXkmsFormatStrSoap12: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXkmsFormatStrSoap12, 'xmlSecXkmsFormatStrSoap12');
   Result := pxmlSecXkmsFormatStrSoap12;
@@ -4461,7 +4461,7 @@ end;
 var
    pxmlSecXkmsNs: xmlCharPtr;
 
-function xmlSecXkmsNs: xmlCharPtr;
+function xmlSecXkmsNs: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXkmsNs, 'xmlSecXkmsNs');
   Result := pxmlSecXkmsNs;
@@ -4470,7 +4470,7 @@ end;
 var
    pxmlSecXkmsServerRequestCompoundName: xmlCharPtr;
 
-function xmlSecXkmsServerRequestCompoundName: xmlCharPtr;
+function xmlSecXkmsServerRequestCompoundName: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXkmsServerRequestCompoundName, 'xmlSecXkmsServerRequestCompoundName');
   Result := pxmlSecXkmsServerRequestCompoundName;
@@ -4479,7 +4479,7 @@ end;
 var
    pxmlSecXkmsServerRequestLocateName: xmlCharPtr;
 
-function xmlSecXkmsServerRequestLocateName: xmlCharPtr;
+function xmlSecXkmsServerRequestLocateName: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXkmsServerRequestLocateName, 'xmlSecXkmsServerRequestLocateName');
   Result := pxmlSecXkmsServerRequestLocateName;
@@ -4488,7 +4488,7 @@ end;
 var
    pxmlSecXkmsServerRequestResultName: xmlCharPtr;
 
-function xmlSecXkmsServerRequestResultName: xmlCharPtr;
+function xmlSecXkmsServerRequestResultName: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXkmsServerRequestResultName, 'xmlSecXkmsServerRequestResultName');
   Result := pxmlSecXkmsServerRequestResultName;
@@ -4497,7 +4497,7 @@ end;
 var
    pxmlSecXkmsServerRequestStatusName: xmlCharPtr;
 
-function xmlSecXkmsServerRequestStatusName: xmlCharPtr;
+function xmlSecXkmsServerRequestStatusName: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXkmsServerRequestStatusName, 'xmlSecXkmsServerRequestStatusName');
   Result := pxmlSecXkmsServerRequestStatusName;
@@ -4506,7 +4506,7 @@ end;
 var
    pxmlSecXkmsServerRequestValidateName: xmlCharPtr;
 
-function xmlSecXkmsServerRequestValidateName: xmlCharPtr;
+function xmlSecXkmsServerRequestValidateName: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXkmsServerRequestValidateName, 'xmlSecXkmsServerRequestValidateName');
   Result := pxmlSecXkmsServerRequestValidateName;
@@ -4515,7 +4515,7 @@ end;
 var
    pxmlSecXkmsSoapFaultReasonLang: xmlCharPtr;
 
-function xmlSecXkmsSoapFaultReasonLang: xmlCharPtr;
+function xmlSecXkmsSoapFaultReasonLang: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXkmsSoapFaultReasonLang, 'xmlSecXkmsSoapFaultReasonLang');
   Result := pxmlSecXkmsSoapFaultReasonLang;
@@ -4524,7 +4524,7 @@ end;
 var
    pxmlSecXkmsSoapFaultReasonMessageInvalid: xmlCharPtr;
 
-function xmlSecXkmsSoapFaultReasonMessageInvalid: xmlCharPtr;
+function xmlSecXkmsSoapFaultReasonMessageInvalid: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXkmsSoapFaultReasonMessageInvalid, 'xmlSecXkmsSoapFaultReasonMessageInvalid');
   Result := pxmlSecXkmsSoapFaultReasonMessageInvalid;
@@ -4533,7 +4533,7 @@ end;
 var
    pxmlSecXkmsSoapFaultReasonMessageNotSupported: xmlCharPtr;
 
-function xmlSecXkmsSoapFaultReasonMessageNotSupported: xmlCharPtr;
+function xmlSecXkmsSoapFaultReasonMessageNotSupported: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXkmsSoapFaultReasonMessageNotSupported, 'xmlSecXkmsSoapFaultReasonMessageNotSupported');
   Result := pxmlSecXkmsSoapFaultReasonMessageNotSupported;
@@ -4542,7 +4542,7 @@ end;
 var
    pxmlSecXkmsSoapFaultReasonServiceUnavailable: xmlCharPtr;
 
-function xmlSecXkmsSoapFaultReasonServiceUnavailable: xmlCharPtr;
+function xmlSecXkmsSoapFaultReasonServiceUnavailable: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXkmsSoapFaultReasonServiceUnavailable, 'xmlSecXkmsSoapFaultReasonServiceUnavailable');
   Result := pxmlSecXkmsSoapFaultReasonServiceUnavailable;
@@ -4551,7 +4551,7 @@ end;
 var
    pxmlSecXkmsSoapFaultReasonUnableToProcess: xmlCharPtr;
 
-function xmlSecXkmsSoapFaultReasonUnableToProcess: xmlCharPtr;
+function xmlSecXkmsSoapFaultReasonUnableToProcess: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXkmsSoapFaultReasonUnableToProcess, 'xmlSecXkmsSoapFaultReasonUnableToProcess');
   Result := pxmlSecXkmsSoapFaultReasonUnableToProcess;
@@ -4560,7 +4560,7 @@ end;
 var
    pxmlSecXkmsSoapFaultReasonUnsupportedVersion: xmlCharPtr;
 
-function xmlSecXkmsSoapFaultReasonUnsupportedVersion: xmlCharPtr;
+function xmlSecXkmsSoapFaultReasonUnsupportedVersion: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXkmsSoapFaultReasonUnsupportedVersion, 'xmlSecXkmsSoapFaultReasonUnsupportedVersion');
   Result := pxmlSecXkmsSoapFaultReasonUnsupportedVersion;
@@ -4569,7 +4569,7 @@ end;
 var
    pxmlSecXkmsSoapSubcodeValueBadMessage: xmlCharPtr;
 
-function xmlSecXkmsSoapSubcodeValueBadMessage: xmlCharPtr;
+function xmlSecXkmsSoapSubcodeValueBadMessage: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXkmsSoapSubcodeValueBadMessage, 'xmlSecXkmsSoapSubcodeValueBadMessage');
   Result := pxmlSecXkmsSoapSubcodeValueBadMessage;
@@ -4578,7 +4578,7 @@ end;
 var
    pxmlSecXkmsSoapSubcodeValueMessageNotSupported: xmlCharPtr;
 
-function xmlSecXkmsSoapSubcodeValueMessageNotSupported: xmlCharPtr;
+function xmlSecXkmsSoapSubcodeValueMessageNotSupported: xmlCharPtr; cdecl;
 begin
   CheckForNil(pxmlSecXkmsSoapSubcodeValueMessageNotSupported, 'xmlSecXkmsSoapSubcodeValueMessageNotSupported');
   Result := pxmlSecXkmsSoapSubcodeValueMessageNotSupported;

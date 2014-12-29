@@ -1112,7 +1112,7 @@ end;
 var
    pxsltEngineVersion: PPChar;
 
-function xsltEngineVersion: PChar;
+function xsltEngineVersion: PChar; cdecl;
 begin
   CheckForNil(pxsltEngineVersion, 'xsltEngineVersion');
   Result := pxsltEngineVersion^;
@@ -1121,7 +1121,7 @@ end;
 var
    pxsltLibxmlVersion: PInteger;
 
-function xsltLibxmlVersion: Longint;
+function xsltLibxmlVersion: Longint; cdecl;
 begin
   CheckForNil(pxsltLibxmlVersion, 'xsltLibxmlVersion');
   Result := pxsltLibxmlVersion^;
@@ -1130,7 +1130,7 @@ end;
 var
    pxsltLibxsltVersion: PInteger;
 
-function xsltLibxsltVersion: Longint;
+function xsltLibxsltVersion: Longint; cdecl;
 begin
   CheckForNil(pxsltLibxsltVersion, 'xsltLibxsltVersion');
   Result := pxsltLibxsltVersion^;

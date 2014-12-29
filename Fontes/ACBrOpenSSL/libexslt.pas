@@ -55,7 +55,7 @@ end;
 var
    pexsltLibexsltVersion: PInteger;
 
-function exsltLibexsltVersion: Longint;
+function exsltLibexsltVersion: Longint; cdecl;
 begin
   CheckForNil(pexsltLibexsltVersion, 'exsltLibexsltVersion');
   Result := pexsltLibexsltVersion^;
@@ -64,7 +64,7 @@ end;
 var
    pexsltLibraryVersion: PPChar;
 
-function exsltLibraryVersion: PChar;
+function exsltLibraryVersion: PChar; cdecl;
 begin
   CheckForNil(pexsltLibraryVersion, 'exsltLibraryVersion');
   Result := pexsltLibraryVersion^;
@@ -73,7 +73,7 @@ end;
 var
    pexsltLibxmlVersion: PInteger;
 
-function exsltLibxmlVersion: Longint;
+function exsltLibxmlVersion: Longint; cdecl;
 begin
   CheckForNil(pexsltLibxmlVersion, 'exsltLibxmlVersion');
   Result := pexsltLibxmlVersion^;
@@ -82,7 +82,7 @@ end;
 var
    pexsltLibxsltVersion: PInteger;
 
-function exsltLibxsltVersion: Longint;
+function exsltLibxsltVersion: Longint; cdecl;
 begin
   CheckForNil(pexsltLibxsltVersion, 'exsltLibxsltVersion');
   Result := pexsltLibxsltVersion^;
