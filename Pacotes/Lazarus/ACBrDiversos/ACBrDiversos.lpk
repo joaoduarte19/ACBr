@@ -8,8 +8,8 @@
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <OtherUnitFiles Value="..\..\Fontes\ACBrDiversos"/>
-        <UnitOutputDirectory Value="..\..\Lib\Lazarus\ACBrDiversos\$(TargetCPU)-$(TargetOS)"/>
+        <OtherUnitFiles Value="..\..\..\Fontes\ACBrDiversos"/>
+        <UnitOutputDirectory Value="..\..\..\Lib\Lazarus\ACBrDiversos\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
         <SyntaxOptions>
@@ -29,64 +29,64 @@
     <Version Minor="9"/>
     <Files Count="15">
       <Item1>
-        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrBarCode.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrDiversos\ACBrBarCode.pas"/>
         <UnitName Value="ACBrBarCode"/>
       </Item1>
       <Item2>
-        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrCalculadora.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrDiversos\ACBrCalculadora.pas"/>
         <UnitName Value="ACBrCalculadora"/>
       </Item2>
       <Item3>
-        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrCMC7.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrDiversos\ACBrCMC7.pas"/>
         <UnitName Value="ACBrCMC7"/>
       </Item3>
       <Item4>
-        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrDiversosReg.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrDiversos\ACBrDiversosReg.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="ACBrDiversosReg"/>
       </Item4>
       <Item5>
-        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrEnterTab.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrDiversos\ACBrEnterTab.pas"/>
         <UnitName Value="ACBrEnterTab"/>
       </Item5>
       <Item6>
-        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrExtenso.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrDiversos\ACBrExtenso.pas"/>
         <UnitName Value="ACBrExtenso"/>
       </Item6>
       <Item7>
-        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrFala.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrDiversos\ACBrFala.pas"/>
         <UnitName Value="ACBrFala"/>
       </Item7>
       <Item8>
-        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrGIF.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrDiversos\ACBrGIF.pas"/>
         <UnitName Value="ACBrGIF"/>
       </Item8>
       <Item9>
-        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrTroco.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrDiversos\ACBrTroco.pas"/>
         <UnitName Value="ACBrTroco"/>
       </Item9>
       <Item10>
-        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrValidador.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrDiversos\ACBrValidador.pas"/>
         <UnitName Value="ACBrValidador"/>
       </Item10>
       <Item11>
-        <Filename Value="..\..\Fontes\ACBrDiversos\AJBarcode.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrDiversos\AJBarcode.pas"/>
         <UnitName Value="AJBarcode"/>
       </Item11>
       <Item12>
-        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrDelphiZXingQRCode.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrDiversos\ACBrDelphiZXingQRCode.pas"/>
         <UnitName Value="ACBrDelphiZXingQRCode"/>
       </Item12>
       <Item13>
-        <Filename Value="..\..\Fontes\ACBrDiversos\Gif1.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrDiversos\Gif1.pas"/>
         <UnitName Value="Gif1"/>
       </Item13>
       <Item14>
-        <Filename Value="..\..\Fontes\ACBrDiversos\Gif3.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrDiversos\Gif3.pas"/>
         <UnitName Value="Gif3"/>
       </Item14>
       <Item15>
-        <Filename Value="..\..\Fontes\ACBrDiversos\LCalculadora.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrDiversos\LCalculadora.pas"/>
         <UnitName Value="LCalculadora"/>
       </Item15>
     </Files>
