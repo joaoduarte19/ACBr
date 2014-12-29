@@ -7,16 +7,8 @@ unit PCN2;
 interface
 
 uses
-  pcnAuxiliar, pcnCabecalho, pcnCadEmiDFe, pcnCancNFe, pcnConsCad, 
-  pcnConsDPEC, pcnConsReciNFe, pcnConsSitNFe, pcnConsStatServ, pcnConversao, 
-  pcnEnvDPEC, pcnEnvEventoNFe, pcnEnvNFe, pcnGerador, pcnInutNFe, 
-  pcnLayoutTXT, pcnLeitor, pcnNFe, pcnNFeR, pcnNFeRTXT, pcnNFeW, pcnProcNFe, 
-  pcnRetAtuCadEmiDFe, pcnRetCancNFe, pcnRetConsCad, pcnRetConsReciNFe, 
-  pcnRetConsSitNFe, pcnRetConsStatServ, pcnRetDPEC, pcnRetEnvEventoNFe, 
-  pcnRetEnvNFe, pcnRetInutNFe, pcnSignature, pcnCCeNFe, pcnRetCCeNFe, 
-  pcnDownloadNFe, pcnConsNFeDest, pcnRetConsNFeDest, pcnRetDownloadNFe, 
-  pcnAdmCSCNFCe, pcnRetAdmCSCNFCe, pcnDistDFeInt, pcnRetDistDFeInt, 
-  LazarusPackageIntf;
+  pcnAuxiliar, pcnCabecalho, pcnConversao, pcnGerador, pcnLeitor, 
+  pcnSignature, pcnValidador, LazarusPackageIntf;
 
 implementation
 
