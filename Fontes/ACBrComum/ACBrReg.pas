@@ -69,7 +69,7 @@ procedure Register ;
 {$ENDIF}
 implementation
 
-Uses ACBrUtil, ACBrEAD, ACBrAAC ;
+Uses ACBrUtil, ACBrAAC ;
 {$IFNDEF FPC}
    {$R ACBrComum.dcr}
 {$ENDIF}
@@ -113,7 +113,7 @@ end;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrEAD, TACBrAAC]);
+  RegisterComponents('ACBr', [TACBrAAC]);
 
   RegisterPropertyEditor(TypeInfo(TACBrAboutInfo), nil, 'AboutACBr',
      TACBrAboutDialogProperty);

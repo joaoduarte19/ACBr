@@ -7,8 +7,8 @@ unit ACBrComum;
 interface
 
 uses
-  ACBrBase, ACBrConsts, ACBrTXTClass, ACBrUtil, ACBrReg, ACBrEAD, ACBrAAC, ACBrPAFClass, 
-  ACBrDFeUtil, OpenSSLExt, LazarusPackageIntf;
+  ACBrBase, ACBrConsts, ACBrTXTClass, ACBrUtil, ACBrReg, ACBrAAC, 
+  ACBrPAFClass, LazarusPackageIntf;
 
 implementation
 

@@ -8,9 +8,9 @@
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <IncludeFiles Value="..\..\Fontes\ACBrComum"/>
-        <OtherUnitFiles Value="..\..\Fontes\ACBrComum"/>
-        <UnitOutputDirectory Value="..\..\Lib\Lazarus\ACBrComum\$(TargetCPU)-$(TargetOS)"/>
+        <IncludeFiles Value="..\..\..\Fontes\ACBrComum"/>
+        <OtherUnitFiles Value="..\..\..\Fontes\ACBrComum"/>
+        <UnitOutputDirectory Value="..\..\..\Lib\Lazarus\ACBrComum\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
         <SyntaxOptions>
@@ -25,57 +25,45 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Description Value="ACBr - Biblioteca Comum, EAD, AAC  - (http://www.projetoacbr.com.br/)
+    <Description Value="ACBr - Biblioteca Comum, Consts, Util, AAC  - (http://www.projetoacbr.com.br/)
 "/>
     <License Value="LGPL
 "/>
-    <Version Minor="9"/>
-    <Files Count="11">
+    <Version Major="1"/>
+    <Files Count="8">
       <Item1>
-        <Filename Value="..\..\Fontes\ACBrComum\ACBrBase.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrComum\ACBrBase.pas"/>
         <UnitName Value="ACBrBase"/>
       </Item1>
       <Item2>
-        <Filename Value="..\..\Fontes\ACBrComum\ACBrConsts.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrComum\ACBrConsts.pas"/>
         <UnitName Value="ACBrConsts"/>
       </Item2>
       <Item3>
-        <Filename Value="..\..\Fontes\ACBrComum\ACBrTXTClass.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrComum\ACBrTXTClass.pas"/>
         <UnitName Value="ACBrTXTClass"/>
       </Item3>
       <Item4>
-        <Filename Value="..\..\Fontes\ACBrComum\ACBrUtil.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrComum\ACBrUtil.pas"/>
         <UnitName Value="ACBrUtil"/>
       </Item4>
       <Item5>
-        <Filename Value="..\..\Fontes\ACBrComum\ACBrReg.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrComum\ACBrReg.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="ACBrReg"/>
       </Item5>
       <Item6>
-        <Filename Value="..\..\Fontes\ACBrComum\ACBrEAD.pas"/>
-        <UnitName Value="ACBrEAD"/>
+        <Filename Value="..\..\..\Fontes\ACBrComum\ACBrAAC.pas"/>
+        <UnitName Value="ACBrAAC"/>
       </Item6>
       <Item7>
-        <Filename Value="..\..\Fontes\ACBrComum\ACBrAAC.pas"/>
-        <UnitName Value="ACBrAAC"/>
+        <Filename Value="..\..\..\Fontes\ACBrComum\ACBrPAFClass.pas"/>
+        <UnitName Value="ACBrPAFClass"/>
       </Item7>
       <Item8>
-        <Filename Value="..\..\Fontes\ACBrComum\ACBrPAFClass.pas"/>
-        <UnitName Value="ACBrPAFClass"/>
-      </Item8>
-      <Item9>
-        <Filename Value="..\..\Fontes\ACBrComum\ACBr.inc"/>
+        <Filename Value="..\..\..\Fontes\ACBrComum\ACBr.inc"/>
         <Type Value="Include"/>
-      </Item9>
-      <Item10>
-        <Filename Value="..\..\Fontes\ACBrComum\ACBrDFeUtil.pas"/>
-        <UnitName Value="ACBrDFeUtil"/>
-      </Item10>
-      <Item11>
-        <Filename Value="..\..\Fontes\ACBrComum\OpenSSLExt.pas"/>
-        <UnitName Value="OpenSSLExt"/>
-      </Item11>
+      </Item8>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="2">
@@ -87,7 +75,7 @@
       </Item2>
     </RequiredPkgs>
     <UsageOptions>
-      <IncludePath Value="..\..\Fontes\ACBrComum"/>
+      <IncludePath Value="..\..\..\Fontes\ACBrComum"/>
       <UnitPath Value="$(PkgOutDir)"/>
     </UsageOptions>
     <PublishOptions>

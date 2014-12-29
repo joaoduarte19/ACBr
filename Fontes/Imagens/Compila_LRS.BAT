@@ -8,11 +8,20 @@ if NOT EXIST %1\lazarus.exe goto erro_param
 if NOT EXIST %1\tools\lazres.exe GOTO erro_lazres
 
 :Comum
-%1\tools\lazres.exe ACBrComum.lrs TACBrEAD.bmp TACBrAAC.bmp
+%1\tools\lazres.exe ACBrComum.lrs TACBrAAC.bmp
 move ACBrComum.lrs ..\ACBrComum
 echo.
 echo "****************************************"
-echo "* Arquivo   ACBrDiversos.lrs   gerado  *"
+echo "* Arquivo   ACBrComum.lrs   gerado  *"
+echo "****************************************"
+echo.
+
+:OpenSSL
+%1\tools\lazres.exe ACBrOpenSSL.lrs TACBrEAD.bmp
+move ACBrOpenSSL.lrs ..\ACBrOpenSSL
+echo.
+echo "****************************************"
+echo "* Arquivo   ACBrOpenSSL.lrs   gerado   *"
 echo "****************************************"
 echo.
 
