@@ -1,0 +1,74 @@
+package PCN2;
+
+{$R *.res}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DESCRIPTION 'ACBr - Projeto Cooperar - (http://br.groups.yahoo.com/group/projeto_cooperar_nfe/)'}
+{$RUNONLY}
+{$IMPLICITBUILD OFF}
+
+requires
+  rtl,
+  ACBrComum;
+
+contains
+  pcnAuxiliar in '..\..\Fontes\PCN2\pcnAuxiliar.pas',
+  pcnCabecalho in '..\..\Fontes\PCN2\pcnCabecalho.pas',
+  pcnCadEmiDFe in '..\..\Fontes\PCN2\pcnCadEmiDFe.pas',
+  pcnCancNFe in '..\..\Fontes\PCN2\pcnCancNFe.pas',
+  pcnConsCad in '..\..\Fontes\PCN2\pcnConsCad.pas',
+  pcnConsDPEC in '..\..\Fontes\PCN2\pcnConsDPEC.pas',
+  pcnConsReciNFe in '..\..\Fontes\PCN2\pcnConsReciNFe.pas',
+  pcnConsSitNFe in '..\..\Fontes\PCN2\pcnConsSitNFe.pas',
+  pcnConsStatServ in '..\..\Fontes\PCN2\pcnConsStatServ.pas',
+  pcnConversao in '..\..\Fontes\PCN2\pcnConversao.pas',
+  pcnEnvDPEC in '..\..\Fontes\PCN2\pcnEnvDPEC.pas',
+  pcnEnvNFe in '..\..\Fontes\PCN2\pcnEnvNFe.pas',
+  pcnGerador in '..\..\Fontes\PCN2\pcnGerador.pas',
+  pcnInutNFe in '..\..\Fontes\PCN2\pcnInutNFe.pas',
+  pcnLayoutTXT in '..\..\Fontes\PCN2\pcnLayoutTXT.pas',
+  pcnLeitor in '..\..\Fontes\PCN2\pcnLeitor.pas',
+  pcnNFe in '..\..\Fontes\PCN2\pcnNFe.pas',
+  pcnNFeR in '..\..\Fontes\PCN2\pcnNFeR.pas',
+  pcnNFeRTXT in '..\..\Fontes\PCN2\pcnNFeRTXT.pas',
+  pcnNFeW in '..\..\Fontes\PCN2\pcnNFeW.pas',
+  pcnProcNFe in '..\..\Fontes\PCN2\pcnProcNFe.pas',
+  pcnRetAtuCadEmiDFe in '..\..\Fontes\PCN2\pcnRetAtuCadEmiDFe.pas',
+  pcnRetCancNFe in '..\..\Fontes\PCN2\pcnRetCancNFe.pas',
+  pcnRetConsCad in '..\..\Fontes\PCN2\pcnRetConsCad.pas',
+  pcnRetConsReciNFe in '..\..\Fontes\PCN2\pcnRetConsReciNFe.pas',
+  pcnRetConsSitNFe in '..\..\Fontes\PCN2\pcnRetConsSitNFe.pas',
+  pcnRetConsStatServ in '..\..\Fontes\PCN2\pcnRetConsStatServ.pas',
+  pcnRetDPEC in '..\..\Fontes\PCN2\pcnRetDPEC.pas',
+  pcnRetEnvNFe in '..\..\Fontes\PCN2\pcnRetEnvNFe.pas',
+  pcnRetInutNFe in '..\..\Fontes\PCN2\pcnRetInutNFe.pas',
+  pcnSignature in '..\..\Fontes\PCN2\pcnSignature.pas',
+  pcnValidador in '..\..\Fontes\PCN2\pcnValidador.pas',
+  pcnEnvEventoNFe in '..\..\Fontes\PCN2\pcnEnvEventoNFe.pas',
+  pcnRetEnvEventoNFe in '..\..\Fontes\PCN2\pcnRetEnvEventoNFe.pas',
+  pcnAdmCSCNFCe in '..\..\Fontes\PCN2\pcnAdmCSCNFCe.pas',
+  pcnDistDFeInt in '..\..\Fontes\PCN2\pcnDistDFeInt.pas',
+  pcnEventoNFe in '..\..\Fontes\PCN2\pcnEventoNFe.pas',
+  pcnRetAdmCSCNFCe in '..\..\Fontes\PCN2\pcnRetAdmCSCNFCe.pas',
+  pcnRetDistDFeInt in '..\..\Fontes\PCN2\pcnRetDistDFeInt.pas';
+
+end.

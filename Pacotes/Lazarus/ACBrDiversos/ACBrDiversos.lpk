@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="ACBrDiversos"/>
+    <Author Value="Daniel Simoes de Almeida"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\..\Fontes\ACBrDiversos"/>
+        <UnitOutputDirectory Value="..\..\Lib\Lazarus\ACBrDiversos\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <CStyleOperator Value="False"/>
+          <UseAnsiStrings Value="False"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Other>
+        <CompilerMessages>
+          <UseMsgFile Value="True"/>
+        </CompilerMessages>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="ACBr - Calculadora, Extenso, Validador, Troco, CMC7, Fala, BarCode, EnterTab, GIF, QrCode, InStore, CargaBal - (http://www.projetoacbr.com.br/)"/>
+    <License Value="LGPL"/>
+    <Version Minor="9"/>
+    <Files Count="15">
+      <Item1>
+        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrBarCode.pas"/>
+        <UnitName Value="ACBrBarCode"/>
+      </Item1>
+      <Item2>
+        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrCalculadora.pas"/>
+        <UnitName Value="ACBrCalculadora"/>
+      </Item2>
+      <Item3>
+        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrCMC7.pas"/>
+        <UnitName Value="ACBrCMC7"/>
+      </Item3>
+      <Item4>
+        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrDiversosReg.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ACBrDiversosReg"/>
+      </Item4>
+      <Item5>
+        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrEnterTab.pas"/>
+        <UnitName Value="ACBrEnterTab"/>
+      </Item5>
+      <Item6>
+        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrExtenso.pas"/>
+        <UnitName Value="ACBrExtenso"/>
+      </Item6>
+      <Item7>
+        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrFala.pas"/>
+        <UnitName Value="ACBrFala"/>
+      </Item7>
+      <Item8>
+        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrGIF.pas"/>
+        <UnitName Value="ACBrGIF"/>
+      </Item8>
+      <Item9>
+        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrTroco.pas"/>
+        <UnitName Value="ACBrTroco"/>
+      </Item9>
+      <Item10>
+        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrValidador.pas"/>
+        <UnitName Value="ACBrValidador"/>
+      </Item10>
+      <Item11>
+        <Filename Value="..\..\Fontes\ACBrDiversos\AJBarcode.pas"/>
+        <UnitName Value="AJBarcode"/>
+      </Item11>
+      <Item12>
+        <Filename Value="..\..\Fontes\ACBrDiversos\ACBrDelphiZXingQRCode.pas"/>
+        <UnitName Value="ACBrDelphiZXingQRCode"/>
+      </Item12>
+      <Item13>
+        <Filename Value="..\..\Fontes\ACBrDiversos\Gif1.pas"/>
+        <UnitName Value="Gif1"/>
+      </Item13>
+      <Item14>
+        <Filename Value="..\..\Fontes\ACBrDiversos\Gif3.pas"/>
+        <UnitName Value="Gif3"/>
+      </Item14>
+      <Item15>
+        <Filename Value="..\..\Fontes\ACBrDiversos\LCalculadora.pas"/>
+        <UnitName Value="LCalculadora"/>
+      </Item15>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="4">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="ACBrComum"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="IDEIntf"/>
+      </Item4>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

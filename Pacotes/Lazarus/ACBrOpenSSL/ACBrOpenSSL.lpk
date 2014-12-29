@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="ACBrOpenSSL"/>
+    <Author Value="Daniel Simoes de Almeida"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\..\Fontes\ACBrNFe2"/>
+        <UnitOutputDirectory Value="..\..\Lib\Lazarus\ACBrNFe2\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <UseAnsiStrings Value="False"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Other>
+        <CompilerMessages>
+          <UseMsgFile Value="True"/>
+        </CompilerMessages>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="ACBr - OpenSSL através do LibXMLSec - (http://www.projetoacbr.com.br/)"/>
+    <License Value="LGPL
+"/>
+    <Version Minor="1"/>
+    <Files Count="3">
+      <Item1>
+        <Filename Value="..\..\Fontes\ACBrNFe2\libxml2.pas"/>
+        <UnitName Value="libxml2"/>
+      </Item1>
+      <Item2>
+        <Filename Value="..\..\Fontes\ACBrNFe2\libxmlsec.pas"/>
+        <UnitName Value="libxmlsec"/>
+      </Item2>
+      <Item3>
+        <Filename Value="..\..\Fontes\ACBrNFe2\libxslt.pas"/>
+        <UnitName Value="libxslt"/>
+      </Item3>
+    </Files>
+    <RequiredPkgs Count="1">
+      <Item1>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item1>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+    </PublishOptions>
+    <CustomOptions Items="ExternHelp" Version="2">
+      <_ExternHelp Items="Count"/>
+    </CustomOptions>
+  </Package>
+</CONFIG>

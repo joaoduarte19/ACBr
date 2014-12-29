@@ -1,0 +1,67 @@
+package synapse;
+
+{$R *.res}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DESCRIPTION 'ACBr - Synapse TCP/IP / Serial library - (http://www.synapse.ararat.cz)'}
+{$RUNONLY}
+{$IMPLICITBUILD OFF}
+
+requires
+  rtl;
+
+contains
+  asn1util in '..\..\Fontes\synalist\asn1util.pas',
+  blcksock in '..\..\Fontes\synalist\blcksock.pas',
+  clamsend in '..\..\Fontes\synalist\clamsend.pas',
+  dnssend in '..\..\Fontes\synalist\dnssend.pas',
+  ftpsend in '..\..\Fontes\synalist\ftpsend.pas',
+  ftptsend in '..\..\Fontes\synalist\ftptsend.pas',
+  httpsend in '..\..\Fontes\synalist\httpsend.pas',
+  imapsend in '..\..\Fontes\synalist\imapsend.pas',
+  ldapsend in '..\..\Fontes\synalist\ldapsend.pas',
+  mimeinln in '..\..\Fontes\synalist\mimeinln.pas',
+  mimemess in '..\..\Fontes\synalist\mimemess.pas',
+  mimepart in '..\..\Fontes\synalist\mimepart.pas',
+  nntpsend in '..\..\Fontes\synalist\nntpsend.pas',
+  pingsend in '..\..\Fontes\synalist\pingsend.pas',
+  pop3send in '..\..\Fontes\synalist\pop3send.pas',
+  slogsend in '..\..\Fontes\synalist\slogsend.pas',
+  smtpsend in '..\..\Fontes\synalist\smtpsend.pas',
+  snmpsend in '..\..\Fontes\synalist\snmpsend.pas',
+  sntpsend in '..\..\Fontes\synalist\sntpsend.pas',
+  ssl_openssl in '..\..\Fontes\synalist\ssl_openssl.pas',
+  ssl_openssl_lib in '..\..\Fontes\synalist\ssl_openssl_lib.pas',
+  synachar in '..\..\Fontes\synalist\synachar.pas',
+  synacode in '..\..\Fontes\synalist\synacode.pas',
+  synacrypt in '..\..\Fontes\synalist\synacrypt.pas',
+  synadbg in '..\..\Fontes\synalist\synadbg.pas',
+  synafpc in '..\..\Fontes\synalist\synafpc.pas',
+  synaicnv in '..\..\Fontes\synalist\synaicnv.pas',
+  synaip in '..\..\Fontes\synalist\synaip.pas',
+  synamisc in '..\..\Fontes\synalist\synamisc.pas',
+  synaser in '..\..\Fontes\synalist\synaser.pas',
+  synautil in '..\..\Fontes\synalist\synautil.pas',
+  synsock in '..\..\Fontes\synalist\synsock.pas',
+  tlntsend in '..\..\Fontes\synalist\tlntsend.pas';
+
+end.

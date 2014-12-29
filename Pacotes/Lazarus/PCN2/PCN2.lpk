@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="PCN2"/>
+    <Author Value="Juliomar Marchetti"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\..\Fontes\PCN2"/>
+        <UnitOutputDirectory Value="..\..\Lib\Lazarus\PCN2\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <CStyleOperator Value="False"/>
+          <UseAnsiStrings Value="False"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Other>
+        <CompilerMessages>
+          <MsgFileName Value=""/>
+        </CompilerMessages>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="ACBr - Projeto Cooperar - (http://br.groups.yahoo.com/group/projeto_cooperar_nfe/)"/>
+    <Files Count="43">
+      <Item1>
+        <Filename Value="..\..\Fontes\PCN2\pcnAuxiliar.pas"/>
+        <UnitName Value="pcnAuxiliar"/>
+      </Item1>
+      <Item2>
+        <Filename Value="..\..\Fontes\PCN2\pcnCabecalho.pas"/>
+        <UnitName Value="pcnCabecalho"/>
+      </Item2>
+      <Item3>
+        <Filename Value="..\..\Fontes\PCN2\pcnCadEmiDFe.pas"/>
+        <UnitName Value="pcnCadEmiDFe"/>
+      </Item3>
+      <Item4>
+        <Filename Value="..\..\Fontes\PCN2\pcnCancNFe.pas"/>
+        <UnitName Value="pcnCancNFe"/>
+      </Item4>
+      <Item5>
+        <Filename Value="..\..\Fontes\PCN2\pcnConsCad.pas"/>
+        <UnitName Value="pcnConsCad"/>
+      </Item5>
+      <Item6>
+        <Filename Value="..\..\Fontes\PCN2\pcnConsDPEC.pas"/>
+        <UnitName Value="pcnConsDPEC"/>
+      </Item6>
+      <Item7>
+        <Filename Value="..\..\Fontes\PCN2\pcnConsReciNFe.pas"/>
+        <UnitName Value="pcnConsReciNFe"/>
+      </Item7>
+      <Item8>
+        <Filename Value="..\..\Fontes\PCN2\pcnConsSitNFe.pas"/>
+        <UnitName Value="pcnConsSitNFe"/>
+      </Item8>
+      <Item9>
+        <Filename Value="..\..\Fontes\PCN2\pcnConsStatServ.pas"/>
+        <UnitName Value="pcnConsStatServ"/>
+      </Item9>
+      <Item10>
+        <Filename Value="..\..\Fontes\PCN2\pcnConversao.pas"/>
+        <UnitName Value="pcnConversao"/>
+      </Item10>
+      <Item11>
+        <Filename Value="..\..\Fontes\PCN2\pcnEnvDPEC.pas"/>
+        <UnitName Value="pcnEnvDPEC"/>
+      </Item11>
+      <Item12>
+        <Filename Value="..\..\Fontes\PCN2\pcnEnvEventoNFe.pas"/>
+        <UnitName Value="pcnEnvEventoNFe"/>
+      </Item12>
+      <Item13>
+        <Filename Value="..\..\Fontes\PCN2\pcnEnvNFe.pas"/>
+        <UnitName Value="pcnEnvNFe"/>
+      </Item13>
+      <Item14>
+        <Filename Value="..\..\Fontes\PCN2\pcnGerador.pas"/>
+        <UnitName Value="pcnGerador"/>
+      </Item14>
+      <Item15>
+        <Filename Value="..\..\Fontes\PCN2\pcnInutNFe.pas"/>
+        <UnitName Value="pcnInutNFe"/>
+      </Item15>
+      <Item16>
+        <Filename Value="..\..\Fontes\PCN2\pcnLayoutTXT.pas"/>
+        <UnitName Value="pcnLayoutTXT"/>
+      </Item16>
+      <Item17>
+        <Filename Value="..\..\Fontes\PCN2\pcnLeitor.pas"/>
+        <UnitName Value="pcnLeitor"/>
+      </Item17>
+      <Item18>
+        <Filename Value="..\..\Fontes\PCN2\pcnNFe.pas"/>
+        <UnitName Value="pcnNFe"/>
+      </Item18>
+      <Item19>
+        <Filename Value="..\..\Fontes\PCN2\pcnNFeR.pas"/>
+        <UnitName Value="pcnNFeR"/>
+      </Item19>
+      <Item20>
+        <Filename Value="..\..\Fontes\PCN2\pcnNFeRTXT.pas"/>
+        <UnitName Value="pcnNFeRTXT"/>
+      </Item20>
+      <Item21>
+        <Filename Value="..\..\Fontes\PCN2\pcnNFeW.pas"/>
+        <UnitName Value="pcnNFeW"/>
+      </Item21>
+      <Item22>
+        <Filename Value="..\..\Fontes\PCN2\pcnProcNFe.pas"/>
+        <UnitName Value="pcnProcNFe"/>
+      </Item22>
+      <Item23>
+        <Filename Value="..\..\Fontes\PCN2\pcnRetAtuCadEmiDFe.pas"/>
+        <UnitName Value="pcnRetAtuCadEmiDFe"/>
+      </Item23>
+      <Item24>
+        <Filename Value="..\..\Fontes\PCN2\pcnRetCancNFe.pas"/>
+        <UnitName Value="pcnRetCancNFe"/>
+      </Item24>
+      <Item25>
+        <Filename Value="..\..\Fontes\PCN2\pcnRetConsCad.pas"/>
+        <UnitName Value="pcnRetConsCad"/>
+      </Item25>
+      <Item26>
+        <Filename Value="..\..\Fontes\PCN2\pcnRetConsReciNFe.pas"/>
+        <UnitName Value="pcnRetConsReciNFe"/>
+      </Item26>
+      <Item27>
+        <Filename Value="..\..\Fontes\PCN2\pcnRetConsSitNFe.pas"/>
+        <UnitName Value="pcnRetConsSitNFe"/>
+      </Item27>
+      <Item28>
+        <Filename Value="..\..\Fontes\PCN2\pcnRetConsStatServ.pas"/>
+        <UnitName Value="pcnRetConsStatServ"/>
+      </Item28>
+      <Item29>
+        <Filename Value="..\..\Fontes\PCN2\pcnRetDPEC.pas"/>
+        <UnitName Value="pcnRetDPEC"/>
+      </Item29>
+      <Item30>
+        <Filename Value="..\..\Fontes\PCN2\pcnRetEnvEventoNFe.pas"/>
+        <UnitName Value="pcnRetEnvEventoNFe"/>
+      </Item30>
+      <Item31>
+        <Filename Value="..\..\Fontes\PCN2\pcnRetEnvNFe.pas"/>
+        <UnitName Value="pcnRetEnvNFe"/>
+      </Item31>
+      <Item32>
+        <Filename Value="..\..\Fontes\PCN2\pcnRetInutNFe.pas"/>
+        <UnitName Value="pcnRetInutNFe"/>
+      </Item32>
+      <Item33>
+        <Filename Value="..\..\Fontes\PCN2\pcnSignature.pas"/>
+        <UnitName Value="pcnSignature"/>
+      </Item33>
+      <Item34>
+        <Filename Value="..\..\Fontes\PCN2\pcnCCeNFe.pas"/>
+        <UnitName Value="pcnCCeNFe"/>
+      </Item34>
+      <Item35>
+        <Filename Value="..\..\Fontes\PCN2\pcnRetCCeNFe.pas"/>
+        <UnitName Value="pcnRetCCeNFe"/>
+      </Item35>
+      <Item36>
+        <Filename Value="..\..\Fontes\PCN2\pcnDownloadNFe.pas"/>
+        <UnitName Value="pcnDownloadNFe"/>
+      </Item36>
+      <Item37>
+        <Filename Value="..\..\Fontes\PCN2\pcnConsNFeDest.pas"/>
+        <UnitName Value="pcnConsNFeDest"/>
+      </Item37>
+      <Item38>
+        <Filename Value="..\..\Fontes\PCN2\pcnRetConsNFeDest.pas"/>
+        <UnitName Value="pcnRetConsNFeDest"/>
+      </Item38>
+      <Item39>
+        <Filename Value="..\..\Fontes\PCN2\pcnRetDownloadNFe.pas"/>
+        <UnitName Value="pcnRetDownloadNFe"/>
+      </Item39>
+      <Item40>
+        <Filename Value="..\..\Fontes\PCN2\pcnAdmCSCNFCe.pas"/>
+        <UnitName Value="pcnAdmCSCNFCe"/>
+      </Item40>
+      <Item41>
+        <Filename Value="..\..\Fontes\PCN2\pcnRetAdmCSCNFCe.pas"/>
+        <UnitName Value="pcnRetAdmCSCNFCe"/>
+      </Item41>
+      <Item42>
+        <Filename Value="..\..\Fontes\PCN2\pcnDistDFeInt.pas"/>
+        <UnitName Value="pcnDistDFeInt"/>
+      </Item42>
+      <Item43>
+        <Filename Value="..\..\Fontes\PCN2\pcnRetDistDFeInt.pas"/>
+        <UnitName Value="pcnRetDistDFeInt"/>
+      </Item43>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="ACBrComum"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="FCL"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>
