@@ -396,6 +396,40 @@ begin
         CTe.infCTeNorm.infDoc.InfNFE[i01].PIN   := Leitor.rCampo(tcStr, 'PIN');
         inc(i01);
       end;
+
+      // Alterado por Sergio Melchiori 29/12/2014 - dados da NF para xml abaixo da 2.00
+      while Leitor.rExtrai(2, 'infNF', '', i01 + 1) <> '' do
+      begin
+        CTe.infCTeNorm.infDoc.infNF.Add;
+        CTe.infCTeNorm.infDoc.InfNF[i01].nRoma  := Leitor.rCampo(tcStr, 'nRoma');
+        CTe.infCTeNorm.infDoc.InfNF[i01].nPed   := Leitor.rCampo(tcStr, 'nPed');
+        CTe.infCTeNorm.infDoc.InfNF[i01].Modelo := StrToModeloNF(Ok, Leitor.rCampo(tcStr, 'mod'));
+        CTe.infCTeNorm.infDoc.InfNF[i01].serie  := Leitor.rCampo(tcStr, 'serie');
+        CTe.infCTeNorm.infDoc.InfNF[i01].nDoc   := Leitor.rCampo(tcEsp, 'nDoc');
+        CTe.infCTeNorm.infDoc.InfNF[i01].dEmi   := Leitor.rCampo(tcDat, 'dEmi');
+        CTe.infCTeNorm.infDoc.InfNF[i01].vBC    := Leitor.rCampo(tcDe2, 'vBC');
+        CTe.infCTeNorm.infDoc.InfNF[i01].vICMS  := Leitor.rCampo(tcDe2, 'vICMS');
+        CTe.infCTeNorm.infDoc.InfNF[i01].vBCST  := Leitor.rCampo(tcDe2, 'vBCST');
+        CTe.infCTeNorm.infDoc.InfNF[i01].vST    := Leitor.rCampo(tcDe2, 'vST');
+        CTe.infCTeNorm.infDoc.InfNF[i01].vProd  := Leitor.rCampo(tcDe2, 'vProd');
+        CTe.infCTeNorm.infDoc.InfNF[i01].vNF    := Leitor.rCampo(tcDe2, 'vNF');
+        CTe.infCTeNorm.infDoc.InfNF[i01].nCFOP  := Leitor.rCampo(tcInt, 'nCFOP');
+        CTe.infCTeNorm.infDoc.InfNF[i01].nPeso  := Leitor.rCampo(tcDe3, 'nPeso');
+        CTe.infCTeNorm.infDoc.InfNF[i01].PIN    := Leitor.rCampo(tcStr, 'PIN');
+        inc(i01);
+      end;
+
+      // Alterado por Sergio Melchiori 29/12/2014 - dados de outros documentos para xml abaixo da 2.00
+      while Leitor.rExtrai(2, 'infOutros', '', i01 + 1) <> '' do
+      begin
+        CTe.infCTeNorm.infDoc.InfOutros.Add;
+        CTe.infCTeNorm.infDoc.InfOutros[i01].tpDoc      := StrToTpDocumento(ok, Leitor.rCampo(tcStr, 'tpDoc'));
+        CTe.infCTeNorm.infDoc.InfOutros[i01].descOutros := Leitor.rCampo(tcStr, 'descOutros');
+        CTe.infCTeNorm.infDoc.InfOutros[i01].nDoc       := Leitor.rCampo(tcStr, 'nDoc');
+        CTe.infCTeNorm.infDoc.InfOutros[i01].dEmi       := Leitor.rCampo(tcDat, 'dEmi');
+        CTe.infCTeNorm.infDoc.InfOutros[i01].vDocFisc   := Leitor.rCampo(tcDe2, 'vDocFisc');
+        inc(i01);
+      end;
     end;
     //-- Fim da inclusão por Thiago Pedro em 02/06/2014
   end;
@@ -906,6 +940,23 @@ begin
       CTe.infCTeNorm.rodo.dPrev := Leitor.rCampo(tcDat,'dPrev');
       CTe.infCTeNorm.rodo.lota  := StrToTpLotacao(ok, Leitor.rCampo(tcStr,'lota'));
       CTe.infCTeNorm.rodo.CIOT  := Leitor.rCampo(tcStr, 'CIOT');
+
+      // Alterado por Sergio Melchiori 29/12/2014 para gravar a dt. prev. entrega para a versão abaixo 2.00
+      if (Copy(CTe.infCTe.versao, 1, 1) = '1') then
+      begin
+        for i01 := 0 to CTe.infCTeNorm.infDoc.InfNFE.count-1 do
+        begin
+          CTe.infCTeNorm.infDoc.InfNFE[i01].dPrev := CTe.infCTeNorm.rodo.dPrev;
+        end;
+        for i01 := 0 to CTe.infCTeNorm.infDoc.InfNF.count-1 do
+        begin
+          CTe.infCTeNorm.infDoc.InfNF[i01].dPrev := CTe.infCTeNorm.rodo.dPrev;
+        end;
+        for i01 := 0 to CTe.infCTeNorm.infDoc.InfOutros.count-1 do
+        begin
+          CTe.infCTeNorm.infDoc.InfOutros[i01].dPrev := CTe.infCTeNorm.rodo.dPrev;
+        end;
+      end;
 
       i01 := 0;
       while Leitor.rExtrai(3, 'occ', '', i01 + 1) <> '' do
