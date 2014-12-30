@@ -7,9 +7,9 @@ unit ACBr_SAT;
 interface
 
 uses
-  ACBrSAT, pcnCFeCanc, pcnCFeCancW, pcnCFeW, ACBrSATReg, pcnCFe, pcnCFeCancR, 
-  pcnCFeR, ACBrSATDinamico_cdecl, ACBrSATDinamico_stdcall, pcnRede, pcnRedeW, 
-  LazarusPackageIntf;
+  ACBrSAT, ACBrSATReg, ACBrSATDinamico_cdecl, ACBrSATDinamico_stdcall, 
+  ACBrSATExtratoClass, pcnCFeCanc, pcnCFeCancW, pcnCFeW, pcnCFe, pcnCFeCancR, 
+  pcnCFeR, pcnRede, pcnRedeW, LazarusPackageIntf;
 
 implementation
 

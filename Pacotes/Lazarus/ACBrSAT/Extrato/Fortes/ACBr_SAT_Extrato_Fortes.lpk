@@ -8,8 +8,8 @@
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <OtherUnitFiles Value="..\..\..\Fontes\ACBrSAT"/>
-        <UnitOutputDirectory Value="..\..\..\Lib\Lazarus\ACBrSAT\$(TargetCPU)-$(TargetOS)"/>
+        <OtherUnitFiles Value="..\..\..\..\..\Fontes\ACBrSAT\Extrato\Fortes"/>
+        <UnitOutputDirectory Value="..\..\..\..\..\Lib\Lazarus\ACBrSAT\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Other>
         <CompilerMessages>
@@ -23,12 +23,12 @@
     <Version Minor="1"/>
     <Files Count="2">
       <Item1>
-        <Filename Value="..\..\..\Fontes\ACBrSAT\ACBrSATExtratoFortesFr.pas"/>
+        <Filename Value="..\..\..\..\..\Fontes\ACBrSAT\Extrato\Fortes\ACBrSATExtratoFortesFr.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="ACBrSATExtratoFortesFr"/>
       </Item1>
       <Item2>
-        <Filename Value="..\..\..\Fontes\ACBrSAT\ACBrSATExtratoFortesFr.lfm"/>
+        <Filename Value="..\..\..\..\..\Fontes\ACBrSAT\Extrato\Fortes\ACBrSATExtratoFortesFr.lfm"/>
         <Type Value="LFM"/>
       </Item2>
     </Files>

@@ -3,13 +3,13 @@
   <Package Version="4">
     <PathDelim Value="\"/>
     <Name Value="ACBr_SAT_Extrato_ESCPOS"/>
-    <Author Value="Juliomar Marchetti"/>
+    <Author Value="Juliomar Marchetti - Daniel Simões de Almeida"/>
     <CompilerOptions>
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <OtherUnitFiles Value="..\..\..\Fontes\ACBrSAT"/>
-        <UnitOutputDirectory Value="..\..\..\Lib\Lazarus\ACBrSAT\$(TargetCPU)-$(TargetOS)"/>
+        <OtherUnitFiles Value="..\..\..\..\..\Fontes\ACBrSAT\Extrato\EscPos"/>
+        <UnitOutputDirectory Value="..\..\..\..\..\Lib\Lazarus\ACBrSAT\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Other>
         <CompilerMessages>
@@ -23,7 +23,7 @@
     <Version Minor="1"/>
     <Files Count="2">
       <Item1>
-        <Filename Value="..\..\..\Fontes\ACBrSAT\ACBrSATExtratoESCPOS.pas"/>
+        <Filename Value="..\..\..\..\..\Fontes\ACBrSAT\Extrato\EscPos\ACBrSATExtratoESCPOS.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="ACBrSATExtratoESCPOS"/>
       </Item1>
