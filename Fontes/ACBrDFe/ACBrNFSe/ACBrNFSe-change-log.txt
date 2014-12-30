@@ -47,6 +47,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+30/12/2014
+[*] Alterações das URLs de homologação e de produção e NameSpace do provedor:
+    Salvador.
+    Por : Eduardo Alineri
+
 23/12/2014
 [-] Na unit pnfsNFSeR.pas e pnfsConsNfseResposta.pas continua ocorrendo o erro no lazarus
 		aplicado uma possível correção para manter compatível com o delphi
