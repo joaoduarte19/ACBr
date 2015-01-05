@@ -47,7 +47,7 @@ unit ACBrCTeDACTEFRDM;
 interface
 
 uses
-  SysUtils, Classes, ACBrCTeDACTEClass, pcteCTe, frxClass, frxExportPDF, DB,
+  SysUtils, Classes, Dialogs, ACBrCTeDACTEClass, pcteCTe, frxClass, frxExportPDF, DB,
   DBClient, frxDBSet, pcnConversao, frxBarcode, MaskUtils, pcnCadEmiDFe, pcteEnvEventoCTe;
 
 type
@@ -98,6 +98,7 @@ type
     cdsEventos: TClientDataSet;
     frxEventos: TfrxDBDataset;
     constructor Create(AOwner: TComponent); override;
+    procedure frxReportBeforePrint(Sender: TfrxReportComponent);
   private
     { Private declarations }
     FDACTEClassOwner: TACBrCTeDACTEClass;
@@ -131,6 +132,7 @@ type
 
 var
   dmACBrCTeFR: TdmACBrCTeFR;
+  TipoEvento: TpcnTpEvento;
 
 implementation
 
@@ -502,49 +504,92 @@ begin
     begin
       with Evento.Evento[i] do
       begin
-        for J := 0 to InfEvento.detEvento.infCorrecao.Count -1 do
-        begin
-          Append;
-          FieldByName('DescricaoTipoEvento').AsString := InfEvento.DescricaoTipoEvento(InfEvento.tpEvento);
-          FieldByName('Modelo').AsString      := Copy(InfEvento.chCTe, 21, 2);
-          FieldByName('Serie').AsString       := Copy(InfEvento.chCTe, 23, 3);
-          FieldByName('Numero').AsString      := Copy(InfEvento.chCTe, 26, 9);
-          FieldByName('MesAno').AsString      := Copy(InfEvento.chCTe, 05, 2) + '/' + Copy(InfEvento.chCTe, 03, 2);
-          FieldByName('Barras').AsString      := InfEvento.chCTe;
-          FieldByName('ChaveAcesso').AsString := CTEUtil.FormatarChaveAcesso(InfEvento.chCTe);
-          FieldByName('cOrgao').AsInteger     := InfEvento.cOrgao;
-          FieldByName('nSeqEvento').AsInteger := InfEvento.nSeqEvento;
-
-          case InfEvento.tpAmb of
-            taProducao:
-              FieldByName('tpAmb').AsString := 'PRODU플O';
-            taHomologacao:
-              begin
-                FieldByName('tpAmb').AsString      := 'HOMOLOGA플O - SEM VALOR FISCAL';
-                frxReport.Variables['HOMOLOGACAO'] := True;
-              end;
-          end;
-
-          FieldByName('dhEvento').AsDateTime    := InfEvento.dhEvento;
-          FieldByName('TipoEvento').AsString    := InfEvento.TipoEvento;
-          FieldByName('DescEvento').AsString    := InfEvento.DescEvento;
-          FieldByName('versaoEvento').AsString  := InfEvento.versaoEvento;
-          FieldByName('cStat').AsInteger        := RetInfEvento.cStat;
-          FieldByName('xMotivo').AsString       := RetInfEvento.xMotivo;
-          FieldByName('nProt').AsString         := RetInfEvento.nProt;
-          FieldByName('dhRegEvento').AsDateTime := RetInfEvento.dhRegEvento;
-          FieldByName('xJust').AsString         := InfEvento.detEvento.xJust;
-          FieldByName('xCondUso').AsString      := InfEvento.detEvento.xCondUso;
-
-          with InfEvento.detEvento.infCorrecao.Items[J] do
+        case Evento.Evento[i].InfEvento.tpEvento of
+          teCancelamento:
           begin
-            FieldByName('grupoAlterado').AsString := grupoAlterado;
-            FieldByName('campoAlterado').AsString := campoAlterado;
-            FieldByName('valorAlterado').AsString := valorAlterado;
-            FieldByName('nroItemAlterado').AsInteger := nroItemAlterado;
-          end;
+            TipoEvento:= teCancelamento;
+            Append;
+            FieldByName('DescricaoTipoEvento').AsString := InfEvento.DescricaoTipoEvento(InfEvento.tpEvento);
+            FieldByName('Modelo').AsString      := Copy(InfEvento.chCTe, 21, 2);
+            FieldByName('Serie').AsString       := Copy(InfEvento.chCTe, 23, 3);
+            FieldByName('Numero').AsString      := Copy(InfEvento.chCTe, 26, 9);
+            FieldByName('MesAno').AsString      := Copy(InfEvento.chCTe, 05, 2) + '/' + Copy(InfEvento.chCTe, 03, 2);
+            FieldByName('Barras').AsString      := InfEvento.chCTe;
+            FieldByName('ChaveAcesso').AsString := CTEUtil.FormatarChaveAcesso(InfEvento.chCTe);
+            FieldByName('cOrgao').AsInteger     := InfEvento.cOrgao;
+            FieldByName('nSeqEvento').AsInteger := InfEvento.nSeqEvento;
 
-          Post;
+            case InfEvento.tpAmb of
+              taProducao:
+                FieldByName('tpAmb').AsString := 'PRODU플O';
+              taHomologacao:
+                begin
+                  FieldByName('tpAmb').AsString      := 'HOMOLOGA플O - SEM VALOR FISCAL';
+                  frxReport.Variables['HOMOLOGACAO'] := True;
+                end;
+            end;
+
+            FieldByName('dhEvento').AsDateTime    := InfEvento.dhEvento;
+            FieldByName('TipoEvento').AsString    := InfEvento.TipoEvento;
+            FieldByName('DescEvento').AsString    := InfEvento.DescEvento;
+            FieldByName('versaoEvento').AsString  := InfEvento.versaoEvento;
+            FieldByName('cStat').AsInteger        := RetInfEvento.cStat;
+            FieldByName('xMotivo').AsString       := RetInfEvento.xMotivo;
+            FieldByName('nProt').AsString         := RetInfEvento.nProt;
+            FieldByName('dhRegEvento').AsDateTime := RetInfEvento.dhRegEvento;
+            FieldByName('xJust').AsString         := InfEvento.detEvento.xJust;
+            FieldByName('xCondUso').AsString      := InfEvento.detEvento.xCondUso;
+
+            Post;
+          end;
+          teCCe:
+          begin
+            TipoEvento:= teCCe;
+            for J := 0 to InfEvento.detEvento.infCorrecao.Count -1 do
+            begin
+              Append;
+              FieldByName('DescricaoTipoEvento').AsString := InfEvento.DescricaoTipoEvento(InfEvento.tpEvento);
+              FieldByName('Modelo').AsString      := Copy(InfEvento.chCTe, 21, 2);
+              FieldByName('Serie').AsString       := Copy(InfEvento.chCTe, 23, 3);
+              FieldByName('Numero').AsString      := Copy(InfEvento.chCTe, 26, 9);
+              FieldByName('MesAno').AsString      := Copy(InfEvento.chCTe, 05, 2) + '/' + Copy(InfEvento.chCTe, 03, 2);
+              FieldByName('Barras').AsString      := InfEvento.chCTe;
+              FieldByName('ChaveAcesso').AsString := CTEUtil.FormatarChaveAcesso(InfEvento.chCTe);
+              FieldByName('cOrgao').AsInteger     := InfEvento.cOrgao;
+              FieldByName('nSeqEvento').AsInteger := InfEvento.nSeqEvento;
+
+              case InfEvento.tpAmb of
+                taProducao:
+                  FieldByName('tpAmb').AsString := 'PRODU플O';
+                taHomologacao:
+                  begin
+                    FieldByName('tpAmb').AsString      := 'HOMOLOGA플O - SEM VALOR FISCAL';
+                    frxReport.Variables['HOMOLOGACAO'] := True;
+                  end;
+              end;
+
+              FieldByName('dhEvento').AsDateTime    := InfEvento.dhEvento;
+              FieldByName('TipoEvento').AsString    := InfEvento.TipoEvento;
+              FieldByName('DescEvento').AsString    := InfEvento.DescEvento;
+              FieldByName('versaoEvento').AsString  := InfEvento.versaoEvento;
+              FieldByName('cStat').AsInteger        := RetInfEvento.cStat;
+              FieldByName('xMotivo').AsString       := RetInfEvento.xMotivo;
+              FieldByName('nProt').AsString         := RetInfEvento.nProt;
+              FieldByName('dhRegEvento').AsDateTime := RetInfEvento.dhRegEvento;
+              FieldByName('xJust').AsString         := InfEvento.detEvento.xJust;
+              FieldByName('xCondUso').AsString      := InfEvento.detEvento.xCondUso;
+
+              with InfEvento.detEvento.infCorrecao.Items[J] do
+              begin
+                FieldByName('grupoAlterado').AsString := grupoAlterado;
+                FieldByName('campoAlterado').AsString := campoAlterado;
+                FieldByName('valorAlterado').AsString := valorAlterado;
+                FieldByName('nroItemAlterado').AsInteger := nroItemAlterado;
+              end;
+
+              Post;
+            end;
+          end;
         end;
       end;
     end;
@@ -1942,6 +1987,64 @@ constructor TdmACBrCTeFR.Create(AOwner: TComponent);
 begin
   inherited;
   FDACTEClassOwner := TACBrCteDACTEClass(AOwner);
+end;
+
+procedure TdmACBrCTeFR.frxReportBeforePrint(Sender: TfrxReportComponent);
+var
+  Child: TfrxChild;
+  DetailData: TfrxDetailData;
+  Memo: TfrxMemoView;
+  Shape: TfrxShapeView;
+begin
+  case TipoEvento of
+    teCCe:
+    begin
+      //Esconde ChildJustificativa
+      Memo:= frxReport.FindObject('JustTit') as TfrxMemoView;
+      if Memo <> nil then
+      begin
+        Memo.Visible:= False;
+      end;
+      Memo:= frxReport.FindObject('JustDesc') as TfrxMemoView;
+      if Memo <> nil then
+      begin
+        Memo.Visible:= False;
+      end;
+      Shape:= frxReport.FindObject('ShapeJust') as TfrxShapeView;
+      if Shape <> nil then
+      begin
+        Shape.Visible:= False;
+      end;
+      Child:= frxReport.FindObject('ChildJustificativa') as TfrxChild;
+      if Child <> nil then
+      begin
+        Child.Height:= 0;
+      end;
+    end;
+    teCancelamento:
+    begin
+      //Esconde ChildCondUso
+      Child:= frxReport.FindObject('ChildCondUso') as TfrxChild;
+      if Child <> nil then
+      begin
+        Child.Visible:= False;
+      end;
+
+      //Esconde ChildCorrecao
+      Child:= frxReport.FindObject('ChildCorrecao') as TfrxChild;
+      if Child <> nil then
+      begin
+        Child.Visible:= False;
+      end;
+
+      //Esconde DetailData1
+      DetailData:= frxReport.FindObject('DetailData1') as TfrxDetailData;
+      if DetailData <> nil then
+      begin
+        DetailData.Visible:= False;
+      end;
+    end;
+  end;
 end;
 
 end.

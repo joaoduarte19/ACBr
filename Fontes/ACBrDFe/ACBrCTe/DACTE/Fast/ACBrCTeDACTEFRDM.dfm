@@ -11,7 +11,6 @@ object dmACBrCTeFR: TdmACBrCTeFR
     Outline = False
     Background = True
     HTMLTags = True
-    Quality = 95
     Author = 'FastReport'
     Subject = 'Exportando DANFE para PDF'
     ProtectionFlags = [ePrint, eModify, eCopy, eAnnot]
@@ -135,7 +134,7 @@ object dmACBrCTeFR: TdmACBrCTeFR
   end
   object frxReport: TfrxReport
     Tag = 1
-    Version = '5.1.1'
+    Version = '4.12.2'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
     PreviewOptions.AllowEdit = False
@@ -144,9 +143,10 @@ object dmACBrCTeFR: TdmACBrCTeFR
     PrintOptions.Printer = 'Default'
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 41606.360400451400000000
-    ReportOptions.LastChange = 41933.712645000000000000
+    ReportOptions.LastChange = 42002.608125000000000000
     ScriptLanguage = 'PascalScript'
     StoreInDFM = False
+    OnBeforePrint = frxReportBeforePrint
     OnReportPrint = 'frxReportOnReportPrint'
     Left = 48
     Top = 36
