@@ -47,6 +47,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+05/01/2015
+[*] Correção na URL de produção do WebServices: NFeDistribuicaoDFe
+    por: LVR
+
+02/01/2015
+[*] Correção na virtual
+	  por: Juliomar Marchetti
+		
 22/12/2014
 [*] Removido da URL do PR o caracter "?" pois este já é incluido através do passo 6
     ao montar a URL do QR-code.
