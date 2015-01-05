@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+05/01/2015
+[*] Alteração visando o provedor Vitoria que o código do item não deve ser 
+    conter zero a esquerda.
+    Por: Heronim Antonio Marçal
 
 30/12/2014
 [*] Alterações das URLs de homologação e de produção e NameSpace do provedor:
