@@ -47,6 +47,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+05/01/2015
+[+] Incluido a URL do Web Service MDFeConsNaoEnc tanto para homologação quanto
+    para produção.
+    por: Italo Jurisato Junior
+
 18/12/2014
 [*] Incluido a linha para alimentar a propriedade XML que conterá o resultado
     do processamento do evento.
