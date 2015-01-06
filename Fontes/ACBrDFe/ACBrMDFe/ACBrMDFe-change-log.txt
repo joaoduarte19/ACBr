@@ -48,6 +48,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 06/01/2015
+[*] Alterado o conteudo da tag xServ, a palavra NAO estava sem acento.
+    por: Italo Jurisato Junior
+
+06/01/2015
 [*] Alterado o nome da TAG de Retorno da consulta a MDF-e não encerrados.
     por: Italo Jurisato Junior
 
