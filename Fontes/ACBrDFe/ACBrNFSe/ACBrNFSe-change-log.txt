@@ -47,6 +47,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+06/01/2015
+[*] Alterado o provedor Pronim para que o Lote seja assinado quando a cidade for
+    Mirassol/SP.
+    Por: Emerson Teixeira
+
 05/01/2015
 [*] Alteração visando o provedor Vitoria que o código do item não deve ser 
     conter zero a esquerda.

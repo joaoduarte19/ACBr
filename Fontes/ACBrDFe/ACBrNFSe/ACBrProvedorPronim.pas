@@ -114,6 +114,7 @@ begin
    4320800: ConfigCidade.AssinaLote := True; {Dalvan}
    4204004: ConfigCidade.AssinaLote := True; {Dalvan}
    4216602: ConfigCidade.AssinaLote := True;
+   3530300: ConfigCidade.AssinaLote := True;
   else      begin
              ConfigCidade.Identificador := 'id';
              ConfigCidade.AssinaLote    := False;
