@@ -48,6 +48,8 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 06/01/2015
+[*] Incluido a cidade de Divinopolis/MG no provedor GovDigital.
+    Por: Italo Jurisato Junior
 [*] Alterado o provedor Pronim para que o Lote seja assinado quando a cidade for
     Mirassol/SP.
     Por: Emerson Teixeira

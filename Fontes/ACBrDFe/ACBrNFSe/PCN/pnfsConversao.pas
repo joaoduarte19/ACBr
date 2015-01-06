@@ -1040,6 +1040,7 @@ begin
   4322400  // Uruguaiana/RS
          : Provedor := 'Pronim';
 
+  3122306, // Divinopolis/MG
   3132404, // Itajubá/MG
   3138203, // Lavras/MG
   3147006, // Paracatu/MG

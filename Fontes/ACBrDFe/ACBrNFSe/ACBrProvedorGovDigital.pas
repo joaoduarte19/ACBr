@@ -101,6 +101,11 @@ begin
   ConfigCidade.QuebradeLinha := ';';
 
   case ACodCidade of
+   3122306: begin // Divinopolis/MG
+             if AAmbiente = 1
+              then ConfigCidade.NameSpaceEnvelope := 'https://ws.govdigital.com.br/ws/div'
+              else ConfigCidade.NameSpaceEnvelope := 'https://homolog.govdigital.com.br/ws/div';
+            end;
    3132404: begin // Itajubá/MG
              if AAmbiente = 1
               then ConfigCidade.NameSpaceEnvelope := 'https://ws.govdigital.com.br/ws/itj'
@@ -164,6 +169,11 @@ var
   Porta: String;
 begin
   case ACodCidade of
+   3122306: begin // Divinopolis/MG
+              ConfigURL.HomNomeCidade := 'div';
+              ConfigURL.ProNomeCidade := 'div';
+              Porta := '443';
+            end;
    3132404: begin
               ConfigURL.HomNomeCidade := 'itj';
               ConfigURL.ProNomeCidade := 'itj';
