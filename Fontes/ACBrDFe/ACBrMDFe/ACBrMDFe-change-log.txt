@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+06/01/2015
+[*] Alterado o nome da TAG de Retorno da consulta a MDF-e não encerrados.
+    por: Italo Jurisato Junior
+
 05/01/2015
 [+] Incluido a URL do Web Service MDFeConsNaoEnc tanto para homologação quanto
     para produção.

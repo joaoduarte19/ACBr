@@ -2282,7 +2282,8 @@ var
   MDFeRetorno: TRetConsMDFeNaoEnc;
   i: Integer;
 begin
-  FRetWS := SeparaDados(FRetornoWS, 'mdfeConsNaoEncMDFResult');
+//  FRetWS := SeparaDados(FRetornoWS, 'mdfeConsNaoEncMDFResult');
+  FRetWS := SeparaDados(FRetornoWS, 'mdfeConsNaoEncResult');
 
   MDFeRetorno := TRetConsMDFeNaoEnc.Create;
   try
