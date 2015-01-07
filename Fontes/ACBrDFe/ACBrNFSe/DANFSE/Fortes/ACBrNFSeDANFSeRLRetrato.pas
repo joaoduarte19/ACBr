@@ -484,7 +484,15 @@ begin
  rllValorDeducoes.Caption       := DFeUtil.FormatFloat( FNFSe.Servico.Valores.ValorDeducoes );//Astrogildo em 13/12/12
  rllDescIncondicionado2.Caption := DFeUtil.FormatFloat( FNFSe.Servico.Valores.DescontoIncondicionado );//Astrogildo em 13/12/12
  rllBaseCalc.Caption            := DFeUtil.FormatFloat( FNFSe.Servico.Valores.BaseCalculo );//Astrogildo em 13/12/12
- rllAliquota.Caption            := DFeUtil.FormatFloat( FNFSe.Servico.Valores.Aliquota );//Astrogildo em 13/12/12
+ 
+ // thema precisa ser desta forma pois usa aliquota 2,5 => 0,025
+ if (FNFSe.Servico.Valores.Aliquota > 0) and (FNFSe.Servico.Valores.Aliquota < 1) then
+   rllAliquota.Caption := DFeUtil.FormatFloat( FNFSe.Servico.Valores.Aliquota * 100 )
+ else
+   rllAliquota.Caption := DFeUtil.FormatFloat( FNFSe.Servico.Valores.Aliquota );
+
+ // rllAliquota.Caption            := DFeUtil.FormatFloat( FNFSe.Servico.Valores.Aliquota );//Astrogildo em 13/12/12
+
  // TnfseSimNao = ( snSim, snNao )
  case FNFSe.Servico.Valores.IssRetido of
   stRetencao     : rllISSReter.Caption := 'Sim';//Astrogildo em 13/12/12

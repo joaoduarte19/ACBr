@@ -47,6 +47,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+07/01/2015
+[*] Incluido uma condição para apresentar a Aliquota sempre no formato xx.xx %
+    no Fortes Report.
+    Por: Jair Carlos Muller
+
 06/01/2015
 [*] Incluido a cidade de Divinopolis/MG no provedor GovDigital.
     Por: Italo Jurisato Junior
