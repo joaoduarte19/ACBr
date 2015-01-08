@@ -777,7 +777,7 @@ begin
  if AProvedor in [proNenhum, proABRASFv1, proABRASFv2, proAbaco,
                   proBetha, proBetim, proBHISS, proDBSeller, proDigifred,
                   proEquiplano, profintelISS, proFISSLex, proGinfes, proGoiania,
-                  proGovBR, proGovDigital, proIssCuritiba, proISSDigital,
+                  proGovBR, {proGovDigital, }proIssCuritiba, proISSDigital,
                   proISSIntel, proISSNet, proLexsom, proNatal, proProdemge,
                   proPublica, proRecife, proRJ, proSaatri, proFreire,
                   proSimplISS, proThema, proTiplan, proWebISS, proProdata,

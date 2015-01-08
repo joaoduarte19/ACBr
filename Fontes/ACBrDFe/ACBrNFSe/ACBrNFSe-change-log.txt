@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+08/01/2015
+[*] Liberado o Envio Sincrono para o provedor GovDigital.
+    Por: Italo Jurisato Junior
+
 07/01/2015
 [*] Incluido uma condição para apresentar a Aliquota sempre no formato xx.xx %
     no Fortes Report.

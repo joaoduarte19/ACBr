@@ -399,7 +399,16 @@ end;
 function TProvedorGovDigital.GeraEnvelopeRecepcionarSincrono(URLNS: String;
   CabMsg, DadosMsg, DadosSenha: AnsiString): AnsiString;
 begin
-  Result := '';
+ result := '<?xml version="1.0" encoding="utf-8"?>' +
+           '<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/" ' +
+                       'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +
+                       'xmlns:xsd="http://www.w3.org/2001/XMLSchema">' +
+            '<S:Body>' +
+             '<RecepcionarLoteRpsSincronoRequest xmlns="' + URLNS + '">' +
+                DadosMsg +
+             '</RecepcionarLoteRpsSincronoRequest>' +
+            '</S:Body>' +
+           '</S:Envelope>';
 end;
 
 function TProvedorGovDigital.GeraEnvelopeSubstituirNFSe(URLNS: String;
@@ -411,14 +420,14 @@ end;
 function TProvedorGovDigital.GetSoapAction(Acao: TnfseAcao; NomeCidade: String): String;
 begin
  case Acao of
-   acRecepcionar: Result := 'http://nfse.abrasf.org.br/RecepcionarLoteRpsSincrono';
+   acRecepcionar: Result := 'http://nfse.abrasf.org.br/RecepcionarLoteRps';
    acConsSit:     Result := '';
    acConsLote:    Result := 'http://nfse.abrasf.org.br/ConsultarLoteRps';
    acConsNFSeRps: Result := 'http://nfse.abrasf.org.br/ConsultarNfsePorRps';
    acConsNFSe:    Result := 'http://nfse.abrasf.org.br/ConsultarNfsePorFaixa';
    acCancelar:    Result := 'http://nfse.abrasf.org.br/CancelarNfse';
    acGerar:       Result := 'http://nfse.abrasf.org.br/GerarNfse';
-   acRecSincrono: Result := '';
+   acRecSincrono: Result := 'http://nfse.abrasf.org.br/RecepcionarLoteRpsSincrono';
    acSubstituir:  Result := '';
  end;
 end;
@@ -455,7 +464,11 @@ begin
                    RetWS := RetWS + '</GerarNfseResponse>';
                    Result := RetWS;
                   end;
-   acRecSincrono: Result := RetornoWS;
+   acRecSincrono:  begin
+                   RetWS := SeparaDados( RetornoWS, 'RecepcionarLoteRpsSincronoResponse>' );
+                   RetWS := RetWS + '</RecepcionarLoteRpsSincronoResponse>';
+                   Result := RetWS;
+                  end;
    acSubstituir:  Result := RetornoWS;
  end;
 end;
