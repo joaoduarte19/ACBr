@@ -243,6 +243,7 @@ function TRetDistDFeInt.LerXml: boolean;
 var
   ok: boolean;
   i: Integer;
+  xDocZip: String;
 begin
   Result := False;
 
@@ -261,13 +262,17 @@ begin
       FmaxNSU   := Leitor.rCampo(tcStr, 'maxNSU');
 
       i := 0;
-      while Leitor.rExtrai(2, 'docZip', '', i + 1) <> '' do
+      xDocZip := Leitor.rExtrai(2, 'docZip', '', i + 1);
+
+//      while Leitor.rExtrai(2, 'docZip', '', i + 1) <> '' do
+      while xDocZip <> '' do
       begin
         FdocZip.Add;
         FdocZip.Items[i].FNSU    := Leitor.rAtributo('NSU');
         FdocZip.Items[i].schema  := Leitor.rAtributo('schema');
 
-        FdocZip.Items[i].FInfZip := Leitor.rCampo(tcStr, 'docZip');
+//        FdocZip.Items[i].FInfZip := Leitor.rCampo(tcStr, 'docZip');
+        FdocZip.Items[i].FInfZip := Copy(xDocZip, Pos('>', xDocZip) + 1, Length(xDocZip));
 
         //**********************************************************************
         //
@@ -313,6 +318,7 @@ begin
         end;
 
         inc(i);
+        xDocZip := Leitor.rExtrai(2, 'docZip', '', i + 1);
       end;
 
       if i = 0
