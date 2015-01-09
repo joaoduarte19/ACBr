@@ -103,8 +103,9 @@ begin
 
   ConfigCidade.NameSpaceEnvelope := 'https://nfe.progam.com.br/cruzeiro/nfse/xsd/rps_importacao_manual.xsd';
 
-  ConfigCidade.AssinaRPS  := False;
-  ConfigCidade.AssinaLote := False;
+  ConfigCidade.AssinaRPS   := False;
+  ConfigCidade.AssinaLote  := False;
+  ConfigCidade.AssinaGerar := True;
 
   Result := ConfigCidade;
 end;

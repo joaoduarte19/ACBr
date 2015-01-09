@@ -117,8 +117,9 @@ begin
             end;
   end;
 
-  ConfigCidade.AssinaRPS  := False;
-  ConfigCidade.AssinaLote := True;
+  ConfigCidade.AssinaRPS   := False;
+  ConfigCidade.AssinaLote  := True;
+  ConfigCidade.AssinaGerar := True;
 
   Result := ConfigCidade;
 end;

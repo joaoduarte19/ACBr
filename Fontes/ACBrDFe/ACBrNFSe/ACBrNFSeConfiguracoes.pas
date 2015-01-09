@@ -57,6 +57,7 @@ type
     NameSpaceEnvelope: String;
     AssinaRPS: Boolean;
     AssinaLote: Boolean;
+    AssinaGerar: Boolean;
     QuebradeLinha: String;
  end;
 
@@ -109,6 +110,7 @@ type
   private
     FAssinaLote: Boolean;
     FAssinaRPS: Boolean;
+    FAssinaGerar: Boolean;
     FSenhaCert: AnsiString;
     {$IFNDEF ACBrNFSeOpenSSL}
        FNumeroSerie: AnsiString;
@@ -140,6 +142,7 @@ type
     {$ENDIF}
     property AssinaRPS: Boolean  read FAssinaRPS;
     property AssinaLote: Boolean read FAssinaLote;
+    property AssinaGerar: Boolean read FAssinaGerar;
     property Senha: AnsiString   read FSenhaCert write FSenhaCert;
   end;
 
@@ -869,8 +872,9 @@ begin
  FNameSpace     := ConfigCidade.NameSpaceEnvelope;
  FQuebradeLinha := ConfigCidade.QuebradeLinha;
 
- TConfiguracoes( Self.Owner ).Certificados.FAssinaRPS  := ConfigCidade.AssinaRPS;
- TConfiguracoes( Self.Owner ).Certificados.FAssinaLote := ConfigCidade.AssinaLote;
+ TConfiguracoes( Self.Owner ).Certificados.FAssinaRPS   := ConfigCidade.AssinaRPS;
+ TConfiguracoes( Self.Owner ).Certificados.FAssinaLote  := ConfigCidade.AssinaLote;
+ TConfiguracoes( Self.Owner ).Certificados.FAssinaGerar := ConfigCidade.AssinaGerar;
 
  ConfigSchema := FProvedorClass.GetConfigSchema(FCodigoMunicipio);
 

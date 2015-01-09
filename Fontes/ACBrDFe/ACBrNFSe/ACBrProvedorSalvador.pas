@@ -104,8 +104,9 @@ begin
   else
     ConfigCidade.NameSpaceEnvelope := 'http://tempuri.org/';
 
-  ConfigCidade.AssinaRPS  := True;
-  ConfigCidade.AssinaLote := True;
+  ConfigCidade.AssinaRPS   := True;
+  ConfigCidade.AssinaLote  := True;
+  ConfigCidade.AssinaGerar := True;
 
   Result := ConfigCidade;
 end;

@@ -101,8 +101,10 @@ begin
   ConfigCidade.Identificador     := 'id';
   ConfigCidade.QuebradeLinha     := ';';
   ConfigCidade.NameSpaceEnvelope := 'http://www.e-nfs.com.br';
-  ConfigCidade.AssinaRPS         := False;
-  ConfigCidade.AssinaLote        := True;
+
+  ConfigCidade.AssinaRPS   := False;
+  ConfigCidade.AssinaLote  := True;
+  ConfigCidade.AssinaGerar := True;
 
   Result := ConfigCidade;
 end;

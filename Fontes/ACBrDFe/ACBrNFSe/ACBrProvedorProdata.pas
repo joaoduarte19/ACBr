@@ -106,8 +106,9 @@ begin
   else
     ConfigCidade.NameSpaceEnvelope := 'http://services.nfse';
 
-  ConfigCidade.AssinaRPS  := True;
-  ConfigCidade.AssinaLote := True;
+  ConfigCidade.AssinaRPS   := True;
+  ConfigCidade.AssinaLote  := True;
+  ConfigCidade.AssinaGerar := True;
 
   Result := ConfigCidade;
 end;

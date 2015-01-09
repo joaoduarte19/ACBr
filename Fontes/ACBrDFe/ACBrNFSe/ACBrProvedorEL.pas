@@ -103,8 +103,9 @@ begin
 
   ConfigCidade.NameSpaceEnvelope := 'http://www.el.com.br/nfse/xsd/el-nfse.xsd';
 
-  ConfigCidade.AssinaRPS  := False;
-  ConfigCidade.AssinaLote := True;
+  ConfigCidade.AssinaRPS   := False;
+  ConfigCidade.AssinaLote  := True;
+  ConfigCidade.AssinaGerar := True;
 
   Result := ConfigCidade;
 end;

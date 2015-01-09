@@ -76,8 +76,9 @@ begin
   else
    ConfigCidade.NameSpaceEnvelope := 'http://web1.memory.com.br:81';    // 'http://tempuri.org';  - Homologação
 
-  ConfigCidade.AssinaRPS  := False;
-  ConfigCidade.AssinaLote := False;
+  ConfigCidade.AssinaRPS   := False;
+  ConfigCidade.AssinaLote  := False;
+  ConfigCidade.AssinaGerar := True;
 
   Result := ConfigCidade;
 end;

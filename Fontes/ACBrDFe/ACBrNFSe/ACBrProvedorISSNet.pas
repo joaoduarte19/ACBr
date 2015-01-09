@@ -106,8 +106,9 @@ begin
   else
     ConfigCidade.NameSpaceEnvelope := 'http://www.issnetonline.com.br/webservice/nfd';
 
-  ConfigCidade.AssinaRPS  := False;
-  ConfigCidade.AssinaLote := True;
+  ConfigCidade.AssinaRPS   := False;
+  ConfigCidade.AssinaLote  := True;
+  ConfigCidade.AssinaGerar := True;
 
   Result := ConfigCidade;
 end;

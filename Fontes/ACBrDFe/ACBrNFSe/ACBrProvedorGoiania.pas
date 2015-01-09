@@ -105,8 +105,9 @@ begin
   else }
 	ConfigCidade.NameSpaceEnvelope := 'http://nfse.goiania.go.gov.br/xsd/nfse_gyn_v02.xsd';
 
- 	ConfigCidade.AssinaRPS  := True;
- 	ConfigCidade.AssinaLote := False;
+ 	ConfigCidade.AssinaRPS   := True;
+ 	ConfigCidade.AssinaLote  := False;
+  ConfigCidade.AssinaGerar := True;
 
  	Result := ConfigCidade;
 end;

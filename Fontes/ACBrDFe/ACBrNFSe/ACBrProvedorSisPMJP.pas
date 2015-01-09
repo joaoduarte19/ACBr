@@ -106,8 +106,9 @@ begin
   else
     ConfigCidade.NameSpaceEnvelope := 'http://nfse.abrasf.org.br';
 
-  ConfigCidade.AssinaRPS  := False;
-  ConfigCidade.AssinaLote := True; //False; Alterado por Carlos Henrique
+  ConfigCidade.AssinaRPS   := False;
+  ConfigCidade.AssinaLote  := True; //False; Alterado por Carlos Henrique
+  ConfigCidade.AssinaGerar := False;
 
   Result := ConfigCidade;
 end;

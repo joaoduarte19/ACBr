@@ -121,8 +121,9 @@ begin
 // - O Pedido de cancelamento da NFS-e, pelo contribuinte;
 // - A Confirmação de cancelamento da NFS-e, pela prefeitura;
 
-  ConfigCidade.AssinaRPS  := True;
-  ConfigCidade.AssinaLote := True;
+  ConfigCidade.AssinaRPS   := True;
+  ConfigCidade.AssinaLote  := True;
+  ConfigCidade.AssinaGerar := True;
 
   Result := ConfigCidade;
 end;

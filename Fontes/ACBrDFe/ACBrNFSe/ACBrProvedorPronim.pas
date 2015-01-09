@@ -106,18 +106,20 @@ begin
   else
     ConfigCidade.NameSpaceEnvelope := 'http://tempuri.org';
 
-  ConfigCidade.AssinaRPS := False;
+  ConfigCidade.AssinaRPS   := False;
+  ConfigCidade.AssinaGerar := True;
 
   case ACodCidade of
-   3118601: ConfigCidade.AssinaLote := True; {Denio Incluido para Contagem}
-   4309407: ConfigCidade.AssinaLote := True; {Dalvan}
-   4320800: ConfigCidade.AssinaLote := True; {Dalvan}
-   4204004: ConfigCidade.AssinaLote := True; {Dalvan}
-   4216602: ConfigCidade.AssinaLote := True;
-   3530300: ConfigCidade.AssinaLote := True;
+   3118601: ConfigCidade.AssinaLote := True; // Contagem/MG
+   3530300: ConfigCidade.AssinaLote := True; // Mirassol/SP
+   4204004: ConfigCidade.AssinaLote := True; // Catanduvas/SC
+   4216602: ConfigCidade.AssinaLote := True; // São José/SC
+   4309407: ConfigCidade.AssinaLote := True; // Guapore/RS
+   4320800: ConfigCidade.AssinaLote := True; // Soledade/RS
   else      begin
              ConfigCidade.Identificador := 'id';
              ConfigCidade.AssinaLote    := False;
+             ConfigCidade.AssinaGerar   := False;
             end;
   end;
 
@@ -229,7 +231,7 @@ begin
              ConfigURL.ProNomeCidade         := '';
              ConfigURL.ProRecepcaoLoteRPS    := 'http://201.14.131.162:8288/NFSEWS/Services.svc';
            end;
-  4204004: begin // Catanduvas / SC
+  4204004: begin // Catanduvas/SC
              ConfigURL.HomNomeCidade         := '';
              ConfigURL.HomRecepcaoLoteRPS    := 'http://nfe.catanduvas.sc.gov.br:8089/NFSEWSTESTE/Services.svc';
 

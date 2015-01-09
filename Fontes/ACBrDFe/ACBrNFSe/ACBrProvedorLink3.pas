@@ -108,8 +108,9 @@ begin
   else
     ConfigCidade.NameSpaceEnvelope := 'http://impl.nfse.services.l3grp.link3.com.br';
 
-  ConfigCidade.AssinaRPS  := True;
-  ConfigCidade.AssinaLote := True;
+  ConfigCidade.AssinaRPS   := True;
+  ConfigCidade.AssinaLote  := True;
+  ConfigCidade.AssinaGerar := True;
 
   Result := ConfigCidade;
 end;

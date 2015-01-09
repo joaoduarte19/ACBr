@@ -288,7 +288,7 @@ begin
   end;
 
   // Assina os Rps
-  NotasFiscais.Assinar(FConfiguracoes.WebServices.Provedor <> proNFSeBrasil);
+  NotasFiscais.Assinar(FConfiguracoes.Certificados.AssinaRPS);
 
   Result := WebServices.Envia(ALote);
 
@@ -429,29 +429,27 @@ begin
 end;
 
 function TACBrNFSe.Gerar(ARps: Integer): Boolean;
-//var
-// i: Integer;
 begin
- if NotasFiscais.Count <= 0
-  then begin
-   if Assigned(Self.OnGerarLog)
-    then Self.OnGerarLog('ERRO: Nenhum RPS adicionado');
-   raise Exception.Create('ERRO: Nenhum RPS adicionado');
-   exit;
+  if NotasFiscais.Count <= 0 then
+  begin
+    if Assigned(Self.OnGerarLog) then
+      Self.OnGerarLog('ERRO: Nenhum RPS adicionado');
+    raise Exception.Create('ERRO: Nenhum RPS adicionado');
+    exit;
   end;
 
- if NotasFiscais.Count > 1
-  then begin
-   if Assigned(Self.OnGerarLog)
-    then Self.OnGerarLog('ERRO: Conjunto de RPS transmitidos (máximo de 1) excedido. Quantidade atual: '+IntToStr(NotasFiscais.Count));
-   raise Exception.Create('ERRO: Conjunto de RPS transmitidos (máximo de 1) excedido. Quantidade atual: '+IntToStr(NotasFiscais.Count));
-   exit;
+  if NotasFiscais.Count > 1 then
+  begin
+    if Assigned(Self.OnGerarLog) then
+      Self.OnGerarLog('ERRO: Conjunto de RPS transmitidos (máximo de 1) excedido. Quantidade atual: '+IntToStr(NotasFiscais.Count));
+    raise Exception.Create('ERRO: Conjunto de RPS transmitidos (máximo de 1) excedido. Quantidade atual: '+IntToStr(NotasFiscais.Count));
+    exit;
   end;
 
- if (FConfiguracoes.WebServices.Provedor <> proSisPMJP) then
-   NotasFiscais.Assinar(True); // Assina os Rps
+  // Assina os Rps
+  NotasFiscais.Assinar(FConfiguracoes.Certificados.AssinaGerar);
 
- Result := WebServices.Gera(ARps);
+  Result := WebServices.Gera(ARps);
 end;
 
 function TACBrNFSe.LinkNFSe(ANumeroNFSe: Integer;
@@ -466,31 +464,31 @@ begin
 end;
 
 function TACBrNFSe.GerarLote(ALote: String): Boolean;
-//var
-// i: Integer;
 begin
- if NotasFiscais.Count <= 0
-  then begin
-   if Assigned(Self.OnGerarLog)
-    then Self.OnGerarLog('ERRO: Nenhum RPS adicionado ao Lote');
-   raise Exception.Create('ERRO: Nenhum RPS adicionado ao Lote');
-   exit;
+  if NotasFiscais.Count <= 0 then
+  begin
+    if Assigned(Self.OnGerarLog) then
+      Self.OnGerarLog('ERRO: Nenhum RPS adicionado ao Lote');
+    raise Exception.Create('ERRO: Nenhum RPS adicionado ao Lote');
+    exit;
   end;
 
- if NotasFiscais.Count > 50
-  then begin
-   if Assigned(Self.OnGerarLog)
-    then Self.OnGerarLog('ERRO: Conjunto de RPS transmitidos (máximo de 50) excedido. Quantidade atual: '+IntToStr(NotasFiscais.Count));
-   raise Exception.Create('ERRO: Conjunto de RPS transmitidos (máximo de 50) excedido. Quantidade atual: '+IntToStr(NotasFiscais.Count));
-   exit;
+  if NotasFiscais.Count > 50 then
+  begin
+    if Assigned(Self.OnGerarLog) then
+      Self.OnGerarLog('ERRO: Conjunto de RPS transmitidos (máximo de 50) excedido. Quantidade atual: '+IntToStr(NotasFiscais.Count));
+    raise Exception.Create('ERRO: Conjunto de RPS transmitidos (máximo de 50) excedido. Quantidade atual: '+IntToStr(NotasFiscais.Count));
+    exit;
   end;
 
- if (FConfiguracoes.WebServices.Provedor <> proPublica) and
-    (FConfiguracoes.WebServices.Provedor <> proSisPMJP) then
-   NotasFiscais.Assinar(True); // Assina os Rps
+// if (FConfiguracoes.WebServices.Provedor <> proPublica) and
+//    (FConfiguracoes.WebServices.Provedor <> proSisPMJP) then
+//   NotasFiscais.Assinar(True); // Assina os Rps
 
- Result := WebServices.GeraLote(ALote);
+  // Assina os Rps
+  NotasFiscais.Assinar(FConfiguracoes.Certificados.AssinaRPS);
 
+  Result := WebServices.GeraLote(ALote);
 end;
 
 function TACBrNFSe.EnviarSincrono(ALote: Integer;
@@ -502,25 +500,26 @@ end;
 function TACBrNFSe.EnviarSincrono(ALote: String;
   Imprimir: Boolean): Boolean;
 begin
- if NotasFiscais.Count <= 0
-  then begin
-   if Assigned(Self.OnGerarLog)
-    then Self.OnGerarLog('ERRO: Nenhum RPS adicionado ao Lote');
-   raise Exception.Create('ERRO: Nenhum RPS adicionado ao Lote');
-   exit;
+  if NotasFiscais.Count <= 0 then
+  begin
+    if Assigned(Self.OnGerarLog) then
+      Self.OnGerarLog('ERRO: Nenhum RPS adicionado ao Lote');
+    raise Exception.Create('ERRO: Nenhum RPS adicionado ao Lote');
+    exit;
   end;
 
- if NotasFiscais.Count > 50
-  then begin
-   if Assigned(Self.OnGerarLog)
-    then Self.OnGerarLog('ERRO: Conjunto de RPS transmitidos (máximo de 50) excedido. Quantidade atual: '+IntToStr(NotasFiscais.Count));
-   raise Exception.Create('ERRO: Conjunto de RPS transmitidos (máximo de 50) excedido. Quantidade atual: '+IntToStr(NotasFiscais.Count));
-   exit;
+  if NotasFiscais.Count > 50 then
+  begin
+    if Assigned(Self.OnGerarLog) then
+      Self.OnGerarLog('ERRO: Conjunto de RPS transmitidos (máximo de 50) excedido. Quantidade atual: '+IntToStr(NotasFiscais.Count));
+    raise Exception.Create('ERRO: Conjunto de RPS transmitidos (máximo de 50) excedido. Quantidade atual: '+IntToStr(NotasFiscais.Count));
+    exit;
   end;
 
- NotasFiscais.Assinar(FConfiguracoes.WebServices.Provedor <> proPublica); // Assina os Rps
+  // Assina os Rps
+  NotasFiscais.Assinar(FConfiguracoes.Certificados.AssinaRPS);
 
- Result := WebServices.EnviaSincrono(ALote);
+  Result := WebServices.EnviaSincrono(ALote);
 end;
 
 function TACBrNFSe.ConsultarSequencialRPS(ACidade, ACnpj,
@@ -765,7 +764,7 @@ begin
       raise Exception.Create('ERRO: Nenhum RPS adicionado!');
    end;
 
- NotasFiscais.Assinar(True); 
+ NotasFiscais.Assinar(True);
 
  Result := WebServices.SubstitiNFSe(ACodigoCancelamento, ANumeroNFSe);
 end;

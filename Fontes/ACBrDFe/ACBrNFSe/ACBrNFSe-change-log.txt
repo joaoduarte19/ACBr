@@ -47,6 +47,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+09/01/2015
+[*] Criado a propriedade interna chamada AssinaGerar, uma vez que existe provedor
+    que o RPS não é assinado ao enviar por lote, mas deve ser assinado ao enviar
+    através do metodo Gerar.
+    Por: Italo Jurisato Junior
+
 08/01/2015
 [*] Liberado o Envio Sincrono para o provedor GovDigital.
     Por: Italo Jurisato Junior

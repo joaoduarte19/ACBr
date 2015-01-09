@@ -101,8 +101,10 @@ begin
   ConfigCidade.Identificador     := 'Id'; // Dever ser trocado depois para id
   ConfigCidade.QuebradeLinha     := ';';
   ConfigCidade.NameSpaceEnvelope := 'http://tempuri.org';
-  ConfigCidade.AssinaRPS         := False;
-  ConfigCidade.AssinaLote        := True;
+
+  ConfigCidade.AssinaRPS   := False;
+  ConfigCidade.AssinaLote  := True;
+  ConfigCidade.AssinaGerar := True;
 
   Result := ConfigCidade;
 end;

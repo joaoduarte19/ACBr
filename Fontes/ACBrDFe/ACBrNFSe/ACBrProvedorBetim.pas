@@ -110,8 +110,9 @@ begin
   else
     ConfigCidade.NameSpaceEnvelope := 'https://betim.rps.com.br/sgm/zend/nfs/ambienteteste';
 
-  ConfigCidade.AssinaRPS  := False;
-  ConfigCidade.AssinaLote := True;
+  ConfigCidade.AssinaRPS   := False;
+  ConfigCidade.AssinaLote  := True;
+  ConfigCidade.AssinaGerar := True;
 
   Result := ConfigCidade;
 end;

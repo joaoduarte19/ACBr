@@ -114,8 +114,9 @@ begin
 
   ConfigCidade.NameSpaceEnvelope:='http://nfe'+NomeCidade+'.portalfacil.com.br/'+DescAmbiente+'/webservice/nfse.wsdl';
 
-  ConfigCidade.AssinaRPS  := false;
-  ConfigCidade.AssinaLote := true;
+  ConfigCidade.AssinaRPS   := False;
+  ConfigCidade.AssinaLote  := True;
+  ConfigCidade.AssinaGerar := True;
 
   Result := ConfigCidade;
 end;

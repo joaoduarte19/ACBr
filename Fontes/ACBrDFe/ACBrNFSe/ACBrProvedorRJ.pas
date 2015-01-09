@@ -103,8 +103,9 @@ begin
 
   ConfigCidade.NameSpaceEnvelope := 'http://notacarioca.rio.gov.br';
 
-  ConfigCidade.AssinaRPS  := False;
-  ConfigCidade.AssinaLote := True;
+  ConfigCidade.AssinaRPS   := False;
+  ConfigCidade.AssinaLote  := True;
+  ConfigCidade.AssinaGerar := True;
 
   Result := ConfigCidade;
 end;

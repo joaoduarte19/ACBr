@@ -115,8 +115,9 @@ begin
   else
     ConfigCidade.NameSpaceEnvelope := 'http://localhost:8080/WsNFe2/lote';
 
-  ConfigCidade.AssinaRPS  := False;
-  ConfigCidade.AssinaLote := (AAmbiente = 1);
+  ConfigCidade.AssinaRPS   := False;
+  ConfigCidade.AssinaLote  := (AAmbiente = 1);
+  ConfigCidade.AssinaGerar := True;
 
   Result := ConfigCidade;
 end;

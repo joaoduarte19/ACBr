@@ -100,8 +100,10 @@ begin
  	ConfigCidade.Identificador     := 'Id';
   ConfigCidade.QuebradeLinha     := ';';
 	ConfigCidade.NameSpaceEnvelope := 'http://www.abrasf.org.br';
- 	ConfigCidade.AssinaRPS         := True;
- 	ConfigCidade.AssinaLote        := False;
+
+ 	ConfigCidade.AssinaRPS   := True;
+ 	ConfigCidade.AssinaLote  := False;
+  ConfigCidade.AssinaGerar := True;
 
  	Result := ConfigCidade;
 end;

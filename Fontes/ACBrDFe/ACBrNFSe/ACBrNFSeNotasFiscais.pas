@@ -601,7 +601,9 @@ begin
 
 //    if self.Configuracoes.Certificados.AssinaRPS and AssinaRPS
     // Alterado por Italo em 28/11/2014
-    if self.Configuracoes.Certificados.AssinaRPS or AssinaRPS
+//    if self.Configuracoes.Certificados.AssinaRPS or AssinaRPS
+    // Alterado por Italo em 09/01/2015
+    if AssinaRPS
      then begin
       {$IFDEF ACBrNFSeOpenSSL}
         if not(NotaUtil.Assinar(LocNFSeW.Gerador.ArquivoFormatoXML,
