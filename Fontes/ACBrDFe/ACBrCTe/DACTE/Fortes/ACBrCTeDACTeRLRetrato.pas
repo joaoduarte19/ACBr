@@ -1933,8 +1933,12 @@ begin
   end;
 
   rllMsgTeste.Repaint;
+  
 
   //  rllMsgTeste.Enabled := FCTe.Ide.tpAmb = taHomologacao;
+  // Ajusta o tamanho do quadro conforme a OBS
+  if (rlmObs.Lines.Count * 11 + 20) > rlsQuadro08.Height then
+    rlsQuadro08.Height := rlmObs.Lines.Count * 11 + 20;
 end;
 
 procedure TfrmDACTeRLRetrato.rlb_10_ModRodFracionadoBeforePrint(Sender: TrlCustomBand; var PrintBand: boolean);

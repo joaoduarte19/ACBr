@@ -343,7 +343,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       Left = 26
       Top = 995
       Width = 742
-      Height = 111
+      Height = 80
       BandType = btHeader
       Color = clWhite
       ParentColor = False

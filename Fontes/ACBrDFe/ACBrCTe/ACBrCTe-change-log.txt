@@ -47,6 +47,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+09/01/2015
+[*] Melhorias realizadas no DACTE em Fortes Report.
+    por: W. Pereira
+
+05/01/2015
+[*] Alteração para imprimir os eventos em Fast Report.
+    por: Ricardo
+
 30/12/2014
 [*] Incluido a leitura dos grupos infNF e infOutros para conpatiblizar com as
     versões ateriores a 2.00.
