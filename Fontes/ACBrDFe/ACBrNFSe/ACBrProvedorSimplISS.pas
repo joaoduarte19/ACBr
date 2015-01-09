@@ -142,74 +142,78 @@ var
 begin
  if ACodCidade = 3503307
   then begin
-   ConfigURL.HomNomeCidade         := '';
-   ConfigURL.HomRecepcaoLoteRPS    := 'http://200.144.16.82:8080/ws_homologacao/nfseservice.svc';
+   ConfigURL.HomNomeCidade      := '';
+   ConfigURL.HomRecepcaoLoteRPS := 'http://200.144.16.82:8080/ws_homologacao/nfseservice.svc';
   end
   else begin
-   ConfigURL.HomNomeCidade         := '';
-   ConfigURL.HomRecepcaoLoteRPS    := 'http://187.45.245.217/ws_nfse/nfseservice.svc';
+   ConfigURL.HomNomeCidade      := '';
+   ConfigURL.HomRecepcaoLoteRPS := 'http://187.45.245.217/ws_nfse/nfseservice.svc';
   end;
 
  case ACodCidade of
   3103504: begin
-            ConfigURL.ProNomeCidade := 'araguari';
-            ConfigURL.ProRecepcaoLoteRPS    := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
+            ConfigURL.ProNomeCidade      := 'araguari';
+            ConfigURL.ProRecepcaoLoteRPS := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
            end;
   3105103: begin
-            ConfigURL.ProNomeCidade := 'bambui';
-            ConfigURL.ProRecepcaoLoteRPS    := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
+            ConfigURL.ProNomeCidade      := 'bambui';
+            ConfigURL.ProRecepcaoLoteRPS := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
            end;
   3137205: begin
-            ConfigURL.ProNomeCidade := 'lagoa_prata';
-            ConfigURL.ProRecepcaoLoteRPS    := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
+            ConfigURL.ProNomeCidade      := 'lagoa_prata';
+            ConfigURL.ProRecepcaoLoteRPS := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
            end;
   3148103: begin // Patrocinio/MG
-            ConfigURL.ProNomeCidade := 'patrocinio';
-            ConfigURL.ProRecepcaoLoteRPS    := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
+            ConfigURL.ProNomeCidade      := 'patrocinio';
+            ConfigURL.ProRecepcaoLoteRPS := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
            end;
   3503307: begin // Araras/SP
-            ConfigURL.ProNomeCidade := 'araras';
-            ConfigURL.ProRecepcaoLoteRPS    := 'http://200.144.16.82:8080/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
+            ConfigURL.ProNomeCidade      := 'araras';
+            ConfigURL.ProRecepcaoLoteRPS := 'http://200.144.16.82:8080/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
            end;
   3511508: begin // Cerquilho/SP
-            ConfigURL.ProNomeCidade := 'cerquilho';
-            ConfigURL.ProRecepcaoLoteRPS    := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
+            ConfigURL.ProNomeCidade      := 'cerquilho';
+            ConfigURL.ProRecepcaoLoteRPS := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
            end;
   3520608: begin // Indiana/SP
-            ConfigURL.ProNomeCidade := 'indiana';
-            ConfigURL.ProRecepcaoLoteRPS    := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
+            ConfigURL.ProNomeCidade      := 'indiana';
+            ConfigURL.ProRecepcaoLoteRPS := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
+           end;
+  3530201: begin // Mirante Do Paranapanema/SP
+            ConfigURL.ProNomeCidade      := 'mirantedoparanapanema';
+            ConfigURL.ProRecepcaoLoteRPS := 'http://wsmirantedoparanapanema.simplissweb.com.br/nfseservice.svc';
            end;
   3524808: begin // Jales/SP
-            ConfigURL.ProNomeCidade := 'jales';
-            ConfigURL.ProRecepcaoLoteRPS    := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
+            ConfigURL.ProNomeCidade      := 'jales';
+            ConfigURL.ProRecepcaoLoteRPS := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
            end;
   3534609: begin // Osvaldo Cruz/SP
-            ConfigURL.ProNomeCidade := 'nfse_osvaldo_cruz';
-            ConfigURL.ProRecepcaoLoteRPS    := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
+            ConfigURL.ProNomeCidade      := 'nfse_osvaldo_cruz';
+            ConfigURL.ProRecepcaoLoteRPS := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
            end;
   3538709: begin // Piracicaba/SP
-            ConfigURL.ProNomeCidade := 'piracicaba';
-            ConfigURL.ProRecepcaoLoteRPS    := 'http://www.sistemas.piracicaba.sp.gov.br/semfi/simpliss/ws_nfse/nfseservice.svc';
+            ConfigURL.ProNomeCidade      := 'piracicaba';
+            ConfigURL.ProRecepcaoLoteRPS := 'http://www.sistemas.piracicaba.sp.gov.br/semfi/simpliss/ws_nfse/nfseservice.svc';
            end;
   3541406: begin // Presidente Prudente/SP
-            ConfigURL.ProNomeCidade := 'presidente_prudente';
-            ConfigURL.ProRecepcaoLoteRPS    := 'http://187.45.245.217/ws_nfse_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
+            ConfigURL.ProNomeCidade      := 'presidente_prudente';
+            ConfigURL.ProRecepcaoLoteRPS := 'http://187.45.245.217/ws_nfse_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
            end;
   3549102: begin
-            ConfigURL.ProNomeCidade := 'sao_joao_boa_vista';
-            ConfigURL.ProRecepcaoLoteRPS    := 'http://187.45.245.217/ws_nfse_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
+            ConfigURL.ProNomeCidade      := 'sao_joao_boa_vista';
+            ConfigURL.ProRecepcaoLoteRPS := 'http://187.45.245.217/ws_nfse_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
            end;
   3549706: begin
-            ConfigURL.ProNomeCidade := 'sao_jose_rio_pardo';
-            ConfigURL.ProRecepcaoLoteRPS    := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
+            ConfigURL.ProNomeCidade      := 'sao_jose_rio_pardo';
+            ConfigURL.ProRecepcaoLoteRPS := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
            end;
   3556404: begin
-            ConfigURL.ProNomeCidade := 'vargem_grande_sul';
-            ConfigURL.ProRecepcaoLoteRPS    := 'http://187.45.245.217/ws_nfse_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
+            ConfigURL.ProNomeCidade      := 'vargem_grande_sul';
+            ConfigURL.ProRecepcaoLoteRPS := 'http://187.45.245.217/ws_nfse_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
            end;
   4202008: begin
-            ConfigURL.ProNomeCidade := 'balneario_camboriu';
-            ConfigURL.ProRecepcaoLoteRPS    := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
+            ConfigURL.ProNomeCidade      := 'balneario_camboriu';
+            ConfigURL.ProRecepcaoLoteRPS := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
            end;
  end;
 

@@ -48,6 +48,8 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 09/01/2015
+[*] Incluido a cidade de Mirante do Paranapanema/SP no provedor SimplISS.
+    Por: Alexandre Soares
 [*] Criado a propriedade interna chamada AssinaGerar, uma vez que existe provedor
     que o RPS não é assinado ao enviar por lote, mas deve ser assinado ao enviar
     através do metodo Gerar.

@@ -1222,6 +1222,7 @@ begin
   3511508, // Cerquilho/SP
   3520608, // Indiana/SP
   3524808, // Jales/SP
+  3530201, // Mirante Do Paranapanema/SP
   3534609, // Osvaldo Cruz/SP
   3538709, // Piracicaba/SP
   3541406, // Presidente Prudente/SP
