@@ -713,6 +713,7 @@ begin
 //  5106224  // Nova Mutum/MT
          : Provedor := 'Agili';
 
+  3118007, // Congonhas/MG
   3302254, // Itatiaia/RJ
   3303955, // Pinheiral/RJ
   3304508, // Rio das Flores/RJ
