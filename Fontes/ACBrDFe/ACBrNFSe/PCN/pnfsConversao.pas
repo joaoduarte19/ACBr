@@ -929,6 +929,7 @@ begin
   3143906, // Muriae/MG
   3145604, // Oliveira/MG
   3147105, // Para de Minas/MG
+  3152501, // Pouso Alegre/MG
   3154606, // Ribeirao das Neves/MG
   3156908, // Sacramento/MG
   3169901, // Uba/MG
