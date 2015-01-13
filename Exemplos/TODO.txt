@@ -1,2 +1,9 @@
 ACBrConvenio115 ?
+ACBrCTe
 ACBrDLL ?
+ACBrGNRE
+ACBrIBPTax
+ACBrInStore
+ACBrMDFe
+ACBrNFe2
+ACBrNFSe
