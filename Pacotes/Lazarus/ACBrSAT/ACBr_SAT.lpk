@@ -8,7 +8,7 @@
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <OtherUnitFiles Value="..\..\..\Fontes\ACBrSAT;..\..\..\Fontes\ACBrSAT\PCN"/>
+        <OtherUnitFiles Value="..\..\..\Fontes\ACBrSAT;..\..\..\Fontes\ACBrSAT\PCNSAT"/>
         <UnitOutputDirectory Value="..\..\..\Lib\Lazarus\ACBrSAT\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Other>
@@ -44,35 +44,35 @@
         <UnitName Value="ACBrSATExtratoClass"/>
       </Item5>
       <Item6>
-        <Filename Value="..\..\..\Fontes\ACBrSAT\PCN\pcnCFeCanc.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFeCanc.pas"/>
         <UnitName Value="pcnCFeCanc"/>
       </Item6>
       <Item7>
-        <Filename Value="..\..\..\Fontes\ACBrSAT\PCN\pcnCFeCancW.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFeCancW.pas"/>
         <UnitName Value="pcnCFeCancW"/>
       </Item7>
       <Item8>
-        <Filename Value="..\..\..\Fontes\ACBrSAT\PCN\pcnCFeW.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFeW.pas"/>
         <UnitName Value="pcnCFeW"/>
       </Item8>
       <Item9>
-        <Filename Value="..\..\..\Fontes\ACBrSAT\PCN\pcnCFe.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFe.pas"/>
         <UnitName Value="pcnCFe"/>
       </Item9>
       <Item10>
-        <Filename Value="..\..\..\Fontes\ACBrSAT\PCN\pcnCFeCancR.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFeCancR.pas"/>
         <UnitName Value="pcnCFeCancR"/>
       </Item10>
       <Item11>
-        <Filename Value="..\..\..\Fontes\ACBrSAT\PCN\pcnCFeR.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFeR.pas"/>
         <UnitName Value="pcnCFeR"/>
       </Item11>
       <Item12>
-        <Filename Value="..\..\..\Fontes\ACBrSAT\PCN\pcnRede.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnRede.pas"/>
         <UnitName Value="pcnRede"/>
       </Item12>
       <Item13>
-        <Filename Value="..\..\..\Fontes\ACBrSAT\PCN\pcnRedeW.pas"/>
+        <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnRedeW.pas"/>
         <UnitName Value="pcnRedeW"/>
       </Item13>
     </Files>
@@ -82,7 +82,7 @@
         <PackageName Value="ACBrSerial"/>
       </Item1>
       <Item2>
-        <PackageName Value="PCN2"/>
+        <PackageName Value="PCNComum"/>
       </Item2>
       <Item3>
         <PackageName Value="FCL"/>

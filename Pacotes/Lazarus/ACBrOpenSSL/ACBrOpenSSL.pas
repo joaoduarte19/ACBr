@@ -7,8 +7,16 @@ unit ACBrOpenSSL;
 interface
 
 uses
-  libxml2, libxmlsec, libxslt, ACBrEAD, OpenSSLExt, ACBrOpenSSLReg, libexslt;
+  libxml2, libxmlsec, libxslt, ACBrEAD, OpenSSLExt, ACBrOpenSSLReg, libexslt, 
+  LazarusPackageIntf;
 
 implementation
 
+procedure Register;
+begin
+  RegisterUnit('ACBrOpenSSLReg', @ACBrOpenSSLReg.Register);
+end;
+
+initialization
+  RegisterPackage('ACBrOpenSSL', @Register);
 end.

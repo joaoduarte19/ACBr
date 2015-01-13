@@ -197,7 +197,8 @@ begin
   (**)GerarEmitEnderEmit;
 
   Gerador.wCampo(tcStr, 'C12', 'IE      ', 12, 12, 1, SomenteNumeros(CFe.Emit.IE), DSC_IE);
-  Gerador.wCampo(tcStr, 'C13', 'IM      ', 01, 15, 1, CFe.Emit.IM, DSC_IM);
+  if trim(CFe.Emit.IM) <> '' then
+    Gerador.wCampo(tcStr, 'C13', 'IM      ', 01, 15, 1, CFe.Emit.IM, DSC_IM);
 
   if not FApenasTagsAplicacao then
      Gerador.wCampo(tcInt, 'C14', 'cRegTrib', 01, 01, 1, RegTribToStr(CFe.Emit.cRegTrib), DSC_REGTRIB);

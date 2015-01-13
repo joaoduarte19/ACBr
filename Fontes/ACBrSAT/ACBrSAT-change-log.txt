@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+Data: 02/01/2015
+[*] correção ecf virtual SAT
+		por: Juliomar Marchetti
+		
 Data: 21/12/2014
 -- ACBrSAT --        (por: DSA)
 [+] Adicionada nova propriedade "Status: TACBrSATStatus", que conterá os valores

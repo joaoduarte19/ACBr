@@ -58,6 +58,7 @@
         <UnitName Value="libexslt"/>
       </Item7>
     </Files>
+    <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="2">
       <Item1>
         <PackageName Value="ACBrComum"/>

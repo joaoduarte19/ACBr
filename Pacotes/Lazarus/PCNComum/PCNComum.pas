@@ -2,20 +2,14 @@
   This source is only used to compile and install the package.
  }
 
-unit PCN2;
+unit PCNComum;
 
 interface
 
 uses
   pcnAuxiliar, pcnCabecalho, pcnConversao, pcnGerador, pcnLeitor, 
-  pcnSignature, pcnValidador, LazarusPackageIntf;
+  pcnSignature, pcnValidador;
 
 implementation
 
-procedure Register;
-begin
-end;
-
-initialization
-  RegisterPackage('PCN2', @Register);
 end.

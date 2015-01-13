@@ -2,14 +2,14 @@
 <CONFIG>
   <Package Version="4">
     <PathDelim Value="\"/>
-    <Name Value="PCN2"/>
+    <Name Value="PCNComum"/>
     <Author Value="Juliomar Marchetti - Daniel Simões de Almeida"/>
     <CompilerOptions>
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <OtherUnitFiles Value="..\..\..\Fontes\PCN2"/>
-        <UnitOutputDirectory Value="..\..\..\Lib\Lazarus\PCN2\$(TargetCPU)-$(TargetOS)"/>
+        <OtherUnitFiles Value="..\..\..\Fontes\PCNComum"/>
+        <UnitOutputDirectory Value="..\..\..\Lib\Lazarus\PCNComum\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
         <SyntaxOptions>
@@ -25,37 +25,37 @@
       </Other>
     </CompilerOptions>
     <Description Value="ACBr - Projeto Cooperar - (http://br.groups.yahoo.com/group/projeto_cooperar_nfe/)"/>
+    <Version Minor="1"/>
     <Files Count="7">
       <Item1>
-        <Filename Value="..\..\..\Fontes\PCN2\pcnAuxiliar.pas"/>
+        <Filename Value="..\..\..\Fontes\PCNComum\pcnAuxiliar.pas"/>
         <UnitName Value="pcnAuxiliar"/>
       </Item1>
       <Item2>
-        <Filename Value="..\..\..\Fontes\PCN2\pcnCabecalho.pas"/>
+        <Filename Value="..\..\..\Fontes\PCNComum\pcnCabecalho.pas"/>
         <UnitName Value="pcnCabecalho"/>
       </Item2>
       <Item3>
-        <Filename Value="..\..\..\Fontes\PCN2\pcnConversao.pas"/>
+        <Filename Value="..\..\..\Fontes\PCNComum\pcnConversao.pas"/>
         <UnitName Value="pcnConversao"/>
       </Item3>
       <Item4>
-        <Filename Value="..\..\..\Fontes\PCN2\pcnGerador.pas"/>
+        <Filename Value="..\..\..\Fontes\PCNComum\pcnGerador.pas"/>
         <UnitName Value="pcnGerador"/>
       </Item4>
       <Item5>
-        <Filename Value="..\..\..\Fontes\PCN2\pcnLeitor.pas"/>
+        <Filename Value="..\..\..\Fontes\PCNComum\pcnLeitor.pas"/>
         <UnitName Value="pcnLeitor"/>
       </Item5>
       <Item6>
-        <Filename Value="..\..\..\Fontes\PCN2\pcnSignature.pas"/>
+        <Filename Value="..\..\..\Fontes\PCNComum\pcnSignature.pas"/>
         <UnitName Value="pcnSignature"/>
       </Item6>
       <Item7>
-        <Filename Value="..\..\..\Fontes\PCN2\pcnValidador.pas"/>
+        <Filename Value="..\..\..\Fontes\PCNComum\pcnValidador.pas"/>
         <UnitName Value="pcnValidador"/>
       </Item7>
     </Files>
-    <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="2">
       <Item1>
         <PackageName Value="ACBrComum"/>
