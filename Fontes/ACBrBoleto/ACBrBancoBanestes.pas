@@ -347,8 +347,6 @@ begin
                   '00'                                                    +  // número da parcela do carnê
                   '00'                                                    +  // quantidade de parcelas no carnê
                   TipoAvalista                                            +  // tipo do sacador avalista
-                  //Copy(TipoSacado,2,1)+
-                  padR('0',14,'0')                                        +  // sacador avalista. não pode ser o proprio sacado
                   padR(OnlyNumber(Sacado.SacadoAvalista.CNPJCPF),14,'0')  +  // sacador avalista. não pode ser o proprio sacado
                   aCarteira                                               +
                   Ocorrencia                                              +

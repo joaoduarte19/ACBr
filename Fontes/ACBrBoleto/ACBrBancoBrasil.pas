@@ -674,7 +674,7 @@ begin
           (ACBrBoleto.Cedente.ResponEmissao <> tbCliEmite)) then
        begin
          ANossoNumero       := '00000000000000000000';
-         ADigitoNossoNumero := '';
+         ADigitoNossoNumero := ' ';
        end
       else
        begin

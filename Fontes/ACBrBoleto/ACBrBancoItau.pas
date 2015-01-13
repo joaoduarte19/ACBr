@@ -179,60 +179,60 @@ begin
 
           { GERAR REGISTRO-HEADER DO ARQUIVO }
 
-      Result:= IntToStrZero(ACBrBanco.Numero, 3)        + //1 a 3 - Código do banco
-               '0000'                                   + //4 a 7 - Lote de serviço
-               '0'                                      + //8 - Tipo de registro - Registro header de arquivo
-               space(9)                                 + //9 a 17 Uso exclusivo FEBRABAN/CNAB
-               ATipoInscricao                           + //18 - Tipo de inscrição do cedente
-               padR(OnlyNumber(CNPJCPF), 14, '0')       + //19 a 32 -Número de inscrição do cedente
-               space(20)                                + // 33 a 52 - Brancos
-               '0'                                      + // 53 - Zeros
-               padR(OnlyNumber(Agencia), 4, '0')        + //54 a 57 - Código da agência do cedente
-               ' '                                      + // 58 - Brancos
-               '0000000'                                + // 59 a 65 - Zeros
-               padR(OnlyNumber(Conta), 5, '0')          + // 66 a 70 - Número da conta do cedente
-               ' '                                      + // 71 - Branco
-               padR(ContaDigito, 1, '0')                + // 72 - Dígito da conta do cedente
-               padL(Nome, 30, ' ')                      + // 73 a 102 - Nome do cedente
-               padL('BANCO ITAU SA', 30, ' ')           + // 103 a 132 - Nome do banco
-               space(10)                                + // 133 A 142 - Brancos
-               '1'                                      + // 143 - Código de Remessa (1) / Retorno (2)
-               FormatDateTime('ddmmyyyy', Now)          + // 144 a 151 - Data do de geração do arquivo
-               FormatDateTime('hhmmss', Now)            + // 152 a 157 - Hora de geração do arquivo
-               '000000'                                 + // 158 a 163 - Número sequencial do arquivo retorno
-               '040'                                    + // 164 a 166 - Número da versão do layout do arquivo
-               '00000'                                  + // 167 a 171 - Zeros
-               space(54)                                + // 172 a 225 - 54 Brancos
-               '000'                                    + // 226 a 228 - zeros
-               space(12);                                 // 229 a 240 - Brancos
+      Result:= IntToStrZero(ACBrBanco.Numero, 3)  + //1 a 3 - Código do banco
+               '0000'                             + //4 a 7 - Lote de serviço
+               '0'                                + //8 - Tipo de registro - Registro header de arquivo
+               space(9)                           + //9 a 17 Uso exclusivo FEBRABAN/CNAB
+               ATipoInscricao                     + //18 - Tipo de inscrição do cedente
+               padR(OnlyNumber(CNPJCPF), 14, '0') + //19 a 32 -Número de inscrição do cedente
+               space(20)                          + // 33 a 52 - Brancos
+               '0'                                + // 53 - Zeros
+               padR(OnlyNumber(Agencia), 4, '0')  + //54 a 57 - Código da agência do cedente
+               ' '                                + // 58 - Brancos
+               '0000000'                          + // 59 a 65 - Zeros
+               padR(OnlyNumber(Conta), 5, '0')    + // 66 a 70 - Número da conta do cedente
+               ' '                                + // 71 - Branco
+               padR(ContaDigito, 1, '0')          + // 72 - Dígito da conta do cedente
+               padL(Nome, 30, ' ')                + // 73 a 102 - Nome do cedente
+               padL('BANCO ITAU SA', 30, ' ')     + // 103 a 132 - Nome do banco
+               space(10)                          + // 133 A 142 - Brancos
+               '1'                                + // 143 - Código de Remessa (1) / Retorno (2)
+               FormatDateTime('ddmmyyyy', Now)    + // 144 a 151 - Data do de geração do arquivo
+               FormatDateTime('hhmmss', Now)      + // 152 a 157 - Hora de geração do arquivo
+               '000000'                           + // 158 a 163 - Número sequencial do arquivo retorno
+               '040'                              + // 164 a 166 - Número da versão do layout do arquivo
+               '00000'                            + // 167 a 171 - Zeros
+               space(54)                          + // 172 a 225 - 54 Brancos
+               '000'                              + // 226 a 228 - zeros
+               space(12);                           // 229 a 240 - Brancos
 
      { GERAR REGISTRO HEADER DO LOTE }
 
       Result:= Result + #13#10 +
-               IntToStrZero(ACBrBanco.Numero, 3)       + //1 a 3 - Código do banco
-               '0001'                                  + //4 a 7 - Lote de serviço
-               '1'                                     + //8 - Tipo de registro - Registro header de arquivo
-               'R'                                     + //9 - Tipo de operação: R (Remessa) ou T (Retorno)
-               '01'                                    + //10 a 11 - Tipo de serviço: 01 (Cobrança)
-               '00'                                    + //12 a 13 - Forma de lançamento: preencher com ZEROS no caso de cobrança
-               '030'                                   + //14 a 16 - Número da versão do layout do lote
-               ' '                                     + //17 - Uso exclusivo FEBRABAN/CNAB
-               ATipoInscricao                          + //18 - Tipo de inscrição do cedente
-               padR(OnlyNumber(CNPJCPF), 15, '0')      + //19 a 33 -Número de inscrição do cedente
-               space(20)                               + //34 a 53 - Brancos
-               '0'                                     + // 54 - Zeros
-               padR(OnlyNumber(Agencia), 4, '0')       + //55 a 58 - Código da agência do cedente
-               ' '                                     + // 59
-               '0000000'                               + // 60 a 66
-               padR(OnlyNumber(Conta), 5, '0')         + //67 a 71 - Número da conta do cedente
-               ' '                                     + // 72
-               ContaDigito                             + // 73 - Dígito verificador da agência / conta
-               padL(Nome, 30, ' ')                     + //74 a 103 - Nome do cedente
-               space(80)                               + // 104 a 183 - Brancos
-               '00000000'                              + // 184 a 191 - Número sequência do arquivo retorno.
-               FormatDateTime('ddmmyyyy', Now)         + //192 a 199 - Data de geração do arquivo
-               padR('', 8, '0')                        + //200 a 207 - Data do crédito - Só para arquivo retorno
-               space(33);                                //208 a 240 - Uso exclusivo FEBRABAN/CNAB
+               IntToStrZero(ACBrBanco.Numero, 3)   + //1 a 3 - Código do banco
+               '0001'                              + //4 a 7 - Lote de serviço
+               '1'                                 + //8 - Tipo de registro - Registro header de arquivo
+               'R'                                 + //9 - Tipo de operação: R (Remessa) ou T (Retorno)
+               '01'                                + //10 a 11 - Tipo de serviço: 01 (Cobrança)
+               '00'                                + //12 a 13 - Forma de lançamento: preencher com ZEROS no caso de cobrança
+               '030'                               + //14 a 16 - Número da versão do layout do lote
+               ' '                                 + //17 - Uso exclusivo FEBRABAN/CNAB
+               ATipoInscricao                      + //18 - Tipo de inscrição do cedente
+               padR(OnlyNumber(CNPJCPF), 15, '0')  + //19 a 33 -Número de inscrição do cedente
+               space(20)                           + //34 a 53 - Brancos
+               '0'                                 + //54 - Zeros
+               padR(OnlyNumber(Agencia), 4, '0')   + //55 a 58 - Código da agência do cedente
+               ' '                                 + //59
+               '0000000'                           + //60 a 66
+               padR(OnlyNumber(Conta), 5, '0')     + //67 a 71 - Número da conta do cedente
+               ' '                                 + //72
+               ContaDigito                         + //73 - Dígito verificador da agência / conta
+               padL(Nome, 30, ' ')                 + //74 a 103 - Nome do cedente
+               space(80)                           + //104 a 183 - Brancos
+               '00000000'                          + //184 a 191 - Número sequência do arquivo retorno.
+               FormatDateTime('ddmmyyyy', Now)     + //192 a 199 - Data de geração do arquivo
+               padR('', 8, '0')                    + //200 a 207 - Data do crédito - Só para arquivo retorno
+               space(33);                            //208 a 240 - Uso exclusivo FEBRABAN/CNAB
    end;
 end;
 

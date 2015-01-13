@@ -47,6 +47,27 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+Data: 13/01/2015 ver. 0.0.100a
+-- ACBrBanestes  --
+[-] Correção na geração da remessa CNA400 (Por francisco.itb)
+http://www.projetoacbr.com.br/forum/index.php?/topic/19359-atualiza%C3%A7%C3%A3o-da-unit-banestes/
+   
+--ACBrBancoBrasil
+[-] Correção geração CNAB400 para informar corretamente o campo digito nosso número
+    para qualquer carteira. (por Juliana Tamizou)
+
+Data: 06/01/2015 ver. 0.0.99a
+-- ACBrBoleto  --
+[*] Adição da propriedade CodigosGeracao para definir quais códigos podem ser informados
+    na geração do boleto (Atualmente utilizado somente pelo Sicredi) (Por Juliana Tamizou)
+http://www.projetoacbr.com.br/forum/index.php?/topic/18781-campo-nosso-n%C3%BAmero-sicredi/
+   
+--ACBrBancoSantander 
+[*] Adição da leitura do campo Data do Arquivo ao realizar a leitura do arquivo retorno
+    CNAB400. (por Valdemir Jacon Sanches)
+	http://www.projetoacbr.com.br/forum/index.php?/topic/19002-data-arquivo-retorno-santader/
+
+
 Data: 06/01/2014
 [-] correção de geração do numero do banestes
     http://www.projetoacbr.com.br/forum/index.php?/topic/19359-atualiza%C3%A7%C3%A3o-da-unit-banestes/
