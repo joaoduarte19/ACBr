@@ -145,7 +145,7 @@ end;
 function TEventoNFe.GerarXML: Boolean;
 var
   i: Integer;
-  sDoc: String;
+  sDoc, sModelo: String;
 begin
   Result := False;
 
@@ -154,6 +154,8 @@ begin
   Gerador.wCampo(tcInt, 'HP03', 'idLote', 001, 015, 1, FidLote, DSC_IDLOTE);
   for i := 0 to Evento.Count - 1 do
   begin
+    sModelo := Copy(OnlyNumber(Evento.Items[i].InfEvento.chNFe), 21, 2);
+
     Evento.Items[i].InfEvento.id := 'ID'+
                                       Evento.Items[i].InfEvento.TipoEvento +
                                       OnlyNumber(Evento.Items[i].InfEvento.chNFe) +
@@ -241,14 +243,16 @@ begin
                 Gerador.wCampo(tcStr, 'P30', 'idEstrangeiro', 05, 20, 1, Evento.Items[i].InfEvento.detEvento.dest.idEstrangeiro);
              end;
 
-            if Evento.Items[i].InfEvento.detEvento.dest.IE <> '' then
+            if (Evento.Items[i].InfEvento.detEvento.dest.IE <> '') and (sModelo = '55') then
               Gerador.wCampo(tcStr, 'P31', 'IE', 02, 14, 1, Evento.Items[i].InfEvento.detEvento.dest.IE);
 
 //            Gerador.wGrupo('/dest');
 
             Gerador.wCampo(tcDe2, 'P32', 'vNF',   01, 15, 1, Evento.Items[i].InfEvento.detEvento.vNF, DSC_VNF);
             Gerador.wCampo(tcDe2, 'P33', 'vICMS', 01, 15, 1, Evento.Items[i].InfEvento.detEvento.vICMS, DSC_VICMS);
-            Gerador.wCampo(tcDe2, 'P34', 'vST',   01, 15, 1, Evento.Items[i].InfEvento.detEvento.vST, DSC_VST);
+
+            if sModelo = '55' then
+              Gerador.wCampo(tcDe2, 'P34', 'vST',   01, 15, 1, Evento.Items[i].InfEvento.detEvento.vST, DSC_VST);
 
             // Alterado em 22/07/2014 por Italo
             // para ficar em conformidade com o Schema
