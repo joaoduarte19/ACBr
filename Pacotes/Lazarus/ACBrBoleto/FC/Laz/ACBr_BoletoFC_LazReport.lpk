@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="ACBr_BoletoFC_LazReport"/>
+    <Author Value="Juliana Rodrigues - Daniel Simões de Almeida"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\..\..\..\..\Fontes\ACBrBoleto\FC\Laz"/>
+        <UnitOutputDirectory Value="..\..\..\..\..\Lib\Lazarus\ACBrBoleto\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Other>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="ACBr - Boleto Impressão em LazReport - (http://www.projectoacbr.com.br/)"/>
+    <Version Minor="1"/>
+    <Files Count="1">
+      <Item1>
+        <Filename Value="..\..\..\..\..\Fontes\ACBrBoleto\FC\Laz\ACBrBoletoFCLazReportDm.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ACBrBoletoFCLazReportDm"/>
+      </Item1>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="6">
+      <Item1>
+        <PackageName Value="Printer4Lazarus"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="pack_powerpdf"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="lazreportpdfexport"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="ACBr_Boleto"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="lazreport"/>
+      </Item5>
+      <Item6>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item6>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

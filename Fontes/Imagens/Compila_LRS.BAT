@@ -87,11 +87,11 @@ echo.
 :Boleto
 %1\tools\lazres.exe ACBrBoleto.lrs TACBrBoleto.bmp
 %1\tools\lazres.exe ACBrBoletoFCFortes.lrs TACBrBoletoFCFortes.bmp
-%1\tools\lazres.exe ACBrBoletoFCLazReport.lrs TACBrBoletoFCLazReport.bmp ..\ACBrBoleto\FCLazReport_Padrao.lrf ..\ACBrBoleto\FCLazReport_CompEntrega.lrf ..\ACBrBoleto\FCLazReport_Carne.lrf
+%1\tools\lazres.exe ACBrBoletoFCLazReport.lrs TACBrBoletoFCLazReport.bmp ..\ACBrBoleto\FC\Laz\FCLazReport_Padrao.lrf ..\ACBrBoleto\FC\Laz\FCLazReport_CompEntrega.lrf ..\ACBrBoleto\FC\Laz\FCLazReport_Carne.lrf
 
 move ACBrBoleto.lrs ..\ACBrBoleto
-move ACBrBoletoFCFortes.lrs ..\ACBrBoleto
-move ACBrBoletoFCLazReport.lrs ..\ACBrBoleto
+move ACBrBoletoFCFortes.lrs ..\ACBrBoleto\FC\Fortes
+move ACBrBoletoFCLazReport.lrs ..\ACBrBoleto\FC\Laz
 echo.
 echo "****************************************"
 echo "* Arquivo   ACBrBoleto.lrs   gerado    *"
