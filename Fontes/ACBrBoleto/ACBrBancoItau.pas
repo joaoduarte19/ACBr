@@ -389,8 +389,8 @@ begin
             '0001'                                                     + //Número do lote
             '5'                                                        + //Tipo do registro: Registro trailer do lote
             Space(9)                                                   + //Uso exclusivo FEBRABAN/CNAB
-            IntToStrZero(ARemessa.Count, 6)                            + //Quantidade de Registro da Remessa
-            padR('', 6, '0')                                           + // Quantidade de títulos em cobrança simples
+            IntToStrZero(ARemessa.Count + 2, 6)                        + //Quantidade de Registro da Remessa (Somando 1 para o header do lote e 1 para o trailer do lote)
+            padR('', 6, '0')                                           + //Quantidade de títulos em cobrança simples
             padR('',17, '0')                                           + //Valor dos títulos em cobrança simples
             padR('', 6, '0')                                           + //Quantidade títulos em cobrança vinculada
             padR('',17, '0')                                           + //Valor dos títulos em cobrança vinculada
@@ -405,7 +405,11 @@ begin
             '9'                                                        + //Tipo do registro: Registro trailer do arquivo
             space(9)                                                   + //Uso exclusivo FEBRABAN/CNAB}
             '000001'                                                   + //Quantidade de lotes do arquivo}
-            IntToStrZero(ARemessa.Count, 6)                            + //Quantidade de registros do arquivo, inclusive este registro que está sendo criado agora}
+            IntToStrZero(ARemessa.Count + 4, 6)                        + //Quantidade de registros do arquivo
+                                                                           {Somando 1 para o header do arquivo,
+                                                                                    1 para o header do lote,
+                                                                                    1 para o trailer do lote e
+                                                                                    1 para o trailer do arquivo}
             padR('', 6, '0')                                           + //Complemento
             space(205);
 end;
