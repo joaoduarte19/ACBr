@@ -749,6 +749,7 @@ begin
   4204350, // Cordilheira Alta/SC
   4204509, // Corupá/SC
   4204608, // Criciúma/SC
+  4204806, // Curitibanos (SC)
   4205001, // Dionísio Cerqueira/SC
   4205308, // Faxinal Dos Guedes/SC
   4205555, // Frei Rogério/SC
@@ -766,6 +767,7 @@ begin
   4209300, // Lages/SC
   4209409, // Laguna/SC
   4210001, // Luiz Alves/SC
+  4210035, // Luzerna (SC)
   4211058, // Monte Carlo/SC
   4211306, // Navegantes/SC
   4211702, // Orleans/SC
@@ -789,6 +791,7 @@ begin
   4216909, // São Lourenço do Oeste/SC
   4217204, // São Miguel do Oeste/SC
   4217402, // Schroeder/SC
+  4217501, // Seara (SC)
   4217600, // Siderópolis/SC
   4217808, // Taió/SC
   4217907, // Tangará/SC
@@ -806,6 +809,7 @@ begin
   4320206, // Seberi/RS
   4321501, // Torres/RS
   4321907, // Tres Passos/RS
+  4218509,  // Treze Tilias (sc)
   5006200, // Nova Andradina/MS
   5100201, // Água Boa/MT
   5102686, // Campos de Júlio/MT
