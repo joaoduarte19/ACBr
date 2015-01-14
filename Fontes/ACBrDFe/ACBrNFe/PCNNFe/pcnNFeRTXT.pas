@@ -528,10 +528,13 @@ begin
     (*I22*)NFe.Det[i].Prod.DI[j].UFDesemb := LerCampo(tcStr, 'UFDesemb');
     (*I23*)NFe.Det[i].Prod.DI[j].dDesemb := LerCampo(tcDat, 'dDesemb');
            NFe.Det[i].Prod.DI[j].tpViaTransp := StrToTipoViaTransp(ok, LerCampo(tcStr, 'tpViaTransp'));
-           NFe.Det[i].Prod.DI[j].vAFRMM := LerCampo(tcStr, 'vAFRMM');
-           NFe.Det[i].Prod.DI[j].tpIntermedio := StrToTipoIntermedio(ok, LerCampo(tcStr, 'tpIntermedio'));
-           NFe.Det[i].Prod.DI[j].CNPJ := LerCampo(tcStr, 'CNPJ');
-           NFe.Det[i].Prod.DI[j].UFTerceiro := LerCampo(tcStr, 'UFTerceiro'); 
+           if (NFe.infNFe.Versao >= 3.10) then
+           begin
+             NFe.Det[i].Prod.DI[j].vAFRMM := LerCampo(tcStr, 'vAFRMM');
+             NFe.Det[i].Prod.DI[j].tpIntermedio := StrToTipoIntermedio(ok, LerCampo(tcStr, 'tpIntermedio'));
+             NFe.Det[i].Prod.DI[j].CNPJ := LerCampo(tcStr, 'CNPJ');
+             NFe.Det[i].Prod.DI[j].UFTerceiro := LerCampo(tcStr, 'UFTerceiro');
+           end;
     (*I24*)NFe.Det[i].Prod.DI[j].cExportador := LerCampo(tcStr, 'cExportador');
   end;
 

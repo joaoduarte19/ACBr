@@ -47,6 +47,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+14/01/2015
+[*] correção para não popular campos que não existem em nf-e inferior a 3.10
+		http://www.projetoacbr.com.br/forum/index.php?/topic/19454-erro-em-nota-de-importa%C3%A7%C3%A3o-campo-vafrmm/
+		por: Juliomar Marchetti
+		
 05/01/2015
 [*] Correção na URL de produção do WebServices: NFeDistribuicaoDFe
     por: LVR
