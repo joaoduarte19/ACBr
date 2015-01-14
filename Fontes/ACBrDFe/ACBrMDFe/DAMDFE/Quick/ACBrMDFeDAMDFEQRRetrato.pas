@@ -90,18 +90,15 @@ type
     qrlModal: TQRLabel;
     QRLabel6: TQRLabel;
     QRLabel5: TQRLabel;
-    QRLabel7: TQRLabel;
     QRLabel10: TQRLabel;
     QRLabel11: TQRLabel;
     QRLabel12: TQRLabel;
     QRShape3: TQRShape;
-    QRShape4: TQRShape;
     QRShape5: TQRShape;
     QRShape6: TQRShape;
     QRShape7: TQRShape;
     qrlCIOT: TQRLabel;
     qrlqCTe: TQRLabel;
-    qrlqCT: TQRLabel;
     qrlqNFe: TQRLabel;
     qrlqNF: TQRLabel;
     qrlPesoTotal: TQRLabel;
@@ -181,6 +178,9 @@ type
     qrmCodDescarreg: TQRMemo;
     qrmNomeCarreg: TQRMemo;
     qrmNomeDescarreg: TQRMemo;
+    QRShape27: TQRShape;
+    QRLabel31: TQRLabel;
+    qrlUFDescarrega: TQRLabel;
     procedure QRMDFeBeforePrint(Sender: TCustomQuickRep;
       var PrintReport: Boolean);
     procedure qrb_1_DadosManifestoBeforePrint(Sender: TQRCustomBand;
@@ -329,12 +329,13 @@ begin
      ' após esta impressão (' + DFeUtil.FormatDateTime(DateTimeToStr(Now)) + ')';
    end;
 
-  qrlModelo.Caption     := FMDFe.Ide.modelo;
-  qrlSerie.Caption      := FormatFloat('000', FMDFe.Ide.serie);
-  qrlNumMDFe.Caption    := FormatFloat('000,000,000', FMDFe.Ide.nMDF);
-  qrlPageNumber.Caption := format('%2.2d', [QRMDFe.PageNumber]) + '/' + format('%2.2d', [FTotalPages]);
-  qrlEmissao.Caption    := DFeUtil.FormatDateTime(DateTimeToStr(FMDFe.Ide.dhEmi));
-  qrlUFCarrega.Caption  := FMDFe.Ide.UFIni;
+  qrlModelo.Caption       := FMDFe.Ide.modelo;
+  qrlSerie.Caption        := FormatFloat('000', FMDFe.Ide.serie);
+  qrlNumMDFe.Caption      := FormatFloat('000,000,000', FMDFe.Ide.nMDF);
+  qrlPageNumber.Caption   := format('%2.2d', [QRMDFe.PageNumber]) + '/' + format('%2.2d', [FTotalPages]);
+  qrlEmissao.Caption      := DFeUtil.FormatDateTime(DateTimeToStr(FMDFe.Ide.dhEmi));
+  qrlUFCarrega.Caption    := FMDFe.Ide.UFIni;
+  qrlUFDescarrega.Caption := FMDFe.Ide.UFFim;
 
   qrlCIOT.Caption := '';
   // TMDFeModal = ( moRodoviario, moAereo, moAquaviario, moFerroviario );
@@ -355,7 +356,7 @@ begin
   end;
 
   qrlqCTe.Caption  := FormatFloat('##0', FMDFe.tot.qCTe);
-  qrlqCT.Caption   := FormatFloat('##0', FMDFe.tot.qCT);
+//  qrlqCT.Caption   := FormatFloat('##0', FMDFe.tot.qCT);
   qrlqNFe.Caption  := FormatFloat('##0', FMDFe.tot.qNFe);
   qrlqNF.Caption   := FormatFloat('##0', FMDFe.tot.qNF);
   qrlqMDFe.Caption := FormatFloat('##0', FMDFe.tot.qMDFe);
