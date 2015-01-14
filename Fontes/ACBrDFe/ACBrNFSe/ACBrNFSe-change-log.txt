@@ -51,6 +51,10 @@ Símbolo : Significado
 [*] Incluido a cidade de Pouso Alegre/MG no provedor Ginfes.
     Por: Italo Jurisato Junior
 
+14/01/2015
+[*] Incluido o CoInitialize na function AssinarXML (ACBrNFSeUtil).
+    Por: Julio_cld
+
 09/01/2015
 [*] Incluido a cidade de Congonhas/MG no provedor Betha.
     Por: edulamy

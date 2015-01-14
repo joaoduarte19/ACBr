@@ -1263,6 +1263,8 @@ var
  dsigKey   : IXMLDSigKey;
  signedKey : IXMLDSigKey;
 begin
+   CoInitialize(nil);
+   Try
    if ASincrono
     then EnviarLoteRps := 'EnviarLoteRpsSincronoEnvio'
     else EnviarLoteRps := 'EnviarLoteRpsEnvio';
@@ -1394,6 +1396,9 @@ begin
  xmldsig   := nil;
 
  Result := True;
+   Finally
+      CoUninitialize;
+   End;
 end;
 {$ENDIF}
 
