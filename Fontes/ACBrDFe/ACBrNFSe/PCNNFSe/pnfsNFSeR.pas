@@ -713,32 +713,51 @@ function TNFSeR.LerRPS: Boolean;
 var
  CM: String;
  Ok: Boolean;
- AProvedor: TnfseProvedor;
 begin
 
  Result := False;
 
- if (Leitor.rExtrai(1, 'OrgaoGerador') <> '')
-  then begin
-   CM := Leitor.rCampo(tcStr, 'CodigoMunicipio');
-   AProvedor := StrToProvedor(Ok, CodCidadeToProvedor(StrToIntDef(CM, 0)));
-  end
- else if (Leitor.rExtrai(1, 'Servico') <> '') //Adicionado porque estava pegando o CNPJ do Tomador para ConsultarNFSeporRps
-  then begin
-   CM := Leitor.rCampo(tcStr, 'CodigoMunicipio');
-   AProvedor := StrToProvedor(Ok, CodCidadeToProvedor(StrToIntDef(CM, 0)));
-  end
-  { Alterado Por Cleiver em - 22-08-2014 }
- else if (Leitor.rExtrai(1, 'Cabecalho') <> '') // ISSDSF
-  then begin
-   CM := CodSiafiToCodCidade( Leitor.rCampo(tcStr, 'CodCidade') );
-   AProvedor := StrToProvedor(Ok, CodCidadeToProvedor(StrToIntDef(CM, 0)));
-  end
- else AProvedor := proNenhum;
+ if FProvedor = proNenhum then
+ begin
+   if (Leitor.rExtrai(1, 'OrgaoGerador') <> '') then
+   begin
+     CM := Leitor.rCampo(tcStr, 'CodigoMunicipio');
+     FProvedor := StrToProvedor(Ok, CodCidadeToProvedor(StrToIntDef(CM, 0)));
+   end;
 
- if (AProvedor <> proNenhum) and (AProvedor <> FProvedor) then
-   FProvedor := AProvedor;
-   
+   if (CM = '') or (CM = '0') then
+   begin
+     if (Leitor.rExtrai(1, 'Servico') <> '') then
+     begin
+       CM := Leitor.rCampo(tcStr, 'CodigoMunicipio');
+       FProvedor := StrToProvedor(Ok, CodCidadeToProvedor(StrToIntDef(CM, 0)));
+     end;
+   end;
+
+    { Alterado Por Cleiver em - 22-08-2014 } // ISSDSF
+   if (Leitor.rExtrai(1, 'Cabecalho') <> '') then
+   begin
+     CM := CodSiafiToCodCidade( Leitor.rCampo(tcStr, 'CodCidade') );
+     FProvedor := StrToProvedor(Ok, CodCidadeToProvedor(StrToIntDef(CM, 0)));
+   end;
+
+   if (CM = '') or (CM = '0') then
+   begin
+     if (Leitor.rExtrai(1, 'PrestadorServico') <> '') then
+     begin
+       CM := OnlyNumber(Leitor.rCampo(tcStr, 'CodigoMunicipio'));
+       if CM = '' then
+         CM := Leitor.rCampo(tcStr, 'Cidade');
+       FProvedor := StrToProvedor(Ok, CodCidadeToProvedor(StrToIntDef(CM, 0)));
+     end
+     else
+       FProvedor := proNenhum;
+   end;
+   { Alterado Por Cleiver em - 22-08-2014 }
+   if (FProvedor = proNenhum) and (Pos('https://nfse.goiania.go.gov.br/ws/', Leitor.Arquivo) > 0)  then
+     FProvedor := proGoiania;
+ end;
+
  { Alterado Por Cleiver em - 22-08-2014 }
  if (Leitor.rExtrai(1, 'Rps') <> '') or (Leitor.rExtrai(1, 'RPS') <> '') then
  begin
@@ -1703,40 +1722,41 @@ function TNFSeR.LerNFSe: Boolean;
 var
  ok: Boolean;
  CM: String;
- AProvedor: TnfseProvedor;
 begin
- if (Leitor.rExtrai(1, 'OrgaoGerador') <> '')
-  then begin
-   CM := Leitor.rCampo(tcStr, 'CodigoMunicipio');
-   AProvedor := StrToProvedor(Ok, CodCidadeToProvedor(StrToIntDef(CM, 0)));
-  end;
 
- if (CM = '') or (CM = '0')
-  then begin
-   if (Leitor.rExtrai(1, 'Servico') <> '')
-    then begin
+ if FProvedor = proNenhum then
+ begin
+   if (Leitor.rExtrai(1, 'OrgaoGerador') <> '') then
+   begin
      CM := Leitor.rCampo(tcStr, 'CodigoMunicipio');
-     AProvedor := StrToProvedor(Ok, CodCidadeToProvedor(StrToIntDef(CM, 0)));
-    end;
-  end;
+     FProvedor := StrToProvedor(Ok, CodCidadeToProvedor(StrToIntDef(CM, 0)));
+   end;
 
- if (CM = '') or (CM = '0')
-  then begin
-   if (Leitor.rExtrai(1, 'PrestadorServico') <> '')
-    then begin
-     CM := OnlyNumber(Leitor.rCampo(tcStr, 'CodigoMunicipio'));
-     if CM = '' then
-       CM := Leitor.rCampo(tcStr, 'Cidade');
-     AProvedor := StrToProvedor(Ok, CodCidadeToProvedor(StrToIntDef(CM, 0)));
-    end
-    else AProvedor := proNenhum;
-  end;
-  { Alterado Por Cleiver em - 22-08-2014 }
- if (AProvedor = proNenhum) and (Pos('https://nfse.goiania.go.gov.br/ws/', Leitor.Arquivo) > 0)  then
-   AProvedor := proGoiania;
+   if (CM = '') or (CM = '0') then
+   begin
+     if (Leitor.rExtrai(1, 'Servico') <> '') then
+     begin
+       CM := Leitor.rCampo(tcStr, 'CodigoMunicipio');
+       FProvedor := StrToProvedor(Ok, CodCidadeToProvedor(StrToIntDef(CM, 0)));
+     end;
+   end;
 
- if (AProvedor <> proNenhum) and (AProvedor <> FProvedor) then
-   FProvedor := AProvedor;
+   if (CM = '') or (CM = '0') then
+   begin
+     if (Leitor.rExtrai(1, 'PrestadorServico') <> '') then
+     begin
+       CM := OnlyNumber(Leitor.rCampo(tcStr, 'CodigoMunicipio'));
+       if CM = '' then
+         CM := Leitor.rCampo(tcStr, 'Cidade');
+       FProvedor := StrToProvedor(Ok, CodCidadeToProvedor(StrToIntDef(CM, 0)));
+     end
+     else
+       FProvedor := proNenhum;
+   end;
+   { Alterado Por Cleiver em - 22-08-2014 }
+   if (FProvedor = proNenhum) and (Pos('https://nfse.goiania.go.gov.br/ws/', Leitor.Arquivo) > 0)  then
+     FProvedor := proGoiania;
+ end;
 
  if (Leitor.rExtrai(1, 'Nfse') <> '') or (Pos('Nfse versao="2.01"', Leitor.Arquivo) > 0) then
  begin
