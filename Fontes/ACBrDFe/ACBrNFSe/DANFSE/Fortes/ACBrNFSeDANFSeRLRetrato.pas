@@ -165,6 +165,7 @@ type
     RLLabel60: TRLLabel;
     RLLabel61: TRLLabel;
     rllTomaInscEstadual: TRLLabel;
+    rllTomadorNomeEnt: TRLLabel;
     procedure rlbCabecalhoBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure rlbPrestadorBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure rlbTomadorBeforePrint(Sender: TObject; var PrintIt: Boolean);
@@ -603,6 +604,7 @@ begin
 
  rllPrestNomeEnt.Caption := FRazaoSocial;
  rllNumNF0Ent.Caption    := FormatFloat('00000000000', StrToFloat(FNFSe.Numero));
+ rllTomadorNomeEnt.Caption := 'Emissão:' + FormatDateTime('dd/mm/yy',FNFSe.DataEmissao) + '-Tomador:'+FNFSe.Tomador.RazaoSocial+'-Total:' + FormatFloat('##,##0.00',FNFSe.Servico.Valores.ValorLiquidoNfse) ;
 end;
 
 procedure TfrlDANFSeRLRetrato.rlbTomadorBeforePrint(Sender: TObject;

@@ -8,8 +8,8 @@ inherited frlDANFSeRLRetrato: TfrlDANFSeRLRetrato
   PixelsPerInch = 96
   TextHeight = 13
   inherited RLNFSe: TRLReport
-    Left = 12
-    Top = -437
+    Left = 8
+    Top = 24
     Margins.LeftMargin = 6.000000000000000000
     Margins.TopMargin = 8.000000000000000000
     Margins.RightMargin = 5.099999999999999000
@@ -2699,7 +2699,7 @@ inherited frlDANFSeRLRetrato: TfrlDANFSeRLRetrato
       end
       object RLLabel26: TRLLabel
         Left = 5
-        Top = 8
+        Top = 7
         Width = 78
         Height = 14
         Caption = 'Recebi(emos) de'
@@ -2713,7 +2713,7 @@ inherited frlDANFSeRLRetrato: TfrlDANFSeRLRetrato
       end
       object rllPrestNomeEnt: TRLLabel
         Left = 88
-        Top = 8
+        Top = 7
         Width = 505
         Height = 15
         AutoSize = False
@@ -2728,7 +2728,7 @@ inherited frlDANFSeRLRetrato: TfrlDANFSeRLRetrato
       end
       object RLLabel28: TRLLabel
         Left = 6
-        Top = 20
+        Top = 19
         Width = 351
         Height = 14
         Caption = 
@@ -2781,8 +2781,8 @@ inherited frlDANFSeRLRetrato: TfrlDANFSeRLRetrato
         Transparent = False
       end
       object RLLabel33: TRLLabel
-        Left = 399
-        Top = 57
+        Left = 202
+        Top = 53
         Width = 137
         Height = 10
         Caption = 'Identifica'#231#227'o e Assinatura do Recebedor'
@@ -2795,16 +2795,16 @@ inherited frlDANFSeRLRetrato: TfrlDANFSeRLRetrato
         Transparent = False
       end
       object RLDraw5: TRLDraw
-        Left = 365
-        Top = 55
-        Width = 221
+        Left = 345
+        Top = 64
+        Width = 248
         Height = 1
         Brush.Style = bsClear
         DrawKind = dkLine
       end
       object RLLabel58: TRLLabel
-        Left = 88
-        Top = 58
+        Left = 12
+        Top = 53
         Width = 25
         Height = 10
         Caption = 'DATA'
@@ -2817,8 +2817,8 @@ inherited frlDANFSeRLRetrato: TfrlDANFSeRLRetrato
         Transparent = False
       end
       object RLLabel59: TRLLabel
-        Left = 33
-        Top = 44
+        Left = 54
+        Top = 53
         Width = 136
         Height = 12
         Caption = '_______ / _______ / __________'
@@ -2829,6 +2829,20 @@ inherited frlDANFSeRLRetrato: TfrlDANFSeRLRetrato
         Font.Style = []
         ParentFont = False
         Transparent = False
+      end
+      object rllTomadorNomeEnt: TRLLabel
+        Left = 6
+        Top = 32
+        Width = 591
+        Height = 15
+        AutoSize = False
+        Caption = '<Nome do Tomador>'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Times New Roman'
+        Font.Style = [fsBold]
+        ParentFont = False
       end
     end
   end
