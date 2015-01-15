@@ -47,6 +47,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+Data: 15/01/2015 ver. 0.0.102a
+
+-- ACBrCaixaEconomica --
+[-] Correção totalizadores CNAB240 .(Juliana Tamizou)
+http://www.projetoacbr.com.br/forum/index.php?/topic/19058-erro-remessa-cef/
+
+
 Data: 14/01/2015 ver. 0.0.101a
 
 [*] Alteradas units ACBrBanestes para ACBrBancoBanestes e ACBrBicBanco para ACBrBancoBic de forma

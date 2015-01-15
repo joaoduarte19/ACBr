@@ -385,7 +385,6 @@ begin
       {SEGMENTO P}
 
       {Pegando o Tipo de Ocorrencia}
-      // DONE -oJacinto Junior: Ajustar para utilizar as ocorrências corretas.
       case OcorrenciaOriginal.Tipo of
         toRemessaBaixar                        : ATipoOcorrencia := '02';
         toRemessaConcederAbatimento            : ATipoOcorrencia := '04';
@@ -402,31 +401,12 @@ begin
         ATipoOcorrencia := '01';
       end;
 
-      // Implementação obsoleta.
-      {***
-      case OcorrenciaOriginal.Tipo of
-         toRemessaBaixar                    : ATipoOcorrencia := '02';
-         toRemessaConcederAbatimento        : ATipoOcorrencia := '04';
-         toRemessaCancelarAbatimento        : ATipoOcorrencia := '05';
-         toRemessaAlterarVencimento         : ATipoOcorrencia := '06';
-         toRemessaConcederDesconto          : ATipoOcorrencia := '07';
-         toRemessaCancelarDesconto          : ATipoOcorrencia := '08';
-         toRemessaProtestar                 : ATipoOcorrencia := '09';
-         toRemessaCancelarInstrucaoProtesto : ATipoOcorrencia := '10';
-         toRemessaAlterarNomeEnderecoSacado : ATipoOcorrencia := '12';
-         toRemessaDispensarJuros            : ATipoOcorrencia := '31';
-      else
-         ATipoOcorrencia := '01';
-      end;
-      ***}
-
       { Pegando o Aceite do Titulo }
       case Aceite of
          atSim :  ATipoAceite := 'A';
          atNao :  ATipoAceite := 'N';
       end;
 
-      // DONE -oJacinto Junior: Utilizar a espécie correta do título.
       if AnsiSameText(EspecieDoc, 'CH') then
         AEspecieDoc := '01'
       else if AnsiSameText(EspecieDoc, 'DM') then
@@ -480,25 +460,6 @@ begin
       else
         AEspecieDoc := '99';
 
-    // Implementação obsoleta.
-//    { Pegando o tipo de EspecieDoc }
-//    if EspecieDoc = 'DM' then
-//      EspecieDoc := '02'
-//    else if EspecieDoc = 'NP' then
-//      EspecieDoc := '12'
-//    else if EspecieDoc = 'NS' then
-//      EspecieDoc := '16'
-//    else if EspecieDoc = 'RC' then
-//      EspecieDoc := '17'
-//    else if EspecieDoc = 'LC' then
-//      EspecieDoc := '07'
-//    else if EspecieDoc = 'DS' then
-//      EspecieDoc := '04'
-//    else if EspecieDoc = 'ND' then
-//      EspecieDoc := '19'
-//    else
-//      EspecieDoc := '02';
-        
       {Pegando Tipo de Boleto} //Quem emite e quem distribui o boleto?
       case ACBrBoleto.Cedente.ResponEmissao of
          tbBancoEmite      : ATipoBoleto := '1' + '1';
@@ -510,8 +471,6 @@ begin
       {Mora Juros}
       if (ValorMoraJuros > 0) then
        begin
-         // DONE -oJacinto Junior: Ajustar pois DataMoraJuros é do tipo inteiro e sempre será diferente de nulo.
-//         if (DataMoraJuros <> Null) then
          if DataMoraJuros <> 0 then
             ADataMoraJuros := FormatDateTime('ddmmyyyy', DataMoraJuros)
          else
@@ -555,8 +514,6 @@ begin
                IntToStrZero( round( ValorDocumento * 100), 15)            + //86 a 100 - Valor nominal do título
                padL('', 5, '0')                                           + //101 a 105 - Agência cobradora. Se ficar em branco, a caixa determina automaticamente pelo CEP do sacado
                '0'                                                        + //106 - Dígito da agência cobradora
-               // DONE -oJacinto Junior: Utilizar a espécie correta do título.
- //              padL(EspecieDoc,2)                                         + //107 a 108 - Espécie do documento
                padL(AEspecieDoc, 2)                                       + // 107 a 108 - Espécie do documento
                ATipoAceite                                                + //109 - Identificação de título Aceito / Não aceito
                FormatDateTime('ddmmyyyy', DataDocumento)                  + //110 a 117 - Data da emissão do documento
@@ -569,17 +526,9 @@ begin
                IntToStrZero( round(ValorIOF * 100), 15)                   + //166 a 180 - Valor do IOF a ser recolhido
                IntToStrZero( round(ValorAbatimento * 100), 15)            + //181 a 195 - Valor do abatimento
                padL(IfThen(SeuNumero<>'',SeuNumero,NumeroDocumento), 25, ' ') + //196 a 220 - Identificação do título na empresa
-
-               // DONE -oJacinto Junior: Ajustar pois DataProtesto é do tipo inteiro e sempre será diferente de nulo.
-//               IfThen((DataProtesto <> null) and (DataProtesto > Vencimento), '1', '3') + //221 - Código de protesto: Protestar em XX dias corridos
-//               IfThen((DataProtesto <> null) and (DataProtesto > Vencimento),
                IfThen((DataProtesto <> 0) and (DataProtesto > Vencimento), '1', '3') + //221 - Código de protesto: Protestar em XX dias corridos
                IfThen((DataProtesto <> 0) and (DataProtesto > Vencimento),
                     padR(IntToStr(DaysBetween(DataProtesto, Vencimento)), 2, '0'), '00') + //222 a 223 - Prazo para protesto (em dias corridos)
-
-               // DONE -oJacinto Junior: Ajustar para permitir a baixa e devolução do título.
-//               '2'                                                        + //224 - Código para baixa/devolução: Não baixar/não devolver
-//               padL('',3,'0')                                             + //225 a 227 - Prazo para baixa/devolução (em dias corridos)
                IfThen((DataBaixa <> 0) and (DataBaixa > Vencimento), '1', '2') + //224 - Código para baixa/devolução: Não baixar/não devolver
                IfThen((DataBaixa <> 0) and (DataBaixa > Vencimento),
                  padR(IntToStr(DaysBetween(DataBaixa, Vencimento)), 3, '0'), '000') + //225 a 227 - Prazo para baixa/devolução (em dias corridos)
@@ -642,15 +591,19 @@ begin
 end;
 
 function TACBrCaixaEconomica.GerarRegistroTrailler240( ARemessa : TStringList ): String;
+var
+  wQTDTitulos: Integer;
 begin
+
+   wQTDTitulos := ARemessa.Count - 1;
    {REGISTRO TRAILER DO LOTE}
    Result:= IntToStrZero(ACBrBanco.Numero, 3)                          + //Código do banco
             '0001'                                                     + //Lote de Serviço
             '5'                                                        + //Tipo do registro: Registro trailer do lote
             Space(9)                                                   + //Uso exclusivo FEBRABAN/CNAB
-            IntToStrZero((3*ARemessa.Count), 6)                        + //Quantidade de Registro no Lote
-            IntToStrZero((ARemessa.Count-1), 6)+ // padL('', 6, '0')                                           + //Quantidade títulos em cobrança
-            IntToStrZero( round( fValorTotalDocs * 100), 17)+ // padL('',17, '0')                                           + //Valor dos títulos em carteiras}
+            IntToStrZero((3* wQTDTitulos + 2 ), 6)                     + //Quantidade de Registro no Lote (Registros P,Q,R, header e trailer do lote)
+            IntToStrZero((wQTDTitulos), 6)                             + //Quantidade títulos em cobrança
+            IntToStrZero( round( fValorTotalDocs * 100), 17)           + //Valor dos títulos em carteiras}
             padL('', 6, '0')                                           + //Quantidade títulos em cobrança
             padL('',17, '0')                                           + //Valor dos títulos em carteiras}
             padL('',6,  '0')                                           + //Quantidade títulos em cobrança
@@ -664,8 +617,8 @@ begin
             '9999'                                                     + //Lote de serviço
             '9'                                                        + //Tipo do registro: Registro trailer do arquivo
             padL('',9,' ')                                             + //Uso exclusivo FEBRABAN/CNAB}
-            '000001'                                                   + //Quantidade de lotes do arquivo}
-            IntToStrZero((3*ARemessa.Count)+2, 6)                      + //Quantidade de registros do arquivo, inclusive este registro que está sendo criado agora}
+            '000001'                                                   + //Quantidade de lotes do arquivo (Registros P,Q,R, header e trailer do lote e do arquivo)
+            IntToStrZero((3* wQTDTitulos)+4, 6)                        + //Quantidade de registros do arquivo, inclusive este registro que está sendo criado agora}
             padL('',6,' ')                                             + //Uso exclusivo FEBRABAN/CNAB}
             padL('',205,' ');                                            //Uso exclusivo FEBRABAN/CNAB}
 end;
