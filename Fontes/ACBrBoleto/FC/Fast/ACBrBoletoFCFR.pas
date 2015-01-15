@@ -107,7 +107,7 @@ implementation
 
 {$R *.dfm}
 
-uses ACBrUtil, ACBrBanestes;
+uses ACBrUtil, ACBrBancoBanestes;
 
 { TdmACBrBoletoFCFR }
 procedure TdmACBrBoletoFCFR.frxReportBeforePrint(Sender: TfrxReportComponent);
@@ -532,7 +532,7 @@ begin
             Field_Instrucao2.AsString          := ListadeBoletos[iFor].Instrucao2;
             Field_TextoLivre.AsString          := ListadeBoletos[iFor].TextoLivre;
             if ACBrBoleto.Banco.Numero = 21 then
-              Field_Asbace.AsString            := TACBrBanestes(Banco).CalcularCampoASBACE(ListadeBoletos[iFor]);
+              Field_Asbace.AsString            := TACBrBancoBanestes(Banco).CalcularCampoASBACE(ListadeBoletos[iFor]);
 
             // Sacado
             Field_Sacado_NomeSacado.AsString   := ListadeBoletos[iFor].Sacado.NomeSacado;

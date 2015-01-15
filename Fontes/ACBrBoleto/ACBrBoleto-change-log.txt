@@ -47,6 +47,20 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+Data: 14/01/2015 ver. 0.0.101a
+
+[*] Alteradas units ACBrBanestes para ACBrBancoBanestes e ACBrBicBanco para ACBrBancoBic de forma
+    a seguir a padronização do componente.(Daniel Simões)
+
+-- ACBrBancoItau  --
+[-] Correção na geração da remessa CNAB240 (Por Juliana Tamizou)
+http://www.projetoacbr.com.br/forum/index.php?/topic/19473-problema-com-arquivo-de-remessa-boleto-itau/
+   
+--ACBrBancoSicredi
+[*] Corrigido anotações no fonte que expliocavam de forma incorreta o uso do campo Modalidade. 
+   (por Juliana Tamizou)
+
+
 Data: 13/01/2015 ver. 0.0.100a
 -- ACBrBanestes  --
 [-] Correção na geração da remessa CNA400 (Por francisco.itb)
