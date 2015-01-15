@@ -193,6 +193,10 @@ move ACBrSAT.lrs ..\ACBrSAT
 %1\tools\lazres.exe ACBrSATExtratoFortes.lrs TACBrSATExtratoFortes.bmp
 move ACBrSATExtratoFortes.lrs ..\ACBrSAT
 
+%1\tools\lazres.exe ACBrECFVirtualSAT.lrs TACBrECFVirtualSAT.bmp
+move ACBrECFVirtualSAT.lrs ..\ACBrSAT\ACBrECFVirtualSAT
+
+TACBrECFVirtualSAT.bmp
 echo.
 echo "********************************************************************"
 echo "*   Arquivos   ACBrSAT.lrs, ACBrSATExtratoFortes.lrs   gerados     *"

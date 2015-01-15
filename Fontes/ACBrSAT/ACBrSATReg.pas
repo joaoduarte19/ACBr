@@ -38,18 +38,8 @@ unit ACBrSATReg;
 interface
 
 uses
-  Classes, SysUtils, ACBrSAT, {ACBrSATExtratoESCPOS,} 
-  {$IFDEF VisualCLX} QDialogs {$ELSE} Dialogs, FileCtrl {$ENDIF},
-  {$IFDEF FPC}
-     LResources, LazarusPackageIntf, PropEdits, componenteditors
-  {$ELSE}
-    {$IFNDEF COMPILER6_UP}
-       DsgnIntf
-    {$ELSE}
-       DesignIntf,
-       DesignEditors
-    {$ENDIF}
-  {$ENDIF} ;
+  Classes, SysUtils, ACBrSAT
+  {$IFDEF FPC}, LResources {$ENDIF} ;
 
 
 procedure Register;

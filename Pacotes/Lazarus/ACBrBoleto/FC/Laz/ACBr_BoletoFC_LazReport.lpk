@@ -25,26 +25,13 @@
       </Item1>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="6">
+    <RequiredPkgs Count="2">
       <Item1>
-        <PackageName Value="Printer4Lazarus"/>
+        <PackageName Value="lazreportpdfexport"/>
       </Item1>
       <Item2>
-        <PackageName Value="pack_powerpdf"/>
-      </Item2>
-      <Item3>
-        <PackageName Value="lazreportpdfexport"/>
-      </Item3>
-      <Item4>
         <PackageName Value="ACBr_Boleto"/>
-      </Item4>
-      <Item5>
-        <PackageName Value="lazreport"/>
-      </Item5>
-      <Item6>
-        <PackageName Value="FCL"/>
-        <MinVersion Major="1" Valid="True"/>
-      </Item6>
+      </Item2>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

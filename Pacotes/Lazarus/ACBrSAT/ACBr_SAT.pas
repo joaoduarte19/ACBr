@@ -8,8 +8,8 @@ interface
 
 uses
   ACBrSAT, ACBrSATReg, ACBrSATDinamico_cdecl, ACBrSATDinamico_stdcall, 
-  ACBrSATExtratoClass, pcnCFeCanc, pcnCFeCancW, pcnCFeW, pcnCFe, pcnCFeCancR, 
-  pcnCFeR, pcnRede, pcnRedeW, LazarusPackageIntf;
+  ACBrSATExtratoClass, pcnCFe, pcnCFeR, pcnCFeW, pcnCFeCanc, pcnCFeCancR, 
+  pcnCFeCancW, pcnRede, pcnRedeR, pcnRedeW, LazarusPackageIntf;
 
 implementation
 

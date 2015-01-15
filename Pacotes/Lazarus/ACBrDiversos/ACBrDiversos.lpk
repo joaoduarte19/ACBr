@@ -91,20 +91,10 @@
       </Item15>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="4">
+    <RequiredPkgs Count="1">
       <Item1>
-        <PackageName Value="LCL"/>
-      </Item1>
-      <Item2>
         <PackageName Value="ACBrComum"/>
-      </Item2>
-      <Item3>
-        <PackageName Value="FCL"/>
-        <MinVersion Major="1" Valid="True"/>
-      </Item3>
-      <Item4>
-        <PackageName Value="IDEIntf"/>
-      </Item4>
+      </Item1>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

@@ -41,14 +41,10 @@
         <UnitName Value="ACBrMSXML2_TLB"/>
       </Item3>
     </Files>
-    <RequiredPkgs Count="2">
+    <RequiredPkgs Count="1">
       <Item1>
         <PackageName Value="ACBrComum"/>
       </Item1>
-      <Item2>
-        <PackageName Value="FCL"/>
-        <MinVersion Major="1" Valid="True"/>
-      </Item2>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

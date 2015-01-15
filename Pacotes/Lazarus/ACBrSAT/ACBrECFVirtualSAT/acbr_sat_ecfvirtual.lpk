@@ -8,8 +8,8 @@
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <OtherUnitFiles Value="..\..\..\Fontes\ACBrSAT"/>
-        <UnitOutputDirectory Value="..\..\..\Lib\Lazarus\ACBrSAT\$(TargetCPU)-$(TargetOS)\"/>
+        <OtherUnitFiles Value="..\..\..\..\Fontes\ACBrSAT\ACBrECFVirtualSAT"/>
+        <UnitOutputDirectory Value="..\..\..\Lib\Lazarus\ACBrSAT\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Other>
         <CompilerMessages>
@@ -24,22 +24,19 @@ Permite que aplicações que usem o componente ACBrECF, comandem um SAT como se 
     <Version Minor="1"/>
     <Files Count="1">
       <Item1>
-        <Filename Value="..\..\..\Fontes\ACBrSAT\ACBrECFVirtualSAT.pas"/>
+        <Filename Value="..\..\..\..\Fontes\ACBrSAT\ACBrECFVirtualSAT\ACBrECFVirtualSAT.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="ACBrECFVirtualSAT"/>
       </Item1>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="3">
+    <RequiredPkgs Count="2">
       <Item1>
-        <PackageName Value="ACBr_SAT"/>
+        <PackageName Value="ACBrSerial"/>
       </Item1>
       <Item2>
-        <PackageName Value="ACBrSerial"/>
+        <PackageName Value="ACBr_SAT"/>
       </Item2>
-      <Item3>
-        <PackageName Value="FCL"/>
-      </Item3>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

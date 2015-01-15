@@ -21,7 +21,7 @@
     </CompilerOptions>
     <Description Value="ACBr - Cupom Fiscal Eletrônico SAT - (http://www.projetoacbr.com.br/)"/>
     <Version Minor="1"/>
-    <Files Count="13">
+    <Files Count="14">
       <Item1>
         <Filename Value="..\..\..\Fontes\ACBrSAT\ACBrSAT.pas"/>
         <UnitName Value="ACBrSAT"/>
@@ -44,49 +44,47 @@
         <UnitName Value="ACBrSATExtratoClass"/>
       </Item5>
       <Item6>
-        <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFeCanc.pas"/>
-        <UnitName Value="pcnCFeCanc"/>
+        <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFe.pas"/>
+        <UnitName Value="pcnCFe"/>
       </Item6>
       <Item7>
-        <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFeCancW.pas"/>
-        <UnitName Value="pcnCFeCancW"/>
+        <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFeR.pas"/>
+        <UnitName Value="pcnCFeR"/>
       </Item7>
       <Item8>
         <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFeW.pas"/>
         <UnitName Value="pcnCFeW"/>
       </Item8>
       <Item9>
-        <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFe.pas"/>
-        <UnitName Value="pcnCFe"/>
+        <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFeCanc.pas"/>
+        <UnitName Value="pcnCFeCanc"/>
       </Item9>
       <Item10>
         <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFeCancR.pas"/>
         <UnitName Value="pcnCFeCancR"/>
       </Item10>
       <Item11>
-        <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFeR.pas"/>
-        <UnitName Value="pcnCFeR"/>
+        <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFeCancW.pas"/>
+        <UnitName Value="pcnCFeCancW"/>
       </Item11>
       <Item12>
         <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnRede.pas"/>
         <UnitName Value="pcnRede"/>
       </Item12>
       <Item13>
+        <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnRedeR.pas"/>
+        <UnitName Value="pcnRedeR"/>
+      </Item13>
+      <Item14>
         <Filename Value="..\..\..\Fontes\ACBrSAT\PCNSAT\pcnRedeW.pas"/>
         <UnitName Value="pcnRedeW"/>
-      </Item13>
+      </Item14>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="3">
+    <RequiredPkgs Count="1">
       <Item1>
-        <PackageName Value="ACBrSerial"/>
-      </Item1>
-      <Item2>
         <PackageName Value="PCNComum"/>
-      </Item2>
-      <Item3>
-        <PackageName Value="FCL"/>
-      </Item3>
+      </Item1>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

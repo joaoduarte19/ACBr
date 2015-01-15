@@ -38,18 +38,8 @@ unit ACBrECFVirtualSAT;
 interface
 
 uses ACBrECFVirtual, ACBrECFVirtualPrinter, ACBrSAT, ACBrUtil, ACBrConsts,
-  Classes, SysUtils, pcnCFe, pcnConversao, ACBrECF, ACBrDevice,
-	{$IFDEF VisualCLX} QDialogs {$ELSE} Dialogs, FileCtrl {$ENDIF},
-  {$IFDEF FPC}
-     LResources, LazarusPackageIntf, PropEdits, componenteditors
-  {$ELSE}
-    {$IFNDEF COMPILER6_UP}
-       DsgnIntf
-    {$ELSE}
-       DesignIntf,
-       DesignEditors
-    {$ENDIF}
-  {$ENDIF};
+  Classes, SysUtils, pcnCFe, pcnConversao, ACBrECF, ACBrDevice
+  {$IFDEF FPC}, LResources {$ENDIF};
 
 const
   ACBrECFVirtualSAT_VERSAO = '0.1.0a';
@@ -548,14 +538,7 @@ end;
 {$IFDEF FPC}
 {$IFNDEF NOGUI}
 initialization
-   {$I ACBrSAT.lrs}
-{$ENDIF}
-{$ENDIF}
-
-{$IFDEF FPC}
-{$IFNDEF NOGUI}
-initialization
-   {$I ACBrSAT.lrs}
+   {$I ACBrECFVirtualSAT.lrs}
 {$ENDIF}
 {$ENDIF}
 
