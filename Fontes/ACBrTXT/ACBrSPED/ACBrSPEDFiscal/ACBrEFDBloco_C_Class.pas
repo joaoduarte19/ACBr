@@ -461,7 +461,7 @@ C100Count: Integer;
 begin
    C100Count := FRegistroC001.RegistroC100.Count -1;
    if C100Count = -1 then
-      raise Exception.Create('O registro C105 deve ser filho do registro C100, e não existe nenhum C100 pai!');
+      raise EACBrSPEDFiscalException.Create('O registro C105 deve ser filho do registro C100, e não existe nenhum C100 pai!');
 
    C100   := FRegistroC001.RegistroC100.Items[C100Count];
    Result := C100.RegistroC105.New(C100);
@@ -474,7 +474,7 @@ C100Count: Integer;
 begin
    C100Count := FRegistroC001.RegistroC100.Count -1;
    if C100Count = -1 then
-      raise Exception.Create('O registro C105 deve ser filho do registro C100, e não existe nenhum C100 pai!');
+      raise EACBrSPEDFiscalException.Create('O registro C105 deve ser filho do registro C100, e não existe nenhum C100 pai!');
 
    C100   := FRegistroC001.RegistroC100.Items[C100Count];
    Result := C100.RegistroC110.New(C100);

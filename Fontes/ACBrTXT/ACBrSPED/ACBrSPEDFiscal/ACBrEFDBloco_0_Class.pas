@@ -286,7 +286,7 @@ U0150Count: Integer;
 begin
    U0150Count := FRegistro0001.Registro0150.Count -1;
    if U0150Count = -1 then
-      raise Exception.Create('O registro 0175 deve ser filho do registro 0150, e não existe nenhum 0150 pai!');
+      raise EACBrSPEDFiscalException.Create('O registro 0175 deve ser filho do registro 0150, e não existe nenhum 0150 pai!');
 
    U0150 := FRegistro0001.Registro0150.Items[U0150Count];
    Result  := U0150.Registro0175.New(U0150);
@@ -309,7 +309,7 @@ U0200Count: Integer;
 begin
    U0200Count := FRegistro0001.Registro0200.Count -1;
    if U0200Count = -1 then
-      raise Exception.Create('O registro 0205 deve ser filho do registro 0200, e não existe nenhum 0200 pai!');
+      raise EACBrSPEDFiscalException.Create('O registro 0205 deve ser filho do registro 0200, e não existe nenhum 0200 pai!');
 
    U0200 := FRegistro0001.Registro0200.Items[U0200Count];
    Result  := U0200.Registro0205.New(U0200);
@@ -322,7 +322,7 @@ U0200Count: Integer;
 begin
    U0200Count := FRegistro0001.Registro0200.Count -1;
    if U0200Count = -1 then
-      raise Exception.Create('O registro 0206 deve ser filho do registro 0200, e não existe nenhum 0200 pai!');
+      raise EACBrSPEDFiscalException.Create('O registro 0206 deve ser filho do registro 0200, e não existe nenhum 0200 pai!');
 
    U0200 := FRegistro0001.Registro0200.Items[U0200Count];
    Result  := U0200.Registro0206.New(U0200);
@@ -335,7 +335,7 @@ U0200Count: Integer;
 begin
    U0200Count := FRegistro0001.Registro0200.Count -1;
    if U0200Count = -1 then
-      raise Exception.Create('O registro 0210 deve ser filho do registro 0200, e não existe nenhum 0200 pai!');
+      raise EACBrSPEDFiscalException.Create('O registro 0210 deve ser filho do registro 0200, e não existe nenhum 0200 pai!');
 
    U0200 := FRegistro0001.Registro0200.Items[U0200Count];
    Result  := U0200.Registro0210.New(U0200);
@@ -348,7 +348,7 @@ U0200Count: Integer;
 begin
    U0200Count := FRegistro0001.Registro0200.Count -1;
    if U0200Count = -1 then
-      raise Exception.Create('O registro 0220 deve ser filho do registro 0200, e não existe nenhum 0200 pai!');
+      raise EACBrSPEDFiscalException.Create('O registro 0220 deve ser filho do registro 0200, e não existe nenhum 0200 pai!');
 
    U0200 := FRegistro0001.Registro0200.Items[U0200Count];
    Result  := U0200.Registro0220.New(U0200);

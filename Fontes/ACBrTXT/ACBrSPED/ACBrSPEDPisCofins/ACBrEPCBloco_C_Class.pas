@@ -1045,17 +1045,17 @@ begin
               {23} LFill( ALIQ_IPI,0,2 )         +
               {24} LFill( VL_IPI,0,2 )           +
               {25} LFill( CstPisToStr(CST_PIS) ) +
-              {26} VDFill( VL_BC_PIS,    2     ) +
-              {27} DFill( ALIQ_PIS_PERC, 4, True ) +
-              {28} DFill( QUANT_BC_PIS,  3, True ) +
-              {29} DFill( ALIQ_PIS_R,    4, True ) +
-              {30} LFill( VL_PIS,0,2 )           +
+              {26} VDFill( VL_BC_PIS,     2) +
+              {27} VDFill( ALIQ_PIS_PERC, 4) +
+              {28} VDFill( QUANT_BC_PIS,  3) +
+              {29} VDFill( ALIQ_PIS_R,    4) +
+              {30} LFill( VL_PIS, 0, 2 )     +
               {31} LFill( CstCofinsToStr(CST_COFINS) ) +
-              {32} VDFill( VL_BC_COFINS,  2    ) +
-              {33} DFill( ALIQ_COFINS_PERC, 4, True ) +
-              {34} DFill( QUANT_BC_COFINS,  3, True ) +
-              {35} DFill( ALIQ_COFINS_R,    4, True ) +
-              {36} LFill( VL_COFINS,0,2 )        +
+              {32} VDFill( VL_BC_COFINS,     2) +
+              {33} VDFill( ALIQ_COFINS_PERC, 4) +
+              {34} VDFill( QUANT_BC_COFINS,  3) +
+              {35} VDFill( ALIQ_COFINS_R,    4) +
+              {36} LFill( VL_COFINS, 0, 2)      +
               {37} LFill( COD_CTA ) ) ;
         end;
         RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
@@ -1276,13 +1276,13 @@ begin
              LFill(CNPJ_CPF_PART)      +
              LFill(CstPisToStr(CST_PIS)) +
              LFill(CFOP,4)             +
-             LFill(VL_ITEM,0,2)        +
-             LFill(VL_DESC,0,2)        +
-             DFill(VL_BC_PIS,     2, True ) +
-             DFill(ALIQ_PIS,      4, True ) +
-             DFill(QUANT_BC_PIS,  3, True ) +
-             DFill(ALIQ_PIS_QUANT,4, True ) +
-             LFill(VL_PIS,0,2)         +
+             LFill(VL_ITEM,  0, 2)     +
+             VLFill(VL_DESC, 0, 2)     +
+             VLFill(VL_BC_PIS,      2) +
+             VDFill(ALIQ_PIS,       4) +
+             VLFill(QUANT_BC_PIS,   3) +
+             VDFill(ALIQ_PIS_QUANT, 4) +
+             VLFill(VL_PIS, 0, 2)      +
              LFill(COD_CTA) ) ;
         //
         RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
@@ -1303,17 +1303,17 @@ begin
     begin
       with RegC190.RegistroC195.Items[intFor] do
       begin
-        Add( LFill('C195')                +
-             LFill(CNPJ_CPF_PART)         +
+        Add( LFill('C195')               +
+             LFill(CNPJ_CPF_PART)        +
              LFill(CstCofinsToStr(CST_COFINS)) +
-             LFill(CFOP,4)                +
-             LFill(VL_ITEM,0,2)           +
-             LFill(VL_DESC,0,2)           +
-             DFill(VL_BC_COFINS, 2, True)    +
-             DFill(ALIQ_COFINS, 4, True) +
-             DFill(QUANT_BC_COFINS,3,True)   +
-             DFill(ALIQ_COFINS_QUANT,4,True) +
-             LFill(VL_COFINS,0,2)            +
+             LFill(CFOP, 4)               +
+             LFill(VL_ITEM, 0, 2)         +
+             VLFill(VL_DESC, 0, 2)        +
+             VLFill(VL_BC_COFINS, 2)      +
+             VDFill(ALIQ_COFINS, 4)       +
+             VLFill(QUANT_BC_COFINS, 3)   +
+             VDFill(ALIQ_COFINS_QUANT, 4) +
+             VLFill(VL_COFINS, 0, 2)      +
              LFill(COD_CTA) ) ;
         //
         RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
@@ -1427,15 +1427,15 @@ begin
     begin
       with RegC380.RegistroC381.Items[intFor] do
       begin
-        Add( LFill('C381')                  +
-             LFill(CstPisToStr(CST_PIS))    +
-             LFill(COD_ITEM)                +
-             LFill(VL_ITEM,0,2)             +
-             LFill(VL_BC_PIS,0,2, True)     +
-             DFill(ALIQ_PIS, 4, True)       +
-             DFill(QUANT_BC_PIS, 3, True)   +
-             DFill(ALIQ_PIS_QUANT, 4, True) +
-             LFill(VL_PIS,0,2)              +
+        Add( LFill('C381')               +
+             LFill(CstPisToStr(CST_PIS)) +
+             LFill(COD_ITEM)             +
+             LFill(VL_ITEM,0,2)          +
+             VLFill(VL_BC_PIS, 0,2)      +
+             VDFill(ALIQ_PIS, 4)         +
+             VLFill(QUANT_BC_PIS, 3)     +
+             VDFill(ALIQ_PIS_QUANT, 4)   +
+             VLFill(VL_PIS, 0, 2)        +
              LFill(COD_CTA) ) ;
         //
         RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
@@ -1458,13 +1458,13 @@ begin
       begin
         Add( LFill('C385')                     +
              LFill(CstCofinsToStr(CST_COFINS)) +
-             LFill(COD_ITEM)                   +
-             LFill(VL_ITEM,0,2)                +
-             LFill(VL_BC_COFINS,0,2, True)     +
-             DFill(ALIQ_COFINS, 4, True)       +
-             DFill(QUANT_BC_COFINS, 3, True)   +
-             DFill(ALIQ_COFINS_QUANT, 4, True) +
-             LFill(VL_COFINS,0,2)              +
+             LFill(COD_ITEM)              +
+             LFill(VL_ITEM, 0, 2)         +
+             VLFill(VL_BC_COFINS, 0, 2)   +
+             VDFill(ALIQ_COFINS, 4)       +
+             VLFill(QUANT_BC_COFINS, 3)   +
+             VDFill(ALIQ_COFINS_QUANT, 4) +
+             VLFill(VL_COFINS, 0, 2)      +
              LFill(COD_CTA) ) ;
         //
         RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
@@ -1647,21 +1647,40 @@ begin
                                       NullQUANT_BC_PIS,
                                       NullALIQ_PIS_QUANT,
                                       NullVL_PIS);
-        end;
-        with RegC405.RegistroC481.Items[intFor] do
+          with RegC405.RegistroC481.Items[intFor] do
+          begin
+            Add( LFill('C481')             +
+                 LFill(CstPisToStr(CST_PIS)) +
+                 LFill(VL_ITEM,0,2)        +
+                 DFill(VL_BC_PIS,      2, NullVL_BC_PIS) +
+                 DFill(ALIQ_PIS,       4, NullALIQ_PIS) +
+                 DFill(QUANT_BC_PIS,   3, NullQUANT_BC_PIS) +
+                 DFill(ALIQ_PIS_QUANT, 4, NullALIQ_PIS_QUANT) +
+                 LFill(VL_PIS,0,       2, NullVL_PIS)         +
+                 LFill(COD_ITEM)           +
+                 LFill(COD_CTA) ) ;
+            //
+            RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
+          end;
+
+        end
+        else
         begin
-          Add( LFill('C481')             +
-               LFill(CstPisToStr(CST_PIS)) +
-               LFill(VL_ITEM,0,2)        +
-               DFill(VL_BC_PIS,      2, NullVL_BC_PIS) +
-               DFill(ALIQ_PIS,       4, NullALIQ_PIS) +
-               DFill(QUANT_BC_PIS,   3, NullQUANT_BC_PIS) +
-               DFill(ALIQ_PIS_QUANT, 4, NullALIQ_PIS_QUANT) +
-               LFill(VL_PIS,0,       2, NullVL_PIS)         +
-               LFill(COD_ITEM)           +
-               LFill(COD_CTA) ) ;
-          //
-          RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
+          with RegC405.RegistroC481.Items[intFor] do
+          begin
+            Add( LFill('C481')             +
+                 LFill(CstPisToStr(CST_PIS)) +
+                 LFill(VL_ITEM, 0, 2)      +
+                 VDFill(VL_BC_PIS,      2) +
+                 VDFill(ALIQ_PIS,       4) +
+                 VDFill(QUANT_BC_PIS,   3) +
+                 VDFill(ALIQ_PIS_QUANT, 4) +
+                 VDFill(VL_PIS,         2) +
+                 LFill(COD_ITEM)           +
+                 LFill(COD_CTA) ) ;
+            //
+            RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
+          end;
         end;
      end;
      // Variavél para armazenar a quantidade de registro do tipo.
@@ -1696,21 +1715,41 @@ begin
                                       NullQUANT_BC_COFINS,
                                       NullALIQ_COFINS_QUANT,
                                       NullVL_COFINS);
-        end;
-        with RegC405.RegistroC485.Items[intFor] do
+
+          with RegC405.RegistroC485.Items[intFor] do
+          begin
+            Add( LFill('C485')                     +
+                 LFill(CstCofinsToStr(CST_COFINS)) +
+                 LFill(VL_ITEM,0,2)                +
+                 DFill(VL_BC_COFINS,      2, NullVL_BC_COFINS) +
+                 DFill(ALIQ_COFINS,       4, NullALIQ_COFINS) +
+                 DFill(QUANT_BC_COFINS,   3, NullQUANT_BC_COFINS) +
+                 DFill(ALIQ_COFINS_QUANT, 4, NullALIQ_COFINS_QUANT) +
+                 LFill(VL_COFINS,0,       2, NullVL_COFINS) +
+                 LFill(COD_ITEM)                   +
+                 LFill(COD_CTA) ) ;
+            //
+            RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
+          end;
+
+        end
+        else
         begin
-          Add( LFill('C485')                     +
-               LFill(CstCofinsToStr(CST_COFINS)) +
-               LFill(VL_ITEM,0,2)                +
-               DFill(VL_BC_COFINS,      2, NullVL_BC_COFINS) +
-               DFill(ALIQ_COFINS,       4, NullALIQ_COFINS) +
-               DFill(QUANT_BC_COFINS,   3, NullQUANT_BC_COFINS) +
-               DFill(ALIQ_COFINS_QUANT, 4, NullALIQ_COFINS_QUANT) +
-               LFill(VL_COFINS,0,       2, NullVL_COFINS) +
-               LFill(COD_ITEM)                   +
-               LFill(COD_CTA) ) ;
-          //
-          RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
+          with RegC405.RegistroC485.Items[intFor] do
+          begin
+            Add( LFill('C485')                     +
+                 LFill(CstCofinsToStr(CST_COFINS)) +
+                 LFill(VL_ITEM, 0, 2)              +
+                 VDFill(VL_BC_COFINS,      2) +
+                 VDFill(ALIQ_COFINS,       4) +
+                 VDFill(QUANT_BC_COFINS,   3) +
+                 VDFill(ALIQ_COFINS_QUANT, 4) +
+                 VDFill(VL_COFINS,       2)   +
+                 LFill(COD_ITEM)              +
+                 LFill(COD_CTA) ) ;
+            //
+            RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
+          end;
         end;
      end;
      // Variavél para armazenar a quantidade de registro do tipo.
@@ -1805,22 +1844,43 @@ begin
                                     NullQUANT_BC_PIS,
                                     NullALIQ_PIS_QUANT,
                                     NullVL_PIS);
-      end;
-      with RegC490.RegistroC491.Items[intFor] do
+
+        with RegC490.RegistroC491.Items[intFor] do
+        begin
+          Add( LFill('C491')             +
+               LFill(COD_ITEM)           +
+               LFill(CstPisToStr(CST_PIS)) +
+               LFill(CFOP,4)             +
+               LFill(VL_ITEM,0,2)        +
+               DFill(VL_BC_PIS,      2, NullVL_BC_PIS) +
+               DFill(ALIQ_PIS,       4, NullALIQ_PIS) +
+               DFill(QUANT_BC_PIS,   3, NullQUANT_BC_PIS) +
+               DFill(ALIQ_PIS_QUANT, 4, NullALIQ_PIS_QUANT) +
+               LFill(VL_PIS,0,       2, NullVL_PIS)         +
+               LFill(COD_CTA) ) ;
+          //
+          RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
+        end;
+
+      end
+      else
       begin
-        Add( LFill('C491')             +
-             LFill(COD_ITEM)           +
-             LFill(CstPisToStr(CST_PIS)) +
-             LFill(CFOP,4)             +
-             LFill(VL_ITEM,0,2)        +
-             DFill(VL_BC_PIS,      2, NullVL_BC_PIS) +
-             DFill(ALIQ_PIS,       4, NullALIQ_PIS) +
-             DFill(QUANT_BC_PIS,   3, NullQUANT_BC_PIS) +
-             DFill(ALIQ_PIS_QUANT, 4, NullALIQ_PIS_QUANT) +
-             LFill(VL_PIS,0,       2, NullVL_PIS)         +
-             LFill(COD_CTA) ) ;
-        //
-        RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
+        with RegC490.RegistroC491.Items[intFor] do
+        begin
+          Add( LFill('C491')             +
+               LFill(COD_ITEM)           +
+               LFill(CstPisToStr(CST_PIS)) +
+               LFill(CFOP,4)             +
+               LFill(VL_ITEM,0,2)        +
+               VDFill(VL_BC_PIS,      2) +
+               VDFill(ALIQ_PIS,       4) +
+               VDFill(QUANT_BC_PIS,   3) +
+               VDFill(ALIQ_PIS_QUANT, 4) +
+               VDFill(VL_PIS,         2) +
+               LFill(COD_CTA) ) ;
+          //
+          RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
+        end;
       end;
     end;
     // Variavél para armazenar a quantidade de registro do tipo.
@@ -1855,22 +1915,42 @@ begin
                                     NullQUANT_BC_COFINS,
                                     NullALIQ_COFINS_QUANT,
                                     NullVL_COFINS);
-      end;
-      with RegC490.RegistroC495.Items[intFor] do
+        with RegC490.RegistroC495.Items[intFor] do
+        begin
+          Add( LFill('C495')                +
+               LFill(COD_ITEM)              +
+               LFill(CstCofinsToStr(CST_COFINS) ) +
+               LFill(CFOP,4)                +
+               LFill(VL_ITEM,0,2)           +
+               DFill(VL_BC_COFINS,      2, NullVL_BC_COFINS) +
+               DFill(ALIQ_COFINS,       4, NullALIQ_COFINS) +
+               DFill(QUANT_BC_COFINS,   3, NullQUANT_BC_COFINS) +
+               DFill(ALIQ_COFINS_QUANT, 4, NullALIQ_COFINS_QUANT) +
+               LFill(VL_COFINS,0,       2, NullVL_COFINS) +
+               LFill(COD_CTA) ) ;
+          //
+          RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
+        end;
+
+      end
+      else
       begin
-        Add( LFill('C495')                +
-             LFill(COD_ITEM)              +
-             LFill(CstCofinsToStr(CST_COFINS) ) +
-             LFill(CFOP,4)                +
-             LFill(VL_ITEM,0,2)           +
-             DFill(VL_BC_COFINS,      2, NullVL_BC_COFINS) +
-             DFill(ALIQ_COFINS,       4, NullALIQ_COFINS) +
-             DFill(QUANT_BC_COFINS,   3, NullQUANT_BC_COFINS) +
-             DFill(ALIQ_COFINS_QUANT, 4, NullALIQ_COFINS_QUANT) +
-             LFill(VL_COFINS,0,       2, NullVL_COFINS) +
-             LFill(COD_CTA) ) ;
-        //
-        RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
+        with RegC490.RegistroC495.Items[intFor] do
+        begin
+          Add( LFill('C495')                +
+               LFill(COD_ITEM)              +
+               LFill(CstCofinsToStr(CST_COFINS) ) +
+               LFill(CFOP,4)                +
+               LFill(VL_ITEM,0,2)           +
+               VDFill(VL_BC_COFINS,      2) +
+               VDFill(ALIQ_COFINS,       4) +
+               VDFill(QUANT_BC_COFINS,   3) +
+               VDFill(ALIQ_COFINS_QUANT, 4) +
+               VDFill(VL_COFINS,         2) +
+               LFill(COD_CTA) ) ;
+          //
+          RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
+        end;
       end;
     end;
     // Variavél para armazenar a quantidade de registro do tipo.

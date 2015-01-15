@@ -602,7 +602,6 @@ procedure TBloco_D.WriteRegistroD101(RegD100: TRegistroD100) ;
   var
     intFor         : integer;
     strIND_NAT_FRT : AnsiString;
-    strCST_PIS     : AnsiString;
     strNAT_BC_CRED : AnsiString;
 begin
   if Assigned(RegD100.RegistroD101) then
@@ -619,42 +618,6 @@ begin
           nfcTransfAcabadosPJ     : strIND_NAT_FRT := '4';
           nfcTransfNaoAcabadosPJ  : strIND_NAT_FRT := '5';
           nfcOutras               : strIND_NAT_FRT := '9';
-        end;
-
-        case CST_PIS of
-          stpisValorAliquotaNormal                           : strCST_PIS := '01';
-          stpisValorAliquotaDiferenciada                     : strCST_PIS := '02';
-          stpisQtdeAliquotaUnidade                           : strCST_PIS := '03';
-          stpisMonofaticaAliquotaZero                        : strCST_PIS := '04';
-          stpisValorAliquotaPorST                            : strCST_PIS := '05';
-          stpisAliquotaZero                                  : strCST_PIS := '06';
-          stpisIsentaContribuicao                            : strCST_PIS := '07';
-          stpisSemIncidenciaContribuicao                     : strCST_PIS := '08';
-          stpisSuspensaoContribuicao                         : strCST_PIS := '09';
-          stpisOutrasOperacoesSaida                          : strCST_PIS := '49';
-          stpisOperCredExcRecTribMercInt                     : strCST_PIS := '50';
-          stpisOperCredExcRecNaoTribMercInt                  : strCST_PIS := '51';
-          stpisOperCredExcRecExportacao                      : strCST_PIS := '52';
-          stpisOperCredRecTribNaoTribMercInt                 : strCST_PIS := '53';
-          stpisOperCredRecTribMercIntEExportacao             : strCST_PIS := '54';
-          stpisOperCredRecNaoTribMercIntEExportacao          : strCST_PIS := '55';
-          stpisOperCredRecTribENaoTribMercIntEExportacao     : strCST_PIS := '56';
-          stpisCredPresAquiExcRecTribMercInt                 : strCST_PIS := '60';
-          stpisCredPresAquiExcRecNaoTribMercInt              : strCST_PIS := '61';
-          stpisCredPresAquiExcExcRecExportacao               : strCST_PIS := '62';
-          stpisCredPresAquiRecTribNaoTribMercInt             : strCST_PIS := '63';
-          stpisCredPresAquiRecTribMercIntEExportacao         : strCST_PIS := '64';
-          stpisCredPresAquiRecNaoTribMercIntEExportacao      : strCST_PIS := '65';
-          stpisCredPresAquiRecTribENaoTribMercIntEExportacao : strCST_PIS := '66';
-          stpisOutrasOperacoes_CredPresumido                 : strCST_PIS := '67';
-          stpisOperAquiSemDirCredito                         : strCST_PIS := '70';
-          stpisOperAquiComIsensao                            : strCST_PIS := '71';
-          stpisOperAquiComSuspensao                          : strCST_PIS := '72';
-          stpisOperAquiAliquotaZero                          : strCST_PIS := '73';
-          stpisOperAqui_SemIncidenciaContribuicao            : strCST_PIS := '74';
-          stpisOperAquiPorST                                 : strCST_PIS := '75';
-          stpisOutrasOperacoesEntrada                        : strCST_PIS := '98';
-          stpisOutrasOperacoes                               : strCST_PIS := '99';
         end;
 
         case NAT_BC_CRED of
@@ -681,7 +644,7 @@ begin
         Add( LFill('D101')           +
              LFill( strIND_NAT_FRT ) + //Verificar se essa opção é a mesma que já existia no ACBrEPCBlocos e se devo completar
              LFill( VL_ITEM,0,2 )    +
-             LFill( strCST_PIS )     +
+             LFill( CstPisToStr(CST_PIS) )     +
              LFill( strNAT_BC_CRED ) +
              LFill( VL_BC_PIS,0,2 )  +
              DFill( ALIQ_PIS, 4 )   +
@@ -700,7 +663,6 @@ procedure TBloco_D.WriteRegistroD105(RegD100: TRegistroD100) ;
   var
     intFor         : integer;
     strIND_NAT_FRT : AnsiString;
-    strCST_COFINS  : AnsiString;
     strNAT_BC_CRED : AnsiString;
 begin
   if Assigned(RegD100.RegistroD105) then
@@ -717,42 +679,6 @@ begin
             nfcTransfAcabadosPJ     : strIND_NAT_FRT := '4';
             nfcTransfNaoAcabadosPJ  : strIND_NAT_FRT := '5';
             nfcOutras               : strIND_NAT_FRT := '9';
-        end;
-
-        case CST_COFINS of
-          stcofinsValorAliquotaNormal                           : strCST_COFINS := '01';
-          stcofinsValorAliquotaDiferenciada                     : strCST_COFINS := '02';
-          stcofinsQtdeAliquotaUnidade                           : strCST_COFINS := '03';
-          stcofinsMonofaticaAliquotaZero                        : strCST_COFINS := '04';
-          stcofinsValorAliquotaPorST                            : strCST_COFINS := '05';
-          stcofinsAliquotaZero                                  : strCST_COFINS := '06';
-          stcofinsIsentaContribuicao                            : strCST_COFINS := '07';
-          stcofinsSemIncidenciaContribuicao                     : strCST_COFINS := '08';
-          stcofinsSuspensaoContribuicao                         : strCST_COFINS := '09';
-          stcofinsOutrasOperacoesSaida                          : strCST_COFINS := '49';
-          stcofinsOperCredExcRecTribMercInt                     : strCST_COFINS := '50';
-          stcofinsOperCredExcRecNaoTribMercInt                  : strCST_COFINS := '51';
-          stcofinsOperCredExcRecExportacao                      : strCST_COFINS := '52';
-          stcofinsOperCredRecTribNaoTribMercInt                 : strCST_COFINS := '53';
-          stcofinsOperCredRecTribMercIntEExportacao             : strCST_COFINS := '54';
-          stcofinsOperCredRecNaoTribMercIntEExportacao          : strCST_COFINS := '55';
-          stcofinsOperCredRecTribENaoTribMercIntEExportacao     : strCST_COFINS := '56';
-          stcofinsCredPresAquiExcRecTribMercInt                 : strCST_COFINS := '60';
-          stcofinsCredPresAquiExcRecNaoTribMercInt              : strCST_COFINS := '61';
-          stcofinsCredPresAquiExcExcRecExportacao               : strCST_COFINS := '62';
-          stcofinsCredPresAquiRecTribNaoTribMercInt             : strCST_COFINS := '63';
-          stcofinsCredPresAquiRecTribMercIntEExportacao         : strCST_COFINS := '64';
-          stcofinsCredPresAquiRecNaoTribMercIntEExportacao      : strCST_COFINS := '65';
-          stcofinsCredPresAquiRecTribENaoTribMercIntEExportacao : strCST_COFINS := '66';
-          stcofinsOutrasOperacoes_CredPresumido                 : strCST_COFINS := '67';
-          stcofinsOperAquiSemDirCredito                         : strCST_COFINS := '70';
-          stcofinsOperAquiComIsensao                            : strCST_COFINS := '71';
-          stcofinsOperAquiComSuspensao                          : strCST_COFINS := '72';
-          stcofinsOperAquiAliquotaZero                          : strCST_COFINS := '73';
-          stcofinsOperAqui_SemIncidenciaContribuicao            : strCST_COFINS := '74';
-          stcofinsOperAquiPorST                                 : strCST_COFINS := '75';
-          stcofinsOutrasOperacoesEntrada                        : strCST_COFINS := '98';
-          stcofinsOutrasOperacoes                               : strCST_COFINS := '99';
         end;
 
         case NAT_BC_CRED of
@@ -779,7 +705,7 @@ begin
         Add( LFill('D105')             +
              LFill( strIND_NAT_FRT )   + //Verificar se essa opção é a mesma que já existia no ACBrEPCBlocos e se devo completar
              LFill( VL_ITEM,0,2 )      +
-             LFill( strCST_COFINS )    +
+             LFill( CstCofinsToStr(CST_COFINS) )    +
              LFill( strNAT_BC_CRED )   +
              LFill( VL_BC_COFINS,0,2 ) +
              DFill( ALIQ_COFINS, 4 )  +
@@ -873,7 +799,6 @@ end;
 procedure TBloco_D.WriteRegistroD201(RegD200: TRegistroD200) ;
   var
     intFor     : integer;
-    strCST_PIS :  AnsiString;
 begin
   if Assigned(RegD200.RegistroD201) then
   begin
@@ -882,44 +807,8 @@ begin
       with RegD200.RegistroD201.Items[intFor] do
       begin
 
-        case CST_PIS of
-          stpisValorAliquotaNormal                           : strCST_PIS := '01';
-          stpisValorAliquotaDiferenciada                     : strCST_PIS := '02';
-          stpisQtdeAliquotaUnidade                           : strCST_PIS := '03';
-          stpisMonofaticaAliquotaZero                        : strCST_PIS := '04';
-          stpisValorAliquotaPorST                            : strCST_PIS := '05';
-          stpisAliquotaZero                                  : strCST_PIS := '06';
-          stpisIsentaContribuicao                            : strCST_PIS := '07';
-          stpisSemIncidenciaContribuicao                     : strCST_PIS := '08';
-          stpisSuspensaoContribuicao                         : strCST_PIS := '09';
-          stpisOutrasOperacoesSaida                          : strCST_PIS := '49';
-          stpisOperCredExcRecTribMercInt                     : strCST_PIS := '50';
-          stpisOperCredExcRecNaoTribMercInt                  : strCST_PIS := '51';
-          stpisOperCredExcRecExportacao                      : strCST_PIS := '52';
-          stpisOperCredRecTribNaoTribMercInt                 : strCST_PIS := '53';
-          stpisOperCredRecTribMercIntEExportacao             : strCST_PIS := '54';
-          stpisOperCredRecNaoTribMercIntEExportacao          : strCST_PIS := '55';
-          stpisOperCredRecTribENaoTribMercIntEExportacao     : strCST_PIS := '56';
-          stpisCredPresAquiExcRecTribMercInt                 : strCST_PIS := '60';
-          stpisCredPresAquiExcRecNaoTribMercInt              : strCST_PIS := '61';
-          stpisCredPresAquiExcExcRecExportacao               : strCST_PIS := '62';
-          stpisCredPresAquiRecTribNaoTribMercInt             : strCST_PIS := '63';
-          stpisCredPresAquiRecTribMercIntEExportacao         : strCST_PIS := '64';
-          stpisCredPresAquiRecNaoTribMercIntEExportacao      : strCST_PIS := '65';
-          stpisCredPresAquiRecTribENaoTribMercIntEExportacao : strCST_PIS := '66';
-          stpisOutrasOperacoes_CredPresumido                 : strCST_PIS := '67';
-          stpisOperAquiSemDirCredito                         : strCST_PIS := '70';
-          stpisOperAquiComIsensao                            : strCST_PIS := '71';
-          stpisOperAquiComSuspensao                          : strCST_PIS := '72';
-          stpisOperAquiAliquotaZero                          : strCST_PIS := '73';
-          stpisOperAqui_SemIncidenciaContribuicao            : strCST_PIS := '74';
-          stpisOperAquiPorST                                 : strCST_PIS := '75';
-          stpisOutrasOperacoesEntrada                        : strCST_PIS := '98';
-          stpisOutrasOperacoes                               : strCST_PIS := '99';
-        end;
-
         Add( LFill('D201')          +
-             LFill( strCST_PIS )    +
+             LFill( CstPisToStr(CST_PIS) )    +
              LFill( VL_ITEM,0,2 )   +
              LFill( VL_BC_PIS,0,2 ) +
              DFill( ALIQ_PIS, 4 )  +
@@ -937,7 +826,6 @@ end;
 procedure TBloco_D.WriteRegistroD205(RegD200: TRegistroD200) ;
   var
     intFor        : integer;
-    strCST_COFINS :  AnsiString;
 begin
   if Assigned(RegD200.RegistroD205) then
   begin
@@ -945,44 +833,8 @@ begin
     begin
       with RegD200.RegistroD205.Items[intFor] do
       begin
-        case CST_COFINS of
-          stcofinsValorAliquotaNormal                           : strCST_COFINS := '01';
-          stcofinsValorAliquotaDiferenciada                     : strCST_COFINS := '02';
-          stcofinsQtdeAliquotaUnidade                           : strCST_COFINS := '03';
-          stcofinsMonofaticaAliquotaZero                        : strCST_COFINS := '04';
-          stcofinsValorAliquotaPorST                            : strCST_COFINS := '05';
-          stcofinsAliquotaZero                                  : strCST_COFINS := '06';
-          stcofinsIsentaContribuicao                            : strCST_COFINS := '07';
-          stcofinsSemIncidenciaContribuicao                     : strCST_COFINS := '08';
-          stcofinsSuspensaoContribuicao                         : strCST_COFINS := '09';
-          stcofinsOutrasOperacoesSaida                          : strCST_COFINS := '49';
-          stcofinsOperCredExcRecTribMercInt                     : strCST_COFINS := '50';
-          stcofinsOperCredExcRecNaoTribMercInt                  : strCST_COFINS := '51';
-          stcofinsOperCredExcRecExportacao                      : strCST_COFINS := '52';
-          stcofinsOperCredRecTribNaoTribMercInt                 : strCST_COFINS := '53';
-          stcofinsOperCredRecTribMercIntEExportacao             : strCST_COFINS := '54';
-          stcofinsOperCredRecNaoTribMercIntEExportacao          : strCST_COFINS := '55';
-          stcofinsOperCredRecTribENaoTribMercIntEExportacao     : strCST_COFINS := '56';
-          stcofinsCredPresAquiExcRecTribMercInt                 : strCST_COFINS := '60';
-          stcofinsCredPresAquiExcRecNaoTribMercInt              : strCST_COFINS := '61';
-          stcofinsCredPresAquiExcExcRecExportacao               : strCST_COFINS := '62';
-          stcofinsCredPresAquiRecTribNaoTribMercInt             : strCST_COFINS := '63';
-          stcofinsCredPresAquiRecTribMercIntEExportacao         : strCST_COFINS := '64';
-          stcofinsCredPresAquiRecNaoTribMercIntEExportacao      : strCST_COFINS := '65';
-          stcofinsCredPresAquiRecTribENaoTribMercIntEExportacao : strCST_COFINS := '66';
-          stcofinsOutrasOperacoes_CredPresumido                 : strCST_COFINS := '67';
-          stcofinsOperAquiSemDirCredito                         : strCST_COFINS := '70';
-          stcofinsOperAquiComIsensao                            : strCST_COFINS := '71';
-          stcofinsOperAquiComSuspensao                          : strCST_COFINS := '72';
-          stcofinsOperAquiAliquotaZero                          : strCST_COFINS := '73';
-          stcofinsOperAqui_SemIncidenciaContribuicao            : strCST_COFINS := '74';
-          stcofinsOperAquiPorST                                 : strCST_COFINS := '75';
-          stcofinsOutrasOperacoesEntrada                        : strCST_COFINS := '98';
-          stcofinsOutrasOperacoes                               : strCST_COFINS := '99';
-        end;
-
         Add( LFill('D205')             +
-             LFill( strCST_COFINS )    +
+             LFill( CstCofinsToStr(CST_COFINS) )    +
              LFill( VL_ITEM,0,2 )      +
              LFill( VL_BC_COFINS,0,2 ) +
              DFill( ALIQ_COFINS, 4 )  +
@@ -1030,8 +882,6 @@ end;
 procedure TBloco_D.WriteRegistroD300(RegD010: TRegistroD010) ;
   var
     intFor        : integer;
-    strCST_PIS    :  AnsiString;
-    strCST_COFINS :  AnsiString;
 begin
   if Assigned(RegD010.RegistroD300) then
   begin
@@ -1040,78 +890,6 @@ begin
         with RegD010.RegistroD300.Items[intFor] do
         begin
           Check(Pos(COD_MOD, '13 14 15 16 18') > 0, '(D-300) O Modelo do Documento "%s" é inválido!', [COD_MOD]);
-
-          case CST_PIS of
-            stpisValorAliquotaNormal                           : strCST_PIS := '01';
-            stpisValorAliquotaDiferenciada                     : strCST_PIS := '02';
-            stpisQtdeAliquotaUnidade                           : strCST_PIS := '03';
-            stpisMonofaticaAliquotaZero                        : strCST_PIS := '04';
-            stpisValorAliquotaPorST                            : strCST_PIS := '05';
-            stpisAliquotaZero                                  : strCST_PIS := '06';
-            stpisIsentaContribuicao                            : strCST_PIS := '07';
-            stpisSemIncidenciaContribuicao                     : strCST_PIS := '08';
-            stpisSuspensaoContribuicao                         : strCST_PIS := '09';
-            stpisOutrasOperacoesSaida                          : strCST_PIS := '49';
-            stpisOperCredExcRecTribMercInt                     : strCST_PIS := '50';
-            stpisOperCredExcRecNaoTribMercInt                  : strCST_PIS := '51';
-            stpisOperCredExcRecExportacao                      : strCST_PIS := '52';
-            stpisOperCredRecTribNaoTribMercInt                 : strCST_PIS := '53';
-            stpisOperCredRecTribMercIntEExportacao             : strCST_PIS := '54';
-            stpisOperCredRecNaoTribMercIntEExportacao          : strCST_PIS := '55';
-            stpisOperCredRecTribENaoTribMercIntEExportacao     : strCST_PIS := '56';
-            stpisCredPresAquiExcRecTribMercInt                 : strCST_PIS := '60';
-            stpisCredPresAquiExcRecNaoTribMercInt              : strCST_PIS := '61';
-            stpisCredPresAquiExcExcRecExportacao               : strCST_PIS := '62';
-            stpisCredPresAquiRecTribNaoTribMercInt             : strCST_PIS := '63';
-            stpisCredPresAquiRecTribMercIntEExportacao         : strCST_PIS := '64';
-            stpisCredPresAquiRecNaoTribMercIntEExportacao      : strCST_PIS := '65';
-            stpisCredPresAquiRecTribENaoTribMercIntEExportacao : strCST_PIS := '66';
-            stpisOutrasOperacoes_CredPresumido                 : strCST_PIS := '67';
-            stpisOperAquiSemDirCredito                         : strCST_PIS := '70';
-            stpisOperAquiComIsensao                            : strCST_PIS := '71';
-            stpisOperAquiComSuspensao                          : strCST_PIS := '72';
-            stpisOperAquiAliquotaZero                          : strCST_PIS := '73';
-            stpisOperAqui_SemIncidenciaContribuicao            : strCST_PIS := '74';
-            stpisOperAquiPorST                                 : strCST_PIS := '75';
-            stpisOutrasOperacoesEntrada                        : strCST_PIS := '98';
-            stpisOutrasOperacoes                               : strCST_PIS := '99';
-          end;
-
-          case CST_COFINS of
-            stcofinsValorAliquotaNormal                           : strCST_COFINS := '01';
-            stcofinsValorAliquotaDiferenciada                     : strCST_COFINS := '02';
-            stcofinsQtdeAliquotaUnidade                           : strCST_COFINS := '03';
-            stcofinsMonofaticaAliquotaZero                        : strCST_COFINS := '04';
-            stcofinsValorAliquotaPorST                            : strCST_COFINS := '05';
-            stcofinsAliquotaZero                                  : strCST_COFINS := '06';
-            stcofinsIsentaContribuicao                            : strCST_COFINS := '07';
-            stcofinsSemIncidenciaContribuicao                     : strCST_COFINS := '08';
-            stcofinsSuspensaoContribuicao                         : strCST_COFINS := '09';
-            stcofinsOutrasOperacoesSaida                          : strCST_COFINS := '49';
-            stcofinsOperCredExcRecTribMercInt                     : strCST_COFINS := '50';
-            stcofinsOperCredExcRecNaoTribMercInt                  : strCST_COFINS := '51';
-            stcofinsOperCredExcRecExportacao                      : strCST_COFINS := '52';
-            stcofinsOperCredRecTribNaoTribMercInt                 : strCST_COFINS := '53';
-            stcofinsOperCredRecTribMercIntEExportacao             : strCST_COFINS := '54';
-            stcofinsOperCredRecNaoTribMercIntEExportacao          : strCST_COFINS := '55';
-            stcofinsOperCredRecTribENaoTribMercIntEExportacao     : strCST_COFINS := '56';
-            stcofinsCredPresAquiExcRecTribMercInt                 : strCST_COFINS := '60';
-            stcofinsCredPresAquiExcRecNaoTribMercInt              : strCST_COFINS := '61';
-            stcofinsCredPresAquiExcExcRecExportacao               : strCST_COFINS := '62';
-            stcofinsCredPresAquiRecTribNaoTribMercInt             : strCST_COFINS := '63';
-            stcofinsCredPresAquiRecTribMercIntEExportacao         : strCST_COFINS := '64';
-            stcofinsCredPresAquiRecNaoTribMercIntEExportacao      : strCST_COFINS := '65';
-            stcofinsCredPresAquiRecTribENaoTribMercIntEExportacao : strCST_COFINS := '66';
-            stcofinsOutrasOperacoes_CredPresumido                 : strCST_COFINS := '67';
-            stcofinsOperAquiSemDirCredito                         : strCST_COFINS := '70';
-            stcofinsOperAquiComIsensao                            : strCST_COFINS := '71';
-            stcofinsOperAquiComSuspensao                          : strCST_COFINS := '72';
-            stcofinsOperAquiAliquotaZero                          : strCST_COFINS := '73';
-            stcofinsOperAqui_SemIncidenciaContribuicao            : strCST_COFINS := '74';
-            stcofinsOperAquiPorST                                 : strCST_COFINS := '75';
-            stcofinsOutrasOperacoesEntrada                        : strCST_COFINS := '98';
-            stcofinsOutrasOperacoes                               : strCST_COFINS := '99';
-          end;
 
           Add( LFill('D300')             +
                LFill( COD_MOD )          +
@@ -1123,11 +901,11 @@ begin
                LFill( DT_REF )           +
                LFill( VL_DOC,0,2 )       +
                LFill( VL_DESC,0,2 )      +
-               LFill( strCST_PIS )       +
+               LFill( CstPisToStr(CST_PIS) )       +
                LFill( VL_BC_PIS,0,2 )    +
                DFill( ALIQ_PIS, 4 )     +
                LFill( VL_PIS,0,2 )       +
-               LFill( strCST_COFINS )    +
+               LFill( CstCofinsToStr(CST_COFINS) )    +
                LFill( VL_BC_COFINS,0,2 ) +
                DFill( ALIQ_COFINS, 4 )  +
                LFill( VL_COFINS,0,2 )    +
@@ -1175,10 +953,8 @@ begin
 end;
 
 procedure TBloco_D.WriteRegistroD350(RegD010: TRegistroD010) ;
-  var
-    intFor        : integer;
-    strCST_PIS    :  AnsiString;
-    strCST_COFINS :  AnsiString;
+var
+  intFor        : integer;
 begin
   if Assigned(RegD010.RegistroD350) then
   begin
@@ -1187,77 +963,6 @@ begin
         with RegD010.RegistroD350.Items[intFor] do
         begin
           Check(Pos(COD_MOD, '2E 13 14 15 16') > 0, '(D-350) O Modelo do Documento "%s" é inválido!', [COD_MOD]);
-          case CST_PIS of
-            stpisValorAliquotaNormal                           : strCST_PIS := '01';
-            stpisValorAliquotaDiferenciada                     : strCST_PIS := '02';
-            stpisQtdeAliquotaUnidade                           : strCST_PIS := '03';
-            stpisMonofaticaAliquotaZero                        : strCST_PIS := '04';
-            stpisValorAliquotaPorST                            : strCST_PIS := '05';
-            stpisAliquotaZero                                  : strCST_PIS := '06';
-            stpisIsentaContribuicao                            : strCST_PIS := '07';
-            stpisSemIncidenciaContribuicao                     : strCST_PIS := '08';
-            stpisSuspensaoContribuicao                         : strCST_PIS := '09';
-            stpisOutrasOperacoesSaida                          : strCST_PIS := '49';
-            stpisOperCredExcRecTribMercInt                     : strCST_PIS := '50';
-            stpisOperCredExcRecNaoTribMercInt                  : strCST_PIS := '51';
-            stpisOperCredExcRecExportacao                      : strCST_PIS := '52';
-            stpisOperCredRecTribNaoTribMercInt                 : strCST_PIS := '53';
-            stpisOperCredRecTribMercIntEExportacao             : strCST_PIS := '54';
-            stpisOperCredRecNaoTribMercIntEExportacao          : strCST_PIS := '55';
-            stpisOperCredRecTribENaoTribMercIntEExportacao     : strCST_PIS := '56';
-            stpisCredPresAquiExcRecTribMercInt                 : strCST_PIS := '60';
-            stpisCredPresAquiExcRecNaoTribMercInt              : strCST_PIS := '61';
-            stpisCredPresAquiExcExcRecExportacao               : strCST_PIS := '62';
-            stpisCredPresAquiRecTribNaoTribMercInt             : strCST_PIS := '63';
-            stpisCredPresAquiRecTribMercIntEExportacao         : strCST_PIS := '64';
-            stpisCredPresAquiRecNaoTribMercIntEExportacao      : strCST_PIS := '65';
-            stpisCredPresAquiRecTribENaoTribMercIntEExportacao : strCST_PIS := '66';
-            stpisOutrasOperacoes_CredPresumido                 : strCST_PIS := '67';
-            stpisOperAquiSemDirCredito                         : strCST_PIS := '70';
-            stpisOperAquiComIsensao                            : strCST_PIS := '71';
-            stpisOperAquiComSuspensao                          : strCST_PIS := '72';
-            stpisOperAquiAliquotaZero                          : strCST_PIS := '73';
-            stpisOperAqui_SemIncidenciaContribuicao            : strCST_PIS := '74';
-            stpisOperAquiPorST                                 : strCST_PIS := '75';
-            stpisOutrasOperacoesEntrada                        : strCST_PIS := '98';
-            stpisOutrasOperacoes                               : strCST_PIS := '99';
-          end;
-
-          case CST_COFINS of
-            stcofinsValorAliquotaNormal                           : strCST_COFINS := '01';
-            stcofinsValorAliquotaDiferenciada                     : strCST_COFINS := '02';
-            stcofinsQtdeAliquotaUnidade                           : strCST_COFINS := '03';
-            stcofinsMonofaticaAliquotaZero                        : strCST_COFINS := '04';
-            stcofinsValorAliquotaPorST                            : strCST_COFINS := '05';
-            stcofinsAliquotaZero                                  : strCST_COFINS := '06';
-            stcofinsIsentaContribuicao                            : strCST_COFINS := '07';
-            stcofinsSemIncidenciaContribuicao                     : strCST_COFINS := '08';
-            stcofinsSuspensaoContribuicao                         : strCST_COFINS := '09';
-            stcofinsOutrasOperacoesSaida                          : strCST_COFINS := '49';
-            stcofinsOperCredExcRecTribMercInt                     : strCST_COFINS := '50';
-            stcofinsOperCredExcRecNaoTribMercInt                  : strCST_COFINS := '51';
-            stcofinsOperCredExcRecExportacao                      : strCST_COFINS := '52';
-            stcofinsOperCredRecTribNaoTribMercInt                 : strCST_COFINS := '53';
-            stcofinsOperCredRecTribMercIntEExportacao             : strCST_COFINS := '54';
-            stcofinsOperCredRecNaoTribMercIntEExportacao          : strCST_COFINS := '55';
-            stcofinsOperCredRecTribENaoTribMercIntEExportacao     : strCST_COFINS := '56';
-            stcofinsCredPresAquiExcRecTribMercInt                 : strCST_COFINS := '60';
-            stcofinsCredPresAquiExcRecNaoTribMercInt              : strCST_COFINS := '61';
-            stcofinsCredPresAquiExcExcRecExportacao               : strCST_COFINS := '62';
-            stcofinsCredPresAquiRecTribNaoTribMercInt             : strCST_COFINS := '63';
-            stcofinsCredPresAquiRecTribMercIntEExportacao         : strCST_COFINS := '64';
-            stcofinsCredPresAquiRecNaoTribMercIntEExportacao      : strCST_COFINS := '65';
-            stcofinsCredPresAquiRecTribENaoTribMercIntEExportacao : strCST_COFINS := '66';
-            stcofinsOutrasOperacoes_CredPresumido                 : strCST_COFINS := '67';
-            stcofinsOperAquiSemDirCredito                         : strCST_COFINS := '70';
-            stcofinsOperAquiComIsensao                            : strCST_COFINS := '71';
-            stcofinsOperAquiComSuspensao                          : strCST_COFINS := '72';
-            stcofinsOperAquiAliquotaZero                          : strCST_COFINS := '73';
-            stcofinsOperAqui_SemIncidenciaContribuicao            : strCST_COFINS := '74';
-            stcofinsOperAquiPorST                                 : strCST_COFINS := '75';
-            stcofinsOutrasOperacoesEntrada                        : strCST_COFINS := '98';
-            stcofinsOutrasOperacoes                               : strCST_COFINS := '99';
-          end;
 
           Add( LFill('D350')                  +
                LFill( COD_MOD )               +
@@ -1269,18 +974,18 @@ begin
                LFill( NUM_COO_FIN, 6 )        +
                DFill( GT_FIN )                +
                DFill( VL_BRT )                +
-               LFill( strCST_PIS )            +
-               LFill( VL_BC_PIS, 0, 2 )       +
-               DFill( ALIQ_PIS, 4, True )           +
-               DFill( QUANT_BC_PIS, 3, True )       +
-               DFill( ALIQ_PIS_QUANT, 4, True )     +
-               LFill( VL_PIS,0,2 )            +
-               LFill( strCST_COFINS )         +
-               LFill( VL_BC_COFINS,0,2 )      +
-               DFill( ALIQ_COFINS, 4, True )        +
-               DFill( QUANT_BC_COFINS, 3, True )    +
-               DFill( ALIQ_COFINS_QUANT, 4, True )  +
-               LFill( VL_COFINS,0,2 )         +
+               LFill( CstPisToStr(CST_PIS) )  +
+               VLFill( VL_BC_PIS, 0, 2 )      +
+               VDFill( ALIQ_PIS, 4)           +
+               VLFill( QUANT_BC_PIS, 3)       +
+               VDFill( ALIQ_PIS_QUANT, 4)     +
+               VLFill( VL_PIS, 0, 2 )         +
+               LFill( CstCofinsToStr(CST_COFINS) )         +
+               VLFill( VL_BC_COFINS,0,2 )     +
+               VDFill( ALIQ_COFINS, 4)        +
+               VLFill( QUANT_BC_COFINS, 3)    +
+               VDFill( ALIQ_COFINS_QUANT, 4)  +
+               VLFill( VL_COFINS,0,2 )        +
                LFill(COD_CTA) ) ;
         end;
 
@@ -1397,7 +1102,6 @@ end;
 procedure TBloco_D.WriteRegistroD501(RegD500: TRegistroD500) ;
   var
     intFor         : integer;
-    strCST_PIS     : AnsiString;
     strNAT_BC_CRED : AnsiString;
 begin
   if Assigned(RegD500.RegistroD501) then
@@ -1406,41 +1110,6 @@ begin
     begin
       with RegD500.RegistroD501.Items[intFor] do
       begin
-        case CST_PIS of
-          stpisValorAliquotaNormal                           : strCST_PIS := '01';
-          stpisValorAliquotaDiferenciada                     : strCST_PIS := '02';
-          stpisQtdeAliquotaUnidade                           : strCST_PIS := '03';
-          stpisMonofaticaAliquotaZero                        : strCST_PIS := '04';
-          stpisValorAliquotaPorST                            : strCST_PIS := '05';
-          stpisAliquotaZero                                  : strCST_PIS := '06';
-          stpisIsentaContribuicao                            : strCST_PIS := '07';
-          stpisSemIncidenciaContribuicao                     : strCST_PIS := '08';
-          stpisSuspensaoContribuicao                         : strCST_PIS := '09';
-          stpisOutrasOperacoesSaida                          : strCST_PIS := '49';
-          stpisOperCredExcRecTribMercInt                     : strCST_PIS := '50';
-          stpisOperCredExcRecNaoTribMercInt                  : strCST_PIS := '51';
-          stpisOperCredExcRecExportacao                      : strCST_PIS := '52';
-          stpisOperCredRecTribNaoTribMercInt                 : strCST_PIS := '53';
-          stpisOperCredRecTribMercIntEExportacao             : strCST_PIS := '54';
-          stpisOperCredRecNaoTribMercIntEExportacao          : strCST_PIS := '55';
-          stpisOperCredRecTribENaoTribMercIntEExportacao     : strCST_PIS := '56';
-          stpisCredPresAquiExcRecTribMercInt                 : strCST_PIS := '60';
-          stpisCredPresAquiExcRecNaoTribMercInt              : strCST_PIS := '61';
-          stpisCredPresAquiExcExcRecExportacao               : strCST_PIS := '62';
-          stpisCredPresAquiRecTribNaoTribMercInt             : strCST_PIS := '63';
-          stpisCredPresAquiRecTribMercIntEExportacao         : strCST_PIS := '64';
-          stpisCredPresAquiRecNaoTribMercIntEExportacao      : strCST_PIS := '65';
-          stpisCredPresAquiRecTribENaoTribMercIntEExportacao : strCST_PIS := '66';
-          stpisOutrasOperacoes_CredPresumido                 : strCST_PIS := '67';
-          stpisOperAquiSemDirCredito                         : strCST_PIS := '70';
-          stpisOperAquiComIsensao                            : strCST_PIS := '71';
-          stpisOperAquiComSuspensao                          : strCST_PIS := '72';
-          stpisOperAquiAliquotaZero                          : strCST_PIS := '73';
-          stpisOperAqui_SemIncidenciaContribuicao            : strCST_PIS := '74';
-          stpisOperAquiPorST                                 : strCST_PIS := '75';
-          stpisOutrasOperacoesEntrada                        : strCST_PIS := '98';
-          stpisOutrasOperacoes                               : strCST_PIS := '99';
-        end;
 
         case NAT_BC_CRED of
           bccAqBensRevenda                 : strNAT_BC_CRED := '01';
@@ -1464,7 +1133,7 @@ begin
         end;
 
         Add( LFill('D501')           +
-             LFill( strCST_PIS )     +
+             LFill( CstPisToStr(CST_PIS) )     +
              LFill( VL_ITEM,0,2 )    +
              LFill( strNAT_BC_CRED ) +
              LFill( VL_BC_PIS,0,2 )  +
@@ -1483,7 +1152,6 @@ end;
 procedure TBloco_D.WriteRegistroD505(RegD500: TRegistroD500) ;
   var
     intFor         : integer;
-    strCST_COFINS  :  AnsiString;
     strNAT_BC_CRED : AnsiString;
 begin
   if Assigned(RegD500.RegistroD505) then
@@ -1492,42 +1160,6 @@ begin
     begin
       with RegD500.RegistroD505.Items[intFor] do
       begin
-        case CST_COFINS of
-          stcofinsValorAliquotaNormal                           : strCST_COFINS := '01';
-          stcofinsValorAliquotaDiferenciada                     : strCST_COFINS := '02';
-          stcofinsQtdeAliquotaUnidade                           : strCST_COFINS := '03';
-          stcofinsMonofaticaAliquotaZero                        : strCST_COFINS := '04';
-          stcofinsValorAliquotaPorST                            : strCST_COFINS := '05';
-          stcofinsAliquotaZero                                  : strCST_COFINS := '06';
-          stcofinsIsentaContribuicao                            : strCST_COFINS := '07';
-          stcofinsSemIncidenciaContribuicao                     : strCST_COFINS := '08';
-          stcofinsSuspensaoContribuicao                         : strCST_COFINS := '09';
-          stcofinsOutrasOperacoesSaida                          : strCST_COFINS := '49';
-          stcofinsOperCredExcRecTribMercInt                     : strCST_COFINS := '50';
-          stcofinsOperCredExcRecNaoTribMercInt                  : strCST_COFINS := '51';
-          stcofinsOperCredExcRecExportacao                      : strCST_COFINS := '52';
-          stcofinsOperCredRecTribNaoTribMercInt                 : strCST_COFINS := '53';
-          stcofinsOperCredRecTribMercIntEExportacao             : strCST_COFINS := '54';
-          stcofinsOperCredRecNaoTribMercIntEExportacao          : strCST_COFINS := '55';
-          stcofinsOperCredRecTribENaoTribMercIntEExportacao     : strCST_COFINS := '56';
-          stcofinsCredPresAquiExcRecTribMercInt                 : strCST_COFINS := '60';
-          stcofinsCredPresAquiExcRecNaoTribMercInt              : strCST_COFINS := '61';
-          stcofinsCredPresAquiExcExcRecExportacao               : strCST_COFINS := '62';
-          stcofinsCredPresAquiRecTribNaoTribMercInt             : strCST_COFINS := '63';
-          stcofinsCredPresAquiRecTribMercIntEExportacao         : strCST_COFINS := '64';
-          stcofinsCredPresAquiRecNaoTribMercIntEExportacao      : strCST_COFINS := '65';
-          stcofinsCredPresAquiRecTribENaoTribMercIntEExportacao : strCST_COFINS := '66';
-          stcofinsOutrasOperacoes_CredPresumido                 : strCST_COFINS := '67';
-          stcofinsOperAquiSemDirCredito                         : strCST_COFINS := '70';
-          stcofinsOperAquiComIsensao                            : strCST_COFINS := '71';
-          stcofinsOperAquiComSuspensao                          : strCST_COFINS := '72';
-          stcofinsOperAquiAliquotaZero                          : strCST_COFINS := '73';
-          stcofinsOperAqui_SemIncidenciaContribuicao            : strCST_COFINS := '74';
-          stcofinsOperAquiPorST                                 : strCST_COFINS := '75';
-          stcofinsOutrasOperacoesEntrada                        : strCST_COFINS := '98';
-          stcofinsOutrasOperacoes                               : strCST_COFINS := '99';
-        end;
-
         case NAT_BC_CRED of
           bccAqBensRevenda                 : strNAT_BC_CRED := '01';
           bccAqBensUtiComoInsumo           : strNAT_BC_CRED := '02';
@@ -1550,7 +1182,7 @@ begin
         end;
 
         Add( LFill('D505')             +
-             LFill( strCST_COFINS )    +
+             LFill( CstCofinsToStr(CST_COFINS) )    +
              LFill( VL_ITEM,0,2 )      +
              LFill( strNAT_BC_CRED )   +
              LFill( VL_BC_COFINS,0,2 ) +
@@ -1658,7 +1290,6 @@ end;
 procedure TBloco_D.WriteRegistroD601(RegD600: TRegistroD600) ;
   var
     intFor     : integer;
-    strCST_PIS :  AnsiString;
 begin
   if Assigned(RegD600.RegistroD601) then
   begin
@@ -1667,47 +1298,11 @@ begin
       with RegD600.RegistroD601.Items[intFor] do
       begin
 
-        case CST_PIS of
-          stpisValorAliquotaNormal                           : strCST_PIS := '01';
-          stpisValorAliquotaDiferenciada                     : strCST_PIS := '02';
-          stpisQtdeAliquotaUnidade                           : strCST_PIS := '03';
-          stpisMonofaticaAliquotaZero                        : strCST_PIS := '04';
-          stpisValorAliquotaPorST                            : strCST_PIS := '05';
-          stpisAliquotaZero                                  : strCST_PIS := '06';
-          stpisIsentaContribuicao                            : strCST_PIS := '07';
-          stpisSemIncidenciaContribuicao                     : strCST_PIS := '08';
-          stpisSuspensaoContribuicao                         : strCST_PIS := '09';
-          stpisOutrasOperacoesSaida                          : strCST_PIS := '49';
-          stpisOperCredExcRecTribMercInt                     : strCST_PIS := '50';
-          stpisOperCredExcRecNaoTribMercInt                  : strCST_PIS := '51';
-          stpisOperCredExcRecExportacao                      : strCST_PIS := '52';
-          stpisOperCredRecTribNaoTribMercInt                 : strCST_PIS := '53';
-          stpisOperCredRecTribMercIntEExportacao             : strCST_PIS := '54';
-          stpisOperCredRecNaoTribMercIntEExportacao          : strCST_PIS := '55';
-          stpisOperCredRecTribENaoTribMercIntEExportacao     : strCST_PIS := '56';
-          stpisCredPresAquiExcRecTribMercInt                 : strCST_PIS := '60';
-          stpisCredPresAquiExcRecNaoTribMercInt              : strCST_PIS := '61';
-          stpisCredPresAquiExcExcRecExportacao               : strCST_PIS := '62';
-          stpisCredPresAquiRecTribNaoTribMercInt             : strCST_PIS := '63';
-          stpisCredPresAquiRecTribMercIntEExportacao         : strCST_PIS := '64';
-          stpisCredPresAquiRecNaoTribMercIntEExportacao      : strCST_PIS := '65';
-          stpisCredPresAquiRecTribENaoTribMercIntEExportacao : strCST_PIS := '66';
-          stpisOutrasOperacoes_CredPresumido                 : strCST_PIS := '67';
-          stpisOperAquiSemDirCredito                         : strCST_PIS := '70';
-          stpisOperAquiComIsensao                            : strCST_PIS := '71';
-          stpisOperAquiComSuspensao                          : strCST_PIS := '72';
-          stpisOperAquiAliquotaZero                          : strCST_PIS := '73';
-          stpisOperAqui_SemIncidenciaContribuicao            : strCST_PIS := '74';
-          stpisOperAquiPorST                                 : strCST_PIS := '75';
-          stpisOutrasOperacoesEntrada                        : strCST_PIS := '98';
-          stpisOutrasOperacoes                               : strCST_PIS := '99';
-        end;
-
         Add( LFill('D601')          +
              LFill( COD_CLASS )     + //Verificar criação da tabela
              LFill( VL_ITEM,0,2 )   +
              LFill( VL_DESC,0,2 )   +
-             LFill( strCST_PIS )    +
+             LFill( CstPisToStr(CST_PIS) )    +
              LFill( VL_BC_PIS,0,2 ) +
              DFill( ALIQ_PIS, 4 )  +
              LFill( VL_PIS,0,2 )    +
@@ -1724,7 +1319,6 @@ end;
 procedure TBloco_D.WriteRegistroD605(RegD600: TRegistroD600) ;
   var
     intFor        : integer;
-    strCST_COFINS :  AnsiString;
 begin
   if Assigned(RegD600.RegistroD605) then
   begin
@@ -1732,47 +1326,11 @@ begin
     begin
       with RegD600.RegistroD605.Items[intFor] do
       begin
-        case CST_COFINS of
-          stcofinsValorAliquotaNormal                           : strCST_COFINS := '01';
-          stcofinsValorAliquotaDiferenciada                     : strCST_COFINS := '02';
-          stcofinsQtdeAliquotaUnidade                           : strCST_COFINS := '03';
-          stcofinsMonofaticaAliquotaZero                        : strCST_COFINS := '04';
-          stcofinsValorAliquotaPorST                            : strCST_COFINS := '05';
-          stcofinsAliquotaZero                                  : strCST_COFINS := '06';
-          stcofinsIsentaContribuicao                            : strCST_COFINS := '07';
-          stcofinsSemIncidenciaContribuicao                     : strCST_COFINS := '08';
-          stcofinsSuspensaoContribuicao                         : strCST_COFINS := '09';
-          stcofinsOutrasOperacoesSaida                          : strCST_COFINS := '49';
-          stcofinsOperCredExcRecTribMercInt                     : strCST_COFINS := '50';
-          stcofinsOperCredExcRecNaoTribMercInt                  : strCST_COFINS := '51';
-          stcofinsOperCredExcRecExportacao                      : strCST_COFINS := '52';
-          stcofinsOperCredRecTribNaoTribMercInt                 : strCST_COFINS := '53';
-          stcofinsOperCredRecTribMercIntEExportacao             : strCST_COFINS := '54';
-          stcofinsOperCredRecNaoTribMercIntEExportacao          : strCST_COFINS := '55';
-          stcofinsOperCredRecTribENaoTribMercIntEExportacao     : strCST_COFINS := '56';
-          stcofinsCredPresAquiExcRecTribMercInt                 : strCST_COFINS := '60';
-          stcofinsCredPresAquiExcRecNaoTribMercInt              : strCST_COFINS := '61';
-          stcofinsCredPresAquiExcExcRecExportacao               : strCST_COFINS := '62';
-          stcofinsCredPresAquiRecTribNaoTribMercInt             : strCST_COFINS := '63';
-          stcofinsCredPresAquiRecTribMercIntEExportacao         : strCST_COFINS := '64';
-          stcofinsCredPresAquiRecNaoTribMercIntEExportacao      : strCST_COFINS := '65';
-          stcofinsCredPresAquiRecTribENaoTribMercIntEExportacao : strCST_COFINS := '66';
-          stcofinsOutrasOperacoes_CredPresumido                 : strCST_COFINS := '67';
-          stcofinsOperAquiSemDirCredito                         : strCST_COFINS := '70';
-          stcofinsOperAquiComIsensao                            : strCST_COFINS := '71';
-          stcofinsOperAquiComSuspensao                          : strCST_COFINS := '72';
-          stcofinsOperAquiAliquotaZero                          : strCST_COFINS := '73';
-          stcofinsOperAqui_SemIncidenciaContribuicao            : strCST_COFINS := '74';
-          stcofinsOperAquiPorST                                 : strCST_COFINS := '75';
-          stcofinsOutrasOperacoesEntrada                        : strCST_COFINS := '98';
-          stcofinsOutrasOperacoes                               : strCST_COFINS := '99';
-        end;
-
         Add( LFill('D605')             +
              LFill( COD_CLASS )        + //Verificar criação da tabela
              LFill( VL_ITEM,0,2 )      +
              LFill( VL_DESC,0,2 )      +
-             LFill( strCST_COFINS )    +
+             LFill( CstCofinsToStr(CST_COFINS) )    +
              LFill( VL_BC_COFINS,0,2 ) +
              DFill( ALIQ_COFINS, 4 )  +
              LFill( VL_COFINS,0,2 )    +

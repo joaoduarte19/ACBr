@@ -340,7 +340,7 @@ end;
 procedure TACBrSPEDFiscal.SetDelimitador(const Value: ansistring);
 begin
   if Value = '' then
-     raise Exception.Create('Campo não pode ser vazio!');
+     raise EACBrSPEDFiscalException.Create('Campo não pode ser vazio!');
 
   FDelimitador := Value;
 
@@ -363,7 +363,7 @@ end;
 procedure TACBrSPEDFiscal.SetPath(const Value: ansistring);
 begin
   if Value = '' then
-     raise Exception.Create('Campo não pode ser vazio!');
+     raise EACBrSPEDFiscalException.Create('Campo não pode ser vazio!');
 
   FPath := PathWithDelim( Value );
 end;
@@ -376,7 +376,7 @@ end;
 procedure TACBrSPEDFiscal.SetCurMascara(const Value: ansistring);
 begin
   if Value = '' then
-     raise Exception.Create('Campo não pode ser vazio! Para deixar sem mascara digite #');
+     raise EACBrSPEDFiscalException.Create('Campo não pode ser vazio! Para deixar sem mascara digite #');
 
 	 FCurMascara := Value;
 
@@ -429,7 +429,7 @@ begin
   if FInicializado then exit ;
 
   if (Trim(FArquivo) = '') or (Trim(FPath) = '') then
-    raise Exception.Create(ACBrStr('Caminho ou nome do arquivo não informado!'));
+    raise EACBrSPEDFiscalException.Create(ACBrStr('Caminho ou nome do arquivo não informado!'));
 
   FACBrTXT.NomeArquivo := FPath + FArquivo ;
   FACBrTXT.Reset;    // Apaga o Arquivo e limpa memória
@@ -588,7 +588,7 @@ begin
   if Bloco_0.Gravado then exit ;
 
   if not FInicializado then
-     raise Exception.Create( 'Métodos "IniciaGeracao" não foi executado' );
+     raise EACBrSPEDFiscalException.Create( 'Métodos "IniciaGeracao" não foi executado' );
 
   // BLOCO 0
   WriteRegistro0000;

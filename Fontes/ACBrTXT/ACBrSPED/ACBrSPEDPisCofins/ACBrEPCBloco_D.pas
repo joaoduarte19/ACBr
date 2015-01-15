@@ -484,17 +484,17 @@ type
     fGT_FIN                    : Currency;                //09	GT_FIN	Valor do Grande Total final	N	-	02
     fVL_BRT                    : Currency;                //10	VL_BRT	Valor da venda bruta	N	-	02
     fCST_PIS                   : TACBrCstPis;             //11	CST_PIS	Código da Situação Tributária referente ao PIS/PASEP	N	002*	-
-    fVL_BC_PIS                 : Currency;                //12	VL_BC_PIS	Valor da base de cálculo do PIS/PASEP	N	- 	02
-    fALIQ_PIS                  : Currency;                //13	ALIQ_PIS	Alíquota do PIS/PASEP (em percentual)	N	008	04
-    fQUANT_BC_PIS              : Currency;                //14	QUANT_BC_PIS	Quantidade – Base de cálculo PIS/PASEP	N	- 	03
-    fALIQ_PIS_QUANT            : Currency;                //15	ALIQ_PIS_QUANT	Alíquota do PIS/PASEP (em reais)	N	 -	04
-    fVL_PIS                    : Currency;                //16	VL_PIS	Valor do PIS/PASEP	N	-	02
+    fVL_BC_PIS                 : Variant;                 //12	VL_BC_PIS	Valor da base de cálculo do PIS/PASEP	N	- 	02
+    fALIQ_PIS                  : Variant;                 //13	ALIQ_PIS	Alíquota do PIS/PASEP (em percentual)	N	008	04
+    fQUANT_BC_PIS              : Variant;                 //14	QUANT_BC_PIS	Quantidade – Base de cálculo PIS/PASEP	N	- 	03
+    fALIQ_PIS_QUANT            : Variant;                 //15	ALIQ_PIS_QUANT	Alíquota do PIS/PASEP (em reais)	N	 -	04
+    fVL_PIS                    : Variant;                 //16	VL_PIS	Valor do PIS/PASEP	N	-	02
     fCST_COFINS                : TACBrSituacaoTribCOFINS; //17	CST_COFINS	Código da Situação Tributária referente a COFINS	N	002*	-
-    fVL_BC_COFINS              : Currency;                //18	VL_BC_COFINS	Valor da base de cálculo da COFINS	N	 -	02
-    fALIQ_COFINS               : Currency;                //19	ALIQ_COFINS	Alíquota da COFINS (em percentual)	N	008	04
-    fQUANT_BC_COFINS           : Currency;                //20	QUANT_BC_COFINS	Quantidade – Base de cálculo da COFINS	N	- 	03
-    fALIQ_COFINS_QUANT         : Currency;                //21	ALIQ_COFINS_QUANT	Alíquota da COFINS (em reais)	N	- 	04
-    fVL_COFINS                 : Currency;                //22	VL_COFINS	Valor da COFINS	N	-	02
+    fVL_BC_COFINS              : Variant;                 //18	VL_BC_COFINS	Valor da base de cálculo da COFINS	N	 -	02
+    fALIQ_COFINS               : Variant;                 //19	ALIQ_COFINS	Alíquota da COFINS (em percentual)	N	008	04
+    fQUANT_BC_COFINS           : Variant;                 //20	QUANT_BC_COFINS	Quantidade – Base de cálculo da COFINS	N	- 	03
+    fALIQ_COFINS_QUANT         : Variant;                 //21	ALIQ_COFINS_QUANT	Alíquota da COFINS (em reais)	N	- 	04
+    fVL_COFINS                 : Variant;                 //22	VL_COFINS	Valor da COFINS	N	-	02
     fCOD_CTA                   : string;                  //23	COD_CTA	Código da conta analítica contábil debitada/creditada	C	060	-
 
     FRegistroD359              : TRegistroD359List;
@@ -512,17 +512,17 @@ type
     property GT_FIN            : Currency                read FGT_FIN            write FGT_FIN;
     property VL_BRT            : Currency                read FVL_BRT            write FVL_BRT;
     property CST_PIS           : TACBrCstPis             read FCST_PIS           write FCST_PIS;
-    property VL_BC_PIS         : Currency                read FVL_BC_PIS         write FVL_BC_PIS;
-    property ALIQ_PIS          : Currency                read FALIQ_PIS          write FALIQ_PIS;
-    property QUANT_BC_PIS      : Currency                read FQUANT_BC_PIS      write FQUANT_BC_PIS;
-    property ALIQ_PIS_QUANT    : Currency                read FALIQ_PIS_QUANT    write FALIQ_PIS_QUANT;
-    property VL_PIS            : Currency                read FVL_PIS            write FVL_PIS;
+    property VL_BC_PIS         : Variant                 read FVL_BC_PIS         write FVL_BC_PIS;
+    property ALIQ_PIS          : Variant                 read FALIQ_PIS          write FALIQ_PIS;
+    property QUANT_BC_PIS      : Variant                 read FQUANT_BC_PIS      write FQUANT_BC_PIS;
+    property ALIQ_PIS_QUANT    : Variant                 read FALIQ_PIS_QUANT    write FALIQ_PIS_QUANT;
+    property VL_PIS            : Variant                 read FVL_PIS            write FVL_PIS;
     property CST_COFINS        : TACBrSituacaoTribCOFINS read FCST_COFINS        write FCST_COFINS;
-    property VL_BC_COFINS      : Currency                read FVL_BC_COFINS      write FVL_BC_COFINS;
-    property ALIQ_COFINS       : Currency                read FALIQ_COFINS       write FALIQ_COFINS;
-    property QUANT_BC_COFINS   : Currency                read FQUANT_BC_COFINS   write FQUANT_BC_COFINS;
-    property ALIQ_COFINS_QUANT : Currency                read FALIQ_COFINS_QUANT write FALIQ_COFINS_QUANT;
-    property VL_COFINS         : Currency                read FVL_COFINS         write FVL_COFINS;
+    property VL_BC_COFINS      : Variant                 read FVL_BC_COFINS      write FVL_BC_COFINS;
+    property ALIQ_COFINS       : Variant                 read FALIQ_COFINS       write FALIQ_COFINS;
+    property QUANT_BC_COFINS   : Variant                 read FQUANT_BC_COFINS   write FQUANT_BC_COFINS;
+    property ALIQ_COFINS_QUANT : Variant                 read FALIQ_COFINS_QUANT write FALIQ_COFINS_QUANT;
+    property VL_COFINS         : Variant                 read FVL_COFINS         write FVL_COFINS;
     property COD_CTA           : string                  read FCOD_CTA           write FCOD_CTA;
 
     property RegistroD359      : TRegistroD359List       read FRegistroD359      write FRegistroD359;

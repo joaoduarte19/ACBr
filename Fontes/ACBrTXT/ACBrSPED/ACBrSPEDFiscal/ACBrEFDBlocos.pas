@@ -137,6 +137,9 @@ Const
   cofinsOutrasOperacoes                               = '99' ; // Outras Operações,
 
 type
+
+  EACBrSPEDFiscalException = class(EACBrSPEDException);
+
   /// Indicador de movimento - TOpenBlocos
   TACBrIndMov = (imComDados, // 0- Bloco com dados informados;
                  imSemDados  // 1- Bloco sem dados informados.
@@ -688,7 +691,7 @@ begin
    if AValue = '010' then
       Result := vlVersao109
    else
-     raise Exception.CreateFmt('Versão desconhecida. Versao "%s" não é um valor válido.', [AValue]);
+     raise EACBrSPEDFiscalException.CreateFmt('Versão desconhecida. Versao "%s" não é um valor válido.', [AValue]);
 end;
 
 function CodVerToStr(AValue: TACBrCodVer): string;
@@ -866,7 +869,7 @@ begin
    if AValue = '05' then
       Result := miDeterminacaoFiscos
    else
-     raise Exception.CreateFmt('O motivo do inventário "%s" não é um valor válido.', [AValue]);
+     raise EACBrSPEDFiscalException.CreateFmt('O motivo do inventário "%s" não é um valor válido.', [AValue]);
 end;
 
 function MotInvToStr(AValue: TACBrMotInv): string;

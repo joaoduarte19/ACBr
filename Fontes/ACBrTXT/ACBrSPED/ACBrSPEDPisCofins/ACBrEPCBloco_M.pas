@@ -107,17 +107,17 @@ type
   //REGISTRO M100: ABERTURA DO BLOCO M
   TRegistroM100 = class
   private
-    FALIQ_PIS               : currency;
-    FVL_CRED_DESC           : currency;
+    FALIQ_PIS               : Variant;
+    FVL_CRED_DESC           : Variant;
     FVL_AJUS_ACRES          : currency;
     FVL_CRED_DIF            : currency;
     FSLD_CRED               : currency;
     FVL_CRED                : currency;
-    FALIQ_PIS_QUANT         : currency;
+    FALIQ_PIS_QUANT         : Variant;
     FVL_AJUS_REDUC          : currency;
     FVL_CRED_DISP           : currency;
-    FQUANT_BC_PIS           : currency;
-    FVL_BC_PIS              : currency;
+    FQUANT_BC_PIS           : Variant;
+    FVL_BC_PIS              : Variant;
     FIND_CRED_ORI           : TACBrIndCredOri;
     FCOD_CRED               : string;
     FIND_DESC_CRED          : TACBrIndDescCred;
@@ -130,17 +130,17 @@ type
 
     property COD_CRED       : String            read FCOD_CRED       write FCOD_CRED;
     property IND_CRED_ORI   : TACBrIndCredOri   read FIND_CRED_ORI   write FIND_CRED_ORI;
-    property VL_BC_PIS      : currency          read FVL_BC_PIS      write FVL_BC_PIS;
-    property ALIQ_PIS       : currency          read FALIQ_PIS       write FALIQ_PIS;
-    property QUANT_BC_PIS   : currency          read FQUANT_BC_PIS   write FQUANT_BC_PIS;
-    property ALIQ_PIS_QUANT : currency          read FALIQ_PIS_QUANT write FALIQ_PIS_QUANT;
+    property VL_BC_PIS      : Variant           read FVL_BC_PIS      write FVL_BC_PIS;
+    property ALIQ_PIS       : Variant           read FALIQ_PIS       write FALIQ_PIS;
+    property QUANT_BC_PIS   : Variant           read FQUANT_BC_PIS   write FQUANT_BC_PIS;
+    property ALIQ_PIS_QUANT : Variant           read FALIQ_PIS_QUANT write FALIQ_PIS_QUANT;
     property VL_CRED        : currency          read FVL_CRED        write FVL_CRED;
     property VL_AJUS_ACRES  : currency          read FVL_AJUS_ACRES  write FVL_AJUS_ACRES;
     property VL_AJUS_REDUC  : currency          read FVL_AJUS_REDUC  write FVL_AJUS_REDUC;
     property VL_CRED_DIF    : currency          read FVL_CRED_DIF    write FVL_CRED_DIF;
     property VL_CRED_DISP   : currency          read FVL_CRED_DISP   write FVL_CRED_DISP;
     property IND_DESC_CRED  : TACBrIndDescCred  read FIND_DESC_CRED  write FIND_DESC_CRED;
-    property VL_CRED_DESC   : currency          read FVL_CRED_DESC   write FVL_CRED_DESC;
+    property VL_CRED_DESC   : Variant           read FVL_CRED_DESC   write FVL_CRED_DESC;
     property SLD_CRED       : currency          read FSLD_CRED       write FSLD_CRED;
 
     property RegistroM105   : TRegistroM105List read FRegistroM105   write FRegistroM105;
@@ -160,24 +160,24 @@ type
   //REGISTRO M105: DETALHAMENTO DA BASE DE CALCULO DO CRÉDITO APURADO NO PERÍODO - PIS/PASEP
   TRegistroM105 = class
   private
-    FQUANT_BC_PIS             : currency;
-    FVL_BC_PIS_CUM            : currency;
-    FQUANT_BC_PIS_TOT         : currency;
-    FVL_BC_PIS_TOT            : currency;
-    FVL_BC_PIS_NC             : currency;
-    FVL_BC_PIS                : currency;
+    FQUANT_BC_PIS             : Variant;
+    FVL_BC_PIS_CUM            : Variant;
+    FQUANT_BC_PIS_TOT         : Variant;
+    FVL_BC_PIS_TOT            : Variant;
+    FVL_BC_PIS_NC             : Variant;
+    FVL_BC_PIS                : Variant;
     FCST_PIS                  : TACBrCstPis;
     FDESC_CRED                : string;
     FNAT_BC_CRED              : TACBrBaseCalculoCredito;
   public
     property NAT_BC_CRED      : TACBrBaseCalculoCredito read FNAT_BC_CRED      write FNAT_BC_CRED;
     property CST_PIS          : TACBrCstPis             read FCST_PIS          write FCST_PIS;
-    property VL_BC_PIS_TOT    : currency                read FVL_BC_PIS_TOT    write FVL_BC_PIS_TOT;
-    property VL_BC_PIS_CUM    : currency                read FVL_BC_PIS_CUM    write FVL_BC_PIS_CUM;
-    property VL_BC_PIS_NC     : currency                read FVL_BC_PIS_NC     write FVL_BC_PIS_NC;
-    property VL_BC_PIS        : currency                read FVL_BC_PIS        write FVL_BC_PIS;
-    property QUANT_BC_PIS_TOT : currency                read FQUANT_BC_PIS_TOT write FQUANT_BC_PIS_TOT;
-    property QUANT_BC_PIS     : currency                read FQUANT_BC_PIS     write FQUANT_BC_PIS;
+    property VL_BC_PIS_TOT    : Variant                 read FVL_BC_PIS_TOT    write FVL_BC_PIS_TOT;
+    property VL_BC_PIS_CUM    : Variant                 read FVL_BC_PIS_CUM    write FVL_BC_PIS_CUM;
+    property VL_BC_PIS_NC     : Variant                 read FVL_BC_PIS_NC     write FVL_BC_PIS_NC;
+    property VL_BC_PIS        : Variant                 read FVL_BC_PIS        write FVL_BC_PIS;
+    property QUANT_BC_PIS_TOT : Variant                 read FQUANT_BC_PIS_TOT write FQUANT_BC_PIS_TOT;
+    property QUANT_BC_PIS     : Variant                 read FQUANT_BC_PIS     write FQUANT_BC_PIS;
     property DESC_CRED        : string                  read FDESC_CRED        write FDESC_CRED;
   end;
 
@@ -325,17 +325,17 @@ type
   //REGISTRO M210: DETALHAMENTO DA CONTRIBUIÇÃO PARA O PIS/PASEP DO PERÍODO
   TRegistroM210 = class
   private
-    FALIQ_PIS                  : currency;
+    FALIQ_PIS                  : Variant;
     FVL_CONT_PER               : currency;
-    FVL_CONT_DIFER             : currency;
+    FVL_CONT_DIFER             : Variant;
     FVL_AJUS_REDUC             : currency;
     FVL_AJUS_ACRES             : currency;
-    FVL_CONT_DIFER_ANT         : currency;
-    FALIQ_PIS_QUANT            : currency;
+    FVL_CONT_DIFER_ANT         : Variant;
+    FALIQ_PIS_QUANT            : Variant;
     FVL_BC_CONT                : currency;
     FVL_CONT_APUR              : currency;
     FVL_REC_BRT                : currency;
-    FQUANT_BC_PIS              : currency;
+    FQUANT_BC_PIS              : Variant;
     FCOD_CONT                  : TACBrCodCont;
 
     FRegistroM211              : TRegistroM211;     // NIVEL 4
@@ -348,14 +348,14 @@ type
     property COD_CONT          : TACBrCodCont      read FCOD_CONT          write FCOD_CONT;
     property VL_REC_BRT        : currency          read FVL_REC_BRT        write FVL_REC_BRT;
     property VL_BC_CONT        : currency          read FVL_BC_CONT        write FVL_BC_CONT;
-    property ALIQ_PIS          : currency          read FALIQ_PIS          write FALIQ_PIS;
-    property QUANT_BC_PIS      : currency          read FQUANT_BC_PIS      write FQUANT_BC_PIS;
-    property ALIQ_PIS_QUANT    : currency          read FALIQ_PIS_QUANT    write FALIQ_PIS_QUANT;
+    property ALIQ_PIS          : Variant           read FALIQ_PIS          write FALIQ_PIS;
+    property QUANT_BC_PIS      : Variant           read FQUANT_BC_PIS      write FQUANT_BC_PIS;
+    property ALIQ_PIS_QUANT    : Variant           read FALIQ_PIS_QUANT    write FALIQ_PIS_QUANT;
     property VL_CONT_APUR      : currency          read FVL_CONT_APUR      write FVL_CONT_APUR;
     property VL_AJUS_ACRES     : currency          read FVL_AJUS_ACRES     write FVL_AJUS_ACRES;
     property VL_AJUS_REDUC     : currency          read FVL_AJUS_REDUC     write FVL_AJUS_REDUC;
-    property VL_CONT_DIFER     : currency          read FVL_CONT_DIFER     write FVL_CONT_DIFER;
-    property VL_CONT_DIFER_ANT : currency          read FVL_CONT_DIFER_ANT write FVL_CONT_DIFER_ANT;
+    property VL_CONT_DIFER     : Variant           read FVL_CONT_DIFER     write FVL_CONT_DIFER;
+    property VL_CONT_DIFER_ANT : Variant           read FVL_CONT_DIFER_ANT write FVL_CONT_DIFER_ANT;
     property VL_CONT_PER       : currency          read FVL_CONT_PER       write FVL_CONT_PER;
 
     property RegistroM211      : TRegistroM211     read FRegistroM211      write FRegistroM211;
@@ -591,16 +591,16 @@ type
   TRegistroM500 = class
   private
     FVL_AJUS_ACRES             : currency;
-    FALIQ_COFINS               : currency;
+    FALIQ_COFINS               : Variant;
     FVL_CRED                   : currency;
     FVL_AJUS_REDUC             : currency;
-    FVL_CRED_DESC              : currency;
+    FVL_CRED_DESC              : Variant;
     FSLD_CRED                  : currency;
-    FALIQ_COFINS_QUANT         : currency;
+    FALIQ_COFINS_QUANT         : Variant;
     FVL_CRED_DISP              : currency;
     FVL_CRED_DIFER             : currency;
-    FVL_BC_COFINS              : currency;
-    FQUANT_BC_COFINS           : currency;
+    FVL_BC_COFINS              : Variant;
+    FQUANT_BC_COFINS           : Variant;
     FIND_DESC_CRED             : TACBrIndDescCred;
     FIND_CRED_ORI              : TACBrIndCredOri;
     FCOD_CRED                  : string;
@@ -613,17 +613,17 @@ type
 
     property COD_CRED          : string            read FCOD_CRED          write FCOD_CRED;
     property IND_CRED_ORI      : TACBrIndCredOri   read FIND_CRED_ORI      write FIND_CRED_ORI;
-    property VL_BC_COFINS      : currency          read FVL_BC_COFINS      write FVL_BC_COFINS;
-    property ALIQ_COFINS       : currency          read FALIQ_COFINS       write FALIQ_COFINS;
-    property QUANT_BC_COFINS   : currency          read FQUANT_BC_COFINS   write FQUANT_BC_COFINS;
-    property ALIQ_COFINS_QUANT : currency          read FALIQ_COFINS_QUANT write FALIQ_COFINS_QUANT;
+    property VL_BC_COFINS      : Variant           read FVL_BC_COFINS      write FVL_BC_COFINS;
+    property ALIQ_COFINS       : Variant           read FALIQ_COFINS       write FALIQ_COFINS;
+    property QUANT_BC_COFINS   : Variant           read FQUANT_BC_COFINS   write FQUANT_BC_COFINS;
+    property ALIQ_COFINS_QUANT : Variant           read FALIQ_COFINS_QUANT write FALIQ_COFINS_QUANT;
     property VL_CRED           : currency          read FVL_CRED           write FVL_CRED;
     property VL_AJUS_ACRES     : currency          read FVL_AJUS_ACRES     write FVL_AJUS_ACRES;
     property VL_AJUS_REDUC     : currency          read FVL_AJUS_REDUC     write FVL_AJUS_REDUC;
     property VL_CRED_DIFER     : currency          read FVL_CRED_DIFER     write FVL_CRED_DIFER;
     property VL_CRED_DISP      : currency          read FVL_CRED_DISP      write FVL_CRED_DISP;
     property IND_DESC_CRED     : TACBrIndDescCred  read FIND_DESC_CRED     write FIND_DESC_CRED;
-    property VL_CRED_DESC      : currency          read FVL_CRED_DESC      write FVL_CRED_DESC;
+    property VL_CRED_DESC      : Variant           read FVL_CRED_DESC      write FVL_CRED_DESC;
     property SLD_CRED          : currency          read FSLD_CRED          write FSLD_CRED;
 
     property RegistroM505      : TRegistroM505List read FRegistroM505      write FRegistroM505;
@@ -643,24 +643,24 @@ type
   //REGISTRO M505: DETALHAMENTO DA BASE DE CALCULO DO CRÉDITO APURADO NO PERÍODO - COFINS
   TRegistroM505 = class
   private
-    FQUANT_BC_COFINS             : currency;
-    FVL_BC_COFINS_CUM            : currency;
-    FQUANT_BC_COFINS_TOT         : currency;
-    FVL_BC_COFINS_TOT            : currency;
-    FVL_BC_COFINS_NC             : currency;
-    FVL_BC_COFINS                : currency;
+    FQUANT_BC_COFINS             : Variant;
+    FVL_BC_COFINS_CUM            : Variant;
+    FQUANT_BC_COFINS_TOT         : Variant;
+    FVL_BC_COFINS_TOT            : Variant;
+    FVL_BC_COFINS_NC             : Variant;
+    FVL_BC_COFINS                : Variant;
     FCST_COFINS                  : TACBrSituacaoTribCOFINS;
     FDESC_CRED                   : string;
     FNAT_BC_CRED                 : TACBrBaseCalculoCredito;
   public
     property NAT_BC_CRED         : TACBrBaseCalculoCredito read FNAT_BC_CRED         write FNAT_BC_CRED;
     property CST_COFINS          : TACBrSituacaoTribCOFINS read FCST_COFINS          write FCST_COFINS;
-    property VL_BC_COFINS_TOT    : currency                read FVL_BC_COFINS_TOT    write FVL_BC_COFINS_TOT;
-    property VL_BC_COFINS_CUM    : currency                read FVL_BC_COFINS_CUM    write FVL_BC_COFINS_CUM;
-    property VL_BC_COFINS_NC     : currency                read FVL_BC_COFINS_NC     write FVL_BC_COFINS_NC;
-    property VL_BC_COFINS        : currency                read FVL_BC_COFINS        write FVL_BC_COFINS;
-    property QUANT_BC_COFINS_TOT : currency                read FQUANT_BC_COFINS_TOT write FQUANT_BC_COFINS_TOT;
-    property QUANT_BC_COFINS     : currency                read FQUANT_BC_COFINS     write FQUANT_BC_COFINS;
+    property VL_BC_COFINS_TOT    : Variant                 read FVL_BC_COFINS_TOT    write FVL_BC_COFINS_TOT;
+    property VL_BC_COFINS_CUM    : Variant                 read FVL_BC_COFINS_CUM    write FVL_BC_COFINS_CUM;
+    property VL_BC_COFINS_NC     : Variant                 read FVL_BC_COFINS_NC     write FVL_BC_COFINS_NC;
+    property VL_BC_COFINS        : Variant                 read FVL_BC_COFINS        write FVL_BC_COFINS;
+    property QUANT_BC_COFINS_TOT : Variant                 read FQUANT_BC_COFINS_TOT write FQUANT_BC_COFINS_TOT;
+    property QUANT_BC_COFINS     : Variant                 read FQUANT_BC_COFINS     write FQUANT_BC_COFINS;
     property DESC_CRED           : string                  read FDESC_CRED           write FDESC_CRED;
   end;
 
@@ -804,17 +804,17 @@ type
   //REGISTRO M610: DETALHAMENTO DA CONTRIBUIÇÃO PARA A SEGURIDADE SOCIAL - COFINS DO PERÍODO
   TRegistroM610 = class
   private
-    FVL_CONT_DIFER             : currency;
-    FVL_CONT_PER               : currency;
-    FALIQ_COFINS               : currency;
+    FVL_CONT_DIFER             : Variant;
+    FVL_CONT_PER               : Currency;
+    FALIQ_COFINS               : Variant;
     FVL_AJUS_REDUC             : currency;
     FVL_AJUS_ACRES             : currency;
-    FVL_CONT_DIFER_ANT         : currency;
-    FALIQ_COFINS_QUANT         : currency;
+    FVL_CONT_DIFER_ANT         : Variant;
+    FALIQ_COFINS_QUANT         : Variant;
     FVL_BC_CONT                : currency;
     FVL_CONT_APUR              : currency;
     FVL_REC_BRT                : currency;
-    FQUANT_BC_COFINS           : currency;
+    FQUANT_BC_COFINS           : Variant;
     FCOD_CONT                  : TACBrCodCont;
 
     FRegistroM611              : TRegistroM611;     // NIVEL 4
@@ -827,14 +827,14 @@ type
     property COD_CONT          : TACBrCodCont      read FCOD_CONT          write FCOD_CONT;
     property VL_REC_BRT        : currency          read FVL_REC_BRT        write FVL_REC_BRT;
     property VL_BC_CONT        : currency          read FVL_BC_CONT        write FVL_BC_CONT;
-    property ALIQ_COFINS       : currency          read FALIQ_COFINS       write FALIQ_COFINS;
-    property QUANT_BC_COFINS   : currency          read FQUANT_BC_COFINS   write FQUANT_BC_COFINS;
-    property ALIQ_COFINS_QUANT : currency          read FALIQ_COFINS_QUANT write FALIQ_COFINS_QUANT;
+    property ALIQ_COFINS       : Variant           read FALIQ_COFINS       write FALIQ_COFINS;
+    property QUANT_BC_COFINS   : Variant           read FQUANT_BC_COFINS   write FQUANT_BC_COFINS;
+    property ALIQ_COFINS_QUANT : Variant           read FALIQ_COFINS_QUANT write FALIQ_COFINS_QUANT;
     property VL_CONT_APUR      : currency          read FVL_CONT_APUR      write FVL_CONT_APUR;
     property VL_AJUS_ACRES     : currency          read FVL_AJUS_ACRES     write FVL_AJUS_ACRES;
     property VL_AJUS_REDUC     : currency          read FVL_AJUS_REDUC     write FVL_AJUS_REDUC;
-    property VL_CONT_DIFER     : currency          read FVL_CONT_DIFER     write FVL_CONT_DIFER;
-    property VL_CONT_DIFER_ANT : currency          read FVL_CONT_DIFER_ANT write FVL_CONT_DIFER_ANT;
+    property VL_CONT_DIFER     : Variant           read FVL_CONT_DIFER     write FVL_CONT_DIFER;
+    property VL_CONT_DIFER_ANT : Variant           read FVL_CONT_DIFER_ANT write FVL_CONT_DIFER_ANT;
     property VL_CONT_PER       : currency          read FVL_CONT_PER       write FVL_CONT_PER;
 
     property RegistroM611      : TRegistroM611     read FRegistroM611      write FRegistroM611;

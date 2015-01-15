@@ -343,7 +343,7 @@ D100: TRegistroD100;
 begin
    D100Count := FRegistroD001.RegistroD100.Count -1;
    if D100Count = -1 then
-      raise Exception.Create('O registro D110 deve ser filho do registro D100, e não existe nenhum D100 pai!');
+      raise EACBrSPEDFiscalException.Create('O registro D110 deve ser filho do registro D100, e não existe nenhum D100 pai!');
 
    D100   := FRegistroD001.RegistroD100.Items[D100Count];
    Result := D100.RegistroD110.New(D100);
@@ -1744,7 +1744,7 @@ begin
      if RegD001.RegistroD600.Count > 0 then
      begin
         if FBloco_0.Registro0000.IND_PERFIL in [pfPerfilA] then
-           raise Exception.Create(ACBrStr('O RegistroD600, não deve ser gerado em movimentações de entrada nem saída, no PerfilA'));
+           raise EACBrSPEDFiscalException.Create(ACBrStr('O RegistroD600, não deve ser gerado em movimentações de entrada nem saída, no PerfilA'));
      end;
      for intFor := 0 to RegD001.RegistroD600.Count - 1 do
      begin
@@ -1772,7 +1772,7 @@ begin
      if RegD600.RegistroD610.Count > 0 then
      begin
         if FBloco_0.Registro0000.IND_PERFIL in [pfPerfilA] then
-           raise Exception.Create(ACBrStr('O RegistroD610, não deve ser gerado em movimentações de entrada nem saída, no PerfilA'));
+           raise EACBrSPEDFiscalException.Create(ACBrStr('O RegistroD610, não deve ser gerado em movimentações de entrada nem saída, no PerfilA'));
      end;
      for intFor := 0 to RegD600.RegistroD610.Count - 1 do
      begin
@@ -1796,7 +1796,7 @@ begin
      if RegD600.RegistroD690.Count > 0 then
      begin
         if FBloco_0.Registro0000.IND_PERFIL in [pfPerfilA] then
-           raise Exception.Create(ACBrStr('O RegistroD690, não deve ser gerado em movimentações de entrada nem saída, no PerfilA'));
+           raise EACBrSPEDFiscalException.Create(ACBrStr('O RegistroD690, não deve ser gerado em movimentações de entrada nem saída, no PerfilA'));
      end;
      for intFor := 0 to RegD600.RegistroD690.Count - 1 do
      begin
