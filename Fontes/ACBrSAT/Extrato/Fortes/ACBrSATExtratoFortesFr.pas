@@ -985,7 +985,7 @@ end;
 
 {$ifdef FPC}
 initialization
-   {$I ACBrSAT.lrs}
+   {$I ACBrSATExtratoFortes.lrs}
 {$endif}
 
 end.

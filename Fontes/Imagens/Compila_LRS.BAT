@@ -65,9 +65,9 @@ echo.
 %1\tools\lazres.exe ACBrSpedFiscal.lrs TACBrSpedFiscal.bmp
 %1\tools\lazres.exe ACBrSpedContabil.lrs TACBrSpedContabil.bmp
 %1\tools\lazres.exe ACBrSpedPisCofins.lrs TACBrSpedPisCofins.bmp
-move ACBrSpedFiscal.lrs ..\ACBrSPED\ACBrSPEDFiscal
-move ACBrSpedContabil.lrs ..\ACBrSPED\ACBrSPEDContabil
-move ACBrSpedPisCofins.lrs ..\ACBrSPED\ACBrSpedPisCofins
+move ACBrSpedFiscal.lrs ..\ACBrTXT\ACBrSPED\ACBrSPEDFiscal
+move ACBrSpedContabil.lrs ..\ACBrTXT\ACBrSPED\ACBrSPEDContabil
+move ACBrSpedPisCofins.lrs ..\ACBrTXT\ACBrSPED\ACBrSpedPisCofins
 echo.
 echo "****************************************"
 echo "* Arquivo  ACBrSpedFiscal.lrs   gerado *"
@@ -77,7 +77,7 @@ echo.
 
 :PAF
 %1\tools\lazres.exe ACBrPAF.lrs TACBrPAF.bmp
-move ACBrPAF.lrs ..\ACBrPAF
+move ACBrPAF.lrs ..\ACBrTXT\ACBrPAF
 echo.
 echo "****************************************"
 echo "* Arquivo   ACBrPAF.lrs   gerado       *"
@@ -169,7 +169,7 @@ echo.
 
 :LFD
 %1\tools\lazres.exe ACBrLFD.lrs TACBrLFD.bmp 
-move ACBrLFD.lrs ..\ACBrLFD
+move ACBrLFD.lrs ..\ACBrTXT\ACBrLFD
 
 echo.
 echo "****************************************"
@@ -179,7 +179,7 @@ echo.
 
 :Sintegra
 %1\tools\lazres.exe ACBrSintegra.lrs TACBrSintegra.bmp
-move ACBrSintegra.lrs ..\ACBrSintegra
+move ACBrSintegra.lrs ..\ACBrTXT\ACBrSintegra
 echo.
 echo "****************************************"
 echo "* Arquivo   ACBrSintegra.lrs   gerado  *"
@@ -189,14 +189,13 @@ echo.
 :SAT
 %1\tools\lazres.exe ACBrSAT.lrs TACBrSAT.bmp TACBrSATExtratoESCPOS.bmp
 move ACBrSAT.lrs ..\ACBrSAT
-
+                  
 %1\tools\lazres.exe ACBrSATExtratoFortes.lrs TACBrSATExtratoFortes.bmp
 move ACBrSATExtratoFortes.lrs ..\ACBrSAT
 
-%1\tools\lazres.exe ACBrECFVirtualSAT.lrs TACBrECFVirtualSAT.bmp
+%1\tools\lazres.exe ACBrECFVirtualSAT.lrs TACBrECFVirtualSAT.png
 move ACBrECFVirtualSAT.lrs ..\ACBrSAT\ACBrECFVirtualSAT
 
-TACBrECFVirtualSAT.bmp
 echo.
 echo "********************************************************************"
 echo "*   Arquivos   ACBrSAT.lrs, ACBrSATExtratoFortes.lrs   gerados     *"
@@ -206,7 +205,7 @@ echo.
 
 :SEF2
 %1\tools\lazres.exe ACBrSEF2.lrs TACBrSEF2.bmp
-move ACBrSEF2.lrs ..\ACBrSEF2
+move ACBrSEF2.lrs ..\ACBrTXT\ACBrSEF2
 echo.
 echo "****************************************"
 echo "*   Arquivo   ACBrSEF2.lrs   gerado     *"

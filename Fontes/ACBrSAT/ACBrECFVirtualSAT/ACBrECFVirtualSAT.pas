@@ -129,10 +129,6 @@ type
   end;
 
 
-{$IFNDEF FPC}
-   {$R ACBrSAT.dcr}
-{$ENDIF}
-
 procedure Register;
 
 implementation
