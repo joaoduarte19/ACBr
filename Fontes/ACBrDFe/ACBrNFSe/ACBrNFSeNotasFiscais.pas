@@ -859,6 +859,7 @@ begin
           LocNFSeR.Leitor.Arquivo := XML;
           LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
           LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+          LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
           LocNFSeR.LerXml;
           Items[Self.Count-1].XML_NFSe := LocNFSeR.Leitor.Arquivo;
           Items[Self.Count-1].NomeArq := CaminhoArquivo;
@@ -877,6 +878,7 @@ begin
           LocNFSeR.Leitor.Arquivo := XML;
           LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
           LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+          LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
           LocNFSeR.LerXml;
           Items[Self.Count-1].XML_NFSe := LocNFSeR.Leitor.Arquivo;
           Items[Self.Count-1].NomeArq := CaminhoArquivo;
@@ -898,6 +900,7 @@ begin
          LocNFSeR.Leitor.Arquivo := XML;
          LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
          LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+         LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
          LocNFSeR.LerXml;
          Items[Self.Count-1].XML_NFSe := LocNFSeR.Leitor.Arquivo;
          Items[Self.Count-1].NomeArq := CaminhoArquivo;
@@ -927,6 +930,7 @@ begin
             LocNFSeR.Leitor.Arquivo := XML;
             LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
             LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+            LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
             LocNFSeR.LerXml;
             LocNFSeR.NFSe.PrestadorServico.RazaoSocial := RazaoSocial;
             Items[Self.Count-1].XML_Rps := LocNFSeR.Leitor.Arquivo;
@@ -946,6 +950,7 @@ begin
             LocNFSeR.Leitor.Arquivo := XML;
             LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
             LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+            LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
             LocNFSeR.LerXml;
             Items[Self.Count-1].XML_Rps := LocNFSeR.Leitor.Arquivo;
             Items[Self.Count-1].NomeArq := CaminhoArquivo;
@@ -1014,6 +1019,7 @@ begin
             LocNFSeR.Leitor.Arquivo := XML;
             LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
             LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+            LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
             LocNFSeR.LerXml;
             Items[Self.Count-1].XML_Rps := LocNFSeR.Leitor.Arquivo;
             Items[Self.Count-1].NomeArq := CaminhoArquivo;
@@ -1038,6 +1044,7 @@ begin
             LocNFSeR.Leitor.Arquivo := XML;
             LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
             LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+            LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
             LocNFSeR.LerXml;
             Items[Self.Count-1].XML_Rps := LocNFSeR.Leitor.Arquivo;
             Items[Self.Count-1].NomeArq := CaminhoArquivo;
@@ -1067,6 +1074,7 @@ begin
               LocNFSeR.Leitor.Arquivo := XML;
               LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
               LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+              LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
               LocNFSeR.LerXml;
               Items[Self.Count-1].XML_Rps := LocNFSeR.Leitor.Arquivo;
               Items[Self.Count-1].NomeArq := CaminhoArquivo;
@@ -1095,6 +1103,7 @@ begin
               LocNFSeR.Leitor.Arquivo := XML;
               LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
               LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+              LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
               LocNFSeR.LerXml;
               Items[Self.Count-1].XML_Rps := LocNFSeR.Leitor.Arquivo;
               Items[Self.Count-1].NomeArq := CaminhoArquivo;
@@ -1114,6 +1123,7 @@ begin
        LocNFSeR.Leitor.Arquivo := XML;
        LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
        LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+       LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
        LocNFSeR.LerXml;
        Items[Self.Count-1].XML_Rps := LocNFSeR.Leitor.Arquivo;
        Items[Self.Count-1].NomeArq := CaminhoArquivo;
@@ -1181,6 +1191,7 @@ begin
           LocNFSeR.Leitor.Arquivo := XML;
           LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
           LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+          LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
           LocNFSeR.LerXml;
           Items[Self.Count-1].XML_NFSe := LocNFSeR.Leitor.Arquivo;
          finally
@@ -1197,6 +1208,7 @@ begin
           LocNFSeR.Leitor.Arquivo := XML;
           LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
           LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+          LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
           LocNFSeR.LerXml;
           Items[Self.Count-1].XML_NFSe := LocNFSeR.Leitor.Arquivo;
          finally
@@ -1216,6 +1228,7 @@ begin
          LocNFSeR.Leitor.Arquivo := XML;
          LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
          LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+         LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
          LocNFSeR.LerXml;
          Items[Self.Count-1].XML_NFSe := LocNFSeR.Leitor.Arquivo;
         finally
@@ -1243,6 +1256,7 @@ begin
             LocNFSeR.Leitor.Arquivo := XML;
             LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
             LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+            LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
             LocNFSeR.LerXml;
             LocNFSeR.NFSe.PrestadorServico.RazaoSocial := RazaoSocial;
             Items[Self.Count-1].XML_Rps := LocNFSeR.Leitor.Arquivo;
@@ -1260,6 +1274,7 @@ begin
             LocNFSeR.Leitor.Arquivo := XML;
             LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
             LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+            LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
             LocNFSeR.LerXml;
             Items[Self.Count-1].XML_Rps := LocNFSeR.Leitor.Arquivo;
            finally
@@ -1326,6 +1341,7 @@ begin
             LocNFSeR.Leitor.Arquivo := XML;
             LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
             LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+            LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
             LocNFSeR.LerXml;
             Items[Self.Count-1].XML_Rps := LocNFSeR.Leitor.Arquivo;
            finally
@@ -1348,6 +1364,7 @@ begin
             LocNFSeR.Leitor.Arquivo := XML;
             LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
             LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+            LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
             LocNFSeR.LerXml;
             Items[Self.Count-1].XML_Rps := LocNFSeR.Leitor.Arquivo;
            finally
@@ -1375,6 +1392,7 @@ begin
               LocNFSeR.Leitor.Arquivo := XML;
               LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
               LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+              LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
               LocNFSeR.LerXml;
               Items[Self.Count-1].XML_Rps := LocNFSeR.Leitor.Arquivo;
             finally
@@ -1391,6 +1409,7 @@ begin
               LocNFSeR.Leitor.Arquivo := XML;
               LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
               LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+              LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
               LocNFSeR.LerXml;
               Items[Self.Count-1].XML_Rps := LocNFSeR.Leitor.Arquivo;
             finally
@@ -1404,6 +1423,7 @@ begin
           LocNFSeR.Provedor:= proIssDSF;
           LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(ArquivoXML.Text);
           LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+          LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
           LocNFSeR.LerXml;
           Items[Self.Count-1].XML_Rps := LocNFSeR.Leitor.Arquivo;
         finally
@@ -1420,6 +1440,7 @@ begin
        LocNFSeR.Leitor.Arquivo := XML;
        LocNFSeR.VersaoXML      := NotaUtil.VersaoXML(XML);
        LocNFSeR.TabServicosExt := self.Configuracoes.Arquivos.TabServicosExt;
+       LocNFSeR.Provedor       := self.Configuracoes.WebServices.Provedor;
        LocNFSeR.LerXml;
        Items[Self.Count-1].XML_Rps := LocNFSeR.Leitor.Arquivo;
       finally

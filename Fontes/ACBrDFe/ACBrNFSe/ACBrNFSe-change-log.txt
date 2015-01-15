@@ -47,6 +47,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/01/2015
+[*] Ao ler um XML (RPS ou NFS-e) o componente inicialmente assume como provedor
+    o que consta na configuração se não for realiza a troca.
+    Por: Italo Jurisato Junior
+
 14/01/2015
 [*] Inclusão de novas cidade no provedor Betha.
     Por: Julio_cld
