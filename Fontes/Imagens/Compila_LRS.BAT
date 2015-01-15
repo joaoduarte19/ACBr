@@ -65,13 +65,17 @@ echo.
 %1\tools\lazres.exe ACBrSpedFiscal.lrs TACBrSpedFiscal.bmp
 %1\tools\lazres.exe ACBrSpedContabil.lrs TACBrSpedContabil.bmp
 %1\tools\lazres.exe ACBrSpedPisCofins.lrs TACBrSpedPisCofins.bmp
+%1\tools\lazres.exe ACBrSpedECF.lrs TACBrSpedPisCofins.png
 move ACBrSpedFiscal.lrs ..\ACBrTXT\ACBrSPED\ACBrSPEDFiscal
 move ACBrSpedContabil.lrs ..\ACBrTXT\ACBrSPED\ACBrSPEDContabil
 move ACBrSpedPisCofins.lrs ..\ACBrTXT\ACBrSPED\ACBrSpedPisCofins
+move ACBrSpedECF.lrs ..\ACBrTXT\ACBrSPED\ACBrSpedECF
 echo.
 echo "****************************************"
 echo "* Arquivo  ACBrSpedFiscal.lrs   gerado *"
 echo "* Arquivo  ACBrSpedContabil.lrs gerado *"
+echo "* Arquivo  ACBrSpedPisCofins.lrs gerado*"
+echo "* Arquivo  ACBrSpedECF.lrs gerado      *"
 echo "****************************************"
 echo.
 
