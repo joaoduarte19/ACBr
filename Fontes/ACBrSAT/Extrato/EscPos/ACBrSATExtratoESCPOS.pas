@@ -110,7 +110,7 @@ implementation
 uses ACBrSAT;
 
 {$IFNDEF FPC}
-   {$R ACBrSAT.dcr}
+   {$R ACBrSATExtratoESCPOS.dcr}
 {$ENDIF}
 
 procedure Register;

@@ -136,7 +136,7 @@ implementation
 uses ACBrECFClass, ACBrSATClass;
 
 {$IFNDEF FPC}
-   {$R ACBrSAT.dcr}
+   {$R ACBrECFVirtualSAT.dcr}
 {$ENDIF}
 
 procedure Register;

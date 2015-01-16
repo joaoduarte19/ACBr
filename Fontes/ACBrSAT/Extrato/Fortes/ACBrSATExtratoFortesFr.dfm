@@ -2,7 +2,7 @@ object ACBrSATExtratoFortesFr: TACBrSATExtratoFortesFr
   Left = 622
   Top = 64
   Width = 771
-  Height = 784
+  Height = 780
   Caption = 'ACBrSATExtratoFortes'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
