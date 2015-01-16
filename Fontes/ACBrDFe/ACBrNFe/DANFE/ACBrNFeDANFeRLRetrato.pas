@@ -711,6 +711,10 @@ begin
 //    rlbFatura.Visible := False;
 
   RLNFe.Title := Copy (FNFe.InfNFe.Id, 4, 44);
+  if FNumCopias > 0 then
+    RLPrinters.RLPrinter.Copies := FNumCopias
+  else
+    RLPrinters.RLPrinter.Copies := 1;  
 end;
 
 procedure TfrlDANFeRLRetrato.rlbEmitenteBeforePrint(Sender: TObject;
