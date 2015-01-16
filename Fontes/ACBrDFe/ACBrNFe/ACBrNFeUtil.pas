@@ -34,41 +34,21 @@
 {                                                                              }
 {******************************************************************************}
 
-{*******************************************************************************
-|* Historico
-|*
-|* 16/12/2008: Wemerson Souto
-|*  - Doação do componente para o Projeto ACBr
-|* 10/02/2009: André Ferreira de Moraes
-|*  - Adicionado URL de todos os estados
-|* 18/02/2009: André Ferreira de Moraes
-|*  - Criado Assinatura baseado em código passado por Daniel Simões
-|*  - Criado Validação do XML da NFE baseado em código passado por Daniel Simões
-|* 24/09/2012: Italo Jurisato Junior
-|*  - Alterações para funcionamento com NFC-e
-*******************************************************************************}
-
 {$I ACBr.inc}
 
 unit ACBrNFeUtil;
 
 interface
 
-uses {$IFNDEF ACBrNFeOpenSSL}ACBrCAPICOM_TLB, ACBrMSXML2_TLB, JwaWinCrypt, {$ENDIF}
-  Classes, Forms, TypInfo,
-  {$IFDEF FPC}
-     LResources, Controls, Graphics, Dialogs, strutils,
-  {$ELSE}
-     StrUtils,
-  {$ENDIF}
-  {$IFDEF MSWINDOWS}
-     ActiveX,
-  {$ENDIF}
+uses
+  Classes, Forms, TypInfo, strutils,
+  {$IFNDEF ACBrNFeOpenSSL} ACBrCAPICOM_TLB, ACBrMSXML2_TLB, JwaWinCrypt, {$ENDIF}
+  {$IFDEF MSWINDOWS} ActiveX, {$ENDIF}
   ACBrNFeConfiguracoes, pcnConversao, pcnNFe, ACBrDFeUtil, ACBrEAD;
 
 
-{$IFDEF ACBrNFeOpenSSL}
 const
+{$IFDEF ACBrNFeOpenSSL}
  cDTD     = '<!DOCTYPE test [<!ATTLIST infNFe Id ID #IMPLIED>]>' ;
  cDTDCanc = '<!DOCTYPE test [<!ATTLIST infCanc Id ID #IMPLIED>]>' ;
  cDTDInut = '<!DOCTYPE test [<!ATTLIST infInut Id ID #IMPLIED>]>' ;
@@ -76,19 +56,19 @@ const
  cDTDCCe  = '<!DOCTYPE test [<!ATTLIST infEvento Id ID #IMPLIED>]>' ;
  cDTDEven = '<!DOCTYPE test [<!ATTLIST infEvento Id ID #IMPLIED>]>' ;
 {$ELSE}
-const
-  DSIGNS = 'xmlns:ds="http://www.w3.org/2000/09/xmldsig#"';
+ DSIGNS = 'xmlns:ds="http://www.w3.org/2000/09/xmldsig#"';
 {$ENDIF}
+
 var
   fsHashQRCode : TACBrEAD;
-{$IFNDEF ACBrNFeOpenSSL}
-  CertStore     : IStore3;
-  CertStoreMem  : IStore3;
-  PrivateKey    : IPrivateKey;
-  Certs         : ICertificates2;
-  Cert          : ICertificate2;
-  NumCertCarregado : String;
-{$ENDIF}
+  {$IFNDEF ACBrNFeOpenSSL}
+   CertStore     : IStore3;
+   CertStoreMem  : IStore3;
+   PrivateKey    : IPrivateKey;
+   Certs         : ICertificates2;
+   Cert          : ICertificate2;
+   NumCertCarregado : String;
+  {$ENDIF}
 
 type
   NotaUtil = class
@@ -116,40 +96,25 @@ type
 
   public
     {$IFDEF ACBrNFeOpenSSL}
-       class function sign_file(const Axml: PAnsiChar; const key_file: PAnsiChar; const senha: PAnsiChar): AnsiString;
-       class function sign_memory(const Axml: PAnsiChar; const key_file: PAnsichar; const senha: PAnsiChar; Size: Cardinal; Ponteiro: Pointer): AnsiString;
-       class Procedure InitXmlSec ;
-       class Procedure ShutDownXmlSec ;
+     class function sign_file(const Axml: PAnsiChar; const key_file: PAnsiChar; const senha: PAnsiChar): AnsiString;
+     class function sign_memory(const Axml: PAnsiChar; const key_file: PAnsichar; const senha: PAnsiChar; Size: Cardinal; Ponteiro: Pointer): AnsiString;
+     class Procedure InitXmlSec ;
+     class Procedure ShutDownXmlSec ;
     {$ENDIF}
-    class function Modulo11(Valor: string): String;
     class function ChaveAcesso(AUF:Integer; ADataEmissao:TDateTime; ACNPJ:String; ASerie:Integer;
                                ANumero,ACodigo: Integer; AModelo:Integer=55): String;
-    class function ExtraiCNPJChaveAcesso(AChaveNFE: String): String;
-    class function ExtraiModeloChaveAcesso(AChaveNFE: String): String;
-    class function StringToDateTime(const AString: string): TDateTime;
-    class function ValidaUFCidade(const UF, Cidade: Integer): Boolean;overload;
-    class procedure ValidaUFCidade(const UF, Cidade: Integer; Const AMensagem: String);overload;
-    class function FormatarCEP(AValue : String ): String;
-    class function FormatarFone(AValue : String ): String;
-    class function FormatarChaveAcesso(AValue : String ): String;
     class function GetURL(Const AUF, AAmbiente, FormaEmissao: Integer; ALayOut: TLayOut; AModeloDF: TpcnModeloDF = moNFe; AVersaoDF: TpcnVersaoDF = ve200): WideString;
-    class function IdentificaTipoSchema(Const AXML: AnsiString; var I: Integer): integer; {eventos_juaumkiko}
+    class function IdentificaTipoSchema(Const AXML: AnsiString; var I: Integer): integer;
     class function Valida(Const AXML: AnsiString; var AMsg: AnsiString; const APathSchemas: string = '';
                           AModeloDF: TpcnModeloDF = moNFe; AVersaoDF: TpcnVersaoDF = ve200): Boolean;
     class function ValidaAssinatura(const AXML: AnsiString;  var AMsg: AnsiString): Boolean;
-{$IFDEF ACBrNFeOpenSSL}
-    class function Assinar(const AXML, ArqPFX, PFXSenha: AnsiString; out AXMLAssinado, FMensagem: AnsiString): Boolean;
-{$ELSE}
-    class function Assinar(const AXML: AnsiString; Certificado : ICertificate2; out AXMLAssinado, FMensagem: AnsiString): Boolean;
-{$ENDIF}
-    class procedure ConfAmbiente;
-    class function PathAplication: String;
+    {$IFDEF ACBrNFeOpenSSL}
+     class function Assinar(const AXML, ArqPFX, PFXSenha: AnsiString; out AXMLAssinado, FMensagem: AnsiString): Boolean;
+    {$ELSE}
+     class function Assinar(const AXML: AnsiString; Certificado : ICertificate2; out AXMLAssinado, FMensagem: AnsiString): Boolean;
+    {$ENDIF}
     class function GerarChaveContingencia(FNFe:TNFe): String;
     class function FormatarChaveContigencia(AValue: String): String;
-    class function PreparaCasasDecimais(AValue: Integer): String;
-    class function CollateBr(Str: String): String;
-    class function UpperCase2(Str: String): String;
-    class function UFtoCUF(UF : String): Integer;
     class function GetURLConsultaNFCe(const AUF : Integer; AAmbiente : TpcnTipoAmbiente) : String;
     class function GetURLQRCode(const AUF : Integer;  AAmbiente : TpcnTipoAmbiente;
                                 AchNFe, AcDest: String;
@@ -161,8 +126,9 @@ type
 
 implementation
 
-uses {$IFDEF ACBrNFeOpenSSL}libxml2, libxmlsec, libxslt, {$ELSE} ComObj, {$ENDIF} Sysutils,
-  Variants, ACBrUtil, ACBrConsts, ACBrNFe, pcnAuxiliar;
+uses
+  {$IFDEF ACBrNFeOpenSSL} libxml2, libxmlsec, libxslt, {$ELSE} ComObj, {$ENDIF}
+  sysutils, variants, ACBrUtil, ACBrConsts, ACBrNFe;
 
 { NotaUtil }
 
@@ -2175,3 +2141,124 @@ finalization
      fsHashQRCode.Free;
 
 end.
+
+// TODO: Verificar onde fica
+
+function GetVersaoNFe(AModeloDF: TpcnModeloDF; AVersaoDF: TpcnVersaoDF; ALayOut: TLayOut): string;
+
+
+
+function GetVersaoNFe(AModeloDF: TpcnModeloDF; AVersaoDF: TpcnVersaoDF; ALayOut: TLayOut): string;
+begin
+  result := '';
+
+  case AModeloDF of
+    moNFe:
+      begin
+        case AVersaoDF of
+          ve200:
+            begin
+              case ALayOut of
+                LayNfeStatusServico:  result := '2.00';
+                LayNfeRecepcao:       result := '2.00';
+                LayNfeRetRecepcao:    result := '2.00';
+                LayNfeConsulta:       result := '2.01';
+                LayNfeCancelamento:   result := '2.00';
+                LayNfeInutilizacao:   result := '2.00';
+                LayNfeCadastro:       result := '2.00';
+                LayNfeEnvDPEC:        result := '1.01';
+                LayNfeConsultaDPEC:   result := '1.01';
+                LayNFeCCe:            result := '1.00';
+                LayNFeEvento:         result := '1.00';
+                LayNFeEventoAN:       result := '1.00';
+                LayNFeConsNFeDest:    result := '1.01';
+                LayNFeDownloadNFe:    result := '1.00';
+                LayNfeAutorizacao:    result := '2.00';
+                LayNfeRetAutorizacao: result := '2.00';
+                LayDistDFeInt:        result := '1.00';
+                LayAdministrarCSCNFCe:result := '0.00';
+              end;
+            end;
+
+          ve310:
+            begin
+              case ALayOut of
+                LayNfeStatusServico:  result := '3.10';
+                LayNfeRecepcao:       result := '3.10';
+                LayNfeRetRecepcao:    result := '3.10';
+                LayNfeConsulta:       result := '3.10';
+                LayNfeCancelamento:   result := '3.10';
+                LayNfeInutilizacao:   result := '3.10';
+                LayNfeCadastro:       result := '2.00';
+                LayNfeEnvDPEC:        result := '1.01';
+                LayNfeConsultaDPEC:   result := '1.01';
+                LayNFeCCe:            result := '1.00';
+                LayNFeEvento:         result := '1.00';
+                LayNFeEventoAN:       result := '1.00';
+                LayNFeConsNFeDest:    result := '1.01';
+                LayNFeDownloadNFe:    result := '1.00';
+                LayNfeAutorizacao:    result := '3.10';
+                LayNfeRetAutorizacao: result := '3.10';
+                LayDistDFeInt:        result := '1.00';
+                LayAdministrarCSCNFCe: result := '0.00';
+              end;
+            end;
+        end;
+      end;
+
+    moNFCe:
+      begin
+        case AVersaoDF of
+          ve300:
+            begin
+              case ALayOut of
+                LayNfeStatusServico:  result := '3.00';
+                LayNfeRecepcao:       result := '3.00';
+                LayNfeRetRecepcao:    result := '3.00';
+                LayNfeConsulta:       result := '3.00';
+                LayNfeCancelamento:   result := '3.00';
+                LayNfeInutilizacao:   result := '3.00';
+                LayNfeCadastro:       result := '2.00';
+                LayNfeEnvDPEC:        result := '1.01';
+                LayNfeConsultaDPEC:   result := '1.01';
+                LayNFeCCe:            result := '1.00';
+                LayNFeEvento:         result := '1.00';
+                LayNFeEventoAN:       result := '1.00';
+                LayNFeConsNFeDest:    result := '1.01';
+                LayNFeDownloadNFe:    result := '1.00';
+                LayNfeAutorizacao:    result := '3.00';
+                LayNfeRetAutorizacao: result := '3.00';
+                LayDistDFeInt:        result := '1.00';
+                LayAdministrarCSCNFCe: result := '1.00';
+              end;
+            end;
+
+          ve310:
+            begin
+              case ALayOut of
+                LayNfeStatusServico:  result := '3.10';
+                LayNfeRecepcao:       result := '3.10';
+                LayNfeRetRecepcao:    result := '3.10';
+                LayNfeConsulta:       result := '3.10';
+                LayNfeCancelamento:   result := '3.10';
+                LayNfeInutilizacao:   result := '3.10';
+                LayNfeCadastro:       result := '2.00';
+                LayNfeEnvDPEC:        result := '1.01';
+                LayNfeConsultaDPEC:   result := '1.01';
+                LayNFeCCe:            result := '1.00';
+                LayNFeEvento:         result := '1.00';
+                LayNFeEventoAN:       result := '1.00';
+                LayNFeConsNFeDest:    result := '1.01';
+                LayNFeDownloadNFe:    result := '1.00';
+                LayNfeAutorizacao:    result := '3.10';
+                LayNfeRetAutorizacao: result := '3.10';
+                LayDistDFeInt:        result := '1.00';
+
+                LayAdministrarCSCNFCe: result := '1.00';
+              end;
+            end;
+        end;
+      end;
+  end;
+end;
+
