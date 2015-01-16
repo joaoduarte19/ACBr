@@ -1079,6 +1079,7 @@ begin
   4304408  // Canela/RS
          : Provedor := 'SystemPro';
 
+  4303905, // Campo Bom / RS -  15/04/2015 - Leandro do Couto
   4307906  // Farroupilha/RS
          : Provedor := 'Infisc';
 
@@ -6196,7 +6197,7 @@ var
       4303673: Cidade := 'Campestre Da Serra/RS';
       4303707: Cidade := 'Campina Das Missoes/RS';
       4303806: Cidade := 'Campinas Do Sul/RS';
-      4303905: Cidade := 'Campo Bom/RS';
+      4303905: Cidade := 'Campo Bom';
       4304002: Cidade := 'Campo Novo/RS';
       4304101: Cidade := 'Campos Borges/RS';
       4304200: Cidade := 'Candelaria/RS';

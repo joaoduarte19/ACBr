@@ -1525,8 +1525,21 @@ begin
      Gerador.wGrupoNFSe('/ender');
      Gerador.wCampoNFSe(tcStr, '', 'xEmail', 01, 100,  1, NFSe.Tomador.Contato.Email, '');
      Gerador.wCampoNFSe(tcStr, '', 'IM', 01, 15,  1, NFSe.Tomador.IdentificacaoTomador.InscricaoMunicipal, '');
+
+     // Campo Bom Deve ir Diferente...
+     // 15/01/2015 - Leandro do Couto
      if NFSe.Servico.MunicipioIncidencia <> 0 then
+     if( NFSe.Servico.MunicipioIncidencia = 4303905 ) then
+     begin
+      Gerador.wCampoNFSe(tcStr, '', 'Praca', 01, 60,  1, 'Campo Bom-RS', '');
+     end
+     else
+     begin
        Gerador.wCampoNFSe(tcStr, '', 'Praca', 01, 60,  1, CodCidadeToCidade(NFSe.Servico.MunicipioIncidencia), '');
+     end;
+
+
+
    Gerador.wGrupoNFSe('/TomS');
 
    // Serviços

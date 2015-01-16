@@ -151,6 +151,24 @@ begin
   ConfigURL.ProNomeCidade         := '';
 
    case ACodCidade of
+    4303905: // 15/01/2015 - Leandro do Couto
+    begin // Campo Bom / RS
+       ConfigURL.HomRecepcaoLoteRPS    := 'http://homol.campobom.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaLoteRPS    := 'http://homol.campobom.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaNFSeRPS    := 'http://homol.campobom.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaSitLoteRPS := 'http://homol.campobom.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaNFSe       := 'http://homol.campobom.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.HomCancelaNFSe        := 'http://homol.campobom.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaSeqRPS     := 'http://homol.campobom.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.ProRecepcaoLoteRPS    := 'https://nfse.campobom.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaLoteRPS    := 'https://nfse.campobom.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaNFSeRPS    := 'https://nfse.campobom.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaSitLoteRPS := 'https://nfse.campobom.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaNFSe       := 'https://nfse.campobom.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProCancelaNFSe        := 'https://nfse.campobom.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaSeqRPS     := 'https://nfse.campobom.rs.gov.br/portal/Servicos?wsdl';
+
+    end;
     4307906:
      begin // Farroupilha/RS
        ConfigURL.HomRecepcaoLoteRPS    := 'http://homol.farroupilha.infisc.com.br/portal/Servicos?wsdl';
@@ -390,6 +408,7 @@ function TProvedorInfisc.GetLinkNFSe(ACodMunicipio, ANumeroNFSe: Integer;
 begin
   Result := '';
   case ACodMunicipio of
+    4303905 : REsult := 'https://nfse.campobom.rs.gov.br/portal/'; // 15/01/201 - Leandro do Couto
     4307906 : Result := 'https://dmse.farroupilha.rs.gov.br/portal/';
   end;
 end;
