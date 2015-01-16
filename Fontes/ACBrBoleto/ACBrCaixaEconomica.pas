@@ -517,7 +517,7 @@ begin
                padL(AEspecieDoc, 2)                                       + // 107 a 108 - Espécie do documento
                ATipoAceite                                                + //109 - Identificação de título Aceito / Não aceito
                FormatDateTime('ddmmyyyy', DataDocumento)                  + //110 a 117 - Data da emissão do documento
-               IfThen(ValorMoraJuros > 0, '1', '0')                       + //118 - Código de juros de mora: Valor por dia
+               IfThen(ValorMoraJuros > 0, '1', '3')                       + //118 - Código de juros de mora: Valor por dia
                ADataMoraJuros                                             + //119 a 126 - Data a partir da qual serão cobrados juros
                IfThen(ValorMoraJuros > 0, IntToStrZero( round(ValorMoraJuros * 100), 15), padL('', 15, '0')) + //127 a 141 - Valor de juros de mora por dia
                IfThen(ValorDesconto > 0, '1', '0')                        + //142 - Código de desconto: Valor fixo até a data informada
