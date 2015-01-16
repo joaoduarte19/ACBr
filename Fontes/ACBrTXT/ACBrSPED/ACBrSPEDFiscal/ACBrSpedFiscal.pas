@@ -702,7 +702,8 @@ begin
       WriteBloco_H;
 
    /// Alteração da minuta que terá validada a partir de 01 de janeiro de 2015
-   if DT_INI >= EncodeDate(2015,01,01) then
+	 /// mudou e será a partir de 01 janeiro 2016
+   if DT_INI >= EncodeDate(2016,01,01) then
    begin
      /// BLOCO K
      WriteRegistroK001;
@@ -717,8 +718,8 @@ procedure TACBrSPEDFiscal.WriteBloco_1;
 begin
    if Bloco_1.Gravado then exit ;
 
-   if not Bloco_H.Gravado then
-      WriteBloco_H;
+   if not Bloco_K.Gravado then
+      WriteBloco_K;
 
    /// BLOCO 1
    WriteRegistro1001;
