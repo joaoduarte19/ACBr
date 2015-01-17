@@ -50,7 +50,7 @@ const
 
 type
 
-  TCryptoLib = (libNone, libOpenSSL, libCapicom);
+  TSSLLib = (libNone, libOpenSSL, libCapicom);
 
   { TCertificadosConf }
 
@@ -123,7 +123,7 @@ type
 
   TGeralConf = class(TComponent)
   private
-    FCryptoLib: TCryptoLib;
+    FSSLLib: TSSLLib;
     FFormaEmissao: TpcnTipoEmissao;
     FFormaEmissaoCodigo: integer;
     FSalvar: Boolean;
@@ -137,14 +137,14 @@ type
     FToken: String;
     FValidarDigest: Boolean;
 
-    procedure SetCryptoLib(AValue: TCryptoLib);
+    procedure SetSSLLib(AValue: TSSLLib);
     procedure SetFormaEmissao(AValue: TpcnTipoEmissao);
     function GetPathSalvar: String;
     function GetFormatoAlerta: String;
   public
     constructor Create(AOwner: TComponent); override;
   published
-    property CryptoLib: TCryptoLib read FCryptoLib write SetCryptoLib;
+    property SSLLib: TSSLLib read FSSLLib write SetSSLLib;
     property FormaEmissao: TpcnTipoEmissao read FFormaEmissao
       write SetFormaEmissao default teNormal;
     property FormaEmissaoCodigo: integer read FFormaEmissaoCodigo;
@@ -276,9 +276,9 @@ constructor TGeralConf.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-  FCryptoLib := libCapicom;
+  FSSLLib := libCapicom;
   {$IFNDEF MSWINDOWS}
-  FCryptoLib := libOpenSSL;
+  FSSLLib := libOpenSSL;
   {$ENDIF}
 
   FFormaEmissao := teNormal;
@@ -328,12 +328,12 @@ begin
   FFormaEmissaoCodigo := StrToInt(TpEmisToStr(FFormaEmissao));
 end;
 
-procedure TGeralConf.SetCryptoLib(AValue: TCryptoLib);
+procedure TGeralConf.SetSSLLib(AValue: TSSLLib);
 begin
   {$IFNDEF MSWINDOWS}
-  FCryptoLib := libOpenSSL;  // Linux, Mac, apenas OpenSSL é suportado
+  FSSLLib := libOpenSSL;  // Linux, Mac, apenas OpenSSL é suportado
   {$ELSE}
-  FCryptoLib := AValue;
+  FSSLLib := AValue;
   {$ENDIF}
 end;
 

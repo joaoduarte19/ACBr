@@ -42,8 +42,8 @@
         <UnitName Value="ACBrDFe"/>
       </Item4>
       <Item5>
-        <Filename Value="..\..\..\Fontes\ACBrDFe\ACBrDFeAssinatura.pas"/>
-        <UnitName Value="ACBrDFeAssinatura"/>
+        <Filename Value="..\..\..\Fontes\ACBrDFe\ACBrDFeSSL.pas"/>
+        <UnitName Value="ACBrDFeSSL"/>
       </Item5>
     </Files>
     <RequiredPkgs Count="4">

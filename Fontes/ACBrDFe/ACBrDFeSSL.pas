@@ -35,7 +35,7 @@
 
 {$I ACBr.inc}
 
-unit ACBrDFeAssinatura;
+unit ACBrDFeSSL;
 
 interface
 
@@ -47,9 +47,9 @@ const
   cDTD = '<!DOCTYPE test [<!ATTLIST &infElement& Id ID #IMPLIED>]>';
 
 type
-  { TAssinador }
+  { TDFeSSLClass }
 
-  TAssinador = class
+  TDFeSSLClass = class
   private
     FConfiguracoes: TConfiguracoes;
 
@@ -60,9 +60,9 @@ type
     function Assinar(const ConteudoXML, docElement, infElement: String): String;
   end;
 
-  { TAssinadorXMLSec }
+  { TDFeOpenSSL }
 
-  TAssinadorXMLSec = class(TAssinador)
+  TDFeOpenSSL = class(TDFeSSLClass)
   private
     procedure InitXmlSec;
     procedure ShutDownXmlSec;
@@ -78,9 +78,9 @@ type
     function Assinar(const ConteudoXML, docElement, infElement: String): String;
   end;
 
-  { TAssinadorMSXML }
+  { TDFeCapicom }
 
-  TAssinadorMSXML = class(TAssinador)
+  TDFeCapicom = class(TDFeSSLClass)
   private
   public
     constructor Create(AConfiguracoes: TConfiguracoes);
@@ -89,15 +89,15 @@ type
     function Assinar(const ConteudoXML, docElement, infElement: String): String;
   end;
 
-  { TDFeAssinador }
+  { TDFeSSL }
 
-  TDFeAssinador = class
+  TDFeSSL = class
   private
     FDFeOwner: TACBrDFe;
-    FAssinador: TAssinador;
-    FCryptoLib: TCryptoLib;
+    FAssinador: TDFeSSLClass;
+    FSSLLib: TSSLLib;
 
-    procedure SetCryptoLib(ACryptoLib: TCryptoLib);
+    procedure SetSSLLib(ASSLLib: TSSLLib);
   public
     constructor Create(AOwner: TACBrDFe);
     destructor Destroy;
@@ -110,18 +110,18 @@ implementation
 
 uses Math, strutils, ACBrUtil, ACBrDFeUtil;
 
-{ TDFeAssinador }
+{ TDFeSSL }
 
-constructor TDFeAssinador.Create(AOwner: TACBrDFe);
+constructor TDFeSSL.Create(AOwner: TACBrDFe);
 begin
   inherited Create;
 
   FDFeOwner := AOwner;
-  FAssinador := TAssinador.Create(FDFeOwner.Configuracoes);
-  FCryptoLib := libNone;
+  FAssinador := TDFeSSLClass.Create(FDFeOwner.Configuracoes);
+  FSSLLib := libNone;
 end;
 
-destructor TDFeAssinador.Destroy;
+destructor TDFeSSL.Destroy;
 begin
   if Assigned(FAssinador) then
     FreeAndNil(FAssinador);
@@ -129,46 +129,46 @@ begin
   inherited Destroy;
 end;
 
-function TDFeAssinador.Assinar(const ConteudoXML, docElement, infElement:
+function TDFeSSL.Assinar(const ConteudoXML, docElement, infElement:
   String): String;
 begin
-  SetCryptoLib(FDFeOwner.Configuracoes.Geral.CryptoLib);
+  SetSSLLib(FDFeOwner.Configuracoes.Geral.SSLLib);
 
   Result := FAssinador.Assinar(ConteudoXML, docElement, infElement);
 end;
 
-procedure TDFeAssinador.SetCryptoLib(ACryptoLib: TCryptoLib);
+procedure TDFeSSL.SetSSLLib(ASSLLib: TSSLLib);
 begin
-  if ACryptoLib = FCryptoLib then
+  if ASSLLib = FSSLLib then
     exit;
 
   if Assigned(FAssinador) then
     FreeAndNil(FAssinador);
 
-  case ACryptoLib of
-    libCapicom: FAssinador := TAssinadorMSXML.Create(FDFeOwner.Configuracoes);
-    libOpenSSL: FAssinador := TAssinadorXMLSec.Create(FDFeOwner.Configuracoes);
+  case ASSLLib of
+    libCapicom: FAssinador := TDFeCapicom.Create(FDFeOwner.Configuracoes);
+    libOpenSSL: FAssinador := TDFeOpenSSL.Create(FDFeOwner.Configuracoes);
     else
-      FAssinador := TAssinador.Create(FDFeOwner.Configuracoes);
+      FAssinador := TDFeSSLClass.Create(FDFeOwner.Configuracoes);
   end;
 
-  FCryptoLib := ACryptoLib;
+  FSSLLib := ASSLLib;
 end;
 
-{ TAssinador }
+{ TDFeSSLClass }
 
-constructor TAssinador.Create(AConfiguracoes: TConfiguracoes);
+constructor TDFeSSLClass.Create(AConfiguracoes: TConfiguracoes);
 begin
   FConfiguracoes := AConfiguracoes;
 end;
 
-function TAssinador.Assinar(const ConteudoXML, docElement, infElement: String): String;
+function TDFeSSLClass.Assinar(const ConteudoXML, docElement, infElement: String): String;
 begin
   raise EACBrDFeException.Create('Assinador: ' + ClassName + ' não implementado');
 end;
 
 
-function TAssinador.SignatureElement(const URI: String; AddX509Data: Boolean): String;
+function TDFeSSLClass.SignatureElement(const URI: String; AddX509Data: Boolean): String;
 begin
   {(*}
   Result :=
@@ -197,23 +197,23 @@ begin
   {*)}
 end;
 
-{ TAssinadorXMLSec }
+{ TDFeOpenSSL }
 
-constructor TAssinadorXMLSec.Create(AConfiguracoes: TConfiguracoes);
+constructor TDFeOpenSSL.Create(AConfiguracoes: TConfiguracoes);
 begin
   inherited Create(AConfiguracoes);
 
   InitXmlSec;
 end;
 
-destructor TAssinadorXMLSec.Destroy;
+destructor TDFeOpenSSL.Destroy;
 begin
   ShutDownXmlSec;
 
   inherited Destroy;
 end;
 
-function TAssinadorXMLSec.Assinar(
+function TDFeOpenSSL.Assinar(
   const ConteudoXML, docElement, infElement: String): String;
 var
   I, PosIni, PosFim: integer;
@@ -281,7 +281,7 @@ begin
   Result := XmlAss;
 end;
 
-function TAssinadorXMLSec.sign_file(const Axml: PAnsiChar;
+function TDFeOpenSSL.sign_file(const Axml: PAnsiChar;
   const key_file: PAnsiChar; const senha: PAnsiChar): AnsiString;
 var
   doc: xmlDocPtr;
@@ -350,7 +350,7 @@ begin
   end;
 end;
 
-function TAssinadorXMLSec.sign_memory(const Axml: PAnsiChar;
+function TDFeOpenSSL.sign_memory(const Axml: PAnsiChar;
   const key_file: PAnsichar; const senha: PAnsiChar; Size: cardinal;
   Ponteiro: Pointer): AnsiString;
 var
@@ -421,7 +421,7 @@ begin
   end;
 end;
 
-procedure TAssinadorXMLSec.InitXmlSec;
+procedure TDFeOpenSSL.InitXmlSec;
 begin
   { Init libxml and libxslt libraries }
   xmlInitParser();
@@ -457,7 +457,7 @@ begin
     raise Exception.Create('Error: xmlsec-crypto initialization failed.');
 end;
 
-procedure TAssinadorXMLSec.ShutDownXmlSec;
+procedure TDFeOpenSSL.ShutDownXmlSec;
 begin
   { Shutdown xmlsec-crypto library }
   xmlSecCryptoShutdown();
@@ -473,21 +473,21 @@ begin
   xmlCleanupParser();
 end;
 
-{ TAssinadorMSXML }
+{ TDFeCapicom }
 
-constructor TAssinadorMSXML.Create(AConfiguracoes: TConfiguracoes);
+constructor TDFeCapicom.Create(AConfiguracoes: TConfiguracoes);
 begin
   inherited Create(AConfiguracoes);
 
 end;
 
-destructor TAssinadorMSXML.Destroy;
+destructor TDFeCapicom.Destroy;
 begin
 
   inherited Destroy;
 end;
 
-function TAssinadorMSXML.Assinar(const ConteudoXML, docElement,
+function TDFeCapicom.Assinar(const ConteudoXML, docElement,
   infElement: String): String;
 begin
   // TODO:....
