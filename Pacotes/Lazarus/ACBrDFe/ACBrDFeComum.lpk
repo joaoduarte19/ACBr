@@ -18,13 +18,14 @@
       </Parsing>
       <Other>
         <CompilerMessages>
+          <IgnoredMessages idx5024="True"/>
           <MsgFileName Value=""/>
         </CompilerMessages>
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
     <Description Value="ACBr - Biblioteca com Métodos e Classes em comum a todos Documentos Fiscais Eletrônicos"/>
-    <Files Count="5">
+    <Files Count="7">
       <Item1>
         <Filename Value="..\..\..\Fontes\ACBrDFe\ACBrDFeConfiguracoes.pas"/>
         <UnitName Value="ACBrDFeConfiguracoes"/>
@@ -45,6 +46,14 @@
         <Filename Value="..\..\..\Fontes\ACBrDFe\ACBrDFeSSL.pas"/>
         <UnitName Value="ACBrDFeSSL"/>
       </Item5>
+      <Item6>
+        <Filename Value="..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
+        <UnitName Value="ACBrDFeOpenSSL"/>
+      </Item6>
+      <Item7>
+        <Filename Value="..\..\..\Fontes\ACBrDFe\ACBrDFeCapicom.pas"/>
+        <UnitName Value="ACBrDFeCapicom"/>
+      </Item7>
     </Files>
     <RequiredPkgs Count="4">
       <Item1>

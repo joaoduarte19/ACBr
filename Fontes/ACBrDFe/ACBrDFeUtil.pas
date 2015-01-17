@@ -82,8 +82,6 @@ type
      class function FormatarNumeroDocumentoFiscal(AValue : String ): String;
      class function FormatarNumeroDocumentoFiscalNFSe(AValue: String): String;
      class function FormatarChaveAcesso(AValue : String ): String;
-     class function StringToFloat(AValue : String ) : Double;
-     class function StringToFloatDef(const AValue: String; const DefaultValue: Double): Double;
      class procedure ConfAmbiente;
      class function PathAplication: String;
      class function ValidaUFCidade(const UF, Cidade: Integer): Boolean; overload;
@@ -106,7 +104,7 @@ type
 implementation
 
 uses
- IniFiles, Variants, DateUtils, ACBrUtil, ACBrConsts, ACBrValidador, pcnGerador;
+ Variants, DateUtils, ACBrUtil, ACBrConsts, pcnGerador;
 
 class function DFeUtil.EstaVazio(const AValue: String): Boolean;
 begin
@@ -396,17 +394,6 @@ begin
             copy(AValue,41,4) ;
 end;
 
-class function DFeUtil.StringToFloat(AValue: String): Double;
-begin
-
-end;
-
-class function DFeUtil.StringToFloatDef(const AValue: String;
-  const DefaultValue: Double): Double;
-begin
-
-end;
-
 class function DFeUtil.Modulo11(Valor: string; Peso: Integer = 2; Base: Integer = 9): String;
 var
   Soma, Resto: integer;
@@ -614,9 +601,9 @@ end.
 
 
 
+(*
 
-
-///  TODO: REMOVER
+///  TODO: REMOVER ??
 class function PosEx(const SubStr, S: AnsiString; Offset: Cardinal = 1): Integer;
 class function PosLast(const SubStr, S: AnsiString ): Integer;
 
@@ -1048,4 +1035,4 @@ begin
    Result := UpperCase(Result);
 end;
 
-
+*)

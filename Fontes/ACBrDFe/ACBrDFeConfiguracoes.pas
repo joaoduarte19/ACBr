@@ -227,7 +227,7 @@ type
 implementation
 
 uses
-  pcnGerador, Math, StrUtils, ACBrUtil, ACBrDFeUtil, DateUtils;
+  ACBrUtil, ACBrDFeUtil, DateUtils;
 
 { TConfiguracoes }
 

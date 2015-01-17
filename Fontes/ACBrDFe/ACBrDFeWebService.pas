@@ -44,12 +44,6 @@ uses Classes, SysUtils,
   {$IFNDEF NOGUI}
    {$IFDEF CLX} QDialogs,{$ELSE} Dialogs,{$ENDIF}
   {$ENDIF}
-  HTTPSend,  // OpenSSL
-  {$IFDEF SoapHTTP}
-  SoapHTTPClient, SOAPHTTPTrans, SOAPConst, WinInet, ACBrCAPICOM_TLB,
-  {$ELSE}
-  ACBrHTTPReqResp,
-  {$ENDIF}
   ACBrDFeConfiguracoes, ACBrDFe;
 
 const
@@ -61,13 +55,6 @@ type
 
   TDFeWebService = class
   private
-    procedure ConfiguraHTTP(HTTP: THTTPSend; Action: String);
-    {$IFDEF SoapHTTP}
-    procedure ConfiguraReqResp(ReqResp: THTTPReqResp);
-    procedure OnBeforePost(const HTTPReqResp: THTTPReqResp; Data: Pointer);
-    {$ELSE}
-    procedure ConfiguraReqResp(ReqResp: TACBrHTTPReqResp);
-    {$ENDIF}
   protected
     FSoapVersion: String;
     FSoapEnvelopeAtributtes: String;
@@ -114,8 +101,8 @@ type
     function Executar: Boolean; virtual;
 
     property SoapVersion: String read FSoapVersion;
-    property SoapEnvelopeAtributtes: String
-      read FSoapEnvelopeAtributtes;
+    property SoapEnvelopeAtributtes: String read FSoapEnvelopeAtributtes;
+
     property HeaderElement: String read FHeaderElement;
     property BodyElement: String read FBodyElement;
 
@@ -135,8 +122,7 @@ type
 implementation
 
 uses
-  ssl_openssl,
-  ACBrDFeUtil, ACBrUtil, StrUtils, pcnGerador;
+  ACBrDFeUtil, ACBrUtil, pcnGerador;
 
 { TDFeWebService }
 
@@ -164,107 +150,6 @@ begin
   FServico := '';
   FSoapAction := '';
 end;
-
-procedure TDFeWebService.ConfiguraHTTP(HTTP: THTTPSend; Action: String);
-begin
-  if FileExists(FConfiguracoes.Certificados.ArquivoPFX) then
-    HTTP.Sock.SSL.PFXfile := FConfiguracoes.Certificados.ArquivoPFX
-  else
-    HTTP.Sock.SSL.PFX := FConfiguracoes.Certificados.DadosPFX;
-
-  HTTP.Sock.SSL.KeyPassword := FConfiguracoes.Certificados.Senha;
-
-  HTTP.ProxyHost := FConfiguracoes.WebServices.ProxyHost;
-  HTTP.ProxyPort := FConfiguracoes.WebServices.ProxyPort;
-  HTTP.ProxyUser := FConfiguracoes.WebServices.ProxyUser;
-  HTTP.ProxyPass := FConfiguracoes.WebServices.ProxyPass;
-
-  if (pos('SCERECEPCAORFB', UpperCase(FURL)) <= 0) and
-    (pos('SCECONSULTARFB', UpperCase(FURL)) <= 0) then
-    HTTP.MimeType := 'application/soap+xml; charset=utf-8'
-  else
-    HTTP.MimeType := 'text/xml; charset=utf-8';
-
-  HTTP.UserAgent := '';
-  HTTP.Protocol := '1.1';
-  HTTP.AddPortNumberToHost := False;
-  HTTP.Headers.Add(Action);
-end;
-
-{$IFDEF SoapHTTP}
-procedure TWebServicesBase.ConfiguraReqResp(ReqResp: THTTPReqResp);
-begin
-  if FConfiguracoes.WebServices.ProxyHost <> '' then
-  begin
-    ReqResp.Proxy := FConfiguracoes.WebServices.ProxyHost + ':' +
-      FConfiguracoes.WebServices.ProxyPort;
-    ReqResp.UserName := FConfiguracoes.WebServices.ProxyUser;
-    ReqResp.Password := FConfiguracoes.WebServices.ProxyPass;
-  end;
-  ReqResp.OnBeforePost := OnBeforePost;
-end;
-
-procedure TWebServicesBase.OnBeforePost(const HTTPReqResp: THTTPReqResp; Data: Pointer);
-var
-  Cert: ICertificate2;
-  CertContext: ICertContext;
-  PCertContext: Pointer;
-  ContentHeader: String;
-begin
-  Cert := FConfiguracoes.Certificados.GetCertificado;
-  CertContext := Cert as ICertContext;
-  CertContext.Get_CertContext(integer(PCertContext));
-
-  if not InternetSetOption(Data, INTERNET_OPTION_CLIENT_CERT_CONTEXT,
-    PCertContext, SizeOf(CERT_CONTEXT)) then
-    GerarException('OnBeforePost: ' + IntToStr(GetLastError));
-
-  if trim(FConfiguracoes.WebServices.ProxyUser) <> '' then
-    if not InternetSetOption(Data, INTERNET_OPTION_PROXY_USERNAME,
-      PChar(FConfiguracoes.WebServices.ProxyUser),
-      Length(FConfiguracoes.WebServices.ProxyUser)) then
-      GerarException('OnBeforePost: ' + IntToStr(GetLastError));
-
-  if trim(FConfiguracoes.WebServices.ProxyPass) <> '' then
-    if not InternetSetOption(Data, INTERNET_OPTION_PROXY_PASSWORD,
-      PChar(FConfiguracoes.WebServices.ProxyPass),
-      Length(FConfiguracoes.WebServices.ProxyPass)) then
-      GerarException('OnBeforePost: ' + IntToStr(GetLastError));
-
-  if (pos('SCERECEPCAORFB', UpperCase(FURL)) <= 0) and
-    (pos('SCECONSULTARFB', UpperCase(FURL)) <= 0) then
-  begin
-    ContentHeader := Format(ContentTypeTemplate,
-      ['application/soap+xml; charset=utf-8']);
-    HttpAddRequestHeaders(Data, PChar(ContentHeader),
-      Length(ContentHeader), HTTP_ADDREQ_FLAG_REPLACE);
-  end;
-
-  HTTPReqResp.CheckContentType;
-end;
-
-{$ELSE}
-
-procedure TDFeWebService.ConfiguraReqResp(ReqResp: TACBrHTTPReqResp);
-begin
-  if FConfiguracoes.WebServices.ProxyHost <> '' then
-  begin
-    ReqResp.ProxyHost := FConfiguracoes.WebServices.ProxyHost;
-    ReqResp.ProxyPort := FConfiguracoes.WebServices.ProxyPort;
-    ReqResp.ProxyUser := FConfiguracoes.WebServices.ProxyUser;
-    ReqResp.ProxyPass := FConfiguracoes.WebServices.ProxyPass;
-  end;
-
-  ReqResp.SetCertificate(FConfiguracoes.Certificados.NumeroSerie);
-
-  if (pos('SCERECEPCAORFB', UpperCase(FURL)) <= 0) and
-    (pos('SCECONSULTARFB', UpperCase(FURL)) <= 0) then
-    ReqResp.MimeType := 'application/soap+xml'
-  else
-    ReqResp.MimeType := 'text/xml';
-end;
-
-{$ENDIF}
 
 function TDFeWebService.Executar: Boolean;
 var
@@ -374,91 +259,30 @@ function TDFeWebService.GerarVersaoDadosSoap: String;
 begin
   { sobrescrever, OBRIGATORIAMENTE }
 
+  Result := '';
   GerarException('GerarVersaoDadosSoap não implementado para: ' + ClassName);
 end;
 
 procedure TDFeWebService.EnviarDados;
-var
-  {$IFDEF ACBrNFeOpenSSL}
-  HTTP: THTTPSend;
-  OK: Boolean;
-  {$ELSE}
-  Stream: TMemoryStream;
-   {$IFDEF SoapHTTP}
-  ReqResp: THTTPReqResp;
-   {$ELSE}
-  ReqResp: TACBrHTTPReqResp;
-   {$ENDIF}
-  {$ENDIF}
 begin
   { Sobrescrever apenas se necessário }
 
   FRetWS := '';
   FRetornoWS := '';
 
-  {$IFDEF ACBrNFeOpenSSL}
-  HTTP := THTTPSend.Create;
-  {$ELSE}
-   {$IFDEF SoapHTTP}
-  ReqResp := THTTPReqResp.Create(nil);
-  ReqResp.UseUTF8InHeader := True;
-   {$ELSE}
-  ReqResp := TACBrHTTPReqResp.Create;
-   {$ENDIF}
-  ConfiguraReqResp(ReqResp);
-  ReqResp.URL := URL;
-  ReqResp.SoapAction := SoapAction;
-  {$ENDIF}
   { Verifica se precisa converter o Envelope para UTF8 antes de ser enviado.
      Entretanto o Envelope pode já ter sido convertido antes, como por exemplo,
      para assinatura.
      Se o XML está assinado, não deve modificar o conteúdo }
-
   if not DFeUtil.XmlEstaAssinado(FEnvelopeSoap) then
     FEnvelopeSoap := DFeUtil.ConverteXMLtoUTF8(FEnvelopeSoap);
 
-  try
-    {$IFDEF ACBrNFeOpenSSL}
-    ConfiguraHTTP(HTTP, 'SOAPAction: "' + SoapAction + '"');
-    // DEBUG //
-    //HTTP.Document.SaveToFile( 'c:\temp\HttpSend.xml' );
-    HTTP.Document.WriteBuffer(FEnvelopeSoap[1], Length(FEnvelopeSoap));
-    OK := HTTP.HTTPMethod('POST', URL);
-    OK := OK and (HTTP.ResultCode = 200);
-    if not OK then
-      GerarException('Cod.Erro HTTP: ' + IntToStr(HTTP.ResultCode) +
-        ' ' + HTTP.ResultString);
+  FRetornoWS := FDFeOwner.DFeSSL.Enviar(FEnvelopeSoap, FURL, FSoapAction);
 
-    // Lendo a resposta //
-    HTTP.Document.Position := 0;
-    SetLength(FRetornoWS, HTTP.Document.Size);
-    HTTP.Document.ReadBuffer(FRetornoWS[1], HTTP.Document.Size);
-    // DEBUG //
-    HTTP.Document.SaveToFile('c:\temp\ReqResp.xml');
-    {$ELSE}
-    Stream := TMemoryStream.Create;
-    try
-      ReqResp.Execute(FEnvelopeSoap, Stream);  // Dispara exceptions no caso de erro
-      SetLength(FRetornoWS, Stream.Size);
-      Stream.ReadBuffer(FRetornoWS[1], Stream.Size);
-      // DEBUG //
-      Stream.SaveToFile('c:\temp\ReqResp.xml');
-    finally
-      Stream.Free;
-    end;
-    {$ENDIF}
-    { Resposta sempre é UTF8, ParseTXT chamará DecodetoString, que converterá
-      de UTF8 para o formato nativo de  String usada pela IDE }
-    FRetornoWS := ParseText(FRetornoWS, True, True);
-  finally
-    {$IFDEF ACBrNFeOpenSSL}
-    HTTP.Free;
-    {$ELSE}
-    ReqResp.Free;
-    {$ENDIF}
-  end;
+  { Resposta sempre é UTF8, ParseTXT chamará DecodetoString, que converterá
+    de UTF8 para o formato nativo de  String usada pela IDE }
+  FRetornoWS := ParseText(FRetornoWS, True, True);
 end;
-
 
 function TDFeWebService.GerarPrefixoArquivo: String;
 begin
@@ -679,5 +503,171 @@ begin
 
   TACBrNFe( FACBrNFe ).SetStatus( stIdle );
 end;
+
+
+
+
+procedure TDFeWebService.EnviarDados;
+var
+  HTTP: THTTPSend;
+  OK: Boolean;
+  Stream: TMemoryStream;
+   {$IFDEF SoapHTTP}
+  ReqResp: THTTPReqResp;
+   {$ELSE}
+  ReqResp: TACBrHTTPReqResp;
+   {$ENDIF}
+begin
+  { Sobrescrever apenas se necessário }
+
+  FRetWS := '';
+  FRetornoWS := '';
+
+  HTTP := THTTPSend.Create;
+   {$IFDEF SoapHTTP}
+  ReqResp := THTTPReqResp.Create(nil);
+  ReqResp.UseUTF8InHeader := True;
+   {$ELSE}
+  ReqResp := TACBrHTTPReqResp.Create;
+   {$ENDIF}
+  ConfiguraReqResp(ReqResp);
+  ReqResp.URL := URL;
+  ReqResp.SoapAction := SoapAction;
+  { Verifica se precisa converter o Envelope para UTF8 antes de ser enviado.
+     Entretanto o Envelope pode já ter sido convertido antes, como por exemplo,
+     para assinatura.
+     Se o XML está assinado, não deve modificar o conteúdo }
+
+  if not DFeUtil.XmlEstaAssinado(FEnvelopeSoap) then
+    FEnvelopeSoap := DFeUtil.ConverteXMLtoUTF8(FEnvelopeSoap);
+
+  try
+    {$IFDEF ACBrNFeOpenSSL}
+    ConfiguraHTTP(HTTP, 'SOAPAction: "' + SoapAction + '"');
+    // DEBUG //
+    //HTTP.Document.SaveToFile( 'c:\temp\HttpSend.xml' );
+    HTTP.Document.WriteBuffer(FEnvelopeSoap[1], Length(FEnvelopeSoap));
+    OK := HTTP.HTTPMethod('POST', URL);
+    OK := OK and (HTTP.ResultCode = 200);
+    if not OK then
+      GerarException('Cod.Erro HTTP: ' + IntToStr(HTTP.ResultCode) +
+        ' ' + HTTP.ResultString);
+
+    // Lendo a resposta //
+    HTTP.Document.Position := 0;
+    SetLength(FRetornoWS, HTTP.Document.Size);
+    HTTP.Document.ReadBuffer(FRetornoWS[1], HTTP.Document.Size);
+    // DEBUG //
+    HTTP.Document.SaveToFile('c:\temp\ReqResp.xml');
+    {$ELSE}
+    Stream := TMemoryStream.Create;
+    try
+      ReqResp.Execute(FEnvelopeSoap, Stream);  // Dispara exceptions no caso de erro
+      SetLength(FRetornoWS, Stream.Size);
+      Stream.ReadBuffer(FRetornoWS[1], Stream.Size);
+      // DEBUG //
+      Stream.SaveToFile('c:\temp\ReqResp.xml');
+    finally
+      Stream.Free;
+    end;
+    {$ENDIF}
+    { Resposta sempre é UTF8, ParseTXT chamará DecodetoString, que converterá
+      de UTF8 para o formato nativo de  String usada pela IDE }
+    FRetornoWS := ParseText(FRetornoWS, True, True);
+  finally
+    HTTP.Free;
+    ReqResp.Free;
+  end;
+end;
+
+{$IFDEF SoapHTTP}
+SoapHTTPClient, SOAPHTTPTrans, SOAPConst, WinInet, ACBrCAPICOM_TLB,
+{$ELSE}
+ACBrHTTPReqResp,
+{$ENDIF}
+
+
+{$IFDEF SoapHTTP}
+procedure ConfiguraReqResp(ReqResp: THTTPReqResp);
+procedure OnBeforePost(const HTTPReqResp: THTTPReqResp; Data: Pointer);
+{$ELSE}
+procedure ConfiguraReqResp(ReqResp: TACBrHTTPReqResp);
+{$ENDIF}
+
+
+{$IFDEF SoapHTTP}
+procedure TWebServicesBase.ConfiguraReqResp(ReqResp: THTTPReqResp);
+begin
+  if FConfiguracoes.WebServices.ProxyHost <> '' then
+  begin
+    ReqResp.Proxy := FConfiguracoes.WebServices.ProxyHost + ':' +
+      FConfiguracoes.WebServices.ProxyPort;
+    ReqResp.UserName := FConfiguracoes.WebServices.ProxyUser;
+    ReqResp.Password := FConfiguracoes.WebServices.ProxyPass;
+  end;
+  ReqResp.OnBeforePost := OnBeforePost;
+end;
+
+procedure TWebServicesBase.OnBeforePost(const HTTPReqResp: THTTPReqResp; Data: Pointer);
+var
+  Cert: ICertificate2;
+  CertContext: ICertContext;
+  PCertContext: Pointer;
+  ContentHeader: String;
+begin
+  Cert := FConfiguracoes.Certificados.GetCertificado;
+  CertContext := Cert as ICertContext;
+  CertContext.Get_CertContext(integer(PCertContext));
+
+  if not InternetSetOption(Data, INTERNET_OPTION_CLIENT_CERT_CONTEXT,
+    PCertContext, SizeOf(CERT_CONTEXT)) then
+    GerarException('OnBeforePost: ' + IntToStr(GetLastError));
+
+  if trim(FConfiguracoes.WebServices.ProxyUser) <> '' then
+    if not InternetSetOption(Data, INTERNET_OPTION_PROXY_USERNAME,
+      PChar(FConfiguracoes.WebServices.ProxyUser),
+      Length(FConfiguracoes.WebServices.ProxyUser)) then
+      GerarException('OnBeforePost: ' + IntToStr(GetLastError));
+
+  if trim(FConfiguracoes.WebServices.ProxyPass) <> '' then
+    if not InternetSetOption(Data, INTERNET_OPTION_PROXY_PASSWORD,
+      PChar(FConfiguracoes.WebServices.ProxyPass),
+      Length(FConfiguracoes.WebServices.ProxyPass)) then
+      GerarException('OnBeforePost: ' + IntToStr(GetLastError));
+
+  if (pos('SCERECEPCAORFB', UpperCase(FURL)) <= 0) and
+    (pos('SCECONSULTARFB', UpperCase(FURL)) <= 0) then
+  begin
+    ContentHeader := Format(ContentTypeTemplate,
+      ['application/soap+xml; charset=utf-8']);
+    HttpAddRequestHeaders(Data, PChar(ContentHeader),
+      Length(ContentHeader), HTTP_ADDREQ_FLAG_REPLACE);
+  end;
+
+  HTTPReqResp.CheckContentType;
+end;
+
+{$ELSE}
+
+procedure TDFeWebService.ConfiguraReqResp(ReqResp: TACBrHTTPReqResp);
+begin
+  if FConfiguracoes.WebServices.ProxyHost <> '' then
+  begin
+    ReqResp.ProxyHost := FConfiguracoes.WebServices.ProxyHost;
+    ReqResp.ProxyPort := FConfiguracoes.WebServices.ProxyPort;
+    ReqResp.ProxyUser := FConfiguracoes.WebServices.ProxyUser;
+    ReqResp.ProxyPass := FConfiguracoes.WebServices.ProxyPass;
+  end;
+
+  ReqResp.SetCertificate(FConfiguracoes.Certificados.NumeroSerie);
+
+  if (pos('SCERECEPCAORFB', UpperCase(FURL)) <= 0) and
+    (pos('SCECONSULTARFB', UpperCase(FURL)) <= 0) then
+    ReqResp.MimeType := 'application/soap+xml'
+  else
+    ReqResp.MimeType := 'text/xml';
+end;
+
+{$ENDIF}
 
 *)

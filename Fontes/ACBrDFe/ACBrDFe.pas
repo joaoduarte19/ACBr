@@ -42,7 +42,7 @@ interface
 
 uses
   Classes, SysUtils,
-  ACBrBase, ACBrDFeConfiguracoes, ACBrMail;
+  ACBrBase, ACBrDFeConfiguracoes, ACBrMail, ACBrDFeSSL;
 
 const
   ACBRDFE_VERSAO = '0.1.0a';
@@ -61,6 +61,7 @@ type
   TACBrDFe = class(TACBrComponent)
   private
     FMAIL: TACBrMail;
+    FDFeSSL: TDFeSSL;
     FConfiguracoes: TConfiguracoes;
     FOnStatusChange: TNotifyEvent;
     FOnGerarLog: TACBrGravarLog;
@@ -71,6 +72,8 @@ type
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
 
   public
+    property DFeSSL: TDFeSSL read FDFeSSL;
+
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
@@ -109,11 +112,11 @@ begin
 
   FConfiguracoes := TConfiguracoes.Create(self);
   FConfiguracoes.Name := 'Configuracoes';
-
   {$IFDEF COMPILER6_UP}
   FConfiguracoes.SetSubComponent(True);{ para gravar no DFM/XFM }
   {$ENDIF}
 
+  FDFeSSL := TDFeSSL.Create(Self);
   FOnGerarLog := nil;
 end;
 

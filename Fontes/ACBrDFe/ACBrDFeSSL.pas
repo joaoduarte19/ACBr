@@ -40,11 +40,7 @@ unit ACBrDFeSSL;
 interface
 
 uses
-  Classes, SysUtils, ACBrDFe, ACBrDFeConfiguracoes,
-  libxml2, libxmlsec, libxslt;
-
-const
-  cDTD = '<!DOCTYPE test [<!ATTLIST &infElement& Id ID #IMPLIED>]>';
+  Classes, SysUtils, ACBrDFeConfiguracoes;
 
 type
   { TDFeSSLClass }
@@ -54,87 +50,77 @@ type
     FConfiguracoes: TConfiguracoes;
 
   protected
+    property Configuracoes: TConfiguracoes read FConfiguracoes;
+
     function SignatureElement(const URI: String; AddX509Data: Boolean): String;
   public
     constructor Create(AConfiguracoes: TConfiguracoes);
     function Assinar(const ConteudoXML, docElement, infElement: String): String;
-  end;
-
-  { TDFeOpenSSL }
-
-  TDFeOpenSSL = class(TDFeSSLClass)
-  private
-    procedure InitXmlSec;
-    procedure ShutDownXmlSec;
-
-    function sign_file(const Axml: PAnsiChar; const key_file: PAnsiChar;
-      const senha: PAnsiChar): AnsiString;
-    function sign_memory(const Axml: PAnsiChar; const key_file: PAnsichar;
-      const senha: PAnsiChar; Size: cardinal; Ponteiro: Pointer): AnsiString;
-  public
-    constructor Create(AConfiguracoes: TConfiguracoes);
-    destructor Destroy;
-
-    function Assinar(const ConteudoXML, docElement, infElement: String): String;
-  end;
-
-  { TDFeCapicom }
-
-  TDFeCapicom = class(TDFeSSLClass)
-  private
-  public
-    constructor Create(AConfiguracoes: TConfiguracoes);
-    destructor Destroy;
-
-    function Assinar(const ConteudoXML, docElement, infElement: String): String;
+      virtual;
+    function Enviar(const ConteudoXML: AnsiString; const URL: String;
+      const SoapAction: String): AnsiString; virtual;
   end;
 
   { TDFeSSL }
 
   TDFeSSL = class
   private
-    FDFeOwner: TACBrDFe;
-    FAssinador: TDFeSSLClass;
+    FDFeOwner: TComponent;
+    FConfiguracoes: TConfiguracoes;
+    FSSLClass: TDFeSSLClass;
     FSSLLib: TSSLLib;
 
     procedure SetSSLLib(ASSLLib: TSSLLib);
   public
-    constructor Create(AOwner: TACBrDFe);
-    destructor Destroy;
+    constructor Create(AOwner: TComponent);
+    destructor Destroy; override;
 
     function Assinar(const ConteudoXML, docElement, infElement: String): String;
+    function Enviar(var ConteudoXML: AnsiString; const URL: String;
+      const SoapAction: String): AnsiString;
   end;
 
 
 implementation
 
-uses Math, strutils, ACBrUtil, ACBrDFeUtil;
+uses strutils, ACBrUtil, ACBrDFe, ACBrDFeUtil, ACBrDFeOpenSSL, ACBrDFeCapicom;
 
 { TDFeSSL }
 
-constructor TDFeSSL.Create(AOwner: TACBrDFe);
+constructor TDFeSSL.Create(AOwner: TComponent);
 begin
+  if not (AOwner is TACBrDFe) then
+    raise EACBrDFeException.Create('Owner de TDFeSSL deve ser do tipo TACBrDFe');
+
   inherited Create;
 
   FDFeOwner := AOwner;
-  FAssinador := TDFeSSLClass.Create(FDFeOwner.Configuracoes);
+  FConfiguracoes := TACBrDFe(FDFeOwner).Configuracoes;
+  FSSLClass := TDFeSSLClass.Create(FConfiguracoes);
   FSSLLib := libNone;
 end;
 
 destructor TDFeSSL.Destroy;
 begin
-  if Assigned(FAssinador) then
-    FreeAndNil(FAssinador);
+  if Assigned(FSSLClass) then
+    FreeAndNil(FSSLClass);
 
   inherited Destroy;
 end;
 
-function TDFeSSL.Assinar(const ConteudoXML, docElement, infElement:
-  String): String;
+function TDFeSSL.Assinar(const ConteudoXML, docElement, infElement: String): String;
 begin
-  SetSSLLib(FDFeOwner.Configuracoes.Geral.SSLLib);
+  SetSSLLib(FConfiguracoes.Geral.SSLLib);
 
-  Result := FAssinador.Assinar(ConteudoXML, docElement, infElement);
+  Result := FSSLClass.Assinar(ConteudoXML, docElement, infElement);
+end;
+
+function TDFeSSL.Enviar(var ConteudoXML: AnsiString; const URL: String;
+  const SoapAction: String): AnsiString;
+begin
+  SetSSLLib(FConfiguracoes.Geral.SSLLib);
+
+  Result := FSSLClass.Enviar(ConteudoXML, URL, SoapAction);
 end;
 
 procedure TDFeSSL.SetSSLLib(ASSLLib: TSSLLib);
@@ -142,14 +128,14 @@ begin
   if ASSLLib = FSSLLib then
     exit;
 
-  if Assigned(FAssinador) then
-    FreeAndNil(FAssinador);
+  if Assigned(FSSLClass) then
+    FreeAndNil(FSSLClass);
 
   case ASSLLib of
-    libCapicom: FAssinador := TDFeCapicom.Create(FDFeOwner.Configuracoes);
-    libOpenSSL: FAssinador := TDFeOpenSSL.Create(FDFeOwner.Configuracoes);
+    libCapicom: FSSLClass := TDFeCapicom.Create(FConfiguracoes);
+    libOpenSSL: FSSLClass := TDFeOpenSSL.Create(FConfiguracoes);
     else
-      FAssinador := TDFeSSLClass.Create(FDFeOwner.Configuracoes);
+      FSSLClass := TDFeSSLClass.Create(FConfiguracoes);
   end;
 
   FSSLLib := ASSLLib;
@@ -164,9 +150,16 @@ end;
 
 function TDFeSSLClass.Assinar(const ConteudoXML, docElement, infElement: String): String;
 begin
-  raise EACBrDFeException.Create('Assinador: ' + ClassName + ' não implementado');
+  Result := '';
+  raise EACBrDFeException.Create(ClassName + '.Assinar, não implementado');
 end;
 
+function TDFeSSLClass.Enviar(const ConteudoXML: AnsiString; const URL: String;
+  const SoapAction: String): AnsiString;
+begin
+  Result := '';
+  raise EACBrDFeException.Create(ClassName + '.Enviar não implementado');
+end;
 
 function TDFeSSLClass.SignatureElement(const URI: String; AddX509Data: Boolean): String;
 begin
@@ -197,307 +190,7 @@ begin
   {*)}
 end;
 
-{ TDFeOpenSSL }
-
-constructor TDFeOpenSSL.Create(AConfiguracoes: TConfiguracoes);
-begin
-  inherited Create(AConfiguracoes);
-
-  InitXmlSec;
-end;
-
-destructor TDFeOpenSSL.Destroy;
-begin
-  ShutDownXmlSec;
-
-  inherited Destroy;
-end;
-
-function TDFeOpenSSL.Assinar(
-  const ConteudoXML, docElement, infElement: String): String;
-var
-  I, PosIni, PosFim: integer;
-  URI, AXml, XmlAss, DTD: String;
-  Cert: TMemoryStream;
-  Cert2: TStringStream;
-begin
-  AXml := ConteudoXML;
-
-  URI := DFeUtil.ExtraiURI(AXml);
-
-  //// Adicionando Cabeçalho DTD, necessário para xmlsec encontrar o ID ////
-  I := pos('?>', AXml);
-  DTD := StringReplace(cDTD, '&infElement&', infElement, []);
-
-  AXml := Copy(AXml, 1, IfThen(I > 0, I + 1, I)) + DTD +
-    Copy(AXml, IfThen(I > 0, I + 2, I), Length(AXml));
-
-  //// Inserindo Template da Assinatura digital ////
-  I := pos('<signature', lowercase(AXml));
-  if I < 0 then
-    I := pos('</' + docElement + '>', AXml);
-
-  if I = 0 then
-    raise EACBrDFeException.Create('Não encontrei final do elemento: </' +
-      docElement + '>');
-
-  AXml := copy(AXml, 1, I - 1) + SignatureElement(URI, True) + docElement;
-
-  if FileExists(FConfiguracoes.Certificados.ArquivoPFX) then
-    XmlAss := sign_file(PAnsiChar(AXml),
-      PAnsiChar(FConfiguracoes.Certificados.ArquivoPFX),
-      PAnsiChar(FConfiguracoes.Certificados.Senha))
-  else
-  begin
-    Cert := TMemoryStream.Create;
-    Cert2 := TStringStream.Create(FConfiguracoes.Certificados.DadosPFX);
-    try
-      Cert.LoadFromStream(Cert2);
-      XmlAss := sign_memory(PAnsiChar(AXml),
-        PAnsiChar(FConfiguracoes.Certificados.DadosPFX),
-        PAnsiChar(FConfiguracoes.Certificados.Senha),
-        Cert.Size, Cert.Memory);
-    finally
-      Cert2.Free;
-      Cert.Free;
-    end;
-  end;
-
-  // Removendo quebras de linha //
-  XmlAss := StringReplace(XmlAss, #10, '', [rfReplaceAll]);
-  XmlAss := StringReplace(XmlAss, #13, '', [rfReplaceAll]);
-
-  // Removendo DTD //
-  XmlAss := StringReplace(XmlAss, DTD, '', []);
-
-  // Considerando apenas o último Certificado //
-  PosIni := Pos('<X509Certificate>', XmlAss) - 1;
-  PosFim := PosLast('<X509Certificate>', XmlAss);
-  XmlAss := copy(XmlAss, 1, PosIni) + copy(XmlAss, PosFim, length(XmlAss));
-
-  // Removendo cabecalho de versao XML
-  XmlAss := StringReplace(XmlAss, '<?xml version="1.0"?>', '', []);
-
-  Result := XmlAss;
-end;
-
-function TDFeOpenSSL.sign_file(const Axml: PAnsiChar;
-  const key_file: PAnsiChar; const senha: PAnsiChar): AnsiString;
-var
-  doc: xmlDocPtr;
-  node: xmlNodePtr;
-  dsigCtx: xmlSecDSigCtxPtr;
-  buffer: PAnsiChar;
-  bufSize: integer;
-begin
-  // TODO: refatorar sign_file() e sign_memory() ;
-
-  doc := nil;
-  dsigCtx := nil;
-  Result := '';
-
-  if (Axml = nil) or (key_file = nil) then
-    Exit;
-
-  try
-    { load template }
-    doc := xmlParseDoc(PAnsiChar(UTF8Encode(Axml)));
-    if ((doc = nil) or (xmlDocGetRootElement(doc) = nil)) then
-      raise Exception.Create('Error: unable to parse');
-
-    { find start node }
-    node := xmlSecFindNode(xmlDocGetRootElement(doc),
-      PAnsiChar(xmlSecNodeSignature), PAnsiChar(xmlSecDSigNs));
-    if (node = nil) then
-      raise Exception.Create('Error: start node not found');
-
-    { create signature context, we don't need keys manager in this example }
-    dsigCtx := xmlSecDSigCtxCreate(nil);
-    if (dsigCtx = nil) then
-      raise Exception.Create('Error :failed to create signature context');
-
-    // { load private key}
-    dsigCtx^.signKey := xmlSecCryptoAppKeyLoad(key_file,
-      xmlSecKeyDataFormatPkcs12, senha, nil, nil);
-    if (dsigCtx^.signKey = nil) then
-      raise Exception.Create('Error: failed to load private pem key from "' +
-        key_file + '"');
-
-    { set key name to the file name, this is just an example! }
-    if (xmlSecKeySetName(dsigCtx^.signKey, PAnsiChar(key_file)) < 0) then
-      raise Exception.Create('Error: failed to set key name for key from "' +
-        key_file + '"');
-
-    { sign the template }
-    if (xmlSecDSigCtxSign(dsigCtx, node) < 0) then
-      raise Exception.Create('Error: signature failed');
-
-    { print signed document to stdout }
-    // xmlDocDump(stdout, doc);
-    // Can't use "stdout" from Delphi, so we'll use xmlDocDumpMemory instead...
-    buffer := nil;
-    xmlDocDumpMemory(doc, @buffer, @bufSize);
-    if (buffer <> nil) then
-      { success }
-      Result := buffer;
-  finally
-    { cleanup }
-    if (dsigCtx <> nil) then
-      xmlSecDSigCtxDestroy(dsigCtx);
-
-    if (doc <> nil) then
-      xmlFreeDoc(doc);
-  end;
-end;
-
-function TDFeOpenSSL.sign_memory(const Axml: PAnsiChar;
-  const key_file: PAnsichar; const senha: PAnsiChar; Size: cardinal;
-  Ponteiro: Pointer): AnsiString;
-var
-  doc: xmlDocPtr;
-  node: xmlNodePtr;
-  dsigCtx: xmlSecDSigCtxPtr;
-  buffer: PAnsiChar;
-  bufSize: integer;
-begin
-  // TODO: refatorar sign_file() e sign_memory() ;
-
-  doc := nil;
-  dsigCtx := nil;
-  Result := '';
-
-  if (Axml = nil) or (key_file = nil) then
-    Exit;
-
-  try
-    { load template }
-    doc := xmlParseDoc(PAnsiChar(UTF8Encode(Axml)));
-    if ((doc = nil) or (xmlDocGetRootElement(doc) = nil)) then
-      raise Exception.Create('Error: unable to parse');
-
-    { find start node }
-    node := xmlSecFindNode(xmlDocGetRootElement(doc),
-      PAnsiChar(xmlSecNodeSignature), PAnsiChar(xmlSecDSigNs));
-    if (node = nil) then
-      raise Exception.Create('Error: start node not found');
-
-    { create signature context, we don't need keys manager in this example }
-    dsigCtx := xmlSecDSigCtxCreate(nil);
-    if (dsigCtx = nil) then
-      raise Exception.Create('Error :failed to create signature context');
-
-    // { load private key, assuming that there is not password }
-    dsigCtx^.signKey := xmlSecCryptoAppKeyLoadMemory(Ponteiro, size,
-      xmlSecKeyDataFormatPkcs12, senha, nil, nil);
-
-    if (dsigCtx^.signKey = nil) then
-      raise Exception.Create('Error: failed to load private pem key from "' +
-        key_file + '"');
-
-    { set key name to the file name, this is just an example! }
-    if (xmlSecKeySetName(dsigCtx^.signKey, key_file) < 0) then
-      raise Exception.Create('Error: failed to set key name for key from "' +
-        key_file + '"');
-
-    { sign the template }
-    if (xmlSecDSigCtxSign(dsigCtx, node) < 0) then
-      raise Exception.Create('Error: signature failed');
-
-    { print signed document to stdout }
-    // xmlDocDump(stdout, doc);
-    // Can't use "stdout" from Delphi, so we'll use xmlDocDumpMemory instead...
-    buffer := nil;
-    xmlDocDumpMemory(doc, @buffer, @bufSize);
-    if (buffer <> nil) then
-      { success }
-      Result := buffer;
-  finally
-    { cleanup }
-    if (dsigCtx <> nil) then
-      xmlSecDSigCtxDestroy(dsigCtx);
-
-    if (doc <> nil) then
-      xmlFreeDoc(doc);
-  end;
-end;
-
-procedure TDFeOpenSSL.InitXmlSec;
-begin
-  { Init libxml and libxslt libraries }
-  xmlInitParser();
-  __xmlLoadExtDtdDefaultValue^ := XML_DETECT_IDS or XML_COMPLETE_ATTRS;
-  xmlSubstituteEntitiesDefault(1);
-  __xmlIndentTreeOutput^ := 1;
-
-  { Init xmlsec library }
-  if (xmlSecInit() < 0) then
-    raise Exception.Create('Error: xmlsec initialization failed.');
-
-  { Check loaded library version }
-  if (xmlSecCheckVersionExt(1, 2, 8, xmlSecCheckVersionABICompatible) <> 1) then
-    raise Exception.Create('Error: loaded xmlsec library version is not compatible.');
-
-  (* Load default crypto engine if we are supporting dynamic
-   * loading for xmlsec-crypto libraries. Use the crypto library
-   * name ("openssl", "nss", etc.) to load corresponding
-   * xmlsec-crypto library.
-   *)
-  if (xmlSecCryptoDLLoadLibrary('openssl') < 0) then
-    raise Exception.Create(
-      'Error: unable to load default xmlsec-crypto library. Make sure'#10 +
-      'that you have it installed and check shared libraries path'#10 +
-      '(LD_LIBRARY_PATH) environment variable.');
-
-  { Init crypto library }
-  if (xmlSecCryptoAppInit(nil) < 0) then
-    raise Exception.Create('Error: crypto initialization failed.');
-
-  { Init xmlsec-crypto library }
-  if (xmlSecCryptoInit() < 0) then
-    raise Exception.Create('Error: xmlsec-crypto initialization failed.');
-end;
-
-procedure TDFeOpenSSL.ShutDownXmlSec;
-begin
-  { Shutdown xmlsec-crypto library }
-  xmlSecCryptoShutdown();
-
-  { Shutdown crypto library }
-  xmlSecCryptoAppShutdown();
-
-  { Shutdown xmlsec library }
-  xmlSecShutdown();
-
-  { Shutdown libxslt/libxml }
-  xsltCleanupGlobals();
-  xmlCleanupParser();
-end;
-
-{ TDFeCapicom }
-
-constructor TDFeCapicom.Create(AConfiguracoes: TConfiguracoes);
-begin
-  inherited Create(AConfiguracoes);
-
-end;
-
-destructor TDFeCapicom.Destroy;
-begin
-
-  inherited Destroy;
-end;
-
-function TDFeCapicom.Assinar(const ConteudoXML, docElement,
-  infElement: String): String;
-begin
-  // TODO:....
-
-end;
-
 end.
-
-
-
 
 (*
 
