@@ -43,14 +43,21 @@ uses
   Classes, SysUtils, ACBrDFe, ACBrDFeConfiguracoes,
   libxml2, libxmlsec, libxslt;
 
+const
+  cDTD = '<!DOCTYPE test [<!ATTLIST &infElement& Id ID #IMPLIED>]>';
+
 type
   { TAssinador }
 
   TAssinador = class
+  private
     FConfiguracoes: TConfiguracoes;
+
+  protected
+    function SignatureElement(const URI: String; AddX509Data: Boolean): String;
   public
     constructor Create(AConfiguracoes: TConfiguracoes);
-    function Assinar(const ConteudoXML: String): String;
+    function Assinar(const ConteudoXML, docElement, infElement: String): String;
   end;
 
   { TAssinadorXMLSec }
@@ -68,7 +75,18 @@ type
     constructor Create(AConfiguracoes: TConfiguracoes);
     destructor Destroy;
 
-    function Assinar(const ConteudoXML: String): String;
+    function Assinar(const ConteudoXML, docElement, infElement: String): String;
+  end;
+
+  { TAssinadorMSXML }
+
+  TAssinadorMSXML = class(TAssinador)
+  private
+  public
+    constructor Create(AConfiguracoes: TConfiguracoes);
+    destructor Destroy;
+
+    function Assinar(const ConteudoXML, docElement, infElement: String): String;
   end;
 
   { TDFeAssinador }
@@ -84,13 +102,13 @@ type
     constructor Create(AOwner: TACBrDFe);
     destructor Destroy;
 
-    function Assinar(const ConteudoXML: String): String;
+    function Assinar(const ConteudoXML, docElement, infElement: String): String;
   end;
 
 
 implementation
 
-uses strutils, ACBrUtil, ACBrDFeUtil;
+uses Math, strutils, ACBrUtil, ACBrDFeUtil;
 
 { TDFeAssinador }
 
@@ -111,11 +129,12 @@ begin
   inherited Destroy;
 end;
 
-function TDFeAssinador.Assinar(const ConteudoXML: String): String;
+function TDFeAssinador.Assinar(const ConteudoXML, docElement, infElement:
+  String): String;
 begin
   SetCryptoLib(FDFeOwner.Configuracoes.Geral.CryptoLib);
 
-  Result := FAssinador.Assinar(ConteudoXML);
+  Result := FAssinador.Assinar(ConteudoXML, docElement, infElement);
 end;
 
 procedure TDFeAssinador.SetCryptoLib(ACryptoLib: TCryptoLib);
@@ -127,8 +146,8 @@ begin
     FreeAndNil(FAssinador);
 
   case ACryptoLib of
-    libCapicom: FAssinador := TAssinador.Create(FDFeOwner.Configuracoes);
-    libOpenSSL: FAssinador := TAssinador.Create(FDFeOwner.Configuracoes);
+    libCapicom: FAssinador := TAssinadorMSXML.Create(FDFeOwner.Configuracoes);
+    libOpenSSL: FAssinador := TAssinadorXMLSec.Create(FDFeOwner.Configuracoes);
     else
       FAssinador := TAssinador.Create(FDFeOwner.Configuracoes);
   end;
@@ -143,9 +162,39 @@ begin
   FConfiguracoes := AConfiguracoes;
 end;
 
-function TAssinador.Assinar(const ConteudoXML: String): String;
+function TAssinador.Assinar(const ConteudoXML, docElement, infElement: String): String;
 begin
-  raise Exception.Create(ACBrStr('Assinador: ' + ClassName + ' não implementado'));
+  raise EACBrDFeException.Create('Assinador: ' + ClassName + ' não implementado');
+end;
+
+
+function TAssinador.SignatureElement(const URI: String; AddX509Data: Boolean): String;
+begin
+  {(*}
+  Result :=
+  '<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">' +
+    '<SignedInfo>' +
+      '<CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />' +
+      '<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />' +
+      '<Reference URI="#' + URI + '">' +
+        '<Transforms>' +
+          '<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />' +
+          '<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />' +
+        '</Transforms>' +
+        '<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />' +
+        '<DigestValue></DigestValue>' +
+      '</Reference>' +
+    '</SignedInfo>' +
+    '<SignatureValue></SignatureValue>' +
+    IfThen(AddX509Data,
+    '<KeyInfo>' +
+      '<X509Data>' +
+        '<X509Certificate></X509Certificate>' +
+      '</X509Data>' +
+    '</KeyInfo>',
+    '<KeyInfo></KeyInfo>') +
+  '</Signature>';
+  {*)}
 end;
 
 { TAssinadorXMLSec }
@@ -164,129 +213,50 @@ begin
   inherited Destroy;
 end;
 
-function TAssinadorXMLSec.Assinar(const ConteudoXML: String): String;
+function TAssinadorXMLSec.Assinar(
+  const ConteudoXML, docElement, infElement: String): String;
 var
-  I, J, PosIni, PosFim: integer;
-  URI, AStr, XmlAss: AnsiString;
-  Tipo: integer; // 1 - NFE 2 - Cancelamento 3 - Inutilizacao
+  I, PosIni, PosFim: integer;
+  URI, AXml, XmlAss, DTD: String;
   Cert: TMemoryStream;
   Cert2: TStringStream;
 begin
-  AStr := ConteudoXML;
+  AXml := ConteudoXML;
 
-  //// Encontrando o URI ////
-  Tipo := 1 ;// TODO: Verificar: DFeUtil.IdentificaTipoSchema(AStr, I);
-
-  I := PosEx('Id=', AStr, I + 6);
-  if I = 0 then
-    raise EACBrNFeException.Create('Não encontrei inicio do URI: Id=');
-  I := PosEx('"', AStr, I + 2);
-  if I = 0 then
-    raise EACBrNFeException.Create('Não encontrei inicio do URI: aspas inicial');
-  J := PosEx('"', AStr, I + 1);
-  if J = 0 then
-    raise EACBrNFeException.Create('Não encontrei inicio do URI: aspas final');
-
-  URI := copy(AStr, I + 1, J - I - 1);
+  URI := DFeUtil.ExtraiURI(AXml);
 
   //// Adicionando Cabeçalho DTD, necessário para xmlsec encontrar o ID ////
-  I := pos('?>', AStr);
+  I := pos('?>', AXml);
+  DTD := StringReplace(cDTD, '&infElement&', infElement, []);
 
-  case Tipo of
-    1: AStr := copy(AStr, 1, StrToInt(VarToStr(DFeUtil.SeSenao(I > 0, I + 1, I)))) +
-        cDTD + Copy(AStr, StrToInt(VarToStr(DFeUtil.SeSenao(I > 0, I + 2, I))), Length(AStr));
-    2: AStr := copy(AStr, 1, StrToInt(VarToStr(DFeUtil.SeSenao(I > 0, I + 1, I)))) +
-        cDTDCanc + Copy(AStr, StrToInt(VarToStr(DFeUtil.SeSenao(I > 0, I + 2, I))), Length(AStr));
-    3: AStr := copy(AStr, 1, StrToInt(VarToStr(DFeUtil.SeSenao(I > 0, I + 1, I)))) +
-        cDTDInut + Copy(AStr, StrToInt(VarToStr(DFeUtil.SeSenao(I > 0, I + 2, I))), Length(AStr));
-    4: AStr := copy(AStr, 1, StrToInt(VarToStr(DFeUtil.SeSenao(I > 0, I + 1, I)))) +
-        cDTDDpec + Copy(AStr, StrToInt(VarToStr(DFeUtil.SeSenao(I > 0, I + 2, I))), Length(AStr));
-    5: AStr := copy(AStr, 1, StrToInt(VarToStr(DFeUtil.SeSenao(I > 0, I + 1, I)))) +
-        cDTDCCe + Copy(AStr, StrToInt(VarToStr(DFeUtil.SeSenao(I > 0, I + 2, I))), Length(AStr));
-    6..11: AStr := copy(AStr, 1, StrToInt(VarToStr(DFeUtil.SeSenao(I > 0, I + 1, I)))) +
-        cDTDEven + Copy(AStr, StrToInt(VarToStr(DFeUtil.SeSenao(I > 0, I + 2, I))), Length(AStr));
-    else
-      AStr := '';
-  end;
+  AXml := Copy(AXml, 1, IfThen(I > 0, I + 1, I)) + DTD +
+    Copy(AXml, IfThen(I > 0, I + 2, I), Length(AXml));
 
   //// Inserindo Template da Assinatura digital ////
-  case Tipo of
-    1:
-    begin
-      I := pos('</NFe>', AStr);
-      if I = 0 then
-        raise EACBrNFeException.Create('Não encontrei final do XML: </NFe>');
-    end;
-    2:
-    begin
-      I := pos('</cancNFe>', AStr);
-      if I = 0 then
-        raise EACBrNFeException.Create('Não encontrei final do XML: </cancNFe>');
-    end;
-    3:
-    begin
-      I := pos('</inutNFe>', AStr);
-      if I = 0 then
-        raise EACBrNFeException.Create('Não encontrei final do XML: </inutNFe>');
-    end;
-    4:
-    begin
-      I := pos('</envDPEC>', AStr);
-      if I = 0 then
-        raise EACBrNFeException.Create('Não encontrei final do XML: </envDPEC>');
-    end;
-    5..11:
-    begin
-      I := pos('</evento>', AStr);
-      if I = 0 then
-        raise EACBrNFeException.Create('Não encontrei final do XML: </evento>');
-    end;
-    else
-      raise EACBrNFeException.Create('Template de Tipo não implementado.');
-  end;
+  I := pos('<signature', lowercase(AXml));
+  if I < 0 then
+    I := pos('</' + docElement + '>', AXml);
 
-  if pos('<Signature', AStr) > 0 then
-    I := pos('<Signature', AStr);
-  AStr := copy(AStr, 1, I - 1) +
-    '<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">' +
-    '<SignedInfo>' +
-    '<CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>'
-    +
-    '<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />'
-    +
-    '<Reference URI="#' + URI + '">' + '<Transforms>' +
-    '<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />'
-    +
-    '<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />'
-    +
-    '</Transforms>' +
-    '<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />' +
-    '<DigestValue></DigestValue>' + '</Reference>' +
-    '</SignedInfo>' + '<SignatureValue></SignatureValue>' +
-    '<KeyInfo>' + '<X509Data>' +
-    '<X509Certificate></X509Certificate>' + '</X509Data>' +
-    '</KeyInfo>' + '</Signature>';
+  if I = 0 then
+    raise EACBrDFeException.Create('Não encontrei final do elemento: </' +
+      docElement + '>');
 
-  case Tipo of
-    1: AStr := AStr + '</NFe>';
-    2: AStr := AStr + '</cancNFe>';
-    3: AStr := AStr + '</inutNFe>';
-    4: AStr := AStr + '</envDPEC>';
-    5..11: AStr := AStr + '</evento>';
-    else
-      AStr := '';
-  end;
+  AXml := copy(AXml, 1, I - 1) + SignatureElement(URI, True) + docElement;
 
-  if FileExists(ArqPFX) then
-    XmlAss := NotaUtil.sign_file(PAnsiChar(AStr), PAnsiChar(ArqPFX), PAnsiChar(PFXSenha))
+  if FileExists(FConfiguracoes.Certificados.ArquivoPFX) then
+    XmlAss := sign_file(PAnsiChar(AXml),
+      PAnsiChar(FConfiguracoes.Certificados.ArquivoPFX),
+      PAnsiChar(FConfiguracoes.Certificados.Senha))
   else
   begin
     Cert := TMemoryStream.Create;
-    Cert2 := TStringStream.Create(ArqPFX);
+    Cert2 := TStringStream.Create(FConfiguracoes.Certificados.DadosPFX);
     try
       Cert.LoadFromStream(Cert2);
-      XmlAss := NotaUtil.sign_memory(PAnsiChar(AStr), PAnsiChar(ArqPFX),
-        PAnsiChar(PFXSenha), Cert.Size, Cert.Memory);
+      XmlAss := sign_memory(PAnsiChar(AXml),
+        PAnsiChar(FConfiguracoes.Certificados.DadosPFX),
+        PAnsiChar(FConfiguracoes.Certificados.Senha),
+        Cert.Size, Cert.Memory);
     finally
       Cert2.Free;
       Cert.Free;
@@ -298,25 +268,17 @@ begin
   XmlAss := StringReplace(XmlAss, #13, '', [rfReplaceAll]);
 
   // Removendo DTD //
-  case Tipo of
-    1: XmlAss := StringReplace(XmlAss, cDTD, '', []);
-    2: XmlAss := StringReplace(XmlAss, cDTDCanc, '', []);
-    3: XmlAss := StringReplace(XmlAss, cDTDInut, '', []);
-    4: XmlAss := StringReplace(XmlAss, cDTDDpec, '', []);
-    5: XmlAss := StringReplace(XmlAss, cDTDCCe, '', []);
-    6..11: XmlAss := StringReplace(XmlAss, cDTDEven, '', []);
-    else
-      XmlAss := '';
-  end;
+  XmlAss := StringReplace(XmlAss, DTD, '', []);
 
+  // Considerando apenas o último Certificado //
   PosIni := Pos('<X509Certificate>', XmlAss) - 1;
-  PosFim := DFeUtil.PosLast('<X509Certificate>', XmlAss);
-
+  PosFim := PosLast('<X509Certificate>', XmlAss);
   XmlAss := copy(XmlAss, 1, PosIni) + copy(XmlAss, PosFim, length(XmlAss));
 
-  AXMLAssinado := StringReplace(XmlAss, '<?xml version="1.0"?>', '', []);
+  // Removendo cabecalho de versao XML
+  XmlAss := StringReplace(XmlAss, '<?xml version="1.0"?>', '', []);
 
-  Result := True;
+  Result := XmlAss;
 end;
 
 function TAssinadorXMLSec.sign_file(const Axml: PAnsiChar;
@@ -511,4 +473,47 @@ begin
   xmlCleanupParser();
 end;
 
+{ TAssinadorMSXML }
+
+constructor TAssinadorMSXML.Create(AConfiguracoes: TConfiguracoes);
+begin
+  inherited Create(AConfiguracoes);
+
+end;
+
+destructor TAssinadorMSXML.Destroy;
+begin
+
+  inherited Destroy;
+end;
+
+function TAssinadorMSXML.Assinar(const ConteudoXML, docElement,
+  infElement: String): String;
+begin
+  // TODO:....
+
+end;
+
 end.
+
+
+
+
+(*
+
+// TODO: Verificar chamadas de assintura...
+
+cDTD     = '<!DOCTYPE test [<!ATTLIST infNFe Id ID #IMPLIED>]>' ;
+ cDTDCanc = '<!DOCTYPE test [<!ATTLIST infCanc Id ID #IMPLIED>]>' ;
+ cDTDInut = '<!DOCTYPE test [<!ATTLIST infInut Id ID #IMPLIED>]>' ;
+ cDTDDpec = '<!DOCTYPE test [<!ATTLIST infDPEC Id ID #IMPLIED>]>' ;
+ cDTDCCe  = '<!DOCTYPE test [<!ATTLIST infEvento Id ID #IMPLIED>]>' ;
+ cDTDEven = '<!DOCTYPE test [<!ATTLIST infEvento Id ID #IMPLIED>]>' ;
+
+ </NFe>
+ </cancNFe>
+ </inutNFe>
+ </envDPEC>
+ </evento>
+
+ *)

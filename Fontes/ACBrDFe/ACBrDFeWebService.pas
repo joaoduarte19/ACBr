@@ -414,7 +414,7 @@ begin
      para assinatura.
      Se o XML está assinado, não deve modificar o conteúdo }
 
-  if not DFeUtil.XMLisSigned(FEnvelopeSoap) then
+  if not DFeUtil.XmlEstaAssinado(FEnvelopeSoap) then
     FEnvelopeSoap := DFeUtil.ConverteXMLtoUTF8(FEnvelopeSoap);
 
   try

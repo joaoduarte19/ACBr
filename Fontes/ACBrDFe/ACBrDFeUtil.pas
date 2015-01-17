@@ -97,9 +97,10 @@ type
      class function ValidaRECOPI(AValue: string): Boolean;
      class function ValidaNVE(AValue: string): Boolean;
 
-     class function ConverteXMLtoUTF8(AXML: String): String;
-     class function XMLisSigned(AXML: String): Boolean;
-     class function XMLisUTF8(AXML: String): Boolean;
+     class function ConverteXMLtoUTF8(const AXML: String): String;
+     class function XmlEstaAssinado(const AXML: String): Boolean;
+     class function XmlEhUTF8(const AXML: String): Boolean;
+     class function ExtraiURI(const AXML: String): String;
    end;
 
 implementation
@@ -334,13 +335,14 @@ begin
     raise EACBrDFeException.Create(AMensagem);
 end;
 
-class function DFeUtil.TamanhoIgual(const AValue, ATamanho: Integer): Boolean;
+class function DFeUtil.TamanhoIgual(const AValue: Integer;
+  const ATamanho: Integer): Boolean;
 begin
   Result := (Length(IntToStr(AValue))= ATamanho);
 end;
 
-class procedure DFeUtil.TamanhoIgual(const AValue, ATamanho: Integer;
-  AMensagem: String);
+class procedure DFeUtil.TamanhoIgual(const AValue: Integer;
+  const ATamanho: Integer; AMensagem: String);
 begin
   if not(TamanhoIgual(AValue, ATamanho)) then
     raise EACBrDFeException.Create(AMensagem);
@@ -558,21 +560,41 @@ begin
  Result := True;
 end;
 
-class function DFeUtil.XMLisUTF8(AXML: String): Boolean;
+class function DFeUtil.XmlEhUTF8(const AXML: String): Boolean;
 begin
   Result := (pos('encoding="utf-8"', LowerCase(LeftStr(AXML,50))) > 0);
 end ;
 
-class function DFeUtil.XMLisSigned(AXML: String): Boolean;
+class function DFeUtil.ExtraiURI(const AXML: String): String;
+var
+  I, J: Integer;
+begin
+ //// Encontrando o URI ////
+ I := PosEx('Id=', AXML, 6);
+ if I = 0 then
+   raise EACBrDFeException.Create('Não encontrei inicio do URI: Id=');
+
+ I := PosEx('"', AXML, I + 2);
+ if I = 0 then
+   raise EACBrDFeException.Create('Não encontrei inicio do URI: aspas inicial');
+
+ J := PosEx('"', AXML, I + 1);
+ if J = 0 then
+   raise EACBrDFeException.Create('Não encontrei inicio do URI: aspas final');
+
+ Result := copy(AXML, I + 1, J - I - 1);
+end;
+
+class function DFeUtil.XmlEstaAssinado(const AXML: String): Boolean;
 begin
 Result := (pos('<signature', lowercase(AXML)) > 0);
 end;
 
-class function DFeUtil.ConverteXMLtoUTF8(AXML: String): String;
+class function DFeUtil.ConverteXMLtoUTF8(const AXML: String): String;
 Var
   UTF8Str : String;
 begin
-  if not XMLisUTF8(AXML) then   // Já foi convertido antes ?
+  if not XmlEhUTF8(AXML) then   // Já foi convertido antes ?
   begin
     {$IFNDEF FPC}
      UTF8Str := UTF8Encode(AXML);
