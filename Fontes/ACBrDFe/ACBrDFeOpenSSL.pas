@@ -63,9 +63,19 @@ type
       const senha: PAnsiChar): AnsiString;
     function sign_memory(const Axml: PAnsiChar; const key_file: PAnsichar;
       const senha: PAnsiChar; Size: cardinal; Ponteiro: Pointer): AnsiString;
+  protected
+    procedure CarregarCertificado; override;
+
+    function GetCertDataVenc: TDateTime; override;
+    function GetCertNumeroSerie: AnsiString; override;
+    function GetCertSubjectName: String; override;
+
   public
     constructor Create(AConfiguracoes: TConfiguracoes);
     destructor Destroy; override;
+
+    procedure Inicializar; override;
+    procedure DesInicializar; override;
 
     function Assinar(const ConteudoXML, docElement, infElement: String): String;
       override;
@@ -83,25 +93,43 @@ constructor TDFeOpenSSL.Create(AConfiguracoes: TConfiguracoes);
 begin
   inherited Create(AConfiguracoes);
 
-  InitXmlSec;
-
   FHTTP := THTTPSend.Create;
 end;
 
 destructor TDFeOpenSSL.Destroy;
 begin
-  ShutDownXmlSec;
-
+  DesInicializar;
   inherited Destroy;
+end;
+
+procedure TDFeOpenSSL.Inicializar;
+begin
+  if FpInicializado then
+    exit;
+
+  InitXmlSec;
+  FpInicializado := True;
+end;
+
+procedure TDFeOpenSSL.DesInicializar;
+begin
+  if FpInicializado and Configuracoes.Geral.UnloadSSLLib then
+  begin
+    ShutDownXmlSec;
+    FpInicializado := False;
+  end;
 end;
 
 function TDFeOpenSSL.Assinar(const ConteudoXML, docElement, infElement: String): String;
 var
   I, PosIni, PosFim: integer;
-  URI, AXml, XmlAss, DTD: String;
+  URI, AXml, XmlAss, DTD, TagEndDocElement: String;
   Cert: TMemoryStream;
   Cert2: TStringStream;
 begin
+  Inicializar;
+  CarregarCertificado;
+
   AXml := ConteudoXML;
 
   URI := DFeUtil.ExtraiURI(AXml);
@@ -114,15 +142,16 @@ begin
     Copy(AXml, IfThen(I > 0, I + 2, I), Length(AXml));
 
   //// Inserindo Template da Assinatura digital ////
+  TagEndDocElement := '</' + docElement + '>';
   I := pos('<signature', lowercase(AXml));
   if I < 0 then
-    I := pos('</' + docElement + '>', AXml);
+    I := pos(TagEndDocElement, AXml);
 
   if I = 0 then
-    raise EACBrDFeException.Create('Não encontrei final do elemento: </' +
-      docElement + '>');
+    raise EACBrDFeException.Create('Não encontrei final do elemento: ' +
+      TagEndDocElement);
 
-  AXml := copy(AXml, 1, I - 1) + SignatureElement(URI, True) + docElement;
+  AXml := copy(AXml, 1, I - 1) + SignatureElement(URI, True) + TagEndDocElement;
 
   if FileExists(Configuracoes.Certificados.ArquivoPFX) then
     XmlAss := sign_file(PAnsiChar(AXml),
@@ -333,6 +362,30 @@ begin
     if (doc <> nil) then
       xmlFreeDoc(doc);
   end;
+end;
+
+procedure TDFeOpenSSL.CarregarCertificado;
+begin
+  // TODO 
+  inherited CarregarCertificado;
+end;
+
+function TDFeOpenSSL.GetCertDataVenc: TDateTime;
+begin
+  // TODO
+  Result := inherited GetCertDataVenc;
+end;
+
+function TDFeOpenSSL.GetCertNumeroSerie: AnsiString;
+begin
+  // TODO
+  Result := inherited GetCertNumeroSerie;
+end;
+
+function TDFeOpenSSL.GetCertSubjectName: String;
+begin
+  // TODO
+  Result := inherited GetCertSubjectName;
 end;
 
 procedure TDFeOpenSSL.InitXmlSec;

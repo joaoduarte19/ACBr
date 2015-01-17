@@ -135,6 +135,7 @@ type
     FRetirarAcentos: Boolean;
     FIdToken: String;
     FToken: String;
+    FUnloadSSLLib: Boolean;
     FValidarDigest: Boolean;
 
     procedure SetSSLLib(AValue: TSSLLib);
@@ -145,6 +146,7 @@ type
     constructor Create(AOwner: TComponent); override;
   published
     property SSLLib: TSSLLib read FSSLLib write SetSSLLib;
+    property UnloadSSLLib: Boolean read FUnloadSSLLib write FUnloadSSLLib default True;
     property FormaEmissao: TpcnTipoEmissao read FFormaEmissao
       write SetFormaEmissao default teNormal;
     property FormaEmissaoCodigo: integer read FFormaEmissaoCodigo;
@@ -227,7 +229,7 @@ type
 implementation
 
 uses
-  ACBrUtil, ACBrDFeUtil, DateUtils;
+  math, ACBrUtil, ACBrDFeUtil, DateUtils;
 
 { TConfiguracoes }
 
@@ -276,11 +278,12 @@ constructor TGeralConf.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-  FSSLLib := libCapicom;
   {$IFNDEF MSWINDOWS}
   FSSLLib := libOpenSSL;
+  {$ELSE}
+  FSSLLib := libCapicom;
   {$ENDIF}
-
+  FUnloadSSLLib := True;
   FFormaEmissao := teNormal;
   FFormaEmissaoCodigo := StrToInt(TpEmisToStr(FFormaEmissao));
   FSalvar := False;
@@ -368,10 +371,7 @@ end;
 
 procedure TWebServicesConf.SetIntervaloTentativas(const Value: cardinal);
 begin
-  if (Value > 0) and (Value < 1000) then
-    FIntervaloTentativas := 1000
-  else
-    FIntervaloTentativas := Value;
+  FIntervaloTentativas := max(Value,1000)
 end;
 
 procedure TWebServicesConf.SetTentativas(const Value: integer);

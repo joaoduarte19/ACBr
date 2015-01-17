@@ -50,15 +50,34 @@ type
     FConfiguracoes: TConfiguracoes;
 
   protected
+    FpInicializado: Boolean;
+
     property Configuracoes: TConfiguracoes read FConfiguracoes;
 
+    procedure CarregarCertificado; virtual;
+
+    function GetCertDataVenc: TDateTime; virtual;
+    function GetCertNumeroSerie: AnsiString; virtual;
+    function GetCertSubjectName: String; virtual;
+
     function SignatureElement(const URI: String; AddX509Data: Boolean): String;
+      virtual;
   public
+    property CertNumeroSerie: AnsiString read GetCertNumeroSerie;
+    property CertDataVenc: TDateTime read GetCertDataVenc;
+    property CertSubjectName: String read GetCertSubjectName;
+
     constructor Create(AConfiguracoes: TConfiguracoes);
+
+    procedure Inicializar; virtual;
+    procedure DesInicializar; virtual;
+
     function Assinar(const ConteudoXML, docElement, infElement: String): String;
       virtual;
     function Enviar(const ConteudoXML: AnsiString; const URL: String;
       const SoapAction: String): AnsiString; virtual;
+
+    function SelecionarCertificado: String; virtual;
   end;
 
   { TDFeSSL }
@@ -146,6 +165,17 @@ end;
 constructor TDFeSSLClass.Create(AConfiguracoes: TConfiguracoes);
 begin
   FConfiguracoes := AConfiguracoes;
+  FpInicializado := False;
+end;
+
+procedure TDFeSSLClass.Inicializar;
+begin
+  {nada aqui}
+end;
+
+procedure TDFeSSLClass.DesInicializar;
+begin
+  {nada aqui}
 end;
 
 function TDFeSSLClass.Assinar(const ConteudoXML, docElement, infElement: String): String;
@@ -159,6 +189,32 @@ function TDFeSSLClass.Enviar(const ConteudoXML: AnsiString; const URL: String;
 begin
   Result := '';
   raise EACBrDFeException.Create(ClassName + '.Enviar não implementado');
+end;
+
+function TDFeSSLClass.SelecionarCertificado: String;
+begin
+  Result := '';
+  raise EACBrDFeException.Create('"SelecionarCertificado" não suportado em: '+ClassName);
+end;
+
+procedure TDFeSSLClass.CarregarCertificado;
+begin
+  raise EACBrDFeException.Create(ClassName + '.CarregarCertificado não implementado');
+end;
+
+function TDFeSSLClass.GetCertDataVenc: TDateTime;
+begin
+  Result := 0;
+end;
+
+function TDFeSSLClass.GetCertNumeroSerie: AnsiString;
+begin
+  Result := '';
+end;
+
+function TDFeSSLClass.GetCertSubjectName: String;
+begin
+  Result := '';
 end;
 
 function TDFeSSLClass.SignatureElement(const URI: String; AddX509Data: Boolean): String;
@@ -179,18 +235,19 @@ begin
       '</Reference>' +
     '</SignedInfo>' +
     '<SignatureValue></SignatureValue>' +
-    IfThen(AddX509Data,
     '<KeyInfo>' +
+    IfThen(AddX509Data,
       '<X509Data>' +
         '<X509Certificate></X509Certificate>' +
-      '</X509Data>' +
-    '</KeyInfo>',
-    '<KeyInfo></KeyInfo>') +
+      '</X509Data>',
+      '')+
+    '</KeyInfo>'+
   '</Signature>';
   {*)}
 end;
 
 end.
+
 
 (*
 
