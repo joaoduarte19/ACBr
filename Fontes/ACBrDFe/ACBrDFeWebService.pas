@@ -46,9 +46,9 @@ uses Classes, SysUtils,
   {$ENDIF}
   HTTPSend,  // OpenSSL
   {$IFDEF SoapHTTP}
-   SoapHTTPClient, SOAPHTTPTrans, SOAPConst, WinInet, ACBrCAPICOM_TLB,
+  SoapHTTPClient, SOAPHTTPTrans, SOAPConst, WinInet, ACBrCAPICOM_TLB,
   {$ELSE}
-   ACBrHTTPReqResp,
+  ACBrHTTPReqResp,
   {$ENDIF}
   ACBrDFeConfiguracoes, ACBrDFe;
 
@@ -57,18 +57,23 @@ const
 
 type
 
-  { TWebServicesBase }
+  { TDFeWebService }
 
-  TWebServicesBase = class
+  TDFeWebService = class
   private
     procedure ConfiguraHTTP(HTTP: THTTPSend; Action: String);
     {$IFDEF SoapHTTP}
-     procedure ConfiguraReqResp(ReqResp: THTTPReqResp);
-     procedure OnBeforePost(const HTTPReqResp: THTTPReqResp; Data: Pointer);
+    procedure ConfiguraReqResp(ReqResp: THTTPReqResp);
+    procedure OnBeforePost(const HTTPReqResp: THTTPReqResp; Data: Pointer);
     {$ELSE}
-     procedure ConfiguraReqResp(ReqResp: TACBrHTTPReqResp);
+    procedure ConfiguraReqResp(ReqResp: TACBrHTTPReqResp);
     {$ENDIF}
   protected
+    FSoapVersion: String;
+    FSoapEnvelopeAtributtes: String;
+    FHeaderElement: String;
+    FBodyElement: String;
+
     FCabMsg: String;
     FDadosMsg: String;
     FEnvelopeSoap: String;
@@ -83,10 +88,9 @@ type
     FServico: String;
     FSoapAction: String;
   protected
-    procedure AssinarXML(AXML: String; MsgErro: String);
     procedure FazerLog(Msg: AnsiString; Exibir: Boolean = False);
     procedure GerarException(Msg: String);
-  protected
+
     procedure InicializarServico; virtual;
     procedure DefinirServicoEAction; virtual;
     procedure DefinirURL; virtual;
@@ -100,13 +104,20 @@ type
 
     function GerarMsgLog: String; virtual;
     function GerarMsgErro(E: Exception): String; virtual;
+    function GerarCabecalhoSoap: String; virtual;
     function GerarVersaoDadosSoap: String; virtual;
     function GerarUFSoap: String; virtual;
     function GerarPrefixoArquivo: String; virtual;
   public
-    constructor Create(AOwner: TACBrDFe; AConfiguracoes: TConfiguracoes);
+    constructor Create(AOwner: TACBrDFe);
 
     function Executar: Boolean; virtual;
+
+    property SoapVersion: String read FSoapVersion;
+    property SoapEnvelopeAtributtes: String
+      read FSoapEnvelopeAtributtes;
+    property HeaderElement: String read FHeaderElement;
+    property BodyElement: String read FBodyElement;
 
     property Servico: String read FServico;
     property SoapAction: String read FSoapAction;
@@ -127,13 +138,21 @@ uses
   ssl_openssl,
   ACBrDFeUtil, ACBrUtil, StrUtils, pcnGerador;
 
-{ TWebServicesBase }
+{ TDFeWebService }
 
-constructor TWebServicesBase.Create(AOwner: TACBrDFe;
-  AConfiguracoes: TConfiguracoes);
+constructor TDFeWebService.Create(AOwner: TACBrDFe);
 begin
-  FConfiguracoes := AConfiguracoes;
   FDFeOwner := AOwner;
+  FConfiguracoes := AOwner.Configuracoes;
+
+  FSoapVersion := 'soap12';
+  FHeaderElement := 'nfeCabecMsg';
+  FBodyElement := 'nfeDadosMsg';
+  FSoapEnvelopeAtributtes :=
+    'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +
+    'xmlns:xsd="http://www.w3.org/2001/XMLSchema" ' +
+    'xmlns:soap12="http://www.w3.org/2003/05/soap-envelope"';
+
   FCabMsg := '';
   FDadosMsg := '';
   FRetornoWS := '';
@@ -146,7 +165,7 @@ begin
   FSoapAction := '';
 end;
 
-procedure TWebServicesBase.ConfiguraHTTP(HTTP: THTTPSend; Action: String);
+procedure TDFeWebService.ConfiguraHTTP(HTTP: THTTPSend; Action: String);
 begin
   if FileExists(FConfiguracoes.Certificados.ArquivoPFX) then
     HTTP.Sock.SSL.PFXfile := FConfiguracoes.Certificados.ArquivoPFX
@@ -177,16 +196,15 @@ procedure TWebServicesBase.ConfiguraReqResp(ReqResp: THTTPReqResp);
 begin
   if FConfiguracoes.WebServices.ProxyHost <> '' then
   begin
-    ReqResp.Proxy := FConfiguracoes.WebServices.ProxyHost +
-      ':' + FConfiguracoes.WebServices.ProxyPort;
+    ReqResp.Proxy := FConfiguracoes.WebServices.ProxyHost + ':' +
+      FConfiguracoes.WebServices.ProxyPort;
     ReqResp.UserName := FConfiguracoes.WebServices.ProxyUser;
     ReqResp.Password := FConfiguracoes.WebServices.ProxyPass;
   end;
   ReqResp.OnBeforePost := OnBeforePost;
 end;
 
-procedure TWebServicesBase.OnBeforePost(const HTTPReqResp: THTTPReqResp;
-  Data: Pointer);
+procedure TWebServicesBase.OnBeforePost(const HTTPReqResp: THTTPReqResp; Data: Pointer);
 var
   Cert: ICertificate2;
   CertContext: ICertContext;
@@ -227,7 +245,7 @@ end;
 
 {$ELSE}
 
-procedure TWebServicesBase.ConfiguraReqResp(ReqResp: TACBrHTTPReqResp);
+procedure TDFeWebService.ConfiguraReqResp(ReqResp: TACBrHTTPReqResp);
 begin
   if FConfiguracoes.WebServices.ProxyHost <> '' then
   begin
@@ -246,14 +264,9 @@ begin
     ReqResp.MimeType := 'text/xml';
 end;
 
-procedure TWebServicesBase.AssinarXML(AXML: String; MsgErro: String);
-begin
-
-end;
-
 {$ENDIF}
 
-function TWebServicesBase.Executar: Boolean;
+function TDFeWebService.Executar: Boolean;
 var
   ErroMsg: String;
 begin
@@ -283,7 +296,7 @@ begin
   end;
 end;
 
-procedure TWebServicesBase.InicializarServico;
+procedure TDFeWebService.InicializarServico;
 begin
   { Sobrescrever apenas se necessário }
 
@@ -299,7 +312,7 @@ begin
     GerarException('SoapAction não definido para: ' + ClassName);
 end;
 
-procedure TWebServicesBase.DefinirServicoEAction;
+procedure TDFeWebService.DefinirServicoEAction;
 begin
   { sobrescrever, OBRIGATORIAMENTE }
 
@@ -309,7 +322,7 @@ begin
   GerarException('DefinirServicoEAction não implementado para: ' + ClassName);
 end;
 
-procedure TWebServicesBase.DefinirURL;
+procedure TDFeWebService.DefinirURL;
 begin
   { sobrescrever OBRIGATORIAMENTE.
     Você também pode mudar apenas o valor de "FLayoutServico" na classe
@@ -319,7 +332,7 @@ begin
 end;
 
 
-procedure TWebServicesBase.DefinirDadosMsg;
+procedure TDFeWebService.DefinirDadosMsg;
 begin
   { sobrescrever, OBRIGATORIAMENTE }
 
@@ -329,48 +342,42 @@ begin
 end;
 
 
-procedure TWebServicesBase.DefinirEnvelopeSoap;
+procedure TDFeWebService.DefinirEnvelopeSoap;
 var
   Texto: String;
 begin
   { Sobrescrever apenas se necessário }
 
   Texto := '<' + ENCODING_UTF8 + '>';    // Envelop Final DEVE SEMPRE estar em UTF8...
-
-  Texto := Texto + '<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
-    +
-    'xmlns:xsd="http://www.w3.org/2001/XMLSchema" ' +
-    'xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">';
-  Texto := Texto + '<soap12:Header>';
-  Texto := Texto + '<nfeCabecMsg xmlns="' + Servico + '">';
-  Texto := Texto + GerarUFSoap;
-  Texto := Texto + GerarVersaoDadosSoap;
-  Texto := Texto + '</nfeCabecMsg>';
-  Texto := Texto + '</soap12:Header>';
-  Texto := Texto + '<soap12:Body>';
-
-  Texto := Texto + '<nfeDadosMsg xmlns="' + Servico + '">';
+  Texto := Texto + '<' + FSoapVersion + ':Envelope ' + FSoapEnvelopeAtributtes + '>';
+  Texto := Texto + '<' + FSoapVersion + ':Header>';
+  Texto := Texto + '<' + FHeaderElement + ' xmlns="' + Servico + '">';
+  Texto := Texto + GerarCabecalhoSoap;
+  Texto := Texto + '</' + FHeaderElement + '>';
+  Texto := Texto + '</' + FSoapVersion + ':Header>';
+  Texto := Texto + '<' + FSoapVersion + ':Body>';
+  Texto := Texto + '<' + FBodyElement + ' xmlns="' + Servico + '">';
   Texto := Texto + DadosMsg;
-  Texto := Texto + '</nfeDadosMsg>';
-  Texto := Texto + '</soap12:Body>';
-  Texto := Texto + '</soap12:Envelope>';
+  Texto := Texto + '</' + FBodyElement + '>';
+  Texto := Texto + '</' + FSoapVersion + ':Body>';
+  Texto := Texto + '</' + FSoapVersion + ':Envelope>';
 
   FEnvelopeSoap := Texto;
 end;
 
-function TWebServicesBase.GerarUFSoap: String;
+function TDFeWebService.GerarUFSoap: String;
 begin
   Result := '<cUF>' + IntToStr(FConfiguracoes.WebServices.UFCodigo) + '</cUF>';
 end;
 
-function TWebServicesBase.GerarVersaoDadosSoap: String;
+function TDFeWebService.GerarVersaoDadosSoap: String;
 begin
   { sobrescrever, OBRIGATORIAMENTE }
 
   GerarException('GerarVersaoDadosSoap não implementado para: ' + ClassName);
 end;
 
-procedure TWebServicesBase.EnviarDados;
+procedure TDFeWebService.EnviarDados;
 var
   {$IFDEF ACBrNFeOpenSSL}
   HTTP: THTTPSend;
@@ -453,12 +460,12 @@ begin
 end;
 
 
-function TWebServicesBase.GerarPrefixoArquivo: String;
+function TDFeWebService.GerarPrefixoArquivo: String;
 begin
   Result := FormatDateTime('yyyymmddhhnnss', Now);
 end;
 
-procedure TWebServicesBase.SalvarEnvio;
+procedure TDFeWebService.SalvarEnvio;
 var
   Prefixo, ArqEnv: String;
 begin
@@ -482,7 +489,7 @@ begin
   end;
 end;
 
-procedure TWebServicesBase.SalvarResposta;
+procedure TDFeWebService.SalvarResposta;
 var
   Prefixo, ArqResp: String;
 begin
@@ -506,21 +513,21 @@ begin
   end;
 end;
 
-function TWebServicesBase.GerarMsgLog: String;
+function TDFeWebService.GerarMsgLog: String;
 begin
   { sobrescrever, se quiser Logar }
 
   Result := '';
 end;
 
-function TWebServicesBase.TratarResposta: Boolean;
+function TDFeWebService.TratarResposta: Boolean;
 begin
   { sobrescrever, OBRIGATORIAMENTE }
 
   Result := False;
 end;
 
-procedure TWebServicesBase.FazerLog(Msg: AnsiString; Exibir: Boolean);
+procedure TDFeWebService.FazerLog(Msg: AnsiString; Exibir: Boolean);
 var
   Tratado: Boolean;
 begin
@@ -530,29 +537,38 @@ begin
     if Assigned(FDFeOwner.OnGerarLog) then
       FDFeOwner.OnGerarLog(Msg, Tratado);
 
-    if Tratado then exit;
+    if Tratado then
+      exit;
 
     {$IFNDEF NOGUI}
-     if Exibir and FConfiguracoes.WebServices.Visualizar then
-       ShowMessage(Msg);
+    if Exibir and FConfiguracoes.WebServices.Visualizar then
+      ShowMessage(Msg);
     {$ENDIF}
   end;
 end;
 
-procedure TWebServicesBase.GerarException(Msg: String);
+procedure TDFeWebService.GerarException(Msg: String);
 begin
   FazerLog('ERRO: ' + Msg, False);
   raise EACBrDFeException.Create(Msg);
 end;
 
-function TWebServicesBase.GerarMsgErro(E: Exception): String;
+function TDFeWebService.GerarMsgErro(E: Exception): String;
 begin
   { Sobrescrever com mensagem adicional, se desejar }
 
   Result := E.Message;
 end;
 
-procedure TWebServicesBase.FinalizarServico;
+function TDFeWebService.GerarCabecalhoSoap: String;
+begin
+  { Sobrescrever apenas se necessário }
+
+  Result := GerarUFSoap + GerarVersaoDadosSoap;
+
+end;
+
+procedure TDFeWebService.FinalizarServico;
 begin
   { Sobrescrever apenas se necessário }
 

@@ -50,7 +50,7 @@ const
 
 type
 
-  TCryptoLib = (libOpenSSL, libCapicom);
+  TCryptoLib = (libNone, libOpenSSL, libCapicom);
 
   { TCertificadosConf }
 

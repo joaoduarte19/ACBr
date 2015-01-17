@@ -48,16 +48,16 @@
     </Files>
     <RequiredPkgs Count="4">
       <Item1>
-        <PackageName Value="ACBrTCP"/>
+        <PackageName Value="ACBrOpenSSL"/>
       </Item1>
       <Item2>
-        <PackageName Value="PCNComum"/>
+        <PackageName Value="ACBrTCP"/>
       </Item2>
       <Item3>
-        <PackageName Value="ACBrCapicom"/>
+        <PackageName Value="PCNComum"/>
       </Item3>
       <Item4>
-        <PackageName Value="ACBrDiversos"/>
+        <PackageName Value="ACBrCapicom"/>
       </Item4>
     </RequiredPkgs>
     <UsageOptions>

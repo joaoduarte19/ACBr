@@ -74,7 +74,7 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
-    function Gravar(AXMLName: String; AXMLFile: String; aPath: String = ''): Boolean;
+    function Gravar(NomeXML: String; ConteudoXML: String; aPath: String = ''): Boolean;
     procedure EnviarEmail(const sSmtpHost, sSmtpPort, sSmtpUser,
       sSmtpPasswd, sFrom, sTo, sAssunto: String; sMensagem: TStrings;
       SSL: Boolean; sCC: TStrings = nil; Anexos: TStrings = nil;
@@ -139,16 +139,17 @@ begin
 end;
 
 
-function TACBrDFe.Gravar(AXMLName: String; AXMLFile: String; aPath: String): Boolean;
+function TACBrDFe.Gravar(NomeXML: String; ConteudoXML: String; aPath: String
+  ): Boolean;
 var
   UTF8Str: String;
 begin
   Result := False;
   try
-    if DFeUtil.NaoEstaVazio(ExtractFilePath(AXMLName)) then
+    if DFeUtil.NaoEstaVazio(ExtractFilePath(NomeXML)) then
     begin
-      aPath := ExtractFilePath(AXMLName);
-      AXMLName := StringReplace(AXMLName, aPath, '', [rfIgnoreCase]);
+      aPath := ExtractFilePath(NomeXML);
+      NomeXML := StringReplace(NomeXML, aPath, '', [rfIgnoreCase]);
     end
     else
     begin
@@ -158,15 +159,15 @@ begin
         aPath := PathWithDelim(aPath);
     end;
 
-    AXMLFile := StringReplace(AXMLFile, '<-><->', '', [rfReplaceAll]);
+    ConteudoXML := StringReplace(ConteudoXML, '<-><->', '', [rfReplaceAll]);
     { Sempre salva o Arquivo em UTF8, independente de qual seja a IDE...
       FPC já trabalha com UTF8 de forma nativa }
-    UTF8Str := DFeUtil.ConverteXMLtoUTF8(AXMLFile);
+    UTF8Str := DFeUtil.ConverteXMLtoUTF8(ConteudoXML);
 
     if not DirectoryExists(aPath) then
       ForceDirectories(aPath);
 
-    WriteToTXT(aPath + AXMLName, UTF8Str, False, False);
+    WriteToTXT(aPath + NomeXML, UTF8Str, False, False);
     Result := True;
   except
     on E: Exception do
