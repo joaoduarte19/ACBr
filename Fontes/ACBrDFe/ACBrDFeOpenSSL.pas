@@ -53,16 +53,16 @@ type
   TDFeOpenSSL = class(TDFeSSLClass)
   private
     FHTTP: THTTPSend;
+    FdsigCtx: xmlSecDSigCtxPtr;
 
     procedure InitXmlSec;
     procedure ShutDownXmlSec;
 
     procedure ConfiguraHTTP(const URL, SoapAction: String);
 
-    function sign_file(const Axml: PAnsiChar; const key_file: PAnsiChar;
-      const senha: PAnsiChar): AnsiString;
-    function sign_memory(const Axml: PAnsiChar; const key_file: PAnsichar;
-      const senha: PAnsiChar; Size: cardinal; Ponteiro: Pointer): AnsiString;
+    procedure CarregarCertificadoSeNecessario;
+
+    function XmlSecSign(const Axml: PAnsiChar): AnsiString;
   protected
     procedure CarregarCertificado; override;
 
@@ -94,6 +94,7 @@ begin
   inherited Create(AConfiguracoes);
 
   FHTTP := THTTPSend.Create;
+  FdsigCtx := nil;
 end;
 
 destructor TDFeOpenSSL.Destroy;
@@ -118,18 +119,20 @@ begin
     ShutDownXmlSec;
     FpInicializado := False;
   end;
+
+  if (FdsigCtx <> nil) then
+    xmlSecDSigCtxDestroy(FdsigCtx);
 end;
 
 function TDFeOpenSSL.Assinar(const ConteudoXML, docElement, infElement: String): String;
 var
   I, PosIni, PosFim: integer;
   URI, AXml, XmlAss, DTD, TagEndDocElement: String;
-  Cert: TMemoryStream;
-  Cert2: TStringStream;
 begin
   Inicializar;
   CarregarCertificado;
 
+  // Nota: "ConteudoXML" já deve estar convertido para UTF8 //
   AXml := ConteudoXML;
 
   URI := DFeUtil.ExtraiURI(AXml);
@@ -153,24 +156,8 @@ begin
 
   AXml := copy(AXml, 1, I - 1) + SignatureElement(URI, True) + TagEndDocElement;
 
-  if FileExists(Configuracoes.Certificados.ArquivoPFX) then
-    XmlAss := sign_file(PAnsiChar(AXml),
-      PAnsiChar(Configuracoes.Certificados.ArquivoPFX),
-      PAnsiChar(Configuracoes.Certificados.Senha))
-  else
-  begin
-    Cert := TMemoryStream.Create;
-    Cert2 := TStringStream.Create(Configuracoes.Certificados.DadosPFX);
-    try
-      Cert.LoadFromStream(Cert2);
-      XmlAss := sign_memory(PAnsiChar(AXml),
-        PAnsiChar(Configuracoes.Certificados.DadosPFX),
-        PAnsiChar(Configuracoes.Certificados.Senha), Cert.Size, Cert.Memory);
-    finally
-      Cert2.Free;
-      Cert.Free;
-    end;
-  end;
+  // Assinando com XMLSec //
+  XmlAss := XmlSecSign(PAnsiChar(AXml));
 
   // Removendo quebras de linha //
   XmlAss := StringReplace(XmlAss, #10, '', [rfReplaceAll]);
@@ -225,27 +212,24 @@ begin
   Result := RetornoWS;
 end;
 
-function TDFeOpenSSL.sign_file(const Axml: PAnsiChar; const key_file: PAnsiChar;
-  const senha: PAnsiChar): AnsiString;
+function TDFeOpenSSL.XmlSecSign(const Axml: PAnsiChar): AnsiString;
 var
   doc: xmlDocPtr;
   node: xmlNodePtr;
-  dsigCtx: xmlSecDSigCtxPtr;
   buffer: PAnsiChar;
   bufSize: integer;
 begin
-  // TODO: refatorar sign_file() e sign_memory() ;
-
   doc := nil;
-  dsigCtx := nil;
   Result := '';
 
-  if (Axml = nil) or (key_file = nil) then
+  if (Axml = nil) then
     Exit;
+
+  CarregarCertificadoSeNecessario;
 
   try
     { load template }
-    doc := xmlParseDoc(PAnsiChar(UTF8Encode(Axml)));
+    doc := xmlParseDoc(Axml);
     if ((doc = nil) or (xmlDocGetRootElement(doc) = nil)) then
       raise EACBrDFeException.Create('Error: unable to parse');
 
@@ -255,25 +239,8 @@ begin
     if (node = nil) then
       raise EACBrDFeException.Create('Error: start node not found');
 
-    { create signature context, we don't need keys manager in this example }
-    dsigCtx := xmlSecDSigCtxCreate(nil);
-    if (dsigCtx = nil) then
-      raise EACBrDFeException.Create('Error :failed to create signature context');
-
-    // { load private key}
-    dsigCtx^.signKey := xmlSecCryptoAppKeyLoad(key_file,
-      xmlSecKeyDataFormatPkcs12, senha, nil, nil);
-    if (dsigCtx^.signKey = nil) then
-      raise EACBrDFeException.Create('Error: failed to load private pem key from "' +
-        key_file + '"');
-
-    { set key name to the file name, this is just an example! }
-    if (xmlSecKeySetName(dsigCtx^.signKey, PAnsiChar(key_file)) < 0) then
-      raise EACBrDFeException.Create('Error: failed to set key name for key from "' +
-        key_file + '"');
-
     { sign the template }
-    if (xmlSecDSigCtxSign(dsigCtx, node) < 0) then
+    if (xmlSecDSigCtxSign(FdsigCtx, node) < 0) then
       raise EACBrDFeException.Create('Error: signature failed');
 
     { print signed document to stdout }
@@ -286,106 +253,104 @@ begin
       Result := buffer;
   finally
     { cleanup }
-    if (dsigCtx <> nil) then
-      xmlSecDSigCtxDestroy(dsigCtx);
-
-    if (doc <> nil) then
-      xmlFreeDoc(doc);
-  end;
-end;
-
-function TDFeOpenSSL.sign_memory(const Axml: PAnsiChar; const key_file: PAnsichar;
-  const senha: PAnsiChar; Size: cardinal; Ponteiro: Pointer): AnsiString;
-var
-  doc: xmlDocPtr;
-  node: xmlNodePtr;
-  dsigCtx: xmlSecDSigCtxPtr;
-  buffer: PAnsiChar;
-  bufSize: integer;
-begin
-  // TODO: refatorar sign_file() e sign_memory() ;
-
-  doc := nil;
-  dsigCtx := nil;
-  Result := '';
-
-  if (Axml = nil) or (key_file = nil) then
-    Exit;
-
-  try
-    { load template }
-    doc := xmlParseDoc(PAnsiChar(UTF8Encode(Axml)));
-    if ((doc = nil) or (xmlDocGetRootElement(doc) = nil)) then
-      raise EACBrDFeException.Create('Error: unable to parse');
-
-    { find start node }
-    node := xmlSecFindNode(xmlDocGetRootElement(doc),
-      PAnsiChar(xmlSecNodeSignature), PAnsiChar(xmlSecDSigNs));
-    if (node = nil) then
-      raise EACBrDFeException.Create('Error: start node not found');
-
-    { create signature context, we don't need keys manager in this example }
-    dsigCtx := xmlSecDSigCtxCreate(nil);
-    if (dsigCtx = nil) then
-      raise EACBrDFeException.Create('Error :failed to create signature context');
-
-    // { load private key, assuming that there is not password }
-    dsigCtx^.signKey := xmlSecCryptoAppKeyLoadMemory(Ponteiro, size,
-      xmlSecKeyDataFormatPkcs12, senha, nil, nil);
-
-    if (dsigCtx^.signKey = nil) then
-      raise EACBrDFeException.Create('Error: failed to load private pem key from "' +
-        key_file + '"');
-
-    { set key name to the file name, this is just an example! }
-    if (xmlSecKeySetName(dsigCtx^.signKey, key_file) < 0) then
-      raise EACBrDFeException.Create('Error: failed to set key name for key from "' +
-        key_file + '"');
-
-    { sign the template }
-    if (xmlSecDSigCtxSign(dsigCtx, node) < 0) then
-      raise EACBrDFeException.Create('Error: signature failed');
-
-    { print signed document to stdout }
-    // xmlDocDump(stdout, doc);
-    // Can't use "stdout" from Delphi, so we'll use xmlDocDumpMemory instead...
-    buffer := nil;
-    xmlDocDumpMemory(doc, @buffer, @bufSize);
-    if (buffer <> nil) then
-      { success }
-      Result := buffer;
-  finally
-    { cleanup }
-    if (dsigCtx <> nil) then
-      xmlSecDSigCtxDestroy(dsigCtx);
-
     if (doc <> nil) then
       xmlFreeDoc(doc);
   end;
 end;
 
 procedure TDFeOpenSSL.CarregarCertificado;
+var
+  LoadFromFile, LoadFromData: Boolean;
+  MS: TMemoryStream;
 begin
-  // TODO 
-  inherited CarregarCertificado;
+  with Configuracoes.Certificados do
+  begin
+    if DFeUtil.EstaVazio(ArquivoPFX) and DFeUtil.EstaVazio(DadosPFX) then
+    begin
+      if not DFeUtil.EstaVazio(NumeroSerie) then
+        raise EACBrDFeException.Create(ClassName +
+          ' não suporta carga de Certificado pelo número de série.' +
+          sLineBreak + 'Utilize "ArquivoPFX" ou "DadosPFX"')
+      else
+        raise EACBrDFeException.Create('Certificado não informado.' +
+          sLineBreak + 'Utilize "ArquivoPFX" ou "DadosPFX"');
+    end;
+
+    LoadFromFile := (not DFeUtil.EstaVazio(ArquivoPFX)) and FileExists(ArquivoPFX);
+    LoadFromData := (not DFeUtil.EstaVazio(DadosPFX));
+
+    if not (LoadFromFile or LoadFromData) then
+      raise EACBrDFeException.Create('Arquivo: ' + ArquivoPFX + ' não encontrado');
+
+    if FdsigCtx = nil then
+    begin
+      { create signature context }
+      FdsigCtx := xmlSecDSigCtxCreate(nil);
+      if (FdsigCtx = nil) then
+        raise EACBrDFeException.Create('Error :failed to create signature context');
+    end;
+
+    if LoadFromFile then
+    begin
+      FHTTP.Sock.SSL.PFXfile := ArquivoPFX;
+
+      FdsigCtx^.signKey := xmlSecCryptoAppKeyLoad(
+        PAnsiChar(ArquivoPFX),
+        xmlSecKeyDataFormatPkcs12,
+        PAnsiChar(Senha), nil, nil);
+
+      if (FdsigCtx^.signKey = nil) then
+        raise EACBrDFeException.Create('Error: failed to load private pem key from "' +
+          ArquivoPFX + '"');
+    end
+    else if LoadFromData then
+    begin
+      FHTTP.Sock.SSL.PFX := DadosPFX;
+
+      MS := TMemoryStream.Create;
+      try
+        MS.WriteBuffer(DadosPFX[1], Length(DadosPFX));
+        FdsigCtx^.signKey := xmlSecCryptoAppKeyLoadMemory(
+          MS.Memory, MS.Size,
+          xmlSecKeyDataFormatPkcs12,
+          PAnsiChar(Senha), nil, nil);
+
+        if (FdsigCtx^.signKey = nil) then
+          raise EACBrDFeException.Create('Error: failed to load private pem key from "' +
+            DadosPFX + '"');
+      finally
+        MS.Free;
+      end;
+    end;
+
+    FHTTP.Sock.SSL.KeyPassword := Senha;
+
+    { set key name to the file name, this is just an example! }
+    if (xmlSecKeySetName(FdsigCtx^.signKey, PAnsiChar(ArquivoPFX)) < 0) then
+      raise EACBrDFeException.Create('Error: failed to set key name for key from "' +
+        ArquivoPFX + '"');
+  end;
 end;
 
 function TDFeOpenSSL.GetCertDataVenc: TDateTime;
 begin
-  // TODO
-  Result := inherited GetCertDataVenc;
+  CarregarCertificadoSeNecessario;
+  Result := FdsigCtx^.signKey^.notValidAfter ;
 end;
 
 function TDFeOpenSSL.GetCertNumeroSerie: AnsiString;
+var
+  Data: xmlSecPtrPtr;
 begin
-  // TODO
-  Result := inherited GetCertNumeroSerie;
+  CarregarCertificadoSeNecessario;
+  Data := FdsigCtx^.signKey^.dataList^.data  ;
+  Result :=  ''
 end;
 
 function TDFeOpenSSL.GetCertSubjectName: String;
 begin
-  // TODO
-  Result := inherited GetCertSubjectName;
+  CarregarCertificadoSeNecessario;
+  Result := FdsigCtx^.signKey^.name ;
 end;
 
 procedure TDFeOpenSSL.InitXmlSec;
@@ -445,12 +410,7 @@ procedure TDFeOpenSSL.ConfiguraHTTP(const URL, SoapAction: String);
 begin
   FHTTP.Clear;
 
-  if FileExists(Configuracoes.Certificados.ArquivoPFX) then
-    FHTTP.Sock.SSL.PFXfile := Configuracoes.Certificados.ArquivoPFX
-  else
-    FHTTP.Sock.SSL.PFX := Configuracoes.Certificados.DadosPFX;
-
-  FHTTP.Sock.SSL.KeyPassword := Configuracoes.Certificados.Senha;
+  CarregarCertificado;
 
   FHTTP.ProxyHost := Configuracoes.WebServices.ProxyHost;
   FHTTP.ProxyPort := Configuracoes.WebServices.ProxyPort;
@@ -467,6 +427,16 @@ begin
   FHTTP.Protocol := '1.1';
   FHTTP.AddPortNumberToHost := False;
   FHTTP.Headers.Add(SoapAction);
+end;
+
+procedure TDFeOpenSSL.CarregarCertificadoSeNecessario;
+var
+  CertificadoLido: Boolean;
+begin
+  CertificadoLido := (FdsigCtx <> nil) and (FdsigCtx^.signKey <> nil) ;
+
+  if not CertificadoLido then
+    CarregarCertificado;
 end;
 
 end.

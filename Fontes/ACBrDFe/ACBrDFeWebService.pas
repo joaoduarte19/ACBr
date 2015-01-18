@@ -389,7 +389,6 @@ begin
   { Sobrescrever apenas se necessário }
 
   Result := GerarUFSoap + GerarVersaoDadosSoap;
-
 end;
 
 procedure TDFeWebService.FinalizarServico;
