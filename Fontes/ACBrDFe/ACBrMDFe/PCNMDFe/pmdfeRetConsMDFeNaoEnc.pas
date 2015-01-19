@@ -123,7 +123,7 @@ begin
   Result := False;
   
   try
-    if leitor.rExtrai(1, 'RetConsMDFeNaoEnc') <> '' then
+    if leitor.rExtrai(1, 'retConsMDFeNaoEnc') <> '' then
     begin
       Fversao   := Leitor.rAtributo('versao');
       FtpAmb    := StrToTpAmb(ok, leitor.rCampo(tcStr, 'tpAmb'));
