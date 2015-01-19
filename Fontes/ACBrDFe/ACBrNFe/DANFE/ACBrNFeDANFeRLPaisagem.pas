@@ -144,7 +144,7 @@ uses
     {$IFDEF MSWINDOWS}Windows, Messages, {$ENDIF}
     Controls, Forms, Dialogs, ExtCtrls, MaskUtils, StdCtrls,
   {$ENDIF}
-  RLReport, RLFilters, RLPDFFilter,
+  RLReport, RLFilters, RLPDFFilter, RLPrinters,
     {$IFDEF BORLAND}
   XMLIntf, XMLDoc,
     {$IF CompilerVersion >= 22}

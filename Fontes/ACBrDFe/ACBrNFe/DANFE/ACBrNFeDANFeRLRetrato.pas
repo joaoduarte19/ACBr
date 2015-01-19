@@ -140,7 +140,7 @@ uses
     {$IFDEF MSWINDOWS}Windows, Messages, {$ENDIF}
     Graphics, Controls, Forms, Dialogs, ExtCtrls, MaskUtils, StdCtrls,
   {$ENDIF}
-  RLReport, RLFilters, RLPDFFilter,
+  RLReport, RLFilters, RLPDFFilter, RLPrinters,
   {$IFDEF BORLAND}
   XMLIntf, XMLDoc,
     {$IF CompilerVersion >= 22}
