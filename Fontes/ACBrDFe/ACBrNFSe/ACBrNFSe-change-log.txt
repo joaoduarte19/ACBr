@@ -47,6 +47,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/01/2015
+[*] Incluidas linhas para detectar se a NF-e esta cancelada ou não ao realizar
+    os vários tipos de consultas.
+    Por: Julio_cld
+
 16/01/2015
 [+] Cidade de Campo Bom / RS
 		Por: Juliomar Marchetti

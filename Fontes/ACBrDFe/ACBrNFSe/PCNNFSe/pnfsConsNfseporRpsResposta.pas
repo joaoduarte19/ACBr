@@ -663,18 +663,17 @@ begin
             if StrToBool(Leitor.rCampo(tcStr, 'Sucesso'))then
               ListaNfse.FCompNfse[i].NFSe.Status := srCancelado;
           end else
-            begin
               // Incluido por joel takei 09/07/2013
-              ListaNfse.FCompNfse[i].NFSe.Status := srCancelado;
               ListaNfse.FCompNfse[i].NFSe.NfseCancelamento.Pedido.CodigoCancelamento := Leitor.rCampo(tcStr, 'CodigoCancelamento');
-            end;
-
           // Incluido por Mauro Gomes
           // se não encontrou o campo DataHora, deve procurar pelo DataHoraCancelamento
           if (ListaNfse.FCompNfse[i].NFSe.NfseCancelamento.DataHora = 0) then
              ListaNfse.FCompNfse[i].NFSe.NfseCancelamento.DataHora := Leitor.rCampo(tcDatHor, 'DataHoraCancelamento');
-         end;
+          // se encontrou a data então nf cancelada
+          if ListaNfse.FCompNfse[i].NFSe.NfseCancelamento.DataHora > 0 then
+            ListaNfse.FCompNfse[i].NFSe.Status := srCancelado;
 
+         end;
         // Grupo da TAG <NfseSubstituicao> ********************************************
         if Leitor.rExtrai(3, 'NfseSubstituicao') <> ''
          then begin

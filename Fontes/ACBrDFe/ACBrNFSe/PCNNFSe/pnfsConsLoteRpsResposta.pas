@@ -697,6 +697,8 @@ begin
                 // se não encontrou o campo DataHora, deve procurar pelo DataHoraCancelamento
                 if (ListaNfse.FCompNfse[i].NFSe.NfseCancelamento.DataHora = 0) then
                    ListaNfse.FCompNfse[i].NFSe.NfseCancelamento.DataHora := Leitor.rCampo(tcDatHor, 'DataHoraCancelamento');
+                if ListaNfse.FCompNfse[i].NFSe.NfseCancelamento.DataHora > 0 then
+                   ListaNfse.FCompNfse[i].NFSe.Status := srCancelado;
               end;
            end;
 
