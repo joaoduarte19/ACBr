@@ -48,6 +48,8 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 19/01/2015
+[-] Ficou faltando alguns ajustes em outras Units com relação ao provedor InFisc.
+    Por: Italo Jurisato Junior
 [*] Melhorias para o provedor InFisc.
     Por: Leandro Couto
 [*] Incluidas linhas para detectar se a NF-e esta cancelada ou não ao realizar

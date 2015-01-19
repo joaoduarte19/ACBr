@@ -323,6 +323,7 @@ type
     FNomeInter: String;
     FCNPJInter: String;
     FIMInter: String;
+    FSerie: String;
 
   public
     function Executar: Boolean; override;
@@ -343,6 +344,7 @@ type
     property NomeInter: String          read FNomeInter          write FNomeInter;
     property CNPJInter: String          read FCNPJInter          write FCNPJInter;
     property IMInter: String            read FIMInter            write FIMInter;
+    property Serie: String              read FSerie              write FSerie;
 
   end;
 
@@ -545,7 +547,8 @@ type
                           AIMTomador: String = '';
                           ANomeInter: String = '';
                           ACNPJInter: String = '';
-                          AIMInter: String = ''): Boolean;
+                          AIMInter: String = '';
+                          ASerie: String = ''): Boolean;
                           
     function ConsultaSequencialRPS(ACidade, ACnpj, AInscricaoMunicipal, ASeriePrestacao: String):Boolean;
     function CancelaNFSe(ACodigoCancelamento: String;
@@ -1733,6 +1736,7 @@ begin
                                                       OnlyNumber(TNFSeConsultarNfse(Self).Cnpj),
                                                       TNFSeConsultarNfse(Self).InscricaoMunicipal,
                                                       TNFSeConsultarNfse(Self).FNumeroNFSe,
+                                                      TNFSeConsultarNfse(Self).FSerie,
                                                       TNFSeConsultarNfse(Self).DataInicial,
                                                       TNFSeConsultarNfse(Self).DataFinal,
                                                       '', '');
@@ -1788,6 +1792,7 @@ begin
                                                       OnlyNumber(TNFSeConsultarNfse(Self).Cnpj),
                                                       TNFSeConsultarNfse(Self).InscricaoMunicipal,
                                                       TNFSeConsultarNfse(Self).FNumeroNFSe,
+                                                      TNFSeConsultarNfse(Self).FSerie,
                                                       TNFSeConsultarNfse(Self).DataInicial,
                                                       TNFSeConsultarNfse(Self).DataFinal,
                                                       FTagI, FTagF);
@@ -3446,7 +3451,8 @@ function TWebServices.ConsultaNFSe(ACnpj,
                                    AIMTomador: String = '';
                                    ANomeInter: String = '';
                                    ACNPJInter: String = '';
-                                   AIMInter: String = ''): Boolean;
+                                   AIMInter: String = '';
+                                   ASerie: String = ''): Boolean;
 begin
  ACnpj := OnlyNumber(ACnpj);
  if not ValidarCNPJ(ACnpj) then
@@ -3465,6 +3471,7 @@ begin
  Self.ConsNfse.NomeInter          := ANomeInter;
  Self.ConsNfse.CNPJInter          := ACNPJInter;
  Self.ConsNfse.IMInter            := AIMInter;
+ Self.ConsNfse.Serie              := ASerie;
 
  Result := Self.ConsNfse.Executar;
 
