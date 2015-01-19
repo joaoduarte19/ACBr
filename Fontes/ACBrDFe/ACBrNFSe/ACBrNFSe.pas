@@ -128,7 +128,8 @@ type
                            AIMTomador: String = '';
                            ANomeInter: String = '';
                            ACNPJInter: String = '';
-                           AIMInter: String = ''): Boolean;
+                           AIMInter: String = '';
+                           ASerie:String=''): Boolean;
 
     function ConsultarSequencialRPS(ACidade, ACnpj, AInscricaoMunicipal, ASeriePrestacao: String):Boolean;
     function CancelarNFSe(ACodigoCancelamento: String): Boolean;
@@ -399,11 +400,12 @@ function TACBrNFSe.ConsultarNFSe(ACnpj,
                                  AIMTomador: String = '';
                                  ANomeInter: String = '';
                                  ACNPJInter: String = '';
-                                 AIMInter: String = ''): Boolean;
+                                 AIMInter: String = '';
+                                 ASerie:String=''): Boolean;
 begin
  Result := WebServices.ConsultaNFSe(ACnpj, AInscricaoMunicipal, ADataInicial,
                 ADataFinal, ANumeroNFSe, APagina, ASenha, AFraseSecreta,
-                ACNPJTomador, AIMTomador, ANomeInter, ACNPJInter, AIMInter);
+                ACNPJTomador, AIMTomador, ANomeInter, ACNPJInter, AIMInter, ASerie);
 end;
 
 function TACBrNFSe.CancelarNFSe(ACodigoCancelamento: String): Boolean;

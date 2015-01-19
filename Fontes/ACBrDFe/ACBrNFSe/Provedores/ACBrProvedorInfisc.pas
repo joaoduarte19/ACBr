@@ -223,7 +223,7 @@ begin
    acConsSit:     Result := '<?xml version=''1.0'' encoding=''utf-8''?><pedidoStatusLote'+ NameSpaceDad;
    acConsLote:    Result := '';
    acConsNFSeRps: Result := '';
-   acConsNFSe:    Result := '<?xml version=''1.0'' encoding=''utf-8''?><pedidoNFSe'+ NameSpaceDad;
+   acConsNFSe:    Result := '<?xml version=''1.0'' encoding=''utf-8''?><pedidoLoteNFSe'+ NameSpaceDad;
    acCancelar:    Result := '<?xml version=''1.0'' encoding=''utf-8''?><pedAnulaNFSe'+ NameSpaceDad;
    acGerar:       Result := '';
    acConsSecRps:  Result := '';
@@ -248,7 +248,7 @@ begin
    acConsSit:     Result := '</pedidoStatusLote>';
    acConsLote:    Result := '';
    acConsNFSeRps: Result := '';
-   acConsNFSe:    Result := '</pedidoNFSe>';
+   acConsNFSe:    Result := '</pedidoLoteNFSe>';
    acCancelar:    Result := '</pedAnulaNFSe>';
    acGerar:       Result := '';
    acConsSecRps:  Result := '';
@@ -310,6 +310,8 @@ end;
 function TProvedorInfisc.GeraEnvelopeConsultarNFSe(URLNS: String; CabMsg,
   DadosMsg, DadosSenha: AnsiString): AnsiString;
 begin
+
+{
  result := '<?xml version="1.0" encoding="UTF-8"?>'+
            '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"'+
            ' xmlns:xsd="http://www.w3.org/2001/XMLSchema"'+
@@ -325,6 +327,29 @@ begin
            '</ns1:obterNotaFiscal>'+
            '</soapenv:Body>'+
            '</soapenv:Envelope>';
+
+ }
+
+
+ // Alterado por Leandro do Couto em 16/1/2015
+// Trocado OberterNotaFiscal por ObterLoteNotaFiscal
+
+ result := '<?xml version="1.0" encoding="UTF-8"?>'+
+           '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"'+
+           ' xmlns:xsd="http://www.w3.org/2001/XMLSchema"'+
+           ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'+
+           '<soapenv:Body>'+
+           '<ns1:obterLoteNotaFiscal soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"'+
+           ' xmlns:ns1="http://ws.pc.gif.com.br/">'+
+           '<xml xsi:type="xsd:string">'+
+           //<!-- Informacoes da nota fiscal segundo estrutura da tag NFS-e --! >
+           StringReplace(StringReplace(DadosMsg, '<', '&lt;', [rfReplaceAll]), '>', '&gt;', [rfReplaceAll]) +
+           //<!-- Informacoes da nota fiscal segundo estrutura da tag NFS-e --! >
+           '</xml>'+
+           '</ns1:obterLoteNotaFiscal>'+
+           '</soapenv:Body>'+
+           '</soapenv:Envelope>';
+
 end;
 
 function TProvedorInfisc.GeraEnvelopeCancelarNFSe(URLNS: String; CabMsg,

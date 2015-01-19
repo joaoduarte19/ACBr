@@ -138,7 +138,7 @@ type
                                                    CNPJ, IM, Protocolo, NumeroLote: String;
                                                    TagI, TagF: AnsiString): AnsiString;
      class function Gera_DadosMsgConsNFSeInfisc(Prefixo3, Prefixo4, NameSpaceDad, VersaoXML, CodCidade,
-                                                CNPJ, IM, NotaInicial: String; DataInicial, DataFinal: TDateTime;
+                                                CNPJ, IM, NotaInicial, Serie: String; DataInicial, DataFinal: TDateTime;
                                                 TagI, TagF: AnsiString): AnsiString;
      class function Gera_DadosMsgCancelarNFSeInfisc(Prefixo3, Prefixo4, NameSpaceDad, VersaoXML,
                                                     CNPJ, Transacao, CodMunicipio, NumeroLote: String;
@@ -1083,13 +1083,21 @@ begin
 end;
 
 class function TNFSeG.Gera_DadosMsgConsNFSeInfisc(Prefixo3, Prefixo4, NameSpaceDad, VersaoXML,
-  CodCidade, CNPJ, IM, NotaInicial: String; DataInicial, DataFinal: TDateTime; TagI,
+  CodCidade, CNPJ, IM, NotaInicial,Serie: String; DataInicial, DataFinal: TDateTime; TagI,
   TagF: AnsiString): AnsiString;
 var
  DadosMsg: AnsiString;
 begin
- DadosMsg := '<CNPJ>'+CNPJ+'</CNPJ>'+
-             '<chvAcessoNFS-e>'+NotaInicial+'</chvAcessoNFS-e>';
+// DadosMsg := '<CNPJ>'+CNPJ+'</CNPJ>'+
+//             '<chvAcessoNFS-e>'+NotaInicial+'</chvAcessoNFS-e>';
+
+DadosMsg := '<CNPJ>'            + CNPJ                                        + '</CNPJ>'+
+            '<notaInicial>'     + NotaInicial                                 + '</notaInicial>' +
+            '<notaFinal>'       + NotaInicial                                 + '</notaFinal>' +
+            '<emissaoInicial>'  + FormatDateTime( 'yyyy-mm-dd', dataInicial ) + '</emissaoInicial>'+
+            '<emissaoFinal>'    + FormatDateTime( 'yyyy-mm-dd', dataFinal )   + '</emissaoFinal>'+
+            '<serieNotaFiscal>' + Serie                                       + '</serieNotaFiscal>';
+
  Result := TagI + DadosMsg + TagF;
 end;
 
