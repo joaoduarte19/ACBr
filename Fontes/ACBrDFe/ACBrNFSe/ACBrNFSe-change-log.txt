@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/01/2015
+[-] Correções na leitura do XML - provedor InFisc.
+    Por: Leandro Couto
+
 19/01/2015
 [-] Ficou faltando alguns ajustes em outras Units com relação ao provedor InFisc.
     Por: Italo Jurisato Junior

@@ -34,7 +34,7 @@ unit pnfsConsNfseResposta;
 interface
 
 uses
-  SysUtils, Classes, Forms,
+  SysUtils, Classes, Forms, DateUtils,
   pcnAuxiliar, pcnConversao, pcnLeitor,
   pnfsConversao, pnfsNFSe, ACBrUtil, ACBrNFSeUtil, ACBrDFeUtil;
 
@@ -924,6 +924,7 @@ var
   leitorAux, leitorItem:TLeitor;
   sMotDes,sMotCod: String;
   dEmi, hEmi :string;
+  dia, mes, ano, hora, minuto: word;
 begin
   result := False;
 
@@ -949,10 +950,22 @@ begin
        ListaNfse.FCompNfse[i].FNFSe.Competencia       := LeitorAux.rCampo(tcStr, 'dEmi');
        dEmi                                           := Leitor.rCampo(tcStr, 'dEmi');
        hEmi                                           := Leitor.rCampo(tcStr, 'hEmi');
-       ListaNfse.FCompNfse[i].FNFSe.DataEmissao       := StrToDateTimeDef(dEmi + ' ' + hEmi, 0);
-       //ListaNfse.FCompNfse[i].FNFSe.DataEmissao       := StrToDateTimeDef(Leitor.rCampo(tcStr, 'dEmi') + ' ' + Leitor.rCampo(tcStr, 'hEmi'), 0);
-       ListaNfse.FCompNfse[i].FNFSe.Status            := StrToEnumerado(ok, LeitorAux.rCampo(tcStr, 'anulada'),['N','S'],[srNormal, srCancelado]);
-       ListaNfse.FCompNfse[i].FNFSe.InfID.ID          := SomenteNumeros(ListaNfse.FCompNfse[i].FNFSe.CodigoVerificacao);
+
+       ano := StrToInt( copy( dEmi, 1 , 4 ) );
+       mes := strToInt( copy( dEmi, 6 , 2 ) );
+       dia := strToInt( copy( dEmi, 9 , 2 ) );
+
+       hora   := strToInt( Copy( hEmi , 0 , 2 ) );
+       minuto := strToInt( copy( hEmi , 4 , 2 ) );
+
+       // Leandro do Couto em 20/1/2015
+
+       ListaNfse.FCompNfse[i].FNFSe.DataEmissao := EncodeDateTime( ano, mes, dia, hora,minuto,0,0);
+
+//       ListaNfse.FCompNfse[i].FNFSe.DataEmissao       := StrToDateTimeDef(dEmi + ' ' + hEmi, 0);
+//       ListaNfse.FCompNfse[i].FNFSe.DataEmissao       := StrToDateTimeDef(Leitor.rCampo(tcStr, 'dEmi') + ' ' + Leitor.rCampo(tcStr, 'hEmi'), 0);
+       ListaNfse.FCompNfse[i].FNFSe.Status      := StrToEnumerado(ok, LeitorAux.rCampo(tcStr, 'anulada'),['N','S'],[srNormal, srCancelado]);
+       ListaNfse.FCompNfse[i].FNFSe.InfID.ID    := SomenteNumeros(ListaNfse.FCompNfse[i].FNFSe.CodigoVerificacao);
 
        ListaNfse.FCompNfse[i].FNFSe.ChaveNFSe                   := LeitorAux.rCampo(tcStr, 'refNF');
        ListaNfse.FCompNfse[i].FNFSe.Servico.CodigoMunicipio     := LeitorAux.rCampo(tcStr, 'cMunFG');

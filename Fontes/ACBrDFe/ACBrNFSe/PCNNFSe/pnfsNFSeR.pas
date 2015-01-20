@@ -1573,6 +1573,7 @@ var
   leitorAux: TLeitor;
   dEmi : String;
   hEmi : String;
+  dia, mes, ano, hora, minuto: word;
 begin
   Leitor.Grupo := Leitor.Arquivo;
 
@@ -1587,10 +1588,21 @@ begin
    NFSe.Competencia       := Leitor.rCampo(tcStr, 'dEmi');
    dEmi                   := Leitor.rCampo(tcStr, 'dEmi');
    hEmi                   := Leitor.rCampo(tcStr, 'hEmi');
-   NFSe.DataEmissao       := StrToDateTimeDef(dEmi + ' ' + hEmi, 0);
-   //NFSe.DataEmissao       := StrToDateTimeDef(Leitor.rCampo(tcStr, 'dEmi') + ' ' + Leitor.rCampo(tcStr, 'hEmi'), 0);
-   NFSe.Status            := StrToEnumerado(ok, Leitor.rCampo(tcStr, 'anulada'),['N','S'],[srNormal, srCancelado]);
-   NFSe.InfID.ID          := SomenteNumeros(NFSe.CodigoVerificacao);
+
+   ano := StrToInt( copy( dEmi, 1 , 4 ) );
+   mes := strToInt( copy( dEmi, 6 , 2 ) );
+   dia := strToInt( copy( dEmi, 9 , 2 ) );
+
+   hora   := strToInt( Copy( hEmi , 0 , 2 ) );
+   minuto := strToInt( copy( hEmi , 4 , 2 ) );
+
+   // Leandro do Couto em 19/1/2015
+
+   Nfse.DataEmissao := EncodeDateTime( ano, mes, dia, hora,minuto,0,0);
+//   NFSe.DataEmissao       := StrToDateTimeDef(dEmi + ' ' + hEmi, 0);
+//   NFSe.DataEmissao       := StrToDateTimeDef(Leitor.rCampo(tcStr, 'dEmi') + ' ' + Leitor.rCampo(tcStr, 'hEmi'), 0);
+   NFSe.Status      := StrToEnumerado(ok, Leitor.rCampo(tcStr, 'anulada'),['N','S'],[srNormal, srCancelado]);
+   NFSe.InfID.ID    := SomenteNumeros(NFSe.CodigoVerificacao);
 
    NFSe.ChaveNFSe                   := Leitor.rCampo(tcStr, 'refNF');
    NFSe.Servico.CodigoMunicipio     := Leitor.rCampo(tcStr, 'cMunFG');
