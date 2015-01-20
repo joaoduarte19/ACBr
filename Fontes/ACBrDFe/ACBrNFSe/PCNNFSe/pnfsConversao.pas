@@ -1013,7 +1013,6 @@ begin
 //  4320800, // Soledade/RS
 //  4322400, // Uruguaiana/RS
 //  3143302, // Montes Claros/MG
-  3202405, // Guarapari/ES
 //  3305505, // Saquarema/RJ
 //  3504008, // Assis/SP
   //4210506, // Maravilha/SC
@@ -1043,6 +1042,7 @@ begin
   4309407, // Guapore/RS
   4310207, // Ijui/RS
   4320800, // Soledade/RS
+  3202405, // Guarapari/ES
   4322400  // Uruguaiana/RS
          : Provedor := 'Pronim';
 

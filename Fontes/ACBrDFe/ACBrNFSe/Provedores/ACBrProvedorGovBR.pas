@@ -156,13 +156,6 @@ var
  ConfigURL: TConfigURL;
 begin
  case ACodCidade of
-  3202405: begin // Guarapari/ES
-            ConfigURL.HomNomeCidade         := '';
-            ConfigURL.HomRecepcaoLoteRPS    := 'http://nfseteste.guarapari.es.gov.br/NFSEWSTESTE/Services.svc';
-
-            ConfigURL.ProNomeCidade         := '';
-            ConfigURL.ProRecepcaoLoteRPS    := 'http://nfse.guarapari.es.gov.br/NFSEws/Services.svc';
-           end;
   3541505: begin // Presidente Venceslau/SP
             ConfigURL.HomNomeCidade         := '';
             ConfigURL.HomRecepcaoLoteRPS    := 'http://mail.presidentevenceslau.sp.gov.br/NFSEWSTESTE/Services.svc';

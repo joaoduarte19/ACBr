@@ -48,6 +48,8 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/01/2015
+[*] Migração da cidade Guarapari/ES do provedor GovBR para Pronim.
+    Por: Heronim Antonio Marçal
 [-] Correções na leitura do XML - provedor InFisc.
     Por: Leandro Couto
 

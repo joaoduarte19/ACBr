@@ -154,6 +154,14 @@ var
  ConfigURL: TConfigURL;
 begin
  case ACodCidade of
+  3202405: begin // Guarapari/ES
+            ConfigURL.HomNomeCidade         := '';
+            ConfigURL.HomRecepcaoLoteRPS    := 'http://nfseteste.guarapari.es.gov.br/NFSEWSTESTE/Services.svc';
+
+            ConfigURL.ProNomeCidade         := '';
+            ConfigURL.ProRecepcaoLoteRPS    := 'http://nfse.guarapari.es.gov.br/NFSEws/Services.svc';
+           end;
+
   3118601: begin // Contagem/MG
              ConfigURL.HomNomeCidade         := '';
              ConfigURL.HomRecepcaoLoteRPS    := 'http://teste.contagem.mg.gov.br/NFSEWSTESTE/Services.svc';
