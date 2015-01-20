@@ -479,7 +479,7 @@ begin
     with Titulo do
     begin
       Carteira             := Copy(Linha,14,1);
-      if Carteira='1' then //Cobrança com Registro
+      if (Carteira = '1') or (Carteira = 'A') then //Cobrança com Registro
       begin
         NossoNumero          := Copy(Linha,48,15);
         Vencimento     := StringToDateTimeDef(Copy(Linha,147,2)+'/'+

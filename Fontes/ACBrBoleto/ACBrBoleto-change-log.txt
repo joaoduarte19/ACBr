@@ -47,6 +47,21 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+Data: 20/01/2015 ver. 0.0.104a
+
+-- ACBrCaixaBancoSicredi --
+[-] Correção retorno CNAB400 .(Juliana Tamizou)
+http://www.projetoacbr.com.br/forum/index.php?/topic/18781-campo-nosso-n%C3%BAmero-sicredi/
+
+
+Data: 16/01/2015 ver. 0.0.103a
+
+-- ACBrCaixaEconomica --
+[-] Correção totalizadores CNAB240 .(agnaldoprates)
+http://www.projetoacbr.com.br/forum/index.php?/topic/19256-caixa-econ%C3%B4mica-sigcb-240-ajustar-c%C3%B3digo-juros-mora-inv%C3%A1lido/
+
+
+
 Data: 15/01/2015 ver. 0.0.102a
 
 -- ACBrCaixaEconomica --
