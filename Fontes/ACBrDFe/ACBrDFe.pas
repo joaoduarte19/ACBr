@@ -61,7 +61,7 @@ type
   TACBrDFe = class(TACBrComponent)
   private
     FMAIL: TACBrMail;
-    FDFeSSL: TDFeSSL;
+    FSSL: TDFeSSL;
     FConfiguracoes: TConfiguracoes;
     FOnStatusChange: TNotifyEvent;
     FOnGerarLog: TACBrGravarLog;
@@ -72,7 +72,7 @@ type
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
 
   public
-    property DFeSSL: TDFeSSL read FDFeSSL;
+    property SSL: TDFeSSL read FSSL;
 
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -116,7 +116,7 @@ begin
   FConfiguracoes.SetSubComponent(True);{ para gravar no DFM/XFM }
   {$ENDIF}
 
-  FDFeSSL := TDFeSSL.Create(Self);
+  FSSL := TDFeSSL.Create(Self);
   FOnGerarLog := nil;
 end;
 

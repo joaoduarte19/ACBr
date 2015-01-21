@@ -41,7 +41,7 @@ interface
 
 uses
   Classes, SysUtils,
-  ACBrCAPICOM_TLB, ACBrMSXML2_TLB, JwaWinCrypt, ActiveX, ComObj,
+  ACBrCAPICOM_TLB, ACBrMSXML2_TLB, JwaWinCrypt, Windows, ActiveX, ComObj,
   ACBrDFeConfiguracoes, ACBrDFeSSL;
 
 const
@@ -53,7 +53,13 @@ type
   TDFeCapicom = class(TDFeSSLClass)
   private
     FNumCertCarregado: String;
+    FNumCertACarregar: String;
+    FCNPJ: String;
     FCertificado: ICertificate2;
+    FCertStoreMem: IStore3;
+
+    procedure CarregarCertificadoSeNecessario;
+    procedure Clear;
 
   protected
     procedure CarregarCertificado; override;
@@ -61,12 +67,15 @@ type
     function GetCertDataVenc: TDateTime; override;
     function GetCertNumeroSerie: AnsiString; override;
     function GetCertSubjectName: String; override;
-
+    function GetCertCNPJ: String; override;
   public
     property Certificado: ICertificate2 read FCertificado;
 
     constructor Create(AConfiguracoes: TConfiguracoes);
     destructor Destroy; override;
+
+    procedure Inicializar; override;
+    procedure DesInicializar; override;
 
     function Assinar(const ConteudoXML, docElement, infElement: String): String;
       override;
@@ -79,7 +88,7 @@ type
 implementation
 
 uses
-  ACBrUtil, ACBrDFeUtil;
+  strutils, ACBrUtil, ACBrDFeUtil;
 
 { TDFeCapicom }
 
@@ -88,7 +97,10 @@ begin
   inherited Create(AConfiguracoes);
 
   FNumCertCarregado := '';
+  FNumCertACarregar := Configuracoes.Certificados.NumeroSerie;
+  FCNPJ := '';
   FCertificado := nil;
+  FCertStoreMem := nil;
 end;
 
 destructor TDFeCapicom.Destroy;
@@ -97,11 +109,32 @@ begin
   inherited Destroy;
 end;
 
+procedure TDFeCapicom.Inicializar;
+begin
+  if FpInicializado then
+    exit;
+
+  CoInitialize(nil); // PERMITE O USO DE THREAD
+  FpInicializado := True;
+  Clear;
+end;
+
+procedure TDFeCapicom.DesInicializar;
+begin
+  if FpInicializado {and Configuracoes.Geral.UnloadSSLLib} then
+  begin
+    Clear;
+    CoUninitialize;
+    FpInicializado := False;
+  end;
+end;
+
 function TDFeCapicom.SelecionarCertificado: String;
 var
   Store: IStore3;
   Certs: ICertificates2;
   Certs2: ICertificates2;
+  Cert: ICertificate2;
 begin
   Store := CoStore.Create;
   Store.Open(CAPICOM_CURRENT_USER_STORE, CAPICOM_STORE_NAME,
@@ -112,9 +145,27 @@ begin
     'Selecione o Certificado Digital para uso no aplicativo', False);
 
   if not (Certs2.Count = 0) then
-    FCertificado := IInterface(Certs2.Item[1]) as ICertificate2;
+  begin
+    Cert := IInterface(Certs2.Item[1]) as ICertificate2;
+    FNumCertACarregar := Cert.SerialNumber;
+    CarregarCertificado;
+  end;
 
   Result := GetCertNumeroSerie;
+end;
+
+procedure TDFeCapicom.CarregarCertificadoSeNecessario;
+begin
+  if FCertificado = nil then
+    CarregarCertificado;
+end;
+
+procedure TDFeCapicom.Clear;
+begin
+  FCertificado := nil;
+  FCertStoreMem := nil;
+  FNumCertCarregado := '';
+  FCNPJ := '';
 end;
 
 procedure TDFeCapicom.CarregarCertificado;
@@ -123,7 +174,7 @@ var
   Certs: ICertificates2;
   Cert: ICertificate2;
   Extension: IExtension;
-  i, j, k: integer;
+  i, j, p: integer;
 
   xmldoc: IXMLDOMDocument3;
   xmldsig: IXMLDigitalSignature;
@@ -131,188 +182,188 @@ var
   SigKey: IXMLDSigKeyEx;
   PrivateKey: IPrivateKey;
   hCryptProvider: ULONG_PTR;
-  XML, Propriedades: String;
+  XML, Propriedades, Propriedade: String;
   Lista: TStringList;
 begin
-(*
-  if (PCertCarregado <> nil) and (NumCertCarregado = FNumeroSerie) then
-    Result := PCertCarregado
-  else
+  // Verificando se possui parâmetros necessários //
+  with Configuracoes.Certificados do
   begin
-    CoInitialize(nil); // PERMITE O USO DE THREAD
-    try
-      if DFeUtil.EstaVazio(FNumeroSerie) then
-        raise Exception.Create(
-          ACBrStr('Número de Série do Certificado Digital não especificado !'));
+    if DFeUtil.EstaVazio(FNumCertACarregar) then
+    begin
+      if not DFeUtil.EstaVazio(ArquivoPFX) then
+        raise EACBrDFeException.Create(ClassName +
+          ' não suporta carga de Certificado pelo ArquivoPFX.' +
+          sLineBreak + 'Utilize o "NumeroSerie"')
+      else if not DFeUtil.EstaVazio(DadosPFX) then
+        raise EACBrDFeException.Create(ClassName +
+          ' não suporta carga de Certificado por DadosPFX.' +
+          sLineBreak + 'Utilize o "NumeroSerie"')
+      else
+        raise EACBrDFeException.Create(
+          'Número de Série do Certificado Digital não especificado !');
+    end;
 
-      Result := nil;
-      Store := CoStore.Create;
-      Store.Open(CAPICOM_CURRENT_USER_STORE, CAPICOM_STORE_NAME,
-        CAPICOM_STORE_OPEN_READ_ONLY);
+    Inicializar;
 
-      Certs := Store.Certificates as ICertificates2;
-      for i := 1 to Certs.Count do
+    // Certificado já foi carregado ??
+    if (FCertificado <> nil) and (FNumCertCarregado = FNumCertACarregar) then
+      exit;
+
+    // Lendo lista de Certificados //
+    Store := CoStore.Create;
+    Store.Open(CAPICOM_CURRENT_USER_STORE, CAPICOM_STORE_NAME,
+      CAPICOM_STORE_OPEN_READ_ONLY);
+    FCertificado := nil;
+    Certs := Store.Certificates as ICertificates2;
+
+    // Verificando se "FNumCertACarregar" está na lista de certificados encontrados //;
+    for i := 1 to Certs.Count do
+    begin
+      Cert := IInterface(Certs.Item[i]) as ICertificate2;
+      if Cert.SerialNumber = FNumCertACarregar then
       begin
-        Cert := IInterface(Certs.Item[i]) as ICertificate2;
-        if Cert.SerialNumber = FNumeroSerie then
-        begin
-          if DFeUtil.EstaVazio(NumCertCarregado) then
-            NumCertCarregado := Cert.SerialNumber;
+        FCertificado := Cert;
+        Break;
+      end;
+    end;
 
-          PrivateKey := Cert.PrivateKey;
+    // Não Achou ? //
+    if FCertificado = nil then
+      raise EACBrDFeException.Create('Certificado Digital não encontrado!');
 
-          if CertStoreMem = nil then
-          begin
-            CertStoreMem := CoStore.Create;
-            CertStoreMem.Open(CAPICOM_MEMORY_STORE, 'MemoriaACBr',
-              CAPICOM_STORE_OPEN_READ_ONLY);
-            CertStoreMem.Add(Cert);
+    // Salvando propriedades do Certificado //
+    FNumCertCarregado := FCertificado.SerialNumber;
+    PrivateKey := FCertificado.PrivateKey;
 
-            if (FSenhaCert <> '') and PrivateKey.IsHardwareDevice then
-            begin
-              XML := XML +
-                '<Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />';
-              XML := XML + '<Reference URI="#">';
-              XML := XML +
-                '<Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />';
-              XML := XML +
-                '<DigestValue></DigestValue></Reference></SignedInfo><SignatureValue></SignatureValue><KeyInfo></KeyInfo></Signature>';
+    // Criando memória de Store de Certificados para o ACBr, e adicionado certificado lido nela //[
+    FCertStoreMem := CoStore.Create;
+    FCertStoreMem.Open(CAPICOM_MEMORY_STORE, 'MemoriaACBr',
+      CAPICOM_STORE_OPEN_READ_ONLY);
+    FCertStoreMem.Add(FCertificado);
 
-              xmldoc := CoDOMDocument50.Create;
-              xmldoc.async := False;
-              xmldoc.validateOnParse := False;
-              xmldoc.preserveWhiteSpace := True;
-              xmldoc.loadXML(XML);
-              xmldoc.setProperty('SelectionNamespaces', DSIGNS);
+    // Atribuindo Senha para memória, se o Certificado for A3 //
+    if (Senha <> '') and PrivateKey.IsHardwareDevice then
+    begin
+      XML := SignatureElement('', False);
 
-              xmldsig := CoMXDigitalSignature50.Create;
-              xmldsig.signature := xmldoc.selectSingleNode('.//ds:Signature');
-              xmldsig.store := CertStoreMem;
+      xmldoc := CoDOMDocument50.Create;
+      xmldoc.async := False;
+      xmldoc.validateOnParse := False;
+      xmldoc.preserveWhiteSpace := True;
+      xmldoc.loadXML(XML);
+      xmldoc.setProperty('SelectionNamespaces', DSIGNS);
 
-              dsigKey := xmldsig.createKeyFromCSP(PrivateKey.ProviderType,
-                PrivateKey.ProviderName, PrivateKey.ContainerName, 0);
-              if (dsigKey = nil) then
-                raise EACBrNFeException.Create('Erro ao criar a chave do CSP.');
+      xmldsig := CoMXDigitalSignature50.Create;
+      xmldsig.signature := xmldoc.selectSingleNode('.//ds:Signature');
+      xmldsig.store := FCertStoreMem;
 
-              SigKey := dsigKey as IXMLDSigKeyEx;
-              SigKey.getCSPHandle(hCryptProvider);
+      dsigKey := xmldsig.createKeyFromCSP(PrivateKey.ProviderType,
+        PrivateKey.ProviderName, PrivateKey.ContainerName, 0);
+      if (dsigKey = nil) then
+        raise EACBrDFeException.Create('Erro ao criar a chave do CSP.');
 
-              try
-                CryptSetProvParam(hCryptProvider, PP_SIGNATURE_PIN,
-                  Windows.PBYTE(FSenhaCert), 0);
-              finally
-                CryptReleaseContext(hCryptProvider, 0);
-              end;
-
-              SigKey := nil;
-              dsigKey := nil;
-              xmldsig := nil;
-              xmldoc := nil;
-            end;
-          end;
-
-          Result := Cert;
-          PCertCarregado := Result;
-          FDataVenc := Cert.ValidToDate;
-          FSubjectName := Cert.SubjectName;
-
-          for J := 1 to Cert.Extensions.Count do
-          begin
-            Extension := IInterface(Cert.Extensions.Item[J]) as IExtension;
-            Propriedades := Extension.EncodedData.Format(True);
-            if (Pos('2.16.76.1.3.3', Propriedades) > 0) then
-            begin
-              Lista := TStringList.Create;
-              try
-                Lista.Text := Propriedades;
-                for K := 0 to Lista.Count - 1 do
-                begin
-                  if (Pos('2.16.76.1.3.3', Lista.Strings[K]) > 0) then
-                  begin
-                    FCNPJ :=
-                      StringReplace(Lista.Strings[K], '2.16.76.1.3.3=', '',
-                      [rfIgnoreCase]);
-
-                    FCNPJ := OnlyNumber(HexToAscii(RemoveString(' ', FCNPJ)));
-                    break;
-                  end;
-                end;
-              finally
-                Lista.Free;
-              end;
-              break;
-            end;
-            Extension := nil;
-          end;
-
-          break;
-        end;
+      SigKey := dsigKey as IXMLDSigKeyEx;
+      SigKey.getCSPHandle(hCryptProvider);
+      try
+        CryptSetProvParam(hCryptProvider, PP_SIGNATURE_PIN,
+          Windows.PBYTE(Senha), 0);
+      finally
+        CryptReleaseContext(hCryptProvider, 0);
       end;
 
-      if not (Assigned(Result)) then
-        raise EACBrNFeException.Create('Certificado Digital não encontrado!');
-    finally
-      CoUninitialize;
+      SigKey := nil;
+      dsigKey := nil;
+      xmldsig := nil;
+      xmldoc := nil;
     end;
   end;
-*)
+
+  // Procurando pelo CNPJ nas propriedades do Certificado //
+  for i := 1 to FCertificado.Extensions.Count do
+  begin
+    Extension := IInterface(FCertificado.Extensions.Item[i]) as IExtension;
+    Propriedades := Extension.EncodedData.Format(True);
+
+    if (Pos('2.16.76.1.3.3', Propriedades) > 0) then
+    begin
+      Lista := TStringList.Create;
+      try
+        Lista.Text := Propriedades;
+        for j := 0 to Lista.Count - 1 do
+        begin
+          Propriedade := Lista.Strings[j];
+          if (Pos('2.16.76.1.3.3', Propriedade) > 0) then
+          begin
+            p := Pos('=', Propriedade);
+            FCNPJ := copy(Propriedade, p + 1, Length(Propriedade));
+            FCNPJ := OnlyNumber(HexToAscii(RemoveString(' ', FCNPJ)));
+            break;
+          end;
+        end;
+      finally
+        Lista.Free;
+      end;
+      break;
+    end;
+    Extension := nil;
+  end;
 end;
 
 function TDFeCapicom.GetCertDataVenc: TDateTime;
 begin
-  if Assigned(FCertificado) then
-    Result := FCertificado.ValidToDate
-  else
-    Result := 0;
+  CarregarCertificadoSeNecessario;
+  Result := FCertificado.ValidToDate;
 end;
 
 function TDFeCapicom.GetCertNumeroSerie: AnsiString;
 begin
-  if Assigned(FCertificado) then
-    Result := FCertificado.SerialNumber
-  else
-    Result := '';
+  CarregarCertificadoSeNecessario;
+  Result := FCertificado.SerialNumber;
 end;
 
 function TDFeCapicom.GetCertSubjectName: String;
 begin
-  if Assigned(FCertificado) then
-    Result := FCertificado.SubjectName
-  else
-    Result := '';
+  CarregarCertificadoSeNecessario;
+  Result := FCertificado.SubjectName;
+end;
+
+function TDFeCapicom.GetCertCNPJ: String;
+begin
+  CarregarCertificadoSeNecessario;
+  Result := FCNPJ;
 end;
 
 function TDFeCapicom.Assinar(const ConteudoXML, docElement, infElement: String): String;
 var
   I, PosIni, PosFim: integer;
-  URI, AXml, TagEndDocElement: String;
-
+  URI, AXml, TagEndDocElement, XmlAss: String;
   xmlHeaderAntes, xmlHeaderDepois: AnsiString;
   xmldoc: IXMLDOMDocument3;
   xmldsig: IXMLDigitalSignature;
   dsigKey: IXMLDSigKey;
   signedKey: IXMLDSigKey;
+  PrivateKey: IPrivateKey;
 begin
-  CoInitialize(nil);
+  AXml := ConteudoXML;
+  XmlAss := '';
+
+  if not DFeUtil.XmlEstaAssinado(AXml) then
+  begin
+    URI := DFeUtil.ExtraiURI(AXml);
+
+    TagEndDocElement := '</' + docElement + '>';
+    AXml := copy(AXml, 1, pos(TagEndDocElement, AXml) - 1);
+
+    AXml := AXml + SignatureElement(URI, False) + TagEndDocElement;
+  end;
+
+  // Lendo Header antes de assinar //
+  xmlHeaderAntes := '';
+  I := pos('?>', AXml);
+  if I > 0 then
+    xmlHeaderAntes := copy(AXml, 1, I + 1);
+
   try
-    AXml := ConteudoXML;
-
-    if not DFeUtil.XmlEstaAssinado(AXml) then
-    begin
-      URI := DFeUtil.ExtraiURI(AXml);
-
-      TagEndDocElement := '</' + docElement + '>';
-      AXml := copy(AXml, 1, pos(TagEndDocElement, AXml) - 1);
-
-      AXml := AXml + SignatureElement(URI, False) + TagEndDocElement;
-    end;
-
-    // Lendo Header antes de assinar //
-    xmlHeaderAntes := '';
-    I := pos('?>', AXml);
-    if I > 0 then
-      xmlHeaderAntes := copy(AXml, 1, I + 1);
-
     // Criando XMLDOC //
     xmldoc := CoDOMDocument50.Create;
     xmldoc.async := False;
@@ -327,86 +378,61 @@ begin
 
     // Criando Elemento de assinatura //
     xmldsig := CoMXDigitalSignature50.Create;
+
     // Lendo elemento de Assinatura de XMLDOC //
     xmldsig.signature := xmldoc.selectSingleNode('.//ds:Signature');
-
     if (xmldsig.signature = nil) then
       raise EACBrDFeException.Create('É preciso carregar o template antes de assinar.');
 
-(*
-    if FNumCertCarregado <> CertNumeroSerie then
-      CertStoreMem := nil;
-
-    if CertStoreMem = nil then
-    begin
-      CertStore := CoStore.Create;
-      CertStore.Open(CAPICOM_CURRENT_USER_STORE, 'My', CAPICOM_STORE_OPEN_READ_ONLY);
-
-      CertStoreMem := CoStore.Create;
-      CertStoreMem.Open(CAPICOM_MEMORY_STORE, 'Memoria', CAPICOM_STORE_OPEN_READ_ONLY);
-
-      Certs := CertStore.Certificates as ICertificates2;
-      for i := 1 to Certs.Count do
-      begin
-        Cert := IInterface(Certs.Item[i]) as ICertificate2;
-        if Cert.SerialNumber = Certificado.SerialNumber then
-        begin
-          CertStoreMem.Add(Cert);
-          NumCertCarregado := Certificado.SerialNumber;
-        end;
-      end;
-    end;
-
-    OleCheck(IDispatch(Certificado.PrivateKey).QueryInterface(IPrivateKey, PrivateKey));
-    xmldsig.store := CertStoreMem;
-
+    // Lendo Chave Privada do Certificado //
+    OleCheck(IDispatch(FCertificado.PrivateKey).QueryInterface(IPrivateKey, PrivateKey));
+    xmldsig.store := FCertStoreMem;
     dsigKey := xmldsig.createKeyFromCSP(PrivateKey.ProviderType,
       PrivateKey.ProviderName, PrivateKey.ContainerName, 0);
     if (dsigKey = nil) then
-      raise EACBrNFeException.Create('Erro ao criar a chave do CSP.');
+      raise EACBrDFeException.Create('Erro ao criar a chave do CSP.');
 
+    // Assinando com MSXML e CryptoLib //
     signedKey := xmldsig.sign(dsigKey, $00000002);
-    if (signedKey <> nil) then
-    begin
-      XMLAssinado := xmldoc.xml;
-      XMLAssinado := StringReplace(XMLAssinado, #10, '', [rfReplaceAll]);
-      XMLAssinado := StringReplace(XMLAssinado, #13, '', [rfReplaceAll]);
-      PosIni := Pos('<SignatureValue>', XMLAssinado) + length('<SignatureValue>');
-      XMLAssinado := copy(XMLAssinado, 1, PosIni - 1) + StringReplace(
-        copy(XMLAssinado, PosIni, length(XMLAssinado)), ' ', '', [rfReplaceAll]);
-      PosIni := Pos('<X509Certificate>', XMLAssinado) - 1;
-      PosFim := DFeUtil.PosLast('<X509Certificate>', XMLAssinado);
+    if (signedKey = nil) then
+      raise EACBrDFeException.Create('Assinatura Falhou.');
 
-      XMLAssinado := copy(XMLAssinado, 1, PosIni) + copy(
-        XMLAssinado, PosFim, length(XMLAssinado));
-    end
-    else
-      raise EACBrNFeException.Create('Assinatura Falhou.');
+    XmlAss := xmldoc.xml;
+
+    // Removendo quebras de linha //
+    XmlAss := StringReplace(XmlAss, #10, '', [rfReplaceAll]);
+    XmlAss := StringReplace(XmlAss, #13, '', [rfReplaceAll]);
+
+    // Removendo espaços desnecessários, do Elemento da Assinatura //
+    PosIni := Pos('<SignatureValue>', XmlAss) + length('<SignatureValue>');
+    XmlAss := copy(XmlAss, 1, PosIni - 1) + StringReplace(
+      copy(XmlAss, PosIni, length(XmlAss)), ' ', '', [rfReplaceAll]);
+
+    // Considerando apenas o último Certificado //
+    PosIni := Pos('<X509Certificate>', XmlAss) - 1;
+    PosFim := PosLast('<X509Certificate>', XmlAss);
+    XmlAss := copy(XmlAss, 1, PosIni) + copy(XmlAss, PosFim, length(XmlAss));
 
     if xmlHeaderAntes <> '' then
     begin
-      I := pos('?>', XMLAssinado);
+      I := pos('?>', XmlAss);
       if I > 0 then
       begin
-        xmlHeaderDepois := copy(XMLAssinado, 1, I + 1);
+        xmlHeaderDepois := copy(XmlAss, 1, I + 1);
         if xmlHeaderAntes <> xmlHeaderDepois then
-          XMLAssinado := StuffString(XMLAssinado, 1, length(xmlHeaderDepois),
-            xmlHeaderAntes);
+          XmlAss := StuffString(XmlAss, 1, length(xmlHeaderDepois), xmlHeaderAntes);
       end
       else
-        XMLAssinado := xmlHeaderAntes + XMLAssinado;
+        XmlAss := xmlHeaderAntes + XmlAss;
     end;
-
+  finally
     dsigKey := nil;
     signedKey := nil;
     xmldoc := nil;
     xmldsig := nil;
-
-    Result := True;
-    *)
-  finally
-    CoUninitialize;
   end;
+
+  Result := XmlAss;
 end;
 
 function TDFeCapicom.Enviar(const ConteudoXML: AnsiString; const URL: String;

@@ -59,6 +59,7 @@ type
     function GetCertDataVenc: TDateTime; virtual;
     function GetCertNumeroSerie: AnsiString; virtual;
     function GetCertSubjectName: String; virtual;
+    function GetCertCNPJ: String; virtual;
 
     function SignatureElement(const URI: String; AddX509Data: Boolean): String;
       virtual;
@@ -66,6 +67,7 @@ type
     property CertNumeroSerie: AnsiString read GetCertNumeroSerie;
     property CertDataVenc: TDateTime read GetCertDataVenc;
     property CertSubjectName: String read GetCertSubjectName;
+    property CertCNPJ: String read GetCertCNPJ;
 
     constructor Create(AConfiguracoes: TConfiguracoes);
 
@@ -89,14 +91,28 @@ type
     FSSLClass: TDFeSSLClass;
     FSSLLib: TSSLLib;
 
+    function GetCertDataVenc: TDateTime;
+    function GetCertNumeroSerie: AnsiString;
+    function GetCertSubjectName: String;
+
+    procedure InitSSLClass;
+    procedure DeInitSSLClass;
+
     procedure SetSSLLib(ASSLLib: TSSLLib);
   public
+    property CertNumeroSerie: AnsiString read GetCertNumeroSerie;
+    property CertDataVenc: TDateTime read GetCertDataVenc;
+    property CertSubjectName: String read GetCertSubjectName;
+
     constructor Create(AOwner: TComponent);
     destructor Destroy; override;
 
     function Assinar(const ConteudoXML, docElement, infElement: String): String;
     function Enviar(var ConteudoXML: AnsiString; const URL: String;
       const SoapAction: String): AnsiString;
+
+    function SelecionarCertificado: String; virtual;
+
   end;
 
 
@@ -122,24 +138,57 @@ end;
 destructor TDFeSSL.Destroy;
 begin
   if Assigned(FSSLClass) then
+  begin
+    DeInitSSLClass;
     FreeAndNil(FSSLClass);
+  end;
 
   inherited Destroy;
 end;
 
 function TDFeSSL.Assinar(const ConteudoXML, docElement, infElement: String): String;
 begin
-  SetSSLLib(FConfiguracoes.Geral.SSLLib);
-
+  InitSSLClass;
   Result := FSSLClass.Assinar(ConteudoXML, docElement, infElement);
 end;
 
 function TDFeSSL.Enviar(var ConteudoXML: AnsiString; const URL: String;
   const SoapAction: String): AnsiString;
 begin
-  SetSSLLib(FConfiguracoes.Geral.SSLLib);
-
+  InitSSLClass;
   Result := FSSLClass.Enviar(ConteudoXML, URL, SoapAction);
+end;
+
+function TDFeSSL.SelecionarCertificado: String;
+begin
+  Result := FSSLClass.SelecionarCertificado;
+end;
+
+function TDFeSSL.GetCertDataVenc: TDateTime;
+begin
+  Result := FSSLClass.CertDataVenc;
+end;
+
+function TDFeSSL.GetCertNumeroSerie: AnsiString;
+begin
+  Result := FSSLClass.CertNumeroSerie;
+end;
+
+function TDFeSSL.GetCertSubjectName: String;
+begin
+  Result := FSSLClass.CertSubjectName;
+end;
+
+procedure TDFeSSL.InitSSLClass;
+begin
+  SetSSLLib(FConfiguracoes.Geral.SSLLib);
+  FSSLClass.Inicializar;
+  FSSLClass.CarregarCertificado;
+end;
+
+procedure TDFeSSL.DeInitSSLClass;
+begin
+  FSSLClass.DesInicializar;
 end;
 
 procedure TDFeSSL.SetSSLLib(ASSLLib: TSSLLib);
@@ -213,6 +262,11 @@ begin
 end;
 
 function TDFeSSLClass.GetCertSubjectName: String;
+begin
+  Result := '';
+end;
+
+function TDFeSSLClass.GetCertCNPJ: String;
 begin
   Result := '';
 end;

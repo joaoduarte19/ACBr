@@ -129,11 +129,9 @@ var
   I, PosIni, PosFim: integer;
   URI, AXml, XmlAss, DTD, TagEndDocElement: String;
 begin
-  Inicializar;
-  CarregarCertificado;
-
   // Nota: "ConteudoXML" já deve estar convertido para UTF8 //
   AXml := ConteudoXML;
+  XmlAss := '';
 
   URI := DFeUtil.ExtraiURI(AXml);
 
@@ -265,6 +263,7 @@ var
 begin
   with Configuracoes.Certificados do
   begin
+    // Verificando se possui parâmetros necessários //
     if DFeUtil.EstaVazio(ArquivoPFX) and DFeUtil.EstaVazio(DadosPFX) then
     begin
       if not DFeUtil.EstaVazio(NumeroSerie) then
@@ -282,13 +281,19 @@ begin
     if not (LoadFromFile or LoadFromData) then
       raise EACBrDFeException.Create('Arquivo: ' + ArquivoPFX + ' não encontrado');
 
-    if FdsigCtx = nil then
+
+    // Se FdsigCtx já existia, destrua e crie um novo //
+    if (FdsigCtx <> nil) then
     begin
-      { create signature context }
-      FdsigCtx := xmlSecDSigCtxCreate(nil);
-      if (FdsigCtx = nil) then
-        raise EACBrDFeException.Create('Error :failed to create signature context');
+      xmlSecDSigCtxDestroy(FdsigCtx);
+      FdsigCtx := nil;
     end;
+
+    { create signature context }
+    FdsigCtx := xmlSecDSigCtxCreate(nil);
+    if (FdsigCtx = nil) then
+      raise EACBrDFeException.Create('Error :failed to create signature context');
+
 
     if LoadFromFile then
     begin
@@ -344,7 +349,7 @@ var
 begin
   CarregarCertificadoSeNecessario;
   Data := FdsigCtx^.signKey^.dataList^.data  ;
-  Result :=  ''
+  Result :=  FHTTP.Sock.SSL.GetCertInfo;
 end;
 
 function TDFeOpenSSL.GetCertSubjectName: String;

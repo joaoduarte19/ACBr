@@ -277,7 +277,7 @@ begin
   if not DFeUtil.XmlEstaAssinado(FEnvelopeSoap) then
     FEnvelopeSoap := DFeUtil.ConverteXMLtoUTF8(FEnvelopeSoap);
 
-  FRetornoWS := FDFeOwner.DFeSSL.Enviar(FEnvelopeSoap, FURL, FSoapAction);
+  FRetornoWS := FDFeOwner.SSL.Enviar(FEnvelopeSoap, FURL, FSoapAction);
 
   { Resposta sempre é UTF8, ParseTXT chamará DecodetoString, que converterá
     de UTF8 para o formato nativo de  String usada pela IDE }
