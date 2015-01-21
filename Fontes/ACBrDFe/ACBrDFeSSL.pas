@@ -107,6 +107,7 @@ type
     constructor Create(AOwner: TComponent);
     destructor Destroy; override;
 
+    // Nota: ConteudoXML, DEVE estar em UTF8 //
     function Assinar(const ConteudoXML, docElement, infElement: String): String;
     function Enviar(var ConteudoXML: AnsiString; const URL: String;
       const SoapAction: String): AnsiString;
@@ -118,7 +119,8 @@ type
 
 implementation
 
-uses strutils, ACBrUtil, ACBrDFe, ACBrDFeUtil, ACBrDFeOpenSSL, ACBrDFeCapicom;
+uses strutils, ACBrUtil, ACBrDFe, ACBrDFeUtil, ACBrDFeOpenSSL, ACBrDFeCapicom
+  {$IFNDEF FPC},ACBrDFeCapicomIndy{$ENDIF};
 
 { TDFeSSL }
 
@@ -148,6 +150,7 @@ end;
 
 function TDFeSSL.Assinar(const ConteudoXML, docElement, infElement: String): String;
 begin
+  // Nota: ConteudoXML, DEVE estar em UTF8 //
   InitSSLClass;
   Result := FSSLClass.Assinar(ConteudoXML, docElement, infElement);
 end;
@@ -155,6 +158,7 @@ end;
 function TDFeSSL.Enviar(var ConteudoXML: AnsiString; const URL: String;
   const SoapAction: String): AnsiString;
 begin
+  // Nota: ConteudoXML, DEVE estar em UTF8 //
   InitSSLClass;
   Result := FSSLClass.Enviar(ConteudoXML, URL, SoapAction);
 end;
@@ -202,8 +206,16 @@ begin
   case ASSLLib of
     libCapicom: FSSLClass := TDFeCapicom.Create(FConfiguracoes);
     libOpenSSL: FSSLClass := TDFeOpenSSL.Create(FConfiguracoes);
-    else
-      FSSLClass := TDFeSSLClass.Create(FConfiguracoes);
+    libCapicomIndy:
+    begin
+      {$IFNDEF FPC}
+      FSSLClass := TDFeCapicomIndy.Create(FConfiguracoes);
+      {$ELSE}
+      FSSLClass := TDFeCapicom.Create(FConfiguracoes);
+      {$ENDIF}
+    end
+  else
+    FSSLClass := TDFeSSLClass.Create(FConfiguracoes);
   end;
 
   FSSLLib := ASSLLib;
@@ -243,7 +255,7 @@ end;
 function TDFeSSLClass.SelecionarCertificado: String;
 begin
   Result := '';
-  raise EACBrDFeException.Create('"SelecionarCertificado" não suportado em: '+ClassName);
+  raise EACBrDFeException.Create('"SelecionarCertificado" não suportado em: ' + ClassName);
 end;
 
 procedure TDFeSSLClass.CarregarCertificado;

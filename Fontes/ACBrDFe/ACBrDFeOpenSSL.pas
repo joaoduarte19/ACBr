@@ -99,7 +99,9 @@ end;
 
 destructor TDFeOpenSSL.Destroy;
 begin
+  FHTTP.Free;
   DesInicializar;
+
   inherited Destroy;
 end;
 

@@ -646,26 +646,6 @@ begin
   HTTPReqResp.CheckContentType;
 end;
 
-{$ELSE}
-
-procedure TDFeWebService.ConfiguraReqResp(ReqResp: TACBrHTTPReqResp);
-begin
-  if FConfiguracoes.WebServices.ProxyHost <> '' then
-  begin
-    ReqResp.ProxyHost := FConfiguracoes.WebServices.ProxyHost;
-    ReqResp.ProxyPort := FConfiguracoes.WebServices.ProxyPort;
-    ReqResp.ProxyUser := FConfiguracoes.WebServices.ProxyUser;
-    ReqResp.ProxyPass := FConfiguracoes.WebServices.ProxyPass;
-  end;
-
-  ReqResp.SetCertificate(FConfiguracoes.Certificados.NumeroSerie);
-
-  if (pos('SCERECEPCAORFB', UpperCase(FURL)) <= 0) and
-    (pos('SCECONSULTARFB', UpperCase(FURL)) <= 0) then
-    ReqResp.MimeType := 'application/soap+xml'
-  else
-    ReqResp.MimeType := 'text/xml';
-end;
 
 {$ENDIF}
 

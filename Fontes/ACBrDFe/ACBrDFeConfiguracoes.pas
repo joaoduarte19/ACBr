@@ -50,7 +50,7 @@ const
 
 type
 
-  TSSLLib = (libNone, libOpenSSL, libCapicom);
+  TSSLLib = (libNone, libOpenSSL, libCapicom, libCapicomIndy);
 
   { TCertificadosConf }
 
@@ -229,7 +229,7 @@ type
 implementation
 
 uses
-  math, ACBrUtil, ACBrDFeUtil, DateUtils;
+  Math, ACBrUtil, ACBrDFeUtil, DateUtils;
 
 { TConfiguracoes }
 
@@ -337,6 +337,10 @@ begin
   FSSLLib := libOpenSSL;  // Linux, Mac, apenas OpenSSL é suportado
   {$ELSE}
   FSSLLib := AValue;
+  {$IFDEF FPC}
+  if AValue = libCapicomIndy then
+    FSSLLib := libCapicom;
+  {$ENDIF}
   {$ENDIF}
 end;
 
@@ -371,7 +375,7 @@ end;
 
 procedure TWebServicesConf.SetIntervaloTentativas(const Value: cardinal);
 begin
-  FIntervaloTentativas := max(Value,1000)
+  FIntervaloTentativas := max(Value, 1000);
 end;
 
 procedure TWebServicesConf.SetTentativas(const Value: integer);

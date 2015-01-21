@@ -41,8 +41,9 @@ interface
 
 uses
   Classes, SysUtils,
-  ACBrCAPICOM_TLB, ACBrMSXML2_TLB, JwaWinCrypt, Windows, ActiveX, ComObj,
-  ACBrDFeConfiguracoes, ACBrDFeSSL;
+  ACBrDFeConfiguracoes, ACBrDFeSSL, ACBrHTTPReqResp,
+  ACBrCAPICOM_TLB, ACBrMSXML2_TLB,
+  JwaWinCrypt, Windows, ActiveX, ComObj;
 
 const
   DSIGNS = 'xmlns:ds="http://www.w3.org/2000/09/xmldsig#"';
@@ -58,11 +59,14 @@ type
     FCertificado: ICertificate2;
     FCertStoreMem: IStore3;
 
+    FReqResp: TACBrHTTPReqResp;
+
     procedure CarregarCertificadoSeNecessario;
     procedure Clear;
 
   protected
     procedure CarregarCertificado; override;
+    procedure ConfiguraReqResp(const URL, SoapAction: String);
 
     function GetCertDataVenc: TDateTime; override;
     function GetCertNumeroSerie: AnsiString; override;
@@ -101,10 +105,14 @@ begin
   FCNPJ := '';
   FCertificado := nil;
   FCertStoreMem := nil;
+
+  FReqResp := TACBrHTTPReqResp.Create;
 end;
 
 destructor TDFeCapicom.Destroy;
 begin
+  FReqResp.Free;
+  DesInicializar;
 
   inherited Destroy;
 end;
@@ -297,6 +305,8 @@ begin
             p := Pos('=', Propriedade);
             FCNPJ := copy(Propriedade, p + 1, Length(Propriedade));
             FCNPJ := OnlyNumber(HexToAscii(RemoveString(' ', FCNPJ)));
+
+            Configuracoes.Certificados.CNPJ := FCNPJ;
             break;
           end;
         end;
@@ -413,6 +423,7 @@ begin
     PosFim := PosLast('<X509Certificate>', XmlAss);
     XmlAss := copy(XmlAss, 1, PosIni) + copy(XmlAss, PosFim, length(XmlAss));
 
+    // Verificando se modificou o Header do XML assinado, e voltando para o anterior //
     if xmlHeaderAntes <> '' then
     begin
       I := pos('?>', XmlAss);
@@ -437,8 +448,56 @@ end;
 
 function TDFeCapicom.Enviar(const ConteudoXML: AnsiString; const URL: String;
   const SoapAction: String): AnsiString;
+var
+  OK: Boolean;
+  RetornoWS: AnsiString;
+  Resp: TMemoryStream;
 begin
+  RetornoWS := '';
 
+  ConfiguraReqResp(URL, SoapAction);
+
+  Resp := TMemoryStream.Create;
+  try
+    // Enviando, dispara exceptions no caso de erro //
+    FReqResp.Execute(ConteudoXML, Resp);
+
+    // Movendo Resposta de Stream para AnsiString //
+    SetLength(RetornoWS, Resp.Size);
+    Resp.ReadBuffer(RetornoWS[1], Resp.Size);
+
+    // DEBUG //
+    //Stream.SaveToFile('c:\temp\ReqResp.xml');
+  finally
+    Resp.Free;
+  end;
+
+  Result := RetornoWS;
 end;
+
+procedure TDFeCapicom.ConfiguraReqResp(const URL, SoapAction: String);
+begin
+  with Configuracoes.WebServices do
+  begin
+    if ProxyHost <> '' then
+    begin
+      FReqResp.ProxyHost := ProxyHost;
+      FReqResp.ProxyPort := ProxyPort;
+      FReqResp.ProxyUser := ProxyUser;
+      FReqResp.ProxyPass := ProxyPass;
+    end;
+  end;
+
+  FReqResp.SetCertificate(FCertificado);
+  FReqResp.Url := URL;
+  FReqResp.SOAPAction := SoapAction;
+
+  if (pos('SCERECEPCAORFB', UpperCase(URL)) <= 0) and
+    (pos('SCECONSULTARFB', UpperCase(URL)) <= 0) then
+    FReqResp.MimeType := 'application/soap+xml'
+  else
+    FReqResp.MimeType := 'text/xml';
+end;
+
 
 end.
