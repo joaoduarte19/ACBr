@@ -103,7 +103,12 @@ begin
 
   if AAmbiente = 1
    then case ACodCidade of
-      4307906: ConfigCidade.NameSpaceEnvelope := '';
+      4303905: ConfigCidade.NameSpaceEnvelope := ''; // Campo Bom/RS
+      4307906: ConfigCidade.NameSpaceEnvelope := ''; // Farroupilha/RS
+      4305108: ConfigCidade.NameSpaceEnvelope := ''; // Caxias do Sul/RS
+      // Alterado Por Cleiver em 21/01/2015
+      4314050: ConfigCidade.NameSpaceEnvelope := ''; // Parobe/RS
+      4317400: ConfigCidade.NameSpaceEnvelope := ''; // Santiago/RS
    end
   else
     ConfigCidade.NameSpaceEnvelope := '';
@@ -123,7 +128,12 @@ begin
   ConfigSchema.VersaoDados     := '';
   ConfigSchema.VersaoXML       := '1';
   case ACodCidade of
-    4307906: ConfigSchema.NameSpaceXML := '';
+    4303905: ConfigSchema.NameSpaceXML := ''; // Campo Bom/RS
+    4307906: ConfigSchema.NameSpaceXML := ''; // Farroupilha/RS
+    4305108: ConfigSchema.NameSpaceXML := ''; // Caxias do Sul/RS
+    // Alterado Por Cleiver em 21/01/2015
+    4314050: ConfigSchema.NameSpaceXML := ''; // Parobe/RS
+    4317400: ConfigSchema.NameSpaceXML := ''; // Santiago/RS
   end;
   ConfigSchema.Cabecalho        := '';
   ConfigSchema.ServicoEnviar    := 'nfse.xsd';
@@ -186,6 +196,59 @@ begin
        ConfigURL.ProCancelaNFSe        := 'https://dmse.farroupilha.rs.gov.br/portal/Servicos?wsdl';
        ConfigURL.ProConsultaSeqRPS     := 'https://dmse.farroupilha.rs.gov.br/portal/Servicos?wsdl';
      end;
+    4305108:
+     begin // Caxias do Sul/RS
+       ConfigURL.HomRecepcaoLoteRPS    := 'https://nfsehomol.caxias.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaLoteRPS    := 'https://nfsehomol.caxias.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaNFSeRPS    := 'https://nfsehomol.caxias.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaSitLoteRPS := 'https://nfsehomol.caxias.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaNFSe       := 'https://nfsehomol.caxias.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.HomCancelaNFSe        := 'https://nfsehomol.caxias.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaSeqRPS     := 'https://nfsehomol.caxias.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProRecepcaoLoteRPS    := 'https://nfse.caxias.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaLoteRPS    := 'https://nfse.caxias.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaNFSeRPS    := 'https://nfse.caxias.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaSitLoteRPS := 'https://nfse.caxias.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaNFSe       := 'https://nfse.caxias.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProCancelaNFSe        := 'https://nfse.caxias.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaSeqRPS     := 'https://nfse.caxias.rs.gov.br/portal/Servicos?wsdl';
+     end;
+    // Alterado Por Cleiver em 21/01/2015
+    4314050:
+     begin // Parobe/RS
+       ConfigURL.HomRecepcaoLoteRPS    := 'http://homol.parobe.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaLoteRPS    := 'http://homol.parobe.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaNFSeRPS    := 'http://homol.parobe.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaSitLoteRPS := 'http://homol.parobe.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaNFSe       := 'http://homol.parobe.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.HomCancelaNFSe        := 'http://homol.parobe.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaSeqRPS     := 'http://homol.parobe.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.ProRecepcaoLoteRPS    := 'https://nfse.parobe.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaLoteRPS    := 'https://nfse.parobe.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaNFSeRPS    := 'https://nfse.parobe.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaSitLoteRPS := 'https://nfse.parobe.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaNFSe       := 'https://nfse.parobe.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProCancelaNFSe        := 'https://nfse.parobe.rs.gov.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaSeqRPS     := 'https://nfse.parobe.rs.gov.br/portal/Servicos?wsdl';
+     end;
+    4317400:
+     begin // Santiago/RS
+       ConfigURL.HomRecepcaoLoteRPS    := 'http://homol.santiago.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaLoteRPS    := 'http://homol.santiago.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaNFSeRPS    := 'http://homol.santiago.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaSitLoteRPS := 'http://homol.santiago.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaNFSe       := 'http://homol.santiago.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.HomCancelaNFSe        := 'http://homol.santiago.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.HomConsultaSeqRPS     := 'http://homol.santiago.infisc.com.br/portal/Servicos?wsdl';
+       ConfigURL.ProRecepcaoLoteRPS    := 'https//dmse.pmsantiago.com.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaLoteRPS    := 'https//dmse.pmsantiago.com.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaNFSeRPS    := 'https//dmse.pmsantiago.com.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaSitLoteRPS := 'https//dmse.pmsantiago.com.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaNFSe       := 'https//dmse.pmsantiago.com.br/portal/Servicos?wsdl';
+       ConfigURL.ProCancelaNFSe        := 'https//dmse.pmsantiago.com.br/portal/Servicos?wsdl';
+       ConfigURL.ProConsultaSeqRPS     := 'https//dmse.pmsantiago.com.br/portal/Servicos?wsdl';
+     end;
+
   end;
   Result := ConfigURL;
 end;
@@ -435,7 +498,11 @@ begin
   case ACodMunicipio of
     4303905 : REsult := 'https://nfse.campobom.rs.gov.br/portal/'; // 15/01/201 - Leandro do Couto
     4307906 : Result := 'https://dmse.farroupilha.rs.gov.br/portal/';
-  end;
+    4305108 : Result := 'https://nfse.caxias.rs.gov.br/portal/Servicos/';
+    // Alterado Por Cleiver em 21/01/2015
+    4314050 : Result := 'https://nfse.parobe.rs.gov.br/portal/Servicos/';
+    4317400 : Result := 'https://dmse.pmsantiago.com.br/portal/Servicos/';
+    end;
 end;
 
 end.

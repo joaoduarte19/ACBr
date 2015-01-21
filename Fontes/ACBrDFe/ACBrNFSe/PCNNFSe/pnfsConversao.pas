@@ -1080,7 +1080,10 @@ begin
          : Provedor := 'SystemPro';
 
   4303905, // Campo Bom / RS -  15/04/2015 - Leandro do Couto
-  4307906  // Farroupilha/RS
+  4305108, // Caxias do Sul/RS  - Alterado Por Cleiver em 21/01/2015
+  4307906, // Farroupilha/RS
+  4314050, // Parobe/RS         - Alterado Por Cleiver em 21/01/2015
+  4317400  // Santiago/RS       - Alterado Por Cleiver em 21/01/2015
          : Provedor := 'Infisc';
 
   1709500, // Gurupi/TO

@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+21/01/2015
+[*] Inclusão de novas cidades no provedor InFisc.
+    Por: Cleiver Batista
+
 20/01/2015
 [*] Migração da cidade Guarapari/ES do provedor GovBR para Pronim.
     Por: Heronim Antonio Marçal
