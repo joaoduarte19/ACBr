@@ -47,6 +47,7 @@ uses
 
 const
   DSIGNS = 'xmlns:ds="http://www.w3.org/2000/09/xmldsig#"';
+  CAPICOM_STORE_NAME = 'My'; //My CA Root AddressBook
 
 type
   { TDFeCapicom }

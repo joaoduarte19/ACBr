@@ -2,13 +2,22 @@
   This source is only used to compile and install the package.
  }
 
-unit ACBr_NFe2;
+unit ACBr_NFe;
 
 interface
 
 uses
-  ACBrNFe, ACBrNFeConfiguracoes, ACBrNFeDANFEClass, ACBrNFeNotasFiscais, 
-  ACBrNFeReg, ACBrNFeUtil, ACBrNFeWebServices, LazarusPackageIntf;
+  ACBrNFe, ACBrNFeReg, ACBrNFeNotasFiscais, ACBrNFeConfiguracoes, 
+  ACBrNFeWebServices, ACBrNFeUtil, ACBrNFeDANFEClass, pcnAdmCSCNFCe, 
+  pcnCadEmiDFe, pcnCancNFe, pcnCCeNFe, pcnConsCad, pcnConsDPEC, 
+  pcnConsNFeDest, pcnConsReciNFe, pcnConsSitNFe, pcnConsStatServ, 
+  pcnDistDFeInt, pcnDownloadNFe, pcnEnvDPEC, pcnEnvEventoNFe, pcnEnvNFe, 
+  pcnEventoNFe, pcnInutNFe, pcnLayoutTXT, pcnModeloNFe, pcnNFe, pcnNFeR, 
+  pcnNFeRTXT, pcnNFeW, pcnProcNFe, pcnRetAdmCSCNFCe, pcnRetAtuCadEmiDFe, 
+  pcnRetCancNFe, pcnRetCCeNFe, pcnRetConsCad, pcnRetConsNFeDest, 
+  pcnRetConsReciNFe, pcnRetConsSitNFe, pcnRetConsStatServ, pcnRetDistDFeInt, 
+  pcnRetDownloadNFe, pcnRetDPEC, pcnRetEnvEventoNFe, pcnRetEnvNFe, 
+  pcnRetInutNFe, LazarusPackageIntf;
 
 implementation
 
@@ -18,5 +27,5 @@ begin
 end;
 
 initialization
-  RegisterPackage('ACBr_NFe2', @Register);
+  RegisterPackage('ACBr_NFe', @Register);
 end.
