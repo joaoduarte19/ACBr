@@ -2,8 +2,8 @@
 <CONFIG>
   <Package Version="4">
     <PathDelim Value="\"/>
-    <Name Value="ACBr_NFe2"/>
-    <Author Value="Juliomar Marchetti"/>
+    <Name Value="ACBr_NFe"/>
+    <Author Value="Juliomar Marchetti - Daniel Simões de Almeida"/>
     <CompilerOptions>
       <Version Value="11"/>
       <PathDelim Value="\"/>

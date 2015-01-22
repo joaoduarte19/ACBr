@@ -26,11 +26,15 @@ package ACBrOpenSSL;
 {$IMPLICITBUILD OFF}
 
 requires
-  rtl;
+  rtl,
+  ACBrComum;
 
 contains
-  libxmlsec in '..\..\Fontes\ACBrNFe2\libxmlsec.pas',
-  libxslt in '..\..\Fontes\ACBrNFe2\libxslt.pas',
-  libxml2 in '..\..\Fontes\ACBrNFe2\libxml2.pas';
-
+  libxmlsec in '..\..\..\Fontes\ACBrOpenSSL\libxmlsec.pas',
+  libxslt in '..\..\..\Fontes\ACBrOpenSSL\libxslt.pas',
+  libxml2 in '..\..\..\Fontes\ACBrOpenSSL\libxml2.pas',
+  libeay32 in '..\..\..\Fontes\ACBrOpenSSL\libeay32.pas',
+  ACBrEAD in '..\..\..\Fontes\ACBrOpenSSL\ACBrEAD.pas',
+  ACBrOpenSSLReg in '..\..\..\Fontes\ACBrOpenSSL\ACBrOpenSSLReg.pas';
+  
 end.

@@ -22,7 +22,7 @@ package ACBrCapicom;
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DESCRIPTION 'ACBr - Capcom - (http://www.projetoacbr.com.br/)'}
+{$DESCRIPTION 'ACBr - Capicom - (http://www.projetoacbr.com.br/)'}
 {$RUNONLY}
 {$IMPLICITBUILD OFF}
 
@@ -32,13 +32,11 @@ requires
   ACBrComum;
 
 contains
-  ACBrCAPICOM_TLB in '..\..\Fontes\ACBrCapicom\ACBrCAPICOM_TLB.pas',
-  ACBrMSXML2_TLB in '..\..\Fontes\ACBrCapicom\ACBrMSXML2_TLB.pas',
-  JwaWinCrypt in '..\..\Fontes\ACBrCapicom\JwaWinCrypt.pas',
-  JwaWinDLLNames in '..\..\Fontes\ACBrCapicom\JwaWinDLLNames.pas',
-  JwaWindows in '..\..\Fontes\ACBrCapicom\JwaWindows.pas',
-  JwaWinNT in '..\..\Fontes\ACBrCapicom\JwaWinNT.pas',
-  JwaWinType in '..\..\Fontes\ACBrCapicom\JwaWinType.pas',
-  ACBrHTTPReqResp in '..\..\Fontes\ACBrCapicom\ACBrHTTPReqResp.pas';
+  ACBrCAPICOM_TLB in '..\..\..\Fontes\ACBrCapicom\ACBrCAPICOM_TLB.pas',
+  ACBrMSXML2_TLB in '..\..\..\Fontes\ACBrCapicom\ACBrMSXML2_TLB.pas',
+  JwaWinCrypt in '..\..\..\Fontes\ACBrCapicom\JwaWinCrypt.pas',
+  JwaWinDLLNames in '..\..\..\Fontes\ACBrCapicom\JwaWinDLLNames.pas',
+  JwaWindows in '..\..\..\Fontes\ACBrCapicom\JwaWindows.pas',
+  ACBrHTTPReqResp in '..\..\..\Fontes\ACBrCapicom\ACBrHTTPReqResp.pas';
 
 end.

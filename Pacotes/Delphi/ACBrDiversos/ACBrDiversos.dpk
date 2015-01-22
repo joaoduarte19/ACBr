@@ -32,21 +32,21 @@ requires
   ACBrComum;
 
 contains
-  ACBrDiversosReg in '..\..\Fontes\ACBrDiversos\ACBrDiversosReg.pas',
-  ACBrCalculadora in '..\..\Fontes\ACBrDiversos\ACBrCalculadora.pas',
-  ACBrExtenso in '..\..\Fontes\ACBrDiversos\ACBrExtenso.pas',
-  ACBrValidador in '..\..\Fontes\ACBrDiversos\ACBrValidador.pas',
-  ACBrTroco in '..\..\Fontes\ACBrDiversos\ACBrTroco.pas',
-  ACBrCMC7 in '..\..\Fontes\ACBrDiversos\ACBrCMC7.pas',
-  ACBrFala in '..\..\Fontes\ACBrDiversos\ACBrFala.pas',
-  ACBrBarCode in '..\..\Fontes\ACBrDiversos\ACBrBarCode.pas',
-  ACBrEnterTab in '..\..\Fontes\ACBrDiversos\ACBrEnterTab.pas',
-  AJBarcode in '..\..\Fontes\ACBrDiversos\AJBarcode.pas',
-  ACBrDelphiZXingQRCode in '..\..\Fontes\ACBrDiversos\ACBrDelphiZXingQRCode.pas',
-  ACBrGIF in '..\..\Fontes\ACBrDiversos\ACBrGIF.pas',
-  Gif1 in '..\..\Fontes\ACBrDiversos\Gif1.pas',
-  Gif3 in '..\..\Fontes\ACBrDiversos\Gif3.pas',
-  ACBrInStore in '..\..\Fontes\ACBrDiversos\ACBrInStore.pas',
-  ACBrCargaBal in '..\..\Fontes\ACBrDiversos\ACBrCargaBal.pas';
+  ACBrDiversosReg in '..\..\..\Fontes\ACBrDiversos\ACBrDiversosReg.pas',
+  ACBrCalculadora in '..\..\..\Fontes\ACBrDiversos\ACBrCalculadora.pas',
+  ACBrExtenso in '..\..\..\Fontes\ACBrDiversos\ACBrExtenso.pas',
+  ACBrValidador in '..\..\..\Fontes\ACBrDiversos\ACBrValidador.pas',
+  ACBrTroco in '..\..\..\Fontes\ACBrDiversos\ACBrTroco.pas',
+  ACBrCMC7 in '..\..\..\Fontes\ACBrDiversos\ACBrCMC7.pas',
+  ACBrFala in '..\..\..\Fontes\ACBrDiversos\ACBrFala.pas',
+  ACBrBarCode in '..\..\..\Fontes\ACBrDiversos\ACBrBarCode.pas',
+  ACBrEnterTab in '..\..\..\Fontes\ACBrDiversos\ACBrEnterTab.pas',
+  AJBarcode in '..\..\..\Fontes\ACBrDiversos\AJBarcode.pas',
+  ACBrDelphiZXingQRCode in '..\..\..\Fontes\ACBrDiversos\ACBrDelphiZXingQRCode.pas',
+  ACBrGIF in '..\..\..\Fontes\ACBrDiversos\ACBrGIF.pas',
+  Gif1 in '..\..\..\Fontes\ACBrDiversos\Gif1.pas',
+  Gif3 in '..\..\..\Fontes\ACBrDiversos\Gif3.pas',
+  ACBrInStore in '..\..\..\Fontes\ACBrDiversos\ACBrInStore.pas',
+  ACBrCargaBal in '..\..\..\Fontes\ACBrDiversos\ACBrCargaBal.pas';
 
 end.

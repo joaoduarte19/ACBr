@@ -32,15 +32,11 @@ requires
   synapse;
 
 contains
-  ACBrBase in '..\..\Fontes\ACBrComum\ACBrBase.pas',
-  ACBrConsts in '..\..\Fontes\ACBrComum\ACBrConsts.pas',
-  ACBrTXTClass in '..\..\Fontes\ACBrComum\ACBrTXTClass.pas',
-  ACBrUtil in '..\..\Fontes\ACBrComum\ACBrUtil.pas',
-  ACBrReg in '..\..\Fontes\ACBrComum\ACBrReg.pas',
-  ACBrEAD in '..\..\Fontes\ACBrComum\ACBrEAD.pas',
-  ACBrAAC in '..\..\Fontes\ACBrComum\ACBrAAC.pas',
-  libeay32 in '..\..\Fontes\ACBrComum\libeay32.pas',
-  //ACBrPAFClass in '..\..\Fontes\ACBrComum\ACBrPAFClass.pas',
-  ACBrDFeUtil in '..\..\Fontes\ACBrComum\ACBrDFeUtil.pas';
+  ACBrBase in '..\..\..\Fontes\ACBrComum\ACBrBase.pas',
+  ACBrConsts in '..\..\..\Fontes\ACBrComum\ACBrConsts.pas',
+  ACBrUtil in '..\..\..\Fontes\ACBrComum\ACBrUtil.pas',
+  ACBrReg in '..\..\..\Fontes\ACBrComum\ACBrReg.pas',
+  ACBrAAC in '..\..\..\Fontes\ACBrComum\ACBrAAC.pas',
+  ACBrPAFClass in '..\..\..\Fontes\ACBrComum\ACBrPAFClass.pas';
 
 end.
