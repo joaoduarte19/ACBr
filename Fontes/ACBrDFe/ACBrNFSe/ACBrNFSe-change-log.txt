@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+22/01/2015
+[*] Alterado para Assinar o Lote quando a cidade for Ijuí/RS.
+    Por: Diogo
+
 21/01/2015
 [*] Inclusão de novas cidades no provedor InFisc.
     Por: Cleiver Batista

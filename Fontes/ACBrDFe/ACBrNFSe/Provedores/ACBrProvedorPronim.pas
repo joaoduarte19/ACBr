@@ -115,6 +115,7 @@ begin
    4204004: ConfigCidade.AssinaLote := True; // Catanduvas/SC
    4216602: ConfigCidade.AssinaLote := True; // São José/SC
    4309407: ConfigCidade.AssinaLote := True; // Guapore/RS
+   4310207: ConfigCidade.AssinaLote := True; // Ijuí/RS
    4320800: ConfigCidade.AssinaLote := True; // Soledade/RS
   else      begin
              ConfigCidade.Identificador := 'id';
