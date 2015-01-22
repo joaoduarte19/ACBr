@@ -27,7 +27,7 @@
     <License Value="LGPL
 "/>
     <Version Minor="1"/>
-    <Files Count="3">
+    <Files Count="4">
       <Item1>
         <Filename Value="..\..\..\Fontes\ACBrCapicom\ACBrHTTPReqResp.pas"/>
         <UnitName Value="ACBrHTTPReqResp"/>
@@ -40,6 +40,10 @@
         <Filename Value="..\..\..\Fontes\ACBrCapicom\ACBrMSXML2_TLB.pas"/>
         <UnitName Value="ACBrMSXML2_TLB"/>
       </Item3>
+      <Item4>
+        <Filename Value="..\..\..\Fontes\ACBrCapicom\JwaWinCrypt.pas"/>
+        <UnitName Value="JwaWinCrypt"/>
+      </Item4>
     </Files>
     <RequiredPkgs Count="1">
       <Item1>

@@ -120,7 +120,7 @@ type
 implementation
 
 uses strutils, ACBrUtil, ACBrDFe, ACBrDFeUtil, ACBrDFeOpenSSL, ACBrDFeCapicom
-  {$IFNDEF FPC},ACBrDFeCapicomIndy{$ENDIF};
+  {$IFNDEF FPC},ACBrDFeCapicomDelphiSoap{$ENDIF};
 
 { TDFeSSL }
 
@@ -206,10 +206,10 @@ begin
   case ASSLLib of
     libCapicom: FSSLClass := TDFeCapicom.Create(FConfiguracoes);
     libOpenSSL: FSSLClass := TDFeOpenSSL.Create(FConfiguracoes);
-    libCapicomIndy:
+    libCapicomDelphiSoap:
     begin
       {$IFNDEF FPC}
-      FSSLClass := TDFeCapicomIndy.Create(FConfiguracoes);
+      FSSLClass := TDFeCapicomDelphiSoap.Create(FConfiguracoes);
       {$ELSE}
       FSSLClass := TDFeCapicom.Create(FConfiguracoes);
       {$ENDIF}

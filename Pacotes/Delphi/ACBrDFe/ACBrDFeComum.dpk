@@ -1,7 +1,6 @@
 package ACBrDFeComum;
 
-//{$R *.res}
-{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$R *.res}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
@@ -23,17 +22,14 @@ package ACBrDFeComum;
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE DEBUG}
-{$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'ACBr - Biblioteca com Métodos e Classes em comum a todos Documentos Fiscais Eletrônicos'}
-{$IMPLICITBUILD OFF}
+{$RUNONLY}
+{$IMPLICITBUILD ON}
 
 requires
   vcl,
   rtl,
   designide,
-  xmlrtl,
-  dbrtl,
   inet,
   soaprtl,
   ACBrComum,
@@ -50,6 +46,6 @@ contains
   ACBrDFeSSL in '..\..\..\Fontes\ACBrDFe\ACBrDFeSSL.pas',
   ACBrDFeOpenSSL in '..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas',
   ACBrDFeCapicom in '..\..\..\Fontes\ACBrDFe\ACBrDFeCapicom.pas',
-  ACBrDFeCapicomIndy in '..\..\..\Fontes\ACBrDFe\ACBrDFeCapicomIndy.pas';
+  ACBrDFeCapicomDelphiSoap in '..\..\..\Fontes\ACBrDFe\ACBrDFeCapicomDelphiSoap.pas';
 
 end.

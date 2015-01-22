@@ -50,7 +50,7 @@ const
 
 type
 
-  TSSLLib = (libNone, libOpenSSL, libCapicom, libCapicomIndy);
+  TSSLLib = (libNone, libOpenSSL, libCapicom, libCapicomDelphiSoap);
 
   { TCertificadosConf }
 
@@ -338,7 +338,7 @@ begin
   {$ELSE}
   FSSLLib := AValue;
   {$IFDEF FPC}
-  if AValue = libCapicomIndy then
+  if AValue = libCapicomDelphiSoap then
     FSSLLib := libCapicom;
   {$ENDIF}
   {$ENDIF}

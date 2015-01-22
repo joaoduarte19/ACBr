@@ -35,20 +35,24 @@
 
 {$I ACBr.inc}
 
-unit ACBrDFeCapicomIndy;
+unit ACBrDFeCapicomDelphiSoap;
 
 interface
 
 uses
-  Classes, SysUtils, ACBrDFeCapicom,
-  SoapHTTPClient, SOAPHTTPTrans, SOAPConst, WinInet, ACBrCAPICOM_TLB;
+  Classes, SysUtils, ACBrDFeCapicom, ACBrDFeConfiguracoes,
+  SoapHTTPClient, SOAPHTTPTrans;
+
+const
+  INTERNET_OPTION_CLIENT_CERT_CONTEXT = 84;      
 
 type
-  { TDFeCapicomIndy }
+  { TDFeCapicomDelphiSoap }
 
-  TDFeCapicomIndy = class(TDFeCapicom)
+  TDFeCapicomDelphiSoap = class(TDFeCapicom)
   private
-    FIndyReqResp: THTTPReqResp;;
+    FIndyReqResp: THTTPReqResp;
+    FURL: String;
 
     procedure OnBeforePost(const HTTPReqResp: THTTPReqResp; Data: Pointer);
   protected
@@ -57,34 +61,31 @@ type
   public
     constructor Create(AConfiguracoes: TConfiguracoes);
     destructor Destroy; override;
-
-    function Enviar(const ConteudoXML: AnsiString; const URL: String;
-      const SoapAction: String): AnsiString; override;
   end;
 
 implementation
 
 uses
-  strutils, ACBrUtil, ACBrDFeUtil,
-  ACBrCAPICOM_TLB;
+  strutils, ACBrUtil, ACBrDFeUtil, WinInet, SOAPConst, ACBrCAPICOM_TLB,
+  JwaWinCrypt;
 
-{ TDFeCapicomIndy }
+{ TDFeCapicomDelphiSoap }
 
-constructor TDFeCapicomIndy.Create(AConfiguracoes: TConfiguracoes);
+constructor TDFeCapicomDelphiSoap.Create(AConfiguracoes: TConfiguracoes);
 begin
   inherited Create(AConfiguracoes);
 
-  FIndyReqResp := THTTPReqResp.Create;
+  FIndyReqResp := THTTPReqResp.Create(nil);
 end;
 
-destructor TDFeCapicomIndy.Destroy;
+destructor TDFeCapicomDelphiSoap.Destroy;
 begin
   FIndyReqResp.Free;
 
   inherited Destroy;
 end;
 
-procedure TDFeCapicomIndy.OnBeforePost(const HTTPReqResp: THTTPReqResp;
+procedure TDFeCapicomDelphiSoap.OnBeforePost(const HTTPReqResp: THTTPReqResp;
   Data: Pointer);
 var
   CertContext: ICertContext;
@@ -96,19 +97,19 @@ begin
 
   if not InternetSetOption(Data, INTERNET_OPTION_CLIENT_CERT_CONTEXT,
     PCertContext, SizeOf(CERT_CONTEXT)) then
-    GerarException('OnBeforePost: ' + IntToStr(GetLastError));
+    raise EACBrDFeException.Create('OnBeforePost: ' + IntToStr(GetLastError));
 
   if trim(Configuracoes.WebServices.ProxyUser) <> '' then
     if not InternetSetOption(Data, INTERNET_OPTION_PROXY_USERNAME,
       PChar(Configuracoes.WebServices.ProxyUser),
       Length(Configuracoes.WebServices.ProxyUser)) then
-      GerarException('OnBeforePost: ' + IntToStr(GetLastError));
+      raise EACBrDFeException.Create('OnBeforePost: ' + IntToStr(GetLastError));
 
   if trim(Configuracoes.WebServices.ProxyPass) <> '' then
     if not InternetSetOption(Data, INTERNET_OPTION_PROXY_PASSWORD,
       PChar(Configuracoes.WebServices.ProxyPass),
       Length(Configuracoes.WebServices.ProxyPass)) then
-      GerarException('OnBeforePost: ' + IntToStr(GetLastError));
+      raise EACBrDFeException.Create('OnBeforePost: ' + IntToStr(GetLastError));
 
   if (pos('SCERECEPCAORFB', UpperCase(FURL)) <= 0) and
     (pos('SCECONSULTARFB', UpperCase(FURL)) <= 0) then
@@ -122,7 +123,7 @@ begin
   FIndyReqResp.CheckContentType;
 end;
 
-procedure TDFeCapicomIndy.ConfiguraReqResp(const URL, SoapAction: String);
+procedure TDFeCapicomDelphiSoap.ConfiguraReqResp(const URL, SoapAction: String);
 begin
   with Configuracoes.WebServices do
   begin
@@ -136,6 +137,7 @@ begin
 
   FIndyReqResp.OnBeforePost := OnBeforePost;
   FIndyReqResp.UseUTF8InHeader := True;
+  FURL := URL;
 end;
 
 

@@ -34,6 +34,7 @@ requires
 contains
   ACBrCAPICOM_TLB in '..\..\..\Fontes\ACBrCapicom\ACBrCAPICOM_TLB.pas',
   ACBrMSXML2_TLB in '..\..\..\Fontes\ACBrCapicom\ACBrMSXML2_TLB.pas',
-  ACBrHTTPReqResp in '..\..\..\Fontes\ACBrCapicom\ACBrHTTPReqResp.pas';
+  ACBrHTTPReqResp in '..\..\..\Fontes\ACBrCapicom\ACBrHTTPReqResp.pas',
+  JwaWinCrypt in '..\..\..\Fontes\ACBrCapicom\JwaWinCrypt.pas';
 
 end.

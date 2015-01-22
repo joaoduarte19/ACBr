@@ -449,7 +449,6 @@ end;
 function TDFeCapicom.Enviar(const ConteudoXML: AnsiString; const URL: String;
   const SoapAction: String): AnsiString;
 var
-  OK: Boolean;
   RetornoWS: AnsiString;
   Resp: TMemoryStream;
 begin

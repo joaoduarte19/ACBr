@@ -7,7 +7,7 @@ unit ACBrCapicom;
 interface
 
 uses
-  ACBrHTTPReqResp, ACBrCAPICOM_TLB, ACBrMSXML2_TLB;
+  ACBrHTTPReqResp, ACBrCAPICOM_TLB, ACBrMSXML2_TLB, JwaWinCrypt;
 
 implementation
 

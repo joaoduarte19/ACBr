@@ -46,9 +46,6 @@ uses Classes, SysUtils,
   {$ENDIF}
   ACBrDFeConfiguracoes, ACBrDFe;
 
-const
-  INTERNET_OPTION_CLIENT_CERT_CONTEXT = 84;
-
 type
 
   { TDFeWebService }
