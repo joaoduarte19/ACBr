@@ -328,8 +328,8 @@ begin
     LoadLayout('<N10g> N10g|Orig¨|CSOSN¨|vBCSTRet¨|vICMSSTRet¨');
     LoadLayout('<N10h> N10h|Orig¨|CSOSN¨|modBC¨|vBC¨|pRedBC¨|pICMS¨|vICMS¨|modBCST¨|pMVAST¨|pRedBCST¨|vBCST¨|pICMSST¨|vICMSST¨|pCredSN¨|vCredICMSSN¨');
     LoadLayout('<O01>     O|ClEnq¨|CNPJProd¨|CSelo¨|QSelo¨|CEnq¨');
-    LoadLayout('<O07>   O07|CST¨');
-    LoadLayout('<O07>   O10|VBC¨|PIPI¨');
+    LoadLayout('<O07>   O07|CST¨|VIPI¨');
+    LoadLayout('<O07>   O10|VBC¨|PIPI¨|VIPI¨');
     LoadLayout('<O07>   O11|QUnid¨|VUnid¨|VIPI¨');
     LoadLayout('<O08>   O08|CST¨');
     LoadLayout('<P01>     P|VBC¨|VDespAdu¨|VII¨|VIOF¨');

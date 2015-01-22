@@ -741,6 +741,8 @@ begin
     i := NFe.Det.Count - 1;
     (*O10*)NFe.Det[i].Imposto.IPI.vBC := LerCampo(tcDe2, 'vBC');
     (*O13*)NFe.Det[i].Imposto.IPI.pIPI := LerCampo(tcDe2, 'pIPI');
+    if LerCampo(tcDe2, 'vIPI') <> 0 then
+       (*O14*)NFe.Det[i].Imposto.IPI.vIPI := LerCampo(tcDe2, 'vIPI');
   end;
 
   if ID = 'O11' then (* Grupo da TAG <det><imposto><IPI> **********************)
@@ -748,7 +750,8 @@ begin
     i := NFe.Det.Count - 1;
     (*O11*)NFe.Det[i].Imposto.IPI.qUnid := LerCampo(tcDe4, 'qUnid');
     (*O12*)NFe.Det[i].Imposto.IPI.vUnid := LerCampo(tcDe4, 'vUnid');
-           NFe.Det[i].Imposto.IPI.vIPI := LerCampo(tcDe2, 'vIPI');
+    if LerCampo(tcDe2, 'vIPI') <> 0 then
+       (*O14*)NFe.Det[i].Imposto.IPI.vIPI := LerCampo(tcDe2, 'vIPI');
   end;
 
   if ID = 'P' then (* Grupo da TAG <det><imposto><II> *************************)
