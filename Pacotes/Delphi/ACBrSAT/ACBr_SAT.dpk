@@ -39,14 +39,14 @@ contains
   ACBrSATDinamico_cdecl in '..\..\..\Fontes\ACBrSAT\ACBrSATDinamico_cdecl.pas',
   ACBrSATDinamico_stdcall in '..\..\..\Fontes\ACBrSAT\ACBrSATDinamico_stdcall.pas',
   ACBrSATExtratoClass in '..\..\..\Fontes\ACBrSAT\ACBrSATExtratoClass.pas',
-  pcnCFe in '..\..\..\Fontes\ACBrSAT\pcnCFe.pas',
-  pcnCFeR in '..\..\..\Fontes\ACBrSAT\pcnCFeR.pas',
-  pcnCFeW in '..\..\..\Fontes\ACBrSAT\pcnCFeW.pas',
-  pcnCFeCanc in '..\..\..\Fontes\ACBrSAT\pcnCFeCanc.pas',
-  pcnCFeCancR in '..\..\..\Fontes\ACBrSAT\pcnCFeCancR.pas',
-  pcnCFeCancW in '..\..\..\Fontes\ACBrSAT\pcnCFeCancW.pas',
-  pcnRede in '..\..\..\Fontes\ACBrSAT\pcnRede.pas',
-  pcnRedeR in '..\..\..\Fontes\ACBrSAT\pcnRedeR.pas',
-  pcnRedeW in '..\..\..\Fontes\ACBrSAT\pcnRedeW.pas';
+  pcnCFe in '..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFe.pas',
+  pcnCFeR in '..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFeR.pas',
+  pcnCFeW in '..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFeW.pas',
+  pcnCFeCanc in '..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFeCanc.pas',
+  pcnCFeCancR in '..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFeCancR.pas',
+  pcnCFeCancW in '..\..\..\Fontes\ACBrSAT\PCNSAT\pcnCFeCancW.pas',
+  pcnRede in '..\..\..\Fontes\ACBrSAT\PCNSAT\pcnRede.pas',
+  pcnRedeR in '..\..\..\Fontes\ACBrSAT\PCNSAT\pcnRedeR.pas',
+  pcnRedeW in '..\..\..\Fontes\ACBrSAT\PCNSAT\pcnRedeW.pas';
 
 end.

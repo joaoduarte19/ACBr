@@ -1,5 +1,6 @@
 package ACBrTXTComum;
 
+{$R *.res}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
@@ -22,6 +23,7 @@ package ACBrTXTComum;
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
 {$DESCRIPTION 'ACBr - Biblioteca TXT Comum, Classes e Units que auxiliam na geração de arquivos fiscais TXT'}
+{$RUNONLY}
 {$IMPLICITBUILD ON}
 
 requires

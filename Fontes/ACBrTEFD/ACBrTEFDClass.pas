@@ -720,7 +720,7 @@ function NomeCampo(const Identificacao: Integer; const Sequencia: Integer ): Str
 
 implementation
 
-Uses ACBrUtil, ACBrConsts, ACBrTEFD, dateutils, StrUtils, Math,
+Uses ACBrUtil, ACBrConsts, ACBrTEFD, dateutils, StrUtils, Math, Types,
   ACBrTEFDCliSiTef, ACBrTEFDVeSPague ;
 
 function NomeCampo(const Identificacao: Integer; const Sequencia: Integer): String;

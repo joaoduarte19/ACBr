@@ -15,7 +15,7 @@ K=0
 L=1
 M=0
 N=1
-O=1
+O=0
 P=1
 Q=0
 R=0
@@ -23,9 +23,9 @@ S=0
 T=0
 U=0
 V=1
-W=0
+W=1
 X=1
-Y=1
+Y=0
 Z=1
 ShowHints=1
 ShowWarnings=1
@@ -88,14 +88,14 @@ RemoteSymbols=0
 MinStackSize=16384
 MaxStackSize=1048576
 ImageBase=4194304
-ExeDescription=ACBr Automação Comercial Brasil  ACBrComum   (http://acbr.sf.ne)
+ExeDescription=ACBr - Biblioteca TXT Comum, Classes e Units que auxiliam na geração de arquivos fiscais TXT
 [Directories]
 OutputDir=
 UnitOutputDir=
 PackageDLLOutputDir=
 PackageDCPOutputDir=
-SearchPath=..\..\..\Fontes\ACBrComum
-Packages=vcl;rtl;vclx;indy;vclie;xmlrtl;inetdbbde;inet;inetdbxpress;dbrtl;soaprtl;dsnap;VclSmp;dbexpress;vcldb;dbxcds;inetdb;bdertl;vcldbx;adortl;teeui;teedb;tee;ibxpress;visualclx;visualdbclx;vclactnband;vclshlctrls;IntrawebDB_50_70;Intraweb_50_70;dclOfficeXP;Rave50CLX;Rave50VCL;qrpt;teeqr
+SearchPath=..\..\..\Fontes\ACBrTXT
+Packages=vcl;rtl;vclx;indy;inet;xmlrtl;vclie;inetdbbde;inetdbxpress;dbrtl;dsnap;dsnapcon;vcldb;soaprtl;VclSmp;dbexpress;dbxcds;inetdb;bdertl;vcldbx;webdsnap;websnap;adortl;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;vclactnband;vclshlctrls;Rave50CLX;Rave50VCL;dclOfficeXP;qrpt;teeqr
 Conditionals=
 DebugSourceDirs=
 UsePackages=0
@@ -112,8 +112,8 @@ RootDir=C:\Program Files (x86)\Borland\Delphi7\Bin\
 [Version Info]
 IncludeVerInfo=1
 AutoIncBuild=0
-MajorVer=0
-MinorVer=9
+MajorVer=1
+MinorVer=0
 Release=0
 Build=0
 Debug=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=
 FileDescription=
-FileVersion=0.9.0.0
+FileVersion=1.0.0.0
 InternalName=
 LegalCopyright=
 LegalTrademarks=
@@ -134,27 +134,9 @@ OriginalFilename=
 ProductName=
 ProductVersion=1.0.0.0
 Comments=
-[Excluded Packages]
-c:\program files (x86)\borland\delphi7\Projects\Bpl\B305cd70.bpl=TurboPower Abbrevia 3.05 CLX Design-time package - CLX70
-[HistoryLists\hlDebugSourcePath]
-Count=1
-Item0=..\..\Fontes\ACBrComum
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
-Count=3
-Item0=..\..\Fontes\ACBrComum
-Item1=../../Fontes/ACBrComum
-Item2=../../ACBrComum
-[HistoryLists\hlUnitOutputDirectory]
-Count=2
-Item0=..\..\lib
-Item1=../../lib
-[HistoryLists\hlBPLOutput]
-Count=2
-Item0=..\..\lib
-Item1=../../lib
-[HistoryLists\hlDCPOutput]
 Count=1
-Item0=..\..\lib
+Item0=..\..\..\Fontes\ACBrTXT

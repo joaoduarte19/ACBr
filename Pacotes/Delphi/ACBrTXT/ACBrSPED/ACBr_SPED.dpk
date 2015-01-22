@@ -34,7 +34,6 @@ requires
 
 contains
   ACBrSped in '..\..\..\..\Fontes\ACBrTXT\ACBrSPED\ACBrSped.pas',
-  ACBrSpedUtils in '..\..\..\..\Fontes\ACBrTXT\ACBrSPED\ACBrSpedUtils.pas',
   ACBrECDBloco_0 in '..\..\..\..\Fontes\ACBrTXT\ACBrSPED\ACBrSPEDContabil\ACBrECDBloco_0.pas',
   ACBrECDBloco_0_Class in '..\..\..\..\Fontes\ACBrTXT\ACBrSPED\ACBrSPEDContabil\ACBrECDBloco_0_Class.pas',
   ACBrECDBloco_9 in '..\..\..\..\Fontes\ACBrTXT\ACBrSPED\ACBrSPEDContabil\ACBrECDBloco_9.pas',

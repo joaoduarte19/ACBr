@@ -94,7 +94,7 @@ OutputDir=
 UnitOutputDir=
 PackageDLLOutputDir=
 PackageDCPOutputDir=
-SearchPath=..\..\Fontes\ACBrDiversos;..\..\Fontes\ACBrComum
+SearchPath=..\..\..\Fontes\ACBrDiversos;..\..\..\Fontes\ACBrComum
 Packages=vcl;rtl;vclx;indy;vclie;xmlrtl;inetdbbde;inet;inetdbxpress;dbrtl;soaprtl;dsnap;VclSmp;dbexpress;vcldb;dbxcds;inetdb;bdertl;vcldbx;adortl;teeui;teedb;tee;ibxpress;visualclx;visualdbclx;vclactnband;vclshlctrls;IntrawebDB_50_70;Intraweb_50_70;dclOfficeXP;Rave50CLX;Rave50VCL;qrpt;teeqr
 Conditionals=
 DebugSourceDirs=
@@ -134,10 +134,6 @@ OriginalFilename=
 ProductName=
 ProductVersion=1.0.0.0
 Comments=
-[Excluded Packages]
-C:\Pascal\Comp\ACBr\branches\ACBrNovo\lib\synapse.bpl=Synapse TCP/IP / Serial library (http://www.synapse.ararat.cz)
-C:\Pascal\Comp\ACBr\branches\ACBrNovo\lib\ACBrDiversos.bpl=ACBr Automação Comercial Brasil - ACBrDiversos (http://acbr.sf.net/)
-C:\Pascal\Comp\ACBr\branches\ACBrNovo\lib\ACBrSerial.bpl=ACBr Automação Comercial Brasil - ACBrSerial (http://acbr.sf.net/)
 [HistoryLists\hlDebugSourcePath]
 Count=1
 Item0=..\..\Fontes\ACBrComum
