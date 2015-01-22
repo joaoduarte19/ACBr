@@ -30,6 +30,7 @@ requires
   vcl,
   designide,
   ACBrDiversos,
+  ACBrOpenSSL,
   synapse;
 
 contains

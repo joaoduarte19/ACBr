@@ -1,6 +1,5 @@
-package ACBr_SAT_Extrato_ESCPOS;
+package ACBrTXTComum;
 
-{$R *.res}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
@@ -11,27 +10,29 @@ package ACBr_SAT_Extrato_ESCPOS;
 {$LOCALSYMBOLS ON}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION ON}
+{$OPTIMIZATION OFF}
 {$OVERFLOWCHECKS OFF}
 {$RANGECHECKS OFF}
-{$REFERENCEINFO ON}
+{$REFERENCEINFO OFF}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES OFF}
+{$STACKFRAMES ON}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DESCRIPTION 'ACBr - Extrato Cupom Fiscal Eletrônico SAT para Serial - (http://www.projectoacbr.com.br/)'}
+{$DESCRIPTION 'ACBr - Biblioteca TXT Comum, Classes e Units que auxiliam na geração de arquivos fiscais TXT'}
 {$IMPLICITBUILD ON}
 
 requires
   rtl,
   vcl,
-  ACBrSerial,
-  ACBr_SAT;
+  ACBrComum,
+  ACBrDiversos,
+  designide;
 
 contains
-  ACBrSATExtratoESCPOS in '..\..\..\Fontes\ACBrSAT\ACBrSATExtratoESCPOS.pas';
+  ACBrTXTClass in '..\..\..\Fontes\ACBrTXT\ACBrTXTClass.pas',
+  ACBrTXTUtils in '..\..\..\Fontes\ACBrTXT\ACBrTXTUtils.pas';
 
 end.

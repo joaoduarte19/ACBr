@@ -32,6 +32,6 @@ requires
   ACBrSerial;
 
 contains
-  ACBrECFVirtualSAT in '..\..\..\Fontes\ACBrSAT\ACBrECFVirtualSAT.pas';
+  ACBrECFVirtualSAT in '..\..\..\..\Fontes\ACBrSAT\ACBrECFVirtualSAT\ACBrECFVirtualSAT.pas';
 
 end.
