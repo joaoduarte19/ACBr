@@ -47,11 +47,23 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/01/2015
+[*] Incluida as URLs de consulta da NFC-e para PB e RR.
+    por: Roberto Godinho
+		
 14/01/2015
 [*] correção para não popular campos que não existem em nf-e inferior a 3.10
 		http://www.projetoacbr.com.br/forum/index.php?/topic/19454-erro-em-nota-de-importa%C3%A7%C3%A3o-campo-vafrmm/
 		por: Juliomar Marchetti
 		
+20/01/2015
+[-] Correção de bug na impressão de evento com mais de 10 linhas.
+    por: regys.silveira
+
+08/01/2015
+[+] Adicionado o metodo de abertura da gaveta para impressoras bematech, epson e daruma
+    por: Regys Silveira
+
 05/01/2015
 [*] Correção na URL de produção do WebServices: NFeDistribuicaoDFe
     por: LVR
