@@ -2268,6 +2268,8 @@ begin
     ConsMDFeNaoEnc.TpAmb := TpcnTipoAmbiente(FConfiguracoes.WebServices.AmbienteCodigo - 1);
     ConsMDFeNaoEnc.CNPJ  := FCNPJ; // TMDFeConsultaMDFeNaoEnc(Self).CNPJ;
 
+    ConsMDFeNaoEnc.Gerador.Opcoes.RetirarAcentos := FConfiguracoes.Geral.RetirarAcentos;
+    
     ConsMDFeNaoEnc.GerarXML;
 
     // Atribuindo o XML para propriedade interna //
