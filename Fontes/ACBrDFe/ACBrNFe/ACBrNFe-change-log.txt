@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/01/2015
+[*] DANFe em Fortes Report para armamentos!
+    por: ncc.star
+
 23/01/2015
 [*] Incluida as URLs de consulta da NFC-e para PB e RR.
     por: Roberto Godinho
