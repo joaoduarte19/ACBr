@@ -7,8 +7,7 @@ unit PCNComum;
 interface
 
 uses
-  pcnAuxiliar, pcnCabecalho, pcnConversao, pcnGerador, pcnLeitor, 
-  pcnSignature, pcnValidador;
+  pcnAuxiliar, pcnCabecalho, pcnConversao, pcnGerador, pcnLeitor, pcnSignature;
 
 implementation
 

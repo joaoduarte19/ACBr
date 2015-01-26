@@ -74,6 +74,7 @@ type
     FLinhasBuffer : Integer;
 
     cCmdImpZera: String;
+    cCmdAbreGaveta: String;
     cCmdEspacoLinha: String;
     cCmdPagCod: String;
     cCmdImpNegrito: String;
@@ -109,6 +110,7 @@ type
 
     nColunasPapel: Integer;
     FConfigBarras: TACBrECFConfigBarras;
+    FUsaCodigoEanImpressao: Boolean;
 
     procedure InicializarComandos;
     procedure ImprimePorta(AString: AnsiString);
@@ -150,6 +152,7 @@ type
     procedure ImprimirRelatorio(const ATexto: TStrings; const AVias: Integer = 1;
       const ACortaPapel: Boolean = True);
     procedure CortarPapel;
+    procedure AbrirGaveta;
   published
     property Device: TACBrDevice read FDevice;
     property ConfigBarras: TACBrECFConfigBarras read FConfigBarras write FConfigBarras;
@@ -157,6 +160,7 @@ type
     property LinhasEntreCupons: Integer read FLinhasEntreCupons write FLinhasEntreCupons default 21;
     property ImprimeEmUmaLinha: Boolean read FImprimeEmUmaLinha write FImprimeEmUmaLinha default True;
     property ImprimeDescAcrescItem: Boolean read FImprimeDescAcrescItem write FImprimeDescAcrescItem default True;
+    property UsaCodigoEanImpressao: Boolean read FUsaCodigoEanImpressao write FUsaCodigoEanImpressao default False;
     property IgnorarTagsFormatacao: Boolean read FIgnorarTagsFormatacao write FIgnorarTagsFormatacao default False;
     property LinhasBuffer: Integer read FLinhasBuffer write FLinhasBuffer default 0;
   end;
@@ -424,8 +428,9 @@ begin
   if MarcaImpressora = iBematech then
   begin
     cCmdImpZera          := ESC + '@'#29#249#32#48;  // ESC + +'@' Inicializa impressora, demais selecionam ESC/Bema temporariamente
+    cCmdAbreGaveta       := ESC + 'v'#200;
     cCmdEspacoLinha      := ESC + '3'#14;  // Verificar comando BEMA/POS
-    cCmdPagCod           := ESC + 't'#8; // codepage UTF-8
+    cCmdPagCod           := ESC + 't'#8;   // codepage UTF-8
     cCmdImpNegrito       := ESC + 'E';
     cCmdImpFimNegrito    := ESC + 'F';
     cCmdImpExpandido     := ESC + 'W'#1;
@@ -460,6 +465,7 @@ begin
   else if MarcaImpressora = iDaruma then
   begin
     cCmdImpZera          := ESC + '@';
+    cCmdAbreGaveta       := ESC + 'p';
     cCmdEspacoLinha      := ESC + '2';
     cCmdPagCod           := ''; // pelo aplicativo da Daruma (Tool) selecione ISO 8859-1 (TODO: tentar implementar essa mudança via código)
     cCmdImpNegrito       := ESC + 'E';
@@ -495,30 +501,32 @@ begin
   end
   else if MarcaImpressora = iDiebold then
    begin
-     cCmdImpZera     := #27+'@';
-     cCmdEspacoLinha := #27+'3'+#14;
-     cCmdPagCod      := #27+'t'+#2;
-     cCmdImpNegrito  := #27+'E';
-     cCmdImpFimNegrito := #27+'F';
-     cCmdImpExpandido  := #27 +'A';
-     cCmdImpFimExpandido := #27+'B';
-     cCmdFonteNormal   := #20;
-     cCmdFontePequena  := #15;
-     cCmdAlinhadoEsquerda := #27#106#0;
-     cCmdAlinhadoCentro   := #27#106#1;
-     cCmdAlinhadoDireita  := #27#106#2;
-     cCmdCortaPapel       := #27#109;
+     cCmdImpZera          := ESC + '@';
+     cCmdAbreGaveta       := '';
+     cCmdEspacoLinha      := ESC + '3'+#14;
+     cCmdPagCod           := ESC + 't'+#2;
+     cCmdImpNegrito       := ESC + 'E';
+     cCmdImpFimNegrito    := ESC + 'F';
+     cCmdImpExpandido     := ESC + 'A';
+     cCmdImpFimExpandido  := ESC + 'B';
+     cCmdFonteNormal      := #20;
+     cCmdFontePequena     := #15;
+     cCmdAlinhadoEsquerda := ESC + #106#0;
+     cCmdAlinhadoCentro   := ESC + #106#1;
+     cCmdAlinhadoDireita  := ESC + #106#2;
+     cCmdCortaPapel       := ESC + #109;
      cCmdImprimeLogo      := '';
    end
   else
   begin
     cCmdImpZera          := ESC + '@';
+    cCmdAbreGaveta       := ESC + 'p' + #0 + #10 + #100;
     cCmdEspacoLinha      := ESC + '3'#14;
     cCmdPagCod           := ESC + 't'#39;
     cCmdImpNegrito       := ESC + 'E1';
     cCmdImpFimNegrito    := ESC + 'E2';
-    cCmdImpExpandido     := GS + '!'#16;
-    cCmdImpFimExpandido  := GS + '!'#0;
+    cCmdImpExpandido     := GS  + '!'#16;
+    cCmdImpFimExpandido  := GS  + '!'#0;
     cCmdFonteNormal      := ESC + 'M0';
     cCmdFontePequena     := ESC + 'M1';
     cCmdImpSublinhado    := ESC + '-'#1;
@@ -581,7 +589,11 @@ begin
   FBuffer.clear;
   FBuffer.Add(cCmdImpZera + cCmdEspacoLinha + cCmdPagCod + cCmdFonteNormal + cCmdAlinhadoCentro + cCmdImprimeLogo);
 
-  FBuffer.Add(cCmdAlinhadoCentro + cCmdImpNegrito + FpNFe.Emit.xNome + cCmdImpFimNegrito);
+  if Length ( Trim( FpNFe.Emit.xNome ) ) > nColunasPapel then
+    FBuffer.Add(cCmdAlinhadoCentro + cCmdImpNegrito + cCmdFontePequena + FpNFe.Emit.xNome + cCmdImpFimNegrito)
+  else
+    FBuffer.Add(cCmdAlinhadoCentro + cCmdImpNegrito + FpNFe.Emit.xNome + cCmdImpFimNegrito);
+
   FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(QuebraLinhas(
     Trim(FpNFe.Emit.EnderEmit.xLgr) + ', ' +
     Trim(FpNFe.Emit.EnderEmit.nro) + '  ' +
@@ -635,16 +647,20 @@ begin
   if ImprimeItens then
   begin
     FBuffer.Add(GetLinhaSimples);
-    FBuffer.Add(cCmdFonteNormal + ParseTextESCPOS('#|COD|DESCRIÇÃO|QTD|UN|VL UN R$|VL TOTAL R$'));
+    FBuffer.Add(cCmdFonteNormal + ParseTextESCPOS('#|CODIGO|DESCRIÇÃO|QTD|UN|VL UN R$|VL TOTAL R$'));
     FBuffer.Add(GetLinhaSimples);
 
     for i := 0 to FpNFe.Det.Count - 1 do
     begin
       sItem        := IntToStrZero(FpNFe.Det.Items[i].Prod.nItem, 3);
-      sCodigo      := Trim(FpNFe.Det.Items[i].Prod.cProd);
       sDescricao   := Trim(FpNFe.Det.Items[i].Prod.xProd);
       sUnidade     := Trim(FpNFe.Det.Items[i].Prod.uCom);
       sVlrProduto  := FormatFloat('#,###,##0.00', FpNFe.Det.Items[i].Prod.vProd);
+
+      if (Length( Trim( FpNFe.Det.Items[i].Prod.cEAN ) ) > 0) and (UsaCodigoEanImpressao) then
+        sCodigo := Trim(FpNFe.Det.Items[i].Prod.cEAN)
+      else
+        sCodigo := Trim(FpNFe.Det.Items[i].Prod.cProd);
 
       // formatar conforme configurado
       sVlrUnitario := DFeUtil.FormatFloat(FpNFe.Det.Items[i].Prod.VUnCom,
@@ -881,7 +897,7 @@ var
 begin
   FBuffer.Add(GetLinhaSimples);
   FBuffer.Add(cCmdAlinhadoCentro + ParseTextESCPOS('Consulta via leitor de QR Code'));
-  FBuffer.Add(' ');
+//  FBuffer.Add(' ');
 
   qrcode := NotaUtil.GetURLQRCode(
     FpNFe.ide.cUF,
@@ -937,8 +953,12 @@ begin
   FBuffer.Add(FLinhaCmd);
 
   // protocolo de autorização
-  FBuffer.Add(cCmdFontePequena + ParseTextESCPOS('Protocolo de Autorização'));
-  FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(Trim(FpNFe.procNFe.nProt) + ' ' + DFeUtil.SeSenao(FpNFe.procNFe.dhRecbto <> 0, DateTimeToStr(FpNFe.procNFe.dhRecbto), '')) + cCmdFonteNormal);
+  if FpNFe.Ide.tpEmis <> teOffLine then
+  begin
+    FBuffer.Add(cCmdFontePequena + ParseTextESCPOS('Protocolo de Autorização'));
+    FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(Trim(FpNFe.procNFe.nProt) + ' ' + DFeUtil.SeSenao(FpNFe.procNFe.dhRecbto <> 0, DateTimeToStr(FpNFe.procNFe.dhRecbto), '')) + cCmdFonteNormal);
+  end;
+
   FBuffer.Add(GetLinhaSimples);
 
   // sistema
@@ -1133,6 +1153,12 @@ procedure TACBrNFeDANFeESCPOS.CortarPapel;
 begin
   InicializarComandos;
   ImprimePorta(cCmdImpZera + cCmdEspacoLinha + cCmdPagCod + cCmdFonteNormal + cCmdCortaPapel);
+end;
+
+procedure TACBrNFeDANFeESCPOS.AbrirGaveta;
+begin
+  InicializarComandos;
+  ImprimePorta(cCmdImpZera + cCmdAbreGaveta);
 end;
 
 procedure TACBrNFeDANFeESCPOS.DoLinesChange(Sender: TObject);

@@ -36,7 +36,6 @@ contains
   pcnConversao in '..\..\..\Fontes\PCNComum\pcnConversao.pas',
   pcnGerador in '..\..\..\Fontes\PCNComum\pcnGerador.pas',
   pcnLeitor in '..\..\..\Fontes\PCNComum\pcnLeitor.pas',
-  pcnSignature in '..\..\..\Fontes\PCNComum\pcnSignature.pas',
-  pcnValidador in '..\..\..\Fontes\PCNComum\pcnValidador.pas';
+  pcnSignature in '..\..\..\Fontes\PCNComum\pcnSignature.pas';
 
 end.

@@ -53,12 +53,13 @@ interface
 
 uses
   Classes, Sysutils, Dialogs, Forms, StrUtils,
-  ACBrNFeUtil, ACBrNFeConfiguracoes, ACBrDFeUtil,
+  ACBrNFeUtil, ACBrNFeConfiguracoes, ACBrDFeConfiguracoes, ACBrDFeUtil,
   ACBrNFeDANFEClass,
-  smtpsend, ssl_openssl, mimemess, mimepart, // units para enviar email
   pcnNFe, pcnNFeR, pcnNFeW, pcnConversao, pcnAuxiliar, pcnLeitor;
 
 type
+
+  { NotaFiscal }
 
   NotaFiscal = class(TCollectionItem)
   private
@@ -119,7 +120,7 @@ type
 
   TNotasFiscais = class(TOwnedCollection)
   private
-    FConfiguracoes : TConfiguracoes;
+    FConfiguracoes : TConfiguracoesNFe;
     FACBrNFe : TComponent;
 
     function GetItem(Index: Integer): NotaFiscal;
@@ -140,7 +141,6 @@ type
     function Insert(Index: Integer): NotaFiscal;
 
     property Items[Index: Integer]: NotaFiscal read GetItem        write SetItem; default;
-    property Configuracoes: TConfiguracoes     read FConfiguracoes write FConfiguracoes;
 
     function GetNamePath: String; override;
     // Incluido o Parametro AGerarNFe que determina se após carregar os dados da NFe
@@ -152,28 +152,6 @@ type
     function SaveToTXT(PathArquivo: String = ''): Boolean;
 
     property ACBrNFe: TComponent read FACBrNFe;
-  end;
-
-  TSendMailThread = class(TThread)
-  private
-    FException : Exception;
-    //FOwner: NotaFiscal;
-
-    procedure DoHandleException;
-  public
-    OcorreramErros: Boolean;
-    Terminado: Boolean;
-    smtp : TSMTPSend;
-    sFrom : String;
-    sTo : String;
-    sCC : TStrings;
-    slmsg_Lines : TStrings;
-
-    constructor Create;
-    destructor Destroy; override;
-  protected
-    procedure Execute; override;
-    procedure HandleException;
   end;
 
 implementation
@@ -250,7 +228,7 @@ begin
      Result := True;
      ArqTXT := GerarXML(ArqXML, Alertas, SalvaTXT);
      if DFeUtil.EstaVazio(CaminhoArquivo) then
-        CaminhoArquivo := PathWithDelim(TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).Configuracoes.Geral.PathSalvar)+copy(NFe.infNFe.ID, (length(NFe.infNFe.ID)-44)+1, 44)+'-nfe.xml';
+        CaminhoArquivo := PathWithDelim(TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).Configuracoes.Arquivos.PathSalvar)+copy(NFe.infNFe.ID, (length(NFe.infNFe.ID)-44)+1, 44)+'-nfe.xml';
 
      if DFeUtil.EstaVazio(CaminhoArquivo) or not DirectoryExists(ExtractFilePath(CaminhoArquivo)) then
         raise EACBrNFeException.Create('Caminho Inválido: ' + CaminhoArquivo);
@@ -327,7 +305,7 @@ begin
           AnexosEmail.Add(NomeArq);
        end;
     end;
-    TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).EnviaEmail(sSmtpHost,
+    TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).EnviarEmail(sSmtpHost,
                 sSmtpPort,
                 sSmtpUser,
                 sSmtpPasswd,
@@ -367,16 +345,16 @@ var
 begin
   LocNFeW := TNFeW.Create(Self.NFe);
   try
-     VersaoStr := GetVersaoNFe( TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).Configuracoes.Geral.ModeloDF,
-                                TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).Configuracoes.Geral.VersaoDF,
-                                LayNfeRecepcao );
+     ////VersaoStr := GetVersaoNFe( TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).Configuracoes.Geral.ModeloDF,
+     ////                           TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).Configuracoes.Geral.VersaoDF,
+     ////                           LayNfeRecepcao );
 
      if VersaoStr = '' then
         raise EACBrNFeException.Create( 'Não existe versão do serviço "LayNfeRecepcao",'+
               ' para o modelo DF = '+ModeloDFToStr(TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).Configuracoes.Geral.ModeloDF)+
               ' e Versão = '+VersaoDFToStr(TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).Configuracoes.Geral.VersaoDF) );
 
-     NFe.infNFe.Versao := DFeUtil.StringToFloat(VersaoStr);
+     NFe.infNFe.Versao := StringToFloat(VersaoStr);
 
      LocNFeW.Opcoes.GerarTXTSimultaneamente := GerarTXT;
      LocNFeW.Gerador.Opcoes.FormatoAlerta   := TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).Configuracoes.Geral.FormatoAlerta;
@@ -418,12 +396,13 @@ end;
 constructor TNotasFiscais.Create(AOwner: TPersistent;
   ItemClass: TCollectionItemClass);
 begin
-  if not (AOwner is TACBrNFe ) then
+  if not (AOwner is TACBrNFe) then
      raise EACBrNFeException.Create( 'AOwner deve ser do tipo TACBrNFe');
 
   inherited;
 
   FACBrNFe := TACBrNFe( AOwner );
+  FConfiguracoes := TACBrNFe(FACBrNFe).Configuracoes;
 end;
 
 
@@ -449,15 +428,15 @@ begin
      {$ENDIF}
 
      Self.Items[i].Alertas := Alertas;
-     {$IFDEF ACBrNFeOpenSSL}
-      if not(NotaUtil.Assinar(ArqXML, FConfiguracoes.Certificados.Certificado , FConfiguracoes.Certificados.Senha, vAssinada, FMsg)) then
-         raise EACBrNFeException.Create('Falha ao assinar Nota Fiscal Eletrônica '+
-                                   IntToStr(Self.Items[i].NFe.Ide.nNF)+FMsg);
-     {$ELSE}
-      if not(NotaUtil.Assinar(ArqXML, FConfiguracoes.Certificados.GetCertificado , vAssinada, FMsg)) then
-         raise EACBrNFeException.Create('Falha ao assinar Nota Fiscal Eletrônica '+
-                                   IntToStr(Self.Items[i].NFe.Ide.nNF)+FMsg);
-     {$ENDIF}
+     ////{$IFDEF ACBrNFeOpenSSL}
+     //// if not(NotaUtil.Assinar(ArqXML, FConfiguracoes.Certificados.Certificado , FConfiguracoes.Certificados.Senha, vAssinada, FMsg)) then
+     ////    raise EACBrNFeException.Create('Falha ao assinar Nota Fiscal Eletrônica '+
+     ////                              IntToStr(Self.Items[i].NFe.Ide.nNF)+FMsg);
+     ////{$ELSE}
+     //// if not(NotaUtil.Assinar(ArqXML, FConfiguracoes.Certificados.GetCertificado , vAssinada, FMsg)) then
+     ////    raise EACBrNFeException.Create('Falha ao assinar Nota Fiscal Eletrônica '+
+     ////                              IntToStr(Self.Items[i].NFe.Ide.nNF)+FMsg);
+     ////{$ENDIF}
 
      vAssinada := StringReplace( vAssinada, '<'+ENCODING_UTF8_STD+'>', '', [rfReplaceAll] );
      vAssinada := StringReplace( vAssinada, '<'+XML_V01+'>', '', [rfReplaceAll] );
@@ -473,11 +452,11 @@ begin
 
      vAssinada := '<'+ENCODING_UTF8+'>' + vAssinada ;  // Sinaliza no Arquivo que o formato é UTF8, também evita novo UTF8Encode
 
-     if FConfiguracoes.Geral.Salvar then
-        FConfiguracoes.Geral.Save(StringReplace(Self.Items[i].NFe.infNFe.ID, 'NFe', '', [rfIgnoreCase])+'-nfe.xml', vAssinada);
-
-      if DFeUtil.NaoEstaVazio(Self.Items[i].NomeArq) then
-        FConfiguracoes.Geral.Save(ExtractFileName(Self.Items[i].NomeArq), vAssinada, ExtractFilePath(Self.Items[i].NomeArq));
+     ////if FConfiguracoes.Geral.Salvar then
+     ////   FConfiguracoes.Geral.Save(StringReplace(Self.Items[i].NFe.infNFe.ID, 'NFe', '', [rfIgnoreCase])+'-nfe.xml', vAssinada);
+     ////
+     //// if DFeUtil.NaoEstaVazio(Self.Items[i].NomeArq) then
+     ////   FConfiguracoes.Geral.Save(ExtractFileName(Self.Items[i].NomeArq), vAssinada, ExtractFilePath(Self.Items[i].NomeArq));
    end;
 end;
 
@@ -557,12 +536,12 @@ begin
     if pos('<Signature',Self.Items[i].XMLOriginal) = 0 then
       Assinar;
 
-    NotaEhValida := NotaUtil.Valida(('<NFe xmlns' +
-                    RetornarConteudoEntre(Self.Items[i].XMLOriginal,
-                                   '<NFe xmlns', '</NFe>')+ '</NFe>'),
-                    FMsg, Self.FConfiguracoes.Geral.PathSchemas,
-                    Self.FConfiguracoes.Geral.ModeloDF,
-                    Self.FConfiguracoes.Geral.VersaoDF) ;
+    ////NotaEhValida := NotaUtil.Valida(('<NFe xmlns' +
+    ////                RetornarConteudoEntre(Self.Items[i].XMLOriginal,
+    ////                               '<NFe xmlns', '</NFe>')+ '</NFe>'),
+    ////                FMsg, Self.FConfiguracoes.Geral.PathSchemas,
+    ////                Self.FConfiguracoes.Geral.ModeloDF,
+    ////                Self.FConfiguracoes.Geral.VersaoDF) ;
 
     if not NotaEhValida then
     begin
@@ -588,13 +567,13 @@ begin
   Msg    := '';
   for i:= 0 to Self.Count-1 do
   begin
-    if not(NotaUtil.ValidaAssinatura(Self.Items[i].XMLOriginal, FMsg)) then
-    begin
-      Result := False;
-      Msg := Msg + 'Falha na validação da assinatura da nota '+
-             IntToStr(Self.Items[i].NFe.Ide.nNF)+sLineBreak+FMsg+sLineBreak;
-      Result := False;
-    end
+    ////if not(NotaUtil.ValidaAssinatura(Self.Items[i].XMLOriginal, FMsg)) then
+    ////begin
+    ////  Result := False;
+    ////  Msg := Msg + 'Falha na validação da assinatura da nota '+
+    ////         IntToStr(Self.Items[i].NFe.Ide.nNF)+sLineBreak+FMsg+sLineBreak;
+    ////  Result := False;
+    ////end
   end;
 end;
 
@@ -905,7 +884,7 @@ begin
     for i:= 0 to TACBrNFe( FACBrNFe ).NotasFiscais.Count-1 do
      begin
         if DFeUtil.EstaVazio(PathArquivo) then
-           PathArquivo := TACBrNFe( FACBrNFe ).Configuracoes.Geral.PathSalvar
+           PathArquivo := TACBrNFe( FACBrNFe ).Configuracoes.Arquivos.PathSalvar
         else
            PathArquivo := ExtractFilePath(PathArquivo);
         CaminhoArquivo := PathWithDelim(PathArquivo)+StringReplace(TACBrNFe( FACBrNFe ).NotasFiscais.Items[i].NFe.infNFe.ID, 'NFe', '', [rfIgnoreCase])+'-NFe.xml';
@@ -949,7 +928,7 @@ begin
       end;
 
       if DFeUtil.EstaVazio(PathArquivo) then
-        PathArquivo := PathWithDelim(TACBrNFe( FACBrNFe ).Configuracoes.Geral.PathSalvar)+'NFe.TXT';
+        PathArquivo := PathWithDelim(TACBrNFe( FACBrNFe ).Configuracoes.Arquivos.PathSalvar)+'NFe.TXT';
       loSTR.SaveToFile(PathArquivo);
       Result:=True;
     end;
@@ -957,6 +936,35 @@ begin
     loSTR.free;
   end;
 end;
+
+end.
+
+
+(*  TODO: para onde vai
+
+TSendMailThread = class(TThread)
+private
+  FException : Exception;
+  //FOwner: NotaFiscal;
+
+  procedure DoHandleException;
+public
+  OcorreramErros: Boolean;
+  Terminado: Boolean;
+  smtp : TSMTPSend;
+  sFrom : String;
+  sTo : String;
+  sCC : TStrings;
+  slmsg_Lines : TStrings;
+
+  constructor Create;
+  destructor Destroy; override;
+protected
+  procedure Execute; override;
+  procedure HandleException;
+end;
+
+
 
 { TSendMailThread }
 
@@ -1033,7 +1041,7 @@ begin
       Terminado := True;
     end;
   except
-    Terminado := True; 
+    Terminado := True;
     HandleException;
   end;
 end;
@@ -1050,4 +1058,5 @@ begin
   end;
 end;
 
-end.
+
+*)

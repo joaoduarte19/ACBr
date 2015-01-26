@@ -941,29 +941,6 @@ end;
 
 
 
-class function DFeUtil.StringToFloat(AValue: String): Double;
-begin
-  AValue := Trim( AValue );
-
-  if DecimalSeparator <> '.' then
-     AValue := StringReplace(AValue,'.',DecimalSeparator,[rfReplaceAll]);
-
-  if DecimalSeparator <> ',' then
-     AValue := StringReplace(AValue,',',DecimalSeparator,[rfReplaceAll]);
-
-  Result := StrToFloat(AValue);
-end;
-
-class function DFeUtil.StringToFloatDef(const AValue: String;
-  const DefaultValue: Double): Double;
-begin
-  try
-     Result := StringToFloat( AValue ) ;
-  except
-     Result := DefaultValue ;
-  end ;
-end;
-
 
 class function DFeUtil.FormatarCEP(AValue: String): String;
 begin

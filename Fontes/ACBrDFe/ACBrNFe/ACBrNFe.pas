@@ -42,30 +42,19 @@ interface
 
 uses
   Classes, SysUtils,
-  pcnNFe, pcnConversao, pcnCCeNFe, pcnRetCCeNFe,
-  pcnEnvEventoNFe, pcnRetEnvEventoNFe, pcnInutNFe, pcnRetInutNFe,
+  ACBrDFe, ACBrDFeConfiguracoes,
+  ACBrNFeConfiguracoes, ACBrNFeWebServices, ACBrNFeNotasFiscais,
+  ACBrNFeDANFEClass,
+  pcnNFe, pcnConversao, pcnCCeNFe,
+  pcnEnvEventoNFe, pcnInutNFe,
   pcnDownloadNFe,
-  {$IFNDEF NOGUI}
-   {$IFDEF CLX} QDialogs, QForms,{$ELSE} Dialogs, Forms,{$ENDIF}
-  {$ENDIF}
-  ACBrNFeNotasFiscais, ACBrNFeConfiguracoes, ACBrNFeWebServices,
-  ACBrNFeUtil, ACBrDFeUtil,
-  ACBrNFeDANFEClass, ACBrUtil,
-  smtpsend, ssl_openssl, mimemess, mimepart; // units para enviar email
+  ACBrNFeUtil, ACBrDFeUtil, ACBrUtil;
 
 const
-  ACBRNFE_VERSAO = '0.5.0a';
+  ACBRNFE_VERSAO = '0.6.0a';
 
 type
-  TACBrNFeAboutInfo = (ACBrNFeAbout);
-
-  EACBrNFeException = class(Exception)
-  public
-    constructor Create(const Msg: String);
-  end;
-
-  // Evento para gerar log das mensagens do Componente
-  TACBrNFeLog = procedure(const Mensagem: String) of object;
+  EACBrNFeException = class(EACBrDFeException);
 
   {Carta de Correção}
   TCartaCorrecao = class(TComponent)
@@ -89,9 +78,10 @@ type
     property Download: TDownloadNFe read FDownload write FDownload;
   end;
 
-  TACBrNFe = class(TComponent)
+  { TACBrNFe }
+
+  TACBrNFe = class(TACBrDFe)
   private
-    fsAbout: TACBrNFeAboutInfo;
     FDANFE: TACBrNFeDANFEClass;
     FNotasFiscais: TNotasFiscais;
     FCartaCorrecao: TCartaCorrecao;
@@ -99,40 +89,35 @@ type
     FInutNFe: TInutNFe;
     FDownloadNFe: TDownload;
     FWebServices: TWebServices;
-    FConfiguracoes: TConfiguracoes;
     FStatus: TStatusACBrNFe;
-    FOnStatusChange: TNotifyEvent;
-    FOnGerarLog: TACBrNFeLog;
 
+    function GetConfiguracoes: TConfiguracoesNFe;
+    procedure SetConfiguracoes(AValue: TConfiguracoesNFe);
     procedure SetDANFE(const Value: TACBrNFeDANFEClass);
-    procedure EnviaEmailThread(
-      const sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo, sAssunto: String;
-      sMensagem: TStrings; SSL: boolean; sCC, Anexos: TStrings;
-      PedeConfirma, AguardarEnvio: boolean; NomeRemetente: String;
-      TLS: boolean; StreamNFe: TStringStream; NomeArq: String; HTML: boolean = False);
-    procedure EnviarEmailNormal(
-      const sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo, sAssunto: String;
-      sMensagem: TStrings; SSL: boolean; sCC, Anexos: TStrings;
-      PedeConfirma, AguardarEnvio: boolean; NomeRemetente: String;
-      TLS: boolean; StreamNFe: TStringStream; NomeArq: String; HTML: boolean = False);
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+
+    function GetAbout: String; override;
+    function GetNomeArquivoServicos: String; override;
+
+    function CreateConfiguracoes: TConfiguracoes; override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    function Enviar(ALote: integer; Imprimir: boolean = True;
-      Sincrono: boolean = False): boolean; overload;
-    function Enviar(ALote: String; Imprimir: boolean = True;
-      Sincrono: boolean = False): boolean; overload;
-    function Cancelamento(AJustificativa: WideString; ALote: integer = 0): boolean;
-    function Consultar: boolean;
-    function EnviarCartaCorrecao(idLote: integer): boolean;
-    function EnviarEventoNFe(idLote: integer): boolean;
-    function ConsultaNFeDest(CNPJ: String;
-      IndNFe: TpcnIndicadorNFe;
-      IndEmi: TpcnIndicadorEmissor;
-      ultNSU: String): boolean;
-    function Download: boolean;
+    function Enviar(ALote: integer; Imprimir: Boolean = True;
+      Sincrono: Boolean = False): Boolean; overload;
+    function Enviar(ALote: String; Imprimir: Boolean = True;
+      Sincrono: Boolean = False): Boolean; overload;
+    function Cancelamento(AJustificativa: WideString; ALote: integer = 0): Boolean;
+    function Consultar: Boolean;
+    function EnviarCartaCorrecao(idLote: integer): Boolean;
+    function EnviarEventoNFe(idLote: integer): Boolean;
+    function ConsultaNFeDest(CNPJ: String; IndNFe: TpcnIndicadorNFe;
+      IndEmi: TpcnIndicadorEmissor; ultNSU: String): Boolean;
+    function Download: Boolean;
+
+    property Configuracoes: TConfiguracoesNFe
+      read GetConfiguracoes write SetConfiguracoes;
 
     property WebServices: TWebServices read FWebServices write FWebServices;
     property NotasFiscais: TNotasFiscais read FNotasFiscais write FNotasFiscais;
@@ -147,76 +132,19 @@ type
     procedure ImprimirEventoPDF;
     procedure ImprimirInutilizacao;
     procedure ImprimirInutilizacaoPDF;
-    procedure EnviarEmailEvento(
-      const sSmtpHost, sSmtpPort,
-      sSmtpUser, sSmtpPasswd,
-      sFrom, sTo,
-      sAssunto: String;
-      sMensagem: TStrings;
-      SSL: boolean;
-      EnviaPDF: boolean = True;
-      sCC: TStrings = nil;
-      Anexos: TStrings = nil;
-      PedeConfirma: boolean = False;
-      AguardarEnvio: boolean = False;
-      NomeRemetente: String = '';
-      TLS: boolean = True;
-      UsarThread: boolean = True;
-      HTML: boolean = False);
 
-    procedure EnviaEmail(const sSmtpHost, sSmtpPort,
-      sSmtpUser,
-      sSmtpPasswd, sFrom,
-      sTo, sAssunto: String;
-      sMensagem: TStrings;
-      SSL: boolean;
-      sCC: TStrings = nil;
-      Anexos: TStrings = nil;
-      PedeConfirma: boolean = False;
-      AguardarEnvio: boolean = False;
-      NomeRemetente: String = '';
-      TLS: boolean = True;
-      StreamNFe: TStringStream = nil;
-      NomeArq: String = '';
-      UsarThread: boolean = True;
-      HTML: boolean = False);
-
-    function AdministrarCSC(ARaizCNPJ: String;
-      AIndOP: TpcnIndOperacao;
-      AIdCSC: integer;
-      ACodigoCSC: String): boolean;
+    function AdministrarCSC(ARaizCNPJ: String; AIndOP: TpcnIndOperacao;
+      AIdCSC: integer; ACodigoCSC: String): Boolean;
     function DistribuicaoDFe(AcUFAutor: integer;
-      ACNPJCPF, AultNSU,
-      ANSU: String): boolean;
+      ACNPJCPF, AultNSU, ANSU: String): Boolean;
   published
-    property Configuracoes: TConfiguracoes read FConfiguracoes write FConfiguracoes;
-    property OnStatusChange: TNotifyEvent read FOnStatusChange write FOnStatusChange;
     property DANFE: TACBrNFeDANFEClass read FDANFE write SetDANFE;
-    property AboutACBrNFe: TACBrNFeAboutInfo read fsAbout
-      write fsAbout stored False;
-    property OnGerarLog: TACBrNFeLog read FOnGerarLog write FOnGerarLog;
   end;
 
-procedure ACBrAboutDialog;
 
 implementation
 
-procedure ACBrAboutDialog;
-var
-  Msg: String;
-begin
-  Msg := ACBrStr('Componente ACBrNFe2' + #10 + 'Versão: ' + ACBRNFE_VERSAO + #10 + #10 +
-    'Automação Comercial Brasil' + #10 + #10 +
-    'http://acbr.sourceforge.net' + #10 + #10 + 'Projeto Cooperar - PCN' + #10 + #10 +
-    'http://www.projetocooperar.org/pcn/');
-
-
-  {$IFDEF NOGUI}
-  writeln( Msg )
-  {$ELSE}
-  MessageDlg(Msg, mtInformation, [mbOK], 0);
-  {$ENDIF}
-end;
+uses strutils;
 
 { TACBrNFe }
 
@@ -224,37 +152,16 @@ constructor TACBrNFe.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-  FConfiguracoes := TConfiguracoes.Create(self);
-  FConfiguracoes.Name := 'Configuracoes';
-
-  {$IFDEF COMPILER6_UP}
-  FConfiguracoes.SetSubComponent(True);{ para gravar no DFM/XFM }
-  {$ENDIF}
-
   FNotasFiscais := TNotasFiscais.Create(Self, NotaFiscal);
-  FNotasFiscais.Configuracoes := FConfiguracoes;
   FCartaCorrecao := TCartaCorrecao.Create(Self);
   FEventoNFe := TEventoNFe.Create;
   FInutNFe := TInutNFe.Create;
   FDownloadNFe := TDownload.Create(Self);
   FWebServices := TWebServices.Create(Self);
-
-  if FConfiguracoes.WebServices.Tentativas <= 0 then
-    FConfiguracoes.WebServices.Tentativas := 5;
-
-  if FConfiguracoes.Geral.IniFinXMLSECAutomatico then
-    NotaUtil.OpenSSL_InitXmlSec;
-
-  FOnGerarLog := nil;
 end;
 
 destructor TACBrNFe.Destroy;
 begin
-  {$IFDEF ACBrNFeOpenSSL}
-  if FConfiguracoes.Geral.IniFinXMLSECAutomatico then
-    NotaUtil.ShutDownXmlSec;
-  {$ENDIF}
-  FConfiguracoes.Free;
   FNotasFiscais.Free;
   FCartaCorrecao.Free;
   FEventoNFe.Free;
@@ -272,6 +179,22 @@ begin
   if (Operation = opRemove) and (FDANFE <> nil) and
     (AComponent is TACBrNFeDANFEClass) then
     FDANFE := nil;
+end;
+
+function TACBrNFe.GetAbout: String;
+begin
+  Result := 'ACBrNFe Ver: ' + ACBRNFE_VERSAO;
+end;
+
+function TACBrNFe.GetNomeArquivoServicos: String;
+begin
+  Result := 'ACBrServicos' + IfThen(Configuracoes.Geral.ModeloDF =
+    moNFe, 'NFe', 'NFCe') + '.ini';
+end;
+
+function TACBrNFe.CreateConfiguracoes: TConfiguracoes;
+begin
+  Result := TConfiguracoesNFe.Create(Self);
 end;
 
 procedure TACBrNFe.SetDANFE(const Value: TACBrNFeDANFEClass);
@@ -298,27 +221,32 @@ begin
   end;
 end;
 
+function TACBrNFe.GetConfiguracoes: TConfiguracoesNFe;
+begin
+  Result := TConfiguracoesNFe(FPConfiguracoes);
+end;
+
+procedure TACBrNFe.SetConfiguracoes(AValue: TConfiguracoesNFe);
+begin
+  FPConfiguracoes := AValue;
+end;
+
 procedure TACBrNFe.SetStatus(const stNewStatus: TStatusACBrNFe);
 begin
   if stNewStatus <> FStatus then
   begin
     FStatus := stNewStatus;
-    if Assigned(fOnStatusChange) then
-      FOnStatusChange(Self);
+    if Assigned(OnStatusChange) then
+      OnStatusChange(Self);
   end;
 end;
 
-function TACBrNFe.Cancelamento(AJustificativa: WideString;
-  ALote: integer = 0): boolean;
+function TACBrNFe.Cancelamento(AJustificativa: WideString; ALote: integer = 0): Boolean;
 var
   i: integer;
 begin
   if Self.NotasFiscais.Count = 0 then
-  begin
-    if Assigned(Self.OnGerarLog) then
-      Self.OnGerarLog('ERRO: Nenhuma Nota Fiscal Eletrônica Informada!');
-    raise EACBrNFeException.Create('Nenhuma Nota Fiscal Eletrônica Informada!');
-  end;
+    GerarException('ERRO: Nenhuma Nota Fiscal Eletrônica Informada!');
 
   for i := 0 to self.NotasFiscais.Count - 1 do
   begin
@@ -351,16 +279,12 @@ begin
   Result := True;
 end;
 
-function TACBrNFe.Consultar: boolean;
+function TACBrNFe.Consultar: Boolean;
 var
   i: integer;
 begin
   if Self.NotasFiscais.Count = 0 then
-  begin
-    if Assigned(Self.OnGerarLog) then
-      Self.OnGerarLog('ERRO: Nenhuma Nota Fiscal Eletrônica Informada!');
-    raise EACBrNFeException.Create('Nenhuma Nota Fiscal Eletrônica Informada!');
-  end;
+    GerarException('ERRO: Nenhuma Nota Fiscal Eletrônica Informada!');
 
   for i := 0 to Self.NotasFiscais.Count - 1 do
   begin
@@ -371,38 +295,22 @@ begin
   Result := True;
 end;
 
-function TACBrNFe.Enviar(ALote: integer;
-  Imprimir: boolean = True;
-  Sincrono: boolean = False): boolean;
+function TACBrNFe.Enviar(ALote: integer; Imprimir: Boolean = True;
+  Sincrono: Boolean = False): Boolean;
 begin
   Result := Enviar(IntToStr(ALote), Imprimir, Sincrono);
 end;
 
-function TACBrNFe.Enviar(ALote: String; Imprimir: boolean;
-  Sincrono: boolean): boolean;
+function TACBrNFe.Enviar(ALote: String; Imprimir: Boolean; Sincrono: Boolean): Boolean;
 var
   i: integer;
 begin
   if NotasFiscais.Count <= 0 then
-  begin
-    if Assigned(Self.OnGerarLog) then
-      Self.OnGerarLog('ERRO: Nenhuma NF-e adicionada ao Lote');
-    raise EACBrNFeException.Create('ERRO: Nenhuma NF-e adicionada ao Lote');
-    exit;
-  end;
+    GerarException('ERRO: Nenhuma NF-e adicionada ao Lote');
 
   if NotasFiscais.Count > 50 then
-  begin
-    if Assigned(Self.OnGerarLog) then
-      Self.OnGerarLog('ERRO: Conjunto de NF-e transmitidas (máximo de 50 NF-e)' +
-        ' excedido. Quantidade atual: ' +
-        IntToStr(NotasFiscais.Count));
-    raise EACBrNFeException.Create('ERRO: Conjunto de NF-e transmitidas ' +
-      '(máximo de 50 NF-e) excedido. ' +
-      'Quantidade atual: ' +
-      IntToStr(NotasFiscais.Count));
-    exit;
-  end;
+    GerarException('ERRO: Conjunto de NF-e transmitidas (máximo de 50 NF-e)' +
+      ' excedido. Quantidade atual: ' + IntToStr(NotasFiscais.Count));
 
   NotasFiscais.Assinar;
   NotasFiscais.Valida;
@@ -423,7 +331,7 @@ begin
   end;
 end;
 
-function TACBrNFe.EnviarCartaCorrecao(idLote: integer): boolean;
+function TACBrNFe.EnviarCartaCorrecao(idLote: integer): Boolean;
 var
   i: integer;
 begin
@@ -456,28 +364,16 @@ begin
   Result := EnviarEventoNFe(idLote);
 end;
 
-function TACBrNFe.EnviarEventoNFe(idLote: integer): boolean;
+function TACBrNFe.EnviarEventoNFe(idLote: integer): Boolean;
 var
   i: integer;
 begin
   if EventoNFe.Evento.Count <= 0 then
-  begin
-    if Assigned(Self.OnGerarLog) then
-      Self.OnGerarLog('ERRO: Nenhum Evento adicionado ao Lote');
-
-    raise EACBrNFeException.Create('ERRO: Nenhum Evento adicionado ao Lote');
-  end;
+    GerarException('ERRO: Nenhum Evento adicionado ao Lote');
 
   if EventoNFe.Evento.Count > 20 then
-  begin
-    if Assigned(Self.OnGerarLog) then
-      Self.OnGerarLog('ERRO: Conjunto de Eventos transmitidos (máximo de 20) ' +
-        'excedido. Quantidade atual: ' +
-        IntToStr(EventoNFe.Evento.Count));
-    raise EACBrNFeException.Create('ERRO: Conjunto de Eventos transmitidos ' +
-      '(máximo de 20) excedido. Quantidade atual: ' +
-      IntToStr(EventoNFe.Evento.Count));
-  end;
+    GerarException('ERRO: Conjunto de Eventos transmitidos (máximo de 20) ' +
+      'excedido. Quantidade atual: ' + IntToStr(EventoNFe.Evento.Count));
 
   WebServices.EnvEvento.idLote := idLote;
 
@@ -496,9 +392,7 @@ begin
         if trim(EventoNFe.Evento.Items[i].InfEvento.chNfe) = '' then
           EventoNFe.Evento.Items[i].InfEvento.chNfe :=
             copy(self.NotasFiscais.Items[i].NFe.infNFe.ID,
-            (length(
-            self.NotasFiscais.Items[i].NFe.infNFe.ID) - 44) + 1,
-            44);
+            (length(self.NotasFiscais.Items[i].NFe.infNFe.ID) - 44) + 1, 44);
 
         if trim(EventoNFe.Evento.Items[i].infEvento.detEvento.nProt) = '' then
         begin
@@ -527,17 +421,11 @@ begin
   Result := WebServices.EnvEvento.Executar;
 
   if not Result then
-  begin
-    if Assigned(Self.OnGerarLog) then
-      Self.OnGerarLog(WebServices.EnvEvento.Msg);
-    raise EACBrNFeException.Create(WebServices.EnvEvento.Msg);
-  end;
+    GerarException(WebServices.EnvEvento.Msg);
 end;
 
-function TACBrNFe.ConsultaNFeDest(CNPJ: String;
-  IndNFe: TpcnIndicadorNFe;
-  IndEmi: TpcnIndicadorEmissor;
-  ultNSU: String): boolean;
+function TACBrNFe.ConsultaNFeDest(CNPJ: String; IndNFe: TpcnIndicadorNFe;
+  IndEmi: TpcnIndicadorEmissor; ultNSU: String): Boolean;
 begin
   WebServices.ConsNFeDest.CNPJ := CNPJ;
   WebServices.ConsNFeDest.indNFe := IndNFe;
@@ -547,23 +435,15 @@ begin
   Result := WebServices.ConsNFeDest.Executar;
 
   if not Result then
-  begin
-    if Assigned(Self.OnGerarLog) then
-      Self.OnGerarLog(WebServices.ConsNFeDest.Msg);
-    raise EACBrNFeException.Create(WebServices.ConsNFeDest.Msg);
-  end;
+    GerarException(WebServices.ConsNFeDest.Msg);
 end;
 
-function TACBrNFe.Download: boolean;
+function TACBrNFe.Download: Boolean;
 begin
   Result := WebServices.DownloadNFe.Executar;
 
   if not Result then
-  begin
-    if Assigned(Self.OnGerarLog) then
-      Self.OnGerarLog(WebServices.DownloadNFe.Msg);
-    raise EACBrNFeException.Create(WebServices.DownloadNFe.Msg);
-  end;
+    GerarException(WebServices.DownloadNFe.Msg);
 end;
 
 procedure TACBrNFe.ImprimirEvento;
@@ -598,307 +478,8 @@ begin
     DANFE.ImprimirINUTILIZACAOPDF(nil);
 end;
 
-procedure TACBrNFe.EnviarEmailNormal(
-  const sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo, sAssunto: String;
-  sMensagem: TStrings; SSL: boolean; sCC, Anexos: TStrings;
-  PedeConfirma, AguardarEnvio: boolean; NomeRemetente: String;
-  TLS: boolean; StreamNFe: TStringStream; NomeArq: String; HTML: boolean);
-var
-  smtp: TSMTPSend;
-  msg_lines: TStringList;
-  m: TMimemess;
-  p: TMimepart;
-  I: integer;
-  CorpoEmail: TStringList;
-begin
-  SetStatus(stNFeEmail);
-
-  msg_lines := TStringList.Create;
-  CorpoEmail := TStringList.Create;
-  smtp := TSMTPSend.Create;
-  m := TMimemess.Create;
-
-  try
-    p := m.AddPartMultipart('mixed', nil);
-    if sMensagem <> nil then
-    begin
-      //        CorpoEmail.Text := sMensagem.Text;
-      //        m.AddPartText(CorpoEmail, p);
-      if HTML then
-        m.AddPartHTML(sMensagem, p)
-      else
-        m.AddPartText(sMensagem, p);
-    end;
-
-    if StreamNFe <> nil then
-      m.AddPartBinary(StreamNFe, NomeArq, p);
-
-    if assigned(Anexos) then
-    begin
-      for i := 0 to Anexos.Count - 1 do
-      begin
-        m.AddPartBinaryFromFile(Anexos[i], p);
-      end;
-    end;
-
-    m.header.tolist.add(sTo);
-
-    if Trim(NomeRemetente) <> '' then
-      m.header.From := Format('%s<%s>', [NomeRemetente, sFrom])
-    else
-      m.header.From := sFrom;
-
-    m.header.subject := sAssunto;
-    m.EncodeMessage;
-    msg_lines.Add(m.Lines.Text);
-
-    smtp.UserName := sSmtpUser;
-    smtp.Password := sSmtpPasswd;
-    smtp.TargetHost := sSmtpHost;
-    smtp.TargetPort := sSmtpPort;
-    smtp.FullSSL := SSL;
-    // smtp.AutoTLS  := SSL; ?
-    smtp.AutoTLS := TLS;
-
-    if (TLS) then
-      smtp.StartTLS;
-
-    if not smtp.Login then
-      raise Exception.Create('SMTP ERROR: Login: ' + smtp.EnhCodeString +
-        sLineBreak + smtp.FullResult.Text);
-
-    if not smtp.MailFrom(sFrom, Length(sFrom)) then
-      raise Exception.Create('SMTP ERROR: MailFrom: ' + smtp.EnhCodeString +
-        sLineBreak + smtp.FullResult.Text);
-
-    if not smtp.MailTo(sTo) then
-      raise Exception.Create('SMTP ERROR: MailTo: ' + smtp.EnhCodeString +
-        sLineBreak + smtp.FullResult.Text);
-
-    if sCC <> nil then
-    begin
-      for I := 0 to sCC.Count - 1 do
-      begin
-        if not smtp.MailTo(sCC.Strings[i]) then
-          raise Exception.Create('SMTP ERROR: MailTo: ' + smtp.EnhCodeString +
-            sLineBreak + smtp.FullResult.Text);
-      end;
-    end;
-
-    if not smtp.MailData(msg_lines) then
-      raise Exception.Create('SMTP ERROR: MailData: ' + smtp.EnhCodeString +
-        sLineBreak + smtp.FullResult.Text);
-
-    if not smtp.Logout then
-      raise Exception.Create('SMTP ERROR: Logout: ' + smtp.EnhCodeString +
-        sLineBreak + smtp.FullResult.Text);
-  finally
-    msg_lines.Free;
-    CorpoEmail.Free;
-    smtp.Free;
-    m.Free;
-    SetStatus(stIdle);
-  end;
-end;
-
-procedure TACBrNFe.EnviaEmailThread(
-  const sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo, sAssunto: String;
-  sMensagem: TStrings; SSL: boolean; sCC, Anexos: TStrings;
-  PedeConfirma, AguardarEnvio: boolean; NomeRemetente: String;
-  TLS: boolean; StreamNFe: TStringStream; NomeArq: String; HTML: boolean = False);
-var
-  ThreadSMTP: TSendMailThread;
-  m: TMimemess;
-  p: TMimepart;
-  i: integer;
-begin
-  m := TMimemess.Create;
-  ThreadSMTP := TSendMailThread.Create;  // Não Libera, pois usa FreeOnTerminate := True;
-
-  try
-    p := m.AddPartMultipart('mixed', nil);
-    if sMensagem <> nil then
-    begin
-      if HTML then
-        m.AddPartHTML(sMensagem, p)
-      else
-        m.AddPartText(sMensagem, p);
-    end;
-
-    if StreamNFe <> nil then
-      m.AddPartBinary(StreamNFe, NomeArq, p);
-
-    if assigned(Anexos) then
-    begin
-      for i := 0 to Anexos.Count - 1 do
-      begin
-        m.AddPartBinaryFromFile(Anexos[i], p);
-      end;
-    end;
-
-    m.header.tolist.add(sTo);
-
-    if Trim(NomeRemetente) <> '' then
-      m.header.From := Format('%s<%s>', [NomeRemetente, sFrom])
-    else
-      m.header.From := sFrom;
-
-    m.header.subject := sAssunto;
-    m.Header.ReplyTo := sFrom;
-
-    if PedeConfirma then
-      m.Header.CustomHeaders.Add('Disposition-Notification-To: ' + sFrom);
-
-    m.EncodeMessage;
-
-    ThreadSMTP.sFrom := sFrom;
-    ThreadSMTP.sTo := sTo;
-
-    if sCC <> nil then
-      ThreadSMTP.sCC.AddStrings(sCC);
-
-    ThreadSMTP.slmsg_Lines.AddStrings(m.Lines);
-
-    ThreadSMTP.smtp.UserName := sSmtpUser;
-    ThreadSMTP.smtp.Password := sSmtpPasswd;
-    ThreadSMTP.smtp.TargetHost := sSmtpHost;
-
-    if not DFeUtil.EstaVazio(sSmtpPort) then     // Usa default
-      ThreadSMTP.smtp.TargetPort := sSmtpPort;
-
-    ThreadSMTP.smtp.FullSSL := SSL;
-    ThreadSMTP.smtp.AutoTLS := TLS;
-
-    if (TLS) then
-      ThreadSMTP.smtp.StartTLS;
-
-    SetStatus(stNFeEmail);
-    ThreadSMTP.Resume; // inicia a thread
-
-    if AguardarEnvio then
-    begin
-      repeat
-        Sleep(1000);
-        Application.ProcessMessages;
-      until ThreadSMTP.Terminado;
-    end;
-
-    SetStatus(stIdle);
-  finally
-    m.Free;
-  end;
-end;
-
-procedure TACBrNFe.EnviaEmail(
-  const sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo, sAssunto: String;
-  sMensagem: TStrings; SSL: boolean; sCC, Anexos: TStrings;
-  PedeConfirma, AguardarEnvio: boolean; NomeRemetente: String;
-  TLS: boolean; StreamNFe: TStringStream; NomeArq: String;
-  UsarThread: boolean; HTML: boolean);
-begin
-  if UsarThread then
-  begin
-    EnviaEmailThread(
-      sSmtpHost,
-      sSmtpPort,
-      sSmtpUser,
-      sSmtpPasswd,
-      sFrom,
-      sTo,
-      sAssunto,
-      sMensagem,
-      SSL,
-      sCC,
-      Anexos,
-      PedeConfirma,
-      AguardarEnvio,
-      NomeRemetente,
-      TLS,
-      StreamNFe,
-      NomeArq,
-      HTML
-      );
-  end
-  else
-  begin
-    EnviarEmailNormal(
-      sSmtpHost,
-      sSmtpPort,
-      sSmtpUser,
-      sSmtpPasswd,
-      sFrom,
-      sTo,
-      sAssunto,
-      sMensagem,
-      SSL,
-      sCC,
-      Anexos,
-      PedeConfirma,
-      AguardarEnvio,
-      NomeRemetente,
-      TLS,
-      StreamNFe,
-      NomeArq,
-      HTML
-      );
-  end;
-end;
-
-procedure TACBrNFe.EnviarEmailEvento(
-  const sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo, sAssunto: String;
-  sMensagem: TStrings; SSL, EnviaPDF: boolean; sCC, Anexos: TStrings;
-  PedeConfirma, AguardarEnvio: boolean; NomeRemetente: String;
-  TLS: boolean; UsarThread: boolean; HTML: boolean);
-var
-  NomeArq: String;
-  AnexosEmail: TStrings;
-begin
-  AnexosEmail := TStringList.Create;
-
-  try
-    AnexosEmail.Clear;
-
-    if Anexos <> nil then
-      AnexosEmail.Text := Anexos.Text;
-
-    // AnexosEmail.Add('');
-    if (EnviaPDF) then
-    begin
-      if DANFE <> nil then
-      begin
-        ImprimirEventoPDF;
-        NomeArq := OnlyNumber(EventoNFe.Evento[0].InfEvento.id);
-        NomeArq := PathWithDelim(DANFE.PathPDF) + NomeArq + '-procEventoNFe.pdf';
-        AnexosEmail.Add(NomeArq);
-      end;
-    end;
-
-    EnviaEmail(sSmtpHost,
-      sSmtpPort,
-      sSmtpUser,
-      sSmtpPasswd,
-      sFrom,
-      sTo,
-      sAssunto,
-      sMensagem,
-      SSL,
-      sCC,
-      AnexosEmail,
-      PedeConfirma,
-      AguardarEnvio,
-      NomeRemetente,
-      TLS,
-      nil,
-      '',
-      UsarThread,
-      HTML);
-  finally
-    AnexosEmail.Free;
-  end;
-end;
-
 function TACBrNFe.AdministrarCSC(ARaizCNPJ: String; AIndOP: TpcnIndOperacao;
-  AIdCSC: integer; ACodigoCSC: String): boolean;
+  AIdCSC: integer; ACodigoCSC: String): Boolean;
 begin
   WebServices.AdministrarCSCNFCe.RaizCNPJ := ARaizCNPJ;
   WebServices.AdministrarCSCNFCe.indOP := AIndOP;
@@ -908,15 +489,11 @@ begin
   Result := WebServices.AdministrarCSCNFCe.Executar;
 
   if not Result then
-  begin
-    if Assigned(Self.OnGerarLog) then
-      Self.OnGerarLog(WebServices.AdministrarCSCNFCe.Msg);
-    raise EACBrNFeException.Create(WebServices.AdministrarCSCNFCe.Msg);
-  end;
+    GerarException(WebServices.AdministrarCSCNFCe.Msg);
 end;
 
 function TACBrNFe.DistribuicaoDFe(AcUFAutor: integer;
-  ACNPJCPF, AultNSU, ANSU: String): boolean;
+  ACNPJCPF, AultNSU, ANSU: String): Boolean;
 begin
   WebServices.DistribuicaoDFe.cUFAutor := AcUFAutor;
   WebServices.DistribuicaoDFe.CNPJCPF := ACNPJCPF;
@@ -926,11 +503,7 @@ begin
   Result := WebServices.DistribuicaoDFe.Executar;
 
   if not Result then
-  begin
-    if Assigned(Self.OnGerarLog) then
-      Self.OnGerarLog(WebServices.DistribuicaoDFe.Msg);
-    raise EACBrNFeException.Create(WebServices.DistribuicaoDFe.Msg);
-  end;
+    GerarException(WebServices.DistribuicaoDFe.Msg);
 end;
 
 { TCartaCorrecao }
@@ -963,11 +536,85 @@ begin
   inherited;
 end;
 
-{ EACBrNFeException }
-
-constructor EACBrNFeException.Create(const Msg: String);
-begin
-  inherited Create(ACBrStr(Msg));
-end;
 
 end.
+
+
+
+
+(*  TODO: Verificar se precisa
+
+procedure EnviarEmailEvento(
+  const sSmtpHost, sSmtpPort,
+  sSmtpUser, sSmtpPasswd,
+  sFrom, sTo,
+  sAssunto: String;
+  sMensagem: TStrings;
+  SSL: boolean;
+  EnviaPDF: boolean = True;
+  sCC: TStrings = nil;
+  Anexos: TStrings = nil;
+  PedeConfirma: boolean = False;
+  AguardarEnvio: boolean = False;
+  NomeRemetente: String = '';
+  TLS: boolean = True;
+  UsarThread: boolean = True;
+  HTML: boolean = False);
+
+
+
+  procedure TACBrNFe.EnviarEmailEvento(
+    const sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo, sAssunto: String;
+    sMensagem: TStrings; SSL, EnviaPDF: boolean; sCC, Anexos: TStrings;
+    PedeConfirma, AguardarEnvio: boolean; NomeRemetente: String;
+    TLS: boolean; UsarThread: boolean; HTML: boolean);
+  var
+    NomeArq: String;
+    AnexosEmail: TStrings;
+  begin
+    AnexosEmail := TStringList.Create;
+
+    try
+      AnexosEmail.Clear;
+
+      if Anexos <> nil then
+        AnexosEmail.Text := Anexos.Text;
+
+      // AnexosEmail.Add('');
+      if (EnviaPDF) then
+      begin
+        if DANFE <> nil then
+        begin
+          ImprimirEventoPDF;
+          NomeArq := OnlyNumber(EventoNFe.Evento[0].InfEvento.id);
+          NomeArq := PathWithDelim(DANFE.PathPDF) + NomeArq + '-procEventoNFe.pdf';
+          AnexosEmail.Add(NomeArq);
+        end;
+      end;
+
+      EnviaEmail(sSmtpHost,
+        sSmtpPort,
+        sSmtpUser,
+        sSmtpPasswd,
+        sFrom,
+        sTo,
+        sAssunto,
+        sMensagem,
+        SSL,
+        sCC,
+        AnexosEmail,
+        PedeConfirma,
+        AguardarEnvio,
+        NomeRemetente,
+        TLS,
+        nil,
+        '',
+        UsarThread,
+        HTML);
+    finally
+      AnexosEmail.Free;
+    end;
+  end;
+
+
+*)

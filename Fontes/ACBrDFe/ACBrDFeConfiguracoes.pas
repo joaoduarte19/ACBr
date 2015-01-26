@@ -121,10 +121,7 @@ type
     FSSLLib: TSSLLib;
     FFormaEmissao: TpcnTipoEmissao;
     FFormaEmissaoCodigo: integer;
-    FSalvar: Boolean;
     FAtualizarXMLCancelado: Boolean;
-    FPathSalvar: String;
-    FPathSchemas: String;
     FExibirErroSchema: Boolean;
     FFormatoAlerta: String;
     FRetirarAcentos: Boolean;
@@ -135,7 +132,6 @@ type
 
     procedure SetSSLLib(AValue: TSSLLib);
     procedure SetFormaEmissao(AValue: TpcnTipoEmissao);
-    function GetPathSalvar: String;
     function GetFormatoAlerta: String;
   public
     constructor Create(AOwner: TComponent); override;
@@ -145,11 +141,8 @@ type
     property FormaEmissao: TpcnTipoEmissao read FFormaEmissao
       write SetFormaEmissao default teNormal;
     property FormaEmissaoCodigo: integer read FFormaEmissaoCodigo;
-    property Salvar: Boolean read FSalvar write FSalvar default False;
     property AtualizarXMLCancelado: Boolean
       read FAtualizarXMLCancelado write FAtualizarXMLCancelado default True;
-    property PathSalvar: String read GetPathSalvar write FPathSalvar;
-    property PathSchemas: String read FPathSchemas write FPathSchemas;
     property ExibirErroSchema: Boolean read FExibirErroSchema write FExibirErroSchema;
     property FormatoAlerta: String read GetFormatoAlerta write FFormatoAlerta;
     property RetirarAcentos: Boolean read FRetirarAcentos write FRetirarAcentos;
@@ -163,47 +156,38 @@ type
 
   TArquivosConf = class(TComponent)
   private
+    FOwner: TComponent;
+
+    FPathSalvar: String;
+    FPathSchemas: String;
+    FPathConfig: String;
+
     FSalvar: Boolean;
     FMensal: Boolean;
     FLiteral: Boolean;
-    FEmissaoPathNFe: Boolean;
-    FSalvarEvento: Boolean;
     FSepararCNPJ: Boolean;
     FSepararModelo: Boolean;
-    FSalvarApenasNFeProcessadas: Boolean;
-    FPathNFe: String;
-    FPathCan: String;
-    FPathInu: String;
-    FPathDPEC: String;
-    FPathCCe: String;
-    FPathMDe: String;
-    FPathEvento: String;
   private
 
+    function GetPathConfig: String;
+    function GetPathSalvar: String;
+    function GetPathSchemas: String;
   public
     constructor Create(AOwner: TComponent); override;
 
   published
+    property PathSalvar: String read GetPathSalvar write FPathSalvar;
+    property PathSchemas: String read GetPathSchemas write FPathSchemas;
+    property PathConfig: String read GetPathConfig write FPathConfig;
     property Salvar: Boolean read FSalvar write FSalvar default False;
     property PastaMensal: Boolean read FMensal write FMensal default False;
     property AdicionarLiteral: Boolean read FLiteral write FLiteral default False;
-    property EmissaoPathNFe: Boolean read FEmissaoPathNFe
-      write FEmissaoPathNFe default False;
-    property SalvarCCeCanEvento: Boolean read FSalvarEvento
-      write FSalvarEvento default False;
     property SepararPorCNPJ: Boolean read FSepararCNPJ write FSepararCNPJ default False;
     property SepararPorModelo: Boolean read FSepararModelo
       write FSepararModelo default False;
-    property SalvarApenasNFeProcessadas: Boolean
-      read FSalvarApenasNFeProcessadas write FSalvarApenasNFeProcessadas default False;
-    property PathNFe: String read FPathNFe write FPathNFe;
-    property PathCan: String read FPathCan write FPathCan;
-    property PathInu: String read FPathInu write FPathInu;
-    property PathDPEC: String read FPathDPEC write FPathDPEC;
-    property PathCCe: String read FPathCCe write FPathCCe;
-    property PathMDe: String read FPathMDe write FPathMDe;
-    property PathEvento: String read FPathEvento write FPathEvento;
   end;
+
+  { TConfiguracoes }
 
   TConfiguracoes = class(TComponent)
   private
@@ -211,6 +195,12 @@ type
     FWebServices: TWebServicesConf;
     FCertificados: TCertificadosConf;
     FArquivos: TArquivosConf;
+  protected
+    function CreateGeralConf: TGeralConf; virtual;
+    function CreateWebServicesConf: TWebServicesConf; virtual;
+    function CreateCertificadosConf: TCertificadosConf; virtual;
+    function CreateArquivosConf: TArquivosConf; virtual;
+
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -232,29 +222,49 @@ constructor TConfiguracoes.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-  FGeral := TGeralConf.Create(Self);
+  FGeral := CreateGeralConf;
   FGeral.Name := 'GeralConf';
   {$IFDEF COMPILER6_UP}
   FGeral.SetSubComponent(True);{ para gravar no DFM/XFM }
   {$ENDIF}
 
-  FWebServices := TWebServicesConf.Create(self);
+  FWebServices := CreateWebServicesConf;
   FWebServices.Name := 'WebServicesConf';
   {$IFDEF COMPILER6_UP}
   FWebServices.SetSubComponent(True);{ para gravar no DFM/XFM }
   {$ENDIF}
 
-  FCertificados := TCertificadosConf.Create(self);
+  FCertificados := CreateCertificadosConf;
   FCertificados.Name := 'CertificadosConf';
   {$IFDEF COMPILER6_UP}
   FCertificados.SetSubComponent(True);{ para gravar no DFM/XFM }
   {$ENDIF}
 
-  FArquivos := TArquivosConf.Create(self);
+  FArquivos := CreateArquivosConf;
   FArquivos.Name := 'ArquivosConf';
   {$IFDEF COMPILER6_UP}
   FArquivos.SetSubComponent(True);{ para gravar no DFM/XFM }
   {$ENDIF}
+end;
+
+function TConfiguracoes.CreateGeralConf: TGeralConf;
+begin
+  Result := TGeralConf.Create(Self);
+end;
+
+function TConfiguracoes.CreateWebServicesConf: TWebServicesConf;
+begin
+  Result := TWebServicesConf.Create(self);
+end;
+
+function TConfiguracoes.CreateCertificadosConf: TCertificadosConf;
+begin
+  Result := TCertificadosConf.Create(self);
+end;
+
+function TConfiguracoes.CreateArquivosConf: TArquivosConf;
+begin
+  Result := TArquivosConf.Create(self);
 end;
 
 destructor TConfiguracoes.Destroy;
@@ -281,10 +291,7 @@ begin
   FUnloadSSLLib := True;
   FFormaEmissao := teNormal;
   FFormaEmissaoCodigo := StrToInt(TpEmisToStr(FFormaEmissao));
-  FSalvar := False;
   FAtualizarXMLCancelado := True;
-  FPathSalvar := '';
-  FPathSchemas := '';
   FExibirErroSchema := True;
   FFormatoAlerta := 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.';
   // O Formato da mensagem de erro pode ser alterado pelo usuario alterando-se a property FFormatoAlerta: onde;
@@ -308,16 +315,6 @@ begin
     Result := 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
   else
     Result := FFormatoAlerta;
-end;
-
-function TGeralConf.GetPathSalvar: String;
-begin
-  if DFeUtil.EstaVazio(FPathSalvar) then
-    Result := DFeUtil.PathAplication
-  else
-    Result := FPathSalvar;
-
-  Result := PathWithDelim(Trim(Result));
 end;
 
 procedure TGeralConf.SetFormaEmissao(AValue: TpcnTipoEmissao);
@@ -393,7 +390,7 @@ begin
   end;
 
   if Codigo < 0 then
-    raise Exception.Create(ACBrStr('UF inválida'));
+    raise EACBrDFeException.Create('UF inválida');
 
   FUF := AValue;
   FUFCodigo := Codigo;
@@ -423,21 +420,47 @@ constructor TArquivosConf.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
+  FOwner := AOwner;
+
   FSalvar := False;
+  FPathSalvar := '';
+  FPathSchemas := '';
+  FPathConfig := '';
+
   FMensal := False;
   FLiteral := False;
-  FEmissaoPathNFe := False;
-  FSalvarEvento := False;
   FSepararCNPJ := False;
   FSepararModelo := False;
-  FSalvarApenasNFeProcessadas := False;
-  FPathNFe := '';
-  FPathCan := '';
-  FPathInu := '';
-  FPathDPEC := '';
-  FPathCCe := '';
-  FPathMDe := '';
-  FPathEvento := '';
+end;
+
+function TArquivosConf.GetPathSalvar: String;
+begin
+  if FPathSalvar = '' then
+    if not (csDesigning in FOwner.ComponentState) then
+      FPathSalvar := DFeUtil.PathAplication + PathDelim + 'Docs';
+
+  FPathSalvar := PathWithDelim(Trim(FPathSalvar));
+  Result := FPathSalvar;
+end;
+
+function TArquivosConf.GetPathSchemas: String;
+begin
+  if FPathSchemas = '' then
+    if not (csDesigning in FOwner.ComponentState) then
+      FPathSchemas := DFeUtil.PathAplication + PathDelim + 'Schemas';
+
+  FPathSchemas := PathWithDelim(Trim(FPathSchemas));
+  Result := FPathSchemas;
+end;
+
+function TArquivosConf.GetPathConfig: String;
+begin
+  if FPathSalvar = '' then
+    if not (csDesigning in FOwner.ComponentState) then
+      FPathSalvar := DFeUtil.PathAplication ;
+
+  FPathConfig := PathWithDelim(Trim(FPathSalvar));
+  Result := FPathConfig;
 end;
 
 

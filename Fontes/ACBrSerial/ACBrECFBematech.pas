@@ -3528,9 +3528,9 @@ begin
 
   {$IFDEF MSWINDOWS}
    {$IFDEF CPU64}
-    IniFile := ExtractFilePath( ParamStr(0) )+'BemaFi64.INI' ;
+    IniFile := ExtractFilePath( PathDLL )+'BemaFi64.INI' ;
    {$ELSE}
-    IniFile := ExtractFilePath( ParamStr(0) )+'BemaFi32.INI' ;
+    IniFile := ExtractFilePath( PathDLL )+'BemaFi32.INI' ;
    {$ENDIF}
    if FileExists( IniFile ) then
       ConfiguraBemaFI32ini(aPorta, aPath);

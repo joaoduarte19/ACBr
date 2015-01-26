@@ -68,56 +68,12 @@ interface uses
 // TODO: Criar pcnConversaoNFe, pcnConversaoCTe, etc
 
 type
-  TStatusACBrNFe = (stIdle, stNFeStatusServico, stNFeRecepcao, stNFeRetRecepcao,
-                    stNFeConsulta, stNFeCancelamento, stNFeInutilizacao, stNFeRecibo,
-                    stNFeCadastro, stNFeEmail, stNFeEnvDPEC, stNFeConsultaDPEC,
-                    stNFeCCe, stNFeEvento, stConsNFeDest, stDownloadNFe, stAdmCSCNFCe,
-                    stDistDFeInt, stEnvioWebService);
-
-  TStatusACBrCTe = (stCTeIdle, stCTeStatusServico, stCTeRecepcao, stCTeRetRecepcao,
-                    stCTeConsulta, stCTeCancelamento, stCTeInutilizacao, stCTeRecibo,
-                    stCTeCadastro, stCTeEmail, stCTeCCe, stCTeEvento, stCTeEnvioWebService);
-
-  TStatusACBrMDFe = (stMDFeIdle, stMDFeStatusServico, stMDFeRecepcao, stMDFeRetRecepcao,
-                     stMDFeConsulta, stMDFeRecibo, stMDFeEmail, stMDFeEvento, stMDFeEnvioWebService);
-
-  (* IMPORTANTE - Sempre que alterar um Tipo efetuar a atualização das funções de conversão correspondentes *)
-  TLayOut = (LayNfeRecepcao, LayNfeRetRecepcao, LayNfeCancelamento,
-             LayNfeInutilizacao, LayNfeConsulta, LayNfeStatusServico,
-             LayNfeCadastro, LayNfeEnvDPEC, LayNfeConsultaDPEC, LayNFeCCe,
-             LayNFeEvento, LayNFeEventoAN, LayNFeConsNFeDest, LayNFeDownloadNFe,
-             LayNfeAutorizacao, LayNfeRetAutorizacao, LayAdministrarCSCNFCe,
-             LayDistDFeInt);
-
-  TLayOutCTe = (LayCTeRecepcao, LayCTeRetRecepcao, LayCTeCancelamento,
-                LayCTeInutilizacao, LayCTeConsultaCT, LayCTeStatusServico,
-                LayCTeCadastro, LayCTeEvento, LayCTeEventoEPEC);
-
-//  TLayOutMDFe = (LayMDFeRecepcao, LayMDFeRetRecepcao, LayMDFeConsulta,
-//                 LayMDFeStatusServico, LayMDFeEvento);
-
-  TpcnSchema = (TsPL005c, TsPL006,
-                TsPL_CTe_103, TsPL_CTe_104,
-                TsPL_MDFe_100);
-
-  TpcnTipoLayout = (tlAtuCadEmiDFe, tlCadEmiDFe, tlCancNFe, tlConsCad, tlConsReciNFe,
-                    tlConsSitNFe, tlConsStatServ, tlInutNFe, tlNFe, tlProcNFe,
-                    tlProcInutNFe, tlRetAtuCadEmiDFe, tlRetCancNFe, tlRetConsCad,
-                    tlRetConsReciNFe, tlRetConsStatServ, tlRetConsSitNFe, tlRetEnvNFe,
-                    tlRetInutNFe, tlEnvNFe, tlProcCancNFe, tlCancCTe, tlConsReciCTe,
-                    tlConsSitCTe, tlInutCTe, tlCTe, tlProcCTe, tlProcInutCTe, tlRetCancCTe,
-                    tlRetConsReciCTe, tlRetConsSitCTe, tlRetEnvCTe, tlRetInutCTe,
-                    tlEnvCTe, tlProcCancCTe, tlEnvDPEC, tlConsDPEC, tlConsStatServCTe,
-                    tlCCeNFe, tlEnvCCeNFe, tlRetEnvCCeNFe, tlEnvEventoNFe, tlRetEnvEventoNFe,
-                    tlConsNFeDest, tlDownloadNFe);
-
   TpcnTipoCampo = (tcStr, tcInt, tcDat, tcDatHor, tcEsp, tcDe2, tcDe3, tcDe4, tcDe10,
                    tcHor, tcDe6, tcDatCFe, tcHorCFe, tcDatVcto); // tcEsp = String: somente numeros;
   TpcnFormatoGravacao = (fgXML, fgTXT);
   TpcnTagAssinatura = (taSempre, taNunca, taSomenteSeAssinada, taSomenteParaNaoAssinada);
 
   TpcnIndicadorPagamento = (ipVista, ipPrazo, ipOutras);
-  TpcnTipoNFe = (tnEntrada, tnSaida);
   TpcnTipoImpressao = (tiSemGeracao, tiRetrato, tiPaisagem, tiSimplificado,
                        tiNFCe, tiMsgEletronica, tiNFCeA4);
   TpcnPercentualTributos = (ptValorProdutos, ptValorNF, ptPersonalizado);
@@ -125,11 +81,7 @@ type
   TpcnTipoEmissao = (teNormal, teContingencia, teSCAN, teDPEC, teFSDA, teSVCAN, teSVCRS, teSVCSP, teOffLine);
   TpcnTipoAmbiente = (taProducao, taHomologacao);
   TpcnSituacaoEmissor = (seHomologacao, seProducao);
-  TpcnFinalidadeNFe = (fnNormal, fnComplementar, fnAjuste, fnDevolucao);
   TpcnProcessoEmissao = (peAplicativoContribuinte, peAvulsaFisco, peAvulsaContribuinte, peContribuinteAplicativoFisco);
-  TpcnTipoOperacao = (toVendaConcessionaria, toFaturamentoDireto, toVendaDireta, toOutros);
-  TpcnCondicaoVeiculo = (cvAcabado, cvInacabado, cvSemiAcabado);
-  TpcnTipoArma = (taUsoPermitido, taUsoRestrito);
   TpcnOrigemMercadoria = (oeNacional, oeEstrangeiraImportacaoDireta, oeEstrangeiraAdquiridaBrasil,
                           oeNacionalConteudoImportacaoSuperior40, oeNacionalProcessosBasicos,
                           oeNacionalConteudoImportacaoInferiorIgual40,
@@ -185,15 +137,10 @@ type
                   teManifDestDesconhecimento, teManifDestOperNaoRealizada,
                   teEncerramento, teEPEC, teInclusaoCondutor, teMultiModal,
                   teRegistroPassagem, teRegistroPassagemBRId, teEPECNFe);
-  TpcnIndicadorNFe = (inTodas, inSemManifestacaoComCiencia, inSemManifestacaoSemCiencia);
   TpcnIndicadorEmissor = (ieTodos, ieRaizCNPJDiferente);
   TpcnIndicadorContinuacao = (icNaoPossuiMaisDocumentos, icPossuiMaisDocumentos);
-  TpcnSituacaoNFe = (snAutorizado,snDenegado,snCancelada);
   TpcnSituacaoManifDest = (smdSemManifestacao, smdConfirmada, smdDesconhecida, smdOperacaoNaoRealizada, smdCiencia);
   TpcnTamanhoPapel = (tpA4, tpA4_2vias, tpA5);
-
-  TpcnModeloDF = (moNFe, moNFCe);
-  TpcnVersaoDF = (ve200, ve300, ve310);
 
   TpcnDestinoOperacao = (doInterna, doInterestadual, doExterior);
   TpcnConsumidorFinal = (cfNao, cfConsumidorFinal);
@@ -245,110 +192,6 @@ const
   NFeUFCodigo: array[0..26] of Integer =
   (12,27,16,13,29,23,53,32,52,21,51,50,31,15,25,41,26,22,33,24,43,11,14,42,35,28,17);
 
-  NfVersao        = '2.0.0.0';
-  // -----------------------------
-  // As constantes abaixo futuramente não vão mais ser necessárias
-  // -----------------------------
-//  NFecabMsg       = '2.00';
-//  NFeconsStatServ = '2.00';
-//  NFenviNFe       = '2.00';
-//  NFeconsReciNFe  = '2.00';
-//  NFeconsSitNFe   = '2.01';
-//  NFecancNFe      = '2.00';
-//  NFeinutNFe      = '2.00';
-//  NFeconsCad      = '2.00';
-//  NFeEnvDPEC      = '1.01';
-//  NFeConsDPEC     = '1.01';
-//  NFeCCeNFe       = '1.00';
-//  NFeEventoNFe    = '1.00';
-//  NFeConsNFeDest  = '1.01';
-//  NFeDownloadNFe  = '1.00';
-
-//  NFCeCabMsg       = '2.00';
-//  NFCeConsStatServ = '3.00';
-//  NFCeEnvi         = '3.00';
-//  NFCeConsReci     = '3.00';
-//  NFCeConsSit      = '3.00';
-//  NFCeCanc         = '3.00';
-//  NFCeInut         = '3.00';
-//  NFCeConsCad      = '2.00';
-//  NFCeEnvDPEC      = '1.01';
-//  NFCeConsDPEC     = '1.01';
-//  NFCeCCe          = '1.00';
-//  NFCeEvento       = '1.00';
-//  NFCeConsNFeDest  = '1.01';
-//  NFCeDownloadNFe  = '1.00';
-  // -----------------------------
-
-  MDFeCabMsg       = '1.00';
-  MDFeConsStatServ = '1.00';
-  MDFeEnviMDFe     = '1.00';
-  MDFeConsReciMDFe = '1.00';
-  MDFeConsSitMDFe  = '1.00';
-  MDFeConsNaoEnc   = '1.00';
-  MDFeEventoMDFe   = '1.00';
-
-  MDFeModalRodo    = '1.00';
-  MDFeModalAereo   = '1.00';
-  MDFeModalAqua    = '1.00';
-  MDFeModalFerro   = '1.00';
-  MDFeModalDuto    = '1.00';
-
-  // Incluido por Claudemir em 13/03/2013
-  GNREEnviGNRE     = '1.00';
-  GNREConsConfigUF = '1.00';
-  GNREConsResLote  = '1.00';
-
-{$IFDEF PL_103}
-  CTecabMsg       = '1.02';
-  CTeconsStatServ = '1.03';
-  CTeenviCTe      = '1.03';
-  CTeconsReciCTe  = '1.03';
-  CTeconsSitCTe   = '1.03';
-  CTecancCTe      = '1.03';
-  CTeinutCTe      = '1.03';
-  CTeconsCad      = '2.00';
-  CTeEventoCTe    = '0.00';
-{$ENDIF}
-
-{$IFDEF PL_104}
-  CTecabMsg       = '1.02';
-  CTeconsStatServ = '1.04';
-  CTeenviCTe      = '1.04';
-  CTeconsReciCTe  = '1.04';
-  CTeconsSitCTe   = '1.04';
-  CTecancCTe      = '1.04';
-  CTeinutCTe      = '1.04';
-  CTeconsCad      = '2.00';
-  CTeEventoCTe    = '1.04';
-
-  CTeModalRodo    = '1.04';
-  CTeModalAereo   = '1.04';
-  CTeModalAqua    = '1.04';
-  CTeModalFerro   = '1.04';
-  CTeModalDuto    = '1.04';
-  CTeMultiModal   = '0.00';
-{$ENDIF}
-
-{$IFDEF PL_200}
-  CTecabMsg       = '2.00';
-  CTeconsStatServ = '2.00';
-  CTeenviCTe      = '2.00';
-  CTeconsReciCTe  = '2.00';
-  CTeconsSitCTe   = '2.00';
-  CTecancCTe      = '1.04';
-  CTeinutCTe      = '2.00';
-  CTeconsCad      = '2.00';
-  CTeEventoCTe    = '2.00';
-
-  CTeModalRodo    = '2.00';
-  CTeModalAereo   = '2.00';
-  CTeModalAqua    = '2.00';
-  CTeModalFerro   = '2.00';
-  CTeModalDuto    = '2.00';
-  CTeMultiModal   = '2.00';
-{$ENDIF}
-
   Msg_ICMS_123_2006 = 'ICMS a ser recolhido conforme LC 123/2006 - Simples Nacional' ;
 
   LineBreak = #13#10;
@@ -362,14 +205,8 @@ function EnumeradoToStr(const t: variant; const AString:
 function StrToEnumerado2(out ok: boolean;  const s: string; Const AString: array of string ): variant;
 function EnumeradoToStr2(const t: variant; const AString: array of string ): variant;
 
-function SchemaToStr(const t: TpcnSchema): string;
-function StrToSchema(out ok: boolean; const s: string): TpcnSchema;
-function TipoLayoutToStr(const t: TpcnTipoLayout): string;
-function StrToTipoLayout(out ok: boolean; const s: string): TpcnTipoLayout;
 function IndpagToStr(const t: TpcnIndicadorPagamento): string;
 function StrToIndpag(out ok: boolean; const s: string): TpcnIndicadorPagamento;
-function tpNFToStr(const t: TpcnTipoNFe): string;
-function StrToTpNF(out ok: boolean; const s: string): TpcnTipoNFe;
 function TpImpToStr(const t: TpcnTipoImpressao): string;
 function StrToTpImp(out ok: boolean; const s: string): TpcnTipoImpressao;
 function PercTribToStr(const t: TpcnPercentualTributos): string;
@@ -380,16 +217,8 @@ function TpAmbToStr(const t: TpcnTipoAmbiente): string;
 function StrToTpAmb(out ok: boolean; const s: string): TpcnTipoAmbiente;
 function TpSitToStr(const t: TpcnSituacaoEmissor): string;
 function StrToTpSit(out ok: boolean; const s: string): TpcnSituacaoEmissor;
-function FinNFeToStr(const t: TpcnFinalidadeNFe): string;
-function StrToFinNFe(out ok: boolean; const s: string): TpcnFinalidadeNFe;
 function procEmiToStr(const t: TpcnProcessoEmissao): string;
 function StrToprocEmi(out ok: boolean; const s: string): TpcnProcessoEmissao;
-function tpOPToStr(const t: TpcnTipoOperacao): string;
-function StrTotpOP(out ok: boolean; const s: string): TpcnTipoOperacao;
-function condVeicToStr(const t: TpcnCondicaoVeiculo): string;
-function StrTocondVeic(out ok: boolean; const s: string): TpcnCondicaoVeiculo;
-function tpArmaToStr(const t: TpcnTipoArma): string;
-function StrTotpArma(out ok: boolean; const s: string): TpcnTipoArma;
 function OrigToStr(const t: TpcnOrigemMercadoria): string;
 function StrToOrig(out ok: boolean; const s: string): TpcnOrigemMercadoria;
 function CSTICMSToStr(const t: TpcnCSTIcms): string;
@@ -496,19 +325,13 @@ function StrToTrafegoMutuo(out ok: boolean; const s: string): TpcteTrafegoMutuo;
 function StrToTpEvento(out ok: boolean; const s: string): TpcnTpEvento;
 function TpEventoToStr(const t: TpcnTpEvento): string;
 
-function IndicadorNFeToStr(const t: TpcnIndicadorNFe): string;
-function StrToIndicadorNFe(out ok: boolean; const s: string): TpcnIndicadorNFe;
 function IndicadorEmissorToStr(const t: TpcnIndicadorEmissor): string;
 function StrToIndicadorEmissor(out ok: boolean; const s: string): TpcnIndicadorEmissor;
 function IndicadorContinuacaoToStr(const t: TpcnIndicadorContinuacao): string;
 function StrToIndicadorContinuacao(out ok: boolean; const s: string): TpcnIndicadorContinuacao;
-function SituacaoNFeToStr(const t: TpcnSituacaoNFe): string;
-function StrToSituacaoNFe(out ok: boolean; const s: string): TpcnSituacaoNFe;
 function SituacaoManifDestToStr(const t: TpcnSituacaoManifDest): string;
 function StrToSituacaoManifDest(out ok: boolean; const s: string): TpcnSituacaoManifDest;
 
-function ModeloDFToStr(const t: TpcnModeloDF): string;
-function StrToModeloDF(out ok: boolean; const s: string): TpcnModeloDF;
 function DestinoOperacaoToStr(const t: TpcnDestinoOperacao): string;
 function StrToDestinoOperacao(out ok: boolean; const s: string): TpcnDestinoOperacao;
 function ConsumidorFinalToStr(const t: TpcnConsumidorFinal): string;
@@ -552,10 +375,6 @@ function StrToindISS(out ok: boolean; const s: string): TpcnindISS;
 function indIncentivoToStr(const t: TpcnindIncentivo ): string;
 function StrToindIncentivo(out ok: boolean; const s: string): TpcnindIncentivo;
 
-function StrToVersaoDF(out ok: boolean; const s: string): TpcnVersaoDF;
-function VersaoDFToStr(const t: TpcnVersaoDF): string;
-function GetVersaoCTe(AVersaoDF: TpcnVersaoDF; ALayOut: TLayOutCTe): string;
-
 function TipoAutorToStr(const t: TpcnTipoAutor ): string;
 function StrToTipoAutor(out ok: boolean; const s: string): TpcnTipoAutor;
 
@@ -597,51 +416,6 @@ begin
       result := AString[i];
 end;
 
-// Tipo de Schema **************************************************************
-
-function SchemaToStr(const t: TpcnSchema): string;
-begin
-  result := EnumeradoToStr(t, ['PL005C'], [TsPL005c]);
-end;
-
-function StrToSchema(out ok: boolean; const s: string): TpcnSchema;
-begin
-  result := StrToEnumerado(ok, s, ['PL005C'], [TsPL005c]);
-end;
-
-// Tipo do Layout **************************************************************
-function TipoLayoutToStr(const t: TpcnTipoLayout): string;
-begin
-  result := EnumeradoToStr(t, ['AtuCadEmiDFe', 'CadEmiDFe', 'CancNFe', 'ConsCad',
-                               'ConsReciNFe', 'ConsSitNFe', 'ConsStatServ', 'InutNFe',
-                               'NFe', 'ProcNFe', 'ProcInutNFe', 'RetAtuCadEmiDFe',
-                               'RetCancNFe', 'RetConsCad', 'RetConsReciNFe', 'RetConsStatServ',
-                               'RetConsSitNFe', 'RetEnvNFe', 'RetInutNFe', 'EnvNFe',
-                               'ProcCancNFe', 'ConsStatServ', 'EnvCCeNFe', 'EnvEventoNFe',
-                               'ConsNFeDest', 'DownloadNFe' {, 'ProcMDFe'}],
-      [tlAtuCadEmiDFe, tlCadEmiDFe, tlCancCTe, tlConsCad, tlConsReciCTe, tlConsSitCTe,
-       tlConsStatServ, tlInutCTe, tlCTe, tlProcCTe, tlProcInutCTe, tlRetAtuCadEmiDFe,
-       tlRetCancCTe, tlRetConsCad, tlRetConsReciCTe, tlRetConsStatServ, tlRetConsSitCTe,
-       tlRetEnvCTe, tlRetInutCTe, tlEnvCTe, tlProcCancCTe, tlConsStatServCTe, tlEnvCCeNFe,
-       tlEnvEventoNFe, tlConsNFeDest, tlDownloadNFe{, tlProcMDFe}]);
-end;
-
-function StrToTipoLayout(out ok: boolean; const s: string): TpcnTipoLayout;
-begin
-  result := StrToEnumerado(ok, s, ['AtuCadEmiDFe', 'CadEmiDFe', 'CancNFe', 'ConsCad',
-                                   'ConsReciNFe', 'ConsSitNFe', 'ConsStatServ', 'InutNFe',
-                                   'NFe', 'ProcNFe', 'ProcInutNFe', 'RetAtuCadEmiDFe',
-                                   'RetCancNFe', 'RetConsCad', 'RetConsReciNFe', 'RetConsStatServ',
-                                   'RetConsSitNFe', 'RetEnvNFe', 'RetInutNFe', 'EnvNFe',
-                                   'ConsStatServ', 'EnvCCeNFe', 'EnvEventoNFe',
-                                   'ConsNFeDest', 'DownloadNFe'{, 'ProcMDFe'}],
-      [tlAtuCadEmiDFe, tlCadEmiDFe, tlCancCTe, tlConsCad, tlConsReciCTe, tlConsSitCTe,
-       tlConsStatServ, tlInutCTe, tlCTe, tlProcCTe, tlProcInutCTe, tlRetAtuCadEmiDFe,
-       tlRetCancCTe, tlRetConsCad, tlRetConsReciCTe, tlRetConsStatServ, tlRetConsSitCTe,
-       tlRetEnvCTe, tlRetInutCTe, tlEnvCTe, tlConsStatServCTe, tlEnvCCeNFe, tlEnvEventoNFe,
-       tlConsNFeDest, tlDownloadNFe{, tlProcMDFe}]);
-end;
-
 // Indicador do Tipo de pagamento **********************************************
 function IndpagToStr(const t: TpcnIndicadorPagamento): string;
 begin
@@ -653,12 +427,6 @@ begin
   result := StrToEnumerado(ok, s, ['0', '1', '2'], [ipVista, ipPrazo, ipOutras]);
 end;
 
-// B11 - Tipo do Documento Fiscal **********************************************
-function tpNFToStr(const t: TpcnTipoNFe): string;
-begin
-  result := EnumeradoToStr(t, ['0', '1'], [tnEntrada, tnSaida]);
-end;
-
 function tpCTToStr(const t: TpcteTipoCTe): string;
 begin
   result := EnumeradoToStr(t, ['0', '1', '2', '3'], [tcNormal, tcComplemento, tcAnulacao, tcSubstituto]);
@@ -667,11 +435,6 @@ end;
 function tpCTToStrText(const t: TpcteTipoCTe): string;
 begin
   result := EnumeradoToStr(t, ['NORMAL', 'COMPLEMENTO', 'ANULAÇÃO', 'SUBSTITUTO'], [tcNormal, tcComplemento, tcAnulacao, tcSubstituto]);
-end;
-
-function StrToTpNF(out ok: boolean; const s: string): TpcnTipoNFe;
-begin
-  result := StrToEnumerado(ok, s, ['0', '1'], [tnEntrada, tnSaida]);
 end;
 
 // B21 - Formato de Impressão do DANFE *****************************************
@@ -748,19 +511,6 @@ begin
   result := StrToEnumerado(ok, s, ['0', '1'], [seHomologacao, seProducao]);
 end;
 
-// B25 - Finalidade de emissão da NF-e *****************************************
-function FinNFeToStr(const t: TpcnFinalidadeNFe): string;
-begin
-  result := EnumeradoToStr(t, ['1', '2', '3', '4'],
-                              [fnNormal, fnComplementar, fnAjuste, fnDevolucao]);
-end;
-
-function StrToFinNFe(out ok: boolean; const s: string): TpcnFinalidadeNFe;
-begin
-  result := StrToEnumerado(ok, s, ['1', '2', '3', '4'],
-                                  [fnNormal, fnComplementar, fnAjuste, fnDevolucao]);
-end;
-
 // B26 - Processo de emissão da NF-e *******************************************
 function procEmiToStr(const t: TpcnProcessoEmissao): string;
 begin
@@ -774,39 +524,6 @@ end;
 function StrToprocEmi(out ok: boolean; const s: string): TpcnProcessoEmissao;
 begin
   result := StrToEnumerado(ok, s, ['0', '1', '2', '3'], [peAplicativoContribuinte, peAvulsaFisco, peAvulsaContribuinte, peContribuinteAplicativoFisco]);
-end;
-
-// J02 - Tipo da operação ******************************************************
- function tpOPToStr(const t: TpcnTipoOperacao): string;
-begin
-  result := EnumeradoToStr(t, ['1', '2', '3', '0'], [toVendaConcessionaria, toFaturamentoDireto, toVendaDireta, toOutros]);
-end;
-
-function StrTotpOP(out ok: boolean; const s: string): TpcnTipoOperacao;
-begin
-  result := StrToEnumerado(ok, s, ['1', '2', '3', '0'], [toVendaConcessionaria, toFaturamentoDireto, toVendaDireta, toOutros]);
-end;
-
-// J22 - Condição do Veículo ***************************************************
-function condVeicToStr(const t: TpcnCondicaoVeiculo): string;
-begin
-  result := EnumeradoToStr(t, ['1', '2', '3'], [cvAcabado, cvInacabado, cvSemiAcabado]);
-end;
-
-function StrTocondVeic(out ok: boolean; const s: string): TpcnCondicaoVeiculo;
-begin
-  result := StrToEnumerado(ok, s, ['1', '2', '3'], [cvAcabado, cvInacabado, cvSemiAcabado]);
-end;
-
-// L02 - Indicador do tipo de arma de fogo *************************************
-function tpArmaToStr(const t: TpcnTipoArma): string;
-begin
-  result := EnumeradoToStr(t, ['0', '1'], [taUsoPermitido, taUsoRestrito]);
-end;
-
-function StrTotpArma(out ok: boolean; const s: string): TpcnTipoArma;
-begin
-  result := StrToEnumerado(ok, s, ['0', '1'], [taUsoPermitido, taUsoRestrito]);
 end;
 
 // N11 - Origem da mercadoria **************************************************
@@ -1438,20 +1155,6 @@ begin
   result := AString[ integer( t ) ];
 end;
 
-function IndicadorNFeToStr(const t: TpcnIndicadorNFe): string;
-begin
-  result := EnumeradoToStr(t, ['0', '1', '2'],
-                              [inTodas, inSemManifestacaoComCiencia,
-                               inSemManifestacaoSemCiencia]);
-end;
-
-function StrToIndicadorNFe(out ok: boolean; const s: string): TpcnIndicadorNFe;
-begin
-  result := StrToEnumerado(ok, s, ['0', '1', '2'],
-                                  [inTodas, inSemManifestacaoComCiencia,
-                                   inSemManifestacaoSemCiencia]);
-end;
-
 function IndicadorEmissorToStr(const t: TpcnIndicadorEmissor): string;
 begin
   result := EnumeradoToStr(t, ['0', '1'],
@@ -1476,18 +1179,6 @@ begin
                                   [icNaoPossuiMaisDocumentos, icPossuiMaisDocumentos]);
 end;
 
-function SituacaoNFeToStr(const t: TpcnSituacaoNFe): string;
-begin
-  result := EnumeradoToStr(t, ['1', '2', '3'],
-                              [snAutorizado,snDenegado,snCancelada]);
-end;
-
-function StrToSituacaoNFe(out ok: boolean; const s: string): TpcnSituacaoNFe;
-begin
-  result := StrToEnumerado(ok, s, ['1', '2', '3'],
-                                  [snAutorizado,snDenegado,snCancelada]);
-end;
-
 function SituacaoManifDestToStr(const t: TpcnSituacaoManifDest): string;
 begin
   result := EnumeradoToStr(t, ['0','1','2','3','4'],
@@ -1498,18 +1189,6 @@ function StrToSituacaoManifDest(out ok: boolean; const s: string): TpcnSituacaoM
 begin
   result := StrToEnumerado(ok, s, ['0','1','2','3','4'],
                                   [smdSemManifestacao, smdConfirmada, smdDesconhecida, smdOperacaoNaoRealizada, smdCiencia]);
-end;
-
-function ModeloDFToStr(const t: TpcnModeloDF): string;
-begin
-  result := EnumeradoToStr(t, ['55', '65'],
-                              [moNFe, moNFCe]);
-end;
-
-function StrToModeloDF(out ok: boolean; const s: string): TpcnModeloDF;
-begin
-  result := StrToEnumerado(ok, s, ['55', '65'],
-                                  [moNFe, moNFCe]);
 end;
 
 function DestinoOperacaoToStr(const t: TpcnDestinoOperacao): string;
@@ -1775,39 +1454,6 @@ begin
                                   [iiSim, iiNao]);
 end;
 
-function StrToVersaoDF(out ok: boolean; const s: string): TpcnVersaoDF;
-begin
-  result := StrToEnumerado(ok, s, ['2.00', '3.00', '3.10'],
-                                  [ve200, ve300, ve310]);
-end;
-
-function VersaoDFToStr(const t: TpcnVersaoDF): string;
-begin
-  result := EnumeradoToStr(t, ['2.00', '3.00', '3.10'],
-                              [ve200, ve300, ve310]);
-end;
-
-function GetVersaoCTe(AVersaoDF: TpcnVersaoDF; ALayOut: TLayOutCTe): string;
-begin
-  result := '';
-
-  case AVersaoDF of
-    ve200: begin
-             case ALayOut of
-               LayCTeStatusServico: result := '2.00';
-               LayCTeRecepcao:      result := '2.00';
-               LayCTeRetRecepcao:   result := '2.00';
-               LayCTeConsultaCT:    result := '2.00';
-               LayCTeCancelamento:  result := '1.04';
-               LayCTeInutilizacao:  result := '2.00';
-               LayCTeCadastro:      result := '2.00';
-               LayCTeEvento:        result := '2.00';
-               LayCTeEventoEPEC:    result := '2.00';
-             end;
-           end;
-  end;
-end;
-
 function TipoAutorToStr(const t: TpcnTipoAutor ): string;
 begin
   result := EnumeradoToStr(t, ['1', '2', '3', '5', '6', '9'],
@@ -1835,3 +1481,225 @@ begin
 end;
 
 end.
+
+(* ISSO NÃO DEVE ESTAR AQUI
+
+NfVersao        = '2.0.0.0';
+// -----------------------------
+// As constantes abaixo futuramente não vão mais ser necessárias
+// -----------------------------
+//  NFecabMsg       = '2.00';
+//  NFeconsStatServ = '2.00';
+//  NFenviNFe       = '2.00';
+//  NFeconsReciNFe  = '2.00';
+//  NFeconsSitNFe   = '2.01';
+//  NFecancNFe      = '2.00';
+//  NFeinutNFe      = '2.00';
+//  NFeconsCad      = '2.00';
+//  NFeEnvDPEC      = '1.01';
+//  NFeConsDPEC     = '1.01';
+//  NFeCCeNFe       = '1.00';
+//  NFeEventoNFe    = '1.00';
+//  NFeConsNFeDest  = '1.01';
+//  NFeDownloadNFe  = '1.00';
+
+//  NFCeCabMsg       = '2.00';
+//  NFCeConsStatServ = '3.00';
+//  NFCeEnvi         = '3.00';
+//  NFCeConsReci     = '3.00';
+//  NFCeConsSit      = '3.00';
+//  NFCeCanc         = '3.00';
+//  NFCeInut         = '3.00';
+//  NFCeConsCad      = '2.00';
+//  NFCeEnvDPEC      = '1.01';
+//  NFCeConsDPEC     = '1.01';
+//  NFCeCCe          = '1.00';
+//  NFCeEvento       = '1.00';
+//  NFCeConsNFeDest  = '1.01';
+//  NFCeDownloadNFe  = '1.00';
+// -----------------------------
+
+MDFeCabMsg       = '1.00';
+MDFeConsStatServ = '1.00';
+MDFeEnviMDFe     = '1.00';
+MDFeConsReciMDFe = '1.00';
+MDFeConsSitMDFe  = '1.00';
+MDFeConsNaoEnc   = '1.00';
+MDFeEventoMDFe   = '1.00';
+
+MDFeModalRodo    = '1.00';
+MDFeModalAereo   = '1.00';
+MDFeModalAqua    = '1.00';
+MDFeModalFerro   = '1.00';
+MDFeModalDuto    = '1.00';
+
+// Incluido por Claudemir em 13/03/2013
+GNREEnviGNRE     = '1.00';
+GNREConsConfigUF = '1.00';
+GNREConsResLote  = '1.00';
+
+{$IFDEF PL_103}
+CTecabMsg       = '1.02';
+CTeconsStatServ = '1.03';
+CTeenviCTe      = '1.03';
+CTeconsReciCTe  = '1.03';
+CTeconsSitCTe   = '1.03';
+CTecancCTe      = '1.03';
+CTeinutCTe      = '1.03';
+CTeconsCad      = '2.00';
+CTeEventoCTe    = '0.00';
+{$ENDIF}
+
+{$IFDEF PL_104}
+CTecabMsg       = '1.02';
+CTeconsStatServ = '1.04';
+CTeenviCTe      = '1.04';
+CTeconsReciCTe  = '1.04';
+CTeconsSitCTe   = '1.04';
+CTecancCTe      = '1.04';
+CTeinutCTe      = '1.04';
+CTeconsCad      = '2.00';
+CTeEventoCTe    = '1.04';
+
+CTeModalRodo    = '1.04';
+CTeModalAereo   = '1.04';
+CTeModalAqua    = '1.04';
+CTeModalFerro   = '1.04';
+CTeModalDuto    = '1.04';
+CTeMultiModal   = '0.00';
+{$ENDIF}
+
+{$IFDEF PL_200}
+CTecabMsg       = '2.00';
+CTeconsStatServ = '2.00';
+CTeenviCTe      = '2.00';
+CTeconsReciCTe  = '2.00';
+CTeconsSitCTe   = '2.00';
+CTecancCTe      = '1.04';
+CTeinutCTe      = '2.00';
+CTeconsCad      = '2.00';
+CTeEventoCTe    = '2.00';
+
+CTeModalRodo    = '2.00';
+CTeModalAereo   = '2.00';
+CTeModalAqua    = '2.00';
+CTeModalFerro   = '2.00';
+CTeModalDuto    = '2.00';
+CTeMultiModal   = '2.00';
+{$ENDIF}
+
+
+TpcnSchema = (TsPL005c, TsPL006,
+              TsPL_CTe_103, TsPL_CTe_104,
+              TsPL_MDFe_100);
+
+function SchemaToStr(const t: TpcnSchema): string;
+function StrToSchema(out ok: boolean; const s: string): TpcnSchema;
+
+// Tipo de Schema **************************************************************
+
+function SchemaToStr(const t: TpcnSchema): string;
+begin
+  result := EnumeradoToStr(t, ['PL005C'], [TsPL005c]);
+end;
+
+function StrToSchema(out ok: boolean; const s: string): TpcnSchema;
+begin
+  result := StrToEnumerado(ok, s, ['PL005C'], [TsPL005c]);
+end;
+
+
+
+
+TStatusACBrCTe = (stCTeIdle, stCTeStatusServico, stCTeRecepcao, stCTeRetRecepcao,
+                  stCTeConsulta, stCTeCancelamento, stCTeInutilizacao, stCTeRecibo,
+                  stCTeCadastro, stCTeEmail, stCTeCCe, stCTeEvento, stCTeEnvioWebService);
+
+TLayOutCTe = (LayCTeRecepcao, LayCTeRetRecepcao, LayCTeCancelamento,
+              LayCTeInutilizacao, LayCTeConsultaCT, LayCTeStatusServico,
+              LayCTeCadastro, LayCTeEvento, LayCTeEventoEPEC);
+
+
+function GetVersaoCTe(AVersaoDF: TpcnVersaoDF; ALayOut: TLayOutCTe): string;
+begin
+  result := '';
+
+  case AVersaoDF of
+    ve200: begin
+             case ALayOut of
+               LayCTeStatusServico: result := '2.00';
+               LayCTeRecepcao:      result := '2.00';
+               LayCTeRetRecepcao:   result := '2.00';
+               LayCTeConsultaCT:    result := '2.00';
+               LayCTeCancelamento:  result := '1.04';
+               LayCTeInutilizacao:  result := '2.00';
+               LayCTeCadastro:      result := '2.00';
+               LayCTeEvento:        result := '2.00';
+               LayCTeEventoEPEC:    result := '2.00';
+             end;
+           end;
+  end;
+end;
+
+
+
+
+
+TStatusACBrMDFe = (stMDFeIdle, stMDFeStatusServico, stMDFeRecepcao, stMDFeRetRecepcao,
+                   stMDFeConsulta, stMDFeRecibo, stMDFeEmail, stMDFeEvento, stMDFeEnvioWebService);
+
+//  TLayOutMDFe = (LayMDFeRecepcao, LayMDFeRetRecepcao, LayMDFeConsulta,
+//                 LayMDFeStatusServico, LayMDFeEvento);
+
+
+
+
+TpcnTipoLayout = (tlAtuCadEmiDFe, tlCadEmiDFe, tlCancNFe, tlConsCad, tlConsReciNFe,
+                  tlConsSitNFe, tlConsStatServ, tlInutNFe, tlNFe, tlProcNFe,
+                  tlProcInutNFe, tlRetAtuCadEmiDFe, tlRetCancNFe, tlRetConsCad,
+                  tlRetConsReciNFe, tlRetConsStatServ, tlRetConsSitNFe, tlRetEnvNFe,
+                  tlRetInutNFe, tlEnvNFe, tlProcCancNFe, tlCancCTe, tlConsReciCTe,
+                  tlConsSitCTe, tlInutCTe, tlCTe, tlProcCTe, tlProcInutCTe, tlRetCancCTe,
+                  tlRetConsReciCTe, tlRetConsSitCTe, tlRetEnvCTe, tlRetInutCTe,
+                  tlEnvCTe, tlProcCancCTe, tlEnvDPEC, tlConsDPEC, tlConsStatServCTe,
+                  tlCCeNFe, tlEnvCCeNFe, tlRetEnvCCeNFe, tlEnvEventoNFe, tlRetEnvEventoNFe,
+                  tlConsNFeDest, tlDownloadNFe);
+
+                  // Tipo do Layout **************************************************************
+                  function TipoLayoutToStr(const t: TpcnTipoLayout): String;
+                  begin
+                    Result := EnumeradoToStr(t, ['AtuCadEmiDFe', 'CadEmiDFe', 'CancNFe',
+                      'ConsCad', 'ConsReciNFe', 'ConsSitNFe', 'ConsStatServ', 'InutNFe',
+                      'NFe', 'ProcNFe', 'ProcInutNFe', 'RetAtuCadEmiDFe', 'RetCancNFe',
+                      'RetConsCad', 'RetConsReciNFe', 'RetConsStatServ', 'RetConsSitNFe',
+                      'RetEnvNFe', 'RetInutNFe', 'EnvNFe', 'ProcCancNFe', 'ConsStatServ',
+                      'EnvCCeNFe', 'EnvEventoNFe', 'ConsNFeDest', 'DownloadNFe' {, 'ProcMDFe'}],
+                      [tlAtuCadEmiDFe, tlCadEmiDFe, tlCancCTe, tlConsCad, tlConsReciCTe,
+                      tlConsSitCTe, tlConsStatServ, tlInutCTe, tlCTe, tlProcCTe,
+                      tlProcInutCTe, tlRetAtuCadEmiDFe, tlRetCancCTe, tlRetConsCad,
+                      tlRetConsReciCTe, tlRetConsStatServ, tlRetConsSitCTe, tlRetEnvCTe,
+                      tlRetInutCTe, tlEnvCTe, tlProcCancCTe, tlConsStatServCTe,
+                      tlEnvCCeNFe, tlEnvEventoNFe, tlConsNFeDest, tlDownloadNFe{, tlProcMDFe}]);
+                  end;
+
+                  function StrToTipoLayout(out ok: Boolean; const s: String): TpcnTipoLayout;
+                  begin
+                    Result := StrToEnumerado(ok, s, ['AtuCadEmiDFe', 'CadEmiDFe',
+                      'CancNFe', 'ConsCad', 'ConsReciNFe', 'ConsSitNFe', 'ConsStatServ',
+                      'InutNFe', 'NFe', 'ProcNFe', 'ProcInutNFe', 'RetAtuCadEmiDFe',
+                      'RetCancNFe', 'RetConsCad', 'RetConsReciNFe', 'RetConsStatServ',
+                      'RetConsSitNFe', 'RetEnvNFe', 'RetInutNFe', 'EnvNFe', 'ConsStatServ',
+                      'EnvCCeNFe', 'EnvEventoNFe', 'ConsNFeDest', 'DownloadNFe'{, 'ProcMDFe'}],
+                      [tlAtuCadEmiDFe, tlCadEmiDFe, tlCancCTe, tlConsCad, tlConsReciCTe,
+                      tlConsSitCTe, tlConsStatServ, tlInutCTe, tlCTe, tlProcCTe,
+                      tlProcInutCTe, tlRetAtuCadEmiDFe, tlRetCancCTe, tlRetConsCad,
+                      tlRetConsReciCTe, tlRetConsStatServ, tlRetConsSitCTe, tlRetEnvCTe,
+                      tlRetInutCTe, tlEnvCTe, tlConsStatServCTe, tlEnvCCeNFe, tlEnvEventoNFe,
+                      tlConsNFeDest, tlDownloadNFe{, tlProcMDFe}]);
+                  end;
+
+
+  function GetVersaoCTe(AVersaoDF: TpcnVersaoDF; ALayOut: TLayOutCTe): string;
+
+
+*)

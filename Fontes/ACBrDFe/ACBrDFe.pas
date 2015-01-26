@@ -62,15 +62,18 @@ type
   private
     FMAIL: TACBrMail;
     FSSL: TDFeSSL;
-    FConfiguracoes: TConfiguracoes;
     FOnStatusChange: TNotifyEvent;
     FOnGerarLog: TACBrGravarLog;
     procedure SetAbout(AValue: String);
     procedure SetMAIL(AValue: TACBrMail);
   protected
+    FPConfiguracoes: TConfiguracoes;
+
     function GetAbout: String; virtual;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
 
+    function GetNomeArquivoServicos: String; virtual;
+    function CreateConfiguracoes: TConfiguracoes; virtual;
   public
     property SSL: TDFeSSL read FSSL;
 
@@ -85,8 +88,14 @@ type
       NomeRemetente: String = ''; TLS: Boolean = True;
       StreamNFe: TStringStream = nil; NomeArq: String = '';
       UsarThread: Boolean = True; HTML: Boolean = False);
+
+    function CalcularVersaoServico(const NomeServico: String): Double;
+
+    procedure FazerLog(const Msg: AnsiString; out Tratado: Boolean);
+    procedure GerarException(Msg: String);
+
   published
-    property Configuracoes: TConfiguracoes read FConfiguracoes write FConfiguracoes;
+    property Configuracoes: TConfiguracoes read FPConfiguracoes write FPConfiguracoes;
     property MAIL: TACBrMail read FMAIL write SetMAIL;
     property OnStatusChange: TNotifyEvent read FOnStatusChange write FOnStatusChange;
     property About: String read GetAbout write SetAbout stored False;
@@ -110,14 +119,19 @@ constructor TACBrDFe.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-  FConfiguracoes := TConfiguracoes.Create(self);
-  FConfiguracoes.Name := 'Configuracoes';
+  FPConfiguracoes := CreateConfiguracoes;
+  FPConfiguracoes.Name := 'Configuracoes';
   {$IFDEF COMPILER6_UP}
-  FConfiguracoes.SetSubComponent(True);{ para gravar no DFM/XFM }
+  FPConfiguracoes.SetSubComponent(True);{ para gravar no DFM/XFM }
   {$ENDIF}
 
   FSSL := TDFeSSL.Create(Self);
   FOnGerarLog := nil;
+end;
+
+function TACBrDFe.CreateConfiguracoes: TConfiguracoes;
+begin
+  Result := TConfiguracoes.Create(self);
 end;
 
 destructor TACBrDFe.Destroy;
@@ -126,7 +140,7 @@ begin
   if FConfiguracoes.Geral.IniFinXMLSECAutomatico then
     NotaUtil.ShutDownXmlSec;
   {$ENDIF}
-  FConfiguracoes.Free;
+  FPConfiguracoes.Free;
 
   inherited;
 end;
@@ -157,7 +171,7 @@ begin
     else
     begin
       if DFeUtil.EstaVazio(aPath) then
-        aPath := FConfiguracoes.Geral.PathSalvar
+        aPath := FPConfiguracoes.Arquivos.PathSalvar
       else
         aPath := PathWithDelim(aPath);
     end;
@@ -174,7 +188,7 @@ begin
     Result := True;
   except
     on E: Exception do
-      raise EACBrDFeException.Create('Erro ao salvar.' + E.Message);
+      GerarException('Erro ao salvar.' + E.Message);
   end;
 end;
 
@@ -186,6 +200,48 @@ procedure TACBrDFe.EnviarEmail(
   HTML: Boolean);
 begin
   // TODO: Fazer envio de e-mail usando ACBrMail
+end;
+
+function TACBrDFe.GetNomeArquivoServicos: String;
+begin
+  Result := 'ACBrServicosDFe.ini';
+  raise EACBrDFeException.Create('GetNomeArquivoServicos não implementado para: '+ClassName);
+end;
+
+function TACBrDFe.CalcularVersaoServico(const NomeServico: String): Double;
+var
+  ArqServicos: String;
+begin
+  ArqServicos := Configuracoes.Arquivos.PathConfig + GetNomeArquivoServicos;
+
+  if not FileExists(ArqServicos) then
+    GerarException('Arquivo: '+ArqServicos+' não encontrado');
+
+  GetVersaoNFe( TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).Configuracoes.Geral.ModeloDF,
+       ////                           TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).Configuracoes.Geral.VersaoDF,
+       ////                           LayNfeRecepcao )
+end;
+
+
+procedure TACBrDFe.FazerLog(const Msg: AnsiString; out Tratado: Boolean);
+begin
+  Tratado := False;
+  if (Msg <> '') then
+  begin
+    if Assigned(OnGerarLog) then
+      OnGerarLog(Msg, Tratado);
+  end;
+end;
+
+procedure TACBrDFe.GerarException(Msg: String);
+Var
+  Tratado: Boolean;
+begin
+  Tratado := False;
+  FazerLog('ERRO: ' + Msg, Tratado);
+
+  if not Tratado then
+    raise EACBrDFeException.Create(Msg);
 end;
 
 procedure TACBrDFe.SetMAIL(AValue: TACBrMail);
@@ -212,37 +268,3 @@ end;
 
 end.
 
-
-
-
-
-
-
-
-
-
-
-(*
-
-// TODO: Verificar para onde vai
-
-
-{$IFNDEF NOGUI}
- {$IFDEF CLX} QDialogs, QForms,{$ELSE} Dialogs, Forms,{$ENDIF}
-{$ENDIF}
-
-if FConfiguracoes.Geral.IniFinXMLSECAutomatico then
-  NotaUtil.OpenSSL_InitXmlSec;
-
-
-procedure TACBrDFe.SetStatus(const stNewStatus: TStatusACBrNFe);
-begin
-  if stNewStatus <> FStatus then
-  begin
-    FStatus := stNewStatus;
-    if Assigned(fOnStatusChange) then
-      FOnStatusChange(Self);
-  end;
-end;
-
-*)

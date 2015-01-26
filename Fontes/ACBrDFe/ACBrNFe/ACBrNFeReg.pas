@@ -64,14 +64,6 @@ uses
   {$ENDIF} ;
 
 type
-  { Editor de Proriedades de Componente para mostrar o AboutACBr }
-  TACBrAboutDialogProperty = class(TPropertyEditor)
-  public
-    procedure Edit; override;
-    function GetAttributes: TPropertyAttributes; override;
-    function GetValue: string; override;
-  end;
-
   THRWEBSERVICEUFProperty = class( TStringProperty )
   public
     function GetAttributes: TPropertyAttributes; override;
@@ -90,7 +82,7 @@ procedure Register;
 implementation
 
 uses
-  ACBrNFeConfiguracoes;
+  ACBrDFeConfiguracoes, ACBrNFeConfiguracoes;
 
 {$IFNDEF FPC}
    {$R ACBrNFe.dcr}
@@ -99,9 +91,6 @@ uses
 procedure Register;
 begin
   RegisterComponents('ACBr', [TACBrNFe]);
-
-  RegisterPropertyEditor(TypeInfo(TACBrNFeAboutInfo), nil, 'AboutACBrNFe',
-     TACBrAboutDialogProperty);
 
   RegisterPropertyEditor(TypeInfo(TCertificadosConf), TConfiguracoes, 'Certificados',
     TClassProperty);
@@ -115,43 +104,27 @@ begin
   RegisterPropertyEditor(TypeInfo(String), TWebServicesConf, 'UF',
      THRWEBSERVICEUFProperty);
 
-  RegisterPropertyEditor(TypeInfo(TGeralConf), TConfiguracoes, 'Geral',
+  RegisterPropertyEditor(TypeInfo(TGeralConfNFe), TConfiguracoes, 'Geral',
     TClassProperty);
 
-  RegisterPropertyEditor(TypeInfo(String), TGeralConf, 'PathSalvar',
+  RegisterPropertyEditor(TypeInfo(String), TGeralConfNFe, 'PathSalvar',
      TACBrNFeDirProperty);
 
-  RegisterPropertyEditor(TypeInfo(TArquivosConf), TConfiguracoes, 'Arquivos',
+  RegisterPropertyEditor(TypeInfo(TArquivosConfNFe), TConfiguracoes, 'Arquivos',
     TClassProperty);
 
-  RegisterPropertyEditor(TypeInfo(String), TArquivosConf, 'PathNFe',
+  RegisterPropertyEditor(TypeInfo(String), TArquivosConfNFe, 'PathNFe',
      TACBrNFeDirProperty);
 
-  RegisterPropertyEditor(TypeInfo(String), TArquivosConf, 'PathCan',
+  RegisterPropertyEditor(TypeInfo(String), TArquivosConfNFe, 'PathCan',
      TACBrNFeDirProperty);
 
-  RegisterPropertyEditor(TypeInfo(String), TArquivosConf, 'PathInu',
+  RegisterPropertyEditor(TypeInfo(String), TArquivosConfNFe, 'PathInu',
      TACBrNFeDirProperty);
 
-  RegisterPropertyEditor(TypeInfo(String), TArquivosConf, 'PathDPEC',
+  RegisterPropertyEditor(TypeInfo(String), TArquivosConfNFe, 'PathDPEC',
      TACBrNFeDirProperty);
 
-end;
-
-{ TACBrAboutDialogProperty }
-procedure TACBrAboutDialogProperty.Edit;
-begin
-  ACBrAboutDialog;
-end;
-
-function TACBrAboutDialogProperty.GetAttributes: TPropertyAttributes;
-begin
-  Result := [paDialog, paReadOnly];
-end;
-
-function TACBrAboutDialogProperty.GetValue: string;
-begin
-  Result := 'Versão: ' + ACBRNFE_VERSAO;
 end;
 
 { THRWEBSERVICEUFProperty }
@@ -197,4 +170,4 @@ initialization
    {$i ACBrNFe.lrs}
 {$endif}
 
-end.
+end.

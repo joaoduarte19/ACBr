@@ -60,16 +60,7 @@ unit ACBrNFeWebServices;
 interface
 
 uses Classes, SysUtils,
-  {$IFDEF CLX} QDialogs,{$ELSE} Dialogs,{$ENDIF}
-  {$IFDEF ACBrNFeOpenSSL}
-    HTTPSend,
-  {$ELSE}
-     {$IFDEF SoapHTTP}
-      SoapHTTPClient, SOAPHTTPTrans, SOAPConst, WinInet, ACBrCAPICOM_TLB,
-     {$ELSE}
-      ACBrHTTPReqResp,
-     {$ENDIF}
-  {$ENDIF}
+  ACBrDFeWebService,
   pcnNFe, pcnNFeW,
   pcnRetConsReciNFe, pcnRetConsCad, pcnAuxiliar, pcnConversao, pcnRetDPEC,
   pcnProcNFe, pcnRetCancNFe,
@@ -83,24 +74,13 @@ uses Classes, SysUtils,
 
 const
   CURL_WSDL = 'http://www.portalfiscal.inf.br/nfe/wsdl/';
-  INTERNET_OPTION_CLIENT_CERT_CONTEXT = 84;
 
 type
 
-  { TWebServicesBase }
+  { TNFeWebService }
 
-  TWebServicesBase = Class
+  TNFeWebService = Class(TDFeWebService)
   private
-    {$IFDEF ACBrNFeOpenSSL}
-     procedure ConfiguraHTTP( HTTP : THTTPSend; Action : String);
-    {$ELSE}
-     {$IFDEF SoapHTTP}
-      procedure ConfiguraReqResp( ReqResp : THTTPReqResp);
-      procedure OnBeforePost(const HTTPReqResp: THTTPReqResp; Data:Pointer);
-     {$ELSE}
-      procedure ConfiguraReqResp( ReqResp : TACBrHTTPReqResp);
-     {$ENDIF}
-    {$ENDIF}
   protected
     FCabMsg: String;
     FDadosMsg: String;
@@ -109,7 +89,7 @@ type
     FRetWS: String;
     FMsg: String;
     FURL: String;
-    FConfiguracoes: TConfiguracoes;
+    FConfiguracoes: TConfiguracoesNFe;
     FACBrNFe : TComponent;
     FArqEnv: String;
     FArqResp: String;
@@ -119,9 +99,7 @@ type
     FLayout: TLayOut;
   protected
     function EhAutorizacao: Boolean;
-    procedure AssinarXML( AXML: String; MsgErro: String );
     function GerarSoapDEPC: String;
-    procedure FazerLog(Msg: AnsiString; Exibir: Boolean = False);
     procedure GerarException(Msg: String);
   protected
     procedure InicializarServico; virtual;
@@ -130,7 +108,6 @@ type
     procedure DefinirDadosMsg; virtual;
     procedure DefinirEnvelopeSoap; virtual;
     procedure SalvarEnvio; virtual;
-    procedure EnviarDados; virtual;
     function TratarResposta: Boolean; virtual;
     procedure SalvarResposta; virtual;
     procedure FinalizarServico; virtual;
@@ -162,7 +139,7 @@ type
 
   { TNFeStatusServico }
 
-  TNFeStatusServico = Class(TWebServicesBase)
+  TNFeStatusServico = Class(TNFeWebService)
   private
     Fversao: String;
     FtpAmb : TpcnTipoAmbiente;
@@ -198,7 +175,7 @@ type
 
   { TNFeRecepcao }
 
-  TNFeRecepcao = Class(TWebServicesBase)
+  TNFeRecepcao = Class(TNFeWebService)
   private
     FLote: String;
     FRecibo : String;
@@ -246,7 +223,7 @@ type
 
   { TNFeRetRecepcao }
 
-  TNFeRetRecepcao = Class(TWebServicesBase)
+  TNFeRetRecepcao = Class(TNFeWebService)
   private
     FRecibo: String;
     FProtocolo: String;
@@ -297,7 +274,7 @@ type
 
   { TNFeRecibo }
 
-  TNFeRecibo = Class(TWebServicesBase)
+  TNFeRecibo = Class(TNFeWebService)
   private
     FRecibo: String;
     Fversao: String;
@@ -336,7 +313,7 @@ type
 
   { TNFeConsulta }
 
-  TNFeConsulta = Class(TWebServicesBase)
+  TNFeConsulta = Class(TNFeWebService)
   private
     FNFeChave: WideString;
     FProtocolo: WideString;
@@ -379,7 +356,7 @@ type
 
   { TNFeInutilizacao }
 
-  TNFeInutilizacao = Class(TWebServicesBase)
+  TNFeInutilizacao = Class(TNFeWebService)
   private
     FID: WideString;
     FProtocolo: string;
@@ -436,7 +413,7 @@ type
 
   { TNFeConsultaCadastro }
 
-  TNFeConsultaCadastro = Class(TWebServicesBase)
+  TNFeConsultaCadastro = Class(TNFeWebService)
   private
     Fversao: String;
     FverAplic: String;
@@ -482,7 +459,7 @@ type
 
   { TNFeEnvDPEC }
 
-  TNFeEnvDPEC = Class(TWebServicesBase)
+  TNFeEnvDPEC = Class(TNFeWebService)
   private
     FId: String;
     FverAplic: String;
@@ -522,7 +499,7 @@ type
 
   { TNFeConsultaDPEC }
 
-  TNFeConsultaDPEC = Class(TWebServicesBase)
+  TNFeConsultaDPEC = Class(TNFeWebService)
   private
     FverAplic: String;
     FcStat: Integer;
@@ -562,7 +539,7 @@ type
 
   { TNFeEnvEvento }
 
-  TNFeEnvEvento = Class(TWebServicesBase)
+  TNFeEnvEvento = Class(TNFeWebService)
   private
     FidLote: Integer;
     Fversao: String;
@@ -599,7 +576,7 @@ type
 
   { TNFeConsNFeDest }
 
-  TNFeConsNFeDest = Class(TWebServicesBase)
+  TNFeConsNFeDest = Class(TNFeWebService)
   private
     Fversao: String;
     FtpAmb: TpcnTipoAmbiente;
@@ -632,7 +609,7 @@ type
 
   { TNFeDownloadNFe }
 
-  TNFeDownloadNFe = Class(TWebServicesBase)
+  TNFeDownloadNFe = Class(TNFeWebService)
   private
     Fversao: String;
     FtpAmb: TpcnTipoAmbiente;
@@ -660,7 +637,7 @@ type
 
   { TAdministrarCSCNFCe }
 
-  TAdministrarCSCNFCe = Class(TWebServicesBase)
+  TAdministrarCSCNFCe = Class(TNFeWebService)
   private
     Fversao: String;
     FtpAmb: TpcnTipoAmbiente;
@@ -693,7 +670,7 @@ type
 
   { TDistribuicaoDFe }
 
-  TDistribuicaoDFe = Class(TWebServicesBase)
+  TDistribuicaoDFe = Class(TNFeWebService)
   private
     Fversao: String;
     FtpAmb: TpcnTipoAmbiente;
@@ -727,7 +704,7 @@ type
 
   { TNFeEnvioWebService }
 
-  TNFeEnvioWebService = Class(TWebServicesBase)
+  TNFeEnvioWebService = Class(TNFeWebService)
   private
     FXMLEnvio: String;
     FURLEnvio: String;
@@ -813,9 +790,9 @@ uses {$IFDEF ACBrNFeOpenSSL}
      pcnNFeR, pcnLeitor,
      pcnEnvDPEC, pcnConsDPEC, pcnEventoNFe, StrUtils;
 
-{ TWebServicesBase }
+{ TNFeWebService }
 
-constructor TWebServicesBase.Create(AOwner: TComponent);
+constructor TNFeWebService.Create(AOwner: TComponent);
 begin
   FConfiguracoes := TACBrNFe( AOwner ).Configuracoes;
   FACBrNFe       := TACBrNFe( AOwner );
@@ -833,7 +810,7 @@ begin
   FSoapAction    := '';
 end;
 
-function TWebServicesBase.EhAutorizacao: Boolean;
+function TNFeWebService.EhAutorizacao: Boolean;
 begin
   Result := False;
   case FConfiguracoes.Geral.ModeloDF of
@@ -847,19 +824,7 @@ begin
   end;
 end;
 
-procedure TWebServicesBase.AssinarXML(AXML: String; MsgErro: String);
-begin
-   if not NotaUtil.Assinar( AXML,
-                            FConfiguracoes.Certificados.Certificado,
-                            FConfiguracoes.Certificados.Senha,
-                            FDadosMsg, FMsg )) then
-   if not(NotaUtil.openAssinar( AXML,
-                            FConfiguracoes.Certificados.GetCertificado,
-                            FDadosMsg, FMsg )) then
-     GerarException(MsgErro);
-end;
-
-function TWebServicesBase.GerarSoapDEPC: String;
+function TNFeWebService.GerarSoapDEPC: String;
 var
   Texto: String;
 begin
@@ -882,107 +847,7 @@ begin
   Result := Texto;
 end;
 
-{$IFDEF ACBrNFeOpenSSL}
- procedure TWebServicesBase.ConfiguraHTTP( HTTP : THTTPSend; Action : String);
- begin
-   if FileExists(FConfiguracoes.Certificados.Certificado) then
-     HTTP.Sock.SSL.PFXfile := FConfiguracoes.Certificados.Certificado
-   else
-     HTTP.Sock.SSL.PFX     := FConfiguracoes.Certificados.Certificado;
-
-   HTTP.Sock.SSL.KeyPassword := FConfiguracoes.Certificados.Senha;
-
-   HTTP.ProxyHost := FConfiguracoes.WebServices.ProxyHost;
-   HTTP.ProxyPort := FConfiguracoes.WebServices.ProxyPort;
-   HTTP.ProxyUser := FConfiguracoes.WebServices.ProxyUser;
-   HTTP.ProxyPass := FConfiguracoes.WebServices.ProxyPass;
-
-   if (pos('SCERECEPCAORFB', UpperCase(FURL)) <= 0) and
-      (pos('SCECONSULTARFB', UpperCase(FURL)) <= 0) then
-      HTTP.MimeType := 'application/soap+xml; charset=utf-8'
-   else
-      HTTP.MimeType := 'text/xml; charset=utf-8';
-
-   HTTP.UserAgent := '';
-   HTTP.Protocol := '1.1';
-   HTTP.AddPortNumberToHost := False;
-   HTTP.Headers.Add(Action);
- end;
-{$ELSE}
- {$IFDEF SoapHTTP}
-  procedure TWebServicesBase.ConfiguraReqResp( ReqResp : THTTPReqResp );
-  begin
-    if FConfiguracoes.WebServices.ProxyHost <> '' then
-     begin
-       ReqResp.Proxy    := FConfiguracoes.WebServices.ProxyHost + ':' +
-                           FConfiguracoes.WebServices.ProxyPort;
-       ReqResp.UserName := FConfiguracoes.WebServices.ProxyUser;
-       ReqResp.Password := FConfiguracoes.WebServices.ProxyPass;
-     end;
-    ReqResp.OnBeforePost := OnBeforePost;
-  end;
-
-  procedure TWebServicesBase.OnBeforePost(const HTTPReqResp: THTTPReqResp;
-    Data: Pointer);
-  var
-    Cert: ICertificate2;
-    CertContext: ICertContext;
-    PCertContext: Pointer;
-    ContentHeader: string;
-  begin
-    Cert := FConfiguracoes.Certificados.GetCertificado;
-    CertContext :=  Cert as ICertContext;
-    CertContext.Get_CertContext(Integer(PCertContext));
-
-    if not InternetSetOption(Data, INTERNET_OPTION_CLIENT_CERT_CONTEXT,
-                             PCertContext, SizeOf(CERT_CONTEXT)) then
-      GerarException('OnBeforePost: ' + IntToStr(GetLastError));
-
-    if trim(FConfiguracoes.WebServices.ProxyUser) <> '' then
-      if not InternetSetOption(Data, INTERNET_OPTION_PROXY_USERNAME,
-                               PChar(FConfiguracoes.WebServices.ProxyUser),
-                               Length(FConfiguracoes.WebServices.ProxyUser)) then
-        GerarException('OnBeforePost: ' + IntToStr(GetLastError));
-
-    if trim(FConfiguracoes.WebServices.ProxyPass) <> '' then
-      if not InternetSetOption(Data, INTERNET_OPTION_PROXY_PASSWORD,
-                               PChar(FConfiguracoes.WebServices.ProxyPass),
-                               Length(FConfiguracoes.WebServices.ProxyPass)) then
-        GerarException('OnBeforePost: ' + IntToStr(GetLastError));
-
-    if (pos('SCERECEPCAORFB', UpperCase(FURL)) <= 0) and
-       (pos('SCECONSULTARFB', UpperCase(FURL)) <= 0) then
-    begin
-       ContentHeader := Format(ContentTypeTemplate, ['application/soap+xml; charset=utf-8']);
-       HttpAddRequestHeaders(Data, PChar(ContentHeader),
-                             Length(ContentHeader), HTTP_ADDREQ_FLAG_REPLACE);
-    end;
-
-    HTTPReqResp.CheckContentType;
-  end;
- {$ELSE}
-  procedure TWebServicesBase.ConfiguraReqResp( ReqResp : TACBrHTTPReqResp);
-  begin
-    if FConfiguracoes.WebServices.ProxyHost <> '' then
-    begin
-      ReqResp.ProxyHost := FConfiguracoes.WebServices.ProxyHost;
-      ReqResp.ProxyPort := FConfiguracoes.WebServices.ProxyPort;
-      ReqResp.ProxyUser := FConfiguracoes.WebServices.ProxyUser;
-      ReqResp.ProxyPass := FConfiguracoes.WebServices.ProxyPass;
-    end;
-
-    ReqResp.SetCertificate(FConfiguracoes.Certificados.GetCertificado);
-
-    if (pos('SCERECEPCAORFB', UpperCase(FURL)) <= 0) and
-       (pos('SCECONSULTARFB', UpperCase(FURL)) <= 0) then
-      ReqResp.MimeType := 'application/soap+xml'
-    else
-      ReqResp.MimeType := 'text/xml';
-  end;
- {$ENDIF}
-{$ENDIF}
-
-function TWebServicesBase.Executar: Boolean;
+function TNFeWebService.Executar: Boolean;
 var
   ErroMsg: String;
 begin
@@ -1012,7 +877,7 @@ begin
   end;
 end;
 
-procedure TWebServicesBase.InicializarServico;
+procedure TNFeWebService.InicializarServico;
 begin
   { Sobrescrever apenas se necessário }
 
@@ -1030,7 +895,7 @@ begin
   TACBrNFe( FACBrNFe ).SetStatus( FStatus );
 end;
 
-procedure TWebServicesBase.DefinirServicoEAction;
+procedure TNFeWebService.DefinirServicoEAction;
 begin
   { sobrescrever, OBRIGATORIAMENTE }
 
@@ -1038,7 +903,7 @@ begin
   FSoapAction := '';
 end;
 
-procedure TWebServicesBase.DefinirURL;
+procedure TNFeWebService.DefinirURL;
 begin
   { sobrescrever apenas se necessário.
     Você também pode mudar apenas o valor de "FLayoutServico" na classe
@@ -1053,7 +918,7 @@ begin
 end;
 
 
-procedure TWebServicesBase.DefinirDadosMsg;
+procedure TNFeWebService.DefinirDadosMsg;
 begin
   { sobrescrever, OBRIGATORIAMENTE }
 
@@ -1061,7 +926,7 @@ begin
 end;
 
 
-procedure TWebServicesBase.DefinirEnvelopeSoap;
+procedure TNFeWebService.DefinirEnvelopeSoap;
 var
   Texto: String;
 begin
@@ -1089,110 +954,28 @@ begin
   FEnvelopeSoap := Texto;
 end;
 
-function TWebServicesBase.GerarUFSoap: String;
+function TNFeWebService.GerarUFSoap: String;
 begin
   Result := '<cUF>' + IntToStr(FConfiguracoes.WebServices.UFCodigo) + '</cUF>';
 end;
 
-function TWebServicesBase.GerarVersaoDadosSoap: String;
+function TNFeWebService.GerarVersaoDadosSoap: String;
 begin
   { Sobrescrever apenas se necessário }
 
-  Result := '<versaoDados>' + GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                           FConfiguracoes.Geral.VersaoDF,
-                                           Layout) +
-            '</versaoDados>';
-end;
-
-procedure TWebServicesBase.EnviarDados;
-var
-  {$IFDEF ACBrNFeOpenSSL}
-   HTTP: THTTPSend;
-   OK: Boolean;
-  {$ELSE}
-   Stream: TMemoryStream;
-   {$IFDEF SoapHTTP}
-    ReqResp: THTTPReqResp;
-   {$ELSE}
-    ReqResp: TACBrHTTPReqResp;
-   {$ENDIF}
-  {$ENDIF}
-begin
-  { Sobrescrever apenas se necessário }
-
-  FRetWS     := '';
-  FRetornoWS := '';
-
-  {$IFDEF ACBrNFeOpenSSL}
-   HTTP := THTTPSend.Create;
-  {$ELSE}
-   {$IFDEF SoapHTTP}
-    ReqResp := THTTPReqResp.Create(nil);
-    ReqResp.UseUTF8InHeader := True;
-   {$ELSE}
-    ReqResp := TACBrHTTPReqResp.Create;
-   {$ENDIF}
-   ConfiguraReqResp( ReqResp );
-   ReqResp.URL := URL;
-   ReqResp.SoapAction := SoapAction;
-  {$ENDIF}
-  { Verifica se precisa converter o Envelope para UTF8 antes de ser enviado.
-     Entretanto o Envelope pode já ter sido convertido antes, como por exemplo,
-     para assinatura.
-     Se o XML está assinado, não deve modificar o conteúdo }
-
-  if not NotaUtil.XMLisSigned(FEnvelopeSoap) then
-     FEnvelopeSoap := NotaUtil.ConverteXMLtoUTF8(FEnvelopeSoap);
-
-  try
-    {$IFDEF ACBrNFeOpenSSL}
-     ConfiguraHTTP(HTTP, 'SOAPAction: "' + SoapAction + '"');
-     // DEBUG //
-     //HTTP.Document.SaveToFile( 'c:\temp\HttpSend.xml' );
-     HTTP.Document.WriteBuffer(FEnvelopeSoap[1], Length(FEnvelopeSoap));
-     OK := HTTP.HTTPMethod('POST', URL);
-     OK := OK and (HTTP.ResultCode = 200);
-     if not OK then
-       GerarException( 'Cod.Erro HTTP: ' + IntToStr(HTTP.ResultCode) + ' ' +
-                       HTTP.ResultString );
-
-     // Lendo a resposta //
-     HTTP.Document.Position := 0;
-     SetLength(FRetornoWS, HTTP.Document.Size);
-     HTTP.Document.ReadBuffer(FRetornoWS[1], HTTP.Document.Size);
-     // DEBUG //
-     HTTP.Document.SaveToFile( 'c:\temp\ReqResp.xml' );
-    {$ELSE}
-     Stream := TMemoryStream.Create;
-     try
-       ReqResp.Execute(FEnvelopeSoap, Stream);  // Dispara exceptions no caso de erro
-       SetLength(FRetornoWS, Stream.Size);
-       Stream.ReadBuffer(FRetornoWS[1], Stream.Size);
-       // DEBUG //
-       Stream.SaveToFile( 'c:\temp\ReqResp.xml' );
-     finally
-       Stream.Free;
-     end;
-    {$ENDIF}
-    { Resposta sempre é UTF8, ParseTXT chamará DecodetoString, que converterá
-      de UTF8 para o formato nativo de  String usada pela IDE }
-    FRetornoWS := ParseText(FRetornoWS, True, True );
-  finally
-    {$IFDEF ACBrNFeOpenSSL}
-     HTTP.Free;
-    {$ELSE}
-     ReqResp.Free;
-    {$ENDIF}
-  end;
+  ////Result := '<versaoDados>' + GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+  ////                                         FConfiguracoes.Geral.VersaoDF,
+  ////                                         Layout) +
+  ////          '</versaoDados>';
 end;
 
 
-function TWebServicesBase.GerarPrefixoArquivo: String;
+function TNFeWebService.GerarPrefixoArquivo: String;
 begin
   Result := FormatDateTime('yyyymmddhhnnss', Now);
 end;
 
-procedure TWebServicesBase.SalvarEnvio;
+procedure TNFeWebService.SalvarEnvio;
 var
   Prefixo, ArqEnv: String;
 begin
@@ -1202,20 +985,20 @@ begin
 
   Prefixo := GerarPrefixoArquivo;
 
-  if FConfiguracoes.Geral.Salvar then
+  if FConfiguracoes.Arquivos.Salvar then
   begin
     ArqEnv := Prefixo + '-' + FArqEnv + '.xml';
-    FConfiguracoes.Geral.Save(ArqEnv, FDadosMsg);
+    ////FConfiguracoes.Geral.Save(ArqEnv, FDadosMsg);
   end;
 
   if FConfiguracoes.WebServices.Salvar then
   begin
     ArqEnv := Prefixo + '-' + FArqEnv + '-soap.xml';
-    FConfiguracoes.Geral.Save(ArqEnv, FEnvelopeSoap);
+    ////FConfiguracoes.Geral.Save(ArqEnv, FEnvelopeSoap);
   end;
 end;
 
-procedure TWebServicesBase.SalvarResposta;
+procedure TNFeWebService.SalvarResposta;
 var
   Prefixo, ArqResp: String;
 begin
@@ -1225,64 +1008,52 @@ begin
 
   Prefixo := GerarPrefixoArquivo;
 
-  if FConfiguracoes.Geral.Salvar then
+  if FConfiguracoes.Arquivos.Salvar then
   begin
     ArqResp := Prefixo + '-' + FArqResp + '.xml';
-    FConfiguracoes.Geral.Save(ArqResp, FRetWS);
+    ////FConfiguracoes.Geral.Save(ArqResp, FRetWS);
   end;
 
   if FConfiguracoes.WebServices.Salvar then
   begin
     ArqResp := Prefixo + '-' + FArqResp + '-soap.xml';
-    FConfiguracoes.Geral.Save(ArqResp, FRetornoWS );
+    ////FConfiguracoes.Geral.Save(ArqResp, FRetornoWS );
   end;
 end;
 
-function TWebServicesBase.GerarMsgLog: String;
+function TNFeWebService.GerarMsgLog: String;
 begin
   { sobrescrever, se quiser Logar }
 
   Result := '';
 end;
 
-function TWebServicesBase.TratarResposta: Boolean;
+function TNFeWebService.TratarResposta: Boolean;
 begin
   { sobrescrever, OBRIGATORIAMENTE }
 
   Result := False;
 end;
 
-procedure TWebServicesBase.FazerLog(Msg: AnsiString; Exibir: Boolean);
-begin
-  if (Msg <> '') then
-  begin
-    if  Assigned(TACBrNFe( FACBrNFe ).OnGerarLog) then
-      TACBrNFe( FACBrNFe ).OnGerarLog(Msg);
-
-    if Exibir and FConfiguracoes.WebServices.Visualizar then
-      ShowMessage(Msg);
-  end;
-end;
-
-procedure TWebServicesBase.GerarException(Msg: String);
+procedure TNFeWebService.GerarException(Msg: String);
 begin
   FazerLog( 'ERRO: ' + Msg, False );
   raise EACBrNFeException.Create( Msg );
 end;
 
-function TWebServicesBase.GerarMsgErro(E: Exception): String;
+function TNFeWebService.GerarMsgErro(E: Exception): String;
 begin
   { Sobrescrever com mensagem adicional, se desejar }
 
   Result := E.Message;
 end;
 
-procedure TWebServicesBase.FinalizarServico;
+procedure TNFeWebService.FinalizarServico;
 begin
   { Sobrescrever apenas se necessário }
 
   TACBrNFe( FACBrNFe ).SetStatus( stIdle );
-  NotaUtil.ConfAmbiente;
+  ////NotaUtil.ConfAmbiente;
 end;
 
 { TNFeStatusServico }
@@ -1322,9 +1093,9 @@ begin
     ConsStatServ.TpAmb := TpcnTipoAmbiente(FConfiguracoes.WebServices.AmbienteCodigo-1);
     ConsStatServ.CUF   := FConfiguracoes.WebServices.UFCodigo;
 
-    ConsStatServ.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                        FConfiguracoes.Geral.VersaoDF,
-                                        LayNfeStatusServico);
+    ////ConsStatServ.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+    ////                                    FConfiguracoes.Geral.VersaoDF,
+    ////                                    LayNfeStatusServico);
 
     ConsStatServ.GerarXML;
 
@@ -1378,14 +1149,10 @@ begin
             'Status Código : ' + IntToStr(FcStat) + LineBreak +
             'Status Descrição : ' + FxMotivo + LineBreak +
             'UF : ' + CodigoParaUF(FcUF) + LineBreak +
-            'Recebimento : ' + DFeUtil.SeSenao(FdhRecbto = 0,
-                                               '',
-                                               DateTimeToStr(FdhRecbto)) +
+            'Recebimento : ' + IfThen(FdhRecbto = 0,'',DateTimeToStr(FdhRecbto)) +
                                LineBreak +
             'Tempo Médio : ' + IntToStr(FTMed) + LineBreak +
-            'Retorno : ' + DFeUtil.SeSenao(FdhRetorno = 0,
-                                           '',
-                                           DateTimeToStr(FdhRetorno)) +
+            'Retorno : ' + IfThen(FdhRetorno = 0,'',DateTimeToStr(FdhRetorno)) +
                            LineBreak +
             'Observação : ' + FxObs + LineBreak;
 end;
@@ -1470,9 +1237,9 @@ begin
   else
     indSinc := '';
 
-  Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                         FConfiguracoes.Geral.VersaoDF,
-                         Layout);
+  ////Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+  ////                       FConfiguracoes.Geral.VersaoDF,
+  ////                       Layout);
 
   vNotas := '';
   for I := 0 to FNotasFiscais.Count-1 do
@@ -1549,7 +1316,7 @@ begin
     Result := (FNFeRetornoSincrono.cStat = 104) and
               (NotaUtil.CstatProcessado(FNFeRetornoSincrono.protNFe.cStat));
 
-    NomeArquivo := PathWithDelim(FConfiguracoes.Geral.PathSalvar) + chNFe;
+    NomeArquivo := PathWithDelim(FConfiguracoes.Arquivos.PathSalvar) + chNFe;
 
     if Result then
     begin
@@ -1597,9 +1364,9 @@ begin
               AProcNFe.cStat              := FNFeRetornoSincrono.protNFe.cStat;
               AProcNFe.xMotivo            := FNFeRetornoSincrono.protNFe.xMotivo;
 
-              AProcNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                              FConfiguracoes.Geral.VersaoDF,
-                                              Layout);
+              ////AProcNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+              ////                                FConfiguracoes.Geral.VersaoDF,
+              ////                                Layout);
               AProcNFe.GerarXML;
 
               if DFeUtil.NaoEstaVazio(AProcNFe.Gerador.ArquivoFormatoXML) then
@@ -1688,9 +1455,7 @@ begin
               'Status Descrição : ' + FNFeRetorno.xMotivo + LineBreak +
               'UF : ' + CodigoParaUF(FNFeRetorno.cUF) + LineBreak +
               'Recibo : ' + FNFeRetorno.infRec.nRec + LineBreak +
-              'Recebimento : ' + DFeUtil.SeSenao(FNFeRetorno.InfRec.dhRecbto = 0,
-                                                 '',
-                                                 DateTimeToStr(FNFeRetorno.InfRec.dhRecbto)) +
+              'Recebimento : ' + IfThen(FNFeRetorno.InfRec.dhRecbto = 0,'',DateTimeToStr(FNFeRetorno.InfRec.dhRecbto)) +
                                 LineBreak +
               'Tempo Médio : ' + IntToStr(FNFeRetorno.InfRec.TMed) + LineBreak
   else
@@ -1788,24 +1553,24 @@ begin
         FNotasFiscais.Items[J].NFe.procNFe.cStat    := AInfProt.Items[I].cStat;
         FNotasFiscais.Items[J].NFe.procNFe.xMotivo  := AInfProt.Items[I].xMotivo;
 
-        if FConfiguracoes.Geral.Salvar or DFeUtil.NaoEstaVazio(FNotasFiscais.Items[J].NomeArq) then
+        if FConfiguracoes.Arquivos.Salvar or DFeUtil.NaoEstaVazio(FNotasFiscais.Items[J].NomeArq) then
         begin
-          if FileExists(PathWithDelim(FConfiguracoes.Geral.PathSalvar)+AInfProt.Items[I].chNFe + '-nfe.xml') and
-             FileExists(PathWithDelim(FConfiguracoes.Geral.PathSalvar)+FNFeRetorno.nRec + '-pro-rec.xml') then
+          if FileExists(PathWithDelim(FConfiguracoes.Arquivos.PathSalvar)+AInfProt.Items[I].chNFe + '-nfe.xml') and
+             FileExists(PathWithDelim(FConfiguracoes.Arquivos.PathSalvar)+FNFeRetorno.nRec + '-pro-rec.xml') then
           begin
             AProcNFe := TProcNFe.Create;
             try
-              AProcNFe.PathNFe := PathWithDelim(FConfiguracoes.Geral.PathSalvar)+AInfProt.Items[I].chNFe + '-nfe.xml';
-              AProcNFe.PathRetConsReciNFe := PathWithDelim(FConfiguracoes.Geral.PathSalvar)+FNFeRetorno.nRec + '-pro-rec.xml';
+              AProcNFe.PathNFe := PathWithDelim(FConfiguracoes.Arquivos.PathSalvar)+AInfProt.Items[I].chNFe + '-nfe.xml';
+              AProcNFe.PathRetConsReciNFe := PathWithDelim(FConfiguracoes.Arquivos.PathSalvar)+FNFeRetorno.nRec + '-pro-rec.xml';
 
-              if FLayout = LayNfeRetAutorizacao then
-                AProcNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                                FConfiguracoes.Geral.VersaoDF,
-                                                LayNfeAutorizacao)
-              else
-                AProcNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                                FConfiguracoes.Geral.VersaoDF,
-                                                LayNfeRecepcao);
+              ////if FLayout = LayNfeRetAutorizacao then
+              ////  AProcNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+              ////                                  FConfiguracoes.Geral.VersaoDF,
+              ////                                  LayNfeAutorizacao)
+              ////else
+              ////  AProcNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+              ////                                  FConfiguracoes.Geral.VersaoDF,
+              ////                                  LayNfeRecepcao);
 
               AProcNFe.GerarXML;
 
@@ -1814,7 +1579,7 @@ begin
                 if DFeUtil.NaoEstaVazio(FNotasFiscais.Items[J].NomeArq) then
                   AProcNFe.Gerador.SalvarArquivo(FNotasFiscais.Items[J].NomeArq)
                 else
-                  AProcNFe.Gerador.SalvarArquivo(PathWithDelim(FConfiguracoes.Geral.PathSalvar)+AInfProt.Items[I].chNFe + '-nfe.xml');
+                  AProcNFe.Gerador.SalvarArquivo(PathWithDelim(FConfiguracoes.Arquivos.PathSalvar)+AInfProt.Items[I].chNFe + '-nfe.xml');
               end;
             finally
               AProcNFe.Free;
@@ -1955,9 +1720,9 @@ begin
   try
     ConsReciNFe.tpAmb  := TpcnTipoAmbiente(FConfiguracoes.WebServices.AmbienteCodigo-1);
     ConsReciNFe.nRec   := FRecibo;
-    ConsReciNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                       FConfiguracoes.Geral.VersaoDF,
-                                       Layout);
+    ////ConsReciNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+    ////                                   FConfiguracoes.Geral.VersaoDF,
+    ////                                   Layout);
     ConsReciNFe.GerarXML;
 
     FDadosMsg := ConsReciNFe.Gerador.ArquivoFormatoXML;
@@ -1999,7 +1764,7 @@ end;
 
 procedure TNFeRetRecepcao.FinalizarServico;
 begin
-  NotaUtil.ConfAmbiente;
+  ////NotaUtil.ConfAmbiente;
   // Não libera para stIdle... não ainda...;
 end;
 
@@ -2070,9 +1835,9 @@ begin
   try
     ConsReciNFe.tpAmb  := TpcnTipoAmbiente(FConfiguracoes.WebServices.AmbienteCodigo-1);
     ConsReciNFe.nRec   := FRecibo;
-    ConsReciNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                       FConfiguracoes.Geral.VersaoDF,
-                                       FLayout);
+    ////ConsReciNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+    ////                                   FConfiguracoes.Geral.VersaoDF,
+    ////                                   FLayout);
     ConsReciNFe.GerarXML;
 
     FDadosMsg := ConsReciNFe.Gerador.ArquivoFormatoXML;
@@ -2171,11 +1936,11 @@ begin
     ConsSitNFe.TpAmb := TpcnTipoAmbiente(FConfiguracoes.WebServices.AmbienteCodigo-1);
     ConsSitNFe.chNFe := FNFeChave;
 
-    FConfiguracoes.Geral.ModeloDF := StrToModeloDF(OK, NotaUtil.ExtraiModeloChaveAcesso(ConsSitNFe.chNFe));
+    ////FConfiguracoes.Geral.ModeloDF := StrToModeloDF(OK, NotaUtil.ExtraiModeloChaveAcesso(ConsSitNFe.chNFe));
 
-    ConsSitNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                      FConfiguracoes.Geral.VersaoDF,
-                                      LayNfeConsulta);
+    ////ConsSitNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+    ////                                  FConfiguracoes.Geral.VersaoDF,
+    ////                                  LayNfeConsulta);
     ConsSitNFe.GerarXML;
 
     FDadosMsg := ConsSitNFe.Gerador.ArquivoFormatoXML;
@@ -2341,7 +2106,7 @@ begin
 
     Result := (NFeRetorno.CStat in [100, 101, 110, 150, 151, 155]);
 
-    NomeArquivo := PathWithDelim(FConfiguracoes.Geral.PathSalvar) + FNFeChave;
+    NomeArquivo := PathWithDelim(FConfiguracoes.Arquivos.PathSalvar) + FNFeChave;
 
     for i:= 0 to TACBrNFe( FACBrNFe ).NotasFiscais.Count-1 do
     begin
@@ -2385,14 +2150,14 @@ begin
 
               AProcNFe.PathRetConsSitNFe := NomeArquivo + '-sit.xml';
 
-              if FConfiguracoes.Geral.VersaoDF = ve310 then
-                AProcNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                                FConfiguracoes.Geral.VersaoDF,
-                                                LayNfeAutorizacao)
-              else
-                AProcNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                                FConfiguracoes.Geral.VersaoDF,
-                                                LayNfeRecepcao);
+              ////if FConfiguracoes.Geral.VersaoDF = ve310 then
+              ////  AProcNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+              ////                                  FConfiguracoes.Geral.VersaoDF,
+              ////                                  LayNfeAutorizacao)
+              ////else
+              ////  AProcNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+              ////                                  FConfiguracoes.Geral.VersaoDF,
+              ////                                  LayNfeRecepcao);
               AProcNFe.GerarXML;
 
               if DFeUtil.NaoEstaVazio(AProcNFe.Gerador.ArquivoFormatoXML) then
@@ -2433,7 +2198,7 @@ begin
 
     if (TACBrNFe( FACBrNFe ).NotasFiscais.Count <= 0) then
     begin
-      if FConfiguracoes.Geral.Salvar then
+      if FConfiguracoes.Arquivos.Salvar then
       begin
         if FileExists(NomeArquivo + '-nfe.xml') then
         begin
@@ -2442,14 +2207,14 @@ begin
             AProcNFe.PathNFe := NomeArquivo + '-nfe.xml';
             AProcNFe.PathRetConsSitNFe := NomeArquivo + '-sit.xml';
 
-            if FConfiguracoes.Geral.VersaoDF = ve310 then
-              AProcNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                              FConfiguracoes.Geral.VersaoDF,
-                                              LayNfeAutorizacao)
-            else
-              AProcNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                              FConfiguracoes.Geral.VersaoDF,
-                                              LayNfeRecepcao);
+            ////if FConfiguracoes.Geral.VersaoDF = ve310 then
+            ////  AProcNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+            ////                                  FConfiguracoes.Geral.VersaoDF,
+            ////                                  LayNfeAutorizacao)
+            ////else
+            ////  AProcNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+            ////                                  FConfiguracoes.Geral.VersaoDF,
+            ////                                  LayNfeRecepcao);
 
             AProcNFe.GerarXML;
 
@@ -2505,7 +2270,7 @@ begin
     GerarException('Informar uma Justificativa para Inutilização de ' +
                    'numeração da Nota Fiscal Eletronica')
   else
-    AValue := DFeUtil.TrataString(AValue);
+    ////AValue := DFeUtil.TrataString(AValue);
 
   if Length(Trim(AValue)) < 15 then
     GerarException('A Justificativa para Inutilização de numeração da ' +
@@ -2564,14 +2329,14 @@ begin
 
     FConfiguracoes.Geral.ModeloDF := StrToModeloDF(OK, IntToStr(InutNFe.modelo));
 
-    InutNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                   FConfiguracoes.Geral.VersaoDF,
-                                   LayNfeInutilizacao);
+    ////InutNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+    ////                               FConfiguracoes.Geral.VersaoDF,
+    ////                               LayNfeInutilizacao);
     InutNFe.GerarXML;
 
-    AssinarXML( InutNFe.Gerador.ArquivoFormatoXML,
-                'Falha ao assinar Inutilização Nota Fiscal Eletrônica ' +
-                LineBreak + FMsg );
+    ////AssinarXML( InutNFe.Gerador.ArquivoFormatoXML,
+    ////            'Falha ao assinar Inutilização Nota Fiscal Eletrônica ' +
+    ////            LineBreak + FMsg );
 
     FID := InutNFe.ID;
   finally
@@ -2588,8 +2353,8 @@ begin
   if FConfiguracoes.Arquivos.Salvar then
   begin
     aPath := GerarPathPorCNPJ;
-    FConfiguracoes.Geral.Save(GerarPrefixoArquivo + '-' + ArqEnv + '.xml',
-                              FDadosMsg, aPath);
+    ////FConfiguracoes.Geral.Save(GerarPrefixoArquivo + '-' + ArqEnv + '.xml',
+    ////                          FDadosMsg, aPath);
   end;
 end;
 
@@ -2602,8 +2367,8 @@ begin
   if FConfiguracoes.Arquivos.Salvar then
   begin
     aPath := GerarPathPorCNPJ;
-    FConfiguracoes.Geral.Save(GerarPrefixoArquivo + '-' + ArqResp + '.xml',
-                              FRetWS, aPath);
+    ////FConfiguracoes.Geral.Save(GerarPrefixoArquivo + '-' + ArqResp + '.xml',
+    ////                          FRetWS, aPath);
   end;
 end;
 
@@ -2639,10 +2404,10 @@ begin
       wProc := TStringList.Create;
       try
         wProc.Add('<'+ENCODING_UTF8+'>');
-        wProc.Add('<ProcInutNFe versao="' + GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                                         FConfiguracoes.Geral.VersaoDF,
-                                                         LayNfeInutilizacao) +
-                                 '" xmlns="http://www.portalfiscal.inf.br/nfe">');
+        ////wProc.Add('<ProcInutNFe versao="' + GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+        ////                                                 FConfiguracoes.Geral.VersaoDF,
+        ////                                                 LayNfeInutilizacao) +
+        ////                         '" xmlns="http://www.portalfiscal.inf.br/nfe">');
 
         wProc.Add(FDadosMSG);
         wProc.Add(FRetWS);
@@ -2652,13 +2417,13 @@ begin
         wProc.Free;
       end;
 
-      if FConfiguracoes.Geral.Salvar then
-        FConfiguracoes.Geral.Save( GerarPrefixoArquivo + '-procInutNFe.xml',
-                                   FXML_ProcInutNFe );
-
-      if FConfiguracoes.Arquivos.Salvar then
-        FConfiguracoes.Geral.Save( GerarPrefixoArquivo + '-procInutNFe.xml',
-                                   FXML_ProcInutNFe, GerarPathPorCNPJ );
+      ////if FConfiguracoes.Geral.Salvar then
+      ////  FConfiguracoes.Geral.Save( GerarPrefixoArquivo + '-procInutNFe.xml',
+      ////                             FXML_ProcInutNFe );
+      ////
+      ////if FConfiguracoes.Arquivos.Salvar then
+      ////  FConfiguracoes.Geral.Save( GerarPrefixoArquivo + '-procInutNFe.xml',
+      ////                             FXML_ProcInutNFe, GerarPathPorCNPJ );
     end;
   finally
     NFeRetorno.Free;
@@ -2673,7 +2438,7 @@ begin
             'Status Código : ' + IntToStr(FcStat) + LineBreak +
             'Status Descrição : ' + FxMotivo + LineBreak +
             'UF : ' + CodigoParaUF(FcUF) + LineBreak +
-            'Recebimento : ' + DFeUtil.SeSenao(FdhRecbto = 0,
+            'Recebimento : ' + IfThen(FdhRecbto = 0,
                                                '',
                                                DateTimeToStr(FdhRecbto));
 end;
@@ -2765,9 +2530,9 @@ begin
     ConCadNFe.IE     := FIE;
     ConCadNFe.CNPJ   := FCNPJ;
     ConCadNFe.CPF    := FCPF;
-    ConCadNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                     FConfiguracoes.Geral.VersaoDF,
-                                     LayNfeCadastro);
+    ////ConCadNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+    ////                                 FConfiguracoes.Geral.VersaoDF,
+    ////                                 LayNfeCadastro);
     ConCadNFe.GerarXML;
 
     FDadosMsg := ConCadNFe.Gerador.ArquivoFormatoXML;
@@ -2842,7 +2607,7 @@ begin
     TACBrNFe( FACBrNFe ).NotasFiscais.GerarNFe;
 
     // Se tiver configurado pra salvar, salva as NFes
-    if TACBrNFe( FACBrNFe ).Configuracoes.Geral.Salvar then
+    if TACBrNFe( FACBrNFe ).Configuracoes.Arquivos.Salvar then
       TACBrNFe( FACBrNFe ).NotasFiscais.SaveToFile;
 
     with EnvDPEC.infDPEC do
@@ -2869,13 +2634,13 @@ begin
       end;
     end;
 
-    EnvDPEC.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                   FConfiguracoes.Geral.VersaoDF,
-                                   LayNfeEnvDPEC);
+    ////EnvDPEC.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+    ////                               FConfiguracoes.Geral.VersaoDF,
+    ////                               LayNfeEnvDPEC);
     EnvDPEC.GerarXML;
 
-    AssinarXML( EnvDPEC.Gerador.ArquivoFormatoXML,
-                'Falha ao assinar DPEC ' + LineBreak + FMsg );
+    ////AssinarXML( EnvDPEC.Gerador.ArquivoFormatoXML,
+    ////            'Falha ao assinar DPEC ' + LineBreak + FMsg );
   finally
     EnvDPEC.Free;
   end;
@@ -2928,9 +2693,9 @@ begin
         wProc.Free;
       end;
 
-      if FConfiguracoes.Geral.Salvar then
-         FConfiguracoes.Geral.Save(GerarPrefixoArquivo + '-procdpec.xml',
-                                   FXML_ProcDPEC);
+      if FConfiguracoes.Arquivos.Salvar then
+         ////FConfiguracoes.Geral.Save(GerarPrefixoArquivo + '-procdpec.xml',
+         ////                          FXML_ProcDPEC);
     end;
   finally
     RetDPEC.Free;
@@ -2942,9 +2707,9 @@ begin
   inherited SalvarEnvio;
 
   if FConfiguracoes.Arquivos.Salvar then
-    FConfiguracoes.Geral.Save( GerarPrefixoArquivo + '-' + ArqEnv + '.xml',
-                               FDadosMsg,
-                               FConfiguracoes.Arquivos.GetPathDPEC );
+    ////FConfiguracoes.Geral.Save( GerarPrefixoArquivo + '-' + ArqEnv + '.xml',
+    ////                           FDadosMsg,
+    ////                           FConfiguracoes.Arquivos.GetPathDPEC );
 end;
 
 procedure TNFeEnvDPEC.SalvarResposta;
@@ -2952,9 +2717,9 @@ begin
   inherited SalvarResposta;
 
   if FConfiguracoes.Arquivos.Salvar then
-    FConfiguracoes.Geral.Save( GerarPrefixoArquivo + '-' + ArqResp + '.xml',
-                               FRetWS,
-                               FConfiguracoes.Arquivos.GetPathDPEC );
+    ////FConfiguracoes.Geral.Save( GerarPrefixoArquivo + '-' + ArqResp + '.xml',
+    ////                           FRetWS,
+    ////                           FConfiguracoes.Arquivos.GetPathDPEC );
 end;
 
 function TNFeEnvDPEC.GerarMsgLog: String;
@@ -3025,11 +2790,11 @@ begin
     ConsDPEC.nRegDPEC := FnRegDPEC;
     ConsDPEC.chNFe    := FNFeChave;
 
-    FConfiguracoes.Geral.ModeloDF := StrToModeloDF(OK, NotaUtil.ExtraiModeloChaveAcesso(ConsDPEC.chNFe));
-
-    ConsDPEC.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                    FConfiguracoes.Geral.VersaoDF,
-                                    LayNfeConsultaDPEC);
+    ////FConfiguracoes.Geral.ModeloDF := StrToModeloDF(OK, NotaUtil.ExtraiModeloChaveAcesso(ConsDPEC.chNFe));
+    ////
+    ////ConsDPEC.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+    ////                                FConfiguracoes.Geral.VersaoDF,
+    ////                                LayNfeConsultaDPEC);
     ConsDPEC.GerarXML;
 
     FDadosMsg := ConsDPEC.Gerador.ArquivoFormatoXML;
@@ -3194,9 +2959,9 @@ begin
       end;
     end;
 
-    EventoNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                     FConfiguracoes.Geral.VersaoDF,
-                                     Layout);
+    ////EventoNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+    ////                                 FConfiguracoes.Geral.VersaoDF,
+    ////                                 Layout);
     EventoNFe.GerarXML;
 
     // Separa os grupos <evento> e coloca na variável Eventos
@@ -3218,8 +2983,8 @@ begin
         Evento  := Copy( Eventos, 1, F + 8 );
         Eventos := Copy( Eventos, F + 9, length(Eventos) );
 
-        AssinarXML(Evento,
-                   'Falha ao assinar o Envio de Evento ' + LineBreak + FMsg);
+        ////AssinarXML(Evento,
+        ////           'Falha ao assinar o Envio de Evento ' + LineBreak + FMsg);
 
         EventosAssinados := EventosAssinados + StringReplace( FDadosMsg, '<?xml version="1.0"?>', '', [] );
       end
@@ -3236,10 +3001,10 @@ begin
     else
       FDadosMsg := Lote + EventosAssinados + '</envEvento>';
 
-    if not(NotaUtil.Valida(FDadosMsg, FMsg, TACBrNFe( FACBrNFe ).Configuracoes.Geral.PathSchemas,
-                           FConfiguracoes.Geral.ModeloDF, FConfiguracoes.Geral.VersaoDF)) then
-      GerarException('Falha na validação dos dados do Envio de Evento ' +
-                     LineBreak + FMsg);
+    ////if not(NotaUtil.Valida(FDadosMsg, FMsg, TACBrNFe( FACBrNFe ).Configuracoes.Geral.PathSchemas,
+    ////                       FConfiguracoes.Geral.ModeloDF, FConfiguracoes.Geral.VersaoDF)) then
+    ////  GerarException('Falha na validação dos dados do Envio de Evento ' +
+    ////                 LineBreak + FMsg);
 
     for I := 0 to FEvento.Evento.Count-1 do
       FEvento.Evento[I].InfEvento.id := EventoNFe.Evento[I].InfEvento.id;
@@ -3295,13 +3060,13 @@ begin
             wProc := TStringList.Create;
             try
               wProc.Add('<'+ENCODING_UTF8+'>');
-              wProc.Add('<procEventoNFe versao="' + GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                                                 FConfiguracoes.Geral.VersaoDF,
-                                                                 LayNfeEvento) +
-                                      '" xmlns="http://www.portalfiscal.inf.br/nfe">');
-              wProc.Add('<evento versao="' + GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                                          FConfiguracoes.Geral.VersaoDF,
-                                                          LayNfeEvento) + '">');
+              ////wProc.Add('<procEventoNFe versao="' + GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+              ////                                                   FConfiguracoes.Geral.VersaoDF,
+              ////                                                   LayNfeEvento) +
+              ////                        '" xmlns="http://www.portalfiscal.inf.br/nfe">');
+              ////wProc.Add('<evento versao="' + GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+              ////                                            FConfiguracoes.Geral.VersaoDF,
+              ////                                            LayNfeEvento) + '">');
               Leitor.Arquivo := FDadosMSG;
               wProc.Add(Leitor.rExtrai(1, 'infEvento', '', I + 1));
               wProc.Add('<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">');
@@ -3316,9 +3081,9 @@ begin
               wProc.Add(Leitor.rExtrai(1, 'KeyInfo', '', I + 1));
               wProc.Add('</Signature>');
               wProc.Add('</evento>');
-              wProc.Add('<retEvento versao="' + GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                                             FConfiguracoes.Geral.VersaoDF,
-                                                             LayNfeEvento) + '">');
+              ////wProc.Add('<retEvento versao="' + GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+              ////                                               FConfiguracoes.Geral.VersaoDF,
+              ////                                               LayNfeEvento) + '">');
 
               Leitor.Arquivo := FRetWS;
               wProc.Add(Leitor.rExtrai(1, 'infEvento', '', J + 1));
@@ -3332,11 +3097,11 @@ begin
               NomeArq := OnlyNumber(FEvento.Evento.Items[i].InfEvento.Id) +
                          '-procEventoNFe.xml';
 
-              if FConfiguracoes.Geral.Salvar then
-                FConfiguracoes.Geral.Save(NomeArq, wProc.Text);
-
-              if FConfiguracoes.Arquivos.Salvar then
-                FConfiguracoes.Geral.Save(NomeArq, wProc.Text, GerarPathEvento);
+              ////if FConfiguracoes.Geral.Salvar then
+              ////  FConfiguracoes.Geral.Save(NomeArq, wProc.Text);
+              ////
+              ////if FConfiguracoes.Arquivos.Salvar then
+              ////  FConfiguracoes.Geral.Save(NomeArq, wProc.Text, GerarPathEvento);
             finally
               wProc.Free;
             end;
@@ -3356,8 +3121,8 @@ begin
   inherited SalvarEnvio;
 
   if FConfiguracoes.Arquivos.Salvar then
-    FConfiguracoes.Geral.Save(GerarPrefixoArquivo + '-' + ArqEnv + '.xml',
-                              FDadosMsg, GerarPathEvento);
+    ////FConfiguracoes.Geral.Save(GerarPrefixoArquivo + '-' + ArqEnv + '.xml',
+    ////                          FDadosMsg, GerarPathEvento);
 end;
 
 procedure TNFeEnvEvento.SalvarResposta;
@@ -3365,8 +3130,8 @@ begin
   inherited SalvarResposta;
 
   if FConfiguracoes.Arquivos.Salvar then
-    FConfiguracoes.Geral.Save(GerarPrefixoArquivo + '-' + ArqEnv + '.xml',
-                              FDadosMsg, GerarPathEvento);
+    ////FConfiguracoes.Geral.Save(GerarPrefixoArquivo + '-' + ArqEnv + '.xml',
+    ////                          FDadosMsg, GerarPathEvento);
 end;
 
 function TNFeEnvEvento.GerarMsgLog: String;
@@ -3381,7 +3146,7 @@ begin
 
   if FEventoRetorno.retEvento.Count > 0 then
     aMsg := aMsg + 'Recebimento : '+
-            DFeUtil.SeSenao(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento = 0,
+            IfThen(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento = 0,
                             '',
                             DateTimeToStr(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento));
   Result := aMsg;
@@ -3430,9 +3195,9 @@ begin
     ConsNFeDest.indNFe := FindNFe;
     ConsNFeDest.indEmi := FindEmi;
     ConsNFeDest.ultNSU := FultNSU;
-    ConsNFeDest.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                       FConfiguracoes.Geral.VersaoDF,
-                                       LayNfeConsNFeDest);
+    ////ConsNFeDest.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+    ////                                   FConfiguracoes.Geral.VersaoDF,
+    ////                                   LayNfeConsNFeDest);
     ConsNFeDest.GerarXML;
 
     FDadosMsg := ConsNFeDest.Gerador.ArquivoFormatoXML;
@@ -3463,7 +3228,7 @@ begin
             'Versão Aplicativo : ' + FretConsNFeDest.verAplic + LineBreak +
             'Status Código : ' + IntToStr(FretConsNFeDest.cStat) + LineBreak +
             'Status Descrição : ' + FretConsNFeDest.xMotivo + LineBreak +
-            'Recebimento : ' + DFeUtil.SeSenao(FretConsNFeDest.dhResp = 0,
+            'Recebimento : ' + IfThen(FretConsNFeDest.dhResp = 0,
                                                '',
                                                DateTimeToStr(RetConsNFeDest.dhResp)) +
                                LineBreak +
@@ -3525,9 +3290,9 @@ begin
       end;
     end;
 
-    DownloadNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                       FConfiguracoes.Geral.VersaoDF,
-                                       LayNfeDownloadNFe);
+    ////DownloadNFe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+    ////                                   FConfiguracoes.Geral.VersaoDF,
+    ////                                   LayNfeDownloadNFe);
     DownloadNFe.GerarXML;
 
     FDadosMsg := DownloadNFe.Gerador.ArquivoFormatoXML;
@@ -3557,7 +3322,7 @@ begin
     if FRetDownloadNFe.retNFe.Items[I].cStat = 140 then
     begin
       NomeArq := FRetDownloadNFe.retNFe.Items[I].chNFe + '-nfe.xml';
-      FConfiguracoes.Geral.Save(NomeArq, FRetDownloadNFe.retNFe.Items[I].procNFe);
+      ////FConfiguracoes.Geral.Save(NomeArq, FRetDownloadNFe.retNFe.Items[I].procNFe);
     end;
   end;
 end;
@@ -3569,7 +3334,7 @@ begin
             'Versão Aplicativo : ' + FretDownloadNFe.verAplic + LineBreak +
             'Status Código : ' + IntToStr(FretDownloadNFe.cStat) + LineBreak +
             'Status Descrição : ' + FretDownloadNFe.xMotivo + LineBreak +
-            'Recebimento : ' + DFeUtil.SeSenao(FretDownloadNFe.dhResp = 0,
+            'Recebimento : ' + IfThen(FretDownloadNFe.dhResp = 0,
                                                '',
                                                DateTimeToStr(FRetDownloadNFe.dhResp)) +
                                LineBreak;
@@ -3622,9 +3387,9 @@ begin
     AdmCSCNFCe.idCsc     := FIdCSC;
     AdmCSCNFCe.codigoCsc := FCodigoCSC;
 
-    AdmCSCNFCe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                      FConfiguracoes.Geral.VersaoDF,
-                                      LayAdministrarCSCNFCe);
+    ////AdmCSCNFCe.Versao := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+    ////                                  FConfiguracoes.Geral.VersaoDF,
+    ////                                  LayAdministrarCSCNFCe);
     AdmCSCNFCe.GerarXML;
 
     FDadosMsg := AdmCSCNFCe.Gerador.ArquivoFormatoXML;
@@ -3701,9 +3466,9 @@ begin
     DistDFeInt.CNPJCPF  := FCNPJCPF;
     DistDFeInt.ultNSU   := FultNSU;
     DistDFeInt.NSU      := FNSU;
-    DistDFeInt.Versao   := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
-                                        FConfiguracoes.Geral.VersaoDF,
-                                        LayDistDFeInt);
+    ////DistDFeInt.Versao   := GetVersaoNFe(FConfiguracoes.Geral.ModeloDF,
+    ////                                    FConfiguracoes.Geral.VersaoDF,
+    ////                                    LayDistDFeInt);
     DistDFeInt.GerarXML;
 
     FDadosMsg := DistDFeInt.Gerador.ArquivoFormatoXML;
@@ -3756,7 +3521,7 @@ begin
             'Versão Aplicativo : ' + FretDistDFeInt.verAplic + LineBreak +
             'Status Código : ' + IntToStr(FretDistDFeInt.cStat) + LineBreak +
             'Status Descrição : ' + FretDistDFeInt.xMotivo + LineBreak +
-            'Resposta : ' + DFeUtil.SeSenao(FretDistDFeInt.dhResp = 0,
+            'Resposta : ' + IfThen(FretDistDFeInt.dhResp = 0,
                                             '',
                                             DateTimeToStr(RetDistDFeInt.dhResp)) +
                             LineBreak +

@@ -297,7 +297,7 @@ begin
 
   Prefixo := GerarPrefixoArquivo;
 
-  if FConfiguracoes.Geral.Salvar then
+  if FConfiguracoes.Arquivos.Salvar then
   begin
     ArqEnv := Prefixo + '-' + FArqEnv + '.xml';
     FDFeOwner.Gravar(ArqEnv, FDadosMsg);
@@ -321,7 +321,7 @@ begin
 
   Prefixo := GerarPrefixoArquivo;
 
-  if FConfiguracoes.Geral.Salvar then
+  if FConfiguracoes.Arquivos.Salvar then
   begin
     ArqResp := Prefixo + '-' + FArqResp + '.xml';
     FDFeOwner.Gravar(ArqResp, FRetWS);
@@ -354,9 +354,7 @@ var
 begin
   if (Msg <> '') then
   begin
-    Tratado := False;
-    if Assigned(FDFeOwner.OnGerarLog) then
-      FDFeOwner.OnGerarLog(Msg, Tratado);
+    FDFeOwner.FazerLog(Msg, Tratado);
 
     if Tratado then
       exit;

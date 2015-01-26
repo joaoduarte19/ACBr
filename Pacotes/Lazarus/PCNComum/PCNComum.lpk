@@ -26,7 +26,7 @@
     </CompilerOptions>
     <Description Value="ACBr - Projeto Cooperar - (http://br.groups.yahoo.com/group/projeto_cooperar_nfe/)"/>
     <Version Minor="1"/>
-    <Files Count="7">
+    <Files Count="6">
       <Item1>
         <Filename Value="..\..\..\Fontes\PCNComum\pcnAuxiliar.pas"/>
         <UnitName Value="pcnAuxiliar"/>
@@ -51,10 +51,6 @@
         <Filename Value="..\..\..\Fontes\PCNComum\pcnSignature.pas"/>
         <UnitName Value="pcnSignature"/>
       </Item6>
-      <Item7>
-        <Filename Value="..\..\..\Fontes\PCNComum\pcnValidador.pas"/>
-        <UnitName Value="pcnValidador"/>
-      </Item7>
     </Files>
     <RequiredPkgs Count="1">
       <Item1>
