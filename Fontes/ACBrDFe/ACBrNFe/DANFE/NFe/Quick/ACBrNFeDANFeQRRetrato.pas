@@ -1397,9 +1397,10 @@ begin
    end;
 
    // Incluido por Italo em 13/07/2011
-   if FNFe.Cobr.Dup.Count > 0
-    then Ok := (FNFe.Ide.dEmi = FNFe.Cobr.Dup[0].dVenc)
-    else Ok := True;
+   if FNFe.Cobr.Dup.Count > 0 then 
+		 Ok := (FormatDateTime('DD/MM/YYYY', FNFe.Ide.dEmi) = FormatDateTime('DD/MM/YYYY', FNFe.Cobr.Dup[0].dVenc))
+   else 
+		 Ok := True;
 
    // Alterado por Italo em 27/05/2011
    // TpcnIndicadorPagamento = (ipVista, ipPrazo, ipOutras);
