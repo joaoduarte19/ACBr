@@ -126,6 +126,18 @@ begin
               then ConfigCidade.NameSpaceEnvelope := 'https://ws.govdigital.com.br/ws/pocos'
               else ConfigCidade.NameSpaceEnvelope := 'https://homolog.govdigital.com.br/ws/pocos';
             end;
+   3162955: begin // Sao Jose Da Lapa/MG
+             if AAmbiente = 1
+              then ConfigCidade.NameSpaceEnvelope := 'https://ws.govdigital.com.br/ws/sjl'
+              else ConfigCidade.NameSpaceEnvelope := 'https://homolog.govdigital.com.br/ws/sjl';
+            end;
+
+(*
+Prata
+Produção: https://ws.govdigital.com.br/ws/prata
+Homologação: https://homolog.govd...com.br/ws/prata
+*)
+
    // A Cidade de Itapetininga/SP trocou o provedor de GovDigital para ISSNet
 //   3522307: begin // Itapetininga/SP
 //             if AAmbiente = 1
@@ -169,39 +181,48 @@ var
  	ConfigURL: TConfigURL;
   Porta: String;
 begin
+  Porta := '';
+
   case ACodCidade of
    3122306: begin // Divinopolis/MG
               ConfigURL.HomNomeCidade := 'div';
               ConfigURL.ProNomeCidade := 'div';
-              Porta := '443';
+//              Porta := ':443';
             end;
    3132404: begin
               ConfigURL.HomNomeCidade := 'itj';
               ConfigURL.ProNomeCidade := 'itj';
-              Porta := '443';
+//              Porta := ':443';
             end;
    3138203: begin // Lavras/MG
               ConfigURL.HomNomeCidade := 'lavr';
               ConfigURL.ProNomeCidade := 'lavr';
-              Porta := '443';
+//              Porta := ':443';
             end;
    3147006: begin // Paracatu/MG
               ConfigURL.HomNomeCidade := 'pctu';
               ConfigURL.ProNomeCidade := 'pctu';
-              Porta := '443';
+//              Porta := ':443';
             end;
-   3151800: begin
+   3151800: begin // Poços de Caldas/MG
               ConfigURL.HomNomeCidade := 'pocos';
               ConfigURL.ProNomeCidade := 'pocos';
-              Porta := '443';
+//              Porta := ':443';
             end;
+   3162955: begin // Sao Jose Da Lapa/MG
+              ConfigURL.HomNomeCidade := 'sjl';
+              ConfigURL.ProNomeCidade := 'sjl';
+//              Porta := ':443';
+            end;
+
+
 //   3522307: begin // Itapetininga/SP
 //             ConfigURL.HomNomeCidade := 'itapetininga';
 //             ConfigURL.ProNomeCidade := 'itapetininga';
 //            end;
   end;
 
- 	ConfigURL.HomRecepcaoLoteRPS    := 'https://homolog.govdigital.com.br:' + Porta + '/ws/' + ConfigURL.HomNomeCidade;
+ 	ConfigURL.HomRecepcaoLoteRPS    := 'https://homolog.govdigital.com.br' + Porta + '/ws/' + ConfigURL.HomNomeCidade;
   ConfigURL.HomConsultaLoteRPS    := ConfigURL.HomRecepcaoLoteRPS;
   ConfigURL.HomConsultaNFSeRPS    := ConfigURL.HomRecepcaoLoteRPS;
   ConfigURL.HomConsultaSitLoteRPS := ConfigURL.HomRecepcaoLoteRPS;
@@ -211,7 +232,7 @@ begin
   ConfigURL.HomRecepcaoSincrono   := ConfigURL.HomRecepcaoLoteRPS;
   ConfigURL.HomSubstituiNFSe      := ConfigURL.HomRecepcaoLoteRPS;
 
- 	ConfigURL.ProRecepcaoLoteRPS    := 'https://ws.govdigital.com.br:' + Porta + '/ws/' + ConfigURL.ProNomeCidade;
+ 	ConfigURL.ProRecepcaoLoteRPS    := 'https://ws.govdigital.com.br' + Porta + '/ws/' + ConfigURL.ProNomeCidade;
   ConfigURL.ProConsultaLoteRPS    := ConfigURL.ProRecepcaoLoteRPS;
   ConfigURL.ProConsultaNFSeRPS    := ConfigURL.ProRecepcaoLoteRPS;
   ConfigURL.ProConsultaSitLoteRPS := ConfigURL.ProRecepcaoLoteRPS;

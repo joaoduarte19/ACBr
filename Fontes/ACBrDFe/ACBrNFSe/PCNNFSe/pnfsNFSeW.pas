@@ -218,6 +218,8 @@ begin
 
   proRecife: FNFSe.InfID.ID := 'RPS' + OnlyNumber(FNFSe.IdentificacaoRps.Numero);
 
+  proGovDigital: FNFSe.InfID.ID := OnlyNumber(FNFSe.IdentificacaoRps.Numero);
+
   else FNFSe.InfID.ID := OnlyNumber(FNFSe.IdentificacaoRps.Numero) + FNFSe.IdentificacaoRps.Serie;
  end;
 
@@ -1077,6 +1079,10 @@ begin
                    Gerador.wGrupoNFSe('InfDeclaracaoPrestacaoServico ' + FIdentificador + '="rps' + NFSe.InfID.ID + '"');
                    Gerador.wGrupoNFSe('Rps');
                  end;
+   proGovDigital: begin
+                    Gerador.wGrupoNFSe('InfDeclaracaoPrestacaoServico ' + FIdentificador + '="Rps' + NFSe.InfID.ID + '"');
+                    Gerador.wGrupoNFSe('Rps');
+                  end;
    proSystemPro: begin
                    Gerador.wGrupoNFSe('InfDeclaracaoPrestacaoServico ' + FIdentificador + '="' + NFSe.InfID.ID + '"');
                  end;
@@ -1085,13 +1091,13 @@ begin
                    Gerador.WGrupoNFSe('tcDeclaracaoPrestacaoServico');
                    Gerador.wGrupoNFSe('InfDeclaracaoPrestacaoServico ' + FIdentificador + '="' + NFSe.InfID.ID + '"' + ' xmlns="http://www.abrasf.org.br/nfse.xsd"');
                    Gerador.wGrupoNFSe('Rps');
-                  end;
-   else           begin
-                    Gerador.wGrupoNFSe('InfDeclaracaoPrestacaoServico');
-                    if FIdentificador = ''
-                     then Gerador.wGrupoNFSe('Rps')
-                     else Gerador.wGrupoNFSe('Rps ' + FIdentificador + '="rps' + NFSe.InfID.ID + '"');
-                  end;
+                 end;
+   else          begin
+                   Gerador.wGrupoNFSe('InfDeclaracaoPrestacaoServico');
+                   if FIdentificador = ''
+                    then Gerador.wGrupoNFSe('Rps')
+                    else Gerador.wGrupoNFSe('Rps ' + FIdentificador + '="rps' + NFSe.InfID.ID + '"');
+                 end;
   end;
 
   GerarIdentificacaoRPS;

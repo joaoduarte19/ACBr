@@ -410,7 +410,7 @@ begin
                   '<Reference URI="' + DFeUtil.SeSenao(URI = '', '">', '#' + URI + '">') +
                    '<Transforms>'+
                     '<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />'+
-                      DFeUtil.SeSenao((AProvedor in [proActcon, profintelISS, proGovBr, proISSNet, proNatal]), '',
+                      DFeUtil.SeSenao((AProvedor in [proActcon, profintelISS, proGovBr, proGovDigital, proISSNet, proNatal]), '',
                     '<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />') +
                    '</Transforms>'+
                    '<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />'+
@@ -420,6 +420,9 @@ begin
                  '<SignatureValue></SignatureValue>'+
                  '<KeyInfo>'+
                   '<X509Data>'+
+//                    DFeUtil.SeSenao((AProvedor in [proGovDigital]),
+//                                    '<X509SubjectName></X509SubjectName>',
+//                                    '') +
                     '<X509Certificate></X509Certificate>'+
                   '</X509Data>'+
                  '</KeyInfo>'+
@@ -477,7 +480,7 @@ begin
                      '<Reference URI="' + DFeUtil.SeSenao(URI = '', '">', '#' + URI + '">') +
                       '<Transforms>' +
                        '<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />' +
-                       DFeUtil.SeSenao((AProvedor in [proActcon, profintelISS, proGovBr, proISSNet, proNatal]), '',
+                       DFeUtil.SeSenao((AProvedor in [proActcon, profintelISS, proGovBr, proGovDigital, proISSNet, proNatal]), '',
                        '<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />') +
                       '</Transforms>' +
                       '<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />' +
@@ -487,6 +490,9 @@ begin
                     '<SignatureValue></SignatureValue>' +
                     '<KeyInfo>' +
                      '<X509Data>' +
+//                       DFeUtil.SeSenao((AProvedor in [proGovDigital]),
+//                                       '<X509SubjectName></X509SubjectName>',
+//                                       '') +
                        '<X509Certificate></X509Certificate>' +
                      '</X509Data>' +
                     '</KeyInfo>' +
@@ -717,7 +723,7 @@ begin
                      '<Reference URI="' + DFeUtil.SeSenao(URI = '', '">', '#' + URI + '">') +
                       '<Transforms>' +
                        '<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />' +
-                        DFeUtil.SeSenao((AProvedor in [proActcon, profintelISS, proGovBr, proPronim,
+                        DFeUtil.SeSenao((AProvedor in [proActcon, profintelISS, proGovBr, proGovDigital, proPronim,
                                                        proISSNet, proNatal, proIssDSF, proInfisc]),
                                         '',
                                         '<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />') +
@@ -732,6 +738,9 @@ begin
                      '<SignatureValue></SignatureValue>' +
                      '<KeyInfo>' +
                       '<X509Data>' +
+//                       DFeUtil.SeSenao((AProvedor in [proGovDigital]),
+//                                       '<X509SubjectName></X509SubjectName>',
+//                                       '') +
                        '<X509Certificate></X509Certificate>' +
                       '</X509Data>' +
                      '</KeyInfo>' +
@@ -788,7 +797,7 @@ begin
                        '<Reference URI="' + DFeUtil.SeSenao(URI = '', '">', '#' + URI + '">') +
                         '<Transforms>' +
                          '<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />' +
-                         DFeUtil.SeSenao((AProvedor in [proActcon, profintelISS, proGovBr, proPronim,
+                         DFeUtil.SeSenao((AProvedor in [proActcon, profintelISS, proGovBr, proGovDigital, proPronim,
                                                         proISSNet, proNatal, proIssDSF, proInfisc]),
                                          '',
                                          '<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />') +
@@ -803,6 +812,9 @@ begin
                       '<SignatureValue></SignatureValue>' +
                       '<KeyInfo>' +
                        '<X509Data>' +
+//                         DFeUtil.SeSenao((AProvedor in [proGovDigital]),
+//                                         '<X509SubjectName></X509SubjectName>',
+//                                         '') +
                          '<X509Certificate></X509Certificate>' +
                        '</X509Data>' +
                       '</KeyInfo>' +
@@ -1175,7 +1187,7 @@ begin
                    '<Reference URI="'+DFeUtil.SeSenao(FURIRef = '', '','#'+FURIRef)+'">'+
                     '<Transforms>'+
                      '<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />'+
-                     DFeUtil.SeSenao((AProvedor in [profintelISS, proGovBr, proPronim{Dalvan}, proISSNet]), '',
+                     DFeUtil.SeSenao((AProvedor in [profintelISS, proGovBr, proGovDigital, proPronim{Dalvan}, proISSNet]), '',
                      '<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />') +
                     '</Transforms>'+
                     '<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />'+
@@ -1185,6 +1197,9 @@ begin
                   '<SignatureValue></SignatureValue>'+
                   '<KeyInfo>'+
                    '<X509Data>'+
+//                     DFeUtil.SeSenao((AProvedor in [proGovDigital]),
+//                                     '<X509SubjectName></X509SubjectName>',
+//                                     '') +
                      '<X509Certificate></X509Certificate>'+
                    '</X509Data>'+
                   '</KeyInfo>'+
@@ -1281,7 +1296,7 @@ begin
                     '<Reference URI="'+DFeUtil.SeSenao(FURIRef = '', '',Numero+FURIRef)+'">'+
                      '<Transforms>'+
                       '<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />'+
-                      DFeUtil.SeSenao((AProvedor in [profintelISS, proGovBr, proPronim{Dalvan}, proISSNet, proInfisc]), '',
+                      DFeUtil.SeSenao((AProvedor in [profintelISS, proGovBr, proGovDigital, proPronim{Dalvan}, proISSNet, proInfisc]), '',
                       '<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315' +
                       DFeUtil.SeSenao(AProvedor in [proISSDSF,proInfisc], '#WithComments', '') + '" />') +
                      '</Transforms>'+
@@ -1292,6 +1307,9 @@ begin
                    '<SignatureValue></SignatureValue>'+
                    '<KeyInfo>'+
                     '<X509Data>'+
+//                      DFeUtil.SeSenao((AProvedor in [proGovDigital]),
+//                                      '<X509SubjectName></X509SubjectName>',
+//                                      '') +
                       '<X509Certificate></X509Certificate>'+
                     '</X509Data>'+
                    '</KeyInfo>'+
