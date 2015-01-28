@@ -111,6 +111,7 @@ begin
 
   case ACodCidade of
    3118601: ConfigCidade.AssinaLote := True; // Contagem/MG
+   3504008: ConfigCidade.AssinaLote := True; // Assis/SP
    3530300: ConfigCidade.AssinaLote := True; // Mirassol/SP
    4204004: ConfigCidade.AssinaLote := True; // Catanduvas/SC
    4216602: ConfigCidade.AssinaLote := True; // São José/SC
