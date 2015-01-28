@@ -48,6 +48,8 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 28/01/2015
+[*] Melhorias na Unit de leitura do XML.
+    Por: Roger Rodrigues
 [*] Alterações visando fazer funcionar o provedor GovDigital.
     Por: Italo Jurisato Junior
 

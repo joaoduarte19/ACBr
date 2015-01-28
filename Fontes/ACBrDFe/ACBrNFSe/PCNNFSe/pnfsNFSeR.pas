@@ -358,6 +358,7 @@ begin
    if (Leitor.rExtrai(3, 'Rps') <> '') or (Leitor.rExtrai(2, 'Rps') <> '')
     then begin
      NFSe.DataEmissaoRps := Leitor.rCampo(tcDat, 'DataEmissao');
+     NFSe.DataEmissao := Leitor.rCampo(tcDat, 'DataEmissao');
      NFSe.Status         := StrToStatusRPS(ok, Leitor.rCampo(tcStr, 'Status'));
 
      if (Leitor.rExtrai(3, 'IdentificacaoRps') <> '')
