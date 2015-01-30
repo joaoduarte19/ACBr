@@ -46,6 +46,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+30/01/2015
+[+] Implementado a descompactação de retorno Zipado ao acessar o Web Services:
+    NFeDistribuicaoDFe
+    Por: Italo Jurisato Junior
+
 27/10/2015
 [*] Alteracao para validar campo por causa do formatos diferentes entre 2.00 e 3.10
 		http://www.projetoacbr.com.br/forum/index.php?/topic/19471-ajuste-valida%C3%A7%C3%A3o-pagamento/

@@ -3500,6 +3500,9 @@ begin
 end;
 
 function TDistribuicaoDFe.TratarResposta: Boolean;
+var
+  I: Integer;
+  NomeArq: String;
 begin
   FRetWS := SeparaDados( FRetornoWS, 'nfeDistDFeInteresseResult' );
 
@@ -3512,6 +3515,17 @@ begin
 
   Result := (FretDistDFeInt.CStat = 137) or
             (FretDistDFeInt.CStat = 138);
+
+  // Incluido por Italo em 22/01/2015
+  for I := 0 to FretDistDFeInt.docZip.Count - 1 do
+  begin
+    if (FretDistDFeInt.docZip.Items[I].XML <> '') and
+       (Copy(FretDistDFeInt.docZip.Items[I].schema, 1, 7) = 'procNFe') then
+    begin
+      NomeArq := FretDistDFeInt.docZip.Items[I].resNFe.chNFe + '-nfe.xml';
+      FConfiguracoes.Geral.Save(NomeArq, FretDistDFeInt.docZip.Items[I].XML);
+    end;
+  end;
 end;
 
 function TDistribuicaoDFe.GerarMsgLog: String;

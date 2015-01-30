@@ -136,7 +136,8 @@ type
   TpcnTpEvento = (teCCe, teCancelamento, teManifDestConfirmacao, teManifDestCiencia,
                   teManifDestDesconhecimento, teManifDestOperNaoRealizada,
                   teEncerramento, teEPEC, teInclusaoCondutor, teMultiModal,
-                  teRegistroPassagem, teRegistroPassagemBRId, teEPECNFe);
+                  teRegistroPassagem, teRegistroPassagemBRId, teEPECNFe,
+                  teRegistroCTe);
   TpcnIndicadorEmissor = (ieTodos, ieRaizCNPJDiferente);
   TpcnIndicadorContinuacao = (icNaoPossuiMaisDocumentos, icPossuiMaisDocumentos);
   TpcnSituacaoManifDest = (smdSemManifestacao, smdConfirmada, smdDesconhecida, smdOperacaoNaoRealizada, smdCiencia);
@@ -172,7 +173,7 @@ type
   TpcnIndOperacao = (ioConsultaCSC, ioNovoCSC, ioRevogaCSC);
 
 const
-  TpcnTpEventoString : array[0..12] of String =('110110',
+  TpcnTpEventoString : array[0..13] of String =('110110',
                                                 '110111',
                                                 '210200',
                                                 '210210',
@@ -184,7 +185,8 @@ const
                                                 '110160',
                                                 '310620',
                                                 '510620',
-                                                '110140');
+                                                '110140',
+                                                '610600');
 
   NFeUF: array[0..26] of String =
   ('AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA',
