@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+30/01/2015
+[*] Alterado o namespace do provedor GovDigital.
+    Por: Italo Jurisato Junior
+
 28/01/2015
 [*] Melhorias na Unit de leitura do XML.
     Por: Roger Rodrigues

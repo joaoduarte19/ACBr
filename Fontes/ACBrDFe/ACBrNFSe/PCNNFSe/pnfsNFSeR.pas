@@ -169,8 +169,10 @@ begin
      if Item<100 then Item:=Item*100+1;
 
      NFSe.Servico.ItemListaServico := FormatFloat('0000', Item);
-     NFSe.Servico.ItemListaServico := Copy(NFSe.Servico.ItemListaServico, 1, 2) + '.' +
-                                      Copy(NFSe.Servico.ItemListaServico, 3, 2);
+
+     if FProvedor <> ProRJ then
+       NFSe.Servico.ItemListaServico := Copy(NFSe.Servico.ItemListaServico, 1, 2) + '.' +
+                                        Copy(NFSe.Servico.ItemListaServico, 3, 2);
 
      if TabServicosExt
       then NFSe.Servico.xItemListaServico := NotaUtil.ObterDescricaoServico(OnlyNumber(NFSe.Servico.ItemListaServico))

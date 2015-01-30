@@ -100,6 +100,7 @@ begin
  	ConfigCidade.Identificador := 'Id';
   ConfigCidade.QuebradeLinha := ';';
 
+(*
   case ACodCidade of
    3122306: begin // Divinopolis/MG
              if AAmbiente = 1
@@ -132,19 +133,20 @@ begin
               else ConfigCidade.NameSpaceEnvelope := 'https://homolog.govdigital.com.br/ws/sjl';
             end;
 
-(*
-Prata
-Produção: https://ws.govdigital.com.br/ws/prata
-Homologação: https://homolog.govd...com.br/ws/prata
-*)
+//Prata
+//Produção: https://ws.govdigital.com.br/ws/prata
+//Homologação: https://homolog.govd...com.br/ws/prata
 
-   // A Cidade de Itapetininga/SP trocou o provedor de GovDigital para ISSNet
+// A Cidade de Itapetininga/SP trocou o provedor de GovDigital para ISSNet
 //   3522307: begin // Itapetininga/SP
 //             if AAmbiente = 1
 //              then ConfigCidade.NameSpaceEnvelope := 'https://www.govdigital.com.br/ws/itapetininga'
 //              else ConfigCidade.NameSpaceEnvelope := 'https://homolog.govdigital.com.br/ws/itapetininga';
 //            end;
   end;
+*)
+
+  ConfigCidade.NameSpaceEnvelope := 'http://nfse.abrasf.org.br';
 
  	ConfigCidade.AssinaRPS   := True;
  	ConfigCidade.AssinaLote  := True;
@@ -187,7 +189,7 @@ begin
    3122306: begin // Divinopolis/MG
               ConfigURL.HomNomeCidade := 'div';
               ConfigURL.ProNomeCidade := 'div';
-//              Porta := ':443';
+              Porta := ':443';
             end;
    3132404: begin
               ConfigURL.HomNomeCidade := 'itj';
@@ -436,7 +438,16 @@ end;
 function TProvedorGovDigital.GeraEnvelopeSubstituirNFSe(URLNS: String;
   CabMsg, DadosMsg, DadosSenha: AnsiString): AnsiString;
 begin
-  Result := '';
+ result := '<?xml version="1.0" encoding="utf-8"?>' +
+           '<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/" ' +
+                       'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +
+                       'xmlns:xsd="http://www.w3.org/2001/XMLSchema">' +
+            '<S:Body>' +
+             '<SubstituirNfseRequest xmlns="' + URLNS + '">' +
+                DadosMsg +
+             '</SubstituirNfseRequest>' +
+            '</S:Body>' +
+           '</S:Envelope>';
 end;
 
 function TProvedorGovDigital.GetSoapAction(Acao: TnfseAcao; NomeCidade: String): String;
@@ -450,7 +461,7 @@ begin
    acCancelar:    Result := 'http://nfse.abrasf.org.br/CancelarNfse';
    acGerar:       Result := 'http://nfse.abrasf.org.br/GerarNfse';
    acRecSincrono: Result := 'http://nfse.abrasf.org.br/RecepcionarLoteRpsSincrono';
-   acSubstituir:  Result := '';
+   acSubstituir:  Result := 'http://nfse.abrasf.org.br/SubstituirNfse';
  end;
 end;
 
