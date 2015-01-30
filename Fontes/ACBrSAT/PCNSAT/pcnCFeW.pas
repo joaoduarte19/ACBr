@@ -54,7 +54,6 @@ type
     FApenasTagsAplicacao: Boolean;
     FGerador: TGerador;
     FCFe: TCFe;
-    FSchema: TpcnSchema;
     FOpcoes: TGeradorOpcoes;
     procedure GerarInfCFe;
     procedure GerarIde;
@@ -88,7 +87,6 @@ type
   published
     property Gerador: TGerador read FGerador write FGerador;
     property CFe: TCFe read FCFe write FCFe;
-    property schema: TpcnSchema read Fschema write Fschema;
     property Opcoes: TGeradorOpcoes read FOpcoes write FOpcoes;
   end;
 

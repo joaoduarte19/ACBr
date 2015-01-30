@@ -47,10 +47,13 @@ type
 
   TSSLLib = (libNone, libOpenSSL, libCapicom, libCapicomDelphiSoap);
 
+  TConfiguracoes = class;
+
   { TCertificadosConf }
 
   TCertificadosConf = class(TComponent)
   private
+    FOwner: TConfiguracoes;
     FCNPJ: String;
     FDadosPFX: String;
     FSenha: AnsiString;
@@ -59,7 +62,7 @@ type
 
     procedure SetNumeroSerie(const Value: String);
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TConfiguracoes);
   published
     property ArquivoPFX: String read FArquivoPFX write FArquivoPFX;
     property DadosPFX: String read FDadosPFX write FDadosPFX;
@@ -72,6 +75,7 @@ type
 
   TWebServicesConf = class(TComponent)
   private
+    FOwner: TConfiguracoes;
     FVisualizar: Boolean;
     FUF: String;
     FUFCodigo: integer;
@@ -86,13 +90,17 @@ type
     FIntervaloTentativas: cardinal;
     FAjustaAguardaConsultaRet: Boolean;
     FSalvar: Boolean;
+    FParams: TStrings;
 
     procedure SetUF(AValue: String);
     procedure SetAmbiente(AValue: TpcnTipoAmbiente);
     procedure SetTentativas(const Value: integer);
     procedure SetIntervaloTentativas(const Value: cardinal);
+    procedure SetParams(const AValue: TStrings);
+
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TConfiguracoes);
+    destructor Destroy;
   published
     property Visualizar: Boolean read FVisualizar write FVisualizar default False;
     property UF: String read FUF write SetUF;
@@ -112,12 +120,14 @@ type
     property AjustaAguardaConsultaRet: Boolean
       read FAjustaAguardaConsultaRet write FAjustaAguardaConsultaRet default False;
     property Salvar: Boolean read FSalvar write FSalvar default False;
+    property Params: TStrings read FParams write SetParams;
   end;
 
   { TGeralConf }
 
   TGeralConf = class(TComponent)
   private
+    FOwner: TConfiguracoes;
     FSSLLib: TSSLLib;
     FFormaEmissao: TpcnTipoEmissao;
     FFormaEmissaoCodigo: integer;
@@ -134,7 +144,7 @@ type
     procedure SetFormaEmissao(AValue: TpcnTipoEmissao);
     function GetFormatoAlerta: String;
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TConfiguracoes);
   published
     property SSLLib: TSSLLib read FSSLLib write SetSSLLib;
     property UnloadSSLLib: Boolean read FUnloadSSLLib write FUnloadSSLLib default True;
@@ -156,7 +166,7 @@ type
 
   TArquivosConf = class(TComponent)
   private
-    FOwner: TComponent;
+    FOwner: TConfiguracoes;
 
     FPathSalvar: String;
     FPathSchemas: String;
@@ -173,7 +183,7 @@ type
     function GetPathSalvar: String;
     function GetPathSchemas: String;
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TConfiguracoes);
 
   published
     property PathSalvar: String read GetPathSalvar write FPathSalvar;
@@ -204,6 +214,8 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+
+    procedure LerParams(NomeArqParams: String = '');
   published
     property Geral: TGeralConf read FGeral;
     property WebServices: TWebServicesConf read FWebServices;
@@ -277,12 +289,29 @@ begin
   inherited;
 end;
 
+procedure TConfiguracoes.LerParams(NomeArqParams: String);
+var
+  SL: TStringList;
+begin
+  if not FileExists(NomeArqParams) then
+    raise EACBrDFeException.Create('Arquivo de Parâmetro não encontrado: ' +
+      NomeArqParams);
+
+  SL := TStringList.Create;
+  try
+    FWebServices.Params := SL;
+  finally
+    SL.Free;
+  end;
+end;
+
 { TGeralConf }
 
-constructor TGeralConf.Create(AOwner: TComponent);
+constructor TGeralConf.Create(AOwner: TConfiguracoes);
 begin
   inherited Create(AOwner);
 
+  FOwner := AOwner;
   {$IFNDEF MSWINDOWS}
   FSSLLib := libOpenSSL;
   {$ELSE}
@@ -339,9 +368,12 @@ end;
 
 { TWebServicesConf }
 
-constructor TWebServicesConf.Create(AOwner: TComponent);
+constructor TWebServicesConf.Create(AOwner: TConfiguracoes);
 begin
   inherited Create(AOwner);
+
+  FOwner := AOwner;
+  FParams := TStringList.Create;
 
   FUF := NFeUF[24];
   FUFCodigo := NFeUFCodigo[24];
@@ -359,6 +391,12 @@ begin
   FSalvar := False;
 end;
 
+destructor TWebServicesConf.Destroy;
+begin
+  FParams.Free;
+  inherited;
+end;
+
 procedure TWebServicesConf.SetAmbiente(AValue: TpcnTipoAmbiente);
 begin
   FAmbiente := AValue;
@@ -368,6 +406,11 @@ end;
 procedure TWebServicesConf.SetIntervaloTentativas(const Value: cardinal);
 begin
   FIntervaloTentativas := max(Value, 1000);
+end;
+
+procedure TWebServicesConf.SetParams(const AValue: TStrings);
+begin
+  FParams.Assign(AValue);
 end;
 
 procedure TWebServicesConf.SetTentativas(const Value: integer);
@@ -398,10 +441,11 @@ end;
 
 { TCertificadosConf }
 
-constructor TCertificadosConf.Create(AOwner: TComponent);
+constructor TCertificadosConf.Create(AOwner: TConfiguracoes);
 begin
   inherited Create(AOwner);
 
+  FOwner := AOwner;
   FSenha := '';
   FArquivoPFX := '';
   FDadosPFX := '';
@@ -416,12 +460,11 @@ end;
 
 { TArquivosConf }
 
-constructor TArquivosConf.Create(AOwner: TComponent);
+constructor TArquivosConf.Create(AOwner: TConfiguracoes);
 begin
   inherited Create(AOwner);
 
   FOwner := AOwner;
-
   FSalvar := False;
   FPathSalvar := '';
   FPathSchemas := '';
@@ -457,7 +500,7 @@ function TArquivosConf.GetPathConfig: String;
 begin
   if FPathSalvar = '' then
     if not (csDesigning in FOwner.ComponentState) then
-      FPathSalvar := DFeUtil.PathAplication ;
+      FPathSalvar := DFeUtil.PathAplication;
 
   FPathConfig := PathWithDelim(Trim(FPathSalvar));
   Result := FPathConfig;

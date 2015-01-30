@@ -69,7 +69,6 @@ type
   private
     FLeitor: TLeitor;
     FNFe: TNFe;
-    FSchema: TpcnSchema;
   public
     constructor Create(AOwner: TNFe);
     destructor Destroy; override;
@@ -77,7 +76,6 @@ type
   published
     property Leitor: TLeitor    read FLeitor write FLeitor;
     property NFe: TNFe          read FNFe    write FNFe;
-    property schema: TpcnSchema read Fschema write Fschema;
   end;
 
 implementation

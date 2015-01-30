@@ -59,7 +59,6 @@ type
   TProcNFe = class(TPersistent)
   private
     FGerador: TGerador;
-//    FSchema: TpcnSchema;
     FPathNFe: String;
     FPathRetConsReciNFe: String;
     FPathRetConsSitNFe: String;
@@ -79,7 +78,6 @@ type
     function ObterNomeArquivo(const PadraoNome: TPcnPadraoNomeProcNFe = tpnPrivado): String;
   published
     property Gerador: TGerador          read FGerador            write FGerador;
-//    property Schema: TpcnSchema         read Fschema             write Fschema;
     property PathNFe: String            read FPathNFe            write FPathNFe;
     property PathRetConsReciNFe: String read FPathRetConsReciNFe write FPathRetConsReciNFe;
     property PathRetConsSitNFe: String  read FPathRetConsSitNFe  write FPathRetConsSitNFe;
@@ -120,7 +118,6 @@ begin
   Result := FchNFe + '-procNFe.xml';
   if PadraoNome = tpnPublico then
   begin
-//    s := '00' + retornarVersaoLayout(FSchema, tlProcNFe);
     s := '00' + Versao;
     Result := FnProt + '_v' + copy(s, length(s) - 4, 5) + '-procNFe.xml';
   end;

@@ -157,7 +157,6 @@ type
 
   TNFe = class(TPersistent)
   private
-//    FSchema: TpcnSchema;
     FinfNFe: TinfNFe;
     FIde: TIde;
     FEmit: TEmit;
@@ -185,8 +184,6 @@ type
     constructor Create;
     destructor Destroy; override;
   published
-//    property schema: TpcnSchema read Fschema write Fschema;
-    //
     property infNFe: TinfNFe read FinfNFe write FinfNFe;
     property Ide: TIde read FIde write FIde;
     property Emit: TEmit read FEmit write FEmit;

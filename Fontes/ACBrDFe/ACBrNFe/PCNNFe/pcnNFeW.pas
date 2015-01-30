@@ -73,7 +73,6 @@ type
   private
     FGerador: TGerador;
     FNFe: TNFe;
-//    FSchema: TpcnSchema;
     FOpcoes: TGeradorOpcoes;
 
     Usar_tcDe4: Boolean;
@@ -154,7 +153,6 @@ type
   published
     property Gerador: TGerador      read FGerador write FGerador;
     property NFe: TNFe              read FNFe     write FNFe;
-//    property schema: TpcnSchema     read Fschema  write Fschema;
     property Opcoes: TGeradorOpcoes read FOpcoes  write FOpcoes;
   end;
 
@@ -227,14 +225,12 @@ begin
   chave := '';
   if NFe.infNFe.Versao >= 2 then
    begin
-//     FSchema := TsPL006;
      if not GerarChave(Chave, nfe.ide.cUF, nfe.ide.cNF, nfe.ide.modelo, nfe.ide.serie,
        nfe.ide.nNF, StrToInt(TpEmisToStr(nfe.ide.tpEmis)), nfe.ide.dEmi, nfe.emit.CNPJCPF) then
        Gerador.wAlerta('A01', 'infNFe', DSC_CHAVE, ERR_MSG_GERAR_CHAVE);
    end
   else
    begin
-//     FSchema := TsPL005c;
      if not GerarChaveCTe(chave, nfe.ide.cUF, nfe.ide.cNF, nfe.ide.modelo, nfe.ide.serie,
        nfe.ide.nNF, nfe.ide.dEmi, nfe.emit.CNPJCPF) then
        Gerador.wAlerta('A01', 'infNFe', DSC_CHAVE, ERR_MSG_GERAR_CHAVE);
@@ -260,9 +256,7 @@ begin
   Gerador.LayoutArquivoTXT.Clear;
   if FOpcoes.GerarTXTSimultaneamente then
     Gerador.LayoutArquivoTXT.Text := CarregarLayoutTXT(Versao);
-//  if FOpcoes.GerarTXTSimultaneamente then
-//    Gerador.LayoutArquivoTXT.Text := CarregarLayoutTXT(RetornarVersaoLayout(FSchema, tlNFe));
-  //
+
   Gerador.ArquivoFormatoXML := '';
   Gerador.ArquivoFormatoTXT := '';
 //  Gerador.wGrupo(ENCODING_UTF8_STD, '', False);

@@ -64,7 +64,6 @@ type
     FNFe: TNFe;
     FConteudoArquivo: TStringList;
     FLayoutArquivoTXT: TStringList;
-//    FSchema: TpcnSchema;
     FRegistro: String;
     FID: String;
   public
@@ -80,7 +79,6 @@ type
     property NFe: TNFe                     read FNFe              write FNFe;
     property ConteudoArquivo: TStringList  read FConteudoArquivo  write FConteudoArquivo;
     property LayoutArquivoTXT: TStringList read FLayoutArquivoTXT write FLayoutArquivoTXT;
-//    property schema: TpcnSchema            read Fschema           write Fschema;
     property Registro: String              read FRegistro         write FRegistro;
     property ID: String                    read FID               write FID;
   end;
