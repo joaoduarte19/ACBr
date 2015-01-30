@@ -97,9 +97,15 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+Data: 30/01/2014
+-- ACBrECFEscECF --   (por: DSA)
+[*] Workaround para erro 16-3 (Data em intervalo inválido.), durante a Impressão
+    da Redução Z, na Epson TM-T800F
+    http://www.projetoacbr.com.br/forum/index.php?showtopic=19759
+
 Data: 26/01/2014
 [-] Acerto no caminho onde ficam os inis da dll bematech, 
-    http://www.projetoacbr.com.br/forum/index.php?/topic/19683-erro-na-fun%C3%A7%C3%A3o-abreportaserialdll-em-acbrecfbematech/#entry125158
+    http://www.projetoacbr.com.br/forum/index.php?showtopic=19683
     por: daniel.breda
 
 Data: 23/12/2014

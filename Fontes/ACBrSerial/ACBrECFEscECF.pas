@@ -1643,8 +1643,17 @@ begin
      DataHora := now ;
 
   EscECFComando.CMD := 21;
-  EscECFComando.AddParamDateTime(DataHora, 'D' );
-  EscECFComando.AddParamDateTime(DataHora, 'H' );
+  if DataHora = -1 then  { Sem Data e Hora }
+   begin
+     EscECFComando.AddParamString('');   // Sem Data
+     EscECFComando.AddParamString('');   // Sem Hora
+   end
+  else
+   begin
+     EscECFComando.AddParamDateTime(DataHora, 'D' );
+     EscECFComando.AddParamDateTime(DataHora, 'H' );
+   end;
+
   EscECFComando.AddParamInteger(0); // Imprime no ECF
 
   try
@@ -1654,8 +1663,13 @@ begin
   except
      on E : Exception do
      begin
-        if (pos('5-1',E.Message) <> 0) then    // Comando inválido para o documento atual.
-         begin                                 //  Ficou algum Cupom aberto ?
+        // Woraround para Epson, para Erro de data na Redução Z
+        if IsEpson and (EscECFResposta.CAT = 16) and (EscECFResposta.RET.ECF = 3) then
+         begin
+           ReducaoZ(-1);
+         end
+        else if (pos('5-1',E.Message) <> 0) then    // Comando inválido para o documento atual.
+         begin                                      //  Ficou algum Cupom aberto ?
            // Cancelando o Cupom em aberto
            EscECFComando.CMD := 31;
            EnviaComando;
