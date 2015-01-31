@@ -192,7 +192,12 @@ begin
         MDFe.Rodo.veicTracao.capM3   := Leitor.rCampo(tcInt, 'capM3');
         MDFe.rodo.veicTracao.tpRod   := StrToTpRodado(ok, Leitor.rCampo(tcStr, 'tpRod'));
         MDFe.rodo.veicTracao.tpCar   := StrToTpCarroceria(ok, Leitor.rCampo(tcStr, 'tpCar'));
-        MDFe.rodo.veicTracao.UF      := Leitor.rCampo(tcStr, 'UF');
+
+        // Alterado por Italo em 31/01/2015
+        if pos('<prop>', Leitor.Grupo) = 0 then
+          MDFe.rodo.veicTracao.UF := Leitor.rCampo(tcStr, 'UF')
+        else
+          MDFe.rodo.veicTracao.UF := copy(Leitor.rExtrai(3, 'UF', '', 2), 1, 2);
 
         if Leitor.rExtrai(4, 'prop') <> '' then
         begin
@@ -225,7 +230,12 @@ begin
         MDFe.Rodo.veicReboque[i01].capKG   := Leitor.rCampo(tcInt, 'capKG');
         MDFe.Rodo.veicReboque[i01].capM3   := Leitor.rCampo(tcInt, 'capM3');
         MDFe.rodo.veicReboque[i01].tpCar   := StrToTpCarroceria(ok, Leitor.rCampo(tcStr, 'tpCar'));
-        MDFe.rodo.veicReboque[i01].UF      := Leitor.rCampo(tcStr, 'UF');
+
+        // Alterado por Italo em 31/01/2015
+        if pos('<prop>', Leitor.Grupo) = 0 then
+          MDFe.rodo.veicReboque[i01].UF := Leitor.rCampo(tcStr, 'UF')
+        else
+          MDFe.rodo.veicReboque[i01].UF := copy(Leitor.rExtrai(3, 'UF', '', 2), 1, 2);
 
         if Leitor.rExtrai(4, 'prop') <> '' then
         begin

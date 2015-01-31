@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+31/01/2015
+[*] Alteração visando corrigir a leitura da UF do veículo.
+    por: Italo Jurisato Junior
+
 23/01/2015
 [*] Incluido uma linha que seta a opção de retirar acentos ou não do XML antes
     de gerar o XML de consulta a MDF-e não encerrados.
