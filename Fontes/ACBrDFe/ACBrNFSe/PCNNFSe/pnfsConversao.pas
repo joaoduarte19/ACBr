@@ -982,6 +982,7 @@ begin
   3550605, // Sao Roque/SP
   3550704, // Sao Sebastiao
   3552502, // Suzano/SP
+  3553708, // Taquaritinga/SP
   3557105, // Votuporanga/SP
   3704708, // Marechal Deodoro/AL
   4118204, // Paranagua/PR
@@ -990,7 +991,7 @@ begin
   4202404, // Blumenau/SC
   4309308, // Guaiba/RS
   4314407, // Pelotas/RS
-  5220454 // Senador Canedo/GO
+  5220454  // Senador Canedo/GO
   //5213103  // Mineiros/GO
          : Provedor := 'GINFES';
 

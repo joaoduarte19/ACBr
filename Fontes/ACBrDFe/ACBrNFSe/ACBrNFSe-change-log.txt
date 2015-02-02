@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+02/02/2015
+[*] Inclusao da cidade Taquaritinga/SP no provedor Ginfes.
+    Por: Alexandre Soares
+
 30/01/2015
 [*] Alterado o namespace do provedor GovDigital.
     Por: Italo Jurisato Junior
