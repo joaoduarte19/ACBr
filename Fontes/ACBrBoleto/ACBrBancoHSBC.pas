@@ -580,7 +580,7 @@ Begin
         if Trim(Copy(ARetorno[0], 12, 15)) <> 'COBRANCA CNR' Then
            NossoNumero := Copy(Linha, 127, 11)
         else // 3 ultimos digitos são digitos verificadores
-           NossoNumero := Copy(Linha, 63, 16);
+           NossoNumero := Copy(Linha, 63, 13);
 
         ValorDespesaCobranca := StrToFloatDef(Copy(Linha, 176, 13), 0) / 100;
         ValorOutrasDespesas := 0;

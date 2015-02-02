@@ -47,6 +47,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+Data: 02/02/2015 ver. 0.0.105a
+
+-- ACBrCaixaBancoHSBC --
+[-] Correção retorno CNAB400 .(Valdemir Jacon Sanches)
+http://www.projetoacbr.com.br/forum/index.php?/topic/19602-erro-retorno-hsbc-carteira-cnr/
+
+
 Data: 20/01/2015 ver. 0.0.104a
 
 -- ACBrCaixaBancoSicredi --
@@ -65,7 +72,7 @@ http://www.projetoacbr.com.br/forum/index.php?/topic/19256-caixa-econ%C3%B4mica-
 Data: 15/01/2015 ver. 0.0.102a
 
 -- ACBrCaixaEconomica --
-[-] Correção totalizadores CNAB240 .(Juliana Tamizou)
+[-] Correção código de mora CNAB400 .(Juliana Tamizou)
 http://www.projetoacbr.com.br/forum/index.php?/topic/19058-erro-remessa-cef/
 
 
