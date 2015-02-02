@@ -197,7 +197,7 @@ begin
         if pos('<prop>', Leitor.Grupo) = 0 then
           MDFe.rodo.veicTracao.UF := Leitor.rCampo(tcStr, 'UF')
         else
-          MDFe.rodo.veicTracao.UF := copy(Leitor.rExtrai(3, 'UF', '', 2), 1, 2);
+          MDFe.rodo.veicTracao.UF := copy(Leitor.rExtrai(3, 'UF', '', 2), 5, 2);
 
         if Leitor.rExtrai(4, 'prop') <> '' then
         begin
@@ -235,7 +235,7 @@ begin
         if pos('<prop>', Leitor.Grupo) = 0 then
           MDFe.rodo.veicReboque[i01].UF := Leitor.rCampo(tcStr, 'UF')
         else
-          MDFe.rodo.veicReboque[i01].UF := copy(Leitor.rExtrai(3, 'UF', '', 2), 1, 2);
+          MDFe.rodo.veicReboque[i01].UF := copy(Leitor.rExtrai(3, 'UF', '', 2), 5, 2);
 
         if Leitor.rExtrai(4, 'prop') <> '' then
         begin
