@@ -54,7 +54,7 @@ uses
 {$IFNDEF VER130}
   Variants,
 {$ENDIF}
-  pcnAuxiliar, pcnConversao, pcnLeitor, synacode, ZLibExGZ; //, IdCoderMIME;
+  pcnAuxiliar, pcnConversao, pcnLeitor, synacode;
 
 type
   TresNFe               = class;
@@ -185,7 +185,8 @@ type
 
 implementation
 
-uses {IdBaseComponent,} Math, pcnNFeR;
+uses Math, pcnNFeR
+  {$IFDEF FPC},zstream {$ELSE},ZLibExGZ{$ENDIF};
 
 { TdocZipCollection }
 
@@ -255,31 +256,52 @@ var
   oLeitorInfZip: TLeitor;
   XMLNFe: String;
 
-  (*
-  procedure DecodeStr(cStr: String);
+  {$IFDEF FPC}
+  { Descompacta um arquivo padrão GZIP de Stream... Fontes:
+    http://wiki.freepascal.org/paszlib
+    http://www.gocher.me/GZIP
+  }
+  function UnZipMsg(S: TStringStream): String;
   var
-    Decode: TIdDecoderMIME;
+    DS: TDecompressionStream;
+    MS: TMemoryStream;
+    readCount: integer;
+    Buf: array[0..1023] of byte;
+    hdr: longword;
   begin
-    // Incluido por Italo em 21/01/2015
-    Decode := TIdDecoderMIME.Create(nil);
-//    Decode := TIdDecoderMIME.Create;
+    S.Position := 0; // goto start of input stream
+    hdr := S.ReadDWord;
+    if (hdr and $00088B1F) = $00088B1F then // gzip header (deflate method)
+      S.Position := 10     // Pula cabeçalho gzip
+    else if (hdr and $00009C78) = $00009C78 then // zlib header
+      S.Position := 2      // Pula cabeçalho zlib
+    else
+      S.Position := 0;
+
+    MS := TMemoryStream.Create;
+    DS := Tdecompressionstream.Create(S, (S.Position > 0) );
     try
-      // Incluido por Italo em 21/01/2015
-      StrDecod := Decode.DecodeToString(cStr);
-     {
-      Decode.DecodeBegin(StrStream);
-      Decode.Decode(cStr);
-      Decode.DecodeEnd;
-      }
+      repeat
+        readCount := DS.Read(Buf, SizeOf(Buf));
+        if readCount <> 0 then
+          MS.Write(Buf, readCount);
+      until readCount < SizeOf(Buf);
+
+      MS.Position := 0;
+      Result := '';
+      SetLength(Result, MS.Size);
+      MS.ReadBuffer(Result[1], MS.Size);
     finally
-      FreeAndNil(Decode);
+      DS.Free;
+      MS.Free;
     end;
   end;
-  *)
+  {$ELSE}
   function UnZipMsg(S: TStringStream): String;
   begin
     Result := GZDecompressStr(S.DataString);
   end;
+  {$ENDIF}
 
 begin
   Result := False;
