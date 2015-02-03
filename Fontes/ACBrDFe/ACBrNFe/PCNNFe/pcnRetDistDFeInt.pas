@@ -334,7 +334,6 @@ begin
             StrAux := RetornarConteudoEntre(Leitor.Grupo, '>', '</docZip');
 
             StrDecod := DecodeBase64(StrAux);
-//            DecodeStr(StrAux);
 
             // Incluido por Italo em 21/01/2015
             StrStream.WriteString(StrDecod);
@@ -402,38 +401,58 @@ begin
           FdocZip.Items[i].XML := oLeitorInfZip.Grupo;
 
           oLeitorInfZip.rExtrai(1, 'infNFe');
-          FdocZip.Items[i].FresNFe.chNFe    := copy(oLeitorInfZip.Grupo, pos('Id="NFe', oLeitorInfZip.Grupo)+7, 44);
+          FdocZip.Items[i].FresNFe.chNFe := copy(oLeitorInfZip.Grupo, pos('Id="NFe', oLeitorInfZip.Grupo)+7, 44);
 
           oLeitorInfZip.rExtrai(1, 'emit');
           FdocZip.Items[i].FresNFe.FCNPJCPF := oLeitorInfZip.rCampo(tcStr, 'CNPJ');
           if FdocZip.Items[i].FresNFe.FCNPJCPF = '' then
             FdocZip.Items[i].FresNFe.FCNPJCPF := oLeitorInfZip.rCampo(tcStr, 'CPF');
 
-          FdocZip.Items[i].FresNFe.FxNome    := oLeitorInfZip.rCampo(tcStr, 'xNome');
-          FdocZip.Items[i].FresNFe.FIE       := oLeitorInfZip.rCampo(tcStr, 'IE');
+          FdocZip.Items[i].FresNFe.FxNome := oLeitorInfZip.rCampo(tcStr, 'xNome');
+          FdocZip.Items[i].FresNFe.FIE    := oLeitorInfZip.rCampo(tcStr, 'IE');
 
           oLeitorInfZip.rExtrai(1, 'ide');
-          FdocZip.Items[i].FresNFe.FdhEmi    := oLeitorInfZip.rCampo(tcDatHor, 'dhEmi');
-          FdocZip.Items[i].FresNFe.FtpNF     := StrToTpNF(ok, oLeitorInfZip.rCampo(tcStr, 'tpNF'));
+          FdocZip.Items[i].FresNFe.FdhEmi := oLeitorInfZip.rCampo(tcDatHor, 'dhEmi');
+
+          // Se for Versão 2.00 a data de emissão está em dEmi
+          if FdocZip.Items[i].FresNFe.FdhEmi = 0 then
+            FdocZip.Items[i].FresNFe.FdhEmi := oLeitorInfZip.rCampo(tcDat, 'dEmi');
+
+          FdocZip.Items[i].FresNFe.FtpNF := StrToTpNF(ok, oLeitorInfZip.rCampo(tcStr, 'tpNF'));
 
           oLeitorInfZip.rExtrai(1, 'total');
-          FdocZip.Items[i].FresNFe.FvNF      := oLeitorInfZip.rCampo(tcDe2, 'vNF');
+          FdocZip.Items[i].FresNFe.FvNF := oLeitorInfZip.rCampo(tcDe2, 'vNF');
 
           oLeitorInfZip.rExtrai(1, 'infProt');
           FdocZip.Items[i].FresNFe.digVal    := oLeitorInfZip.rCampo(tcStr, 'digVal');
           FdocZip.Items[i].FresNFe.FdhRecbto := oLeitorInfZip.rCampo(tcDatHor, 'dhRecbto');
           FdocZip.Items[i].FresNFe.FnProt    := oLeitorInfZip.rCampo(tcStr, 'nProt');
+
           case oLeitorInfZip.rCampo(tcInt, 'cStat') of
-            100: FdocZip.Items[i].FresNFe.FcSitNFe  := snAutorizado;
-            101: FdocZip.Items[i].FresNFe.FcSitNFe  := snCancelada;
-            110: FdocZip.Items[i].FresNFe.FcSitNFe  := snDenegado;
+            100: FdocZip.Items[i].FresNFe.FcSitNFe := snAutorizado;
+            101: FdocZip.Items[i].FresNFe.FcSitNFe := snCancelada;
+            110: FdocZip.Items[i].FresNFe.FcSitNFe := snDenegado;
           end;
         end;
+
+        if (oLeitorInfZip.rExtrai(1, 'procEventoNFe') <> '') then
+        begin
+          FdocZip.Items[i].XML := oLeitorInfZip.Grupo;
+
+          FdocZip.Items[i].FresEvento.chNFe    := oLeitorInfZip.rCampo(tcStr, 'chNFe');
+          FdocZip.Items[i].FresEvento.FCNPJCPF := oLeitorInfZip.rCampo(tcStr, 'CNPJ');
+          if FdocZip.Items[i].FresEvento.FCNPJCPF = '' then
+            FdocZip.Items[i].FresEvento.FCNPJCPF := oLeitorInfZip.rCampo(tcStr, 'CPF');
+
+          //FdocZip.Items[i].FresEvento.FxEvento  := oLeitorInfZip.rCampo(tcStr, 'xNome');
+          //FdocZip.Items[i].FresEvento.FdhEvento := oLeitorInfZip.rCampo(tcDatHor, 'dhEmi');
+          //FdocZip.Items[i].FresEvento.FdhRecbto := oLeitorInfZip.rCampo(tcDatHor, 'dhRecbto');
+          FdocZip.Items[i].FresEvento.FnProt := oLeitorInfZip.rCampo(tcStr, 'nProt');
+        end;
+
         FreeAndNil(oLeitorInfZip);
         inc(i);
       end;
-//      if i = 0
-//       then FdocZip.Add;
 
       Result := True;
     end;
