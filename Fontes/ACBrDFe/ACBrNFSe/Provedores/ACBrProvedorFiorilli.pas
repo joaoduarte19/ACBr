@@ -141,9 +141,7 @@ var
  ConfigURL: TConfigURL;
  cURL_Producao : string;
 const
-  cURL_Homologacao = 'http://201.28.69.146:5663/IssWeb-ejb/IssWebWS/IssWebWS';
-
-
+  cURL_Homologacao = 'http://201.28.69.146:5663/IssWeb-ejb/IssWebWS/IssWebWS?wsdl ';
 begin
  // URL de produção
  case ACodCidade of
@@ -186,6 +184,8 @@ begin
     cURL_Producao := 'http://nfse.corumba.ms.gov.br:8080/IssWeb-ejb/IssWebWS/IssWebWS';
 //  5102637 : // Campo Novo Do Parecis/MT
 //    cURL_Producao := 'http://179.252.22.226:3394/IssWeb-ejb/IssWebWS/IssWebWS';
+  3515509 : // Fernandópolis/SP
+    cURL_Producao := 'http://servicos.fernandopolis.sp.gov.br:8080/IssWeb-ejb/IssWebWS/IssWebWS?wsdl';    
  end;
 
   ConfigURL.HomNomeCidade         := '';

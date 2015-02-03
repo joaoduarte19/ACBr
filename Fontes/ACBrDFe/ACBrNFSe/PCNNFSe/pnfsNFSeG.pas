@@ -206,7 +206,7 @@ begin
                // Não Incluir a versão para os provedores abaixo
                DFeUtil.SeSenao(AProvedor in [proAbaco, proBetha, proDBSeller,
                                              proGinfes, proGoiania, proGovBR, proIssCuritiba,
-                                             proISSNET, proLexsom, proNatal, proRecife, proRJ,
+                                             proISSNET, proLexsom, proNatal, proTinus, proRecife, proRJ,
                                              proSimplISS, proThema, proTiplan, proAgili,
                                              proFISSLex, proSpeedGov, proPronim, proCoplan,
                                              proSalvador],
@@ -760,7 +760,7 @@ begin
  if AProvedor in [proNenhum, proABRASFv1, proABRASFv2, proAbaco,
                   proBetha, proBetim, proBHIss, proDBSeller, {proDigifred,}
                   proEquiplano, proFIssLex, proGinfes, proGovBR, proIssCuritiba,
-                  proIssIntel, proIssNet, proLexsom, proNatal, proProdemge,
+                  proIssIntel, proIssNet, proLexsom, proNatal, proTinus, proProdemge,
                   proRJ, proSimplIss, proThema, proTiplan, proIssDSF, proInfisc, proAgili,
                   proSpeedGov, proPronim, proActcon,
                   proSalvador, proNFSEBrasil] then Result := '';
@@ -778,7 +778,7 @@ begin
                   proBetha, proBetim, proBHISS, proDBSeller, proDigifred,
                   proEquiplano, profintelISS, proFISSLex, proGinfes, proGoiania,
                   proGovBR, {proGovDigital, }proIssCuritiba, proISSDigital,
-                  proISSIntel, proISSNet, proLexsom, proNatal, proProdemge,
+                  proISSIntel, proISSNet, proLexsom, proNatal, proTinus, proProdemge,
                   proPublica, proRecife, proRJ, proSaatri, proFreire,
                   proSimplISS, proThema, proTiplan, proWebISS, proProdata,
                   proAgili, proSpeedGov, proPronim, proVirtual,

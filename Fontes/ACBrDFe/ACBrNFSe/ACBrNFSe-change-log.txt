@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/02/2015
+[+] Implementação do provedor Tinus.
+    Por: João Lenosi
+
 02/02/2015
 [*] Inclusao da cidade Taquaritinga/SP no provedor Ginfes.
     Por: Alexandre Soares

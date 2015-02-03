@@ -172,7 +172,8 @@ begin
                    profintelISS, proFiorilli, proGoiania, {proGovBR,}  proIssDSF, proInfisc,
                    proISSDigital, proNatal, proProdata, proProdemge, proPVH,
                    proSaatri, proVirtual, proFreire, proLink3, proVitoria,
-                   proTecnos, proPronim, proSystemPro, proSisPMJP, proNFSEBrasil])
+                   proTecnos, proPronim, proSystemPro, proSisPMJP, proNFSEBrasil,
+                   proTinus])
    then FDefTipos := FServicoEnviar;
 
  if (RightStr(FURL, 1) <> '/') and (FDefTipos <> '')
@@ -247,6 +248,7 @@ begin
   proSimplISS,
   proSpeedGov,
   proThema,
+  proTinus,
   proTiplan,
   proWebISS: GerarXML_ABRASF_V1;
 

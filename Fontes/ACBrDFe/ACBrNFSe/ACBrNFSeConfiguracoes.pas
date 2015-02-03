@@ -417,7 +417,7 @@ uses
  ACBrProvedorEquiplano, ACBrProvedorfintelISS, ACBrProvedorDigifred,
  ACBrProvedorBetha, ACBrProvedorBetim, ACBrProvedorSaatri,
  ACBrProvedorAbaco, ACBrProvedorGoiania, ACBrProvedorIssCuritiba,
- ACBrProvedorBHISS, ACBrProvedorNatal, ACBrProvedorISSDigital,
+ ACBrProvedorBHISS, ACBrProvedorNatal, ACBrProvedorTinus, ACBrProvedorISSDigital,
  ACBrProvedorISSe, ACBrProvedor4R, ACBrProvedorGovDigital,
  ACBrProvedorFiorilli, ACBrProvedorISSDSF, ACBrProvedorInfisc, ACBrProvedorCoplan,
  ACBrProvedorProdata, ACBrProvedorAgili, ACBrProvedorFISSLex,
@@ -829,6 +829,7 @@ begin
   proIssCuritiba: FProvedorClass := TProvedorIssCuritiba.Create;
   proBHISS:       FProvedorClass := TProvedorBHISS.Create;
   proNatal:       FProvedorClass := TProvedorNatal.Create;
+  proTinus:       FProvedorClass := TProvedorTinus.Create;
   proISSDigital:  FProvedorClass := TProvedorISSDigital.Create;
   proISSe:        FProvedorClass := TProvedorISSe.Create;
   pro4R:          FProvedorClass := TProvedor4R.Create;

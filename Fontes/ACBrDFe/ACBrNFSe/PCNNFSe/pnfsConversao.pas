@@ -93,7 +93,8 @@ type
                     proAgili, proVirtual, proPVH, proFreire, proLink3, proSpeedGov,
                     proVitoria, proMitra, ProTecnos, proPronim, proActcon, proEL,
                     proEgoverneISS, proSisPMJP, proSystemPro, proInfisc, proSalvador,
-                    proDBSeller, proLexsom, proABRASFv1, proABRASFv2, proNFSEBrasil );
+                    proDBSeller, proLexsom, proABRASFv1, proABRASFv2, proNFSEBrasil,
+                    proTinus );
 
   TnfseAcao = (acRecepcionar, acConsSit, acConsLote, acConsNFSeRps, acConsNFSe,
                acCancelar, acGerar, acRecSincrono, acConsSecRps, acSubstituir);
@@ -387,7 +388,7 @@ begin
                             '4R', 'GovDigital', 'Fiorilli', 'Coplan', 'Prodata', 'Agili', 'Virtual', 'PVH',
                             'Freire', 'Link3', 'SpeedGov', 'Vitoria', 'Mitra', 'Tecnos', 'Pronim', 'Actcon',
                             'EL', 'EgoverneISS', 'SisPMJP', 'SystemPro', 'Infisc', 'Salvador', 'DBSeller',
-                            'Lexsom', 'ABRASFv1', 'ABRASFv2', 'NFSEBrasil'],
+                            'Lexsom', 'ABRASFv1', 'ABRASFv2', 'NFSEBrasil', 'Tinus'],
                            [proNenhum, proTiplan, proISSNET, proWebISS, proGINFES, proIssDSF, proProdemge, proAbaco,
                             proBetha, proEquiplano, proISSIntel, proProdam, proGovBR, proRecife,
                             proSimplISS, proThema, proRJ, proPublica, profintelISS, proDigifred, proBetim,
@@ -395,7 +396,7 @@ begin
                             proISSDigital, proISSe, pro4R, proGovDigital, proFiorilli, proCoplan, proProdata,
                             proAgili, proVirtual, proPVH, proFreire, proLink3, proSpeedGov, proVitoria, proMitra,
                             proTecnos, proPronim, proActcon, proEL, proEgoverneISS, proSisPMJP, proSystemPro, proInfisc,
-                            proSalvador, proDBSeller, proLexsom, proABRASFv1, proABRASFv2,proNFSEBrasil ]);
+                            proSalvador, proDBSeller, proLexsom, proABRASFv1, proABRASFv2,proNFSEBrasil, proTinus ]);
 end;
 
 function StrToProvedor(var ok: boolean; const s: string):TnfseProvedor;
@@ -408,7 +409,7 @@ begin
                             '4R', 'GovDigital', 'Fiorilli', 'Coplan', 'Prodata', 'Agili', 'Virtual', 'PVH',
                             'Freire', 'Link3', 'SpeedGov', 'Vitoria', 'Mitra', 'Tecnos', 'Pronim', 'Actcon',
                             'EL', 'EgoverneISS', 'SisPMJP', 'SystemPro', 'Infisc', 'Salvador', 'DBSeller',
-                            'Lexsom', 'ABRASFv1', 'ABRASFv2', 'NFSEBrasil'],
+                            'Lexsom', 'ABRASFv1', 'ABRASFv2', 'NFSEBrasil', 'Tinus'],
                            [proNenhum, proTiplan, proISSNET, proWebISS, proGINFES, proIssDSF, proProdemge, proAbaco,
                             proBetha, proEquiplano, proISSIntel, proProdam, proGovBR, proRecife,
                             proSimplISS, proThema, proRJ, proPublica, profintelISS, proDigifred, proBetim,
@@ -416,7 +417,7 @@ begin
                             proISSDigital, proISSe, pro4R, proGovDigital, proFiorilli, proCoplan, proProdata,
                             proAgili, proVirtual, proPVH, proFreire, proLink3, proSpeedGov, proVitoria, proMitra,
                             proTecnos, proPronim, proActcon, proEL, proEgoverneISS, proSisPMJP, proSystemPro, proInfisc,
-                            proSalvador, proDBSeller, proLexsom, proABRASFv1, proABRASFv2, proNFSEBrasil]);
+                            proSalvador, proDBSeller, proLexsom, proABRASFv1, proABRASFv2, proNFSEBrasil, proTinus]);
 end;
 
 // Condição de pagamento ******************************************************
@@ -882,6 +883,7 @@ begin
   3505203, // Bariri/SP
   3512902, // Cosmorama/SP
   3514502, // Duartina/SP
+  3515509, // Fernandopolis/SP
   3516705, // Garca/SP
   3540200, // Pontal/SP
   3549409, // Sao Joaquim Da Barra/SP
@@ -950,7 +952,7 @@ begin
   3512001, // Colina/SP
   3513009, // Cotia/SP
   3513801, // Diadema/SP
-  3515509, // Fernandopolis/SP
+//  3515509, // Fernandopolis/SP
   3516200, // Franca/SP
   3518305, // Guararema/SP
   3518404, // Guaratinguetá/SP
@@ -1171,7 +1173,7 @@ begin
 
   5208004, // Formosa/GO
   5213103, // Mineiros/GO
-  5217302, // Pirenopolis/GO 
+  5217302, // Pirenopolis/GO
   5218805  // Rio Verde/GO
          : Provedor := 'Prodata';
 
@@ -1283,6 +1285,9 @@ begin
   3304524, // Rio das Ostras/RJ
   3501608  // Americana/SP
          : Provedor := 'Tiplan';
+
+  2408003  // Mossoro/RN
+         : Provedor := 'Tinus';
 
   5101803  // Barra do Garcas/MT
          : Provedor := 'Virtual';

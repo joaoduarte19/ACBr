@@ -788,6 +788,7 @@ begin
     proSimplISS,
     proSpeedGov,
     proThema,
+    proTinus,
     proTiplan,
     proWebISS: Result := LerRPS_ABRASF_V1;
 
@@ -1832,6 +1833,7 @@ begin
   proSimplISS,
   proSpeedGov,
   proThema,
+  proTinus,
   proTiplan,
   proWebISS: Result := LerNFSe_ABRASF_V1;
 
