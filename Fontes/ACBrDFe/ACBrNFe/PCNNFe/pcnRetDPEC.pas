@@ -50,7 +50,7 @@ unit pcnRetDPEC;
 interface
 
 uses
-  SysUtils, Classes, pcnAuxiliar, pcnConversao, pcnLeitor;
+  SysUtils, Classes, pcnConversao, pcnLeitor;
 
 type
 
@@ -84,6 +84,8 @@ type
   end;
 
 implementation
+
+Uses pcnAuxiliar;
 
 { TRetDPEC }
 

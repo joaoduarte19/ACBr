@@ -41,7 +41,7 @@ unit ACBrNFeConfiguracoes;
 interface
 
 uses
-  Classes, SysUtils, ACBrDFeConfiguracoes, pcnConversao;
+  Classes, SysUtils, ACBrDFeConfiguracoes, pcnConversao, pcnConversaoNFe;
 
 type
 
@@ -56,7 +56,7 @@ type
     procedure SetModeloDF(AValue: TpcnModeloDF);
     procedure SetVersaoDF(const Value: TpcnVersaoDF);
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TConfiguracoes); override;
   published
     property ModeloDF: TpcnModeloDF read FModeloDF write SetModeloDF default moNFe;
     property VersaoDF: TpcnVersaoDF read FVersaoDF write SetVersaoDF default ve200;
@@ -80,7 +80,7 @@ type
     function GetPath(APath: String; ALiteral: String): String; // TODO: onde fica isso
 
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TConfiguracoes); override;
 
     function GetPathCan(CNPJ: String = ''): String;
     function GetPathDPEC(CNPJ: String = ''): String;
@@ -148,7 +148,7 @@ end;
 
 { TGeralConfNFe }
 
-constructor TGeralConfNFe.Create(AOwner: TComponent);
+constructor TGeralConfNFe.Create(AOwner: TConfiguracoes);
 begin
   inherited Create(AOwner);
 
@@ -170,7 +170,7 @@ end;
 
 { TArquivosConfNFe }
 
-constructor TArquivosConfNFe.Create(AOwner: TComponent);
+constructor TArquivosConfNFe.Create(AOwner: TConfiguracoes);
 begin
   inherited Create(AOwner);
 

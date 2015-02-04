@@ -50,7 +50,7 @@ unit pcnRetConsSitNFe;
 interface
 
 uses
-  SysUtils, Classes, pcnAuxiliar, pcnConversao, pcnLeitor, pcnProcNFe,
+  SysUtils, Classes, pcnConversao, pcnLeitor, pcnProcNFe,
   pcnRetCancNFe, pcnRetEnvEventoNFe;
 
 type
@@ -116,6 +116,8 @@ type
   end;
 
 implementation
+
+Uses pcnAuxiliar;
 
 { TRetConsSitNFe }
 

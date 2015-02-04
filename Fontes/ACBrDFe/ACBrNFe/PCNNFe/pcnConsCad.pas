@@ -58,7 +58,7 @@ unit pcnConsCad;
 interface
 
 uses
-  SysUtils, Classes, pcnAuxiliar, pcnConversao, pcnGerador;
+  SysUtils, Classes, pcnConversao, pcnGerador;
 
 type
 

@@ -51,10 +51,7 @@ interface
 
 uses
   SysUtils, Classes,
-{$IFNDEF VER130}
-  Variants,
-{$ENDIF}
-  pcnAuxiliar, pcnConversao, pcnLeitor{, pcnEnvEventoNFe};
+  pcnConversao, pcnConversaoNFe, pcnLeitor;
 
 type
   TresNFe            = class;
@@ -203,6 +200,8 @@ type
   end;
 
 implementation
+
+Uses pcnAuxiliar;
 
 { TRetCollection }
 

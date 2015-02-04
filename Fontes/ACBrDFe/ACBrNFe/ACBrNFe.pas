@@ -45,7 +45,7 @@ uses
   ACBrDFe, ACBrDFeConfiguracoes,
   ACBrNFeConfiguracoes, ACBrNFeWebServices, ACBrNFeNotasFiscais,
   ACBrNFeDANFEClass,
-  pcnNFe, pcnConversao, pcnCCeNFe,
+  pcnNFe, pcnConversao, pcnConversaoNFe, pcnCCeNFe,
   pcnEnvEventoNFe, pcnInutNFe,
   pcnDownloadNFe, pcnRetDistDFeInt,
   ACBrNFeUtil, ACBrDFeUtil, ACBrUtil;
@@ -89,8 +89,8 @@ type
     FInutNFe: TInutNFe;
     FDownloadNFe: TDownload;
     FRetDistDFeInt: TRetDistDFeInt;
-    FWebServices: TWebServices;
     FStatus: TStatusACBrNFe;
+    FWebServices: TWebServices;
 
     function GetConfiguracoes: TConfiguracoesNFe;
     procedure SetConfiguracoes(AValue: TConfiguracoesNFe);

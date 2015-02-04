@@ -50,7 +50,7 @@ unit pcnRetConsCad;
 interface
 
 uses
-  SysUtils, Classes, pcnAuxiliar, pcnConversao, pcnLeitor;
+  SysUtils, Classes, pcnConversao, pcnLeitor;
 
 type
 
@@ -157,6 +157,7 @@ type
 implementation
 
 uses
+  pcnAuxiliar,
   ACBrUtil;
 
 { RetConsCad }

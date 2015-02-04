@@ -51,10 +51,7 @@ interface
 
 uses
   SysUtils, Classes,
-{$IFNDEF VER130}
-  Variants,
-{$ENDIF}
-  pcnAuxiliar, pcnConversao, pcnGerador, ACBrUtil;
+  pcnConversao, pcnGerador;
 
 type
   TDownloadNFe          = class;
@@ -101,6 +98,9 @@ type
   end;
 
 implementation
+
+Uses pcnAuxiliar,
+  ACBrUtil;
 
 { TChavesCollection }
 

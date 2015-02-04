@@ -51,10 +51,7 @@ interface
 
 uses
   SysUtils, Classes,
-  {$IFNDEF VER130}
-    Variants,
-  {$ENDIF}
-  pcnAuxiliar, pcnConversao;
+  pcnConversao, pcnConversaoNFe;
 
 type
   TRetchNFePendCollection     = class;
@@ -217,6 +214,8 @@ type
   end;
 
 implementation
+
+Uses pcnAuxiliar;
 
 { TInfEvento }
 

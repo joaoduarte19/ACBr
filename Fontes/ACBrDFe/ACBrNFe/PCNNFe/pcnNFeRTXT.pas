@@ -51,11 +51,7 @@ interface
 
 uses
   SysUtils, Classes,
-{$IFNDEF VER130}
-  Variants,
-{$ENDIF}
-  pcnAuxiliar, pcnConversao, pcnNFe, pcnLayoutTXT,
-  ACBrConsts;
+  pcnConversao, pcnNFe, pcnLayoutTXT;
 
 type
 
@@ -84,6 +80,9 @@ type
   end;
 
 implementation
+
+Uses pcnAuxiliar,
+  ACBrConsts;
 
 { TNFeRTXT }
 

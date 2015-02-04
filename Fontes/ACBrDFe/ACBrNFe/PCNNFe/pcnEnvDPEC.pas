@@ -51,10 +51,7 @@ interface
 
 uses
   SysUtils, Classes,
-{$IFNDEF VER130}
-  Variants,
-{$ENDIF}
-  pcnAuxiliar, pcnConversao, pcnGerador, pcnSignature, ACBrUtil;
+  pcnConversao, pcnGerador, pcnSignature, ACBrUtil;
 
 type
 
@@ -152,6 +149,8 @@ type
   end;
 
 implementation
+
+Uses pcnAuxiliar;
 
 { TEnvDPEC }
 

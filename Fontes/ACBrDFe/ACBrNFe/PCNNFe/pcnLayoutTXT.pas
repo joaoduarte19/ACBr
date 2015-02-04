@@ -50,7 +50,7 @@ unit pcnLayoutTXT;
 interface
 
 uses
-  SysUtils, Classes, pcnAuxiliar, pcnConversao;
+  SysUtils, Classes, pcnConversao;
 
 function CarregarLayoutTXT(const versao: string): AnsiString;
 
@@ -58,6 +58,8 @@ const
   VERSOES_VALIDAS_LAYOUT_TXT = '|1.10|2.00|3.10|';
 
 implementation
+
+Uses pcnAuxiliar;
 
 function CarregarLayoutTXT(const versao: string): AnsiString;
 var

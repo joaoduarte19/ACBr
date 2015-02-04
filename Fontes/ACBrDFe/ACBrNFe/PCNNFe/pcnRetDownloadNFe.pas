@@ -51,10 +51,7 @@ interface
 
 uses
   SysUtils, Classes,
-{$IFNDEF VER130}
-  Variants,
-{$ENDIF}
-  pcnAuxiliar, pcnConversao, pcnLeitor, ACBrUtil;
+  pcnConversao, pcnLeitor;
 
 type
   TRetNFeCollection     = class;
@@ -120,7 +117,8 @@ type
 implementation
 
 Uses
-  pcnGerador;
+  pcnGerador, pcnAuxiliar,
+  ACBrUtil;
 
 { TRetNFeCollection }
 

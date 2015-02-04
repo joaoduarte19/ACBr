@@ -50,7 +50,7 @@ unit pcnProcNFe;
 interface
 
 uses
-  SysUtils, Classes, pcnAuxiliar, pcnConversao, pcnGerador;
+  SysUtils, Classes, pcnConversao, pcnGerador;
 
 type
 
@@ -95,7 +95,7 @@ type
 implementation
 
 uses
-  pcnLeitor;
+  pcnAuxiliar, pcnLeitor;
 
 { TProcNFe }
 

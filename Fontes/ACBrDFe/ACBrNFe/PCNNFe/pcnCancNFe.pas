@@ -58,7 +58,7 @@ unit pcnCancNFe;
 interface
 
 uses
-  SysUtils, Classes, pcnAuxiliar, pcnConversao, pcnGerador, ACBrUtil;
+  SysUtils, Classes, pcnConversao, pcnGerador;
 
 type
 
@@ -87,6 +87,9 @@ type
   end;
 
 implementation
+
+Uses pcnAuxiliar,
+  ACBrUtil;
 
 { TcancNFe }
 

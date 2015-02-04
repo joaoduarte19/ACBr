@@ -62,8 +62,7 @@ interface
 
 uses
   SysUtils, Classes,
-  pcnAuxiliar, pcnConversao, pcnGerador, pcnNFe, pcnLayoutTXT, ACBrDFeUtil,
-  ACBrUtil;
+  pcnGerador, pcnNFe, pcnConversao;
 
 type
 
@@ -180,6 +179,9 @@ type
   ////////////////////////////////////////////////////////////////////////////////
 
 implementation
+
+Uses pcnConversaoNFe, pcnAuxiliar, pcnLayoutTXT,
+  ACBrDFeUtil, ACBrUtil;
 
 { TNFeW }
 

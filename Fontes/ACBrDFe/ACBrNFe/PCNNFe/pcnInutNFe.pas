@@ -59,10 +59,7 @@ interface
 
 uses
   SysUtils, Classes,
-{$IFNDEF VER130}
-  Variants,
-{$ENDIF}
-  pcnAuxiliar, pcnConversao, pcnGerador, pcnRetInutNFe, ACBrUtil;
+  pcnConversao, pcnGerador, pcnRetInutNFe;
 
 type
 
@@ -105,6 +102,9 @@ type
   end;
 
 implementation
+
+Uses pcnAuxiliar,
+  ACBrUtil;
 
 { TinutNFe }
 

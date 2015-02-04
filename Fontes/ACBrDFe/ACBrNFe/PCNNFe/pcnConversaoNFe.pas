@@ -51,9 +51,6 @@ interface
 
 uses
   SysUtils,
-{$IFNDEF VER130}
-  Variants,
-{$ENDIF}
   Classes;
 
 type
@@ -86,10 +83,6 @@ type
   TpcnCondicaoVeiculo = (cvAcabado, cvInacabado, cvSemiAcabado);
   TpcnTipoArma = (taUsoPermitido, taUsoRestrito);
 
-
-function TipoLayoutToStr(const t: TpcnTipoLayout): String;
-function StrToTipoLayout(out ok: Boolean; const s: String): TpcnTipoLayout;
-
 function tpNFToStr(const t: TpcnTipoNFe): String;
 function StrToTpNF(out ok: Boolean; const s: String): TpcnTipoNFe;
 
@@ -119,6 +112,8 @@ function StrTotpArma(out ok: boolean; const s: string): TpcnTipoArma;
 
 
 implementation
+
+Uses pcnConversao;
 
 // B11 - Tipo do Documento Fiscal **********************************************
 function tpNFToStr(const t: TpcnTipoNFe): String;

@@ -58,10 +58,7 @@ interface
 
 uses
   SysUtils, Classes,
-{$IFNDEF VER130}
-  Variants,
-{$ENDIF}
-  pcnAuxiliar, pcnConversao, pcnLeitor, pcnNFe;
+  pcnConversao, pcnLeitor, pcnNFe;
 
 type
 
@@ -81,7 +78,9 @@ type
 implementation
 
 uses
-  StrUtils, ACBrConsts;
+  StrUtils,
+  pcnAuxiliar, pcnConversaoNFe,
+  ACBrConsts;
 
 { TNFeR }
 

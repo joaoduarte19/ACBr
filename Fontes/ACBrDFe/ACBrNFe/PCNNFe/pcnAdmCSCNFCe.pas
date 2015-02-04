@@ -50,7 +50,7 @@ unit pcnAdmCSCNFCe;
 interface
 
 uses
-  SysUtils, Classes, pcnAuxiliar, pcnConversao, pcnGerador;
+  SysUtils, Classes, pcnConversao, pcnGerador;
 
 type
 
@@ -85,6 +85,8 @@ const
   DSC_CODCSC   = 'Código do CSC';
 
 implementation
+
+Uses pcnAuxiliar;
 
 { TAdmCSCNFCe }
 

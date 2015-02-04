@@ -150,7 +150,7 @@ type
     procedure SetFormaEmissao(AValue: TpcnTipoEmissao);
     function GetFormatoAlerta: String;
   public
-    constructor Create(AOwner: TConfiguracoes);
+    constructor Create(AOwner: TConfiguracoes); virtual;
   published
     property SSLLib: TSSLLib read FSSLLib write SetSSLLib;
     property UnloadSSLLib: Boolean read FUnloadSSLLib write FUnloadSSLLib default True;
@@ -189,7 +189,7 @@ type
     function GetPathSalvar: String;
     function GetPathSchemas: String;
   public
-    constructor Create(AOwner: TConfiguracoes);
+    constructor Create(AOwner: TConfiguracoes); virtual;
 
   published
     property PathSalvar: String read GetPathSalvar write FPathSalvar;

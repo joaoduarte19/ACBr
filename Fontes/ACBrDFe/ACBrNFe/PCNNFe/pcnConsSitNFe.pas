@@ -58,7 +58,7 @@ unit pcnConsSitNFe;
 interface
 
 uses
-  SysUtils, Classes, pcnAuxiliar, pcnConversao, pcnGerador, ACBrUtil;
+  SysUtils, Classes, pcnConversao, pcnGerador;
 
 type
 
@@ -81,6 +81,9 @@ type
   end;
 
 implementation
+
+Uses
+  ACBrUtil;
 
 { TConsSitNFe }
 

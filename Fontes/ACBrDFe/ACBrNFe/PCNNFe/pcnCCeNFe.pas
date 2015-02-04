@@ -51,10 +51,7 @@ interface
 
 uses
   SysUtils, Classes,
-{$IFNDEF VER130}
-  Variants,
-{$ENDIF}
-  pcnAuxiliar, pcnConversao, pcnGerador, ACBrUtil;
+  pcnConversao, pcnGerador;
 
 type
   TDetEvento               = class;
@@ -145,6 +142,9 @@ type
   end;
 
 implementation
+
+Uses pcnAuxiliar,
+  ACBrUtil;
 
 { TCCeNFe }
 

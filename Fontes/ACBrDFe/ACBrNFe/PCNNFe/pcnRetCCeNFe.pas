@@ -51,10 +51,7 @@ interface
 
 uses
   SysUtils, Classes,
-{$IFNDEF VER130}
-  Variants,
-{$ENDIF}
-  pcnAuxiliar, pcnConversao, pcnLeitor;
+  pcnConversao, pcnLeitor;
 
 type
   TRetDetEvento               = class;
@@ -162,6 +159,8 @@ type
   end;
 
 implementation
+
+Uses pcnAuxiliar;
 
 { TRetDetEvento }
 

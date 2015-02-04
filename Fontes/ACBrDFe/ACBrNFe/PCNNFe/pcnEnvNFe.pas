@@ -50,7 +50,7 @@ unit pcnEnvNFe;
 interface
 
 uses
-  SysUtils, Classes, pcnAuxiliar, pcnConversao, pcnGerador;
+  SysUtils, Classes, pcnConversao, pcnGerador;
 
 type
 
@@ -74,6 +74,8 @@ type
   end;
 
 implementation
+
+Uses pcnAuxiliar;
 
 { TenvNFe }
 

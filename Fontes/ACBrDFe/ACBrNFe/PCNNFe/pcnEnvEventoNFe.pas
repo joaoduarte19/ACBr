@@ -51,11 +51,7 @@ interface
 
 uses
   SysUtils, Classes,
-  {$IFNDEF VER130}
-   Variants,
-  {$ENDIF}
-  pcnAuxiliar, pcnConversao, pcnGerador, pcnLeitor, pcnEventoNFe,
-  ACBrUtil;
+  pcnConversao, pcnGerador, pcnLeitor, pcnEventoNFe;
 
 type
   TInfEventoCollection     = class;
@@ -110,7 +106,8 @@ type
 implementation
 
 uses
-  pcnRetEnvEventoNFe;
+  pcnRetEnvEventoNFe, pcnAuxiliar, pcnConversaoNFe,
+  ACBrUtil;
 
 { TEventoNFe }
 

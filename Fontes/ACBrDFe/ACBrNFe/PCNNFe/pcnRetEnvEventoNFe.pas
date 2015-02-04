@@ -51,10 +51,7 @@ interface
 
 uses
   SysUtils, Classes,
-  {$IFNDEF VER130}
-    Variants,
-  {$ENDIF}
-  pcnAuxiliar, pcnConversao, pcnLeitor, pcnEventoNFe;
+   pcnConversao, pcnLeitor, pcnEventoNFe;
 
 type
   TRetInfEventoCollection     = class;
@@ -114,6 +111,8 @@ type
 
 
 implementation
+
+Uses pcnAuxiliar, pcnConversaoNFe;
 
 { TRetInfEventoCollection }
 

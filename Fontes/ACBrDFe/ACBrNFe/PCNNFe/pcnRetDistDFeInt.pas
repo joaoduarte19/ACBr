@@ -51,10 +51,7 @@ interface
 
 uses
   SysUtils, Classes,
-{$IFNDEF VER130}
-  Variants,
-{$ENDIF}
-  pcnAuxiliar, pcnConversao, pcnLeitor, synacode;
+  pcnConversao, pcnConversaoNFe, pcnLeitor, synacode;
 
 type
   TresNFe               = class;
@@ -185,7 +182,8 @@ type
 
 implementation
 
-uses Math, pcnNFeR
+Uses Math,
+  pcnAuxiliar, pcnNFeR
   {$IFDEF FPC},zstream {$ELSE},ZLibExGZ{$ENDIF};
 
 { TdocZipCollection }
