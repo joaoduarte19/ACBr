@@ -240,12 +240,28 @@ var
 begin
   chave := '';
 
-  if not GerarChave(Chave, CTe.ide.cUF, CTe.ide.cCT, StrToInt(CTe.ide.modelo), CTe.ide.serie,
-    CTe.ide.nCT, StrToInt(TpEmisToStr(CTe.ide.tpEmis)), CTe.ide.dhEmi, CTe.emit.CNPJ) then
+  if not GerarChave(Chave, CTe.ide.cUF, CTe.ide.cCT, StrToInt(CTe.ide.modelo),
+                    CTe.ide.serie, CTe.ide.nCT, StrToInt(TpEmisToStr(CTe.ide.tpEmis)),
+                    CTe.ide.dhEmi, CTe.emit.CNPJ) then
     Gerador.wAlerta('#001', 'infCte', DSC_CHAVE, ERR_MSG_GERAR_CHAVE);
 
   chave := StringReplace(chave,'NFe','CTe',[rfReplaceAll]);
-  CTe.infCTe.ID := chave;
+
+  if trim(CTe.infCTe.Id) = '' then
+    CTe.infCTe.Id := chave;
+
+  if (copy(CTe.infCTe.Id, 1, 4) <> 'CTe') then
+    CTe.infCTe.Id := 'CTe' + CTe.infCTe.Id;
+
+  if (Trim(CTe.infCTe.Id) = '') or (not ValidarChave(CTe.infCTe.Id)) then
+     CTe.infCTe.Id := chave
+  else
+   begin
+     CTe.infCTe.Id := StringReplace( UpperCase(CTe.infCTe.Id), 'CTE', '', [rfReplaceAll] ) ;
+     CTe.infCTe.Id := 'CTe' + CTe.infCTe.Id;
+   end;
+
+
   CTe.ide.cDV := RetornarDigito(CTe.infCTe.ID);
   CTe.Ide.cCT := RetornarCodigoNumerico(CTe.infCTe.ID, 2);
 

@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+04/02/2015
+[*] Compatibilizado a checagem da propriedade ID ao gerar o XML.
+    por: Italo Jurisato Junior
+
 09/01/2015
 [*] Melhorias realizadas no DACTE em Fortes Report.
     por: W. Pereira
