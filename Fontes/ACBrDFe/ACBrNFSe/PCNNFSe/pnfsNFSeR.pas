@@ -118,7 +118,7 @@ end;
 
 function TNFSeR.LerRPS_ABRASF_V1: Boolean;
 var
- item: Integer;
+ item, i: Integer;
  ok  : Boolean;
 begin
  if (Leitor.rExtrai(2, 'InfRps') <> '') or (Leitor.rExtrai(1, 'Rps') <> '')
@@ -201,7 +201,22 @@ begin
        NFSe.Servico.Valores.DescontoCondicionado   := Leitor.rCampo(tcDe2, 'DescontoCondicionado');
        NFSe.Servico.Valores.DescontoIncondicionado := Leitor.rCampo(tcDe2, 'DescontoIncondicionado');
       end;
-
+      
+      //Provedor SimplISS permite varios itens servico
+      if FProvedor = proSimplISS then
+      begin
+        i := 1;
+        while (Leitor.rExtrai(4, 'ItensServico', 'ItensServico', i) <> '') do
+        begin
+          with NFSe.Servico.ItemServico.Add do
+          begin
+            Descricao := Leitor.rCampo(tcStr, 'Descricao');
+            Quantidade := Leitor.rCampo(tcInt, 'Quantidade');
+            ValorUnitario := Leitor.rCampo(tcDe2, 'ValorUnitario');
+          end;
+          i := i + 1;
+        end;
+      end;
     end; // fim Servico
 
    if (Leitor.rExtrai(3, 'Prestador') <> '') or (Leitor.rExtrai(2, 'Prestador') <> '')
