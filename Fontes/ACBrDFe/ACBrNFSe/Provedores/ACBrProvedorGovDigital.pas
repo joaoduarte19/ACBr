@@ -298,7 +298,15 @@ end;
 function TProvedorGovDigital.Gera_CabMsg(Prefixo2, VersaoLayOut, VersaoDados,
   NameSpaceCab: String; ACodCidade: Integer): AnsiString;
 begin
- Result := '<' + Prefixo2 + 'cabecalho versao="'  + VersaoLayOut + '"' + NameSpaceCab +
+// Exemplo fornecido pelo provedor
+//
+// <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+// <ns2:cabecalho xmlns:ns2="http://www.abrasf.org.br/nfse.xsd"versao="2.00">
+// <ns2:versaoDados>2.00</ns2:versaoDados>
+// </ns2:cabecalho>
+
+ Result := '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+           '<' + Prefixo2 + 'cabecalho versao="'  + VersaoLayOut + '"' + NameSpaceCab +
             '<versaoDados>' + VersaoDados + '</versaoDados>'+
            '</' + Prefixo2 + 'cabecalho>';
 end;
@@ -429,7 +437,12 @@ begin
                        'xmlns:xsd="http://www.w3.org/2001/XMLSchema">' +
             '<S:Body>' +
              '<RecepcionarLoteRpsSincronoRequest xmlns="' + URLNS + '">' +
+              '<nfseCabecMsg>' +
+                CabMsg +
+              '</nfseCabecMsg>' +
+              '<nfseDadosMsg>' +
                 DadosMsg +
+              '</nfseDadosMsg>' +
              '</RecepcionarLoteRpsSincronoRequest>' +
             '</S:Body>' +
            '</S:Envelope>';
