@@ -802,6 +802,7 @@ begin
   4219507, // Xanxere/SC
   4219606, // Xavantina/SC
   4219705, // Xaxim/SC
+  4219176, // Vargem Bonita/SC
   4302105, // Bento Gonçalves/RS
   4304630, // Capao Da Canoa/RS
   4305801, // Constantina/RS
