@@ -47,10 +47,15 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+Data: 04/02/2015
+-- ACBrSAT --        (por: DSA)
+[*] Aplicado workaround para retorno incompleto do Emulador de SAT do Fisco
+    no comando: ConsultarStatusOperacional
+
 Data: 02/01/2015
 [*] correção ecf virtual SAT
 		por: Juliomar Marchetti
-		
+
 Data: 21/12/2014
 -- ACBrSAT --        (por: DSA)
 [+] Adicionada nova propriedade "Status: TACBrSATStatus", que conterá os valores

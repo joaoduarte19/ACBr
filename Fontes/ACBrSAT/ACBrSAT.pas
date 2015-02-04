@@ -499,7 +499,8 @@ end ;
 
 function TACBrSAT.ConsultarStatusOperacional : String ;
 Var
-  ok : Boolean;
+  ok: Boolean;
+  I: Integer;
 begin
   fsComandoLog := 'ConsultarStatusOperacional';
   IniciaComando;
@@ -532,12 +533,24 @@ begin
       VER_LAYOUT     := fsResposta.RetornoLst[19];
       ULTIMO_CFe     := fsResposta.RetornoLst[20];
       LISTA_INICIAL  := fsResposta.RetornoLst[21];
-      LISTA_FINAL    := fsResposta.RetornoLst[22];
-      DH_CFe         := StoD( fsResposta.RetornoLst[23] );
-      DH_ULTIMA      := StoD( fsResposta.RetornoLst[24] );
-      CERT_EMISSAO   := StoD( fsResposta.RetornoLst[25] ) ;
-      CERT_VENCIMENTO:= StoD( fsResposta.RetornoLst[26] ) ;
-      ESTADO_OPERACAO:= StrToEstadoOperacao(ok, fsResposta.RetornoLst[27]) ;;
+
+      { Workaround para leitura de Status do Emulador do Fiscl,
+        que não retorna o campo: LISTA_FINAL }
+      I := 22;
+      if fsResposta.RetornoLst.Count > 27 then
+      begin
+        LISTA_FINAL    := fsResposta.RetornoLst[22];
+        Inc(I);
+      end;
+      DH_CFe         := StoD( fsResposta.RetornoLst[I] );
+      Inc(I);
+      DH_ULTIMA      := StoD( fsResposta.RetornoLst[I] );
+      Inc(I);
+      CERT_EMISSAO   := StoD( fsResposta.RetornoLst[I] ) ;
+      Inc(I);
+      CERT_VENCIMENTO:= StoD( fsResposta.RetornoLst[I] ) ;
+      Inc(I);
+      ESTADO_OPERACAO:= StrToEstadoOperacao(ok, fsResposta.RetornoLst[I]) ;;
     end;
   end;
 end ;

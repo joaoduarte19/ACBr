@@ -72,6 +72,7 @@ type
     FImprimeDescAcrescItem: Boolean;
     FIgnorarTagsFormatacao: Boolean;
     FLinhasBuffer : Integer;
+    FCortaPapel : Boolean;
 
     cCmdImpZera: String;
     cCmdAbreGaveta: String;
@@ -124,7 +125,7 @@ type
     function ConfigurarBarrasDaruma(const ACodigo: AnsiString): AnsiString;
     function ConfigurarBarrasBematech(const ACodigo: AnsiString): AnsiString;
 
-    procedure DoLinesChange(Sender: TObject); 
+    procedure DoLinesChange(Sender: TObject);
   protected
     FpNFe: TNFe;
     FpEvento: TEventoNFe;
@@ -136,7 +137,7 @@ type
     procedure GerarObsCliente;
     procedure GerarObsFisco;
     procedure GerarDadosConsumidor;
-    procedure GerarRodape(CortaPapel: Boolean = True; Cancelamento: Boolean = False);
+    procedure GerarRodape(Cancelamento: Boolean = False);
     procedure GerarDadosEvento;
     procedure GerarObservacoesEvento;
     procedure GerarClicheEmpresa;
@@ -150,7 +151,7 @@ type
     procedure ImprimirEVENTO(NFE: TNFe = nil); override;
 
     procedure ImprimirRelatorio(const ATexto: TStrings; const AVias: Integer = 1;
-      const ACortaPapel: Boolean = True);
+      const ACortaPapel: Boolean = True; const ALogo : Boolean = True);
     procedure CortarPapel;
     procedure AbrirGaveta;
   published
@@ -163,6 +164,7 @@ type
     property UsaCodigoEanImpressao: Boolean read FUsaCodigoEanImpressao write FUsaCodigoEanImpressao default False;
     property IgnorarTagsFormatacao: Boolean read FIgnorarTagsFormatacao write FIgnorarTagsFormatacao default False;
     property LinhasBuffer: Integer read FLinhasBuffer write FLinhasBuffer default 0;
+    property CortaPapel: Boolean read FCortaPapel write FCortaPapel default True;
   end;
 
 procedure Register;
@@ -412,6 +414,7 @@ begin
   FBuffer.OnChange   := DoLinesChange;
   FMarcaImpressora   := iEpson;
   FLinhasEntreCupons := 21;
+  FCortaPapel        := True;  
 end;
 
 destructor TACBrNFeDANFeESCPOS.Destroy;
@@ -600,8 +603,8 @@ begin
     Trim(FpNFe.Emit.EnderEmit.xCpl) + '  ' +
     Trim(FpNFe.Emit.EnderEmit.xBairro) +  ' ' +
     Trim(FpNFe.Emit.EnderEmit.xMun) + '/' + Trim(FpNFe.Emit.EnderEmit.UF) + '  ' +
-    'Cep: ' + DFeUtil.FormatarCEP(IntToStr(FpNFe.Emit.EnderEmit.CEP)) + '  ' +
-    'Tel: ' + DFeUtil.FormatarFone(FpNFe.Emit.EnderEmit.fone)
+    'Cep:' + DFeUtil.FormatarCEP(IntToStr(FpNFe.Emit.EnderEmit.CEP)) + '  ' +
+    'Tel:' + DFeUtil.FormatarFone(FpNFe.Emit.EnderEmit.fone)
     , nColunasPapel)
   ));
 
@@ -769,18 +772,18 @@ end;
 procedure TACBrNFeDANFeESCPOS.GerarPagamentos(Resumido: Boolean = False);
 var
   i: Integer;
-  Total, Troco: Real;
+  {Total,} Troco: Real;
 begin
-  Total := 0;
+  //Total := 0;
   FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(padS('FORMA DE PAGAMENTO ' + '|' + ' Valor Pago', nColunasPapel, '|')));
-
   for i := 0 to FpNFe.pag.Count - 1 do
   begin
     FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(padS(FormaPagamentoToDescricao(FpNFe.pag.Items[i].tPag) + '|' + FormatFloat('#,###,##0.00', FpNFe.pag.Items[i].vPag), nColunasPapel, '|')));
-    Total := Total + FpNFe.pag.Items[i].vPag;
+    //Total := Total + FpNFe.pag.Items[i].vPag;
   end;
 
-  Troco := Total - FpNFe.Total.ICMSTot.vNF;
+  //Troco := Total - FpNFe.Total.ICMSTot.vNF;
+  Troco := vTroco;
   if Troco > 0 then
     FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(padS('Troco R$|' + FormatFloat('#,###,##0.00', Troco), nColunasPapel, '|')));
 
@@ -877,7 +880,7 @@ begin
 
     FLinhaCmd := Trim(
       Trim(FpNFe.Dest.EnderDest.xLgr) + ' ' +
-      Trim(FpNFe.Dest.EnderDest.nro) + ' ' +
+      DFeUtil.SeSenao(Trim(FpNFe.Dest.EnderDest.xLgr) = '','',Trim(FpNFe.Dest.EnderDest.nro)) + ' ' +
       Trim(FpNFe.Dest.EnderDest.xCpl) + ' ' +
       Trim(FpNFe.Dest.EnderDest.xBairro) + ' ' +
       Trim(FpNFe.Dest.EnderDest.xMun) + ' ' +
@@ -888,7 +891,7 @@ begin
   end;
 end;
 
-procedure TACBrNFeDANFeESCPOS.GerarRodape(CortaPapel: Boolean = True; Cancelamento: Boolean = False);
+procedure TACBrNFeDANFeESCPOS.GerarRodape(Cancelamento: Boolean = False);
 var
   qrcode: string;
   cCaracter: String;
@@ -962,12 +965,14 @@ begin
   FBuffer.Add(GetLinhaSimples);
 
   // sistema
-  FBuffer.Add(cCmdFontePequena + cCmdAlinhadoCentro + Sistema);
-  FBuffer.Add(cCmdFontePequena + cCmdAlinhadoCentro + Site);
+  if Sistema <> '' then
+    FBuffer.Add(cCmdFontePequena + cCmdAlinhadoCentro + Sistema);
+  if Site <> '' then
+    FBuffer.Add(cCmdFontePequena + cCmdAlinhadoCentro + Site);
 
   // pular linhas e cortar o papel
   PulaLinhas;
-  if CortaPapel then
+  if FCortaPapel then
     FBuffer.Add(cCmdCortaPapel);
 end;
 
@@ -1128,16 +1133,19 @@ begin
   ImprimePorta(FBuffer.Text);
 end;
 
-procedure TACBrNFeDANFeESCPOS.ImprimirRelatorio(const ATexto: TStrings;
-  const AVias: Integer; const ACortaPapel: Boolean);
+procedure TACBrNFeDANFeESCPOS.ImprimirRelatorio(const ATexto: TStrings; const AVias: Integer = 1;
+      const ACortaPapel: Boolean = True; const ALogo : Boolean = True);
 var
   I: Integer;
 begin
   InicializarComandos;
 
   FBuffer.clear;
-  FBuffer.Add(cCmdImpZera + cCmdEspacoLinha + cCmdPagCod + cCmdFonteNormal + cCmdAlinhadoCentro + cCmdImprimeLogo);
-  FBuffer.Add(cCmdAlinhadoEsquerda);
+  if ALogo then
+    FBuffer.Add(cCmdImpZera + cCmdEspacoLinha + cCmdPagCod + cCmdFonteNormal + cCmdAlinhadoCentro + cCmdImprimeLogo + cCmdAlinhadoEsquerda)
+  else
+    FBuffer.Add(cCmdImpZera + cCmdEspacoLinha + cCmdPagCod + cCmdFonteNormal + cCmdAlinhadoEsquerda);
+
   for I := 0 to AVias - 1 do
   begin
     FBuffer.Add(ParseTextESCPOS(DecodificarTagsFormatacao(ATexto.Text)));
