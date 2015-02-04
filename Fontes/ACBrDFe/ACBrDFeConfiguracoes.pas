@@ -98,9 +98,15 @@ type
     procedure SetIntervaloTentativas(const Value: cardinal);
     procedure SetParams(const AValue: TStrings);
 
+  protected
+    function LerParamsIniServicos: AnsiString; virtual;
+    function LerParamsInterno: AnsiString; virtual;
   public
     constructor Create(AOwner: TConfiguracoes);
     destructor Destroy;
+
+    procedure LerParams; virtual;
+
   published
     property Visualizar: Boolean read FVisualizar write FVisualizar default False;
     property UF: String read FUF write SetUF;
@@ -170,7 +176,7 @@ type
 
     FPathSalvar: String;
     FPathSchemas: String;
-    FPathConfig: String;
+    FIniServicos: String;
 
     FSalvar: Boolean;
     FMensal: Boolean;
@@ -179,7 +185,7 @@ type
     FSepararModelo: Boolean;
   private
 
-    function GetPathConfig: String;
+    function GetIniServicos: String;
     function GetPathSalvar: String;
     function GetPathSchemas: String;
   public
@@ -188,7 +194,7 @@ type
   published
     property PathSalvar: String read GetPathSalvar write FPathSalvar;
     property PathSchemas: String read GetPathSchemas write FPathSchemas;
-    property PathConfig: String read GetPathConfig write FPathConfig;
+    property IniServicos: String read GetIniServicos write FIniServicos;
     property Salvar: Boolean read FSalvar write FSalvar default False;
     property PastaMensal: Boolean read FMensal write FMensal default False;
     property AdicionarLiteral: Boolean read FLiteral write FLiteral default False;
@@ -397,6 +403,18 @@ begin
   inherited;
 end;
 
+procedure TWebServicesConf.LerParams;
+var
+  ConteudoParams: AnsiString;
+begin
+  ConteudoParams := LerParamsIniServicos;
+
+  if ConteudoParams = '' then
+    ConteudoParams := LerParamsInterno;
+
+  FParams.Text := ConteudoParams;
+end;
+
 procedure TWebServicesConf.SetAmbiente(AValue: TpcnTipoAmbiente);
 begin
   FAmbiente := AValue;
@@ -411,6 +429,31 @@ end;
 procedure TWebServicesConf.SetParams(const AValue: TStrings);
 begin
   FParams.Assign(AValue);
+end;
+
+function TWebServicesConf.LerParamsIniServicos: AnsiString;
+Var
+  SL: TStringList;
+begin
+  Result := '';
+
+  if (FOwner.Arquivos.IniServicos <> '') and
+    FileExists(FOwner.Arquivos.IniServicos) then
+  begin
+    SL := TStringList.Create;
+    try
+      SL.LoadFromFile(FOwner.Arquivos.IniServicos);
+      Result := SL.Text;
+    finally
+      SL.Free;
+    end;
+  end;
+end;
+
+function TWebServicesConf.LerParamsInterno: AnsiString;
+begin
+   { SOBRESCREVER NAS CLASSES FILHAS, informando o conteudo DEFAULT do arquivo }
+  Result := '';
 end;
 
 procedure TWebServicesConf.SetTentativas(const Value: integer);
@@ -468,7 +511,7 @@ begin
   FSalvar := False;
   FPathSalvar := '';
   FPathSchemas := '';
-  FPathConfig := '';
+  FIniServicos := '';
 
   FMensal := False;
   FLiteral := False;
@@ -479,7 +522,7 @@ end;
 function TArquivosConf.GetPathSalvar: String;
 begin
   if FPathSalvar = '' then
-    if not (csDesigning in FOwner.ComponentState) then
+    if not (csDesigning in FOwner.Owner.ComponentState) then
       FPathSalvar := DFeUtil.PathAplication + PathDelim + 'Docs';
 
   FPathSalvar := PathWithDelim(Trim(FPathSalvar));
@@ -489,21 +532,20 @@ end;
 function TArquivosConf.GetPathSchemas: String;
 begin
   if FPathSchemas = '' then
-    if not (csDesigning in FOwner.ComponentState) then
+    if not (csDesigning in FOwner.Owner.ComponentState) then
       FPathSchemas := DFeUtil.PathAplication + PathDelim + 'Schemas';
 
   FPathSchemas := PathWithDelim(Trim(FPathSchemas));
   Result := FPathSchemas;
 end;
 
-function TArquivosConf.GetPathConfig: String;
+function TArquivosConf.GetIniServicos: String;
 begin
-  if FPathSalvar = '' then
-    if not (csDesigning in FOwner.ComponentState) then
-      FPathSalvar := DFeUtil.PathAplication;
+  if FIniServicos = '' then
+    if not (csDesigning in FOwner.Owner.ComponentState) then
+      FIniServicos := DFeUtil.PathAplication + PathDelim + 'ACBrServicos.ini';
 
-  FPathConfig := PathWithDelim(Trim(FPathSalvar));
-  Result := FPathConfig;
+  Result := FIniServicos;
 end;
 
 
@@ -514,10 +556,6 @@ TODO: MOVER
 
 
 function Save(AXMLName: String; AXMLFile: String; aPath: String = ''): boolean;
-
-
-
-
 
 
     FModeloDFCodigo: integer;

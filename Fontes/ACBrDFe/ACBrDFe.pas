@@ -41,8 +41,8 @@ unit ACBrDFe;
 interface
 
 uses
-  Classes, SysUtils,
-  ACBrBase, ACBrDFeConfiguracoes, ACBrMail, ACBrDFeSSL;
+  Classes, SysUtils, IniFiles,
+  ACBrBase, ACBrDFeConfiguracoes, ACBrMail, ACBrDFeSSL, pcnConversao;
 
 const
   ACBRDFE_VERSAO = '0.1.0a';
@@ -68,12 +68,15 @@ type
     procedure SetMAIL(AValue: TACBrMail);
   protected
     FPConfiguracoes: TConfiguracoes;
+    FPIniParams: TMemIniFile;
 
     function GetAbout: String; virtual;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
 
     function GetNomeArquivoServicos: String; virtual;
     function CreateConfiguracoes: TConfiguracoes; virtual;
+
+    procedure LerParamsIni; virtual;
   public
     property SSL: TDFeSSL read FSSL;
 
@@ -89,7 +92,9 @@ type
       StreamNFe: TStringStream = nil; NomeArq: String = '';
       UsarThread: Boolean = True; HTML: Boolean = False);
 
-    function CalcularVersaoServico(const NomeServico: String): Double;
+    function CalcularVersaoServico(const ModeloDFe, UF: String;
+      const TipoAmbiente: TpcnTipoAmbiente; const NomeServico: String;
+      VersaoBase: double): double;
 
     procedure FazerLog(const Msg: AnsiString; out Tratado: Boolean);
     procedure GerarException(Msg: String);
@@ -104,7 +109,7 @@ type
 
 implementation
 
-uses ACBrUtil, ACBrDFeUtil;
+uses ACBrUtil, ACBrDFeUtil, strutils;
 
 { EACBrDFeException }
 
@@ -127,6 +132,8 @@ begin
 
   FSSL := TDFeSSL.Create(Self);
   FOnGerarLog := nil;
+
+  FPIniParams := TMemIniFile.Create(Configuracoes.Arquivos.IniServicos);
 end;
 
 function TACBrDFe.CreateConfiguracoes: TConfiguracoes;
@@ -140,7 +147,9 @@ begin
   if FConfiguracoes.Geral.IniFinXMLSECAutomatico then
     NotaUtil.ShutDownXmlSec;
   {$ENDIF}
+
   FPConfiguracoes.Free;
+  FPIniParams.Free;
 
   inherited;
 end;
@@ -156,8 +165,7 @@ begin
 end;
 
 
-function TACBrDFe.Gravar(NomeXML: String; ConteudoXML: String; aPath: String
-  ): Boolean;
+function TACBrDFe.Gravar(NomeXML: String; ConteudoXML: String; aPath: String): Boolean;
 var
   UTF8Str: String;
 begin
@@ -192,12 +200,11 @@ begin
   end;
 end;
 
-procedure TACBrDFe.EnviarEmail(
-  const sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo, sAssunto: String;
-  sMensagem: TStrings; SSL: Boolean; sCC: TStrings; Anexos: TStrings;
-  PedeConfirma: Boolean; AguardarEnvio: Boolean; NomeRemetente: String;
-  TLS: Boolean; StreamNFe: TStringStream; NomeArq: String; UsarThread: Boolean;
-  HTML: Boolean);
+procedure TACBrDFe.EnviarEmail(const sSmtpHost, sSmtpPort, sSmtpUser,
+  sSmtpPasswd, sFrom, sTo, sAssunto: String; sMensagem: TStrings;
+  SSL: Boolean; sCC: TStrings; Anexos: TStrings; PedeConfirma: Boolean;
+  AguardarEnvio: Boolean; NomeRemetente: String; TLS: Boolean;
+  StreamNFe: TStringStream; NomeArq: String; UsarThread: Boolean; HTML: Boolean);
 begin
   // TODO: Fazer envio de e-mail usando ACBrMail
 end;
@@ -205,21 +212,71 @@ end;
 function TACBrDFe.GetNomeArquivoServicos: String;
 begin
   Result := 'ACBrServicosDFe.ini';
-  raise EACBrDFeException.Create('GetNomeArquivoServicos não implementado para: '+ClassName);
+  raise EACBrDFeException.Create(
+    'GetNomeArquivoServicos não implementado para: ' + ClassName);
 end;
 
-function TACBrDFe.CalcularVersaoServico(const NomeServico: String): Double;
-var
-  ArqServicos: String;
+procedure TACBrDFe.LerParamsIni;
 begin
-  ArqServicos := Configuracoes.Arquivos.PathConfig + GetNomeArquivoServicos;
+  if FPIniParams.Stream.Size = 0 then
+  begin
+    if Configuracoes.WebServices.Params.Count = 0 then
+      Configuracoes.WebServices.LerParams;
 
-  if not FileExists(ArqServicos) then
-    GerarException('Arquivo: '+ArqServicos+' não encontrado');
+    FPIniParams.SetStrings(Configuracoes.WebServices.Params);
+  end;
+end;
 
-  GetVersaoNFe( TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).Configuracoes.Geral.ModeloDF,
-       ////                           TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).Configuracoes.Geral.VersaoDF,
-       ////                           LayNfeRecepcao )
+
+function TACBrDFe.CalcularVersaoServico(const ModeloDFe, UF: String;
+  const TipoAmbiente: TpcnTipoAmbiente; const NomeServico: String;
+  VersaoBase: double): double;
+var
+  Sessao, Chave, K: String;
+  SL: TStringList;
+  I: integer;
+  Versao, VersaoAbaixo: double;
+begin
+  Result := 0;
+  LerParamsIni;
+
+  Sessao := ModeloDFe + '_' + UF + IfThen(TipoAmbiente = taProducao, 'P', 'H');
+
+  if not FPIniParams.SectionExists(Sessao) then
+    exit;
+
+  Chave := NomeServico + '_' + FormatFloat('0.00', VersaoBase);
+
+  // Achou com busca exata ? (mesma versao) //
+  if DFeUtil.NaoEstaVazio(FPIniParams.ReadString(Sessao, Chave, '')) then
+  begin
+    Result := VersaoBase;
+    exit;
+  end;
+
+  // Procure por serviço com o mesmo nome, mas com versão inferior //
+  Chave := NomeServico + '_';
+  VersaoAbaixo := 0;
+  SL := TStringList.Create;
+  try
+    FPIniParams.ReadSection(Sessao, SL);
+    for I := 0 to SL.Count do
+    begin
+      K := SL[I];
+
+      if copy(K, 1, Length(Chave)) = Chave then
+      begin
+        Versao := StrToFloatDef(copy(K, Length(Chave) + 1, Length(K)), 0);
+
+        if (Versao > VersaoAbaixo) and (Versao <= VersaoBase) then
+          VersaoAbaixo := Versao;
+      end;
+    end;
+  finally
+    SL.Free;
+  end;
+
+  Result := VersaoAbaixo;
 end;
 
 
@@ -234,7 +291,7 @@ begin
 end;
 
 procedure TACBrDFe.GerarException(Msg: String);
-Var
+var
   Tratado: Boolean;
 begin
   Tratado := False;
