@@ -147,14 +147,26 @@ var
 begin
   chave := '';
 
-  if not GerarChave(Chave, MDFe.ide.cUF, MDFe.ide.cMDF, StrToInt(MDFe.ide.modelo), MDFe.ide.serie,
-    MDFe.ide.nMDF, StrToInt(TpEmisToStr(MDFe.ide.tpEmis)), MDFe.ide.dhEmi, MDFe.emit.CNPJ) then
+  if not GerarChave(Chave, MDFe.ide.cUF, MDFe.ide.cMDF, StrToInt(MDFe.ide.modelo),
+                    MDFe.ide.serie, MDFe.ide.nMDF, StrToInt(TpEmisToStr(MDFe.ide.tpEmis)),
+                    MDFe.ide.dhEmi, MDFe.emit.CNPJ) then
     Gerador.wAlerta('#001', 'infMDFe', DSC_CHAVE, ERR_MSG_GERAR_CHAVE);
 
   chave := StringReplace(chave,'NFe','MDFe',[rfReplaceAll]);
 
   if trim(MDFe.infMDFe.Id) = '' then
     MDFe.infMDFe.Id := chave;
+
+  if (copy(MDFe.infMDFe.Id, 1, 4) <> 'MDFe') then
+    MDFe.infMDFe.Id := 'MDFe' + MDFe.infMDFe.Id;
+
+  if (Trim(MDFe.infMDFe.Id) = '') or (not ValidarChave(MDFe.infMDFe.Id)) then
+     MDFe.infMDFe.Id := chave
+  else
+   begin
+     MDFe.infMDFe.Id := StringReplace( UpperCase(MDFe.infMDFe.Id), 'MDFE', '', [rfReplaceAll] ) ;
+     MDFe.infMDFe.Id := 'MDFe' + MDFe.infMDFe.Id;
+   end;
 
   MDFe.ide.cDV  := RetornarDigito(MDFe.infMDFe.Id);
   MDFe.Ide.cMDF := RetornarCodigoNumerico(MDFe.infMDFe.Id, 2);
