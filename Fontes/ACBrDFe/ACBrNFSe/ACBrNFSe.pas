@@ -342,7 +342,7 @@ begin
         NotasFiscais.LoadFromFile(aPath+'Ger\'+ANumLote+'-env-lotS.xml')
       else
        if FConfiguracoes.Arquivos.Salvar then
-         NotasFiscais.LoadFromFile(aPath+'Ger\'+ANumLote+'-env-lotS.xml');
+         NotasFiscais.LoadFromFile(aPath+ANumLote+'-env-lotS.xml');
     end
     else
     begin
@@ -350,7 +350,7 @@ begin
         NotasFiscais.LoadFromFile(aPath+'Ger\'+ANumLote+'-env-lot.xml')
       else
        if FConfiguracoes.Arquivos.Salvar then
-         NotasFiscais.LoadFromFile(aPath+'Ger\'+ANumLote+'-env-lot.xml');
+         NotasFiscais.LoadFromFile(aPath+ANumLote+'-env-lot.xml');
     end;
 
 

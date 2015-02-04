@@ -3811,7 +3811,7 @@ begin
 
     case FProvedor of
      proEquiplano: 	NFSeRetorno.LerXML_provedorEquiplano;
-     proInfisc:    NFSeRetorno.LerXml_provedorInfisc;
+     proInfisc:     NFSeRetorno.LerXml_provedorInfisc;
      proISSDSF:    	NFSeRetorno.LerXml_provedorIssDsf;
 	   proNFSEBrasil: NFSeRetorno.LerXml_provedorNFSEBrasil;
      else           NFSeRetorno.LerXml;
@@ -3821,6 +3821,7 @@ begin
 
     FDataRecebimento := NFSeRetorno.InfRec.DataRecebimento;
     FProtocolo       := NFSeRetorno.InfRec.Protocolo;
+    FNumeroLote      := NFSeRetorno.InfRec.NumeroLote;
 
     // Lista de Mensagem de Retorno
     FMsg := '';

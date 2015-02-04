@@ -12933,6 +12933,8 @@ begin
     else P53;
 
    Result := CodSiafi;
+   if (Trim(Result) = '') and (ACodigo <= 9999) then
+     Result:= IntToStr(ACodigo);
 end;
 
 function CodSiafiToCodCidade(const ACodigo: string): string;
