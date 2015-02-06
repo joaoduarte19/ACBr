@@ -10,8 +10,8 @@
 {         - Qualquer outro documento fiscal relativo à prestação de serviço de }
 {           comunicação ou ao fornecimento de energia elétrica.                }
 {                                                                              }
-{ As informações do referido convênio pode ser encontrada em:                  }
-{ http://www1.fazenda.gov.br/confaz/confaz/convenios/ICMS/1998/..%5C2003%5CCV115_03.htm }
+{         As informações do referido convênio pode ser encontrada em:          }
+{         http://www1.fazenda.gov.br/confaz/confaz/convenios/ICMS/1998/..%5C2003%5CCV115_03.htm }
 {                                                                              }
 {         Programa validador e demais informações podem ser acessadas em:      }
 {         www.fazenda.sp.gov.br/download/comunica_energia.shtm                 }
@@ -107,6 +107,7 @@ type
     FModelo: SmallInt;
     FSerie: string;
     FNumeroNF: Integer;
+    FReferenciaItemNF: Integer;
     FTipoAssinante: TTipoAssinanteConv115_Tab11_1;
     FTipoUtilizacao: TProdutoConv115_Tab11_2;
     /////////////////////////////////////////////////////////
@@ -161,6 +162,7 @@ type
     procedure Insert(Index: Integer; Obj: TACBrConvenio115Item);
   public
     function Add(Obj: TACBrConvenio115Item): Integer;
+    function New: TACBrConvenio115Item;
     property Objects[Index: Integer]: TACBrConvenio115Item read GetObject write SetObject; default;
   end;
 
@@ -252,6 +254,7 @@ type
     procedure Insert(Index: Integer; Obj: TACBrConvenio115Mestre);
   public
     function Add(Obj: TACBrConvenio115Mestre): Integer;
+    function New: TACBrConvenio115Mestre;
     property Objects[Index: Integer]: TACBrConvenio115Mestre read GetObject write SetObject; default;
   end;
 
@@ -270,7 +273,7 @@ type
 
   TConvenio115TipoArquivo = (c115taMestre, c115taitem, c115taDestinatario);
 
-  TACBrConvenio115 = class(TACBrComponent)
+  TACBrConvenio115 = class(TComponent)
   private
     FSalvarEm: string;
     FMestre: TACBrConvenio115Mestres;
@@ -440,6 +443,12 @@ end;
 function TACBrConvenio115Mestres.Add(Obj: TACBrConvenio115Mestre): Integer;
 begin
   Result := inherited Add(Obj);
+end;
+
+function TACBrConvenio115Mestres.New: TACBrConvenio115Mestre;
+begin
+  Result := TACBrConvenio115Mestre.Create;
+  Add(Result);
 end;
 
 function TACBrConvenio115Mestres.GetObject(Index: Integer): TACBrConvenio115Mestre;
@@ -767,6 +776,12 @@ end;
 function TACBrConvenio115Items.Add(Obj: TACBrConvenio115Item): Integer;
 begin
   Result := inherited Add(Obj);
+end;
+
+function TACBrConvenio115Items.New: TACBrConvenio115Item;
+begin
+  Result := TACBrConvenio115Item.Create;
+  Add(Result);
 end;
 
 function TACBrConvenio115Items.GetObject(Index: Integer): TACBrConvenio115Item;
