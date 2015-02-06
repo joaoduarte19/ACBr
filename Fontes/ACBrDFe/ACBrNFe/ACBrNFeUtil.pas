@@ -1023,7 +1023,7 @@ begin
    25: urlUF := ifThen(AAmbiente = taProducao, '', ''); // PB
    41: urlUF := ifThen(AAmbiente = taProducao, 'www.dfeportal.fazenda.pr.gov.br/dfe-portal/rest/servico/consultaNFCe', 'www.dfeportal.fazenda.pr.gov.br/dfe-portal/rest/servico/consultaNFCe'); // PR
    26: urlUF := ifThen(AAmbiente = taProducao, '', ''); // PE
-   22: urlUF := ifThen(AAmbiente = taProducao, '', ''); // PI
+   22: urlUF := ifThen(AAmbiente = taProducao, 'http://webas.sefaz.pi.gov.br/nfceweb/consultarNFCe.jsf',    'http://webas.sefaz.pi.gov.br/nfceweb-homologacao/consultarNFCe.jsf'); // PI
 //   33: urlUF := ifThen(AAmbiente = taProducao, 'https://www.sefaz.rs.gov.br/NFE/NFE-COM.aspx',              'https://www.sefaz.rs.gov.br/NFE/NFE-COM.aspx');              // RJ
    33: urlUF := ifThen(AAmbiente = taProducao, 'http://www4.fazenda.rj.gov.br/consultaNFCe/QRCode',         'http://www4.fazenda.rj.gov.br/consultaNFCe/QRCode');         // RJ
    24: urlUF := ifThen(AAmbiente = taProducao, 'http://nfce.set.rn.gov.br/consultarNFCe.aspx',              'http://nfce.set.rn.gov.br/consultarNFCe.aspx');              // RN

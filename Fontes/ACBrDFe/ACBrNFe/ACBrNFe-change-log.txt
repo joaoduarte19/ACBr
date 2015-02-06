@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+05/02/2015
+[*] Incluida as URLs de QR-Code da NFC-e para PI.
+    por: Ricardo
+
 30/01/2015
 [+] Implementado a descompactação de retorno Zipado ao acessar o Web Services:
     NFeDistribuicaoDFe
