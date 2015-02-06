@@ -57,7 +57,7 @@ uses  ACBrBase,  {Units da ACBr}
      Graphics, Contnrs, Classes;
 
 const
-  CACBrBoleto_Versao = '0.0.105a' ;
+  CACBrBoleto_Versao = '0.0.107a' ;
 
 type
   TACBrTipoCobranca =
@@ -268,7 +268,14 @@ type
     toRetornoConfirmacaoEntradaCobrancaSimples,
     toRetornoAlegacaoDoSacado,
     toRetornoDespesaCartorio,
-    toRetornoEqualizacaoVendor
+    toRetornoEqualizacaoVendor,
+    toRetornoBaixaLiquidadoEdital,
+    toRetornoAlteracaoInstrucao,
+    toRetornoDevolvidoPeloCartorio,
+    toRetornoReembolsoTransferenciaDescontoVendor,
+    toRetornoReembolsoDevolucaoDescontoVendor,
+    toRetornoReembolsoNaoEfetuado,
+    toRetornoSustacaoEnvioCartorio
   );
 
   {TACBrOcorrencia}

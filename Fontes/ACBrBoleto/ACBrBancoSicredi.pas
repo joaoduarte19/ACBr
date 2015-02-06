@@ -453,7 +453,12 @@ begin
     Cedente.Nome := rCedente;
 
     if Copy(rCNPJCPF,1,10) <> '0000000000' then
-       Cedente.CNPJCPF      := rCNPJCPF;
+    begin
+      if Copy(rCNPJCPF,1,3)= '000' then
+        rCNPJCPF := Copy(rCNPJCPF,4,11);
+
+      Cedente.CNPJCPF := rCNPJCPF; 
+    end;
 
     Cedente.CodigoCedente:= rCodCedente;
     Cedente.Agencia      := rAgencia;
@@ -526,6 +531,7 @@ begin
       ValorRecebido        := StrToFloatDef(Copy(Linha,254,13),0)/100;
       ValorMoraJuros       := StrToFloatDef(Copy(Linha,267,13),0)/100;
       ValorOutrosCreditos  := StrToFloatDef(Copy(Linha,280,13),0)/100;    //Multa estava faltando
+      PercentualMulta      := StrToFloatDef(Copy(Linha,281,13),0)/100;
       if StrToIntDef(Copy(Linha,329,8),0) <> 0 then
         DataCredito:= StringToDateTimeDef( Copy(Linha,335,2)+'/'+
                                           Copy(Linha,333,2)+'/'+
@@ -587,7 +593,7 @@ begin
       end;
     end;
   end;
-  fpTamanhoMaximoNossoNum := 9;
+  fpTamanhoMaximoNossoNum := 8;
 end;
 
 function TACBrBancoSicredi.CodMotivoRejeicaoToDescricao(

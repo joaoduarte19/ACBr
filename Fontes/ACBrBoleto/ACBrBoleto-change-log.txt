@@ -47,6 +47,34 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+Data: 06/02/2015 ver. 0.0.107a
+
+-- ACBrBancoSicredi --
+[*] Adição da leitura do % de juros no retorno CNAB400.(guilhermeservice)
+http://www.projetoacbr.com.br/forum/index.php?/topic/19824-modifica%C3%A7%C3%A3o-na-unit-acbrbancosicredi/
+
+-- ACBrBancoBanrisul --
+[*] Adição da leitura do código 06 para o responsavel pela emissão na remessa CNAB400.(Frederico Hahn)
+http://www.projetoacbr.com.br/forum/index.php?/topic/17972-altera%C3%A7%C3%A3o-acbrboleto/
+
+
+Data: 05/02/2015 ver. 0.0.106a
+
+-- ACBrBoleto --
+[*] Adição de novo tipos de ocorrência .(Andersonh)
+http://www.projetoacbr.com.br/forum/index.php?/topic/19733-ajustes-realizados-e-n%C3%A3o-disponibilizados-no-svn/
+
+-- ACBrBancoSicredi --
+[*] Correção retorno CNAB400 para beneficiário com CPF .(Andersonh)
+http://www.projetoacbr.com.br/forum/index.php?/topic/19733-ajustes-realizados-e-n%C3%A3o-disponibilizados-no-svn/
+
+-- ACBrBancoBanrisul --
+[*] Ajuste retorno CNAB400 para tratar corretamente códigos de rejeição contendo letras.
+    Ajuste para definir os códigos de mora válidos para o banco. (Andersonh)
+http://www.projetoacbr.com.br/forum/index.php?/topic/19733-ajustes-realizados-e-n%C3%A3o-disponibilizados-no-svn/
+
+
 Data: 02/02/2015 ver. 0.0.105a
 
 -- ACBrCaixaBancoHSBC --
