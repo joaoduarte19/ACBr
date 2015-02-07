@@ -585,7 +585,7 @@ type
 
 implementation
 
-uses ACBrNFeUtil, ACBrDFeUtil, pcnNFe, ACBrNFeDANFeRLClass, DateUtils;
+uses ACBrDFeUtil, pcnNFe, ACBrNFeDANFeRLClass, DateUtils;
 
 {$R *.dfm}
 

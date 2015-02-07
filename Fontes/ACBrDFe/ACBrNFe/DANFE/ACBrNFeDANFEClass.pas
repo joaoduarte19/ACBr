@@ -172,7 +172,7 @@ type
 implementation
 
 uses
-  ACBrNFe, ACBrNFeUtil, ACBrUtil, ACBrDFeUtil;
+  ACBrNFe, ACBrUtil, ACBrDFeUtil;
 
 //Casas Decimais
 constructor TCasasDecimais.Create(AOwner: TComponent);

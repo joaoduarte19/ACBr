@@ -53,7 +53,7 @@ interface
 
 uses
   Classes, Sysutils, Dialogs, Forms, StrUtils,
-  ACBrNFeUtil, ACBrNFeConfiguracoes, ACBrDFeConfiguracoes, ACBrDFeUtil,
+  ACBrNFeConfiguracoes, ACBrDFeConfiguracoes, ACBrDFeUtil,
   ACBrNFeDANFEClass,
   pcnNFe, pcnNFeR, pcnNFeW, pcnConversao, pcnAuxiliar, pcnLeitor;
 
@@ -157,7 +157,7 @@ type
 implementation
 
 uses
-  ACBrNFe, ACBrUtil, pcnGerador;
+  ACBrNFe, ACBrUtil, pcnGerador, pcnConversaoNFe;
 
 { NotaFiscal }
 

@@ -117,7 +117,7 @@ type
 
 implementation
 
-uses ACBrNFe, ACBrNFeUtil, ACBrUtil, StrUtils, Dialogs;
+uses ACBrNFe, ACBrUtil, StrUtils, Dialogs;
 
 constructor TACBrNFeDANFEFR.Create(AOwner: TComponent);
 begin

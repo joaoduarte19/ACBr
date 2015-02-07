@@ -41,7 +41,7 @@ var
 
 implementation
 
-uses ACBrNFeUtil, Math, StrUtils;
+uses Math, StrUtils;
 
 procedure TdmACBrNFe.Imprimir(ANFe: TNFe; ALogo: String);
 begin

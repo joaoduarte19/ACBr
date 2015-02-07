@@ -78,7 +78,7 @@ implementation
 
 uses
  StrUtils, Dialogs,
- ACBrUtil, ACBrNFe, ACBrNFeUtil,
+ ACBrUtil, ACBrNFe,
  ACBrNFeDANFeQRRetrato, ACBrNFeDANFeQRPaisagem, ACBrNFeDANFeQRSimplificado,
  ACBrNFeDANFeQRNFCe, ACBrNFeDANFeQRNFCeA4, ACBrNFeDAEventoQRRetrato,
  ACBrNFeDAInutQRRetrato;

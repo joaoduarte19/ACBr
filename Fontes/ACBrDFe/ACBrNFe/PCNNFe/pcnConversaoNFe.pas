@@ -55,8 +55,6 @@ uses
 
 type
 
-  //  NfVersao        = '2.0.0.0';
-
   TpcnTipoNFe = (tnEntrada, tnSaida);
   TpcnFinalidadeNFe = (fnNormal, fnComplementar, fnAjuste, fnDevolucao);
 
@@ -83,6 +81,9 @@ type
   TpcnCondicaoVeiculo = (cvAcabado, cvInacabado, cvSemiAcabado);
   TpcnTipoArma = (taUsoPermitido, taUsoRestrito);
 
+function LayOutToServico(const t: TLayOut): String;
+function ServicoToLayOut(out ok: Boolean; const s: String): TLayOut;
+
 function tpNFToStr(const t: TpcnTipoNFe): String;
 function StrToTpNF(out ok: Boolean; const s: String): TpcnTipoNFe;
 
@@ -101,6 +102,9 @@ function StrToModeloDF(out ok: Boolean; const s: String): TpcnModeloDF;
 function StrToVersaoDF(out ok: Boolean; const s: String): TpcnVersaoDF;
 function VersaoDFToStr(const t: TpcnVersaoDF): String;
 
+function DblToVersaoDF(out ok: Boolean; const d: Double): TpcnVersaoDF;
+function VersaoDFToDbl(const t: TpcnVersaoDF): Double;
+
 function tpOPToStr(const t: TpcnTipoOperacao): string;
 function StrTotpOP(out ok: boolean; const s: string): TpcnTipoOperacao;
 
@@ -114,6 +118,36 @@ function StrTotpArma(out ok: boolean; const s: string): TpcnTipoArma;
 implementation
 
 Uses pcnConversao;
+
+function LayOutToServico(const t: TLayOut): String;
+begin
+  Result := EnumeradoToStr(t,
+    ['NfeRecepcao', 'NfeRetRecepcao', 'NfeCancelamento', 'NfeInutilizacao',
+     'NfeConsultaProtocolo', 'NfeStatusServico', 'NfeConsultaCadastro',
+     'NfeEnvDPEC', 'NfeConsultaDPEC', 'RecepcaoEvento', 'LayNFeEvento',
+     'RecepcaoEvento', 'NfeConsultaDest', 'NfeDownloadNF', 'NfeAutorizacao',
+     'LayNfeRetAutorizacao', '', 'NFeDistribuicaoDFe'],
+    [ LayNfeRecepcao, LayNfeRetRecepcao, LayNfeCancelamento, LayNfeInutilizacao,
+      LayNfeConsulta, LayNfeStatusServico, LayNfeCadastro,
+      LayNfeEnvDPEC, LayNfeConsultaDPEC, LayNFeCCe, LayNFeEvento,
+      LayNFeEventoAN, LayNFeConsNFeDest, LayNFeDownloadNFe, LayNfeAutorizacao,
+      LayNfeRetAutorizacao, LayAdministrarCSCNFCe, LayDistDFeInt ] );
+end;
+
+function ServicoToLayOut(out ok: Boolean; const s: String): TLayOut;
+begin
+  Result := StrToEnumerado(ok, s,
+  ['NfeRecepcao', 'NfeRetRecepcao', 'NfeCancelamento', 'NfeInutilizacao',
+   'NfeConsultaProtocolo', 'NfeStatusServico', 'NfeConsultaCadastro',
+   'NfeEnvDPEC', 'NfeConsultaDPEC', 'RecepcaoEvento', 'LayNFeEvento',
+   'RecepcaoEvento', 'NfeConsultaDest', 'NfeDownloadNF', 'NfeAutorizacao',
+   'LayNfeRetAutorizacao', '', 'NFeDistribuicaoDFe'],
+  [ LayNfeRecepcao, LayNfeRetRecepcao, LayNfeCancelamento, LayNfeInutilizacao,
+    LayNfeConsulta, LayNfeStatusServico, LayNfeCadastro,
+    LayNfeEnvDPEC, LayNfeConsultaDPEC, LayNFeCCe, LayNFeEvento,
+    LayNFeEventoAN, LayNFeConsNFeDest, LayNFeDownloadNFe, LayNfeAutorizacao,
+    LayNfeRetAutorizacao, LayAdministrarCSCNFCe, LayDistDFeInt ] );
+end;
 
 // B11 - Tipo do Documento Fiscal **********************************************
 function tpNFToStr(const t: TpcnTipoNFe): String;
@@ -182,6 +216,34 @@ function VersaoDFToStr(const t: TpcnVersaoDF): String;
 begin
   Result := EnumeradoToStr(t, ['2.00', '3.00', '3.10'], [ve200, ve300, ve310]);
 end;
+
+ function DblToVersaoDF(out ok: Boolean; const d: Double): TpcnVersaoDF;
+ begin
+   ok := True;
+
+   if d = 2.0 then
+     Result := ve200
+   else if d = 3.0 then
+     Result := ve300
+   else if d = 3.10 then
+     Result := ve310
+   else
+   begin
+     Result := ve200;
+     ok := False;
+   end;
+ end;
+
+ function VersaoDFToDbl(const t: TpcnVersaoDF): Double;
+ begin
+   case t of
+     ve200: Result := 2.0;
+     ve300: Result := 3.0;
+     ve310: Result := 3.1;
+   else
+     Result := 0;
+   end;
+ end;
 
 // J02 - Tipo da operação ******************************************************
  function tpOPToStr(const t: TpcnTipoOperacao): string;

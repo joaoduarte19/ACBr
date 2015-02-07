@@ -44,7 +44,7 @@ unit ACBrSATExtratoESCPOS;
 interface
 
 uses Classes, SysUtils,
-	 {$IFDEF FPC}
+     {$IFDEF FPC}
        LResources,
      {$ENDIF} 
      ACBrSATExtratoClass, ACBrDevice, ACBrUtil,
@@ -115,7 +115,7 @@ uses ACBrSAT;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr',[TACBrSATExtratoESCPOS]);
+  RegisterComponents('ACBrSAT',[TACBrSATExtratoESCPOS]);
 end;
 
 function Int2TB(AInteger: Integer): AnsiString;

@@ -91,7 +91,7 @@ uses ACBrUtil;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrGNREGuiaLazReport]);
+  RegisterComponents('ACBrGNRE', [TACBrGNREGuiaLazReport]);
 end;
 
 { TdmACBrGNREGuiaLazReport }

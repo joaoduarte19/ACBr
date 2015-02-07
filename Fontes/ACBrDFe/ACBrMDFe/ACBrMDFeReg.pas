@@ -43,46 +43,17 @@ interface
 uses
   SysUtils, Classes,
   pcnConversao, ACBrMDFe,
-  {$IFDEF VisualCLX} QDialogs {$ELSE} Dialogs, FileCtrl {$ENDIF},
   {$IFDEF FPC}
-     LResources, LazarusPackageIntf, PropEdits, componenteditors
-  {$ELSE}
-    {$IFNDEF COMPILER6_UP}
-       DsgnIntf
-    {$ELSE}
-       DesignIntf,
-       DesignEditors
-    {$ENDIF}
+     LResources
   {$ENDIF} ;
 
 
-type
-  { Editor de Proriedades de Componente para mostrar o AboutACBr }
-  TACBrAboutDialogProperty = class(TPropertyEditor)
-  public
-    procedure Edit; override;
-    function GetAttributes: TPropertyAttributes; override;
-    function GetValue: String; override;
-  end;
-
-  THRWEBSERVICEUFProperty = class(TStringProperty)
-  public
-    function GetAttributes: TPropertyAttributes; override;
-    procedure GetValues(Proc: TGetStrProc); override;
-  end;
-
-  { Editor de Proriedades de Componente para chamar OpenDialog }
-  TACBrMDFeDirProperty = class(TStringProperty)
-  public
-    procedure Edit; override;
-    function GetAttributes: TPropertyAttributes; override;
-  end;
 
 procedure Register;
 
 implementation
 
-uses ACBrMDFeConfiguracoes;
+uses ACBrReg, ACBrDFe, ACBrMDFeConfiguracoes;
 
 {$IFNDEF FPC}
    {$R ACBrMDFe.dcr}
@@ -90,10 +61,7 @@ uses ACBrMDFeConfiguracoes;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrMDFe]);
-
-  RegisterPropertyEditor(TypeInfo(TACBrMDFeAboutInfo), nil, 'AboutACBrMDFe',
-     TACBrAboutDialogProperty);
+  RegisterComponents('ACBrMDFe', [TACBrMDFe]);
 
   RegisterPropertyEditor(TypeInfo(TCertificadosConf), TConfiguracoes, 'Certificados',
     TClassProperty);
@@ -105,82 +73,28 @@ begin
     TClassProperty);
 
   RegisterPropertyEditor(TypeInfo(String), TWebServicesConf, 'UF',
-     THRWEBSERVICEUFProperty);
+     TACBrUFProperty);
 
   RegisterPropertyEditor(TypeInfo(TGeralConf), TConfiguracoes, 'Geral',
     TClassProperty);
 
   RegisterPropertyEditor(TypeInfo(String), TGeralConf, 'PathSalvar',
-     TACBrMDFeDirProperty);
+     TACBrDirProperty);
 
   RegisterPropertyEditor(TypeInfo(TArquivosConf), TConfiguracoes, 'Arquivos',
     TClassProperty);
 
   RegisterPropertyEditor(TypeInfo(String), TArquivosConf, 'PathMDFe',
-     TACBrMDFeDirProperty);
+     TACBrDirProperty);
 
   RegisterPropertyEditor(TypeInfo(String), TArquivosConf, 'PathCan',
      TACBrMDFeDirProperty);
 
   RegisterPropertyEditor(TypeInfo(String), TArquivosConf, 'PathInu',
-     TACBrMDFeDirProperty);
+     TACBrDirProperty);
 
   RegisterPropertyEditor(TypeInfo(String), TArquivosConf, 'PathDPEC',
-     TACBrMDFeDirProperty);
-end;
-
-{ TACBrAboutDialogProperty }
-procedure TACBrAboutDialogProperty.Edit;
-begin
-  ACBrAboutDialog;
-end;
-
-function TACBrAboutDialogProperty.GetAttributes: TPropertyAttributes;
-begin
-  Result := [paDialog, paReadOnly];
-end;
-
-function TACBrAboutDialogProperty.GetValue: String;
-begin
-  Result := 'Versão: ' + ACBRMDFe_VERSAO;
-end;
-
-{ THRWEBSERVICEUFProperty }
-
-function THRWEBSERVICEUFProperty.GetAttributes: TPropertyAttributes;
-begin
-  Result := [paValueList, paAutoUpdate];
-end;
-
-procedure THRWEBSERVICEUFProperty.GetValues(Proc: TGetStrProc);
-var
- i: integer;
-begin
-  inherited;
-  for i:= 0 to High(NFeUF) do
-    Proc(NFeUF[i]);
-end;
-
-{ TACBrMDFeDirProperty }
-
-procedure TACBrMDFeDirProperty.Edit;
-Var
-{$IFNDEF VisualCLX} Dir: String; {$ELSE} Dir: WideString; {$ENDIF}
-begin
-  {$IFNDEF VisualCLX}
-  Dir := GetValue;
-  if SelectDirectory(Dir,[],0) then
-     SetValue(Dir);
-  {$ELSE}
-  Dir := '';
-  if SelectDirectory('Selecione o Diretório', '', Dir) then
-     SetValue(Dir);
-  {$ENDIF}
-end;
-
-function TACBrMDFeDirProperty.GetAttributes: TPropertyAttributes;
-begin
-  Result := [paDialog];
+     TACBrDirProperty);
 end;
 
 initialization

@@ -71,7 +71,7 @@ procedure ImprimirPaisagem(aRaveSystem:TDANFeRave);
 
 implementation
 
-uses ACBrNFeUtil, ACBrDFeUtil, StrUtils, pcnNFe;
+uses ACBrDFeUtil, StrUtils, pcnNFe;
 
 function ImprimirCanhoto(PosX,PosY:Double):Double;
 var aHeigthNumSerie, aHeigthIdent,

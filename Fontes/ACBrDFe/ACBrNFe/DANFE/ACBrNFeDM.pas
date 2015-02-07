@@ -151,7 +151,7 @@ type
 
 implementation
 
-uses ACBrNFe, ACBrNFeUtil, ACBrDFeUtil, StrUtils ;
+uses ACBrNFe, ACBrDFeUtil, StrUtils ;
 
 {$R *.dfm}
 

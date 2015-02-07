@@ -178,7 +178,7 @@ type
 
 implementation
 
-uses ACBrNFe, ACBrNFeUtil, ACBrUtil,
+uses ACBrNFe, ACBrUtil,
      ACBrNFeDANFeRL, ACBrNFeDANFeEventoRL,
      ACBrNFeDANFeRLRetrato, ACBrNFeDANFeRLPaisagem,
      ACBrNFeDANFeEventoRLRetrato, ACBrNFeDANFeRLSimplificado;

@@ -369,7 +369,7 @@ var
 
 implementation
 
-uses ACBrNFe, ACBrNFeUtil, ACBrDFeUtil, StrUtils, Math, DateUtils;
+uses ACBrNFe, ACBrDFeUtil, StrUtils, Math, DateUtils;
 
 {$R *.dfm}
 

@@ -105,7 +105,7 @@ uses ACBrUtil;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrBoletoFCLazReport]);
+  RegisterComponents('ACBrBoleto', [TACBrBoletoFCLazReport]);
 end;
 
 { TACBrBoletoFCLazReport }

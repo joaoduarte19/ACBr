@@ -51,17 +51,10 @@ unit ACBrConvenio115;
 interface
 
 uses
-  SysUtils, Classes, Contnrs, ACBrBase, ACBrConsts, StrUtils;
-//{$IFDEF FPC}
-//   LResources, LazarusPackageIntf, PropEdits, componenteditors
-//{$ELSE}
-//  {$IFNDEF COMPILER6_UP}
-//     DsgnIntf
-//  {$ELSE}
-//     DesignIntf,
-//     DesignEditors
-//  {$ENDIF}
-//{$ENDIF} ;
+  SysUtils, Classes, Contnrs, ACBrBase, ACBrConsts, StrUtils
+  {$IFDEF FPC}
+   ,LResources
+  {$ENDIF} ;
 
 {$R ACBrConvenio115.dcr}
 
@@ -346,7 +339,7 @@ uses
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrConvenio115]);
+  RegisterComponents('ACBrTXT', [TACBrConvenio115]);
 end;
 
 function MD5String(const texto: string): string;

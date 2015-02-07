@@ -528,7 +528,7 @@ Uses ACBrUtil, strutils, AJBarcode;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr',[TACBrBoletoFCQuick]);
+  RegisterComponents('ACBrBoleto',[TACBrBoletoFCQuick]);
 end;
 
 { TACBrBoletoFCQuick }

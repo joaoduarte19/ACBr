@@ -49,25 +49,19 @@ unit ACBrNFeDANFERVReg;
 interface
 
 uses
-  SysUtils, Classes, ACBrNFeDANFERave, 
-  {$IFDEF VisualCLX} QDialogs {$ELSE} Dialogs{$ENDIF},
+  SysUtils, Classes, ACBrNFeDANFERave, ACBrReg,
   {$IFDEF FPC}
-     LResources, LazarusPackageIntf, PropEdits, componenteditors
-  {$ELSE}
-    {$IFNDEF COMPILER6_UP}
-       DsgnIntf
-    {$ELSE}
-       DesignIntf,
-       DesignEditors
-    {$ENDIF}
+     LResources
   {$ENDIF} ;
 
 Type
   { Editor de Proriedades de Componente para chamar OpenDialog dos Relatorios }
-  TACBrNFeDANFERaveFileNameProperty = class( TStringProperty )
-  public
-    procedure Edit; override;
-    function GetAttributes: TPropertyAttributes; override;
+
+  { TACBrNFeDANFERaveFileNameProperty }
+
+  TACBrNFeDANFERaveFileNameProperty = class( TACBrFileProperty )
+  protected
+    function GetFilter: String; override;
   end;
 
 
@@ -81,7 +75,7 @@ implementation
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrNFeDANFERave]);
+  RegisterComponents('ACBrNFe', [TACBrNFeDANFERave]);
 
   RegisterPropertyEditor(TypeInfo(String), TACBrNFeDANFERave, 'RavFile',
      TACBrNFeDANFERaveFileNameProperty);
@@ -89,25 +83,9 @@ end;
 
 { TACBrNFeDANFERaveFileNameProperty }
 
-procedure TACBrNFeDANFERaveFileNameProperty.Edit;
-var Dlg : TOpenDialog ;
+function TACBrNFeDANFERaveFileNameProperty.GetFilter: String;
 begin
-  Dlg := TOpenDialog.Create( nil );
-  try
-     Dlg.FileName   := GetValue ;
-     Dlg.InitialDir := ExtractFilePath( GetValue ) ;
-     Dlg.Filter     := 'Arquivos RAV|*.rav' ;
-
-     if Dlg.Execute then
-        SetValue( Dlg.FileName );
-  finally
-     Dlg.Free ;
-  end ;
-end;
-
-function TACBrNFeDANFERaveFileNameProperty.GetAttributes: TPropertyAttributes;
-begin
-  Result := [paDialog];
+  Result := 'Arquivos RAV|*.rav';
 end;
 
 initialization

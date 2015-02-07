@@ -53,27 +53,27 @@ type
   TDFeWebService = class
   private
   protected
-    FSoapVersion: String;
-    FSoapEnvelopeAtributtes: String;
-    FHeaderElement: String;
-    FBodyElement: String;
+    FPSoapVersion: String;
+    FPSoapEnvelopeAtributtes: String;
+    FPHeaderElement: String;
+    FPBodyElement: String;
 
-    FCabMsg: String;
-    FDadosMsg: String;
-    FEnvelopeSoap: String;
-    FRetornoWS: String;
-    FRetWS: String;
-    FMsg: String;
-    FURL: String;
-    FConfiguracoes: TConfiguracoes;
-    FDFeOwner: TACBrDFe;
-    FArqEnv: String;
-    FArqResp: String;
-    FServico: String;
-    FSoapAction: String;
+    FPCabMsg: String;
+    FPDadosMsg: String;
+    FPEnvelopeSoap: String;
+    FPRetornoWS: String;
+    FPRetWS: String;
+    FPMsg: String;
+    FPURL: String;
+    FPConfiguracoes: TConfiguracoes;
+    FPDFeOwner: TACBrDFe;
+    FPArqEnv: String;
+    FPArqResp: String;
+    FPServico: String;
+    FPSoapAction: String;
   protected
-    procedure FazerLog(Msg: AnsiString; Exibir: Boolean = False);
-    procedure GerarException(Msg: String);
+    procedure FazerLog(Msg: AnsiString; Exibir: Boolean = False); virtual;
+    procedure GerarException(Msg: String); virtual;
 
     procedure InicializarServico; virtual;
     procedure DefinirServicoEAction; virtual;
@@ -86,6 +86,9 @@ type
     procedure SalvarResposta; virtual;
     procedure FinalizarServico; virtual;
 
+    procedure AssinarXML(const AXML, docElement, infElement: String;
+      MsgErro: String); virtual;
+
     function GerarMsgLog: String; virtual;
     function GerarMsgErro(E: Exception): String; virtual;
     function GerarCabecalhoSoap: String; virtual;
@@ -93,27 +96,27 @@ type
     function GerarUFSoap: String; virtual;
     function GerarPrefixoArquivo: String; virtual;
   public
-    constructor Create(AOwner: TACBrDFe);
+    constructor Create(AOwner: TACBrDFe); virtual;
 
     function Executar: Boolean; virtual;
 
-    property SoapVersion: String read FSoapVersion;
-    property SoapEnvelopeAtributtes: String read FSoapEnvelopeAtributtes;
+    property SoapVersion: String read FPSoapVersion;
+    property SoapEnvelopeAtributtes: String read FPSoapEnvelopeAtributtes;
 
-    property HeaderElement: String read FHeaderElement;
-    property BodyElement: String read FBodyElement;
+    property HeaderElement: String read FPHeaderElement;
+    property BodyElement: String read FPBodyElement;
 
-    property Servico: String read FServico;
-    property SoapAction: String read FSoapAction;
-    property URL: String read FURL;
-    property CabMsg: String read FCabMsg;
-    property DadosMsg: String read FDadosMsg;
-    property EnvelopeSoap: String read FEnvelopeSoap;
-    property RetornoWS: String read FRetornoWS;
-    property RetWS: String read FRetWS;
-    property Msg: String read FMsg;
-    property ArqEnv: String read FArqEnv;
-    property ArqResp: String read FArqResp;
+    property Servico: String read FPServico;
+    property SoapAction: String read FPSoapAction;
+    property URL: String read FPURL;
+    property CabMsg: String read FPCabMsg;
+    property DadosMsg: String read FPDadosMsg;
+    property EnvelopeSoap: String read FPEnvelopeSoap;
+    property RetornoWS: String read FPRetornoWS;
+    property RetWS: String read FPRetWS;
+    property Msg: String read FPMsg;
+    property ArqEnv: String read FPArqEnv;
+    property ArqResp: String read FPArqResp;
   end;
 
 implementation
@@ -125,27 +128,27 @@ uses
 
 constructor TDFeWebService.Create(AOwner: TACBrDFe);
 begin
-  FDFeOwner := AOwner;
-  FConfiguracoes := AOwner.Configuracoes;
+  FPDFeOwner := AOwner;
+  FPConfiguracoes := AOwner.Configuracoes;
 
-  FSoapVersion := 'soap12';
-  FHeaderElement := 'nfeCabecMsg';
-  FBodyElement := 'nfeDadosMsg';
-  FSoapEnvelopeAtributtes :=
+  FPSoapVersion := 'soap12';
+  FPHeaderElement := 'nfeCabecMsg';
+  FPBodyElement := 'nfeDadosMsg';
+  FPSoapEnvelopeAtributtes :=
     'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +
     'xmlns:xsd="http://www.w3.org/2001/XMLSchema" ' +
     'xmlns:soap12="http://www.w3.org/2003/05/soap-envelope"';
 
-  FCabMsg := '';
-  FDadosMsg := '';
-  FRetornoWS := '';
-  FRetWS := '';
-  FMsg := '';
-  FURL := '';
-  FArqEnv := '';
-  FArqResp := '';
-  FServico := '';
-  FSoapAction := '';
+  FPCabMsg := '';
+  FPDadosMsg := '';
+  FPRetornoWS := '';
+  FPRetWS := '';
+  FPMsg := '';
+  FPURL := '';
+  FPArqEnv := '';
+  FPArqResp := '';
+  FPServico := '';
+  FPSoapAction := '';
 end;
 
 function TDFeWebService.Executar: Boolean;
@@ -198,8 +201,8 @@ procedure TDFeWebService.DefinirServicoEAction;
 begin
   { sobrescrever, OBRIGATORIAMENTE }
 
-  FServico := '';
-  FSoapAction := '';
+  FPServico := '';
+  FPSoapAction := '';
 
   GerarException('DefinirServicoEAction não implementado para: ' + ClassName);
 end;
@@ -218,7 +221,7 @@ procedure TDFeWebService.DefinirDadosMsg;
 begin
   { sobrescrever, OBRIGATORIAMENTE }
 
-  FDadosMsg := '';
+  FPDadosMsg := '';
 
   GerarException('DefinirDadosMsg não implementado para: ' + ClassName);
 end;
@@ -231,25 +234,25 @@ begin
   { Sobrescrever apenas se necessário }
 
   Texto := '<' + ENCODING_UTF8 + '>';    // Envelop Final DEVE SEMPRE estar em UTF8...
-  Texto := Texto + '<' + FSoapVersion + ':Envelope ' + FSoapEnvelopeAtributtes + '>';
-  Texto := Texto + '<' + FSoapVersion + ':Header>';
-  Texto := Texto + '<' + FHeaderElement + ' xmlns="' + Servico + '">';
+  Texto := Texto + '<' + FPSoapVersion + ':Envelope ' + FPSoapEnvelopeAtributtes + '>';
+  Texto := Texto + '<' + FPSoapVersion + ':Header>';
+  Texto := Texto + '<' + FPHeaderElement + ' xmlns="' + Servico + '">';
   Texto := Texto + GerarCabecalhoSoap;
-  Texto := Texto + '</' + FHeaderElement + '>';
-  Texto := Texto + '</' + FSoapVersion + ':Header>';
-  Texto := Texto + '<' + FSoapVersion + ':Body>';
-  Texto := Texto + '<' + FBodyElement + ' xmlns="' + Servico + '">';
+  Texto := Texto + '</' + FPHeaderElement + '>';
+  Texto := Texto + '</' + FPSoapVersion + ':Header>';
+  Texto := Texto + '<' + FPSoapVersion + ':Body>';
+  Texto := Texto + '<' + FPBodyElement + ' xmlns="' + Servico + '">';
   Texto := Texto + DadosMsg;
-  Texto := Texto + '</' + FBodyElement + '>';
-  Texto := Texto + '</' + FSoapVersion + ':Body>';
-  Texto := Texto + '</' + FSoapVersion + ':Envelope>';
+  Texto := Texto + '</' + FPBodyElement + '>';
+  Texto := Texto + '</' + FPSoapVersion + ':Body>';
+  Texto := Texto + '</' + FPSoapVersion + ':Envelope>';
 
-  FEnvelopeSoap := Texto;
+  FPEnvelopeSoap := Texto;
 end;
 
 function TDFeWebService.GerarUFSoap: String;
 begin
-  Result := '<cUF>' + IntToStr(FConfiguracoes.WebServices.UFCodigo) + '</cUF>';
+  Result := '<cUF>' + IntToStr(FPConfiguracoes.WebServices.UFCodigo) + '</cUF>';
 end;
 
 function TDFeWebService.GerarVersaoDadosSoap: String;
@@ -264,21 +267,21 @@ procedure TDFeWebService.EnviarDados;
 begin
   { Sobrescrever apenas se necessário }
 
-  FRetWS := '';
-  FRetornoWS := '';
+  FPRetWS := '';
+  FPRetornoWS := '';
 
   { Verifica se precisa converter o Envelope para UTF8 antes de ser enviado.
      Entretanto o Envelope pode já ter sido convertido antes, como por exemplo,
      para assinatura.
      Se o XML está assinado, não deve modificar o conteúdo }
-  if not DFeUtil.XmlEstaAssinado(FEnvelopeSoap) then
-    FEnvelopeSoap := DFeUtil.ConverteXMLtoUTF8(FEnvelopeSoap);
+  if not DFeUtil.XmlEstaAssinado(FPEnvelopeSoap) then
+    FPEnvelopeSoap := DFeUtil.ConverteXMLtoUTF8(FPEnvelopeSoap);
 
-  FRetornoWS := FDFeOwner.SSL.Enviar(FEnvelopeSoap, FURL, FSoapAction);
+  FPRetornoWS := FPDFeOwner.SSL.Enviar(FPEnvelopeSoap, FPURL, FPSoapAction);
 
   { Resposta sempre é UTF8, ParseTXT chamará DecodetoString, que converterá
     de UTF8 para o formato nativo de  String usada pela IDE }
-  FRetornoWS := ParseText(FRetornoWS, True, True);
+  FPRetornoWS := ParseText(FPRetornoWS, True, True);
 end;
 
 function TDFeWebService.GerarPrefixoArquivo: String;
@@ -292,21 +295,21 @@ var
 begin
   { Sobrescrever apenas se necessário }
 
-  if FArqEnv = '' then
+  if FPArqEnv = '' then
     exit;
 
   Prefixo := GerarPrefixoArquivo;
 
-  if FConfiguracoes.Arquivos.Salvar then
+  if FPConfiguracoes.Arquivos.Salvar then
   begin
-    ArqEnv := Prefixo + '-' + FArqEnv + '.xml';
-    FDFeOwner.Gravar(ArqEnv, FDadosMsg);
+    ArqEnv := Prefixo + '-' + FPArqEnv + '.xml';
+    FPDFeOwner.Gravar(ArqEnv, FPDadosMsg);
   end;
 
-  if FConfiguracoes.WebServices.Salvar then
+  if FPConfiguracoes.WebServices.Salvar then
   begin
-    ArqEnv := Prefixo + '-' + FArqEnv + '-soap.xml';
-    FDFeOwner.Gravar(ArqEnv, FEnvelopeSoap);
+    ArqEnv := Prefixo + '-' + FPArqEnv + '-soap.xml';
+    FPDFeOwner.Gravar(ArqEnv, FPEnvelopeSoap);
   end;
 end;
 
@@ -316,21 +319,21 @@ var
 begin
   { Sobrescrever apenas se necessário }
 
-  if FArqResp = '' then
+  if FPArqResp = '' then
     exit;
 
   Prefixo := GerarPrefixoArquivo;
 
-  if FConfiguracoes.Arquivos.Salvar then
+  if FPConfiguracoes.Arquivos.Salvar then
   begin
-    ArqResp := Prefixo + '-' + FArqResp + '.xml';
-    FDFeOwner.Gravar(ArqResp, FRetWS);
+    ArqResp := Prefixo + '-' + FPArqResp + '.xml';
+    FPDFeOwner.Gravar(ArqResp, FPRetWS);
   end;
 
-  if FConfiguracoes.WebServices.Salvar then
+  if FPConfiguracoes.WebServices.Salvar then
   begin
-    ArqResp := Prefixo + '-' + FArqResp + '-soap.xml';
-    FDFeOwner.Gravar(ArqResp, FRetornoWS);
+    ArqResp := Prefixo + '-' + FPArqResp + '-soap.xml';
+    FPDFeOwner.Gravar(ArqResp, FPRetornoWS);
   end;
 end;
 
@@ -346,6 +349,7 @@ begin
   { sobrescrever, OBRIGATORIAMENTE }
 
   Result := False;
+  GerarException('TratarResposta não implementado para: ' + ClassName);
 end;
 
 procedure TDFeWebService.FazerLog(Msg: AnsiString; Exibir: Boolean);
@@ -354,13 +358,13 @@ var
 begin
   if (Msg <> '') then
   begin
-    FDFeOwner.FazerLog(Msg, Tratado);
+    FPDFeOwner.FazerLog(Msg, Tratado);
 
     if Tratado then
       exit;
 
     {$IFNDEF NOGUI}
-    if Exibir and FConfiguracoes.WebServices.Visualizar then
+    if Exibir and FPConfiguracoes.WebServices.Visualizar then
       ShowMessage(Msg);
     {$ENDIF}
   end;
@@ -393,78 +397,29 @@ begin
   DFeUtil.ConfAmbiente;
 end;
 
-end.
-(*
-// TODO: VERIFICAR:
-
-CURL_WSDL = 'http://www.portalfiscal.inf.br/nfe/wsdl/';
-
-
-function TWebServicesBase.EhAutorizacao: Boolean;
+procedure TDFeWebService.AssinarXML(const AXML, docElement, infElement: String;
+  MsgErro: String);
 begin
-  Result := False;
-  case FConfiguracoes.Geral.ModeloDF of
-    moNFe:
-      if (FConfiguracoes.Geral.VersaoDF = ve310) then
-        Result := True;
-    moNFCe:
-      if (FConfiguracoes.Geral.VersaoDF = ve310) and not
-         (FConfiguracoes.WebServices.UFCodigo in [13])  then // AM
-        Result := True;
+  try
+    FPDadosMsg := FPDFeOwner.SSL.Assinar(AXML, docElement, infElement);
+  except
+    On E: Exception do
+    begin
+      if DFeUtil.NaoEstaVazio(MsgErro) then
+        MsgErro := MsgErro + sLineBreak ;
+
+      MsgErro := MsgErro + E.Message;
+      GerarException(MsgErro);
+    end
   end;
 end;
 
-function TWebServicesBase.GerarSoapDEPC: String;
-var
-  Texto: String;
-begin
-  Texto := '<'+ENCODING_UTF8+'>';
-  Texto := Texto + '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +
-                                  'xmlns:xsd="http://www.w3.org/2001/XMLSchema" ' +
-                                  'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">';
-  Texto := Texto + '<soap:Header>';
-  Texto := Texto +  '<sceCabecMsg xmlns="' + Servico + '">';
-  Texto := Texto +    GerarVersaoDadosSoap;
-  Texto := Texto +  '</sceCabecMsg>';
-  Texto := Texto + '</soap:Header>';
-  Texto := Texto + '<soap:Body>';
-  Texto := Texto +  '<sceDadosMsg xmlns="' + Servico +'">';
-  Texto := Texto +    FDadosMsg;
-  Texto := Texto +  '</sceDadosMsg>';
-  Texto := Texto + '</soap:Body>';
-  Texto := Texto + '</soap:Envelope>';
-
-  Result := Texto;
-end;
-
-
+end.
+(*
 
 // TODO: Verificar onde fica...
 
 
-property Status: TStatusACBrNFe   read FStatus;
-property Layout: TLayOut          read FLayout;
-
-
-procedure TWebServicesBase.AssinarXML(AXML: String; MsgErro: String);
-begin
-   if not NotaUtil.Assinar( AXML,
-                            FConfiguracoes.Certificados.Certificado,
-                            FConfiguracoes.Certificados.Senha,
-                            FDadosMsg, FMsg )) then
-   if not(NotaUtil.openAssinar( AXML,
-                            FConfiguracoes.Certificados.GetCertificado,
-                            FDadosMsg, FMsg )) then
-     GerarException(MsgErro);
-end;
-
-
-procedure TWebServicesBase.InicializarServico;
-begin
-  { Sobrescrever apenas se necessário }
-
-  TACBrNFe( FACBrNFe ).SetStatus( FStatus );
-end;
 
 procedure TWebServicesBase.DefinirURL;
 begin
@@ -491,11 +446,5 @@ begin
             '</versaoDados>';
 end;
 
-procedure TWebServicesBase.FinalizarServico;
-begin
-  { Sobrescrever apenas se necessário }
-
-  TACBrNFe( FACBrNFe ).SetStatus( stIdle );
-end;
 
 *)

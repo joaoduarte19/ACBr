@@ -304,7 +304,7 @@ uses  ACBrDelphiZXingQRCode, math, RLTypes;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr',[TACBrSATExtratoFortes]);
+  RegisterComponents('ACBrSAT',[TACBrSATExtratoFortes]);
 end;
 
 { TACBrSATExtratoFortesFr }

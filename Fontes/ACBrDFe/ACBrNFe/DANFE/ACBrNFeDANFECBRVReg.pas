@@ -50,16 +50,8 @@ interface
 
 uses
   SysUtils, Classes, ACBrNFeDANFERaveCB, 
-  {$IFDEF VisualCLX} QDialogs {$ELSE} Dialogs{$ENDIF},
   {$IFDEF FPC}
-     LResources, LazarusPackageIntf, PropEdits, componenteditors
-  {$ELSE}
-    {$IFNDEF COMPILER6_UP}
-       DsgnIntf
-    {$ELSE}
-       DesignIntf,
-       DesignEditors
-    {$ENDIF}
+     LResources
   {$ENDIF} ;
 
 procedure Register;
@@ -72,7 +64,7 @@ implementation
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrNFeDANFERaveCB]);
+  RegisterComponents('ACBrNFe', [TACBrNFeDANFERaveCB]);
 end;
 initialization
 {$IFDEF FPC}

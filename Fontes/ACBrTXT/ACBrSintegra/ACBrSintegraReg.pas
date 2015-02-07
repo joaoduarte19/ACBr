@@ -57,7 +57,7 @@ Uses ACBrSintegra, SysUtils;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrSintegra]);
+  RegisterComponents('ACBrTXT', [TACBrSintegra]);
 end;
 
 {$IFDEF FPC}

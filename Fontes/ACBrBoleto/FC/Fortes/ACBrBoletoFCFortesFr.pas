@@ -443,7 +443,7 @@ Uses ACBrUtil, strutils, RLConsts ;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr',[TACBrBoletoFCFortes]);
+  RegisterComponents('ACBrBoleto',[TACBrBoletoFCFortes]);
 end;
 
 { TACBrBoletoFCFortes }

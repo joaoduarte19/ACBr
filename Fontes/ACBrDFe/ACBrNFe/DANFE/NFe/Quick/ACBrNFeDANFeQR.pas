@@ -66,7 +66,7 @@ uses
      QRPDFFilt,
      QRPrntr,
   {$ENDIF}
-  ACBrNFeQRCodeBar, pcnNFe, ACBrNFe, ACBrNFeUtil, Printers;
+  ACBrNFeQRCodeBar, pcnNFe, ACBrNFe, Printers;
 
 type      
   TfqrDANFeQR = class(TForm)

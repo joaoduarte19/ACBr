@@ -31,7 +31,7 @@ type
 implementation
 
 uses
-  ACBrNFSe, {ACBrNFeUtil,} ACBrUtil, StrUtils, Dialogs;
+  ACBrNFSe, ACBrUtil, StrUtils, Dialogs;
 
 constructor TACBrNFSeDANFSeFR.Create(AOwner: TComponent);
 begin

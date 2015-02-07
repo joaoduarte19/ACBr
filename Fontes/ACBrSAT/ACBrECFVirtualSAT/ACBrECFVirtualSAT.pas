@@ -141,7 +141,7 @@ uses ACBrECFClass, ACBrSATClass;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrECFVirtualSAT]);
+  RegisterComponents('ACBrSAT', [TACBrECFVirtualSAT]);
 end;
 
 { TACBrECFVirtualSAT }

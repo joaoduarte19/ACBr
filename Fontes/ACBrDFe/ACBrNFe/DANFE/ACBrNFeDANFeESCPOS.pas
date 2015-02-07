@@ -172,11 +172,11 @@ procedure Register;
 implementation
 
 uses
-  ACBrNFe, ACBrNFeUtil, StrUtils, Math, ACBrConsts;
+  ACBrNFe, StrUtils, Math, ACBrConsts;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrNFeDANFeESCPOS]);
+  RegisterComponents('ACBrNFe', [TACBrNFeDANFeESCPOS]);
 end;
 
 { TACBrNFeDANFeESCPOS }

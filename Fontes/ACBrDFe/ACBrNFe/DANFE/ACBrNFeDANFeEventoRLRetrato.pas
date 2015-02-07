@@ -203,7 +203,7 @@ type
 
 implementation
 
-uses ACBrNFeUtil, ACBrDFeUtil, pcnEnvEventoNFe, ACBrNFeDANFeRLClass;
+uses ACBrDFeUtil, pcnEnvEventoNFe, ACBrNFeDANFeRLClass;
 
 {$R *.dfm}
 

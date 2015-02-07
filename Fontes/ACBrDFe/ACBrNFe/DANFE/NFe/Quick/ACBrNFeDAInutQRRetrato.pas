@@ -150,7 +150,7 @@ implementation
 
 uses
   StrUtils, DateUtils,
-  ACBrDFeUtil, ACBrNFeUtil;
+  ACBrDFeUtil, ;
 
 {$R *.dfm}
 

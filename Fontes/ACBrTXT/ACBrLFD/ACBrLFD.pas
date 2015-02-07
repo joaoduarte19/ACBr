@@ -265,7 +265,7 @@ uses ACBrUtil;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrLFD]);
+  RegisterComponents('ACBrTXT', [TACBrLFD]);
 end;
 
 (* TACBrLFD *)

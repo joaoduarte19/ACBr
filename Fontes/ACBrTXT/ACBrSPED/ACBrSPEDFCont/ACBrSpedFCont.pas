@@ -161,7 +161,7 @@ Uses ACBrUtil ;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrSPEDFCont]);
+  RegisterComponents('ACBrTXT', [TACBrSPEDFCont]);
 end;
 
 (* TACBrSPEDFCont *)

@@ -40,10 +40,19 @@ Unit ACBrReg ;
 
 interface
 uses Classes, SysUtils, ACBrConsts, ACBrBase,
+    {$IFDEF VisualCLX}
+      QDialogs
+    {$ELSE}
+      Dialogs
+      {$IFNDEF FPC}
+        {$WARN UNIT_PLATFORM OFF}, FileCtrl {$WARN UNIT_PLATFORM ON}
+      {$ENDIF}
+    {$ENDIF},
+
     {$IFDEF FPC}
         LResources, LazarusPackageIntf, PropEdits, componenteditors
      {$ELSE}
-		{$IFDEF DELPHI9_UP}ToolsApi, Windows, Graphics,{$ENDIF}
+     {$IFDEF DELPHI9_UP}ToolsApi, Windows, Graphics,{$ENDIF}
         {$IFNDEF COMPILER6_UP}
            DsgnIntf
         {$ELSE}
@@ -53,14 +62,40 @@ uses Classes, SysUtils, ACBrConsts, ACBrBase,
      {$ENDIF} ;
 
 type
+  { Editor de Proriedades de Componente para mostrar o AboutACBr }
+  TACBrAboutDialogProperty = class(TPropertyEditor)
+  public
+    procedure Edit; override;
+    function GetAttributes: TPropertyAttributes; override;
+    function GetValue: string; override;
+  end;
 
-{ Editor de Proriedades de Componente para mostrar o AboutACBr }
-TACBrAboutDialogProperty = class(TPropertyEditor)
-public
-  procedure Edit; override;
-  function GetAttributes: TPropertyAttributes; override;
-  function GetValue: string; override;
-end;
+  { Editor de Proriedades de Componente para chamar OpenDialog }
+
+  { TACBrFileProperty }
+
+  TACBrFileProperty = class( TStringProperty )
+  protected
+    function GetFilter: String; virtual;
+  public
+    procedure Edit; override;
+    function GetAttributes: TPropertyAttributes; override;
+  end;
+
+  { TACBrFileINIProperty }
+
+  TACBrFileINIProperty = class( TACBrFileProperty )
+  protected
+    function GetFilter: String; override;
+  end;
+
+  { Editor de Proriedades de Componente para chamar OpenDialog }
+  TACBrDirProperty = class( TStringProperty )
+  public
+    procedure Edit; override;
+    function GetAttributes: TPropertyAttributes; override;
+  end;
+
 
 procedure Register ;
 
@@ -113,10 +148,17 @@ end;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrAAC]);
+  RegisterComponents('ACBrDiversos', [TACBrAAC]);
 
   RegisterPropertyEditor(TypeInfo(TACBrAboutInfo), nil, 'AboutACBr',
      TACBrAboutDialogProperty);
+end;
+
+{ TACBrFileINIProperty }
+
+function TACBrFileINIProperty.GetFilter: String;
+begin
+  Result := 'Arquivos INI|*.ini'
 end;
 
 { TACBrAboutDialogProperty }
@@ -133,6 +175,56 @@ end;
 function TACBrAboutDialogProperty.GetValue: string;
 begin
   Result := 'http://acbr.sf.net' ;  
+end;
+
+{ TACBrFileProperty }
+
+function TACBrFileProperty.GetFilter: String;
+begin
+  Result := '';
+end;
+
+procedure TACBrFileProperty.Edit;
+var Dlg : TOpenDialog ;
+begin
+  Dlg := TOpenDialog.Create( nil );
+  try
+     Dlg.FileName   := GetValue ;
+     Dlg.InitialDir := ExtractFilePath( GetValue ) ;
+     Dlg.Filter     := GetFilter ;
+
+     if Dlg.Execute then
+        SetValue( Dlg.FileName );
+  finally
+     Dlg.Free ;
+  end ;
+end;
+
+function TACBrFileProperty.GetAttributes: TPropertyAttributes;
+begin
+  Result := [paDialog];
+end;
+
+{ TACBrDirProperty }
+
+procedure TACBrDirProperty.Edit;
+Var
+{$IFNDEF VisualCLX} Dir : String ; {$ELSE} Dir : WideString ; {$ENDIF}
+begin
+  {$IFNDEF VisualCLX}
+  Dir := GetValue ;
+  if SelectDirectory(Dir,[],0) then
+     SetValue( Dir ) ;
+  {$ELSE}
+  Dir := '' ;
+  if SelectDirectory('Selecione o Diretório','',Dir) then
+     SetValue( Dir ) ;
+  {$ENDIF}
+end;
+
+function TACBrDirProperty.GetAttributes: TPropertyAttributes;
+begin
+  Result := [paDialog];
 end;
 
 {$IFDEF RTL170_UP}

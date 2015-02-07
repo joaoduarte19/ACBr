@@ -1099,18 +1099,6 @@ begin
   Result := urlUF + '?' + sEntrada + cIdToken+ '&cHashQRCode=' + cHashQRCode;
 end;
 
-class function NotaUtil.CstatProcessado(AValue: Integer): Boolean;
-begin
-  case AValue of
-     100: Result := True;
-     110: Result := True;
-     150: Result := True;
-     301: Result := True;
-     302: Result := True;          
-  else
-     Result := False;
-  end;
-end;
 
 initialization
 

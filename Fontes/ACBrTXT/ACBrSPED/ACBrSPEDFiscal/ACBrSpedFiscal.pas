@@ -216,7 +216,7 @@ uses ACBrUtil;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrSPEDFiscal]);
+  RegisterComponents('ACBrTXT', [TACBrSPEDFiscal]);
 end;
 
 (* TACBrSPEDFiscal *)

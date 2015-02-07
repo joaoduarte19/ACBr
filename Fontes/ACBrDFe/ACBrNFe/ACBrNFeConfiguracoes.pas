@@ -125,7 +125,7 @@ type
 implementation
 
 uses
-  ACBrNFe, ACBrNFeUtil, pcnGerador, Math, StrUtils, ACBrUtil, ACBrDFeUtil,
+  ACBrNFe, pcnGerador, Math, StrUtils, ACBrUtil, ACBrDFeUtil,
   DateUtils;
 
 { TConfiguracoesNFe }

@@ -177,7 +177,7 @@ implementation
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrSEF2]);
+  RegisterComponents('ACBrTXT', [TACBrSEF2]);
 end;
 
 

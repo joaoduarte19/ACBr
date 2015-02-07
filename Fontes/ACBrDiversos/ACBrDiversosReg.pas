@@ -44,14 +44,6 @@ unit ACBrDiversosReg;
 
 interface
 Uses Classes ,
-    {$IFDEF VisualCLX}
-      QDialogs
-    {$ELSE}
-      Dialogs
-      {$IFNDEF FPC}
-        {$WARN UNIT_PLATFORM OFF}, FileCtrl {$WARN UNIT_PLATFORM ON}
-      {$ENDIF}
-    {$ENDIF},
     {$IFDEF FPC}
        LResources, LazarusPackageIntf, PropEdits, componenteditors
     {$ELSE}
@@ -76,17 +68,10 @@ type
     procedure Edit; override;
   end;
 
-  { Editor de Proriedades de Componente para chamar OpenDialog }
-  TACBrDirProperty = class( TStringProperty )
-  public
-    procedure Edit; override;
-    function GetAttributes: TPropertyAttributes; override;
-  end;
-
 procedure Register;
 
 implementation
-Uses ACBrEnterTab, ACBrUtil, ACBrGIF, ACBrCargaBal,
+Uses ACBrReg, ACBrEnterTab, ACBrUtil, ACBrGIF, ACBrCargaBal,
      ACBrCalculadora, ACBrExtenso, ACBrTroco, ACBrValidador,
      ACBrCMC7, ACBrFala, ACBrBarCode, ACBrInStore, SysUtils;
 
@@ -96,7 +81,7 @@ Uses ACBrEnterTab, ACBrUtil, ACBrGIF, ACBrCargaBal,
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrCalculadora, TACBrCMC7, TACBrExtenso, TACBrTroco,
+  RegisterComponents('ACBrDiversos', [TACBrCalculadora, TACBrCMC7, TACBrExtenso, TACBrTroco,
      TACBrValidador, TACBrFala, TACBrEnterTab, TACBrGIF, TACBrBarCode, TACBrInStore, TACBrCargaBal]);
 
   { Registrando os Editores de Propriedade }
@@ -123,28 +108,6 @@ procedure TACBrFalaEditor.Edit;
 begin
   with Component as TACBrFala do
      Falar ;
-end;
-
-{ TACBrDirProperty }
-
-procedure TACBrDirProperty.Edit;
-Var
-{$IFNDEF VisualCLX} Dir : String ; {$ELSE} Dir : WideString ; {$ENDIF}
-begin
-  {$IFNDEF VisualCLX}
-  Dir := GetValue ;
-  if SelectDirectory(Dir,[],0) then
-     SetValue( Dir ) ;
-  {$ELSE}
-  Dir := '' ;
-  if SelectDirectory('Selecione o Diretório','',Dir) then
-     SetValue( Dir ) ;
-  {$ENDIF}
-end;
-
-function TACBrDirProperty.GetAttributes: TPropertyAttributes;
-begin
-  Result := [paDialog];
 end;
 
 {$IFDEF FPC}

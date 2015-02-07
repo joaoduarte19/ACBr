@@ -286,7 +286,7 @@ uses ACBrGNRE2, ACBrGNREUtil, ACBrUtil, StrUtils, Dialogs, ACBrGNREGuiasRetorno;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrGNREGuiaRL]);
+  RegisterComponents('ACBrGNRE', [TACBrGNREGuiaRL]);
 end;
 
 { TACBrGNREGuiaFRFortes }

@@ -205,7 +205,7 @@ Uses
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrPAF]);
+  RegisterComponents('ACBrTXT', [TACBrPAF]);
 end;
 
 constructor TACBrPAF.Create(AOwner: TComponent);

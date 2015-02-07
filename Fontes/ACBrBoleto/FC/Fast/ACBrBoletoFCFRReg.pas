@@ -47,21 +47,16 @@ unit ACBrBoletoFCFRReg;
 interface
 
 uses
-  SysUtils, Classes, ACBrBoletoFCFR,
-  {$IFDEF VisualCLX} QDialogs {$ELSE} Dialogs{$ENDIF},
-  {$IFNDEF COMPILER6_UP}
-     DsgnIntf
-  {$ELSE}
-     DesignIntf,
-     DesignEditors
-  {$ENDIF};
+  SysUtils, Classes, ACBrBoletoFCFR, ACBrReg;
 
 Type
   { Editor de Proriedades de Componente para chamar OpenDialog dos Relatorios }
-  TACBrBoletoFCFRFileNameProperty = class(TStringProperty)
-  public
-    procedure Edit; override;
-    function GetAttributes: TPropertyAttributes; override;
+
+  { TACBrBoletoFCFRFileNameProperty }
+
+  TACBrBoletoFCFRFileNameProperty = class(TACBrFileProperty)
+  protected
+    function GetFilter: String; override;
   end;
 
 procedure Register;
@@ -72,7 +67,7 @@ implementation
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrBoletoFCFR]);
+  RegisterComponents('ACBrBoleto', [TACBrBoletoFCFR]);
 
   RegisterPropertyEditor(TypeInfo(String), TACBrBoletoFCFR, 'FastReportFile',
      TACBrBoletoFCFRFileNameProperty);
@@ -80,25 +75,9 @@ end;
 
 { TACBrBoletoFCFRFileNameProperty }
 
-procedure TACBrBoletoFCFRFileNameProperty.Edit;
-var Dlg : TOpenDialog ;
+function TACBrBoletoFCFRFileNameProperty.GetFilter: String;
 begin
-  Dlg := TOpenDialog.Create(nil);
-  try
-     Dlg.FileName   := GetValue ;
-     Dlg.InitialDir := ExtractFilePath(GetValue) ;
-     Dlg.Filter     := 'Arquivos do FastReport|*.fr3|Todos os arquivos|*.*' ;
-
-     if Dlg.Execute then
-        SetValue(Dlg.FileName);
-  finally
-     Dlg.Free ;
-  end ;
-end;
-
-function TACBrBoletoFCFRFileNameProperty.GetAttributes: TPropertyAttributes;
-begin
-  Result := [paDialog];
+  Result := 'Arquivos do FastReport|*.fr3|Todos os arquivos|*.*';
 end;
 
 end.

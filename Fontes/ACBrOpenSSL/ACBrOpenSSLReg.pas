@@ -49,7 +49,7 @@ Uses ACBrEAD;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [ TACBrEAD ] );
+  RegisterComponents('ACBrDiversos', [ TACBrEAD ] );
 end;
 
 {$IFDEF FPC}

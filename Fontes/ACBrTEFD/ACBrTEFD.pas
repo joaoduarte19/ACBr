@@ -356,7 +356,7 @@ Uses ACBrUtil, dateutils, TypInfo, StrUtils, Math;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrTEFD]);
+  RegisterComponents('ACBrTEFD', [TACBrTEFD]);
 end;
 
 

@@ -100,7 +100,7 @@ type
 
 implementation
 
-uses ACBrNFe, ACBrNFeUtil, ACBrUtil, ACBrDFeUtil, StrUtils, Dialogs;
+uses ACBrNFe, ACBrUtil, ACBrDFeUtil, StrUtils, Dialogs;
 
 function TACBrNFeDANFERaveCB.BMPtoJPGString(aBMPFile: string): string;
 var

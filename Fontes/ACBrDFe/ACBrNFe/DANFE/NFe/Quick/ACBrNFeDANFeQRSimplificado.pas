@@ -205,7 +205,7 @@ implementation
 
 uses
  StrUtils, DateUtils, ACBrNFe,
- ACBrUtil, ACBrDFeUtil, ACBrNFeUtil, pcnNFe;
+ ACBrUtil, ACBrDFeUtil, pcnNFe;
 
 {$R *.dfm}
 

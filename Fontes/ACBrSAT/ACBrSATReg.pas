@@ -52,7 +52,7 @@ implementation
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrSAT{,TACBrSATExtratoESCPOS}]);
+  RegisterComponents('ACBrSAT', [TACBrSAT]);
 end;
 
 {$IFDEF FPC}

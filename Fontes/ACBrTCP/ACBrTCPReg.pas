@@ -51,7 +51,7 @@ Uses ACBrSocket, ACBrCEP, ACBrIBGE, ACBrNFPws, ACBrCNIEE, ACBrSuframa, ACBrDownl
 
 procedure Register;
 begin
-  RegisterComponents('ACBr',
+  RegisterComponents('ACBrTCP',
     [ TACBrTCPServer, TACBrCEP, TACBrIBGE, TACBrNFPws, TACBrCNIEE, TACBrSuframa,
       TACBrDownload, TACBrIBPTax, TACBrConsultaCNPJ, TACBrConsultaCPF, TACBrCotacao,
       TACBrMail, TACBrSpedTabelas, TACBrSedex, TACBrNCMs ]

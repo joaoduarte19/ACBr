@@ -909,7 +909,7 @@ Uses ACBrUtil, ACBrBancoBradesco, ACBrBancoBrasil, ACBrBancoBanestes, ACBrBancoI
 
 procedure Register;
 begin
-   RegisterComponents('ACBr', [TACBrBoleto]);
+   RegisterComponents('ACBrBoleto', [TACBrBoleto]);
 end;
 
 { TACBrCedente }

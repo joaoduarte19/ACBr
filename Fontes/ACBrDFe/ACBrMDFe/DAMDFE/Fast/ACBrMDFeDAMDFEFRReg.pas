@@ -39,25 +39,19 @@ unit ACBrMDFeDAMDFEFRReg;
 interface
 
 uses
-  SysUtils, Classes, ACBrMDFeDAMDFEFR,
-  {$IFDEF VisualCLX} QDialogs {$ELSE} Dialogs{$ENDIF},
+  SysUtils, Classes, ACBrMDFeDAMDFEFR, ACBrReg,
   {$IFDEF FPC}
-     LResources, LazarusPackageIntf, PropEdits, componenteditors
-  {$ELSE}
-    {$IFNDEF COMPILER6_UP}
-       DsgnIntf
-    {$ELSE}
-       DesignIntf,
-       DesignEditors
-    {$ENDIF}
+     LResources
   {$ENDIF} ;
 
 Type
   { Editor de Proriedades de Componente para chamar OpenDialog dos Relatorios }
-  TACBrMDFeDAMDFEFRFileNameProperty = class(TStringProperty)
-  public
-    procedure Edit; override;
-    function GetAttributes: TPropertyAttributes; override;
+
+  { TACBrMDFeDAMDFEFRFileNameProperty }
+
+  TACBrMDFeDAMDFEFRFileNameProperty = class(TACBrFileProperty)
+  protected
+    function GetFilter: String; override;
   end;
 
 
@@ -71,7 +65,7 @@ implementation
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrMDFeDAMDFEFR]);
+  RegisterComponents('ACBrMDFe', [TACBrMDFeDAMDFEFR]);
 
   RegisterPropertyEditor(TypeInfo(String), TACBrMDFeDAMDFEFR, 'FastFile',
      TACBrMDFeDAMDFEFRFileNameProperty);
@@ -79,25 +73,9 @@ end;
 
 { TACBrMDFeDAMDFEFRFileNameProperty }
 
-procedure TACBrMDFeDAMDFEFRFileNameProperty.Edit;
-var Dlg : TOpenDialog ;
+function TACBrMDFeDAMDFEFRFileNameProperty.GetFilter: String;
 begin
-  Dlg := TOpenDialog.Create(nil);
-  try
-     Dlg.FileName   := GetValue ;
-     Dlg.InitialDir := ExtractFilePath(GetValue) ;
-     Dlg.Filter     := 'Arquivos do FastReport|*.fr3|Todos os arquivos|*.*' ;
-
-     if Dlg.Execute then
-        SetValue(Dlg.FileName);
-  finally
-     Dlg.Free ;
-  end ;
-end;
-
-function TACBrMDFeDAMDFEFRFileNameProperty.GetAttributes: TPropertyAttributes;
-begin
-  Result := [paDialog];
+  Result := 'Arquivos do FastReport|*.fr3|Todos os arquivos|*.*';
 end;
 
 end.

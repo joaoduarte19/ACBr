@@ -48,7 +48,7 @@ uses
   pcnNFe, pcnConversao, pcnConversaoNFe, pcnCCeNFe,
   pcnEnvEventoNFe, pcnInutNFe,
   pcnDownloadNFe, pcnRetDistDFeInt,
-  ACBrNFeUtil, ACBrDFeUtil, ACBrUtil;
+  ACBrDFeUtil, ACBrUtil;
 
 const
   ACBRNFE_VERSAO = '0.6.0a';
@@ -96,12 +96,13 @@ type
     procedure SetConfiguracoes(AValue: TConfiguracoesNFe);
     procedure SetDANFE(const Value: TACBrNFeDANFEClass);
   protected
+    function CreateConfiguracoes: TConfiguracoes; override;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
 
     function GetAbout: String; override;
     function GetNomeArquivoServicos: String; override;
 
-    function CreateConfiguracoes: TConfiguracoes; override;
+    function ModeloDFToStr: String;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -119,6 +120,8 @@ type
 
     property Configuracoes: TConfiguracoesNFe
       read GetConfiguracoes write SetConfiguracoes;
+    function LerVersaoDeParams(LayOutServico: TLayOut): String; overload;
+    function LerURLDeParams(LayOutServico: TLayOut): String; overload;
 
     property WebServices: TWebServices read FWebServices write FWebServices;
     property NotasFiscais: TNotasFiscais read FNotasFiscais write FNotasFiscais;
@@ -225,6 +228,11 @@ begin
   end;
 end;
 
+function TACBrNFe.ModeloDFToStr: String;
+begin
+  Result := IfThen(Configuracoes.Geral.ModeloDF = moNFe, 'NFe', 'NFCe')
+end;
+
 function TACBrNFe.GetConfiguracoes: TConfiguracoesNFe;
 begin
   Result := TConfiguracoesNFe(FPConfiguracoes);
@@ -233,6 +241,30 @@ end;
 procedure TACBrNFe.SetConfiguracoes(AValue: TConfiguracoesNFe);
 begin
   FPConfiguracoes := AValue;
+end;
+
+function TACBrNFe.LerVersaoDeParams(LayOutServico: TLayOut): String;
+var
+  Versao: Double;
+begin
+ Versao := LerVersaoDeParams(
+    ModeloDFToStr,
+    Configuracoes.WebServices.UF,
+    Configuracoes.WebServices.Ambiente,
+    LayOutToServico(LayOutServico),
+    VersaoDFToDbl(Configuracoes.Geral.VersaoDF));
+
+ Result := FormatFloat('0.00', Versao );
+end;
+
+function TACBrNFe.LerURLDeParams(LayOutServico: TLayOut): String;
+begin
+ Result := LerURLDeParams(
+    ModeloDFToStr,
+    Configuracoes.WebServices.UF,
+    Configuracoes.WebServices.Ambiente,
+    LayOutToServico(LayOutServico),
+    VersaoDFToDbl(Configuracoes.Geral.VersaoDF));
 end;
 
 procedure TACBrNFe.SetStatus(const stNewStatus: TStatusACBrNFe);

@@ -48,7 +48,7 @@ uses Classes, SysUtils,
        LResources,
      {$ENDIF}
      Forms, Graphics,
-     ACBrNFeDANFEClass, ACBrUtil, ACBrNFeUtil,
+     ACBrNFeDANFEClass, ACBrUtil,
      pcnNFe, pcnConversao, pcnAuxiliar, ACBrDFeUtil,
      RLConsts, RLReport, RLBarcode, RLPDFFilter, RLHTMLFilter, RLPrintDialog,
      RLFilters, RLPrinters, Controls;
@@ -221,7 +221,7 @@ uses ACBrNFe, StrUtils, ACBrDelphiZXingQRCode, math;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr',[TACBrNFeDANFCeFortes]);
+  RegisterComponents('ACBrNFe',[TACBrNFeDANFCeFortes]);
 end;
 
 { TACBrNFeDANFCeFortesFr }

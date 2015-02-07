@@ -42,7 +42,18 @@ interface
 
 uses
   Classes, SysUtils, IniFiles,
-  ACBrBase, ACBrDFeConfiguracoes, ACBrMail, ACBrDFeSSL, pcnConversao;
+  ACBrBase, ACBrDFeConfiguracoes, ACBrMail, ACBrDFeSSL, pcnConversao,
+  {$IFDEF FPC}
+     LazarusPackageIntf, PropEdits, componenteditors
+  {$ELSE}
+    {$IFNDEF COMPILER6_UP}
+       DsgnIntf
+    {$ELSE}
+       DesignIntf,
+       DesignEditors
+    {$ENDIF}
+  {$ENDIF} ;
+
 
 const
   ACBRDFE_VERSAO = '0.1.0a';
@@ -54,6 +65,14 @@ type
   EACBrDFeException = class(Exception)
   public
     constructor Create(const Msg: String);
+  end;
+
+  { TACBrUFProperty }
+
+  TACBrUFProperty = class(TStringProperty)
+  public
+    function GetAttributes: TPropertyAttributes; override;
+    procedure GetValues(Proc : TGetStrProc) ; override;
   end;
 
   { TACBrDFe }
@@ -77,6 +96,7 @@ type
     function CreateConfiguracoes: TConfiguracoes; virtual;
 
     procedure LerParamsIni; virtual;
+
   public
     property SSL: TDFeSSL read FSSL;
 
@@ -92,9 +112,15 @@ type
       StreamNFe: TStringStream = nil; NomeArq: String = '';
       UsarThread: Boolean = True; HTML: Boolean = False);
 
-    function CalcularVersaoServico(const ModeloDFe, UF: String;
+    procedure LerServicoDeParams(const ModeloDFe, UF: String;
       const TipoAmbiente: TpcnTipoAmbiente; const NomeServico: String;
-      VersaoBase: double): double;
+      var Versao: Double; var URL: String);
+    function LerVersaoDeParams(const ModeloDFe, UF: String;
+      const TipoAmbiente: TpcnTipoAmbiente; const NomeServico: String;
+      VersaoBase: Double): Double; virtual;
+    function LerURLDeParams(const ModeloDFe, UF: String;
+      const TipoAmbiente: TpcnTipoAmbiente; const NomeServico: String;
+      VersaoBase: Double): String; virtual;
 
     procedure FazerLog(const Msg: AnsiString; out Tratado: Boolean);
     procedure GerarException(Msg: String);
@@ -110,6 +136,22 @@ type
 implementation
 
 uses ACBrUtil, ACBrDFeUtil, strutils;
+
+{ TACBrUFProperty }
+
+function TACBrUFProperty.GetAttributes: TPropertyAttributes;
+begin
+  Result := [paValueList, paAutoUpdate];
+end;
+
+procedure TACBrUFProperty.GetValues(Proc: TGetStrProc);
+var
+ i : Integer;
+begin
+  inherited;
+  for i:= 0 to High(NFeUF) do
+    Proc(NFeUF[i]);
+end;
 
 { EACBrDFeException }
 
@@ -200,11 +242,12 @@ begin
   end;
 end;
 
-procedure TACBrDFe.EnviarEmail(const sSmtpHost, sSmtpPort, sSmtpUser,
-  sSmtpPasswd, sFrom, sTo, sAssunto: String; sMensagem: TStrings;
-  SSL: Boolean; sCC: TStrings; Anexos: TStrings; PedeConfirma: Boolean;
-  AguardarEnvio: Boolean; NomeRemetente: String; TLS: Boolean;
-  StreamNFe: TStringStream; NomeArq: String; UsarThread: Boolean; HTML: Boolean);
+procedure TACBrDFe.EnviarEmail(
+  const sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo, sAssunto: String;
+  sMensagem: TStrings; SSL: Boolean; sCC: TStrings; Anexos: TStrings;
+  PedeConfirma: Boolean; AguardarEnvio: Boolean; NomeRemetente: String;
+  TLS: Boolean; StreamNFe: TStringStream; NomeArq: String; UsarThread: Boolean;
+  HTML: Boolean);
 begin
   // TODO: Fazer envio de e-mail usando ACBrMail
 end;
@@ -227,17 +270,18 @@ begin
   end;
 end;
 
-
-function TACBrDFe.CalcularVersaoServico(const ModeloDFe, UF: String;
+procedure TACBrDFe.LerServicoDeParams(const ModeloDFe, UF: String;
   const TipoAmbiente: TpcnTipoAmbiente; const NomeServico: String;
-  VersaoBase: double): double;
+  var Versao: Double; var URL: String);
 var
   Sessao, Chave, K: String;
   SL: TStringList;
   I: integer;
-  Versao, VersaoAbaixo: double;
+  VersaoAtual, VersaoAchada: Double;
 begin
-  Result := 0;
+  VersaoAchada := 0;
+  URL := '';
+  VersaoAtual := Versao;
   LerParamsIni;
 
   Sessao := ModeloDFe + '_' + UF + IfThen(TipoAmbiente = taProducao, 'P', 'H');
@@ -245,38 +289,70 @@ begin
   if not FPIniParams.SectionExists(Sessao) then
     exit;
 
-  Chave := NomeServico + '_' + FormatFloat('0.00', VersaoBase);
+  Chave := NomeServico + '_' + FormatFloat('0.00', VersaoAtual);
 
   // Achou com busca exata ? (mesma versao) //
   if DFeUtil.NaoEstaVazio(FPIniParams.ReadString(Sessao, Chave, '')) then
+    VersaoAchada := VersaoAtual;
+
+  if VersaoAchada = 0 then
   begin
-    Result := VersaoBase;
-    exit;
-  end;
-
-  // Procure por serviço com o mesmo nome, mas com versão inferior //
-  Chave := NomeServico + '_';
-  VersaoAbaixo := 0;
-  SL := TStringList.Create;
-  try
-    FPIniParams.ReadSection(Sessao, SL);
-    for I := 0 to SL.Count do
-    begin
-      K := SL[I];
-
-      if copy(K, 1, Length(Chave)) = Chave then
+    // Procure por serviço com o mesmo nome, mas com versão inferior //
+    Chave := NomeServico + '_';
+    SL := TStringList.Create;
+    try
+      FPIniParams.ReadSection(Sessao, SL);
+      for I := 0 to SL.Count do
       begin
-        Versao := StrToFloatDef(copy(K, Length(Chave) + 1, Length(K)), 0);
+        K := SL[I];
 
-        if (Versao > VersaoAbaixo) and (Versao <= VersaoBase) then
-          VersaoAbaixo := Versao;
+        if copy(K, 1, Length(Chave)) = Chave then
+        begin
+          VersaoAtual := StrToFloatDef(copy(K, Length(Chave) + 1, Length(K)), 0);
+
+          if (VersaoAtual > VersaoAchada) and (VersaoAtual <= Versao) then
+          begin
+            VersaoAchada := VersaoAtual;
+            Chave := K;
+          end;
+        end;
       end;
+    finally
+      SL.Free;
     end;
-  finally
-    SL.Free;
   end;
 
-  Result := VersaoAbaixo;
+  Versao := VersaoAchada;
+  if Versao > 0 then
+    URL := FPIniParams.ReadString(Sessao, Chave, '')
+end;
+
+function TACBrDFe.LerVersaoDeParams(const ModeloDFe, UF: String;
+  const TipoAmbiente: TpcnTipoAmbiente; const NomeServico: String;
+  VersaoBase: Double): Double;
+var
+  Versao: Double;
+  URL: String;
+begin
+  Versao := VersaoBase;
+  URL := '';
+
+  LerServicoDeParams(ModeloDFe, UF, TipoAmbiente, NomeServico, Versao, URL);
+  Result := Versao;
+end;
+
+function TACBrDFe.LerURLDeParams(const ModeloDFe, UF: String;
+  const TipoAmbiente: TpcnTipoAmbiente; const NomeServico: String;
+  VersaoBase: Double): String;
+var
+  Versao: Double;
+  URL: String;
+begin
+  Versao := VersaoBase;
+  URL := '';
+
+  LerServicoDeParams(ModeloDFe, UF, TipoAmbiente, NomeServico, Versao, URL);
+  Result := URL;
 end;
 
 
@@ -324,4 +400,3 @@ begin
 end;
 
 end.
-

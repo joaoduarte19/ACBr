@@ -162,7 +162,7 @@ uses ACBrECFClass;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrECFVirtualNFCe]);
+  RegisterComponents('ACBrNFe', [TACBrECFVirtualNFCe]);
 end;
 
 { TACBrECFVirtualNFCe }

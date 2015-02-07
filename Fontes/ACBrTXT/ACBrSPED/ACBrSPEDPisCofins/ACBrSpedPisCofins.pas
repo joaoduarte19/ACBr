@@ -209,7 +209,7 @@ uses ACBrUtil;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrSPEDPisCofins]);
+  RegisterComponents('ACBrTXT', [TACBrSPEDPisCofins]);
 end;
 
 (* TACBrSPEDPisCofins *)

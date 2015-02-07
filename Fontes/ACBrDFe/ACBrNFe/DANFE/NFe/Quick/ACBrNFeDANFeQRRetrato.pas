@@ -505,7 +505,7 @@ implementation
 
 uses
  StrUtils, DateUtils,
- ACBrUtil, ACBrDFeUtil, ACBrNFeUtil, pcnNFe;
+ ACBrUtil, ACBrDFeUtil, pcnNFe;
 
 {$R *.dfm}
 

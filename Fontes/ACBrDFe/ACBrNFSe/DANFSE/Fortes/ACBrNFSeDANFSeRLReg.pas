@@ -17,7 +17,7 @@ implementation
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrNFSeDANFSeRL]);
+  RegisterComponents('ACBrNFSe', [TACBrNFSeDANFSeRL]);
 end;
 
 {$IFDEF FPC}
