@@ -56,6 +56,8 @@ const
 
 type
 
+  EACBrIBGEException = class ( Exception );
+
   { TACBrIBGECidade }
 
   TACBrIBGECidade = class
@@ -105,7 +107,7 @@ type
 
       function BuscarPorCodigo( const ACodigo : Integer ) : Integer ;
       function BuscarPorNome( const ACidade : String; const AUF: String = '';
-        const Exata: Boolean = False ) : Integer ;
+        const Exata: Boolean = False; const ComparacaoCaseSensitive: Boolean = True ) : Integer ;
 
     published
       property OnBuscaEfetuada : TNotifyEvent read fOnBuscaEfetuada
@@ -174,16 +176,20 @@ begin
   fCidades.Clear;
 
   if ACodigo = 0 then
-     raise Exception.Create( ACBrStr('Código do Município deve ser informado') );
+     raise EACBrIBGEException.Create( ACBrStr('Código do Município deve ser informado') );
 
   HTTPGet(CIBGE_URL + '?codigo='+IntToStr(ACodigo) ) ;
   ProcessaResposta;
 
   Result := fCidades.Count;
+
+  if Assigned( OnBuscaEfetuada ) then
+     OnBuscaEfetuada( Self );
+
 end ;
 
 function TACBrIBGE.BuscarPorNome(const ACidade : String ; const AUF : String ;
-  const Exata : Boolean) : Integer ;
+  const Exata : Boolean; const ComparacaoCaseSensitive: Boolean) : Integer ;
 var
   I : Integer ;
   Param: String ;
@@ -192,7 +198,7 @@ begin
 
   Param := AjustaParam( ACidade ) ;
   if Param = '' then
-     raise Exception.Create( ACBrStr('Nome do Município deve ser informado') );
+     raise EACBrIBGEException.Create( ACBrStr('Nome do Município deve ser informado') );
 
   HTTPGet(CIBGE_URL + '?nome='+Param ) ;
 
@@ -206,14 +212,36 @@ begin
     begin
       if (AUF <> '') and (fCidades[I].UF <> AUF) then
          fCidades.Delete(I)
-      else if Exata and (fCidades[I].Municipio <> ACidade) then
-         fCidades.Delete(I)
+      else
+      if Exata then
+      begin
+        if ComparacaoCaseSensitive then
+        begin
+          if (fCidades[I].Municipio <> ACidade) then
+          begin
+            fCidades.Delete(I)
+          end
+        end
+        else
+        begin
+          if (AnsiUpperCase(fCidades[I].Municipio) <> AnsiUpperCase(ACidade)) then
+          begin
+            fCidades.Delete(I)
+          end
+          else
+            Inc(I);
+        end;
+      end
       else
          Inc( I ) ;
     end ;
   end ;
 
   Result := fCidades.Count;
+
+  if Assigned( OnBuscaEfetuada ) then
+     OnBuscaEfetuada( Self );
+
 end ;
 
 procedure TACBrIBGE.ProcessaResposta ;
@@ -278,9 +306,6 @@ begin
       end ;
     end ;
   end ;
-
-  if Assigned( OnBuscaEfetuada ) then
-     OnBuscaEfetuada( Self );
 end ;
 
 end.

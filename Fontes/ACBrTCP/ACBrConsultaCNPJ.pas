@@ -74,6 +74,10 @@ type
     FSituacao: String;
     FCNPJ: String;
     FDataSituacao: TDateTime;
+    FEndEletronico: String;
+    FTelefone: String;
+    FEFR: string;  //ENTE FEDERATIVO RESPONSÁVEL (EFR)
+    FMotivoSituacaoCad: string;
     Function GetCaptchaURL: String;
 
     function VerificarErros(Str: String): String;
@@ -103,6 +107,10 @@ type
     property Situacao: String Read FSituacao;
     property DataSituacao: TDateTime Read FDataSituacao;
     property NaturezaJuridica: String Read FNaturezaJuridica;
+    property EndEletronico: string read FEndEletronico;
+    property Telefone: String read FTelefone;
+    property EFR: string read FEFR;
+    property MotivoSituacaoCad: string read FMotivoSituacaoCad;
   end;
 
 implementation
@@ -274,6 +282,10 @@ begin
         FSituacao     := LerCampo(Resposta,'SITUAÇÃO CADASTRAL');
         FDataSituacao := StrToDateDef(LerCampo(Resposta,'DATA DA SITUAÇÃO CADASTRAL'),0);
         FNaturezaJuridica := LerCampo(Resposta,'CÓDIGO E DESCRIÇÃO DA NATUREZA JURÍDICA');
+        FEndEletronico:= LerCampo(Resposta, 'ENDEREÇO ELETRÔNICO');
+        FTelefone     := LerCampo(Resposta, 'TELEFONE');
+        FEFR          := LerCampo(Resposta, 'ENTE FEDERATIVO RESPONSÁVEL (EFR)');
+        FMotivoSituacaoCad := LerCampo(Resposta, 'MOTIVO DE SITUAÇÃO CADASTRAL');
 
         FCNAE2.Clear;
         StrAux := LerCampo(Resposta,'CÓDIGO E DESCRIÇÃO DAS ATIVIDADES ECONÔMICAS SECUNDÁRIAS');
@@ -342,6 +354,10 @@ begin
   FSituacao         := '';
   FCNPJ             := '';
   FDataSituacao     := 0;
+  FEndEletronico    := '';
+  FTelefone         := '';
+  FEFR              := '';
+  FMotivoSituacaoCad:= '';
 
   FCNAE2.Clear;
 end;

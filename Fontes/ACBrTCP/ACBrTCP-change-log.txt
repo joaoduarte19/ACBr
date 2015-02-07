@@ -37,6 +37,29 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+07/02/2015
+-- ACBrConsultaCNPJ --
+[+] Adicionado suporte para leitura dos campos: EndEletronico, Telefone, EFR, 
+    MotivoSituacaoCad  (por: Eliomar0910)
+	http://www.projetoacbr.com.br/forum/index.php?/topic/11174-inclusão-de-3-campos-no-acbrconsultacnpj-e-inclusão-de-acbrtaxadolar/?p=126683
+
+02/01/2015
+-- ACBrIBGE --
+[+] Criado tipo EACBrIBGEException;
+[*] Modificação do Método BuscarPorNome, adicionado parâmetro 'ComparacaoCaseSensitive'
+    const ComparacaoCaseSensitive: Boolean = True
+    Se passado False, o método vai ignorar as diferenças entre maiúsculas e minúsculas 
+	ao fazer uma busca com o parâmetro Exata.
+    Se Exata = False, esse parâmetro é ignorado.
+[-] Correção no evento OnBuscaEfetuada, pois estava sendo chamado antes do componente
+    fazer a filtragem dos Municípios no método BuscarPorNome.
+    Veja: http://www.projetoacbr.com.br/forum/index.php?/topic/11214-codigo-ibge-no-acbrcep/
+
+-- ACBrCEP --
+[-] Busca no provedor correios não estava retornando os dados 
+    de ID do Municipio conforme eta esperado. 
+    Veja: http://www.projetoacbr.com.br/forum/index.php?/topic/19315-correção-acbribge
+
 03/12/2014
 -- ACBrIBPTax --
 [-] Acertos na validação da primeira linha do arquivo, onde ficam as informações gerais

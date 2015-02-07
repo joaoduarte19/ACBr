@@ -1131,10 +1131,10 @@ var
 
 begin
   if trim(AMunicipio) = '' then
-     raise Exception.Create( ACBrStr('Você deve informar o Município') );
+     raise EACBrCEPException.Create( ACBrStr('Você deve informar o Município') );
 
   if trim(AUF) = '' then
-     raise Exception.Create( ACBrStr('Você deve informar a UF') );
+     raise EACBrCEPException.Create( ACBrStr('Você deve informar a UF') );
 
    sEndereco := '';
    AddParam( ATipo_Logradouro, '' );
@@ -1144,7 +1144,7 @@ begin
    AddParam( AUF );
 
    if trim(sEndereco) = '' then
-      raise Exception.Create(ACBrStr('Não existe Parametros para Pesquisa'));
+      raise EACBrCEPException.Create(ACBrStr('Não existe Parametros para Pesquisa'));
 
    //sEndereco := ATipo_Logradouro+' '+ALogradouro+ '/'+ABairro+'/'+AMunicipio+'/'+AUF;
 
@@ -1183,7 +1183,7 @@ begin
       sLin := SL[iLin] ;
 
       if Pos('Resultado superior a 100', sLin) > 0 then
-        raise Exception.Create('Resultado superior a 100 registros');
+        raise EACBrCEPException.Create('Resultado superior a 100 registros');
 
       if (Pos( ACBrStr('O endereço informado'), sLin) > 0) and
          (Pos( ACBrStr('não foi encontrado'), sLin) > 0) then
@@ -1239,7 +1239,7 @@ begin
             begin
               if (sMun <> Municipio) then  // Evita buscar municipio já encontrado
               begin
-                fACBrIBGE.BuscarPorNome( Municipio, UF, True ) ;
+                fACBrIBGE.BuscarPorNome( Municipio, UF, True, False ) ;
                 sMun := Municipio;
               end ;
 
