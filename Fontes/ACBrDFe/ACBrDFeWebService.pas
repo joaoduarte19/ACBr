@@ -235,11 +235,14 @@ begin
 
   Texto := '<' + ENCODING_UTF8 + '>';    // Envelop Final DEVE SEMPRE estar em UTF8...
   Texto := Texto + '<' + FPSoapVersion + ':Envelope ' + FPSoapEnvelopeAtributtes + '>';
-  Texto := Texto + '<' + FPSoapVersion + ':Header>';
-  Texto := Texto + '<' + FPHeaderElement + ' xmlns="' + Servico + '">';
-  Texto := Texto + GerarCabecalhoSoap;
-  Texto := Texto + '</' + FPHeaderElement + '>';
-  Texto := Texto + '</' + FPSoapVersion + ':Header>';
+  if DFeUtil.NaoEstaVazio(FPHeaderElement) then
+  begin
+    Texto := Texto + '<' + FPSoapVersion + ':Header>';
+    Texto := Texto + '<' + FPHeaderElement + ' xmlns="' + Servico + '">';
+    Texto := Texto + GerarCabecalhoSoap;
+    Texto := Texto + '</' + FPHeaderElement + '>';
+    Texto := Texto + '</' + FPSoapVersion + ':Header>';
+  end;
   Texto := Texto + '<' + FPSoapVersion + ':Body>';
   Texto := Texto + '<' + FPBodyElement + ' xmlns="' + Servico + '">';
   Texto := Texto + DadosMsg;

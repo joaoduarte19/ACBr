@@ -103,6 +103,7 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
+    function NomeModeloDFe: String; virtual;
     function Gravar(NomeXML: String; ConteudoXML: String; aPath: String = ''): Boolean;
     procedure EnviarEmail(const sSmtpHost, sSmtpPort, sSmtpUser,
       sSmtpPasswd, sFrom, sTo, sAssunto: String; sMensagem: TStrings;
@@ -194,6 +195,11 @@ begin
   FPIniParams.Free;
 
   inherited;
+end;
+
+function TACBrDFe.NomeModeloDFe: String;
+begin
+  Result := '';
 end;
 
 function TACBrDFe.GetAbout: String;

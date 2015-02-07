@@ -52,6 +52,7 @@ type
     FModeloDF: TpcnModeloDF;
     FVersaoDF: TpcnVersaoDF;
     FModeloDFCodigo: integer;
+    FAtualizarXMLCancelado: Boolean;
 
     procedure SetModeloDF(AValue: TpcnModeloDF);
     procedure SetVersaoDF(const Value: TpcnVersaoDF);
@@ -61,6 +62,8 @@ type
     property ModeloDF: TpcnModeloDF read FModeloDF write SetModeloDF default moNFe;
     property VersaoDF: TpcnVersaoDF read FVersaoDF write SetVersaoDF default ve200;
     property ModeloDFCodigo: integer read FModeloDFCodigo;
+    property AtualizarXMLCancelado: Boolean
+      read FAtualizarXMLCancelado write FAtualizarXMLCancelado default True;
   end;
 
   { TArquivosConfNFe }
@@ -77,8 +80,6 @@ type
     FPathCCe: String;
     FPathMDe: String;
     FPathEvento: String;
-    function GetPath(APath: String; ALiteral: String): String; // TODO: onde fica isso
-
   public
     constructor Create(AOwner: TConfiguracoes); override;
 
@@ -125,7 +126,7 @@ type
 implementation
 
 uses
-  ACBrNFe, pcnGerador, Math, StrUtils, ACBrUtil, ACBrDFeUtil,
+  ACBrUtil,
   DateUtils;
 
 { TConfiguracoesNFe }
@@ -155,6 +156,7 @@ begin
   FModeloDF := moNFe;
   FModeloDFCodigo := StrToInt(ModeloDFToStr(FModeloDF));
   FVersaoDF := ve200;
+  FAtualizarXMLCancelado := True;
 end;
 
 procedure TGeralConfNFe.SetModeloDF(AValue: TpcnModeloDF);
@@ -184,10 +186,6 @@ begin
   FPathCCe := '';
   FPathMDe := '';
   FPathEvento := '';
-end;
-
-function TArquivosConfNFe.GetPath(APath: String; ALiteral: String): String;
-begin
 end;
 
 function TArquivosConfNFe.GetPathCan(CNPJ: String = ''): String;

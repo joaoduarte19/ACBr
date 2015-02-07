@@ -102,12 +102,14 @@ type
     function GetAbout: String; override;
     function GetNomeArquivoServicos: String; override;
 
-    function ModeloDFToStr: String;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     function Enviar(ALote: integer; Imprimir: Boolean = True;
       Sincrono: Boolean = False): Boolean; overload;
+
+    function NomeModeloDFe: String; override;
+
     function Enviar(ALote: String; Imprimir: Boolean = True;
       Sincrono: Boolean = False): Boolean; overload;
     function Cancelamento(AJustificativa: WideString; ALote: integer = 0): Boolean;
@@ -228,7 +230,7 @@ begin
   end;
 end;
 
-function TACBrNFe.ModeloDFToStr: String;
+function TACBrNFe.NomeModeloDFe: String;
 begin
   Result := IfThen(Configuracoes.Geral.ModeloDF = moNFe, 'NFe', 'NFCe')
 end;
@@ -248,7 +250,7 @@ var
   Versao: Double;
 begin
  Versao := LerVersaoDeParams(
-    ModeloDFToStr,
+    NomeModeloDFe,
     Configuracoes.WebServices.UF,
     Configuracoes.WebServices.Ambiente,
     LayOutToServico(LayOutServico),
@@ -260,7 +262,7 @@ end;
 function TACBrNFe.LerURLDeParams(LayOutServico: TLayOut): String;
 begin
  Result := LerURLDeParams(
-    ModeloDFToStr,
+    NomeModeloDFe,
     Configuracoes.WebServices.UF,
     Configuracoes.WebServices.Ambiente,
     LayOutToServico(LayOutServico),

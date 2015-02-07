@@ -52,10 +52,15 @@ interface
 uses
   SysUtils, Classes, ACBrNFe, pcnConversao,
   {$IFDEF FPC}
-     LResources
+     LResources, LazarusPackageIntf, PropEdits, componenteditors
+  {$ELSE}
+     {$IFNDEF COMPILER6_UP}
+        DsgnIntf
+     {$ELSE}
+        DesignIntf,
+        DesignEditors
+     {$ENDIF}
   {$ENDIF} ;
-
-type
 
 procedure Register;
 

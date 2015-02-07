@@ -81,8 +81,8 @@ type
 
 implementation
 
-Uses pcnAuxiliar,
-  ACBrConsts;
+Uses ACBrConsts,
+  pcnAuxiliar, pcnConversaoNFe;
 
 { TNFeRTXT }
 

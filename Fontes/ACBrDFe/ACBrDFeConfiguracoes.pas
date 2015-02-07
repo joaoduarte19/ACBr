@@ -53,7 +53,7 @@ type
 
   TCertificadosConf = class(TComponent)
   private
-    FOwner: TConfiguracoes;
+    FConfiguracoes: TConfiguracoes;
     FCNPJ: String;
     FDadosPFX: String;
     FSenha: AnsiString;
@@ -62,7 +62,7 @@ type
 
     procedure SetNumeroSerie(const Value: String);
   public
-    constructor Create(AOwner: TConfiguracoes);
+    constructor Create(AConfiguracoes: TConfiguracoes);
   published
     property ArquivoPFX: String read FArquivoPFX write FArquivoPFX;
     property DadosPFX: String read FDadosPFX write FDadosPFX;
@@ -75,7 +75,7 @@ type
 
   TWebServicesConf = class(TComponent)
   private
-    FOwner: TConfiguracoes;
+    FConfiguracoes: TConfiguracoes;
     FVisualizar: Boolean;
     FUF: String;
     FUFCodigo: integer;
@@ -102,7 +102,7 @@ type
     function LerParamsIniServicos: AnsiString; virtual;
     function LerParamsInterno: AnsiString; virtual;
   public
-    constructor Create(AOwner: TConfiguracoes);
+    constructor Create(AConfiguracoes: TConfiguracoes);
     destructor Destroy;
 
     procedure LerParams; virtual;
@@ -133,11 +133,11 @@ type
 
   TGeralConf = class(TComponent)
   private
-    FOwner: TConfiguracoes;
+    FConfiguracoes: TConfiguracoes;
     FSSLLib: TSSLLib;
     FFormaEmissao: TpcnTipoEmissao;
     FFormaEmissaoCodigo: integer;
-    FAtualizarXMLCancelado: Boolean;
+    FSalvar: Boolean;
     FExibirErroSchema: Boolean;
     FFormatoAlerta: String;
     FRetirarAcentos: Boolean;
@@ -150,15 +150,14 @@ type
     procedure SetFormaEmissao(AValue: TpcnTipoEmissao);
     function GetFormatoAlerta: String;
   public
-    constructor Create(AOwner: TConfiguracoes); virtual;
+    constructor Create(AConfiguracoes: TConfiguracoes); virtual;
   published
     property SSLLib: TSSLLib read FSSLLib write SetSSLLib;
     property UnloadSSLLib: Boolean read FUnloadSSLLib write FUnloadSSLLib default True;
     property FormaEmissao: TpcnTipoEmissao read FFormaEmissao
       write SetFormaEmissao default teNormal;
     property FormaEmissaoCodigo: integer read FFormaEmissaoCodigo;
-    property AtualizarXMLCancelado: Boolean
-      read FAtualizarXMLCancelado write FAtualizarXMLCancelado default True;
+    property Salvar: Boolean read FSalvar write FSalvar default False;
     property ExibirErroSchema: Boolean read FExibirErroSchema write FExibirErroSchema;
     property FormatoAlerta: String read GetFormatoAlerta write FFormatoAlerta;
     property RetirarAcentos: Boolean read FRetirarAcentos write FRetirarAcentos;
@@ -172,35 +171,38 @@ type
 
   TArquivosConf = class(TComponent)
   private
-    FOwner: TConfiguracoes;
+    FConfiguracoes: TConfiguracoes;
 
     FPathSalvar: String;
     FPathSchemas: String;
     FIniServicos: String;
 
     FSalvar: Boolean;
-    FMensal: Boolean;
-    FLiteral: Boolean;
+    FAdicionarLiteral: Boolean;
     FSepararCNPJ: Boolean;
     FSepararModelo: Boolean;
+    FSepararPorMes: Boolean;
   private
 
     function GetIniServicos: String;
     function GetPathSalvar: String;
     function GetPathSchemas: String;
   public
-    constructor Create(AOwner: TConfiguracoes); virtual;
+    constructor Create(AConfiguracoes: TConfiguracoes); virtual;
 
+    function GetPath(APath: String; ALiteral: String): String; virtual;
   published
     property PathSalvar: String read GetPathSalvar write FPathSalvar;
     property PathSchemas: String read GetPathSchemas write FPathSchemas;
     property IniServicos: String read GetIniServicos write FIniServicos;
     property Salvar: Boolean read FSalvar write FSalvar default False;
-    property PastaMensal: Boolean read FMensal write FMensal default False;
-    property AdicionarLiteral: Boolean read FLiteral write FLiteral default False;
+    property AdicionarLiteral: Boolean read FAdicionarLiteral
+      write FAdicionarLiteral default False;
     property SepararPorCNPJ: Boolean read FSepararCNPJ write FSepararCNPJ default False;
     property SepararPorModelo: Boolean read FSepararModelo
       write FSepararModelo default False;
+    property SepararPorMes: Boolean
+      read FSepararPorMes write FSepararPorMes default False;
   end;
 
   { TConfiguracoes }
@@ -232,12 +234,17 @@ type
 implementation
 
 uses
-  Math, ACBrUtil, ACBrDFeUtil, DateUtils;
+  Math,
+  ACBrDFe, ACBrDFeUtil,
+  ACBrUtil, DateUtils;
 
 { TConfiguracoes }
 
 constructor TConfiguracoes.Create(AOwner: TComponent);
 begin
+  if not (AOwner is TACBrDFe) then
+    raise EACBrDFeException.Create('Owner de TConfiguracoes deve ser do tipo TACBrDFe');
+
   inherited Create(AOwner);
 
   FGeral := CreateGeralConf;
@@ -313,11 +320,11 @@ end;
 
 { TGeralConf }
 
-constructor TGeralConf.Create(AOwner: TConfiguracoes);
+constructor TGeralConf.Create(AConfiguracoes: TConfiguracoes);
 begin
-  inherited Create(AOwner);
+  inherited Create(AConfiguracoes);
 
-  FOwner := AOwner;
+  FConfiguracoes := AConfiguracoes;
   {$IFNDEF MSWINDOWS}
   FSSLLib := libOpenSSL;
   {$ELSE}
@@ -326,7 +333,7 @@ begin
   FUnloadSSLLib := True;
   FFormaEmissao := teNormal;
   FFormaEmissaoCodigo := StrToInt(TpEmisToStr(FFormaEmissao));
-  FAtualizarXMLCancelado := True;
+  FSalvar := False;
   FExibirErroSchema := True;
   FFormatoAlerta := 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.';
   // O Formato da mensagem de erro pode ser alterado pelo usuario alterando-se a property FFormatoAlerta: onde;
@@ -374,11 +381,11 @@ end;
 
 { TWebServicesConf }
 
-constructor TWebServicesConf.Create(AOwner: TConfiguracoes);
+constructor TWebServicesConf.Create(AConfiguracoes: TConfiguracoes);
 begin
-  inherited Create(AOwner);
+  inherited Create(AConfiguracoes);
 
-  FOwner := AOwner;
+  FConfiguracoes := AConfiguracoes;
   FParams := TStringList.Create;
 
   FUF := NFeUF[24];
@@ -432,17 +439,17 @@ begin
 end;
 
 function TWebServicesConf.LerParamsIniServicos: AnsiString;
-Var
+var
   SL: TStringList;
 begin
   Result := '';
 
-  if (FOwner.Arquivos.IniServicos <> '') and
-    FileExists(FOwner.Arquivos.IniServicos) then
+  if (FConfiguracoes.Arquivos.IniServicos <> '') and
+    FileExists(FConfiguracoes.Arquivos.IniServicos) then
   begin
     SL := TStringList.Create;
     try
-      SL.LoadFromFile(FOwner.Arquivos.IniServicos);
+      SL.LoadFromFile(FConfiguracoes.Arquivos.IniServicos);
       Result := SL.Text;
     finally
       SL.Free;
@@ -452,7 +459,7 @@ end;
 
 function TWebServicesConf.LerParamsInterno: AnsiString;
 begin
-   { SOBRESCREVER NAS CLASSES FILHAS, informando o conteudo DEFAULT do arquivo }
+  { SOBRESCREVER NAS CLASSES FILHAS, informando o conteudo DEFAULT do arquivo }
   Result := '';
 end;
 
@@ -484,11 +491,11 @@ end;
 
 { TCertificadosConf }
 
-constructor TCertificadosConf.Create(AOwner: TConfiguracoes);
+constructor TCertificadosConf.Create(AConfiguracoes: TConfiguracoes);
 begin
-  inherited Create(AOwner);
+  inherited Create(AConfiguracoes);
 
-  FOwner := AOwner;
+  FConfiguracoes := AConfiguracoes;
   FSenha := '';
   FArquivoPFX := '';
   FDadosPFX := '';
@@ -503,18 +510,18 @@ end;
 
 { TArquivosConf }
 
-constructor TArquivosConf.Create(AOwner: TConfiguracoes);
+constructor TArquivosConf.Create(AConfiguracoes: TConfiguracoes);
 begin
-  inherited Create(AOwner);
+  inherited Create(AConfiguracoes);
 
-  FOwner := AOwner;
+  FConfiguracoes := AConfiguracoes;
   FSalvar := False;
   FPathSalvar := '';
   FPathSchemas := '';
   FIniServicos := '';
 
-  FMensal := False;
-  FLiteral := False;
+  FSepararPorMes := False;
+  FAdicionarLiteral := False;
   FSepararCNPJ := False;
   FSepararModelo := False;
 end;
@@ -522,7 +529,7 @@ end;
 function TArquivosConf.GetPathSalvar: String;
 begin
   if FPathSalvar = '' then
-    if not (csDesigning in FOwner.Owner.ComponentState) then
+    if not (csDesigning in FConfiguracoes.Owner.ComponentState) then
       FPathSalvar := DFeUtil.PathAplication + PathDelim + 'Docs';
 
   FPathSalvar := PathWithDelim(Trim(FPathSalvar));
@@ -532,7 +539,7 @@ end;
 function TArquivosConf.GetPathSchemas: String;
 begin
   if FPathSchemas = '' then
-    if not (csDesigning in FOwner.Owner.ComponentState) then
+    if not (csDesigning in FConfiguracoes.Owner.ComponentState) then
       FPathSchemas := DFeUtil.PathAplication + PathDelim + 'Schemas';
 
   FPathSchemas := PathWithDelim(Trim(FPathSchemas));
@@ -542,10 +549,54 @@ end;
 function TArquivosConf.GetIniServicos: String;
 begin
   if FIniServicos = '' then
-    if not (csDesigning in FOwner.Owner.ComponentState) then
+    if not (csDesigning in FConfiguracoes.Owner.ComponentState) then
       FIniServicos := DFeUtil.PathAplication + PathDelim + 'ACBrServicos.ini';
 
   Result := FIniServicos;
+end;
+
+function TArquivosConf.GetPath(APath: String; ALiteral: String): String;
+var
+  wDia, wMes, wAno: word;
+  Dir, Modelo, AnoMes: String;
+  Data: TDateTime;
+  LenLiteral: integer;
+begin
+  if DFeUtil.EstaVazio(APath) then
+    Dir := PathSalvar
+  else
+    Dir := APath;
+
+  if SepararPorCNPJ and DFeUtil.NaoEstaVazio(FConfiguracoes.Certificados.CNPJ) then
+    Dir := PathWithDelim(Dir) + FConfiguracoes.Certificados.CNPJ;
+
+  if SepararPorModelo then
+  begin
+    Modelo := TACBrDFe(FConfiguracoes.Owner).NomeModeloDFe;
+    Dir := PathWithDelim(Dir) + Modelo;
+  end;
+
+  if SepararPorMes then
+  begin
+    Data := Now;
+    DecodeDate(Data, wAno, wMes, wDia);
+    AnoMes := IntToStr(wAno) + IntToStrZero(wMes, 2);
+
+    if Pos(AnoMes, Dir) <= 0 then
+      Dir := PathWithDelim(Dir) + AnoMes;
+  end;
+
+  LenLiteral := Length(ALiteral);
+  if AdicionarLiteral and (LenLiteral > 0) then
+  begin
+    if RightStr(Dir, LenLiteral) <> ALiteral then
+      Dir := PathWithDelim(Dir) + ALiteral;
+  end;
+
+  if not DirectoryExists(Dir) then
+    ForceDirectories(Dir);
+
+  Result := Dir;
 end;
 
 
