@@ -124,8 +124,6 @@ type
 
 implementation
 
-Uses pcnAuxiliar;
-
 { TRetConsReciNFe }
 
 constructor TRetConsReciNFe.Create;

@@ -112,7 +112,7 @@ type
 
 implementation
 
-Uses pcnAuxiliar, pcnConversaoNFe;
+Uses pcnConversaoNFe;
 
 { TRetInfEventoCollection }
 

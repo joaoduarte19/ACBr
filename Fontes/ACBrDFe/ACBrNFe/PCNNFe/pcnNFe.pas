@@ -1612,10 +1612,10 @@ type
 
     procedure SetDeduc(const Value: TDeducCollection);
     procedure SetForDia(const Value: TForDiaCollection);
-  private
+  public
     constructor Create(AOwner: TNFe);
-  published
     destructor Destroy; override;
+  published
     property safra: String read Fsafra write Fsafra;
     property ref: String read Fref write Fref;
     property fordia: TForDiaCollection read Ffordia write SetForDia;

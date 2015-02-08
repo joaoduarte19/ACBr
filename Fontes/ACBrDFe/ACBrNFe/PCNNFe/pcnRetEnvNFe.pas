@@ -92,8 +92,6 @@ type
 
 implementation
 
-Uses pcnAuxiliar;
-
 { TretEnvNFe }
 
 constructor TretEnvNFe.Create;

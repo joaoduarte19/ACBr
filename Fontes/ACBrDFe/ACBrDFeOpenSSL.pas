@@ -81,6 +81,10 @@ type
       override;
     function Enviar(const ConteudoXML: AnsiString; const URL: String;
       const SoapAction: String): AnsiString; override;
+    function Validar(const ConteudoXML, ArqSchema: String; out MsgErro: String
+      ): Boolean; override;
+    function ValidarAssinatura(const ConteudoXML: AnsiString;
+      out MsgErro: String): Boolean; override;
   end;
 
 implementation
@@ -210,6 +214,96 @@ begin
   //HTTP.Document.SaveToFile('c:\temp\ReqResp.xml');
 
   Result := RetornoWS;
+end;
+
+function TDFeOpenSSL.Validar(const ConteudoXML, ArqSchema: String; out
+  MsgErro: String): Boolean;
+var
+ doc, schema_doc : xmlDocPtr;
+ parser_ctxt : xmlSchemaParserCtxtPtr;
+ schema : xmlSchemaPtr;
+ valid_ctxt : xmlSchemaValidCtxtPtr;
+ schemError : xmlErrorPtr;
+
+ I: Integer;
+begin
+  Result := False;
+  doc := Nil;
+  schema_doc := Nil;
+  parser_ctxt := Nil;
+  CarregarCertificadoSeNecessario;
+
+  try
+    doc := xmlParseDoc(PAnsiChar(ConteudoXML));
+    if ((doc = nil) or (xmlDocGetRootElement(doc) = nil)) then
+    begin
+      MsgErro := 'Erro: unable to parse';
+      exit;
+    end;
+
+    schema_doc := xmlReadFile(Pansichar(ArqSchema), nil, XML_DETECT_IDS);
+    // the schema cannot be loaded or is not well-formed
+    if (schema_doc = nil) then
+    begin
+      MsgErro := 'Erro: Schema não pode ser carregado ou está corrompido';
+      exit;
+    end;
+
+    parser_ctxt := xmlSchemaNewDocParserCtxt(schema_doc);
+    // unable to create a parser context for the schema */
+    if (parser_ctxt = nil) then
+    begin
+      MsgErro := 'Erro: unable to create a parser context for the schema';
+      exit;
+    end;
+
+    schema := xmlSchemaParse(parser_ctxt);
+    // the schema itself is not valid
+    if (schema = nil) then
+    begin
+      MsgErro := 'Error: the schema itself is not valid';
+      exit;
+    end;
+
+    valid_ctxt := xmlSchemaNewValidCtxt(schema);
+    // unable to create a validation context for the schema */
+    if (valid_ctxt = nil) then
+    begin
+      MsgErro := 'Error: unable to create a validation context for the schema';
+      exit;
+    end;
+
+    if (xmlSchemaValidateDoc(valid_ctxt, doc) <> 0) then
+    begin
+      schemError := xmlGetLastError();
+      MsgErro := IntToStr(schemError^.code)+' - '+schemError^.message;
+    end
+    else
+      Result := True;
+
+  finally
+    { cleanup }
+    if (doc <> nil) then
+      xmlFreeDoc(doc);
+
+    if (schema_doc <> nil) then
+      xmlFreeDoc(schema_doc);
+
+    if (parser_ctxt <> nil) then
+      xmlSchemaFreeParserCtxt(parser_ctxt);
+
+    if (valid_ctxt <> nil) then
+      xmlSchemaFreeValidCtxt(valid_ctxt);
+
+    if (schema <> nil) then
+      xmlSchemaFree(schema);
+  end;
+end;
+
+function TDFeOpenSSL.ValidarAssinatura(const ConteudoXML: AnsiString; out
+  MsgErro: String): Boolean;
+begin
+
 end;
 
 function TDFeOpenSSL.XmlSecSign(const Axml: PAnsiChar): AnsiString;

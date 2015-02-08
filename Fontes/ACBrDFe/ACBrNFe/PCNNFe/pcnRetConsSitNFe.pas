@@ -117,8 +117,6 @@ type
 
 implementation
 
-Uses pcnAuxiliar;
-
 { TRetConsSitNFe }
 
 constructor TRetConsSitNFe.Create;

@@ -160,8 +160,6 @@ type
 
 implementation
 
-Uses pcnAuxiliar;
-
 { TRetDetEvento }
 
 procedure TRetDetEvento.setCondUso(const Value: String);

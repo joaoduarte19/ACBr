@@ -42,16 +42,13 @@ interface
 
 uses Classes, SysUtils,
   ACBrDFe, ACBrDFeWebService,
-  pcnNFe, pcnNFeW,
+  pcnNFe,
   pcnRetConsReciNFe, pcnRetConsCad, pcnAuxiliar, pcnConversao, pcnConversaoNFe,
   pcnRetDPEC, pcnProcNFe, pcnRetCancNFe, pcnEnvEventoNFe, pcnRetEnvEventoNFe,
   pcnRetConsSitNFe, pcnConsNFeDest, pcnRetConsNFeDest, pcnDownloadNFe,
   pcnRetDownloadNFe, pcnAdmCSCNFCe, pcnRetAdmCSCNFCe, pcnDistDFeInt,
   pcnRetDistDFeInt, pcnRetEnvNFe,
   ACBrNFeNotasFiscais, ACBrNFeConfiguracoes;
-
-const
-  CURL_WSDL = 'http://www.portalfiscal.inf.br/nfe/wsdl/';
 
 type
 
@@ -730,9 +727,9 @@ implementation
 
 uses StrUtils,
   ACBrUtil, ACBrNFe, ACBrDFeUtil,
-  pcnGerador, pcnCabecalho, pcnConsStatServ, pcnRetConsStatServ,
-  pcnCancNFe, pcnConsSitNFe, pcnInutNFe, pcnRetInutNFe, pcnConsReciNFe,
-  pcnConsCad, pcnNFeR, pcnLeitor, pcnEnvDPEC, pcnConsDPEC, pcnEventoNFe;
+  pcnGerador, pcnConsStatServ, pcnRetConsStatServ,
+  pcnConsSitNFe, pcnInutNFe, pcnRetInutNFe, pcnConsReciNFe,
+  pcnConsCad, pcnLeitor, pcnEnvDPEC, pcnConsDPEC;
 
 { TNFeWebService }
 
@@ -763,16 +760,11 @@ end;
 
 function TNFeWebService.CstatProcessado(AValue: integer): Boolean;
 begin
-  Result := (AValue in [100, 110, 150, 301, 302]);
 
   case AValue of
-    100: Result := True;
-    110: Result := True;
-    150: Result := True;
-    301: Result := True;
-    302: Result := True;
-    else
-      Result := False;
+    100, 110, 150, 301, 302: Result := True;
+  else
+    Result := False;
   end;
 end;
 
@@ -847,12 +839,12 @@ begin
     (FPConfiguracoesNFe.Geral.VersaoDF = ve310) and
     (FPConfiguracoesNFe.WebServices.UFCodigo = 29) then
   begin
-    FPServico := CURL_WSDL + 'NfeStatusServico';
+    FPServico := GetUrlWsd + 'NfeStatusServico';
     FPSoapAction := FPServico + '/NfeStatusServicoNF';
   end
   else
   begin
-    FPServico := CURL_WSDL + 'NfeStatusServico2';
+    FPServico := GetUrlWsd + 'NfeStatusServico2';
     FPSoapAction := FPServico;
   end;
 end;
@@ -983,9 +975,9 @@ end;
 procedure TNFeRecepcao.DefinirServicoEAction;
 begin
   if FPLayout = LayNfeAutorizacao then
-    FPServico := CURL_WSDL + 'NfeAutorizacao'
+    FPServico := GetUrlWsd + 'NfeAutorizacao'
   else
-    FPServico := CURL_WSDL + 'NfeRecepcao2';
+    FPServico := GetUrlWsd + 'NfeRecepcao2';
 
   FPSoapAction := FPServico;
 end;
@@ -1470,9 +1462,9 @@ end;
 procedure TNFeRetRecepcao.DefinirServicoEAction;
 begin
   if FPLayout = LayNfeRetAutorizacao then
-    FPServico := CURL_WSDL + 'NfeRetAutorizacao'
+    FPServico := GetUrlWsd + 'NfeRetAutorizacao'
   else
-    FPServico := CURL_WSDL + 'NfeRetRecepcao2';
+    FPServico := GetUrlWsd + 'NfeRetRecepcao2';
 
   FPSoapAction := FPServico;
 end;
@@ -1572,9 +1564,9 @@ end;
 procedure TNFeRecibo.DefinirServicoEAction;
 begin
   if FPLayout = LayNfeRetAutorizacao then
-    FPServico := CURL_WSDL + 'NfeRetAutorizacao'
+    FPServico := GetUrlWsd + 'NfeRetAutorizacao'
   else
-    FPServico := CURL_WSDL + 'NfeRetRecepcao2';
+    FPServico := GetUrlWsd + 'NfeRetRecepcao2';
 
   FPSoapAction := FPServico;
 end;
@@ -1679,9 +1671,9 @@ procedure TNFeConsulta.DefinirServicoEAction;
 begin
   if (FPConfiguracoesNFe.Geral.VersaoDF = ve310) and
     (FPConfiguracoesNFe.WebServices.UFCodigo in [29, 41]) then // 29 = BA, 41 = PR
-    FPServico := CURL_WSDL + 'NfeConsulta'
+    FPServico := GetUrlWsd + 'NfeConsulta'
   else
-    FPServico := CURL_WSDL + 'NfeConsulta2';
+    FPServico := GetUrlWsd + 'NfeConsulta2';
 
   FPSoapAction := FPServico;
 end;
@@ -2130,12 +2122,12 @@ begin
   if (FPConfiguracoesNFe.Geral.VersaoDF = ve310) and
     (FPConfiguracoesNFe.WebServices.UFCodigo in [29]) then // 29 = BA
   begin
-    FPServico := CURL_WSDL + 'NfeInutilizacao';
+    FPServico := GetUrlWsd + 'NfeInutilizacao';
     FPSoapAction := FPServico + '/NfeInutilizacao';
   end
   else
   begin
-    FPServico := CURL_WSDL + 'NfeInutilizacao2';
+    FPServico := GetUrlWsd + 'NfeInutilizacao2';
     FPSoapAction := FPServico;
   end;
 end;
@@ -2326,7 +2318,7 @@ end;
 
 procedure TNFeConsultaCadastro.DefinirServicoEAction;
 begin
-  FPServico := CURL_WSDL + 'CadConsultaCadastro2';
+  FPServico := GetUrlWsd + 'CadConsultaCadastro2';
   FPSoapAction := FPServico;
 end;
 
@@ -2402,7 +2394,7 @@ end;
 
 procedure TNFeEnvDPEC.DefinirServicoEAction;
 begin
-  FPServico := CURL_WSDL + 'SCERecepcaoRFB';
+  FPServico := GetUrlWsd + 'SCERecepcaoRFB';
   FPSoapAction := FPServico + '/sceRecepcaoDPEC';
 end;
 
@@ -2570,7 +2562,7 @@ end;
 
 procedure TNFeConsultaDPEC.DefinirServicoEAction;
 begin
-  FPServico := CURL_WSDL + 'SCEConsultaRFB';
+  FPServico := GetUrlWsd + 'SCEConsultaRFB';
   FPSoapAction := FPServico + '/sceConsultaDPEC';
 end;
 
@@ -2683,7 +2675,7 @@ end;
 
 procedure TNFeEnvEvento.DefinirServicoEAction;
 begin
-  FPServico := CURL_WSDL + 'RecepcaoEvento';
+  FPServico := GetUrlWsd + 'RecepcaoEvento';
   FPSoapAction := FPServico;
 end;
 
@@ -2974,7 +2966,7 @@ end;
 
 procedure TNFeConsNFeDest.DefinirServicoEAction;
 begin
-  FPServico := CURL_WSDL + 'NfeConsultaDest';
+  FPServico := GetUrlWsd + 'NfeConsultaDest';
   FPSoapAction := FPServico + '/nfeConsultaNFDest';
 end;
 
@@ -3056,7 +3048,7 @@ end;
 
 procedure TNFeDownloadNFe.DefinirServicoEAction;
 begin
-  FPServico := CURL_WSDL + 'NfeDownloadNF';
+  FPServico := GetUrlWsd + 'NfeDownloadNF';
   FPSoapAction := FPServico + '/nfeDownloadNF';
 end;
 
@@ -3155,7 +3147,7 @@ end;
 procedure TAdministrarCSCNFCe.DefinirServicoEAction;
 begin
   // O Método ainda não esta definido.
-  FPServico := CURL_WSDL + 'MetodoNaoDefinido';
+  FPServico := GetUrlWsd + 'MetodoNaoDefinido';
   FPSoapAction := FPServico;
 end;
 
@@ -3235,7 +3227,7 @@ end;
 
 procedure TDistribuicaoDFe.DefinirServicoEAction;
 begin
-  FPServico := CURL_WSDL + 'NFeDistribuicaoDFe';
+  FPServico := GetUrlWsd + 'NFeDistribuicaoDFe';
   FPSoapAction := FPServico + '/nfeDistDFeInteresse';
 end;
 
@@ -3314,6 +3306,7 @@ begin
   inherited Create(AOwner);
 
   FPStatus := stEnvioWebService;
+  FVersao := '';
 end;
 
 destructor TNFeEnvioWebService.Destroy;
@@ -3463,3 +3456,4 @@ begin
 end;
 
 end.
+

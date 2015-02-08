@@ -86,6 +86,8 @@ type
     procedure SalvarResposta; virtual;
     procedure FinalizarServico; virtual;
 
+    function GetUrlWsd: String;
+
     procedure AssinarXML(const AXML, docElement, infElement: String;
       MsgErro: String); virtual;
 
@@ -400,6 +402,11 @@ begin
   DFeUtil.ConfAmbiente;
 end;
 
+function TDFeWebService.GetUrlWsd: String;
+begin
+  Result := FPDFeOwner.GetNameSpaceURI+'/wsdl/';
+end;
+
 procedure TDFeWebService.AssinarXML(const AXML, docElement, infElement: String;
   MsgErro: String);
 begin
@@ -424,19 +431,6 @@ end.
 
 
 
-procedure TWebServicesBase.DefinirURL;
-begin
-  { sobrescrever apenas se necessário.
-    Você também pode mudar apenas o valor de "FLayoutServico" na classe
-    filha e chamar: Inherited;     }
-
-  FURL := NotaUtil.GetURL( FConfiguracoes.WebServices.UFCodigo,
-                           FConfiguracoes.WebServices.AmbienteCodigo,
-                           FConfiguracoes.Geral.FormaEmissaoCodigo,
-                           Layout,
-                           FConfiguracoes.Geral.ModeloDF,
-                           FConfiguracoes.Geral.VersaoDF );
-end;
 
 
 function TWebServicesBase.GerarVersaoDadosSoap: String;

@@ -59,8 +59,6 @@ const
 
 implementation
 
-Uses pcnAuxiliar;
-
 function CarregarLayoutTXT(const versao: string): AnsiString;
 var
   Layout: AnsiString;

@@ -75,8 +75,6 @@ type
 
 implementation
 
-Uses pcnAuxiliar;
-
 { TretAtuCadEmiDFe }
 
 constructor TretAtuCadEmiDFe.Create;

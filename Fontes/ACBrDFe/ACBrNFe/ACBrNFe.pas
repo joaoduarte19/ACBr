@@ -52,6 +52,7 @@ uses
 
 const
   ACBRNFE_VERSAO = '0.6.0a';
+  ACBRNFE_NAMESPACE = 'http://www.portalfiscal.inf.br/nfe';
 
 type
   EACBrNFeException = class(EACBrDFeException);
@@ -109,6 +110,7 @@ type
       Sincrono: Boolean = False): Boolean; overload;
 
     function NomeModeloDFe: String; override;
+    function GetNameSpaceURI: String; override;
 
     function Enviar(ALote: String; Imprimir: Boolean = True;
       Sincrono: Boolean = False): Boolean; overload;
@@ -233,6 +235,11 @@ end;
 function TACBrNFe.NomeModeloDFe: String;
 begin
   Result := IfThen(Configuracoes.Geral.ModeloDF = moNFe, 'NFe', 'NFCe')
+end;
+
+function TACBrNFe.GetNameSpaceURI: String;
+begin
+  Result := ACBRNFE_NAMESPACE;
 end;
 
 function TACBrNFe.GetConfiguracoes: TConfiguracoesNFe;

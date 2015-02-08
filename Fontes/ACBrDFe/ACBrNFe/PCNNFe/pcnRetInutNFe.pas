@@ -107,8 +107,6 @@ type
 
 implementation
 
-Uses pcnAuxiliar;
-
 { TretAtuCadEmiDFe }
 
 constructor TRetInutNFe.Create;

@@ -85,8 +85,6 @@ type
 
 implementation
 
-Uses pcnAuxiliar;
-
 { TRetDPEC }
 
 constructor TRetDPEC.Create;

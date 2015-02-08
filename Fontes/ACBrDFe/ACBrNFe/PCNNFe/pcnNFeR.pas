@@ -78,7 +78,6 @@ type
 implementation
 
 uses
-  StrUtils,
   pcnAuxiliar, pcnConversaoNFe,
   ACBrConsts;
 

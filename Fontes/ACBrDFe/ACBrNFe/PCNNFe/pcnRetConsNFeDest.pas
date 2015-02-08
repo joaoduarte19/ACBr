@@ -201,8 +201,6 @@ type
 
 implementation
 
-Uses pcnAuxiliar;
-
 { TRetCollection }
 
 function TRetCollection.Add: TRetCollectionItem;

@@ -78,6 +78,10 @@ type
       virtual;
     function Enviar(const ConteudoXML: AnsiString; const URL: String;
       const SoapAction: String): AnsiString; virtual;
+    function Validar(const ConteudoXML: AnsiString; const ArqSchema: String;
+      out MsgErro: String): Boolean; virtual;
+    function ValidarAssinatura(const ConteudoXML: AnsiString;
+      out MsgErro: String): Boolean; virtual;
 
     function SelecionarCertificado: String; virtual;
   end;
@@ -109,8 +113,15 @@ type
 
     // Nota: ConteudoXML, DEVE estar em UTF8 //
     function Assinar(const ConteudoXML, docElement, infElement: String): String;
+    // Envia por SoapAction o ConteudoXML para URL. Retorna a resposta do Servico //
     function Enviar(var ConteudoXML: AnsiString; const URL: String;
       const SoapAction: String): AnsiString;
+    // Valida um Arquivo contra o seu Schema. Retorna True se OK, preenche MsgErro se False //
+    function Validar(const ConteudoXML: AnsiString; ArqSchema: String;
+      out MsgErro: String): Boolean;
+    // Verifica se assinatura de um XML é válida. Retorna True se OK, preenche MsgErro se False //
+    function ValidarAssinatura(const ConteudoXML: AnsiString;
+      out MsgErro: String): Boolean;
 
     function SelecionarCertificado: String; virtual;
 
@@ -120,7 +131,7 @@ type
 implementation
 
 uses strutils, ACBrUtil, ACBrDFe, ACBrDFeUtil, ACBrDFeOpenSSL, ACBrDFeCapicom
-  {$IFNDEF FPC},ACBrDFeCapicomDelphiSoap{$ENDIF};
+  {$IFNDEF FPC}, ACBrDFeCapicomDelphiSoap{$ENDIF};
 
 { TDFeSSL }
 
@@ -161,6 +172,28 @@ begin
   // Nota: ConteudoXML, DEVE estar em UTF8 //
   InitSSLClass;
   Result := FSSLClass.Enviar(ConteudoXML, URL, SoapAction);
+end;
+
+function TDFeSSL.Validar(const ConteudoXML: AnsiString; ArqSchema: String; out
+  MsgErro: String): Boolean;
+begin
+  InitSSLClass;
+
+  if pos(PathDelim, ArqSchema) = 0 then
+    ArqSchema := TACBrDFe(FDFeOwner).Configuracoes.Arquivos.PathSchemas + ArqSchema;
+
+  if not FileExists(ArqSchema) then
+    raise EACBrDFeException.Create('Arquivo ' + sLineBreak +
+      ArqSchema + sLineBreak + 'Não encontrado');
+
+  Result := FSSLClass.Validar(ConteudoXML, ArqSchema, MsgErro);
+end;
+
+function TDFeSSL.ValidarAssinatura(const ConteudoXML: AnsiString;
+  out MsgErro: String): Boolean;
+begin
+  InitSSLClass;
+  Result := FSSLClass.ValidarAssinatura(ConteudoXML, MsgErro);
 end;
 
 function TDFeSSL.SelecionarCertificado: String;
@@ -214,8 +247,8 @@ begin
       FSSLClass := TDFeCapicom.Create(FConfiguracoes);
       {$ENDIF}
     end
-  else
-    FSSLClass := TDFeSSLClass.Create(FConfiguracoes);
+    else
+      FSSLClass := TDFeSSLClass.Create(FConfiguracoes);
   end;
 
   FSSLLib := ASSLLib;
@@ -252,10 +285,25 @@ begin
   raise EACBrDFeException.Create(ClassName + '.Enviar não implementado');
 end;
 
+function TDFeSSLClass.Validar(const ConteudoXML: AnsiString;
+  const ArqSchema: String; out MsgErro: String): Boolean;
+begin
+  Result := False;
+  raise EACBrDFeException.Create('"Validar" não suportado em: ' + ClassName);
+end;
+
+function TDFeSSLClass.ValidarAssinatura(const ConteudoXML: AnsiString;
+  out MsgErro: String): Boolean;
+begin
+  Result := False;
+  raise EACBrDFeException.Create('"ValidarAssinatura" não suportado em: ' + ClassName);
+end;
+
 function TDFeSSLClass.SelecionarCertificado: String;
 begin
   Result := '';
-  raise EACBrDFeException.Create('"SelecionarCertificado" não suportado em: ' + ClassName);
+  raise EACBrDFeException.Create('"SelecionarCertificado" não suportado em: ' +
+    ClassName);
 end;
 
 procedure TDFeSSLClass.CarregarCertificado;
@@ -313,8 +361,6 @@ begin
 end;
 
 end.
-
-
 (*
 
 // TODO: Verificar chamadas de assintura...

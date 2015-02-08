@@ -104,6 +104,8 @@ type
     destructor Destroy; override;
 
     function NomeModeloDFe: String; virtual;
+    function GetNameSpaceURI: String; virtual;
+
     function Gravar(NomeXML: String; ConteudoXML: String; aPath: String = ''): Boolean;
     procedure EnviarEmail(const sSmtpHost, sSmtpPort, sSmtpUser,
       sSmtpPasswd, sFrom, sTo, sAssunto: String; sMensagem: TStrings;
@@ -198,6 +200,11 @@ begin
 end;
 
 function TACBrDFe.NomeModeloDFe: String;
+begin
+  Result := '';
+end;
+
+function TACBrDFe.GetNameSpaceURI: String;
 begin
   Result := '';
 end;

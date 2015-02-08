@@ -157,7 +157,6 @@ type
 implementation
 
 uses
-  pcnAuxiliar,
   ACBrUtil;
 
 { RetConsCad }

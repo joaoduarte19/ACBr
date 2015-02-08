@@ -182,9 +182,9 @@ type
 
 implementation
 
-Uses Math,
-  pcnAuxiliar, pcnNFeR
-  {$IFDEF FPC},zstream {$ELSE},ZLibExGZ{$ENDIF};
+Uses
+  pcnAuxiliar,
+  {$IFDEF FPC}zstream {$ELSE}ZLibExGZ{$ENDIF};
 
 { TdocZipCollection }
 
@@ -252,7 +252,6 @@ var
   StrStream: TStringStream;
   StrAux, StrDecod: String;
   oLeitorInfZip: TLeitor;
-  XMLNFe: String;
 
   {$IFDEF FPC}
   { Descompacta um arquivo padrão GZIP de Stream... Fontes:
@@ -278,6 +277,7 @@ var
 
     MS := TMemoryStream.Create;
     DS := Tdecompressionstream.Create(S, (S.Position > 0) );
+    Buf[0] := 0;
     try
       repeat
         readCount := DS.Read(Buf, SizeOf(Buf));

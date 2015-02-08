@@ -67,7 +67,8 @@ type
 
   protected
     procedure CarregarCertificado; override;
-    procedure ConfiguraReqResp(const URL, SoapAction: String);
+    procedure ConfiguraReqResp(const URL, SoapAction: String); virtual;
+    procedure Executar(const ConteudoXML: AnsiString; Resp: TMemoryStream); virtual;
 
     function GetCertDataVenc: TDateTime; override;
     function GetCertNumeroSerie: AnsiString; override;
@@ -86,6 +87,10 @@ type
       override;
     function Enviar(const ConteudoXML: AnsiString; const URL: String;
       const SoapAction: String): AnsiString; override;
+    function Validar(const ConteudoXML, ArqSchema: String; out MsgErro: String
+      ): Boolean; override;
+    function ValidarAssinatura(const ConteudoXML: AnsiString;
+      out MsgErro: String): Boolean; override;
 
     function SelecionarCertificado: String; override;
   end;
@@ -93,7 +98,7 @@ type
 implementation
 
 uses
-  strutils, ACBrUtil, ACBrDFeUtil;
+  strutils, ACBrUtil, ACBrDFe, ACBrDFeUtil;
 
 { TDFeCapicom }
 
@@ -459,8 +464,7 @@ begin
 
   Resp := TMemoryStream.Create;
   try
-    // Enviando, dispara exceptions no caso de erro //
-    FReqResp.Execute(ConteudoXML, Resp);
+    Executar(ConteudoXML, Resp);
 
     // Movendo Resposta de Stream para AnsiString //
     SetLength(RetornoWS, Resp.Size);
@@ -473,6 +477,51 @@ begin
   end;
 
   Result := RetornoWS;
+end;
+
+procedure TDFeCapicom.Executar(const ConteudoXML: AnsiString; Resp: TMemoryStream);
+begin
+  // Enviando, dispara exceptions no caso de erro //
+  FReqResp.Execute(ConteudoXML, Resp);
+end;
+
+
+function TDFeCapicom.Validar(const ConteudoXML, ArqSchema: String;
+  out MsgErro: String): Boolean;
+var
+  DOMDocument: IXMLDOMDocument2;
+  ParseError: IXMLDOMParseError;
+  Schema: XMLSchemaCache;
+begin
+  DOMDocument := CoDOMDocument50.Create;
+  Schema := CoXMLSchemaCache50.Create;
+  try
+    DOMDocument.async := False;
+    DOMDocument.resolveExternals := False;
+    DOMDocument.validateOnParse := True;
+    DOMDocument.loadXML(ConteudoXML);
+
+    Schema.add( TACBrDFe(Configuracoes.Owner).GetNameSpaceURI , ArqSchema);
+
+    DOMDocument.schemas := Schema;
+    ParseError := DOMDocument.validate;
+    try
+      Result := (ParseError.errorCode = 0);
+      MsgErro := ParseError.reason;
+    finally
+      ParseError := nil;
+    end;
+  finally
+    DOMDocument := nil;
+    Schema := nil;
+  end;
+end;
+
+function TDFeCapicom.ValidarAssinatura(const ConteudoXML: AnsiString; out
+  MsgErro: String): Boolean;
+
+begin
+
 end;
 
 procedure TDFeCapicom.ConfiguraReqResp(const URL, SoapAction: String);
@@ -498,6 +547,5 @@ begin
   else
     FReqResp.MimeType := 'text/xml';
 end;
-
 
 end.

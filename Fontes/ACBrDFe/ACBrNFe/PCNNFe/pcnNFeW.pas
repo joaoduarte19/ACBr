@@ -68,6 +68,8 @@ type
 
   TGeradorOpcoes = class;
 
+  { TNFeW }
+
   TNFeW = class(TPersistent)
   private
     FGerador: TGerador;
@@ -142,7 +144,7 @@ type
     procedure GerarforDia;
     procedure GerarDeduc;
 
-    procedure AjustarMunicipioUF(var xUF: String; var xMun: String; var cMun: Integer; cPais: Integer; vxUF, vxMun: String; vcMun: Integer);
+    procedure AjustarMunicipioUF(out xUF: String; out xMun: String; out cMun: Integer; cPais: Integer; vxUF, vxMun: String; vcMun: Integer);
     function ObterNomeMunicipio(const xMun, xUF: String; const cMun: Integer): String;
   public
     constructor Create(AOwner: TNFe);
@@ -711,30 +713,9 @@ begin
 end;
 
 procedure TNFeW.GerarEntrega;
-var
-  cMun: Integer;
-  xMun: String;
-  xUF: String;
 begin
   if trim(nfe.Entrega.xLgr) <> '' then
   begin
-    (*
-    AjustarMunicipioUF(xUF, xMun, cMun, nfe.Dest.enderDest.cPais, nfe.Entrega.UF, nfe.Entrega.xMun, nfe.Entrega.cMun);
-    Gerador.wGrupo('entrega', 'G01');
-    Gerador.wCampoCNPJCPF('G02', 'G02a', nfe.Entrega.CNPJCPF, nfe.Dest.enderDest.cPais);
-    Gerador.wCampo(tcStr, 'G03', 'xLgr   ', 02, 60, 1, nfe.Entrega.xLgr, DSC_XLGR);
-    Gerador.wCampo(tcStr, 'G04', 'nro    ', 01, 60, 1, ExecutarAjusteTagNro(FOpcoes.FAjustarTagNro, nfe.Entrega.nro), DSC_NRO);
-    Gerador.wCampo(tcStr, 'G05', 'xCpl   ', 01, 60, 0, nfe.Entrega.xCpl, DSC_XCPL);
-    Gerador.wCampo(tcStr, 'G06', 'xBairro', 01, 60, 1, nfe.Entrega.xBairro, DSC_XBAIRRO);
-    Gerador.wCampo(tcInt, 'G07', 'cMun   ', 01, 07, 1, cMun, DSC_CMUN);
-    if not ValidarMunicipio(cMun) then
-      Gerador.wAlerta('F07', 'cMun', DSC_CMUN, ERR_MSG_INVALIDO);
-    Gerador.wCampo(tcStr, 'G08', 'xMun   ', 02, 60, 1, xMun, DSC_XMUN);
-    Gerador.wCampo(tcStr, 'G09', 'UF     ', 02, 02, 1, xUF, DSC_UF);
-    if not ValidarUF(xUF) then
-      Gerador.wAlerta('G09', 'UF', DSC_UF, ERR_MSG_INVALIDO);
-    Gerador.wGrupo('/entrega');
-    *)
     Gerador.wGrupo('entrega', 'G01');
     Gerador.wCampoCNPJCPF('G02', 'G02a', nfe.Entrega.CNPJCPF, 1058);
     Gerador.wCampo(tcStr, 'G03', 'xLgr   ', 02, 60, 1, nfe.Entrega.xLgr, DSC_XLGR);
@@ -2244,7 +2225,8 @@ end;
 
 // Outras //////////////////////////////////////////////////////////////////////
 
-procedure TNFeW.AjustarMunicipioUF(var xUF: String; var xMun: String; var cMun: Integer; cPais: Integer; vxUF, vxMun: String; vcMun: Integer);
+procedure TNFeW.AjustarMunicipioUF(out xUF: String; out xMun: String; out
+  cMun: Integer; cPais: Integer; vxUF, vxMun: String; vcMun: Integer);
 var
   PaisBrasil: Boolean;
 begin

@@ -105,8 +105,6 @@ type
 
 implementation
 
-Uses pcnAuxiliar;
-
 { TRetdadosCscCollection }
 
 function TRetdadosCscCollection.Add: TRetdadosCscCollectionItem;

@@ -215,8 +215,6 @@ type
 
 implementation
 
-Uses pcnAuxiliar;
-
 { TInfEvento }
 
 constructor TInfEvento.Create;

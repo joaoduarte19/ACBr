@@ -85,8 +85,6 @@ type
 
 implementation
 
-Uses pcnAuxiliar;
-
 { TRetCancNFe }
 
 constructor TRetCancNFe.Create;

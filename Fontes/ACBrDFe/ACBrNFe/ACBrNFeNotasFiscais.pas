@@ -275,59 +275,60 @@ procedure NotaFiscal.EnviarEmail(const sSmtpHost,
                                       TLS : Boolean = True;
                                       UsarThread: Boolean = True;
                                       HTML:Boolean = False);
-var
- NomeArq : String;
- AnexosEmail:TStrings;
- StreamNFe : TStringStream;
+////var
+//// NomeArq : String;
+//// AnexosEmail:TStrings;
+//// StreamNFe : TStringStream;
 begin
- AnexosEmail := TStringList.Create;
- StreamNFe  := TStringStream.Create('');
- try
-    AnexosEmail.Clear;
-    if Anexos <> nil then
-      AnexosEmail.Text := Anexos.Text;
-    if NomeArq <> '' then
-     begin
-       SaveToFile(NomeArq);
-       AnexosEmail.Add(NomeArq);
-     end
-    else
-     begin
-       SaveToStream(StreamNFe);
-     end;
-    if (EnviaPDF) then
-    begin
-       if TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).DANFE <> nil then
-       begin
-          TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).DANFE.ImprimirDANFEPDF(NFe);
-          NomeArq :=  StringReplace(NFe.infNFe.ID,'NFe', '', [rfIgnoreCase]);
-          NomeArq := PathWithDelim(TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).DANFE.PathPDF)+NomeArq+'-nfe.pdf';
-          AnexosEmail.Add(NomeArq);
-       end;
-    end;
-    TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).EnviarEmail(sSmtpHost,
-                sSmtpPort,
-                sSmtpUser,
-                sSmtpPasswd,
-                sFrom,
-                sTo,
-                sAssunto,
-                sMensagem,
-                SSL,
-                sCC,
-                AnexosEmail,
-                PedeConfirma,
-                AguardarEnvio,
-                NomeRemetente,
-                TLS,
-                StreamNFe,
-                copy(NFe.infNFe.ID, (length(NFe.infNFe.ID)-44)+1, 44)+'-nfe.xml',
-                UsarThread,
-                HTML);
- finally
-    AnexosEmail.Free;
-    StreamNFe.Free;
- end;
+  // TODO:
+ ////AnexosEmail := TStringList.Create;
+ ////StreamNFe  := TStringStream.Create('');
+ ////try
+ ////   AnexosEmail.Clear;
+ ////   if Anexos <> nil then
+ ////     AnexosEmail.Text := Anexos.Text;
+ ////   if NomeArq <> '' then
+ ////    begin
+ ////      SaveToFile(NomeArq);
+ ////      AnexosEmail.Add(NomeArq);
+ ////    end
+ ////   else
+ ////    begin
+ ////      SaveToStream(StreamNFe);
+ ////    end;
+ ////   if (EnviaPDF) then
+ ////   begin
+ ////      if TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).DANFE <> nil then
+ ////      begin
+ ////         TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).DANFE.ImprimirDANFEPDF(NFe);
+ ////         NomeArq :=  StringReplace(NFe.infNFe.ID,'NFe', '', [rfIgnoreCase]);
+ ////         NomeArq := PathWithDelim(TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).DANFE.PathPDF)+NomeArq+'-nfe.pdf';
+ ////         AnexosEmail.Add(NomeArq);
+ ////      end;
+ ////   end;
+ ////   TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).EnviarEmail(sSmtpHost,
+ ////               sSmtpPort,
+ ////               sSmtpUser,
+ ////               sSmtpPasswd,
+ ////               sFrom,
+ ////               sTo,
+ ////               sAssunto,
+ ////               sMensagem,
+ ////               SSL,
+ ////               sCC,
+ ////               AnexosEmail,
+ ////               PedeConfirma,
+ ////               AguardarEnvio,
+ ////               NomeRemetente,
+ ////               TLS,
+ ////               StreamNFe,
+ ////               copy(NFe.infNFe.ID, (length(NFe.infNFe.ID)-44)+1, 44)+'-nfe.xml',
+ ////               UsarThread,
+ ////               HTML);
+ ////finally
+ ////   AnexosEmail.Free;
+ ////   StreamNFe.Free;
+ ////end;
 end;
 
 function NotaFiscal.GetNFeXML: String;

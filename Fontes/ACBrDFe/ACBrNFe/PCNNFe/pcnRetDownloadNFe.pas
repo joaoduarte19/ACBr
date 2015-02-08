@@ -117,7 +117,7 @@ type
 implementation
 
 Uses
-  pcnGerador, pcnAuxiliar,
+  pcnGerador,
   ACBrUtil;
 
 { TRetNFeCollection }

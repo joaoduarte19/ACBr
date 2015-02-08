@@ -56,11 +56,15 @@ type
 
     procedure OnBeforePost(const HTTPReqResp: THTTPReqResp; Data: Pointer);
   protected
-    procedure ConfiguraReqResp(const URL, SoapAction: String);
+    procedure ConfiguraReqResp(const URL, SoapAction: String); override;
+    procedure Executar(const ConteudoXML: AnsiString; Resp: TMemoryStream); override;
 
   public
     constructor Create(AConfiguracoes: TConfiguracoes);
     destructor Destroy; override;
+
+    function Enviar(const ConteudoXML: AnsiString; const URL: String;
+      const SoapAction: String): AnsiString; override;
   end;
 
 implementation
@@ -138,6 +142,13 @@ begin
   FIndyReqResp.OnBeforePost := OnBeforePost;
   FIndyReqResp.UseUTF8InHeader := True;
   FURL := URL;
+end;
+
+procedure TDFeCapicomDelphiSoap.Executar(const ConteudoXML: AnsiString;
+  Resp: TMemoryStream);
+begin
+  // Enviando, dispara exceptions no caso de erro //
+  FIndyReqResp.Execute(ConteudoXML, Resp);
 end;
 
 
