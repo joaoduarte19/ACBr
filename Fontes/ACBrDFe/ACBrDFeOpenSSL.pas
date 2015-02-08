@@ -81,9 +81,9 @@ type
       override;
     function Enviar(const ConteudoXML: AnsiString; const URL: String;
       const SoapAction: String): AnsiString; override;
-    function Validar(const ConteudoXML, ArqSchema: String; out MsgErro: String
-      ): Boolean; override;
-    function ValidarAssinatura(const ConteudoXML: AnsiString;
+    function Validar(const ConteudoXML, ArqSchema: String;
+      out MsgErro: String): Boolean; override;
+    function VerificarAssinatura(const ConteudoXML: AnsiString;
       out MsgErro: String): Boolean; override;
   end;
 
@@ -216,22 +216,22 @@ begin
   Result := RetornoWS;
 end;
 
-function TDFeOpenSSL.Validar(const ConteudoXML, ArqSchema: String; out
-  MsgErro: String): Boolean;
+function TDFeOpenSSL.Validar(const ConteudoXML, ArqSchema: String;
+  out MsgErro: String): Boolean;
 var
- doc, schema_doc : xmlDocPtr;
- parser_ctxt : xmlSchemaParserCtxtPtr;
- schema : xmlSchemaPtr;
- valid_ctxt : xmlSchemaValidCtxtPtr;
- schemError : xmlErrorPtr;
+  doc, schema_doc: xmlDocPtr;
+  parser_ctxt: xmlSchemaParserCtxtPtr;
+  schema: xmlSchemaPtr;
+  valid_ctxt: xmlSchemaValidCtxtPtr;
+  schemError: xmlErrorPtr;
 
- I: Integer;
+  I: integer;
 begin
-  Result := False;
-  doc := Nil;
-  schema_doc := Nil;
-  parser_ctxt := Nil;
   CarregarCertificadoSeNecessario;
+  Result := False;
+  doc := nil;
+  schema_doc := nil;
+  parser_ctxt := nil;
 
   try
     doc := xmlParseDoc(PAnsiChar(ConteudoXML));
@@ -241,7 +241,7 @@ begin
       exit;
     end;
 
-    schema_doc := xmlReadFile(Pansichar(ArqSchema), nil, XML_DETECT_IDS);
+    schema_doc := xmlReadFile(PAnsiChar(ArqSchema), nil, XML_DETECT_IDS);
     // the schema cannot be loaded or is not well-formed
     if (schema_doc = nil) then
     begin
@@ -276,7 +276,7 @@ begin
     if (xmlSchemaValidateDoc(valid_ctxt, doc) <> 0) then
     begin
       schemError := xmlGetLastError();
-      MsgErro := IntToStr(schemError^.code)+' - '+schemError^.message;
+      MsgErro := IntToStr(schemError^.code) + ' - ' + schemError^.message;
     end
     else
       Result := True;
@@ -300,10 +300,87 @@ begin
   end;
 end;
 
-function TDFeOpenSSL.ValidarAssinatura(const ConteudoXML: AnsiString; out
-  MsgErro: String): Boolean;
+function TDFeOpenSSL.VerificarAssinatura(const ConteudoXML: AnsiString;
+  out MsgErro: String): Boolean;
+var
+  doc: xmlDocPtr;
+  node: xmlNodePtr;
+  dsigCtx: xmlSecDSigCtxPtr;
+  mngr: xmlSecKeysMngrPtr;
+  Publico: String;
+  MS: TMemoryStream;
 begin
+  CarregarCertificadoSeNecessario;
+  Result := False;
+  Publico := copy(ConteudoXML, pos('<X509Certificate>', ConteudoXML) +
+    17, pos('</X509Certificate>', ConteudoXML) -
+    (pos('<X509Certificate>', ConteudoXML) + 17));
 
+  MS := TMemoryStream.Create;
+  try
+    MS.WriteBuffer(Publico[1], Length(Publico));
+
+    //xmlSecCryptoAppKeyCertLoadMemory;
+    MS.Position := 0;
+    if (xmlSecCryptoAppKeysMngrCertLoadMemory(mngr, MS.Memory, MS.Size,
+      xmlSecKeyDataFormatUnknown, 1) < 0) then
+    begin
+      MsgErro := 'Error: failed to load certificate';
+      exit;
+    end;
+
+    //xmlSecOpenSSLAppKeyCertLoadMemory;
+    doc := xmlParseDoc(PAnsiChar(ConteudoXML));
+    if ((doc = nil) or (xmlDocGetRootElement(doc) = nil)) then
+    begin
+      MsgErro := 'Error: unable to parse';
+      exit;
+    end;
+
+    node := xmlSecFindNode(xmlDocGetRootElement(doc), xmlSecNodeSignature, xmlSecDSigNs);
+    if (node = nil) then
+    begin
+      MsgErro := 'Error: start node not found';
+      exit;
+    end;
+
+    dsigCtx := xmlSecDSigCtxCreate(nil);
+    if (dsigCtx = nil) then
+    begin
+      MsgErro := 'Error :failed to create signature context';
+      exit;
+    end;
+
+    MS.Position := 0;
+    dsigCtx^.signKey := xmlSecCryptoAppKeyLoadMemory(MS.Memory, MS.Size,
+      xmlSecKeyDataFormatPem, '', nil, nil);
+    if (dsigCtx^.signKey = nil) then
+    begin
+      MsgErro := 'Error: failed to load public pem key from XML';
+      exit;
+    end;
+
+    { Verify signature }
+    if (xmlSecDSigCtxVerify(dsigCtx, node) < 0) then
+    begin
+      MsgErro := 'Error: signature verify';
+      exit;
+    end;
+
+    Result := (dsigCtx.status = xmlSecDSigStatusSucceeded);
+  finally
+    { cleanup }
+    MS.Free;
+
+    if (doc <> nil) then
+      xmlFreeDoc(doc);
+
+    if (node <> nil) then
+      xmlFreeNode(node);
+
+    if (dsigCtx <> nil) then
+      xmlSecDSigCtxDestroy(dsigCtx);
+  end;
 end;
 
 function TDFeOpenSSL.XmlSecSign(const Axml: PAnsiChar): AnsiString;
@@ -377,7 +454,6 @@ begin
     if not (LoadFromFile or LoadFromData) then
       raise EACBrDFeException.Create('Arquivo: ' + ArquivoPFX + ' não encontrado');
 
-
     // Se FdsigCtx já existia, destrua e crie um novo //
     if (FdsigCtx <> nil) then
     begin
@@ -396,8 +472,7 @@ begin
       FHTTP.Sock.SSL.PFXfile := ArquivoPFX;
 
       FdsigCtx^.signKey := xmlSecCryptoAppKeyLoad(
-        PAnsiChar(ArquivoPFX),
-        xmlSecKeyDataFormatPkcs12,
+        PAnsiChar(ArquivoPFX), xmlSecKeyDataFormatPkcs12,
         PAnsiChar(Senha), nil, nil);
 
       if (FdsigCtx^.signKey = nil) then
@@ -412,8 +487,7 @@ begin
       try
         MS.WriteBuffer(DadosPFX[1], Length(DadosPFX));
         FdsigCtx^.signKey := xmlSecCryptoAppKeyLoadMemory(
-          MS.Memory, MS.Size,
-          xmlSecKeyDataFormatPkcs12,
+          MS.Memory, MS.Size, xmlSecKeyDataFormatPkcs12,
           PAnsiChar(Senha), nil, nil);
 
         if (FdsigCtx^.signKey = nil) then
@@ -436,7 +510,7 @@ end;
 function TDFeOpenSSL.GetCertDataVenc: TDateTime;
 begin
   CarregarCertificadoSeNecessario;
-  Result := FdsigCtx^.signKey^.notValidAfter ;
+  Result := FdsigCtx^.signKey^.notValidAfter;
 end;
 
 function TDFeOpenSSL.GetCertNumeroSerie: AnsiString;
@@ -444,14 +518,14 @@ var
   Data: xmlSecPtrPtr;
 begin
   CarregarCertificadoSeNecessario;
-  Data := FdsigCtx^.signKey^.dataList^.data  ;
-  Result :=  FHTTP.Sock.SSL.GetCertInfo;
+  Data := FdsigCtx^.signKey^.dataList^.Data;
+  Result := FHTTP.Sock.SSL.GetCertInfo;
 end;
 
 function TDFeOpenSSL.GetCertSubjectName: String;
 begin
   CarregarCertificadoSeNecessario;
-  Result := FdsigCtx^.signKey^.name ;
+  Result := FdsigCtx^.signKey^.Name;
 end;
 
 procedure TDFeOpenSSL.InitXmlSec;
@@ -534,7 +608,7 @@ procedure TDFeOpenSSL.CarregarCertificadoSeNecessario;
 var
   CertificadoLido: Boolean;
 begin
-  CertificadoLido := (FdsigCtx <> nil) and (FdsigCtx^.signKey <> nil) ;
+  CertificadoLido := (FdsigCtx <> nil) and (FdsigCtx^.signKey <> nil);
 
   if not CertificadoLido then
     CarregarCertificado;

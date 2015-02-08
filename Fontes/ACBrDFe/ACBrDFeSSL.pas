@@ -80,7 +80,7 @@ type
       const SoapAction: String): AnsiString; virtual;
     function Validar(const ConteudoXML: AnsiString; const ArqSchema: String;
       out MsgErro: String): Boolean; virtual;
-    function ValidarAssinatura(const ConteudoXML: AnsiString;
+    function VerificarAssinatura(const ConteudoXML: AnsiString;
       out MsgErro: String): Boolean; virtual;
 
     function SelecionarCertificado: String; virtual;
@@ -120,7 +120,7 @@ type
     function Validar(const ConteudoXML: AnsiString; ArqSchema: String;
       out MsgErro: String): Boolean;
     // Verifica se assinatura de um XML é válida. Retorna True se OK, preenche MsgErro se False //
-    function ValidarAssinatura(const ConteudoXML: AnsiString;
+    function VerificarAssinatura(const ConteudoXML: AnsiString;
       out MsgErro: String): Boolean;
 
     function SelecionarCertificado: String; virtual;
@@ -189,11 +189,11 @@ begin
   Result := FSSLClass.Validar(ConteudoXML, ArqSchema, MsgErro);
 end;
 
-function TDFeSSL.ValidarAssinatura(const ConteudoXML: AnsiString;
+function TDFeSSL.VerificarAssinatura(const ConteudoXML: AnsiString;
   out MsgErro: String): Boolean;
 begin
   InitSSLClass;
-  Result := FSSLClass.ValidarAssinatura(ConteudoXML, MsgErro);
+  Result := FSSLClass.VerificarAssinatura(ConteudoXML, MsgErro);
 end;
 
 function TDFeSSL.SelecionarCertificado: String;
@@ -292,7 +292,7 @@ begin
   raise EACBrDFeException.Create('"Validar" não suportado em: ' + ClassName);
 end;
 
-function TDFeSSLClass.ValidarAssinatura(const ConteudoXML: AnsiString;
+function TDFeSSLClass.VerificarAssinatura(const ConteudoXML: AnsiString;
   out MsgErro: String): Boolean;
 begin
   Result := False;

@@ -87,9 +87,9 @@ type
       override;
     function Enviar(const ConteudoXML: AnsiString; const URL: String;
       const SoapAction: String): AnsiString; override;
-    function Validar(const ConteudoXML, ArqSchema: String; out MsgErro: String
-      ): Boolean; override;
-    function ValidarAssinatura(const ConteudoXML: AnsiString;
+    function Validar(const ConteudoXML, ArqSchema: String;
+      out MsgErro: String): Boolean; override;
+    function VerificarAssinatura(const ConteudoXML: AnsiString;
       out MsgErro: String): Boolean; override;
 
     function SelecionarCertificado: String; override;
@@ -499,29 +499,84 @@ begin
     DOMDocument.async := False;
     DOMDocument.resolveExternals := False;
     DOMDocument.validateOnParse := True;
-    DOMDocument.loadXML(ConteudoXML);
+    if (not DOMDocument.loadXML(ConteudoXML)) then
+    begin
+      MsgErro :='Não foi possível carregar o arquivo.';
+      exit;
+    end;
 
-    Schema.add( TACBrDFe(Configuracoes.Owner).GetNameSpaceURI , ArqSchema);
+    Schema.add(TACBrDFe(Configuracoes.Owner).GetNameSpaceURI, ArqSchema);
 
     DOMDocument.schemas := Schema;
     ParseError := DOMDocument.validate;
-    try
-      Result := (ParseError.errorCode = 0);
-      MsgErro := ParseError.reason;
-    finally
-      ParseError := nil;
-    end;
+
+    Result := (ParseError.errorCode = 0);
+    MsgErro := ParseError.reason;
   finally
+    ParseError := nil;
     DOMDocument := nil;
     Schema := nil;
   end;
 end;
 
-function TDFeCapicom.ValidarAssinatura(const ConteudoXML: AnsiString; out
-  MsgErro: String): Boolean;
-
+function TDFeCapicom.VerificarAssinatura(const ConteudoXML: AnsiString;
+  out MsgErro: String): Boolean;
+var
+  xmldoc: IXMLDOMDocument3;
+  xmldsig: IXMLDigitalSignature;
+  pKeyInfo: IXMLDOMNode;
+  pKey, pKeyOut: IXMLDSigKey;
 begin
+  xmldoc := CoDOMDocument50.Create;
+  xmldsig := CoMXDigitalSignature50.Create;
+  try
+    xmldoc.async := False;
+    xmldoc.validateOnParse := False;
+    xmldoc.preserveWhiteSpace := True;
 
+    if (not xmldoc.loadXML(ConteudoXML)) then
+    begin
+      MsgErro := 'Não foi possível carregar o arquivo.';
+      exit;
+    end;
+
+    xmldoc.setProperty('SelectionNamespaces', DSIGNS);
+    xmldsig.signature := xmldoc.selectSingleNode('.//ds:Signature');
+    if (xmldsig.signature = nil) then
+    begin
+      MsgErro := 'Não foi possível carregar ou ler a assinatura.';
+      exit;
+    end;
+
+    pKeyInfo := xmldoc.selectSingleNode('.//ds:KeyInfo/ds:X509Data');
+    if (pKeyInfo = nil) then
+    begin
+      MsgErro := 'Erro ao ler KeyInfo.';
+      exit;
+    end;
+
+    pKey := xmldsig.createKeyFromNode(pKeyInfo);
+    if (pKey = nil) then
+    begin
+      MsgErro := 'Erro criar a Chave de KeyInfo.';
+      exit;
+    end;
+
+    try
+      pKeyOut := xmldsig.verify(pKey);
+    except
+      on E: Exception do
+        MsgErro := 'Erro ao verificar assinatura do arquivo: ' + E.Message;
+    end;
+  finally
+    Result := (pKeyOut <> nil);
+
+    pKeyOut := nil;
+    pKey := nil;
+    pKeyInfo := nil;
+    xmldsig := nil;
+    xmldoc := nil;
+  end;
 end;
 
 procedure TDFeCapicom.ConfiguraReqResp(const URL, SoapAction: String);
