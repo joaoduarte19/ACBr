@@ -54,14 +54,14 @@
 *                    position handling issue in GZDecompressStream                               *
 *************************************************************************************************}
 
-unit ZLibExGZ;
+unit ACBrZLibExGZ;
 
 interface
 
-{$I ZLibEx.inc}
+{$I ACBrZLibEx.inc}
 
 uses
-  ZLibEx, Windows, SysUtils, Classes {$IFDEF Version6Plus}, DateUtils {$ENDIF};
+  ACBrZLibEx, Windows, SysUtils, Classes {$IFDEF Version6Plus}, DateUtils {$ENDIF};
 
 type
   {** TGZHeader *********************************************************************************}
@@ -238,7 +238,7 @@ procedure GZDecompressFile(const inFileName, outFolder: String); overload;
 implementation
 
 uses
-  ZLibExApi;
+  ACBrZLibExApi;
 
 const
   GZ_ZLIB_WINDOWBITS = -15;

@@ -39,11 +39,11 @@
 *      2013.05.23  informing me about the zlib 1.2.8 update                                      *
 *************************************************************************************************}
 
-unit ZLibExApi;
+unit ACBrZLibExApi;
 
 interface
 
-{$I ZLibEx.inc}
+{$I ACBrZLibEx.inc}
 
 const
   {** version ids *******************************************************************************}

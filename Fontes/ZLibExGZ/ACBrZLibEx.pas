@@ -102,14 +102,14 @@
 *    2013.05.23  roman ganz                                                                      *
 *************************************************************************************************}
 
-unit ZLibEx;
+unit ACBrZLibEx;
 
 interface
 
-{$I ZLibEx.inc}
+{$I ACBrZLibEx.inc}
 
 uses
-  SysUtils, Classes, ZLibExApi;
+  SysUtils, Classes, ACBrZLibExApi;
 
 type
 

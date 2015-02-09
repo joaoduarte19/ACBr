@@ -184,7 +184,7 @@ implementation
 
 Uses
   pcnAuxiliar,
-  {$IFDEF FPC}zstream {$ELSE}ZLibExGZ{$ENDIF};
+  {$IFDEF FPC}zstream {$ELSE}ACBrZLibExGZ{$ENDIF};
 
 { TdocZipCollection }
 
