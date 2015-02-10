@@ -161,7 +161,13 @@ case FormaEmissao of
          27: Result := NotaUtil.GetURLSVRS(AAmbiente, ALayOut, AModeloDF, AVersaoDF); //AL
          16: Result := NotaUtil.GetURLSVRS(AAmbiente, ALayOut, AModeloDF, AVersaoDF); //AP
          13: Result := NotaUtil.GetURLAM(AAmbiente, ALayOut, AModeloDF, AVersaoDF);   //AM
-         29: Result := NotaUtil.GetURLBA(AAmbiente, ALayOut, AModeloDF, AVersaoDF);   //BA
+//         29: Result := NotaUtil.GetURLBA(AAmbiente, ALayOut, AModeloDF, AVersaoDF);   //BA
+         29: begin
+               if AModeloDF = moNFCe then
+                 Result := NotaUtil.GetURLSVRS(AAmbiente,ALayOut, AModeloDF, AVersaoDF)  //MA
+               else
+                 Result := NotaUtil.GetURLBA(AAmbiente, ALayOut, AModeloDF, AVersaoDF);   //BA
+             end;
          23: Result := NotaUtil.GetURLCE(AAmbiente, ALayOut, AModeloDF, AVersaoDF);   //CE
          53: Result := NotaUtil.GetURLSVRS(AAmbiente, ALayOut, AModeloDF, AVersaoDF); //DF
 
@@ -802,13 +808,13 @@ begin
   else
    begin
     case ALayOut of
-      LayNfeAutorizacao    : Result := ifThen(AAmbiente=1, '', '');
-      LayNfeRetAutorizacao : Result := ifThen(AAmbiente=1, '', '');
-      LayNfeInutilizacao   : Result := ifThen(AAmbiente=1, '', '');
-      LayNfeConsulta       : Result := ifThen(AAmbiente=1, '', '');
-      LayNfeStatusServico  : Result := ifThen(AAmbiente=1, '', '');
+      LayNfeAutorizacao    : Result := ifThen(AAmbiente=1, 'https://nfce.fazenda.sp.gov.br/ws/nfeautorizacao.asmx',    'https://homologacao.nfce.fazenda.sp.gov.br/ws/nfeautorizacao.asmx');
+      LayNfeRetAutorizacao : Result := ifThen(AAmbiente=1, 'https://nfce.fazenda.sp.gov.br/ws/nferetautorizacao.asmx', 'https://homologacao.nfce.fazenda.sp.gov.br/ws/nferetautorizacao.asmx');
+      LayNfeInutilizacao   : Result := ifThen(AAmbiente=1, 'https://nfce.fazenda.sp.gov.br/ws/nfeinutilizacao2.asmx',  'https://homologacao.nfce.fazenda.sp.gov.br/ws/nfeinutilizacao2.asmx');
+      LayNfeConsulta       : Result := ifThen(AAmbiente=1, 'https://nfce.fazenda.sp.gov.br/ws/nfeconsulta2.asmx',      'https://homologacao.nfce.fazenda.sp.gov.br/ws/nfeconsulta2.asmx');
+      LayNfeStatusServico  : Result := v(AAmbiente=1, 'https://nfce.fazenda.sp.gov.br/ws/nfestatusservico2.asmx', 'https://homologacao.nfce.fazenda.sp.gov.br/ws/nfestatusservico2.asmx');
       LayNFeCCe,
-      LayNFeEvento         : Result := ifThen(AAmbiente=1, '', '');
+      LayNFeEvento         : Result := ifThen(AAmbiente=1, 'https://nfce.fazenda.sp.gov.br/ws/recepcaoevento.asmx',    'https://homologacao.nfce.fazenda.sp.gov.br/ws/recepcaoevento.asmx');
 
       LayAdministrarCSCNFCe: Result := ifThen(AAmbiente=1, '', '');
     end;
@@ -1010,7 +1016,7 @@ begin
    27: urlUF := ifThen(AAmbiente = taProducao, '', ''); // AL
    16: urlUF := ifThen(AAmbiente = taProducao, '', ''); // AP
    13: urlUF := ifThen(AAmbiente = taProducao, 'http://sistemas.sefaz.am.gov.br/nfceweb/consultarNFCe.jsp', 'http://homnfce.sefaz.am.gov.br/nfceweb/consultarNFCe.jsp'); // AM
-   29: urlUF := ifThen(AAmbiente = taProducao, '', ''); // BA
+   29: urlUF := ifThen(AAmbiente = taProducao, 'http://nfe.sefaz.ba.gov.br/servicos/nfce/modulos/geral/NFCEC_consulta_chave_acesso.aspx', 'http://hnfe.sefaz.ba.gov.br/servicos/nfce/modulos/geral/NFCEC_consulta_chave_acesso.aspx'); // BA
    23: urlUF := ifThen(AAmbiente = taProducao, '', ''); // CE
    53: urlUF := ifThen(AAmbiente = taProducao, '', ''); // DF
    32: urlUF := ifThen(AAmbiente = taProducao, '', ''); // ES
@@ -1031,7 +1037,7 @@ begin
    11: urlUF := ifThen(AAmbiente = taProducao, 'http://www.nfce.sefin.ro.gov.br/consultanfce/consulta.jsp', 'http://www.nfce.sefin.ro.gov.br/consultanfce/consulta.jsp'); // RO
    14: urlUF := ifThen(AAmbiente = taProducao, '', ''); // RR
    42: urlUF := ifThen(AAmbiente = taProducao, '', ''); // SC
-   35: urlUF := ifThen(AAmbiente = taProducao, '', 'https://homologacao.nfce.fazenda.sp.gov.br/NFCeConsultaPublica/Paginas/ConsultaQRCode.aspx'); // SP
+   35: urlUF := ifThen(AAmbiente = taProducao, 'https://www.nfce.fazenda.sp.gov.br/NFCeConsultaPublica/Paginas/ConsultaQRCode.aspx', 'https://www.homologacao.nfce.fazenda.sp.gov.br/NFCeConsultaPublica/Paginas/ConsultaQRCode.aspx'); // SP
    28: urlUF := ifThen(AAmbiente = taProducao, 'http://www.nfe.se.gov.br/portal/consultarNFCe.jsp', 'http://www.hom.nfe.se.gov.br/portal/consultarNFCe.jsp'); // SE
    17: urlUF := ifThen(AAmbiente = taProducao, '', ''); // TO
   end;

@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+09/02/2015
+[*] Incluida as URLs da NFC-e para BA e SP.
+    por: Italo Jurisato Junior
+
 05/02/2015
 [*] Incluida as URLs de QR-Code da NFC-e para PI.
     por: Ricardo
