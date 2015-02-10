@@ -205,7 +205,7 @@ begin
      Result := True;
      ArqTXT := GerarXML(ArqXML, Alertas);
      if DFeUtil.EstaVazio(CaminhoArquivo) then
-        CaminhoArquivo := PathWithDelim(TACBrMDFe(TManifestos(Collection).ACBrMDFe).Configuracoes.Geral.PathSalvar) + copy(MDFe.infMDFe.ID, (length(MDFe.infMDFe.ID)-44)+1, 44)+'-MDFe.xml';
+        CaminhoArquivo := PathWithDelim(TACBrMDFe(TManifestos(Collection).ACBrMDFe).Configuracoes.Geral.PathSalvar) + copy(MDFe.infMDFe.ID, (length(MDFe.infMDFe.ID)-44)+1, 44)+'-mdfe.xml';
 
      if DFeUtil.EstaVazio(CaminhoArquivo) or not DirectoryExists(ExtractFilePath(CaminhoArquivo)) then
         raise EACBrMDFeException.Create('Caminho Inválido: ' + CaminhoArquivo);
