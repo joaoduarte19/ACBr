@@ -187,6 +187,27 @@ const
                                                 '510620',
                                                 '110140',
                                                 '610600');
+(*
+110110 - Carta de Correção
+110111 - Cancelamento
+110112 - Encerramento Homologado
+110113 - EPEC CT-e
+110114 - Inclusão de Condutor
+110140 - EPEC NF-e
+110160 - Registro Multimodal
+210200 - Confirmação da Operação
+210210 - Ciência da Operação
+210220 - Desconhecimento da Operação
+210240 - Operação não Realizada
+310620 - Registro de Passagem
+510620 - Registro de Passagem BRID
+610600 - CT-e Autorizado para NF-e
+610501 - Registro de Passagem para NF-e Cancelado
+610550 - Registro de Passagem para NF-e RFID
+610601 - CT-e Cancelado
+610611 - MDF-e Cancelado
+990900 - Vistoria Suframa
+*)
 
   NFeUF: array[0..26] of String =
   ('AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA',
