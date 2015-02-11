@@ -48,6 +48,8 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 10/02/2015
+[*] Atribuição do conteudo de xMotivo a xMsg.
+    por: Vanessa Mocellin 
 [*] Corrigido nome do XML, estava salvando -NFe em vez de -nfe.
     por: Italo Jurisato Junior
 
