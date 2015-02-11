@@ -48,6 +48,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+Data: 11/02/2015 ver. 0.0.108a
+
+-- ACBrBancoSicredi --
+[*] Adição de tratamento para os códigos de Mora aceitos pelo banco.(Moroni)
+http://www.projetoacbr.com.br/forum/index.php?/topic/19961-c%C3%B3digo-de-mora-sicredi/
+
 Data: 06/02/2015 ver. 0.0.107a
 
 -- ACBrBancoSicredi --

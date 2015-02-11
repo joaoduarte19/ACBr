@@ -87,6 +87,7 @@ begin
    fpTamanhoAgencia := 4;
    fpTamanhoConta   := 5;
    fpTamanhoCarteira:= 1;
+   fpCodigosMoraAceitos:= 'AB';
    fpCodigosGeracaoAceitos := '23456789';
 end;
 
@@ -289,8 +290,11 @@ begin
       if StrToIntDef(ACBrBoleto.Cedente.Modalidade,1) = 1 then
          wModalidade := 'A'
       else
-         wModalidade := 'C';
+         wModalidade := 'C'; 
 
+     if trim(CodigoMora) = '' then
+	   CodigoMora := 'A';
+     
       with ACBrBoleto do
       begin
          wLinha:= '1'                                                                   +  // 001 a 001 - Identificação do registro detalhe
@@ -300,7 +304,7 @@ begin
                   Space(12)                                                             +  // 005 a 016 - Filler - Brancos
                   'A'                                                                   +  // 017 a 017 - Tipo de moeda = "A" Real
                   'A'                                                                   +  // 018 a 018 - Tipo de desconto: "A" Valor "B" percentual
-                  'A'                                                                   +  // 019 a 019 - Tipo de juro: "A" Valor "B" percentual
+                  trim(CodigoMora)                                                      +  // 019 a 019 - Tipo de juro: "A" Valor "B" percentual
                   Space(28)                                                             +  // 020 a 047 - Filler - Brancos
                   padR(NossoNumero+DigitoNossoNumero,9,'0');                               // 048 a 056 - Nosso número sem edição YYXNNNNND - YY=Ano, X-Emissao, NNNNN-Sequência, D-Dígito
 
