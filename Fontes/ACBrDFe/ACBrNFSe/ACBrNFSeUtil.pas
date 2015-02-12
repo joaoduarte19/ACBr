@@ -529,7 +529,8 @@ begin
                      AStr := AStr + '</Rps>';
                      // Alterado por Cleiver em 26/02/2013
                      if (AProvedor in [proGoiania, proProdata, proVitoria, proFiorilli, proVirtual{, proSystemPro}])
-                      then AStr := AStr + '</GerarNfseEnvio>';
+                        or ((AProvedor = proGovDigital) and (not ASincrono)) then // Alterado por Nilton Olher - 11/02/2015
+                       AStr := AStr + '</GerarNfseEnvio>';
                     end;
       proTecnos:    begin
                      AStr := copy(AStr, 1, pos('</tcDeclaracaoPrestacaoServico>', AStr) - 1);
@@ -543,7 +544,8 @@ begin
             AStr := AStr + '</Rps>';
             // Alterado por Cleiver em 26/02/2013
             if (AProvedor in [proGoiania, proProdata, proVitoria])
-             then AStr := AStr + '</GerarNfseEnvio>';
+               or ((AProvedor = proGovDigital) and (not ASincrono)) then // Alterado por Nilton Olher - 11/02/2015
+              AStr := AStr + '</GerarNfseEnvio>';
            end;
      end;
     end;
@@ -851,7 +853,8 @@ begin
                        AXML := AXML + '</Rps>';
                        // Alterado por Cleiver em 26/02/2013
                        if (AProvedor in [proGoiania, proProdata, proVitoria, proFiorilli, proVirtual{, proSystemPro}])
-                        then AXML := AXML + '</GerarNfseEnvio>';
+                          or ((AProvedor = proGovDigital) and (not ASincrono)) then // Alterado por Nilton Olher - 11/02/2015
+                          AXML := AXML + '</GerarNfseEnvio>';
                       end;
         proTecnos:    begin
                        AXML := copy(AXML, 1, pos('</InfDeclaracaoPrestacaoServico>', AXML) - 1);
@@ -865,7 +868,8 @@ begin
               AXML := AXML + '</Rps>';
               // Alterado por Cleiver em 26/02/2013
               if (AProvedor in [proGoiania, proProdata, proVitoria, proPublica{, proSystemPro}])
-               then AXML := AXML + '</GerarNfseEnvio>';
+                 or ((AProvedor = proGovDigital) and (not ASincrono)) then // Alterado por Nilton Olher - 11/02/2015
+                AXML := AXML + '</GerarNfseEnvio>';
              end;
        end;
       end;
@@ -1008,7 +1012,8 @@ begin
 
                      // Alterado por Cleiver em 26/02/2013
                      if (AProvedor in [proGoiania, proProdata, proVitoria, proVirtual{, proSystemPro}])
-                      then AXML := AXML + '</GerarNfseEnvio>';
+                        or ((AProvedor = proGovDigital) and (not ASincrono)) then // Alterado por Nilton Olher - 11/02/2015
+                       AXML := AXML + '</GerarNfseEnvio>';
 
                      XMLAssinado := AXML;
                     end

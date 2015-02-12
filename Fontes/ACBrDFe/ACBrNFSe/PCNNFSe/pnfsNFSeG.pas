@@ -165,6 +165,25 @@ type
                                                     CodMunicipio, CodCancelamento, MotivoCancelamento: String;
                                                     TagI, TagF: AnsiString): AnsiString;
 
+     //As classes abaixos são exclusivas do provedor EL
+     class function Gera_DadosMsgEnviarLoteEL(NameSpaceDad, NumeroLote,
+       QtdeRPS, CNPJ, IM: String; CodCidade: Integer;
+       OptanteSimples: Boolean; Id, Notas, TagI, TagF: AnsiString): AnsiString;
+     class function Gera_DadosMsgConsSitLoteEL(CodCidade: Integer; CNPJ, IM,
+       Protocolo, NumeroLote: String; TagI, TagF: AnsiString): AnsiString;
+     class function Gera_DadosMsgConsLoteEL(CodCidade: Integer; CNPJ, IM,
+       Protocolo, NumeroLote: String; TagI, TagF: AnsiString): AnsiString;
+     class function Gera_DadosMsgConsNFSeRPSEL(CodCidade: Integer;
+       NumeroRps, CNPJ, IM: String; TagI, TagF: AnsiString): AnsiString;
+     class function Gera_DadosMsgConsNFSeEL(Prefixo3, Prefixo4,
+       NameSpaceDad, VersaoXML, NumeroNFSe, CNPJ, IM, CNPJTomador,
+       CNPJITermediarioServ: String; DataInicial, DataFinal: TDateTime; TagI,
+       TagF: AnsiString): AnsiString;
+     class function Gera_DadosMsgConsSeqRPSEL(TagI, TagF: AnsiString;
+       VersaoXML, CodCidade, IM, CNPJ, SeriePrestacao: String): AnsiString;
+     class function Gera_DadosMsgCancelarNFSeEL(CodCidade: Integer; CNPJ,
+       IM, NumeroNFSe, MotivoCancelamento: String; TagI,
+       TagF: AnsiString): AnsiString;
    published
 
    end;
@@ -651,7 +670,7 @@ begin
                                                  proDigifred, proSystempro, proVirtual,
                                                  proISSDigital, proSaatri, proCoplan,
                                                  proVitoria, proTecnos, proPVH,
-                                                 proSisPMJP, proActcon],
+                                                 proSisPMJP, proActcon, proGovDigital],
 
                     //Adicionei o SeSenao para poder cancelar nota onde o pretador é pessoa física (Cartório em Vitória-ES). - Eduardo Silva dos Santos - 11/01/2014 - DRD SISTEMAS
                     DFeUtil.SeSenao( length(Cnpj)=14,
@@ -777,7 +796,7 @@ begin
  if AProvedor in [proNenhum, proABRASFv1, proABRASFv2, proAbaco,
                   proBetha, proBetim, proBHISS, proDBSeller, proDigifred,
                   proEquiplano, profintelISS, proFISSLex, proGinfes, proGoiania,
-                  proGovBR, {proGovDigital, }proIssCuritiba, proISSDigital,
+                  proGovBR, {proGovDigital,} proIssCuritiba, proISSDigital,
                   proISSIntel, proISSNet, proLexsom, proNatal, proTinus, proProdemge,
                   proPublica, proRecife, proRJ, proSaatri, proFreire,
                   proSimplISS, proThema, proTiplan, proWebISS, proProdata,
@@ -1119,6 +1138,103 @@ var
 begin
  DadosMsg := '<CNPJ>'+CNPJ+'</CNPJ>'+Notas;
  Result := TagI + DadosMsg + TagF;
+end;
+
+class function TNFSeG.Gera_DadosMsgEnviarLoteEL(NameSpaceDad, NumeroLote, QtdeRPS, CNPJ,
+  IM: String; CodCidade: Integer; OptanteSimples: Boolean; Id, Notas, TagI, TagF: AnsiString): AnsiString;
+begin
+  Result:= '<LoteRps ' + NameSpaceDad +
+            '<Id>' + Id + '</Id>' +
+            '<NumeroLote>' + NumeroLote + '</NumeroLote>' +
+            '<QuantidadeRps>' + QtdeRPS + '</QuantidadeRps>' +
+            '<IdentificacaoPrestador>' +
+              '<CpfCnpj>' + CNPJ + '</CpfCnpj>' +
+              '<IndicacaoCpfCnpj>' + IfThen(Length(CNPJ)<>14, '1', '2') + '</IndicacaoCpfCnpj>' +
+              '<InscricaoMunicipal>' +  IM + '</InscricaoMunicipal>' +
+            '</IdentificacaoPrestador>' +
+            '<ListaRps>' +
+              Notas +
+            '</ListaRps>' +
+           '</LoteRps>';
+{  // #HASH# = é alterado por StringReplace() posteriormente em TNFSeEnviarLoteRPS.Executar
+  Result:= TagI +
+              '<identificacaoPrestador>' + CNPJ + '</identificacaoPrestador>' +
+              '<hashIdentificador>' + '#HASH#' + '</hashIdentificador>' +
+              '<arquivo>' +
+               '<Id>' + Id + '</Id>' +
+               '<NumeroLote>' + NumeroLote + '</NumeroLote>' +
+               '<QuantidadeRps>' + QtdeRPS + '</QuantidadeRps>' +
+               '<IdentificacaoPrestador>' +
+                 '<CpfCnpj>' + CNPJ + '</CpfCnpj>' +
+                 '<IndicacaoCpfCnpj>' + IfThen(Length(CNPJ)<>14, '1', '2') + '</IndicacaoCpfCnpj>' +
+                 '<InscricaoMunicipal>' +  IM + '</InscricaoMunicipal>' +
+               '</IdentificacaoPrestador>' +
+               '<ListaRps>' +
+                 Notas +
+               '</ListaRps>' +
+              '</arquivo>' +
+           TagF;}
+end;
+
+class function TNFSeG.Gera_DadosMsgConsSitLoteEL(CodCidade: Integer;
+  CNPJ, IM, Protocolo, NumeroLote: String; TagI,
+  TagF: AnsiString): AnsiString;
+begin
+  Result:= TagI +
+              '<identificacaoPrestador>' + CNPJ + '</identificacaoPrestador>' +
+              '<numeroProtocolo>' + Protocolo + '</numeroProtocolo>' +
+           TagF;
+end;
+
+class function TNFSeG.Gera_DadosMsgConsLoteEL(CodCidade: Integer;
+  CNPJ, IM, Protocolo, NumeroLote: String; TagI, TagF: AnsiString): AnsiString;
+begin
+  Result:= TagI +
+              '<identificacaoPrestador>' + CNPJ + '</identificacaoPrestador>' +
+              '<numeroProtocolo>' + Protocolo + '</numeroProtocolo>' +
+           TagF;
+end;
+
+class function TNFSeG.Gera_DadosMsgConsNFSeRPSEL(CodCidade: Integer;
+  NumeroRps, CNPJ, IM: String; TagI, TagF: AnsiString): AnsiString;
+begin
+  Result:= TagI +
+              '<identificacaoPrestador>' + CNPJ + '</identificacaoPrestador>' +
+              '<identificacaoRps>' + NumeroRps + '</identificacaoRps>' +
+           TagF;
+end;
+
+class function TNFSeG.Gera_DadosMsgConsNFSeEL(Prefixo3, Prefixo4, NameSpaceDad, VersaoXML,
+  NumeroNFSe, CNPJ, IM, CNPJTomador, CNPJITermediarioServ: String; DataInicial,
+  DataFinal: TDateTime; TagI, TagF: AnsiString): AnsiString;
+begin
+  Result:= TagI +
+              '<identificacaoPrestador>' + CNPJ + '</identificacaoPrestador>' +
+              '<numeroNfse>' + NumeroNFSe + '</numeroNfse>' +
+              '<dataInicial>' + FormatDateTime('yyyy-mm-dd', DataInicial) + '</dataInicial>' +
+              '<dataFinal>' + FormatDateTime('yyyy-mm-dd', DataFinal) + '</dataFinal>' +
+              '<identificacaoTomador>' + CNPJTomador + '</identificacaoTomador>' +
+              '<identificacaoItermediarioServico>' + CNPJITermediarioServ + '</identificacaoItermediarioServico>' +
+           TagF;
+end;
+
+class function TNFSeG.Gera_DadosMsgCancelarNFSeEL(
+  CodCidade: Integer; CNPJ, IM, NumeroNFSe, MotivoCancelamento: String;
+  TagI, TagF: AnsiString): AnsiString;
+begin
+  Result:= TagI +
+              '<identificacaoPrestador>' + CNPJ + '</identificacaoPrestador>' +
+              '<numeroNfse>' + NumeroNFSe + '</numeroNfse>' +
+           TagF;
+end;
+
+class function TNFSeG.Gera_DadosMsgConsSeqRPSEL(TagI, TagF: AnsiString;
+  VersaoXML, CodCidade, IM, CNPJ, SeriePrestacao: String): AnsiString;
+begin
+ //consultar sequencial RPS
+  Result:= '<wsn:ConsultarUltimaRps>' +
+              '<identificacaoPrestador>' + CNPJ + '</identificacaoPrestador>' +
+           '<wsn:ConsultarUltimaRps>';
 end;
 
 end.

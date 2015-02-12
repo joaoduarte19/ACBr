@@ -563,13 +563,15 @@ end;
 
 procedure TNotasFiscais.Assinar(AssinaRPS: Boolean = True);
 var
- i         : Integer;
- vAssinada : AnsiString;
- LocNFSeW  : TNFSeW;
- Leitor    : TLeitor;
- FMsg      : AnsiString;
+ i              : Integer;
+ vAssinada      : AnsiString;
+ LocNFSeW       : TNFSeW;
+ Leitor         : TLeitor;
+ FMsg           : AnsiString;
+ ALote          : Boolean;  // Alterado por Nilton Olher - 11/02/2015 => Controle se é em Lote
  CaminhoArquivo : String;
 begin
+  ALote := (Self.Count>1); // Alterado por Nilton Olher - 11/02/2015 => Controle se é em Lote
  for i := 0 to Self.Count-1 do
   begin
    LocNFSeW := TNFSeW.Create(Self.Items[i].NFSe);
@@ -586,7 +588,7 @@ begin
     LocNFSeW.Gerador.Opcoes.FormatoAlerta  := self.Configuracoes.Geral.FormatoAlerta;
     LocNFSeW.Gerador.Opcoes.RetirarAcentos := self.Configuracoes.Geral.RetirarAcentos;
 
-    LocNFSeW.GerarXml;
+    LocNFSeW.GerarXml(ALote); // Alterado por Nilton Olher - 11/02/2015
     Self.Items[i].Alertas := LocNFSeW.Gerador.ListaDeAlertas.Text;
     Self.Items[i].XML_Rps := LocNFSeW.Gerador.ArquivoFormatoXML;
 
@@ -612,7 +614,7 @@ begin
                                 vAssinada, FMsg, False,
                                 FConfiguracoes.WebServices.Prefixo3,
                                 FConfiguracoes.WebServices.Prefixo4,
-                                FConfiguracoes.WebServices.Provedor))
+                                FConfiguracoes.WebServices.Provedor, ALote)) // Alterado por Nilton Olher - 11/02/2015
          then raise Exception.Create('Falha ao assinar Nota Fiscal de Serviço Eletrônica '+
                                      Self.Items[i].NFSe.IdentificacaoRps.Numero + FMsg);
       {$ELSE}
@@ -622,7 +624,7 @@ begin
                                 vAssinada, FMsg, False,
                                 FConfiguracoes.WebServices.Prefixo3,
                                 FConfiguracoes.WebServices.Prefixo4,
-                                FConfiguracoes.WebServices.Provedor))
+                                FConfiguracoes.WebServices.Provedor, ALote)) // Alterado por Nilton Olher - 11/02/2015
          then raise Exception.Create('Falha ao assinar Nota Fiscal de Serviço Eletrônica '+
                                      Self.Items[i].NFSe.IdentificacaoRps.Numero + FMsg);
       {$ENDIF}
