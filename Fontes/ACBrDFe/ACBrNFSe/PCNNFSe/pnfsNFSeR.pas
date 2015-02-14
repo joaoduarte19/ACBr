@@ -211,7 +211,8 @@ begin
           with NFSe.Servico.ItemServico.Add do
           begin
             Descricao := Leitor.rCampo(tcStr, 'Descricao');
-            Quantidade := Leitor.rCampo(tcInt, 'Quantidade');
+//            Quantidade := Leitor.rCampo(tcInt, 'Quantidade');
+            Quantidade := Leitor.rCampo(tcDe2, 'Quantidade');
             ValorUnitario := Leitor.rCampo(tcDe2, 'ValorUnitario');
           end;
           i := i + 1;
@@ -625,7 +626,7 @@ begin
         begin
           FNfse.Servico.ItemServico.Add;
           FNfse.Servico.ItemServico[Item].Descricao     := Leitor.rCampo(tcStr, 'DiscriminacaoServico');
-          FNfse.Servico.ItemServico[Item].Quantidade    := Leitor.rCampo(tcStr, 'Quantidade');
+          FNfse.Servico.ItemServico[Item].Quantidade    := Leitor.rCampo(tcDe2, 'Quantidade');
           FNfse.Servico.ItemServico[Item].ValorUnitario := Leitor.rCampo(tcDe2, 'ValorUnitario');
           FNfse.Servico.ItemServico[Item].ValorTotal    := Leitor.rCampo(tcDe2, 'ValorTotal');
           FNfse.Servico.ItemServico[Item].Tributavel    := StrToEnumerado( ok,Leitor.rCampo(tcStr, 'Tributavel'), ['N','S'], [ snNao, snSim ]);
@@ -1562,7 +1563,7 @@ begin
      begin
        FNfse.Servico.ItemServico.Add;
        FNfse.Servico.ItemServico[Item].Descricao     := Leitor.rCampo(tcStr, 'DiscriminacaoServico');
-       FNfse.Servico.ItemServico[Item].Quantidade    := Leitor.rCampo(tcStr, 'Quantidade');
+       FNfse.Servico.ItemServico[Item].Quantidade    := Leitor.rCampo(tcDe2, 'Quantidade');
        FNfse.Servico.ItemServico[Item].ValorUnitario := Leitor.rCampo(tcDe2, 'ValorUnitario');
        FNfse.Servico.ItemServico[Item].ValorTotal    := Leitor.rCampo(tcDe2, 'ValorTotal');
        FNfse.Servico.ItemServico[Item].Tributavel    := StrToEnumerado( ok,Leitor.rCampo(tcStr, 'Tributavel'), ['N','S'], [ snNao, snSim ]);

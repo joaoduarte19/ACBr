@@ -171,6 +171,8 @@ begin
     cURL_Producao := 'http://186.224.0.62:5661/IssWeb-ejb/IssWebWS/IssWebWS?wsdl';
   3516705 : // Garca/SP
     cURL_Producao := 'http://187.51.71.242:2014/IssWeb-ejb/IssWebWS/IssWebWS?wsdl';
+  3519303 : // Ibaté/SP
+    cURL_Producao := 'http://201.28.69.146:5663/IssWeb-ejb/IssWebWS/IssWebWS';  // essa URL é a mesma de Homologação, portanto deve estar errada.
   3540200 : // Pontal/SP
     cURL_Producao := 'http://131.100.72.54:8080/IssWeb-ejb/IssWebWS/IssWebWS';
 //    cURL_Producao := 'http://177.69.210.132:8080/IssWeb-ejb/IssWebWS/IssWebWS';

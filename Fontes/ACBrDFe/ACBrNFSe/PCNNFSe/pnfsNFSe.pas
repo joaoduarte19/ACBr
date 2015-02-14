@@ -182,7 +182,8 @@ type
   TItemServicoCollectionItem = class(TCollectionItem)
   private
     FDescricao : String;
-    FQuantidade : Integer;
+//    FQuantidade : Integer;
+    FQuantidade : currency; // Alterado pois o provedor SimplISS aceita quantidade de servico não inteira.
     FValorUnitario : currency;
     FValorTotal : currency;
     FAliquota: currency;
@@ -208,7 +209,8 @@ type
   published
     property Codigo: string read FCodigo write FCodigo;
     property Descricao: string read FDescricao write FDescricao;
-    property Quantidade: Integer read FQuantidade write FQuantidade;
+//    property Quantidade: Integer read FQuantidade write FQuantidade;
+    property Quantidade: currency read FQuantidade write FQuantidade;
     property ValorUnitario: currency read FValorUnitario write FValorUnitario;
     property ValorTotal : currency read FValorTotal write FValorTotal;
     property ValorServicos: currency read FValorServicos write FValorServicos;
