@@ -558,6 +558,7 @@ var AEspecieTitulo, ATipoInscricao, ATipoOcorrencia, ATipoBoleto, ADataMoraJuros
     ADataDesconto,ATipoAceite,NossoNum : string;
     DiasProtesto: String;
     ATipoInscricaoAvalista: Char;
+    wModalidade: String;
 begin
   NossoNum  := RemoveString('-', MontarCampoNossoNumero(ACBrTitulo));
   with ACBrTitulo do
@@ -629,6 +630,9 @@ begin
                ' ';                                                        //37 - DV Agência/COnta Brancos
                if (ACBrBoleto.Cedente.ResponEmissao = tbCliEmite) then
                 begin
+                  wModalidade:= ifthen(trim(ACBrBoleto.Cedente.Modalidade) = '',
+                                       '02', ACBrBoleto.Cedente.Modalidade);
+
                   Result := Result+padR(NossoNum, 10, '0')+ // 38 a 57 - Carteira
                             padR('01', 02, '0')+
                             padR('02', 02, '0')+

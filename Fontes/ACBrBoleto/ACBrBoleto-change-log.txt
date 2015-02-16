@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+Data: 16/02/2015 ver. 0.0.109a
+
+-- ACBrBancoBancoob --
+[*] Ajuste CNAB240 para utilizar a propriedade Modalidade do cedente. (Juliana Tamizou)
 
 Data: 11/02/2015 ver. 0.0.108a
 
