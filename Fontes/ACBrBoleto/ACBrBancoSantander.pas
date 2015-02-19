@@ -223,7 +223,7 @@ var
   ISequencia: Integer;
   iCarteira: Integer;
   sCodMovimento, sAgencia, sCCorrente: string;
-  sDigitoNossoNumero, sTipoCobranca, sTipoDocto: string;
+  sDigitoNossoNumero, sTipoCobranca, sTipoDocto, sTipoCarteira: string;
   sEspecie, sDataMoraJuros, sDataDesconto: string;
   STipoJuros, sTipoDesconto, sDiasProtesto: string;
   sTipoInscricao, sEndereco, sMensagem: string;
@@ -348,6 +348,13 @@ begin
           6 = Cobrança Caucionada (Rápida com Registro)
           8 = Cobranca Cessao (Eletronica com Registro)
       }
+    end;
+
+    case ACBrBoleto.Cedente.TipoCarteira of
+      tctSimples: sTipoCarteira := '2';
+      tctRegistrada: sTipoCarteira := '1';
+      else 
+       sTipoCarteira := '2';
     end;
 
     case ACBrBoleto.Cedente.TipoDocumento of
@@ -486,7 +493,7 @@ begin
               Space(2)                                         + // 043 - 044 / Reservado (uso Banco)
               NossoNumero + sDigitoNossoNumero                 + // 045 – 057 / Identificação do título no Banco (Nosso Número
               sTipoCobranca                                    + // 058 - 058 / Tipo de cobrança
-              '2'                                              + // 059 - 059 / Forma de Cadastramento = 1 Registrada / 2 Sem Registro
+              sTipoCarteira                                    + // 059 - 059 / Forma de Cadastramento = 1 Registrada / 2 Sem Registro
               sTipoDocto                                       + // 060 - 060 / Tipo de documento
               Space(1)                                         + // 061 - 061 / Reservado (uso Banco)
               Space(1)                                         + // 062 - 062 / Reservado (uso Banco)
@@ -837,7 +844,7 @@ begin
   rAgenciaDigito := Copy(ARetorno[0], 37, 1);
   rConta         := padR(OnlyNumber(Copy(ARetorno[0], 38, 9)), fpTamanhoConta, '0');
   rContaDigito   := Copy(ARetorno[0], 47, 1);
-  rCNPJCPF := OnlyNumber(Copy(ARetorno[0], 18, 15));
+  rCNPJCPF       := RightStr(OnlyNumber(Copy(ARetorno[0], 18, 15)), 14);
 
   with ACBrBanco.ACBrBoleto do
   begin

@@ -57,7 +57,7 @@ uses  ACBrBase,  {Units da ACBr}
      Graphics, Contnrs, Classes;
 
 const
-  CACBrBoleto_Versao = '0.0.109a' ;
+  CACBrBoleto_Versao = '0.0.110a' ;
 
 type
   TACBrTipoCobranca =
@@ -440,8 +440,12 @@ type
   TACBrTipoImpressao = (tipCarne, tipNormal);
   TACBrTipoDocumento = (Tradicional=1, Escritural=2);
 
+  {Define se a carteira é Cobrança Simples / Registrada}
+  TACBrTipoCarteira = (tctSimples, tctRegistrada);
+
   {Definir como o boleto vai ser gerado/enviado pelo Cedente ou pelo Banco }
   TACBrCarteiraEnvio = (tceCedente, tceBanco);
+
 
   { TACBrCedente }
 
@@ -470,6 +474,7 @@ type
     fTipoInscricao : TACBrPessoaCedente;
     fUF            : String;
     fAcbrBoleto    : TACBrBoleto;
+    fTipoCarteira: TACBrTipoCarteira;
     procedure SetAgencia(const AValue: String);
     procedure SetCNPJCPF ( const AValue: String ) ;
     procedure SetConta(const AValue: String);
@@ -488,6 +493,7 @@ type
     property Modalidade   : String read fModalidade    write fModalidade;
     property Convenio     : String read fConvenio      write fConvenio;
     property TipoDocumento : TACBrTipoDocumento read fTipoDocumento write fTipoDocumento default Tradicional;
+    property TipoCarteira : TACBrTipoCarteira read fTipoCarteira write fTipoCarteira default tctSimples;
     property ResponEmissao: TACBrResponEmissao read fResponEmissao  write fResponEmissao default tbCliEmite ;
     property CaracTitulo: TACBrCaracTitulo read fCaracTitulo  write fCaracTitulo default tcSimples;
     property CNPJCPF      : String  read fCNPJCPF  write SetCNPJCPF;

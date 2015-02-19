@@ -47,6 +47,22 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+Data: 19/02/2015 ver. 0.0.111a
+
+-- ACBrBoleto --
+[*] Adição da propriedade TipoCarteira na classe ACBrTitulo, desta forma é possível
+    identificar mais facilmente quando trata-se de carteira registrada já que alguns 
+    bancos não possuem nenhuma outra forma de identificar. (Jeter Rabelo)
+
+-- ACBrBancoSantander --
+[*] Ajuste CNAB240 para utilizar a nova propriedade TipoCarteira. (Jeter Rabelo)
+
+Data: 18/02/2015 ver. 0.0.110a
+
+-- ACBrBancoBancoob --
+[*] Ajuste CNAB400 para ler a o número do arquivo retornado. (Oneide Luiz)
+
 Data: 16/02/2015 ver. 0.0.109a
 
 -- ACBrBancoBancoob --
