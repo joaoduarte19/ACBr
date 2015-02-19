@@ -909,7 +909,8 @@ begin
     for I := 0 to Self.Count - 1 do
     begin
       ArqTXT := Self.Items[I].GerarXML(ArqXML, Alertas, True);
-      loSTR.Text := ArqTXT;
+      // loSTR.Text := ArqTXT;
+      loSTR.Add(ArqTXT);
     end;
     
     if loSTR.Count > 0 then

@@ -47,6 +47,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/02/2015
+[*] Inclusão de novos tipos de eventos (NFe/CTe/MDFe).
+    por: Italo Jurisato Junior
+
+18/02/2015
+[*] Correção para impressão de eventos em Fast Report no caso de produção
+		http://www.projetoacbr.com.br/forum/index.php?/topic/20062-te-impress%C3%A3o-de-eventos-com-fastreport-vari%C3%A1vel-homologa%C3%A7%C3%A3o-n%C3%A3o-existe/
+		
 04/02/2015
 [*] Compatibilizado a checagem da propriedade ID ao gerar o XML.
     por: Italo Jurisato Junior

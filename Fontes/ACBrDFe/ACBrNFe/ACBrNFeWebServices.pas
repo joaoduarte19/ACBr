@@ -3291,12 +3291,29 @@ begin
   // Incluido por Italo em 22/01/2015
   for I := 0 to FretDistDFeInt.docZip.Count - 1 do
   begin
+    if (FretDistDFeInt.docZip.Items[I].XML <> '') then
+    begin
+      case FretDistDFeInt.docZip.Items[I].schema of
+//        tsresNFe
+//        tsresEvento
+        tsprocNFe: begin
+                     NomeArq := FretDistDFeInt.docZip.Items[I].resNFe.chNFe + '-nfe.xml';
+                     FConfiguracoes.Geral.Save(NomeArq, FretDistDFeInt.docZip.Items[I].XML);
+                   end;
+        tsprocEventoNFe: begin
+                           NomeArq := OnlyNumber(FretDistDFeInt.docZip.Items[I].procEvento.Id) + '-procEventoNFe.xml';
+                           FConfiguracoes.Geral.Save(NomeArq, FretDistDFeInt.docZip.Items[I].XML);
+                         end;
+      end;
+    end;
+(*
     if (FretDistDFeInt.docZip.Items[I].XML <> '') and
       (Copy(FretDistDFeInt.docZip.Items[I].schema, 1, 7) = 'procNFe') then
     begin
       NomeArq := FretDistDFeInt.docZip.Items[I].resNFe.chNFe + '-nfe.xml';
       FPDFeOwner.Gravar(NomeArq, FretDistDFeInt.docZip.Items[I].XML);
     end;
+*)
   end;
 end;
 

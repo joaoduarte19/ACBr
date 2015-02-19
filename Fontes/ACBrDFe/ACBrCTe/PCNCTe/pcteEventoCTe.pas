@@ -288,13 +288,25 @@ end;
 function TInfEvento.getDescEvento: String;
 begin
   case FTpEvento of
-    teCCe                 : Result := 'Carta de Correcao';
-    teCancelamento        : Result := 'Cancelamento';
-    teEPEC                : Result := 'EPEC';
-//    teMultiModal          : Result := 'Ocorrencias de Transito';
-    teMultiModal          : Result := 'Registro Multimodal';
-    teRegistroPassagem    : Result := 'Registro de Passagem';
-    teRegistroPassagemBRId: Result := 'Registro de Passagem BRId';
+    teCCe                      : Result := 'Carta de Correcao';
+    teCancelamento             : Result := 'Cancelamento';
+    teManifDestConfirmacao     : Result := 'Confirmacao da Operacao';
+    teManifDestCiencia         : Result := 'Ciencia da Operacao';
+    teManifDestDesconhecimento : Result := 'Desconhecimento da Operacao';
+    teManifDestOperNaoRealizada: Result := 'Operação nao Realizada';
+    teEPECNFe                  : Result := 'EPEC';
+    teEPEC                     : Result := 'EPEC';
+    teMultiModal               : Result := 'Registro Multimodal';
+    teRegistroPassagem         : Result := 'Registro de Passagem';
+    teRegistroPassagemBRId     : Result := 'Registro de Passagem BRId';
+    teEncerramento             : Result := 'Encerramento';
+    teInclusaoCondutor         : Result := 'Inclusao Condutor';
+    teRegistroCTe              : Result := 'CT-e Autorizado para NF-e';
+    teRegistroPassagemNFeCancelado: Result := 'Registro de Passagem para NF-e Cancelado';
+    teRegistroPassagemNFeRFID     : Result := 'Registro de Passagem para NF-e RFID';
+    teCTeCancelado                : Result := 'CT-e Cancelado';
+    teMDFeCancelado               : Result := 'MDF-e Cancelado';
+    teVistoriaSuframa             : Result := 'Vistoria Suframa';
   else
     raise EventoException.Create('Descrição do Evento não Implementado!');
   end;
@@ -303,12 +315,25 @@ end;
 function TInfEvento.getTipoEvento: String;
 begin
   case FTpEvento of
-    teCCe                 : Result := '110110'; // Somete para a versão 2.0
-    teCancelamento        : Result := '110111'; // Somete para a versão 2.0
-    teEPEC                : Result := '110113';
-    teMultiModal          : Result := '110160'; // Somete para a versão 2.0
-    teRegistroPassagem    : Result := '310620'; // Somete para a versão 2.0
-    teRegistroPassagemBRId: Result := '510620'; // Somete para a versão 2.0
+    teCCe                      : Result := '110110'; // CCe
+    teCancelamento             : Result := '110111'; // Cancelamento
+    teEncerramento             : Result := '110112';
+    teEPEC                     : Result := '110113'; // EPEC CT-e
+    teInclusaoCondutor         : Result := '110114';
+    teEPECNFe                  : Result := '110140'; // EPEC NF-e
+    teMultiModal               : Result := '110160';
+    teManifDestConfirmacao     : Result := '210200'; // Manif. Destinatario: Confirmacao da Operacao
+    teManifDestCiencia         : Result := '210210'; // Manif. Destinatario: Ciencia da Operacao
+    teManifDestDesconhecimento : Result := '210220'; // Manif. Destinatario: Desconhecimento da Operacao
+    teManifDestOperNaoRealizada: Result := '210240'; // Manif. Destinatario: Operação nao Realizada
+    teRegistroPassagem         : Result := '310620';
+    teRegistroPassagemBRId     : Result := '510620';
+    teRegistroCTe              : Result := '610600';
+    teRegistroPassagemNFeCancelado: Result := '610501';
+    teRegistroPassagemNFeRFID     : Result := '610550';
+    teCTeCancelado                : Result := '610601';
+    teMDFeCancelado               : Result := '610611';
+    teVistoriaSuframa             : Result := '990900';
   else
     raise EventoException.Create('Tipo do Evento não Implementado!');
   end;
@@ -322,13 +347,25 @@ end;
 function TInfEvento.DescricaoTipoEvento(TipoEvento: TpcnTpEvento): String;
 begin
   case TipoEvento of
-    teCCe                 : Result := 'CARTA DE CORREÇÃO ELETRÔNICA';
-    teCancelamento        : Result := 'CANCELAMENTO DO CT-e';
-    teEPEC                : Result := 'EPEC';
-//    teMultiModal          : Result := 'OCORRÊNCIAS DE TRÂNSITO';
-    teMultiModal          : Result := 'REGISTRO MULTIMODAL';
-    teRegistroPassagem    : Result := 'REGISTRO DE PASSAGEM';
-    teRegistroPassagemBRId: Result := 'REGISTRO DE PASSAGEM BRId';
+    teCCe                      : Result := 'CARTA DE CORREÇÃO ELETRÔNICA';
+    teCancelamento             : Result := 'CANCELAMENTO DO CT-e';
+    teManifDestConfirmacao     : Result := 'CONFIRMAÇÃO DA OPERAÇÃO';
+    teManifDestCiencia         : Result := 'CIÊNCIA DA OPERAÇÃO';
+    teManifDestDesconhecimento : Result := 'DESCONHECIMENTO DA OPERAÇÃO';
+    teManifDestOperNaoRealizada: Result := 'OPERAÇÃO NÃO REALIZADA';
+    teEPECNFe                  : Result := 'EPEC';
+    teEPEC                     : Result := 'EPEC';
+    teMultiModal               : Result := 'REGISTRO MULTIMODAL';
+    teRegistroPassagem         : Result := 'REGISTRO DE PASSAGEM';
+    teRegistroPassagemBRId     : Result := 'REGISTRO DE PASSAGEM BRId';
+    teEncerramento             : Result := 'ENCERRAMENTO';
+    teInclusaoCondutor         : Result := 'INCLUSAO CONDUTOR';
+    teRegistroCTe              : Result := 'CT-e Autorizado para NF-e';
+    teRegistroPassagemNFeCancelado: Result := 'Registro de Passagem para NF-e Cancelado';
+    teRegistroPassagemNFeRFID     : Result := 'Registro de Passagem para NF-e RFID';
+    teCTeCancelado                : Result := 'CT-e Cancelado';
+    teMDFeCancelado               : Result := 'MDF-e Cancelado';
+    teVistoriaSuframa             : Result := 'Vistoria Suframa';
   else
     Result := 'Não Definido';
   end;

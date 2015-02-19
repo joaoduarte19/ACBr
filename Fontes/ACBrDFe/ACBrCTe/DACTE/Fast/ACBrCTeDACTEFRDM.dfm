@@ -361,4 +361,19 @@ object dmACBrCTeFR: TdmACBrCTeFR
     Left = 516
     Top = 336
   end
+  object cdsModalAereo: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 143
+    Top = 458
+  end
+  object frxModalAereo: TfrxDBDataset
+    UserName = 'ModalAereo'
+    CloseDataSource = False
+    OpenDataSource = False
+    DataSet = cdsModalAereo
+    BCDToCurrency = False
+    Left = 173
+    Top = 459
+  end
 end

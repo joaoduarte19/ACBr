@@ -47,6 +47,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/02/2015
+[*] Inclusão de novos tipos de eventos (NFe/CTe/MDFe).
+    por: Italo Jurisato Junior
+
+18/02/2015
+[-] correção pois sempre parecia uma nota
+	http://www.projetoacbr.com.br/forum/index.php?/topic/19867-salvando-em-txt-apenas-%C3%BAltima-nota-da-lista/
+	
 10/02/2015
 [*] Atribuição do conteudo de xMotivo a xMsg.
     por: Vanessa Mocellin 
