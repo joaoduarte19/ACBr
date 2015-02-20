@@ -66,8 +66,21 @@ type
     property Items[Index: Integer]: TMsgRetornoSitCollectionItem read GetItem write SetItem; default;
   end;
 
+ // Alterado por Nilton Olher - 20/02/2015
+ TMsgRetornoSitIdentificacaoRps = class(TPersistent)
+  private
+    FNumero: string;
+    FSerie: string;
+    FTipo: TnfseTipoRps;
+  published
+    property Numero: string read FNumero write FNumero;
+    property Serie: string read FSerie write FSerie;
+    property Tipo: TnfseTipoRps read FTipo write FTipo;
+  end;
+
  TMsgRetornoSitCollectionItem = class(TCollectionItem)
   private
+    FIdentificacaoRps: TMsgRetornoSitIdentificacaoRps;    // Alterado por Nilton Olher - 20/02/2015
     FCodigo : String;
     FMensagem : String;
     FCorrecao : String;
@@ -75,6 +88,7 @@ type
     constructor Create; reintroduce;
     destructor Destroy; override;
   published
+    property IdentificacaoRps: TMsgRetornoSitIdentificacaoRps  read FIdentificacaoRps write FIdentificacaoRps;     // Alterado por Nilton Olher - 20/02/2015
     property Codigo: string   read FCodigo   write FCodigo;
     property Mensagem: string read FMensagem write FMensagem;
     property Correcao: string read FCorrecao write FCorrecao;
@@ -89,7 +103,8 @@ type
     destructor Destroy; override;
     function LerXml: boolean;
     function LerXML_provedorInfisc: Boolean;
-    function LerXML_provedorEquiplano: Boolean;    
+    function LerXML_provedorEquiplano: Boolean;
+    function LerXML_provedorEL: Boolean;
 	function LerXml_provedorNFSEBrasil: boolean;
 	 
   published
@@ -147,12 +162,15 @@ end;
 
 constructor TMsgRetornoSitCollectionItem.Create;
 begin
-
+  // Alterado por Nilton Olher - 20/02/2015
+  FIdentificacaoRps       := TMsgRetornoSitIdentificacaoRps.Create;
+  FIdentificacaoRps.FTipo := trRPS;
 end;
 
 destructor TMsgRetornoSitCollectionItem.Destroy;
 begin
-
+  // Alterado por Nilton Olher - 20/02/2015
+  FIdentificacaoRps.Free;
   inherited;
 end;
 
@@ -204,6 +222,9 @@ begin
         while Leitor.rExtrai(3, 'MensagemRetorno', '', i + 1) <> '' do
         begin
           InfSit.FMsgRetorno.Add;
+          InfSit.FMsgRetorno[i].FIdentificacaoRps.Numero := Leitor.rCampo(tcStr, 'Numero');
+          InfSit.FMsgRetorno[i].FIdentificacaoRps.Serie  := Leitor.rCampo(tcStr, 'Serie');
+          InfSit.FMsgRetorno[i].FIdentificacaoRps.Tipo   := Leitor.rCampo(tcStr, 'Tipo');
           InfSit.FMsgRetorno[i].FCodigo   := Leitor.rCampo(tcStr, 'Codigo');
           InfSit.FMsgRetorno[i].FMensagem := Leitor.rCampo(tcStr, 'Mensagem');
           InfSit.FMsgRetorno[i].FCorrecao := Leitor.rCampo(tcStr, 'Correcao');
@@ -460,6 +481,49 @@ begin
     result := False;
   end;
   *)
+end;
+
+function TretSitLote.LerXML_provedorEL: Boolean;
+var
+  i: Integer;
+  Cod, Msg: String;
+  strAux: AnsiString;
+begin
+  try
+    Leitor.Arquivo := NotaUtil.RetirarPrefixos(Leitor.Arquivo);
+    Leitor.Grupo   := Leitor.Arquivo;
+
+    InfSit.FNumeroLote := Leitor.rCampo(tcStr, 'numeroLote');
+    InfSit.FSituacao   := Leitor.rCampo(tcStr, 'situacaoLoteRps');
+
+    // FSituacao: 1 = Não Recebido
+    //            2 = Não Processado
+    //            3 = Processado com Erro
+    //            4 = Processado com Sucesso
+
+    if leitor.rExtrai(1, 'mensagens') <> '' then
+    begin
+      i := 0;
+      while Leitor.rExtrai(1, 'mensagens', '', i + 1) <> '' do
+      begin
+        strAux := Leitor.rCampo(tcStr, 'mensagens');
+        Cod    := Copy(strAux, 1, 4);
+        Msg    := Copy(strAux, 8, Length(strAux));
+        if Trim(Msg) <> '' then
+        begin
+          InfSit.FMsgRetorno.Add;
+          InfSit.FMsgRetorno[i].Codigo   := Cod;
+          InfSit.FMsgRetorno[i].Mensagem := Msg;
+          Inc(i);
+        end else
+          Break;
+      end;
+    end;
+
+    result := True;
+  except
+    result := False;
+  end;
 end;
 
 end.

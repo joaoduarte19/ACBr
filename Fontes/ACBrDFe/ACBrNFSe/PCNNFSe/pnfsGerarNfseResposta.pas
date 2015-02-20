@@ -92,8 +92,21 @@ type
     property Items[Index: Integer]: TGerarMsgRetornoNfseCollectionItem read GetItem write SetItem; default;
   end;
 
+ // Alterado por Nilton Olher - 20/02/2015
+ TGerarMsgRetornoNfseIdentificacaoRps = class(TPersistent)
+  private
+    FNumero: string;
+    FSerie: string;
+    FTipo: TnfseTipoRps;
+  published
+    property Numero: string read FNumero write FNumero;
+    property Serie: string read FSerie write FSerie;
+    property Tipo: TnfseTipoRps read FTipo write FTipo;
+  end;
+
  TGerarMsgRetornoNfseCollectionItem = class(TCollectionItem)
   private
+    FIdentificacaoRps: TGerarMsgRetornoNfseIdentificacaoRps;  // Alterado por Nilton Olher - 20/02/2015
     FCodigo : String;
     FMensagem : String;
     FCorrecao : String;
@@ -101,6 +114,7 @@ type
     constructor Create; reintroduce;
     destructor Destroy; override;
   published
+    property IdentificacaoRps: TGerarMsgRetornoNfseIdentificacaoRps  read FIdentificacaoRps write FIdentificacaoRps;  // Alterado por Nilton Olher - 20/02/2015
     property Codigo: string   read FCodigo   write FCodigo;
     property Mensagem: string read FMensagem write FMensagem;
     property Correcao: string read FCorrecao write FCorrecao;
@@ -229,12 +243,15 @@ end;
 
 constructor TGerarMsgRetornoNfseCollectionItem.Create;
 begin
-
+  // Alterado por Nilton Olher - 20/02/2015
+  FIdentificacaoRps       := TGerarMsgRetornoNfseIdentificacaoRps.Create;
+  FIdentificacaoRps.FTipo := trRPS;
 end;
 
 destructor TGerarMsgRetornoNfseCollectionItem.Destroy;
 begin
-
+  // Alterado por Nilton Olher - 20/02/2015
+  FIdentificacaoRps.Free;
   inherited;
 end;
 
@@ -712,6 +729,9 @@ begin
         while Leitor.rExtrai(3, 'MensagemRetorno', '', i + 1) <> '' do
         begin
           ListaNfse.FMsgRetorno.Add;
+          ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Numero := Leitor.rCampo(tcStr, 'Numero');
+          ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Serie  := Leitor.rCampo(tcStr, 'Serie');
+          ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Tipo   := Leitor.rCampo(tcStr, 'Tipo');
           ListaNfse.FMsgRetorno[i].FCodigo   := Leitor.rCampo(tcStr, 'Codigo');
           ListaNfse.FMsgRetorno[i].FMensagem := Leitor.rCampo(tcStr, 'Mensagem');
           ListaNfse.FMsgRetorno[i].FCorrecao := Leitor.rCampo(tcStr, 'Correcao');
@@ -724,6 +744,9 @@ begin
         while Leitor.rExtrai(2, 'ListaMensagemRetorno', '', i + 1) <> '' do
         begin
           ListaNfse.FMsgRetorno.Add;
+          ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Numero := Leitor.rCampo(tcStr, 'Numero');
+          ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Serie  := Leitor.rCampo(tcStr, 'Serie');
+          ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Tipo   := Leitor.rCampo(tcStr, 'Tipo');
           ListaNfse.FMsgRetorno[i].FCodigo   := Leitor.rCampo(tcStr, 'Codigo');
           ListaNfse.FMsgRetorno[i].FMensagem := Leitor.rCampo(tcStr, 'Mensagem');
           ListaNfse.FMsgRetorno[i].FCorrecao := Leitor.rCampo(tcStr, 'Correcao');

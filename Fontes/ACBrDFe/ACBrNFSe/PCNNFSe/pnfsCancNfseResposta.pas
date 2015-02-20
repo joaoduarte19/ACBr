@@ -49,6 +49,7 @@ type
   private
     FPedido: TPedidoCancelamento;
     FDataHora: TDateTime;
+    FConfirmacao : string;  // Alterado por Nilton Olher - 20/02/2015
     FSucesso: String;
     FMsgCanc: String;
     FMsgRetorno : TMsgRetornoCancCollection;
@@ -59,10 +60,10 @@ type
   public
     constructor Create; reintroduce;
     destructor Destroy; override;
-    property Pedido: TPedidocancelamento           read FPedido     write FPedido;
-    property DataHora: TDateTime                   read FDataHora   write FDataHora;
-    property Sucesso: String                       read FSucesso    write FSucesso;
-    property MsgCanc: String                       read FMsgCanc    write FMsgCanc;
+    property Pedido: TPedidocancelamento           read FPedido      write FPedido;
+    property DataHora: TDateTime                   read FDataHora    write FDataHora;
+    property Confirmacao: String                   read FConfirmacao write FConfirmacao;  // Alterado por Nilton Olher - 20/02/2015
+    property MsgCanc: String                       read FMsgCanc     write FMsgCanc;
     property MsgRetorno: TMsgRetornoCancCollection read FMsgRetorno write SetMsgRetorno;
     property NotasCanceladas: TNotasCanceladasCollection read FNotasCanceladas write SetNotasCanceladas;
   end;
@@ -308,6 +309,7 @@ begin
         infCanc.DataHora := Leitor.rCampo(tcDatHor, 'DataHora');
         if infCanc.DataHora = 0 then
           infCanc.DataHora := Leitor.rCampo(tcDatHor, 'DataHoraCancelamento');
+        InfCanc.FConfirmacao := Leitor.rAtributo('Confirmacao Id=');    // Alterado por Nilton Olher - 20/02/2015
         InfCanc.Sucesso  := Leitor.rCampo(tcStr,    'Sucesso');  // Incluido por Glecio 09/05/2013
 
         InfCanc.FPedido.InfID.ID := Leitor.rAtributo('InfPedidoCancelamento Id=');

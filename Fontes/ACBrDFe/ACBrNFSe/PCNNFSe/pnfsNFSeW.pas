@@ -1307,13 +1307,12 @@ begin
     begin
       case FProvedor of
        proActcon,
-       proGovDigital,
        proISSDigital,
        proMitra,
        proPVH,
        proSisPMJP,
        proSystemPro: Gerador.wCampoNFSe(tcDat, '#4', 'Competencia', 10, 10, 1, NFSe.Competencia, DSC_DEMI);
-
+       proGovDigital : Gerador.wCampoNFSe(tcDat, '#4', 'Competencia', 10, 10, 1, StrToDate(NFSe.Competencia), DSC_DEMI);  // Alterado por Nilton Olher - 20/02/2015
        proGoiania,
        proVirtual,
        proTecnos:  Gerador.wCampoNFSe(tcDatHor, '#4', 'Competencia', 19, 19, 0, NFSe.Competencia, DSC_DEMI);
