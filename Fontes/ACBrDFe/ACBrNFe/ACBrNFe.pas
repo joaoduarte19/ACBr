@@ -304,8 +304,7 @@ begin
     Self.EventoNFe.Evento.Clear;
     with Self.EventoNFe.Evento.Add do
     begin
-      infEvento.CNPJ := copy(DFeUtil.LimpaNumero(
-        Self.WebServices.Consulta.NFeChave), 7, 14);
+      infEvento.CNPJ := copy(OnlyNumber(Self.WebServices.Consulta.NFeChave), 7, 14);
       infEvento.cOrgao := StrToIntDef(
         copy(OnlyNumber(Self.WebServices.Consulta.NFeChave), 1, 2), 0);
       infEvento.dhEvento := now;
@@ -358,7 +357,7 @@ begin
       ' excedido. Quantidade atual: ' + IntToStr(NotasFiscais.Count));
 
   NotasFiscais.Assinar;
-  NotasFiscais.Valida;
+  NotasFiscais.Validar;
 
   Result := WebServices.Envia(ALote, Sincrono);
 

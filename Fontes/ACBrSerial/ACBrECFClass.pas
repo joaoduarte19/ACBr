@@ -115,6 +115,7 @@ TACBrECFRodapeImposto = class( TPersistent )
     fsFonte: String;
     fsTexto: String;
     FModoCompacto: Boolean;
+    fsChave: String;
   published
     property Texto: String read fsTexto write fsTexto;
     property ValorAproximado: Double read fsValorAproximado write fsValorAproximado stored false;
@@ -122,7 +123,8 @@ TACBrECFRodapeImposto = class( TPersistent )
     property ValorAproximadoEstadual: Double read fsValorAproximadoEstadual write fsValorAproximadoEstadual stored False;
     property ValorAproximadoMunicipal: Double read fsValorAproximadoMunicipal write fsValorAproximadoMunicipal stored False;
     property ModoCompacto: Boolean read FModoCompacto write FModoCompacto;
-    property Fonte: String read fsFonte  write fsFonte  stored false;
+    property Fonte: String read fsFonte write fsFonte stored false;
+    property Chave: String read fsChave write fsChave;
 end;
 
 TACBrECFRodapeNotaLegalDF = class( TPersistent )
@@ -4944,6 +4946,7 @@ begin
   fsImposto.ValorAproximadoEstadual := 0.00;
   fsImposto.ValorAproximadoMunicipal := 0.00;
   fsImposto.Fonte := '';
+  fsImposto.Chave := '';
   fsImposto.ModoCompacto := False;
 end;
 

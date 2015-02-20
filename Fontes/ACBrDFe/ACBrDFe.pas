@@ -106,7 +106,7 @@ type
     function NomeModeloDFe: String; virtual;
     function GetNameSpaceURI: String; virtual;
 
-    function Gravar(NomeXML: String; ConteudoXML: String; aPath: String = ''): Boolean;
+    function Gravar(var NomeArquivo: String; ConteudoXML: String; aPath: String = ''): Boolean;
     procedure EnviarEmail(const sSmtpHost, sSmtpPort, sSmtpUser,
       sSmtpPasswd, sFrom, sTo, sAssunto: String; sMensagem: TStrings;
       SSL: Boolean; sCC: TStrings = nil; Anexos: TStrings = nil;
@@ -220,34 +220,35 @@ begin
 end;
 
 
-function TACBrDFe.Gravar(NomeXML: String; ConteudoXML: String; aPath: String): Boolean;
+function TACBrDFe.Gravar(var NomeArquivo: String; ConteudoXML: String; aPath: String): Boolean;
 var
-  UTF8Str: String;
+  UTF8Str, SoNome, SoPath: String;
 begin
   Result := False;
   try
-    if DFeUtil.NaoEstaVazio(ExtractFilePath(NomeXML)) then
-    begin
-      aPath := ExtractFilePath(NomeXML);
-      NomeXML := StringReplace(NomeXML, aPath, '', [rfIgnoreCase]);
-    end
-    else
-    begin
-      if DFeUtil.EstaVazio(aPath) then
-        aPath := FPConfiguracoes.Arquivos.PathSalvar
-      else
-        aPath := PathWithDelim(aPath);
-    end;
+    SoNome := ExtractFileName(NomeArquivo);
+    if DFeUtil.EstaVazio(SoNome) then
+      raise EACBrDFeException.Create('Nome de arquivo não informado');
+
+    SoPath := ExtractFilePath(NomeArquivo);
+    if DFeUtil.EstaVazio(SoPath) then
+      SoPath := aPath;
+    if DFeUtil.EstaVazio(SoPath) then
+      SoPath := FPConfiguracoes.Arquivos.PathSalvar;
+
+    aPath := PathWithDelim(aPath);
 
     ConteudoXML := StringReplace(ConteudoXML, '<-><->', '', [rfReplaceAll]);
     { Sempre salva o Arquivo em UTF8, independente de qual seja a IDE...
       FPC já trabalha com UTF8 de forma nativa }
     UTF8Str := DFeUtil.ConverteXMLtoUTF8(ConteudoXML);
 
-    if not DirectoryExists(aPath) then
-      ForceDirectories(aPath);
+    if not DirectoryExists(SoPath) then
+      ForceDirectories(SoPath);
 
-    WriteToTXT(aPath + NomeXML, UTF8Str, False, False);
+    NomeArquivo := SoPath + SoNome;
+
+    WriteToTXT(NomeArquivo, UTF8Str, False, False);
     Result := True;
   except
     on E: Exception do

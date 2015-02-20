@@ -782,6 +782,7 @@ begin
   fpRFDID     := 'BE' ;
   fpPaginaDeCodigo := 850 ;
 
+  fpIdentificaConsumidorRodape := True ;
 end;
 
 destructor TACBrECFBematech.Destroy;
@@ -1614,7 +1615,25 @@ begin
 end;
 
 procedure TACBrECFBematech.FechaCupom(Observacao: AnsiString; IndiceBMP : Integer);
+Var
+  StrConsumidor : String ;
 begin
+  StrConsumidor := '';
+  if (not Consumidor.Enviado) and (Consumidor.Documento <> '') then
+  begin
+     StrConsumidor := 'CNPJ/CPF: '+Consumidor.Documento + LF;
+
+     if Consumidor.Nome <> '' then
+     begin
+        StrConsumidor := StrConsumidor + 'Nome: '+Consumidor.Nome + LF;
+
+        if Consumidor.Endereco <> '' then
+           StrConsumidor := StrConsumidor + 'Endereco: '+Consumidor.Endereco + LF;
+    end;
+  end;
+
+  Observacao := StrConsumidor + Observacao;
+
   if Copy( Observacao, length( Observacao ), 1) <> #10 then
      Observacao := Observacao + #10 ;
 

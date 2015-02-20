@@ -68,7 +68,6 @@ type
      class procedure EstaZerado(AValue: Integer; AMensagem: String);overload;
      class function NaoEstaZerado(AValue: Double): Boolean;overload;
      class function NaoEstaZerado(AValue: Integer): Boolean;overload;
-     class function LimpaNumero(AValue: String): String;
      class function FormatDate(const AString: string): String;overload;
      class function FormatDate(const AData: TDateTime): String;overload;
      class function FormatDateTime(const AString: string): string;
@@ -261,12 +260,6 @@ begin
   Result := not(EstaZerado(AValue));
 end;
 
-class function DFeUtil.LimpaNumero(AValue: String): String;
-begin
-  Result := OnlyNumber(AValue);
-end;
-
-
 class function DFeUtil.padC(const AString: string; const nLen: Integer;
   const Caracter: Char): String;
 Var nCharLeft : Integer;
@@ -385,7 +378,7 @@ end;
 
 class function DFeUtil.FormatarChaveAcesso(AValue: String): String;
 begin
-  AValue := LimpaNumero(AValue);
+  AValue := OnlyNumber(AValue);
   Result := copy(AValue,1,4)  + ' ' + copy(AValue,5,4)  + ' ' +
             copy(AValue,9,4)  + ' ' + copy(AValue,13,4) + ' ' +
             copy(AValue,17,4) + ' ' + copy(AValue,21,4) + ' ' +
@@ -429,7 +422,7 @@ begin
   //       AA Ano corrente da geração do documento
   //       NNNNNNN Número sequencial dentro do Ano ( 7 ou 8 dígitos )
   //       D Dígito Verificador, Módulo 11, Pesos de 2 a 9
-  AValue := LimpaNumero(AValue);
+  AValue := OnlyNumber(AValue);
   ano := StrToInt(Copy(IntToStr(YearOf(Date)), 3, 2));
 
  if (length(AValue) < 11) or (length(AValue) > 12) then
@@ -452,7 +445,7 @@ begin
  // AValue = AANNNNNNNNNN
  // Onde: AA Ano corrente da geração do documento
  //       NNNNNNNNNN Número sequencial dentro do Ano ( 10 dígitos )
- AValue := LimpaNumero(AValue);
+ AValue := OnlyNumber(AValue);
  ano := StrToInt(Copy(IntToStr(YearOf(Date)), 3, 2));
 
  if length(AValue) <> 12 then
@@ -469,7 +462,7 @@ begin
  // Onde: AA Ano corrente da geração do documento
  //       NNNNNNN Número sequencial dentro do Ano ( 7 dígitos )
  //       SSS Serie do RE (001, 002, ...)
- AValue := LimpaNumero(AValue);
+ AValue := OnlyNumber(AValue);
  ano := StrToInt(Copy(IntToStr(YearOf(Date)), 3, 2));
 
  if length(AValue) <> 12 then
@@ -488,7 +481,7 @@ begin
  // Onde: AAAA Ano corrente do registro
  //       NNNNNN Número sequencial dentro do Ano ( 6 dígitos )
  //       D Dígito Verificador, Módulo 11, Pesos de 2 a 9
- AValue := LimpaNumero(AValue);
+ AValue := OnlyNumber(AValue);
  ano := StrToInt(Copy(IntToStr(YearOf(Date)), 3, 2));
  if length(AValue) = 11 then
    AValue := copy(AValue, 3, 9);
@@ -510,7 +503,7 @@ begin
  //       NNNN Número sequencial ( 4 dígitos )
  //       LL Código da localidade da Unidade Administrativa da Suframa ( 01 = Manaus, 10 = Boa Vista e 30 = Porto Velho )
  //       D Dígito Verificador, Módulo 11, Pesos de 2 a 9
- AValue := LimpaNumero(AValue);
+ AValue := OnlyNumber(AValue);
  if length(AValue) < 9 then
    AValue := '0' + AValue;
  if length(AValue) <> 9 then
@@ -534,7 +527,7 @@ begin
  // Onde: aaaammdd Ano/Mes/Dia da autorização
  //       hhmmssffff Hora/Minuto/Segundo da autorização com mais 4 digitos da fração de segundo
  //       DD Dígitos Verificadores, Módulo 11, Pesos de 1 a 18 e de 1 a 19
- AValue := LimpaNumero(AValue);
+ AValue := OnlyNumber(AValue);
  if length(AValue) <> 20 then
    Result := False
  else if copy(AValue, 19, 1) <> Modulo11(copy(AValue, 1, 18), 1, 18) then
@@ -583,7 +576,7 @@ Var
 begin
   if not XmlEhUTF8(AXML) then   // Já foi convertido antes ?
   begin
-    {$IFNDEF FPC}
+    {$IFNDEF UNICODE}
      UTF8Str := UTF8Encode(AXML);
     {$ELSE}
      UTF8Str := AXML;

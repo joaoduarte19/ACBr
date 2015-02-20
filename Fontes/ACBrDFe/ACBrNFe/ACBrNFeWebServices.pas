@@ -761,11 +761,6 @@ end;
 function TNFeWebService.CstatProcessado(AValue: integer): Boolean;
 begin
 
-  case AValue of
-    100, 110, 150, 301, 302: Result := True;
-  else
-    Result := False;
-  end;
 end;
 
 procedure TNFeWebService.ConfigurarSoapDEPC;
@@ -1094,26 +1089,17 @@ begin
               FPDFeOwner).NotasFiscais.Items[I].NFe.infNFe.Id) +
               ' não confere.');
           end;
-          TACBrNFe(FPDFeOwner).NotasFiscais.Items[I].Confirmada :=
-            (FNFeRetornoSincrono.protNFe.cStat in [100, 150]);
-          TACBrNFe(FPDFeOwner).NotasFiscais.Items[I].Msg :=
-            FNFeRetornoSincrono.protNFe.xMotivo;
-          TACBrNFe(FPDFeOwner).NotasFiscais.Items[I].NFe.procNFe.tpAmb :=
-            FNFeRetornoSincrono.tpAmb;
-          TACBrNFe(FPDFeOwner).NotasFiscais.Items[I].NFe.procNFe.verAplic :=
-            FNFeRetornoSincrono.verAplic;
-          TACBrNFe(FPDFeOwner).NotasFiscais.Items[I].NFe.procNFe.chNFe :=
-            FNFeRetornoSincrono.ProtNFe.chNFe;
-          TACBrNFe(FPDFeOwner).NotasFiscais.Items[I].NFe.procNFe.dhRecbto :=
-            FNFeRetornoSincrono.protNFe.dhRecbto;
-          TACBrNFe(FPDFeOwner).NotasFiscais.Items[I].NFe.procNFe.nProt :=
-            FNFeRetornoSincrono.ProtNFe.nProt;
-          TACBrNFe(FPDFeOwner).NotasFiscais.Items[I].NFe.procNFe.digVal :=
-            FNFeRetornoSincrono.protNFe.digVal;
-          TACBrNFe(FPDFeOwner).NotasFiscais.Items[I].NFe.procNFe.cStat :=
-            FNFeRetornoSincrono.protNFe.cStat;
-          TACBrNFe(FPDFeOwner).NotasFiscais.Items[I].NFe.procNFe.xMotivo :=
-            FNFeRetornoSincrono.protNFe.xMotivo;
+          with TACBrNFe(FPDFeOwner).NotasFiscais.Items[I] do
+          begin
+            NFe.procNFe.cStat := FNFeRetornoSincrono.protNFe.cStat;
+            NFe.procNFe.tpAmb := FNFeRetornoSincrono.tpAmb;
+            NFe.procNFe.verAplic := FNFeRetornoSincrono.verAplic;
+            NFe.procNFe.chNFe := FNFeRetornoSincrono.ProtNFe.chNFe;
+            NFe.procNFe.dhRecbto := FNFeRetornoSincrono.protNFe.dhRecbto;
+            NFe.procNFe.nProt := FNFeRetornoSincrono.ProtNFe.nProt;
+            NFe.procNFe.digVal := FNFeRetornoSincrono.protNFe.digVal;
+            NFe.procNFe.xMotivo := FNFeRetornoSincrono.protNFe.xMotivo;
+          end;
 
           if (FileExists(NomeArquivo + '-nfe.xml')) or
             DFeUtil.NaoEstaVazio(TACBrNFe(FPDFeOwner).NotasFiscais.Items[I].NomeArq) then
@@ -3494,3 +3480,4 @@ end;
 
 end.
 
+// TODO: TrataString

@@ -50,6 +50,8 @@ uses {$IFDEF MSWINDOWS}
      SysUtils, Classes, DateUtils, Math, Variants;
 
 type
+  EACBrTXTClassErro            = class(Exception) ;
+
   TErrorEvent = procedure(const MsnError: AnsiString) of object;
 
   { TACBrTXTClass }
@@ -141,7 +143,7 @@ var
   FS : TFileStream ;
 begin
   if NomeArquivo = '' then
-     raise Exception.Create( ACBrStr('"NomeArquivo" não especificado') ) ;
+     raise EACBrTXTClassErro.Create( ACBrStr('"NomeArquivo" não especificado') ) ;
 
   if (not FileExists( NomeArquivo )) then
      {$IFDEF UNICODE}
@@ -172,7 +174,7 @@ end;
 procedure TACBrTXTClass.LoadFromFile ;
 begin
    if NomeArquivo = '' then
-      raise Exception.Create( ACBrStr('"Nome do Arquivo" não especificado') ) ;
+      raise EACBrTXTClassErro.Create( ACBrStr('"Nome do Arquivo" não especificado') ) ;
 
    FConteudo.LoadFromFile( NomeArquivo );
 end;
@@ -219,11 +221,6 @@ function TACBrTXTClass.RFill(Value: String;
                              Size: Integer = 0;
                              Caracter: Char = ' '): String;
 begin
-  /// Se a propriedade TrimString = true, Result retorna sem espaços em branco
-  /// iniciais e finais.
-  if FTrimString then
-     Result := Trim(Value);
-
   if (Size > 0) and (Length(Value) > Size) then
      Result := Copy(Value, 1, Size)
   else
@@ -233,6 +230,11 @@ begin
      Result := FDelimitador + StringReplace(Result, ' ', Caracter, [rfReplaceAll])
   else
      Result := FDelimitador + Result;
+
+  /// Se a propriedade TrimString = true, Result retorna sem espaços em branco
+  /// iniciais e finais.
+  if FTrimString then
+     Result := Trim(Result);
 end;
 
 function TACBrTXTClass.LFill(Value: String;
@@ -245,10 +247,6 @@ begin
      Result := FDelimitador;
      Exit;
   end;
-  /// Se a propriedade TrimString = true, Result retorna sem espaços em branco
-  /// iniciais e finais.
-  if FTrimString then
-     Result := Trim(Value);
 
   if (Size > 0) and (Length(Value) > Size) then
      Result := Copy(Value, 1, Size)
@@ -256,6 +254,11 @@ begin
      Result := StringOfChar(Caracter, Size - length(Value)) + Value;
 
   Result := FDelimitador + Result;
+
+  /// Se a propriedade TrimString = true, Result retorna sem espaços em branco
+  /// iniciais e finais.
+  if FTrimString then
+     Result := Trim(Result);
 end;
 
 function TACBrTXTClass.LFill(Value: Extended;
@@ -311,8 +314,8 @@ end;
 function TACBrTXTClass.VDFill(Value: Variant;
                         Decimal: Integer = 2): String;
 begin
-  /// Se o parametro Nulo = true e Value = 0, será retornado '|'
-  if Value = Null then
+  /// Se o parametro Value é Null ou Undefined será retornado '|'
+  if VarIsNull(Value) or VarIsEmpty(Value) then
   begin
      Result := FDelimitador;
      Exit;
@@ -373,15 +376,15 @@ begin
   if Mascara <> '' then
      strCurMascara := Mascara;
 
-  // Se o parametro Value = Null, será retornado '|'
-  if (Value = Null) then
+  // Se o parametro Value = Null ou não foi preenchido será retornado '|'
+  if VarIsNull(Value) or VarIsEmpty(Value) then
   begin
      Result := FDelimitador;
      Exit;
   end;
   // Checa se é um valor numérico
   if not VarIsNumeric(Value) then
-     raise Exception.Create( Format('[%a] Não é um valor numérico!', [Value]) );
+     raise EACBrTXTClassErro.Create( ACBrStr('Parâmetro "Value" não possui um valor numérico.'));
 
   intP := 1;
   for intFor := 1 to Decimal do
