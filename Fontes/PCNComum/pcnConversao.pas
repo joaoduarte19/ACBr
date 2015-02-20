@@ -137,7 +137,9 @@ type
                   teManifDestDesconhecimento, teManifDestOperNaoRealizada,
                   teEncerramento, teEPEC, teInclusaoCondutor, teMultiModal,
                   teRegistroPassagem, teRegistroPassagemBRId, teEPECNFe,
-                  teRegistroCTe);
+                  teRegistroCTe, teRegistroPassagemNFeCancelado,
+                  teRegistroPassagemNFeRFID, teCTeCancelado, teMDFeCancelado,
+                  teVistoriaSuframa);
   TpcnIndicadorEmissor = (ieTodos, ieRaizCNPJDiferente);
   TpcnIndicadorContinuacao = (icNaoPossuiMaisDocumentos, icPossuiMaisDocumentos);
   TpcnSituacaoManifDest = (smdSemManifestacao, smdConfirmada, smdDesconhecida, smdOperacaoNaoRealizada, smdCiencia);
@@ -172,8 +174,11 @@ type
   // Incluido por Italo em 25/08/2014
   TpcnIndOperacao = (ioConsultaCSC, ioNovoCSC, ioRevogaCSC);
 
+  // Incluido por Italo em 18/02/2015
+  TpcnTipoSchema = (tsresNFe, tsresEvento, tsprocNFe, tsprocEventoNFe);
+
 const
-  TpcnTpEventoString : array[0..13] of String =('110110',
+  TpcnTpEventoString : array[0..18] of String =('110110',
                                                 '110111',
                                                 '210200',
                                                 '210210',
@@ -186,28 +191,12 @@ const
                                                 '310620',
                                                 '510620',
                                                 '110140',
-                                                '610600');
-(*
-110110 - Carta de Correção
-110111 - Cancelamento
-110112 - Encerramento Homologado
-110113 - EPEC CT-e
-110114 - Inclusão de Condutor
-110140 - EPEC NF-e
-110160 - Registro Multimodal
-210200 - Confirmação da Operação
-210210 - Ciência da Operação
-210220 - Desconhecimento da Operação
-210240 - Operação não Realizada
-310620 - Registro de Passagem
-510620 - Registro de Passagem BRID
-610600 - CT-e Autorizado para NF-e
-610501 - Registro de Passagem para NF-e Cancelado
-610550 - Registro de Passagem para NF-e RFID
-610601 - CT-e Cancelado
-610611 - MDF-e Cancelado
-990900 - Vistoria Suframa
-*)
+                                                '610600',
+                                                '610501',
+                                                '610550',
+                                                '610601',
+                                                '610611',
+                                                '990900');
 
   NFeUF: array[0..26] of String =
   ('AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA',
@@ -403,6 +392,9 @@ function StrToTipoAutor(out ok: boolean; const s: string): TpcnTipoAutor;
 
 function IndOperacaoToStr(const t: TpcnIndOperacao ): string;
 function StrToIndOperacao(out ok: boolean; const s: string): TpcnIndOperacao;
+
+function TipoSchemaToStr(const t: TpcnTipoSchema ): string;
+function StrToTipoSchema(out ok: boolean; const s: string): TpcnTipoSchema;
 
 implementation
 
@@ -1501,6 +1493,19 @@ function StrToIndOperacao(out ok: boolean; const s: string): TpcnIndOperacao;
 begin
   result := StrToEnumerado(ok, s, ['1', '2', '3'],
                                   [ioConsultaCSC, ioNovoCSC, ioRevogaCSC]);
+end;
+
+
+function TipoSchemaToStr(const t: TpcnTipoSchema ): string;
+begin
+  result := EnumeradoToStr(t, ['resNFe_v1.00.xsd', 'resEvento_v1.00.xsd', 'procNFe_v1.00.xsd', 'procEventoNFe_v1.00.xsd'],
+                              [tsresNFe, tsresEvento, tsprocNFe, tsprocEventoNFe]);
+end;
+
+function StrToTipoSchema(out ok: boolean; const s: string): TpcnTipoSchema;
+begin
+  result := StrToEnumerado(ok, s, ['resNFe_v1.00.xsd', 'resEvento_v1.00.xsd', 'procNFe_v1.00.xsd', 'procEventoNFe_v1.00.xsd'],
+                                  [tsresNFe, tsresEvento, tsprocNFe, tsprocEventoNFe]);
 end;
 
 end.
