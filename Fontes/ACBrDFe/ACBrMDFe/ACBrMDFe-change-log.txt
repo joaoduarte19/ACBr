@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/02/2015
+[-] Não estava lendo o grupo proprietário e condutor.
+    por: Paulo Henrique
+
 19/02/2015
 [*] Inclusão de novos tipos de eventos (NFe/CTe/MDFe).
     por: Italo Jurisato Junior
