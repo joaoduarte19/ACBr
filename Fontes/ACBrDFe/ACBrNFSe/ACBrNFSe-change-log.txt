@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+18/02/2015
+[*] Alterado rotinas NFSe para provedor Infisc versão XML 1.1
+    Por: Moro	
+
 14/02/2015
 [*] Alterado o tipo da propriedade Quantidade na lista de serviços de Integer para
     currency, pois o provedor SimplISS aceita que a quantidade de serviço seja um numero

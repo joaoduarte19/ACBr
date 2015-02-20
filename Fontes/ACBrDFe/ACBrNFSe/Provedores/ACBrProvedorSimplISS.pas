@@ -175,6 +175,10 @@ begin
             ConfigURL.ProNomeCidade      := 'cerquilho';
             ConfigURL.ProRecepcaoLoteRPS := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
            end;
+  3514106: begin // Dois Corregos/SP
+            ConfigURL.ProNomeCidade      := 'dois_corregos';
+            ConfigURL.ProRecepcaoLoteRPS := 'http://187.45.245.217/ws_nfse_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';
+           end;
   3520608: begin // Indiana/SP
             ConfigURL.ProNomeCidade      := 'indiana';
             ConfigURL.ProRecepcaoLoteRPS := 'http://187.45.245.217/ws_' + ConfigURL.ProNomeCidade + '/nfseservice.svc';

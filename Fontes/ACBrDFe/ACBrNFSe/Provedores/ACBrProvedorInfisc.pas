@@ -130,7 +130,11 @@ begin
   case ACodCidade of
     4303905: ConfigSchema.NameSpaceXML := ''; // Campo Bom/RS
     4307906: ConfigSchema.NameSpaceXML := ''; // Farroupilha/RS
-    4305108: ConfigSchema.NameSpaceXML := ''; // Caxias do Sul/RS
+    // Alterado Por Moro em 18/02/2015
+    4305108: begin
+                ConfigSchema.NameSpaceXML := '';    // Caxias do Sul/RS
+                ConfigSchema.VersaoXML    := '1.1'; // Versão do XML para cidade tem que ser "1.1"
+             end;
     // Alterado Por Cleiver em 21/01/2015
     4314050: ConfigSchema.NameSpaceXML := ''; // Parobe/RS
     4317400: ConfigSchema.NameSpaceXML := ''; // Santiago/RS
@@ -138,12 +142,12 @@ begin
   ConfigSchema.Cabecalho        := '';
   ConfigSchema.ServicoEnviar    := 'nfse.xsd';
   ConfigSchema.ServicoConSit    := '';
-  ConfigSchema.ServicoConLot    := '';
-  ConfigSchema.ServicoConRps    := '';
-  ConfigSchema.ServicoConNfse   := '';
-  ConfigSchema.ServicoCancelar  := '';
-  ConfigSchema.ServicoConSeqRps := '';
-  ConfigSchema.DefTipos         := '';
+  ConfigSchema.ServicoConLot    := ''; 
+  ConfigSchema.ServicoConRps    := ''; 
+  ConfigSchema.ServicoConNfse   := ''; 
+  ConfigSchema.ServicoCancelar  := ''; 
+  ConfigSchema.ServicoConSeqRps := ''; 
+  ConfigSchema.DefTipos         := ''; 
   Result := ConfigSchema;
 end;
 
@@ -287,7 +291,10 @@ begin
    acConsLote:    Result := '';
    acConsNFSeRps: Result := '';
    acConsNFSe:    Result := '<?xml version=''1.0'' encoding=''utf-8''?><pedidoLoteNFSe'+ NameSpaceDad;
-   acCancelar:    Result := '<?xml version=''1.0'' encoding=''utf-8''?><pedAnulaNFSe'+ NameSpaceDad;
+   // Alterado Por Moro em 18/02/2015
+   // Trocado pedAnulaNFSe por pedCancelaNFSe
+   acCancelar:    Result := '<?xml version=''1.0'' encoding=''utf-8''?><pedCancelaNFSe'+ NameSpaceDad;
+   //acCancelar:    Result := '<?xml version=''1.0'' encoding=''utf-8''?><pedAnulaNFSe'+ NameSpaceDad;
    acGerar:       Result := '';
    acConsSecRps:  Result := '';
  end;
@@ -312,7 +319,10 @@ begin
    acConsLote:    Result := '';
    acConsNFSeRps: Result := '';
    acConsNFSe:    Result := '</pedidoLoteNFSe>';
-   acCancelar:    Result := '</pedAnulaNFSe>';
+   // Alterado Por Moro em 18/02/2015
+   // Trocado /pedAnulaNFSe por /pedCancelaNFSe
+   acCancelar:    Result := '</pedCancelaNFSe>';
+   //acCancelar:    Result := '</pedAnulaNFSe>';
    acGerar:       Result := '';
    acConsSecRps:  Result := '';
  end;
@@ -374,7 +384,7 @@ function TProvedorInfisc.GeraEnvelopeConsultarNFSe(URLNS: String; CabMsg,
   DadosMsg, DadosSenha: AnsiString): AnsiString;
 begin
 
-{
+ {
  result := '<?xml version="1.0" encoding="UTF-8"?>'+
            '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"'+
            ' xmlns:xsd="http://www.w3.org/2001/XMLSchema"'+
@@ -391,7 +401,7 @@ begin
            '</soapenv:Body>'+
            '</soapenv:Envelope>';
 
- }
+  }
 
 
  // Alterado por Leandro do Couto em 16/1/2015
@@ -423,14 +433,18 @@ begin
            ' xmlns:xsd="http://www.w3.org/2001/XMLSchema"'+
            ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'+
            '<soapenv:Body>'+
-           '<ns1:anularNotaFiscal soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"'+
+           // Alterado Por Moro em 18/02/2015
+           // Trocado anularNotaFiscal por cancelarNotaFiscal
+           '<ns1:cancelarNotaFiscal soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"'+
+           //'<ns1:anularNotaFiscal soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"'+
            ' xmlns:ns1="http://ws.pc.gif.com.br/">'+
            '<xml xsi:type="xsd:string">'+
            //<!-- Informacoes da nota fiscal segundo estrutura da tag NFS-e --! >
            StringReplace(StringReplace(DadosMsg, '<', '&lt;', [rfReplaceAll]), '>', '&gt;', [rfReplaceAll]) +
            //<!-- Informacoes da nota fiscal segundo estrutura da tag NFS-e --! >
            '</xml>'+
-           '</ns1:anularNotaFiscal>'+
+           '</ns1:cancelarNotaFiscal>'+
+           //'</ns1:anularNotaFiscal>'+
            '</soapenv:Body>'+
            '</soapenv:Envelope>';
 end;

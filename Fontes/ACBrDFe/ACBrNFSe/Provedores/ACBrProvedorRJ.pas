@@ -414,7 +414,8 @@ end;
 function TProvedorRJ.GetLinkNFSe(ACodMunicipio, ANumeroNFSe: Integer;
   ACodVerificacao, AInscricaoM: String; AAmbiente: Integer): String;
 begin
-  Result := '';
+  Result := 'https://notacarioca.rio.gov.br/nfse.aspx?inscricao=' +
+            AInscricaoM + '&nf=' + IntToStr(ANumeroNFSe) + '&cod=' + ACodVerificacao;
 end;
 
 end.

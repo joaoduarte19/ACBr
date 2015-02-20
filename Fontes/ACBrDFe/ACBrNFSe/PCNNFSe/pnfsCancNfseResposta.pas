@@ -446,7 +446,10 @@ begin
   try
     Leitor.Arquivo := NotaUtil.RetirarPrefixos(Leitor.Arquivo);
     Leitor.Grupo   := Leitor.Arquivo;
-    if leitor.rExtrai(1, 'resAnulaNFSe') <> '' then
+    // Alterado Por Moro em 18/02/2015
+    // Trocado resAnulaNFSe por resCancelaNFSe
+    if leitor.rExtrai(1, 'resCancelaNFSe') <> '' then
+    //if leitor.rExtrai(1, 'resAnulaNFSe') <> '' then
     begin
       InfCanc.FSucesso := Leitor.rCampo(tcStr, 'sit');
       if (InfCanc.FSucesso = '100') then // 100-Aceito

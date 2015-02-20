@@ -203,6 +203,12 @@ type
     FValorIr: currency;
     //Provedor: Infisc
     FCodigo: string;
+
+    // Alterado Por Moro em 18/02/2015 - Provedor Infisc Versão XML 1.1
+    FCodServ: string;
+    FCodLCServ: string;
+    FUnidade: string;
+
   public
     constructor Create; reintroduce;
     destructor Destroy; override;
@@ -229,6 +235,10 @@ type
     property ValorIr: currency read FValorIr write FValorIr;
     property ValorCsll: currency read FValorCsll write FValorCsll;
 
+    // Alterado Por Moro em 18/02/2015 - Provedor Infisc Versão XML 1.1
+    property CodServ     : string read FCodServ write FCodServ;
+    property CodLCServ   : string read FCodLCServ write FCodLCServ;
+    property Unidade     : string read FUnidade write FUnidade;
   end;
 
  TDeducaoCollection = class(TCollection)
@@ -519,6 +529,13 @@ type
     FNfseSubstituidora: String;
     FMotivoCancelamento: string; // para provedor ISSDSF
     FChaveNFSe: string; // para provedor Infisc
+
+    // Alterado Por Moro em 18/02/2015 - Provedor Infisc Versão XML 1.1
+    FTipoEmissao: TnfseTEmissao;
+    FEmpreitadaGlobal: TnfseTEmpreitadaGlobal;
+    FModeloNFSe: string;
+    FCancelada: TnfseSimNao;
+
   public
     constructor Create;
     destructor Destroy; override;
@@ -567,6 +584,13 @@ type
     property NfseSubstituidora: String read FNfseSubstituidora write FNfseSubstituidora;
     property MotivoCancelamento: string read FMotivoCancelamento write FMotivoCancelamento; // para provedor ISSDSF
     property ChaveNFSe: String read FChaveNFSe write FChaveNFSe; // para provedor Infisc
+
+    // Alterado Por Moro em 18/02/2015 - Provedor Infisc Versão XML 1.1
+    property TipoEmissao: TnfseTEmissao read FTipoEmissao write FTipoEmissao;
+    property EmpreitadaGlobal: TnfseTEmpreitadaGlobal read FEmpreitadaGlobal write FEmpreitadaGlobal;
+    property ModeloNFSe: string read FModeloNFSe write FModeloNFSe;
+    property Cancelada: TnfseSimNao read FCancelada write FCancelada;
+
   end;
 
  TLoteRps = class(TPersistent)
@@ -778,6 +802,13 @@ begin
  FNfseCancelamento             := TConfirmacaoCancelamento.Create;
  FNfseCancelamento.DataHora    := 0;
  FNfseSubstituidora            := '';
+
+// Alterado Por Moro em 18/02/2015 - Provedor Infisc Versão XML 1.1
+ FTipoEmissao                  := TeNormal;
+ FEmpreitadaGlobal             := EgOutros;
+ FModeloNFSe                   := '55';
+ FCancelada                    := snNao;
+
 end;
 
 destructor TNFSe.Destroy;
@@ -929,7 +960,10 @@ end;
 
 constructor TItemServicoCollectionItem.Create;
 begin
-
+  // Alterado Por Moro em 18/02/2015 - Provedor Infisc Versão XML 1.1
+  FCodigo  := '';
+  FCodServ := '';
+  FUnidade := 'UN'; 
 end;
 
 destructor TItemServicoCollectionItem.Destroy;

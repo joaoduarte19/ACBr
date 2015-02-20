@@ -1769,7 +1769,9 @@ begin
                                                       '', '');
     proInfisc: FDadosMsg := TNFSeG.Gera_DadosMsgConsNFSeInfisc(Prefixo3, Prefixo4,
                                                       NameSpaceDad, VersaoXML,
-                                                      CodCidadeToCodSiafi(strtointDef(TNFSeConsultarNfse(Self).FNotasFiscais.Items[0].NFSe.PrestadorServico.Endereco.CodigoMunicipio, 0)),
+                                                      // Alterado Por Moro em 18/02/2015
+                                                      CodCidadeToCodSiafi(strtointDef(IntToStr(TNFSeConsultarNfse(Self).FConfiguracoes.WebServices.CodigoMunicipio), 0)),
+                                                      //CodCidadeToCodSiafi(strtointDef(TNFSeConsultarNfse(Self).FNotasFiscais.Items[0].NFSe.PrestadorServico.Endereco.CodigoMunicipio, 0)),
                                                       OnlyNumber(TNFSeConsultarNfse(Self).Cnpj),
                                                       TNFSeConsultarNfse(Self).InscricaoMunicipal,
                                                       TNFSeConsultarNfse(Self).FNumeroNFSe,
@@ -2074,11 +2076,11 @@ begin
   proDigifred:  URISig := 'CANC' + TNFSeCancelarNfse(Self).FNumeroNFSe;
   proSaatri: URISig := 'Cancelamento_' + TNFSeCancelarNfse(Self).FCnpj;
   proIssIntel,
-  proISSNet    : begin
-                   URISig := '';
-                   URIRef := 'http://www.w3.org/TR/2000/REC-xhtml1-20000126/';
-                 end;
-  proTecnos    : URISig := '2' + TNFSeCancelarNfse(Self).FCnpj + IntToStrZero(StrToInt(TNFSeCancelarNfse(Self).FNumeroNFSe), 16);
+  proISSNet: begin
+              URISig := '';
+              URIRef := 'http://www.w3.org/TR/2000/REC-xhtml1-20000126/';
+             end;
+  proTecnos: URISig := '2' + TNFSeCancelarNfse(Self).FCnpj + IntToStrZero(StrToInt(TNFSeCancelarNfse(Self).FNumeroNFSe), 16);
 // Alterado por Nilton Olher - 12/02/2015
   proGovDigital: URISig := TNFSeCancelarNfse(Self).FNumeroNFSe;
  else            URISig := 'pedidoCancelamento_' + TNFSeCancelarNfse(Self).FCnpj + TNFSeCancelarNfse(Self).FIM + TNFSeCancelarNfse(Self).FNumeroNFSe;

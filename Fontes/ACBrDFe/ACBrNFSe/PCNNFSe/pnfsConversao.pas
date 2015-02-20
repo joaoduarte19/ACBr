@@ -73,8 +73,9 @@ type
   TnfseExigibilidadeISS = ( exiExigivel, exiNaoIncidencia, exiIsencao, exiExportacao, exiImunidade,
                             exiSuspensaDecisaoJudicial, exiSuspensaProcessoAdministrativo );
 
+  // Alterado Por Moro em 18/02/2015 - Provedor Infisc Versão XML 1.1
   TnfseRegimeEspecialTributacao = ( retNenhum, retMicroempresaMunicipal, retEstimativa, retSociedadeProfissionais, retCooperativa,
-                                    retMicroempresarioIndividual, retMicroempresarioEmpresaPP, retLucroReal, retLucroPresumido );
+                                    retMicroempresarioIndividual, retMicroempresarioEmpresaPP, retLucroReal, retLucroPresumido, retSimplesNacional);
   TnfseSimNao = ( snSim, snNao );
   TnfseCondicaoPagamento = (cpAVista, cpNaApresentacao, cpAPrazo, cpCartaoCredito, cpCartaoDebito);
   TnfseTipoRPS = ( trRPS, trNFConjugada, trCupom );
@@ -102,6 +103,10 @@ type
   TnfseSituacaoTributaria = ( stRetencao, stNormal, stSubstituicao );
 
   TnfseResponsavelRetencao = ( ptTomador, rtPrestador );
+
+  // Alterado Por Moro em 18/02/2015 - Provedor Infisc Versão XML 1.1
+  TnfseTEmissao = ( TeNormal, TeContigencia );
+  TnfseTEmpreitadaGlobal = ( EgConstrucaoCivil, EgOutros);
 
 function StrToHex(S: String): String;
 function StrToEnumerado(var ok: boolean; const s: string; const AString: array of string;
@@ -150,6 +155,13 @@ function StrToSituacaoTributaria(var ok: boolean; const s: string):TnfseSituacao
 
 function ResponsavelRetencaoToStr(const t: TnfseResponsavelRetencao):string;
 function StrToResponsavelRetencao(var ok: boolean; const s: string):TnfseResponsavelRetencao;
+
+// Alterado Por Moro em 18/02/2015 - Provedor Infisc Versão XML 1.1
+function TipoEmissaoToStr(const t: TnfseTEmissao):string;
+function StrToTipoEmissao(var ok: boolean; const s: string):TnfseTEmissao;
+
+function EmpreitadaGlobalToStr(const t: TnfseTEmpreitadaGlobal):string;
+function StrToEmpreitadaGlobal(var ok: boolean; const s: string):TnfseTEmpreitadaGlobal;
 
 function CondicaoToStr(const t: TnfseCondicaoPagamento): string;
 function StrToCondicao(var ok: boolean; const s: string): TnfseCondicaoPagamento;
@@ -290,24 +302,25 @@ end;
 
 // Regime Especial de Tributação ***********************************************
 
+// Alterado Por Moro em 18/02/2015 - Provedor Infisc Versão XML 1.1
 function RegimeEspecialTributacaoToStr(const t: TnfseRegimeEspecialTributacao):string;
 begin
   result := EnumeradoToStr(t,
-                           ['0','1','2','3','4','5','6','7','8'],
+                           ['0','1','2','3','4','5','6','7','8','9'],
                            [retNenhum, retMicroempresaMunicipal, retEstimativa,
                             retSociedadeProfissionais, retCooperativa,
                             retMicroempresarioIndividual, retMicroempresarioEmpresaPP,
-                            retLucroReal, retLucroPresumido]);
+                            retLucroReal, retLucroPresumido, retSimplesNacional]);
 end;
 
 function StrToRegimeEspecialTributacao(var ok: boolean; const s: string):TnfseRegimeEspecialTributacao;
 begin
   result := StrToEnumerado(ok, s,
-                          ['0','1','2','3','4','5','6','7','8'],
+                          ['0','1','2','3','4','5','6','7','8','9'],
                           [retNenhum, retMicroempresaMunicipal, retEstimativa,
                            retSociedadeProfissionais, retCooperativa,
                            retMicroempresarioIndividual, retMicroempresarioEmpresaPP,
-                           retLucroReal, retLucroPresumido]);
+                           retLucroReal, retLucroPresumido, retSimplesNacional]);
 end;
 
 // Sim/Nao *********************************************************************
@@ -1238,6 +1251,7 @@ begin
   3148103, // Patrocinio/MG
   3503307, // Araras/SP
   3511508, // Cerquilho/SP
+  3514106, // Dois Corregos/SP
   3520608, // Indiana/SP
   3524808, // Jales/SP
   3530201, // Mirante Do Paranapanema/SP
@@ -18550,6 +18564,39 @@ begin
                            ['1', '2', ''],
                            [ptTomador, rtPrestador, rtPrestador]);
 end;
+
+
+// Alterado Por Moro em 18/02/2015 - Provedor Infisc Versão XML 1.1
+// Tipo de Emissão *********************************************************
+function TipoEmissaoToStr(const t: TnfseTEmissao):string;
+begin
+  result := EnumeradoToStr(t,
+                           ['N', 'C'],
+                           [TeNormal, TeContigencia]);
+end;
+
+function StrToTipoEmissao(var ok: boolean; const s: string):TnfseTEmissao;
+begin
+  result := StrToEnumerado(ok, s,
+                           ['N', 'C'],
+                           [TeNormal, TeContigencia]);
+end;
+
+// Empreitada Global *********************************************************
+function EmpreitadaGlobalToStr(const t: TnfseTEmpreitadaGlobal):string;
+begin
+  result := EnumeradoToStr(t,
+                           ['1', '2'],
+                           [EgConstrucaoCivil, EgOutros]);
+end;
+
+function StrToEmpreitadaGlobal(var ok: boolean; const s: string):TnfseTEmpreitadaGlobal;
+begin
+  result := StrToEnumerado(ok, s,
+                           ['1', '2'],
+                           [EgConstrucaoCivil, EgOutros]);
+end;
+
 
 end.
 
