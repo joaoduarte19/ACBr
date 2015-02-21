@@ -106,11 +106,15 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+
     function Enviar(ALote: integer; Imprimir: Boolean = True;
       Sincrono: Boolean = False): Boolean; overload;
 
     function NomeModeloDFe: String; override;
     function GetNameSpaceURI: String; override;
+
+    function CstatConfirmada(AValue: integer): Boolean;
+    function CstatProcessado(AValue: integer): Boolean;
 
     function Enviar(ALote: String; Imprimir: Boolean = True;
       Sincrono: Boolean = False): Boolean; overload;
@@ -240,6 +244,24 @@ end;
 function TACBrNFe.GetNameSpaceURI: String;
 begin
   Result := ACBRNFE_NAMESPACE;
+end;
+
+function TACBrNFe.CstatConfirmada(AValue: integer): Boolean;
+begin
+  case AValue of
+    100, 150: Result := True;
+  else
+    Result := False;
+  end;
+end;
+
+function TACBrNFe.CstatProcessado(AValue: integer): Boolean;
+begin
+  case AValue of
+    100, 110, 150, 301, 302: Result := True;
+  else
+    Result := False;
+  end;
 end;
 
 function TACBrNFe.GetConfiguracoes: TConfiguracoesNFe;

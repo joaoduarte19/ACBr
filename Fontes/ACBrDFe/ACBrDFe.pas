@@ -106,7 +106,7 @@ type
     function NomeModeloDFe: String; virtual;
     function GetNameSpaceURI: String; virtual;
 
-    function Gravar(var NomeArquivo: String; ConteudoXML: String; aPath: String = ''): Boolean;
+    function Gravar(NomeArquivo: String; ConteudoXML: String; aPath: String = ''): Boolean;
     procedure EnviarEmail(const sSmtpHost, sSmtpPort, sSmtpUser,
       sSmtpPasswd, sFrom, sTo, sAssunto: String; sMensagem: TStrings;
       SSL: Boolean; sCC: TStrings = nil; Anexos: TStrings = nil;
@@ -220,7 +220,8 @@ begin
 end;
 
 
-function TACBrDFe.Gravar(var NomeArquivo: String; ConteudoXML: String; aPath: String): Boolean;
+function TACBrDFe.Gravar(NomeArquivo: String; ConteudoXML: String; aPath: String
+  ): Boolean;
 var
   UTF8Str, SoNome, SoPath: String;
 begin

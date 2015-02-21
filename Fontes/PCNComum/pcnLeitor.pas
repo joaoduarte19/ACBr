@@ -112,16 +112,12 @@ var
   ArquivoXML: TStringList;
 begin
   //NOTA: Carrega o arquivo xml na memória para posterior leitura de sua tag's
+  Result := False;
   ArquivoXML := TStringList.Create;
   try
-    try
-      ArquivoXML.LoadFromFile(CaminhoArquivo);
-      FArquivo := ArquivoXML.Text;
-      Result := True;
-    except
-      Result := False;
-      raise;
-    end;
+    ArquivoXML.LoadFromFile(CaminhoArquivo);
+    FArquivo := ArquivoXML.ToString;
+    Result := True;
   finally
     ArquivoXML.Free;
   end;
@@ -130,12 +126,8 @@ end;
 function TLeitor.CarregarArquivo(const Stream: TStringStream): boolean;
 begin
   //NOTA: Carrega o arquivo xml na memória para posterior leitura de sua tag's
-  try
-    FArquivo := Stream.DataString;
-    Result := True;
-  except
-    raise;
-  end;
+  FArquivo := Stream.DataString;
+  Result := True;
 end;
 
 function TLeitor.rExtrai(const nivel: integer; const TagInicio: string; TagFim: string = ''; const item: integer = 1): AnsiString;

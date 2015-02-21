@@ -53,8 +53,7 @@ interface
 
 uses
   Classes, SysUtils, Dialogs, Forms, StrUtils,
-  ACBrNFeConfiguracoes, ACBrDFeConfiguracoes, ACBrDFeUtil,
-  ACBrNFeDANFEClass,
+  ACBrNFeConfiguracoes, ACBrDFeUtil,
   pcnNFe, pcnNFeR, pcnNFeW, pcnConversao, pcnAuxiliar, pcnLeitor;
 
 type
@@ -65,23 +64,27 @@ type
   private
     FNFe: TNFe;
     FNFeW: TNFeW;
+    FNFeR: TNFeR;
 
     FXML: String;
     FXMLAssinado: String;
     FXMLOriginal: String;
-    FMsg: String;
     FAlertas: String;
     FErroValidacao: String;
     FErroValidacaoCompleto: String;
     FErroRegrasdeNegocios: String;
     FNomeArq: String;
 
-    //Funções para validar Regras de Negócios
     function GetConfirmada: Boolean;
-    function GetMsg: String;
     function GetProcessada: Boolean;
+
+    function GetMsg: String;
+    function GetNumID: String;
     function ValidarConcatChave: Boolean;
     function CalcularNomeArquivo: String;
+    function CalcularPathArquivo: String;
+    function CalcularNomeArquivoCompleto(NomeArquivo: String = '';
+      PathArquivo: String = ''): String;
   public
     constructor Create(Collection2: TCollection); override;
     destructor Destroy; override;
@@ -93,13 +96,16 @@ type
     function VerificarAssinatura: Boolean;
     function ValidarRegrasdeNegocios: Boolean;
 
+    function LerXML(AXML: AnsiString): Boolean;
+
     function GerarXML: String;
-    function GravarXML(CaminhoArquivo: String = ''): Boolean;
+    function GravarXML(NomeArquivo: String = ''; PathArquivo: String = ''): Boolean;
 
     function GerarTXT: String;
-    function GravarTXT(CaminhoArquivo: String = ''): Boolean;
+    function GravarTXT(NomeArquivo: String = ''; PathArquivo: String = ''): Boolean;
 
     function SaveToStream(AStream: TStream): Boolean;
+
     procedure EnviarEmail(const sSmtpHost, sSmtpPort, sSmtpUser,
       sSmtpPasswd, sFrom, sTo, sAssunto: String; sMensagem: TStrings;
       SSL: Boolean; EnviaPDF: Boolean = True; sCC: TStrings = nil;
@@ -109,13 +115,16 @@ type
 
     property NomeArq: String read FNomeArq write FNomeArq;
 
-    property NFe: TNFe read FNFe ;
-    property XML: String read FXML ;
+    property NFe: TNFe read FNFe;
+
+    property XML: String read FXML;
     property XMLOriginal: String read FXMLOriginal write FXMLOriginal;
     property XMLAssinado: String read FXMLAssinado;
     property Confirmada: Boolean read GetConfirmada;
     property Processada: Boolean read GetProcessada;
     property Msg: String read GetMsg;
+    property NumID: String read GetNumID;
+
     property Alertas: String read FAlertas;
     property ErroValidacao: String read FErroValidacao;
     property ErroValidacaoCompleto: String read FErroValidacaoCompleto;
@@ -157,8 +166,8 @@ type
     function LoadFromFile(CaminhoArquivo: String; AGerarNFe: Boolean = True): Boolean;
     function LoadFromStream(AStream: TStringStream; AGerarNFe: Boolean = True): Boolean;
     function LoadFromString(AXMLString: String; AGerarNFe: Boolean = True): Boolean;
-    function SaveToFile(PathArquivo: String = ''; SalvaTXT: Boolean = False): Boolean;
-    function SaveToTXT(PathArquivo: String = ''): Boolean;
+    function GravarXML(PathArquivo: String = ''): Boolean;
+    function GravarTXT(PathArquivo: String = ''): Boolean;
 
     property ACBrNFe: TComponent read FACBrNFe;
   end;
@@ -166,7 +175,7 @@ type
 implementation
 
 uses
-  ACBrNFe, ACBrUtil, pcnGerador, pcnConversaoNFe;
+  ACBrNFe, ACBrUtil, pcnConversaoNFe;
 
 { NotaFiscal }
 
@@ -175,6 +184,7 @@ begin
   inherited Create(Collection2);
   FNFe := TNFe.Create;
   FNFeW := TNFeW.Create(FNFe);
+  FNFeR := TNFeR.Create(FNFe);
 
   with TACBrNFe(TNotasFiscais(Collection).ACBrNFe) do
   begin
@@ -199,6 +209,7 @@ end;
 destructor NotaFiscal.Destroy;
 begin
   FNFeW.Free;
+  FNFeR.Free;
   FNFe.Free;
   inherited Destroy;
 end;
@@ -227,13 +238,10 @@ end;
 
 procedure NotaFiscal.Assinar;
 var
-  i: integer;
   XMLAss: String;
-  ArqXML, Alertas: String;
+  ArqXML: String;
   Leitor: TLeitor;
-  FMsg: String;
 begin
-  Alertas := '';
   ArqXML := GerarXML;
 
   // XML já deve estar em UTF8, para poder ser assinado //
@@ -261,7 +269,7 @@ begin
     end;
 
     if Configuracoes.Geral.Salvar then
-      Gravar(OnlyNumber(NFe.infNFe.ID) + '-nfe.xml', XMLAss);
+      Gravar(CalcularNomeArquivoCompleto(), XMLAss);
 
     if DFeUtil.NaoEstaVazio(NomeArq) then
       Gravar(NomeArq, XMLAss);
@@ -270,39 +278,43 @@ end;
 
 function NotaFiscal.Validar: Boolean;
 var
-  i: integer;
-  FMsg, Erro: String;
+  Erro, AXML: String;
   NotaEhValida: Boolean;
 begin
-(*  for i := 0 to Self.Count - 1 do
+  AXML := FXMLOriginal;
+
+  if DFeUtil.EstaVazio(AXML) then
   begin
-    if pos('<Signature', Self.Items[i].XMLOriginal) = 0 then
+    if DFeUtil.EstaVazio(FXMLAssinado) then
       Assinar;
 
-    ////NotaEhValida := NotaUtil.Valida(('<NFe xmlns' +
-    ////                RetornarConteudoEntre(Self.Items[i].XMLOriginal,
-    ////                               '<NFe xmlns', '</NFe>')+ '</NFe>'),
-    ////                FMsg, Self.FConfiguracoes.Geral.PathSchemas,
-    ////                Self.FConfiguracoes.Geral.ModeloDF,
-    ////                Self.FConfiguracoes.Geral.VersaoDF) ;
+    AXML := FXMLAssinado;
+  end;
+
+  with TACBrNFe(TNotasFiscais(Collection).ACBrNFe) do
+  begin
+    NotaEhValida := SSL.Validar(AXML, '//TODO: ACHAR O NOME DO ARQUIVO DO SCHEMA', Erro);
 
     if not NotaEhValida then
     begin
-      Erro := 'Falha na validação dos dados da nota ' +
-        IntToStr(Self.Items[i].NFe.Ide.nNF) + sLineBreak + Self.Items[i].Alertas;
+      FErroValidacao := 'Falha na validação dos dados da nota ' +
+        IntToStr(NFe.Ide.nNF) + sLineBreak + Alertas;
+      FErroValidacaoCompleto := ErroValidacao + sLineBreak + Erro;
 
-      Self.Items[i].ErroValidacaoCompleto := Erro + FMsg;
-      Self.Items[i].ErroValidacao :=
-        Erro + IfThen(Self.FConfiguracoes.Geral.ExibirErroSchema, FMsg, '');
-
-      raise EACBrNFeException.Create(Self.Items[i].ErroValidacao);
+      raise EACBrNFeException.Create(
+        IfThen(Configuracoes.Geral.ExibirErroSchema, ErroValidacaoCompleto,
+        ErroValidacao));
     end;
-  end; *)
+  end;
+
+  Result := NotaEhValida;
 end;
 
 function NotaFiscal.VerificarAssinatura: Boolean;
 begin
+  //TODO: Fazer
 
+  Result := False;
 end;
 
 function NotaFiscal.ValidarRegrasdeNegocios: Boolean;
@@ -510,26 +522,41 @@ begin
   Result := DFeUtil.EstaVazio(Erros);
 end;
 
-function NotaFiscal.GravarXML(CaminhoArquivo: String): Boolean;
+function NotaFiscal.LerXML(AXML: AnsiString): Boolean;
+var
+  Ok: Boolean;
 begin
-  if DFeUtil.EstaVazio(CaminhoArquivo) then
-    CaminhoArquivo := CalcularNomeArquivo;
+  Result := False;
+  FNFeR.Leitor.Arquivo := AXML;
+  FNFeR.LerXml;
 
-  GerarXML;
-  TACBrNFe(TNotasFiscais(Collection).ACBrNFe).Gravar(CaminhoArquivo, FXML);
-  FNomeArq := CaminhoArquivo;
+  // Detecta o modelo e a versão do Documento Fiscal
+  with TACBrNFe(TNotasFiscais(Collection).ACBrNFe) do
+  begin
+    Configuracoes.Geral.ModeloDF := StrToModeloDF(OK, IntToStr(FNFeR.NFe.Ide.modelo));
+    Configuracoes.Geral.VersaoDF := DblToVersaoDF(OK, FNFeR.NFe.infNFe.Versao);
+  end;
+
+  FXML := string(AXML);
+  FXMLOriginal := FXML;
+  Result := True;
 end;
 
-function NotaFiscal.GravarTXT(CaminhoArquivo: String): Boolean;
+function NotaFiscal.GravarXML(NomeArquivo: String; PathArquivo: String): Boolean;
+begin
+  FNomeArq := CalcularNomeArquivoCompleto(NomeArquivo, PathArquivo);
+  GerarXML;
+  Result := TACBrNFe(TNotasFiscais(Collection).ACBrNFe).Gravar(FNomeArq, FXML);
+end;
+
+function NotaFiscal.GravarTXT(NomeArquivo: String; PathArquivo: String): Boolean;
 var
   ATXT: String;
 begin
-  if DFeUtil.EstaVazio(CaminhoArquivo) then
-    CaminhoArquivo := CalcularNomeArquivo;
-
+  FNomeArq := CalcularNomeArquivoCompleto(NomeArquivo, PathArquivo);
   ATXT := GerarTXT;
-  TACBrNFe(TNotasFiscais(Collection).ACBrNFe).Gravar(ChangeFileExt(CaminhoArquivo, '.txt'), ATXT);
-  FNomeArq := CaminhoArquivo;
+  Result := TACBrNFe(TNotasFiscais(Collection).ACBrNFe).Gravar(
+    ChangeFileExt(FNomeArq, '.txt'), ATXT);
 end;
 
 function NotaFiscal.SaveToStream(AStream: TStream): Boolean;
@@ -542,10 +569,10 @@ begin
   Result := True;
 end;
 
-procedure NotaFiscal.EnviarEmail(const sSmtpHost, sSmtpPort, sSmtpUser,
-  sSmtpPasswd, sFrom, sTo, sAssunto: String; sMensagem: TStrings;
-  SSL: Boolean; EnviaPDF: Boolean = True; sCC: TStrings = nil;
-  Anexos: TStrings = nil; PedeConfirma: Boolean = False;
+procedure NotaFiscal.EnviarEmail(
+  const sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo, sAssunto: String;
+  sMensagem: TStrings; SSL: Boolean; EnviaPDF: Boolean = True;
+  sCC: TStrings = nil; Anexos: TStrings = nil; PedeConfirma: Boolean = False;
   AguardarEnvio: Boolean = False; NomeRemetente: String = '';
   TLS: Boolean = True; UsarThread: Boolean = True; HTML: Boolean = False);
 ////var
@@ -616,6 +643,7 @@ begin
 
   FNFeW.GerarXml;
   FXML := FNFeW.Gerador.ArquivoFormatoXML;
+  FXMLAssinado := '';
   FAlertas := FNFeW.Gerador.ListaDeAlertas.Text;
   Result := FXML;
 end;
@@ -641,12 +669,41 @@ function NotaFiscal.CalcularNomeArquivo: String;
 var
   xID: String;
 begin
-  xID := OnlyNumber(NFe.infNFe.ID);
+  xID := Self.NumID;
 
   if DFeUtil.EstaVazio(xID) then
     raise EACBrNFeException.Create('ID Inválido. Impossível Salvar XML');
 
   Result := xID + '-nfe.xml';
+end;
+
+function NotaFiscal.CalcularPathArquivo: String;
+var
+  Data: TDateTime;
+begin
+  with TACBrNFe(TNotasFiscais(Collection).ACBrNFe) do
+  begin
+    if Configuracoes.Arquivos.EmissaoPathNFe then
+      Data := FNFe.Ide.dEmi
+    else
+      Data := Now;
+
+    Result := PathWithDelim(Configuracoes.Arquivos.GetPathNFe(Data, FNFe.Emit.CNPJCPF));
+  end;
+end;
+
+function NotaFiscal.CalcularNomeArquivoCompleto(NomeArquivo: String;
+  PathArquivo: String): String;
+begin
+  if DFeUtil.EstaVazio(NomeArquivo) then
+    NomeArquivo := CalcularNomeArquivo;
+
+  if DFeUtil.EstaVazio(PathArquivo) then
+    PathArquivo := CalcularPathArquivo
+  else
+    PathArquivo := PathWithDelim(PathArquivo);
+
+  Result := PathArquivo + NomeArquivo;
 end;
 
 function NotaFiscal.ValidarConcatChave: Boolean;
@@ -655,21 +712,30 @@ var
 begin
   DecodeDate(nfe.ide.dEmi, wAno, wMes, wDia);
 
-  Result := not ((Copy(NFe.infNFe.ID, 4, 2) <> IntToStrZero(nfe.ide.cUF, 2)) or
-    (Copy(NFe.infNFe.ID, 6, 2) <> Copy(FormatFloat('0000', wAno), 3, 2)) or
-    (Copy(NFe.infNFe.ID, 8, 2) <> FormatFloat('00', wMes)) or
-    (Copy(NFe.infNFe.ID, 10, 14) <> copy(OnlyNumber(nfe.Emit.CNPJCPF) +
-    '00000000000000', 1, 14)) or (Copy(NFe.infNFe.ID, 24, 2) <>
-    IntToStrZero(nfe.ide.modelo, 2)) or (Copy(NFe.infNFe.ID, 26, 3) <>
-    IntToStrZero(nfe.ide.serie, 3)) or (Copy(NFe.infNFe.ID, 29, 9) <>
-    IntToStrZero(nfe.ide.nNF, 9)) or (Copy(NFe.infNFe.ID, 38, 1) <>
-    TpEmisToStr(nfe.ide.tpEmis)) or (Copy(NFe.infNFe.ID, 39, 8) <>
-    IntToStrZero(nfe.ide.cNF, 8)));
+{(*}
+  Result := not
+    ((Copy(NFe.infNFe.ID, 4, 2) <> IntToStrZero(NFe.Ide.cUF, 2)) or
+    (Copy(NFe.infNFe.ID, 6, 2)  <> Copy(FormatFloat('0000', wAno), 3, 2)) or
+    (Copy(NFe.infNFe.ID, 8, 2)  <> FormatFloat('00', wMes)) or
+    (Copy(NFe.infNFe.ID, 10, 14)<> DFeUtil.PadE(OnlyNumber(NFe.Emit.CNPJCPF), 14, '0')) or
+    (Copy(NFe.infNFe.ID, 24, 2) <> IntToStrZero(NFe.Ide.modelo, 2)) or
+    (Copy(NFe.infNFe.ID, 26, 3) <> IntToStrZero(NFe.Ide.serie, 3)) or
+    (Copy(NFe.infNFe.ID, 29, 9) <> IntToStrZero(NFe.Ide.nNF, 9)) or
+    (Copy(NFe.infNFe.ID, 38, 1) <> TpEmisToStr(NFe.Ide.tpEmis)) or
+    (Copy(NFe.infNFe.ID, 39, 8) <> IntToStrZero(NFe.Ide.cNF, 8)));
+{*)}
 end;
 
 function NotaFiscal.GetConfirmada: Boolean;
 begin
-  Result := (FNFe.procNFe.cStat = 100 or 150);
+  Result := TACBrNFe(TNotasFiscais(Collection).ACBrNFe).CstatConfirmada(
+    FNFe.procNFe.cStat);
+end;
+
+function NotaFiscal.GetProcessada: Boolean;
+begin
+  Result := TACBrNFe(TNotasFiscais(Collection).ACBrNFe).CstatProcessado(
+    FNFe.procNFe.cStat);
 end;
 
 function NotaFiscal.GetMsg: String;
@@ -677,10 +743,11 @@ begin
   Result := FNFe.procNFe.xMotivo;
 end;
 
-function NotaFiscal.GetProcessada: Boolean;
+function NotaFiscal.GetNumID: String;
 begin
-  Result := (FNFe.procNFe.cStat = 100 or 110 or 150 or 301 or 302)
+  Result := Trim(OnlyNumber(NFe.infNFe.ID));
 end;
+
 
 { TNotasFiscais }
 
@@ -804,34 +871,26 @@ function TNotasFiscais.LoadFromFile(CaminhoArquivo: String;
   AGerarNFe: Boolean = True): Boolean;
 var
   ArquivoXML: TStringList;
-  XMLOriginal, XML, Alertas: String;
+  XML: String;
+  XMLOriginal: AnsiString;
   i: integer;
 begin
-  Result := True;
+  Result := False;
+  ArquivoXML := TStringList.Create;
   try
-    ArquivoXML := TStringList.Create;
-    try
-      ArquivoXML.LoadFromFile(CaminhoArquivo);
-      XMLOriginal := ArquivoXML.Text;
+    ArquivoXML.LoadFromFile(CaminhoArquivo);
+    XMLOriginal := ArquivoXML.ToString;
 
-      // Converte de UTF8 para a String nativa da IDE //
-      XML := DecodeToString(XMLOriginal, True);
+    // Converte de UTF8 para a String nativa da IDE //
+    XML := DecodeToString(XMLOriginal, True);
+    LoadFromString(XML, AGerarNFe);
 
-      LoadFromString(XML);
+    for i := 0 to Self.Count - 1 do
+      Self.Items[i].NomeArq := CaminhoArquivo;
 
-      for i := 0 to Self.Count - 1 do
-      begin
-        if AGerarNFe then
-          Self.Items[i].GerarXML;
-
-        Self.Items[i].NomeArq := CaminhoArquivo;
-      end;
-    finally
-      ArquivoXML.Free;
-    end;
-  except
-    Result := False;
-    raise;
+    Result := True;
+  finally
+    ArquivoXML.Free;
   end;
 end;
 
@@ -840,142 +899,111 @@ function TNotasFiscais.LoadFromStream(AStream: TStringStream;
 var
   XMLOriginal: String;
 begin
-  try
-    Result := True;
-    XMLOriginal := '';
-    AStream.Position := 0;
-    SetLength(XMLOriginal, AStream.Size);
-    AStream.ReadBuffer(XMLOriginal[1], AStream.Size);
+  Result := False;
+  XMLOriginal := '';
+  AStream.Position := 0;
+  SetLength(XMLOriginal, AStream.Size);
+  AStream.ReadBuffer(XMLOriginal[1], AStream.Size);
 
-    LoadFromString(XMLOriginal, AGerarNFe);
-  except
-    Result := False;
-    raise;
-  end;
+  Result := Self.LoadFromString(XMLOriginal, AGerarNFe);
 end;
 
 function TNotasFiscais.LoadFromString(AXMLString: String;
   AGerarNFe: Boolean = True): Boolean;
 var
-  LocNFeR: TNFeR;
-  XML: String;
-  Ok: Boolean;
-  Versao: String;
-  P: integer;
-begin
-  Result := True;
-  try
-    while pos('</NFe>', AXMLString) > 0 do
-    begin
-      if pos('</nfeProc>', AXMLString) > 0 then
-      begin
-        P := pos('</nfeProc>', AXMLString);
-        XML := copy(AXMLString, 1, P + 5);
-        AXMLString := Trim(copy(AXMLString, P + 10, length(AXMLString)));
-      end
-      else
-      begin
-        P := pos('</NFe>', AXMLString);
-        XML := copy(AXMLString, 1, P + 5);
-        AXMLString := Trim(copy(AXMLString, P + 6, length(AXMLString)));
-      end;
+  AXML: AnsiString;
+  P, N: integer;
 
-      LocNFeR := TNFeR.Create(Self.Add.NFe);
-      try
-        LocNFeR.Leitor.Arquivo := XML;
-        LocNFeR.LerXml;
-
-        // Detecta o modelo e a versão do Documento Fiscal
-        FConfiguracoes.Geral.ModeloDF :=
-          StrToModeloDF(OK, IntToStr(LocNFeR.NFe.Ide.modelo));
-        Versao := LocNFeR.NFe.infNFe.VersaoStr;
-        Versao := StringReplace(Versao, 'versao="', '', [rfReplaceAll, rfIgnoreCase]);
-        Versao := StringReplace(Versao, '"', '', [rfReplaceAll, rfIgnoreCase]);
-        FConfiguracoes.Geral.VersaoDF := StrToVersaoDF(OK, Versao);
-
-        Items[Self.Count - 1].XML := XML;
-        Items[Self.Count - 1].XMLOriginal := XML;
-      finally
-        LocNFeR.Free;
-      end;
-    end;
-
-    if AGerarNFe then
-      GerarNFe;
-  except
-    Result := False;
-    raise;
+  function PosNFe: integer;
+  begin
+    Result := pos('</NFe>', AXMLString);
   end;
-end;
 
-function TNotasFiscais.SaveToFile(PathArquivo: String = '';
-  SalvaTXT: Boolean = False): Boolean;
-var
-  i: integer;
-  CaminhoArquivo: String;
-begin
-  Result := True;
-  try
-    for i := 0 to TACBrNFe(FACBrNFe).NotasFiscais.Count - 1 do
-    begin
-      if DFeUtil.EstaVazio(PathArquivo) then
-        PathArquivo := TACBrNFe(FACBrNFe).Configuracoes.Arquivos.PathSalvar
-      else
-        PathArquivo := ExtractFilePath(PathArquivo);
-      CaminhoArquivo := PathWithDelim(PathArquivo) + StringReplace(
-        TACBrNFe(FACBrNFe).NotasFiscais.Items[i].NFe.infNFe.ID, 'NFe',
-        '', [rfIgnoreCase]) + '-nfe.xml';
-
-      TACBrNFe(FACBrNFe).NotasFiscais.Items[i].SaveToFile(CaminhoArquivo, SalvaTXT);
-    end;
-  except
-    Result := False;
-  end;
-end;
-
-function TNotasFiscais.SaveToTXT(PathArquivo: String): Boolean;
-var
-  loSTR: TStringList;
-  ArqXML, Alertas, ArqTXT: String;
-  I, J: integer;
 begin
   Result := False;
-  loSTR := TStringList.Create;
+  N := PosNFe;
+  while N > 0 do
+  begin
+    P := pos('</nfeProc>', AXMLString);
+    if P > 0 then
+    begin
+      AXML := copy(AXMLString, 1, P + 5);
+      AXMLString := Trim(copy(AXMLString, P + 10, length(AXMLString)));
+    end
+    else
+    begin
+      AXML := copy(AXMLString, 1, N + 5);
+      AXMLString := Trim(copy(AXMLString, N + 6, length(AXMLString)));
+    end;
+
+    with Self.Add do
+    begin
+      LerXML(AXML);
+
+      if AGerarNFe then // Recalcula o XML
+        GerarXML;
+    end;
+
+    N := PosNFe;
+  end;
+end;
+
+function TNotasFiscais.GravarXML(PathArquivo: String): Boolean;
+var
+  i: integer;
+begin
+  Result := True;
+  i := 0;
+  while Result and (i < Self.Count) do
+  begin
+    Result := Self.Items[i].GravarXML('', PathArquivo);
+    Inc(i);
+  end;
+end;
+
+function TNotasFiscais.GravarTXT(PathArquivo: String): Boolean;
+var
+  SL: TStringList;
+  ArqTXT: String;
+  I: integer;
+begin
+  Result := False;
+  SL := TStringList.Create;
   try
-    loSTR.Clear;
+    SL.Clear;
     for I := 0 to Self.Count - 1 do
     begin
       ArqTXT := Self.Items[I].GerarTXT;
-      // loSTR.Text := ArqTXT;
-      loSTR.Add(ArqTXT);
+      SL.Add(ArqTXT);
     end;
 
-    if loSTR.Count > 0 then
+    if SL.Count > 0 then
     begin
-      loSTR.Insert(0, 'NOTA FISCAL|' + IntToStr(Self.Count));
-      J := loSTR.Count;
+      // Inserindo cabeçalho //
+      SL.Insert(0, 'NOTA FISCAL|' + IntToStr(Self.Count));
+
+      // Apagando as linhas em branco //
       i := 0;
-      while (I <= J - 1) do
+      while (i <= SL.Count - 1) do
       begin
-        if loSTR.Strings[I] = '' then
-        begin
-          loSTR.Delete(I);
-          J := J - 1;
-        end
+        if SL[I] = '' then
+          SL.Delete(I)
         else
-          I := I + 1;
+          Inc(i);
       end;
 
       if DFeUtil.EstaVazio(PathArquivo) then
-        PathArquivo := PathWithDelim(TACBrNFe(
-          FACBrNFe).Configuracoes.Arquivos.PathSalvar) + 'NFe.TXT';
-      loSTR.SaveToFile(PathArquivo);
+        PathArquivo := PathWithDelim(
+          TACBrNFe(FACBrNFe).Configuracoes.Arquivos.PathSalvar) + 'NFe.TXT';
+
+      SL.SaveToFile(PathArquivo);
       Result := True;
     end;
   finally
-    loSTR.Free;
+    SL.Free;
   end;
 end;
+
 
 end.
 (*  TODO: para onde vai
