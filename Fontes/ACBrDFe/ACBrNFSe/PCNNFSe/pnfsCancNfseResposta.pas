@@ -63,6 +63,7 @@ type
     property Pedido: TPedidocancelamento           read FPedido      write FPedido;
     property DataHora: TDateTime                   read FDataHora    write FDataHora;
     property Confirmacao: String                   read FConfirmacao write FConfirmacao;  // Alterado por Nilton Olher - 20/02/2015
+    property Sucesso: String                       read FSucesso     write FSucesso;
     property MsgCanc: String                       read FMsgCanc     write FMsgCanc;
     property MsgRetorno: TMsgRetornoCancCollection read FMsgRetorno write SetMsgRetorno;
     property NotasCanceladas: TNotasCanceladasCollection read FNotasCanceladas write SetNotasCanceladas;
