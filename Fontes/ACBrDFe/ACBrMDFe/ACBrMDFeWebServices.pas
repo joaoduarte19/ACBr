@@ -1706,7 +1706,7 @@ begin
     if aEventos <> '' then
       aMsg := aMsg + sLineBreak + aEventos;
 
-    Result := (MDFeRetorno.CStat in [100, 101, 110, 150, 151, 155]);
+    Result := (MDFeRetorno.CStat in [100, 101, 110, 132, 150, 151, 155]);
 
     NomeArquivo := PathWithDelim(FConfiguracoes.Geral.PathSalvar) + FMDFeChave;
 
