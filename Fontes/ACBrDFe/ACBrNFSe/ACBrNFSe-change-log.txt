@@ -47,6 +47,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/02/2015
+[-] Correção na unit pnfsNFSeR para o provedor ISSe com relação ao Valor do ISS
+    Retido.
+    Por: Armando Boza Gonçalves
+
 21/02/2015
 [-] Correção, estava faltando a definição da propriedade Sucesso.
     Por: Italo Jurisato Junior
