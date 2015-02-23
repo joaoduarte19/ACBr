@@ -1311,11 +1311,10 @@ begin
 
         if (FProvedor = proISSe) then // Joel Takei 10/12/2014
         begin
-          if StrToSituacaoTributaria(ok, Leitor.rCampo(tcStr, 'IssRetido')) = stRetencao then
+          if NFSe.Servico.Valores.IssRetido = stRetencao then
             NFSe.Servico.Valores.ValorIssRetido := Leitor.rCampo(tcDe2, 'ValorIss')
           else
             NFSe.Servico.Valores.ValorIssRetido := 0;
-
         end
         else
           NFSe.Servico.Valores.ValorIssRetido := Leitor.rCampo(tcDe2, 'ValorIssRetido');
