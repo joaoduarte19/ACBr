@@ -371,13 +371,15 @@ begin
    begin
     (*
     case ALayOut of
-      LayNfeRecepcao      : Result := ifThen(AAmbiente=1, 'https://nfce.sefaz.am.gov.br/nfce-services/services/NfeRecepcao2',      'https://homnfce.sefaz.am.gov.br/nfce-services/services/NfeRecepcao2');
-      LayNfeRetRecepcao   : Result := ifThen(AAmbiente=1, 'https://nfce.sefaz.am.gov.br/nfce-services/services/NfeRetRecepcao2',   'https://homnfce.sefaz.am.gov.br/nfce-services/services/NfeRetRecepcao2');
-      LayNfeInutilizacao  : Result := ifThen(AAmbiente=1, 'https://nfce.sefaz.am.gov.br/nfce-services/services/NfeInutilizacao2',  'https://homnfce.sefaz.am.gov.br/nfce-services/services/NfeInutilizacao2');
-      LayNfeConsulta      : Result := ifThen(AAmbiente=1, 'https://nfce.sefaz.am.gov.br/nfce-services/services/NfeConsulta2',      'https://homnfce.sefaz.am.gov.br/nfce-services/services/NfeConsulta2');
-      LayNfeStatusServico : Result := ifThen(AAmbiente=1, 'https://nfce.sefaz.am.gov.br/nfce-services/services/NfeStatusServico2', 'https://homnfce.sefaz.am.gov.br/nfce-services/services/NfeStatusServico2');
+      LayNfeRecepcao       : Result := ifThen(AAmbiente=1, 'https://nfce.sefaz.am.gov.br/nfce-services/services/NfeRecepcao2',      'https://homnfce.sefaz.am.gov.br/nfce-services/services/NfeRecepcao2');
+      LayNfeRetRecepcao    : Result := ifThen(AAmbiente=1, 'https://nfce.sefaz.am.gov.br/nfce-services/services/NfeRetRecepcao2',   'https://homnfce.sefaz.am.gov.br/nfce-services/services/NfeRetRecepcao2');
+      LayNfeInutilizacao   : Result := ifThen(AAmbiente=1, 'https://nfce.sefaz.am.gov.br/nfce-services/services/NfeInutilizacao2',  'https://homnfce.sefaz.am.gov.br/nfce-services/services/NfeInutilizacao2');
+      LayNfeConsulta       : Result := ifThen(AAmbiente=1, 'https://nfce.sefaz.am.gov.br/nfce-services/services/NfeConsulta2',      'https://homnfce.sefaz.am.gov.br/nfce-services/services/NfeConsulta2');
+      LayNfeStatusServico  : Result := ifThen(AAmbiente=1, 'https://nfce.sefaz.am.gov.br/nfce-services/services/NfeStatusServico2', 'https://homnfce.sefaz.am.gov.br/nfce-services/services/NfeStatusServico2');
       LayNFeCCe,
-      LayNFeEvento        : Result := ifThen(AAmbiente=1, 'https://nfce.sefaz.am.gov.br/nfce-services/services/RecepcaoEvento',    'https://homnfce.sefaz.am.gov.br/nfce-services/services/RecepcaoEvento');
+      LayNFeEvento         : Result := ifThen(AAmbiente=1, 'https://nfce.sefaz.am.gov.br/nfce-services/services/RecepcaoEvento',    'https://homnfce.sefaz.am.gov.br/nfce-services/services/RecepcaoEvento');
+
+      LayAdministrarCSCNFCe: Result := ifThen(AAmbiente=1, 'https://nfce.sefaz.am.gov.br/nfce-services/services/CscNFCe',           'https://homnfce.sefaz.am.gov.br/nfce-services/services/CscNFCe');
     end;
     *)
 
@@ -394,7 +396,7 @@ begin
       LayNFeCCe,
       LayNFeEvento         : Result := ifThen(AAmbiente=1, 'https://nfce.sefaz.am.gov.br/nfce-services/services/RecepcaoEvento',    'https://homnfce.sefaz.am.gov.br/nfce-services-nac/services/RecepcaoEvento');
 
-      LayAdministrarCSCNFCe: Result := ifThen(AAmbiente=1, '', '');
+      LayAdministrarCSCNFCe: Result := ifThen(AAmbiente=1, 'https://nfce.sefaz.am.gov.br/nfce-services/services/CscNFCe',           'https://homnfce.sefaz.am.gov.br/nfce-services/services/CscNFCe');
     end;
    end;
 end;
