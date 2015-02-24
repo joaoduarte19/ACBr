@@ -47,7 +47,7 @@ uses
   ACBrNFeDANFEClass,
   pcnNFe, pcnConversao, pcnConversaoNFe, pcnCCeNFe,
   pcnEnvEventoNFe, pcnInutNFe,
-  pcnDownloadNFe, pcnRetDistDFeInt,
+  pcnDownloadNFe, pcnRetDownloadNFe, pcnRetDistDFeInt,
   ACBrDFeUtil, ACBrUtil;
 
 const
@@ -89,6 +89,7 @@ type
     FEventoNFe: TEventoNFe;
     FInutNFe: TInutNFe;
     FDownloadNFe: TDownload;
+    FRetDownloadNFe: TRetDownloadNFe;
     FRetDistDFeInt: TRetDistDFeInt;
     FStatus: TStatusACBrNFe;
     FWebServices: TWebServices;
@@ -140,6 +141,7 @@ type
     property EventoNFe: TEventoNFe read FEventoNFe write FEventoNFe;
     property InutNFe: TInutNFe read FInutNFe write FInutNFe;
     property DownloadNFe: TDownload read FDownloadNFe write FDownloadNFe;
+    property RetDownloadNFe: TRetDownloadNFe read FRetDownloadNFe write FRetDownloadNFe;
     property RetDistDFeInt: TRetDistDFeInt read FRetDistDFeInt write FRetDistDFeInt;
     property Status: TStatusACBrNFe read FStatus;
 

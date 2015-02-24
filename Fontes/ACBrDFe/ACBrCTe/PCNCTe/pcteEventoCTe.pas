@@ -314,27 +314,9 @@ end;
 
 function TInfEvento.getTipoEvento: String;
 begin
-  case FTpEvento of
-    teCCe                      : Result := '110110'; // CCe
-    teCancelamento             : Result := '110111'; // Cancelamento
-    teEncerramento             : Result := '110112';
-    teEPEC                     : Result := '110113'; // EPEC CT-e
-    teInclusaoCondutor         : Result := '110114';
-    teEPECNFe                  : Result := '110140'; // EPEC NF-e
-    teMultiModal               : Result := '110160';
-    teManifDestConfirmacao     : Result := '210200'; // Manif. Destinatario: Confirmacao da Operacao
-    teManifDestCiencia         : Result := '210210'; // Manif. Destinatario: Ciencia da Operacao
-    teManifDestDesconhecimento : Result := '210220'; // Manif. Destinatario: Desconhecimento da Operacao
-    teManifDestOperNaoRealizada: Result := '210240'; // Manif. Destinatario: Operação nao Realizada
-    teRegistroPassagem         : Result := '310620';
-    teRegistroPassagemBRId     : Result := '510620';
-    teRegistroCTe              : Result := '610600';
-    teRegistroPassagemNFeCancelado: Result := '610501';
-    teRegistroPassagemNFeRFID     : Result := '610550';
-    teCTeCancelado                : Result := '610601';
-    teMDFeCancelado               : Result := '610611';
-    teVistoriaSuframa             : Result := '990900';
-  else
+  try
+    Result := TpEventoToStr( FTpEvento );
+  except
     raise EventoException.Create('Tipo do Evento não Implementado!');
   end;
 end;
