@@ -44,7 +44,7 @@ uses
   Classes, SysUtils, IniFiles,
   ACBrBase, ACBrDFeConfiguracoes, ACBrMail, ACBrDFeSSL, pcnConversao,
   {$IFDEF FPC}
-     LazarusPackageIntf, PropEdits, componenteditors
+     PropEdits
   {$ELSE}
     {$IFNDEF COMPILER6_UP}
        DsgnIntf

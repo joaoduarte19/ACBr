@@ -92,7 +92,7 @@ type
     procedure ImprimirPDF;
 
     procedure Assinar;
-    function Validar: Boolean;
+    procedure Validar;
     function VerificarAssinatura: Boolean;
     function ValidarRegrasdeNegocios: Boolean;
 
@@ -149,8 +149,8 @@ type
     procedure GerarNFe;
     procedure Assinar;
     procedure Validar;
-    procedure VerificarAssinatura;
-    procedure ValidarRegrasdeNegocios;
+    function VerificarAssinatura(out Erros: String): Boolean;
+    function ValidarRegrasdeNegocios(out Erros: String): Boolean;
     procedure Imprimir;
     procedure ImprimirResumido;
     procedure ImprimirPDF;
@@ -254,6 +254,7 @@ begin
     FXMLAssinado := XMLAss;
 
     // Remove header, pois podem existir várias Notas no XML //
+    //TODO: Verificar se precisa
     //XMLAss := StringReplace(XMLAss, '<' + ENCODING_UTF8_STD + '>', '', [rfReplaceAll]);
     //XMLAss := StringReplace(XMLAss, '<' + XML_V01 + '>', '', [rfReplaceAll]);
 
@@ -276,10 +277,11 @@ begin
   end;
 end;
 
-function NotaFiscal.Validar: Boolean;
+procedure NotaFiscal.Validar;
 var
   Erro, AXML: String;
   NotaEhValida: Boolean;
+  ALayout: TLayOut;
 begin
   AXML := FXMLOriginal;
 
@@ -293,11 +295,16 @@ begin
 
   with TACBrNFe(TNotasFiscais(Collection).ACBrNFe) do
   begin
-    NotaEhValida := SSL.Validar(AXML, '//TODO: ACHAR O NOME DO ARQUIVO DO SCHEMA', Erro);
+    if EhAutorizacao then
+      ALayout := LayNfeRetAutorizacao
+    else
+      ALayout := LayNfeRetRecepcao;
+
+    NotaEhValida := SSL.Validar(AXML, GerarNomeArqSchema(ALayout), Erro);
 
     if not NotaEhValida then
     begin
-      FErroValidacao := 'Falha na validação dos dados da nota ' +
+      FErroValidacao := 'Falha na validação dos dados da nota: ' +
         IntToStr(NFe.Ide.nNF) + sLineBreak + Alertas;
       FErroValidacaoCompleto := ErroValidacao + sLineBreak + Erro;
 
@@ -306,15 +313,35 @@ begin
         ErroValidacao));
     end;
   end;
-
-  Result := NotaEhValida;
 end;
 
 function NotaFiscal.VerificarAssinatura: Boolean;
+var
+  Erro, AXML: String;
+  AssEhValida: Boolean;
 begin
-  //TODO: Fazer
+  AXML := FXMLOriginal;
 
-  Result := False;
+  if DFeUtil.EstaVazio(AXML) then
+  begin
+    if DFeUtil.EstaVazio(FXMLAssinado) then
+      Assinar;
+
+    AXML := FXMLAssinado;
+  end;
+
+  with TACBrNFe(TNotasFiscais(Collection).ACBrNFe) do
+  begin
+    AssEhValida := SSL.VerificarAssinatura(AXML, Erro);
+
+    if not AssEhValida then
+    begin
+      FErroValidacao := 'Falha na validação da assinatura da nota: ' +
+        IntToStr(NFe.Ide.nNF) + sLineBreak + Erro;
+    end;
+  end;
+
+  Result := AssEhValida;
 end;
 
 function NotaFiscal.ValidarRegrasdeNegocios: Boolean;
@@ -518,8 +545,16 @@ begin
     end;
   end;
 
-  FErroRegrasdeNegocios := Erros;
   Result := DFeUtil.EstaVazio(Erros);
+
+  if not Result then
+  begin
+    Erros := 'Erro(s) nas Regras de negócios da nota: '+
+           IntToStr(NFe.Ide.nNF) + sLineBreak +
+           Erros;
+  end;
+
+  FErroRegrasdeNegocios := Erros;
 end;
 
 function NotaFiscal.LerXML(AXML: AnsiString): Boolean;
@@ -569,10 +604,10 @@ begin
   Result := True;
 end;
 
-procedure NotaFiscal.EnviarEmail(
-  const sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo, sAssunto: String;
-  sMensagem: TStrings; SSL: Boolean; EnviaPDF: Boolean = True;
-  sCC: TStrings = nil; Anexos: TStrings = nil; PedeConfirma: Boolean = False;
+procedure NotaFiscal.EnviarEmail(const sSmtpHost, sSmtpPort, sSmtpUser,
+  sSmtpPasswd, sFrom, sTo, sAssunto: String; sMensagem: TStrings;
+  SSL: Boolean; EnviaPDF: Boolean = True; sCC: TStrings = nil;
+  Anexos: TStrings = nil; PedeConfirma: Boolean = False;
   AguardarEnvio: Boolean = False; NomeRemetente: String = '';
   TLS: Boolean = True; UsarThread: Boolean = True; HTML: Boolean = False);
 ////var
@@ -580,7 +615,7 @@ procedure NotaFiscal.EnviarEmail(
 //// AnexosEmail:TStrings;
 //// StreamNFe : TStringStream;
 begin
-  // TODO:
+  // TODO: Fazer
   ////AnexosEmail := TStringList.Create;
   ////StreamNFe  := TStringStream.Create('');
   ////try
@@ -712,7 +747,7 @@ var
 begin
   DecodeDate(nfe.ide.dEmi, wAno, wMes, wDia);
 
-{(*}
+  {(*}
   Result := not
     ((Copy(NFe.infNFe.ID, 4, 2) <> IntToStrZero(NFe.Ide.cUF, 2)) or
     (Copy(NFe.infNFe.ID, 6, 2)  <> Copy(FormatFloat('0000', wAno), 3, 2)) or
@@ -723,7 +758,7 @@ begin
     (Copy(NFe.infNFe.ID, 29, 9) <> IntToStrZero(NFe.Ide.nNF, 9)) or
     (Copy(NFe.infNFe.ID, 38, 1) <> TpEmisToStr(NFe.Ide.tpEmis)) or
     (Copy(NFe.infNFe.ID, 39, 8) <> IntToStrZero(NFe.Ide.cNF, 8)));
-{*)}
+  {*)}
 end;
 
 function NotaFiscal.GetConfirmada: Boolean;
@@ -839,31 +874,40 @@ var
   i: integer;
 begin
   for i := 0 to Self.Count - 1 do
-  begin
-    if not Self.Items[i].Validar then
-      raise EACBrNFeException.Create(Self.Items[i].ErroValidacao);
-  end;
+    Self.Items[i].Validar;   // Dispara exception em caso de erro
 end;
 
-procedure TNotasFiscais.VerificarAssinatura;
+function TNotasFiscais.VerificarAssinatura(out Erros: String): Boolean;
 var
   i: integer;
 begin
+  Result := True;
+  Erros := '';
+
   for i := 0 to Self.Count - 1 do
   begin
     if not Self.Items[i].VerificarAssinatura then
-      raise EACBrNFeException.Create(Self.Items[i].ErroValidacao);
+    begin
+      Result := False;
+      Erros := Erros + Self.Items[i].ErroValidacao + sLineBreak;
+    end;
   end;
 end;
 
-procedure TNotasFiscais.ValidarRegrasdeNegocios;
+function TNotasFiscais.ValidarRegrasdeNegocios(out Erros: String): Boolean;
 var
   i: integer;
 begin
+  Result := True;
+  Erros := '';
+
   for i := 0 to Self.Count - 1 do
   begin
     if not Self.Items[i].ValidarRegrasdeNegocios then
-      raise EACBrNFeException.Create(Self.Items[i].ErroRegrasdeNegocios);
+    begin
+      Result := False;
+      Erros := Erros + Self.Items[i].ErroRegrasdeNegocios + sLineBreak;
+    end;
   end;
 end;
 
@@ -1006,7 +1050,7 @@ end;
 
 
 end.
-(*  TODO: para onde vai
+(*  TODO: VERIFICAR SE PODE APAGAR
 
 TSendMailThread = class(TThread)
 private

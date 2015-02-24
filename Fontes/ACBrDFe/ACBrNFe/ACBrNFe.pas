@@ -113,12 +113,10 @@ type
 
     function NomeModeloDFe: String; override;
     function GetNameSpaceURI: String; override;
+    function EhAutorizacao: Boolean;
 
     function CstatConfirmada(AValue: integer): Boolean;
     function CstatProcessado(AValue: integer): Boolean;
-
-    function IdentificaSchemaNFe(const AXML: String): TSchemaNFe;
-    function IdentificaArqSchema(const ASchema: TSchemaNFe): String;
 
     function Enviar(ALote: String; Imprimir: Boolean = True;
       Sincrono: Boolean = False): Boolean; overload;
@@ -130,10 +128,14 @@ type
       IndEmi: TpcnIndicadorEmissor; ultNSU: String): Boolean;
     function Download: Boolean;
 
-    property Configuracoes: TConfiguracoesNFe
-      read GetConfiguracoes write SetConfiguracoes;
+    property Configuracoes: TConfiguracoesNFe read GetConfiguracoes write SetConfiguracoes;
+
     function LerVersaoDeParams(LayOutServico: TLayOut): String; overload;
     function LerURLDeParams(LayOutServico: TLayOut): String; overload;
+
+    function IdentificaSchemaNFe(const AXML: String): TSchemaNFe;
+    function IdentificaSchemaLayout(const ALayOut: TLayOut): TSchemaNFe;
+    function GerarNomeArqSchema(const ALayOut: TLayOut): String;
 
     property WebServices: TWebServices read FWebServices write FWebServices;
     property NotasFiscais: TNotasFiscais read FNotasFiscais write FNotasFiscais;
@@ -272,6 +274,14 @@ begin
   end;
 end;
 
+function TACBrNFe.EhAutorizacao: Boolean;
+begin
+  Result := (Configuracoes.Geral.VersaoDF = ve310);
+
+  if Configuracoes.Geral.ModeloDF = moNFCe then
+    Result := not (Configuracoes.WebServices.UFCodigo in [13]); // AM
+end;
+
 function TACBrNFe.IdentificaSchemaNFe(const AXML: String): TSchemaNFe;
 var
   lTipoEvento: String;
@@ -301,9 +311,11 @@ begin
           else if lTipoEvento = '210200' then
             Result := schEnvConfRecebto //Manif. Destinatario: Confirmação da Operação
           else if lTipoEvento = '210210' then
-            Result := schEnvConfRecebto //Manif. Destinatario: Ciência da Operação Realizada
+            Result := schEnvConfRecebto
+          //Manif. Destinatario: Ciência da Operação Realizada
           else if lTipoEvento = '210220' then
-            Result := schEnvConfRecebto //Manif. Destinatario: Desconhecimento da Operação
+            Result := schEnvConfRecebto
+          //Manif. Destinatario: Desconhecimento da Operação
           else if lTipoEvento = '210240' then
             Result := schEnvConfRecebto // Manif. Destinatario: Operação não Realizada
           else if lTipoEvento = '110140' then
@@ -318,9 +330,41 @@ begin
   end;
 end;
 
-function TACBrNFe.IdentificaArqSchema(const ASchema: TSchemaNFe): String;
+function TACBrNFe.IdentificaSchemaLayout(const ALayOut: TLayOut): TSchemaNFe;
 begin
-  Return := SchemaNFeToStr(ASchema)+'_v'+ ;
+  case ALayOut of
+    LayNfeRecepcao:
+      Result := schNfe;
+    //LayNfeRetRecepcao,
+    //LayNfeCancelamento,
+    //LayNfeInutilizacao,
+    //LayNfeConsulta,
+    //LayNfeStatusServico,
+    //LayNfeCadastro,
+    //LayNfeEnvDPEC,
+    //LayNfeConsultaDPEC,
+    //LayNFeCCe,
+    LayNFeEvento:
+      Result := schEnvConfRecebto;
+    LayNFeEventoAN:
+      Result := schEnvConfRecebto;
+    //LayNFeConsNFeDest,
+    //LayNFeDownloadNFe,
+    LayNfeAutorizacao:
+      Result := schNfe;
+    //LayNfeRetAutorizacao,
+    //LayAdministrarCSCNFCe,
+    //LayDistDFeIn
+    else
+      Result := schNfe;
+  end;
+
+end;
+
+function TACBrNFe.GerarNomeArqSchema(const ALayOut: TLayOut): String;
+begin
+  Result := SchemaNFeToStr( IdentificaSchemaLayout(ALayOut) ) + '_v' +
+            LerVersaoDeParams(ALayOut) ;
 end;
 
 function TACBrNFe.GetConfiguracoes: TConfiguracoesNFe;
@@ -657,8 +701,6 @@ end;
 
 
 end.
-
-
 
 
 

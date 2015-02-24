@@ -61,7 +61,6 @@ type
     FPLayout: TLayOut;
     FPConfiguracoesNFe: TConfiguracoesNFe;
 
-    function EhAutorizacao: Boolean;
     procedure ConfigurarSoapDEPC;
     function ExtrairModeloChaveAcesso(AChaveNFE: String): String;
 
@@ -743,20 +742,6 @@ begin
   ConfigurarSoapDEPC;
 end;
 
-function TNFeWebService.EhAutorizacao: Boolean;
-begin
-  Result := False;
-  case FPConfiguracoesNFe.Geral.ModeloDF of
-    moNFe:
-      if (FPConfiguracoesNFe.Geral.VersaoDF = ve310) then
-        Result := True;
-    moNFCe:
-      if (FPConfiguracoesNFe.Geral.VersaoDF = ve310) and not
-        (FPConfiguracoesNFe.WebServices.UFCodigo in [13]) then // AM
-        Result := True;
-  end;
-end;
-
 procedure TNFeWebService.ConfigurarSoapDEPC;
 begin
   FPSoapVersion := 'soap';
@@ -953,7 +938,7 @@ end;
 
 procedure TNFeRecepcao.DefinirURL;
 begin
-  if EhAutorizacao then
+  if TACBrNFe(FPDFeOwner).EhAutorizacao then
     FPLayout := LayNfeAutorizacao
   else
     FPLayout := LayNfeRecepcao;
@@ -1406,7 +1391,7 @@ end;
 
 procedure TNFeRetRecepcao.DefinirURL;
 begin
-  if EhAutorizacao then
+  if TACBrNFe(FPDFeOwner).EhAutorizacao then
     FPLayout := LayNfeRetAutorizacao
   else
     FPLayout := LayNfeRetRecepcao;
@@ -1528,7 +1513,7 @@ end;
 
 procedure TNFeRecibo.DefinirURL;
 begin
-  if EhAutorizacao then
+  if TACBrNFe(FPDFeOwner).EhAutorizacao then
     FPLayout := LayNfeRetAutorizacao
   else
     FPLayout := LayNfeRetRecepcao;
@@ -2520,15 +2505,17 @@ end;
 
 function TNFeEnvEvento.GerarPathEvento: String;
 begin
-  if (FEvento.Evento.Items[0].InfEvento.tpEvento = teCCe) and
-    (not FPConfiguracoesNFe.Arquivos.SalvarCCeCanEvento) then
-    Result := FPConfiguracoesNFe.Arquivos.GetPathCCe
-  else if (FEvento.Evento.Items[0].InfEvento.tpEvento = teCancelamento) and
-    (not FPConfiguracoesNFe.Arquivos.SalvarCCeCanEvento) then
-    Result := FPConfiguracoesNFe.Arquivos.GetPathCan
-  else
-    Result := FPConfiguracoesNFe.Arquivos.GetPathEvento(
-      FEvento.Evento.Items[0].InfEvento.tpEvento);
+  with FEvento.Evento.Items[0].InfEvento do
+  begin
+    if (tpEvento = teCCe) and
+      (not FPConfiguracoesNFe.Arquivos.SalvarCCeCanEvento) then
+      Result := FPConfiguracoesNFe.Arquivos.GetPathCCe
+    else if (tpEvento = teCancelamento) and
+      (not FPConfiguracoesNFe.Arquivos.SalvarCCeCanEvento) then
+      Result := FPConfiguracoesNFe.Arquivos.GetPathCan
+    else
+      Result := FPConfiguracoesNFe.Arquivos.GetPathEvento(tpEvento);
+  end;
 end;
 
 procedure TNFeEnvEvento.DefinirURL;
@@ -2560,12 +2547,12 @@ begin
   try
     EventoNFe.idLote := FidLote;
 
+    {(*}
     for I := 0 to TNFeEnvEvento(Self).FEvento.Evento.Count - 1 do
     begin
       with EventoNFe.Evento.Add do
       begin
-        infEvento.tpAmb :=
-          TpcnTipoAmbiente(FPConfiguracoesNFe.WebServices.AmbienteCodigo - 1);
+        infEvento.tpAmb := FPConfiguracoesNFe.WebServices.Ambiente;
         infEvento.CNPJ := FEvento.Evento[I].InfEvento.CNPJ;
         infEvento.cOrgao := FEvento.Evento[I].InfEvento.cOrgao;
         infEvento.chNFe := FEvento.Evento[I].InfEvento.chNFe;
@@ -2576,10 +2563,8 @@ begin
         case InfEvento.tpEvento of
           teCCe:
           begin
-            infEvento.detEvento.xCorrecao :=
-              FEvento.Evento[I].InfEvento.detEvento.xCorrecao;
-            infEvento.detEvento.xCondUso :=
-              FEvento.Evento[I].InfEvento.detEvento.xCondUso;
+            infEvento.detEvento.xCorrecao := FEvento.Evento[I].InfEvento.detEvento.xCorrecao;
+            infEvento.detEvento.xCondUso := FEvento.Evento[I].InfEvento.detEvento.xCondUso;
           end;
 
           teCancelamento:
@@ -2593,26 +2578,17 @@ begin
 
           teEPECNFe:
           begin
-            infEvento.detEvento.cOrgaoAutor :=
-              FEvento.Evento[I].InfEvento.detEvento.cOrgaoAutor;
-            infEvento.detEvento.tpAutor :=
-              FEvento.Evento[I].InfEvento.detEvento.tpAutor;
-            infEvento.detEvento.verAplic :=
-              FEvento.Evento[I].InfEvento.detEvento.verAplic;
-            infEvento.detEvento.dhEmi :=
-              FEvento.Evento[I].InfEvento.detEvento.dhEmi;
-            infEvento.detEvento.tpNF :=
-              FEvento.Evento[I].InfEvento.detEvento.tpNF;
+            infEvento.detEvento.cOrgaoAutor := FEvento.Evento[I].InfEvento.detEvento.cOrgaoAutor;
+            infEvento.detEvento.tpAutor := FEvento.Evento[I].InfEvento.detEvento.tpAutor;
+            infEvento.detEvento.verAplic := FEvento.Evento[I].InfEvento.detEvento.verAplic;
+            infEvento.detEvento.dhEmi := FEvento.Evento[I].InfEvento.detEvento.dhEmi;
+            infEvento.detEvento.tpNF := FEvento.Evento[I].InfEvento.detEvento.tpNF;
             infEvento.detEvento.IE := FEvento.Evento[I].InfEvento.detEvento.IE;
 
-            infEvento.detEvento.dest.UF :=
-              FEvento.Evento[I].InfEvento.detEvento.dest.UF;
-            infEvento.detEvento.dest.CNPJCPF :=
-              FEvento.Evento[I].InfEvento.detEvento.dest.CNPJCPF;
-            infEvento.detEvento.dest.idEstrangeiro :=
-              FEvento.Evento[I].InfEvento.detEvento.dest.idEstrangeiro;
-            infEvento.detEvento.dest.IE :=
-              FEvento.Evento[I].InfEvento.detEvento.dest.IE;
+            infEvento.detEvento.dest.UF := FEvento.Evento[I].InfEvento.detEvento.dest.UF;
+            infEvento.detEvento.dest.CNPJCPF := FEvento.Evento[I].InfEvento.detEvento.dest.CNPJCPF;
+            infEvento.detEvento.dest.idEstrangeiro := FEvento.Evento[I].InfEvento.detEvento.dest.idEstrangeiro;
+            infEvento.detEvento.dest.IE := FEvento.Evento[I].InfEvento.detEvento.dest.IE;
 
             infEvento.detEvento.vNF := FEvento.Evento[I].InfEvento.detEvento.vNF;
             infEvento.detEvento.vICMS := FEvento.Evento[I].InfEvento.detEvento.vICMS;
@@ -2621,6 +2597,7 @@ begin
         end;
       end;
     end;
+    {*)}
 
     EventoNFe.Versao := TACBrNFe(FPDFeOwner).LerVersaoDeParams(FPLayout);
     EventoNFe.GerarXML;
@@ -2660,12 +2637,10 @@ begin
     else
       FPDadosMsg := Lote + EventosAssinados + '</envEvento>';
 
-    //TODO:
-    TACBrNFe(FPDFeOwner).SSL.Validar(FPDadosMsg, '' );
-    ////if not(NotaUtil.Valida(FPDadosMsg, FPMsg, TACBrNFe( FPDFeOwner ).Configuracoes.Geral.PathSchemas,
-    ////                       FPConfiguracoesNFe.Geral.ModeloDF, FPConfiguracoesNFe.Geral.VersaoDF)) then
-    ////  GerarException('Falha na validação dos dados do Envio de Evento ' +
-    ////                 LineBreak + FPMsg);
+    with TACBrNFe(FPDFeOwner) do
+    begin
+      SSL.Validar(FPDadosMsg, GerarNomeArqSchema(FPLayout), FPMsg);
+    end;
 
     for I := 0 to FEvento.Evento.Count - 1 do
       FEvento.Evento[I].InfEvento.id := EventoNFe.Evento[I].InfEvento.id;
