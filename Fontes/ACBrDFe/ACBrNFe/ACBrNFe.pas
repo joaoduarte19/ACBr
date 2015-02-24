@@ -178,6 +178,7 @@ begin
   FDownloadNFe := TDownload.Create(Self);
   FRetDistDFeInt := TRetDistDFeInt.Create;
   FWebServices := TWebServices.Create(Self);
+  FRetDownloadNFe := TRetDownloadNFe.Create;
 end;
 
 destructor TACBrNFe.Destroy;
@@ -189,6 +190,7 @@ begin
   FDownloadNFe.Free;
   FRetDistDFeInt.Free;
   FWebServices.Free;
+  FRetDownloadNFe.Free;
 
   inherited;
 end;
