@@ -66,6 +66,9 @@ type
     LayNfeAutorizacao, LayNfeRetAutorizacao, LayAdministrarCSCNFCe,
     LayDistDFeInt);
 
+  TSchemaNFe = (schNfe, schCancNFe, schInutNFe, schEnvDPEC, schEnvCCe,
+                schEnvEventoCancNFe, schEnvConfRecebto, schEnvEPEC );
+
   TStatusACBrNFe = (stIdle, stNFeStatusServico, stNFeRecepcao, stNFeRetRecepcao,
     stNFeConsulta, stNFeCancelamento, stNFeInutilizacao, stNFeRecibo,
     stNFeCadastro, stNFeEmail, stNFeEnvDPEC, stNFeConsultaDPEC,
@@ -83,6 +86,8 @@ type
 
 function LayOutToServico(const t: TLayOut): String;
 function ServicoToLayOut(out ok: Boolean; const s: String): TLayOut;
+
+function SchemaNFeToStr(const t: TSchemaNFe): String;
 
 function tpNFToStr(const t: TpcnTipoNFe): String;
 function StrToTpNF(out ok: Boolean; const s: String): TpcnTipoNFe;
@@ -147,6 +152,15 @@ begin
     LayNfeEnvDPEC, LayNfeConsultaDPEC, LayNFeCCe, LayNFeEvento,
     LayNFeEventoAN, LayNFeConsNFeDest, LayNFeDownloadNFe, LayNfeAutorizacao,
     LayNfeRetAutorizacao, LayAdministrarCSCNFCe, LayDistDFeInt ] );
+end;
+
+function SchemaNFeToStr(const t: TSchemaNFe): String;
+begin
+  Result := EnumeradoToStr(t,
+    ['Nfe', 'CancNFe', 'InutNFe', 'EnvDPEC', 'EnvCCe',
+     'EnvEventoCancNFe', 'EnvConfRecebto', 'EnvEPEC'],
+    [ schNfe, schCancNFe, schInutNFe, schEnvDPEC, schEnvCCe,
+      schEnvEventoCancNFe, schEnvConfRecebto, schEnvEPEC ] );
 end;
 
 // B11 - Tipo do Documento Fiscal **********************************************

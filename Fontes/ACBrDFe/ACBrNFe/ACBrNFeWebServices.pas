@@ -258,10 +258,10 @@ type
 
   TNFeConsulta = class(TNFeWebService)
   private
-    FNFeChave: WideString;
-    FProtocolo: WideString;
+    FNFeChave: String;
+    FProtocolo: String;
     FDhRecbto: TDateTime;
-    FXMotivo: WideString;
+    FXMotivo: String;
     Fversao: String;
     FTpAmb: TpcnTipoAmbiente;
     FverAplic: String;
@@ -282,10 +282,10 @@ type
     constructor Create(AOwner: TACBrDFe); override;
     destructor Destroy; override;
 
-    property NFeChave: WideString read FNFeChave write FNFeChave;
-    property Protocolo: WideString read FProtocolo write FProtocolo;
+    property NFeChave: String read FNFeChave write FNFeChave;
+    property Protocolo: String read FProtocolo write FProtocolo;
     property DhRecbto: TDateTime read FDhRecbto write FDhRecbto;
-    property XMotivo: WideString read FXMotivo write FXMotivo;
+    property XMotivo: String read FXMotivo write FXMotivo;
     property versao: String read Fversao;
     property TpAmb: TpcnTipoAmbiente read FTpAmb;
     property verAplic: String read FverAplic;
@@ -301,7 +301,7 @@ type
 
   TNFeInutilizacao = class(TNFeWebService)
   private
-    FID: WideString;
+    FID: String;
     FProtocolo: String;
     FModelo: integer;
     FSerie: integer;
@@ -309,7 +309,7 @@ type
     FAno: integer;
     FNumeroInicial: integer;
     FNumeroFinal: integer;
-    FJustificativa: WideString;
+    FJustificativa: String;
     Fversao: String;
     FTpAmb: TpcnTipoAmbiente;
     FverAplic: String;
@@ -320,7 +320,7 @@ type
 
     FXML_ProcInutNFe: String;
 
-    procedure SetJustificativa(AValue: WideString);
+    procedure SetJustificativa(AValue: String);
     function GerarPathPorCNPJ: String;
   protected
     procedure DefinirServicoEAction; override;
@@ -334,7 +334,7 @@ type
   public
     constructor Create(AOwner: TACBrDFe); override;
 
-    property ID: WideString read FID write FID;
+    property ID: String read FID write FID;
     property Protocolo: String read FProtocolo write FProtocolo;
     property Modelo: integer read FModelo write FModelo;
     property Serie: integer read FSerie write FSerie;
@@ -342,7 +342,7 @@ type
     property Ano: integer read FAno write FAno;
     property NumeroInicial: integer read FNumeroInicial write FNumeroInicial;
     property NumeroFinal: integer read FNumeroFinal write FNumeroFinal;
-    property Justificativa: WideString read FJustificativa write SetJustificativa;
+    property Justificativa: String read FJustificativa write SetJustificativa;
     property versao: String read Fversao;
     property TpAmb: TpcnTipoAmbiente read FTpAmb;
     property verAplic: String read FverAplic;
@@ -974,7 +974,7 @@ end;
 procedure TNFeRecepcao.DefinirDadosMsg;
 var
   I: integer;
-  vNotas: WideString;
+  vNotas: String;
   indSinc, Versao: String;
 begin
   if (FPLayout = LayNfeAutorizacao) or (FPConfiguracoesNFe.Geral.ModeloDF = moNFCe) or
@@ -1386,9 +1386,8 @@ begin
     Tentativas := 0;
     IntervaloTentativas := FPConfiguracoesNFe.WebServices.IntervaloTentativas;
 
-    while (inherited Executar) and (Tentativas <
-        FPConfiguracoesNFe.WebServices.Tentativas) do
-
+    while (inherited Executar) and
+      (Tentativas < FPConfiguracoesNFe.WebServices.Tentativas) do
     begin
       Inc(Tentativas);
 
@@ -1842,7 +1841,8 @@ begin
               (NFeRetorno.protNFe.digVal <> '') and
               (NFe.signature.DigestValue <> NFeRetorno.protNFe.digVal) then
             begin
-              raise EACBrNFeException.Create('DigestValue do documento ' + NumID + ' não confere.');
+              raise EACBrNFeException.Create('DigestValue do documento ' +
+                NumID + ' não confere.');
             end;
 
             NFe.procNFe.tpAmb := NFeRetorno.tpAmb;
@@ -1866,9 +1866,11 @@ begin
                 AProcNFe.PathRetConsSitNFe := NomeArquivo + '-sit.xml';
 
                 if FPConfiguracoesNFe.Geral.VersaoDF >= ve310 then
-                  AProcNFe.Versao := TACBrNFe(FPDFeOwner).LerVersaoDeParams(LayNfeAutorizacao)
+                  AProcNFe.Versao :=
+                    TACBrNFe(FPDFeOwner).LerVersaoDeParams(LayNfeAutorizacao)
                 else
-                  AProcNFe.Versao := TACBrNFe(FPDFeOwner).LerVersaoDeParams(LayNfeRecepcao);
+                  AProcNFe.Versao :=
+                    TACBrNFe(FPDFeOwner).LerVersaoDeParams(LayNfeRecepcao);
 
                 AProcNFe.GerarXML;
 
@@ -1908,7 +1910,8 @@ begin
             AProcNFe.PathRetConsSitNFe := NomeArquivo + '-sit.xml';
 
             if FPConfiguracoesNFe.Geral.VersaoDF >= ve310 then
-              AProcNFe.Versao := TACBrNFe(FPDFeOwner).LerVersaoDeParams(LayNfeAutorizacao)
+              AProcNFe.Versao :=
+                TACBrNFe(FPDFeOwner).LerVersaoDeParams(LayNfeAutorizacao)
             else
               AProcNFe.Versao := TACBrNFe(FPDFeOwner).LerVersaoDeParams(LayNfeRecepcao);
 
@@ -1957,20 +1960,21 @@ begin
   FPArqResp := 'inu';
 end;
 
-procedure TNFeInutilizacao.SetJustificativa(AValue: WideString);
+procedure TNFeInutilizacao.SetJustificativa(AValue: String);
+var
+  TrimValue: String;
 begin
-  if DFeUtil.EstaVazio(AValue) then
-    GerarException('Informar uma Justificativa para Inutilização de ' +
-      'numeração da Nota Fiscal Eletronica')
-  else
-  //TODO: Verificar TrataString
-  ////AValue := DFeUtil.TrataString(AValue);
+  TrimValue := Trim(AValue);
 
-  if Length(Trim(AValue)) < 15 then
+  if DFeUtil.EstaVazio(TrimValue) then
+    GerarException('Informar uma Justificativa para Inutilização de ' +
+      'numeração da Nota Fiscal Eletronica');
+
+  if Length(TrimValue) < 15 then
     GerarException('A Justificativa para Inutilização de numeração da ' +
-      'Nota Fiscal Eletronica deve ter no minimo 15 caracteres')
-  else
-    FJustificativa := Trim(AValue);
+      'Nota Fiscal Eletronica deve ter no minimo 15 caracteres');
+
+  FJustificativa := TrimValue;
 end;
 
 function TNFeInutilizacao.GerarPathPorCNPJ(): String;
@@ -2640,8 +2644,7 @@ begin
         Evento := Copy(Eventos, 1, F + 8);
         Eventos := Copy(Eventos, F + 9, length(Eventos));
 
-        AssinarXML(Evento, 'evento', 'infEvento',
-          'Falha ao assinar o Envio de Evento ');
+        AssinarXML(Evento, 'evento', 'infEvento', 'Falha ao assinar o Envio de Evento ');
 
         EventosAssinados := EventosAssinados + StringReplace(
           FPDadosMsg, '<?xml version="1.0"?>', '', []);
@@ -2657,6 +2660,8 @@ begin
     else
       FPDadosMsg := Lote + EventosAssinados + '</envEvento>';
 
+    //TODO:
+    TACBrNFe(FPDFeOwner).SSL.Validar(FPDadosMsg, '' );
     ////if not(NotaUtil.Valida(FPDadosMsg, FPMsg, TACBrNFe( FPDFeOwner ).Configuracoes.Geral.PathSchemas,
     ////                       FPConfiguracoesNFe.Geral.ModeloDF, FPConfiguracoesNFe.Geral.VersaoDF)) then
     ////  GerarException('Falha na validação dos dados do Envio de Evento ' +
@@ -3154,7 +3159,8 @@ begin
         tsprocNFe:
           NomeArq := FretDistDFeInt.docZip.Items[I].resNFe.chNFe + '-nfe.xml';
         tsprocEventoNFe:
-          NomeArq := OnlyNumber(FretDistDFeInt.docZip.Items[I].procEvento.Id) + '-procEventoNFe.xml';
+          NomeArq := OnlyNumber(FretDistDFeInt.docZip.Items[I].procEvento.Id) +
+            '-procEventoNFe.xml';
       end;
 
       if DFeUtil.NaoEstaVazio(NomeArq) then
@@ -3339,4 +3345,3 @@ begin
 end;
 
 end.
-

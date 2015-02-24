@@ -116,6 +116,9 @@ type
     function CstatConfirmada(AValue: integer): Boolean;
     function CstatProcessado(AValue: integer): Boolean;
 
+    function IdentificaSchemaNFe(const AXML: String): TSchemaNFe;
+    function IdentificaArqSchema(const ASchema: TSchemaNFe): String;
+
     function Enviar(ALote: String; Imprimir: Boolean = True;
       Sincrono: Boolean = False): Boolean; overload;
     function Cancelamento(AJustificativa: WideString; ALote: integer = 0): Boolean;
@@ -157,7 +160,8 @@ type
 
 implementation
 
-uses strutils;
+uses strutils,
+  pcnAuxiliar;
 
 { TACBrNFe }
 
@@ -238,7 +242,7 @@ end;
 
 function TACBrNFe.NomeModeloDFe: String;
 begin
-  Result := IfThen(Configuracoes.Geral.ModeloDF = moNFe, 'NFe', 'NFCe')
+  Result := IfThen(Configuracoes.Geral.ModeloDF = moNFe, 'NFe', 'NFCe');
 end;
 
 function TACBrNFe.GetNameSpaceURI: String;
@@ -250,8 +254,8 @@ function TACBrNFe.CstatConfirmada(AValue: integer): Boolean;
 begin
   case AValue of
     100, 150: Result := True;
-  else
-    Result := False;
+    else
+      Result := False;
   end;
 end;
 
@@ -259,9 +263,60 @@ function TACBrNFe.CstatProcessado(AValue: integer): Boolean;
 begin
   case AValue of
     100, 110, 150, 301, 302: Result := True;
-  else
-    Result := False;
+    else
+      Result := False;
   end;
+end;
+
+function TACBrNFe.IdentificaSchemaNFe(const AXML: String): TSchemaNFe;
+var
+  lTipoEvento: String;
+  I: integer;
+begin
+
+  Result := schNfe;
+  I := pos('<infNFe', AXML);
+  if I = 0 then
+  begin
+    I := pos('<infCanc', AXML);
+    if I > 0 then
+      Result := schCancNFe
+    else
+    begin
+      I := pos('<infInut', AXML);
+      if I > 0 then
+        Result := schInutNFe
+      else
+      begin
+        I := Pos('<infEvento', AXML);
+        if I > 0 then
+        begin
+          lTipoEvento := Trim(RetornarConteudoEntre(AXML, '<tpEvento>', '</tpEvento>'));
+          if lTipoEvento = '110111' then
+            Result := schEnvEventoCancNFe // Cancelamento
+          else if lTipoEvento = '210200' then
+            Result := schEnvConfRecebto //Manif. Destinatario: Confirmação da Operação
+          else if lTipoEvento = '210210' then
+            Result := schEnvConfRecebto //Manif. Destinatario: Ciência da Operação Realizada
+          else if lTipoEvento = '210220' then
+            Result := schEnvConfRecebto //Manif. Destinatario: Desconhecimento da Operação
+          else if lTipoEvento = '210240' then
+            Result := schEnvConfRecebto // Manif. Destinatario: Operação não Realizada
+          else if lTipoEvento = '110140' then
+            Result := schEnvEPEC // EPEC
+          else
+            Result := schEnvCCe; //Carta de Correção Eletrônica
+        end
+        else
+          Result := schEnvDPEC;
+      end;
+    end;
+  end;
+end;
+
+function TACBrNFe.IdentificaArqSchema(const ASchema: TSchemaNFe): String;
+begin
+  Return := SchemaNFeToStr(ASchema)+'_v'+ ;
 end;
 
 function TACBrNFe.GetConfiguracoes: TConfiguracoesNFe;
@@ -278,23 +333,17 @@ function TACBrNFe.LerVersaoDeParams(LayOutServico: TLayOut): String;
 var
   Versao: Double;
 begin
- Versao := LerVersaoDeParams(
-    NomeModeloDFe,
-    Configuracoes.WebServices.UF,
-    Configuracoes.WebServices.Ambiente,
-    LayOutToServico(LayOutServico),
+  Versao := LerVersaoDeParams(NomeModeloDFe, Configuracoes.WebServices.UF,
+    Configuracoes.WebServices.Ambiente, LayOutToServico(LayOutServico),
     VersaoDFToDbl(Configuracoes.Geral.VersaoDF));
 
- Result := FormatFloat('0.00', Versao );
+  Result := FormatFloat('0.00', Versao);
 end;
 
 function TACBrNFe.LerURLDeParams(LayOutServico: TLayOut): String;
 begin
- Result := LerURLDeParams(
-    NomeModeloDFe,
-    Configuracoes.WebServices.UF,
-    Configuracoes.WebServices.Ambiente,
-    LayOutToServico(LayOutServico),
+  Result := LerURLDeParams(NomeModeloDFe, Configuracoes.WebServices.UF,
+    Configuracoes.WebServices.Ambiente, LayOutToServico(LayOutServico),
     VersaoDFToDbl(Configuracoes.Geral.VersaoDF));
 end;
 
@@ -604,6 +653,7 @@ end;
 
 
 end.
+
 
 
 
