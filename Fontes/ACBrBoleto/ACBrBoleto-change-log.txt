@@ -48,6 +48,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+Data: 24/02/2015 ver. 0.0.113a
+
+-- ACBrBancoBrasil --
+[-] Correções retorno CNAB240. (josenunes)
+http://www.projetoacbr.com.br/forum/index.php?/topic/20080-retorno-240-posi%C3%A7%C3%B5es-banco-do-brasil/
+
+
 Data: 20/02/2015 ver. 0.0.112a
 
 -- ACBrBancoSantander --

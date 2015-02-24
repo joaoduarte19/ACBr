@@ -637,7 +637,7 @@ begin
 
                   Result := Result+padR(NossoNum, 10, '0')+ // 38 a 57 - Carteira
                             padR('01', 02, '0')+
-                            padR('02', 02, '0')+
+                            wModalidade +
                             '4'+
                             Space(5);
                 end

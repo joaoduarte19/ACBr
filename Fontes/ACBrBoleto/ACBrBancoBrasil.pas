@@ -987,7 +987,8 @@ begin
             ValorAbatimento := StrToFloatDef(copy(Linha, 48, 15), 0) / 100;
             ValorDesconto := StrToFloatDef(copy(Linha, 33, 15), 0) / 100;
             ValorMoraJuros := StrToFloatDef(copy(Linha, 18, 15), 0) / 100;
-            ValorOutrosCreditos := StrToFloatDef(copy(Linha, 108, 15), 0) / 100;
+            ValorOutrosCreditos := StrToFloatDef(copy(Linha, 123, 15), 0) / 100;
+            ValorOutrasDespesas := StrToFloatDef(copy(Linha, 108, 15), 0) / 100;
             ValorRecebido := StrToFloatDef(copy(Linha, 78, 15), 0) / 100;
             TempData := copy(Linha, 138, 2)+'/'+copy(Linha, 140, 2)+'/'+copy(Linha, 142, 4);
             if TempData<>'00/00/0000' then
