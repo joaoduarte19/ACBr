@@ -162,6 +162,10 @@ begin
 	            ConfigURL.ProNomeCidade := 'tatui';
               ConfigURL.HomNomeCidade := 'tatui';
 	          end;
+   3555109: begin
+              ConfigURL.ProNomeCidade := 'tupipaulista';
+              ConfigURL.HomNomeCidade := 'tupipaulista';
+            end;
   end;
 
   ConfigURL.HomRecepcaoLoteRPS    := '';
