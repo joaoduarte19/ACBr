@@ -48,6 +48,8 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/02/2015
+[-] Incluido um teste para saber se o retorno do GerarNFSe contem pelo menos uma nota.
+    Por: Italo Jurisato Junior
 [*] Inclusão da cidade Guararapes/SP provedor Fiorilli.
     Por: Lucas Moretti
 

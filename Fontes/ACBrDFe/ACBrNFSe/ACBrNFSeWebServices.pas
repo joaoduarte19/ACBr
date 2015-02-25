@@ -5559,10 +5559,13 @@ begin
   
   NFSeRetorno.LerXml;
   //Obter o protocolo após leitura do XML
-  FProtocolo                 := NFseRetorno.Protocolo;
+  FProtocolo := NFseRetorno.Protocolo;
 
-  FDataRecebimento := NFSeRetorno.ListaNfse.CompNfse[0].Nfse.dhRecebimento;
-  FProtocolo       := NFSeRetorno.ListaNfse.CompNfse[0].Nfse.Protocolo;
+  if NFSeRetorno.ListaNfse.CompNfse.Count > 0 then
+  begin
+    FDataRecebimento := NFSeRetorno.ListaNfse.CompNfse[0].Nfse.dhRecebimento;
+    FProtocolo       := NFSeRetorno.ListaNfse.CompNfse[0].Nfse.Protocolo;
+  end;
 //  FSituacao        := NFSeRetorno.InfSit.Situacao;
   // FSituacao: 1 = Não Recebido
   //            2 = Não Processado
