@@ -901,6 +901,7 @@ begin
   3514502, // Duartina/SP
   3515509, // Fernandopolis/SP
   3516705, // Garca/SP
+  3518206, // Guararapes/SP
   3519303, // Ibaté/SP
   3540200, // Pontal/SP
   3549409, // Sao Joaquim Da Barra/SP

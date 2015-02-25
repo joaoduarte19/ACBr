@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/02/2015
+[*] Inclusão da cidade Guararapes/SP provedor Fiorilli.
+    Por: Lucas Moretti
+
 23/02/2015
 [-] Correção na unit pnfsNFSeR para o provedor ISSe com relação ao Valor do ISS
     Retido.
