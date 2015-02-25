@@ -491,7 +491,7 @@ begin
  else if not ((StrToInt(copy(Avalue, 1, 2)) >= ano -1) and (StrToInt(copy(Avalue, 1, 2)) <= ano +1)) then
    Result := False
  else
-   Result := copy(AValue, 9, 1) = Modulo11(AValue);
+   Result := copy(AValue, 9, 1) = Modulo11(copy(AValue, 1, 8));
 end;
 
 class function DFeUtil.ValidaSUFRAMA(AValue: string): Boolean;
@@ -517,7 +517,7 @@ begin
    else if not (LL in [01, 10, 30]) then
           Result := False
         else
-          Result := copy(AValue, 9, 1) = Modulo11(AValue);
+          Result := copy(AValue, 9, 1) = Modulo11(copy(AValue, 1, 8));
  end;
 end;
 
