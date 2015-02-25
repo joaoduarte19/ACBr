@@ -118,6 +118,7 @@ begin
    4309407: ConfigCidade.AssinaLote := True; // Guapore/RS
    4310207: ConfigCidade.AssinaLote := True; // Ijuí/RS
    4320800: ConfigCidade.AssinaLote := True; // Soledade/RS
+   3545407: ConfigCidade.AssinaLote := True; // Salto Grando/SP
   else      begin
              ConfigCidade.Identificador := 'id';
              ConfigCidade.AssinaLote    := False;
@@ -296,6 +297,13 @@ begin
 
              ConfigURL.ProNomeCidade         := '';
              ConfigURL.ProRecepcaoLoteRPS    := 'http://dueto-web.uruguaiana.rs.gov.br:7778/NFSEWS/Services.svc';
+           end;
+  3545407: begin // Salto Grande/SP
+             ConfigURL.HomNomeCidade         := '';
+             ConfigURL.HomRecepcaoLoteRPS    := 'http://200.192.244.89/nfsewsteste/services.svc';
+
+             ConfigURL.ProNomeCidade         := '';
+             ConfigURL.ProRecepcaoLoteRPS    := 'http://200.192.244.89/nfsews/services.svc';
            end;
  end;
 

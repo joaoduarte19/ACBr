@@ -1046,11 +1046,13 @@ begin
 
   3118601, // Contagem/MG
   3143302, // Montes Claros/MG
+  3202405, // Guarapari/ES
   3304706, // Sto Antonio de Padua/RJ
   3504008, // Assis/SP
   3505609, // Barrinha/SP
   3511102, // Catanduva/SP
   3530300, // Mirassol/SP
+  3545407, // Salto Grande/SP
   4102000, // Assis Chateaubriand/PR
   4118501, // Pato Branco/PR
   4122404, // Rolandia/PR
@@ -1063,7 +1065,6 @@ begin
   4309407, // Guapore/RS
   4310207, // Ijui/RS
   4320800, // Soledade/RS
-  3202405, // Guarapari/ES
   4322400  // Uruguaiana/RS
          : Provedor := 'Pronim';
 
