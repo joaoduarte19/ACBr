@@ -1504,8 +1504,13 @@ end;
 
 function StrToTipoSchema(out ok: boolean; const s: string): TpcnTipoSchema;
 begin
-  result := StrToEnumerado(ok, s, ['resNFe_v1.00.xsd', 'resEvento_v1.00.xsd', 'procNFe_v1.00.xsd', 'procEventoNFe_v1.00.xsd'],
-                                  [tsresNFe, tsresEvento, tsprocNFe, tsprocEventoNFe]);
+  result := StrToEnumerado(ok, s, ['resNFe_v1.00.xsd',
+                                   'resEvento_v1.00.xsd',
+                                   'procNFe_v1.00.xsd',
+                                   'procNFe_v2.00.xsd',
+                                   'procEventoNFe_v1.00.xsd'],
+                                  [tsresNFe, tsresEvento, tsprocNFe,
+                                   tsprocNFe, tsprocEventoNFe]);
 end;
 
 end.
