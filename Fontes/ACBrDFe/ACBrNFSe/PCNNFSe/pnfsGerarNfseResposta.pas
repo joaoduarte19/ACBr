@@ -731,7 +731,10 @@ begin
           ListaNfse.FMsgRetorno.Add;
           ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Numero := Leitor.rCampo(tcStr, 'Numero');
           ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Serie  := Leitor.rCampo(tcStr, 'Serie');
-          ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Tipo   := Leitor.rCampo(tcStr, 'Tipo');
+
+          if FProvedor <> proISSe  then // Alterado por Joel Takei Maringá-PR 26/02/2015
+            ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Tipo   := Leitor.rCampo(tcStr, 'Tipo');
+
           ListaNfse.FMsgRetorno[i].FCodigo   := Leitor.rCampo(tcStr, 'Codigo');
           ListaNfse.FMsgRetorno[i].FMensagem := Leitor.rCampo(tcStr, 'Mensagem');
           ListaNfse.FMsgRetorno[i].FCorrecao := Leitor.rCampo(tcStr, 'Correcao');
@@ -739,32 +742,37 @@ begin
           inc(i);
         end;
 
-        // Jonatan - Nova Lima MG
-        i := 0;
-        while Leitor.rExtrai(2, 'ListaMensagemRetorno', '', i + 1) <> '' do
+        if FProvedor <> proISSe  then // Alterado por Joel Takei Maringá-PR 26/02/2015
         begin
-          ListaNfse.FMsgRetorno.Add;
-          ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Numero := Leitor.rCampo(tcStr, 'Numero');
-          ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Serie  := Leitor.rCampo(tcStr, 'Serie');
-          ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Tipo   := Leitor.rCampo(tcStr, 'Tipo');
-          ListaNfse.FMsgRetorno[i].FCodigo   := Leitor.rCampo(tcStr, 'Codigo');
-          ListaNfse.FMsgRetorno[i].FMensagem := Leitor.rCampo(tcStr, 'Mensagem');
-          ListaNfse.FMsgRetorno[i].FCorrecao := Leitor.rCampo(tcStr, 'Correcao');
+        
+          // Jonatan - Nova Lima MG
+          i := 0;
+          while Leitor.rExtrai(2, 'ListaMensagemRetorno', '', i + 1) <> '' do
+          begin
+            ListaNfse.FMsgRetorno.Add;
+            ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Numero := Leitor.rCampo(tcStr, 'Numero');
+            ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Serie  := Leitor.rCampo(tcStr, 'Serie');
+            ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Tipo   := Leitor.rCampo(tcStr, 'Tipo');
+            ListaNfse.FMsgRetorno[i].FCodigo   := Leitor.rCampo(tcStr, 'Codigo');
+            ListaNfse.FMsgRetorno[i].FMensagem := Leitor.rCampo(tcStr, 'Mensagem');
+            ListaNfse.FMsgRetorno[i].FCorrecao := Leitor.rCampo(tcStr, 'Correcao');
 
-          inc(i);
-        end;
+            inc(i);
+          end;
 
-        // Andeson de Jesus - Luiz Eduardo Magalhães - BA
-        i := 0;
-        while Leitor.rExtrai(3, 'Erro', '', i + 1) <> '' do
-        begin
-          ListaNfse.FMsgRetorno.Add;
-          ListaNfse.FMsgRetorno[i].FCodigo   := Leitor.rCampo(tcStr, 'ErroID');
-          ListaNfse.FMsgRetorno[i].FMensagem := Leitor.rCampo(tcStr, 'ErroMensagem');
-          ListaNfse.FMsgRetorno[i].FCorrecao := Leitor.rCampo(tcStr, 'ErroSolucao');
+          // Andeson de Jesus - Luiz Eduardo Magalhães - BA
+          i := 0;
+          while Leitor.rExtrai(3, 'Erro', '', i + 1) <> '' do
+          begin
+            ListaNfse.FMsgRetorno.Add;
+            ListaNfse.FMsgRetorno[i].FCodigo   := Leitor.rCampo(tcStr, 'ErroID');
+            ListaNfse.FMsgRetorno[i].FMensagem := Leitor.rCampo(tcStr, 'ErroMensagem');
+            ListaNfse.FMsgRetorno[i].FCorrecao := Leitor.rCampo(tcStr, 'ErroSolucao');
 
-          inc(i);
-        end;
+            inc(i);
+          end;
+        end; 
+        
       end;
 
     end

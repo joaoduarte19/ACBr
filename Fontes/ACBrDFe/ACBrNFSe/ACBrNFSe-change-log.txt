@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/02/2015
+[-] Tratamento na leitura do retorno referente ao Método GerarNFSe.
+    Por: Joel Takei
+
 26/02/2015
 [-] Correção para o provedor Fiorilli ao efetuar o cancelamento de uma NFS-e.
     Por: jGuto
