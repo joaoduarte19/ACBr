@@ -733,7 +733,7 @@ begin
           ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Serie  := Leitor.rCampo(tcStr, 'Serie');
 
           if FProvedor <> proISSe  then // Alterado por Joel Takei Maringá-PR 26/02/2015
-            ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Tipo   := Leitor.rCampo(tcStr, 'Tipo');
+            ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Tipo   := StrToTipoRPS(Ok, Leitor.rCampo(tcStr, 'Tipo'));
 
           ListaNfse.FMsgRetorno[i].FCodigo   := Leitor.rCampo(tcStr, 'Codigo');
           ListaNfse.FMsgRetorno[i].FMensagem := Leitor.rCampo(tcStr, 'Mensagem');
@@ -752,7 +752,7 @@ begin
             ListaNfse.FMsgRetorno.Add;
             ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Numero := Leitor.rCampo(tcStr, 'Numero');
             ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Serie  := Leitor.rCampo(tcStr, 'Serie');
-            ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Tipo   := Leitor.rCampo(tcStr, 'Tipo');
+            ListaNfse.FMsgRetorno[i].FIdentificacaoRps.Tipo   := StrToTipoRPS(Ok, Leitor.rCampo(tcStr, 'Tipo'));
             ListaNfse.FMsgRetorno[i].FCodigo   := Leitor.rCampo(tcStr, 'Codigo');
             ListaNfse.FMsgRetorno[i].FMensagem := Leitor.rCampo(tcStr, 'Mensagem');
             ListaNfse.FMsgRetorno[i].FCorrecao := Leitor.rCampo(tcStr, 'Correcao');

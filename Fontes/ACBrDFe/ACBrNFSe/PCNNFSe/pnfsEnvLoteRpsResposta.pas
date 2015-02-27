@@ -201,6 +201,7 @@ function TretEnvLote.LerXml: boolean;
 var
   i: Integer;
   iNivel: Integer;
+  Ok: Boolean;
 begin
   Result := True;
 
@@ -228,7 +229,7 @@ begin
        InfRec.FMsgRetorno.Add;
        InfRec.FMsgRetorno[i].FIdentificacaoRps.Numero := Leitor.rCampo(tcStr, 'Numero');
        InfRec.FMsgRetorno[i].FIdentificacaoRps.Serie  := Leitor.rCampo(tcStr, 'Serie');
-       InfRec.FMsgRetorno[i].FIdentificacaoRps.Tipo   := Leitor.rCampo(tcStr, 'Tipo');
+       InfRec.FMsgRetorno[i].FIdentificacaoRps.Tipo   := StrToTipoRPS(Ok, Leitor.rCampo(tcStr, 'Tipo'));
 
        InfRec.FMsgRetorno[i].FCodigo   := Leitor.rCampo(tcStr, 'Codigo');
        InfRec.FMsgRetorno[i].FMensagem := Leitor.rCampo(tcStr, 'Mensagem');
