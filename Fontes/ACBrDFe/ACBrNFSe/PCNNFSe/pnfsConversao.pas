@@ -710,7 +710,8 @@ begin
   3510203, // Capão Bonito/SP
   3522109, // Itanhaem/SP
   3523503, // Itatinga/SP
-  3554003  // Tatui/SP
+  3554003, // Tatui/SP
+  3555109  // Tupi Paulista/SP
          : Provedor := '4R';
 
   3201209, // Cachoeiro do Itapemirim/ES
@@ -863,6 +864,7 @@ begin
   4310009  // Ibiruba/RS
          : Provedor := 'Digifred';
 
+  3128006, // Guanhães/MG
   3202603, // Iconha/ES
   3203205  // Linhares/ES
          : Provedor := 'EL';
@@ -1123,7 +1125,7 @@ begin
   3113305, // Carangola/MG
   3114402, // Carmo do Rio Claro/MG
   3116605, // Cláudio/MG
-  3128006, // Guanhães/MG
+//  3128006, // Guanhães/MG
   3128105, // Guapé/MG
 //  3131307, // Ipatinga/MG
 //  3147907, // Passos/MG

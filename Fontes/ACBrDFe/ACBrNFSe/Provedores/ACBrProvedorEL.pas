@@ -62,6 +62,7 @@ type
    function Gera_CabMsg(Prefixo2, VersaoLayOut, VersaoDados, NameSpaceCab: String; ACodCidade: Integer): AnsiString; OverRide;
    function Gera_DadosSenha(CNPJ, Senha: String): AnsiString; OverRide;
    function Gera_TagF(Acao: TnfseAcao; Prefixo3: String): AnsiString; OverRide;
+   function FinalizaSessao(hashIdent: String): AnsiString;
 
    function GeraEnvelopeRecepcionarLoteRPS(URLNS: String; CabMsg, DadosMsg, DadosSenha: AnsiString): AnsiString; OverRide;
    function GeraEnvelopeConsultarSituacaoLoteRPS(URLNS: String; CabMsg, DadosMsg, DadosSenha: AnsiString): AnsiString; OverRide;
@@ -98,14 +99,14 @@ begin
   ConfigCidade.Prefixo2      := '';
   ConfigCidade.Prefixo3      := '';
   ConfigCidade.Prefixo4      := '';
-  ConfigCidade.Identificador := '';
+  ConfigCidade.Identificador := 'Id';
   ConfigCidade.QuebradeLinha := ';';
 
-  ConfigCidade.NameSpaceEnvelope := 'http://www.el.com.br/nfse/xsd/el-nfse.xsd';
+  ConfigCidade.NameSpaceEnvelope := 'http://des36.el.com.br:8080/el-issonline/';
 
   ConfigCidade.AssinaRPS   := False;
-  ConfigCidade.AssinaLote  := True;
-  ConfigCidade.AssinaGerar := True;
+  ConfigCidade.AssinaLote  := False;
+  ConfigCidade.AssinaGerar := False;
 
   Result := ConfigCidade;
 end;
@@ -138,33 +139,67 @@ var
   ConfigURL: TConfigURL;
   nfse: String;
 begin
-  case ACodCidade of
-   3203205: begin // Linhares/ES
-              ConfigURL.HomNomeCidade := 'notafiscal.linhares.es';
-              ConfigURL.ProNomeCidade := 'notafiscal.linhares.es  ';
-              nfse                    := '/el-nfse';
-            end;
-  end;
+  
+     case ACodCidade of
+          3203205: begin // Linhares/ES
+                        ConfigURL.HomNomeCidade := 'notafiscal.linhares.es';
+                        ConfigURL.ProNomeCidade := 'notafiscal.linhares.es';
+                        nfse                    := '/el-nfse';
 
-  ConfigURL.HomRecepcaoLoteRPS    := 'https://' + ConfigURL.HomNomeCidade + '.gov.br' + nfse + '/WSNacional/nfse.asmx';
-  ConfigURL.HomConsultaLoteRPS    := ConfigURL.HomRecepcaoLoteRPS;
-  ConfigURL.HomConsultaNFSeRPS    := ConfigURL.HomRecepcaoLoteRPS;
-  ConfigURL.HomConsultaSitLoteRPS := ConfigURL.HomRecepcaoLoteRPS;
-  ConfigURL.HomConsultaNFSe       := ConfigURL.HomRecepcaoLoteRPS;
-  ConfigURL.HomCancelaNFSe        := ConfigURL.HomRecepcaoLoteRPS;
-  ConfigURL.HomGerarNFSe          := ConfigURL.HomRecepcaoLoteRPS;
-  ConfigURL.HomRecepcaoSincrono   := ConfigURL.HomRecepcaoLoteRPS;
-  ConfigURL.HomSubstituiNFSe      := ConfigURL.HomRecepcaoLoteRPS;
+                        ConfigURL.HomRecepcaoLoteRPS    := 'https://' + ConfigURL.HomNomeCidade + '.gov.br' + nfse + '/WSNacional/nfse.asmx';
+                        ConfigURL.HomConsultaLoteRPS    := 'https://' + ConfigURL.HomNomeCidade + '.gov.br' + nfse + '/WSNacional/nfse.asmx';
+                        ConfigURL.HomConsultaNFSeRPS    := 'https://' + ConfigURL.HomNomeCidade + '.gov.br' + nfse + '/WSNacional/nfse.asmx';
+                        ConfigURL.HomConsultaSitLoteRPS := 'https://' + ConfigURL.HomNomeCidade + '.gov.br' + nfse + '/WSNacional/nfse.asmx';
+                        ConfigURL.HomConsultaNFSe       := 'https://' + ConfigURL.HomNomeCidade + '.gov.br' + nfse + '/WSNacional/nfse.asmx';
+                        ConfigURL.HomCancelaNFSe        := 'https://' + ConfigURL.HomNomeCidade + '.gov.br' + nfse + '/WSNacional/nfse.asmx';
 
-  ConfigURL.ProRecepcaoLoteRPS    := 'https://' + ConfigURL.ProNomeCidade + '.gov.br' + nfse + '/WSNacional/nfse.asmx';
-  ConfigURL.ProConsultaLoteRPS    := ConfigURL.ProRecepcaoLoteRPS;
-  ConfigURL.ProConsultaNFSeRPS    := ConfigURL.ProRecepcaoLoteRPS;
-  ConfigURL.ProConsultaSitLoteRPS := ConfigURL.ProRecepcaoLoteRPS;
-  ConfigURL.ProConsultaNFSe       := ConfigURL.ProRecepcaoLoteRPS;
-  ConfigURL.ProCancelaNFSe        := ConfigURL.ProRecepcaoLoteRPS;
-  ConfigURL.ProGerarNFSe          := ConfigURL.ProRecepcaoLoteRPS;
-  ConfigURL.ProRecepcaoSincrono   := ConfigURL.ProRecepcaoLoteRPS;
-  ConfigURL.ProSubstituiNFSe      := ConfigURL.ProRecepcaoLoteRPS;
+                        ConfigURL.ProRecepcaoLoteRPS    := 'https://' + ConfigURL.ProNomeCidade + '.gov.br' + nfse + '/WSNacional/nfse.asmx';
+                        ConfigURL.ProConsultaLoteRPS    := 'https://' + ConfigURL.ProNomeCidade + '.gov.br' + nfse + '/WSNacional/nfse.asmx';
+                        ConfigURL.ProConsultaNFSeRPS    := 'https://' + ConfigURL.ProNomeCidade + '.gov.br' + nfse + '/WSNacional/nfse.asmx';
+                        ConfigURL.ProConsultaSitLoteRPS := 'https://' + ConfigURL.ProNomeCidade + '.gov.br' + nfse + '/WSNacional/nfse.asmx';
+                        ConfigURL.ProConsultaNFSe       := 'https://' + ConfigURL.ProNomeCidade + '.gov.br' + nfse + '/WSNacional/nfse.asmx';
+                        ConfigURL.ProCancelaNFSe        := 'https://' + ConfigURL.ProNomeCidade + '.gov.br' + nfse + '/WSNacional/nfse.asmx';
+                   end;
+          3202603: begin
+                        ConfigURL.HomNomeCidade := 'nf-iconha-es';
+                        ConfigURL.ProNomeCidade := 'nf-iconha-es';          
+                        nfse                    := '.el.com.br';
+
+                        ConfigURL.HomRecepcaoLoteRPS    := 'https://' + ConfigURL.HomNomeCidade + nfse + '/RpsServiceService?wsdl';
+                        ConfigURL.HomConsultaLoteRPS    := ConfigURL.HomRecepcaoLoteRPS;
+                        ConfigURL.HomConsultaNFSeRPS    := ConfigURL.HomRecepcaoLoteRPS;
+                        ConfigURL.HomConsultaSitLoteRPS := ConfigURL.HomRecepcaoLoteRPS;
+                        ConfigURL.HomConsultaNFSe       := ConfigURL.HomRecepcaoLoteRPS;
+                        ConfigURL.HomCancelaNFSe        := ConfigURL.HomRecepcaoLoteRPS;
+
+                        ConfigURL.ProRecepcaoLoteRPS    := 'https://' + ConfigURL.ProNomeCidade + nfse + '/RpsServiceService?wsdl';
+                        ConfigURL.ProConsultaLoteRPS    := ConfigURL.ProRecepcaoLoteRPS;
+                        ConfigURL.ProConsultaNFSeRPS    := ConfigURL.ProRecepcaoLoteRPS;
+                        ConfigURL.ProConsultaSitLoteRPS := ConfigURL.ProRecepcaoLoteRPS;
+                        ConfigURL.ProConsultaNFSe       := ConfigURL.ProRecepcaoLoteRPS;
+                        ConfigURL.ProCancelaNFSe        := ConfigURL.ProRecepcaoLoteRPS;
+                   end;
+          3128006: begin // Guanhães/MG
+                        ConfigURL.HomNomeCidade := 'nfse00.el.com.br:17080/';
+                        ConfigURL.ProNomeCidade := 'nfse00.el.com.br:17080/';
+                        nfse                    := 'nfse_mg_guanhaes';
+
+                        ConfigURL.HomRecepcaoLoteRPS    := 'http://' + ConfigURL.HomNomeCidade + nfse + '/RpsServiceService?wsdl';
+                        ConfigURL.HomConsultaLoteRPS    := ConfigURL.HomRecepcaoLoteRPS;
+                        ConfigURL.HomConsultaNFSeRPS    := ConfigURL.HomRecepcaoLoteRPS;
+                        ConfigURL.HomConsultaSitLoteRPS := ConfigURL.HomRecepcaoLoteRPS;
+                        ConfigURL.HomConsultaNFSe       := ConfigURL.HomRecepcaoLoteRPS;
+                        ConfigURL.HomCancelaNFSe        := ConfigURL.HomRecepcaoLoteRPS;
+
+                        ConfigURL.ProRecepcaoLoteRPS    := 'http://' + ConfigURL.ProNomeCidade + nfse + '/RpsServiceService?wsdl';
+                        ConfigURL.ProConsultaLoteRPS    := ConfigURL.ProRecepcaoLoteRPS;
+                        ConfigURL.ProConsultaNFSeRPS    := ConfigURL.ProRecepcaoLoteRPS;
+                        ConfigURL.ProConsultaSitLoteRPS := ConfigURL.ProRecepcaoLoteRPS;
+                        ConfigURL.ProConsultaNFSe       := ConfigURL.ProRecepcaoLoteRPS;
+                        ConfigURL.ProCancelaNFSe        := ConfigURL.ProRecepcaoLoteRPS;
+                   end;
+     end;
+     Result := ConfigURL;
 
   Result := ConfigURL;
 end;
@@ -191,162 +226,140 @@ end;
 
 function TProvedorEL.GetValidarLote: Boolean;
 begin
-     Result := True;
+  Result := False;
 end;
 
 function TProvedorEL.Gera_TagI(Acao: TnfseAcao; Prefixo3, Prefixo4,
   NameSpaceDad, Identificador, URI: String): AnsiString;
 begin
   case Acao of
-   acRecepcionar: Result := '<' + Prefixo3 + 'EnviarLoteRpsEnvio' + NameSpaceDad;
-   acConsSit    : Result := '<' + Prefixo3 + 'ConsultarSituacaoLoteRpsEnvio' + NameSpaceDad;
-   acConsLote   : Result := '<' + Prefixo3 + 'ConsultarLoteRpsEnvio' + NameSpaceDad;
-   acConsNFSeRps: Result := '<' + Prefixo3 + 'ConsultarNfseRpsEnvio' + NameSpaceDad;
-   acConsNFSe   : Result := '<' + Prefixo3 + 'ConsultarNfseEnvio' + NameSpaceDad;
-   acCancelar   : Result := '<' + Prefixo3 + 'CancelarNfseEnvio' + NameSpaceDad +
-                             '<' + Prefixo3 + 'Pedido>' +
-                              '<' + Prefixo4 + 'InfPedidoCancelamento' +
-                                 DFeUtil.SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
-   acGerar:       Result := '<' + Prefixo3 + 'GerarNfseEnvio' + NameSpaceDad;
-   acRecSincrono: Result := '<' + Prefixo3 + 'EnviarLoteRpsSincronoEnvio' + NameSpaceDad;
-   acSubstituir:  Result := '<' + Prefixo3 + 'SubstituirNfseEnvio' + NameSpaceDad +
-                             '<' + Prefixo3 + 'SubstituicaoNfse>' +
-                              '<' + Prefixo3 + 'Pedido>' +
-                               '<' + Prefixo4 + 'InfPedidoCancelamento' +
-                                  DFeUtil.SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
+   acRecepcionar: Result := '<wsn:' + Prefixo3 + 'EnviarLoteRpsEnvio>';
+   acConsSit    : Result := '<wsn:' + Prefixo3 + 'ConsultarSituacaoLoteRpsEnvio>';
+   acConsLote   : Result := '<wsn:' + Prefixo3 + 'ConsultarLoteRpsEnvio>';
+   acConsNFSeRps: Result := '<wsn:' + Prefixo3 + 'ConsultarNfseRpsEnvio>';
+   acConsNFSe   : Result := '<wsn:' + Prefixo3 + 'ConsultarNfseEnvio>';
+   acCancelar   : Result := '<wsn:' + Prefixo3 + 'CancelarNfseEnvio>';
+   acGerar:       Result := '';
+   acRecSincrono: Result := '';
+   acSubstituir:  Result := '';
+  end;
+end;
+
+function TProvedorEL.Gera_TagF(Acao: TnfseAcao; Prefixo3: String): AnsiString;
+begin
+  case Acao of
+   acRecepcionar: Result := '</wsn:' + Prefixo3 + 'EnviarLoteRpsEnvio>';
+   acConsSit    : Result := '</wsn:' + Prefixo3 + 'ConsultarSituacaoLoteRpsEnvio>';
+   acConsLote   : Result := '</wsn:' + Prefixo3 + 'ConsultarLoteRpsEnvio>';
+   acConsNFSeRps: Result := '</wsn:' + Prefixo3 + 'ConsultarNfseRpsEnvio>';
+   acConsNFSe   : Result := '</wsn:' + Prefixo3 + 'ConsultarNfseEnvio>';
+   acCancelar   : Result := '</wsn:' + Prefixo3 + 'CancelarNfseEnvio>';
+   acGerar:       Result := '';
+   acRecSincrono: Result := '';
+   acSubstituir:  Result := '';
   end;
 end;
 
 function TProvedorEL.Gera_CabMsg(Prefixo2, VersaoLayOut, VersaoDados,
   NameSpaceCab: String; ACodCidade: Integer): AnsiString;
 begin
-     Result := '<' + Prefixo2 + 'cabecalho versao="'  + VersaoLayOut + '"' + NameSpaceCab +
+  Result := '';
+{     Result := '<' + Prefixo2 + 'cabecalho versao="'  + VersaoLayOut + '"' + NameSpaceCab +
                 '<versaoDados>' + VersaoDados + '</versaoDados>'+
-               '</' + Prefixo2 + 'cabecalho>';
+               '</' + Prefixo2 + 'cabecalho>';}
 end;
 
 function TProvedorEL.Gera_DadosSenha(CNPJ, Senha: String): AnsiString;
 begin
-     Result := '';
+   result := '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' +
+                               'xmlns:wsn="http://des36.el.com.br:8080/el-issonline/">' +
+             '<soapenv:Header/>' +
+              '<soapenv:Body>' +
+               '<wsn:autenticarContribuinte>' +
+                '<identificacaoPrestador>' + CNPJ + '</identificacaoPrestador>' +
+                '<senha>' + Senha + '</senha>' +
+               '</wsn:autenticarContribuinte>' +
+              '</soapenv:Body>' +
+             '</soapenv:Envelope>';
 end;
 
-function TProvedorEL.Gera_TagF(Acao: TnfseAcao; Prefixo3: String): AnsiString;
+function TProvedorEL.FinalizaSessao(hashIdent: String): AnsiString;
 begin
-  case Acao of
-   acRecepcionar: Result := '</' + Prefixo3 + 'EnviarLoteRpsEnvio>';
-   acConsSit    : Result := '</' + Prefixo3 + 'ConsultarSituacaoLoteRpsEnvio>';
-   acConsLote   : Result := '</' + Prefixo3 + 'ConsultarLoteRpsEnvio>';
-   acConsNFSeRps: Result := '</' + Prefixo3 + 'ConsultarNfseRpsEnvio>';
-   acConsNFSe   : Result := '</' + Prefixo3 + 'ConsultarNfseEnvio>';
-   acCancelar   : Result := '</' + Prefixo3 + 'Pedido>' +
-                             '</' + Prefixo3 + 'CancelarNfseEnvio>';
-   acGerar:       Result := '</' + Prefixo3 + 'GerarNfseEnvio>';
-   acRecSincrono: Result := '</' + Prefixo3 + 'EnviarLoteRpsSincronoEnvio>';
-   acSubstituir:  Result := '</' + Prefixo3 + 'SubstituicaoNfse>' +
-                            '</' + Prefixo3 + 'SubstituirNfseEnvio>';
-  end;
+   result := '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' +
+                               'xmlns:wsn="http://des36.el.com.br:8080/el-issonline/">' +
+             '<soapenv:Header/>' +
+              '<soapenv:Body>' +
+               '<wsn:finalizarSessao>' +
+                '<hashIdentificador>' + hashIdent + '</hashIdentificador>' +
+               '</wsn:finalizarSessao>' +
+              '</soapenv:Body>' +
+             '</soapenv:Envelope>';
 end;
 
 function TProvedorEL.GeraEnvelopeRecepcionarLoteRPS(URLNS: String;
   CabMsg, DadosMsg, DadosSenha: AnsiString): AnsiString;
 begin
-     result := '<?xml version="1.0" encoding="UTF-8"?>' +
-               '<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/" ' +
-                           'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +
-                           'xmlns:xsd="http://www.w3.org/2001/XMLSchema">' +
-                '<S:Body>' +
-                 '<RecepcionarLoteRpsRequest xmlns="' + URLNS + '/">' +
-                  '<inputXML>' +
-                    StringReplace(StringReplace(DadosMsg, '<', '&lt;', [rfReplaceAll]), '>', '&gt;', [rfReplaceAll]) +
-                  '</inputXML>' +
-                 '</RecepcionarLoteRpsRequest>' +
-                '</S:Body>' +
-               '</S:Envelope>';
+  result := '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' +
+                              'xmlns:wsn="' + URLNS + '">' +
+            '<soapenv:Header/>' +
+            '<soapenv:Body>' +
+                 DadosMsg +
+            '</soapenv:Body>' +
+           '</soapenv:Envelope>';
 end;
 
 function TProvedorEL.GeraEnvelopeConsultarSituacaoLoteRPS(
   URLNS: String; CabMsg, DadosMsg, DadosSenha: AnsiString): AnsiString;
 begin
-     result := '<?xml version="1.0" encoding="UTF-8"?>' +
-               '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" ' +
-                           'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +
-                           'xmlns:xsd="http://www.w3.org/2001/XMLSchema">' +
-                '<s:Body>' +
-                 '<ConsultarSituacaoLoteRpsRequest xmlns="' + URLNS + '/">' +
-                  '<inputXML>' +
-                    StringReplace(StringReplace(DadosMsg, '<', '&lt;', [rfReplaceAll]), '>', '&gt;', [rfReplaceAll]) +
-                  '</inputXML>' +
-                 '</ConsultarSituacaoLoteRpsRequest>' +
-                '</s:Body>' +
-               '</s:Envelope>';
+  result := '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' +
+                              'xmlns:wsn="' + URLNS + '">' +
+            '<soapenv:Header/>' +
+            '<soapenv:Body>' +
+                 DadosMsg +
+            '</soapenv:Body>' +
+           '</soapenv:Envelope>';
 end;
 
 function TProvedorEL.GeraEnvelopeConsultarLoteRPS(URLNS: String;
   CabMsg, DadosMsg, DadosSenha: AnsiString): AnsiString;
 begin
-     result := '<?xml version="1.0" encoding="UTF-8"?>' +
-               '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" ' +
-                           'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +
-                           'xmlns:xsd="http://www.w3.org/2001/XMLSchema">' +
-                '<s:Body>' +
-                 '<ConsultarLoteRpsRequest xmlns="' + URLNS + '/">' +
-                  '<inputXML>' +
-                    StringReplace(StringReplace(DadosMsg, '<', '&lt;', [rfReplaceAll]), '>', '&gt;', [rfReplaceAll]) +
-                  '</inputXML>' +
-                 '</ConsultarLoteRpsRequest>' +
-                '</s:Body>' +
-               '</s:Envelope>';
+  result := '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' +
+                              'xmlns:wsn="' + URLNS + '">' +
+            '<soapenv:Header/>' +
+            '<soapenv:Body>' +
+                 DadosMsg +
+            '</soapenv:Body>' +
+           '</soapenv:Envelope>';
 end;
 
 function TProvedorEL.GeraEnvelopeConsultarNFSeporRPS(URLNS: String;
   CabMsg, DadosMsg, DadosSenha: AnsiString): AnsiString;
 begin
-     result := '<?xml version="1.0" encoding="UTF-8"?>' +
-               '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" ' +
-                           'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +
-                           'xmlns:xsd="http://www.w3.org/2001/XMLSchema">' +
-                '<s:Body>' +
-                 '<ConsultarNfsePorRpsRequest xmlns="' + URLNS + '/">' +
-                  '<inputXML>' +
-                    StringReplace(StringReplace(DadosMsg, '<', '&lt;', [rfReplaceAll]), '>', '&gt;', [rfReplaceAll]) +
-                  '</inputXML>' +
-                 '</ConsultarNfsePorRpsRequest>' +
-                '</s:Body>' +
-               '</s:Envelope>';
+  result := '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' +
+                              'xmlns:wsn="' + URLNS + '">' +
+            '<soapenv:Header/>' +
+            '<soapenv:Body>' +
+                 DadosMsg +
+            '</soapenv:Body>' +
+           '</soapenv:Envelope>';
 end;
 
 function TProvedorEL.GeraEnvelopeConsultarNFSe(URLNS: String; CabMsg,
   DadosMsg, DadosSenha: AnsiString): AnsiString;
 begin
-     result := '<?xml version="1.0" encoding="UTF-8"?>' +
-               '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" ' +
-                           'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +
-                           'xmlns:xsd="http://www.w3.org/2001/XMLSchema">' +
-                '<s:Body>' +
-                 '<ConsultarNfseRequest xmlns="' + URLNS + '/">' +
-                  '<inputXML>' +
-                    StringReplace(StringReplace(DadosMsg, '<', '&lt;', [rfReplaceAll]), '>', '&gt;', [rfReplaceAll]) +
-                  '</inputXML>' +
-                 '</ConsultarNfseRequest>' +
-                '</s:Body>' +
-               '</s:Envelope>';
+   result := '';
 end;
 
 function TProvedorEL.GeraEnvelopeCancelarNFSe(URLNS: String; CabMsg,
   DadosMsg, DadosSenha: AnsiString): AnsiString;
 begin
-     result := '<?xml version="1.0" encoding="UTF-8"?>' +
-               '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" ' +
-                           'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +
-                           'xmlns:xsd="http://www.w3.org/2001/XMLSchema">' +
-                '<s:Body>' +
-                 '<CancelarNfseRequest xmlns="' + URLNS + '/">' +
-                  '<inputXML>' +
-                    StringReplace(StringReplace(DadosMsg, '<', '&lt;', [rfReplaceAll]), '>', '&gt;', [rfReplaceAll]) +
-                  '</inputXML>' +
-                 '</CancelarNfseRequest>' +
-                '</s:Body>' +
-               '</s:Envelope>';
+  result := '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' +
+                              'xmlns:wsn="' + URLNS + '">' +
+            '<soapenv:Header/>' +
+            '<soapenv:Body>' +
+                 DadosMsg +
+            '</soapenv:Body>' +
+           '</soapenv:Envelope>';
 end;
 
 function TProvedorEL.GeraEnvelopeGerarNFSe(URLNS: String; CabMsg,
@@ -369,30 +382,31 @@ end;
 
 function TProvedorEL.GetSoapAction(Acao: TnfseAcao; NomeCidade: String): String;
 begin
-  case Acao of
-   acRecepcionar: Result := 'http://www.nfe.com.br/RecepcionarLoteRps';
-   acConsSit    : Result := 'http://www.nfe.com.br/ConsultarSituacaoLoteRps';
-   acConsLote   : Result := 'http://www.nfe.com.br/ConsultarLoteRps';
-   acConsNFSeRps: Result := 'http://www.nfe.com.br/ConsultarNfsePorRps';
-   acConsNFSe   : Result := 'http://www.nfe.com.br/ConsultarNfse';
-   acCancelar   : Result := 'http://www.nfe.com.br/CancelarNfse';
+  {case Acao of
+   acRecepcionar: Result := 'https://nf-iconha-es.el.com.br/RpsService/RecepcionarLoteRps';
+   acConsSit    : Result := 'https://nf-iconha-es.el.com.br/RpsService/ConsultarSituacaoLoteRps';
+   acConsLote   : Result := 'https://nf-iconha-es.el.com.br/RpsService/ConsultarLoteRps';
+   acConsNFSeRps: Result := 'https://nf-iconha-es.el.com.br/RpsService/ConsultarNfsePorRps';
+   acConsNFSe   : Result := 'https://nf-iconha-es.el.com.br/RpsService/ConsultarNfse';
+   acCancelar   : Result := 'https://nf-iconha-es.el.com.br/RpsService/CancelarNfse';
    acGerar:       Result := '';
    acRecSincrono: Result := '';
    acSubstituir:  Result := '';
-  end;
+  end;}
+  Result := 'https://nf-iconha-es.el.com.br/RpsService?xsd=1';
 end;
 
 function TProvedorEL.GetRetornoWS(Acao: TnfseAcao; RetornoWS: AnsiString): AnsiString;
 begin
   case Acao of
-   acRecepcionar: Result := SeparaDados( RetornoWS, 'outputXML' );
-   acConsSit    : Result := SeparaDados( RetornoWS, 'outputXML' );
-   acConsLote   : Result := SeparaDados( RetornoWS, 'outputXML' );
-   acConsNFSeRps: Result := SeparaDados( RetornoWS, 'outputXML' );
-   acConsNFSe   : Result := SeparaDados( RetornoWS, 'outputXML' );
-   acCancelar   : Result := SeparaDados( RetornoWS, 'outputXML' );
+   acRecepcionar: Result := RetornoWS;
+   acConsSit    : Result := RetornoWS;
+   acConsLote   : Result := RetornoWS;
+   acConsNFSeRps: Result := RetornoWS;
+   acConsNFSe   : Result := RetornoWS;
+   acCancelar   : Result := RetornoWS;
    acGerar:       Result := RetornoWS;
-   acRecSincrono: Result := RetornoWS;
+   acRecSincrono: Result := SeparaDados( RetornoWS, 'return' ); // Usado para autenticarContribuinte
    acSubstituir:  Result := RetornoWS;
   end;
 end;
@@ -400,28 +414,13 @@ end;
 function TProvedorEL.GeraRetornoNFSe(Prefixo: String;
   RetNFSe: AnsiString; NomeCidade: String): AnsiString;
 begin
-     Result := '<?xml version="1.0" encoding="UTF-8"?>' +
-               '<' + Prefixo + 'CompNfse xmlns="http://www.abrasf.org.br/ABRASF/arquivos/">' +
-                 RetNfse +
-               '</' + Prefixo + 'CompNfse>';
+  Result := '';
 end;
 
 function TProvedorEL.GetLinkNFSe(ACodMunicipio, ANumeroNFSe: Integer;
   ACodVerificacao, AInscricaoM: String; AAmbiente: Integer): String;
 begin
-
-     Result := '';
-
-//     case ACodMunicipio of
-//      3203205: begin // Linhares/ES
-//                ACodVerificacao := StringReplace(ACodVerificacao, '-', '', [rfReplaceAll]);
-//                Result := 'https://nfse.americana.sp.gov.br/nfse/nfse.aspx?inscricao=' +
-//                          AInscricaoM + '&nf=' + IntToStr(ANumeroNFSe) +
-//                          '&cod=' + ACodVerificacao;
-//               end;
-//               else Result := '';
-//     end;
-
+  Result := '';
 end;
 
 end.

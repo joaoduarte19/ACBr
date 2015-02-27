@@ -48,6 +48,8 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/02/2015
+[*] Inclusão da cidade Guanhães provedor EL.
+    Por: Pedro Peixoto
 [-] Tratamento na leitura do retorno referente ao Método GerarNFSe.
     Por: Joel Takei
 

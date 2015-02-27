@@ -172,11 +172,13 @@ begin
               then ConfigCidade.NameSpaceEnvelope := 'https://claudio-mg.issintel.com.br/webservices/abrasf/api'
               else ConfigCidade.NameSpaceEnvelope := 'https://claudio-mg.treino-issintel.com.br/webservices/abrasf/api';
             end;
+{
    3128006: begin // Guanhães/MG
-             if AAmbiente = 1
-              then ConfigCidade.NameSpaceEnvelope := 'https://guanhaes-mg.issintel.com.br/webservices/abrasf/api'
-              else ConfigCidade.NameSpaceEnvelope := 'https://guanhaes-mg.treino-issintel.com.br/webservices/abrasf/api';
-            end;
+          if AAmbiente = 1
+           then ConfigCidade.NameSpaceEnvelope := 'https://guanhaes-mg.issintel.com.br/webservices/abrasf/api'
+           else ConfigCidade.NameSpaceEnvelope := 'https://guanhaes-mg.treino-issintel.com.br/webservices/abrasf/api';
+         end;
+}
    3128105: begin // Guapé/MG
              if AAmbiente = 1
               then ConfigCidade.NameSpaceEnvelope := 'https://guape-mg.issintel.com.br/webservices/abrasf/api'
