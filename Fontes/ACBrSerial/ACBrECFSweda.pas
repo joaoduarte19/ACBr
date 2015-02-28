@@ -148,12 +148,12 @@
 unit ACBrECFSweda ;
 
 interface
-uses ACBrECFClass, ACBrDevice, ACBrUtil,
-     Classes
+uses Classes,
      {$IFNDEF NOGUI}
-       {$IFDEF VCL}, Dialogs , Controls , Forms {$ENDIF}
-       {$IFDEF VisualCLX}, QDialogs, QControls, QForms {$ENDIF}
-     {$ENDIF};
+       {$IFDEF VCL} Dialogs , Controls , Forms {$ENDIF}
+       {$IFDEF VisualCLX} QDialogs, QControls, QForms {$ENDIF}
+     {$ENDIF},
+     ACBrECFClass, ACBrDevice;
 
 
 const
@@ -388,9 +388,9 @@ TACBrECFSweda = class( TACBrECFClass )
  end ;
 
 implementation
-Uses SysUtils, ACBrECF, ACBrConsts,
+Uses SysUtils, Math,
     {$IFDEF COMPILER6_UP} DateUtils, StrUtils {$ELSE} ACBrD5, Windows {$ENDIF},
-     Math ;
+     ACBrECF, ACBrConsts, ACBrUtil ;
 
 { ----------------------------- TACBrECFSweda ------------------------------ }
 
@@ -1323,7 +1323,7 @@ begin
 
   CPF_CNPJ := '' ;
   if (fsVersaoSweda > swdA) and (Consumidor.Documento <> '') then
-     CPF_CNPJ := padL(Consumidor.Documento,20) ;
+     CPF_CNPJ := PadRight(Consumidor.Documento,20) ;
 
   Espera := IfThen( fsVersaoSweda >= swdST, 5,  10);
   AguardaImpressao := True ;
@@ -1464,7 +1464,7 @@ begin
      Linhas.Text := Observacao ;
 
      for I := 0 to min(Linhas.Count-1 ,7) do
-        Obs := Obs + '0' + padL( Linhas[I] , Colunas) ;
+        Obs := Obs + '0' + PadRight( Linhas[I] , Colunas) ;
   finally
      Linhas.Free ;
   end ;
@@ -1580,7 +1580,7 @@ begin
   if (fsVersaoSweda >= swdD) then
      EnviaComando('02' + '0000' + IntToStrZero( Round(ValorDescontoAcrescimo * 100) ,12) )
   else
-     EnviaComando('02' + padL(FormatFloat('00.00',ValorDescontoAcrescimo),10) +
+     EnviaComando('02' + PadRight(FormatFloat('00.00',ValorDescontoAcrescimo),10) +
                   IntToStrZero( Round(ValorDescontoAcrescimo * 100) ,12) ) ;
 end;
 
@@ -1603,9 +1603,9 @@ begin
      raise EACBrECFCMDInvalido.Create( ACBrStr(
            'ECF '+fpModeloStr+' não permite Acréscimo por Item') );
 
-  Codigo  := padL(Codigo,13) ;    { Ajustando Tamanhos }
+  Codigo  := PadRight(Codigo,13) ;    { Ajustando Tamanhos }
   if Unidade <> '' then
-     Descricao := Descricao + ' ' + padL(Unidade,2);
+     Descricao := Descricao + ' ' + PadRight(Unidade,2);
 
   Descr2  := '' ;                 { Usa descriçao Grande ? }
   if DescricaoGrande Then
@@ -1617,9 +1617,9 @@ begin
      if (fsVersaoSweda >= swdST) then
         Descr2 := TrimRight(Descr2) 
      else
-        Descr2 := padL(Descr2,40) ;
+        Descr2 := PadRight(Descr2,40) ;
 
-  Descricao   := padL(Descricao,23) ; {23 e nao 24 porque adiciona o campo Sinal}
+  Descricao   := PadRight(Descricao,23) ; {23 e nao 24 porque adiciona o campo Sinal}
   QtdStr      := IntToStrZero( Round( Qtd*1000 ) ,7) ;
   ValorStr    := IntToStrZero( Round( ValorUnitario*1000 ) ,9) ;
 
@@ -1649,7 +1649,7 @@ begin
         if (fsVersaoSweda >= swdD) then
            EnviaComando('02' + '0000' + IntToStrZero( Round(ValDesc * 100) ,12) )
         else
-           EnviaComando('02' + padL(FormatFloat('00.00',ValorDescontoAcrescimo),10) +
+           EnviaComando('02' + PadRight(FormatFloat('00.00',ValorDescontoAcrescimo),10) +
                                IntToStrZero( Round(ValDesc * 100) ,12) ) ;
      end ;
   finally
@@ -1839,8 +1839,8 @@ begin
        'I' : AliquotaStr := 'I  ' ;
        'N' : AliquotaStr := 'N  ' ;
        'F' : AliquotaStr := 'F  ' ;
-       'T' : AliquotaICMS := 'TT'+PadL(copy(AliquotaICMS,2,2),2) ; {Indice}
-       'S' : AliquotaICMS := 'TS'+PadL(copy(AliquotaICMS,2,2),2) ; {Indice}
+       'T' : AliquotaICMS := 'TT'+PadRight(copy(AliquotaICMS,2,2),2) ; {Indice}
+       'S' : AliquotaICMS := 'TS'+PadRight(copy(AliquotaICMS,2,2),2) ; {Indice}
      end ;
 
   if AliquotaStr = '' then
@@ -1863,29 +1863,29 @@ begin
      RetCmd := EnviaComando('29' + '5') ;
      if copy(RetCmd,1,3) = '.+T' then
      begin
-        Str := Str + PadL(copy(RetCmd,81,1),1,'S') +
+        Str := Str + PadRight(copy(RetCmd,81,1),1,'S') +
                      copy(RetCmd, Inicio   , 15) ;
-        Str := Str + PadL(copy(RetCmd,82,1),1,'S') +
+        Str := Str + PadRight(copy(RetCmd,82,1),1,'S') +
                      copy(RetCmd, Inicio+15, 15) ;
-        Str := Str + PadL(copy(RetCmd,83,1),1,'S') +
+        Str := Str + PadRight(copy(RetCmd,83,1),1,'S') +
                      copy(RetCmd, Inicio+30, 15) ;
 
         RetCmd := EnviaComando('29' + '6') ;
         if copy(RetCmd,1,3) = '.+T' then
         begin
-           Str := Str + PadL(copy(RetCmd,113,1),1,'S') +
+           Str := Str + PadRight(copy(RetCmd,113,1),1,'S') +
                         copy(RetCmd, 8 , 15) ;
-           Str := Str + PadL(copy(RetCmd,114,1),1,'S') +
+           Str := Str + PadRight(copy(RetCmd,114,1),1,'S') +
                         copy(RetCmd, 23, 15) ;
-           Str := Str + PadL(copy(RetCmd,115,1),1,'S') +
+           Str := Str + PadRight(copy(RetCmd,115,1),1,'S') +
                         copy(RetCmd, 38, 15) ;
-           Str := Str + PadL(copy(RetCmd,116,1),1,'S') +
+           Str := Str + PadRight(copy(RetCmd,116,1),1,'S') +
                         copy(RetCmd, 53, 15) ;
-           Str := Str + PadL(copy(RetCmd,117,1),1,'S') +
+           Str := Str + PadRight(copy(RetCmd,117,1),1,'S') +
                         copy(RetCmd, 68, 15) ;
-           Str := Str + PadL(copy(RetCmd,118,1),1,'S') +
+           Str := Str + PadRight(copy(RetCmd,118,1),1,'S') +
                         copy(RetCmd, 83, 15) ;
-           Str := Str + PadL(copy(RetCmd,119,1),1,'S') +
+           Str := Str + PadRight(copy(RetCmd,119,1),1,'S') +
                         copy(RetCmd, 98, 15) ;
         end ;
      end ;
@@ -2023,7 +2023,7 @@ begin
   CmdIns := '' ;
   If TemVinculado then
      If PermiteVinculado then CmdIns := 'S' else CmdIns := 'N' ;
-  CmdIns := CmdIns + padL(Descricao,15) ;
+  CmdIns := CmdIns + PadRight(Descricao,15) ;
 
   if fsVersaoSweda >=  swdST then
      Cmd := CmdIns
@@ -2040,7 +2040,7 @@ begin
               Cmd := Cmd + 'S'
            else
               Cmd := Cmd + 'N' ;
-           Cmd := Cmd + padL(FormasPagamento[I].Descricao,15) ;
+           Cmd := Cmd + PadRight(FormasPagamento[I].Descricao,15) ;
         end ;
      end ;
 
@@ -2098,7 +2098,7 @@ begin
      if ProxIndice > 30 then
         raise EACBrECFERRO.create(ACBrStr('Não há espaço para programar novos RGs'));
 
-     EnviaComando( '32' + PadL(Descricao,15) ) ;
+     EnviaComando( '32' + PadRight(Descricao,15) ) ;
    end
   else
      raise EACBrECFERRO.Create(ACBrStr('Impressoras sem MFD não suportam Programação de Relatórios Gerenciais'));
@@ -2199,7 +2199,7 @@ begin
      { Sweda permite reprogramar Todas as CNF, por isso é preciso enviar uma String
        com as CNF já existentes... Criando String com as existentes}
      For I := 2 to ComprovantesNaoFiscais.Count - 1  do
-        Cmd := Cmd + padL(ComprovantesNaoFiscais[I].Descricao,15) ;
+        Cmd := Cmd + PadRight(ComprovantesNaoFiscais[I].Descricao,15) ;
 
      ProxIndice := StrToIntDef(Posicao,0) ;
      if (ProxIndice < 1) or (ProxIndice > 50) then { Indice passado é válido ? }
@@ -2207,9 +2207,9 @@ begin
   end ;
 
   if ProxIndice = 0 then
-     Cmd := Cmd + padL(Tipo + Descricao,15)
+     Cmd := Cmd + PadRight(Tipo + Descricao,15)
   else
-     Cmd := StuffString(Cmd, (ProxIndice*15)-14,0, padL(Tipo + Descricao,15) ) ;
+     Cmd := StuffString(Cmd, (ProxIndice*15)-14,0, PadRight(Tipo + Descricao,15) ) ;
 
   if Length(Cmd) > 750 then
      raise EACBrECFERRO.create(ACBrStr('Não há espaço para programar novos Comprovantes'+
@@ -2233,7 +2233,7 @@ begin
   Espera := IfThen( fsVersaoSweda >= swdST, 10,  50) ;
   Cmd := 'S' ;
 {  if fsVersaoSweda >= swdST then
-     Cmd := Cmd + PadL(' ',15) ;
+     Cmd := Cmd + PadRight(' ',15) ;
 }
   AguardaImpressao := True ;
   if fsVersaoSweda <= swdD then
@@ -2245,7 +2245,7 @@ begin
        if RG = nil then
           raise EACBrECFERRO.create( ACBrStr('Relatório Gerencial: '+IntToStr(Indice)+
                                   ' não foi cadastrado.' ));
-       Cmd := Cmd + PadL(RG.Descricao,15);
+       Cmd := Cmd + PadRight(RG.Descricao,15);
      end;
 
   EnviaComando( '13' + Cmd ,Espera ) ;
@@ -2647,15 +2647,15 @@ begin
 
   Espera     := 25 ;
   Banco      := IntToStrZero(StrToIntDef(Banco,1),3) ;
-  Favorecido := padL(Favorecido,80) ;
-  Cidade     := padL(Cidade,30) ;
-  Moeda      := padL('Real',20) ;
-  Moedas     := padL('Reais',20) ;
+  Favorecido := PadRight(Favorecido,80) ;
+  Cidade     := PadRight(Cidade,30) ;
+  Moeda      := PadRight('Real',20) ;
+  Moedas     := PadRight('Reais',20) ;
 
   EnviaComando('44' + Favorecido + Cidade + Moeda + Moedas) ;
   Sleep(300) ;
 
-  Observacao := padL(Observacao,120) ;
+  Observacao := PadRight(Observacao,120) ;
   Dia        := IntToStrZero(  DayOf(Data),2) ;
   Mes        := IntToStrZero(MonthOf(Data),2) ;
   Ano        := IntToStrZero( YearOf(Data),4) ;
@@ -3392,7 +3392,7 @@ end;
 
 procedure TACBrECFSweda.IdentificaPAF(NomeVersao, MD5 : String) ;
 begin
-  EnviaComando('57'+ padL(MD5,42) + padL(NomeVersao,42)) ;
+  EnviaComando('57'+ PadRight(MD5,42) + PadRight(NomeVersao,42)) ;
 end;
 
 procedure TACBrECFSweda.LoadDLLFunctions;

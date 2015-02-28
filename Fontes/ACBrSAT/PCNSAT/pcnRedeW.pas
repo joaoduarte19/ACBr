@@ -41,7 +41,7 @@ unit pcnRedeW;
 interface uses
 
   SysUtils, Classes,
-  pcnAuxiliar, pcnConversao, pcnGerador, pcnRede, ACBrUtil;
+  pcnConversao, pcnGerador, pcnRede, ACBrUtil;
 
 type
 
@@ -85,9 +85,6 @@ begin
 end;
 
 function TRedeW.GerarXml(): boolean;
-var
-  Gerar: boolean;
-  Grupo: String;
 begin
   Gerador.LayoutArquivoTXT.Clear;
 

@@ -194,8 +194,8 @@ begin
         Texto2 := AStringList[1] ;
    end ;
 
-  Texto1 := padL( UpperCase( TiraAcentos( Texto1 )),60) ;
-  Texto2 := padL( UpperCase( TiraAcentos( Texto2 )),60) ;
+  Texto1 := PadRight( UpperCase( TiraAcentos( Texto1 )),60) ;
+  Texto2 := PadRight( UpperCase( TiraAcentos( Texto2 )),60) ;
 
   VerificaErro( EnviaComando( '"' + Texto1+#255 + Texto2+#255 ));
 

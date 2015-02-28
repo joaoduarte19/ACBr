@@ -38,8 +38,8 @@ unit ACBrBancoBic;
 interface
 
 uses
-  Classes, SysUtils,ACBrBoleto,
-  {$IFDEF COMPILER6_UP} dateutils {$ELSE} ACBrD5 {$ENDIF};
+  Classes, SysUtils,
+  ACBrBoleto;
 
 type
 
@@ -67,7 +67,11 @@ type
 
 implementation
 
-uses ACBrUtil, StrUtils;
+uses
+  {$IFDEF COMPILER6_UP} dateutils {$ELSE} ACBrD5 {$ENDIF},
+  StrUtils,
+  ACBrUtil;
+
 
 { TACBrBancoBic }
 
@@ -109,12 +113,12 @@ begin
 
       CodigoBarras := IntToStr( Numero )+'9'+ FatorVencimento +
                       IntToStrZero(Round(ACBrTitulo.ValorDocumento*100),10) +
-                      padR(OnlyNumber(Cedente.Agencia),4,'0') +
+                      PadLeft(OnlyNumber(Cedente.Agencia),4,'0') +
                       ACBrTitulo.Carteira +
                       Copy(ACBrTitulo.ACBrBoleto.Cedente.Modalidade,2,2) +
                       ACBrTitulo.ACBrBoleto.Cedente.CodigoCedente +
                       ACBrTitulo.NossoNumero +
-                      padR(RightStr(Cedente.Conta,7),7,'0') + '0';
+                      PadLeft(RightStr(Cedente.Conta,7),7,'0') + '0';
 
       DigitoCodBarras := CalcularDigitoCodigoBarras(CodigoBarras);
    end;
@@ -152,12 +156,12 @@ begin
                '1'                                             + // ID do Arquivo( 1 - Remessa)
                'REMESSA'                                       + // Literal de Remessa
                '02'                                            + // Layout versão 1.02
-               padL( 'COBRANCA', 15 )                          + // Descrição do tipo de serviço
-               padR( CodigoTransmissao, 10, '0')               + // Codigo da Empresa no Banco
+               PadRight( 'COBRANCA', 15 )                          + // Descrição do tipo de serviço
+               PadLeft( CodigoTransmissao, 10, '0')               + // Codigo da Empresa no Banco
                Space(7)                                        + // Brancos
-               padR( Modalidade, 3, '0')                       + // Radical
-               padL( Nome, 30)                                 + // Nome da Empresa
-               IntToStr( 320 )+ padL('BICBANCO', 15)           + // Código e Nome do Banco(320 - BicBanco)
+               PadLeft( Modalidade, 3, '0')                       + // Radical
+               PadRight( Nome, 30)                                 + // Nome da Empresa
+               IntToStr( 320 )+ PadRight('BICBANCO', 15)           + // Código e Nome do Banco(320 - BicBanco)
                FormatDateTime('ddmmyy',Now)                    + // Data de geração do arquivo
                '01600'                                         + // Densidade do arquivo
                'BPI'                                           + // Literal de densidade do arquivo
@@ -181,8 +185,8 @@ begin
       DigitoNossoNumero := CalcularDigitoVerificadorArquivo(ACBrTitulo);
 
       aAgencia := '00900'; 
-      aConta   := padR(OnlyNumber(ACBrBoleto.Cedente.Conta), 7, '0');
-      aCarteira:= padR(trim(Carteira), 2, '0');
+      aConta   := PadLeft(OnlyNumber(ACBrBoleto.Cedente.Conta), 7, '0');
+      aCarteira:= PadLeft(trim(Carteira), 2, '0');
       if aCarteira = '09' then
         aCarteira := '4';
 
@@ -238,7 +242,7 @@ begin
       else if Ocorrencia = '31' then
          Protesto := '9999'
       else
-         Protesto := padR(trim(Instrucao1),2,'0') + padR(trim(Instrucao2),2,'0');
+         Protesto := PadLeft(trim(Instrucao1),2,'0') + PadLeft(trim(Instrucao2),2,'0');
 
       {Pegando Tipo de Sacado}
       case Sacado.Pessoa of
@@ -271,15 +275,15 @@ begin
 
          wLinha:= '1'                                                     +  // ID Registro
                   TipoSacador                                             +  //Tipo da Empresa Sacadora
-                  padR(OnlyNumber(Cedente.CNPJCPF),15,'0')                +  //CNPJ/CPF da Empresa
+                  PadLeft(OnlyNumber(Cedente.CNPJCPF),15,'0')                +  //CNPJ/CPF da Empresa
                   Cedente.CodigoTransmissao                               +  // Código de Transmissão
                   space(9)                                                +  // Filler - 9 Brancos
                   space(25)                                               +  // Uso da Empresa
-                  '0' + padL(NossoNumero + DigitoNossoNumero, 7, ' ')     +  // 0 Fixo, Nosso Número + DV
+                  '0' + PadRight(NossoNumero + DigitoNossoNumero, 7, ' ')     +  // 0 Fixo, Nosso Número + DV
                   space(37)                                               +  // Filler - 37 Brancos
                   aCarteira                                               +
                   Ocorrencia                                              +  // Ocorrência
-                  padL(SeuNumero,10,' ')                                  +  // Numero de Controle do Participante
+                  PadRight(SeuNumero,10,' ')                                  +  // Numero de Controle do Participante
                   FormatDateTime( 'ddmmyy', Vencimento)                   +
                   IntToStrZero( Round( ValorDocumento * 100 ), 13)        +
                   IntToStrZero(320,3)                                     +
@@ -295,13 +299,13 @@ begin
                   IntToStrZero( round( ValorIOF * 100 ), 13)              +
                   IntToStrZero( round( ValorAbatimento * 100 ), 13)       +
 
-                  TipoSacado + padR(OnlyNumber(Sacado.CNPJCPF),15,'0')    +
-                  padL( Sacado.NomeSacado, 40, ' ')                       +
-                  padL( Sacado.Logradouro + Sacado.Numero, 40)            +
-                  padL( Sacado.Bairro, 12 )                               +
-                  padL( Sacado.CEP, 8 )                                   +
-                  padL( Sacado.Cidade , 15 )                              +
-                  padL( Sacado.UF, 2)                                     +
+                  TipoSacado + PadLeft(OnlyNumber(Sacado.CNPJCPF),15,'0')    +
+                  PadRight( Sacado.NomeSacado, 40, ' ')                       +
+                  PadRight( Sacado.Logradouro + Sacado.Numero, 40)            +
+                  PadRight( Sacado.Bairro, 12 )                               +
+                  PadRight( Sacado.CEP, 8 )                                   +
+                  PadRight( Sacado.Cidade , 15 )                              +
+                  PadRight( Sacado.UF, 2)                                     +
                   IfThen( PercentualMulta > 0, '2', '3')                  +  // Indica se exite Multa ou não
                   FormatDateTime( 'ddmmyy', Vencimento + 1)               +
                   IntToStrZero( round( PercentualMulta * 100 ), 13)       +  // Percentual de Multa formatado com 2 casas decimais
@@ -315,16 +319,16 @@ begin
                   sLineBreak +
                   '2' +
                   TipoSacador                                             +  //Tipo da Empresa Sacadora
-                  padR(OnlyNumber(Cedente.CNPJCPF),15,'0')                +  //CNPJ/CPF da Empresa
+                  PadLeft(OnlyNumber(Cedente.CNPJCPF),15,'0')                +  //CNPJ/CPF da Empresa
                   Cedente.CodigoTransmissao                               +  // Código de Transmissão
                   space(9)                                                +  // Filler - 9 Brancos
                   space(25)                                               +  // Uso da Empresa
-                  '0' + padL(NossoNumero + DigitoNossoNumero, 7, ' ')     +  // 0 Fixo, Nosso Número + DV
+                  '0' + PadRight(NossoNumero + DigitoNossoNumero, 7, ' ')     +  // 0 Fixo, Nosso Número + DV
                   space(37)                                               +  // Filler - 37 Brancos
-                  padL( Sacado.NomeSacado, 40, ' ')                       +
+                  PadRight( Sacado.NomeSacado, 40, ' ')                       +
                   TipoSacadorAvalista                                     +
-                  padR(OnlyNumber(Sacado.Avalista),15,'0')                +
-                  padL('', 40, ' ')                                       +
+                  PadLeft(OnlyNumber(Sacado.Avalista),15,'0')                +
+                  PadRight('', 40, ' ')                                       +
                   Space(190)                                              +
                   IntToStrZero( aRemessa.Count + 2, 6);
 

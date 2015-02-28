@@ -202,11 +202,11 @@ begin
 
   if (Altura < 0) or (Altura > 999) then
      Raise Exception.Create(ACBrStr('Informe um valor entre 0 e 32000 para Horizontal'));
-  Alt := padR(IntToStr(Altura), 3, '0');
+  Alt := PadLeft(IntToStr(Altura), 3, '0');
 
   if (EspessuraHorizontal < 0) or (EspessuraHorizontal > 999) then
      Raise Exception.Create(ACBrStr('Informe um valor entre 0 e 32000 para Horizontal'));
-  Esp := padR(IntToStr(EspessuraHorizontal), 3, '0');
+  Esp := PadLeft(IntToStr(EspessuraHorizontal), 3, '0');
 
 
   ListaCmd.Add('^FO'+EixoX+','+EixoY);

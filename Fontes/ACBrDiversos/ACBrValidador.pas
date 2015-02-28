@@ -63,8 +63,8 @@
 unit ACBrValidador;
 
 interface
-uses ACBrBase, ACBrUtil, {Units da ACBr}
-     SysUtils , Classes;
+uses SysUtils, Classes,
+  ACBrBase;
 
 const
   cIgnorarChar = './-' ;
@@ -151,13 +151,6 @@ type
     Function Validar  : Boolean;
     Function Formatar : AnsiString ;
 
-    Function FormatarCPF( AString : AnsiString )    : AnsiString ;
-    Function FormatarCNPJ( AString : AnsiString )   : AnsiString ;
-    Function FormatarIE( AString, UF : AnsiString ) : AnsiString ;
-    Function FormatarCheque( AString : AnsiString ) : AnsiString ;
-    Function FormatarPIS( AString : AnsiString )    : AnsiString ;
-    Function FormatarCEP( AString: AnsiString )     : AnsiString ;
-    function FormatarSUFRAMA( AString: AnsiString )     : AnsiString ;
   published
     property TipoDocto : TACBrValTipoDocto read fsTipoDocto write fsTipoDocto
        default docCPF ;
@@ -185,7 +178,16 @@ function ACBrValidadorValidarIE(const AIE, AUF: AnsiString): String ;
 function ACBrValidadorValidarSuframa( const Documento : AnsiString ) : String ;
 function ACBrValidadorValidarGTIN( const Documento : AnsiString ) : String ;
 
-Function FormatarFone( const AString : String; DDDPadrao: String = '' ): String;
+Function FormatarFone( const AValue : String; DDDPadrao: String = '' ): String;
+Function FormatarCPF( const AValue : String )    : String ;
+Function FormatarCNPJ( const AValue : String )   : String ;
+function FormatarCNPJCPF(const AValue: String)    : String;
+function FormatarPlaca(const AValue: string): string;
+Function FormatarIE( const AValue: String; UF : String ) : String ;
+Function FormatarCheque( const AValue : String ) : String ;
+Function FormatarPIS( const AValue : String )    : String ;
+Function FormatarCEP( const AValue: String )     : String ;
+function FormatarSUFRAMA( const AValue: String ) : String ;
 
 
 function ACBrValidadorValidarDocumento( const TipoDocto : TACBrValTipoDocto;
@@ -194,7 +196,9 @@ function ACBrValidadorFormatarDocumento( const TipoDocto : TACBrValTipoDocto;
   const Documento : AnsiString) : String ;
 
 implementation
-{$IFDEF COMPILER6_UP} uses Variants , Math, StrUtils;{$ENDIF}
+uses
+ {$IFDEF COMPILER6_UP} Variants , Math, StrUtils, {$ENDIF}
+  ACBrUtil;
 
 function ACBrValidadorValidarCPF(const Documento : AnsiString) : String ;
 begin
@@ -221,14 +225,14 @@ begin
   Result := ACBrValidadorValidarDocumento( docGTIN, Documento );
 end;
 
-function FormatarFone(const AString : String; DDDPadrao: String = '') : String ;
+function FormatarFone(const AValue : String; DDDPadrao: String = '') : String ;
 var
   AChar : Char;
   L, I : Integer ;
   Mascara, FoneNum : String ;
 begin
   Result    := '';
-  FoneNum   := OnlyNumber( Trim(AString) );
+  FoneNum   := OnlyNumber( AValue );
   L         := Length( FoneNum );
   if L = 0 then
     exit ;
@@ -267,6 +271,138 @@ begin
     Result := AChar + Result;
     Dec( I ) ;
   end ;
+end;
+
+function FormatarCPF(const AValue: String): String;
+Var S : String ;
+begin
+  S := PadLeft( OnlyNumber(AValue), 11, '0') ;
+  Result := copy(S,1,3) + '.' + copy(S,4 ,3) + '.' +
+            copy(S,7,3) + '-' + copy(S,10,2) ;
+end;
+
+function FormatarCNPJ(const AValue: String): String;
+Var S : String ;
+begin
+  S := PadLeft( OnlyNumber(AValue), 14, '0') ;
+  Result := copy(S,1,2) + '.' + copy(S,3,3) + '.' +
+            copy(S,6,3) + '/' + copy(S,9,4) + '-' + copy(S,13,2) ;
+end;
+
+function FormatarCNPJCPF(const AValue: String): String;
+var
+  S: String;
+begin
+  S := OnlyNumber(AValue);
+  if Length(S) = 0 then
+     Result := S
+  else
+  begin
+    if Length(S) = 14 then
+      Result := FormatarCNPJ(S)
+    else
+      Result := FormatarCPF(S);
+  end;
+end;
+
+function FormatarPlaca(const AValue: string): string;
+Var S : String ;
+begin
+ S := Trim(AValue);
+ Result := Copy(S, 1, 3) + '-' + Copy(S, 4, 4);
+end;
+
+function FormatarIE(const AValue: String; UF: String): String;
+Var
+  Mascara : String ;
+  C : AnsiChar ;
+  I, J, LenDoc, LenMas : Integer;
+Begin
+  Result := AValue ;
+  if UpperCase( Trim(AValue) ) = 'ISENTO' then
+     exit ;
+
+  UF      := UpperCase( UF ) ;
+  LenDoc  := Length( AValue ) ;
+  Mascara := StringOfChar('*', LenDoc) ;
+
+  IF UF = 'AC' Then Mascara := '**.***.***/***-**';
+  IF UF = 'AL' Then Mascara := '*********';
+  IF UF = 'AP' Then Mascara := '*********';
+  IF UF = 'AM' Then Mascara := '**.***.***-*';
+  IF UF = 'BA' Then Mascara := '*******-**';
+  IF UF = 'CE' Then Mascara := '********-*';
+  IF UF = 'DF' Then Mascara := '***********-**';
+  IF UF = 'ES' Then Mascara := '*********';
+  IF UF = 'GO' Then Mascara := '**.***.***-*';
+  IF UF = 'MA' Then Mascara := '*********';
+  IF UF = 'MT' Then Mascara := '**********-*';
+  IF UF = 'MS' Then Mascara := '**.***.***-*';
+  IF UF = 'MG' Then Mascara := '***.***.***/****';
+  IF UF = 'PA' Then Mascara := '**-******-*';
+  IF UF = 'PB' Then Mascara := '********-*';
+  IF UF = 'PR' Then Mascara := '***.*****-**';
+  IF UF = 'PE' Then Mascara := IfThen((LenDoc>9),'**.*.***.*******-*','*******-**');
+  IF UF = 'PI' Then Mascara := '*********';
+  IF UF = 'RJ' Then Mascara := '**.***.**-*';
+  IF UF = 'RN' Then Mascara := IfThen((LenDoc>9),'**.*.***.***-*','**.***.***-*');
+  IF UF = 'RS' Then Mascara := '***/*******';
+  IF UF = 'RO' Then Mascara := IfThen((LenDoc>13),'*************-*','***.*****-*');
+  IF UF = 'RR' Then Mascara := '********-*';
+  IF UF = 'SC' Then Mascara := '***.***.***';
+  IF UF = 'SP' Then Mascara := ifthen((LenDoc>1) and (AValue[1]='P'),'*-********.*/***', '***.***.***.***');
+  IF UF = 'SE' Then Mascara := '**.***.***-*';
+  IF UF = 'TO' Then Mascara := IfThen((LenDoc=11),'**.**.******-*','**.***.***-*');
+
+  Result := '';
+  LenMas := Length( Mascara ) ;
+  J := LenMas ;
+
+  For I := LenMas downto 1 do
+  begin
+     C := Mascara[I] ;
+
+     if C = '*' then
+     begin
+        if J <= ( LenMas - LenDoc ) then
+           C := '0'
+        else
+           C := AValue[( J - ( LenMas - LenDoc ) )] ;
+
+        Dec( J ) ;
+     end;
+
+     Result := C + Result;
+  End;
+
+  Result := Trim( Result );
+end;
+
+function FormatarCheque(const AValue: String): String;
+Var S : String ;
+begin
+  S := PadLeft( Trim(AValue), 7, '0') ; { Prenche zeros a esquerda }
+  Result := copy(S,1,6) + '-' + copy(S,7,1) ;
+end;
+
+function FormatarPIS(const AValue: String): String;
+Var S : AnsiString ;
+begin
+  S := PadLeft( Trim(AValue), 11, '0') ;
+  Result := copy(S,1,2) + '.' + copy(S,3,5) + '.' +
+            copy(S,8,3) + '.' + copy(S,11,1)
+end;
+
+function FormatarCEP(const AValue: String): String;
+Var S : String ;
+begin
+  S := PadLeft( OnlyNumber(AValue), 8, '0') ; { Prenche zeros a direita }
+  Result := copy(S,1,5) + '-' + copy(S,6,3) ;
+end;
+
+function FormatarSUFRAMA(const AValue: String): String;
+begin
+  Result := AValue;
 end;
 
 function ACBrValidadorValidarCNPJouCPF(const Documento : AnsiString) : String ;
@@ -442,31 +578,17 @@ end;
 
 function TACBrValidador.Formatar: AnsiString;
 begin
-  Result := fsDocumento  ;
+  Result := LimpaDocto(fsDocumento)  ;
 
   case fsTipoDocto of
-    docCPF      : Result := FormatarCPF( fsDocumento ) ;
-    docCNPJ     : Result := FormatarCNPJ( fsDocumento ) ;
-    docInscEst  : Result := FormatarIE( fsDocumento, fsComplemento ) ;
-    docNumCheque: Result := FormatarCheque( fsDocumento ) ;
-    docPIS      : Result := FormatarPIS( fsDocumento ) ;
-    docCEP      : Result := FormatarCEP( fsDocumento ) ;
-    docSuframa  : Result := FormatarSUFRAMA( fsDocumento ) ;
+    docCPF      : Result := FormatarCPF( Result ) ;
+    docCNPJ     : Result := FormatarCNPJ( Result ) ;
+    docInscEst  : Result := FormatarIE( Result, fsComplemento ) ;
+    docNumCheque: Result := FormatarCheque( Result ) ;
+    docPIS      : Result := FormatarPIS( Result ) ;
+    docCEP      : Result := FormatarCEP( Result ) ;
+    docSuframa  : Result := FormatarSUFRAMA( Result ) ;
   end;
-end;
-
-function TACBrValidador.FormatarCheque(AString: AnsiString): AnsiString;
-Var S : AnsiString ;
-begin
-  S := padR( LimpaDocto(AString), 7, '0') ; { Prenche zeros a esquerda }
-  Result := copy(S,1,6) + '-' + copy(S,7,1) ;
-end;
-
-function TACBrValidador.FormatarCEP(AString: AnsiString): AnsiString;
-Var S : AnsiString ;
-begin
-  S := padL( LimpaDocto(AString), 8, '0') ; { Prenche zeros a direita }
-  Result := copy(S,1,5) + '-' + copy(S,6,3) ;
 end;
 
 Procedure TACBrValidador.ValidarCheque ;
@@ -491,19 +613,11 @@ begin
   end ;
 end;
 
-function TACBrValidador.FormatarCNPJ(AString: AnsiString): AnsiString;
-Var S : AnsiString ;
-begin
-  S := padR( LimpaDocto(AString), 14, '0') ;
-  Result := copy(S,1,2) + '.' + copy(S,3,3) + '.' +
-            copy(S,6,3) + '/' + copy(S,9,4) + '-' + copy(S,13,2) ;
-end;
-
 Procedure TACBrValidador.ValidarCNPJ ;
 Var DV1, DV2 : AnsiString ;
 begin
   if fsAjustarTamanho then
-     fsDocto := padR( fsDocto, 14, '0') ;
+     fsDocto := PadLeft( fsDocto, 14, '0') ;
 
   if (Length( fsDocto ) <> 14) or ( not StrIsNumber( fsDocto ) ) then
   begin
@@ -537,19 +651,11 @@ begin
   end ;
 end;
 
-function TACBrValidador.FormatarCPF(AString: AnsiString): AnsiString;
-Var S : AnsiString ;
-begin
-  S := padR( LimpaDocto(AString), 11, '0') ;
-  Result := copy(S,1,3) + '.' + copy(S,4 ,3) + '.' +
-            copy(S,7,3) + '-' + copy(S,10,2) ;
-end;
-
 Procedure TACBrValidador.ValidarCPF ;
 Var DV1, DV2 : AnsiString ;
 begin
   if fsAjustarTamanho then
-     fsDocto := padR( fsDocto, 11, '0') ;
+     fsDocto := PadLeft( fsDocto, 11, '0') ;
 
   if (Length( fsDocto ) <> 11) or ( not StrIsNumber( fsDocto ) ) then
   begin
@@ -589,7 +695,7 @@ end;
 Procedure TACBrValidador.ValidarCEP ;
 begin
   if fsAjustarTamanho then
-     fsDocto := padL( fsDocto, 8, '0') ;
+     fsDocto := PadRight( fsDocto, 8, '0') ;
 
   if (Length( fsDocto ) <> 8) or ( not StrIsNumber( fsDocto ) ) then
   begin
@@ -819,7 +925,7 @@ begin
   if fsComplemento = 'BA' then
   begin
     if Length(fsDocto) < 9 then
-       fsDocto := padR(fsDocto,9,'0') ;
+       fsDocto := PadLeft(fsDocto,9,'0') ;
 
     Tamanho := 9 ;
     xTP := 2   ;   yTP  := 3   ;   yROT := 'E' ;
@@ -881,7 +987,7 @@ begin
   if fsComplemento = 'MT' then
   begin
      if Length(fsDocto) = 9 then
-        fsDocto := padR(fsDocto,11,'0') ;
+        fsDocto := PadLeft(fsDocto,11,'0') ;
 
      Tamanho := 11 ;
      vDigitos := VarArrayOf(
@@ -1063,14 +1169,14 @@ begin
 
   { Verificando se o tamanho Total está correto }
   if fsAjustarTamanho then
-     fsDocto := padR( fsDocto, Tamanho, '0') ;
+     fsDocto := PadLeft( fsDocto, Tamanho, '0') ;
 
   OK := (Tamanho > 0) and (Length(fsDocto) = Tamanho) ;
   if not OK then
      fsMsgErro := 'Tamanho Inválido' ;
 
   { Verificando os digitos nas posicoes são permitidos }
-  fsDocto := padR(fsDocto,14) ;
+  fsDocto := PadLeft(fsDocto,14) ;
   DVX := 0  ;
   DVY := 0  ;
   I   := 13 ;
@@ -1189,23 +1295,10 @@ begin
     fsMsgErro := 'UF inválido: '+UF ;
 end;
 
-function TACBrValidador.FormatarPIS(AString: AnsiString): AnsiString;
-Var S : AnsiString ;
-begin
-  S := padR( LimpaDocto(AString), 11, '0') ;
-  Result := copy(S,1,2) + '.' + copy(S,3,5) + '.' +
-            copy(S,8,3) + '.' + copy(S,11,1)
-end;
-
-function TACBrValidador.FormatarSUFRAMA(AString: AnsiString): AnsiString;
-begin
-  Result := AString;
-end;
-
 procedure TACBrValidador.ValidarPIS;
 begin
   if fsAjustarTamanho then
-     fsDocto := padR( fsDocto, 11, '0') ;
+     fsDocto := PadLeft( fsDocto, 11, '0') ;
 
   if (Length( fsDocto ) <> 11) or ( not StrIsNumber( fsDocto ) ) then
   begin
@@ -1264,7 +1357,7 @@ var
 
     // adicionar os zeros a esquerda, se não fizer isso o cálculo não bate
     // limite = tamanho maior codigo (gtin14) - 1 (digito)
-    ACodigoGTIN := PadR(ACodigoGTIN, 13, '0');
+    ACodigoGTIN := PadLeft(ACodigoGTIN, 13, '0');
 
     for I := Length(ACodigoGTIN) downto 1 do
     begin
@@ -1436,75 +1529,36 @@ begin
   fsFormulaDigito := frModulo11 ;
 end;
 
-function TACBrValidador.FormatarIE(AString, UF: AnsiString): AnsiString;
-Var
-  Mascara : AnsiString ;
-  C : AnsiChar ;
-  I, J, LenDoc, LenMas : Integer;
-Begin
-  Result := AString ;
-  if UpperCase( Trim(AString) ) = 'ISENTO' then
-     exit ;
+end.
 
-  AString := LimpaDocto( AString ) ;
-  UF      := UpperCase( UF ) ;
 
-  LenDoc  := Length( AString ) ;
-  Mascara := StringOfChar('*', LenDoc) ;
-
-  IF UF = 'AC' Then Mascara := '**.***.***/***-**';
-  IF UF = 'AL' Then Mascara := '*********';
-  IF UF = 'AP' Then Mascara := '*********';
-  IF UF = 'AM' Then Mascara := '**.***.***-*';
-  IF UF = 'BA' Then Mascara := '*******-**';
-  IF UF = 'CE' Then Mascara := '********-*';
-  IF UF = 'DF' Then Mascara := '***********-**';
-  IF UF = 'ES' Then Mascara := '*********';
-  IF UF = 'GO' Then Mascara := '**.***.***-*';
-  IF UF = 'MA' Then Mascara := '*********';
-  IF UF = 'MT' Then Mascara := '**********-*';
-  IF UF = 'MS' Then Mascara := '**.***.***-*';
-  IF UF = 'MG' Then Mascara := '***.***.***/****';
-  IF UF = 'PA' Then Mascara := '**-******-*';
-  IF UF = 'PB' Then Mascara := '********-*';
-  IF UF = 'PR' Then Mascara := '***.*****-**';
-  IF UF = 'PE' Then Mascara := IfThen((LenDoc>9),'**.*.***.*******-*','*******-**');
-  IF UF = 'PI' Then Mascara := '*********';
-  IF UF = 'RJ' Then Mascara := '**.***.**-*';
-  IF UF = 'RN' Then Mascara := IfThen((LenDoc>9),'**.*.***.***-*','**.***.***-*');
-  IF UF = 'RS' Then Mascara := '***/*******';
-  IF UF = 'RO' Then Mascara := IfThen((LenDoc>13),'*************-*','***.*****-*');
-  IF UF = 'RR' Then Mascara := '********-*';
-  IF UF = 'SC' Then Mascara := '***.***.***';
-  IF UF = 'SP' Then Mascara := ifthen((LenDoc>1) and (AString[1]='P'),'*-********.*/***', '***.***.***.***');
-  IF UF = 'SE' Then Mascara := '**.***.***-*';
-  IF UF = 'TO' Then Mascara := IfThen((LenDoc=11),'**.**.******-*','**.***.***-*');
-
-  Result := '';
-  LenMas := Length( Mascara ) ;
-  J := LenMas ;
-
-  For I := LenMas downto 1 do
+//TODO:
+class function DFeUtil.Modulo11(Valor: string; Peso: Integer = 2; Base: Integer = 9): String;
+var
+  Soma, Resto: integer;
+  Contador, Digito: integer;
+begin
+  Soma := 0;
+  for Contador := Length(Valor) downto 1 do
   begin
-     C := Mascara[I] ;
+    Soma := Soma + (StrToInt(Valor[Contador]) * Peso);
+    if Peso < Base then
+      Peso := Peso + 1
+    else
+      Peso := 2;
+  end;
 
-     if C = '*' then
-     begin
-        if J <= ( LenMas - LenDoc ) then
-           C := '0'
-        else
-           C := AString[( J - ( LenMas - LenDoc ) )] ;
+  Resto := (Soma mod 11);
 
-        Dec( J ) ;
-     end;
+  if Resto <= 1 then
+    Digito := 0
+  else
+    Digito := 11 - Resto;
 
-     Result := C + Result;
-  End;
-
-  Result := Trim( Result );
+  Result := IntToStr(Digito);
 end;
 
-end.
+
 
 
 

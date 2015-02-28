@@ -211,6 +211,7 @@ begin
   
   if FLocalSons = lsDiretorio then
   begin
+     LastFile := '';
      RetFind := SysUtils.FindFirst( FOrigemArquivos+PathDelim+'*'+FExtensaoSons,
                                     faAnyFile, SearchRec) ;
      try

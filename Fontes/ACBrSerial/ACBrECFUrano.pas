@@ -71,8 +71,8 @@
 unit ACBrECFUrano ;
 
 interface
-uses ACBrECFClass, ACBrDevice, ACBrUtil, ACBrConsts,
-     Classes ;
+uses Classes,
+     ACBrECFClass, ACBrDevice;
 
 const R = 'XXXXX' ;
 
@@ -202,7 +202,8 @@ TACBrECFUrano = class( TACBrECFClass )
 
 implementation
 Uses {$IFDEF COMPILER6_UP} DateUtils, StrUtils {$ELSE} ACBrD5, SysUtils, Windows{$ENDIF},
-     SysUtils,  Math, ACBrECF;
+     SysUtils,  Math,
+     ACBrECF, ACBrUtil, ACBrConsts;
 
 { ----------------------------- TACBrECFUrano ------------------------------ }
 
@@ -569,8 +570,8 @@ begin
   Est       := Estado ;  { usa variavel, para evitar comunicação várias vezes }
 
   case Est of
-     estVenda, estPagamento :  EnviaComando('07' + padL(Operador,8) + R, 20 ) ;
-     estLivre : EnviaComando('08' + '1' + padL(Operador,8) + R, 20 ) ;
+     estVenda, estPagamento :  EnviaComando('07' + PadRight(Operador,8) + R, 20 ) ;
+     estLivre : EnviaComando('08' + '1' + PadRight(Operador,8) + R, 20 ) ;
   end ;
 
   FechaRelatorio ;   { Fecha relatorio se ficou algum aberto (só por garantia)}
@@ -580,7 +581,7 @@ procedure TACBrECFUrano.CancelaItemVendido(NumItem: Integer);
 var
   Descricao, ItemStr: String;
 begin
-  Descricao := padL('Item Cancelado', 22) ;
+  Descricao := PadRight('Item Cancelado', 22) ;
   ItemStr := IntToStrZero(NumItem, 3) ;
 
   EnviaComando('02' + Descricao + ItemStr + R ) ;
@@ -593,7 +594,7 @@ var
   ValorStr,
   Vinculado: String;
 begin
-  Observacao := padL(Observacao, 17);
+  Observacao := PadRight(Observacao, 17);
   ValorStr := IntToStrZero(Round(Valor * 100), 11);
   if ImprimeVinculado then Vinculado := '1' else Vinculado := '0' ;
 
@@ -612,10 +613,10 @@ begin
   { Documentação do consumidor }
   if Trim(Consumidor.Documento) <> '' then
   begin
-    Nome := padL('IDENTIFICACAO DO CONSUMIDOR', 42);
-    Linha1 := padL('', 42);
-    Linha2 := padL('', 42);
-    CPF_CNPJ := padL(Consumidor.Documento, 18);
+    Nome := PadRight('IDENTIFICACAO DO CONSUMIDOR', 42);
+    Linha1 := PadRight('', 42);
+    Linha2 := PadRight('', 42);
+    CPF_CNPJ := PadRight(Consumidor.Documento, 18);
 
     if Length(Trim(CPF_CNPJ)) = 11 then
       Tipo := '0'
@@ -626,9 +627,9 @@ begin
   end;
 
   if Trim( Observacao ) <> '' then
-     EnviaComando( '170' + padL(Observacao, 192) + R, 10 );
+     EnviaComando( '170' + PadRight(Observacao, 192) + R, 10 );
   
-    EnviaComando('050' + padL(Operador, 8) + R, 10);  
+    EnviaComando('050' + PadRight(Operador, 8) + R, 10);  
 end;
 
 procedure TACBrECFUrano.SubtotalizaCupom(DescontoAcrescimo: Double;
@@ -640,11 +641,11 @@ begin
 
   if DescontoAcrescimo > 0 then
   begin
-    EnviaComando('090' + padL('', 10) + DescontoAcrescimoStr + R );
+    EnviaComando('090' + PadRight('', 10) + DescontoAcrescimoStr + R );
   end
   else if DescontoAcrescimo < 0 then
   begin
-    EnviaComando('100' + padL('', 10) + DescontoAcrescimoStr + R );
+    EnviaComando('100' + PadRight('', 10) + DescontoAcrescimoStr + R );
   end;
 end;
 
@@ -665,8 +666,8 @@ begin
      raise EACBrECFCMDInvalido.Create( ACBrStr(
            'ECF '+fpModeloStr+' não permite Acréscimo por Item'));
 
-  Codigo    := padL(Codigo,13) ;    { Ajustando Tamanhos }
-  Descricao := PadL(Copy(Descricao, 1, 66),66) ;
+  Codigo    := PadRight(Codigo,13) ;    { Ajustando Tamanhos }
+  Descricao := PadRight(Copy(Descricao, 1, 66),66) ;
 
   if Round( Qtd ) = Qtd then
   begin
@@ -682,7 +683,7 @@ begin
      ValorStr := IntToStrZero( Round(ValorUnitario * 1000 ), 9) ;
   end;
 
-  Unidade   := padL(Unidade,2) ;
+  Unidade   := PadRight(Unidade,2) ;
 
   EnviaComando('01' + Codigo + Descricao + QtdStr + ValorStr + AliquotaECF
     + Unidade + Tipo + R, 20);
@@ -696,7 +697,7 @@ begin
      else
         DescontoStr := IntToStrZero( Round(ValorDescontoAcrescimo*100), 9) ;
 
-    EnviaComando('030' + PadL('Desconto Aplicado', 26) + DescontoStr + R);
+    EnviaComando('030' + PadRight('Desconto Aplicado', 26) + DescontoStr + R);
   end;
 end;
 
@@ -745,7 +746,7 @@ begin
     'F' : AliquotaStr := '16' ;
     'I' : AliquotaStr := '17' ;
     'N' : AliquotaStr := '18' ;
-    'T' : AliquotaICMS := 'T'+padR(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
+    'T' : AliquotaICMS := 'T'+PadLeft(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
   end ;
 
   if AliquotaStr = '' then
@@ -879,12 +880,12 @@ begin
        { Formatando até 10 Linhas em uma String de 480 bytes }
         while (Linhas.Count > 0) and (I < 10) do
         begin
-           Buffer := Buffer + padL(Linhas[0],fpColunas) ;
+           Buffer := Buffer + PadRight(Linhas[0],fpColunas) ;
            Linhas.Delete(0);
            Inc(I)
         end ;
 
-        EnviaComando('06' + padL(Buffer, 480, #0) + R, 35);
+        EnviaComando('06' + PadRight(Buffer, 480, #0) + R, 35);
      end ;
   finally
      Linhas.Free ;
@@ -912,7 +913,7 @@ end;
 procedure TACBrECFUrano.FechaRelatorio;
 begin
   if Estado = estRelatorio then
-     EnviaComando( '12' + padL(Operador, 8) + R, 5 ) ;  { Fecha o relatorio Gerencial ou Vinculado }
+     EnviaComando( '12' + PadRight(Operador, 8) + R, 5 ) ;  { Fecha o relatorio Gerencial ou Vinculado }
 end;
 
 procedure TACBrECFUrano.PulaLinhas(NumLinhas: Integer);
@@ -930,7 +931,7 @@ var
   Reducoes: String;
 begin
   // Urano não possui Leitura Simplificada
-  Datas := Padl('',12);
+  Datas := PadRight('',12);
   Reducoes := IntToStrZero(ReducaoInicial, 4) + IntToStrZero(ReducaoFinal, 4);
 
   EnviaComando('16' + '1' + Datas + Reducoes + R, 30 * (ReducaoFinal - ReducaoInicial + 1));
@@ -945,7 +946,7 @@ begin
   // Urano não possui Leitura Simplificada
   Datas := FormatDateTime('ddmmyy', DataInicial) +
     FormatDateTime('ddmmyy', DataFinal);
-  Reducoes := Padl('',8);
+  Reducoes := PadRight('',8);
 
   EnviaComando('16' + '0' + Datas + Reducoes + R, 30 * DaysBetween(DataFinal, DataInicial));
 end;

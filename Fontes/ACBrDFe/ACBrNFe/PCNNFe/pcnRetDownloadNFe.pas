@@ -51,7 +51,7 @@ interface
 
 uses
   SysUtils, Classes,
-  pcnAuxiliar, pcnConversao, pcnLeitor, ACBrUtil, synacode;
+  pcnAuxiliar, pcnConversao, pcnLeitor, synacode;
 
 type
   TRetNFeCollection     = class;
@@ -124,7 +124,8 @@ implementation
 
 uses
   pcnGerador,
-  {$IFDEF FPC},zstream {$ELSE},ACBrZLibExGZ{$ENDIF};
+  ACBrUtil,
+  {$IFDEF FPC}zstream {$ELSE}ACBrZLibExGZ{$ENDIF};
 
 { TRetNFeCollection }
 
@@ -360,3 +361,6 @@ begin
 end;
 
 end.
+
+//TODO: Remover o método:   function UnZipMsg(S: TStringStream): String;
+

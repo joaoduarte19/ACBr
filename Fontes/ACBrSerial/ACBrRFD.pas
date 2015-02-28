@@ -740,7 +740,7 @@ begin
            Cancelado +
            StringOfChar('0',13) + // Cancelamento de Acrescimo no Subtotal
            OrdemDA +
-           padL(NomeConsumidor, 40) +
+           PadRight(NomeConsumidor, 40) +
            Poem_Zeros(DoctoConsumidor, 14) ;
 
   TACBrRFD(fsOwner).GravaLog( cRFDArqE14, Linha) ;
@@ -777,15 +777,15 @@ begin
         Linha := IntToStrZero( COO, 6) +
                  IntToStrZero( CCF, 6) +
                  IntToStrZero( A+1, 3) +
-                 padL(Codigo,14) +
-                 padL(Descricao,100) +
+                 PadRight(Codigo,14) +
+                 PadRight(Descricao,100) +
                  IntToStrZero( Round( Qtd * Power(10,DecQtd) ), 7  ) +
-                 PadL( Un, 3) +
+                 PadRight( Un, 3) +
                  IntToStrZero( Round( ValorUnitario * Power(10,DecVal) ), 8  ) +
                  IntToStrZero( Round( Desconto  * 100),  8 ) +
                  IntToStrZero( Round( Acrescimo * 100),  8 ) +
                  IntToStrZero( Round( TotItem   * 100), 14 ) +
-                 PadL( Aliquota, 7) +
+                 PadRight( Aliquota, 7) +
                  Cancelado +
                  StringOfChar('0',33) + // (Qtd + Valor cancelado) + Canc.Acrescimo
                  FlagArr +
@@ -825,7 +825,7 @@ begin
         Linha := IntToStrZero( COO, 6) +
                  IntToStrZero( CCF, 6) +
                  GNF +
-                 PadL( Descricao, 15) +
+                 PadRight( Descricao, 15) +
                  IntToStrZero( Round( ValorPago*100), 13 ) +
                  'N' +                  // Flag de Estorno
                  StringOfChar('0',13) ; // valor Estornado
@@ -1353,7 +1353,7 @@ begin
 
   with TACBrECF( fsECF ) do
   begin
-     Denominacao := UpperCase(PadL(Denominacao,2)) ;
+     Denominacao := UpperCase(PadRight(Denominacao,2)) ;
      GRG := '000000' ;
      CRZ := GRG ;
      CDC := '0000' ;
@@ -1386,7 +1386,7 @@ begin
         Linha := IntToStrZero( StrToIntDef(NumCOO,0), 6) +
                  IntToStrZero( StrToIntDef(NumCCF,0), 6) +
                  IntToStrZero( StrToIntDef(NumGNF,0), 6) +
-                 PadL( DescricaoFormaPagto, 15) +
+                 PadRight( DescricaoFormaPagto, 15) +
                  IntToStrZero( Round( Valor*100), 13 ) +
                  'N' +                  // Flag de Estorno
                  StringOfChar('0',13) ; // valor Estornado
@@ -1508,7 +1508,7 @@ begin
      with TACBrECF( fsECF ) do
      begin
         { Formantando campos do ECF e Contribuinte }
-        wNumSerie := PadL( fsECF_NumSerie, 20) ;
+        wNumSerie := PadRight( fsECF_NumSerie, 20) ;
         wLetraMF  := ' ' ;
         if CharIsAlpha(fsECF_NumSerie[Length(fsECF_NumSerie)]) then
            wLetraMF := fsECF_NumSerie[Length(fsECF_NumSerie)] ;
@@ -1520,14 +1520,14 @@ begin
            wModelo := Trim( copy(wMarca ,P+1 ,Length(wMarca)) ) ;
            wMarca  := Trim( copy(wMarca ,1 ,P-1) ) ;
         end ;
-        wMarca  := PadL( wMarca,  20) ;
-        wModelo := PadL( wModelo, 20) ;
+        wMarca  := PadRight( wMarca,  20) ;
+        wModelo := PadRight( wModelo, 20) ;
 
         wCNPJECF    := Poem_Zeros( fsCONT_CNPJ, 14) ;
         wNumUsuario := IntToStrZero( fsCONT_NumUsuario, 2) ;
         wNumCRZ     := Poem_Zeros( Ini.ReadString('ECF','NumCRZ','0'), 6) ;
         wDiaMov     := DtoS( DiaMov ) ;
-        wTipoECF    := PadL( cRFDTipoECF, 7) ;
+        wTipoECF    := PadRight( cRFDTipoECF, 7) ;
         if fsECF_DataHoraSwBasico = 0 then
            wDtHrSwBasico := StringOfChar(' ',14)
         else
@@ -1550,11 +1550,11 @@ begin
                  Poem_Zeros( SH_CNPJ, 14) +
                  Poem_Zeros( SH_IE  , 14) +
                  Poem_Zeros( SH_IM  , 14) +
-                 padL( SH_RazaoSocial, 40) +
-                 padL( SH_NomeAplicativo, 40) +
-                 padL( SH_VersaoAplicativo, 10) +
-                 padL( SH_Linha1, 42) +
-                 padL( SH_Linha2, 42) ;
+                 PadRight( SH_RazaoSocial, 40) +
+                 PadRight( SH_NomeAplicativo, 40) +
+                 PadRight( SH_VersaoAplicativo, 10) +
+                 PadRight( SH_Linha1, 42) +
+                 PadRight( SH_Linha2, 42) ;
         WriteToTXT( ArqTmp, Linha, False );
 
         { Gravando o registro E01 - Identificação do ECF }
@@ -1562,7 +1562,7 @@ begin
                  wNumSerie + wLetraMF +
                  wTipoECF +
                  wMarca + wModelo +
-                 PadL( NumVersao, 10) +
+                 PadRight( NumVersao, 10) +
                  wDtHrSwBasico +
                  IntToStrZero( StrToIntDef( NumECF,1),3) +
                  wCNPJECF +
@@ -1570,7 +1570,7 @@ begin
                  wNumCRZ + wNumCRZ +   // CRZ Inicial e Final
                  wDiaMov + wDiaMov +   // Data Inicial e Final
                  '01.00.00' +          // Verssao biblioteca
-                 PadL( fsAtoCotepe, 15) ;
+                 PadRight( fsAtoCotepe, 15) ;
         WriteToTXT( ArqTmp, Linha, True);
      end ;
 
@@ -1578,9 +1578,9 @@ begin
               wNumSerie + wLetraMF +
               wModelo +
               wCNPJECF +
-              PadL( fsCONT_IE, 14) +
-              PadL( fsCONT_RazaoSocial, 40) +
-              PadL( fsCONT_Endereco, 120) +
+              PadRight( fsCONT_IE, 14) +
+              PadRight( fsCONT_RazaoSocial, 40) +
+              PadRight( fsCONT_Endereco, 120) +
               DTtoS( fsCONT_DataHoraCadastro ) +
               IntToStrZero( fsCONT_CROCadastro, 6) +
               IntToStrZero( Round(
@@ -1627,7 +1627,7 @@ begin
               P := pos('=',SEC[I]) ;
               if P > 0 then
               begin
-                 SL.Add( IntToStrZero(I+1, 2) + PadL(copy(SEC[I],3,P-1),5)+  // Alterado por Maicon da Silva Evangelista - Linha antiga-> SL.Add(PadL(copy(SEC[I],1,P-1),7)+
+                 SL.Add( IntToStrZero(I+1, 2) + PadRight(copy(SEC[I],3,P-1),5)+  // Alterado por Maicon da Silva Evangelista - Linha antiga-> SL.Add(PadRight(copy(SEC[I],1,P-1),7)+
                          IntToStrZero( Round( StrToFloatDef(
                                 copy( SEC[I],P+1,Length(SEC[I]) ), 0)*100) , 13) );
               end ;

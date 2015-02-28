@@ -54,38 +54,11 @@ type
    protected
 
    public
-     class function PadE(const AString : string; const nLen : Integer; const Caracter : Char = ' ') : String;
-     class function PadD(const AString : string; const nLen : Integer; const Caracter : Char = ' ') : String;
-     class function padC(const AString : string; const nLen : Integer; const Caracter : Char = ' ') : String;
-     class function FormatFloat(AValue: Extended; const AFormat: string = ',0.00'): String;
-     class function Poem_Zeros(const Texto : String; const Tamanho : Integer) : String;overload;
-     class function Poem_Zeros(const Valor : Integer; const Tamanho : Integer) : String;overload;
-     class function EstaVazio(const AValue: String): Boolean;overload;
-     class procedure EstaVazio(const AValue, AMensagem: String);overload;
-     class function NaoEstaVazio(AValue: String): Boolean;
-     class function EstaZerado(AValue: Double): Boolean;overload;
-     class function EstaZerado(AValue: Integer): Boolean;overload;
-     class procedure EstaZerado(AValue: Integer; AMensagem: String);overload;
-     class function NaoEstaZerado(AValue: Double): Boolean;overload;
-     class function NaoEstaZerado(AValue: Integer): Boolean;overload;
-     class function FormatDate(const AString: string): String;overload;
-     class function FormatDate(const AData: TDateTime): String;overload;
-     class function FormatDateTime(const AString: string): string;
-     class function StringToDate(const AString: string): TDateTime;
-     class function StringToTime(const AString: string): TDateTime;
-     class function TamanhoIgual(const AValue: String; const ATamanho: Integer): Boolean;overload;
-     class procedure TamanhoIgual(const AValue: String; const ATamanho: Integer; AMensagem: String);overload;
-     class function TamanhoIgual(const AValue: Integer; const ATamanho: Integer): Boolean;overload;
-     class procedure TamanhoIgual(const AValue: Integer; const ATamanho: Integer; AMensagem: String);overload;
-     class function TamanhoMenor(const AValue: String; const ATamanho: Integer): Boolean;
      class function FormatarNumeroDocumentoFiscal(AValue : String ): String;
      class function FormatarNumeroDocumentoFiscalNFSe(AValue: String): String;
      class function FormatarChaveAcesso(AValue : String ): String;
-     class procedure ConfAmbiente;
-     class function PathAplication: String;
      class function ValidaUFCidade(const UF, Cidade: Integer): Boolean; overload;
      class procedure ValidaUFCidade(const UF, Cidade: Integer; const AMensagem: string); overload;
-     class function Modulo11(Valor: string; Peso: Integer = 2; Base: Integer = 9): String;
      class function ValidaDIDSI(AValue: string): Boolean;
      class function ValidaDIRE(AValue: string): Boolean;
      class function ValidaRE(AValue: string): Boolean;
@@ -105,32 +78,6 @@ implementation
 uses
  Variants, DateUtils, ACBrUtil, ACBrConsts, pcnGerador;
 
-class function DFeUtil.EstaVazio(const AValue: String): Boolean;
-begin
-  Result := (Trim(AValue) = '');
-end;
-
-class procedure DFeUtil.EstaVazio(const AValue, AMensagem: String);
-begin
-  if EstaVazio(AValue) then
-    raise EACBrDFeException.Create(AMensagem);
-end;
-
-class function DFeUtil.EstaZerado(AValue: Double): Boolean;
-begin
-  Result := (AValue = 0);
-end;
-
-class function DFeUtil.EstaZerado(AValue: Integer): Boolean;
-begin
-  Result := (AValue = 0);
-end;
-
-class procedure DFeUtil.EstaZerado(AValue: Integer; AMensagem: String);
-begin
-  if EstaZerado(AValue) then
-    raise EACBrDFeException.Create(AMensagem);
-end;
 
 class function DFeUtil.FormatarNumeroDocumentoFiscal(AValue: String): String;
 begin
@@ -143,225 +90,6 @@ class function DFeUtil.FormatarNumeroDocumentoFiscalNFSe(AValue: String): String
 begin
   AValue := Poem_Zeros(AValue, 15);
   Result := copy(AValue,1,4) + '.' + copy(AValue,5,12);
-end;
-
-class function DFeUtil.FormatDate(const AString: string): String;
-var
-  vTemp: TDateTime;
-{$IFDEF VER140} //D6
-{$ELSE}
-  vFormatSettings : TFormatSettings;
-{$ENDIF}
-begin
-  try
-{$IFDEF VER140} //D6
-    DateSeparator := '/';
-    ShortDateFormat := 'dd/mm/yyyy';
-{$ELSE}
-    vFormatSettings.DateSeparator   := '-';
-    vFormatSettings.ShortDateFormat := 'yyyy-mm-dd';
-//    vTemp := StrToDate(AString, FFormato);
-{$ENDIF}
-    vTemp := StrToDate(AString);
-    if vTemp = 0 then
-      Result := ''
-    else
-      Result := DateToStr(vTemp);
-  except
-    Result := '';
-  end;
-end;
-
-class function DFeUtil.FormatDate(const AData: TDateTime): String;
-var
-  vTemp: String;
-{$IFDEF VER140} //delphi6
-{$ELSE}
-  FFormato : TFormatSettings;
-{$ENDIF}
-begin
-  try
-{$IFDEF VER140} //delphi6
-    DateSeparator := '/';
-    ShortDateFormat := 'dd/mm/yyyy';
-{$ELSE}
-    FFormato.DateSeparator   := '-';
-    FFormato.ShortDateFormat := 'yyyy-mm-dd';
-{$ENDIF}
-	vTemp := DateToStr(AData);
-    if AData = 0 then
-      Result := ''
-    else
-      Result := vTemp;
-  except
-    Result := '';
-  end;
-end;
-
-class function DFeUtil.FormatDateTime(const AString: string): string;
-var
-  vTemp : TDateTime;
-{$IFDEF VER140} //delphi6
-{$ELSE}
-vFormatSettings: TFormatSettings;
-{$ENDIF}
-begin
-  try
-{$IFDEF VER140} //delphi6
-    DateSeparator   := '/';
-    ShortDateFormat := 'dd/mm/yyyy';
-    ShortTimeFormat := 'hh:nn:ss';
-{$ELSE}
-    vFormatSettings.DateSeparator   := '-';
-    vFormatSettings.ShortDateFormat := 'yyyy-mm-dd';
-    //    vTemp := StrToDate(AString, FFormato);
-{$ENDIF}
-    vTemp := StrToDateTime(AString);
-    if vTemp = 0 then
-      Result := ''
-    else
-      Result := DateTimeToStr(vTemp);
-  except
-    Result := '';
-  end;
-end;
-
-class function DFeUtil.FormatFloat(AValue: Extended;
-  const AFormat: string): String;
-{$IFDEF VER140} //D6
-{$ELSE}
-var
-vFormatSettings: TFormatSettings;
-{$ENDIF}
-begin
-{$IFDEF VER140} //D6
-  DecimalSeparator  := ',';
-  ThousandSeparator := '.';
-  Result := SysUtils.FormatFloat(AFormat, AValue);
-{$ELSE}
-  vFormatSettings.DecimalSeparator  := ',';
-  vFormatSettings.ThousandSeparator := '.';
-  Result := SysUtils.FormatFloat(AFormat, AValue, vFormatSettings);
-{$ENDIF}
-end;
-
-class function DFeUtil.NaoEstaVazio(AValue: String): Boolean;
-begin
-  Result := not(EstaVazio(AValue));
-end;
-
-class function DFeUtil.NaoEstaZerado(AValue: Double): Boolean;
-begin
-  Result := not(EstaZerado(AValue));
-end;
-
-class function DFeUtil.NaoEstaZerado(AValue: Integer): Boolean;
-begin
-  Result := not(EstaZerado(AValue));
-end;
-
-class function DFeUtil.padC(const AString: string; const nLen: Integer;
-  const Caracter: Char): String;
-Var nCharLeft : Integer;
-    D : Double;
-begin
-  Result    := copy(AString,1,nLen);
-  D         := (nLen - Length( Result )) / 2;
-  nCharLeft := Trunc( D );
-  Result    := PadE( StringOfChar(Caracter, nCharLeft)+Result, nLen, Caracter);
-end;
-
-class function DFeUtil.PadD(const AString: string; const nLen: Integer;
-  const Caracter: Char): String;
-begin
-  Result := copy(AString,1,nLen);
-  Result := StringOfChar(Caracter, (nLen - Length(Result))) + Result;
-end;
-
-class function DFeUtil.PadE(const AString: string; const nLen: Integer;
-  const Caracter: Char): String;
-begin
-  Result := copy(AString, 1, nLen);
-  Result := Result + StringOfChar(Caracter, (nLen - Length(Result)));
-end;
-
-class function DFeUtil.Poem_Zeros(const Texto: String;
-  const Tamanho: Integer): String;
-begin
-  Result := PadD(Trim(Texto),Tamanho,'0');
-end;
-
-class function DFeUtil.Poem_Zeros(const Valor: Integer; const Tamanho: Integer
-  ): String;
-begin
-  Result := PadD(IntToStr(Valor), Tamanho, '0');
-end;
-
-class function DFeUtil.StringToDate(const AString: string): TDateTime;
-begin
-  if (AString = '0') or (AString = '') then
-     Result := 0
-  else
-     Result := StrToDate(AString);
-end;
-
-class function DFeUtil.StringToTime(const AString: string): TDateTime;
-begin
-  if (AString = '0') or (AString = '') then
-     Result := 0
-  else
-     Result := StrToTime(AString);
-end;
-
-class function DFeUtil.TamanhoIgual(const AValue: String;
-  const ATamanho: Integer): Boolean;
-begin
-  Result := (Length(AValue)= ATamanho);
-end;
-
-class procedure DFeUtil.TamanhoIgual(const AValue: String;
-  const ATamanho: Integer; AMensagem: String);
-begin
-  if not(TamanhoIgual(AValue, ATamanho)) then
-    raise EACBrDFeException.Create(AMensagem);
-end;
-
-class function DFeUtil.TamanhoIgual(const AValue: Integer;
-  const ATamanho: Integer): Boolean;
-begin
-  Result := (Length(IntToStr(AValue))= ATamanho);
-end;
-
-class procedure DFeUtil.TamanhoIgual(const AValue: Integer;
-  const ATamanho: Integer; AMensagem: String);
-begin
-  if not(TamanhoIgual(AValue, ATamanho)) then
-    raise EACBrDFeException.Create(AMensagem);
-end;
-
-class function DFeUtil.TamanhoMenor(const AValue: String;
-  const ATamanho: Integer): Boolean;
-begin
-  Result := (Length(AValue) < ATamanho);
-end;
-
-class procedure DFeUtil.ConfAmbiente;
-{$IFDEF VER140} //delphi6
-{$ELSE}
-var
-vFormatSettings: TFormatSettings;
-{$ENDIF}
-begin
-{$IFDEF VER140} //delphi6
-  DecimalSeparator := ',';
-{$ELSE}
-  vFormatSettings.DecimalSeparator := ',';
-{$ENDIF}
-end;
-
-class function DFeUtil.PathAplication: String;
-begin
-  Result := ExtractFilePath({$IFNDEF NOGUI}Application.ExeName{$ELSE}ParamStr(0){$ENDIF});
 end;
 
 class function DFeUtil.ValidaUFCidade(const UF, Cidade: Integer): Boolean;
@@ -385,31 +113,6 @@ begin
             copy(AValue,25,4) + ' ' + copy(AValue,29,4) + ' ' +
             copy(AValue,33,4) + ' ' + copy(AValue,37,4) + ' ' +
             copy(AValue,41,4) ;
-end;
-
-class function DFeUtil.Modulo11(Valor: string; Peso: Integer = 2; Base: Integer = 9): String;
-var
-  Soma, Resto: integer;
-  Contador, Digito: integer;
-begin
-  Soma := 0;
-  for Contador := Length(Valor) downto 1 do
-  begin
-    Soma := Soma + (StrToInt(Valor[Contador]) * Peso);
-    if Peso < Base then
-      Peso := Peso + 1
-    else
-      Peso := 2;
-  end;
-
-  Resto := (Soma mod 11);
-
-  if Resto <= 1 then
-    Digito := 0
-  else
-    Digito := 11 - Resto;
-
-  Result := IntToStr(Digito);
 end;
 
 class function DFeUtil.ValidaDIDSI(AValue: string): Boolean;
@@ -597,155 +300,6 @@ end.
 (*
 
 ///  TODO: REMOVER ??
-class function PosEx(const SubStr, S: AnsiString; Offset: Cardinal = 1): Integer;
-class function PosLast(const SubStr, S: AnsiString ): Integer;
-
-class function CortaD(const AString: string; const ATamanho: Integer): String;
-class function CortaE(const AString: string; const ATamanho: Integer): String;
-class function SeSenao(ACondicao: Boolean; ATrue, AFalse: Variant) : Variant;
-
-
-
-
-class function DFeUtil.PosEx(const SubStr, S: AnsiString; Offset: Cardinal = 1): Integer;
-var
-  I, X           : Integer;
-  Len, LenSubStr : Integer;
-begin
-  if Offset = 1 then
-    Result := Pos(SubStr, S)
-  else
-  begin
-    I := Offset;
-    LenSubStr := Length(SubStr);
-    Len := Length(S) - LenSubStr + 1;
-    while I <= Len do
-    begin
-      if S[I] = SubStr[1] then
-      begin
-        X := 1;
-        while (X < LenSubStr) and (S[I + X] = SubStr[X + 1]) do
-          Inc(X);
-        if (X = LenSubStr) then
-        begin
-          Result := I;
-          exit;
-        end;
-      end;
-      Inc(I);
-    end;
-    Result := 0;
-  end;
-end;
-
-class function DFeUtil.PosLast(const SubStr, S: AnsiString): Integer;
-var
-  P : Integer;
-begin
-  Result := 0;
-  P := Pos(SubStr, S);
-
-  while P <> 0 do
-  begin
-    Result := P;
-    P := PosEx(SubStr, S, P + 1);
-  end;
-end;
-
-class function DFeUtil.CortaD(const AString: string;
-  const ATamanho: Integer): String;
-begin
-  Result := copy(AString,1,ATamanho);
-end;
-
-class function DFeUtil.CortaE(const AString: string;
-  const ATamanho: Integer): String;
-begin
-  Result := AString;
-  if Length(AString) > ATamanho then
-    Result := copy(AString, Length(AString)-ATamanho+1, length(AString));
-end;
-
-class function DFeUtil.SeSenao(ACondicao: Boolean; ATrue,
-  AFalse: Variant): Variant;
-begin
-  Result := AFalse;
-  if ACondicao then
-    Result := ATrue;
-end;
-
-class function DFeUtil.LasString(AString: String): String;
-begin
-  Result := Copy(AString, Length(AString), Length(AString));
-end;
-
-
-class function DFeUtil.FormatarIE(AIE, AUF: String): String;
-Var
-  Mascara : String ;
-  C : Char ;
-  I, J, LenDoc, LenMas : Integer;
-Begin
-  Result := AIE ;
-  if UpperCase( Trim(AIE) ) = 'ISENTO' then
-     exit ;
-
-  AUF := UpperCase( AUF ) ;
-
-  LenDoc  := Length( AIE ) ;
-  Mascara := StringOfChar('*', LenDoc) ;
-
-  IF AUF = 'AC' Then Mascara := '**.***.***/***-**';
-  IF AUF = 'AL' Then Mascara := '*********';
-  IF AUF = 'AP' Then Mascara := '*********';
-  IF AUF = 'AM' Then Mascara := '**.***.***-*';
-  IF AUF = 'BA' Then Mascara := '*******-**';
-  IF AUF = 'CE' Then Mascara := '********-*';
-  IF AUF = 'DF' Then Mascara := '***********-**';
-  IF AUF = 'ES' Then Mascara := '*********';
-  IF AUF = 'GO' Then Mascara := '**.***.***-*';
-  IF AUF = 'MA' Then Mascara := '*********';
-  IF AUF = 'MT' Then Mascara := '**********-*';
-  IF AUF = 'MS' Then Mascara := '**.***.***-*';
-  IF AUF = 'MG' Then Mascara := '***.***.***/****';
-  IF AUF = 'PA' Then Mascara := '**-******-*';
-  IF AUF = 'PB' Then Mascara := '********-*';
-  IF AUF = 'PR' Then Mascara := '***.*****-**';
-  IF AUF = 'PE' Then Mascara := IfThen((LenDoc>9),'**.*.***.*******-*','*******-**');
-  IF AUF = 'PI' Then Mascara := '*********';
-  IF AUF = 'RJ' Then Mascara := '**.***.**-*';
-  IF AUF = 'RN' Then Mascara := IfThen((LenDoc>9),'**.*.***.***-*','**.***.***-*');
-  IF AUF = 'RS' Then Mascara := '***/*******';
-  IF AUF = 'RO' Then Mascara := IfThen((LenDoc>13),'*************-*','***.*****-*');
-  IF AUF = 'RR' Then Mascara := '********-*';
-  IF AUF = 'SC' Then Mascara := '***.***.***';
-  IF AUF = 'SP' Then Mascara := ifthen((LenDoc>1) and (AIE[1]='P'),'*-********.*/***', '***.***.***.***');
-  IF AUF = 'SE' Then Mascara := '**.***.***-*';
-  IF AUF = 'TO' Then Mascara := IfThen((LenDoc=11),'**.**.******-*','**.***.***-*');
-
-  Result := '';
-  LenMas := Length( Mascara ) ;
-  J := LenMas ;
-
-  For I := LenMas downto 1 do
-  begin
-     C := Mascara[I] ;
-
-     if C = '*' then
-     begin
-        if J <= ( LenMas - LenDoc ) then
-           C := '0'
-        else
-           C := AIE[( J - ( LenMas - LenDoc ) )] ;
-
-        Dec( J ) ;
-     end;
-
-     Result := C + Result;
-  End;
-
-  Result := Trim( Result );
-end;
 
 
 class function TrataString(const AValue: String): String;overload;
@@ -845,18 +399,6 @@ end;
 
 
 
-class function DFeUtil.FormatarCPF(AValue: String): String;
-begin
-  if Length(AValue) = 0 then
-     Result := AValue
-  else
-   begin
-     AValue := LimpaNumero(AValue);
-     Result := copy(AValue,1,3) + '.' + copy(AValue,4 ,3) + '.' +
-               copy(AValue,7,3) + '-' + copy(AValue,10,2) ;
-   end;
-end;
-
 class function DFeUtil.FormatarFone(AValue: String): String;
 var
   lTemp: string;
@@ -913,49 +455,7 @@ begin
 end;
 
 
-class function DFeUtil.FormatarCNPJCPF(AValue: String): String;
-begin
-  AValue := OnlyNumber(AValue);
-  if Length(AValue) = 0 then
-     Result := AValue
-  else
-   begin
-    if Length(AValue) = 14 then
-     Result := FormatarCNPJ(AValue)
-    else
-     Result := FormatarCPF(AValue);
-   end;
-end;
 
-class function DFeUtil.FormatarPlaca(AValue: string): string;
-begin
- Result := Copy(AValue, 1, 3) + '-' + Copy(AValue, 4, 4);
-end;
-
-
-
-
-class function DFeUtil.FormatarCEP(AValue: String): String;
-begin
-  AValue := Poem_Zeros(LimpaNumero(AValue), 8);
-
-  if StrToInt(AValue) = 0 then
-    Result := Space(9)
-  else
-    Result := copy(AValue, 1, 5) + '-' + copy(AValue, 6, 3);
-end;
-
-class function DFeUtil.FormatarCNPJ(AValue: String): String;
-begin
-  if Length(AValue) = 0 then
-     Result := AValue
-  else
-   begin
-     AValue := LimpaNumero(AValue);
-     Result := copy(AValue,1,2) + '.' + copy(AValue,3,3) + '.' +
-               copy(AValue,6,3) + '/' + copy(AValue,9,4) + '-' + copy(AValue,13,2) ;
-   end;
-end;
 
 
 class function DFeUtil.UpperCase2(Str: String): String;
@@ -1004,5 +504,125 @@ begin
    end;
    Result := UpperCase(Result);
 end;
+
+
+class function DFeUtil.FormatDate(const AString: string): String;
+var
+  vTemp: TDateTime;
+{$IFDEF VER140} //D6
+{$ELSE}
+  vFormatSettings : TFormatSettings;
+{$ENDIF}
+begin
+  try
+{$IFDEF VER140} //D6
+    DateSeparator := '/';
+    ShortDateFormat := 'dd/mm/yyyy';
+{$ELSE}
+    vFormatSettings.DateSeparator   := '-';
+    vFormatSettings.ShortDateFormat := 'yyyy-mm-dd';
+//    vTemp := StrToDate(AString, FFormato);
+{$ENDIF}
+    vTemp := StrToDate(AString);
+    if vTemp = 0 then
+      Result := ''
+    else
+      Result := DateToStr(vTemp);
+  except
+    Result := '';
+  end;
+end;
+
+class function DFeUtil.FormatDate(const AData: TDateTime): String;
+var
+  vTemp: String;
+{$IFDEF VER140} //delphi6
+{$ELSE}
+  FFormato : TFormatSettings;
+{$ENDIF}
+begin
+  try
+{$IFDEF VER140} //delphi6
+    DateSeparator := '/';
+    ShortDateFormat := 'dd/mm/yyyy';
+{$ELSE}
+    FFormato.DateSeparator   := '-';
+    FFormato.ShortDateFormat := 'yyyy-mm-dd';
+{$ENDIF}
+	vTemp := DateToStr(AData);
+    if AData = 0 then
+      Result := ''
+    else
+      Result := vTemp;
+  except
+    Result := '';
+  end;
+end;
+
+class function DFeUtil.FormatDateTime(const AString: string): string;
+var
+  vTemp : TDateTime;
+{$IFDEF VER140} //delphi6
+{$ELSE}
+vFormatSettings: TFormatSettings;
+{$ENDIF}
+begin
+  try
+{$IFDEF VER140} //delphi6
+    DateSeparator   := '/';
+    ShortDateFormat := 'dd/mm/yyyy';
+    ShortTimeFormat := 'hh:nn:ss';
+{$ELSE}
+    vFormatSettings.DateSeparator   := '-';
+    vFormatSettings.ShortDateFormat := 'yyyy-mm-dd';
+    //    vTemp := StrToDate(AString, FFormato);
+{$ENDIF}
+    vTemp := StrToDateTime(AString);
+    if vTemp = 0 then
+      Result := ''
+    else
+      Result := DateTimeToStr(vTemp);
+  except
+    Result := '';
+  end;
+end;
+
+class function DFeUtil.FormatFloat(AValue: Extended;
+  const AFormat: string): String;
+{$IFDEF VER140} //D6
+{$ELSE}
+var
+vFormatSettings: TFormatSettings;
+{$ENDIF}
+begin
+{$IFDEF VER140} //D6
+  DecimalSeparator  := ',';
+  ThousandSeparator := '.';
+  Result := SysUtils.FormatFloat(AFormat, AValue);
+{$ELSE}
+  vFormatSettings.DecimalSeparator  := ',';
+  vFormatSettings.ThousandSeparator := '.';
+  Result := SysUtils.FormatFloat(AFormat, AValue, vFormatSettings);
+{$ENDIF}
+end;
+
+class function DFeUtil.StringToDate(const AString: string): TDateTime;
+begin
+  if (AString = '0') or (AString = '') then
+     Result := 0
+  else
+     Result := StrToDate(AString);
+end;
+
+class function DFeUtil.StringToTime(const AString: string): TDateTime;
+begin
+  if (AString = '0') or (AString = '') then
+     Result := 0
+  else
+     Result := StrToTime(AString);
+end;
+
+
+class function Modulo11(Valor: string; Peso: Integer = 2; Base: Integer = 9): String;
 
 *)

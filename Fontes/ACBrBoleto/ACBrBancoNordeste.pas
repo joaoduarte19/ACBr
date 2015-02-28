@@ -38,8 +38,8 @@ unit ACBrBancoNordeste;
 interface
 
 uses
-  Classes, SysUtils,ACBrBoleto,
-  {$IFDEF COMPILER6_UP} dateutils {$ELSE} ACBrD5 {$ENDIF};
+  Classes, SysUtils,
+  ACBrBoleto;
 
 type
 
@@ -69,7 +69,10 @@ type
 
 implementation
 
-uses ACBrUtil, StrUtils;
+uses
+  {$IFDEF COMPILER6_UP} dateutils {$ELSE} ACBrD5 {$ENDIF},
+  StrUtils,
+  ACBrUtil;
 
 { TACBrBancoNordeste }
 
@@ -109,9 +112,9 @@ begin
 
       CodigoBarras := IntToStrZero( Numero, 3 )+'9'+ FatorVencimento +
                       IntToStrZero(Round(ACBrTitulo.ValorDocumento*100),10) +
-                      padR(OnlyNumber(Cedente.Agencia),4,'0') +
-                      padR(OnlyNumber(Cedente.Conta),7,'0') +
-                      padR(Cedente.ContaDigito,1,'0') +
+                      PadLeft(OnlyNumber(Cedente.Agencia),4,'0') +
+                      PadLeft(OnlyNumber(Cedente.Conta),7,'0') +
+                      PadLeft(Cedente.ContaDigito,1,'0') +
                       ACBrTitulo.NossoNumero +
                       CalcularDigitoVerificador(ACBrTitulo) +
                       ACBrTitulo.Carteira + '000';
@@ -146,14 +149,14 @@ begin
                '1'                                        + // ID do Arquivo( 1 - Remessa)
                'REMESSA'                                  + // Literal de Remessa
                '01'                                       + // Código do Tipo de Serviço
-               padL( 'COBRANCA', 15 )                     + // Descrição do tipo de serviço
-               padR(OnlyNumber(Agencia), 4, '0')          + // Cód. da Agência do cliente
+               PadRight( 'COBRANCA', 15 )                     + // Descrição do tipo de serviço
+               PadLeft(OnlyNumber(Agencia), 4, '0')          + // Cód. da Agência do cliente
                IntToStrZero(0, 2)                         + // Filler - Zeros
-               padR(OnlyNumber(Conta), 7, '0')            + // Conta corrente de cobrança
-               padR( ContaDigito, 1, '0')                 + // Dígito da conta corrente
+               PadLeft(OnlyNumber(Conta), 7, '0')            + // Conta corrente de cobrança
+               PadLeft( ContaDigito, 1, '0')                 + // Dígito da conta corrente
                Space(6)                                   + // Filler - Brancos
-               padL( Nome, 30)                            + // Nome da Empresa
-               IntToStrZero( Numero, 3 )+ padL('B. DO NORDESTE', 15)        + // Código e Nome do Banco(400 - B. DO NORDESTE)
+               PadRight( Nome, 30)                            + // Nome da Empresa
+               IntToStrZero( Numero, 3 )+ PadRight('B. DO NORDESTE', 15)        + // Código e Nome do Banco(400 - B. DO NORDESTE)
                FormatDateTime('ddmmyy',Now)               + // Data de geração do arquivo
                Space(294)                                 + // Brancos
                IntToStrZero(1,6);                           // Contador
@@ -213,7 +216,7 @@ begin
       else if Ocorrencia = '31' then
          Protesto := '9999'
       else
-         Protesto := padR(trim(Instrucao1),2,'0') + padR(trim(Instrucao2),2,'0');
+         Protesto := PadLeft(trim(Instrucao1),2,'0') + PadLeft(trim(Instrucao2),2,'0');
 
       {Pegando Tipo de Sacado}
       case Sacado.Pessoa of
@@ -230,24 +233,24 @@ begin
          
          wLinha:= '1'                                                     +  // ID Registro
                   Space(16)                                               +  // Filler - Brancos
-                  padR( aAgencia, 4, '0')                                 +  // Cód. da Agência do cliente
+                  PadLeft( aAgencia, 4, '0')                                 +  // Cód. da Agência do cliente
                   IntToStrZero(0, 2)                                      +  // Filler - Zeros
-                  padR( aConta, 7, '0')                                   +  // Conta Corrente de Cobrança + Dígito da Conta Corrente
-                  padR( Cedente.ContaDigito, 1, '0')                      +  // Dígito da conta corrente
+                  PadLeft( aConta, 7, '0')                                   +  // Conta Corrente de Cobrança + Dígito da Conta Corrente
+                  PadLeft( Cedente.ContaDigito, 1, '0')                      +  // Dígito da conta corrente
                   IntToStrZero( round( PercentualMulta), 2)               +  // Percentual de Multa por atraso
                   Space(4)                                                +  // Filler - Brancos
-                  padL( SeuNumero,25,' ')                                 +  // Numero de Controle do Participante
+                  PadRight( SeuNumero,25,' ')                                 +  // Numero de Controle do Participante
                   NossoNumero + DigitoNossoNumero                         +
-                  padR( '0', 10, '0')                                     +  //Número do Contrato para cobrança caucionada/vinculada. Preencher com zeros para cobrança simples
-                  padR( '0', 6, '0')                                      +  //Número do Contrato para cobrança caucionada/vinculada. Preencher com zeros para cobrança simples
+                  PadLeft( '0', 10, '0')                                     +  //Número do Contrato para cobrança caucionada/vinculada. Preencher com zeros para cobrança simples
+                  PadLeft( '0', 6, '0')                                      +  //Número do Contrato para cobrança caucionada/vinculada. Preencher com zeros para cobrança simples
                   IntToStrZero(round( ValorDesconto * 100), 13)           +
                   Space(8)                                                +  // Filler - Brancos
                   IntToStr(StrToInt(Carteira))                            +  // Carteira a ser utilizada
                   Ocorrencia                                              +  // Ocorrência
-                  padL( NumeroDocumento,  10)                             +
+                  PadRight( NumeroDocumento,  10)                             +
                   FormatDateTime( 'ddmmyy', Vencimento)                   +
                   IntToStrZero( Round( ValorDocumento * 100 ), 13)        +
-                  StringOfChar('0',7) + Space(1) + padl(aEspecie,2) + 'N' +  // Zeros + Filler + Especie do documento + Idntificação(valor fixo N)
+                  StringOfChar('0',7) + Space(1) + PadRight(aEspecie,2) + 'N' +  // Zeros + Filler + Especie do documento + Idntificação(valor fixo N)
                   FormatDateTime( 'ddmmyy', DataDocumento )               +  // Data de Emissão
                   Protesto                                                +
                   IntToStrZero( round(ValorMoraJuros * 100 ), 13)         +
@@ -256,14 +259,14 @@ begin
                   IntToStrZero( round( ValorDesconto * 100 ), 13)         +
                   IntToStrZero( round( ValorIOF * 100 ), 13)              +
                   IntToStrZero( round( ValorAbatimento * 100 ), 13)       +
-                  TipoSacado + padR(OnlyNumber(Sacado.CNPJCPF),14,'0')    +
-                  padL( Sacado.NomeSacado, 40, ' ')                       +
-                  padL( Sacado.Logradouro + ' ' + Sacado.Numero, 40, ' ') +
-                  padL( Sacado.Complemento, 12, ' ')                      +
-                  padL( Sacado.CEP, 8 )                                   +
-                  padL( Sacado.Cidade, 15 )                               +
-                  padL( Sacado.UF, 2 )                                    +
-                  padl( MensagemCedente, 40 )                             +
+                  TipoSacado + PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')    +
+                  PadRight( Sacado.NomeSacado, 40, ' ')                       +
+                  PadRight( Sacado.Logradouro + ' ' + Sacado.Numero, 40, ' ') +
+                  PadRight( Sacado.Complemento, 12, ' ')                      +
+                  PadRight( Sacado.CEP, 8 )                                   +
+                  PadRight( Sacado.Cidade, 15 )                               +
+                  PadRight( Sacado.UF, 2 )                                    +
+                  PadRight( MensagemCedente, 40 )                             +
                   '991'                                                   +
                   IntToStrZero(aRemessa.Count + 1, 6); // Nº SEQÜENCIAL DO REGISTRO NO ARQUIVO
 

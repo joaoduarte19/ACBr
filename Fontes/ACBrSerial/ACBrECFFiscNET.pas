@@ -1239,7 +1239,7 @@ procedure TACBrECFFiscNET.VendeItem(Codigo, Descricao : String ;
 var
   CodAliq: Integer;
 begin
-  Unidade := padL(Unidade,2) ;
+  Unidade := PadRight(Unidade,2) ;
 
   try
      CodAliq := StrToInt(AliquotaECF) ;
@@ -1651,7 +1651,7 @@ begin
      AddParamString('DescricaoNaoFiscal',Descricao) ;
      AddParamString('NomeNaoFiscal',Descricao) ;
      AddParamBool('TipoNaoFiscal',
-                  (not (UpCase(PadR(Tipo,1)[1]) in ['-','F','0'])) ) ;
+                  (not (UpCase(PadLeft(Tipo,1)[1]) in ['-','F','0'])) ) ;
   end ;
   EnviaComando ;
 

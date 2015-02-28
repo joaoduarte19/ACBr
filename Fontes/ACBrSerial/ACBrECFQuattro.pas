@@ -50,8 +50,8 @@
 unit ACBrECFQuattro ;
 
 interface
-uses ACBrECFClass, ACBrDevice, ACBrUtil,
-     Classes;
+uses Classes,
+     ACBrECFClass, ACBrDevice;
 
 type
 { Classe filha de TACBrECFClass com implementaçao para Quattro }
@@ -200,7 +200,7 @@ TACBrECFQuattro = class( TACBrECFClass )
 
 implementation
 Uses {$IFDEF COMPILER6_UP} DateUtils, StrUtils {$ELSE} ACBrD5, Windows {$ENDIF},
-     SysUtils, Math, ACBrConsts ;
+     SysUtils, Math, ACBrConsts, ACBrUtil;
 
 { ----------------------------- TACBrECFQuattro ------------------------------ }
 
@@ -848,7 +848,7 @@ begin
 
   CPF_CNPJ := '' ;
   if (Consumidor.Documento <> '') then
-     CPF_CNPJ := padL(Consumidor.Documento,20) ;
+     CPF_CNPJ := PadRight(Consumidor.Documento,20) ;
 
   AguardaImpressao := True ;
   EnviaComando('17'+CPF_CNPJ, 10) ;
@@ -908,7 +908,7 @@ begin
      Linhas.Text := Observacao ;
 
      for I := 0 to min(Linhas.Count-1 ,8) do
-        Obs := Obs + '0' + padL( Linhas[I] , Colunas) ;
+        Obs := Obs + '0' + PadRight( Linhas[I] , Colunas) ;
   finally
      Linhas.Free ;
   end ;
@@ -957,9 +957,9 @@ begin
      raise EACBrECFCMDInvalido.Create( ACBrStr(
            'ECF '+fpModeloStr+' não permite Acréscimo por Item'));
 
-  Codigo  := padL(Codigo,13) ;    { Ajustando Tamanhos }
+  Codigo  := PadRight(Codigo,13) ;    { Ajustando Tamanhos }
   if Unidade <> '' then
-     Descricao := Descricao + ' ' + padL(Unidade,2);
+     Descricao := Descricao + ' ' + PadRight(Unidade,2);
 
   Descr2  := '' ;                 { Usa descriçao Grande ? }
   if DescricaoGrande Then
@@ -967,9 +967,9 @@ begin
 
   Descr2 := Trim(Descr2) ;
   if Length(Descr2) > 0 then
-     Descr2 := padL(Descr2, min(Trunc(Length(Descr2)/40)+1,4)*40 ) ;
+     Descr2 := PadRight(Descr2, min(Trunc(Length(Descr2)/40)+1,4)*40 ) ;
 
-  Descricao   := padL(Descricao,23) ; {23 e nao 24 porque adiciona o campo Sinal}
+  Descricao   := PadRight(Descricao,23) ; {23 e nao 24 porque adiciona o campo Sinal}
   QtdStr      := IntToStrZero( Round( Qtd*1000 ) ,7) ;
   ValorStr    := IntToStrZero( Round( ValorUnitario*1000 ) ,9) ;
 
@@ -1131,8 +1131,8 @@ begin
     'I' : AliquotaStr := 'I  ' ;
     'N' : AliquotaStr := 'N  ' ;
     'F' : AliquotaStr := 'F  ' ;
-    'T' : AliquotaICMS := 'TT'+padR(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
-    'S' : AliquotaICMS := 'TS'+padR(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
+    'T' : AliquotaICMS := 'TT'+PadLeft(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
+    'S' : AliquotaICMS := 'TS'+PadLeft(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
   end ;
 
   if AliquotaStr = '' then
@@ -1209,7 +1209,7 @@ begin
   If PermiteVinculado then
      Descricao := '$'+Descricao ;
 
-  Descricao := padL(Descricao,15) ;
+  Descricao := PadRight(Descricao,15) ;
 
   EnviaComando( '37' + Descricao ) ;
 
@@ -1306,7 +1306,7 @@ begin
                             '+  Entrada de Recursos'+sLineBreak+
                             '-  Saida de Recursos') ) ;
 
-  EnviaComando( '38' + 'N' + padL(Tipo + Descricao,15) ) ;
+  EnviaComando( '38' + 'N' + PadRight(Tipo + Descricao,15) ) ;
 
   { Adcionanodo novo CNF no ObjectList }
   CNF := TACBrECFComprovanteNaoFiscal.create ;

@@ -68,8 +68,8 @@ begin
   Memo1.Lines.Add( '------------------------------') ;
 
   for A := 0 to ACBrTroco1.DinheiroList.Count -1 do
-     Memo1.Lines.Add( padL( ACBrTroco1.DinheiroList[A].Descricao,23) +
-                      padR( FormatFloat('#####0.00',ACBrTroco1.DinheiroList[A].Valor),7) );
+     Memo1.Lines.Add( PadRight( ACBrTroco1.DinheiroList[A].Descricao,23) +
+                      PadLeft( FormatFloat('#####0.00',ACBrTroco1.DinheiroList[A].Valor),7) );
 end;
 
 procedure TFrmTroco.Button3Click(Sender: TObject);

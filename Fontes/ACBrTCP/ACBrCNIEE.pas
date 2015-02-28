@@ -394,20 +394,20 @@ begin
   for I := 0 to Cadastros.Count - 1 do
   begin
     Texto := Texto +
-      padL(Cadastros[I].CodMarca, 2) +
-      padL(Cadastros[I].CodModelo, 2) +
-      padL(Cadastros[I].CodVersao, 2) +
-      padL(Cadastros[I].TipoECF, 10) +
-      padL(Cadastros[I].DescrMarca, 30) +
-      padL(Cadastros[I].DescrModelo, 30) +
-      padL(Cadastros[I].Versao, 20) +
+      PadRight(Cadastros[I].CodMarca, 2) +
+      PadRight(Cadastros[I].CodModelo, 2) +
+      PadRight(Cadastros[I].CodVersao, 2) +
+      PadRight(Cadastros[I].TipoECF, 10) +
+      PadRight(Cadastros[I].DescrMarca, 30) +
+      PadRight(Cadastros[I].DescrModelo, 30) +
+      PadRight(Cadastros[I].Versao, 20) +
       Format('%3.3d', [Cadastros[I].QtLacresSL]) +
       Format('%3.3d', [Cadastros[I].QtLacresFab]) +
-      padL(Cadastros[I].TemMFD, 1) +
-      padL(Cadastros[I].TemLacreMFD, 1) +
-      padL(Cadastros[I].AtoAprovacao, 25) +
-      padL(Cadastros[I].AtoRegistro, 25) +
-      padL(Cadastros[I].FormatoNumFabricacao, 20) +
+      PadRight(Cadastros[I].TemMFD, 1) +
+      PadRight(Cadastros[I].TemLacreMFD, 1) +
+      PadRight(Cadastros[I].AtoAprovacao, 25) +
+      PadRight(Cadastros[I].AtoRegistro, 25) +
+      PadRight(Cadastros[I].FormatoNumFabricacao, 20) +
       sLineBreak;
   end;
 

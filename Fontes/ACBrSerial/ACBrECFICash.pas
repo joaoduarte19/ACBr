@@ -46,8 +46,8 @@
 unit ACBrECFICash ;
 
 interface
-uses ACBrECFClass, ACBrDevice, ACBrUtil,
-     Classes ;
+uses Classes,
+    ACBrECFClass, ACBrDevice;
 
 const  cACK = 06  ;
        NACK= 21  ;
@@ -196,8 +196,9 @@ TACBrECFICash = class( TACBrECFClass )
  end ;
 
 implementation
-Uses SysUtils, Math, ACBrConsts,
-    {$IFDEF COMPILER6_UP} DateUtils, StrUtils {$ELSE} ACBrD5, Windows{$ENDIF} ;
+Uses SysUtils, Math,
+    {$IFDEF COMPILER6_UP} DateUtils, StrUtils {$ELSE} ACBrD5, Windows{$ENDIF},
+    ACBrConsts, ACBrUtil;
 
 { ----------------------------- TACBrECFICash ------------------------------ }
 
@@ -665,8 +666,8 @@ begin
                copy(Doc,1,3) + '.' + copy(Doc,4 ,3) + '.' +
                copy(Doc,7,3) + '-' + copy(Doc,10,2) ;
 
-     EnviaComando('2C' + PadL(Consumidor.Nome,30) +
-                         PadL(Consumidor.Endereco,79) +  Doc, 5 ) ;
+     EnviaComando('2C' + PadRight(Consumidor.Nome,30) +
+                         PadRight(Consumidor.Endereco,79) +  Doc, 5 ) ;
      Consumidor.Enviado := True ;
   end ;
 end ;
@@ -694,9 +695,9 @@ begin
       raise EACBrECFCMDInvalido.Create( ACBrStr(
            'Quantidade deve ser inferior a 9999.'));
 
-   Codigo    := padL(Codigo,14) ;    { Ajustando Tamanhos }
-   Descricao := padL(Descricao,28);
-   Unidade   := padL(Unidade,3) ;
+   Codigo    := PadRight(Codigo,14) ;    { Ajustando Tamanhos }
+   Descricao := PadRight(Descricao,28);
+   Unidade   := PadRight(Unidade,3) ;
    QtdStr    := IntToStrZero( Round( Qtd*1000 ), 7 );
 
    if RoundTo( ValorUnitario, -2 ) = ValorUnitario then
@@ -792,16 +793,16 @@ begin
      if Linhas.Count > 0 then
         for I := 0 to 3 do
            if  I < Linhas.Count then
-              Obs1 := Obs1 + '0' + padL( Linhas[I] , 48)
+              Obs1 := Obs1 + '0' + PadRight( Linhas[I] , 48)
            else
-              Obs1 := Obs1 + '0' + padL( ' ' , 48) ;
+              Obs1 := Obs1 + '0' + PadRight( ' ' , 48) ;
 
      if Linhas.Count > 4 then
         for I := 4 to 7 do
            if  I < Linhas.Count then
-              Obs2 := Obs2 + '0' + padL( Linhas[I] , 48)
+              Obs2 := Obs2 + '0' + PadRight( Linhas[I] , 48)
            else
-              Obs2 := Obs2 + '0' + padL( ' ' , 48) ;
+              Obs2 := Obs2 + '0' + PadRight( ' ' , 48) ;
   finally
      Linhas.Free ;
   end ;
@@ -876,8 +877,8 @@ begin
       'I' : AliquotaStr := 'I1' ;
       'N' : AliquotaStr := 'N1' ;
       'F' : AliquotaStr := 'F1' ;
-      'T' : AliquotaICMS := 'TT'+padR(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
-      'S' : AliquotaICMS := 'TS'+padR(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
+      'T' : AliquotaICMS := 'TT'+PadLeft(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
+      'S' : AliquotaICMS := 'TS'+PadLeft(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
   end ;
 
   if AliquotaStr = '' then
@@ -889,7 +890,7 @@ begin
                                             DecimalSeparator,',',[]) + '%' ;
    end
   else
-     AliquotaICMS := PadL( AliquotaStr, 7) ;
+     AliquotaICMS := PadRight( AliquotaStr, 7) ;
 end;
 
 
@@ -946,7 +947,7 @@ begin
   else
      Vinc := '0' ;
 
-  EnviaComando('0A' + Posicao + PadL(Descricao,15) + Vinc ) ;
+  EnviaComando('0A' + Posicao + PadRight(Descricao,15) + Vinc ) ;
   CarregaFormasPagamento ;
 end;
 
@@ -1004,7 +1005,7 @@ begin
   else
      Tipo := '2' ;
 
-  EnviaComando( '09' + Posicao + Tipo + PadL( Descricao, 15) ) ;
+  EnviaComando( '09' + Posicao + Tipo + PadRight( Descricao, 15) ) ;
 end;
 
 
@@ -1095,7 +1096,7 @@ begin
    RetCmd := UpperCase(Trim(EnviaComando('67090'))) ;
 
    if UpperCase(Trim(Nome)) <> RetCmd then
-      EnviaComando( '70'+PadL(Nome,10) ) ;
+      EnviaComando( '70'+PadRight(Nome,10) ) ;
 end;
 
 procedure TACBrECFICash.PulaLinhas(NumLinhas: Integer);
@@ -1292,16 +1293,16 @@ begin
      if Linhas.Count > 0 then
         for I := 0 to 3 do
            if  I < Linhas.Count then
-              Obs1 := Obs1 + '0' + padL( Linhas[I] , 48)
+              Obs1 := Obs1 + '0' + PadRight( Linhas[I] , 48)
            else
-              Obs1 := Obs1 + '0' + padL( ' ' , 48) ;
+              Obs1 := Obs1 + '0' + PadRight( ' ' , 48) ;
 
      if Linhas.Count > 4 then
         for I := 4 to 7 do
            if  I < Linhas.Count then
-              Obs2 := Obs2 + '0' + padL( Linhas[I] , 48)
+              Obs2 := Obs2 + '0' + PadRight( Linhas[I] , 48)
            else
-              Obs2 := Obs2 + '0' + padL( ' ' , 48) ;
+              Obs2 := Obs2 + '0' + PadRight( ' ' , 48) ;
   finally
      Linhas.Free ;
   end ;
@@ -1345,9 +1346,9 @@ begin
      if Linhas.Count > 0 then
         for I := 0 to 3 do
            if  I < Linhas.Count then
-              ObsStr := ObsStr + '0' + padL( Linhas[I] , 48)
+              ObsStr := ObsStr + '0' + PadRight( Linhas[I] , 48)
            else
-              ObsStr := ObsStr + '0' + padL( ' ' , 48) ;
+              ObsStr := ObsStr + '0' + PadRight( ' ' , 48) ;
   finally
      Linhas.Free ;
   end ;

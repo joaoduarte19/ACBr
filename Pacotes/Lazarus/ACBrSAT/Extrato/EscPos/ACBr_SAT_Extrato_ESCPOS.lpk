@@ -22,24 +22,20 @@
     <License Value="LGPL"/>
     <Version Minor="1"/>
     <Files Count="2">
-      <Item1>
+      <Item2>
         <Filename Value="..\..\..\..\..\Fontes\ACBrSAT\Extrato\EscPos\ACBrSATExtratoESCPOS.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="ACBrSATExtratoESCPOS"/>
-      </Item1>
+      </Item2>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="3">
+    <RequiredPkgs Count="2">
       <Item1>
         <PackageName Value="ACBr_SAT"/>
       </Item1>
       <Item2>
         <PackageName Value="ACBrSerial"/>
       </Item2>
-      <Item3>
-        <PackageName Value="FCL"/>
-        <MinVersion Major="1" Valid="True"/>
-      </Item3>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

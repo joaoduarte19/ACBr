@@ -832,7 +832,7 @@ begin
   try
     case operacao of
       operCRT          : ArquivoRequisicao.Add('SP0001TTTTC' +
-                         padR(RemoveString(',', FormatFloat('0.00', Valor)), 12, '0'));
+                         PadLeft(RemoveString(',', FormatFloat('0.00', Valor)), 12, '0'));
       operCancelamento : ArquivoRequisicao.Add('SP0001TTTTL');
       operFechamento   : ArquivoRequisicao.Add('SP0001TTTTM')
     end;

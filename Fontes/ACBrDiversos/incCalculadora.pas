@@ -2,7 +2,8 @@ procedure TFrCalculadora.FormCreate(Sender: TObject);
 begin
   pOnCalKey := nil ;
   pOnDisplayChange := nil ;
-  bponto.Caption := DecimalSeparator ;
+  fDS := {$IFDEF DELPHI7_UP}FormatSettings.{$ENDIF}DecimalSeparator ;
+  bponto.Caption := fDS;
   bce.Click ;
   pPrecisao  := 4 ;
   pSaiComEsc := True ;
@@ -118,10 +119,10 @@ end;
 
 procedure TFrCalculadora.bpontoClick(Sender: TObject);
 begin
-  if pos(DecimalSeparator,ValorDisplay ) = 0 then
+  if pos(fDS,ValorDisplay ) = 0 then
    begin
      b1Click(Sender) ;
-     ExecOnCalcKey(Sender, DecimalSeparator);
+     ExecOnCalcKey(Sender, fDS);
    end ;
    
   mBobina.SetFocus ;

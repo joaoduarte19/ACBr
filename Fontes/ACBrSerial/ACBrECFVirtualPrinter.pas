@@ -487,7 +487,7 @@ Var
 begin
   Result := '' ;
   For A := 0 to fsCabecalho.Count - 1 do
-    Result := Result + padC(fsCabecalho[A], Colunas) + CRLF;
+    Result := Result + PadCenter(fsCabecalho[A], Colunas) + CRLF;
 end ;
 
 procedure TACBrECFVirtualPrinterClass.AbreBuffer ;
@@ -601,56 +601,56 @@ begin
   with fsBuffer do
   begin
     Add( StringOfChar('-',Colunas) ) ;
-    Add( padC(' Contadores ',Colunas,'-') ) ;
-    Add( padS('Reducoes Z:|'+IntToStrZero(fpReducoesZ,4),Colunas,'|') ) ;
-    Add( padS('Leitura  X:|'+IntToStrZero(fpLeiturasX,6),Colunas,'|') ) ;
-    Add( padS('Cancelamentos de Cupom:|'+IntToStrZero(fpCuponsCancelados,6), Colunas,'|') ) ;
-    Add( padS('COO do Primeiro Cupom:|'+IntToStrZero(fpCOOInicial,6), Colunas,'|') ) ;
-    Add( padS('COO do Ultimo Cupom:|'+IntToStrZero(fpCOOFinal,6),Colunas,'|'));
-    Add( padC(' Totalizadores ',Colunas,'-') ) ;
-    Add( padS('Totalizador Geral:|'+FormatFloat('###,###,##0.00', fpGrandeTotal ),Colunas,'|') ) ;
+    Add( PadCenter(' Contadores ',Colunas,'-') ) ;
+    Add( PadSpace('Reducoes Z:|'+IntToStrZero(fpReducoesZ,4),Colunas,'|') ) ;
+    Add( PadSpace('Leitura  X:|'+IntToStrZero(fpLeiturasX,6),Colunas,'|') ) ;
+    Add( PadSpace('Cancelamentos de Cupom:|'+IntToStrZero(fpCuponsCancelados,6), Colunas,'|') ) ;
+    Add( PadSpace('COO do Primeiro Cupom:|'+IntToStrZero(fpCOOInicial,6), Colunas,'|') ) ;
+    Add( PadSpace('COO do Ultimo Cupom:|'+IntToStrZero(fpCOOFinal,6),Colunas,'|'));
+    Add( PadCenter(' Totalizadores ',Colunas,'-') ) ;
+    Add( PadSpace('Totalizador Geral:|'+FormatFloat('###,###,##0.00', fpGrandeTotal ),Colunas,'|') ) ;
 
     For A := 0 To fpAliquotas.Count - 1 do
       BrutaDia := RoundTo(BrutaDia + fpAliquotas[A].Total, -2);
 
-    Add( padS('Venda Bruta Diaria:|'+FormatFloat('###,###,##0.00', BrutaDia), Colunas, '|'));
+    Add( PadSpace('Venda Bruta Diaria:|'+FormatFloat('###,###,##0.00', BrutaDia), Colunas, '|'));
 
-    Add( padC('Total Vendido por Aliquota',Colunas,'-') ) ;
-    Add( padS('Substituicao Tributaria (FF)|'+FormatFloat('###,###,##0.00', fpAliquotas[0].Total ), Colunas,'|') ) ;
-    Add( padS('Isencao (II)|'+FormatFloat('###,###,##0.00', fpAliquotas[1].Total ), Colunas,'|') ) ;
-    Add( padS('Nao Incidencia (NN)|'+FormatFloat('###,###,##0.00', fpAliquotas[2].Total ), Colunas,'|') ) ;
+    Add( PadCenter('Total Vendido por Aliquota',Colunas,'-') ) ;
+    Add( PadSpace('Substituicao Tributaria (FF)|'+FormatFloat('###,###,##0.00', fpAliquotas[0].Total ), Colunas,'|') ) ;
+    Add( PadSpace('Isencao (II)|'+FormatFloat('###,###,##0.00', fpAliquotas[1].Total ), Colunas,'|') ) ;
+    Add( PadSpace('Nao Incidencia (NN)|'+FormatFloat('###,###,##0.00', fpAliquotas[2].Total ), Colunas,'|') ) ;
 
     For A := 3 to fpAliquotas.Count - 1 do
     begin
       with fpAliquotas[A] do
       begin
-        Add( padS(IntToStrZero(A,2)+'|'+ Tipo + FormatFloat('#0.00',Aliquota)+'%|'+
+        Add( PadSpace(IntToStrZero(A,2)+'|'+ Tipo + FormatFloat('#0.00',Aliquota)+'%|'+
              FormatFloat('###,###,##0.00',Total),Colunas,'|') ) ;
         TotalAliq := RoundTo(TotalAliq + Total,-2) ;
       end ;
     end;
 
-    Add( padS('Total Cancelado R$|'+FormatFloat('###,###,##0.00', fpCuponsCanceladosTotal), Colunas,'|') ) ;
-    Add( padS('T O T A L   R$|'+FormatFloat('###,###,##0.00',TotalAliq), Colunas,'|') ) ;
-    Add( padC(' Relatorio Gerencial ',Colunas,'-') ) ;
-    Add( padS(' Relatorio Geral:|'+IntToStrZero(fpNumCER,6),Colunas,'|') ) ;
-    Add( padC('Formas de Pagamento',Colunas,'-') ) ;
+    Add( PadSpace('Total Cancelado R$|'+FormatFloat('###,###,##0.00', fpCuponsCanceladosTotal), Colunas,'|') ) ;
+    Add( PadSpace('T O T A L   R$|'+FormatFloat('###,###,##0.00',TotalAliq), Colunas,'|') ) ;
+    Add( PadCenter(' Relatorio Gerencial ',Colunas,'-') ) ;
+    Add( PadSpace(' Relatorio Geral:|'+IntToStrZero(fpNumCER,6),Colunas,'|') ) ;
+    Add( PadCenter('Formas de Pagamento',Colunas,'-') ) ;
 
     For A := 0 to fpFormasPagamentos.Count - 1 do
     begin
       with fpFormasPagamentos[A] do
       begin
-        Add( padS(Indice+'  '+padL(Descricao,20)+'|'+
+        Add( PadSpace(Indice+'  '+PadRight(Descricao,20)+'|'+
              FormatFloat('###,###,##0.00',Total), Colunas,'|') ) ;
       end ;
     end ;
 
-    Add( padC('Comprovantes nao Fiscal',Colunas,'-') ) ;
+    Add( PadCenter('Comprovantes nao Fiscal',Colunas,'-') ) ;
     For A := 0 to fpComprovantesNaoFiscais.Count - 1 do
     begin
       with fpComprovantesNaoFiscais[A] do
       begin
-        Add( padS(Indice+'  '+padL(Descricao,20)+'|'+
+        Add( PadSpace(Indice+'  '+PadRight(Descricao,20)+'|'+
              FormatFloat('###,###,##0.00',Total), Colunas,'|') ) ;
       end ;
     end ;
@@ -671,7 +671,7 @@ begin
 
   For A := 0 to fsCabecalho.Count - 1 do
   begin
-    Linha := padC(fsCabecalho[A], Colunas) ;
+    Linha := PadCenter(fsCabecalho[A], Colunas) ;
     if A = 0 then
       Linha := fsCmdImpCondensado + Linha ;
 
@@ -679,10 +679,10 @@ begin
   end ;
 
   fsBuffer.Insert( fsCabecalho.Count,
-                   padS('CNPJ: '+CNPJ+'|IE: '+IE, Colunas, '|') );
+                   PadSpace('CNPJ: '+CNPJ+'|IE: '+IE, Colunas, '|') );
 
   fsBuffer.Insert( fsCabecalho.Count+1,
-                   padS( DateToStr(now)+' '+TimeToStr(now)+V+'|COO:'+
+                   PadSpace( DateToStr(now)+' '+TimeToStr(now)+V+'|COO:'+
                    IntToStrZero(fpNumCupom,6), Colunas, '|' ) ) ;
 end;
 
@@ -690,7 +690,7 @@ procedure TACBrECFVirtualPrinterClass.AddBufferCabecalho_Item;
 Var
   A : Integer ;
 begin
-  fsBuffer.Add( padC('COMPROVANTE  * NAO FISCAL *',Colunas) ) ;
+  fsBuffer.Add( PadCenter('COMPROVANTE  * NAO FISCAL *',Colunas) ) ;
 
   For A := 0 to fsCabecalhoItem.Count - 1 do
     fsBuffer.Add( fsCabecalhoItem[A] ) ;
@@ -725,11 +725,11 @@ begin
   with fsBuffer do
   begin
     Add( StringOfChar('-',Colunas) ) ;
-    Add( padS('N.Serie '+padL(fpNumSerie,21)+'|Maq '+GetNumECF+'|'+
+    Add( PadSpace('N.Serie '+PadRight(fpNumSerie,21)+'|Maq '+GetNumECF+'|'+
               'v'+NumVersao,Colunas,'|') );
-    Add( padS('Oper. '+padL(Operador,15)  +'|'+
+    Add( PadSpace('Oper. '+PadRight(Operador,15)  +'|'+
               FormatDateTime('dd/mm/yy hh:nn:ss',now)+V,  Colunas,'|') );
-    Add( padC('** N A O   E   C U P O M   F I S C A L **',Colunas) );
+    Add( PadCenter('** N A O   E   C U P O M   F I S C A L **',Colunas) );
     Add( StringOfChar('=',Colunas) ) ;
     For A := 1 to LinhasEntreCupons do
       Add( '' ) ;
@@ -784,13 +784,13 @@ begin
   if Consumidor.Documento <> '' then
   begin
     fsBuffer.Add( StringofChar('-',Colunas) ) ;
-    fsBuffer.Add(padL('CPF/CNPJ consumidor: '+Consumidor.Documento,Colunas)) ;
+    fsBuffer.Add(PadRight('CPF/CNPJ consumidor: '+Consumidor.Documento,Colunas)) ;
 
     if Consumidor.Nome <> '' then
-      fsBuffer.Add(padL('Nome: '+Consumidor.Nome,Colunas)) ;
+      fsBuffer.Add(PadRight('Nome: '+Consumidor.Nome,Colunas)) ;
 
     if Consumidor.Endereco <> '' then
-      fsBuffer.Add(padL('Endereco: '+Consumidor.Endereco,Colunas)) ;
+      fsBuffer.Add(PadRight('Endereco: '+Consumidor.Endereco,Colunas)) ;
 
     fsBuffer.Add( StringofChar('-',Colunas) ) ;
 
@@ -818,14 +818,14 @@ begin
     else
       S := 'Acrescimo' ;
 
-    fsBuffer.Add( padS('SUBTOTAL   R$|'+
+    fsBuffer.Add( PadSpace('SUBTOTAL   R$|'+
                   FormatFloat('#,###,##0.00',SubTotal), Colunas,'|') ) ;
-    fsBuffer.Add( padS(S+'  R$|'+FormatFloat('#,###,##0.00',DescontoAcrescimo),
+    fsBuffer.Add( PadSpace(S+'  R$|'+FormatFloat('#,###,##0.00',DescontoAcrescimo),
                        Colunas,'|') ) ;
   end ;
 
   fsBuffer.Add(  fsCmdImpExpandidoUmaLinha +
-                 padS( 'TOTAL  R$|'+FormatFloat('#,###,##0.00',
+                 PadSpace( 'TOTAL  R$|'+FormatFloat('#,###,##0.00',
                        SubTotal+DescontoAcrescimo),
 	               ColunasExpandido ,'|') +
                  fsCmdImpFimExpandido ) ;
@@ -842,7 +842,7 @@ begin
   ZeraBuffer;
   FPG := fpFormasPagamentos[ Pagto.PosFPG ] ;
 
-  fsBuffer.Add( padS(FPG.Descricao+'|'+
+  fsBuffer.Add( PadSpace(FPG.Descricao+'|'+
                 FormatFloat('#,###,##0.00', Pagto.ValorPago), Colunas,'|') ) ;
 
   Obs := Pagto.Observacao;
@@ -855,13 +855,13 @@ begin
   if TotalPago >= SubTotal then   { Ultrapassou o Valor do Cupom }
   begin
     if fpPagamentosCupom.Count > 0 then
-      fsBuffer.Add( padS('SOMA  R$|'+FormatFloat('#,###,##0.00', TotalPago), Colunas, '|') );
+      fsBuffer.Add( PadSpace('SOMA  R$|'+FormatFloat('#,###,##0.00', TotalPago), Colunas, '|') );
 
      if TotalPago > SubTotal then  { Tem TROCO ? }
      begin
         Troco  := RoundTo(TotalPago - SubTotal,-2) ;
         fsBuffer.Add( fsCmdImpExpandidoUmaLinha +
-                      padS('TROCO  R$|'+FormatFloat('#,###,##0.00',Troco),
+                      PadSpace('TROCO  R$|'+FormatFloat('#,###,##0.00',Troco),
 		      ColunasExpandido() ,'|' ) + fsCmdImpFimExpandido ) ;
      end ;
   end ;
@@ -888,14 +888,14 @@ procedure TACBrECFVirtualPrinterClass.CancelaCupomVirtual;
 begin
   ZeraBuffer;
   fsBuffer.Add( fsCmdImpExpandidoUmaLinha +
-		padC('*** CUPOM CANCELADO ***', ColunasExpandido() ) +
+		PadCenter('*** CUPOM CANCELADO ***', ColunasExpandido() ) +
                 fsCmdImpFimExpandido ) ;
 
   case Estado of
     estVenda :
       begin
         fsBuffer.Insert(0, fsCmdImpExpandidoUmaLinha +
-                           padS('TOTAL  R$|'+FormatFloat('#,###,##0.00',Subtotal),
+                           PadSpace('TOTAL  R$|'+FormatFloat('#,###,##0.00',Subtotal),
                            ColunasExpandido(), '|') +
                            fsCmdImpFimExpandido ) ;
         AddBufferRodape ;
@@ -907,9 +907,9 @@ begin
     begin
       InsertBufferCabecalho;
 
-      fsBuffer.Add( padS('COO do Cupom Cancelado:|'+IntToStrZero(StrToInt(NumCupom)-1,6),
+      fsBuffer.Add( PadSpace('COO do Cupom Cancelado:|'+IntToStrZero(StrToInt(NumCupom)-1,6),
                          Colunas,'|') ) ;
-      fsBuffer.Add( padS('Valor da Operacao  R$:|'+
+      fsBuffer.Add( PadSpace('Valor da Operacao  R$:|'+
                          FormatFloat('#,###,##0.00',Subtotal),Colunas,'|') );
       fsBuffer.Add( '' ) ;
       fsBuffer.Add( 'Nome do Consumidor:' ) ;
@@ -1049,9 +1049,9 @@ begin
   Aliq := fpAliquotas[ ItemCupom.PosAliq ];
 
   if Aliq.Aliquota > 0 then
-    AliqStr := padC(Aliq.Tipo + FormatFloat('#0.00',Aliq.Aliquota)+'%',7)
+    AliqStr := PadCenter(Aliq.Tipo + FormatFloat('#0.00',Aliq.Aliquota)+'%',7)
   else
-    AliqStr := padC(Aliq.Indice,7) ;
+    AliqStr := PadCenter(Aliq.Indice,7) ;
 
   if ItemCupom.Qtd = Round( ItemCupom.Qtd ) then
     StrQtd := FormatFloat('#######0', ItemCupom.Qtd )
@@ -1102,7 +1102,7 @@ begin
   if StrDescAcre <> '' then
   begin
     Total := RoundTo(Total + ItemCupom.DescAcres, -2) ;
-    fsBuffer.Add( padS('|'+StrDescAcre+'|'+FormatFloat('#0.00', PorcDesc)+'%|R$ '+
+    fsBuffer.Add( PadSpace('|'+StrDescAcre+'|'+FormatFloat('#0.00', PorcDesc)+'%|R$ '+
                   FormatFloat('##,##0.00', ItemCupom.DescAcres)+'|'+
                   FormatFloat('###,##0.00',Total),Colunas,'|') ) ;
   end ;
@@ -1119,7 +1119,7 @@ end;
 procedure TACBrECFVirtualPrinterClass.LeituraXVirtual;
 begin
   fsBuffer.Add( fsCmdImpExpandidoUmaLinha +
-                padC('LEITURA X', ColunasExpandido() ) +
+                PadCenter('LEITURA X', ColunasExpandido() ) +
                 fsCmdImpFimExpandido );
 
   AddBufferRelatorio ;
@@ -1134,7 +1134,7 @@ end;
 procedure TACBrECFVirtualPrinterClass.ReducaoZVirtual(DataHora: TDateTime);
 begin
   fsBuffer.Add( fsCmdImpExpandidoUmaLinha +
-                padC('REDUCAO Z', ColunasExpandido() ) +
+                PadCenter('REDUCAO Z', ColunasExpandido() ) +
                 fsCmdImpFimExpandido );
 
   AddBufferRelatorio ;
@@ -1168,11 +1168,11 @@ begin
   if CPF_CNPJ <> '' then
   begin
      fsBuffer.Add( StringofChar('-',Colunas) ) ;
-     fsBuffer.Add(padL('CPF/CNPJ Consumidor: '+CPF_CNPJ,Colunas)) ;
+     fsBuffer.Add(PadRight('CPF/CNPJ Consumidor: '+CPF_CNPJ,Colunas)) ;
      if Nome <> '' then
-        fsBuffer.Add(padL('Nome: '+Nome,Colunas)) ;
+        fsBuffer.Add(PadRight('Nome: '+Nome,Colunas)) ;
      if Endereco <> '' then
-        fsBuffer.Add(padL('Endereco: '+Endereco,Colunas)) ;
+        fsBuffer.Add(PadRight('Endereco: '+Endereco,Colunas)) ;
      fsBuffer.Add( StringofChar('-',Colunas) ) ;
   end ;
 end;
@@ -1181,7 +1181,7 @@ procedure TACBrECFVirtualPrinterClass.RegistraItemNaoFiscalVirtual(
   CNF: TACBrECFComprovanteNaoFiscal; Valor: Double; Obs: AnsiString);
 begin
   ZeraBuffer ;
-  fsBuffer.Add( PadS( IntToStrZero(fpCNFCupom.Count + 1,3) +'|'+
+  fsBuffer.Add( PadSpace( IntToStrZero(fpCNFCupom.Count + 1,3) +'|'+
                       CNF.Descricao +'|'+
                       FormatFloat('#,###,##0.00',Valor), Colunas, '|'  ) ) ;
 
@@ -1192,13 +1192,13 @@ end;
 procedure TACBrECFVirtualPrinterClass.AbreRelatorioGerencialVirtual(Indice: Integer);
 begin
   ZeraBuffer ;
-  fsBuffer.Add( padC('GNF:'+IntToStrZero(fpNumGNF,6) +'         '+
+  fsBuffer.Add( PadCenter('GNF:'+IntToStrZero(fpNumGNF,6) +'         '+
                 'GRG:'+IntToStrZero(fpNumGRG,6),Colunas) ) ;
   fsBuffer.Add( StringOfChar('-',Colunas) ) ;
-  fsBuffer.Add( padC('NAO E DOCUMENTO FISCAL',Colunas) ) ;
+  fsBuffer.Add( PadCenter('NAO E DOCUMENTO FISCAL',Colunas) ) ;
 
   fsBuffer.Add( fsCmdImpExpandidoUmaLinha +
-		padC('RELATORIO GERENCIAL', ColunasExpandido() ) +
+		PadCenter('RELATORIO GERENCIAL', ColunasExpandido() ) +
                 fsCmdImpFimExpandido );
   fsBuffer.Add( '' ) ;
 end;
@@ -1207,15 +1207,15 @@ procedure TACBrECFVirtualPrinterClass.AbreCupomVinculadoVirtual(COO: String;
   FPG: TACBrECFFormaPagamento; CodComprovanteNaoFiscal: String; Valor: Double);
 begin
   ZeraBuffer ;
-  fsBuffer.Add( padC('GNF:'+IntToStrZero(fpNumGNF,6) +'         '+
+  fsBuffer.Add( PadCenter('GNF:'+IntToStrZero(fpNumGNF,6) +'         '+
                 'CDC:'+IntToStrZero(fpNumCDC,6),Colunas) ) ;
   fsBuffer.Add( '' ) ;
-  fsBuffer.Add( padC('COMPROVANTE NAO FISCAL VINCULADO',Colunas) ) ;
+  fsBuffer.Add( PadCenter('COMPROVANTE NAO FISCAL VINCULADO',Colunas) ) ;
   fsBuffer.Add( '' ) ;
-  fsBuffer.Add( padS('COO do documento de compra:|' + COO, Colunas,'|') ) ;
-  fsBuffer.Add( padS('VALOR TOTAL DA COMPRA   R$:|'+
+  fsBuffer.Add( PadSpace('COO do documento de compra:|' + COO, Colunas,'|') ) ;
+  fsBuffer.Add( PadSpace('VALOR TOTAL DA COMPRA   R$:|'+
                 FormatFloat('##,###,##0.00',fpSubTotal),Colunas,'|') ) ;
-  fsBuffer.Add( padS(padL(FPG.Descricao,23)+' R$:|'+
+  fsBuffer.Add( PadSpace(PadRight(FPG.Descricao,23)+' R$:|'+
                 FormatFloat('##,###,##0.00',Valor),Colunas,'|') ) ;
   fsBuffer.Add( '' ) ;
 end;

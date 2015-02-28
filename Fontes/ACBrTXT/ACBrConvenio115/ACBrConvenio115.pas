@@ -373,11 +373,11 @@ end;
 function TACBrConvenio115Mestre.GetAutenticacaoDocumentoFiscal: string;
 begin
   Result := MD5String(
-    padR(OnlyNumber(Destinatario.CnpjCpf), 14, '0') + { 01 - CNPJ/CPF }
-    padR(IntToStr(FNumeroNF), 9, '0') + { 12 - Numero NF }
-    padR(TiraPontos(FormatFloat('#,##0.00', FValorTotal)), 12, '0') + { 14 - Valor }
-    padR(TiraPontos(FormatFloat('#,##0.00', ICMS_BaseCalculo)), 12, '0') + { 15 - Base ICMS }
-    padR(TiraPontos(FormatFloat('#,##0.00', ICMS_Valor)), 12, '0') { 16 - Valor ICMS }
+    PadLeft(OnlyNumber(Destinatario.CnpjCpf), 14, '0') + { 01 - CNPJ/CPF }
+    PadLeft(IntToStr(FNumeroNF), 9, '0') + { 12 - Numero NF }
+    PadLeft(TiraPontos(FormatFloat('#,##0.00', FValorTotal)), 12, '0') + { 14 - Valor }
+    PadLeft(TiraPontos(FormatFloat('#,##0.00', ICMS_BaseCalculo)), 12, '0') + { 15 - Base ICMS }
+    PadLeft(TiraPontos(FormatFloat('#,##0.00', ICMS_Valor)), 12, '0') { 16 - Valor ICMS }
     );
 end;
 
@@ -389,29 +389,29 @@ end;
 function TACBrConvenio115Mestre.RegistroEAssinatura: TConvenio115AssinaturaMD5;
 begin
   Result.Registro :=
-    {01} padR(OnlyNumber(Destinatario.CnpjCpf), 14, '0') +
-    {02} padL(IfThen(OnlyNumber(Destinatario.InscricaoEstadual) = '', 'ISENTO', OnlyNumber(Destinatario.InscricaoEstadual)), 14) +
-    {03} padL(TiraAcentos(Destinatario.RazaoSocial), 35) +
-    {04} padL(UpperCase(Destinatario.UF), 2) +
+    {01} PadLeft(OnlyNumber(Destinatario.CnpjCpf), 14, '0') +
+    {02} PadRight(IfThen(OnlyNumber(Destinatario.InscricaoEstadual) = '', 'ISENTO', OnlyNumber(Destinatario.InscricaoEstadual)), 14) +
+    {03} PadRight(TiraAcentos(Destinatario.RazaoSocial), 35) +
+    {04} PadRight(UpperCase(Destinatario.UF), 2) +
     {05} IntToStr(Ord(TipoAssinante)) +
     {06} IntToStr(Ord(TipoUtilizacao)) +
     {07} GrupoTensao +
-    {08} padL(Destinatario.CodigoConsumidor, 12) +
+    {08} PadRight(Destinatario.CodigoConsumidor, 12) +
     {09} DtoS(DataEmissao) +
-    {10} padR(IntToStr(Modelo), 2, '0') +
-    {11} padR(Serie, 3) +
-    {12} padR(IntToStr(NumeroNF), 9, '0') +
+    {10} PadLeft(IntToStr(Modelo), 2, '0') +
+    {11} PadLeft(Serie, 3) +
+    {12} PadLeft(IntToStr(NumeroNF), 9, '0') +
     {13} AutenticacaoDocumentoFiscal +
-    {14} padR(TiraPontos(FormatFloat('#,##0.00', ValorTotal)), 12, '0') +
-    {15} padR(TiraPontos(FormatFloat('#,##0.00', ICMS_BaseCalculo)), 12, '0') +
-    {16} padR(TiraPontos(FormatFloat('#,##0.00', ICMS_Valor)), 12, '0') +
-    {17} padR(TiraPontos(FormatFloat('#,##0.00', IsentosNaoTributadas)), 12, '0') +
-    {18} padR(TiraPontos(FormatFloat('#,##0.00', OutrosValores)), 12, '0') +
+    {14} PadLeft(TiraPontos(FormatFloat('#,##0.00', ValorTotal)), 12, '0') +
+    {15} PadLeft(TiraPontos(FormatFloat('#,##0.00', ICMS_BaseCalculo)), 12, '0') +
+    {16} PadLeft(TiraPontos(FormatFloat('#,##0.00', ICMS_Valor)), 12, '0') +
+    {17} PadLeft(TiraPontos(FormatFloat('#,##0.00', IsentosNaoTributadas)), 12, '0') +
+    {18} PadLeft(TiraPontos(FormatFloat('#,##0.00', OutrosValores)), 12, '0') +
     {19} TSituacaoNFConv115ID[Ord(SituacaoDocumento)] +
     {20} AnoMesRefencia +
-    {21} padR(IntToStr(ReferenciaItemNF), 9, '0') +
-    {22} padL(NumeroTerminalTelefonico, 12) +
-    {23} padL('', 5);
+    {21} PadLeft(IntToStr(ReferenciaItemNF), 9, '0') +
+    {22} PadRight(NumeroTerminalTelefonico, 12) +
+    {23} PadRight('', 5);
   Result.Assinatura := MD5String(Result.Registro);
 end;
 
@@ -509,21 +509,21 @@ begin
     for I := 0 to FMestre.Count - 1 do
     begin
       RRegistro.Registro :=
-        {01} PadR(OnlyNumber(FMestre[I].Destinatario.CnpjCpf), 14, '0') +
-        {02} padL(IfThen(OnlyNumber(FMestre[I].Destinatario.InscricaoEstadual) = '', 'ISENTO', OnlyNumber(FMestre[I].Destinatario.InscricaoEstadual)), 14) +
-        {03} padL(TiraAcentos(FMestre[I].Destinatario.RazaoSocial), 35) +
-        {04} padL(TiraAcentos(FMestre[I].Destinatario.Logradouro), 45) +
-        {05} padR(OnlyNumber(FMestre[I].Destinatario.Numero), 5, '0') +
-        {06} padL(TiraAcentos(FMestre[I].Destinatario.Complemento), 15) +
-        {07} padR(OnlyNumber(FMestre[I].Destinatario.CEP), 8, '0') +
-        {08} padL(TiraAcentos(FMestre[I].Destinatario.Bairro), 15) +
-        {09} padL(TiraAcentos(FMestre[I].Destinatario.Municipio), 30) +
-        {10} padL(UpperCase(FMestre[I].Destinatario.UF), 2) +
-        {11} padR(OnlyNumber(FMestre[I].Destinatario.Telefone), 12, '0') +
-        {12} padL(FMestre[I].Destinatario.CodigoConsumidor, 12) +
-        {13} padL(FMestre[I].NumeroTerminalTelefonico, 12) +
-        {14} padL(UpperCase(FMestre[I].UFTerminalTelefonico), 2) +
-        {15} padL('', 5);
+        {01} PadLeft(OnlyNumber(FMestre[I].Destinatario.CnpjCpf), 14, '0') +
+        {02} PadRight(IfThen(OnlyNumber(FMestre[I].Destinatario.InscricaoEstadual) = '', 'ISENTO', OnlyNumber(FMestre[I].Destinatario.InscricaoEstadual)), 14) +
+        {03} PadRight(TiraAcentos(FMestre[I].Destinatario.RazaoSocial), 35) +
+        {04} PadRight(TiraAcentos(FMestre[I].Destinatario.Logradouro), 45) +
+        {05} PadLeft(OnlyNumber(FMestre[I].Destinatario.Numero), 5, '0') +
+        {06} PadRight(TiraAcentos(FMestre[I].Destinatario.Complemento), 15) +
+        {07} PadLeft(OnlyNumber(FMestre[I].Destinatario.CEP), 8, '0') +
+        {08} PadRight(TiraAcentos(FMestre[I].Destinatario.Bairro), 15) +
+        {09} PadRight(TiraAcentos(FMestre[I].Destinatario.Municipio), 30) +
+        {10} PadRight(UpperCase(FMestre[I].Destinatario.UF), 2) +
+        {11} PadLeft(OnlyNumber(FMestre[I].Destinatario.Telefone), 12, '0') +
+        {12} PadRight(FMestre[I].Destinatario.CodigoConsumidor, 12) +
+        {13} PadRight(FMestre[I].NumeroTerminalTelefonico, 12) +
+        {14} PadRight(UpperCase(FMestre[I].UFTerminalTelefonico), 2) +
+        {15} PadRight('', 5);
 
       RRegistro.Assinatura := MD5String(RRegistro.Registro);
       OStr.Add(RRegistro.Registro + RRegistro.Assinatura);
@@ -587,9 +587,9 @@ begin
   }
   Result :=
     FUF +
-    padR(Serie, 3, '0') +
+    PadLeft(Serie, 3, '0') +
     Copy(IntToStr(Ano), 3, 2) +
-    padR(IntToStr(Mes), 2, '0') +
+    PadLeft(IntToStr(Mes), 2, '0') +
     IfThen(Status = scv115Normal, 'N', 'S');
 
   case TipoArquivo of
@@ -681,34 +681,34 @@ end;
 function TACBrConvenio115Item.RegistroEAssinatura: TConvenio115AssinaturaMD5;
 begin
   Result.Registro :=
-    {01} padR(OnlyNumber(FCnpjCpf), 14, '0') +
-    {02} padL(UpperCase(FUF), 2) +
+    {01} PadLeft(OnlyNumber(FCnpjCpf), 14, '0') +
+    {02} PadRight(UpperCase(FUF), 2) +
     {03} IntToStr(Ord(FTipoAssinante)) +
     {04} IntToStr(Ord(FTipoUtilizacao)) +
     {05} GrupoTensao +
     {06} DtoS(FDataEmissao) +
-    {07} padR(IntToStr(FModelo), 2, '0') +
-    {08} padR(FSerie, 3) +
-    {09} padR(IntToStr(FNumeroNF), 9, '0') +
-    {10} padR(CFOP, 4, '0') +
-    {11} padR(IntToStr(Item), 3, '0') +
-    {12} padL(CodigoServico, 10) +
-    {13} padL(TiraAcentos(DescricaoServico), 40) +
-    {14} padR(ClassificacaoItem, 4, '0') +
-    {15} padL(Unidade, 6) +
-    {16} padR(TiraPontos(FormatFloat('#,##0.000', QtdeContratada)), 11, '0') +
-    {17} padR(TiraPontos(FormatFloat('#,##0.000', QtdePrestada)), 11, '0') +
-    {18} padR(TiraPontos(FormatFloat('#,##0.00', ValorTotal)), 11, '0') +
-    {19} padR(TiraPontos(FormatFloat('#,##0.00', Desconto)), 11, '0') +
-    {20} padR(TiraPontos(FormatFloat('#,##0.00', AcrescimosDespAcessorias)), 11, '0') +
-    {21} padR(TiraPontos(FormatFloat('#,##0.00', ICMSBaseCalculo)), 11, '0') +
-    {22} padR(TiraPontos(FormatFloat('#,##0.00', ICMSValor)), 11, '0') +
-    {23} padR(TiraPontos(FormatFloat('#,##0.00', IsentoNaoTributados)), 11, '0') +
-    {24} padR(TiraPontos(FormatFloat('#,##0.00', OutrosValores)), 11, '0') +
-    {25} padR(TiraPontos(FormatFloat('#,##0.00', ICMSAliquota)), 4, '0') +
+    {07} PadLeft(IntToStr(FModelo), 2, '0') +
+    {08} PadLeft(FSerie, 3) +
+    {09} PadLeft(IntToStr(FNumeroNF), 9, '0') +
+    {10} PadLeft(CFOP, 4, '0') +
+    {11} PadLeft(IntToStr(Item), 3, '0') +
+    {12} PadRight(CodigoServico, 10) +
+    {13} PadRight(TiraAcentos(DescricaoServico), 40) +
+    {14} PadLeft(ClassificacaoItem, 4, '0') +
+    {15} PadRight(Unidade, 6) +
+    {16} PadLeft(TiraPontos(FormatFloat('#,##0.000', QtdeContratada)), 11, '0') +
+    {17} PadLeft(TiraPontos(FormatFloat('#,##0.000', QtdePrestada)), 11, '0') +
+    {18} PadLeft(TiraPontos(FormatFloat('#,##0.00', ValorTotal)), 11, '0') +
+    {19} PadLeft(TiraPontos(FormatFloat('#,##0.00', Desconto)), 11, '0') +
+    {20} PadLeft(TiraPontos(FormatFloat('#,##0.00', AcrescimosDespAcessorias)), 11, '0') +
+    {21} PadLeft(TiraPontos(FormatFloat('#,##0.00', ICMSBaseCalculo)), 11, '0') +
+    {22} PadLeft(TiraPontos(FormatFloat('#,##0.00', ICMSValor)), 11, '0') +
+    {23} PadLeft(TiraPontos(FormatFloat('#,##0.00', IsentoNaoTributados)), 11, '0') +
+    {24} PadLeft(TiraPontos(FormatFloat('#,##0.00', OutrosValores)), 11, '0') +
+    {25} PadLeft(TiraPontos(FormatFloat('#,##0.00', ICMSAliquota)), 4, '0') +
     {26} TSituacaoNFConv115ID[Ord(Situacao)] +
     {27} AnoMesApuracao +
-    {28} padR('', 5);
+    {28} PadLeft('', 5);
   Result.Assinatura := MD5String(Result.Registro);
 end;
 

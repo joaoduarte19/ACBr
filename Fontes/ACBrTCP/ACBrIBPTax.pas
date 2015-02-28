@@ -455,14 +455,14 @@ begin
   for I := 0 to Itens.Count - 1 do
   begin
     Texto := Texto +
-      PadL(Itens[I].NCM, 10) +
-      PadL(Itens[I].Excecao, 2) +
-      PadL(IntToStr(Integer(Itens[I].Tabela)), 1) +
-      PadR(FloatToString(Itens[I].FederalNacional * 100), 4, '0') +
-      PadR(FloatToString(Itens[I].FederalImportado * 100), 4, '0') +
-      PadR(FloatToString(Itens[I].Estadual * 100), 4, '0') +
-      PadR(FloatToString(Itens[I].Municipal * 100), 4, '0') +
-      PadL(Itens[I].Descricao, 400) +
+      PadRight(Itens[I].NCM, 10) +
+      PadRight(Itens[I].Excecao, 2) +
+      PadRight(IntToStr(Integer(Itens[I].Tabela)), 1) +
+      PadLeft(FloatToString(Itens[I].FederalNacional * 100), 4, '0') +
+      PadLeft(FloatToString(Itens[I].FederalImportado * 100), 4, '0') +
+      PadLeft(FloatToString(Itens[I].Estadual * 100), 4, '0') +
+      PadLeft(FloatToString(Itens[I].Municipal * 100), 4, '0') +
+      PadRight(Itens[I].Descricao, 400) +
       sLineBreak;
   end;
 

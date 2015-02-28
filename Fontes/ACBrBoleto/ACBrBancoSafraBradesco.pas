@@ -38,8 +38,8 @@ unit ACBrBancoSafraBradesco;
 interface
 
 uses
-  Classes, SysUtils, ACBrBoleto,
-  {$IFDEF COMPILER6_UP} DateUtils {$ELSE} ACBrD5 {$ENDIF};
+  Classes, SysUtils,
+  ACBrBoleto;
 
 type
   TACBrBancoSafraBradesco = class(TACBrBancoClass)
@@ -65,7 +65,10 @@ type
 
 implementation
 
-uses ACBrUtil, StrUtils;
+uses
+  {$IFDEF COMPILER6_UP} DateUtils {$ELSE} ACBrD5 {$ENDIF},
+  StrUtils,
+  ACBrUtil;
 
 { TACBrBancoSafraBradesco }
 
@@ -106,10 +109,10 @@ begin
     CodigoBarras :=
       IntToStr(Numero) + '9' + FatorVencimento +
       IntToStrZero(Round(ACBrTitulo.ValorDocumento * 100), 10) +
-      padR(OnlyNumber(Cedente.Agencia), 4, '0') +
+      PadLeft(OnlyNumber(Cedente.Agencia), 4, '0') +
       ACBrTitulo.Carteira +
       ACBrTitulo.NossoNumero +
-      padR(RightStr(Cedente.Conta, 7), 7, '0') + '0';
+      PadLeft(RightStr(Cedente.Conta, 7), 7, '0') + '0';
 
     DigitoCodBarras := CalcularDigitoCodigoBarras(CodigoBarras);
   end;
@@ -146,11 +149,11 @@ begin
       '01' +                            // Código do serviço
       'COBRANCA' +                      // Identificação do serviço
       Space(7) +                        // Brancos
-      padR(CodigoCedente, 14, '0') +    // Código da empresa no banco
+      PadLeft(CodigoCedente, 14, '0') +    // Código da empresa no banco
       Space(6) +                        // Brancos
-      padL(Nome, 30) +                  // Nome da empresa
+      PadRight(Nome, 30) +                  // Nome da empresa
       '422' +                           // Código do banco: 422 = Banco Safra
-      padL('SAFRA', 11) +               // Nome do banco
+      PadRight('SAFRA', 11) +               // Nome do banco
       Space(4) +                        // Brancos
       FormatDateTime('ddmmyy', Now) +   // Data de gravação
       Space(291) +                      // Brancos
@@ -225,8 +228,8 @@ begin
       wLinha :=
         '1' +                                                        // Código do registro: 1 - Transação
         TipoSacado +                                                 // Tipo de inscrição da empresa: 01 = CPF; 02 = CNPJ
-        padR(OnlyNumber(Cedente.CNPJCPF), 14, '0') +                 // Número de inscrição
-        padR(Cedente.CodigoCedente, 14, '0') +                       // Código da empresa no banco
+        PadLeft(OnlyNumber(Cedente.CNPJCPF), 14, '0') +                 // Número de inscrição
+        PadLeft(Cedente.CodigoCedente, 14, '0') +                       // Código da empresa no banco
         Space(6) +                                                   // Brancos
         Space(25) +                                                  // Uso exclusivo da empresa
         NossoNumero +                                                // Nosso número (já contendo o dígito do nosso número)
@@ -237,7 +240,7 @@ begin
         IfThen(AnsiSameText(Instrucao2, '10'), DiasProtesto, '00') + // Instrução 3: Número de dias para protesto.
         Copy(Carteira, 2, 1) +                                       // Código da carteira
         ATipoOcorrencia +                                            // Código da ocorrência
-        padL(SeuNumero, 10, ' ') +                                   // Identificação do título na empresa
+        PadRight(SeuNumero, 10, ' ') +                                   // Identificação do título na empresa
         FormatDateTime('ddmmyy', Vencimento) +                       // Data de vencimento do título
         IntToStrZero(Round(ValorDocumento * 100), 13) +              // Valor nominal do título
         '422' +                                                      // Banco encarregado da cobrança: 422 = Banco Safra
@@ -245,8 +248,8 @@ begin
         AEspecieDoc +                                                // Espécie do título
         ATipoAceite +                                                // Identificação de aceite do título: A = Aceito; N = Não aceito
         FormatDateTime('ddmmyy', DataDocumento) +                    // Data de emissão do título
-        padR(Instrucao1, 2, '0') +                                   // Primeira instrução de cobrança
-        padR(Instrucao2, 2, '0') +                                   // Segunda instrução de cobrança
+        PadLeft(Instrucao1, 2, '0') +                                   // Primeira instrução de cobrança
+        PadLeft(Instrucao2, 2, '0') +                                   // Segunda instrução de cobrança
         IntToStrZero(Round(ValorMoraJuros * 100), 13) +              // Juros de mora por dia de atraso
         IfThen(DataDesconto > 0,
           FormatDateTime('ddmmyy', DataDesconto), '000000') +        // Data limite para desconto
@@ -255,15 +258,15 @@ begin
         // TODO -oJacinto Junior: Implementar o tratamento para multa.
         IntToStrZero(Round(ValorAbatimento * 100), 13) +             // Valor do abatimento concedido ou cancelado / multa
         TipoSacado +                                                 // Tipo de inscrição do sacado
-        padR(OnlyNumber(Sacado.CNPJCPF), 14, '0') +                  // Número de inscrição do sacado
-        padL(Sacado.NomeSacado, 40, ' ') +                           // Nome do sacado
-        padL(Sacado.Logradouro + ' ' + Sacado.Numero, 40, ' ') +     // Endereço do sacado
-        padL(Sacado.Bairro, 10, ' ') +                               // Bairro do sacado
+        PadLeft(OnlyNumber(Sacado.CNPJCPF), 14, '0') +                  // Número de inscrição do sacado
+        PadRight(Sacado.NomeSacado, 40, ' ') +                           // Nome do sacado
+        PadRight(Sacado.Logradouro + ' ' + Sacado.Numero, 40, ' ') +     // Endereço do sacado
+        PadRight(Sacado.Bairro, 10, ' ') +                               // Bairro do sacado
         Space(2) +                                                   // Brancos
-        padL(OnlyNumber(Sacado.CEP), 8, '0') +                       // CEP do sacado
-        padL(Sacado.Cidade, 15, ' ') +                               // Cidade do sacado
-        padL(Sacado.UF, 2, ' ') +                                    // UF do sacado
-        padL(Sacado.SacadoAvalista.NomeAvalista,30) +                  // Nome do sacador avalista
+        PadRight(OnlyNumber(Sacado.CEP), 8, '0') +                       // CEP do sacado
+        PadRight(Sacado.Cidade, 15, ' ') +                               // Cidade do sacado
+        PadRight(Sacado.UF, 2, ' ') +                                    // UF do sacado
+        PadRight(Sacado.SacadoAvalista.NomeAvalista,30) +                  // Nome do sacador avalista
         Space(7) +                                                   // Brancos
         '422' +                                                      // Banco emitente do boleto: 422 = Banco Safra
         IntToStrZero(FNumeroRemessa, 3);                             // Número sequencial da remessa
@@ -332,7 +335,7 @@ begin
 
   with ACBrBanco.ACBrBoleto do
   begin
-    if (not LeCedenteRetorno) and (rCodEmpresa <> padR(Cedente.CodigoCedente, 14, '0')) then
+    if (not LeCedenteRetorno) and (rCodEmpresa <> PadLeft(Cedente.CodigoCedente, 14, '0')) then
       raise Exception.Create(ACBrStr('Código da Empresa do arquivo inválido.'));
 
     if (not LeCedenteRetorno) and ((rAgencia <> OnlyNumber(Cedente.Agencia)) or

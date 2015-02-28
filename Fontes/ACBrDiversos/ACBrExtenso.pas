@@ -51,9 +51,8 @@
 unit ACBrExtenso;
 
 interface
-uses ACBrBase, ACBrUtil, {Units da ACBr}
-     SysUtils , Classes,
-   {$IFDEF COMPILER6_UP} StrUtils {$ELSE} ACBrD5 {$ENDIF} ;
+uses SysUtils, Classes,
+  ACBrBase;
 
 const
    cMilharSin  : array[0..2] of string = ('Bilhão','Milhão','Mil') ;
@@ -112,7 +111,7 @@ end ;
 
 implementation
 
-uses Math;
+uses Math, ACBrUtil;
 
 { TACBrExtenso }
 

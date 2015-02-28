@@ -36,8 +36,8 @@
 unit ACBrECFDaruma ;
 
 interface
-uses ACBrECFClass, ACBrDevice, ACBrUtil,
-     Classes ;
+uses Classes,
+    ACBrECFClass, ACBrDevice;
 
 const
    ARQ_MFD_DLL = 'Espelho_MFD.txt';
@@ -339,9 +339,9 @@ TACBrECFDaruma = class( TACBrECFClass )
  end ;
 
 implementation
-Uses SysUtils, ACBrECF, ACBrConsts,
+Uses SysUtils, Math,
     {$IFDEF COMPILER6_UP} DateUtils, StrUtils {$ELSE} ACBrD5, Windows{$ENDIF},
-    Math ;
+    ACBrUtil, ACBrECF, ACBrConsts;
 
 { ----------------------------- TACBrECFDaruma ------------------------------ }
 
@@ -2165,17 +2165,17 @@ begin
       end
       else if fsNumVersao = '2000' then
       begin
-        StrConsumidor := PadL( PadL(Consumidor.Documento,27) +
-                               PadL(Consumidor.Nome,42)+
-                               PadL(Consumidor.Endereco,42), 153) ;
+        StrConsumidor := PadRight( PadRight(Consumidor.Documento,27) +
+                               PadRight(Consumidor.Nome,42)+
+                               PadRight(Consumidor.Endereco,42), 153) ;
 
         EnviaComando( ESC + #208 + StrConsumidor ) ;
       end
       else
       begin
-        StrConsumidor := PadL(Consumidor.Nome,84) +
-                         PadL(Consumidor.Endereco,84) +
-                         PadL(Consumidor.Documento,84) ;
+        StrConsumidor := PadRight(Consumidor.Nome,84) +
+                         PadRight(Consumidor.Endereco,84) +
+                         PadRight(Consumidor.Documento,84) ;
 
         EnviaComando( ESC + #201 + StrConsumidor ) ;
       end ;
@@ -2281,8 +2281,8 @@ begin
 
   if fpMFD then
   begin
-    Codigo    := padL(Codigo,14) ;
-    Unidade   := padL(Unidade,3) ;
+    Codigo    := PadRight(Codigo,14) ;
+    Unidade   := PadRight(Unidade,3) ;
     Descricao := TrimRight(LeftStr(Descricao,233)) + cDELIMITADOR ;
 
     if DescricaoGrande then
@@ -2331,11 +2331,11 @@ begin
   if fsNumVersao = '2000' then
   begin
     fpArredondaItemMFD := False;
-    Codigo      := padL(Codigo,18) ;    { Ajustando Tamanhos }
+    Codigo      := PadRight(Codigo,18) ;    { Ajustando Tamanhos }
     Descricao   := TrimRight(LeftStr(Descricao,200)) + cDELIMITADOR ;
     ValorStr    := IntToStrZero( Round(ValorUnitario * 1000), 10) ;
     QtdStr      := IntToStrZero( Round(Qtd * 1000), 8) ;
-    Unidade     := padL(Unidade,2) ;
+    Unidade     := PadRight(Unidade,2) ;
     DescontoStr := StringOfChar('0',10) ;
 
     if ValorDescontoAcrescimo > 0 then
@@ -2368,8 +2368,8 @@ begin
   else
   begin
     fpArredondaItemMFD := False;
-    Codigo  := padL(Codigo,13) ;    // Ajustando Tamanhos
-    Unidade := padL(Unidade,2) ;
+    Codigo  := PadRight(Codigo,13) ;    // Ajustando Tamanhos
+    Unidade := PadRight(Unidade,2) ;
 
     if TipoDescontoAcrescimo = '%' then
       DescontoStr := IntToStrZero( Round(ValorDescontoAcrescimo * 100), 4)
@@ -2408,7 +2408,7 @@ begin
     begin
       LenQtd    := 5 ;
       Cmd       := #215 ;
-      Descricao := PadL(Descricao,30) ;
+      Descricao := PadRight(Descricao,30) ;
       ValorStr  := IntToStrZero( Round(ValorUnitario * 100), 9) ;
       Codigo    := Codigo + '000'  // Reserva, compatib. modelos anteriores
     end ;
@@ -2417,7 +2417,7 @@ begin
     if Length(QtdStr) > LenQtd then
       QtdStr := FloatToStr(RoundTo(Qtd,-(LenQtd-pos(DecimalSeparator,QtdStr)))) ;
 
-    QtdStr := PadR(StringReplace(QtdStr,DecimalSeparator,SepDec,[rfReplaceAll]), LenQtd,'0');
+    QtdStr := PadLeft(StringReplace(QtdStr,DecimalSeparator,SepDec,[rfReplaceAll]), LenQtd,'0');
 
     EnviaComando( ESC + Cmd + AliquotaECF + Codigo + DescontoStr +
                    ValorStr + QtdStr + Unidade + Descricao) ;
@@ -2696,7 +2696,7 @@ begin
           if StrIsAlpha(copy(AliquotaICMS,2,1)) then
              AliquotaICMS := 'T'+copy(AliquotaICMS,1,2)       {Indice TA, TB, TC}
           else
-             AliquotaICMS := 'T'+padR(copy(AliquotaICMS,2,2),2,'0') ; {Indice T01, T1, T02}
+             AliquotaICMS := 'T'+PadLeft(copy(AliquotaICMS,2,2),2,'0') ; {Indice T01, T1, T02}
        end ;
      'S' :
        begin
@@ -2922,7 +2922,7 @@ begin
 
   else if fpMFD then
   begin
-    Descricao := padL(Descricao,15) ;
+    Descricao := PadRight(Descricao,15) ;
 
     if (ProxIndice < 2) or (ProxIndice > 15) then { Indice passado é válido ? }
     begin
@@ -2944,7 +2944,7 @@ begin
   end
   else
   begin
-    Descricao := padL(Descricao,17) ;
+    Descricao := PadRight(Descricao,17) ;
 
     if (ProxIndice < 0) or (ProxIndice > 15) then { Indice passado é válido ? }
     begin
@@ -3062,7 +3062,7 @@ begin
     if ProxIndice > 20 then
       raise EACBrECFERRO.create(ACBrStr('Não há espaço para programar novos RGs'));
 
-    EnviaComando( FS + 'C' + #205 + IntToStrZero(ProxIndice,2) + PadL(Descricao,15) ) ;
+    EnviaComando( FS + 'C' + #205 + IntToStrZero(ProxIndice,2) + PadRight(Descricao,15) ) ;
   end
   else
     raise EACBrECFERRO.Create(ACBrStr('ECF FS345 não suporta RelatorioGerencial'));
@@ -3104,14 +3104,14 @@ begin
     if ProxIndice > 20 then
       raise EACBrECFERRO.create(ACBrStr('Não há espaço para programar novas CNFs'));
 
-    EnviaComando( FS + 'C' + #204 + IntToStrZero(ProxIndice,2) + PadL(Descricao,15) ) ;
+    EnviaComando( FS + 'C' + #204 + IntToStrZero(ProxIndice,2) + PadRight(Descricao,15) ) ;
 
     CarregaComprovantesNaoFiscais ;
   end
   else
   begin
     { Esse comando na Daruma nao usa o parametro Posicao }
-    Descricao := padL(Descricao,21) ;
+    Descricao := PadRight(Descricao,21) ;
     if Tipo = '' then
       Tipo := 'V'
     else
@@ -3476,7 +3476,7 @@ begin
      Result := Result + IfThen(docLMF             in Documentos, '1', '0');
    end ;
 
-  Result := PadL( Result, 31, '1') ;
+  Result := PadRight( Result, 31, '1') ;
 end ;
 
 procedure TACBrECFDaruma.LeituraMFDSerial(COOInicial, COOFinal: Integer;
@@ -4410,9 +4410,9 @@ end;
 procedure TACBrECFDaruma.IdentificaOperador(Nome: String);
 begin
   if fpMFD then
-    EnviaComando( FS + 'C' + #209 + padL(Nome,20) )
+    EnviaComando( FS + 'C' + #209 + PadRight(Nome,20) )
   else
-    EnviaComando( ESC + #218 + 'O' + padL(Nome,20) );
+    EnviaComando( ESC + #218 + 'O' + PadRight(Nome,20) );
 end;
 
 function TACBrECFDaruma.GetPAF: String;
@@ -4426,7 +4426,7 @@ procedure TACBrECFDaruma.IdentificaPAF(NomeVersao, MD5 : String);
 var
   Resp: Integer;
 begin
-  EnviaComando( FS + 'C' + #214 + PadL(MD5,42) + PadL(NomeVersao,42) );
+  EnviaComando( FS + 'C' + #214 + PadRight(MD5,42) + PadRight(NomeVersao,42) );
 
   try
     LoadDLLFunctions;

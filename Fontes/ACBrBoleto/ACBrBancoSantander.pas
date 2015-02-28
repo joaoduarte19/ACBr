@@ -38,8 +38,8 @@ unit ACBrBancoSantander;
 interface
 
 uses
-  Classes, SysUtils,ACBrBoleto,
-  {$IFDEF COMPILER6_UP} dateutils {$ELSE} ACBrD5 {$ENDIF};
+  Classes, SysUtils,
+  ACBrBoleto;
 
 type
 
@@ -72,7 +72,10 @@ type
 
 implementation
 
-uses ACBrUtil, StrUtils, math;
+uses
+  {$IFDEF COMPILER6_UP} dateutils {$ELSE} ACBrD5 {$ENDIF},
+  StrUtils, math,
+  ACBrUtil;
 
 { TACBrBancoSantander }
 
@@ -109,9 +112,9 @@ begin
 
       CodigoBarras := '033'+'9'+ FatorVencimento +
                        IntToStrZero(Round(ACBrTitulo.ValorDocumento*100),10) +
-                       '9'+ padR(trim(Cedente.CodigoCedente),7,'0') +
-                       padR(ACBrTitulo.NossoNumero + DigitoNossoNumero, 13,'0') +
-                       '0'+ padR(trim(Cedente.Modalidade),3,'0');
+                       '9'+ PadLeft(trim(Cedente.CodigoCedente),7,'0') +
+                       PadLeft(ACBrTitulo.NossoNumero + DigitoNossoNumero, 13,'0') +
+                       '0'+ PadLeft(trim(Cedente.Modalidade),3,'0');
 
 
 
@@ -133,7 +136,7 @@ begin
       end;
    end;
 
-   Result:= padR(ACBrTitulo.NossoNumero,12,'0')+ ' '+ CalcularDigitoVerificador(ACBrTitulo);
+   Result:= PadLeft(ACBrTitulo.NossoNumero,12,'0')+ ' '+ CalcularDigitoVerificador(ACBrTitulo);
 end;
 
 function TACBrBancoSantander.MontarCampoCodigoCedente (
@@ -155,16 +158,16 @@ begin
                 '0'                                        + // 008 - 008 / Tipo de registro
                 Space(8)                                   + // 009 - 016 / Reservado (uso Banco)
                 ifthen(TipoInscricao = pFisica, '1', '2')  + // 017 - 017 / Tipo de inscrição da empresa
-                PadR(trim(OnlyNumber(CNPJCPF)),15,'0')     + // 018 - 032 / Nº de inscrição da empresa
-                PadR(CodigoTransmissao, 15)                + // 033 - 047 / Código de Transmissão
+                PadLeft(trim(OnlyNumber(CNPJCPF)),15,'0')     + // 018 - 032 / Nº de inscrição da empresa
+                PadLeft(CodigoTransmissao, 15)                + // 033 - 047 / Código de Transmissão
                 Space(25)                                  + // 048 - 072 / Reservado (uso Banco)
-                padL(Nome, 30)                             + // 073 - 102 / Nome da Empresa
-                padL('BANCO SANTANDER', 30)                + // 103 - 132 / Nome do Banco(BANCO SANTANDER)
+                PadRight(Nome, 30)                             + // 073 - 102 / Nome da Empresa
+                PadRight('BANCO SANTANDER', 30)                + // 103 - 132 / Nome do Banco(BANCO SANTANDER)
                 Space(10)                                  + // 133 - 142 / Reservado (uso Banco)
                 '1'                                        + // 143 - 143 / Código remessa = 1
                 FormatDateTime('ddmmyyyy',Now)             + // 144 - 151 / Data de geração do arquivo
                 Space(6)                                   + // 152 - 157 / Reservado (uso Banco)
-                padR(IntToStr(NumeroRemessa), 6, '0')      + // 158 - 163 / Nº seqüencial do arquivo
+                PadLeft(IntToStr(NumeroRemessa), 6, '0')      + // 158 - 163 / Nº seqüencial do arquivo
                 '040'                                      + // 164 - 166 / Nº da versão do layout do arquivo
                 Space(74)                                  ; // 167 - 240 / Reservado (uso Banco)
 
@@ -179,14 +182,14 @@ begin
                 '030'                                      + // 014 - 016 / Nº da versão do layout do lote
                 Space(1)                                   + // 017 - 017 / Reservado (uso Banco)
                 ifthen(TipoInscricao = pFisica, '1', '2')  + // 018 - 018 / Tipo de inscrição da empresa
-                PadR(trim(OnlyNumber(CNPJCPF)),15,'0')     + // 019 - 033 / Nº de inscrição da empresa
+                PadLeft(trim(OnlyNumber(CNPJCPF)),15,'0')     + // 019 - 033 / Nº de inscrição da empresa
                 Space(20)                                  + // 034 - 053 / Reservado (uso Banco)
-                PadR(CodigoTransmissao, 15)                + // 054 - 068 / Código de Transmissão
+                PadLeft(CodigoTransmissao, 15)                + // 054 - 068 / Código de Transmissão
                 Space(5)                                   + // 069 - 073 / Reservado (uso Banco)
-                padL(Nome, 30)                             + // 074 - 0103 / Nome do Cedente
+                PadRight(Nome, 30)                             + // 074 - 0103 / Nome do Cedente
                 Space(40)                                  + // 104 - 143 / Mensagem 1
                 Space(40)                                  + // 144 - 183 / Mensagem 2
-                padR(IntToStr(NumeroRemessa), 8, '0')      + // 184 - 191 / Nº temessa
+                PadLeft(IntToStr(NumeroRemessa), 8, '0')      + // 184 - 191 / Nº temessa
                 FormatDateTime('ddmmyyyy',Now)             + // 192 - 199 / Data de geração do arquivo
                 Space(41)                                  ; // 200 - 240 / Reservado (uso Banco)
 
@@ -205,10 +208,10 @@ begin
                '1'                                        + // ID do Arquivo( 1 - Remessa)
                'REMESSA'                                  + // Literal de Remessa
                '01'                                       + // Código do Tipo de Serviço
-               padL( 'COBRANCA', 15 )                     + // Descrição do tipo de serviço
-               padR( CodigoTransmissao, 20, '0')          + // Codigo da Empresa no Banco
-               padL( Nome, 30)                            + // Nome da Empresa
-               '033'+ padL('SANTANDER', 15)               + // Código e Nome do Banco(237 - Bradesco)
+               PadRight( 'COBRANCA', 15 )                     + // Descrição do tipo de serviço
+               PadLeft( CodigoTransmissao, 20, '0')          + // Codigo da Empresa no Banco
+               PadRight( Nome, 30)                            + // Nome da Empresa
+               '033'+ PadRight('SANTANDER', 15)               + // Código e Nome do Banco(237 - Bradesco)
                FormatDateTime('ddmmyy',Now)               + // Data de geração do arquivo + brancos
                StringOfChar( '0', 16)                     +
                Space(275)+ '000'                          + // Nr. Sequencial de Remessa + brancos
@@ -234,7 +237,7 @@ var
     begin
       if Mensagem.Count = 0 then
       begin
-        Result := padL('', 80, ' '); // 2 registros
+        Result := PadRight('', 80, ' '); // 2 registros
         Exit;
       end;
 
@@ -242,20 +245,20 @@ var
       if Mensagem.Count >= 1 then
       begin
         Result := Result +
-                  Copy(padL(Mensagem[0], 40, ' '), 1, 40);
+                  Copy(PadRight(Mensagem[0], 40, ' '), 1, 40);
       end;
 
       if Mensagem.Count >= 2 then
       begin
         Result := Result +
-                  Copy(padL(Mensagem[1], 40, ' '), 1, 40)
+                  Copy(PadRight(Mensagem[1], 40, ' '), 1, 40)
       end
       else
       begin
         if (Result <> EmptyStr) then
-          Result := Result + padL('', 40, ' ')  // 1 registro
+          Result := Result + PadRight('', 40, ' ')  // 1 registro
         else
-          Result := Result + padL('', 80, ' '); // 2 registros
+          Result := Result + PadRight('', 80, ' '); // 2 registros
         Exit;
       end;
     end;
@@ -268,42 +271,42 @@ var
       if Mensagem.Count <= 2 then
       begin
         // Somente duas linhas, foi montado o MonarInstrucoes1
-        Result := padL('', 200, ' '); // 5 registros
+        Result := PadRight('', 200, ' '); // 5 registros
         Exit;
       end;
 
       Result := '';
       if Mensagem.Count >= 3 then
       begin
-        Result := Copy(padL(Mensagem[2], 40, ' '), 1, 40);
+        Result := Copy(PadRight(Mensagem[2], 40, ' '), 1, 40);
       end;
 
       if Mensagem.Count >= 4 then
       begin
         Result := Result +
-                  Copy(padL(Mensagem[3], 40, ' '), 1, 40)
+                  Copy(PadRight(Mensagem[3], 40, ' '), 1, 40)
       end;
 
       if Mensagem.Count >= 5 then
       begin
         Result := Result +
-                  Copy(padL(Mensagem[4], 40, ' '), 1, 40)
+                  Copy(PadRight(Mensagem[4], 40, ' '), 1, 40)
       end;
 
       if Mensagem.Count >= 6 then
       begin
         Result := Result +
-                  Copy(padL(Mensagem[5], 40, ' '), 1, 40)
+                  Copy(PadRight(Mensagem[5], 40, ' '), 1, 40)
       end;
 
       if Mensagem.Count >= 7 then
       begin
         Result := Result +
-                  Copy(padL(Mensagem[6], 40, ' '), 1, 40)
+                  Copy(PadRight(Mensagem[6], 40, ' '), 1, 40)
       end;
 
       // Acertar a quantidade de caracteres
-      Result := padL(Result, 200);
+      Result := PadRight(Result, 200);
     end;
   end;
 
@@ -329,7 +332,7 @@ begin
 
     iCarteira := StrToIntDef(ACBrTitulo.Carteira, 0 );
 
-    sAgencia := padR(OnlyNumber(ACBrTitulo.ACBrBoleto.Cedente.Agencia) +
+    sAgencia := PadLeft(OnlyNumber(ACBrTitulo.ACBrBoleto.Cedente.Agencia) +
                         ACBrTitulo.ACBrBoleto.Cedente.AgenciaDigito,5,'0');
 
     // Tamanho da conta corrente definida como padrão de 11 digitos, porém no arquivo
@@ -399,11 +402,11 @@ begin
       if DataMoraJuros <> 0 then
         sDataMoraJuros := FormatDateTime('ddmmyyyy', DataMoraJuros)
       else
-        sDataMoraJuros := padR('', 8, '0');
+        sDataMoraJuros := PadLeft('', 8, '0');
     end
     else
     begin
-      sDataMoraJuros := padR('', 8, '0');
+      sDataMoraJuros := PadLeft('', 8, '0');
       STipoJuros := '3'; // Isento
     end;
 
@@ -418,13 +421,13 @@ begin
       else
       begin
         sTipoDesconto := '0'; // ISENTO
-        sDataDesconto := padR('', 8, '0');
+        sDataDesconto := PadLeft('', 8, '0');
       end;
     end
     else
     begin
       sTipoDesconto := '0'; // ISENTO
-      sDataDesconto := padR('', 8, '0');
+      sDataDesconto := PadLeft('', 8, '0');
     end;
 
     {Instruções}
@@ -439,7 +442,7 @@ begin
           raise Exception.Create('Código de protesto informado incorretamente!');
       end;
       // Calcular os dias para protesto
-      sDiasProtesto := padR(IntToStr(Trunc(DataProtesto) - Trunc(Vencimento)), 2, '0');
+      sDiasProtesto := PadLeft(IntToStr(Trunc(DataProtesto) - Trunc(Vencimento)), 2, '0');
     end
     else
     begin
@@ -474,7 +477,7 @@ begin
       aTipoInscricao:= '0';
 
 
-    sEndereco := padL(Sacado.Logradouro + ' ' +
+    sEndereco := PadRight(Sacado.Logradouro + ' ' +
                       Sacado.Numero + ' ' +
                       Sacado.Complemento , 40, ' ');
 
@@ -500,10 +503,10 @@ begin
               sTipoDocto                                       + // 060 - 060 / Tipo de documento
               Space(1)                                         + // 061 - 061 / Reservado (uso Banco)
               Space(1)                                         + // 062 - 062 / Reservado (uso Banco)
-              PadL(Copy(SeuNumero, 1, 15), 15)                 + // 063 - 077 / Nº do documento
+              PadRight(Copy(SeuNumero, 1, 15), 15)                 + // 063 - 077 / Nº do documento
               FormatDateTime('ddmmyyyy',Vencimento)            + // 078 - 085 / Data de vencimento do título
               IntToStrZero(round(ValorDocumento * 100), 15)    + // 086 - 100 / Valor nominal do título
-              PadR('0', 4, '0')                                + // 101 - 104 / Agência encarregada da cobrança
+              PadLeft('0', 4, '0')                                + // 101 - 104 / Agência encarregada da cobrança
               '0'                                              + // 105 - 105 / Dígito da Agência encarregada da cobrança
               Space(1)                                         + // 106 - 106 / Reservado (uso Banco)
               sEspecie                                         + // 107 – 108 / Espécie do título
@@ -517,7 +520,7 @@ begin
               IntToStrZero(round(ValorDesconto * 100), 15)     + // 151 - 165 / Valor ou Percentual do desconto concedido
               IntToStrZero(round(ValorIOF * 100), 15)          + // 166 - 180 / Valor do IOF a ser recolhido
               IntToStrZero(round(ValorAbatimento * 100), 15)   + // 181 - 195 / Valor do abatimento
-              padL(NossoNumero, 25)                            + // 196 - 220 / Identificação do título na empresa
+              PadRight(NossoNumero, 25)                            + // 196 - 220 / Identificação do título na empresa
               Instrucao1                                       + // 221 - 221 / Código para protesto
               sDiasProtesto                                    + // 222 - 223 / Número de dias para protesto
               Instrucao2                                       + // 224 - 224 / Código para Baixa/Devolução
@@ -538,17 +541,17 @@ begin
               Space(1)                                         + // 015 - 015 / Reservado (uso Banco)
               sCodMovimento                                    + // 016 - 017 / Código de movimento remessa
               sTipoInscricao                                   + // 018 - 018 / Tipo de inscrição do sacado
-              PadR(trim(OnlyNumber(Sacado.CNPJCPF)),15,'0')    + // 019 - 033 / Número de inscrição do sacado
-              padL(Trim(Sacado.NomeSacado), 40)                + // 034 - 073 / Nome sacado
+              PadLeft(trim(OnlyNumber(Sacado.CNPJCPF)),15,'0')    + // 019 - 033 / Número de inscrição do sacado
+              PadRight(Trim(Sacado.NomeSacado), 40)                + // 034 - 073 / Nome sacado
               sEndereco                                        + // 074 - 113 / Endereço sacado
-              padL(Trim(Sacado.Bairro), 15)                    + // 114 - 128 / Bairro sacado
-              padR(Copy(OnlyNumber(Sacado.CEP), 1, 5), 5, '0') + // 129 - 133 / Cep sacado
-              padR(Copy(OnlyNumber(Sacado.CEP), 6, 3), 3, '0') + // 134 - 136 / Sufixo do Cep do sacado
-              padL(Trim(Sacado.Cidade), 15)                    + // 137 - 151 / Cidade do sacado
+              PadRight(Trim(Sacado.Bairro), 15)                    + // 114 - 128 / Bairro sacado
+              PadLeft(Copy(OnlyNumber(Sacado.CEP), 1, 5), 5, '0') + // 129 - 133 / Cep sacado
+              PadLeft(Copy(OnlyNumber(Sacado.CEP), 6, 3), 3, '0') + // 134 - 136 / Sufixo do Cep do sacado
+              PadRight(Trim(Sacado.Cidade), 15)                    + // 137 - 151 / Cidade do sacado
               Sacado.UF                                        + // 152 - 153 / Unidade da federação do sacado
               aTipoInscricao                                   + // 154 - 154 / Tipo de inscrição sacador/avalista
-              padR(Sacado.SacadoAvalista.CNPJCPF, 15,'0')       + // 155 - 169 / Nº de inscrição sacador/avalista
-              padL(Sacado.SacadoAvalista.NomeAvalista,40,' ')  + // 170 - 209 / Nome do sacador/avalista
+              PadLeft(Sacado.SacadoAvalista.CNPJCPF, 15,'0')       + // 155 - 169 / Nº de inscrição sacador/avalista
+              PadRight(Sacado.SacadoAvalista.NomeAvalista,40,' ')  + // 170 - 209 / Nome do sacador/avalista
               '000'                                            + // 210 – 212 / Identificador de carne
               '000'                                            + // 213 – 215 / Seqüencial da Parcela ou número inicial da parcela
               '000'                                            + // 216 – 218 / Quantidade total de parcelas
@@ -567,11 +570,11 @@ begin
               Space(1)                                                   + // 015 - 015 / Reservado (uso Banco)
               sCodMovimento                                              + // 016 - 017 / Código de movimento remessa
               '0'                                                        + // 018 - 018 / Código do desconto 2
-              padR('', 8, '0')                                           + // 019 - 026 / Data do desconto 2
+              PadLeft('', 8, '0')                                           + // 019 - 026 / Data do desconto 2
               IntToStrZero(0, 15)                                        + // 027 - 041 / Valor/Percentual a ser concedido
               Space(24)                                                  + // 042 – 065 / Reservado (uso Banco)
               '1'                                                        + // 066 - 066 / Código da multa
-              padR('', 8, '0')                                           + // 067 - 074 / Data da multa
+              PadLeft('', 8, '0')                                           + // 067 - 074 / Data da multa
               IntToStrZero(round(ValorDocumento * PercentualMulta), 15)  + // 075 - 089 / Valor/Percentual a ser aplicado
               Space(10)                                                  + // 090 - 099 / Reservado (uso Banco)
               MontarInstrucoes1                                          + // 100 - 139 / Mensagem 3
@@ -619,7 +622,7 @@ begin
       aCarteira:= 4;
 
    if aCarteira = 5 then
-      aAgencia := padR(OnlyNumber(ACBrTitulo.ACBrBoleto.Cedente.Agencia) +
+      aAgencia := PadLeft(OnlyNumber(ACBrTitulo.ACBrBoleto.Cedente.Agencia) +
                        ACBrTitulo.ACBrBoleto.Cedente.AgenciaDigito,5,'0')
    else
       aAgencia:= '00000';
@@ -684,10 +687,10 @@ begin
       begin
          wLinha:= '1'                                                     +  // ID Registro
                   IfThen(Length(Cedente.CNPJCPF) > 12,'02','01')          +
-                  padR(trim(OnlyNumber(Cedente.CNPJCPF)),14,'0')          +
-                  padL(trim(Cedente.CodigoTransmissao),20,'0')            +
-                  padL( SeuNumero ,25,' ')                                +
-                  padR(RightStr(NossoNumero,7),7,'0') + DigitoNossoNumero +
+                  PadLeft(trim(OnlyNumber(Cedente.CNPJCPF)),14,'0')          +
+                  PadRight(trim(Cedente.CodigoTransmissao),20,'0')            +
+                  PadRight( SeuNumero ,25,' ')                                +
+                  PadLeft(RightStr(NossoNumero,7),7,'0') + DigitoNossoNumero +
                   IfThen(DataAbatimento < EncodeDate(2000,01,01),
                          '000000',
                          FormatDateTime( 'ddmmyy', DataAbatimento))       +
@@ -698,14 +701,14 @@ begin
                          '000000',
                          FormatDateTime( 'ddmmyy', DataMoraJuros))        +
                    IntToStr(aCarteira) + Ocorrencia                       +
-                  padL( NumeroDocumento,10,' ')                           +
+                  PadRight( NumeroDocumento,10,' ')                           +
                   FormatDateTime( 'ddmmyy', Vencimento)                   +
                   IntToStrZero( round( ValorDocumento * 100), 13)         +
                   '033' + aAgencia                                        +
-                  padl(aEspecie,2) + 'N'                                  +
+                  PadRight(aEspecie,2) + 'N'                                  +
                   FormatDateTime( 'ddmmyy', DataDocumento )               +
-                  padL(trim(Instrucao1),2,'0')                            +
-                  padL(trim(Instrucao2),2,'0')                            +
+                  PadRight(trim(Instrucao1),2,'0')                            +
+                  PadRight(trim(Instrucao2),2,'0')                            +
                   IntToStrZero( round(ValorMoraJuros * 100 ), 13)         +
                   IfThen(DataDesconto < EncodeDate(2000,01,01),
                          '000000',
@@ -713,15 +716,15 @@ begin
                   IntToStrZero( round( ValorDesconto * 100), 13)          +
                   IntToStrZero( round( ValorIOF * 100 ), 13)              +
                   IntToStrZero( round( ValorAbatimento * 100 ), 13)       +
-                  TipoSacado + padR(OnlyNumber(Sacado.CNPJCPF),14,'0')    +
-                  padL( Sacado.NomeSacado, 40, ' ')                       +
-                  padL( Sacado.Logradouro + ' '+ Sacado.Numero, 40, ' ')  +
-                  padL( Sacado.Bairro,12,' ')                             +
-                  padL( OnlyNumber(Sacado.CEP) , 8, ' ' )                 +
-                  padL( Sacado.Cidade, 15, ' ') + Sacado.UF               +
+                  TipoSacado + PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')    +
+                  PadRight( Sacado.NomeSacado, 40, ' ')                       +
+                  PadRight( Sacado.Logradouro + ' '+ Sacado.Numero, 40, ' ')  +
+                  PadRight( Sacado.Bairro,12,' ')                             +
+                  PadRight( OnlyNumber(Sacado.CEP) , 8, ' ' )                 +
+                  PadRight( Sacado.Cidade, 15, ' ') + Sacado.UF               +
 				  IfThen(ACBrBoleto.Cedente.TipoInscricao = pJuridica,
                          Space(30),
-                         padL(Sacado.Avalista, 30, ' ' )
+                         PadRight(Sacado.Avalista, 30, ' ' )
                          )+ ' '+ 'I'                                       +
                   Copy(Cedente.Conta,Length(Cedente.Conta),1)             +
                   Cedente.ContaDigito + Space(6)                          +
@@ -734,9 +737,9 @@ begin
          for I := 0 to Mensagem.count-1 do
             wLinha:= wLinha + #13#10                         +
                      '2' + space(16)                             +
-                     padL(Cedente.CodigoTransmissao,20,'0')      +
+                     PadRight(Cedente.CodigoTransmissao,20,'0')      +
                      Space(10) + '01'                            +
-                     padL(Mensagem[I],50)                        +
+                     PadRight(Mensagem[I],50)                        +
                      Space(283) + 'I'                            +
                      Copy(Cedente.Conta,Length(Cedente.Conta),1) +
                      Cedente.ContaDigito                         +
@@ -845,7 +848,7 @@ begin
   rCedente       := Copy(ARetorno[0], 73, 30);
   rAgencia       := Copy(ARetorno[0], 33, 4);
   rAgenciaDigito := Copy(ARetorno[0], 37, 1);
-  rConta         := padR(OnlyNumber(Copy(ARetorno[0], 38, 9)), fpTamanhoConta, '0');
+  rConta         := PadLeft(OnlyNumber(Copy(ARetorno[0], 38, 9)), fpTamanhoConta, '0');
   rContaDigito   := Copy(ARetorno[0], 47, 1);
   rCNPJCPF       := RightStr(OnlyNumber(Copy(ARetorno[0], 18, 15)), 14);
 
@@ -947,7 +950,7 @@ begin
    rCedente := trim(Copy(ARetorno[0],47,30));
    rAgencia := trim(Copy(ARetorno[1],18,4));
    rConta   := trim(Copy(ARetorno[1],22,8))+ Copy(ARetorno[1],384,1);
-   rConta   := padR( OnlyNumber(rConta),fpTamanhoConta,'0');
+   rConta   := PadLeft( OnlyNumber(rConta),fpTamanhoConta,'0');
    rDigitoConta := Copy(ARetorno[1],385,1);
 
    rCNPJCPF := OnlyNumber( Copy(ARetorno[1],04,14) );

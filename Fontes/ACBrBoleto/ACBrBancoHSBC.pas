@@ -38,8 +38,8 @@ unit ACBrBancoHSBC;
 interface
 
 uses
-  Classes, SysUtils,ACBrBoleto,
-  {$IFDEF COMPILER6_UP} dateutils {$ELSE} ACBrD5 {$ENDIF};
+  Classes, SysUtils,
+  ACBrBoleto;
 
 type
 
@@ -70,7 +70,10 @@ type
 
 implementation
 
-uses ACBrUtil, StrUtils;
+uses
+  {$IFDEF COMPILER6_UP} dateutils {$ELSE} ACBrD5 {$ENDIF},
+  StrUtils,
+  ACBrUtil;
 
 { TACBrBancoHSBC }
 
@@ -136,7 +139,7 @@ begin
    Result := '0';
 
    // numero base para o calculo do primeiro e segundo digitos
-   ANumeroDoc := padR(rightStr(AnsiString(ACBrTitulo.NossoNumero),13),13,'0');
+   ANumeroDoc := PadLeft(rightStr(AnsiString(ACBrTitulo.NossoNumero),13),13,'0');
 
    // Calculo do primeiro digito
    ANumeroBase := ANumeroDoc;
@@ -163,7 +166,7 @@ begin
   if (ACBrTitulo.Carteira = 'CSB') or (ACBrTitulo.Carteira = '1') then
    begin
      if Length(ACBrTitulo.NossoNumero) < 6 then
-        wNossoNumero:= padR(trim(ACBrTitulo.ACBrBoleto.Cedente.Convenio),5,'0') +
+        wNossoNumero:= PadLeft(trim(ACBrTitulo.ACBrBoleto.Cedente.Convenio),5,'0') +
                        RightStr(ACBrTitulo.NossoNumero,5)
      else
         wNossoNumero:= RightStr(ACBrTitulo.NossoNumero,10);
@@ -216,9 +219,9 @@ begin
        begin
          Parte2 := CalcularFatorVencimento(Vencimento) +
                    IntToStrZero(Round(ValorDocumento * 100), 10) +
-                   RightStr(padR(ANossoNumero, 13, '0'),11) +       // precisa passar nosso numero + digito
-                   padR(OnlyNumber(ACBrBoleto.Cedente.Agencia), 4, '0') +
-                   padR(IfThen(ACBrBoleto.Cedente.Conta[1] = '0', RightStr(OnlyNumber(ACBrBoleto.Cedente.Conta),6) +
+                   RightStr(PadLeft(ANossoNumero, 13, '0'),11) +       // precisa passar nosso numero + digito
+                   PadLeft(OnlyNumber(ACBrBoleto.Cedente.Agencia), 4, '0') +
+                   PadLeft(IfThen(ACBrBoleto.Cedente.Conta[1] = '0', RightStr(OnlyNumber(ACBrBoleto.Cedente.Conta),6) +
                         OnlyNumber(ACBrBoleto.Cedente.ContaDigito),OnlyNumber(ACBrBoleto.Cedente.Conta)) , 7, '0')+
                    '00'
 
@@ -228,8 +231,8 @@ begin
        begin
          Parte2 := CalcularFatorVencimento(Vencimento) +
                    IntToStrZero(Round(ValorDocumento * 100), 10) +
-                   padR(trim(ACBrBoleto.Cedente.CodigoCedente), 7, '0') +
-                   padR(RightStr(NossoNumero, 13), 13, '0') +
+                   PadLeft(trim(ACBrBoleto.Cedente.CodigoCedente), 7, '0') +
+                   PadLeft(RightStr(NossoNumero, 13), 13, '0') +
                    DataToJuliano(Vencimento);
        end;
 
@@ -252,21 +255,21 @@ begin
                '1'                                             + // ID do Arquivo( 1 - Remessa)
                'REMESSA'                                       + // Literal de Remessa
                '01'                                            + // Código do Tipo de Serviço
-               padL( 'COBRANCA', 15 )                          + // Descrição do tipo de serviço
+               PadRight( 'COBRANCA', 15 )                          + // Descrição do tipo de serviço
                '0'                                             + // Zero
-               padR(OnlyNumber(Agencia), 4, '0')               + // Agencia cedente
+               PadLeft(OnlyNumber(Agencia), 4, '0')               + // Agencia cedente
                '55'                                            + // Sub-Conta
-               padR(OnlyNumber(Conta)+ContaDigito, 11, '0')    + // Conta Corrente //Removi agencia repetido //ALFEU MOTA //
-               padL( '', 2,' ')                                + // Uso do banco
-               padL( Nome, 30,' ')                             + // Nome da Empresa
+               PadLeft(OnlyNumber(Conta)+ContaDigito, 11, '0')    + // Conta Corrente //Removi agencia repetido //ALFEU MOTA //
+               PadRight( '', 2,' ')                                + // Uso do banco
+               PadRight( Nome, 30,' ')                             + // Nome da Empresa
                '399'                                           + // Número do Banco na compensação
-               padL('HSBC', 15)                                + // Nome do Banco por extenso
+               PadRight('HSBC', 15)                                + // Nome do Banco por extenso
                FormatDateTime('ddmmyy',Now)                    + // Data de geração do arquivo
                '01600'                                         + // Densidade de gravação
                'BPI'                                           + // Literal  Densidade
-               padL( '', 2,' ')                                + // Uso do banco
+               PadRight( '', 2,' ')                                + // Uso do banco
                'LANCV08'                                       + // Sigla Layout
-               padL( '', 277,' ')                              + // Uso do Banco
+               PadRight( '', 277,' ')                              + // Uso do Banco
                '000001' ;                                        // Número Seqüencial
       aRemessa.Text:= aRemessa.Text + UpperCase(wLinha);
    end;
@@ -342,13 +345,13 @@ begin
 
          wLinha:= '1'                                                           + // ID Registro
                   '02'                                                          + //Código de Inscrição
-                  padR(OnlyNumber(Cedente.CNPJCPF),14,'0')                      + //Número de inscrição do Cliente (CPF/CNPJ)
+                  PadLeft(OnlyNumber(Cedente.CNPJCPF),14,'0')                      + //Número de inscrição do Cliente (CPF/CNPJ)
                   '0'                                                           + // Zero
-                  padR(OnlyNumber(Cedente.Agencia), 4, '0')                     + // Agencia cedente
+                  PadLeft(OnlyNumber(Cedente.Agencia), 4, '0')                     + // Agencia cedente
                  '55'                                                           + // Sub-Conta
-                  padR(OnlyNumber(Cedente.Conta)+Cedente.ContaDigito, 11, '0')  +
-                  padL('',2,' ')                                                + // uso banco
-                  padL( SeuNumero,25,' ')                                       + // Numero de Controle do Participante
+                  PadLeft(OnlyNumber(Cedente.Conta)+Cedente.ContaDigito, 11, '0')  +
+                  PadRight('',2,' ')                                                + // uso banco
+                  PadRight( SeuNumero,25,' ')                                       + // Numero de Controle do Participante
                   OnlyNumber(MontarCampoNossoNumero(ACBrTitulo))                + // Nosso Numero tam 10 + digito tam 1
                   IfThen(DataDesconto < EncodeDate(2000,01,01),'000000',
                          FormatDateTime( 'ddmmyy', DataDesconto))               + // data limite para desconto (2)
@@ -357,16 +360,16 @@ begin
                          FormatDateTime( 'ddmmyy', DataDesconto))               + // data limite para desconto (3)
                   IntToStrZero( round( ValorDesconto * 100 ), 11)               + // valor desconto (3)
                   '1'                                                           + // 1 - Cobrança Simples
-                  padR(Ocorrencia,2,'0')                                        + // ocorrencia
-                  padL( NumeroDocumento,  10)                                   + // numero da duplicata
+                  PadLeft(Ocorrencia,2,'0')                                        + // ocorrencia
+                  PadRight( NumeroDocumento,  10)                                   + // numero da duplicata
                   FormatDateTime( 'ddmmyy', Vencimento)                         + // vencimento
                   IntToStrZero( Round( ValorDocumento * 100 ), 13)              + // valor do titulo
                   '399'                                                         + // banco cobrador
                   '00000'                                                       + // Agência depositaria
-                  padl(aEspecie,2) + 'N'                                        + //  Especie do documento + Idntificação(valor fixo N)
+                  PadRight(aEspecie,2) + 'N'                                        + //  Especie do documento + Idntificação(valor fixo N)
                   FormatDateTime( 'ddmmyy', DataDocumento )                     + // Data de Emissão
-                  padR(Instrucao1,2,'0')                                        + // instrução 1
-                  padR(Instrucao2,2,'0')                                        + // instrução 2
+                  PadLeft(Instrucao1,2,'0')                                        + // instrução 1
+                  PadLeft(Instrucao2,2,'0')                                        + // instrução 2
                   IntToStrZero( round(ValorMoraJuros * 100 ), 13)               + // Juros de Mora
                   IfThen(DataDesconto < EncodeDate(2000,01,01),'000000',
                          FormatDateTime( 'ddmmyy', DataDesconto))               + // data limite para desconto  //ADICIONEI ZERO ESTAVA E BRANCO ALFEU
@@ -374,17 +377,17 @@ begin
                   IntToStrZero( round( ValorIOF * 100 ), 13)                    + // Valor do  IOF
                   IntToStrZero( round( ValorAbatimento * 100 ), 13)             + // valor do abatimento
                   TipoSacado                                                    + // codigo de inscrição do sacado
-                  padR(OnlyNumber(Sacado.CNPJCPF),14,'0')                       + // numero de inscrição do sacado
-                  padL(Sacado.NomeSacado, 40, ' ')                              + // nome sacado
-                  padL(Sacado.Logradouro + Sacado.Numero +
+                  PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')                       + // numero de inscrição do sacado
+                  PadRight(Sacado.NomeSacado, 40, ' ')                              + // nome sacado
+                  PadRight(Sacado.Logradouro + Sacado.Numero +
                        Sacado.Complemento,38)                                   + // endereço sacado
-                  padL('', 2, ' ')                                              + // Instrução de  não recebimento do bloqueto
-                  padL(Sacado.Bairro, 12, ' ')                                  + // bairro sacado
-                  padr(copy(Sacado.CEP,1,5), 5 , '0' )                          + // cep do sacado
-                  padr(copy(Sacado.CEP,6,3), 3 , '0' )                          + // sufixo  cep do sacado
-                  padL(Sacado.Cidade,15,' ')                                    + // cidade do sacado
-                  padL(Sacado.UF,2,' ')                                         + // uf do sacado
-                  padL(Sacado.Avalista,39,' ')                                  + // nome do sacado
+                  PadRight('', 2, ' ')                                              + // Instrução de  não recebimento do bloqueto
+                  PadRight(Sacado.Bairro, 12, ' ')                                  + // bairro sacado
+                  PadLeft(copy(Sacado.CEP,1,5), 5 , '0' )                          + // cep do sacado
+                  PadLeft(copy(Sacado.CEP,6,3), 3 , '0' )                          + // sufixo  cep do sacado
+                  PadRight(Sacado.Cidade,15,' ')                                    + // cidade do sacado
+                  PadRight(Sacado.UF,2,' ')                                         + // uf do sacado
+                  PadRight(Sacado.Avalista,39,' ')                                  + // nome do sacado
                   TipoBoleto                                                    + // Tipo de Bloqueto
                   IfThen(DataProtesto <> 0 ,
                          IntToStrZero(DaysBetween(DataProtesto,Vencimento),2)

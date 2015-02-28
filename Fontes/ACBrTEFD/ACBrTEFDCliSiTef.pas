@@ -614,7 +614,7 @@ begin
            ParamAdic := ParamAdic + ';' ;
 
         ParamAdic := ParamAdic + '[VersaoAutomacaoCielo='+
-                     PadL( TACBrTEFD(Owner).Identificacao.SoftwareHouse, 8 ) + '10]';
+                     PadRight( TACBrTEFD(Owner).Identificacao.SoftwareHouse, 8 ) + '10]';
      end ;
   end;
 
@@ -770,7 +770,7 @@ var
 
   Function FormataCampo( Campo : AnsiString; Tamanho : Integer ) : AnsiString ;
   begin
-    Result := padR( OnlyNumber( Trim( Campo ) ), Tamanho, '0') ;
+    Result := PadLeft( OnlyNumber( Trim( Campo ) ), Tamanho, '0') ;
   end ;
 
 begin

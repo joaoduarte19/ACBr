@@ -611,7 +611,7 @@ begin
   FLinhaCmd := 'CNPJ: ' + DFeUtil.FormatarCNPJ(FpNFe.Emit.CNPJCPF);
   if Trim(FpNFe.Emit.IE) <> '' then
   begin
-    FLinhaCMd := padL(FLinhaCmd, Trunc(nColunasPapel / 2)) +
+    FLinhaCMd := PadRight(FLinhaCmd, Trunc(nColunasPapel / 2)) +
     'IE: ' + DFeUtil.FormatarIE(FpNFe.Emit.IE, FpNFe.Emit.EnderEmit.UF);
   end;
 
@@ -695,7 +695,7 @@ begin
 
         // acerta tamanho da descrição
         nTamDescricao := nColunasPapel - Length(FLinhaCmd) + 9;
-        sDescricao := padL(Copy(sDescricao, 1, nTamDescricao), nTamDescricao);
+        sDescricao := PadRight(Copy(sDescricao, 1, nTamDescricao), nTamDescricao);
 
         FLinhaCmd := StringReplace(FLinhaCmd, '[DesProd]', sDescricao, [rfReplaceAll]);
         FLinhaCmd := ParseTextESCPOS(FLinhaCmd);
@@ -707,9 +707,9 @@ begin
         FBuffer.Add(cCmdAlinhadoEsquerda + cCmdFontePequena + FLinhaCmd);
 
         FLinhaCmd :=
-          padL(sQuantidade, 15) + ' ' + padL(sUnidade, 6) + ' X ' +
-          padL(sVlrUnitario, 13) + '|' + sVlrProduto;
-        FLinhaCmd := padS(FLinhaCmd, nColunasPapel, '|');
+          PadRight(sQuantidade, 15) + ' ' + PadRight(sUnidade, 6) + ' X ' +
+          PadRight(sVlrUnitario, 13) + '|' + sVlrProduto;
+        FLinhaCmd := PadSpace(FLinhaCmd, nColunasPapel, '|');
         FBuffer.Add(cCmdAlinhadoEsquerda + cCmdFontePequena + FLinhaCmd);
       end;
 
@@ -722,8 +722,8 @@ begin
             (FpNFe.Det.Items[i].Prod.qCom * FpNFe.Det.Items[i].Prod.vUnCom) - FpNFe.Det.Items[i].Prod.vDesc;
 
           FLinhaCmd := cCmdAlinhadoEsquerda + cCmdFontePequena +
-            ParseTextESCPOS(padS(
-              'desconto ' + padR(DFeUtil.FormatFloat(FpNFe.Det.Items[i].Prod.vDesc, '-0.00'), 15, ' ')
+            ParseTextESCPOS(PadSpace(
+              'desconto ' + PadLeft(DFeUtil.FormatFloat(FpNFe.Det.Items[i].Prod.vDesc, '-0.00'), 15, ' ')
               + '|' + DFeUtil.FormatFloat(VlrLiquido, '0.00'), nColunasPapel, '|')
             );
           FBuffer.Add(cCmdAlinhadoEsquerda + cCmdFontePequena + FLinhaCmd);
@@ -736,8 +736,8 @@ begin
             (FpNFe.Det.Items[i].Prod.qCom * FpNFe.Det.Items[i].Prod.vUnCom) + FpNFe.Det.Items[i].Prod.vOutro;
 
           FLinhaCmd := cCmdAlinhadoEsquerda + cCmdFontePequena +
-            ParseTextESCPOS(padS(
-              'acréscimo ' + padR(DFeUtil.FormatFloat(FpNFe.Det.Items[i].Prod.vOutro, '+0.00'), 15, ' ')
+            ParseTextESCPOS(PadSpace(
+              'acréscimo ' + PadLeft(DFeUtil.FormatFloat(FpNFe.Det.Items[i].Prod.vOutro, '+0.00'), 15, ' ')
               + '|' + DFeUtil.FormatFloat(VlrLiquido, '0.00'), nColunasPapel, '|')
             );
           FBuffer.Add(cCmdAlinhadoEsquerda + cCmdFontePequena + FLinhaCmd);
@@ -750,21 +750,21 @@ end;
 procedure TACBrNFeDANFeESCPOS.GerarTotais(Resumido: Boolean);
 begin
   FBuffer.Add(GetLinhaSimples);
-  FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(padS('QTD. TOTAL DE ITENS|' + IntToStrZero(FpNFe.Det.Count, 3), nColunasPapel, '|')));
+  FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(PadSpace('QTD. TOTAL DE ITENS|' + IntToStrZero(FpNFe.Det.Count, 3), nColunasPapel, '|')));
 
   if not Resumido then
   begin
     if (FpNFe.Total.ICMSTot.vDesc > 0) or (FpNFe.Total.ICMSTot.vOutro > 0) then
-      FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(padS('Subtotal|' + FormatFloat('#,###,##0.00', FpNFe.Total.ICMSTot.vProd), nColunasPapel, '|')));
+      FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(PadSpace('Subtotal|' + FormatFloat('#,###,##0.00', FpNFe.Total.ICMSTot.vProd), nColunasPapel, '|')));
 
     if FpNFe.Total.ICMSTot.vDesc > 0 then
-      FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(padS('Descontos|' + FormatFloat('-#,###,##0.00', FpNFe.Total.ICMSTot.vDesc), nColunasPapel, '|')));
+      FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(PadSpace('Descontos|' + FormatFloat('-#,###,##0.00', FpNFe.Total.ICMSTot.vDesc), nColunasPapel, '|')));
 
     if FpNFe.Total.ICMSTot.vOutro > 0 then
-      FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(padS(('Acréscimos|') + FormatFloat('+#,###,##0.00', FpNFe.Total.ICMSTot.vOutro), nColunasPapel, '|')));
+      FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(PadSpace(('Acréscimos|') + FormatFloat('+#,###,##0.00', FpNFe.Total.ICMSTot.vOutro), nColunasPapel, '|')));
   end;
 
-  FLinhaCmd := cCmdAlinhadoEsquerda + cCmdImpExpandido + ParseTextESCPOS(padS('VALOR TOTAL R$|' + FormatFloat('#,###,##0.00', FpNFe.Total.ICMSTot.vNF), nColunasPapel div 2, '|')) + cCmdImpFimExpandido;
+  FLinhaCmd := cCmdAlinhadoEsquerda + cCmdImpExpandido + ParseTextESCPOS(PadSpace('VALOR TOTAL R$|' + FormatFloat('#,###,##0.00', FpNFe.Total.ICMSTot.vNF), nColunasPapel div 2, '|')) + cCmdImpFimExpandido;
 
   FBuffer.Add(FLinhaCmd);
 end;
@@ -775,17 +775,17 @@ var
   {Total,} Troco: Real;
 begin
   //Total := 0;
-  FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(padS('FORMA DE PAGAMENTO ' + '|' + ' Valor Pago', nColunasPapel, '|')));
+  FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(PadSpace('FORMA DE PAGAMENTO ' + '|' + ' Valor Pago', nColunasPapel, '|')));
   for i := 0 to FpNFe.pag.Count - 1 do
   begin
-    FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(padS(FormaPagamentoToDescricao(FpNFe.pag.Items[i].tPag) + '|' + FormatFloat('#,###,##0.00', FpNFe.pag.Items[i].vPag), nColunasPapel, '|')));
+    FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(PadSpace(FormaPagamentoToDescricao(FpNFe.pag.Items[i].tPag) + '|' + FormatFloat('#,###,##0.00', FpNFe.pag.Items[i].vPag), nColunasPapel, '|')));
     //Total := Total + FpNFe.pag.Items[i].vPag;
   end;
 
   //Troco := Total - FpNFe.Total.ICMSTot.vNF;
   Troco := vTroco;
   if Troco > 0 then
-    FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(padS('Troco R$|' + FormatFloat('#,###,##0.00', Troco), nColunasPapel, '|')));
+    FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(PadSpace('Troco R$|' + FormatFloat('#,###,##0.00', Troco), nColunasPapel, '|')));
 
   FBuffer.Add(GetLinhaSimples);
 end;
@@ -794,7 +794,7 @@ procedure TACBrNFeDANFeESCPOS.GerarTotTrib;
 begin
   if FpNFe.Total.ICMSTot.vTotTrib > 0 then
   begin
-    FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(padS('Informação dos Tributos Totais Incidentes|' +
+    FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(PadSpace('Informação dos Tributos Totais Incidentes|' +
       FormatFloat('#,###,##0.00', FpNFe.Total.ICMSTot.vTotTrib), nColunasPapel, '|'))
     );
     FBuffer.Add(cCmdFontePequena + ParseTextESCPOS('(Lei Federal 12.741/2012)'));
@@ -1049,34 +1049,34 @@ begin
     ParseTextESCPOS('EVENTO') + cCmdImpFimNegrito
   );
   FBuffer.Add(cCmdFonteNormal + cCmdAlinhadoEsquerda + ParseTextESCPOS(
-    padL('Evento:', TAMCOLDESCR) + FpEvento.Evento[0].InfEvento.TipoEvento
+    PadRight('Evento:', TAMCOLDESCR) + FpEvento.Evento[0].InfEvento.TipoEvento
   ));
   FBuffer.Add(cCmdFonteNormal + cCmdAlinhadoEsquerda + ParseTextESCPOS(
-    padL('Descrição:', TAMCOLDESCR) + FpEvento.Evento[0].InfEvento.DescEvento
+    PadRight('Descrição:', TAMCOLDESCR) + FpEvento.Evento[0].InfEvento.DescEvento
   ));
   FBuffer.Add(cCmdFonteNormal + cCmdAlinhadoEsquerda + ParseTextESCPOS(
-    padL('Orgão:', TAMCOLDESCR) + IntToStr(FpEvento.Evento[0].InfEvento.cOrgao)
+    PadRight('Orgão:', TAMCOLDESCR) + IntToStr(FpEvento.Evento[0].InfEvento.cOrgao)
   ));
   FBuffer.Add(cCmdFonteNormal + cCmdAlinhadoEsquerda + ParseTextESCPOS(
-    padL('Ambiente:', TAMCOLDESCR) + IfThen(FpEvento.Evento[0].InfEvento.tpAmb = taProducao, 'PRODUCAO', 'HOMOLOGAÇÃO - SEM VALOR FISCAL')
+    PadRight('Ambiente:', TAMCOLDESCR) + IfThen(FpEvento.Evento[0].InfEvento.tpAmb = taProducao, 'PRODUCAO', 'HOMOLOGAÇÃO - SEM VALOR FISCAL')
   ));
   FBuffer.Add(cCmdFonteNormal + cCmdAlinhadoEsquerda + ParseTextESCPOS(
-    padL('Emissão:', TAMCOLDESCR) + DateTimeToStr(FpEvento.Evento[0].InfEvento.dhEvento)
+    PadRight('Emissão:', TAMCOLDESCR) + DateTimeToStr(FpEvento.Evento[0].InfEvento.dhEvento)
   ));
   FBuffer.Add(cCmdFonteNormal + cCmdAlinhadoEsquerda + ParseTextESCPOS(
-    padL('Sequencia:', TAMCOLDESCR) + IntToStr(FpEvento.Evento[0].InfEvento.nSeqEvento)
+    PadRight('Sequencia:', TAMCOLDESCR) + IntToStr(FpEvento.Evento[0].InfEvento.nSeqEvento)
   ));
   FBuffer.Add(cCmdFonteNormal + cCmdAlinhadoEsquerda + ParseTextESCPOS(
-    padL('Versão:', TAMCOLDESCR) + FpEvento.Evento[0].InfEvento.versaoEvento
+    PadRight('Versão:', TAMCOLDESCR) + FpEvento.Evento[0].InfEvento.versaoEvento
   ));
   FBuffer.Add(cCmdFonteNormal + cCmdAlinhadoEsquerda + ParseTextESCPOS(
-    padL('Status:', TAMCOLDESCR) + FpEvento.Evento[0].RetInfEvento.xMotivo
+    PadRight('Status:', TAMCOLDESCR) + FpEvento.Evento[0].RetInfEvento.xMotivo
   ));
   FBuffer.Add(cCmdFonteNormal + cCmdAlinhadoEsquerda + ParseTextESCPOS(
-    padL('Protocolo:', TAMCOLDESCR) + FpEvento.Evento[0].RetInfEvento.nProt
+    PadRight('Protocolo:', TAMCOLDESCR) + FpEvento.Evento[0].RetInfEvento.nProt
   ));
   FBuffer.Add(cCmdFonteNormal + cCmdAlinhadoEsquerda + ParseTextESCPOS(
-    padL('Registro:', TAMCOLDESCR) + DateTimeToStr(FpEvento.Evento[0].RetInfEvento.dhRegEvento)
+    PadRight('Registro:', TAMCOLDESCR) + DateTimeToStr(FpEvento.Evento[0].RetInfEvento.dhRegEvento)
   ));
 
   FBuffer.Add(GetLinhaSimples);

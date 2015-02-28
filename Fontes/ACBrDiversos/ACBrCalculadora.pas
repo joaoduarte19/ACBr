@@ -31,23 +31,6 @@
 {                                                                              }
 {******************************************************************************}
 
-{******************************************************************************
-|* Historico
-|*
-|* 19/05/2004: Primeira Versao
-|*    Daniel Simoes de Almeida
-|*    Criaçao e Distribuiçao da Primeira Versao
-|* 20/05/2004: Primeira Versao Multi-plataforma
-|*    Alexandre Rocha Lima e Marcondes
-|*    Compatibilidade entre VCL e VisualCLX
-|* 27/05/2004: Revisao e novas Propriedades
-|*    Daniel Simoes de Almeida
-|*    Adcionada herança a TACBrComponente , adcionada prop. CorDisplay,
-|*    Adtionado Editor de Componente que exibe a calculdora
-|* 03/01/2007:  Nei José Van Lare Junior
-|*   - Adicionada a propriedade CorForm : TColor
-******************************************************************************}
-
 {$I ACBr.inc}
 
 unit ACBrCalculadora;

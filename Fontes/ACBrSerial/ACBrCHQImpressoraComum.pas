@@ -184,8 +184,8 @@ begin
      while (Pos + Length(Tracos)) < nCharExt1 do
         Tracos  := Tracos + '-' ;
 
-  Ext1  := padL(Tracos + copy(Texto,1,Pos), nCharExt1,'*') ;
-  Ext2  := padL(copy(Texto,Pos+2, Length(Texto) ), nCharExt2,'*') ; ;
+  Ext1  := PadRight(Tracos + copy(Texto,1,Pos), nCharExt1,'*') ;
+  Ext2  := PadRight(copy(Texto,Pos+2, Length(Texto) ), nCharExt2,'*') ; ;
 
   { Ordenando as Linhas de acordo com Linha/Coluna }
   Linhas  := TStringList.Create ;
@@ -196,7 +196,7 @@ begin
         nCharValor := fsColCheque - Round( ColunaValor / cAF ) - 1   ;
 
         Linhas.Add(IntToStrZero(LinhaValor,3)+'|'+
-             IntToStrZero(Round(ColunaValor/cAF),3)+'|'+PadR('('+
+             IntToStrZero(Round(ColunaValor/cAF),3)+'|'+PadLeft('('+
              Trim(FormatFloat('###,###,##0.00',fpValor))+')',nCharValor) ) ;
         Linhas.Add(IntToStrZero(LinhaExtenso1,3)+'|'+
                    IntToStrZero(Round(ColunaExtenso1/cAF),3)+'|'+ Ext1 ) ;
@@ -207,7 +207,7 @@ begin
                    Trim(fpFavorecido)+' )' ) ;
         Linhas.Add(IntToStrZero(LinhaLocal,3)+'|'+
                    IntToStrZero(Round(ColunaLocal/cAF),3)+
-                   '|'+padR(Trim(fpCidade),nCharLocal) ) ;
+                   '|'+PadLeft(Trim(fpCidade),nCharLocal) ) ;
         Linhas.Add(IntToStrZero(LinhaLocal,3)+'|'+
                    IntToStrZero(Round(ColunaDia/cAF),3)+'|'+
                    IntToStr( DayOf(fpData) ) ) ;

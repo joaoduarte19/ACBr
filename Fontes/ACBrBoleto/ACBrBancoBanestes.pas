@@ -38,8 +38,8 @@ unit ACBrBancoBanestes;
 interface
 
 uses
-  Classes, SysUtils,ACBrBoleto,
-  {$IFDEF COMPILER6_UP} dateutils {$ELSE} ACBrD5 {$ENDIF};
+  Classes, SysUtils,
+  ACBrBoleto;
 
 type
 
@@ -73,7 +73,9 @@ type
 
 implementation
 
-uses ACBrUtil, StrUtils;
+uses {$IFDEF COMPILER6_UP} dateutils {$ELSE} ACBrD5 {$ENDIF},
+  StrUtils,
+  ACBrUtil;
 
 { TACBrBancoBanestes }
 
@@ -100,7 +102,7 @@ begin
   cLivreAsbace := copy(ACBrTitulo.NossoNumero,2,8)+
                   copy(trim(ACBrTitulo.ACBrBoleto.Cedente.Conta), 2, 10)+
                             ACBrtitulo.ACBrBoleto.Cedente.ContaDigito+
-//                  padR(trim(ACBrTitulo.ACBrBoleto.Cedente.Conta)+
+//                  PadLeft(trim(ACBrTitulo.ACBrBoleto.Cedente.Conta)+
 //                       trim(ACBrTitulo.ACBrBoleto.Cedente.ContaDigito),11,'0')+
                   '4'+
                   IntToStrZero(fpNumero,3);
@@ -220,12 +222,12 @@ begin
                '1'                             + // ID do Arquivo( 1 - Remessa)
                'REMESSA'                       + // Literal de Remessa
                '01'                            + // Código do Tipo de Serviço
-               padL('COBRANCA', 15 )           +
-               padR(OnlyNumber(Copy(Trim(Conta),2,10)+trim(ContaDigito)), 11, '0')+ // Codigo da Empresa no Banco
+               PadRight('COBRANCA', 15 )           +
+               PadLeft(OnlyNumber(Copy(Trim(Conta),2,10)+trim(ContaDigito)), 11, '0')+ // Codigo da Empresa no Banco
                space(9)                        + // COMPLEMENTO DO REGISTRO
-               padL(Nome, 30)                  + // Nome da Empresa
+               PadRight(Nome, 30)                  + // Nome da Empresa
                IntToStrzero(Numero,3)          +
-               padL('BANESTES', 8)             + // Código e Nome do Banco(237 - Bradesco)
+               PadRight('BANESTES', 8)             + // Código e Nome do Banco(237 - Bradesco)
                space(7)                        + // COMPLEMENTO DO REGISTRO
                FormatDateTime('ddmmyy',Now)    +
                Space(294)                      + // Data de geração do arquivo + brancos
@@ -302,7 +304,7 @@ begin
       else if Ocorrencia = '31' then
          Protesto := '9999'
       else
-         Protesto := padR(Trim(Instrucao1), 2, '0') + padR(Trim(Instrucao2), 2, '0');
+         Protesto := PadLeft(Trim(Instrucao1), 2, '0') + PadLeft(Trim(Instrucao2), 2, '0');
 
       {Pegando Tipo de Sacado}
       case Sacado.Pessoa of
@@ -336,21 +338,21 @@ begin
 
         wLinha := '1'                                                     +  // ID Registro
                   ATipoInscricao                                          +  // TIPO INSCRICAO EMPRESA(CNPJ, CPF);
-                  padL(OnlyNumber(Cedente.CNPJCPF), 14, '0')              +
-                  padR(OnlyNumber(Copy(Trim(Cedente.Conta),2,10)+trim(cedente.ContaDigito)), 11, '0')+ // Codigo da Empresa no Banco
+                  PadRight(OnlyNumber(Cedente.CNPJCPF), 14, '0')              +
+                  PadLeft(OnlyNumber(Copy(Trim(Cedente.Conta),2,10)+trim(cedente.ContaDigito)), 11, '0')+ // Codigo da Empresa no Banco
                   Space(9)                                                +
-                  padR(SeuNumero, 10, '0') + Space(15)                    +  // identificacao da operacao na empresa
-                  padl(Copy(NossoNumero, 2, 8) + DigitoNossoNumero, 10, '0')          +
+                  PadLeft(SeuNumero, 10, '0') + Space(15)                    +  // identificacao da operacao na empresa
+                  PadRight(Copy(NossoNumero, 2, 8) + DigitoNossoNumero, 10, '0')          +
                   IfThen(PercentualMulta > 0, '1', '0')                   +  // Indica se exite Multa ou não
                   IntToStrZero( round( PercentualMulta * 100 ), 9)        +  // Percentual de Multa formatado com 2 casas decimais
                   Space(06)                                               +  // identificação do carnê
                   '00'                                                    +  // número da parcela do carnê
                   '00'                                                    +  // quantidade de parcelas no carnê
                   TipoAvalista                                            +  // tipo do sacador avalista
-                  padR(OnlyNumber(Sacado.SacadoAvalista.CNPJCPF),14,'0')  +  // sacador avalista. não pode ser o proprio sacado
+                  PadLeft(OnlyNumber(Sacado.SacadoAvalista.CNPJCPF),14,'0')  +  // sacador avalista. não pode ser o proprio sacado
                   aCarteira                                               +
                   Ocorrencia                                              +
-                  padR(SeuNumero, 10, '0')                                +
+                  PadLeft(SeuNumero, 10, '0')                                +
                   FormatDateTime('ddmmyy', Vencimento)                    +
                   '000'                                                   +
                   IntToStrZero(Round(ValorDocumento * 100 ), 10)          +
@@ -367,14 +369,14 @@ begin
                   IntToStrZero(Round( ValorIOF * 100 ), 13)               +
                   IntToStrZero(Round( ValorAbatimento * 100 ), 13)        +
                   TipoSacado                                              +
-                  padR(OnlyNumber(Sacado.CNPJCPF),14,'0')                 +
-                  padL(Sacado.NomeSacado, 40, ' ')                        +
-                  padL(Sacado.Logradouro + Sacado.Numero, 40)             +
-                  padL(Sacado.Bairro, 12)                                 +
-                  padL(Sacado.CEP, 8)                                     +
-                  padl(Sacado.Cidade,15)                                  +
-                  padl(Sacado.UF, 2)                                      +
-                  padl(MensagemCedente, 40)                               +
+                  PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')                 +
+                  PadRight(Sacado.NomeSacado, 40, ' ')                        +
+                  PadRight(Sacado.Logradouro + Sacado.Numero, 40)             +
+                  PadRight(Sacado.Bairro, 12)                                 +
+                  PadRight(Sacado.CEP, 8)                                     +
+                  PadRight(Sacado.Cidade,15)                                  +
+                  PadRight(Sacado.UF, 2)                                      +
+                  PadRight(MensagemCedente, 40)                               +
                   '00'                                                    +
                   '0';
 

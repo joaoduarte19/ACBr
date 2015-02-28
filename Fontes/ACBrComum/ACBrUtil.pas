@@ -105,14 +105,15 @@ Function AsciiToHex(const ABinaryString: AnsiString): String;
 function BinaryStringToString(const AString: AnsiString): AnsiString;
 function StringToBinaryString(const AString: AnsiString): AnsiString;
 
-function padL(const AString : AnsiString; const nLen : Integer;
+function PadRight(const AString : AnsiString; const nLen : Integer;
    const Caracter : AnsiChar = ' ') : AnsiString;
-function padR(const AString : AnsiString; const nLen : Integer;
+function PadLeft(const AString : AnsiString; const nLen : Integer;
    const Caracter : AnsiChar = ' ') : AnsiString;
-function padC(const AString : AnsiString; const nLen : Integer;
+function PadCenter(const AString : AnsiString; const nLen : Integer;
    const Caracter : AnsiChar = ' ') : AnsiString;
-function padS(const AString : AnsiString; const nLen : Integer; Separador : String;
+function PadSpace(const AString : AnsiString; const nLen : Integer; Separador : String;
    const Caracter : AnsiChar = ' ') : AnsiString ;
+
 function RemoveString(const sSubStr, sString: AnsiString): AnsiString;
 function RemoveStrings(const AText: AnsiString; StringsToRemove: array of AnsiString): AnsiString;
 function RemoverEspacosDuplos(const AString: AnsiString): AnsiString;
@@ -147,41 +148,60 @@ function IfEmptyThen( const AValue, DefaultValue: String; DoTrim: Boolean = True
 function PosAt(const SubStr, S: AnsiString; Ocorrencia : Cardinal = 1): Integer;
 function PosLast(const SubStr, S: AnsiString): Integer;
 function CountStr(const AString, SubStr : AnsiString ) : Integer ;
-Function Poem_Zeros(const Texto : AnsiString; const Tamanho : Integer) : AnsiString;
-Function IntToStrZero(const NumInteiro : Int64; Tamanho : Integer) : AnsiString;
+Function Poem_Zeros(const Texto : String; const Tamanho : Integer) : String; overload;
+function Poem_Zeros(const NumInteiro : Int64 ; Tamanho : Integer) : String ; overload;
 
+Function IntToStrZero(const NumInteiro : Int64; Tamanho : Integer) : String;
 function FloatToIntStr(const AValue: Double; const DecimalDigits: SmallInt = 2): String;
-function FloatToString(const AValue: Double): String;
+function FormatFloatBr(const AValue: Extended; AFormat: String = ''): String;
 Function StringToFloat( NumString : String ) : Double ;
 Function StringToFloatDef( const NumString : String ;
    const DefaultValue : Double ) : Double ;
+
+function FormatDateBr(const ADateTime: TDateTime; AFormat: String = ''): String;
+function FormatDateTimeBr(const ADate: TDateTime; AFormat: String = ''): String;
 Function StringToDateTime( const DateTimeString : String;
    const Format : String = '') : TDateTime ;
 Function StringToDateTimeDef( const DateTimeString : String ;
    const DefaultValue : TDateTime; const Format : String = '') : TDateTime ;
-
 function StoD( YYYYMMDDhhnnss: String) : TDateTime;
 function DtoS( ADate : TDateTime) : String;
 function DTtoS( ADateTime : TDateTime) : String;
 
-function StrIsAlpha(const S: AnsiString): Boolean;
-function StrIsAlphaNum(const S: AnsiString): Boolean;
-function StrIsNumber(const S: AnsiString): Boolean;
-function IsNumber(const Value: Variant): Boolean;
+function StrIsAlpha(const S: String): Boolean;
+function StrIsAlphaNum(const S: String): Boolean;
+function StrIsNumber(const S: String): Boolean;
+function VarIsNumber(const Value: Variant): Boolean;
 function CharIsAlpha(const C: AnsiChar): Boolean;
 function CharIsAlphaNum(const C: AnsiChar): Boolean;
 function CharIsNum(const C: AnsiChar): Boolean;
-function OnlyNumber(const AValue: AnsiString): String;
-function OnlyAlpha(const AValue: AnsiString): String;
-function OnlyAlphaNum(const AValue: AnsiString): String;
-function StrIsIP(const AValue: string): Boolean;
+function OnlyNumber(const AValue: String): String;
+function OnlyAlpha(const AValue: String): String;
+function OnlyAlphaNum(const AValue: String): String;
+function StrIsIP(const AValue: String): Boolean;
+
+function EstaVazio(const AValue: String): Boolean;overload;
+procedure EstaVazio(const AValue, AMensagem: String);overload;
+function NaoEstaVazio(AValue: String): Boolean;
+function EstaZerado(AValue: Double): Boolean;overload;
+function EstaZerado(AValue: Integer): Boolean;overload;
+procedure EstaZerado(AValue: Integer; AMensagem: String);overload;
+function NaoEstaZerado(AValue: Double): Boolean;overload;
+function NaoEstaZerado(AValue: Integer): Boolean;overload;
+function TamanhoIgual(const AValue: String; const ATamanho: Integer): Boolean;overload;
+procedure TamanhoIgual(const AValue: String; const ATamanho: Integer; AMensagem: String);overload;
+function TamanhoIgual(const AValue: Integer; const ATamanho: Integer): Boolean;overload;
+procedure TamanhoIgual(const AValue: Integer; const ATamanho: Integer; AMensagem: String);overload;
+function TamanhoMenor(const AValue: String; const ATamanho: Integer): Boolean;
 
 function TiraAcentos( const AString : String ) : String ;
 function TiraAcento( const AChar : AnsiChar ) : AnsiChar ;
+
 function AjustaLinhas(Texto: AnsiString; Colunas: Integer ;
    NumMaxLinhas: Integer = 0; PadLinhas: Boolean = False): AnsiString;
 function QuebraLinhas(const Texto: String; const Colunas: Integer;
    const CaracterQuebrar : Char = ' '): String;
+
 function TraduzComando( AString : AnsiString ) : AnsiString ;
 Function StringToAsc( AString : AnsiString ) : AnsiString ;
 Function AscToString( AString : AnsiString ) : AnsiString ;
@@ -193,6 +213,7 @@ function StrCrypt(const AString, StrChave: AnsiString): AnsiString;
 function SomaAscII(const AString : AnsiString): Integer;
 function StringCrc16(AString : AnsiString ) : word;
 
+function AplicationPath: String;
 Procedure FindFiles( const FileMask : String; AStringList : TStrings;
   IncludePath : Boolean = True ) ;
 Function FilesExists(const FileMask: String) : Boolean ;
@@ -367,7 +388,7 @@ var
      if ASubVer = '' then
        Result := StringOfChar('0',cDIGITOS_COMPARAR)
      else if StrIsNumber(Result) then  // Se for numerico, remove zeros a esquerda
-       Result := padR(Result,cDIGITOS_COMPARAR,'0') ;
+       Result := PadLeft(Result,cDIGITOS_COMPARAR,'0') ;
   end;
 begin
   Result := 0;
@@ -499,7 +520,7 @@ begin
   if not StrIsNumber( ANumStr ) then
      raise Exception.Create('Parâmetro "ANumStr" deve conter apenas números') ;
 
-  StrBCD := PadR( ANumStr, TamanhoBCD*2, '0' );
+  StrBCD := PadLeft( ANumStr, TamanhoBCD*2, '0' );
   For I := 1 to TamanhoBCD do
      Result := Result + AnsiChar( chr( StrToInt( copy(String(StrBCD), (I*2)-1, 2) ) ) ) ;
 end ;
@@ -598,7 +619,7 @@ end;
   Completa <AString> com <Caracter> a direita, até o tamanho <nLen>, Alinhando
   a <AString> a Esquerda. Se <AString> for maior que <nLen>, ela será truncada
  ---------------------------------------------------------------------------- }
-function padL(const AString : AnsiString; const nLen : Integer;
+function PadRight(const AString : AnsiString; const nLen : Integer;
    const Caracter : AnsiChar) : AnsiString ;
 var
   Tam: Integer;
@@ -614,7 +635,7 @@ end ;
   Completa <AString> com <Caracter> a esquerda, até o tamanho <nLen>, Alinhando
   a <AString> a Direita. Se <AString> for maior que <nLen>, ela será truncada
  ---------------------------------------------------------------------------- }
-function padR(const AString : AnsiString; const nLen : Integer;
+function PadLeft(const AString : AnsiString; const nLen : Integer;
    const Caracter : AnsiChar) : AnsiString ;
 var
   Tam: Integer;
@@ -629,7 +650,7 @@ end ;
 {-----------------------------------------------------------------------------
  Completa <AString> Centralizando, preenchendo com <Caracter> a esquerda e direita
  ---------------------------------------------------------------------------- }
-function padC(const AString : AnsiString; const nLen : Integer;
+function PadCenter(const AString : AnsiString; const nLen : Integer;
    const Caracter : AnsiChar) : AnsiString ;
 var
   nCharLeft: Integer;
@@ -639,7 +660,7 @@ begin
   if Tam < nLen then
   begin
     nCharLeft := Trunc( (nLen - Tam) / 2 ) ;
-    Result    := padL( StringOfChar(Caracter, nCharLeft) + AString, nLen, Caracter) ;
+    Result    := PadRight( StringOfChar(Caracter, nCharLeft) + AString, nLen, Caracter) ;
   end
   else
     Result := copy(AString, 1, nLen) ;
@@ -649,7 +670,7 @@ end ;
   Ajusta a <AString> com o tamanho de <nLen> inserindo espaços no meio,
   substituindo <Separador> por n X <Caracter>  (Justificado)
  ---------------------------------------------------------------------------- }
-function padS(const AString : AnsiString; const nLen : Integer;
+function PadSpace(const AString : AnsiString; const nLen : Integer;
    Separador : String; const Caracter : AnsiChar = ' ') : AnsiString ;
 var StuffStr : AnsiString ;
     nSep, nCharSep, nResto, nFeito, Ini : Integer ;
@@ -666,7 +687,7 @@ begin
 
   if nSep < 1 then
   begin
-     Result := PadL(Result, nLen, Caracter ) ;
+     Result := PadRight(Result, nLen, Caracter ) ;
      exit ;
   end ;
 
@@ -975,25 +996,23 @@ end ;
 {-----------------------------------------------------------------------------
   Insere ZEROS (0) a esquerda de <Texto> até completar <Tamanho> 
  ---------------------------------------------------------------------------- }
-function Poem_Zeros(const Texto : AnsiString ; const Tamanho : Integer
-   ) : AnsiString ;
+function Poem_Zeros(const Texto : String ; const Tamanho : Integer) : String ;
 begin
-  Result := PadR(Trim(Texto),Tamanho,'0') ;
+  Result := PadLeft(Trim(Texto),Tamanho,'0') ;
+end ;
+
+function Poem_Zeros(const NumInteiro : Int64 ; Tamanho : Integer) : String ;
+begin
+  Result := IntToStrZero( NumInteiro, Tamanho) ;
 end ;
 
 {-----------------------------------------------------------------------------
   Transforma <NumInteiro> em String, preenchendo com Zeros a Esquerda até
   atingiros digitos de <Tamnho>
  ---------------------------------------------------------------------------- }
-function IntToStrZero(const NumInteiro : Int64 ; Tamanho : Integer
-   ) : AnsiString ;
+function IntToStrZero(const NumInteiro : Int64 ; Tamanho : Integer) : String ;
 begin
-  Result := '' ;
-  try
-     Result := AnsiString(IntToStr( NumInteiro )) ;
-     Result := Poem_Zeros( Result, Tamanho) ;
-  except
-  end ;
+  Result := Poem_Zeros( IntToStr( NumInteiro ), Tamanho) ;
 end ;
 
 {-----------------------------------------------------------------------------
@@ -1012,19 +1031,56 @@ begin
 end ;
 
 {-----------------------------------------------------------------------------
+  Faz o mesmo que FormatFloat, porém garante que o resultado final terá
+  o separador de decimal = ',' e o separador de milhar como Ponto
+ ---------------------------------------------------------------------------- }
+function FormatFloatBr(const AValue: Extended; AFormat: String): String;
+Var
+  {$IFDEF DELPHI7_UP}
+  FS: TFormatSettings;
+  {$ELSE}
+  OldDecimalSeparator, OldThousandSeparator : Char ;
+  {$ENDIF}
+begin
+  if AFormat = '' then
+     AFormat := '0.00';
+
+  {$IFDEF DELPHI7_UP}
+  FS.DecimalSeparator := ',';
+  FS.ThousandSeparator := '.';
+  Result := FormatFloat(AFormat, AValue, FS);
+  {$ELSE}
+  OldDecimalSeparator := DecimalSeparator;
+  OldThousandSeparator := ThousandSeparator;
+  try
+    DecimalSeparator := ',';
+    ThousandSeparator := '.';
+    Result := FormatFloat(AFormat, AValue);
+  finally
+    DecimalSeparator := OldDecimalSeparator;
+    ThousandSeparator := OldThousandSeparator;
+  end;
+  {$ENDIF}
+end;
+
+{-----------------------------------------------------------------------------
   Converte uma <NumString> para Double, semelhante ao StrToFloat, mas
   verifica se a virgula é '.' ou ',' efetuando a conversão se necessário
-  Se não for possivel converter, retorna <DefaultValue>
+  Se não for possivel converter, dispara Exception
  ---------------------------------------------------------------------------- }
 function StringToFloat(NumString : String) : Double ;
+var
+  DS: Char;
 begin
   NumString := Trim( NumString ) ;
 
-  if DecimalSeparator <> '.' then
-     NumString := StringReplace(NumString,'.',DecimalSeparator,[rfReplaceAll]) ;
+  DS := {$IFDEF DELPHI7_UP}FormatSettings.{$ENDIF}DecimalSeparator;
 
-  if DecimalSeparator <> ',' then
-     NumString := StringReplace(NumString,',',DecimalSeparator,[rfReplaceAll]) ;
+  if DS <> '.' then
+     NumString := StringReplace(NumString,'.',DS,[rfReplaceAll]) ;
+
+  if DS <> ',' then
+     NumString := StringReplace(NumString,',',DS,[rfReplaceAll]) ;
 
   Result := StrToFloat(NumString)
 end ;
@@ -1043,19 +1099,6 @@ begin
 end;
 
 {-----------------------------------------------------------------------------
-  Converte um Double para string com o decimal separator sendo o .(ponto)
- ---------------------------------------------------------------------------- }
-function FloatToString(const AValue: Double): String;
-begin
-  Result :=
-    StringReplace(
-      StringReplace(FloatToStr(AValue),
-        '.', '', [rfReplaceAll]),
-      ',', '.', [rfReplaceAll]
-    );
-end;
-
-{-----------------------------------------------------------------------------
   Converte uma <DateTimeString> para TDateTime, semelhante ao StrToDateTimeDef,
   mas verifica se o seprador da Data é compativo com o S.O., efetuando a
   conversão se necessário. Se não for possivel converter, retorna <DefaultValue>
@@ -1070,6 +1113,44 @@ begin
   end ;
 end ;
 
+function FormatDateBr(const ADateTime: TDateTime; AFormat: String): String;
+begin
+  if AFormat = '' then
+     AFormat := 'DD/MM/YYYY';
+
+  Result := FormatDateTimeBr( DateOf(ADateTime), AFormat);
+end;
+
+function FormatDateTimeBr(const ADate: TDateTime; AFormat: String): String;
+Var
+  {$IFDEF DELPHI7_UP}
+  FS: TFormatSettings;
+  {$ELSE}
+  OldDateSeparator: Char ;
+  OldTimeSeparator: Char ;
+  {$ENDIF}
+begin
+  if AFormat = '' then
+     AFormat := 'DD/MM/YYYY hh:nn:ss';
+
+  {$IFDEF DELPHI7_UP}
+  FS.DateSeparator := '/';
+  FS.TimeSeparator := ':';
+  Result := FormatDateTime(AFormat, ADate, FS);
+  {$ELSE}
+  OldDateSeparator := DateSeparator;
+  OldTimeSeparator := TimeSeparator;
+  try
+    DateSeparator := '/';
+    TimeSeparator := ':';
+    Result := FormatDateTime(AFormat, AValue);
+  finally
+    DateSeparator := OldDateSeparator;
+    TimeSeparator := OldTimeSeparator;
+  end;
+  {$ENDIF}
+end;
+
 {-----------------------------------------------------------------------------
   Converte uma <DateTimeString> para TDateTime, semelhante ao StrToDateTimeDef,
   mas verifica se o seprador da Data é compativo com o S.O., efetuando a
@@ -1077,9 +1158,25 @@ end ;
  ---------------------------------------------------------------------------- }
 function StringToDateTime(const DateTimeString : String ; const Format : String
    ) : TDateTime ;
- Var
-    OldShortDateFormat, AStr : String ;
+Var
+  AStr : String;
+  {$IFDEF DELPHI7_UP}
+  FS: TFormatSettings;
+  {$ELSE}
+  OldShortDateFormat: String ;
+  {$ENDIF}
 begin
+  {$IFDEF DELPHI7_UP}
+  if Format <> '' then
+     FS.ShortDateFormat := Format
+  else
+     FS.ShortDateFormat := FormatSettings.ShortDateFormat;
+
+  AStr := Trim( StringReplace(DateTimeString,'/',FormatSettings.DateSeparator, [rfReplaceAll])) ;
+  AStr := StringReplace(AStr,':',FormatSettings.TimeSeparator, [rfReplaceAll]) ;
+
+  Result := StrToDateTime(AStr, FS);
+  {$ELSE}
   OldShortDateFormat := ShortDateFormat ;
   try
      if Format <> '' then
@@ -1092,31 +1189,23 @@ begin
   finally
      ShortDateFormat := OldShortDateFormat ;
   end ;
+  {$ENDIF}
 end ;
 
 {-----------------------------------------------------------------------------
   Converte uma String no formato YYYYMMDDhhnnss  para TDateTime
  ---------------------------------------------------------------------------- }
 function StoD( YYYYMMDDhhnnss: String) : TDateTime;
-  Var OldShortDateFormat : String ;
 begin
   YYYYMMDDhhnnss := trim( YYYYMMDDhhnnss ) ;
-  OldShortDateFormat := ShortDateFormat ;
-  try
-     ShortDateFormat := 'yyyy/mm/dd' ;
-     Result := StrToDateDef( copy(YYYYMMDDhhnnss, 1,4) + DateSeparator +
-                             copy(YYYYMMDDhhnnss, 5,2) + DateSeparator +
-                             copy(YYYYMMDDhhnnss, 7,2), 0 ) ;
-  finally
-     ShortDateFormat := OldShortDateFormat ;
-  end ;
-  if Length( YYYYMMDDhhnnss ) > 8 then  { Informou Hora:minuto:segundos ? }
-  begin
-     Result := RecodeHour(  Result, StrToIntDef(copy(YYYYMMDDhhnnss, 9,2),0) ) ;
-     Result := RecodeMinute(result, StrToIntDef(copy(YYYYMMDDhhnnss,11,2),0) ) ;
-     Result := RecodeSecond(result, StrToIntDef(copy(YYYYMMDDhhnnss,13,2),0) ) ;
-  end ;
 
+  Result := EncodeDateTime( StrToIntDef(copy(YYYYMMDDhhnnss, 1,4),0),  // YYYY
+                            StrToIntDef(copy(YYYYMMDDhhnnss, 5,2),0),  // MM
+                            StrToIntDef(copy(YYYYMMDDhhnnss, 7,2),0),  // DD
+                            StrToIntDef(copy(YYYYMMDDhhnnss, 9,2),0),  // hh
+                            StrToIntDef(copy(YYYYMMDDhhnnss,11,2),0),  // nn
+                            StrToIntDef(copy(YYYYMMDDhhnnss,13,2),0),  // ss
+                            0 );
 end;
 
 {-----------------------------------------------------------------------------
@@ -1139,7 +1228,7 @@ end ;
  *** Extraido de JclStrings.pas  - Project JEDI Code Library (JCL) ***
   Retorna <True> se <S> contem apenas caracteres Alpha maiusculo/minuscula
  ---------------------------------------------------------------------------- }
-function StrIsAlpha(const S: AnsiString): Boolean;
+function StrIsAlpha(const S: String): Boolean;
 Var A : Integer ;
 begin
   Result := true ;
@@ -1156,7 +1245,7 @@ end ;
   Retorna <True> se <S> contem apenas caracteres Numericos.
   Retorna <False> se <S> for vazio
  ---------------------------------------------------------------------------- }
-function StrIsNumber(const S: AnsiString): Boolean;
+function StrIsNumber(const S: String): Boolean;
 Var
   A, LenStr : Integer ;
 begin
@@ -1175,7 +1264,7 @@ end ;
   Retorna <True> se <S> contem apenas caracteres Alpha maiusculo/minuscula
   ou Numericos
  ---------------------------------------------------------------------------- }
-function StrIsAlphaNum(const S: AnsiString): Boolean;
+function StrIsAlphaNum(const S: String): Boolean;
 Var
   A : Integer ;
 begin
@@ -1218,7 +1307,7 @@ end ;
 {-----------------------------------------------------------------------------
   Retorna uma String apenas com os char Numericos contidos em <Value>
  ---------------------------------------------------------------------------- }
-function OnlyNumber(const AValue: AnsiString): String;
+function OnlyNumber(const AValue: String): String;
 Var
   I : Integer ;
   LenValue : Integer;
@@ -1235,7 +1324,7 @@ end ;
 {-----------------------------------------------------------------------------
   Retorna uma String apenas com os char Alpha contidos em <Value>
  ---------------------------------------------------------------------------- }
-function OnlyAlpha(const AValue: AnsiString): String;
+function OnlyAlpha(const AValue: String): String;
 Var
   I : Integer ;
   LenValue : Integer;
@@ -1251,7 +1340,7 @@ end ;
 {-----------------------------------------------------------------------------
   Retorna uma String apenas com os char Alpha-Numericos contidos em <Value>
  ---------------------------------------------------------------------------- }
-function OnlyAlphaNum(const AValue: AnsiString): String;
+function OnlyAlphaNum(const AValue: String): String;
 Var
   I : Integer ;
   LenValue : Integer;
@@ -1303,6 +1392,77 @@ begin
     Exit;
   if ByteIsOk(TempIP) then
     Result := True;
+end;
+
+function EstaVazio(const AValue: String): Boolean;
+begin
+  Result := (AValue = '');
+end;
+
+procedure EstaVazio(const AValue, AMensagem: String);
+begin
+  if EstaVazio(AValue) then
+    raise Exception.Create(AMensagem);
+end;
+
+function NaoEstaVazio(AValue: String): Boolean;
+begin
+  Result := not EstaVazio(AValue);
+end;
+
+function EstaZerado(AValue: Double): Boolean;
+begin
+  Result := (AValue = 0);
+end;
+
+function EstaZerado(AValue: Integer): Boolean;
+begin
+  Result := (AValue = 0);
+end;
+
+procedure EstaZerado(AValue: Integer; AMensagem: String);
+begin
+  if EstaZerado(AValue) then
+    raise Exception.Create(AMensagem);
+end;
+
+function NaoEstaZerado(AValue: Double): Boolean;
+begin
+  Result := not EstaZerado(AValue);
+end;
+
+function NaoEstaZerado(AValue: Integer): Boolean;
+begin
+  Result := not EstaZerado(AValue);
+end;
+
+function TamanhoIgual(const AValue: String; const ATamanho: Integer): Boolean;
+begin
+ Result := (Length(AValue) = ATamanho);
+end;
+
+procedure TamanhoIgual(const AValue: String; const ATamanho: Integer;
+  AMensagem: String);
+begin
+  if not TamanhoIgual(AValue, ATamanho) then
+    raise Exception.Create(AMensagem);
+end;
+
+function TamanhoIgual(const AValue: Integer; const ATamanho: Integer): Boolean;
+begin
+  Result := (Length(IntToStr(AValue)) = ATamanho);
+end;
+
+procedure TamanhoIgual(const AValue: Integer; const ATamanho: Integer;
+  AMensagem: String);
+begin
+  if not TamanhoIgual(AValue, ATamanho) then
+    raise Exception.Create(AMensagem);
+end;
+
+function TamanhoMenor(const AValue: String; const ATamanho: Integer): Boolean;
+begin
+  Result := (Length(AValue) < ATamanho);
 end;
 
 {-----------------------------------------------------------------------------
@@ -1395,7 +1555,7 @@ begin
      Linha := copy(Texto,1,P-1) ;    // Remove #10 (se hover)
 
      if PadLinhas then
-        Result := Result + padL( Linha, Colunas) + #10
+        Result := Result + PadRight( Linha, Colunas) + #10
      else
         Result := Result + Linha + #10 ;
 
@@ -1718,6 +1878,18 @@ begin
 {$ENDIF}
 end ;
 
+{-----------------------------------------------------------------------------
+ Retorna String contendo o Path da Aplicação
+-----------------------------------------------------------------------------}
+function AplicationPath: String;
+begin
+  Result := ExtractFilePath(ParamStr(0));
+end;
+
+{-----------------------------------------------------------------------------
+ Encontra arquivos que correspondam a "FileMask" e cria lista com o Path e nome
+ dos mesmos em "AstringList"
+-----------------------------------------------------------------------------}
 procedure FindFiles(const FileMask : String ; AStringList : TStrings ;
    IncludePath : Boolean) ;
 var SearchRec : TSearchRec ;
@@ -2405,7 +2577,7 @@ function EAN13_DV(CodEAN13: String): String;
 Var A,DV : Integer ;
 begin
    Result   := '' ;
-   CodEAN13 := String( PadR(AnsiString(Trim(String(CodEAN13))),12,'0') ) ;
+   CodEAN13 := String( PadLeft(AnsiString(Trim(String(CodEAN13))),12,'0') ) ;
    if not StrIsNumber( AnsiString( CodEAN13 ) ) then
       exit ;
 
@@ -2748,16 +2920,13 @@ begin
   end;
 end;
 
-function IsNumber(const Value: Variant): Boolean;
+function VarIsNumber(const Value: Variant): Boolean;
 var
   valResult: Extended;
   valCode: Integer;
 begin
   Val(Value, valResult, valCode);
-  if valCode = 0 then
-    Result := True
-  else
-    Result := False;
+  Result := (valCode = 0);
 end ;
 
 //*****************************************************************************************

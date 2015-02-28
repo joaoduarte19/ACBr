@@ -679,7 +679,7 @@ Var
   Retorno : String ;
 begin
   Retorno := InfoECFAsString( ineEstadoECF ) ;
-  Result  := upcase( padL(Retorno,1)[1] );
+  Result  := upcase( PadRight(Retorno,1)[1] );
 
   if not (Result in ['L','V','P','C','G','R','N','O']) then
      raise EACBrTEFDECF.Create(

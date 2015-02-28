@@ -66,7 +66,8 @@
 unit ACBrECFYanco ;
 
 interface
-uses ACBrECFClass, ACBrDevice, ACBrUtil, Classes, IniFiles;
+uses Classes, IniFiles,
+    ACBrECFClass, ACBrDevice;
 
 type
 
@@ -186,8 +187,9 @@ TACBrECFYanco = class( TACBrECFClass )
  end ;
 
 implementation
-Uses SysUtils, Math, ACBrConsts,
-    {$IFDEF COMPILER6_UP} DateUtils, StrUtils {$ELSE} ACBrD5, Windows{$ENDIF} ;
+Uses SysUtils, Math,
+    {$IFDEF COMPILER6_UP} DateUtils, StrUtils {$ELSE} ACBrD5, Windows{$ENDIF},
+    ACBrConsts, ACBrUtil;
 
 { ----------------------------- TDJECFYanco ------------------------------ }
 
@@ -576,7 +578,7 @@ begin
   if copy(RetCmd,3,1) = '3' then
      EnviaComando( '121',40)
   else
-     EnviaComando( '241'+PadL(Operador,13),40) ;
+     EnviaComando( '241'+PadRight(Operador,13),40) ;
 end;
 
 procedure TACBrECFYanco.AbreGaveta ;
@@ -587,7 +589,7 @@ end;
 
 procedure TACBrECFYanco.ReducaoZ(DataHora : TDateTime) ;
 begin
-  EnviaComando( '221'+PadL(Operador,13),40) ;  
+  EnviaComando( '221'+PadRight(Operador,13),40) ;  
 end;
 
 procedure TACBrECFYanco.MudaHorarioVerao ;
@@ -646,7 +648,7 @@ end;
 procedure TACBrECFYanco.FechaCupom(Observacao: AnsiString; IndiceBMP : Integer);
 begin
   Observacao := StringReplace(Observacao, #10, '', [rfReplaceAll]) ;
-  Observacao := padl(Observacao, 168);
+  Observacao := PadRight(Observacao, 168);
   EnviaComando('1600' + Observacao, 40);
   fsEmVenda := False;
   fsEmPagamento := False;
@@ -692,8 +694,8 @@ begin
   if not fsEmVenda then
     fsNumItem := 1;
 
-  Codigo    := padL(Codigo,13) ;    { Ajustando Tamanhos }
-  Descricao := PadL(IntToStrZero(fsNumItem, 3) + ' ' + Copy(Descricao, 1, 26),30) ;
+  Codigo    := PadRight(Codigo,13) ;    { Ajustando Tamanhos }
+  Descricao := PadRight(IntToStrZero(fsNumItem, 3) + ' ' + Copy(Descricao, 1, 26),30) ;
 
   QtdStr := IntToStrZero(Round(Qtd * 1000), 7);
   ValorStr := IntToStrZero( Round(ValorUnitario * 1000 ), 9) ;
@@ -764,10 +766,10 @@ begin
     'F' : AliquotaStr := '14' ;
     'I' : AliquotaStr := '15' ;
     'N' : AliquotaStr := '16' ;
-(*  'T' : AliquotaICMS := 'T'+padR(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
+(*  'T' : AliquotaICMS := 'T'+PadLeft(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
     CarregaAliquotas ainda não implementado na Yanco, use apenas Tnn *)
     
-    'T' : AliquotaStr := padR(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
+    'T' : AliquotaStr := PadLeft(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
   end ;
 
   if AliquotaStr = '' then
@@ -824,7 +826,7 @@ end;
 
 procedure TACBrECFYanco.LinhaRelatorioGerencial(Linha: AnsiString; IndiceBMP: Integer);
 begin
-   EnviaComando( '2A0'+padL(linha,46));
+   EnviaComando( '2A0'+PadRight(linha,46));
 end;
 
 procedure TACBrECFYanco.AbreCupomVinculado(COO, CodFormaPagto,
@@ -845,7 +847,7 @@ end;
 
 procedure TACBrECFYanco.LinhaCupomVinculado(Linha: AnsiString);
 begin
-  EnviaComando('2B0'+padL(linha,46));
+  EnviaComando('2B0'+PadRight(linha,46));
 end;
 
 procedure TACBrECFYanco.FechaRelatorio;
@@ -854,7 +856,7 @@ begin
   RetCmd := EnviaComando('25') ;
   
   if copy(RetCmd,11,1) = '2' then
-     EnviaComando('1600'+padl('',168),40)
+     EnviaComando('1600'+PadRight('',168),40)
   else
      EnviaComando( '2C',40) ;
 end;
@@ -890,12 +892,12 @@ end;
 (*
 Procedure TACBrECFYanco.ComprovanteNaoFiscaisNaoVinculado(tipo,indice:string; Valor:double);
 begin
- EnviaComando('29'+padR(tipo,2)+indice+IntToStrZero( Round( Valor * 1000),13),20);
+ EnviaComando('29'+PadLeft(tipo,2)+indice+IntToStrZero( Round( Valor * 1000),13),20);
 end;
 *)
 procedure TACBrECFYanco.IdentificaOperador(Nome: String);
 begin
-  EnviaComando('11'+PadL(Nome,13)) ;
+  EnviaComando('11'+PadRight(Nome,13)) ;
 end;
 
 function TACBrECFYanco.GetGrandeTotal: Double;

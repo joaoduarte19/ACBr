@@ -48,7 +48,7 @@ uses Classes, SysUtils,
        LResources,
      {$ENDIF} 
      ACBrSATExtratoClass, ACBrDevice, ACBrUtil,
-     pcnCFe, pcnCFeCanc, pcnConversao, ACBrDFeUtil;
+     pcnCFe, pcnCFeCanc, pcnConversao;
 
 const
       cCmdImpZera = #27+'@';
@@ -107,7 +107,7 @@ procedure Register;
 
 implementation
 
-uses ACBrSAT;
+uses ACBrSAT, ACBrValidador;
 
 {$IFNDEF FPC}
    {$R ACBrSATExtratoESCPOS.dcr}
@@ -171,10 +171,10 @@ begin
               Trim(CFe.Emit.EnderEmit.xCpl)+' '+
               Trim(CFe.Emit.EnderEmit.xBairro)+'-'+
               Trim(CFe.Emit.EnderEmit.xMun)+'-'+
-              DFeUtil.FormatarCEP(IntToStr(CFe.Emit.EnderEmit.CEP)));
+              FormatarCEP(IntToStr(CFe.Emit.EnderEmit.CEP)));
 
   FLinhaCmd := cCmdAlinhadoEsquerda+cCmdFontePequena+
-              'CNPJ:'+DFeUtil.FormatarCNPJ(CFe.Emit.CNPJCPF)+
+              'CNPJ:'+FormatarCNPJ(CFe.Emit.CNPJCPF)+
               ' IE:'+Trim(CFe.Emit.IE)+
               ' IM:'+Trim(CFe.Emit.IM);
   FBuffer.Add(FLinhaCmd);
@@ -189,11 +189,11 @@ begin
     FLinhaCmd := 'CUPOM FISCAL ELETRÔNICO - SAT'+cCmdImpFimNegrito;
     FBuffer.Add(FLinhaCmd);
     FBuffer.Add(' ');
-    FBuffer.Add(padC(' = T E S T E =',48));
+    FBuffer.Add(PadCenter(' = T E S T E =',48));
     FBuffer.Add(' ');
-    FBuffer.Add(padC('>',48,'>'));
-    FBuffer.Add(padC('>',48,'>'));
-    FBuffer.Add(padC('>',48,'>'));
+    FBuffer.Add(PadCenter('>',48,'>'));
+    FBuffer.Add(PadCenter('>',48,'>'));
+    FBuffer.Add(PadCenter('>',48,'>'));
   end
   else
   begin
@@ -206,7 +206,7 @@ begin
 
   FBuffer.Add('------------------------------------------------');
   FBuffer.Add(cCmdAlinhadoEsquerda+cCmdFontePequena+'CPF/CNPJ do Consumidor: '+
-              DFeUtil.FormatarCNPJCPF(CFe.Dest.CNPJCPF));
+              FormatarCNPJCPF(CFe.Dest.CNPJCPF));
 end;
 
 procedure TACBrSATExtratoESCPOS.GerarItens;
@@ -222,34 +222,34 @@ begin
     FLinhaCmd := IntToStrZero(CFe.Det.Items[i].nItem,3)+' '+
                  Trim(CFe.Det.Items[i].Prod.cProd)+' '+
                  Trim(CFe.Det.Items[i].Prod.xProd)+' '+
-                 DFeUtil.FormatFloat(CFe.Det.Items[i].Prod.qCom,Mask_qCom)+' '+
+                 FormatFloatBr(Mask_qCom, CFe.Det.Items[i].Prod.qCom)+' '+
                  Trim(CFe.Det.Items[i].Prod.uCom)+' X '+
-                 DFeUtil.FormatFloat(CFe.Det.Items[i].Prod.vUnCom,Mask_vUnCom)+' ';
+                 FormatFloatBr(Mask_vUnCom, CFe.Det.Items[i].Prod.vUnCom)+' ';
     if CFe.Det.Items[i].Imposto.vItem12741 > 0 then
-      FLinhaCmd := FLinhaCmd + '('+DFeUtil.FormatFloat(CFe.Det.Items[i].Imposto.vItem12741,'0.00')+') ';
+      FLinhaCmd := FLinhaCmd + '('+FormatFloatBr('0.00', CFe.Det.Items[i].Imposto.vItem12741)+') ';
 
-    FLinhaCmd := FLinhaCmd + '|' + DFeUtil.FormatFloat(CFe.Det.Items[i].Prod.vProd,'#,###,##0.00')+' ';
+    FLinhaCmd := FLinhaCmd + '|' + FormatFloatBr('#,###,##0.00', CFe.Det.Items[i].Prod.vProd)+' ';
 
-    FLinhaCmd := padS(FLinhaCmd,64, '|');
+    FLinhaCmd := PadSpace(FLinhaCmd,64, '|');
 
     FBuffer.Add(cCmdAlinhadoEsquerda+cCmdFontePequena+FLinhaCmd);
 
     if CFe.Det.Items[i].Prod.vDesc > 0 then
     begin
-      FBuffer.Add(padS('Desconto|'+DFeUtil.FormatFloat(CFe.Det.Items[i].Prod.vDesc,'-#,###,##0.00'),64, '|'));
-      FBuffer.Add(padS('Valor líquido|'+DFeUtil.FormatFloat(CFe.Det.Items[i].Prod.vProd-CFe.Det.Items[i].Prod.vDesc,'#,###,##0.00'),64, '|'));
+      FBuffer.Add(PadSpace('Desconto|'+FormatFloatBr('-#,###,##0.00', CFe.Det.Items[i].Prod.vDesc),64, '|'));
+      FBuffer.Add(PadSpace('Valor líquido|'+FormatFloatBr('#,###,##0.00', CFe.Det.Items[i].Prod.vProd-CFe.Det.Items[i].Prod.vDesc),64, '|'));
     end;
 
     if CFe.Det.Items[i].Prod.vOutro > 0 then
     begin
-      FBuffer.Add(padS('Acréscimo|'+DFeUtil.FormatFloat(CFe.Det.Items[i].Prod.vOutro,'+#,###,##0.00'),64, '|'));
-      FBuffer.Add(padS('Valor líquido|'+DFeUtil.FormatFloat(CFe.Det.Items[i].Prod.vProd+CFe.Det.Items[i].Prod.vOutro,'#,###,##0.00'),64, '|'));
+      FBuffer.Add(PadSpace('Acréscimo|'+FormatFloatBr('+#,###,##0.00', CFe.Det.Items[i].Prod.vOutro),64, '|'));
+      FBuffer.Add(PadSpace('Valor líquido|'+FormatFloatBr('#,###,##0.00', CFe.Det.Items[i].Prod.vProd+CFe.Det.Items[i].Prod.vOutro),64, '|'));
     end;
 
     if CFe.Det.Items[i].Imposto.ISSQN.vDeducISSQN > 0 then
     begin
-      FBuffer.Add(padS('Dedução para ISSQN|'+DFeUtil.FormatFloat(CFe.Det.Items[i].Imposto.ISSQN.vDeducISSQN,'-#,###,##0.00'),64, '|'));
-      FBuffer.Add(padS('Base de cálculo ISSQN|'+DFeUtil.FormatFloat(CFe.Det.Items[i].Imposto.ISSQN.vBC,'#,###,##0.00'),64, '|'));
+      FBuffer.Add(PadSpace('Dedução para ISSQN|'+FormatFloatBr('-#,###,##0.00', CFe.Det.Items[i].Imposto.ISSQN.vDeducISSQN),64, '|'));
+      FBuffer.Add(PadSpace('Base de cálculo ISSQN|'+FormatFloatBr('#,###,##0.00', CFe.Det.Items[i].Imposto.ISSQN.vBC),64, '|'));
     end;
   end;
   FBuffer.Add(cCmdAlinhadoEsquerda+cCmdFonteNormal);
@@ -265,15 +265,15 @@ begin
      Acrescimos := (CFe.Total.ICMSTot.vOutro + CFe.Total.DescAcrEntr.vAcresSubtot);
 
      if (Descontos > 0) or (Acrescimos > 0) then
-        FBuffer.Add(cCmdFontePequena+padS('Subtotal|'+DFeUtil.FormatFloat(CFe.Total.ICMSTot.vProd,'#,###,##0.00'),64, '|'));
+        FBuffer.Add(cCmdFontePequena+PadSpace('Subtotal|'+FormatFloatBr('#,###,##0.00', CFe.Total.ICMSTot.vProd),64, '|'));
      if CFe.Total.ICMSTot.vDesc > 0 then
-        FBuffer.Add(cCmdFontePequena+padS('Descontos|'+DFeUtil.FormatFloat(Descontos,'-#,###,##0.00'),64, '|'));
+        FBuffer.Add(cCmdFontePequena+PadSpace('Descontos|'+FormatFloatBr('-#,###,##0.00', Descontos),64, '|'));
      if CFe.Total.ICMSTot.vOutro > 0 then
-        FBuffer.Add(cCmdFontePequena+padS('Acréscimos|'+DFeUtil.FormatFloat(Acrescimos,'+#,###,##0.00'),64, '|'));
+        FBuffer.Add(cCmdFontePequena+PadSpace('Acréscimos|'+FormatFloatBr('+#,###,##0.00', Acrescimos),64, '|'));
    end;
 
   FLinhaCmd := cCmdAlinhadoEsquerda+cCmdImpExpandido+
-               padS('TOTAL R$|'+FormatFloat('#,###,##0.00',CFe.Total.vCFe),32, '|')+
+               PadSpace('TOTAL R$|'+FormatFloatBr('#,###,##0.00', CFe.Total.vCFe),32, '|')+
                cCmdImpFimExpandido;
   FBuffer.Add(FLinhaCmd);
 end;
@@ -286,11 +286,11 @@ begin
     FBuffer.Add('');
   for i:=0 to CFe.Pagto.Count - 1 do
    begin
-     FBuffer.Add(cCmdFontePequena+padS(CodigoMPToDescricao(CFe.Pagto.Items[i].cMP)+'|'+
-                 DFeUtil.FormatFloat(CFe.Pagto.Items[i].vMP,'#,###,##0.00'),64, '|'));
+     FBuffer.Add(cCmdFontePequena+PadSpace(CodigoMPToDescricao(CFe.Pagto.Items[i].cMP)+'|'+
+                 FormatFloatBr('#,###,##0.00', CFe.Pagto.Items[i].vMP),64, '|'));
    end;
   if CFe.Pagto.vTroco > 0 then
-     FBuffer.Add(cCmdFontePequena+padS('Troco R$|'+FormatFloat('#,###,##0.00',CFe.Pagto.vTroco),64, '|'));
+     FBuffer.Add(cCmdFontePequena+PadSpace('Troco R$|'+FormatFloatBr('#,###,##0.00', CFe.Pagto.vTroco),64, '|'));
 end;
 
 procedure TACBrSATExtratoESCPOS.GerarObsFisco;
@@ -349,7 +349,8 @@ begin
     else
       FBuffer.Add(' ');
 
-    FBuffer.Add(cCmdFontePequena+padS('Valor aproximado dos tributos do deste cupom R$ |'+cCmdImpNegrito+FormatFloat('#,###,##0.00',CFe.Total.vCFeLei12741),66, '|'));
+    FBuffer.Add(cCmdFontePequena+PadSpace('Valor aproximado dos tributos do deste cupom R$ |'+
+                cCmdImpNegrito+FormatFloatBr('#,###,##0.00', CFe.Total.vCFeLei12741),66, '|'));
     FBuffer.Add(cCmdImpFimNegrito+'(conforme Lei Fed. 12.741/2012)');
     if not Resumido then
     begin

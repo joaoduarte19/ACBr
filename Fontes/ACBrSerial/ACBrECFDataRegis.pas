@@ -93,8 +93,8 @@
 unit ACBrECFDataRegis ;
 
 interface
-uses ACBrECFClass, ACBrDevice, ACBrUtil, ACBrConsts,
-     Classes;
+uses Classes,
+     ACBrECFClass, ACBrDevice;
 
       //CONFORME MANUAL PARA VERSOES X.03
 const
@@ -332,8 +332,9 @@ TACBrECFDataRegis = class( TACBrECFClass )
  end ;
 
 implementation
-Uses {$IFDEF COMPILER6_UP} DateUtils, StrUtils {$ELSE} ACBrD5, Windows{$ENDIF},
-     SysUtils, Math, IniFiles ;
+Uses SysUtils, Math, IniFiles,
+     {$IFDEF COMPILER6_UP} DateUtils, StrUtils {$ELSE} ACBrD5, Windows{$ENDIF},
+     ACBrUtil, ACBrConsts;
 
 { ----------------------------- TDJECFDataRegis ------------------------------ }
 
@@ -1076,7 +1077,7 @@ var curValorDescAcre:currency;
 begin
    {Compativel com 02.03 e 02.05}
    if IsV03 or IsV04 then
-      Observacao := Copy(padL(Observacao,18,' '),1,18)
+      Observacao := Copy(PadRight(Observacao,18,' '),1,18)
    else
       Observacao := '';
 
@@ -1155,16 +1156,16 @@ begin
      ArredondarPorQtd( Qtd, ValorUnitario ); *)
 
   { Ajustando Tamanhos }
-  Unidade  := padL(Unidade,2) ;
+  Unidade  := PadRight(Unidade,2) ;
   if Length(Trim(Codigo)) < 6 then
-     Codigo:= padR(Codigo,6,'0');  { Seis primeiros caracteres devem ser Numeros }
+     Codigo:= PadLeft(Codigo,6,'0');  { Seis primeiros caracteres devem ser Numeros }
   CodDescr := Codigo + ' ' + IntToStrZero( fsItensCupom.Count+1,3) + ' ' +
               Trim(Descricao) ;
 
   if DescricaoGrande and (Length(CodDescr) > 36) Then
-     CodDescr := padL(CodDescr,76)
+     CodDescr := PadRight(CodDescr,76)
   else
-     CodDescr := padL(CodDescr,36) ;
+     CodDescr := PadRight(CodDescr,36) ;
 
   QtdStr  := IntToStrZero( Round( Qtd*1000 ) ,6) ;
   DescStr := IntToStrZero( Round( ValorDescontoAcrescimo*100),4) ;
@@ -1331,7 +1332,7 @@ begin
 
             intPos := AchaPos(Copy(retCmd, 2, Length(retCmd)));
             strAux := Copy(retCmd, 1, intPos);
-            strAux := padL(strAux, 33, '0');
+            strAux := PadRight(strAux, 33, '0');
             Inc( intX );
             Aliquota := TACBrECFAliquota.create ;
             Aliquota.Indice   := IntToStrZero(intX, 2) ;
@@ -1429,7 +1430,7 @@ begin
    if FPagto <> nil then
       raise EACBrECFERRO.Create(ACBrStr('Forma de Pagamento já cadastrada'));
 
-   Descricao := padL(Trim(Descricao),14) ;         { Ajustando tamanho final }
+   Descricao := PadRight(Trim(Descricao),14) ;         { Ajustando tamanho final }
 
    if IsV03 or IsV04 then
       { Obs: 02.03 nao usa PermiteVinculado }
@@ -1569,7 +1570,7 @@ begin
    { o cupom vinculado é impresso até mesmo se não possuirmos cupom      }
    { vinculado, ou seja, não precisa ter na impressora um cupom vinculado}
    { cadastrado para imprimir um cupom vinculado}
-   Descricao := padL(Descricao,20) ;
+   Descricao := PadRight(Descricao,20) ;
 
    EnviaComando( 'e' + '01' + Descricao + '01' );
    CarregaComprovantesNaoFiscais;
@@ -1603,7 +1604,7 @@ begin
     'F'     : Result := AchaICMSIndice( fsIndFF ) ;
     'N'     : Result := AchaICMSIndice( fsIndNN ) ;
     'I'     : Result := AchaICMSIndice( fsIndII ) ;
-    'T','S' : AliquotaICMS := 'T'+padR(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
+    'T','S' : AliquotaICMS := 'T'+PadLeft(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
   end ;
 
   if Result = nil then
@@ -1636,9 +1637,9 @@ begin
 
      for I := 0 to 5 do
         if I >= Linhas.Count then
-           Cmd := Cmd + 'N' + padL( ' ' , Colunas)
+           Cmd := Cmd + 'N' + PadRight( ' ' , Colunas)
         else
-           Cmd := Cmd + 'S' + padL( Linhas[I] , Colunas) ;
+           Cmd := Cmd + 'S' + PadRight( Linhas[I] , Colunas) ;
   finally
      Linhas.Free ;
   end ;
@@ -1782,8 +1783,8 @@ begin
                              ' não encontrado'));
 
    ValStr     := IntToStrZero( Round(abs(Valor)*100),14) ;
-   Favorecido := Copy( padL(Favorecido,50), 1, 50);
-   Cidade     := Copy( padL(Cidade, 20), 1, 20);
+   Favorecido := Copy( PadRight(Favorecido,50), 1, 50);
+   Cidade     := Copy( PadRight(Cidade, 20), 1, 20);
    DataStr    := FormatDateTime('ddmmyy',Data) ;
 
    AguardaImpressao := True;
@@ -1982,7 +1983,7 @@ begin
    {Versao 0203 não utiliza unidades de medida}
    if IsV05 then
    begin
-      Descricao := Copy(padL(Descricao,2), 1, 2) ;
+      Descricao := Copy(PadRight(Descricao,2), 1, 2) ;
       UMD := AchaUMDDescricao(Descricao);
       if UMD = nil then
       begin
@@ -2118,13 +2119,13 @@ begin
     begin
       if (Codigo < 0) or (Codigo > 999999) then
          raise EACBrECFERRO.Create(('Valor Inválido para o Operador'));
-         StrCod:= padR(IntToStr(Codigo), 6, '0');
+         StrCod:= PadLeft(IntToStr(Codigo), 6, '0');
     end
    else
     begin
       if (Codigo < 0) or (Codigo > 9999999999) then
          raise EACBrECFERRO.Create(('Valor Inválido para o Operador'));
-         StrCod:= padR(IntToStr(Codigo), 10, '0');
+         StrCod:= PadLeft(IntToStr(Codigo), 10, '0');
     end;
 
    EnviaComando( 'O' + StrCod );
@@ -2347,7 +2348,7 @@ begin
    {Em Construcao AINDA}
    {Compativel com 02.03 e 02.05}
    if IsV03 or IsV04 then
-      Observacao := Copy(padL(Observacao, 18, ' '), 1, 18)
+      Observacao := Copy(PadRight(Observacao, 18, ' '), 1, 18)
    else
       Observacao := '';
 
@@ -2384,12 +2385,12 @@ begin
    Obs := Trim(Obs);
 
    if Obs = '' then
-      Obs := padL(Obs, 36, '_');
+      Obs := PadRight(Obs, 36, '_');
 
    if Length(Obs) <= 36 then
-      Obs := padL(Obs, 36, ' ')
+      Obs := PadRight(Obs, 36, ' ')
    else
-      Obs := padL(Obs, 76, ' ');
+      Obs := PadRight(Obs, 76, ' ');
 
    if (StrToInt(CodCNF) < 90) or (StrToInt(CodCNF) > 99) then
       raise EACBrECFERRO.Create(ACBrStr('CodCnf fora da faixa permitida de 90 a 99'));

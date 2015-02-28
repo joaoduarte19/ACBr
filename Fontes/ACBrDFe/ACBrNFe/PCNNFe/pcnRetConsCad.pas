@@ -218,11 +218,11 @@ begin
       // na consulta
       cnpj := trim(Leitor.rCampo(tcStr, 'CNPJ'));
       if (cnpj <> '') and (length(cnpj) < 14) then
-        cnpj := padR(cnpj, 14, '0');
+        cnpj := PadLeft(cnpj, 14, '0');
 
       cpf := trim(Leitor.rCampo(tcStr, 'CPF'));
       if (cpf <> '') and (length(cpf) < 11) then
-        cpf := padR(cpf, 11, '0');
+        cpf := PadLeft(cpf, 11, '0');
 
       (*GR04 *)FverAplic := Leitor.rCampo(tcStr, 'verAplic');
       (*GR05 *)FcStat    := Leitor.rCampo(tcInt, 'cStat');
@@ -242,11 +242,11 @@ begin
         // na consulta
         cnpj := trim(Leitor.rCampo(tcStr, 'CNPJ'));
         if (cnpj <> '') and (length(cnpj) < 14) then
-          cnpj := padR(cnpj, 14, '0');
+          cnpj := PadLeft(cnpj, 14, '0');
 
         cpf := trim(Leitor.rCampo(tcStr, 'CPF'));
         if (cpf <> '') and (length(cpf) < 11) then
-          cpf  := padR(cpf, 11, '0');
+          cpf  := PadLeft(cpf, 11, '0');
 
 
         (*GR08 *)InfCad[i].FIE         := Leitor.rCampo(tcStr, 'IE');

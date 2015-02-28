@@ -44,8 +44,8 @@
 unit ACBrECFEscECF ;
 
 interface
-uses ACBrECFClass, ACBrUtil, ACBrDevice, ACBrConsts,
-     Classes ;
+uses Classes,
+    ACBrECFClass, ACBrDevice;
 
 const
     cEscECFMaxBuffer = 4096 ;
@@ -425,8 +425,9 @@ TACBrECFEscECF = class( TACBrECFClass )
  end ;
 
 implementation
-Uses SysUtils, Math, ACBrECF, ACBrECFBematech, ACBrECFEpson,
-    {$IFDEF COMPILER6_UP} DateUtils, StrUtils {$ELSE} ACBrD5, Windows{$ENDIF} ;
+Uses SysUtils, Math,
+    {$IFDEF COMPILER6_UP} DateUtils, StrUtils {$ELSE} ACBrD5, Windows{$ENDIF},
+    ACBrECF, ACBrECFBematech, ACBrECFEpson, ACBrConsts, ACBrUtil;
 
 { TACBrECFEscECFRET }
 
@@ -2070,7 +2071,7 @@ end;
 procedure TACBrECFEscECF.IdentificaPAF(NomeVersao, MD5: String);
 begin
   // 48 e 36 para garantir que NomeVersao inicie na linha 2
-  fsPAF := padL(MD5,48) + padL(NomeVersao,36) ;
+  fsPAF := PadRight(MD5,48) + PadRight(NomeVersao,36) ;
   EscECFComando.CMD := 24;
   EscECFComando.AddParamString( fsPAF ) ;
   EnviaComando;
@@ -2124,7 +2125,7 @@ procedure TACBrECFEscECF.VendeItem(Codigo, Descricao: String;
 begin
   Codigo := LeftStr(Codigo,14) ;
   if Length(Codigo) < 3 then
-    Codigo := padR(Codigo,3,'0');
+    Codigo := PadLeft(Codigo,3,'0');
 
   with EscECFComando do
   begin
@@ -3261,7 +3262,7 @@ begin
         'F','I','N' : AliquotaStr  := AliquotaICMS[1] +
                         ifthen( AliquotaICMS[2] in ['1'..'3'],AliquotaICMS[2],'1' ) ;
         'T','S'     : AliquotaStr  := AliquotaICMS[1] +
-                        padR( Trim( Copy(AliquotaICMS,2,2) ), 2, '0' );
+                        PadLeft( Trim( Copy(AliquotaICMS,2,2) ), 2, '0' );
      end ;
 
   if AliquotaStr = '' then

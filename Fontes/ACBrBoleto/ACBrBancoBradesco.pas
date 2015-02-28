@@ -38,8 +38,7 @@ unit ACBrBancoBradesco;
 interface
 
 uses
-  Classes, SysUtils,ACBrBoleto,
-  {$IFDEF COMPILER6_UP} dateutils {$ELSE} ACBrD5 {$ENDIF};
+  Classes, SysUtils, ACBrBoleto;
 
 type
 
@@ -67,7 +66,9 @@ type
 
 implementation
 
-uses ACBrUtil, StrUtils;
+uses {$IFDEF COMPILER6_UP} dateutils {$ELSE} ACBrD5 {$ENDIF},
+  StrUtils,
+  ACBrUtil ;
 
 { TACBrBancoBradesco }
 
@@ -109,11 +110,11 @@ begin
       CodigoBarras := IntToStr( Numero )+'9'+ FatorVencimento +
                       IntToStrZero(Round(ACBrTitulo.ValorDocumento*100),10) +
                       // DONE -oJacinto Junior: Ajustar para utilizar o tamanho definido em fpTamanhoAgencia.
-//                      padR(OnlyNumber(Cedente.Agencia),4,'0') +
-                      padR(OnlyNumber(Cedente.Agencia), fpTamanhoAgencia, '0') +
+//                      PadLeft(OnlyNumber(Cedente.Agencia),4,'0') +
+                      PadLeft(OnlyNumber(Cedente.Agencia), fpTamanhoAgencia, '0') +
                       ACBrTitulo.Carteira +
                       ACBrTitulo.NossoNumero +
-                      padR(RightStr(Cedente.Conta,7),7,'0') + '0';
+                      PadLeft(RightStr(Cedente.Conta,7),7,'0') + '0';
 
       DigitoCodBarras := CalcularDigitoCodigoBarras(CodigoBarras);
    end;
@@ -146,10 +147,10 @@ begin
                '1'                                             + // ID do Arquivo( 1 - Remessa)
                'REMESSA'                                       + // Literal de Remessa
                '01'                                            + // Código do Tipo de Serviço
-               padL( 'COBRANCA', 15 )                          + // Descrição do tipo de serviço
-               padR( CodigoCedente, 20, '0')                   + // Codigo da Empresa no Banco
-               padL( Nome, 30)                                 + // Nome da Empresa
-               IntToStr( Numero )+ padL('BRADESCO', 15)        + // Código e Nome do Banco(237 - Bradesco)
+               PadRight( 'COBRANCA', 15 )                          + // Descrição do tipo de serviço
+               PadLeft( CodigoCedente, 20, '0')                   + // Codigo da Empresa no Banco
+               PadRight( Nome, 30)                                 + // Nome da Empresa
+               IntToStr( Numero )+ PadRight('BRADESCO', 15)        + // Código e Nome do Banco(237 - Bradesco)
                FormatDateTime('ddmmyy',Now)  + Space(08)+'MX'  + // Data de geração do arquivo + brancos
                IntToStrZero(NumeroRemessa,7) + Space(277)      + // Nr. Sequencial de Remessa + brancos
                IntToStrZero(1,6);                                // Nr. Sequencial de Remessa + brancos + Contador
@@ -180,25 +181,25 @@ var
 
         Result := sLineBreak +
                   '2'               +                                    // IDENTIFICAÇÃO DO LAYOUT PARA O REGISTRO
-                  Copy(padL(Mensagem[1], 80, ' '), 1, 80);               // CONTEÚDO DA 1ª LINHA DE IMPRESSÃO DA ÁREA "INSTRUÇÕES” DO BOLETO
+                  Copy(PadRight(Mensagem[1], 80, ' '), 1, 80);               // CONTEÚDO DA 1ª LINHA DE IMPRESSÃO DA ÁREA "INSTRUÇÕES” DO BOLETO
 
         if Mensagem.Count = 3 then
            Result := Result +
-                     Copy(padL(Mensagem[2], 80, ' '), 1, 80)              // CONTEÚDO DA 2ª LINHA DE IMPRESSÃO DA ÁREA "INSTRUÇÕES” DO BOLETO
+                     Copy(PadRight(Mensagem[2], 80, ' '), 1, 80)              // CONTEÚDO DA 2ª LINHA DE IMPRESSÃO DA ÁREA "INSTRUÇÕES” DO BOLETO
         else
-           Result := Result + padL('', 80, ' ');                          // CONTEÚDO DO RESTANTE DAS LINHAS
+           Result := Result + PadRight('', 80, ' ');                          // CONTEÚDO DO RESTANTE DAS LINHAS
 
         if Mensagem.Count = 4 then
            Result := Result +
-                     Copy(padL(Mensagem[3], 80, ' '), 1, 80)              // CONTEÚDO DA 3ª LINHA DE IMPRESSÃO DA ÁREA "INSTRUÇÕES” DO BOLETO
+                     Copy(PadRight(Mensagem[3], 80, ' '), 1, 80)              // CONTEÚDO DA 3ª LINHA DE IMPRESSÃO DA ÁREA "INSTRUÇÕES” DO BOLETO
         else
-           Result := Result + padL('', 80, ' ');                          // CONTEÚDO DO RESTANTE DAS LINHAS
+           Result := Result + PadRight('', 80, ' ');                          // CONTEÚDO DO RESTANTE DAS LINHAS
 
         if Mensagem.Count = 5 then
            Result := Result +
-                     Copy(padL(Mensagem[4], 80, ' '), 1, 80)              // CONTEÚDO DA 4ª LINHA DE IMPRESSÃO DA ÁREA "INSTRUÇÕES” DO BOLETO
+                     Copy(PadRight(Mensagem[4], 80, ' '), 1, 80)              // CONTEÚDO DA 4ª LINHA DE IMPRESSÃO DA ÁREA "INSTRUÇÕES” DO BOLETO
         else
-           Result := Result + padL('', 80, ' ');                          // CONTEÚDO DO RESTANTE DAS LINHAS
+           Result := Result + PadRight('', 80, ' ');                          // CONTEÚDO DO RESTANTE DAS LINHAS
 
 
         Result := Result                                              +
@@ -270,7 +271,7 @@ begin
       else if Ocorrencia = '31' then
          Protesto := '9999'
       else
-         Protesto := padR(trim(Instrucao1),2,'0') + padR(trim(Instrucao2),2,'0');
+         Protesto := PadLeft(trim(Instrucao1),2,'0') + PadLeft(trim(Instrucao2),2,'0');
 
       {Pegando Tipo de Sacado}
       case Sacado.Pessoa of
@@ -291,17 +292,17 @@ begin
                   aAgencia                                                +
                   aConta                                                  +
                   Cedente.ContaDigito                                     +
-                  padL( SeuNumero,25,' ') +'000'                          +  // Numero de Controle do Participante
+                  PadRight( SeuNumero,25,' ') +'000'                          +  // Numero de Controle do Participante
                   IfThen( PercentualMulta > 0, '2', '0')                  +  // Indica se exite Multa ou não
                   IntToStrZero( round( PercentualMulta * 100 ), 4)        +  // Percentual de Multa formatado com 2 casas decimais
                   NossoNumero + DigitoNossoNumero                         +
                   IntToStrZero( round( ValorDescontoAntDia * 100), 10)    +
                   TipoBoleto + ' ' + Space(10)                            +  // Tipo Boleto(Quem emite) + Identificação se emite boleto para débito automático.                  
                   ' ' + '2' + '  ' + Ocorrencia                           +  // Ind. Rateio de Credito + Aviso de Debito Aut.: 2=Não emite aviso + Ocorrência
-                  padL( NumeroDocumento,  10)                             +
+                  PadRight( NumeroDocumento,  10)                             +
                   FormatDateTime( 'ddmmyy', Vencimento)                   +
                   IntToStrZero( Round( ValorDocumento * 100 ), 13)        +
-                  StringOfChar('0',8) + padl(aEspecie,2) + 'N'            +  // Zeros + Especie do documento + Idntificação(valor fixo N)
+                  StringOfChar('0',8) + PadRight(aEspecie,2) + 'N'            +  // Zeros + Especie do documento + Idntificação(valor fixo N)
                   FormatDateTime( 'ddmmyy', DataDocumento )               +  // Data de Emissão
                   Protesto                                                +
                   IntToStrZero( round(ValorMoraJuros * 100 ), 13)         +
@@ -310,13 +311,13 @@ begin
                   IntToStrZero( round( ValorDesconto * 100 ), 13)         +
                   IntToStrZero( round( ValorIOF * 100 ), 13)              +
                   IntToStrZero( round( ValorAbatimento * 100 ), 13)       +
-                  TipoSacado + padR(OnlyNumber(Sacado.CNPJCPF),14,'0')    +
-                  padL( Sacado.NomeSacado, 40, ' ')                       +        		
-                  padL(Sacado.Logradouro + ' ' + Sacado.Numero + ' '      +
+                  TipoSacado + PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')    +
+                  PadRight( Sacado.NomeSacado, 40, ' ')                       +        		
+                  PadRight(Sacado.Logradouro + ' ' + Sacado.Numero + ' '      +
                     Sacado.Bairro + ' ' + Sacado.Cidade + ' '             +
                     Sacado.UF, 40)                                        +
-                  space(12) + padL( Sacado.CEP, 8 )                       +
-                  padl( MensagemCedente, 60 );
+                  space(12) + PadRight( Sacado.CEP, 8 )                       +
+                  PadRight( MensagemCedente, 60 );
 
 
          wLinha:= wLinha + IntToStrZero(aRemessa.Count + 1, 6); // Nº SEQÜENCIAL DO REGISTRO NO ARQUIVO
@@ -382,7 +383,7 @@ begin
 
    with ACBrBanco.ACBrBoleto do
    begin
-      if (not LeCedenteRetorno) and (rCodEmpresa <> padR(Cedente.CodigoCedente, 20, '0')) then
+      if (not LeCedenteRetorno) and (rCodEmpresa <> PadLeft(Cedente.CodigoCedente, 20, '0')) then
          raise Exception.Create(ACBrStr('Código da Empresa do arquivo inválido'));
 
       if (not LeCedenteRetorno) and ((rAgencia <> OnlyNumber(Cedente.Agencia)) or

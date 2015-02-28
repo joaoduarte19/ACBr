@@ -36,12 +36,13 @@
 
 unit pcnCFeR;
 
-interface uses
+interface
 
+uses
   SysUtils, Classes,
-{$IFNDEF VER130}
-  Variants,
-{$ENDIF}
+  {$IFNDEF VER130}
+   Variants,
+  {$ENDIF}
   pcnConversao, pcnLeitor, pcnCFe;
 
 type
@@ -63,7 +64,7 @@ type
 
 implementation
 
-uses ACBrConsts;
+uses ACBrConsts, ACBrUtil;
 
 { TCFeR }
 
@@ -92,11 +93,9 @@ begin
   begin
     CFe.infCFe.ID             := Leitor.rAtributo( 'Id' ) ;
     CFe.infCFe.ID             := StringReplace( UpperCase(CFe.infCFe.ID), 'CFE', '', [rfReplaceAll] ) ;
-    CFe.infCFe.versao         := StrToFloatDef(StringReplace( Leitor.rAtributo( 'versao' ),
-                                              '.', DecimalSeparator, []), 0) ;
+    CFe.infCFe.versao         := StringToFloatDef(Leitor.rAtributo( 'versao' ), 0) ;
     CFe.infCFe.versaoSB       := StrToIntDef(Leitor.rAtributo( 'versaoSB' ), 0) ;
-    CFe.infCFe.versaoDadosEnt := StrToFloatDef(StringReplace( Leitor.rAtributo( 'versaoDadosEnt' ),
-                                              '.', DecimalSeparator, []), 0) ;
+    CFe.infCFe.versaoDadosEnt := StringToFloatDef(Leitor.rAtributo( 'versaoDadosEnt' ), 0) ;
   end ;
                                             
   (* Grupo da TAG <ide> *******************************************************)

@@ -41,8 +41,8 @@ unit ACBrBancoCecred;
 interface
 
 uses
-  Classes, SysUtils, ACBrBoleto,
-  {$IFDEF COMPILER6_UP} DateUtils {$ELSE} ACBrD5, FileCtrl {$ENDIF};
+  Classes, SysUtils,
+  ACBrBoleto;
 
 const
   CACBrBancoCecred_Versao = '0.0.1';
@@ -75,7 +75,10 @@ type
 
 implementation
 
-uses ACBrUtil, StrUtils, Variants, ACBrValidador;
+uses
+  {$IFDEF COMPILER6_UP} DateUtils {$ELSE} ACBrD5, FileCtrl {$ENDIF},
+  StrUtils, Variants,
+  ACBrValidador, ACBrUtil;
 
 constructor TACBrBancoCecred.create(AOwner: TACBrBanco);
 begin
@@ -133,7 +136,7 @@ begin
       AConta    := IntToStr(StrToInt64(OnlyNumber(ACBrBoleto.Cedente.Conta + ACBrBoleto.Cedente.ContaDigito)));
       ANossoNumero := IntToStr(StrToInt64(OnlyNumber(NossoNumero)));
 
-      ANossoNumero := padR(AConta, 8, '0') + padR(ANossoNumero, 9, '0')
+      ANossoNumero := PadLeft(AConta, 8, '0') + PadLeft(ANossoNumero, 9, '0')
    end;
    Result := ANossoNumero;
 end;
@@ -158,10 +161,10 @@ begin
                       '9' +
                       FatorVencimento +
                       IntToStrZero(Round(ACBrTitulo.ValorDocumento * 100), 10) +
-                      padR(AConvenio, 6, '0') +
+                      PadLeft(AConvenio, 6, '0') +
                       IntToStrZero(StrToIntDef(OnlyNumber(Cedente.Conta + Cedente.ContaDigito),0),8) +
                       ANossoNumero +
-                      padL(ACBrTitulo.Carteira, fpTamanhoCarteira, '0');
+                      PadRight(ACBrTitulo.Carteira, fpTamanhoCarteira, '0');
 
       DigitoCodBarras := CalcularDigitoCodigoBarras(CodigoBarras);
    end;
@@ -211,12 +214,12 @@ begin
                'COBRANCA'                     + // Descrição do tipo de serviço
                Space(7)                       + // Brancos
                aAgencia                       + // Prefixo da agência/ onde esta cadastrado o convenente lider do cedente
-               padL( AgenciaDigito, 1, ' ')   + // DV-prefixo da agência
+               PadRight( AgenciaDigito, 1, ' ')   + // DV-prefixo da agência
                aConta                         + // Codigo do cedente/nr. da conta corrente que está cadastro o convenio lider do cedente
-               padL( ContaDigito, 1, ' ')     + // DV-código do cedente
+               PadRight( ContaDigito, 1, ' ')     + // DV-código do cedente
                '000000'                       + // Complemento
-               padL( Nome, 30)                + // Nome da Empresa
-               padL( '085CECRED',18,' ')      + // Identificador do Banco
+               PadRight( Nome, 30)                + // Nome da Empresa
+               PadRight( '085CECRED',18,' ')      + // Identificador do Banco
                FormatDateTime('ddmmyy',Now)   + // Data de geração do arquivo
                IntToStrZero(NumeroRemessa,7)  + // Numero Remessa
                Space(22)                      + // Brancos
@@ -314,7 +317,7 @@ begin
 
 
       Instrucao1:='09'; //Protestar de 05 - 15 Dias
-      AInstrucao := padR(Trim(Instrucao1),2,'0') + padR(Trim(Instrucao2),2,'0');
+      AInstrucao := PadLeft(Trim(Instrucao1),2,'0') + PadLeft(Trim(Instrucao2),2,'0');
 
       if ((DaysBetween(DataProtesto,Vencimento)) >= 5) and ((DaysBetween(DataProtesto,Vencimento)) <= 15 ) then
         DiasProtesto:= IntToStr(DaysBetween(DataProtesto,Vencimento))
@@ -345,14 +348,14 @@ begin
       begin
          wLinha:= '7' +                                                         // ID Registro
                   ATipoCendente +                                               // Tipo de inscrição da empresa 01-CPF / 02-CNPJ
-                  padR(OnlyNumber(Cedente.CNPJCPF),14,'0') +                    // Inscrição da empresa
+                  PadLeft(OnlyNumber(Cedente.CNPJCPF),14,'0') +                    // Inscrição da empresa
                   aAgencia +                                                    // Prefixo da agência
-                  padL( Cedente.AgenciaDigito, 1)  +                            // DV-prefixo da agencia
+                  PadRight( Cedente.AgenciaDigito, 1)  +                            // DV-prefixo da agencia
                   aConta +                                                      // Código do cendete/nr. conta corrente da empresa
-                  padL( Cedente.ContaDigito, 1)  +                              // DV-código do cedente
-                  padR(OnlyNumber(Cedente.Convenio),7,'0') +                    // Número do convênio
-                  padL( SeuNumero, 25 ) +                                       // Número de Controle do Participante
-                  padR( ANossoNumero, 17, '0') +                                // Nosso número
+                  PadRight( Cedente.ContaDigito, 1)  +                              // DV-código do cedente
+                  PadLeft(OnlyNumber(Cedente.Convenio),7,'0') +                    // Número do convênio
+                  PadRight( SeuNumero, 25 ) +                                       // Número de Controle do Participante
+                  PadLeft( ANossoNumero, 17, '0') +                                // Nosso número
                   '0000' +                                                      // Zeros
                   '   ' +                                                       // Complemento do Registro: “Brancos”
                   ' ' +                                                         // Indic. Mensagem ou Sac.Avalista
@@ -362,11 +365,11 @@ begin
                   aTipoCobranca +                                               // Tipo de cobrança
                   Carteira +                                                    // Carteira
                   ATipoOcorrencia +                                             // Ocorrência "Comando"
-                  padL( NumeroDocumento, 10, ' ') +                             // Seu Número - Nr. titulo dado pelo cedente
+                  PadRight( NumeroDocumento, 10, ' ') +                             // Seu Número - Nr. titulo dado pelo cedente
                   FormatDateTime( 'ddmmyy', Vencimento ) +                      // Data de vencimento
                   IntToStrZero( Round( ValorDocumento * 100 ), 13) +            // Valor do titulo
                   '085' + '0000' + ' ' +                                        // Numero do Banco - 085 + Prefixo da agência cobradora + DV-pref. agência cobradora
-                  padR(ATipoEspecieDoc, 2, '0') +                               // Especie de titulo
+                  PadLeft(ATipoEspecieDoc, 2, '0') +                               // Especie de titulo
                   ATipoAceite +                                                 // Aceite
                   FormatDateTime( 'ddmmyy', DataDocumento ) +                   // Data de Emissão
                   AInstrucao +                                                  // 1ª e 2ª instrução codificada
@@ -376,17 +379,17 @@ begin
                   IntToStrZero(0,13) +                                           // Zeros
                   IntToStrZero( round( ValorAbatimento * 100 ), 13) +           // Valor do abatimento permitido
                   ATipoSacado +                                                 // Tipo de inscricao do sacado
-                  padR(OnlyNumber(Sacado.CNPJCPF),14,'0') +                     // CNPJ ou CPF do sacado
-                  padL( Sacado.NomeSacado, 37) +                                // Nome do sacado
+                  PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0') +                     // CNPJ ou CPF do sacado
+                  PadRight( Sacado.NomeSacado, 37) +                                // Nome do sacado
                   '   '  +                                                      // Brancos
-                  padL(trim(Sacado.Logradouro) + ', ' +
+                  PadRight(trim(Sacado.Logradouro) + ', ' +
                        trim(Sacado.Numero) + ' '+ trim(Sacado.Bairro),
                        52) +                                                    // Endereço do sacado
-                  padR( OnlyNumber(Sacado.CEP), 8 ) +                           // CEP do endereço do sacado
-                  padL( trim(Sacado.Cidade), 15) +                              // Cidade do sacado
-                  padL( Sacado.UF, 2 ) +                                        // UF da cidade do sacado
-                  padL( AMensagem, 40) +                                        // Observações
-                  padR(DiasProtesto,2,'0') +                                    // Número de dias para protesto
+                  PadLeft( OnlyNumber(Sacado.CEP), 8 ) +                           // CEP do endereço do sacado
+                  PadRight( trim(Sacado.Cidade), 15) +                              // Cidade do sacado
+                  PadRight( Sacado.UF, 2 ) +                                        // UF da cidade do sacado
+                  PadRight( AMensagem, 40) +                                        // Observações
+                  PadLeft(DiasProtesto,2,'0') +                                    // Número de dias para protesto
                   ' ' +                                                         // Branco
                   IntToStrZero( aRemessa.Count + 1, 6 );
 

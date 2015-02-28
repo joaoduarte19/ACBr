@@ -1451,7 +1451,7 @@ begin
       sValorServico_Assinatura := Poem_Zeros( OnlyNumber( FormatFloat('#0.00', (NFSe.Servico.Valores.ValorServicos - NFSe.Servico.Valores.ValorDeducoes) ) ), 15);
 
       sAssinatura := Poem_Zeros(NFSe.Prestador.InscricaoMunicipal, 11) +
-                     padL( NFSe.IdentificacaoRps.Serie, 5 , ' ') +
+                     PadRight( NFSe.IdentificacaoRps.Serie, 5 , ' ') +
                      Poem_Zeros(NFSe.IdentificacaoRps.Numero, 12) +
                      FormatDateTime('yyyymmdd',NFse.DataEmissaoRps) +
                      EnumeradoToStr( NFSe.OptanteSimplesNacional, ['H','T'], [snSim, snNao])+ //ANTES ERA 'G', THIAGO FILIANO

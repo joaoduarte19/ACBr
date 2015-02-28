@@ -278,13 +278,13 @@ begin
       'REMESSA' + // Literal de Remessa
       '01' +
       // Código do Tipo de Serviço
-      padL('COBRANCA', 15) +
+      PadRight('COBRANCA', 15) +
       // Descrição do tipo de serviço + "brancos"
-      padR(CodigoCedente, 14, '0') +
+      PadLeft(CodigoCedente, 14, '0') +
       // Codigo da Empresa no Banco
       Space(6) + // "brancos"
-      padL(Nome, 30) + // Nome da Empresa
-      IntToStr(Numero) + padL('BANCO SAFRA', 15) +
+      PadRight(Nome, 30) + // Nome da Empresa
+      IntToStr(Numero) + PadRight('BANCO SAFRA', 15) +
       // Código e Nome do Banco(237 - BANCO SAFRA) + "brancos"
       FormatDateTime('ddmmyy', Now) +
       // Data de geração do arquivo
@@ -379,7 +379,7 @@ begin
     if StrToInt(Instrucao3) > 0 then
       aInstrucao2 := '10'
     else
-      aInstrucao2 := padR(trim(Instrucao2), 2, '0');
+      aInstrucao2 := PadLeft(trim(Instrucao2), 2, '0');
 
     if Sacado.Pessoa = pFisica then
       aTipoSacado := '01'
@@ -416,7 +416,7 @@ begin
       // Identificação do Tipo de Carteira
       Ocorrencia +
       // Identificação do Tipo de Ocorrência
-      padL(SeuNumero, 10) +
+      PadRight(SeuNumero, 10) +
       // Identificação do Título da Empresa
       FormatDateTime('ddmmyy', Vencimento) +
       // Data de Vencimento do Título
@@ -432,7 +432,7 @@ begin
       // Identificação do Aceite do Título
       FormatDateTime('ddmmyy', DataDocumento) +
       // Data de Emissão do Título
-      padR(trim(Instrucao1), 2, '0') +
+      PadLeft(trim(Instrucao1), 2, '0') +
       // Primeira Instrução de Cobrança
       aInstrucao2 +
       // Segunda Instrução de Cobrança
@@ -448,19 +448,19 @@ begin
       // Valor Do Abatimento Concedido Ou Cancelado / Multa
       aTipoSacado +
       // Código De Inscrição Do Sacado
-      padR(OnlyNumber(Sacado.CNPJCPF), 14, '0') +
+      PadLeft(OnlyNumber(Sacado.CNPJCPF), 14, '0') +
       // Número de Inscrição do Sacado
-      padL(Sacado.NomeSacado, 40, ' ') + // Nome Do Sacado
-      padL(Sacado.Logradouro + ' ' + Sacado.Numero, 40, ' ') +
+      PadRight(Sacado.NomeSacado, 40, ' ') + // Nome Do Sacado
+      PadRight(Sacado.Logradouro + ' ' + Sacado.Numero, 40, ' ') +
       // Endereço Do Sacado
-      padL(Sacado.Bairro, 10, ' ') +
+      PadRight(Sacado.Bairro, 10, ' ') +
       // Bairro Do Sacado
       Space(2) + // 'Brancos"
-      padL(Sacado.CEP, 8) + // CEP do Sacado
-      padL(Sacado.Cidade, 15) +
+      PadRight(Sacado.CEP, 8) + // CEP do Sacado
+      PadRight(Sacado.Cidade, 15) +
       // Cidade do Sacado
-      padL(Sacado.UF, 2) + // UF do Sacado
-      padL(MensagemCedente, 30) +
+      PadRight(Sacado.UF, 2) + // UF do Sacado
+      PadRight(MensagemCedente, 30) +
       // Mensagem específica
       Space(7) + // "Brancos"
       '422' +
@@ -502,7 +502,7 @@ begin
   with ACBrBanco.ACBrBoleto do
   begin
     if (not LeCedenteRetorno) and (rCodEmpresa <>
-      padR(Cedente.CodigoCedente, 14, '0')) then
+      PadLeft(Cedente.CodigoCedente, 14, '0')) then
       raise Exception.Create(ACBrStr('Código da Empresa do arquivo inválido'));
 
     if (not LeCedenteRetorno) and ((rAgencia <> OnlyNumber(Cedente.Agencia)) or

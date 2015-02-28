@@ -367,8 +367,8 @@ begin
 
      FDvCMC7     := Copy(Banda,33,1)[1];
      FC1         := CalculaC1(FComp + FBanco + FAgencia);
-     FC2         := CalculaC2(padR(FConta, 10, '0'));
-     FC3         := CalculaC3(padR(FNumero, 6, '0'));
+     FC2         := CalculaC2(PadLeft(FConta, 10, '0'));
+     FC3         := CalculaC3(PadLeft(FNumero, 6, '0'));
      FCMC7       := Banda
   except
      ZeraCampos ;

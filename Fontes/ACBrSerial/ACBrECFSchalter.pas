@@ -72,12 +72,12 @@
 unit ACBrECFSchalter ;
 
 interface
-uses ACBrECFClass, ACBrDevice, ACBrUtil, ACBrConsts,
-     Classes
+uses Classes,
      {$IFNDEF NOGUI}
-       {$IFDEF VisualCLX}, QDialogs, QControls {$ENDIF}
-       {$IFDEF VCL}, Dialogs, Controls {$ENDIF}
-     {$ENDIF} ;
+       {$IFDEF VisualCLX} QDialogs, QControls {$ENDIF}
+       {$IFDEF VCL} Dialogs, Controls {$ENDIF}
+     {$ENDIF},
+     ACBrECFClass, ACBrDevice;
 
 const
    ByteCabecalho = #146 ;        { #146 -> Ligando os bits 1,4,7 }
@@ -221,7 +221,8 @@ TACBrECFSchalter = class( TACBrECFClass )
 
 implementation
 Uses SysUtils, Math,
-    {$IFDEF COMPILER6_UP} DateUtils, StrUtils {$ELSE} ACBrD5, Windows{$ENDIF} ;
+    {$IFDEF COMPILER6_UP} DateUtils, StrUtils {$ELSE} ACBrD5, Windows{$ENDIF},
+    ACBrUtil;
 
 { ----------------------------- TACBrECFSchalter ----------------------------- }
 
@@ -682,7 +683,7 @@ procedure TACBrECFSchalter.LeituraX ;
 begin
   BytesResp := 1 ;
   AguardaImpressao := True ;
-  EnviaComando( #20 + PadL(Operador,8), 35) ;
+  EnviaComando( #20 + PadRight(Operador,8), 35) ;
   PulaLinhas ;
 end;
 
@@ -705,7 +706,7 @@ procedure TACBrECFSchalter.ReducaoZ(DataHora : TDateTime) ;
 begin
   BytesResp := 1 ;
   AguardaImpressao := True ;
-  EnviaComando( #19 + PadL(Operador,8), 45) ;   { Schalter NAO usa DataHora }
+  EnviaComando( #19 + PadRight(Operador,8), 45) ;   { Schalter NAO usa DataHora }
   PulaLinhas ;
 
   fsDadosLeituraX := '' ;
@@ -770,9 +771,9 @@ begin
         try
            { O comando #05 NUNCA envia a resposta (apesar de funcionar) } 
            if TamDoc > 11 then    { É CNPJ ? }
-              EnviaComando( #05 + '  ' + PadL(CPF_CNPJ,18) + StringOfChar(' ',11))
+              EnviaComando( #05 + '  ' + PadRight(CPF_CNPJ,18) + StringOfChar(' ',11))
            else if TamDoc > 0 then  { Enviou algum Documento ? }
-              EnviaComando( #05 + '  ' + StringOfChar(' ',18) + PadL(CPF_CNPJ,11));
+              EnviaComando( #05 + '  ' + StringOfChar(' ',18) + PadRight(CPF_CNPJ,11));
         except
           { O comando acima é problemático... o ECF para de responder os próximos comandos
             Vamos tentar ler COO e Estado até que ele retorne valores válidos }
@@ -800,8 +801,8 @@ begin
    begin
     if ( StrToFloat( NumVersao ) > 2.04 ) then
      begin
-       EnviaComando( #110 + padL('Item  Codigo      Descricao',Colunas) ) ;
-       EnviaComando( #110 + padL('                    Qtd            Preco',
+       EnviaComando( #110 + PadRight('Item  Codigo      Descricao',Colunas) ) ;
+       EnviaComando( #110 + PadRight('                    Qtd            Preco',
           Colunas) ) ;
      end ;
    end ;
@@ -822,7 +823,7 @@ begin
    begin
      { Cancelamento de Documento Atual }
      AguardaImpressao := True ;
-     EnviaComando( #07 + '  ' + PadL(Operador,8) + '    ', 15)
+     EnviaComando( #07 + '  ' + PadRight(Operador,8) + '    ', 15)
    end 
   else
    begin
@@ -845,12 +846,12 @@ begin
 
         { Fechando Cupom }
         AguardaImpressao := True ;
-        EnviaComando( #06 + '  ' + PadL(Operador,8), 15) ;
+        EnviaComando( #06 + '  ' + PadRight(Operador,8), 15) ;
      end ;
 
      { Cancelamento de Documento Anterior }
      AguardaImpressao := True ;
-     EnviaComando( #199 + '  ' + PadL(Operador,8) ,15) ;
+     EnviaComando( #199 + '  ' + PadRight(Operador,8) ,15) ;
    end ;
 
   fsDadosLeituraX := '' ;
@@ -906,7 +907,7 @@ begin
   if ( Observacao <> '' ) and ( StrToFloat( NumVersao ) > 3 ) then
   begin
      AguardaImpressao := True ;
-     EnviaComando( #110 + padL( Observacao, Colunas) ) ;
+     EnviaComando( #110 + PadRight( Observacao, Colunas) ) ;
   end ;
 end;
 
@@ -923,7 +924,7 @@ begin
 
   { Fechando o Documento }
   AguardaImpressao := True ;
-  EnviaComando( #06 + '  ' + PadL(Operador,8) ,10) ;
+  EnviaComando( #06 + '  ' + PadRight(Operador,8) ,10) ;
 
   fsTotalPago   := 0 ;
   fsEmPagamento := false ;
@@ -941,13 +942,13 @@ begin
   if DescontoAcrescimo < 0 then
    begin
      AguardaImpressao := True ;
-     EnviaComando( #217 + chr(0) + #0 + padL('Desconto:',25) +
+     EnviaComando( #217 + chr(0) + #0 + PadRight('Desconto:',25) +
         IntToStrZero( Round(abs(DescontoAcrescimo) * 100),10) ) ;
    end
   else if DescontoAcrescimo > 0 then
    begin
      AguardaImpressao := True ;
-     EnviaComando( #217 + chr(1) + #0 + padL('Acrescimo:',25) +
+     EnviaComando( #217 + chr(1) + #0 + PadRight('Acrescimo:',25) +
         IntToStrZero( Round(DescontoAcrescimo * 100),10) ) ;
    end ;
 
@@ -982,13 +983,13 @@ begin
 
   if StrToFloat( NumVersao ) > 3 then
    begin
-     Codigo      := padL(Codigo,13) ;
-     Descricao   := padL(Descricao,62) ;
-     Unidade     := padL(Unidade,2) ;
+     Codigo      := PadRight(Codigo,13) ;
+     Descricao   := PadRight(Descricao,62) ;
+     Unidade     := PadRight(Unidade,2) ;
      QtdStr      := FloatToStr(Qtd) ;
      if Length(QtdStr) > 7 then
         QtdStr := FloatToStr(RoundTo(Qtd,-(7-pos(DecimalSeparator,QtdStr)))) ;
-     QtdStr   := PadR(StringReplace(QtdStr,DecimalSeparator,',',[rfReplaceAll]),7,'0') ;
+     QtdStr   := PadLeft(StringReplace(QtdStr,DecimalSeparator,',',[rfReplaceAll]),7,'0') ;
      ValorStr := FloatToStr(ValorUnitario) ;
 
      Decimais := pos(DecimalSeparator,ValorStr) ;
@@ -1011,9 +1012,9 @@ begin
    end
   else
    begin
-     Codigo    := padL(Codigo,10) ;
-     Descricao := Copy(padL(Descricao,48),1,48) ;
-     Unidade   := padL(Unidade,2) ;
+     Codigo    := PadRight(Codigo,10) ;
+     Descricao := Copy(PadRight(Descricao,48),1,48) ;
+     Unidade   := PadRight(Unidade,2) ;
      QtdStr    := Format('%9s',[FormatFloat('##,##0.00', Qtd)]) ;
      ValorStr  := Format('%10s',[FormatFloat('###,##0.00', ValorUnitario)]);
      TotalStr  := Format('%.10d', [Round(Qtd * ValorUnitario * 100)]);
@@ -1130,7 +1131,7 @@ begin
     'F' : AliquotaStr := IfThen(StrToFloat( NumVersao ) < 3,'12','16') ;
     'I' : AliquotaStr := IfThen(StrToFloat( NumVersao ) < 3,'13','17') ;
     'N' : AliquotaStr := IfThen(StrToFloat( NumVersao ) < 3,'14','18') ;
-    'T' : AliquotaICMS := 'T'+padR(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
+    'T' : AliquotaICMS := 'T'+PadLeft(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
   end ;
 
   if AliquotaStr = '' then
@@ -1198,7 +1199,7 @@ procedure TACBrECFSchalter.ProgramaFormaPagamento(var Descricao: String;
 Var ProxIndice : Integer ;
     FPagto : TACBrECFFormaPagamento ;
 begin
-  Descricao := padL(Descricao,20) ;
+  Descricao := PadRight(Descricao,20) ;
 
   CarregaFormasPagamento ;
 
@@ -1282,7 +1283,7 @@ Var PV, ProxIndice, IndiceFPG : Integer ;
     CNF : TACBrECFComprovanteNaoFiscal ;
 begin
   Tipo      := UpperCase(Tipo) ;
-  Descricao := padL(Descricao,20) ;
+  Descricao := PadRight(Descricao,20) ;
   IndiceFPG := -1 ;
   DescrFPG  := '' ;
   PV        := pos('V',Tipo) ;
@@ -1378,7 +1379,7 @@ procedure TACBrECFSchalter.AbreRelatorioGerencial(Indice : Integer) ;
 begin
   BytesResp := 1 ;
   AguardaImpressao := True ;
-  EnviaComando( #16 + PadL(Operador,8) ,35 ) ;
+  EnviaComando( #16 + PadRight(Operador,8) ,35 ) ;
   fsDadosLeituraX := '' ;
 end;
 
@@ -1446,7 +1447,7 @@ begin
   if (EstInt = 90) or (EstInt = 122) or ( EstInt = 124) then
   begin
      BytesResp := 1 ;
-     EnviaComando( #06 + '  ' + padL(Operador,8), 10 ) ;
+     EnviaComando( #06 + '  ' + PadRight(Operador,8), 10 ) ;
      PulaLinhas ;
   end ;
   
@@ -1624,9 +1625,9 @@ begin
 
       BytesResp := 1 ;
       if TamDoc > 11 then    { É CNPJ ? }
-         EnviaComando( #05 + '  ' + PadL(CPF_CNPJ,18) + StringOfChar(' ',11), 5)
+         EnviaComando( #05 + '  ' + PadRight(CPF_CNPJ,18) + StringOfChar(' ',11), 5)
       else if TamDoc > 0 then  { Enviou algum Documento ? }
-         EnviaComando( #05 + '  ' + StringOfChar(' ',18) + PadL(CPF_CNPJ,11), 5);
+         EnviaComando( #05 + '  ' + StringOfChar(' ',18) + PadRight(CPF_CNPJ,11), 5);
   end ;
   fsDadosLeituraX := '' ;
 end;
@@ -1636,7 +1637,7 @@ procedure TACBrECFSchalter.RegistraItemNaoFiscal(CodCNF: String;
 begin
   BytesResp := 1 ;
   AguardaImpressao := True ;
-  EnviaComando( #214 + padL(Obs,78) +
+  EnviaComando( #214 + PadRight(Obs,78) +
                        IntToStrZero(Round( Valor * 100), 9) + CodCNF ,5) ;
   fsDadosLeituraX := '' ;
 end;

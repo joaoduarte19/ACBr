@@ -714,8 +714,8 @@ begin
                                   ' Data: '      +DataStr+
                                   ' Hora: '      +HoraStr) ;
 
-   pValorTransacao   := padR(ValorStr, 12, '0') ;
-   pNumeroCupomVenda := padR(Documento, 6, '0') ;
+   pValorTransacao   := PadLeft(ValorStr, 12, '0') ;
+   pNumeroCupomVenda := PadLeft(Documento, 6, '0') ;
    pNumeroControle   := HoraStr ;
 
    if Funcao = 1 then // Cartão de Crédito

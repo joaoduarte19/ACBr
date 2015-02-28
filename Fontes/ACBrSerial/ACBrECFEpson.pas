@@ -3267,7 +3267,7 @@ end ;
 
 function TACBrECFEpson.GetPAF: String;
 begin
-  Result := padL(fsPAF1,42)+'|'+padL(fsPAF2,42) ; 
+  Result := PadRight(fsPAF1,42)+'|'+PadRight(fsPAF2,42) ; 
 end;
 
 procedure TACBrECFEpson.IdentificaPAF(NomeVersao, MD5 : String);
@@ -3925,7 +3925,7 @@ begin
 
   EpsonComando.Comando  := '0570';
   EpsonComando.Extensao := '0000';
-  EpsonComando.AddParamString( PadL(Descricao,15) );
+  EpsonComando.AddParamString( PadRight(Descricao,15) );
   EnviaComando;
   
   CarregaRelatoriosGerenciais;

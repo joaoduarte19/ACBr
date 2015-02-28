@@ -34,8 +34,9 @@
 unit ACBrBancoBRB;
 interface
 uses
-  Classes, SysUtils, ACBrBoleto,
-{$IFDEF COMPILER6_UP}dateutils{$ELSE}ACBrD5{$ENDIF};
+  Classes, SysUtils,
+  ACBrBoleto;
+
 type
   { TACBrBancoBanrisul }
   TACBrBancoBRB = class(TACBrBancoClass)
@@ -56,7 +57,9 @@ type
 implementation
 
 uses
-  ACBrUtil, StrUtils;
+  {$IFDEF COMPILER6_UP}dateutils{$ELSE}ACBrD5{$ENDIF},
+  StrUtils,
+  ACBrUtil;
 
 { TACBrBancoBRB }
 
@@ -180,7 +183,7 @@ var
 begin
    with ACBrTitulo do
    begin
-      Campo1 := padR(IntToStr(Numero), 3, '0') + '9';
+      Campo1 := PadLeft(IntToStr(Numero), 3, '0') + '9';
       FatorVencimento := CalcularFatorVencimento(ACBrTitulo.Vencimento);
       Valor := IntToStrZero(Round(ValorDocumento * 100), 10);
       ChaveASBACE := MontarChaveASBACE(ACBrTitulo);
@@ -198,9 +201,9 @@ end;
 function TACBrBancoBRB.MontarCampoCodigoCedente(const ACBrTitulo: TACBrTitulo): string;
 begin
    Result := '000-' +
-             padR(ACBrTitulo.ACBrBoleto.Cedente.Agencia, 3, '0') + '.' +
+             PadLeft(ACBrTitulo.ACBrBoleto.Cedente.Agencia, 3, '0') + '.' +
              FormatFloat('000,000', StrToFloat(ACBrTitulo.ACBrBoleto.Cedente.Conta)) + '-' +
-             padR(ACBrTitulo.ACBrBoleto.Cedente.ContaDigito, 1, '0');
+             PadLeft(ACBrTitulo.ACBrBoleto.Cedente.ContaDigito, 1, '0');
 end;
 
 procedure TACBrBancoBRB.GerarRegistroHeader400(NumeroRemessa: Integer; aRemessa: TStringList);
@@ -212,8 +215,8 @@ begin
      wLinha := 'DCB'                                             + // Literal DCB
                '001'                                             + // Versão
                '075'                                             + // Arquivo
-               padR(OnlyNumber(Agencia), 3, '0')                 + // Agência
-               padR(OnlyNumber(Conta), 6, '0') + padR(ContaDigito, 1, '0')   + // Conta
+               PadLeft(OnlyNumber(Agencia), 3, '0')                 + // Agência
+               PadLeft(OnlyNumber(Conta), 6, '0') + PadLeft(ContaDigito, 1, '0')   + // Conta
                FormatDateTime('yyyymmdd', Now)                   + // Data de formatação
                FormatDateTime('hhmmss', Now)                     + // Hora da formatação
                IntToStrZero(ACBrBoleto.ListadeBoletos.Count +1,6); // Qtde de registros Header + Detalhe
@@ -251,7 +254,7 @@ begin
 
      { Nosso Número }
      if StrToIntDef(ACBrBoleto.Cedente.Modalidade, 1) in [1..2] then
-        lNossoNumero := padR(MontarCampoNossoNumero(ACBrTitulo), 12, '0')
+        lNossoNumero := PadLeft(MontarCampoNossoNumero(ACBrTitulo), 12, '0')
      else
         lNossoNumero := StringOfChar('0', 12);
 
@@ -296,19 +299,19 @@ begin
      with ACBrBoleto do
      begin
         wLinha:= '01'                                                             + // Identificação do registro
-                 padR(Cedente.Agencia, 3, '0')                                    + // Agência
-                 padR(Cedente.Conta, 6, '0') + padR(Cedente.ContaDigito, 1, '0')  + // Conta
-                 PadL(OnlyNumber(Sacado.CNPJCPF), 14, '0')                        + // Código do Sacado
-                 padL(Sacado.NomeSacado, 35)                                      + // Nome do Sacado
-                 PadL(Sacado.Logradouro + ', '                                    +
+                 PadLeft(Cedente.Agencia, 3, '0')                                    + // Agência
+                 PadLeft(Cedente.Conta, 6, '0') + PadLeft(Cedente.ContaDigito, 1, '0')  + // Conta
+                 PadRight(OnlyNumber(Sacado.CNPJCPF), 14, '0')                        + // Código do Sacado
+                 PadRight(Sacado.NomeSacado, 35)                                      + // Nome do Sacado
+                 PadRight(Sacado.Logradouro + ', '                                    +
                       Sacado.Numero+' '                                           +
                       Sacado.Complemento, 35)                                     + // Endereço do Sacado
-                 PadL(Sacado.Cidade, 15)                                          + // Cidade do Sacado
-                 PadL(Sacado.UF, 2)                                               + // UF do sacado
-                 PadL(OnlyNumber(Sacado.CEP), 8, '0')                             + // CEP do sacado
+                 PadRight(Sacado.Cidade, 15)                                          + // Cidade do Sacado
+                 PadRight(Sacado.UF, 2)                                               + // UF do sacado
+                 PadRight(OnlyNumber(Sacado.CEP), 8, '0')                             + // CEP do sacado
                  TipoPessoa                                                       + // Código Tipo Pessoa 1- Física; 2- Jurídica ou 9- Isenta
-                 padL(SeuNumero, 13)                                              + // Seu número
-                 padL(Cedente.Modalidade, 1)                                      + // Cód. carteira cobrança 1- Sem Registro; 2- Com Registro- Impressão Local ou 3- Com Registro- Impressão pelo BRB
+                 PadRight(SeuNumero, 13)                                              + // Seu número
+                 PadRight(Cedente.Modalidade, 1)                                      + // Cód. carteira cobrança 1- Sem Registro; 2- Com Registro- Impressão Local ou 3- Com Registro- Impressão pelo BRB
                  FormatDateTime('ddmmyyyy', DataDocumento)                        + // Data de Emissão
                  TipoDocumento                                                    + // Código Tipo Documento 21- Duplicata Mercantil; 22- Nota Promissória; 25- Recibo; 31- Duplicata Prestação ou 39- Outros
                  '0'                                                              + // Código da Natureza 0 - Simples
@@ -331,7 +334,7 @@ begin
                  Instrucao2                                                       + // Código da 2º Instrução
                  Prazo2                                                           + // Prazo da 2º Instrução 00 (Se não houver 1ª Instrução)
                  FormatCurr('00000', PercentualMulta * 100)                       + // Taxa ref, a uma das duas Inst. 00000 (Se não houver Instrução ou Taxa) Confirmar a formatação - 5% coloquei assim 00500
-                 padL(Cedente.Nome,40)                                            + // Emitente do Título
+                 PadRight(Cedente.Nome,40)                                            + // Emitente do Título
                  Space(40)                                                        + // Mensagem Livre (Observações)
                  Space(32)                                                        ; // Brancos
 
@@ -426,12 +429,12 @@ begin
      raise Exception.Create(ACBrStr('Campo Modalidade não informado, impossivel continuar.'));
 
   ChaveASBACESemDigito := '000';
-  ChaveASBACESemDigito := ChaveASBACESemDigito + padR(OnlyNumber(ACBrTitulo.ACBrBoleto.Cedente.Agencia), 3, '0');
-  ChaveASBACESemDigito := ChaveASBACESemDigito + padR(OnlyNumber(ACBrTitulo.ACBrBoleto.Cedente.Conta), 6, '0');
-  ChaveASBACESemDigito := ChaveASBACESemDigito + padR(ACBrTitulo.ACBrBoleto.Cedente.ContaDigito, 1, '0');
-  ChaveASBACESemDigito := ChaveASBACESemDigito + padL(trim(ACBrTitulo.ACBrBoleto.Cedente.Modalidade), 1); //Categoria da Cobrança
-  ChaveASBACESemDigito := ChaveASBACESemDigito + padR(ACBrTitulo.NossoNumero, 6, '0');
-  ChaveASBACESemDigito := ChaveASBACESemDigito + padR(IntToStr(Numero), 3, '0');
+  ChaveASBACESemDigito := ChaveASBACESemDigito + PadLeft(OnlyNumber(ACBrTitulo.ACBrBoleto.Cedente.Agencia), 3, '0');
+  ChaveASBACESemDigito := ChaveASBACESemDigito + PadLeft(OnlyNumber(ACBrTitulo.ACBrBoleto.Cedente.Conta), 6, '0');
+  ChaveASBACESemDigito := ChaveASBACESemDigito + PadLeft(ACBrTitulo.ACBrBoleto.Cedente.ContaDigito, 1, '0');
+  ChaveASBACESemDigito := ChaveASBACESemDigito + PadRight(trim(ACBrTitulo.ACBrBoleto.Cedente.Modalidade), 1); //Categoria da Cobrança
+  ChaveASBACESemDigito := ChaveASBACESemDigito + PadLeft(ACBrTitulo.NossoNumero, 6, '0');
+  ChaveASBACESemDigito := ChaveASBACESemDigito + PadLeft(IntToStr(Numero), 3, '0');
   Result := ChaveASBACESemDigito + CalculaDigitosChaveASBACE(ChaveASBACESemDigito);
 end;
 

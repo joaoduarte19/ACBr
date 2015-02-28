@@ -103,10 +103,10 @@ begin
      ACBrDIS1.Alinhamento := alCentro ;
      ACBrDIS1.Intervalo   := 100 ;
      ACBrDIS1.ExibirLinha(1,
-        padC('COMPONENTES ACBr',ACBrDIS1.Colunas,'*'),
+        PadCenter('COMPONENTES ACBr',ACBrDIS1.Colunas,'*'),
         efeEsquerda_Direita);
      ACBrDIS1.ExibirLinha(2,
-        padC('acbr.sourceforge.net',ACBrDIS1.Colunas,'*'),
+        PadCenter('acbr.sourceforge.net',ACBrDIS1.Colunas,'*'),
         efeDireita_Esquerda);
 
      while ACBrDIS1.Trabalhando do

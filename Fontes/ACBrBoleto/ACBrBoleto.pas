@@ -48,13 +48,12 @@
 unit ACBrBoleto;
 
 interface
-uses  ACBrBase,  {Units da ACBr}
+uses Classes, Graphics, Contnrs,
      {$IFDEF FPC}
        LResources,
      {$ENDIF}
-     SysUtils, ACBrValidador,
-     smtpsend, ssl_openssl, mimemess, mimepart, // units para enviar email
-     Graphics, Contnrs, Classes;
+     SysUtils,
+     ACBrBase, ACBrValidador;
 
 const
   CACBrBoleto_Versao = '0.0.113a' ;
@@ -757,7 +756,6 @@ type
     procedure GerarPDF;
     procedure GerarHTML;
 
-    // enviar email.
     procedure EnviarEmail(const sSmtpHost,
                                 sSmtpPort,
                                 sSmtpUser,
@@ -775,26 +773,6 @@ type
                                 NomeRemetente: String = '';
                                 TLS : Boolean = True;
                                 HTML:Boolean = False);
-
-    // enviar email.
-    procedure EnviarEmailNormal(const sSmtpHost,
-                                sSmtpPort,
-                                sSmtpUser,
-                                sSmtpPasswd,
-                                sFrom,
-                                sTo,
-                                sAssunto: String;
-                                sMensagem : TStrings;
-                                SSL : Boolean;
-                                EnviaPDF: Boolean = true;
-                                sCC: TStrings = nil;
-                                Anexos:TStrings=nil;
-                                PedeConfirma: Boolean = False;
-                                AguardarEnvio: Boolean = False;
-                                NomeRemetente: String = '';
-                                TLS : Boolean = True;
-                                HTML:Boolean = False);
-
 
     procedure AdicionarMensagensPadroes(Titulo : TACBrTitulo; AStringList: TStrings);
 
@@ -876,38 +854,16 @@ type
     property PrinterName    : String          read fPrinterName    write fPrinterName;
   end;
 
-  //email
-  TSendMailThread = class(TThread)
-  private
-    FException : Exception;
-    FOwner: TACBrBoleto;
-    procedure DoHandleException;
-  public
-    OcorreramErros: Boolean;
-    Terminado: Boolean;
-    smtp : TSMTPSend;
-    sFrom : String;
-    sTo : String;
-    sCC : TStrings;
-    slmsg_Lines : TStrings;
-    constructor Create(AOwner: TACBrBoleto);
-    destructor Destroy; override;
-  protected
-    procedure Execute; override;
-    procedure HandleException;
-  end;
-
-
 procedure Register;
 
 implementation
 
-Uses ACBrUtil, ACBrBancoBradesco, ACBrBancoBrasil, ACBrBancoBanestes, ACBrBancoItau,
+Uses Forms, Math, dateutils, strutils,
+     ACBrUtil, ACBrBancoBradesco, ACBrBancoBrasil, ACBrBancoBanestes, ACBrBancoItau,
      ACBrBancoSicredi, ACBrBancoMercantil, ACBrCaixaEconomica, ACBrBancoBanrisul,
      ACBrBancoSantander, ACBrBancoob, ACBrCaixaEconomicaSICOB ,ACBrBancoHSBC,
      ACBrBancoNordeste , ACBrBancoBRB, ACBrBancoBic, ACBrBancoBradescoSICOOB,
-     ACBrBancoSafra, ACBrBancoSafraBradesco, ACBrBancoCecred,
-     Forms, Math, dateutils, strutils;
+     ACBrBancoSafra, ACBrBancoSafraBradesco, ACBrBancoCecred;
 
 {$IFNDEF FPC}
    {$R ACBrBoleto.dcr}
@@ -1055,7 +1011,7 @@ begin
       if Length(trim(AValue)) > wTamNossoNumero then
          raise Exception.Create( ACBrStr('Tamanho Máximo do Nosso Número é: '+ IntToStr(wTamNossoNumero) ));
 
-      fNossoNumero := padR(trim(AValue),wTamNossoNumero,'0');
+      fNossoNumero := PadLeft(trim(AValue),wTamNossoNumero,'0');
    end;
 end;
 
@@ -1263,7 +1219,7 @@ begin
    Result := fListadeBoletos[I];
 end;
 
-Procedure TACBrBoleto.Imprimir;
+procedure TACBrBoleto.Imprimir;
 begin
    if not Assigned(ACBrBoletoFC) then
       raise Exception.Create( ACBrStr('Nenhum componente "ACBrBoletoFC" associado' ) ) ;
@@ -1286,305 +1242,6 @@ begin
    ACBrBoletoFC.GerarPDF;
 end;
 
-
-procedure TACBrBoleto.EnviarEmail(const sSmtpHost,
-                                      sSmtpPort,
-                                      sSmtpUser,
-                                      sSmtpPasswd,
-                                      sFrom,
-                                      sTo,
-                                      sAssunto: String;
-                                      sMensagem : TStrings;
-                                      SSL : Boolean;
-                                      EnviaPDF: Boolean = true;
-                                      sCC: TStrings=nil;
-                                      Anexos:TStrings=nil;
-                                      PedeConfirma: Boolean = False;
-                                      AguardarEnvio: Boolean = False;
-                                      NomeRemetente: String = '';
-                                      TLS : Boolean = True;
-                                      HTML:Boolean = False);
-var
-  ThreadSMTP : TSendMailThread;
-  m:TMimemess;
-  p: TMimepart;
-  StreamNFe : TStringStream;
-  i: Integer;
-begin
-  m:=TMimemess.create;
-
-  ThreadSMTP := TSendMailThread.Create(Self) ;  // Não Libera, pois usa FreeOnTerminate := True ;
-  StreamNFe  := TStringStream.Create('');
-  try
-    p := m.AddPartMultipart('mixed', nil);
-    if sMensagem <> nil then
-//       m.AddPartText(sMensagem, p);
-      if HTML = true then
-         m.AddPartHTML(sMensagem, p)
-      else
-         m.AddPartText(sMensagem, p);
-
-    if (EnviaPDF) then
-     begin
-       if ACBrBoletoFC.NomeArquivo = '' then
-          ACBrBoletoFC.NomeArquivo := 'boleto.pdf';;
-       GerarPDF;
-       m.AddPartBinaryFromFile(ACBrBoletoFC.NomeArquivo, p);
-     end
-    else
-     begin
-       if ACBrBoletoFC.NomeArquivo = '' then
-          ACBrBoletoFC.NomeArquivo := 'boleto.html';;
-       GerarHTML;
-       m.AddPartBinaryFromFile(ACBrBoletoFC.NomeArquivo, p);
-     end;
-
-
-    if assigned(Anexos) then
-       for i := 0 to Anexos.Count - 1 do
-       begin
-          m.AddPartBinaryFromFile(Anexos[i], p);
-       end;
-
-    m.header.tolist.add(sTo);
-
-    if Trim(NomeRemetente) <> '' then
-       m.header.From := Format('%s<%s>', [NomeRemetente, sFrom])
-    else
-       m.header.From := sFrom;
-
-    m.header.subject:= sAssunto;
-    m.Header.ReplyTo := sFrom;
-    if PedeConfirma then
-       m.Header.CustomHeaders.Add('Disposition-Notification-To: '+sFrom);
-    m.EncodeMessage;
-
-    ThreadSMTP.sFrom := sFrom;
-    ThreadSMTP.sTo   := sTo;
-    if sCC <> nil then
-       ThreadSMTP.sCC.AddStrings(sCC);
-    ThreadSMTP.slmsg_Lines.AddStrings(m.Lines);
-
-    ThreadSMTP.smtp.UserName := sSmtpUser;
-    ThreadSMTP.smtp.Password := sSmtpPasswd;
-
-    ThreadSMTP.smtp.TargetHost := sSmtpHost;
-    if trim(sSmtpPort)<>'' then     // Usa default
-       ThreadSMTP.smtp.TargetPort := sSmtpPort;
-
-    ThreadSMTP.smtp.FullSSL := SSL;
-    ThreadSMTP.smtp.AutoTLS := TLS;
-
-
-    ThreadSMTP.Resume; // inicia a thread
-    if AguardarEnvio then
-    begin
-      repeat
-         Sleep(1000);
-         Application.ProcessMessages;
-      until ThreadSMTP.Terminado;
-    end;
- finally
-    m.free;
-    StreamNFe.Free ;
- end;
-end;
-
-procedure TACBrBoleto.EnviarEmailNormal(const sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo, sAssunto: String;
-  sMensagem: TStrings; SSL, EnviaPDF: Boolean; sCC, Anexos: TStrings; PedeConfirma, AguardarEnvio: Boolean; NomeRemetente: String;
-  TLS: Boolean; HTML:Boolean);
-var
-  smtp: TSMTPSend;
-  msg_lines: TStringList;
-  m:TMimemess;
-  p: TMimepart;
-  i: Integer;
-begin
-  smtp      := TSMTPSend.Create;
-  m         := TMimemess.create;
-  msg_lines := TStringList.Create;
-
-  try
-    p := m.AddPartMultipart('mixed', nil);
-    if sMensagem <> nil then
-//       m.AddPartText(sMensagem, p);
-      if HTML = true then
-         m.AddPartHTML(sMensagem, p)
-      else
-         m.AddPartText(sMensagem, p);
-
-
-    if (EnviaPDF) then
-     begin
-       if ACBrBoletoFC.NomeArquivo = '' then
-          ACBrBoletoFC.NomeArquivo := 'boleto.pdf';;
-       GerarPDF;
-       m.AddPartBinaryFromFile(ACBrBoletoFC.NomeArquivo, p);
-     end
-    else
-     begin
-       if ACBrBoletoFC.NomeArquivo = '' then
-          ACBrBoletoFC.NomeArquivo := 'boleto.html';;
-       GerarHTML;
-       m.AddPartBinaryFromFile(ACBrBoletoFC.NomeArquivo, p);
-     end;
-
-
-    if assigned(Anexos) then
-       for i := 0 to Anexos.Count - 1 do
-       begin
-          m.AddPartBinaryFromFile(Anexos[i], p);
-       end;
-
-    m.header.tolist.add(sTo);
-
-    if Trim(NomeRemetente) <> '' then
-       m.header.From := Format('%s<%s>', [NomeRemetente, sFrom])
-    else
-       m.header.From := sFrom;
-
-    m.header.subject:= sAssunto;
-    m.Header.ReplyTo := sFrom;
-    if PedeConfirma then
-       m.Header.CustomHeaders.Add('Disposition-Notification-To: '+sFrom);
-    m.EncodeMessage;
-
-     msg_lines.Add(m.Lines.Text);
-
-     smtp.UserName := sSmtpUser;
-     smtp.Password := sSmtpPasswd;
-
-     smtp.TargetHost := sSmtpHost;
-     smtp.TargetPort := sSmtpPort;
-
-     smtp.FullSSL := SSL;
-     smtp.AutoTLS := TLS;
-
-     if (TLS) then
-       smtp.StartTLS;
-
-     if not smtp.Login then
-       raise Exception.Create('SMTP ERROR: Login: ' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-
-     if not smtp.MailFrom(sFrom, Length(sFrom)) then
-       raise Exception.Create('SMTP ERROR: MailFrom: ' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-
-     if not smtp.MailTo(sTo) then
-       raise Exception.Create('SMTP ERROR: MailTo: ' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-
-     if sCC <> nil then
-     begin
-       for I := 0 to sCC.Count - 1 do
-       begin
-         if not smtp.MailTo(sCC.Strings[i]) then
-           raise Exception.Create('SMTP ERROR: MailTo: ' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-       end;
-     end;
-
-     if not smtp.MailData(msg_lines) then
-       raise Exception.Create('SMTP ERROR: MailData: ' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-
-     if not smtp.Logout then
-       raise Exception.Create('SMTP ERROR: Logout: ' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-  finally
-     msg_lines.Free;
-     smtp.Free;
-     m.free;
-  end;
-end;
-
-// email
-procedure TSendMailThread.DoHandleException;
-begin
-   if FException is Exception then
-      Application.ShowException(FException)
-   else
-      SysUtils.ShowException(FException, nil);
-end;
-
-// email
-constructor TSendMailThread.Create(AOwner: TACBrBoleto);
-begin
-   FOwner      := AOwner;
-   smtp        := TSMTPSend.Create;
-   slmsg_Lines := TStringList.Create;
-   sCC         := TStringList.Create;
-   sFrom       := '';
-   sTo         := '';
-
-   FreeOnTerminate := True;
-
-   inherited Create(True);
-end;
-
-
-destructor TSendMailThread.Destroy;
-begin
-   slmsg_Lines.Free;
-   sCC.Free;
-   smtp.Free;
-
-   inherited;
-end;
-
-procedure TSendMailThread.Execute;
-var
-   I: integer;
-begin
-   inherited;
-
-   try
-     Terminado := False;
-     try
-       if not smtp.Login() then
-          raise Exception.Create('SMTP ERROR: Login:' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-
-       if not smtp.MailFrom( sFrom, Length(sFrom)) then
-          raise Exception.Create('SMTP ERROR: MailFrom:' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-
-       if not smtp.MailTo(sTo) then
-          raise Exception.Create('SMTP ERROR: MailTo:' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-
-       if (sCC <> nil) then
-       begin
-          for I := 0 to sCC.Count - 1 do
-          begin
-             if not smtp.MailTo(sCC.Strings[i]) then
-                raise Exception.Create('SMTP ERROR: MailTo:' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-          end;
-       end;
-
-       if not smtp.MailData(slmsg_Lines) then
-          raise Exception.Create('SMTP ERROR: MailData:' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-
-       if not smtp.Logout() then
-          raise Exception.Create('SMTP ERROR: Logout:' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-     finally
-       try
-         smtp.Sock.CloseSocket;
-       except
-       end ;
-       Terminado := True;
-     end;
-   except
-     Terminado := True;
-     HandleException;
-   end;
-end;
-
-procedure TSendMailThread.HandleException;
-begin
-   FException := Exception(ExceptObject);
-   try
-     // Não mostra mensagens de EAbort
-     if not (FException is EAbort) then
-        Synchronize(DoHandleException);
-   finally
-     FException := nil;
-   end;
-end;
-
-
 procedure TACBrBoleto.GerarHTML;
 begin
    if not Assigned(ACBrBoletoFC) then
@@ -1595,7 +1252,16 @@ begin
    ACBrBoletoFC.GerarHTML;
 end;
 
-Procedure TACBrBoleto.AdicionarMensagensPadroes( Titulo : TACBrTitulo; AStringList: TStrings );
+procedure TACBrBoleto.EnviarEmail(const sSmtpHost, sSmtpPort, sSmtpUser,
+  sSmtpPasswd, sFrom, sTo, sAssunto: String; sMensagem: TStrings; SSL: Boolean;
+  EnviaPDF: Boolean; sCC: TStrings; Anexos: TStrings; PedeConfirma: Boolean;
+  AguardarEnvio: Boolean; NomeRemetente: String; TLS: Boolean; HTML: Boolean);
+begin
+  //TODO: Fazer usando ACBrMail
+end;
+
+procedure TACBrBoleto.AdicionarMensagensPadroes(Titulo: TACBrTitulo;
+  AStringList: TStrings);
 begin
    if not ImprimirMensagemPadrao  then
       exit;
@@ -2454,3 +2120,304 @@ initialization
 
 end.
 
+(*
+
+//TODO: Fazer o envio do email pelo ACBrMail
+procedure TACBrBoleto.EnviarEmail(const sSmtpHost,
+                                      sSmtpPort,
+                                      sSmtpUser,
+                                      sSmtpPasswd,
+                                      sFrom,
+                                      sTo,
+                                      sAssunto: String;
+                                      sMensagem : TStrings;
+                                      SSL : Boolean;
+                                      EnviaPDF: Boolean = true;
+                                      sCC: TStrings=nil;
+                                      Anexos:TStrings=nil;
+                                      PedeConfirma: Boolean = False;
+                                      AguardarEnvio: Boolean = False;
+                                      NomeRemetente: String = '';
+                                      TLS : Boolean = True;
+                                      HTML:Boolean = False);
+var
+  ThreadSMTP : TSendMailThread;
+  m:TMimemess;
+  p: TMimepart;
+  StreamNFe : TStringStream;
+  i: Integer;
+begin
+  m:=TMimemess.create;
+
+  ThreadSMTP := TSendMailThread.Create(Self) ;  // Não Libera, pois usa FreeOnTerminate := True ;
+  StreamNFe  := TStringStream.Create('');
+  try
+    p := m.AddPartMultipart('mixed', nil);
+    if sMensagem <> nil then
+//       m.AddPartText(sMensagem, p);
+      if HTML = true then
+         m.AddPartHTML(sMensagem, p)
+      else
+         m.AddPartText(sMensagem, p);
+
+    if (EnviaPDF) then
+     begin
+       if ACBrBoletoFC.NomeArquivo = '' then
+          ACBrBoletoFC.NomeArquivo := 'boleto.pdf';;
+       GerarPDF;
+       m.AddPartBinaryFromFile(ACBrBoletoFC.NomeArquivo, p);
+     end
+    else
+     begin
+       if ACBrBoletoFC.NomeArquivo = '' then
+          ACBrBoletoFC.NomeArquivo := 'boleto.html';;
+       GerarHTML;
+       m.AddPartBinaryFromFile(ACBrBoletoFC.NomeArquivo, p);
+     end;
+
+
+    if assigned(Anexos) then
+       for i := 0 to Anexos.Count - 1 do
+       begin
+          m.AddPartBinaryFromFile(Anexos[i], p);
+       end;
+
+    m.header.tolist.add(sTo);
+
+    if Trim(NomeRemetente) <> '' then
+       m.header.From := Format('%s<%s>', [NomeRemetente, sFrom])
+    else
+       m.header.From := sFrom;
+
+    m.header.subject:= sAssunto;
+    m.Header.ReplyTo := sFrom;
+    if PedeConfirma then
+       m.Header.CustomHeaders.Add('Disposition-Notification-To: '+sFrom);
+    m.EncodeMessage;
+
+    ThreadSMTP.sFrom := sFrom;
+    ThreadSMTP.sTo   := sTo;
+    if sCC <> nil then
+       ThreadSMTP.sCC.AddStrings(sCC);
+    ThreadSMTP.slmsg_Lines.AddStrings(m.Lines);
+
+    ThreadSMTP.smtp.UserName := sSmtpUser;
+    ThreadSMTP.smtp.Password := sSmtpPasswd;
+
+    ThreadSMTP.smtp.TargetHost := sSmtpHost;
+    if trim(sSmtpPort)<>'' then     // Usa default
+       ThreadSMTP.smtp.TargetPort := sSmtpPort;
+
+    ThreadSMTP.smtp.FullSSL := SSL;
+    ThreadSMTP.smtp.AutoTLS := TLS;
+
+
+    ThreadSMTP.Resume; // inicia a thread
+    if AguardarEnvio then
+    begin
+      repeat
+         Sleep(1000);
+         Application.ProcessMessages;
+      until ThreadSMTP.Terminado;
+    end;
+ finally
+    m.free;
+    StreamNFe.Free ;
+ end;
+end;
+
+procedure TACBrBoleto.EnviarEmailNormal(const sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo, sAssunto: String;
+  sMensagem: TStrings; SSL, EnviaPDF: Boolean; sCC, Anexos: TStrings; PedeConfirma, AguardarEnvio: Boolean; NomeRemetente: String;
+  TLS: Boolean; HTML:Boolean);
+var
+  smtp: TSMTPSend;
+  msg_lines: TStringList;
+  m:TMimemess;
+  p: TMimepart;
+  i: Integer;
+begin
+  smtp      := TSMTPSend.Create;
+  m         := TMimemess.create;
+  msg_lines := TStringList.Create;
+
+  try
+    p := m.AddPartMultipart('mixed', nil);
+    if sMensagem <> nil then
+//       m.AddPartText(sMensagem, p);
+      if HTML = true then
+         m.AddPartHTML(sMensagem, p)
+      else
+         m.AddPartText(sMensagem, p);
+
+
+    if (EnviaPDF) then
+     begin
+       if ACBrBoletoFC.NomeArquivo = '' then
+          ACBrBoletoFC.NomeArquivo := 'boleto.pdf';;
+       GerarPDF;
+       m.AddPartBinaryFromFile(ACBrBoletoFC.NomeArquivo, p);
+     end
+    else
+     begin
+       if ACBrBoletoFC.NomeArquivo = '' then
+          ACBrBoletoFC.NomeArquivo := 'boleto.html';;
+       GerarHTML;
+       m.AddPartBinaryFromFile(ACBrBoletoFC.NomeArquivo, p);
+     end;
+
+
+    if assigned(Anexos) then
+       for i := 0 to Anexos.Count - 1 do
+       begin
+          m.AddPartBinaryFromFile(Anexos[i], p);
+       end;
+
+    m.header.tolist.add(sTo);
+
+    if Trim(NomeRemetente) <> '' then
+       m.header.From := Format('%s<%s>', [NomeRemetente, sFrom])
+    else
+       m.header.From := sFrom;
+
+    m.header.subject:= sAssunto;
+    m.Header.ReplyTo := sFrom;
+    if PedeConfirma then
+       m.Header.CustomHeaders.Add('Disposition-Notification-To: '+sFrom);
+    m.EncodeMessage;
+
+     msg_lines.Add(m.Lines.Text);
+
+     smtp.UserName := sSmtpUser;
+     smtp.Password := sSmtpPasswd;
+
+     smtp.TargetHost := sSmtpHost;
+     smtp.TargetPort := sSmtpPort;
+
+     smtp.FullSSL := SSL;
+     smtp.AutoTLS := TLS;
+
+     if (TLS) then
+       smtp.StartTLS;
+
+     if not smtp.Login then
+       raise Exception.Create('SMTP ERROR: Login: ' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
+
+     if not smtp.MailFrom(sFrom, Length(sFrom)) then
+       raise Exception.Create('SMTP ERROR: MailFrom: ' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
+
+     if not smtp.MailTo(sTo) then
+       raise Exception.Create('SMTP ERROR: MailTo: ' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
+
+     if sCC <> nil then
+     begin
+       for I := 0 to sCC.Count - 1 do
+       begin
+         if not smtp.MailTo(sCC.Strings[i]) then
+           raise Exception.Create('SMTP ERROR: MailTo: ' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
+       end;
+     end;
+
+     if not smtp.MailData(msg_lines) then
+       raise Exception.Create('SMTP ERROR: MailData: ' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
+
+     if not smtp.Logout then
+       raise Exception.Create('SMTP ERROR: Logout: ' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
+  finally
+     msg_lines.Free;
+     smtp.Free;
+     m.free;
+  end;
+end;
+
+// email
+procedure TSendMailThread.DoHandleException;
+begin
+   if FException is Exception then
+      Application.ShowException(FException)
+   else
+      SysUtils.ShowException(FException, nil);
+end;
+
+// email
+constructor TSendMailThread.Create(AOwner: TACBrBoleto);
+begin
+   FOwner      := AOwner;
+   smtp        := TSMTPSend.Create;
+   slmsg_Lines := TStringList.Create;
+   sCC         := TStringList.Create;
+   sFrom       := '';
+   sTo         := '';
+
+   FreeOnTerminate := True;
+
+   inherited Create(True);
+end;
+
+
+destructor TSendMailThread.Destroy;
+begin
+   slmsg_Lines.Free;
+   sCC.Free;
+   smtp.Free;
+
+   inherited;
+end;
+
+procedure TSendMailThread.Execute;
+var
+   I: integer;
+begin
+   inherited;
+
+   try
+     Terminado := False;
+     try
+       if not smtp.Login() then
+          raise Exception.Create('SMTP ERROR: Login:' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
+
+       if not smtp.MailFrom( sFrom, Length(sFrom)) then
+          raise Exception.Create('SMTP ERROR: MailFrom:' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
+
+       if not smtp.MailTo(sTo) then
+          raise Exception.Create('SMTP ERROR: MailTo:' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
+
+       if (sCC <> nil) then
+       begin
+          for I := 0 to sCC.Count - 1 do
+          begin
+             if not smtp.MailTo(sCC.Strings[i]) then
+                raise Exception.Create('SMTP ERROR: MailTo:' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
+          end;
+       end;
+
+       if not smtp.MailData(slmsg_Lines) then
+          raise Exception.Create('SMTP ERROR: MailData:' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
+
+       if not smtp.Logout() then
+          raise Exception.Create('SMTP ERROR: Logout:' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
+     finally
+       try
+         smtp.Sock.CloseSocket;
+       except
+       end ;
+       Terminado := True;
+     end;
+   except
+     Terminado := True;
+     HandleException;
+   end;
+end;
+
+procedure TSendMailThread.HandleException;
+begin
+   FException := Exception(ExceptObject);
+   try
+     // Não mostra mensagens de EAbort
+     if not (FException is EAbort) then
+        Synchronize(DoHandleException);
+   finally
+     FException := nil;
+   end;
+end;
+
+*)

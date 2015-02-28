@@ -970,7 +970,7 @@ begin
   begin
      if ACBrECF1.RelatoriosGerenciais[A].Descricao <> '' then
         mResp.Lines.Add( 'RG: '+ACBrECF1.RelatoriosGerenciais[A].Indice+' -> '
-        + PadL(ACBrECF1.RelatoriosGerenciais[A].Descricao, 15) + ' CER:'
+        + PadRight(ACBrECF1.RelatoriosGerenciais[A].Descricao, 15) + ' CER:'
         + IntToStr(ACBrECF1.RelatoriosGerenciais[A].Contador)) ; 
   end;
   mResp.Lines.Add('---------------------------------');

@@ -36,8 +36,8 @@
 unit ACBrECFBematech ;
 
 interface
-uses ACBrECFClass, ACBrDevice, ACBrUtil, ACBrCHQClass,
-     Classes;
+uses Classes,
+   ACBrECFClass, ACBrDevice, ACBrCHQClass;
 
 const ErrosST1 : array[0..7] of string =
       ('Número de parâmetros de CMD inválido',
@@ -632,9 +632,9 @@ function BematechTraduzirTagBloco(const ATag, Conteudo: AnsiString;
 
 implementation
 Uses
-   SysUtils, IniFiles, ACBrConsts, ACBrECF,
+   SysUtils, IniFiles, math,
    {$IFDEF COMPILER6_UP} DateUtils, StrUtils, {$ELSE} ACBrD5,{$ENDIF}
-   Math ;
+   ACBrConsts, ACBrECF, ACBrUtil;
 
 function BematechTraduzirTag(const ATag : AnsiString) : AnsiString ;
 const
@@ -707,7 +707,7 @@ const
 
     ACodigo := Trim( ACodigo );
     if TamFixo > 0 then
-       ACodigo := padR( ACodigo, TamFixo, '0') ;
+       ACodigo := PadLeft( ACodigo, TamFixo, '0') ;
 
     Result := GS + 'w' + chr( L ) + // Largura
               GS + 'h' + chr( A ) + // Altura
@@ -1513,16 +1513,16 @@ begin
   StrConsumidor := '' ;
   if Trim(Consumidor.Documento) <> '' then    { Tem Docto ? }
   begin
-     StrConsumidor := padL(Consumidor.Documento ,29) ;
+     StrConsumidor := PadRight(Consumidor.Documento ,29) ;
 
      if fs25MFD then
      begin
         if Trim(Consumidor.Nome) <> '' then      { Tem Nome ? }
         begin
-           StrConsumidor := StrConsumidor + padL(Consumidor.Nome ,30) ;
+           StrConsumidor := StrConsumidor + PadRight(Consumidor.Nome ,30) ;
 
            if Trim(Consumidor.Endereco) <> '' then  { Tem endereço ? }
-              StrConsumidor := StrConsumidor + padL(Consumidor.Endereco ,80) ;
+              StrConsumidor := StrConsumidor + PadRight(Consumidor.Endereco ,80) ;
         end ;
      end ;
   end ;
@@ -1677,12 +1677,12 @@ begin
            'Quantidade deve ser inferior a 9999.') );
 
   Descricao := trim(Descricao) ;
-  Unidade   := padL(Unidade,2) ;
+  Unidade   := PadRight(Unidade,2) ;
 
   if fpMFD and fpArredondaItemMFD then
    begin
      BytesResp   := 0 ;
-     Codigo      := padL(Codigo,14) ;
+     Codigo      := PadRight(Codigo,14) ;
      QtdStr      := IntToStrZero( Round( Qtd * 1000), 7) ;
      ValorStr    := IntToStrZero( Round( ValorUnitario * 1000), 8) ;
      AcrescimoStr:= StringOfChar('0',4) + #0;
@@ -1756,7 +1756,7 @@ begin
   else
    begin
      fpArredondaItemMFD := False;
-     Codigo := padL(Codigo,13) ;
+     Codigo := PadRight(Codigo,13) ;
      if Round( Qtd ) = Qtd then
         QtdStr := IntToStrZero( Round( Qtd ), 4)
      else
@@ -1789,7 +1789,7 @@ begin
            if (StrToIntDef( NumVersao,0 ) >= 300) then
               EnviaComando( #62+#52 + copy(Descricao,1,200) ) ;
 
-     Descricao := padL(Descricao,29) ;
+     Descricao := PadRight(Descricao,29) ;
      BytesResp := 0 ;
      EnviaComando(chr(CMD) + Codigo + Descricao + AliquotaECF + QtdStr +
                ValorStr + DescontoStr ) ;
@@ -1827,26 +1827,26 @@ begin
      raise EACBrECFCMDInvalido.Create( ACBrStr(
            'Quantidade deve ser inferior a 9999.') );
 
-  Comando := padL(Codigo, 14) +
-             padL(EAN13, 13) +
-             padL(Descricao, 120) +
-             padL(AliquotaICMS, 2) +
-             padL(Unidade,2) +
+  Comando := PadRight(Codigo, 14) +
+             PadRight(EAN13, 13) +
+             PadRight(Descricao, 120) +
+             PadRight(AliquotaICMS, 2) +
+             PadRight(Unidade,2) +
              IntToStrZero( Round( Qtd * power(10, CasasDecimaisQtde)), 7) +
              IntToStrZero( Round( ValorUnitario * power(10, CasasDecimaisValor)), 8) +
              ArredondaTrunca +
              TipoDescontoAcrescimo[1] +
              IntToStrZero( Round( ValorDescontoAcrescimo * 100), 8) +
-             padL(NCM, 8) +
-             padL(CFOP, 4) +
-             padL(CST_ICMS, 2) +
+             PadRight(NCM, 8) +
+             PadRight(CFOP, 4) +
+             PadRight(CST_ICMS, 2) +
              IntToStr(OrigemProduto) +
-             padL(CSOSN, 3) +
+             PadRight(CSOSN, 3) +
              IntToStrZero( Round( ValorBaseCalculoSN * 100), 8) +
              IntToStrZero( Round( ValorICMSRetidoSN * 100), 8) +
-             padL( InformacaoAdicional, 80) +
+             PadRight( InformacaoAdicional, 80) +
              DescontoAcrescimo[1] +
-             padR(Trim(CodigoIBGE), 7, '0') +
+             PadLeft(Trim(CodigoIBGE), 7, '0') +
              IntToStr(ModalidadeBCICMS) +
              IntToStrZero( Round( PercentualReducaoBCICMS * 100), 4) +
              IntToStr(ModalidadeBCICMSST) +
@@ -2001,8 +2001,8 @@ begin
     'I' : AliquotaStr  := 'II' ;
     'N' : AliquotaStr  := 'NN' ;
     'F' : AliquotaStr  := 'FF' ;
-    'T' : AliquotaICMS := 'T'+padR(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
-    'S' : AliquotaStr  := PadL( AliquotaICMS, 2, 'N') ;  { SN, SF, SI }
+    'T' : AliquotaICMS := 'T'+PadLeft(copy(AliquotaICMS,2,2),2,'0') ; {Indice}
+    'S' : AliquotaStr  := PadRight( AliquotaICMS, 2, 'N') ;  { SN, SF, SI }
   end;
 
   if AliquotaStr = '' then
@@ -2155,7 +2155,7 @@ Var StrRet : AnsiString ;
 begin
   { Impressora Bematech não usa o parâmetro Posicao }
 
-  Descricao := padL(Descricao,16) ;         { Ajustando tamanho final }
+  Descricao := PadRight(Descricao,16) ;         { Ajustando tamanho final }
   VincStr   := '' ;
   if fs25MFD then
    begin
@@ -2219,7 +2219,7 @@ begin
      if ProxIndice > 30 then
         raise EACBrECFErro.create( ACBrStr('Não há espaço para programar novos RGs'));
 
-     EnviaComando( #82 + IntToStrZero(ProxIndice,2) + PadL(Descricao,17) ) ;
+     EnviaComando( #82 + IntToStrZero(ProxIndice,2) + PadRight(Descricao,17) ) ;
    end
   else
      raise EACBrECFErro.Create( ACBrStr('Impressoras sem MFD não suportam Programação de Relatórios Gerenciais'));
@@ -2306,7 +2306,7 @@ Var ProxIndice : Integer ;
     CNF    : TACBrECFComprovanteNaoFiscal ;
 begin
   { Obs: Bematech nao usa Tipo }
-  Descricao := padL(Descricao,19) ;
+  Descricao := PadRight(Descricao,19) ;
 
   CarregaComprovantesNaoFiscais ;
 
@@ -2336,8 +2336,8 @@ Var ValStr, DataStr : String ;
 begin
 
   Banco      := IntToStrZero( StrToInt(Banco), 3) ;
-  Favorecido := padL(Favorecido,45) ;
-  Cidade     := padR(trim(Cidade),27) ;
+  Favorecido := PadRight(Favorecido,45) ;
+  Cidade     := PadLeft(trim(Cidade),27) ;
   Observacao := copy(Observacao,1,120) ;
   DataStr    := FormatDateTime('ddmmyyyy',Data) ;
   ValStr     := IntToStrZero( Round(abs(Valor)*100),14) ;
@@ -2458,7 +2458,7 @@ begin
                              ' não foi cadastrada.') ) ;
 
   COO       := Poem_Zeros( trim(COO) ,6) ;
-  FPGDesc   := padL( CodificarPaginaDeCodigoECF(FPG.Descricao), 16 ) ;
+  FPGDesc   := PadRight( CodificarPaginaDeCodigoECF(FPG.Descricao), 16 ) ;
 //FPGDesc   := UpperCase(copy(FPGDesc,1,1))+LowerCase(copy(FPGDesc,2,16)) ;
   BytesResp := 0 ;
   ComandoCompleto  := ((Valor > 0) and (fs25MFD or (StrToIntDef( NumVersao,0 ) >= 310) )) ;
@@ -2937,7 +2937,7 @@ begin
 
      AguardaImpressao := True ;
      EnviaComando( #25 + CodCNF + IntToStrZero(Round(Valor * 100) ,14) +
-                         padL(FPG.Descricao,16), 13 ) ;
+                         PadRight(FPG.Descricao,16), 13 ) ;
    end ;
 end;
 
@@ -2950,14 +2950,14 @@ begin
      CPF_CNPJ := TrimRight(CPF_CNPJ) ;
      if CPF_CNPJ <> '' then
      begin
-        CPF_CNPJ := padL(CPF_CNPJ,29) ;
+        CPF_CNPJ := PadRight(CPF_CNPJ,29) ;
 
         if Nome <> '' then
         begin
-           Nome := padL(Nome,30) ;
+           Nome := PadRight(Nome,30) ;
 
            if Endereco <> '' then
-              Endereco := padL(Endereco,80) ;
+              Endereco := PadRight(Endereco,80) ;
         end ;
      end ;
 
@@ -3314,7 +3314,7 @@ end;
 
 procedure TACBrECFBematech.IdentificaPAF(NomeVersao, MD5 : String);
 begin
-  fsPAF := padL(MD5,42) + padL(NomeVersao,42) ;
+  fsPAF := PadRight(MD5,42) + PadRight(NomeVersao,42) ;
   EnviaComando(#62 + #64 + fsPAF) ;
 end;
 

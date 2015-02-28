@@ -93,8 +93,8 @@
 unit ACBrECFMecaf ;
 
 interface
-uses ACBrECFClass, ACBrDevice, ACBrUtil,
-     Classes ;
+uses Classes,
+    ACBrECFClass, ACBrDevice;
 
 type
 { Classe filha de TACBrECFClass com implementaçao para Mecaf }
@@ -235,8 +235,9 @@ TACBrECFMecaf = class( TACBrECFClass )
  end ;
 
 implementation
-Uses SysUtils, Math, ACBrConsts,
-    {$IFDEF COMPILER6_UP} DateUtils, StrUtils {$ELSE} ACBrD5, Windows{$ENDIF} ;
+Uses SysUtils, Math,
+    {$IFDEF COMPILER6_UP} DateUtils, StrUtils {$ELSE} ACBrD5, Windows{$ENDIF},
+    ACBrConsts, ACBrUtil;
 
 { ----------------------------- TACBrECFMecaf ------------------------------ }
 
@@ -668,7 +669,7 @@ begin
 
   CPF_CNPJ := '' ;
   if (not IsOldMecaf) and (Consumidor.Documento <> '') then
-     CPF_CNPJ := padL(Consumidor.Documento,28) ;
+     CPF_CNPJ := PadRight(Consumidor.Documento,28) ;
 
   EnviaComando('10'+CPF_CNPJ, 8) ;
   Consumidor.Enviado := (CPF_CNPJ <> '') and
@@ -726,12 +727,12 @@ begin
   if Length(Observacao) > 41 then
    begin
      Linhas     := '4' ;
-     Observacao := padL(Observacao,80) ;
+     Observacao := PadRight(Observacao,80) ;
    end
   else if Length(Observacao) > 1 then
    begin
      Linhas     := '2' ;
-     Observacao := padL(Observacao,40) ;
+     Observacao := PadRight(Observacao,40) ;
    end ;
 
   EnviaComando( '07' + CodFormaPagto + IntToStrZero( Round(Valor*100) ,15) +
@@ -803,8 +804,8 @@ begin
      raise EACBrECFCMDInvalido.Create( ACBrStr(
            'ECF '+fpModeloStr+' não permite Acréscimo por Item'));
 
-  Codigo      := padL(Codigo,13) ;    { Ajustando Tamanhos }
-  Unidade     := padL(Unidade,2) ;
+  Codigo      := PadRight(Codigo,13) ;    { Ajustando Tamanhos }
+  Unidade     := PadRight(Unidade,2) ;
 
   if IsOldMecaf then
    begin
@@ -841,13 +842,13 @@ begin
   if (Length(Descricao) <= 20) or (not DescricaoGrande) then
    begin
      FlagDesc  := 0 ;
-     Descricao := padL(Descricao,20) ;
+     Descricao := PadRight(Descricao,20) ;
    end
 
   else if (Length(Descricao) <= 38) then
    begin
      FlagDesc  := 1 ;
-     Descricao := padL(Descricao,38) ;
+     Descricao := PadRight(Descricao,38) ;
    end
   else
    begin
@@ -855,7 +856,7 @@ begin
      if (Length(Descricao) mod 38) > 0 then
         FlagDesc := FlagDesc + 1 ;
 
-     Descricao := PadL(Descricao, (38 * FlagDesc) ) ;
+     Descricao := PadRight(Descricao, (38 * FlagDesc) ) ;
    end ;
 
   EnviaComando( '11' + Fmt + QtdStr + ValorStr + AliquotaECF +
@@ -977,7 +978,7 @@ begin
     'I' : AliquotaStr := 'I00' ;
     'N' : AliquotaStr := 'N00' ;
     'F' : AliquotaStr := 'F00' ;
-    'T' : AliquotaICMS := 'TT'+padR(copy(AliquotaICMS,2,2),2,'0') { Indice T01, T02, T03}
+    'T' : AliquotaICMS := 'TT'+PadLeft(copy(AliquotaICMS,2,2),2,'0') { Indice T01, T02, T03}
   end ;
 
   if AliquotaStr = '' then
@@ -1030,7 +1031,7 @@ Var ProxIndice : Integer ;
     FPagto : TACBrECFFormaPagamento ;
 begin
   { Mecaf nao usa PermiteVinculado }
-  Descricao := padL(Descricao,16) ;
+  Descricao := PadRight(Descricao,16) ;
 
   CarregaFormasPagamento ;
   
@@ -1100,7 +1101,7 @@ Var ProxIndice : Integer ;
     CNF : TACBrECFComprovanteNaoFiscal ;
 begin
   { Mecaf nao usa Tipo }
-  Descricao := padL(Descricao,16) ;
+  Descricao := PadRight(Descricao,16) ;
 
   CarregaComprovantesNaoFiscais ;
 
@@ -1237,8 +1238,8 @@ procedure TACBrECFMecaf.ImprimeCheque(Banco: String; Valor: Double;
   Favorecido, Cidade: String; Data: TDateTime; Observacao: String);
 Var Dia,Mes,Ano, Lin : String ;
 begin
-  Favorecido := padL(Favorecido,80) ;
-  Cidade     := padL(Cidade,20) ;
+  Favorecido := PadRight(Favorecido,80) ;
+  Cidade     := PadRight(Cidade,20) ;
   Observacao := TiraAcentos( LeftStr(Observacao,160) ) ;
   Dia        := IntToStrZero(  DayOf(Data),2) ;
   Mes        := IntToStrZero(MonthOf(Data),2) ;

@@ -97,10 +97,10 @@ begin
   fpDevice.EnviaString( #27 + 'p1$' ) ;
   Sleep(100);
   { Cidade }
-  fpDevice.EnviaString( #27 + 'c' + padL(fpCidade,20) + '$' ) ;
+  fpDevice.EnviaString( #27 + 'c' + PadRight(fpCidade,20) + '$' ) ;
   Sleep(100);
   { Favorecido }
-  fpDevice.EnviaString( #27 + 'f' + PadL(fpFavorecido,40) + '$' ) ;
+  fpDevice.EnviaString( #27 + 'f' + PadRight(fpFavorecido,40) + '$' ) ;
   Sleep(100);
   { Data }
   DataStr := FormatDateTime('ddmmyy',fpData) ;

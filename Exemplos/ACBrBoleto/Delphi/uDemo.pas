@@ -164,8 +164,8 @@ begin
         PercentualMulta   := StrToCurrDef(edtMulta.Text,0);
         Mensagem.Text     := memMensagem.Text;
         OcorrenciaOriginal.Tipo := toRemessaBaixar;
-        Instrucao1        := padL(trim(edtInstrucoes1.Text),2,'0');
-        Instrucao2        := padL(trim(edtInstrucoes2.Text),2,'0');
+        Instrucao1        := PadRight(trim(edtInstrucoes1.Text),2,'0');
+        Instrucao2        := PadRight(trim(edtInstrucoes2.Text),2,'0');
 
        // ACBrBoleto1.AdicionarMensagensPadroes(Titulo,Mensagem);
      end;
@@ -201,7 +201,7 @@ begin
         LocalPagamento    := 'Pagar preferêncialmente nas agências do Bradesco'; //MEnsagem exigida pelo bradesco
         Vencimento        := IncMonth(EncodeDate(2010,05,10),I);
         DataDocumento     := EncodeDate(2010,04,10);
-        NumeroDocumento   := padL(IntToStr(I),6,'0');
+        NumeroDocumento   := PadRight(IntToStr(I),6,'0');
         EspecieDoc        := 'DM';
         Aceite            := atSim;
         DataProcessamento := Now;

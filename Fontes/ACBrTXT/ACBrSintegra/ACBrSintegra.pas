@@ -1868,16 +1868,16 @@ var
   wregistro: string;
 begin
 wregistro:='10'+TBStrZero(TiraPontos(Registro10.CNPJ),14);
-wregistro:=wregistro+Padl(Trim(TiraPontos(Registro10.Inscricao)),14);
-wregistro:=wregistro+Padl(Copy(Registro10.RazaoSocial,1,35),35);
-wregistro:=wregistro+Padl(Copy(Registro10.Cidade,1,30),30);
-wregistro:=wregistro+Padl(Registro10.Estado,2);
-wregistro:=wregistro+Padl(TBStrZero(TiraPontos(Registro10.Telefone),10),10);
+wregistro:=wregistro+PadRight(Trim(TiraPontos(Registro10.Inscricao)),14);
+wregistro:=wregistro+PadRight(Copy(Registro10.RazaoSocial,1,35),35);
+wregistro:=wregistro+PadRight(Copy(Registro10.Cidade,1,30),30);
+wregistro:=wregistro+PadRight(Registro10.Estado,2);
+wregistro:=wregistro+PadRight(TBStrZero(TiraPontos(Registro10.Telefone),10),10);
 wregistro:=wregistro+FormatDateTime('yyyymmdd',Registro10.DataInicial);
 wregistro:=wregistro+FormatDateTime('yyyymmdd',Registro10.DataFinal);
-wregistro:=wregistro+Padl(Registro10.CodigoConvenio,1);
-wregistro:=wregistro+Padl(Registro10.NaturezaInformacoes,1);
-wregistro:=wregistro+Padl(Registro10.FinalidadeArquivo,1);
+wregistro:=wregistro+PadRight(Registro10.CodigoConvenio,1);
+wregistro:=wregistro+PadRight(Registro10.NaturezaInformacoes,1);
+wregistro:=wregistro+PadRight(Registro10.FinalidadeArquivo,1);
 WriteRecord(wregistro);
 end;
 
@@ -1886,12 +1886,12 @@ var
   wregistro: string;
 begin
 wregistro:='11';
-wregistro:=wregistro+Padl(Copy(Registro11.Endereco,1,34),34);
+wregistro:=wregistro+PadRight(Copy(Registro11.Endereco,1,34),34);
 wregistro:=wregistro+TBStrZero(TiraPontos(Registro11.Numero),5);
-wregistro:=wregistro+Padl(Copy(Registro11.Complemento,1,22),22);
-wregistro:=wregistro+Padl(Copy(Registro11.Bairro,1,15),15);
+wregistro:=wregistro+PadRight(Copy(Registro11.Complemento,1,22),22);
+wregistro:=wregistro+PadRight(Copy(Registro11.Bairro,1,15),15);
 wregistro:=wregistro+TBStrZero(TiraPontos(Registro11.Cep),8);
-wregistro:=wregistro+Padl(Copy(Registro11.Responsavel,1,28),28);
+wregistro:=wregistro+PadRight(Copy(Registro11.Responsavel,1,28),28);
 wregistro:=wregistro+TBStrZero(TiraPontos(Registro11.Telefone),12);
 WriteRecord(wregistro);
 end;
@@ -1908,23 +1908,23 @@ begin
   with Registros50[i] do
   begin
     wregistro:='50';
-    wregistro:=wregistro+TBStrZero(TiraPontos(CPFCNPJ),14)+Padl(TiraPontos(Inscricao),14);
+    wregistro:=wregistro+TBStrZero(TiraPontos(CPFCNPJ),14)+PadRight(TiraPontos(Inscricao),14);
     wregistro:=wregistro+FormatDateTime('yyyymmdd',DataDocumento);
-    wregistro:=wregistro+Padl(UF,2);
+    wregistro:=wregistro+PadRight(UF,2);
     wregistro:=wregistro+TBStrZero(Modelo,2);
-    wregistro:=wregistro+Padl(Serie,3);
+    wregistro:=wregistro+PadRight(Serie,3);
 
     wregistro:=wregistro+TBStrZero(RightStr(Numero,6),6);
 
-    wregistro:=wregistro+Padl(TiraPontos(Cfop),4);
-    wregistro:=wregistro+Padl(EmissorDocumento,1);
+    wregistro:=wregistro+PadRight(TiraPontos(Cfop),4);
+    wregistro:=wregistro+PadRight(EmissorDocumento,1);
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',ValorContabil)),13);
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',BasedeCalculo)),13);
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',Icms)),13);
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',Isentas)),13);
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',Outras)),13);
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',Aliquota)),4);
-    wregistro:=wregistro+Padl(Situacao,1);
+    wregistro:=wregistro+PadRight(Situacao,1);
     WriteRecord(wregistro);
   end;
 end;
@@ -1941,18 +1941,18 @@ begin
   with Registros51[i] do
   begin
     wregistro := '51';
-    wregistro := wregistro+TBStrZero(TiraPontos(CPFCNPJ),14) + Padl(TiraPontos(Inscricao),14);
+    wregistro := wregistro+TBStrZero(TiraPontos(CPFCNPJ),14) + PadRight(TiraPontos(Inscricao),14);
     wregistro := wregistro+FormatDateTime('yyyymmdd',DataDocumento);
-    wregistro := wregistro+Padl(Estado,2);
-    wregistro := wregistro+Padl(Serie,3);
+    wregistro := wregistro+PadRight(Estado,2);
+    wregistro := wregistro+PadRight(Serie,3);
     wregistro := wregistro+TBStrZero(RightStr(Numero,6),6);
-    wregistro := wregistro+Padl(TiraPontos(Cfop),4);
+    wregistro := wregistro+PadRight(TiraPontos(Cfop),4);
     wregistro := wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',ValorContabil)),13);
     wregistro := wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',ValorIpi)),13);
     wregistro := wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',ValorIsentas)),13);
     wregistro := wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',ValorOutras)),13);
     wregistro := wregistro+Space(20);
-    wregistro := wregistro+Padl(Situacao,1);
+    wregistro := wregistro+PadRight(Situacao,1);
     WriteRecord(wregistro);
   end;
 end;
@@ -1971,19 +1971,19 @@ begin
   begin
     wregistro:='53';
     wregistro:=wregistro+TBStrZero(TiraPontos(CPFCNPJ),14)+
-      padl(TiraPontos(Inscricao),14);
+      PadRight(TiraPontos(Inscricao),14);
     wregistro:=wregistro+FormatDateTime('yyyymmdd',DataDocumento);
-    wregistro:=wregistro+Padl(Estado,2);
+    wregistro:=wregistro+PadRight(Estado,2);
     wregistro:=wregistro+TBStrZero(Modelo,2);
-    wregistro:=wregistro+Padl(Trim(Serie),3);
+    wregistro:=wregistro+PadRight(Trim(Serie),3);
     wregistro:=wregistro+TBStrZero(RightStr(Numero,6),6);
-    wregistro:=wregistro+Padl(TiraPontos(CFOP),4);
-    wregistro:=wregistro+Padl(Emitente,1);
+    wregistro:=wregistro+PadRight(TiraPontos(CFOP),4);
+    wregistro:=wregistro+PadRight(Emitente,1);
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',BaseST)),13);
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',IcmsRetido)),13);
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',Despesas)),13);
-    wregistro:=wregistro+Padl(Situacao,1);
-    wregistro:=wregistro+Padl(CodigoAntecipacao,1);
+    wregistro:=wregistro+PadRight(Situacao,1);
+    wregistro:=wregistro+PadRight(CodigoAntecipacao,1);
     wregistro:=wregistro+Space(29);
     WriteRecord(wregistro);
   end;
@@ -2001,14 +2001,14 @@ begin
     wregistro:='54';
     wregistro:=wregistro+TBStrZero(TiraPontos(Registros54[i].CPFCNPJ),14);
     wregistro:=wregistro+TBStrZero(Registros54[i].Modelo,2);
-    wregistro:=wregistro+Padl(Registros54[i].Serie,3);
+    wregistro:=wregistro+PadRight(Registros54[i].Serie,3);
     wregistro:=wregistro+TBStrZero(RightStr(Registros54[i].Numero,6),6);
 
-    wregistro:=wregistro+Padl(TiraPontos(Registros54[i].CFOP),4);
-    wregistro:=wregistro+Padl(Registros54[i].CST,3);
+    wregistro:=wregistro+PadRight(TiraPontos(Registros54[i].CFOP),4);
+    wregistro:=wregistro+PadRight(Registros54[i].CST,3);
     wregistro:=wregistro+IntToStrZero(Registros54[i].NumeroItem,3);
     if Registros54[i].NumeroItem<=990 then
-       wregistro:=wregistro+Padl(Registros54[i].Codigo,14) //codigo do produto
+       wregistro:=wregistro+PadRight(Registros54[i].Codigo,14) //codigo do produto
     else
        wregistro:=wregistro+space(14);
 
@@ -2039,13 +2039,13 @@ begin
           wregistro:='56';
           wregistro:=wregistro+TBStrZero(TiraPontos(Registros56[a].CNPJ),14);
           wregistro:=wregistro+TBStrZero(Registros56[a].Modelo,2);
-          wregistro:=wregistro+Padl(Registros56[a].Serie,3);
+          wregistro:=wregistro+PadRight(Registros56[a].Serie,3);
           wregistro:=wregistro+TBStrZero(Registros56[a].Numero,6);
-          wregistro:=wregistro+Padl(TiraPontos(Registros56[a].CFOP),4);
-          wregistro:=wregistro+Padl(Registros56[a].CST,3);
+          wregistro:=wregistro+PadRight(TiraPontos(Registros56[a].CFOP),4);
+          wregistro:=wregistro+PadRight(Registros56[a].CST,3);
           wregistro:=wregistro+IntToStrZero(Registros56[a].NumeroItem,3);
-          wregistro:=wregistro+Padl(Registros56[a].Codigo,14); //codigo do produto
-          wregistro:=wregistro+Padl(Registros56[a].TipoOperacao,1); //Tipo de operacao
+          wregistro:=wregistro+PadRight(Registros56[a].Codigo,14); //codigo do produto
+          wregistro:=wregistro+PadRight(Registros56[a].TipoOperacao,1); //Tipo de operacao
           wregistro:=wregistro+TBStrZero(TiraPontos(Registros56[a].CnpjConcessionaria),14);
           wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',Registros56[a].ipi)),4);
           wregistro:=wregistro+TBStrZero(TiraPontos(Registros56[a].Chassi),17);
@@ -2069,8 +2069,8 @@ for i:=0 to vRegistros60A.Count -1 do
 begin
   wregistro:='60A';
   wregistro:=wregistro+FormatDateTime('yyyymmdd',vRegistros60A[i].Emissao);
-  wregistro:=wregistro+Padl(Trim(vRegistros60A[i].NumSerie),20);
-  wregistro:=wregistro+Padl(TiraPontos(vRegistros60A[i].StAliquota),4);
+  wregistro:=wregistro+PadRight(Trim(vRegistros60A[i].NumSerie),20);
+  wregistro:=wregistro+PadRight(TiraPontos(vRegistros60A[i].StAliquota),4);
   wregistro:=wregistro+TbStrZero(TiraPontos(
     FormatFloat('#,##0.00',vRegistros60A[i].Valor)),12);
   wregistro:=wregistro+space(79);
@@ -2087,15 +2087,15 @@ for I := 0 to Registros60D.Count - 1 do
 begin
   wregistro:='60D';
   wregistro:=wregistro+FormatDateTime('yyyymmdd',Registros60D[i].Emissao);
-  wregistro:=wregistro+Padl(Trim(Registros60D[i].NumSerie),20);
-  wregistro:=wregistro+Padl(Registros60D[i].Codigo,14);
+  wregistro:=wregistro+PadRight(Trim(Registros60D[i].NumSerie),20);
+  wregistro:=wregistro+PadRight(Registros60D[i].Codigo,14);
   wregistro:=wregistro+TBStrZero(TiraPontos(
     FormatFloat('#,###0.000',Registros60D[i].Quantidade)),13);
   wregistro:=wregistro+TBStrZero(TiraPontos(
     FormatFloat('#,##0.00',Registros60D[i].Valor)),16);
   wregistro:=wregistro+TBStrZero(TiraPontos(
     FormatFloat('#,##0.00',Registros60D[i].BaseDeCalculo)),16);
-  wregistro:=wregistro+Padl(TiraPontos(Registros60D[i].StAliquota),4);
+  wregistro:=wregistro+PadRight(TiraPontos(Registros60D[i].StAliquota),4);
   wregistro:=wregistro+TBStrZero(TiraPontos(
     FormatFloat('#,##0.00',Registros60D[i].ValorIcms)),13);
   wregistro:=wregistro+Space(19);
@@ -2111,7 +2111,7 @@ with Registro60M do
 begin
   wregistro:='60M';
   wregistro:=wregistro+FormatDateTime('yyyymmdd',Emissao);
-  wregistro:=wregistro+Padl(Trim(NumSerie),20);
+  wregistro:=wregistro+PadRight(Trim(NumSerie),20);
   wregistro:=wregistro+TBStrZero(IntToStr(NumOrdem),3);
   wregistro:=wregistro+ModeloDoc;
   wregistro:=wregistro+TBStrZero(IntToStr(CooInicial),6);
@@ -2135,14 +2135,14 @@ for i:=0 to Registros70.Count - 1 do
 begin
   wregistro:='70';
   wregistro:=wregistro+TBStrZero(TiraPontos(Registros70[i].CPFCNPJ),14)+
-    Padl(TiraPontos(Registros70[i].Inscricao),14);
+    PadRight(TiraPontos(Registros70[i].Inscricao),14);
   wregistro:=wregistro+FormatDateTime('yyyymmdd',Registros70[i].DataDocumento);
-  wregistro:=wregistro+Padl(Registros70[i].UF,2);
+  wregistro:=wregistro+PadRight(Registros70[i].UF,2);
   wregistro:=wregistro+TBStrZero(Registros70[i].Modelo,2);
-  wregistro:=wregistro+Padl(Copy(Registros70[i].Serie,1,1),1);
-  wregistro:=wregistro+Padl(Copy(Registros70[i].SubSerie,1,2),2);
+  wregistro:=wregistro+PadRight(Copy(Registros70[i].Serie,1,1),1);
+  wregistro:=wregistro+PadRight(Copy(Registros70[i].SubSerie,1,2),2);
   wregistro:=wregistro+TBStrZero(RightStr(Registros70[i].Numero,6),6);
-  wregistro:=wregistro+Padl(TiraPontos(Registros70[i].Cfop),4);
+  wregistro:=wregistro+PadRight(TiraPontos(Registros70[i].Cfop),4);
 
   wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',Registros70[i].ValorContabil)),13);
   wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',Registros70[i].BasedeCalculo)),14);
@@ -2150,7 +2150,7 @@ begin
   wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',Registros70[i].Isentas)),14);
   wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',Registros70[i].Outras)),14);
   wregistro:=wregistro+TBStrZero(Registros70[i].CifFobOutros,1);
-  wregistro:=wregistro+Padl(Registros70[i].Situacao,1);
+  wregistro:=wregistro+PadRight(Registros70[i].Situacao,1);
   WriteRecord(wregistro);
 end;
 end;
@@ -2165,24 +2165,24 @@ for i:=0 to Registros71.Count - 1 do
 begin
   wregistro:='71';
   wregistro:=wregistro+TBStrZero(TiraPontos(Registros71[i].CPFCNPJ),14)+
-                            Padl(TiraPontos(Registros71[i].Inscricao),14);
+                            PadRight(TiraPontos(Registros71[i].Inscricao),14);
 
   wregistro:=wregistro+FormatDateTime('yyyymmdd',Registros71[i].DataDocumento);
-  wregistro:=wregistro+Padl(Registros71[i].UF,2);
+  wregistro:=wregistro+PadRight(Registros71[i].UF,2);
   wregistro:=wregistro+TBStrZero(Registros71[i].Modelo,2);
-  wregistro:=wregistro+Padl(Copy(Registros71[i].Serie,1,1),1);
-  wregistro:=wregistro+Padl(Copy(Registros71[i].SubSerie,1,2),2);
+  wregistro:=wregistro+PadRight(Copy(Registros71[i].Serie,1,1),1);
+  wregistro:=wregistro+PadRight(Copy(Registros71[i].SubSerie,1,2),2);
   wregistro:=wregistro+TBStrZero(RightStr(Registros71[i].Numero,6),6);
 
-  wregistro:=wregistro+Padl(Registros71[i].UFNF,2);
+  wregistro:=wregistro+PadRight(Registros71[i].UFNF,2);
   wregistro:=wregistro+TBStrZero(TiraPontos(Registros71[i].CPFCNPJNF),14)+
-                            Padl(TiraPontos(Registros71[i].InscricaoNF),14);
+                            PadRight(TiraPontos(Registros71[i].InscricaoNF),14);
   wregistro:=wregistro+FormatDateTime('yyyymmdd',Registros71[i].DataNF);
   wregistro:=wregistro+TBStrZero(Registros71[i].ModeloNF,2);
-  wregistro:=wregistro+Padl(Copy(Registros71[i].SerieNF,1,3),3);
+  wregistro:=wregistro+PadRight(Copy(Registros71[i].SerieNF,1,3),3);
   wregistro:=wregistro+TBStrZero(Registros71[i].NumeroNF,6);
   wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',Registros71[i].ValorNF)),14);
-  wregistro:=wregistro+Padl(' ',12);
+  wregistro:=wregistro+PadRight(' ',12);
 
   WriteRecord(wregistro);
 end;
@@ -2200,15 +2200,15 @@ begin
   begin
     wregistro:='74';
     wregistro:=wregistro+FormatDateTime('yyyymmdd',Data);
-    wregistro:=wregistro+Padl(Codigo,14);
+    wregistro:=wregistro+PadRight(Codigo,14);
     wregistro:=wregistro+TBStrZero(TiraPontos(
       FormatFloat('#,###0.000',Quantidade)),13);
     wregistro:=wregistro+TBStrZero(TiraPontos(
       FormatFloat('#,##0.00',ValorProduto)),13);
     wregistro:=wregistro+CodigoPosse;
     wregistro:=wregistro+TBStrZero(CNPJPossuidor,14);
-    wregistro:=wregistro+Padl(InscricaoPossuidor,14);
-    wregistro:=wregistro+Padl(UFPossuidor,2);
+    wregistro:=wregistro+PadRight(InscricaoPossuidor,14);
+    wregistro:=wregistro+PadRight(UFPossuidor,2);
     wregistro:=wregistro+Space(45); //brancos
     WriteRecord(wregistro);
   end;
@@ -2225,10 +2225,10 @@ for i := 0 to Registros75.Count - 1 do
 begin
   wregistro:='75'+FormatDateTime('yyyymmdd',Registros75[i].DataInicial)+
     FormatDateTime('yyyymmdd',Registros75[i].DataFinal);
-  wregistro:=wregistro+Padl(Registros75[i].Codigo,14);
-  wregistro:=wregistro+Padl(Registros75[i].NCM,8);
-  wregistro:=wregistro+Padl(Copy(Trim(Registros75[i].Descricao),1,53),53);
-  wregistro:=wregistro+Padl(Registros75[i].Unidade,6);
+  wregistro:=wregistro+PadRight(Registros75[i].Codigo,14);
+  wregistro:=wregistro+PadRight(Registros75[i].NCM,8);
+  wregistro:=wregistro+PadRight(Copy(Trim(Registros75[i].Descricao),1,53),53);
+  wregistro:=wregistro+PadRight(Registros75[i].Unidade,6);
   wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',
     Registros75[i].AliquotaIpi)),5);
   wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',
@@ -2251,20 +2251,20 @@ begin
         wregistro:='85';
         wregistro:=wregistro+TBStrZero(TiraPontos(Registros85[i].Declaracao),11);
         wregistro:= wregistro + FormatDateTime('yyyymmdd',Registros85[i].DataDeclaracao);
-        wregistro:=wregistro+Padl(Registros85[i].NaturezaExportacao,1);
-        wregistro:=wregistro+Padl(Registros85[i].RegistroExportacao,12);
+        wregistro:=wregistro+PadRight(Registros85[i].NaturezaExportacao,1);
+        wregistro:=wregistro+PadRight(Registros85[i].RegistroExportacao,12);
         wregistro:= wregistro + FormatDateTime('yyyymmdd',Registros85[i].DataRegistro);
-        wregistro:=wregistro+padL((Registros85[i].Conhecimento),16);
+        wregistro:=wregistro+PadRight((Registros85[i].Conhecimento),16);
         wregistro:= wregistro + FormatDateTime('yyyymmdd',Registros85[i].DataConhecimento);
         wregistro:=wregistro+TBStrZero(TiraPontos(Registros85[i].TipoConhecimento),2);
         wregistro:=wregistro+TBStrZero(TiraPontos(Registros85[i].Pais),4);
-        wregistro:= wregistro + padL('',8, '0');
+        wregistro:= wregistro + PadRight('',8, '0');
         wregistro:= wregistro + FormatDateTime('yyyymmdd',Registros85[i].DataAverbacao);
         wregistro:=wregistro+TBStrZero(Registros85[i].NumeroNotaFiscal,6);
         wregistro:= wregistro + FormatDateTime('yyyymmdd',Registros85[i].DataNotaFiscal);
         wregistro:=wregistro+TBStrZero(Registros85[i].Modelo,2);
-        wregistro:=wregistro+Padl(Copy(Registros85[i].Serie,1,3),3);
-        wregistro:=wregistro+Padl('',19);
+        wregistro:=wregistro+PadRight(Copy(Registros85[i].Serie,1,3),3);
+        wregistro:=wregistro+PadRight('',19);
         WriteRecord(wregistro);
     end;
 end;
@@ -2281,20 +2281,20 @@ begin
         with Registros86[i] do
         begin
             wregistro:='86';
-            wregistro:=wregistro+Padl(Registros86[i].RegistroExportacao,12);
+            wregistro:=wregistro+PadRight(Registros86[i].RegistroExportacao,12);
             wregistro:=wregistro+FormatDateTime('yyyymmdd',DataRegistro);
-            wregistro:=wregistro+TBStrZero(TiraPontos(CPFCNPJ),14)+Padl(TiraPontos(Inscricao),14);
-            wregistro:=wregistro+Padl(UF,2);
+            wregistro:=wregistro+TBStrZero(TiraPontos(CPFCNPJ),14)+PadRight(TiraPontos(Inscricao),14);
+            wregistro:=wregistro+PadRight(UF,2);
             wregistro:=wregistro+TBStrZero(NumeroNotaFiscal,6);
             wregistro:=wregistro+FormatDateTime('yyyymmdd',DataDocumento);
             wregistro:=wregistro+TBStrZero(Modelo,2);
-            wregistro:=wregistro+Padl(Serie,3);
-            wregistro:=wregistro+Padl(Codigo,14);
+            wregistro:=wregistro+PadRight(Serie,3);
+            wregistro:=wregistro+PadRight(Codigo,14);
             wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,###0.000',Quantidade)),11);
             wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',ValorUnitario)),12);
             wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',ValorTotalProduto)),12);
-            wregistro:=wregistro+Padl(Relacionamento,1);
-            wregistro:= wregistro + padL('',5);
+            wregistro:=wregistro+PadRight(Relacionamento,1);
+            wregistro:= wregistro + PadRight('',5);
             WriteRecord(wregistro);
         end;
     end;
@@ -2311,7 +2311,7 @@ var
 begin
 
 wregistro:='90'+TBStrZero(TiraPontos(Registro10.CNPJ),14);
-wregistro:=wregistro+Padl(TiraPontos(Registro10.Inscricao),14);
+wregistro:=wregistro+PadRight(TiraPontos(Registro10.Inscricao),14);
 if Registros50.Count>0 then
   wregistro:=wregistro+'50'+TBStrZero(IntToStr(Registros50.Count),8);
 if Registros51.Count>0 then
@@ -2415,7 +2415,7 @@ if length(wregistro)>30 then begin
 end;
 
 wregistro:='90'+TBStrZero(TiraPontos(Registro10.CNPJ),14);
-wregistro:=wregistro+Padl(TiraPontos(Registro10.Inscricao),14);
+wregistro:=wregistro+PadRight(TiraPontos(Registro10.Inscricao),14);
 wregistro:=wregistro+'99'+TBStrZero(IntToStr(Registros50.Count+Registros51.Count+
   Registros53.Count+Registros54.Count+Registros55.Count+registros56.count+
   (Registros60M.Count+WTotal60A+WTotal60D+WTotal60I+Registros60R.Count)+
@@ -2505,8 +2505,8 @@ begin
     wregistro := wregistro + Space(28);
     wregistro := wregistro + FormatDateTime('yyyymmdd',Emissao);
     wregistro := wregistro + TBStrZero(Modelo,2);
-    wregistro := wregistro + Padl(Serie,3);
-    wregistro := wregistro + Padl(SubSerie,2);
+    wregistro := wregistro + PadRight(Serie,3);
+    wregistro := wregistro + PadRight(SubSerie,2);
     wregistro := wregistro + RightStr(TBStrZero(IntToStr(NumOrdemInicial), 6), 6);
     wregistro := wregistro + RightStr(TBStrZero(IntToStr(NumOrdemFinal), 6), 6);
     wregistro := wregistro + TBStrZero(TiraPontos(FormatFloat('#,##0.00',Valor)),13);
@@ -2531,8 +2531,8 @@ begin
   with Registros61R[i] do
   begin
     wregistro:='61R';
-    wregistro:=wregistro+PadR(MesAno,6,'0');
-    wregistro:=wregistro+Padl(Codigo,14);
+    wregistro:=wregistro+PadLeft(MesAno,6,'0');
+    wregistro:=wregistro+PadRight(Codigo,14);
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,###0.000',Qtd)),13);
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',Valor)),16);
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',BaseDeCalculo)),16);
@@ -2552,18 +2552,18 @@ for I := 0 to Registros60I.Count - 1 do
 begin
   wregistro:='60I';
   wregistro:=wregistro+FormatDateTime('yyyymmdd',Registros60I[i].Emissao);
-  wregistro:=wregistro+Padl(Trim(Registros60I[i].NumSerie),20);
-  wregistro:=wregistro+Padl(Trim(Registros60I[i].ModeloDoc),2);
+  wregistro:=wregistro+PadRight(Trim(Registros60I[i].NumSerie),20);
+  wregistro:=wregistro+PadRight(Trim(Registros60I[i].ModeloDoc),2);
   wregistro:=wregistro+TBStrzero(Registros60I[i].Cupom,6);
   wregistro:=wregistro+TBStrzero(IntToStr(Registros60I[i].Item),3);
-  wregistro:=wregistro+Padl(Registros60I[i].Codigo,14);
+  wregistro:=wregistro+PadRight(Registros60I[i].Codigo,14);
   wregistro:=wregistro+TBStrZero(TiraPontos(
     FormatFloat('#,###0.000',Registros60I[i].Quantidade)),13);
   wregistro:=wregistro+TBStrZero(TiraPontos(
     FormatFloat('#,##0.00',Registros60I[i].Valor)),13);
   wregistro:=wregistro+TBStrZero(TiraPontos(
     FormatFloat('#,##0.00',Registros60I[i].BaseDeCalculo)),12);
-  wregistro:=wregistro+Padl(TiraPontos(Registros60I[i].StAliquota),4);
+  wregistro:=wregistro+PadRight(TiraPontos(Registros60I[i].StAliquota),4);
   wregistro:=wregistro+TBStrZero(TiraPontos(
     FormatFloat('#,##0.00',Registros60I[i].ValorIcms)),12);
   wregistro:=wregistro+Space(16);
@@ -2581,12 +2581,12 @@ begin
     with Registros60R[i] do
     begin
       wregistro:='60R';
-      wregistro:=wregistro+PadR(MesAno,6,'0');
-      wregistro:=wregistro+Padl(Codigo,14);
+      wregistro:=wregistro+PadLeft(MesAno,6,'0');
+      wregistro:=wregistro+PadRight(Codigo,14);
       wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,###0.000',Qtd)),13);
       wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',Valor)),16);
       wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',BaseDeCalculo)),16);
-      wregistro:=wregistro+Padl(TiraPontos(Aliquota),4);
+      wregistro:=wregistro+PadRight(TiraPontos(Aliquota),4);
       wregistro:=wregistro+space(54);
       WriteRecord(wregistro);
     end;
@@ -2602,17 +2602,17 @@ for I := 0 to Registros55.Count - 1 do
 begin
   wregistro:='55';
   wregistro:=wregistro+TBStrZero(TiraPontos(Registros55[i].CNPJ),14)+
-    Padl(TiraPontos(Registros55[i].Inscricao),14);
+    PadRight(TiraPontos(Registros55[i].Inscricao),14);
   wregistro:=wregistro+FormatDateTime('yyyymmdd',Registros55[i].DataPagamento);
-  wregistro:=wregistro+Padl(Registros55[i].UF,2);
-  wregistro:=wregistro+Padl(Registros55[i].UFFavorecida,2);
+  wregistro:=wregistro+PadRight(Registros55[i].UF,2);
+  wregistro:=wregistro+PadRight(Registros55[i].UFFavorecida,2);
   wregistro:=wregistro+TBStrZero(IntToStr(Registros55[i].Banco),3);
   wregistro:=wregistro+TBStrZero(IntToStr(Registros55[i].Agencia),4);
-  wregistro:=wregistro+Padl(Registros55[i].Numero,20);
+  wregistro:=wregistro+PadRight(Registros55[i].Numero,20);
   wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',Registros55[i].Valor)),13);
   wregistro:=wregistro+FormatDateTime('yyyymmdd',Registros55[i].Vencimento);
-  wregistro:=wregistro+PadR(Registros55[i].MesAno,6,'0');
-  wregistro:=wregistro+Padl(Registros55[i].NumeroConvenio,30);
+  wregistro:=wregistro+PadLeft(Registros55[i].MesAno,6,'0');
+  wregistro:=wregistro+PadRight(Registros55[i].NumeroConvenio,30);
   WriteRecord(wregistro);
 end;
 end;
@@ -2622,11 +2622,11 @@ procedure TACBrSintegra.GerarRegistro88EC;
 var
   wregistro: string;
 begin
-wregistro:='88EC'+Padl(Copy(Registro88EC.NomeContabilista,1,39),39);
-wregistro:=wregistro+Padl(Trim(TiraPontos(Registro88EC.CPFContabilista)),11);
-wregistro:=wregistro+Padl(Copy(Registro88EC.CRCContabilista,1,10),10);
-wregistro:=wregistro+Padl(Copy(Registro88EC.TelefoneContabilista,1,11),11);
-wregistro:=wregistro+Padl(Copy(Registro88EC.EmailContabilista,1,50),50);
+wregistro:='88EC'+PadRight(Copy(Registro88EC.NomeContabilista,1,39),39);
+wregistro:=wregistro+PadRight(Trim(TiraPontos(Registro88EC.CPFContabilista)),11);
+wregistro:=wregistro+PadRight(Copy(Registro88EC.CRCContabilista,1,10),10);
+wregistro:=wregistro+PadRight(Copy(Registro88EC.TelefoneContabilista,1,11),11);
+wregistro:=wregistro+PadRight(Copy(Registro88EC.EmailContabilista,1,50),50);
 wregistro:=wregistro+IntToStr(Registro88EC.AlteraContabilista);
 WriteRecord(wregistro);
 end;
@@ -2635,11 +2635,11 @@ procedure TACBrSintegra.GerarRegistro88SF;
 var
   wregistro: string;
 begin
-wregistro:='88SF'+Padl(Copy(Registro88SF.NomeEmpresa,1,35),35);
-wregistro:=wregistro+Padl(Trim(TiraPontos(Registro88SF.CNPJEmpresa)),14);
-wregistro:=wregistro+Padl(Trim(TiraPontos(Registro88SF.CPFTecnico)),11);
-wregistro:=wregistro+Padl(Copy(Registro88SF.TelefoneEmpresa,1,11),11);
-wregistro:=wregistro+Padl(Copy(Registro88SF.EmailEmpresa,1,50),50);
+wregistro:='88SF'+PadRight(Copy(Registro88SF.NomeEmpresa,1,35),35);
+wregistro:=wregistro+PadRight(Trim(TiraPontos(Registro88SF.CNPJEmpresa)),14);
+wregistro:=wregistro+PadRight(Trim(TiraPontos(Registro88SF.CPFTecnico)),11);
+wregistro:=wregistro+PadRight(Copy(Registro88SF.TelefoneEmpresa,1,11),11);
+wregistro:=wregistro+PadRight(Copy(Registro88SF.EmailEmpresa,1,50),50);
 wregistro:=wregistro+IntToStr(Registro88SF.AlteraEmpresa);
 WriteRecord(wregistro);
 end;
@@ -2673,9 +2673,9 @@ begin
     end;
   end;
   wregistro:=wregistro+TBStrZero(IntToStr(Registros88Ean[i].Codigo),14);
-  wregistro:=wregistro+Padl(Registros88Ean[i].Descricao,53);
-  wregistro:=wregistro+Padl(Registros88Ean[i].Unidade,6);
-  wregistro:=wregistro+Padl(Registros88Ean[i].CodigoBarras,14);
+  wregistro:=wregistro+PadRight(Registros88Ean[i].Descricao,53);
+  wregistro:=wregistro+PadRight(Registros88Ean[i].Unidade,6);
+  wregistro:=wregistro+PadRight(Registros88Ean[i].CodigoBarras,14);
   wregistro:=wregistro+Space(32);
   WriteRecord(wregistro);
 end;
@@ -2684,13 +2684,13 @@ end;
 procedure TACBrSintegra.GerarRegistro88SME;
 begin
 writerecord('88SME'+TBStrZero(TiraPontos(Registro10.CNPJ),14)+
-  padL('Sem Movimento de Entradas',34)+Space(73));
+  PadRight('Sem Movimento de Entradas',34)+Space(73));
 end;
 
 procedure TACBrSintegra.GerarRegistro88SMS;
 begin
 writerecord('88SMS'+TBStrZero(TiraPontos(Registro10.CNPJ),14)+
-  padL('Sem Movimento de Saídas',34)+Space(73));
+  PadRight('Sem Movimento de Saídas',34)+Space(73));
 end;
 
 procedure TACBrSintegra.GerarRegistros76;
@@ -2704,15 +2704,15 @@ begin
   begin
     wregistro:='76';
     wregistro:=wregistro+TBStrZero(TiraPontos(CPFCNPJ),14)+
-      Padl(TiraPontos(Inscricao),14);
+      PadRight(TiraPontos(Inscricao),14);
     wregistro:=wregistro+IntToStrZero(Modelo,2);
-    wregistro:=wregistro+Padl(Serie,2);
-    wregistro:=wregistro+Padl(SubSerie,2);
+    wregistro:=wregistro+PadRight(Serie,2);
+    wregistro:=wregistro+PadRight(SubSerie,2);
     wregistro:=wregistro+IntToStrZero(Numero,10);
-    wregistro:=wregistro+Padl(TiraPontos(Cfop),4);
+    wregistro:=wregistro+PadRight(TiraPontos(Cfop),4);
     wregistro:=wregistro+IntToStr(Ord(TTipoReceita(TipoReceita))+1);
     wregistro:=wregistro+FormatDateTime('yyyymmdd',DataDocumento);
-    wregistro:=wregistro+Padl(UF,2);
+    wregistro:=wregistro+PadRight(UF,2);
 
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',ValorTotal)),13);
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',BasedeCalculo)),13);
@@ -2720,7 +2720,7 @@ begin
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',Isentas)),12);
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',Outras)),12);
     wregistro:=wregistro+IntToStrZero(Aliquota,2);
-    wregistro:=wregistro+Padl(Situacao,1);
+    wregistro:=wregistro+PadRight(Situacao,1);
 
     WriteRecord(wregistro);
   end;
@@ -2739,13 +2739,13 @@ begin
     wregistro:='77';
     wregistro:=wregistro+TBStrZero(TiraPontos(CPFCNPJ),14);
     wregistro:=wregistro+IntToStrZero(Modelo,2);
-    wregistro:=wregistro+Padl(Serie,2);
-    wregistro:=wregistro+Padl(SubSerie,2);
+    wregistro:=wregistro+PadRight(Serie,2);
+    wregistro:=wregistro+PadRight(SubSerie,2);
     wregistro:=wregistro+IntToStrZero(Numero,10);
-    wregistro:=wregistro+Padl(TiraPontos(Cfop),4);
+    wregistro:=wregistro+PadRight(TiraPontos(Cfop),4);
     wregistro:=wregistro+IntToStr(Ord(TTipoReceita(TipoReceita))+1);
     wregistro:=wregistro+IntToStrZero(NumeroItem,3);
-    wregistro:=wregistro+Padl(Codigo,11);
+    wregistro:=wregistro+PadRight(Codigo,11);
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,###0.000',Quantidade)),13);
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',ValorServico)),12);
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',ValorDesconto)),12);
@@ -2768,11 +2768,11 @@ begin
     wregistro:='88C';
     wregistro:=wregistro+TBStrZero(TiraPontos(Registros88C[i].CPFCNPJ),14);
     wregistro:=wregistro+TBStrZero(Registros88C[i].Modelo,2);
-    wregistro:=wregistro+Padl(Registros88C[i].Serie,3);
+    wregistro:=wregistro+PadRight(Registros88C[i].Serie,3);
     wregistro:=wregistro+TBStrZero(RightStr(Registros88C[i].Numero,6),6);
-    wregistro:=wregistro+Padl(TiraPontos(Registros88C[i].CFOP),4);
+    wregistro:=wregistro+PadRight(TiraPontos(Registros88C[i].CFOP),4);
     wregistro:=wregistro+IntToStrZero(Registros88C[i].NumeroItem,3);
-    wregistro:=wregistro+Padl(Registros88C[i].Codigo,14); //codigo do produto
+    wregistro:=wregistro+PadRight(Registros88C[i].Codigo,14); //codigo do produto
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,###0.000',
       Registros88C[i].Quantidade)),11); //quantidade do produto
     wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,##0.00',
@@ -2800,20 +2800,20 @@ begin
     With Registros88D[i] do
     begin
       wregistro:='88D';
-      wregistro:=wregistro+TBStrZero(TiraPontos(CPFCNPJ),14)+Padl(TiraPontos(Inscricao),14);
-      wregistro:=wregistro+Padl(UF,2);
+      wregistro:=wregistro+TBStrZero(TiraPontos(CPFCNPJ),14)+PadRight(TiraPontos(Inscricao),14);
+      wregistro:=wregistro+PadRight(UF,2);
       wregistro:=wregistro+TBStrZero(Modelo,2);
-      wregistro:=wregistro+Padl(Serie,3);
+      wregistro:=wregistro+PadRight(Serie,3);
       wregistro:=wregistro+TBStrZero(RightStr(Numero,6),6);
-      wregistro:=wregistro+Padl(EmissorDocumento,1);
+      wregistro:=wregistro+PadRight(EmissorDocumento,1);
       wregistro:=wregistro+FormatDateTime('yyyymmdd',DataDocumento);
       wregistro:=wregistro+FormatDateTime('yyyymmdd',DataSaidaEntrada);
       wregistro:=wregistro+TBStrZero(TiraPontos(CNPJLocalSaida),14);
-      wregistro:=wregistro+Padl(UFLocalSaida,2);
-      wregistro:=wregistro+Padl(TiraPontos(IeLocalSaida),14);
+      wregistro:=wregistro+PadRight(UFLocalSaida,2);
+      wregistro:=wregistro+PadRight(TiraPontos(IeLocalSaida),14);
       wregistro:=wregistro+TBStrZero(TiraPontos(CNPJLocalEntrega),14);
-      wregistro:=wregistro+Padl(UFLocalEntrega,2);
-      wregistro:=wregistro+Padl(TiraPontos(IeLocalEntrega),14);
+      wregistro:=wregistro+PadRight(UFLocalEntrega,2);
+      wregistro:=wregistro+PadRight(TiraPontos(IeLocalEntrega),14);
       wregistro:=wregistro+Space(5);
       WriteRecord(wregistro);
     end;//With
@@ -2830,9 +2830,9 @@ begin
     With Registros88E[i] do
     begin
       wregistro:='88E';
-      wregistro:=wregistro+TBStrZero(TiraPontos(CPFCNPJ),14)+Padl(TiraPontos(Inscricao),14);
-      wregistro:=wregistro+Padl(Registros88E[i].CodigoInformate,14); //codigo do produto
-      wregistro:=wregistro+Padl(Registros88E[i].CodigoSefaz,14); //codigo do produto
+      wregistro:=wregistro+TBStrZero(TiraPontos(CPFCNPJ),14)+PadRight(TiraPontos(Inscricao),14);
+      wregistro:=wregistro+PadRight(Registros88E[i].CodigoInformate,14); //codigo do produto
+      wregistro:=wregistro+PadRight(Registros88E[i].CodigoSefaz,14); //codigo do produto
       wregistro:=wregistro+Space(67);
       WriteRecord(wregistro);
     end;//With
@@ -2851,22 +2851,22 @@ begin
       wregistro:='88T';
       wregistro:=wregistro+TBStrZero(TiraPontos(CPFCNPJ),14);
       wregistro:=wregistro+FormatDateTime('yyyymmdd',DataDocumento);
-      wregistro:=wregistro+Padl(UF,2);
+      wregistro:=wregistro+PadRight(UF,2);
       wregistro:=wregistro+TBStrZero(Modelo,2);
-      wregistro:=wregistro+Padl(Serie,3);
+      wregistro:=wregistro+PadRight(Serie,3);
       wregistro:=wregistro+TBStrZero(RightStr(Numero,6),6);
-      wregistro:=wregistro+Padl(EmissorDocumento,1);
-      wregistro:=wregistro+Padl(CifFob,1);
+      wregistro:=wregistro+PadRight(EmissorDocumento,1);
+      wregistro:=wregistro+PadRight(CifFob,1);
       wregistro:=wregistro+TBStrZero(TiraPontos(CPFCNPJFrete),14);
-      wregistro:=wregistro+Padl(UFFrete,2);
-      wregistro:=wregistro+Padl(TiraPontos(IeFrete),14);
+      wregistro:=wregistro+PadRight(UFFrete,2);
+      wregistro:=wregistro+PadRight(TiraPontos(IeFrete),14);
       wregistro:=wregistro+IntToStrZero(Modal,1);
-      wregistro:=wregistro+Padl(Placa1,7);
-      wregistro:=wregistro+Padl(UFPlaca1,2);
-      wregistro:=wregistro+Padl(Placa2,7);
-      wregistro:=wregistro+Padl(UFPlaca2,2);
-      wregistro:=wregistro+Padl(Placa3,7);
-      wregistro:=wregistro+Padl(UFPlaca3,2);
+      wregistro:=wregistro+PadRight(Placa1,7);
+      wregistro:=wregistro+PadRight(UFPlaca1,2);
+      wregistro:=wregistro+PadRight(Placa2,7);
+      wregistro:=wregistro+PadRight(UFPlaca2,2);
+      wregistro:=wregistro+PadRight(Placa3,7);
+      wregistro:=wregistro+PadRight(UFPlaca3,2);
       wregistro:=wregistro+Space(28);
       WriteRecord(wregistro);
     end;//With
@@ -2884,16 +2884,16 @@ begin
     begin
       wregistro:='88SP02';
       wregistro:=wregistro+FormatDateTime('yyyymmdd',DataEstoque);
-      wregistro:=wregistro+Padl(CodProduto,14);
-      wregistro:=wregistro+PadL(Descricao,53);
-      wregistro:=wregistro+Padl(UnidadeMedida,6);
+      wregistro:=wregistro+PadRight(CodProduto,14);
+      wregistro:=wregistro+PadRight(Descricao,53);
+      wregistro:=wregistro+PadRight(UnidadeMedida,6);
       wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,###0.000', Quantidade)),13); //quantidade do produto
       wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,###0.00', ValorUnitario)),13); //valor unitario
       wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,###0.00', ValorTotal)),13);
-      wregistro:=wregistro+Padl(CodigoPosse,1);
+      wregistro:=wregistro+PadRight(CodigoPosse,1);
       wregistro:=wregistro+TBStrZero(TiraPontos(Cnpj),14);
-      wregistro:=wregistro+Padl(TiraPontos(Ie),14);
-      wregistro:=wregistro+Padl(Uf,2);
+      wregistro:=wregistro+PadRight(TiraPontos(Ie),14);
+      wregistro:=wregistro+PadRight(Uf,2);
       WriteRecord(wregistro, True);
     end;//With
   end;//For
@@ -2910,25 +2910,25 @@ begin
     begin
       wregistro:='88SP03';
       wregistro:=wregistro+TBStrZero(TiraPontos(Cnpj),14);
-      wregistro:=wregistro+Padl(TiraPontos(Ie),14);
+      wregistro:=wregistro+PadRight(TiraPontos(Ie),14);
       wregistro:=wregistro+FormatDateTime('yyyymmdd',DataRecebimento);
-      wregistro:=wregistro+Padl(Uf,2);
-      wregistro:=wregistro+Padl(Modelo,2);
-      wregistro:=wregistro+Padl(Serie,3);
+      wregistro:=wregistro+PadRight(Uf,2);
+      wregistro:=wregistro+PadRight(Modelo,2);
+      wregistro:=wregistro+PadRight(Serie,3);
       wregistro:=wregistro+TBStrZero(Numero, 6);
-      wregistro:=wregistro+PadL(Cfop,4);
-      wregistro:=wregistro+Padl(Emitente,1);
+      wregistro:=wregistro+PadRight(Cfop,4);
+      wregistro:=wregistro+PadRight(Emitente,1);
       wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,###0.00', ValorTotal)),13); //quantidade do produto
       wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,###0.00', BaseCalculo)),13); //valor unitario
       wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,###0.00', ValorIcms)),13);
       wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,###0.00', Isentas)),13);
       wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,###0.00', Outras)),13);
       wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,###0.00', Aliquota)),4);
-      wregistro:=wregistro+Padl(Situacao,1);
-      wregistro:=wregistro+Padl(BeneficioFiscal,1);
+      wregistro:=wregistro+PadRight(Situacao,1);
+      wregistro:=wregistro+PadRight(BeneficioFiscal,1);
       wregistro:=wregistro+TBStrZero(TiraPontos(FormatFloat('#,###0.00', AliquotaInterna)),4);
       wregistro:=wregistro+FormatDateTime('yyyymmdd',DataEmissao);
-      wregistro:=wregistro+Padl(MicroEmpresa,1);
+      wregistro:=wregistro+PadRight(MicroEmpresa,1);
       WriteRecord(wregistro, True);
     end;//With
   end;//For
@@ -2970,11 +2970,11 @@ begin
     begin
       wregistro := '88STITNF';
       wregistro := wregistro+TBStrZero(TiraPontos(CNPJ),14);
-      wregistro := wregistro+Padl(Modelo,2);
-      wregistro := wregistro+Padl(Serie,3);
+      wregistro := wregistro+PadRight(Modelo,2);
+      wregistro := wregistro+PadRight(Serie,3);
       wregistro := wregistro+TBStrZero(Numero, 6);
-      wregistro := wregistro+PadL(CFOP,4);
-      wregistro := wregistro+PadL(CST,3);
+      wregistro := wregistro+PadRight(CFOP,4);
+      wregistro := wregistro+PadRight(CST,3);
       wregistro := wregistro+TBStrZero(TiraPontos(FormatFloat('000', NumeroItem)),3); //Numero do Item
       wregistro := wregistro+FormatDateTime('yyyymmdd',DataEntrada);
       wregistro := wregistro+TBStrZero(CodigoProduto,14);

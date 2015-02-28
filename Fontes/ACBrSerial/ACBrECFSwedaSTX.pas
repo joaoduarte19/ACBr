@@ -36,7 +36,8 @@
 unit ACBrECFSwedaSTX ;
 
 interface
-uses ACBrECFClass, ACBrDevice, ACBrUtil, Classes, Contnrs;
+uses Classes, Contnrs,
+     ACBrECFClass, ACBrDevice ;
 
 const
    CFALHAS = 3 ;
@@ -302,10 +303,9 @@ TACBrECFSwedaSTX = class( TACBrECFClass )
  end ;
 
 implementation
-Uses ACBrECF, ACBrConsts,
-     SysUtils, IniFiles,
-   {$IFDEF COMPILER6_UP} DateUtils, StrUtils, {$ELSE} ACBrD5, Windows,{$ENDIF}
-     Math;
+Uses SysUtils, IniFiles, Math,
+   {$IFDEF COMPILER6_UP} DateUtils, StrUtils {$ELSE} ACBrD5, Windows{$ENDIF},
+   ACBrECF, ACBrConsts, ACBrUtil;
 
 { --------------------------- TACBrECFSwedaCache ---------------------------- }
 function TACBrECFSwedaCache.AchaSecao(Secao: String): Integer;
@@ -2063,10 +2063,10 @@ begin
   {Apesar de implementadao, não foi possível testar essa rotina por falta de
    equipamento que tivesse o recurso}
    Banco      := IntToStrZero(StrToIntDef(Banco,1),3) ;
-   Favorecido := padL(Favorecido,80) ;
-   Cidade     := padL(Cidade,30) ;
-   Moeda      := padL('Real',20) ;
-   Moedas     := padL('Reais',20) ;
+   Favorecido := PadRight(Favorecido,80) ;
+   Cidade     := PadRight(Cidade,30) ;
+   Moeda      := PadRight('Real',20) ;
+   Moedas     := PadRight('Reais',20) ;
    sValor     := FormatFloat('#0.00',Valor);
    sData      := FormatDateTime('dd/mm/yyyy',Data);
    // Impreesão da observação na frente do cheque com até 80 caracteres
@@ -2108,7 +2108,7 @@ begin
    if RG = nil then
      raise EACBrECFERRO.create( ACBrStr('Relatório Gerencial: '+IntToStr(Indice)+
                                  ' não foi cadastrado.' ));
-   sDescricao := PadL(RG.Descricao,15);
+   sDescricao := PadRight(RG.Descricao,15);
    AguardaImpressao := True;
    EnviaComando('43|'+sDescricao);
 end;
@@ -2722,7 +2722,7 @@ var
      PosI: Integer;
   begin
     Result := 0;
-    PosI   := Pos(padL(Registrador,5), RetCMD);
+    PosI   := Pos(PadRight(Registrador,5), RetCMD);
     if PosI > 0 then
        Result := RoundTo( StrToFloatDef( Trim(Copy(RetCMD,PosI+5,18)), 0)/100, -2);
   end ;
@@ -2892,7 +2892,7 @@ end;
 
 procedure TACBrECFSwedaSTX.IdentificaPAF( NomeVersao, MD5 : String);
 begin
-   EnviaComando('39|D|' + padL(MD5,Colunas) + padL(NomeVersao,Colunas) );
+   EnviaComando('39|D|' + PadRight(MD5,Colunas) + PadRight(NomeVersao,Colunas) );
 end;
 
 function TACBrECFSwedaSTX.GetPAF: String;
@@ -3048,7 +3048,7 @@ const
 
     ACodigo := Trim( ACodigo );
     if TamFixo > 0 then
-       ACodigo := padR( ACodigo, TamFixo, '0') ;
+       ACodigo := PadLeft( ACodigo, TamFixo, '0') ;
 
     Result := STX + '10|' + ATipo + '|'+ ACodigo + '|1|' + IntToStr(A) + '|' +
               IntToStr(L) + '|' + ifthen( ConfigBarras.MostrarCodigo, '2', '0' ) +

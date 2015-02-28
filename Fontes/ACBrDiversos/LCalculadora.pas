@@ -97,6 +97,7 @@ type
     { Private declarations }
     fValor : Double ;
     fOperacao : String ;
+    fDS: Char;
 
     function GetValorDisplay: String;
     procedure SetValorDisplay(const Value: String);

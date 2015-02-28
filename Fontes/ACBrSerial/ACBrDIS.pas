@@ -291,7 +291,7 @@ begin
         fsTextoVisivel := copy( fsTexto + '  ' +fsTexto, Posicao, Colunas) ;
    end ;
 
-   fsTextoVisivel := PadL( fsTextoVisivel, Colunas) ;
+   fsTextoVisivel := PadRight( fsTextoVisivel, Colunas) ;
 
 end;
 
@@ -505,11 +505,11 @@ begin
   if Length( Texto ) > Colunas then exit ;
   
   case Alin of
-     alJustificado : Result := padS(Texto, Colunas, ' ') ;
-     alDireita     : Result := padR(Texto, Colunas)      ;
-     alCentro      : Result := padC(Texto, Colunas)      ;
+     alJustificado : Result := PadSpace(Texto, Colunas, ' ') ;
+     alDireita     : Result := PadLeft(Texto, Colunas)      ;
+     alCentro      : Result := PadCenter(Texto, Colunas)      ;
   else ;
-     Result := padL(Texto, Colunas) ;
+     Result := PadRight(Texto, Colunas) ;
   end;
 end;
 

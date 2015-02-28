@@ -3306,7 +3306,7 @@ Var Linhas : TStringList ;
     I : Integer ;
 begin
   if Texto = '' then
-     Texto := padL(Texto,Colunas) ;
+     Texto := PadRight(Texto,Colunas) ;
 
   Texto := AjustaLinhas( Texto, Colunas );
 
@@ -3316,7 +3316,7 @@ begin
 
      for I := 0 to Linhas.Count-1 do
      begin
-        EnviaComando( Cmd + padL( Linhas[I], Colunas), 6 ) ;
+        EnviaComando( Cmd + PadRight( Linhas[I], Colunas), 6 ) ;
         if not fpTermica then
            sleep(100) ;
 
@@ -4823,7 +4823,7 @@ begin
   S := '';
   For I := 0 to TotalizadoresNaoFiscais.Count-1 do
   begin
-     Result := Result + padL(TotalizadoresNaoFiscais[I].Indice,2) + '_' +
+     Result := Result + PadRight(TotalizadoresNaoFiscais[I].Indice,2) + '_' +
                         TotalizadoresNaoFiscais[I].Descricao + ' = ' +
                         FormatFloat('0.00',TotalizadoresNaoFiscais[I].Total) + sLineBreak ;
      S := S + 'CON_' + TotalizadoresNaoFiscais[I].Descricao +' = '+
@@ -4835,7 +4835,7 @@ begin
      Result := Result + sLineBreak + '[RelatoriosGerenciais]' + sLineBreak ;
   For I := 0 to RelatorioGerencial.Count-1 do
   begin
-     Result := Result + padL(RelatorioGerencial[I].Indice,2) + '_' +
+     Result := Result + PadRight(RelatorioGerencial[I].Indice,2) + '_' +
                         RelatorioGerencial[I].Descricao +' = '+
                         FormatFloat('0000', RelatorioGerencial[I].Contador) + sLineBreak ;
   end ;
@@ -4844,7 +4844,7 @@ begin
      Result := Result + sLineBreak + '[MeiosDePagamento]' + sLineBreak ;
   For I := 0 to MeiosDePagamento.Count-1 do
   begin
-     Result := Result + padL(MeiosDePagamento[I].Indice,2) + '_' +
+     Result := Result + PadRight(MeiosDePagamento[I].Indice,2) + '_' +
                         MeiosDePagamento[I].Descricao + ' = ' +
                         FormatFloat('0.00',MeiosDePagamento[I].Total) + sLineBreak ;
   end;
