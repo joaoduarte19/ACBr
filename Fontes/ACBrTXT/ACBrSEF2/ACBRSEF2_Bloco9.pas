@@ -42,7 +42,7 @@
 unit ACBrSEF2_Bloco9;
 
 interface
-  Uses SysUtils, Contnrs, Classes, ACBrSEF2Conversao;
+  Uses SysUtils, Classes, ACBrSEF2Conversao;
 
 type
 

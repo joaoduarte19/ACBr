@@ -49,8 +49,7 @@ unit ACBrSEF2_BlocoE_1;
 
 interface
 
-Uses SysUtils, Classes, Contnrs, ACBrSEF2_BlocoE, ACBrSEF2Conversao,
-     ACBrTXTClass, ACBrSEF2_Bloco9;
+Uses SysUtils, Classes, ACBrSEF2_BlocoE, ACBrSEF2Conversao;
 type
 
   TBloco_E = class(TACBrSEFIIEDOC)

@@ -43,7 +43,7 @@ unit ACBrSEF2_eDoc_BlocoC;
 
 interface
 
-Uses SysUtils, Contnrs, Classes, ACBrSEF2Conversao;
+Uses SysUtils, Classes, ACBrSEF2Conversao;
 
 type
   TRegistroSEFC020 = Class;
@@ -510,8 +510,6 @@ type
   end;
 
 implementation
-
-uses ACBrTXTClass;
 
 { TRegistroSEFC560 }
 

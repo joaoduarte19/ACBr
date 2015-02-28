@@ -48,14 +48,14 @@ unit ACBrSEF2;
 
 interface
 
-uses SysUtils, Classes, Contnrs,
-     {$IFNDEF Framework}
+uses SysUtils, Classes,
+     {$IFNDEF NOGUI}
       {$IFDEF FPC}
        LResources,
       {$ENDIF}
      {$ENDIF}
   ACBrTXTClass, ACBrSEF2_Bloco0_1, ACBrSEF2_BlocoE_1, ACBrSEF2_Bloco9,
-  ACBrSEF2_eDoc_BlocoC_Class, ACBrSEF2_BlocoH, ACBrSEF2_BlocoH_1, ACBrSEF2Conversao,
+  ACBrSEF2_eDoc_BlocoC_Class, ACBrSEF2_BlocoH_1, ACBrSEF2Conversao,
   ACBrUtil, DateUtils;
 
 const
