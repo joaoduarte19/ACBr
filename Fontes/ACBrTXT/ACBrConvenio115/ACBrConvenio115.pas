@@ -51,7 +51,7 @@ unit ACBrConvenio115;
 interface
 
 uses
-  SysUtils, Classes, Contnrs, ACBrBase, ACBrConsts, StrUtils
+  SysUtils, Classes, Contnrs, ACBrConsts, StrUtils
   {$IFDEF FPC}
    ,LResources
   {$ENDIF} ;
@@ -100,7 +100,6 @@ type
     FModelo: SmallInt;
     FSerie: string;
     FNumeroNF: Integer;
-    FReferenciaItemNF: Integer;
     FTipoAssinante: TTipoAssinanteConv115_Tab11_1;
     FTipoUtilizacao: TProdutoConv115_Tab11_2;
     /////////////////////////////////////////////////////////

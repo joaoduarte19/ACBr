@@ -42,7 +42,7 @@ unit ACBrPAF_TITP_Class;
 interface
 
 uses
-  SysUtils, StrUtils, Classes, DateUtils, ACBrTXTClass, ACBrPAFRegistros,
+  SysUtils, Classes, DateUtils, ACBrTXTClass,
   ACBrPAF_TITP;
 
 type

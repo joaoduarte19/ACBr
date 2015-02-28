@@ -35,7 +35,7 @@ unit ACBrPAF_G;
 interface
 
 uses
-  SysUtils, Classes, Contnrs, DateUtils, ACBrPAFRegistros;
+  SysUtils, Classes, Contnrs, DateUtils;
 
 type
   //G2 - Movimento diário de pedágio

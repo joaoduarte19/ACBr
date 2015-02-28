@@ -35,7 +35,7 @@ unit ACBrPAF_A;
 interface
 
 uses
-  SysUtils, Classes, Contnrs, DateUtils, ACBrPAFRegistros;
+  SysUtils, Classes, Contnrs, DateUtils;
 
 type
   //A2 - Total diário de meios de pagamento

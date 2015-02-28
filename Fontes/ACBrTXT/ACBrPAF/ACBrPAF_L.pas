@@ -35,7 +35,7 @@ unit ACBrPAF_L;
 interface
 
 uses
-  SysUtils, Classes, Contnrs, DateUtils, ACBrPAFRegistros;
+  SysUtils, Classes, Contnrs, DateUtils;
 
 type
   //M2 - Cupom de embarque

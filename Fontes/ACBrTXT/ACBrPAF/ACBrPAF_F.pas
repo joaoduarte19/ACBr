@@ -35,7 +35,7 @@ unit ACBrPAF_F;
 interface
 
 uses
-  SysUtils, Classes, Contnrs, DateUtils, ACBrPAFRegistros;
+  SysUtils, Classes, Contnrs, DateUtils;
 
 type
   // F2 - Manifesto fiscal de viagem

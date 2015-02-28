@@ -1296,9 +1296,8 @@ begin
 end;
 
 function TRegistro0460List.LocalizaRegistro(pCOD_OBS: String): boolean;
-var
-intFor: integer;
 begin
+  Result := False;
 end;
 
 function TRegistro0460List.New(AOwner: TRegistro0450): TRegistro0460;

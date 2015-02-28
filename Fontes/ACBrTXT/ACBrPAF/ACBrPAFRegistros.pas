@@ -43,7 +43,7 @@ unit ACBrPAFRegistros;
 interface
 
 uses
-  SysUtils, Classes, DateUtils, ACBrTXTClass;
+  SysUtils, Classes, DateUtils;
 
 type
   /// REGISTRO TIPO X1 - IDENTIFICAÇÃO DO ESTABELECIMENTO USUÁRIO DO PAF-ECF:

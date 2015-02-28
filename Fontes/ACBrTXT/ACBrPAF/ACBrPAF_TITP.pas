@@ -43,7 +43,7 @@ unit ACBrPAF_TITP;
 interface
 
 uses
-  SysUtils, Classes, Contnrs, DateUtils, ACBrPAFRegistros;
+  SysUtils, Classes, Contnrs, DateUtils;
 
 type
   TTITP_Base = class

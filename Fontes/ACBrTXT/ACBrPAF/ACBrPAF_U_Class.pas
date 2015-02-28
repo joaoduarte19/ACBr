@@ -39,7 +39,7 @@ unit ACBrPAF_U_Class;
 
 interface
 
-uses SysUtils, Classes, DateUtils, ACBrTXTClass, ACBrPAFRegistros, ACBrTXTUtils,
+uses SysUtils, Classes, DateUtils, ACBrTXTClass, ACBrTXTUtils,
      ACBrPAF_U;
 
 type

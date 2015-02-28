@@ -44,7 +44,7 @@ unit ACBrPAF_R_Class;
 
 interface
 
-uses SysUtils, StrUtils, Classes, DateUtils, ACBrTXTClass, ACBrPAFRegistros,
+uses SysUtils, Classes, DateUtils, ACBrTXTClass,
      ACBrPAF_R, ACBrUtil;
 
 type
@@ -93,7 +93,7 @@ type
 
 implementation
 
-uses Math, ACBrTXTUtils;
+uses ACBrTXTUtils;
 
 { ordenações de registros }
 
@@ -283,9 +283,17 @@ var
   strRegistroR07:string;
 
 begin
-   Result := '';
+  Result := '';
 
-   if Assigned(FRegistroR01) then
+  strRegistroR01 := '';
+  strRegistroR02 := '';
+  strRegistroR03 := '';
+  strRegistroR04 := '';
+  strRegistroR05 := '';
+  strRegistroR06 := '';
+  strRegistroR07 := '';
+
+  if Assigned(FRegistroR01) then
   begin
      FRegistroR01.Sort(@OrdenarR01);
 

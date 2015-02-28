@@ -44,10 +44,8 @@ unit ACBrTXTClass;
 
 interface
 
-uses {$IFDEF MSWINDOWS}
-     Windows,
-     {$ENDIF}
-     SysUtils, Classes, DateUtils, Math, Variants;
+uses
+  SysUtils, Classes, DateUtils, Math, Variants;
 
 type
   EACBrTXTClassErro            = class(Exception) ;

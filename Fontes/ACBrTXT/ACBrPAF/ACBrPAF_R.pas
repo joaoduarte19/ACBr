@@ -43,7 +43,7 @@ unit ACBrPAF_R;
 interface
 
 uses
-  SysUtils, Classes, Contnrs, DateUtils, ACBrPAFRegistros;
+  SysUtils, Classes, Contnrs, DateUtils;
 
 type
   TRegistroR03List = class;
