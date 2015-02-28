@@ -49,8 +49,8 @@ unit ACBrIBPTax;
 interface
 
 uses
-  {$IFDEF MSWINDOWS} Windows, {$ENDIF}
-  Contnrs,  SysUtils, Variants, Classes, ACBrUtil, ACBrSocket;
+  Contnrs,  SysUtils, Variants, Classes,
+  ACBrSocket;
 
 type
   EACBrIBPTax = class(Exception);
@@ -144,7 +144,7 @@ type
 implementation
 
 uses
-  Math, StrUtils;
+  ACBrUtil;
 
 function TabelaToString(const ATabela: TACBrIBPTaxTabela): String;
 begin

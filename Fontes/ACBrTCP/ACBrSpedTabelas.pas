@@ -117,8 +117,6 @@ type
 
 implementation
 
-uses StrUtils, Math, synacode;
-
 constructor TACBrSpedTabelas.Create(AOwner: TComponent);
 begin
   inherited;

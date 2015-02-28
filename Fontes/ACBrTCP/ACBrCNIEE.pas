@@ -154,7 +154,7 @@ TACBrCNIEE = class(TACBrHTTP)
 implementation
 
 uses
-  Math, StrUtils;
+  StrUtils;
 
 { TACBrCNIEERegistros }
 

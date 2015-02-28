@@ -153,6 +153,7 @@ function Poem_Zeros(const NumInteiro : Int64 ; Tamanho : Integer) : String ; ove
 
 Function IntToStrZero(const NumInteiro : Int64; Tamanho : Integer) : String;
 function FloatToIntStr(const AValue: Double; const DecimalDigits: SmallInt = 2): String;
+function FloatToString(const AValue: Double; SeparadorDecimal: String = '.'): String;
 function FormatFloatBr(const AValue: Extended; AFormat: String = ''): String;
 Function StringToFloat( NumString : String ) : Double ;
 Function StringToFloatDef( const NumString : String ;
@@ -1099,6 +1100,22 @@ begin
 end;
 
 {-----------------------------------------------------------------------------
+  Converte um Double para string, semelhante a FloatToStr(), porém
+  garante que não haverá sepeador de Milhar e o Separador Decimal será igual a
+  "SeparadorDecimal" ( o default é .(ponto))
+ ---------------------------------------------------------------------------- }
+function FloatToString(const AValue: Double; SeparadorDecimal: String): String;
+begin
+  Result := FloatToStr(AValue);
+  Result := StringReplace(Result,
+                          {$IFDEF DELPHI7_UP}FormatSettings.{$ENDIF}ThousandSeparator,
+                          '', [rfReplaceAll]);
+  Result := StringReplace(Result,
+                          {$IFDEF DELPHI7_UP}FormatSettings.{$ENDIF}DecimalSeparator,
+                          SeparadorDecimal, [rfReplaceAll]);
+end;
+
+{-----------------------------------------------------------------------------
   Converte uma <DateTimeString> para TDateTime, semelhante ao StrToDateTimeDef,
   mas verifica se o seprador da Data é compativo com o S.O., efetuando a
   conversão se necessário. Se não for possivel converter, retorna <DefaultValue>
@@ -1358,7 +1375,7 @@ end ;
  ** Baseada em "IsIp" de synautil.pas - Synapse http://www.ararat.cz/synapse/ **
   Retorna <True> se <Value> é um IP Valido
  ---------------------------------------------------------------------------- }
-function StrIsIP(const AValue: string): Boolean;
+function StrIsIP(const AValue: String): Boolean;
 var
   TempIP : string;
   function ByteIsOk(const AValue: string): Boolean;

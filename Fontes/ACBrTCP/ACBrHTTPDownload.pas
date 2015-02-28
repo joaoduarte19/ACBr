@@ -51,8 +51,8 @@ interface
 
 uses
   Classes, SysUtils,
-  ACBrUtil, ACBrBase, ACBrDownloadClass,
-  httpsend, ftpsend, blcksock, synautil;
+  ACBrUtil, ACBrDownloadClass,
+  httpsend, blcksock, synautil;
 
 type
   TACBrHTTPDownload = class(TACBrDownloadClass)

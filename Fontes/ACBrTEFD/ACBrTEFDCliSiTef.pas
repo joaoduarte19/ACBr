@@ -45,7 +45,7 @@ unit ACBrTEFDCliSiTef;
 interface
 
 uses
-  Classes, SysUtils, ACBrTEFDClass, ACBrConsts
+  Classes, SysUtils, ACBrTEFDClass
   {$IFNDEF NOGUI}
    {$IFDEF VisualCLX} ,QControls {$ELSE} ,Controls {$ENDIF}
   {$ENDIF};
@@ -289,7 +289,8 @@ type
 
 implementation
 
-Uses ACBrUtil, dateutils, StrUtils, ACBrTEFD, Math;
+Uses dateutils, Math, StrUtils,
+  ACBrTEFD, ACBrConsts, ACBrUtil ;
 
 { TACBrTEFDRespCliSiTef }
 
@@ -881,6 +882,7 @@ begin
   ANow    := Now ;
   DataStr := FormatDateTime('YYYYMMDD', ANow );
   HoraStr := FormatDateTime('HHNNSS', ANow );
+  Buffer := #0;
   FillChar(Buffer, SizeOf(Buffer), 0);
 
   GravaLog( 'EnviaRecebeSiTefDireto -> Rede:' +IntToStr(RedeDestino) +', Funcao:'+
@@ -931,8 +933,7 @@ begin
    DataHora := DataHoraFiscal ;
    DataStr  := FormatDateTime('YYYYMMDD', DataHora );
    HoraStr  := FormatDateTime('HHNNSS', DataHora );
-   ValorStr := StringReplace( FormatFloat( '0.00', Valor ),
-                              DecimalSeparator, ',', [rfReplaceAll]) ;
+   ValorStr := FormatFloatBr( Valor );
    fDocumentosProcessados := '' ;
 
    GravaLog( '*** IniciaFuncaoSiTefInterativo. Modalidade: '+IntToStr(Funcao)+
@@ -1268,10 +1269,7 @@ begin
                      BloquearMouseTeclado(True);
 
                      // Garantindo que a Resposta é Float //
-                     Resposta := FormatFloat('0.00', StringToFloatDef(Resposta, 0));
-                     // Garantindo que o Seprador de Decimal é a Virgula //
-                     if DecimalSeparator <> ',' then
-                        Resposta := StringReplace( Resposta, DecimalSeparator, ',', [] );
+                     Resposta := FormatFloatBr( StringToFloatDef(Resposta, 0));
                    end;
 
                  35 :

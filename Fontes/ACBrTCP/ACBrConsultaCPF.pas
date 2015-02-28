@@ -82,7 +82,7 @@ type
 implementation
 
 uses
-  ACBrUtil, ACBrValidador, synacode, synautil, strutils;
+  ACBrUtil, ACBrValidador, synautil, strutils;
 
 function StrEntreStr(Str, StrInicial, StrFinal: String; ComecarDe: Integer = 1): String;
 var
@@ -102,30 +102,11 @@ begin
 end;
 
 procedure TACBrConsultaCPF.Captcha(Stream: TStream);
-var
-  Img64, ImgBin, DataClientID: AnsiString;
-  P: Integer;
 begin
   try
-    //DataClientID := '41ff278aba054a4cb14ab7a03d2f4c4d';
-    //HTTPPost('http://captcha2.servicoscorporativos.serpro.gov.br/captcha/1.0.0/imagem', DataClientID);
     HTTPGet('http://www.receita.fazenda.gov.br/Aplicacoes/ATCTA/CPF/captcha/gerarCaptcha.asp');
     if HTTPSend.ResultCode = 200 then
     begin
-      (*
-      Img64 := RespHTTP.Text;
-      P := pos('@',Img64);
-      if P > 0 then
-      begin
-        FTokenCaptcha := copy(Img64,1,P-1);
-        Img64         := copy(Img64,P+1,Length(Img64)-Length(FTokenCaptcha)+2);
-      end
-      else
-         raise Exception.Create('');
-
-      ImgBin := DecodeBase64(Img64);
-      Stream.Write(Pointer(ImgBin)^,Length(ImgBin));
-      *)
       HTTPSend.Document.Position := 0;
       Stream.CopyFrom(HttpSend.Document, HttpSend.Document.Size);
 

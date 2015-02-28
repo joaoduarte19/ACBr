@@ -144,9 +144,9 @@ end;
 
 procedure TACBrNCMs.ListarNcms(codigoCapitulo: string = '');
 var
-  Buffer, Texto: string;
+  Buffer: string;
   SL1: TStringList;
-  i, Cont: integer;
+  Cont: integer;
 
   function CopyDeAte(Texto, TextIni, TextFim: string): string;
   var

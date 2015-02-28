@@ -485,9 +485,7 @@ procedure TACBrTEFDVeSPagueCmd.AddParamDouble(const ParamName : String ;
 Var
   StrValue : String ;
 begin
-   StrValue := FloatToStr(ADouble);
-   StrValue := StringReplace( StrValue, DecimalSeparator, '.', [] );
-
+   StrValue := FloatToString(ADouble);
    AddParamString(ParamName,StrValue);
 end ;
 

@@ -51,8 +51,7 @@ interface
 
 uses
   Classes, SysUtils, Forms,
-  ACBrUtil, ACBrBase,
-  httpsend, ftpsend, blcksock, synautil;
+  blcksock, synautil;
 
 type
   TMemory = pointer;
@@ -164,7 +163,7 @@ type
 
 implementation
 
-uses ACBrDownload;
+uses ACBrDownload, ACBrUtil;
 
 { TACBrDownloadClass }
 

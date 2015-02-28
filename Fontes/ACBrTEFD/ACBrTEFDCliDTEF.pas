@@ -246,7 +246,8 @@ type
 
 implementation
 
-Uses ACBrUtil, dateutils, ACBrTEFD, Math, strutils;
+Uses dateutils, Math, strutils,
+  ACBrTEFD, ACBrUtil;
 
 { TACBrTEFDRespCliDTEF }
 

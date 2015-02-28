@@ -50,11 +50,11 @@ interface
 uses
   Classes, SysUtils, ACBrTEFDClass
   {$IFNDEF NOGUI}
-  {$IFDEF VisualCLX}
-     ,QForms, QControls
-  {$ELSE}
-     ,Forms, Controls
-  {$ENDIF}
+   {$IFDEF VisualCLX}
+      ,QForms, QControls
+   {$ELSE}
+      ,Forms, Controls
+   {$ENDIF}
   {$ENDIF};
 
 
@@ -154,7 +154,8 @@ type
 
 implementation
 
-Uses ACBrUtil, dateutils, strutils, ACBrTEFD, Math;
+Uses dateutils, strutils, math,
+  ACBrTEFD, ACBrUtil;
 
 { TACBrTEFDRespBanese }
 

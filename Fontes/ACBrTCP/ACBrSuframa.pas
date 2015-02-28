@@ -47,7 +47,7 @@ unit ACBrSuframa;
 interface
 
 uses
-  Classes, SysUtils, contnrs, ACBrUtil, ACBrSocket, ACBrValidador;
+  Classes, SysUtils, ACBrUtil, ACBrSocket, ACBrValidador;
 
 type
   EACBrSuframa = class( Exception );
