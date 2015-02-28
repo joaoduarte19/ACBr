@@ -44,7 +44,7 @@ unit ACBrEPCBloco_C_Class;
 interface
 
 uses SysUtils, Classes, DateUtils, ACBrSped, ACBrEPCBloco_C, ACBrEPCBlocos,
-     ACBrTXTClass, ACBrEPCBloco_0_Class;
+     ACBrEPCBloco_0_Class;
 
 type
   TWriteRegistroC481Event = procedure(const AC481: TObject;

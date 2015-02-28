@@ -43,7 +43,7 @@ unit ACBrEPCBloco_M_Class;
 interface
 
 uses SysUtils, Classes, DateUtils, ACBrSped, ACBrEPCBloco_M, ACBrEPCBlocos,
-     ACBrTXTClass, ACBrEPCBloco_0_Class;
+     ACBrEPCBloco_0_Class;
 
 type
   /// TBloco_M -
@@ -193,8 +193,6 @@ type
   end;
 
 implementation
-
-uses ACBrTXTUtils;
 
 { TBloco_M }
 
@@ -420,8 +418,6 @@ begin
 end;
 
 function TBloco_M.RegistroM605New: TRegistroM605;
-var
-   M600Count : Integer;
 begin
    Result := FRegistroM001.RegistroM600.RegistroM605.New;
 end;
@@ -724,7 +720,6 @@ end;
 procedure TBloco_M.WriteRegistroM205(RegM200: TRegistroM200);
 var
    intFor      : integer;
-   strCOD_CONT : AnsiString;
 begin
     if Assigned(RegM200.RegistroM205) then
     begin

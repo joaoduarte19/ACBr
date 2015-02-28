@@ -49,7 +49,7 @@ unit ACBrEPCBlocos;
 interface
 
 uses
-  SysUtils, Classes, DateUtils, ACBrTXTClass, ACBrTXTUtils;
+  SysUtils, Classes, DateUtils, ACBrTXTUtils;
 
 type
   /// Versão do Leiaute do arquivo - TRegistro0000

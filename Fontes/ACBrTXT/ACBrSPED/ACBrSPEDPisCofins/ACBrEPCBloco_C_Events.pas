@@ -43,7 +43,7 @@ unit ACBrEPCBloco_C_Events;
 interface
 
 uses
-  SysUtils, Math, Classes, ACBrSped, ACBrEPCBloco_C_Class;
+  SysUtils, Classes, ACBrEPCBloco_C_Class;
 
 type
   { TEventsBloco_0 }

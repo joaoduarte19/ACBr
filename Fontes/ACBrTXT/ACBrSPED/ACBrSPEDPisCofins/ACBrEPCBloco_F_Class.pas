@@ -43,7 +43,7 @@ unit ACBrEPCBloco_F_Class;
 interface
 
 uses SysUtils, Classes, DateUtils, ACBrSped, ACBrEPCBloco_F, ACBrEPCBlocos,
-     ACBrTXTClass, ACBrEPCBloco_0_Class;
+     ACBrEPCBloco_0_Class;
 
 type
   /// TBloco_F -

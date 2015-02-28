@@ -43,7 +43,7 @@ unit ACBrEFDBlocos;
 interface
 
 uses
-  SysUtils, Classes, DateUtils, ACBrTXTClass, ACBrSped;
+  SysUtils, Classes, DateUtils, ACBrSped;
 
 Const
   /// Código da Situação Tributária referente ao IPI.

@@ -45,7 +45,7 @@ unit ACBrEFDBloco_C;
 interface
 
 uses
-  SysUtils, Classes, Contnrs, DateUtils, ACBrEFDBlocos, ACBrTXTClass;
+  SysUtils, Classes, Contnrs, DateUtils, ACBrEFDBlocos;
 
 type
   TRegistroC100List = class;

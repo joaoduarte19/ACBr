@@ -43,7 +43,7 @@ unit ACBrEPCBloco_1_Class;
 interface
 
 uses SysUtils, Classes, DateUtils, ACBrSped, ACBrEPCBloco_1, ACBrEPCBlocos,
-     ACBrTXTClass, ACBrEPCBloco_0_Class;
+     ACBrEPCBloco_0_Class;
 
 type
   /// TBloco_1 -
@@ -153,8 +153,6 @@ type
   end;
 
 implementation
-
-uses ACBrTXTUtils;
 
 { TBloco_1 }
 
@@ -934,9 +932,8 @@ begin
 end;
 
 procedure TBloco_1.WriteRegistro1900(Reg1001: TRegistro1001);
-var strCST_PIS,
-    strCST_COFINS:string;
-    intFor:Integer;
+var
+  intFor:Integer;
 begin
   if Assigned(Reg1001.Registro1900) then
   begin

@@ -46,7 +46,7 @@ interface
 
 uses
   SysUtils, Classes, DateUtils, ACBrSped, ACBrEPCBloco_P, ACBrEPCBlocos,
-  ACBrTXTClass, ACBrEPCBloco_0_Class;
+  ACBrEPCBloco_0_Class;
 
 type
   TBloco_P = class( TACBrSPED )
