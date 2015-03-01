@@ -30,8 +30,6 @@ requires
   vcl,
   designide,
   synapse,
-  vclactnband,
-  vclx,
   ACBrDiversos,
   ACBrComum;
 

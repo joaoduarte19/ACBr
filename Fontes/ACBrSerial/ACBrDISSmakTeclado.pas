@@ -59,7 +59,7 @@ type
 
 TACBrDISSmakTeclado = class( TACBrDISClass )
   public
-    constructor Create(AOwner: TComponent);
+    constructor Create(AOwner: TComponent); override;
 
     procedure Ativar ; override ;
 

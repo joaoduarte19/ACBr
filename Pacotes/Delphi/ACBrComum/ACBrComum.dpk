@@ -21,7 +21,7 @@ package ACBrComum;
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
-{$IMAGEBASE $400000}                                                     
+{$IMAGEBASE $400000}
 {$DESCRIPTION 'ACBr - Biblioteca Comum, EAD, AAC  - (http://www.projetoacbr.com.br/)'}
 {$IMPLICITBUILD OFF}
 
@@ -37,6 +37,7 @@ contains
   ACBrUtil in '..\..\..\Fontes\ACBrComum\ACBrUtil.pas',
   ACBrReg in '..\..\..\Fontes\ACBrComum\ACBrReg.pas',
   ACBrAAC in '..\..\..\Fontes\ACBrComum\ACBrAAC.pas',
-  ACBrPAFClass in '..\..\..\Fontes\ACBrComum\ACBrPAFClass.pas';
+  ACBrPAFClass in '..\..\..\Fontes\ACBrComum\ACBrPAFClass.pas',
+  ACBrZLibExGZ in '..\..\..\Fontes\Terceiros\ZLibExGZ\ACBrZLibExGZ.pas';
 
 end.

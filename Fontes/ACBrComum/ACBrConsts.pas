@@ -48,9 +48,6 @@ Uses
   {$IFNDEF COMPILER6_UP}
     ACBrD5,
   {$ENDIF}
-  {$IFDEF MSWINDOWS}
-    Windows,
-  {$ENDIF}
    SysUtils;
 
 // delphi XE3 em diante não possui mais essas var, então criar e preencher

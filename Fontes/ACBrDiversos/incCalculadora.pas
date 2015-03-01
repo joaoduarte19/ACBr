@@ -2,7 +2,7 @@ procedure TFrCalculadora.FormCreate(Sender: TObject);
 begin
   pOnCalKey := nil ;
   pOnDisplayChange := nil ;
-  fDS := {$IFDEF DELPHI7_UP}FormatSettings.{$ENDIF}DecimalSeparator ;
+  fDS := {$IFDEF DELPHI715_UP}FormatSettings.{$ENDIF}DecimalSeparator ;
   bponto.Caption := fDS;
   bce.Click ;
   pPrecisao  := 4 ;

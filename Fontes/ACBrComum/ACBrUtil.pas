@@ -262,8 +262,8 @@ function EAN13_DV( CodEAN13 : String ) : String ;
 function TranslateString(const S: AnsiString; CP_Destino: Word; CP_Atual: Word = 0): AnsiString;
 function MatchText(const AText: AnsiString; const AValues: array of AnsiString): Boolean;
 
-function UnZip(S: TStream): String; overload;
-function UnZip(S: AnsiString): String; overload;
+function UnZip(S: TStream): AnsiString; overload;
+function UnZip(S: AnsiString): AnsiString; overload;
 
 {$IFDEF MSWINDOWS}
 var xInp32 : function (wAddr: word): byte; stdcall;
@@ -1042,7 +1042,7 @@ end ;
  ---------------------------------------------------------------------------- }
 function FormatFloatBr(const AValue: Extended; AFormat: String): String;
 Var
-  {$IFDEF DELPHI7_UP}
+  {$IFDEF DELPHI15_UP}
   FS: TFormatSettings;
   {$ELSE}
   OldDecimalSeparator, OldThousandSeparator : Char ;
@@ -1051,7 +1051,7 @@ begin
   if AFormat = '' then
      AFormat := '0.00';
 
-  {$IFDEF DELPHI7_UP}
+  {$IFDEF DELPHI15_UP}
   FS.DecimalSeparator := ',';
   FS.ThousandSeparator := '.';
   Result := FormatFloat(AFormat, AValue, FS);
@@ -1080,7 +1080,7 @@ var
 begin
   NumString := Trim( NumString ) ;
 
-  DS := {$IFDEF DELPHI7_UP}FormatSettings.{$ENDIF}DecimalSeparator;
+  DS := {$IFDEF DELPHI15_UP}FormatSettings.{$ENDIF}DecimalSeparator;
 
   if DS <> '.' then
      NumString := StringReplace(NumString,'.',DS,[rfReplaceAll]) ;
@@ -1113,10 +1113,10 @@ function FloatToString(const AValue: Double; SeparadorDecimal: String): String;
 begin
   Result := FloatToStr(AValue);
   Result := StringReplace(Result,
-                          {$IFDEF DELPHI7_UP}FormatSettings.{$ENDIF}ThousandSeparator,
+                          {$IFDEF DELPHI15_UP}FormatSettings.{$ENDIF}ThousandSeparator,
                           '', [rfReplaceAll]);
   Result := StringReplace(Result,
-                          {$IFDEF DELPHI7_UP}FormatSettings.{$ENDIF}DecimalSeparator,
+                          {$IFDEF DELPHI15_UP}FormatSettings.{$ENDIF}DecimalSeparator,
                           SeparadorDecimal, [rfReplaceAll]);
 end;
 
@@ -1145,7 +1145,7 @@ end;
 
 function FormatDateTimeBr(const ADate: TDateTime; AFormat: String): String;
 Var
-  {$IFDEF DELPHI7_UP}
+  {$IFDEF DELPHI15_UP}
   FS: TFormatSettings;
   {$ELSE}
   OldDateSeparator: Char ;
@@ -1155,7 +1155,7 @@ begin
   if AFormat = '' then
      AFormat := 'DD/MM/YYYY hh:nn:ss';
 
-  {$IFDEF DELPHI7_UP}
+  {$IFDEF DELPHI15_UP}
   FS.DateSeparator := '/';
   FS.TimeSeparator := ':';
   Result := FormatDateTime(AFormat, ADate, FS);
@@ -1165,7 +1165,7 @@ begin
   try
     DateSeparator := '/';
     TimeSeparator := ':';
-    Result := FormatDateTime(AFormat, AValue);
+    Result := FormatDateTime(AFormat, ADate);
   finally
     DateSeparator := OldDateSeparator;
     TimeSeparator := OldTimeSeparator;
@@ -1182,13 +1182,13 @@ function StringToDateTime(const DateTimeString : String ; const Format : String
    ) : TDateTime ;
 Var
   AStr : String;
-  {$IFDEF DELPHI7_UP}
+  {$IFDEF DELPHI15_UP}
   FS: TFormatSettings;
   {$ELSE}
   OldShortDateFormat: String ;
   {$ENDIF}
 begin
-  {$IFDEF DELPHI7_UP}
+  {$IFDEF DELPHI15_UP}
   if Format <> '' then
      FS.ShortDateFormat := Format
   else
@@ -2721,7 +2721,7 @@ begin
 end;
 
 {$IFDEF FPC}
-function UnZip(S: TStream): String;
+function UnZip(S: TStream): AnsiString;
 { Descompacta um arquivo padrão GZIP de Stream... Fontes:
   http://wiki.freepascal.org/paszlib
   http://www.gocher.me/GZIP
@@ -2761,14 +2761,8 @@ begin
     MS.Free;
   end;
 end;
-{$ELSE}
-function UnZip(S: TStream): String;
-begin
-  Result := GZDecompressStr(S.DataString);
-end;
-{$ENDIF}
 
-function UnZip(S: AnsiString): String; overload;
+function UnZip(S: AnsiString): AnsiString; overload;
 var
   SS: TStringStream;
 begin
@@ -2779,6 +2773,26 @@ begin
     SS.Free;
   end;
 end;
+
+{$ELSE}
+
+function UnZip(S: TStream): AnsiString;
+Var
+  DataStr: AnsiString;
+begin
+  DataStr := '';
+  S.Position := 0;
+  SetLength(DataStr, S.Size);
+  S.ReadBuffer(DataStr[1], S.Size);
+  
+  Result := UnZip(S);
+end;
+
+function UnZip(S: AnsiString): AnsiString; overload;
+begin
+  Result := GZDecompressStr(S);
+end ;
+{$ENDIF}
 
 {------------------------------------------------------------------------------
    Realiza o tratamento de uma String recebida de um Serviço Web

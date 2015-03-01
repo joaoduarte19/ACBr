@@ -50,7 +50,7 @@ type
 
 TACBrDISGertecSerial = class( TACBrDISClass )
   public 
-    constructor Create(AOwner: TComponent);
+    constructor Create(AOwner: TComponent); override;
 
     procedure LimparDisplay ; override ;
 

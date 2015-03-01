@@ -207,8 +207,8 @@ begin
   Buffer := StringReplace(Buffer, '&lt;', '<', [rfReplaceAll]);
   Buffer := StringReplace(Buffer, '&gt;', '>' + sLineBreak, [rfReplaceAll]);
 
+  sl1 := TStringList.Create;
   try
-    sl1 := TStringList.Create;
     sl1.Text := LerTagXML(Buffer, 'pacotes');
     for i := 0 to sl1.Count - 1 do
     begin
@@ -260,8 +260,8 @@ begin
   if Trim(fDirDestino) = '' then
     raise EACBrTabelasSpedxception.Create('Informe o diretótio onde o arquivo deve ser salvo');
 
+  Dow := TACBrDownload.Create(nil);
   try
-    Dow := TACBrDownload.Create(nil);
     Dow.Protocolo := protHTTP;
     Dow.DownloadUrl := fUrlDownload + '?idTabela=' + aId + '&versao=' + aVersao;
     Dow.DownloadNomeArq := PathWithDelim(fDirDestino) + aName;
