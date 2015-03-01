@@ -258,7 +258,7 @@ procedure TdmACBrNFeRave.CustomDestinatarioCXNGetRow(
 begin
   with FNFe.Dest do
   begin
-    if DFeUtil.NaoEstaVazio(CNPJCPF) then
+    if NaoEstaVazio(CNPJCPF) then
      begin
        if Length(CNPJCPF) > 11 then
           Connection.WriteStrData('', DFeUtil.FormatarCNPJ(CNPJCPF))
@@ -338,7 +338,7 @@ end;
 procedure TdmACBrNFeRave.CustomFaturaCXNGetRow(Connection: TRvCustomConnection);
 begin
    //Ocultar se não for informado nenhuma
-   if (DFeUtil.EstaVazio(FNFe.Cobr.Fat.nFat)) then
+   if (EstaVazio(FNFe.Cobr.Fat.nFat)) then
    begin
       if (FNFe.Cobr.Dup.Count=0) then
       begin
@@ -367,7 +367,7 @@ end;
 procedure TdmACBrNFeRave.CustomFaturaCXNOpen(Connection: TRvCustomConnection);
 begin
    //Ocultar se não for informado nenhuma
-   if (DFeUtil.EstaVazio(FNFe.Cobr.Fat.nFat)) then
+   if (EstaVazio(FNFe.Cobr.Fat.nFat)) then
    begin
       if (FNFe.Cobr.Dup.Count=0) then
       begin
@@ -865,7 +865,7 @@ begin
 
     with Transporta do
     begin
-      if DFeUtil.NaoEstaVazio(CNPJCPF) then
+      if NaoEstaVazio(CNPJCPF) then
        begin
          if Length(CNPJCPF) > 11 then
             Connection.WriteStrData('', DFeUtil.FormatarCNPJ(CNPJCPF))
@@ -925,7 +925,7 @@ begin
   vResumo:='';
   if DANFEClassOwner.ExibirResumoCanhoto then
   begin
-     if DFeUtil.EstaVazio(DANFEClassOwner.ExibirResumoCanhoto_Texto) then
+     if EstaVazio(DANFEClassOwner.ExibirResumoCanhoto_Texto) then
         vResumo:='Emissão: '+DFeUtil.FormatDate(DateToStr(FNFe.Ide.DEmi))+'  Dest/Reme: '+FNFe.Dest.XNome+'  Valor Total: '+DFeUtil.FormatFloat(FNFe.Total.ICMSTot.VNF)
      else
         vResumo:=DANFEClassOwner.ExibirResumoCanhoto_Texto;
@@ -942,12 +942,12 @@ begin
     begin
        if not (FNFe.Ide.tpEmis in [teContingencia, teFSDA]) then
        begin
-          if ((DFeUtil.EstaVazio(FDANFEClassOwner.ProtocoloNFe)) and
-              (DFeUtil.EstaVazio(FNFe.procNFe.nProt))) then
+          if ((EstaVazio(FDANFEClassOwner.ProtocoloNFe)) and
+              (EstaVazio(FNFe.procNFe.nProt))) then
            Connection.WriteStrData('', 'NFe sem Autorização de Uso da SEFAZ')
          else
-           if (not ((DFeUtil.EstaVazio(FDANFEClassOwner.ProtocoloNFe)) and
-                    (DFeUtil.EstaVazio(FNFe.procNFe.nProt)))) and
+           if (not ((EstaVazio(FDANFEClassOwner.ProtocoloNFe)) and
+                    (EstaVazio(FNFe.procNFe.nProt)))) and
               (FNFe.procNFe.cStat in [101,151]) then
               Connection.WriteStrData('', 'NFe Cancelada')
            else
@@ -967,7 +967,7 @@ begin
 
   vStream := TMemoryStream.Create;
   try
-    if DFeUtil.NaoEstaVazio(DANFEClassOwner.Logo) then
+    if NaoEstaVazio(DANFEClassOwner.Logo) then
     begin
       if FileExists(DANFEClassOwner.Logo) then
          vStream.LoadFromFile(DANFEClassOwner.Logo)
@@ -1025,9 +1025,9 @@ begin
          Connection.WriteStrData('', 'PROTOCOLO DE DENEGAÇÃO DE USO')
       else
          Connection.WriteStrData('', 'PROTOCOLO DE AUTORIZAÇÃO DE USO');
-      if DFeUtil.EstaVazio(FDANFEClassOwner.ProtocoloNFe) then
+      if EstaVazio(FDANFEClassOwner.ProtocoloNFe) then
        begin
-         if not (FNFe.Ide.tpEmis in [teContingencia, teFSDA]) and DFeUtil.EstaVazio(FNFe.procNFe.nProt) then
+         if not (FNFe.Ide.tpEmis in [teContingencia, teFSDA]) and EstaVazio(FNFe.procNFe.nProt) then
             Connection.WriteStrData('', 'NFe sem Autorização de Uso da SEFAZ')
          else
             Connection.WriteStrData('', FNFe.procNFe.nProt+' '+DFeUtil.SeSenao(FNFe.procNFe.dhRecbto<>0,DateTimeToStr(FNFe.procNFe.dhRecbto),''));
@@ -1048,7 +1048,7 @@ begin
       end
       else if (FNFe.Ide.tpEmis=teDPEC) then
       begin
-         if DFeUtil.NaoEstaVazio(FNFe.procNFe.nProt) then
+         if NaoEstaVazio(FNFe.procNFe.nProt) then
          begin
            Connection.WriteStrData('', 'PROTOCOLO DE AUTORIZAÇÃO DE USO');
            Connection.WriteStrData('', FNFe.procNFe.nProt+' '+DFeUtil.SeSenao(FNFe.procNFe.dhRecbto<>0,DateTimeToStr(FNFe.procNFe.dhRecbto),''));
@@ -1056,7 +1056,7 @@ begin
          else
          begin
            Connection.WriteStrData('', 'NÚMERO DE REGISTRO DPEC');
-           if DFeUtil.EstaVazio(FDANFEClassOwner.ProtocoloNFe) then
+           if EstaVazio(FDANFEClassOwner.ProtocoloNFe) then
                Connection.WriteStrData('', 'NFe sem Autorização de Uso da SEFAZ')
               //raise EACBrNFeException.Create('Protocolo de Registro no DPEC não informado.')
            else
@@ -1327,7 +1327,7 @@ begin
           wcontingencia:='DANFE IMPRESSO EM CONTINGÊNCIA - DPEC REGULARMENTE RECEBIDA PELA RECEITA FEDERAL DO BRASIL';
         wcontingencia:=wcontingencia+';'+
                       'DATA/HORA INÍCIO: '+DFeUtil.SeSenao(FNFe.ide.dhCont = 0,' ',DateTimeToStr(FNFe.ide.dhCont))+';'+
-                      'MOTIVO CONTINGÊNCIA: '+DFeUtil.SeSenao(DFeUtil.EstaVazio(FNFe.ide.xJust),' ',FNFe.ide.xJust);
+                      'MOTIVO CONTINGÊNCIA: '+DFeUtil.SeSenao(EstaVazio(FNFe.ide.xJust),' ',FNFe.ide.xJust);
     end;
     if length(wobs)>0 then
       wobs:=wobs+';';
@@ -1437,7 +1437,7 @@ procedure TdmACBrNFeRave.CustomLocalEntregaCXNGetRow(
 begin
   with FNFe.Entrega do
   begin
-      if DFeUtil.NaoEstaVazio(CNPJCPF) then
+      if NaoEstaVazio(CNPJCPF) then
       begin
         if Length(CNPJCPF) > 11 then
            Connection.WriteStrData('', DFeUtil.FormatarCNPJ(CNPJCPF))
@@ -1460,7 +1460,7 @@ end;
 procedure TdmACBrNFeRave.CustomLocalEntregaCXNOpen(
   Connection: TRvCustomConnection);
 begin
-   if DFeUtil.NaoEstaVazio(FNFe.Entrega.CNPJCPF) then
+   if NaoEstaVazio(FNFe.Entrega.CNPJCPF) then
       Connection.DataRows := 1
    else
       Connection.DataRows := 0;
@@ -1484,7 +1484,7 @@ procedure TdmACBrNFeRave.CustomLocalRetiradaCXNGetRow(
 begin
   with FNFe.Retirada do
   begin
-      if DFeUtil.NaoEstaVazio(CNPJCPF) then
+      if NaoEstaVazio(CNPJCPF) then
       begin
         if Length(CNPJCPF) > 11 then
            Connection.WriteStrData('', DFeUtil.FormatarCNPJ(CNPJCPF))
@@ -1507,7 +1507,7 @@ end;
 procedure TdmACBrNFeRave.CustomLocalRetiradaCXNOpen(
   Connection: TRvCustomConnection);
 begin
-   if DFeUtil.NaoEstaVazio(FNFe.Retirada.CNPJCPF) then
+   if NaoEstaVazio(FNFe.Retirada.CNPJCPF) then
       Connection.DataRows := 1
    else
       Connection.DataRows := 0;

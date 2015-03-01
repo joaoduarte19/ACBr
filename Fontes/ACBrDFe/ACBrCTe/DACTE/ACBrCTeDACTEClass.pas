@@ -228,11 +228,11 @@ end;
 
 function TACBrCTeDACTEClass.GetPathArquivos: String;
 begin
-  if DFeUtil.EstaVazio(FPathArquivos) then
+  if EstaVazio(FPathArquivos) then
      if Assigned(FACBrCTe) then
         FPathArquivos := TACBrCTe(FACBrCTe).Configuracoes.Geral.PathSalvar;
 
-  if DFeUtil.NaoEstaVazio(FPathArquivos) then
+  if NaoEstaVazio(FPathArquivos) then
      if not DirectoryExists(FPathArquivos) then
         ForceDirectories(FPathArquivos);
 

@@ -245,7 +245,7 @@ begin
 	end;
 
     // Carrega a Logo Prefeitura
-    if DFeUtil.NaoEstaVazio(DANFSeClassOwner.Logo) then
+    if NaoEstaVazio(DANFSeClassOwner.Logo) then
     begin
       FieldByName('Nome_Prefeitura').AsString := DANFSeClassOwner.Prefeitura;
       FieldByName('imgPrefeitura').AsString   := DANFSeClassOwner.Logo;
@@ -270,7 +270,7 @@ begin
     end;
 
     // Carrega a Imagem Prestadora
-    if DFeUtil.NaoEstaVazio(DANFSeClassOwner.PrestLogo) then
+    if NaoEstaVazio(DANFSeClassOwner.PrestLogo) then
     begin
       FieldByName('Imagem').AsString := DANFSeClassOwner.PrestLogo;
       vStream := TMemoryStream.Create;
@@ -423,7 +423,7 @@ begin
 
       with IdentificacaoTomador do
       begin
-        if DFeUtil.NaoEstaVazio(CpfCnpj) then
+        if NaoEstaVazio(CpfCnpj) then
         begin
           if Length(CpfCnpj) > 11 then
             FieldByName('CpfCnpj').AsString := DFeUtil.FormatarCNPJ(CpfCnpj)

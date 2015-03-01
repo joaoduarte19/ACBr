@@ -808,12 +808,12 @@ begin
       FieldByName('tpEmis').AsInteger := StrToIntDef(TpEmisToStr(tpEmis), 0);
       FieldByName('UFIni').AsString   := UFIni;
       FieldByName('UFFim').AsString   := UFFim;
-      if (tpEmis = teNormal) or (not DFeUtil.EstaVazio(FDAMDFEClassOwner.ProtocoloMDFE)) or (not DFeUtil.EstaVazio(FMDFe.procMDFe.nProt))
+      if (tpEmis = teNormal) or (not EstaVazio(FDAMDFEClassOwner.ProtocoloMDFE)) or (not EstaVazio(FMDFe.procMDFe.nProt))
       then
       begin
-        if not DFeUtil.EstaVazio(FDAMDFEClassOwner.ProtocoloMDFE) then
+        if not EstaVazio(FDAMDFEClassOwner.ProtocoloMDFE) then
           FieldByName('Protocolo').AsString := FDAMDFEClassOwner.ProtocoloMDFE
-        else if not DFeUtil.EstaVazio(FMDFe.procMDFe.nProt) then
+        else if not EstaVazio(FMDFe.procMDFe.nProt) then
           FieldByName('Protocolo').AsString := FMDFe.procMDFe.nProt + '   ' +
             DFeUtil.SeSenao(FMDFe.procMDFe.dhRecbto <> 0, DateTimeToStr(FMDFe.procMDFe.dhRecbto), '')
         else

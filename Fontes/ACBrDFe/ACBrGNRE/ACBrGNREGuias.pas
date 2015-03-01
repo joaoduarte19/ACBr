@@ -166,15 +166,15 @@ begin
     try
       LocGNREW.GerarXml;
 
-      if DFeUtil.EstaVazio(CaminhoArquivo) then
+      if EstaVazio(CaminhoArquivo) then
       begin
-        if not DFeUtil.EstaVazio(GNRE.c42_identificadorGuia) then
+        if not EstaVazio(GNRE.c42_identificadorGuia) then
           CaminhoArquivo := GNREUtil.PathWithDelim(TACBrGNRE( TGuias( Collection ).ACBrGNRE ).Configuracoes.Geral.PathSalvar) + GNRE.c42_identificadorGuia + '-gnre.xml'
         else
           CaminhoArquivo := GNREUtil.PathWithDelim(TACBrGNRE( TGuias( Collection ).ACBrGNRE ).Configuracoes.Geral.PathSalvar) + FormatDateTime('yyyymmddhhnnss',Now) + '-gnre.xml'
       end;
 
-      if DFeUtil.EstaVazio(CaminhoArquivo) or not DirectoryExists(ExtractFilePath(CaminhoArquivo))
+      if EstaVazio(CaminhoArquivo) or not DirectoryExists(ExtractFilePath(CaminhoArquivo))
         then raise Exception.Create('Caminho Inválido: ' + CaminhoArquivo);
 
       LocGNREW.Gerador.SalvarArquivo(CaminhoArquivo);
@@ -328,7 +328,7 @@ begin
   try
     for i := 0 to TACBrGNRE( FACBrGNRE ).Guias.Count-1 do
     begin
-      if DFeUtil.EstaVazio(PathArquivo) then
+      if EstaVazio(PathArquivo) then
         PathArquivo := TACBrGNRE( FACBrGNRE ).Configuracoes.Geral.PathSalvar
       else
         PathArquivo := ExtractFilePath(PathArquivo);

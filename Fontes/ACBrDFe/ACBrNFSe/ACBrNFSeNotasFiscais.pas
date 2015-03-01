@@ -404,7 +404,7 @@ begin
   ThreadSMTP.smtp.Password   := sSmtpPasswd;
   ThreadSMTP.smtp.TargetHost := sSmtpHost;
 
-  if not DFeUtil.EstaVazio( sSmtpPort )
+  if not EstaVazio( sSmtpPort )
    then ThreadSMTP.smtp.TargetPort := sSmtpPort; // Usa default
 
   ThreadSMTP.smtp.FullSSL := SSL;
@@ -497,7 +497,7 @@ begin
 
    LocNFSeW.GerarXml;
 
-   if DFeUtil.EstaVazio(CaminhoArquivo)
+   if EstaVazio(CaminhoArquivo)
     then begin
      if TACBrNFSe( TNotasFiscais( Collection ).ACBrNFSe ).Configuracoes.Arquivos.EmissaoPathNFSe then
        CaminhoArquivo := TACBrNFSe( TNotasFiscais( Collection ).ACBrNFSe ).Configuracoes.Arquivos.GetPathRPS(Self.NFSe.DataEmissao)
@@ -507,7 +507,7 @@ begin
     CaminhoArquivo := NotaUtil.PathWithDelim(CaminhoArquivo) + Self.NFSe.InfID.ID + '-Rps.xml';
     end;
 
-   if DFeUtil.EstaVazio(CaminhoArquivo) or not DirectoryExists(ExtractFilePath(CaminhoArquivo))
+   if EstaVazio(CaminhoArquivo) or not DirectoryExists(ExtractFilePath(CaminhoArquivo))
     then raise Exception.Create('Caminho Inválido: ' + CaminhoArquivo);
 
    LocNFSeW.Gerador.SalvarArquivo(CaminhoArquivo);
@@ -654,7 +654,7 @@ begin
 
 //    FConfiguracoes.Geral.Save(NotaUtil.PathWithDelim(CaminhoArquivo) + Self.Items[i].NFSe.InfID.ID+'-Rps.xml', vAssinada);
 
-    if DFeUtil.NaoEstaVazio(Self.Items[i].NomeArq)
+    if NaoEstaVazio(Self.Items[i].NomeArq)
      then FConfiguracoes.Geral.Save(ExtractFileName(Self.Items[i].NomeArq), vAssinada, ExtractFilePath(Self.Items[i].NomeArq))
      else begin
        if FConfiguracoes.Arquivos.EmissaoPathNFSe then
@@ -1487,7 +1487,7 @@ begin
  try
   for i := 0 to TACBrNFSe( FACBrNFSe ).NotasFiscais.Count-1 do
    begin
-    if DFeUtil.EstaVazio(PathArquivo)
+    if EstaVazio(PathArquivo)
      then PathArquivo := TACBrNFSe( FACBrNFSe ).Configuracoes.Geral.PathSalvar
      else PathArquivo := ExtractFilePath(PathArquivo);
 

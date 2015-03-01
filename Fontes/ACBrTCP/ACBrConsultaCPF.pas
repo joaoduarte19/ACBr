@@ -171,7 +171,7 @@ var
   Erro: String;
   Resposta : TStringList;
 begin
-  Erro := ACBrValidadorValidarCPF( ACPF ) ;
+  Erro := ValidarCPF( ACPF ) ;
   if Erro <> '' then
      raise EACBrConsultaCPFException.Create(Erro);
 

@@ -662,7 +662,7 @@ var
  PCertContext : Pointer;
  ContentHeader: String;
 begin
- if DFeUtil.EstaVazio( FConfiguracoes.Certificados.NumeroSerie )
+ if EstaVazio( FConfiguracoes.Certificados.NumeroSerie )
   then Exit;
 
  Cert        := FConfiguracoes.Certificados.GetCertificado;

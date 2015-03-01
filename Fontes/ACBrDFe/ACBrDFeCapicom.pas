@@ -202,13 +202,13 @@ begin
   // Verificando se possui parâmetros necessários //
   with Configuracoes.Certificados do
   begin
-    if DFeUtil.EstaVazio(FNumCertACarregar) then
+    if EstaVazio(FNumCertACarregar) then
     begin
-      if not DFeUtil.EstaVazio(ArquivoPFX) then
+      if not EstaVazio(ArquivoPFX) then
         raise EACBrDFeException.Create(ClassName +
           ' não suporta carga de Certificado pelo ArquivoPFX.' +
           sLineBreak + 'Utilize o "NumeroSerie"')
-      else if not DFeUtil.EstaVazio(DadosPFX) then
+      else if not EstaVazio(DadosPFX) then
         raise EACBrDFeException.Create(ClassName +
           ' não suporta carga de Certificado por DadosPFX.' +
           sLineBreak + 'Utilize o "NumeroSerie"')

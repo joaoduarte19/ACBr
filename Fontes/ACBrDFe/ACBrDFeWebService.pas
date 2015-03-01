@@ -237,7 +237,7 @@ begin
 
   Texto := '<' + ENCODING_UTF8 + '>';    // Envelop Final DEVE SEMPRE estar em UTF8...
   Texto := Texto + '<' + FPSoapVersion + ':Envelope ' + FPSoapEnvelopeAtributtes + '>';
-  if DFeUtil.NaoEstaVazio(FPHeaderElement) then
+  if NaoEstaVazio(FPHeaderElement) then
   begin
     Texto := Texto + '<' + FPSoapVersion + ':Header>';
     Texto := Texto + '<' + FPHeaderElement + ' xmlns="' + Servico + '">';
@@ -399,7 +399,6 @@ procedure TDFeWebService.FinalizarServico;
 begin
   { Sobrescrever apenas se necessário }
 
-  DFeUtil.ConfAmbiente;
 end;
 
 function TDFeWebService.GetUrlWsd: String;
@@ -415,7 +414,7 @@ begin
   except
     On E: Exception do
     begin
-      if DFeUtil.NaoEstaVazio(MsgErro) then
+      if NaoEstaVazio(MsgErro) then
         MsgErro := MsgErro + sLineBreak ;
 
       MsgErro := MsgErro + E.Message;

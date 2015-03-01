@@ -1310,7 +1310,7 @@ begin
         if (AInfProt.Items[I].cStat = 110) or (AInfProt.Items[I].cStat = 301) then
           NomeXML := '-den.xml';
 
-        if FConfiguracoes.Geral.Salvar or DFeUtil.NaoEstaVazio(FConhecimentos.Items[J].NomeArq) then
+        if FConfiguracoes.Geral.Salvar or NaoEstaVazio(FConhecimentos.Items[J].NomeArq) then
         begin
           if FileExists(PathWithDelim(FConfiguracoes.Geral.PathSalvar) + AInfProt.Items[I].chCTe + '-cte.xml') and
              FileExists(PathWithDelim(FConfiguracoes.Geral.PathSalvar) + FCTeRetorno.nRec + '-pro-rec.xml') then
@@ -1326,9 +1326,9 @@ begin
 
               AProcCTe.GerarXML;
 
-              if DFeUtil.NaoEstaVazio(AProcCTe.Gerador.ArquivoFormatoXML) then
+              if NaoEstaVazio(AProcCTe.Gerador.ArquivoFormatoXML) then
               begin
-                if DFeUtil.NaoEstaVazio(FConhecimentos.Items[J].NomeArq) then
+                if NaoEstaVazio(FConhecimentos.Items[J].NomeArq) then
                   AProcCTe.Gerador.SalvarArquivo(FConhecimentos.Items[J].NomeArq)
                 else
                   AProcCTe.Gerador.SalvarArquivo(PathWithDelim(FConfiguracoes.Geral.PathSalvar) +
@@ -1861,11 +1861,11 @@ begin
             NomeXML := '-den.xml';
 
           if FileExists(NomeArquivo + '-cte.xml') or
-              DFeUtil.NaoEstaVazio(TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].NomeArq) then
+              NaoEstaVazio(TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].NomeArq) then
           begin
             AProcCTe := TProcCTe.Create;
             try
-              if DFeUtil.NaoEstaVazio(TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].NomeArq) then
+              if NaoEstaVazio(TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].NomeArq) then
                 AProcCTe.PathCTe := TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].NomeArq
               else
                 AProcCTe.PathCTe := NomeArquivo + '-cte.xml';
@@ -1876,12 +1876,12 @@ begin
 
               aCTe := AProcCTe.Gerador.ArquivoFormatoXML;
 
-              if DFeUtil.NaoEstaVazio(AProcCTe.Gerador.ArquivoFormatoXML) then
+              if NaoEstaVazio(AProcCTe.Gerador.ArquivoFormatoXML) then
                 AProcCTe.Gerador.SalvarArquivo(AProcCTe.PathCTe);
 
               FRetCTeDFe := '';
 
-              if (DFeUtil.NaoEstaVazio(aCTe)) and (DFeUtil.NaoEstaVazio(SeparaDados(FRetWS, 'procEventoCTe'))) then
+              if (NaoEstaVazio(aCTe)) and (NaoEstaVazio(SeparaDados(FRetWS, 'procEventoCTe'))) then
               begin
                 Inicio := Pos('<procEventoCTe', FRetWS);
                 Fim    := Pos('</retConsSitCTe', FRetWS) -1;
@@ -1913,7 +1913,7 @@ begin
 
              FRetCTeDFe := '';
 
-             if (DFeUtil.NaoEstaVazio(aCTe)) and (DFeUtil.NaoEstaVazio(SeparaDados(FRetWS, 'procEventoCTe'))) then
+             if (NaoEstaVazio(aCTe)) and (NaoEstaVazio(SeparaDados(FRetWS, 'procEventoCTe'))) then
               begin
                 Inicio := Pos('<procEventoCTe', FRetWS);
                 Fim    := Pos('</retConsSitCTe', FRetWS) -1;
@@ -1991,10 +1991,10 @@ begin
 
             aCTe := AProcCTe.Gerador.ArquivoFormatoXML;
 
-            if DFeUtil.NaoEstaVazio(AProcCTe.Gerador.ArquivoFormatoXML) then
+            if NaoEstaVazio(AProcCTe.Gerador.ArquivoFormatoXML) then
               AProcCTe.Gerador.SalvarArquivo(AProcCTe.PathCTe);
 
-            if (DFeUtil.NaoEstaVazio(aCTe)) and (DFeUtil.NaoEstaVazio(SeparaDados(FRetWS, 'procEventoCTe'))) then
+            if (NaoEstaVazio(aCTe)) and (NaoEstaVazio(SeparaDados(FRetWS, 'procEventoCTe'))) then
             begin
               Inicio := Pos('<procEventoCTe', FRetWS);
               Fim    := Pos('</retConsSitCTe', FRetWS) -1;
@@ -2070,7 +2070,7 @@ end;
 
 procedure TCTeInutilizacao.SetJustificativa(AValue: WideString);
 begin
-  if DFeUtil.EstaVazio(AValue) then
+  if EstaVazio(AValue) then
     GerarException('Informar uma Justificativa para Inutilização de numeração do Conhecimento de Transporte Eletrônico')
   else
     AValue := DFeUtil.TrataString(AValue);
@@ -2252,7 +2252,7 @@ end;
 
 procedure TCTeConsultaCadastro.SetCNPJ(const Value: String);
 begin
-  if DFeUtil.NaoEstaVazio(Value) then
+  if NaoEstaVazio(Value) then
   begin
     FIE  := '';
     FCPF := '';
@@ -2263,7 +2263,7 @@ end;
 
 procedure TCTeConsultaCadastro.SetCPF(const Value: String);
 begin
-  if DFeUtil.NaoEstaVazio(Value) then
+  if NaoEstaVazio(Value) then
   begin
     FIE   := '';
     FCNPJ := '';
@@ -2274,7 +2274,7 @@ end;
 
 procedure TCTeConsultaCadastro.SetIE(const Value: String);
 begin
-  if DFeUtil.NaoEstaVazio(Value) then
+  if NaoEstaVazio(Value) then
   begin
     FCNPJ := '';
     FCPF  := '';

@@ -138,7 +138,8 @@ type
 
 implementation
 
-uses ACBrUtil, ACBrDFeUtil, strutils;
+uses strutils,
+  ACBrDFeUtil, ACBrUtil ;
 
 { TACBrUFProperty }
 
@@ -228,13 +229,13 @@ begin
   Result := False;
   try
     SoNome := ExtractFileName(NomeArquivo);
-    if DFeUtil.EstaVazio(SoNome) then
+    if EstaVazio(SoNome) then
       raise EACBrDFeException.Create('Nome de arquivo não informado');
 
     SoPath := ExtractFilePath(NomeArquivo);
-    if DFeUtil.EstaVazio(SoPath) then
+    if EstaVazio(SoPath) then
       SoPath := aPath;
-    if DFeUtil.EstaVazio(SoPath) then
+    if EstaVazio(SoPath) then
       SoPath := FPConfiguracoes.Arquivos.PathSalvar;
 
     aPath := PathWithDelim(aPath);
@@ -307,7 +308,7 @@ begin
   Chave := NomeServico + '_' + FormatFloat('0.00', VersaoAtual);
 
   // Achou com busca exata ? (mesma versao) //
-  if DFeUtil.NaoEstaVazio(FPIniParams.ReadString(Sessao, Chave, '')) then
+  if NaoEstaVazio(FPIniParams.ReadString(Sessao, Chave, '')) then
     VersaoAchada := VersaoAtual;
 
   if VersaoAchada = 0 then

@@ -76,7 +76,9 @@ type
 implementation
 
 uses
- Variants, DateUtils, ACBrUtil, ACBrConsts, pcnGerador;
+ Variants, DateUtils,
+ pcnGerador,
+ ACBrConsts, ACBrUtil, ACBrValidador;
 
 
 class function DFeUtil.FormatarNumeroDocumentoFiscal(AValue: String): String;

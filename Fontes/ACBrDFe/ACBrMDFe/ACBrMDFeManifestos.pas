@@ -204,10 +204,10 @@ begin
   try
      Result := True;
      ArqTXT := GerarXML(ArqXML, Alertas);
-     if DFeUtil.EstaVazio(CaminhoArquivo) then
+     if EstaVazio(CaminhoArquivo) then
         CaminhoArquivo := PathWithDelim(TACBrMDFe(TManifestos(Collection).ACBrMDFe).Configuracoes.Geral.PathSalvar) + copy(MDFe.infMDFe.ID, (length(MDFe.infMDFe.ID)-44)+1, 44)+'-mdfe.xml';
 
-     if DFeUtil.EstaVazio(CaminhoArquivo) or not DirectoryExists(ExtractFilePath(CaminhoArquivo)) then
+     if EstaVazio(CaminhoArquivo) or not DirectoryExists(ExtractFilePath(CaminhoArquivo)) then
         raise EACBrMDFeException.Create('Caminho Inválido: ' + CaminhoArquivo);
 
      WriteToTXT(CaminhoArquivo, ArqXML, False, False);
@@ -382,7 +382,7 @@ begin
      if FConfiguracoes.Geral.Salvar then
        FConfiguracoes.Geral.Save(StringReplace(Self.Items[i].MDFe.infMDFe.ID, 'MDFe', '', [rfIgnoreCase]) + '-mdfe.xml', vAssinada);
 
-     if DFeUtil.NaoEstaVazio(Self.Items[i].NomeArq) then
+     if NaoEstaVazio(Self.Items[i].NomeArq) then
        FConfiguracoes.Geral.Save(ExtractFileName(Self.Items[i].NomeArq), vAssinada, ExtractFilePath(Self.Items[i].NomeArq));
    end;
 end;
@@ -556,7 +556,7 @@ begin
  try
     for i:= 0 to TACBrMDFe(FACBrMDFe).Manifestos.Count-1 do
      begin
-        if DFeUtil.EstaVazio(PathArquivo) then
+        if EstaVazio(PathArquivo) then
            PathArquivo := TACBrMDFe(FACBrMDFe).Configuracoes.Geral.PathSalvar
         else
            PathArquivo := ExtractFilePath(PathArquivo);

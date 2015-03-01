@@ -139,7 +139,7 @@ begin
           if ExibirResumoCanhoto then
           begin
              NewLine;
-             if DFeUtil.EstaVazio(ExibirResumoCanhoto_Texto) then
+             if EstaVazio(ExibirResumoCanhoto_Texto) then
                 PrintCenter('Emissão:'+DFeUtil.FormatDate(DateToStr(Ide.DEmi))+' Dest/Rem:'+Dest.XNome+' Total:'+DFeUtil.FormatFloat(Total.ICMSTot.VNF),PosX+(aWidthOutros/2))
              else
                 PrintCenter(ExibirResumoCanhoto_Texto,PosX+(aWidthOutros/2));
@@ -504,7 +504,7 @@ begin
          aProtocolo := ProtocoloNFe;
          if (ACBrNFe.NotasFiscais.Items[FNFIndex].NFe.Ide.tpEmis in [teNormal,teSCAN,teSVCAN,teSVCRS]) then
          begin
-            if DFeUtil.EstaVazio(aProtocolo) then
+            if EstaVazio(aProtocolo) then
                aProtocolo:=Trim(procNFe.nProt)+' '+DFeUtil.SeSenao(procNFe.dhRecbto<>0,DateTimeToStr(procNFe.dhRecbto),'');
             if ((NFeCancelada) or
                 (ACBrNFe.NotasFiscais.Items[FNFIndex].NFe.procNFe.cStat in [101,151])) then
@@ -519,7 +519,7 @@ begin
          begin
           if (ACBrNFe.NotasFiscais.Items[FNFIndex].NFe.procNFe.cStat = 100) then
           begin
-            if DFeUtil.EstaVazio(aProtocolo) then
+            if EstaVazio(aProtocolo) then
                aProtocolo:=Trim(procNFe.nProt)+' '+DFeUtil.SeSenao(procNFe.dhRecbto<>0,DateTimeToStr(procNFe.dhRecbto),'');
             Box([fsLeft,fsTop],PosX,YPos,aWidth,aHeigthPadrao,'PROTOCOLO DE AUTORIZAÇÃO DE USO',aProtocolo,taCenter,True)
           end
@@ -696,7 +696,7 @@ begin
   with DANFeRave, DANFeRave.ACBrNFe.NotasFiscais.Items[DANFeRave.FNFIndex].NFe, DANFeRave.BaseReport do
    begin
      //Ocultar Local se não for informado CNPJ
-     if DFeUtil.EstaVazio(Retirada.CNPJCPF) then
+     if EstaVazio(Retirada.CNPJCPF) then
       begin
         Result:=PosY;
         exit;
@@ -735,7 +735,7 @@ begin
   with DANFeRave, DANFeRave.ACBrNFe.NotasFiscais.Items[DANFeRave.FNFIndex].NFe, DANFeRave.BaseReport do
    begin
      //Ocultar Local se não for informado CNPJ
-     if DFeUtil.EstaVazio(Entrega.CNPJCPF) then
+     if EstaVazio(Entrega.CNPJCPF) then
       begin
         Result:=PosY;
         exit;
@@ -775,7 +775,7 @@ begin
   with DANFeRave, DANFeRave.ACBrNFe.NotasFiscais.Items[DANFeRave.FNFIndex].NFe, DANFeRave.BaseReport do
    begin
       //Ocultar se não for informado nenhuma
-      if (DFeUtil.EstaVazio(Cobr.Fat.nFat)) then
+      if (EstaVazio(Cobr.Fat.nFat)) then
       begin
          if (Cobr.Dup.Count=0) then
          begin
@@ -800,7 +800,7 @@ begin
 
      TituloDoBloco(PosX,PosY,'FATURA/DUPLICATAS');
      YY2:=0;
-     if not (DFeUtil.EstaVazio(Cobr.Fat.nFat)) then
+     if not (EstaVazio(Cobr.Fat.nFat)) then
      begin
         Box([fsRigth],XPos,YPos,30,aHeigthPadrao,'Número da Fatura',Cobr.Fat.nFat,taLeftJustify);
         Box([fsLeft,fsRigth],XPos,YPos,30,aHeigthPadrao,'Valor Original',DFeUtil.FormatFloat(Cobr.Fat.vOrig),taLeftJustify);
@@ -893,7 +893,7 @@ begin
       else if (TributosPercentual = ptValorNF) and (Total.ICMSTot.VNF > 0) then
         lVTotTrib :=lVTotTrib + '('+DFeUtil.FormatFloat((Total.ICMSTot.vTotTrib*100)/( Total.ICMSTot.VNF ))+'%)';
       lTemp:='V.Aprox.Tributos';
-      if DFeUtil.NaoEstaVazio(TributosFonte) then
+      if NaoEstaVazio(TributosFonte) then
         lTemp:=lTemp+' (Fonte:'+TributosFonte+')';
       Box([fsLeft],XPos,YPos,(x*4),aHeigthPadrao,lTemp,lVTotTrib,taRightJustify);
     end;
@@ -1541,7 +1541,7 @@ begin
         end;
         wInfCpl:=wInfCpl+';'+
         'DATA/HORA INÍCIO: '+DFeUtil.SeSenao(ide.dhCont = 0,' ',DateTimeToStr(ide.dhCont))+';'+
-        'MOTIVO CONTINGÊNCIA: '+DFeUtil.SeSenao(DFeUtil.EstaVazio(ide.xJust),' ',ide.xJust);
+        'MOTIVO CONTINGÊNCIA: '+DFeUtil.SeSenao(EstaVazio(ide.xJust),' ',ide.xJust);
 
          FMemoInfCpl.Text:=FMemoInfCpl.Text+';;'+wInfCpl;
      end;

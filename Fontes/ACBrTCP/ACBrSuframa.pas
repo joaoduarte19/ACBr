@@ -133,13 +133,13 @@ var
 begin
   FSituacao.Clear;
 
-  ErroMsg := ACBrValidadorValidarSuframa( AnsiString( ACBrUtil.OnlyNumber( ASuframa ) ) );
+  ErroMsg := ValidarSuframa( AnsiString( ACBrUtil.OnlyNumber( ASuframa ) ) );
   if ErroMsg <> '' then
     raise EACBrSuframa.Create( 'Erro de validação: ' + sLineBreak + String( ErroMsg ) );
 
   if ACnpj <> '' then
   begin
-    ErroMsg := ACBrValidadorValidarCNPJ( ACNPJ );
+    ErroMsg := ValidarCNPJ( ACNPJ );
     if ErroMsg <> '' then
       raise EACBrSuframa.Create( 'Erro de validação: ' + sLineBreak + String( ErroMsg ) );
   end;

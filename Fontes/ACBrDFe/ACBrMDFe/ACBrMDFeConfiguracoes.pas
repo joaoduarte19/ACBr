@@ -300,8 +300,8 @@ end;
 
 function TGeralConf.GetPathSalvar: String;
 begin
-  if DFeUtil.EstaVazio(FPathSalvar) then
-    Result := DFeUtil.PathAplication
+  if EstaVazio(FPathSalvar) then
+    Result := ApplicationPath
   else
     Result := FPathSalvar;
 
@@ -316,14 +316,14 @@ begin
   vSalvar := TStringList.Create;
   try
     try
-      if DFeUtil.NaoEstaVazio(ExtractFilePath(AXMLName)) then
+      if NaoEstaVazio(ExtractFilePath(AXMLName)) then
        begin
          aPath    := ExtractFilePath(AXMLName);
          AXMLName := StringReplace(AXMLName,aPath,'',[rfIgnoreCase]);
        end
       else
        begin
-         if DFeUtil.EstaVazio(aPath) then
+         if EstaVazio(aPath) then
             aPath := PathSalvar
          else
             aPath := PathWithDelim(aPath);
@@ -431,7 +431,7 @@ begin
    begin
      CoInitialize(nil); // PERMITE O USO DE THREAD
      try
-        if DFeUtil.EstaVazio( FNumeroSerie ) then
+        if EstaVazio( FNumeroSerie ) then
           raise EACBrMDFeException.Create('Número de Série do Certificado Digital não especificado !');
 
         Result := nil;
@@ -444,7 +444,7 @@ begin
           Cert := IInterface(Certs.Item[i]) as ICertificate2;
           if Cert.SerialNumber = FNumeroSerie then
           begin
-            if DFeUtil.EstaVazio(NumCertCarregado) then
+            if EstaVazio(NumCertCarregado) then
                NumCertCarregado := Cert.SerialNumber;
 
             PrivateKey := Cert.PrivateKey;
@@ -577,7 +577,7 @@ end;
 
 function TCertificadosConf.GetDataVenc: TDateTime;
 begin
- if DFeUtil.NaoEstaVazio(FNumeroSerie) then
+ if NaoEstaVazio(FNumeroSerie) then
   begin
     if FDataVenc = 0 then
        GetCertificado;
@@ -589,7 +589,7 @@ end;
 
 function TCertificadosConf.GetSubjectName: String;
 begin
- if DFeUtil.NaoEstaVazio(FNumeroSerie) then
+ if NaoEstaVazio(FNumeroSerie) then
   begin
     if FSubjectName = '' then
        GetCertificado;
@@ -603,7 +603,7 @@ end;
 function TCertificadosConf.GetCNPJ: String;
 begin
 {$IFNDEF ACBrMDFeOpenSSL}
- if DFeUtil.NaoEstaVazio(FNumeroSerie) then
+ if NaoEstaVazio(FNumeroSerie) then
   begin
     if FCNPJ = '' then
        GetCertificado;
@@ -628,7 +628,7 @@ var
   wDia, wMes, wAno: Word;
   Dir: String;
 begin
-  if DFeUtil.EstaVazio(FPathMDFe) then
+  if EstaVazio(FPathMDFe) then
      Dir := TConfiguracoes(Self.Owner).Geral.PathSalvar
   else
      Dir := FPathMDFe;
@@ -662,7 +662,7 @@ var
   wDia, wMes, wAno: Word;
   Dir: String;
 begin
-  if DFeUtil.EstaVazio(FPathEvento) then
+  if EstaVazio(FPathEvento) then
      Dir := TConfiguracoes(Self.Owner).Geral.PathSalvar
   else
      Dir := FPathEvento;

@@ -228,7 +228,7 @@ var
   Resposta : TStringList;
   StrAux: String;
 begin
-  Erro := ACBrValidadorValidarCNPJ( ACNPJ ) ;
+  Erro := ValidarCNPJ( ACNPJ ) ;
   if Erro <> '' then
      raise EACBrConsultaCNPJException.Create(Erro);
 

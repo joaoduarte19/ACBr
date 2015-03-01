@@ -135,7 +135,7 @@ var
 begin
   Result := True;
 
-  if DFeUtil.NaoEstaVazio(Logo) then
+  if NaoEstaVazio(Logo) then
   begin
     if FileExists(Logo) then
     begin

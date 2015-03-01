@@ -349,23 +349,23 @@ var
 begin
  Tipo := MDFeUtil.IdentificaTipoSchema(AXML, I);
 
- if not DirectoryExists(DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+ if not DirectoryExists(DFeUtil.SeSenao(EstaVazio(APathSchemas),
                  PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas',
                  PathWithDelim(APathSchemas))) then
     raise Exception.Create('Diretório de Schemas não encontrado'+sLineBreak+
-                           DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+                           DFeUtil.SeSenao(EstaVazio(APathSchemas),
                            PathWithDelim(ExtractFileDir(application.ExeName))+
                            'Schemas',PathWithDelim(APathSchemas)));
 
  case Tipo of
   1: begin
-      if DFeUtil.EstaVazio(APathSchemas)
+      if EstaVazio(APathSchemas)
        then schema_filename := pchar(PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\MDFe_v' + MDFeEnviMDFe + '.xsd')
        else schema_filename := pchar(PathWithDelim(APathSchemas)+'MDFe_v' + MDFeEnviMDFe + '.xsd');
      end;
   2..4:
      begin
-      if DFeUtil.EstaVazio(APathSchemas) then
+      if EstaVazio(APathSchemas) then
         schema_filename := pchar(PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\eventoMDFe_v' + MDFeEventoMDFe + '.xsd')
        else
         schema_filename := pchar(PathWithDelim(APathSchemas)+'eventoMDFe_v' + MDFeEventoMDFe + '.xsd');
@@ -530,52 +530,52 @@ begin
   if Tipo = 0 then
     raise Exception.Create('Modal não encontrado no XML.');
 
-  if not DirectoryExists(DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+  if not DirectoryExists(DFeUtil.SeSenao(EstaVazio(APathSchemas),
                   PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas',
                   PathWithDelim(APathSchemas))) then
     raise Exception.Create('Diretório de Schemas não encontrado'+sLineBreak+
-                            DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+                            DFeUtil.SeSenao(EstaVazio(APathSchemas),
                             PathWithDelim(ExtractFileDir(application.ExeName))+
                             'Schemas',PathWithDelim(APathSchemas)));
 
   case Tipo of
    1: begin
-       schema_filename := (DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+       schema_filename := (DFeUtil.SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalAereo_v' + MDFeModalAereo + '.xsd');
       end;
    2: begin
-       schema_filename := (DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+       schema_filename := (DFeUtil.SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalAquaviario_v' + MDFeModalAqua + '.xsd');
       end;
    3: begin
-       schema_filename := (DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+       schema_filename := (DFeUtil.SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalDutoviario_v' + MDFeModalDuto + '.xsd');
       end;
    4: begin
-       schema_filename := (DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+       schema_filename := (DFeUtil.SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalFerroviario_v' + MDFeModalFerro + '.xsd');
       end;
    5: begin
-       schema_filename := (DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+       schema_filename := (DFeUtil.SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalRodoviario_v' + MDFeModalRodo + '.xsd');
       end;
    6: begin
-       schema_filename := (DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+       schema_filename := (DFeUtil.SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'evEncMDFe_v' + MDFeModalRodo + '.xsd');
       end;
    7: begin
-       schema_filename := (DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+       schema_filename := (DFeUtil.SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'evCancMDFe_v' + MDFeModalRodo + '.xsd');
       end;
    8: begin
-       schema_filename := (DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+       schema_filename := (DFeUtil.SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'evIncCondutorMDFe_v' + MDFeModalRodo + '.xsd');
       end;
@@ -675,19 +675,19 @@ begin
 
     Schema := CoXMLSchemaCache50.Create;
 
-    if not DirectoryExists(DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+    if not DirectoryExists(DFeUtil.SeSenao(EstaVazio(APathSchemas),
                     PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas',
                     PathWithDelim(APathSchemas))) then
       raise Exception.Create('Diretório de Schemas não encontrado'+sLineBreak+
-                              DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+                              DFeUtil.SeSenao(EstaVazio(APathSchemas),
                               PathWithDelim(ExtractFileDir(application.ExeName))+
                               'Schemas',PathWithDelim(APathSchemas)));
 
     case Tipo of
-      1: schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+      1: schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
                                              PathWithDelim(ExtractFileDir(application.ExeName)) + 'Schemas\',
                                              PathWithDelim(APathSchemas)) + 'MDFe_v' + MDFeEnviMDFe + '.xsd';
-      2..4: schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+      2..4: schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
                                                PathWithDelim(ExtractFileDir(application.ExeName)) + 'Schemas\',
                                                PathWithDelim(APathSchemas)) + 'eventoMDFe_v' + MDFeEventoMDFe + '.xsd';
       else schema_filename := '';
@@ -801,11 +801,11 @@ begin
 
   Schema := CoXMLSchemaCache50.Create;
 
-  if not DirectoryExists(DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+  if not DirectoryExists(DFeUtil.SeSenao(EstaVazio(APathSchemas),
                   PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas',
                   PathWithDelim(APathSchemas))) then
     raise Exception.Create('Diretório de Schemas não encontrado'+sLineBreak+
-                            DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+                            DFeUtil.SeSenao(EstaVazio(APathSchemas),
                             PathWithDelim(ExtractFileDir(application.ExeName))+
                             'Schemas',PathWithDelim(APathSchemas)));
 
@@ -813,42 +813,42 @@ begin
 
   case Tipo of
    1: begin
-       schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+       schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalAereo_v' + MDFeModalAereo + '.xsd';
       end;
    2: begin
-       schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+       schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalAquaviario_v' + MDFeModalAqua + '.xsd';
       end;
    3: begin
-       schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+       schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalDutoviario_v' + MDFeModalDuto + '.xsd';
       end;
    4: begin
-       schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+       schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalFerroviario_v' + MDFeModalFerro + '.xsd';
       end;
    5: begin
-       schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+       schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalRodoviario_v' + MDFeModalRodo + '.xsd';
       end;
    6: begin
-       schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+       schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'evEncMDFe_v' + MDFeModalRodo + '.xsd';
       end;
    7: begin
-       schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+       schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'evCancMDFe_v' + MDFeModalRodo + '.xsd';
       end;
    8: begin
-       schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+       schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'evIncCondutorMDFe_v' + MDFeModalRodo + '.xsd';
       end;

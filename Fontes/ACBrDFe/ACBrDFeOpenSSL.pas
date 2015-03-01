@@ -437,9 +437,9 @@ begin
   with Configuracoes.Certificados do
   begin
     // Verificando se possui parâmetros necessários //
-    if DFeUtil.EstaVazio(ArquivoPFX) and DFeUtil.EstaVazio(DadosPFX) then
+    if EstaVazio(ArquivoPFX) and EstaVazio(DadosPFX) then
     begin
-      if not DFeUtil.EstaVazio(NumeroSerie) then
+      if not EstaVazio(NumeroSerie) then
         raise EACBrDFeException.Create(ClassName +
           ' não suporta carga de Certificado pelo número de série.' +
           sLineBreak + 'Utilize "ArquivoPFX" ou "DadosPFX"')
@@ -448,8 +448,8 @@ begin
           sLineBreak + 'Utilize "ArquivoPFX" ou "DadosPFX"');
     end;
 
-    LoadFromFile := (not DFeUtil.EstaVazio(ArquivoPFX)) and FileExists(ArquivoPFX);
-    LoadFromData := (not DFeUtil.EstaVazio(DadosPFX));
+    LoadFromFile := (not EstaVazio(ArquivoPFX)) and FileExists(ArquivoPFX);
+    LoadFromData := (not EstaVazio(DadosPFX));
 
     if not (LoadFromFile or LoadFromData) then
       raise EACBrDFeException.Create('Arquivo: ' + ArquivoPFX + ' não encontrado');

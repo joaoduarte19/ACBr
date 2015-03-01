@@ -185,11 +185,11 @@ end;
 
 function TACBrGNREGuiaClass.GetPathArquivos: String;
 begin
-  if DFeUtil.EstaVazio(FPathArquivos) then
+  if EstaVazio(FPathArquivos) then
      if Assigned(FACBrGNRE) then
         FPathArquivos := TACBrGNRE(FACBrGNRE).Configuracoes.Geral.PathSalvar;
 
-  if DFeUtil.NaoEstaVazio(FPathArquivos) then
+  if NaoEstaVazio(FPathArquivos) then
      if not DirectoryExists(FPathArquivos) then
         ForceDirectories(FPathArquivos);
 

@@ -56,7 +56,7 @@ unit pcnLeitor;
 interface
 
 uses
-  SysUtils, Classes, StrUtils, 
+  SysUtils, Classes,
 {$IFNDEF VER130}
   Variants,
 {$ENDIF}
@@ -87,7 +87,7 @@ type
 implementation
 
 uses
-  ACBrConsts;
+  ACBrConsts, ACBrUtil;
 
 { TLeitor }
 
@@ -251,7 +251,7 @@ begin
     tcDe3,
     tcDe4,
     tcDe6,
-    tcDe10    : result := StrToFloatDef(StringReplace(ConteudoTag, '.', DecimalSeparator, []),0);
+    tcDe10    : result := StringToFloatDef(ConteudoTag, 0);
     tcEsp     : result := ConteudoTag;
     tcInt     : result := StrToIntDef(Trim(SomenteNumeros(ConteudoTag)),0);
     else

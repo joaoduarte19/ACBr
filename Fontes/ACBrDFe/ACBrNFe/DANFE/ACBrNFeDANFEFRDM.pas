@@ -525,7 +525,7 @@ begin
         else
           FieldByName('VTribPerc').AsFloat := 0;
       end;
-      if DFeUtil.NaoEstaVazio(TributosFonte) then
+      if NaoEstaVazio(TributosFonte) then
         FieldByName('VTribFonte').AsString := '(Fonte: '+TributosFonte+')';
     end;
 
@@ -907,7 +907,7 @@ begin
 
     with FNFe.Dest do
     begin
-      if DFeUtil.NaoEstaVazio(CNPJCPF) then
+      if NaoEstaVazio(CNPJCPF) then
        begin
          if Length(CNPJCPF) > 11 then
             FieldByName('CNPJCPF').AsString := DFeUtil.FormatarCNPJ(CNPJCPF)
@@ -1057,7 +1057,7 @@ begin
       else
         FieldByName('Pagamento').AsString := '';
 
-      if DFeUtil.NaoEstaVazio(FNFe.Cobr.Fat.nFat) then
+      if NaoEstaVazio(FNFe.Cobr.Fat.nFat) then
       begin
         with FNFe.Cobr.Fat do
         begin
@@ -1260,7 +1260,7 @@ begin
             wContingencia := 'DANFE IMPRESSO EM CONTINGÊNCIA - DPEC REGULARMENTE RECEBIDA PELA RECEITA FEDERAL DO BRASIL';
             wContingencia := wContingencia + ';' +
                              'DATA/HORA INÍCIO: ' + DFeUtil.SeSenao(FNFe.ide.dhCont = 0, ' ', DateTimeToStr(FNFe.ide.dhCont)) + ';'+
-                             'MOTIVO CONTINGÊNCIA: ' + DFeUtil.SeSenao(DFeUtil.EstaVazio(FNFe.ide.xJust), ' ', FNFe.ide.xJust);
+                             'MOTIVO CONTINGÊNCIA: ' + DFeUtil.SeSenao(EstaVazio(FNFe.ide.xJust), ' ', FNFe.ide.xJust);
           end;
         end;
       end;
@@ -1320,13 +1320,13 @@ begin
     Close;
     CreateDataSet;
 
-    if DFeUtil.NaoEstaVazio(FNFe.Entrega.CNPJCPF) then
+    if NaoEstaVazio(FNFe.Entrega.CNPJCPF) then
     begin
       Append;
 
       with FNFe.Entrega do
       begin
-        if DFeUtil.NaoEstaVazio(CNPJCPF) then
+        if NaoEstaVazio(CNPJCPF) then
         begin
           if Length(CNPJCPF) > 11 then
              FieldByName('CNPJ').AsString := DFeUtil.FormatarCNPJ(CNPJCPF)
@@ -1357,13 +1357,13 @@ begin
     Close;
     CreateDataSet;
 
-    if DFeUtil.NaoEstaVazio(FNFe.Retirada.CNPJCPF) then
+    if NaoEstaVazio(FNFe.Retirada.CNPJCPF) then
     begin
       Append;
 
       with FNFe.Retirada do
       begin
-        if DFeUtil.NaoEstaVazio(CNPJCPF) then
+        if NaoEstaVazio(CNPJCPF) then
         begin
           if Length(CNPJCPF) > 11 then
              FieldByName('CNPJ').AsString := DFeUtil.FormatarCNPJ(CNPJCPF)
@@ -1404,7 +1404,7 @@ begin
     vResumo := '';
     if DANFEClassOwner.ExibirResumoCanhoto then
     begin
-       if DFeUtil.EstaVazio(DANFEClassOwner.ExibirResumoCanhoto_Texto) then
+       if EstaVazio(DANFEClassOwner.ExibirResumoCanhoto_Texto) then
           vResumo := 'Emissão: ' + DFeUtil.FormatDate(DateToStr(FNFe.Ide.DEmi)) + '  Dest/Reme: ' + FNFe.Dest.XNome + '  Valor Total: ' + DFeUtil.FormatFloat(FNFe.Total.ICMSTot.VNF)
        else
           vResumo := DANFEClassOwner.ExibirResumoCanhoto_Texto;
@@ -1432,13 +1432,13 @@ begin
       begin
         //prioridade para opção NFeCancelada
         if (FDANFEClassOwner.NFeCancelada) or
-           ((DFeUtil.NaoEstaVazio(FNFe.procNFe.nProt)) and
+           ((NaoEstaVazio(FNFe.procNFe.nProt)) and
             (FNFe.procNFe.cStat in [101,151,155])) then
           FieldByName('Mensagem0').AsString := 'NFe Cancelada'
         else if FNFe.procNFe.cStat = 110 then
           FieldByName('Mensagem0').AsString := 'NFe denegada pelo Fisco'
-        else if ((DFeUtil.EstaVazio(FDANFEClassOwner.ProtocoloNFe)) and
-                 (DFeUtil.EstaVazio(FNFe.procNFe.nProt))) then
+        else if ((EstaVazio(FDANFEClassOwner.ProtocoloNFe)) and
+                 (EstaVazio(FNFe.procNFe.nProt))) then
           FieldByName('Mensagem0').AsString := 'NFe sem Autorização de Uso da SEFAZ'
         else if (FNFe.Ide.tpImp = tiSimplificado) then
            FieldByName('Mensagem0').AsString := 'EMISSÃO NORMAL'
@@ -1456,7 +1456,7 @@ begin
                                          MarcaDaguaMSG;
 
     // Carregamento da imagem
-    if DFeUtil.NaoEstaVazio(DANFEClassOwner.Logo) then
+    if NaoEstaVazio(DANFEClassOwner.Logo) then
     begin
       FieldByName('Imagem').AsString := DANFEClassOwner.Logo;
       vStream := TMemoryStream.Create;
@@ -1525,9 +1525,9 @@ begin
       else
         FieldByName('Contingencia_Descricao').AsString := 'PROTOCOLO DE AUTORIZAÇÃO DE USO';
 
-      if DFeUtil.EstaVazio(FDANFEClassOwner.ProtocoloNFe) then
+      if EstaVazio(FDANFEClassOwner.ProtocoloNFe) then
       begin
-        if not (FNFe.Ide.tpEmis in [teContingencia, teFSDA]) and DFeUtil.EstaVazio(FNFe.procNFe.nProt) then
+        if not (FNFe.Ide.tpEmis in [teContingencia, teFSDA]) and EstaVazio(FNFe.procNFe.nProt) then
           FieldByName('Contingencia_Valor').AsString := 'NFe sem Autorização de Uso da SEFAZ'
         else
           FieldByName('Contingencia_Valor').AsString := FNFe.procNFe.nProt + ' ' + DFeUtil.SeSenao(FNFe.procNFe.dhRecbto <> 0, DateTimeToStr(FNFe.procNFe.dhRecbto), '');
@@ -1551,7 +1551,7 @@ begin
       //Modificado em 22/05/2013 - Fábio Gabriel
       if (FNFe.Ide.tpEmis = teDPEC) then
       begin
-        if DFeUtil.NaoEstaVazio(FNFe.procNFe.nProt) then // DPEC TRANSMITIDO
+        if NaoEstaVazio(FNFe.procNFe.nProt) then // DPEC TRANSMITIDO
         begin
            FieldByName('Contingencia_Descricao').AsString := 'PROTOCOLO DE AUTORIZAÇÃO DE USO';
            FieldByName('Contingencia_Valor').AsString := FNFe.procNFe.nProt + ' ' + DFeUtil.SeSenao(FNFe.procNFe.dhRecbto <> 0, DateTimeToStr(FNFe.procNFe.dhRecbto), '');
@@ -1559,7 +1559,7 @@ begin
         else
         begin
            FieldByName('Contingencia_Descricao').AsString := 'NÚMERO DE REGISTRO DPEC';
-           if DFeUtil.NaoEstaVazio(FDANFEClassOwner.ProtocoloNFe) then
+           if NaoEstaVazio(FDANFEClassOwner.ProtocoloNFe) then
              FieldByName('Contingencia_Valor').AsString := FDANFEClassOwner.ProtocoloNFe;
         end;
       end
@@ -1610,7 +1610,7 @@ begin
 
       with Transporta do
       begin
-        if DFeUtil.NaoEstaVazio(CNPJCPF) then
+        if NaoEstaVazio(CNPJCPF) then
         begin
           if Length(CNPJCPF) > 11 then
             FieldByName('CNPJCPF').AsString := DFeUtil.FormatarCNPJ(CNPJCPF)

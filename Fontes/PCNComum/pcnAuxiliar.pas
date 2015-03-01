@@ -88,9 +88,9 @@ function FiltrarTextoXML(const RetirarEspacos: boolean; aTexto: AnsiString; Reti
 function IIf(const condicao: Boolean; const Verdadeiro, Falso: Variant): Variant;
 function IntToStrZero(const Numero: integer; const tamanho: integer): string;
 function GerarCodigoNumerico(numero: integer): integer;
-function GerarChave(var chave: AnsiString; const codigoUF: integer; codigoNumerico: integer; const modelo, serie, numero, tpemi: integer; const emissao: TDateTime; const CNPJ: string): boolean;
-function GerarChaveCTe(var chave: AnsiString; const codigoUF: integer; codigoNumerico: integer; const modelo, serie, numero: integer; const emissao: TDateTime; const CNPJ: string): boolean;
-function GerarDigito(var Digito: integer; chave: string): boolean;
+function GerarChave(out chave: AnsiString; const codigoUF: integer; codigoNumerico: integer; const modelo, serie, numero, tpemi: integer; const emissao: TDateTime; const CNPJ: string): boolean;
+function GerarChaveCTe(out chave: AnsiString; const codigoUF: integer; codigoNumerico: integer; const modelo, serie, numero: integer; const emissao: TDateTime; const CNPJ: string): boolean;
+function GerarDigito(out Digito: integer; chave: string): boolean;
 function SomenteNumeros(const s: string): string;
 function RetornarCodigoNumerico(Chave: string; Versao : real): integer;
 function RetornarCodigoNumericoCTe(Chave: string): integer;
@@ -232,8 +232,9 @@ begin
   Result := StrToInt(copy(s, 1, 8));
 end;
 
-function GerarChave(var chave: AnsiString; const codigoUF: integer; codigoNumerico: integer;
-  const modelo, serie, numero, tpemi: integer; const emissao: TDateTime; const CNPJ: string): boolean;
+function GerarChave(out chave: AnsiString; const codigoUF: integer;
+  codigoNumerico: integer; const modelo, serie, numero, tpemi: integer;
+  const emissao: TDateTime; const CNPJ: string): boolean;
 var
   digito: integer;
   wAno, wMes, wDia: Word;
@@ -273,8 +274,9 @@ begin
   end;
 end;
 
-function GerarChaveCTe(var chave: AnsiString; const codigoUF: integer; codigoNumerico: integer;
-  const modelo, serie, numero: integer; const emissao: TDateTime; const CNPJ: string): boolean;
+function GerarChaveCTe(out chave: AnsiString; const codigoUF: integer;
+  codigoNumerico: integer; const modelo, serie, numero: integer;
+  const emissao: TDateTime; const CNPJ: string): boolean;
 var
   digito: integer;
   wAno, wMes, wDia: Word;
@@ -311,7 +313,7 @@ begin
   end;
 end;
 
-function GerarDigito(var Digito: integer; chave: string): boolean;
+function GerarDigito(out Digito: integer; chave: string): boolean;
 var
   i, j: integer;
 const
@@ -345,7 +347,7 @@ begin
       result := result + s[i];
 end;
 
-function RetornarCodigoNumerico(chave: string; versao : real): integer;
+function RetornarCodigoNumerico(Chave: string; Versao: real): integer;
 begin
   chave := SomenteNumeros(chave);
 
@@ -355,7 +357,7 @@ begin
      result := StrToInt(copy(chave, 36, 8));
 end;
 
-function RetornarCodigoNumericoCTe(chave: string): integer;
+function RetornarCodigoNumericoCTe(Chave: string): integer;
 begin
   result := RetornarCodigoNumerico(chave, 1);
 end;

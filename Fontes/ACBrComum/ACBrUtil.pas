@@ -214,7 +214,7 @@ function StrCrypt(const AString, StrChave: AnsiString): AnsiString;
 function SomaAscII(const AString : AnsiString): Integer;
 function StringCrc16(AString : AnsiString ) : word;
 
-function AplicationPath: String;
+function ApplicationPath: String;
 Procedure FindFiles( const FileMask : String; AStringList : TStrings;
   IncludePath : Boolean = True ) ;
 Function FilesExists(const FileMask: String) : Boolean ;
@@ -1898,7 +1898,7 @@ end ;
 {-----------------------------------------------------------------------------
  Retorna String contendo o Path da Aplicação
 -----------------------------------------------------------------------------}
-function AplicationPath: String;
+function ApplicationPath: String;
 begin
   Result := ExtractFilePath(ParamStr(0));
 end;

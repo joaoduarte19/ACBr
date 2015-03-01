@@ -322,11 +322,11 @@ end;
 
 function TACBrNFeDANFEClass.GetPathArquivos: String;
 begin
-  if DFeUtil.EstaVazio(FPathArquivos) then
+  if EstaVazio(FPathArquivos) then
      if Assigned(FACBrNFe) then
         FPathArquivos := TACBrNFe(FACBrNFe).Configuracoes.Arquivos.PathSalvar;
 
-  if DFeUtil.NaoEstaVazio(FPathArquivos) then
+  if NaoEstaVazio(FPathArquivos) then
      if not DirectoryExists(FPathArquivos) then
         ForceDirectories(FPathArquivos);
 

@@ -530,7 +530,7 @@ function TArquivosConf.GetPathSalvar: String;
 begin
   if FPathSalvar = '' then
     if not (csDesigning in FConfiguracoes.Owner.ComponentState) then
-      FPathSalvar := DFeUtil.PathAplication + PathDelim + 'Docs';
+      FPathSalvar := ApplicationPath + PathDelim + 'Docs';
 
   FPathSalvar := PathWithDelim(Trim(FPathSalvar));
   Result := FPathSalvar;
@@ -540,7 +540,7 @@ function TArquivosConf.GetPathSchemas: String;
 begin
   if FPathSchemas = '' then
     if not (csDesigning in FConfiguracoes.Owner.ComponentState) then
-      FPathSchemas := DFeUtil.PathAplication + PathDelim + 'Schemas';
+      FPathSchemas := ApplicationPath + PathDelim + 'Schemas';
 
   FPathSchemas := PathWithDelim(Trim(FPathSchemas));
   Result := FPathSchemas;
@@ -550,7 +550,7 @@ function TArquivosConf.GetIniServicos: String;
 begin
   if FIniServicos = '' then
     if not (csDesigning in FConfiguracoes.Owner.ComponentState) then
-      FIniServicos := DFeUtil.PathAplication + PathDelim + 'ACBrServicos.ini';
+      FIniServicos := ApplicationPath + PathDelim + 'ACBrServicos.ini';
 
   Result := FIniServicos;
 end;
@@ -562,12 +562,12 @@ var
   Data: TDateTime;
   LenLiteral: integer;
 begin
-  if DFeUtil.EstaVazio(APath) then
+  if EstaVazio(APath) then
     Dir := PathSalvar
   else
     Dir := APath;
 
-  if SepararPorCNPJ and DFeUtil.NaoEstaVazio(FConfiguracoes.Certificados.CNPJ) then
+  if SepararPorCNPJ and NaoEstaVazio(FConfiguracoes.Certificados.CNPJ) then
     Dir := PathWithDelim(Dir) + FConfiguracoes.Certificados.CNPJ;
 
   if SepararPorModelo then
@@ -653,7 +653,7 @@ function Save(AXMLName: String; AXMLFile: String; aPath: String = ''): boolean;
       Data: TDateTime;
       LenLiteral: integer;
     begin
-      if DFeUtil.EstaVazio(APath) then
+      if EstaVazio(APath) then
         Dir := TConfiguracoes(Self.Owner).Geral.PathSalvar
       else
         Dir := APath;

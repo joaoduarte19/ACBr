@@ -412,7 +412,7 @@ begin
     ThreadSMTP.smtp.Password := sSmtpPasswd;
 
     ThreadSMTP.smtp.TargetHost := sSmtpHost;
-    if not DFeUtil.EstaVazio(sSmtpPort) then     // Usa default
+    if not EstaVazio(sSmtpPort) then     // Usa default
        ThreadSMTP.smtp.TargetPort := sSmtpPort;
 
     ThreadSMTP.smtp.FullSSL := SSL;

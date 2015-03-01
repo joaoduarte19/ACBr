@@ -216,10 +216,10 @@ begin
   try
      Result := True;
      ArqTXT := GerarXML(ArqXML, Alertas);
-     if DFeUtil.EstaVazio(CaminhoArquivo) then
+     if EstaVazio(CaminhoArquivo) then
         CaminhoArquivo := PathWithDelim(TACBrCTe(TConhecimentos(Collection).ACBrCTe).Configuracoes.Geral.PathSalvar) + copy(CTe.infCTe.ID, (length(CTe.infCTe.ID)-44)+1, 44)+'-cte.xml';
 
-     if DFeUtil.EstaVazio(CaminhoArquivo) or not DirectoryExists(ExtractFilePath(CaminhoArquivo)) then
+     if EstaVazio(CaminhoArquivo) or not DirectoryExists(ExtractFilePath(CaminhoArquivo)) then
         raise EACBrCTeException.Create('Caminho Inválido: ' + CaminhoArquivo);
 
      WriteToTXT(CaminhoArquivo, ArqXML, False, False);
@@ -410,7 +410,7 @@ begin
      if FConfiguracoes.Geral.Salvar then
        FConfiguracoes.Geral.Save(StringReplace(Self.Items[i].CTe.infCTe.ID, 'CTe', '', [rfIgnoreCase]) + '-cte.xml', vAssinada);
 
-     if DFeUtil.NaoEstaVazio(Self.Items[i].NomeArq) then
+     if NaoEstaVazio(Self.Items[i].NomeArq) then
        FConfiguracoes.Geral.Save(ExtractFileName(Self.Items[i].NomeArq), vAssinada, ExtractFilePath(Self.Items[i].NomeArq));
    end;
 end;
@@ -582,7 +582,7 @@ begin
  try
     for i:= 0 to TACBrCTe(FACBrCTe).Conhecimentos.Count-1 do
      begin
-        if DFeUtil.EstaVazio(PathArquivo) then
+        if EstaVazio(PathArquivo) then
            PathArquivo := TACBrCTe(FACBrCTe).Configuracoes.Geral.PathSalvar
         else
            PathArquivo := ExtractFilePath(PathArquivo);

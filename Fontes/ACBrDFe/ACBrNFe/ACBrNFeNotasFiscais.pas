@@ -272,7 +272,7 @@ begin
     if Configuracoes.Geral.Salvar then
       Gravar(CalcularNomeArquivoCompleto(), XMLAss);
 
-    if DFeUtil.NaoEstaVazio(NomeArq) then
+    if NaoEstaVazio(NomeArq) then
       Gravar(NomeArq, XMLAss);
   end;
 end;
@@ -285,9 +285,9 @@ var
 begin
   AXML := FXMLOriginal;
 
-  if DFeUtil.EstaVazio(AXML) then
+  if EstaVazio(AXML) then
   begin
-    if DFeUtil.EstaVazio(FXMLAssinado) then
+    if EstaVazio(FXMLAssinado) then
       Assinar;
 
     AXML := FXMLAssinado;
@@ -322,9 +322,9 @@ var
 begin
   AXML := FXMLOriginal;
 
-  if DFeUtil.EstaVazio(AXML) then
+  if EstaVazio(AXML) then
   begin
-    if DFeUtil.EstaVazio(FXMLAssinado) then
+    if EstaVazio(FXMLAssinado) then
       Assinar;
 
     AXML := FXMLAssinado;
@@ -545,7 +545,7 @@ begin
     end;
   end;
 
-  Result := DFeUtil.EstaVazio(Erros);
+  Result := EstaVazio(Erros);
 
   if not Result then
   begin
@@ -706,7 +706,7 @@ var
 begin
   xID := Self.NumID;
 
-  if DFeUtil.EstaVazio(xID) then
+  if EstaVazio(xID) then
     raise EACBrNFeException.Create('ID Inválido. Impossível Salvar XML');
 
   Result := xID + '-nfe.xml';
@@ -730,10 +730,10 @@ end;
 function NotaFiscal.CalcularNomeArquivoCompleto(NomeArquivo: String;
   PathArquivo: String): String;
 begin
-  if DFeUtil.EstaVazio(NomeArquivo) then
+  if EstaVazio(NomeArquivo) then
     NomeArquivo := CalcularNomeArquivo;
 
-  if DFeUtil.EstaVazio(PathArquivo) then
+  if EstaVazio(PathArquivo) then
     PathArquivo := CalcularPathArquivo
   else
     PathArquivo := PathWithDelim(PathArquivo);
@@ -1036,7 +1036,7 @@ begin
           Inc(i);
       end;
 
-      if DFeUtil.EstaVazio(PathArquivo) then
+      if EstaVazio(PathArquivo) then
         PathArquivo := PathWithDelim(
           TACBrNFe(FACBrNFe).Configuracoes.Arquivos.PathSalvar) + 'NFe.TXT';
 

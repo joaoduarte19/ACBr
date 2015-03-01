@@ -1447,15 +1447,15 @@ var
 // filename : String;
 // Tipo, I : Integer;
 begin
- if not DirectoryExists(DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+ if not DirectoryExists(DFeUtil.SeSenao(EstaVazio(APathSchemas),
                         PathWithDelim(ExtractFileDir(application.ExeName)) + 'Schemas',
                         PathWithDelim(APathSchemas)))
   then raise Exception.Create('Diretório de Schemas não encontrado' + sLineBreak +
-                              DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+                              DFeUtil.SeSenao(EstaVazio(APathSchemas),
                               PathWithDelim(ExtractFileDir(application.ExeName)) + 'Schemas',
                               PathWithDelim(APathSchemas)));
 
- if DFeUtil.EstaVazio(APathSchemas)
+ if EstaVazio(APathSchemas)
   then schema_filename := PathWithDelim(ExtractFileDir(application.ExeName)) + 'Schemas\' + Servico
   else schema_filename := PathWithDelim(APathSchemas) + Servico;
 
@@ -1563,15 +1563,15 @@ begin
 
     Schema := CoXMLSchemaCache50.Create;
 
-    if not DirectoryExists(DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+    if not DirectoryExists(DFeUtil.SeSenao(EstaVazio(APathSchemas),
                            PathWithDelim(ExtractFileDir(application.ExeName)) + 'Schemas',
                            PathWithDelim(APathSchemas)))
      then raise Exception.Create('Diretório de Schemas não encontrado' + sLineBreak +
-                                 DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+                                 DFeUtil.SeSenao(EstaVazio(APathSchemas),
                                  PathWithDelim(ExtractFileDir(application.ExeName)) + 'Schemas',
                                  PathWithDelim(APathSchemas)));
 
-    schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+    schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
                        PathWithDelim(ExtractFileDir(application.ExeName)) + 'Schemas\',
                        PathWithDelim(APathSchemas)) + Servico;
 

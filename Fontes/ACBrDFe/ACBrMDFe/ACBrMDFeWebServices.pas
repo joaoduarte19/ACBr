@@ -1229,7 +1229,7 @@ begin
         FManifestos.Items[J].MDFe.procMDFe.cStat    := AInfProt.Items[I].cStat;
         FManifestos.Items[J].MDFe.procMDFe.xMotivo  := AInfProt.Items[I].xMotivo;
 
-        if FConfiguracoes.Geral.Salvar or DFeUtil.NaoEstaVazio(FManifestos.Items[J].NomeArq) then
+        if FConfiguracoes.Geral.Salvar or NaoEstaVazio(FManifestos.Items[J].NomeArq) then
         begin
           if FileExists(PathWithDelim(FConfiguracoes.Geral.PathSalvar) + AInfProt.Items[I].chMDFe + '-mdfe.xml') and
              FileExists(PathWithDelim(FConfiguracoes.Geral.PathSalvar) + FMDFeRetorno.nRec + '-pro-rec.xml') then
@@ -1243,9 +1243,9 @@ begin
 
               AProcMDFe.GerarXML;
 
-              if DFeUtil.NaoEstaVazio(AProcMDFe.Gerador.ArquivoFormatoXML) then
+              if NaoEstaVazio(AProcMDFe.Gerador.ArquivoFormatoXML) then
               begin
-                if DFeUtil.NaoEstaVazio(FManifestos.Items[J].NomeArq) then
+                if NaoEstaVazio(FManifestos.Items[J].NomeArq) then
                   AProcMDFe.Gerador.SalvarArquivo(FManifestos.Items[J].NomeArq)
                 else
                   AProcMDFe.Gerador.SalvarArquivo(PathWithDelim(FConfiguracoes.Geral.PathSalvar) +
@@ -1742,11 +1742,11 @@ begin
           TACBrMDFe(FACBrMDFe).Manifestos.Items[i].MDFe.procMDFe.xMotivo  := FprotMDFe.xMotivo;
 
           if FileExists(NomeArquivo + '-mdfe.xml') or
-             DFeUtil.NaoEstaVazio(TACBrMDFe(FACBrMDFe).Manifestos.Items[i].NomeArq) then
+             NaoEstaVazio(TACBrMDFe(FACBrMDFe).Manifestos.Items[i].NomeArq) then
           begin
             AProcMDFe := TProcMDFe.Create;
             try
-              if DFeUtil.NaoEstaVazio(TACBrMDFe(FACBrMDFe).Manifestos.Items[i].NomeArq) then
+              if NaoEstaVazio(TACBrMDFe(FACBrMDFe).Manifestos.Items[i].NomeArq) then
                 AProcMDFe.PathMDFe := TACBrMDFe(FACBrMDFe).Manifestos.Items[i].NomeArq
               else
                 AProcMDFe.PathMDFe := NomeArquivo + '-mdfe.xml';
@@ -1757,13 +1757,13 @@ begin
 
               aMDFe := AProcMDFe.Gerador.ArquivoFormatoXML;
 
-              if DFeUtil.NaoEstaVazio(AProcMDFe.Gerador.ArquivoFormatoXML) then
+              if NaoEstaVazio(AProcMDFe.Gerador.ArquivoFormatoXML) then
                 AProcMDFe.Gerador.SalvarArquivo(AProcMDFe.PathMDFe);
 
               FRetMDFeDFe := '';
 
-              if (DFeUtil.NaoEstaVazio(aMDFe)) and
-                 (DFeUtil.NaoEstaVazio(SeparaDados(FRetWS, 'procEventoMDFe'))) then
+              if (NaoEstaVazio(aMDFe)) and
+                 (NaoEstaVazio(SeparaDados(FRetWS, 'procEventoMDFe'))) then
               begin
                 Inicio := Pos('<procEventoMDFe', FRetWS);
                 Fim    := Pos('</retConsSitMDFe', FRetWS) - 1;
@@ -1795,8 +1795,8 @@ begin
 
              FRetMDFeDFe := '';
 
-             if (DFeUtil.NaoEstaVazio(aMDFe)) and
-                (DFeUtil.NaoEstaVazio(SeparaDados(FRetWS, 'procEventoMDFe'))) then
+             if (NaoEstaVazio(aMDFe)) and
+                (NaoEstaVazio(SeparaDados(FRetWS, 'procEventoMDFe'))) then
               begin
                 Inicio := Pos('<procEventoMDFe', FRetWS);
                 Fim    := Pos('</retConsSitMDFe', FRetWS) -1;
@@ -1875,11 +1875,11 @@ begin
 
             aMDFe := AProcMDFe.Gerador.ArquivoFormatoXML;
 
-            if DFeUtil.NaoEstaVazio(AProcMDFe.Gerador.ArquivoFormatoXML) then
+            if NaoEstaVazio(AProcMDFe.Gerador.ArquivoFormatoXML) then
               AProcMDFe.Gerador.SalvarArquivo(AProcMDFe.PathMDFe);
 
-            if (DFeUtil.NaoEstaVazio(aMDFe)) and
-               (DFeUtil.NaoEstaVazio(SeparaDados(FRetWS, 'procEventoMDFe'))) then
+            if (NaoEstaVazio(aMDFe)) and
+               (NaoEstaVazio(SeparaDados(FRetWS, 'procEventoMDFe'))) then
             begin
               Inicio := Pos('<procEventoMDFe', FRetWS);
               Fim    := Pos('</retConsSitMDFe', FRetWS) -1;

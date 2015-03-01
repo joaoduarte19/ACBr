@@ -269,7 +269,7 @@ begin
               if ((wDataText[7] <> nil) and (wText[7] <> nil)) then
               begin
                 wText[7].Text := 'V.APROX.TRIBUTOS';
-                if DFeUtil.NaoEstaVazio(FTributosFonte) then
+                if NaoEstaVazio(FTributosFonte) then
                   wText[7].Text := wText[7].Text+' (Fonte:'+FTributosFonte+')';
               end;
             end
@@ -281,7 +281,7 @@ begin
               if ((wDataText[7] <> nil) and (wText[7] <> nil) and (wVLine[10] <> nil)) then
               begin
                 wText[7].Text := 'V.Aprox.Tributos';
-                if DFeUtil.NaoEstaVazio(FTributosFonte) then
+                if NaoEstaVazio(FTributosFonte) then
                   wText[7].Text := wText[7].Text+'-Fonte:'+FTributosFonte;
                 wVLine[6] := FindRaveComponent('VLine6',wPage[1]) as TRaveVLine;
                 k := wVLine[6].Left-wVLine[10].Left;
@@ -555,7 +555,7 @@ begin
          wFloatField[1] := FindRaveComponent('CustomDadosProdutosCXQCom',wDataView) as TRaveFloatField;
          if (wFloatField[1] <> nil) then
          begin
-            if (DFeUtil.NaoEstaVazio(FCasasDecimais._Mask_qCom)) then
+            if (NaoEstaVazio(FCasasDecimais._Mask_qCom)) then
                wFloatField[1].DisplayFormat:=FCasasDecimais._Mask_qCom
             else
                wFloatField[1].DisplayFormat:=wDisplayFormat(FCasasDecimais._QCom);
@@ -564,14 +564,14 @@ begin
          wFloatField[2] := FindRaveComponent('CustomDadosProdutosCXVUnCom',wDataView) as TRaveFloatField;
          if (wFloatField[2] <> nil) then
          begin
-            if (DFeUtil.NaoEstaVazio(FCasasDecimais._Mask_vUnCom)) then
+            if (NaoEstaVazio(FCasasDecimais._Mask_vUnCom)) then
                wFloatField[2].DisplayFormat:=FCasasDecimais._Mask_vUnCom
             else
                wFloatField[2].DisplayFormat:=wDisplayFormat(FCasasDecimais._vUnCom);
          end;
 
          //NÃO imprime o LOGO se o mesmo não for especificado
-         if DFeUtil.EstaVazio(FLogo) then
+         if EstaVazio(FLogo) then
          begin
             wPage[1] := FindRaveComponent('GlobalDANFE',nil) as TRavePage;
             wBitmap[1] := FindRaveComponent('Bitmap1',wPage[1]) as TRaveBitmap;

@@ -240,8 +240,8 @@ end;
 
 function TGeralConf.GetPathSalvar: String;
 begin
- if DFeUtil.EstaVazio(FPathSalvar)
-  then Result := DFeUtil.PathAplication
+ if EstaVazio(FPathSalvar)
+  then Result := ApplicationPath
   else Result := FPathSalvar;
 
  Result := GNREUtil.PathWithDelim( Trim(Result) );
@@ -255,13 +255,13 @@ begin
  vSalvar := TStringList.Create;
  try
   try
-   if DFeUtil.NaoEstaVazio(ExtractFilePath(AXMLName))
+   if NaoEstaVazio(ExtractFilePath(AXMLName))
     then begin
      aPath := ExtractFilePath(AXMLName);
      AXMLName := StringReplace(AXMLName,aPath,'',[rfIgnoreCase]);
     end
     else begin
-     if DFeUtil.EstaVazio(aPath)
+     if EstaVazio(aPath)
       then aPath := PathSalvar
       else aPath := PathWithDelim(aPath);
     end;
@@ -321,7 +321,7 @@ var
 begin
  CoInitialize(nil); // PERMITE O USO DE THREAD
  try
- if DFeUtil.EstaVazio( FNumeroSerie )
+ if EstaVazio( FNumeroSerie )
   then raise Exception.Create('Número de Série do Certificado Digital não especificado !');
 
  Result := nil;
@@ -334,7 +334,7 @@ begin
    Cert := IInterface(Certs.Item[i]) as ICertificate2;
    if Cert.SerialNumber = FNumeroSerie
     then begin
-     if DFeUtil.EstaVazio(NumCertCarregado)
+     if EstaVazio(NumCertCarregado)
       then NumCertCarregado := Cert.SerialNumber;
 
      if CertStoreMem = nil
@@ -448,7 +448,7 @@ end;
 
 function TCertificadosConf.GetDataVenc: TDateTime;
 begin
- if DFeUtil.NaoEstaVazio(FNumeroSerie)
+ if NaoEstaVazio(FNumeroSerie)
   then begin
    if FDataVenc = 0
     then GetCertificado;
@@ -485,7 +485,7 @@ var
  wDia, wMes, wAno : Word;
  Dir : String;
 begin
- if DFeUtil.EstaVazio(FPathGNRE)
+ if EstaVazio(FPathGNRE)
   then Dir := TConfiguracoes( Self.Owner ).Geral.PathSalvar
   else Dir := FPathGNRE;
 

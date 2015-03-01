@@ -1078,11 +1078,11 @@ begin
           end;
 
           if (FileExists(NomeArquivo + '-nfe.xml')) or
-            DFeUtil.NaoEstaVazio(TACBrNFe(FPDFeOwner).NotasFiscais.Items[I].NomeArq) then
+            NaoEstaVazio(TACBrNFe(FPDFeOwner).NotasFiscais.Items[I].NomeArq) then
           begin
             AProcNFe := TProcNFe.Create;
             try
-              if DFeUtil.NaoEstaVazio(TACBrNFe(
+              if NaoEstaVazio(TACBrNFe(
                 FPDFeOwner).NotasFiscais.Items[I].NomeArq) then
                 AProcNFe.PathNFe := TACBrNFe(FPDFeOwner).NotasFiscais.Items[I].NomeArq
               else
@@ -1102,7 +1102,7 @@ begin
               AProcNFe.Versao := TACBrNFe(FPDFeOwner).LerVersaoDeParams(FPLayout);
               AProcNFe.GerarXML;
 
-              if DFeUtil.NaoEstaVazio(AProcNFe.Gerador.ArquivoFormatoXML) then
+              if NaoEstaVazio(AProcNFe.Gerador.ArquivoFormatoXML) then
                 AProcNFe.Gerador.SalvarArquivo(AProcNFe.PathNFe);
             finally
               AProcNFe.Free;
@@ -1271,7 +1271,7 @@ begin
         FNotasFiscais.Items[J].NFe.procNFe.cStat := AInfProt.Items[I].cStat;
         FNotasFiscais.Items[J].NFe.procNFe.xMotivo := AInfProt.Items[I].xMotivo;
 
-        if FPConfiguracoesNFe.Arquivos.Salvar or DFeUtil.NaoEstaVazio(
+        if FPConfiguracoesNFe.Arquivos.Salvar or NaoEstaVazio(
           FNotasFiscais.Items[J].NomeArq) then
         begin
           if FileExists(PathWithDelim(FPConfiguracoesNFe.Arquivos.PathSalvar) +
@@ -1291,9 +1291,9 @@ begin
               AProcNFe.Versao := TACBrNFe(FPDFeOwner).LerVersaoDeParams(FPLayout);
               AProcNFe.GerarXML;
 
-              if DFeUtil.NaoEstaVazio(AProcNFe.Gerador.ArquivoFormatoXML) then
+              if NaoEstaVazio(AProcNFe.Gerador.ArquivoFormatoXML) then
               begin
-                if DFeUtil.NaoEstaVazio(FNotasFiscais.Items[J].NomeArq) then
+                if NaoEstaVazio(FNotasFiscais.Items[J].NomeArq) then
                   AProcNFe.Gerador.SalvarArquivo(FNotasFiscais.Items[J].NomeArq)
                 else
                   AProcNFe.Gerador.SalvarArquivo(
@@ -1839,11 +1839,11 @@ begin
             NFe.procNFe.cStat := NFeRetorno.cStat;
             NFe.procNFe.xMotivo := NFeRetorno.xMotivo;
 
-            if FileExists(NomeArquivo + '-nfe.xml') or DFeUtil.NaoEstaVazio(NomeArq) then
+            if FileExists(NomeArquivo + '-nfe.xml') or NaoEstaVazio(NomeArq) then
             begin
               AProcNFe := TProcNFe.Create;
               try
-                if DFeUtil.NaoEstaVazio(NomeArq) then
+                if NaoEstaVazio(NomeArq) then
                   AProcNFe.PathNFe := NomeArq
                 else
                   AProcNFe.PathNFe := NomeArquivo + '-nfe.xml';
@@ -1859,7 +1859,7 @@ begin
 
                 AProcNFe.GerarXML;
 
-                if DFeUtil.NaoEstaVazio(AProcNFe.Gerador.ArquivoFormatoXML) then
+                if NaoEstaVazio(AProcNFe.Gerador.ArquivoFormatoXML) then
                   AProcNFe.Gerador.SalvarArquivo(AProcNFe.PathNFe);
               finally
                 AProcNFe.Free;
@@ -1902,7 +1902,7 @@ begin
 
             AProcNFe.GerarXML;
 
-            if DFeUtil.NaoEstaVazio(AProcNFe.Gerador.ArquivoFormatoXML) then
+            if NaoEstaVazio(AProcNFe.Gerador.ArquivoFormatoXML) then
               AProcNFe.Gerador.SalvarArquivo(AProcNFe.PathNFe);
           finally
             AProcNFe.Free;
@@ -1951,7 +1951,7 @@ var
 begin
   TrimValue := Trim(AValue);
 
-  if DFeUtil.EstaVazio(TrimValue) then
+  if EstaVazio(TrimValue) then
     GerarException('Informar uma Justificativa para Inutilização de ' +
       'numeração da Nota Fiscal Eletronica');
 
@@ -2142,7 +2142,7 @@ end;
 
 procedure TNFeConsultaCadastro.SetCNPJ(const Value: String);
 begin
-  if DFeUtil.NaoEstaVazio(Value) then
+  if NaoEstaVazio(Value) then
   begin
     FIE := '';
     FCPF := '';
@@ -2153,7 +2153,7 @@ end;
 
 procedure TNFeConsultaCadastro.SetCPF(const Value: String);
 begin
-  if DFeUtil.NaoEstaVazio(Value) then
+  if NaoEstaVazio(Value) then
   begin
     FIE := '';
     FCNPJ := '';
@@ -2164,7 +2164,7 @@ end;
 
 procedure TNFeConsultaCadastro.SetIE(const Value: String);
 begin
-  if DFeUtil.NaoEstaVazio(Value) then
+  if NaoEstaVazio(Value) then
   begin
     FCNPJ := '';
     FCPF := '';
@@ -2402,7 +2402,7 @@ end;
 
 procedure TNFeConsultaDPEC.SetNFeChave(const Value: String);
 begin
-  if DFeUtil.NaoEstaVazio(Value) then
+  if NaoEstaVazio(Value) then
     FnRegDPEC := '';
 
   FNFeChave := OnlyNumber(Value);
@@ -2410,7 +2410,7 @@ end;
 
 procedure TNFeConsultaDPEC.SetnRegDPEC(const Value: String);
 begin
-  if DFeUtil.NaoEstaVazio(Value) then
+  if NaoEstaVazio(Value) then
     FNFeChave := '';
 
   FnRegDPEC := Value;
@@ -3138,7 +3138,7 @@ begin
             '-procEventoNFe.xml';
       end;
 
-      if DFeUtil.NaoEstaVazio(NomeArq) then
+      if NaoEstaVazio(NomeArq) then
         FPDFeOwner.Gravar(NomeArq, AXML);
     end;
   end;

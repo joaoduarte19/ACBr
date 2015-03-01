@@ -1160,7 +1160,7 @@ begin
 
         //            wContingencia := wContingencia + ';' +
         //            'DATA/HORA INÍCIO: ' + DFeUtil.SeSenao(FCTe.ide.dhCont = 0, ' ', DateTimeToStr(FCTe.ide.dhCont)) + ';'+
-        //            'MOTIVO CONTINGÊNCIA: ' + DFeUtil.SeSenao(DFeUtil.EstaVazio(FCTe.ide.xJust), ' ', FCTe.ide.xJust);
+        //            'MOTIVO CONTINGÊNCIA: ' + DFeUtil.SeSenao(EstaVazio(FCTe.ide.xJust), ' ', FCTe.ide.xJust);
       end;
       if Length(wObs) > 0 then
         wObs := wObs + ';';
@@ -1455,12 +1455,12 @@ begin
     begin
       if not (FCTe.Ide.tpEmis in [teContingencia, teFSDA]) then
       begin
-        if ((DFeUtil.EstaVazio(FDACTEClassOwner.ProtocoloCTE)) and
-          (DFeUtil.EstaVazio(FCTe.procCTe.nProt))) then
+        if ((EstaVazio(FDACTEClassOwner.ProtocoloCTE)) and
+          (EstaVazio(FCTe.procCTe.nProt))) then
           FieldByName('Mensagem0').AsString := 'CTe sem Autorização de Uso da SEFAZ'
         else
-          if (not ((DFeUtil.EstaVazio(FDACTEClassOwner.ProtocoloCTE)) and
-            (DFeUtil.EstaVazio(FCTe.procCTe.nProt)))) and
+          if (not ((EstaVazio(FDACTEClassOwner.ProtocoloCTE)) and
+            (EstaVazio(FCTe.procCTe.nProt)))) and
             (FCTe.procCTe.cStat = 101) then
             FieldByName('Mensagem0').AsString := 'CTe Cancelado'
           else
@@ -1532,9 +1532,9 @@ begin
       else
         FieldByName('Contingencia_Descricao').AsString := 'PROTOCOLO DE AUTORIZAÇÃO DE USO';
 
-      if DFeUtil.EstaVazio(FDACTEClassOwner.ProtocoloCTE) then
+      if EstaVazio(FDACTEClassOwner.ProtocoloCTE) then
       begin
-        if not (FCTe.Ide.tpEmis in [teContingencia, teFSDA]) and DFeUtil.EstaVazio(FCTe.procCTe.nProt) then
+        if not (FCTe.Ide.tpEmis in [teContingencia, teFSDA]) and EstaVazio(FCTe.procCTe.nProt) then
           FieldByName('Contingencia_Valor').AsString := 'CTe sem Autorização de Uso da SEFAZ'
         else
           FieldByName('Contingencia_Valor').AsString := FCTe.procCTe.nProt + ' ' + DFeUtil.SeSenao(FCTe.procCTe.dhRecbto <> 0,
@@ -1560,7 +1560,7 @@ begin
           FieldByName('Contingencia_Descricao').AsString := 'NÚMERO DE REGISTRO DPEC';
 
           //precisa testar
-  //        if DFeUtil.EstaVazio(FDACTEClassOwner.ProtocoloCTE) then
+  //        if EstaVazio(FDACTEClassOwner.ProtocoloCTE) then
   //          raise EACBrCTeException.Create('Protocolo de Registro no DPEC não informado.')
   //        else
   //          FieldByName('Contingencia_Valor').AsString := FDACTEClassOwner.ProtocoloCTe;

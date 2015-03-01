@@ -295,7 +295,7 @@ procedure TdmACBrNFe.CustomDestinatarioCXNGetRow(
 begin
   with FNFe.Dest do
   begin
-    if DFeUtil.NaoEstaVazio(CNPJCPF) then
+    if NaoEstaVazio(CNPJCPF) then
       Connection.WriteStrData('', DFeUtil.FormatarCNPJ(CNPJCPF))
     else
       Connection.WriteStrData('', DFeUtil.FormatarCPF(CNPJCPF));
@@ -590,7 +590,7 @@ begin
     Connection.WriteStrData('', DFeUtil.SeSenao(modFrete = mfContaEmitente,'0','1'));
     with Transporta do
     begin
-      if DFeUtil.NaoEstaVazio(CNPJCPF) then
+      if NaoEstaVazio(CNPJCPF) then
         Connection.WriteStrData('', DFeUtil.FormatarCNPJ(CNPJCPF))
       else
         Connection.WriteStrData('', DFeUtil.FormatarCPF(CNPJCPF));
@@ -632,7 +632,7 @@ begin
 
   vStream := TMemoryStream.Create;
   try
-    if DFeUtil.NaoEstaVazio(FLogo) then
+    if NaoEstaVazio(FLogo) then
     begin
       if FileExists(FLogo) then
         vStream.LoadFromFile(FLogo);
@@ -691,7 +691,7 @@ begin
     Connection.WriteStrData('', inttostr(Serie));
     Connection.WriteStrData('', DFeUtil.FormatarNumeroDocumentoFiscal(inttostr(NNF)));
     Connection.WriteStrData('', DFeUtil.FormatDate(datetostr(DEmi)));
-    Connection.WriteStrData('', IfThen(DFeUtil.NaoEstaVazio(datetostr(DSaiEnt)), DFeUtil.FormatDate(datetostr(DSaiEnt))));
+    Connection.WriteStrData('', IfThen(NaoEstaVazio(datetostr(DSaiEnt)), DFeUtil.FormatDate(datetostr(DSaiEnt))));
     Connection.WriteStrData('', DFeUtil.SeSenao(TpNF=tnEntrada,'0','1'));
     Connection.WriteStrData('', inttostr(CMunFG));
     Connection.WriteStrData('', DFeUtil.SeSenao(TpImp=tiRetrato,'1','2'));

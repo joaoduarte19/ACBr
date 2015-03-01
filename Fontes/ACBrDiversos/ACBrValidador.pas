@@ -171,17 +171,17 @@ type
 
   end ;
 
-function ACBrValidadorValidarCPF( const Documento : AnsiString ) : String ;
-function ACBrValidadorValidarCNPJ( const Documento : AnsiString ) : String ;
-function ACBrValidadorValidarCNPJouCPF( const Documento : AnsiString ) : String ;
-function ACBrValidadorValidarIE(const AIE, AUF: AnsiString): String ;
-function ACBrValidadorValidarSuframa( const Documento : AnsiString ) : String ;
-function ACBrValidadorValidarGTIN( const Documento : AnsiString ) : String ;
+function ValidarCPF( const Documento : AnsiString ) : String ;
+function ValidarCNPJ( const Documento : AnsiString ) : String ;
+function ValidarCNPJouCPF( const Documento : AnsiString ) : String ;
+function ValidarIE(const AIE, AUF: AnsiString): String ;
+function ValidarSuframa( const Documento : AnsiString ) : String ;
+function ValidarGTIN( const Documento : AnsiString ) : String ;
 
 Function FormatarFone( const AValue : String; DDDPadrao: String = '' ): String;
 Function FormatarCPF( const AValue : String )    : String ;
 Function FormatarCNPJ( const AValue : String )   : String ;
-function FormatarCNPJCPF(const AValue: String)    : String;
+function FormatarCNPJouCPF(const AValue: String)    : String;
 function FormatarPlaca(const AValue: string): string;
 Function FormatarIE( const AValue: String; UF : String ) : String ;
 Function FormatarCheque( const AValue : String ) : String ;
@@ -190,39 +190,74 @@ Function FormatarCEP( const AValue: String )     : String ;
 function FormatarSUFRAMA( const AValue: String ) : String ;
 
 
-function ACBrValidadorValidarDocumento( const TipoDocto : TACBrValTipoDocto;
+function ValidarDocumento( const TipoDocto : TACBrValTipoDocto;
   const Documento : AnsiString; const Complemento : AnsiString = '') : String ;
-function ACBrValidadorFormatarDocumento( const TipoDocto : TACBrValTipoDocto;
+function FormatarDocumento( const TipoDocto : TACBrValTipoDocto;
   const Documento : AnsiString) : String ;
+
+function Modulo11(const Documento: string; const Peso: Integer = 2; const Base: Integer = 9): String;
 
 implementation
 uses
  {$IFDEF COMPILER6_UP} Variants , Math, StrUtils, {$ENDIF}
   ACBrUtil;
 
-function ACBrValidadorValidarCPF(const Documento : AnsiString) : String ;
+function ValidarCPF(const Documento : AnsiString) : String ;
 begin
-   Result := ACBrValidadorValidarDocumento( docCPF, Documento );
+   Result := ValidarDocumento( docCPF, Documento );
 end;
 
-function ACBrValidadorValidarCNPJ(const Documento : AnsiString) : String ;
+function ValidarCNPJ(const Documento : AnsiString) : String ;
 begin
-  Result := ACBrValidadorValidarDocumento( docCNPJ, Documento );
+  Result := ValidarDocumento( docCNPJ, Documento );
 end;
 
-function ACBrValidadorValidarIE(const AIE, AUF: AnsiString): String;
+function ValidarIE(const AIE, AUF: AnsiString): String;
 begin
-  Result := ACBrValidadorValidarDocumento(docInscEst, AIE, AUF);
+  Result := ValidarDocumento(docInscEst, AIE, AUF);
 end;
 
-function ACBrValidadorValidarSuframa( const Documento : AnsiString ) : String ;
+function ValidarSuframa( const Documento : AnsiString ) : String ;
 begin
-  Result := ACBrValidadorValidarDocumento( docSuframa, Documento );
+  Result := ValidarDocumento( docSuframa, Documento );
 end;
 
-function ACBrValidadorValidarGTIN( const Documento : AnsiString ) : String ;
+function ValidarGTIN( const Documento : AnsiString ) : String ;
 begin
-  Result := ACBrValidadorValidarDocumento( docGTIN, Documento );
+  Result := ValidarDocumento( docGTIN, Documento );
+end;
+
+function ValidarCNPJouCPF(const Documento : AnsiString) : String ;
+Var
+  NumDocto : String ;
+begin
+   NumDocto := OnlyNumber(Documento) ;
+   if Length(NumDocto) < 12 then
+      Result := ValidarCPF( Documento )
+   else
+      Result := ValidarCNPJ( Documento ) ;
+end;
+
+function ValidarDocumento(const TipoDocto : TACBrValTipoDocto ;
+  const Documento: AnsiString; const Complemento : AnsiString = '') : String ;
+Var
+  ACBrVal : TACBrValidador ;
+begin
+  ACBrVal := TACBrValidador.Create(nil);
+  try
+    ACBrVal.RaiseExcept := False;
+    ACBrVal.PermiteVazio:= False ;
+    ACBrVal.TipoDocto   := TipoDocto;
+    ACBrVal.Documento   := Documento;
+    ACBrVal.Complemento := Complemento;
+
+    if ACBrVal.Validar then
+       Result := ''
+    else
+       Result := ACBrVal.MsgErro;
+  finally
+    ACBrVal.Free;
+  end;
 end;
 
 function FormatarFone(const AValue : String; DDDPadrao: String = '') : String ;
@@ -289,7 +324,7 @@ begin
             copy(S,6,3) + '/' + copy(S,9,4) + '-' + copy(S,13,2) ;
 end;
 
-function FormatarCNPJCPF(const AValue: String): String;
+function FormatarCNPJouCPF(const AValue: String): String;
 var
   S: String;
 begin
@@ -405,40 +440,7 @@ begin
   Result := AValue;
 end;
 
-function ACBrValidadorValidarCNPJouCPF(const Documento : AnsiString) : String ;
-Var
-  NumDocto : String ;
-begin
-   NumDocto := OnlyNumber(Documento) ;
-   if Length(NumDocto) < 12 then
-      Result := ACBrValidadorValidarCPF( Documento )
-   else
-      Result := ACBrValidadorValidarCNPJ( Documento ) ;
-end;
-
-function ACBrValidadorValidarDocumento(const TipoDocto : TACBrValTipoDocto ;
-  const Documento: AnsiString; const Complemento : AnsiString = '') : String ;
-Var
-  ACBrVal : TACBrValidador ;
-begin
-  ACBrVal := TACBrValidador.Create(nil);
-  try
-    ACBrVal.RaiseExcept := False;
-    ACBrVal.PermiteVazio:= False ;
-    ACBrVal.TipoDocto   := TipoDocto;
-    ACBrVal.Documento   := Documento;
-    ACBrVal.Complemento := Complemento;
-
-    if ACBrVal.Validar then
-       Result := ''
-    else
-       Result := ACBrVal.MsgErro;
-  finally
-    ACBrVal.Free;
-  end;
-end;
-
-function ACBrValidadorFormatarDocumento(const TipoDocto : TACBrValTipoDocto ;
+function FormatarDocumento(const TipoDocto : TACBrValTipoDocto ;
   const Documento : AnsiString) : String ;
 Var
   ACBrVal : TACBrValidador ;
@@ -449,6 +451,27 @@ begin
     ACBrVal.TipoDocto   := TipoDocto;
     ACBrVal.Documento   := Documento;
     Result := ACBrVal.Formatar;
+  finally
+    ACBrVal.Free;
+  end;
+end;
+
+function Modulo11(const Documento: string; const Peso: Integer;
+  const Base: Integer): String;
+Var
+  ACBrVal : TACBrValidador ;
+begin
+  ACBrVal := TACBrValidador.Create(nil);
+  try
+    with ACBrVal.Modulo do
+    begin
+      Documento            := Documento ;
+      MultiplicadorInicial := Peso  ;
+      MultiplicadorFinal   := Base ;
+      FormulaDigito        := frModulo11 ;
+      Calcular ;
+      Result := IntToStr( DigitoFinal ) ;
+    end;
   finally
     ACBrVal.Free;
   end;
@@ -1448,10 +1471,10 @@ begin
 end;
 
 procedure TACBrCalcDigito.Calcular;
-Var A,N,Base,Tamanho,ValorCalc : Integer ;
-    ValorCalcSTR: String;
+Var
+  A,N,Base,Tamanho,ValorCalc : Integer ;
+  ValorCalcSTR: String;
 begin
-  fsDocto       := Trim(fsDocto) ;
   fsSomaDigitos := 0 ;
   fsDigitoFinal := 0 ;
   fsModuloFinal := 0 ;
@@ -1530,35 +1553,4 @@ begin
 end;
 
 end.
-
-
-//TODO:
-class function DFeUtil.Modulo11(Valor: string; Peso: Integer = 2; Base: Integer = 9): String;
-var
-  Soma, Resto: integer;
-  Contador, Digito: integer;
-begin
-  Soma := 0;
-  for Contador := Length(Valor) downto 1 do
-  begin
-    Soma := Soma + (StrToInt(Valor[Contador]) * Peso);
-    if Peso < Base then
-      Peso := Peso + 1
-    else
-      Peso := 2;
-  end;
-
-  Resto := (Soma mod 11);
-
-  if Resto <= 1 then
-    Digito := 0
-  else
-    Digito := 11 - Resto;
-
-  Result := IntToStr(Digito);
-end;
-
-
-
-
 

@@ -884,7 +884,9 @@ begin
                   end;
 
                   EstaVazio           := (valor = 0) and (ocorrencias = 0);
-                  if StrToIntDef(Copy(ConteudoProcessado, pos(DecimalSeparator, ConteudoProcessado) + NumeroDecimais + 1, 10),0) > 0 then
+                  if StrToIntDef(Copy(ConteudoProcessado,
+                    pos({$IFDEF DELPHI7_UP}FormatSettings.{$ENDIF}DecimalSeparator, ConteudoProcessado) +
+                    NumeroDecimais + 1, 10),0) > 0 then
                     walerta(ID, Tag, Descricao, ERR_MSG_MAXIMO_DECIMAIS + ' ' + IntToStr(NumeroDecimais));
 
                   ConteudoProcessado := FormatFloat('0.' + StringOfChar('0', NumeroDecimais), valor);
