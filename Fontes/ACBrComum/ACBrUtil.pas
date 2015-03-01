@@ -243,7 +243,7 @@ function FlushFileToDisk( sFile: string): boolean;
 
 Procedure DesligarMaquina(Reboot: Boolean = False; Forcar: Boolean = False;
    LogOff: Boolean = False) ;
-Procedure WriteToTXT( const ArqTXT, ABinaryString : AnsiString;
+Procedure WriteToTXT( const ArqTXT : String; ABinaryString : AnsiString;
    const AppendIfExists : Boolean = True; const AddLineBreak : Boolean = True );
 procedure WriteLog( const ArqTXT, ABinaryString : AnsiString ;
    const Traduz : Boolean = False) ;
@@ -291,7 +291,7 @@ begin
    {$IFDEF FPC}
      Result := SysToUTF8( AString ) ;
    {$ELSE}
-     Result := AnsiToUtf8( AString ) ;
+     Result := String(AnsiToUtf8( String(AString) )) ;
    {$ENDIF}
  {$ENDIF}
 {$ELSE}
@@ -1257,7 +1257,7 @@ begin
   A      := 1 ;
   while Result and ( A <= Length( S ) )  do
   begin
-     Result := CharIsAlpha( S[A] ) ;
+     Result := CharIsAlpha( AnsiChar(S[A]) ) ;
      Inc(A) ;
   end;
 end ;
@@ -1276,7 +1276,7 @@ begin
   A      := 1 ;
   while Result and ( A <= LenStr )  do
   begin
-     Result := CharIsNum( S[A] ) ;
+     Result := CharIsNum( AnsiChar(S[A]) ) ;
      Inc(A) ;
   end;
 end ;
@@ -1294,7 +1294,7 @@ begin
   A      := 1 ;
   while Result and ( A <= Length( S ) )  do
   begin
-     Result := CharIsAlphaNum( S[A] ) ;
+     Result := CharIsAlphaNum( AnsiChar(S[A]) ) ;
      Inc(A) ;
   end;
 end ;
@@ -1338,7 +1338,7 @@ begin
   LenValue := Length( AValue ) ;
   For I := 1 to LenValue  do
   begin
-     if CharIsNum( AValue[I] ) then
+     if CharIsNum( AnsiChar(AValue[I]) ) then
         Result := Result + String(AValue[I]);
   end;
 end ;
@@ -1355,7 +1355,7 @@ begin
   LenValue := Length( AValue ) ;
   For I := 1 to LenValue do
   begin
-     if CharIsAlpha( AValue[I] ) then
+     if CharIsAlpha( AnsiChar(AValue[I]) ) then
         Result := Result + String(AValue[I]);
   end;
 end ;
@@ -1371,7 +1371,7 @@ begin
   LenValue := Length( AValue ) ;
   For I := 1 to LenValue do
   begin
-     if CharIsAlphaNum( AValue[I] ) then
+     if CharIsAlphaNum( AnsiChar(AValue[I]) ) then
         Result := Result + String(AValue[I]);
   end;
 end ;
@@ -1392,7 +1392,7 @@ var
     // X may be in correct range, but value still may not be correct value!
     // i.e. "$80"
     if Result then
-       Result := StrIsNumber( AnsiString(AValue) ) ;
+       Result := StrIsNumber( AValue ) ;
   end;
 
   function Fetch(var AValue: string; const Delimiter: string): string;
@@ -2407,7 +2407,7 @@ procedure DesligarMaquina(Reboot : Boolean ; Forcar : Boolean ; LogOff : Boolean
  - Se arquivo "ArqTXT" não existir, será criado.  Se "ArqTXT" já existir e
    "Append" for verdadeiro adiciona "AString" no final do arquivo
  ---------------------------------------------------------------------------- }
-procedure WriteToTXT(const ArqTXT, ABinaryString: AnsiString;
+procedure WriteToTXT(const ArqTXT : String; ABinaryString: AnsiString;
   const AppendIfExists: Boolean; const AddLineBreak: Boolean);
 var
   FS : TFileStream ;
@@ -2600,7 +2600,7 @@ Var A,DV : Integer ;
 begin
    Result   := '' ;
    CodEAN13 := String( PadLeft(AnsiString(Trim(String(CodEAN13))),12,'0') ) ;
-   if not StrIsNumber( AnsiString( CodEAN13 ) ) then
+   if not StrIsNumber( CodEAN13 ) then
       exit ;
 
    DV := 0;
