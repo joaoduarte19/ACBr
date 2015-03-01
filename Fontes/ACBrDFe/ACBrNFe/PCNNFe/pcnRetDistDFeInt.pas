@@ -306,8 +306,7 @@ type
 implementation
 
 uses 
-  pcnAuxiliar,
-  {$IFDEF FPC}zstream {$ELSE}ACBrZLibExGZ{$ENDIF};
+  pcnAuxiliar;
 
 { TprocEvento_DetEvento }
 
@@ -407,55 +406,6 @@ var
   StrStream: TStringStream;
   StrAux, StrDecod: String;
   oLeitorInfZip: TLeitor;
-
-  {$IFDEF FPC}
-  { Descompacta um arquivo padrão GZIP de Stream... Fontes:
-    http://wiki.freepascal.org/paszlib
-    http://www.gocher.me/GZIP
-  }
-  function UnZipMsg(S: TStringStream): String;
-  var
-    DS: TDecompressionStream;
-    MS: TMemoryStream;
-    readCount: integer;
-    Buf: array[0..1023] of byte;
-    hdr: longword;
-  begin
-    S.Position := 0; // goto start of input stream
-    hdr := S.ReadDWord;
-    if (hdr and $00088B1F) = $00088B1F then // gzip header (deflate method)
-      S.Position := 10     // Pula cabeçalho gzip
-    else if (hdr and $00009C78) = $00009C78 then // zlib header
-      S.Position := 2      // Pula cabeçalho zlib
-    else
-      S.Position := 0;
-
-    MS := TMemoryStream.Create;
-    DS := Tdecompressionstream.Create(S, (S.Position > 0) );
-    Buf[0] := 0;
-    try
-      repeat
-        readCount := DS.Read(Buf, SizeOf(Buf));
-        if readCount <> 0 then
-          MS.Write(Buf, readCount);
-      until readCount < SizeOf(Buf);
-
-      MS.Position := 0;
-      Result := '';
-      SetLength(Result, MS.Size);
-      MS.ReadBuffer(Result[1], MS.Size);
-    finally
-      DS.Free;
-      MS.Free;
-    end;
-  end;
-  {$ELSE}
-  function UnZipMsg(S: TStringStream): String;
-  begin
-    Result := GZDecompressStr(S.DataString);
-  end;
-  {$ENDIF}
-
 begin
   Result := False;
 

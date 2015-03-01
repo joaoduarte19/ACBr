@@ -724,7 +724,7 @@ type
 implementation
 
 uses StrUtils,
-  ACBrUtil, ACBrNFe, ACBrDFeUtil,
+  ACBrUtil, ACBrNFe,
   pcnGerador, pcnConsStatServ, pcnRetConsStatServ,
   pcnConsSitNFe, pcnInutNFe, pcnRetInutNFe, pcnConsReciNFe,
   pcnConsCad, pcnLeitor, pcnEnvDPEC, pcnConsDPEC;

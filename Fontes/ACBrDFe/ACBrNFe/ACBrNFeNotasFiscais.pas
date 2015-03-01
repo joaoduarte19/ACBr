@@ -752,7 +752,7 @@ begin
     ((Copy(NFe.infNFe.ID, 4, 2) <> IntToStrZero(NFe.Ide.cUF, 2)) or
     (Copy(NFe.infNFe.ID, 6, 2)  <> Copy(FormatFloat('0000', wAno), 3, 2)) or
     (Copy(NFe.infNFe.ID, 8, 2)  <> FormatFloat('00', wMes)) or
-    (Copy(NFe.infNFe.ID, 10, 14)<> DFeUtil.PadE(OnlyNumber(NFe.Emit.CNPJCPF), 14, '0')) or
+    (Copy(NFe.infNFe.ID, 10, 14)<> PadLeft(OnlyNumber(NFe.Emit.CNPJCPF), 14, '0')) or
     (Copy(NFe.infNFe.ID, 24, 2) <> IntToStrZero(NFe.Ide.modelo, 2)) or
     (Copy(NFe.infNFe.ID, 26, 3) <> IntToStrZero(NFe.Ide.serie, 3)) or
     (Copy(NFe.infNFe.ID, 29, 9) <> IntToStrZero(NFe.Ide.nNF, 9)) or

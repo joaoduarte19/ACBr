@@ -79,7 +79,7 @@ implementation
 
 uses
   pcnAuxiliar, pcnConversaoNFe,
-  ACBrConsts;
+  ACBrConsts, ACBrUtil;
 
 { TNFeR }
 
@@ -99,7 +99,7 @@ function TNFeR.LerXml: Boolean;
 var
   ok: Boolean;
   i, j, k, z, nItem: Integer;
-  Arquivo, Itens, ItensTemp, VersaoInfNFe, Temp_VersaoInfNFe, NumItem: AnsiString;
+  Arquivo, Itens, ItensTemp, VersaoInfNFe, NumItem: AnsiString;
   Aspas: String;
 
   function VerificaParSt(const t: TpcnCSTIcms): TpcnCSTIcms;
@@ -142,12 +142,7 @@ begin
 
   VersaoInfNFe := copy(VersaoInfNFe,z,4);
   VersaoInfNFe := StringReplace(Trim(VersaoInfNFe),Aspas,'',[rfReplaceAll] ) ;
-
-  if (DecimalSeparator = ',') then
-      Temp_VersaoInfNFe := StringReplace(Trim(VersaoInfNFe),'.',',',[rfReplaceAll] )
-  else
-      Temp_VersaoInfNFe := Trim(VersaoInfNFe);
-  NFe.infNFe.Versao := StrToFloat(Temp_VersaoInfNFe);
+  NFe.infNFe.Versao := StringToFloat(VersaoInfNFe);
 
   NFe.infNFe.ID := copy(Leitor.Arquivo, I+1, J - (I+1));
   NFe.infNFe.ID := StringReplace( UpperCase(NFe.infNFe.ID), 'NFE', '', [rfReplaceAll] ) ;

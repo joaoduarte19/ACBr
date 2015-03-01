@@ -52,9 +52,11 @@ interface
 Uses SysUtils, Math, Classes, ACBrConsts
     {$IFDEF COMPILER6_UP} ,StrUtils, DateUtils {$ELSE} ,ACBrD5, FileCtrl {$ENDIF}
     {$IFDEF FPC}
-      ,dynlibs, LazUTF8
+      ,dynlibs, LazUTF8, zstream
       {$IFDEF USE_LConvEncoding} ,LConvEncoding {$ENDIF}
       {$IFDEF USE_LCLIntf} ,LCLIntf {$ENDIF}
+    {$ELSE}
+      ,ACBrZLibExGZ
     {$ENDIF}
     {$IFDEF MSWINDOWS}
       ,Windows, ShellAPI
@@ -259,6 +261,9 @@ function EAN13_DV( CodEAN13 : String ) : String ;
 
 function TranslateString(const S: AnsiString; CP_Destino: Word; CP_Atual: Word = 0): AnsiString;
 function MatchText(const AText: AnsiString; const AValues: array of AnsiString): Boolean;
+
+function UnZip(S: TStream): String; overload;
+function UnZip(S: AnsiString): String; overload;
 
 {$IFDEF MSWINDOWS}
 var xInp32 : function (wAddr: word): byte; stdcall;
@@ -2713,6 +2718,66 @@ begin
       Result := True;
       Break;
     end;
+end;
+
+{$IFDEF FPC}
+function UnZip(S: TStream): String;
+{ Descompacta um arquivo padrão GZIP de Stream... Fontes:
+  http://wiki.freepascal.org/paszlib
+  http://www.gocher.me/GZIP
+}
+var
+  DS: TDecompressionStream;
+  MS: TMemoryStream;
+  readCount: integer;
+  Buf: array[0..1023] of byte;
+  hdr: longword;
+begin
+  S.Position := 0; // goto start of input stream
+  hdr := S.ReadDWord;
+  if (hdr and $00088B1F) = $00088B1F then // gzip header (deflate method)
+    S.Position := 10     // Pula cabeçalho gzip
+  else if (hdr and $00009C78) = $00009C78 then // zlib header
+    S.Position := 2      // Pula cabeçalho zlib
+  else
+    S.Position := 0;
+
+  MS := TMemoryStream.Create;
+  DS := Tdecompressionstream.Create(S, (S.Position > 0) );
+  Buf[0] := 0;
+  try
+    repeat
+      readCount := DS.Read(Buf, SizeOf(Buf));
+      if readCount <> 0 then
+        MS.Write(Buf, readCount);
+    until readCount < SizeOf(Buf);
+
+    MS.Position := 0;
+    Result := '';
+    SetLength(Result, MS.Size);
+    MS.ReadBuffer(Result[1], MS.Size);
+  finally
+    DS.Free;
+    MS.Free;
+  end;
+end;
+{$ELSE}
+function UnZip(S: TStream): String;
+begin
+  Result := GZDecompressStr(S.DataString);
+end;
+{$ENDIF}
+
+function UnZip(S: AnsiString): String; overload;
+var
+  SS: TStringStream;
+begin
+  SS := TStringStream.Create(S);
+  try
+    Result := UnZip(SS);
+  finally
+    SS.Free;
+  end;
 end;
 
 {------------------------------------------------------------------------------
