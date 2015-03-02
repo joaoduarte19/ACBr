@@ -37,8 +37,9 @@ unit ACBrECFVirtualNFCe;
 
 interface
 
-uses ACBrECFVirtual, ACBrECFVirtualPrinter, ACBrNFe, ACBrUtil, ACBrConsts,
-  Classes, SysUtils, pcnNFe, pcnConversao, ACBrECF, ACBrDevice, ACBrDFeUtil;
+uses Classes, SysUtils,
+  ACBrECFVirtual, ACBrECFVirtualPrinter, ACBrNFe, ACBrECF,  ACBrDevice,
+  pcnNFe, pcnConversao ;
 
 const
   ACBrECFVirtualNFCe_VERSAO = '0.1.0a';
@@ -158,7 +159,8 @@ procedure Register;
 
 implementation
 
-uses ACBrECFClass;
+uses pcnConversaoNFe,
+  ACBrConsts, ACBrECFClass, ACBrUtil;
 
 procedure Register;
 begin
@@ -361,6 +363,7 @@ end;
 procedure TACBrECFVirtualNFCeClass.CancelarNFCe;
 var
   xJust : String;
+  ChaveNFe: String;
 begin
   xJust := 'NFCe cancelado por erro na emissão';
   if Assigned( fsQuandoCancelarDocumento ) then
@@ -368,7 +371,7 @@ begin
 
  with fsACBrNFCe do
  begin
-   WebServices.Consulta.NFeChave := LimpaNumero(NotasFiscais.Items[0].NFe.infNFe.ID);
+   WebServices.Consulta.NFeChave := NotasFiscais.Items[0].NumID;
 
    if not WebServices.Consulta.Executar then
       raise Exception.Create(WebServices.Consulta.Msg);
@@ -376,8 +379,9 @@ begin
    EventoNFe.Evento.Clear;
    with EventoNFe.Evento.Add do
    begin
-     infEvento.CNPJ   := copy(LimpaNumero(WebServices.Consulta.NFeChave),7,14) ;
-     infEvento.cOrgao := StrToIntDef(copy(LimpaNumero(WebServices.Consulta.NFeChave),1,2),0);
+     ChaveNFe := OnlyNumber(WebServices.Consulta.NFeChave);
+     infEvento.CNPJ   := copy(ChaveNFe,7,14) ;
+     infEvento.cOrgao := StrToIntDef(copy(ChaveNFe,1,2),0);
      infEvento.dhEvento := now;
      infEvento.tpEvento := teCancelamento;
      infEvento.chNFe    := WebServices.Consulta.NFeChave;
@@ -601,9 +605,9 @@ begin
 
     if Configuracoes.Geral.FormaEmissao = teOffLine then
     begin
-      NotasFiscais.Valida;
+      NotasFiscais.Validar;
       NotasFiscais.Assinar;
-      NotasFiscais.Items[0].Confirmada := True;
+      //NotasFiscais.Items[0].Confirmada := True;
     end
     else
     begin
@@ -645,7 +649,7 @@ begin
       CancelarNFCe
     else
     begin
-      NomeNFCe := PathWithDelim(Configuracoes.Geral.PathSalvar) + LimpaNumero(ChaveCupom) + '-nfe.xml';
+      NomeNFCe := PathWithDelim(Configuracoes.Arquivos.PathSalvar) + OnlyNumber(ChaveCupom) + '-nfe.xml';
 
       if FileExists( NomeNFCe ) then
       begin
@@ -697,7 +701,7 @@ procedure TACBrECFVirtualNFCeClass.GravaArqINIVirtual(ConteudoINI: TStrings);
 begin
   // Se cupom está aberto, deve persistir o CFe //
   if (fpEstado in estCupomAberto) then
-    fsACBrNFCe.NotasFiscais.Items[0].SaveToFile( fsNomeArqTempXML, True )
+    fsACBrNFCe.NotasFiscais.Items[0].GravarTXT( fsNomeArqTempXML )
   else
   begin
     if (fsNomeArqTempXML <> '') and FileExists( fsNomeArqTempXML ) then

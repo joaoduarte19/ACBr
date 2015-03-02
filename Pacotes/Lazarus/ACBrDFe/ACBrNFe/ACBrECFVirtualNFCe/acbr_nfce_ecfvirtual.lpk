@@ -8,8 +8,8 @@
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <OtherUnitFiles Value="..\..\..\Fontes\ACBrNFe2"/>
-        <UnitOutputDirectory Value="..\..\..\Lib\Lazarus\ACBrNFe2\$(TargetCPU)-$(TargetOS)"/>
+        <OtherUnitFiles Value="..\..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrECFVirtualNFCe"/>
+        <UnitOutputDirectory Value="..\..\..\..\..\Lib\Lazarus\ACBrNFe\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Other>
         <CompilerMessages>
@@ -24,7 +24,7 @@ Permite que aplicações que usem o componente ACBrECF, emitam NFCe como se foss
     <Version Minor="1"/>
     <Files Count="1">
       <Item1>
-        <Filename Value="..\..\..\Fontes\ACBrNFe2\ACBrECFVirtualNFCe.pas"/>
+        <Filename Value="..\..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrECFVirtualNFCe\ACBrECFVirtualNFCe.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="ACBrECFVirtualNFCe"/>
       </Item1>
@@ -32,10 +32,10 @@ Permite que aplicações que usem o componente ACBrECF, emitam NFCe como se foss
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="3">
       <Item1>
-        <PackageName Value="ACBrSerial"/>
+        <PackageName Value="ACBr_NFe"/>
       </Item1>
       <Item2>
-        <PackageName Value="ACBr_NFe2"/>
+        <PackageName Value="ACBrSerial"/>
       </Item2>
       <Item3>
         <PackageName Value="FCL"/>
