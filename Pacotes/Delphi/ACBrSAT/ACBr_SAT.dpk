@@ -27,6 +27,7 @@ package ACBr_SAT;
 
 requires
   rtl,
+  vcl,
   PCNComum,
   designide,
   synapse,
