@@ -1289,7 +1289,7 @@ begin
            Resposta := '';
            Mensagem := RespVS.GetParamString('automacao_coleta_mensagem');
            Mascara  := RespVS.GetParamString('automacao_coleta_mascara');
-           Tipo     := PadRight(RespVS.GetParamString('automacao_coleta_tipo'),1)[1] ;
+           Tipo     := AnsiChar(PadRight(RespVS.GetParamString('automacao_coleta_tipo'),1)[1]) ;
            RespVS.GetParamStrings('automacao_coleta_opcao', OpcoesMenu);
            Video_Mensagem.Text := RespVS.GetParamString('automacao_coleta_video_mensagem');
 

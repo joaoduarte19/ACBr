@@ -117,7 +117,7 @@ function PadSpace(const AString : String; const nLen : Integer; Separador : Stri
    const Caracter : Char = ' ') : String ;
 
 function RemoveString(const sSubStr, sString: String): String;
-function RemoveStrings(const AText: String; StringsToRemove: array of String): String;
+function RemoveStrings(const AText: String; StringsToRemove: array of AnsiString): AnsiString;
 function RemoverEspacosDuplos(const AString: String): String;
 function StripHTML(const AHTMLString : AnsiString) : AnsiString;
 procedure RemoveEmptyLines( AStringList: TStringList) ;
@@ -736,7 +736,7 @@ end;
    retornando a String alterada
  ---------------------------------------------------------------------------- }
 function RemoveStrings(const AText: String;
-  StringsToRemove: array of String): String;
+  StringsToRemove: array of AnsiString): AnsiString;
 Var
   I, J : Integer ;
   StrToFind : String ;

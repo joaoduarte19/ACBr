@@ -2182,7 +2182,7 @@ end;
 
 function TACBrECF.GetMFAdicional: String;
 var
-  Letra: AnsiChar;
+  Letra: Char;
 begin
   if ComandoLOG = '' then
      ComandoLOG := 'MF Adicional' ;

@@ -1264,7 +1264,7 @@ begin
 end;
 
 procedure TACBrECFDataRegis.CarregaAliquotas;
-   function AchaPos(Texto: AnsiString): Integer;
+   function AchaPos(Texto: String): Integer;
    var I: Integer;
    begin
       Result := Length(Texto) + 1;

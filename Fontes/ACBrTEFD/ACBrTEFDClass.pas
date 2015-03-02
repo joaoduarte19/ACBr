@@ -720,7 +720,7 @@ function NomeCampo(const Identificacao: Integer; const Sequencia: Integer ): Str
 
 implementation
 
-Uses dateutils, StrUtils, Math,
+Uses dateutils, StrUtils, Math, types,
   ACBrConsts, ACBrTEFD, ACBrTEFDCliSiTef, ACBrTEFDVeSPague, ACBrUtil ;
 
 function NomeCampo(const Identificacao: Integer; const Sequencia: Integer): String;
@@ -1301,7 +1301,7 @@ begin
        3   : fpValorTotal                 := Linha.Informacao.AsFloat;
        4   : fpMoeda                      := Linha.Informacao.AsInteger;
        5   : fpCMC7                       := Linha.Informacao.AsString;
-       6   : fpTipoPessoa                 := PadRight(Linha.Informacao.AsString, 1 )[ 1 ];
+       6   : fpTipoPessoa                 := AnsiChar(PadRight(Linha.Informacao.AsString, 1 )[ 1 ]);
        7   : fpDocumentoPessoa            := Linha.Informacao.AsString;
        8   : fpDataCheque                 := Linha.Informacao.AsDate;
        9   : fpStatusTransacao            := Linha.Informacao.AsString;

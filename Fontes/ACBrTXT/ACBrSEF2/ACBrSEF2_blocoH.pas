@@ -43,7 +43,7 @@ unit ACBrSEF2_BlocoH;
 
 interface
 
-uses Classes, SysUtils, ACBrSEF2Conversao, Controls;
+uses Classes, SysUtils, ACBrSEF2Conversao;
 
 type
   TRegistroSEFH020List = class;

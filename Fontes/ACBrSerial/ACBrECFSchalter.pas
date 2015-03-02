@@ -222,7 +222,7 @@ TACBrECFSchalter = class( TACBrECFClass )
 implementation
 Uses SysUtils, Math,
     {$IFDEF COMPILER6_UP} DateUtils, StrUtils {$ELSE} ACBrD5, Windows{$ENDIF},
-    ACBrUtil;
+    ACBrConsts, ACBrUtil;
 
 { ----------------------------- TACBrECFSchalter ----------------------------- }
 
