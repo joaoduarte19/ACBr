@@ -1694,6 +1694,8 @@ begin
         Gerador.wGrupoNFSe('/end');
 
         Gerador.wCampoNFSe(tcStr, '', 'fone', 01, 100,  1, NFSe.PrestadorServico.Contato.Telefone, '');
+        //Alterado por Moro em 27/02/2015
+        Gerador.wCampoNFSe(tcStr, '', 'IE', 01, 15,  1, NFSe.Prestador.InscricaoEstadual, '');
 
         case Nfse.RegimeEspecialTributacao of
           retNenhum,
@@ -1764,32 +1766,33 @@ begin
             dTotBCISS := dTotBCISS + NFSe.Servico.ItemServico.Items[i].BaseCalculo;
             dTotISS   := dTotISS   + NFSe.Servico.ItemServico.Items[i].ValorIss;
 
+            //Alterado por Moro em 27/02/2015
             // Retenção INSS
             if NFSe.Servico.ItemServico.Items[i].ValorInss > 0 then
               Gerador.wCampoNFSe(tcDe2, '', 'vRetINSS', 01, 15,  1, NFSe.Servico.ItemServico.Items[i].ValorInss, '');
             // Retenção IRRF
             if NFSe.Servico.ItemServico.Items[i].ValorIr > 0 then
             begin
-              Gerador.wCampoNFSe(tcStr, '', 'xRetIRF', 01, 02,  1, 'Retenção IRRF', '');
-              Gerador.wCampoNFSe(tcDe2, '', 'vRetIRF', 01, 15,  1, NFSe.Servico.ItemServico.Items[i].ValorIr, '');
+              //Gerador.wCampoNFSe(tcStr, '', 'pRetIR', 01, 02,  1, 'Retenção IRRF', '');
+              Gerador.wCampoNFSe(tcDe2, '', 'vRetIR', 01, 15,  1, NFSe.Servico.ItemServico.Items[i].ValorIr, '');
             end;
             // Retenção PIS
             if NFSe.Servico.ItemServico.Items[i].ValorPis > 0 then
             begin
-              Gerador.wCampoNFSe(tcStr, '', 'xRetLei10833-PIS-PASEP', 01, 02,  1, 'Retenção PIS', '');
-              Gerador.wCampoNFSe(tcDe2, '', 'vRetLei10833-PIS-PASEP', 01, 15,  1, NFSe.Servico.ItemServico.Items[i].ValorPis, '');
+              //Gerador.wCampoNFSe(tcStr, '', 'pRetPISPASEP', 01, 02,  1, 'Retenção PIS', '');
+              Gerador.wCampoNFSe(tcDe2, '', 'vRetPISPASEP', 01, 15,  1, NFSe.Servico.ItemServico.Items[i].ValorPis, '');
             end;
             // Retenção COFINS
             if NFSe.Servico.ItemServico.Items[i].ValorCofins > 0 then
             begin
-              Gerador.wCampoNFSe(tcStr, '', 'xRetLei10833-COFINS', 01, 02,  1, 'Retenção COFINS', '');
-              Gerador.wCampoNFSe(tcDe2, '', 'vRetLei10833-COFINS', 01, 15,  1, NFSe.Servico.ItemServico.Items[i].ValorCofins, '');
+              //Gerador.wCampoNFSe(tcStr, '', 'pRetCOFINS', 01, 02,  1, 'Retenção COFINS', '');
+              Gerador.wCampoNFSe(tcDe2, '', 'vRetCOFINS', 01, 15,  1, NFSe.Servico.ItemServico.Items[i].ValorCofins, '');
             end;
             // Retenção CSLL
             if NFSe.Servico.ItemServico.Items[i].ValorCsll > 0 then
             begin
-              Gerador.wCampoNFSe(tcStr, '', 'xRetLei10833-CSLL', 01, 02,  1, 'Retenção CSLL', '');
-              Gerador.wCampoNFSe(tcDe2, '', 'vRetLei10833-CSLL', 01, 15,  1, NFSe.Servico.ItemServico.Items[i].ValorCsll, '');
+              //Gerador.wCampoNFSe(tcStr, '', 'pRetCSLL', 01, 02,  1, 'Retenção CSLL', '');
+              Gerador.wCampoNFSe(tcDe2, '', 'vRetCSLL', 01, 15,  1, NFSe.Servico.ItemServico.Items[i].ValorCsll, '');
             end;
           Gerador.wGrupoNFSe('/serv');
 
@@ -1809,28 +1812,29 @@ begin
             NFSe.Servico.Valores.ValorCofins + NFSe.Servico.Valores.ValorCsll +
             NFSe.Servico.Valores.ValorInss) > 0 then
         begin
+          //Alterado por Moro em 27/02/2015
           Gerador.wGrupoNFSe('Ret');
-            if NFSe.Servico.Valores.ValorIr>0 then
+            if NFSe.Servico.Valores.ValorIr > 0 then
             begin
-              Gerador.wCampoNFSe(tcStr, '', 'xRetIRF', 01, 02,  1, 'Retenção IRRF', '');
-              Gerador.wCampoNFSe(tcDe2, '', 'vRetIRF', 01, 15,  1, NFSe.Servico.Valores.ValorIr, '');
+              //Gerador.wCampoNFSe(tcStr, '', 'xRetIR', 01, 02,  1, 'Retenção IRRF', '');
+              Gerador.wCampoNFSe(tcDe2, '', 'vRetIR', 01, 15,  1, NFSe.Servico.Valores.ValorIr, '');
             end;
-            if NFSe.Servico.Valores.ValorPis>0 then
+            if NFSe.Servico.Valores.ValorPis > 0 then
             begin
-              Gerador.wCampoNFSe(tcStr, '', 'xRetLei10833-PIS-PASEP', 01, 02,  1, 'Retenção PIS', '');
-              Gerador.wCampoNFSe(tcDe2, '', 'vRetLei10833-PIS-PASEP', 01, 15,  1, NFSe.Servico.Valores.ValorPis, '');
+              //Gerador.wCampoNFSe(tcStr, '', 'pRetPISPASEP', 01, 02,  1, 'Retenção PIS', '');
+              Gerador.wCampoNFSe(tcDe2, '', 'vRetPISPASEP', 01, 15,  1, NFSe.Servico.Valores.ValorPis, '');
             end;
-            if NFSe.Servico.Valores.ValorCofins>0 then
+            if NFSe.Servico.Valores.ValorCofins > 0 then
             begin
-              Gerador.wCampoNFSe(tcStr, '', 'xRetLei10833-COFINS', 01, 02,  1, 'Retenção COFINS', '');
-              Gerador.wCampoNFSe(tcDe2, '', 'vRetLei10833-COFINS', 01, 15,  1, NFSe.Servico.Valores.ValorCofins, '');
+              //Gerador.wCampoNFSe(tcStr, '', 'pRetCOFINS', 01, 02,  1, 'Retenção COFINS', '');
+              Gerador.wCampoNFSe(tcDe2, '', 'vRetCOFINS', 01, 15,  1, NFSe.Servico.Valores.ValorCofins, '');
             end;
-            if NFSe.Servico.Valores.ValorCsll>0 then
+            if NFSe.Servico.Valores.ValorCsll > 0 then
             begin
-              Gerador.wCampoNFSe(tcStr, '', 'xRetLei10833-CSLL', 01, 02,  1, 'Retenção CSLL', '');
-              Gerador.wCampoNFSe(tcDe2, '', 'vRetLei10833-CSLL', 01, 15,  1, NFSe.Servico.Valores.ValorCsll, '');
+              //Gerador.wCampoNFSe(tcStr, '', 'pRetCSLL', 01, 02,  1, 'Retenção CSLL', '');
+              Gerador.wCampoNFSe(tcDe2, '', 'vRetCSLL', 01, 15,  1, NFSe.Servico.Valores.ValorCsll, '');
             end;
-            if NFSe.Servico.Valores.ValorInss>0 then
+            if NFSe.Servico.Valores.ValorInss > 0 then
             begin
               Gerador.wCampoNFSe(tcStr, '', 'xRetINSS', 01, 02,  1, 'Retenção INSS', '');
               Gerador.wCampoNFSe(tcDe2, '', 'vRetINSS', 01, 15,  1, NFSe.Servico.Valores.ValorInss, '');

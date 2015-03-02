@@ -126,7 +126,7 @@ type
     destructor Destroy; override;
     function LerXml: boolean;
     function LerXml_provedorIssDsf: boolean;
-    function LerXml_provedorInfisc: Boolean;
+    function LerXml_provedorInfisc(VersaoXML: string = '1'): Boolean;
     function LerXML_provedorEquiplano: Boolean;    
     function LerXml_provedorNFSEBrasil: boolean;
 	
@@ -441,17 +441,22 @@ begin
   end;
 end;
 
-function TretCancNFSe.LerXml_provedorInfisc: boolean;
+function TretCancNFSe.LerXml_provedorInfisc(VersaoXML: string = '1'): boolean;
 var
-  sMotCod,sMotDes: string;
+  sMotCod,sMotDes,sCancelaAnula: string;
 begin
   Result := False;
   try
     Leitor.Arquivo := NotaUtil.RetirarPrefixos(Leitor.Arquivo);
     Leitor.Grupo   := Leitor.Arquivo;
-    // Alterado Por Moro em 18/02/2015
+    // Alterado por Moro em 27/02/2015
     // Trocado resAnulaNFSe por resCancelaNFSe
-    if leitor.rExtrai(1, 'resCancelaNFSe') <> '' then
+    if VersaoXML = '1.1' then
+      sCancelaAnula := 'resCancelaNFSe' // Caxias do Sul Versão XML 1.1
+    else
+      sCancelaAnula := 'resAnulaNFSe';  // Demais Cidades
+
+    if leitor.rExtrai(1, sCancelaAnula) <> '' then
     //if leitor.rExtrai(1, 'resAnulaNFSe') <> '' then
     begin
       InfCanc.FSucesso := Leitor.rCampo(tcStr, 'sit');

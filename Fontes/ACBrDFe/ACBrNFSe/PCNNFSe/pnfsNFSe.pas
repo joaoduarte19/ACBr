@@ -322,6 +322,8 @@ type
     FSenha: string;
     FFraseSecreta: string;
     FcUF: integer;
+    //Alterado por Moro em 27/02/2015
+    FInscricaoEstadual: string;
   published
     property Cnpj: string read FCnpj write FCnpj;
     property InscricaoMunicipal: string read FInscricaoMunicipal write FInscricaoMunicipal;
@@ -329,6 +331,8 @@ type
     property Senha: string read FSenha write FSenha;
     property FraseSecreta: string read FFraseSecreta write FFraseSecreta;
     property cUF: integer read FcUF write FcUF;
+    //Alterado por Moro em 27/02/2015
+    property InscricaoEstadual: string read FInscricaoEstadual write FInscricaoEstadual;
   end;
 
  TEndereco = class(TPersistent)
@@ -728,6 +732,8 @@ begin
   begin
    Cnpj               := '';
    InscricaoMunicipal := '';
+   //Alterado por Moro em 27/02/2015
+   InscricaoEstadual  := '';
   end;
 end;
 

@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+02/03/2015
+[*] Alteração para leitura do XML, provedor Infisc.
+    Por: Moro
+
 27/02/2015
 [-] Correção da leitura da TAG "Tipo", incluido a função de conversão de tipos.
     Por: Italo Jurisato Junior

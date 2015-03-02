@@ -5380,7 +5380,7 @@ begin
   if FProvedor = proIssDSF then
     NFSeRetorno.LerXml_provedorIssDsf
   else if FProvedor = proInfisc then
-    NFSeRetorno.LerXml_provedorInfisc
+    NFSeRetorno.LerXml_provedorInfisc(FVersaoXML)
   else
     NFSeRetorno.LerXml;
 
