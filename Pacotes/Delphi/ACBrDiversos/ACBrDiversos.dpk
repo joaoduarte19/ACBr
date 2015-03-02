@@ -21,7 +21,7 @@ package ACBrDiversos;
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
-{$IMAGEBASE $400000}                                               
+{$IMAGEBASE $400000}
 {$DESCRIPTION 'ACBr - Calculadora, Extenso, Validador, Troco, CMC7, Fala, BarCode, EnterTab, GIF, QrCode, InStore, CargaBal - (http://www.projetoacbr.com.br/)'}
 {$IMPLICITBUILD OFF}
 

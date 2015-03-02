@@ -79,7 +79,7 @@ function ParseText( const Texto : AnsiString; const Decode : Boolean = True;
    const IsUTF8: Boolean = True) : String;
 function LerTagXML( const AXML, ATag: String; IgnoreCase: Boolean = True) : String;
 function DecodeToString( Texto : AnsiString; TextoIsUTF8: Boolean ) : String ;
-function SeparaDados( Texto : AnsiString; Chave : String; MantemChave : Boolean = False ) : AnsiString;
+function SeparaDados( Texto : String; Chave : String; MantemChave : Boolean = False ) : String;
 
 procedure QuebrarLinha(const Alinha: string; const ALista: TStringList;
   const QuoteChar: char = '"'; Delimiter: char = ';');
@@ -98,27 +98,27 @@ function BinToInt(Value: String): LongInt;
 Function BcdToAsc( const StrBCD : AnsiString) : AnsiString ;
 Function AscToBcd( const ANumStr: AnsiString ; const TamanhoBCD : Byte) : AnsiString ;
 
-function IntToLEStr(AInteger: Integer; BytesStr: Integer = 2): AnsiString;
+function IntToLEStr(AInteger: Integer; BytesStr: Integer = 2): String;
 function LEStrToInt(ALEStr: AnsiString): Integer;
 
-Function HexToAscii(const HexStr : AnsiString) : AnsiString ;
+Function HexToAscii(const HexStr : String) : AnsiString ;
 Function AsciiToHex(const ABinaryString: AnsiString): String;
 
 function BinaryStringToString(const AString: AnsiString): AnsiString;
 function StringToBinaryString(const AString: AnsiString): AnsiString;
 
-function PadRight(const AString : AnsiString; const nLen : Integer;
-   const Caracter : AnsiChar = ' ') : AnsiString;
-function PadLeft(const AString : AnsiString; const nLen : Integer;
-   const Caracter : AnsiChar = ' ') : AnsiString;
-function PadCenter(const AString : AnsiString; const nLen : Integer;
-   const Caracter : AnsiChar = ' ') : AnsiString;
-function PadSpace(const AString : AnsiString; const nLen : Integer; Separador : String;
-   const Caracter : AnsiChar = ' ') : AnsiString ;
+function PadRight(const AString : String; const nLen : Integer;
+   const Caracter : Char = ' ') : String;
+function PadLeft(const AString : String; const nLen : Integer;
+   const Caracter : Char = ' ') : String;
+function PadCenter(const AString : String; const nLen : Integer;
+   const Caracter : Char = ' ') : String;
+function PadSpace(const AString : String; const nLen : Integer; Separador : String;
+   const Caracter : Char = ' ') : String ;
 
-function RemoveString(const sSubStr, sString: AnsiString): AnsiString;
-function RemoveStrings(const AText: AnsiString; StringsToRemove: array of AnsiString): AnsiString;
-function RemoverEspacosDuplos(const AString: AnsiString): AnsiString;
+function RemoveString(const sSubStr, sString: String): String;
+function RemoveStrings(const AText: String; StringsToRemove: array of String): String;
+function RemoverEspacosDuplos(const AString: String): String;
 function StripHTML(const AHTMLString : AnsiString) : AnsiString;
 procedure RemoveEmptyLines( AStringList: TStringList) ;
 function RandomName(const LenName : Integer = 8) : String ;
@@ -175,9 +175,9 @@ function StrIsAlpha(const S: String): Boolean;
 function StrIsAlphaNum(const S: String): Boolean;
 function StrIsNumber(const S: String): Boolean;
 function VarIsNumber(const Value: Variant): Boolean;
-function CharIsAlpha(const C: AnsiChar): Boolean;
-function CharIsAlphaNum(const C: AnsiChar): Boolean;
-function CharIsNum(const C: AnsiChar): Boolean;
+function CharIsAlpha(const C: Char): Boolean;
+function CharIsAlphaNum(const C: Char): Boolean;
+function CharIsNum(const C: Char): Boolean;
 function OnlyNumber(const AValue: String): String;
 function OnlyAlpha(const AValue: String): String;
 function OnlyAlphaNum(const AValue: String): String;
@@ -236,7 +236,7 @@ function FunctionDetect (LibName, FuncName: String; var LibPointer: Pointer)
  : boolean; overload ;
 function FunctionDetect (LibName, FuncName: String; var LibPointer: Pointer;
    var LibHandle: THandle ): boolean; overload ;
-function UnLoadLibrary(LibName: AnsiString ): Boolean ;
+function UnLoadLibrary(LibName: String ): Boolean ;
 
 function FlushToDisk( sFile: string): boolean;
 function FlushFileToDisk( sFile: string): boolean;
@@ -491,18 +491,18 @@ end;
  ---------------------------------------------------------------------------- }
 function BcdToAsc(const StrBCD: AnsiString): AnsiString;
 Var A,BCD_CHAR : Integer ;
-    BH,BL,ASC_CHAR : AnsiString ;
+    BH,BL,ASC_CHAR : String ;
 begin
   result := '' ;
 
   for A := 1 to Length( StrBCD ) do
   begin
      BCD_CHAR := ord( StrBCD[A] ) ;
-     BH := AnsiString( IntToStr( Trunc(BCD_CHAR / 16) ) ) ;
+     BH := IntToStr( Trunc(BCD_CHAR / 16) ) ;
      If ( BCD_CHAR mod 16 ) > 9 Then        // Corrigido por Rodrigo Fruhwirth
-        BL := AnsiChar( chr( 48 + BCD_CHAR mod 16 ) )
+        BL := chr( 48 + BCD_CHAR mod 16 )
      Else
-        BL := AnsiString( IntToStr( BCD_CHAR mod 16 ) ) ;
+        BL := IntToStr( BCD_CHAR mod 16 ) ;
 
      ASC_CHAR := BH + BL ;
      Result := Result + ASC_CHAR
@@ -537,7 +537,7 @@ end ;
   no tamanho máximo de "BytesStr"
   Exemplos: IntToLEStr( 106 ) = chr(106) + chr(0)
  ---------------------------------------------------------------------------- }
-function IntToLEStr(AInteger: Integer; BytesStr: Integer = 2): AnsiString;
+function IntToLEStr(AInteger: Integer; BytesStr: Integer = 2): String;
 var
    AHexStr: String;
    LenHex, P : Integer ;
@@ -549,7 +549,7 @@ begin
   P := 1;
   while P < LenHex do
   begin
-    Result := AnsiChar(chr( StrToInt('$'+copy(AHexStr,P,2) ) )) + Result;
+    Result := chr( StrToInt('$'+copy(AHexStr,P,2) ) ) + Result;
     P := P + 2 ;
   end ;
 end;
@@ -586,7 +586,7 @@ end;
       igual a "1100000010000000" em binário
       Portanto se HexStr = "CO80", Result = "+Ç"
  ---------------------------------------------------------------------------- }
-function HexToAscii(const HexStr : AnsiString) : AnsiString ;
+function HexToAscii(const HexStr : String) : AnsiString ;
 Var
   B   : Byte ;
   Cmd : AnsiString ;
@@ -625,8 +625,8 @@ end;
   Completa <AString> com <Caracter> a direita, até o tamanho <nLen>, Alinhando
   a <AString> a Esquerda. Se <AString> for maior que <nLen>, ela será truncada
  ---------------------------------------------------------------------------- }
-function PadRight(const AString : AnsiString; const nLen : Integer;
-   const Caracter : AnsiChar) : AnsiString ;
+function PadRight(const AString : String; const nLen : Integer;
+   const Caracter : Char) : String ;
 var
   Tam: Integer;
 begin
@@ -641,8 +641,8 @@ end ;
   Completa <AString> com <Caracter> a esquerda, até o tamanho <nLen>, Alinhando
   a <AString> a Direita. Se <AString> for maior que <nLen>, ela será truncada
  ---------------------------------------------------------------------------- }
-function PadLeft(const AString : AnsiString; const nLen : Integer;
-   const Caracter : AnsiChar) : AnsiString ;
+function PadLeft(const AString : String; const nLen : Integer;
+   const Caracter : Char) : String ;
 var
   Tam: Integer;
 begin
@@ -656,8 +656,8 @@ end ;
 {-----------------------------------------------------------------------------
  Completa <AString> Centralizando, preenchendo com <Caracter> a esquerda e direita
  ---------------------------------------------------------------------------- }
-function PadCenter(const AString : AnsiString; const nLen : Integer;
-   const Caracter : AnsiChar) : AnsiString ;
+function PadCenter(const AString : String; const nLen : Integer;
+   const Caracter : Char) : String ;
 var
   nCharLeft: Integer;
   Tam: integer;
@@ -676,8 +676,8 @@ end ;
   Ajusta a <AString> com o tamanho de <nLen> inserindo espaços no meio,
   substituindo <Separador> por n X <Caracter>  (Justificado)
  ---------------------------------------------------------------------------- }
-function PadSpace(const AString : AnsiString; const nLen : Integer;
-   Separador : String; const Caracter : AnsiChar = ' ') : AnsiString ;
+function PadSpace(const AString : String; const nLen : Integer;
+   Separador : String; const Caracter : Char = ' ') : String ;
 var StuffStr : AnsiString ;
     nSep, nCharSep, nResto, nFeito, Ini : Integer ;
     D : Double ;
@@ -724,22 +724,22 @@ end ;
 {-----------------------------------------------------------------------------
    Remove todos os espacos duplos do texto
  ---------------------------------------------------------------------------- }
-function RemoverEspacosDuplos(const AString: AnsiString): AnsiString;
+function RemoverEspacosDuplos(const AString: String): String;
 begin
   Result := Trim(AString);
   while Pos('  ', Result) > 0 do
-    Result := AnsiString(StringReplace( Result, '  ', ' ', [rfReplaceAll]));
+    Result := StringReplace( Result, '  ', ' ', [rfReplaceAll]);
 end;
 
 {-----------------------------------------------------------------------------
    Remove todas ocorrencias do array <StringsToRemove> da String <AText>
    retornando a String alterada
  ---------------------------------------------------------------------------- }
-function RemoveStrings(const AText: AnsiString;
-  StringsToRemove: array of AnsiString): AnsiString;
+function RemoveStrings(const AText: String;
+  StringsToRemove: array of String): String;
 Var
   I, J : Integer ;
-  StrToFind : AnsiString ;
+  StrToFind : String ;
 begin
   Result := AText ;
   { Verificando parâmetros de Entrada }
@@ -798,11 +798,14 @@ end;
 {-----------------------------------------------------------------------------
    Remove todas ocorrencias <sSubStr> de <sString>, retornando a String alterada
  ---------------------------------------------------------------------------- }
-function RemoveString(const sSubStr, sString : AnsiString) : AnsiString ;
+function RemoveString(const sSubStr, sString : String) : String ;
 begin
-   Result := StringReplace( String(sString), String(sSubStr), '', [rfReplaceAll]);
+   Result := StringReplace( sString, sSubStr, '', [rfReplaceAll]);
 end;
 
+{-----------------------------------------------------------------------------
+   Remove todas as linhas vazias de um TStringList
+ ---------------------------------------------------------------------------- }
 procedure RemoveEmptyLines(AStringList : TStringList) ;
 var
   I : Integer ;
@@ -824,7 +827,7 @@ end;
  ---------------------------------------------------------------------------- }
 function RandomName(const LenName : Integer ) : String ;
  Var I, N : Integer ;
-     C : AnsiChar ;
+     C : Char ;
 begin
    if not Randomized then
    begin
@@ -837,9 +840,9 @@ begin
    For I := 1 to LenName do
    begin
       N := Random( 25 ) ;
-      C := AnsiChar( 65 + N ) ;
+      C := Char( 65 + N ) ;
 
-      Result := Result + String(C) ;
+      Result := Result + C ;
    end ;
 end ;
 
@@ -1257,7 +1260,7 @@ begin
   A      := 1 ;
   while Result and ( A <= Length( S ) )  do
   begin
-     Result := CharIsAlpha( AnsiChar(S[A]) ) ;
+     Result := CharIsAlpha( S[A] ) ;
      Inc(A) ;
   end;
 end ;
@@ -1276,7 +1279,7 @@ begin
   A      := 1 ;
   while Result and ( A <= LenStr )  do
   begin
-     Result := CharIsNum( AnsiChar(S[A]) ) ;
+     Result := CharIsNum( S[A] ) ;
      Inc(A) ;
   end;
 end ;
@@ -1294,7 +1297,7 @@ begin
   A      := 1 ;
   while Result and ( A <= Length( S ) )  do
   begin
-     Result := CharIsAlphaNum( AnsiChar(S[A]) ) ;
+     Result := CharIsAlphaNum( S[A] ) ;
      Inc(A) ;
   end;
 end ;
@@ -1303,7 +1306,7 @@ end ;
  *** Extraido de JclStrings.pas  - Project JEDI Code Library (JCL) ***
   Retorna <True> se <C> é Alpha maiusculo/minusculo 
  ---------------------------------------------------------------------------- }
-function CharIsAlpha(const C: AnsiChar): Boolean;
+function CharIsAlpha(const C: Char): Boolean;
 begin
   Result := ( C in ['A'..'Z','a'..'z'] ) ;
 end ;
@@ -1312,7 +1315,7 @@ end ;
  *** Extraido de JclStrings.pas  - Project JEDI Code Library (JCL) ***
   Retorna <True> se <C> é Númerico 
  ---------------------------------------------------------------------------- }
-function CharIsNum(const C: AnsiChar): Boolean;
+function CharIsNum(const C: Char): Boolean;
 begin
   Result := ( C in ['0'..'9'] ) ;
 end ;
@@ -1321,7 +1324,7 @@ end ;
  *** Extraido de JclStrings.pas  - Project JEDI Code Library (JCL) ***
   Retorna <True> se <C> é Alpha maiusculo/minusculo ou Numerico
  ---------------------------------------------------------------------------- }
-function CharIsAlphaNum(const C: AnsiChar): Boolean;
+function CharIsAlphaNum(const C: Char): Boolean;
 begin
   Result := ( CharIsAlpha( C ) or CharIsNum( C ) );
 end ;
@@ -1338,8 +1341,8 @@ begin
   LenValue := Length( AValue ) ;
   For I := 1 to LenValue  do
   begin
-     if CharIsNum( AnsiChar(AValue[I]) ) then
-        Result := Result + String(AValue[I]);
+     if CharIsNum( AValue[I] ) then
+        Result := Result + AValue[I];
   end;
 end ;
 
@@ -1355,8 +1358,8 @@ begin
   LenValue := Length( AValue ) ;
   For I := 1 to LenValue do
   begin
-     if CharIsAlpha( AnsiChar(AValue[I]) ) then
-        Result := Result + String(AValue[I]);
+     if CharIsAlpha( AValue[I] ) then
+        Result := Result + AValue[I];
   end;
 end ;
 {-----------------------------------------------------------------------------
@@ -1371,8 +1374,8 @@ begin
   LenValue := Length( AValue ) ;
   For I := 1 to LenValue do
   begin
-     if CharIsAlphaNum( AnsiChar(AValue[I]) ) then
-        Result := Result + String(AValue[I]);
+     if CharIsAlphaNum( AValue[I] ) then
+        Result := Result + AValue[I];
   end;
 end ;
 
@@ -1748,7 +1751,7 @@ end ;
 function StrCrypt(const AString, StrChave: AnsiString): AnsiString;
 var
   i, TamanhoString, pos, PosLetra, TamanhoChave: Integer;
-  C : AnsiString ;
+  C : AnsiChar ;
 begin
   Result        := AString;
   TamanhoString := Length(AString);
@@ -1765,7 +1768,7 @@ begin
         posLetra := ord(Result[i]);
 
      C := AnsiChar( chr(posLetra) );
-     Result[i] := C[1] ;
+     Result[i] := C ;
   end;
 end ;
 
@@ -2523,7 +2526,7 @@ begin
   end;
 end;
 
-function UnLoadLibrary(LibName: AnsiString ): Boolean ;
+function UnLoadLibrary(LibName: String ): Boolean ;
 var
   LibHandle: THandle ;
 begin
@@ -2549,7 +2552,7 @@ end ;
 
 function TBStrZero(const i: string; const Casas: byte): string;
 var
-  Ch: AnsiChar;
+  Ch: Char;
 begin
   Result := I;
 
@@ -2559,7 +2562,7 @@ begin
     Ch := '0';
 
   while Length(Result) < Casas do
-    Result := String(Ch) + Result;
+    Result := Ch + Result;
 end;
 
 function TiraPontos(Str: string): string;
@@ -2831,7 +2834,7 @@ begin
     Result := String(Texto);
 end;
 
-function SeparaDados( Texto : AnsiString; Chave : String; MantemChave : Boolean = False ) : AnsiString;
+function SeparaDados( Texto : String; Chave : String; MantemChave : Boolean = False ) : String;
 var
   PosIni, PosFim : Integer;
   UTexto, UChave :string;

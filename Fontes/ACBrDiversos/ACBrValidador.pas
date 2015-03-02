@@ -85,7 +85,7 @@ type
     fsMultFim: Integer;
     fsMultAtu: Integer;
     fsFormulaDigito: TACBrCalcDigFormula;
-    fsDocto: AnsiString;
+    fsDocto: String;
     fsDigitoFinal: Integer;
     fsSomaDigitos: Integer;
     fsModuloFinal: Integer;
@@ -95,7 +95,7 @@ type
     Procedure Calcular;
     Procedure CalculoPadrao;
 
-    Property Documento: AnsiString read fsDocto write fsDocto;
+    Property Documento: String read fsDocto write fsDocto;
     Property MultiplicadorInicial: Integer read fsMultIni write fsMultIni;
     Property MultiplicadorFinal: Integer read fsMultFim write fsMultFim;
     property MultiplicadorAtual: Integer read fsMultAtu write fsMultAtu;
@@ -109,10 +109,10 @@ type
   TACBrValidador = class( TACBrComponent )
   private
     { Propriedades do Componente ACBrValidador }
-    fsIgnorarChar: AnsiString;
-    fsDocumento: AnsiString;
-    fsComplemento: AnsiString;
-    fsDocto    : AnsiString;
+    fsIgnorarChar: String;
+    fsDocumento: String;
+    fsComplemento: String;
+    fsDocto    : String;
     fsMsgErro: String;
     fsRaiseExcept: Boolean;
     fsOnMsgErro: TACBrValidadorMsg;
@@ -121,16 +121,16 @@ type
     fsAjustarTamanho: Boolean;
     fsModulo: TACBrCalcDigito;
     fsExibeDigitoCorreto: Boolean;
-    fsDigitoCalculado: AnsiString;
+    fsDigitoCalculado: String;
 
     function GetMsgErro : String;
-    procedure SetDocumento(const Value: AnsiString);
-    procedure SetComplemento(const Value: AnsiString);
-    Function LimpaDocto(const AString : AnsiString) : AnsiString ;
+    procedure SetDocumento(const Value: String);
+    procedure SetComplemento(const Value: String);
+    Function LimpaDocto(const AString : String) : String ;
 
     Procedure ValidarCPF  ;
     Procedure ValidarCNPJ ;
-    Procedure ValidarUF( UF : AnsiString) ;
+    Procedure ValidarUF( UF : String) ;
     Procedure ValidarIE ;
     Procedure ValidarCheque ;
     Procedure ValidarPIS  ;
@@ -142,25 +142,25 @@ type
     constructor Create(AOwner: TComponent); override;
     Destructor Destroy  ; override;
 
-    property DoctoValidado : AnsiString read fsDocto ;
+    property DoctoValidado : String read fsDocto ;
 
     Property MsgErro : String read GetMsgErro ;
     Property Modulo  : TACBrCalcDigito read fsModulo write fsModulo ;
-    Property DigitoCalculado : AnsiString read fsDigitoCalculado ;
+    Property DigitoCalculado : String read fsDigitoCalculado ;
 
     Function Validar  : Boolean;
-    Function Formatar : AnsiString ;
+    Function Formatar : String ;
 
   published
     property TipoDocto : TACBrValTipoDocto read fsTipoDocto write fsTipoDocto
        default docCPF ;
-    property Documento : AnsiString read fsDocumento write SetDocumento
+    property Documento : String read fsDocumento write SetDocumento
        stored false;
-    property Complemento : AnsiString read fsComplemento write SetComplemento
+    property Complemento : String read fsComplemento write SetComplemento
        stored false;
     property ExibeDigitoCorreto : Boolean read fsExibeDigitoCorreto
        write fsExibeDigitoCorreto default false ;
-    property IgnorarChar : AnsiString read fsIgnorarChar write fsIgnorarChar ;
+    property IgnorarChar : String read fsIgnorarChar write fsIgnorarChar ;
     property AjustarTamanho : Boolean read fsAjustarTamanho
        write fsAjustarTamanho default false ;
     property PermiteVazio : Boolean read fsPermiteVazio write fsPermiteVazio
@@ -171,12 +171,12 @@ type
 
   end ;
 
-function ValidarCPF( const Documento : AnsiString ) : String ;
-function ValidarCNPJ( const Documento : AnsiString ) : String ;
-function ValidarCNPJouCPF( const Documento : AnsiString ) : String ;
-function ValidarIE(const AIE, AUF: AnsiString): String ;
-function ValidarSuframa( const Documento : AnsiString ) : String ;
-function ValidarGTIN( const Documento : AnsiString ) : String ;
+function ValidarCPF( const Documento : String ) : String ;
+function ValidarCNPJ( const Documento : String ) : String ;
+function ValidarCNPJouCPF( const Documento : String ) : String ;
+function ValidarIE(const AIE, AUF: String): String ;
+function ValidarSuframa( const Documento : String ) : String ;
+function ValidarGTIN( const Documento : String ) : String ;
 
 Function FormatarFone( const AValue : String; DDDPadrao: String = '' ): String;
 Function FormatarCPF( const AValue : String )    : String ;
@@ -191,9 +191,9 @@ function FormatarSUFRAMA( const AValue: String ) : String ;
 
 
 function ValidarDocumento( const TipoDocto : TACBrValTipoDocto;
-  const Documento : AnsiString; const Complemento : AnsiString = '') : String ;
+  const Documento : String; const Complemento : String = '') : String ;
 function FormatarDocumento( const TipoDocto : TACBrValTipoDocto;
-  const Documento : AnsiString) : String ;
+  const Documento : String) : String ;
 
 function Modulo11(const Documento: string; const Peso: Integer = 2; const Base: Integer = 9): String;
 
@@ -202,32 +202,32 @@ uses
  {$IFDEF COMPILER6_UP} Variants , Math, StrUtils, {$ENDIF}
   ACBrUtil;
 
-function ValidarCPF(const Documento : AnsiString) : String ;
+function ValidarCPF(const Documento : String) : String ;
 begin
    Result := ValidarDocumento( docCPF, Documento );
 end;
 
-function ValidarCNPJ(const Documento : AnsiString) : String ;
+function ValidarCNPJ(const Documento : String) : String ;
 begin
   Result := ValidarDocumento( docCNPJ, Documento );
 end;
 
-function ValidarIE(const AIE, AUF: AnsiString): String;
+function ValidarIE(const AIE, AUF: String): String;
 begin
   Result := ValidarDocumento(docInscEst, AIE, AUF);
 end;
 
-function ValidarSuframa( const Documento : AnsiString ) : String ;
+function ValidarSuframa( const Documento : String ) : String ;
 begin
   Result := ValidarDocumento( docSuframa, Documento );
 end;
 
-function ValidarGTIN( const Documento : AnsiString ) : String ;
+function ValidarGTIN( const Documento : String ) : String ;
 begin
   Result := ValidarDocumento( docGTIN, Documento );
 end;
 
-function ValidarCNPJouCPF(const Documento : AnsiString) : String ;
+function ValidarCNPJouCPF(const Documento : String) : String ;
 Var
   NumDocto : String ;
 begin
@@ -239,7 +239,7 @@ begin
 end;
 
 function ValidarDocumento(const TipoDocto : TACBrValTipoDocto ;
-  const Documento: AnsiString; const Complemento : AnsiString = '') : String ;
+  const Documento: String; const Complemento : String = '') : String ;
 Var
   ACBrVal : TACBrValidador ;
 begin
@@ -350,7 +350,7 @@ end;
 function FormatarIE(const AValue: String; UF: String): String;
 Var
   Mascara : String ;
-  C : AnsiChar ;
+  C : Char ;
   I, J, LenDoc, LenMas : Integer;
 Begin
   Result := AValue ;
@@ -421,7 +421,7 @@ begin
 end;
 
 function FormatarPIS(const AValue: String): String;
-Var S : AnsiString ;
+Var S : String ;
 begin
   S := PadLeft( Trim(AValue), 11, '0') ;
   Result := copy(S,1,2) + '.' + copy(S,3,5) + '.' +
@@ -441,7 +441,7 @@ begin
 end;
 
 function FormatarDocumento(const TipoDocto : TACBrValTipoDocto ;
-  const Documento : AnsiString) : String ;
+  const Documento : String) : String ;
 Var
   ACBrVal : TACBrValidador ;
 begin
@@ -505,7 +505,7 @@ begin
   inherited Destroy ;
 end;
 
-procedure TACBrValidador.SetDocumento(const Value: AnsiString);
+procedure TACBrValidador.SetDocumento(const Value: String);
 begin
   if fsDocumento = Value then exit ;
 
@@ -521,7 +521,7 @@ begin
    Result := ACBrStr(fsMsgErro);
 end;
 
-Function TACBrValidador.LimpaDocto(const AString : AnsiString) : AnsiString ;
+Function TACBrValidador.LimpaDocto(const AString : String) : String ;
 Var A : Integer ;
 begin
   Result := '' ;
@@ -533,7 +533,7 @@ begin
   Result := Trim(Result) ;
 end ;
 
-procedure TACBrValidador.SetComplemento(const Value: AnsiString);
+procedure TACBrValidador.SetComplemento(const Value: String);
 begin
   fsComplemento := Value;
 end;
@@ -599,7 +599,7 @@ begin
 
 end;
 
-function TACBrValidador.Formatar: AnsiString;
+function TACBrValidador.Formatar: String;
 begin
   Result := LimpaDocto(fsDocumento)  ;
 
@@ -637,7 +637,7 @@ begin
 end;
 
 Procedure TACBrValidador.ValidarCNPJ ;
-Var DV1, DV2 : AnsiString ;
+Var DV1, DV2 : String ;
 begin
   if fsAjustarTamanho then
      fsDocto := PadLeft( fsDocto, 14, '0') ;
@@ -675,7 +675,7 @@ begin
 end;
 
 Procedure TACBrValidador.ValidarCPF ;
-Var DV1, DV2 : AnsiString ;
+Var DV1, DV2 : String ;
 begin
   if fsAjustarTamanho then
      fsDocto := PadLeft( fsDocto, 11, '0') ;
@@ -836,7 +836,7 @@ end;
 
 Procedure TACBrValidador.ValidarIE ;
 Const
-   c0_9 : AnsiString = '0-9' ;
+   c0_9 : String = '0-9' ;
    cPesos : array[1..13] of array[1..14] of Integer =
       ((0 ,2 ,3 ,4 ,5 ,6 ,7 ,8 ,9 ,2 ,3 ,4 ,5 ,6 ),
        (0 ,0 ,2 ,3 ,4 ,5 ,6 ,7 ,8 ,9 ,2 ,3 ,4 ,5 ),
@@ -853,12 +853,12 @@ Const
        (0 ,2 ,3 ,4 ,5 ,6 ,7 ,8 ,9 ,10,2 ,3 ,0, 0 ) ) ;
 
 Var
-   vDigitos : array of {$IFDEF FPC}Variant{$ELSE} AnsiString{$ENDIF} ;
-   xROT, yROT :  AnsiString ;
+   vDigitos : array of {$IFDEF FPC}Variant{$ELSE} String{$ENDIF} ;
+   xROT, yROT :  String ;
    Tamanho, FatorF, FatorG, I, xMD, xTP, yMD, yTP, DV, DVX, DVY : Integer ;
    SOMA, SOMAq, nD, M : Integer ;
    OK : Boolean ;
-   Passo, D : AnsiChar ;
+   Passo, D : Char ;
 
 begin
   if UpperCase( Trim(fsDocto) ) = 'ISENTO' then
@@ -1312,7 +1312,7 @@ begin
 
 end;
 
-Procedure TACBrValidador.ValidarUF(UF: AnsiString) ;
+Procedure TACBrValidador.ValidarUF(UF: String) ;
 begin
  if pos( ','+UF+',', cUFsValidas) = 0 then
     fsMsgErro := 'UF inválido: '+UF ;
@@ -1393,7 +1393,7 @@ var
   end;
 
 begin
-  if not StrIsNumber(AnsiString(fsDocto)) then
+  if not StrIsNumber(fsDocto) then
   begin
     fsMsgErro := 'Código GTIN inválido, o código GTIN deve conter somente números.' ;
     Exit;
