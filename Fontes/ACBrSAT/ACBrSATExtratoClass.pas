@@ -45,7 +45,8 @@ unit ACBrSATExtratoClass;
 interface
 
 uses SysUtils,
-     Classes, Graphics,
+     Classes,
+     {$IFDEF DELPHI16_UP}Vcl.Graphics,{$ELSE}Graphics,{$ENDIF}
      ACBrBase,
      pcnCFe, pcnCFeCanc;
 
