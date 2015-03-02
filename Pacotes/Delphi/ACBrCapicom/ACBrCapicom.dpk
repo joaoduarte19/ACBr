@@ -35,6 +35,6 @@ contains
   ACBrCAPICOM_TLB in '..\..\..\Fontes\ACBrCapicom\ACBrCAPICOM_TLB.pas',
   ACBrMSXML2_TLB in '..\..\..\Fontes\ACBrCapicom\ACBrMSXML2_TLB.pas',
   ACBrHTTPReqResp in '..\..\..\Fontes\ACBrCapicom\ACBrHTTPReqResp.pas',
-  JwaWinCrypt in '..\..\..\Fontes\ACBrCapicom\JwaWinCrypt.pas';
+  JwaWinCrypt in '..\..\..\Fontes\Terceiros\JediWin32API\JwaWinCrypt.pas';
 
 end.

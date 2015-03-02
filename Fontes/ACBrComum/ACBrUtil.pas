@@ -78,8 +78,8 @@ const
 function ParseText( const Texto : AnsiString; const Decode : Boolean = True;
    const IsUTF8: Boolean = True) : String;
 function LerTagXML( const AXML, ATag: String; IgnoreCase: Boolean = True) : String;
-function DecodeToString( Texto : AnsiString; TextoIsUTF8: Boolean ) : String ;
-function SeparaDados( Texto : String; Chave : String; MantemChave : Boolean = False ) : String;
+function DecodeToString( const ABinaryString : AnsiString; const StrIsUTF8: Boolean ) : String ;
+function SeparaDados( const AString : String; const Chave : String; const MantemChave : Boolean = False ) : String;
 
 procedure QuebrarLinha(const Alinha: string; const ALista: TStringList;
   const QuoteChar: char = '"'; Delimiter: char = ';');
@@ -2809,13 +2809,14 @@ end ;
      - No Delphi XE, converte de Ansi para UnicodeString
      - No Lazarus, converte de Ansi para UTF8
  ------------------------------------------------------------------------------}
-function DecodeToString(Texto: AnsiString; TextoIsUTF8: Boolean): String;
+function DecodeToString(const ABinaryString: AnsiString; const StrIsUTF8: Boolean
+  ): String;
 begin
   Result := '';
 
   {$IFDEF UNICODE}
-   if not TextoIsUTF8 then
-     Result := ACBrStr( Texto )
+   if not StrIsUTF8 then
+     Result := ACBrStr( ABinaryString )
    else
      {$IFNDEF FPC}
       {$IFDEF DELPHI12_UP}  // delphi 2009 em diante
@@ -2831,16 +2832,17 @@ begin
   {$ENDIF}
 
   if Result = '' then
-    Result := String(Texto);
+    Result := String(ABinaryString);
 end;
 
-function SeparaDados( Texto : String; Chave : String; MantemChave : Boolean = False ) : String;
+function SeparaDados(const AString: String; const Chave: String;
+  const MantemChave: Boolean): String;
 var
   PosIni, PosFim : Integer;
-  UTexto, UChave :string;
+  UTexto, UChave :String;
 begin
-  UTexto := AnsiUpperCase(string(Texto));
-  UChave := AnsiUpperCase(string(Chave));
+  UTexto := AnsiUpperCase(AString);
+  UChave := AnsiUpperCase(Chave);
 
   if MantemChave then
    begin
@@ -2865,7 +2867,7 @@ begin
       end;
    end;
 
-  Result := AnsiString(copy(String(Texto), PosIni, PosFim - (PosIni + 1)));
+  Result := AnsiString(copy(AString, PosIni, PosFim - (PosIni + 1)));
 end;
 
 {------------------------------------------------------------------------------

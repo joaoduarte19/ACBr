@@ -8,7 +8,7 @@
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <OtherUnitFiles Value="..\..\..\Fontes\ACBrCapicom"/>
+        <OtherUnitFiles Value="..\..\..\Fontes\ACBrCapicom;..\..\..\Fontes\Terceiros\JediWin32API"/>
         <UnitOutputDirectory Value="..\..\..\Lib\Lazarus\ACBrCapicom\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -41,7 +41,7 @@
         <UnitName Value="ACBrMSXML2_TLB"/>
       </Item3>
       <Item4>
-        <Filename Value="..\..\..\Fontes\ACBrCapicom\JwaWinCrypt.pas"/>
+        <Filename Value="..\..\..\Fontes\Terceiros\JediWin32API\JwaWinCrypt.pas"/>
         <UnitName Value="JwaWinCrypt"/>
       </Item4>
     </Files>
