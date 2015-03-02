@@ -514,12 +514,12 @@ end;
 procedure TWebServicesBase.AssinarXML(AXML: String; MsgErro: String);
 begin
   {$IFDEF ACBrMDFeOpenSSL}
-   if not(MDFeUtil.Assinar(AXML,
+   if not(MAssinar(AXML,
                            FConfiguracoes.Certificados.Certificado,
                            FConfiguracoes.Certificados.Senha,
                            FDadosMsg, FMsg)) then
   {$ELSE}
-   if not(MDFeUtil.Assinar(AXML,
+   if not(MAssinar(AXML,
                            FConfiguracoes.Certificados.GetCertificado,
                            FDadosMsg, FMsg)) then
   {$ENDIF}
@@ -696,7 +696,7 @@ begin
     Você também pode mudar apenas o valor de "FLayoutServico" na classe
     filha e chamar: Inherited;     }
 
-  FURL := MDFeUtil.GetURL(FConfiguracoes.WebServices.UFCodigo,
+  FURL := MGetURL(FConfiguracoes.WebServices.UFCodigo,
                           FConfiguracoes.WebServices.AmbienteCodigo,
                           FConfiguracoes.Geral.FormaEmissaoCodigo,
                           Layout);
@@ -922,7 +922,7 @@ begin
   { Sobrescrever apenas se necessário }
 
   TACBrMDFe(FACBrMDFe).SetStatus(stMDFeIdle);
-  DFeUtil.ConfAmbiente;
+  ConfAmbiente;
 end;
 
 { TMDFeStatusServico }
@@ -1002,12 +1002,12 @@ begin
             'Status Código : '     + IntToStr(FcStat) + LineBreak +
             'Status Descrição : '  + FxMotivo + LineBreak +
             'UF : '                + CodigoParaUF(FcUF) + LineBreak +
-            'Recebimento : '       + DFeUtil.SeSenao(FdhRecbto = 0,
+            'Recebimento : '       + SeSenao(FdhRecbto = 0,
                                                      '',
                                                      DateTimeToStr(FdhRecbto)) +
                                      LineBreak +
             'Tempo Médio : '       + IntToStr(FTMed) + LineBreak +
-            'Retorno : '           + DFeUtil.SeSenao(FdhRetorno = 0,
+            'Retorno : '           + SeSenao(FdhRetorno = 0,
                                                      '',
                                                      DateTimeToStr(FdhRetorno)) +
                                      LineBreak +
@@ -1142,7 +1142,7 @@ begin
               'Status Descrição : '  + FMDFeRetorno.xMotivo + LineBreak +
               'UF : '                + CodigoParaUF(FMDFeRetorno.cUF) + LineBreak +
               'Recibo : '            + FMDFeRetorno.infRec.nRec + LineBreak +
-              'Recebimento : '       + DFeUtil.SeSenao(FMDFeRetorno.InfRec.dhRecbto = 0,
+              'Recebimento : '       + SeSenao(FMDFeRetorno.InfRec.dhRecbto = 0,
                                                        '',
                                                        DateTimeToStr(FMDFeRetorno.InfRec.dhRecbto)) +
                                                        LineBreak +
@@ -1419,7 +1419,7 @@ end;
 
 procedure TMDFeRetRecepcao.FinalizarServico;
 begin
-  DFeUtil.ConfAmbiente;
+  ConfAmbiente;
   // Não libera para stIdle... não ainda...;
 end;
 
@@ -2070,7 +2070,7 @@ begin
     AssinarXML(EventoMDFe.Gerador.ArquivoFormatoXML,
                'Falha ao assinar o Envio de Evento ' + LineBreak + FMsg);
 
-    if not(MDFeUtil.Valida(FDadosMsg, FMsg, TACBrMDFe(FACBrMDFe).Configuracoes.Geral.PathSchemas)) then
+    if not(MValida(FDadosMsg, FMsg, TACBrMDFe(FACBrMDFe).Configuracoes.Geral.PathSchemas)) then
       GerarException('Falha na validação dos dados do Envio de Evento ' +
                      LineBreak + FMsg);
 
@@ -2214,7 +2214,7 @@ begin
 
   if (FEventoRetorno.retEvento.Count > 0) then
       aMsg := aMsg + 'Recebimento : ' +
-              DFeUtil.SeSenao(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento = 0,
+              SeSenao(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento = 0,
                               '',
                               DateTimeToStr(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento));
   Result := aMsg;

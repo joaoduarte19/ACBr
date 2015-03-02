@@ -29,13 +29,16 @@
       </Item2>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="2">
+    <RequiredPkgs Count="3">
       <Item1>
-        <PackageName Value="ACBr_SAT"/>
+        <PackageName Value="ACBrDFeComum"/>
       </Item1>
       <Item2>
-        <PackageName Value="ACBrSerial"/>
+        <PackageName Value="ACBr_SAT"/>
       </Item2>
+      <Item3>
+        <PackageName Value="ACBrSerial"/>
+      </Item3>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

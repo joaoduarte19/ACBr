@@ -213,14 +213,14 @@ begin
    acCancelar:    Result := '<' + Prefixo3 + 'CancelarNfseEnvio' + NameSpaceDad +
                              '<' + Prefixo3 + 'Pedido>' +
                               '<' + Prefixo4 + 'InfPedidoCancelamento' +
-                                 DFeUtil.SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
+                                 SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
    acGerar:       Result := '<GerarNfseEnvio xmlns="http://nfse.recife.pe.gov.br/WSNacional/XSD/1/nfse_recife_v01.xsd">';
    acRecSincrono: Result := '<' + Prefixo3 + 'EnviarLoteRpsSincronoEnvio' + NameSpaceDad;
    acSubstituir:  Result := '<' + Prefixo3 + 'SubstituirNfseEnvio' + NameSpaceDad +
                              '<' + Prefixo3 + 'SubstituicaoNfse>' +
                               '<' + Prefixo3 + 'Pedido>' +
                                '<' + Prefixo4 + 'InfPedidoCancelamento' +
-                                  DFeUtil.SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
+                                  SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
   end;
 end;
 

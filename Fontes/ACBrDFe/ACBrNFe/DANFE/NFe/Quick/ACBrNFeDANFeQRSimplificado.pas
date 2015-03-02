@@ -507,7 +507,7 @@ begin
   if FProtocoloNFE <> ''
    then qrlProtocolo.Caption := FProtocoloNFE
    else qrlProtocolo.Caption := FNFe.procNFe.nProt + ' ' +
-                                DFeUtil.SeSenao(FNFe.procNFe.dhRecbto <> 0, DateTimeToStr(FNFe.procNFe.dhRecbto), '');
+                                SeSenao(FNFe.procNFe.dhRecbto <> 0, DateTimeToStr(FNFe.procNFe.dhRecbto), '');
 
   FTotalPages := HrTotalPages;
 end;
@@ -548,7 +548,7 @@ begin
                               IfThen(XBairro = '', '', ', ' + XBairro) +
                               ', ' + XMun + '/ ' + UF);
        end;
-      qrmEmitente.Lines.Add('CNPJ: ' + DFeUtil.FormatarCNPJ(CNPJCPF) +
+      qrmEmitente.Lines.Add('CNPJ: ' + FormatarCNPJ(CNPJCPF) +
                             ' IE: '+ IE);
      end;
    end;
@@ -568,7 +568,7 @@ begin
   lblNumero.Caption := 'Número: ' + FormatFloat('000,000,000', FNFe.Ide.nNF) +
                        ' - Série: '+ FormatFloat('000', FNFe.Ide.serie);
 
-  qrlEmissao.Caption := 'Emissão: ' + DFeUtil.FormatDateTime(DateToStr(FNFe.Ide.dEmi));
+  qrlEmissao.Caption := 'Emissão: ' + FormatDateTime(DateToStr(FNFe.Ide.dEmi));
 end;
 
 procedure TfqrDANFeQRSimplificado.qrb04_DestinatarioBeforePrint(
@@ -589,7 +589,7 @@ begin
                             IfThen(XBairro = '', '', ', ' + XBairro) +
                             ', ' + XMun + '/ ' + UF);
      end;
-    qrmDestinatario.Lines.Add('CPF/CNPJ: ' + DFeUtil.FormatarCNPJCPF(CNPJCPF) +
+    qrmDestinatario.Lines.Add('CPF/CNPJ: ' + FormatarCNPJCPF(CNPJCPF) +
                               ' IE: ' + IE);
    end;
 
@@ -707,7 +707,7 @@ begin
   qrmPagValor.Lines.Add(IntToStr(TotalItens));
 
   qrmPagDesc.Lines.Add('Valor Total');
-  qrmPagValor.Lines.Add(DFeUtil.FormatFloat(FNFE.Total.ICMSTot.vNF));
+  qrmPagValor.Lines.Add(FormatFloat(FNFE.Total.ICMSTot.vNF));
 end;
 
 procedure TfqrDANFeQRSimplificado.qrb06b_TributosBeforePrint(Sender: TQRCustomBand;
@@ -720,8 +720,8 @@ begin
 
   Perc := (FNFE.Total.ICMSTot.vTotTrib / FNFE.Total.ICMSTot.vNF) * 100;
   qrlTributos.Caption := 'Valor aprox. dos tributos: ' +
-                         DFeUtil.FormatFloat(FNFE.Total.ICMSTot.vTotTrib) +
-                         '(' + DFeUtil.FormatFloat(Perc) + '%)(Fonte: IBPT)';
+                         FormatFloat(FNFE.Total.ICMSTot.vTotTrib) +
+                         '(' + FormatFloat(Perc) + '%)(Fonte: IBPT)';
 end;
 
 end.

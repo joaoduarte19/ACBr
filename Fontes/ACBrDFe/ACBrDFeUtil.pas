@@ -2,36 +2,36 @@
 { Projeto: Componente ACBrNFe                                                  }
 {  Biblioteca multiplataforma de componentes Delphi para emissão de Nota Fiscal}
 { eletrônica - NFe - http://www.nfe.fazenda.gov.br                          }
-{                                                                              }
+
 { Direitos Autorais Reservados (c) 2008 Wemerson Souto                         }
 {                                       Daniel Simoes de Almeida               }
 {                                       André Ferreira de Moraes               }
-{                                                                              }
+
 { Colaboradores nesse arquivo:                                                 }
-{                                                                              }
+
 {  Você pode obter a última versão desse arquivo na pagina do Projeto ACBr     }
 { Componentes localizado em http://www.sourceforge.net/projects/acbr           }
-{                                                                              }
-{                                                                              }
+
+
 {  Esta biblioteca é software livre; você pode redistribuí-la e/ou modificá-la }
 { sob os termos da Licença Pública Geral Menor do GNU conforme publicada pela  }
 { Free Software Foundation; tanto a versão 2.1 da Licença, ou (a seu critério) }
 { qualquer versão posterior.                                                   }
-{                                                                              }
+
 {  Esta biblioteca é distribuída na expectativa de que seja útil, porém, SEM   }
 { NENHUMA GARANTIA; nem mesmo a garantia implícita de COMERCIABILIDADE OU      }
 { ADEQUAÇÃO A UMA FINALIDADE ESPECÍFICA. Consulte a Licença Pública Geral Menor}
 { do GNU para mais detalhes. (Arquivo LICENÇA.TXT ou LICENSE.TXT)              }
-{                                                                              }
+
 {  Você deve ter recebido uma cópia da Licença Pública Geral Menor do GNU junto}
 { com esta biblioteca; se não, escreva para a Free Software Foundation, Inc.,  }
 { no endereço 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
 { Você também pode obter uma copia da licença em:                              }
 { http://www.opensource.org/licenses/lgpl-license.php                          }
-{                                                                              }
+
 { Daniel Simões de Almeida  -  daniel@djsystem.com.br  -  www.djsystem.com.br  }
 {              Praça Anita Costa, 34 - Tatuí - SP - 18270-410                  }
-{                                                                              }
+
 {******************************************************************************}
 
 {$I ACBr.inc}
@@ -47,80 +47,70 @@ uses
 type
   EACBrDFeException = class(Exception);
 
-  { DFeUtil }
+function FormatarNumeroDocumentoFiscal(AValue: String): String;
+function FormatarNumeroDocumentoFiscalNFSe(AValue: String): String;
+function FormatarChaveAcesso(AValue: String): String;
+function ValidaUFCidade(const UF, Cidade: integer): Boolean; overload;
+procedure ValidaUFCidade(const UF, Cidade: integer; const AMensagem: String); overload;
+function ValidaDIDSI(AValue: String): Boolean;
+function ValidaDIRE(AValue: String): Boolean;
+function ValidaRE(AValue: String): Boolean;
+function ValidaDrawback(AValue: String): Boolean;
+function ValidaSUFRAMA(AValue: String): Boolean;
+function ValidaRECOPI(AValue: String): Boolean;
+function ValidaNVE(AValue: string): Boolean;
 
-  DFeUtil = class
-   private
-   protected
+function ConverteXMLtoUTF8(const AXML: String): String;
+function XmlEstaAssinado(const AXML: String): Boolean;
+function XmlEhUTF8(const AXML: String): Boolean;
+function ExtraiURI(const AXML: String): String;
 
-   public
-     class function FormatarNumeroDocumentoFiscal(AValue : String ): String;
-     class function FormatarNumeroDocumentoFiscalNFSe(AValue: String): String;
-     class function FormatarChaveAcesso(AValue : String ): String;
-     class function ValidaUFCidade(const UF, Cidade: Integer): Boolean; overload;
-     class procedure ValidaUFCidade(const UF, Cidade: Integer; const AMensagem: string); overload;
-     class function ValidaDIDSI(AValue: string): Boolean;
-     class function ValidaDIRE(AValue: string): Boolean;
-     class function ValidaRE(AValue: string): Boolean;
-     class function ValidaDrawback(AValue: string): Boolean;
-     class function ValidaSUFRAMA(AValue: string): Boolean;
-     class function ValidaRECOPI(AValue: string): Boolean;
-     class function ValidaNVE(AValue: string): Boolean;
-
-     class function ConverteXMLtoUTF8(const AXML: String): String;
-     class function XmlEstaAssinado(const AXML: String): Boolean;
-     class function XmlEhUTF8(const AXML: String): Boolean;
-     class function ExtraiURI(const AXML: String): String;
-   end;
 
 implementation
 
 uses
- Variants, DateUtils,
- pcnGerador,
- ACBrConsts, ACBrUtil, ACBrValidador;
+  Variants, DateUtils,
+  pcnGerador,
+  ACBrConsts, ACBrUtil, ACBrValidador;
 
-
-class function DFeUtil.FormatarNumeroDocumentoFiscal(AValue: String): String;
+function FormatarNumeroDocumentoFiscal(AValue: String): String;
 begin
   AValue := Poem_Zeros(AValue, 9);
-  Result := copy(AValue,1,3) + '.' + copy(AValue,4,3)+ '.'+
-            copy(AValue,7,3);
+  Result := copy(AValue, 1, 3) + '.' + copy(AValue, 4, 3) + '.' + copy(AValue, 7, 3);
 end;
 
-class function DFeUtil.FormatarNumeroDocumentoFiscalNFSe(AValue: String): String;
+function FormatarNumeroDocumentoFiscalNFSe(AValue: String): String;
 begin
   AValue := Poem_Zeros(AValue, 15);
-  Result := copy(AValue,1,4) + '.' + copy(AValue,5,12);
+  Result := copy(AValue, 1, 4) + '.' + copy(AValue, 5, 12);
 end;
 
-class function DFeUtil.ValidaUFCidade(const UF, Cidade: Integer): Boolean;
+function ValidaUFCidade(const UF, Cidade: integer): Boolean;
 begin
   Result := (Copy(IntToStr(UF), 1, 2) = Copy(IntToStr(Cidade), 1, 2));
 end;
 
-class procedure DFeUtil.ValidaUFCidade(const UF, Cidade: Integer;
-  const AMensagem: string);
+procedure ValidaUFCidade(const UF, Cidade: integer; const AMensagem: String);
 begin
   if not (ValidaUFCidade(UF, Cidade)) then
     raise EACBrDFeException.Create(AMensagem);
 end;
 
-class function DFeUtil.FormatarChaveAcesso(AValue: String): String;
+function FormatarChaveAcesso(AValue: String): String;
 begin
   AValue := OnlyNumber(AValue);
-  Result := copy(AValue,1,4)  + ' ' + copy(AValue,5,4)  + ' ' +
-            copy(AValue,9,4)  + ' ' + copy(AValue,13,4) + ' ' +
-            copy(AValue,17,4) + ' ' + copy(AValue,21,4) + ' ' +
-            copy(AValue,25,4) + ' ' + copy(AValue,29,4) + ' ' +
-            copy(AValue,33,4) + ' ' + copy(AValue,37,4) + ' ' +
-            copy(AValue,41,4) ;
+  Result := copy(AValue, 1, 4) + ' ' + copy(AValue, 5, 4) + ' ' +
+    copy(AValue, 9, 4) + ' ' + copy(AValue, 13, 4) + ' ' +
+    copy(AValue, 17, 4) + ' ' + copy(AValue, 21, 4) + ' ' +
+    copy(AValue, 25, 4) + ' ' + copy(AValue, 29, 4) + ' ' +
+    copy(AValue, 33, 4) + ' ' + copy(AValue, 37, 4) + ' ' +
+    copy(AValue, 41, 4);
 end;
 
-class function DFeUtil.ValidaDIDSI(AValue: string): Boolean;
+function ValidaDIDSI(AValue: String): Boolean;
 var
- ano: Integer;
- sValue: String;
+  ano: integer;
+  sValue: String;
 begin
   // AValue = TAANNNNNNND
   // Onde: T Identifica o tipo de documento ( 2 = DI e 4 = DSI )
@@ -130,175 +120,177 @@ begin
   AValue := OnlyNumber(AValue);
   ano := StrToInt(Copy(IntToStr(YearOf(Date)), 3, 2));
 
- if (length(AValue) < 11) or (length(AValue) > 12) then
-   Result := False
- else if (copy(Avalue, 1, 1) <> '2') and (copy(Avalue, 1, 1) <> '4') then
-   Result := False
- else if not ((StrToInt(copy(Avalue, 2, 2)) >= ano -1) and (StrToInt(copy(Avalue, 2, 2)) <= ano +1)) then
-   Result := False
- else
- begin
-   sValue := copy(AValue, 1, length(AValue)- 1);
-   Result := copy(AValue, length(AValue), 1) = Modulo11(sValue);
- end;
-end;
-
-class function DFeUtil.ValidaDIRE(AValue: string): Boolean;
-var
- ano: Integer;
-begin
- // AValue = AANNNNNNNNNN
- // Onde: AA Ano corrente da geração do documento
- //       NNNNNNNNNN Número sequencial dentro do Ano ( 10 dígitos )
- AValue := OnlyNumber(AValue);
- ano := StrToInt(Copy(IntToStr(YearOf(Date)), 3, 2));
-
- if length(AValue) <> 12 then
-   Result := False
- else
-   Result := (StrToInt(copy(Avalue, 1, 2)) >= ano -1) and (StrToInt(copy(Avalue, 1, 2)) <= ano +1);
-end;
-
-class function DFeUtil.ValidaRE(AValue: string): Boolean;
-var
- ano: Integer;
-begin
- // AValue = AANNNNNNNSSS
- // Onde: AA Ano corrente da geração do documento
- //       NNNNNNN Número sequencial dentro do Ano ( 7 dígitos )
- //       SSS Serie do RE (001, 002, ...)
- AValue := OnlyNumber(AValue);
- ano := StrToInt(Copy(IntToStr(YearOf(Date)), 3, 2));
-
- if length(AValue) <> 12 then
-   Result := False
- else if not ((StrToInt(copy(Avalue, 2, 2)) >= ano -1) and (StrToInt(copy(Avalue, 2, 2)) <= ano +1)) then
-   Result := False
- else
-   Result := (StrToInt(copy(Avalue, 10, 3)) >= 1) and (StrToInt(copy(Avalue, 10, 3)) <= 999);
-end;
-
-class function DFeUtil.ValidaDrawback(AValue: string): Boolean;
-var
- ano: Integer;
-begin
- // AValue = AAAANNNNNND
- // Onde: AAAA Ano corrente do registro
- //       NNNNNN Número sequencial dentro do Ano ( 6 dígitos )
- //       D Dígito Verificador, Módulo 11, Pesos de 2 a 9
- AValue := OnlyNumber(AValue);
- ano := StrToInt(Copy(IntToStr(YearOf(Date)), 3, 2));
- if length(AValue) = 11 then
-   AValue := copy(AValue, 3, 9);
-
- if length(AValue) <> 9 then
-   Result := False
- else if not ((StrToInt(copy(Avalue, 1, 2)) >= ano -1) and (StrToInt(copy(Avalue, 1, 2)) <= ano +1)) then
-   Result := False
- else
-   Result := copy(AValue, 9, 1) = Modulo11(copy(AValue, 1, 8));
-end;
-
-class function DFeUtil.ValidaSUFRAMA(AValue: string): Boolean;
-var
- SS, LL: Integer;
-begin
- // AValue = SSNNNNLLD
- // Onde: SS Código do setor de atividade da empresa ( 01, 02, 10, 11, 20 e 60 )
- //       NNNN Número sequencial ( 4 dígitos )
- //       LL Código da localidade da Unidade Administrativa da Suframa ( 01 = Manaus, 10 = Boa Vista e 30 = Porto Velho )
- //       D Dígito Verificador, Módulo 11, Pesos de 2 a 9
- AValue := OnlyNumber(AValue);
- if length(AValue) < 9 then
-   AValue := '0' + AValue;
- if length(AValue) <> 9 then
-   Result := False
- else
+  if (length(AValue) < 11) or (length(AValue) > 12) then
+    Result := False
+  else if (copy(Avalue, 1, 1) <> '2') and (copy(Avalue, 1, 1) <> '4') then
+    Result := False
+  else if not ((StrToInt(copy(Avalue, 2, 2)) >= ano - 1) and
+    (StrToInt(copy(Avalue, 2, 2)) <= ano + 1)) then
+    Result := False
+  else
   begin
-   SS := StrToInt(copy(Avalue, 1, 2));
-   LL := StrToInt(copy(Avalue, 7, 2));
-   if not (SS in [01, 02, 10, 11, 20, 60]) then
-     Result := False
-   else if not (LL in [01, 10, 30]) then
-          Result := False
-        else
-          Result := copy(AValue, 9, 1) = Modulo11(copy(AValue, 1, 8));
- end;
+    sValue := copy(AValue, 1, length(AValue) - 1);
+    Result := copy(AValue, length(AValue), 1) = Modulo11(sValue);
+  end;
 end;
 
-class function DFeUtil.ValidaRECOPI(AValue: string): Boolean;
-begin
- // AValue = aaaammddhhmmssffffDD
- // Onde: aaaammdd Ano/Mes/Dia da autorização
- //       hhmmssffff Hora/Minuto/Segundo da autorização com mais 4 digitos da fração de segundo
- //       DD Dígitos Verificadores, Módulo 11, Pesos de 1 a 18 e de 1 a 19
- AValue := OnlyNumber(AValue);
- if length(AValue) <> 20 then
-   Result := False
- else if copy(AValue, 19, 1) <> Modulo11(copy(AValue, 1, 18), 1, 18) then
-        Result := False
-      else Result := copy(AValue, 20, 1) = Modulo11(copy(AValue, 1, 19), 1, 19);
-end;
-
-class function DFeUtil.ValidaNVE(AValue: string): Boolean;
-begin
- Result := True;
-end;
-
-class function DFeUtil.XmlEhUTF8(const AXML: String): Boolean;
-begin
-  Result := (pos('encoding="utf-8"', LowerCase(LeftStr(AXML,50))) > 0);
-end ;
-
-class function DFeUtil.ExtraiURI(const AXML: String): String;
+function ValidaDIRE(AValue: String): Boolean;
 var
-  I, J: Integer;
+  ano: integer;
 begin
- //// Encontrando o URI ////
- I := PosEx('Id=', AXML, 6);
- if I = 0 then
-   raise EACBrDFeException.Create('Não encontrei inicio do URI: Id=');
+  // AValue = AANNNNNNNNNN
+  // Onde: AA Ano corrente da geração do documento
+  //       NNNNNNNNNN Número sequencial dentro do Ano ( 10 dígitos )
+  AValue := OnlyNumber(AValue);
+  ano := StrToInt(Copy(IntToStr(YearOf(Date)), 3, 2));
 
- I := PosEx('"', AXML, I + 2);
- if I = 0 then
-   raise EACBrDFeException.Create('Não encontrei inicio do URI: aspas inicial');
-
- J := PosEx('"', AXML, I + 1);
- if J = 0 then
-   raise EACBrDFeException.Create('Não encontrei inicio do URI: aspas final');
-
- Result := copy(AXML, I + 1, J - I - 1);
+  if length(AValue) <> 12 then
+    Result := False
+  else
+    Result := (StrToInt(copy(Avalue, 1, 2)) >= ano - 1) and
+      (StrToInt(copy(Avalue, 1, 2)) <= ano + 1);
 end;
 
-class function DFeUtil.XmlEstaAssinado(const AXML: String): Boolean;
+function ValidaRE(AValue: String): Boolean;
+var
+  ano: integer;
 begin
-Result := (pos('<signature', lowercase(AXML)) > 0);
+  // AValue = AANNNNNNNSSS
+  // Onde: AA Ano corrente da geração do documento
+  //       NNNNNNN Número sequencial dentro do Ano ( 7 dígitos )
+  //       SSS Serie do RE (001, 002, ...)
+  AValue := OnlyNumber(AValue);
+  ano := StrToInt(Copy(IntToStr(YearOf(Date)), 3, 2));
+
+  if length(AValue) <> 12 then
+    Result := False
+  else if not ((StrToInt(copy(Avalue, 2, 2)) >= ano - 1) and
+    (StrToInt(copy(Avalue, 2, 2)) <= ano + 1)) then
+    Result := False
+  else
+    Result := (StrToInt(copy(Avalue, 10, 3)) >= 1) and
+      (StrToInt(copy(Avalue, 10, 3)) <= 999);
 end;
 
-class function DFeUtil.ConverteXMLtoUTF8(const AXML: String): String;
-Var
-  UTF8Str : String;
+function ValidaDrawback(AValue: String): Boolean;
+var
+  ano: integer;
+begin
+  // AValue = AAAANNNNNND
+  // Onde: AAAA Ano corrente do registro
+  //       NNNNNN Número sequencial dentro do Ano ( 6 dígitos )
+  //       D Dígito Verificador, Módulo 11, Pesos de 2 a 9
+  AValue := OnlyNumber(AValue);
+  ano := StrToInt(Copy(IntToStr(YearOf(Date)), 3, 2));
+  if length(AValue) = 11 then
+    AValue := copy(AValue, 3, 9);
+
+  if length(AValue) <> 9 then
+    Result := False
+  else if not ((StrToInt(copy(Avalue, 1, 2)) >= ano - 1) and
+    (StrToInt(copy(Avalue, 1, 2)) <= ano + 1)) then
+    Result := False
+  else
+    Result := copy(AValue, 9, 1) = Modulo11(copy(AValue, 1, 8));
+end;
+
+function ValidaSUFRAMA(AValue: String): Boolean;
+var
+  SS, LL: integer;
+begin
+  // AValue = SSNNNNLLD
+  // Onde: SS Código do setor de atividade da empresa ( 01, 02, 10, 11, 20 e 60 )
+  //       NNNN Número sequencial ( 4 dígitos )
+  //       LL Código da localidade da Unidade Administrativa da Suframa ( 01 = Manaus, 10 = Boa Vista e 30 = Porto Velho )
+  //       D Dígito Verificador, Módulo 11, Pesos de 2 a 9
+  AValue := OnlyNumber(AValue);
+  if length(AValue) < 9 then
+    AValue := '0' + AValue;
+  if length(AValue) <> 9 then
+    Result := False
+  else
+  begin
+    SS := StrToInt(copy(Avalue, 1, 2));
+    LL := StrToInt(copy(Avalue, 7, 2));
+    if not (SS in [01, 02, 10, 11, 20, 60]) then
+      Result := False
+    else if not (LL in [01, 10, 30]) then
+      Result := False
+    else
+      Result := copy(AValue, 9, 1) = Modulo11(copy(AValue, 1, 8));
+  end;
+end;
+
+function ValidaRECOPI(AValue: String): Boolean;
+begin
+  // AValue = aaaammddhhmmssffffDD
+  // Onde: aaaammdd Ano/Mes/Dia da autorização
+  //       hhmmssffff Hora/Minuto/Segundo da autorização com mais 4 digitos da fração de segundo
+  //       DD Dígitos Verificadores, Módulo 11, Pesos de 1 a 18 e de 1 a 19
+  AValue := OnlyNumber(AValue);
+  if length(AValue) <> 20 then
+    Result := False
+  else if copy(AValue, 19, 1) <> Modulo11(copy(AValue, 1, 18), 1, 18) then
+    Result := False
+  else
+    Result := copy(AValue, 20, 1) = Modulo11(copy(AValue, 1, 19), 1, 19);
+end;
+
+function ValidaNVE(AValue: string): Boolean;
+begin
+  //TODO:
+  Result := True;
+end;
+
+function XmlEhUTF8(const AXML: String): Boolean;
+begin
+  Result := (pos('encoding="utf-8"', LowerCase(LeftStr(AXML, 50))) > 0);
+end;
+
+function ExtraiURI(const AXML: String): String;
+var
+  I, J: integer;
+begin
+  I := PosEx('Id=', AXML, 6);
+  if I = 0 then
+    raise EACBrDFeException.Create('Não encontrei inicio do URI: Id=');
+
+  I := PosEx('"', AXML, I + 2);
+  if I = 0 then
+    raise EACBrDFeException.Create('Não encontrei inicio do URI: aspas inicial');
+
+  J := PosEx('"', AXML, I + 1);
+  if J = 0 then
+    raise EACBrDFeException.Create('Não encontrei inicio do URI: aspas final');
+
+  Result := copy(AXML, I + 1, J - I - 1);
+end;
+
+function XmlEstaAssinado(const AXML: String): Boolean;
+begin
+  Result := (pos('<signature', lowercase(AXML)) > 0);
+end;
+
+function ConverteXMLtoUTF8(const AXML: String): String;
+var
+  UTF8Str: String;
 begin
   if not XmlEhUTF8(AXML) then   // Já foi convertido antes ?
   begin
     {$IFNDEF UNICODE}
-     UTF8Str := UTF8Encode(AXML);
+    UTF8Str := UTF8Encode(AXML);
     {$ELSE}
-     UTF8Str := AXML;
+    UTF8Str := AXML;
     {$ENDIF}
 
-    Result := '<'+ENCODING_UTF8+'>' + UTF8Str;
+    Result := '<' + ENCODING_UTF8 + '>' + UTF8Str;
   end
   else
-     Result := AXML;
-end ;
+    Result := AXML;
+end;
 
 
 end.
-
-
-
-
 (*
 
 ///  TODO: REMOVER ??
@@ -307,13 +299,13 @@ end.
 class function TrataString(const AValue: String): String;overload;
 class function TrataString(const AValue: String; const ATamanho: Integer): String;overload;
 
-class function DFeUtil.TrataString(const AValue: String;
+class function TrataString(const AValue: String;
   const ATamanho: Integer): String;
 begin
   Result := TrataString(LeftStr(AValue, ATamanho));
 end;
 
-class function DFeUtil.TrataString(const AValue: String): String;
+class function TrataString(const AValue: String): String;
 var
   A : Integer ;
 begin
@@ -365,7 +357,7 @@ begin
   Result := Trim(Result);
 end;
 
-class function DFeUtil.CollateBr(Str: String): String;
+class function CollateBr(Str: String): String;
 var
    i, wTamanho: integer;
    wChar, wResultado: Char;
@@ -401,7 +393,7 @@ end;
 
 
 
-class function DFeUtil.FormatarFone(AValue: String): String;
+class function FormatarFone(AValue: String): String;
 var
   lTemp: string;
 begin
@@ -460,7 +452,7 @@ end;
 
 
 
-class function DFeUtil.UpperCase2(Str: String): String;
+class function UpperCase2(Str: String): String;
 var
    i, wTamanho: integer;
    wChar, wResultado: Char;
@@ -508,7 +500,7 @@ begin
 end;
 
 
-class function DFeUtil.FormatDate(const AString: string): String;
+class function FormatDate(const AString: string): String;
 var
   vTemp: TDateTime;
 {$IFDEF VER140} //D6
@@ -535,7 +527,7 @@ begin
   end;
 end;
 
-class function DFeUtil.FormatDate(const AData: TDateTime): String;
+class function FormatDate(const AData: TDateTime): String;
 var
   vTemp: String;
 {$IFDEF VER140} //delphi6
@@ -551,7 +543,8 @@ begin
     FFormato.DateSeparator   := '-';
     FFormato.ShortDateFormat := 'yyyy-mm-dd';
 {$ENDIF}
-	vTemp := DateToStr(AData);
+  vTemp := DateToStr(AData);
+
     if AData = 0 then
       Result := ''
     else
@@ -561,7 +554,7 @@ begin
   end;
 end;
 
-class function DFeUtil.FormatDateTime(const AString: string): string;
+class function FormatDateTime(const AString: string): string;
 var
   vTemp : TDateTime;
 {$IFDEF VER140} //delphi6
@@ -589,7 +582,7 @@ begin
   end;
 end;
 
-class function DFeUtil.FormatFloat(AValue: Extended;
+class function FormatFloat(AValue: Extended;
   const AFormat: string): String;
 {$IFDEF VER140} //D6
 {$ELSE}
@@ -608,7 +601,7 @@ begin
 {$ENDIF}
 end;
 
-class function DFeUtil.StringToDate(const AString: string): TDateTime;
+class function StringToDate(const AString: string): TDateTime;
 begin
   if (AString = '0') or (AString = '') then
      Result := 0
@@ -616,7 +609,7 @@ begin
      Result := StrToDate(AString);
 end;
 
-class function DFeUtil.StringToTime(const AString: string): TDateTime;
+class function StringToTime(const AString: string): TDateTime;
 begin
   if (AString = '0') or (AString = '') then
      Result := 0

@@ -245,7 +245,7 @@ begin
   ArqXML := GerarXML;
 
   // XML já deve estar em UTF8, para poder ser assinado //
-  ArqXML := DFeUtil.ConverteXMLtoUTF8(ArqXML);
+  ArqXML := ConverteXMLtoUTF8(ArqXML);
   FXMLOriginal := ArqXML;
 
   with TACBrNFe(TNotasFiscais(Collection).ACBrNFe) do

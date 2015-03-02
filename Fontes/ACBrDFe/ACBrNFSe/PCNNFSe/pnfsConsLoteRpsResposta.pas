@@ -370,7 +370,7 @@ begin
               // Grupo da TAG <Servico> *****************************************************
               if Leitor.rExtrai(iNivel + 5, 'Servico') <> ''
                then begin
-                ListaNfse.FCompNfse[i].FNFSe.Servico.ItemListaServico          := DFeUtil.LimpaNumero(Leitor.rCampo(tcStr, 'ItemListaServico'));
+                ListaNfse.FCompNfse[i].FNFSe.Servico.ItemListaServico          := LimpaNumero(Leitor.rCampo(tcStr, 'ItemListaServico'));
                 ListaNfse.FCompNfse[i].FNFSe.Servico.CodigoCnae                := Leitor.rCampo(tcStr, 'CodigoCnae');
                 ListaNfse.FCompNfse[i].FNFSe.Servico.CodigoTributacaoMunicipio := Leitor.rCampo(tcStr, 'CodigoTributacaoMunicipio');
                 ListaNfse.FCompNfse[i].FNFSe.Servico.Discriminacao             := Leitor.rCampo(tcStr, 'Discriminacao');

@@ -81,15 +81,15 @@ var
   vUF, vDataEmissao, vSerie, vNumero,
   vCodigo, vModelo: String;
 begin
-  vUF          := DFeUtil.Poem_Zeros(AUF, 2);
+  vUF          := Poem_Zeros(AUF, 2);
   vDataEmissao := FormatDateTime('YYMM', ADataEmissao);
-  vModelo      := DFeUtil.Poem_Zeros(AModelo, 2);
-  vSerie       := DFeUtil.Poem_Zeros(ASerie, 3);
-  vNumero      := DFeUtil.Poem_Zeros(ANumero, 9);
-  vCodigo      := DFeUtil.Poem_Zeros(ACodigo, 9);
+  vModelo      := Poem_Zeros(AModelo, 2);
+  vSerie       := Poem_Zeros(ASerie, 3);
+  vNumero      := Poem_Zeros(ANumero, 9);
+  vCodigo      := Poem_Zeros(ACodigo, 9);
 
   Result := vUF+vDataEmissao+ACNPJ+vModelo+vSerie+vNumero+vCodigo;
-  Result := Result+DFeUtil.Modulo11(Result);
+  Result := Result+Modulo11(Result);
 end;
 
 ////class function NotaUtil.ExtraiCNPJChaveAcesso(AChaveNFE: String): String;
@@ -120,7 +120,7 @@ end;
 
 ////class function NotaUtil.FormatarChaveAcesso(AValue: String): String;
 ////begin
-////  AValue := DFeUtil.LimpaNumero(AValue);
+////  AValue := LimpaNumero(AValue);
 ////
 ////  Result := copy(AValue,1,4)  + ' ' + copy(AValue,5,4)  + ' ' +
 ////            copy(AValue,9,4)  + ' ' + copy(AValue,13,4) + ' ' +
@@ -878,7 +878,7 @@ class function NotaUtil.GerarChaveContingencia(FNFe:TNFe): string;
      PESO = '43298765432987654329876543298765432';
    begin
      // Manual Integracao Contribuinte v2.02a - Página: 70 //
-     chave := DFeUtil.LimpaNumero(chave);
+     chave := LimpaNumero(chave);
      j := 0;
      Digito := 0;
      result := True;
@@ -927,25 +927,25 @@ begin
 
    //CNPJ OU CPF
    if (FNFe.Dest.EnderDest.UF='EX') then
-      wchave:=wchave+DFeUtil.Poem_Zeros('0',14)
+      wchave:=wchave+Poem_Zeros('0',14)
    else
-      wchave:=wchave+DFeUtil.Poem_Zeros(FNFe.Dest.CNPJCPF,14);
+      wchave:=wchave+Poem_Zeros(FNFe.Dest.CNPJCPF,14);
 
    //VALOR DA NF
-   wchave:=wchave+DFeUtil.Poem_Zeros(DFeUtil.LimpaNumero(Floattostrf(FNFe.Total.ICMSTot.vNF,ffFixed,18,2)),14);
+   wchave:=wchave+Poem_Zeros(LimpaNumero(Floattostrf(FNFe.Total.ICMSTot.vNF,ffFixed,18,2)),14);
 
    //DESTAQUE ICMS PROPRIO E ST
    wicms_p:='2';
    wicms_s:='2';
-   if (DFeUtil.NaoEstaZerado(FNFe.Total.ICMSTot.vICMS)) then
+   if (NaoEstaZerado(FNFe.Total.ICMSTot.vICMS)) then
       wicms_p:='1';
-   if (DFeUtil.NaoEstaZerado(FNFe.Total.ICMSTot.vST)) then
+   if (NaoEstaZerado(FNFe.Total.ICMSTot.vST)) then
       wicms_s:='1';
    wchave:=wchave+wicms_p+wicms_s;
 
    //DIA DA EMISSAO
    decodedate(FNFe.Ide.dEmi,wa,wm,wd);
-   wchave:=wchave+DFeUtil.Poem_Zeros(inttostr(wd),2);
+   wchave:=wchave+Poem_Zeros(inttostr(wd),2);
 
    //DIGITO VERIFICADOR
    GerarDigito_Contigencia(Digito,wchave);
@@ -957,7 +957,7 @@ end;
 
 class function NotaUtil.FormatarChaveContigencia(AValue: String): String;
 begin
-  AValue := DFeUtil.LimpaNumero(AValue);
+  AValue := LimpaNumero(AValue);
   Result := copy(AValue,1,4)  + ' ' + copy(AValue,5,4)  + ' ' +
             copy(AValue,9,4)  + ' ' + copy(AValue,13,4) + ' ' +
             copy(AValue,17,4) + ' ' + copy(AValue,21,4) + ' ' +

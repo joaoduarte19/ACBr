@@ -211,7 +211,7 @@ begin
                           ';', #13#10, [rfReplaceAll,rfIgnoreCase]));
 
   qrlNumeroRPS.Caption := FNFSe.IdentificacaoRps.Numero;
-  qrlEmissao.Caption := DFeUtil.FormatDateTime(DateTimeToStr(FNFSe.DataEmissao));
+  qrlEmissao.Caption := FormatDateTime(DateTimeToStr(FNFSe.DataEmissao));
 end;
 
 procedure TfqrDANFSeQRRetratoCampinas.qrb_2_PrestadorServicoBeforePrint(
@@ -219,7 +219,7 @@ procedure TfqrDANFSeQRRetratoCampinas.qrb_2_PrestadorServicoBeforePrint(
 begin
   inherited;
 
-  qrlPrestCNPJ.Caption := DFeUtil.FormatarCNPJ( FNFSe.PrestadorServico.IdentificacaoPrestador.Cnpj );
+  qrlPrestCNPJ.Caption := FormatarCNPJ( FNFSe.PrestadorServico.IdentificacaoPrestador.Cnpj );
   qrlPrestInscMunicipal.Caption := FNFSe.PrestadorServico.IdentificacaoPrestador.InscricaoMunicipal;
   qrlPrestNome.Caption := FNFSe.PrestadorServico.RazaoSocial;
 
@@ -228,7 +228,7 @@ begin
                               Trim(FNFSe.PrestadorServico.Endereco.Complemento)+' - '+
                               Trim(FNFSe.PrestadorServico.Endereco.Bairro)+
                               ' - CEP: '+
-                              DFeUtil.FormatarCEP(DFeUtil.Poem_Zeros(FNFSe.PrestadorServico.Endereco.CEP,8));
+                              FormatarCEP(Poem_Zeros(FNFSe.PrestadorServico.Endereco.CEP,8));
  qrlPrestMunicipio.Caption := FNFSe.PrestadorServico.Endereco.CodigoMunicipio +
   ' - ' + FNFSe.PrestadorServico.Endereco.xMunicipio;
  qrlPrestUF.Caption := FNFSe.PrestadorServico.Endereco.UF;
@@ -240,9 +240,9 @@ begin
   inherited;
 
   if Length(FNFSe.Tomador.IdentificacaoTomador.CpfCnpj)<=11 then
-    qrlTomaCNPJ.Caption := DFeUtil.FormatarCPF(FNFSe.Tomador.IdentificacaoTomador.CpfCnpj)
+    qrlTomaCNPJ.Caption := FormatarCPF(FNFSe.Tomador.IdentificacaoTomador.CpfCnpj)
   else
-    qrlTomaCNPJ.Caption := DFeUtil.FormatarCNPJ(FNFSe.Tomador.IdentificacaoTomador.CpfCnpj);
+    qrlTomaCNPJ.Caption := FormatarCNPJ(FNFSe.Tomador.IdentificacaoTomador.CpfCnpj);
 
   qrlTomaNome.Caption := FNFSe.Tomador.RazaoSocial;
   qrlTomaEndereco.Caption := Trim(FNFSe.Tomador.Endereco.Endereco)+', '+
@@ -250,7 +250,7 @@ begin
                              Trim(FNFSe.Tomador.Endereco.Complemento)+' - ' +
                              Trim(FNFSe.Tomador.Endereco.Bairro)+
                              ' - CEP: '+
-                             DFeUtil.FormatarCEP(DFeUtil.Poem_Zeros(FNFSe.Tomador.Endereco.CEP,8));
+                             FormatarCEP(Poem_Zeros(FNFSe.Tomador.Endereco.CEP,8));
   qrlTomaMunicipio.Caption := FNFSe.Tomador.Endereco.CodigoMunicipio +
     ' - ' + FNFSe.Tomador.Endereco.xMunicipio;
   qrlTomaUF.Caption := FNFSe.Tomador.Endereco.UF;
@@ -286,28 +286,28 @@ begin
   inherited;
 
   qrlAliquotaPIS.Caption    := StringReplace(qrlAliquotaPIS.Caption,    'qrlAliquotaPIS',
-        ((DFeUtil.FormatFloat(FNFSe.Servico.Valores.AliquotaPis)) + '%'), [rfReplaceAll,rfIgnoreCase]);
+        ((FormatFloat(FNFSe.Servico.Valores.AliquotaPis)) + '%'), [rfReplaceAll,rfIgnoreCase]);
   qrlAliquotaCOFINS.Caption := StringReplace(qrlAliquotaCOFINS.Caption, 'qrlAliquotaCOFINS',
-        ((DFeUtil.FormatFloat(FNFSe.Servico.Valores.ValorCofins)) + '%'), [rfReplaceAll,rfIgnoreCase]);
+        ((FormatFloat(FNFSe.Servico.Valores.ValorCofins)) + '%'), [rfReplaceAll,rfIgnoreCase]);
   qrlAliquotaIR.Caption     := StringReplace(qrlAliquotaIR.Caption,     'qrlAliquotaIR',
-        ((DFeUtil.FormatFloat(FNFSe.Servico.Valores.AliquotaIr)) + '%'), [rfReplaceAll,rfIgnoreCase]);
+        ((FormatFloat(FNFSe.Servico.Valores.AliquotaIr)) + '%'), [rfReplaceAll,rfIgnoreCase]);
   qrlAliquotaINSS.Caption   := StringReplace(qrlAliquotaINSS.Caption,   'qrlAliquotaINSS',
-        ((DFeUtil.FormatFloat(FNFSe.Servico.Valores.AliquotaInss)) + '%'), [rfReplaceAll,rfIgnoreCase]);
+        ((FormatFloat(FNFSe.Servico.Valores.AliquotaInss)) + '%'), [rfReplaceAll,rfIgnoreCase]);
   qrlAliquotaCSLL.Caption   := StringReplace(qrlAliquotaCSLL.Caption,   'qrlAliquotaCSLL',
-        ((DFeUtil.FormatFloat(FNFSe.Servico.Valores.AliquotaCsll)) + '%'), [rfReplaceAll,rfIgnoreCase]);
+        ((FormatFloat(FNFSe.Servico.Valores.AliquotaCsll)) + '%'), [rfReplaceAll,rfIgnoreCase]);
 
-  qrlValorPIS.Caption    := 'R$ ' + DFeUtil.FormatFloat(FNFSe.Servico.Valores.ValorPis);
-  qrlValorCOFINS.Caption := 'R$ ' + DFeUtil.FormatFloat(FNFSe.Servico.Valores.ValorCofins);
-  qrlValorIR.Caption     := 'R$ ' + DFeUtil.FormatFloat(FNFSe.Servico.Valores.ValorIr);
-  qrlValorINSS.Caption   := 'R$ ' + DFeUtil.FormatFloat(FNFSe.Servico.Valores.ValorInss);
-  qrlValorCSLL.Caption   := 'R$ ' + DFeUtil.FormatFloat(FNFSe.Servico.Valores.ValorCsll);
+  qrlValorPIS.Caption    := 'R$ ' + FormatFloat(FNFSe.Servico.Valores.ValorPis);
+  qrlValorCOFINS.Caption := 'R$ ' + FormatFloat(FNFSe.Servico.Valores.ValorCofins);
+  qrlValorIR.Caption     := 'R$ ' + FormatFloat(FNFSe.Servico.Valores.ValorIr);
+  qrlValorINSS.Caption   := 'R$ ' + FormatFloat(FNFSe.Servico.Valores.ValorInss);
+  qrlValorCSLL.Caption   := 'R$ ' + FormatFloat(FNFSe.Servico.Valores.ValorCsll);
 
-  qrlVlrTotalRPS.Caption := 'R$ ' + DFeUtil.FormatFloat(FNFSe.Servico.Valores.ValorServicos);
+  qrlVlrTotalRPS.Caption := 'R$ ' + FormatFloat(FNFSe.Servico.Valores.ValorServicos);
 
-  qrlValorDeducoes.Caption := 'R$ ' + DFeUtil.FormatFloat(FNFSe.Servico.Valores.ValorDeducoes);
-  qrlBaseCalculo.Caption   := 'R$ ' + DFeUtil.FormatFloat(FNFSe.Servico.Valores.BaseCalculo);
-  qrlAliquota.Caption      := 'R$ ' + DFeUtil.FormatFloat(FNFSe.Servico.Valores.Aliquota);
-  qrlVlrISS.Caption        := 'R$ ' + DFeUtil.FormatFloat(FNFSe.Servico.Valores.ValorIss);
+  qrlValorDeducoes.Caption := 'R$ ' + FormatFloat(FNFSe.Servico.Valores.ValorDeducoes);
+  qrlBaseCalculo.Caption   := 'R$ ' + FormatFloat(FNFSe.Servico.Valores.BaseCalculo);
+  qrlAliquota.Caption      := 'R$ ' + FormatFloat(FNFSe.Servico.Valores.Aliquota);
+  qrlVlrISS.Caption        := 'R$ ' + FormatFloat(FNFSe.Servico.Valores.ValorIss);
 
   msg := '';
 
@@ -359,9 +359,9 @@ begin
 
   qrlItem.Caption := FNFSe.Servico.ItemServico[qntdItensImpressos].Descricao;
 
-  qrlQntde.Caption    := DFeUtil.FormatFloat(FNFSe.Servico.ItemServico[qntdItensImpressos].Quantidade);
-  qrlVlrUnit.Caption  := 'R$ ' + DFeUtil.FormatFloat(FNFSe.Servico.ItemServico[qntdItensImpressos].ValorUnitario);
-  qrlVlrTotal.Caption := 'R$ ' + DFeUtil.FormatFloat(FNFSe.Servico.ItemServico[qntdItensImpressos].ValorServicos);
+  qrlQntde.Caption    := FormatFloat(FNFSe.Servico.ItemServico[qntdItensImpressos].Quantidade);
+  qrlVlrUnit.Caption  := 'R$ ' + FormatFloat(FNFSe.Servico.ItemServico[qntdItensImpressos].ValorUnitario);
+  qrlVlrTotal.Caption := 'R$ ' + FormatFloat(FNFSe.Servico.ItemServico[qntdItensImpressos].ValorServicos);
 
   qntdItensImpressos := qntdItensImpressos + 1;
 end;

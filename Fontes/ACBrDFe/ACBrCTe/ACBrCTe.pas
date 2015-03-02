@@ -396,7 +396,7 @@ begin
     Self.EventoCTe.Evento.Clear;
     with Self.EventoCTe.Evento.Add do
      begin
-       infEvento.CNPJ   := copy(DFeUtil.LimpaNumero(Self.WebServices.Consulta.CTeChave), 7, 14);
+       infEvento.CNPJ   := copy(LimpaNumero(Self.WebServices.Consulta.CTeChave), 7, 14);
        infEvento.cOrgao := StrToIntDef(copy(OnlyNumber(Self.WebServices.Consulta.CTeChave), 1, 2), 0);
        infEvento.dhEvento := now;
        infEvento.tpEvento := teCancelamento;

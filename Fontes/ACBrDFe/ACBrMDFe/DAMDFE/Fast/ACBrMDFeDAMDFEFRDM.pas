@@ -239,7 +239,7 @@ begin
   with CDSModalAqua, FMDFe.aquav do
   begin
     Append;
-    FieldByName('CNPJAgeNav').AsString := DFeUtil.FormatarCNPJ(CNPJAgeNav);
+    FieldByName('CNPJAgeNav').AsString := FormatarCNPJ(CNPJAgeNav);
     FieldByName('tpEmb').AsString      := tpEmb;
     FieldByName('cEmbar').AsString     := cEmbar;
     FieldByName('nViagem').AsString    := nViagem;
@@ -295,7 +295,7 @@ begin
       for i := 0 to veicTracao.condutor.Count - 1 do
       begin
         // Alteração proposta por Maciel Goettms (27/02/2014) Concatenação dos condutores já adicionados.
-        FieldByName('CPF').AsString   := FieldByName('CPF').AsString + DFeUtil.FormatarCPF(veicTracao.condutor.Items[i].CPF) + #13#10;
+        FieldByName('CPF').AsString   := FieldByName('CPF').AsString + FormatarCPF(veicTracao.condutor.Items[i].CPF) + #13#10;
         FieldByName('xNome').AsString := FieldByName('xNome').AsString + veicTracao.condutor.Items[i].xNome + #13#10;
       end;
     end;
@@ -306,8 +306,8 @@ begin
     end;
     for i := 0 to valePed.disp.Count - 1 do
     begin
-      FieldByName('CNPJForn').AsString := FieldByName('CNPJForn').AsString + DFeUtil.FormatarCNPJ(valePed.disp.Items[i].CNPJForn) + #13#10;
-      FieldByName('CNPJPg').AsString   := FieldByName('CNPJPg').AsString + DFeUtil.FormatarCNPJ(valePed.disp.Items[i].CNPJPg) + #13#10;
+      FieldByName('CNPJForn').AsString := FieldByName('CNPJForn').AsString + FormatarCNPJ(valePed.disp.Items[i].CNPJForn) + #13#10;
+      FieldByName('CNPJPg').AsString   := FieldByName('CNPJPg').AsString + FormatarCNPJ(valePed.disp.Items[i].CNPJPg) + #13#10;
       FieldByName('nCompra').AsString  := FieldByName('nCompra').AsString + valePed.disp.Items[i].nCompra + #13#10;
     end;
     Post;
@@ -445,7 +445,7 @@ begin
         FieldByName('Numero').AsString      := Copy(InfEvento.chMDFe, 26, 9);
         FieldByName('MesAno').AsString      := Copy(InfEvento.chMDFe, 05, 2) + '/' + Copy(InfEvento.chMDFe, 03, 2);
         FieldByName('Barras').AsString      := InfEvento.chMDFe;
-        FieldByName('ChaveAcesso').AsString := MDFEUtil.FormatarChaveAcesso(InfEvento.chMDFe);
+        FieldByName('ChaveAcesso').AsString := MFormatarChaveAcesso(InfEvento.chMDFe);
 
         // Carta de correção eletrônica
         FieldByName('cOrgao').AsInteger := InfEvento.cOrgao;
@@ -471,7 +471,7 @@ begin
         FieldByName('dhRegEvento').AsDateTime := RetInfEvento.dhRegEvento;
         FieldByName('xJust').AsString         := InfEvento.detEvento.xJust;
         FieldByName('xNome').AsString         := InfEvento.detEvento.xNome;
-        FieldByName('CPF').AsString           := DFeUtil.FormatarCPF(InfEvento.detEvento.CPF);
+        FieldByName('CPF').AsString           := FormatarCPF(InfEvento.detEvento.CPF);
 
       end;
 
@@ -505,7 +505,7 @@ begin
           begin
             Append;
             FieldByName('Tipo').AsString  := 'CTe';
-            FieldByName('Chave').AsString := MDFEUtil.FormatarChaveAcesso(infCTe.Items[j].chCTe, True);
+            FieldByName('Chave').AsString := MFormatarChaveAcesso(infCTe.Items[j].chCTe, True);
             Post;
             with infCTe[j] do
               for x := 0 to infUnidTransp.Count - 1 do
@@ -531,7 +531,7 @@ begin
           begin
             Append;
             FieldByName('Tipo').AsString  := 'CT';
-            FieldByName('Chave').AsString := DFeUtil.FormatarCNPJCPF(FMDFe.emit.CNPJ) + '        ' +
+            FieldByName('Chave').AsString := FormatarCNPJCPF(FMDFe.emit.CNPJ) + '        ' +
               IntToStr(infCT.Items[j].serie) + '-' + infCT.Items[j].nCT;
             Post;
             with infCT[j] do
@@ -558,7 +558,7 @@ begin
           begin
             Append;
             FieldByName('Tipo').AsString  := 'NFe';
-            FieldByName('Chave').AsString := MDFEUtil.FormatarChaveAcesso(infNFe.Items[j].chNFe, True);
+            FieldByName('Chave').AsString := MFormatarChaveAcesso(infNFe.Items[j].chNFe, True);
             Post;
             with infNFe[j] do
               for x := 0 to infUnidTransp.Count - 1 do
@@ -584,7 +584,7 @@ begin
           begin
             Append;
             FieldByName('Tipo').AsString  := 'NF';
-            FieldByName('Chave').AsString := DFeUtil.FormatarCNPJCPF(FMDFe.emit.CNPJ) + '        ' +
+            FieldByName('Chave').AsString := FormatarCNPJCPF(FMDFe.emit.CNPJ) + '        ' +
               IntToStr(infNF.Items[j].serie) + '-' + IntToStr(infNF.Items[j].nNF);
             Post;
             with infNF[j] do
@@ -611,7 +611,7 @@ begin
           begin
             Append;
             FieldByName('Tipo').AsString  := 'MDF-e';
-            FieldByName('Chave').AsString := MDFEUtil.FormatarChaveAcesso(infMDFeTransp.Items[j].chMDFe, True);
+            FieldByName('Chave').AsString := MFormatarChaveAcesso(infMDFeTransp.Items[j].chMDFe, True);
             Post;
             with infMDFeTransp[j] do
               for x := 0 to infUnidTransp.Count - 1 do
@@ -665,7 +665,7 @@ begin
     Append;
     with FMDFe.emit do
     begin
-      FieldByName('CNPJ').AsString  := DFeUtil.FormatarCNPJ(CNPJ);
+      FieldByName('CNPJ').AsString  := FormatarCNPJ(CNPJ);
       FieldByName('IE').AsString    := IE;
       FieldByName('XNome').AsString := xNome;
       FieldByName('XFant').AsString := XFant;
@@ -678,8 +678,8 @@ begin
         FieldByName('CMun').AsString    := IntToStr(CMun);
         FieldByName('XMun').AsString    := CollateBr(XMun);
         FieldByName('UF').AsString      := UF;
-        FieldByName('CEP').AsString     := DFeUtil.FormatarCEP(DFeUtil.Poem_Zeros(CEP, 8));
-        FieldByName('Fone').AsString    := DFeUtil.FormatarFone(Fone);
+        FieldByName('CEP').AsString     := FormatarCEP(Poem_Zeros(CEP, 8));
+        FieldByName('Fone').AsString    := FormatarFone(Fone);
         FieldByName('email').AsString   := email;
         FieldByName('site').AsString    := FDAMDFEClassOwner.Site;
       end;
@@ -792,8 +792,8 @@ begin
 
     with FMDFe.infMDFe do
     begin
-      FieldByName('Id').AsString    := DFeUtil.LimpaNumero(Id);
-      FieldByName('Chave').AsString := MDFEUtil.FormatarChaveAcesso(Id);
+      FieldByName('Id').AsString    := LimpaNumero(Id);
+      FieldByName('Chave').AsString := MFormatarChaveAcesso(Id);
     end;
 
     with FMDFe.Ide do
@@ -801,7 +801,7 @@ begin
       FieldByName('tpAmb').AsInteger  := StrToIntDef(TpAmbToStr(tpAmb), 0);
       FieldByName('tpEmit').AsInteger := StrToIntDef(TpEmitenteToStr(tpEmit), 0);
       FieldByName('Modelo').AsString  := modelo;
-      FieldByName('serie').AsString   := DFeUtil.Poem_Zeros(serie, 3);
+      FieldByName('serie').AsString   := Poem_Zeros(serie, 3);
       FieldByName('nMDF').AsInteger   := nMDF;
       FieldByName('modal').AsInteger  := StrToIntDef(ModalToStr(modal), 0);
       FieldByName('dhEmi').AsDateTime := dhEmi;
@@ -815,13 +815,13 @@ begin
           FieldByName('Protocolo').AsString := FDAMDFEClassOwner.ProtocoloMDFE
         else if not EstaVazio(FMDFe.procMDFe.nProt) then
           FieldByName('Protocolo').AsString := FMDFe.procMDFe.nProt + '   ' +
-            DFeUtil.SeSenao(FMDFe.procMDFe.dhRecbto <> 0, DateTimeToStr(FMDFe.procMDFe.dhRecbto), '')
+            SeSenao(FMDFe.procMDFe.dhRecbto <> 0, DateTimeToStr(FMDFe.procMDFe.dhRecbto), '')
         else
           FieldByName('Protocolo').AsString := 'MDFe sem Autorização de Uso da SEFAZ';
       end
       else
         FieldByName('Protocolo').AsString := 'Impressão em contingência. Obrigatória a autorização em 168 horas' +
-          ' após esta impressão (' + DFeUtil.FormatDateTime(DateTimeToStr(dhEmi)) + ')';
+          ' após esta impressão (' + FormatDateTime(DateTimeToStr(dhEmi)) + ')';
 
     end;
     with FMDFe.tot do

@@ -210,7 +210,7 @@ begin
                               IfThen(XBairro = '', '', ', ' + XBairro) +
                               ', ' + XMun + '/ ' + UF);
        end;
-      rlmEmitente.Lines.Add('CNPJ: ' + DFeUtil.FormatarCNPJCPF(CNPJCPF) +
+      rlmEmitente.Lines.Add('CNPJ: ' + FormatarCNPJCPF(CNPJCPF) +
                             ' IE: '+ IE);
      end;
    end;
@@ -228,7 +228,7 @@ begin
   lblNumero.Caption := 'Número: ' + FormatFloat('000,000,000', FNFe.Ide.nNF) +
                        ' - Série: '+ FormatFloat('000', FNFe.Ide.serie);
 
-  rllEmissao.Caption := 'Emissão: ' + DFeUtil.FormatDateTime(DateToStr(FNFe.Ide.dEmi));
+  rllEmissao.Caption := 'Emissão: ' + FormatDateTime(DateToStr(FNFe.Ide.dEmi));
 end;
 
 procedure TfrlDANFeRLSimplificado.RLb04_DestinatarioBeforePrint(
@@ -249,7 +249,7 @@ begin
                             IfThen(XBairro = '', '', ', ' + XBairro) +
                             ', ' + XMun + '/ ' + UF);
      end;
-    rlmDestinatario.Lines.Add('CPF/CNPJ: ' + DFeUtil.FormatarCNPJCPF(CNPJCPF) +
+    rlmDestinatario.Lines.Add('CPF/CNPJ: ' + FormatarCNPJCPF(CNPJCPF) +
                               ' IE: ' + IE);
    end;
 
@@ -328,7 +328,7 @@ begin
   rlmPagValor.Lines.Add(IntToStr(TotalItens));
 
   rlmPagDesc.Lines.Add('Valor Total');
-  rlmPagValor.Lines.Add(DFeUtil.FormatFloat(FNFE.Total.ICMSTot.vNF));
+  rlmPagValor.Lines.Add(FormatFloat(FNFE.Total.ICMSTot.vNF));
 end;
 
 procedure TfrlDANFeRLSimplificado.RLb06b_TributosBeforePrint(Sender: TObject;
@@ -341,8 +341,8 @@ begin
 
   Perc := (FNFE.Total.ICMSTot.vTotTrib / FNFE.Total.ICMSTot.vNF) * 100;
   rllTributos.Caption := 'Valor aprox. dos tributos: ' +
-                         DFeUtil.FormatFloat(FNFE.Total.ICMSTot.vTotTrib) +
-                         '(' + DFeUtil.FormatFloat(Perc) + '%)(Fonte: IBPT)';
+                         FormatFloat(FNFE.Total.ICMSTot.vTotTrib) +
+                         '(' + FormatFloat(Perc) + '%)(Fonte: IBPT)';
 end;
 
 procedure TfrlDANFeRLSimplificado.rlmProdutoDescricaoPrint(sender: TObject;
@@ -599,7 +599,7 @@ begin
   if FProtocoloNFE <> ''
    then rllProtocolo.Caption := FProtocoloNFE
    else rllProtocolo.Caption := FNFe.procNFe.nProt + ' ' +
-                                DFeUtil.SeSenao(FNFe.procNFe.dhRecbto <> 0, DateTimeToStr(FNFe.procNFe.dhRecbto), '');
+                                SeSenao(FNFe.procNFe.dhRecbto <> 0, DateTimeToStr(FNFe.procNFe.dhRecbto), '');
 
   //FTotalPages := HrTotalPages;
 end;

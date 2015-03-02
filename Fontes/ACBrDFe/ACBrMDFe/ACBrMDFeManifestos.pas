@@ -356,11 +356,11 @@ begin
      Self.Items[i].Alertas := Alertas;
 
 {$IFDEF ACBrMDFeOpenSSL}
-     if not(MDFeUtil.Assinar(ArqXML, FConfiguracoes.Certificados.Certificado , FConfiguracoes.Certificados.Senha, vAssinada, FMsg)) then
+     if not(MAssinar(ArqXML, FConfiguracoes.Certificados.Certificado , FConfiguracoes.Certificados.Senha, vAssinada, FMsg)) then
        raise Exception.Create('Falha ao assinar Manifesto Eletrônico de Documentos Fiscais '+
                                    IntToStr(Self.Items[i].MDFe.Ide.cMDF)+FMsg);
 {$ELSE}
-     if not(MDFeUtil.Assinar(ArqXML, FConfiguracoes.Certificados.GetCertificado , vAssinada, FMsg)) then
+     if not(MAssinar(ArqXML, FConfiguracoes.Certificados.GetCertificado , vAssinada, FMsg)) then
        raise Exception.Create('Falha ao assinar Manifesto Eletrônico de Documentos Fiscais '+
                                    IntToStr(Self.Items[i].MDFe.Ide.cMDF)+FMsg);
 {$ENDIF}
@@ -445,7 +445,7 @@ begin
    begin
      if pos('<Signature', Self.Items[i].XML) = 0 then
         Assinar;
-     if not(MDFeUtil.Valida(('<MDFe xmlns' + RetornarConteudoEntre(Self.Items[i].XML, '<MDFe xmlns', '</MDFe>')+ '</MDFe>'),
+     if not(MValida(('<MDFe xmlns' + RetornarConteudoEntre(Self.Items[i].XML, '<MDFe xmlns', '</MDFe>')+ '</MDFe>'),
                             FMsg, Self.FConfiguracoes.Geral.PathSchemas)) then
       begin
         Self.Items[i].ErroValidacaoCompleto := 'Falha na validação dos dados do Manifesto ' +
@@ -469,7 +469,7 @@ begin
   Result := True;
   for i:= 0 to Self.Count-1 do
    begin
-     if not(MDFeUtil.ValidaAssinatura(Self.Items[i].XMLOriginal, FMsg)) then
+     if not(MValidaAssinatura(Self.Items[i].XMLOriginal, FMsg)) then
       begin
         Result := False;
         Msg := 'Falha na validação da assinatura do Manifesto ' +

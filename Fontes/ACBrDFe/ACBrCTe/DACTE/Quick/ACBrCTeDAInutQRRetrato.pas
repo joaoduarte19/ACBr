@@ -216,12 +216,12 @@ begin
     PrintBand := True;
 
     qrlRazaoEmitente.Caption    := FCTe.emit.xNome;
-    qrlCNPJEmitente.Caption     := DFeUtil.FormatarCNPJCPF(FCTe.emit.CNPJ);
+    qrlCNPJEmitente.Caption     := FormatarCNPJCPF(FCTe.emit.CNPJ);
     qrlEnderecoEmitente.Caption := FCTe.emit.EnderEmit.xLgr + ', ' + FCTe.emit.EnderEmit.nro;
     qrlBairroEmitente.Caption   := FCTe.emit.EnderEmit.xBairro;
-    qrlCEPEmitente.Caption      := DFeUtil.FormatarCEP(FormatFloat('00000000', FCTe.emit.EnderEmit.CEP));
+    qrlCEPEmitente.Caption      := FormatarCEP(FormatFloat('00000000', FCTe.emit.EnderEmit.CEP));
     qrlMunEmitente.Caption      := FCTe.emit.EnderEmit.xMun + ' - ' + FCTe.emit.EnderEmit.UF;
-    qrlFoneEmitente.Caption     := DFeUtil.FormatarFone(FCTe.emit.enderEmit.fone);
+    qrlFoneEmitente.Caption     := FormatarFone(FCTe.emit.enderEmit.fone);
     qrlInscEstEmitente.Caption  := FCTe.emit.IE;
    end;
    *)
@@ -249,7 +249,7 @@ begin
       qrlStatus.Caption    := IntToStr(InutCTe.RetInutCTe.cStat) + ' - ' +
                               InutCTe.RetInutCTe.xMotivo;
       qrlProtocolo.Caption := InutCTe.RetInutCTe.nProt + ' ' +
-                              DFeUtil.FormatDateTime(DateTimeToStr(InutCTe.RetInutCTe.dhRecbto));
+                              FormatDateTime(DateTimeToStr(InutCTe.RetInutCTe.dhRecbto));
 
       qrlJustificativa.Caption := InutCTe.RetInutCTe.xJust;
     end;

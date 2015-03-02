@@ -243,7 +243,7 @@ begin
     ConteudoXML := StringReplace(ConteudoXML, '<-><->', '', [rfReplaceAll]);
     { Sempre salva o Arquivo em UTF8, independente de qual seja a IDE...
       FPC já trabalha com UTF8 de forma nativa }
-    UTF8Str := DFeUtil.ConverteXMLtoUTF8(ConteudoXML);
+    UTF8Str := ConverteXMLtoUTF8(ConteudoXML);
 
     if not DirectoryExists(SoPath) then
       ForceDirectories(SoPath);

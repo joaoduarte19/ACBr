@@ -1000,7 +1000,7 @@ begin
   { Sobrescrever apenas se necessário }
 
   TACBrCTe( FACBrCTe ).SetStatus( stCTeIdle );
-  DFeUtil.ConfAmbiente;
+  ConfAmbiente;
 end;
 
 { TCTeStatusServico }
@@ -1080,12 +1080,12 @@ begin
             'Status Código : '     + IntToStr(FcStat) + LineBreak +
             'Status Descrição : '  + FxMotivo + LineBreak +
             'UF : '                + CodigoParaUF(FcUF) + LineBreak +
-            'Recebimento : '       + DFeUtil.SeSenao(FdhRecbto = 0,
+            'Recebimento : '       + SeSenao(FdhRecbto = 0,
                                                      '',
                                                      DateTimeToStr(FdhRecbto)) +
                                                      LineBreak +
             'Tempo Médio : '       + IntToStr(FTMed) + LineBreak +
-            'Retorno : '           + DFeUtil.SeSenao(FdhRetorno = 0,
+            'Retorno : '           + SeSenao(FdhRetorno = 0,
                                                      '',
                                                      DateTimeToStr(FdhRetorno)) +
                                                      LineBreak +
@@ -1221,7 +1221,7 @@ begin
               'Status Descrição : '  + FCTeRetorno.xMotivo + LineBreak +
               'UF : '                + CodigoParaUF(FCTeRetorno.cUF) + LineBreak +
               'Recibo : '            + FCTeRetorno.infRec.nRec + LineBreak +
-              'Recebimento : '       + DFeUtil.SeSenao(FCTeRetorno.InfRec.dhRecbto = 0,
+              'Recebimento : '       + SeSenao(FCTeRetorno.InfRec.dhRecbto = 0,
                                                        '',
                                                        DateTimeToStr(FCTeRetorno.InfRec.dhRecbto)) +
                                                        LineBreak +
@@ -1491,7 +1491,7 @@ end;
 
 procedure TCTeRetRecepcao.FinalizarServico;
 begin
-  DFeUtil.ConfAmbiente;
+  ConfAmbiente;
   // Não libera para stIdle... não ainda...;
 end;
 
@@ -2073,7 +2073,7 @@ begin
   if EstaVazio(AValue) then
     GerarException('Informar uma Justificativa para Inutilização de numeração do Conhecimento de Transporte Eletrônico')
   else
-    AValue := DFeUtil.TrataString(AValue);
+    AValue := TrataString(AValue);
 
   if Length(Trim(AValue)) < 15 then
     GerarException('A Justificativa para Inutilização de numeração do Conhecimento de Transporte Eletrônico deve ter no minimo 15 caracteres')
@@ -2220,7 +2220,7 @@ begin
             'Status Código : '     + IntToStr(FcStat) + LineBreak +
             'Status Descrição : '  + FxMotivo + LineBreak +
             'UF : '                + CodigoParaUF(FcUF) + LineBreak +
-            'Recebimento : '       + DFeUtil.SeSenao(FdhRecbto = 0,
+            'Recebimento : '       + SeSenao(FdhRecbto = 0,
                                                      '',
                                                      DateTimeToStr(FdhRecbto));
 end;
@@ -2716,7 +2716,7 @@ begin
 
   if (FEventoRetorno.retEvento.Count > 0) then
       aMsg := aMsg + 'Recebimento : ' +
-              DFeUtil.SeSenao(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento = 0,
+              SeSenao(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento = 0,
                               '',
                               DateTimeToStr(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento));
   Result := aMsg;

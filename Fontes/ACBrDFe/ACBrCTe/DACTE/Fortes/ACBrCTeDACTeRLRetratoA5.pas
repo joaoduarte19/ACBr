@@ -518,13 +518,13 @@ begin
         cdsDocumentos.Append;
 
         cdsDocumentos.FieldByname('TIPO_1').AsString := 'NF';
-        cdsDocumentos.FieldByname('CNPJCPF_1').AsString := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+        cdsDocumentos.FieldByname('CNPJCPF_1').AsString := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
         cdsDocumentos.FieldByname('DOCUMENTO_1').AsString := serie + '-' + nDoc;
       end
       else
       begin
         cdsDocumentos.FieldByname('TIPO_2').AsString := 'NF';
-        cdsDocumentos.FieldByname('CNPJCPF_2').AsString := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+        cdsDocumentos.FieldByname('CNPJCPF_2').AsString := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
         cdsDocumentos.FieldByname('DOCUMENTO_2').AsString := serie + '-' + nDoc;
 
         cdsDocumentos.Post;
@@ -564,22 +564,22 @@ begin
         case tpDoc of
          tdDeclaracao: begin
                         cdsDocumentos.FieldByname('TIPO_1').AsString      := 'DECLAR';
-                        cdsDocumentos.FieldByname('CNPJCPF_1').AsString   := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+                        cdsDocumentos.FieldByname('CNPJCPF_1').AsString   := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
                         cdsDocumentos.FieldByname('DOCUMENTO_1').AsString := 'Declaração Doc.: ' + nDoc;
                        end;
          tdDutoviario: begin
                         cdsDocumentos.FieldByname('TIPO_1').AsString      := 'DUTO';
-                        cdsDocumentos.FieldByname('CNPJCPF_1').AsString   := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+                        cdsDocumentos.FieldByname('CNPJCPF_1').AsString   := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
                         cdsDocumentos.FieldByname('DOCUMENTO_1').AsString := 'Dutoviário Doc.: ' + nDoc;
                        end;
          tdOutros:     begin
                         cdsDocumentos.FieldByname('TIPO_1').AsString      := 'Outros';
-                        cdsDocumentos.FieldByname('CNPJCPF_1').AsString   := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+                        cdsDocumentos.FieldByname('CNPJCPF_1').AsString   := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
                         cdsDocumentos.FieldByname('DOCUMENTO_1').AsString := copy( trim(descOutros), 1, 20 ) + ' Doc.: '+ nDoc;
                        end;
         end;
 //        cdsDocumentos.FieldByname('TIPO_1').AsString := descOutros;
-//        cdsDocumentos.FieldByname('CNPJCPF_1').AsString := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+//        cdsDocumentos.FieldByname('CNPJCPF_1').AsString := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
       end
       else
       begin
@@ -587,22 +587,22 @@ begin
         case tpDoc of
          tdDeclaracao: begin
                         cdsDocumentos.FieldByname('TIPO_2').AsString      := 'DECLAR';
-                        cdsDocumentos.FieldByname('CNPJCPF_2').AsString   := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+                        cdsDocumentos.FieldByname('CNPJCPF_2').AsString   := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
                         cdsDocumentos.FieldByname('DOCUMENTO_2').AsString := 'Declaração Doc.: ' + nDoc;
                        end;
          tdDutoviario: begin
                         cdsDocumentos.FieldByname('TIPO_2').AsString      := 'DUTO';
-                        cdsDocumentos.FieldByname('CNPJCPF_2').AsString   := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+                        cdsDocumentos.FieldByname('CNPJCPF_2').AsString   := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
                         cdsDocumentos.FieldByname('DOCUMENTO_2').AsString := 'Dutoviário Doc.: ' + nDoc;
                        end;
          tdOutros:     begin
                         cdsDocumentos.FieldByname('TIPO_2').AsString      := 'Outros';
-                        cdsDocumentos.FieldByname('CNPJCPF_2').AsString   := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+                        cdsDocumentos.FieldByname('CNPJCPF_2').AsString   := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
                         cdsDocumentos.FieldByname('DOCUMENTO_2').AsString := copy( trim(descOutros), 1, 20 ) + ' Doc.: '+ nDoc;
                        end;
         end;
 //        cdsDocumentos.FieldByname('TIPO_2').AsString := descOutros;
-//        cdsDocumentos.FieldByname('CNPJCPF_2').AsString := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+//        cdsDocumentos.FieldByname('CNPJCPF_2').AsString := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
         cdsDocumentos.Post;
       end;
       inc(Item);
@@ -638,7 +638,7 @@ begin
              daTIF:  cdsDocumentos.FieldByname('TIPO_1').AsString := 'TIF';
              daOutros: cdsDocumentos.FieldByname('TIPO_1').AsString := 'Outros';
             end;
-            cdsDocumentos.FieldByname('CNPJCPF_1').AsString := DFeUtil.FormatarCNPJCPF(FCTe.infCTeNorm.docAnt.emiDocAnt.Items[I].CNPJCPF);
+            cdsDocumentos.FieldByname('CNPJCPF_1').AsString := FormatarCNPJCPF(FCTe.infCTeNorm.docAnt.emiDocAnt.Items[I].CNPJCPF);
             cdsDocumentos.FieldByname('DOCUMENTO_1').AsString := serie + '-' + IntToStr(nDoc);
           end
           else
@@ -659,7 +659,7 @@ begin
              daTIF:  cdsDocumentos.FieldByname('TIPO_2').AsString := 'TIF';
              daOutros: cdsDocumentos.FieldByname('TIPO_2').AsString := 'Outros';
             end;
-            cdsDocumentos.FieldByname('CNPJCPF_2').AsString := DFeUtil.FormatarCNPJCPF(FCTe.infCTeNorm.docAnt.emiDocAnt.Items[I].CNPJCPF);
+            cdsDocumentos.FieldByname('CNPJCPF_2').AsString := FormatarCNPJCPF(FCTe.infCTeNorm.docAnt.emiDocAnt.Items[I].CNPJCPF);
             cdsDocumentos.FieldByname('DOCUMENTO_2').AsString := serie + '-' + IntToStr(nDoc);
 
             cdsDocumentos.Post;
@@ -707,13 +707,13 @@ begin
         cdsDocumentos.Append;
 
         cdsDocumentos.FieldByname('TIPO_1').AsString := 'NF';
-        cdsDocumentos.FieldByname('CNPJCPF_1').AsString := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+        cdsDocumentos.FieldByname('CNPJCPF_1').AsString := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
         cdsDocumentos.FieldByname('DOCUMENTO_1').AsString := serie + '-' + nDoc;
       end
       else
       begin
         cdsDocumentos.FieldByname('TIPO_2').AsString := 'NF';
-        cdsDocumentos.FieldByname('CNPJCPF_2').AsString := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+        cdsDocumentos.FieldByname('CNPJCPF_2').AsString := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
         cdsDocumentos.FieldByname('DOCUMENTO_2').AsString := serie + '-' + nDoc;
 
         cdsDocumentos.Post;
@@ -753,22 +753,22 @@ begin
         case tpDoc of
          tdDeclaracao: begin
                         cdsDocumentos.FieldByname('TIPO_1').AsString      := 'DECLAR';
-                        cdsDocumentos.FieldByname('CNPJCPF_1').AsString   := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+                        cdsDocumentos.FieldByname('CNPJCPF_1').AsString   := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
                         cdsDocumentos.FieldByname('DOCUMENTO_1').AsString := 'Declaração Doc.: ' + nDoc;
                        end;
          tdDutoviario: begin
                         cdsDocumentos.FieldByname('TIPO_1').AsString      := 'DUTO';
-                        cdsDocumentos.FieldByname('CNPJCPF_1').AsString   := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+                        cdsDocumentos.FieldByname('CNPJCPF_1').AsString   := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
                         cdsDocumentos.FieldByname('DOCUMENTO_1').AsString := 'Dutoviário Doc.: ' + nDoc;
                        end;
          tdOutros:     begin
                         cdsDocumentos.FieldByname('TIPO_1').AsString      := 'Outros';
-                        cdsDocumentos.FieldByname('CNPJCPF_1').AsString   := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+                        cdsDocumentos.FieldByname('CNPJCPF_1').AsString   := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
                         cdsDocumentos.FieldByname('DOCUMENTO_1').AsString := copy( trim(descOutros), 1, 20 ) + ' Doc.: '+ nDoc;
                        end;
         end;
 //        cdsDocumentos.FieldByname('TIPO_1').AsString := descOutros;
-//        cdsDocumentos.FieldByname('CNPJCPF_1').AsString := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+//        cdsDocumentos.FieldByname('CNPJCPF_1').AsString := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
       end
       else
       begin
@@ -776,22 +776,22 @@ begin
         case tpDoc of
          tdDeclaracao: begin
                         cdsDocumentos.FieldByname('TIPO_2').AsString      := 'DECLAR';
-                        cdsDocumentos.FieldByname('CNPJCPF_2').AsString   := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+                        cdsDocumentos.FieldByname('CNPJCPF_2').AsString   := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
                         cdsDocumentos.FieldByname('DOCUMENTO_2').AsString := 'Declaração Doc.: ' + nDoc;
                        end;
          tdDutoviario: begin
                         cdsDocumentos.FieldByname('TIPO_2').AsString      := 'DUTO';
-                        cdsDocumentos.FieldByname('CNPJCPF_2').AsString   := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+                        cdsDocumentos.FieldByname('CNPJCPF_2').AsString   := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
                         cdsDocumentos.FieldByname('DOCUMENTO_2').AsString := 'Dutoviário Doc.: ' + nDoc;
                        end;
          tdOutros:     begin
                         cdsDocumentos.FieldByname('TIPO_2').AsString      := 'Outros';
-                        cdsDocumentos.FieldByname('CNPJCPF_2').AsString   := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+                        cdsDocumentos.FieldByname('CNPJCPF_2').AsString   := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
                         cdsDocumentos.FieldByname('DOCUMENTO_2').AsString := copy( trim(descOutros), 1, 20 ) + ' Doc.: '+ nDoc;
                        end;
         end;
 //        cdsDocumentos.FieldByname('TIPO_2').AsString := descOutros;
-//        cdsDocumentos.FieldByname('CNPJCPF_2').AsString := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+//        cdsDocumentos.FieldByname('CNPJCPF_2').AsString := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
         cdsDocumentos.Post;
       end;
       inc(Item);
@@ -827,7 +827,7 @@ begin
              daTIF:  cdsDocumentos.FieldByname('TIPO_1').AsString := 'TIF';
              daOutros: cdsDocumentos.FieldByname('TIPO_1').AsString := 'Outros';
             end;
-            cdsDocumentos.FieldByname('CNPJCPF_1').AsString := DFeUtil.FormatarCNPJCPF(FCTe.infCTeNorm.emiDocAnt.Items[I].CNPJCPF);
+            cdsDocumentos.FieldByname('CNPJCPF_1').AsString := FormatarCNPJCPF(FCTe.infCTeNorm.emiDocAnt.Items[I].CNPJCPF);
             cdsDocumentos.FieldByname('DOCUMENTO_1').AsString := serie + '-' + IntToStr(nDoc);
           end
           else
@@ -848,7 +848,7 @@ begin
              daTIF:  cdsDocumentos.FieldByname('TIPO_2').AsString := 'TIF';
              daOutros: cdsDocumentos.FieldByname('TIPO_2').AsString := 'Outros';
             end;
-            cdsDocumentos.FieldByname('CNPJCPF_2').AsString := DFeUtil.FormatarCNPJCPF(FCTe.infCTeNorm.emiDocAnt.Items[I].CNPJCPF);
+            cdsDocumentos.FieldByname('CNPJCPF_2').AsString := FormatarCNPJCPF(FCTe.infCTeNorm.emiDocAnt.Items[I].CNPJCPF);
             cdsDocumentos.FieldByname('DOCUMENTO_2').AsString := serie + '-' + IntToStr(nDoc);
 
             cdsDocumentos.Post;
@@ -942,7 +942,7 @@ begin
   rllSerie.Caption := FormatFloat( '000', FCTe.Ide.serie);
   rllNumCte.Caption := FormatFloat( '000,000,000', FCTe.Ide.nCT );
   rllPageNumber.Caption := format('%2.2d', [rlCTe.PageNumber]) + '/' + format('%2.2d', [FTotalPages]);
-  rllEmissao.Caption := DFeUtil.FormatDateTime(DateTimeToStr(FCTe.Ide.dhEmi));
+  rllEmissao.Caption := FormatDateTime(DateTimeToStr(FCTe.Ide.dhEmi));
   rliBarCode.Caption := Copy(FCTe.InfCTe.Id, 4, 44);
   rllChave.Caption := CTeUtil.FormatarChaveAcesso(Copy(FCTe.InfCTe.Id, 4, 44));
 
@@ -961,11 +961,11 @@ begin
         rlmDadosEmitente.Lines.Add(XLgr + IfThen(Nro = '0', '', ', ' + Nro));
         if XCpl<>'' then rlmDadosEmitente.Lines.Add(XCpl);
         if XBairro<>'' then rlmDadosEmitente.Lines.Add(XBairro);
-        rlmDadosEmitente.Lines.Add('CEP: ' + DFeUtil.FormatarCEP(FormatFloat( '00000000', CEP )) + ' - ' + XMun + ' - ' + UF);
+        rlmDadosEmitente.Lines.Add('CEP: ' + FormatarCEP(FormatFloat( '00000000', CEP )) + ' - ' + XMun + ' - ' + UF);
       end;
-      rlmDadosEmitente.Lines.Add('CNPJ: ' + DFeUtil.FormatarCNPJ(CNPJ));
+      rlmDadosEmitente.Lines.Add('CNPJ: ' + FormatarCNPJ(CNPJ));
       rlmDadosEmitente.Lines.Add('INSCRIÇÃO ESTADUAL: ' + IE);
-      rlmDadosEmitente.Lines.Add('TELEFONE: ' + DFeUtil.FormatarFone(EnderEmit.Fone));
+      rlmDadosEmitente.Lines.Add('TELEFONE: ' + FormatarFone(EnderEmit.Fone));
 
       if Trim(FUrl) <> '' then
         rlmDadosEmitente.Lines.Add(FUrl);
@@ -996,7 +996,7 @@ begin
     if FProtocoloCTE <> ''
      then rllProtocolo.Caption := FProtocoloCTE
      else rllProtocolo.Caption := FCTe.procCTe.nProt + '   ' +
-                                     DFeUtil.SeSenao(FCTe.procCTe.dhRecbto <> 0,
+                                     SeSenao(FCTe.procCTe.dhRecbto <> 0,
                                       DateTimeToStr(FCTe.procCTe.dhRecbto), '');
    end;
 
@@ -1019,7 +1019,7 @@ begin
       if FProtocoloCTE <> ''
        then rllProtocolo.Caption := FProtocoloCTE
        else rllProtocolo.Caption := FCTe.procCTe.nProt + '   ' +
-                                    DFeUtil.SeSenao(FCTe.procCTe.dhRecbto <> 0,
+                                    SeSenao(FCTe.procCTe.dhRecbto <> 0,
                                         DateTimeToStr(FCTe.procCTe.dhRecbto), '');
      end
      else begin
@@ -1059,31 +1059,31 @@ begin
   rllRazaoRemet.Caption := FCTe.Rem.xNome;
   rllEnderecoRemet1.Caption := FCTe.Rem.EnderReme.xLgr + ', ' + FCTe.Rem.EnderReme.nro;
   rllEnderecoRemet2.Caption := FCTe.Rem.EnderReme.xCpl + ' - ' + FCTe.Rem.EnderReme.xBairro;
-  rllCEPRemet.Caption := DFeUtil.FormatarCEP(FormatFloat( '00000000', FCTe.Rem.EnderReme.CEP ));
+  rllCEPRemet.Caption := FormatarCEP(FormatFloat( '00000000', FCTe.Rem.EnderReme.CEP ));
   rllMunRemet.Caption := FCTe.Rem.EnderReme.xMun+' - '+FCTe.Rem.EnderReme.UF;
-  rllCnpjRemet.Caption := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+  rllCnpjRemet.Caption := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
   rllPaisRemet.Caption := FCTe.Rem.EnderReme.xPais;
   rllInscEstRemet.Caption := FCTe.Rem.IE;
-  rllFoneRemet.Caption := DFeUtil.FormatarFone(FCTe.Rem.fone);
+  rllFoneRemet.Caption := FormatarFone(FCTe.Rem.fone);
 
   //DADOS DESTINATARIO
   rllRazaoDest.Caption := FCTe.Dest.xNome;
   rllEnderecoDest1.Caption := FCTe.Dest.EnderDest.xLgr + ', ' + FCTe.Dest.EnderDest.nro;
   rllEnderecoDest2.Caption := FCTe.Dest.EnderDest.xCpl + ' - ' + FCTe.Dest.EnderDest.xBairro;
-  rllCEPDest.Caption := DFeUtil.FormatarCEP(FormatFloat( '00000000', FCTe.Dest.EnderDest.CEP));
+  rllCEPDest.Caption := FormatarCEP(FormatFloat( '00000000', FCTe.Dest.EnderDest.CEP));
   rllMunDest.Caption := FCTe.Dest.EnderDest.xMun+' - '+FCTe.Dest.EnderDest.UF;
-  rllCnpjDest.Caption := DFeUtil.FormatarCNPJCPF(FCTe.Dest.CNPJCPF);
+  rllCnpjDest.Caption := FormatarCNPJCPF(FCTe.Dest.CNPJCPF);
   rllPaisDest.Caption := FCTe.Dest.EnderDest.xPais;
   rllInscEstDest.Caption := FCTe.Dest.IE;
-  rllFoneDest.Caption := DFeUtil.FormatarFone(FCTe.Dest.fone);
+  rllFoneDest.Caption := FormatarFone(FCTe.Dest.fone);
   (*
   //DADOS EXPEDIDOR
   rllRazaoExped.Caption := FCTe.Exped.xNome;
   rllEnderecoExped1.Caption := FCTe.Exped.EnderExped.xLgr + ', ' + FCTe.Exped.EnderExped.nro;
   rllEnderecoExped2.Caption := FCTe.Exped.EnderExped.xCpl + ' - ' + FCTe.Exped.EnderExped.xBairro;
-  rllCEPExped.Caption := DFeUtil.FormatarCEP(FormatFloat( '00000000', FCTe.Exped.EnderExped.CEP));
+  rllCEPExped.Caption := FormatarCEP(FormatFloat( '00000000', FCTe.Exped.EnderExped.CEP));
   rllMunExped.Caption := FCTe.Exped.EnderExped.xMun+' - '+FCTe.Exped.EnderExped.UF;
-  rllCnpjExped.Caption := DFeUtil.FormatarCNPJCPF(FCTe.Exped.CNPJCPF);
+  rllCnpjExped.Caption := FormatarCNPJCPF(FCTe.Exped.CNPJCPF);
   rllPaisExped.Caption := FCTe.Exped.EnderExped.xPais;
   rllInscEstExped.Caption := FCTe.Exped.IE;
   rllFoneExped.Caption := CTeUtil.FormatarFone(FCTe.Exped.fone);
@@ -1094,7 +1094,7 @@ begin
   rllEnderecoReceb2.Caption := FCTe.Receb.EnderReceb.xCpl + ' - ' + FCTe.Receb.EnderReceb.xBairro;
   rllCEPReceb.Caption := CTeUtil.FormatarCEP(FormatFloat( '00000000', FCTe.Receb.EnderReceb.CEP));
   rllMunReceb.Caption := FCTe.Receb.EnderReceb.xMun+' - '+FCTe.Receb.EnderReceb.UF;
-  rllCnpjReceb.Caption := DFeUtil.FormatarCNPJCPF(FCTe.Receb.CNPJCPF);
+  rllCnpjReceb.Caption := FormatarCNPJCPF(FCTe.Receb.CNPJCPF);
   rllPaisReceb.Caption := FCTe.Receb.EnderReceb.xPais;
   rllInscEstReceb.Caption := FCTe.Receb.IE;
   rllFoneReceb.Caption := CTeUtil.FormatarFone(FCTe.Receb.fone);
@@ -1108,7 +1108,7 @@ begin
         rllEnderecoToma.Caption := FCTe.Rem.EnderReme.xLgr + ', ' + FCTe.Rem.EnderReme.nro + ' - ' + FCTe.Rem.EnderReme.xCpl + ' - ' + FCTe.Rem.EnderReme.xBairro;
         rllCEPToma.Caption := CTeUtil.FormatarCEP(FormatFloat( '00000000', FCTe.Rem.EnderReme.CEP));
         rllMunToma.Caption := FCTe.Rem.EnderReme.xMun+' - '+FCTe.Rem.EnderReme.UF;
-        rllCnpjToma.Caption := DFeUtil.FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
+        rllCnpjToma.Caption := FormatarCNPJCPF(FCTe.Rem.CNPJCPF);
         rllPaisToma.Caption := FCTe.Rem.EnderReme.xPais;
         rllInscEstToma.Caption := FCTe.Rem.IE;
         rllFoneToma.Caption := CTeUtil.FormatarFone(FCTe.Rem.fone);
@@ -1119,7 +1119,7 @@ begin
         rllEnderecoToma.Caption := FCTe.Exped.EnderExped.xLgr + ', ' + FCTe.Exped.EnderExped.nro + ' - ' + FCTe.Exped.EnderExped.xCpl + ' - ' + FCTe.Exped.EnderExped.xBairro;
         rllCEPToma.Caption := CTeUtil.FormatarCEP(FormatFloat( '00000000', FCTe.Exped.EnderExped.CEP));
         rllMunToma.Caption := FCTe.Exped.EnderExped.xMun+' - '+FCTe.Exped.EnderExped.UF;
-        rllCnpjToma.Caption := DFeUtil.FormatarCNPJCPF(FCTe.Exped.CNPJCPF);
+        rllCnpjToma.Caption := FormatarCNPJCPF(FCTe.Exped.CNPJCPF);
         rllPaisToma.Caption := FCTe.Exped.EnderExped.xPais;
         rllInscEstToma.Caption := FCTe.Exped.IE;
         rllFoneToma.Caption := CTeUtil.FormatarFone(FCTe.Exped.fone);
@@ -1130,7 +1130,7 @@ begin
         rllEnderecoToma.Caption := FCTe.Receb.EnderReceb.xLgr + ', ' + FCTe.Receb.EnderReceb.nro + ' - ' + FCTe.Receb.EnderReceb.xCpl + ' - ' + FCTe.Receb.EnderReceb.xBairro;
         rllCEPToma.Caption := CTeUtil.FormatarCEP(FormatFloat( '00000000', FCTe.Receb.EnderReceb.CEP));
         rllMunToma.Caption := FCTe.Receb.EnderReceb.xMun+' - '+FCTe.Receb.EnderReceb.UF;
-        rllCnpjToma.Caption := DFeUtil.FormatarCNPJCPF(FCTe.Receb.CNPJCPF);
+        rllCnpjToma.Caption := FormatarCNPJCPF(FCTe.Receb.CNPJCPF);
         rllPaisToma.Caption := FCTe.Receb.EnderReceb.xPais;
         rllInscEstToma.Caption := FCTe.Receb.IE;
         rllFoneToma.Caption := CTeUtil.FormatarFone(FCTe.Receb.fone);
@@ -1141,7 +1141,7 @@ begin
         rllEnderecoToma.Caption := FCTe.Dest.EnderDest.xLgr + ', ' + FCTe.Dest.EnderDest.nro + ' - ' + FCTe.Dest.EnderDest.xCpl + ' - ' + FCTe.Dest.EnderDest.xBairro;
         rllCEPToma.Caption := CTeUtil.FormatarCEP(FormatFloat( '00000000', FCTe.Dest.EnderDest.CEP));
         rllMunToma.Caption := FCTe.Dest.EnderDest.xMun+' - '+FCTe.Dest.EnderDest.UF;
-        rllCnpjToma.Caption := DFeUtil.FormatarCNPJCPF(FCTe.Dest.CNPJCPF);
+        rllCnpjToma.Caption := FormatarCNPJCPF(FCTe.Dest.CNPJCPF);
         rllPaisToma.Caption := FCTe.Dest.EnderDest.xPais;
         rllInscEstToma.Caption := FCTe.Dest.IE;
         rllFoneToma.Caption := CTeUtil.FormatarFone(FCTe.Dest.fone);
@@ -1153,7 +1153,7 @@ begin
     rllEnderecoToma.Caption := FCTe.Ide.Toma4.EnderToma.xLgr + ', ' + FCTe.Ide.Toma4.EnderToma.nro + ' - ' + FCTe.Ide.Toma4.EnderToma.xCpl + ' - ' + FCTe.Ide.Toma4.EnderToma.xBairro;
     rllCEPToma.Caption := CTeUtil.FormatarCEP(FormatFloat( '00000000', FCTe.Ide.Toma4.EnderToma.CEP));
     rllMunToma.Caption := FCTe.Ide.Toma4.EnderToma.xMun+' - '+FCTe.Ide.Toma4.EnderToma.UF;
-    rllCnpjToma.Caption := DFeUtil.FormatarCNPJCPF(FCTe.Ide.Toma4.CNPJCPF);
+    rllCnpjToma.Caption := FormatarCNPJCPF(FCTe.Ide.Toma4.CNPJCPF);
     rllPaisToma.Caption := FCTe.Ide.Toma4.EnderToma.xPais;
     rllInscEstToma.Caption := FCTe.Ide.Toma4.IE;
     rllFoneToma.Caption := CTeUtil.FormatarFone(FCTe.Ide.Toma4.fone);
@@ -1758,15 +1758,15 @@ begin
 
   for i := 0 to (FCTe.infCTeNorm.Rodo.valePed.Count -1) do
   begin
-   rlmCNPJForn.Lines.Add(DFeUtil.FormatarCNPJ(FCTe.infCTeNorm.Rodo.valePed.Items[i].CNPJForn));
+   rlmCNPJForn.Lines.Add(FormatarCNPJ(FCTe.infCTeNorm.Rodo.valePed.Items[i].CNPJForn));
    rlmNumCompra.Lines.Add(FCTe.infCTeNorm.Rodo.valePed.Items[i].nCompra);
-   rlmCNPJPg.Lines.Add(DFeUtil.FormatarCNPJ(FCTe.infCTeNorm.Rodo.valePed.Items[i].CNPJPg));
+   rlmCNPJPg.Lines.Add(FormatarCNPJ(FCTe.infCTeNorm.Rodo.valePed.Items[i].CNPJPg));
   end;
 
   if FCTe.infCTeNorm.Rodo.moto.Count>0
    then begin
     rllNomeMotorista2.Caption := FCTe.infCTeNorm.Rodo.moto.Items[0].xNome;
-    rllCPFMotorista2.Caption  := DFeUtil.FormatarCPF(FCTe.infCTeNorm.Rodo.moto.Items[0].CPF);
+    rllCPFMotorista2.Caption  := FormatarCPF(FCTe.infCTeNorm.Rodo.moto.Items[0].CPF);
    end;
 
   for i := 0 to (FCTe.infCTeNorm.Rodo.lacRodo.Count - 1) do
@@ -1787,16 +1787,16 @@ begin
 {$IFDEF PL_104}
   for i := 0 to FCTe.Rodo.valePed.Count -1 do
   begin
-   rlmCNPJForn.Lines.Add(DFeUtil.FormatarCNPJ(FCTe.Rodo.valePed.Items[i].CNPJForn));
+   rlmCNPJForn.Lines.Add(FormatarCNPJ(FCTe.Rodo.valePed.Items[i].CNPJForn));
    rlmNumCompra.Lines.Add(FCTe.Rodo.valePed.Items[i].nCompra);
-   rlmCNPJPg.Lines.Add(DFeUtil.FormatarCNPJ(FCTe.Rodo.valePed.Items[i].CNPJPg));
+   rlmCNPJPg.Lines.Add(FormatarCNPJ(FCTe.Rodo.valePed.Items[i].CNPJPg));
   end;
 {$ENDIF}
 
   if FCTe.Rodo.moto.Count>0
    then begin
     rllNomeMotorista2.Caption := FCTe.Rodo.moto.Items[0].xNome;
-    rllCPFMotorista2.Caption  := DFeUtil.FormatarCPF(FCTe.Rodo.moto.Items[0].CPF);
+    rllCPFMotorista2.Caption  := FormatarCPF(FCTe.Rodo.moto.Items[0].CPF);
    end;
 
   for i := 0 to FCTe.Rodo.Lacres.Count - 1 do

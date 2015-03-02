@@ -478,7 +478,7 @@ begin
                               IfThen(XBairro = '', '', ', ' + XBairro) +
                               ', ' + XMun + '/ ' + UF);
        end;
-      qrmEmitente.Lines.Add('CNPJ: ' + DFeUtil.FormatarCNPJ(CNPJCPF) +
+      qrmEmitente.Lines.Add('CNPJ: ' + FormatarCNPJ(CNPJCPF) +
                             ' IE: '+ IE);
      end;
    end;
@@ -550,21 +550,21 @@ begin
   qrmPagValor.Lines.Add(IntToStr(TotalItens));
 
   qrmPagDesc.Lines.Add('VALOR TOTAL');
-//  qrmPagValor.Lines.Add(DFeUtil.FormatFloat(FNFE.Total.ICMSTot.vNF));
-  qrmPagValor.Lines.Add(DFeUtil.FormatFloat(FNFE.Total.ICMSTot.vProd));
+//  qrmPagValor.Lines.Add(FormatFloat(FNFE.Total.ICMSTot.vNF));
+  qrmPagValor.Lines.Add(FormatFloat(FNFE.Total.ICMSTot.vProd));
 
   if FNFE.Total.ICMSTot.vDesc > 0.0
    then begin
      qrmPagDesc.Lines.Add('TOTAL DESCONTOS');
-     qrmPagValor.Lines.Add(DFeUtil.FormatFloat(FNFE.Total.ICMSTot.vDesc));
+     qrmPagValor.Lines.Add(FormatFloat(FNFE.Total.ICMSTot.vDesc));
      qrmPagDesc.Lines.Add('TOTAL LIQUIDO');
-     qrmPagValor.Lines.Add(DFeUtil.FormatFloat(FNFE.Total.ICMSTot.vNF));
+     qrmPagValor.Lines.Add(FormatFloat(FNFE.Total.ICMSTot.vNF));
    end;
 
   if FvTroco > 0.0
    then begin
      qrmPagDesc.Lines.Add('TROCO');
-     qrmPagValor.Lines.Add(DFeUtil.FormatFloat(FvTroco));
+     qrmPagValor.Lines.Add(FormatFloat(FvTroco));
    end;
 
   qrmPagDesc.Lines.Add('FORMA DE PAGAMENTO');
@@ -588,7 +588,7 @@ begin
      fpOutro:           qrmPagDesc.Lines.Add('Outro');
     end;
 
-    qrmPagValor.Lines.Add(DFeUtil.FormatFloat(FNFE.pag.Items[i].vPag));
+    qrmPagValor.Lines.Add(FormatFloat(FNFE.pag.Items[i].vPag));
    end;
 end;
 
@@ -602,8 +602,8 @@ begin
   PrintBand := (FNFE.Total.ICMSTot.vTotTrib <> 0);
   Perc := (FNFE.Total.ICMSTot.vTotTrib / FNFE.Total.ICMSTot.vNF) * 100;
   qrlTributos.Caption := 'Val Aprox. dos Tributos: ' +
-                         DFeUtil.FormatFloat(FNFE.Total.ICMSTot.vTotTrib) +
-                         '(' + DFeUtil.FormatFloat(Perc) + '%)(Fonte: IBPT)';
+                         FormatFloat(FNFE.Total.ICMSTot.vTotTrib) +
+                         '(' + FormatFloat(Perc) + '%)(Fonte: IBPT)';
 end;
 
 procedure TfqrDANFeQRNFCe.qrb05a_InfComplementarBeforePrint(
@@ -651,7 +651,7 @@ begin
 
   { 10/10/2014 : Edilson Alves de Oliveira
     - Descrição Via do consumidor e Via do estabelecimento como pedi o manual}
-  qrlEmissao.Caption := 'Emissão: ' + DFeUtil.FormatDateTime(DateToStr(FNFe.Ide.dEmi)) +
+  qrlEmissao.Caption := 'Emissão: ' + FormatDateTime(DateToStr(FNFe.Ide.dEmi)) +
                        IfThen(FViaConsumidor,' - Via do consumidor', ' - Via do estabelecimento');
                        
   qrlSiteConsulta.Caption := NotaUtil.GetURLConsultaNFCe(FNFE.Ide.cUF, FNFe.Ide.tpAmb);
@@ -668,7 +668,7 @@ begin
   if FNFE.Dest.CNPJCPF <> ''
      then begin
             qrlDestCNPJ.lines.Add( 'CPF/CNPJ: ' +
-                                   DFeUtil.FormatarCNPJCPF(FNFE.Dest.CNPJCPF) +
+                                   FormatarCNPJCPF(FNFE.Dest.CNPJCPF) +
                                    FNFE.Dest.xNome);
             qrlDestCNPJ.lines.Add( FNFE.Dest.EnderDest.xLgr + ', ' +
                                    FNFE.Dest.EnderDest.nro + ' ' +
@@ -775,7 +775,7 @@ begin
   if FProtocoloNFE <> ''
    then qrlProtocolo.Caption := FProtocoloNFE
    else qrlProtocolo.Caption := FNFe.procNFe.nProt + ' ' +
-                                DFeUtil.SeSenao(FNFe.procNFe.dhRecbto <> 0, DateTimeToStr(FNFe.procNFe.dhRecbto), '');
+                                SeSenao(FNFe.procNFe.dhRecbto <> 0, DateTimeToStr(FNFe.procNFe.dhRecbto), '');
 end;
 
 end.

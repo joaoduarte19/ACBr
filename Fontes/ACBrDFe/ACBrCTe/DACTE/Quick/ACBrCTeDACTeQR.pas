@@ -373,7 +373,7 @@ begin
   else
     Result := Result + FCTe.Ide.Toma4.xNome;
 
-  Result := Result + ' - VALOR A RECEBER: R$ ' + DFeUtil.FormatFloat(FCTe.vPrest.vRec, '###,###,###,##0.00');
+  Result := Result + ' - VALOR A RECEBER: R$ ' + FormatFloat(FCTe.vPrest.vRec, '###,###,###,##0.00');
 end;
 
 end.

@@ -161,15 +161,15 @@ begin
 
       with IdentificacaoRps do
       begin
-        FieldByName('Numero').AsString    := DFeUtil.FormatarNumeroDocumentoFiscal(Numero);
+        FieldByName('Numero').AsString    := FormatarNumeroDocumentoFiscal(Numero);
 //        FieldByName('Serie').AsString     := Serie;
-//        FieldByName('Tipo').AsString      := DFeUtil.SeSenao(Tipo = trRPS, '0','1');
+//        FieldByName('Tipo').AsString      := SeSenao(Tipo = trRPS, '0','1');
       end;
 
       FieldByName('Competencia').AsString       := Competencia;
-      FieldByName('NFSeSubstituida').AsString   := DFeUtil.FormatarNumeroDocumentoFiscalNFSe(NfseSubstituida);
-      FieldByName('NumeroNFSe').AsString        := DFeUtil.FormatarNumeroDocumentoFiscalNFSe(Numero);
-      FieldByName('DataEmissao').AsString       := DFeUtil.FormatDateTime(DateTimeToStr(DataEmissao));
+      FieldByName('NFSeSubstituida').AsString   := FormatarNumeroDocumentoFiscalNFSe(NfseSubstituida);
+      FieldByName('NumeroNFSe').AsString        := FormatarNumeroDocumentoFiscalNFSe(Numero);
+      FieldByName('DataEmissao').AsString       := FormatDateTime(DateTimeToStr(DataEmissao));
       FieldByName('CodigoVerificacao').AsString := CodigoVerificacao;
     end;
 
@@ -227,13 +227,13 @@ begin
        FieldByName('CodigoMunicipio').AsString          := CodCidadeToCidade(StrToInt(CodigoMunicipio))
       else
        FieldByName('CodigoMunicipio').AsString          := '';
-      FieldByName('ExigibilidadeISS').AsString          := DFeUtil.SeSenao(ExigibilidadeISS = exiExigivel,               'Exigível',
-                                                           DFeUtil.SeSenao(ExigibilidadeISS = exiNaoIncidencia,          'Não Incidência',
-                                                           DFeUtil.SeSenao(ExigibilidadeISS = exiIsencao,                'Isenção',
-                                                           DFeUtil.SeSenao(ExigibilidadeISS = exiExportacao,             'Exportação',
-                                                           DFeUtil.SeSenao(ExigibilidadeISS = exiImunidade,              'Imunidade',
-                                                           DFeUtil.SeSenao(ExigibilidadeISS = exiSuspensaDecisaoJudicial,'Suspensa Decisao Judicial',
-                                                           DFeUtil.SeSenao(ExigibilidadeISS = exiSuspensaDecisaoJudicial,'Suspensa Processo Administrativo',
+      FieldByName('ExigibilidadeISS').AsString          := SeSenao(ExigibilidadeISS = exiExigivel,               'Exigível',
+                                                           SeSenao(ExigibilidadeISS = exiNaoIncidencia,          'Não Incidência',
+                                                           SeSenao(ExigibilidadeISS = exiIsencao,                'Isenção',
+                                                           SeSenao(ExigibilidadeISS = exiExportacao,             'Exportação',
+                                                           SeSenao(ExigibilidadeISS = exiImunidade,              'Imunidade',
+                                                           SeSenao(ExigibilidadeISS = exiSuspensaDecisaoJudicial,'Suspensa Decisao Judicial',
+                                                           SeSenao(ExigibilidadeISS = exiSuspensaDecisaoJudicial,'Suspensa Processo Administrativo',
                                                            '' )))))));
       FieldByName('MunicipioIncidencia').AsString       := CodCidadeToCidade(StrToIntDef(CodigoMunicipio,0)); // MunicipioIncidencia // removido pois sempre vem em branco.. (Oneide)
     end;
@@ -335,7 +335,7 @@ begin
 
       with IdentificacaoPrestador do
       begin
-        FieldByName('Cnpj').AsString                    := DFeUtil.FormatarCNPJ(Cnpj);
+        FieldByName('Cnpj').AsString                    := FormatarCNPJ(Cnpj);
         FieldByName('InscricaoMunicipal').AsString      := InscricaoMunicipal;
       end;
       with Endereco do
@@ -346,13 +346,13 @@ begin
         FieldByName('Bairro').AsString                  := Bairro;
         FieldByName('CodigoMunicipio').AsString         := CodigoMunicipio;
         FieldByName('UF').AsString                      := UF;
-        FieldByName('CEP').AsString                     := DFeUtil.FormatarCEP(CEP);
-        FieldByName('xMunicipio').AsString              := DFeUtil.CollateBr(xMunicipio);
+        FieldByName('CEP').AsString                     := FormatarCEP(CEP);
+        FieldByName('xMunicipio').AsString              := CollateBr(xMunicipio);
         FieldByName('CodigoPais').AsString              := IntToStr(CodigoPais);
       end;
       with Contato do
       begin
-        FieldByName('Telefone').AsString                := DFeUtil.FormatarFone(Telefone);
+        FieldByName('Telefone').AsString                := FormatarFone(Telefone);
         FieldByName('Email').AsString                   := Email;
       end;
     end;
@@ -382,7 +382,7 @@ begin
 	  
       FieldByName('CodigoPais').AsString                := IntToStr(CodigoPais);
       FieldByName('NumeroProcesso').AsString            := NumeroProcesso;
-//      FieldByName('ResponsavelRetencao').AsString       := DFeUtil.SeSenao(ResponsavelRetencao = rtPrestador,'0','1');
+//      FieldByName('ResponsavelRetencao').AsString       := SeSenao(ResponsavelRetencao = rtPrestador,'0','1');
       FieldByName('Descricao').AsString                 := Descricao;
 
       with Valores do
@@ -394,7 +394,7 @@ begin
         FieldByName('ValorInss').AsFloat                := ValorInss;
         FieldByName('ValorIr').AsFloat                  := ValorIr;
         FieldByName('ValorCsll').AsFloat                := ValorCsll;
-//        FieldByName('IssRetido').AsString               := DFeUtil.SeSenao(IssRetido = stRetencao,'0', DFeUtil.SeSenao(IssRetido = stNormal,'2','3'));
+//        FieldByName('IssRetido').AsString               := SeSenao(IssRetido = stRetencao,'0', SeSenao(IssRetido = stNormal,'2','3'));
         FieldByName('ValorIss').AsFloat                 := ValorIss;
         FieldByName('OutrasRetencoes').AsFloat          := OutrasRetencoes;
         FieldByName('BaseCalculo').AsFloat              := BaseCalculo;
@@ -426,9 +426,9 @@ begin
         if NaoEstaVazio(CpfCnpj) then
         begin
           if Length(CpfCnpj) > 11 then
-            FieldByName('CpfCnpj').AsString := DFeUtil.FormatarCNPJ(CpfCnpj)
+            FieldByName('CpfCnpj').AsString := FormatarCNPJ(CpfCnpj)
           else
-            FieldByName('CpfCnpj').AsString := DFeUtil.FormatarCPF(CpfCnpj);
+            FieldByName('CpfCnpj').AsString := FormatarCPF(CpfCnpj);
         end
         else
           FieldByName('CpfCnpj').AsString := '';
@@ -444,14 +444,14 @@ begin
         FieldByName('Bairro').AsString                  := Bairro;
         FieldByName('CodigoMunicipio').AsString         := CodigoMunicipio;
         FieldByName('UF').AsString                      := UF;
-        FieldByName('CEP').AsString                     := DFeUtil.FormatarCEP(CEP);
-        FieldByName('xMunicipio').AsString              := DFeUtil.CollateBr(xMunicipio);
+        FieldByName('CEP').AsString                     := FormatarCEP(CEP);
+        FieldByName('xMunicipio').AsString              := CollateBr(xMunicipio);
         FieldByName('CodigoPais').AsString              := IntToStr(CodigoPais);
       end;
 
       with Contato do
       begin
-        FieldByName('Telefone').AsString                := DFeUtil.FormatarFone(Telefone);
+        FieldByName('Telefone').AsString                := FormatarFone(Telefone);
         FieldByName('Email').AsString                   := Email;
       end;
     end;

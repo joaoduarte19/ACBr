@@ -363,9 +363,9 @@ begin
   AXml := ConteudoXML;
   XmlAss := '';
 
-  if not DFeUtil.XmlEstaAssinado(AXml) then
+  if not XmlEstaAssinado(AXml) then
   begin
-    URI := DFeUtil.ExtraiURI(AXml);
+    URI := ExtraiURI(AXml);
 
     TagEndDocElement := '</' + docElement + '>';
     AXml := copy(AXml, 1, pos(TagEndDocElement, AXml) - 1);

@@ -657,7 +657,7 @@ begin
       aMsg := 'Ambiente : '+TpAmbToStr(GNRERetorno.Ambiente)+LineBreak+
                       'Status Código : '+IntToStr(GNRERetorno.codigo)+LineBreak+
                       'Status Descrição : '+GNRERetorno.descricao+LineBreak+
-                      'Recebimento : '+DFeUtil.SeSenao(GNRERetorno.dataHoraRecibo = 0, '', DateTimeToStr(GNRERetorno.dataHoraRecibo))+LineBreak+
+                      'Recebimento : '+SeSenao(GNRERetorno.dataHoraRecibo = 0, '', DateTimeToStr(GNRERetorno.dataHoraRecibo))+LineBreak+
                       'Tempo Médio : '+IntToStr(GNRERetorno.tempoEstimadoProc)+LineBreak+
                       'Número Recibo: '+GNRERetorno.numero;
 
@@ -695,7 +695,7 @@ begin
   {$ENDIF}
     Acao.Free;
     Stream.Free;
-    DFeUtil.ConfAmbiente;
+    ConfAmbiente;
     TACBrGNRE( FACBrGNRE ).SetStatus( stGNREIdle );
   end;
 end;
@@ -860,7 +860,7 @@ function TGNRERetRecepcaoLote.Executar: Boolean;
       {$ENDIF}
       Acao.Free;
       Stream.Free;
-      DFeUtil.ConfAmbiente;
+      ConfAmbiente;
       TACBrGNRE( FACBrGNRE ).SetStatus( stGNREIdle );
     end;
   end;
@@ -1055,7 +1055,7 @@ begin
     {$ENDIF}
     Acao.Free;
     Stream.Free;
-    DFeUtil.ConfAmbiente;
+    ConfAmbiente;
     TACBrGNRE( FACBrGNRE ).SetStatus( stGNREIdle );
   end;
 end;
@@ -1224,7 +1224,7 @@ begin
     {$ENDIF}
     Acao.Free;
     Stream.Free;
-    DFeUtil.ConfAmbiente;
+    ConfAmbiente;
     TACBrGNRE( FACBrGNRE ).SetStatus( stGNREIdle );
   end;
 end;

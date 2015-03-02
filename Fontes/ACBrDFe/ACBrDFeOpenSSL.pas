@@ -139,7 +139,7 @@ begin
   AXml := ConteudoXML;
   XmlAss := '';
 
-  URI := DFeUtil.ExtraiURI(AXml);
+  URI := ExtraiURI(AXml);
 
   //// Adicionando Cabeçalho DTD, necessário para xmlsec encontrar o ID ////
   I := pos('?>', AXml);

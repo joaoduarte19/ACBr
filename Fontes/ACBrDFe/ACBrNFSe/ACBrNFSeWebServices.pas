@@ -3983,7 +3983,7 @@ begin
         FNotasFiscais.Items[i].NFSe.dhRecebimento := FDataRecebimento;
        end;
       aMsg := 'Numero do Lote : ' + NFSeRetorno.InfRec.NumeroLote + LineBreak +
-              'Recebimento... : ' + DFeUtil.SeSenao(FDataRecebimento = 0, '', DateTimeToStr(FDataRecebimento)) + LineBreak +
+              'Recebimento... : ' + SeSenao(FDataRecebimento = 0, '', DateTimeToStr(FDataRecebimento)) + LineBreak +
               'Protocolo..... : ' + FProtocolo + LineBreak +
               'Provedor...... : ' + FxProvedor + LineBreak;
      end;
@@ -4071,7 +4071,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  DFeUtil.ConfAmbiente;
+  ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
@@ -4274,7 +4274,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  DFeUtil.ConfAmbiente;
+  ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
@@ -4518,7 +4518,7 @@ begin
    while FRetListaNfse <> '' do
     begin
      j := Pos('</' + Prefixo3 +
-                    DFeUtil.seSenao(FProvedor = proBetha, 'ComplNfse', 'CompNfse') + '>', FRetListaNfse);
+                    seSenao(FProvedor = proBetha, 'ComplNfse', 'CompNfse') + '>', FRetListaNfse);
      p := Length(trim(Prefixo3));
      if j > 0
       then begin
@@ -4673,7 +4673,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  DFeUtil.ConfAmbiente;
+  ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
@@ -5003,7 +5003,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  DFeUtil.ConfAmbiente;
+  ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
@@ -5254,7 +5254,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  DFeUtil.ConfAmbiente;
+  ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
@@ -5404,7 +5404,7 @@ begin
      end;
    end
    else aMsg := 'Numero da NFSe : ' + NFSeRetorno.InfCanc.Pedido.IdentificacaoNfse.Numero + LineBreak +
-                'Data Hora..... : ' + DFeUtil.SeSenao(FDataHora = 0, '', DateTimeToStr(FDataHora)) + LineBreak;
+                'Data Hora..... : ' + SeSenao(FDataHora = 0, '', DateTimeToStr(FDataHora)) + LineBreak;
 
   if FConfiguracoes.WebServices.Visualizar
    then ShowMessage(aMsg);
@@ -5423,7 +5423,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  DFeUtil.ConfAmbiente;
+  ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
@@ -5698,7 +5698,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  DFeUtil.ConfAmbiente;
+  ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
@@ -6033,7 +6033,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  DFeUtil.ConfAmbiente;
+  ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
@@ -6185,7 +6185,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  DFeUtil.ConfAmbiente;
+  ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
@@ -6330,7 +6330,7 @@ begin
      end;
    end{
    else aMsg := 'Numero da NFSe : ' + NFSeRetorno.Pedido.IdentificacaoNfse.Numero + LineBreak +
-                'Data Hora..... : ' + DFeUtil.SeSenao(FDataHora = 0, '', DateTimeToStr(FDataHora)) + LineBreak};
+                'Data Hora..... : ' + SeSenao(FDataHora = 0, '', DateTimeToStr(FDataHora)) + LineBreak};
 
   if FConfiguracoes.WebServices.Visualizar
    then ShowMessage(aMsg);
@@ -6349,7 +6349,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  DFeUtil.ConfAmbiente;
+  ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;

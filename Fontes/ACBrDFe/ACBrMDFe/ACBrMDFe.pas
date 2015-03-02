@@ -224,7 +224,7 @@ begin
 
 {$IFDEF ACBrMDFeOpenSSL}
   if FConfiguracoes.Geral.IniFinXMLSECAutomatico then
-    MDFeUtil.InitXmlSec;
+    MInitXmlSec;
 {$ENDIF}
 
   FOnGerarLog := nil;
@@ -239,7 +239,7 @@ begin
 
 {$IFDEF ACBrMDFeOpenSSL}
   if FConfiguracoes.Geral.IniFinXMLSECAutomatico then
-    MDFeUtil.ShutDownXmlSec;
+    MShutDownXmlSec;
 {$ENDIF}
 
   inherited;

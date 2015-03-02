@@ -50,8 +50,8 @@ uses Classes, SysUtils,
        LResources,
      {$ENDIF}
      Forms, Graphics,
-     ACBrSATExtratoClass, ACBrUtil,
-     pcnCFe, pcnCFeCanc, pcnConversao, ACBrDFeUtil,
+     ACBrSATExtratoClass,
+     pcnCFe, pcnCFeCanc, pcnConversao,
      RLConsts, RLReport, RLBarcode, RLPDFFilter, RLHTMLFilter, RLPrintDialog,
      RLFilters, RLPrinters, Controls;
 
@@ -293,7 +293,8 @@ procedure Register;
 
 implementation
 
-uses  ACBrDelphiZXingQRCode, math, RLTypes;
+uses  math, RLTypes,
+     ACBrDelphiZXingQRCode, ACBrValidador, ACBrDFeUtil, ACBrUtil;
 
 {$ifdef FPC}
   {$R *.lfm}
@@ -557,13 +558,12 @@ begin
 
     // CPF_CNPJ do Consumidor //
     lCPF_CNPJ.Caption := StringReplace(lCPF_CNPJ.Caption,'<CPF_CNPJ>',
-                                       DFeUtil.FormatarCNPJCPF(Dest.CNPJCPF),[]);
+                                       FormatarCNPJouCPF(Dest.CNPJCPF),[]);
 
     // Informações do Rodapé do Extrato //
     lNumSAT.Caption   := Trim(IntToStr( ide.nserieSAT ));
-    lDataHora.Caption := DFeUtil.FormatDate(DateToStr(ide.dEmi))+' '+
-                         TimeToStr(ide.hEmi);
-    lChaveAcesso.Caption   := DFeUtil.FormatarChaveAcesso(infCFe.ID);
+    lDataHora.Caption := FormatDateTimeBr(ide.dEmi + ide.hEmi);
+    lChaveAcesso.Caption   := FormatarChaveAcesso(infCFe.ID);
     bcChaveAcesso1.Caption := copy( infCFe.ID, 1,22);
     bcChaveAcesso2.Caption := copy( infCFe.ID,23,22);
 
@@ -596,15 +596,15 @@ begin
     Descricao := ACBrStrToAnsi( Trim(Prod.xProd) );
     LinhaItem := Trim(Prod.cProd)+' '+
                  Descricao+' '+
-                 DFeUtil.FormatFloat(Prod.qCom, ACBrSATExtrato.Mask_qCom)+' '+
+                 FormatFloatBr(Prod.qCom, ACBrSATExtrato.Mask_qCom)+' '+
                  Trim(Prod.uCom)+' X '+
-                 DFeUtil.FormatFloat(Prod.vUnCom, ACBrSATExtrato.Mask_vUnCom)+' ';
+                 FormatFloatBr(Prod.vUnCom, ACBrSATExtrato.Mask_vUnCom)+' ';
 
     if Imposto.vItem12741 > 0 then
-      LinhaItem := LinhaItem + '('+DFeUtil.FormatFloat(Imposto.vItem12741,'0.00')+') ';
+      LinhaItem := LinhaItem + '('+FormatFloatBr(Imposto.vItem12741,'0.00')+') ';
 
     mLinhaItem.Lines.Text := LinhaItem;
-    lTotalItem.Caption    := DFeUtil.FormatFloat(Prod.vProd,'#,###,##0.00');
+    lTotalItem.Caption    := FormatFloatBr(Prod.vProd,'#,###,##0.00');
   end;
 end;
 
@@ -617,8 +617,8 @@ begin
 
     if PrintIt then
     begin
-      lDesconto.Caption   := DFeUtil.FormatFloat(Prod.vDesc,'-#,###,##0.00');
-      lDescValLiq.Caption := DFeUtil.FormatFloat(Prod.vProd-Prod.vDesc,'#,###,##0.00');
+      lDesconto.Caption   := FormatFloatBr(Prod.vDesc,'-#,###,##0.00');
+      lDescValLiq.Caption := FormatFloatBr(Prod.vProd-Prod.vDesc,'#,###,##0.00');
     end;
   end;
 end;
@@ -632,8 +632,8 @@ begin
 
     if PrintIt then
     begin
-      lOutro.Caption       := DFeUtil.FormatFloat(Prod.vOutro,'+#,###,##0.00');
-      lOutroValLiq.Caption := DFeUtil.FormatFloat(Prod.vProd+Prod.vOutro,'#,###,##0.00');
+      lOutro.Caption       := FormatFloatBr(Prod.vOutro,'+#,###,##0.00');
+      lOutroValLiq.Caption := FormatFloatBr(Prod.vProd+Prod.vOutro,'#,###,##0.00');
     end;
   end;
 
@@ -645,7 +645,7 @@ begin
   with ACBrSATExtrato.CFe.Pagto.Items[fNumPagto] do
   begin
     lMeioPagamento.Caption := ACBrStr(CodigoMPToDescricao(cMP));
-    lPagamento.Caption     := DFeUtil.FormatFloat(vMP,'#,###,##0.00');
+    lPagamento.Caption     := FormatFloatBr(vMP,'#,###,##0.00');
   end;
 end;
 
@@ -664,8 +664,8 @@ begin
 
     if PrintIt then
     begin
-      lDeducISSQN.Caption    := DFeUtil.FormatFloat(Imposto.ISSQN.vDeducISSQN,'-#,###,##0.00');
-      lBaseCalcISSQN.Caption := DFeUtil.FormatFloat(Imposto.ISSQN.vBC,'#,###,##0.00');
+      lDeducISSQN.Caption    := FormatFloatBr(Imposto.ISSQN.vDeducISSQN,'-#,###,##0.00');
+      lBaseCalcISSQN.Caption := FormatFloatBr(Imposto.ISSQN.vBC,'#,###,##0.00');
     end;
   end;
 end;
@@ -683,7 +683,7 @@ begin
     PrintIt := (not Resumido) and ((Descontos > 0) or (Acrescimos > 0));
 
     if PrintIt then
-      lSubTotal.Caption := DFeUtil.FormatFloat(Total.ICMSTot.vProd,'#,###,##0.00');
+      lSubTotal.Caption := FormatFloatBr(Total.ICMSTot.vProd,'#,###,##0.00');
   end;
 end;
 
@@ -698,7 +698,7 @@ begin
     PrintIt   := (not Resumido) and (Descontos > 0);
 
     if PrintIt then
-      lTotDescontos.Caption := DFeUtil.FormatFloat(Descontos,'#,###,##0.00');
+      lTotDescontos.Caption := FormatFloatBr(Descontos,'#,###,##0.00');
   end;
 end;
 
@@ -713,7 +713,7 @@ begin
     PrintIt    := (not Resumido) and (Acrescimos > 0);
 
     if PrintIt then
-      lTotAcrescimos.Caption := DFeUtil.FormatFloat(Acrescimos,'#,###,##0.00');
+      lTotAcrescimos.Caption := FormatFloatBr(Acrescimos,'#,###,##0.00');
   end;
 end;
 
@@ -748,7 +748,7 @@ begin
     PrintIt := (Total.vCFeLei12741 > 0);
 
     if PrintIt then
-      lValLei12741.Caption := DFeUtil.FormatFloat(Total.vCFeLei12741, '#,###,##0.00');
+      lValLei12741.Caption := FormatFloatBr(Total.vCFeLei12741, '#,###,##0.00');
   end;
 end;
 
@@ -769,7 +769,7 @@ end;
 procedure TACBrSATExtratoFortesFr.rlbTotalBeforePrint(Sender: TObject;
   var PrintIt: boolean);
 begin
-  lTotal.Caption := DFeUtil.FormatFloat(ACBrSATExtrato.CFe.Total.vCFe,'#,###,##0.00');
+  lTotal.Caption := FormatFloatBr(ACBrSATExtrato.CFe.Total.vCFe,'#,###,##0.00');
 end;
 
 procedure TACBrSATExtratoFortesFr.rlbTrocoBeforePrint(Sender: TObject;
@@ -780,7 +780,7 @@ begin
     PrintIt := (Pagto.vTroco > 0);
 
     if PrintIt then
-      lTroco.Caption := DFeUtil.FormatFloat(Pagto.vTroco,'#,###,##0.00');;
+      lTroco.Caption := FormatFloatBr(Pagto.vTroco,'#,###,##0.00');;
   end;
 end;
 
@@ -807,14 +807,13 @@ begin
 
     // CPF_CNPJ do Consumidor //
     lCPF_CNPJCan.Caption := StringReplace(lCPF_CNPJ.Caption,'<CPF_CNPJ>',
-                                       DFeUtil.FormatarCNPJCPF(Dest.CNPJCPF),[]);
-    lTotalCan.Caption := DFeUtil.FormatFloat(Total.vCFe,'#,###,##0.00');
+                                       FormatarCNPJouCPF(Dest.CNPJCPF),[]);
+    lTotalCan.Caption := FormatFloatBr(Total.vCFe,'#,###,##0.00');
 
     // Informações do Rodapé do Extrato //
     lNumSATCan.Caption   := Trim(IntToStr( ide.nserieSAT ));
-    lDataHoraCan.Caption := DFeUtil.FormatDate(DateToStr(ide.dEmi))+' '+
-                         TimeToStr(ide.hEmi);
-    lChaveAcessoCan.Caption  := DFeUtil.FormatarChaveAcesso(infCFe.ID);
+    lDataHoraCan.Caption := FormatDateTimeBr(ide.dEmi + ide.hEmi);
+    lChaveAcessoCan.Caption  := FormatarChaveAcesso(infCFe.ID);
     bcChaveAcessoCan1.Caption := copy( infCFe.ID, 1,22);
     bcChaveAcessoCan2.Caption := copy( infCFe.ID,23,22);
 
@@ -835,9 +834,8 @@ begin
   begin
     // Informações do Rodapé do Extrato //
     lNumSATCanl.Caption   := Trim(IntToStr( ide.nserieSAT ));
-    lDataHoraCanl.Caption := DFeUtil.FormatDate(DateToStr(ide.dEmi))+' '+
-                         TimeToStr(ide.hEmi);
-    lChaveAcessoCanl.Caption  := DFeUtil.FormatarChaveAcesso(infCFe.ID);
+    lDataHoraCanl.Caption := FormatDateTimeBr(ide.dEmi + ide.hEmi);
+    lChaveAcessoCanl.Caption  := FormatarChaveAcesso(infCFe.ID);
     bcChaveAcessoCanl1.Caption := copy( infCFe.ID, 1,22);
     bcChaveAcessoCanl2.Caption := copy( infCFe.ID,23,22);
 

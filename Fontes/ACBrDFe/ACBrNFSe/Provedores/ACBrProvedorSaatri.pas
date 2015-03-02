@@ -332,14 +332,14 @@ begin
    acCancelar:    Result := '<' + Prefixo3 + 'CancelarNfseEnvio' + xmlns + NameSpaceDad +
                              '<' + Prefixo3 + 'Pedido>' +
                               '<' + Prefixo4 + 'InfPedidoCancelamento' +
-                                 DFeUtil.SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
+                                 SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
    acGerar:       Result := '<' + Prefixo3 + 'GerarNfseEnvio' + xmlns + NameSpaceDad;
    acRecSincrono: Result := '<' + Prefixo3 + 'EnviarLoteRpsSincronoEnvio' + xmlns + NameSpaceDad;
    acSubstituir:  Result := '<' + Prefixo3 + 'SubstituirNfseEnvio' + xmlns + NameSpaceDad +
                              '<' + Prefixo3 + 'SubstituicaoNfse>' +
                               '<' + Prefixo3 + 'Pedido>' +
                                '<' + Prefixo4 + 'InfPedidoCancelamento' +
-                                  DFeUtil.SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
+                                  SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
   end;
 end;
 

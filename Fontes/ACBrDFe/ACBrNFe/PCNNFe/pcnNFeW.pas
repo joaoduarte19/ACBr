@@ -805,7 +805,7 @@ begin
   (**)GerarDetProdComb(i);
   Gerador.wCampo(tcStr, 'L109', 'nRECOPI', 20, 20, 0, nfe.Det[i].Prod.nRECOPI, DSC_NRECOPI);
   if trim(nfe.Det[i].Prod.nRECOPI) <> '' then
-    if not DFeUtil.ValidaRECOPI(nfe.Det[i].Prod.nRECOPI) then
+    if not ValidaRECOPI(nfe.Det[i].Prod.nRECOPI) then
       Gerador.wAlerta('L109', 'nRECOPI', DSC_NRECOPI, ERR_MSG_INVALIDO);
   Gerador.wGrupo('/prod');
 end;
@@ -819,7 +819,7 @@ begin
     Gerador.wGrupo('DI', 'I18');
     Gerador.wCampo(tcStr, 'I19', 'nDI        ', 01, 12, 1, nfe.Det[i].Prod.DI[j].nDI, DSC_NDI);
 
-    if not DFeUtil.ValidaDIDSI(nfe.Det[i].Prod.DI[j].nDI) then
+    if not ValidaDIDSI(nfe.Det[i].Prod.DI[j].nDI) then
       Gerador.wAlerta('I19', 'nDI', DSC_NDI, ERR_MSG_INVALIDO);
 
     Gerador.wCampo(tcDat, 'I20', 'dDI        ', 10, 10, 1, nfe.Det[i].Prod.DI[j].dDI, DSC_DDi);
@@ -877,7 +877,7 @@ begin
     // (Observação incluída na NT 2013/005 v. 1.10)
     Gerador.wCampo(tcStr, 'I29a', 'nDraw     ', 09, 11, 0, nfe.Det[i].Prod.DI[j].adi[k].nDraw, DSC_NDRAW);
     if trim(nfe.Det[i].Prod.DI[j].adi[k].nDraw) <> '' then
-      if not DFeUtil.ValidaDrawback(nfe.Det[i].Prod.DI[j].adi[k].nDraw) then
+      if not ValidaDrawback(nfe.Det[i].Prod.DI[j].adi[k].nDraw) then
         Gerador.wAlerta('I29a', 'nDraw', DSC_NDRAW, ERR_MSG_INVALIDO);
     Gerador.wGrupo('/adi');
   end;
@@ -898,14 +898,14 @@ begin
     // (Observação incluída na NT 2013/005 v. 1.10)
     Gerador.wCampo(tcStr, 'I51', 'nDraw      ', 09, 11, 0, nfe.Det[i].Prod.detExport[j].nDraw, DSC_NDRAW);
     if trim(nfe.Det[i].Prod.detExport[j].nDraw) <> '' then
-      if not DFeUtil.ValidaDrawback(nfe.Det[i].Prod.detExport[j].nDraw) then
+      if not ValidaDrawback(nfe.Det[i].Prod.detExport[j].nDraw) then
         Gerador.wAlerta('I51', 'nDraw', DSC_NDRAW, ERR_MSG_INVALIDO);
 
     if nfe.Det[i].Prod.detExport[j].nRE <> '' then
     begin
       Gerador.wGrupo('exportInd', 'I52');
       Gerador.wCampo(tcStr, 'I53', 'nRE    ', 12, 12, 1, nfe.Det[i].Prod.detExport[j].nRE, DSC_NRE);
-      if not DFeUtil.ValidaRE(nfe.Det[i].Prod.detExport[j].nRE) then
+      if not ValidaRE(nfe.Det[i].Prod.detExport[j].nRE) then
         Gerador.wAlerta('I53', 'nRE', DSC_NRE, ERR_MSG_INVALIDO);
       Gerador.wCampo(tcEsp, 'I54', 'chNFe  ', 44, 44, 1, OnlyNumber(nfe.Det[i].Prod.detExport[j].chNFe), DSC_REFNFE);
       if not ValidarChave('NFe' + OnlyNumber(nfe.Det[i].Prod.detExport[j].chNFe)) then
@@ -989,7 +989,7 @@ begin
   begin
     Gerador.wCampo(tcStr, 'I05a', 'NVE        ', 06, 06, 0, nfe.Det[i].Prod.NVE[j].NVE, DSC_NVE);
 
-    if not DFeUtil.ValidaNVE(nfe.Det[i].Prod.NVE[j].NVE) then
+    if not ValidaNVE(nfe.Det[i].Prod.NVE[j].NVE) then
       Gerador.wAlerta('I05a', 'NVE', DSC_NVE, ERR_MSG_INVALIDO);
   end;
 

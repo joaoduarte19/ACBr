@@ -281,14 +281,14 @@ begin
    acCancelar:    Result := '<' + Prefixo3 + 'CancelarNfseEnvio>' +
                              '<' + Prefixo3 + 'Pedido ' + NameSpaceDad +
                               '<' + Prefixo4 + 'InfPedidoCancelamento' +
-                                 DFeUtil.SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
+                                 SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
    acGerar:       Result := '<' + Prefixo3 + 'GerarNfseEnvio>';
    acRecSincrono: Result := '<' + Prefixo3 + 'EnviarLoteRpsSincronoEnvio>';
    acSubstituir:  Result := '<' + Prefixo3 + 'SubstituirNfseEnvio>' +
                              '<' + Prefixo3 + 'SubstituicaoNfse>' +
                               '<' + Prefixo3 + 'Pedido>' +
                                '<' + Prefixo4 + 'InfPedidoCancelamento' +
-                                  DFeUtil.SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
+                                  SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
   end;
 end;
 

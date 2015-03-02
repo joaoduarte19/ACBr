@@ -287,9 +287,9 @@ begin
     rllModelo.Caption := FMDFe.ide.modelo;
     rllSerie.Caption := IntToStr(FMDFe.ide.serie);
     rllNumMDFe.Caption := FormatFloat('000,000,000', FMDFe.Ide.nMDF);
-    rllEmissao.Caption := DFeUtil.FormatDateTime(DateTimeToStr(FMDFe.Ide.dhEmi));
+    rllEmissao.Caption := FormatDateTime(DateTimeToStr(FMDFe.Ide.dhEmi));
     //SetBarCodeImage(Copy(FMDFe.InfMDFe.Id, 5, 44), rliBarCode);
-    rllChave.Caption := MDFeUtil.FormatarChaveAcesso(Copy(FMDFe.InfMDFe.Id, 5, 44));
+    rllChave.Caption := MFormatarChaveAcesso(Copy(FMDFe.InfMDFe.Id, 5, 44));
   end;
 end;
 
@@ -310,14 +310,14 @@ begin
       taProducao: rllTipoAmbiente.Caption := 'PRODUÇÃO';
       taHomologacao: rllTipoAmbiente.Caption := 'HOMOLOGAÇÃO - SEM VALOR FISCAL';
     end;
-    rllEmissaoEvento.Caption := DFeUtil.FormatDateTime(DateTimeToStr(InfEvento.dhEvento));
+    rllEmissaoEvento.Caption := FormatDateTime(DateTimeToStr(InfEvento.dhEvento));
     rllTipoEvento.Caption := InfEvento.TipoEvento;
     rllDescricaoEvento.Caption := InfEvento.DescEvento;
     rllSeqEvento.Caption := IntToStr(InfEvento.nSeqEvento);
     rllStatus.Caption := IntToStr(RetInfEvento.cStat) + ' - ' +
       RetInfEvento.xMotivo;
     rllProtocolo.Caption := RetInfEvento.nProt + ' ' +
-      DFeUtil.FormatDateTime(DateTimeToStr(RetInfEvento.dhRegEvento));
+      FormatDateTime(DateTimeToStr(RetInfEvento.dhRegEvento));
   end;
 end;
 
@@ -332,12 +332,12 @@ begin
     PrintBand := True;
 
     rllRazaoEmitente.Caption := FMDFe.emit.xNome;
-    rllCNPJEmitente.Caption := DFeUtil.FormatarCNPJCPF(FMDFe.emit.CNPJ);
+    rllCNPJEmitente.Caption := FormatarCNPJCPF(FMDFe.emit.CNPJ);
     rllEnderecoEmitente.Caption := FMDFe.emit.EnderEmit.xLgr + ', ' + FMDFe.emit.EnderEmit.nro;
     rllBairroEmitente.Caption := FMDFe.emit.EnderEmit.xBairro;
-    rllCEPEmitente.Caption := DFeUtil.FormatarCEP(FormatFloat('00000000', FMDFe.emit.EnderEmit.CEP));
+    rllCEPEmitente.Caption := FormatarCEP(FormatFloat('00000000', FMDFe.emit.EnderEmit.CEP));
     rllMunEmitente.Caption := FMDFe.emit.EnderEmit.xMun + ' - ' + FMDFe.emit.EnderEmit.UF;
-    rllFoneEmitente.Caption := DFeUtil.FormatarFone(FMDFe.emit.enderEmit.fone);
+    rllFoneEmitente.Caption := FormatarFone(FMDFe.emit.enderEmit.fone);
     rllInscEstEmitente.Caption := FMDFe.emit.IE;
   end;
 end;
@@ -358,57 +358,57 @@ begin
       tmRemetente:
         begin
           rllRazaoTomador.Caption    := FMDFe.Rem.xNome;
-          rllCNPJTomador.Caption     := DFeUtil.FormatarCNPJCPF(FMDFe.Rem.CNPJCPF);
+          rllCNPJTomador.Caption     := FormatarCNPJCPF(FMDFe.Rem.CNPJCPF);
           rllEnderecoTomador.Caption := FMDFe.Rem.EnderReme.xLgr + ', ' + FMDFe.Rem.EnderReme.nro;
           rllBairroTomador.Caption   := FMDFe.Rem.EnderReme.xBairro;
-          rllCEPTomador.Caption      := DFeUtil.FormatarCEP(FormatFloat( '00000000', FMDFe.Rem.EnderReme.CEP));
+          rllCEPTomador.Caption      := FormatarCEP(FormatFloat( '00000000', FMDFe.Rem.EnderReme.CEP));
           rllMunTomador.Caption      := FMDFe.Rem.EnderReme.xMun+' - '+FMDFe.Rem.EnderReme.UF;
-          rllFoneTomador.Caption     := DFeUtil.FormatarFone(FMDFe.Rem.fone);
+          rllFoneTomador.Caption     := FormatarFone(FMDFe.Rem.fone);
           rllInscEstTomador.Caption  := FMDFe.Rem.IE;
         end;
       tmExpedidor:
         begin
           rllRazaoTomador.Caption    := FMDFe.Exped.xNome;
-          rllCNPJTomador.Caption     := DFeUtil.FormatarCNPJCPF(FMDFe.Exped.CNPJCPF);
+          rllCNPJTomador.Caption     := FormatarCNPJCPF(FMDFe.Exped.CNPJCPF);
           rllEnderecoTomador.Caption := FMDFe.Exped.EnderExped.xLgr + ', ' + FMDFe.Exped.EnderExped.nro;
           rllBairroTomador.Caption   := FMDFe.Exped.EnderExped.xBairro;
-          rllCEPTomador.Caption      := DFeUtil.FormatarCEP(FormatFloat( '00000000', FMDFe.Exped.EnderExped.CEP));
+          rllCEPTomador.Caption      := FormatarCEP(FormatFloat( '00000000', FMDFe.Exped.EnderExped.CEP));
           rllMunTomador.Caption      := FMDFe.Exped.EnderExped.xMun+' - '+FMDFe.Exped.EnderExped.UF;
-          rllFoneTomador.Caption     := DFeUtil.FormatarFone(FMDFe.Exped.fone);
+          rllFoneTomador.Caption     := FormatarFone(FMDFe.Exped.fone);
           rllInscEstTomador.Caption  := FMDFe.Exped.IE;
         end;
       tmRecebedor:
         begin
           rllRazaoTomador.Caption    := FMDFe.Receb.xNome;
-          rllCNPJTomador.Caption     := DFeUtil.FormatarCNPJCPF(FMDFe.Receb.CNPJCPF);
+          rllCNPJTomador.Caption     := FormatarCNPJCPF(FMDFe.Receb.CNPJCPF);
           rllEnderecoTomador.Caption := FMDFe.Receb.EnderReceb.xLgr + ', ' + FMDFe.Receb.EnderReceb.nro;
           rllBairroTomador.Caption   := FMDFe.Receb.EnderReceb.xBairro;
-          rllCEPTomador.Caption      := DFeUtil.FormatarCEP(FormatFloat( '00000000', FMDFe.Receb.EnderReceb.CEP));
+          rllCEPTomador.Caption      := FormatarCEP(FormatFloat( '00000000', FMDFe.Receb.EnderReceb.CEP));
           rllMunTomador.Caption      := FMDFe.Receb.EnderReceb.xMun+' - '+FMDFe.Receb.EnderReceb.UF;
-          rllFoneTomador.Caption     := DFeUtil.FormatarFone(FMDFe.Receb.fone);
+          rllFoneTomador.Caption     := FormatarFone(FMDFe.Receb.fone);
           rllInscEstTomador.Caption  := FMDFe.Receb.IE;
         end;
       tmDestinatario:
         begin
           rllRazaoTomador.Caption    := FMDFe.Dest.xNome;
-          rllCNPJTomador.Caption     := DFeUtil.FormatarCNPJCPF(FMDFe.Dest.CNPJCPF);
+          rllCNPJTomador.Caption     := FormatarCNPJCPF(FMDFe.Dest.CNPJCPF);
           rllEnderecoTomador.Caption := FMDFe.Dest.EnderDest.xLgr + ', ' + FMDFe.Dest.EnderDest.nro;
           rllBairroTomador.Caption   := FMDFe.Dest.EnderDest.xBairro;
-          rllCEPTomador.Caption      := DFeUtil.FormatarCEP(FormatFloat( '00000000', FMDFe.Dest.EnderDest.CEP));
+          rllCEPTomador.Caption      := FormatarCEP(FormatFloat( '00000000', FMDFe.Dest.EnderDest.CEP));
           rllMunTomador.Caption      := FMDFe.Dest.EnderDest.xMun+' - '+FMDFe.Dest.EnderDest.UF;
-          rllFoneTomador.Caption     := DFeUtil.FormatarFone(FMDFe.Dest.fone);
+          rllFoneTomador.Caption     := FormatarFone(FMDFe.Dest.fone);
           rllInscEstTomador.Caption  := FMDFe.Dest.IE;
         end;
       end;
      end
      else begin
       rllRazaoTomador.Caption    := FMDFe.Ide.Toma4.xNome;
-      rllCNPJTomador.Caption     := DFeUtil.FormatarCNPJCPF(FMDFe.Ide.Toma4.CNPJCPF);
+      rllCNPJTomador.Caption     := FormatarCNPJCPF(FMDFe.Ide.Toma4.CNPJCPF);
       rllEnderecoTomador.Caption := FMDFe.Ide.Toma4.EnderToma.xLgr + ', ' + FMDFe.Ide.Toma4.EnderToma.nro;
       rllBairroTomador.Caption   := FMDFe.Ide.Toma4.EnderToma.xBairro;
-      rllCEPTomador.Caption      := DFeUtil.FormatarCEP(FormatFloat( '00000000', FMDFe.Ide.Toma4.EnderToma.CEP));
+      rllCEPTomador.Caption      := FormatarCEP(FormatFloat( '00000000', FMDFe.Ide.Toma4.EnderToma.CEP));
       rllMunTomador.Caption      := FMDFe.Ide.Toma4.EnderToma.xMun+' - '+FMDFe.Ide.Toma4.EnderToma.UF;
-      rllFoneTomador.Caption     := DFeUtil.FormatarFone(FMDFe.Ide.Toma4.fone);
+      rllFoneTomador.Caption     := FormatarFone(FMDFe.Ide.Toma4.fone);
       rllInscEstTomador.Caption  := FMDFe.Ide.Toma4.IE;
      end;
    *)

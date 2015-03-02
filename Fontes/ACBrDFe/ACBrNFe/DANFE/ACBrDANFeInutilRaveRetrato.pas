@@ -124,7 +124,7 @@ begin
         BarHeight:=10.0;
         WideFactor:=BarWidth;
         PrintReadable:=False;
-        Text:=DFeUtil.LimpaNumero(nProt);
+        Text:=LimpaNumero(nProt);
         PrintXY(PosBarra,PosY+1);
         Free;
      end;
@@ -147,7 +147,7 @@ begin
      Box([],PosX,PosY,190,aHeigthPadrao,'JUSTIFICATIVA', xJust,taLeftJustify);
 
      SetFontTitle;
-     PrintXY(PosX,FLastY,'DATA E HORA DA IMPRESSÃO: '+FormatDateTime('dd/mm/yyyy hh:mm:ss',Now)+DFeUtil.SeSenao((Trim(NomeDoUsuario)<>''),' - '+NomeDoUsuario,''));
+     PrintXY(PosX,FLastY,'DATA E HORA DA IMPRESSÃO: '+FormatDateTime('dd/mm/yyyy hh:mm:ss',Now)+SeSenao((Trim(NomeDoUsuario)<>''),' - '+NomeDoUsuario,''));
      if Trim(NomeDoERP)>'' then
       begin
         PrintRight('Desenvolvido por '+NomeDoERP,FLastX-5);

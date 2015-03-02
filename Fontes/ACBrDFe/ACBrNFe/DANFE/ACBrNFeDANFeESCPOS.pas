@@ -603,16 +603,16 @@ begin
     Trim(FpNFe.Emit.EnderEmit.xCpl) + '  ' +
     Trim(FpNFe.Emit.EnderEmit.xBairro) +  ' ' +
     Trim(FpNFe.Emit.EnderEmit.xMun) + '/' + Trim(FpNFe.Emit.EnderEmit.UF) + '  ' +
-    'Cep:' + DFeUtil.FormatarCEP(IntToStr(FpNFe.Emit.EnderEmit.CEP)) + '  ' +
-    'Tel:' + DFeUtil.FormatarFone(FpNFe.Emit.EnderEmit.fone)
+    'Cep:' + FormatarCEP(IntToStr(FpNFe.Emit.EnderEmit.CEP)) + '  ' +
+    'Tel:' + FormatarFone(FpNFe.Emit.EnderEmit.fone)
     , nColunasPapel)
   ));
 
-  FLinhaCmd := 'CNPJ: ' + DFeUtil.FormatarCNPJ(FpNFe.Emit.CNPJCPF);
+  FLinhaCmd := 'CNPJ: ' + FormatarCNPJ(FpNFe.Emit.CNPJCPF);
   if Trim(FpNFe.Emit.IE) <> '' then
   begin
     FLinhaCMd := PadRight(FLinhaCmd, Trunc(nColunasPapel / 2)) +
-    'IE: ' + DFeUtil.FormatarIE(FpNFe.Emit.IE, FpNFe.Emit.EnderEmit.UF);
+    'IE: ' + FormatarIE(FpNFe.Emit.IE, FpNFe.Emit.EnderEmit.UF);
   end;
 
   FBuffer.Add(cCmdAlinhadoEsquerda + cCmdImpNegrito + cCmdFontePequena +
@@ -666,8 +666,8 @@ begin
         sCodigo := Trim(FpNFe.Det.Items[i].Prod.cProd);
 
       // formatar conforme configurado
-      sVlrUnitario := DFeUtil.FormatFloat(FpNFe.Det.Items[i].Prod.VUnCom,
-        DFeUtil.SeSenao(CasasDecimais._Mask_vUnCom = '',
+      sVlrUnitario := FormatFloat(FpNFe.Det.Items[i].Prod.VUnCom,
+        SeSenao(CasasDecimais._Mask_vUnCom = '',
                         NotaUtil.PreparaCasasDecimais(CasasDecimais._vUnCom),
                         CasasDecimais._Mask_vUnCom)
         );
@@ -677,8 +677,8 @@ begin
       fQuant := FpNFe.Det.Items[i].Prod.QCom;
       if Frac(fQuant) > 0 then
       begin
-        sQuantidade  := DFeUtil.FormatFloat(fQuant,
-          DFeUtil.SeSenao(CasasDecimais._Mask_qCom = '',
+        sQuantidade  := FormatFloat(fQuant,
+          SeSenao(CasasDecimais._Mask_qCom = '',
                           NotaUtil.PreparaCasasDecimais(CasasDecimais._qCom),
                           CasasDecimais._Mask_qCom)
           );
@@ -723,8 +723,8 @@ begin
 
           FLinhaCmd := cCmdAlinhadoEsquerda + cCmdFontePequena +
             ParseTextESCPOS(PadSpace(
-              'desconto ' + PadLeft(DFeUtil.FormatFloat(FpNFe.Det.Items[i].Prod.vDesc, '-0.00'), 15, ' ')
-              + '|' + DFeUtil.FormatFloat(VlrLiquido, '0.00'), nColunasPapel, '|')
+              'desconto ' + PadLeft(FormatFloat(FpNFe.Det.Items[i].Prod.vDesc, '-0.00'), 15, ' ')
+              + '|' + FormatFloat(VlrLiquido, '0.00'), nColunasPapel, '|')
             );
           FBuffer.Add(cCmdAlinhadoEsquerda + cCmdFontePequena + FLinhaCmd);
         end;
@@ -737,8 +737,8 @@ begin
 
           FLinhaCmd := cCmdAlinhadoEsquerda + cCmdFontePequena +
             ParseTextESCPOS(PadSpace(
-              'acréscimo ' + PadLeft(DFeUtil.FormatFloat(FpNFe.Det.Items[i].Prod.vOutro, '+0.00'), 15, ' ')
-              + '|' + DFeUtil.FormatFloat(VlrLiquido, '0.00'), nColunasPapel, '|')
+              'acréscimo ' + PadLeft(FormatFloat(FpNFe.Det.Items[i].Prod.vOutro, '+0.00'), 15, ' ')
+              + '|' + FormatFloat(VlrLiquido, '0.00'), nColunasPapel, '|')
             );
           FBuffer.Add(cCmdAlinhadoEsquerda + cCmdFontePequena + FLinhaCmd);
         end;
@@ -847,7 +847,7 @@ begin
   FBuffer.Add(cCmdAlinhadoCentro + cCmdFontePequena + ParseTextESCPOS('Consulte pela Chave de Acesso em:'));
   FBuffer.Add(cCmdAlinhadoCentro + cCmdFontePequena + ParseTextESCPOS(NotaUtil.GetURLConsultaNFCe(FpNFe.ide.cUF, FpNFe.ide.tpAmb)));
   FBuffer.Add(cCmdAlinhadoCentro + cCmdFonteNormal  + ParseTextESCPOS('CHAVE DE ACESSO'));
-  FBuffer.Add(cCmdAlinhadoCentro + cCmdFontePequena + DFeUtil.FormatarChaveAcesso(OnlyNumber(FpNFe.infNFe.ID)) + cCmdFonteNormal);
+  FBuffer.Add(cCmdAlinhadoCentro + cCmdFontePequena + FormatarChaveAcesso(OnlyNumber(FpNFe.infNFe.ID)) + cCmdFonteNormal);
   FBuffer.Add(GetLinhaSimples);
 end;
 
@@ -868,9 +868,9 @@ begin
     else
     begin
       if Length(Trim(FpNFe.Dest.CNPJCPF)) > 11 then
-        FLinhaCmd := 'CNPJ: ' + DFeUtil.FormatarCNPJ(FpNFe.Dest.CNPJCPF)
+        FLinhaCmd := 'CNPJ: ' + FormatarCNPJ(FpNFe.Dest.CNPJCPF)
       else
-        FLinhaCmd := 'CPF: ' + DFeUtil.FormatarCPF(FpNFe.Dest.CNPJCPF);
+        FLinhaCmd := 'CPF: ' + FormatarCPF(FpNFe.Dest.CNPJCPF);
     end;
     FBuffer.Add(ParseTextESCPOS(FLinhaCmd));
 
@@ -880,7 +880,7 @@ begin
 
     FLinhaCmd := Trim(
       Trim(FpNFe.Dest.EnderDest.xLgr) + ' ' +
-      DFeUtil.SeSenao(Trim(FpNFe.Dest.EnderDest.xLgr) = '','',Trim(FpNFe.Dest.EnderDest.nro)) + ' ' +
+      SeSenao(Trim(FpNFe.Dest.EnderDest.xLgr) = '','',Trim(FpNFe.Dest.EnderDest.nro)) + ' ' +
       Trim(FpNFe.Dest.EnderDest.xCpl) + ' ' +
       Trim(FpNFe.Dest.EnderDest.xBairro) + ' ' +
       Trim(FpNFe.Dest.EnderDest.xMun) + ' ' +
@@ -906,7 +906,7 @@ begin
     FpNFe.ide.cUF,
     FpNFe.ide.tpAmb,
     FpNFe.infNFe.ID,
-    DFeUtil.SeSenao(FpNFe.Dest.idEstrangeiro <> '', FpNFe.Dest.idEstrangeiro, FpNFe.Dest.CNPJCPF),
+    SeSenao(FpNFe.Dest.idEstrangeiro <> '', FpNFe.Dest.idEstrangeiro, FpNFe.Dest.CNPJCPF),
     FpNFe.ide.dEmi,
     FpNFe.Total.ICMSTot.vNF,
     FpNFe.Total.ICMSTot.vICMS,
@@ -959,7 +959,7 @@ begin
   if FpNFe.Ide.tpEmis <> teOffLine then
   begin
     FBuffer.Add(cCmdFontePequena + ParseTextESCPOS('Protocolo de Autorização'));
-    FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(Trim(FpNFe.procNFe.nProt) + ' ' + DFeUtil.SeSenao(FpNFe.procNFe.dhRecbto <> 0, DateTimeToStr(FpNFe.procNFe.dhRecbto), '')) + cCmdFonteNormal);
+    FBuffer.Add(cCmdFontePequena + ParseTextESCPOS(Trim(FpNFe.procNFe.nProt) + ' ' + SeSenao(FpNFe.procNFe.dhRecbto <> 0, DateTimeToStr(FpNFe.procNFe.dhRecbto), '')) + cCmdFonteNormal);
   end;
 
   FBuffer.Add(GetLinhaSimples);
@@ -1040,7 +1040,7 @@ begin
     ParseTextESCPOS('CHAVE ACESSO')
   );
   FBuffer.Add(cCmdAlinhadoCentro + cCmdFontePequena +
-    ParseTextESCPOS(DFeUtil.FormatarChaveAcesso(OnlyNumber(FpNFe.infNFe.ID)))
+    ParseTextESCPOS(FormatarChaveAcesso(OnlyNumber(FpNFe.infNFe.ID)))
   );
   FBuffer.Add(GetLinhaSimples);
 

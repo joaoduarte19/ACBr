@@ -256,29 +256,29 @@ begin
             begin
               // 1.) Preenche os campos do Emitente
               rllEmitNome.Caption := Emit.xNome;
-              rllEmitCNPJ.Caption := DFeUtil.FormatarCNPJCPF(Emit.CNPJCPF);
+              rllEmitCNPJ.Caption := FormatarCNPJCPF(Emit.CNPJCPF);
               if Emit.EnderEmit.xCpl > '' then
                 rllEmitEndereco.Caption := Emit.EnderEmit.xLgr + ', ' + Emit.EnderEmit.nro + ' ' + Emit.EnderEmit.xCpl
               else
                 rllEmitEndereco.Caption := Emit.EnderEmit.xLgr + ', ' + Emit.EnderEmit.nro;
               rllEmitBairro.Caption := Emit.EnderEmit.xBairro;
-              rllEmitCEP.Caption := DFeUtil.FormatarCEP(IntToStr(Emit.EnderEmit.CEP));
+              rllEmitCEP.Caption := FormatarCEP(IntToStr(Emit.EnderEmit.CEP));
               rllEmitCidade.Caption := Emit.EnderEmit.xMun;
-              rllEmitFone.Caption := DFeUtil.FormatarFone(Emit.EnderEmit.fone);
+              rllEmitFone.Caption := FormatarFone(Emit.EnderEmit.fone);
               rllEmitUF.Caption := Emit.EnderEmit.UF;
               rllEmitIE.Caption := Emit.IE;
 
               // 2.) Preenche os campos do Destinatário
               rllDestNome.Caption := Dest.xNome;
-              rllDestCNPJ.Caption := DFeUtil.FormatarCNPJCPF(Dest.CNPJCPF);
+              rllDestCNPJ.Caption := FormatarCNPJCPF(Dest.CNPJCPF);
               if Dest.EnderDest.xCpl > '' then
                 rllDestEndereco.Caption := Dest.EnderDest.xLgr + ', ' + Dest.EnderDest.nro + ' ' + Dest.EnderDest.xCpl
               else
                 rllDestEndereco.Caption := Dest.EnderDest.xLgr + ', ' + Dest.EnderDest.nro;
               rllDestBairro.Caption := Dest.EnderDest.xBairro;
-              rllDestCEP.Caption := DFeUtil.FormatarCEP(IntToStr(Dest.EnderDest.CEP));
+              rllDestCEP.Caption := FormatarCEP(IntToStr(Dest.EnderDest.CEP));
               rllDestCidade.Caption := Dest.EnderDest.xMun;
-              rllDestFone.Caption := DFeUtil.FormatarFone(Dest.EnderDest.fone);
+              rllDestFone.Caption := FormatarFone(Dest.EnderDest.fone);
               rllDestUF.Caption := Dest.EnderDest.UF;
               rllDestIE.Caption := Dest.IE;
             end; // with NFe

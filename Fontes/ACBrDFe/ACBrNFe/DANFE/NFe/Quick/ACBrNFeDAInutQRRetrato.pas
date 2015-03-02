@@ -216,12 +216,12 @@ begin
     PrintBand := True;
 
     qrlRazaoEmitente.Caption    := FNFe.emit.xNome;
-    qrlCNPJEmitente.Caption     := DFeUtil.FormatarCNPJCPF(FNFe.emit.CNPJ);
+    qrlCNPJEmitente.Caption     := FormatarCNPJCPF(FNFe.emit.CNPJ);
     qrlEnderecoEmitente.Caption := FNFe.emit.EnderEmit.xLgr + ', ' + FNFe.emit.EnderEmit.nro;
     qrlBairroEmitente.Caption   := FNFe.emit.EnderEmit.xBairro;
-    qrlCEPEmitente.Caption      := DFeUtil.FormatarCEP(FormatFloat('00000000', FNFe.emit.EnderEmit.CEP));
+    qrlCEPEmitente.Caption      := FormatarCEP(FormatFloat('00000000', FNFe.emit.EnderEmit.CEP));
     qrlMunEmitente.Caption      := FNFe.emit.EnderEmit.xMun + ' - ' + FNFe.emit.EnderEmit.UF;
-    qrlFoneEmitente.Caption     := DFeUtil.FormatarFone(FNFe.emit.enderEmit.fone);
+    qrlFoneEmitente.Caption     := FormatarFone(FNFe.emit.enderEmit.fone);
     qrlInscEstEmitente.Caption  := FNFe.emit.IE;
    end;
    *)
@@ -247,7 +247,7 @@ begin
 
       qrlStatus.Caption    := IntToStr(cStat) + ' - ' + xMotivo;
       qrlProtocolo.Caption := nProt + ' ' +
-                              DFeUtil.FormatDateTime(DateTimeToStr(dhRecbto));
+                              FormatDateTime(DateTimeToStr(dhRecbto));
 
       qrlJustificativa.Caption := xJust;
     end;

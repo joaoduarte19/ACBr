@@ -272,7 +272,7 @@ begin
                              '<' + Prefixo3 + 'SubstituicaoNfse>' +
                               '<' + Prefixo3 + 'Pedido>' +
                                '<' + Prefixo4 + 'InfPedidoCancelamento' +
-                                  DFeUtil.SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
+                                  SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
   end;
 end;
 

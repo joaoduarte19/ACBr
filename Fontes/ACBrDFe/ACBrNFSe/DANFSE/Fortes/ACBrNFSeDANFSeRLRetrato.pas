@@ -336,7 +336,7 @@ begin
 
  rllNumNF0.Caption  := {FormatDateTime('yyyy', FNFSe.DataEmissao)+}
                        FormatFloat('00000000000', StrToFloat(FNFSe.Numero));
- rllEmissao.Caption := DFeUtil.FormatDateTime(DateTimeToStr(FNFSe.DataEmissao));  //Astrogildo em 13/12/12
+ rllEmissao.Caption := FormatDateTime(DateTimeToStr(FNFSe.DataEmissao));  //Astrogildo em 13/12/12
  rllCodVerificacao.Caption := FNFSe.CodigoVerificacao;
  t:=length(FNFSe.Competencia);
  if t=6
@@ -357,7 +357,7 @@ begin
 //    NotaUtil.FormatFloat( FNFSe.Servico.Valores.ValorLiquidoNfse );
 
  rllValorTotal.Caption := 'VALOR TOTAL DA NOTA = R$ '+
-    DFeUtil.FormatFloat( FNFSe.Servico.Valores.ValorServicos ); //Astrogildo em 13/12/12
+    FormatFloat( FNFSe.Servico.Valores.ValorServicos ); //Astrogildo em 13/12/12
 
  rlmCodServico.Lines.Clear;
 
@@ -392,54 +392,54 @@ begin
  rllCodigoArt.Visible:=MostrarObra;
  rllCodART.Visible:=MostrarObra;
 
- rllValorPIS.Caption    := DFeUtil.FormatFloat( FNFSe.Servico.Valores.ValorPis );//Astrogildo em 13/12/12
- rllValorCOFINS.Caption := DFeUtil.FormatFloat( FNFSe.Servico.Valores.ValorCofins );//Astrogildo em 13/12/12
- rllValorIR.Caption     := DFeUtil.FormatFloat( FNFSe.Servico.Valores.ValorIr );//Astrogildo em 13/12/12
- rllValorINSS.Caption   := DFeUtil.FormatFloat( FNFSe.Servico.Valores.ValorInss );//Astrogildo em 13/12/12
- rllValorCSLL.Caption   := DFeUtil.FormatFloat( FNFSe.Servico.Valores.ValorCsll );//Astrogildo em 13/12/12
+ rllValorPIS.Caption    := FormatFloat( FNFSe.Servico.Valores.ValorPis );//Astrogildo em 13/12/12
+ rllValorCOFINS.Caption := FormatFloat( FNFSe.Servico.Valores.ValorCofins );//Astrogildo em 13/12/12
+ rllValorIR.Caption     := FormatFloat( FNFSe.Servico.Valores.ValorIr );//Astrogildo em 13/12/12
+ rllValorINSS.Caption   := FormatFloat( FNFSe.Servico.Valores.ValorInss );//Astrogildo em 13/12/12
+ rllValorCSLL.Caption   := FormatFloat( FNFSe.Servico.Valores.ValorCsll );//Astrogildo em 13/12/12
 
- rllValorServicos1.Caption      := DFeUtil.FormatFloat( FNFSe.Servico.Valores.ValorServicos );//Astrogildo em 13/12/12
- rllDescIncondicionado1.Caption := DFeUtil.FormatFloat( FNFSe.Servico.Valores.DescontoIncondicionado );//Astrogildo em 13/12/12
- rllDescCondicionado.Caption    := DFeUtil.FormatFloat( FNFSe.Servico.Valores.DescontoCondicionado );//Astrogildo em 13/12/12
- rllRetencoesFederais.Caption   := DFeUtil.FormatFloat( FNFSe.Servico.Valores.ValorPis +//Astrogildo em 13/12/12
+ rllValorServicos1.Caption      := FormatFloat( FNFSe.Servico.Valores.ValorServicos );//Astrogildo em 13/12/12
+ rllDescIncondicionado1.Caption := FormatFloat( FNFSe.Servico.Valores.DescontoIncondicionado );//Astrogildo em 13/12/12
+ rllDescCondicionado.Caption    := FormatFloat( FNFSe.Servico.Valores.DescontoCondicionado );//Astrogildo em 13/12/12
+ rllRetencoesFederais.Caption   := FormatFloat( FNFSe.Servico.Valores.ValorPis +//Astrogildo em 13/12/12
                                      FNFSe.Servico.Valores.ValorCofins + FNFSe.Servico.Valores.ValorInss +
                                      FNFSe.Servico.Valores.ValorIr + FNFSe.Servico.Valores.ValorCsll );
- rllOutrasRetencoes.Caption     := DFeUtil.FormatFloat( FNFSe.Servico.Valores.OutrasRetencoes );//Astrogildo em 13/12/12
+ rllOutrasRetencoes.Caption     := FormatFloat( FNFSe.Servico.Valores.OutrasRetencoes );//Astrogildo em 13/12/12
  
- rllValorIssRetido.Caption      := DFeUtil.FormatFloat( FNFSe.Servico.Valores.ValorIssRetido );//Astrogildo em 13/12/12
+ rllValorIssRetido.Caption      := FormatFloat( FNFSe.Servico.Valores.ValorIssRetido );//Astrogildo em 13/12/12
 
- rllValorLiquido.Caption := DFeUtil.FormatFloat( FNFSe.Servico.Valores.ValorLiquidoNfse );//Astrogildo em 13/12/12
+ rllValorLiquido.Caption := FormatFloat( FNFSe.Servico.Valores.ValorLiquidoNfse );//Astrogildo em 13/12/12
  
  {
  If FNFSe.Servico.Valores.ValorIssRetido > 0 Then Begin
 
-   rllValorIssRetido.Caption := DFeUtil.FormatFloat(FNFSe.Servico.Valores.ValorIssRetido);
+   rllValorIssRetido.Caption := FormatFloat(FNFSe.Servico.Valores.ValorIssRetido);
 
-   rllValorLiquido.Caption   := DFeUtil.FormatFloat(FNFSe.Servico.Valores.ValorLiquidoNfse -
+   rllValorLiquido.Caption   := FormatFloat(FNFSe.Servico.Valores.ValorLiquidoNfse -
                                                     FNFSe.Servico.Valores.ValorIssRetido);
  End Else Begin
 
    Case FNFSe.Servico.Valores.IssRetido Of
    stRetencao     : Begin
 
-                      rllValorIssRetido.Caption := DFeUtil.FormatFloat(FNFSe.Servico.Valores.ValorIss);
+                      rllValorIssRetido.Caption := FormatFloat(FNFSe.Servico.Valores.ValorIss);
 
-                      rllValorLiquido.Caption   := DFeUtil.FormatFloat(FNFSe.Servico.Valores.ValorLiquidoNfse -
+                      rllValorLiquido.Caption   := FormatFloat(FNFSe.Servico.Valores.ValorLiquidoNfse -
                                                                        FNFSe.Servico.Valores.ValorIss);
                     End;
 
    stNormal       : Begin
 
-                      rllValorIssRetido.Caption := DFeUtil.FormatFloat(0);
+                      rllValorIssRetido.Caption := FormatFloat(0);
 
-                      rllValorLiquido.Caption   := DFeUtil.FormatFloat(FNFSe.Servico.Valores.ValorLiquidoNfse);
+                      rllValorLiquido.Caption   := FormatFloat(FNFSe.Servico.Valores.ValorLiquidoNfse);
                     End;
 
    stSubstituicao : Begin
 
-                      rllValorIssRetido.Caption := DFeUtil.FormatFloat(0);
+                      rllValorIssRetido.Caption := FormatFloat(0);
 
-                      rllValorLiquido.Caption   := DFeUtil.FormatFloat(FNFSe.Servico.Valores.ValorLiquidoNfse);
+                      rllValorLiquido.Caption   := FormatFloat(FNFSe.Servico.Valores.ValorLiquidoNfse);
                     End;
    end;
  End;
@@ -481,18 +481,18 @@ begin
   snNao : rllIncentivador.Caption := 'Não';
  end;
 
- rllValorServicos2.Caption      := DFeUtil.FormatFloat( FNFSe.Servico.Valores.ValorServicos );//Astrogildo em 13/12/12
- rllValorDeducoes.Caption       := DFeUtil.FormatFloat( FNFSe.Servico.Valores.ValorDeducoes );//Astrogildo em 13/12/12
- rllDescIncondicionado2.Caption := DFeUtil.FormatFloat( FNFSe.Servico.Valores.DescontoIncondicionado );//Astrogildo em 13/12/12
- rllBaseCalc.Caption            := DFeUtil.FormatFloat( FNFSe.Servico.Valores.BaseCalculo );//Astrogildo em 13/12/12
+ rllValorServicos2.Caption      := FormatFloat( FNFSe.Servico.Valores.ValorServicos );//Astrogildo em 13/12/12
+ rllValorDeducoes.Caption       := FormatFloat( FNFSe.Servico.Valores.ValorDeducoes );//Astrogildo em 13/12/12
+ rllDescIncondicionado2.Caption := FormatFloat( FNFSe.Servico.Valores.DescontoIncondicionado );//Astrogildo em 13/12/12
+ rllBaseCalc.Caption            := FormatFloat( FNFSe.Servico.Valores.BaseCalculo );//Astrogildo em 13/12/12
  
  // thema precisa ser desta forma pois usa aliquota 2,5 => 0,025
  if (FNFSe.Servico.Valores.Aliquota > 0) and (FNFSe.Servico.Valores.Aliquota < 1) then
-   rllAliquota.Caption := DFeUtil.FormatFloat( FNFSe.Servico.Valores.Aliquota * 100 )
+   rllAliquota.Caption := FormatFloat( FNFSe.Servico.Valores.Aliquota * 100 )
  else
-   rllAliquota.Caption := DFeUtil.FormatFloat( FNFSe.Servico.Valores.Aliquota );
+   rllAliquota.Caption := FormatFloat( FNFSe.Servico.Valores.Aliquota );
 
- // rllAliquota.Caption            := DFeUtil.FormatFloat( FNFSe.Servico.Valores.Aliquota );//Astrogildo em 13/12/12
+ // rllAliquota.Caption            := FormatFloat( FNFSe.Servico.Valores.Aliquota );//Astrogildo em 13/12/12
 
  // TnfseSimNao = ( snSim, snNao )
  case FNFSe.Servico.Valores.IssRetido of
@@ -502,8 +502,8 @@ begin
  end;
 
  case FNFSe.OptanteSimplesNacional of
- snSim : rllValorISS.Caption := DFeUtil.FormatFloat(0);
- snNao : rllValorISS.Caption := DFeUtil.FormatFloat(FNFSe.Servico.Valores.ValorIss);
+ snSim : rllValorISS.Caption := FormatFloat(0);
+ snNao : rllValorISS.Caption := FormatFloat(FNFSe.Servico.Valores.ValorIss);
  end;
 // rllValorCredito.Caption := NotaUtil.FormatFloat( FNFSe.ValorCredito );
 
@@ -556,7 +556,7 @@ begin
    end;
 
 
- rllPrestCNPJ.Caption := DFeUtil.FormatarCNPJ( FNFSe.PrestadorServico.IdentificacaoPrestador.Cnpj );//Astrogildo em 13/12/12
+ rllPrestCNPJ.Caption := FormatarCNPJ( FNFSe.PrestadorServico.IdentificacaoPrestador.Cnpj );//Astrogildo em 13/12/12
 
  If FNFSe.Tomador.IdentificacaoTomador.InscricaoEstadual <> '' Then
    rllTomaInscEstadual.Caption := FNFSe.Tomador.IdentificacaoTomador.InscricaoEstadual
@@ -576,7 +576,7 @@ begin
                                Trim( FNFSe.PrestadorServico.Endereco.Numero )+' - '+
                                Trim( FNFSe.PrestadorServico.Endereco.Bairro )+
                                ' - CEP: '+
-                               DFeUtil.FormatarCEP( DFeUtil.Poem_Zeros( FNFSe.PrestadorServico.Endereco.CEP, 8 ) );//Astrogildo em 13/12/12
+                               FormatarCEP( Poem_Zeros( FNFSe.PrestadorServico.Endereco.CEP, 8 ) );//Astrogildo em 13/12/12
  End Else Begin
 
    rllPrestEndereco.Caption := Trim(FEndereco);
@@ -587,8 +587,8 @@ begin
  Else rllPrestComplemento.Caption := FComplemento;
 
  If FNFSe.PrestadorServico.Contato.Telefone <> '' Then
-   rllPrestTelefone.Caption := DFeUtil.FormatarFone(FNFSe.PrestadorServico.Contato.Telefone)
- Else rllPrestTelefone.Caption := DFeUtil.FormatarFone(FFone);
+   rllPrestTelefone.Caption := FormatarFone(FNFSe.PrestadorServico.Contato.Telefone)
+ Else rllPrestTelefone.Caption := FormatarFone(FFone);
 
  If FNFSe.PrestadorServico.Endereco.xMunicipio <> '' Then
    rllPrestMunicipio.Caption := FNFSe.PrestadorServico.Endereco.CodigoMunicipio + ' - ' + FNFSe.PrestadorServico.Endereco.xMunicipio
@@ -613,8 +613,8 @@ begin
   inherited;
 
  if Length(FNFSe.Tomador.IdentificacaoTomador.CpfCnpj)<=11
-  then rllTomaCNPJ.Caption := DFeUtil.FormatarCPF( FNFSe.Tomador.IdentificacaoTomador.CpfCnpj ) //Astrogildo em 13/12/12
-  else rllTomaCNPJ.Caption := DFeUtil.FormatarCNPJ( FNFSe.Tomador.IdentificacaoTomador.CpfCnpj );//Astrogildo em 13/12/12
+  then rllTomaCNPJ.Caption := FormatarCPF( FNFSe.Tomador.IdentificacaoTomador.CpfCnpj ) //Astrogildo em 13/12/12
+  else rllTomaCNPJ.Caption := FormatarCNPJ( FNFSe.Tomador.IdentificacaoTomador.CpfCnpj );//Astrogildo em 13/12/12
 
  If FNFSe.Tomador.IdentificacaoTomador.InscricaoMunicipal <> '' Then
    rllTomaInscMunicipal.Caption := FNFSe.Tomador.IdentificacaoTomador.InscricaoMunicipal
@@ -627,11 +627,11 @@ begin
    rllTomaEndereco.Caption := Trim(FNFSe.Tomador.Endereco.Endereco) + ', '  +
                               Trim(FNFSe.Tomador.Endereco.Numero )  + ' - ' +
                               Trim(FNFSe.Tomador.Endereco.Bairro )  + ' - CEP: ' +
-                              DFeUtil.FormatarCEP(DFeUtil.Poem_Zeros(FNFSe.Tomador.Endereco.CEP, 8 ));
+                              FormatarCEP(Poem_Zeros(FNFSe.Tomador.Endereco.CEP, 8 ));
  End Else Begin
 
    rllTomaEndereco.Caption := Trim(FT_Endereco) + ' - CEP: ' +
-                              DFeUtil.FormatarCEP(DFeUtil.Poem_Zeros(FNFSe.Tomador.Endereco.CEP, 8 ));
+                              FormatarCEP(Poem_Zeros(FNFSe.Tomador.Endereco.CEP, 8 ));
  End;
 
  If FNFSe.Tomador.Endereco.Complemento <> '' Then
@@ -639,8 +639,8 @@ begin
  Else rllTomaComplemento.Caption := FT_Complemento;
 
  If FNFSe.Tomador.Contato.Telefone <> '' Then
-   rllTomaTelefone.Caption := DFeUtil.FormatarFone(FNFSe.Tomador.Contato.Telefone)
- Else rllTomaTelefone.Caption := DFeUtil.FormatarFone(FT_Fone);
+   rllTomaTelefone.Caption := FormatarFone(FNFSe.Tomador.Contato.Telefone)
+ Else rllTomaTelefone.Caption := FormatarFone(FT_Fone);
 
  rllTomaMunicipio.Caption := FNFSe.Tomador.Endereco.CodigoMunicipio + ' - ' + FNFSe.Tomador.Endereco.xMunicipio;
  rllTomaUF.Caption        := FNFSe.Tomador.Endereco.UF;

@@ -123,7 +123,7 @@ uses
 { MDFeUtil }
 
 {$IFDEF ACBrMDFeOpenSSL}
-class procedure MDFeUtil.InitXmlSec;
+class procedure MInitXmlSec;
 begin
   { Init libxml and libxslt libraries }
   xmlInitParser();
@@ -158,7 +158,7 @@ begin
     raise Exception.Create('Error: xmlsec-crypto initialization failed.');
 end;
 
-class procedure MDFeUtil.ShutDownXmlSec;
+class procedure MShutDownXmlSec;
 begin
   { Shutdown xmlsec-crypto library }
   xmlSecCryptoShutdown();
@@ -175,7 +175,7 @@ begin
 end;
 {$ENDIF}
 
-class function MDFeUtil.GetURL(const AUF, AAmbiente, FormaEmissao: Integer;
+class function MGetURL(const AUF, AAmbiente, FormaEmissao: Integer;
   ALayOut: TLayOutMDFe): WideString;
 begin
   //  (AC,AL,AP,AM,BA,CE,DF,ES,GO,MA,MT,MS,MG,PA,PB,PR,PE,PI,RJ,RN,RS,RO,RR,SC,SP,SE,TO);
@@ -184,41 +184,41 @@ begin
  case FormaEmissao of
   1,2,4,5 : begin
              case AUF of
-              12: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //AC - Acre
-              27: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //AL - Alagoas
-              16: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //AP - Amapá
-              13: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //AM - Amazonas
-              29: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //BA - Bahia
-              23: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //CE - Ceará
-              53: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //DF - Distrito Federal
-              32: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //ES - Espirito Santo
-              52: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //GO - Goiás
-              21: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //MA - Maranhão
+              12: Result := MGetURLSVRS(AAmbiente, ALayOut);             //AC - Acre
+              27: Result := MGetURLSVRS(AAmbiente, ALayOut);             //AL - Alagoas
+              16: Result := MGetURLSVRS(AAmbiente, ALayOut);             //AP - Amapá
+              13: Result := MGetURLSVRS(AAmbiente, ALayOut);             //AM - Amazonas
+              29: Result := MGetURLSVRS(AAmbiente, ALayOut);             //BA - Bahia
+              23: Result := MGetURLSVRS(AAmbiente, ALayOut);             //CE - Ceará
+              53: Result := MGetURLSVRS(AAmbiente, ALayOut);             //DF - Distrito Federal
+              32: Result := MGetURLSVRS(AAmbiente, ALayOut);             //ES - Espirito Santo
+              52: Result := MGetURLSVRS(AAmbiente, ALayOut);             //GO - Goiás
+              21: Result := MGetURLSVRS(AAmbiente, ALayOut);             //MA - Maranhão
 
-              51: Result := MDFeUtil.GetURLMT(AAmbiente, ALayOut);               //MT - Mato Grosso
-              50: Result := MDFeUtil.GetURLMS(AAmbiente, ALayOut);               //MS - Mato Grosso do Sul
-              31: Result := MDFeUtil.GetURLMG(AAmbiente, ALayOut);               //MG - Minas Gerais
+              51: Result := MGetURLMT(AAmbiente, ALayOut);               //MT - Mato Grosso
+              50: Result := MGetURLMS(AAmbiente, ALayOut);               //MS - Mato Grosso do Sul
+              31: Result := MGetURLMG(AAmbiente, ALayOut);               //MG - Minas Gerais
 
-              15: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //PA - Pará
-              25: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //PB - Paraibá
-              41: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //PR - Paraná
+              15: Result := MGetURLSVRS(AAmbiente, ALayOut);             //PA - Pará
+              25: Result := MGetURLSVRS(AAmbiente, ALayOut);             //PB - Paraibá
+              41: Result := MGetURLSVRS(AAmbiente, ALayOut);             //PR - Paraná
 
-              26: Result := MDFeUtil.GetURLSP(AAmbiente, ALayOut);               //PE - Pernambuco
+              26: Result := MGetURLSP(AAmbiente, ALayOut);               //PE - Pernambuco
 
-              22: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //PI - Piauí
-              33: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //RJ - Rio de Janeiro
-              24: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //RN - Rio Grande do Norte
+              22: Result := MGetURLSVRS(AAmbiente, ALayOut);             //PI - Piauí
+              33: Result := MGetURLSVRS(AAmbiente, ALayOut);             //RJ - Rio de Janeiro
+              24: Result := MGetURLSVRS(AAmbiente, ALayOut);             //RN - Rio Grande do Norte
 
-              43: Result := MDFeUtil.GetURLRS(AAmbiente, ALayOut);               //RS - Rio Grande do Sul
+              43: Result := MGetURLRS(AAmbiente, ALayOut);               //RS - Rio Grande do Sul
 
-              11: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //RO - Rondônia
-              14: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //RR - Roraima
-              42: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //SC - Santa Catarina
+              11: Result := MGetURLSVRS(AAmbiente, ALayOut);             //RO - Rondônia
+              14: Result := MGetURLSVRS(AAmbiente, ALayOut);             //RR - Roraima
+              42: Result := MGetURLSVRS(AAmbiente, ALayOut);             //SC - Santa Catarina
 
-              35: Result := MDFeUtil.GetURLSP(AAmbiente, ALayOut);               //SP - São Paulo
+              35: Result := MGetURLSP(AAmbiente, ALayOut);               //SP - São Paulo
 
-              28: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //SE - Sergipe
-              17: Result := MDFeUtil.GetURLSVRS(AAmbiente, ALayOut);             //TO - Tocantins
+              28: Result := MGetURLSVRS(AAmbiente, ALayOut);             //SE - Sergipe
+              17: Result := MGetURLSVRS(AAmbiente, ALayOut);             //TO - Tocantins
              end;
             end;
  end;
@@ -226,97 +226,97 @@ begin
      raise Exception.Create('URL não disponível para o Estado solicitado.');
 end;
 
-class function MDFeUtil.GetURLSVRS(AAmbiente: Integer;
+class function MGetURLSVRS(AAmbiente: Integer;
   ALayOut: TLayOutMDFe): WideString;
 begin
   case ALayOut of
-    LayMDFeRecepcao:      Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx');
-    LayMDFeRetRecepcao:   Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx'      , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx');
-    LayMDFeEvento:        Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx', 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx');
-    LayMDFeConsulta:      Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx');
-    LayMDFeStatusServico: Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx'  , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx');
-    LayMDFeConsNaoEnc:    Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx'        , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx');
+    LayMDFeRecepcao:      Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx');
+    LayMDFeRetRecepcao:   Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx'      , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx');
+    LayMDFeEvento:        Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx', 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx');
+    LayMDFeConsulta:      Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx');
+    LayMDFeStatusServico: Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx'  , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx');
+    LayMDFeConsNaoEnc:    Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx'        , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx');
   end;
 end;
 
-class function MDFeUtil.GetURLMG(AAmbiente: Integer;
+class function MGetURLMG(AAmbiente: Integer;
   ALayOut: TLayOutMDFe): WideString;
 begin
   case ALayOut of
-    LayMDFeRecepcao:      Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx');
-    LayMDFeRetRecepcao:   Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx'      , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx');
-    LayMDFeEvento:        Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx', 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx');
-    LayMDFeConsulta:      Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx');
-    LayMDFeStatusServico: Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx'  , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx');
-    LayMDFeConsNaoEnc:    Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx'        , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx');
+    LayMDFeRecepcao:      Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx');
+    LayMDFeRetRecepcao:   Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx'      , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx');
+    LayMDFeEvento:        Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx', 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx');
+    LayMDFeConsulta:      Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx');
+    LayMDFeStatusServico: Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx'  , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx');
+    LayMDFeConsNaoEnc:    Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx'        , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx');
   end;
 end;
 
-class function MDFeUtil.GetURLRS(AAmbiente: Integer;
+class function MGetURLRS(AAmbiente: Integer;
   ALayOut: TLayOutMDFe): WideString;
 begin
   case ALayOut of
-    LayMDFeRecepcao:      Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx');
-    LayMDFeRetRecepcao:   Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx'      , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx');
-    LayMDFeEvento:        Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx', 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx');
-    LayMDFeConsulta:      Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx');
-    LayMDFeStatusServico: Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx'  , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx');
-    LayMDFeConsNaoEnc:    Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx'        , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx');
+    LayMDFeRecepcao:      Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx');
+    LayMDFeRetRecepcao:   Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx'      , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx');
+    LayMDFeEvento:        Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx', 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx');
+    LayMDFeConsulta:      Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx');
+    LayMDFeStatusServico: Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx'  , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx');
+    LayMDFeConsNaoEnc:    Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx'        , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx');
   end;
 end;
 
-class function MDFeUtil.GetURLSP(AAmbiente: Integer;
+class function MGetURLSP(AAmbiente: Integer;
   ALayOut: TLayOutMDFe): WideString;
 begin
   case ALayOut of
-    LayMDFeRecepcao:      Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx');
-    LayMDFeRetRecepcao:   Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx'      , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx');
-    LayMDFeEvento:        Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx', 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx');
-    LayMDFeConsulta:      Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx');
-    LayMDFeStatusServico: Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx'  , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx');
-    LayMDFeConsNaoEnc:    Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx'        , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx');
+    LayMDFeRecepcao:      Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx');
+    LayMDFeRetRecepcao:   Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx'      , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx');
+    LayMDFeEvento:        Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx', 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx');
+    LayMDFeConsulta:      Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx');
+    LayMDFeStatusServico: Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx'  , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx');
+    LayMDFeConsNaoEnc:    Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx'        , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx');
   end;
 end;
 
-class function MDFeUtil.GetURLMS(AAmbiente: Integer;
+class function MGetURLMS(AAmbiente: Integer;
   ALayOut: TLayOutMDFe): WideString;
 begin
   case ALayOut of
-    LayMDFeRecepcao:      Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx');
-    LayMDFeRetRecepcao:   Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx'      , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx');
-    LayMDFeEvento:        Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx', 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx');
-    LayMDFeConsulta:      Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx');
-    LayMDFeStatusServico: Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx'  , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx');
-    LayMDFeConsNaoEnc:    Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx'        , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx');
+    LayMDFeRecepcao:      Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx');
+    LayMDFeRetRecepcao:   Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx'      , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx');
+    LayMDFeEvento:        Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx', 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx');
+    LayMDFeConsulta:      Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx');
+    LayMDFeStatusServico: Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx'  , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx');
+    LayMDFeConsNaoEnc:    Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx'        , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx');
   end;
 end;
 
-class function MDFeUtil.GetURLMT(AAmbiente: Integer;
+class function MGetURLMT(AAmbiente: Integer;
   ALayOut: TLayOutMDFe): WideString;
 begin
   case ALayOut of
-    LayMDFeRecepcao:      Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx');
-    LayMDFeRetRecepcao:   Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx'      , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx');
-    LayMDFeEvento:        Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx', 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx');
-    LayMDFeConsulta:      Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx');
-    LayMDFeStatusServico: Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx'  , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx');
-    LayMDFeConsNaoEnc:    Result := DFeUtil.SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx'        , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx');
+    LayMDFeRecepcao:      Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFerecepcao/MDFeRecepcao.asmx');
+    LayMDFeRetRecepcao:   Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx'      , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRetRecepcao/MDFeRetRecepcao.asmx');
+    LayMDFeEvento:        Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx', 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeRecepcaoEvento/MDFeRecepcaoEvento.asmx');
+    LayMDFeConsulta:      Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx'            , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsulta/MDFeConsulta.asmx');
+    LayMDFeStatusServico: Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx'  , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeStatusServico/MDFeStatusServico.asmx');
+    LayMDFeConsNaoEnc:    Result := SeSenao(AAmbiente = 1, 'https://mdfe.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx'        , 'https://mdfe-hml.sefaz.rs.gov.br/ws/MDFeConsNaoEnc/MDFeConsNaoEnc.asmx');
   end;
 end;
 
-class function MDFeUtil.FormatarNumMDFe(const AValue: Integer): string;
+class function MFormatarNumMDFe(const AValue: Integer): string;
 begin
   result := FormatFloat('000000000', AValue);
 end;
 
-class function MDFeUtil.FormatarValor(mask: TpcteMask; const AValue: real): string;
+class function MFormatarValor(mask: TpcteMask; const AValue: real): string;
 begin
   result := FormatFloat(TpMaskToStrText(mask), AValue);
 end;
 
-class function MDFeUtil.FormatarChaveAcesso(AValue: String; Mascara: Boolean = False): String;
+class function MFormatarChaveAcesso(AValue: String; Mascara: Boolean = False): String;
 begin
-  AValue := DFeUtil.LimpaNumero(AValue);
+  AValue := LimpaNumero(AValue);
   if Mascara
    then Result := copy(AValue,1,2)  + '-' + copy(AValue,3,2)  + '/' +
                   copy(AValue,5,2)  + '-' + copy(AValue,7,2)  + '.' +
@@ -347,13 +347,13 @@ var
   schema_filename: PChar;
   Tipo, I: Integer;
 begin
- Tipo := MDFeUtil.IdentificaTipoSchema(AXML, I);
+ Tipo := MIdentificaTipoSchema(AXML, I);
 
- if not DirectoryExists(DFeUtil.SeSenao(EstaVazio(APathSchemas),
+ if not DirectoryExists(SeSenao(EstaVazio(APathSchemas),
                  PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas',
                  PathWithDelim(APathSchemas))) then
     raise Exception.Create('Diretório de Schemas não encontrado'+sLineBreak+
-                           DFeUtil.SeSenao(EstaVazio(APathSchemas),
+                           SeSenao(EstaVazio(APathSchemas),
                            PathWithDelim(ExtractFileDir(application.ExeName))+
                            'Schemas',PathWithDelim(APathSchemas)));
 
@@ -530,52 +530,52 @@ begin
   if Tipo = 0 then
     raise Exception.Create('Modal não encontrado no XML.');
 
-  if not DirectoryExists(DFeUtil.SeSenao(EstaVazio(APathSchemas),
+  if not DirectoryExists(SeSenao(EstaVazio(APathSchemas),
                   PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas',
                   PathWithDelim(APathSchemas))) then
     raise Exception.Create('Diretório de Schemas não encontrado'+sLineBreak+
-                            DFeUtil.SeSenao(EstaVazio(APathSchemas),
+                            SeSenao(EstaVazio(APathSchemas),
                             PathWithDelim(ExtractFileDir(application.ExeName))+
                             'Schemas',PathWithDelim(APathSchemas)));
 
   case Tipo of
    1: begin
-       schema_filename := (DFeUtil.SeSenao(EstaVazio(APathSchemas),
+       schema_filename := (SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalAereo_v' + MDFeModalAereo + '.xsd');
       end;
    2: begin
-       schema_filename := (DFeUtil.SeSenao(EstaVazio(APathSchemas),
+       schema_filename := (SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalAquaviario_v' + MDFeModalAqua + '.xsd');
       end;
    3: begin
-       schema_filename := (DFeUtil.SeSenao(EstaVazio(APathSchemas),
+       schema_filename := (SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalDutoviario_v' + MDFeModalDuto + '.xsd');
       end;
    4: begin
-       schema_filename := (DFeUtil.SeSenao(EstaVazio(APathSchemas),
+       schema_filename := (SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalFerroviario_v' + MDFeModalFerro + '.xsd');
       end;
    5: begin
-       schema_filename := (DFeUtil.SeSenao(EstaVazio(APathSchemas),
+       schema_filename := (SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalRodoviario_v' + MDFeModalRodo + '.xsd');
       end;
    6: begin
-       schema_filename := (DFeUtil.SeSenao(EstaVazio(APathSchemas),
+       schema_filename := (SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'evEncMDFe_v' + MDFeModalRodo + '.xsd');
       end;
    7: begin
-       schema_filename := (DFeUtil.SeSenao(EstaVazio(APathSchemas),
+       schema_filename := (SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'evCancMDFe_v' + MDFeModalRodo + '.xsd');
       end;
    8: begin
-       schema_filename := (DFeUtil.SeSenao(EstaVazio(APathSchemas),
+       schema_filename := (SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'evIncCondutorMDFe_v' + MDFeModalRodo + '.xsd');
       end;
@@ -665,7 +665,7 @@ begin
   Result := False;
   CoInitialize(nil);
   try
-    Tipo := MDFeUtil.IdentificaTipoSchema(XML, I);
+    Tipo := MIdentificaTipoSchema(XML, I);
 
     DOMDocument                  := CoDOMDocument50.Create;
     DOMDocument.async            := False;
@@ -675,19 +675,19 @@ begin
 
     Schema := CoXMLSchemaCache50.Create;
 
-    if not DirectoryExists(DFeUtil.SeSenao(EstaVazio(APathSchemas),
+    if not DirectoryExists(SeSenao(EstaVazio(APathSchemas),
                     PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas',
                     PathWithDelim(APathSchemas))) then
       raise Exception.Create('Diretório de Schemas não encontrado'+sLineBreak+
-                              DFeUtil.SeSenao(EstaVazio(APathSchemas),
+                              SeSenao(EstaVazio(APathSchemas),
                               PathWithDelim(ExtractFileDir(application.ExeName))+
                               'Schemas',PathWithDelim(APathSchemas)));
 
     case Tipo of
-      1: schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
+      1: schema_filename := SeSenao(EstaVazio(APathSchemas),
                                              PathWithDelim(ExtractFileDir(application.ExeName)) + 'Schemas\',
                                              PathWithDelim(APathSchemas)) + 'MDFe_v' + MDFeEnviMDFe + '.xsd';
-      2..4: schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
+      2..4: schema_filename := SeSenao(EstaVazio(APathSchemas),
                                                PathWithDelim(ExtractFileDir(application.ExeName)) + 'Schemas\',
                                                PathWithDelim(APathSchemas)) + 'eventoMDFe_v' + MDFeEventoMDFe + '.xsd';
       else schema_filename := '';
@@ -801,11 +801,11 @@ begin
 
   Schema := CoXMLSchemaCache50.Create;
 
-  if not DirectoryExists(DFeUtil.SeSenao(EstaVazio(APathSchemas),
+  if not DirectoryExists(SeSenao(EstaVazio(APathSchemas),
                   PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas',
                   PathWithDelim(APathSchemas))) then
     raise Exception.Create('Diretório de Schemas não encontrado'+sLineBreak+
-                            DFeUtil.SeSenao(EstaVazio(APathSchemas),
+                            SeSenao(EstaVazio(APathSchemas),
                             PathWithDelim(ExtractFileDir(application.ExeName))+
                             'Schemas',PathWithDelim(APathSchemas)));
 
@@ -813,42 +813,42 @@ begin
 
   case Tipo of
    1: begin
-       schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
+       schema_filename := SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalAereo_v' + MDFeModalAereo + '.xsd';
       end;
    2: begin
-       schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
+       schema_filename := SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalAquaviario_v' + MDFeModalAqua + '.xsd';
       end;
    3: begin
-       schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
+       schema_filename := SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalDutoviario_v' + MDFeModalDuto + '.xsd';
       end;
    4: begin
-       schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
+       schema_filename := SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalFerroviario_v' + MDFeModalFerro + '.xsd';
       end;
    5: begin
-       schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
+       schema_filename := SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'MDFeModalRodoviario_v' + MDFeModalRodo + '.xsd';
       end;
    6: begin
-       schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
+       schema_filename := SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'evEncMDFe_v' + MDFeModalRodo + '.xsd';
       end;
    7: begin
-       schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
+       schema_filename := SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'evCancMDFe_v' + MDFeModalRodo + '.xsd';
       end;
    8: begin
-       schema_filename := DFeUtil.SeSenao(EstaVazio(APathSchemas),
+       schema_filename := SeSenao(EstaVazio(APathSchemas),
           PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
           PathWithDelim(APathSchemas))+'evIncCondutorMDFe_v' + MDFeModalRodo + '.xsd';
       end;
@@ -913,7 +913,7 @@ begin
 end;
 {$ENDIF}
 
-class function MDFeUtil.Valida(const AXML: AnsiString;
+class function MValida(const AXML: AnsiString;
   var AMsg: AnsiString; const APathSchemas: string = ''): Boolean;
 begin
 {$IFDEF ACBrMDFeOpenSSL}
@@ -925,7 +925,7 @@ begin
 {$ENDIF}
 end;
 
-class function MDFeUtil.ValidaAssinatura(const AXML: AnsiString;
+class function MValidaAssinatura(const AXML: AnsiString;
   var AMsg: AnsiString): Boolean;
 begin
 {$IFDEF ACBrMDFeOpenSSL}
@@ -948,17 +948,17 @@ begin
   AStr := AXML;
 
   //// Encontrando o URI ////
-  Tipo := MDFeUtil.IdentificaTipoSchema(AStr,I);
+  Tipo := MIdentificaTipoSchema(AStr,I);
 
   if I = 0 then
     raise Exception.Create('Não encontrei inicio do URI: <infMDFe');
-  I := DFeUtil.PosEx('Id=', AStr, I + 6);
+  I := PosEx('Id=', AStr, I + 6);
   if I = 0 then
     raise Exception.Create('Não encontrei inicio do URI: Id=');
-  I := DFeUtil.PosEx('"', AStr, I + 2);
+  I := PosEx('"', AStr, I + 2);
   if I = 0 then
     raise Exception.Create('Não encontrei inicio do URI: aspas inicial');
-  J := DFeUtil.PosEx('"', AStr, I + 1);
+  J := PosEx('"', AStr, I + 1);
   if J = 0 then
     raise Exception.Create('Não encontrei inicio do URI: aspas final');
 
@@ -968,10 +968,10 @@ begin
   I := pos('?>', AStr);
 
   case Tipo of
-    1: AStr := Copy(AStr,1,StrToInt(VarToStr(DFeUtil.SeSenao(I>0,I+1,I)))) + cDTD +
-               Copy(AStr,StrToInt(VarToStr(DFeUtil.SeSenao(I>0,I+2,I))),Length(AStr));
-    2..4: AStr := Copy(AStr,1,StrToInt(VarToStr(DFeUtil.SeSenao(I>0,I+1,I)))) + cDTDEven +
-                  Copy(AStr,StrToInt(VarToStr(DFeUtil.SeSenao(I>0,I+2,I))),Length(AStr));
+    1: AStr := Copy(AStr,1,StrToInt(VarToStr(SeSenao(I>0,I+1,I)))) + cDTD +
+               Copy(AStr,StrToInt(VarToStr(SeSenao(I>0,I+2,I))),Length(AStr));
+    2..4: AStr := Copy(AStr,1,StrToInt(VarToStr(SeSenao(I>0,I+1,I)))) + cDTDEven +
+                  Copy(AStr,StrToInt(VarToStr(SeSenao(I>0,I+2,I))),Length(AStr));
     else AStr := '';
   end;
 
@@ -1023,14 +1023,14 @@ begin
   end;
 
   if FileExists(ArqPFX) then
-    XmlAss := MDFeUtil.sign_file(PAnsiChar(AStr), PAnsiChar(ArqPFX), PAnsiChar(PFXSenha))
+    XmlAss := Msign_file(PAnsiChar(AStr), PAnsiChar(ArqPFX), PAnsiChar(PFXSenha))
   else
    begin
     Cert  := TMemoryStream.Create;
     Cert2 := TStringStream.Create(ArqPFX);
     try
       Cert.LoadFromStream(Cert2);
-      XmlAss := MDFeUtil.sign_memory(PAnsiChar(AStr), PAnsiChar(ArqPFX), PAnsiChar(PFXSenha), Cert.Size, Cert.Memory);
+      XmlAss := Msign_memory(PAnsiChar(AStr), PAnsiChar(ArqPFX), PAnsiChar(PFXSenha), Cert.Size, Cert.Memory);
     finally
       Cert2.Free;
       Cert.Free;
@@ -1048,7 +1048,7 @@ begin
   end;
 
   PosIni := Pos('<X509Certificate>', XmlAss) - 1;
-  PosFim := DFeUtil.PosLast('<X509Certificate>', XmlAss);
+  PosFim := PosLast('<X509Certificate>', XmlAss);
 
   XmlAss := copy(XmlAss, 1, PosIni) + copy(XmlAss, PosFim, length(XmlAss));
 
@@ -1073,15 +1073,15 @@ begin
   try
    if Pos('<Signature', XML) <= 0 then
    begin
-     Tipo := MDFeUtil.IdentificaTipoSchema(XML, I);
+     Tipo := MIdentificaTipoSchema(XML, I);
 
-     I := DFeUtil.PosEx('Id=', XML, 6);
+     I := PosEx('Id=', XML, 6);
      if I = 0 then
        raise Exception.Create('Não encontrei inicio do URI: Id=');
-     I := DFeUtil.PosEx('"', XML, I + 2);
+     I := PosEx('"', XML, I + 2);
      if I = 0 then
        raise Exception.Create('Não encontrei inicio do URI: aspas inicial');
-     J := DFeUtil.PosEx('"', XML, I + 1);
+     J := PosEx('"', XML, I + 1);
      if J = 0 then
        raise Exception.Create('Não encontrei inicio do URI: aspas final');
 
@@ -1171,7 +1171,7 @@ begin
      PosIni := Pos('<SignatureValue>', XMLAssinado) + length('<SignatureValue>');
      XMLAssinado := copy(XMLAssinado, 1, PosIni - 1) + StringReplace(copy(XMLAssinado, PosIni, length(XMLAssinado)), ' ', '', [rfReplaceAll]);
      PosIni := Pos('<X509Certificate>', XMLAssinado) - 1;
-     PosFim := DFeUtil.PosLast('<X509Certificate>', XMLAssinado);
+     PosFim := PosLast('<X509Certificate>', XMLAssinado);
 
      XMLAssinado := copy(XMLAssinado, 1, PosIni) + copy(XMLAssinado, PosFim, length(XMLAssinado));
    end
@@ -1204,7 +1204,7 @@ end;
 {$ENDIF}
 
 {$IFDEF ACBrMDFeOpenSSL}
- class function MDFeUtil.sign_file(const Axml: PAnsiChar; const key_file: PAnsiChar; const senha: PAnsiChar): AnsiString;
+ class function Msign_file(const Axml: PAnsiChar; const key_file: PAnsiChar; const senha: PAnsiChar): AnsiString;
 var
   doc: xmlDocPtr;
   node: xmlNodePtr;
@@ -1269,7 +1269,7 @@ begin
   end;
 end;
 
-class function MDFeUtil.sign_memory(const Axml: PAnsiChar; const key_file: PAnsichar; const senha: PAnsiChar; Size: Cardinal; Ponteiro: Pointer): AnsiString;
+class function Msign_memory(const Axml: PAnsiChar; const key_file: PAnsichar; const senha: PAnsiChar; Size: Cardinal; Ponteiro: Pointer): AnsiString;
 var
   doc: xmlDocPtr;
   node: xmlNodePtr;
@@ -1336,9 +1336,9 @@ end;
 {$ENDIF}
 
 {$IFDEF ACBrMDFeOpenSSL}
-class function MDFeUtil.Assinar(const AXML, ArqPFX, PFXSenha: AnsiString; out AXMLAssinado, FMensagem: AnsiString): Boolean;
+class function MAssinar(const AXML, ArqPFX, PFXSenha: AnsiString; out AXMLAssinado, FMensagem: AnsiString): Boolean;
 {$ELSE}
-class function MDFeUtil.Assinar(const AXML: AnsiString; Certificado: ICertificate2; out AXMLAssinado, FMensagem: AnsiString): Boolean;
+class function MAssinar(const AXML: AnsiString; Certificado: ICertificate2; out AXMLAssinado, FMensagem: AnsiString): Boolean;
 {$ENDIF}
 begin
 {$IFDEF ACBrMDFeOpenSSL}
@@ -1348,7 +1348,7 @@ begin
 {$ENDIF}
 end;
 
-class function MDFeUtil.UFtoCUF(UF: String): Integer;
+class function MUFtoCUF(UF: String): Integer;
 var
   Codigo, i: Integer;
 begin
@@ -1365,7 +1365,7 @@ begin
      Result := Codigo;
 end;
 
-class function MDFeUtil.GerarChaveContingencia(FMDFe:TMDFe): string;
+class function MGerarChaveContingencia(FMDFe:TMDFe): string;
 
    function GerarDigito_Contingencia(var Digito: Integer; chave: string): boolean;
    var
@@ -1373,7 +1373,7 @@ class function MDFeUtil.GerarChaveContingencia(FMDFe:TMDFe): string;
    const
      PESO = '43298765432987654329876543298765432';
    begin
-     chave  := DFeUtil.LimpaNumero(chave);
+     chave  := LimpaNumero(chave);
      j      := 0;
      Digito := 0;
      result := True;
@@ -1412,11 +1412,11 @@ begin
 
    //CNPJ OU CPF
    if (FMDFe.Dest.EnderDest.UF='EX')
-    then wchave:=wchave+MDFeUtil.Poem_Zeros('0',14)
-    else wchave:=wchave+MDFeUtil.Poem_Zeros(FMDFe.Dest.CNPJCPF,14);
+    then wchave:=wchave+MPoem_Zeros('0',14)
+    else wchave:=wchave+MPoem_Zeros(FMDFe.Dest.CNPJCPF,14);
 
    //VALOR DA CT-e
-   wchave := wchave + MDFeUtil.Poem_Zeros(MDFeUtil.LimpaNumero(FloatToStrf(FMDFe.vPrest.vTPrest, ffFixed,18,2)),14);
+   wchave := wchave + MPoem_Zeros(MLimpaNumero(FloatToStrf(FMDFe.vPrest.vTPrest, ffFixed,18,2)),14);
 
    //DESTAQUE ICMS PROPRIO E ST
    wicms_p := '2';
@@ -1424,16 +1424,16 @@ begin
 
    // Checar esse trecho
 
-   if (MDFeUtil.NaoEstaZerado(FMDFe.Imp.ICMS.ICMS00.vICMS))
+   if (MNaoEstaZerado(FMDFe.Imp.ICMS.ICMS00.vICMS))
     then wicms_p := '1';
-   if (MDFeUtil.NaoEstaZerado(FMDFe.Imp.ICMS.ICMSOutraUF.vICMSOutraUF))
+   if (MNaoEstaZerado(FMDFe.Imp.ICMS.ICMSOutraUF.vICMSOutraUF))
     then wicms_s := '1';
 
    wchave := wchave + wicms_p + wicms_s;
 
    //DIA DA EMISSAO
    decodedate(FMDFe.Ide.dhEmi, wa, wm, wd);
-   wchave := wchave + MDFeUtil.Poem_Zeros(inttostr(wd), 2);
+   wchave := wchave + MPoem_Zeros(inttostr(wd), 2);
 
    //DIGITO VERIFICADOR
    GerarDigito_Contingencia(Digito, wchave);
@@ -1443,9 +1443,9 @@ begin
    result := wchave;
 end;
 
-class function MDFeUtil.FormatarChaveContingencia(AValue: String): String;
+class function MFormatarChaveContingencia(AValue: String): String;
 begin
-  AValue := DFeUtil.LimpaNumero(AValue);
+  AValue := LimpaNumero(AValue);
   Result := copy(AValue,  1, 4) + ' ' + copy(AValue,  5, 4) + ' ' +
             copy(AValue,  9, 4) + ' ' + copy(AValue, 13, 4) + ' ' +
             copy(AValue, 17, 4) + ' ' + copy(AValue, 21, 4) + ' ' +
@@ -1453,7 +1453,7 @@ begin
             copy(AValue, 33, 4);
 end;
 
-class function MDFeUtil.IdentificaTipoSchema(const AXML: AnsiString; var I: Integer): Integer;
+class function MIdentificaTipoSchema(const AXML: AnsiString; var I: Integer): Integer;
 var
  lTipoEvento: String;
 begin

@@ -279,8 +279,8 @@ begin
      Entretanto o Envelope pode já ter sido convertido antes, como por exemplo,
      para assinatura.
      Se o XML está assinado, não deve modificar o conteúdo }
-  if not DFeUtil.XmlEstaAssinado(FPEnvelopeSoap) then
-    FPEnvelopeSoap := DFeUtil.ConverteXMLtoUTF8(FPEnvelopeSoap);
+  if not XmlEstaAssinado(FPEnvelopeSoap) then
+    FPEnvelopeSoap := ConverteXMLtoUTF8(FPEnvelopeSoap);
 
   FPRetornoWS := FPDFeOwner.SSL.Enviar(FPEnvelopeSoap, FPURL, FPSoapAction);
 

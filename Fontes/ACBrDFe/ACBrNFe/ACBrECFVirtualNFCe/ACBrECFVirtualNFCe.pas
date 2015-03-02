@@ -368,7 +368,7 @@ begin
 
  with fsACBrNFCe do
  begin
-   WebServices.Consulta.NFeChave := DFeUtil.LimpaNumero(NotasFiscais.Items[0].NFe.infNFe.ID);
+   WebServices.Consulta.NFeChave := LimpaNumero(NotasFiscais.Items[0].NFe.infNFe.ID);
 
    if not WebServices.Consulta.Executar then
       raise Exception.Create(WebServices.Consulta.Msg);
@@ -376,8 +376,8 @@ begin
    EventoNFe.Evento.Clear;
    with EventoNFe.Evento.Add do
    begin
-     infEvento.CNPJ   := copy(DFeUtil.LimpaNumero(WebServices.Consulta.NFeChave),7,14) ;
-     infEvento.cOrgao := StrToIntDef(copy(DFeUtil.LimpaNumero(WebServices.Consulta.NFeChave),1,2),0);
+     infEvento.CNPJ   := copy(LimpaNumero(WebServices.Consulta.NFeChave),7,14) ;
+     infEvento.cOrgao := StrToIntDef(copy(LimpaNumero(WebServices.Consulta.NFeChave),1,2),0);
      infEvento.dhEvento := now;
      infEvento.tpEvento := teCancelamento;
      infEvento.chNFe    := WebServices.Consulta.NFeChave;
@@ -645,7 +645,7 @@ begin
       CancelarNFCe
     else
     begin
-      NomeNFCe := PathWithDelim(Configuracoes.Geral.PathSalvar) + DFeUtil.LimpaNumero(ChaveCupom) + '-nfe.xml';
+      NomeNFCe := PathWithDelim(Configuracoes.Geral.PathSalvar) + LimpaNumero(ChaveCupom) + '-nfe.xml';
 
       if FileExists( NomeNFCe ) then
       begin

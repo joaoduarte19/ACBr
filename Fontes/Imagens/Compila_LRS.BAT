@@ -191,11 +191,14 @@ echo "****************************************"
 echo.
 
 :SAT
-%1\tools\lazres.exe ACBrSAT.lrs TACBrSAT.bmp TACBrSATExtratoESCPOS.bmp
+%1\tools\lazres.exe ACBrSAT.lrs TACBrSAT.bmp
 move ACBrSAT.lrs ..\ACBrSAT
                   
+%1\tools\lazres.exe ACBrSATExtratoESCPOS.lrs TACBrSATExtratoESCPOS.bmp
+move ACBrSATExtratoESCPOS.lrs ..\ACBrSAT\Extrato\EscPos
+
 %1\tools\lazres.exe ACBrSATExtratoFortes.lrs TACBrSATExtratoFortes.bmp
-move ACBrSATExtratoFortes.lrs ..\ACBrSAT
+move ACBrSATExtratoFortes.lrs ..\ACBrSAT\Extrato\Fortes
 
 %1\tools\lazres.exe ACBrECFVirtualSAT.lrs TACBrECFVirtualSAT.png
 move ACBrECFVirtualSAT.lrs ..\ACBrSAT\ACBrECFVirtualSAT
