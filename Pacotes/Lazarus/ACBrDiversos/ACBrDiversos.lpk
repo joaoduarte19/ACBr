@@ -8,7 +8,7 @@
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <OtherUnitFiles Value="..\..\..\Fontes\ACBrDiversos"/>
+        <OtherUnitFiles Value="..\..\..\Fontes\ACBrDiversos;..\..\..\Fontes\Terceiros\AJBarcode;..\..\..\Fontes\Terceiros\TGif;..\..\..\Fontes\Terceiros\DelphiZXingQRCode"/>
         <UnitOutputDirectory Value="..\..\..\Lib\Lazarus\ACBrDiversos\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -70,19 +70,19 @@
         <UnitName Value="ACBrValidador"/>
       </Item10>
       <Item11>
-        <Filename Value="..\..\..\Fontes\ACBrDiversos\AJBarcode.pas"/>
+        <Filename Value="..\..\..\Fontes\Terceiros\AJBarcode\AJBarcode.pas"/>
         <UnitName Value="AJBarcode"/>
       </Item11>
       <Item12>
-        <Filename Value="..\..\..\Fontes\ACBrDiversos\ACBrDelphiZXingQRCode.pas"/>
+        <Filename Value="..\..\..\Fontes\Terceiros\DelphiZXingQRCode\ACBrDelphiZXingQRCode.pas"/>
         <UnitName Value="ACBrDelphiZXingQRCode"/>
       </Item12>
       <Item13>
-        <Filename Value="..\..\..\Fontes\ACBrDiversos\Gif1.pas"/>
+        <Filename Value="..\..\..\Fontes\Terceiros\TGif\Gif1.pas"/>
         <UnitName Value="Gif1"/>
       </Item13>
       <Item14>
-        <Filename Value="..\..\..\Fontes\ACBrDiversos\Gif3.pas"/>
+        <Filename Value="..\..\..\Fontes\Terceiros\TGif\Gif3.pas"/>
         <UnitName Value="Gif3"/>
       </Item14>
       <Item15>
