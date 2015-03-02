@@ -711,4 +711,11 @@ begin
   inherited GravaArqINIVirtual(ConteudoINI);
 end;
 
+{$IFDEF FPC}
+{$IFNDEF NOGUI}
+initialization
+   {$I ACBrECFVirtualNFCe.lrs}
+{$ENDIF}
+{$ENDIF}
+
 end.

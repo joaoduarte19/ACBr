@@ -65,7 +65,7 @@ echo.
 %1\tools\lazres.exe ACBrSpedFiscal.lrs TACBrSpedFiscal.bmp
 %1\tools\lazres.exe ACBrSpedContabil.lrs TACBrSpedContabil.bmp
 %1\tools\lazres.exe ACBrSpedPisCofins.lrs TACBrSpedPisCofins.bmp
-%1\tools\lazres.exe ACBrSpedECF.lrs TACBrSpedPisCofins.png
+;;%1\tools\lazres.exe ACBrSpedECF.lrs TACBrSpedPisCofins.png
 move ACBrSpedFiscal.lrs ..\ACBrTXT\ACBrSPED\ACBrSPEDFiscal
 move ACBrSpedContabil.lrs ..\ACBrTXT\ACBrSPED\ACBrSPEDContabil
 move ACBrSpedPisCofins.lrs ..\ACBrTXT\ACBrSPED\ACBrSpedPisCofins
@@ -103,18 +103,19 @@ echo "*    ACBrBoletoFCFortes.lrs  gerado    *"
 echo "****************************************"
 echo.
 
-:NFe2
+:NFe
 %1\tools\lazres.exe ACBrNFe.lrs TACBrNFe.bmp 
-move ACBrNFe.lrs ..\ACBrNFe2
-
-%1\tools\lazres.exe ACBrNFeDANFeRL.lrs TACBrNFeDANFeRL.bmp 
-move ACBrNFeDANFeRL.lrs ..\ACBrNFe2
+move ACBrNFe.lrs ..\ACBrDFe\ACBrNFe
 
 %1\tools\lazres.exe ACBrNFeDANFCeFortes.lrs TACBrNFeDANFCeFortes.bmp 
-move ACBrNFeDANFCeFortes.lrs ..\ACBrNFe2
+move ACBrNFeDANFCeFortes.lrs ..\ACBrDFe\ACBrNFe\DANFE\NFCe\Fortes
 
 %1\tools\lazres.exe ACBrNFeDANFeESCPOS.lrs TACBrNFeDANFeESCPOS.bmp 
-move ACBrNFeDANFeESCPOS.lrs ..\ACBrNFe2
+move ACBrNFeDANFeESCPOS.lrs ..\ACBrDFe\ACBrNFe\DANFE\NFCe\EscPos
+
+%1\tools\lazres.exe ACBrECFVirtualNFCe.lrs TACBrECFVirtualNFCe.png
+move ACBrECFVirtualNFCe.lrs ..\ACBrDFe\ACBrNFe\ACBrECFVirtualNFCe
+
 
 echo.
 echo "**************************************************************"
@@ -124,10 +125,10 @@ echo.
 
 :GNRE
 %1\tools\lazres.exe ACBrGNRE.lrs TACBrGNRE.bmp 
-move ACBrGNRE.lrs ..\ACBrGNRE
+move ACBrGNRE.lrs ..\ACBrDFe\ACBrGNRE
 
 %1\tools\lazres.exe ACBrGNREGuiaFR.lrs TACBrGNREGuiaFR.bmp 
-move ACBrGNREGuiaFR.lrs ..\ACBrGNRE
+move ACBrGNREGuiaFR.lrs ..\ACBrDFe\ACBrGNRE\GNRE\Fortes
 
 echo.
 echo "****************************************"
@@ -137,10 +138,7 @@ echo.
 
 :NFSe
 %1\tools\lazres.exe ACBrNFSe.lrs TACBrNFSe.bmp 
-move ACBrNFSe.lrs ..\ACBrNFSe
-
-%1\tools\lazres.exe ACBrNFSeDANFSeRL.lrs TACBrNFSeDANFSeRL.png 
-move ACBrNFSeDANFSeRL.lrs ..\ACBrNFSe
+move ACBrNFSe.lrs ..\ACBrDFe\ACBrNFSe
 
 echo.
 echo "****************************************"
@@ -150,10 +148,7 @@ echo.
 
 :CTe
 %1\tools\lazres.exe ACBrCTe.lrs TACBrCTe.bmp 
-move ACBrCTe.lrs ..\ACBrCTe
-
-%1\tools\lazres.exe ACBrCTeDACTeRL.lrs TACBrCTeDACTeRL.png 
-move ACBrCTeDACTeRL.lrs ..\ACBrCTe
+move ACBrCTe.lrs ..\ACBrDFe\ACBrCTe
 
 echo.
 echo "****************************************"
@@ -162,8 +157,8 @@ echo "****************************************"
 echo.
 
 :MDFe
-%1\tools\lazres.exe ACBrMDFe.lrs TACBrMDFe.bmp TACBrMDFeDAMDFeRL.png
-move ACBrMDFe.lrs ..\ACBrMDFe
+%1\tools\lazres.exe ACBrMDFe.lrs TACBrMDFe.bmp
+move ACBrMDFe.lrs ..\ACBrDFe\ACBrMDFe
 
 echo.
 echo "****************************************"
