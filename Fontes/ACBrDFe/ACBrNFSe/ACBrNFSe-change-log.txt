@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/03/2015
+[-] Correção no provedor Vitoria.
+    Por: Junior Bindaco
+
 02/03/2015
 [*] Alteração para leitura do XML, provedor Infisc.
     Por: Moro
