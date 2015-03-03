@@ -95,7 +95,7 @@ type
                     proVitoria, proMitra, ProTecnos, proPronim, proActcon, proEL,
                     proEgoverneISS, proSisPMJP, proSystemPro, proInfisc, proSalvador,
                     proDBSeller, proLexsom, proABRASFv1, proABRASFv2, proNFSEBrasil,
-                    proTinus );
+                    proTinus, proSJP );
 
   TnfseAcao = (acRecepcionar, acConsSit, acConsLote, acConsNFSeRps, acConsNFSe,
                acCancelar, acGerar, acRecSincrono, acConsSecRps, acSubstituir);
@@ -401,7 +401,7 @@ begin
                             '4R', 'GovDigital', 'Fiorilli', 'Coplan', 'Prodata', 'Agili', 'Virtual', 'PVH',
                             'Freire', 'Link3', 'SpeedGov', 'Vitoria', 'Mitra', 'Tecnos', 'Pronim', 'Actcon',
                             'EL', 'EgoverneISS', 'SisPMJP', 'SystemPro', 'Infisc', 'Salvador', 'DBSeller',
-                            'Lexsom', 'ABRASFv1', 'ABRASFv2', 'NFSEBrasil', 'Tinus'],
+                            'Lexsom', 'ABRASFv1', 'ABRASFv2', 'NFSEBrasil', 'Tinus', 'SJP'],
                            [proNenhum, proTiplan, proISSNET, proWebISS, proGINFES, proIssDSF, proProdemge, proAbaco,
                             proBetha, proEquiplano, proISSIntel, proProdam, proGovBR, proRecife,
                             proSimplISS, proThema, proRJ, proPublica, profintelISS, proDigifred, proBetim,
@@ -409,7 +409,8 @@ begin
                             proISSDigital, proISSe, pro4R, proGovDigital, proFiorilli, proCoplan, proProdata,
                             proAgili, proVirtual, proPVH, proFreire, proLink3, proSpeedGov, proVitoria, proMitra,
                             proTecnos, proPronim, proActcon, proEL, proEgoverneISS, proSisPMJP, proSystemPro, proInfisc,
-                            proSalvador, proDBSeller, proLexsom, proABRASFv1, proABRASFv2,proNFSEBrasil, proTinus ]);
+                            proSalvador, proDBSeller, proLexsom, proABRASFv1, proABRASFv2,proNFSEBrasil, proTinus
+                            , proSJP]);
 end;
 
 function StrToProvedor(var ok: boolean; const s: string):TnfseProvedor;
@@ -422,7 +423,7 @@ begin
                             '4R', 'GovDigital', 'Fiorilli', 'Coplan', 'Prodata', 'Agili', 'Virtual', 'PVH',
                             'Freire', 'Link3', 'SpeedGov', 'Vitoria', 'Mitra', 'Tecnos', 'Pronim', 'Actcon',
                             'EL', 'EgoverneISS', 'SisPMJP', 'SystemPro', 'Infisc', 'Salvador', 'DBSeller',
-                            'Lexsom', 'ABRASFv1', 'ABRASFv2', 'NFSEBrasil', 'Tinus'],
+                            'Lexsom', 'ABRASFv1', 'ABRASFv2', 'NFSEBrasil', 'Tinus', 'SJP'],
                            [proNenhum, proTiplan, proISSNET, proWebISS, proGINFES, proIssDSF, proProdemge, proAbaco,
                             proBetha, proEquiplano, proISSIntel, proProdam, proGovBR, proRecife,
                             proSimplISS, proThema, proRJ, proPublica, profintelISS, proDigifred, proBetim,
@@ -430,7 +431,8 @@ begin
                             proISSDigital, proISSe, pro4R, proGovDigital, proFiorilli, proCoplan, proProdata,
                             proAgili, proVirtual, proPVH, proFreire, proLink3, proSpeedGov, proVitoria, proMitra,
                             proTecnos, proPronim, proActcon, proEL, proEgoverneISS, proSisPMJP, proSystemPro, proInfisc,
-                            proSalvador, proDBSeller, proLexsom, proABRASFv1, proABRASFv2, proNFSEBrasil, proTinus]);
+                            proSalvador, proDBSeller, proLexsom, proABRASFv1, proABRASFv2, proNFSEBrasil, proTinus,
+                            proSJP]);
 end;
 
 // Condição de pagamento ******************************************************
@@ -1008,7 +1010,7 @@ begin
   3557105, // Votuporanga/SP
   3704708, // Marechal Deodoro/AL
   4118204, // Paranagua/PR
-  4125506, // Sao Jose dos Pinhais/PR
+//  4125506, // Sao Jose dos Pinhais/PR
   4128104, // Umuarama/PR
   4202404, // Blumenau/SC
   4309308, // Guaiba/RS
@@ -1267,6 +1269,9 @@ begin
   3556404, // Vargem Grande do Sul/SP
   4202008  // Balneario Camboriu/SC
          : Provedor := 'SimplISS';
+
+  4125506  // Sao Jose dos Pinhais/PR
+         : Provedor := 'SJP';
 
   2301000, // Aquiraz/CE
   2611101  // Petrolina/PE

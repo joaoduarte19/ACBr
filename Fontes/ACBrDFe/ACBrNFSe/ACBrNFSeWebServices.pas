@@ -74,7 +74,7 @@ uses
     ACBrProvedorActcon, ACBrProvedorEL, ACBrProvedorEgoverneISS,
     ACBrProvedorSisPMJP, ACBrProvedorSystemPro, ACBrProvedorSalvador,
     ACBrProvedorDBSeller, ACBrProvedorLexsom, ACBrProvedorABRASFv1,
-    ACBrProvedorABRASFv2, ACBrProvedorNFSEBrasil;
+    ACBrProvedorABRASFv2, ACBrProvedorNFSEBrasil, ACBrProvedorSJP;
 
 type
 
@@ -670,7 +670,7 @@ begin
  CertContext.Get_CertContext(Integer(PCertContext));
 
  // proIssDSF incluido por Ailton Branco 16/07/2014
- if not (FProvedor in [proGovBr, proSimplISS, proAbaco, proISSNet, pro4R, proIssDSF, proInfisc, 
+ if not (FProvedor in [proGovBr, proSimplISS, proAbaco, proISSNet, pro4R, proIssDSF, proInfisc,
                        proFiorilli, proProdata, proCoplan, proThema, proVirtual,
                        proPVH, proFreire, proTecnos, proPronim, proPublica,
                        proEgoverneISS, proActcon, proDBSeller, proLexsom])
@@ -792,6 +792,7 @@ begin
   proABRASFv1:    FProvedorClass := TProvedorABRASFv1.Create;
   proABRASFv2:    FProvedorClass := TProvedorABRASFv2.Create;
   proNFSEBrasil:  FProvedorClass := TProvedorNFSEBrasil.Create;
+  proSJP:         FProvedorClass := TProvedorSJP.Create;
  end;
 
  FPrefixo2 := FConfiguracoes.WebServices.Prefixo2;

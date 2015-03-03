@@ -48,6 +48,8 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 03/03/2015
+[*] Implementado o provedor SJP para a cidade de São Jose dos Pinhais.
+    Por: Akai
 [*] Informado a URL correta de produção da cidade de Ibaté/SP provedor Fiorilli.
     Por: Italo Jurisato Junior
 [-] Correção no provedor Vitoria.

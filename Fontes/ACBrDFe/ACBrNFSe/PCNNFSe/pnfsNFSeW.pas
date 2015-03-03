@@ -255,6 +255,7 @@ begin
   proRJ,
   proSalvador,
   proSimplISS,
+  proSJP,
   proSpeedGov,
   proThema,
   proTinus,
@@ -1735,6 +1736,8 @@ begin
           Gerador.wCampoNFSe(tcInt, '', 'cPais', 01, 100,  1, NFSe.Tomador.Endereco.CodigoPais, '');
           Gerador.wCampoNFSe(tcStr, '', 'xPais', 01, 100,  1, NFSe.Tomador.Endereco.xPais, '');
         Gerador.wGrupoNFSe('/ender');
+        //Alterado por Moro em 27/02/2015
+        Gerador.wCampoNFSe(tcStr, '', 'IE', 01, 15,  1, NFSe.Tomador.IdentificacaoTomador.InscricaoEstadual, '');
       Gerador.wGrupoNFSe('/TomS');
 
       // Serviços
