@@ -53,7 +53,7 @@ uses Graphics, Forms, Windows, SysUtils, Classes,
      {$IFNDEF COMPILER16} JPEG, {$ELSE} Vcl.Imaging.jpeg, {$ENDIF}
      RpDefine, RpBase, RpSystem, RpBars, RpMemo,
      RpRenderText, RpRenderRTF, RpRenderHTML, RpRender, RpRenderPDF,
-     ACBrNFe, ACBrDFeUtil, pcnConversao, pcnNFe;
+     ACBrNFe, ACBrNFeUtil, ACBrDFeUtil, pcnConversao, pcnNFe;
 
 const aHeigthPadrao:Double=5.7;
       FontSizeIdentDoc_DANFE:Integer=12;
@@ -61,7 +61,7 @@ const aHeigthPadrao:Double=5.7;
       FontSizeEmit_Nome:Integer=12;
       FontSizeEmit_Outros:Integer=8;
       FontSizeItens:Integer=6;
-      FontSizeInfComplementares:Integer=6;
+      //FontSizeInfComplementares:Integer=6;
 
       // # consult atech
       ColsTitle    : array[1..18] of String = ('CÓDIGO','DESCRIÇÃO DO PRODUTO / SERVIÇO','NCM/SH','CST','CFOP','UND','QUANT.','VALOR'   ,'VALOR','VALOR','V.APROX','B.CÁLC.','B.CÁLC.ICMS','VAL.ICMS'   ,'VALOR','VALOR','ALÍQ.','ALÍQ.');
@@ -95,12 +95,13 @@ type
      FExibirResumoCanhoto:boolean;
      FExibirResumoCanhoto_Texto:string;
      FImprimirDescPorc: boolean;
-     FImprimirDesconto: boolean; // #consult atech
+     FImprimirDesconto: boolean; 
      FImprimirValorLiquido: boolean;
      FImprimirDetalhamentoEspecifico: boolean;
      FTamanhoCampoCodigo:integer;
      FTamanhoFonte_DemaisCampos:integer;
      FTamanhoFonte_ANTT:integer;
+     FTamanhoFonte_infComplementares:integer;
      FLinhasPorPagina: Integer;
      FEspessuraBorda:integer;
      FFormularioContinuo: boolean;
@@ -108,13 +109,13 @@ type
      FMostrarStatus: Boolean;
      FNFeCancelada: Boolean;
      FMostrarSetup: boolean;
-    FTributosFonte: string;
-    FTributosPercentual: TpcnPercentualTributos;
-    FMarcaDaguaMSG: string;
-    FTamanhoCampoVlUnit: integer;
-    FPosicaoCanhoto: integer;
-    FExpandirDadosAdicionaisAuto: boolean;
-    FImprimirTributosItem: boolean;
+     FTributosFonte: string;
+     FTributosPercentual: TpcnPercentualTributos;
+     FMarcaDaguaMSG: string;
+     FTamanhoCampoVlUnit: integer;
+     FPosicaoCanhoto: integer;
+     FExpandirDadosAdicionaisAuto: boolean;
+     FImprimirTributosItem: boolean;
   public
      FCurrentPage, FPageNum, FNFIndex, FNumNFe:Integer;
      FChaveNFe, FNumeroNF, FSerie: String;
@@ -158,6 +159,7 @@ type
      property TamanhoCampoVlUnit:integer read FTamanhoCampoVlUnit write FTamanhoCampoVlUnit;
      property TamanhoFonte_DemaisCampos:integer read FTamanhoFonte_DemaisCampos write FTamanhoFonte_DemaisCampos;
      property TamanhoFonte_ANTT:integer read FTamanhoFonte_ANTT write FTamanhoFonte_ANTT;
+     property TamanhoFonte_infComplementares:integer read FTamanhoFonte_infComplementares write FTamanhoFonte_infComplementares;
      property LinhasPorPagina:integer read FLinhasPorPagina write FLinhasPorPagina;
      property EspessuraBorda:integer read FEspessuraBorda write FEspessuraBorda;
      property FormularioContinuo:boolean read FFormularioContinuo write FFormularioContinuo;
@@ -307,12 +309,13 @@ procedure ImprimirDANFeRave(aACBrNFe:TACBrNFe;
                             aTamanhoCampoVlUnit:integer=0;
                             aTamanhoFonte_DemaisCampos:integer=10;
                             aTamanhoFonte_ANTT:integer=10;
+                            aTamanhoFonte_infComplementares:integer=6;
                             aProdutosPorPagina:integer=0;
                             aEspessuraBorda:integer=2;
                             aExibirResumoCanhoto:boolean=false;
                             aExibirResumoCanhoto_Texto:string='';
                             aImprimirDescPorc:boolean=false;
-                            aImprimirDesconto:boolean=true; // #consult atech
+                            aImprimirDesconto:boolean=true; 
                             aImprimirValorLiquido:boolean=false;
                             aImprimirDetalhamentoEspecifico:boolean=true;
                             aImprimirTributosItem:boolean=false;
@@ -410,12 +413,13 @@ procedure ImprimirDANFeRave(aACBrNFe:TACBrNFe;
                             aTamanhoCampoVlUnit:integer=0;
                             aTamanhoFonte_DemaisCampos:integer=10;
                             aTamanhoFonte_ANTT:integer=10;
+                            aTamanhoFonte_infComplementares:integer=6;
                             aProdutosPorPagina:integer=0;
                             aEspessuraBorda:integer=2;
                             aExibirResumoCanhoto:boolean=false;
                             aExibirResumoCanhoto_Texto:string='';
                             aImprimirDescPorc:boolean=false;
-                            aImprimirDesconto:boolean=true; // #consult atech
+                            aImprimirDesconto:boolean=true;
                             aImprimirValorLiquido:boolean=false;
                             aImprimirDetalhamentoEspecifico:boolean=true;
                             aImprimirTributosItem:boolean=false;
@@ -452,7 +456,7 @@ begin
      DANFeRave.FontNameUsed := 'Courier New'
   else
      DANFeRave.FontNameUsed := 'Times New Roman';
-  DANFeRave.FontSizeIdentDoc_Outros := SeSenao(Pos('Courier',DANFeRave.FontNameUsed)>0,9,10);
+  DANFeRave.FontSizeIdentDoc_Outros := DFeUtil.SeSenao(Pos('Courier',DANFeRave.FontNameUsed)>0,9,10);
 
   rvPDF:=TRvRenderPDF.Create(DANFeRave);
   rvPDF.OnDecodeImage:=DANFeRave.RaveDecodeImage;
@@ -489,12 +493,13 @@ begin
     DANFeRave.TamanhoCampoVlUnit:=aTamanhoCampoVlUnit;
     DANFeRave.TamanhoFonte_DemaisCampos:=aTamanhoFonte_DemaisCampos;
     DANFeRave.TamanhoFonte_ANTT:=aTamanhoFonte_ANTT;
+    DANFeRave.TamanhoFonte_infComplementares:=aTamanhoFonte_infComplementares;
     DANFeRave.LinhasPorPagina:=aProdutosPorPagina;
     DANFeRave.EspessuraBorda:=aEspessuraBorda;
     DANFeRave.ExibirResumoCanhoto:=aExibirResumoCanhoto;
     DANFeRave.ExibirResumoCanhoto_Texto:=aExibirResumoCanhoto_Texto;
     DANFeRave.ImprimirDescPorc:=aImprimirDescPorc;
-    DANFeRave.ImprimirDesconto:=aImprimirDesconto; // #consult atech
+    DANFeRave.ImprimirDesconto:=aImprimirDesconto; 
     DANFeRave.ImprimirValorLiquido:=aImprimirValorLiquido;
     DANFeRave.ImprimirDetalhamentoEspecifico:=aImprimirDetalhamentoEspecifico;
     DANFeRave.ImprimirTributosItem:=aImprimirTributosItem;
@@ -604,7 +609,7 @@ begin
      EventoRave.FontNameUsed := 'Courier New'
   else
      EventoRave.FontNameUsed := 'Times New Roman';
-  EventoRave.FontSizeIdentDoc_Outros := SeSenao(Pos('Courier',EventoRave.FontNameUsed)>0,9,10);
+  EventoRave.FontSizeIdentDoc_Outros := DFeUtil.SeSenao(Pos('Courier',EventoRave.FontNameUsed)>0,9,10);
 
   rvPDF:=TRvRenderPDF.Create(EventoRave);
   rvPDF.OnDecodeImage:=EventoRave.RaveDecodeImage;
@@ -735,7 +740,7 @@ begin
      InutilizacaoRave.FontNameUsed := 'Courier New'
   else
      InutilizacaoRave.FontNameUsed := 'Times New Roman';
-  InutilizacaoRave.FontSizeIdentDoc_Outros := SeSenao(Pos('Courier',InutilizacaoRave.FontNameUsed)>0,9,10);
+  InutilizacaoRave.FontSizeIdentDoc_Outros := DFeUtil.SeSenao(Pos('Courier',InutilizacaoRave.FontNameUsed)>0,9,10);
 
   rvPDF:=TRvRenderPDF.Create(InutilizacaoRave);
   rvPDF.OnDecodeImage:=InutilizacaoRave.RaveDecodeImage;
@@ -887,7 +892,7 @@ begin
          printAlingment:=pjLeft;
        end;
        ClearAllTabs;
-       SetTab(XX+1,printAlingment,aWith-2,0,0,SeSenao(Zebrado,15,0));
+       SetTab(XX+1,printAlingment,aWith-2,0,0,DFeUtil.SeSenao(Zebrado,15,0));
        aText:=Trim(aText);
        PrintTab(aText);
        Bold:=False;
@@ -1047,7 +1052,7 @@ begin
          printAlingment:=pjLeft;
        end;
        ClearAllTabs;
-       SetTab(XX+1,printAlingment,aWith-2,0,0,SeSenao(Zebrado,15,0));
+       SetTab(XX+1,printAlingment,aWith-2,0,0,DFeUtil.SeSenao(Zebrado,15,0));
        aText:=Trim(aText);
        PrintTab(aText);
        Bold:=False;
@@ -1210,7 +1215,7 @@ begin
          printAlingment:=pjLeft;
        end;
        ClearAllTabs;
-       SetTab(XX+1,printAlingment,aWith-2,0,0,SeSenao(Zebrado,15,0));
+       SetTab(XX+1,printAlingment,aWith-2,0,0,DFeUtil.SeSenao(Zebrado,15,0));
        aText:=Trim(aText);
        PrintTab(aText);
        Bold:=False;

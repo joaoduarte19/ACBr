@@ -60,6 +60,7 @@ type
    private
      FTamanhoCampoCodigo: integer;
      FTamanhoFonte_ANTT: integer;
+     FTamanhoFonte_infComplementares: integer; 
      FFonte : TFont;
      FEspessuraBorda: Integer;
      FMostrarSetup: boolean;
@@ -69,7 +70,7 @@ type
      FTamanhoCampoVlUnit: integer;
      FExpandirDadosAdicionaisAuto: boolean;
      FimprimirDesconto: Boolean;
-    FImprimirTributosItem: Boolean; // #consult atech
+    FImprimirTributosItem: Boolean; 
 
      function SeSenaoJPEG(ACondicao: Boolean; ATrue, AFalse: TJPEGImage): TJPEGImage;
      function BMPtoJPGString(aBMPFile: string): string;
@@ -87,6 +88,7 @@ type
      property TamanhoCampoCodigo:integer read FTamanhoCampoCodigo write FTamanhoCampoCodigo;
      property TamanhoCampoVlUnit:integer read FTamanhoCampoVlUnit write FTamanhoCampoVlUnit;
      property TamanhoFonte_ANTT:integer read FTamanhoFonte_ANTT write FTamanhoFonte_ANTT;
+     property TamanhoFonte_infComplementares:integer read FTamanhoFonte_infComplementares write FTamanhoFonte_infComplementares;
      property Fonte:TFont read FFonte write FFonte;
      property EspessuraBorda:Integer read FEspessuraBorda write FEspessuraBorda;
      property ExpandirDadosAdicionaisAuto: boolean read FExpandirDadosAdicionaisAuto write FExpandirDadosAdicionaisAuto;
@@ -100,7 +102,7 @@ type
 
 implementation
 
-uses ACBrNFe, ACBrUtil, ACBrDFeUtil, StrUtils, Dialogs;
+uses ACBrNFe, ACBrNFeUtil, ACBrUtil, ACBrDFeUtil, StrUtils, Dialogs;
 
 function TACBrNFeDANFERaveCB.BMPtoJPGString(aBMPFile: string): string;
 var
@@ -135,7 +137,7 @@ var
 begin
   Result := True;
 
-  if NaoEstaVazio(Logo) then
+  if DFeUtil.NaoEstaVazio(Logo) then
   begin
     if FileExists(Logo) then
     begin
@@ -175,6 +177,7 @@ begin
   FTamanhoCampoCodigo:=0;
   FTamanhoCampoVlUnit:=0;
   FTamanhoFonte_ANTT:=10;
+  TamanhoFonte_infComplementares:=6; 
   FEspessuraBorda:=2;
   FMostrarSetup:=False;
   FTributosPercentual:=ptValorProdutos;
@@ -206,8 +209,8 @@ begin
                       Usuario,
                       ProtocoloNFe,
                       SeSenaoJPEG(ExisteLogoMarca,LogoMarcaEmpresa,nil),
-                      SeSenao((TipoDANFE=tiRetrato),poPortrait,poLandScape),
-                      SeSenao(MostrarPreview,tsPreview,tsPrint),
+                      DFeUtil.SeSenao((TipoDANFE=tiRetrato),poPortrait,poLandScape),
+                      DFeUtil.SeSenao(MostrarPreview,tsPreview,tsPrint),
                       MostrarStatus,
                       MostrarSetup,
                       NumCopias,
@@ -225,12 +228,13 @@ begin
                       TamanhoCampoVlUnit,
                       TamanhoFonte_DemaisCampos,
                       TamanhoFonte_ANTT,
+                      TamanhoFonte_infComplementares,
                       ProdutosPorPagina,
                       EspessuraBorda,
                       ExibirResumoCanhoto,
                       ExibirResumoCanhoto_Texto,
                       ImprimirDescPorc,
-                      ImprimirDesconto,  // #consult atech
+                      ImprimirDesconto, 
                       ImprimirTotalLiquido,
                       ImprimirDetalhamentoEspecifico,
                       ImprimirTributosItem,
@@ -273,7 +277,7 @@ begin
                        Usuario,
                        ProtocoloNFe,
                        SeSenaoJPEG(ExisteLogoMarca,LogoMarcaEmpresa,nil),
-                       SeSenao((TipoDANFE=tiRetrato),poPortrait,poLandScape),
+                       DFeUtil.SeSenao((TipoDANFE=tiRetrato),poPortrait,poLandScape),
                        tsPDF,
                        MostrarStatus,
                        MostrarSetup,
@@ -292,12 +296,13 @@ begin
                        TamanhoCampoVlUnit,
                        TamanhoFonte_DemaisCampos,
                        TamanhoFonte_ANTT,
+                       TamanhoFonte_infComplementares,
                        ProdutosPorPagina,
                        EspessuraBorda,
                        ExibirResumoCanhoto,
                        ExibirResumoCanhoto_Texto,
                        ImprimirDescPorc,
-                       ImprimirDesconto, // #consult atech
+                       ImprimirDesconto, 
                        ImprimirTotalLiquido,
                        ImprimirDetalhamentoEspecifico,
                        ImprimirTributosItem,
@@ -332,8 +337,8 @@ begin
                        Sistema,
                        Usuario,
                        SeSenaoJPEG(ExisteLogoMarca,LogoMarcaEmpresa,nil),
-                       SeSenao((TipoDANFE=tiRetrato),poPortrait,poLandScape),
-                       SeSenao(MostrarPreview,tsPreview,tsPrint),
+                       DFeUtil.SeSenao((TipoDANFE=tiRetrato),poPortrait,poLandScape),
+                       DFeUtil.SeSenao(MostrarPreview,tsPreview,tsPrint),
                        MostrarStatus,
                        MostrarSetup,
                        NumCopias,
@@ -374,7 +379,7 @@ begin
                        Sistema,
                        Usuario,
                        SeSenaoJPEG(ExisteLogoMarca,LogoMarcaEmpresa,nil),
-                       SeSenao((TipoDANFE=tiRetrato),poPortrait,poLandScape),
+                       DFeUtil.SeSenao((TipoDANFE=tiRetrato),poPortrait,poLandScape),
                        tsPDF,
                        MostrarStatus,
                        MostrarSetup,
@@ -411,8 +416,8 @@ begin
                        Sistema,
                        Usuario,
                        SeSenaoJPEG(ExisteLogoMarca,LogoMarcaEmpresa,nil),
-                       SeSenao((TipoDANFE=tiRetrato),poPortrait,poLandScape),
-                       SeSenao(MostrarPreview,tsPreview,tsPrint),
+                       DFeUtil.SeSenao((TipoDANFE=tiRetrato),poPortrait,poLandScape),
+                       DFeUtil.SeSenao(MostrarPreview,tsPreview,tsPrint),
                        MostrarStatus,
                        MostrarSetup,
                        NumCopias,
@@ -452,7 +457,7 @@ begin
                        Sistema,
                        Usuario,
                        SeSenaoJPEG(ExisteLogoMarca,LogoMarcaEmpresa,nil),
-                       SeSenao((TipoDANFE=tiRetrato),poPortrait,poLandScape),
+                       DFeUtil.SeSenao((TipoDANFE=tiRetrato),poPortrait,poLandScape),
                        tsPDF,
                        MostrarStatus,
                        MostrarSetup,
