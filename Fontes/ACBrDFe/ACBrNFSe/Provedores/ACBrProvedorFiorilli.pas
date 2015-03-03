@@ -174,7 +174,7 @@ begin
   3518206 : // Guararapes/SP
     cURL_Producao := 'http://201.69.22.78:5667/IssWeb-ejb/IssWebWS/IssWebWS?wsdl';
   3519303 : // Ibaté/SP
-    cURL_Producao := 'http://201.28.69.146:5663/IssWeb-ejb/IssWebWS/IssWebWS';  // essa URL é a mesma de Homologação, portanto deve estar errada.
+    cURL_Producao := 'http://189.44.89.244:5661/IssWeb-ejb/IssWebWS/IssWebWS';  
   3540200 : // Pontal/SP
     cURL_Producao := 'http://131.100.72.54:8080/IssWeb-ejb/IssWebWS/IssWebWS';
 //    cURL_Producao := 'http://177.69.210.132:8080/IssWeb-ejb/IssWebWS/IssWebWS';
