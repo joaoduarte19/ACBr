@@ -976,7 +976,7 @@ begin
    13: Result := ifThen(AAmbiente = taProducao, 'http://sistemas.sefaz.am.gov.br/nfceweb/formConsulta.do', 'http://homnfce.sefaz.am.gov.br/nfceweb/formConsulta.do'); //AM
    29: Result := ifThen(AAmbiente = taProducao, '', ''); //BA
    23: Result := ifThen(AAmbiente = taProducao, '', ''); //CE
-   53: Result := ifThen(AAmbiente = taProducao, '', ''); //DF
+   53: Result := ifThen(AAmbiente = taProducao, 'http://dec.fazenda.df.gov.br/nfce', 'http://dec.fazenda.df.gov.br/nfce'); //DF
    32: Result := ifThen(AAmbiente = taProducao, '', ''); //ES
    52: Result := ifThen(AAmbiente = taProducao, '', ''); //GO
    21: Result := ifThen(AAmbiente = taProducao, 'http://www.nfce.sefaz.ma.gov.br/portal/consultaNFe.do', 'http://www.hom.nfce.sefaz.ma.gov.br/portal/consultaNFe.do'); // MA
@@ -1020,7 +1020,7 @@ begin
    13: urlUF := ifThen(AAmbiente = taProducao, 'http://sistemas.sefaz.am.gov.br/nfceweb/consultarNFCe.jsp', 'http://homnfce.sefaz.am.gov.br/nfceweb/consultarNFCe.jsp'); // AM
    29: urlUF := ifThen(AAmbiente = taProducao, 'http://nfe.sefaz.ba.gov.br/servicos/nfce/modulos/geral/NFCEC_consulta_chave_acesso.aspx', 'http://hnfe.sefaz.ba.gov.br/servicos/nfce/modulos/geral/NFCEC_consulta_chave_acesso.aspx'); // BA
    23: urlUF := ifThen(AAmbiente = taProducao, '', ''); // CE
-   53: urlUF := ifThen(AAmbiente = taProducao, '', ''); // DF
+   53: urlUF := ifThen(AAmbiente = taProducao, 'http://dec.fazenda.df.gov.br/ConsultarNFCe.aspx', 'http://dec.fazenda.df.gov.br/ConsultarNFCe.aspx'); // DF
    32: urlUF := ifThen(AAmbiente = taProducao, '', ''); // ES
    52: urlUF := ifThen(AAmbiente = taProducao, '', ''); // GO
    21: urlUF := ifThen(AAmbiente = taProducao, 'http://www.nfce.sefaz.ma.gov.br/portal/consultarNFCe.jsp', 'http://www.hom.nfce.sefaz.ma.gov.br/portal/consultarNFCe.jsp'); // MA
