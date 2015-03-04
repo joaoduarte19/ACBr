@@ -3195,8 +3195,6 @@ begin
 end ;
 
 function TACBrECFEscECF.GetDataHoraSB : TDateTime ;
-var
-   RetCmd: String;
 begin
   if fsDataHoraSB = 0 then
   begin

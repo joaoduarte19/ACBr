@@ -109,7 +109,7 @@ function ValidarMod(const modelo: integer): boolean;
 function ValidarMunicipio(const Municipio: integer): boolean;
 function ValidarNumeros(const s: string): boolean;
 function ValidarUF(const UF: string): boolean;
-function ValidarIE(IE, UF: string; ApenasDigitos: Boolean = True): boolean;
+function ValidarIE(IE, UF: string): boolean;
 function ValidarISUF(const ISUF: string): boolean;
 function SubStrEmSubStr(const SubStr1: string; SubStr2: string): boolean;
 function xml4line(texto: AnsiString): AnsiString;
@@ -126,7 +126,7 @@ function GetDataDaPascoa(const ano: Integer): TDateTime;
 implementation
 
 uses
-  DateUtils;
+  DateUtils, ACBrValidador;
 
 function CodigoParaUF(const codigo: integer): string;
 const
@@ -563,51 +563,13 @@ begin
 end;
 
 function ValidarCNPJ(const numero: string): boolean;
-var
-  i, soma, digito1, digito2: SmallInt;
 begin
-  result := False;
-  if length(numero) <> 14 then
-    exit;
-  soma := 0;
-  for i := 1 to 12 do
-    soma := soma + StrToInt(Copy(numero, i, 1)) *
-      (StrToInt(Copy('5432987654320', i, 1)));
-  digito1 := 11 - (soma mod 11);
-  if digito1 > 9 then
-    digito1 := 0;
-  soma := 0;
-  for i := 1 to 13 do
-    soma := soma + StrToInt(Copy(numero, i, 1)) *
-      (StrToInt(Copy('6543298765432', i, 1)));
-  digito2 := 11 - (soma mod 11);
-  if digito2 > 9 then
-    digito2 := 0;
-  result := (StrToInt(copy(numero, 13, 2)) = (digito1 * 10 + digito2));
+  result := (ACBrValidador.ValidarCNPJ(numero) = '');
 end;
 
 function ValidarCPF(const numero: string): boolean;
-var
-  i, soma, digito1, digito2: SmallInt;
 begin
-  result := False;
-  if length(numero) <> 11 then
-    exit;
-  soma := 0;
-  for i := 1 to 9 do
-    soma := soma + StrToInt(Copy(numero, i, 1)) *
-      (StrToInt(Copy('987654321', i, 1)) + 1);
-  digito1 := 11 - (soma mod 11);
-  if digito1 > 9 then
-    digito1 := 0;
-  soma := digito1 * 2;
-  for i := 1 to 9 do
-    soma := soma + StrToInt(Copy(numero, i, 1)) *
-      (StrToInt(Copy('987654321', i, 1)) + 2);
-  digito2 := 11 - (soma mod 11);
-  if digito2 > 9 then
-    digito2 := 0;
-  result := (StrToInt(copy(numero, 10, 2)) = (digito1 * 10 + digito2));
+  result := (ACBrValidador.ValidarCPF(numero) = '');
 end;
 
 function ValidarMod(const modelo: integer): boolean;
@@ -681,104 +643,9 @@ begin
   result := pos('.' + UF + '.', UFS) > 0;
 end;
 
-function ValidarIE(IE, UF: string; ApenasDigitos: Boolean = True): boolean;
-const
-  NUMERO: smallint = 37;
-  MASCARAS_: string = '     NNNNNNNNX- NNNNNNNNNNNXY-   NNNNNNNNNNX-NNNNNNNNNNNNNX-      NNNNNNYX-    NNNNNNNNXY-' +
-  '    NNNNNNNNNX-  NNNNNNNNXNNY-  NNNNNNNNXNNN-     NNNNNNNXY';
-  PESOS_: string = 'GFEDCJIHGFEDCA-FEDCJIHGFEDCAA-GFEDCJIHGFEDAC-AAAAAAAAGFEDCA-AAAAABCDEFGHIA-AAAJIAAHGFEDCA-' +
-  'FEDCBJIHGFEDCA-IHGFEDCHGFEDCA-HGFEDCHGFEDCAA-ABCBBCBCBCBCAA-ADCLKJIHGFEDCA-AABDEFGHIKAAAA-AADCKJIHGFEDCA-' +
-    'AAAAAJIHGFEDCA-AAAAAIHGFEDCAA-AAAAAJIHGFEDCA-AAAAKJIHGFEDCA-';
-  PESO_: string = 'ABAAAAABBABAAAAAAJAAIGAHAADAEALLAFNOQ!A!!!!!CC!A!!!!!!K!!H!!!!!!!!!M!!!!P!';
-  ALFA_: string = 'ABCDEFGHIJKLMNOPQRS';
-  ROTINAS_: string = 'EE011EEEEEEEEEEEE2EEEEEE0EEEDEDDEEEE0!E!!!!!EE!E!!!!!!E!!E!!!!!!!!!D!!!!E!';
-  MODULOS_: string = '99999998999999999899999999997999999990900000890900000090090000000009000090';
-  INICIO_: string = '0020000AB000111X2X11X11X2XXX2XXXX2XX2114333XXXX7XCC2X8X56X89X0XXX4XXXX9XX0';
-  MASCARA_: string = 'ABAAAAAEEABAAAACABAAFDAEAGADAAHIACAJG';
-  FATORES_: string = '0000100000001000000001000011000000000';
-  ESTADOS_: string = 'ACACALA1APA2AMBABACEDFESGOGOMAMTMSMGPAPBPRPEPIRJRNRSRORORRSCSPSPSET0TOPERN';
-var
-  c1, c2, alternativa, inicio, posicao, erros, fator, modulo, soma1, soma2, valor, digito: smallint;
-  mascara, inscricao, a1, a2, peso, rotina: string;
+function ValidarIE(IE, UF: string): boolean;
 begin
-  // Copyright: www.cincobytes.net / suporte@cincobytes.net //
-  IE := trim(uppercase(IE));
-  result := ((IE = 'ISENTO') or (IE = 'EM ANDAMENTO') or ((UF = 'EX') and ((IE = '') or (IE = '00000000000000'))));
-  posicao := 0;
-  digito := 0;
-  while ((not result) and (posicao < NUMERO) and (IE <> '')) do
-  begin
-    inc(posicao);
-    if (UF = 'AP') and (StrToFloat(IE) <= 30170009) then
-      UF := 'A1';
-    if (UF = 'AP') and (StrToFloat(IE) >= 30190230) then
-      UF := 'A2';
-    if (copy(ESTADOS_, posicao * 2 - 1, 2)) <> UF then
-      continue;
-    inscricao := '';
-    for C1 := 1 to 30 do
-      if pos(copy(IE, C1, 1), '0123456789') <> 0 then
-        inscricao := inscricao + copy(IE, C1, 1);
-    mascara := copy(MASCARAS_, pos(copy(MASCARA_, posicao, 1), ALFA_) * 15 - 14, 14);
-    if length(inscricao) <> length(trim(mascara)) then
-     begin
-      if length(inscricao) < length(trim(mascara)) then
-       begin
-         while length(inscricao) < length(trim(mascara)) do
-           inscricao := '0'+inscricao;
-       end
-      else
-         continue;
-     end;
-    inscricao := copy('00000000000000' + inscricao, length(inscricao) + 1, 14);
-    erros := 0;
-    alternativa := 0;
-    while (alternativa < 2) do
-    begin
-      inc(alternativa);
-      inicio := posicao + (alternativa * NUMERO) - NUMERO;
-      peso := copy(PESO_, inicio, 1);
-      if peso = '!' then
-        continue;
-      a1 := copy(INICIO_, inicio, 1);
-      a2 := copy(copy(inscricao, 15 - length(trim(mascara)), length(trim(mascara))), alternativa, 1);
-      if (not ApenasDigitos) and (((pos(a1, 'ABCX') = 0) and (a1 <> a2)) or
-        ((pos(a1, 'ABCX') <> 0) and (pos(a2, copy('0123458888-6799999999-0155555555-0123456789',
-        (pos(a1, 'ABCX') * 11 - 10), 10)) = 0))) then
-        erros := 1;
-      soma1 := 0;
-      soma2 := 0;
-      for C2 := 1 to 14 do
-      begin
-        valor := StrToInt(copy(inscricao, C2, 1)) *
-          (pos(copy(copy(PESOS_, (pos(peso, ALFA_) * 15 - 14), 14), C2, 1), ALFA_) - 1);
-        soma1 := soma1 + valor;
-        if valor > 9 then
-          valor := valor - 9;
-        soma2 := soma2 + valor;
-      end;
-      rotina := copy(ROTINAS_, inicio, 1);
-      modulo := StrToInt(copy(MODULOS_, inicio, 1)) + 2;
-      fator := StrToInt(copy(FATORES_, posicao, 1));
-      if pos(rotina, 'A22') <> 0 then
-        soma1 := soma2;
-      if pos(rotina, 'B00') <> 0 then
-        soma1 := soma1 * 10;
-      if pos(rotina, 'C11') <> 0 then
-        soma1 := soma1 + (5 + 4 * fator);
-      if pos(rotina, 'D00') <> 0 then
-        digito := soma1 mod modulo;
-      if pos(rotina, 'E12') <> 0 then
-        digito := modulo - (soma1 mod modulo);
-      if digito = 10 then
-        digito := 0;
-      if digito = 11 then
-        digito := fator;
-      if (copy(inscricao, pos(copy('XY', alternativa, 1), mascara), 1) <> IntToStr(digito)) then
-        erros := 1;
-    end;
-    result := (erros = 0);
-  end;
+  result := (ACBrValidador.ValidarIE(IE,UF) = '');
 end;
 
 function ValidarISUF(const ISUF: string): boolean;

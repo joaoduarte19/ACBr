@@ -111,7 +111,7 @@ type
     function Enviar(ALote: integer; Imprimir: Boolean = True;
       Sincrono: Boolean = False): Boolean; overload;
 
-    function NomeModeloDFe: String; override;
+    function GetNomeModeloDFe: String; override;
     function GetNameSpaceURI: String; override;
     function EhAutorizacao: Boolean;
 
@@ -128,10 +128,17 @@ type
       IndEmi: TpcnIndicadorEmissor; ultNSU: String): Boolean;
     function Download: Boolean;
 
-    property Configuracoes: TConfiguracoesNFe read GetConfiguracoes write SetConfiguracoes;
+    property Configuracoes: TConfiguracoesNFe
+      read GetConfiguracoes write SetConfiguracoes;
 
-    function LerVersaoDeParams(LayOutServico: TLayOut): String; overload;
-    function LerURLDeParams(LayOutServico: TLayOut): String; overload;
+    function LerVersaoDeParams(LayOutServico: TLayOut): String; reintroduce; overload;
+    function LerURLDeParams(LayOutServico: TLayOut): String; reintroduce; overload;
+
+    function GetURLConsultaNFCe(const CUF: integer;
+      const TipoAmbiente: TpcnTipoAmbiente): String;
+    function GetURLQRCode(const CUF: integer; const TipoAmbiente: TpcnTipoAmbiente;
+      const AChaveNFe, Destinatario: String; const DataHoraEmissao: TDateTime;
+      const ValorTotalNF, ValorTotalICMS: currency; const DigestValue: String): String;
 
     function IdentificaSchemaNFe(const AXML: String): TSchemaNFe;
     function IdentificaSchemaLayout(const ALayOut: TLayOut): TSchemaNFe;
@@ -165,7 +172,8 @@ type
 implementation
 
 uses strutils,
-  pcnAuxiliar;
+  pcnAuxiliar,
+  ACBrEAD;
 
 { TACBrNFe }
 
@@ -246,7 +254,7 @@ begin
   end;
 end;
 
-function TACBrNFe.NomeModeloDFe: String;
+function TACBrNFe.GetNomeModeloDFe: String;
 begin
   Result := IfThen(Configuracoes.Geral.ModeloDF = moNFe, 'NFe', 'NFCe');
 end;
@@ -352,9 +360,9 @@ begin
     //LayNFeDownloadNFe,
     LayNfeAutorizacao:
       Result := schNfe;
-    //LayNfeRetAutorizacao,
-    //LayAdministrarCSCNFCe,
-    //LayDistDFeIn
+      //LayNfeRetAutorizacao,
+      //LayAdministrarCSCNFCe,
+      //LayDistDFeIn
     else
       Result := schNfe;
   end;
@@ -363,8 +371,8 @@ end;
 
 function TACBrNFe.GerarNomeArqSchema(const ALayOut: TLayOut): String;
 begin
-  Result := SchemaNFeToStr( IdentificaSchemaLayout(ALayOut) ) + '_v' +
-            LerVersaoDeParams(ALayOut) ;
+  Result := SchemaNFeToStr(IdentificaSchemaLayout(ALayOut)) + '_v' +
+    LerVersaoDeParams(ALayOut);
 end;
 
 function TACBrNFe.GetConfiguracoes: TConfiguracoesNFe;
@@ -381,7 +389,7 @@ function TACBrNFe.LerVersaoDeParams(LayOutServico: TLayOut): String;
 var
   Versao: Double;
 begin
-  Versao := LerVersaoDeParams(NomeModeloDFe, Configuracoes.WebServices.UF,
+  Versao := LerVersaoDeParams(GetNomeModeloDFe, Configuracoes.WebServices.UF,
     Configuracoes.WebServices.Ambiente, LayOutToServico(LayOutServico),
     VersaoDFToDbl(Configuracoes.Geral.VersaoDF));
 
@@ -390,9 +398,63 @@ end;
 
 function TACBrNFe.LerURLDeParams(LayOutServico: TLayOut): String;
 begin
-  Result := LerURLDeParams(NomeModeloDFe, Configuracoes.WebServices.UF,
+  Result := LerURLDeParams(GetNomeModeloDFe, Configuracoes.WebServices.UF,
     Configuracoes.WebServices.Ambiente, LayOutToServico(LayOutServico),
     VersaoDFToDbl(Configuracoes.Geral.VersaoDF));
+end;
+
+function TACBrNFe.GetURLConsultaNFCe(const CUF: integer;
+  const TipoAmbiente: TpcnTipoAmbiente): String;
+begin
+  Result := LerURLDeParams('NFCe', CUFtoUF(CUF), TipoAmbiente, 'URL-ConsultaNFCe', 0);
+end;
+
+function TACBrNFe.GetURLQRCode(const CUF: integer; const TipoAmbiente: TpcnTipoAmbiente;
+  const AChaveNFe, Destinatario: String; const DataHoraEmissao: TDateTime;
+  const ValorTotalNF, ValorTotalICMS: currency; const DigestValue: String): String;
+var
+  idNFe, sdhEmi_HEX, sdigVal_HEX, sNF, sICMS, cIdToken, cToken,
+    sToken, sEntrada, cHashQRCode, urlUF: String;
+begin
+  urlUF := LerURLDeParams('NFCe', CUFtoUF(CUF), TipoAmbiente, 'URL-QRCode', 0);
+
+  idNFe := OnlyNumber(AChaveNFe);
+
+  // Passo 1
+  sdhEmi_HEX := AsciiToHex( DateTimeTodh(DataHoraEmissao) +
+                GetUTC(CodigoParaUF(CUF), DataHoraEmissao) );
+  sdigVal_HEX := AsciiToHex(DigestValue);
+
+  if CUF = 41 then
+  begin
+    sdhEmi_HEX := LowerCase(sdhEmi_HEX);
+    sdigVal_HEX := LowerCase(sdigVal_HEX)
+  end;
+
+  // Passo 3 e 4
+  cIdToken := Configuracoes.Geral.IdToken;
+  cToken := Configuracoes.Geral.Token;
+
+  if EstaVazio(cToken) then
+    cToken := Copy(idNFe, 7, 8) + '20' + Copy(idNFe, 3, 2) + Copy(cIdToken, 3, 4);
+
+  sToken := cIdToken + cToken;
+  sNF := StringReplace(FormatFloat('0.00', ValorTotalNF), ',', '.', [rfReplaceAll]);
+  sICMS := StringReplace(FormatFloat('0.00', ValorTotalICMS), ',', '.', [rfReplaceAll]);
+
+  sEntrada := 'chNFe=' + idNFe + '&nVersao=100&tpAmb=' +
+    TpAmbToStr(TipoAmbiente) +
+    IfThen(Destinatario = '', '', '&cDest=' + Destinatario) +
+    '&dhEmi=' + sdhEmi_HEX +
+    '&vNF=' + sNF + '&vICMS=' + sICMS + '&digVal=' +
+    sdigVal_HEX + '&cIdToken=';
+
+  // Passo 5 calcular o SHA-1 da string sEntrada
+  cHashQRCode := EAD.CalcularHash(sEntrada + sToken, dgstSHA1);
+
+  // Passo 6
+  Result := urlUF + '?' + sEntrada + cIdToken + '&cHashQRCode=' + cHashQRCode;
+
 end;
 
 procedure TACBrNFe.SetStatus(const stNewStatus: TStatusACBrNFe);
@@ -701,8 +763,6 @@ end;
 
 
 end.
-
-
 
 (*  TODO: Verificar se precisa
 

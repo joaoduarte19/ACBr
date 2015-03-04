@@ -54,7 +54,7 @@
     </Files>
     <RequiredPkgs Count="1">
       <Item1>
-        <PackageName Value="ACBrComum"/>
+        <PackageName Value="ACBrDiversos"/>
       </Item1>
     </RequiredPkgs>
     <UsageOptions>

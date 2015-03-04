@@ -38,6 +38,7 @@ unit ACBrECFVirtualNFCe;
 interface
 
 uses Classes, SysUtils,
+  {$IFDEF FPC} LResources, {$ENDIF}
   ACBrECFVirtual, ACBrECFVirtualPrinter, ACBrNFe, ACBrECF,  ACBrDevice,
   pcnNFe, pcnConversao ;
 

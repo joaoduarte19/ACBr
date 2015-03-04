@@ -42,7 +42,8 @@ interface
 
 uses
   Classes, SysUtils, IniFiles,
-  ACBrBase, ACBrDFeConfiguracoes, ACBrMail, ACBrDFeSSL, pcnConversao,
+  ACBrBase, ACBrDFeConfiguracoes, ACBrMail, ACBrDFeSSL, ACBrEAD,
+  pcnConversao,
   {$IFDEF FPC}
      PropEdits
   {$ELSE}
@@ -80,6 +81,7 @@ type
   TACBrDFe = class(TACBrComponent)
   private
     FMAIL: TACBrMail;
+    FEAD: TACBrEAD;
     FSSL: TDFeSSL;
     FOnStatusChange: TNotifyEvent;
     FOnGerarLog: TACBrGravarLog;
@@ -99,11 +101,12 @@ type
 
   public
     property SSL: TDFeSSL read FSSL;
+    property EAD: TACBrEAD read FEAD;
 
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
-    function NomeModeloDFe: String; virtual;
+    function GetNomeModeloDFe: String; virtual;
     function GetNameSpaceURI: String; virtual;
 
     function Gravar(NomeArquivo: String; ConteudoXML: String; aPath: String = ''): Boolean;
@@ -177,6 +180,7 @@ begin
   {$ENDIF}
 
   FSSL := TDFeSSL.Create(Self);
+  FEAD := TACBrEAD.Create(Self);
   FOnGerarLog := nil;
 
   FPIniParams := TMemIniFile.Create(Configuracoes.Arquivos.IniServicos);
@@ -189,10 +193,8 @@ end;
 
 destructor TACBrDFe.Destroy;
 begin
-  {$IFDEF ACBrNFeOpenSSL}
-  if FConfiguracoes.Geral.IniFinXMLSECAutomatico then
-    NotaUtil.ShutDownXmlSec;
-  {$ENDIF}
+  FEAD.Free;
+  FSSL.Free;
 
   FPConfiguracoes.Free;
   FPIniParams.Free;
@@ -200,7 +202,7 @@ begin
   inherited;
 end;
 
-function TACBrDFe.NomeModeloDFe: String;
+function TACBrDFe.GetNomeModeloDFe: String;
 begin
   Result := '';
 end;

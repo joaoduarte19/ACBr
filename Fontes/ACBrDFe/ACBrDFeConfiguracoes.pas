@@ -572,7 +572,7 @@ begin
 
   if SepararPorModelo then
   begin
-    Modelo := TACBrDFe(FConfiguracoes.Owner).NomeModeloDFe;
+    Modelo := TACBrDFe(FConfiguracoes.Owner).GetNomeModeloDFe;
     Dir := PathWithDelim(Dir) + Modelo;
   end;
 

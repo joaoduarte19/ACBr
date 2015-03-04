@@ -157,6 +157,7 @@ Function IntToStrZero(const NumInteiro : Int64; Tamanho : Integer) : String;
 function FloatToIntStr(const AValue: Double; const DecimalDigits: SmallInt = 2): String;
 function FloatToString(const AValue: Double; SeparadorDecimal: String = '.'): String;
 function FormatFloatBr(const AValue: Extended; AFormat: String = ''): String;
+function FloatMask(const DecimalDigits: SmallInt = 2): String;
 Function StringToFloat( NumString : String ) : Double ;
 Function StringToFloatDef( const NumString : String ;
    const DefaultValue : Double ) : Double ;
@@ -1070,6 +1071,14 @@ begin
     ThousandSeparator := OldThousandSeparator;
   end;
   {$ENDIF}
+end;
+
+function FloatMask(const DecimalDigits: SmallInt): String;
+begin
+  Result := '0';
+
+  if DecimalDigits > 0 then
+     Result := Result + '.' + StringOfChar('0',DecimalDigits)
 end;
 
 {-----------------------------------------------------------------------------

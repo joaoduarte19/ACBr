@@ -217,6 +217,9 @@ function EnumeradoToStr(const t: variant; const AString:
 function StrToEnumerado2(out ok: boolean;  const s: string; Const AString: array of string ): variant;
 function EnumeradoToStr2(const t: variant; const AString: array of string ): variant;
 
+function UFtoCUF(UF: String): Integer;
+function CUFtoUF(CUF: Integer): String;
+
 function IndpagToStr(const t: TpcnIndicadorPagamento): string;
 function StrToIndpag(out ok: boolean; const s: string): TpcnIndicadorPagamento;
 function TpImpToStr(const t: TpcnTipoImpressao): string;
@@ -429,6 +432,30 @@ begin
   for i := Low(AEnumerados) to High(AEnumerados) do
     if t = AEnumerados[i] then
       result := AString[i];
+end;
+
+function UFtoCUF(UF: String): Integer;
+var
+  i: Integer;
+begin
+  Result := -1 ;
+  for i:= Low(NFeUF) to High(NFeUF) do
+  begin
+    if NFeUF[I] = UF then
+      Result := NFeUFCodigo[I];
+  end;
+end;
+
+function CUFtoUF(CUF: Integer): String;
+var
+  i: Integer;
+begin
+  Result := '' ;
+  for i:= Low(NFeUFCodigo) to High(NFeUFCodigo) do
+  begin
+    if NFeUFCodigo[I] = CUF then
+      Result := NFeUF[I];
+  end;
 end;
 
 // Indicador do Tipo de pagamento **********************************************
