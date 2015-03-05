@@ -102,7 +102,7 @@ uses SysUtils, Classes,
   {$ELSE}
   Forms, Dialogs,
   {$ENDIF}
-  RLConsts, pcnNFe, pcnConversao, StrUtils, ACBrNFeDANFEClass;
+  RLConsts, pcnNFe, pcnConversao, ACBrNFeDANFEClass;
 
 type
   TNomeFonte = (nfTimesNewRoman, nfCourierNew, nfArial);

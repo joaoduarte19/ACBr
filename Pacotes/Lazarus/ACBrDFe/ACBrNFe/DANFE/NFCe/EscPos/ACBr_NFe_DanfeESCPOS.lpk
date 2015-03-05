@@ -2,7 +2,7 @@
 <CONFIG>
   <Package Version="4">
     <PathDelim Value="\"/>
-    <Name Value="ACBr_NFe2_DanfeESCPOS"/>
+    <Name Value="ACBr_NFe_DanfeESCPOS"/>
     <Author Value="Juliomar Marchetti"/>
     <CompilerOptions>
       <Version Value="11"/>

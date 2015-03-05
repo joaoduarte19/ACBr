@@ -34,103 +34,6 @@
 {                                                                              }
 {******************************************************************************}
 
-{******************************************************************************
-|* Historico
-|*
-|* 16/12/2008: Wemerson Souto
-|*  - Doação do componente para o Projeto ACBr
-|* 20/08/2009: Caique Rodrigues
-|*  - Doação units para geração do Danfe via QuickReport
-|* 20/11/2009: Peterson de Cerqueira Matos
-|*             E-mail: peterson161@yahoo.com - Tel: (11) 7197-1474 / 8059-4055
-|*  - Componente e Units do QuickReport clonados
-|*    e transformados em FORTES REPORT
-|* 27/01/2010: Peterson de Cerqueira Matos
-|*  - Inclusão de comandos na procedure "InitDados" para ajuste da largura da
-|*    coluna "Código do Produto" que foi definida no componente "ACBrNFeDANFeRL"
-|*  - Em casos de DANFE's com mais de uma página, a partir da segunda o canhoto
-|*    nao é mais exibido
-|* 05/02/2010: Peterson de Cerqueira Matos
-|*  - Alteração da quantidade de casas decimais dos campos 'QUANTIDADE' e
-|*    'VALOR UNITÁRIO' para 4 casas, conforme consta no 'MANUAL DE INTEGRAÇÃO
-|*    DO CONTRIBUINTE'
-|*  - Correção na distribuição dos caracteres entre os 'DADOS ADICIONAIS' e a
-|*    'CONTINUAÇÃO DOS DADOS ADICIONAIS'
-|*  - Inclusão dos campos 'USUÁRIO' e 'SISTEMA' no rodapé do DANFE (só folha 1)
-|*  - Inclusão dos campos 'SITE', 'EMAIL' e 'FAX' no quadro do emitente
-|*  - Inclusão do 'RESUMO' da NF-e no canhoto
-|* 10/02/2010: Peterson de Cerqueira Matos
-|*  - Inserção da função 'BuscaDireita', que auxiliará a correção da
-|*    exibição dos 'DADOS ADICIONAIS' para evitar que a última palavra do
-|*    quadro fique pela metade devido à limitação da quantidade de caracteres
-|*  - Correção da formatação de CPF, no caso de NF-e emitida para pessoa física
-|* 13/02/2010: Peterson de Cerqueira Matos
-|*  - Alteração da fonte do memo 'rlmObsItem' de ARIAL para COURIER NEW
-|* 15/03/2010: Felipe Feltes
-|*  - Adequação na seção 'USES' para ser utilizado em CLX
-|* 19/03/2010: Peterson de Cerqueira Matos
-|*  - Tratamento das propriedades "FormularioContinuo", "ExpandirLogoMarca" e
-|*    "MostrarPreview" de "ACBrNFeDANFeClass"
-|*  - Tratamento da propriedade "PosCanhoto" de "ACBrNFeDANFeRLClass"
-|* 22/03/2010: Peterson de Cerqueira Matos
-|*  - Tratamento das margens em "ACBrNFeDANFeClass"
-|*  - Tratamento da propriedade "FonteDANFE" de "ACBrNFeDANFeRLClass"
-|* 13/04/2010: Peterson de Cerqueira Matos
-|*  - Adequação à NF-e 2.0, Manual de Integração do Contribuinte 4.0.1NT2009.006
-|*  - Tratamento das propriedades "_vUnCom" e "_qCom"
-|*  - Exibição da "hora de saída"
-|*  - Ocultação do quadro "FATURA" quando não houver duplicatas
-|*  - Correção na exibição das informações complementares
-|*  - Correção na exibição do tipo de frete
-|*  - Acréscimo da coluna "Valor Desconto"
-|*  - Correção na exibição da coluna CST. Quando o emitente for "Simples
-|*    Nacional - CRT=1", será exibida a informação CSOSN ao invés do CST
-|*  - Alteração no layout do quadro "IDENTIFICAÇÃO DO EMITENTE"
-|* 26/04/2010: Peterson de Cerqueira Matos
-|*  - Adaptação dos comandos que utilizavam CSOSN string para CSOSN tipificado
-|* 19/06/2010: Peterson de Cerqueira Matos
-|*  - Admissão de quebra de linha nos dados adicionais do produto (infAdProd).
-|*    O Caractere ponto-e-vírgula ';' será considerado quebra de linha
-|* 07/07/2010: Peteron de Cerqueira Matos
-|*  - Início do DANFe em formato Paisagem
-|* 20/07/2010: Peteron de Cerqueira Matos
-|*  - Acréscimo do case 0 na configuração das casas decimais da quantidade
-|*    e do valor unitário
-|* 28/07/2010: Peterson de Cerqueira Matos
-|*  - Implementação da quantidade de itens por página
-|*  - Admissão de quebra de linha nas informações complementares.
-|*    O Caractere ponto-e-vírgula ';' será considerado quebra de linha
-|* 10/08/2010: Peterson de Cerqueira Matos
-|*  - Tratamento do tamanho da fonte da razão social do emitente
-|* 25/11/2010: Peterson de Cerqueira Matos
-|*  - Acréscimo da coluna "EAN"
-|* 01/03/2011: Fernando Emiliano David Nunes
-|*  - Quando DPEC, nao estava imprimindo Data e Motivo da Contingência
-|*  - Quando DPEC, nao estava imprimindo o valor FProtocoloNFe
-|* 24/03/2011: Fernando Emiliano David Nunes
-|*  - Alterei a funcao FormatarFone para tratar casos onde o DDD vem com ZERO somando 3 digitos
-|* 18/05/2011: Peterson de Cerqueira Matos
-|*  - Correção da exibição das duplicatas. As duplicatas são exibidas da direita
-|*    para a esquerda, até o limite de 15 duplicatas. Desta forma a altura do
-|*    quadro duplicatas fica variável, de acordo com a quantidade de linhas. O
-|*    limite de duplicatas não foi aumentado para preservar o pouco espaço
-|*    disponível para os itens da nota
-|* 20/05/2011: Peterson de Cerqueira Matos
-|*  - Tratamento da propriedade "ExibirResumoCanhoto_Texto"
-|* 23/05/2011: Waldir Paim
-|*  - Início da preparação para Lazarus: Somente utiliza TClientDataSet quando
-|*    estiver no Delphi. Obrigatória a utilização da versão 3.70B ou superior
-|*    do Fortes Report. Download disponível em
-|*    http://sourceforge.net/projects/fortesreport/files/
-|* 13/12/2011: Peterson de Cerqueira Matos
-|*  - Conserto da exibição da base e do valor do ICMS de cada item no caso
-|*    de ser simples nacional, pois estava saindo zerado. (Este código de
-|*    exibição dos itens foi copiado do DANFE em QuickReport)
-|* 24/02/2012: Peterson de Cerqueira Matos
-|*  - Correção da exibição dos itens quando o emitente é CRT = 2
-|* 14/03/2013: Peterson de Cerqueira Matos
-|*  - Impressão dos detalhamentos específicos e do desconto em percentual
-******************************************************************************}
 {$I ACBr.inc}
 unit ACBrNFeDANFeRLPaisagem;
 
@@ -141,8 +44,7 @@ uses
   {$IFDEF CLX}
   QGraphics, QControls, QForms, QDialogs, QExtCtrls, Qt, QStdCtrls,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, Messages, {$ENDIF}
-    Controls, Forms, Dialogs, ExtCtrls, MaskUtils, StdCtrls,
+    Controls, Forms, Dialogs, ExtCtrls,
   {$ENDIF}
   RLReport, RLFilters, RLPDFFilter, RLPrinters,
     {$IFDEF BORLAND}
@@ -153,7 +55,7 @@ uses
       jpeg,
     {$IFEND}
   {$ENDIF}
-  ACBrNFeDANFeRL, pcnConversao, RLBarcode,  DB, StrUtils, ACBrUtil;
+  ACBrNFeDANFeRL, pcnConversao, RLBarcode;
 
 type
   TfrlDANFeRLPaisagem = class(TfrlDANFeRL)
@@ -585,7 +487,9 @@ type
 
 implementation
 
-uses ACBrDFeUtil, pcnNFe, ACBrNFeDANFeRLClass, DateUtils;
+uses DateUtils, StrUtils,
+  pcnNFe, pcnConversaoNFe,
+  ACBrNFeDANFeRLClass, ACBrDFeUtil, ACBrValidador, ACBrUtil;
 
 {$R *.dfm}
 
@@ -664,7 +568,7 @@ begin
                            '  -  ' +
                            'DEST. / REM.: ' + FNFe.Dest.xNome + '  -  ' +
                            'VALOR TOTAL: R$ ' +
-                           FormatFloat(FNFe.Total.ICMSTot.vNF,
+                           FormatFloatBr(FNFe.Total.ICMSTot.vNF,
                            '###,###,###,##0.00');
         end; // if FResumoCanhoto_Texto <> ''
       rllResumo.Visible := True;
@@ -1039,7 +943,7 @@ var sChaveContingencia: String;
 begin
   with FNFe.InfNFe, FNFe.Ide do
   begin
-     rllChave.Caption := NotaUtil.FormatarChaveAcesso(OnlyNumber(FNFe.InfNFe.Id));
+     rllChave.Caption := FormatarChaveAcesso(OnlyNumber(FNFe.InfNFe.Id));
      rlbCodigoBarras.Caption := OnlyNumber(FNFe.InfNFe.Id);
      rllNumNF0.Caption := 'Nº ' + FormatFloat ('000,000,000', nNF);
      rllNumNF1.Caption := 'Nº ' + FormatFloat ('000,000,000', nNF);
@@ -1051,9 +955,9 @@ begin
      else
         rllEntradaSaida.Caption := '1';
 
-    rllEmissao.Caption   := FormatDate(DateToStr(dEmi));
+    rllEmissao.Caption   := FormatDateBr(dEmi);
     rllSaida.Caption     := IfThen(DSaiEnt <> 0,
-                                      FormatDate(DateToStr(dSaiEnt)));
+                                      FormatDateBr(dSaiEnt));
 //    rllHoraSaida.Caption := IfThen(hSaiEnt <> 0, FormatDateTime('hh:nn:ss', hSaiEnt));                                      
 //    rllHoraSaida.Caption := IfThen(dSaiEnt <> 0, FormatDateTime('hh:nn:ss', dSaiEnt));     //..Rodrigo - substitui campo hSaiEnt por DSaiEnt
     if versao = 2.00 then
@@ -1086,7 +990,7 @@ begin
       end
     else if FNFe.Ide.tpEmis in [teContingencia, teFSDA] then
       begin
-        sChaveContingencia := NotaUtil.GerarChaveContingencia(FNFe);
+        sChaveContingencia := FACBrNFe.GerarChaveContingencia(FNFe);
         rllDadosVariaveis1a.Visible := False;
         rllDadosVariaveis1b.Visible := False;
         rlbCodigoBarras.Visible := True;
@@ -1094,7 +998,7 @@ begin
         rlbCodigoBarrasFS.Visible := True;
         rllDadosVariaveis3_Descricao.Caption := 'DADOS DA NF-E';
         rllDadosVariaveis3.Caption :=
-                          NotaUtil.FormatarChaveContigencia(sChaveContingencia);
+                          FormatarChaveAcesso(sChaveContingencia);
         rllAvisoContingencia.Caption := 'DANFE em Contingência - ' +
                                 'Impresso em decorrência de problemas técnicos';
         if (dhCont > 0) and (xJust > '') then
@@ -1146,7 +1050,7 @@ begin
       rllRecebemosDe.Caption := Format (FRecebemoDe, [ XNome ]);
       rllInscricaoEstadual.Caption := IE;
       rllInscrEstSubst.caption := IEST;
-      rllCNPJ.Caption := FormatarCNPJCPF(CNPJCPF );
+      rllCNPJ.Caption := FormatarCNPJouCPF(CNPJCPF );
       rlmEmitente.Lines.Text   := XNome;
       with EnderEmit do
         begin
@@ -1200,7 +1104,7 @@ begin
   // destinatario
   with FNFe.Dest do
     begin
-      rllDestCNPJ.Caption := FormatarCNPJCPF(CNPJCPF);
+      rllDestCNPJ.Caption := FormatarCNPJouCPF(CNPJCPF);
 
       rllDestIE.Caption   := IE;
       rllDestNome.Caption := XNome;
@@ -1228,7 +1132,7 @@ begin
     begin
       with FNFe.Entrega do
         begin
-          sCNPJ := FormatarCNPJCPF(CNPJCPF);
+          sCNPJ := FormatarCNPJouCPF(CNPJCPF);
 
           if xCpl > '' then
             sEndereco := XLgr + IfThen (Nro = '0', '', ', ' + Nro) + ' - ' + xCpl
@@ -1249,7 +1153,7 @@ begin
     begin
       with FNFe.Retirada do
         begin
-          sCNPJ := FormatarCNPJCPF(CNPJCPF);
+          sCNPJ := FormatarCNPJouCPF(CNPJCPF);
 
           if xCpl > '' then
             sEndereco := XLgr + IfThen (Nro = '0', '', ', ' + Nro) + ' - ' + xCpl
@@ -1267,23 +1171,23 @@ var LarguraCampo: Integer;
 begin
   with FNFe.Total.ICMSTot do
   begin
-    rllBaseICMS.Caption       := FormatFloat(VBC, '###,###,###,##0.00');
-    rllValorICMS.Caption      := FormatFloat(VICMS, '###,###,###,##0.00');
-    rllBaseICMSST.Caption     := FormatFloat(VBCST, '###,###,###,##0.00');
-    rllValorICMSST.Caption    := FormatFloat(VST, '###,###,###,##0.00');
-    rllTotalProdutos.Caption  := FormatFloat(VProd, '###,###,###,##0.00');
-    rllValorFrete.Caption     := FormatFloat(VFrete, '###,###,###,##0.00');
-    rllValorSeguro.Caption    := FormatFloat(VSeg, '###,###,###,##0.00');
-    rllDescontos.Caption      := FormatFloat(VDesc, '###,###,###,##0.00');
-    rllAcessorias.Caption     := FormatFloat(VOutro, '###,###,###,##0.00');
-    rllValorIPI.Caption       := FormatFloat(VIPI, '###,###,###,##0.00');
-    rllTotalNF.Caption        := FormatFloat(VNF, '###,###,###,##0.00');
+    rllBaseICMS.Caption       := FormatFloatBr(VBC, '###,###,###,##0.00');
+    rllValorICMS.Caption      := FormatFloatBr(VICMS, '###,###,###,##0.00');
+    rllBaseICMSST.Caption     := FormatFloatBr(VBCST, '###,###,###,##0.00');
+    rllValorICMSST.Caption    := FormatFloatBr(VST, '###,###,###,##0.00');
+    rllTotalProdutos.Caption  := FormatFloatBr(VProd, '###,###,###,##0.00');
+    rllValorFrete.Caption     := FormatFloatBr(VFrete, '###,###,###,##0.00');
+    rllValorSeguro.Caption    := FormatFloatBr(VSeg, '###,###,###,##0.00');
+    rllDescontos.Caption      := FormatFloatBr(VDesc, '###,###,###,##0.00');
+    rllAcessorias.Caption     := FormatFloatBr(VOutro, '###,###,###,##0.00');
+    rllValorIPI.Caption       := FormatFloatBr(VIPI, '###,###,###,##0.00');
+    rllTotalNF.Caption        := FormatFloatBr(VNF, '###,###,###,##0.00');
 
     // Exibe o Valor total dos tributos se vTotTrib for informado
     // e ajusta a posição dos outros campos para "abrir espaço" para ele.
     if vTotTrib > 0 then
       begin
-        rllTotalTributos.Caption := FormatFloat(vTotTrib, '###,###,###,##0.00');
+        rllTotalTributos.Caption := FormatFloatBr(vTotTrib, '###,###,###,##0.00');
         rliDivImposto4.Visible := True;
         rllTituloTotalTributos.Visible := True;
         rllTotalTributos.Visible := True;
@@ -1344,7 +1248,7 @@ begin
       with Transporta do
         begin
           if Trim (CNPJCPF) <> '' then
-            rllTransCNPJ.Caption := FormatarCNPJCPF(CNPJCPF)
+            rllTransCNPJ.Caption := FormatarCNPJouCPF(CNPJCPF)
           else
             rllTransCNPJ.Caption := '';
 
@@ -1373,10 +1277,10 @@ begin
         rllTransMarca.Caption      :=  Marca;
         rllTransNumeracao.Caption  :=  NVol ;
         if pesoL > 0 then
-          rllTransPesoLiq.Caption    :=  FormatFloat(PesoL,
+          rllTransPesoLiq.Caption    :=  FormatFloatBr(PesoL,
                                                         '###,###,###,##0.000');
         if pesoB > 0 then
-          rllTransPesoBruto.Caption  :=  FormatFloat(PesoB,
+          rllTransPesoBruto.Caption  :=  FormatFloatBr(PesoB,
                                                         '###,###,###,##0.000');
       end;
    end
@@ -1492,6 +1396,8 @@ begin
   // Informações do processo referenciado
   if FNFe.InfAdic.procRef.Count > 0 then
     begin
+      sObsProcRef := '';
+
       for i := 0 to (FNFe.InfAdic.procRef.Count - 1) do
         begin
           case FNFe.InfAdic.procRef.Items[i].indProc of
@@ -2023,13 +1929,13 @@ begin
           rlbISSQN.Visible := True;
           rllISSQNInscricao.Caption := FNFe.Emit.IM;
           rllISSQNValorServicos.Caption :=
-                                FormatFloat(FNFe.Total.ISSQNtot.vServ,
+                                FormatFloatBr(FNFe.Total.ISSQNtot.vServ,
                                 '###,###,##0.00');
           rllISSQNBaseCalculo.Caption :=
-                                  FormatFloat(FNFe.Total.ISSQNtot.vBC,
+                                  FormatFloatBr(FNFe.Total.ISSQNtot.vBC,
                                   '###,###,##0.00');
           rllISSQNValorISSQN.Caption :=
-                                  FormatFloat(FNFe.Total.ISSQNtot.vISS,
+                                  FormatFloatBr(FNFe.Total.ISSQNtot.vISS,
                                   '###,###,##0.00');
         end
       else
@@ -2096,9 +2002,9 @@ begin
                TRLLabel (FindComponent ('rllFatNum'   + intToStr (x + 1))).Caption :=
                                                                               NDup;
                TRLLabel (FindComponent ('rllFatData'  + intToStr (x + 1))).Caption :=
-                                              FormatDate(DateToStr(DVenc));
+                                              FormatDateBr(DVenc);
                TRLLabel (FindComponent ('rllFatValor' + intToStr (x + 1))).Caption :=
-                                                        FormatFloat(VDup);
+                                                        FormatFloatBr(VDup);
              end;
         end; // if FNFe.Cobr.Dup.Count = 0
     end;  // ipPrazo

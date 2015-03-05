@@ -52,11 +52,10 @@ uses
   {$IFDEF CLX}
   QGraphics, QControls, QForms, QDialogs, QExtCtrls, Qt, QStdCtrls,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, Messages,{$ENDIF}
-    Controls, Forms, Dialogs, ExtCtrls, MaskUtils, StdCtrls,
+    Controls, Forms, Dialogs, ExtCtrls,
   {$ENDIF}
   RLReport, RLFilters, RLPDFFilter, {$IFDEF BORLAND} XMLIntf, XMLDoc, jpeg, {$ENDIF}
-  pcnConversao, RLBarcode, StrUtils, ACBrNFeDANFeEventoRL;
+  pcnConversao, RLBarcode, ACBrNFeDANFeEventoRL;
 
 type
   TfrlDANFeEventoRLRetrato = class(TfrlDANFeEventoRL)
@@ -203,7 +202,8 @@ type
 
 implementation
 
-uses ACBrDFeUtil, pcnEnvEventoNFe, ACBrNFeDANFeRLClass;
+uses
+  ACBrDFeUtil, ACBrNFeDANFeRLClass, ACBrValidador, ACBrUtil;
 
 {$R *.dfm}
 
@@ -229,7 +229,7 @@ begin
                           Copy(InfEvento.chNFe, 32, 3);
       rllMesAnoEmissaoNF.Caption := Copy(InfEvento.chNFe, 5, 2) + '/' +
                                     Copy(InfEvento.chNFe, 3, 2);
-      rllChaveNFe.Caption := NotaUtil.FormatarChaveAcesso(InfEvento.chNFe);
+      rllChaveNFe.Caption := FormatarChaveAcesso(InfEvento.chNFe);
       rlbCodigoBarras.Caption := InfEvento.chNFe;
 
       // Preenche os campos - Quadro Evento
@@ -256,7 +256,7 @@ begin
             begin
               // 1.) Preenche os campos do Emitente
               rllEmitNome.Caption := Emit.xNome;
-              rllEmitCNPJ.Caption := FormatarCNPJCPF(Emit.CNPJCPF);
+              rllEmitCNPJ.Caption := FormatarCNPJouCPF(Emit.CNPJCPF);
               if Emit.EnderEmit.xCpl > '' then
                 rllEmitEndereco.Caption := Emit.EnderEmit.xLgr + ', ' + Emit.EnderEmit.nro + ' ' + Emit.EnderEmit.xCpl
               else
@@ -270,7 +270,7 @@ begin
 
               // 2.) Preenche os campos do Destinatário
               rllDestNome.Caption := Dest.xNome;
-              rllDestCNPJ.Caption := FormatarCNPJCPF(Dest.CNPJCPF);
+              rllDestCNPJ.Caption := FormatarCNPJouCPF(Dest.CNPJCPF);
               if Dest.EnderDest.xCpl > '' then
                 rllDestEndereco.Caption := Dest.EnderDest.xLgr + ', ' + Dest.EnderDest.nro + ' ' + Dest.EnderDest.xCpl
               else

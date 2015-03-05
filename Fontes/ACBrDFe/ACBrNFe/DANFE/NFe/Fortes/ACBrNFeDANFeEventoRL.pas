@@ -50,10 +50,9 @@ uses
   {$IFDEF CLX}
   QGraphics, QControls, QForms, QDialogs, QExtCtrls, Qt,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, Messages, {$ENDIF}
     Graphics, Controls, Forms, Dialogs, ExtCtrls,
   {$ENDIF}
-  pcnEnvEventoNFe, pcnConversao, pcnNFe, ACBrNFeDANFeRLClass, ACBrDFeUtil,
+  pcnEnvEventoNFe, pcnConversao, pcnNFe, ACBrNFeDANFeRLClass,
   RLReport, RLPDFFilter, RLConsts, RLFilters, RLPrinters;
 
 type

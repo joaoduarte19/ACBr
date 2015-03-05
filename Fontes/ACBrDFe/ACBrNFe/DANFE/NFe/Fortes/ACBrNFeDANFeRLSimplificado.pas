@@ -42,9 +42,9 @@ unit ACBrNFeDANFeRLSimplificado;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, db, Graphics, Controls, Forms,
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, RLReport, RLPDFFilter, RLBarcode, ACBrNFeDANFeRL,
-  pcnConversao, ACBrNFeDANFEClass, ACBrNFeDANFeRLClass;
+  pcnConversao;
 
 type
 
@@ -122,18 +122,15 @@ type
 implementation
 
 uses
- StrUtils, DateUtils, ACBrNFe,
- ACBrUtil, ACBrDFeUtil, pcnNFe;
+ StrUtils, DateUtils,
+ ACBrUtil, ACBrValidador, ACBrDFeUtil,
+ pcnNFe, pcnConversaoNFe;
 
 {$R *.dfm}
 
 const
    _NUM_ITEMS_PAGE1      = 18;
    _NUM_ITEMS_OTHERPAGES = 50;
-
-var
-   FProtocoloNFE: String;
-   nItemControle: Integer;
 
 procedure TfrlDANFeRLSimplificado.RLNFeBeforePrint(Sender: TObject;
   var PrintReport: Boolean);
@@ -147,8 +144,7 @@ begin
   //rlb05c_Lin_Itens.Enabled := FImprimeItens;
 
   Itens;
-  nItemControle := 0;
-  FTotalPages   := 1;
+  FTotalPages := 1;
 
   if ( FNFe.Det.Count > _NUM_ITEMS_PAGE1 ) then
    begin
@@ -176,8 +172,6 @@ end;
 
 procedure TfrlDANFeRLSimplificado.RLb02_EmitenteBeforePrint(Sender: TObject;
   var PrintIt: boolean);
-var
- strChaveContingencia: String;
 begin
   inherited;
 
@@ -210,7 +204,7 @@ begin
                               IfThen(XBairro = '', '', ', ' + XBairro) +
                               ', ' + XMun + '/ ' + UF);
        end;
-      rlmEmitente.Lines.Add('CNPJ: ' + FormatarCNPJCPF(CNPJCPF) +
+      rlmEmitente.Lines.Add('CNPJ: ' + FormatarCNPJouCPF(CNPJCPF) +
                             ' IE: '+ IE);
      end;
    end;
@@ -228,7 +222,7 @@ begin
   lblNumero.Caption := 'Número: ' + FormatFloat('000,000,000', FNFe.Ide.nNF) +
                        ' - Série: '+ FormatFloat('000', FNFe.Ide.serie);
 
-  rllEmissao.Caption := 'Emissão: ' + FormatDateTime(DateToStr(FNFe.Ide.dEmi));
+  rllEmissao.Caption := 'Emissão: ' + FormatDateTimeBr(FNFe.Ide.dEmi);
 end;
 
 procedure TfrlDANFeRLSimplificado.RLb04_DestinatarioBeforePrint(
@@ -249,7 +243,7 @@ begin
                             IfThen(XBairro = '', '', ', ' + XBairro) +
                             ', ' + XMun + '/ ' + UF);
      end;
-    rlmDestinatario.Lines.Add('CPF/CNPJ: ' + FormatarCNPJCPF(CNPJCPF) +
+    rlmDestinatario.Lines.Add('CPF/CNPJ: ' + FormatarCNPJouCPF(CNPJCPF) +
                               ' IE: ' + IE);
    end;
 
@@ -314,8 +308,6 @@ end;
 
 procedure TfrlDANFeRLSimplificado.RLb06a_TotaisBeforePrint(Sender: TObject;
   var PrintIt: boolean);
-var
- i: Integer;
 begin
   inherited;
 
@@ -328,7 +320,7 @@ begin
   rlmPagValor.Lines.Add(IntToStr(TotalItens));
 
   rlmPagDesc.Lines.Add('Valor Total');
-  rlmPagValor.Lines.Add(FormatFloat(FNFE.Total.ICMSTot.vNF));
+  rlmPagValor.Lines.Add(FormatFloatBr(FNFE.Total.ICMSTot.vNF));
 end;
 
 procedure TfrlDANFeRLSimplificado.RLb06b_TributosBeforePrint(Sender: TObject;
@@ -341,8 +333,8 @@ begin
 
   Perc := (FNFE.Total.ICMSTot.vTotTrib / FNFE.Total.ICMSTot.vNF) * 100;
   rllTributos.Caption := 'Valor aprox. dos tributos: ' +
-                         FormatFloat(FNFE.Total.ICMSTot.vTotTrib) +
-                         '(' + FormatFloat(Perc) + '%)(Fonte: IBPT)';
+                         FormatFloatBr(FNFE.Total.ICMSTot.vTotTrib) +
+                         '(' + FormatFloatBr(Perc) + '%)(Fonte: IBPT)';
 end;
 
 procedure TfrlDANFeRLSimplificado.rlmProdutoDescricaoPrint(sender: TObject;
@@ -350,7 +342,6 @@ procedure TfrlDANFeRLSimplificado.rlmProdutoDescricaoPrint(sender: TObject;
 var
  intTamanhoDescricao,
  intTamanhoAdicional,
- intTamanhoLinha,
  intDivisaoDescricao,
  intDivisaoAdicional,
  intResto: Integer;
@@ -372,12 +363,6 @@ begin
   intResto := intTamanhoDescricao - (intTamanhoDescricao DIV 35)*35;
   if intResto>0
    then intDivisaoDescricao := intDivisaoDescricao + 1;
-
-  //intTamanhoLinha:= 15 * (intDivisaoDescricao+intDivisaoAdicional);
-  if (intTamanhoDescricao <= 35) and (cdsItens.FieldByName('INFADIPROD').AsString = '')
-   then intTamanhoLinha := 12;
-  if (intTamanhoDescricao <= 35) and (cdsItens.FieldByName('INFADIPROD').AsString <> '')
-   then intTamanhoLinha := 22;
 
   if cdsItens.FieldByName('INFADIPROD').AsString <> ''
    then Value := Value + #13 + 'InfAd: ' + cdsItens.FieldByName('INFADIPROD').AsString;
@@ -581,7 +566,7 @@ begin
 
   RLBarcode1.Caption := Copy ( FNFe.InfNFe.Id, 4, 44 );
 
-  rllChave.Caption := NotaUtil.FormatarChaveAcesso(Copy(FNFe.InfNFe.Id, 4, 44));
+  rllChave.Caption := FormatarChaveAcesso(Copy(FNFe.InfNFe.Id, 4, 44));
 
   // Normal **************************************************************
   if FNFe.Ide.tpEmis in [teNormal, teSCAN]
@@ -599,7 +584,7 @@ begin
   if FProtocoloNFE <> ''
    then rllProtocolo.Caption := FProtocoloNFE
    else rllProtocolo.Caption := FNFe.procNFe.nProt + ' ' +
-                                SeSenao(FNFe.procNFe.dhRecbto <> 0, DateTimeToStr(FNFe.procNFe.dhRecbto), '');
+                                IfThen(FNFe.procNFe.dhRecbto <> 0, DateTimeToStr(FNFe.procNFe.dhRecbto), '');
 
   //FTotalPages := HrTotalPages;
 end;

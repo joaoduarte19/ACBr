@@ -143,6 +143,7 @@ type
     function IdentificaSchemaNFe(const AXML: String): TSchemaNFe;
     function IdentificaSchemaLayout(const ALayOut: TLayOut): TSchemaNFe;
     function GerarNomeArqSchema(const ALayOut: TLayOut): String;
+    function GerarChaveContingencia(FNFe: TNFe): String;
 
     property WebServices: TWebServices read FWebServices write FWebServices;
     property NotasFiscais: TNotasFiscais read FNotasFiscais write FNotasFiscais;
@@ -171,7 +172,7 @@ type
 
 implementation
 
-uses strutils,
+uses strutils, dateutils,
   pcnAuxiliar,
   ACBrEAD;
 
@@ -375,6 +376,81 @@ begin
     LerVersaoDeParams(ALayOut);
 end;
 
+function TACBrNFe.GerarChaveContingencia(FNFe: TNFe): String;
+
+  function GerarDigito_Contigencia(var Digito: integer; chave: String): Boolean;
+  var
+    i, j: integer;
+  const
+    PESO = '43298765432987654329876543298765432';
+  begin
+    // Manual Integracao Contribuinte v2.02a - Página: 70 //
+    chave := OnlyNumber(chave);
+    j := 0;
+    Digito := 0;
+    Result := True;
+    try
+      for i := 1 to 35 do
+        j := j + StrToInt(copy(chave, i, 1)) * StrToInt(copy(PESO, i, 1));
+      Digito := 11 - (j mod 11);
+      if (j mod 11) < 2 then
+        Digito := 0;
+    except
+      Result := False;
+    end;
+    if length(chave) <> 35 then
+      Result := False;
+  end;
+
+var
+  wchave: String;
+  wicms_s, wicms_p: String;
+  wd, wm, wa: word;
+  Digito: integer;
+begin
+  //ajustado de acordo com nota tecnica 2009.003
+
+  //UF
+  if FNFe.Dest.EnderDest.UF = 'EX' then
+    wchave := '99' //exterior
+  else
+  begin
+    if FNFe.Ide.tpNF = tnSaida then
+      wchave := copy(IntToStr(FNFe.Dest.EnderDest.cMun), 1, 2) //saida
+    else
+      wchave := copy(IntToStr(FNFe.Emit.EnderEmit.cMun), 1, 2); //entrada
+  end;
+
+  if FNFe.Ide.tpEmis in [teContingencia, teFSDA, teSVCAN, teSVCRS] then
+    wchave := wchave + TpEmisToStr(FNFe.Ide.tpEmis)
+  else
+    wchave := wchave + '0'; //este valor caracteriza ERRO, valor tem q ser  2, 5, 6 ou 7
+
+  //CNPJ OU CPF
+  if (FNFe.Dest.EnderDest.UF = 'EX') then
+    wchave := wchave + Poem_Zeros('0', 14)
+  else
+    wchave := wchave + Poem_Zeros(FNFe.Dest.CNPJCPF, 14);
+
+  //VALOR DA NF
+  wchave := wchave + IntToStrZero(Round(FNFe.Total.ICMSTot.vNF * 100), 14);
+
+  //DESTAQUE ICMS PROPRIO E ST
+  wicms_p := IfThen(NaoEstaZerado(FNFe.Total.ICMSTot.vICMS),'1','2');
+  wicms_s := IfThen(NaoEstaZerado(FNFe.Total.ICMSTot.vST),'1','2');
+  wchave := wchave + wicms_p + wicms_s;
+
+  //DIA DA EMISSAO
+  wchave := wchave + Poem_Zeros(DayOf(FNFe.Ide.dEmi), 2);
+
+  //DIGITO VERIFICADOR
+  GerarDigito_Contigencia(Digito, wchave);
+  wchave := wchave + IntToStr(digito);
+
+  //RETORNA A CHAVE DE CONTINGENCIA
+  Result := wchave;
+end;
+
 function TACBrNFe.GetConfiguracoes: TConfiguracoesNFe;
 begin
   Result := TConfiguracoesNFe(FPConfiguracoes);
@@ -414,21 +490,21 @@ function TACBrNFe.GetURLQRCode(const CUF: integer; const TipoAmbiente: TpcnTipoA
   const ValorTotalNF, ValorTotalICMS: currency; const DigestValue: String): String;
 var
   idNFe, sdhEmi_HEX, sdigVal_HEX, sNF, sICMS, cIdToken, cToken,
-    sToken, sEntrada, cHashQRCode, urlUF: String;
+  sToken, sEntrada, cHashQRCode, urlUF: String;
 begin
   urlUF := LerURLDeParams('NFCe', CUFtoUF(CUF), TipoAmbiente, 'URL-QRCode', 0);
 
   idNFe := OnlyNumber(AChaveNFe);
 
   // Passo 1
-  sdhEmi_HEX := AsciiToHex( DateTimeTodh(DataHoraEmissao) +
-                GetUTC(CodigoParaUF(CUF), DataHoraEmissao) );
+  sdhEmi_HEX := AsciiToHex(DateTimeTodh(DataHoraEmissao) +
+    GetUTC(CodigoParaUF(CUF), DataHoraEmissao));
   sdigVal_HEX := AsciiToHex(DigestValue);
 
   if CUF = 41 then
   begin
     sdhEmi_HEX := LowerCase(sdhEmi_HEX);
-    sdigVal_HEX := LowerCase(sdigVal_HEX)
+    sdigVal_HEX := LowerCase(sdigVal_HEX);
   end;
 
   // Passo 3 e 4
@@ -443,11 +519,9 @@ begin
   sICMS := StringReplace(FormatFloat('0.00', ValorTotalICMS), ',', '.', [rfReplaceAll]);
 
   sEntrada := 'chNFe=' + idNFe + '&nVersao=100&tpAmb=' +
-    TpAmbToStr(TipoAmbiente) +
-    IfThen(Destinatario = '', '', '&cDest=' + Destinatario) +
-    '&dhEmi=' + sdhEmi_HEX +
-    '&vNF=' + sNF + '&vICMS=' + sICMS + '&digVal=' +
-    sdigVal_HEX + '&cIdToken=';
+    TpAmbToStr(TipoAmbiente) + IfThen(Destinatario = '', '', '&cDest=' +
+    Destinatario) + '&dhEmi=' + sdhEmi_HEX + '&vNF=' + sNF + '&vICMS=' +
+    sICMS + '&digVal=' + sdigVal_HEX + '&cIdToken=';
 
   // Passo 5 calcular o SHA-1 da string sEntrada
   cHashQRCode := EAD.CalcularHash(sEntrada + sToken, dgstSHA1);
@@ -763,7 +837,6 @@ end;
 
 
 end.
-
 (*  TODO: Verificar se precisa
 
 procedure EnviarEmailEvento(

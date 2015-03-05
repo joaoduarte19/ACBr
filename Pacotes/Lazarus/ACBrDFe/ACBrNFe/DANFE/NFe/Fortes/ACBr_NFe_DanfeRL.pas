@@ -2,24 +2,22 @@
   This source is only used to compile and install the package.
  }
 
-unit ACBr_NFe2_DanfeRL;
+unit ACBr_NFe_DanfeRL;
 
 interface
 
 uses
   ACBrNFeDANFeRL, ACBrNFeDANFeRLClass, ACBrNFeDANFeRLReg, 
   ACBrNFeDANFeRLRetrato, ACBrNFeDANFeRLPaisagem, ACBrNFeDANFeEventoRL, 
-  ACBrNFeDANFeEventoRLRetrato, ACBrDANFCeFortesFr, ACBrNFeDANFeRLSimplificado, 
-  LazarusPackageIntf;
+  ACBrNFeDANFeEventoRLRetrato, ACBrNFeDANFeRLSimplificado, LazarusPackageIntf;
 
 implementation
 
 procedure Register;
 begin
   RegisterUnit('ACBrNFeDANFeRLReg', @ACBrNFeDANFeRLReg.Register);
-  RegisterUnit('ACBrDANFCeFortesFr', @ACBrDANFCeFortesFr.Register);
 end;
 
 initialization
-  RegisterPackage('ACBr_NFe2_DanfeRL', @Register);
+  RegisterPackage('ACBr_NFe_DanfeRL', @Register);
 end.

@@ -105,10 +105,9 @@ uses
   {$IFDEF CLX}
   QGraphics, QControls, QForms, QDialogs, QExtCtrls, Qt,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, Messages, {$ENDIF}
       Graphics, Controls, Forms, Dialogs, ExtCtrls,
   {$ENDIF}
-  MaskUtils, pcnNFe, pcnConversao, ACBrNFe, ACBrDFeUtil, ACBrNFeDANFeRLClass,
+  pcnNFe, pcnConversao, ACBrNFe, ACBrNFeDANFeRLClass,
   RLReport, RLFilters, RLPrinters, RLPDFFilter, RLConsts,
   {$IFDEF BORLAND} DBClient, {$ELSE} BufDataset, {$ENDIF} DB;
 

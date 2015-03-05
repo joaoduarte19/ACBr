@@ -2,7 +2,7 @@
   This source is only used to compile and install the package.
  }
 
-unit ACBr_NFe2_DanfeESCPOS;
+unit ACBr_NFe_DanfeESCPOS;
 
 interface
 
@@ -17,5 +17,5 @@ begin
 end;
 
 initialization
-  RegisterPackage('ACBr_NFe2_DanfeESCPOS', @Register);
+  RegisterPackage('ACBr_NFe_DanfeESCPOS', @Register);
 end.

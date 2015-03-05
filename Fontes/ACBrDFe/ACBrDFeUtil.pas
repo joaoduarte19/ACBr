@@ -49,7 +49,10 @@ type
 
 function FormatarNumeroDocumentoFiscal(AValue: String): String;
 function FormatarNumeroDocumentoFiscalNFSe(AValue: String): String;
+function GerarChaveAcesso(AUF:Integer; ADataEmissao:TDateTime; ACNPJ:String; ASerie:Integer;
+                           ANumero,ACodigo: Integer; AModelo:Integer=55): String;
 function FormatarChaveAcesso(AValue: String): String;
+
 function ValidaUFCidade(const UF, Cidade: integer): Boolean; overload;
 procedure ValidaUFCidade(const UF, Cidade: integer; const AMensagem: String); overload;
 function ValidaDIDSI(AValue: String): Boolean;
@@ -96,15 +99,35 @@ begin
     raise EACBrDFeException.Create(AMensagem);
 end;
 
+function GerarChaveAcesso(AUF: Integer; ADataEmissao: TDateTime; ACNPJ: String;
+  ASerie: Integer; ANumero, ACodigo: Integer; AModelo: Integer): String;
+var
+  vUF, vDataEmissao, vSerie, vNumero, vCodigo, vModelo: String;
+begin
+  vUF          := Poem_Zeros(AUF, 2);
+  vDataEmissao := FormatDateTime('YYMM', ADataEmissao);
+  vModelo      := Poem_Zeros(AModelo, 2);
+  vSerie       := Poem_Zeros(ASerie, 3);
+  vNumero      := Poem_Zeros(ANumero, 9);
+  vCodigo      := Poem_Zeros(ACodigo, 9);
+
+  Result := vUF + vDataEmissao + ACNPJ + vModelo + vSerie + vNumero + vCodigo;
+  Result := Result + Modulo11(Result);
+end;
+
 function FormatarChaveAcesso(AValue: String): String;
+var
+  I: Integer;
 begin
   AValue := OnlyNumber(AValue);
-  Result := copy(AValue, 1, 4) + ' ' + copy(AValue, 5, 4) + ' ' +
-    copy(AValue, 9, 4) + ' ' + copy(AValue, 13, 4) + ' ' +
-    copy(AValue, 17, 4) + ' ' + copy(AValue, 21, 4) + ' ' +
-    copy(AValue, 25, 4) + ' ' + copy(AValue, 29, 4) + ' ' +
-    copy(AValue, 33, 4) + ' ' + copy(AValue, 37, 4) + ' ' +
-    copy(AValue, 41, 4);
+  I := 1;
+  while I < Length(AValue) do
+  begin
+    Result := copy(AValue,I,4)+' ';
+    Inc( I, 4);
+  end;
+
+  Result := Trim(Result);
 end;
 
 function ValidaDIDSI(AValue: String): Boolean;

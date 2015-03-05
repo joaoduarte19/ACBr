@@ -211,7 +211,8 @@ procedure Register;
 
 implementation
 
-uses ACBrNFe, StrUtils, ACBrDelphiZXingQRCode, math;
+uses StrUtils, math,
+     ACBrDelphiZXingQRCode, ACBrNFe, ACBrValidador ;
 
 {$ifdef FPC}
   {$R *.lfm}
@@ -248,8 +249,6 @@ end;
 
 procedure TACBrNFeDANFCeFortesFr.rlbMensagemFiscalBeforePrint(Sender: TObject;
   var PrintIt: boolean);
-var
-  Endereco: String;
 begin
   with ACBrNFeDANFCeFortes.FpNFe do
   begin
@@ -272,7 +271,8 @@ begin
                                 ' Série '+IntToStrZero(Ide.serie,3)+
                                 ' Emissão '+DateTimeToStr(Ide.dEmi) );
 
-    lTitConsulteChave.Lines.Text := ACBrStr('Consulte pela Chave de Acesso em '+NotaUtil.GetURLConsultaNFCe(Ide.cUF,Ide.tpAmb));
+    lTitConsulteChave.Lines.Text := ACBrStr('Consulte pela Chave de Acesso em '+
+       TACBrNFe(fACBrNFeDANFCeFortes.ACBrNFe).GetURLConsultaNFCe(Ide.cUF,Ide.tpAmb));
 
     lChaveDeAcesso.Caption := FormatarChaveAcesso(OnlyNumber(infNFe.ID));
   end;
@@ -382,9 +382,8 @@ end;
 procedure TACBrNFeDANFCeFortesFr.rlVendaBeforePrint(Sender: TObject;
   var PrintIt: boolean);
 var
-  NumExtrato, qrcode: String;
+  qrcode: String;
   TotalPaginaPixel: Integer;
-  I: Integer;
 begin
   fNumItem  := 0;
   fNumPagto := 0;
@@ -398,23 +397,21 @@ begin
     lRazaoSocial.Caption    := Emit.xNome ;
     lEmitCNPJ_IE_IM.Caption := CompoemCliche;
     lEndereco.Lines.Text    := CompoemEnderecoCFe;
-    if TACBrNFe( ACBrNFeDANFCeFortes.ACBrNFe ).DANFE.Logo <> '' then
-       imgLogo.Picture.LoadFromFile( TACBrNFe( ACBrNFeDANFCeFortes.ACBrNFe ).DANFE.Logo );
+    if ACBrNFeDANFCeFortes.Logo <> '' then
+       imgLogo.Picture.LoadFromFile( ACBrNFeDANFCeFortes.Logo );
 
     // QRCode  //
 
-    qrcode := NotaUtil.GetURLQRCode( ide.cUF, ide.tpAmb,
+    qrcode := TACBrNFe(ACBrNFeDANFCeFortes.ACBrNFe).GetURLQRCode( ide.cUF, ide.tpAmb,
                                      OnlyNumber(InfNFe.ID),  //correcao para pegar somente numeros, estava indo junto o NFE
-                                     SeSenao(Dest.idEstrangeiro <> '',Dest.idEstrangeiro, Dest.CNPJCPF),
+                                     ifthen(Dest.idEstrangeiro <> '',Dest.idEstrangeiro, Dest.CNPJCPF),
                                      ide.dEmi,
                                      Total.ICMSTot.vNF, Total.ICMSTot.vICMS,
-                                     signature.DigestValue,
-                                     TACBrNFe( ACBrNFeDANFCeFortes.ACBrNFe ).Configuracoes.Geral.IdToken,
-                                     TACBrNFe( ACBrNFeDANFCeFortes.ACBrNFe ).Configuracoes.Geral.Token);
+                                     signature.DigestValue);
     PintarQRCode( qrcode, imgQRCode.Picture );
 
     lProtocolo.Caption := ACBrStr('Protocolo de Autorização: '+procNFe.nProt+
-                           ' '+SeSenao(procNFe.dhRecbto<>0,DateTimeToStr(procNFe.dhRecbto),''));
+                           ' '+ifthen(procNFe.dhRecbto<>0,DateTimeToStr(procNFe.dhRecbto),''));
 
   end;
 
@@ -448,16 +445,16 @@ begin
     Descricao := ACBrStrToAnsi( Trim(Prod.xProd) );
     LinhaItem := Trim(Prod.cProd)+' '+
                  Descricao+' '+
-                 FormatFloat(Prod.qCom, ACBrNFeDANFCeFortes.CasasDecimais._Mask_qCom)+' '+
+                 FormatFloatBr(Prod.qCom, ACBrNFeDANFCeFortes.CasasDecimais._Mask_qCom)+' '+
                  Trim(Prod.uCom)+' X '+
-                 FormatFloat(Prod.vUnCom, ACBrNFeDANFCeFortes.CasasDecimais._Mask_vUnCom)+' ';
+                 FormatFloatBr(Prod.vUnCom, ACBrNFeDANFCeFortes.CasasDecimais._Mask_vUnCom)+' ';
 
 
     if Imposto.vTotTrib > 0 then
-      LinhaItem := LinhaItem + '('+FormatFloat(Imposto.vTotTrib,'0.00')+')* ';
+      LinhaItem := LinhaItem + '('+FormatFloatBr(Imposto.vTotTrib,'0.00')+')* ';
 
     mLinhaItem.Lines.Text := LinhaItem;
-    lTotalItem.Caption    := FormatFloat(Prod.vProd,'#,###,##0.00');
+    lTotalItem.Caption    := FormatFloatBr(Prod.vProd,'#,###,##0.00');
   end;
 end;
 
@@ -470,8 +467,8 @@ begin
 
     if PrintIt then
     begin
-      lDesconto.Caption   := FormatFloat(Prod.vDesc,'-#,###,##0.00');
-      lDescValLiq.Caption := FormatFloat(Prod.vProd-Prod.vDesc,'#,###,##0.00');
+      lDesconto.Caption   := FormatFloatBr(Prod.vDesc,'-#,###,##0.00');
+      lDescValLiq.Caption := FormatFloatBr(Prod.vProd-Prod.vDesc,'#,###,##0.00');
     end;
   end;
 end;
@@ -485,8 +482,8 @@ begin
 
     if PrintIt then
     begin
-      lOutro.Caption       := FormatFloat(Prod.vOutro,'+#,###,##0.00');
-      lOutroValLiq.Caption := FormatFloat(Prod.vProd+Prod.vOutro,'#,###,##0.00');
+      lOutro.Caption       := FormatFloatBr(Prod.vOutro,'+#,###,##0.00');
+      lOutroValLiq.Caption := FormatFloatBr(Prod.vProd+Prod.vOutro,'#,###,##0.00');
     end;
   end;
 
@@ -498,7 +495,7 @@ begin
   with ACBrNFeDANFCeFortes.FpNFe.pag.Items[fNumPagto] do
   begin
     lMeioPagamento.Caption := ACBrStr(FormaPagamentoToDescricao(tPag));
-    lPagamento.Caption     := FormatFloat(vPag,'#,###,##0.00');
+    lPagamento.Caption     := FormatFloatBr(vPag,'#,###,##0.00');
     fTotalPagto := fTotalPagto + vPag;
   end;
 end;
@@ -565,7 +562,7 @@ begin
     PrintIt := (Total.ICMSTot.vTotTrib > 0);
 
     if PrintIt then
-      lValLei12741.Caption := FormatFloat(Total.ICMSTot.vTotTrib, '#,###,##0.00');
+      lValLei12741.Caption := FormatFloatBr(Total.ICMSTot.vTotTrib, '#,###,##0.00');
   end;
 end;
 
@@ -598,7 +595,7 @@ procedure TACBrNFeDANFCeFortesFr.rlbTotalBeforePrint(Sender: TObject;
   var PrintIt: boolean);
 begin
   lQtdTotalItensVal.Caption := IntToStrZero(ACBrNFeDANFCeFortes.FpNFe.Det.Count,3);
-  lTotal.Caption := FormatFloat(ACBrNFeDANFCeFortes.FpNFe.Total.ICMSTot.vNF,'#,###,##0.00');
+  lTotal.Caption := FormatFloatBr(ACBrNFeDANFCeFortes.FpNFe.Total.ICMSTot.vNF,'#,###,##0.00');
 end;
 
 procedure TACBrNFeDANFCeFortesFr.rlbTrocoBeforePrint(Sender: TObject;
@@ -613,7 +610,7 @@ begin
     PrintIt := (Troco > 0);
 
     if PrintIt then
-      lTroco.Caption := FormatFloat(Troco,'#,###,##0.00');;
+      lTroco.Caption := FormatFloatBr(Troco,'#,###,##0.00');;
   end;
 end;
 
