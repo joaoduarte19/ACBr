@@ -47,6 +47,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+Data: 06/03/2014
+-- ACBrTEFDCliSiTEF --
+[*] Ajuste para não verificar se estado é pagamento nas consultas de CHQ, quando
+    ocorrem fora de Cupom Fiscal.
+    www.projetoacbr.com.br/forum/index.php?/topic/20302-função-consulta-cheque-sitef
+[+] Adicionada as propriedades DataHoraFiscal e DocumentoFiscal, para permitir
+    informar o mesmo valor quando se tratar de transações encadeadas
+
 Data: 20/09/2014  (por: DSA)
 -- ACBrTEFDCliSiTEF --
 [+] Adicionado suporte a propriedade "LogDebug", para gravar no Log todos os

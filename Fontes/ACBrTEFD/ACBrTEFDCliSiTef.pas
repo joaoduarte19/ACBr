@@ -775,7 +775,8 @@ var
   end ;
 
 begin
-  VerificarTransacaoPagamento( Valor );
+  if DocumentoVinculado <> '' then
+     VerificarTransacaoPagamento( Valor );
 
   Respostas.Values['501'] := ifthen(TipoPessoa = 'J','1','0');
 
