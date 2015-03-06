@@ -198,6 +198,7 @@ end;
 
 function TDFeSSL.SelecionarCertificado: String;
 begin
+  InitSSLClass;
   Result := FSSLClass.SelecionarCertificado;
 end;
 

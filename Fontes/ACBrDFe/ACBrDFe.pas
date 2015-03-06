@@ -280,7 +280,7 @@ end;
 
 procedure TACBrDFe.LerParamsIni;
 begin
-  if FPIniParams.Stream.Size = 0 then
+  if not Assigned(FPIniParams.Stream) then
   begin
     if Configuracoes.WebServices.Params.Count = 0 then
       Configuracoes.WebServices.LerParams;
