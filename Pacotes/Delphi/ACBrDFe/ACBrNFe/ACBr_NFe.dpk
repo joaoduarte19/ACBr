@@ -43,7 +43,7 @@
 |*  - Componente convertido para utilizar units do PCN
 ******************************************************************************}
 {$I ACBr.inc}
-package ACBr_NFe2;
+package ACBr_NFe;
 
 {$R *.res}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
@@ -81,19 +81,58 @@ requires
   dbrtl,
   inet,
   soaprtl,
-  ACBrComum,
-  ACBrOpenSSL,
-  ACBrCapicom,
   synapse,
-  PCN2;
+  ACBrComum,
+  PCNComum,
+  ACBrDFeComum,
+  ACBrOpenSSL,
+  ACBrCapicom;
 
 contains
-  ACBrNFeConfiguracoes in '..\..\..\Fontes\ACBrNFe2\ACBrNFeConfiguracoes.pas',
-  ACBrNFeNotasFiscais in '..\..\..\Fontes\ACBrNFe2\ACBrNFeNotasFiscais.pas',
-  ACBrNFeReg in '..\..\..\Fontes\ACBrNFe2\ACBrNFeReg.pas',
-  ACBrNFeUtil in '..\..\..\Fontes\ACBrNFe2\ACBrNFeUtil.pas',
-  ACBrNFeWebServices in '..\..\..\Fontes\ACBrNFe2\ACBrNFeWebServices.pas',
-  ACBrNFeDANFEClass in '..\..\..\Fontes\ACBrNFe2\ACBrNFeDANFEClass.pas',
-  ACBrNFe in '..\..\..\Fontes\ACBrNFe2\ACBrNFe.pas';
+  ACBrNFeConfiguracoes in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFeConfiguracoes.pas',
+  ACBrNFeNotasFiscais in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFeNotasFiscais.pas',
+  ACBrNFeReg in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFeReg.pas',
+  ACBrNFeWebServices in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFeWebServices.pas',
+  ACBrNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFe.pas',
+  pcnAdmCSCNFCe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnAdmCSCNFCe.pas',
+  pcnRetInutNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetInutNFe.pas',
+  pcnCadEmiDFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnCadEmiDFe.pas',
+  pcnCancNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnCancNFe.pas',
+  pcnCCeNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnCCeNFe.pas',
+  pcnConsCad in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnConsCad.pas',
+  pcnConsDPEC in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnConsDPEC.pas',
+  pcnConsNFeDest in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnConsNFeDest.pas',
+  pcnConsReciNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnConsReciNFe.pas',
+  pcnConsSitNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnConsSitNFe.pas',
+  pcnConsStatServ in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnConsStatServ.pas',
+  pcnConversaoNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnConversaoNFe.pas',
+  pcnDistDFeInt in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnDistDFeInt.pas',
+  pcnDownloadNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnDownloadNFe.pas',
+  pcnEnvDPEC in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnEnvDPEC.pas',
+  pcnEnvEventoNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnEnvEventoNFe.pas',
+  pcnEnvNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnEnvNFe.pas',
+  pcnEventoNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnEventoNFe.pas',
+  pcnInutNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnInutNFe.pas',
+  pcnLayoutTXT in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnLayoutTXT.pas',
+  pcnNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnNFe.pas',
+  pcnNFeR in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnNFeR.pas',
+  pcnNFeRTXT in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnNFeRTXT.pas',
+  pcnNFeW in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnNFeW.pas',
+  pcnProcNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnProcNFe.pas',
+  pcnRetAdmCSCNFCe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetAdmCSCNFCe.pas',
+  pcnRetAtuCadEmiDFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetAtuCadEmiDFe.pas',
+  pcnRetCancNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetCancNFe.pas',
+  pcnRetCCeNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetCCeNFe.pas',
+  pcnRetConsCad in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetConsCad.pas',
+  pcnRetConsNFeDest in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetConsNFeDest.pas',
+  pcnRetConsReciNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetConsReciNFe.pas',
+  pcnRetConsSitNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetConsSitNFe.pas',
+  pcnRetConsStatServ in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetConsStatServ.pas',
+  pcnRetDistDFeInt in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetDistDFeInt.pas',
+  pcnRetDownloadNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetDownloadNFe.pas',
+  pcnRetDPEC in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetDPEC.pas',
+  pcnRetEnvEventoNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetEnvEventoNFe.pas',
+  pcnRetEnvNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetEnvNFe.pas',
+  ACBrNFeDANFEClass in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\ACBrNFeDANFEClass.pas';
 
 end.
