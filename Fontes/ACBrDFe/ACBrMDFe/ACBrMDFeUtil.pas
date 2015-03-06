@@ -719,153 +719,157 @@ var
   Tipo: Integer;
   schema_filename: String;
 begin
-  Tipo := 0;
+  try
+    Tipo := 0;
+    CoInitialize(nil);
+    if pos('<aereo>', XML) <> 0
+     then begin
+      Tipo := 1;
+      XML := SeparaDados(XML, 'aereo');
+      XML := '<aereo xmlns="http://www.portalfiscal.inf.br/mdfe">' +
+              XML +
+             '</aereo>';
+     end;
+    if pos('<aquav>', XML) <> 0
+     then begin
+      Tipo := 2;
+      XML := SeparaDados(XML, 'aquav');
+      XML := '<aquav xmlns="http://www.portalfiscal.inf.br/mdfe">' +
+              XML +
+             '</aquav>';
+     end;
+    if pos('<duto>', XML) <> 0
+     then begin
+      Tipo := 3;
+      XML := SeparaDados(XML, 'duto');
+      XML := '<duto xmlns="http://www.portalfiscal.inf.br/mdfe">' +
+              XML +
+             '</duto>';
+     end;
+    if pos('<ferrov>', XML) <> 0
+     then begin
+      Tipo := 4;
+      XML := SeparaDados(XML, 'ferrov');
+      XML := '<ferrov xmlns="http://www.portalfiscal.inf.br/mdfe">' +
+              XML +
+             '</ferrov>';
+     end;
+    if pos('<rodo>', XML) <> 0
+     then begin
+      Tipo := 5;
+      XML := SeparaDados(XML, 'rodo');
+      XML := '<rodo xmlns="http://www.portalfiscal.inf.br/mdfe">' +
+              XML +
+             '</rodo>';
+     end;
 
-  if pos('<aereo>', XML) <> 0
-   then begin
-    Tipo := 1;
-    XML := SeparaDados(XML, 'aereo');
-    XML := '<aereo xmlns="http://www.portalfiscal.inf.br/mdfe">' +
-            XML +
-           '</aereo>';
-   end;
-  if pos('<aquav>', XML) <> 0
-   then begin
-    Tipo := 2;
-    XML := SeparaDados(XML, 'aquav');
-    XML := '<aquav xmlns="http://www.portalfiscal.inf.br/mdfe">' +
-            XML +
-           '</aquav>';
-   end;
-  if pos('<duto>', XML) <> 0
-   then begin
-    Tipo := 3;
-    XML := SeparaDados(XML, 'duto');
-    XML := '<duto xmlns="http://www.portalfiscal.inf.br/mdfe">' +
-            XML +
-           '</duto>';
-   end;
-  if pos('<ferrov>', XML) <> 0
-   then begin
-    Tipo := 4;
-    XML := SeparaDados(XML, 'ferrov');
-    XML := '<ferrov xmlns="http://www.portalfiscal.inf.br/mdfe">' +
-            XML +
-           '</ferrov>';
-   end;
-  if pos('<rodo>', XML) <> 0
-   then begin
-    Tipo := 5;
-    XML := SeparaDados(XML, 'rodo');
-    XML := '<rodo xmlns="http://www.portalfiscal.inf.br/mdfe">' +
-            XML +
-           '</rodo>';
-   end;
+    // Eventos
+    if pos('<evEncMDFe>', XML) <> 0
+     then begin
+      Tipo := 6;
+      XML := SeparaDados(XML, 'evEncMDFe');
+      XML := '<evEncMDFe xmlns="http://www.portalfiscal.inf.br/mdfe">' +
+              XML +
+             '</evEncMDFe>';
+     end;
+    if pos('<evCancMDFe>', XML) <> 0
+     then begin
+      Tipo := 7;
+      XML := SeparaDados(XML, 'evCancMDFe');
+      XML := '<evCancMDFe xmlns="http://www.portalfiscal.inf.br/mdfe">' +
+              XML +
+             '</evCancMDFe>';
+     end;
+    if pos('<evIncCondutorMDFe>', XML) <> 0
+     then begin
+      Tipo := 8;
+      XML := SeparaDados(XML, 'evIncCondutorMDFe');
+      XML := '<evIncCondutorMDFe xmlns="http://www.portalfiscal.inf.br/mdfe">' +
+              XML +
+             '</evIncCondutorMDFe>';
+     end;
 
-  // Eventos
-  if pos('<evEncMDFe>', XML) <> 0
-   then begin
-    Tipo := 6;
-    XML := SeparaDados(XML, 'evEncMDFe');
-    XML := '<evEncMDFe xmlns="http://www.portalfiscal.inf.br/mdfe">' +
-            XML +
-           '</evEncMDFe>';
-   end;
-  if pos('<evCancMDFe>', XML) <> 0
-   then begin
-    Tipo := 7;
-    XML := SeparaDados(XML, 'evCancMDFe');
-    XML := '<evCancMDFe xmlns="http://www.portalfiscal.inf.br/mdfe">' +
-            XML +
-           '</evCancMDFe>';
-   end;
-  if pos('<evIncCondutorMDFe>', XML) <> 0
-   then begin
-    Tipo := 8;
-    XML := SeparaDados(XML, 'evIncCondutorMDFe');
-    XML := '<evIncCondutorMDFe xmlns="http://www.portalfiscal.inf.br/mdfe">' +
-            XML +
-           '</evIncCondutorMDFe>';
-   end;
+    XML := '<?xml version="1.0" encoding="UTF-8" ?>' + XML;
 
-  XML := '<?xml version="1.0" encoding="UTF-8" ?>' + XML;
+    if Tipo = 0 then
+      raise Exception.Create('Modal não encontrado no XML.');
 
-  if Tipo = 0 then
-    raise Exception.Create('Modal não encontrado no XML.');
+    DOMDocument                  := CoDOMDocument50.Create;
+    DOMDocument.async            := False;
+    DOMDocument.resolveExternals := False;
+    DOMDocument.validateOnParse  := True;
+    DOMDocument.loadXML(XML);
 
-  DOMDocument                  := CoDOMDocument50.Create;
-  DOMDocument.async            := False;
-  DOMDocument.resolveExternals := False;
-  DOMDocument.validateOnParse  := True;
-  DOMDocument.loadXML(XML);
+    Schema := CoXMLSchemaCache50.Create;
 
-  Schema := CoXMLSchemaCache50.Create;
+    if not DirectoryExists(DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+                    PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas',
+                    PathWithDelim(APathSchemas))) then
+      raise Exception.Create('Diretório de Schemas não encontrado'+sLineBreak+
+                              DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+                              PathWithDelim(ExtractFileDir(application.ExeName))+
+                              'Schemas',PathWithDelim(APathSchemas)));
 
-  if not DirectoryExists(SeSenao(EstaVazio(APathSchemas),
-                  PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas',
-                  PathWithDelim(APathSchemas))) then
-    raise Exception.Create('Diretório de Schemas não encontrado'+sLineBreak+
-                            SeSenao(EstaVazio(APathSchemas),
-                            PathWithDelim(ExtractFileDir(application.ExeName))+
-                            'Schemas',PathWithDelim(APathSchemas)));
+    Schema.remove('http://www.portalfiscal.inf.br/mdfe');
 
-  Schema.remove('http://www.portalfiscal.inf.br/mdfe');
+    case Tipo of
+     1: begin
+         schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+            PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
+            PathWithDelim(APathSchemas))+'MDFeModalAereo_v' + MDFeModalAereo + '.xsd';
+        end;
+     2: begin
+         schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+            PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
+            PathWithDelim(APathSchemas))+'MDFeModalAquaviario_v' + MDFeModalAqua + '.xsd';
+        end;
+     3: begin
+         schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+            PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
+            PathWithDelim(APathSchemas))+'MDFeModalDutoviario_v' + MDFeModalDuto + '.xsd';
+        end;
+     4: begin
+         schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+            PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
+            PathWithDelim(APathSchemas))+'MDFeModalFerroviario_v' + MDFeModalFerro + '.xsd';
+        end;
+     5: begin
+         schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+            PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
+            PathWithDelim(APathSchemas))+'MDFeModalRodoviario_v' + MDFeModalRodo + '.xsd';
+        end;
+     6: begin
+         schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+            PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
+            PathWithDelim(APathSchemas))+'evEncMDFe_v' + MDFeModalRodo + '.xsd';
+        end;
+     7: begin
+         schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+            PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
+            PathWithDelim(APathSchemas))+'evCancMDFe_v' + MDFeModalRodo + '.xsd';
+        end;
+     8: begin
+         schema_filename := DFeUtil.SeSenao(DFeUtil.EstaVazio(APathSchemas),
+            PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
+            PathWithDelim(APathSchemas))+'evIncCondutorMDFe_v' + MDFeModalRodo + '.xsd';
+        end;
+    end;
 
-  case Tipo of
-   1: begin
-       schema_filename := SeSenao(EstaVazio(APathSchemas),
-          PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
-          PathWithDelim(APathSchemas))+'MDFeModalAereo_v' + MDFeModalAereo + '.xsd';
-      end;
-   2: begin
-       schema_filename := SeSenao(EstaVazio(APathSchemas),
-          PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
-          PathWithDelim(APathSchemas))+'MDFeModalAquaviario_v' + MDFeModalAqua + '.xsd';
-      end;
-   3: begin
-       schema_filename := SeSenao(EstaVazio(APathSchemas),
-          PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
-          PathWithDelim(APathSchemas))+'MDFeModalDutoviario_v' + MDFeModalDuto + '.xsd';
-      end;
-   4: begin
-       schema_filename := SeSenao(EstaVazio(APathSchemas),
-          PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
-          PathWithDelim(APathSchemas))+'MDFeModalFerroviario_v' + MDFeModalFerro + '.xsd';
-      end;
-   5: begin
-       schema_filename := SeSenao(EstaVazio(APathSchemas),
-          PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
-          PathWithDelim(APathSchemas))+'MDFeModalRodoviario_v' + MDFeModalRodo + '.xsd';
-      end;
-   6: begin
-       schema_filename := SeSenao(EstaVazio(APathSchemas),
-          PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
-          PathWithDelim(APathSchemas))+'evEncMDFe_v' + MDFeModalRodo + '.xsd';
-      end;
-   7: begin
-       schema_filename := SeSenao(EstaVazio(APathSchemas),
-          PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
-          PathWithDelim(APathSchemas))+'evCancMDFe_v' + MDFeModalRodo + '.xsd';
-      end;
-   8: begin
-       schema_filename := SeSenao(EstaVazio(APathSchemas),
-          PathWithDelim(ExtractFileDir(application.ExeName))+'Schemas\',
-          PathWithDelim(APathSchemas))+'evIncCondutorMDFe_v' + MDFeModalRodo + '.xsd';
-      end;
+   if not FilesExists(schema_filename) then
+      raise Exception.Create('Arquivo ' + schema_filename + ' não encontrado');
+
+    Schema.add('http://www.portalfiscal.inf.br/mdfe', schema_filename);
+
+    DOMDocument.schemas := Schema;
+    ParseError          := DOMDocument.validate;
+    Result              := (ParseError.errorCode = 0);
+    Msg                 := ParseError.reason;
+    DOMDocument         := nil;
+    ParseError          := nil;
+    Schema              := nil;
+  finally
+    CoUninitialize;
   end;
-
- if not FilesExists(schema_filename) then
-    raise Exception.Create('Arquivo ' + schema_filename + ' não encontrado');
-
-  Schema.add('http://www.portalfiscal.inf.br/mdfe', schema_filename);
-
-  DOMDocument.schemas := Schema;
-  ParseError          := DOMDocument.validate;
-  Result              := (ParseError.errorCode = 0);
-  Msg                 := ParseError.reason;
-  DOMDocument         := nil;
-  ParseError          := nil;
-  Schema              := nil;
 end;
 
 function ValidaAssinaturaMSXML(XML: AnsiString; out Msg: AnsiString): Boolean;

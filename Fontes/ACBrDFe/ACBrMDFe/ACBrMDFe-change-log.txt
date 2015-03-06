@@ -48,7 +48,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 06/03/2015
+[*] inclusão do CoInitialize no ValidaModalMSXML.
+    por: Rafael Dal Bosco
 [*] Alteração visando corrigir a leitura da UF do veículo Tração e Reboque.
+    por: Italo Jurisato Junior
+
+24/02/2015
+[*] Otimização de código.
     por: Italo Jurisato Junior
 
 21/02/2015
