@@ -193,13 +193,13 @@ begin
         MDFe.rodo.veicTracao.tpRod   := StrToTpRodado(ok, Leitor.rCampo(tcStr, 'tpRod'));
         MDFe.rodo.veicTracao.tpCar   := StrToTpCarroceria(ok, Leitor.rCampo(tcStr, 'tpCar'));
 
-        // Alterado por Italo em 31/01/2015
         if pos('<prop>', Leitor.Grupo) = 0 then
           MDFe.rodo.veicTracao.UF := Leitor.rCampo(tcStr, 'UF')
         else
-          MDFe.rodo.veicTracao.UF := copy(Leitor.rExtrai(3, 'UF', '', 2), 5, 2);
+          MDFe.rodo.veicTracao.UF := copy(Leitor.Grupo, (Pos('</tpCar>', Leitor.Grupo)+12), 2);
+//          MDFe.rodo.veicTracao.UF := copy(Leitor.rExtrai(3, 'UF', '', 2), 5, 2);
 
-        if Leitor.rExtrai(3, 'prop') <> '' then
+        if Leitor.rExtrai(4, 'prop') <> '' then
         begin
           MDFe.rodo.veicTracao.prop.CNPJCPF := Leitor.rCampoCNPJCPF;
           MDFe.rodo.veicTracao.prop.RNTRC   := Leitor.rCampo(tcStr, 'RNTRC');
@@ -210,7 +210,7 @@ begin
         end;
 
         i01 := 0;
-        while Leitor.rExtrai(3, 'condutor', '', i01 + 1) <> '' do
+        while Leitor.rExtrai(4, 'condutor', '', i01 + 1) <> '' do
         begin
           MDFe.rodo.veicTracao.condutor.Add;
           MDFe.rodo.veicTracao.condutor[i01].xNome := Leitor.rCampo(tcStr, 'xNome');
@@ -231,13 +231,13 @@ begin
         MDFe.Rodo.veicReboque[i01].capM3   := Leitor.rCampo(tcInt, 'capM3');
         MDFe.rodo.veicReboque[i01].tpCar   := StrToTpCarroceria(ok, Leitor.rCampo(tcStr, 'tpCar'));
 
-        // Alterado por Italo em 31/01/2015
         if pos('<prop>', Leitor.Grupo) = 0 then
           MDFe.rodo.veicReboque[i01].UF := Leitor.rCampo(tcStr, 'UF')
         else
-          MDFe.rodo.veicReboque[i01].UF := copy(Leitor.rExtrai(3, 'UF', '', 2), 5, 2);
+          MDFe.rodo.veicReboque[i01].UF := copy(Leitor.Grupo, (Pos('</tpCar>', Leitor.Grupo)+12), 2);
+//          MDFe.rodo.veicReboque[i01].UF := copy(Leitor.rExtrai(3, 'UF', '', 2), 5, 2);
 
-        if Leitor.rExtrai(3, 'prop') <> '' then
+        if Leitor.rExtrai(4, 'prop') <> '' then
         begin
           MDFe.rodo.veicReboque[i01].prop.CNPJCPF := Leitor.rCampoCNPJCPF;
           MDFe.rodo.veicReboque[i01].prop.RNTRC   := Leitor.rCampo(tcStr, 'RNTRC');

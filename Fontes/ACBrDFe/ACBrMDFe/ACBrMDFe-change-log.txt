@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+06/03/2015
+[*] Alteração visando corrigir a leitura da UF do veículo Tração e Reboque.
+    por: Italo Jurisato Junior
+
 21/02/2015
 [-] Incluido o Status 132 ao realizar uma consulta de um MDF-e.
     por: Italo Jurisato Junior
