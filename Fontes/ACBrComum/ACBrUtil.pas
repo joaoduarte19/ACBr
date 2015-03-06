@@ -1047,7 +1047,7 @@ end ;
  ---------------------------------------------------------------------------- }
 function FormatFloatBr(const AValue: Extended; AFormat: String): String;
 Var
-  {$IFDEF DELPHI15_UP}
+  {$IFDEF HAS_FORMATSETTINGS}
   FS: TFormatSettings;
   {$ELSE}
   OldDecimalSeparator, OldThousandSeparator : Char ;
@@ -1056,7 +1056,7 @@ begin
   if AFormat = '' then
      AFormat := '0.00';
 
-  {$IFDEF DELPHI15_UP}
+  {$IFDEF HAS_FORMATSETTINGS}
   FS.DecimalSeparator := ',';
   FS.ThousandSeparator := '.';
   Result := FormatFloat(AFormat, AValue, FS);
@@ -1093,7 +1093,7 @@ var
 begin
   NumString := Trim( NumString ) ;
 
-  DS := {$IFDEF DELPHI15_UP}FormatSettings.{$ENDIF}DecimalSeparator;
+  DS := {$IFDEF HAS_FORMATSETTINGS}FormatSettings.{$ENDIF}DecimalSeparator;
 
   if DS <> '.' then
      NumString := StringReplace(NumString,'.',DS,[rfReplaceAll]) ;
@@ -1132,8 +1132,8 @@ begin
   else
     Result := FormatFloat(AFormat, AValue);
 
-  DS := {$IFDEF DELPHI15_UP}FormatSettings.{$ENDIF}DecimalSeparator;
-  TS := {$IFDEF DELPHI15_UP}FormatSettings.{$ENDIF}ThousandSeparator;
+  DS := {$IFDEF HAS_FORMATSETTINGS}FormatSettings.{$ENDIF}DecimalSeparator;
+  TS := {$IFDEF HAS_FORMATSETTINGS}FormatSettings.{$ENDIF}ThousandSeparator;
 
   // Removendo Separador de milhar //
   Result := StringReplace(Result, TS, '', [rfReplaceAll]);
@@ -1168,7 +1168,7 @@ end;
 
 function FormatDateTimeBr(const ADate: TDateTime; AFormat: String): String;
 Var
-  {$IFDEF DELPHI15_UP}
+  {$IFDEF HAS_FORMATSETTINGS}
   FS: TFormatSettings;
   {$ELSE}
   OldDateSeparator: Char ;
@@ -1178,7 +1178,7 @@ begin
   if AFormat = '' then
      AFormat := 'DD/MM/YYYY hh:nn:ss';
 
-  {$IFDEF DELPHI15_UP}
+  {$IFDEF HAS_FORMATSETTINGS}
   FS.DateSeparator := '/';
   FS.TimeSeparator := ':';
   Result := FormatDateTime(AFormat, ADate, FS);
@@ -1205,13 +1205,13 @@ function StringToDateTime(const DateTimeString : String ; const Format : String
    ) : TDateTime ;
 Var
   AStr : String;
-  {$IFDEF DELPHI15_UP}
+  {$IFDEF HAS_FORMATSETTINGS}
   FS: TFormatSettings;
   {$ELSE}
   OldShortDateFormat: String ;
   {$ENDIF}
 begin
-  {$IFDEF DELPHI15_UP}
+  {$IFDEF HAS_FORMATSETTINGS}
   if Format <> '' then
      FS.ShortDateFormat := Format
   else

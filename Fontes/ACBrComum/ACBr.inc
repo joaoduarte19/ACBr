@@ -82,6 +82,7 @@
   {$DEFINE UNICODE} // Lazarus 0.9.26 usa UnicodeString como default para String
   {$DEFINE DELPHI7}
   {$DEFINE COMPILER7}
+  {$DEFINE HAS_FORMATSETTINGS}
   {$H+}
 {$ELSE}
   {$DEFINE BORLAND}
@@ -91,6 +92,10 @@
 // da jedi, essa mudança permite uma evolução melhor do arquivo.
 //------------------------------------------------------------------------------
 {$I ACBr_jedi.inc}
+
+{$IFDEF DELPHI15_UP}
+  {$DEFINE HAS_FORMATSETTINGS}
+{$ENDIF}
 
 // Para usar CLX no Windows / Delphi descomente essa linha
 //------------------------------------------------------------------------------
