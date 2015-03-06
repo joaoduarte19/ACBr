@@ -41,7 +41,7 @@ unit ACBrDFeConfiguracoes;
 interface
 
 uses
-  Classes, SysUtils, pcnConversao;
+  Classes, SysUtils, types, pcnConversao;
 
 type
 
@@ -458,9 +458,19 @@ begin
 end;
 
 function TWebServicesConf.LerParamsInterno: AnsiString;
+var
+  RS: TResourceStream;
 begin
-  { SOBRESCREVER NAS CLASSES FILHAS, informando o conteudo DEFAULT do arquivo }
   Result := '';
+
+  RS := TResourceStream.Create(HInstance, 'ACBrServicos', RT_RCDATA);
+  Try
+    RS.Position := 0;
+    SetLength(Result, RS.Size);
+    RS.ReadBuffer(Result[1], RS.Size);
+  finally
+    RS.Free ;
+  end ;
 end;
 
 procedure TWebServicesConf.SetTentativas(const Value: integer);

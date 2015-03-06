@@ -174,6 +174,12 @@ uses strutils, dateutils,
   pcnAuxiliar,
   ACBrEAD;
 
+{$IFDEF FPC}
+ {$R ACBrNFeServicos.rc}
+{$ELSE}
+ {$R ACBrNFeServicos.res ACBrNFeServicos.rc}
+{$ENDIF}
+
 { TACBrNFe }
 
 constructor TACBrNFe.Create(AOwner: TComponent);
@@ -466,7 +472,7 @@ begin
     Configuracoes.WebServices.Ambiente, LayOutToServico(LayOutServico),
     VersaoDFToDbl(Configuracoes.Geral.VersaoDF));
 
-  Result := FormatFloat('0.00', Versao);
+  Result := FloatToString(Versao,'.','0.00');
 end;
 
 function TACBrNFe.LerURLDeParams(LayOutServico: TLayOut): String;
@@ -831,7 +837,6 @@ begin
 
   inherited;
 end;
-
 
 end.
 (*  TODO: Verificar se precisa

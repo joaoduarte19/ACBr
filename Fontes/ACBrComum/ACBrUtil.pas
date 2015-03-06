@@ -155,7 +155,8 @@ function Poem_Zeros(const NumInteiro : Int64 ; Tamanho : Integer) : String ; ove
 
 Function IntToStrZero(const NumInteiro : Int64; Tamanho : Integer) : String;
 function FloatToIntStr(const AValue: Double; const DecimalDigits: SmallInt = 2): String;
-function FloatToString(const AValue: Double; SeparadorDecimal: String = '.'): String;
+function FloatToString(const AValue: Double; SeparadorDecimal: Char = '.';
+  AFormat: String = ''): String;
 function FormatFloatBr(const AValue: Extended; AFormat: String = ''): String;
 function FloatMask(const DecimalDigits: SmallInt = 2): String;
 Function StringToFloat( NumString : String ) : Double ;
@@ -1121,15 +1122,25 @@ end;
   garante que não haverá sepeador de Milhar e o Separador Decimal será igual a
   "SeparadorDecimal" ( o default é .(ponto))
  ---------------------------------------------------------------------------- }
-function FloatToString(const AValue: Double; SeparadorDecimal: String): String;
+function FloatToString(const AValue: Double; SeparadorDecimal: Char;
+  AFormat: String): String;
+var
+  DS, TS: Char;
 begin
-  Result := FloatToStr(AValue);
-  Result := StringReplace(Result,
-                          {$IFDEF DELPHI15_UP}FormatSettings.{$ENDIF}ThousandSeparator,
-                          '', [rfReplaceAll]);
-  Result := StringReplace(Result,
-                          {$IFDEF DELPHI15_UP}FormatSettings.{$ENDIF}DecimalSeparator,
-                          SeparadorDecimal, [rfReplaceAll]);
+  if EstaVazio(AFormat) then
+    Result := FloatToStr(AValue)
+  else
+    Result := FormatFloat(AFormat, AValue);
+
+  DS := {$IFDEF DELPHI15_UP}FormatSettings.{$ENDIF}DecimalSeparator;
+  TS := {$IFDEF DELPHI15_UP}FormatSettings.{$ENDIF}ThousandSeparator;
+
+  // Removendo Separador de milhar //
+  Result := StringReplace(Result, TS, '', [rfReplaceAll]);
+
+  // Verificando se precisa mudar Separador decimal //
+  if DS <> SeparadorDecimal then
+    Result := StringReplace(Result, DS, SeparadorDecimal, [rfReplaceAll]);
 end;
 
 {-----------------------------------------------------------------------------

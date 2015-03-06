@@ -90,6 +90,7 @@ type
   protected
     FPConfiguracoes: TConfiguracoes;
     FPIniParams: TMemIniFile;
+    FPIniParamsCarregado: Boolean;
 
     function GetAbout: String; virtual;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
@@ -97,7 +98,7 @@ type
     function GetNomeArquivoServicos: String; virtual;
     function CreateConfiguracoes: TConfiguracoes; virtual;
 
-    procedure LerParamsIni; virtual;
+    procedure LerParamsIni( ApenasSeNaoLido: Boolean = False); virtual;
 
   public
     property SSL: TDFeSSL read FSSL;
@@ -185,6 +186,7 @@ begin
   FOnGerarLog := nil;
 
   FPIniParams := TMemIniFile.Create(Configuracoes.Arquivos.IniServicos);
+  FPIniParamsCarregado := False;
 end;
 
 function TACBrDFe.CreateConfiguracoes: TConfiguracoes;
@@ -278,15 +280,16 @@ begin
     'GetNomeArquivoServicos não implementado para: ' + ClassName);
 end;
 
-procedure TACBrDFe.LerParamsIni;
+procedure TACBrDFe.LerParamsIni(ApenasSeNaoLido: Boolean);
 begin
-  if not Assigned(FPIniParams.Stream) then
-  begin
-    if Configuracoes.WebServices.Params.Count = 0 then
-      Configuracoes.WebServices.LerParams;
+  if ApenasSeNaoLido and FPIniParamsCarregado then
+    exit;
 
-    FPIniParams.SetStrings(Configuracoes.WebServices.Params);
-  end;
+  if Configuracoes.WebServices.Params.Count = 0 then
+    Configuracoes.WebServices.LerParams;
+
+  FPIniParams.SetStrings(Configuracoes.WebServices.Params);
+  FPIniParamsCarregado := True;
 end;
 
 procedure TACBrDFe.LerServicoDeParams(const ModeloDFe, UF: String;
@@ -301,14 +304,14 @@ begin
   VersaoAchada := 0;
   URL := '';
   VersaoAtual := Versao;
-  LerParamsIni;
+  LerParamsIni( True );
 
-  Sessao := ModeloDFe + '_' + UF + IfThen(TipoAmbiente = taProducao, 'P', 'H');
+  Sessao := ModeloDFe + '_' + UF + '_' + IfThen(TipoAmbiente = taProducao, 'P', 'H');
 
   if not FPIniParams.SectionExists(Sessao) then
     exit;
 
-  Chave := NomeServico + '_' + FormatFloat('0.00', VersaoAtual);
+  Chave := NomeServico + '_' + FloatToString(VersaoAtual,'.','0.00');
 
   // Achou com busca exata ? (mesma versao) //
   if NaoEstaVazio(FPIniParams.ReadString(Sessao, Chave, '')) then
@@ -327,7 +330,7 @@ begin
 
         if copy(K, 1, Length(Chave)) = Chave then
         begin
-          VersaoAtual := StrToFloatDef(copy(K, Length(Chave) + 1, Length(K)), 0);
+          VersaoAtual := StringToFloatDef(copy(K, Length(Chave) + 1, Length(K)), 0);
 
           if (VersaoAtual > VersaoAchada) and (VersaoAtual <= Versao) then
           begin
@@ -369,6 +372,8 @@ var
 begin
   Versao := VersaoBase;
   URL := '';
+
+  // TODO: Fazer mecanismo de Cache, pois está lendo muitas vezes para a mesma consulta
 
   LerServicoDeParams(ModeloDFe, UF, TipoAmbiente, NomeServico, Versao, URL);
   Result := URL;

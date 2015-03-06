@@ -37,18 +37,6 @@
 |* sox*.rpm  -  http://sox.sourceforge.net
 ******************************************************************************}
 
-{******************************************************************************
-|* Historico
-|*
-|* 23/02/2006:  Vinicius de Oliveira
-|*   Primeira Versao: Criaçao e Distribuiçao da Primeira Versao FalaValor
-|* 04/03/2006:  Daniel Simões de Almeida
-|*   - Modificado FalaValor para ACBrFala
-|*   - Adicionado suporte a Kylix e Lazarus (Win32 / Linux)
-|* 30/09/2006:  Daniel Simões de Almeida
-|*   - Corrigido Bug na fala de Valores com apenas centavos
-******************************************************************************}
-
 {$I ACBr.inc}
 
 unit ACBrFala;
@@ -219,7 +207,7 @@ begin
         begin
            LastFile := SearchRec.Name ;
            if (pos(LastFile, '..') = 0) then   { ignora . e .. }
-	          {$IFNDEF COMPILER6_UP}
+	      {$IFNDEF COMPILER6_UP}
               if FIgnorarCaixa then
                  FListaArquivos.Add(LowerCase(Trim(LastFile))) ;
               {$ELSE}

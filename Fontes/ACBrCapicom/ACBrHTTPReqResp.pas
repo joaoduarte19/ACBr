@@ -367,7 +367,7 @@ begin
 
             Ok := True;
 
-            //TODO: Tratar a resposta abaixo, ler o conteudo do documento
+            //TODO: Tratar a resposta abaixo, ler o conteudo do documento... Precisa ????
 
             //          if Pos('<TITLE',UpperCase(Result)) > 0 then
             //          begin
