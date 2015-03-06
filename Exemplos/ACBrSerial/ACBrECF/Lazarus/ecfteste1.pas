@@ -10,7 +10,7 @@ uses
   ExtCtrls, ComCtrls, Spin, EditBtn, DBGrids, DbCtrls, memds, db, IniFiles,
   ACBrECFVirtualSAT, ACBrSAT, ACBrSATClass, ACBrSATExtratoFortesFr,
   ACBrSATExtratoESCPOS, pcnCFe, ACBrECFVirtualNFCe, ACBrNFe, ACBrNFeDANFeESCPOS,
-  ACBrDANFCeFortesFr, pcnNFe, ACBrECFVirtual, ACBrNFeUtil;
+  ACBrDANFCeFortesFr, pcnNFe, ACBrECFVirtual;
 
 type
   TSimpleIpHtml = class(TIpHtml)
@@ -916,7 +916,8 @@ implementation
 
 uses ACBrUtil, ACBrECFBematech, VendeItem, EfetuaPagamento, Relatorio, Sobre,
   Math, strutils, Printers, ConfiguraSerial, uDAV, uDAVOS,
-  RelatorioGerencialFormatado, ACBrPAFClass, typinfo, pcnConversao, LazLogger;
+  RelatorioGerencialFormatado, ACBrPAFClass, typinfo, pcnConversao,
+  pcnConversaoNFe;
      
 procedure TForm1.FormCreate(Sender: TObject);
 Var
@@ -1753,7 +1754,7 @@ begin
     Ide.tpNF      := tnSaida;
     Ide.tpEmis    := teNormal;
     Ide.tpAmb     := taHomologacao;  //Lembre-se de trocar esta variável quando for para ambiente de produção
-    Ide.cUF       := NotaUtil.UFtoCUF(edtEmitUF.Text);
+    Ide.cUF       := UFtoCUF(edtEmitUF.Text);
     Ide.cMunFG    := StrToInt(edtEmitCodCidade.Text);
     Ide.finNFe    := fnNormal;
     Ide.tpImp     := tiNFCe;
@@ -3207,14 +3208,7 @@ end;
 
 procedure TForm1.sbtnGetCertClick(Sender: TObject);
 begin
-  {$IFNDEF ACBrNFeOpenSSL}
-  try
-  edtNumSerie.Text := ACBrNFe1.Configuracoes.Certificados.SelecionarCertificado;
-  except
-    on e: Exception do
-       MessageDlg('Erro', e.Message, mtError, [mbOK], '');
-  end;
-  {$ENDIF}
+  edtNumSerie.Text := ACBrNFe1.SSL.SelecionarCertificado;
 end;
 
 procedure TForm1.sbtnLogoMarcaClick(Sender: TObject);
@@ -5031,7 +5025,7 @@ begin
       edtPathLogs.Text    := Ini.ReadString( 'Geral','PathSalvar'  ,'') ;
       ACBrNFe1.Configuracoes.Geral.FormaEmissao := StrToTpEmis(OK,IntToStr(rgFormaEmissao.ItemIndex+1));
       ACBrNFe1.Configuracoes.Geral.Salvar       := ckSalvar.Checked;
-      ACBrNFe1.Configuracoes.Geral.PathSalvar   := edtPathLogs.Text;
+      ACBrNFe1.Configuracoes.Arquivos.PathSalvar:= edtPathLogs.Text;
 
       cbUF.ItemIndex       := cbUF.Items.IndexOf(Ini.ReadString( 'WebService','UF','SP')) ;
       rgTipoAmb.ItemIndex  := Ini.ReadInteger( 'WebService','Ambiente'  ,0) ;

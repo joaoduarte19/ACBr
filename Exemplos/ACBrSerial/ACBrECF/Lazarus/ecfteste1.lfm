@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 670
+  Left = 648
   Height = 418
-  Top = 262
+  Top = 243
   Width = 641
   Caption = 'Teste de Impressora Fiscal'
   ClientHeight = 398
@@ -5016,16 +5016,13 @@ object Form1: TForm1
     top = 136
   end
   object ACBrNFe1: TACBrNFe
-    Configuracoes.Geral.PathSalvar = 'C:\lazarus\'
+    Configuracoes.Geral.SSLLib = libCapicom
     Configuracoes.Geral.ExibirErroSchema = True
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
     Configuracoes.Geral.RetirarAcentos = True
-    Configuracoes.Geral.IniFinXMLSECAutomatico = True
     Configuracoes.Geral.ValidarDigest = False
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 0
-    Configuracoes.WebServices.IntervaloTentativas = 0
-    Configuracoes.WebServices.AjustaAguardaConsultaRet = False
     DANFE = ACBrNFeDANFeESCPOS1
     left = 336
     top = 136
