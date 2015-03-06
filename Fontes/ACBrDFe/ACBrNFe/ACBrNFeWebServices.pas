@@ -738,8 +738,6 @@ begin
   FPConfiguracoesNFe := TConfiguracoesNFe(FPConfiguracoes);
   FPLayout := LayNfeStatusServico;
   FPStatus := stIdle;
-
-  ConfigurarSoapDEPC;
 end;
 
 procedure TNFeWebService.ConfigurarSoapDEPC;

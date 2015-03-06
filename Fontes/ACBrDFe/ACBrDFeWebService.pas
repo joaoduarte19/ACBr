@@ -72,7 +72,7 @@ type
     FPServico: String;
     FPSoapAction: String;
   protected
-    procedure FazerLog(Msg: AnsiString; Exibir: Boolean = False); virtual;
+    procedure FazerLog(Msg: String; Exibir: Boolean = False); virtual;
     procedure GerarException(Msg: String); virtual;
 
     procedure InicializarServico; virtual;
@@ -362,12 +362,14 @@ begin
   GerarException('TratarResposta não implementado para: ' + ClassName);
 end;
 
-procedure TDFeWebService.FazerLog(Msg: AnsiString; Exibir: Boolean);
+procedure TDFeWebService.FazerLog(Msg: String; Exibir: Boolean);
 var
   Tratado: Boolean;
 begin
   if (Msg <> '') then
   begin
+    Msg := ACBrStr(Msg);
+
     FPDFeOwner.FazerLog(Msg, Tratado);
 
     if Tratado then

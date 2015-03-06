@@ -29,7 +29,8 @@ requires
   rtl,
   vcl,
   ACBrSerial,
-  ACBr_SAT;
+  ACBr_SAT,
+  ACBrDFeComum;
 
 contains
   ACBrSATExtratoESCPOS in '..\..\..\..\..\Fontes\ACBrSAT\Extrato\EscPos\ACBrSATExtratoESCPOS.pas';

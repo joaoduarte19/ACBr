@@ -129,7 +129,7 @@ type
       const TipoAmbiente: TpcnTipoAmbiente; const NomeServico: String;
       VersaoBase: Double): String; virtual;
 
-    procedure FazerLog(const Msg: AnsiString; out Tratado: Boolean);
+    procedure FazerLog(const Msg: String; out Tratado: Boolean);
     procedure GerarException(Msg: String);
     property Configuracoes: TConfiguracoes read FPConfiguracoes write FPConfiguracoes;
 
@@ -243,7 +243,7 @@ begin
     if EstaVazio(SoPath) then
       SoPath := FPConfiguracoes.Arquivos.PathSalvar;
 
-    aPath := PathWithDelim(aPath);
+    SoPath := PathWithDelim(SoPath);
 
     ConteudoXML := StringReplace(ConteudoXML, '<-><->', '', [rfReplaceAll]);
     { Sempre salva o Arquivo em UTF8, independente de qual seja a IDE...
@@ -380,7 +380,7 @@ begin
 end;
 
 
-procedure TACBrDFe.FazerLog(const Msg: AnsiString; out Tratado: Boolean);
+procedure TACBrDFe.FazerLog(const Msg: String; out Tratado: Boolean);
 begin
   Tratado := False;
   if (Msg <> '') then

@@ -99,7 +99,7 @@ type
     FRetMDFeDFe: AnsiString;
   protected
     procedure AssinarXML(AXML: String; MsgErro: String);
-    procedure FazerLog(Msg: AnsiString; Exibir: Boolean = False);
+    procedure FazerLog(Msg: String; Exibir: Boolean = False);
     procedure GerarException(Msg: AnsiString);
   protected
     procedure InicializarServico; virtual;
@@ -892,7 +892,7 @@ begin
   Result := False;
 end;
 
-procedure TWebServicesBase.FazerLog(Msg: AnsiString; Exibir: Boolean);
+procedure TWebServicesBase.FazerLog(Msg: String; Exibir: Boolean);
 begin
   if (Msg <> '') then
   begin

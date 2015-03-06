@@ -1854,9 +1854,11 @@ object Form1: TForm1
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
     Configuracoes.Geral.RetirarAcentos = True
     Configuracoes.Geral.ValidarDigest = False
+    Configuracoes.Arquivos.Salvar = True
     Configuracoes.WebServices.Visualizar = True
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 0
+    Configuracoes.WebServices.Salvar = True
     DANFE = ACBrNFeDANFeRL1
     left = 496
     top = 416
