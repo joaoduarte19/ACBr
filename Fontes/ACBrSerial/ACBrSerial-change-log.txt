@@ -97,7 +97,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
-Data: 20/05/2015
+Data: 06/03/2015
+-- ACBrECFDaruma --
+[*] Ajuste no método: MudaHorarioVerao para compatibilizar com protocolo novo
+    em modelos mais recentes (por: jperim)
+    http://www.projetoacbr.com.br/forum/index.php?showtopic=20198
+
+Data: 20/02/2015
 -- ACBrECFBematech --  (por: DSA)
 [+] Ajuste para permitir a identificação do consumidor no Rodapé, conforme
     instruções do suporte da Bematech

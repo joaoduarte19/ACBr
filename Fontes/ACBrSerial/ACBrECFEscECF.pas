@@ -244,7 +244,7 @@ TACBrECFEscECF = class( TACBrECFClass )
     }
     function GetNumCOOInicial: String; override ;
 
-    { TODO (não encontrado): function GetNumUltimoItem: Integer; override ;}
+    function GetNumUltimoItem: Integer; override ;
 
     function GetDadosUltimaReducaoZ: AnsiString; override ;
 
@@ -2842,6 +2842,15 @@ function TACBrECFEscECF.GetNumCOOInicial: String;
 begin
   RetornaInfoECF( '8' ) ;
   Result := EscECFResposta.Params[2] ;
+end;
+
+function TACBrECFEscECF.GetNumUltimoItem: Integer;
+begin
+  try
+    Result := RespostasComando.FieldByName('NumUltItem').AsInteger;
+  except
+    Result := 0;
+  end ;
 end;
 
 function TACBrECFEscECF.GetDadosUltimaReducaoZ : AnsiString ;

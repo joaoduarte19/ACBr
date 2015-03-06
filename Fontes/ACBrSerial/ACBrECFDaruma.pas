@@ -1949,7 +1949,11 @@ procedure TACBrECFDaruma.MudaHorarioVerao(EHorarioVerao: Boolean);
  Var FlagVerao : String ;
 begin
   If EHorarioVerao then FlagVerao := '1' else FlagVerao := '0' ;
-  EnviaComando(ESC + #228 + 'XXXXX' + FlagVerao + StringOfChar('X',34) ) ;
+
+  if ( fsModeloDaruma >= fs600) then
+    EnviaComando(FS + 'C' + #200 + FlagVerao )
+  else
+    EnviaComando(ESC + #228 + 'XXXXX' + FlagVerao + StringOfChar('X',34) ) ;
 end;
 
 procedure TACBrECFDaruma.MudaArredondamento(Arredondar: Boolean);

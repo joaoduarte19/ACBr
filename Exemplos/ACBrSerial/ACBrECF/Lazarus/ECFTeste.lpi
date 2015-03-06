@@ -107,52 +107,55 @@
         <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="14">
+    <RequiredPackages Count="15">
       <Item1>
-        <PackageName Value="ACBr_NFCe_DanfeRL"/>
+        <PackageName Value="ACBr_NFe_DanfeESCPOS"/>
       </Item1>
       <Item2>
-        <PackageName Value="acbr_nfce_ecfvirtual"/>
+        <PackageName Value="ACBr_NFCe_DanfeRL"/>
       </Item2>
       <Item3>
-        <PackageName Value="ACBr_SAT_Extrato_ESCPOS"/>
+        <PackageName Value="acbr_nfce_ecfvirtual"/>
       </Item3>
       <Item4>
-        <PackageName Value="ACBr_SAT_Extrato_Fortes"/>
+        <PackageName Value="ACBr_SAT_Extrato_ESCPOS"/>
       </Item4>
       <Item5>
-        <PackageName Value="ACBr_SAT"/>
+        <PackageName Value="ACBr_SAT_Extrato_Fortes"/>
       </Item5>
       <Item6>
-        <PackageName Value="ACBr_SAT_ECFVirtual"/>
+        <PackageName Value="ACBr_SAT"/>
       </Item6>
       <Item7>
-        <PackageName Value="ACBrDiversos"/>
+        <PackageName Value="ACBr_SAT_ECFVirtual"/>
       </Item7>
       <Item8>
-        <PackageName Value="ACBrComum"/>
+        <PackageName Value="ACBrDiversos"/>
       </Item8>
       <Item9>
-        <PackageName Value="FCL"/>
-        <MinVersion Major="1" Release="1" Valid="True"/>
+        <PackageName Value="ACBrComum"/>
       </Item9>
       <Item10>
-        <PackageName Value="MemDSLaz"/>
-        <MinVersion Major="1" Minor="2" Release="1" Valid="True"/>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Release="1" Valid="True"/>
       </Item10>
       <Item11>
-        <PackageName Value="LCLBase"/>
-        <MinVersion Major="1" Release="1" Valid="True"/>
+        <PackageName Value="MemDSLaz"/>
+        <MinVersion Major="1" Minor="2" Release="1" Valid="True"/>
       </Item11>
       <Item12>
-        <PackageName Value="ACBrSerial"/>
+        <PackageName Value="LCLBase"/>
+        <MinVersion Major="1" Release="1" Valid="True"/>
       </Item12>
       <Item13>
-        <PackageName Value="LCL"/>
+        <PackageName Value="ACBrSerial"/>
       </Item13>
       <Item14>
-        <PackageName Value="TurboPowerIPro"/>
+        <PackageName Value="LCL"/>
       </Item14>
+      <Item15>
+        <PackageName Value="TurboPowerIPro"/>
+      </Item15>
     </RequiredPackages>
     <Units Count="10">
       <Unit0>
