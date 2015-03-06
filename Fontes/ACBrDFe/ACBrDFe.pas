@@ -130,9 +130,9 @@ type
 
     procedure FazerLog(const Msg: AnsiString; out Tratado: Boolean);
     procedure GerarException(Msg: String);
+    property Configuracoes: TConfiguracoes read FPConfiguracoes write FPConfiguracoes;
 
   published
-    property Configuracoes: TConfiguracoes read FPConfiguracoes write FPConfiguracoes;
     property MAIL: TACBrMail read FMAIL write SetMAIL;
     property OnStatusChange: TNotifyEvent read FOnStatusChange write FOnStatusChange;
     property About: String read GetAbout write SetAbout stored False;
@@ -179,6 +179,7 @@ begin
   FPConfiguracoes.SetSubComponent(True);{ para gravar no DFM/XFM }
   {$ENDIF}
 
+  FMAIL := nil;
   FSSL := TDFeSSL.Create(Self);
   FEAD := TACBrEAD.Create(Self);
   FOnGerarLog := nil;
@@ -219,7 +220,7 @@ end;
 
 procedure TACBrDFe.SetAbout(AValue: String);
 begin
-
+  {nada aqui}
 end;
 
 

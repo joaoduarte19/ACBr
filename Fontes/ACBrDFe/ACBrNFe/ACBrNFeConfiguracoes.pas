@@ -110,17 +110,20 @@ type
 
   TConfiguracoesNFe = class(TConfiguracoes)
   private
-    FGeral: TGeralConfNFe;
-    FArquivos: TArquivosConfNFe;
+    function GetArquivos: TArquivosConfNFe;
+    function GetGeral: TGeralConfNFe;
   protected
-    function CreateGeralConf: TGeralConf; override;
-    function CreateArquivosConf: TArquivosConf; override;
+    procedure CreateGeralConf; override;
+    procedure CreateArquivosConf; override;
 
   public
     constructor Create(AOwner: TComponent); override;
+
   published
-    property Geral: TGeralConfNFe read FGeral;
-    property Arquivos: TArquivosConfNFe read FArquivos;
+    property Geral: TGeralConfNFe read GetGeral;
+    property Arquivos: TArquivosConfNFe read GetArquivos;
+    property WebServices;
+    property Certificados;
   end;
 
 implementation
@@ -137,14 +140,24 @@ begin
   inherited Create(AOwner);
 end;
 
-function TConfiguracoesNFe.CreateGeralConf: TGeralConf;
+function TConfiguracoesNFe.GetArquivos: TArquivosConfNFe;
 begin
-  Result := TGeralConfNFe.Create(Self);
+  Result := TArquivosConfNFe(FPArquivos);
 end;
 
-function TConfiguracoesNFe.CreateArquivosConf: TArquivosConf;
+function TConfiguracoesNFe.GetGeral: TGeralConfNFe;
 begin
-  Result := TArquivosConfNFe.Create(self);
+  Result := TGeralConfNFe(FPGeral);
+end;
+
+procedure TConfiguracoesNFe.CreateGeralConf;
+begin
+  FPGeral := TGeralConfNFe.Create(Self);
+end;
+
+procedure TConfiguracoesNFe.CreateArquivosConf;
+begin
+  FPArquivos := TArquivosConfNFe.Create(self);
 end;
 
 { TGeralConfNFe }

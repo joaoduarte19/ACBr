@@ -224,8 +224,6 @@ var
   schema: xmlSchemaPtr;
   valid_ctxt: xmlSchemaValidCtxtPtr;
   schemError: xmlErrorPtr;
-
-  I: integer;
 begin
   CarregarCertificadoSeNecessario;
   Result := False;
@@ -517,6 +515,7 @@ function TDFeOpenSSL.GetCertNumeroSerie: AnsiString;
 var
   Data: xmlSecPtrPtr;
 begin
+  //TODO: Não implementado... algumas ideias abaixo
   CarregarCertificadoSeNecessario;
   Data := FdsigCtx^.signKey^.dataList^.Data;
   Result := FHTTP.Sock.SSL.GetCertInfo;

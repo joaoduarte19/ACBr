@@ -51,7 +51,7 @@ uses
   ACBrDFeUtil, ACBrUtil;
 
 const
-  ACBRNFE_VERSAO = '0.6.0a';
+  ACBRNFE_VERSAO = '2.0.0a';
   ACBRNFE_NAMESPACE = 'http://www.portalfiscal.inf.br/nfe';
 
 type
@@ -128,9 +128,6 @@ type
       IndEmi: TpcnIndicadorEmissor; ultNSU: String): Boolean;
     function Download: Boolean;
 
-    property Configuracoes: TConfiguracoesNFe
-      read GetConfiguracoes write SetConfiguracoes;
-
     function LerVersaoDeParams(LayOutServico: TLayOut): String; reintroduce; overload;
     function LerURLDeParams(LayOutServico: TLayOut): String; reintroduce; overload;
 
@@ -166,6 +163,7 @@ type
     function DistribuicaoDFe(AcUFAutor: integer;
       ACNPJCPF, AultNSU, ANSU: String): Boolean;
   published
+    property Configuracoes: TConfiguracoesNFe read GetConfiguracoes write SetConfiguracoes;
     property DANFE: TACBrNFeDANFEClass read FDANFE write SetDANFE;
   end;
 
@@ -378,7 +376,7 @@ end;
 
 function TACBrNFe.GerarChaveContingencia(FNFe: TNFe): String;
 
-  function GerarDigito_Contigencia(var Digito: integer; chave: String): Boolean;
+  function GerarDigito_Contigencia(out Digito: integer; chave: String): Boolean;
   var
     i, j: integer;
   const
@@ -405,7 +403,6 @@ function TACBrNFe.GerarChaveContingencia(FNFe: TNFe): String;
 var
   wchave: String;
   wicms_s, wicms_p: String;
-  wd, wm, wa: word;
   Digito: integer;
 begin
   //ajustado de acordo com nota tecnica 2009.003

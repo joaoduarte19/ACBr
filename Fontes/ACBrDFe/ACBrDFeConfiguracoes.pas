@@ -62,7 +62,7 @@ type
 
     procedure SetNumeroSerie(const Value: String);
   public
-    constructor Create(AConfiguracoes: TConfiguracoes);
+    constructor Create(AConfiguracoes: TConfiguracoes); reintroduce; overload;
   published
     property ArquivoPFX: String read FArquivoPFX write FArquivoPFX;
     property DadosPFX: String read FDadosPFX write FDadosPFX;
@@ -102,8 +102,8 @@ type
     function LerParamsIniServicos: AnsiString; virtual;
     function LerParamsInterno: AnsiString; virtual;
   public
-    constructor Create(AConfiguracoes: TConfiguracoes);
-    destructor Destroy;
+    constructor Create(AConfiguracoes: TConfiguracoes); reintroduce; overload;
+    destructor Destroy; override;
 
     procedure LerParams; virtual;
 
@@ -150,7 +150,7 @@ type
     procedure SetFormaEmissao(AValue: TpcnTipoEmissao);
     function GetFormatoAlerta: String;
   public
-    constructor Create(AConfiguracoes: TConfiguracoes); virtual;
+    constructor Create(AConfiguracoes: TConfiguracoes); reintroduce; overload; virtual;
   published
     property SSLLib: TSSLLib read FSSLLib write SetSSLLib;
     property UnloadSSLLib: Boolean read FUnloadSSLLib write FUnloadSSLLib default True;
@@ -188,7 +188,7 @@ type
     function GetPathSalvar: String;
     function GetPathSchemas: String;
   public
-    constructor Create(AConfiguracoes: TConfiguracoes); virtual;
+    constructor Create(AConfiguracoes: TConfiguracoes); reintroduce; overload; virtual;
 
     function GetPath(APath: String; ALiteral: String): String; virtual;
   published
@@ -208,27 +208,27 @@ type
   { TConfiguracoes }
 
   TConfiguracoes = class(TComponent)
-  private
-    FGeral: TGeralConf;
-    FWebServices: TWebServicesConf;
-    FCertificados: TCertificadosConf;
-    FArquivos: TArquivosConf;
   protected
-    function CreateGeralConf: TGeralConf; virtual;
-    function CreateWebServicesConf: TWebServicesConf; virtual;
-    function CreateCertificadosConf: TCertificadosConf; virtual;
-    function CreateArquivosConf: TArquivosConf; virtual;
+    FPGeral: TGeralConf;
+    FPWebServices: TWebServicesConf;
+    FPCertificados: TCertificadosConf;
+    FPArquivos: TArquivosConf;
+  protected
+    procedure CreateGeralConf; virtual;
+    procedure CreateWebServicesConf; virtual;
+    procedure CreateCertificadosConf; virtual;
+    procedure CreateArquivosConf; virtual;
 
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
     procedure LerParams(NomeArqParams: String = '');
-  published
-    property Geral: TGeralConf read FGeral;
-    property WebServices: TWebServicesConf read FWebServices;
-    property Certificados: TCertificadosConf read FCertificados;
-    property Arquivos: TArquivosConf read FArquivos;
+
+    property Geral: TGeralConf read FPGeral;
+    property WebServices: TWebServicesConf read FPWebServices;
+    property Certificados: TCertificadosConf read FPCertificados;
+    property Arquivos: TArquivosConf read FPArquivos;
   end;
 
 implementation
@@ -247,57 +247,57 @@ begin
 
   inherited Create(AOwner);
 
-  FGeral := CreateGeralConf;
-  FGeral.Name := 'GeralConf';
+  CreateGeralConf;
+  FPGeral.Name := 'GeralConf';
   {$IFDEF COMPILER6_UP}
-  FGeral.SetSubComponent(True);{ para gravar no DFM/XFM }
+  FPGeral.SetSubComponent(True);{ para gravar no DFM/XFM }
   {$ENDIF}
 
-  FWebServices := CreateWebServicesConf;
-  FWebServices.Name := 'WebServicesConf';
+  CreateWebServicesConf;
+  FPWebServices.Name := 'WebServicesConf';
   {$IFDEF COMPILER6_UP}
-  FWebServices.SetSubComponent(True);{ para gravar no DFM/XFM }
+  FPWebServices.SetSubComponent(True);{ para gravar no DFM/XFM }
   {$ENDIF}
 
-  FCertificados := CreateCertificadosConf;
-  FCertificados.Name := 'CertificadosConf';
+  CreateCertificadosConf;
+  FPCertificados.Name := 'CertificadosConf';
   {$IFDEF COMPILER6_UP}
-  FCertificados.SetSubComponent(True);{ para gravar no DFM/XFM }
+  FPCertificados.SetSubComponent(True);{ para gravar no DFM/XFM }
   {$ENDIF}
 
-  FArquivos := CreateArquivosConf;
-  FArquivos.Name := 'ArquivosConf';
+  CreateArquivosConf;
+  FPArquivos.Name := 'ArquivosConf';
   {$IFDEF COMPILER6_UP}
-  FArquivos.SetSubComponent(True);{ para gravar no DFM/XFM }
+  FPArquivos.SetSubComponent(True);{ para gravar no DFM/XFM }
   {$ENDIF}
 end;
 
-function TConfiguracoes.CreateGeralConf: TGeralConf;
+procedure TConfiguracoes.CreateGeralConf;
 begin
-  Result := TGeralConf.Create(Self);
+  FPGeral := TGeralConf.Create(Self);
 end;
 
-function TConfiguracoes.CreateWebServicesConf: TWebServicesConf;
+procedure TConfiguracoes.CreateWebServicesConf;
 begin
-  Result := TWebServicesConf.Create(self);
+  FPWebServices := TWebServicesConf.Create(self);
 end;
 
-function TConfiguracoes.CreateCertificadosConf: TCertificadosConf;
+procedure TConfiguracoes.CreateCertificadosConf;
 begin
-  Result := TCertificadosConf.Create(self);
+  FPCertificados := TCertificadosConf.Create(self);
 end;
 
-function TConfiguracoes.CreateArquivosConf: TArquivosConf;
+procedure TConfiguracoes.CreateArquivosConf;
 begin
-  Result := TArquivosConf.Create(self);
+  FPArquivos := TArquivosConf.Create(self);
 end;
 
 destructor TConfiguracoes.Destroy;
 begin
-  FGeral.Free;
-  FWebServices.Free;
-  FCertificados.Free;
-  FArquivos.Free;
+  FPGeral.Free;
+  FPWebServices.Free;
+  FPCertificados.Free;
+  FPArquivos.Free;
 
   inherited;
 end;
@@ -312,7 +312,7 @@ begin
 
   SL := TStringList.Create;
   try
-    FWebServices.Params := SL;
+    FPWebServices.Params := SL;
   finally
     SL.Free;
   end;
