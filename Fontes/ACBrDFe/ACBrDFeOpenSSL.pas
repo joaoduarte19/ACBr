@@ -42,7 +42,7 @@ interface
 uses
   Classes, SysUtils, ACBrDFeConfiguracoes, ACBrDFeSSL,
   HTTPSend, ssl_openssl,
-  libxml2, libxmlsec, libxslt;
+  libxmlsec, libxslt, libxml2;
 
 const
   cDTD = '<!DOCTYPE test [<!ATTLIST &infElement& Id ID #IMPLIED>]>';
@@ -67,7 +67,7 @@ type
     procedure CarregarCertificado; override;
 
     function GetCertDataVenc: TDateTime; override;
-    function GetCertNumeroSerie: AnsiString; override;
+    function GetCertNumeroSerie: String; override;
     function GetCertSubjectName: String; override;
 
   public
@@ -79,11 +79,11 @@ type
 
     function Assinar(const ConteudoXML, docElement, infElement: String): String;
       override;
-    function Enviar(const ConteudoXML: AnsiString; const URL: String;
-      const SoapAction: String): AnsiString; override;
+    function Enviar(const ConteudoXML: String; const URL: String;
+      const SoapAction: String): String; override;
     function Validar(const ConteudoXML, ArqSchema: String;
       out MsgErro: String): Boolean; override;
-    function VerificarAssinatura(const ConteudoXML: AnsiString;
+    function VerificarAssinatura(const ConteudoXML: String;
       out MsgErro: String): Boolean; override;
   end;
 
@@ -181,11 +181,11 @@ begin
   Result := XmlAss;
 end;
 
-function TDFeOpenSSL.Enviar(const ConteudoXML: AnsiString; const URL: String;
-  const SoapAction: String): AnsiString;
+function TDFeOpenSSL.Enviar(const ConteudoXML: String; const URL: String;
+  const SoapAction: String): String;
 var
   OK: Boolean;
-  RetornoWS: AnsiString;
+  RetornoWS: String;
 begin
   RetornoWS := '';
 
@@ -298,7 +298,7 @@ begin
   end;
 end;
 
-function TDFeOpenSSL.VerificarAssinatura(const ConteudoXML: AnsiString;
+function TDFeOpenSSL.VerificarAssinatura(const ConteudoXML: String;
   out MsgErro: String): Boolean;
 var
   doc: xmlDocPtr;
@@ -511,7 +511,7 @@ begin
   Result := FdsigCtx^.signKey^.notValidAfter;
 end;
 
-function TDFeOpenSSL.GetCertNumeroSerie: AnsiString;
+function TDFeOpenSSL.GetCertNumeroSerie: String;
 var
   Data: xmlSecPtrPtr;
 begin

@@ -2840,15 +2840,15 @@ begin
    else
      {$IFNDEF FPC}
       {$IFDEF DELPHI12_UP}  // delphi 2009 em diante
-       Result := UTF8ToString(Texto);
+       Result := UTF8ToString(ABinaryString);
       {$ELSE}
-       Result := UTF8Decode(Texto);
+       Result := UTF8Decode(ABinaryString);
       {$ENDIF}
      {$ENDIF} ;
 
   {$ELSE}
    if TextoIsUTF8 then
-     Result := Utf8ToAnsi( Texto ) ;
+     Result := Utf8ToAnsi( ABinaryString ) ;
   {$ENDIF}
 
   if Result = '' then

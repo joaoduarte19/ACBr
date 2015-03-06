@@ -234,7 +234,7 @@ type
 implementation
 
 uses
-  Math,
+  Math, strutils,
   ACBrDFe, ACBrDFeUtil,
   ACBrUtil, DateUtils;
 

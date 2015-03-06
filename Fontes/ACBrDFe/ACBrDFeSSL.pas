@@ -57,14 +57,14 @@ type
     procedure CarregarCertificado; virtual;
 
     function GetCertDataVenc: TDateTime; virtual;
-    function GetCertNumeroSerie: AnsiString; virtual;
+    function GetCertNumeroSerie: String; virtual;
     function GetCertSubjectName: String; virtual;
     function GetCertCNPJ: String; virtual;
 
     function SignatureElement(const URI: String; AddX509Data: Boolean): String;
       virtual;
   public
-    property CertNumeroSerie: AnsiString read GetCertNumeroSerie;
+    property CertNumeroSerie: String read GetCertNumeroSerie;
     property CertDataVenc: TDateTime read GetCertDataVenc;
     property CertSubjectName: String read GetCertSubjectName;
     property CertCNPJ: String read GetCertCNPJ;
@@ -76,11 +76,11 @@ type
 
     function Assinar(const ConteudoXML, docElement, infElement: String): String;
       virtual;
-    function Enviar(const ConteudoXML: AnsiString; const URL: String;
-      const SoapAction: String): AnsiString; virtual;
-    function Validar(const ConteudoXML: AnsiString; const ArqSchema: String;
+    function Enviar(const ConteudoXML: String; const URL: String;
+      const SoapAction: String): String; virtual;
+    function Validar(const ConteudoXML, ArqSchema: String;
       out MsgErro: String): Boolean; virtual;
-    function VerificarAssinatura(const ConteudoXML: AnsiString;
+    function VerificarAssinatura(const ConteudoXML: String;
       out MsgErro: String): Boolean; virtual;
 
     function SelecionarCertificado: String; virtual;
@@ -96,7 +96,7 @@ type
     FSSLLib: TSSLLib;
 
     function GetCertDataVenc: TDateTime;
-    function GetCertNumeroSerie: AnsiString;
+    function GetCertNumeroSerie: String;
     function GetCertSubjectName: String;
 
     procedure InitSSLClass;
@@ -104,7 +104,7 @@ type
 
     procedure SetSSLLib(ASSLLib: TSSLLib);
   public
-    property CertNumeroSerie: AnsiString read GetCertNumeroSerie;
+    property CertNumeroSerie: String read GetCertNumeroSerie;
     property CertDataVenc: TDateTime read GetCertDataVenc;
     property CertSubjectName: String read GetCertSubjectName;
 
@@ -114,13 +114,13 @@ type
     // Nota: ConteudoXML, DEVE estar em UTF8 //
     function Assinar(const ConteudoXML, docElement, infElement: String): String;
     // Envia por SoapAction o ConteudoXML para URL. Retorna a resposta do Servico //
-    function Enviar(var ConteudoXML: AnsiString; const URL: String;
-      const SoapAction: String): AnsiString;
+    function Enviar(var ConteudoXML: String; const URL: String;
+      const SoapAction: String): String;
     // Valida um Arquivo contra o seu Schema. Retorna True se OK, preenche MsgErro se False //
-    function Validar(const ConteudoXML: AnsiString; ArqSchema: String;
+    function Validar(const ConteudoXML: String; ArqSchema: String;
       out MsgErro: String): Boolean;
     // Verifica se assinatura de um XML é válida. Retorna True se OK, preenche MsgErro se False //
-    function VerificarAssinatura(const ConteudoXML: AnsiString;
+    function VerificarAssinatura(const ConteudoXML: String;
       out MsgErro: String): Boolean;
 
     function SelecionarCertificado: String; virtual;
@@ -166,15 +166,15 @@ begin
   Result := FSSLClass.Assinar(ConteudoXML, docElement, infElement);
 end;
 
-function TDFeSSL.Enviar(var ConteudoXML: AnsiString; const URL: String;
-  const SoapAction: String): AnsiString;
+function TDFeSSL.Enviar(var ConteudoXML: String; const URL: String;
+  const SoapAction: String): String;
 begin
   // Nota: ConteudoXML, DEVE estar em UTF8 //
   InitSSLClass;
   Result := FSSLClass.Enviar(ConteudoXML, URL, SoapAction);
 end;
 
-function TDFeSSL.Validar(const ConteudoXML: AnsiString; ArqSchema: String; out
+function TDFeSSL.Validar(const ConteudoXML: String; ArqSchema: String; out
   MsgErro: String): Boolean;
 begin
   InitSSLClass;
@@ -189,7 +189,7 @@ begin
   Result := FSSLClass.Validar(ConteudoXML, ArqSchema, MsgErro);
 end;
 
-function TDFeSSL.VerificarAssinatura(const ConteudoXML: AnsiString;
+function TDFeSSL.VerificarAssinatura(const ConteudoXML: String;
   out MsgErro: String): Boolean;
 begin
   InitSSLClass;
@@ -207,7 +207,7 @@ begin
   Result := FSSLClass.CertDataVenc;
 end;
 
-function TDFeSSL.GetCertNumeroSerie: AnsiString;
+function TDFeSSL.GetCertNumeroSerie: String;
 begin
   Result := FSSLClass.CertNumeroSerie;
 end;
@@ -279,21 +279,21 @@ begin
   raise EACBrDFeException.Create(ClassName + '.Assinar, não implementado');
 end;
 
-function TDFeSSLClass.Enviar(const ConteudoXML: AnsiString; const URL: String;
-  const SoapAction: String): AnsiString;
+function TDFeSSLClass.Enviar(const ConteudoXML: String; const URL: String;
+  const SoapAction: String): String;
 begin
   Result := '';
   raise EACBrDFeException.Create(ClassName + '.Enviar não implementado');
 end;
 
-function TDFeSSLClass.Validar(const ConteudoXML: AnsiString;
-  const ArqSchema: String; out MsgErro: String): Boolean;
+function TDFeSSLClass.Validar(const ConteudoXML, ArqSchema: String;
+  out MsgErro: String): Boolean;
 begin
   Result := False;
   raise EACBrDFeException.Create('"Validar" não suportado em: ' + ClassName);
 end;
 
-function TDFeSSLClass.VerificarAssinatura(const ConteudoXML: AnsiString;
+function TDFeSSLClass.VerificarAssinatura(const ConteudoXML: String;
   out MsgErro: String): Boolean;
 begin
   Result := False;
@@ -317,7 +317,7 @@ begin
   Result := 0;
 end;
 
-function TDFeSSLClass.GetCertNumeroSerie: AnsiString;
+function TDFeSSLClass.GetCertNumeroSerie: String;
 begin
   Result := '';
 end;

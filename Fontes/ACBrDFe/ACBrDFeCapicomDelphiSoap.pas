@@ -57,14 +57,11 @@ type
     procedure OnBeforePost(const HTTPReqResp: THTTPReqResp; Data: Pointer);
   protected
     procedure ConfiguraReqResp(const URL, SoapAction: String); override;
-    procedure Executar(const ConteudoXML: AnsiString; Resp: TMemoryStream); override;
+    procedure Executar(const ConteudoXML: String; Resp: TMemoryStream); override;
 
   public
     constructor Create(AConfiguracoes: TConfiguracoes);
     destructor Destroy; override;
-
-    function Enviar(const ConteudoXML: AnsiString; const URL: String;
-      const SoapAction: String): AnsiString; override;
   end;
 
 implementation
@@ -144,7 +141,7 @@ begin
   FURL := URL;
 end;
 
-procedure TDFeCapicomDelphiSoap.Executar(const ConteudoXML: AnsiString;
+procedure TDFeCapicomDelphiSoap.Executar(const ConteudoXML: String;
   Resp: TMemoryStream);
 begin
   // Enviando, dispara exceptions no caso de erro //

@@ -820,6 +820,6 @@ end;
 
 initialization
 {$IFDEF FPC}
-//   {$i ACBrConvenio115.lrs}
+   {$I ACBrConvenio115.lrs}
 {$ENDIF}
 end.

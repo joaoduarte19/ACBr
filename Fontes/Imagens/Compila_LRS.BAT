@@ -88,6 +88,15 @@ echo "* Arquivo   ACBrPAF.lrs   gerado       *"
 echo "****************************************"
 echo.
 
+:Convenio115
+%1\tools\lazres.exe ACBrConvenio115.lrs TACBrConvenio115.bmp
+move ACBrConvenio115.lrs ..\ACBrTXT\ACBrConvenio115
+echo.
+echo "****************************************"
+echo "* Arquivo   ACBrConvenio115.lrs   gerado       *"
+echo "****************************************"
+echo.
+
 :Boleto
 %1\tools\lazres.exe ACBrBoleto.lrs TACBrBoleto.bmp
 %1\tools\lazres.exe ACBrBoletoFCFortes.lrs TACBrBoletoFCFortes.bmp

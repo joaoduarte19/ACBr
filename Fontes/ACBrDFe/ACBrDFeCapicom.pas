@@ -68,10 +68,10 @@ type
   protected
     procedure CarregarCertificado; override;
     procedure ConfiguraReqResp(const URL, SoapAction: String); virtual;
-    procedure Executar(const ConteudoXML: AnsiString; Resp: TMemoryStream); virtual;
+    procedure Executar(const ConteudoXML: String; Resp: TMemoryStream); virtual;
 
     function GetCertDataVenc: TDateTime; override;
-    function GetCertNumeroSerie: AnsiString; override;
+    function GetCertNumeroSerie: String; override;
     function GetCertSubjectName: String; override;
     function GetCertCNPJ: String; override;
   public
@@ -85,11 +85,11 @@ type
 
     function Assinar(const ConteudoXML, docElement, infElement: String): String;
       override;
-    function Enviar(const ConteudoXML: AnsiString; const URL: String;
-      const SoapAction: String): AnsiString; override;
+    function Enviar(const ConteudoXML: String; const URL: String;
+      const SoapAction: String): String; override;
     function Validar(const ConteudoXML, ArqSchema: String;
       out MsgErro: String): Boolean; override;
-    function VerificarAssinatura(const ConteudoXML: AnsiString;
+    function VerificarAssinatura(const ConteudoXML: String;
       out MsgErro: String): Boolean; override;
 
     function SelecionarCertificado: String; override;
@@ -195,7 +195,7 @@ var
   dsigKey: IXMLDSigKey;
   SigKey: IXMLDSigKeyEx;
   PrivateKey: IPrivateKey;
-  hCryptProvider: ULONG_PTR;
+  hCryptProvider: Cardinal;
   XML, Propriedades, Propriedade: String;
   Lista: TStringList;
 begin
@@ -331,7 +331,7 @@ begin
   Result := FCertificado.ValidToDate;
 end;
 
-function TDFeCapicom.GetCertNumeroSerie: AnsiString;
+function TDFeCapicom.GetCertNumeroSerie: String;
 begin
   CarregarCertificadoSeNecessario;
   Result := FCertificado.SerialNumber;
@@ -353,7 +353,7 @@ function TDFeCapicom.Assinar(const ConteudoXML, docElement, infElement: String):
 var
   I, PosIni, PosFim: integer;
   URI, AXml, TagEndDocElement, XmlAss: String;
-  xmlHeaderAntes, xmlHeaderDepois: AnsiString;
+  xmlHeaderAntes, xmlHeaderDepois: String;
   xmldoc: IXMLDOMDocument3;
   xmldsig: IXMLDigitalSignature;
   dsigKey: IXMLDSigKey;
@@ -452,10 +452,10 @@ begin
   Result := XmlAss;
 end;
 
-function TDFeCapicom.Enviar(const ConteudoXML: AnsiString; const URL: String;
-  const SoapAction: String): AnsiString;
+function TDFeCapicom.Enviar(const ConteudoXML: String; const URL: String;
+  const SoapAction: String): String;
 var
-  RetornoWS: AnsiString;
+  RetornoWS: String;
   Resp: TMemoryStream;
 begin
   RetornoWS := '';
@@ -466,7 +466,7 @@ begin
   try
     Executar(ConteudoXML, Resp);
 
-    // Movendo Resposta de Stream para AnsiString //
+    // Movendo Resposta de Stream para String //
     SetLength(RetornoWS, Resp.Size);
     Resp.ReadBuffer(RetornoWS[1], Resp.Size);
 
@@ -479,7 +479,7 @@ begin
   Result := RetornoWS;
 end;
 
-procedure TDFeCapicom.Executar(const ConteudoXML: AnsiString; Resp: TMemoryStream);
+procedure TDFeCapicom.Executar(const ConteudoXML: String; Resp: TMemoryStream);
 begin
   // Enviando, dispara exceptions no caso de erro //
   FReqResp.Execute(ConteudoXML, Resp);
@@ -519,7 +519,7 @@ begin
   end;
 end;
 
-function TDFeCapicom.VerificarAssinatura(const ConteudoXML: AnsiString;
+function TDFeCapicom.VerificarAssinatura(const ConteudoXML: String;
   out MsgErro: String): Boolean;
 var
   xmldoc: IXMLDOMDocument3;
