@@ -27,7 +27,7 @@
     <Description Value="ACBr - Calculadora, Extenso, Validador, Troco, CMC7, Fala, BarCode, EnterTab, GIF, QrCode, InStore, CargaBal - (http://www.projetoacbr.com.br/)"/>
     <License Value="LGPL"/>
     <Version Minor="9"/>
-    <Files Count="15">
+    <Files Count="16">
       <Item1>
         <Filename Value="..\..\..\Fontes\ACBrDiversos\ACBrBarCode.pas"/>
         <UnitName Value="ACBrBarCode"/>
@@ -89,6 +89,10 @@
         <Filename Value="..\..\..\Fontes\ACBrDiversos\LCalculadora.pas"/>
         <UnitName Value="LCalculadora"/>
       </Item15>
+      <Item16>
+        <Filename Value="..\..\..\Fontes\ACBrDiversos\ACBrInStore.pas"/>
+        <UnitName Value="ACBrInStore"/>
+      </Item16>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="1">
