@@ -128,8 +128,9 @@ type
       IndEmi: TpcnIndicadorEmissor; ultNSU: String): Boolean;
     function Download: Boolean;
 
+    procedure LerServicoDeParams(LayOutServico: TLayOut; var Versao: Double;
+      var URL: String); reintroduce; overload;
     function LerVersaoDeParams(LayOutServico: TLayOut): String; reintroduce; overload;
-    function LerURLDeParams(LayOutServico: TLayOut): String; reintroduce; overload;
 
     function GetURLConsultaNFCe(const CUF: integer;
       const TipoAmbiente: TpcnTipoAmbiente): String;
@@ -139,7 +140,8 @@ type
 
     function IdentificaSchemaNFe(const AXML: String): TSchemaNFe;
     function IdentificaSchemaLayout(const ALayOut: TLayOut): TSchemaNFe;
-    function GerarNomeArqSchema(const ALayOut: TLayOut): String;
+    function GerarNomeArqSchema(const ALayOut: TLayOut;
+      VersaoServico: String): String;
     function GerarChaveContingencia(FNFe: TNFe): String;
 
     property WebServices: TWebServices read FWebServices write FWebServices;
@@ -163,7 +165,8 @@ type
     function DistribuicaoDFe(AcUFAutor: integer;
       ACNPJCPF, AultNSU, ANSU: String): Boolean;
   published
-    property Configuracoes: TConfiguracoesNFe read GetConfiguracoes write SetConfiguracoes;
+    property Configuracoes: TConfiguracoesNFe
+      read GetConfiguracoes write SetConfiguracoes;
     property DANFE: TACBrNFeDANFEClass read FDANFE write SetDANFE;
   end;
 
@@ -374,10 +377,13 @@ begin
 
 end;
 
-function TACBrNFe.GerarNomeArqSchema(const ALayOut: TLayOut): String;
+function TACBrNFe.GerarNomeArqSchema(const ALayOut: TLayOut;
+  VersaoServico: String): String;
 begin
-  Result := SchemaNFeToStr(IdentificaSchemaLayout(ALayOut)) + '_v' +
-    LerVersaoDeParams(ALayOut);
+  if EstaVazio(VersaoServico) then
+    VersaoServico := LerVersaoDeParams(ALayOut);
+
+  Result := SchemaNFeToStr(IdentificaSchemaLayout(ALayOut)) + '_v' + VersaoServico;
 end;
 
 function TACBrNFe.GerarChaveContingencia(FNFe: TNFe): String;
@@ -439,8 +445,8 @@ begin
   wchave := wchave + IntToStrZero(Round(FNFe.Total.ICMSTot.vNF * 100), 14);
 
   //DESTAQUE ICMS PROPRIO E ST
-  wicms_p := IfThen(NaoEstaZerado(FNFe.Total.ICMSTot.vICMS),'1','2');
-  wicms_s := IfThen(NaoEstaZerado(FNFe.Total.ICMSTot.vST),'1','2');
+  wicms_p := IfThen(NaoEstaZerado(FNFe.Total.ICMSTot.vICMS), '1', '2');
+  wicms_s := IfThen(NaoEstaZerado(FNFe.Total.ICMSTot.vST), '1', '2');
   wchave := wchave + wicms_p + wicms_s;
 
   //DIA DA EMISSAO
@@ -472,14 +478,17 @@ begin
     Configuracoes.WebServices.Ambiente, LayOutToServico(LayOutServico),
     VersaoDFToDbl(Configuracoes.Geral.VersaoDF));
 
-  Result := FloatToString(Versao,'.','0.00');
+  Result := FloatToString(Versao, '.', '0.00');
 end;
 
-function TACBrNFe.LerURLDeParams(LayOutServico: TLayOut): String;
+procedure TACBrNFe.LerServicoDeParams(LayOutServico: TLayOut;
+  var Versao: Double; var URL: String);
 begin
-  Result := LerURLDeParams(GetNomeModeloDFe, Configuracoes.WebServices.UF,
+  Versao := VersaoDFToDbl(Configuracoes.Geral.VersaoDF);
+  URL := '';
+  LerServicoDeParams(GetNomeModeloDFe, Configuracoes.WebServices.UF,
     Configuracoes.WebServices.Ambiente, LayOutToServico(LayOutServico),
-    VersaoDFToDbl(Configuracoes.Geral.VersaoDF));
+    Versao, URL);
 end;
 
 function TACBrNFe.GetURLConsultaNFCe(const CUF: integer;
@@ -492,8 +501,8 @@ function TACBrNFe.GetURLQRCode(const CUF: integer; const TipoAmbiente: TpcnTipoA
   const AChaveNFe, Destinatario: String; const DataHoraEmissao: TDateTime;
   const ValorTotalNF, ValorTotalICMS: currency; const DigestValue: String): String;
 var
-  idNFe, sdhEmi_HEX, sdigVal_HEX, sNF, sICMS, cIdToken, cToken,
-  sToken, sEntrada, cHashQRCode, urlUF: String;
+  idNFe, sdhEmi_HEX, sdigVal_HEX, sNF, sICMS, cIdToken, cToken, sToken,
+  sEntrada, cHashQRCode, urlUF: String;
 begin
   urlUF := LerURLDeParams('NFCe', CUFtoUF(CUF), TipoAmbiente, 'URL-QRCode', 0);
 

@@ -157,8 +157,8 @@ var
  i : Integer;
 begin
   inherited;
-  for i:= 0 to High(NFeUF) do
-    Proc(NFeUF[i]);
+  for i:= 0 to High(DFeUF) do
+    Proc(DFeUF[i]);
 end;
 
 { EACBrDFeException }

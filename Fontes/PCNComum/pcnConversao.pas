@@ -198,10 +198,10 @@ const
                                                 '610611',
                                                 '990900');
 
-  NFeUF: array[0..26] of String =
+  DFeUF: array[0..26] of String =
   ('AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA',
    'PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO');
-  NFeUFCodigo: array[0..26] of Integer =
+  DFeUFCodigo: array[0..26] of Integer =
   (12,27,16,13,29,23,53,32,52,21,51,50,31,15,25,41,26,22,33,24,43,11,14,42,35,28,17);
 
   Msg_ICMS_123_2006 = 'ICMS a ser recolhido conforme LC 123/2006 - Simples Nacional' ;
@@ -439,10 +439,10 @@ var
   i: Integer;
 begin
   Result := -1 ;
-  for i:= Low(NFeUF) to High(NFeUF) do
+  for i:= Low(DFeUF) to High(DFeUF) do
   begin
-    if NFeUF[I] = UF then
-      Result := NFeUFCodigo[I];
+    if DFeUF[I] = UF then
+      Result := DFeUFCodigo[I];
   end;
 end;
 
@@ -451,10 +451,10 @@ var
   i: Integer;
 begin
   Result := '' ;
-  for i:= Low(NFeUFCodigo) to High(NFeUFCodigo) do
+  for i:= Low(DFeUFCodigo) to High(DFeUFCodigo) do
   begin
-    if NFeUFCodigo[I] = CUF then
-      Result := NFeUF[I];
+    if DFeUFCodigo[I] = CUF then
+      Result := DFeUF[I];
   end;
 end;
 

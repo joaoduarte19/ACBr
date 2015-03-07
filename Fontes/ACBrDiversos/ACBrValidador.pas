@@ -262,50 +262,63 @@ end;
 
 function FormatarFone(const AValue : String; DDDPadrao: String = '') : String ;
 var
-  AChar : Char;
-  L, I : Integer ;
-  Mascara, FoneNum : String ;
+  FoneNum, lTemp: string;
 begin
-  Result    := '';
-  FoneNum   := OnlyNumber( AValue );
-  L         := Length( FoneNum );
-  if L = 0 then
-    exit ;
+  FoneNum := OnlyNumber(AValue);
 
-  Mascara   := '(##) ####-####' ;
-  DDDPadrao := OnlyNumber( Trim(DDDPadrao) );
-
-  if (DDDPadrao <> '') and
-     ( (L = 8) or (L = 9) ) and
-     (copy( FoneNum, 1, Length(DDDPadrao)) <> DDDPadrao) then  // Numero sem o DDD
+  if Length(FoneNum) > 0 then
   begin
-    FoneNum := DDDPadrao + FoneNum;
-    L       := Length( FoneNum );
-  end ;
+    // Remove Zeros a esquerda //
+    while LeftStr(FoneNum,1) = '0' do
+      FoneNum := Copy(AValue,2,Length(FoneNum));
+  end;
 
-  if  (L < 6) or (L = 9) or (L >= 11) then
-    //9 :   9 dígitos no numero, e sem DDD
-    //11:   2 digitos no DDD e 9 digitos no Fone
-    Mascara := '(##) #########' ;
-
-  I := Length(Mascara);
-  while (I > 0) do
+  if NaoEstaVazio(FoneNum) then
   begin
-    if (Mascara[ I ] = '#') and (L > 0) then
-    begin
-      AChar := FoneNum[ L ] ;
-      Dec( L );
-    end
+    if copy(FoneNum, 1, 3) = '800' then
+      FoneNum := '0' + copy(FoneNum, 1, 3) + '-' + copy(FoneNum, 4, 3) + '-' + copy(FoneNum, 7, 4)
     else
-    begin
-      AChar := Mascara[ I ] ;
-      if AChar = '#' then
-        AChar := ' ';
-    end ;
+    case length(FoneNum) of
+       8: FoneNum := '(  )' + copy(FoneNum, 1, 4) + '-' + copy(FoneNum, 5, 4);
+       9:
+         begin
+            // Celulares do Municipio de São Paulo tem 9 Digitos e o primeiro é 9
+            if copy(FoneNum, 1, 1) = '9' then
+               FoneNum := '(  )' + copy(FoneNum, 1, 5) + '-' + copy(FoneNum, 6, 4)
+            else
+            begin
+               ltemp := '0' + copy(FoneNum, 1, 1);
+               FoneNum := '(' + lTemp + ')' + copy(FoneNum, 2, 4) + '-' + copy(FoneNum, 6, 4);
+            end;
+         end;
+       12:
+         begin // Exemplo: 551133220000
+           ltemp := copy(FoneNum, 1, 4);
+           FoneNum := '(' + lTemp + ')' + copy(FoneNum, 5, 4) + '-' + copy(FoneNum, 9, 4);
+         end;
+       13:
+         begin // Exemplo: 5511999220000
+           ltemp := copy(FoneNum, 1, 4);
+           FoneNum := '(' + lTemp + ')' + copy(FoneNum, 5, 5) + '-' + copy(FoneNum, 10, 4);
+         end;
+       else
+       begin
+         FoneNum := Poem_Zeros(FoneNum, 12);
+         if (copy(FoneNum, 1, 2) = '00') then
+         begin
+           ltemp := copy(FoneNum, 3, 2);
+           FoneNum := '(' + lTemp + ')' + copy(FoneNum, 5, 4) + '-' + copy(FoneNum, 9, 4);
+         end
+         else
+         begin
+           ltemp := copy(FoneNum, 2, 2);
+           FoneNum := '(' + lTemp + ')' + copy(FoneNum, 4, 5) + '-' + copy(FoneNum, 9, 4);
+         end;
+       end;
+    end;
+  end;
 
-    Result := AChar + Result;
-    Dec( I ) ;
-  end ;
+  Result := FoneNum;
 end;
 
 function FormatarCPF(const AValue: String): String;

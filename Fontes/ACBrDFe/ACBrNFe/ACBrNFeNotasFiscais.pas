@@ -300,7 +300,7 @@ begin
     else
       ALayout := LayNfeRetRecepcao;
 
-    NotaEhValida := SSL.Validar(AXML, GerarNomeArqSchema(ALayout), Erro);
+    NotaEhValida := SSL.Validar(AXML, GerarNomeArqSchema(ALayout, FNFe.infNFe.VersaoStr), Erro);
 
     if not NotaEhValida then
     begin

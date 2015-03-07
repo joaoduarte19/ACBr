@@ -388,8 +388,8 @@ begin
   FConfiguracoes := AConfiguracoes;
   FParams := TStringList.Create;
 
-  FUF := NFeUF[24];
-  FUFCodigo := NFeUFCodigo[24];
+  FUF := DFeUF[24];
+  FUFCodigo := DFeUFCodigo[24];
   FAmbiente := taHomologacao;
   FAmbienteCodigo := StrToInt(TpAmbToStr(FAmbiente));
   FVisualizar := False;
@@ -486,10 +486,10 @@ var
   Codigo, i: integer;
 begin
   Codigo := -1;
-  for i := 0 to High(NFeUF) do
+  for i := 0 to High(DFeUF) do
   begin
-    if NFeUF[I] = AValue then
-      Codigo := NFeUFCodigo[I];
+    if DFeUF[I] = AValue then
+      Codigo := DFeUFCodigo[I];
   end;
 
   if Codigo < 0 then

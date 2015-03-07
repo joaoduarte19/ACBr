@@ -65,6 +65,7 @@ type
     FPRetWS: String;
     FPMsg: String;
     FPURL: String;
+    FPVersaoServico: String;
     FPConfiguracoes: TConfiguracoes;
     FPDFeOwner: TACBrDFe;
     FPArqEnv: String;
@@ -111,6 +112,7 @@ type
     property Servico: String read FPServico;
     property SoapAction: String read FPSoapAction;
     property URL: String read FPURL;
+    property VersaoServico: String read FPVersaoServico;
     property CabMsg: String read FPCabMsg;
     property DadosMsg: String read FPDadosMsg;
     property EnvelopeSoap: String read FPEnvelopeSoap;
@@ -147,6 +149,7 @@ begin
   FPRetWS := '';
   FPMsg := '';
   FPURL := '';
+  FPVersaoServico := '';
   FPArqEnv := '';
   FPArqResp := '';
   FPServico := '';

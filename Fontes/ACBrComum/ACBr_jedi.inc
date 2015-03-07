@@ -539,6 +539,7 @@
   HAS_ENOTIMPLEMENTED            Exception class ENotImplemented is available (D15+)
   HAS_UNIT_VCL_THEMES            Unit Vcl.Themes is available (D16+)
   HAS_UNIT_UXTHEME               Unit (Vcl.)UxTheme is available (D7+)
+  HAS_EXCEPTION_STACKTRACE       Exception class has the StackTrace propery (D12+)
 
 
 - Compiler Settings
@@ -1565,6 +1566,7 @@
   {$DEFINE HAS_UNIT_ANSISTRINGS}
   {$DEFINE HAS_UNIT_PNGIMAGE}
   {$DEFINE HAS_UNIT_CHARACTER}
+  {$DEFINE HAS_EXCEPTION_STACKTRACE}
 {$ENDIF RTL200_UP}
 
 {$IFDEF RTL210_UP}
