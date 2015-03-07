@@ -97,6 +97,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+Data: 07/03/2015
+-- ACBrECFEscECF -- (por: DSA)
+[+] Adicionado suporte ao método: GetNumUltimoItem, usando cache de respostas
+
 Data: 06/03/2015
 -- ACBrECFDaruma --
 [*] Ajuste no método: MudaHorarioVerao para compatibilizar com protocolo novo
