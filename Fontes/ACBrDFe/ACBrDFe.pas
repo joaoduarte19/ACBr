@@ -324,7 +324,7 @@ begin
     SL := TStringList.Create;
     try
       FPIniParams.ReadSection(Sessao, SL);
-      for I := 0 to SL.Count do
+      for I := 0 to SL.Count-1 do
       begin
         K := SL[I];
 

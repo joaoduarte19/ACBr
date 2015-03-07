@@ -282,6 +282,7 @@ var
   Erro, AXML: String;
   NotaEhValida: Boolean;
   ALayout: TLayOut;
+  VersaoStr: String;
 begin
   AXML := FXMLOriginal;
 
@@ -300,7 +301,8 @@ begin
     else
       ALayout := LayNfeRetRecepcao;
 
-    NotaEhValida := SSL.Validar(AXML, GerarNomeArqSchema(ALayout, FNFe.infNFe.VersaoStr), Erro);
+    VersaoStr := FloatToString( FNFe.infNFe.Versao, '.', '0.00');
+    NotaEhValida := SSL.Validar(AXML, GerarNomeArqSchema(ALayout, VersaoStr), Erro);
 
     if not NotaEhValida then
     begin

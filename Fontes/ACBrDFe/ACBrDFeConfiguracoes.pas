@@ -158,9 +158,11 @@ type
       write SetFormaEmissao default teNormal;
     property FormaEmissaoCodigo: integer read FFormaEmissaoCodigo;
     property Salvar: Boolean read FSalvar write FSalvar default False;
-    property ExibirErroSchema: Boolean read FExibirErroSchema write FExibirErroSchema;
+    property ExibirErroSchema: Boolean read FExibirErroSchema
+      write FExibirErroSchema default True;
     property FormatoAlerta: String read GetFormatoAlerta write FFormatoAlerta;
-    property RetirarAcentos: Boolean read FRetirarAcentos write FRetirarAcentos;
+    property RetirarAcentos: Boolean
+      read FRetirarAcentos write FRetirarAcentos default False;
     property IdToken: String read FIdToken write FIdToken;
     property Token: String read FToken write FToken;
     property ValidarDigest: Boolean
@@ -464,13 +466,13 @@ begin
   Result := '';
 
   RS := TResourceStream.Create(HInstance, 'ACBrServicos', RT_RCDATA);
-  Try
+  try
     RS.Position := 0;
     SetLength(Result, RS.Size);
     RS.ReadBuffer(Result[1], RS.Size);
   finally
-    RS.Free ;
-  end ;
+    RS.Free;
+  end;
 end;
 
 procedure TWebServicesConf.SetTentativas(const Value: integer);
@@ -540,7 +542,7 @@ function TArquivosConf.GetPathSalvar: String;
 begin
   if FPathSalvar = '' then
     if not (csDesigning in FConfiguracoes.Owner.ComponentState) then
-      FPathSalvar := ApplicationPath + PathDelim + 'Docs';
+      FPathSalvar := ApplicationPath + 'Docs';
 
   FPathSalvar := PathWithDelim(Trim(FPathSalvar));
   Result := FPathSalvar;
@@ -550,7 +552,7 @@ function TArquivosConf.GetPathSchemas: String;
 begin
   if FPathSchemas = '' then
     if not (csDesigning in FConfiguracoes.Owner.ComponentState) then
-      FPathSchemas := ApplicationPath + PathDelim + 'Schemas';
+      FPathSchemas := ApplicationPath + 'Schemas';
 
   FPathSchemas := PathWithDelim(Trim(FPathSchemas));
   Result := FPathSchemas;
