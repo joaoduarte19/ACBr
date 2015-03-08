@@ -901,7 +901,7 @@ end;
 function TNFeStatusServico.GerarMsgErro(E: Exception): String;
 begin
   Result := 'WebService Consulta Status serviço:' + LineBreak +
-    '- Inativo ou Inoperante tente novamente.' + LineBreak + '- ' + E.Message;
+            '- Inativo ou Inoperante tente novamente.';
 end;
 
 { TNFeRecepcao }
@@ -2871,7 +2871,7 @@ end;
 function TNFeConsNFeDest.GerarMsgErro(E: Exception): String;
 begin
   Result := 'WebService Consulta NF-e Destinadas:' + LineBreak +
-    '- Inativo ou Inoperante tente novamente.' + LineBreak + '- ' + E.Message;
+            '- Inativo ou Inoperante tente novamente.';
 end;
 
 { TNFeDownloadNFe }
@@ -2971,7 +2971,7 @@ end;
 function TNFeDownloadNFe.GerarMsgErro(E: Exception): String;
 begin
   Result := 'WebService Download de NF-e:' + LineBreak +
-    '- Inativo ou Inoperante tente novamente.' + LineBreak + '- ' + E.Message;
+            '- Inativo ou Inoperante tente novamente.';
 end;
 
 { TAdministrarCSCNFCe }
@@ -3051,7 +3051,7 @@ end;
 function TAdministrarCSCNFCe.GerarMsgErro(E: Exception): String;
 begin
   Result := 'WebService Administrar CSC da NFC-e:' + LineBreak +
-    '- Inativo ou Inoperante tente novamente.' + LineBreak + '- ' + E.Message;
+            '- Inativo ou Inoperante tente novamente.';
 end;
 
 { TDistribuicaoDFe }
@@ -3156,7 +3156,7 @@ end;
 function TDistribuicaoDFe.GerarMsgErro(E: Exception): String;
 begin
   Result := 'WebService Distribuição de DFe:' + LineBreak +
-    '- Inativo ou Inoperante tente novamente.' + LineBreak + '- ' + E.Message;
+            '- Inativo ou Inoperante tente novamente.';
 end;
 
 { TNFeEnvioWebService }
@@ -3218,8 +3218,8 @@ end;
 
 function TNFeEnvioWebService.GerarMsgErro(E: Exception): String;
 begin
-  Result := 'WebService' + LineBreak + '- Inativo ou Inoperante tente novamente.' +
-    LineBreak + '- ' + E.Message;
+  Result := 'WebService: '+FPServico + LineBreak +
+            '- Inativo ou Inoperante tente novamente.';
 end;
 
 function TNFeEnvioWebService.GerarVersaoDadosSoap: String;
@@ -3283,13 +3283,13 @@ begin
   FEnviar.FSincrono := ASincrono;
 
   if not Enviar.Executar then
-    Enviar.GerarException(Enviar.Msg);
+    Enviar.GerarException( ACBrStrToAnsi(Enviar.Msg) );
 
   if not ASincrono then
   begin
     FRetorno.Recibo := FEnviar.Recibo;
     if not FRetorno.Executar then
-      FRetorno.GerarException(FRetorno.Msg);
+      FRetorno.GerarException( ACBrStrToAnsi(FRetorno.Msg) );
   end;
 
   Result := True;
@@ -3312,7 +3312,7 @@ begin
   FInutilizacao.Justificativa := AJustificativa;
 
   if not FInutilizacao.Executar then
-    FInutilizacao.GerarException(FInutilizacao.Msg);
+    FInutilizacao.GerarException( ACBrStrToAnsi(FInutilizacao.Msg) );
 end;
 
 end.

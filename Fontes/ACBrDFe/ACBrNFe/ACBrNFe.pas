@@ -733,7 +733,7 @@ begin
   Result := WebServices.EnvEvento.Executar;
 
   if not Result then
-    GerarException(WebServices.EnvEvento.Msg);
+    GerarException( ACBrStrToAnsi(WebServices.EnvEvento.Msg) );
 end;
 
 function TACBrNFe.ConsultaNFeDest(CNPJ: String; IndNFe: TpcnIndicadorNFe;
@@ -747,7 +747,7 @@ begin
   Result := WebServices.ConsNFeDest.Executar;
 
   if not Result then
-    GerarException(WebServices.ConsNFeDest.Msg);
+    GerarException( ACBrStrToAnsi(WebServices.ConsNFeDest.Msg) );
 end;
 
 function TACBrNFe.Download: Boolean;
@@ -755,7 +755,7 @@ begin
   Result := WebServices.DownloadNFe.Executar;
 
   if not Result then
-    GerarException(WebServices.DownloadNFe.Msg);
+    GerarException( ACBrStrToAnsi(WebServices.DownloadNFe.Msg) );
 end;
 
 procedure TACBrNFe.ImprimirEvento;
@@ -801,7 +801,7 @@ begin
   Result := WebServices.AdministrarCSCNFCe.Executar;
 
   if not Result then
-    GerarException(WebServices.AdministrarCSCNFCe.Msg);
+    GerarException( ACBrStrToAnsi(WebServices.AdministrarCSCNFCe.Msg) );
 end;
 
 function TACBrNFe.DistribuicaoDFe(AcUFAutor: integer;
@@ -815,7 +815,7 @@ begin
   Result := WebServices.DistribuicaoDFe.Executar;
 
   if not Result then
-    GerarException(WebServices.DistribuicaoDFe.Msg);
+    GerarException( ACBrStrToAnsi(WebServices.DistribuicaoDFe.Msg) );
 end;
 
 { TCartaCorrecao }

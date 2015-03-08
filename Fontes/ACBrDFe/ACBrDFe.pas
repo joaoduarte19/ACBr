@@ -131,7 +131,7 @@ type
       VersaoBase: Double): String; virtual;
 
     procedure FazerLog(const Msg: String; out Tratado: Boolean);
-    procedure GerarException(Msg: String);
+    procedure GerarException(const Msg: String; E: Exception = nil);
     property Configuracoes: TConfiguracoes read FPConfiguracoes write FPConfiguracoes;
 
   published
@@ -265,7 +265,7 @@ begin
     Result := True;
   except
     on E: Exception do
-      GerarException('Erro ao salvar.' + E.Message);
+      GerarException('Erro ao salvar.', E);
   end;
 end;
 
@@ -396,15 +396,20 @@ begin
   end;
 end;
 
-procedure TACBrDFe.GerarException(Msg: String);
+procedure TACBrDFe.GerarException(const Msg: String; E: Exception);
 var
   Tratado: Boolean;
+  MsgErro: String;
 begin
+  MsgErro := ACBrStr(Msg);
+  if Assigned(E) then
+    MsgErro := MsgErro + sLineBreak + E.Message;
+
   Tratado := False;
-  FazerLog('ERRO: ' + Msg, Tratado);
+  FazerLog('ERRO: ' + MsgErro, Tratado);
 
   if not Tratado then
-    raise EACBrDFeException.Create(Msg);
+    raise EACBrDFeException.CreateDef(MsgErro);
 end;
 
 procedure TACBrDFe.SetMAIL(AValue: TACBrMail);

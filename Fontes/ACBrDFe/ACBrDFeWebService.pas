@@ -74,7 +74,7 @@ type
     FPSoapAction: String;
   protected
     procedure FazerLog(Msg: String; Exibir: Boolean = False); virtual;
-    procedure GerarException(Msg: String); virtual;
+    procedure GerarException(Msg: String; E: Exception = nil); virtual;
 
     procedure InicializarServico; virtual;
     procedure DefinirServicoEAction; virtual;
@@ -178,7 +178,7 @@ begin
       begin
         Result := False;
         ErroMsg := GerarMsgErro(E);
-        GerarException(ErroMsg);
+        GerarException(ErroMsg, E);
       end;
     end;
   finally
@@ -196,7 +196,7 @@ begin
 
   DefinirServicoEAction;
   if Servico = '' then
-    GerarException('Servico não definido para: ' + ClassName);
+    GerarException('Servico não definido para: '+ ClassName);
 
   if SoapAction = '' then
     GerarException('SoapAction não definido para: ' + ClassName);
@@ -371,8 +371,6 @@ var
 begin
   if (Msg <> '') then
   begin
-    Msg := ACBrStr(Msg);
-
     FPDFeOwner.FazerLog(Msg, Tratado);
 
     if Tratado then
@@ -385,17 +383,16 @@ begin
   end;
 end;
 
-procedure TDFeWebService.GerarException(Msg: String);
+procedure TDFeWebService.GerarException(Msg: String; E: Exception);
 begin
-  FazerLog('ERRO: ' + Msg, False);
-  raise EACBrDFeException.CreateDef(Msg);
+  FPDFeOwner.GerarException(Msg, E);
 end;
 
 function TDFeWebService.GerarMsgErro(E: Exception): String;
 begin
   { Sobrescrever com mensagem adicional, se desejar }
 
-  Result := E.Message;
+  Result := '';
 end;
 
 function TDFeWebService.GerarCabecalhoSoap: String;
