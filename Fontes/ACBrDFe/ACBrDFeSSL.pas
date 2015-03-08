@@ -130,7 +130,7 @@ type
 
 implementation
 
-uses strutils, ACBrUtil, ACBrDFe, ACBrDFeUtil, ACBrDFeOpenSSL, ACBrDFeCapicom
+uses strutils, ACBrUtil, ACBrDFe, ACBrDFeOpenSSL, ACBrDFeCapicom
   {$IFNDEF FPC}, ACBrDFeCapicomDelphiSoap{$ENDIF};
 
 { TDFeSSL }

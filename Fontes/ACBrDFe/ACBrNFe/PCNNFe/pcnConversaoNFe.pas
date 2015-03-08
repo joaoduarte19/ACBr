@@ -157,8 +157,8 @@ end;
 function SchemaNFeToStr(const t: TSchemaNFe): String;
 begin
   Result := EnumeradoToStr(t,
-    ['Nfe', 'CancNFe', 'InutNFe', 'EnvDPEC', 'EnvCCe',
-     'EnvEventoCancNFe', 'EnvConfRecebto', 'EnvEPEC'],
+    ['nfe', 'cancNFe', 'inutNFe', 'envDPEC', 'envCCe',
+     'envEventoCancNFe', 'envConfRecebto', 'envEPEC'],
     [ schNfe, schCancNFe, schInutNFe, schEnvDPEC, schEnvCCe,
       schEnvEventoCancNFe, schEnvConfRecebto, schEnvEPEC ] );
 end;

@@ -162,7 +162,7 @@ type
       write FExibirErroSchema default True;
     property FormatoAlerta: String read GetFormatoAlerta write FFormatoAlerta;
     property RetirarAcentos: Boolean
-      read FRetirarAcentos write FRetirarAcentos default False;
+      read FRetirarAcentos write FRetirarAcentos default True;
     property IdToken: String read FIdToken write FIdToken;
     property Token: String read FToken write FToken;
     property ValidarDigest: Boolean
@@ -236,9 +236,8 @@ type
 implementation
 
 uses
-  Math, strutils,
-  ACBrDFe, ACBrDFeUtil,
-  ACBrUtil, DateUtils;
+  Math, strutils, DateUtils,
+  ACBrDFe, ACBrUtil;
 
 { TConfiguracoes }
 
@@ -344,7 +343,7 @@ begin
   // %ID%        : Representa a ID da TAG; ex X34
   // %MSG%       : Representa a mensagem de alerta
   // %DESCRICAO% : Representa a Descrição da TAG
-  FRetirarAcentos := False;
+  FRetirarAcentos := True;
   FIdToken := '';
   FToken := '';
   FValidarDigest := True;

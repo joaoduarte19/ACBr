@@ -388,7 +388,7 @@ end;
 procedure TDFeWebService.GerarException(Msg: String);
 begin
   FazerLog('ERRO: ' + Msg, False);
-  raise EACBrDFeException.Create(Msg);
+  raise EACBrDFeException.CreateDef(Msg);
 end;
 
 function TDFeWebService.GerarMsgErro(E: Exception): String;

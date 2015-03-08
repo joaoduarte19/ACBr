@@ -44,9 +44,6 @@ uses
   {$IFNDEF NOGUI} Forms, {$ENDIF}
   Classes, StrUtils, SysUtils;
 
-type
-  EACBrDFeException = class(Exception);
-
 function FormatarNumeroDocumentoFiscal(AValue: String): String;
 function FormatarNumeroDocumentoFiscalNFSe(AValue: String): String;
 function GerarChaveAcesso(AUF:Integer; ADataEmissao:TDateTime; ACNPJ:String; ASerie:Integer;
@@ -74,7 +71,7 @@ implementation
 uses
   Variants, DateUtils,
   pcnGerador,
-  ACBrConsts, ACBrUtil, ACBrValidador;
+  ACBrConsts, ACBrDFe, ACBrUtil, ACBrValidador;
 
 function FormatarNumeroDocumentoFiscal(AValue: String): String;
 begin

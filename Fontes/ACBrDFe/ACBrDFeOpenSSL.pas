@@ -89,7 +89,7 @@ type
 
 implementation
 
-uses Math, ACBrUtil, ACBrDFeUtil;
+uses Math, ACBrUtil, ACBrDFe, ACBrDFeUtil;
 
 { TDFeOpenSSL }
 

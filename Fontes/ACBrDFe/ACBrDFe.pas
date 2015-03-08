@@ -66,6 +66,7 @@ type
   EACBrDFeException = class(Exception)
   public
     constructor Create(const Msg: String);
+    constructor CreateDef(const Msg: String);
   end;
 
   { TACBrUFProperty }
@@ -166,6 +167,11 @@ end;
 constructor EACBrDFeException.Create(const Msg: String);
 begin
   inherited Create(ACBrStr(Msg));
+end;
+
+constructor EACBrDFeException.CreateDef(const Msg: String);
+begin
+  inherited Create(Msg);
 end;
 
 { TACBrDFe }

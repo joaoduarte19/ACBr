@@ -837,8 +837,7 @@ var
 begin
   ConsStatServ := TConsStatServ.Create;
   try
-    ConsStatServ.TpAmb := TpcnTipoAmbiente(
-      FPConfiguracoesNFe.WebServices.AmbienteCodigo - 1);
+    ConsStatServ.TpAmb := FPConfiguracoesNFe.WebServices.Ambiente;
     ConsStatServ.CUF := FPConfiguracoesNFe.WebServices.UFCodigo;
 
     ConsStatServ.Versao := FPVersaoServico;
@@ -979,7 +978,7 @@ begin
   vNotas := '';
   for I := 0 to FNotasFiscais.Count - 1 do
     vNotas := vNotas + '<NFe' + RetornarConteudoEntre(
-      FNotasFiscais.Items[I].XMLOriginal, '<NFe', '</NFe>') + '</NFe>';
+      FNotasFiscais.Items[I].XMLAssinado, '<NFe', '</NFe>') + '</NFe>';
 
   FPDadosMsg := '<enviNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="' +
     FPVersaoServico + '">' + '<idLote>' + FLote + '</idLote>' + indSinc +
@@ -1281,9 +1280,9 @@ begin
           FNotasFiscais.Items[J].NomeArq) then
         begin
           if FileExists(PathWithDelim(FPConfiguracoesNFe.Arquivos.PathSalvar) +
-            AInfProt.Items[I].chNFe + '-nfe.xml') and FileExists(
-            PathWithDelim(FPConfiguracoesNFe.Arquivos.PathSalvar) +
-            FNFeRetorno.nRec + '-pro-rec.xml') then
+                        AInfProt.Items[I].chNFe + '-nfe.xml') and
+             FileExists(PathWithDelim(FPConfiguracoesNFe.Arquivos.PathSalvar) +
+                        FNFeRetorno.nRec + '-pro-rec.xml') then
           begin
             AProcNFe := TProcNFe.Create;
             try
@@ -1421,8 +1420,7 @@ var
 begin
   ConsReciNFe := TConsReciNFe.Create;
   try
-    ConsReciNFe.tpAmb := TpcnTipoAmbiente(
-      FPConfiguracoesNFe.WebServices.AmbienteCodigo - 1);
+    ConsReciNFe.tpAmb := FPConfiguracoesNFe.WebServices.Ambiente;
     ConsReciNFe.nRec := FRecibo;
     ConsReciNFe.Versao := FPVersaoServico;
     ConsReciNFe.GerarXML;
@@ -1533,8 +1531,7 @@ var
 begin
   ConsReciNFe := TConsReciNFe.Create;
   try
-    ConsReciNFe.tpAmb := TpcnTipoAmbiente(
-      FPConfiguracoesNFe.WebServices.AmbienteCodigo - 1);
+    ConsReciNFe.tpAmb := FPConfiguracoesNFe.WebServices.Ambiente;
     ConsReciNFe.nRec := FRecibo;
     ConsReciNFe.Versao := FPVersaoServico;
     ConsReciNFe.GerarXML;
@@ -1632,8 +1629,7 @@ begin
   OK := False;
   ConsSitNFe := TConsSitNFe.Create;
   try
-    ConsSitNFe.TpAmb := TpcnTipoAmbiente(
-      FPConfiguracoesNFe.WebServices.AmbienteCodigo - 1);
+    ConsSitNFe.TpAmb := FPConfiguracoesNFe.WebServices.Ambiente;
     ConsSitNFe.chNFe := FNFeChave;
 
     FPConfiguracoesNFe.Geral.ModeloDF :=
@@ -2003,7 +1999,7 @@ begin
   OK := False;
   InutNFe := TinutNFe.Create;
   try
-    InutNFe.tpAmb := TpcnTipoAmbiente(FPConfiguracoesNFe.WebServices.AmbienteCodigo - 1);
+    InutNFe.tpAmb := FPConfiguracoesNFe.WebServices.Ambiente;
     InutNFe.cUF := FPConfiguracoesNFe.WebServices.UFCodigo;
     InutNFe.ano := FAno;
     InutNFe.CNPJ := FCNPJ;
@@ -2435,8 +2431,7 @@ begin
   OK := False;
   ConsDPEC := TConsDPEC.Create;
   try
-    ConsDPEC.tpAmb := TpcnTipoAmbiente(
-      FPConfiguracoesNFe.WebServices.AmbienteCodigo - 1);
+    ConsDPEC.tpAmb := FPConfiguracoesNFe.WebServices.Ambiente;
     ConsDPEC.verAplic := '2.0.0.0';
     ConsDPEC.nRegDPEC := FnRegDPEC;
     ConsDPEC.chNFe := FNFeChave;
@@ -2830,8 +2825,7 @@ var
 begin
   ConsNFeDest := TConsNFeDest.Create;
   try
-    ConsNFeDest.TpAmb := TpcnTipoAmbiente(
-      FPConfiguracoesNFe.WebServices.AmbienteCodigo - 1);
+    ConsNFeDest.TpAmb := FPConfiguracoesNFe.WebServices.Ambiente;
     ConsNFeDest.CNPJ := FCNPJ;
     ConsNFeDest.indNFe := FindNFe;
     ConsNFeDest.indEmi := FindEmi;
@@ -2915,8 +2909,7 @@ var
 begin
   DownloadNFe := TDownloadNFe.Create;
   try
-    DownloadNFe.TpAmb := TpcnTipoAmbiente(
-      FPConfiguracoesNFe.WebServices.AmbienteCodigo - 1);
+    DownloadNFe.TpAmb := FPConfiguracoesNFe.WebServices.Ambiente;
     DownloadNFe.CNPJ := FDownload.CNPJ;
 
     for I := 0 to FDownload.Chaves.Count - 1 do
@@ -3015,8 +3008,7 @@ var
 begin
   AdmCSCNFCe := TAdmCSCNFCe.Create;
   try
-    AdmCSCNFCe.TpAmb := TpcnTipoAmbiente(
-      FPConfiguracoesNFe.WebServices.AmbienteCodigo - 1);
+    AdmCSCNFCe.TpAmb := FPConfiguracoesNFe.WebServices.Ambiente;
     AdmCSCNFCe.RaizCNPJ := FRaizCNPJ;
     AdmCSCNFCe.indOP := FindOp;
     AdmCSCNFCe.idCsc := FIdCSC;
@@ -3097,8 +3089,7 @@ var
 begin
   DistDFeInt := TDistDFeInt.Create;
   try
-    DistDFeInt.TpAmb := TpcnTipoAmbiente(
-      FPConfiguracoesNFe.WebServices.AmbienteCodigo - 1);
+    DistDFeInt.TpAmb := FPConfiguracoesNFe.WebServices.Ambiente;
     DistDFeInt.cUFAutor := FcUFAutor;
     DistDFeInt.CNPJCPF := FCNPJCPF;
     DistDFeInt.ultNSU := FultNSU;

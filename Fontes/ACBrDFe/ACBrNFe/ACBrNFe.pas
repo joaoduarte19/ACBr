@@ -383,7 +383,8 @@ begin
   if EstaVazio(VersaoServico) then
     VersaoServico := LerVersaoDeParams(ALayOut);
 
-  Result := SchemaNFeToStr(IdentificaSchemaLayout(ALayOut)) + '_v' + VersaoServico;
+  Result := SchemaNFeToStr(IdentificaSchemaLayout(ALayOut)) + '_v' +
+            VersaoServico + '.xsd';
 end;
 
 function TACBrNFe.GerarChaveContingencia(FNFe: TNFe): String;

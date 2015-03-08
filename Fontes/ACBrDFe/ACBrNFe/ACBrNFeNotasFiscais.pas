@@ -284,13 +284,11 @@ var
   ALayout: TLayOut;
   VersaoStr: String;
 begin
-  AXML := FXMLOriginal;
+  AXML := FXMLAssinado;
 
   if EstaVazio(AXML) then
   begin
-    if EstaVazio(FXMLAssinado) then
-      Assinar;
-
+    Assinar;
     AXML := FXMLAssinado;
   end;
 
@@ -306,11 +304,11 @@ begin
 
     if not NotaEhValida then
     begin
-      FErroValidacao := 'Falha na validação dos dados da nota: ' +
-        IntToStr(NFe.Ide.nNF) + sLineBreak + Alertas;
+      FErroValidacao := ACBrStr('Falha na validação dos dados da nota: ' +
+        IntToStr(NFe.Ide.nNF) + sLineBreak + Alertas );
       FErroValidacaoCompleto := ErroValidacao + sLineBreak + Erro;
 
-      raise EACBrNFeException.Create(
+      raise EACBrNFeException.CreateDef(
         IfThen(Configuracoes.Geral.ExibirErroSchema, ErroValidacaoCompleto,
         ErroValidacao));
     end;
@@ -673,6 +671,8 @@ begin
   with TACBrNFe(TNotasFiscais(Collection).ACBrNFe) do
   begin
     NFe.infNFe.Versao := StringToFloat(LerVersaoDeParams(LayNfeRecepcao));
+    NFe.ide.tpAmb := Configuracoes.WebServices.Ambiente;
+
     FNFeW.Gerador.Opcoes.FormatoAlerta := Configuracoes.Geral.FormatoAlerta;
     FNFeW.Gerador.Opcoes.RetirarAcentos := Configuracoes.Geral.RetirarAcentos;
     FNFeW.Opcoes.GerarTXTSimultaneamente := False;

@@ -43,34 +43,9 @@
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
 
-{*******************************************************************************
-|* Historico
-|*
-|* 03/08/2011: Italo
-|*  - Tipos para LayOut do CT-e
-|* 09/04/2012: Italo
-|*  - Eventos da NFe
-|* 17/07/2012: Italo
-|*  - Consulta de NFe pelo destinat·rio e download da NFe
-|* 24/09/2012: Italo
-|*  - IncluÌdo FunÁ„o DateTimeTodhUTC
-|* 23/10/2012: Alan - http://www.djsystem.com.br/acbr/forum/viewtopic.php?f=6&t=4754
-|*  - IncluÌdo FunÁ„o GetUTC
-|*  - IncluÌdo FunÁ„o IsHorarioDeVerao
-|*  - IncluÌdo FunÁ„o GetTerceiroDomingoDoMes
-|*  - IncluÌdo FunÁ„o GetInicioDoHorarioDeVerao
-|*  - IncluÌdo FunÁ„o GetFimDoHorarioDeVerao
-|*  - IncluÌdo FunÁ„o GetDataDoCarnaval
-|*  - IncluÌdo FunÁ„o GetDataDaPascoa
-*******************************************************************************}
-
-{$IFDEF FPC}
-  {$MODE DELPHI}
-{$ENDIF}
+{$I ACBr.inc}
 
 unit pcnAuxiliar;
-
-{$H+}
 
 interface
 
@@ -126,7 +101,7 @@ function GetDataDaPascoa(const ano: Integer): TDateTime;
 implementation
 
 uses
-  DateUtils, ACBrValidador;
+  DateUtils, ACBrUtil, ACBrValidador;
 
 function CodigoParaUF(const codigo: integer): string;
 const
@@ -169,34 +144,19 @@ begin
 end;
 
 function FiltrarTextoXML(const RetirarEspacos: boolean; aTexto: AnsiString; RetirarAcentos: boolean = True): AnsiString;
-var
-  i: integer;
-const
-  COM_ACENTO = '‡‚ÍÙ˚„ı·ÈÌÛ˙Á¸Ó‰ÎÔˆËÏÚ˘¿¬ ‘€√’¡…Õ”⁄«‹ŒƒÀœ÷»Ã“Ÿ';
-  SEM_ACENTO = 'aaeouaoaeioucuiaeioeiouAAEOUAOAEIOUCUIAEIOEIOU';
 begin
   if RetirarAcentos then
-   begin
-     for i := 1 to Length(aTexto) do
-      begin
-{$WARNINGS OFF}
-        if Pos(aTexto[i], COM_ACENTO) <> 0 then
-          aTexto[i] := AnsiChar(SEM_ACENTO[Pos(aTexto[i], COM_ACENTO)]);
-//          aTexto[i] := SEM_ACENTO[Pos(aTexto[i], COM_ACENTO)];
-        if not (aTexto[i] in [' '..'~']) then
-          aTexto[i] := ' ';
-{$WARNINGS ON}
-      end;
-   end;
-  aTexto := StringReplace(aTexto, '&', '&amp;', [rfReplaceAll]);
-  aTexto := StringReplace(aTexto, '<', '&lt;', [rfReplaceAll]);
-  aTexto := StringReplace(aTexto, '>', '&gt;', [rfReplaceAll]);
-  aTexto := StringReplace(aTexto, '"', '&quot;', [rfReplaceAll]);
-  aTexto := StringReplace(aTexto, #39, '&#39;', [rfReplaceAll]);
+     aTexto := AnsiString(TiraAcentos(String(aTexto)));
+
+  aTexto := ParseText(aTexto, False, {$IFDEF UNICODE}True{$ELSE}False{$ENDIF} );
+
   if RetirarEspacos then
+  begin
     while pos('  ', aTexto) > 0 do
       aTexto := StringReplace(aTexto, '  ', ' ', [rfReplaceAll]);
-  result := Trim(aTexto);
+  end;
+
+  Result := Trim(aTexto);
 end;
 
 function IIf(const condicao: Boolean; const Verdadeiro, Falso: Variant): Variant;
