@@ -305,7 +305,7 @@ begin
    begin
      xProtCTe :=
            '<protCTe versao="' + CTeenviCTe + '">' +
-             '<infProt>'+
+             '<infProt' + IIf( (CTe.procCTe.Id <> ''), ' Id="' + CTe.procCTe.Id + '">', '>') +
                '<tpAmb>'+TpAmbToStr(CTe.procCTe.tpAmb)+'</tpAmb>'+
                '<verAplic>'+CTe.procCTe.verAplic+'</verAplic>'+
                '<chCTe>'+CTe.procCTe.chCTe+'</chCTe>'+
