@@ -3195,7 +3195,7 @@ begin
   ACBrNFe1.NotasFiscais.Clear;
 
   ACBrNFe1.Configuracoes.Geral.ModeloDF := moNFCe;
-  ACBrNFe1.Configuracoes.Geral.VersaoDF :=  TpcnVersaoDF(cbVersaoDF.ItemIndex);  
+  ACBrNFe1.Configuracoes.Geral.VersaoDF := ve310;
   GerarNFCe(vAux);
 
   ACBrNFe1.Enviar(vNumLote,True,Sincrono);

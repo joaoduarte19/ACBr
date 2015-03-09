@@ -670,9 +670,6 @@ function NotaFiscal.GerarXML: String;
 begin
   with TACBrNFe(TNotasFiscais(Collection).ACBrNFe) do
   begin
-    NFe.infNFe.Versao := StringToFloat(LerVersaoDeParams(LayNfeRecepcao));
-    NFe.ide.tpAmb := Configuracoes.WebServices.Ambiente;
-
     FNFeW.Gerador.Opcoes.FormatoAlerta := Configuracoes.Geral.FormatoAlerta;
     FNFeW.Gerador.Opcoes.RetirarAcentos := Configuracoes.Geral.RetirarAcentos;
     FNFeW.Opcoes.GerarTXTSimultaneamente := False;
