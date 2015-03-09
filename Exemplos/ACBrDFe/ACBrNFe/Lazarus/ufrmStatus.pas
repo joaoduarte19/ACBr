@@ -3,7 +3,7 @@ unit ufrmStatus;
 interface
 
 uses
-  {Windows,} Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls;
 
 type
@@ -22,6 +22,6 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
-end.
+end.

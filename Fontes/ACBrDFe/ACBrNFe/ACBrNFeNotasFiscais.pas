@@ -304,9 +304,9 @@ begin
 
     if not NotaEhValida then
     begin
-      FErroValidacao := ACBrStr('Falha na validação dos dados da nota: ' +
-        IntToStr(NFe.Ide.nNF) + sLineBreak + Alertas );
-      FErroValidacaoCompleto := ErroValidacao + sLineBreak + Erro;
+      FErroValidacao := ACBrStr('Falha na validação dos dados da nota: ') +
+        IntToStr(NFe.Ide.nNF) + sLineBreak + FAlertas ;
+      FErroValidacaoCompleto := FErroValidacao + sLineBreak + Erro;
 
       raise EACBrNFeException.CreateDef(
         IfThen(Configuracoes.Geral.ExibirErroSchema, ErroValidacaoCompleto,
@@ -336,7 +336,7 @@ begin
 
     if not AssEhValida then
     begin
-      FErroValidacao := 'Falha na validação da assinatura da nota: ' +
+      FErroValidacao := ACBrStr('Falha na validação da assinatura da nota: ') +
         IntToStr(NFe.Ide.nNF) + sLineBreak + Erro;
     end;
   end;
@@ -549,9 +549,9 @@ begin
 
   if not Result then
   begin
-    Erros := 'Erro(s) nas Regras de negócios da nota: '+
-           IntToStr(NFe.Ide.nNF) + sLineBreak +
-           Erros;
+    Erros := ACBrStr('Erro(s) nas Regras de negócios da nota: '+
+                     IntToStr(NFe.Ide.nNF) + sLineBreak +
+                     Erros);
   end;
 
   FErroRegrasdeNegocios := Erros;
@@ -1169,13 +1169,5 @@ begin
     FException := nil;
   end;
 end;
-
-
-
-if VersaoStr = '' then
-   raise EACBrNFeException.Create( 'Não existe versão do serviço "LayNfeRecepcao",'+
-         ' para o modelo DF = '+ModeloDFToStr(TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).Configuracoes.Geral.ModeloDF)+
-         ' e Versão = '+VersaoDFToStr(TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).Configuracoes.Geral.VersaoDF) );
-
 
 *)

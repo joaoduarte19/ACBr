@@ -24,9 +24,9 @@ object Form1: TForm1
     Height = 250
     Top = 208
     Width = 793
-    ActivePage = tsLog
+    ActivePage = tsRecebido
     Align = alClient
-    TabIndex = 0
+    TabIndex = 2
     TabOrder = 1
     object tsLog: TTabSheet
       Caption = 'Log de Comandos'
@@ -541,13 +541,13 @@ object Form1: TForm1
     object tsRecebido: TTabSheet
       Caption = 'XML Recebido'
       ClientHeight = 222
-      ClientWidth = 719
+      ClientWidth = 785
       inline mRecebido: TSynMemo
         Cursor = crIBeam
         Left = 0
         Height = 222
         Top = 0
-        Width = 719
+        Width = 785
         Align = alClient
         Font.Height = -13
         Font.Name = 'Courier New'

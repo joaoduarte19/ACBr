@@ -559,7 +559,7 @@ var
   i: integer;
 begin
   if Self.NotasFiscais.Count = 0 then
-    GerarException('ERRO: Nenhuma Nota Fiscal Eletrônica Informada!');
+    GerarException(ACBrStr('ERRO: Nenhuma Nota Fiscal Eletrônica Informada!'));
 
   for i := 0 to self.NotasFiscais.Count - 1 do
   begin
@@ -596,7 +596,7 @@ var
   i: integer;
 begin
   if Self.NotasFiscais.Count = 0 then
-    GerarException('ERRO: Nenhuma Nota Fiscal Eletrônica Informada!');
+    GerarException(ACBrStr('ERRO: Nenhuma Nota Fiscal Eletrônica Informada!'));
 
   for i := 0 to Self.NotasFiscais.Count - 1 do
   begin
@@ -618,11 +618,11 @@ var
   i: integer;
 begin
   if NotasFiscais.Count <= 0 then
-    GerarException('ERRO: Nenhuma NF-e adicionada ao Lote');
+    GerarException(ACBrStr('ERRO: Nenhuma NF-e adicionada ao Lote'));
 
   if NotasFiscais.Count > 50 then
-    GerarException('ERRO: Conjunto de NF-e transmitidas (máximo de 50 NF-e)' +
-      ' excedido. Quantidade atual: ' + IntToStr(NotasFiscais.Count));
+    GerarException(ACBrStr('ERRO: Conjunto de NF-e transmitidas (máximo de 50 NF-e)' +
+      ' excedido. Quantidade atual: ' + IntToStr(NotasFiscais.Count)));
 
   NotasFiscais.Assinar;
   NotasFiscais.Validar;
@@ -681,11 +681,11 @@ var
   i: integer;
 begin
   if EventoNFe.Evento.Count <= 0 then
-    GerarException('ERRO: Nenhum Evento adicionado ao Lote');
+    GerarException(ACBrStr('ERRO: Nenhum Evento adicionado ao Lote'));
 
   if EventoNFe.Evento.Count > 20 then
-    GerarException('ERRO: Conjunto de Eventos transmitidos (máximo de 20) ' +
-      'excedido. Quantidade atual: ' + IntToStr(EventoNFe.Evento.Count));
+    GerarException(ACBrStr('ERRO: Conjunto de Eventos transmitidos (máximo de 20) ' +
+      'excedido. Quantidade atual: ' + IntToStr(EventoNFe.Evento.Count)));
 
   WebServices.EnvEvento.idLote := idLote;
 
@@ -733,7 +733,7 @@ begin
   Result := WebServices.EnvEvento.Executar;
 
   if not Result then
-    GerarException( ACBrStrToAnsi(WebServices.EnvEvento.Msg) );
+    GerarException( WebServices.EnvEvento.Msg );
 end;
 
 function TACBrNFe.ConsultaNFeDest(CNPJ: String; IndNFe: TpcnIndicadorNFe;
@@ -747,7 +747,7 @@ begin
   Result := WebServices.ConsNFeDest.Executar;
 
   if not Result then
-    GerarException( ACBrStrToAnsi(WebServices.ConsNFeDest.Msg) );
+    GerarException( WebServices.ConsNFeDest.Msg );
 end;
 
 function TACBrNFe.Download: Boolean;
@@ -755,7 +755,7 @@ begin
   Result := WebServices.DownloadNFe.Executar;
 
   if not Result then
-    GerarException( ACBrStrToAnsi(WebServices.DownloadNFe.Msg) );
+    GerarException( WebServices.DownloadNFe.Msg );
 end;
 
 procedure TACBrNFe.ImprimirEvento;
@@ -801,7 +801,7 @@ begin
   Result := WebServices.AdministrarCSCNFCe.Executar;
 
   if not Result then
-    GerarException( ACBrStrToAnsi(WebServices.AdministrarCSCNFCe.Msg) );
+    GerarException( WebServices.AdministrarCSCNFCe.Msg );
 end;
 
 function TACBrNFe.DistribuicaoDFe(AcUFAutor: integer;
@@ -815,7 +815,7 @@ begin
   Result := WebServices.DistribuicaoDFe.Executar;
 
   if not Result then
-    GerarException( ACBrStrToAnsi(WebServices.DistribuicaoDFe.Msg) );
+    GerarException( WebServices.DistribuicaoDFe.Msg );
 end;
 
 { TCartaCorrecao }

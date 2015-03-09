@@ -401,7 +401,7 @@ var
   Tratado: Boolean;
   MsgErro: String;
 begin
-  MsgErro := ACBrStr(Msg);
+  MsgErro := Msg;
   if Assigned(E) then
     MsgErro := MsgErro + sLineBreak + E.Message;
 

@@ -69,8 +69,11 @@ type
     btnImprimirCCe: TButton;
     btnEnviarEvento: TButton;
     btnCriarEnviarNFCe: TButton;
+    ACBrNFeDANFERave1: TACBrNFeDANFERave;
     ACBrNFeDANFCeFortes1: TACBrNFeDANFCeFortes;
     btnDistribuicaoDFe: TButton;
+    ACBrNFeDANFERaveCB1: TACBrNFeDANFERaveCB;
+    ACBrNFeDANFeESCPOS1: TACBrNFeDANFeESCPOS;
     PageControl1: TPageControl;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
@@ -292,8 +295,8 @@ begin
       Ini.WriteString( 'Certificado','Senha'   ,edtSenha.Text) ;
       Ini.WriteString( 'Certificado','NumSerie',edtNumSerie.Text) ;
 
-      Ini.WriteBool(   'Geral','AtualizarXML'      ,cbxAtualizarXML.Checked) ;
-      Ini.WriteBool(   'Geral','ExibirErroSchema'  ,cbxExibirErroSchema.Checked) ;
+      Ini.WriteBool(   'Geral','AtualizarXML'      ,ckSalvar.Checked) ;
+      Ini.WriteBool(   'Geral','ExibirErroSchema'      ,ckSalvar.Checked) ;
       Ini.WriteString( 'Geral','FormatoAlerta'  ,edtFormatoAlerta.Text) ;
       Ini.WriteInteger( 'Geral','FormaEmissao',cbFormaEmissao.ItemIndex) ;
       Ini.WriteInteger( 'Geral','ModeloDF',cbModeloDF.ItemIndex) ;
@@ -429,12 +432,11 @@ begin
          FormaEmissao          := TpcnTipoEmissao(cbFormaEmissao.ItemIndex); 
          ModeloDF              := TpcnModeloDF(cbModeloDF.ItemIndex);
          VersaoDF              := TpcnVersaoDF(cbVersaoDF.ItemIndex);
-         IdToken               := edtIdToken.Text;
-         Token                 := edtToken.Text;
-         Salvar                := ckSalvar.Checked;
-         RetirarAcentos        := cbxRetirarAcentos.Checked;
-         PathSalvar            := edtPathLogs.Text;
-         PathSchemas           := edtPathSchemas.Text;
+         IdToken      := edtIdToken.Text;
+         Token        := edtToken.Text;
+         Salvar       := ckSalvar.Checked;
+         PathSalvar   := edtPathLogs.Text;
+         PathSchemas  := edtPathSchemas.Text;
        end;
 
       cbUF.ItemIndex        := cbUF.Items.IndexOf(Ini.ReadString( 'WebService','UF','SP')) ;
@@ -2190,7 +2192,7 @@ begin
          Prod.nItem    := 1; // Número sequencial, para cada item deve ser incrementado
          Prod.cProd    := '123456';
          Prod.cEAN     := '7896523206646';
-         Prod.xProd    := 'TESTE DE PRODUTO ÁÉÍÕÇÃ';
+         Prod.xProd    := 'TESTE DE PRODUTO';
          Prod.NCM      := '94051010'; // Tabela NCM disponível em  http://www.receita.fazenda.gov.br/Aliquotas/DownloadArqTIPI.htm
          Prod.EXTIPI   := '';
          Prod.CFOP     := '5101';
@@ -2462,7 +2464,7 @@ begin
       Total.ISSQNTot.vPIS    := 0;
       Total.ISSQNTot.vCOFINS := 0;
 
-{      Total.retTrib.vRetPIS    := 0;
+      Total.retTrib.vRetPIS    := 0;
       Total.retTrib.vRetCOFINS := 0;
       Total.retTrib.vRetCSLL   := 0;
       Total.retTrib.vBCIRRF    := 0;

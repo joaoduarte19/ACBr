@@ -655,7 +655,6 @@ type
     procedure DefinirDadosMsg; override;
     function TratarResposta: Boolean; override;
 
-    function GerarMsgLog: String; override;
     function GerarMsgErro(E: Exception): String; override;
     function GerarVersaoDadosSoap: String; override;
   public
@@ -887,21 +886,30 @@ end;
 
 function TNFeStatusServico.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : ' + Fversao + LineBreak + 'Ambiente : ' +
-    TpAmbToStr(FtpAmb) + LineBreak + 'Versão Aplicativo : ' +
-    FverAplic + LineBreak + 'Status Código : ' + IntToStr(FcStat) +
-    LineBreak + 'Status Descrição : ' + FxMotivo + LineBreak + 'UF : ' +
-    CodigoParaUF(FcUF) + LineBreak + 'Recebimento : ' +
-    IfThen(FdhRecbto = 0, '', DateTimeToStr(FdhRecbto)) + LineBreak +
-    'Tempo Médio : ' + IntToStr(FTMed) + LineBreak + 'Retorno : ' +
-    IfThen(FdhRetorno = 0, '', DateTimeToStr(FdhRetorno)) + LineBreak +
-    'Observação : ' + FxObs + LineBreak;
+  {(*}
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Ambiente: %s' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Status Código: %s' + LineBreak +
+                           'Status Descrição: %s' + LineBreak +
+                           'UF: %s' + LineBreak +
+                           'Recebimento: %s' + LineBreak +
+                           'Tempo Médio: %s' + LineBreak +
+                           'Retorno: %s' + LineBreak +
+                           'Observação: %s' + LineBreak),
+                   [Fversao, TpAmbToStr(FtpAmb), FverAplic, IntToStr(FcStat),
+                    FxMotivo, CodigoParaUF(FcUF),
+                    IfThen(FdhRecbto = 0, '', FormatDateTimeBr(FdhRecbto)),
+                    IntToStr(FTMed),
+                    IfThen(FdhRetorno = 0, '', FormatDateTimeBr(FdhRetorno)),
+                    FxObs]);
+  {*)}
 end;
 
 function TNFeStatusServico.GerarMsgErro(E: Exception): String;
 begin
-  Result := 'WebService Consulta Status serviço:' + LineBreak +
-            '- Inativo ou Inoperante tente novamente.';
+  Result := ACBrStr('WebService Consulta Status serviço:' + LineBreak +
+                    '- Inativo ou Inoperante tente novamente.');
 end;
 
 { TNFeRecepcao }
@@ -986,8 +994,8 @@ begin
 
   // Lote tem mais de 500kb ? //
   if Length(FPDadosMsg) > (500 * 1024) then
-    GerarException('Tamanho do XML de Dados superior a 500 Kbytes. Tamanho atual: ' +
-      IntToStr(trunc(Length(FPDadosMsg) / 1024)) + ' Kbytes');
+    GerarException(ACBrStr('Tamanho do XML de Dados superior a 500 Kbytes. Tamanho atual: ' +
+      IntToStr(trunc(Length(FPDadosMsg) / 1024)) + ' Kbytes'));
 
   FRecibo := '';
 end;
@@ -1165,29 +1173,47 @@ end;
 
 function TNFeRecepcao.GerarMsgLog: String;
 begin
+  {(*}
   if Assigned(FNFeRetornoSincrono) then
-    Result := 'Versão Layout : ' + FNFeRetornoSincrono.versao + LineBreak +
-      'Ambiente : ' + TpAmbToStr(FNFeRetornoSincrono.TpAmb) +
-      LineBreak + 'Versão Aplicativo : ' + FNFeRetornoSincrono.verAplic +
-      LineBreak + 'Status Código : ' + IntToStr(FNFeRetornoSincrono.protNFe.cStat) +
-      LineBreak + 'Status Descrição : ' + FNFeRetornoSincrono.protNFe.xMotivo +
-      LineBreak + 'UF : ' + CodigoParaUF(FNFeRetornoSincrono.cUF) +
-      LineBreak + 'dhRecbto : ' + DateTimeToStr(FNFeRetornoSincrono.dhRecbto) +
-      LineBreak + 'chNFe : ' + FNFeRetornoSincrono.chNfe + LineBreak
+    Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Ambiente: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'UF: %s ' + sLineBreak +
+                           'dhRecbto: %s ' + sLineBreak +
+                           'chNFe: %s ' + LineBreak),
+                     [FNFeRetornoSincrono.versao,
+                      TpAmbToStr(FNFeRetornoSincrono.TpAmb),
+                      FNFeRetornoSincrono.verAplic,
+                      IntToStr(FNFeRetornoSincrono.protNFe.cStat),
+                      FNFeRetornoSincrono.protNFe.xMotivo,
+                      CodigoParaUF(FNFeRetornoSincrono.cUF),
+                      FormatDateTimeBr(FNFeRetornoSincrono.dhRecbto),
+                      FNFeRetornoSincrono.chNfe])
   else if Assigned(FNFeRetorno) then
-    Result := 'Versão Layout : ' + FNFeRetorno.versao + LineBreak +
-      'Ambiente : ' + TpAmbToStr(FNFeRetorno.TpAmb) + LineBreak +
-      'Versão Aplicativo : ' + FNFeRetorno.verAplic + LineBreak +
-      'Status Código : ' + IntToStr(FNFeRetorno.cStat) + LineBreak +
-      'Status Descrição : ' + FNFeRetorno.xMotivo + LineBreak + 'UF : ' +
-      CodigoParaUF(FNFeRetorno.cUF) + LineBreak + 'Recibo : ' +
-      FNFeRetorno.infRec.nRec + LineBreak + 'Recebimento : ' +
-      IfThen(FNFeRetorno.InfRec.dhRecbto = 0, '',
-      DateTimeToStr(FNFeRetorno.InfRec.dhRecbto)) + LineBreak +
-      'Tempo Médio : ' + IntToStr(FNFeRetorno.InfRec.TMed) + LineBreak
+    Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                             'Ambiente: %s ' + LineBreak +
+                             'Versão Aplicativo: %s ' + LineBreak +
+                             'Status Código: %s ' + LineBreak +
+                             'Status Descrição: %s ' + LineBreak +
+                             'UF: %s ' + sLineBreak +
+                             'Recibo: %s ' + LineBreak +
+                             'Recebimento: %s ' + LineBreak +
+                             'Tempo Médio: %s ' + LineBreak),
+                     [FNFeRetorno.versao,
+                      TpAmbToStr(FNFeRetorno.TpAmb),
+                      FNFeRetorno.verAplic,
+                      IntToStr(FNFeRetorno.cStat),
+                      FNFeRetorno.xMotivo,
+                      CodigoParaUF(FNFeRetorno.cUF),
+                      FNFeRetorno.infRec.nRec,
+                      IfThen(FNFeRetorno.InfRec.dhRecbto = 0, '',
+                             FormatDateTimeBr(FNFeRetorno.InfRec.dhRecbto)),
+                      IntToStr(FNFeRetorno.InfRec.TMed)])
   else
     Result := '';
-
+  {*)}
 end;
 
 function TNFeRecepcao.GerarPrefixoArquivo: String;
@@ -1342,7 +1368,7 @@ begin
   begin
     if not FNotasFiscais.Items[I].Confirmada then
     begin
-      FPMsg := 'Nota(s) não confirmadas:' + LineBreak;
+      FPMsg := ACBrStr('Nota(s) não confirmadas:') + LineBreak;
       break;
     end;
   end;
@@ -1469,14 +1495,22 @@ end;
 
 function TNFeRetRecepcao.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : ' + FNFeRetorno.versao + LineBreak +
-    'Ambiente : ' + TpAmbToStr(FNFeRetorno.tpAmb) + LineBreak +
-    'Versão Aplicativo : ' + FNFeRetorno.verAplic + LineBreak +
-    'Recibo : ' + FNFeRetorno.nRec + LineBreak + 'Status Código : ' +
-    IntToStr(FNFeRetorno.cStat) + LineBreak + 'Status Descrição : ' +
-    FNFeRetorno.xMotivo + LineBreak + 'UF : ' + CodigoParaUF(FNFeRetorno.cUF) +
-    LineBreak + 'cMsg : ' + IntToStr(FNFeRetorno.cMsg) + LineBreak +
-    'xMsg : ' + FNFeRetorno.xMsg + LineBreak;
+  {(*}
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Ambiente: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Recibo: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'UF: %s ' + LineBreak +
+                           'cMsg: %s ' + LineBreak +
+                           'xMsg: %s ' + LineBreak),
+                   [FNFeRetorno.versao, TpAmbToStr(FNFeRetorno.tpAmb),
+                    FNFeRetorno.verAplic, FNFeRetorno.nRec,
+                    IntToStr(FNFeRetorno.cStat), FNFeRetorno.xMotivo,
+                    CodigoParaUF(FNFeRetorno.cUF), IntToStr(FNFeRetorno.cMsg),
+                    FNFeRetorno.xMsg]);
+  {*)}
 end;
 
 function TNFeRetRecepcao.GerarPrefixoArquivo: String;
@@ -1575,13 +1609,20 @@ end;
 
 function TNFeRecibo.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : ' + FNFeRetorno.versao + LineBreak +
-    'Ambiente : ' + TpAmbToStr(FNFeRetorno.TpAmb) + LineBreak +
-    'Versão Aplicativo : ' + FNFeRetorno.verAplic + LineBreak +
-    'Recibo : ' + FNFeRetorno.nRec + LineBreak + 'Status Código : ' +
-    IntToStr(FNFeRetorno.cStat) + LineBreak + 'Status Descrição : ' +
-    FNFeRetorno.ProtNFe.Items[0].xMotivo + LineBreak + 'UF : ' +
-    CodigoParaUF(FNFeRetorno.cUF) + LineBreak;
+  {(*}
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Ambiente: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Recibo: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'UF: %s ' + LineBreak),
+                   [FNFeRetorno.versao, TpAmbToStr(FNFeRetorno.TpAmb),
+                   FNFeRetorno.verAplic, FNFeRetorno.nRec,
+                   IntToStr(FNFeRetorno.cStat),
+                   FNFeRetorno.ProtNFe.Items[0].xMotivo,
+                   CodigoParaUF(FNFeRetorno.cUF)]);
+  {*)}
 end;
 
 { TNFeConsulta }
@@ -1773,13 +1814,20 @@ begin
         with NFeRetorno.procEventoNFe.Items[I].RetEventoNFe do
         begin
           aEventos := aEventos + LineBreak + LineBreak +
-            'Número de sequência: ' + IntToStr(InfEvento.nSeqEvento) + LineBreak +
-            'Código do evento: ' + TpEventoToStr(InfEvento.TpEvento) + LineBreak +
-            'Descrição do evento: ' + InfEvento.DescEvento + LineBreak +
-            'Status do evento: ' + IntToStr(retEvento.Items[J].RetInfEvento.cStat) + LineBreak +
-            'Descrição do status: ' + retEvento.Items[J].RetInfEvento.xMotivo + LineBreak +
-            'Protocolo: ' + retEvento.Items[J].RetInfEvento.nProt + LineBreak +
-            'Data / hora do registro: ' + DateTimeToStr(retEvento.Items[J].RetInfEvento.dhRegEvento);
+            Format(ACBrStr('Número de sequência: %s ' + LineBreak +
+                           'Código do evento: %s ' + LineBreak +
+                           'Descrição do evento: %s ' + LineBreak +
+                           'Status do evento: %s ' + LineBreak +
+                           'Descrição do status: %s ' + LineBreak +
+                           'Protocolo: %s ' + LineBreak +
+                           'Data/Hora do registro: %s '),
+                   [IntToStr(InfEvento.nSeqEvento),
+                    TpEventoToStr(InfEvento.TpEvento),
+                    InfEvento.DescEvento,
+                    IntToStr(retEvento.Items[J].RetInfEvento.cStat),
+                    retEvento.Items[J].RetInfEvento.xMotivo,
+                    retEvento.Items[J].RetInfEvento.nProt,
+                    FormatDateTimeBr(retEvento.Items[J].RetInfEvento.dhRegEvento)]);
 
           if retEvento.Items[J].RetInfEvento.tpEvento = teCancelamento then
           begin
@@ -1800,6 +1848,7 @@ begin
       FPMsg := NFeRetorno.protNFe.xMotivo;
     end;
 
+    //TODO: Verificar porque monta "aMsg", pois ela não está sendo usada em lugar nenhum
     aMsg := GerarMsgLog;
     if aEventos <> '' then
       aMsg := aMsg + sLineBreak + aEventos;
@@ -1919,15 +1968,22 @@ end;
 
 function TNFeConsulta.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : ' + Fversao + LineBreak + 'Identificador : ' +
-    FNFeChave + LineBreak + 'Ambiente : ' + TpAmbToStr(FTpAmb) +
-    LineBreak + 'Versão Aplicativo : ' + FverAplic + LineBreak +
-    'Status Código : ' + IntToStr(FcStat) + LineBreak + 'Status Descrição : ' +
-    FXMotivo + LineBreak + 'UF : ' + CodigoParaUF(FcUF) + LineBreak +
-    'Chave Acesso : ' + FNFeChave + LineBreak + 'Recebimento : ' +
-    DateTimeToStr(FDhRecbto) + LineBreak + 'Protocolo : ' + FProtocolo +
-    LineBreak + 'Digest Value : ' + FprotNFe.digVal + LineBreak;
-
+  {(*}
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Identificador: %s ' + LineBreak +
+                           'Ambiente: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'UF: %s ' + LineBreak +
+                           'Chave Acesso: %s ' + LineBreak +
+                           'Recebimento: %s ' + LineBreak +
+                           'Protocolo: %s ' + LineBreak +
+                           'Digest Value: %s ' + LineBreak),
+                   [Fversao, FNFeChave, TpAmbToStr(FTpAmb), FverAplic,
+                    IntToStr(FcStat), FXMotivo, CodigoParaUF(FcUF), FNFeChave,
+                    FormatDateTimeBr(FDhRecbto), FProtocolo, FprotNFe.digVal]);
+  {*)}
 end;
 
 function TNFeConsulta.GerarPrefixoArquivo: String;
@@ -1954,12 +2010,12 @@ begin
   TrimValue := Trim(AValue);
 
   if EstaVazio(TrimValue) then
-    GerarException('Informar uma Justificativa para Inutilização de ' +
-      'numeração da Nota Fiscal Eletronica');
+    GerarException(ACBrStr('Informar uma Justificativa para Inutilização de ' +
+      'numeração da Nota Fiscal Eletronica'));
 
   if Length(TrimValue) < 15 then
-    GerarException('A Justificativa para Inutilização de numeração da ' +
-      'Nota Fiscal Eletronica deve ter no minimo 15 caracteres');
+    GerarException(ACBrStr('A Justificativa para Inutilização de numeração da ' +
+      'Nota Fiscal Eletronica deve ter no minimo 15 caracteres'));
 
   FJustificativa := TrimValue;
 end;
@@ -2107,12 +2163,18 @@ end;
 
 function TNFeInutilizacao.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : ' + Fversao + LineBreak + 'Ambiente : ' +
-    TpAmbToStr(FTpAmb) + LineBreak + 'Versão Aplicativo : ' +
-    FverAplic + LineBreak + 'Status Código : ' + IntToStr(FcStat) +
-    LineBreak + 'Status Descrição : ' + FxMotivo + LineBreak + 'UF : ' +
-    CodigoParaUF(FcUF) + LineBreak + 'Recebimento : ' +
-    IfThen(FdhRecbto = 0, '', DateTimeToStr(FdhRecbto));
+  {(*}
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Ambiente: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'UF: %s ' + LineBreak +
+                           'Recebimento: %s ' + LineBreak),
+                   [Fversao, TpAmbToStr(FTpAmb), FverAplic, IntToStr(FcStat),
+                    FxMotivo, CodigoParaUF(FcUF),
+                    IfThen(FdhRecbto = 0, '', FormatDateTimeBr(FdhRecbto))]);
+  {*)}
 end;
 
 function TNFeInutilizacao.GerarPrefixoArquivo: String;
@@ -2223,12 +2285,18 @@ end;
 
 function TNFeConsultaCadastro.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : ' + FRetConsCad.versao + LineBreak +
-    'Versão Aplicativo : ' + FRetConsCad.verAplic + LineBreak +
-    'Status Código : ' + IntToStr(FRetConsCad.cStat) + LineBreak +
-    'Status Descrição : ' + FRetConsCad.xMotivo + LineBreak + 'UF : ' +
-    CodigoParaUF(FRetConsCad.cUF) + LineBreak + 'Consulta : ' +
-    DateTimeToStr(FRetConsCad.dhCons);
+  {(*}
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'UF: %s ' + LineBreak +
+                           'Consulta: %s ' + sLineBreak),
+                   [FRetConsCad.versao, FRetConsCad.verAplic,
+                   IntToStr(FRetConsCad.cStat), FRetConsCad.xMotivo,
+                   CodigoParaUF(FRetConsCad.cUF),
+                   FormatDateTimeBr(FRetConsCad.dhCons)]);
+  {*)}
 end;
 
 function TNFeConsultaCadastro.GerarUFSoap: String;
@@ -2372,11 +2440,18 @@ end;
 
 function TNFeEnvDPEC.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : ' + Fversao + LineBreak + 'Versão Aplicativo : ' +
-    FverAplic + LineBreak + 'ID : ' + FId + LineBreak + 'Status Código : ' +
-    IntToStr(FcStat) + LineBreak + 'Status Descrição : ' + FxMotivo +
-    LineBreak + 'Data Registro : ' + DateTimeToStr(FdhRegDPEC) +
-    LineBreak + 'nRegDPEC : ' + FnRegDPEC + LineBreak + 'ChaveNFe : ' + FNFeChave;
+  {(*}
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'ID: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'Data Registro: %s ' + LineBreak +
+                           'nRegDPEC: %s ' + LineBreak +
+                           'ChaveNFe: %s ' + LineBreak),
+                   [Fversao, FverAplic, FId, IntToStr(FcStat), FxMotivo,
+                    FormatDateTimeBr(FdhRegDPEC), FnRegDPEC, FNFeChave]);
+  {*)}
 end;
 
 { TNFeConsultaDPEC }
@@ -2473,12 +2548,20 @@ end;
 
 function TNFeConsultaDPEC.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : ' + FRetDPEC.versao + LineBreak +
-    'Versão Aplicativo : ' + FretDPEC.verAplic + LineBreak + 'ID : ' +
-    FretDPEC.Id + LineBreak + 'Status Código : ' + IntToStr(FretDPEC.cStat) +
-    LineBreak + 'Status Descrição : ' + FretDPEC.xMotivo + LineBreak +
-    'Data Registro : ' + DateTimeToStr(FretDPEC.dhRegDPEC) + LineBreak +
-    'nRegDPEC : ' + FretDPEC.nRegDPEC + LineBreak + 'ChaveNFe : ' + FretDPEC.chNFE;
+  {(*}
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'ID: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'Data Registro: %s ' + LineBreak +
+                           'nRegDPEC: %s ' + LineBreak +
+                           'ChaveNFe: %s ' + LineBreak),
+                   [FRetDPEC.versao, FretDPEC.verAplic, FretDPEC.Id,
+                    IntToStr(FretDPEC.cStat), FretDPEC.xMotivo,
+                    FormatDateTimeBr(FretDPEC.dhRegDPEC), FretDPEC.nRegDPEC,
+                    FretDPEC.chNFE]);
+  {*)}
 end;
 
 { TNFeEnvEvento }
@@ -2773,18 +2856,23 @@ function TNFeEnvEvento.GerarMsgLog: String;
 var
   aMsg: String;
 begin
-  aMsg := 'Versão Layout : ' + FEventoRetorno.versao + LineBreak +
-    'Ambiente : ' + TpAmbToStr(FEventoRetorno.tpAmb) + LineBreak +
-    'Versão Aplicativo : ' + FEventoRetorno.verAplic + LineBreak +
-    'Status Código : ' + IntToStr(FEventoRetorno.cStat) + LineBreak +
-    'Status Descrição : ' + FEventoRetorno.xMotivo + LineBreak;
+  {(*}
+  aMsg := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                         'Ambiente: %s ' + LineBreak +
+                         'Versão Aplicativo: %s ' + LineBreak +
+                         'Status Código: %s ' + LineBreak +
+                         'Status Descrição: %s ' + LineBreak),
+                 [FEventoRetorno.versao, TpAmbToStr(FEventoRetorno.tpAmb),
+                  FEventoRetorno.verAplic, IntToStr(FEventoRetorno.cStat),
+                  FEventoRetorno.xMotivo]);
 
   if FEventoRetorno.retEvento.Count > 0 then
-    aMsg := aMsg + 'Recebimento : ' +
-      IfThen(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento =
-      0, '', DateTimeToStr(FEventoRetorno.retEvento.Items[
-      0].RetInfEvento.dhRegEvento));
+    aMsg := aMsg + Format(ACBrStr('Recebimento: %s ' + LineBreak),
+       [IfThen(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento = 0, '',
+               FormatDateTimeBr(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento))]);
+
   Result := aMsg;
+  {*)}
 end;
 
 function TNFeEnvEvento.GerarPrefixoArquivo: String;
@@ -2857,21 +2945,28 @@ end;
 
 function TNFeConsNFeDest.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout: ' + FretConsNFeDest.versao + LineBreak +
-    'Ambiente : ' + TpAmbToStr(FretConsNFeDest.tpAmb) + LineBreak +
-    'Versão Aplicativo : ' + FretConsNFeDest.verAplic + LineBreak +
-    'Status Código : ' + IntToStr(FretConsNFeDest.cStat) + LineBreak +
-    'Status Descrição : ' + FretConsNFeDest.xMotivo + LineBreak +
-    'Recebimento : ' + IfThen(FretConsNFeDest.dhResp = 0, '',
-    DateTimeToStr(RetConsNFeDest.dhResp)) + LineBreak + 'Ind. Continuação : ' +
-    IndicadorContinuacaoToStr(FretConsNFeDest.indCont) + LineBreak +
-    'Último NSU : ' + FretConsNFeDest.ultNSU + LineBreak;
+  {(*}
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Ambiente: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'Recebimento: %s ' + LineBreak +
+                           'Ind. Continuação: %s ' + LineBreak +
+                           'Último NSU: %s ' + LineBreak),
+                   [FretConsNFeDest.versao, TpAmbToStr(FretConsNFeDest.tpAmb),
+                    FretConsNFeDest.verAplic, IntToStr(FretConsNFeDest.cStat),
+                    FretConsNFeDest.xMotivo,
+                    IfThen(FretConsNFeDest.dhResp = 0, '', FormatDateTimeBr(RetConsNFeDest.dhResp)),
+                    IndicadorContinuacaoToStr(FretConsNFeDest.indCont),
+                    FretConsNFeDest.ultNSU]);
+  {*)}
 end;
 
 function TNFeConsNFeDest.GerarMsgErro(E: Exception): String;
 begin
-  Result := 'WebService Consulta NF-e Destinadas:' + LineBreak +
-            '- Inativo ou Inoperante tente novamente.';
+  Result := ACBrStr('WebService Consulta NF-e Destinadas:' + LineBreak +
+                    '- Inativo ou Inoperante tente novamente.');
 end;
 
 { TNFeDownloadNFe }
@@ -2959,19 +3054,25 @@ end;
 
 function TNFeDownloadNFe.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout: ' + FretDownloadNFe.versao + LineBreak +
-    'Ambiente : ' + TpAmbToStr(FretDownloadNFe.tpAmb) + LineBreak +
-    'Versão Aplicativo : ' + FretDownloadNFe.verAplic + LineBreak +
-    'Status Código : ' + IntToStr(FretDownloadNFe.cStat) + LineBreak +
-    'Status Descrição : ' + FretDownloadNFe.xMotivo + LineBreak +
-    'Recebimento : ' + IfThen(FretDownloadNFe.dhResp = 0, '',
-    DateTimeToStr(FRetDownloadNFe.dhResp)) + LineBreak;
+  {(*}
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Ambiente: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'Recebimento: %s ' + LineBreak),
+                   [FretDownloadNFe.versao, TpAmbToStr(FretDownloadNFe.tpAmb),
+                    FretDownloadNFe.verAplic, IntToStr(FretDownloadNFe.cStat),
+                    FretDownloadNFe.xMotivo,
+                    IfThen(FretDownloadNFe.dhResp = 0, '',
+                           FormatDateTimeBr(FRetDownloadNFe.dhResp))]);
+  {*)}
 end;
 
 function TNFeDownloadNFe.GerarMsgErro(E: Exception): String;
 begin
-  Result := 'WebService Download de NF-e:' + LineBreak +
-            '- Inativo ou Inoperante tente novamente.';
+  Result := ACBrStr('WebService Download de NF-e:' + LineBreak +
+                    '- Inativo ou Inoperante tente novamente.');
 end;
 
 { TAdministrarCSCNFCe }
@@ -3042,16 +3143,20 @@ end;
 
 function TAdministrarCSCNFCe.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : ' + FretAdmCSCNFCe.versao + LineBreak +
-    'Ambiente : ' + TpAmbToStr(FretAdmCSCNFCe.tpAmb) + LineBreak +
-    'Status Código : ' + IntToStr(FretAdmCSCNFCe.cStat) + LineBreak +
-    'Status Descrição : ' + FretAdmCSCNFCe.xMotivo + LineBreak;
+  {(*}
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Ambiente: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak),
+                   [FretAdmCSCNFCe.versao, TpAmbToStr(FretAdmCSCNFCe.tpAmb),
+                    IntToStr(FretAdmCSCNFCe.cStat), FretAdmCSCNFCe.xMotivo]);
+  {*)}
 end;
 
 function TAdministrarCSCNFCe.GerarMsgErro(E: Exception): String;
 begin
-  Result := 'WebService Administrar CSC da NFC-e:' + LineBreak +
-            '- Inativo ou Inoperante tente novamente.';
+  Result := ACBrStr('WebService Administrar CSC da NFC-e:' + LineBreak +
+                    '- Inativo ou Inoperante tente novamente.');
 end;
 
 { TDistribuicaoDFe }
@@ -3142,21 +3247,28 @@ end;
 
 function TDistribuicaoDFe.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : ' + FretDistDFeInt.versao + LineBreak +
-    'Ambiente : ' + TpAmbToStr(FretDistDFeInt.tpAmb) + LineBreak +
-    'Versão Aplicativo : ' + FretDistDFeInt.verAplic + LineBreak +
-    'Status Código : ' + IntToStr(FretDistDFeInt.cStat) + LineBreak +
-    'Status Descrição : ' + FretDistDFeInt.xMotivo + LineBreak +
-    'Resposta : ' + IfThen(FretDistDFeInt.dhResp = 0, '',
-    DateTimeToStr(RetDistDFeInt.dhResp)) + LineBreak + 'Último NSU : ' +
-    FretDistDFeInt.ultNSU + LineBreak + 'Máximo NSU : ' +
-    FretDistDFeInt.maxNSU + LineBreak;
+  {(*}
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Ambiente: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'Resposta: %s ' + LineBreak +
+                           'Último NSU: %s ' + LineBreak +
+                           'Máximo NSU: %s ' + LineBreak),
+                   [FretDistDFeInt.versao, TpAmbToStr(FretDistDFeInt.tpAmb),
+                    FretDistDFeInt.verAplic, IntToStr(FretDistDFeInt.cStat),
+                    FretDistDFeInt.xMotivo,
+                    IfThen(FretDistDFeInt.dhResp = 0, '',
+                           FormatDateTimeBr(RetDistDFeInt.dhResp)),
+                    FretDistDFeInt.ultNSU, FretDistDFeInt.maxNSU]);
+  {*)}
 end;
 
 function TDistribuicaoDFe.GerarMsgErro(E: Exception): String;
 begin
-  Result := 'WebService Distribuição de DFe:' + LineBreak +
-            '- Inativo ou Inoperante tente novamente.';
+  Result := ACBrStr('WebService Distribuição de DFe:' + LineBreak +
+                    '- Inativo ou Inoperante tente novamente.');
 end;
 
 { TNFeEnvioWebService }
@@ -3211,15 +3323,10 @@ begin
   Result := True;
 end;
 
-function TNFeEnvioWebService.GerarMsgLog: String;
-begin
-  Result := inherited GerarMsgLog;
-end;
-
 function TNFeEnvioWebService.GerarMsgErro(E: Exception): String;
 begin
-  Result := 'WebService: '+FPServico + LineBreak +
-            '- Inativo ou Inoperante tente novamente.';
+  Result := ACBrStr('WebService: '+FPServico + LineBreak +
+                    '- Inativo ou Inoperante tente novamente.');
 end;
 
 function TNFeEnvioWebService.GerarVersaoDadosSoap: String;
@@ -3283,13 +3390,13 @@ begin
   FEnviar.FSincrono := ASincrono;
 
   if not Enviar.Executar then
-    Enviar.GerarException( ACBrStrToAnsi(Enviar.Msg) );
+    Enviar.GerarException( Enviar.Msg );
 
   if not ASincrono then
   begin
     FRetorno.Recibo := FEnviar.Recibo;
     if not FRetorno.Executar then
-      FRetorno.GerarException( ACBrStrToAnsi(FRetorno.Msg) );
+      FRetorno.GerarException( FRetorno.Msg );
   end;
 
   Result := True;
@@ -3312,7 +3419,7 @@ begin
   FInutilizacao.Justificativa := AJustificativa;
 
   if not FInutilizacao.Executar then
-    FInutilizacao.GerarException( ACBrStrToAnsi(FInutilizacao.Msg) );
+    FInutilizacao.GerarException( FInutilizacao.Msg );
 end;
 
 end.

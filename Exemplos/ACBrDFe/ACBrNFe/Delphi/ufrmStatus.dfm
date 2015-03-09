@@ -1,6 +1,6 @@
 object frmStatus: TfrmStatus
-  Left = 325
-  Top = 233
+  Left = 231
+  Top = 166
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'frmStatus'

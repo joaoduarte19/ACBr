@@ -310,9 +310,9 @@ var
 begin
   CarregarCertificadoSeNecessario;
   Result := False;
-  Publico := copy(ConteudoXML, pos('<X509Certificate>', ConteudoXML) +
-    17, pos('</X509Certificate>', ConteudoXML) -
-    (pos('<X509Certificate>', ConteudoXML) + 17));
+  Publico := copy(ConteudoXML, pos('<X509Certificate>', ConteudoXML) + 17,
+                  pos('</X509Certificate>', ConteudoXML) -
+                  (pos('<X509Certificate>', ConteudoXML) + 17));
 
   MS := TMemoryStream.Create;
   try

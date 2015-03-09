@@ -155,8 +155,8 @@ begin
     CAPICOM_STORE_OPEN_READ_ONLY);
 
   Certs := Store.Certificates as ICertificates2;
-  Certs2 := Certs.Select('Certificado(s) Digital(is) disponível(is)',
-    'Selecione o Certificado Digital para uso no aplicativo', False);
+  Certs2 := Certs.Select(ACBrStr('Certificado(s) Digital(is) disponível(is)'),
+    ACBrStr('Selecione o Certificado Digital para uso no aplicativo'), False);
 
   if not (Certs2.Count = 0) then
   begin
@@ -501,7 +501,7 @@ begin
     DOMDocument.validateOnParse := True;
     if (not DOMDocument.loadXML(ConteudoXML)) then
     begin
-      MsgErro :='Não foi possível carregar o arquivo.';
+      MsgErro := ACBrStr('Não foi possível carregar o arquivo.');
       exit;
     end;
 
@@ -569,6 +569,7 @@ begin
         MsgErro := 'Erro ao verificar assinatura do arquivo: ' + E.Message;
     end;
   finally
+    MsgErro := ACBrStr(MsgErro);
     Result := (pKeyOut <> nil);
 
     pKeyOut := nil;

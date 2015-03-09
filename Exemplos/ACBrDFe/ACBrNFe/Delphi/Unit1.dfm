@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 378
-  Top = 210
+  Left = 269
+  Top = 149
   Width = 894
   Height = 632
   Caption = 'ACBrNFe - Demonstra'#231#227'o'
@@ -19,7 +19,7 @@ object Form1: TForm1
     Left = 0
     Top = 0
     Width = 297
-    Height = 594
+    Height = 593
     Align = alLeft
     TabOrder = 0
     object lblColaborador: TLabel
@@ -394,8 +394,6 @@ object Form1: TForm1
                 Width = 193
                 Height = 17
                 Caption = 'Retirar Acentos dos XMLs enviados'
-                Checked = True
-                State = cbChecked
                 TabOrder = 7
               end
               object cbVersaoDF: TComboBox
@@ -1275,7 +1273,7 @@ object Form1: TForm1
     Left = 297
     Top = 0
     Width = 581
-    Height = 594
+    Height = 593
     Align = alClient
     TabOrder = 1
     object Panel3: TPanel
@@ -1290,7 +1288,7 @@ object Form1: TForm1
         Top = 1
         Width = 577
         Height = 298
-        ActivePage = tsNFe
+        ActivePage = tsNFCe
         Align = alClient
         TabOrder = 0
         object tsNFe: TTabSheet
@@ -1558,8 +1556,8 @@ object Form1: TForm1
       Left = 1
       Top = 301
       Width = 579
-      Height = 292
-      ActivePage = TabSheet6
+      Height = 291
+      ActivePage = TabSheet5
       Align = alClient
       TabOrder = 1
       object TabSheet5: TTabSheet
@@ -1568,7 +1566,7 @@ object Form1: TForm1
           Left = 0
           Top = 0
           Width = 571
-          Height = 264
+          Height = 263
           Align = alClient
           ScrollBars = ssVertical
           TabOrder = 0
@@ -1581,11 +1579,11 @@ object Form1: TForm1
           Left = 0
           Top = 0
           Width = 571
-          Height = 264
+          Height = 263
           Align = alClient
           TabOrder = 0
           ControlData = {
-            4C000000043B0000491B00000000000000000000000000000000000000000000
+            4C000000043B00002F1B00000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
             2B2E126208000000000000004C0000000114020000000000C000000000000046
             8000000000000000000000000000000000000000000000000000000000000000
@@ -1612,7 +1610,7 @@ object Form1: TForm1
           Left = 0
           Top = 0
           Width = 571
-          Height = 264
+          Height = 263
           Align = alClient
           Indent = 19
           TabOrder = 0
@@ -1625,7 +1623,7 @@ object Form1: TForm1
           Left = 0
           Top = 0
           Width = 571
-          Height = 264
+          Height = 263
           Align = alClient
           ScrollBars = ssVertical
           TabOrder = 0
@@ -1651,7 +1649,7 @@ object Form1: TForm1
           Left = 0
           Top = 0
           Width = 571
-          Height = 264
+          Height = 263
           Align = alClient
           Indent = 19
           TabOrder = 0
@@ -1674,18 +1672,71 @@ object Form1: TForm1
     Configuracoes.Geral.ExibirErroSchema = True
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
     Configuracoes.Geral.RetirarAcentos = True
-    Configuracoes.Geral.ValidarDigest = False
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 15000
     Configuracoes.WebServices.IntervaloTentativas = 1000
     Configuracoes.WebServices.AjustaAguardaConsultaRet = True
     OnStatusChange = ACBrNFe1StatusChange
-    DANFE = ACBrNFeDANFCeFortes1
+    DANFE = ACBrNFeDANFERaveCB1
     OnGerarLog = ACBrNFe1GerarLog
     Left = 723
     Top = 377
   end
+  object ACBrNFeDANFERave1: TACBrNFeDANFERave
+    PathPDF = 'C:\Program Files\Borland\Delphi7\Bin\'
+    MostrarPreview = True
+    MostrarStatus = True
+    TipoDANFE = tiSemGeracao
+    NumCopias = 1
+    ImprimirDescPorc = False
+    ImprimirTotalLiquido = False
+    MargemInferior = 0.800000000000000000
+    MargemSuperior = 0.800000000000000000
+    MargemEsquerda = 0.600000000000000000
+    MargemDireita = 0.510000000000000000
+    CasasDecimais._qCom = 2
+    CasasDecimais._vUnCom = 2
+    ExibirResumoCanhoto = False
+    FormularioContinuo = False
+    TamanhoFonte_DemaisCampos = 10
+    ProdutosPorPagina = 0
+    ImprimirDetalhamentoEspecifico = True
+    NFeCancelada = False
+    LocalImpCanhoto = 0
+    ImprimeItens = True
+    EspessuraBorda = 1
+    TamanhoFonte_RazaoSocial = 12
+    TamanhoFonte_ANTT = 10
+    TributosPercentual = ptValorProdutos
+    Left = 790
+    Top = 381
+  end
   object ACBrNFeDANFCeFortes1: TACBrNFeDANFCeFortes
+    PathPDF = 'C:\Program Files\Borland\Delphi7\Bin\'
+    MostrarPreview = True
+    MostrarStatus = True
+    TipoDANFE = tiSemGeracao
+    NumCopias = 1
+    ImprimirDescPorc = False
+    ImprimirTotalLiquido = False
+    MargemInferior = 0.800000000000000000
+    MargemSuperior = 0.800000000000000000
+    MargemEsquerda = 0.600000000000000000
+    MargemDireita = 0.510000000000000000
+    CasasDecimais._qCom = 2
+    CasasDecimais._vUnCom = 2
+    ExibirResumoCanhoto = False
+    FormularioContinuo = False
+    TamanhoFonte_DemaisCampos = 10
+    ProdutosPorPagina = 0
+    ImprimirDetalhamentoEspecifico = True
+    NFeCancelada = False
+    LocalImpCanhoto = 0
+    ImprimeItens = True
+    Left = 702
+    Top = 437
+  end
+  object ACBrNFeDANFERaveCB1: TACBrNFeDANFERaveCB
     ACBrNFe = ACBrNFe1
     PathPDF = 'C:\Program Files\Borland\Delphi7\Bin\'
     MostrarPreview = True
@@ -1708,8 +1759,38 @@ object Form1: TForm1
     NFeCancelada = False
     LocalImpCanhoto = 0
     ImprimeItens = True
-    ViaConsumidor = True
-    Left = 702
-    Top = 437
+    TamanhoCampoCodigo = 0
+    TamanhoCampoVlUnit = 0
+    TamanhoFonte_ANTT = 10
+    Fonte = ftTimes
+    EspessuraBorda = 2
+    MostrarSetup = False
+    TributosPercentual = ptValorProdutos
+    Left = 766
+    Top = 429
+  end
+  object ACBrNFeDANFeESCPOS1: TACBrNFeDANFeESCPOS
+    MostrarPreview = True
+    MostrarStatus = True
+    TipoDANFE = tiSemGeracao
+    NumCopias = 1
+    ImprimirDescPorc = False
+    ImprimirTotalLiquido = False
+    MargemInferior = 0.800000000000000000
+    MargemSuperior = 0.800000000000000000
+    MargemEsquerda = 0.600000000000000000
+    MargemDireita = 0.510000000000000000
+    CasasDecimais._qCom = 2
+    CasasDecimais._vUnCom = 2
+    ExibirResumoCanhoto = False
+    FormularioContinuo = False
+    TamanhoFonte_DemaisCampos = 10
+    ProdutosPorPagina = 0
+    ImprimirDetalhamentoEspecifico = True
+    NFeCancelada = False
+    LocalImpCanhoto = 0
+    ImprimeItens = True
+    Left = 526
+    Top = 421
   end
 end

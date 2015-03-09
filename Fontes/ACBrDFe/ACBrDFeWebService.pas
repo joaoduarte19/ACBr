@@ -192,14 +192,14 @@ begin
 
   DefinirURL;
   if URL = '' then
-    GerarException('URL não definida para: ' + ClassName);
+    GerarException( ACBrStr('URL não definida para: ') + ClassName);
 
   DefinirServicoEAction;
   if Servico = '' then
-    GerarException('Servico não definido para: '+ ClassName);
+    GerarException( ACBrStr('Servico não definido para: ')+ ClassName);
 
   if SoapAction = '' then
-    GerarException('SoapAction não definido para: ' + ClassName);
+    GerarException( ACBrStr('SoapAction não definido para: ') + ClassName);
 end;
 
 procedure TDFeWebService.DefinirServicoEAction;
@@ -209,7 +209,7 @@ begin
   FPServico := '';
   FPSoapAction := '';
 
-  GerarException('DefinirServicoEAction não implementado para: ' + ClassName);
+  GerarException(ACBrStr('DefinirServicoEAction não implementado para: ') + ClassName);
 end;
 
 procedure TDFeWebService.DefinirURL;
@@ -218,7 +218,7 @@ begin
     Você também pode mudar apenas o valor de "FLayoutServico" na classe
     filha e chamar: Inherited;     }
 
-  GerarException('DefinirURL não implementado para: ' + ClassName);
+  GerarException(ACBrStr('DefinirURL não implementado para: ') + ClassName);
 end;
 
 
@@ -228,7 +228,7 @@ begin
 
   FPDadosMsg := '';
 
-  GerarException('DefinirDadosMsg não implementado para: ' + ClassName);
+  GerarException(ACBrStr('DefinirDadosMsg não implementado para: ') + ClassName);
 end;
 
 
@@ -273,7 +273,7 @@ begin
   { sobrescrever, OBRIGATORIAMENTE }
 
   Result := '';
-  GerarException('GerarVersaoDadosSoap não implementado para: ' + ClassName);
+  GerarException(ACBrStr('GerarVersaoDadosSoap não implementado para: ') + ClassName);
 end;
 
 procedure TDFeWebService.EnviarDados;
@@ -362,7 +362,7 @@ begin
   { sobrescrever, OBRIGATORIAMENTE }
 
   Result := False;
-  GerarException('TratarResposta não implementado para: ' + ClassName);
+  GerarException(ACBrStr('TratarResposta não implementado para: ') + ClassName);
 end;
 
 procedure TDFeWebService.FazerLog(Msg: String; Exibir: Boolean);
