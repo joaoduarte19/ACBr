@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+09/03/2015
+[*] Removido o PathMDe, pois nunca foi utilizado.
+    Por: Italo Jurisato Junior
+		
 04/03/2015
 [*] Inclusão das URLs do QR-Code para DF.
     Por: Gilson_ST

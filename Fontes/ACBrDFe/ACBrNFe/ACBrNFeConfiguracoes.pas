@@ -78,7 +78,6 @@ type
     FPathInu: String;
     FPathDPEC: String;
     FPathCCe: String;
-    FPathMDe: String;
     FPathEvento: String;
   public
     constructor Create(AOwner: TConfiguracoes); override;
@@ -88,7 +87,6 @@ type
     function GetPathInu(CNPJ: String = ''): String;
     function GetPathNFe(Data: TDateTime = 0; CNPJ: String = ''): String;
     function GetPathCCe(CNPJ: String = ''): String;
-    function GetPathMDe(CNPJ: String = ''): String;
     function GetPathEvento(tipoEvento: TpcnTpEvento; CNPJ: String = ''): String;
   published
     property EmissaoPathNFe: boolean read FEmissaoPathNFe
@@ -102,7 +100,6 @@ type
     property PathInu: String read FPathInu write FPathInu;
     property PathDPEC: String read FPathDPEC write FPathDPEC;
     property PathCCe: String read FPathCCe write FPathCCe;
-    property PathMDe: String read FPathMDe write FPathMDe;
     property PathEvento: String read FPathEvento write FPathEvento;
   end;
 
@@ -197,7 +194,6 @@ begin
   FPathInu := '';
   FPathDPEC := '';
   FPathCCe := '';
-  FPathMDe := '';
   FPathEvento := '';
 end;
 
@@ -247,11 +243,6 @@ end;
 function TArquivosConfNFe.GetPathInu(CNPJ: String = ''): String;
 begin
   Result := GetPath(FPathInu, 'Inu');
-end;
-
-function TArquivosConfNFe.GetPathMDe(CNPJ: String = ''): String;
-begin
-  Result := GetPath(FPathMDe, 'MDe');
 end;
 
 function TArquivosConfNFe.GetPathNFe(Data: TDateTime = 0; CNPJ: String = ''): String;

@@ -654,7 +654,6 @@ function Save(AXMLName: String; AXMLFile: String; aPath: String = ''): boolean;
     function GetPathInu: String;
     function GetPathNFe(Data: TDateTime = 0): String;
     function GetPathCCe: String;
-    function GetPathMDe: String;
     function GetPathEvento(tipoEvento: TpcnTpEvento): String;
 
     function TArquivosConf.GetPath(APath: String; ALiteral: String): String;
@@ -750,11 +749,6 @@ function Save(AXMLName: String; AXMLFile: String; aPath: String = ''): boolean;
     function TArquivosConf.GetPathInu: String;
     begin
       Result := GetPath(FPathInu, 'Inu');
-    end;
-
-    function TArquivosConf.GetPathMDe: String;
-    begin
-      Result := GetPath(FPathMDe, 'MDe');
     end;
 
     function TArquivosConf.GetPathNFe(Data: TDateTime): String;
