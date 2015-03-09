@@ -1297,6 +1297,7 @@ begin
          end;
         FConhecimentos.Items[J].Confirmada           := (AInfProt.Items[I].cStat in [100, 150]);
         FConhecimentos.Items[J].Msg                  := AInfProt.Items[I].xMotivo;
+        FConhecimentos.Items[J].CTe.procCTe.Id       := AInfProt.Items[I].Id;
         FConhecimentos.Items[J].CTe.procCTe.tpAmb    := AInfProt.Items[I].tpAmb;
         FConhecimentos.Items[J].CTe.procCTe.verAplic := AInfProt.Items[I].verAplic;
         FConhecimentos.Items[J].CTe.procCTe.chCTe    := AInfProt.Items[I].chCTe;
