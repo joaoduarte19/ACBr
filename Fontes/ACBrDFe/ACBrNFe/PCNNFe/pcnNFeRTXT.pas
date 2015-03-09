@@ -898,7 +898,7 @@ begin
     (*U03*)NFe.Det[i].Imposto.ISSQN.vAliq := LerCampo(tcDe2, 'vAliq');
     (*U04*)NFe.Det[i].Imposto.ISSQN.vISSQN := LerCampo(tcDe2, 'vISSQN');
     (*U05*)NFe.Det[i].Imposto.ISSQN.cMunFG := LerCampo(tcInt, 'cMunFG');
-    (*U06*)NFe.Det[i].Imposto.ISSQN.cListServ := LerCampo(tcInt, 'cListServ');
+    (*U06*)NFe.Det[i].Imposto.ISSQN.cListServ := LerCampo(tcStr, 'cListServ');
            NFe.Det[i].Imposto.ISSQN.vDeducao := LerCampo(tcDe2, 'vDeducao');
            NFe.Det[i].Imposto.ISSQN.vOutro := LerCampo(tcDe2, 'vOutro');
            NFe.Det[i].Imposto.ISSQN.vDescIncond := LerCampo(tcDe2, 'vDescIncond');
