@@ -123,8 +123,7 @@ type
 implementation
 
 uses
-  pcnGerador,
-  ACBrUtil;
+  pcnGerador, ACBrUtil;
 
 { TRetNFeCollection }
 
@@ -188,14 +187,14 @@ function TRetDownloadNFe.LerXml: boolean;
 var
   ok: boolean;
   i: Integer;
-  StrAux, StrDecod: AnsiString;
+  StrAux, StrDecod: String;
   oLeitorInfZip: TLeitor;
 begin
   Result := False;
   try
     i := -1;
-
     FXML := Self.Leitor.Arquivo;
+
     if (Leitor.rExtrai(1, 'retDownloadNFe') <> '') then
     begin
       (*JR02 *)Fversao   := Leitor.rAtributo('versao');
@@ -219,13 +218,13 @@ begin
           StrDecod := DecodeBase64(StrAux);
           FretNFe.Items[i].FNFeZip := UnZip(StrDecod);
 
-          (*JR12 *)FretNFe.Items[i].FprocNFe := '<'+ENCODING_UTF8+'>' +
+          (*JR12*)FretNFe.Items[i].FprocNFe := '<'+ENCODING_UTF8+'>' +
                                                 FretNFe.Items[i].FNFeZip;
         end;
 
         if pos('procNFe', Leitor.Grupo) > 0 then
         begin
-          (*JR12 *)FretNFe.Items[i].FprocNFe := '<'+ENCODING_UTF8+'>' +
+          (*JR12*)FretNFe.Items[i].FprocNFe := '<'+ENCODING_UTF8+'>' +
                                            SeparaDados(Leitor.Grupo, 'procNFe');
         end;
 
@@ -244,7 +243,7 @@ begin
           oLeitorInfZip := TLeitor.Create;
           oLeitorInfZip.Arquivo := FretNFe.Items[i].FNFeZip;
 
-          (*JR12 *)FretNFe.Items[i].FprocNFe := '<' + ENCODING_UTF8 + '>' +
+          (*JR12*)FretNFe.Items[i].FprocNFe := '<' + ENCODING_UTF8 + '>' +
                   '<nfeProc versao="' + oLeitorInfZip.rAtributo('versao') + '" ' +
                       NAME_SPACE + '>' +
                     FretNFe.Items[i].FNFeZip +
@@ -256,9 +255,6 @@ begin
       end;
       Result := True;
     end;
-
-//    if i = 0 then
-//      FretNFe.Add;
   except
     result := False;
   end;
@@ -270,17 +266,12 @@ var
 begin
   ArqDown := TStringList.Create;
   try
-     ArqDown.LoadFromFile(CaminhoArquivo);
-
-     Self.Leitor.Arquivo := ArqDown.Text;
-
-     Result := LerXml;
+    ArqDown.LoadFromFile(CaminhoArquivo);
+    Self.Leitor.Arquivo := ArqDown.Text;
+    Result := LerXml;
   finally
-     ArqDown.Free;
+    ArqDown.Free;
   end;
 end;
 
 end.
-
-//TODO: Remover o método:   function UnZipMsg(S: TStringStream): String;
-
