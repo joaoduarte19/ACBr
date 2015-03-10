@@ -1254,14 +1254,6 @@ begin
           teSVCRS,
           teSVCSP:
             wContingencia := 'DANFE EM CONTINGÊNCIA, IMPRESSO EM DECORRÊNCIA DE PROBLEMAS TÉCNICOS';
-
-          teDPEC:
-          begin
-            wContingencia := 'DANFE IMPRESSO EM CONTINGÊNCIA - DPEC REGULARMENTE RECEBIDA PELA RECEITA FEDERAL DO BRASIL';
-            wContingencia := wContingencia + ';' +
-                             'DATA/HORA INÍCIO: ' + SeSenao(FNFe.ide.dhCont = 0, ' ', DateTimeToStr(FNFe.ide.dhCont)) + ';'+
-                             'MOTIVO CONTINGÊNCIA: ' + SeSenao(EstaVazio(FNFe.ide.xJust), ' ', FNFe.ide.xJust);
-          end;
         end;
       end;
       if Length(wObs) > 0 then
@@ -1414,7 +1406,7 @@ begin
     if (FNFe.Ide.TpAmb = taHomologacao) then
     begin
       //Modificado em 22/05/2013 - Fábio Gabriel
-      if (FNFe.Ide.tpEmis in [teContingencia, teFSDA, teSCAN, teDPEC, teSVCAN, teSVCRS, teSVCSP]) then
+      if (FNFe.Ide.tpEmis in [teContingencia, teFSDA, teSCAN, teSVCAN, teSVCRS, teSVCSP]) then
       begin
         if (FNFe.procNFe.cStat in [101, 151, 155]) then
           FieldByName('Mensagem0').AsString := 'NFe sem Valor Fiscal - HOMOLOGAÇÃO'+
@@ -1546,22 +1538,6 @@ begin
         FieldByName('Contingencia_Descricao').AsString := 'DADOS DA NF-E';
         FieldByName('Contingencia_Valor').AsString := NotaUtil.FormatarChaveContigencia(vChave_Contingencia);
         FieldByName('ConsultaAutenticidade').AsString := '';
-      end
-      else
-      //Modificado em 22/05/2013 - Fábio Gabriel
-      if (FNFe.Ide.tpEmis = teDPEC) then
-      begin
-        if NaoEstaVazio(FNFe.procNFe.nProt) then // DPEC TRANSMITIDO
-        begin
-           FieldByName('Contingencia_Descricao').AsString := 'PROTOCOLO DE AUTORIZAÇÃO DE USO';
-           FieldByName('Contingencia_Valor').AsString := FNFe.procNFe.nProt + ' ' + SeSenao(FNFe.procNFe.dhRecbto <> 0, DateTimeToStr(FNFe.procNFe.dhRecbto), '');
-        end
-        else
-        begin
-           FieldByName('Contingencia_Descricao').AsString := 'NÚMERO DE REGISTRO DPEC';
-           if NaoEstaVazio(FDANFEClassOwner.ProtocoloNFe) then
-             FieldByName('Contingencia_Valor').AsString := FDANFEClassOwner.ProtocoloNFe;
-        end;
       end
       else
       if (FNFe.Ide.tpEmis = teOffLine) then

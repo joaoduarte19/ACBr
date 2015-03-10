@@ -34,63 +34,6 @@
 {                                                                              }
 {******************************************************************************}
 
-{******************************************************************************
-|* Historico
-|*
-|* 16/12/2008: Wemerson Souto
-|*  - Doação do componente para o Projeto ACBr
-|* 20/08/2009: Caique Rodrigues
-|*  - Doação units para geração do Danfe via QuickReport
-|* 20/11/2009: Peterson de Cerqueira Matos
-|*             E-mail: peterson161@yahoo.com - Tel: (11) 7197-1474 / 8059-4055
-|*  - Componente e Units do QuickReport clonados
-|*    e transformados em FORTES REPORT
-|* 27/01/2010: Peterson de Cerqueira Matos
-|*  - Acréscimo da propriedade "LarguraCodProd", que definirá a largura da
-|*    "Código do Produto" no DANFE
-|* 15/03/2010: Felipe Feltes
-|*  - Adequação na seção 'USES' para ser utilizado em CLX
-|* 19/03/2010: Peterson de Cerqueira Matos
-|*  - Tratamento das propriedades "FormularioContinuo", "ExpandirLogoMarca" e
-|*    "MostrarPreview" de "ACBrNFeDANFeClass"
-|*  - Acréscimo da propriedade "PosCanhoto", que permite ao usuário escolher
-|*    entre "pcCabecalho" e "pcRodape"
-|* 22/03/2010: Peterson de Cerqueira Matos
-|*  - Tratamento das margens em "ACBrNFeDANFeClass"
-|*  - Acréscimo da propriedade "FonteDANFE", que permite ao usuário escolher
-|*    entre "fdArial", "fdTimesNewRoman" e "fdCourierNew"
-|* 13/04/2010: Peterson de Cerqueira Matos
-|*  - Adequação à NF-e 2.0, Manual de Integração do Contribuinte 4.0.1NT2009.006
-|*  - Tratamento das casas decimais em "ACBrNFeDANFeClass"
-|* 06/07/2010: Peterson de Cerqueira Matos
-|*  - Tratamento da quantidade de produtos por página em "ACBrNFeDANFeClass"
-|*  - Exibição do DANFe em modo paisagem
-|* 20/07/2010: Peterson de Cerqueira Matos
-|*  - Envia o DANFe para a impressora informada em "Impressora" de
-|*  - "ACBrNFeDANFeClass"
-|* 28/07/2010: Peterson de Cerqueira Matos
-|*  - Alteração do sulfixo do arquivo PDF de '-nfe.pdf' para '.pdf'
-|* 10/08/2010: Peterson de Cerqueira Matos
-|*  - Tratamento do tamanho da fonte da razão social do emitente
-|* 25/11/2010: Peterson de Cerqueira Matos
-|*  - Acréscimo da propriedade "ExibirEAN"
-|* 16/02/2011: Fernando Emiliano David Nunes
-|*  - Acrescentado ao Método ImprimeDANFEPDF a condição ELSE quando NFE <> NIL
-|* 01/03/2011: Fernando Emiliano David Nunes
-|*  - Quando DPEC, nao estava imprimindo o valor FProtocoloNFe, acrescentei o
-|*    envio do Atributo: ProtocoloNFe
-|* 20/05/2010: Peterson de Cerqueira Matos
-|*  - Tratamento da propriedade "ExibirResumoCanhoto_Texto"
-|* 23/05/2011: Waldir Paim
-|*  - Início da preparação para Lazarus: Somente utiliza TClientDataSet quando
-|*    estiver no Delphi. Obrigatória a utilização da versão 3.70B ou superior
-|*    do Fortes Report. Download disponível em
-|*    http://sourceforge.net/projects/fortesreport/files/
-|* 14/03/2013: Peterson de Cerqueira Matos
-|*  - Início da impressão dos eventos em Fortes Report
-|* 22/03/2013: Peterson de Cerqueira Matos
-|*  - Impressão dos detalhamentos específicos e do desconto em percentual
-******************************************************************************}
 {$I ACBr.inc}
 unit ACBrNFeDANFeRLClass;
 

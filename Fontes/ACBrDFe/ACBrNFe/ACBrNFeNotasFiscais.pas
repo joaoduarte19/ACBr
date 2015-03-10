@@ -424,7 +424,7 @@ begin
       AdicionaErro(
         '556-Justificativa de entrada em contingência não deve ser informada para tipo de emissão normal');
 
-    if (NFe.Ide.tpEmis in [teContingencia, teDPEC, teFSDA, teOffLine]) and
+    if (NFe.Ide.tpEmis in [teContingencia, teFSDA, teOffLine]) and
       (NFe.Ide.xJust = '') then //B28-20
       AdicionaErro('557-A Justificativa de entrada em contingência deve ser informada');
 
@@ -457,9 +457,6 @@ begin
       if (NFe.Ide.tpEmis = teOffLine) and
         (AnsiIndexStr(NFe.Emit.EnderEmit.UF, ['SP']) <> -1) then  //B22-20
         AdicionaErro('712-Rejeição: NF-e com contingência off-line');
-
-      if (NFe.Ide.tpEmis in [teDPEC]) then  //B22-34
-        AdicionaErro('714-Rejeição: NFC-e com contingência DPEC inexistente');
 
       if (NFe.Ide.tpEmis = teSCAN) then //B22-50
         AdicionaErro('782-Rejeição: NFC-e não é autorizada pelo SCAN');

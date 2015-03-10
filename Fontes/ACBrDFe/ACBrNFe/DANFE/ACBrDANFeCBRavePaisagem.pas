@@ -239,11 +239,6 @@ begin
      GotoXY(PosX+5,YY-10);
      CenterX:=XPos+((PageWidth-MarginRight-XPos)/2);
      case Ide.tpEmis of
-        teDPEC: begin
-                  PrintCenter('DANFE impresso em contingência - DPEC regularmente ',CenterX);
-                  NewLine;
-                  PrintCenter('recebida pela Receita Federal do Brasil',CenterX);
-                end;
         teFSDA,
         teContingencia,
         teSVCAN,
@@ -488,17 +483,6 @@ begin
                Box([fsLeft,fsTop],PosX,YPos,aWidth,aHeigthPadrao,'PROTOCOLO DE DENEGAÇÃO',aProtocolo,taCenter,True)
             else
                Box([fsLeft,fsTop],PosX,YPos,aWidth,aHeigthPadrao,'PROTOCOLO DE AUTORIZAÇÃO DE USO',aProtocolo,taCenter,True);
-         end
-         else if (ACBrNFe.NotasFiscais.Items[FNFIndex].NFe.Ide.tpEmis in [teDPEC]) then
-         begin
-            if (ACBrNFe.NotasFiscais.Items[FNFIndex].NFe.procNFe.cStat = 100) then
-            begin
-              if DFeUtil.EstaVazio(aProtocolo) then
-                 aProtocolo:=Trim(procNFe.nProt)+' '+DFeUtil.SeSenao(procNFe.dhRecbto<>0,DateTimeToStr(procNFe.dhRecbto),'');
-              Box([fsLeft,fsTop],PosX,YPos,aWidth,aHeigthPadrao,'PROTOCOLO DE AUTORIZAÇÃO DE USO',aProtocolo,taCenter,True);
-            end
-            else
-              Box([fsLeft,fsTop],PosX,YPos,aWidth,aHeigthPadrao,'NÚMERO DE REGISTRO DPEC',aProtocolo,taCenter,True);
          end;
       end;
 
@@ -1562,9 +1546,6 @@ begin
      if Ide.tpEmis <> teNORMAL then
      begin
         case Ide.tpEmis of
-           teDPEC: begin
-                     wInfCpl:='DANFE impresso em contingência - DPEC regularmente recebida pela Receita Federal do Brasil';
-                   end;
            teFSDA,
            teContingencia,
            teSVCAN,

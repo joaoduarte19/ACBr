@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 305
+  Left = 503
   Height = 632
-  Top = 66
+  Top = 64
   Width = 894
   Caption = 'ACBrNFe - Demonstração'
   ClientHeight = 632
@@ -131,10 +131,10 @@ object Form1: TForm1
           Height = 439
           Top = 0
           Width = 275
-          ActivePage = TabSheet4
+          ActivePage = TabSheet13
           Align = alClient
           MultiLine = True
-          TabIndex = 1
+          TabIndex = 4
           TabOrder = 0
           Options = [nboMultiLine]
           object TabSheet3: TTabSheet
@@ -916,7 +916,7 @@ object Form1: TForm1
             object sbPathNFe: TSpeedButton
               Left = 240
               Height = 24
-              Top = 140
+              Top = 174
               Width = 23
               Glyph.Data = {
                 76010000424D7601000000000000760000002800000020000000100000000100
@@ -938,7 +938,7 @@ object Form1: TForm1
             object Label35: TLabel
               Left = 6
               Height = 13
-              Top = 126
+              Top = 160
               Width = 94
               Caption = 'Pasta Arquivos NFe'
               ParentColor = False
@@ -946,7 +946,7 @@ object Form1: TForm1
             object Label39: TLabel
               Left = 6
               Height = 13
-              Top = 164
+              Top = 198
               Width = 142
               Caption = 'Pasta Arquivos Cancelamento'
               ParentColor = False
@@ -954,7 +954,7 @@ object Form1: TForm1
             object sbPathCan: TSpeedButton
               Left = 240
               Height = 24
-              Top = 178
+              Top = 212
               Width = 23
               Glyph.Data = {
                 76010000424D7601000000000000760000002800000020000000100000000100
@@ -976,7 +976,7 @@ object Form1: TForm1
             object Label46: TLabel
               Left = 6
               Height = 13
-              Top = 202
+              Top = 236
               Width = 192
               Caption = 'Pasta Arquivos CC-e - Carta de Correção'
               ParentColor = False
@@ -984,7 +984,7 @@ object Form1: TForm1
             object sbPathCCe: TSpeedButton
               Left = 240
               Height = 24
-              Top = 216
+              Top = 250
               Width = 23
               Glyph.Data = {
                 76010000424D7601000000000000760000002800000020000000100000000100
@@ -1006,7 +1006,7 @@ object Form1: TForm1
             object Label40: TLabel
               Left = 6
               Height = 13
-              Top = 240
+              Top = 274
               Width = 127
               Caption = 'Pasta Arquivos Inutilização'
               ParentColor = False
@@ -1014,7 +1014,7 @@ object Form1: TForm1
             object sbPathInu: TSpeedButton
               Left = 240
               Height = 24
-              Top = 254
+              Top = 288
               Width = 23
               Glyph.Data = {
                 76010000424D7601000000000000760000002800000020000000100000000100
@@ -1033,40 +1033,10 @@ object Form1: TForm1
               NumGlyphs = 2
               OnClick = sbPathInuClick
             end
-            object Label41: TLabel
-              Left = 6
-              Height = 13
-              Top = 278
-              Width = 103
-              Caption = 'Pasta Arquivos DPEC'
-              ParentColor = False
-            end
-            object sbPathDPEC: TSpeedButton
-              Left = 240
-              Height = 24
-              Top = 292
-              Width = 23
-              Glyph.Data = {
-                76010000424D7601000000000000760000002800000020000000100000000100
-                04000000000000010000130B0000130B00001000000000000000000000000000
-                800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-                FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF0033333333B333
-                333B33FF33337F3333F73BB3777BB7777BB3377FFFF77FFFF77333B000000000
-                0B3333777777777777333330FFFFFFFF07333337F33333337F333330FFFFFFFF
-                07333337F3FF3FFF7F333330F00F000F07333337F77377737F333330FFFFFFFF
-                07333FF7F3FFFF3F7FFFBBB0F0000F0F0BB37777F7777373777F3BB0FFFFFFFF
-                0BBB3777F3FF3FFF77773330F00F000003333337F773777773333330FFFF0FF0
-                33333337F3FF7F37F3333330F08F0F0B33333337F7737F77FF333330FFFF003B
-                B3333337FFFF77377FF333B000000333BB33337777777F3377FF3BB3333BB333
-                3BB33773333773333773B333333B3333333B7333333733333337
-              }
-              NumGlyphs = 2
-              OnClick = sbPathDPECClick
-            end
             object Label47: TLabel
               Left = 6
               Height = 13
-              Top = 316
+              Top = 320
               Width = 108
               Caption = 'Pasta Arquivos Evento'
               ParentColor = False
@@ -1074,7 +1044,7 @@ object Form1: TForm1
             object sbPathEvento: TSpeedButton
               Left = 240
               Height = 24
-              Top = 330
+              Top = 334
               Width = 23
               Glyph.Data = {
                 76010000424D7601000000000000760000002800000020000000100000000100
@@ -1144,44 +1114,37 @@ object Form1: TForm1
             object edtPathCCe: TEdit
               Left = 6
               Height = 21
-              Top = 218
+              Top = 252
               Width = 235
               TabOrder = 6
             end
             object edtPathNFe: TEdit
               Left = 6
               Height = 21
-              Top = 142
+              Top = 176
               Width = 235
               TabOrder = 7
             end
             object edtPathCan: TEdit
               Left = 6
               Height = 21
-              Top = 180
+              Top = 214
               Width = 235
               TabOrder = 8
             end
             object edtPathInu: TEdit
               Left = 6
               Height = 21
-              Top = 256
+              Top = 290
               Width = 235
               TabOrder = 9
-            end
-            object edtPathDPEC: TEdit
-              Left = 6
-              Height = 21
-              Top = 294
-              Width = 235
-              TabOrder = 10
             end
             object edtPathEvento: TEdit
               Left = 6
               Height = 21
-              Top = 332
+              Top = 336
               Width = 235
-              TabOrder = 11
+              TabOrder = 10
             end
             object cbxSepararPorModelo: TCheckBox
               Left = 6
@@ -1189,7 +1152,7 @@ object Form1: TForm1
               Top = 106
               Width = 215
               Caption = 'Separar Arqs pelo Modelo do Documento'
-              TabOrder = 12
+              TabOrder = 11
             end
           end
         end
@@ -1390,9 +1353,9 @@ object Form1: TForm1
         Height = 298
         Top = 1
         Width = 593
-        ActivePage = tsNFCe
+        ActivePage = tsNFe
         Align = alClient
-        TabIndex = 1
+        TabIndex = 0
         TabOrder = 0
         object tsNFe: TTabSheet
           Caption = 'NF-e'
@@ -1506,24 +1469,6 @@ object Form1: TForm1
             OnClick = btnConsultarReciboClick
             TabOrder = 11
           end
-          object btnEnvDPEC: TButton
-            Left = 376
-            Height = 25
-            Top = 6
-            Width = 177
-            Caption = 'Enviar DPEC'
-            OnClick = btnEnvDPECClick
-            TabOrder = 12
-          end
-          object btnConsultarDPEC: TButton
-            Left = 376
-            Height = 25
-            Top = 36
-            Width = 177
-            Caption = 'Consultar DPEC'
-            OnClick = btnConsultarDPECClick
-            TabOrder = 13
-          end
           object btnImportarXML: TButton
             Left = 375
             Height = 25
@@ -1531,7 +1476,7 @@ object Form1: TForm1
             Width = 177
             Caption = 'Importar TXT/XML'
             OnClick = btnImportarXMLClick
-            TabOrder = 14
+            TabOrder = 12
           end
           object btnConsultarChave: TButton
             Left = 8
@@ -1540,7 +1485,7 @@ object Form1: TForm1
             Width = 177
             Caption = 'Consultar pela Chave'
             OnClick = btnConsultarChaveClick
-            TabOrder = 15
+            TabOrder = 13
           end
           object btnCancelarChave: TButton
             Left = 9
@@ -1549,7 +1494,7 @@ object Form1: TForm1
             Width = 177
             Caption = 'Cancelamento NFe pela Chave'
             OnClick = btnCancelarChaveClick
-            TabOrder = 16
+            TabOrder = 14
           end
           object btnGerarTXT: TButton
             Left = 376
@@ -1558,7 +1503,7 @@ object Form1: TForm1
             Width = 177
             Caption = 'Gerar TXT'
             OnClick = btnGerarTXTClick
-            TabOrder = 17
+            TabOrder = 15
           end
           object btnAdicionarProtNFe: TButton
             Left = 9
@@ -1567,7 +1512,7 @@ object Form1: TForm1
             Width = 177
             Caption = 'Adicionar nfeProc ao XML'
             OnClick = btnAdicionarProtNFeClick
-            TabOrder = 18
+            TabOrder = 16
           end
           object btnCarregarXMLEnviar: TButton
             Left = 192
@@ -1576,7 +1521,7 @@ object Form1: TForm1
             Width = 177
             Caption = 'Carregar XML e Enviar'
             OnClick = btnCarregarXMLEnviarClick
-            TabOrder = 19
+            TabOrder = 17
           end
           object btnCartadeCorrecao: TButton
             Left = 376
@@ -1585,7 +1530,7 @@ object Form1: TForm1
             Width = 177
             Caption = 'Carta de Correção'
             OnClick = btnCartadeCorrecaoClick
-            TabOrder = 20
+            TabOrder = 18
           end
           object btnValidarAssinatura: TButton
             Left = 9
@@ -1594,7 +1539,7 @@ object Form1: TForm1
             Width = 177
             Caption = 'Validar Assinatura'
             OnClick = btnValidarAssinaturaClick
-            TabOrder = 21
+            TabOrder = 19
           end
           object btnManifDestConfirmacao: TButton
             Left = 192
@@ -1603,7 +1548,7 @@ object Form1: TForm1
             Width = 178
             Caption = 'Manif. Dest. - Conf. Operação'
             OnClick = btnManifDestConfirmacaoClick
-            TabOrder = 22
+            TabOrder = 20
           end
           object btnNfeDestinadas: TButton
             Left = 375
@@ -1612,7 +1557,7 @@ object Form1: TForm1
             Width = 178
             Caption = 'Consulta NFe Destinadas'
             OnClick = btnNfeDestinadasClick
-            TabOrder = 23
+            TabOrder = 21
           end
           object btnImprimirCCe: TButton
             Left = 8
@@ -1621,7 +1566,7 @@ object Form1: TForm1
             Width = 177
             Caption = 'Imprimir Evento'
             OnClick = btnImprimirCCeClick
-            TabOrder = 24
+            TabOrder = 22
           end
           object btnEnviarEvento: TButton
             Left = 193
@@ -1630,7 +1575,7 @@ object Form1: TForm1
             Width = 177
             Caption = 'Enviar Evento Email'
             OnClick = btnEnviarEventoClick
-            TabOrder = 25
+            TabOrder = 23
           end
           object btnDistribuicaoDFe: TButton
             Left = 375
@@ -1639,7 +1584,7 @@ object Form1: TForm1
             Width = 178
             Caption = 'Distribuição Documentos Fiscais'
             OnClick = btnDistribuicaoDFeClick
-            TabOrder = 26
+            TabOrder = 24
           end
         end
         object tsNFCe: TTabSheet

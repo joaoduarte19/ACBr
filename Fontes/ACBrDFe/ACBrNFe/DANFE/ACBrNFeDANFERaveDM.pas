@@ -1045,23 +1045,6 @@ begin
       begin
          Connection.WriteStrData('', 'DADOS DA NF-E');
          Connection.WriteStrData('', NotaUtil.FormatarChaveContigencia(vChave_Contingencia));
-      end
-      else if (FNFe.Ide.tpEmis=teDPEC) then
-      begin
-         if NaoEstaVazio(FNFe.procNFe.nProt) then
-         begin
-           Connection.WriteStrData('', 'PROTOCOLO DE AUTORIZAÇÃO DE USO');
-           Connection.WriteStrData('', FNFe.procNFe.nProt+' '+SeSenao(FNFe.procNFe.dhRecbto<>0,DateTimeToStr(FNFe.procNFe.dhRecbto),''));
-         end
-         else
-         begin
-           Connection.WriteStrData('', 'NÚMERO DE REGISTRO DPEC');
-           if EstaVazio(FDANFEClassOwner.ProtocoloNFe) then
-               Connection.WriteStrData('', 'NFe sem Autorização de Uso da SEFAZ')
-              //raise EACBrNFeException.Create('Protocolo de Registro no DPEC não informado.')
-           else
-              Connection.WriteStrData('', FDANFEClassOwner.ProtocoloNFe);
-         end;
       end;
    end;
 
@@ -1322,9 +1305,7 @@ begin
            (FNFe.Ide.tpEmis=teSVCAN) or
            (FNFe.Ide.tpEmis=teSVCRS) or
            (FNFe.Ide.tpEmis=teSCAN)) then
-          wcontingencia:='DANFE EM CONTINGÊNCIA, IMPRESSO EM DECORRÊNCIA DE PROBLEMAS TÉCNICOS'
-       else if (FNFe.Ide.tpEmis=teDPEC) then
-          wcontingencia:='DANFE IMPRESSO EM CONTINGÊNCIA - DPEC REGULARMENTE RECEBIDA PELA RECEITA FEDERAL DO BRASIL';
+          wcontingencia:='DANFE EM CONTINGÊNCIA, IMPRESSO EM DECORRÊNCIA DE PROBLEMAS TÉCNICOS';
         wcontingencia:=wcontingencia+';'+
                       'DATA/HORA INÍCIO: '+SeSenao(FNFe.ide.dhCont = 0,' ',DateTimeToStr(FNFe.ide.dhCont))+';'+
                       'MOTIVO CONTINGÊNCIA: '+SeSenao(EstaVazio(FNFe.ide.xJust),' ',FNFe.ide.xJust);

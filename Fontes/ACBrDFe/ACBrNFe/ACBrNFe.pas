@@ -338,9 +338,7 @@ begin
             Result := schEnvEPEC // EPEC
           else
             Result := schEnvCCe; //Carta de Correção Eletrônica
-        end
-        else
-          Result := schEnvDPEC;
+        end ;
       end;
     end;
   end;
@@ -357,8 +355,6 @@ begin
     //LayNfeConsulta,
     //LayNfeStatusServico,
     //LayNfeCadastro,
-    //LayNfeEnvDPEC,
-    //LayNfeConsultaDPEC,
     //LayNFeCCe,
     LayNFeEvento:
       Result := schEnvConfRecebto;

@@ -61,19 +61,17 @@ type
   (* IMPORTANTE - Sempre que alterar um Tipo efetuar a atualização das funções de conversão correspondentes *)
   TLayOut = (LayNfeRecepcao, LayNfeRetRecepcao, LayNfeCancelamento,
     LayNfeInutilizacao, LayNfeConsulta, LayNfeStatusServico,
-    LayNfeCadastro, LayNfeEnvDPEC, LayNfeConsultaDPEC, LayNFeCCe,
-    LayNFeEvento, LayNFeEventoAN, LayNFeConsNFeDest, LayNFeDownloadNFe,
-    LayNfeAutorizacao, LayNfeRetAutorizacao, LayAdministrarCSCNFCe,
-    LayDistDFeInt);
+    LayNfeCadastro, LayNFeCCe, LayNFeEvento, LayNFeEventoAN, LayNFeConsNFeDest,
+    LayNFeDownloadNFe, LayNfeAutorizacao, LayNfeRetAutorizacao,
+    LayAdministrarCSCNFCe, LayDistDFeInt);
 
-  TSchemaNFe = (schNfe, schCancNFe, schInutNFe, schEnvDPEC, schEnvCCe,
+  TSchemaNFe = (schNfe, schCancNFe, schInutNFe, schEnvCCe,
                 schEnvEventoCancNFe, schEnvConfRecebto, schEnvEPEC );
 
   TStatusACBrNFe = (stIdle, stNFeStatusServico, stNFeRecepcao, stNFeRetRecepcao,
     stNFeConsulta, stNFeCancelamento, stNFeInutilizacao, stNFeRecibo,
-    stNFeCadastro, stNFeEmail, stNFeEnvDPEC, stNFeConsultaDPEC,
-    stNFeCCe, stNFeEvento, stConsNFeDest, stDownloadNFe, stAdmCSCNFCe,
-    stDistDFeInt, stEnvioWebService);
+    stNFeCadastro, stNFeEmail, stNFeCCe, stNFeEvento, stConsNFeDest,
+    stDownloadNFe, stAdmCSCNFCe, stDistDFeInt, stEnvioWebService);
 
   TpcnModeloDF = (moNFe, moNFCe);
   TpcnVersaoDF = (ve200, ve300, ve310);
@@ -129,14 +127,14 @@ begin
   Result := EnumeradoToStr(t,
     ['NfeRecepcao', 'NfeRetRecepcao', 'NfeCancelamento', 'NfeInutilizacao',
      'NfeConsultaProtocolo', 'NfeStatusServico', 'NfeConsultaCadastro',
-     'NfeEnvDPEC', 'NfeConsultaDPEC', 'RecepcaoEvento', 'LayNFeEvento',
-     'RecepcaoEvento', 'NfeConsultaDest', 'NfeDownloadNF', 'NfeAutorizacao',
-     'LayNfeRetAutorizacao', '', 'NFeDistribuicaoDFe'],
+     'RecepcaoEvento', 'LayNFeEvento', 'RecepcaoEvento', 'NfeConsultaDest',
+     'NfeDownloadNF', 'NfeAutorizacao', 'LayNfeRetAutorizacao', '',
+     'NFeDistribuicaoDFe'],
     [ LayNfeRecepcao, LayNfeRetRecepcao, LayNfeCancelamento, LayNfeInutilizacao,
       LayNfeConsulta, LayNfeStatusServico, LayNfeCadastro,
-      LayNfeEnvDPEC, LayNfeConsultaDPEC, LayNFeCCe, LayNFeEvento,
-      LayNFeEventoAN, LayNFeConsNFeDest, LayNFeDownloadNFe, LayNfeAutorizacao,
-      LayNfeRetAutorizacao, LayAdministrarCSCNFCe, LayDistDFeInt ] );
+      LayNFeCCe, LayNFeEvento, LayNFeEventoAN, LayNFeConsNFeDest,
+      LayNFeDownloadNFe, LayNfeAutorizacao, LayNfeRetAutorizacao,
+      LayAdministrarCSCNFCe, LayDistDFeInt ] );
 end;
 
 function ServicoToLayOut(out ok: Boolean; const s: String): TLayOut;
@@ -144,22 +142,22 @@ begin
   Result := StrToEnumerado(ok, s,
   ['NfeRecepcao', 'NfeRetRecepcao', 'NfeCancelamento', 'NfeInutilizacao',
    'NfeConsultaProtocolo', 'NfeStatusServico', 'NfeConsultaCadastro',
-   'NfeEnvDPEC', 'NfeConsultaDPEC', 'RecepcaoEvento', 'LayNFeEvento',
-   'RecepcaoEvento', 'NfeConsultaDest', 'NfeDownloadNF', 'NfeAutorizacao',
-   'LayNfeRetAutorizacao', '', 'NFeDistribuicaoDFe'],
+   'RecepcaoEvento', 'LayNFeEvento', 'RecepcaoEvento', 'NfeConsultaDest',
+   'NfeDownloadNF', 'NfeAutorizacao', 'LayNfeRetAutorizacao', '',
+   'NFeDistribuicaoDFe'],
   [ LayNfeRecepcao, LayNfeRetRecepcao, LayNfeCancelamento, LayNfeInutilizacao,
     LayNfeConsulta, LayNfeStatusServico, LayNfeCadastro,
-    LayNfeEnvDPEC, LayNfeConsultaDPEC, LayNFeCCe, LayNFeEvento,
-    LayNFeEventoAN, LayNFeConsNFeDest, LayNFeDownloadNFe, LayNfeAutorizacao,
-    LayNfeRetAutorizacao, LayAdministrarCSCNFCe, LayDistDFeInt ] );
+    LayNFeCCe, LayNFeEvento, LayNFeEventoAN, LayNFeConsNFeDest,
+    LayNFeDownloadNFe, LayNfeAutorizacao, LayNfeRetAutorizacao,
+    LayAdministrarCSCNFCe, LayDistDFeInt ] );
 end;
 
 function SchemaNFeToStr(const t: TSchemaNFe): String;
 begin
   Result := EnumeradoToStr(t,
-    ['nfe', 'cancNFe', 'inutNFe', 'envDPEC', 'envCCe',
+    ['nfe', 'cancNFe', 'inutNFe', 'envCCe',
      'envEventoCancNFe', 'envConfRecebto', 'envEPEC'],
-    [ schNfe, schCancNFe, schInutNFe, schEnvDPEC, schEnvCCe,
+    [ schNfe, schCancNFe, schInutNFe, schEnvCCe,
       schEnvEventoCancNFe, schEnvConfRecebto, schEnvEPEC ] );
 end;
 

@@ -100,7 +100,6 @@ contains
   pcnCancNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnCancNFe.pas',
   pcnCCeNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnCCeNFe.pas',
   pcnConsCad in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnConsCad.pas',
-  pcnConsDPEC in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnConsDPEC.pas',
   pcnConsNFeDest in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnConsNFeDest.pas',
   pcnConsReciNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnConsReciNFe.pas',
   pcnConsSitNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnConsSitNFe.pas',
@@ -108,7 +107,6 @@ contains
   pcnConversaoNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnConversaoNFe.pas',
   pcnDistDFeInt in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnDistDFeInt.pas',
   pcnDownloadNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnDownloadNFe.pas',
-  pcnEnvDPEC in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnEnvDPEC.pas',
   pcnEnvEventoNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnEnvEventoNFe.pas',
   pcnEnvNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnEnvNFe.pas',
   pcnEventoNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnEventoNFe.pas',
@@ -130,7 +128,6 @@ contains
   pcnRetConsStatServ in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetConsStatServ.pas',
   pcnRetDistDFeInt in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetDistDFeInt.pas',
   pcnRetDownloadNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetDownloadNFe.pas',
-  pcnRetDPEC in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetDPEC.pas',
   pcnRetEnvEventoNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetEnvEventoNFe.pas',
   pcnRetEnvNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetEnvNFe.pas',
   ACBrNFeDANFEClass in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\ACBrNFeDANFEClass.pas';

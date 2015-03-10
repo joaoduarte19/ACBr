@@ -462,7 +462,6 @@ begin
          //contingencia
          wPage[1] := FindRaveComponent('GlobalDANFE',nil) as TRavePage;
          if ((dmDanfe.NFe.Ide.tpEmis = teNormal) or
-             (dmDanfe.NFe.Ide.tpEmis = teDPEC) or
              (dmDanfe.NFe.Ide.tpEmis = teSVCAN) or
              (dmDanfe.NFe.Ide.tpEmis = teSVCRS) or
              (dmDanfe.NFe.Ide.tpEmis = teSCAN)) then

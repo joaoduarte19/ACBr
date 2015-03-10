@@ -1536,20 +1536,12 @@ begin
     if FNFe.Ide.tpEmis = teContingencia then
       vTpEmissao:=2
     else
-    if FNFe.Ide.tpEmis = teDPEC then
-      vTpEmissao:=4
-    else
     if FNFe.Ide.tpEmis in [teFSDA, teSVCAN, teSVCRS] then
       vTpEmissao:=5;
 
     case vTpEmissao of
       2:begin
         qrlMsgTipoEmissao.Caption := 'DANFE em Contingência - impresso em decorrência de problemas técnicos';
-        qrlMsgTipoEmissao.Visible := True;
-        qrlMsgTipoEmissao.Enabled := True;
-      end;
-      4:begin
-        qrlMsgTipoEmissao.Caption := 'DANFE impresso em contingência - DPEC regularmente recebida pela Receita Federal do Brasil';
         qrlMsgTipoEmissao.Visible := True;
         qrlMsgTipoEmissao.Enabled := True;
       end;
@@ -1721,8 +1713,6 @@ begin
 
         if FNFe.Ide.tpEmis in [teContingencia, teFSDA, teSVCAN, teSVCRS] then
             qrmDadosAdicionais.Lines.Add('DANFE em Contingência - Impresso em decorrência de problemas técnicos.');
-        if FNFe.Ide.tpEmis = teDPEC then
-            qrmDadosAdicionais.Lines.Add('DANFE em Contingência - DPEC regularmente recebida pela Receita Federal do Brasil');
         //**********************************************************************
       qrmDadosAdicionais.Lines.Text:=StringReplace(qrmDadosAdicionais.Lines.Text,';',#13,[rfReplaceAll]);
       qrmDadosAdicionais.Lines.EndUpdate;
@@ -1872,14 +1862,6 @@ begin
             qrlMsgAutorizado.Enabled        := False;
             qrlDescricao.Caption            := 'DADOS DA NF-E';
             qrlProtocolo.Caption            := NotaUtil.FormatarChaveContigencia(strChaveContingencia);
-        end;
-        // DPEC ****************************************************************
-        if FNFe.Ide.tpEmis = teDPEC then
-        begin
-            qrlDescricao.Caption := 'NÚMERO DE REGISTRO DPEC';
-            qrlProtocolo.Caption := FProtocoloNFE;
-            //qrlProtocolo.Caption := FNFe.procNFe.nProt + ' '  +
-            //                        SeSenao(FNFe.procNFe.dhRecbto <> 0, DateTimeToStr(FNFe.procNFe.dhRecbto),'');
         end;
     //************************************************************************
     end;

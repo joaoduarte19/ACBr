@@ -44,7 +44,7 @@ uses Classes, SysUtils,
   ACBrDFe, ACBrDFeWebService,
   pcnNFe,
   pcnRetConsReciNFe, pcnRetConsCad, pcnAuxiliar, pcnConversao, pcnConversaoNFe,
-  pcnRetDPEC, pcnProcNFe, pcnRetCancNFe, pcnEnvEventoNFe, pcnRetEnvEventoNFe,
+  pcnProcNFe, pcnRetCancNFe, pcnEnvEventoNFe, pcnRetEnvEventoNFe,
   pcnRetConsSitNFe, pcnConsNFeDest, pcnRetConsNFeDest, pcnDownloadNFe,
   pcnRetDownloadNFe, pcnAdmCSCNFCe, pcnRetAdmCSCNFCe, pcnDistDFeInt,
   pcnRetDistDFeInt, pcnRetEnvNFe,
@@ -398,84 +398,6 @@ type
     property RetConsCad: TRetConsCad read FRetConsCad;
   end;
 
-  { TNFeEnvDPEC }
-
-  TNFeEnvDPEC = class(TNFeWebService)
-  private
-    FId: String;
-    FverAplic: String;
-    FcStat: integer;
-    Fversao: String;
-    FTpAmb: TpcnTipoAmbiente;
-    FxMotivo: String;
-    FdhRegDPEC: TDateTime;
-    FnRegDPEC: String;
-    FNFeChave: String;
-
-    FXML_ProcDPEC: String;
-  protected
-    procedure DefinirServicoEAction; override;
-    procedure DefinirDadosMsg; override;
-    procedure SalvarEnvio; override;
-    function TratarResposta: Boolean; override;
-    procedure SalvarResposta; override;
-
-    function GerarMsgLog: String; override;
-  public
-    constructor Create(AOwner: TACBrDFe); override;
-
-    property ID: String read FId;
-    property verAplic: String read FverAplic;
-    property cStat: integer read FcStat;
-    property versao: String read Fversao;
-    property TpAmb: TpcnTipoAmbiente read FTpAmb;
-    property xMotivo: String read FxMotivo;
-    property DhRegDPEC: TDateTime read FdhRegDPEC;
-    property nRegDPEC: String read FnRegDPEC;
-    property NFeChave: String read FNFeChave;
-
-    property XML_ProcDPEC: String read FXML_ProcDpec write FXML_ProcDpec;
-  end;
-
-  { TNFeConsultaDPEC }
-
-  TNFeConsultaDPEC = class(TNFeWebService)
-  private
-    FverAplic: String;
-    FcStat: integer;
-    Fversao: String;
-    FTpAmb: TpcnTipoAmbiente;
-    FxMotivo: String;
-    FnRegDPEC: String;
-    FNFeChave: String;
-    FdhRegDPEC: TDateTime;
-
-    FretDPEC: TRetDPEC;
-
-    procedure SetNFeChave(const Value: String);
-    procedure SetnRegDPEC(const Value: String);
-  protected
-    procedure DefinirServicoEAction; override;
-    procedure DefinirDadosMsg; override;
-    function TratarResposta: Boolean; override;
-
-    function GerarMsgLog: String; override;
-  public
-    constructor Create(AOwner: TACBrDFe); override;
-    destructor Destroy; override;
-
-    property verAplic: String read FverAplic;
-    property cStat: integer read FcStat;
-    property versao: String read Fversao;
-    property TpAmb: TpcnTipoAmbiente read FTpAmb;
-    property xMotivo: String read FxMotivo;
-    property dhRegDPEC: TDateTime read FdhRegDPEC;
-    property nRegDPEC: String read FnRegDPEC write SetnRegDPEC;
-    property NFeChave: String read FNFeChave write SetNFeChave;
-
-    property retDPEC: TRetDPEC read FretDPEC;
-  end;
-
   { TNFeEnvEvento }
 
   TNFeEnvEvento = class(TNFeWebService)
@@ -679,8 +601,6 @@ type
     FConsulta: TNFeConsulta;
     FInutilizacao: TNFeInutilizacao;
     FConsultaCadastro: TNFeConsultaCadastro;
-    FEnviaDPEC: TNFeEnvDPEC;
-    FConsultaDPEC: TNFeConsultaDPEC;
     FEnvEvento: TNFeEnvEvento;
     FConsNFeDest: TNFeConsNFeDest;
     FDownloadNFe: TNFeDownloadNFe;
@@ -707,8 +627,6 @@ type
     property Inutilizacao: TNFeInutilizacao read FInutilizacao write FInutilizacao;
     property ConsultaCadastro: TNFeConsultaCadastro
       read FConsultaCadastro write FConsultaCadastro;
-    property EnviarDPEC: TNFeEnvDPEC read FEnviaDPEC write FEnviaDPEC;
-    property ConsultaDPEC: TNFeConsultaDPEC read FConsultaDPEC write FConsultaDPEC;
     property EnvEvento: TNFeEnvEvento read FEnvEvento write FEnvEvento;
     property ConsNFeDest: TNFeConsNFeDest read FConsNFeDest write FConsNFeDest;
     property DownloadNFe: TNFeDownloadNFe read FDownloadNFe write FDownloadNFe;
@@ -726,7 +644,7 @@ uses StrUtils,
   ACBrUtil, ACBrNFe,
   pcnGerador, pcnConsStatServ, pcnRetConsStatServ,
   pcnConsSitNFe, pcnInutNFe, pcnRetInutNFe, pcnConsReciNFe,
-  pcnConsCad, pcnLeitor, pcnEnvDPEC, pcnConsDPEC;
+  pcnConsCad, pcnLeitor;
 
 { TNFeWebService }
 
@@ -2304,266 +2222,6 @@ begin
   Result := '<cUF>' + IntToStr(UFparaCodigo(FUF)) + '</cUF>';
 end;
 
-{ TNFeEnvDPEC }
-
-constructor TNFeEnvDPEC.Create(AOwner: TACBrDFe);
-begin
-  inherited Create(AOwner);
-
-  FPStatus := stNFeEnvDPEC;
-  FPLayout := LayNfeEnvDPEC;
-  FPArqEnv := 'env-dpec';
-  FPArqResp := 'ret-dpec';
-
-  ConfigurarSoapDEPC;
-end;
-
-procedure TNFeEnvDPEC.DefinirServicoEAction;
-begin
-  FPServico := GetUrlWsd + 'SCERecepcaoRFB';
-  FPSoapAction := FPServico + '/sceRecepcaoDPEC';
-end;
-
-procedure TNFeEnvDPEC.DefinirDadosMsg;
-var
-  EnvDPEC: TEnvDPEC;
-  I: integer;
-begin
-  EnvDPEC := TEnvDPEC.Create;
-  try
-    //Gera NFe pra pegar a Chave
-    TACBrNFe(FPDFeOwner).NotasFiscais.GerarNFe;
-
-    // Se tiver configurado pra salvar, salva as NFes
-    if TACBrNFe(FPDFeOwner).Configuracoes.Arquivos.Salvar then
-      TACBrNFe(FPDFeOwner).NotasFiscais.GravarXML();
-
-    with EnvDPEC.infDPEC do
-    begin
-      ID := TACBrNFe(FPDFeOwner).NotasFiscais.Items[0].NFe.Emit.CNPJCPF;
-
-      IdeDec.cUF := FPConfiguracoesNFe.WebServices.UFCodigo;
-      ideDec.tpAmb := FPConfiguracoesNFe.WebServices.Ambiente;
-      ideDec.verProc := ACBRNFE_VERSAO;
-      ideDec.CNPJ := TACBrNFe(FPDFeOwner).NotasFiscais.Items[0].NFe.Emit.CNPJCPF;
-      ideDec.IE := TACBrNFe(FPDFeOwner).NotasFiscais.Items[0].NFe.Emit.IE;
-
-      for I := 0 to TACBrNFe(FPDFeOwner).NotasFiscais.Count - 1 do
-      begin
-        with resNFe.Add do
-        begin
-          chNFe := TACBrNFe(FPDFeOwner).NotasFiscais.Items[i].NumID;
-          CNPJCPF := TACBrNFe(FPDFeOwner).NotasFiscais.Items[i].NFe.dest.CNPJCPF;
-          UF := TACBrNFe(FPDFeOwner).NotasFiscais.Items[i].NFe.dest.enderdEST.UF;
-          vNF := TACBrNFe(FPDFeOwner).NotasFiscais.Items[i].NFe.Total.ICMSTot.vNF;
-          vICMS := TACBrNFe(FPDFeOwner).NotasFiscais.Items[i].NFe.Total.ICMSTot.vICMS;
-          vST := TACBrNFe(FPDFeOwner).NotasFiscais.Items[I].NFe.Total.ICMSTot.vST;
-        end;
-      end;
-    end;
-
-    EnvDPEC.Versao := FPVersaoServico;
-    EnvDPEC.GerarXML;
-
-    AssinarXML(EnvDPEC.Gerador.ArquivoFormatoXML, 'envDPEC', 'infDPEC',
-      'Falha ao assinar DPEC ');
-  finally
-    EnvDPEC.Free;
-  end;
-end;
-
-function TNFeEnvDPEC.TratarResposta: Boolean;
-var
-  RetDPEC: TRetDPEC;
-  wProc: TStringList;
-begin
-  RetDPEC := TRetDPEC.Create;
-  try
-    FPRetWS := SeparaDados(FPRetornoWS, 'sceRecepcaoDPECResult', True);
-
-    RetDPEC.Leitor.Arquivo := FPRetWS;
-    RetDPEC.LerXml;
-
-    Fversao := RetDPEC.versao;
-    FverAplic := RetDPEC.verAplic;
-    FcStat := RetDPEC.cStat;
-    FxMotivo := RetDPEC.xMotivo;
-    FId := RetDPEC.Id;
-    FTpAmb := RetDPEC.tpAmb;
-    FdhRegDPEC := RetDPEC.dhRegDPEC;
-    FnRegDPEC := RetDPEC.nRegDPEC;
-    FNFeChave := RetDPEC.chNFE;
-    FPMsg := RetDPEC.XMotivo;
-
-    Result := (RetDPEC.cStat = 124);
-
-    //gerar arquivo proc de DPEC
-    if Result then
-    begin
-      wProc := TStringList.Create;
-      try
-        wProc.Add('<' + ENCODING_UTF8 + '>');
-        wProc.Add('<procDPEC>');
-        wProc.Add(FPDadosMsg);
-        wProc.Add(FPRetWS);
-        wProc.Add('</procDPEC>');
-        FXML_ProcDPEC := wProc.Text;
-      finally
-        wProc.Free;
-      end;
-
-      if FPConfiguracoesNFe.Arquivos.Salvar then;
-      FPDFeOwner.Gravar(GerarPrefixoArquivo + '-procdpec.xml', FXML_ProcDPEC);
-    end;
-  finally
-    RetDPEC.Free;
-  end;
-end;
-
-procedure TNFeEnvDPEC.SalvarEnvio;
-begin
-  inherited SalvarEnvio;
-
-  if FPConfiguracoesNFe.Arquivos.Salvar then;
-  FPDFeOwner.Gravar(GerarPrefixoArquivo + '-' + ArqEnv + '.xml', FPDadosMsg,
-    FPConfiguracoesNFe.Arquivos.GetPathDPEC);
-end;
-
-procedure TNFeEnvDPEC.SalvarResposta;
-begin
-  inherited SalvarResposta;
-
-  if FPConfiguracoesNFe.Arquivos.Salvar then;
-  FPDFeOwner.Gravar(GerarPrefixoArquivo + '-' + ArqResp + '.xml', FPRetWS,
-    FPConfiguracoesNFe.Arquivos.GetPathDPEC);
-end;
-
-function TNFeEnvDPEC.GerarMsgLog: String;
-begin
-  {(*}
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'ID: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'Data Registro: %s ' + LineBreak +
-                           'nRegDPEC: %s ' + LineBreak +
-                           'ChaveNFe: %s ' + LineBreak),
-                   [Fversao, FverAplic, FId, IntToStr(FcStat), FxMotivo,
-                    FormatDateTimeBr(FdhRegDPEC), FnRegDPEC, FNFeChave]);
-  {*)}
-end;
-
-{ TNFeConsultaDPEC }
-
-constructor TNFeConsultaDPEC.Create(AOwner: TACBrDFe);
-begin
-  inherited Create(AOwner);
-
-  FretDPEC := TRetDPEC.Create;
-
-  FPStatus := stNFeConsultaDPEC;
-  FPLayout := LayNfeConsultaDPEC;
-  FPArqEnv := 'cons-dpec';
-  FPArqResp := 'sit-dpec';
-  ConfigurarSoapDEPC;
-end;
-
-destructor TNFeConsultaDPEC.Destroy;
-begin
-  FretDPEC.Free;
-
-  inherited Destroy;
-end;
-
-procedure TNFeConsultaDPEC.SetNFeChave(const Value: String);
-begin
-  if NaoEstaVazio(Value) then
-    FnRegDPEC := '';
-
-  FNFeChave := OnlyNumber(Value);
-end;
-
-procedure TNFeConsultaDPEC.SetnRegDPEC(const Value: String);
-begin
-  if NaoEstaVazio(Value) then
-    FNFeChave := '';
-
-  FnRegDPEC := Value;
-end;
-
-procedure TNFeConsultaDPEC.DefinirServicoEAction;
-begin
-  FPServico := GetUrlWsd + 'SCEConsultaRFB';
-  FPSoapAction := FPServico + '/sceConsultaDPEC';
-end;
-
-procedure TNFeConsultaDPEC.DefinirDadosMsg;
-var
-  ConsDPEC: TConsDPEC;
-  OK: Boolean;
-begin
-  OK := False;
-  ConsDPEC := TConsDPEC.Create;
-  try
-    ConsDPEC.tpAmb := FPConfiguracoesNFe.WebServices.Ambiente;
-    ConsDPEC.verAplic := '2.0.0.0';
-    ConsDPEC.nRegDPEC := FnRegDPEC;
-    ConsDPEC.chNFe := FNFeChave;
-
-    FPConfiguracoesNFe.Geral.ModeloDF :=
-      StrToModeloDF(OK, ExtrairModeloChaveAcesso(ConsDPEC.chNFe));
-    ConsDPEC.Versao := FPVersaoServico;
-    ConsDPEC.GerarXML;
-
-    FPDadosMsg := ConsDPEC.Gerador.ArquivoFormatoXML;
-  finally
-    ConsDPEC.Free;
-  end;
-end;
-
-function TNFeConsultaDPEC.TratarResposta: Boolean;
-begin
-  FPRetWS := SeparaDados(FPRetornoWS, 'sceConsultaDPECResult', True);
-
-  // Limpando variaveis internas
-  FretDPEC.Free;
-  FretDPEC := TRetDPEC.Create;
-
-  FretDPEC.Leitor.Arquivo := FPRetWS;
-  FretDPEC.LerXml;
-
-  Fversao := FretDPEC.versao;
-  FverAplic := FretDPEC.verAplic;
-  FcStat := FretDPEC.cStat;
-  FxMotivo := FretDPEC.xMotivo;
-  FTpAmb := FretDPEC.tpAmb;
-  FnRegDPEC := FretDPEC.nRegDPEC;
-  FNFeChave := FretDPEC.chNFE;
-  FdhRegDPEC := FretDPEC.dhRegDPEC;
-  FPMsg := FretDPEC.XMotivo;
-
-  Result := (FretDPEC.cStat = 125);
-end;
-
-function TNFeConsultaDPEC.GerarMsgLog: String;
-begin
-  {(*}
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'ID: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'Data Registro: %s ' + LineBreak +
-                           'nRegDPEC: %s ' + LineBreak +
-                           'ChaveNFe: %s ' + LineBreak),
-                   [FRetDPEC.versao, FretDPEC.verAplic, FretDPEC.Id,
-                    IntToStr(FretDPEC.cStat), FretDPEC.xMotivo,
-                    FormatDateTimeBr(FretDPEC.dhRegDPEC), FretDPEC.nRegDPEC,
-                    FretDPEC.chNFE]);
-  {*)}
-end;
-
 { TNFeEnvEvento }
 
 constructor TNFeEnvEvento.Create(AOwner: TACBrDFe; AEvento: TEventoNFe);
@@ -3347,8 +3005,6 @@ begin
   FConsulta := TNFeConsulta.Create(FACBrNFe);
   FInutilizacao := TNFeInutilizacao.Create(FACBrNFe);
   FConsultaCadastro := TNFeConsultaCadastro.Create(FACBrNFe);
-  FEnviaDPEC := TNFeEnvDPEC.Create(FACBrNFe);
-  FConsultaDPEC := TNFeConsultaDPEC.Create(FACBrNFe);
   FEnvEvento := TNFeEnvEvento.Create(FACBrNFe, TACBrNFe(FACBrNFe).EventoNFe);
   FConsNFeDest := TNFeConsNFeDest.Create(FACBrNFe);
   FDownloadNFe := TNFeDownloadNFe.Create(FACBrNFe, TACBrNFe(
@@ -3367,8 +3023,6 @@ begin
   FConsulta.Free;
   FInutilizacao.Free;
   FConsultaCadastro.Free;
-  FEnviaDPEC.Free;
-  FConsultaDPEC.Free;
   FEnvEvento.Free;
   FConsNFeDest.Free;
   FDownloadNFe.Free;

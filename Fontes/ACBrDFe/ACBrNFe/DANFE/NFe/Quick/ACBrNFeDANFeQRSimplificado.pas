@@ -625,20 +625,12 @@ begin
   if FNFe.Ide.tpEmis = teContingencia then
       vTpEmissao:=2
   else
-  if FNFe.Ide.tpEmis = teDPEC then
-      vTpEmissao:=4
-  else
   if FNFe.Ide.tpEmis = teFSDA then
       vTpEmissao:=5;
 
   case vTpEmissao of
    2: begin
        qrlMsgTipoEmissao.Caption := 'DANFE em Contingencia - impresso em decorrencia de problemas tecnicos';
-       qrlMsgTipoEmissao.Visible := True;
-       qrlMsgTipoEmissao.Enabled := True;
-      end;
-   4: begin
-       qrlMsgTipoEmissao.Caption := 'DANFE impresso em contingencia - DPEC regularmente recebida pela Receita Federal do Brasil';
        qrlMsgTipoEmissao.Visible := True;
        qrlMsgTipoEmissao.Enabled := True;
       end;

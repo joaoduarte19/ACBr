@@ -1093,35 +1093,6 @@ begin
           '   Motivo: ' + xJust;
       rllAvisoContingencia.Visible := True;
       rlbAvisoContingencia.Visible := True;
-    end
-    else if FNFe.Ide.tpEmis = teDPEC then
-    begin
-      rllDadosVariaveis1a.Visible := True;
-      rllDadosVariaveis1b.Visible := True;
-      rllDadosVariaveis1c.Visible := False;
-      rlbCodigoBarras.Visible := True;
-      rlbCodigoBarrasFS.Visible := False;
-      rllDadosVariaveis3_Descricao.Caption := 'NÚMERO DE REGISTRO DPEC';
-
-      if FProtocoloNFe <> '' then
-        rllDadosVariaveis3.Caption := FProtocoloNFe
-      else
-        rllDadosVariaveis3.Caption :=
-          FNFe.procNFe.nProt + ' ' + DateTimeToStr(
-          FNFe.procNFe.dhRecbto);
-
-      rllAvisoContingencia.Caption :=
-        'DANFE em Contingência - DPEC ' +
-        'regularmente recebida pela Receita Federal do Brasil';
-
-      if (dhCont > 0) and (xJust > '') then
-        rllContingencia.Caption :=
-          'Data / Hora da entrada em contingência: ' +
-          FormatDateTime('dd/mm/yyyy hh:nn:ss', dhCont) +
-          '   Motivo: ' + xJust;
-
-      rllAvisoContingencia.Visible := True;
-      rlbAvisoContingencia.Visible := True;
     end;
   end;
 end;
@@ -1400,7 +1371,7 @@ begin
   rlmDadosAdicionaisAuxiliar.Lines.Clear;
 
   // Protocolo de autorização, nos casos de emissão em contingência
-  if (FNFe.Ide.tpEmis in [teContingencia, teFSDA, teDPEC, teSVCAN, teSVCRS]) and
+  if (FNFe.Ide.tpEmis in [teContingencia, teFSDA, teSVCAN, teSVCRS]) and
     (FNFe.procNFe.cStat = 100) then
   begin
     sProtocolo := 'PROTOCOLO DE AUTORIZAÇÃO DE USO: ' +
