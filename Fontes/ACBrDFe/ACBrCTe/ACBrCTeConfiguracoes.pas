@@ -42,7 +42,7 @@ unit ACBrCTeConfiguracoes;
 interface
 
 uses
-  Classes, Sysutils, ACBrDFeConfiguracoes, pcnConversao, pcnConversaoCTe;
+  Classes, Sysutils, ACBrDFeConfiguracoes, pcnConversao, pcteConversaoCTe;
 
 type
 

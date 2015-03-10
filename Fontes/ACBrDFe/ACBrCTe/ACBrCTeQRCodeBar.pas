@@ -83,9 +83,9 @@ uses
   Classes, ClipBrd, Controls, Graphics, Messages, SysUtils;
 
 const
-  bcMaxBarCodeLen   = 255;
-  bcGuardBarAbove   = True;
-  bcGuardBarBelow   = True;
+  bcMaxBarCodeLen = 255;
+  bcGuardBarAbove = True;
+  bcGuardBarBelow = True;
   bcDefNarrowToWideRatio = 2;
 
 type
@@ -120,23 +120,23 @@ type
     property Count: Integer read GetCount;
   end;
 
-  TBarCode128c = class(TCanvas)                                                 //class(TGraphicControl)
-  protected                                                                     {private}
+  TBarCode128c = class(TCanvas) //class(TGraphicControl)
+  protected                     {private}
     {property variables}
     FAddCheckChar: Boolean;
     FBarColor: TColor;
     FBarToSpaceRatio: Double;
     FBarNarrowToWideRatio: Integer;
-    FBarWidth: Double;                                                          {in mils}
+    FBarWidth: Double;          {in mils}
     FBearerBars: Boolean;
 
     {internal variables}
     bcBarInfo: TBarCode128cInfo;
-    bcBarModWidth: Integer;                                                     {width of single bar}
-    bcCheckK: Integer;                                                          {"K" check character for use by Code11}
+    bcBarModWidth: Integer;   {width of single bar}
+    bcCheckK: Integer;        {"K" check character for use by Code11}
     bcDigits: TStDigitArray;
     bcDigitCount: Integer;
-    bcSpaceModWidth: Integer;                                                   {width of empty space between bars}
+    bcSpaceModWidth: Integer; {width of empty space between bars}
     bcNormalWidth: Integer;
     bcSpaceWidth: Integer;
     bcSupplementWidth: Integer;
@@ -178,115 +178,115 @@ implementation
 
 const
 
-  Code128           : array[0..106] of string[7] =
+  Code128: array[0..106] of string[7] =
     {BSBSBS}{Value  CodeA  CodeB   CodeC}
-  ('212222',                                                                    {0	SPACE	SPACE	00}
-    '222122',                                                                   {1	!	!	01}
-    '222221',                                                                   {2	"	"	02}
-    '121223',                                                                   {3	#	#	03}
-    '121322',                                                                   {4	$	$	04}
-    '131222',                                                                   {5	%	%	05}
-    '122213',                                                                   {6	&	&	06}
-    '122312',                                                                   {7	'	'	07}
-    '132212',                                                                   {8	(	(	08}
-    '221213',                                                                   {9	)	)	09}
-    '221312',                                                                   {10	* 	*	10}
-    '231212',                                                                   {11	+	+	11}
-    '112232',                                                                   {12	,	,	12}
-    '122132',                                                                   {13	-	-	13}
-    '122231',                                                                   {14	.	.	14}
-    '113222',                                                                   {15	/	/	15}
-    '123122',                                                                   {16	0	0	16}
-    '123221',                                                                   {17	1	1	17}
-    '223211',                                                                   {18	2	2	18}
-    '221132',                                                                   {19	3	3	19}
-    '221231',                                                                   {20	4	4	20}
-    '213212',                                                                   {21	5	5	21}
-    '223112',                                                                   {22	6	6	22}
-    '312131',                                                                   {23	7	7	23}
-    '311222',                                                                   {24	8	8	24}
-    '321122',                                                                   {25	9	9	25}
-    '321221',                                                                   {26	:	:	26}
-    '312212',                                                                   {27	;	;	27}
-    '322112',                                                                   {28	<	<	28}
-    '322211',                                                                   {29	= 	= 	29}
-    '212123',                                                                   {30	>	>	30}
-    '212321',                                                                   {31	?	?	31}
-    '232121',                                                                   {32	@	@	32}
-    '111323',                                                                   {33	A	A	33}
-    '131123',                                                                   {34	B	B	34}
-    '131321',                                                                   {35	C	C	35}
-    '112313',                                                                   {36	D	D	36}
-    '132113',                                                                   {37	E	E	37}
-    '132311',                                                                   {38	F	F	38}
-    '211313',                                                                   {39	G	G	39}
-    '231113',                                                                   {40	H	H	40}
-    '231311',                                                                   {41	I	I	41}
-    '112133',                                                                   {42	J	J	42}
-    '112331',                                                                   {43	K	K	43}
-    '132131',                                                                   {44	L	L	44}
-    '113123',                                                                   {45	M	M	45}
-    '113321',                                                                   {46	N	N	46}
-    '133121',                                                                   {47	O	O	47}
-    '313121',                                                                   {48	P	P	48}
-    '211331',                                                                   {49	Q	Q	49}
-    '231131',                                                                   {50	R	R	50}
-    '213113',                                                                   {51	S	S	51}
-    '213311',                                                                   {52	T	T	52}
-    '213131',                                                                   {53	U	U	53}
-    '311123',                                                                   {54	V	V	54}
-    '311321',                                                                   {55	W	W	55}
-    '331121',                                                                   {56	X	X	56}
-    '312113',                                                                   {57	Y	Y	57}
-    '312311',                                                                   {58	Z	Z	58}
-    '332111',                                                                   {59	[	[	59}
-    '314111',                                                                   {60	\	\	60}
-    '221411',                                                                   {61	]	]	61}
-    '431111',                                                                   {62	^	^	62}
-    '111224',                                                                   {63	_ 	_ 	63}
-    '111422',                                                                   {64	NU	`	64}
-    '121124',                                                                   {65	SH	a	65}
-    '121421',                                                                   {66	SX	b	66}
-    '141122',                                                                   {67	EX	c	67}
-    '141221',                                                                   {68	ET	d	68}
-    '112214',                                                                   {69	EQ	e	69}
-    '112412',                                                                   {70	AK	f	70}
-    '122114',                                                                   {71	BL	g	71}
-    '122411',                                                                   {72	BS	h	72}
-    '142112',                                                                   {73	HT	i	73}
-    '142211',                                                                   {74	LF	j	74}
-    '241211',                                                                   {75	VT	k	75}
-    '221114',                                                                   {76	FF	l	76}
-    '413111',                                                                   {77	CR	m	77}
-    '241112',                                                                   {78	SO	n	78}
-    '134111',                                                                   {79	SI	o	79}
-    '111242',                                                                   {80	DL	p	80}
-    '121142',                                                                   {81	D1	q	81}
-    '121241',                                                                   {82	D2	r	82}
-    '114212',                                                                   {83	D3	s	83}
-    '124112',                                                                   {84	D4	t	84}
-    '124211',                                                                   {85	NK	u	85}
-    '411212',                                                                   {86	SY	v	86}
-    '421112',                                                                   {87	EB	w	87}
-    '421211',                                                                   {88	CN	x	88}
-    '212141',                                                                   {89	EM	y	89}
-    '214121',                                                                   {90	SB	z	90}
-    '412121',                                                                   (*91	EC	{	91*)
-    '111143',                                                                   {92	FS		92}
-    '111341',                                                                   (*93	GS	}	93*)
-    '131141',                                                                   {94	RS	~	94}
-    '114113',                                                                   {95	US	DEL	95}
-    '114311', {96	FNC 3	FNC 3	96}                                               {use #132}
-    '411113', {97	FNC 2	FNC 2	97}                                               {use #131}
-    '411311', {98	SHIFT	SHIFT	98}                                               {use #130}
-    '113141', {99	CODE C	CODE C	99}                                             {use #135}
-    '114131', {100	CODE B	FNC 4	CODE B}                                         {use #134}
-    '311141', {101	FNC 4	CODE A	CODE A}                                         {use #133}
-    '411131', {102	FNC 1	FNC 1	FNC 1 }                                          {use #130}
-    '211412', {103	CODE A}                                                      {use #136}
-    '211214', {104	CODE B}                                                      {use #137}
-    '211232', {105	CODE C}                                                      {use #138}
-    '2331112'); {106    STOP}                                                   {use #139}
+  ('212222',   {0	SPACE	SPACE	00}
+    '222122',  {1	!	!	01}
+    '222221',  {2	"	"	02}
+    '121223',  {3	#	#	03}
+    '121322',  {4	$	$	04}
+    '131222',  {5	%	%	05}
+    '122213',  {6	&	&	06}
+    '122312',  {7	'	'	07}
+    '132212',  {8	(	(	08}
+    '221213',  {9	)	)	09}
+    '221312',  {10	* 	*	10}
+    '231212',  {11	+	+	11}
+    '112232',  {12	,	,	12}
+    '122132',  {13	-	-	13}
+    '122231',  {14	.	.	14}
+    '113222',  {15	/	/	15}
+    '123122',  {16	0	0	16}
+    '123221',  {17	1	1	17}
+    '223211',  {18	2	2	18}
+    '221132',  {19	3	3	19}
+    '221231',  {20	4	4	20}
+    '213212',  {21	5	5	21}
+    '223112',  {22	6	6	22}
+    '312131',  {23	7	7	23}
+    '311222',  {24	8	8	24}
+    '321122',  {25	9	9	25}
+    '321221',  {26	:	:	26}
+    '312212',  {27	;	;	27}
+    '322112',  {28	<	<	28}
+    '322211',  {29	= 	= 	29}
+    '212123',  {30	>	>	30}
+    '212321',  {31	?	?	31}
+    '232121',  {32	@	@	32}
+    '111323',  {33	A	A	33}
+    '131123',  {34	B	B	34}
+    '131321',  {35	C	C	35}
+    '112313',  {36	D	D	36}
+    '132113',  {37	E	E	37}
+    '132311',  {38	F	F	38}
+    '211313',  {39	G	G	39}
+    '231113',  {40	H	H	40}
+    '231311',  {41	I	I	41}
+    '112133',  {42	J	J	42}
+    '112331',  {43	K	K	43}
+    '132131',  {44	L	L	44}
+    '113123',  {45	M	M	45}
+    '113321',  {46	N	N	46}
+    '133121',  {47	O	O	47}
+    '313121',  {48	P	P	48}
+    '211331',  {49	Q	Q	49}
+    '231131',  {50	R	R	50}
+    '213113',  {51	S	S	51}
+    '213311',  {52	T	T	52}
+    '213131',  {53	U	U	53}
+    '311123',  {54	V	V	54}
+    '311321',  {55	W	W	55}
+    '331121',  {56	X	X	56}
+    '312113',  {57	Y	Y	57}
+    '312311',  {58	Z	Z	58}
+    '332111',  {59	[	[	59}
+    '314111',  {60	\	\	60}
+    '221411',  {61	]	]	61}
+    '431111',  {62	^	^	62}
+    '111224',  {63	_ 	_ 	63}
+    '111422',  {64	NU	`	64}
+    '121124',  {65	SH	a	65}
+    '121421',  {66	SX	b	66}
+    '141122',  {67	EX	c	67}
+    '141221',  {68	ET	d	68}
+    '112214',  {69	EQ	e	69}
+    '112412',  {70	AK	f	70}
+    '122114',  {71	BL	g	71}
+    '122411',  {72	BS	h	72}
+    '142112',  {73	HT	i	73}
+    '142211',  {74	LF	j	74}
+    '241211',  {75	VT	k	75}
+    '221114',  {76	FF	l	76}
+    '413111',  {77	CR	m	77}
+    '241112',  {78	SO	n	78}
+    '134111',  {79	SI	o	79}
+    '111242',  {80	DL	p	80}
+    '121142',  {81	D1	q	81}
+    '121241',  {82	D2	r	82}
+    '114212',  {83	D3	s	83}
+    '124112',  {84	D4	t	84}
+    '124211',  {85	NK	u	85}
+    '411212',  {86	SY	v	86}
+    '421112',  {87	EB	w	87}
+    '421211',  {88	CN	x	88}
+    '212141',  {89	EM	y	89}
+    '214121',  {90	SB	z	90}
+    '412121',  (*91	EC	{	91*)
+    '111143',  {92	FS		92}
+    '111341',  (*93	GS	}	93*)
+    '131141',  {94	RS	~	94}
+    '114113',  {95	US	DEL	95}
+    '114311', {96	FNC 3	FNC 3	96} {use #132}
+    '411113', {97	FNC 2	FNC 2	97} {use #131}
+    '411311', {98	SHIFT	SHIFT	98} {use #130}
+    '113141', {99	CODE C	CODE C	99} {use #135}
+    '114131', {100	CODE B	FNC 4	CODE B} {use #134}
+    '311141', {101	FNC 4	CODE A	CODE A} {use #133}
+    '411131', {102	FNC 1	FNC 1	FNC 1 } {use #130}
+    '211412', {103	CODE A} {use #136}
+    '211214', {104	CODE B} {use #137}
+    '211232', {105	CODE C} {use #138}
+    '2331112'); {106    STOP} {use #139}
 
   {*** helper routines ***}
 
@@ -304,7 +304,7 @@ end;
 
 procedure TBarCode128cInfo.Add(ModuleCount: Integer; BarKind: TBarKindSet);
 var
-  Bar               : TBarData;
+  Bar: TBarData;
 begin
   Bar := TBarData.Create;
   Bar.Modules := ModuleCount;
@@ -314,7 +314,7 @@ end;
 
 procedure TBarCode128cInfo.Clear;
 var
-  I                 : Integer;
+  I: Integer;
 begin
   for I := 0 to FBars.Count - 1 do
     TBarData(FBars[I]).Free;
@@ -351,14 +351,14 @@ end;
 
 procedure TBarCode128c.CalcBarCode;
 var
-  I                 : Integer;
-  CheckC            : Integer;
-  CheckK            : Integer;
-  C                 : string;
+  I: Integer;
+  CheckC: Integer;
+  CheckK: Integer;
+  C: string;
 
   procedure AddCode(const S: string; AKind: TBarKindSet);
   var
-    I               : Integer;
+    I: Integer;
   begin
     for I := 1 to Length(S) do
       if S[I] = '0' then
@@ -369,7 +369,7 @@ var
 
   procedure AddCodeModules(const S: string);
   var
-    K               : Integer;
+    K: Integer;
   begin
     for K := 1 to Length(S) do
     begin
@@ -382,7 +382,7 @@ var
 
   procedure AddCodeWideNarrow(const S: string);
   var
-    K               : Integer;
+    K: Integer;
   begin
     for K := 1 to Length(S) do
     begin
@@ -400,7 +400,7 @@ var
   end;
 begin
   bcBarInfo.Clear;
-  
+
   if Code = '' then
     Exit;
 
@@ -429,7 +429,7 @@ end;
 
 procedure TBarCode128c.CalcBarCodeWidth;
 var
-  I                 : Integer;
+  I: Integer;
 begin
   bcNormalWidth := 0;
   bcSpaceWidth := 0;
@@ -479,11 +479,11 @@ end;
 
 procedure TBarCode128c.DrawBarCode(const R: TRect);
 var
-  I, X, Y, TQ       : Integer;
-  BarCodeHeight     : Integer;
-  BarCodeWidth      : Integer;
-  PixelsPerInchX    : Integer;
-  SmallestWidth     : Double;
+  I, X, Y, TQ: Integer;
+  BarCodeHeight: Integer;
+  BarCodeWidth: Integer;
+  PixelsPerInchX: Integer;
+  SmallestWidth: Double;
 
   function DrawBar(XPos, YPos, AWidth, AHeight: Integer): Integer;
   begin
@@ -534,9 +534,9 @@ end;
 
 procedure TBarCode128c.GetCheckCharacters(const S: string; var C, K: Integer);
 var
-  I                 : Integer;
-  C1                : Integer;
-  St                : string;
+  I: Integer;
+  C1: Integer;
+  St: string;
 begin
   C := -1;
   K := -1;
@@ -561,17 +561,17 @@ end;
 
 function TBarCode128c.GetDigits(Characters: string): Integer;
 var
-  I                 : Integer;
-  RLen              : Integer;
-  NeedCharCount     : Boolean;
+  I: Integer;
+  RLen: Integer;
+  NeedCharCount: Boolean;
 
   procedure GetACode128CDigit;
   var
-    J               : Integer;
+    J: Integer;
 
   begin
     case (Characters[I]) of
-      #130: bcDigits[RLen + 1] := 98;                                           {rest are manufactured characters}
+      #130: bcDigits[RLen + 1] := 98; {rest are manufactured characters}
       #131: bcDigits[RLen + 1] := 97;
       #132: bcDigits[RLen + 1] := 96;
       #133: bcDigits[RLen + 1] := 98;
@@ -607,7 +607,7 @@ var
 
   function CheckCode128Digits(Index: Integer; CharsLen: Integer): Boolean;
   var
-    NumDigits       : Integer;
+    NumDigits: Integer;
   begin
     Result := False;
     NumDigits := CountCode128Digits(Index);
@@ -653,9 +653,9 @@ end;
 
 class procedure TBarCode128c.PaintCodeToCanvas(ACode: string; ACanvas: TCanvas; ARect: TRect);
 var
-  Margin            : Integer;
-  SavedDC           : LongInt;
-  R                 : TRect;
+  Margin: Integer;
+  SavedDC: LongInt;
+  R: TRect;
 begin
   with Create do
   try
@@ -709,7 +709,7 @@ end;
 
 function TBarCode128c.SmallestLineWidth(PixelsPerInch: Integer): Double;
 begin
-  Result := PixelsPerInch * 0.010;                                              {10 mils}
+  Result := PixelsPerInch * 0.010; {10 mils}
   if Result < 1 then
     Result := 1;
 end;

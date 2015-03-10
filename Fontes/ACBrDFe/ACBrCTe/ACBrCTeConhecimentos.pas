@@ -169,7 +169,7 @@ type
 implementation
 
 uses
-  ACBrCTe, ACBrUtil, pcnConversaoCTe;
+  ACBrCTe, ACBrUtil, pcteConversaoCTe;
 
 { Conhecimento }
 

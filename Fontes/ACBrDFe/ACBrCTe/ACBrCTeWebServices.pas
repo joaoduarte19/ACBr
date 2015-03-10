@@ -37,19 +37,6 @@
 {                                                                              }
 {******************************************************************************}
 
-{*******************************************************************************
-|* Historico
-|*
-|* 16/12/2008: Wemerson Souto
-|*  - Doação do componente para o Projeto ACBr
-|* 10/08/2009 : Wiliam Zacarias da Silva Rosa
-|*  - Criadas classes e procedimentos para acesso aos webservices
-|* 08/03/2010 : Bruno - Rhythmus Informatica
-|* Corrigida função DoCTeRecepcao
-|* 26/09/2014: Italo Jurisao Junior
-|*  - Refactoring, revisão e otimização
-*******************************************************************************}
-
 {$I ACBr.inc}
 
 unit ACBrCTeWebServices;

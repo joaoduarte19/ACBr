@@ -47,7 +47,7 @@ uses
   ACBrDFe, ACBrDFeConfiguracoes,
   ACBrCTeConfiguracoes, ACBrCTeWebServices, ACBrCTeConhecimentos,
   ACBrCTeDACTeClass,
-  pcteCTe, pcnConversao, pcnConversaoCTe,
+  pcteCTe, pcnConversao, pcteConversaoCTe,
   pcteEnvEventoCTe, pcteInutCTe,
   ACBrDFeUtil, ACBrUtil;
 
