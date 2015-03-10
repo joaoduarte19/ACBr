@@ -35,13 +35,6 @@
 {                                                                              }
 {******************************************************************************}
 
-{*******************************************************************************
-|* Historico
-|*
-|* 28/07/2009: Andre F. Moraes
-|*  - Inicio do componente ACBrCTe baseado no componente ACBrCTePCN
-*******************************************************************************}
-
 {$I ACBr.inc}
 
 unit ACBrCTeConhecimentos;
@@ -50,35 +43,57 @@ interface
 
 uses
   Classes, Sysutils, Dialogs, Forms, StrUtils,
-  ACBrCTeUtil, ACBrCTeConfiguracoes,
-  ACBrCTeDACTEClass,
-  smtpsend, ssl_openssl, mimemess, mimepart, // units para enviar email
+  ACBrCTeConfiguracoes, ACBrDFeUtil,
   pcteCTe, pcteCTeR, pcteCTeW, pcnConversao, pcnAuxiliar, pcnLeitor;
 
+//  ACBrCTeDACTEClass,
+//  smtpsend, ssl_openssl, mimemess, mimepart, // units para enviar email
+
 type
+
+  { Conhecimento }
 
   Conhecimento = class(TCollectionItem)
   private
     FCTe: TCTe;
-    FXML: AnsiString;
-    FXMLOriginal: AnsiString;
-    FConfirmada: Boolean;
-    FMsg: AnsiString;
-    FAlertas: AnsiString;
-    FErroValidacao: AnsiString;
-    FErroValidacaoCompleto: AnsiString;
-    FNomeArq: String;
-    FRegrasdeNegocios: AnsiString;
+    FCTeW: TCTeW;
+    FCTeR: TCTeR;
 
-    function GetCTeXML: AnsiString;
-    function GerarXML(var XML: String; var Alertas: String): String;
+    FXML: String;
+    FXMLAssinado: String;
+    FXMLOriginal: String;
+    FAlertas: String;
+    FErroValidacao: String;
+    FErroValidacaoCompleto: String;
+    FErroRegrasdeNegocios: String;
+    FNomeArq: String;
+
+    function GetConfirmado: Boolean;
+    function GetProcessado: Boolean;
+
+    function GetMsg: String;
+    function GetNumID: String;
+    function ValidarConcatChave: Boolean;
+    function CalcularNomeArquivo: String;
+    function CalcularPathArquivo: String;
+    function CalcularNomeArquivoCompleto(NomeArquivo: String = ''; PathArquivo: String = ''): String;
   public
     constructor Create(Collection2: TCollection); override;
     destructor Destroy; override;
+
     procedure Imprimir;
     procedure ImprimirPDF;
-    function SaveToFile(CaminhoArquivo: String = ''): Boolean;
+    procedure Assinar;
+    procedure Validar;
+    function VerificarAssinatura: Boolean;
+    function ValidarRegrasdeNegocios: Boolean;
+
+    function LerXML(AXML: AnsiString): Boolean;
+    function GerarXML: String;
+    function GravarXML(NomeArquivo: String = ''; PathArquivo: String = ''): Boolean;
+
     function SaveToStream(Stream: TStringStream): Boolean;
+
     procedure EnviarEmail(const sSmtpHost,
                                 sSmtpPort,
                                 sSmtpUser,
@@ -88,7 +103,7 @@ type
                                 sAssunto: String;
                                 sMensagem: TStrings;
                                 SSL: Boolean;
-                                EnviaPDF: Boolean = true;
+                                EnviaPDF: Boolean = True;
                                 sCC: TStrings = nil;
                                 Anexos: TStrings = nil;
                                 PedeConfirma: Boolean = False;
@@ -97,39 +112,48 @@ type
                                 TLS: Boolean = True;
                                 UsarThread: Boolean = True;
                                 HTML: Boolean = False);
-    function ValidarConcatChave: Boolean;
 
-    property CTe: TCTe                         read FCTe                   write FCTe;
-    property XML: AnsiString                   read GetCTeXML              write FXML;
-    property XMLOriginal: AnsiString           read FXMLOriginal           write FXMLOriginal;
-    property Confirmada: Boolean               read FConfirmada            write FConfirmada;
-    property Msg: AnsiString                   read FMsg                   write FMsg;
-    property Alertas: AnsiString               read FAlertas               write FAlertas;
-    property ErroValidacao: AnsiString         read FErroValidacao         write FErroValidacao;
-    property ErroValidacaoCompleto: AnsiString read FErroValidacaoCompleto write FErroValidacaoCompleto;
-    property NomeArq: String                   read FNomeArq               write FNomeArq;
-    property RegrasdeNegocios: AnsiString      read FRegrasdeNegocios      write FRegrasdeNegocios;
+    property NomeArq: String               read FNomeArq     write FNomeArq;
+    property CTe: TCTe                     read FCTe;
+    property XML: String                   read FXML;
+    property XMLAssinado: String           read FXMLAssinado;
+    property XMLOriginal: String           read FXMLOriginal write FXMLOriginal;
+    property Confirmado: Boolean           read GetConfirmado;
+    property Processado: Boolean           read GetProcessado;
+    property Msg: String                   read GetMsg;
+    property NumID: String                 read GetNumID;
+
+    property Alertas: String               read FAlertas;
+    property ErroValidacao: String         read FErroValidacao;
+    property ErroValidacaoCompleto: String read FErroValidacaoCompleto;
+    property ErroRegrasdeNegocios: String  read FErroRegrasdeNegocios;
   end;
+
+  { TConhecimentos }
 
   TConhecimentos = class(TOwnedCollection)
   private
-    FConfiguracoes: TConfiguracoes;
     FACBrCTe: TComponent;
+    FConfiguracoes: TConfiguracoesCTe;
 
     function GetItem(Index: Integer): Conhecimento;
     procedure SetItem(Index: Integer; const Value: Conhecimento);
+    procedure VerificarDACTE;
   public
     constructor Create(AOwner: TPersistent; ItemClass: TCollectionItemClass);
 
     procedure GerarCTe;
     procedure Assinar;
-    procedure Valida;
-    function ValidaAssinatura(out Msg: String): Boolean;
-    function ValidaRegrasdeNegocios: Boolean;
+    procedure Validar;
+    function VerificarAssinatura(out Msg: String): Boolean;
+    function ValidarRegrasdeNegocios(out Msg: String): Boolean;
     procedure Imprimir;
     procedure ImprimirPDF;
+
     function  Add: Conhecimento;
     function Insert(Index: Integer): Conhecimento;
+
+    property Items[Index: Integer]: Conhecimento read GetItem write SetItem;
 
     function GetNamePath: String; override;
     // Incluido o Parametro AGerarCTe que determina se após carregar os dados do CTe
@@ -137,111 +161,253 @@ type
     function LoadFromFile(CaminhoArquivo: String; AGerarCTe: Boolean = True): Boolean;
     function LoadFromStream(Stream: TStringStream; AGerarCTe: Boolean = True): Boolean;
     function LoadFromString(AString: String; AGerarCTe: Boolean = True): Boolean;
-    function SaveToFile(PathArquivo: String = ''): Boolean;
+    function GravarXML(PathArquivo: String = ''): Boolean;
 
-    property Items[Index: Integer]: Conhecimento read GetItem         write SetItem;
-    property Configuracoes: TConfiguracoes       read FConfiguracoes  write FConfiguracoes;
-    property ACBrCTe: TComponent                 read FACBrCTe;
-  end;
-
-  TSendMailThread = class(TThread)
-  private
-    FException: Exception;
-    // FOwner: Conhecimento;
-    procedure DoHandleException;
-  public
-    OcorreramErros: Boolean;
-    Terminado: Boolean;
-    smtp: TSMTPSend;
-    sFrom: String;
-    sTo: String;
-    sCC: TStrings;
-    slmsg_Lines: TStrings;
-
-    constructor Create;
-    destructor Destroy; override;
-  protected
-    procedure Execute; override;
-    procedure HandleException;
+    property ACBrCTe: TComponent read FACBrCTe;
   end;
 
 implementation
 
 uses
-  ACBrCTe, ACBrUtil, ACBrDFeUtil, pcnGerador;
+  ACBrCTe, ACBrUtil, pcnConversaoCTe;
 
 { Conhecimento }
 
 constructor Conhecimento.Create(Collection2: TCollection);
 begin
   inherited Create(Collection2);
+
   FCTe := TCTe.Create;
+  FCTeW := TCTeW.Create(FCTe);
+  FCTeR := TCTeR.Create(FCTe);
 
-  FCTe.Ide.tpCTe  := tcNormal;
-  FCTe.Ide.modelo := '57';
+  with TACBrCTe(TConhecimentos(Collection).ACBrCTe) do
+  begin
+    FCTe.infCTe.Versao := VersaoDFToDbl(Configuracoes.Geral.VersaoDF);
 
-  FCTe.Ide.verProc := 'ACBrCTe';
-  FCTe.Ide.tpAmb   := TACBrCTe(TConhecimentos(Collection).ACBrCTe).Configuracoes.WebServices.Ambiente;
-  FCTe.Ide.tpEmis  := TACBrCTe(TConhecimentos(Collection).ACBrCTe).Configuracoes.Geral.FormaEmissao;
-  if Assigned(TACBrCTe(TConhecimentos(Collection).ACBrCTe).DACTe) then
-     FCTe.Ide.tpImp   := TACBrCTe(TConhecimentos(Collection).ACBrCTe).DACTe.TipoDACTE;
+    FCTe.Ide.tpCTe := tcNormal;
+    FCTe.Ide.modelo := '57';
+    FCTe.Ide.verProc := 'ACBrCTe';
+    FCTe.Ide.tpAmb := Configuracoes.WebServices.Ambiente;
+    FCTe.Ide.tpEmis := Configuracoes.Geral.FormaEmissao;
+
+    if Assigned(DACTE) then
+      FCTe.Ide.tpImp := DACTE.TipoDACTE;
+  end;
 end;
 
 destructor Conhecimento.Destroy;
 begin
   FCTe.Free;
+  FCTeW.Free;
+  FCTeR.Free;
+
   inherited Destroy;
 end;
 
 procedure Conhecimento.Imprimir;
 begin
-  if not Assigned(TACBrCTe(TConhecimentos(Collection).ACBrCTe).DACTE) then
-     raise Exception.Create('Componente DACTE não associado.')
-  else
-     TACBrCTe(TConhecimentos(Collection).ACBrCTe).DACTE.ImprimirDACTE(CTe);
+  with TACBrCTe(TConhecimentos(Collection).ACBrCTe) do
+  begin
+    if not Assigned(DACTE) then
+      raise EACBrCTeException.Create('Componente DACTE não associado.')
+    else
+      DACTE.ImprimirDACTE(CTe);
+  end;
 end;
 
 procedure Conhecimento.ImprimirPDF;
 begin
-  if not Assigned(TACBrCTe(TConhecimentos(Collection).ACBrCTe).DACTE) then
-     raise Exception.Create('Componente DACTE não associado.')
-  else
-     TACBrCTe(TConhecimentos(Collection).ACBrCTe).DACTE.ImprimirDACTEPDF(CTe);
+  with TACBrCTe(TConhecimentos(Collection).ACBrCTe) do
+  begin
+    if not Assigned(DACTE) then
+      raise EACBrCTeException.Create('Componente DACTE não associado.')
+    else
+      DACTE.ImprimirDACTEPDF(CTe);
+  end;
 end;
 
-function Conhecimento.SaveToFile(CaminhoArquivo: String = ''): Boolean;
+procedure TConhecimento.Assinar;
 var
-  ArqXML, Alertas, ArqTXT : String;
+  XMLAss: String;
+  ArqXML: String;
+  Leitor: TLeitor;
 begin
-  try
-     Result := True;
-     ArqTXT := GerarXML(ArqXML, Alertas);
-     if EstaVazio(CaminhoArquivo) then
-        CaminhoArquivo := PathWithDelim(TACBrCTe(TConhecimentos(Collection).ACBrCTe).Configuracoes.Geral.PathSalvar) + copy(CTe.infCTe.ID, (length(CTe.infCTe.ID)-44)+1, 44)+'-cte.xml';
+  ArqXML := GerarXML;
 
-     if EstaVazio(CaminhoArquivo) or not DirectoryExists(ExtractFilePath(CaminhoArquivo)) then
-        raise EACBrCTeException.Create('Caminho Inválido: ' + CaminhoArquivo);
+  // XML já deve estar em UTF8, para poder ser assinado //
+  ArqXML := ConverteXMLtoUTF8(ArqXML);
+  FXMLOriginal := ArqXML;
 
-     WriteToTXT(CaminhoArquivo, ArqXML, False, False);
+  with TACBrCTe(TConhecimentos(Collection).ACBrCTe) do
+  begin
+    XMLAss := SSL.Assinar(ArqXML, 'CTe', 'infCTe');
+    FXMLAssinado := XMLAss;
 
-     NomeArq := CaminhoArquivo;
-  except
-     raise;
-     Result := False;
+    // Remove header, pois podem existir várias Notas no XML //
+    //TODO: Verificar se precisa
+    //XMLAss := StringReplace(XMLAss, '<' + ENCODING_UTF8_STD + '>', '', [rfReplaceAll]);
+    //XMLAss := StringReplace(XMLAss, '<' + XML_V01 + '>', '', [rfReplaceAll]);
+
+    Leitor := TLeitor.Create;
+    try
+      leitor.Grupo := XMLAss;
+      CTe.signature.URI := Leitor.rAtributo('Reference URI=');
+      CTe.signature.DigestValue := Leitor.rCampo(tcStr, 'DigestValue');
+      CTe.signature.SignatureValue := Leitor.rCampo(tcStr, 'SignatureValue');
+      CTe.signature.X509Certificate := Leitor.rCampo(tcStr, 'X509Certificate');
+    finally
+      Leitor.Free;
+    end;
+
+    if Configuracoes.Geral.Salvar then
+      Gravar(CalcularNomeArquivoCompleto(), XMLAss);
+
+    if NaoEstaVazio(NomeArq) then
+      Gravar(NomeArq, XMLAss);
   end;
+end;
+
+procedure Conhecimento.Validar;
+var
+  Erro, AXML: String;
+  CTeEhValido: Boolean;
+  ALayout: TLayOut;
+  VersaoStr: String;
+begin
+  AXML := FXMLAssinado;
+
+  if EstaVazio(AXML) then
+  begin
+    Assinar;
+    AXML := FXMLAssinado;
+  end;
+
+  with TACBrCTe(TConhecimentos(Collection).ACBrCTe) do
+  begin
+    ALayout := LayCTeRetRecepcao;
+
+    VersaoStr := FloatToString( FCTe.infCTe.Versao, '.', '0.00');
+    CTeEhValido := SSL.Validar(AXML, GerarNomeArqSchema(ALayout, VersaoStr), Erro);
+
+    if not CTeEhValido then
+    begin
+      FErroValidacao := ACBrStr('Falha na validação dos dados do Conhecimento: ') +
+        IntToStr(CTe.Ide.nCT) + sLineBreak + FAlertas ;
+      FErroValidacaoCompleto := FErroValidacao + sLineBreak + Erro;
+
+      raise EACBrCTeException.CreateDef(
+        IfThen(Configuracoes.Geral.ExibirErroSchema, ErroValidacaoCompleto,
+        ErroValidacao));
+    end;
+  end;
+end;
+
+function Conhecimento.VerificarAssinatura: Boolean;
+var
+  Erro, AXML: String;
+  AssEhValida: Boolean;
+begin
+  AXML := FXMLOriginal;
+
+  if EstaVazio(AXML) then
+  begin
+    if EstaVazio(FXMLAssinado) then
+      Assinar;
+
+    AXML := FXMLAssinado;
+  end;
+
+  with TACBrCTe(TConhecimentos(Collection).ACBrCTe) do
+  begin
+    AssEhValida := SSL.VerificarAssinatura(AXML, Erro);
+
+    if not AssEhValida then
+    begin
+      FErroValidacao := ACBrStr('Falha na validação da assinatura do Conhecimento: ') +
+        IntToStr(CTe.Ide.nCT) + sLineBreak + Erro;
+    end;
+  end;
+
+  Result := AssEhValida;
+end;
+
+function Conhecimento.ValidarRegrasdeNegocios: Boolean;
+var
+ Erros: AnsiString;
+
+  procedure AdicionaErro(const Erro: String);
+  begin
+    Erros := Erros + Erro + sLineBreak;
+  end;
+
+begin
+  with TACBrCTe(TConhecimentos(Collection).ACBrCTe) do
+  begin
+    Erros := '';
+
+    if not ValidarConcatChave then
+      AdicionaErro(
+        '502-Rejeição: Erro na Chave de Acesso - Campo Id não corresponde à concatenação dos campos correspondentes');
+
+    if (CTe.Ide.tpAmb <> Configuracoes.WebServices.Ambiente) then
+      AdicionaErro('252-Rejeição: Ambiente informado diverge do Ambiente de recebimento '
+        + '(Tipo do ambiente do CT-e difere do ambiente do Web Service)');
+
+    if (CTe.Ide.serie > 889) then
+      AdicionaErro('670-Rejeição: Série utilizada fora da faixa permitida no Web Service (0-889)');
+
+    if copy(IntToStr(CTe.Emit.EnderEmit.cMun), 1, 2) <> IntToStr(Configuracoes.WebServices.UFCodigo) then
+      AdicionaErro('226-Rejeição: Código da UF do Emitente diverge da UF autorizadora');
+
+  end;
+
+  Result := EstaVazio(Erros);
+
+  if not Result then
+  begin
+    Erros := ACBrStr('Erro(s) nas Regras de negócios do Conhecimento: '+
+                     IntToStr(CTe.Ide.nCT) + sLineBreak +
+                     Erros);
+  end;
+
+  FErroRegrasdeNegocios := Erros;
+end;
+
+function Conhecimento.LerXML(AXML: AnsiString): Boolean;
+var
+  Ok: Boolean;
+begin
+  Result := False;
+  FCTeR.Leitor.Arquivo := AXML;
+  FCTeR.LerXml;
+
+  // Detecta o modelo e a versão do Documento Fiscal
+  with TACBrCTe(TConhecimentos(Collection).ACBrCTe) do
+  begin
+//    Configuracoes.Geral.ModeloDF := StrToModeloDF(OK, IntToStr(FCTeR.CTe.Ide.modelo));
+    Configuracoes.Geral.VersaoDF := DblToVersaoDF(OK, FCTeR.CTe.infCTe.Versao);
+  end;
+
+  FXML := string(AXML);
+  FXMLOriginal := FXML;
+  Result := True;
+end;
+
+function Conhecimento.GravarXML(NomeArquivo: String; PathArquivo: String): Boolean;
+begin
+  FNomeArq := CalcularNomeArquivoCompleto(NomeArquivo, PathArquivo);
+  GerarXML;
+  Result := TACBrCTe(TConhecimentos(Collection).ACBrCTe).Gravar(FNomeArq, FXML);
 end;
 
 function Conhecimento.SaveToStream(Stream: TStringStream): Boolean;
-var
-  ArqXML, Alertas : String;
 begin
-  try
-     Result := True;
-     GerarXML(ArqXML, Alertas);
-     Stream.WriteString(ArqXML);
-  except
-     Result := False;
-  end;
+  Result := False;
+  GerarXML;
+  AStream.Size := 0;
+  AStream.WriteBuffer(FXML[1], Length(FXML));
+  Result := True;
 end;
 
 procedure Conhecimento.EnviarEmail(const sSmtpHost,
@@ -262,11 +428,12 @@ procedure Conhecimento.EnviarEmail(const sSmtpHost,
                                          TLS: Boolean = True;
                                          UsarThread: Boolean = True;
                                          HTML: Boolean = False);
-var
-  NomeArq: String;
-  AnexosEmail: TStrings;
-  StreamCTe: TStringStream;
+//var
+//  NomeArq: String;
+//  AnexosEmail: TStrings;
+//  StreamCTe: TStringStream;
 begin
+(*
  AnexosEmail := TStringList.Create;
  StreamCTe  := TStringStream.Create('');
  try
@@ -302,14 +469,65 @@ begin
     AnexosEmail.Free;
     StreamCTe.Free;
  end;
+*)
 end;
 
-function Conhecimento.GetCTeXML: AnsiString;
-var
- ArqXML, Alertas: String;
+function Conhecimento.GerarXML: String;
 begin
- GerarXML(ArqXML, Alertas);
- Result := ArqXML;
+  with TACBrCTe(TConhecimentos(Collection).ACBrCTe) do
+  begin
+    FCTeW.Gerador.Opcoes.FormatoAlerta   := Configuracoes.Geral.FormatoAlerta;
+    FCTeW.Gerador.Opcoes.RetirarAcentos  := Configuracoes.Geral.RetirarAcentos;
+  end;
+
+  FCTeW.GerarXml;
+
+  FXML := FCTeW.Gerador.ArquivoFormatoXML;
+  FXMLAssinado := '';
+  FAlertas := FCTeW.Gerador.ListaDeAlertas.Text;
+
+  Result := FXML;
+end;
+
+function Conhecimento.CalcularNomeArquivo: String;
+var
+  xID: String;
+begin
+  xID := Self.NumID;
+
+  if EstaVazio(xID) then
+    raise EACBrCTeException.Create('ID Inválido. Impossível Salvar XML');
+
+  Result := xID + '-cte.xml';
+end;
+
+function Conhecimento.CalcularPathArquivo: String;
+var
+  Data: TDateTime;
+begin
+  with TACBrCTe(TConhecimentos(Collection).ACBrCTe) do
+  begin
+    if Configuracoes.Arquivos.EmissaoPathCTe then
+      Data := FCTe.Ide.dhEmi
+    else
+      Data := Now;
+
+    Result := PathWithDelim(Configuracoes.Arquivos.GetPathCTe(Data, FCTe.Emit.CNPJCPF));
+  end;
+end;
+
+function Conhecimento.CalcularNomeArquivoCompleto(NomeArquivo: String;
+  PathArquivo: String): String;
+begin
+  if EstaVazio(NomeArquivo) then
+    NomeArquivo := CalcularNomeArquivo;
+
+  if EstaVazio(PathArquivo) then
+    PathArquivo := CalcularPathArquivo
+  else
+    PathArquivo := PathWithDelim(PathArquivo);
+
+  Result := PathArquivo + NomeArquivo;
 end;
 
 function Conhecimento.ValidarConcatChave: Boolean;
@@ -317,7 +535,8 @@ var
   wAno, wMes, wDia: Word;
 begin
   DecodeDate(CTe.ide.dhEmi, wAno, wMes, wDia);
-  if (Copy(CTe.infCTe.ID,  4,  2) <> IntToStrZero(CTe.ide.cUF, 2)) or
+  Result := not
+     ((Copy(CTe.infCTe.ID,  4,  2) <> IntToStrZero(CTe.ide.cUF, 2)) or
      (Copy(CTe.infCTe.ID,  6,  2) <> Copy(FormatFloat('0000', wAno), 3, 2)) or
      (Copy(CTe.infCTe.ID,  8,  2) <> FormatFloat('00', wMes)) or
      (Copy(CTe.infCTe.ID, 10, 14) <> copy(OnlyNumber(CTe.Emit.CNPJ) + '00000000000000', 1, 14)) or
@@ -325,28 +544,29 @@ begin
      (Copy(CTe.infCTe.ID, 26,  3) <> IntToStrZero(CTe.ide.serie, 3)) or
      (Copy(CTe.infCTe.ID, 29,  9) <> IntToStrZero(CTe.ide.nCT, 9)) or
      (Copy(CTe.infCTe.ID, 38,  1) <> TpEmisToStr(CTe.ide.tpEmis)) or
-     (Copy(CTe.infCTe.ID, 39,  8) <> IntToStrZero(CTe.ide.cCT, 8)) then
-    Result := False
-  else
-    Result := True;
+     (Copy(CTe.infCTe.ID, 39,  8) <> IntToStrZero(CTe.ide.cCT, 8)));
 end;
 
-function Conhecimento.GerarXML(var XML, Alertas: String): String;
-var
-  LocCTeW : TCTeW;
+function Conhecimento.GetConfirmado: Boolean;
 begin
-  LocCTeW := TCTeW.Create(Self.CTe);
-  try
-     LocCTeW.Gerador.Opcoes.FormatoAlerta   := TACBrCTe(TConhecimentos(Collection).ACBrCTe).Configuracoes.Geral.FormatoAlerta;
-     LocCTeW.Gerador.Opcoes.RetirarAcentos  := TACBrCTe(TConhecimentos(Collection).ACBrCTe).Configuracoes.Geral.RetirarAcentos;
+  Result := TACBrCTe(TConhecimentos(Collection).ACBrCTe).cStatConfirmado(
+    FCTe.procCTe.cStat);
+end;
 
-     LocCTeW.GerarXml;
-     XML     := LocCTeW.Gerador.ArquivoFormatoXML;
-     Alertas := LocCTeW.Gerador.ListaDeAlertas.Text;
-     Result  := '';
-  finally
-     LocCTeW.Free;
-  end;
+function Conhecimento.GetProcessado: Boolean;
+begin
+  Result := TACBrCTe(TConhecimentos(Collection).ACBrCTe).cStatProcessado(
+    FCTe.procCTe.cStat);
+end;
+
+function Conhecimento.GetMsg: String;
+begin
+  Result := FCTe.procCTe.xMotivo;
+end;
+
+function Conhecimento.GetNumID: String;
+begin
+  Result := Trim(OnlyNumber(CTe.infCTe.ID));
 end;
 
 { TConhecimentos }
@@ -355,77 +575,33 @@ constructor TConhecimentos.Create(AOwner: TPersistent;
   ItemClass: TCollectionItemClass);
 begin
   if not (AOwner is TACBrCTe) then
-     raise Exception.Create('AOwner deve ser do tipo TACBrCTe');
+     raise EACBrCTeException.Create('AOwner deve ser do tipo TACBrCTe');
 
   inherited;
 
   FACBrCTe := TACBrCTe(AOwner);
+  FConfiguracoes := TACBrCTe(FACBrCTe).Configuracoes;
 end;
-
 
 function TConhecimentos.Add: Conhecimento;
 begin
   Result := Conhecimento(inherited Add);
-
-  Result.CTe.Ide.tpAmb := Configuracoes.WebServices.Ambiente;
 end;
 
 procedure TConhecimentos.Assinar;
 var
-  i: Integer;
-  vAssinada: AnsiString;
-  ArqXML, Alertas: String;
-  Leitor: TLeitor;
-  FMsg: AnsiString;
+  i: integer;
 begin
-  for i:= 0 to Self.Count-1 do
-   begin
-     Self.Items[i].GerarXML(ArqXML, Alertas);
-     Self.Items[i].Alertas := Alertas;
-
-{$IFDEF ACBrCTeOpenSSL}
-     if not(CTeUtil.Assinar(ArqXML, FConfiguracoes.Certificados.Certificado , FConfiguracoes.Certificados.Senha, vAssinada, FMsg)) then
-           raise Exception.Create('Falha ao assinar Conhecimento de Transporte Eletrônico '+
-                                   IntToStr(Self.Items[i].CTe.Ide.cCT)+FMsg);
-{$ELSE}
-     if not(CTeUtil.Assinar(ArqXML, FConfiguracoes.Certificados.GetCertificado , vAssinada, FMsg)) then
-           raise Exception.Create('Falha ao assinar Conhecimento de Transporte Eletrônico '+
-                                   IntToStr(Self.Items[i].CTe.Ide.cCT)+FMsg);
-{$ENDIF}
-     vAssinada := StringReplace(vAssinada, '<'+ENCODING_UTF8_STD+'>', '', [rfReplaceAll]);
-     vAssinada := StringReplace(vAssinada, '<?xml version="1.0"?>', '', [rfReplaceAll]);
-     Self.Items[i].XML := vAssinada;
-
-     Leitor := TLeitor.Create;
-     try
-       leitor.Grupo := vAssinada;
-       Self.Items[i].CTe.signature.URI := Leitor.rAtributo('Reference URI=');
-       Self.Items[i].CTe.signature.DigestValue := Leitor.rCampo(tcStr, 'DigestValue');
-       Self.Items[i].CTe.signature.SignatureValue := Leitor.rCampo(tcStr, 'SignatureValue');
-       Self.Items[i].CTe.signature.X509Certificate := Leitor.rCampo(tcStr, 'X509Certificate');
-     finally
-       Leitor.Free;
-     end;
-
-     if FConfiguracoes.Geral.Salvar then
-       FConfiguracoes.Geral.Save(StringReplace(Self.Items[i].CTe.infCTe.ID, 'CTe', '', [rfIgnoreCase]) + '-cte.xml', vAssinada);
-
-     if NaoEstaVazio(Self.Items[i].NomeArq) then
-       FConfiguracoes.Geral.Save(ExtractFileName(Self.Items[i].NomeArq), vAssinada, ExtractFilePath(Self.Items[i].NomeArq));
-   end;
+  for i := 0 to Self.Count - 1 do
+    Self.Items[i].Assinar;
 end;
 
 procedure TConhecimentos.GerarCTe;
 var
  i: Integer;
- ArqXML, Alertas: String;
 begin
  for i:= 0 to Self.Count-1 do
-  begin
-    Self.Items[i].GerarXML(ArqXML, Alertas);
-    Self.Items[i].XML := UTF8Encode(ArqXML);
-    Self.Items[i].Alertas := Alertas;
-  end;
+   Self.Items[i].GerarXML;
 end;
 
 function TConhecimentos.GetItem(Index: Integer): Conhecimento;
@@ -438,20 +614,22 @@ begin
   Result := 'Conhecimento';
 end;
 
-procedure TConhecimentos.Imprimir;
+procedure TNotasFiscais.VerificarDACTE;
 begin
   if not Assigned(TACBrCTe(FACBrCTe).DACTE) then
-     raise Exception.Create('Componente DACTE não associado.')
-  else
-     TACBrCTe(FACBrCTe).DACTe.ImprimirDACTe(nil);
+    raise EACBrCTeException.Create('Componente DACTE não associado.');
+end;
+
+procedure TConhecimentos.Imprimir;
+begin
+  VerificarDACTE;
+  TACBrCTe(FACBrCTe).DACTe.ImprimirDACTe(nil);
 end;
 
 procedure TConhecimentos.ImprimirPDF;
 begin
-  if not Assigned(TACBrCTe(FACBrCTe).DACTE) then
-     raise Exception.Create('Componente DACTE não associado.')
-  else
-     TACBrCTe(FACBrCTe).DACTe.ImprimirDACTePDF(nil);
+  VerificarDACTE;
+  TACBrCTe(FACBrCTe).DACTe.ImprimirDACTePDF(nil);
 end;
 
 function TConhecimentos.Insert(Index: Integer): Conhecimento;
@@ -464,270 +642,140 @@ begin
   Items[Index].Assign(Value);
 end;
 
-procedure TConhecimentos.Valida;
+procedure TConhecimentos.Validar;
 var
   i: Integer;
   FMsg: AnsiString;
 begin
   for i:= 0 to Self.Count-1 do
-   begin
-     if pos('<Signature',Self.Items[i].XML) = 0 then
-        Assinar;
-     if not(CTeUtil.Valida(('<CTe xmlns' + RetornarConteudoEntre(Self.Items[i].XML, '<CTe xmlns', '</CTe>')+ '</CTe>'),
-                            FMsg, Self.FConfiguracoes.Geral.PathSchemas)) then
-      begin
-        Self.Items[i].ErroValidacaoCompleto := 'Falha na validação dos dados do Conhecimento ' +
-                                               IntToStr(Self.Items[i].CTe.Ide.nCT) + sLineBreak +
-                                               Self.Items[i].Alertas + FMsg;
-        Self.Items[i].ErroValidacao := 'Falha na validação dos dados do conhecimento ' +
-                                       IntToStr(Self.Items[i].CTe.Ide.nCT) + sLineBreak +
-                                       Self.Items[i].Alertas +
-                                       IfThen(Self.FConfiguracoes.Geral.ExibirErroSchema, FMsg, '');
-        raise Exception.Create(Self.Items[i].ErroValidacao);
-      end;
-  end;
+    Self.Items[i].Validar;
 end;
 
-function TConhecimentos.ValidaAssinatura(out Msg: String): Boolean;
-var
-  i: Integer;
-  FMsg: AnsiString;
-begin
-  Result := True;
-  for i:= 0 to Self.Count-1 do
-   begin
-     if not(CTeUtil.ValidaAssinatura(Self.Items[i].XMLOriginal, FMsg)) then
-      begin
-        Result := False;
-        Msg := 'Falha na validação da assinatura do conhecimento ' +
-               IntToStr(Self.Items[i].CTe.Ide.nCT) + sLineBreak + FMsg
-      end
-     else
-       Result := True;
-  end;
-end;
-
-function TConhecimentos.LoadFromFile(CaminhoArquivo: String; AGerarCTe: Boolean = True): Boolean;
-var
- LocCTeR: TCTeR;
- ArquivoXML: TStringList;
- XML, XMLOriginal: AnsiString;
-begin
- try
-    ArquivoXML := TStringList.Create;
-    try
-      ArquivoXML.LoadFromFile(CaminhoArquivo {$IFDEF DELPHI2009_UP}, TEncoding.UTF8{$ENDIF});
-      XMLOriginal := ArquivoXML.Text;
-      Result := True;
-      while pos('</CTe>', ArquivoXML.Text) > 0 do
-       begin
-         if pos('</cteProc>', ArquivoXML.Text) > 0  then
-          begin
-            XML := copy(ArquivoXML.Text, 1, pos('</cteProc>', ArquivoXML.Text) + 5);
-            ArquivoXML.Text := Trim(copy(ArquivoXML.Text, pos('</cteProc>', ArquivoXML.Text) + 10, length(ArquivoXML.Text)));
-          end
-         else
-          begin
-            XML := copy(ArquivoXML.Text, 1, pos('</CTe>', ArquivoXML.Text) + 5);
-            ArquivoXML.Text := Trim(copy(ArquivoXML.Text, pos('</CTe>', ArquivoXML.Text) + 6,length(ArquivoXML.Text)));
-          end;
-         LocCTeR := TCTeR.Create(Self.Add.CTe);
-         try
-            LocCTeR.Leitor.Arquivo := XML;
-            LocCTeR.LerXml;
-            Items[Self.Count-1].XML := LocCTeR.Leitor.Arquivo;
-            Items[Self.Count-1].XMLOriginal := XMLOriginal;
-            Items[Self.Count-1].NomeArq := CaminhoArquivo;
-            if AGerarCTe then GerarCTe;
-         finally
-            LocCTeR.Free;
-         end;
-       end;
-    finally
-      ArquivoXML.Free;
-    end;
- except
-    raise;
-    Result := False;
- end;
-end;
-
-function TConhecimentos.LoadFromStream(Stream: TStringStream; AGerarCTe: Boolean = True): Boolean;
-var
- LocCTeR: TCTeR;
-begin
-  try
-    Result  := True;
-    LocCTeR := TCTeR.Create(Self.Add.CTe);
-    try
-       LocCTeR.Leitor.CarregarArquivo(Stream);
-       LocCTeR.LerXml;
-       Items[Self.Count-1].XML := LocCTeR.Leitor.Arquivo;
-       Items[Self.Count-1].XMLOriginal := Stream.DataString;
-       if AGerarCTe then GerarCTe;
-    finally
-       LocCTeR.Free
-    end;
-  except
-    Result := False;
-  end;
-end;
-
-function TConhecimentos.SaveToFile(PathArquivo: String = ''): Boolean;
-var
- i: integer;
- CaminhoArquivo: String;
-begin
- Result := True;
- try
-    for i:= 0 to TACBrCTe(FACBrCTe).Conhecimentos.Count-1 do
-     begin
-        if EstaVazio(PathArquivo) then
-           PathArquivo := TACBrCTe(FACBrCTe).Configuracoes.Geral.PathSalvar
-        else
-           PathArquivo := ExtractFilePath(PathArquivo);
-        CaminhoArquivo := PathWithDelim(PathArquivo) +
-                          copy(TACBrCTe(FACBrCTe).Conhecimentos.Items[i].CTe.inFCTe.ID, (length(TACBrCTe(FACBrCTe).Conhecimentos.Items[i].CTe.inFCTe.ID)-44)+1, 44)+'-cte.xml';
-        TACBrCTe(FACBrCTe).Conhecimentos.Items[i].SaveToFile(CaminhoArquivo)
-     end;
- except
-    Result := False;
- end;
-end;
-
-function TConhecimentos.LoadFromString(AString: String; AGerarCTe: Boolean = True): Boolean;
-var
-  XMLCTe: TStringStream;
-begin
-  try
-    XMLCTe := TStringStream.Create('');
-    try
-      XMLCTe.WriteString(AString);
-      Result := LoadFromStream(XMLCTe, AGerarCTe);
-    finally
-      XMLCTe.Free;
-    end;
-  except
-    Result := False;
-  end;
-end;
-
-function TConhecimentos.ValidaRegrasdeNegocios: Boolean;
-var
- i: Integer;
- Erros: AnsiString;
-begin
-  Result := True;
-  for i:= 0 to Self.Count-1 do
-  begin
-    Erros := '';
-    if not Self.Items[i].ValidarConcatChave then
-       Erros := 'Rejeição: Erro na Chave de Acesso - Campo Id não corresponde à concatenação dos campos correspondentes' + sLineBreak;
-
-    if (Self.Items[i].CTe.ide.tpAmb <> FConfiguracoes.WebServices.Ambiente) then
-       Erros := Erros + '252-Rejeição: Tipo do ambiente do CT-e difere do ambiente do Web Service' + sLineBreak;
-
-    if (Self.Items[i].CTe.Ide.serie > 889) then
-       Erros := Erros + '670-Rejeição: Série utilizada fora da faixa permitida no Web Service (0-889)' + sLineBreak;
-
-    if copy(IntToStr(Self.Items[i].CTe.Emit.EnderEmit.cMun), 1, 2) <> IntToStr(FConfiguracoes.WebServices.UFCodigo) then
-       Erros := Erros + '226-Rejeição: Código da UF do Emitente diverge da UF autorizadora' + sLineBreak;
-
-
-    Self.Items[i].RegrasdeNegocios := Erros;
-    if Erros <> '' then
-      Result := False;
-  end;
-end;
-
-{ TSendMailThread }
-
-procedure TSendMailThread.DoHandleException;
-begin
-  // FOwner.Alertas := FException.Message;
-
-  if FException is Exception then
-    Application.ShowException(FException)
-  else
-    SysUtils.ShowException(FException, nil);
-end;
-
-constructor TSendMailThread.Create;
-begin
-  smtp        := TSMTPSend.Create;
-  slmsg_Lines := TStringList.Create;
-  sCC         := TStringList.Create;
-  sFrom       := '';
-  sTo         := '';
-
-  FreeOnTerminate := True;
-
-  inherited Create(True);
-end;
-
-destructor TSendMailThread.Destroy;
-begin
-  slmsg_Lines.Free;
-  sCC.Free;
-  smtp.Free;
-
-  inherited;
-end;
-
-procedure TSendMailThread.Execute;
+function TConhecimentos.VerificarAssinatura(out Erros: String): Boolean;
 var
   i: integer;
 begin
-  inherited;
+  Result := True;
+  Erros := '';
 
-  try
-    Terminado := False;
-    try
-      if not smtp.Login() then
-        raise Exception.Create('SMTP ERROR: Login:' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-
-      if not smtp.MailFrom(sFrom, Length(sFrom)) then
-        raise Exception.Create('SMTP ERROR: MailFrom:' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-
-      if not smtp.MailTo(sTo) then
-        raise Exception.Create('SMTP ERROR: MailTo:' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-
-      if (sCC <> nil) then
-      begin
-        for I := 0 to sCC.Count - 1 do
-        begin
-          if not smtp.MailTo(sCC.Strings[i]) then
-            raise Exception.Create('SMTP ERROR: MailTo:' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-        end;
-      end;
-
-      if not smtp.MailData(slmsg_Lines) then
-        raise Exception.Create('SMTP ERROR: MailData:' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-
-      if not smtp.Logout() then
-        raise Exception.Create('SMTP ERROR: Logout:' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-    finally
-      try
-        smtp.Sock.CloseSocket;
-      except
-      end;
-      Terminado := True;
+  for i := 0 to Self.Count - 1 do
+  begin
+    if not Self.Items[i].VerificarAssinatura then
+    begin
+      Result := False;
+      Erros := Erros + Self.Items[i].ErroValidacao + sLineBreak;
     end;
-  except
-    Terminado := True;
-    HandleException;
   end;
 end;
 
-procedure TSendMailThread.HandleException;
+function TConhecimentos.ValidarRegrasdeNegocios(out Erros: String): Boolean;
+var
+  i: integer;
 begin
-  FException := Exception(ExceptObject);
+  Result := True;
+  Erros := '';
+
+  for i := 0 to Self.Count - 1 do
+  begin
+    if not Self.Items[i].ValidarRegrasdeNegocios then
+    begin
+      Result := False;
+      Erros := Erros + Self.Items[i].ErroRegrasdeNegocios + sLineBreak;
+    end;
+  end;
+end;
+
+function TConhecimentos.LoadFromFile(CaminhoArquivo: String;
+  AGerarCTe: Boolean = True): Boolean;
+var
+  ArquivoXML: TStringList;
+  XML: String;
+  XMLOriginal: AnsiString;
+  i: integer;
+begin
+  Result := False;
+  ArquivoXML := TStringList.Create;
   try
-    // Não mostra mensagens de EAbort
-    if not (FException is EAbort) then
-      Synchronize(DoHandleException);
+    ArquivoXML.LoadFromFile(CaminhoArquivo);
+    XMLOriginal := ArquivoXML.ToString;
+
+    // Converte de UTF8 para a String nativa da IDE //
+    XML := DecodeToString(XMLOriginal, True);
+    LoadFromString(XML, AGerarCTe);
+
+    for i := 0 to Self.Count - 1 do
+      Self.Items[i].NomeArq := CaminhoArquivo;
+
+    Result := True;
   finally
-    FException := nil;
+    ArquivoXML.Free;
+  end;
+end;
+
+function TConhecimentos.LoadFromStream(AStream: TStringStream;
+  AGerarCTe: Boolean = True): Boolean;
+var
+  XMLOriginal: String;
+begin
+  Result := False;
+  XMLOriginal := '';
+  AStream.Position := 0;
+  SetLength(XMLOriginal, AStream.Size);
+  AStream.ReadBuffer(XMLOriginal[1], AStream.Size);
+
+  Result := Self.LoadFromString(XMLOriginal, AGerarCTe);
+end;
+
+function TConhecimentos.LoadFromString(AXMLString: String;
+  AGerarCTe: Boolean = True): Boolean;
+var
+  AXML: AnsiString;
+  P, N: integer;
+
+  function PosCTe: integer;
+  begin
+    Result := pos('</CTe>', AXMLString);
+  end;
+
+begin
+  Result := False;
+  N := PosCTe;
+  while N > 0 do
+  begin
+    P := pos('</cteProc>', AXMLString);
+    if P > 0 then
+    begin
+      AXML := copy(AXMLString, 1, P + 5);
+      AXMLString := Trim(copy(AXMLString, P + 10, length(AXMLString)));
+    end
+    else
+    begin
+      AXML := copy(AXMLString, 1, N + 5);
+      AXMLString := Trim(copy(AXMLString, N + 6, length(AXMLString)));
+    end;
+
+    with Self.Add do
+    begin
+      LerXML(AXML);
+
+      if AGerarCTe then // Recalcula o XML
+        GerarXML;
+    end;
+
+    N := PosCTe;
+  end;
+end;
+
+function TConhecimentos.GravarXML(PathArquivo: String): Boolean;
+var
+  i: integer;
+begin
+  Result := True;
+  i := 0;
+  while Result and (i < Self.Count) do
+  begin
+    Result := Self.Items[i].GravarXML('', PathArquivo);
+    Inc(i);
   end;
 end;
 

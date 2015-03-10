@@ -36,15 +36,6 @@
 {                                                                              }
 {******************************************************************************}
 
-{*******************************************************************************
-|* Historico
-|*
-|* 16/12/2008: Wemerson Souto
-|*  - Doação do componente para o Projeto ACBr
-|* 26/09/2014: Italo Jurisao Junior
-|*  - Refactoring, revisão e otimização
-*******************************************************************************}
-
 {$I ACBr.inc}
 
 unit ACBrCTe;
@@ -53,103 +44,71 @@ interface
 
 uses
   Classes, Sysutils,
-  {$IFDEF VisualCLX}
-     QDialogs,
-  {$ELSE}
-     Dialogs,
-  {$ENDIF}
-  Forms,
-  smtpsend, ssl_openssl, mimemess, mimepart, // units para enviar email
-  pcteCTe, pcnConversao, pcteEnvEventoCTe, pcteRetEnvEventoCTe,
-  ACBrUtil, ACBrDFeUtil, ACBrCTeUtil, ACBrCTeConhecimentos, ACBrCTeConfiguracoes,
-  ACBrCTeWebServices, ACBrCTeDACTeClass, pcteInutCTe, pcteRetInutCTe;
+  ACBrDFe, ACBrDFeConfiguracoes,
+  ACBrCTeConfiguracoes, ACBrCTeWebServices, ACBrCTeConhecimentos,
+  ACBrCTeDACTeClass,
+  pcteCTe, pcnConversao, pcnConversaoCTe,
+  pcteEnvEventoCTe, pcteInutCTe,
+  ACBrDFeUtil, ACBrUtil;
 
-{$IFDEF PL_103}
+//  Forms,
+//  smtpsend, ssl_openssl, mimemess, mimepart, // units para enviar email
+//   pcteRetEnvEventoCTe,
+//  ACBrCTeUtil,
+//  pcteRetInutCTe;
+
 const
-  ACBRCTE_VERSAO = '0.6.0a XML 1.03';
-{$ENDIF}
-{$IFDEF PL_104}
-const
-  ACBRCTE_VERSAO = '0.6.0a XML 1.04';
-{$ENDIF}
-{$IFDEF PL_200}
-const
-  ACBRCTE_VERSAO = '0.8.0 XML 2.00';
-{$ENDIF}
+  ACBRCTE_VERSAO = '2.0.0a';
+  ACBRCTE_NAMESPACE = 'http://www.portalfiscal.inf.br/cte';
 
 type
-  TACBrCTeAboutInfo = (ACBrCTeAbout);
-  
-  EACBrCTeException = class(Exception)
-  public
-    constructor Create(const Msg: string);
-  end;
+  EACBrCTeException = class(EACBrDFeException);
 
-  { Evento para gerar log das mensagens do Componente }
-  TACBrCTeLog = procedure(const Mensagem : String) of object;
+  { TACBrCTe }
 
-  TACBrCTe = class(TComponent)
+  TACBrCTe = class(TACBrDFe)
   private
-    fsAbout: TACBrCTeAboutInfo;
-    FDACTe: TACBrCTeDACTeClass;
+    FDACTe: TACBrCTeDACTEClass;
     FConhecimentos: TConhecimentos;
-    FWebServices: TWebServices;
-    FConfiguracoes: TConfiguracoes;
     FEventoCTe: TEventoCTe;
     FInutCTe: TInutCTe;
     FStatus: TStatusACBrCTe;
-    FOnStatusChange: TNotifyEvent;
-    FOnGerarLog: TACBrCTeLog;
+    FWebServices: TWebServices;
 
-  	procedure SetDACTe(const Value: TACBrCTeDACTeClass);
+    function GetConfiguracoes: TConfiguracoesCTe;
+    procedure SetConfiguracoes(AValue: TConfiguracoeCTe);
+  	procedure SetDACTE(const Value: TACBrCTeDACTEClass);
 
-    procedure EnviaEmailThread(const sSmtpHost,
-                                     sSmtpPort,
-                                     sSmtpUser,
-                                     sSmtpPasswd,
-                                     sFrom,
-                                     sTo,
-                                     sAssunto: String;
-                                     sMensagem: TStrings;
-                                     SSL: Boolean;
-                                     sCC,
-                                     Anexos: TStrings;
-                                     PedeConfirma,
-                                     AguardarEnvio: Boolean;
-                                     NomeRemetente: String;
-                                     TLS: Boolean;
-                                     StreamCTe: TStringStream;
-                                     NomeArq: String;
-                                     HTML: Boolean = False);
-
-    procedure EnviarEmailNormal(const sSmtpHost,
-                                      sSmtpPort,
-                                      sSmtpUser,
-                                      sSmtpPasswd,
-                                      sFrom,
-                                      sTo,
-                                      sAssunto: String;
-                                      sMensagem: TStrings;
-                                      SSL: Boolean;
-                                      sCC,
-                                      Anexos: TStrings;
-                                      PedeConfirma,
-                                      AguardarEnvio: Boolean;
-                                      NomeRemetente: String;
-                                      TLS: Boolean;
-                                      StreamCTe: TStringStream;
-                                      NomeArq: String;
-                                      HTML: Boolean = False);
   protected
+    function CreateConfiguracoes: TConfiguracoes; override;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+    function GetAbout: String; override;
+    function GetNomeArquivoServicos: String; override;
+
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+
     function Enviar(ALote: Integer; Imprimir: Boolean = True): Boolean;  overload;
     function Enviar(ALote: String; Imprimir: Boolean = True): Boolean;  overload;
-    function Cancelamento(AJustificativa:WideString; ALote: Integer = 0): Boolean;
+
+    function GetNomeModeloDFe: String; override;
+    function GetNameSpaceURI: String; override;
+
+    function cStatConfirmado(AValue: Integer): Boolean;
+    function cStatProcessado(AValue: Integer): Boolean;
+
+    function Cancelamento(AJustificativa: WideString; ALote: Integer = 0): Boolean;
     function Consultar: Boolean;
     function EnviarEventoCTe(idLote: Integer): Boolean;
+
+    procedure LerServicoDeParams(LayOutServico: TLayOut; var Versao: Double; var URL: String); reintroduce; overload;
+    function LerVersaoDeParams(LayOutServico: TLayOut): String; reintroduce; overload;
+
+    function IdentificaSchemaCTe(const AXML: String): TSchemaCTe;
+    function IdentificaSchemaLayOut(const ALayOut: TLayOut): TSchemaCTe;
+    function GerarNomeArqSchema(const ALayOut: TLayOut; VersaoServico: String): String;
+    function GerarChaveContingencia(FCTe: TCTe): String;
 
     property WebServices: TWebServices     read FWebServices   write FWebServices;
     property Conhecimentos: TConhecimentos read FConhecimentos write FConhecimentos;
@@ -164,67 +123,22 @@ type
     procedure ImprimirInutilizacao;
     procedure ImprimirInutilizacaoPDF;
 
-    procedure EnviarEmailEvento(const sSmtpHost,
-                                      sSmtpPort,
-                                      sSmtpUser,
-                                      sSmtpPasswd,
-                                      sFrom,
-                                      sTo,
-                                      sAssunto: String;
-                                      sMensagem: TStrings;
-                                      SSL: Boolean;
-                                      EnviaPDF: Boolean = true;
-                                      sCC: TStrings = nil;
-                                      Anexos: TStrings = nil;
-                                      PedeConfirma: Boolean = False;
-                                      AguardarEnvio: Boolean = False;
-                                      NomeRemetente: String = '';
-                                      TLS: Boolean = True);
-
-    procedure EnviaEmail(const sSmtpHost,
-                               sSmtpPort,
-                               sSmtpUser,
-                               sSmtpPasswd,
-                               sFrom,
-                               sTo,
-                               sAssunto: String;
-                               sMensagem: TStrings;
-                               SSL: Boolean;
-                               sCC: TStrings = nil;
-                               Anexos: TStrings = nil;
-                               PedeConfirma: Boolean = False;
-                               AguardarEnvio: Boolean = False;
-                               NomeRemetente: String = '';
-                               TLS: Boolean = True;
-                               StreamCTe: TStringStream = nil;
-                               NomeArq: String = '';
-                               UsarThread: Boolean = True;
-                               HTML: Boolean = False);
   published
-    property Configuracoes: TConfiguracoes   read FConfiguracoes  write FConfiguracoes;
-    property OnStatusChange: TNotifyEvent    read FOnStatusChange write FOnStatusChange;
-  	property DACTe: TACBrCTeDACTeClass       read FDACTe          write SetDACTe;
-    property AboutACBrCTe: TACBrCTeAboutInfo read fsAbout         write fsAbout stored false;
-    property OnGerarLog: TACBrCTeLog         read FOnGerarLog     write FOnGerarLog;
+    property Configuracoes: TConfiguracoesCTe read GetConfiguracoes write SetConfiguracoes;
+  	property DACTE: TACBrCTeDACTEClass        read FDACTE           write SetDACTE;
   end;
-
-procedure ACBrAboutDialog;
 
 implementation
 
-procedure ACBrAboutDialog;
-var
-  Msg: String;
-begin
-  Msg := 'Componente ACBrCTe' + #10 +
-         'Versão: ' + ACBRCTe_VERSAO + #10 + #10 +
-         'Automação Comercial Brasil' + #10 + #10 +
-         'http://acbr.sourceforge.net' + #10 + #10 +
-         'Projeto Cooperar - PCN' + #10 + #10 +
-         'http://www.projetocooperar.org/pcn/';
+uses
+  strutils, dateutils,
+  pcnAuxiliar;
 
-  MessageDlg(Msg, mtInformation, [mbOk], 0);
-end;
+{$IFDEF FPC}
+ {$R ACBrCTeServicos.rc}
+{$ELSE}
+ {$R ACBrCTeServicos.res ACBrCTeServicos.rc}
+{$ENDIF}
 
 { TACBrCTe }
 
@@ -232,35 +146,14 @@ constructor TACBrCTe.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-  FConfiguracoes := TConfiguracoes.Create(self);
-  FConfiguracoes.Name := 'Configuracoes';
-  {$IFDEF COMPILER6_UP}
-   FConfiguracoes.SetSubComponent(true); { para gravar no DFM/XFM }
-  {$ENDIF}
-
-  FConhecimentos := TConhecimentos.Create(Self,Conhecimento);
-  FConhecimentos.Configuracoes := FConfiguracoes;
-
-  FEventoCTe   := TEventoCTe.Create;
-  FInutCTe     := TInutCTe.Create;
+  FConhecimentos := TConhecimentos.Create(Self, Conhecimento);
+  FEventoCTe := TEventoCTe.Create;
+  FInutCTe := TInutCTe.Create;
   FWebServices := TWebServices.Create(Self);
-
-  if FConfiguracoes.WebServices.Tentativas <= 0 then
-     FConfiguracoes.WebServices.Tentativas := 5;
-{$IFDEF ACBrCTeOpenSSL}
-  if FConfiguracoes.Geral.IniFinXMLSECAutomatico then
-   CteUtil.InitXmlSec;
-{$ENDIF}
-  FOnGerarLog := nil;
 end;
 
 destructor TACBrCTe.Destroy;
 begin
-{$IFDEF ACBrCTeOpenSSL}
-  if FConfiguracoes.Geral.IniFinXMLSECAutomatico then
-   CteUtil.ShutDownXmlSec;
-{$ENDIF}
-  FConfiguracoes.Free;
   FConhecimentos.Free;
   FEventoCTe.Free;
   FInutCTe.Free;
@@ -273,21 +166,37 @@ procedure TACBrCTe.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
 
-  if (Operation = opRemove) and (FDACTe <> nil) and (AComponent is TACBrCTeDACTeClass) then
-     FDACTe := nil;
+  if (Operation = opRemove) and (FDACTE <> nil) and
+     (AComponent is TACBrCTeDACTEClass) then
+    FDACTE := nil;
 end;
 
-procedure TACBrCTe.SetDACTe(const Value: TACBrCTeDACTeClass);
-var
-  OldValue: TACBrCTeDACTeClass;
+function TACBrCTe.GetAbout: String;
 begin
-  if Value <> FDACTe then
-  begin
-     if Assigned(FDACTe) then
-        FDACTe.RemoveFreeNotification(Self);
+  Result := 'ACBrCTe Ver: ' + ACBRCTE_VERSAO;
+end;
 
-     OldValue := FDACTe;   // Usa outra variavel para evitar Loop Infinito
-     FDACTe   := Value;    // na remoção da associação dos componentes
+function TACBrCTe.GetNomeArquivoServicos: String;
+begin
+  Result := 'ACBrServicosCTe.ini';
+end;
+
+function TACBrCTe.CreateConfiguracoes: TConfiguracoes;
+begin
+  Result := TConfiguracoesCTe.Create(Self);
+end;
+
+procedure TACBrCTe.SetDACTE(const Value: TACBrCTeDACTEClass);
+var
+  OldValue: TACBrCTeDACTEClass;
+begin
+  if Value <> FDACTE then
+  begin
+     if Assigned(FDACTE) then
+        FDACTE.RemoveFreeNotification(Self);
+
+     OldValue := FDACTE;   // Usa outra variavel para evitar Loop Infinito
+     FDACTE   := Value;    // na remoção da associação dos componentes
 
      if Assigned(OldValue) then
         if Assigned(OldValue.ACBrCTe) then
@@ -301,6 +210,276 @@ begin
   end;
 end;
 
+function TACBrCTe.GetNomeModeloDFe: String;
+begin
+  Result := 'CTe';
+end;
+
+function TACBrCTe.GetNameSpaceURI: String;
+begin
+  Result := ACBRCTE_NAMESPACE;
+end;
+
+function TACBrCTe.CstatConfirmada(AValue: integer): Boolean;
+begin
+  case AValue of
+    100, 150: Result := True;
+    else
+      Result := False;
+  end;
+end;
+
+function TACBrCTe.CstatProcessado(AValue: integer): Boolean;
+begin
+  case AValue of
+    100, 110, 150, 301, 302: Result := True;
+    else
+      Result := False;
+  end;
+end;
+
+function TACBrCTe.IdentificaSchemaCTe(const AXML: String): TSchemaCTe;
+var
+ lTipoEvento: String;
+ I: Integer;
+begin
+  Result := schCTe;
+
+  I := pos('<infCte', AXML);
+  if I = 0  then
+   begin
+     I := pos('<infCanc', AXML);
+     if I > 0 then
+        Result := schCancCTe
+     else
+      begin
+        I := pos('<infInut', AXML);
+        if I > 0 then
+           Result := schInutCTe
+        else
+         begin
+          I := Pos('<infEvento', AXML);
+          if I > 0 then
+          begin
+            lTipoEvento := Trim(RetornarConteudoEntre(AXML, '<tpEvento>', '</tpEvento>'));
+            if lTipoEvento = '110111' then
+              Result := schEnvEventoCancCTe
+//            else if lTipoEvento = '110113' then
+//              Result := schEnvEPEC
+            else if lTipoEvento = '210200' then
+              Result := schEnvConfRecebto
+            else if lTipoEvento = '210210' then
+              Result := schEnvConfRecebto
+            else if lTipoEvento = '210220' then
+              Result := schEnvConfRecebto
+            else if lTipoEvento = '210240' then
+              Result := schEnvConfRecebto
+            else
+              Result := schEnvCCe;
+          end
+          else
+            Result := schEnvEPEC;
+         end;
+     end;
+   end;
+end;
+
+function TACBrCTe.IdentificaSchemaLayout(const ALayOut: TLayOut): TSchemaCTe;
+begin
+  case ALayOut of
+    LayCTeRecepcao:
+      Result := schCTe;
+    //LayCTeRetRecepcao,
+    //LayCTeCancelamento,
+    //LayCTeInutilizacao,
+    //LayCTeConsulta,
+    //LayCTeStatusServico,
+    //LayCTeCadastro,
+    //LayCTeCCe,
+    LayCTeEvento:
+      Result := schEnvConfRecebto;
+    LayCTeEventoAN:
+      Result := schEnvConfRecebto;
+    else
+      Result := schCTe;
+  end;
+end;
+
+function TACBrCTe.GerarNomeArqSchema(const ALayOut: TLayOut;
+  VersaoServico: String): String;
+begin
+  if EstaVazio(VersaoServico) then
+    VersaoServico := LerVersaoDeParams(ALayOut);
+
+  Result := SchemaCTeToStr(IdentificaSchemaLayout(ALayOut)) + '_v' +
+            VersaoServico + '.xsd';
+end;
+
+function TACBrCTe.GerarChaveContingencia(FCTe:TCTe): String;
+
+  function GerarDigito_Contingencia(var Digito: Integer; chave: String): Boolean;
+  var
+    i, j: Integer;
+  const
+    PESO = '43298765432987654329876543298765432';
+  begin
+    chave  := LimpaNumero(chave);
+    j      := 0;
+    Digito := 0;
+    result := True;
+    try
+      for i := 1 to 35 do
+        j := j + StrToInt(copy(chave, i, 1)) * StrToInt(copy(PESO, i, 1));
+      Digito := 11 - (j mod 11);
+      if (j mod 11) < 2 then
+        Digito := 0;
+    except
+      result := False;
+    end;
+    if length(chave) <> 35 then
+      result := False;
+  end;
+
+var
+  wchave: String;
+  wicms_s, wicms_p: String;
+  wd,wm,wa: word;
+  Digito: Integer;
+begin
+  // Alterado Conforme NT 2012/007
+  // UF
+  // TpcteTomador = ( tmRemetente, tmExpedidor, tmRecebedor, tmDestinatario, tmOutros);
+  if FCTe.Ide.toma4.CNPJCPF <> '' then
+  begin
+    if FCTe.Ide.toma4.enderToma.UF = 'EX' then
+      wchave := '99' //exterior
+    else
+      wchave := copy(inttostr(FCTe.Ide.toma4.enderToma.cMun),1,2);
+  end
+  else begin
+    case FCTe.Ide.toma03.Toma of
+     tmRemetente: if FCTe.Rem.enderReme.UF = 'EX' then
+                    wchave := '99' //exterior
+                  else
+                    wchave := copy(inttostr(FCTe.Rem.enderReme.cMun), 1, 2);
+     tmExpedidor: if FCTe.Exped.enderExped.UF = 'EX' then
+                    wchave := '99' //exterior
+                  else
+                    wchave := copy(inttostr(FCTe.Exped.enderExped.cMun), 1, 2);
+     tmRecebedor: if FCTe.Receb.enderReceb.UF = 'EX' then
+                    wchave := '99' //exterior
+                  else
+                    wchave := copy(inttostr(FCTe.Receb.enderReceb.cMun), 1, 2);
+     tmDestinatario: if FCTe.Dest.EnderDest.UF = 'EX' then
+                       wchave := '99' //exterior
+                     else
+                       wchave := copy(inttostr(FCTe.Dest.EnderDest.cMun), 1, 2);
+    end;
+  end;
+
+  //TIPO DE EMISSAO
+  case FCTe.Ide.tpEmis of
+   teDPEC,
+   teContingencia: wchave := wchave + '2';
+   teFSDA:         wchave := wchave + '5';
+   else            wchave := wchave + '0'; //esta valor caracteriza ERRO, valor tem q ser  2 ou 5
+  end;
+
+  //CNPJ OU CPF
+  if FCTe.Ide.toma4.CNPJCPF <> '' then
+  begin
+    if FCTe.Ide.toma4.enderToma.UF = 'EX' then
+      wchave := wchave + Poem_Zeros('0', 14)
+    else
+      wchave := wchave + Poem_Zeros(FCTe.Ide.toma4.CNPJCPF, 14);
+  end
+  else begin
+    case FCTe.Ide.toma03.Toma of
+     tmRemetente: if (FCTe.Rem.enderReme.UF='EX') then
+                    wchave := wchave + Poem_Zeros('0', 14)
+                  else
+                    wchave := wchave + Poem_Zeros(FCTe.Rem.CNPJCPF, 14);
+     tmExpedidor: if (FCTe.Exped.enderExped.UF='EX') then
+                    wchave := wchave + Poem_Zeros('0', 14)
+                  else
+                    wchave := wchave + Poem_Zeros(FCTe.Exped.CNPJCPF, 14);
+     tmRecebedor: if (FCTe.Receb.enderReceb.UF='EX') then
+                    wchave := wchave + Poem_Zeros('0', 14)
+                  else
+                    wchave := wchave + Poem_Zeros(FCTe.Receb.CNPJCPF, 14);
+     tmDestinatario: if (FCTe.Dest.EnderDest.UF='EX') then
+                       wchave := wchave + Poem_Zeros('0', 14)
+                     else
+                       wchave := wchave + Poem_Zeros(FCTe.Dest.CNPJCPF, 14);
+    end;
+  end;
+
+  //VALOR DA CT-e
+  wchave := wchave + Poem_Zeros(LimpaNumero(FloatToStrf(FCTe.vPrest.vTPrest, ffFixed, 18, 2)), 14);
+
+  //DESTAQUE ICMS PROPRIO E ST
+  wicms_p := '2';
+  wicms_s := '2';
+
+  // Checar esse trecho
+
+{$IFDEF PL_103}
+  if (NaoEstaZerado(FCTe.Imp.ICMS.CST00.vICMS)) then
+    wicms_p := '1';
+  if (NaoEstaZerado(FCTe.Imp.ICMS.CST80.vICMS)) then
+    wicms_s := '1';
+{$ELSE}
+  if (NaoEstaZerado(FCTe.Imp.ICMS.ICMS00.vICMS)) then
+    wicms_p := '1';
+  if (NaoEstaZerado(FCTe.Imp.ICMS.ICMSOutraUF.vICMSOutraUF)) then
+    wicms_s := '1';
+{$ENDIF}
+
+  wchave := wchave + wicms_p + wicms_s;
+
+  //DIA DA EMISSAO
+  decodedate(FCTe.Ide.dhEmi, wa, wm, wd);
+  wchave := wchave + Poem_Zeros(inttostr(wd), 2);
+
+  //DIGITO VERIFICADOR
+  GerarDigito_Contingencia(Digito, wchave);
+  wchave := wchave + inttostr(digito);
+
+  //RETORNA A CHAVE DE CONTINGENCIA
+  result := wchave;
+end;
+
+function TACBrCTe.GetConfiguracoes: TConfiguracoesCTe;
+begin
+  Result := TConfiguracoesCTe(FPConfiguracoes);
+end;
+
+procedure TACBrCTe.SetConfiguracoes(AValue: TConfiguracoesCTe);
+begin
+  FPConfiguracoes := AValue;
+end;
+
+function TACBrCTe.LerVersaoDeParams(LayOutServico: TLayOut): String;
+var
+  Versao: Double;
+begin
+  Versao := LerVersaoDeParams(GetNomeModeloDFe, Configuracoes.WebServices.UF,
+    Configuracoes.WebServices.Ambiente, LayOutToServico(LayOutServico),
+    VersaoDFToDbl(Configuracoes.Geral.VersaoDF));
+
+  Result := FloatToString(Versao, '.', '0.00');
+end;
+
+procedure TACBrCTe.LerServicoDeParams(LayOutServico: TLayOut;
+  var Versao: Double; var URL: String);
+begin
+  Versao := VersaoDFToDbl(Configuracoes.Geral.VersaoDF);
+  URL := '';
+  LerServicoDeParams(GetNomeModeloDFe, Configuracoes.WebServices.UF,
+    Configuracoes.WebServices.Ambiente, LayOutToServico(LayOutServico),
+    Versao, URL);
+end;
+
 procedure TACBrCTe.SetStatus(const stNewStatus: TStatusACBrCTe);
 begin
   if (stNewStatus <> FStatus) then
@@ -311,21 +490,55 @@ begin
   end;
 end;
 
+function TACBrCTe.Cancelamento(AJustificativa: WideString; ALote: Integer): Boolean;
+var
+  i: Integer;
+begin
+  if Self.Conhecimentos.Count = 0 then
+    GerarException(ACBrStr('ERRO: Nenhum Conhecimento Eletrônico Informado!'));
+
+  for i := 0 to self.Conhecimentos.Count - 1 do
+  begin
+    Self.WebServices.Consulta.CTeChave :=
+      OnlyNumber(self.Conhecimentos.Items[i].CTe.infCTe.ID);
+
+    if not Self.WebServices.Consulta.Executar then
+      raise Exception.Create(Self.WebServices.Consulta.Msg);
+
+    Self.EventoCTe.Evento.Clear;
+    with Self.EventoCTe.Evento.Add do
+    begin
+      infEvento.CNPJ := copy(OnlyNumber(Self.WebServices.Consulta.CTeChave), 7, 14);
+      infEvento.cOrgao := StrToIntDef(
+        copy(OnlyNumber(Self.WebServices.Consulta.CTeChave), 1, 2), 0);
+      infEvento.dhEvento := now;
+      infEvento.tpEvento := teCancelamento;
+      infEvento.chCTe := Self.WebServices.Consulta.CTeChave;
+      infEvento.detEvento.nProt := Self.WebServices.Consulta.Protocolo;
+      infEvento.detEvento.xJust := AJustificativa;
+    end;
+
+    try
+      Self.EnviarEventoCTe(ALote);
+    except
+      raise Exception.Create(Self.WebServices.EnvEvento.EventoRetorno.xMotivo);
+    end;
+  end;
+
+  Result := True;
+end;
+
 function TACBrCTe.Consultar: Boolean;
 var
   i: Integer;
 begin
   if Self.Conhecimentos.Count = 0 then
-   begin
-      if Assigned(Self.OnGerarLog) then
-         Self.OnGerarLog('ERRO: Nenhum Conhecimento de Transporte Eletrônico Informado!');
-      raise Exception.Create('Nenhum Conhecimento de Transporte Eletrônico Informado!');
-   end;
+    GerarException(ACBrStr('ERRO: Nenhum Conhecimento Eletrônico Informado!'));
 
-  for i := 0 to Self.Conhecimentos.Count-1 do
+  for i := 0 to Self.Conhecimentos.Count - 1 do
   begin
-    WebServices.Consulta.CTeChave := copy(self.Conhecimentos.Items[i].CTe.infCTe.ID,
-     (length(self.Conhecimentos.Items[i].CTe.infCTe.ID)-44)+1, 44);
+    WebServices.Consulta.CTeChave :=
+      OnlyNumber(self.Conhecimentos.Items[i].CTe.infCTe.ID);
     WebServices.Consulta.Executar;
   end;
 
@@ -342,27 +555,18 @@ var
   i: Integer;
 begin
   if Conhecimentos.Count <= 0 then
-   begin
-      if Assigned(Self.OnGerarLog) then
-         Self.OnGerarLog('ERRO: Nenhum CT-e adicionado ao Lote');
-      raise Exception.Create('ERRO: Nenhum CT-e adicionado ao Lote');
-     exit;
-   end;
+    GerarException(ACBrStr('ERRO: Nenhum CT-e adicionad ao Lote'));
 
   if Conhecimentos.Count > 50 then
-   begin
-      if Assigned(Self.OnGerarLog) then
-         Self.OnGerarLog('ERRO: Conjunto de CT-e transmitidos (máximo de 50 CT-e) excedido. Quantidade atual: ' + IntToStr(Conhecimentos.Count));
-      raise Exception.Create('ERRO: Conjunto de CT-e transmitidos (máximo de 50 CT-e) excedido. Quantidade atual: ' + IntToStr(Conhecimentos.Count));
-     exit;
-   end;
+    GerarException(ACBrStr('ERRO: Conjunto de CT-e transmitidos (máximo de 50 CT-e)' +
+      ' excedido. Quantidade atual: ' + IntToStr(Conhecimentos.Count)));
 
   Conhecimentos.Assinar;
-  Conhecimentos.Valida;
+  Conhecimentos.Validar;
 
   Result := WebServices.Envia(ALote);
 
-  if DACTe <> nil then
+  if DACTE <> nil then
   begin
      for i := 0 to Conhecimentos.Count-1 do
      begin
@@ -374,258 +578,16 @@ begin
   end;
 end;
 
-function TACBrCTe.Cancelamento(AJustificativa: WideString;
-  ALote: Integer): Boolean;
-var
-  i : Integer;
-begin
-  if Self.Conhecimentos.Count = 0 then
-   begin
-      if Assigned(Self.OnGerarLog) then
-         Self.OnGerarLog('ERRO: Nenhum CT-e Informado!');
-      raise EACBrCTeException.Create('Nenhum CT-e Informado!');
-   end;
-
-  for i:= 0 to self.Conhecimentos.Count-1 do
-  begin
-    Self.WebServices.Consulta.CTeChave := OnlyNumber(self.Conhecimentos.Items[i].CTe.infCTe.Id);
-
-    if not Self.WebServices.Consulta.Executar then
-      raise Exception.Create(Self.WebServices.Consulta.Msg);
-
-    Self.EventoCTe.Evento.Clear;
-    with Self.EventoCTe.Evento.Add do
-     begin
-       infEvento.CNPJ   := copy(LimpaNumero(Self.WebServices.Consulta.CTeChave), 7, 14);
-       infEvento.cOrgao := StrToIntDef(copy(OnlyNumber(Self.WebServices.Consulta.CTeChave), 1, 2), 0);
-       infEvento.dhEvento := now;
-       infEvento.tpEvento := teCancelamento;
-       infEvento.chCTe := Self.WebServices.Consulta.CTeChave;
-       infEvento.detEvento.nProt := Self.WebServices.Consulta.Protocolo;
-       infEvento.detEvento.xJust := AJustificativa;
-     end;
-     try
-        Self.EnviarEventoCTe(ALote);
-     except
-        raise Exception.Create(Self.WebServices.EnvEvento.EventoRetorno.xMotivo);
-     end;
-  end;
-  Result := True;
-end;
-
-procedure TACBrCTe.EnviaEmailThread(const sSmtpHost, sSmtpPort, sSmtpUser,
-  sSmtpPasswd, sFrom, sTo, sAssunto: String; sMensagem: TStrings;
-  SSL: Boolean; sCC, Anexos: TStrings; PedeConfirma,
-  AguardarEnvio: Boolean; NomeRemetente: String; TLS: Boolean;
-  StreamCTe: TStringStream; NomeArq: String; HTML: Boolean = False);
-var
-  ThreadSMTP: TSendMailThread;
-  m: TMimemess;
-  p: TMimepart;
-  i: Integer;
-begin
- m          := TMimemess.create;
- ThreadSMTP := TSendMailThread.Create;  // Não Libera, pois usa FreeOnTerminate := True;
-
- try
-    p := m.AddPartMultipart('mixed', nil);
-    if sMensagem <> nil then
-    begin
-       if HTML = true then
-          m.AddPartHTML(sMensagem, p)
-       else
-          m.AddPartText(sMensagem, p);
-    end;
-
-    if StreamCTe <> nil then
-      m.AddPartBinary(StreamCTe,NomeArq, p);
-
-    if assigned(Anexos) then
-      for i := 0 to Anexos.Count - 1 do
-      begin
-        m.AddPartBinaryFromFile(Anexos[i], p);
-      end;
-
-    m.header.tolist.add(sTo);
-
-    if Trim(NomeRemetente) <> '' then
-      m.header.From := Format('%s<%s>', [NomeRemetente, sFrom])
-    else
-      m.header.From := sFrom;
-
-    m.header.subject:= sAssunto;
-    m.Header.ReplyTo := sFrom;
-    if PedeConfirma then
-       m.Header.CustomHeaders.Add('Disposition-Notification-To: '+sFrom);
-    m.EncodeMessage;
-
-    ThreadSMTP.sFrom := sFrom;
-    ThreadSMTP.sTo   := sTo;
-    if sCC <> nil then
-       ThreadSMTP.sCC.AddStrings(sCC);
-    ThreadSMTP.slmsg_Lines.AddStrings(m.Lines);
-
-    ThreadSMTP.smtp.UserName := sSmtpUser;
-    ThreadSMTP.smtp.Password := sSmtpPasswd;
-
-    ThreadSMTP.smtp.TargetHost := sSmtpHost;
-    if not EstaVazio(sSmtpPort) then     // Usa default
-       ThreadSMTP.smtp.TargetPort := sSmtpPort;
-
-    ThreadSMTP.smtp.FullSSL := SSL;
-    ThreadSMTP.smtp.AutoTLS := TLS;
-
-    if (TLS) then
-      ThreadSMTP.smtp.StartTLS;
-
-    SetStatus(stCTeEmail);
-    ThreadSMTP.Resume; // inicia a thread
-    if AguardarEnvio then
-    begin
-      repeat
-        Sleep(1000);
-        Application.ProcessMessages;
-      until ThreadSMTP.Terminado;
-    end;
-    SetStatus(stCTeIdle);
- finally
-    m.free;
- end;
-end;
-
-procedure TACBrCTe.EnviarEmailNormal(const sSmtpHost, sSmtpPort, sSmtpUser,
-  sSmtpPasswd, sFrom, sTo, sAssunto: String; sMensagem: TStrings;
-  SSL: Boolean; sCC, Anexos: TStrings; PedeConfirma,
-  AguardarEnvio: Boolean; NomeRemetente: String; TLS: Boolean;
-  StreamCTe: TStringStream; NomeArq: String; HTML: Boolean);
-var
-  smtp: TSMTPSend;
-  msg_lines: TStringList;
-  m: TMimemess;
-  p: TMimepart;
-  I: Integer;
-  CorpoEmail: TStringList;
-begin
-  SetStatus(stCTeEmail);
-
-  msg_lines  := TStringList.Create;
-  CorpoEmail := TStringList.Create;
-  smtp       := TSMTPSend.Create;
-  m          := TMimemess.create;
-
-  try
-     p := m.AddPartMultipart('mixed', nil);
-     if sMensagem <> nil then
-     begin
-       if HTML = true then
-         m.AddPartHTML(sMensagem, p)
-       else
-         m.AddPartText(sMensagem, p);
-     end;
-
-    if StreamCTe <> nil then
-      m.AddPartBinary(StreamCTe, NomeArq, p);
-
-     if assigned(Anexos) then
-     for i := 0 to Anexos.Count - 1 do
-     begin
-        m.AddPartBinaryFromFile(Anexos[i], p);
-     end;
-
-     m.header.tolist.add(sTo);
-
-    if Trim(NomeRemetente) <> '' then
-      m.header.From := Format('%s<%s>', [NomeRemetente, sFrom])
-    else
-      m.header.From := sFrom;
-
-     m.header.subject := sAssunto;
-     m.EncodeMessage;
-     msg_lines.Add(m.Lines.Text);
-
-     smtp.UserName := sSmtpUser;
-     smtp.Password := sSmtpPasswd;
-
-     smtp.TargetHost := sSmtpHost;
-     smtp.TargetPort := sSmtpPort;
-
-     smtp.FullSSL := SSL;
-     smtp.AutoTLS := TLS;
-
-     if (TLS) then
-       smtp.StartTLS;
-
-     if not smtp.Login then
-       raise Exception.Create('SMTP ERROR: Login: ' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-
-     if not smtp.MailFrom(sFrom, Length(sFrom)) then
-       raise Exception.Create('SMTP ERROR: MailFrom: ' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-
-     if not smtp.MailTo(sTo) then
-       raise Exception.Create('SMTP ERROR: MailTo: ' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-
-     if sCC <> nil then
-     begin
-       for I := 0 to sCC.Count - 1 do
-       begin
-         if not smtp.MailTo(sCC.Strings[i]) then
-           raise Exception.Create('SMTP ERROR: MailTo: ' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-       end;
-     end;
-
-     if not smtp.MailData(msg_lines) then
-       raise Exception.Create('SMTP ERROR: MailData: ' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-
-     if not smtp.Logout then
-       raise Exception.Create('SMTP ERROR: Logout: ' + smtp.EnhCodeString+sLineBreak+smtp.FullResult.Text);
-  finally
-     msg_lines.Free;
-     CorpoEmail.Free;
-     smtp.Free;
-     m.free;
-     SetStatus(stCTeIdle);
-  end;
-end;
-
-procedure TACBrCTe.EnviaEmail(const sSmtpHost, sSmtpPort, sSmtpUser,
-  sSmtpPasswd, sFrom, sTo, sAssunto: String; sMensagem: TStrings;
-  SSL: Boolean; sCC, Anexos: TStrings; PedeConfirma,
-  AguardarEnvio: Boolean; NomeRemetente: String; TLS: Boolean;
-  StreamCTe: TStringStream; NomeArq: String; UsarThread: Boolean; HTML: Boolean);
-begin
-  if UsarThread then
-  begin
-    EnviaEmailThread(sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo,
-                     sAssunto, sMensagem, SSL, sCC, Anexos, PedeConfirma,
-                     AguardarEnvio, NomeRemetente, TLS, StreamCTe, NomeArq, HTML);
-  end
-  else
-  begin
-    EnviarEmailNormal(sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo,
-                      sAssunto, sMensagem, SSL, sCC, Anexos, PedeConfirma,
-                      AguardarEnvio, NomeRemetente, TLS, StreamCTe, NomeArq, HTML);
-  end;
-end;
-
 function TACBrCTe.EnviarEventoCTe(idLote: Integer): Boolean;
 var
   i: Integer;
 begin
   if EventoCTe.Evento.Count <= 0 then
-   begin
-      if Assigned(Self.OnGerarLog) then
-         Self.OnGerarLog('ERRO: Nenhum Evento adicionado ao Lote');
-      raise EACBrCTeException.Create('ERRO: Nenhum Evento adicionado ao Lote');
-     exit;
-   end;
+    GerarException(ACBrStr('ERRO: Nenhum Evento adicionado ao Lote'));
 
-  if EventoCTe.Evento.Count > 1 then
-   begin
-      if Assigned(Self.OnGerarLog) then
-         Self.OnGerarLog('ERRO: Conjunto de Eventos transmitidos (máximo de 1) excedido. Quantidade atual: ' + IntToStr(EventoCTe.Evento.Count));
-      raise EACBrCTeException.Create('ERRO: Conjunto de Eventos transmitidos (máximo de 1) excedido. Quantidade atual: ' + IntToStr(EventoCTe.Evento.Count));
-     exit;
-   end;
+  if EventoCTe.Evento.Count > 20 then
+    GerarException(ACBrStr('ERRO: Conjunto de Eventos transmitidos (máximo de 20) ' +
+      'excedido. Quantidade atual: ' + IntToStr(EventoCTe.Evento.Count)));
 
   WebServices.EnvEvento.idLote := idLote;
 
@@ -663,89 +625,39 @@ begin
   Result := WebServices.EnvEvento.Executar;
 
   if not Result then
-  begin
-    if Assigned(Self.OnGerarLog) then
-      Self.OnGerarLog(WebServices.EnvEvento.Msg);
-    if WebServices.EnvEvento.Msg <> ''
-     then raise EACBrCTeException.Create(WebServices.EnvEvento.Msg)
-     else raise EACBrCTeException.Create('Erro Desconhecido ao Enviar Evento de CT-e!')
-  end;
+    GerarException( WebServices.EnvEvento.Msg );
 end;
 
 procedure TACBrCTe.ImprimirEvento;
 begin
   if not Assigned(DACTE) then
-     raise EACBrCTeException.Create('Componente DACTE não associado.')
+    raise EACBrCTeException.Create('Componente DACTE não associado.')
   else
-     DACTE.ImprimirEVENTO(nil);
+    DACTE.ImprimirEVENTO(nil);
 end;
 
 procedure TACBrCTe.ImprimirEventoPDF;
 begin
   if not Assigned(DACTE) then
-     raise EACBrCTeException.Create('Componente DACTE não associado.')
+    raise EACBrCTeException.Create('Componente DACTE não associado.')
   else
-     DACTE.ImprimirEVENTOPDF(nil);
+    DACTE.ImprimirEVENTOPDF(nil);
 end;
 
 procedure TACBrCTe.ImprimirInutilizacao;
 begin
   if not Assigned(DACTE) then
-     raise EACBrCTeException.Create('Componente DACTE não associado.')
+    raise EACBrCTeException.Create('Componente DACTE não associado.')
   else
-     DACTE.ImprimirINUTILIZACAO(nil);
+    DACTE.ImprimirINUTILIZACAO(nil);
 end;
 
 procedure TACBrCTe.ImprimirInutilizacaoPDF;
 begin
   if not Assigned(DACTE) then
-     raise EACBrCTeException.Create('Componente DACTE não associado.')
+    raise EACBrCTeException.Create('Componente DACTE não associado.')
   else
-     DACTE.ImprimirINUTILIZACAOPDF(nil);
-end;
-
-procedure TACBrCTe.EnviarEmailEvento(const sSmtpHost, sSmtpPort, sSmtpUser,
-  sSmtpPasswd, sFrom, sTo, sAssunto: String; sMensagem: TStrings; SSL,
-  EnviaPDF: Boolean; sCC, Anexos: TStrings; PedeConfirma,
-  AguardarEnvio: Boolean; NomeRemetente: String; TLS: Boolean);
-var
-  NomeArq: String;
-  AnexosEmail: TStrings;
-begin
-  AnexosEmail := TStringList.Create;
-  try
-    AnexosEmail.Clear;
-    if Anexos <> nil then
-      AnexosEmail.Text := Anexos.Text;
-
-    if (EnviaPDF) then
-    begin
-      if DACTE <> nil then
-      begin
-        ImprimirEventoPDF;
-        NomeArq := OnlyNumber(EventoCTe.Evento[0].InfEvento.Id);
-//        NomeArq := Copy(EventoCTe.Evento[0].InfEvento.id, 09, 44) +
-//                   Copy(EventoCTe.Evento[0].InfEvento.id, 03, 06) +
-//                   Copy(EventoCTe.Evento[0].InfEvento.id, 53, 02);
-        NomeArq := PathWithDelim(DACTE.PathPDF) + NomeArq + '-procEventoCTe.pdf';
-
-        AnexosEmail.Add(NomeArq);
-      end;
-    end;
-
-    EnviaEmail(sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo,
-               sAssunto, sMensagem, SSL, sCC, AnexosEmail, PedeConfirma,
-               AguardarEnvio, NomeRemetente, TLS);
-  finally
-    AnexosEmail.Free;
-  end;
-end;
-
-{ EACBrCTeException }
-
-constructor EACBrCTeException.Create(const Msg: string);
-begin
-  inherited Create( ACBrStr(Msg) );
+    DACTE.ImprimirINUTILIZACAOPDF(nil);
 end;
 
 end.

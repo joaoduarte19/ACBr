@@ -34,15 +34,6 @@
 {                                                                              }
 {******************************************************************************}
 
-{*******************************************************************************
-|* Historico
-|*
-|* 16/12/2008: Wemerson Souto
-|*  - Doação do componente para o Projeto ACBr
-|* 09/03/2009: Dulcemar P.Zilli
-|*  - Incluido IPI e II
-*******************************************************************************}
-
 {$I ACBr.inc}
 
 unit ACBrCTeReg;
@@ -52,17 +43,22 @@ interface
 uses
   SysUtils, Classes, ACBrCTe, pcnConversao,
   {$IFDEF FPC}
-   LResources
+     LResources, LazarusPackageIntf, PropEdits, componenteditors
+  {$ELSE}
+     {$IFNDEF COMPILER6_UP}
+        DsgnIntf
+     {$ELSE}
+        DesignIntf,
+        DesignEditors
+     {$ENDIF}
   {$ENDIF} ;
-
-
-type
 
 procedure Register;
 
 implementation
 
-uses ACBrCTeConfiguracoes, ACBrDFe, ACBrReg;
+uses
+  ACBrReg, ACBrDFe, ACBrDFeConfiguracoes, ACBrCTeConfiguracoes;
 
 {$IFNDEF FPC}
    {$R ACBrCTe.dcr}
@@ -87,27 +83,24 @@ begin
   RegisterPropertyEditor(TypeInfo(TGeralConf), TConfiguracoes, 'Geral',
     TClassProperty);
 
-  RegisterPropertyEditor(TypeInfo(String), TGeralConf, 'PathSalvar',
+  RegisterPropertyEditor(TypeInfo(String), TGeralConfCTe, 'PathSalvar',
      TACBrDirProperty);
 
   RegisterPropertyEditor(TypeInfo(TArquivosConf), TConfiguracoes, 'Arquivos',
     TClassProperty);
 
-  RegisterPropertyEditor(TypeInfo(String), TArquivosConf, 'PathNFe',
+  RegisterPropertyEditor(TypeInfo(String), TArquivosConfCTe, 'PathCTe',
      TACBrDirProperty);
 
-  RegisterPropertyEditor(TypeInfo(String), TArquivosConf, 'PathCan',
+  RegisterPropertyEditor(TypeInfo(String), TArquivosConfCTe, 'PathInu',
      TACBrDirProperty);
 
-  RegisterPropertyEditor(TypeInfo(String), TArquivosConf, 'PathInu',
-     TACBrDirProperty);
-
-  RegisterPropertyEditor(TypeInfo(String), TArquivosConf, 'PathDPEC',
+  RegisterPropertyEditor(TypeInfo(String), TArquivosConfCTe, 'PathEvento',
      TACBrDirProperty);
 end;
 
-initialization
 {$IFDEF FPC}
+initialization
    {$i ACBrCTe.lrs}
 {$ENDIF}
 
