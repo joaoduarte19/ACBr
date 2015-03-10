@@ -161,8 +161,8 @@ type
     property ExibirErroSchema: Boolean read FExibirErroSchema
       write FExibirErroSchema default True;
     property FormatoAlerta: String read GetFormatoAlerta write FFormatoAlerta;
-    property RetirarAcentos: Boolean
-      read FRetirarAcentos write FRetirarAcentos default True;
+    property RetirarAcentos: Boolean read FRetirarAcentos
+      write FRetirarAcentos default True;
     property IdToken: String read FIdToken write FIdToken;
     property Token: String read FToken write FToken;
     property ValidarDigest: Boolean
@@ -192,7 +192,8 @@ type
   public
     constructor Create(AConfiguracoes: TConfiguracoes); reintroduce; overload; virtual;
 
-    function GetPath(APath: String; ALiteral: String): String; virtual;
+    function GetPath(APath: String; ALiteral: String; CNPJ: String = '';
+      Data: TDateTime = 0): String; virtual;
   published
     property PathSalvar: String read GetPathSalvar write FPathSalvar;
     property PathSchemas: String read GetPathSchemas write FPathSchemas;
@@ -566,11 +567,11 @@ begin
   Result := FIniServicos;
 end;
 
-function TArquivosConf.GetPath(APath: String; ALiteral: String): String;
+function TArquivosConf.GetPath(APath: String; ALiteral: String; CNPJ: String;
+  Data: TDateTime): String;
 var
   wDia, wMes, wAno: word;
   Dir, Modelo, AnoMes: String;
-  Data: TDateTime;
   LenLiteral: integer;
 begin
   if EstaVazio(APath) then
@@ -578,8 +579,14 @@ begin
   else
     Dir := APath;
 
-  if SepararPorCNPJ and NaoEstaVazio(FConfiguracoes.Certificados.CNPJ) then
-    Dir := PathWithDelim(Dir) + FConfiguracoes.Certificados.CNPJ;
+  if SepararPorCNPJ then
+  begin
+    if EstaVazio(CNPJ) then
+      CNPJ := FConfiguracoes.Certificados.CNPJ;
+
+    if NaoEstaVazio(CNPJ) then
+      Dir := PathWithDelim(Dir) + CNPJ;
+  end;
 
   if SepararPorModelo then
   begin
@@ -589,7 +596,9 @@ begin
 
   if SepararPorMes then
   begin
-    Data := Now;
+    if Data = 0 then
+      Data := Now;
+
     DecodeDate(Data, wAno, wMes, wDia);
     AnoMes := IntToStr(wAno) + IntToStrZero(wMes, 2);
 
@@ -612,4 +621,3 @@ end;
 
 
 end.
-

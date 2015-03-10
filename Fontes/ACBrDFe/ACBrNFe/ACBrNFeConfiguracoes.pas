@@ -195,12 +195,12 @@ end;
 
 function TArquivosConfNFe.GetPathCan(CNPJ: String = ''): String;
 begin
-  Result := GetPath(FPathCan, 'Can');
+  Result := GetPath(FPathCan, 'Can', CNPJ);
 end;
 
 function TArquivosConfNFe.GetPathCCe(CNPJ: String = ''): String;
 begin
-  Result := GetPath(FPathCCe, 'CCe');
+  Result := GetPath(FPathCCe, 'CCe', CNPJ);
 end;
 
 function TArquivosConfNFe.GetPathEvento(tipoEvento: TpcnTpEvento;
@@ -208,7 +208,7 @@ function TArquivosConfNFe.GetPathEvento(tipoEvento: TpcnTpEvento;
 var
   Dir, Evento: String;
 begin
-  Dir := GetPath(FPathEvento, 'Evento');
+  Dir := GetPath(FPathEvento, 'Evento', CNPJ);
 
   if AdicionarLiteral then
   begin
@@ -233,12 +233,12 @@ end;
 
 function TArquivosConfNFe.GetPathInu(CNPJ: String = ''): String;
 begin
-  Result := GetPath(FPathInu, 'Inu');
+  Result := GetPath(FPathInu, 'Inu', CNPJ);
 end;
 
 function TArquivosConfNFe.GetPathNFe(Data: TDateTime = 0; CNPJ: String = ''): String;
 begin
-  Result := GetPath(FPathNFe, 'NFe');
+  Result := GetPath(FPathNFe, 'NFe', CNPJ, Data);
 end;
 
 
