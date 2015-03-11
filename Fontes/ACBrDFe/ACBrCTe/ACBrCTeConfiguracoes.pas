@@ -165,85 +165,20 @@ begin
 end;
 
 function TArquivosConf.GetPathCTe(Data: TDateTime = 0; CNPJ : String = ''): String;
-//var
-//  wDia, wMes, wAno: Word;
-//  Dir: String;
 begin
-  Result := GetPath(FPathCTe, 'CTe');
-(*
-  if EstaVazio(FPathCTe) then
-     Dir := TConfiguracoes(Self.Owner).Geral.PathSalvar
-  else
-     Dir := FPathCTe;
-
-  if FSepararCNPJ then
-     Dir := PathWithDelim(Dir) + TConfiguracoes(Self.Owner).Certificados.CNPJ;
-
-  if FMensal then
-   begin
-     if Data = 0 then
-        Data := Now;
-     DecodeDate(Data, wAno, wMes, wDia);
-     if Pos(IntToStr(wAno) + IntToStrZero(wMes, 2), Dir) <= 0 then
-        Dir := PathWithDelim(Dir) + IntToStr(wAno) + IntToStrZero(wMes, 2);
-   end;
-
-  if FLiteral then
-   begin
-     if copy(Dir, length(Dir)-2, 3) <> 'CTe' then
-        Dir := PathWithDelim(Dir) + 'CTe';
-   end;
-
-  if not DirectoryExists(Dir) then
-     ForceDirectories(Dir);
-
-  Result := Dir;
-*)
+  Result := GetPath(FPathCTe, 'CTe', CNPJ, Data);
 end;
 
 function TArquivosConf.GetPathInu(Data: TDateTime = 0; CNPJ : String = ''): String;
-//var
-//  wDia, wMes, wAno: Word;
-//  Dir: String;
 begin
-  Result := GetPath(FPathInu, 'Inu');
-(*
-  if EstaVazio(FPathInu) then
-     Dir := TConfiguracoes(Self.Owner).Geral.PathSalvar
-  else
-     Dir := FPathInu;
-
-  if FSepararCNPJ then
-     Dir := PathWithDelim(Dir) + TConfiguracoes(Self.Owner).Certificados.CNPJ;
-
-  if FMensal then
-   begin
-     if Data = 0 then
-        Data := Now;
-     DecodeDate(Data, wAno, wMes, wDia);
-     if Pos(IntToStr(wAno) + IntToStrZero(wMes, 2), Dir) <= 0 then
-        Dir := PathWithDelim(Dir) + IntToStr(wAno) + IntToStrZero(wMes, 2);
-   end;
-
-  if FLiteral then
-   begin
-     if copy(Dir, length(Dir)-2, 3) <> 'Inu' then
-        Dir := PathWithDelim(Dir) + 'Inu';
-   end;
-
-  if not DirectoryExists(Dir) then
-     ForceDirectories(Dir);
-
-  Result := Dir;
-*)
+  Result := GetPath(FPathInu, 'Inu', CNPJ);
 end;
 
 function TArquivosConf.GetPathEvento(tipoEvento: TpcnTpEvento; Data: TDateTime = 0; CNPJ : String = ''): String;
 var
-//  wDia, wMes, wAno: Word;
   Dir, Evento: String;
 begin
-  Dir := GetPath(FPathEvento, 'Evento');
+  Dir := GetPath(FPathEvento, 'Evento', CNPJ);
 
   if AdicionarLiteral then
   begin
@@ -261,47 +196,6 @@ begin
      ForceDirectories(Dir);
 
   Result := Dir;
-
-(*
-  if EstaVazio(FPathEvento) then
-     Dir := TConfiguracoes(Self.Owner).Geral.PathSalvar
-  else
-     Dir := FPathEvento;
-
-  if FSepararCNPJ then
-     Dir := PathWithDelim(Dir) + TConfiguracoes(Self.Owner).Certificados.CNPJ;
-
-  if FMensal then
-   begin
-     if Data = 0 then
-        Data := Now;
-     DecodeDate(Data, wAno, wMes, wDia);
-     if Pos(IntToStr(wAno) + IntToStrZero(wMes, 2), Dir) <= 0 then
-        Dir := PathWithDelim(Dir) + IntToStr(wAno) + IntToStrZero(wMes, 2);
-   end;
-
-  if FLiteral then
-   begin
-     if copy(Dir, length(Dir) - 2, 3) <> 'Evento' then
-        Dir := PathWithDelim(Dir) + 'Evento';
-   end;
-
-  case tipoEvento of
-    teCCe                      : Dir := PathWithDelim(Dir)+'CCe';
-    teCancelamento             : Dir := PathWithDelim(Dir)+'Cancelamento';
-    teEPEC                     : Dir := PathWithDelim(Dir)+'EPEC';
-    teManifDestConfirmacao     : Dir := PathWithDelim(Dir)+'Confirmacao';
-    teManifDestCiencia         : Dir := PathWithDelim(Dir)+'Ciencia';
-    teManifDestDesconhecimento : Dir := PathWithDelim(Dir)+'Desconhecimento';
-    teManifDestOperNaoRealizada: Dir := PathWithDelim(Dir)+'NaoRealizada';
-    teMultimodal               : Dir := PathWithDelim(Dir)+'Multimodal';
-  end;
-
-  if not DirectoryExists(Dir) then
-     ForceDirectories(Dir);
-
-  Result := Dir;
-*)
 end;
 
 end.

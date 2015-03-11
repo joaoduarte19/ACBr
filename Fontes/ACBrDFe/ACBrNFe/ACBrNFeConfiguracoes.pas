@@ -215,6 +215,7 @@ begin
     case tipoEvento of
       teCCe: Evento := 'CCe';
       teCancelamento: Evento := 'Cancelamento';
+      teEPECNFe: Evento := 'EPEC';
       teManifDestConfirmacao: Evento := 'Confirmacao';
       teManifDestCiencia: Evento := 'Ciencia';
       teManifDestDesconhecimento: Evento := 'Desconhecimento';

@@ -183,7 +183,7 @@ begin
 
   with TACBrCTe(TConhecimentos(Collection).ACBrCTe) do
   begin
-    FCTe.infCTe.Versao := VersaoDFToDbl(Configuracoes.Geral.VersaoDF);
+    FCTe.infCTe.Versao := VersaoCTeToDbl(Configuracoes.Geral.VersaoDF);
 
     FCTe.Ide.tpCTe := tcNormal;
     FCTe.Ide.modelo := '57';
@@ -241,7 +241,7 @@ begin
 
   with TACBrCTe(TConhecimentos(Collection).ACBrCTe) do
   begin
-    XMLAss := SSL.Assinar(ArqXML, 'CTe', 'infCTe');
+    XMLAss := SSL.Assinar(ArqXML, 'CTe', 'infCte');
     FXMLAssinado := XMLAss;
 
     // Remove header, pois podem existir várias Notas no XML //
@@ -386,7 +386,7 @@ begin
   with TACBrCTe(TConhecimentos(Collection).ACBrCTe) do
   begin
 //    Configuracoes.Geral.ModeloDF := StrToModeloDF(OK, IntToStr(FCTeR.CTe.Ide.modelo));
-    Configuracoes.Geral.VersaoDF := DblToVersaoDF(OK, FCTeR.CTe.infCTe.Versao);
+    Configuracoes.Geral.VersaoDF := DblToVersaoCTe(OK, FCTeR.CTe.infCTe.Versao);
   end;
 
   FXML := string(AXML);

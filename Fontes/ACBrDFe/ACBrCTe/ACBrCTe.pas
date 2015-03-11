@@ -240,8 +240,9 @@ end;
 
 function TACBrCTe.IdentificaSchemaCTe(const AXML: String): TSchemaCTe;
 var
- lTipoEvento: String;
+ lTipoEvento: TpcnTpEvento;
  I: Integer;
+ Ok: Boolean;
 begin
   Result := schCTe;
 
@@ -261,21 +262,17 @@ begin
           I := Pos('<infEvento', AXML);
           if I > 0 then
           begin
-            lTipoEvento := Trim(RetornarConteudoEntre(AXML, '<tpEvento>', '</tpEvento>'));
-            if lTipoEvento = '110111' then
-              Result := schEnvEventoCancCTe
-//            else if lTipoEvento = '110113' then
-//              Result := schEnvEPEC
-            else if lTipoEvento = '210200' then
-              Result := schEnvConfRecebto
-            else if lTipoEvento = '210210' then
-              Result := schEnvConfRecebto
-            else if lTipoEvento = '210220' then
-              Result := schEnvConfRecebto
-            else if lTipoEvento = '210240' then
-              Result := schEnvConfRecebto
-            else
-              Result := schEnvCCe;
+            lTipoEvento := StrToTpEvento(Ok, Trim(RetornarConteudoEntre(AXML, '<tpEvento>', '</tpEvento>')));
+
+            case lTipoEvento of
+              teCCe: Result := schEnvCCe;
+              teCancelamento: Result := schEnvEventoCancCTe;
+              teManifDestConfirmacao: Result := schEnvConfRecebto;
+              teManifDestCiencia: Result := schEnvConfRecebto;
+              teManifDestDesconhecimento: Result := schEnvConfRecebto;
+              teManifDestOperNaoRealizada: Result := schEnvConfRecebto;
+              else Result := schEnvEPEC; // teEPEC
+            end;
           end
           else
             Result := schEnvEPEC;
@@ -465,7 +462,7 @@ var
 begin
   Versao := LerVersaoDeParams(GetNomeModeloDFe, Configuracoes.WebServices.UF,
     Configuracoes.WebServices.Ambiente, LayOutToServico(LayOutServico),
-    VersaoDFToDbl(Configuracoes.Geral.VersaoDF));
+    VersaoCTeToDbl(Configuracoes.Geral.VersaoDF));
 
   Result := FloatToString(Versao, '.', '0.00');
 end;
@@ -473,7 +470,7 @@ end;
 procedure TACBrCTe.LerServicoDeParams(LayOutServico: TLayOut;
   var Versao: Double; var URL: String);
 begin
-  Versao := VersaoDFToDbl(Configuracoes.Geral.VersaoDF);
+  Versao := VersaoCTeToDbl(Configuracoes.Geral.VersaoDF);
   URL := '';
   LerServicoDeParams(GetNomeModeloDFe, Configuracoes.WebServices.UF,
     Configuracoes.WebServices.Ambiente, LayOutToServico(LayOutServico),
