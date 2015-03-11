@@ -48,45 +48,49 @@
         <UnitName Value="ACBrBancoMercantil"/>
       </Item6>
       <Item7>
-        <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrCaixaEconomica.pas"/>
-        <UnitName Value="ACBrCaixaEconomica"/>
-      </Item7>
-      <Item8>
         <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoBanrisul.pas"/>
         <UnitName Value="ACBrBancoBanrisul"/>
-      </Item8>
-      <Item9>
+      </Item7>
+      <Item8>
         <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoSantander.pas"/>
         <UnitName Value="ACBrBancoSantander"/>
-      </Item9>
-      <Item10>
+      </Item8>
+      <Item9>
         <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoob.pas"/>
         <UnitName Value="ACBrBancoob"/>
-      </Item10>
-      <Item11>
-        <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrCaixaEconomicaSICOB.pas"/>
-        <UnitName Value="ACBrCaixaEconomicaSICOB"/>
-      </Item11>
-      <Item12>
+      </Item9>
+      <Item10>
         <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoHSBC.pas"/>
         <UnitName Value="ACBrBancoHSBC"/>
-      </Item12>
-      <Item13>
-        <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoBanestes.pas"/>
-        <UnitName Value="ACBrBancoBanestes"/>
-      </Item13>
-      <Item14>
+      </Item10>
+      <Item11>
         <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoNordeste.pas"/>
         <UnitName Value="ACBrBancoNordeste"/>
-      </Item14>
-      <Item15>
+      </Item11>
+      <Item12>
         <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoBRB.pas"/>
         <UnitName Value="ACBrBancoBRB"/>
-      </Item15>
-      <Item16>
+      </Item12>
+      <Item13>
         <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoBic.pas"/>
         <UnitName Value="ACBrBancoBic"/>
+      </Item13>
+      <Item14>
+        <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoBanestes.pas"/>
+        <UnitName Value="ACBrBancoBanestes"/>
+      </Item14>
+      <Item15>
+        <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoCecred.pas"/>
+        <UnitName Value="ACBrBancoCecred"/>
+      </Item15>
+      <Item16>
+        <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoCaixa.pas"/>
+        <UnitName Value="ACBrBancoCaixa"/>
       </Item16>
+      <Item17>
+        <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoCaixaSICOB.pas"/>
+        <UnitName Value="ACBrBancoCaixaSICOB"/>
+      </Item17>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="1">
