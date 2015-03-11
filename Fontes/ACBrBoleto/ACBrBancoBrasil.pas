@@ -439,22 +439,26 @@ begin
 
       wCarteira:= StrToIntDef(Carteira,0);
 
-      if ((wCarteira = 11) or (wCarteira = 12) or (wCarteira = 17)) and (ACaracTitulo = '1') then
+      // Posição 58 à 58:
+      // Informar 1 para carteira 11/12 na modalidade Simples;
+      // Informar 2 ou 3 para carteira 11/17 modalidade Vinculada/Caucionada e carteira 31;
+      // Informar 4 para carteira 11/17 modalidade Descontada e carteira 51;
+      // Informar 7 para carteira 17 modalidade Simples.
+      if ((wCarteira = 11) or (wCarteira = 12)) and (ACaracTitulo = '1') then
          wTipoCarteira := '1'
-      else if (((wCarteira = 11) or (wCarteira = 17)) and
-               ((ACaracTitulo = '2') or (ACaracTitulo = '3'))) or (wCarteira = 31) then
-         wTipoCarteira:= ACaracTitulo
+      else if (((wCarteira = 11) or (wCarteira = 17)) and ((ACaracTitulo = '2') or (ACaracTitulo = '3'))) or (wCarteira = 31) then
+         wTipoCarteira := ACaracTitulo
       else if (((wCarteira = 11) or (wCarteira = 17)) and (ACaracTitulo = '4')) or (wCarteira = 51) then
-         wTipoCarteira:= ACaracTitulo      
+         wTipoCarteira := ACaracTitulo
+      else  if (wCarteira = 17) and (ACaracTitulo = '1') then
+         wTipoCarteira := '7'
       else
          wTipoCarteira:= '7';
 
-
-  
       {Mora Juros}
       if (ValorMoraJuros > 0) then
        begin
-         if (DataMoraJuros <> Null) then
+         if (DataMoraJuros > 0) then
             ADataMoraJuros := FormatDateTime('ddmmyyyy', DataMoraJuros)
          else
             ADataMoraJuros := PadRight('', 8, '0');
@@ -465,7 +469,7 @@ begin
       {Descontos}
       if (ValorDesconto > 0) then
        begin
-         if (DataDesconto <> Null) then
+         if (DataDesconto > 0) then
             ADataDesconto := FormatDateTime('ddmmyyyy', DataDesconto)
          else
             ADataDesconto := PadRight('', 8, '0');
@@ -1023,6 +1027,7 @@ begin
     toRetornoVencimentoAlterado                         : Result := '14';
     toRetornoLiquidadoEmCartorio                        : Result := '15';
 //                                                      : Result := '16'; // 16-Confirmação de alteração de juros de mora
+    toRetornoLiquidadoAposBaixaOuNaoRegistro            : Result := '17';
     toRetornoRecebimentoInstrucaoProtestar              : Result := '19';
     toRetornoDebitoEmConta                              : Result := '20';
     toRetornoRecebimentoInstrucaoAlterarNomeSacado      : Result := '21';
@@ -1077,6 +1082,7 @@ begin
    14: Result:='14-Alteração de Vencimento do Titulo' ;
    15: Result:='15-Liquidação em Cartório' ;
    16: Result:='16-Confirmação de alteração de juros de mora' ;
+   17: Result:='17-Liquidação Após Baixa ou Liquidação de Título Não Registrado' ;
    19: Result:='19-Confirmação de recebimento de instruções para protesto' ;
    20: Result:='20-Débito em Conta' ;
    21: Result:='21-Alteração do Nome do Sacado' ;
@@ -1124,6 +1130,7 @@ begin
     14: Result := toRetornoVencimentoAlterado;
     15: Result := toRetornoLiquidadoEmCartorio;
 //  16: Result := ; // 16-Confirmação de alteração de juros de mora
+    17: Result := toRetornoLiquidadoAposBaixaOuNaoRegistro;
     19: Result := toRetornoRecebimentoInstrucaoProtestar;
     20: Result := toRetornoDebitoEmConta;
     21: Result := toRetornoRecebimentoInstrucaoAlterarNomeSacado;
@@ -1234,11 +1241,12 @@ begin
         99: Result:='99-Outros motivos' ;
       end;
       //Apartir daqui adicionado por Anderson
-    toRetornoLiquidadoSemRegistro, //05-Liquidado sem registro (carteira 17-tipo4)
-    toRetornoLiquidado,            //06-Liquidação Normal
-    toRetornoLiquidadoPorConta,    //07-Liquidação por Conta
-    toRetornoLiquidadoEmCartorio,  //15-Liquidação em Cartório
-    toRetornoTituloPagoEmCheque:   //46–Título pago com cheque, aguardando compensação
+    toRetornoLiquidadoSemRegistro,            // 05-Liquidado sem registro (carteira 17-tipo4)
+    toRetornoLiquidado,                       // 06-Liquidação Normal
+    toRetornoLiquidadoPorConta,               // 07-Liquidação por Conta
+    toRetornoLiquidadoEmCartorio,             // 15-Liquidação em Cartório
+    toRetornoTituloPagoEmCheque,              // 46–Título pago com cheque, aguardando compensação
+    toRetornoLiquidadoAposBaixaOuNaoRegistro: // 17-Liquidação Após Baixa ou Liquidação de Título Não Registrado
       case CodMotivo of
         01: Result:='01-Liquidação normal';
         02: Result:='02-Liquidação parcial';

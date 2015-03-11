@@ -386,13 +386,17 @@ begin
 end;
 
 function TACBrBancoItau.GerarRegistroTrailler240( ARemessa : TStringList ): String;
+var
+  wRegsLote: Integer;
 begin
-          {REGISTRO TRAILER DO LOTE}
+   wRegsLote:= (ARemessa.Count -1) * 2;
+
+   {REGISTRO TRAILER DO LOTE}
    Result:= IntToStrZero(ACBrBanco.Numero, 3)                          + //Código do banco
             '0001'                                                     + //Número do lote
             '5'                                                        + //Tipo do registro: Registro trailer do lote
             Space(9)                                                   + //Uso exclusivo FEBRABAN/CNAB
-            IntToStrZero(ARemessa.Count + 2, 6)                        + //Quantidade de Registro da Remessa (Somando 1 para o header do lote e 1 para o trailer do lote)
+            IntToStrZero(wRegsLote + 2, 6)                        + //Quantidade de Registro da Remessa (Somando 1 para o header do lote e 1 para o trailer do lote)
             PadLeft('', 6, '0')                                           + //Quantidade de títulos em cobrança simples
             PadLeft('',17, '0')                                           + //Valor dos títulos em cobrança simples
             PadLeft('', 6, '0')                                           + //Quantidade títulos em cobrança vinculada
@@ -401,14 +405,14 @@ begin
             PadRight('', 8, ' ')                                           + //Referencia do aviso bancario
             space(117);
 
-          {GERAR REGISTRO TRAILER DO ARQUIVO}
+   {GERAR REGISTRO TRAILER DO ARQUIVO}
    Result:= Result + #13#10 +
             IntToStrZero(ACBrBanco.Numero, 3)                          + //Código do banco
             '9999'                                                     + //Lote de serviço
             '9'                                                        + //Tipo do registro: Registro trailer do arquivo
             space(9)                                                   + //Uso exclusivo FEBRABAN/CNAB}
             '000001'                                                   + //Quantidade de lotes do arquivo}
-            IntToStrZero(ARemessa.Count + 4, 6)                        + //Quantidade de registros do arquivo
+            IntToStrZero(wRegsLote + 4, 6)                             + //Quantidade de registros do arquivo
                                                                            {Somando 1 para o header do arquivo,
                                                                                     1 para o header do lote,
                                                                                     1 para o trailer do lote e
