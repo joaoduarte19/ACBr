@@ -120,14 +120,17 @@ end;
 
 procedure TDFeOpenSSL.DesInicializar;
 begin
+  if (FdsigCtx <> nil) then
+  begin
+    xmlSecDSigCtxDestroy(FdsigCtx);
+    FdsigCtx := nil;
+  end;
+
   if FpInicializado and Configuracoes.Geral.UnloadSSLLib then
   begin
     ShutDownXmlSec;
     FpInicializado := False;
   end;
-
-  if (FdsigCtx <> nil) then
-    xmlSecDSigCtxDestroy(FdsigCtx);
 end;
 
 function TDFeOpenSSL.Assinar(const ConteudoXML, docElement, infElement: String): String;
@@ -151,7 +154,7 @@ begin
   //// Inserindo Template da Assinatura digital ////
   TagEndDocElement := '</' + docElement + '>';
   I := pos('<signature', lowercase(AXml));
-  if I < 0 then
+  if I = 0 then
     I := pos(TagEndDocElement, AXml);
 
   if I = 0 then

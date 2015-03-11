@@ -1,4 +1,5 @@
 {$I ACBr.inc}
+{$DEFINE ACBrNFeOpenSSL}
 
 unit Unit1;
 
@@ -380,8 +381,8 @@ begin
          gbCertificado.Height := 144;
          edtCaminho.Text  := Ini.ReadString( 'Certificado','Caminho' ,'') ;
          edtSenha.Text    := Ini.ReadString( 'Certificado','Senha'   ,'') ;
-         ACBrNFe1.Configuracoes.Certificados.Certificado  := edtCaminho.Text;
-         ACBrNFe1.Configuracoes.Certificados.Senha        := edtSenha.Text;
+         ACBrNFe1.Configuracoes.Certificados.ArquivoPFX  := edtCaminho.Text;
+         ACBrNFe1.Configuracoes.Certificados.Senha       := edtSenha.Text;
          edtNumSerie.Visible := False;
          Label25.Visible := False;
          sbtnGetCert.Visible := False;

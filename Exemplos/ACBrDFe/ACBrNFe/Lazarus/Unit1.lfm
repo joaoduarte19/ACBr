@@ -2207,7 +2207,7 @@ object Form1: TForm1
   object ACBrNFe1: TACBrNFe
     OnStatusChange = ACBrNFe1StatusChange
     OnGerarLog = ACBrNFe1GerarLog
-    Configuracoes.Geral.SSLLib = libCapicom
+    Configuracoes.Geral.SSLLib = libOpenSSL
     Configuracoes.Geral.FormaEmissao = teContingencia
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
     Configuracoes.Geral.RetirarAcentos = True
