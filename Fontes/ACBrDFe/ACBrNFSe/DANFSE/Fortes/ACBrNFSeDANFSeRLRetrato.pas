@@ -72,7 +72,6 @@ type
     rlbHeaderItens: TRLBand;
     RLLabel14: TRLLabel;
     rlbItens: TRLBand;
-    rlmDescricao: TRLMemo;
     rlbISSQN: TRLBand;
     RLDraw52: TRLDraw;
     RLDraw53: TRLDraw;
@@ -166,6 +165,11 @@ type
     RLLabel61: TRLLabel;
     rllTomaInscEstadual: TRLLabel;
     rllTomadorNomeEnt: TRLLabel;
+    rlmDescricao: TRLMemo;
+    RLSystemInfo1: TRLSystemInfo;
+    RLSystemInfo2: TRLSystemInfo;
+    RLLabel62: TRLLabel;
+    RLLabel63: TRLLabel;
     procedure rlbCabecalhoBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure rlbPrestadorBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure rlbTomadorBeforePrint(Sender: TObject; var PrintIt: Boolean);
@@ -514,14 +518,9 @@ procedure TfrlDANFSeRLRetrato.rlbItensBeforePrint(Sender: TObject;
 begin
   inherited;
 
- rlmDescricao.Lines.Clear;
-
- {rlmDescricao.Lines.Add( StringReplace( FNFSe.Servico.Discriminacao,
-                         ';', #13#10, [rfReplaceAll, rfIgnoreCase] ) );}
-
+  rlmDescricao.Lines.Clear;
   rlmDescricao.Lines.Add( StringReplace( FNFSe.Servico.Discriminacao,
                          FQuebradeLinha, #13#10, [rfReplaceAll, rfIgnoreCase] ) );
-
 end;
 
 procedure TfrlDANFSeRLRetrato.rlbPrestadorBeforePrint(Sender: TObject;
