@@ -45,21 +45,12 @@ interface
 
 uses
   Classes, SysUtils,
-{$IFDEF CLX} QDialogs,{$ELSE} Dialogs,{$ENDIF}
-{$IFDEF ACBrCTeOpenSSL}
-  HTTPSend,
-{$ELSE}
-     {$IFDEF SoapHTTP}
-     SoapHTTPClient, SOAPHTTPTrans, SOAPConst, JwaWinCrypt, WinInet, ACBrCAPICOM_TLB,
-     {$ELSE}
-        ACBrHTTPReqResp,
-     {$ENDIF}
-{$ENDIF}
-  pcnAuxiliar, pcnConversao, pcteRetConsCad,
-  ACBrCTeConfiguracoes, ACBrCteConhecimentos,
-  pcteRetConsReciCTe, pcteProcCte, pcteRetCancCTe, pcteConsReciCTe,
-  pcteRetConsSitCTe, pcteEnvEventoCTe, pcteRetEnvEventoCTe, pcteCTeW,
-  pcteRetEnvCTe;
+  ACBrDFe, ACBrDFeWebService,
+  pcteCTe,
+  pcteRetConsReciCTe, pcteRetConsCad, pcnAuxiliar, pcnConversao, pcteConversaoCTe,
+  pcteProcCte, pcteRetCancCTe, pcteEnvEventoCTe, pcteRetEnvEventoCTe,
+  pcteRetConsSitCTe, pcteRetEnvCTe,
+  ACBrCteConhecimentos, ACBrCTeConfiguracoes;
 
 const
   CURL_WSDL = 'http://www.portalfiscal.inf.br/cte/wsdl/';
@@ -67,83 +58,32 @@ const
 
 type
 
-  { TWebServicesBase }
+  { TCTeWebService }
 
-  TWebServicesBase = Class
+  TCTeWebService = class(TDFeWebService)
   private
-    {$IFDEF ACBrCTeOpenSSL}
-     procedure ConfiguraHTTP( HTTP: THTTPSend; Action: AnsiString );
-    {$ELSE}
-     {$IFDEF SoapHTTP}
-      procedure ConfiguraReqResp( ReqResp: THTTPReqResp );
-      procedure OnBeforePost(const HTTPReqResp: THTTPReqResp; Data:Pointer);
-     {$ELSE}
-      procedure ConfiguraReqResp( ReqResp: TACBrHTTPReqResp );
-     {$ENDIF}
-    {$ENDIF}
   protected
-    FCabMsg: WideString;
-    FDadosMsg: AnsiString;
-    FEnvelopeSoap: AnsiString;
-    FRetornoWS: AnsiString;
-    FRetWS: AnsiString;
-    FMsg: AnsiString;
-    FURL: WideString;
-    FConfiguracoes: TConfiguracoes;
-    FACBrCTe: TComponent;
-    FArqEnv: AnsiString;
-    FArqResp: AnsiString;
-    FServico: AnsiString;
-    FSoapAction: AnsiString;
-    FStatus: TStatusACBrCTe;
-    FLayout: TLayOutCTe;
-    FEveEPEC: Boolean;
-    FRetCTeDFe: AnsiString;
-  protected
-    procedure AssinarXML( AXML: String; MsgErro: String );
-    procedure FazerLog(Msg: AnsiString; Exibir: Boolean = False);
-    procedure GerarException(Msg: AnsiString);
-  protected
-    procedure InicializarServico; virtual;
-    procedure DefinirServicoEAction; virtual;
-    procedure DefinirURL; virtual;
-    procedure DefinirDadosMsg; virtual;
-    procedure DefinirEnvelopeSoap; virtual;
-    procedure SalvarEnvio; virtual;
-    procedure EnviarDados; virtual;
-    function TratarResposta: Boolean; virtual;
-    procedure SalvarResposta; virtual;
-    procedure FinalizarServico; virtual;
+    FPStatus: TStatusACBrCTe;
+    FPLayout: TLayOut;
+    FPConfiguracoesCTe: TConfiguracoesCTe;
 
-    function GerarMsgLog: AnsiString; virtual;
-    function GerarMsgErro(E: Exception): AnsiString; virtual;
-    function GerarVersaoDadosSoap: AnsiString; virtual;
-    function GerarUFSoap:AnsiString; virtual;
-    function GerarPrefixoArquivo: AnsiString; virtual;
+    function ExtrairModeloChaveAcesso(AChaveCTE: String): String;
+  protected
+    procedure InicializarServico; override;
+    procedure DefinirURL; override;
+    function GerarVersaoDadosSoap: String; override;
+    procedure FinalizarServico; override;
+
   public
-    constructor Create(AOwner: TComponent); virtual;
+    constructor Create(AOwner: TACBrDFe); override;
 
-    function Executar: Boolean; virtual;
-
-    property Servico: AnsiString      read FServico;
-    property SoapAction: AnsiString   read FSoapAction;
-    property Status: TStatusACBrCTe   read FStatus;
-    property Layout: TLayOutCTe       read FLayout;
-    property URL: WideString          read FURL;
-    property CabMsg: WideString       read FCabMsg;
-    property DadosMsg: AnsiString     read FDadosMsg;
-    property EnvelopeSoap: AnsiString read FEnvelopeSoap;
-    property RetornoWS: AnsiString    read FRetornoWS;
-    property RetWS: AnsiString        read FRetWS;
-    property Msg: AnsiString          read FMsg;
-    property ArqEnv: AnsiString       read FArqEnv;
-    property ArqResp: AnsiString      read FArqResp;
-    property RetCTeDFe: AnsiString    read FRetCTeDFe;
+    property Status: TStatusACBrCTe read FPStatus;
+    property Layout: TLayOut read FPLayout;
   end;
 
   { TCTeStatusServico }
 
-  TCTeStatusServico = Class(TWebServicesBase)
+  TCTeStatusServico = Class(TCTeWebService)
   private
     Fversao: String;
     FtpAmb: TpcnTipoAmbiente;
@@ -160,10 +100,10 @@ type
     procedure DefinirDadosMsg; override;
     function TratarResposta: Boolean; override;
 
-    function GerarMsgLog: AnsiString; override;
-    function GerarMsgErro(E: Exception): AnsiString; override;
+    function GerarMsgLog: String; override;
+    function GerarMsgErro(E: Exception): String; override;
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TACBrDFe); override;
 
     property versao: String          read Fversao;
     property tpAmb: TpcnTipoAmbiente read FtpAmb;
@@ -179,7 +119,7 @@ type
 
   { TCTeRecepcao }
 
-  TCTeRecepcao = Class(TWebServicesBase)
+  TCTeRecepcao = class(TCTeWebService)
   private
     FLote: String;
     FRecibo: String;
@@ -187,11 +127,11 @@ type
     Fversao: String;
     FTpAmb: TpcnTipoAmbiente;
     FverAplic: String;
-    FcStat: Integer;
-    FcUF: Integer;
+    FcStat: integer;
+    FcUF: integer;
     FxMotivo: String;
     FdhRecbto: TDateTime;
-    FTMed: Integer;
+    FTMed: integer;
 
     FCTeRetorno: TretEnvCTe;
 
@@ -204,41 +144,43 @@ type
     function TratarResposta: Boolean; override;
     procedure FinalizarServico; override;
 
-    function GerarMsgLog: AnsiString; override;
-    function GerarPrefixoArquivo: AnsiString; override;
+    function GerarMsgLog: String; override;
+    function GerarPrefixoArquivo: String; override;
   public
-    constructor Create(AOwner: TComponent; AConhecimentos: TConhecimentos); reintroduce; overload;
+    constructor Create(AOwner: TACBrDFe; AConhecimentos: TConhecimentos);
+      reintroduce; overload;
     destructor Destroy; override;
 
-    property Recibo: String          read GetRecibo;
-    property versao: String          read Fversao;
+    property Recibo: String read GetRecibo;
+    property versao: String read Fversao;
     property TpAmb: TpcnTipoAmbiente read FTpAmb;
-    property verAplic: String        read FverAplic;
-    property cStat: Integer          read FcStat;
-    property cUF: Integer            read FcUF;
-    property xMotivo: String         read FxMotivo;
-    property dhRecbto: TDateTime     read FdhRecbto;
-    property TMed: Integer           read FTMed;
-    property Lote: String            read GetLote write FLote;
+    property verAplic: String read FverAplic;
+    property cStat: integer read FcStat;
+    property cUF: integer read FcUF;
+    property xMotivo: String read FxMotivo;
+    property dhRecbto: TDateTime read FdhRecbto;
+    property TMed: integer read FTMed;
+    property Lote: String read GetLote write FLote;
   end;
 
   { TCTeRetRecepcao }
 
-  TCTeRetRecepcao = Class(TWebServicesBase)
+  TCTeRetRecepcao = class(TCTeWebService)
   private
     FRecibo: String;
     FProtocolo: String;
     FChaveCTe: String;
     FConhecimentos: TConhecimentos;
-    FCTeRetorno: TRetConsReciCTe;
     Fversao: String;
     FTpAmb: TpcnTipoAmbiente;
     FverAplic: String;
-    FcStat: Integer;
-    FcUF: Integer;
+    FcStat: integer;
+    FcUF: integer;
     FxMotivo: String;
-    FcMsg: Integer;
+    FcMsg: integer;
     FxMsg: String;
+
+    FCTeRetorno: TRetConsReciCTe;
 
     function GetRecibo: String;
     function TratarRespostaFinal: Boolean;
@@ -249,79 +191,83 @@ type
     function TratarResposta: Boolean; override;
     procedure FinalizarServico; override;
 
-    function GerarMsgLog: AnsiString; override;
-    function GerarPrefixoArquivo: AnsiString; override;
+    function GerarMsgLog: String; override;
+    function GerarPrefixoArquivo: String; override;
   public
-    constructor Create(AOwner: TComponent; AConhecimentos: TConhecimentos); reintroduce; overload;
+    constructor Create(AOwner: TACBrDFe; AConhecimentos: TConhecimentos);
+      reintroduce; overload;
     destructor Destroy; override;
 
     function Executar: Boolean; override;
 
-    property versao: String              read Fversao;
-    property TpAmb: TpcnTipoAmbiente     read FTpAmb;
-    property verAplic: String            read FverAplic;
-    property cStat: Integer              read FcStat;
-    property cUF: Integer                read FcUF;
-    property xMotivo: String             read FxMotivo;
-    property cMsg: Integer               read FcMsg;
-    property xMsg: String                read FxMsg;
-    property Recibo: String              read GetRecibo  write FRecibo;
-    property Protocolo: String           read FProtocolo write FProtocolo;
-    property ChaveCTe: String            read FChaveCTe  write FChaveCTe;
+    property versao: String read Fversao;
+    property TpAmb: TpcnTipoAmbiente read FTpAmb;
+    property verAplic: String read FverAplic;
+    property cStat: integer read FcStat;
+    property cUF: integer read FcUF;
+    property xMotivo: String read FxMotivo;
+    property cMsg: integer read FcMsg;
+    property xMsg: String read FxMsg;
+    property Recibo: String read GetRecibo write FRecibo;
+    property Protocolo: String read FProtocolo write FProtocolo;
+    property ChaveCTe: String read FChaveCTe write FChaveCTe;
+
     property CTeRetorno: TRetConsReciCTe read FCTeRetorno;
   end;
 
   { TCTeRecibo }
 
-  TCTeRecibo = Class(TWebServicesBase)
+  TCTeRecibo = class(TCTeWebService)
   private
     FRecibo: String;
-    FCTeRetorno: TRetConsReciCTe;
     Fversao: String;
     FTpAmb: TpcnTipoAmbiente;
     FverAplic: String;
-    FcStat: Integer;
+    FcStat: integer;
     FxMotivo: String;
-    FcUF: Integer;
+    FcUF: integer;
     FxMsg: String;
-    FcMsg: Integer;
+    FcMsg: integer;
+
+    FCTeRetorno: TRetConsReciCTe;
   protected
     procedure DefinirServicoEAction; override;
     procedure DefinirURL; override;
     procedure DefinirDadosMsg; override;
     function TratarResposta: Boolean; override;
 
-    function GerarMsgLog: AnsiString; override;
+    function GerarMsgLog: String; override;
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TACBrDFe); override;
     destructor Destroy; override;
 
-    property versao: String              read Fversao;
-    property TpAmb: TpcnTipoAmbiente     read FTpAmb;
-    property verAplic: String            read FverAplic;
-    property cStat: Integer              read FcStat;
-    property xMotivo: String             read FxMotivo;
-    property cUF: Integer                read FcUF;
-    property xMsg: String                read FxMsg;
-    property cMsg: Integer               read FcMsg;
-    property Recibo: String              read FRecibo write FRecibo;
+    property versao: String read Fversao;
+    property TpAmb: TpcnTipoAmbiente read FTpAmb;
+    property verAplic: String read FverAplic;
+    property cStat: integer read FcStat;
+    property xMotivo: String read FxMotivo;
+    property cUF: integer read FcUF;
+    property xMsg: String read FxMsg;
+    property cMsg: integer read FcMsg;
+    property Recibo: String read FRecibo write FRecibo;
+
     property CTeRetorno: TRetConsReciCTe read FCTeRetorno;
   end;
 
   { TCTeConsulta }
 
-  TCTeConsulta = Class(TWebServicesBase)
+  TCTeConsulta = class(TCTeWebService)
   private
-    FCTeChave: WideString;
-    FProtocolo: WideString;
+    FCTeChave: String;
+    FProtocolo: String;
     FDhRecbto: TDateTime;
-    FXMotivo: WideString;
+    FXMotivo: String;
     Fversao: String;
     FTpAmb: TpcnTipoAmbiente;
     FverAplic: String;
-    FcStat: Integer;
-    FcUF: Integer;
-//    FdigVal: String;
+    FcStat: integer;
+    FcUF: integer;
+
     FprotCTe: TProcCTe;
     FretCancCTe: TRetCancCTe;
     FprocEventoCTe: TRetEventoCTeCollection;
@@ -330,50 +276,51 @@ type
     procedure DefinirDadosMsg; override;
     function TratarResposta: Boolean; override;
 
-    function GerarMsgLog: AnsiString; override;
-    function GerarPrefixoArquivo: AnsiString; override;
+    function GerarMsgLog: String; override;
+    function GerarPrefixoArquivo: String; override;
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TACBrDFe); override;
     destructor Destroy; override;
 
-    property CTeChave: WideString                   read FCTeChave  write FCTeChave;
-    property Protocolo: WideString                  read FProtocolo write FProtocolo;
-    property DhRecbto: TDateTime                    read FDhRecbto  write FDhRecbto;
-    property XMotivo: WideString                    read FXMotivo   write FXMotivo;
-    property versao: String                         read Fversao;
-    property TpAmb: TpcnTipoAmbiente                read FTpAmb;
-    property verAplic: String                       read FverAplic;
-    property cStat: Integer                         read FcStat;
-    property cUF: Integer                           read FcUF;
-//    property digVal: String                         read FdigVal;
-    property protCTe: TProcCTe                      read FprotCTe;
-    property retCancCTe: TRetCancCTe                read FretCancCTe;
+    property CTeChave: String read FCTeChave write FCTeChave;
+    property Protocolo: String read FProtocolo write FProtocolo;
+    property DhRecbto: TDateTime read FDhRecbto write FDhRecbto;
+    property XMotivo: String read FXMotivo write FXMotivo;
+    property versao: String read Fversao;
+    property TpAmb: TpcnTipoAmbiente read FTpAmb;
+    property verAplic: String read FverAplic;
+    property cStat: integer read FcStat;
+    property cUF: integer read FcUF;
+
+    property protCTe: TProcCTe read FprotCTe;
+    property retCancCTe: TRetCancCTe read FretCancCTe;
     property procEventoCTe: TRetEventoCTeCollection read FprocEventoCTe;
   end;
 
   { TCTeInutilizacao }
 
-  TCTeInutilizacao = Class(TWebServicesBase)
+  TCTeInutilizacao = class(TCTeWebService)
   private
-    FID: WideString;
-    FProtocolo: string;
-    FModelo: Integer;
-    FSerie: Integer;
+    FID: String;
+    FProtocolo: String;
+    FModelo: integer;
+    FSerie: integer;
     FCNPJ: String;
-    FAno: Integer;
-    FNumeroInicial: Integer;
-    FNumeroFinal: Integer;
-    FJustificativa: WideString;
+    FAno: integer;
+    FNumeroInicial: integer;
+    FNumeroFinal: integer;
+    FJustificativa: String;
     Fversao: String;
     FTpAmb: TpcnTipoAmbiente;
     FverAplic: String;
-    FcStat: Integer;
+    FcStat: integer;
     FxMotivo: String;
-    FcUF: Integer;
+    FcUF: integer;
     FdhRecbto: TDateTime;
-    FXML_ProcInutCTe: AnsiString;
 
-    procedure SetJustificativa(AValue: WideString);
+    FXML_ProcInutCTe: String;
+
+    procedure SetJustificativa(AValue: String);
     function GerarPathPorCNPJ: String;
   protected
     procedure DefinirServicoEAction; override;
@@ -382,84 +329,88 @@ type
     function TratarResposta: Boolean; override;
     procedure SalvarResposta; override;
 
-    function GerarMsgLog: AnsiString; override;
-    function GerarPrefixoArquivo: AnsiString; override;
+    function GerarMsgLog: String; override;
+    function GerarPrefixoArquivo: String; override;
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TACBrDFe); override;
 
-    property ID: WideString              read FID            write FID;
-    property Protocolo: String           read FProtocolo     write FProtocolo;
-    property Modelo: Integer             read FModelo        write FModelo;
-    property Serie: Integer              read FSerie         write FSerie;
-    property CNPJ: String                read FCNPJ          write FCNPJ;
-    property Ano: Integer                read FAno           write FAno;
-    property NumeroInicial: Integer      read FNumeroInicial write FNumeroInicial;
-    property NumeroFinal: Integer        read FNumeroFinal   write FNumeroFinal;
-    property Justificativa: WideString   read FJustificativa write SetJustificativa;
-    property versao: String              read Fversao;
-    property TpAmb: TpcnTipoAmbiente     read FTpAmb;
-    property verAplic: String            read FverAplic;
-    property cStat: Integer              read FcStat;
-    property xMotivo: String             read FxMotivo;
-    property cUF: Integer                read FcUF;
-    property dhRecbto: TDateTime         read FdhRecbto;
-    property XML_ProcInutCTe: AnsiString read FXML_ProcInutCTe write FXML_ProcInutCTe;
+    property ID: String read FID write FID;
+    property Protocolo: String read FProtocolo write FProtocolo;
+    property Modelo: integer read FModelo write FModelo;
+    property Serie: integer read FSerie write FSerie;
+    property CNPJ: String read FCNPJ write FCNPJ;
+    property Ano: integer read FAno write FAno;
+    property NumeroInicial: integer read FNumeroInicial write FNumeroInicial;
+    property NumeroFinal: integer read FNumeroFinal write FNumeroFinal;
+    property Justificativa: String read FJustificativa write SetJustificativa;
+    property versao: String read Fversao;
+    property TpAmb: TpcnTipoAmbiente read FTpAmb;
+    property verAplic: String read FverAplic;
+    property cStat: integer read FcStat;
+    property xMotivo: String read FxMotivo;
+    property cUF: integer read FcUF;
+    property dhRecbto: TDateTime read FdhRecbto;
+
+    property XML_ProcInutCTe: String read FXML_ProcInutCTe write FXML_ProcInutCTe;
   end;
 
   { TCTeConsultaCadastro }
 
-  TCTeConsultaCadastro = Class(TWebServicesBase)
+  TCTeConsultaCadastro = class(TCTeWebService)
   private
     Fversao: String;
     FverAplic: String;
-    FcStat: Integer;
+    FcStat: integer;
     FxMotivo: String;
     FUF: String;
     FIE: String;
     FCNPJ: String;
     FCPF: String;
-    FcUF: Integer;
+    FcUF: integer;
     FdhCons: TDateTime;
+
     FRetConsCad: TRetConsCad;
 
     procedure SetCNPJ(const Value: String);
     procedure SetCPF(const Value: String);
     procedure SetIE(const Value: String);
   protected
-    procedure DefinirURL; override;
+//    procedure DefinirURL; override;
     procedure DefinirServicoEAction; override;
     procedure DefinirDadosMsg; override;
     function TratarResposta: Boolean; override;
 
-    function GerarMsgLog: AnsiString; override;
-    function GerarUFSoap:AnsiString; override;
+    function GerarMsgLog: String; override;
+    function GerarUFSoap: String; override;
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TACBrDFe); override;
     destructor Destroy; override;
 
-    property UF: String              read FUF   write FUF;
-    property IE: String              read FIE   write SetIE;
-    property CNPJ: String            read FCNPJ write SetCNPJ;
-    property CPF: String             read FCPF  write SetCPF;
-    property versao: String          read Fversao;
-    property verAplic: String        read FverAplic;
-    property cStat: Integer          read FcStat;
-    property xMotivo: String         read FxMotivo;
-    property DhCons: TDateTime       read FdhCons;
-    property cUF: Integer            read FcUF;
+    property versao: String read Fversao;
+    property verAplic: String read FverAplic;
+    property cStat: integer read FcStat;
+    property xMotivo: String read FxMotivo;
+    property DhCons: TDateTime read FdhCons;
+    property cUF: integer read FcUF;
+    property UF: String read FUF write FUF;
+    property IE: String read FIE write SetIE;
+    property CNPJ: String read FCNPJ write SetCNPJ;
+    property CPF: String read FCPF write SetCPF;
+
     property RetConsCad: TRetConsCad read FRetConsCad;
   end;
 
   { TCTeEnvEvento }
 
-  TCTeEnvEvento = Class(TWebServicesBase)
+  TCTeEnvEvento = class(TCTeWebService)
   private
-    FidLote: Integer;
+    FidLote: integer;
     Fversao: String;
     FEvento: TEventoCTe;
-    FcStat: Integer;
+    FcStat: integer;
     FxMotivo: String;
     FTpAmb: TpcnTipoAmbiente;
+
     FEventoRetorno: TRetEventoCTe;
 
     function GerarPathEvento: String;
@@ -467,31 +418,31 @@ type
     procedure DefinirURL; override;
     procedure DefinirServicoEAction; override;
     procedure DefinirDadosMsg; override;
-    procedure DefinirEnvelopeSoap; override;
     procedure SalvarEnvio; override;
     function TratarResposta: Boolean; override;
     procedure SalvarResposta; override;
 
-    function GerarMsgLog: AnsiString; override;
-    function GerarPrefixoArquivo: AnsiString; override;
+    function GerarMsgLog: String; override;
+    function GerarPrefixoArquivo: String; override;
   public
-    constructor Create(AOwner: TComponent; AEvento: TEventoCTe); reintroduce; overload;
+    constructor Create(AOwner: TACBrDFe; AEvento: TEventoCTe); reintroduce; overload;
     destructor Destroy; override;
 
-    property idLote: Integer              read FidLote write FidLote;
-    property versao: String               read Fversao write Fversao;
-    property cStat: Integer               read FcStat;
-    property xMotivo: String              read FxMotivo;
-    property TpAmb: TpcnTipoAmbiente      read FTpAmb;
+    property idLote: integer read FidLote write FidLote;
+    property versao: String read Fversao write Fversao;
+    property cStat: integer read FcStat;
+    property xMotivo: String read FxMotivo;
+    property TpAmb: TpcnTipoAmbiente read FTpAmb;
+
     property EventoRetorno: TRetEventoCTe read FEventoRetorno;
   end;
 
   { TCTeEnvioWebService }
 
-  TCTeEnvioWebService = Class(TWebServicesBase)
+  TCTeEnvioWebService = class(TCTeWebService)
   private
     FXMLEnvio: String;
-    FURLEnvio: String;
+    FPURLEnvio: String;
     FVersao: String;
     FSoapActionEnvio: String;
   protected
@@ -500,24 +451,23 @@ type
     procedure DefinirDadosMsg; override;
     function TratarResposta: Boolean; override;
 
-    function GerarMsgLog: AnsiString; override;
-    function GerarMsgErro(E: Exception): AnsiString; override;
-    function GerarVersaoDadosSoap: AnsiString; override;
+    function GerarMsgErro(E: Exception): String; override;
+    function GerarVersaoDadosSoap: String; override;
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TACBrDFe); override;
     destructor Destroy; override;
     function Executar: Boolean; override;
 
     property XMLEnvio: String read FXMLEnvio write FXMLEnvio;
-    property URLEnvio: String read FURLEnvio write FURLEnvio;
+    property URLEnvio: String read FPURLEnvio write FPURLEnvio;
     property SoapActionEnvio: String read FSoapActionEnvio write FSoapActionEnvio;
   end;
 
-  { TWebService }
+  { TWebServices }
 
-  TWebServices = Class(TWebServicesBase)
+  TWebServices = class
   private
-    FACBrCTe: TComponent;
+    FACBrCTe: TACBrDFe;
     FStatusServico: TCTeStatusServico;
     FEnviar: TCTeRecepcao;
     FRetorno: TCTeRetRecepcao;
@@ -528,499 +478,129 @@ type
     FEnvEvento: TCTeEnvEvento;
     FEnvioWebService: TCTeEnvioWebService;
   public
-    constructor Create(AFCTe: TComponent); reintroduce;
+    constructor Create(AOwner: TACBrDFe); overload;
     destructor Destroy; override;
-    function Envia(ALote: Integer): Boolean; overload;
+
+    function Envia(ALote: integer): Boolean; overload;
     function Envia(ALote: String): Boolean; overload;
-    procedure Inutiliza(CNPJ, AJustificativa: String; Ano, Modelo, Serie, NumeroInicial, NumeroFinal: Integer);
-//  published
-    property ACBrCTe: TComponent                    read FACBrCTe          write FACBrCTe;
-    property StatusServico: TCTeStatusServico       read FStatusServico    write FStatusServico;
-    property Enviar: TCTeRecepcao                   read FEnviar           write FEnviar;
-    property Retorno: TCTeRetRecepcao               read FRetorno          write FRetorno;
-    property Recibo: TCTeRecibo                     read FRecibo           write FRecibo;
-    property Consulta: TCTeConsulta                 read FConsulta         write FConsulta;
-    property Inutilizacao: TCTeInutilizacao         read FInutilizacao     write FInutilizacao;
+    procedure Inutiliza(CNPJ, AJustificativa: String;
+      Ano, Modelo, Serie, NumeroInicial, NumeroFinal: integer);
+
+    property ACBrCTe: TACBrDFe read FACBrCTe write FACBrCTe;
+    property StatusServico: TCTeStatusServico read FStatusServico write FStatusServico;
+    property Enviar: TCTeRecepcao read FEnviar write FEnviar;
+    property Retorno: TCTeRetRecepcao read FRetorno write FRetorno;
+    property Recibo: TCTeRecibo read FRecibo write FRecibo;
+    property Consulta: TCTeConsulta read FConsulta write FConsulta;
+    property Inutilizacao: TCTeInutilizacao read FInutilizacao write FInutilizacao;
     property ConsultaCadastro: TCTeConsultaCadastro read FConsultaCadastro write FConsultaCadastro;
-    property EnvEvento: TCTeEnvEvento               read FEnvEvento        write FEnvEvento;
-    property EnvioWebService: TCTeEnvioWebService   read FEnvioWebService  write FEnvioWebService;
+    property EnvEvento: TCTeEnvEvento read FEnvEvento write FEnvEvento;
+    property EnvioWebService: TCTeEnvioWebService read FEnvioWebService write FEnvioWebService;
   end;
 
 implementation
 
 uses
-{$IFDEF ACBrCTeOpenSSL}
-  ssl_openssl,
-{$ENDIF}
-  ACBrUtil, ACBrCTeUtil, ACBrCTe, ACBrDFeUtil,
-  pcnGerador, pcteCabecalho, pcnLeitor,
-  pcteConsStatServ, pcteRetConsStatServ, pcteConsCad, pcteConsSitCTe,
-  pcteCancCTe, pcteInutCTe, pcteRetInutCTe;
+  ACBrUtil, ACBrCTe,
+  pcnGerador, pcteConsStatServ, pcteRetConsStatServ,
+  pcteConsSitCTe, pcteInutCTe, pcteRetInutCTe, pcteConsReciCTe,
+  pcteConsCad, pcnLeitor;
 
-{ TWebServicesBase }
+{ TCTeWebService }
 
-constructor TWebServicesBase.Create(AOwner: TComponent);
+constructor TCTeWebService.Create(AOwner: TACBrDFe);
 begin
-  FConfiguracoes := TACBrCTe( AOwner ).Configuracoes;
-  FACBrCTe       := TACBrCTe( AOwner );
-  FLayout        := LayCTeStatusServico;
-  FStatus        := stCTeIdle;
-  FCabMsg        := '';
-  FDadosMsg      := '';
-  FRetornoWS     := '';
-  FRetWS         := '';
-  FMsg           := '';
-  FURL           := '';
-  FArqEnv        := '';
-  FArqResp       := '';
-  FServico       := '';
-  FSoapAction    := '';
+  inherited Create(AOwner);
+
+  FPConfiguracoesCTe := TConfiguracoesCTe(FPConfiguracoes);
+  FPLayout := LayCTeStatusServico;
+  FPStatus := stIdle;
 end;
 
-procedure TWebServicesBase.AssinarXML(AXML: String; MsgErro: String);
+function TCTeWebService.ExtrairModeloChaveAcesso(AChaveCTe: String): String;
 begin
-  {$IFDEF ACBrCTeOpenSSL}
-   if not(CTeUtil.Assinar( AXML, FConfiguracoes.Certificados.Certificado,
-                            FConfiguracoes.Certificados.Senha,
-                            FDadosMsg, FMsg )) then
-  {$ELSE}
-   if not(CTeUtil.Assinar( AXML, FConfiguracoes.Certificados.GetCertificado,
-                           FDadosMsg, FMsg )) then
-  {$ENDIF}
-   GerarException(MsgErro);
+  AChaveCTe := OnlyNumber(AChaveCTe);
+  if ValidarChave('CTe' + AChaveCTe) then
+    Result := copy(AChaveCTe, 21, 2)
+  else
+    Result := '';
 end;
 
-{$IFDEF ACBrCTeOpenSSL}
- procedure TWebServicesBase.ConfiguraHTTP(HTTP: THTTPSend; Action: AnsiString);
- begin
-   if FileExists(FConfiguracoes.Certificados.Certificado) then
-     HTTP.Sock.SSL.PFXfile := FConfiguracoes.Certificados.Certificado
-   else
-     HTTP.Sock.SSL.PFX     := FConfiguracoes.Certificados.Certificado;
-
-   HTTP.Sock.SSL.KeyPassword := FConfiguracoes.Certificados.Senha;
-
-   HTTP.ProxyHost := FConfiguracoes.WebServices.ProxyHost;
-   HTTP.ProxyPort := FConfiguracoes.WebServices.ProxyPort;
-   HTTP.ProxyUser := FConfiguracoes.WebServices.ProxyUser;
-   HTTP.ProxyPass := FConfiguracoes.WebServices.ProxyPass;
-
-   if (pos('SCERECEPCAORFB',UpperCase(FURL)) <= 0) and
-      (pos('SCECONSULTARFB',UpperCase(FURL)) <= 0) then
-      HTTP.MimeType := 'application/soap+xml; charset=utf-8'
-   else
-      HTTP.MimeType := 'text/xml; charset=utf-8';
-
-   HTTP.UserAgent := '';
-   HTTP.Protocol := '1.1';
-   HTTP.AddPortNumberToHost := False;
-   HTTP.Headers.Add(Action);
- end;
-{$ELSE}
- {$IFDEF SoapHTTP}
-  procedure TWebServicesBase.ConfiguraReqResp( ReqResp: THTTPReqResp );
-  begin
-    if FConfiguracoes.WebServices.ProxyHost <> '' then
-     begin
-       ReqResp.Proxy    := FConfiguracoes.WebServices.ProxyHost + ':' +
-                           FConfiguracoes.WebServices.ProxyPort;
-       ReqResp.UserName := FConfiguracoes.WebServices.ProxyUser;
-       ReqResp.Password := FConfiguracoes.WebServices.ProxyPass;
-     end;
-    ReqResp.OnBeforePost := OnBeforePost;
-  end;
-
-  procedure TWebServicesBase.OnBeforePost(const HTTPReqResp: THTTPReqResp;
-    Data: Pointer);
-  var
-    Cert: ICertificate2;
-    CertContext: ICertContext;
-    PCertContext: Pointer;
-    ContentHeader: string;
-  begin
-    Cert := FConfiguracoes.Certificados.GetCertificado;
-    CertContext := Cert as ICertContext;
-    CertContext.Get_CertContext(Integer(PCertContext));
-
-    if not InternetSetOption(Data,
-                             INTERNET_OPTION_CLIENT_CERT_CONTEXT,
-                             PCertContext,
-                             SizeOf(CERT_CONTEXT)) then
-      GerarException('OnBeforePost: ' + IntToStr(GetLastError));
-
-    if trim(FConfiguracoes.WebServices.ProxyUser) <> '' then
-      if not InternetSetOption(Data,
-                               INTERNET_OPTION_PROXY_USERNAME,
-                               PChar(FConfiguracoes.WebServices.ProxyUser),
-                               Length(FConfiguracoes.WebServices.ProxyUser)) then
-        GerarException('OnBeforePost: ' + IntToStr(GetLastError));
-
-    if trim(FConfiguracoes.WebServices.ProxyPass) <> '' then
-      if not InternetSetOption(Data,
-                               INTERNET_OPTION_PROXY_PASSWORD,
-                               PChar(FConfiguracoes.WebServices.ProxyPass),
-                               Length(FConfiguracoes.WebServices.ProxyPass)) then
-        GerarException('OnBeforePost: ' + IntToStr(GetLastError));
-
-    if (pos('SCERECEPCAORFB',UpperCase(FURL)) <= 0) and
-       (pos('SCECONSULTARFB',UpperCase(FURL)) <= 0) then
-    begin
-       ContentHeader := Format(ContentTypeTemplate, ['application/soap+xml; charset=utf-8']);
-       HttpAddRequestHeaders(Data,
-                             PChar(ContentHeader),
-                             Length(ContentHeader),
-                             HTTP_ADDREQ_FLAG_REPLACE);
-    end;
-
-    HTTPReqResp.CheckContentType;
-  end;
- {$ELSE}
-  procedure TWebServicesBase.ConfiguraReqResp( ReqResp: TACBrHTTPReqResp );
-  begin
-    if FConfiguracoes.WebServices.ProxyHost <> '' then
-    begin
-      ReqResp.ProxyHost := FConfiguracoes.WebServices.ProxyHost;
-      ReqResp.ProxyPort := FConfiguracoes.WebServices.ProxyPort;
-      ReqResp.ProxyUser := FConfiguracoes.WebServices.ProxyUser;
-      ReqResp.ProxyPass := FConfiguracoes.WebServices.ProxyPass;
-    end;
-
-    ReqResp.SetCertificate(FConfiguracoes.Certificados.GetCertificado);
-
-    if (pos('SCERECEPCAORFB',UpperCase(FURL)) <= 0) and
-       (pos('SCECONSULTARFB',UpperCase(FURL)) <= 0) then
-      ReqResp.MimeType := 'application/soap+xml'
-    else
-      ReqResp.MimeType := 'text/xml';
-  end;
- {$ENDIF}
-{$ENDIF}
-
-function TWebServicesBase.Executar: Boolean;
-var
-  ErroMsg: String;
-begin
-  { Sobrescrever apenas se realmente necessário }
-
-  Result := False;
-
-  InicializarServico;
-  try
-    DefinirDadosMsg;
-    DefinirEnvelopeSoap;
-    SalvarEnvio;
-
-    try
-      EnviarDados;
-      Result := TratarResposta;
-      FazerLog( GerarMsgLog, True );
-      SalvarResposta;
-    except
-      on E: Exception do
-      begin
-        Result := False;
-        ErroMsg := GerarMsgErro( E );
-        GerarException( ErroMsg );
-      end;
-    end;
-  finally
-     FinalizarServico;
-  end;
-end;
-
-procedure TWebServicesBase.InicializarServico;
+procedure TCTeWebService.InicializarServico;
 begin
   { Sobrescrever apenas se necessário }
+  inherited InicializarServico;
 
-  DefinirURL;
-  if URL = '' then
-    GerarException('URL não definida para: ' + ClassName);
-
-  DefinirServicoEAction;
-  if Servico = '' then
-    GerarException('Servico não definido para: ' + ClassName);
-
-  if SoapAction = '' then
-    GerarException('SoapAction não definido para: ' + ClassName);
-
-  TACBrCTe( FACBrCTe ).SetStatus( FStatus );
+  TACBrCTe(FPDFeOwner).SetStatus(FPStatus);
 end;
 
-procedure TWebServicesBase.DefinirServicoEAction;
-begin
-  { sobrescrever, obrigatoriamente }
-
-  FServico := '';
-  FSoapAction := '';
-end;
-
-procedure TWebServicesBase.DefinirURL;
+procedure TCTeWebService.DefinirURL;
+var
+  Versao: Double;
 begin
   { sobrescrever apenas se necessário.
     Você também pode mudar apenas o valor de "FLayoutServico" na classe
     filha e chamar: Inherited;     }
 
-  FURL := CTeUtil.GetURL( FConfiguracoes.WebServices.UFCodigo,
-                          FConfiguracoes.WebServices.AmbienteCodigo,
-                          FConfiguracoes.Geral.FormaEmissaoCodigo,
-                          Layout );
+  Versao := 0;
+  FPVersaoServico := '';
+  FPURL := '';
+
+  TACBrCTe(FPDFeOwner).LerServicoDeParams(FPLayout, Versao, FPURL);
+
+  FPVersaoServico := FloatToString(Versao, '.', '0.00');
 end;
 
-procedure TWebServicesBase.DefinirDadosMsg;
-begin
-  { sobrescrever, obrigatoriamente }
 
-  FDadosMsg := '';
-end;
-
-procedure TWebServicesBase.DefinirEnvelopeSoap;
-var
-  Texto: AnsiString;
+function TCTeWebService.GerarVersaoDadosSoap: String;
 begin
   { Sobrescrever apenas se necessário }
 
-  Texto := '<?xml version="1.0" encoding="utf-8"?>';
-  Texto := Texto + '<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' +
-                                   ' xmlns:xsd="http://www.w3.org/2001/XMLSchema"' +
-                                   ' xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">';
-  Texto := Texto +   '<soap12:Header>';
-  Texto := Texto +     '<cteCabecMsg xmlns="' + Servico + '">';
-  Texto := Texto +       GerarUFSoap;
-  Texto := Texto +       GerarVersaoDadosSoap;
-  Texto := Texto +     '</cteCabecMsg>';
-  Texto := Texto +   '</soap12:Header>';
-  Texto := Texto +   '<soap12:Body>';
-  Texto := Texto +     '<cteDadosMsg xmlns="' + Servico + '">';
-  Texto := Texto +       DadosMsg;
-  Texto := Texto +     '</cteDadosMsg>';
-  Texto := Texto +   '</soap12:Body>';
-  Texto := Texto + '</soap12:Envelope>';
+  if EstaVazio(FPVersaoServico) then
+    FPVersaoServico := TACBrCTe(FPDFeOwner).LerVersaoDeParams(FPLayout);
 
-  FEnvelopeSoap := Texto;
+  Result := '<versaoDados>' + FPVersaoServico + '</versaoDados>';
 end;
 
-function TWebServicesBase.GerarUFSoap: AnsiString;
-begin
-  Result := '<cUF>' +
-              IntToStr(FConfiguracoes.WebServices.UFCodigo) +
-            '</cUF>';
-end;
-
-function TWebServicesBase.GerarVersaoDadosSoap: AnsiString;
+procedure TCTeWebService.FinalizarServico;
 begin
   { Sobrescrever apenas se necessário }
 
-  Result := '<versaoDados>' +
-              GetVersaoCTe(FConfiguracoes.Geral.VersaoDF, Layout) +
-            '</versaoDados>';
-end;
-
-procedure TWebServicesBase.EnviarDados;
-var
-  {$IFDEF ACBrCTeOpenSSL}
-   HTTP: THTTPSend;
-   OK: Boolean;
-  {$ELSE}
-   Stream: TMemoryStream;
-   StrStream: TStringStream;
-   {$IFDEF SoapHTTP}
-    ReqResp: THTTPReqResp;
-   {$ELSE}
-    ReqResp: TACBrHTTPReqResp;
-   {$ENDIF}
-  {$ENDIF}
-begin
-  { Sobrescrever apenas se necessário }
-  
-  FRetWS     := '';
-  FRetornoWS := '';
-
-  {$IFDEF ACBrCTeOpenSSL}
-   HTTP := THTTPSend.Create;
-  {$ELSE}
-   {$IFDEF SoapHTTP}
-    ReqResp := THTTPReqResp.Create(nil);
-    ReqResp.UseUTF8InHeader := True;
-   {$ELSE}
-    ReqResp := TACBrHTTPReqResp.Create;
-   {$ENDIF}
-   ConfiguraReqResp( ReqResp );
-   ReqResp.URL := URL;
-   ReqResp.SoapAction := SoapAction;
-  {$ENDIF}
-  FEnvelopeSoap := UTF8Encode(FEnvelopeSoap);
-
-  try
-    {$IFDEF ACBrCTeOpenSSL}
-     ConfiguraHTTP(HTTP, 'SOAPAction: "' + SoapAction + '"');
-     HTTP.Document.WriteBuffer(FEnvelopeSoap[1], Length(FEnvelopeSoap));
-     OK := HTTP.HTTPMethod('POST', URL);
-     OK := OK and (HTTP.ResultCode = 200);
-     if not OK then
-       GerarException( 'Cod.Erro HTTP: ' +
-                       IntToStr(HTTP.ResultCode) + ' ' +
-                       HTTP.ResultString );
-
-     // Lendo a resposta //
-     HTTP.Document.Position := 0;
-     SetLength(FRetornoWS, HTTP.Document.Size);
-     HTTP.Document.ReadBuffer(FRetornoWS[1], HTTP.Document.Size);
-    {$ELSE}
-      {$IFDEF SoapHTTP}
-        Stream := TMemoryStream.Create;
-        StrStream := TStringStream.Create('');
-        try
-          ReqResp.Execute(FEnvelopeSoap, Stream);  // Dispara exceptions no caso de erro
-          StrStream.CopyFrom(Stream, 0);
-          FRetornoWS := StrStream.DataString;
-        finally
-          StrStream.Free;
-          Stream.Free;
-        end;
-      {$ELSE}
-        ReqResp.Data := FEnvelopeSoap;
-        FRetornoWS := ReqResp.Execute;
-      {$ENDIF}
-    {$ENDIF}
-    FRetornoWS := ParseText(FRetornoWS, True, True ); // Resposta sempre é UTF8
-  finally
-    {$IFDEF ACBrCTeOpenSSL}
-     HTTP.Free;
-    {$ELSE}
-     ReqResp.Free;
-    {$ENDIF}
-  end;
-end;
-
-function TWebServicesBase.GerarPrefixoArquivo: AnsiString;
-begin
-  Result := FormatDateTime('yyyymmddhhnnss', Now);
-end;
-
-procedure TWebServicesBase.SalvarEnvio;
-var
-  Prefixo, ArqEnv: String;
-begin
-  { Sobrescrever apenas se necessário }
-
-  if FArqEnv = '' then exit;
-
-  Prefixo := GerarPrefixoArquivo;
-
-  if FConfiguracoes.Geral.Salvar then
-  begin
-    ArqEnv := Prefixo + '-' + FArqEnv + '.xml';
-    FConfiguracoes.Geral.Save(ArqEnv, FDadosMsg);
-  end;
-
-  if FConfiguracoes.WebServices.Salvar then
-  begin
-    ArqEnv := Prefixo + '-' + FArqEnv + '-soap.xml';
-    FConfiguracoes.Geral.Save(ArqEnv, FEnvelopeSoap);
-  end;
-end;
-
-procedure TWebServicesBase.SalvarResposta;
-var
-  Prefixo, ArqResp: String;
-begin
-  { Sobrescrever apenas se necessário }
-
-  if FArqResp = '' then exit;
-
-  Prefixo := GerarPrefixoArquivo;
-
-  if FConfiguracoes.Geral.Salvar then
-  begin
-    ArqResp := Prefixo + '-' + FArqResp + '.xml';
-    FConfiguracoes.Geral.Save(ArqResp, FRetWS);
-  end;
-
-  if FConfiguracoes.WebServices.Salvar then
-  begin
-    ArqResp := Prefixo + '-' + FArqResp + '-soap.xml';
-    FConfiguracoes.Geral.Save(ArqResp, FRetornoWS );
-  end;
-end;
-
-function TWebServicesBase.GerarMsgLog: AnsiString;
-begin
-  { sobrescrever, se quiser Logar }
-
-  Result := '';
-end;
-
-function TWebServicesBase.TratarResposta: Boolean;
-begin
-  { sobrescrever, obrigatoriamente }
-  
-  Result := False;
-end;
-
-procedure TWebServicesBase.FazerLog(Msg: AnsiString; Exibir: Boolean);
-begin
-  if (Msg <> '') then
-  begin
-    if  Assigned(TACBrCTe( FACBrCTe ).OnGerarLog) then
-      TACBrCTe( FACBrCTe ).OnGerarLog(Msg);
-
-    if Exibir and FConfiguracoes.WebServices.Visualizar then
-      ShowMessage(Msg);
-  end;
-end;
-
-procedure TWebServicesBase.GerarException(Msg: AnsiString);
-begin
-  FazerLog( 'ERRO: ' + Msg, False );
-  raise EACBrCTeException.Create( Msg );
-end;
-
-function TWebServicesBase.GerarMsgErro(E: Exception): AnsiString;
-begin
-  { Sobrescrever com mensagem adicional, se desejar }
-
-  Result := E.Message;
-end;
-
-procedure TWebServicesBase.FinalizarServico;
-begin
-  { Sobrescrever apenas se necessário }
-
-  TACBrCTe( FACBrCTe ).SetStatus( stCTeIdle );
-  ConfAmbiente;
+  TACBrCTe(FPDFeOwner).SetStatus(stIdle);
 end;
 
 { TCTeStatusServico }
 
-constructor TCTeStatusServico.Create(AOwner: TComponent);
+constructor TCTeStatusServico.Create(AOwner: TACBrDFe);
 begin
   inherited Create(AOwner);
 
-  FStatus  := stCTeStatusServico;
-  FLayout  := LayCTeStatusServico;
-  FArqEnv  := 'ped-sta';
-  FArqResp := 'sta';
+  FPStatus := stCTeStatusServico;
+  FPLayout := LayCTeStatusServico;
+  FPArqEnv := 'ped-sta';
+  FPArqResp := 'sta';
 end;
 
 procedure TCTeStatusServico.DefinirServicoEAction;
 begin
-  FServico    := CURL_WSDL + 'CteStatusServico';
-  FSoapAction := FServico + '/cteStatusServicoCT';
+  FPServico    := GetUrlWsd + 'CteStatusServico';
+  FPSoapAction := FFServico + '/cteStatusServicoCT';
 end;
 
 procedure TCTeStatusServico.DefinirDadosMsg;
 var
   ConsStatServ: TConsStatServ;
 begin
-  ConsStatServ := TConsStatServ.create;
+  ConsStatServ := TConsStatServ.Create;
   try
-    ConsStatServ.TpAmb := TpcnTipoAmbiente(FConfiguracoes.WebServices.AmbienteCodigo - 1);
-    ConsStatServ.CUF   := FConfiguracoes.WebServices.UFCodigo;
+    ConsStatServ.TpAmb := FPConfiguracoesCTe.WebServices.Ambiente;
+    ConsStatServ.CUF := FPConfiguracoesCTe.WebServices.UFCodigo;
 
+    ConsStatServ.Versao := FPVersaoServico;
     ConsStatServ.GerarXML;
 
     // Atribuindo o XML para propriedade interna //
-    FDadosMsg := ConsStatServ.Gerador.ArquivoFormatoXML;
+    FPDadosMsg := ConsStatServ.Gerador.ArquivoFormatoXML;
   finally
     ConsStatServ.Free;
   end;
@@ -1030,27 +610,27 @@ function TCTeStatusServico.TratarResposta: Boolean;
 var
   CTeRetorno: TRetConsStatServ;
 begin
-  FRetWS := SeparaDados(FRetornoWS, 'cteStatusServicoCTResult');
+  FPRetWS := SeparaDados(FPRetornoWS, 'cteStatusServicoCTResult');
 
   CTeRetorno := TRetConsStatServ.Create;
   try
-    CTeRetorno.Leitor.Arquivo := FRetWS;
+    CTeRetorno.Leitor.Arquivo := FPRetWS;
     CTeRetorno.LerXml;
 
-    Fversao    := CTeRetorno.versao;
-    FtpAmb     := CTeRetorno.tpAmb;
-    FverAplic  := CTeRetorno.verAplic;
-    FcStat     := CTeRetorno.cStat;
-    FxMotivo   := CTeRetorno.xMotivo;
-    FcUF       := CTeRetorno.cUF;
-    FdhRecbto  := CTeRetorno.dhRecbto;
-    FTMed      := CTeRetorno.TMed;
+    Fversao := CTeRetorno.versao;
+    FtpAmb := CTeRetorno.tpAmb;
+    FverAplic := CTeRetorno.verAplic;
+    FcStat := CTeRetorno.cStat;
+    FxMotivo := CTeRetorno.xMotivo;
+    FcUF := CTeRetorno.cUF;
+    FdhRecbto := CTeRetorno.dhRecbto;
+    FTMed := CTeRetorno.TMed;
     FdhRetorno := CTeRetorno.dhRetorno;
-    FxObs      := CTeRetorno.xObs;
-    FMsg       := FxMotivo + LineBreak + FxObs;
+    FxObs := CTeRetorno.xObs;
+    FPMsg := FxMotivo + LineBreak + FxObs;
 
-    if FConfiguracoes.WebServices.AjustaAguardaConsultaRet then
-       FConfiguracoes.WebServices.AguardarConsultaRet := FTMed * 1000;
+    if FPConfiguracoesCTe.WebServices.AjustaAguardaConsultaRet then
+      FPConfiguracoesCTe.WebServices.AguardarConsultaRet := FTMed * 1000;
 
     Result := (FcStat = 107);
 
@@ -1059,45 +639,44 @@ begin
   end;
 end;
 
-function TCTeStatusServico.GerarMsgLog: AnsiString;
+function TCTeStatusServico.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : '     + Fversao + LineBreak +
-            'Ambiente : '          + TpAmbToStr(FtpAmb) + LineBreak +
-            'Versão Aplicativo : ' + FverAplic + LineBreak +
-            'Status Código : '     + IntToStr(FcStat) + LineBreak +
-            'Status Descrição : '  + FxMotivo + LineBreak +
-            'UF : '                + CodigoParaUF(FcUF) + LineBreak +
-            'Recebimento : '       + SeSenao(FdhRecbto = 0,
-                                                     '',
-                                                     DateTimeToStr(FdhRecbto)) +
-                                                     LineBreak +
-            'Tempo Médio : '       + IntToStr(FTMed) + LineBreak +
-            'Retorno : '           + SeSenao(FdhRetorno = 0,
-                                                     '',
-                                                     DateTimeToStr(FdhRetorno)) +
-                                                     LineBreak +
-            'Observação : '        + FxObs;
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Ambiente: %s' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Status Código: %s' + LineBreak +
+                           'Status Descrição: %s' + LineBreak +
+                           'UF: %s' + LineBreak +
+                           'Recebimento: %s' + LineBreak +
+                           'Tempo Médio: %s' + LineBreak +
+                           'Retorno: %s' + LineBreak +
+                           'Observação: %s' + LineBreak),
+                   [Fversao, TpAmbToStr(FtpAmb), FverAplic, IntToStr(FcStat),
+                    FxMotivo, CodigoParaUF(FcUF),
+                    IfThen(FdhRecbto = 0, '', FormatDateTimeBr(FdhRecbto)),
+                    IntToStr(FTMed),
+                    IfThen(FdhRetorno = 0, '', FormatDateTimeBr(FdhRetorno)),
+                    FxObs]);
 end;
 
-function TCTeStatusServico.GerarMsgErro(E: Exception): AnsiString;
+function TCTeStatusServico.GerarMsgErro(E: Exception): String;
 begin
-  Result := 'WebService Consulta Status serviço:' + LineBreak +
-            '- Inativo ou Inoperante tente novamente.' + LineBreak +
-            '- ' + E.Message
+  Result := ACBrStr('WebService Consulta Status serviço:' + LineBreak +
+                    '- Inativo ou Inoperante tente novamente.');
 end;
 
 { TCTeRecepcao }
 
-constructor TCTeRecepcao.Create(AOwner: TComponent; AConhecimentos: TConhecimentos);
+constructor TCTeRecepcao.Create(AOwner: TACBrDFe; AConhecimentos: TConhecimentos);
 begin
   inherited Create(AOwner);
-  
+
   FConhecimentos := AConhecimentos;
 
-  FStatus  := stCTeRecepcao;
-  FLayout  := LayCTeRecepcao;
-  FArqEnv  := 'env-lot';
-  FArqResp := 'rec';
+  FPStatus := stCTeRecepcao;
+  FPLayout := LayCTeRecepcao;
+  FPArqEnv := 'env-lot';
+  FPArqResp := 'rec';
 
   FCTeRetorno := nil;
 end;
@@ -1122,70 +701,62 @@ end;
 
 procedure TCTeRecepcao.DefinirURL;
 begin
-  FLayout := LayCTeRecepcao;
+  FPLayout := LayCTeRecepcao;
 
   inherited DefinirURL;
 end;
 
 procedure TCTeRecepcao.DefinirServicoEAction;
 begin
-  FServico    := CURL_WSDL + 'CteRecepcao';
-  FSoapAction := FServico + '/cteRecepcaoLote';
+  FPServico    := GetUrlWsd + 'CteRecepcao';
+  FPSoapAction := FPServico + '/cteRecepcaoLote';
 end;
 
 procedure TCTeRecepcao.DefinirDadosMsg;
 var
-  I: Integer;
-  vCTe: WideString;
-  Versao: String;
+  I: integer;
+  vCTe: String;
 begin
-  Versao := GetVersaoCTe(FConfiguracoes.Geral.VersaoDF,
-                         Layout);
-
-  if FLote = '' then
-    FLote := '0';
-
   vCTe := '';
-  for I := 0 to FConhecimentos.Count-1 do
-    vCTe := vCTe + '<CTe' +
-                     RetornarConteudoEntre(FConhecimentos.Items[I].XML,
-                                           '<CTe', '</CTe>') +
-                   '</CTe>';
+  for I := 0 to FConhecimentos.Count - 1 do
+    vCTe := vCTe + '<CTe' + RetornarConteudoEntre(
+      FConhecimentos.Items[I].XMLAssinado, '<CTe', '</CTe>') + '</CTe>';
 
-  FDadosMsg := '<enviCTe xmlns="http://www.portalfiscal.inf.br/cte" versao="' + Versao + '">'+
-                 '<idLote>' +
-                   FLote +
-                 '</idLote>'+
-                 vCTe +
-               '</enviCTe>';
+  FPDadosMsg := '<enviCTe xmlns="http://www.portalfiscal.inf.br/cte" versao="' +
+    FPVersaoServico + '">' + '<idLote>' + FLote + '</idLote>' +
+    vCTe + '</enviCTe>';
 
   // Lote tem mais de 500kb ? //
-  if Length(FDadosMsg) > (500 * 1024) then
-    GerarException('Tamanho do XML de Dados superior a 500 Kbytes. Tamanho atual: ' +
-                   IntToStr(trunc(Length(FDadosMsg) / 1024)) + ' Kbytes');
+  if Length(FPDadosMsg) > (500 * 1024) then
+    GerarException(ACBrStr('Tamanho do XML de Dados superior a 500 Kbytes. Tamanho atual: ' +
+      IntToStr(trunc(Length(FPDadosMsg) / 1024)) + ' Kbytes'));
 
   FRecibo := '';
 end;
 
 function TCTeRecepcao.TratarResposta: Boolean;
+var
+  I: integer;
+  chCTe, NomeArquivo: String;
+  AProcCTe: TProcCTe;
 begin
-  FRetWS := SeparaDados(FRetornoWS, 'cteRecepcaoLoteResult');
+  FPRetWS := SeparaDados(FPRetornoWS, 'cteRecepcaoLoteResult');
 
   FCTeRetorno := TretEnvCTe.Create;
 
-  FCTeRetorno.Leitor.Arquivo := FRetWS;
+  FCTeRetorno.Leitor.Arquivo := FPRetWS;
   FCTeRetorno.LerXml;
 
-  Fversao   := FCTeRetorno.versao;
-  FTpAmb    := FCTeRetorno.TpAmb;
+  Fversao := FCTeRetorno.versao;
+  FTpAmb := FCTeRetorno.TpAmb;
   FverAplic := FCTeRetorno.verAplic;
-  FcStat    := FCTeRetorno.cStat;
-  FxMotivo  := FCTeRetorno.xMotivo;
+  FcStat := FCTeRetorno.cStat;
+  FxMotivo := FCTeRetorno.xMotivo;
   FdhRecbto := FCTeRetorno.infRec.dhRecbto;
-  FTMed     := FCTeRetorno.infRec.tMed;
-  FcUF      := FCTeRetorno.cUF;
-  FMsg      := FCTeRetorno.xMotivo;
-  FRecibo   := FCTeRetorno.infRec.nRec;
+  FTMed := FCTeRetorno.infRec.tMed;
+  FcUF := FCTeRetorno.cUF;
+  FPMsg := FCTeRetorno.xMotivo;
+  FRecibo := FCTeRetorno.infRec.nRec;
 
   Result := (FCTeRetorno.CStat = 103);
 end;
@@ -1195,52 +766,59 @@ begin
   inherited FinalizarServico;
 
   if Assigned(FCTeRetorno) then
-    FreeAndNil( FCTeRetorno );
+    FreeAndNil(FCTeRetorno);
 end;
 
-function TCTeRecepcao.GerarMsgLog: AnsiString;
+function TCTeRecepcao.GerarMsgLog: String;
 begin
   if Assigned(FCTeRetorno) then
-    Result := 'Versão Layout : '     + FCTeRetorno.versao + LineBreak +
-              'Ambiente : '          + TpAmbToStr(FCTeRetorno.TpAmb) + LineBreak +
-              'Versão Aplicativo : ' + FCTeRetorno.verAplic + LineBreak +
-              'Status Código : '     + IntToStr(FCTeRetorno.cStat) + LineBreak +
-              'Status Descrição : '  + FCTeRetorno.xMotivo + LineBreak +
-              'UF : '                + CodigoParaUF(FCTeRetorno.cUF) + LineBreak +
-              'Recibo : '            + FCTeRetorno.infRec.nRec + LineBreak +
-              'Recebimento : '       + SeSenao(FCTeRetorno.InfRec.dhRecbto = 0,
-                                                       '',
-                                                       DateTimeToStr(FCTeRetorno.InfRec.dhRecbto)) +
-                                                       LineBreak +
-              'Tempo Médio : '       + IntToStr(FCTeRetorno.InfRec.TMed)
+    Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                             'Ambiente: %s ' + LineBreak +
+                             'Versão Aplicativo: %s ' + LineBreak +
+                             'Status Código: %s ' + LineBreak +
+                             'Status Descrição: %s ' + LineBreak +
+                             'UF: %s ' + sLineBreak +
+                             'Recibo: %s ' + LineBreak +
+                             'Recebimento: %s ' + LineBreak +
+                             'Tempo Médio: %s ' + LineBreak),
+                     [FCTeRetorno.versao,
+                      TpAmbToStr(FCTeRetorno.TpAmb),
+                      FCTeRetorno.verAplic,
+                      IntToStr(FCTeRetorno.cStat),
+                      FCTeRetorno.xMotivo,
+                      CodigoParaUF(FCTeRetorno.cUF),
+                      FCTeRetorno.infRec.nRec,
+                      IfThen(FCTeRetorno.InfRec.dhRecbto = 0, '',
+                             FormatDateTimeBr(FCTeRetorno.InfRec.dhRecbto)),
+                      IntToStr(FCTeRetorno.InfRec.TMed)])
   else
     Result := '';
 end;
 
-function TCTeRecepcao.GerarPrefixoArquivo: AnsiString;
+function TCTeRecepcao.GerarPrefixoArquivo: String;
 begin
   Result := Lote;
 end;
 
 { TCTeRetRecepcao }
 
-constructor TCTeRetRecepcao.Create(AOwner: TComponent; AConhecimentos: TConhecimentos);
+constructor TCTeRetRecepcao.Create(AOwner: TACBrDFe; AConhecimentos: TConhecimentos);
 begin
   inherited Create(AOwner);
 
+  FConhecimentos := AConhecimentos;
   FCTeRetorno := TRetConsReciCTe.Create;
 
-  FConhecimentos := AConhecimentos;
-
-  FStatus  := stCTeRetRecepcao;
-  FLayout  := LayCTeRetRecepcao;
-  FArqEnv  := 'ped-rec';
-  FArqResp := 'pro-rec';
+  FPStatus := stCTeRetRecepcao;
+  FPLayout := LayCTeRetRecepcao;
+  FPArqEnv := 'ped-rec';
+  FPArqResp := 'pro-rec';
 end;
 
 destructor TCTeRetRecepcao.Destroy;
 begin
   FCTeRetorno.Free;
+
   inherited Destroy;
 end;
 
@@ -1251,10 +829,9 @@ end;
 
 function TCTeRetRecepcao.TratarRespostaFinal: Boolean;
 var
-  I, J: Integer;
+  I, J: integer;
   AProcCTe: TProcCTe;
   AInfProt: TProtCTeCollection;
-  Data: TDateTime;
   NomeXML: String;
 begin
   Result := False;
@@ -1263,55 +840,56 @@ begin
 
   if (AInfProt.Count > 0) then
   begin
-    FMsg     := FCTeRetorno.ProtCTe.Items[0].xMotivo;
+    FPMsg := FCTeRetorno.ProtCTe.Items[0].xMotivo;
     FxMotivo := FCTeRetorno.ProtCTe.Items[0].xMotivo;
   end;
 
-  //Setando os retornos das notas fiscais;
-  for I := 0 to AInfProt.Count-1 do
+  //Setando os retornos dos Conhecimentos;
+  for I := 0 to AInfProt.Count - 1 do
   begin
-    for J := 0 to FConhecimentos.Count-1 do
+    for J := 0 to FConhecimentos.Count - 1 do
     begin
-      if OnlyNumber(AInfProt.Items[I].chCTe) = OnlyNumber(FConhecimentos.Items[J].CTe.InfCTe.Id) then
+      if OnlyNumber(AInfProt.Items[I].chCTe) = FConhecimentos.Items[J].NumID then
       begin
-        if (TACBrCTe( FACBrCTe ).Configuracoes.Geral.ValidarDigest ) and
-           (FConhecimentos.Items[J].CTe.Signature.DigestValue <> AInfProt.Items[I].digVal) and
-           (AInfProt.Items[I].digVal <> '') then
-         begin
-           raise EACBrCTeException.Create('DigestValue do documento '+
-                                           OnlyNumber(FConhecimentos.Items[J].CTe.infCTe.Id)+
-                                           ' não confere.');
-         end;
-        FConhecimentos.Items[J].Confirmada           := (AInfProt.Items[I].cStat in [100, 150]);
-        FConhecimentos.Items[J].Msg                  := AInfProt.Items[I].xMotivo;
-        FConhecimentos.Items[J].CTe.procCTe.Id       := AInfProt.Items[I].Id;
-        FConhecimentos.Items[J].CTe.procCTe.tpAmb    := AInfProt.Items[I].tpAmb;
+        if (TACBrCTe(FPDFeOwner).Configuracoes.Geral.ValidarDigest) and
+          (FConhecimentos.Items[J].CTe.signature.DigestValue <>
+          AInfProt.Items[I].digVal) and (AInfProt.Items[I].digVal <> '') then
+        begin
+          raise EACBrCTeException.Create('DigestValue do documento ' +
+            FConhecimentos.Items[J].NumID + ' não confere.');
+        end;
+
+        FConhecimentos.Items[J].CTe.procCTe.tpAmb := AInfProt.Items[I].tpAmb;
         FConhecimentos.Items[J].CTe.procCTe.verAplic := AInfProt.Items[I].verAplic;
-        FConhecimentos.Items[J].CTe.procCTe.chCTe    := AInfProt.Items[I].chCTe;
+        FConhecimentos.Items[J].CTe.procCTe.chCTe := AInfProt.Items[I].chCTe;
         FConhecimentos.Items[J].CTe.procCTe.dhRecbto := AInfProt.Items[I].dhRecbto;
-        FConhecimentos.Items[J].CTe.procCTe.nProt    := AInfProt.Items[I].nProt;
-        FConhecimentos.Items[J].CTe.procCTe.digVal   := AInfProt.Items[I].digVal;
-        FConhecimentos.Items[J].CTe.procCTe.cStat    := AInfProt.Items[I].cStat;
-        FConhecimentos.Items[J].CTe.procCTe.xMotivo  := AInfProt.Items[I].xMotivo;
+        FConhecimentos.Items[J].CTe.procCTe.nProt := AInfProt.Items[I].nProt;
+        FConhecimentos.Items[J].CTe.procCTe.digVal := AInfProt.Items[I].digVal;
+        FConhecimentos.Items[J].CTe.procCTe.cStat := AInfProt.Items[I].cStat;
+        FConhecimentos.Items[J].CTe.procCTe.xMotivo := AInfProt.Items[I].xMotivo;
 
         NomeXML := '-cte.xml';
         if (AInfProt.Items[I].cStat = 110) or (AInfProt.Items[I].cStat = 301) then
           NomeXML := '-den.xml';
 
-        if FConfiguracoes.Geral.Salvar or NaoEstaVazio(FConhecimentos.Items[J].NomeArq) then
+        if FPConfiguracoesCTe.Arquivos.Salvar or NaoEstaVazio(
+          FConhecimentos.Items[J].NomeArq) then
         begin
-          if FileExists(PathWithDelim(FConfiguracoes.Geral.PathSalvar) + AInfProt.Items[I].chCTe + '-cte.xml') and
-             FileExists(PathWithDelim(FConfiguracoes.Geral.PathSalvar) + FCTeRetorno.nRec + '-pro-rec.xml') then
+          if FileExists(PathWithDelim(FPConfiguracoesCTe.Arquivos.PathSalvar) +
+                        AInfProt.Items[I].chCTe + '-cte.xml') and
+             FileExists(PathWithDelim(FPConfiguracoesCTe.Arquivos.PathSalvar) +
+                        FCTeRetorno.nRec + '-pro-rec.xml') then
           begin
             AProcCTe := TProcCTe.Create;
             try
-              AProcCTe.PathCTe := PathWithDelim(FConfiguracoes.Geral.PathSalvar) +
-                                                AInfProt.Items[I].chCTe +
-                                                '-cte.xml';
-              AProcCTe.PathRetConsReciCTe := PathWithDelim(FConfiguracoes.Geral.PathSalvar) +
-                                             FCTeRetorno.nRec +
-                                             '-pro-rec.xml';
+              AProcCTe.PathCTe :=
+                PathWithDelim(FPConfiguracoesCTe.Arquivos.PathSalvar) +
+                AInfProt.Items[I].chCTe + '-cte.xml';
+              AProcCTe.PathRetConsReciCTe :=
+                PathWithDelim(FPConfiguracoesCTe.Arquivos.PathSalvar) +
+                FCTeRetorno.nRec + '-pro-rec.xml';
 
+              AProcCTe.Versao := FPVersaoServico;
               AProcCTe.GerarXML;
 
               if NaoEstaVazio(AProcCTe.Gerador.ArquivoFormatoXML) then
@@ -1319,8 +897,9 @@ begin
                 if NaoEstaVazio(FConhecimentos.Items[J].NomeArq) then
                   AProcCTe.Gerador.SalvarArquivo(FConhecimentos.Items[J].NomeArq)
                 else
-                  AProcCTe.Gerador.SalvarArquivo(PathWithDelim(FConfiguracoes.Geral.PathSalvar) +
-                                                 AInfProt.Items[I].chCTe + NomeXML);
+                  AProcCTe.Gerador.SalvarArquivo(
+                    PathWithDelim(FPConfiguracoesCTe.Arquivos.PathSalvar) +
+                    AInfProt.Items[I].chCTe + NomeXML);
               end;
             finally
               AProcCTe.Free;
@@ -1328,26 +907,15 @@ begin
           end;
         end;
 
-        if FConfiguracoes.Arquivos.Salvar then
+        if FPConfiguracoesCTe.Arquivos.Salvar then
         begin
-          if FConfiguracoes.Arquivos.EmissaoPathCTe then
-            Data := FConhecimentos.Items[J].CTe.Ide.dhEmi
+          if FPConfiguracoesCTe.Arquivos.SalvarApenasCTeProcessadas then
+          begin
+            if FConhecimentos.Items[J].Processada then
+              FConhecimentos.Items[J].GravarXML;
+          end
           else
-            Data := Now;
-
-          if FConfiguracoes.Arquivos.SalvarApenasCTeProcessados then
-           begin
-             if CTeUtil.CstatProcessado(FConhecimentos.Items[J].CTe.procCTe.cStat) then
-               FConhecimentos.Items[J].SaveToFile(PathWithDelim(
-                     FConfiguracoes.Arquivos.GetPathCTe( Data,
-                     FConhecimentos.Items[J].CTe.Emit.CNPJ)) +
-                     OnlyNumber(FConhecimentos.Items[J].CTe.InfCTe.Id) + NomeXML);
-           end
-          else
-            FConhecimentos.Items[J].SaveToFile(PathWithDelim(
-                FConfiguracoes.Arquivos.GetPathCTe( Data,
-                FConhecimentos.Items[J].CTe.Emit.CNPJ)) +
-                OnlyNumber(FConhecimentos.Items[J].CTe.InfCTe.Id) + NomeXML);
+            FConhecimentos.Items[J].GravarXML;
         end;
 
         break;
@@ -1355,8 +923,8 @@ begin
     end;
   end;
 
-  //Verificando se existe algum conhecimento confirmado
-  for I := 0 to FConhecimentos.Count-1 do
+  //Verificando se existe algum Conhecimento confirmado
+  for I := 0 to FConhecimentos.Count - 1 do
   begin
     if FConhecimentos.Items[I].Confirmada then
     begin
@@ -1365,58 +933,58 @@ begin
     end;
   end;
 
-  //Verificando se existe algum conhecimento nao confirmado
-  for I := 0 to FConhecimentos.Count-1 do
+  //Verificando se existe algum Conhecimento nao confirmado
+  for I := 0 to FConhecimentos.Count - 1 do
   begin
     if not FConhecimentos.Items[I].Confirmada then
     begin
-      FMsg := 'Conhecimento(s) não confirmado(s):' + LineBreak;
+      FPMsg := ACBrStr('Conhecimento(s) não confirmados:') + LineBreak;
       break;
     end;
   end;
 
-  //Montando a mensagem de retorno para os conhecimentos nao confirmados
-  for I := 0 to FConhecimentos.Count-1 do
+  //Montando a mensagem de retorno para os Conhecimentos nao confirmados
+  for I := 0 to FConhecimentos.Count - 1 do
   begin
     if not FConhecimentos.Items[I].Confirmada then
-      FMsg:= FMsg + IntToStr(FConhecimentos.Items[I].CTe.Ide.nCT) + '->' +
-                    FConhecimentos.Items[I].Msg + LineBreak;
+      FPMsg := FPMsg + IntToStr(FConhecimentos.Items[I].CTe.Ide.nCT) +
+        '->' + FConhecimentos.Items[I].Msg + LineBreak;
   end;
 
   if AInfProt.Count > 0 then
   begin
-     FChaveCTe  := AInfProt.Items[0].chCTe;
-     FProtocolo := AInfProt.Items[0].nProt;
-     FcStat     := AInfProt.Items[0].cStat;
+    FChaveCTe := AInfProt.Items[0].chCTe;
+    FProtocolo := AInfProt.Items[0].nProt;
+    FcStat := AInfProt.Items[0].cStat;
   end;
 end;
 
 function TCTeRetRecepcao.Executar: Boolean;
 var
-  IntervaloTentativas, vCont, qTent: Integer;
+  IntervaloTentativas, vCont, qTent: integer;
 begin
   Result := False;
 
-  TACBrCTe( FACBrCTe ).SetStatus( stCTeRetRecepcao );
+  TACBrCTe(FPDFeOwner).SetStatus(stCTeRetRecepcao);
   try
-    Sleep( FConfiguracoes.WebServices.AguardarConsultaRet );
+    Sleep(FPConfiguracoesCTe.WebServices.AguardarConsultaRet);
 
     vCont := 1000;
     qTent := 0; // Inicializa o contador de tentativas
-    IntervaloTentativas := FConfiguracoes.WebServices.IntervaloTentativas;
+    IntervaloTentativas := FPConfiguracoesCTe.WebServices.IntervaloTentativas;
 
     while (inherited Executar) and
-          (qTent < FConfiguracoes.WebServices.Tentativas) do
+      (qTent < FPConfiguracoesCTe.WebServices.Tentativas) do
     begin
-      Inc( qTent );
+      Inc(qTent);
 
       if IntervaloTentativas > 0 then
-        sleep( IntervaloTentativas )
+        sleep(IntervaloTentativas)
       else
-        Sleep( vCont );
+        Sleep(vCont);
     end;
   finally
-    TACBrCTe( FACBrCTe ).SetStatus( stCTeIdle );
+    TACBrCTe(FPDFeOwner).SetStatus(stIdle);
   end;
 
   if FCTeRetorno.CStat = 104 then  // Lote processado ?
@@ -1425,15 +993,15 @@ end;
 
 procedure TCTeRetRecepcao.DefinirURL;
 begin
-  FLayout := LayCTeRetRecepcao;
+  FPLayout := LayCTeRetRecepcao;
 
   inherited DefinirURL;
 end;
 
 procedure TCTeRetRecepcao.DefinirServicoEAction;
 begin
-  FServico    := CURL_WSDL + 'CteRetRecepcao';
-  FSoapAction := FServico + '/cteRetRecepcao';
+  FPServico    := GetUrlWsd + 'CteRetRecepcao';
+  FPSoapAction := FPServico + '/cteRetRecepcao';
 end;
 
 procedure TCTeRetRecepcao.DefinirDadosMsg;
@@ -1442,12 +1010,12 @@ var
 begin
   ConsReciCTe := TConsReciCTe.Create;
   try
-    ConsReciCTe.tpAmb := TpcnTipoAmbiente(FConfiguracoes.WebServices.AmbienteCodigo - 1);
-    ConsReciCTe.nRec  := FRecibo;
-
+    ConsReciCTe.tpAmb := FPConfiguracoesCTe.WebServices.Ambiente;
+    ConsReciCTe.nRec := FRecibo;
+    ConsReciCTe.Versao := FPVersaoServico;
     ConsReciCTe.GerarXML;
 
-    FDadosMsg := ConsReciCTe.Gerador.ArquivoFormatoXML;
+    FPDadosMsg := ConsReciCTe.Gerador.ArquivoFormatoXML;
   finally
     ConsReciCTe.Free;
   end;
@@ -1455,81 +1023,86 @@ end;
 
 function TCTeRetRecepcao.TratarResposta: Boolean;
 begin
-  FRetWS := SeparaDados(FRetornoWS, 'cteRetRecepcaoResult');
+  FPRetWS := SeparaDados(FPRetornoWS, 'cteRetRecepcaoResult');
 
   // Limpando variaveis internas
   FCTeRetorno.Free;
   FCTeRetorno := TRetConsReciCTe.Create;
 
-  FCTeRetorno.Leitor.Arquivo := FRetWS;
+  FCTeRetorno.Leitor.Arquivo := FPRetWS;
   FCTeRetorno.LerXML;
 
-  Fversao   := FCTeRetorno.versao;
-  FTpAmb    := FCTeRetorno.TpAmb;
+  Fversao := FCTeRetorno.versao;
+  FTpAmb := FCTeRetorno.TpAmb;
   FverAplic := FCTeRetorno.verAplic;
-  FcStat    := FCTeRetorno.cStat;
-  FcUF      := FCTeRetorno.cUF;
-  FMsg      := FCTeRetorno.xMotivo;
-  FxMotivo  := FCTeRetorno.xMotivo;
-//  FcMsg     := FCTeRetorno.cMsg;
-//  FxMsg     := FCTeRetorno.xMsg;
+  FcStat := FCTeRetorno.cStat;
+  FcUF := FCTeRetorno.cUF;
+  FPMsg := FCTeRetorno.xMotivo;
+  FxMotivo := FCTeRetorno.xMotivo;
+  FcMsg := FCTeRetorno.cMsg;
+  FxMsg := FCTeRetorno.xMsg;
 
   Result := (FCTeRetorno.CStat = 105); // Lote em Processamento
 end;
 
 procedure TCTeRetRecepcao.FinalizarServico;
 begin
-  ConfAmbiente;
-  // Não libera para stIdle... não ainda...;
+  // Sobrescrito, para não liberar para stIdle... não ainda...;
 end;
 
-function TCTeRetRecepcao.GerarMsgLog: AnsiString;
+function TCTeRetRecepcao.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : '     + FCTeRetorno.versao + LineBreak +
-            'Ambiente : '          + TpAmbToStr(FCTeRetorno.tpAmb) + LineBreak +
-            'Versão Aplicativo : ' + FCTeRetorno.verAplic + LineBreak +
-            'Recibo : '            + FCTeRetorno.nRec + LineBreak +
-            'Status Código : '     + IntToStr(FCTeRetorno.cStat) + LineBreak +
-            'Status Descrição : '  + FCTeRetorno.xMotivo + LineBreak +
-            'UF : '                + CodigoParaUF(FCTeRetorno.cUF) + LineBreak {+
-            'cMsg : '              + IntToStr(FCTeRetorno.cMsg) + LineBreak +
-            'xMsg : '              + FCTeRetorno.xMsg};
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Ambiente: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Recibo: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'UF: %s ' + LineBreak +
+                           'cMsg: %s ' + LineBreak +
+                           'xMsg: %s ' + LineBreak),
+                   [FCTeRetorno.versao, TpAmbToStr(FCTeRetorno.tpAmb),
+                    FCTeRetorno.verAplic, FCTeRetorno.nRec,
+                    IntToStr(FCTeRetorno.cStat), FCTeRetorno.xMotivo,
+                    CodigoParaUF(FCTeRetorno.cUF), IntToStr(FCTeRetorno.cMsg),
+                    FCTeRetorno.xMsg]);
 end;
 
-function TCTeRetRecepcao.GerarPrefixoArquivo: AnsiString;
+function TCTeRetRecepcao.GerarPrefixoArquivo: String;
 begin
   Result := Recibo;
 end;
 
 { TCTeRecibo }
 
-constructor TCTeRecibo.Create(AOwner: TComponent);
+constructor TCTeRecibo.Create(AOwner: TACBrDFe);
 begin
   inherited Create(AOwner);
 
   FCTeRetorno := TRetConsReciCTe.Create;
 
-  FStatus  := stCTeRecibo;
-  FLayout  := LayCTeRetRecepcao;
-  FArqEnv  := 'ped-rec';
-  FArqResp := 'pro-rec';
+  FPStatus := stCTeRecibo;
+  FPLayout := LayCTeRetRecepcao;
+  FPArqEnv := 'ped-rec';
+  FPArqResp := 'pro-rec';
 end;
 
 destructor TCTeRecibo.Destroy;
 begin
   FCTeRetorno.Free;
+
   inherited Destroy;
 end;
 
 procedure TCTeRecibo.DefinirServicoEAction;
 begin
-  FServico    := CURL_WSDL + 'CteRetRecepcao';
-  FSoapAction := FServico + '/cteRetRecepcao';
+  FPServico    := GetUrlWsd + 'CteRetRecepcao';
+  FPSoapAction := FPServico + '/cteRetRecepcao';
 end;
 
 procedure TCTeRecibo.DefinirURL;
 begin
-  FLayout := LayCTeRetRecepcao;
+  FPLayout := LayCTeRetRecepcao;
 
   inherited DefinirURL;
 end;
@@ -1540,12 +1113,12 @@ var
 begin
   ConsReciCTe := TConsReciCTe.Create;
   try
-    ConsReciCTe.tpAmb := TpcnTipoAmbiente(FConfiguracoes.WebServices.AmbienteCodigo - 1);
-    ConsReciCTe.nRec  := FRecibo;
-
+    ConsReciCTe.tpAmb := FPConfiguracoesCTe.WebServices.Ambiente;
+    ConsReciCTe.nRec := FRecibo;
+    ConsReciCTe.Versao := FPVersaoServico;
     ConsReciCTe.GerarXML;
 
-    FDadosMsg := ConsReciCTe.Gerador.ArquivoFormatoXML;
+    FPDadosMsg := ConsReciCTe.Gerador.ArquivoFormatoXML;
   finally
     ConsReciCTe.Free;
   end;
@@ -1553,53 +1126,58 @@ end;
 
 function TCTeRecibo.TratarResposta: Boolean;
 begin
-  FRetWS := SeparaDados(FRetornoWS, 'cteRetRecepcaoResult');
+  FPRetWS := SeparaDados(FPRetornoWS, 'cteRetRecepcaoResult');
 
   // Limpando variaveis internas
   FCTeRetorno.Free;
   FCTeRetorno := TRetConsReciCTe.Create;
 
-  FCTeRetorno.Leitor.Arquivo := FRetWS;
+  FCTeRetorno.Leitor.Arquivo := FPRetWS;
   FCTeRetorno.LerXML;
 
-  Fversao   := FCTeRetorno.versao;
-  FTpAmb    := FCTeRetorno.TpAmb;
+  Fversao := FCTeRetorno.versao;
+  FTpAmb := FCTeRetorno.TpAmb;
   FverAplic := FCTeRetorno.verAplic;
-  FcStat    := FCTeRetorno.cStat;
-  FxMotivo  := FCTeRetorno.xMotivo;
-  FcUF      := FCTeRetorno.cUF;
-//  FxMsg     := FCTeRetorno.xMsg;
-//  FcMsg     := FCTeRetorno.cMsg;
-  FMsg      := FxMotivo;
+  FcStat := FCTeRetorno.cStat;
+  FxMotivo := FCTeRetorno.xMotivo;
+  FcUF := FCTeRetorno.cUF;
+  FxMsg := FCTeRetorno.xMsg;
+  FcMsg := FCTeRetorno.cMsg;
+  FPMsg := FxMotivo;
 
   Result := (FCTeRetorno.CStat = 104);
 end;
 
-function TCTeRecibo.GerarMsgLog: AnsiString;
+function TCTeRecibo.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : '     + FCTeRetorno.versao + LineBreak +
-            'Ambiente : '          + TpAmbToStr(FCTeRetorno.TpAmb) + LineBreak +
-            'Versão Aplicativo : ' + FCTeRetorno.verAplic + LineBreak +
-            'Recibo : '            + FCTeRetorno.nRec + LineBreak +
-            'Status Código : '     + IntToStr(FCTeRetorno.cStat) + LineBreak +
-            'Status Descrição : '  + FCTeRetorno.ProtCTe.Items[0].xMotivo + LineBreak +
-            'UF : '                + CodigoParaUF(FCTeRetorno.cUF);
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Ambiente: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Recibo: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'UF: %s ' + LineBreak),
+                   [FCTeRetorno.versao, TpAmbToStr(FCTeRetorno.TpAmb),
+                   FCTeRetorno.verAplic, FCTeRetorno.nRec,
+                   IntToStr(FCTeRetorno.cStat),
+                   FCTeRetorno.ProtCTe.Items[0].xMotivo,
+                   CodigoParaUF(FCTeRetorno.cUF)]);
 end;
 
 { TCTeConsulta }
 
-constructor TCTeConsulta.Create(AOwner: TComponent);
+constructor TCTeConsulta.Create(AOwner: TACBrDFe);
 begin
   inherited Create(AOwner);
 
-  FprotCTe       := TProcCTe.Create;
-  FretCancCTe    := TRetCancCTe.Create;
+  FprotCTe := TProcCTe.Create;
+  FretCancCTe := TRetCancCTe.Create;
   FprocEventoCTe := TRetEventoCTeCollection.Create(AOwner);
 
-  FStatus  := stCTeConsulta;
-  FLayout  := LayCTeConsultaCT;
-  FArqEnv  := 'ped-sit';
-  FArqResp := 'sit';
+  FPStatus := stCTeConsulta;
+  FPLayout := LayCTeConsulta;
+  FPArqEnv := 'ped-sit';
+  FPArqResp := 'sit';
 end;
 
 destructor TCTeConsulta.Destroy;
@@ -1609,13 +1187,13 @@ begin
   if Assigned(FprocEventoCTe) then
     FprocEventoCTe.Free;
 
-  Inherited Destroy;
+  inherited Destroy;
 end;
 
 procedure TCTeConsulta.DefinirServicoEAction;
 begin
-  FServico    := CURL_WSDL + 'CteConsulta';
-  FSoapAction := FServico + '/cteConsultaCT';
+  FPServico    := GetUrlWsd + 'CteConsulta';
+  FPSoapAction := FPServico + '/cteConsultaCT';
 end;
 
 procedure TCTeConsulta.DefinirDadosMsg;
@@ -1624,12 +1202,13 @@ var
 begin
   ConsSitCTe := TConsSitCTe.Create;
   try
-    ConsSitCTe.TpAmb := TpcnTipoAmbiente(FConfiguracoes.WebServices.AmbienteCodigo - 1);
+    ConsSitCTe.TpAmb := FPConfiguracoesCTe.WebServices.Ambiente;
     ConsSitCTe.chCTe := FCTeChave;
 
+    ConsSitCTe.Versao := FPVersaoServico;
     ConsSitCTe.GerarXML;
 
-    FDadosMsg := ConsSitCTe.Gerador.ArquivoFormatoXML;
+    FPDadosMsg := ConsSitCTe.Gerador.ArquivoFormatoXML;
   finally
     ConsSitCTe.Free;
   end;
@@ -1646,140 +1225,152 @@ var
   LocCTeW: TCTeW;
 begin
   CTeRetorno := TRetConsSitCTe.Create;
-  try
-    FRetWS := SeparaDados(FRetornoWS, 'cteConsultaCTResult');
 
-    CTeRetorno.Leitor.Arquivo := FRetWS;
+  try
+    FPRetWS := SeparaDados(FPRetornoWS, 'cteConsultaCTResult');
+
+    CTeRetorno.Leitor.Arquivo := FPRetWS;
     CTeRetorno.LerXML;
 
-    CTCancelado := False;
-    aEventos    := '';
+    NFCancelada := False;
+    aEventos := '';
 
     // <retConsSitCTe> - Retorno da consulta da situação do CT-e
     // Este é o status oficial do CT-e
-    Fversao   := CTeRetorno.versao;
-    FTpAmb    := CTeRetorno.TpAmb;
+    Fversao := CTeRetorno.versao;
+    FTpAmb := CTeRetorno.tpAmb;
     FverAplic := CTeRetorno.verAplic;
-    FcStat    := CTeRetorno.cStat;
-    FxMotivo  := CTeRetorno.xMotivo;
-    FcUF      := CTeRetorno.cUF;
+    FcStat := CTeRetorno.cStat;
+    FXMotivo := CTeRetorno.xMotivo;
+    FcUF := CTeRetorno.cUF;
     FCTeChave := CTeRetorno.chCTe;
-    FMsg      := CTeRetorno.XMotivo;
+    FPMsg := FXMotivo;
 
-    // Verifica se o conhecimento está cancelado pelo método antigo. Se estiver,
-    // então CTCancelado será True e já atribui Protocolo, Data e Mensagem
+    // Verifica se a nota fiscal está cancelada pelo método antigo. Se estiver,
+    // então NFCancelada será True e já atribui Protocolo, Data e Mensagem
     if CTeRetorno.retCancCTe.cStat > 0 then
     begin
-      FretCancCTe.versao   := CTeRetorno.retCancCTe.versao;
-      FretCancCTe.tpAmb    := CTeRetorno.retCancCTe.tpAmb;
+      FRetCancCTe.versao := CTeRetorno.retCancCTe.versao;
+      FretCancCTe.tpAmb := CTeRetorno.retCancCTe.tpAmb;
       FretCancCTe.verAplic := CTeRetorno.retCancCTe.verAplic;
-      FretCancCTe.cStat    := CTeRetorno.retCancCTe.cStat;
-      FretCancCTe.xMotivo  := CTeRetorno.retCancCTe.xMotivo;
-      FretCancCTe.cUF      := CTeRetorno.retCancCTe.cUF;
-      FretCancCTe.chCTE    := CTeRetorno.retCancCTe.chCTE;
+      FretCancCTe.cStat := CTeRetorno.retCancCTe.cStat;
+      FretCancCTe.xMotivo := CTeRetorno.retCancCTe.xMotivo;
+      FretCancCTe.cUF := CTeRetorno.retCancCTe.cUF;
+      FretCancCTe.chCTe := CTeRetorno.retCancCTe.chCTe;
       FretCancCTe.dhRecbto := CTeRetorno.retCancCTe.dhRecbto;
-      FretCancCTe.nProt    := CTeRetorno.retCancCTe.nProt;
+      FretCancCTe.nProt := CTeRetorno.retCancCTe.nProt;
 
-      CTCancelado := True;
-      FProtocolo  := CTeRetorno.retCancCTe.nProt;
-      FDhRecbto   := CTeRetorno.retCancCTe.dhRecbto;
-      FMsg        := CTeRetorno.xMotivo;
+      NFCancelada := True;
+      FProtocolo := CTeRetorno.retCancCTe.nProt;
+      FDhRecbto := CTeRetorno.retCancCTe.dhRecbto;
+      FPMsg := CTeRetorno.xMotivo;
     end;
 
-    // <protCTe> - Retorno dos dados do ENVIO do CT-e
+    // <protCTe> - Retorno dos dados do ENVIO da CT-e
     // Considerá-los apenas se não existir nenhum evento de cancelamento (110111)
-    FprotCTe.PathCTe            := CTeRetorno.protCTe.PathCTe;
+    FprotCTe.PathCTe := CTeRetorno.protCTe.PathCTe;
     FprotCTe.PathRetConsReciCTe := CTeRetorno.protCTe.PathRetConsReciCTe;
-    FprotCTe.PathRetConsSitCTe  := CTeRetorno.protCTe.PathRetConsSitCTe;
-    FprotCTe.tpAmb              := CTeRetorno.protCTe.tpAmb;
-    FprotCTe.verAplic           := CTeRetorno.protCTe.verAplic;
-    FprotCTe.chCTe              := CTeRetorno.protCTe.chCTe;
-    FprotCTe.dhRecbto           := CTeRetorno.protCTe.dhRecbto;
-    FprotCTe.nProt              := CTeRetorno.protCTe.nProt;
-    FprotCTe.digVal             := CTeRetorno.protCTe.digVal;
-    FprotCTe.cStat              := CTeRetorno.protCTe.cStat;
-    FprotCTe.xMotivo            := CTeRetorno.protCTe.xMotivo;
+    FprotCTe.PathRetConsSitCTe := CTeRetorno.protCTe.PathRetConsSitCTe;
+    FprotCTe.tpAmb := CTeRetorno.protCTe.tpAmb;
+    FprotCTe.verAplic := CTeRetorno.protCTe.verAplic;
+    FprotCTe.chCTe := CTeRetorno.protCTe.chCTe;
+    FprotCTe.dhRecbto := CTeRetorno.protCTe.dhRecbto;
+    FprotCTe.nProt := CTeRetorno.protCTe.nProt;
+    FprotCTe.digVal := CTeRetorno.protCTe.digVal;
+    FprotCTe.cStat := CTeRetorno.protCTe.cStat;
+    FprotCTe.xMotivo := CTeRetorno.protCTe.xMotivo;
 
     if Assigned(CTeRetorno.procEventoCTe) and (CTeRetorno.procEventoCTe.Count > 0) then
     begin
       aEventos := '=====================================================' +
-                  LineBreak +
-                  '================== Eventos da NF-e ==================' +
-                  LineBreak +
-                  '====================================================='+
-                  LineBreak + '' + LineBreak +
-                  'Quantidade total de eventos: ' +
-                  IntToStr(CTeRetorno.procEventoCTe.Count);
+        LineBreak + '================== Eventos da CT-e ==================' +
+        LineBreak + '=====================================================' +
+        LineBreak + '' + LineBreak + 'Quantidade total de eventos: ' +
+        IntToStr(CTeRetorno.procEventoCTe.Count);
 
       FprocEventoCTe.Clear;
       for I := 0 to CTeRetorno.procEventoCTe.Count - 1 do
       begin
-        FprocEventoCTe.Add;
-        FprocEventoCTe.Items[I].RetEventoCTe.idLote   := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.idLote;
-        FprocEventoCTe.Items[I].RetEventoCTe.tpAmb    := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.tpAmb;
-        FprocEventoCTe.Items[I].RetEventoCTe.verAplic := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.verAplic;
-        FprocEventoCTe.Items[I].RetEventoCTe.cOrgao   := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.cOrgao;
-        FprocEventoCTe.Items[I].RetEventoCTe.cStat    := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.cStat;
-        FprocEventoCTe.Items[I].RetEventoCTe.xMotivo  := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.xMotivo;
-        FprocEventoCTe.Items[I].RetEventoCTe.XML      := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.XML;
-
-        FprocEventoCTe.Items[I].RetEventoCTe.Infevento.ID                 := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.ID;
-        FprocEventoCTe.Items[I].RetEventoCTe.Infevento.tpAmb              := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.tpAmb;
-        FprocEventoCTe.Items[I].RetEventoCTe.InfEvento.CNPJ               := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.CNPJ;
-        FprocEventoCTe.Items[I].RetEventoCTe.InfEvento.chCTe              := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.chCTe;
-        FprocEventoCTe.Items[I].RetEventoCTe.InfEvento.dhEvento           := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.dhEvento;
-        FprocEventoCTe.Items[I].RetEventoCTe.InfEvento.TpEvento           := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.TpEvento;
-        FprocEventoCTe.Items[I].RetEventoCTe.InfEvento.nSeqEvento         := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.nSeqEvento;
-        FprocEventoCTe.Items[I].RetEventoCTe.InfEvento.VersaoEvento       := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.VersaoEvento;
-        FprocEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.nProt    := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.nProt;
-        FprocEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.xJust    := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.xJust;
-        FprocEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.xCondUso := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.xCondUso;
-
-        FprocEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.infCorrecao.Clear;
-        for k := 0 to CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.detEvento.infCorrecao.Count -1 do
+        with FprocEventoCTe.Add.RetEventoCTe do
         begin
-          FprocEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.infCorrecao.Add;
-          FprocEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.infCorrecao.Items[k].grupoAlterado   := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.infCorrecao.Items[k].grupoAlterado;
-          FprocEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.infCorrecao.Items[k].campoAlterado   := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.infCorrecao.Items[k].campoAlterado;
-          FprocEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.infCorrecao.Items[k].valorAlterado   := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.infCorrecao.Items[k].valorAlterado;
-          FprocEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.infCorrecao.Items[k].nroItemAlterado := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.infCorrecao.Items[k].nroItemAlterado;
+          idLote := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.idLote;
+          tpAmb := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.tpAmb;
+          verAplic := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.verAplic;
+          cOrgao := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.cOrgao;
+          cStat := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.cStat;
+          xMotivo := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.xMotivo;
+          XML := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.XML;
+
+          ICTevento.ID := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.ID;
+          InfEvento.tpAmb := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.tpAmb;
+          InfEvento.CNPJ := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.CNPJ;
+          InfEvento.chCTe := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.chCTe;
+          InfEvento.dhEvento := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.dhEvento;
+          InfEvento.TpEvento := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.TpEvento;
+          InfEvento.nSeqEvento := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.nSeqEvento;
+          InfEvento.VersaoEvento := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.VersaoEvento;
+          InfEvento.DetEvento.nProt := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.nProt;
+          InfEvento.DetEvento.xJust := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.xJust;
+          InfEvento.DetEvento.xCondUso := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.xCondUso;
+
+          InfEvento.DetEvento.infCorrecao.Clear;
+          for k := 0 to CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.detEvento.infCorrecao.Count -1 do
+          begin
+            InfEvento.DetEvento.infCorrecao.Add;
+            InfEvento.DetEvento.infCorrecao.Items[k].grupoAlterado   := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.infCorrecao.Items[k].grupoAlterado;
+            InfEvento.DetEvento.infCorrecao.Items[k].campoAlterado   := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.infCorrecao.Items[k].campoAlterado;
+            InfEvento.DetEvento.infCorrecao.Items[k].valorAlterado   := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.infCorrecao.Items[k].valorAlterado;
+            InfEvento.DetEvento.infCorrecao.Items[k].nroItemAlterado := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.DetEvento.infCorrecao.Items[k].nroItemAlterado;
+          end;
+
+          retEvento.Clear;
+          for J := 0 to CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Count-1 do
+          begin
+            with retEvento.Add.RetInfEvento do
+            begin
+              Id := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.Id;
+              tpAmb := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.tpAmb;
+              verAplic := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.verAplic;
+              cOrgao := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.cOrgao;
+              cStat := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.cStat;
+              xMotivo := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.xMotivo;
+              chCTe := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.chCTe;
+              tpEvento := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.tpEvento;
+              xEvento := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.xEvento;
+              nSeqEvento := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.nSeqEvento;
+              CNPJDest := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.CNPJDest;
+              emailDest := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.emailDest;
+              dhRegEvento := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.dhRegEvento;
+              nProt := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.nProt;
+              XML := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.XML;
+            end;
+          end;
         end;
 
-        FprocEventoCTe.Items[I].RetEventoCTe.retEvento.Clear;
-        for J := 0 to CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Count - 1 do
+        with CTeRetorno.procEventoCTe.Items[I].RetEventoCTe do
         begin
-          FprocEventoCTe.Items[I].RetEventoCTe.retEvento.Add;
-          FprocEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.Id          := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.Id;
-          FprocEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.tpAmb       := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.tpAmb;
-          FprocEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.verAplic    := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.verAplic;
-          FprocEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.cOrgao      := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.cOrgao;
-          FprocEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.cStat       := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.cStat;
-          FprocEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.xMotivo     := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.xMotivo;
-          FprocEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.chCTe       := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.chCTe;
-          FprocEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.tpEvento    := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.tpEvento;
-          FprocEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.xEvento     := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.xEvento;
-          FprocEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.nSeqEvento  := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.nSeqEvento;
-          FprocEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.CNPJDest    := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.CNPJDest;
-          FprocEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.emailDest   := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.emailDest;
-          FprocEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.dhRegEvento := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.dhRegEvento;
-          FprocEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.nProt       := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.nProt;
-          FprocEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.XML         := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[j].RetInfEvento.XML;
-
           aEventos := aEventos + LineBreak + LineBreak +
-                      'Número de sequência: ' + IntToStr(CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.nSeqEvento) + LineBreak +
-                      'Código do evento: '    + TpEventoToStr(CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.TpEvento) + LineBreak +
-                      'Descrição do evento: ' + ACBrStrToAnsi(CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.InfEvento.DescEvento) + LineBreak +
-                      'Status do evento: '    + IntToStr(CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.cStat) + LineBreak +
-                      'Descrição do status: ' + ACBrStrToAnsi(CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.xMotivo) + LineBreak +
-                      'Protocolo: '           + CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.nProt + LineBreak +
-                      'Data / hora do registro: ' + DateTimeToStr(CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.dhRegEvento);
+            Format(ACBrStr('Número de sequência: %s ' + LineBreak +
+                           'Código do evento: %s ' + LineBreak +
+                           'Descrição do evento: %s ' + LineBreak +
+                           'Status do evento: %s ' + LineBreak +
+                           'Descrição do status: %s ' + LineBreak +
+                           'Protocolo: %s ' + LineBreak +
+                           'Data/Hora do registro: %s '),
+                   [IntToStr(InfEvento.nSeqEvento),
+                    TpEventoToStr(InfEvento.TpEvento),
+                    InfEvento.DescEvento,
+                    IntToStr(retEvento.Items[J].RetInfEvento.cStat),
+                    retEvento.Items[J].RetInfEvento.xMotivo,
+                    retEvento.Items[J].RetInfEvento.nProt,
+                    FormatDateTimeBr(retEvento.Items[J].RetInfEvento.dhRegEvento)]);
 
-          if CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.tpEvento = teCancelamento then
+          if retEvento.Items[J].RetInfEvento.tpEvento = teCancelamento then
           begin
             CTCancelado := True;
-            FProtocolo  := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.nProt;
-            FDhRecbto   := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.dhRegEvento;
-            FMsg        := CTeRetorno.procEventoCTe.Items[I].RetEventoCTe.retEvento.Items[J].RetInfEvento.xMotivo;
+            FProtocolo := retEvento.Items[J].RetInfEvento.nProt;
+            FDhRecbto := retEvento.Items[J].RetInfEvento.dhRegEvento;
+            FPMsg := retEvento.Items[J].RetInfEvento.xMotivo;
           end;
         end;
       end;
@@ -1788,185 +1379,166 @@ begin
     if not CTCancelado then
     begin
       FProtocolo := CTeRetorno.protCTe.nProt;
-      FDhRecbto  := CTeRetorno.protCTe.dhRecbto;
-      FMsg       := CTeRetorno.protCTe.xMotivo;
+      FDhRecbto := CTeRetorno.protCTe.dhRecbto;
+      FPMsg := CTeRetorno.protCTe.xMotivo;
     end;
 
+    //TODO: Verificar porque monta "aMsg", pois ela não está sendo usada em lugar nenhum
     aMsg := GerarMsgLog;
     if aEventos <> '' then
       aMsg := aMsg + sLineBreak + aEventos;
 
     Result := (CTeRetorno.CStat in [100, 101, 110, 150, 151, 155]);
 
-    NomeArquivo := PathWithDelim(FConfiguracoes.Geral.PathSalvar) + FCTeChave;
+    NomeArquivo := PathWithDelim(FPConfiguracoesCTe.Arquivos.PathSalvar) + FCTeChave;
 
-    for i:= 0 to TACBrCTe( FACBrCTe ).Conhecimentos.Count - 1 do
+    for i := 0 to TACBrCTe(FPDFeOwner).Conhecimentos.Count - 1 do
     begin
-      if OnlyNumber(FCTeChave) = OnlyNumber(TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.infCTe.Id) then
-//      if pos(String(FCTeChave), TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.infCTe.ID) > 0 then
+      with TACBrCTe(FPDFeOwner).Conhecimentos.Items[i] do
       begin
-        Atualiza := True;
-        if ((CTeRetorno.CStat in [101, 151, 155]) and
-           (not FConfiguracoes.Geral.AtualizarXMLCancelado)) then
-          Atualiza := False;
-
-        TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].Confirmada := (CTeRetorno.cStat in [100, 150]);
-        if Atualiza then
+        if (OnlyNumber(FCTeChave) = NumID) then
         begin
-          if (TACBrCTe( FACBrCTe ).Configuracoes.Geral.ValidarDigest ) and
-             (TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.Signature.DigestValue <> CTeRetorno.protCTe.digVal) and
-             (CTeRetorno.protCTe.digVal <> '') then
-           begin
-             raise EACBrCTeException.Create('DigestValue do documento '+
-                                             OnlyNumber(TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.infCTe.Id)+
-                                             ' não confere.');
-           end;
-         {$IFDEF PL_200}
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].Msg                  := CTeRetorno.protCTe.xMotivo;
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.procCTe.Id       := CTeRetorno.protCTe.Id;
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.procCTe.tpAmb    := CTeRetorno.protCTe.tpAmb;
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.procCTe.verAplic := CTeRetorno.protCTe.verAplic;
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.procCTe.chCTe    := FCTeChave;
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.procCTe.dhRecbto := CTeRetorno.protCTe.dhRecbto;
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.procCTe.nProt    := CTeRetorno.protCTe.nProt;
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.procCTe.digVal   := CTeRetorno.protCTe.digVal;
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.procCTe.cStat    := CTeRetorno.protCTe.cStat;
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.procCTe.xMotivo  := CTeRetorno.protCTe.xMotivo;
-         {$ELSE}
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].Msg                  := CTeRetorno.xMotivo;
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.procCTe.tpAmb    := CTeRetorno.tpAmb;
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.procCTe.verAplic := CTeRetorno.protCTe.verAplic;
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.procCTe.chCTe    := FCTeChave;
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.procCTe.dhRecbto := FDhRecbto;
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.procCTe.nProt    := FProtocolo;
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.procCTe.digVal   := CTeRetorno.protCTe.digVal;
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.procCTe.cStat    := CTeRetorno.cStat;
-          TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.procCTe.xMotivo  := CTeRetorno.xMotivo;
-        {$ENDIF}
+          Atualiza := True;
+          if ((CTeRetorno.CStat in [101, 151, 155]) and
+            (not FPConfiguracoesCTe.Geral.AtualizarXMLCancelado)) then
+            Atualiza := False;
 
-          NomeXML := '-cte.xml';
-          if (CTeRetorno.protCTe.cStat = 110) or (CTeRetorno.protCTe.cStat = 301) then
-            NomeXML := '-den.xml';
+          // Atualiza o Status da CTe interna //
+          CTe.procCTe.cStat := CTeRetorno.cStat;
 
-          if FileExists(NomeArquivo + '-cte.xml') or
-              NaoEstaVazio(TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].NomeArq) then
+          if Atualiza then
           begin
-            AProcCTe := TProcCTe.Create;
-            try
-              if NaoEstaVazio(TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].NomeArq) then
-                AProcCTe.PathCTe := TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].NomeArq
-              else
-                AProcCTe.PathCTe := NomeArquivo + '-cte.xml';
-
-              AProcCTe.PathRetConsSitCTe := NomeArquivo + '-sit.xml';
-
-              AProcCTe.GerarXML;
-
-              aCTe := AProcCTe.Gerador.ArquivoFormatoXML;
-
-              if NaoEstaVazio(AProcCTe.Gerador.ArquivoFormatoXML) then
-                AProcCTe.Gerador.SalvarArquivo(AProcCTe.PathCTe);
-
-              FRetCTeDFe := '';
-
-              if (NaoEstaVazio(aCTe)) and (NaoEstaVazio(SeparaDados(FRetWS, 'procEventoCTe'))) then
-              begin
-                Inicio := Pos('<procEventoCTe', FRetWS);
-                Fim    := Pos('</retConsSitCTe', FRetWS) -1;
-
-                aEventos := Copy(FRetWS, Inicio, Fim - Inicio + 1);
-
-                aCTeDFe := '<?xml version="1.0" encoding="UTF-8" ?>' +
-                           '<CTeDFe>' +
-                            '<procCTe versao="' + CTeenviCTe + '">' +
-                              SeparaDados(aCTe, 'cteProc') +
-                            '</procCTe>' +
-                            '<procEventoCTe versao="' + CTeEventoCTe + '">' +
-                              aEventos +
-                            '</procEventoCTe>' +
-                           '</CTeDFe>';
-
-                FRetCTeDFe := aCTeDFe;
-              end;
-            finally
-              AProcCTe.Free;
+            if (FPConfiguracoesCTe.Geral.ValidarDigest) and
+              (CTeRetorno.protCTe.digVal <> '') and
+              (CTe.signature.DigestValue <> CTeRetorno.protCTe.digVal) then
+            begin
+              raise EACBrCTeException.Create('DigestValue do documento ' +
+                NumID + ' não confere.');
             end;
-          end
-          else begin
-           LocCTeW := TCTeW.Create(TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe);
-           try
-             LocCTeW.GerarXML;
 
-             aCTe := LocCTeW.Gerador.ArquivoFormatoXML;
+            CTe.procCTe.Id := CTeRetorno.protCTe.Id;
+            CTe.procCTe.tpAmb := CTeRetorno.tpAmb;
+            CTe.procCTe.verAplic := CTeRetorno.verAplic;
+            CTe.procCTe.chCTe := CTeRetorno.chCTe;
+            CTe.procCTe.dhRecbto := FDhRecbto;
+            CTe.procCTe.nProt := FProtocolo;
+            CTe.procCTe.digVal := CTeRetorno.protCTe.digVal;
+            CTe.procCTe.cStat := CTeRetorno.cStat;
+            CTe.procCTe.xMotivo := CTeRetorno.xMotivo;
 
-             FRetCTeDFe := '';
+            NomeXML := '-cte.xml';
+            if (CTeRetorno.protCTe.cStat = 110) or (CTeRetorno.protCTe.cStat = 301) then
+              NomeXML := '-den.xml';
 
-             if (NaoEstaVazio(aCTe)) and (NaoEstaVazio(SeparaDados(FRetWS, 'procEventoCTe'))) then
-              begin
-                Inicio := Pos('<procEventoCTe', FRetWS);
-                Fim    := Pos('</retConsSitCTe', FRetWS) -1;
+            if FileExists(NomeArquivo + '-cte.xml') or NaoEstaVazio(NomeArq) then
+            begin
+              AProcCTe := TProcCTe.Create;
+              try
+                if NaoEstaVazio(NomeArq) then
+                  AProcCTe.PathCTe := NomeArq
+                else
+                  AProcCTe.PathCTe := NomeArquivo + '-cte.xml';
 
-                aEventos := Copy(FRetWS, Inicio, Fim - Inicio + 1);
+                AProcCTe.PathRetConsSitCTe := NomeArquivo + '-sit.xml';
 
-                aCTeDFe := '<?xml version="1.0" encoding="UTF-8" ?>' +
-                           '<CTeDFe>' +
-                            '<procCTe versao="' + CTeenviCTe + '">' +
-                              SeparaDados(aCTe, 'cteProc') +
-                            '</procCTe>' +
-                            '<procEventoCTe versao="' + CTeEventoCTe + '">' +
-                              aEventos +
-                            '</procEventoCTe>' +
-                           '</CTeDFe>';
+                AProcCTe.GerarXML;
 
-                FRetCTeDFe := aCTeDFe;
+                aCTe := AProcCTe.Gerador.ArquivoFormatoXML;
+
+                if NaoEstaVazio(AProcCTe.Gerador.ArquivoFormatoXML) then
+                  AProcCTe.Gerador.SalvarArquivo(AProcCTe.PathCTe);
+
+                FRetCTeDFe := '';
+
+                if (NaoEstaVazio(aCTe)) and (NaoEstaVazio(SeparaDados(FPRetWS, 'procEventoCTe'))) then
+                begin
+                  Inicio := Pos('<procEventoCTe', FPRetWS);
+                  Fim    := Pos('</retConsSitCTe', FPRetWS) -1;
+
+                  aEventos := Copy(FPRetWS, Inicio, Fim - Inicio + 1);
+
+                  aCTeDFe := '<?xml version="1.0" encoding="UTF-8" ?>' +
+                             '<CTeDFe>' +
+                              '<procCTe versao="' + CTeenviCTe + '">' +
+                                SeparaDados(aCTe, 'cteProc') +
+                              '</procCTe>' +
+                              '<procEventoCTe versao="' + CTeEventoCTe + '">' +
+                                aEventos +
+                              '</procEventoCTe>' +
+                             '</CTeDFe>';
+
+                  FRetCTeDFe := aCTeDFe;
+                end;
+              finally
+                AProcCTe.Free;
               end;
-           finally
-             LocCTeW.Free;
-           end;
+            end
+            else begin
+             LocCTeW := TCTeW.Create(TACBrCTe(FPDFeOwner).Conhecimentos.Items[i].CTe);
+             try
+               LocCTeW.GerarXML;
+
+               aCTe := LocCTeW.Gerador.ArquivoFormatoXML;
+
+               FRetCTeDFe := '';
+
+               if (NaoEstaVazio(aCTe)) and (NaoEstaVazio(SeparaDados(FPRetWS, 'procEventoCTe'))) then
+                begin
+                  Inicio := Pos('<procEventoCTe', FPRetWS);
+                  Fim    := Pos('</retConsSitCTe', FPRetWS) -1;
+
+                  aEventos := Copy(FPRetWS, Inicio, Fim - Inicio + 1);
+
+                  aCTeDFe := '<?xml version="1.0" encoding="UTF-8" ?>' +
+                             '<CTeDFe>' +
+                              '<procCTe versao="' + CTeenviCTe + '">' +
+                                SeparaDados(aCTe, 'cteProc') +
+                              '</procCTe>' +
+                              '<procEventoCTe versao="' + CTeEventoCTe + '">' +
+                                aEventos +
+                              '</procEventoCTe>' +
+                             '</CTeDFe>';
+
+                  FRetCTeDFe := aCTeDFe;
+                end;
+             finally
+               LocCTeW.Free;
+             end;
+            end;
+
+            if FPConfiguracoesCTe.Arquivos.Salvar then
+            begin
+              if FPConfiguracoesCTe.Arquivos.SalvarApenasCTeProcessadas then
+              begin
+                if Processada then
+                  GravarXML();
+              end
+              else
+                GravarXML();
+            end;
+
+
+            if FPConfiguracoes.Arquivos.Salvar and (FRetCTeDFe <> '') then
+            begin
+              if FPConfiguracoes.Arquivos.EmissaoPathCTe then
+                Data := TACBrCTe(FPDFeOwner).Conhecimentos.Items[i].CTe.Ide.dhEmi
+              else
+                Data := Now;
+
+              FPConfiguracoes.Geral.Save(FCTeChave + '-CTeDFe.xml',
+                                         aCTeDFe,
+                                         PathWithDelim(FPConfiguracoes.Arquivos.GetPathCTe(Data)));
+          end;
           end;
 
-          if FConfiguracoes.Arquivos.Salvar then
-          begin
-            if FConfiguracoes.Arquivos.EmissaoPathCTe then
-              Data := TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.Ide.dhEmi
-            else
-              Data := Now;
-
-            if FConfiguracoes.Arquivos.SalvarApenasCTeProcessados then
-             begin
-               if CTeUtil.CstatProcessado(TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.procCTe.cStat) then
-                 TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].SaveToFile(
-                      PathWithDelim(FConfiguracoes.Arquivos.GetPathCTe(Data,
-                      TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.Emit.CNPJ)) +
-                      OnlyNumber(TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.InfCTe.Id) + NomeXML);
-             end
-            else
-               TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].SaveToFile(
-                   PathWithDelim(FConfiguracoes.Arquivos.GetPathCTe(Data,
-                   TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.Emit.CNPJ)) +
-                   OnlyNumber(TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.InfCTe.Id) + NomeXML);
-          end;
-
-          if FConfiguracoes.Arquivos.Salvar and (FRetCTeDFe <> '') then
-          begin
-            if FConfiguracoes.Arquivos.EmissaoPathCTe then
-              Data := TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.Ide.dhEmi
-            else
-              Data := Now;
-
-            FConfiguracoes.Geral.Save(FCTeChave + '-CTeDFe.xml',
-                                      aCTeDFe,
-                                      PathWithDelim(FConfiguracoes.Arquivos.GetPathCTe(Data)));
-          end;
+          break;
         end;
-
-        break;
       end;
     end;
 
-    if (TACBrCTe( FACBrCTe ).Conhecimentos.Count <= 0) then
+    if (TACBrCTe(FPDFeOwner).Conhecimentos.Count <= 0) then
     begin
-      if FConfiguracoes.Geral.Salvar then
+      if FPConfiguracoesCTe.Arquivos.Salvar then
       begin
         if FileExists(NomeArquivo + '-cte.xml') then
         begin
@@ -1982,12 +1554,12 @@ begin
             if NaoEstaVazio(AProcCTe.Gerador.ArquivoFormatoXML) then
               AProcCTe.Gerador.SalvarArquivo(AProcCTe.PathCTe);
 
-            if (NaoEstaVazio(aCTe)) and (NaoEstaVazio(SeparaDados(FRetWS, 'procEventoCTe'))) then
+            if (NaoEstaVazio(aCTe)) and (NaoEstaVazio(SeparaDados(FPRetWS, 'procEventoCTe'))) then
             begin
-              Inicio := Pos('<procEventoCTe', FRetWS);
-              Fim    := Pos('</retConsSitCTe', FRetWS) -1;
+              Inicio := Pos('<procEventoCTe', FPRetWS);
+              Fim    := Pos('</retConsSitCTe', FPRetWS) -1;
 
-              aEventos := Copy(FRetWS, Inicio, Fim - Inicio + 1);
+              aEventos := Copy(FPRetWS, Inicio, Fim - Inicio + 1);
 
               aCTeDFe := '<?xml version="1.0" encoding="UTF-8" ?>' +
                          '<CTeDFe>' +
@@ -2006,85 +1578,93 @@ begin
           end;
         end;
 
-       if (FConfiguracoes.Arquivos.Salvar) and (FRetCTeDFe <> '') then
+       if (FPConfiguracoes.Arquivos.Salvar) and (FRetCTeDFe <> '') then
        begin
-         if FConfiguracoes.Arquivos.EmissaoPathCTe then
-           Data := TACBrCTe( FACBrCTe ).Conhecimentos.Items[i].CTe.Ide.dhEmi
+         if FPConfiguracoes.Arquivos.EmissaoPathCTe then
+           Data := TACBrCTe(FPDFeOwner).Conhecimentos.Items[i].CTe.Ide.dhEmi
          else
            Data := Now;
 
-         FConfiguracoes.Geral.Save(FCTeChave + '-CTeDFe.xml',
-                                   aCTeDFe,
-                                   PathWithDelim(FConfiguracoes.Arquivos.GetPathCTe(Data)));
+         FPConfiguracoes.Geral.Save(FCTeChave + '-CTeDFe.xml',
+                                    aCTeDFe,
+                                    PathWithDelim(FPConfiguracoes.Arquivos.GetPathCTe(Data)));
        end;
       end;
     end;
+
   finally
     CTeRetorno.Free;
   end;
 end;
 
-function TCTeConsulta.GerarMsgLog: AnsiString;
+function TCTeConsulta.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : '     + Fversao + LineBreak +
-            'Identificador : '     + FCTeChave + LineBreak +
-            'Ambiente : '          + TpAmbToStr(FTpAmb) + LineBreak +
-            'Versão Aplicativo : ' + FverAplic + LineBreak +
-            'Status Código : '     + IntToStr(FcStat) + LineBreak +
-            'Status Descrição : '  + FXMotivo + LineBreak +
-            'UF : '                + CodigoParaUF(FcUF) + LineBreak +
-            'Chave Acesso : '      + FCTeChave + LineBreak +
-            'Recebimento : '       + DateTimeToStr(FDhRecbto) + LineBreak +
-            'Protocolo : '         + FProtocolo + LineBreak +
-            'Digest Value : '      + FprotCTe.digVal;
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Identificador: %s ' + LineBreak +
+                           'Ambiente: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'UF: %s ' + LineBreak +
+                           'Chave Acesso: %s ' + LineBreak +
+                           'Recebimento: %s ' + LineBreak +
+                           'Protocolo: %s ' + LineBreak +
+                           'Digest Value: %s ' + LineBreak),
+                   [Fversao, FCTeChave, TpAmbToStr(FTpAmb), FverAplic,
+                    IntToStr(FcStat), FXMotivo, CodigoParaUF(FcUF), FCTeChave,
+                    FormatDateTimeBr(FDhRecbto), FProtocolo, FprotCTe.digVal]);
 end;
 
-function TCTeConsulta.GerarPrefixoArquivo: AnsiString;
+function TCTeConsulta.GerarPrefixoArquivo: String;
 begin
-  Result := Trim( FCTeChave );
+  Result := Trim(FCTeChave);
 end;
 
 { TCTeInutilizacao }
 
-constructor TCTeInutilizacao.Create(AOwner: TComponent);
+constructor TCTeInutilizacao.Create(AOwner: TACBrDFe);
 begin
   inherited Create(AOwner);
 
-  FStatus  := stCTeInutilizacao;
-  FLayout  := LayCTeInutilizacao;
-  FArqEnv  := 'ped-inu';
-  FArqResp := 'inu';
+  FPStatus := stCTeInutilizacao;
+  FPLayout := LayCTeInutilizacao;
+  FPArqEnv := 'ped-inu';
+  FPArqResp := 'inu';
 end;
 
-procedure TCTeInutilizacao.SetJustificativa(AValue: WideString);
+procedure TCTeInutilizacao.SetJustificativa(AValue: String);
+var
+  TrimValue: String;
 begin
-  if EstaVazio(AValue) then
-    GerarException('Informar uma Justificativa para Inutilização de numeração do Conhecimento de Transporte Eletrônico')
-  else
-    AValue := TrataString(AValue);
+  TrimValue := Trim(AValue);
 
-  if Length(Trim(AValue)) < 15 then
-    GerarException('A Justificativa para Inutilização de numeração do Conhecimento de Transporte Eletrônico deve ter no minimo 15 caracteres')
-  else
-    FJustificativa := Trim(AValue);
+  if EstaVazio(TrimValue) then
+    GerarException(ACBrStr('Informar uma Justificativa para Inutilização de ' +
+      'numeração do Conhecimento Eletronico'));
+
+  if Length(TrimValue) < 15 then
+    GerarException(ACBrStr('A Justificativa para Inutilização de numeração do ' +
+      'Conhecimento Eletronico deve ter no minimo 15 caracteres'));
+
+  FJustificativa := TrimValue;
 end;
 
 function TCTeInutilizacao.GerarPathPorCNPJ(): String;
 var
   CNPJ: String;
 begin
-  if FConfiguracoes.Arquivos.SepararPorCNPJ then
+  if FPConfiguracoesCTe.Arquivos.SepararPorCNPJ then
     CNPJ := FCNPJ
   else
     CNPJ := '';
 
-  Result := FConfiguracoes.Arquivos.GetPathInu( 0, CNPJ );
+  Result := FPConfiguracoesCTe.Arquivos.GetPathInu(CNPJ);
 end;
 
 procedure TCTeInutilizacao.DefinirServicoEAction;
 begin
-  FServico    := CURL_WSDL + 'CteInutilizacao';
-  FSoapAction := FServico + '/cteInutilizacaoCT';
+  FPServico    := GetUrlWsd + 'CteInutilizacao';
+  FPSoapAction := FPServico + '/cteInutilizacaoCT';
 end;
 
 procedure TCTeInutilizacao.DefinirDadosMsg;
@@ -2093,21 +1673,21 @@ var
 begin
   InutCTe := TinutCTe.Create;
   try
-    InutCTe.tpAmb  := TpcnTipoAmbiente(FConfiguracoes.WebServices.AmbienteCodigo - 1);
-    InutCTe.cUF    := FConfiguracoes.WebServices.UFCodigo;
-    InutCTe.ano    := FAno;
-    InutCTe.CNPJ   := FCNPJ;
+    InutCTe.tpAmb := FPConfiguracoesCTe.WebServices.Ambiente;
+    InutCTe.cUF := FPConfiguracoesCTe.WebServices.UFCodigo;
+    InutCTe.ano := FAno;
+    InutCTe.CNPJ := FCNPJ;
     InutCTe.modelo := FModelo;
-    InutCTe.serie  := FSerie;
+    InutCTe.serie := FSerie;
     InutCTe.nCTIni := FNumeroInicial;
     InutCTe.nCTFin := FNumeroFinal;
-    InutCTe.xJust  := FJustificativa;
+    InutCTe.xJust := FJustificativa;
 
+    InutCTe.Versao := FPVersaoServico;
     InutCTe.GerarXML;
 
-    AssinarXML( InutCTe.Gerador.ArquivoFormatoXML,
-                'Falha ao assinar Inutilização do Conhecimento de Transporte Eletrônico ' +
-                LineBreak + FMsg );
+    AssinarXML(InutCTe.Gerador.ArquivoFormatoXML, 'inutCTe', 'infInut',
+      'Falha ao assinar Inutilização Nota Fiscal Eletrônica ');
 
     FID := InutCTe.ID;
   finally
@@ -2121,12 +1701,10 @@ var
 begin
   inherited SalvarEnvio;
 
-//  if FConfiguracoes.Arquivos.Salvar then
-  if FConfiguracoes.Geral.Salvar then
+  if FPConfiguracoesCTe.Geral.Salvar then
   begin
     aPath := GerarPathPorCNPJ;
-    FConfiguracoes.Geral.Save(GerarPrefixoArquivo + '-' + ArqEnv + '.xml',
-                              FDadosMsg, aPath);
+    FPDFeOwner.Gravar(GerarPrefixoArquivo + '-' + ArqEnv + '.xml', FPDadosMsg, aPath);
   end;
 end;
 
@@ -2136,12 +1714,10 @@ var
 begin
   inherited SalvarResposta;
 
-//  if FConfiguracoes.Arquivos.Salvar then
-  if FConfiguracoes.Geral.Salvar then
+  if FPConfiguracoesCTe.Geral.Salvar then
   begin
     aPath := GerarPathPorCNPJ;
-    FConfiguracoes.Geral.Save(GerarPrefixoArquivo + '-' + ArqResp + '.xml',
-                              FRetWS, aPath);
+    FPDFeOwner.Gravar(GerarPrefixoArquivo + '-' + ArqResp + '.xml', FPRetWS, aPath);
   end;
 end;
 
@@ -2152,20 +1728,20 @@ var
 begin
   CTeRetorno := TRetInutCTe.Create;
   try
-    FRetWS := SeparaDados(FRetornoWS, 'cteInutilizacaoCTResult');
+    FPRetWS := SeparaDados(FPRetornoWS, 'cteInutilizacaoCTResult');
 
-    CTeRetorno.Leitor.Arquivo := FRetWS;
+    CTeRetorno.Leitor.Arquivo := FPRetWS;
     CTeRetorno.LerXml;
 
-    Fversao    := CTeRetorno.versao;
-    FTpAmb     := CTeRetorno.TpAmb;
-    FverAplic  := CTeRetorno.verAplic;
-    FcStat     := CTeRetorno.cStat;
-    FxMotivo   := CTeRetorno.xMotivo;
-    FcUF       := CTeRetorno.cUF;
-    FdhRecbto  := CTeRetorno.dhRecbto;
+    Fversao := CTeRetorno.versao;
+    FTpAmb := CTeRetorno.TpAmb;
+    FverAplic := CTeRetorno.verAplic;
+    FcStat := CTeRetorno.cStat;
+    FxMotivo := CTeRetorno.xMotivo;
+    FcUF := CTeRetorno.cUF;
+    FdhRecbto := CTeRetorno.dhRecbto;
     Fprotocolo := CTeRetorno.nProt;
-    FMsg       := CTeRetorno.XMotivo;
+    FPMsg := CTeRetorno.XMotivo;
 
     Result := (CTeRetorno.cStat = 102);
 
@@ -2174,67 +1750,68 @@ begin
     begin
       wProc := TStringList.Create;
       try
-        wProc.Add('<?xml version="1.0" encoding="UTF-8" ?>');
-        wProc.Add('<ProcInutCTe versao="' + GetVersaoCTe(FConfiguracoes.Geral.VersaoDF,
-                                                         LayCTeInutilizacao) +
-                                 '" xmlns="http://www.portalfiscal.inf.br/cte">');
+        wProc.Add('<' + ENCODING_UTF8 + '>');
+        wProc.Add('<ProcInutCTe versao="' + FPVersaoServico +
+          '" xmlns="http://www.portalfiscal.inf.br/cte">');
 
-        wProc.Add(FDadosMSG);
-        wProc.Add(FRetWS);
+        wProc.Add(FPDadosMsg);
+        wProc.Add(FPRetWS);
         wProc.Add('</ProcInutCTe>');
         FXML_ProcInutCTe := wProc.Text;
       finally
         wProc.Free;
       end;
 
-      if FConfiguracoes.Geral.Salvar then
-        FConfiguracoes.Geral.Save( GerarPrefixoArquivo + '-procInutCTe.xml',
-                                   FXML_ProcInutCTe );
+      if FPConfiguracoesCTe.Geral.Salvar then
+        FPDFeOwner.Gravar(GerarPrefixoArquivo + '-procInutCTe.xml',
+          FXML_ProcInutCTe);
 
-      if FConfiguracoes.Arquivos.Salvar then
-        FConfiguracoes.Geral.Save( GerarPrefixoArquivo + '-procInutCTe.xml',
-                                   FXML_ProcInutCTe, GerarPathPorCNPJ );
+      if FPConfiguracoesCTe.Arquivos.Salvar then
+        FPDFeOwner.Gravar(GerarPrefixoArquivo + '-procInutCTe.xml',
+          FXML_ProcInutCTe, GerarPathPorCNPJ);
     end;
   finally
     CTeRetorno.Free;
   end;
 end;
 
-function TCTeInutilizacao.GerarMsgLog: AnsiString;
+function TCTeInutilizacao.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : '     + Fversao + LineBreak +
-            'Ambiente : '          + TpAmbToStr(FTpAmb) + LineBreak +
-            'Versão Aplicativo : ' + FverAplic + LineBreak +
-            'Status Código : '     + IntToStr(FcStat) + LineBreak +
-            'Status Descrição : '  + FxMotivo + LineBreak +
-            'UF : '                + CodigoParaUF(FcUF) + LineBreak +
-            'Recebimento : '       + SeSenao(FdhRecbto = 0,
-                                                     '',
-                                                     DateTimeToStr(FdhRecbto));
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Ambiente: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'UF: %s ' + LineBreak +
+                           'Recebimento: %s ' + LineBreak),
+                   [Fversao, TpAmbToStr(FTpAmb), FverAplic, IntToStr(FcStat),
+                    FxMotivo, CodigoParaUF(FcUF),
+                    IfThen(FdhRecbto = 0, '', FormatDateTimeBr(FdhRecbto))]);
 end;
 
-function TCTeInutilizacao.GerarPrefixoArquivo: AnsiString;
+function TCTeInutilizacao.GerarPrefixoArquivo: String;
 begin
-  Result := OnlyNumber(FID);
+  Result := Trim(OnlyNumber(FID));
 end;
 
 { TCTeConsultaCadastro }
 
-constructor TCTeConsultaCadastro.Create(AOwner: TComponent);
+constructor TCTeConsultaCadastro.Create(AOwner: TACBrDFe);
 begin
   inherited Create(AOwner);
 
   FRetConsCad := TRetConsCad.Create;
 
-  FStatus  := stCTeCadastro;
-  FLayout  := LayCTeCadastro;
-  FArqEnv  := 'ped-cad';
-  FArqResp := 'cad';
+  FPStatus := stCTeCadastro;
+  FPLayout := LayCTeCadastro;
+  FPArqEnv := 'ped-cad';
+  FPArqResp := 'cad';
 end;
 
 destructor TCTeConsultaCadastro.Destroy;
 begin
   FRetConsCad.Free;
+
   inherited Destroy;
 end;
 
@@ -2242,7 +1819,7 @@ procedure TCTeConsultaCadastro.SetCNPJ(const Value: String);
 begin
   if NaoEstaVazio(Value) then
   begin
-    FIE  := '';
+    FIE := '';
     FCPF := '';
   end;
 
@@ -2253,7 +1830,7 @@ procedure TCTeConsultaCadastro.SetCPF(const Value: String);
 begin
   if NaoEstaVazio(Value) then
   begin
-    FIE   := '';
+    FIE := '';
     FCNPJ := '';
   end;
 
@@ -2265,26 +1842,16 @@ begin
   if NaoEstaVazio(Value) then
   begin
     FCNPJ := '';
-    FCPF  := '';
+    FCPF := '';
   end;
 
   FIE := Value;
 end;
 
-procedure TCTeConsultaCadastro.DefinirURL;
-begin
-  inherited DefinirURL;
-
-  FURL := CTeUtil.GetURL( UFparaCodigo(FUF),
-                          FConfiguracoes.WebServices.AmbienteCodigo,
-                          FConfiguracoes.Geral.FormaEmissaoCodigo,
-                          LayCTeCadastro );
-end;
-
 procedure TCTeConsultaCadastro.DefinirServicoEAction;
 begin
-  FServico    := CURL_WSDL + 'CteInutilizacao';
-  FSoapAction := FServico;
+  FPServico := GetUrlWsd + 'CadConsultaCadastro2';
+  FPSoapAction := FPServico;
 end;
 
 procedure TCTeConsultaCadastro.DefinirDadosMsg;
@@ -2293,14 +1860,14 @@ var
 begin
   ConCadCTe := TConsCad.Create;
   try
-    ConCadCTe.UF   := FUF;
-    ConCadCTe.IE   := FIE;
+    ConCadCTe.UF := FUF;
+    ConCadCTe.IE := FIE;
     ConCadCTe.CNPJ := FCNPJ;
-    ConCadCTe.CPF  := FCPF;
-
+    ConCadCTe.CPF := FCPF;
+    ConCadCTe.Versao := FPVersaoServico;
     ConCadCTe.GerarXML;
 
-    FDadosMsg := ConCadCTe.Gerador.ArquivoFormatoXML;
+    FPDadosMsg := ConCadCTe.Gerador.ArquivoFormatoXML;
   finally
     ConCadCTe.Free;
   end;
@@ -2308,74 +1875,80 @@ end;
 
 function TCTeConsultaCadastro.TratarResposta: Boolean;
 begin
-  FRetWS := SeparaDados(FRetornoWS, 'consultaCadastro2Result');
+  FPRetWS := SeparaDados(FPRetornoWS, 'consultaCadastro2Result');
 
   // Limpando variaveis internas
   FRetConsCad.Free;
   FRetConsCad := TRetConsCad.Create;
 
-  FRetConsCad.Leitor.Arquivo := FRetWS;
+  FRetConsCad.Leitor.Arquivo := FPRetWS;
   FRetConsCad.LerXml;
 
-  Fversao   := FRetConsCad.versao;
+  Fversao := FRetConsCad.versao;
   FverAplic := FRetConsCad.verAplic;
-  FcStat    := FRetConsCad.cStat;
-  FxMotivo  := FRetConsCad.xMotivo;
-  FdhCons   := FRetConsCad.dhCons;
-  FcUF      := FRetConsCad.cUF;
-  FMsg      := FRetConsCad.XMotivo;
+  FcStat := FRetConsCad.cStat;
+  FxMotivo := FRetConsCad.xMotivo;
+  FdhCons := FRetConsCad.dhCons;
+  FcUF := FRetConsCad.cUF;
+  FPMsg := FRetConsCad.XMotivo;
 
   Result := (FRetConsCad.cStat in [111, 112]);
 end;
 
-function TCTeConsultaCadastro.GerarMsgLog: AnsiString;
+function TCTeConsultaCadastro.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : '     + FRetConsCad.versao + LineBreak +
-            'Versão Aplicativo : ' + FRetConsCad.verAplic + LineBreak +
-            'Status Código : '     + IntToStr(FRetConsCad.cStat) + LineBreak +
-            'Status Descrição : '  + FRetConsCad.xMotivo + LineBreak +
-            'UF : '                + CodigoParaUF(FRetConsCad.cUF) + LineBreak +
-            'Consulta : '          + DateTimeToStr(FRetConsCad.dhCons);
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'UF: %s ' + LineBreak +
+                           'Consulta: %s ' + sLineBreak),
+                   [FRetConsCad.versao, FRetConsCad.verAplic,
+                   IntToStr(FRetConsCad.cStat), FRetConsCad.xMotivo,
+                   CodigoParaUF(FRetConsCad.cUF),
+                   FormatDateTimeBr(FRetConsCad.dhCons)]);
 end;
 
-function TCTeConsultaCadastro.GerarUFSoap: AnsiString;
+function TCTeConsultaCadastro.GerarUFSoap: String;
 begin
-  Result := '<cUF>' +
-              IntToStr(UFparaCodigo(FUF)) +
-            '</cUF>';
+  Result := '<cUF>' + IntToStr(UFparaCodigo(FUF)) + '</cUF>';
 end;
 
 { TCTeEnvEvento }
 
-constructor TCTeEnvEvento.Create(AOwner: TComponent; AEvento: TEventoCTe);
+constructor TCTeEnvEvento.Create(AOwner: TACBrDFe; AEvento: TEventoCTe);
 begin
   inherited Create(AOwner);
 
   FEventoRetorno := TRetEventoCTe.Create;
+  FEvento := AEvento;
 
-  FEvento  := AEvento;
-  FStatus  := stCTeEvento;
-  FLayout  := LayCTeEvento;
-  FArqEnv  := 'ped-eve';
-  FArqResp := 'eve';
+  FPStatus := stCTeEvento;
+  FPLayout := LayCTeEvento;
+  FPArqEnv := 'ped-eve';
+  FPArqResp := 'eve';
 end;
 
 destructor TCTeEnvEvento.Destroy;
 begin
   FEventoRetorno.Free;
+
   inherited;
 end;
 
 function TCTeEnvEvento.GerarPathEvento: String;
 begin
-  if (FEvento.Evento.Items[0].InfEvento.tpEvento = teCCe) and
-     (not FConfiguracoes.Arquivos.SalvarCCeCanEvento) then
-    Result := FConfiguracoes.Arquivos.GetPathCCe
-  else if (FEvento.Evento.Items[0].InfEvento.tpEvento = teCancelamento) and
-          (not FConfiguracoes.Arquivos.SalvarCCeCanEvento) then
-    Result := FConfiguracoes.Arquivos.GetPathCan
-  else
-    Result := FConfiguracoes.Arquivos.GetPathEvento(FEvento.Evento.Items[0].InfEvento.tpEvento);
+  with FEvento.Evento.Items[0].Infevento do
+  begin
+    if (tpEvento = teCCe) and
+      (not FPConfiguracoesCTe.Arquivos.SalvarCCeCanEvento) then
+      Result := FPConfiguracoesCTe.Arquivos.GetPathCCe
+    else if (tpEvento = teCancelamento) and
+      (not FPConfiguracoesCTe.Arquivos.SalvarCCeCanEvento) then
+      Result := FPConfiguracoesCTe.Arquivos.GetPathCan
+    else
+      Result := FPConfiguracoesCTe.Arquivos.GetPathEvento(tpEvento);
+  end;
 end;
 
 procedure TCTeEnvEvento.DefinirURL;
@@ -2384,23 +1957,23 @@ begin
     os outros eventos como manifestacao de destinatários serão tratados diretamente pela RFB }
 
   if not (FEvento.Evento.Items[0].InfEvento.tpEvento in [teCCe, teCancelamento, teMultiModal]) then
-    FLayout := LayCTeEventoEPEC
+    FPLayout := LayCTeEventoEPEC
   else
-    FLayout := LayCTeEvento;
+    FPLayout := LayCTeEvento;
 
   inherited DefinirURL;
 end;
 
 procedure TCTeEnvEvento.DefinirServicoEAction;
 begin
-  FServico    := CURL_WSDL + 'CteRecepcaoEvento';
-  FSoapAction := FServico + '/cteRecepcaoEvento';
+  FPServico    := GetUrlWsd + 'CteRecepcaoEvento';
+  FPSoapAction := FPServico + '/cteRecepcaoEvento';
 end;
 
 procedure TCTeEnvEvento.DefinirDadosMsg;
 var
   EventoCTe: TEventoCTe;
-  I, J, F: Integer;
+  I, J, F: integer;
   Lote, Evento, Eventos, EventosAssinados: String;
 begin
   EventoCTe := TEventoCTe.Create;
@@ -2412,17 +1985,18 @@ begin
     begin
       with EventoCTe.Evento.Add do
       begin
-        infEvento.tpAmb      := TpcnTipoAmbiente(FConfiguracoes.WebServices.AmbienteCodigo - 1);
-        infEvento.CNPJ       := FEvento.Evento[I].InfEvento.CNPJ;
-        infEvento.cOrgao     := FEvento.Evento[I].InfEvento.cOrgao;
-        infEvento.chCTe      := FEvento.Evento[I].InfEvento.chCTe;
-        infEvento.dhEvento   := FEvento.Evento[I].InfEvento.dhEvento;
-        infEvento.tpEvento   := FEvento.Evento[I].InfEvento.tpEvento;
+        infEvento.tpAmb := FPConfiguracoesCTe.WebServices.Ambiente;
+        infEvento.CNPJ := FEvento.Evento[I].InfEvento.CNPJ;
+        infEvento.cOrgao := FEvento.Evento[I].InfEvento.cOrgao;
+        infEvento.chCTe := FEvento.Evento[I].InfEvento.chCTe;
+        infEvento.dhEvento := FEvento.Evento[I].InfEvento.dhEvento;
+        infEvento.tpEvento := FEvento.Evento[I].InfEvento.tpEvento;
         infEvento.nSeqEvento := FEvento.Evento[I].InfEvento.nSeqEvento;
 
         case InfEvento.tpEvento of
           teCCe:
           begin
+            infEvento.detEvento.xCondUso := FEvento.Evento[I].InfEvento.detEvento.xCondUso;
             infEvento.detEvento.xCondUso := FEvento.Evento[i].InfEvento.detEvento.xCondUso;
 
             for j := 0 to FEvento.Evento[i].InfEvento.detEvento.infCorrecao.Count - 1 do
@@ -2465,60 +2039,57 @@ begin
             infEvento.detEvento.UFIni   := FEvento.Evento[i].InfEvento.detEvento.UFIni;
             infEvento.detEvento.UFFim   := FEvento.Evento[i].InfEvento.detEvento.UFFim;
           end;
-
         end;
       end;
     end;
 
+    EventoCTe.Versao := FPVersaoServico;
     EventoCTe.GerarXML;
 
-    (*
     // Separa os grupos <evento> e coloca na variável Eventos
-    I       := Pos( '<evento ', EventoCTe.Gerador.ArquivoFormatoXML );
-    Lote    := Copy( EventoCTe.Gerador.ArquivoFormatoXML, 1, I - 1 );
-    Eventos := SeparaDados(EventoCTe.Gerador.ArquivoFormatoXML, 'envEvento' );
-    I       := Pos( '<evento ', Eventos );
-    Eventos := Copy( Eventos, I, length(Eventos) );
+    I := Pos('<evento ', EventoCTe.Gerador.ArquivoFormatoXML);
+    Lote := Copy(EventoCTe.Gerador.ArquivoFormatoXML, 1, I - 1);
+    Eventos := SeparaDados(EventoCTe.Gerador.ArquivoFormatoXML, 'envEvento');
+    I := Pos('<evento ', Eventos);
+    Eventos := Copy(Eventos, I, length(Eventos));
 
     EventosAssinados := '';
 
     // Realiza a assinatura para cada evento
     while Eventos <> '' do
     begin
-      F := Pos( '</evento>', Eventos );
+      F := Pos('</evento>', Eventos);
 
       if F > 0 then
       begin
-        Evento  := Copy( Eventos, 1, F + 8 );
-        Eventos := Copy( Eventos, F + 9, length(Eventos) );
+        Evento := Copy(Eventos, 1, F + 8);
+        Eventos := Copy(Eventos, F + 9, length(Eventos));
 
-        AssinarXML(Evento,
-                   'Falha ao assinar o Envio de Evento ' + LineBreak + FMsg);
+        AssinarXML(Evento, 'evento', 'infEvento', 'Falha ao assinar o Envio de Evento ');
 
-        EventosAssinados := EventosAssinados + FDadosMsg;
+        EventosAssinados := EventosAssinados + StringReplace(
+          FPDadosMsg, '<?xml version="1.0"?>', '', []);
       end
       else
         Break;
     end;
 
-    F := Pos( '?>', EventosAssinados );
+    F := Pos('?>', EventosAssinados);
     if F <> 0 then
-      FDadosMsg := copy(EventosAssinados, 1, F + 1) +
-                   Lote +
-                   copy(EventosAssinados, F + 2, Length(EventosAssinados)) +
-                   '</envEvento>'
+      FPDadosMsg := copy(EventosAssinados, 1, F + 1) + Lote +
+        copy(EventosAssinados, F + 2, Length(EventosAssinados)) + '</envEvento>'
     else
-      FDadosMsg := Lote + EventosAssinados + '</envEvento>';
-    *)
+      FPDadosMsg := Lote + EventosAssinados + '</envEvento>';
 
-    AssinarXML(EventoCTe.Gerador.ArquivoFormatoXML,
-               'Falha ao assinar o Envio de Evento ' + LineBreak + FMsg);
+//    AssinarXML(EventoCTe.Gerador.ArquivoFormatoXML,
+//               'Falha ao assinar o Envio de Evento ' + LineBreak + FMsg);
 
-    if not(CTeUtil.Valida(FDadosMsg, FMsg, TACBrCTe( FACBrCTe ).Configuracoes.Geral.PathSchemas)) then
-      GerarException('Falha na validação dos dados do Envio de Evento ' +
-                     LineBreak + FMsg);
+    with TACBrCTe(FPDFeOwner) do
+    begin
+      SSL.Validar(FPDadosMsg, GerarNomeArqSchema(FPLayout, FPVersaoServico), FPMsg);
+    end;
 
-    for I := 0 to FEvento.Evento.Count-1 do
+    for I := 0 to FEvento.Evento.Count - 1 do
       FEvento.Evento[I].InfEvento.id := EventoCTe.Evento[I].InfEvento.id;
   finally
     EventoCTe.Free;
@@ -2530,21 +2101,21 @@ var
   Texto: AnsiString;
 begin
   // UF = 51 = MT não esta aceitando SOAP 1.2
-  if FConfiguracoes.WebServices.UFCodigo <> 51 then
+  if FPConfiguracoes.WebServices.UFCodigo <> 51 then
   begin
     Texto := '<?xml version="1.0" encoding="utf-8"?>';
     Texto := Texto + '<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' +
                                      ' xmlns:xsd="http://www.w3.org/2001/XMLSchema"' +
                                      ' xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">';
     Texto := Texto +   '<soap12:Header>';
-    Texto := Texto +     '<cteCabecMsg xmlns="' + Servico + '">';
+    Texto := Texto +     '<cteCabecMsg xmlns="' + FPServico + '">';
     Texto := Texto +       GerarUFSoap;
     Texto := Texto +       GerarVersaoDadosSoap;
     Texto := Texto +     '</cteCabecMsg>';
     Texto := Texto +   '</soap12:Header>';
     Texto := Texto +   '<soap12:Body>';
-    Texto := Texto +     '<cteDadosMsg xmlns="' + Servico + '">';
-    Texto := Texto +       DadosMsg;
+    Texto := Texto +     '<cteDadosMsg xmlns="' + FPServico + '">';
+    Texto := Texto +       FPDadosMsg;
     Texto := Texto +     '</cteDadosMsg>';
     Texto := Texto +   '</soap12:Body>';
     Texto := Texto + '</soap12:Envelope>';
@@ -2555,14 +2126,14 @@ begin
                                    ' xmlns:xsd="http://www.w3.org/2001/XMLSchema"' +
                                    ' xmlns:soap="http://www.w3.org/2003/05/soap-envelope">';
     Texto := Texto +   '<soap:Header>';
-    Texto := Texto +     '<cteCabecMsg xmlns="' + Servico + '">';
+    Texto := Texto +     '<cteCabecMsg xmlns="' + FPServico + '">';
     Texto := Texto +       GerarUFSoap;
     Texto := Texto +       GerarVersaoDadosSoap;
     Texto := Texto +     '</cteCabecMsg>';
     Texto := Texto +   '</soap:Header>';
     Texto := Texto +   '<soap:Body>';
-    Texto := Texto +     '<cteDadosMsg xmlns="' + Servico + '">';
-    Texto := Texto +       DadosMsg;
+    Texto := Texto +     '<cteDadosMsg xmlns="' + FPServico + '">';
+    Texto := Texto +       FPDadosMsg;
     Texto := Texto +     '</cteDadosMsg>';
     Texto := Texto +   '</soap:Body>';
     Texto := Texto + '</soap:Envelope>';
@@ -2574,30 +2145,30 @@ end;
 function TCTeEnvEvento.TratarResposta: Boolean;
 var
   Leitor: TLeitor;
-  I, J: Integer;
+  I, J: integer;
   wProc: TStringList;
-  NomeArq: String;
+  NomeArq, VersaoEvento: String;
 begin
   FEvento.idLote := idLote;
 
-  FRetWS := SeparaDados(FRetornoWS, 'cteRecepcaoEventoResult');
+  FPRetWS := SeparaDados(FPRetornoWS, 'cteRecepcaoEventoResult');
 
   // Limpando variaveis internas
   FEventoRetorno.Free;
   FEventoRetorno := TRetEventoCTe.Create;
 
-  FEventoRetorno.Leitor.Arquivo := FRetWS;
-  FEventoRetorno.LerXml;
+  EventoRetorno.Leitor.Arquivo := FPRetWS;
+  EventoRetorno.LerXml;
 
-//  FcStat   := FEventoRetorno.cStat;
-//  FxMotivo := FEventoRetorno.xMotivo;
-//  FMsg     := FEventoRetorno.xMotivo;
-//  FTpAmb   := FEventoRetorno.tpAmb;
+  FcStat := EventoRetorno.cStat;
+  FxMotivo := EventoRetorno.xMotivo;
+  FPMsg := EventoRetorno.xMotivo;
+  FTpAmb := EventoRetorno.tpAmb;
 
-  FcStat   := FEventoRetorno.retEvento.Items[0].RetInfEvento.cStat;
-  FxMotivo := FEventoRetorno.retEvento.Items[0].RetInfEvento.xMotivo;
-  FMsg     := FEventoRetorno.retEvento.Items[0].RetInfEvento.xMotivo;
-  FTpAmb   := FEventoRetorno.retEvento.Items[0].RetInfEvento.tpAmb;
+//  FcStat   := FEventoRetorno.retEvento.Items[0].RetInfEvento.cStat;
+//  FxMotivo := FEventoRetorno.retEvento.Items[0].RetInfEvento.xMotivo;
+//  FPMsg    := FEventoRetorno.retEvento.Items[0].RetInfEvento.xMotivo;
+//  FTpAmb   := FEventoRetorno.retEvento.Items[0].RetInfEvento.tpAmb;
 
   Result := (FcStat in [128, 135, 136, 155]);
 
@@ -2608,58 +2179,63 @@ begin
     try
       for I := 0 to FEvento.Evento.Count - 1 do
       begin
-        for J := 0 to FEventoRetorno.retEvento.Count - 1 do
+        for J := 0 to EventoRetorno.retEvento.Count - 1 do
         begin
-          if FEvento.Evento.Items[I].InfEvento.chCTe = FEventoRetorno.retEvento.Items[J].RetInfEvento.chCTe then
+          if FEvento.Evento.Items[I].InfEvento.chCTe =
+            EventoRetorno.retEvento.Items[J].RetInfEvento.chCTe then
           begin
-            FEvento.Evento.Items[I].RetInfEvento.nProt       := FEventoRetorno.retEvento.Items[J].RetInfEvento.nProt;
-            FEvento.Evento.Items[I].RetInfEvento.dhRegEvento := FEventoRetorno.retEvento.Items[J].RetInfEvento.dhRegEvento;
-            FEvento.Evento.Items[I].RetInfEvento.cStat       := FEventoRetorno.retEvento.Items[J].RetInfEvento.cStat;
-            FEvento.Evento.Items[I].RetInfEvento.xMotivo     := FEventoRetorno.retEvento.Items[J].RetInfEvento.xMotivo;
-            FEvento.Evento.Items[i].RetInfEvento.chCTe       := FEventoRetorno.retEvento.Items[j].RetInfEvento.chCTe;
+            FEvento.Evento.Items[I].RetInfEvento.nProt :=
+              EventoRetorno.retEvento.Items[J].RetInfEvento.nProt;
+            FEvento.Evento.Items[I].RetInfEvento.dhRegEvento :=
+              EventoRetorno.retEvento.Items[J].RetInfEvento.dhRegEvento;
+            FEvento.Evento.Items[I].RetInfEvento.cStat :=
+              EventoRetorno.retEvento.Items[J].RetInfEvento.cStat;
+            FEvento.Evento.Items[I].RetInfEvento.xMotivo :=
+              EventoRetorno.retEvento.Items[J].RetInfEvento.xMotivo;
+            FEvento.Evento.Items[i].RetInfEvento.chCTe :=
+              EventoRetorno.retEvento.Items[j].RetInfEvento.chCTe;
 
             wProc := TStringList.Create;
             try
-              wProc.Add('<?xml version="1.0" encoding="UTF-8" ?>');
-              wProc.Add('<procEventoCTe versao="' + GetVersaoCTe(FConfiguracoes.Geral.VersaoDF,
-                                                                 LayCTeEvento) +
-                                      '" xmlns="http://www.portalfiscal.inf.br/cte">');
-              wProc.Add('<eventoCTe versao="' + GetVersaoCTe(FConfiguracoes.Geral.VersaoDF,
-                                                          LayCTeEvento) + '">');
-              Leitor.Arquivo := FDadosMSG;
-              wProc.Add(UTF8Encode(Leitor.rExtrai(1, 'infEvento', '', I + 1)));
+              VersaoEvento := TACBrCTe(FPDFeOwner).LerVersaoDeParams(LayCTeEvento);
+
+              wProc.Add('<' + ENCODING_UTF8 + '>');
+              wProc.Add('<procEventoCTe versao="' + VersaoEvento +
+                '" xmlns="http://www.portalfiscal.inf.br/cte">');
+              wProc.Add('<eventoCTe versao="' + VersaoEvento + '">');
+              Leitor.Arquivo := FPDadosMsg;
+              wProc.Add(Leitor.rExtrai(1, 'infEvento', '', I + 1));
               wProc.Add('<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">');
 
-              Leitor.Arquivo := FDadosMSG;
-              wProc.Add(UTF8Encode(Leitor.rExtrai(1, 'SignedInfo', '', I + 1)));
+              Leitor.Arquivo := FPDadosMsg;
+              wProc.Add(Leitor.rExtrai(1, 'SignedInfo', '', I + 1));
 
-              Leitor.Arquivo := FDadosMSG;
-              wProc.Add(UTF8Encode(Leitor.rExtrai(1, 'SignatureValue', '', I + 1)));
+              Leitor.Arquivo := FPDadosMsg;
+              wProc.Add(Leitor.rExtrai(1, 'SignatureValue', '', I + 1));
 
-              Leitor.Arquivo := FDadosMSG;
-              wProc.Add(UTF8Encode(Leitor.rExtrai(1, 'KeyInfo', '', I + 1)));
+              Leitor.Arquivo := FPDadosMsg;
+              wProc.Add(Leitor.rExtrai(1, 'KeyInfo', '', I + 1));
               wProc.Add('</Signature>');
               wProc.Add('</eventoCTe>');
-              wProc.Add('<retEventoCTe versao="' + GetVersaoCTe(FConfiguracoes.Geral.VersaoDF,
-                                                             LayCTeEvento) + '">');
+              wProc.Add('<retEventoCTe versao="' + VersaoEvento + '">');
 
-              Leitor.Arquivo := FRetWS;
-              wProc.Add(UTF8Encode(Leitor.rExtrai(1, 'infEvento', '', J + 1)));
+              Leitor.Arquivo := FPRetWS;
+              wProc.Add(Leitor.rExtrai(1, 'infEvento', '', J + 1));
               wProc.Add('</retEventoCTe>');
               wProc.Add('</procEventoCTe>');
 
-              FEventoRetorno.retEvento.Items[J].RetInfEvento.XML := wProc.Text;
+              EventoRetorno.retEvento.Items[J].RetInfEvento.XML := wProc.Text;
 
               FEvento.Evento.Items[I].RetInfEvento.XML := wProc.Text;
 
               NomeArq := OnlyNumber(FEvento.Evento.Items[i].InfEvento.Id) +
-                         '-procEventoCTe.xml';
+                '-procEventoCTe.xml';
 
-              if FConfiguracoes.Geral.Salvar then
-                FConfiguracoes.Geral.Save(NomeArq, wProc.Text);
+              if FPConfiguracoesCTe.Geral.Salvar then
+                FPDFeOwner.Gravar(NomeArq, wProc.Text);
 
-              if FConfiguracoes.Arquivos.Salvar then
-                FConfiguracoes.Geral.Save(NomeArq, wProc.Text, GerarPathEvento);
+              if FPConfiguracoesCTe.Arquivos.Salvar then
+                FPDFeOwner.Gravar(NomeArq, wProc.Text, GerarPathEvento);
             finally
               wProc.Free;
             end;
@@ -2678,50 +2254,54 @@ procedure TCTeEnvEvento.SalvarEnvio;
 begin
   inherited SalvarEnvio;
 
-  if FConfiguracoes.Arquivos.Salvar then
-    FConfiguracoes.Geral.Save(GerarPrefixoArquivo + '-' + ArqEnv + '.xml',
-                              FDadosMsg, GerarPathEvento);
+  if FPConfiguracoesCTe.Arquivos.Salvar then
+    FPDFeOwner.Gravar(GerarPrefixoArquivo + '-' + ArqEnv + '.xml',
+      FPDadosMsg, GerarPathEvento);
 end;
 
 procedure TCTeEnvEvento.SalvarResposta;
 begin
   inherited SalvarResposta;
 
-  if FConfiguracoes.Arquivos.Salvar then
-    FConfiguracoes.Geral.Save(GerarPrefixoArquivo + '-' + ArqEnv + '.xml',
-                              FDadosMsg, GerarPathEvento);
+  if FPConfiguracoesCTe.Arquivos.Salvar then;
+  FPDFeOwner.Gravar(GerarPrefixoArquivo + '-' + ArqEnv + '.xml',
+    FPDadosMsg, GerarPathEvento);
 end;
 
-function TCTeEnvEvento.GerarMsgLog: AnsiString;
+function TCTeEnvEvento.GerarMsgLog: String;
 var
   aMsg: String;
 begin
-  aMsg := 'Versão Layout : '     + FEventoRetorno.versao + LineBreak +
-          'Ambiente : '          + TpAmbToStr(FEventoRetorno.tpAmb) + LineBreak +
-          'Versão Aplicativo : ' + FEventoRetorno.verAplic + LineBreak +
-          'Status Código : '     + IntToStr(FEventoRetorno.cStat) + LineBreak +
-          'Status Descrição : '  + FEventoRetorno.xMotivo + LineBreak;
+  aMsg := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                         'Ambiente: %s ' + LineBreak +
+                         'Versão Aplicativo: %s ' + LineBreak +
+                         'Status Código: %s ' + LineBreak +
+                         'Status Descrição: %s ' + LineBreak),
+                 [FEventoRetorno.versao, TpAmbToStr(FEventoRetorno.tpAmb),
+                  FEventoRetorno.verAplic, IntToStr(FEventoRetorno.cStat),
+                  FEventoRetorno.xMotivo]);
 
-  if (FEventoRetorno.retEvento.Count > 0) then
-      aMsg := aMsg + 'Recebimento : ' +
-              SeSenao(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento = 0,
-                              '',
-                              DateTimeToStr(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento));
+  if FEventoRetorno.retEvento.Count > 0 then
+    aMsg := aMsg + Format(ACBrStr('Recebimento: %s ' + LineBreak),
+       [IfThen(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento = 0, '',
+               FormatDateTimeBr(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento))]);
+
   Result := aMsg;
 end;
 
-function TCTeEnvEvento.GerarPrefixoArquivo: AnsiString;
+function TCTeEnvEvento.GerarPrefixoArquivo: String;
 begin
   Result := IntToStr(FEvento.idLote);
 end;
 
 { TCTeEnvioWebService }
 
-constructor TCTeEnvioWebService.Create(AOwner: TComponent);
+constructor TCTeEnvioWebService.Create(AOwner: TACBrDFe);
 begin
   inherited Create(AOwner);
 
-  FStatus := stCTeEnvioWebService;
+  FPStatus := stCTeEnvioWebService;
+  FVersao := '';
 end;
 
 destructor TCTeEnvioWebService.Destroy;
@@ -2736,12 +2316,12 @@ end;
 
 procedure TCTeEnvioWebService.DefinirURL;
 begin
-  FURL := FURLEnvio;
+  FPURL := FPURLEnvio;
 end;
 
 procedure TCTeEnvioWebService.DefinirServicoEAction;
 begin
-  FServico := FSoapAction;
+  FPServico := FPSoapAction;
 end;
 
 procedure TCTeEnvioWebService.DefinirDadosMsg;
@@ -2751,54 +2331,47 @@ begin
   LeitorXML := TLeitor.Create;
   try
     LeitorXML.Arquivo := FXMLEnvio;
-    LeitorXML.Grupo   := FXMLEnvio;
-    FVersao           := LeitorXML.rAtributo('versao')
+    LeitorXML.Grupo := FXMLEnvio;
+    FVersao := LeitorXML.rAtributo('versao')
   finally
     LeitorXML.Free;
   end;
 
-  FDadosMsg := FXMLEnvio;
+  FPDadosMsg := FXMLEnvio;
 end;
 
 function TCTeEnvioWebService.TratarResposta: Boolean;
 begin
-  FRetWS := SeparaDados(FRetornoWS, 'soap:Body');
+  FPRetWS := SeparaDados(FPRetornoWS, 'soap:Body');
   Result := True;
 end;
 
-function TCTeEnvioWebService.GerarMsgLog: AnsiString;
+function TCTeEnvioWebService.GerarMsgErro(E: Exception): String;
 begin
-  Result := inherited GerarMsgLog;
+  Result := ACBrStr('WebService: '+FPServico + LineBreak +
+                    '- Inativo ou Inoperante tente novamente.');
 end;
 
-function TCTeEnvioWebService.GerarMsgErro(E: Exception): AnsiString;
+function TCTeEnvioWebService.GerarVersaoDadosSoap: String;
 begin
-  Result := 'WebService' + LineBreak +
-            '- Inativo ou Inoperante tente novamente.' + LineBreak +
-            '- ' + E.Message;
-end;
-
-function TCTeEnvioWebService.GerarVersaoDadosSoap: AnsiString;
-begin
-  Result := '<versaoDados>' +
-              FVersao +
-            '</versaoDados>';
+  Result := '<versaoDados>' + FVersao + '</versaoDados>';
 end;
 
 { TWebServices }
 
-constructor TWebServices.Create(AFCTe: TComponent);
+constructor TWebServices.Create(AOwner: TACBrDFe);
 begin
-  FACBrCTe          := TACBrCTe(AFCTe);
-  FStatusServico    := TCTeStatusServico.Create(AFCTe);
-  FEnviar           := TCTeRecepcao.Create(AFCTe, TACBrCTe(AFCTe).Conhecimentos);
-  FRetorno          := TCTeRetRecepcao.Create(AFCTe, TACBrCTe(AFCTe).Conhecimentos);
-  FRecibo           := TCTeRecibo.Create(AFCTe);
-  FConsulta         := TCTeConsulta.Create(AFCTe);
-  FInutilizacao     := TCTeInutilizacao.Create(AFCTe);
-  FConsultaCadastro := TCTeConsultaCadastro.Create(AFCTe);
-  FEnvEvento        := TCTeEnvEvento.Create(AFCTe,TACBrCTe(AFCTe).EventoCTe);
-  FEnvioWebService  := TCTeEnvioWebService.Create(AFCTe);
+  FACBrCTe := TACBrCTe(AOwner);
+
+  FStatusServico := TCTeStatusServico.Create(FACBrCTe);
+  FEnviar := TCTeRecepcao.Create(FACBrCTe, TACBrCTe(FACBrCTe).Conhecimentos);
+  FRetorno := TCTeRetRecepcao.Create(FACBrCTe, TACBrCTe(FACBrCTe).Conhecimentos);
+  FRecibo := TCTeRecibo.Create(FACBrCTe);
+  FConsulta := TCTeConsulta.Create(FACBrCTe);
+  FInutilizacao := TCTeInutilizacao.Create(FACBrCTe);
+  FConsultaCadastro := TCTeConsultaCadastro.Create(FACBrCTe);
+  FEnvEvento := TCTeEnvEvento.Create(FACBrCTe, TACBrCTe(FACBrCTe).EventoCTe);
+  FEnvioWebService := TCTeEnvioWebService.Create(FACBrCTe);
 end;
 
 destructor TWebServices.Destroy;
@@ -2812,11 +2385,11 @@ begin
   FConsultaCadastro.Free;
   FEnvEvento.Free;
   FEnvioWebService.Free;
-  
+
   inherited Destroy;
 end;
 
-function TWebServices.Envia(ALote: Integer): Boolean;
+function TWebServices.Envia(ALote: integer): Boolean;
 begin
   Result := Envia(IntToStr(ALote));
 end;
@@ -2826,32 +2399,34 @@ begin
   FEnviar.FLote := ALote;
 
   if not Enviar.Executar then
-    Enviar.GerarException(Enviar.Msg);
+    Enviar.GerarException( Enviar.Msg );
 
   FRetorno.Recibo := FEnviar.Recibo;
-
+  
   if not FRetorno.Executar then
-    FRetorno.GerarException(FRetorno.Msg);
+    FRetorno.GerarException( FRetorno.Msg );
 
   Result := True;
 end;
 
-procedure TWebServices.Inutiliza(CNPJ, AJustificativa: String; Ano, Modelo, Serie, NumeroInicial, NumeroFinal: Integer);
+procedure TWebServices.Inutiliza(CNPJ, AJustificativa: String;
+  Ano, Modelo, Serie, NumeroInicial, NumeroFinal: integer);
 begin
   CNPJ := OnlyNumber(CNPJ);
+
   if not ValidarCNPJ(CNPJ) then
     raise EACBrCTeException.Create('CNPJ: ' + CNPJ + ', inválido.');
 
-  FInutilizacao.CNPJ          := CNPJ;
-  FInutilizacao.Modelo        := Modelo;
-  FInutilizacao.Serie         := Serie;
-  FInutilizacao.Ano           := Ano;
+  FInutilizacao.CNPJ := CNPJ;
+  FInutilizacao.Modelo := Modelo;
+  FInutilizacao.Serie := Serie;
+  FInutilizacao.Ano := Ano;
   FInutilizacao.NumeroInicial := NumeroInicial;
-  FInutilizacao.NumeroFinal   := NumeroFinal;
+  FInutilizacao.NumeroFinal := NumeroFinal;
   FInutilizacao.Justificativa := AJustificativa;
 
   if not FInutilizacao.Executar then
-     FInutilizacao.GerarException(FInutilizacao.Msg);
+    FInutilizacao.GerarException( FInutilizacao.Msg );
 end;
 
 end.
