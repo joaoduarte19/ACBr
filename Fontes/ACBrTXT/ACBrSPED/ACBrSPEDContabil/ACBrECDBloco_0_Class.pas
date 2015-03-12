@@ -38,6 +38,8 @@
 |*  - Criação e distribuição da Primeira Versao
 |* 06/05/2014: Francinaldo A. da Costa
 |*  - Modificações para o layout 2
+|* 04/03/2015: Flavio Rubens Massaro Jr.
+|* - Modificação para contemplar layout 3 referente ao ano calendario 2014
 *******************************************************************************}
 
 unit ACBrECDBloco_0_Class;
@@ -54,9 +56,11 @@ type
     FRegistro0001: TRegistro0001;      /// BLOCO 0 - Registro0001
     FRegistro0007: TRegistro0007List;  /// BLOCO 0 - Lista de Registro0007
     FRegistro0020: TRegistro0020List;  /// BLOCO 0 - Lista de Registro0020
+    FRegistro0035: TRegistro0035List;  /// BLOCO 0 - Lista de Registro0035
     FRegistro0150: TRegistro0150List;  /// BLOCO 0 - Lista de Registro0150
     FRegistro0180: TRegistro0180List;  /// BLOCO 0 - Lista de Registro0180
-    FRegistro0990: TRegistro0990;      /// BLOCO 0 - FRegistro0990
+    FRegistro0990: TRegistro0990;
+    procedure SetRegistro0035(const Value: TRegistro0035List);      /// BLOCO 0 - FRegistro0990
   protected
   public
     constructor Create;           /// Create
@@ -67,6 +71,7 @@ type
     function WriteRegistro0001: String;
     function WriteRegistro0007: String;
     function WriteRegistro0020: String;
+    function WriteRegistro0035: String;
     function WriteRegistro0150: String;
     function WriteRegistro0180: String;
     function WriteRegistro0990: String;
@@ -75,6 +80,7 @@ type
     property Registro0001: TRegistro0001     read FRegistro0001 write FRegistro0001;
     property Registro0007: TRegistro0007List read FRegistro0007 write FRegistro0007;
     property Registro0020: TRegistro0020List read FRegistro0020 write FRegistro0020;
+    property Registro0035: TRegistro0035List read FRegistro0035 write FRegistro0035;
     property Registro0150: TRegistro0150List read FRegistro0150 write FRegistro0150;
     property Registro0180: TRegistro0180List read FRegistro0180 write FRegistro0180;
     property Registro0990: TRegistro0990     read FRegistro0990 write FRegistro0990;
@@ -82,7 +88,7 @@ type
 
 implementation
 
-uses ACBrTXTUtils;
+uses ACBrSpedUtils;
 
 { TBloco_0 }
 
@@ -92,6 +98,7 @@ begin
   FRegistro0001 := TRegistro0001.Create;
   FRegistro0007 := TRegistro0007List.Create;
   FRegistro0020 := TRegistro0020List.Create;
+  FRegistro0035 := TRegistro0035List.Create;
   FRegistro0150 := TRegistro0150List.Create;
   FRegistro0180 := TRegistro0180List.Create;
   FRegistro0990 := TRegistro0990.Create;
@@ -105,6 +112,7 @@ begin
   FRegistro0001.Free;
   FRegistro0007.Free;
   FRegistro0020.Free;
+  FRegistro0035.Free;  
   FRegistro0150.Free;
   FRegistro0180.Free;
   FRegistro0990.Free;
@@ -115,10 +123,16 @@ procedure TBloco_0.LimpaRegistros;
 begin
   FRegistro0007.Clear;
   FRegistro0020.Clear;
+  FRegistro0035.Clear;  
   FRegistro0150.Clear;
   FRegistro0180.Clear;
 
   FRegistro0990.QTD_LIN_0 := 0;
+end;
+
+procedure TBloco_0.SetRegistro0035(const Value: TRegistro0035List);
+begin
+
 end;
 
 function TBloco_0.WriteRegistro0000: String;
@@ -142,32 +156,61 @@ begin
          Check(((IND_NIRE >= '0') and (IND_NIRE <= '1')), '(0-0000) O indicador "%s" de existência de NIRE, deve ser informado o número 0 ou 1!', [IND_NIRE]);
          Check(((IND_FIN_ESC >= '0') and (IND_FIN_ESC <= '3')), '(0-0000) O indicador "%s" da finalidade da escrituração, deve ser informado o número 0 ou 1 ou 2 ou 3!', [IND_FIN_ESC]);
          Check(((IND_EMP_GRD_PRT >= '0') and (IND_EMP_GRD_PRT <= '1')), '(0-0000) O indicador "%s" de empresa de grande porte, deve ser informado o número 0 ou 1!', [IND_EMP_GRD_PRT]);
+         if DT_INI >= EncodeDate(2014,01,01) then
+         begin
+           Check(((TIP_ECD >= '0') and (TIP_ECD <= '2')), '(0-0000) O indicador "%s" de tipo ECD, deve ser informado o número 0, 1 ou 2!', [TIP_ECD]);
+         end;
        end
         else
           Check(((IND_SIT_ESP >= '1') and (IND_SIT_ESP <= '6')), '(0-0000) O indicador "%s" de situação especial, deve ser informado o número 0 ou 1 ou 2 ou 3 ou 4!', [IND_SIT_ESP]);
+       /// Layout 3 a partir da escrituração ano calendário 2014
+       if DT_INI >= EncodeDate(2014,01,01) then
+         begin
+           Result := LFill('0000') +
+                     LFill('LECD') +
+                     LFill(DT_INI) +
+                     LFill(DT_FIN) +
+                     LFill(NOME) +
+                     LFill(CNPJ) +
+                     LFill(UF) +
+                     LFill(IE) +
+                     LFill(COD_MUN, 7) +
+                     LFill(IM) +
+                     LFill(IND_SIT_ESP, 0, True) +
+                     LFill(IND_SIT_INI_PER) +
+                     LFill(IND_NIRE) +
+                     LFill(IND_FIN_ESC) +
+                     LFill(COD_HASH_SUB) +
+                     LFill(NIRE_SUBST) +
+                     LFill(IND_EMP_GRD_PRT) +
+                     LFill(TIP_ECD) +
+                     LFill(COD_SCP) +
+                     Delimitador +
+                     #13#10;
+         end
        /// Layout 2 a partir da escrituração ano calendário 2013
-       if DT_INI >= EncodeDate(2013,01,01) then
-       begin
-         Result := LFill('0000') +
-                   LFill('LECD') +
-                   LFill(DT_INI) +
-                   LFill(DT_FIN) +
-                   LFill(NOME) +
-                   LFill(CNPJ) +
-                   LFill(UF) +
-                   LFill(IE) +
-                   LFill(COD_MUN, 7) +
-                   LFill(IM) +
-                   LFill(IND_SIT_ESP, 0, True) +
-                   LFill(IND_SIT_INI_PER) +
-                   LFill(IND_NIRE) +
-                   LFill(IND_FIN_ESC) +
-                   LFill(COD_HASH_SUB) +
-                   LFill(NIRE_SUBST) +
-                   LFill(IND_EMP_GRD_PRT) +
-                   Delimitador +
-                   #13#10;
-       end
+       else if DT_INI >= EncodeDate(2013,01,01) then
+         begin
+           Result := LFill('0000') +
+                     LFill('LECD') +
+                     LFill(DT_INI) +
+                     LFill(DT_FIN) +
+                     LFill(NOME) +
+                     LFill(CNPJ) +
+                     LFill(UF) +
+                     LFill(IE) +
+                     LFill(COD_MUN, 7) +
+                     LFill(IM) +
+                     LFill(IND_SIT_ESP, 0, True) +
+                     LFill(IND_SIT_INI_PER) +
+                     LFill(IND_NIRE) +
+                     LFill(IND_FIN_ESC) +
+                     LFill(COD_HASH_SUB) +
+                     LFill(NIRE_SUBST) +
+                     LFill(IND_EMP_GRD_PRT) +
+                     Delimitador +
+                     #13#10;
+         end
         else
          begin
            Result := LFill('0000') +
@@ -270,6 +313,34 @@ begin
      end;
   end;
   Result := strRegistro0020;
+end;
+
+function TBloco_0.WriteRegistro0035: String;
+var
+intFor: integer;
+strRegistro0035: String;
+begin
+  strRegistro0035 := '';
+
+  if Assigned(FRegistro0035) then
+  begin
+     for intFor := 0 to FRegistro0035.Count - 1 do
+     begin
+        with FRegistro0035.Items[intFor] do
+        begin
+           Check(COD_SCP <> '', '(0-0035) O código do SCP é obrigatório!');
+           Check(NOME_SCP <> '', '(0-0035) O nome do SCP é obrigatório!');
+           ///
+           strRegistro0035 :=  strRegistro0035 + LFill('0035') +
+                                                 LFill(COD_SCP) +
+                                                 LFill(NOME_SCP) +
+                                                 Delimitador +
+                                                 #13#10;
+        end;
+        FRegistro0990.QTD_LIN_0 := FRegistro0990.QTD_LIN_0 + 1;
+     end;
+  end;
+  Result := strRegistro0035;
 end;
 
 function TBloco_0.WriteRegistro0150: String;

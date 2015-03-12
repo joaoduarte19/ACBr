@@ -38,6 +38,8 @@
 |*  - Criação e distribuição da Primeira Versao
 |* 06/05/2014: Francinaldo A. da Costa
 |*  - Modificações para o layout 2
+|* 04/03/2015: Flavio Rubens Massaro Jr.
+|* - Modificação para contemplar layout 3 referente ao ano calendario 2014
 *******************************************************************************}
 
 unit ACBrECDBloco_J;
@@ -327,6 +329,31 @@ type
     property Items[Index: Integer]: TRegistroJ930 read GetItem write SetItem;
   end;
 
+  /// Rregistro J935 – IDENTIFICAÇÃO DOS AUDITORES INDEPENDENTES
+
+  TRegistroJ935 = class
+  private
+    FCOD_CVM_AUDITOR: String;
+    FNOME_AUDITOR: String;
+    procedure SetCOD_CVM_AUDITOR(const Value: String);  // Nome do auditor independente.
+    procedure SetNOME_AUDITOR(const Value: String);     // Registro do auditor independente na CVM.
+
+  public
+    property NOME_AUDITOR: String read FNOME_AUDITOR write SetNOME_AUDITOR;
+    property COD_CVM_AUDITOR: String read FCOD_CVM_AUDITOR write SetCOD_CVM_AUDITOR;
+  end;
+
+  /// Registro J935 - Lista
+
+  TRegistroJ935List = class(TObjectList)
+  private
+    function GetItem(Index: Integer): TRegistroJ935;
+    procedure SetItem(Index: Integer; const Value: TRegistroJ935);
+  public
+    function New: TRegistroJ935;
+    property Items[Index: Integer]: TRegistroJ935 read GetItem write SetItem;
+  end;
+
   /// Registro J990 - ENCERRAMENTO DO BLOCO J
 
   TRegistroJ990 = class
@@ -587,6 +614,36 @@ destructor TRegistroJ210.Destroy;
 begin
   FRegistroJ215.Free;
   inherited;
+end;
+
+{ TRegistroJ935 }
+
+procedure TRegistroJ935.SetCOD_CVM_AUDITOR(const Value: String);
+begin
+  FCOD_CVM_AUDITOR := Value;
+end;
+
+procedure TRegistroJ935.SetNOME_AUDITOR(const Value: String);
+begin
+  FNOME_AUDITOR := Value;
+end;
+
+{ TRegistroJ935List }
+
+function TRegistroJ935List.GetItem(Index: Integer): TRegistroJ935;
+begin
+  Result := TRegistroJ935(Inherited Items[Index]);
+end;
+
+function TRegistroJ935List.New: TRegistroJ935;
+begin
+  Result := TRegistroJ935.Create;
+  Add(Result);
+end;
+
+procedure TRegistroJ935List.SetItem(Index: Integer; const Value: TRegistroJ935);
+begin
+  Put(Index, Value);
 end;
 
 end.

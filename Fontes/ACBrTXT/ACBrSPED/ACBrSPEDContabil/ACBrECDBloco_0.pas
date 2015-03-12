@@ -38,6 +38,8 @@
 |*  - Criação e distribuição da Primeira Versao
 |* 06/05/2014: Francinaldo A. da Costa
 |*  - Modificações para o layout 2
+|* 04/03/2015: Flavio Rubens Massaro Jr.
+|* - Modificação para contemplar layout 3 referente ao ano calendario 2014
 *******************************************************************************}
 
 unit ACBrECDBloco_0;
@@ -67,7 +69,9 @@ type
     fIND_FIN_ESC: String;     /// Indicador de finalidade da escrituração
     fCOD_HASH_SUB: String;    /// Hash da escrituração substituída.
     fNIRE_SUBST: String;      /// NIRE da escrituração substituída.
-    fIND_EMP_GRD_PRT: String; /// Indicador de empresa de grande porte:
+    fIND_EMP_GRD_PRT: String;
+    fTIP_ECD: String;         /// Indicador do tipo de ECD: 0 – ECD de empresa não participante de SCP como sócio ostensivo. 1 – ECD de empresa participante de SCP como sócio ostensivo. 2 – ECD da SCP.
+    fCOD_SCP: String;         /// Identificação da SCP.
   public
     property DT_INI: TDateTime read FDT_INI write FDT_INI;
     property DT_FIN: TDateTime read FDT_FIN write FDT_FIN;
@@ -84,6 +88,8 @@ type
     property COD_HASH_SUB: String read fCOD_HASH_SUB write fCOD_HASH_SUB;
     property NIRE_SUBST: String read fNIRE_SUBST write fNIRE_SUBST;
     property IND_EMP_GRD_PRT: String read fIND_EMP_GRD_PRT write fIND_EMP_GRD_PRT;
+    property TIP_ECD: String read fTIP_ECD write fTIP_ECD;
+    property COD_SCP: String read fCOD_SCP write fCOD_SCP;
   end;
 
   /// Registro 0001 - ABERTURA DO BLOCO 0
@@ -137,6 +143,7 @@ type
     property NIRE: String read fNIRE write fNIRE;
   end;
 
+
   /// Registro 0020 - Lista
 
   TRegistro0020List = class(TObjectList)
@@ -146,6 +153,28 @@ type
   public
     function New: TRegistro0020;
     property Items[Index: Integer]: TRegistro0020 read GetItem write SetItem;
+  end;
+
+  /// Rregistro 0035 – IDENTIFICAÇÃO DAS SCP
+
+  TRegistro0035 = class
+  private
+    fCOD_SCP: String;   /// Identificação da SCP (CNPJ – art. 52 da Instrução Normativa RFB no 1.470, de 30 de maio de 2014)
+    fNOME_SCP: String;  /// Nome da SCP
+  public
+    property COD_SCP: String read fCOD_SCP write fCOD_SCP;
+    property NOME_SCP: String read fNOME_SCP write fNOME_SCP;
+  end;
+
+  /// Registro 0035 - Lista
+
+  TRegistro0035List = class(TObjectList)
+  private
+    function GetItem(Index: Integer): TRegistro0035;
+    procedure SetItem(Index: Integer; const Value: TRegistro0035);
+  public
+    function New: TRegistro0035;
+    property Items[Index: Integer]: TRegistro0035 read GetItem write SetItem;
   end;
 
   /// Rregistro 0150 –  TABELA DE CADASTRO DO PARTICIPANTE
@@ -309,6 +338,24 @@ begin
 end;
 
 procedure TRegistro0180List.SetItem(Index: Integer; const Value: TRegistro0180);
+begin
+  Put(Index, Value);
+end;
+
+{ TRegistro0035List }
+
+function TRegistro0035List.GetItem(Index: Integer): TRegistro0035;
+begin
+  Result := TRegistro0035(Inherited Items[Index]);
+end;
+
+function TRegistro0035List.New: TRegistro0035;
+begin
+  Result := TRegistro0035.Create;
+  Add(Result);
+end;
+
+procedure TRegistro0035List.SetItem(Index: Integer; const Value: TRegistro0035);
 begin
   Put(Index, Value);
 end;

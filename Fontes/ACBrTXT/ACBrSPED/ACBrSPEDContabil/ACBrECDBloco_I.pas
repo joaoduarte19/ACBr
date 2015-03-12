@@ -38,6 +38,8 @@
 |*  - Criação e distribuição da Primeira Versao
 |* 06/05/2014: Francinaldo A. da Costa
 |*  - Modificações para o layout 2
+|* 04/03/2015: Flavio Rubens Massaro Jr.
+|* - Modificação para contemplar layout 3 referente ao ano calendario 2014
 *******************************************************************************}
 
 unit ACBrECDBloco_I;
@@ -58,6 +60,7 @@ type
   TRegistroI015List = class;
   TRegistroI051List = class;
   TRegistroI052List = class;
+  TRegistroI053List = class;
   TRegistroI151List = class;
   TRegistroI155List = class;
   TRegistroI250List = class;
@@ -203,6 +206,7 @@ type
 
     FRegistroI051: TRegistroI051List;  /// BLOCO I - Lista de RegistroI051 (FILHO)
     FRegistroI052: TRegistroI052List;  /// BLOCO I - Lista de RegistroI052 (FILHO)
+    FRegistroI053: TRegistroI053List;  /// BLOCO I - Lista de RegistroI053 (FILHO)    ///
   public
     constructor Create; virtual; /// Create
     destructor Destroy; override; /// Destroy
@@ -218,6 +222,7 @@ type
     /// Registros FILHOS
     property RegistroI051: TRegistroI051List read FRegistroI051 write FRegistroI051;
     property RegistroI052: TRegistroI052List read FRegistroI052 write FRegistroI052;
+    property RegistroI053: TRegistroI053List read FRegistroI053 write FRegistroI053;
   end;
 
   /// Registro I050 - Lista
@@ -275,6 +280,30 @@ type
   public
     function New: TRegistroI052;
     property Items[Index: Integer]: TRegistroI052 read GetItem write SetItem;
+  end;
+
+  /// Registro I053 - SUBCONTAS CORRELATAS
+
+  TRegistroI053 = class
+  private
+    fCOD_CNT_CORR: String; /// Código de identificação do grupo de conta-subconta(a)
+    fNAT_SUB_CNT: String;  /// Código da subconta correlata (deve estar no plano de contas e só pode estar relacionada a um único grupo)
+    fCOD_IDT: String;      /// Natureza da subconta correlata (conforme tabela de natureza da subconta publicada no Sped )
+  public
+    property COD_IDT: String read fCOD_IDT write fCOD_CNT_CORR;
+    property COD_CNT_CORR: String read fCOD_CNT_CORR write fCOD_CNT_CORR;
+    property NAT_SUB_CNT : String read fNAT_SUB_CNT write fNAT_SUB_CNT;
+  end;
+
+  /// Registro I053 - Lista
+
+  TRegistroI053List = class(TObjectList)
+  private
+    function GetItem(Index: Integer): TRegistroI053;
+    procedure SetItem(Index: Integer; const Value: TRegistroI053);
+  public
+    function New: TRegistroI053;
+    property Items[Index: Integer]: TRegistroI053 read GetItem write SetItem;
   end;
 
   /// Registro I075 - TABELA DE HISTÓRICO PADRONIZADO
@@ -1151,6 +1180,25 @@ destructor TRegistroI012.Destroy;
 begin
   FRegistroI015.Free;
   inherited;
+end;
+
+
+{ TRegistroI053List }
+
+function TRegistroI053List.GetItem(Index: Integer): TRegistroI053;
+begin
+  Result := TRegistroI053(Inherited Items[Index]);
+end;
+
+function TRegistroI053List.New: TRegistroI053;
+begin
+  Result := TRegistroI053.Create;
+  Add(Result);      
+end;
+
+procedure TRegistroI053List.SetItem(Index: Integer; const Value: TRegistroI053);
+begin
+  Put(Index, Value);
 end;
 
 end.

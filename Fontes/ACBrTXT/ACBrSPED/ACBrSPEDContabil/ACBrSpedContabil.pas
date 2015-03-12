@@ -36,6 +36,8 @@
 |*
 |* 10/04/2009: Isaque Pinheiro
 |*  - Criação e distribuição da Primeira Versao
+|* 04/03/2015: Flavio Rubens Massaro Jr.
+|* - Modificação para contemplar layout 3 referente ao ano calendario 2014
 *******************************************************************************}
 
 unit ACBrSpedContabil;
@@ -103,6 +105,7 @@ type
     function WriteRegistro0001: String;
     function WriteRegistro0007: String;
     function WriteRegistro0020: String;
+    function WriteRegistro0035: String;
     function WriteRegistro0150: String;
     function WriteRegistro0180: String;
     function WriteRegistro0990: String;
@@ -130,6 +133,7 @@ type
     function WriteRegistroJ800: String;
     function WriteRegistroJ900: String;
     function WriteRegistroJ930: String;
+    function WriteRegistroJ935: String;
     function WriteRegistroJ990: String;
     /// BLOCO 9
     function WriteRegistro9001: String;
@@ -173,7 +177,7 @@ Uses ACBrUtil ;
 
 procedure Register;
 begin
-  RegisterComponents('ACBrTXT', [TACBrSPEDContabil]);
+  RegisterComponents('ACBr', [TACBrSPEDContabil]);
 end;
 
 (* TACBrSPEDContabil *)
@@ -362,6 +366,7 @@ begin
     AStringList.Add(Trim(WriteRegistro0001));
     if Bloco_0.Registro0007.Count > 0 then AStringList.Add(Trim(WriteRegistro0007));
     if Bloco_0.Registro0020.Count > 0 then AStringList.Add(Trim(WriteRegistro0020));
+    if Bloco_0.Registro0035.Count > 0 then AStringList.Add(Trim(WriteRegistro0035));    
     if Bloco_0.Registro0150.Count > 0 then AStringList.Add(Trim(WriteRegistro0150));
     if Bloco_0.Registro0180.Count > 0 then AStringList.Add(Trim(WriteRegistro0180));
     AStringList.Add(Trim(WriteRegistro0990));
@@ -392,7 +397,9 @@ begin
     if Bloco_J.RegistroJ800.Count > 0 then AStringList.Add(Trim(WriteRegistroJ800));
     AStringList.Add(Trim(WriteRegistroJ900));
     if Bloco_J.RegistroJ930.Count > 0 then AStringList.Add(Trim(WriteRegistroJ930));
+    if Bloco_J.RegistroJ935.Count > 0 then AStringList.Add(Trim(WriteRegistroJ935));
     AStringList.Add(Trim(WriteRegistroJ990));
+
 
     /// BLOCO 9
     AStringList.Add(Trim(WriteRegistro9001));
@@ -459,6 +466,21 @@ begin
       end;
    end;
 end;
+
+function TACBrSPEDContabil.WriteRegistro0035: String;
+begin
+   Result := Bloco_0.WriteRegistro0035;
+
+   if Bloco_0.Registro0035.Count > 0 then
+   begin
+      with Bloco_9.Registro9900.New do
+      begin
+         REG_BLC := '0035';
+         QTD_REG_BLC := Bloco_0.Registro0035.Count;
+      end;
+   end;
+end;
+
 
 function TACBrSPEDContabil.WriteRegistro0150: String;
 begin
@@ -599,6 +621,14 @@ begin
       begin
          REG_BLC := 'I052';
          QTD_REG_BLC := Bloco_I.RegistroI052Count;
+      end;
+   end;
+   if Bloco_I.RegistroI053Count > 0 then
+   begin
+      with Bloco_9.Registro9900.New do
+      begin
+         REG_BLC := 'I053';
+         QTD_REG_BLC := Bloco_I.RegistroI053Count;
       end;
    end;
 end;
@@ -889,6 +919,20 @@ begin
       begin
          REG_BLC := 'J930';
          QTD_REG_BLC := Bloco_J.RegistroJ930.Count;
+      end;
+   end;
+end;
+
+function TACBrSPEDContabil.WriteRegistroJ935: String;
+begin
+   Result := Bloco_J.WriteRegistroJ935;
+
+   if Bloco_J.RegistroJ935.Count > 0 then
+   begin
+      with Bloco_9.Registro9900.New do
+      begin
+         REG_BLC := 'J935';
+         QTD_REG_BLC := Bloco_J.RegistroJ935.Count;
       end;
    end;
 end;

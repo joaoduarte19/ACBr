@@ -38,6 +38,8 @@
 |*  - Criação e distribuição da Primeira Versao
 |* 06/05/2014: Francinaldo A. da Costa
 |*  - Modificações para o layout 2
+|* 04/03/2015: Flavio Rubens Massaro Jr.
+|* - Modificação para contemplar layout 3 referente ao ano calendario 2014
 *******************************************************************************}
 
 unit ACBrECDBloco_J_Class;
@@ -55,6 +57,7 @@ type
     FRegistroJ800: TRegistroJ800List;  /// BLOCO J - Lista de RegistroJ800
     FRegistroJ900: TRegistroJ900;      /// BLOCO J - RegistroJ900
     FRegistroJ930: TRegistroJ930List;  /// BLOCO J - Lista de RegistroJ930
+    FRegistroJ935: TRegistroJ935List;  /// BLOCO J - Lista de RegistroJ935
     FRegistroJ990: TRegistroJ990;      /// BLOCO J - FRegistroJ990
 
     FRegistroJ100Count: Integer;
@@ -78,6 +81,7 @@ type
     function WriteRegistroJ800: String;
     function WriteRegistroJ900: String;
     function WriteRegistroJ930: String;
+    function WriteRegistroJ935: String;
     function WriteRegistroJ990: String;
 
     property RegistroJ001: TRegistroJ001     read fRegistroJ001 write fRegistroJ001;
@@ -85,6 +89,7 @@ type
     property RegistroJ800: TRegistroJ800List read fRegistroJ800 write fRegistroJ800;
     property RegistroJ900: TRegistroJ900     read fRegistroJ900 write fRegistroJ900;
     property RegistroJ930: TRegistroJ930List read fRegistroJ930 write fRegistroJ930;
+    property RegistroJ935: TRegistroJ935List read FRegistroJ935 write fRegistroJ935;
     property RegistroJ990: TRegistroJ990     read fRegistroJ990 write fRegistroJ990;
     property RegistroJ100Count: Integer read FRegistroJ100Count write FRegistroJ100Count;
     property RegistroJ150Count: Integer read FRegistroJ150Count write FRegistroJ150Count;
@@ -104,6 +109,7 @@ begin
   FRegistroJ800 := TRegistroJ800List.Create;
   FRegistroJ900 := TRegistroJ900.Create;
   FRegistroJ930 := TRegistroJ930List.Create;
+  FRegistroJ935 := TRegistroJ935List.Create;
   FRegistroJ990 := TRegistroJ990.Create;
   FRegistroJ100Count := 0;
   FRegistroJ150Count := 0;
@@ -121,6 +127,7 @@ begin
   FRegistroJ800.Free;
   FRegistroJ900.Free;
   FRegistroJ930.Free;
+  FRegistroJ935.Free;  
   FRegistroJ990.Free;
   inherited;
 end;
@@ -130,6 +137,7 @@ begin
   FRegistroJ005.Clear;
   FRegistroJ800.Clear;
   FRegistroJ930.Clear;
+  FRegistroJ935.Clear;  
 
   FRegistroJ990.QTD_LIN_J := 0;
 end;
@@ -484,6 +492,32 @@ begin
      end;
   end;
   Result := strRegistroJ930;
+end;
+
+function TBloco_J.WriteRegistroJ935: String;
+var
+intFor: integer;
+strRegistroJ935: String;
+begin
+  strRegistroJ935 := '';
+
+  if Assigned(FRegistroJ935) then
+  begin
+     for intFor := 0 to FRegistroJ935.Count - 1 do
+     begin
+        with FRegistroJ935.Items[intFor] do
+        begin
+           strRegistroJ935 :=  strRegistroJ935 + LFill('J935') +
+                                                 LFill(NOME_AUDITOR) +
+                                                 LFill(COD_CVM_AUDITOR) +
+                                                 Delimitador +
+                                                 #13#10;
+
+        end;
+        FRegistroJ990.QTD_LIN_J := FRegistroJ990.QTD_LIN_J + 1;
+     end;
+  end;
+  Result := strRegistroJ935;
 end;
 
 function TBloco_J.WriteRegistroJ990: String;

@@ -38,6 +38,8 @@
 |*  - Criação e distribuição da Primeira Versao
 |* 06/05/2014: Francinaldo A. da Costa
 |*  - Modificações para o layout 2
+|* 04/03/2015: Flavio Rubens Massaro Jr.
+|* - Modificação para contemplar layout 3 referente ao ano calendario 2014
 *******************************************************************************}
 
 unit ACBrECDBloco_I_Class;
@@ -71,6 +73,7 @@ type
     FRegistroI015Count: Integer;
     FRegistroI051Count: Integer;
     FRegistroI052Count: Integer;
+    FRegistroI053Count: Integer;
     FRegistroI151Count: Integer;
     FRegistroI155Count: Integer;
     FRegistroI250Count: Integer;
@@ -81,6 +84,7 @@ type
     function WriteRegistroI015(RegI012: TRegistroI012): String;
     function WriteRegistroI051(RegI050: TRegistroI050): String;
     function WriteRegistroI052(RegI050: TRegistroI050): String;
+    function WriteRegistroI053(RegI050: TRegistroI050): String;
     function WriteRegistroI151(RegI150: TRegistroI150): String;
     function WriteRegistroI155(RegI150: TRegistroI150): String;
     function WriteRegistroI250(RegI200: TRegistroI200): String;
@@ -130,6 +134,7 @@ type
     property RegistroI015Count: Integer read FRegistroI015Count write FRegistroI015Count;
     property RegistroI051Count: Integer read FRegistroI051Count write FRegistroI051Count;
     property RegistroI052Count: Integer read FRegistroI052Count write FRegistroI052Count;
+    property RegistroI053Count: Integer read FRegistroI053Count write FRegistroI053Count;    
     property RegistroI151Count: Integer read FRegistroI151Count write FRegistroI151Count;
     property RegistroI155Count: Integer read FRegistroI155Count write FRegistroI155Count;
     property RegistroI250Count: Integer read FRegistroI250Count write FRegistroI250Count;
@@ -164,6 +169,7 @@ begin
   FRegistroI015Count := 0;
   FRegistroI051Count := 0;
   FRegistroI052Count := 0;
+  FRegistroI053Count := 0;
   FRegistroI151Count := 0;
   FRegistroI155Count := 0;
   FRegistroI250Count := 0;
@@ -213,6 +219,7 @@ begin
   FRegistroI015Count := 0;
   FRegistroI051Count := 0;
   FRegistroI052Count := 0;
+  FRegistroI053Count := 0;  
   FRegistroI151Count := 0;
   FRegistroI155Count := 0;
   FRegistroI250Count := 0;
@@ -252,7 +259,11 @@ begin
      with FRegistroI010 do
      begin
        /// Checagem das informações que formarão o registro
-       Check(((IND_ESC = 'G') or (IND_ESC = 'R') or (IND_ESC = 'A') or (IND_ESC = 'B') or (IND_ESC = 'Z')), '(I-I010) No Indicador da forma de escrituração contábil, deve ser informado: G ou R ou A ou B ou Z!');
+       ///
+       if DT_INI >= EncodeDate(2014,01,01) then
+         Check(((IND_ESC = 'G') or (IND_ESC = 'R') or (IND_ESC = 'A') or (IND_ESC = 'B') or (IND_ESC = 'Z') or (IND_ESC = 'S')), '(I-I010) No Indicador da forma de escrituração contábil, deve ser informado: G ou R ou A ou B ou Z ou S!')
+       else
+         Check(((IND_ESC = 'G') or (IND_ESC = 'R') or (IND_ESC = 'A') or (IND_ESC = 'B') or (IND_ESC = 'Z')), '(I-I010) No Indicador da forma de escrituração contábil, deve ser informado: G ou R ou A ou B ou Z!');
        ///
        Result := LFill('I010') +
                  LFill(IND_ESC, 1) +
@@ -365,28 +376,45 @@ begin
   begin
      with FRegistroI030 do
      begin
-       ///
+       /// Layout 3 a partir da escrituração ano calendário 2014
+       if DT_INI >= EncodeDate(2014,01,01) then
+         begin
+           Result := LFill('I030') +
+                     LFill('TERMO DE ABERTURA') +
+                     LFill(NUM_ORD) +
+                     LFill(NAT_LIVR) +
+                     LFill('[*******]') +
+                     LFill(NOME) +
+                     LFill(NIRE) +
+                     LFill(CNPJ) +
+                     LFill(DT_ARQ) +
+                     LFill(DT_ARQ_CONV, 'ddmmyyyy' ) +
+                     LFill(DESC_MUN) +
+                     LFill(DT_EX_SOCIAL, 'ddmmyyyy' ) +
+                     Delimitador +
+                     #13#10;
+         end
        /// Layout 2 a partir da escrituração ano calendário 2013
-       if DT_INI >= EncodeDate(2013,01,01) then
-       begin
-         Result := LFill('I030') +
-                   LFill('TERMO DE ABERTURA') +
-                   LFill(NUM_ORD) +
-                   LFill(NAT_LIVR) +
-                   LFill('[*******]') +
-                   LFill(NOME) +
-                   LFill(NIRE, 11) +
-                   LFill(CNPJ) +
-                   LFill(DT_ARQ) +
-                   LFill(DT_ARQ_CONV, 'ddmmyyyy' ) +
-                   LFill(DESC_MUN) +
-                   LFill(DT_EX_SOCIAL, 'ddmmyyyy' ) +
-                   LFill(NOME_AUDITOR) +
-                   LFill(COD_CVM_AUDITOR) +
-                   Delimitador +
-                   #13#10;
-       end
-        else
+       else if DT_INI >= EncodeDate(2013,01,01) then
+         begin
+           Result := LFill('I030') +
+                     LFill('TERMO DE ABERTURA') +
+                     LFill(NUM_ORD) +
+                     LFill(NAT_LIVR) +
+                     LFill('[*******]') +
+                     LFill(NOME) +
+                     LFill(NIRE, 11) +
+                     LFill(CNPJ) +
+                     LFill(DT_ARQ) +
+                     LFill(DT_ARQ_CONV, 'ddmmyyyy' ) +
+                     LFill(DESC_MUN) +
+                     LFill(DT_EX_SOCIAL, 'ddmmyyyy' ) +
+                     LFill(NOME_AUDITOR) +
+                     LFill(COD_CVM_AUDITOR) +
+                     Delimitador +
+                     #13#10;
+         end
+       else
          begin
            Result := LFill('I030') +
                      LFill('TERMO DE ABERTURA') +
@@ -436,7 +464,8 @@ begin
         // Registros Filhos
         strRegistroI050 := strRegistroI050 +
                            WriteRegistroI051(FRegistroI050.Items[intFor] ) +
-                           WriteRegistroI052(FRegistroI050.Items[intFor] );
+                           WriteRegistroI052(FRegistroI050.Items[intFor] ) +
+                           WriteRegistroI053(FRegistroI050.Items[intFor] );
 
        FRegistroI990.QTD_LIN_I := FRegistroI990.QTD_LIN_I + 1;
      end;
@@ -498,6 +527,35 @@ begin
   end;
   Result := strRegistroI052;
 end;
+
+function TBloco_I.WriteRegistroI053(RegI050: TRegistroI050): String;
+var
+intFor: integer;
+strRegistroI053: String;
+begin
+  strRegistroI053 := '';
+
+  if Assigned(RegI050.RegistroI053) then
+  begin
+     for intFor := 0 to RegI050.RegistroI053.Count - 1 do
+     begin
+        with RegI050.RegistroI053.Items[intFor] do
+        begin
+           ///
+           strRegistroI053 :=  strRegistroI053 + LFill('I053') +
+                                                 LFill(COD_IDT) +
+                                                 LFill(COD_CNT_CORR) +
+                                                 LFill(NAT_SUB_CNT) +
+                                                 Delimitador +
+                                                 #13#10;
+        end;
+       FRegistroI990.QTD_LIN_I := FRegistroI990.QTD_LIN_I + 1;
+     end;
+     FRegistroI053Count := FRegistroI053Count + RegI050.RegistroI053.Count;
+  end;
+  Result := strRegistroI053;
+end;
+
 
 function TBloco_I.WriteRegistroI075: String;
 var
