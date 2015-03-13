@@ -21,7 +21,7 @@
     <Description Value="ACBr - Boleto - (http://www.projetoacbr.com.br/)"/>
     <License Value="LGPL"/>
     <Version Minor="1"/>
-    <Files Count="16">
+    <Files Count="17">
       <Item1>
         <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBoleto.pas"/>
         <HasRegisterProc Value="True"/>
@@ -56,8 +56,8 @@
         <UnitName Value="ACBrBancoSantander"/>
       </Item8>
       <Item9>
-        <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoob.pas"/>
-        <UnitName Value="ACBrBancoob"/>
+        <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoBancoob.pas"/>
+        <UnitName Value="ACBrBancoBancoob"/>
       </Item9>
       <Item10>
         <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoHSBC.pas"/>
@@ -93,10 +93,17 @@
       </Item17>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="1">
+    <RequiredPkgs Count="3">
       <Item1>
-        <PackageName Value="ACBrDiversos"/>
+        <PackageName Value="laz_synapse"/>
       </Item1>
+      <Item2>
+        <PackageName Value="ACBrDiversos"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item3>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

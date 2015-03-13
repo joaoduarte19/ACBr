@@ -56,7 +56,7 @@ uses Classes, Graphics, Contnrs,
      ACBrBase, ACBrValidador;
 
 const
-  CACBrBoleto_Versao = '0.0.114a' ;
+  CACBrBoleto_Versao = '0.0.116a' ;
 
 type
   TACBrTipoCobranca =
@@ -858,12 +858,12 @@ procedure Register;
 
 implementation
 
-Uses Forms, Math, dateutils, strutils,
-     ACBrUtil, ACBrBancoBradesco, ACBrBancoBrasil, ACBrBancoBanestes, ACBrBancoItau,
-     ACBrBancoSicredi, ACBrBancoMercantil, ACBrCaixaEconomica, ACBrBancoBanrisul,
-     ACBrBancoSantander, ACBrBancoob, ACBrCaixaEconomicaSICOB ,ACBrBancoHSBC,
+Uses ACBrUtil, ACBrBancoBradesco, ACBrBancoBrasil, ACBrBancoBanestes, ACBrBancoItau,
+     ACBrBancoSicredi, ACBrBancoMercantil, ACBrBancoCaixa, ACBrBancoBanrisul,
+     ACBrBancoSantander, ACBrBancoBancoob, ACBrBancoCaixaSICOB ,ACBrBancoHSBC,
      ACBrBancoNordeste , ACBrBancoBRB, ACBrBancoBic, ACBrBancoBradescoSICOOB,
-     ACBrBancoSafra, ACBrBancoSafraBradesco, ACBrBancoCecred;
+     ACBrBancoSafra, ACBrBancoSafraBradesco, ACBrBancoCecred,
+     Forms, Math, dateutils, strutils;
 
 {$IFNDEF FPC}
    {$R ACBrBoleto.dcr}
@@ -1133,6 +1133,7 @@ begin
    fOcorrenciaOriginal.Free;
    fMotivoRejeicaoComando.Free;
    fDescricaoMotivoRejeicaoComando.Free;
+
    inherited;
 end;
 

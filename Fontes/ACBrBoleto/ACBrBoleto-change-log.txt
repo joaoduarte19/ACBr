@@ -48,6 +48,19 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+Data: 11/03/2015 ver. 0.0.116a
+-- ACBrBancoBancoob --
+
+[*] Alterada unit ACBrBancoob para ACBrBancoBancoob de forma a seguir 
+    a padronização do componente.(Regys Silveira)
+[+] Adicionada a leitura 240 ao Bancoob.(Regys Silveira)
+
+
+Data: 11/03/2015 ver. 0.0.115a
+
+[*] Alteradas units ACBrCaixaEconomica para ACBrBancoCaixa e ACBrCaixaEconomicaSICOB para ACBrBancoCaixaSICOB de forma
+    a seguir a padronização do componente.(Regys Silveira)
+
 Data: 09/03/2015 ver. 0.0.114a
 
 -- ACBrBancoItau --
