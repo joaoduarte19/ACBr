@@ -74,7 +74,6 @@ type
 
   TpcteFormaPagamento = (fpPago, fpAPagar, fpOutros);
   TpcteTipoCTe = (tcNormal, tcComplemento, tcAnulacao, tcSubstituto);
-  TpcteModal = (mdRodoviario, mdAereo, mdAquaviario, mdFerroviario, mdDutoviario, mdMultimodal);
   TpcteTipoServico = (tsNormal, tsSubcontratacao, tsRedespacho, tsIntermediario, tsMultimodal);
   TpcteRetira = (rtSim, rtNao);
   TpcteTomador = ( tmRemetente, tmExpedidor, tmRecebedor, tmDestinatario, tmOutros);
@@ -124,10 +123,6 @@ function tpCTePagToStr(const t: TpcteTipoCTe): string;
 function tpCTToStr(const t: TpcteTipoCTe): string;
 function tpCTToStrText(const t: TpcteTipoCTe): string;
 function StrTotpCTe(out ok: boolean; const s: string): TpcteTipoCTe;
-
-function TpModalToStr(const t: TpcteModal): string;
-function TpModalToStrText(const t: TpcteModal): string;
-function StrToTpModal(out ok: boolean; const s: string): TpcteModal;
 
 function TpServPagToStr(const t: TpcteTipoServico): string;
 function TpServToStrText(const t: TpcteTipoServico): string;
@@ -339,24 +334,6 @@ end;
 function StrTotpCTe(out ok: boolean; const s: string): TpcteTipoCTe;
 begin
   result := StrToEnumerado(ok, s, ['0', '1', '2', '3'], [tcNormal, tcComplemento, tcAnulacao, tcSubstituto]);
-end;
-
-function TpModalToStr(const t: TpcteModal): string;
-begin
-  result := EnumeradoToStr(t, ['01','02', '03', '04', '05', '06'],
-                              [mdRodoviario, mdAereo, mdAquaviario, mdFerroviario, mdDutoviario, mdMultimodal]);
-end;
-
-function TpModalToStrText(const t: TpcteModal): string;
-begin
-  result := EnumeradoToStr(t, ['RODOVIÁRIO','AÉREO', 'AQUAVIÁRIO', 'FERROVIÁRIO', 'DUTOVIÁRIO', 'MULTIMODAL'],
-                              [mdRodoviario, mdAereo, mdAquaviario, mdFerroviario, mdDutoviario, mdMultimodal]);
-end;
-
-function StrToTpModal(out ok: boolean; const s: string): TpcteModal;
-begin
-  result := StrToEnumerado(ok, s, ['01', '02', '03', '04', '05', '06'],
-                                  [mdRodoviario, mdAereo, mdAquaviario, mdFerroviario, mdDutoviario, mdMultimodal]);
 end;
 
 function TpServPagToStr(const t: TpcteTipoServico): string;
