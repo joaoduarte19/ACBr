@@ -1391,9 +1391,10 @@ begin
   3305604, // Silva Jardim/RJ
   3305802, // Teresópolis/RJ
   3305901, // Trajano de Moraes/RJ
-  4210100, // Mafra/SC
   4209607, // Lauro Muller/SC
+  4210100, // Mafra/SC
   4211108, // Monte Castelo/SC
+  4212205, // Papanduva/SC
   4301602, // Bage/RS
   5101308, // Arenapolis/MT
   5101704, // Barra do Bugres/MT

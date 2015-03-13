@@ -662,7 +662,7 @@ var
  PCertContext : Pointer;
  ContentHeader: String;
 begin
- if EstaVazio( FConfiguracoes.Certificados.NumeroSerie )
+ if DFeUtil.EstaVazio( FConfiguracoes.Certificados.NumeroSerie )
   then Exit;
 
  Cert        := FConfiguracoes.Certificados.GetCertificado;
@@ -670,7 +670,7 @@ begin
  CertContext.Get_CertContext(Integer(PCertContext));
 
  // proIssDSF incluido por Ailton Branco 16/07/2014
- if not (FProvedor in [proGovBr, proSimplISS, proAbaco, proISSNet, pro4R, proIssDSF, proInfisc,
+ if not (FProvedor in [proGovBr, proSimplISS, proAbaco, proISSNet, pro4R, proIssDSF, proInfisc, 
                        proFiorilli, proProdata, proCoplan, proThema, proVirtual,
                        proPVH, proFreire, proTecnos, proPronim, proPublica,
                        proEgoverneISS, proActcon, proDBSeller, proLexsom])
@@ -2907,16 +2907,6 @@ begin
   else raise Exception.Create('A funcionalidade [Enviar Sincrono] não foi disponibilizada pelo provedor: ' + FxProvedor);
 end;
 
-
-
-
-
-
-
-
-
-
-
 procedure TWebServicesBase.DoNFSeSubstituirNFSe;
 var
  i         : Integer;
@@ -3269,17 +3259,6 @@ begin
   if DadosMsg = '' then
    raise Exception.Create('A funcionalidade [Substituir NFSe] não foi disponibilizada pelo provedor: ' + FxProvedor);
 end;
-
-
-
-
-
-
-
-
-
-
-
 
 { TWebServices }
 
@@ -3984,7 +3963,7 @@ begin
         FNotasFiscais.Items[i].NFSe.dhRecebimento := FDataRecebimento;
        end;
       aMsg := 'Numero do Lote : ' + NFSeRetorno.InfRec.NumeroLote + LineBreak +
-              'Recebimento... : ' + SeSenao(FDataRecebimento = 0, '', DateTimeToStr(FDataRecebimento)) + LineBreak +
+              'Recebimento... : ' + DFeUtil.SeSenao(FDataRecebimento = 0, '', DateTimeToStr(FDataRecebimento)) + LineBreak +
               'Protocolo..... : ' + FProtocolo + LineBreak +
               'Provedor...... : ' + FxProvedor + LineBreak;
      end;
@@ -4072,7 +4051,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  ConfAmbiente;
+  DFeUtil.ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
@@ -4275,7 +4254,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  ConfAmbiente;
+  DFeUtil.ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
@@ -4519,7 +4498,7 @@ begin
    while FRetListaNfse <> '' do
     begin
      j := Pos('</' + Prefixo3 +
-                    seSenao(FProvedor = proBetha, 'ComplNfse', 'CompNfse') + '>', FRetListaNfse);
+                    DFeUtil.seSenao(FProvedor = proBetha, 'ComplNfse', 'CompNfse') + '>', FRetListaNfse);
      p := Length(trim(Prefixo3));
      if j > 0
       then begin
@@ -4674,7 +4653,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  ConfAmbiente;
+  DFeUtil.ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
@@ -5004,7 +4983,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  ConfAmbiente;
+  DFeUtil.ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
@@ -5255,7 +5234,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  ConfAmbiente;
+  DFeUtil.ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
@@ -5352,7 +5331,7 @@ begin
     StrStream.CopyFrom(Stream, 0);
 
     //FRetornoWS := TiraAcentos(ParseText(StrStream.DataString, True));
-	
+
 	// Luiz Baião 2014.12.02    ACBrProvedorNFSEBrasil
 //    if FProvedor = proNFSEBrasil then
 //      FRetornoWS := TiraAcentos(CaracterEmTagXML(StrStream.DataString, True))
@@ -5405,7 +5384,7 @@ begin
      end;
    end
    else aMsg := 'Numero da NFSe : ' + NFSeRetorno.InfCanc.Pedido.IdentificacaoNfse.Numero + LineBreak +
-                'Data Hora..... : ' + SeSenao(FDataHora = 0, '', DateTimeToStr(FDataHora)) + LineBreak;
+                'Data Hora..... : ' + DFeUtil.SeSenao(FDataHora = 0, '', DateTimeToStr(FDataHora)) + LineBreak;
 
   if FConfiguracoes.WebServices.Visualizar
    then ShowMessage(aMsg);
@@ -5424,7 +5403,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  ConfAmbiente;
+  DFeUtil.ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
@@ -5699,7 +5678,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  ConfAmbiente;
+  DFeUtil.ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
@@ -5995,9 +5974,12 @@ begin
 
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
 
-  FDataRecebimento := NFSeRetorno.ListaNfse.CompNfse[0].Nfse.dhRecebimento;
-  FProtocolo       := NFSeRetorno.ListaNfse.CompNfse[0].Nfse.Protocolo;
-
+  if NFSeRetorno.ListaNfse.CompNfse.Count > 0 then
+  begin
+    FDataRecebimento := NFSeRetorno.ListaNfse.CompNfse[0].Nfse.dhRecebimento;
+    FProtocolo       := NFSeRetorno.ListaNfse.CompNfse[0].Nfse.Protocolo;
+  end;
+  
   // Lista de Mensagem de Retorno
   FMsg := '';
   if NFSeRetorno.ListaNfse.MsgRetorno.Count>0
@@ -6034,7 +6016,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  ConfAmbiente;
+  DFeUtil.ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
@@ -6186,7 +6168,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  ConfAmbiente;
+  DFeUtil.ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
@@ -6331,7 +6313,7 @@ begin
      end;
    end{
    else aMsg := 'Numero da NFSe : ' + NFSeRetorno.Pedido.IdentificacaoNfse.Numero + LineBreak +
-                'Data Hora..... : ' + SeSenao(FDataHora = 0, '', DateTimeToStr(FDataHora)) + LineBreak};
+                'Data Hora..... : ' + DFeUtil.SeSenao(FDataHora = 0, '', DateTimeToStr(FDataHora)) + LineBreak};
 
   if FConfiguracoes.WebServices.Visualizar
    then ShowMessage(aMsg);
@@ -6350,7 +6332,7 @@ begin
   Acao.Free;
   Stream.Free;
 
-  ConfAmbiente;
+  DFeUtil.ConfAmbiente;
   TACBrNFSe( FACBrNFSe ).SetStatus( stNFSeIdle );
  end;
 end;
