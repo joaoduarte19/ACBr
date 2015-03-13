@@ -698,7 +698,7 @@ begin
         // do layout da ABRASF mas ainda não possui um Web Service, ou seja,
         // devemos apenas gerar o XML do RPS para ser lido pelo site da prefeitura
 
-  2607901  // Jaboatão dos Guararapes/PE 
+  2607901  // Jaboatão dos Guararapes/PE
          : Provedor := 'ABRASFv1';
 
         // Devemos informar aqui a lista de cidades que utilizam a versão 2
@@ -730,6 +730,7 @@ begin
 //  5106224  // Nova Mutum/MT
          : Provedor := 'Agili';
 
+  3101607, // Alfenas/MG
   3118007, // Congonhas/MG
   3302254, // Itatiaia/RJ
   3303955, // Pinheiral/RJ
@@ -947,7 +948,7 @@ begin
   2704708, // Marechal Deodoro/AL
 //  2910727, // Eunapolis/BA
   2933307, // Vitoria da Conquista/BA
-  3101607, // Alfenas/MG
+//  3101607, // Alfenas/MG
   3104007, // Araxá/MG
   3106705, // Betim/MG
   3115300, // Cataguases/MG
@@ -1065,6 +1066,7 @@ begin
 //  4205902, // Gaspar/SC
   4210506, // Maravilha/SC
   4216602, // São José/SC
+  4303509, // Camaqua/RS
   4308102, // Feliz/RS
   4309407, // Guapore/RS
   4310207, // Ijui/RS

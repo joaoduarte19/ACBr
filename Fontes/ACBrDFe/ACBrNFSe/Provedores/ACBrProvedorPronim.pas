@@ -262,6 +262,13 @@ begin
              ConfigURL.ProNomeCidade         := '';
              ConfigURL.ProRecepcaoLoteRPS    := 'http://nfse.pmsj.sc.gov.br:90/NFSEWS/Services.svc';
            end;
+  4303509: begin // Camaqua/RS
+             ConfigURL.HomNomeCidade         := '';
+             ConfigURL.HomRecepcaoLoteRPS    := 'http://portal.camaqua.rs.gov.br:8181/nfsewsteste/Services.svc';
+
+             ConfigURL.ProNomeCidade         := '';
+             ConfigURL.ProRecepcaoLoteRPS    := 'http://portal.camaqua.rs.gov.br/nfsews/Services.svc';
+           end;
   4308102: begin // Feliz/RS
              ConfigURL.HomNomeCidade         := '';
              ConfigURL.HomRecepcaoLoteRPS    := 'http://187.84.56.69:8082/nfsewsteste/Services.svc';
@@ -366,14 +373,14 @@ begin
    acCancelar:    Result := '<' + Prefixo3 + 'CancelarNfseEnvio' + NameSpaceDad +
                              '<' + Prefixo3 + 'Pedido>' +
                               '<' + Prefixo4 + 'InfPedidoCancelamento' +
-                                 SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
+                                 DFeUtil.SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
    acGerar:       Result := '<' + Prefixo3 + 'GerarNfseEnvio' + NameSpaceDad;
    acRecSincrono: Result := '<' + Prefixo3 + 'EnviarLoteRpsSincronoEnvio' + NameSpaceDad;
    acSubstituir:  Result := '<' + Prefixo3 + 'SubstituirNfseEnvio' + NameSpaceDad +
                              '<' + Prefixo3 + 'SubstituicaoNfse>' +
                               '<' + Prefixo3 + 'Pedido>' +
                                '<' + Prefixo4 + 'InfPedidoCancelamento' +
-                                  SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
+                                  DFeUtil.SeSenao(Identificador <> '', ' ' + Identificador + '="' + URI + '"', '') + '>';
   end;
 end;
 
