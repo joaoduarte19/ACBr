@@ -88,7 +88,7 @@ type
 
 implementation
 
-uses ACBrSpedUtils;
+uses ACBrTXTUtils;
 
 { TBloco_0 }
 
