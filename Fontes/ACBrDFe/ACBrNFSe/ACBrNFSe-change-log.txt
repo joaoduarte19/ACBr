@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+13/03/2015
+[*] Removido a cidade de Catanduvas (provedor pronim) para realizar a assinatura.
+    Por: Mauricio Guedes da Rosa
+
 03/03/2015
 [*] Implementado o provedor SJP para a cidade de São Jose dos Pinhais.
     Por: Akai
