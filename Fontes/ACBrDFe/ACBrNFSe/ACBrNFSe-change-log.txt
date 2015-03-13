@@ -48,6 +48,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 13/03/2015
+[-] Tentativa de resolver o problema ao emitir o DANFSE com determinados valores
+    de ValorServicos e ValorISSRetido.
+    Por: Italo Jurisato Junior
 [*] Removido a cidade de Catanduvas (provedor pronim) para realizar a assinatura.
     Por: Mauricio Guedes da Rosa
 

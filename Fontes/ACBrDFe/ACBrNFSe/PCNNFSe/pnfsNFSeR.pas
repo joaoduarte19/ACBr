@@ -639,11 +639,11 @@ begin
 
 
       FNfse.Servico.Valores.ValorIss                          := (FNfse.Servico.Valores.ValorServicos * NFSe.Servico.Valores.Aliquota)/100;
-      NFSe.Servico.Valores.ValorLiquidoNfse                   := (FNfse.Servico.Valores.ValorServicos -
+      FNFSe.Servico.Valores.ValorLiquidoNfse                  := (FNfse.Servico.Valores.ValorServicos -
                                                                  (FNfse.Servico.Valores.ValorDeducoes +
                                                                   FNfse.Servico.Valores.DescontoCondicionado+
                                                                   FNfse.Servico.Valores.DescontoIncondicionado+
-                                                                  NFSe.Servico.Valores.ValorIssRetido));
+                                                                  FNFSe.Servico.Valores.ValorIssRetido));
       FNfse.Servico.Valores.BaseCalculo                       := NFSe.Servico.Valores.ValorLiquidoNfse;
 
       NFSe.OutrasInformacoes := Leitor.rCampo(tcStr, 'DescricaoRPS');
@@ -1579,11 +1579,11 @@ begin
   end;
 
   FNfse.Servico.Valores.ValorIss                          := (FNfse.Servico.Valores.ValorServicos * NFSe.Servico.Valores.Aliquota)/100;
-  NFSe.Servico.Valores.ValorLiquidoNfse                   := (FNfse.Servico.Valores.ValorServicos -
+  FNFSe.Servico.Valores.ValorLiquidoNfse                  := (FNfse.Servico.Valores.ValorServicos -
                                                              (FNfse.Servico.Valores.ValorDeducoes +
                                                               FNfse.Servico.Valores.DescontoCondicionado+
                                                               FNfse.Servico.Valores.DescontoIncondicionado+
-                                                              NFSe.Servico.Valores.ValorIssRetido));
+                                                              FNFSe.Servico.Valores.ValorIssRetido));
   FNfse.Servico.Valores.BaseCalculo                       := NFSe.Servico.Valores.ValorLiquidoNfse;
 
  Result := True;
