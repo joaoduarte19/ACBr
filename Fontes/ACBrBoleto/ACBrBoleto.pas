@@ -858,12 +858,12 @@ procedure Register;
 
 implementation
 
-Uses ACBrUtil, ACBrBancoBradesco, ACBrBancoBrasil, ACBrBancoBanestes, ACBrBancoItau,
+Uses Forms, Math, dateutils, strutils,
+     ACBrUtil, ACBrBancoBradesco, ACBrBancoBrasil, ACBrBancoBanestes, ACBrBancoItau,
      ACBrBancoSicredi, ACBrBancoMercantil, ACBrBancoCaixa, ACBrBancoBanrisul,
      ACBrBancoSantander, ACBrBancoBancoob, ACBrBancoCaixaSICOB ,ACBrBancoHSBC,
      ACBrBancoNordeste , ACBrBancoBRB, ACBrBancoBic, ACBrBancoBradescoSICOOB,
-     ACBrBancoSafra, ACBrBancoSafraBradesco, ACBrBancoCecred,
-     Forms, Math, dateutils, strutils;
+     ACBrBancoSafra, ACBrBancoSafraBradesco, ACBrBancoCecred;
 
 {$IFNDEF FPC}
    {$R ACBrBoleto.dcr}
