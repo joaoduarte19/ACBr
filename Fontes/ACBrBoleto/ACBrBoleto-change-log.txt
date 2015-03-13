@@ -48,6 +48,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+Data: 13/03/2015 ver. 0.0.117a
+-- ACBrBancoBrasil --
+
+[*] Ajuste para que o complemento do endereço do pagador seja incluido
+    na remessa CNAB400. (Luciano)
+
+
 Data: 11/03/2015 ver. 0.0.116a
 -- ACBrBancoBancoob --
 

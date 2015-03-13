@@ -867,8 +867,9 @@ begin
                   ATipoSacado + PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')   + // Tipo de inscricao do sacado + CNPJ ou CPF do sacado
                   PadRight( Sacado.NomeSacado, 37) + '   '                    + // Nome do sacado + Brancos
                   PadRight(trim(Sacado.Logradouro) + ', ' +
-                       trim(Sacado.Numero) + ' '+ trim(Sacado.Bairro),
-                       52)                                                + // Endereço do sacado
+                           trim(Sacado.Numero) + ', '+ 
+                           trim(Sacado.Complemento), 40)                         + // Endereço do sacado
+                  PadRight( Trim(Sacado.Bairro), 12)
                   PadLeft( OnlyNumber(Sacado.CEP), 8 )                       + // CEP do endereço do sacado
                   PadRight( trim(Sacado.Cidade), 15)                          + // Cidade do sacado
                   PadRight( Sacado.UF, 2 )                                    + // UF da cidade do sacado
