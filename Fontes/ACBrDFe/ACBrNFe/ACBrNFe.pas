@@ -110,7 +110,7 @@ type
 
     procedure EnviarEmail(sPara, sAssunto: String;
       sMensagem: TStrings = nil; sCC: TStrings = nil; Anexos: TStrings = nil;
-      StreamNFe: TStringStream = nil; NomeArq: String = ''); overload;
+      StreamNFe: TStream = nil; NomeArq: String = ''); overload;
 
     function Enviar(ALote: integer; Imprimir: Boolean = True;
       Sincrono: Boolean = False): Boolean; overload;
@@ -217,7 +217,7 @@ begin
 end;
 
 procedure TACBrNFe.EnviarEmail(sPara, sAssunto: String; sMensagem: TStrings;
-  sCC: TStrings; Anexos: TStrings; StreamNFe: TStringStream; NomeArq: String);
+  sCC: TStrings; Anexos: TStrings; StreamNFe: TStream; NomeArq: String);
 begin
   SetStatus( stNFeEmail );
 

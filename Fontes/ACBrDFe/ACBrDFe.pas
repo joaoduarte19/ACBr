@@ -112,7 +112,7 @@ type
     function Gravar(NomeArquivo: String; ConteudoXML: String; aPath: String = ''): Boolean;
     procedure EnviarEmail(sPara, sAssunto: String;
       sMensagem: TStrings = nil; sCC: TStrings = nil; Anexos: TStrings = nil;
-      StreamNFe: TStringStream = nil; NomeArq: String = ''); virtual;
+      StreamNFe: TStream = nil; NomeArq: String = ''); virtual;
 
     procedure LerServicoDeParams(const ModeloDFe, UF: String;
       const TipoAmbiente: TpcnTipoAmbiente; const NomeServico: String;
@@ -262,9 +262,8 @@ begin
 end;
 
 procedure TACBrDFe.EnviarEmail(sPara, sAssunto: String; sMensagem: TStrings;
-  sCC: TStrings; Anexos: TStrings; StreamNFe: TStringStream; NomeArq: String);
+  sCC: TStrings; Anexos: TStrings; StreamNFe: TStream; NomeArq: String);
 var
-  msg_lines, CorpoEmail: TStringList;
   i : Integer;
 begin
   if not Assigned(MAIL) then

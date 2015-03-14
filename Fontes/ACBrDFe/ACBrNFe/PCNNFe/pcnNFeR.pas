@@ -383,9 +383,8 @@ begin
   Itens := copy(
     Arquivo,
     Pos('<det nItem=', Arquivo),
-    Pos('<total', Arquivo) - Pos('<det nItem=',Arquivo)
+    Pos('<total', Arquivo) - Pos('<det nItem=',Arquivo));
 
-  );
   Itens := StringReplace(Itens, #$D#$A, '', [rfReplaceAll]);
 
   ItensTemp := copy(

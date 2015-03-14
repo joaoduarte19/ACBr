@@ -104,14 +104,10 @@ type
     function GerarTXT: String;
     function GravarTXT(NomeArquivo: String = ''; PathArquivo: String = ''): Boolean;
 
-    function SaveToStream(AStream: TStream): Boolean;
+    function GravarStream(AStream: TStream): Boolean;
 
-    procedure EnviarEmail(const sSmtpHost, sSmtpPort, sSmtpUser,
-      sSmtpPasswd, sFrom, sTo, sAssunto: String; sMensagem: TStrings;
-      SSL: Boolean; EnviaPDF: Boolean = True; sCC: TStrings = nil;
-      Anexos: TStrings = nil; PedeConfirma: Boolean = False;
-      AguardarEnvio: Boolean = False; NomeRemetente: String = '';
-      TLS: Boolean = True; UsarThread: Boolean = True; HTML: Boolean = False);
+    procedure EnviarEmail(sPara, sAssunto: String; sMensagem: TStrings = nil;
+      EnviaPDF: Boolean = True; sCC: TStrings = nil; Anexos: TStrings = nil);
 
     property NomeArq: String read FNomeArq write FNomeArq;
 
@@ -591,7 +587,7 @@ begin
     ChangeFileExt(FNomeArq, '.txt'), ATXT);
 end;
 
-function NotaFiscal.SaveToStream(AStream: TStream): Boolean;
+function NotaFiscal.GravarStream(AStream: TStream): Boolean;
 begin
   Result := False;
   GerarXML;
@@ -601,66 +597,49 @@ begin
   Result := True;
 end;
 
-procedure NotaFiscal.EnviarEmail(const sSmtpHost, sSmtpPort, sSmtpUser,
-  sSmtpPasswd, sFrom, sTo, sAssunto: String; sMensagem: TStrings;
-  SSL: Boolean; EnviaPDF: Boolean = True; sCC: TStrings = nil;
-  Anexos: TStrings = nil; PedeConfirma: Boolean = False;
-  AguardarEnvio: Boolean = False; NomeRemetente: String = '';
-  TLS: Boolean = True; UsarThread: Boolean = True; HTML: Boolean = False);
-////var
-//// NomeArq : String;
-//// AnexosEmail:TStrings;
-//// StreamNFe : TStringStream;
+procedure NotaFiscal.EnviarEmail(sPara, sAssunto: String; sMensagem: TStrings;
+  EnviaPDF: Boolean; sCC: TStrings; Anexos: TStrings);
+var
+  NomeArq : String;
+  AnexosEmail:TStrings;
+  StreamNFe : TMemoryStream;
 begin
-  // TODO: Fazer
-  ////AnexosEmail := TStringList.Create;
-  ////StreamNFe  := TStringStream.Create('');
-  ////try
-  ////   AnexosEmail.Clear;
-  ////   if Anexos <> nil then
-  ////     AnexosEmail.Text := Anexos.Text;
-  ////   if NomeArq <> '' then
-  ////    begin
-  ////      SaveToFile(NomeArq);
-  ////      AnexosEmail.Add(NomeArq);
-  ////    end
-  ////   else
-  ////    begin
-  ////      SaveToStream(StreamNFe);
-  ////    end;
-  ////   if (EnviaPDF) then
-  ////   begin
-  ////      if TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).DANFE <> nil then
-  ////      begin
-  ////         TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).DANFE.ImprimirDANFEPDF(NFe);
-  ////         NomeArq :=  StringReplace(NFe.infNFe.ID,'NFe', '', [rfIgnoreCase]);
-  ////         NomeArq := PathWithDelim(TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).DANFE.PathPDF)+NomeArq+'-nfe.pdf';
-  ////         AnexosEmail.Add(NomeArq);
-  ////      end;
-  ////   end;
-  ////   TACBrNFe( TNotasFiscais( Collection ).ACBrNFe ).EnviarEmail(sSmtpHost,
-  ////               sSmtpPort,
-  ////               sSmtpUser,
-  ////               sSmtpPasswd,
-  ////               sFrom,
-  ////               sTo,
-  ////               sAssunto,
-  ////               sMensagem,
-  ////               SSL,
-  ////               sCC,
-  ////               AnexosEmail,
-  ////               PedeConfirma,
-  ////               AguardarEnvio,
-  ////               NomeRemetente,
-  ////               TLS,
-  ////               StreamNFe,
-  ////               copy(NFe.infNFe.ID, (length(NFe.infNFe.ID)-44)+1, 44)+'-nfe.xml',
-  ////               UsarThread,
-  ////               HTML);
-  ////finally
-  ////   AnexosEmail.Free;
-  ////   StreamNFe.Free;
-  ////end;
+  AnexosEmail := TStringList.Create;
+  StreamNFe := TMemoryStream.Create;
+  try
+    AnexosEmail.Clear;
+    if Assigned(Anexos) then
+      AnexosEmail.Assign(Anexos);
+
+    if NomeArq <> '' then
+    begin
+      GravarXML(NomeArq);
+      AnexosEmail.Add(NomeArq);
+    end
+    else
+    begin
+      GravarStream(StreamNFe);
+    end;
+
+    with TACBrNFe(TNotasFiscais(Collection).ACBrNFe) do
+    begin
+      if (EnviaPDF) then
+      begin
+        if Assigned(DANFE) then
+        begin
+          DANFE.ImprimirDANFEPDF(FNFe);
+          NomeArq := PathWithDelim(DANFE.PathPDF) + NumID + '-nfe.pdf';
+          AnexosEmail.Add(NomeArq);
+        end;
+      end;
+
+      EnviarEmail( sPara, sAssunto, sMensagem, sCC, AnexosEmail, StreamNFe,
+                   NumID +'-nfe.xml');
+    end;
+  finally
+    AnexosEmail.Free;
+    StreamNFe.Free;
+  end;
 end;
 
 function NotaFiscal.GerarXML: String;
@@ -919,7 +898,7 @@ begin
   ArquivoXML := TStringList.Create;
   try
     ArquivoXML.LoadFromFile(CaminhoArquivo);
-    XMLOriginal := ArquivoXML.ToString;
+    XMLOriginal := ArquivoXML.Text;
 
     // Converte de UTF8 para a String nativa da IDE //
     XML := DecodeToString(XMLOriginal, True);

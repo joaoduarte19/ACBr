@@ -1270,25 +1270,29 @@ begin
     ACBrNFe1.NotasFiscais.Clear;
     ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
     CC:=TstringList.Create;
-    CC.Add('andrefmoraes@gmail.com'); //especifique um email válido
-    CC.Add('anfm@zipmail.com.br');    //especifique um email válido
-    ACBrNFe1.NotasFiscais.Items[0].EnviarEmail(edtSmtpHost.Text
-                                             , edtSmtpPort.Text
-                                             , edtSmtpUser.Text
-                                             , edtSmtpPass.Text
-                                             , edtSmtpUser.Text
-                                             , Para
-                                             , edtEmailAssunto.Text
-                                             , mmEmailMsg.Lines
-                                             , cbEmailSSL.Checked // SSL - Conexão Segura
-                                             , True //Enviar PDF junto
-                                             , CC //Lista com emails que serão enviado cópias - TStrings
-                                             , nil // Lista de anexos - TStrings
-                                             , False  //Pede confirmação de leitura do email
-                                             , False  //Aguarda Envio do Email(não usa thread)
-                                             , 'ACBrNFe2' // Nome do Rementente
-                                             , cbEmailSSL.Checked ); // Auto TLS
-    CC.Free;
+    try
+      CC.Add('andrefmoraes@gmail.com'); //especifique um email válido
+      CC.Add('anfm@zipmail.com.br');    //especifique um email válido
+
+      ACBrMail1.Host := edtSmtpHost.Text;
+      ACBrMail1.Port := edtSmtpPort.Text;
+      ACBrMail1.Username := edtSmtpUser.Text;
+      ACBrMail1.Password := edtSmtpPass.Text;
+      ACBrMail1.From := edtSmtpUser.Text;
+      ACBrMail1.SetSSL := cbEmailSSL.Checked; // SSL - Conexão Segura
+      ACBrMail1.SetTLS := cbEmailSSL.Checked; // Auto TLS
+      ACBrMail1.ReadingConfirmation := False; //Pede confirmação de leitura do email
+      ACBrMail1.UseThread := False;           //Aguarda Envio do Email(não usa thread)
+      ACBrMail1.FromName := 'Projeto ACBr - ACBrNFe';
+
+      ACBrNFe1.NotasFiscais.Items[0].EnviarEmail( Para, edtEmailAssunto.Text,
+                                               mmEmailMsg.Lines
+                                               , True  // Enviar PDF junto
+                                               , CC    // Lista com emails que serão enviado cópias - TStrings
+                                               , nil); // Lista de anexos - TStrings
+    finally
+      CC.Free;
+    end;
   end;
 end;
 
