@@ -4,12 +4,15 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="74">
+    <Units Count="106">
       <Unit0>
         <Filename Value="ACBrNFe_demo.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ACBrNFE_Demo"/>
-        <UsageCount Value="84"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="22" Y="20"/>
+        <UsageCount Value="111"/>
       </Unit0>
       <Unit1>
         <Filename Value="Unit1.pas"/>
@@ -20,9 +23,9 @@
         <UnitName Value="Unit1"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="153" Y="10"/>
-        <UsageCount Value="84"/>
+        <TopLine Value="651"/>
+        <CursorPos X="1" Y="663"/>
+        <UsageCount Value="111"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -31,102 +34,99 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="78" Y="12"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="5"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit2>
       <Unit3>
         <Filename Value="..\..\..\..\Fontes\PCNComum\pcnConversao.pas"/>
         <UnitName Value="pcnConversao"/>
-        <EditorIndex Value="10"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="55"/>
-        <CursorPos X="1" Y="82"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
+        <TopLine Value="98"/>
+        <CursorPos X="48" Y="127"/>
+        <UsageCount Value="13"/>
       </Unit3>
       <Unit4>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFe.pas"/>
         <UnitName Value="ACBrNFe"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="608"/>
-        <CursorPos X="1" Y="624"/>
-        <UsageCount Value="31"/>
+        <TopLine Value="519"/>
+        <CursorPos X="27" Y="531"/>
+        <UsageCount Value="43"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFeNotasFiscais.pas"/>
         <UnitName Value="ACBrNFeNotasFiscais"/>
-        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="290"/>
         <CursorPos X="1" Y="302"/>
-        <UsageCount Value="21"/>
-        <Bookmarks Count="4">
-          <Item0 X="40" Y="283" ID="2"/>
-          <Item1 X="21" Y="192" ID="1"/>
-          <Item2 X="40" Y="302" ID="4"/>
-          <Item3 X="1" Y="670" ID="3"/>
+        <UsageCount Value="29"/>
+        <Bookmarks Count="1">
+          <Item0 X="40" Y="302" ID="4"/>
         </Bookmarks>
-        <Loaded Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeSSL.pas"/>
         <UnitName Value="ACBrDFeSSL"/>
-        <EditorIndex Value="2"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="213"/>
-        <CursorPos X="1" Y="230"/>
-        <UsageCount Value="30"/>
+        <TopLine Value="358"/>
+        <CursorPos X="31" Y="366"/>
+        <UsageCount Value="42"/>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeCapicom.pas"/>
         <UnitName Value="ACBrDFeCapicom"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="117"/>
-        <CursorPos X="3" Y="120"/>
-        <UsageCount Value="23"/>
+        <TopLine Value="566"/>
+        <CursorPos X="1" Y="582"/>
+        <UsageCount Value="32"/>
+        <Bookmarks Count="1">
+          <Item0 X="41" Y="314" ID="3"/>
+        </Bookmarks>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFe.pas"/>
         <UnitName Value="ACBrDFe"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="189"/>
-        <CursorPos X="1" Y="205"/>
-        <UsageCount Value="37"/>
+        <TopLine Value="95"/>
+        <CursorPos X="31" Y="105"/>
+        <UsageCount Value="48"/>
         <Loaded Value="True"/>
       </Unit8>
       <Unit9>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeConfiguracoes.pas"/>
         <UnitName Value="ACBrDFeConfiguracoes"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="569"/>
-        <CursorPos X="3" Y="577"/>
-        <UsageCount Value="31"/>
+        <TopLine Value="203"/>
+        <CursorPos X="3" Y="213"/>
+        <UsageCount Value="37"/>
         <Loaded Value="True"/>
       </Unit9>
       <Unit10>
         <Filename Value="..\..\..\..\Fontes\ACBrComum\ACBrUtil.pas"/>
         <UnitName Value="ACBrUtil"/>
+        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="224"/>
-        <CursorPos X="11" Y="235"/>
-        <UsageCount Value="23"/>
+        <TopLine Value="1228"/>
+        <CursorPos X="1" Y="1254"/>
+        <UsageCount Value="35"/>
+        <Loaded Value="True"/>
       </Unit10>
       <Unit11>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFeConfiguracoes.pas"/>
         <UnitName Value="ACBrNFeConfiguracoes"/>
-        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
-        <UsageCount Value="20"/>
-        <Loaded Value="True"/>
+        <TopLine Value="46"/>
+        <CursorPos X="3" Y="50"/>
+        <UsageCount Value="22"/>
       </Unit11>
       <Unit12>
         <Filename Value="..\..\..\..\Fontes\ACBrDiversos\ACBrFala.pas"/>
@@ -134,14 +134,14 @@
         <WindowIndex Value="0"/>
         <TopLine Value="308"/>
         <CursorPos X="14" Y="310"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="4"/>
       </Unit12>
       <Unit13>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\win\wininc\ascdef.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="68"/>
         <CursorPos X="10" Y="79"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="2"/>
       </Unit13>
       <Unit14>
         <Filename Value="..\..\..\..\Fontes\ACBrDiversos\ACBrDiversosReg.pas"/>
@@ -149,7 +149,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="95"/>
         <CursorPos X="43" Y="114"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="2"/>
       </Unit14>
       <Unit15>
         <Filename Value="..\..\..\..\Fontes\ACBrTCP\ACBrTCPReg.pas"/>
@@ -157,21 +157,21 @@
         <WindowIndex Value="0"/>
         <TopLine Value="45"/>
         <CursorPos X="1" Y="60"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="4"/>
       </Unit15>
       <Unit16>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\inc\resh.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="44"/>
         <CursorPos X="10" Y="56"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="2"/>
       </Unit16>
       <Unit17>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\classes\classesh.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1007"/>
         <CursorPos X="3" Y="1016"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="2"/>
       </Unit17>
       <Unit18>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\types.pp"/>
@@ -179,17 +179,19 @@
         <WindowIndex Value="0"/>
         <TopLine Value="19"/>
         <CursorPos X="3" Y="30"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="2"/>
       </Unit18>
       <Unit19>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
         <UnitName Value="ACBrDFeOpenSSL"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="587"/>
-        <CursorPos X="53" Y="613"/>
-        <UsageCount Value="14"/>
+        <TopLine Value="102"/>
+        <CursorPos X="55" Y="116"/>
+        <UsageCount Value="27"/>
+        <Bookmarks Count="1">
+          <Item0 X="42" Y="649" ID="2"/>
+        </Bookmarks>
         <Loaded Value="True"/>
       </Unit19>
       <Unit20>
@@ -198,7 +200,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="64"/>
         <CursorPos X="14" Y="80"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit20>
       <Unit21>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\packages\fcl-base\src\inifiles.pp"/>
@@ -206,17 +208,15 @@
         <WindowIndex Value="0"/>
         <TopLine Value="665"/>
         <CursorPos X="3" Y="705"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="3"/>
       </Unit21>
       <Unit22>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeWebService.pas"/>
         <UnitName Value="ACBrDFeWebService"/>
-        <EditorIndex Value="13"/>
         <WindowIndex Value="0"/>
         <TopLine Value="135"/>
         <CursorPos X="8" Y="150"/>
-        <UsageCount Value="36"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="34"/>
       </Unit22>
       <Unit23>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFeWebServices.pas"/>
@@ -224,7 +224,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="3000"/>
         <CursorPos X="1" Y="3026"/>
-        <UsageCount Value="33"/>
+        <UsageCount Value="30"/>
       </Unit23>
       <Unit24>
         <Filename Value="..\..\..\..\Fontes\ACBrCapicom\ACBrHTTPReqResp.pas"/>
@@ -232,14 +232,14 @@
         <WindowIndex Value="0"/>
         <TopLine Value="99"/>
         <CursorPos X="26" Y="125"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="8"/>
       </Unit24>
       <Unit25>
         <Filename Value="..\..\..\..\..\..\..\..\Lazarus\Comp\CCR\components\rx\trunk\rx.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="2"/>
       </Unit25>
       <Unit26>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCTe\ACBrCTeWebServices.pas"/>
@@ -247,7 +247,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="961"/>
         <CursorPos X="90" Y="968"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="2"/>
       </Unit26>
       <Unit27>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrMDFe\ACBrMDFeWebServices.pas"/>
@@ -255,7 +255,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="879"/>
         <CursorPos X="42" Y="895"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="2"/>
       </Unit27>
       <Unit28>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeUtil.pas"/>
@@ -263,14 +263,14 @@
         <WindowIndex Value="0"/>
         <TopLine Value="54"/>
         <CursorPos X="37" Y="61"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="9"/>
       </Unit28>
       <Unit29>
         <Filename Value="..\..\..\..\..\..\trunk\Fontes\ACBrComum\ACBrComum-change-log.txt"/>
         <WindowIndex Value="0"/>
         <TopLine Value="31"/>
         <CursorPos X="60" Y="55"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="5"/>
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit29>
       <Unit30>
@@ -278,14 +278,14 @@
         <WindowIndex Value="0"/>
         <TopLine Value="76"/>
         <CursorPos X="30" Y="85"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="3"/>
       </Unit30>
       <Unit31>
         <Filename Value="..\..\..\..\Fontes\ACBrComum\ACBr_jedi.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="504"/>
         <CursorPos X="1" Y="518"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="3"/>
       </Unit31>
       <Unit32>
         <Filename Value="..\..\..\..\Fontes\ACBrDiversos\ACBrValidador.pas"/>
@@ -293,25 +293,23 @@
         <WindowIndex Value="0"/>
         <TopLine Value="310"/>
         <CursorPos X="3" Y="277"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="5"/>
       </Unit32>
       <Unit33>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnConversaoNFe.pas"/>
         <UnitName Value="pcnConversaoNFe"/>
-        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
         <TopLine Value="146"/>
         <CursorPos X="1" Y="162"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="9"/>
       </Unit33>
       <Unit34>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnNFe.pas"/>
         <UnitName Value="pcnNFe"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="196"/>
-        <CursorPos X="13" Y="203"/>
-        <UsageCount Value="16"/>
+        <TopLine Value="191"/>
+        <CursorPos X="43" Y="207"/>
+        <UsageCount Value="17"/>
       </Unit34>
       <Unit35>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnNFeW.pas"/>
@@ -319,7 +317,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="577"/>
         <CursorPos X="1" Y="587"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="4"/>
       </Unit35>
       <Unit36>
         <Filename Value="..\..\..\..\Fontes\PCNComum\pcnGerador.pas"/>
@@ -327,7 +325,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="391"/>
         <CursorPos X="68" Y="408"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="9"/>
       </Unit36>
       <Unit37>
         <Filename Value="..\..\..\..\Fontes\PCNComum\pcnAuxiliar.pas"/>
@@ -335,7 +333,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="842"/>
         <CursorPos X="1" Y="873"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="9"/>
       </Unit37>
       <Unit38>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrGNRE\ACBrGNREWebServices.pas"/>
@@ -343,7 +341,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="620"/>
         <CursorPos X="59" Y="625"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="3"/>
       </Unit38>
       <Unit39>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\NFCe\EscPos\ACBrNFeDANFeESCPOS.pas"/>
@@ -351,7 +349,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="43"/>
         <CursorPos X="9" Y="51"/>
-        <UsageCount Value="19"/>
+        <UsageCount Value="16"/>
       </Unit39>
       <Unit40>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSe\ACBrNFSeWebServices.pas"/>
@@ -359,7 +357,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="3823"/>
         <CursorPos X="35" Y="3828"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="9"/>
       </Unit40>
       <Unit41>
         <Filename Value="..\..\..\..\Fontes\ACBrOpenSSL\libxml2.pas"/>
@@ -367,7 +365,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="3454"/>
         <CursorPos X="16" Y="3460"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="3"/>
       </Unit41>
       <Unit42>
         <Filename Value="..\..\..\..\Fontes\ACBrTCP\ACBrCEP.pas"/>
@@ -375,7 +373,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="692"/>
         <CursorPos X="10" Y="698"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="3"/>
       </Unit42>
       <Unit43>
         <Filename Value="..\..\..\..\Fontes\ACBrTCP\ACBrIBPTax.pas"/>
@@ -383,7 +381,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="578"/>
         <CursorPos X="27" Y="583"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="3"/>
       </Unit43>
       <Unit44>
         <Filename Value="..\..\..\..\Fontes\ACBrTCP\ACBrNFPws.pas"/>
@@ -391,7 +389,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="188"/>
         <CursorPos X="26" Y="199"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="3"/>
       </Unit44>
       <Unit45>
         <Filename Value="..\..\..\..\Fontes\ACBrTCP\ACBrSocket.pas"/>
@@ -399,7 +397,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="689"/>
         <CursorPos X="24" Y="691"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="3"/>
       </Unit45>
       <Unit46>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnCancNFe.pas"/>
@@ -407,14 +405,14 @@
         <WindowIndex Value="0"/>
         <TopLine Value="109"/>
         <CursorPos X="55" Y="124"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="3"/>
       </Unit46>
       <Unit47>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\sysutilh.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="99"/>
         <CursorPos X="19" Y="109"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="5"/>
       </Unit47>
       <Unit48>
         <Filename Value="..\Delphi\Unit1.pas"/>
@@ -422,7 +420,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="2052"/>
         <CursorPos X="1" Y="2067"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="5"/>
       </Unit48>
       <Unit49>
         <Filename Value="..\..\..\ACBrSAT\Lazarus\unit1.pas"/>
@@ -433,7 +431,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="624"/>
         <CursorPos X="52" Y="637"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="5"/>
       </Unit49>
       <Unit50>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\win32\system.pp"/>
@@ -441,7 +439,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="25"/>
         <CursorPos X="2" Y="36"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="5"/>
       </Unit50>
       <Unit51>
         <Filename Value="C:\lazarus\lcl\stdctrls.pp"/>
@@ -449,7 +447,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="901"/>
         <CursorPos X="3" Y="908"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="5"/>
       </Unit51>
       <Unit52>
         <Filename Value="Old\Unit1.pas"/>
@@ -457,14 +455,14 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="5"/>
       </Unit52>
       <Unit53>
         <Filename Value="Old\Unit1.lfm"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="5"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit53>
       <Unit54>
@@ -476,14 +474,14 @@
         <WindowIndex Value="0"/>
         <TopLine Value="416"/>
         <CursorPos X="74" Y="423"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit54>
       <Unit55>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\NFCe\Fortes\ACBrDANFCeFortesFr.lfm"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit55>
       <Unit56>
@@ -492,7 +490,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="80"/>
         <CursorPos X="64" Y="105"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit56>
       <Unit57>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFeReg.pas"/>
@@ -500,7 +498,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="87"/>
         <CursorPos X="67" Y="110"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit57>
       <Unit58>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetDPEC.pas"/>
@@ -508,7 +506,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="32"/>
         <CursorPos X="12" Y="48"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit58>
       <Unit59>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\ACBrDANFeCBRavePaisagem.pas"/>
@@ -516,7 +514,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1524"/>
         <CursorPos X="1" Y="1549"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit59>
       <Unit60>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\ACBrDANFeCBRaveRetrato.pas"/>
@@ -524,7 +522,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1489"/>
         <CursorPos X="1" Y="1514"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit60>
       <Unit61>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\ACBrNFeDANFEFRDM.pas"/>
@@ -532,7 +530,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1529"/>
         <CursorPos X="1" Y="1543"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit61>
       <Unit62>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\ACBrNFeDANFERave.pas"/>
@@ -540,7 +538,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="450"/>
         <CursorPos X="42" Y="465"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit62>
       <Unit63>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\ACBrNFeDANFERaveDM.pas"/>
@@ -548,7 +546,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1284"/>
         <CursorPos X="97" Y="1308"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit63>
       <Unit64>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\Fortes\ACBrNFeDANFeRLPaisagem.pas"/>
@@ -556,7 +554,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1255"/>
         <CursorPos X="49" Y="1281"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit64>
       <Unit65>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\Fortes\ACBrNFeDANFeRLRetrato.pas"/>
@@ -564,7 +562,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1348"/>
         <CursorPos X="50" Y="1374"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit65>
       <Unit66>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\Fortes\ACBrNFeDANFeRLSimplificado.pas"/>
@@ -572,7 +570,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="270"/>
         <CursorPos X="28" Y="293"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit66>
       <Unit67>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\Quick\ACBrNFeDANFeQRPaisagem.pas"/>
@@ -580,7 +578,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1307"/>
         <CursorPos X="1" Y="1329"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit67>
       <Unit68>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\Quick\ACBrNFeDANFeQRRetrato.pas"/>
@@ -588,7 +586,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1861"/>
         <CursorPos X="32" Y="1877"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit68>
       <Unit69>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\Quick\ACBrNFeDANFeQRSimplificado.pas"/>
@@ -596,17 +594,15 @@
         <WindowIndex Value="0"/>
         <TopLine Value="613"/>
         <CursorPos X="1" Y="637"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit69>
       <Unit70>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnModeloNFe.pas"/>
         <UnitName Value="pcnModeloNFe"/>
-        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
         <TopLine Value="102"/>
         <CursorPos X="58" Y="117"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="9"/>
       </Unit70>
       <Unit71>
         <Filename Value="..\..\..\..\Fontes\ACBrTXT\ACBrSEF2\ACBrSEF2Conversao.pas"/>
@@ -614,164 +610,375 @@
         <WindowIndex Value="0"/>
         <TopLine Value="261"/>
         <CursorPos X="47" Y="277"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit71>
       <Unit72>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\inc\objpash.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="185"/>
         <CursorPos X="21" Y="201"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit72>
       <Unit73>
         <Filename Value="..\..\..\..\Fontes\ACBrOpenSSL\ACBrEAD.pas"/>
         <UnitName Value="ACBrEAD"/>
-        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="235"/>
-        <CursorPos X="1" Y="252"/>
+        <TopLine Value="680"/>
+        <CursorPos X="112" Y="688"/>
+        <UsageCount Value="19"/>
+      </Unit73>
+      <Unit74>
+        <Filename Value="..\..\..\..\Fontes\ACBrOpenSSL\libxmlsec.pas"/>
+        <UnitName Value="libxmlsec"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="410"/>
+        <CursorPos X="39" Y="414"/>
+        <UsageCount Value="11"/>
+      </Unit74>
+      <Unit75>
+        <Filename Value="..\..\..\..\Fontes\Terceiros\synalist\blcksock.pas"/>
+        <UnitName Value="blcksock"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="111"/>
+        <CursorPos X="3" Y="127"/>
+        <UsageCount Value="10"/>
+      </Unit75>
+      <Unit76>
+        <Filename Value="..\..\..\..\Fontes\Terceiros\synalist\ssl_openssl.pas"/>
+        <UnitName Value="ssl_openssl"/>
+        <EditorIndex Value="14"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="357"/>
+        <CursorPos X="1" Y="364"/>
+        <UsageCount Value="17"/>
+        <Loaded Value="True"/>
+      </Unit76>
+      <Unit77>
+        <Filename Value="..\..\..\..\Fontes\Terceiros\synalist\ssl_openssl_lib.pas"/>
+        <UnitName Value="ssl_openssl_lib"/>
+        <EditorIndex Value="11"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="809"/>
+        <CursorPos X="3" Y="824"/>
+        <UsageCount Value="16"/>
+        <Loaded Value="True"/>
+      </Unit77>
+      <Unit78>
+        <Filename Value="..\..\..\..\Fontes\Terceiros\synalist\synautil.pas"/>
+        <UnitName Value="synautil"/>
+        <EditorIndex Value="7"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="317"/>
+        <CursorPos X="10" Y="332"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+      </Unit78>
+      <Unit79>
+        <Filename Value="..\..\..\..\..\..\..\..\etiquetas\DJEtiquetaStudio\DJETQ.pas"/>
+        <UnitName Value="DJETQ"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
+      </Unit79>
+      <Unit80>
+        <Filename Value="..\..\..\..\Fontes\ACBrTXT\ACBrSPED\ACBrSped.pas"/>
+        <UnitName Value="ACBrSped"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="10"/>
+        <CursorPos X="1" Y="41"/>
+        <UsageCount Value="8"/>
+      </Unit80>
+      <Unit81>
+        <Filename Value="..\..\..\..\Fontes\ACBrTXT\ACBrSPED\ACBrSPEDContabil\ACBrECDBloco_0_Class.pas"/>
+        <UnitName Value="ACBrECDBloco_0_Class"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="65"/>
+        <CursorPos X="18" Y="91"/>
+        <UsageCount Value="8"/>
+      </Unit81>
+      <Unit82>
+        <Filename Value="..\..\..\..\Fontes\ACBrTXT\ACBrSPED\ACBrSPEDContabil\ACBrSpedContabil.pas"/>
+        <UnitName Value="ACBrSpedContabil"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="76"/>
+        <CursorPos X="63" Y="92"/>
+        <UsageCount Value="8"/>
+      </Unit82>
+      <Unit83>
+        <Filename Value="..\..\..\..\Fontes\ACBrBoleto\ACBrBancoCaixa.pas"/>
+        <UnitName Value="ACBrBancoCaixa"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="59"/>
+        <CursorPos X="1" Y="75"/>
+        <UsageCount Value="8"/>
+      </Unit83>
+      <Unit84>
+        <Filename Value="..\..\..\..\Fontes\ACBrBoleto\ACBrBancoBancoob.pas"/>
+        <UnitName Value="ACBrBancoBancoob"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="57"/>
+        <CursorPos X="7" Y="79"/>
+        <UsageCount Value="8"/>
+      </Unit84>
+      <Unit85>
+        <Filename Value="..\..\..\..\Fontes\ACBrBoleto\ACBrBancoCaixaSICOB.pas"/>
+        <UnitName Value="ACBrBancoCaixaSICOB"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="30"/>
+        <CursorPos X="32" Y="46"/>
+        <UsageCount Value="8"/>
+      </Unit85>
+      <Unit86>
+        <Filename Value="..\..\..\..\Fontes\ACBrBoleto\ACBrBoleto.pas"/>
+        <UnitName Value="ACBrBoleto"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="836"/>
+        <CursorPos X="28" Y="843"/>
+        <UsageCount Value="8"/>
+      </Unit86>
+      <Unit87>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnRetDistDFeInt.pas"/>
+        <UnitName Value="pcnRetDistDFeInt"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="66"/>
+        <CursorPos X="58" Y="78"/>
+        <UsageCount Value="12"/>
+      </Unit87>
+      <Unit88>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCTe\PCNCTe\pcteConversaoCTe.pas"/>
+        <UnitName Value="pcnConversaoCTe"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="65"/>
+        <CursorPos X="1" Y="78"/>
+        <UsageCount Value="12"/>
+      </Unit88>
+      <Unit89>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnNFeR.pas"/>
+        <UnitName Value="pcnNFeR"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="131"/>
+        <CursorPos X="51" Y="149"/>
+        <UsageCount Value="11"/>
+      </Unit89>
+      <Unit90>
+        <Filename Value="..\..\..\..\Fontes\ACBrOpenSSL\OpenSSLExt.pas"/>
+        <UnitName Value="OpenSSLExt"/>
+        <EditorIndex Value="12"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1363"/>
+        <CursorPos X="21" Y="1383"/>
+        <UsageCount Value="17"/>
+        <Loaded Value="True"/>
+      </Unit90>
+      <Unit91>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\packages\openssl\src\openssl.pas"/>
+        <UnitName Value="OpenSSL"/>
+        <EditorIndex Value="13"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1866"/>
+        <CursorPos X="68" Y="1871"/>
+        <UsageCount Value="15"/>
+        <Loaded Value="True"/>
+      </Unit91>
+      <Unit92>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\packages\winunits-jedi\src\jwawincrypt.pas"/>
+        <UnitName Value="JwaWinCrypt"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2412"/>
+        <CursorPos X="111" Y="2412"/>
+        <UsageCount Value="9"/>
+      </Unit92>
+      <Unit93>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\syspchh.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="15"/>
+        <CursorPos X="10" Y="38"/>
+        <UsageCount Value="9"/>
+      </Unit93>
+      <Unit94>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\syspch.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="33"/>
+        <CursorPos X="3" Y="35"/>
+        <UsageCount Value="9"/>
+      </Unit94>
+      <Unit95>
+        <Filename Value="..\..\..\..\Fontes\ACBrComum\ACBrConsts.pas"/>
+        <UnitName Value="ACBrConsts"/>
+        <EditorIndex Value="10"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="85"/>
+        <CursorPos X="3" Y="102"/>
+        <UsageCount Value="15"/>
+        <Loaded Value="True"/>
+      </Unit95>
+      <Unit96>
+        <Filename Value="C:\lazarus\lcl\include\control.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2706"/>
+        <CursorPos X="1" Y="2720"/>
+        <UsageCount Value="9"/>
+      </Unit96>
+      <Unit97>
+        <Filename Value="..\..\..\..\Fontes\ACBrCapicom\ACBrCAPICOM_TLB.pas"/>
+        <UnitName Value="ACBrCAPICOM_TLB"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1148"/>
+        <CursorPos X="14" Y="1162"/>
+        <UsageCount Value="9"/>
+      </Unit97>
+      <Unit98>
+        <Filename Value="..\..\..\..\Fontes\ACBrBoleto\ACBrBancoBrasil.pas"/>
+        <UnitName Value="ACBrBancoBrasil"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="884"/>
+        <CursorPos X="85" Y="910"/>
+        <UsageCount Value="9"/>
+      </Unit98>
+      <Unit99>
+        <Filename Value="..\..\..\..\Fontes\ACBrOpenSSL\libeay32.pas"/>
+        <UnitName Value="libeay32"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1927"/>
+        <CursorPos X="22" Y="1953"/>
+        <UsageCount Value="11"/>
+      </Unit99>
+      <Unit100>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\dateutil.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2321"/>
+        <CursorPos X="53" Y="2345"/>
+        <UsageCount Value="9"/>
+      </Unit100>
+      <Unit101>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\sysinth.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="53"/>
+        <CursorPos X="24" Y="79"/>
+        <UsageCount Value="9"/>
+      </Unit101>
+      <Unit102>
+        <Filename Value="..\..\..\..\..\..\..\..\Lazarus\djpdv\djpdv.lpr"/>
+        <UnitName Value="djpdv"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="10"/>
+        <CursorPos X="52" Y="26"/>
+        <UsageCount Value="10"/>
+      </Unit102>
+      <Unit103>
+        <Filename Value="..\..\..\..\Fontes\Terceiros\synalist\synacode.pas"/>
+        <UnitName Value="synacode"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="166"/>
+        <CursorPos X="10" Y="175"/>
+        <UsageCount Value="10"/>
+      </Unit103>
+      <Unit104>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSe\PCNNFSe\pnfsNFSeW.pas"/>
+        <UnitName Value="pnfsNFSeW"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1459"/>
+        <CursorPos X="22" Y="1467"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
-      </Unit73>
+      </Unit104>
+      <Unit105>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSe\Provedores\ACBrProvedorSMARAPD.pas"/>
+        <UnitName Value="ACBrProvedorSMARAPD"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="239"/>
+        <CursorPos X="39" Y="248"/>
+        <UsageCount Value="10"/>
+        <Bookmarks Count="1">
+          <Item0 X="27" Y="246" ID="1"/>
+        </Bookmarks>
+      </Unit105>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
     </General>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <JumpHistory Count="17" HistoryIndex="15">
       <Position1>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="124" Column="1" TopLine="107"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position1>
       <Position2>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="126" Column="1" TopLine="107"/>
+        <Caret Line="57" Column="1" TopLine="41"/>
       </Position2>
       <Position3>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="128" Column="1" TopLine="107"/>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFe.pas"/>
+        <Caret Line="536" Column="22" TopLine="527"/>
       </Position3>
       <Position4>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="129" Column="1" TopLine="107"/>
+        <Filename Value="Unit1.pas"/>
+        <Caret Line="662" Column="49" TopLine="652"/>
       </Position4>
       <Position5>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="131" Column="1" TopLine="107"/>
+        <Filename Value="Unit1.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position5>
       <Position6>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeSSL.pas"/>
-        <Caret Line="230" Column="1" TopLine="213"/>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFe.pas"/>
+        <Caret Line="536" Column="23" TopLine="528"/>
       </Position6>
       <Position7>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="106" Column="1" TopLine="90"/>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFe.pas"/>
+        <Caret Line="178" Column="32" TopLine="169"/>
       </Position7>
       <Position8>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="123" Column="37" TopLine="107"/>
+        <Filename Value="Unit1.pas"/>
+        <Caret Line="662" Column="59" TopLine="651"/>
       </Position8>
       <Position9>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="56" Column="13" TopLine="40"/>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFe.pas"/>
+        <Caret Line="178" Column="32" TopLine="169"/>
       </Position9>
       <Position10>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="101" Column="11" TopLine="75"/>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSe\PCNNFSe\pnfsNFSeW.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position10>
       <Position11>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="122" Column="21" TopLine="97"/>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSe\PCNNFSe\pnfsNFSeW.pas"/>
+        <Caret Line="1467" Column="22" TopLine="1459"/>
       </Position11>
       <Position12>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="123" Column="15" TopLine="97"/>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSe\PCNNFSe\pnfsNFSeW.pas"/>
+        <Caret Line="45" Column="34" TopLine="36"/>
       </Position12>
       <Position13>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="125" Column="34" TopLine="99"/>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSe\PCNNFSe\pnfsNFSeW.pas"/>
+        <Caret Line="1467" Column="51" TopLine="1459"/>
       </Position13>
       <Position14>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="126" Column="13" TopLine="100"/>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSe\PCNNFSe\pnfsNFSeW.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position14>
       <Position15>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="415" Column="35" TopLine="390"/>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSe\PCNNFSe\pnfsNFSeW.pas"/>
+        <Caret Line="45" Column="32" TopLine="30"/>
       </Position15>
       <Position16>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="458" Column="19" TopLine="432"/>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSe\PCNNFSe\pnfsNFSeW.pas"/>
+        <Caret Line="33" Column="10" TopLine="30"/>
       </Position16>
       <Position17>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="459" Column="17" TopLine="433"/>
+        <Filename Value="Unit1.pas"/>
+        <Caret Line="663" Column="1" TopLine="651"/>
       </Position17>
-      <Position18>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="461" Column="36" TopLine="436"/>
-      </Position18>
-      <Position19>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="462" Column="15" TopLine="437"/>
-      </Position19>
-      <Position20>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="466" Column="13" TopLine="441"/>
-      </Position20>
-      <Position21>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="467" Column="17" TopLine="442"/>
-      </Position21>
-      <Position22>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="475" Column="15" TopLine="450"/>
-      </Position22>
-      <Position23>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="479" Column="19" TopLine="454"/>
-      </Position23>
-      <Position24>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="490" Column="17" TopLine="465"/>
-      </Position24>
-      <Position25>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="494" Column="21" TopLine="469"/>
-      </Position25>
-      <Position26>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="505" Column="34" TopLine="480"/>
-      </Position26>
-      <Position27>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="514" Column="21" TopLine="488"/>
-      </Position27>
-      <Position28>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="523" Column="19" TopLine="497"/>
-      </Position28>
-      <Position29>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Caret Line="530" Column="21" TopLine="504"/>
-      </Position29>
     </JumpHistory>
   </ProjectSession>
   <Debugging>
-    <BreakPoints Count="2">
+    <BreakPoints Count="1">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Line Value="231"/>
+        <Line Value="244"/>
       </Item1>
-      <Item2>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="..\..\..\..\Fontes\ACBrDFe\ACBrDFeOpenSSL.pas"/>
-        <Line Value="123"/>
-      </Item2>
     </BreakPoints>
     <Watches Count="1">
       <Item1>

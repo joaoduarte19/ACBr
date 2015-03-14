@@ -48,7 +48,7 @@ uses
   pcnNFe, pcnConversao, pcnConversaoNFe, pcnCCeNFe,
   pcnEnvEventoNFe, pcnInutNFe,
   pcnDownloadNFe, pcnRetDownloadNFe, pcnRetDistDFeInt,
-  ACBrDFeUtil, ACBrUtil;
+  ACBrUtil;
 
 const
   ACBRNFE_VERSAO = '2.0.0a';
@@ -174,8 +174,7 @@ type
 implementation
 
 uses strutils, dateutils,
-  pcnAuxiliar,
-  ACBrEAD;
+  pcnAuxiliar, synacode;
 
 {$IFDEF FPC}
  {$R ACBrNFeServicos.rc}
@@ -533,7 +532,7 @@ begin
     sICMS + '&digVal=' + sdigVal_HEX + '&cIdToken=';
 
   // Passo 5 calcular o SHA-1 da string sEntrada
-  cHashQRCode := EAD.CalcularHash(sEntrada + sToken, dgstSHA1);
+  cHashQRCode := AsciiToHex(SHA1(sEntrada + sToken));
 
   // Passo 6
   Result := urlUF + '?' + sEntrada + cIdToken + '&cHashQRCode=' + cHashQRCode;

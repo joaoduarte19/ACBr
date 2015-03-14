@@ -40,7 +40,8 @@ unit ACBrDFeOpenSSL;
 interface
 
 uses
-  Classes, SysUtils, ACBrDFeConfiguracoes, ACBrDFeSSL,
+  Classes, SysUtils,
+  ACBrDFeConfiguracoes, ACBrDFeSSL,
   HTTPSend, ssl_openssl,
   libxmlsec, libxslt, libxml2;
 
@@ -54,21 +55,25 @@ type
   private
     FHTTP: THTTPSend;
     FdsigCtx: xmlSecDSigCtxPtr;
+    FCNPJ: String;
+    FNumSerie: String;
+    FValidade: TDateTime;
+    FSubjectName: String;
+
+    procedure Clear;
+    procedure ConfiguraHTTP(const URL, SoapAction: String);
+    procedure CarregarCertificadoSeNecessario;
+    function LerPFXInfo(pfxdata: Ansistring): Boolean;
 
     procedure InitXmlSec;
     procedure ShutDownXmlSec;
-
-    procedure ConfiguraHTTP(const URL, SoapAction: String);
-
-    procedure CarregarCertificadoSeNecessario;
-
     function XmlSecSign(const Axml: PAnsiChar): AnsiString;
   protected
-    procedure CarregarCertificado; override;
 
     function GetCertDataVenc: TDateTime; override;
     function GetCertNumeroSerie: String; override;
     function GetCertSubjectName: String; override;
+    function GetCertCNPJ: String; override;
 
   public
     constructor Create(AConfiguracoes: TConfiguracoes);
@@ -85,11 +90,16 @@ type
       out MsgErro: String): Boolean; override;
     function VerificarAssinatura(const ConteudoXML: String;
       out MsgErro: String): Boolean; override;
+
+    procedure CarregarCertificado; override;
   end;
 
 implementation
 
-uses Math, ACBrUtil, ACBrDFe, ACBrDFeUtil;
+uses Math, strutils, dateutils,
+  ACBrUtil, ACBrDFe, ACBrDFeUtil, ACBrConsts,
+  synautil,
+  {$IFDEF USE_libeay32}libeay32{$ELSE} OpenSSLExt{$ENDIF};
 
 { TDFeOpenSSL }
 
@@ -99,6 +109,7 @@ begin
 
   FHTTP := THTTPSend.Create;
   FdsigCtx := nil;
+  Clear;
 end;
 
 destructor TDFeOpenSSL.Destroy;
@@ -115,6 +126,7 @@ begin
     exit;
 
   InitXmlSec;
+  Clear;
   FpInicializado := True;
 end;
 
@@ -126,11 +138,12 @@ begin
     FdsigCtx := nil;
   end;
 
+  Clear;
+
   if FpInicializado and Configuracoes.Geral.UnloadSSLLib then
-  begin
     ShutDownXmlSec;
-    FpInicializado := False;
-  end;
+
+  FpInicializado := False;
 end;
 
 function TDFeOpenSSL.Assinar(const ConteudoXML, docElement, infElement: String): String;
@@ -323,6 +336,7 @@ begin
 
     //xmlSecCryptoAppKeyCertLoadMemory;
     MS.Position := 0;
+    mngr := Nil;
     if (xmlSecCryptoAppKeysMngrCertLoadMemory(mngr, MS.Memory, MS.Size,
       xmlSecKeyDataFormatUnknown, 1) < 0) then
     begin
@@ -434,6 +448,7 @@ procedure TDFeOpenSSL.CarregarCertificado;
 var
   LoadFromFile, LoadFromData: Boolean;
   MS: TMemoryStream;
+  FS: TFileStream;
 begin
   with Configuracoes.Certificados do
   begin
@@ -467,7 +482,6 @@ begin
     if (FdsigCtx = nil) then
       raise EACBrDFeException.Create('Error :failed to create signature context');
 
-
     if LoadFromFile then
     begin
       FHTTP.Sock.SSL.PFXfile := ArquivoPFX;
@@ -479,6 +493,14 @@ begin
       if (FdsigCtx^.signKey = nil) then
         raise EACBrDFeException.Create('Error: failed to load private pem key from "' +
           ArquivoPFX + '"');
+
+      FS := TFileStream.Create(ArquivoPFX, fmOpenRead or fmShareDenyNone);
+      try
+        DadosPFX := ReadStrFromStream(FS, FS.Size);
+      finally
+        FS.Free;
+      end;
+
     end
     else if LoadFromData then
     begin
@@ -501,6 +523,9 @@ begin
 
     FHTTP.Sock.SSL.KeyPassword := Senha;
 
+    if NaoEstaVazio(DadosPFX) then
+      LerPFXInfo(DadosPFX);
+
     { set key name to the file name, this is just an example! }
     if (xmlSecKeySetName(FdsigCtx^.signKey, PAnsiChar(ArquivoPFX)) < 0) then
       raise EACBrDFeException.Create('Error: failed to set key name for key from "' +
@@ -508,26 +533,133 @@ begin
   end;
 end;
 
+function TDFeOpenSSL.LerPFXInfo(pfxdata: Ansistring): Boolean;
+
+  function GetNotAfter( cert: pX509 ): TDateTime;
+  var
+    Validade: String;
+    notAfter: PASN1_TIME;
+  begin
+    notAfter := cert.cert_info^.validity^.notAfter;
+    Validade := StrPas(notAfter^.data);
+    SetLength(Validade, notAfter^.length);
+    Validade := OnlyNumber(Validade);
+
+    if notAfter^.asn1_type = V_ASN1_UTCTIME then  // anos com 2 dígitos
+      Validade :=  LeftStr(IntToStrZero(YearOf(Now),4),2) + Validade;
+
+    Result := StoD(Validade);
+  end;
+
+  function GetSubjectName( cert: pX509 ): String;
+  var
+    s: String;
+  begin
+    setlength(s, 4096);
+    Result := X509NameOneline(X509GetSubjectName(cert), s, Length(s));
+    if copy(Result,1,1) = '/' then
+      Result := Copy(Result,2,Length(Result));
+
+    Result := StringReplace(Result, '/', ', ', [rfReplaceAll]);
+  end;
+
+  function GetCNPJ( SubjectName: String ): String;
+  var
+    P: Integer;
+  begin
+    Result := '';
+    P := pos('CN=',SubjectName);
+    if P > 0 then
+    begin
+      P := PosEx(':', SubjectName, P);
+      if P > 0 then
+      begin
+        Result := OnlyNumber(copy(SubjectName, P+1, 14));
+      end;
+    end;
+  end;
+
+  function GetSerialNumber( cert: pX509): String;
+  var
+    SN: PASN1_STRING;
+    s: AnsiString;
+  begin
+    SN := X509GetSerialNumber(cert);
+    s := StrPas(SN^.data);
+    SetLength(s,SN.length);
+    Result := AsciiToHex(s);
+  end;
+
+var
+  cert: pX509;
+  pkey, ca: SslPtr;
+  b: PBIO;
+  p12: SslPtr;
+
+begin
+  Result := False;
+  b := BioNew(BioSMem);
+  try
+    BioWrite(b, pfxdata, Length(PfxData));
+    p12 := d2iPKCS12bio(b, nil);
+    if not Assigned(p12) then
+      Exit;
+
+    try
+      cert := nil;
+      pkey := nil;
+      ca := nil;
+      try
+        if PKCS12parse(p12, Configuracoes.Certificados.Senha, pkey, cert, ca) > 0 then
+        begin
+          FValidade := GetNotAfter( cert );
+          FSubjectName := GetSubjectName( cert );
+          FCNPJ := GetCNPJ( FSubjectName );
+          FNumSerie := GetSerialNumber( cert );
+        end;
+      finally
+        EvpPkeyFree(pkey);
+        X509free(cert);
+      end;
+    finally
+      PKCS12free(p12);
+    end;
+  finally
+    BioFreeAll(b);
+  end;
+end;
+
+
 function TDFeOpenSSL.GetCertDataVenc: TDateTime;
 begin
   CarregarCertificadoSeNecessario;
-  Result := FdsigCtx^.signKey^.notValidAfter;
+  Result := FValidade;
 end;
 
 function TDFeOpenSSL.GetCertNumeroSerie: String;
-var
-  Data: xmlSecPtrPtr;
 begin
-  //TODO: Não implementado... algumas ideias abaixo
   CarregarCertificadoSeNecessario;
-  Data := FdsigCtx^.signKey^.dataList^.Data;
-  Result := FHTTP.Sock.SSL.GetCertInfo;
+  Result := FNumSerie;
 end;
 
 function TDFeOpenSSL.GetCertSubjectName: String;
 begin
   CarregarCertificadoSeNecessario;
-  Result := FdsigCtx^.signKey^.Name;
+  Result := FSubjectName;
+end;
+
+function TDFeOpenSSL.GetCertCNPJ: String;
+begin
+  CarregarCertificadoSeNecessario;
+  Result := FCNPJ;
+end;
+
+procedure TDFeOpenSSL.Clear;
+begin
+  FCNPJ := '';
+  FNumSerie := '';
+  FValidade := 0;
+  FSubjectName := '';
 end;
 
 procedure TDFeOpenSSL.InitXmlSec;
@@ -587,7 +719,7 @@ procedure TDFeOpenSSL.ConfiguraHTTP(const URL, SoapAction: String);
 begin
   FHTTP.Clear;
 
-  CarregarCertificado;
+  CarregarCertificadoSeNecessario;
 
   FHTTP.ProxyHost := Configuracoes.WebServices.ProxyHost;
   FHTTP.ProxyPort := Configuracoes.WebServices.ProxyPort;

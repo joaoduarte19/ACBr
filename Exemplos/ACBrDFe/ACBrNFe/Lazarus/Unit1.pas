@@ -17,6 +17,11 @@ type
 
   TForm1 = class(TForm)
     ACBrNFeDANFeRL1: TACBrNFeDANFeRL;
+    Button1: TButton;
+    Button2: TButton;
+    Button3: TButton;
+    Button4: TButton;
+    Button5: TButton;
     Panel1: TPanel;
     OpenDialog1: TOpenDialog;
     btnSalvarConfig: TBitBtn;
@@ -202,6 +207,11 @@ type
     Label42: TLabel;
     edtPathSchemas: TEdit;
     spPathSchemas: TSpeedButton;
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
     procedure sbtnCaminhoCertClick(Sender: TObject);
     procedure sbtnLogoMarcaClick(Sender: TObject);
     procedure sbtnPathSalvarClick(Sender: TObject);
@@ -268,9 +278,9 @@ var
 implementation
 
 uses strutils, math, TypInfo, DateUtils,
-  ufrmStatus,
+  ufrmStatus, synacode,
   pcnNFe, pcnConversaoNFe, pcnConversao,
-  ACBrUtil;
+  ACBrUtil, ACBrDFeConfiguracoes;
 
 const
   SELDIRHELP = 1000;
@@ -624,6 +634,34 @@ begin
   end;
 end;
 
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  ShowMessage( FormatDateBr(ACBrNFe1.SSL.CertDataVenc) );
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  ShowMessage( ACBrNFe1.SSL.CertNumeroSerie );
+end;
+
+procedure TForm1.Button3Click(Sender: TObject);
+begin
+  ShowMessage( ACBrNFe1.SSL.CertSubjectName );
+end;
+
+procedure TForm1.Button4Click(Sender: TObject);
+begin
+  ShowMessage( ACBrNFe1.SSL.CertCNPJ );
+end;
+
+procedure TForm1.Button5Click(Sender: TObject);
+Var
+  aStr: String;
+begin
+  aStr := 'PROJETO ACBR';
+  ShowMessage( 'Hash de: '+aStr+ sLineBreak + AsciiToHex(SHA1(aStr)) );
+end;
+
 procedure TForm1.sbtnLogoMarcaClick(Sender: TObject);
 begin
   OpenDialog1.Title := 'Selecione o Logo';
@@ -670,7 +708,14 @@ begin
  pgRespostas.ActivePageIndex := 2;
 
  ACBrNFe1.Configuracoes.WebServices.Salvar := true;
+ {$IFDEF ACBrNFeOpenSSL}
+ ACBrNFe1.Configuracoes.Geral.SSLLib := libOpenSSL;
+ {$else}
+  ACBrNFe1.Configuracoes.Geral.SSLLib := libCapicom;
+{$endif}
+
 end;
+
 
 procedure TForm1.btnSalvarConfigClick(Sender: TObject);
 begin

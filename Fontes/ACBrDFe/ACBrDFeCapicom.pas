@@ -66,7 +66,6 @@ type
     procedure Clear;
 
   protected
-    procedure CarregarCertificado; override;
     procedure ConfiguraReqResp(const URL, SoapAction: String); virtual;
     procedure Executar(const ConteudoXML: String; Resp: TMemoryStream); virtual;
 
@@ -92,6 +91,7 @@ type
     function VerificarAssinatura(const ConteudoXML: String;
       out MsgErro: String): Boolean; override;
 
+    procedure CarregarCertificado; override;
     function SelecionarCertificado: String; override;
   end;
 
@@ -279,8 +279,7 @@ begin
       SigKey := dsigKey as IXMLDSigKeyEx;
       SigKey.getCSPHandle(hCryptProvider);
       try
-        CryptSetProvParam(hCryptProvider, PP_SIGNATURE_PIN,
-          Windows.PBYTE(Senha), 0);
+        CryptSetProvParam(hCryptProvider, PP_SIGNATURE_PIN, Windows.PBYTE(Senha), 0);
       finally
         CryptReleaseContext(hCryptProvider, 0);
       end;

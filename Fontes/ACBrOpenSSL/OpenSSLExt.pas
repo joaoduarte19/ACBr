@@ -108,6 +108,14 @@ const
 
   SHA_DIGEST_LENGTH = 20;
 
+  V_ASN1_INTEGER = $02;
+  V_ASN1_ENUMERATED = 10;
+  V_ASN1_NEG_INTEGER = $102;
+  V_ASN1_UTCTIME = 23;
+  V_ASN1_GENERALIZEDTIME = 24;
+  V_ASN1_CONTEXT_SPECIFIC = $80;
+
+
 type
   SslPtr = Pointer;
   PSslPtr = ^SslPtr;

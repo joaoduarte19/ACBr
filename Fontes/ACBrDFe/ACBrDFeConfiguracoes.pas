@@ -55,7 +55,7 @@ type
   private
     FConfiguracoes: TConfiguracoes;
     FCNPJ: String;
-    FDadosPFX: String;
+    FDadosPFX: AnsiString;
     FSenha: AnsiString;
     FNumeroSerie: String;
     FArquivoPFX: String;
@@ -65,7 +65,7 @@ type
     constructor Create(AConfiguracoes: TConfiguracoes); reintroduce; overload;
   published
     property ArquivoPFX: String read FArquivoPFX write FArquivoPFX;
-    property DadosPFX: String read FDadosPFX write FDadosPFX;
+    property DadosPFX: AnsiString read FDadosPFX write FDadosPFX;
     property NumeroSerie: String read FNumeroSerie write SetNumeroSerie;
     property Senha: AnsiString read FSenha write FSenha;
     property CNPJ: String read FCNPJ write FCNPJ;
@@ -621,3 +621,5 @@ end;
 
 
 end.
+
+// TODO: Salvar senha do Certificado na memória de forma criptograda

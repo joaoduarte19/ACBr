@@ -35,8 +35,8 @@ Interface
 
 Uses
   Classes, SysUtils,
-  pnfsConversao, pcnAuxiliar,
-  ACBrNFSeConfiguracoes, ACBrNFSeUtil, ACBrUtil, ACBrDFeUtil, ACBrEAD,
+  pnfsConversao, pcnAuxiliar, synacode,
+  ACBrNFSeConfiguracoes, ACBrNFSeUtil, ACBrUtil, ACBrDFeUtil,
 {$IFDEF COMPILER6_UP}DateUtils{$ELSE}ACBrD5, FileCtrl{$ENDIF};
 
 Type
@@ -242,17 +242,15 @@ End;
 
 Function TProvedorSMARAPD.Gera_DadosSenha(CNPJ, Senha,
   CodigoMunicipio: String): AnsiString;
-Var
-  Ead: TACBrEAD;
+var
+  Hash: String;
 Begin
-  (*Como não achei nenhum método para calcular o Hash tive que pegar o EAD*)
-  Ead := TACBrEAD.Create(Nil);
+  Hash := EncodeBase64( SHA1( Senha ) );
   If CodigoMunicipio = '3205002' Then
-    Result := '<cpfUsuario>' + CNPJ + '</cpfUsuario><hashSenha>' + Ead.CalcularHash(Senha, TACBrEADDgst.dgstSHA1, outBase64) + '</hashSenha><codigoMunicipio>3</codigoMunicipio>'
+    Result := '<cpfUsuario>' + CNPJ + '</cpfUsuario><hashSenha>' + Hash +
+              '</hashSenha><codigoMunicipio>3</codigoMunicipio>'
   Else
     Raise Exception.Create('Somente a cidade da serra foi implementada, para implementar outra cidade troque a tag "codigoMunicipio"');
-  FreeAndNil(Ead);
-
 End;
 
 Function TProvedorSMARAPD.Gera_DadosSenha(CNPJ, Senha: String): AnsiString;

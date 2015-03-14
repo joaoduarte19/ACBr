@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 503
+  Left = 456
   Height = 632
-  Top = 64
+  Top = 58
   Width = 894
   Caption = 'ACBrNFe - Demonstração'
   ClientHeight = 632
@@ -131,10 +131,10 @@ object Form1: TForm1
           Height = 439
           Top = 0
           Width = 275
-          ActivePage = TabSheet13
+          ActivePage = TabSheet3
           Align = alClient
           MultiLine = True
-          TabIndex = 4
+          TabIndex = 0
           TabOrder = 0
           Options = [nboMultiLine]
           object TabSheet3: TTabSheet
@@ -241,6 +241,51 @@ object Form1: TForm1
                 Width = 225
                 TabOrder = 2
               end
+            end
+            object Button1: TButton
+              Left = 16
+              Height = 25
+              Top = 304
+              Width = 99
+              Caption = 'Data de Validade'
+              OnClick = Button1Click
+              TabOrder = 1
+            end
+            object Button2: TButton
+              Left = 144
+              Height = 25
+              Top = 304
+              Width = 99
+              Caption = 'Num.Série'
+              OnClick = Button2Click
+              TabOrder = 2
+            end
+            object Button3: TButton
+              Left = 16
+              Height = 25
+              Top = 344
+              Width = 99
+              Caption = 'Subject Name'
+              OnClick = Button3Click
+              TabOrder = 3
+            end
+            object Button4: TButton
+              Left = 144
+              Height = 25
+              Top = 344
+              Width = 99
+              Caption = 'CNPJ'
+              OnClick = Button4Click
+              TabOrder = 4
+            end
+            object Button5: TButton
+              Left = 16
+              Height = 25
+              Top = 267
+              Width = 99
+              Caption = 'Hash SHA1'
+              OnClick = Button5Click
+              TabOrder = 5
             end
           end
           object TabSheet4: TTabSheet

@@ -54,8 +54,6 @@ type
 
     property Configuracoes: TConfiguracoes read FConfiguracoes;
 
-    procedure CarregarCertificado; virtual;
-
     function GetCertDataVenc: TDateTime; virtual;
     function GetCertNumeroSerie: String; virtual;
     function GetCertSubjectName: String; virtual;
@@ -64,12 +62,9 @@ type
     function SignatureElement(const URI: String; AddX509Data: Boolean): String;
       virtual;
   public
-    property CertNumeroSerie: String read GetCertNumeroSerie;
-    property CertDataVenc: TDateTime read GetCertDataVenc;
-    property CertSubjectName: String read GetCertSubjectName;
-    property CertCNPJ: String read GetCertCNPJ;
-
     constructor Create(AConfiguracoes: TConfiguracoes);
+
+    property Inicializado: Boolean read FpInicializado;
 
     procedure Inicializar; virtual;
     procedure DesInicializar; virtual;
@@ -83,7 +78,13 @@ type
     function VerificarAssinatura(const ConteudoXML: String;
       out MsgErro: String): Boolean; virtual;
 
+    procedure CarregarCertificado; virtual;
     function SelecionarCertificado: String; virtual;
+
+    property CertNumeroSerie: String read GetCertNumeroSerie;
+    property CertDataVenc: TDateTime read GetCertDataVenc;
+    property CertSubjectName: String read GetCertSubjectName;
+    property CertCNPJ: String read GetCertCNPJ;
   end;
 
   { TDFeSSL }
@@ -95,19 +96,16 @@ type
     FSSLClass: TDFeSSLClass;
     FSSLLib: TSSLLib;
 
+    function GetCertCNPJ: String;
     function GetCertDataVenc: TDateTime;
     function GetCertNumeroSerie: String;
     function GetCertSubjectName: String;
 
-    procedure InitSSLClass;
+    procedure InitSSLClass( LerCertificado: Boolean = True);
     procedure DeInitSSLClass;
 
     procedure SetSSLLib(ASSLLib: TSSLLib);
   public
-    property CertNumeroSerie: String read GetCertNumeroSerie;
-    property CertDataVenc: TDateTime read GetCertDataVenc;
-    property CertSubjectName: String read GetCertSubjectName;
-
     constructor Create(AOwner: TComponent);
     destructor Destroy; override;
 
@@ -123,7 +121,13 @@ type
     function VerificarAssinatura(const ConteudoXML: String;
       out MsgErro: String): Boolean;
 
-    function SelecionarCertificado: String; virtual;
+    procedure CarregarCertificado; virtual;
+    function SelecionarCertificado: String;
+
+    property CertNumeroSerie: String read GetCertNumeroSerie;
+    property CertDataVenc: TDateTime read GetCertDataVenc;
+    property CertSubjectName: String read GetCertSubjectName;
+    property CertCNPJ: String read GetCertCNPJ;
 
   end;
 
@@ -196,32 +200,54 @@ begin
   Result := FSSLClass.VerificarAssinatura(ConteudoXML, MsgErro);
 end;
 
-function TDFeSSL.SelecionarCertificado: String;
+procedure TDFeSSL.CarregarCertificado;
 begin
   InitSSLClass;
+end;
+
+function TDFeSSL.SelecionarCertificado: String;
+begin
+  InitSSLClass(False);
   Result := FSSLClass.SelecionarCertificado;
+
+  if NaoEstaVazio( Result ) then
+    FSSLClass.CarregarCertificado;
 end;
 
 function TDFeSSL.GetCertDataVenc: TDateTime;
 begin
+  InitSSLClass;
   Result := FSSLClass.CertDataVenc;
+end;
+
+function TDFeSSL.GetCertCNPJ: String;
+begin
+  InitSSLClass;
+  Result := FSSLClass.CertCNPJ;
 end;
 
 function TDFeSSL.GetCertNumeroSerie: String;
 begin
+  InitSSLClass;
   Result := FSSLClass.CertNumeroSerie;
 end;
 
 function TDFeSSL.GetCertSubjectName: String;
 begin
+  InitSSLClass;
   Result := FSSLClass.CertSubjectName;
 end;
 
-procedure TDFeSSL.InitSSLClass;
+procedure TDFeSSL.InitSSLClass(LerCertificado: Boolean);
 begin
+  if FSSLClass.Inicializado then
+    exit ;
+
   SetSSLLib(FConfiguracoes.Geral.SSLLib);
   FSSLClass.Inicializar;
-  FSSLClass.CarregarCertificado;
+
+  if LerCertificado then
+    FSSLClass.CarregarCertificado;
 end;
 
 procedure TDFeSSL.DeInitSSLClass;

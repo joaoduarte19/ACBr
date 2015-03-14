@@ -42,7 +42,7 @@ interface
 
 uses
   Classes, SysUtils, IniFiles,
-  ACBrBase, ACBrDFeConfiguracoes, ACBrMail, ACBrDFeSSL, ACBrEAD,
+  ACBrBase, ACBrDFeConfiguracoes, ACBrMail, ACBrDFeSSL,
   pcnConversao,
   {$IFDEF FPC}
      PropEdits
@@ -82,7 +82,6 @@ type
   TACBrDFe = class(TACBrComponent)
   private
     FMAIL: TACBrMail;
-    FEAD: TACBrEAD;
     FSSL: TDFeSSL;
     FOnStatusChange: TNotifyEvent;
     FOnGerarLog: TACBrGravarLog;
@@ -103,7 +102,6 @@ type
 
   public
     property SSL: TDFeSSL read FSSL;
-    property EAD: TACBrEAD read FEAD;
 
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -188,7 +186,6 @@ begin
 
   FMAIL := nil;
   FSSL := TDFeSSL.Create(Self);
-  FEAD := TACBrEAD.Create(Self);
   FOnGerarLog := nil;
 
   FPIniParams := TMemIniFile.Create(Configuracoes.Arquivos.IniServicos);
@@ -202,7 +199,6 @@ end;
 
 destructor TACBrDFe.Destroy;
 begin
-  FEAD.Free;
   FSSL.Free;
 
   FPConfiguracoes.Free;

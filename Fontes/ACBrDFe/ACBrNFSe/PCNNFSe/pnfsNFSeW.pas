@@ -42,7 +42,7 @@ uses
   SysUtils, Classes, StrUtils,
   pcnAuxiliar, pcnConversao, pcnGerador,
   pnfsNFSe, pnfsConversao, ACBrConsts,
-  ACBrNFSeConfiguracoes, synacode, CryptSHA1;
+  ACBrNFSeConfiguracoes, synacode;
 
 type
 
@@ -1464,7 +1464,7 @@ begin
                      Poem_Zeros( OnlyNumber( NFSe.Servico.CodigoCnae ), 10 ) +
                      Poem_Zeros( OnlyNumber( NFSe.Tomador.IdentificacaoTomador.CpfCnpj), 14);
 
-      sAssinatura := SHA1(sAssinatura);
+      sAssinatura := AsciiToHex(SHA1(sAssinatura));
       sAssinatura := LowerCase(sAssinatura);
 
       Gerador.wCampoNFSe(tcStr, '', 'Assinatura', 01, 2000, 1, sAssinatura, '');
