@@ -1,4 +1,5 @@
 {$I ACBr.inc}
+{$DEFINE ACBrNFeOpenSSL}
 
 unit Unit1;
 
@@ -13,7 +14,17 @@ uses IniFiles, ShellAPI, pcnRetConsReciNFe,
   ACBrNFeDANFERaveCB, ACBrNFeDANFeESCPOS;
 
 type
+
+  { TForm1 }
+
   TForm1 = class(TForm)
+    ACBrMail1: TACBrMail;
+    ACBrNFeDANFeRL1: TACBrNFeDANFeRL;
+    Button1: TButton;
+    Button2: TButton;
+    Button3: TButton;
+    Button4: TButton;
+    Button5: TButton;
     Panel1: TPanel;
     OpenDialog1: TOpenDialog;
     btnSalvarConfig: TBitBtn;
@@ -206,6 +217,11 @@ type
     Label42: TLabel;
     edtPathSchemas: TEdit;
     spPathSchemas: TSpeedButton;
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
     procedure sbtnCaminhoCertClick(Sender: TObject);
     procedure sbtnLogoMarcaClick(Sender: TObject);
     procedure sbtnPathSalvarClick(Sender: TObject);
@@ -274,8 +290,10 @@ var
 
 implementation
 
-uses FileCtrl, TypInfo, pcnNFe, ufrmStatus, ACBrNFeNotasFiscais, DateUtils, ACBrNFeUtil,
-  pcnEnvEventoNFe, ACBrNFeConfiguracoes;
+uses strutils, math, TypInfo, DateUtils,
+  ufrmStatus, synacode,
+  pcnNFe, pcnConversaoNFe, pcnConversao,
+  ACBrUtil, ACBrDFeConfiguracoes;
 
 const
   SELDIRHELP = 1000;
@@ -387,8 +405,8 @@ begin
          gbCertificado.Height := 144;
          edtCaminho.Text  := Ini.ReadString( 'Certificado','Caminho' ,'') ;
          edtSenha.Text    := Ini.ReadString( 'Certificado','Senha'   ,'') ;
-         ACBrNFe1.Configuracoes.Certificados.Certificado  := edtCaminho.Text;
-         ACBrNFe1.Configuracoes.Certificados.Senha        := edtSenha.Text;
+         ACBrNFe1.Configuracoes.Certificados.ArquivoPFX  := edtCaminho.Text;
+         ACBrNFe1.Configuracoes.Certificados.Senha       := edtSenha.Text;
          edtNumSerie.Visible := False;
          Label25.Visible := False;
          sbtnGetCert.Visible := False;
@@ -435,8 +453,6 @@ begin
          IdToken      := edtIdToken.Text;
          Token        := edtToken.Text;
          Salvar       := ckSalvar.Checked;
-         PathSalvar   := edtPathLogs.Text;
-         PathSchemas  := edtPathSchemas.Text;
        end;
 
       cbUF.ItemIndex        := cbUF.Items.IndexOf(Ini.ReadString( 'WebService','UF','SP')) ;
@@ -459,18 +475,18 @@ begin
          Visualizar := cbxVisualizar.Checked;
          Salvar     := cbxSalvarSOAP.Checked;
          AjustaAguardaConsultaRet := cbxAjustarAut.Checked;
-         if DFeUtil.NaoEstaVazio(edtAguardar.Text)then
-            AguardarConsultaRet := DFeUtil.SeSenao(StrToInt(edtAguardar.Text)<1000,StrToInt(edtAguardar.Text)*1000,StrToInt(edtAguardar.Text))
+         if NaoEstaVazio(edtAguardar.Text)then
+            AguardarConsultaRet := ifThen(StrToInt(edtAguardar.Text)<1000,StrToInt(edtAguardar.Text)*1000,StrToInt(edtAguardar.Text))
          else
             edtAguardar.Text := IntToStr(AguardarConsultaRet);
 
-         if DFeUtil.NaoEstaVazio(edtTentativas.Text) then
+         if NaoEstaVazio(edtTentativas.Text) then
             Tentativas          := StrToInt(edtTentativas.Text)
          else
             edtTentativas.Text := IntToStr(Tentativas);
 
-         if DFeUtil.NaoEstaVazio(edtIntervalo.Text) then
-            IntervaloTentativas := DFeUtil.SeSenao(StrToInt(edtIntervalo.Text)<1000,StrToInt(edtIntervalo.Text)*1000,StrToInt(edtIntervalo.Text))
+         if NaoEstaVazio(edtIntervalo.Text) then
+            IntervaloTentativas := ifThen(StrToInt(edtIntervalo.Text)<1000,StrToInt(edtIntervalo.Text)*1000,StrToInt(edtIntervalo.Text))
          else
             edtIntervalo.Text := IntToStr(ACBrNFe1.Configuracoes.WebServices.IntervaloTentativas);            
 
@@ -497,12 +513,14 @@ begin
       with ACBrNFe1.Configuracoes.Arquivos do
        begin
          Salvar           := cbxSalvarArqs.Checked;
-         PastaMensal      := cbxPastaMensal.Checked;
+         SepararPorMes    := cbxPastaMensal.Checked;
          AdicionarLiteral := cbxAdicionaLiteral.Checked;
          EmissaoPathNFe   := cbxEmissaoPathNFe.Checked;
          SalvarCCeCanEvento := cbxSalvaCCeCancelamentoPathEvento.Checked;
          SepararPorCNPJ   := cbxSepararPorCNPJ.Checked;
          SepararPorModelo := cbxSepararPorModelo.Checked;
+         PathSalvar := edtPathLogs.Text;
+         PathSchemas  := edtPathSchemas.Text;
          PathNFe  := edtPathNFe.Text;
          PathCan  := edtPathCan.Text;
          PathCCe  := edtPathCCe.Text;
@@ -666,7 +684,14 @@ begin
  pgRespostas.ActivePageIndex := 2;
 
  ACBrNFe1.Configuracoes.WebServices.Salvar := true;
+ {$IFDEF ACBrNFeOpenSSL}
+ ACBrNFe1.Configuracoes.Geral.SSLLib := libOpenSSL;
+ {$else}
+  ACBrNFe1.Configuracoes.Geral.SSLLib := libCapicom;
+{$endif}
+
 end;
+
 
 procedure TForm1.btnSalvarConfigClick(Sender: TObject);
 begin
@@ -678,8 +703,8 @@ procedure TForm1.btnStatusServClick(Sender: TObject);
 begin
  ACBrNFe1.WebServices.StatusServico.Executar;
 
- MemoResp.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.StatusServico.RetWS);
- memoRespWS.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.StatusServico.RetornoWS);
+ MemoResp.Lines.Text := ACBrNFe1.WebServices.StatusServico.RetWS;
+ memoRespWS.Lines.Text := ACBrNFe1.WebServices.StatusServico.RetornoWS;
  LoadXML(MemoResp, WBResposta);
 
  pgRespostas.ActivePageIndex := 1;
@@ -702,15 +727,15 @@ begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
   OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
   if OpenDialog1.Execute then
   begin
     ACBrNFe1.NotasFiscais.Clear;
     ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
     ACBrNFe1.Consultar;
     ShowMessage(ACBrNFe1.WebServices.Consulta.Protocolo);
-    MemoResp.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.Consulta.RetWS);
-    memoRespWS.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.Consulta.RetornoWS);
+    MemoResp.Lines.Text := ACBrNFe1.WebServices.Consulta.RetWS;
+    memoRespWS.Lines.Text := ACBrNFe1.WebServices.Consulta.RetornoWS;
     LoadXML(MemoResp, WBResposta);
     LoadConsulta201(ACBrNFe1.WebServices.Consulta.RetWS);
   end;
@@ -723,7 +748,7 @@ begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
   OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
   if OpenDialog1.Execute then
   begin
     ACBrNFe1.NotasFiscais.Clear;
@@ -744,8 +769,8 @@ begin
     end;
     ACBrNFe1.EnviarEventoNFe(StrToInt(idLote));
 
-    MemoResp.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.EnvEvento.RetWS);
-    memoRespWS.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.EnvEvento.RetornoWS);
+    MemoResp.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetWS;
+    memoRespWS.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetornoWS;
     LoadXML(MemoResp, WBResposta);
     ShowMessage(IntToStr(ACBrNFe1.WebServices.EnvEvento.cStat));
     ShowMessage(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.nProt);
@@ -757,8 +782,8 @@ begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
   OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
-// Configuração padrão para exibição dos erros de validação
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
+// ConfiguraÃ§Ã£o padrÃ£o para exibiÃ§Ã£o dos erros de validaÃ§Ã£o
 //  ACBrNFe1.Configuracoes.Geral.ExibirErroSchema := True;
 //  ACBrNFe1.Configuracoes.Geral.FormatoAlerta := 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.';
 // ACBrNFe1.Configuracoes.Geral.RetirarAcentos
@@ -772,7 +797,7 @@ begin
      ACBrNFe1.NotasFiscais.Clear;
      ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
      try
-        ACBrNFe1.NotasFiscais.Valida;
+        ACBrNFe1.NotasFiscais.Validar;
         if ACBrNFe1.NotasFiscais.Items[0].Alertas <> '' then
           MemoDados.Lines.Add('Alertas: '+ACBrNFe1.NotasFiscais.Items[0].Alertas);
         ShowMessage('Nota Fiscal Eletrônica Valida');
@@ -831,8 +856,8 @@ begin
   end;
   ShowMessage(lMsg);
 
-  MemoResp.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.EnvEvento.RetWS);
-  memoRespWS.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.EnvEvento.RetornoWS);
+  MemoResp.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetWS;
+  memoRespWS.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetornoWS;
 //  ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].XXXX
   LoadXML(MemoResp, WBResposta);
 end;
@@ -883,8 +908,8 @@ begin
 
 
 
-  MemoResp.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.ConsNFeDest.RetWS);
-  memoRespWS.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.ConsNFeDest.RetornoWS);
+  MemoResp.Lines.Text := ACBrNFe1.WebServices.ConsNFeDest.RetWS;
+  memoRespWS.Lines.Text := ACBrNFe1.WebServices.ConsNFeDest.RetornoWS;
 //  ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].XXXX
   LoadXML(MemoResp, WBResposta);
 
@@ -896,18 +921,12 @@ begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
   OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
 
   if OpenDialog1.Execute then
   begin
     ACBrNFe1.NotasFiscais.Clear;
     ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName,False);
-    if ACBrNFe1.NotasFiscais.Items[0].NFe.Ide.tpEmis = teDPEC then
-     begin
-       ACBrNFe1.WebServices.ConsultaDPEC.NFeChave := ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID;
-       ACBrNFe1.WebServices.ConsultaDPEC.Executar;
-       ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.ConsultaDPEC.nRegDPEC +' '+ DateTimeToStr(ACBrNFe1.WebServices.ConsultaDPEC.dhRegDPEC);
-     end;
     ACBrNFe1.NotasFiscais.Imprimir;
   end;
 end;
@@ -940,8 +959,8 @@ begin
 
   ACBrNFe1.Enviar(vNumLote,True);
 
-  MemoResp.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.Retorno.RetWS);
-  memoRespWS.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.Retorno.RetornoWS);
+  MemoResp.Lines.Text := ACBrNFe1.WebServices.Retorno.RetWS;
+  memoRespWS.Lines.Text := ACBrNFe1.WebServices.Retorno.RetornoWS;
   LoadXML(MemoResp, WBResposta);
 
   pgRespostas.ActivePageIndex := 1;
@@ -988,8 +1007,8 @@ begin
  if not(InputQuery('WebServices Inutilização ', 'Justificativa', Justificativa)) then
     exit;
   ACBrNFe1.WebServices.Inutiliza(edtEmitCNPJ.Text, Justificativa, StrToInt(Ano), StrToInt(Modelo), StrToInt(Serie), StrToInt(NumeroInicial), StrToInt(NumeroFinal));
-  MemoResp.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.Inutilizacao.RetWS);
-  memoRespWS.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.Inutilizacao.RetornoWS);  
+  MemoResp.Lines.Text :=  ACBrNFe1.WebServices.Inutilizacao.RetWS;
+  memoRespWS.Lines.Text :=  ACBrNFe1.WebServices.Inutilizacao.RetornoWS;
   LoadXML(MemoResp, WBResposta);
 
   pgRespostas.ActivePageIndex := 1;
@@ -1084,22 +1103,6 @@ begin
       frmStatus.Show;
       frmStatus.BringToFront;
     end;
-    stNFeEnvDPEC :
-    begin
-      if ( frmStatus = nil ) then
-        frmStatus := TfrmStatus.Create(Application);
-      frmStatus.lblStatus.Caption := 'Enviando DPEC...';
-      frmStatus.Show;
-      frmStatus.BringToFront;
-    end;
-    stNFeConsultaDPEC :
-    begin
-      if ( frmStatus = nil ) then
-        frmStatus := TfrmStatus.Create(Application);
-      frmStatus.lblStatus.Caption := 'Consultando DPEC...';
-      frmStatus.Show;
-      frmStatus.BringToFront;
-    end;
     stNFeEmail :
     begin
       if ( frmStatus = nil ) then
@@ -1130,9 +1133,7 @@ end;
 
 procedure TForm1.sbtnGetCertClick(Sender: TObject);
 begin
-   {$IFNDEF ACBrNFeOpenSSL}
-   edtNumSerie.Text := ACBrNFe1.Configuracoes.Certificados.SelecionarCertificado;
-   {$ENDIF}
+  edtNumSerie.Text := ACBrNFe1.SSL.SelecionarCertificado;
 end;
 
 procedure TForm1.btnGerarNFEClick(Sender: TObject);
@@ -1148,7 +1149,7 @@ if not(InputQuery('WebServices Enviar', 'Numero da Nota', vAux)) then
 
   ACBrNFe1.NotasFiscais.Assinar;
 
-  ACBrNFe1.NotasFiscais.Items[0].SaveToFile;
+  ACBrNFe1.NotasFiscais.Items[0].GravarXML();
   ShowMessage('Arquivo gerado em: '+ACBrNFe1.NotasFiscais.Items[0].NomeArq);
   MemoDados.Lines.Add('Arquivo gerado em: '+ACBrNFe1.NotasFiscais.Items[0].NomeArq);
   MemoResp.Lines.LoadFromFile(ACBrNFe1.NotasFiscais.Items[0].NomeArq);
@@ -1164,7 +1165,7 @@ begin
     exit;
  if not(InputQuery('WebServices Consulta Cadastro ', 'Documento(CPF/CNPJ)',    Documento)) then
     exit;
-  Documento :=  Trim(DFeUtil.LimpaNumero(Documento));
+  Documento :=  Trim(OnlyNumber(Documento));
 
   ACBrNFe1.WebServices.ConsultaCadastro.UF  := UF;
   if Length(Documento) > 11 then
@@ -1173,8 +1174,8 @@ begin
      ACBrNFe1.WebServices.ConsultaCadastro.CPF := Documento;
   ACBrNFe1.WebServices.ConsultaCadastro.Executar;
 
-  MemoResp.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.ConsultaCadastro.RetWS);
-  memoRespWS.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.ConsultaCadastro.RetornoWS);
+  MemoResp.Lines.Text := ACBrNFe1.WebServices.ConsultaCadastro.RetWS;
+  memoRespWS.Lines.Text := ACBrNFe1.WebServices.ConsultaCadastro.RetornoWS;
   LoadXML(MemoResp, WBResposta);
 
   pgRespostas.ActivePageIndex := 1;
@@ -1194,7 +1195,7 @@ begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
   OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
   ACBrNFe1.NotasFiscais.Clear;
   if OpenDialog1.Execute then
     ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
@@ -1224,7 +1225,7 @@ begin
 
   GerarNFe(vAux);
 
-  ACBrNFe1.NotasFiscais.SaveToTXT({caminho e nome do arquivo TXT});
+  ACBrNFe1.NotasFiscais.GravarTXT({caminho e nome do arquivo TXT});
 end;
 
 procedure TForm1.btnEnviarEmailClick(Sender: TObject);
@@ -1238,31 +1239,35 @@ begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
   OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
   if OpenDialog1.Execute then
   begin
     ACBrNFe1.NotasFiscais.Clear;
     ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
     CC:=TstringList.Create;
-    CC.Add('andrefmoraes@gmail.com'); //especifique um email válido
-    CC.Add('anfm@zipmail.com.br');    //especifique um email válido
-    ACBrNFe1.NotasFiscais.Items[0].EnviarEmail(edtSmtpHost.Text
-                                             , edtSmtpPort.Text
-                                             , edtSmtpUser.Text
-                                             , edtSmtpPass.Text
-                                             , edtSmtpUser.Text
-                                             , Para
-                                             , edtEmailAssunto.Text
-                                             , mmEmailMsg.Lines
-                                             , cbEmailSSL.Checked // SSL - Conexão Segura
-                                             , True //Enviar PDF junto
-                                             , CC //Lista com emails que serão enviado cópias - TStrings
-                                             , nil // Lista de anexos - TStrings
-                                             , False  //Pede confirmação de leitura do email
-                                             , False  //Aguarda Envio do Email(não usa thread)
-                                             , 'ACBrNFe2' // Nome do Rementente
-                                             , cbEmailSSL.Checked ); // Auto TLS
-    CC.Free;
+    try
+      CC.Add('andrefmoraes@gmail.com'); //especifique um email vÃ¡lido
+      CC.Add('anfm@zipmail.com.br');    //especifique um email vÃ¡lido
+
+      ACBrMail1.Host := edtSmtpHost.Text;
+      ACBrMail1.Port := edtSmtpPort.Text;
+      ACBrMail1.Username := edtSmtpUser.Text;
+      ACBrMail1.Password := edtSmtpPass.Text;
+      ACBrMail1.From := edtSmtpUser.Text;
+      ACBrMail1.SetSSL := cbEmailSSL.Checked; // SSL - ConexÃ£o Segura
+      ACBrMail1.SetTLS := cbEmailSSL.Checked; // Auto TLS
+      ACBrMail1.ReadingConfirmation := False; //Pede confirmaÃ§Ã£o de leitura do email
+      ACBrMail1.UseThread := False;           //Aguarda Envio do Email(nÃ£o usa thread)
+      ACBrMail1.FromName := 'Projeto ACBr - ACBrNFe';
+
+      ACBrNFe1.NotasFiscais.Items[0].EnviarEmail( Para, edtEmailAssunto.Text,
+                                               mmEmailMsg.Lines
+                                               , True  // Enviar PDF junto
+                                               , CC    // Lista com emails que serÃ£o enviado cÃ³pias - TStrings
+                                               , nil); // Lista de anexos - TStrings
+    finally
+      CC.Free;
+    end;
   end;
 end;
 
@@ -1275,8 +1280,8 @@ begin
   ACBrNFe1.WebServices.Recibo.Recibo := aux;;
   ACBrNFe1.WebServices.Recibo.Executar;
 
-  MemoResp.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.Recibo.RetWS);
-  memoRespWS.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.Recibo.RetornoWS);
+  MemoResp.Lines.Text := ACBrNFe1.WebServices.Recibo.RetWS;
+  memoRespWS.Lines.Text := ACBrNFe1.WebServices.Recibo.RetornoWS;
   LoadXML(MemoResp, WBResposta);
 
   pgRespostas.ActivePageIndex := 1;
@@ -1386,7 +1391,7 @@ begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
   OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Arquivos TXT (*.TXT)|*.TXT|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
   if OpenDialog1.Execute then
   begin
     ACBrNFe1.NotasFiscais.Clear;
@@ -2049,17 +2054,17 @@ end;
 
 procedure TForm1.lblColaboradorClick(Sender: TObject);
 begin
-  ShellExecute(0, Nil, 'http://acbr.sourceforge.net/drupal/?q=node/5', Nil, Nil, SW_NORMAL);
+  OpenURL('http://acbr.sourceforge.net/drupal/?q=node/5');
 end;
 
 procedure TForm1.lblPatrocinadorClick(Sender: TObject);
 begin
-  ShellExecute(0, Nil, 'http://acbr.sourceforge.net/drupal/?q=node/35', Nil, Nil, SW_NORMAL);
+  OpenURL('http://acbr.sourceforge.net/drupal/?q=node/35');
 end;
 
 procedure TForm1.lblDoar1Click(Sender: TObject);
 begin
-  ShellExecute(0, Nil, 'http://acbr.sourceforge.net/drupal/?q=node/14', Nil, Nil, SW_NORMAL);
+  OpenURL('http://acbr.sourceforge.net/drupal/?q=node/14');
 end;
 
 procedure TForm1.GerarNFe(NumNFe : String);
@@ -2577,8 +2582,8 @@ begin
      Ide.hSaiEnt   := now;
      Ide.tpNF      := tnSaida;
      Ide.tpEmis    := TpcnTipoEmissao(cbFormaEmissao.ItemIndex); ;
-     Ide.tpAmb     := taHomologacao;  //Lembre-se de trocar esta variável quando for para ambiente de produção
-     Ide.cUF       := NotaUtil.UFtoCUF(edtEmitUF.Text);
+     Ide.tpAmb     := taHomologacao;  //Lembre-se de trocar esta variÃ¡vel quando for para ambiente de produÃ§Ã£o
+     Ide.cUF       := UFtoCUF(edtEmitUF.Text);
      Ide.cMunFG    := StrToInt(edtEmitCodCidade.Text);
      Ide.finNFe    := fnNormal;
      Ide.tpImp     := tiNFCe;
@@ -2874,8 +2879,8 @@ begin
   ACBrNFe1.WebServices.Consulta.NFeChave := vChave;
   ACBrNFe1.WebServices.Consulta.Executar;
 
-  MemoResp.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.Consulta.RetWS);
-  memoRespWS.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.Consulta.RetornoWS);
+  MemoResp.Lines.Text := ACBrNFe1.WebServices.Consulta.RetWS;
+  memoRespWS.Lines.Text := ACBrNFe1.WebServices.Consulta.RetornoWS;
   LoadXML(MemoResp, WBResposta);
   LoadConsulta201(ACBrNFe1.WebServices.Consulta.RetWS);
 end;
@@ -2913,8 +2918,8 @@ begin
    end;
   ACBrNFe1.EnviarEventoNFe(StrToInt(idLote));
 
-  MemoResp.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.EnvEvento.RetWS);
-  memoRespWS.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.EnvEvento.RetornoWS);
+  MemoResp.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetWS;
+  memoRespWS.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetornoWS;
   LoadXML(MemoResp, WBResposta);
 
   {ACBrNFe1.WebServices.EnvEvento.EventoRetorno.TpAmb
@@ -2933,20 +2938,20 @@ begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
   OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
   if OpenDialog1.Execute then
   begin
     ACBrNFe1.NotasFiscais.Clear;
     ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
     ACBrNFe1.Consultar;
     ShowMessage(ACBrNFe1.WebServices.Consulta.Protocolo);
-    MemoResp.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.Consulta.RetWS);
-    memoRespWS.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.Consulta.RetornoWS);
+    MemoResp.Lines.Text := ACBrNFe1.WebServices.Consulta.RetWS;
+    memoRespWS.Lines.Text := ACBrNFe1.WebServices.Consulta.RetornoWS;
     LoadXML(MemoResp, WBResposta);
     NomeArq := OpenDialog1.FileName;
     if pos(UpperCase('-nfe.xml'),UpperCase(NomeArq)) > 0 then
        NomeArq := StringReplace(NomeArq,'-nfe.xml','-procNfe.xml',[rfIgnoreCase]);
-    ACBrNFe1.NotasFiscais.Items[0].SaveToFile(NomeArq);
+    ACBrNFe1.NotasFiscais.Items[0].GravarXML(NomeArq);
     ShowMessage('Arquivo gravado em: '+NomeArq);
     memoLog.Lines.Add('Arquivo gravado em: '+NomeArq);
   end;
@@ -2957,7 +2962,7 @@ begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
   OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
   if OpenDialog1.Execute then
   begin
     ACBrNFe1.NotasFiscais.Clear;
@@ -2991,8 +2996,8 @@ begin
     ACBrNFe1.NotasFiscais.GerarNFe;
     ACBrNFe1.Enviar(1,True);
 
-    MemoResp.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.Retorno.RetWS);
-    memoRespWS.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.Retorno.RetornoWS);
+    MemoResp.Lines.Text := ACBrNFe1.WebServices.Retorno.RetWS;
+    memoRespWS.Lines.Text := ACBrNFe1.WebServices.Retorno.RetornoWS;
     LoadXML(MemoResp, WBResposta);
 
    MemoDados.Lines.Add('');
@@ -3041,8 +3046,8 @@ begin
    end;
   ACBrNFe1.EnviarEventoNFe(StrToInt(idLote));
 
-  MemoResp.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.EnvEvento.RetWS);
-  //memoRespWS.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.EnvEvento.EventoRetorno);
+  MemoResp.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetWS;
+  //memoRespWS.Lines.Text := ACBrNFe1.WebServices.EnvEvento.EventoRetorno;
 //  ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].XXXX
   LoadXML(MemoResp, WBResposta);
 end;
@@ -3054,12 +3059,12 @@ begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
   OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
   if OpenDialog1.Execute then
   begin
     ACBrNFe1.NotasFiscais.Clear;
     ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
-    if not ACBrNFe1.NotasFiscais.ValidaAssinatura(Msg) then
+    if not ACBrNFe1.NotasFiscais.VerificarAssinatura(Msg) then
       MemoDados.Lines.Add('Erro: '+Msg)
     else
       ShowMessage('Assinatura Válida');  
@@ -3071,7 +3076,7 @@ begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*.XML';
   OpenDialog1.Filter := 'Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
   if OpenDialog1.Execute then
   begin
     ACBrNFe1.NotasFiscais.Clear;
@@ -3081,7 +3086,7 @@ begin
   OpenDialog1.Title := 'Selecione o Evento';
   OpenDialog1.DefaultExt := '*.XML';
   OpenDialog1.Filter := 'Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
   if OpenDialog1.Execute then
   begin
     ACBrNFe1.EventoNFe.Evento.Clear;
@@ -3102,7 +3107,7 @@ begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*.XML';
   OpenDialog1.Filter := 'Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
   if OpenDialog1.Execute then
   begin
     ACBrNFe1.NotasFiscais.Clear;
@@ -3112,7 +3117,7 @@ begin
   OpenDialog1.Title := 'Selecione ao Evento';
   OpenDialog1.DefaultExt := '*.XML';
   OpenDialog1.Filter := 'Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
   if OpenDialog1.Execute then
   begin
     Evento := TStringList.Create;
@@ -3121,24 +3126,25 @@ begin
     ACBrNFe1.EventoNFe.Evento.Clear;
     ACBrNFe1.EventoNFe.LerXML(OpenDialog1.FileName) ;
     CC:=TstringList.Create;
-    CC.Add('andrefmoraes@gmail.com'); //especifique um email válido
-    CC.Add('anfm@zipmail.com.br');    //especifique um email válido
-    ACBrNFe1.EnviarEmailEvento(edtSmtpHost.Text
-                             , edtSmtpPort.Text
-                             , edtSmtpUser.Text
-                             , edtSmtpPass.Text
-                             , edtSmtpUser.Text
-                             , Para
-                             , edtEmailAssunto.Text
-                             , mmEmailMsg.Lines
-                             , cbEmailSSL.Checked // SSL - Conexão Segura
-                             , True //Enviar PDF junto
-                             , CC //Lista com emails que serão enviado cópias - TStrings
-                             , Evento // Lista de anexos - TStrings
-                             , False  //Pede confirmação de leitura do email
-                             , False  //Aguarda Envio do Email(não usa thread)
-                             , 'ACBrNFe2' // Nome do Rementente
-                             , cbEmailSSL.Checked ); // Auto TLS
+    CC.Add('andrefmoraes@gmail.com'); //especifique um email vÃ¡lido
+    CC.Add('anfm@zipmail.com.br');    //especifique um email vÃ¡lido
+    //TODO:
+    ////ACBrNFe1.EnviarEmailEvento(edtSmtpHost.Text
+    ////                         , edtSmtpPort.Text
+    ////                         , edtSmtpUser.Text
+    ////                         , edtSmtpPass.Text
+    ////                         , edtSmtpUser.Text
+    ////                         , Para
+    ////                         , edtEmailAssunto.Text
+    ////                         , mmEmailMsg.Lines
+    ////                         , cbEmailSSL.Checked // SSL - ConexÃ£o Segura
+    ////                         , True //Enviar PDF junto
+    ////                         , CC //Lista com emails que serÃ£o enviado cÃ³pias - TStrings
+    ////                         , Evento // Lista de anexos - TStrings
+    ////                         , False  //Pede confirmaÃ§Ã£o de leitura do email
+    ////                         , False  //Aguarda Envio do Email(nÃ£o usa thread)
+    ////                         , 'ACBrNFe2' // Nome do Rementente
+    ////                         , cbEmailSSL.Checked ); // Auto TLS
     CC.Free;
     Evento.Free;
   end;
@@ -3182,13 +3188,13 @@ begin
   ACBrNFe1.NotasFiscais.Clear;
 
   ACBrNFe1.Configuracoes.Geral.ModeloDF := moNFCe;
-  ACBrNFe1.Configuracoes.Geral.VersaoDF :=  TpcnVersaoDF(cbVersaoDF.ItemIndex);  
+  ACBrNFe1.Configuracoes.Geral.VersaoDF := ve310;
   GerarNFCe(vAux);
 
   ACBrNFe1.Enviar(vNumLote,True,Sincrono);
 
-  MemoResp.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.Retorno.RetWS);
-  memoRespWS.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.Retorno.RetornoWS);
+  MemoResp.Lines.Text := ACBrNFe1.WebServices.Retorno.RetWS;
+  memoRespWS.Lines.Text := ACBrNFe1.WebServices.Retorno.RetornoWS;
   LoadXML(MemoResp, WBResposta);
 
   MemoDados.Lines.Add('');

@@ -590,7 +590,7 @@ function TDFeOpenSSL.LerPFXInfo(pfxdata: Ansistring): Boolean;
   begin
     {$IFDEF USE_libeay32}
      SN := X509_get_serialNumber(cert);
-   {$ELSE}
+    {$ELSE}
      SN := X509GetSerialNumber(cert);
     {$ENDIF}
     s := StrPas( PAnsiChar(SN^.data) );
@@ -600,14 +600,24 @@ function TDFeOpenSSL.LerPFXInfo(pfxdata: Ansistring): Boolean;
 
 var
   cert: pX509;
-  pkey, ca, p12: Pointer;
+  pkey: pEVP_PKEY;
+  ca, p12: Pointer;
   b: PBIO;
 begin
   Result := False;
-  b := BioNew(BioSMem);
+  {$IFDEF USE_libeay32}
+   b := Bio_New(BIO_s_mem);
+  {$ELSE}
+   b := BioNew(BioSMem);
+  {$ENDIF}
   try
-    BioWrite(b, pfxdata, Length(PfxData));
-    p12 := d2iPKCS12bio(b, nil);
+    {$IFDEF USE_libeay32}
+     BIO_write(b, PAnsiChar(pfxdata), Length(PfxData));
+     p12 := d2i_PKCS12_bio(b, nil);
+    {$ELSE}
+     BioWrite(b, pfxdata, Length(PfxData));
+     p12 := d2iPKCS12bio(b, nil);
+    {$ENDIF}
     if not Assigned(p12) then
       Exit;
 
@@ -616,7 +626,11 @@ begin
       pkey := nil;
       ca := nil;
       try
+        {$IFDEF USE_libeay32}
+        if PKCS12_parse(p12, PAnsiChar(Configuracoes.Certificados.Senha), pkey, cert, ca) > 0 then
+        {$ELSE}
         if PKCS12parse(p12, Configuracoes.Certificados.Senha, pkey, cert, ca) > 0 then
+        {$ENDIF}
         begin
           FValidade := GetNotAfter( cert );
           FSubjectName := GetSubjectName( cert );
@@ -624,14 +638,27 @@ begin
           FNumSerie := GetSerialNumber( cert );
         end;
       finally
-        EvpPkeyFree(pkey);
-        X509free(cert);
+        {$IFDEF USE_libeay32}
+         EVP_PKEY_free(pkey);
+         X509_free(cert);
+        {$ELSE}
+         EvpPkeyFree(pkey);
+         X509free(cert);
+        {$ENDIF}
       end;
     finally
-      PKCS12free(p12);
+      {$IFDEF USE_libeay32}
+       PKCS12_free(p12);
+      {$ELSE}
+       PKCS12free(p12);
+      {$ENDIF}
     end;
   finally
-    BioFreeAll(b);
+    {$IFDEF USE_libeay32}
+     BIO_free_all(b);
+    {$ELSE}
+     BioFreeAll(b);
+    {$ENDIF}
   end;
 end;
 

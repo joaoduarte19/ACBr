@@ -67,8 +67,9 @@ type
 implementation
 
 uses
-  strutils, ACBrUtil, ACBrDFeUtil, WinInet, SOAPConst, ACBrCAPICOM_TLB,
-  JwaWinCrypt;
+  strutils, WinInet, SOAPConst,
+  ACBrCAPICOM_TLB, JwaWinCrypt,
+  ACBrUtil, ACBrDFeUtil, ACBrDFe;
 
 { TDFeCapicomDelphiSoap }
 
