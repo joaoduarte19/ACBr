@@ -823,7 +823,7 @@ begin
          wLinha:= wLinha                                                  + // ID Registro
                   ATipoCendente + PadLeft(OnlyNumber(Cedente.CNPJCPF),14,'0')+ // Tipo de inscrição da empresa 01-CPF / 02-CNPJ  + Inscrição da empresa
                   aAgencia                                                + // Prefixo da agencia
-                  PadRight( Cedente.AgenciaDigito, 1)                         + // DV-prefixo da agencia
+                  PadRight( Cedente.AgenciaDigito, 1)                     + // DV-prefixo da agencia
                   aConta                                                  + // Código do cendete/nr. conta corrente da empresa
                   PadRight( Cedente.ContaDigito, 1);                            // DV-código do cedente
 
@@ -852,11 +852,11 @@ begin
                   aTipoCobranca                                           + // Tipo de cobrança - 11, 17 (04DSC, 08VDR, 02VIN, BRANCOS) 12,31,51 (BRANCOS)
                   Carteira                                                + // Carteira
                   ATipoOcorrencia                                         + // Ocorrência "Comando"
-                  PadRight( NumeroDocumento, 10, ' ')                         + // Seu Numero - Nr. titulo dado pelo cedente
+                  PadRight( NumeroDocumento, 10, ' ')                     + // Seu Numero - Nr. titulo dado pelo cedente
                   FormatDateTime( 'ddmmyy', Vencimento )                  + // Data de vencimento
                   IntToStrZero( Round( ValorDocumento * 100 ), 13)        + // Valor do titulo
                   '001' + '0000' + ' '                                    + // Numero do Banco - 001 + Prefixo da agencia cobradora + DV-pref. agencia cobradora
-                  PadLeft(ATipoEspecieDoc, 2, '0') + ATipoAceite             + // Especie de titulo + Aceite
+                  PadLeft(ATipoEspecieDoc, 2, '0') + ATipoAceite          + // Especie de titulo + Aceite
                   FormatDateTime( 'ddmmyy', DataDocumento )               + // Data de Emissão
                   AInstrucao                                              + // 1ª e 2ª instrução codificada
                   IntToStrZero( round(ValorMoraJuros * 100 ), 13)         + // Juros de mora por dia
@@ -864,17 +864,17 @@ begin
                   IntToStrZero( round( ValorDesconto * 100), 13)          + // Valor do desconto
                   IntToStrZero( round( ValorIOF * 100 ), 13)              + // Valor do IOF
                   IntToStrZero( round( ValorAbatimento * 100 ), 13)       + // Valor do abatimento permitido
-                  ATipoSacado + PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')   + // Tipo de inscricao do sacado + CNPJ ou CPF do sacado
-                  PadRight( Sacado.NomeSacado, 37) + '   '                    + // Nome do sacado + Brancos
+                  ATipoSacado + PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')+ // Tipo de inscricao do sacado + CNPJ ou CPF do sacado
+                  PadRight( Sacado.NomeSacado, 37) + '   '                + // Nome do sacado + Brancos
                   PadRight(trim(Sacado.Logradouro) + ', ' +
                            trim(Sacado.Numero) + ', '+ 
-                           trim(Sacado.Complemento), 40)                         + // Endereço do sacado
-                  PadRight( Trim(Sacado.Bairro), 12)
-                  PadLeft( OnlyNumber(Sacado.CEP), 8 )                       + // CEP do endereço do sacado
-                  PadRight( trim(Sacado.Cidade), 15)                          + // Cidade do sacado
-                  PadRight( Sacado.UF, 2 )                                    + // UF da cidade do sacado
-                  PadRight( AMensagem, 40)                                    + // Observações
-                  PadLeft(DiasProtesto,2,'0')+ ' '                           + // Número de dias para protesto + Branco
+                           trim(Sacado.Complemento), 40)                  + // Endereço do sacado
+                  PadRight( Trim(Sacado.Bairro), 12)                      +
+                  PadLeft( OnlyNumber(Sacado.CEP), 8 )                    + // CEP do endereço do sacado
+                  PadRight( trim(Sacado.Cidade), 15)                      + // Cidade do sacado
+                  PadRight( Sacado.UF, 2 )                                + // UF da cidade do sacado
+                  PadRight( AMensagem, 40)                                + // Observações
+                  PadLeft(DiasProtesto,2,'0')+ ' '                        + // Número de dias para protesto + Branco
                   IntToStrZero( aRemessa.Count + 1, 6 );
 
 
