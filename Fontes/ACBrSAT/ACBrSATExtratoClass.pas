@@ -210,7 +210,7 @@ function TACBrSATExtratoClass.CalcularConteudoQRCode(ID: String;
 begin
   Result := ID + '|' +
             FormatDateTime('yyyymmddhhmmss',dEmi_hEmi) + '|' +
-            FormatFloat('0.00', Valor) + '|' +
+            FloatToString(Valor,'.','0.00') + '|' +
             Trim(CNPJCPF) + '|' +
             assinaturaQRCODE;
 end;
