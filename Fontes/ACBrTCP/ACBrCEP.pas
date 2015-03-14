@@ -1305,7 +1305,7 @@ begin
       Bairro          := LerTagXML(Buffer,'bairro') ;
       Municipio       := LerTagXML(Buffer,'cidade') ;
       UF              := LerTagXML(Buffer,'uf') ;
-      IBGE_Municipio  := '';
+      IBGE_Municipio  := LerTagXML(Buffer,'codigomunicipio'); 
     end ;
   end
   else
