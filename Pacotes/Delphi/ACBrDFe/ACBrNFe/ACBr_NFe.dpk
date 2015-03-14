@@ -71,7 +71,7 @@ package ACBr_NFe;
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'ACBr - Nota Fiscal Eletrônica - (http://www.projetoacbr.com.br/)'}
-{$IMPLICITBUILD OFF}
+{$IMPLICITBUILD ON}
 
 requires
   vcl,
