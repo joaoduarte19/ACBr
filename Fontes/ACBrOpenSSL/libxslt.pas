@@ -1093,8 +1093,12 @@ const
   xsltConstXSLTAttrMarker = 'LRE XLST Attr';
 implementation
 uses
-{$IFDEF WIN32}
-  Windows,
+{$IFDEF FPC}
+   DynLibs,
+{$ELSE}
+  {$IFDEF WIN32}
+    Windows,
+  {$ENDIF}
 {$ENDIF}
   SysUtils;
 

@@ -45,10 +45,6 @@ unit ACBrEAD;
 
 interface
 
-{$IFNDEF FPC}
- {$DEFINE USE_libeay32}
-{$ENDIF}
-
 uses
    Classes, SysUtils, strutils, ACBrConsts,
    ACBrUtil, {$IFDEF USE_libeay32}libeay32{$ELSE} OpenSSLExt{$ENDIF};

@@ -541,7 +541,7 @@ function TDFeOpenSSL.LerPFXInfo(pfxdata: Ansistring): Boolean;
     notAfter: PASN1_TIME;
   begin
     notAfter := cert.cert_info^.validity^.notAfter;
-    Validade := StrPas(notAfter^.data);
+    Validade := StrPas( PAnsiChar(notAfter^.data) );
     SetLength(Validade, notAfter^.length);
     Validade := OnlyNumber(Validade);
 
@@ -556,7 +556,11 @@ function TDFeOpenSSL.LerPFXInfo(pfxdata: Ansistring): Boolean;
     s: String;
   begin
     setlength(s, 4096);
-    Result := X509NameOneline(X509GetSubjectName(cert), s, Length(s));
+    {$IFDEF USE_libeay32}
+     Result := X509_NAME_oneline(X509_get_subject_name(cert), PAnsiChar(s), Length(s));
+    {$ELSE}
+     Result := X509NameOneline(X509GetSubjectName(cert), s, Length(s));
+    {$ENDIF}
     if copy(Result,1,1) = '/' then
       Result := Copy(Result,2,Length(Result));
 
@@ -584,18 +588,20 @@ function TDFeOpenSSL.LerPFXInfo(pfxdata: Ansistring): Boolean;
     SN: PASN1_STRING;
     s: AnsiString;
   begin
-    SN := X509GetSerialNumber(cert);
-    s := StrPas(SN^.data);
+    {$IFDEF USE_libeay32}
+     SN := X509_get_serialNumber(cert);
+   {$ELSE}
+     SN := X509GetSerialNumber(cert);
+    {$ENDIF}
+    s := StrPas( PAnsiChar(SN^.data) );
     SetLength(s,SN.length);
     Result := AsciiToHex(s);
   end;
 
 var
   cert: pX509;
-  pkey, ca: SslPtr;
+  pkey, ca, p12: Pointer;
   b: PBIO;
-  p12: SslPtr;
-
 begin
   Result := False;
   b := BioNew(BioSMem);

@@ -97,6 +97,10 @@
   {$DEFINE HAS_FORMATSETTINGS}
 {$ENDIF}
 
+{$IFNDEF FPC}
+ {$DEFINE USE_libeay32}
+{$ENDIF}
+
 // Para usar CLX no Windows / Delphi descomente essa linha
 //------------------------------------------------------------------------------
 //{$DEFINE CLX}

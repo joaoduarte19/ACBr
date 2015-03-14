@@ -191,37 +191,37 @@ type
       xmlSecCryptoAppDefaultKeysMngrInitMethod = function  (mngr: xmlSecKeysMngrPtr) : Longint; cdecl;
         xmlSecCryptoAppDefaultKeysMngrInitMethodPtr = ^xmlSecCryptoAppDefaultKeysMngrInitMethod;
 
-      xmlSecCryptoAppDefaultKeysMngrLoadMethod = function  (mngr: xmlSecKeysMngrPtr; const uri: PChar) : Longint; cdecl;
+      xmlSecCryptoAppDefaultKeysMngrLoadMethod = function  (mngr: xmlSecKeysMngrPtr; const uri: PAnsiChar) : Longint; cdecl;
         xmlSecCryptoAppDefaultKeysMngrLoadMethodPtr = ^xmlSecCryptoAppDefaultKeysMngrLoadMethod;
 
-      xmlSecCryptoAppDefaultKeysMngrSaveMethod = function  (mngr: xmlSecKeysMngrPtr; const filename: PChar; type_: xmlSecKeyDataType) : Longint; cdecl;
+      xmlSecCryptoAppDefaultKeysMngrSaveMethod = function  (mngr: xmlSecKeysMngrPtr; const filename: PAnsiChar; type_: xmlSecKeyDataType) : Longint; cdecl;
         xmlSecCryptoAppDefaultKeysMngrSaveMethodPtr = ^xmlSecCryptoAppDefaultKeysMngrSaveMethod;
 
-      xmlSecCryptoAppInitMethod = function  (const config: PChar) : Longint; cdecl;
+      xmlSecCryptoAppInitMethod = function  (const config: PAnsiChar) : Longint; cdecl;
         xmlSecCryptoAppInitMethodPtr = ^xmlSecCryptoAppInitMethod;
 
       xmlSecCryptoAppKeyCertLoadMemoryMethod = function  (key: xmlSecKeyPtr; const data: xmlSecBytePtr; dataSize: xmlSecSize; format: xmlSecKeyDataFormat) : Longint; cdecl;
         xmlSecCryptoAppKeyCertLoadMemoryMethodPtr = ^xmlSecCryptoAppKeyCertLoadMemoryMethod;
 
-      xmlSecCryptoAppKeyCertLoadMethod = function  (key: xmlSecKeyPtr; const filename: PChar; format: xmlSecKeyDataFormat) : Longint; cdecl;
+      xmlSecCryptoAppKeyCertLoadMethod = function  (key: xmlSecKeyPtr; const filename: PAnsiChar; format: xmlSecKeyDataFormat) : Longint; cdecl;
         xmlSecCryptoAppKeyCertLoadMethodPtr = ^xmlSecCryptoAppKeyCertLoadMethod;
 
-      xmlSecCryptoAppKeyLoadMemoryMethod = function  (const data: xmlSecBytePtr; dataSize: xmlSecSize; format: xmlSecKeyDataFormat; const pwd: PChar; pwdCallback: Pointer; pwdCallbackCtx: Pointer) : xmlSecKeyPtr; cdecl;
+      xmlSecCryptoAppKeyLoadMemoryMethod = function  (const data: xmlSecBytePtr; dataSize: xmlSecSize; format: xmlSecKeyDataFormat; const pwd: PAnsiChar; pwdCallback: Pointer; pwdCallbackCtx: Pointer) : xmlSecKeyPtr; cdecl;
         xmlSecCryptoAppKeyLoadMemoryMethodPtr = ^xmlSecCryptoAppKeyLoadMemoryMethod;
 
-      xmlSecCryptoAppKeyLoadMethod = function  (const filename: PChar; format: xmlSecKeyDataFormat; const pwd: PChar; pwdCallback: Pointer; pwdCallbackCtx: Pointer) : xmlSecKeyPtr; cdecl;
+      xmlSecCryptoAppKeyLoadMethod = function  (const filename: PAnsiChar; format: xmlSecKeyDataFormat; const pwd: PAnsiChar; pwdCallback: Pointer; pwdCallbackCtx: Pointer) : xmlSecKeyPtr; cdecl;
         xmlSecCryptoAppKeyLoadMethodPtr = ^xmlSecCryptoAppKeyLoadMethod;
 
       xmlSecCryptoAppKeysMngrCertLoadMemoryMethod = function  (mngr: xmlSecKeysMngrPtr; const data: xmlSecBytePtr; dataSize: xmlSecSize; format: xmlSecKeyDataFormat; type_: xmlSecKeyDataType) : Longint; cdecl;
         xmlSecCryptoAppKeysMngrCertLoadMemoryMethodPtr = ^xmlSecCryptoAppKeysMngrCertLoadMemoryMethod;
 
-      xmlSecCryptoAppKeysMngrCertLoadMethod = function  (mngr: xmlSecKeysMngrPtr; const filename: PChar; format: xmlSecKeyDataFormat; type_: xmlSecKeyDataType) : Longint; cdecl;
+      xmlSecCryptoAppKeysMngrCertLoadMethod = function  (mngr: xmlSecKeysMngrPtr; const filename: PAnsiChar; format: xmlSecKeyDataFormat; type_: xmlSecKeyDataType) : Longint; cdecl;
         xmlSecCryptoAppKeysMngrCertLoadMethodPtr = ^xmlSecCryptoAppKeysMngrCertLoadMethod;
 
-      xmlSecCryptoAppPkcs12LoadMemoryMethod = function  (const data: xmlSecBytePtr; dataSize: xmlSecSize; const pwd: PChar; pwdCallback: Pointer; pwdCallbackCtx: Pointer) : xmlSecKeyPtr; cdecl;
+      xmlSecCryptoAppPkcs12LoadMemoryMethod = function  (const data: xmlSecBytePtr; dataSize: xmlSecSize; const pwd: PAnsiChar; pwdCallback: Pointer; pwdCallbackCtx: Pointer) : xmlSecKeyPtr; cdecl;
         xmlSecCryptoAppPkcs12LoadMemoryMethodPtr = ^xmlSecCryptoAppPkcs12LoadMemoryMethod;
 
-      xmlSecCryptoAppPkcs12LoadMethod = function  (const filename: PChar; const pwd: PChar; pwdCallback: Pointer; pwdCallbackCtx: Pointer) : xmlSecKeyPtr; cdecl;
+      xmlSecCryptoAppPkcs12LoadMethod = function  (const filename: PAnsiChar; const pwd: PAnsiChar; pwdCallback: Pointer; pwdCallbackCtx: Pointer) : xmlSecKeyPtr; cdecl;
         xmlSecCryptoAppPkcs12LoadMethodPtr = ^xmlSecCryptoAppPkcs12LoadMethod;
 
       xmlSecCryptoAppShutdownMethod = function  () : Longint; cdecl;
@@ -245,7 +245,7 @@ type
       xmlSecCryptoTransformGetKlassMethod = function  () : xmlSecTransformId; cdecl;
         xmlSecCryptoTransformGetKlassMethodPtr = ^xmlSecCryptoTransformGetKlassMethod;
 
-      xmlSecErrorsCallback = procedure  (const file_: PChar; line: Longint; const func: PChar; const errorObject: PChar; const errorSubject: PChar; reason: Longint; const msg: PChar); cdecl;
+      xmlSecErrorsCallback = procedure  (const file_: PAnsiChar; line: Longint; const func: PAnsiChar; const errorObject: PAnsiChar; const errorSubject: PAnsiChar; reason: Longint; const msg: PAnsiChar); cdecl;
         xmlSecErrorsCallbackPtr = ^xmlSecErrorsCallback;
 
       xmlSecGetKeyCallback = function  (keyInfoNode: xmlNodePtr; keyInfoCtx: xmlSecKeyInfoCtxPtr) : xmlSecKeyPtr; cdecl;
@@ -842,7 +842,7 @@ type
   function xmlSecBufferGetSize (buf: xmlSecBufferPtr) : xmlSecSize; cdecl; external LIBXMLSEC_SO;
   function xmlSecBufferInitialize (buf: xmlSecBufferPtr; size: xmlSecSize) : Longint; cdecl; external LIBXMLSEC_SO;
   function xmlSecBufferPrepend (buf: xmlSecBufferPtr; const data: xmlSecBytePtr; size: xmlSecSize) : Longint; cdecl; external LIBXMLSEC_SO;
-  function xmlSecBufferReadFile (buf: xmlSecBufferPtr; const filename: PChar) : Longint; cdecl; external LIBXMLSEC_SO;
+  function xmlSecBufferReadFile (buf: xmlSecBufferPtr; const filename: PAnsiChar) : Longint; cdecl; external LIBXMLSEC_SO;
   function xmlSecBufferRemoveHead (buf: xmlSecBufferPtr; size: xmlSecSize) : Longint; cdecl; external LIBXMLSEC_SO;
   function xmlSecBufferRemoveTail (buf: xmlSecBufferPtr; size: xmlSecSize) : Longint; cdecl; external LIBXMLSEC_SO;
   function xmlSecBufferSetData (buf: xmlSecBufferPtr; const data: xmlSecBytePtr; size: xmlSecSize) : Longint; cdecl; external LIBXMLSEC_SO;
@@ -854,18 +854,18 @@ type
   function xmlSecCreateTree (const rootNodeName: xmlCharPtr; const rootNodeNs: xmlCharPtr) : xmlDocPtr; cdecl; external LIBXMLSEC_SO;
   function xmlSecCryptoAppDefaultKeysMngrAdoptKey (mngr: xmlSecKeysMngrPtr; key: xmlSecKeyPtr) : Longint; cdecl; external LIBXMLSEC_SO;
   function xmlSecCryptoAppDefaultKeysMngrInit (mngr: xmlSecKeysMngrPtr) : Longint; cdecl; external LIBXMLSEC_SO;
-  function xmlSecCryptoAppDefaultKeysMngrLoad (mngr: xmlSecKeysMngrPtr; const uri: PChar) : Longint; cdecl; external LIBXMLSEC_SO;
-  function xmlSecCryptoAppDefaultKeysMngrSave (mngr: xmlSecKeysMngrPtr; const filename: PChar; type_: xmlSecKeyDataType) : Longint; cdecl; external LIBXMLSEC_SO;
+  function xmlSecCryptoAppDefaultKeysMngrLoad (mngr: xmlSecKeysMngrPtr; const uri: PAnsiChar) : Longint; cdecl; external LIBXMLSEC_SO;
+  function xmlSecCryptoAppDefaultKeysMngrSave (mngr: xmlSecKeysMngrPtr; const filename: PAnsiChar; type_: xmlSecKeyDataType) : Longint; cdecl; external LIBXMLSEC_SO;
   function xmlSecCryptoAppGetDefaultPwdCallback () : Pointer; cdecl; external LIBXMLSEC_SO;
-  function xmlSecCryptoAppInit (const config: PChar) : Longint; cdecl; external LIBXMLSEC_SO;
-  function xmlSecCryptoAppKeyCertLoad (key: xmlSecKeyPtr; const filename: PChar; format: xmlSecKeyDataFormat) : Longint; cdecl; external LIBXMLSEC_SO;
+  function xmlSecCryptoAppInit (const config: PAnsiChar) : Longint; cdecl; external LIBXMLSEC_SO;
+  function xmlSecCryptoAppKeyCertLoad (key: xmlSecKeyPtr; const filename: PAnsiChar; format: xmlSecKeyDataFormat) : Longint; cdecl; external LIBXMLSEC_SO;
   function xmlSecCryptoAppKeyCertLoadMemory (key: xmlSecKeyPtr; const data: xmlSecBytePtr; dataSize: xmlSecSize; format: xmlSecKeyDataFormat) : Longint; cdecl; external LIBXMLSEC_SO;
-  function xmlSecCryptoAppKeyLoad (const filename: PChar; format: xmlSecKeyDataFormat; const pwd: PChar; pwdCallback: Pointer; pwdCallbackCtx: Pointer) : xmlSecKeyPtr; cdecl; external LIBXMLSEC_SO;
-  function xmlSecCryptoAppKeyLoadMemory (const data: xmlSecBytePtr; dataSize: xmlSecSize; format: xmlSecKeyDataFormat; const pwd: PChar; pwdCallback: Pointer; pwdCallbackCtx: Pointer) : xmlSecKeyPtr; cdecl; external LIBXMLSEC_SO;
-  function xmlSecCryptoAppKeysMngrCertLoad (mngr: xmlSecKeysMngrPtr; const filename: PChar; format: xmlSecKeyDataFormat; type_: xmlSecKeyDataType) : Longint; cdecl; external LIBXMLSEC_SO;
+  function xmlSecCryptoAppKeyLoad (const filename: PAnsiChar; format: xmlSecKeyDataFormat; const pwd: PAnsiChar; pwdCallback: Pointer; pwdCallbackCtx: Pointer) : xmlSecKeyPtr; cdecl; external LIBXMLSEC_SO;
+  function xmlSecCryptoAppKeyLoadMemory (const data: xmlSecBytePtr; dataSize: xmlSecSize; format: xmlSecKeyDataFormat; const pwd: PAnsiChar; pwdCallback: Pointer; pwdCallbackCtx: Pointer) : xmlSecKeyPtr; cdecl; external LIBXMLSEC_SO;
+  function xmlSecCryptoAppKeysMngrCertLoad (mngr: xmlSecKeysMngrPtr; const filename: PAnsiChar; format: xmlSecKeyDataFormat; type_: xmlSecKeyDataType) : Longint; cdecl; external LIBXMLSEC_SO;
   function xmlSecCryptoAppKeysMngrCertLoadMemory (mngr: xmlSecKeysMngrPtr; const data: xmlSecBytePtr; dataSize: xmlSecSize; format: xmlSecKeyDataFormat; type_: xmlSecKeyDataType) : Longint; cdecl; external LIBXMLSEC_SO;
-  function xmlSecCryptoAppPkcs12Load (const filename: PChar; const pwd: PChar; pwdCallback: Pointer; pwdCallbackCtx: Pointer) : xmlSecKeyPtr; cdecl; external LIBXMLSEC_SO;
-  function xmlSecCryptoAppPkcs12LoadMemory (const data: xmlSecBytePtr; dataSize: xmlSecSize; const pwd: PChar; pwdCallback: Pointer; pwdCallbackCtx: Pointer) : xmlSecKeyPtr; cdecl; external LIBXMLSEC_SO;
+  function xmlSecCryptoAppPkcs12Load (const filename: PAnsiChar; const pwd: PAnsiChar; pwdCallback: Pointer; pwdCallbackCtx: Pointer) : xmlSecKeyPtr; cdecl; external LIBXMLSEC_SO;
+  function xmlSecCryptoAppPkcs12LoadMemory (const data: xmlSecBytePtr; dataSize: xmlSecSize; const pwd: PAnsiChar; pwdCallback: Pointer; pwdCallbackCtx: Pointer) : xmlSecKeyPtr; cdecl; external LIBXMLSEC_SO;
   function xmlSecCryptoAppShutdown () : Longint; cdecl; external LIBXMLSEC_SO;
   function xmlSecCryptoDLFunctionsRegisterKeyDataAndTransforms (functions: xmlSecCryptoDLFunctionsPtr) : Longint; cdecl; external LIBXMLSEC_SO;
   function xmlSecCryptoDLGetFunctions () : xmlSecCryptoDLFunctionsPtr; cdecl; external LIBXMLSEC_SO;
@@ -911,11 +911,11 @@ type
   procedure xmlSecEncCtxReset (encCtx: xmlSecEncCtxPtr); cdecl; external LIBXMLSEC_SO;
   function xmlSecEncCtxUriEncrypt (encCtx: xmlSecEncCtxPtr; tmpl: xmlNodePtr; const uri: xmlCharPtr) : Longint; cdecl; external LIBXMLSEC_SO;
   function xmlSecEncCtxXmlEncrypt (encCtx: xmlSecEncCtxPtr; tmpl: xmlNodePtr; node: xmlNodePtr) : Longint; cdecl; external LIBXMLSEC_SO;
-  procedure xmlSecError (const file_: PChar; line: Longint; const func: PChar; const errorObject: PChar; const errorSubject: PChar; reason: Longint; const msg: PChar); cdecl; varargs; external LIBXMLSEC_SO;
-  procedure xmlSecErrorsDefaultCallback (const file_: PChar; line: Longint; const func: PChar; const errorObject: PChar; const errorSubject: PChar; reason: Longint; const msg: PChar); cdecl; external LIBXMLSEC_SO;
+  procedure xmlSecError (const file_: PAnsiChar; line: Longint; const func: PAnsiChar; const errorObject: PAnsiChar; const errorSubject: PAnsiChar; reason: Longint; const msg: PAnsiChar); cdecl; varargs; external LIBXMLSEC_SO;
+  procedure xmlSecErrorsDefaultCallback (const file_: PAnsiChar; line: Longint; const func: PAnsiChar; const errorObject: PAnsiChar; const errorSubject: PAnsiChar; reason: Longint; const msg: PAnsiChar); cdecl; external LIBXMLSEC_SO;
   procedure xmlSecErrorsDefaultCallbackEnableOutput (enabled: Longint); cdecl; external LIBXMLSEC_SO;
   function xmlSecErrorsGetCode (pos: xmlSecSize) : Longint; cdecl; external LIBXMLSEC_SO;
-  function xmlSecErrorsGetMsg (pos: xmlSecSize) : PChar; cdecl; external LIBXMLSEC_SO;
+  function xmlSecErrorsGetMsg (pos: xmlSecSize) : PAnsiChar; cdecl; external LIBXMLSEC_SO;
   procedure xmlSecErrorsInit (); cdecl; external LIBXMLSEC_SO;
   procedure xmlSecErrorsSetCallback (callback: xmlSecErrorsCallback); cdecl; external LIBXMLSEC_SO;
   procedure xmlSecErrorsShutdown (); cdecl; external LIBXMLSEC_SO;
@@ -1016,7 +1016,7 @@ type
   function xmlSecKeyInfoNodeWrite (keyInfoNode: xmlNodePtr; key: xmlSecKeyPtr; keyInfoCtx: xmlSecKeyInfoCtxPtr) : Longint; cdecl; external LIBXMLSEC_SO;
   function xmlSecKeyMatch (key: xmlSecKeyPtr; const name: xmlCharPtr; keyReq: xmlSecKeyReqPtr) : Longint; cdecl; external LIBXMLSEC_SO;
   function xmlSecKeyPtrListGetKlass () : xmlSecPtrListId; cdecl; external LIBXMLSEC_SO;
-  function xmlSecKeyReadBinaryFile (dataId: xmlSecKeyDataId; const filename: PChar) : xmlSecKeyPtr; cdecl; external LIBXMLSEC_SO;
+  function xmlSecKeyReadBinaryFile (dataId: xmlSecKeyDataId; const filename: PAnsiChar) : xmlSecKeyPtr; cdecl; external LIBXMLSEC_SO;
   function xmlSecKeyReadBuffer (dataId: xmlSecKeyDataId; buffer: xmlSecBufferPtr) : xmlSecKeyPtr; cdecl; external LIBXMLSEC_SO;
   function xmlSecKeyReadMemory (dataId: xmlSecKeyDataId; const data: xmlSecBytePtr; dataSize: xmlSecSize) : xmlSecKeyPtr; cdecl; external LIBXMLSEC_SO;
   function xmlSecKeyReqCopy (dst: xmlSecKeyReqPtr; src: xmlSecKeyReqPtr) : Longint; cdecl; external LIBXMLSEC_SO;
@@ -1061,7 +1061,7 @@ type
   function xmlSecNodeSetDumpTextNodes (nset: xmlSecNodeSetPtr; out_: xmlOutputBufferPtr) : Longint; cdecl; external LIBXMLSEC_SO;
   function xmlSecNodeSetGetChildren (doc: xmlDocPtr; const parent: xmlNodePtr; withComments: Longint; invert: Longint) : xmlSecNodeSetPtr; cdecl; external LIBXMLSEC_SO;
   function xmlSecNodeSetWalk (nset: xmlSecNodeSetPtr; walkFunc: xmlSecNodeSetWalkCallback; data: Pointer) : Longint; cdecl; external LIBXMLSEC_SO;
-  function xmlSecParseFile (const filename: PChar) : xmlDocPtr; cdecl; external LIBXMLSEC_SO;
+  function xmlSecParseFile (const filename: PAnsiChar) : xmlDocPtr; cdecl; external LIBXMLSEC_SO;
   function xmlSecParseMemory (const buffer: xmlSecBytePtr; size: xmlSecSize; recovery: Longint) : xmlDocPtr; cdecl; external LIBXMLSEC_SO;
   function xmlSecParseMemoryExt (const prefix: xmlSecBytePtr; prefixSize: xmlSecSize; const buffer: xmlSecBytePtr; bufferSize: xmlSecSize; const postfix: xmlSecBytePtr; postfixSize: xmlSecSize) : xmlDocPtr; cdecl; external LIBXMLSEC_SO;
   function xmlSecPtrListAdd (list: xmlSecPtrListPtr; item: xmlSecPtr) : Longint; cdecl; external LIBXMLSEC_SO;
@@ -1104,8 +1104,8 @@ type
   function xmlSecSimpleKeysStoreAdoptKey (store: xmlSecKeyStorePtr; key: xmlSecKeyPtr) : Longint; cdecl; external LIBXMLSEC_SO;
   function xmlSecSimpleKeysStoreGetKeys (store: xmlSecKeyStorePtr) : xmlSecPtrListPtr; cdecl; external LIBXMLSEC_SO;
   function xmlSecSimpleKeysStoreGetKlass () : xmlSecKeyStoreId; cdecl; external LIBXMLSEC_SO;
-  function xmlSecSimpleKeysStoreLoad (store: xmlSecKeyStorePtr; const uri: PChar; keysMngr: xmlSecKeysMngrPtr) : Longint; cdecl; external LIBXMLSEC_SO;
-  function xmlSecSimpleKeysStoreSave (store: xmlSecKeyStorePtr; const filename: PChar; type_: xmlSecKeyDataType) : Longint; cdecl; external LIBXMLSEC_SO;
+  function xmlSecSimpleKeysStoreLoad (store: xmlSecKeyStorePtr; const uri: PAnsiChar; keysMngr: xmlSecKeysMngrPtr) : Longint; cdecl; external LIBXMLSEC_SO;
+  function xmlSecSimpleKeysStoreSave (store: xmlSecKeyStorePtr; const filename: PAnsiChar; type_: xmlSecKeyDataType) : Longint; cdecl; external LIBXMLSEC_SO;
   function xmlSecSoap11AddBodyEntry (envNode: xmlNodePtr; entryNode: xmlNodePtr) : xmlNodePtr; cdecl; external LIBXMLSEC_SO;
   function xmlSecSoap11AddFaultEntry (envNode: xmlNodePtr; const faultCodeHref: xmlCharPtr; const faultCodeLocalPart: xmlCharPtr; const faultString: xmlCharPtr; const faultActor: xmlCharPtr) : xmlNodePtr; cdecl; external LIBXMLSEC_SO;
   function xmlSecSoap11CheckEnvelope (envNode: xmlNodePtr) : Longint; cdecl; external LIBXMLSEC_SO;
@@ -1670,8 +1670,12 @@ type
 
 implementation
 uses
-{$IFDEF WIN32}
-  Windows,
+{$IFDEF FPC}
+   DynLibs,
+{$ELSE}
+  {$IFDEF WIN32}
+    Windows,
+  {$ENDIF}
 {$ENDIF}
   SysUtils;
 
@@ -3246,7 +3250,7 @@ end;
 var
    pxmlSecNodeEncryptedKey: xmlCharPtr;
 
-function xmlSecNodeEncryptedKey: xmlCharPtr; cdecl;
+function xmlSecNodeEncryptedKey: xmlCharPtr;  cdecl;
 begin
   CheckForNil(pxmlSecNodeEncryptedKey, 'xmlSecNodeEncryptedKey');
   Result := pxmlSecNodeEncryptedKey;
