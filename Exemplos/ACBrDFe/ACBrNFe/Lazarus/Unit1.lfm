@@ -2250,6 +2250,7 @@ object Form1: TForm1
     top = 376
   end
   object ACBrNFe1: TACBrNFe
+    MAIL = ACBrMail1
     OnStatusChange = ACBrNFe1StatusChange
     OnGerarLog = ACBrNFe1GerarLog
     Configuracoes.Geral.SSLLib = libOpenSSL
@@ -2342,5 +2343,14 @@ object Form1: TForm1
     ExibirEAN = False
     left = 763
     top = 377
+  end
+  object ACBrMail1: TACBrMail
+    Host = '127.0.0.1'
+    Port = '25'
+    SetSSL = False
+    SetTLS = False
+    Attempts = 3
+    left = 723
+    top = 346
   end
 end

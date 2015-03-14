@@ -110,13 +110,9 @@ type
     function GetNameSpaceURI: String; virtual;
 
     function Gravar(NomeArquivo: String; ConteudoXML: String; aPath: String = ''): Boolean;
-    procedure EnviarEmail(const sSmtpHost, sSmtpPort, sSmtpUser,
-      sSmtpPasswd, sFrom, sTo, sAssunto: String; sMensagem: TStrings;
-      SSL: Boolean; sCC: TStrings = nil; Anexos: TStrings = nil;
-      PedeConfirma: Boolean = False; AguardarEnvio: Boolean = False;
-      NomeRemetente: String = ''; TLS: Boolean = True;
-      StreamNFe: TStringStream = nil; NomeArq: String = '';
-      UsarThread: Boolean = True; HTML: Boolean = False);
+    procedure EnviarEmail(sPara, sAssunto: String;
+      sMensagem: TStrings = nil; sCC: TStrings = nil; Anexos: TStrings = nil;
+      StreamNFe: TStringStream = nil; NomeArq: String = ''); virtual;
 
     procedure LerServicoDeParams(const ModeloDFe, UF: String;
       const TipoAmbiente: TpcnTipoAmbiente; const NomeServico: String;
@@ -265,14 +261,40 @@ begin
   end;
 end;
 
-procedure TACBrDFe.EnviarEmail(
-  const sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo, sAssunto: String;
-  sMensagem: TStrings; SSL: Boolean; sCC: TStrings; Anexos: TStrings;
-  PedeConfirma: Boolean; AguardarEnvio: Boolean; NomeRemetente: String;
-  TLS: Boolean; StreamNFe: TStringStream; NomeArq: String; UsarThread: Boolean;
-  HTML: Boolean);
+procedure TACBrDFe.EnviarEmail(sPara, sAssunto: String; sMensagem: TStrings;
+  sCC: TStrings; Anexos: TStrings; StreamNFe: TStringStream; NomeArq: String);
+var
+  msg_lines, CorpoEmail: TStringList;
+  i : Integer;
 begin
-  // TODO: Fazer envio de e-mail usando ACBrMail
+  if not Assigned(MAIL) then
+    raise EACBrDFeException.Create('Componente ACBrMail não associado a ACBrNFe');
+
+  MAIL.AddAddress( sPara );
+  MAIL.Subject := sAssunto;
+
+  if Assigned(sMensagem) then
+  begin
+    MAIL.Body.Assign(sMensagem);
+    MAIL.AltBody.Assign(sMensagem);
+  end;
+
+  if Assigned(StreamNFe) then
+    MAIL.AddAttachment(StreamNFe, NomeArq);
+
+  if Assigned(Anexos) then
+  begin
+    for i := 0 to Anexos.Count - 1 do
+      MAIL.AddAttachment(Anexos[i]);
+  end;
+
+  if Assigned(sCC) then
+  begin
+    for i := 0 to sCC.Count - 1 do
+      MAIL.AddCC(sCC[i]);
+  end;
+
+  MAIL.Send;
 end;
 
 function TACBrDFe.GetNomeArquivoServicos: String;

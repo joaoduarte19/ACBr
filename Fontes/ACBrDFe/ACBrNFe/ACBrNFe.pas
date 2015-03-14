@@ -108,6 +108,10 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
+    procedure EnviarEmail(sPara, sAssunto: String;
+      sMensagem: TStrings = nil; sCC: TStrings = nil; Anexos: TStrings = nil;
+      StreamNFe: TStringStream = nil; NomeArq: String = ''); overload;
+
     function Enviar(ALote: integer; Imprimir: Boolean = True;
       Sincrono: Boolean = False): Boolean; overload;
 
@@ -210,6 +214,18 @@ begin
   FRetDownloadNFe.Free;
 
   inherited;
+end;
+
+procedure TACBrNFe.EnviarEmail(sPara, sAssunto: String; sMensagem: TStrings;
+  sCC: TStrings; Anexos: TStrings; StreamNFe: TStringStream; NomeArq: String);
+begin
+  SetStatus( stNFeEmail );
+
+  try
+    inherited EnviarEmail(sPara, sAssunto, sMensagem, sCC, Anexos, StreamNFe, NomeArq);
+  finally
+    SetStatus( stIdle );
+  end;
 end;
 
 procedure TACBrNFe.Notification(AComponent: TComponent; Operation: TOperation);

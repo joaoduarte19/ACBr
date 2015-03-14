@@ -8,7 +8,7 @@ interface
 uses IniFiles,
   SynMemo, SynHighlighterXML, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, Buttons, ComCtrls,
-  ACBrNFe, ACBrNFeDANFeRLClass, pcnNFeRTXT,
+  ACBrNFe, ACBrMail, ACBrNFeDANFeRLClass, pcnNFeRTXT,
   ACBrDANFCeFortesFr, ACBrNFeDANFeESCPOS;
 
 type
@@ -16,6 +16,7 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
+    ACBrMail1: TACBrMail;
     ACBrNFeDANFeRL1: TACBrNFeDANFeRL;
     Button1: TButton;
     Button2: TButton;

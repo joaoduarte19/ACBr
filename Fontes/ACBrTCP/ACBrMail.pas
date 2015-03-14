@@ -1,38 +1,38 @@
 {******************************************************************************}
 { Projeto: Componentes ACBr                                                    }
-{  Biblioteca multiplataforma de componentes Delphi para intera√ß√£o com equipa- }
-{ mentos de Automa√ß√£o Comercial utilizados no Brasil                           }
+{  Biblioteca multiplataforma de componentes Delphi para interaÁ„o com equipa- }
+{ mentos de AutomaÁ„o Comercial utilizados no Brasil                           }
 {                                                                              }
 { Direitos Autorais Reservados (c) 2013 Jean Patrick Figueiredo dos Santos     }
 {                                       Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
-{         Silvio Cl√©cio - xmailer - https://github.com/silvioprog/xmailer      }
+{         Silvio ClÈcio - xmailer - https://github.com/silvioprog/xmailer      }
 {         Projeto PHPMailer - https://github.com/Synchro/PHPMailer             }
 {                                                                              }
-{  Voc√™ pode obter a √∫ltima vers√£o desse arquivo na pagina do  Projeto ACBr    }
+{  VocÍ pode obter a ˙ltima vers„o desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
 {                                                                              }
 { Esse arquivo usa a classe  SynaSer   Copyright (c)2001-2003, Lukas Gebauer   }
 {  Project : Ararat Synapse     (Found at URL: http://www.ararat.cz/synapse/)  }
 {                                                                              }
-{  Esta biblioteca √© software livre; voc√™ pode redistribu√≠-la e/ou modific√°-la }
-{ sob os termos da Licen√ßa P√∫blica Geral Menor do GNU conforme publicada pela  }
-{ Free Software Foundation; tanto a vers√£o 2.1 da Licen√ßa, ou (a seu crit√©rio) }
-{ qualquer vers√£o posterior.                                                   }
+{  Esta biblioteca È software livre; vocÍ pode redistribuÌ-la e/ou modific·-la }
+{ sob os termos da LicenÁa P˙blica Geral Menor do GNU conforme publicada pela  }
+{ Free Software Foundation; tanto a vers„o 2.1 da LicenÁa, ou (a seu critÈrio) }
+{ qualquer vers„o posterior.                                                   }
 {                                                                              }
-{  Esta biblioteca √© distribu√≠da na expectativa de que seja √∫til, por√©m, SEM   }
-{ NENHUMA GARANTIA; nem mesmo a garantia impl√≠cita de COMERCIABILIDADE OU      }
-{ ADEQUA√á√ÉO A UMA FINALIDADE ESPEC√çFICA. Consulte a Licen√ßa P√∫blica Geral Menor}
-{ do GNU para mais detalhes. (Arquivo LICEN√áA.TXT ou LICENSE.TXT)              }
+{  Esta biblioteca È distribuÌda na expectativa de que seja ˙til, porÈm, SEM   }
+{ NENHUMA GARANTIA; nem mesmo a garantia implÌcita de COMERCIABILIDADE OU      }
+{ ADEQUA«√O A UMA FINALIDADE ESPECÕFICA. Consulte a LicenÁa P˙blica Geral Menor}
+{ do GNU para mais detalhes. (Arquivo LICEN«A.TXT ou LICENSE.TXT)              }
 {                                                                              }
-{  Voc√™ deve ter recebido uma c√≥pia da Licen√ßa P√∫blica Geral Menor do GNU junto}
-{ com esta biblioteca; se n√£o, escreva para a Free Software Foundation, Inc.,  }
-{ no endere√ßo 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
-{ Voc√™ tamb√©m pode obter uma copia da licen√ßa em:                              }
+{  VocÍ deve ter recebido uma cÛpia da LicenÁa P˙blica Geral Menor do GNU junto}
+{ com esta biblioteca; se n„o, escreva para a Free Software Foundation, Inc.,  }
+{ no endereÁo 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
+{ VocÍ tambÈm pode obter uma copia da licenÁa em:                              }
 { http://www.opensource.org/licenses/lgpl-license.php                          }
 {                                                                              }
-{ Daniel Sim√µes de Almeida  -  daniel@djsystem.com.br  -  www.djsystem.com.br  }
+{ Daniel Simıes de Almeida  -  daniel@djsystem.com.br  -  www.djsystem.com.br  }
 {                                                                              }
 {******************************************************************************}
 
@@ -103,6 +103,7 @@ type
     fReplyTo             : TStringList;
     fBCC                 : TStringList;
     fThread              : TACBrThread;
+    fUseThread           : boolean;
 
     fDefaultCharsetCode  : TMimeChar;
 
@@ -138,13 +139,14 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure MailProcess(const aStatus: TMailStatus);
-    procedure Send(UseThread: Boolean = False);
+    procedure Send(UseThreadNow: Boolean); overload;
+    procedure Send; overload;
     procedure Clear;
 
     procedure AddAttachment(aFileName: string; aNameRef: string); overload;
     procedure AddAttachment(aFileName: string); overload;
-    procedure AddAttachment(aStream: TMemoryStream; aNameRef: string); overload;
-    procedure AddAttachment(aStream: TMemoryStream); overload;
+    procedure AddAttachment(aStream: TStream; aNameRef: string); overload;
+    procedure AddAttachment(aStream: TStream); overload;
 
     procedure AddAddress(aEmail: string; aName: string = '');
     procedure AddReplyTo(aEmail: string; aName: string = '');
@@ -166,11 +168,12 @@ type
     property Priority: TMessPriority read GetPriority write SetPriority default MP_normal;
     property ReadingConfirmation: boolean read fReadingConfirmation write fReadingConfirmation default False;
     property IsHTML: boolean read fIsHTML write fIsHTML default False;
+    property UseThread: boolean read fUseThread write fUseThread default False;
     property Attempts: Byte read fAttempts write fAttempts;
     property From: string read fFrom write fFrom;
     property FromName: string read fFromName write fFromName;
     property Subject: string read fSubject write fSubject;
-    property DefaultCharset: TMailCharset read fDefaultCharsetCode write fDefaultCharsetCode default ISO_8859_1;
+    property DefaultCharset: TMailCharset read fDefaultCharsetCode write fDefaultCharsetCode;
     property OnBeforeMailProcess: TNotifyEvent read fOnBeforeMailProcess write fOnBeforeMailProcess;
     property OnMailProcess: TACBrOnMailProcess read fOnMailProcess write fOnMailProcess;
     property OnAfterMailProcess: TNotifyEvent read fOnAfterMailProcess write fOnAfterMailProcess;
@@ -307,9 +310,10 @@ begin
 
   SetLength(fAttachments, 0);
   SetPriority(MP_normal);
-  fDefaultCharsetCode := ISO_8859_1;
+  fDefaultCharsetCode := {$IFDEF UNICODE}UTF_8{$ELSE}CP1252{$ENDIF};
   fReadingConfirmation := False;
-  IsHTML := False;
+  fIsHTML := False;
+  fUseThread := False;
   fAttempts := 3;
   fFrom := '';
   fFromName := '';
@@ -343,15 +347,22 @@ begin
   inherited Destroy;
 end;
 
-procedure TACBrMail.Send(UseThread: Boolean);
+procedure TACBrMail.Send(UseThreadNow: Boolean);
 begin
-  if UseThread then
+  if UseThreadNow then
   begin
-    if fThread <> nil Then fThread.Terminate;
+    if fThread <> nil Then
+      fThread.Terminate;
+
     fThread := TACBrThread.Criar(Self);
   end
   else
     SendMail;
+end;
+
+procedure TACBrMail.Send;
+begin
+  Send( UseThread );
 end;
 
 procedure TACBrMail.SendMail;
@@ -373,6 +384,7 @@ begin
 
   MailProcess(pmsStartProcess);
 
+  //TODO:
   if fDefaultCharsetCode <> UTF_8 then
     fBody.Text := CharsetConversion(fBody.Text, UTF_8, fDefaultCharsetCode);
 
@@ -381,7 +393,6 @@ begin
 
   if fIsHTML then
   begin
-
     vMIMEPart := nil;
 
     if (fAltBody.Text <> '') then
@@ -525,6 +536,7 @@ begin
 
   fMIMEMess.Header.CharsetCode := fDefaultCharsetCode;
 
+  //TODO:
   if fDefaultCharsetCode <> UTF_8 then
     fMIMEMess.Header.Subject := CharsetConversion(fSubject, UTF_8, fDefaultCharsetCode)
   else
@@ -676,23 +688,25 @@ begin
   AddAttachment(aFileName, '');
 end;
 
-procedure TACBrMail.AddAttachment(aStream: TMemoryStream; aNameRef: string);
+procedure TACBrMail.AddAttachment(aStream: TStream; aNameRef: string);
 var
   i: integer;
 begin
   if not Assigned(aStream) then
     raise Exception.Create('Add Attachment: Access Violation.');
+
   i := Length(fAttachments);
   SetLength(fAttachments, i + 1);
+
+  aStream.Position := 0;
   fAttachments[i].FileName := '';
   fAttachments[i].Stream := TMemoryStream.Create;
   fAttachments[i].Stream.Position := 0;
-  aStream.Position := 0;
   fAttachments[i].Stream.CopyFrom(aStream, aStream.Size);
   fAttachments[i].NameRef := aNameRef;
 end;
 
-procedure TACBrMail.AddAttachment(aStream: TMemoryStream);
+procedure TACBrMail.AddAttachment(aStream: TStream);
 begin
   AddAttachment(aStream, '');
 end;
