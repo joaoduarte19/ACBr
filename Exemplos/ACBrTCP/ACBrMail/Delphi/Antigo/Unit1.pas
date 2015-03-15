@@ -18,10 +18,13 @@ type
     Label1: TLabel;
     Memo1: TMemo;
     ProgressBar1: TProgressBar;
+    Memo2: TMemo;
+    Edit1: TEdit;
     procedure ACBrMail1MailProcess(const aStatus: TMailStatus);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
   private
+    procedure EnviarEmail;
     { private declarations }
   public
     { public declarations }
@@ -38,33 +41,22 @@ implementation
 
 procedure TForm1.Button1Click(Sender: TObject);
 begin
+  Memo1.Lines.Clear;
   ProgressBar1.Position := 1;
-  Sleep(500);
-  ACBrMail1.From := 'seu_email';
-  ACBrMail1.FromName := 'seu_nome_opcional';
-  ACBrMail1.Host := 'smtp.gmail.com'; // troque pelo seu servidor smtp
-  ACBrMail1.Username := 'seu_usuario';
-  ACBrMail1.Password := 'sua_senha';
-  ACBrMail1.Port := '465'; // troque pela porta do seu servidor smtp
-  ACBrMail1.AddAddress('um_email','um_nome_opcional');
-  ACBrMail1.AddCC('um_email'); // opcional
-  ACBrMail1.AddReplyTo('um_email'); // opcional
-  ACBrMail1.AddBCC('um_email'); // opcional
-  ACBrMail1.Subject := 'Teste de Envio'; // assunto
   ACBrMail1.IsHTML := True; // define que a mensagem È html
   // mensagem principal do e-mail. pode ser html ou texto puro
   ACBrMail1.Body.Text :=
-  '<html>'+#13+#10+
-  '<head>'+#13+#10+#13+#10+
-  '  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">'+#13+#10+
-  '</head>'+#13+#10+
-  '<body text="#000000" bgcolor="#FFFFFF">'+#13+#10+
-  '<h1>Texto em HTML.</h1><br>'+#13+#10+
-  '</body>'+#13+#10+
-  '</html>'+#13+#10;
-  ACBrMail1.AltBody.Text := 'Texto puro alternativo.';
-  ACBrMail1.AddAttachment('um_arquivo','um_nome_opcional');
-  ACBrMail1.Send;
+  '<html>' +
+  '<head>' +
+  '<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">' +
+  '</head>' +
+  '<body text="#000000" bgcolor="#FFFFFF">' +
+  '<h1>Texto em HTML.</h1><br>' +
+  '<p>Teste de Envio ¡…Õ”⁄«Á·ÈÌ˙Û ›Õ√„ı’</p><br>' +
+  '</body>' +
+  '</html>';
+
+  EnviarEmail;
 end;
 
 procedure TForm1.ACBrMail1MailProcess(const aStatus: TMailStatus);
@@ -105,25 +97,32 @@ end;
 
 procedure TForm1.Button2Click(Sender: TObject);
 begin
+  Memo1.Lines.Clear;
   ProgressBar1.Position := 1;
-  Sleep(500);
-  ACBrMail1.From := 'seu_email';
-  ACBrMail1.FromName := 'seu_nome_opcional';
-  ACBrMail1.Host := 'smtp.gmail.com'; // troque pelo seu servidor smtp
-  ACBrMail1.Username := 'seu_usuario';
-  ACBrMail1.Password := 'sua_senha';
-  ACBrMail1.Port := '465'; // troque pela porta do seu servidor smtp
-  ACBrMail1.AddAddress('um_email','um_nome_opcional');
-  ACBrMail1.AddCC('um_email'); // opcional
-  ACBrMail1.AddReplyTo('um_email'); // opcional
-  ACBrMail1.AddBCC('um_email'); // opcional
-  ACBrMail1.Subject := 'Teste de Envio'; // assunto
+  //ACBrMail1.Priority := MP_high;
   ACBrMail1.IsHTML := False; // define que a mensagem È texto puro
   // mensagem principal do e-mail. pode ser html ou texto puro
-  ACBrMail1.ReadingConfirmation := True; // solicita confirmaÁ„o de leitura
-  ACBrMail1.Body.Text := 'Mensagem em texto puro.';
+  //ACBrMail1.ReadingConfirmation := True; // solicita confirmaÁ„o de leitura
+  EnviarEmail;
+end;
+
+procedure TForm1.EnviarEmail;
+begin
+  ACBrMail1.From := 'seu_email@gmail.com';
+  ACBrMail1.FromName := 'Fula de Tal';
+  ACBrMail1.Host := 'smtp.gmail.com'; // troque pelo seu servidor smtp
+  ACBrMail1.Username := 'seu_login_ou_email';
+  ACBrMail1.Password := 'sua_senha';
+  ACBrMail1.Port := '465'; // troque pela porta do seu servidor smtp
+  ACBrMail1.SetSSL := True;  // Verifique se o seu servidor necessita SSL
+  ACBrMail1.AddAddress('destinatario@gmail.com', 'Nome do destinat·rio');
+  //ACBrMail1.AddCC('um_email'); // opcional
+  //ACBrMail1.AddReplyTo('um_email'); // opcional
+  //ACBrMail1.AddBCC('um_email'); // opcional
+  ACBrMail1.Subject := Edit1.Text; // assunto
+  ACBrMail1.AltBody.Text := Memo2.Lines.Text;
+  //ACBrMail1.AddAttachment('c:\temp\imagem.png', 'imagem.png');
   ACBrMail1.Send;
 end;
 
 end.
-

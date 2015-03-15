@@ -37,9 +37,24 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/03/2015
+-- ACBrMail --    (por: DSA)
+[+] Adicionada a propriedade IDECharset, que permite definir qual o CharSet usado
+    pela IDE para a composição da Mensagem.
+    Atua em conjunto com a propriedade DefaultCharset, que será o CharSet
+    utilizado no email. Se IDECharset for diferente de DefaultCharset será
+    efetuada conversão.
+[+] Adicionada a propriedade "UseThread", que permite definir o modo padrão de
+    envio em Segundo Plano
+[*] Métodos "AddAttachment" modificados para aceitar genérico "TStream"
+[*] Sobrecarga no método "Send", para permitir o envio usando o valor da ]
+    propriedade "UseThread"
+
 18/02/2015
+-- ACBrConsultaCNPJ --
 [*] Correção para consulta de CNPJ!
-	  http://www.projetoacbr.com.br/forum/index.php?/topic/20046-corrigido-acbrconsultacnpj-para-p%C3%A1gina-nova/#entry127708
+    http://www.projetoacbr.com.br/forum/index.php?/topic/20046-corrigido-acbrconsultacnpj-para-p%C3%A1gina-nova/#entry127708
+
 07/02/2015
 -- ACBrConsultaCNPJ --
 [+] Adicionado suporte para leitura dos campos: EndEletronico, Telefone, EFR, 

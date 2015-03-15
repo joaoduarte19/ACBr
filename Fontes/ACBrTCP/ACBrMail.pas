@@ -106,6 +106,7 @@ type
     fUseThread           : boolean;
 
     fDefaultCharsetCode  : TMimeChar;
+    fIDECharsetCode      : TMimeChar;
 
     fOnAfterMailProcess  : TNotifyEvent;
     fOnBeforeMailProcess : TNotifyEvent;
@@ -174,6 +175,7 @@ type
     property FromName: string read fFromName write fFromName;
     property Subject: string read fSubject write fSubject;
     property DefaultCharset: TMailCharset read fDefaultCharsetCode write fDefaultCharsetCode;
+    property IDECharset: TMailCharset read fIDECharsetCode write fIDECharsetCode;
     property OnBeforeMailProcess: TNotifyEvent read fOnBeforeMailProcess write fOnBeforeMailProcess;
     property OnMailProcess: TACBrOnMailProcess read fOnMailProcess write fOnMailProcess;
     property OnAfterMailProcess: TNotifyEvent read fOnAfterMailProcess write fOnAfterMailProcess;
@@ -310,7 +312,8 @@ begin
 
   SetLength(fAttachments, 0);
   SetPriority(MP_normal);
-  fDefaultCharsetCode := {$IFDEF UNICODE}UTF_8{$ELSE}CP1252{$ENDIF};
+  fDefaultCharsetCode := UTF_8;
+  fIDECharsetCode := {$IFDEF FPC}UTF_8{$ELSE}CP1252{$ENDIF};
   fReadingConfirmation := False;
   fIsHTML := False;
   fUseThread := False;
@@ -384,12 +387,14 @@ begin
 
   MailProcess(pmsStartProcess);
 
-  //TODO:
-  if fDefaultCharsetCode <> UTF_8 then
-    fBody.Text := CharsetConversion(fBody.Text, UTF_8, fDefaultCharsetCode);
+  if fDefaultCharsetCode <> fIDECharsetCode then
+  begin
+    if fBody.Count > 0 then
+      fBody.Text := CharsetConversion(fBody.Text, fIDECharsetCode, fDefaultCharsetCode);
 
-  if fDefaultCharsetCode <> UTF_8 then
-    fAltBody.Text := CharsetConversion(fAltBody.Text, UTF_8, fDefaultCharsetCode);
+    if fAltBody.Count > 0 then
+      fAltBody.Text := CharsetConversion(fAltBody.Text, fIDECharsetCode, fDefaultCharsetCode);
+  end;
 
   if fIsHTML then
   begin
@@ -536,9 +541,8 @@ begin
 
   fMIMEMess.Header.CharsetCode := fDefaultCharsetCode;
 
-  //TODO:
-  if fDefaultCharsetCode <> UTF_8 then
-    fMIMEMess.Header.Subject := CharsetConversion(fSubject, UTF_8, fDefaultCharsetCode)
+  if fDefaultCharsetCode <> fIDECharsetCode then
+    fMIMEMess.Header.Subject := CharsetConversion(fSubject, fIDECharsetCode, fDefaultCharsetCode)
   else
     fMIMEMess.Header.Subject := fSubject;
 
