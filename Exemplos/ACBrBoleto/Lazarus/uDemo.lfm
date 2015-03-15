@@ -1,7 +1,7 @@
 object frmDemo: TfrmDemo
-  Left = 442
+  Left = 350
   Height = 601
-  Top = 166
+  Top = 79
   Width = 811
   Caption = 'Demo ACBrBoleto'
   ClientHeight = 601
@@ -189,7 +189,7 @@ object frmDemo: TfrmDemo
     ClientWidth = 811
     TabOrder = 5
     object btnIncluiBoleto: TButton
-      Left = 360
+      Left = 392
       Height = 33
       Top = 7
       Width = 99
@@ -198,7 +198,7 @@ object frmDemo: TfrmDemo
       TabOrder = 0
     end
     object btnIncluir10Boletos: TButton
-      Left = 472
+      Left = 491
       Height = 33
       Top = 7
       Width = 128
@@ -207,7 +207,7 @@ object frmDemo: TfrmDemo
       TabOrder = 1
     end
     object btnGerarRemessa: TButton
-      Left = 608
+      Left = 624
       Height = 33
       Top = 7
       Width = 103
@@ -216,7 +216,7 @@ object frmDemo: TfrmDemo
       TabOrder = 2
     end
     object btnImprimir: TButton
-      Left = 724
+      Left = 728
       Height = 33
       Top = 7
       Width = 75
@@ -225,7 +225,7 @@ object frmDemo: TfrmDemo
       TabOrder = 3
     end
     object btnZerar: TButton
-      Left = 224
+      Left = 267
       Height = 33
       Top = 7
       Width = 123
@@ -234,7 +234,7 @@ object frmDemo: TfrmDemo
       TabOrder = 4
     end
     object Button1: TButton
-      Left = 112
+      Left = 96
       Height = 33
       Top = 7
       Width = 75
@@ -243,13 +243,22 @@ object frmDemo: TfrmDemo
       TabOrder = 5
     end
     object Button2: TButton
-      Left = 12
+      Left = 8
       Height = 33
       Top = 7
       Width = 82
       Caption = 'Gerar HTML'
       OnClick = Button2Click
       TabOrder = 6
+    end
+    object Button4: TButton
+      Left = 176
+      Height = 33
+      Top = 7
+      Width = 80
+      Caption = 'Enviar Email'
+      OnClick = Button4Click
+      TabOrder = 7
     end
   end
   object GroupBox1: TGroupBox
@@ -707,6 +716,7 @@ object frmDemo: TfrmDemo
     end
   end
   object ACBrBoleto1: TACBrBoleto
+    MAIL = ACBrMail1
     Banco.Numero = 104
     Banco.TamanhoMaximoNossoNum = 0
     Banco.TipoCobranca = cobCaixaSicob
@@ -753,5 +763,23 @@ object frmDemo: TfrmDemo
     SoftwareHouse = 'Projeto ACBr - http://acbr.sf.net'
     left = 80
     top = 224
+  end
+  object ACBrMail1: TACBrMail
+    Host = 'smtp.gmail.com'
+    Port = '465'
+    Username = 'seu_email@gmail.com'
+    Password = 'sua_senha'
+    SetSSL = True
+    SetTLS = False
+    IsHTML = True
+    UseThread = True
+    Attempts = 3
+    From = 'seu_email@gmail.com'
+    FromName = 'Fulano de Tal'
+    Subject = 'Envio de Boleto de Cobrança'
+    DefaultCharset = UTF_8
+    IDECharset = UTF_8
+    left = 235
+    top = 265
   end
 end

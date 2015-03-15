@@ -604,6 +604,9 @@ var
   AnexosEmail:TStrings;
   StreamNFe : TMemoryStream;
 begin
+  if not Assigned(TACBrNFe(TNotasFiscais(Collection).ACBrNFe).MAIL) then
+    raise EACBrNFeException.Create('Componente ACBrMail não associado');
+
   AnexosEmail := TStringList.Create;
   StreamNFe := TMemoryStream.Create;
   try

@@ -30,28 +30,31 @@
         <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="5">
+    <RequiredPackages Count="6">
       <Item1>
-        <PackageName Value="ACBr_BoletoFC_Fortes"/>
-        <MinVersion Minor="1" Valid="True"/>
+        <PackageName Value="ACBrTCP"/>
       </Item1>
       <Item2>
-        <PackageName Value="lazreport"/>
-        <MinVersion Minor="9" Release="7" Valid="True"/>
+        <PackageName Value="ACBr_BoletoFC_Fortes"/>
+        <MinVersion Minor="1" Valid="True"/>
       </Item2>
       <Item3>
-        <PackageName Value="ACBr_BoletoFC_LazReport"/>
-        <MinVersion Minor="1" Valid="True"/>
+        <PackageName Value="lazreport"/>
+        <MinVersion Minor="9" Release="7" Valid="True"/>
       </Item3>
       <Item4>
-        <PackageName Value="ACBr_Boleto"/>
-        <MinVersion Valid="True"/>
+        <PackageName Value="ACBr_BoletoFC_LazReport"/>
+        <MinVersion Minor="1" Valid="True"/>
       </Item4>
       <Item5>
-        <PackageName Value="LCL"/>
+        <PackageName Value="ACBr_Boleto"/>
+        <MinVersion Valid="True"/>
       </Item5>
+      <Item6>
+        <PackageName Value="LCL"/>
+      </Item6>
     </RequiredPackages>
-    <Units Count="116">
+    <Units Count="118">
       <Unit0>
         <Filename Value="AcbrBoletoDemo.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -68,11 +71,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uDemo"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="242"/>
-        <CursorPos X="8" Y="248"/>
+        <TopLine Value="280"/>
+        <CursorPos X="122" Y="292"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -95,11 +97,15 @@
       <Unit3>
         <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBoleto.pas"/>
         <UnitName Value="ACBrBoleto"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="944"/>
-        <CursorPos X="1" Y="954"/>
-        <UsageCount Value="87"/>
+        <TopLine Value="1274"/>
+        <CursorPos X="23" Y="1288"/>
+        <UsageCount Value="89"/>
+        <Bookmarks Count="2">
+          <Item0 X="12" Y="782" ID="2"/>
+          <Item1 X="11" Y="1272" ID="1"/>
+        </Bookmarks>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
@@ -360,11 +366,11 @@
       <Unit36>
         <Filename Value="..\..\..\Fontes\ACBrComum\ACBrUtil.pas"/>
         <UnitName Value="ACBrUtil"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="2074"/>
-        <CursorPos X="38" Y="2088"/>
-        <UsageCount Value="34"/>
+        <TopLine Value="1927"/>
+        <CursorPos X="22" Y="1929"/>
+        <UsageCount Value="35"/>
         <Loaded Value="True"/>
       </Unit36>
       <Unit37>
@@ -961,12 +967,10 @@
       <Unit108>
         <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoHSBC.pas"/>
         <UnitName Value="ACBrBancoHSBC"/>
-        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="190"/>
         <CursorPos X="1" Y="200"/>
         <UsageCount Value="27"/>
-        <Loaded Value="True"/>
       </Unit108>
       <Unit109>
         <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBanestes.pas"/>
@@ -1021,8 +1025,150 @@
         <CursorPos X="1" Y="12218"/>
         <UsageCount Value="10"/>
       </Unit115>
+      <Unit116>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <UnitName Value="ACBrMail"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="128"/>
+        <CursorPos X="15" Y="137"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit116>
+      <Unit117>
+        <Filename Value="..\..\..\Fontes\Terceiros\synalist\mimemess.pas"/>
+        <UnitName Value="mimemess"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="274"/>
+        <CursorPos X="75" Y="288"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit117>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="..\..\..\Fontes\Terceiros\synalist\mimemess.pas"/>
+        <Caret Line="756" Column="1" TopLine="745"/>
+      </Position1>
+      <Position2>
+        <Filename Value="..\..\..\Fontes\Terceiros\synalist\mimemess.pas"/>
+        <Caret Line="757" Column="1" TopLine="745"/>
+      </Position2>
+      <Position3>
+        <Filename Value="..\..\..\Fontes\Terceiros\synalist\mimemess.pas"/>
+        <Caret Line="758" Column="1" TopLine="745"/>
+      </Position3>
+      <Position4>
+        <Filename Value="..\..\..\Fontes\Terceiros\synalist\mimemess.pas"/>
+        <Caret Line="759" Column="1" TopLine="745"/>
+      </Position4>
+      <Position5>
+        <Filename Value="..\..\..\Fontes\Terceiros\synalist\mimemess.pas"/>
+        <Caret Line="739" Column="1" TopLine="729"/>
+      </Position5>
+      <Position6>
+        <Filename Value="..\..\..\Fontes\Terceiros\synalist\mimemess.pas"/>
+        <Caret Line="740" Column="1" TopLine="729"/>
+      </Position6>
+      <Position7>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="492" Column="20" TopLine="487"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position8>
+      <Position9>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="67" Column="26" TopLine="51"/>
+      </Position9>
+      <Position10>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="715" Column="3" TopLine="712"/>
+      </Position10>
+      <Position11>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="700" Column="27" TopLine="693"/>
+      </Position11>
+      <Position12>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="760" Column="27" TopLine="744"/>
+      </Position12>
+      <Position13>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="646" Column="3" TopLine="646"/>
+      </Position13>
+      <Position14>
+        <Filename Value="..\..\..\Fontes\Terceiros\synalist\mimemess.pas"/>
+        <Caret Line="723" Column="1" TopLine="723"/>
+      </Position14>
+      <Position15>
+        <Filename Value="..\..\..\Fontes\Terceiros\synalist\mimemess.pas"/>
+        <Caret Line="768" Column="22" TopLine="749"/>
+      </Position15>
+      <Position16>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="482" Column="43" TopLine="469"/>
+      </Position16>
+      <Position17>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="478" Column="32" TopLine="475"/>
+      </Position17>
+      <Position18>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="479" Column="68" TopLine="475"/>
+      </Position18>
+      <Position19>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="481" Column="55" TopLine="475"/>
+      </Position19>
+      <Position20>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="507" Column="27" TopLine="489"/>
+      </Position20>
+      <Position21>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="543" Column="27" TopLine="525"/>
+      </Position21>
+      <Position22>
+        <Filename Value="..\..\..\Fontes\Terceiros\synalist\mimemess.pas"/>
+        <Caret Line="731" Column="24" TopLine="723"/>
+      </Position22>
+      <Position23>
+        <Filename Value="uDemo.pas"/>
+        <Caret Line="286" Column="19" TopLine="278"/>
+      </Position23>
+      <Position24>
+        <Filename Value="uDemo.pas"/>
+        <Caret Line="287" Column="46" TopLine="280"/>
+      </Position24>
+      <Position25>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="475" Column="19" TopLine="471"/>
+      </Position25>
+      <Position26>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position26>
+      <Position27>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="55" Column="24" TopLine="38"/>
+      </Position27>
+      <Position28>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="60" Column="79" TopLine="43"/>
+      </Position28>
+      <Position29>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="90" Column="37" TopLine="73"/>
+      </Position29>
+      <Position30>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Caret Line="138" Column="19" TopLine="121"/>
+      </Position30>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
@@ -1046,6 +1192,15 @@
     </Other>
   </CompilerOptions>
   <Debugging>
+    <BreakPoints Count="1">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="..\..\..\Fontes\ACBrTCP\ACBrMail.pas"/>
+        <Line Value="360"/>
+      </Item1>
+    </BreakPoints>
     <Exceptions Count="8">
       <Item1>
         <Name Value="EAbort"/>

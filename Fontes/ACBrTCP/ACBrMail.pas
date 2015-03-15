@@ -281,9 +281,12 @@ begin
   if Length(fAttachments) > 0 then
   begin
     for i := 0 to Length(fAttachments) - 1 do
-      if Assigned(fAttachments[i].Stream) then fAttachments[i].Stream.Free;
+      if Assigned(fAttachments[i].Stream) then
+        fAttachments[i].Stream.Free;
+
     SetLength(fAttachments, 0);
   end;
+
   fSMTP.Reset;
   fMIMEMess.Header.Clear;
   fMIMEMess.Clear;
@@ -467,6 +470,7 @@ begin
         begin
           if (Trim(fAttachments[i].NameRef) = '') then
             fAttachments[i].NameRef := 'file_' + FormatDateTime('hhnnsszzz',Now);
+
           fMIMEMess.AddPartHTMLBinary(fAttachments[i].Stream, fAttachments[i].NameRef, '<' +
             fAttachments[i].NameRef + '>', vMIMEPart);
         end
@@ -474,6 +478,7 @@ begin
         begin
           if (Trim(fAttachments[i].NameRef) = '') then
             fAttachments[i].NameRef := ExtractFileName(fAttachments[i].NameRef);
+
           fMIMEMess.AddPartHTMLBinaryFromFile(fAttachments[i].FileName,
             '<' + fAttachments[i].NameRef + '>', vMIMEPart);
         end;

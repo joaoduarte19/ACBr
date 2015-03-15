@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
   StdCtrls, EditBtn, ACBrBoleto, ACBrBoletoFCLazReportDm, ACBrBoletoFCFortesFr,
-  ExtCtrls, MaskEdit, Buttons, ACBrUtil;
+  ExtCtrls, MaskEdit, Buttons, ACBrUtil, ACBrMail;
 
 type
 
@@ -18,6 +18,7 @@ type
      ACBrBoleto1: TACBrBoleto;
      ACBrBoletoFCFortes1 : TACBrBoletoFCFortes ;
      ACBrBoletoFCLazReport1 : TACBrBoletoFCLazReport ;
+     ACBrMail1: TACBrMail;
      btnIncluiBoleto: TButton;
      btnIncluir10Boletos: TButton;
      btnGerarRemessa: TButton;
@@ -26,6 +27,7 @@ type
      Button1: TButton;
      Button2: TButton;
      Button3: TButton;
+     Button4: TButton;
      cbxAceite: TComboBox;
      cbxLayOut : TComboBox ;
      edtInstrucoes1: TEdit;
@@ -104,6 +106,7 @@ type
      procedure Button1Click ( Sender: TObject ) ;
      procedure Button2Click ( Sender: TObject ) ;
      procedure Button3Click(Sender: TObject);
+     procedure Button4Click(Sender: TObject);
      procedure cbxLayOutChange(Sender : TObject) ;
      procedure FormCreate ( Sender: TObject ) ;
   private
@@ -272,6 +275,21 @@ end;
 procedure TfrmDemo.Button3Click(Sender: TObject);
 begin
    ACBrBoleto1.LerRetorno();
+end;
+
+procedure TfrmDemo.Button4Click(Sender: TObject);
+var
+  SL: TStringList;
+begin
+  SL := TStringList.Create;
+  try
+    SL.Add('Olá,');
+    SL.Add('Atenção, Boleto está em Anexo');
+    ACBrBoleto1.EnviarEmail('destinatario@dominio.com.br','Teste de Envio de Email',
+                            SL, False);
+  finally
+    SL.Free;
+  end;
 end;
 
 procedure TfrmDemo.cbxLayOutChange(Sender : TObject) ;

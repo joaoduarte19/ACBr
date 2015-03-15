@@ -267,7 +267,7 @@ var
   i : Integer;
 begin
   if not Assigned(MAIL) then
-    raise EACBrDFeException.Create('Componente ACBrMail não associado a ACBrNFe');
+    raise EACBrDFeException.Create('Componente ACBrMail não associado');
 
   MAIL.AddAddress( sPara );
   MAIL.Subject := sAssunto;
@@ -275,7 +275,7 @@ begin
   if Assigned(sMensagem) then
   begin
     MAIL.Body.Assign(sMensagem);
-    MAIL.AltBody.Assign(sMensagem);
+    MAIL.AltBody.Text := (StripHTML(sMensagem.Text));
   end;
 
   if Assigned(StreamNFe) then

@@ -1928,7 +1928,7 @@ end ;
 -----------------------------------------------------------------------------}
 function ApplicationPath: String;
 begin
-  Result := ExtractFilePath(ParamStr(0));
+  Result := PathWithDelim(ExtractFilePath(ParamStr(0)));
 end;
 
 {-----------------------------------------------------------------------------
