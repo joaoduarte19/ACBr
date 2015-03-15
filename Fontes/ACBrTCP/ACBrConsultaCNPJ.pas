@@ -143,9 +143,8 @@ begin
     Self.HTTPGet('http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/cnpjreva_solicitacao2.asp');
     Html := Self.RespHTTP.Text;
 
-    URL := 'http://www.receita.fazenda.gov.br' +
-           StrEntreStr(Html, 'alt='+
-                        QuotedStr(ACBrStr('Imagem com os caracteres anti robô')) + ' src='+'''', '''');
+    URL := 'http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/' +
+           StrEntreStr(Html, '<img id="imgCaptcha" src="', '"');
 
     FViewState := StrEntreStr(Html, '<input type=hidden id=viewstate name=viewstate value='+'''', '''');
 
@@ -182,6 +181,9 @@ begin
   if Res = '' then
     if Pos( ACBrStr('Imagem com os caracteres anti robô'), Str) > 0 then
       Res := 'Catpcha errado.';
+
+    if Pos( ACBrStr( 'Erro na Consulta' ), Str ) > 0  then
+       Res := 'Erro na Consulta.';
 
   if Res = '' then
     if Pos(ACBrStr('O número do CNPJ não é válido. Verifique se o mesmo foi digitado corretamente.'), Str) > 0 then
@@ -236,10 +238,10 @@ begin
   Post:= TStringStream.Create('');
   try
     Post.WriteString('origem=comprovante&');
-    Post.WriteString('viewstate=' + EncodeURLElement(fviewstate)+'&');
     Post.WriteString('cnpj='+OnlyNumber(ACNPJ)+'&');
-    Post.WriteString('captcha='+Trim(ACaptcha)+'&');
-    Post.WriteString('captchaAudio=&');
+    Post.WriteString('txtTexto_captcha_serpro_gov_br='+Trim(ACaptcha)+'&');
+
+    Post.WriteString('opcao=Limpar&');
     Post.WriteString('submit1=Consultar&');
     Post.WriteString('search_type=cnpj');
     Post.Position:= 0;

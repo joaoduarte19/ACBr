@@ -127,20 +127,20 @@ end;
 procedure TFprincipal.LabAtualizarCaptchaClick(Sender: TObject);
 var
   Stream: TMemoryStream;
-  Jpg: TJPEGImage;
+  Png: TPortableNetworkGraphic;
 begin
   Stream:= TMemoryStream.Create;
-  Jpg:= TJPEGImage.Create;
+  Png:= TPortableNetworkGraphic.Create;
   try
     ACBrConsultaCNPJ1.Captcha(Stream);
-    Jpg.LoadFromStream(Stream);
-    Image1.Picture.Assign(Jpg);
+    Png.LoadFromStream(Stream);
+    Image1.Picture.Assign(Png);
 
     EditCaptcha.Clear;
     EditCaptcha.SetFocus;
   finally
     Stream.Free;
-    Jpg.Free;
+    Png.Free;
   end;
 end;
 

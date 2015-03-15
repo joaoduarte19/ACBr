@@ -37,6 +37,9 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+18/02/2015
+[*] Correção para consulta de CNPJ!
+	  http://www.projetoacbr.com.br/forum/index.php?/topic/20046-corrigido-acbrconsultacnpj-para-p%C3%A1gina-nova/#entry127708
 07/02/2015
 -- ACBrConsultaCNPJ --
 [+] Adicionado suporte para leitura dos campos: EndEletronico, Telefone, EFR, 

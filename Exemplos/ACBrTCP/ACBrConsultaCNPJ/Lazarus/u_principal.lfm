@@ -534,8 +534,6 @@ object Fprincipal: TFprincipal
     top = 288
   end
   object ACBrConsultaCNPJ1: TACBrConsultaCNPJ
-    ProxyHost = '192.168.93.1'
-    ProxyPort = '3128'
     left = 404
     top = 196
   end
