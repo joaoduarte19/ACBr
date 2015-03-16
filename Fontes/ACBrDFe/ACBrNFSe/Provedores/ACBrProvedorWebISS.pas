@@ -118,10 +118,11 @@ var
   ConfigSchema: TConfigSchema;
 begin
   case ACodCidade of
-   3303302, // Niteroi/RJ
-   3147907, // Passos/MG
-   4301602: // Bage/RS
-           begin
+  3303302, // Niteroi/RJ
+  3147907, // Passos/MG
+  4301602, // Bage/RS
+  3170107: // Uberaba/MG
+          begin
              ConfigSchema.VersaoCabecalho       := '1.00';
              ConfigSchema.VersaoDados           := ''; // '1.00';
              ConfigSchema.VersaoXML             := '1';
