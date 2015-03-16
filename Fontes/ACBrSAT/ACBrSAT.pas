@@ -437,6 +437,7 @@ begin
   IniciaComando;
   Result := FinalizaComando( fsSATClass.CancelarUltimaVenda(chave, dadosCancelamento) ) ;
 
+(*
   // Workaround para SAT Kryptus, que usa o prefixo como: "Cfe" ao inves de "CFe"
   if (fsResposta.codigoDeRetorno = 7007) and (LeftStr(chave,3) = CPREFIXO_CFe) then
   begin
@@ -447,6 +448,7 @@ begin
     CancelarUltimaVenda( chave, dadosCancelamento);  // Tenta novamente
     exit;                                            // cai fora por já tratou na chamada acima
   end;
+*)
 
   if fsResposta.codigoDeRetorno = 7000 then
   begin

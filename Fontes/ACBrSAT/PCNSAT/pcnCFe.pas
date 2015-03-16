@@ -302,6 +302,7 @@ type
   private
     FcProd: string;
     FcEAN: string;
+    FEhCombustivel: Boolean;
     FxProd: string;
     FNCM: string;
     FCFOP: string;
@@ -328,6 +329,7 @@ type
     property NCM: string read FNCM write FNCM;
     property CFOP: string read FCFOP write FCFOP;
     property uCom: string read FuCom write FuCom;
+    property EhCombustivel: Boolean read FEhCombustivel write FEhCombustivel;
     property qCom: currency read FqCom write FqCom;
     property vUnCom: double read FvUnCom write FvUnCom;
     property vProd: currency read FvProd write FvProd;
@@ -1090,6 +1092,7 @@ begin
   FvRatDesc := 0;
   FvRatAcr  := 0;
   FobsFiscoDet.Clear;
+  FEhCombustivel := False;
 end ;
 
 procedure TProd.SetobsFiscoDet(Value: TobsFiscoDetCollection);

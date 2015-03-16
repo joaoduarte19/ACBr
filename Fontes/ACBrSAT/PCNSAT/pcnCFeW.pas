@@ -271,7 +271,20 @@ begin
 end;
 
 procedure TCFeW.GerarDetProd(const i: integer);
+var
+  DecQtd: TpcnTipoCampo;
 begin
+  if CFe.Det[i].Prod.EhCombustivel then
+  begin
+    DecQtd := tcDe3;
+    CFe.Det[i].Prod.indRegra := irTruncamento;
+  end
+  else
+  begin
+    DecQtd := tcDe2;
+    CFe.Det[i].Prod.indRegra := irArredondamento;
+  end;
+
   Gerador.wGrupo('prod', 'I01');
   Gerador.wCampo(tcStr, 'I02 ', 'cProd   ', 01, 60, 1, CFe.Det[i].Prod.cProd, DSC_CPROD);
   Gerador.wCampo(tcStr, 'I03 ', 'cEAN    ', 00, 14, 0, CFe.Det[i].Prod.cEAN, DSC_CEAN);
@@ -280,7 +293,7 @@ begin
   Gerador.wCampo(tcEsp, 'I06 ', 'CFOP    ', 04, 04, 1, somenteNumeros(CFe.Det[i].Prod.CFOP), DSC_CFOP);
   Gerador.wCampo(tcStr, 'I07 ', 'uCom    ', 01, 06, 1, CFe.Det[i].Prod.uCom, DSC_UCOM);
   Gerador.wCampo(tcDe4, 'I08 ', 'qCom    ', 00, 15, 1, CFe.Det[i].Prod.qCom, DSC_QCOM);
-  Gerador.wCampo(tcDe3, 'I09 ', 'vUnCom  ', 00, 21, 1, CFe.Det[i].Prod.vUnCom, DSC_VUNCOM);
+  Gerador.wCampo(DecQtd, 'I09 ', 'vUnCom  ', 00, 21, 1, CFe.Det[i].Prod.vUnCom, DSC_VUNCOM);
   if not FApenasTagsAplicacao then
      Gerador.wCampo(tcDe2, 'I10 ', 'vProd   ', 00, 15, 1, CFe.Det[i].Prod.vProd, DSC_VPROD);
   Gerador.wCampo(tcStr, 'I11 ', 'indRegra', 01, 01, 1, indRegraToStr(CFe.Det[i].Prod.indRegra), DSC_NITEMPED);

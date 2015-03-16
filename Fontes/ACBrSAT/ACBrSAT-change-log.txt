@@ -47,6 +47,15 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+Data: 16/03/2015
+-- ACBrSAT --
+[+] Adicionada a propriedade: CFe.Det[i].Prod.EhCombustivel: Boolean (defaul False)
+    Se para a mesma for atribuida "True":
+    - CFe.Det[i].Prod.vUnCom será "tcde3" caso contrário "tcde2" e
+    - CFe.Det[i].Prod.indRegra  será "irTruncamento" caso contrário "irArredondamento"
+[-] Removido "workaround" aplicado em 02/10/2014 para equipamentos que usam o
+    prefixo "Cfe" no cancelamento
+
 Data: 04/02/2015
 -- ACBrSAT --        (por: DSA)
 [*] Aplicado workaround para retorno incompleto do Emulador de SAT do Fisco
