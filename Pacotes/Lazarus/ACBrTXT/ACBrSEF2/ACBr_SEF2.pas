@@ -8,8 +8,8 @@ interface
 
 uses
   ACBrSEF2, ACBrSEF2Conversao, ACBrSEF2_Bloco0, ACBrSEF2_Bloco0_1, 
-  ACBRSEF2_Bloco9, ACBrSEF2_eDoc_BlocoC, ACBrSEF2_eDoc_BlocoC_Class, 
-  ACBrSEF2_BlocoE_1, ACBrSEF2_BlocoE, ACBrSEF2_blocoH, ACBrSEF2_BlocoH_1, 
+  ACBrSEF2_Bloco9, ACBrSEF2_eDoc_BlocoC, ACBrSEF2_eDoc_BlocoC_Class, 
+  ACBrSEF2_BlocoE_1, ACBrSEF2_BlocoE, ACBrSEF2_BlocoH, ACBrSEF2_BlocoH_1, 
   LazarusPackageIntf;
 
 implementation
