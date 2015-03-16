@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/03/2015
+[*] Melhorias no DANSE em Rave.
+    Por: Andre(Prodez)
+
 13/03/2015
 [-] Tentativa de resolver o problema ao emitir o DANFSE com determinados valores
     de ValorServicos e ValorISSRetido.

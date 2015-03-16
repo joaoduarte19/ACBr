@@ -167,7 +167,15 @@ begin
 
   dmDanfse.NFSe := NFSE ;
 
-  NomeArq := StringReplace(NFSe.Numero,'NFSe', '', [rfIgnoreCase]);
+  if TACBrNFSe(ACBrNFSe).Configuracoes.Arquivos.NomeLongoNFSe then
+    NomeArq := NotaUtil.GerarNomeNFSe(StrToInt(Copy(NFSe.PrestadorServico.Endereco.CodigoMunicipio,1,2)),
+                                      NFSe.DataEmissao,
+                                      NFSe.PrestadorServico.IdentificacaoPrestador.Cnpj,
+                                      StrToIntDef(NFSe.Numero, 0))
+  else
+    NomeArq := NFSe.Numero;
+
+  NomeArq := StringReplace(NomeArq,'NFSe', '', [rfIgnoreCase]);
   NomeArq := PathWithDelim(Self.PathPDF)+StringReplace(NomeArq,'A','', [rfIgnoreCase])+'.pdf';
 
   dmDanfse.nPref01 := '' ;

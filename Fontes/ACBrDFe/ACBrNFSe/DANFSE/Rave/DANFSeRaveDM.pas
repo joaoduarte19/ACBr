@@ -5,7 +5,7 @@ interface
 uses
   SysUtils, Classes, RpCon, RpRender, RpRenderPDF, RpRave, RpDefine, RpBase,
   RpSystem, ACBrNFSe, ACBrNFSeUtil, ACBrUtil,  pnfsConversao, RpConDS, pnfsNFSe,
-  ACBrDFeUtil, IniFiles ;
+  ACBrDFeUtil, IniFiles, ACBrNFSeDANFSeClass;
 
 type
   TDANFSeDM = class(TDataModule)
@@ -36,6 +36,7 @@ type
     procedure NFSeCanceladaOpen(Connection: TRvCustomConnection);
     procedure NFSeCanceladaGetCols(Connection: TRvCustomConnection);
     procedure NFSeCanceladaGetRow(Connection: TRvCustomConnection);
+    constructor Create(AOwner: TComponent); override; //alterado Andre(Prodez) - 10/03/15
   private
     { Private declarations }
     FNFSE    : TNFSe ;
@@ -45,6 +46,7 @@ type
     FSistema : String ;
     FOutras  : String ;
     FLogoPr  : String ;
+    FDANFSeClassOwner: TACBrNFSeDANFSeClass; //alterado Andre(Prodez) - 10/03/15
   public
     { Public declarations }
     property NFSe   : TNFSe  read FNFSe    write FNFSe;
@@ -54,11 +56,19 @@ type
     property nOutras: string read FOutras  write FOutras ;
     property Sistema: string read FSistema write FSistema ;
     property nLogoPr: string read FLogoPr  write FLogoPr ;
+    property DANFSeClassOwner: TACBrNFSeDANFSeClass read FDANFSeClassOwner; //alterado Andre(Prodez) - 10/03/15
   end;
 
 implementation
 
 {$R *.dfm}
+
+constructor TDANFSeDM.Create(AOwner: TComponent);
+begin
+  inherited;
+  FDANFSeClassOwner := TACBrNFSeDANFSeClass(AOwner); //alterado Andre(Prodez) - 10/03/15
+end;
+
 
 procedure TDANFSeDM.DadosNFSEGetCols(Connection: TRvCustomConnection);
 begin
@@ -136,6 +146,19 @@ end;
 procedure TDANFSeDM.DadosNFSEOpen(Connection: TRvCustomConnection);
 begin
   Connection.DataRows := 1 ;
+  if not DANFSeClassOwner.ImprimeCanhoto then  //alterado Andre(Prodez) - 10/03/15
+    RvProject.SetParam('ImprimeCanhoto', 'N');
+  {
+  para que funcione o tratamento da propriedade 'ImprimeCanhoto' do componente ACBrNFSeDANFSeRV:
+    - criar o parametro "ImprimeCanhoto" no projeto do arquivo "DANFENFSE.rav" do Rave
+      (na treeview clique em Reports; e no inspector va em Parameters)
+    - no evento "OnBeforePrint" do band "bRecibo" adicionar o codigo:
+        If DANFSE.GetParam('ImprimeCanhoto') = 'N' Then
+         Self.Visible := False;
+        Else
+          Self.Visible := True;
+        End If;
+  }
 end;
 
 procedure TDANFSeDM.DadosPrefeituraGetCols(Connection: TRvCustomConnection);
@@ -195,11 +218,11 @@ begin
       Connection.WriteStrData('', Bairro);
       Connection.WriteStrData('', xMunicipio);
       Connection.WriteStrData('', CodigoMunicipio);
-      Connection.WriteStrData('', FormatarCEP(CEP));
+      Connection.WriteStrData('', DfeUtil.FormatarCEP(CEP));
       Connection.WriteStrData('', Uf);
     end;
-    Connection.WriteStrData('', FormatarFone(Contato.Telefone));
-    Connection.WriteStrData('', FormatarCNPJ(IdentificacaoPrestador.Cnpj)) ;
+    Connection.WriteStrData('', DFEUtil.FormatarFone(Contato.Telefone));
+    Connection.WriteStrData('', DfeUtil.FormatarCNPJ(IdentificacaoPrestador.Cnpj)) ;
     Connection.WriteStrData('', IdentificacaoPrestador.InscricaoMunicipal);
     Connection.WriteStrData('', Contato.Email);
     Connection.WriteStrData('', Endereco.Complemento);
@@ -247,7 +270,9 @@ begin
     begin
       Connection.WriteStrData('', ItemListaServico);
       Connection.WriteStrData('', CodigoTributacaoMunicipio);
-      Connection.WriteStrData('', UpperCase(Discriminacao) ) ;
+      //Connection.WriteStrData('', UpperCase(Discriminacao) ) ;
+      Connection.WriteStrData('', StringReplace(Discriminacao, //alterado Andre(Prodez) - 10/03/15
+                                                TACBrNFSe(DANFSeClassOwner.ACBrNFSe).Configuracoes.WebServices.QuebradeLinha, #13, [rfReplaceAll, rfIgnoreCase]));
       with Valores do
       begin
         Connection.WriteCurrData('', ValorServicos);
@@ -312,9 +337,9 @@ begin
   begin
     Connection.WriteStrData('', RazaoSocial);
     if Length(IdentificacaoTomador.CPFCNPJ) > 11 then
-      Connection.WriteStrData('', FormatarCNPJ(IdentificacaoTomador.CPFCNPJ))
+      Connection.WriteStrData('', DfeUtil.FormatarCNPJ(IdentificacaoTomador.CPFCNPJ))
     else
-      Connection.WriteStrData('', FormatarCPF(IdentificacaoTomador.CPFCNPJ)) ;
+      Connection.WriteStrData('', DfeUtil.FormatarCPF(IdentificacaoTomador.CPFCNPJ)) ;
     Connection.WriteStrData('', '');
     with Endereco do
     begin
@@ -324,9 +349,9 @@ begin
       Connection.WriteStrData('', Bairro);
       Connection.WriteStrData('', xMunicipio);
       Connection.WriteStrData('', Uf);
-      Connection.WriteStrData('', FormatarCEP(CEP));
+      Connection.WriteStrData('', DfeUtil.FormatarCEP(CEP));
     end;
-    Connection.WriteStrData('', FormatarFone(Contato.Telefone));
+    Connection.WriteStrData('', DfeUtil.FormatarFone(Contato.Telefone));
     Connection.WriteStrData('', IdentificacaoTomador.InscricaoMunicipal);
     Connection.WriteStrData('', Endereco.CodigoMunicipio);
     Connection.WriteStrData('', Contato.Email);
