@@ -89,6 +89,10 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
+    procedure EnviarEmail(sPara, sAssunto: String;
+      sMensagem: TStrings = nil; sCC: TStrings = nil; Anexos: TStrings = nil;
+      StreamCTe: TStream = nil; NomeArq: String = ''); overload;
+
     function Enviar(ALote: Integer; Imprimir: Boolean = True): Boolean;  overload;
     function Enviar(ALote: String; Imprimir: Boolean = True): Boolean;  overload;
 
@@ -132,7 +136,7 @@ implementation
 
 uses
   strutils, dateutils,
-  pcnAuxiliar;
+  pcnAuxiliar, synacode;
 
 {$IFDEF FPC}
  {$R ACBrCTeServicos.rc}
@@ -160,6 +164,18 @@ begin
   FWebServices.Free;
 
   inherited;
+end;
+
+procedure TACBrCTe.EnviarEmail(sPara, sAssunto: String; sMensagem: TStrings;
+  sCC: TStrings; Anexos: TStrings; StreamCTe: TStream; NomeArq: String);
+begin
+  SetStatus( stCTeEmail );
+
+  try
+    inherited EnviarEmail(sPara, sAssunto, sMensagem, sCC, Anexos, StreamCTe, NomeArq);
+  finally
+    SetStatus( stIdle );
+  end;
 end;
 
 procedure TACBrCTe.Notification(AComponent: TComponent; Operation: TOperation);
@@ -314,7 +330,7 @@ end;
 
 function TACBrCTe.GerarChaveContingencia(FCTe:TCTe): String;
 
-  function GerarDigito_Contingencia(var Digito: Integer; chave: String): Boolean;
+  function GerarDigito_Contingencia(out Digito: Integer; chave: String): Boolean;
   var
     i, j: Integer;
   const

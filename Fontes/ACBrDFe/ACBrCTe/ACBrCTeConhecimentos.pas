@@ -92,26 +92,10 @@ type
     function GerarXML: String;
     function GravarXML(NomeArquivo: String = ''; PathArquivo: String = ''): Boolean;
 
-    function SaveToStream(Stream: TStringStream): Boolean;
+    function GravarStream(Stream: TStringStream): Boolean;
 
-    procedure EnviarEmail(const sSmtpHost,
-                                sSmtpPort,
-                                sSmtpUser,
-                                sSmtpPasswd,
-                                sFrom,
-                                sTo,
-                                sAssunto: String;
-                                sMensagem: TStrings;
-                                SSL: Boolean;
-                                EnviaPDF: Boolean = True;
-                                sCC: TStrings = nil;
-                                Anexos: TStrings = nil;
-                                PedeConfirma: Boolean = False;
-                                AguardarEnvio: Boolean = False;
-                                NomeRemetente: String = '';
-                                TLS: Boolean = True;
-                                UsarThread: Boolean = True;
-                                HTML: Boolean = False);
+    procedure EnviarEmail(sPara, sAssunto: String; sMensagem: TStrings = nil;
+      EnviaPDF: Boolean = True; sCC: TStrings = nil; Anexos: TStrings = nil);
 
     property NomeArq: String               read FNomeArq     write FNomeArq;
     property CTe: TCTe                     read FCTe;
@@ -145,8 +129,8 @@ type
     procedure GerarCTe;
     procedure Assinar;
     procedure Validar;
-    function VerificarAssinatura(out Msg: String): Boolean;
-    function ValidarRegrasdeNegocios(out Msg: String): Boolean;
+    function VerificarAssinatura(out Erros: String): Boolean;
+    function ValidarRegrasdeNegocios(out Erros: String): Boolean;
     procedure Imprimir;
     procedure ImprimirPDF;
 
@@ -159,7 +143,7 @@ type
     // Incluido o Parametro AGerarCTe que determina se após carregar os dados do CTe
     // para o componente, será gerado ou não novamente o XML do CTe.
     function LoadFromFile(CaminhoArquivo: String; AGerarCTe: Boolean = True): Boolean;
-    function LoadFromStream(Stream: TStringStream; AGerarCTe: Boolean = True): Boolean;
+    function LoadFromStream(AStream: TStringStream; AGerarCTe: Boolean = True): Boolean;
     function LoadFromString(AString: String; AGerarCTe: Boolean = True): Boolean;
     function GravarXML(PathArquivo: String = ''): Boolean;
 
@@ -334,7 +318,7 @@ end;
 
 function Conhecimento.ValidarRegrasdeNegocios: Boolean;
 var
- Erros: AnsiString;
+ Erros: String;
 
   procedure AdicionaErro(const Erro: String);
   begin
@@ -401,7 +385,7 @@ begin
   Result := TACBrCTe(TConhecimentos(Collection).ACBrCTe).Gravar(FNomeArq, FXML);
 end;
 
-function Conhecimento.SaveToStream(Stream: TStringStream): Boolean;
+function Conhecimento.GravarStream(AStream: TStringStream): Boolean;
 begin
   Result := False;
   GerarXML;
@@ -410,66 +394,50 @@ begin
   Result := True;
 end;
 
-procedure Conhecimento.EnviarEmail(const sSmtpHost,
-                                         sSmtpPort,
-                                         sSmtpUser,
-                                         sSmtpPasswd,
-                                         sFrom,
-                                         sTo,
-                                         sAssunto: String;
-                                         sMensagem: TStrings;
-                                         SSL: Boolean;
-                                         EnviaPDF: Boolean = true;
-                                         sCC: TStrings = nil;
-                                         Anexos: TStrings = nil;
-                                         PedeConfirma: Boolean = False;
-                                         AguardarEnvio: Boolean = False;
-                                         NomeRemetente: String = '';
-                                         TLS: Boolean = True;
-                                         UsarThread: Boolean = True;
-                                         HTML: Boolean = False);
-//var
-//  NomeArq: String;
-//  AnexosEmail: TStrings;
-//  StreamCTe: TStringStream;
+procedure Conhecimento.EnviarEmail(sPara, sAssunto: String; sMensagem: TStrings;
+  EnviaPDF: Boolean; sCC: TStrings; Anexos: TStrings);
+var
+  NomeArq: String;
+  AnexosEmail: TStrings;
+  StreamCTe: TStringStream;
 begin
-(*
- AnexosEmail := TStringList.Create;
- StreamCTe  := TStringStream.Create('');
- try
+  if not Assigned(TACBrCTe(TConhecimentos(Collection).ACBrCTe).MAIL) then
+    raise EACBrCTeException.Create('Componente ACBrMail não associado');
+
+  AnexosEmail := TStringList.Create;
+  StreamCTe  := TStringStream.Create('');
+  try
     AnexosEmail.Clear;
     if Anexos <> nil then
       AnexosEmail.Text := Anexos.Text;
     if NomeArq <> '' then
-     begin
-       SaveToFile(NomeArq);
-       AnexosEmail.Add(NomeArq);
-     end
-    else
-     begin
-       SaveToStream(StreamCTe);
-     end;
-    if (EnviaPDF) then
     begin
-       if TACBrCTe(TConhecimentos(Collection).ACBrCTe).DACTE <> nil then
+      GravarXML(NomeArq);
+      AnexosEmail.Add(NomeArq);
+    end
+    else
+    begin
+      GravarStream(StreamCTe);
+    end;
+
+    with TACBrCTe(TConhecimentos(Collection).ACBrCTe) do
+    begin
+      if (EnviaPDF) then
+      begin
+       if Assigned(DACTE) then
        begin
-          TACBrCTe(TConhecimentos(Collection).ACBrCTe).DACTE.ImprimirDACTEPDF(CTe);
-          NomeArq := StringReplace(CTe.infCTe.ID,'CTe', '', [rfIgnoreCase]);
-          NomeArq := PathWithDelim(TACBrCTe(TConhecimentos(Collection).ACBrCTe).DACTE.PathPDF) + NomeArq + '-cte.pdf';
+          DACTE.ImprimirDACTEPDF(CTe);
+          NomeArq := PathWithDelim(DACTE.PathPDF) + NumID + '-cte.pdf';
           AnexosEmail.Add(NomeArq);
        end;
+      end;
+      EnviarEmail( sPara, sAssunto, sMensagem, sCC, AnexosEmail, StreamCTe,
+                   NumID + '-cte.xml');
     end;
-    TACBrCTe(TConhecimentos(Collection).ACBrCTe).EnviaEmail(sSmtpHost, sSmtpPort,
-                sSmtpUser, sSmtpPasswd, sFrom, sTo, sAssunto, sMensagem, SSL,
-                sCC, AnexosEmail, PedeConfirma, AguardarEnvio, NomeRemetente,
-                TLS, StreamCTe,
-                copy(CTe.infCTe.ID, (length(CTe.infCTe.ID)-44)+1, 44) + '-cte.xml',
-                UsarThread, HTML);
- finally
+  finally
     AnexosEmail.Free;
     StreamCTe.Free;
- end;
-*)
+  end;
 end;
 
 function Conhecimento.GerarXML: String;
@@ -697,7 +665,7 @@ begin
   ArquivoXML := TStringList.Create;
   try
     ArquivoXML.LoadFromFile(CaminhoArquivo);
-    XMLOriginal := ArquivoXML.ToString;
+    XMLOriginal := ArquivoXML.Text;
 
     // Converte de UTF8 para a String nativa da IDE //
     XML := DecodeToString(XMLOriginal, True);
