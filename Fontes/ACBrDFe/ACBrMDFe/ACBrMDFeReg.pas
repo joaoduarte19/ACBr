@@ -27,13 +27,6 @@
 {                                                                              }
 {******************************************************************************}
 
-{*******************************************************************************
-|* Historico
-|*
-|* 01/08/2012: Italo Jurisato Junior
-|*  - Doação do componente para o Projeto ACBr
-*******************************************************************************}
-
 {$I ACBr.inc}
 
 unit ACBrMDFeReg;
@@ -41,19 +34,24 @@ unit ACBrMDFeReg;
 interface
 
 uses
-  SysUtils, Classes,
-  pcnConversao, ACBrMDFe,
+  SysUtils, Classes, ACBrMDFe, pcnConversao,
   {$IFDEF FPC}
-     LResources
+     LResources, LazarusPackageIntf, PropEdits, componenteditors
+  {$ELSE}
+     {$IFNDEF COMPILER6_UP}
+        DsgnIntf
+     {$ELSE}
+        DesignIntf,
+        DesignEditors
+     {$ENDIF}
   {$ENDIF} ;
-
-
 
 procedure Register;
 
 implementation
 
-uses ACBrReg, ACBrDFe, ACBrMDFeConfiguracoes;
+uses
+  ACBrReg, ACBrDFe, ACBrDFeConfiguracoes, ACBrMDFeConfiguracoes;
 
 {$IFNDEF FPC}
    {$R ACBrMDFe.dcr}
@@ -75,31 +73,25 @@ begin
   RegisterPropertyEditor(TypeInfo(String), TWebServicesConf, 'UF',
      TACBrUFProperty);
 
-  RegisterPropertyEditor(TypeInfo(TGeralConf), TConfiguracoes, 'Geral',
+  RegisterPropertyEditor(TypeInfo(TGeralConfMDFe), TConfiguracoes, 'Geral',
     TClassProperty);
 
-  RegisterPropertyEditor(TypeInfo(String), TGeralConf, 'PathSalvar',
+  RegisterPropertyEditor(TypeInfo(String), TGeralConfMDFe, 'PathSalvar',
      TACBrDirProperty);
 
-  RegisterPropertyEditor(TypeInfo(TArquivosConf), TConfiguracoes, 'Arquivos',
+  RegisterPropertyEditor(TypeInfo(TArquivosConfMDFe), TConfiguracoes, 'Arquivos',
     TClassProperty);
 
-  RegisterPropertyEditor(TypeInfo(String), TArquivosConf, 'PathMDFe',
+  RegisterPropertyEditor(TypeInfo(String), TArquivosConfMDFe, 'PathMDFe',
      TACBrDirProperty);
 
-  RegisterPropertyEditor(TypeInfo(String), TArquivosConf, 'PathCan',
-     TACBrMDFeDirProperty);
-
-  RegisterPropertyEditor(TypeInfo(String), TArquivosConf, 'PathInu',
+  RegisterPropertyEditor(TypeInfo(String), TArquivosConfMDFe, 'PathEvento',
      TACBrDirProperty);
 
-  RegisterPropertyEditor(TypeInfo(String), TArquivosConf, 'PathDPEC',
-     TACBrDirProperty);
 end;
 
-initialization
-
 {$IFDEF FPC}
+initialization
    {$I ACBrMDFe.lrs}
 {$ENDIF}
 

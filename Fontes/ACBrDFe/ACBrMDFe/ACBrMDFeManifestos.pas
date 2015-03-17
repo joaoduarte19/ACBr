@@ -41,366 +41,527 @@ unit ACBrMDFeManifestos;
 interface
 
 uses
-  Classes, Sysutils, Dialogs, Forms, StrUtils,
-  ACBrMDFeUtil, ACBrMDFeConfiguracoes,
-  //{$IFDEF FPC}
-     //ACBrMDFeDMLaz,
-  //{$ELSE}
-     ACBrMDFeDAMDFeClass,
-  //{$ENDIF}
-  smtpsend, ssl_openssl, mimemess, mimepart, // units para enviar email
-  pcnConversao, pcnAuxiliar, pmdfeConversao, pcnLeitor,
-  pmdfeMDFe, pmdfeMDFeR, pmdfeMDFeW;
+  Classes, SysUtils, Dialogs, Forms, StrUtils,
+  ACBrMDFeConfiguracoes, ACBrDFeUtil,
+  pcnMDFe, pcnMDFeR, pcnMDFeW, pcnConversao, pcnAuxiliar, pcnLeitor;
 
 type
+
+  { Manifesto }
 
   Manifesto = class(TCollectionItem)
   private
     FMDFe: TMDFe;
-    FXML: AnsiString;
-    FXMLOriginal: AnsiString;
-    FConfirmada: Boolean;
-    FMsg: AnsiString;
-    FAlertas: AnsiString;
-    FErroValidacao: AnsiString;
-    FErroValidacaoCompleto: AnsiString;
+    FMDFeW: TMDFeW;
+    FMDFeR: TMDFeR;
+
+    FXML: String;
+    FXMLAssinado: String;
+    FXMLOriginal: String;
+    FAlertas: String;
+    FErroValidacao: String;
+    FErroValidacaoCompleto: String;
+    FErroRegrasdeNegocios: String;
     FNomeArq: String;
 
-    function GetMDFeXML: AnsiString;
-    function GerarXML(var XML: String; var Alertas: String): String;
+    function GetConfirmado: Boolean;
+    function GetProcessado: Boolean;
+
+    function GetMsg: String;
+    function GetNumID: String;
+    function ValidarConcatChave: Boolean;
+    function CalcularNomeArquivo: String;
+    function CalcularPathArquivo: String;
+    function CalcularNomeArquivoCompleto(NomeArquivo: String = '';
+      PathArquivo: String = ''): String;
   public
     constructor Create(Collection2: TCollection); override;
     destructor Destroy; override;
     procedure Imprimir;
     procedure ImprimirPDF;
-    function SaveToFile(CaminhoArquivo: String = ''): Boolean;
-    function SaveToStream(Stream: TStringStream): Boolean;
-    procedure EnviarEmail(const sSmtpHost,
-                                sSmtpPort,
-                                sSmtpUser,
-                                sSmtpPasswd,
-                                sFrom,
-                                sTo,
-                                sAssunto: String;
-                                sMensagem: TStrings;
-                                SSL: Boolean;
-                                EnviaPDF: Boolean = true;
-                                sCC: TStrings = nil;
-                                Anexos:TStrings=nil;
-                                PedeConfirma: Boolean = False;
-                                AguardarEnvio: Boolean = False;
-                                NomeRemetente: String = '';
-                                TLS: Boolean = True;
-                                UsarThread: Boolean = True;
-                                HTML: Boolean = False);
 
-    property MDFe: TMDFe                       read FMDFe                  write FMDFe;
-    property XML: AnsiString                   read GetMDFeXML             write FXML;
-    property XMLOriginal: AnsiString           read FXMLOriginal           write FXMLOriginal;
-    property Confirmada: Boolean               read FConfirmada            write FConfirmada;
-    property Msg: AnsiString                   read FMsg                   write FMsg;
-    property Alertas: AnsiString               read FAlertas               write FAlertas;
-    property ErroValidacao: AnsiString         read FErroValidacao         write FErroValidacao;
-    property ErroValidacaoCompleto: AnsiString read FErroValidacaoCompleto write FErroValidacaoCompleto;
-    property NomeArq: String                   read FNomeArq               write FNomeArq;
+    procedure Assinar;
+    procedure Validar;
+    function VerificarAssinatura: Boolean;
+    function ValidarRegrasdeNegocios: Boolean;
+
+    function LerXML(AXML: AnsiString): Boolean;
+
+    function GerarXML: String;
+    function GravarXML(NomeArquivo: String = ''; PathArquivo: String = ''): Boolean;
+
+    function GravarStream(AStream: TStream): Boolean;
+
+    procedure EnviarEmail(sPara, sAssunto: String; sMensagem: TStrings = nil;
+      EnviaPDF: Boolean = True; sCC: TStrings = nil; Anexos: TStrings = nil);
+
+    property NomeArq: String read FNomeArq write FNomeArq;
+
+    property MDFe: TMDFe read FMDFe;
+
+    property XML: String read FXML;
+    property XMLOriginal: String read FXMLOriginal write FXMLOriginal;
+    property XMLAssinado: String read FXMLAssinado;
+    property Confirmado: Boolean read GetConfirmado;
+    property Processado: Boolean read GetProcessado;
+    property Msg: String read GetMsg;
+    property NumID: String read GetNumID;
+
+    property Alertas: String read FAlertas;
+    property ErroValidacao: String read FErroValidacao;
+    property ErroValidacaoCompleto: String read FErroValidacaoCompleto;
+    property ErroRegrasdeNegocios: String read FErroRegrasdeNegocios;
+
   end;
+
+  { TManifestos }
 
   TManifestos = class(TOwnedCollection)
   private
-    FConfiguracoes: TConfiguracoes;
     FACBrMDFe: TComponent;
+    FConfiguracoes: TConfiguracoesMDFe;
 
-    function GetItem(Index: Integer): Manifesto;
-    procedure SetItem(Index: Integer; const Value: Manifesto);
+    function GetItem(Index: integer): Manifesto;
+    procedure SetItem(Index: integer; const Value: Manifesto);
+
+    procedure VerificarDAMDFE;
   public
     constructor Create(AOwner: TPersistent; ItemClass: TCollectionItemClass);
 
     procedure GerarMDFe;
     procedure Assinar;
-    procedure Valida;
-    function ValidaAssinatura(out Msg: String): Boolean;
+    procedure Validar;
+    function VerificarAssinatura(out Erros: String): Boolean;
+    function ValidarRegrasdeNegocios(out Erros: String): Boolean;
     procedure Imprimir;
     procedure ImprimirPDF;
-    function  Add: Manifesto;
-    function Insert(Index: Integer): Manifesto;
+
+    function Add: Manifesto;
+    function Insert(Index: integer): Manifesto;
+
+    property Items[Index: integer]: Manifesto read GetItem write SetItem; default;
+
     function GetNamePath: String; override;
+    // Incluido o Parametro AGerarMDFe que determina se após carregar os dados do MDFe
+    // para o componente, será gerado ou não novamente o XML do MDFe.
     function LoadFromFile(CaminhoArquivo: String; AGerarMDFe: Boolean = True): Boolean;
-    function LoadFromStream(Stream: TStringStream; AGerarMDFe: Boolean = True): Boolean;
-    function LoadFromString(AString: String; AGerarMDFe: Boolean = True): Boolean;
-    function SaveToFile(PathArquivo: String = ''): Boolean;
+    function LoadFromStream(AStream: TStringStream; AGerarMDFe: Boolean = True): Boolean;
+    function LoadFromString(AXMLString: String; AGerarMDFe: Boolean = True): Boolean;
+    function GravarXML(PathArquivo: String = ''): Boolean;
 
-    property Items[Index: Integer]: Manifesto read GetItem         write SetItem;
-    property Configuracoes: TConfiguracoes    read FConfiguracoes  write FConfiguracoes;
-    property ACBrMDFe: TComponent             read FACBrMDFe;
+    property ACBrMDFe: TComponent read FACBrMDFe;
   end;
-
-  TSendMailThread = class(TThread)
-  private
-    FException: Exception;
-    // FOwner: Manifesto;
-    procedure DoHandleException;
-  public
-    OcorreramErros: Boolean;
-    Terminado: Boolean;
-    smtp: TSMTPSend;
-    sFrom: String;
-    sTo: String;
-    sCC: TStrings;
-    slmsg_Lines: TStrings;
-
-    constructor Create; //(AOwner: Manifesto);
-    destructor Destroy; override;
-  protected
-    procedure Execute; override;
-    procedure HandleException;
-  end;
-
 
 implementation
 
 uses
-   ACBrUtil, ACBrDFeUtil, pcnGerador, ACBrMDFe;
+  ACBrMDFe, ACBrUtil, pcnConversaoMDFe;
 
 { Manifesto }
 
 constructor Manifesto.Create(Collection2: TCollection);
 begin
   inherited Create(Collection2);
-
   FMDFe := TMDFe.Create;
+  FMDFeW := TMDFeW.Create(FMDFe);
+  FMDFeR := TMDFeR.Create(FMDFe);
 
-  FMDFe.Ide.modelo  := '58';
-  FMDFe.Ide.verProc := 'ACBrMDFe';
-  FMDFe.Ide.tpAmb   := TACBrMDFe(TManifestos(Collection).ACBrMDFe).Configuracoes.WebServices.Ambiente;
-  FMDFe.Ide.tpEmis  := TACBrMDFe(TManifestos(Collection).ACBrMDFe).Configuracoes.Geral.FormaEmissao;
+  with TACBrMDFe(TManifestos(Collection).ACBrMDFe) do
+  begin
+    FMDFe.Ide.modelo := '58';
+    FMDFe.infMDFe.Versao := VersaoMDFeToDbl(Configuracoes.Geral.VersaoDF);
+
+    FMDFe.Ide.verProc := 'ACBrMDFe';
+    FMDFe.Ide.tpAmb := Configuracoes.WebServices.Ambiente;
+    FMDFe.Ide.tpEmis := Configuracoes.Geral.FormaEmissao;
+
+    if Assigned(DAMDFE) then
+      FMDFe.Ide.tpImp := DAMDFE.TipoDAMDFE;
+  end;
 end;
 
 destructor Manifesto.Destroy;
 begin
+  FMDFeW.Free;
+  FMDFeR.Free;
   FMDFe.Free;
   inherited Destroy;
 end;
 
 procedure Manifesto.Imprimir;
 begin
-  if not Assigned(TACBrMDFe(TManifestos(Collection).ACBrMDFe).DAMDFe) then
-     raise Exception.Create('Componente DAMDFe não associado.')
-  else
-     TACBrMDFe(TManifestos(Collection).ACBrMDFe).DAMDFe.ImprimirDAMDFe(MDFe);
+  with TACBrMDFe(TManifestos(Collection).ACBrMDFe) do
+  begin
+    if not Assigned(DAMDFE) then
+      raise EACBrMDFeException.Create('Componente DAMDFE não associado.')
+    else
+      DAMDFE.ImprimirDAMDFE(MDFe);
+  end;
 end;
 
 procedure Manifesto.ImprimirPDF;
 begin
-  if not Assigned(TACBrMDFe(TManifestos(Collection).ACBrMDFe).DAMDFe) then
-     raise Exception.Create('Componente DAMDFe não associado.')
-  else
-     TACBrMDFe(TManifestos(Collection).ACBrMDFe).DAMDFe.ImprimirDAMDFePDF(MDFe);
-end;
-
-function Manifesto.SaveToFile(CaminhoArquivo: String = ''): Boolean;
-var
-  ArqXML, Alertas, ArqTXT : String;
-begin
-  try
-     Result := True;
-     ArqTXT := GerarXML(ArqXML, Alertas);
-     if EstaVazio(CaminhoArquivo) then
-        CaminhoArquivo := PathWithDelim(TACBrMDFe(TManifestos(Collection).ACBrMDFe).Configuracoes.Geral.PathSalvar) + copy(MDFe.infMDFe.ID, (length(MDFe.infMDFe.ID)-44)+1, 44)+'-mdfe.xml';
-
-     if EstaVazio(CaminhoArquivo) or not DirectoryExists(ExtractFilePath(CaminhoArquivo)) then
-        raise EACBrMDFeException.Create('Caminho Inválido: ' + CaminhoArquivo);
-
-     WriteToTXT(CaminhoArquivo, ArqXML, False, False);
-
-     NomeArq := CaminhoArquivo;
-  except
-     raise;
-     Result := False;
-  end;
-end;
-
-function Manifesto.SaveToStream(Stream: TStringStream): Boolean;
-var
-  ArqXML, Alertas : String;
-begin
-  try
-     Result := True;
-     GerarXML(ArqXML, Alertas);
-     Stream.WriteString(ArqXML);
-  except
-     Result := False;
-  end;
-end;
-
-procedure Manifesto.EnviarEmail(const sSmtpHost,
-                                      sSmtpPort,
-                                      sSmtpUser,
-                                      sSmtpPasswd,
-                                      sFrom,
-                                      sTo,
-                                      sAssunto: String;
-                                      sMensagem: TStrings;
-                                      SSL: Boolean;
-                                      EnviaPDF: Boolean = true;
-                                      sCC: TStrings=nil;
-                                      Anexos:TStrings=nil;
-                                      PedeConfirma: Boolean = False;
-                                      AguardarEnvio: Boolean = False;
-                                      NomeRemetente: String = '';
-                                      TLS: Boolean = True;
-                                      UsarThread: Boolean = True;
-                                      HTML: Boolean = False);
-var
- NomeArq: String;
- AnexosEmail: TStrings;
- StreamMDFe: TStringStream;
-begin
- AnexosEmail := TStringList.Create;
- StreamMDFe  := TStringStream.Create('');
- try
-    AnexosEmail.Clear;
-    if Anexos <> nil then
-      AnexosEmail.Text := Anexos.Text;
-    if NomeArq <> '' then
-     begin
-       SaveToFile(NomeArq);
-       AnexosEmail.Add(NomeArq);
-     end
+  with TACBrMDFe(TManifestos(Collection).ACBrMDFe) do
+  begin
+    if not Assigned(DAMDFE) then
+      raise EACBrMDFeException.Create('Componente DAMDFE não associado.')
     else
-     begin
-       SaveToStream(StreamMDFe);
-     end;
-    if (EnviaPDF) then
-    begin
-       if TACBrMDFe(TManifestos(Collection).ACBrMDFe).DAMDFE <> nil then
-       begin
-          TACBrMDFe(TManifestos(Collection).ACBrMDFe).DAMDFE.ImprimirDAMDFEPDF(MDFe);
-          NomeArq := StringReplace(MDFe.infMDFe.ID,'MDFe', '', [rfIgnoreCase]);
-          NomeArq := PathWithDelim(TACBrMDFe(TManifestos(Collection).ACBrMDFe).DAMDFE.PathPDF) + NomeArq + '-mdfe.pdf';
-          AnexosEmail.Add(NomeArq);
-       end;
+      DAMDFE.ImprimirDAMDFEPDF(MDFe);
+  end;
+end;
+
+procedure Manifesto.Assinar;
+var
+  XMLAss: String;
+  ArqXML: String;
+  Leitor: TLeitor;
+begin
+  ArqXML := GerarXML;
+
+  // XML já deve estar em UTF8, para poder ser assinado //
+  ArqXML := ConverteXMLtoUTF8(ArqXML);
+  FXMLOriginal := ArqXML;
+
+  with TACBrMDFe(TManifestos(Collection).ACBrMDFe) do
+  begin
+    XMLAss := SSL.Assinar(ArqXML, 'MDFe', 'infMDFe');
+    FXMLAssinado := XMLAss;
+
+    // Remove header, pois podem existir várias Manifestos no XML //
+    //TODO: Verificar se precisa
+    //XMLAss := StringReplace(XMLAss, '<' + ENCODING_UTF8_STD + '>', '', [rfReplaceAll]);
+    //XMLAss := StringReplace(XMLAss, '<' + XML_V01 + '>', '', [rfReplaceAll]);
+
+    Leitor := TLeitor.Create;
+    try
+      leitor.Grupo := XMLAss;
+      MDFe.signature.URI := Leitor.rAtributo('Reference URI=');
+      MDFe.signature.DigestValue := Leitor.rCampo(tcStr, 'DigestValue');
+      MDFe.signature.SignatureValue := Leitor.rCampo(tcStr, 'SignatureValue');
+      MDFe.signature.X509Certificate := Leitor.rCampo(tcStr, 'X509Certificate');
+    finally
+      Leitor.Free;
     end;
-    TACBrMDFe(TManifestos(Collection).ACBrMDFe).EnviaEmail(sSmtpHost, sSmtpPort,
-                                                           sSmtpUser, sSmtpPasswd,
-                                                           sFrom, sTo, sAssunto,
-                                                           sMensagem, SSL, sCC,
-                                                           AnexosEmail, PedeConfirma,
-                                                           AguardarEnvio, NomeRemetente,
-                                                           TLS, StreamMDFe,
-                                                           copy(MDFe.infMDFe.ID, (length(MDFe.infMDFe.ID)-44)+1, 44) + '-mdfe.xml',
-                                                           UsarThread, HTML);
- finally
+
+    if Configuracoes.Geral.Salvar then
+      Gravar(CalcularNomeArquivoCompleto(), XMLAss);
+
+    if NaoEstaVazio(NomeArq) then
+      Gravar(NomeArq, XMLAss);
+  end;
+end;
+
+procedure Manifesto.Validar;
+var
+  Erro, AXML: String;
+  MDFeEhValida: Boolean;
+  ALayout: TLayOut;
+  VersaoStr: String;
+begin
+  AXML := FXMLAssinado;
+
+  if EstaVazio(AXML) then
+  begin
+    Assinar;
+    AXML := FXMLAssinado;
+  end;
+
+  with TACBrMDFe(TManifestos(Collection).ACBrMDFe) do
+  begin
+    ALayout := LayMDFeRetRecepcao;
+
+    VersaoStr := FloatToString( FMDFe.infMDFe.Versao, '.', '0.00');
+    MDFeEhValida := SSL.Validar(AXML, GerarNomeArqSchema(ALayout, VersaoStr), Erro);
+
+    if not MDFeEhValida then
+    begin
+      FErroValidacao := ACBrStr('Falha na validação dos dados do Manifesto: ') +
+        IntToStr(MDFe.Ide.nMDF) + sLineBreak + FAlertas ;
+      FErroValidacaoCompleto := FErroValidacao + sLineBreak + Erro;
+
+      raise EACBrMDFeException.CreateDef(
+        IfThen(Configuracoes.Geral.ExibirErroSchema, ErroValidacaoCompleto,
+        ErroValidacao));
+    end;
+  end;
+end;
+
+function Manifesto.VerificarAssinatura: Boolean;
+var
+  Erro, AXML: String;
+  AssEhValida: Boolean;
+begin
+  AXML := FXMLOriginal;
+
+  if EstaVazio(AXML) then
+  begin
+    if EstaVazio(FXMLAssinado) then
+      Assinar;
+
+    AXML := FXMLAssinado;
+  end;
+
+  with TACBrMDFe(TManifestos(Collection).ACBrMDFe) do
+  begin
+    AssEhValida := SSL.VerificarAssinatura(AXML, Erro);
+
+    if not AssEhValida then
+    begin
+      FErroValidacao := ACBrStr('Falha na validação da assinatura do Manifesto: ') +
+        IntToStr(MDFe.Ide.nMDF) + sLineBreak + Erro;
+    end;
+  end;
+
+  Result := AssEhValida;
+end;
+
+function Manifesto.ValidarRegrasdeNegocios: Boolean;
+var
+  Erros: String;
+
+  procedure AdicionaErro(const Erro: String);
+  begin
+    Erros := Erros + Erro + sLineBreak;
+  end;
+
+begin
+  with TACBrMDFe(TManifestos(Collection).ACBrMDFe) do
+  begin
+    Erros := '';
+
+    if not ValidarConcatChave then  //A03-10
+      AdicionaErro(
+        '502-Rejeição: Erro na Chave de Acesso - Campo Id não corresponde à concatenação dos campos correspondentes');
+
+  end;
+
+  Result := EstaVazio(Erros);
+
+  if not Result then
+  begin
+    Erros := ACBrStr('Erro(s) nas Regras de negócios do Manifesto: '+
+                     IntToStr(MDFe.Ide.nMDF) + sLineBreak +
+                     Erros);
+  end;
+
+  FErroRegrasdeNegocios := Erros;
+end;
+
+function Manifesto.LerXML(AXML: AnsiString): Boolean;
+var
+  Ok: Boolean;
+begin
+  Result := False;
+  FMDFeR.Leitor.Arquivo := AXML;
+  FMDFeR.LerXml;
+
+  with TACBrMDFe(TManifestos(Collection).ACBrMDFe) do
+  begin
+    Configuracoes.Geral.VersaoDF := DblToVersaoMDFe(OK, FMDFeR.MDFe.infMDFe.Versao);
+  end;
+
+  FXML := string(AXML);
+  FXMLOriginal := FXML;
+  Result := True;
+end;
+
+function Manifesto.GravarXML(NomeArquivo: String; PathArquivo: String): Boolean;
+begin
+  FNomeArq := CalcularNomeArquivoCompleto(NomeArquivo, PathArquivo);
+  GerarXML;
+  Result := TACBrMDFe(TManifestos(Collection).ACBrMDFe).Gravar(FNomeArq, FXML);
+end;
+
+function Manifesto.GravarStream(AStream: TStream): Boolean;
+begin
+  Result := False;
+  GerarXML;
+
+  AStream.Size := 0;
+  AStream.WriteBuffer(FXML[1], Length(FXML));  // Gravando no Buffer da Stream //
+  Result := True;
+end;
+
+procedure Manifesto.EnviarEmail(sPara, sAssunto: String; sMensagem: TStrings;
+  EnviaPDF: Boolean; sCC: TStrings; Anexos: TStrings);
+var
+  NomeArq : String;
+  AnexosEmail:TStrings;
+  StreamMDFe : TMemoryStream;
+begin
+  if not Assigned(TACBrMDFe(TManifestos(Collection).ACBrMDFe).MAIL) then
+    raise EACBrMDFeException.Create('Componente ACBrMail não associado');
+
+  AnexosEmail := TStringList.Create;
+  StreamMDFe := TMemoryStream.Create;
+  try
+    AnexosEmail.Clear;
+    if Assigned(Anexos) then
+      AnexosEmail.Assign(Anexos);
+
+    if NomeArq <> '' then
+    begin
+      GravarXML(NomeArq);
+      AnexosEmail.Add(NomeArq);
+    end
+    else
+    begin
+      GravarStream(StreamMDFe);
+    end;
+
+    with TACBrMDFe(TManifestos(Collection).ACBrMDFe) do
+    begin
+      if (EnviaPDF) then
+      begin
+        if Assigned(DAMDFE) then
+        begin
+          DAMDFE.ImprimirDAMDFEPDF(FMDFe);
+          NomeArq := PathWithDelim(DAMDFE.PathPDF) + NumID + '-mdfe.pdf';
+          AnexosEmail.Add(NomeArq);
+        end;
+      end;
+
+      EnviarEmail( sPara, sAssunto, sMensagem, sCC, AnexosEmail, StreamMDFe,
+                   NumID + '-mdfe.xml');
+    end;
+  finally
     AnexosEmail.Free;
     StreamMDFe.Free;
- end;
-end;
-
-function Manifesto.GetMDFeXML: AnsiString;
-var
- ArqXML, Alertas: String;
-begin
- GerarXML(ArqXML, Alertas);
- Result := ArqXML;
-end;
-
-function Manifesto.GerarXML(var XML, Alertas: String): String;
-var
-  LocMDFeW : TMDFeW;
-begin
-  LocMDFeW := TMDFeW.Create(Self.MDFe);
-  try
-     LocMDFeW.Gerador.Opcoes.FormatoAlerta  := TACBrMDFe(TManifestos(Collection).ACBrMDFe).Configuracoes.Geral.FormatoAlerta;
-     LocMDFeW.Gerador.Opcoes.RetirarAcentos := TACBrMDFe(TManifestos(Collection).ACBrMDFe).Configuracoes.Geral.RetirarAcentos;
-     LocMDFeW.VersaoDF                      := TACBrMDFe(TManifestos(Collection).ACBrMDFe).Configuracoes.Geral.VersaoDF;
-
-     LocMDFeW.GerarXml;
-     XML     := LocMDFeW.Gerador.ArquivoFormatoXML;
-     Alertas := LocMDFeW.Gerador.ListaDeAlertas.Text;
-     Result  := '';
-  finally
-     LocMDFeW.Free;
   end;
+end;
+
+function Manifesto.GerarXML: String;
+begin
+  with TACBrMDFe(TManifestos(Collection).ACBrMDFe) do
+  begin
+    FMDFeW.Gerador.Opcoes.FormatoAlerta := Configuracoes.Geral.FormatoAlerta;
+    FMDFeW.Gerador.Opcoes.RetirarAcentos := Configuracoes.Geral.RetirarAcentos;
+    FMDFeW.Opcoes.GerarTXTSimultaneamente := False;
+  end;
+
+  FMDFeW.GerarXml;
+  FXML := FMDFeW.Gerador.ArquivoFormatoXML;
+  FXMLAssinado := '';
+  FAlertas := FMDFeW.Gerador.ListaDeAlertas.Text;
+  Result := FXML;
+end;
+
+function Manifesto.CalcularNomeArquivo: String;
+var
+  xID: String;
+begin
+  xID := Self.NumID;
+
+  if EstaVazio(xID) then
+    raise EACBrMDFeException.Create('ID Inválido. Impossível Salvar XML');
+
+  Result := xID + '-mdfe.xml';
+end;
+
+function Manifesto.CalcularPathArquivo: String;
+var
+  Data: TDateTime;
+begin
+  with TACBrMDFe(TManifestos(Collection).ACBrMDFe) do
+  begin
+    if Configuracoes.Arquivos.EmissaoPathMDFe then
+      Data := FMDFe.Ide.dEmi
+    else
+      Data := Now;
+
+    Result := PathWithDelim(Configuracoes.Arquivos.GetPathMDFe(Data, FMDFe.Emit.CNPJCPF));
+  end;
+end;
+
+function Manifesto.CalcularNomeArquivoCompleto(NomeArquivo: String;
+  PathArquivo: String): String;
+begin
+  if EstaVazio(NomeArquivo) then
+    NomeArquivo := CalcularNomeArquivo;
+
+  if EstaVazio(PathArquivo) then
+    PathArquivo := CalcularPathArquivo
+  else
+    PathArquivo := PathWithDelim(PathArquivo);
+
+  Result := PathArquivo + NomeArquivo;
+end;
+
+function Manifesto.ValidarConcatChave: Boolean;
+var
+  wAno, wMes, wDia: word;
+begin
+  DecodeDate(MDFe.ide.dEmi, wAno, wMes, wDia);
+
+  Result := not
+    ((Copy(MDFe.infMDFe.ID, 4, 2) <> IntToStrZero(MDFe.Ide.cUF, 2)) or
+    (Copy(MDFe.infMDFe.ID, 6, 2)  <> Copy(FormatFloat('0000', wAno), 3, 2)) or
+    (Copy(MDFe.infMDFe.ID, 8, 2)  <> FormatFloat('00', wMes)) or
+    (Copy(MDFe.infMDFe.ID, 10, 14)<> PadLeft(OnlyNumber(MDFe.Emit.CNPJCPF), 14, '0')) or
+    (Copy(MDFe.infMDFe.ID, 24, 2) <> IntToStrZero(MDFe.Ide.modelo, 2)) or
+    (Copy(MDFe.infMDFe.ID, 26, 3) <> IntToStrZero(MDFe.Ide.serie, 3)) or
+    (Copy(MDFe.infMDFe.ID, 29, 9) <> IntToStrZero(MDFe.Ide.nMDF, 9)) or
+    (Copy(MDFe.infMDFe.ID, 38, 1) <> TpEmisToStr(MDFe.Ide.tpEmis)) or
+    (Copy(MDFe.infMDFe.ID, 39, 8) <> IntToStrZero(MDFe.Ide.cMDF, 8)));
+end;
+
+function Manifesto.GetConfirmado: Boolean;
+begin
+  Result := TACBrMDFe(TManifestos(Collection).ACBrMDFe).cStatConfirmado(
+    FMDFe.procMDFe.cStat);
+end;
+
+function Manifesto.GetProcessado: Boolean;
+begin
+  Result := TACBrMDFe(TManifestos(Collection).ACBrMDFe).cStatProcessado(
+    FMDFe.procMDFe.cStat);
+end;
+
+function Manifesto.GetMsg: String;
+begin
+  Result := FMDFe.procMDFe.xMotivo;
+end;
+
+function Manifesto.GetNumID: String;
+begin
+  Result := Trim(OnlyNumber(MDFe.infMDFe.ID));
 end;
 
 { TManifestos }
 
-constructor TManifestos.Create(AOwner: TPersistent;
-  ItemClass: TCollectionItemClass);
+constructor TManifestos.Create(AOwner: TPersistent; ItemClass: TCollectionItemClass);
 begin
   if not (AOwner is TACBrMDFe) then
-     raise Exception.Create('AOwner deve ser do tipo TACBrMDFe');
+    raise EACBrMDFeException.Create('AOwner deve ser do tipo TACBrMDFe');
 
   inherited;
 
   FACBrMDFe := TACBrMDFe(AOwner);
+  FConfiguracoes := TACBrMDFe(FACBrMDFe).Configuracoes;
 end;
 
 function TManifestos.Add: Manifesto;
 begin
   Result := Manifesto(inherited Add);
-
-  Result.MDFe.Ide.tpAmb := Configuracoes.WebServices.Ambiente;
 end;
 
 procedure TManifestos.Assinar;
 var
-  i: Integer;
-  vAssinada: AnsiString;
-  ArqXML, Alertas: String;
-  Leitor: TLeitor;
-  FMsg: AnsiString;
+  i: integer;
 begin
-  for i:= 0 to Self.Count-1 do
-   begin
-     Self.Items[i].GerarXML(ArqXML, Alertas);
-     Self.Items[i].Alertas := Alertas;
-
-{$IFDEF ACBrMDFeOpenSSL}
-     if not(MAssinar(ArqXML, FConfiguracoes.Certificados.Certificado , FConfiguracoes.Certificados.Senha, vAssinada, FMsg)) then
-       raise Exception.Create('Falha ao assinar Manifesto Eletrônico de Documentos Fiscais '+
-                                   IntToStr(Self.Items[i].MDFe.Ide.cMDF)+FMsg);
-{$ELSE}
-     if not(MAssinar(ArqXML, FConfiguracoes.Certificados.GetCertificado , vAssinada, FMsg)) then
-       raise Exception.Create('Falha ao assinar Manifesto Eletrônico de Documentos Fiscais '+
-                                   IntToStr(Self.Items[i].MDFe.Ide.cMDF)+FMsg);
-{$ENDIF}
-     vAssinada := StringReplace(vAssinada, '<'+ENCODING_UTF8_STD+'>', '', [rfReplaceAll]);
-     vAssinada := StringReplace(vAssinada, '<?xml version="1.0"?>', '', [rfReplaceAll]);
-     Self.Items[i].XML := vAssinada;
-
-     Leitor := TLeitor.Create;
-     try
-       leitor.Grupo := vAssinada;
-       Self.Items[i].MDFe.signature.URI := Leitor.rAtributo('Reference URI=');
-       Self.Items[i].MDFe.signature.DigestValue := Leitor.rCampo(tcStr, 'DigestValue');
-       Self.Items[i].MDFe.signature.SignatureValue := Leitor.rCampo(tcStr, 'SignatureValue');
-       Self.Items[i].MDFe.signature.X509Certificate := Leitor.rCampo(tcStr, 'X509Certificate');
-     finally
-       Leitor.Free;
-     end;
-
-     if FConfiguracoes.Geral.Salvar then
-       FConfiguracoes.Geral.Save(StringReplace(Self.Items[i].MDFe.infMDFe.ID, 'MDFe', '', [rfIgnoreCase]) + '-mdfe.xml', vAssinada);
-
-     if NaoEstaVazio(Self.Items[i].NomeArq) then
-       FConfiguracoes.Geral.Save(ExtractFileName(Self.Items[i].NomeArq), vAssinada, ExtractFilePath(Self.Items[i].NomeArq));
-   end;
+  for i := 0 to Self.Count - 1 do
+    Self.Items[i].Assinar;
 end;
 
 procedure TManifestos.GerarMDFe;
 var
- i: Integer;
- ArqXML, Alertas: String;
+  i: integer;
 begin
- for i:= 0 to Self.Count-1 do
-  begin
-    Self.Items[i].GerarXML(ArqXML, Alertas);
-    Self.Items[i].XML := UTF8Encode(ArqXML);
-    Self.Items[i].Alertas := Alertas;
-  end;
+  for i := 0 to Self.Count - 1 do
+    Self.Items[i].GerarXML;
 end;
 
-function TManifestos.GetItem(Index: Integer): Manifesto;
+function TManifestos.GetItem(Index: integer): Manifesto;
 begin
   Result := Manifesto(inherited Items[Index]);
 end;
@@ -410,271 +571,167 @@ begin
   Result := 'Manifesto';
 end;
 
+procedure TManifestos.VerificarDAMDFE;
+begin
+  if not Assigned(TACBrMDFe(FACBrMDFe).DAMDFE) then
+    raise EACBrMDFeException.Create('Componente DAMDFE não associado.');
+end;
+
 procedure TManifestos.Imprimir;
 begin
-  if not Assigned(TACBrMDFe(FACBrMDFe).DAMDFe) then
-     raise Exception.Create('Componente DAMDFe não associado.')
-  else
-     TACBrMDFe(FACBrMDFe).DAMDFe.ImprimirDAMDFe(nil);
+  VerificarDAMDFE;
+  TACBrMDFe(FACBrMDFE).DAMDFE.ImprimirDAMDFE(nil);
 end;
 
 procedure TManifestos.ImprimirPDF;
 begin
-  if not Assigned(TACBrMDFe(FACBrMDFe).DAMDFe) then
-     raise Exception.Create('Componente DAMDFe não associado.')
-  else
-     TACBrMDFe(FACBrMDFe).DAMDFe.ImprimirDAMDFePDF(nil);
+  VerificarDAMDFE;
+  TACBrMDFe(FACBrMDFE).DAMDFE.ImprimirDAMDFEPDF(nil);
 end;
 
-function TManifestos.Insert(Index: Integer): Manifesto;
+function TManifestos.Insert(Index: integer): Manifesto;
 begin
   Result := Manifesto(inherited Insert(Index));
 end;
 
-procedure TManifestos.SetItem(Index: Integer; const Value: Manifesto);
+procedure TManifestos.SetItem(Index: integer; const Value: Manifesto);
 begin
   Items[Index].Assign(Value);
 end;
 
-procedure TManifestos.Valida;
+procedure TManifestos.Validar;
 var
- i: Integer;
- FMsg: AnsiString;
+  i: integer;
 begin
-  for i:= 0 to Self.Count-1 do
-   begin
-     if pos('<Signature', Self.Items[i].XML) = 0 then
-        Assinar;
-     if not(MValida(('<MDFe xmlns' + RetornarConteudoEntre(Self.Items[i].XML, '<MDFe xmlns', '</MDFe>')+ '</MDFe>'),
-                            FMsg, Self.FConfiguracoes.Geral.PathSchemas)) then
-      begin
-        Self.Items[i].ErroValidacaoCompleto := 'Falha na validação dos dados do Manifesto ' +
-                                               IntToStr(Self.Items[i].MDFe.Ide.nMDF) + sLineBreak +
-                                               Self.Items[i].Alertas + FMsg;
-        Self.Items[i].ErroValidacao := 'Falha na validação dos dados do Manifesto ' +
-                                       IntToStr(Self.Items[i].MDFe.Ide.nMDF) + sLineBreak +
-                                       Self.Items[i].Alertas +
-                                       IfThen(Self.FConfiguracoes.Geral.ExibirErroSchema, FMsg, '');
-        raise Exception.Create(Self.Items[i].ErroValidacao);
-      end;
-  end;
-
+  for i := 0 to Self.Count - 1 do
+    Self.Items[i].Validar;   // Dispara exception em caso de erro
 end;
 
-function TManifestos.ValidaAssinatura(out Msg: String): Boolean;
+function TManifestos.VerificarAssinatura(out Erros: String): Boolean;
 var
- i: Integer;
- FMsg: AnsiString;
+  i: integer;
 begin
   Result := True;
-  for i:= 0 to Self.Count-1 do
-   begin
-     if not(MValidaAssinatura(Self.Items[i].XMLOriginal, FMsg)) then
-      begin
-        Result := False;
-        Msg := 'Falha na validação da assinatura do Manifesto ' +
-               IntToStr(Self.Items[i].MDFe.Ide.nMDF) + sLineBreak + FMsg;
-      end
-     else
-       Result := True;
-  end;
-end;
+  Erros := '';
 
-function TManifestos.LoadFromFile(CaminhoArquivo: String; AGerarMDFe: Boolean = True): Boolean;
-var
- LocMDFeR: TMDFeR;
- ArquivoXML: TStringList;
- XML, XMLOriginal: AnsiString;
-begin
- try
-    ArquivoXML := TStringList.Create;
-    try
-      ArquivoXML.LoadFromFile(CaminhoArquivo {$IFDEF DELPHI2009_UP}, TEncoding.UTF8{$ENDIF});
-      XMLOriginal := ArquivoXML.Text;
-      Result := True;
-      while pos('</MDFe>', ArquivoXML.Text) > 0 do
-       begin
-         if pos('</mdfeProc>', ArquivoXML.Text) > 0  then
-          begin
-            XML := copy(ArquivoXML.Text, 1, pos('</mdfeProc>', ArquivoXML.Text) + 5);
-            ArquivoXML.Text := Trim(copy(ArquivoXML.Text, pos('</mdfeProc>', ArquivoXML.Text) + 10, length(ArquivoXML.Text)));
-          end
-         else
-          begin
-            XML := copy(ArquivoXML.Text, 1, pos('</MDFe>', ArquivoXML.Text) + 5);
-            ArquivoXML.Text := Trim(copy(ArquivoXML.Text, pos('</MDFe>', ArquivoXML.Text) + 6, length(ArquivoXML.Text)));
-          end;
-         LocMDFeR := TMDFeR.Create(Self.Add.MDFe);
-         try
-            LocMDFeR.Leitor.Arquivo := XML;
-            LocMDFeR.LerXml;
-            Items[Self.Count-1].XML := LocMDFeR.Leitor.Arquivo;
-            Items[Self.Count-1].XMLOriginal := XMLOriginal;
-            Items[Self.Count-1].NomeArq := CaminhoArquivo;
-
-            if AGerarMDFe then GerarMDFe;
-         finally
-            LocMDFeR.Free;
-         end;
-       end;
-     finally
-       ArquivoXML.Free;
-     end;
- except
-    raise;
-    Result := False;
- end;
-end;
-
-function TManifestos.LoadFromStream(Stream: TStringStream; AGerarMDFe: Boolean = True): Boolean;
-var
- LocMDFeR: TMDFeR;
-begin
-  try
-    Result  := True;
-    LocMDFeR := TMDFeR.Create(Self.Add.MDFe);
-    try
-       LocMDFeR.Leitor.CarregarArquivo(Stream);
-       LocMDFeR.LerXml;
-       Items[Self.Count-1].XML := LocMDFeR.Leitor.Arquivo;
-       Items[Self.Count-1].XMLOriginal := Stream.DataString;
-       if AGerarMDFe then GerarMDFe;
-    finally
-       LocMDFeR.Free
+  for i := 0 to Self.Count - 1 do
+  begin
+    if not Self.Items[i].VerificarAssinatura then
+    begin
+      Result := False;
+      Erros := Erros + Self.Items[i].ErroValidacao + sLineBreak;
     end;
-  except
-    Result := False;
   end;
 end;
 
-function TManifestos.SaveToFile(PathArquivo: String = ''): Boolean;
+function TManifestos.ValidarRegrasdeNegocios(out Erros: String): Boolean;
 var
- i: integer;
- CaminhoArquivo: String;
+  i: integer;
 begin
- Result := True;
- try
-    for i:= 0 to TACBrMDFe(FACBrMDFe).Manifestos.Count-1 do
-     begin
-        if EstaVazio(PathArquivo) then
-           PathArquivo := TACBrMDFe(FACBrMDFe).Configuracoes.Geral.PathSalvar
-        else
-           PathArquivo := ExtractFilePath(PathArquivo);
-        CaminhoArquivo := PathWithDelim(PathArquivo) + copy(TACBrMDFe(FACBrMDFe).Manifestos.Items[i].MDFe.inFMDFe.ID, (length(TACBrMDFe(FACBrMDFe).Manifestos.Items[i].MDFe.inFMDFe.ID)-44)+1, 44)+'-mdfe.xml';
-        TACBrMDFe(FACBrMDFe).Manifestos.Items[i].SaveToFile(CaminhoArquivo)
-     end;
- except
-    Result := False;
- end;
-end;
+  Result := True;
+  Erros := '';
 
-function TManifestos.LoadFromString(AString: String; AGerarMDFe: Boolean = True): Boolean;
-var
-  XMLMDFe: TStringStream;
-begin
-  try
-    XMLMDFe := TStringStream.Create('');
-    try
-      XMLMDFe.WriteString(AString);
-      Result := LoadFromStream(XMLMDFe, AGerarMDFe);
-    finally
-      XMLMDFe.Free;
+  for i := 0 to Self.Count - 1 do
+  begin
+    if not Self.Items[i].ValidarRegrasdeNegocios then
+    begin
+      Result := False;
+      Erros := Erros + Self.Items[i].ErroRegrasdeNegocios + sLineBreak;
     end;
-  except
-    Result := False;
   end;
 end;
 
-{ TSendMailThread }
-
-procedure TSendMailThread.DoHandleException;
-begin
-  // TACBrMDFe(TManifestos(FOwner.GetOwner).ACBrMDFe).SetStatus(stMDFeIdle);
-
-  // FOwner.Alertas := FException.Message;
-
-  if FException is Exception then
-    Application.ShowException(FException)
-  else
-    SysUtils.ShowException(FException, nil);
-end;
-
-constructor TSendMailThread.Create; //(AOwner: Manifesto);
-begin
-  smtp        := TSMTPSend.Create;
-  slmsg_Lines := TStringList.Create;
-  sCC         := TStringList.Create;
-  sFrom       := '';
-  sTo         := '';
-
-  FreeOnTerminate := True;
-
-  inherited Create(True);
-end;
-
-destructor TSendMailThread.Destroy;
-begin
-  slmsg_Lines.Free;
-  sCC.Free;
-  smtp.Free;
-
-  inherited;
-end;
-
-procedure TSendMailThread.Execute;
+function TManifestos.LoadFromFile(CaminhoArquivo: String;
+  AGerarMDFe: Boolean = True): Boolean;
 var
- i: integer;
+  ArquivoXML: TStringList;
+  XML: String;
+  XMLOriginal: AnsiString;
+  i: integer;
 begin
-  inherited;
-
+  Result := False;
+  ArquivoXML := TStringList.Create;
   try
-    Terminado := False;
-    try
-      if not smtp.Login() then
-        raise Exception.Create('SMTP ERROR: Login:' + smtp.EnhCodeString + sLineBreak+smtp.FullResult.Text);
+    ArquivoXML.LoadFromFile(CaminhoArquivo);
+    XMLOriginal := ArquivoXML.Text;
 
-      if not smtp.MailFrom(sFrom, Length(sFrom)) then
-        raise Exception.Create('SMTP ERROR: MailFrom:' + smtp.EnhCodeString + sLineBreak+smtp.FullResult.Text);
+    // Converte de UTF8 para a String nativa da IDE //
+    XML := DecodeToString(XMLOriginal, True);
+    LoadFromString(XML, AGerarMDFe);
 
-      if not smtp.MailTo(sTo) then
-        raise Exception.Create('SMTP ERROR: MailTo:' + smtp.EnhCodeString + sLineBreak+smtp.FullResult.Text);
+    for i := 0 to Self.Count - 1 do
+      Self.Items[i].NomeArq := CaminhoArquivo;
 
-      if (sCC <> nil) then
-      begin
-        for I := 0 to sCC.Count - 1 do
-        begin
-          if not smtp.MailTo(sCC.Strings[i]) then
-            raise Exception.Create('SMTP ERROR: MailTo:' + smtp.EnhCodeString + sLineBreak+smtp.FullResult.Text);
-        end;
-      end;
-
-      if not smtp.MailData(slmsg_Lines) then
-        raise Exception.Create('SMTP ERROR: MailData:' + smtp.EnhCodeString + sLineBreak+smtp.FullResult.Text);
-
-      if not smtp.Logout() then
-        raise Exception.Create('SMTP ERROR: Logout:' + smtp.EnhCodeString + sLineBreak+smtp.FullResult.Text);
-    finally
-      try
-        smtp.Sock.CloseSocket;
-      except
-      end;
-      Terminado := True;
-    end;
-  except
-    Terminado := True;
-    HandleException;
-  end;
-end;
-
-procedure TSendMailThread.HandleException;
-begin
-  FException := Exception(ExceptObject);
-  try
-    // Não mostra mensagens de EAbort
-    if not (FException is EAbort) then
-      Synchronize(DoHandleException);
+    Result := True;
   finally
-    FException := nil;
+    ArquivoXML.Free;
+  end;
+end;
+
+function TManifestos.LoadFromStream(AStream: TStringStream;
+  AGerarMDFe: Boolean = True): Boolean;
+var
+  XMLOriginal: String;
+begin
+  Result := False;
+  XMLOriginal := '';
+  AStream.Position := 0;
+  SetLength(XMLOriginal, AStream.Size);
+  AStream.ReadBuffer(XMLOriginal[1], AStream.Size);
+
+  Result := Self.LoadFromString(XMLOriginal, AGerarMDFe);
+end;
+
+function TManifestos.LoadFromString(AXMLString: String;
+  AGerarMDFe: Boolean = True): Boolean;
+var
+  AXML: AnsiString;
+  P, N: integer;
+
+  function PosMDFe: integer;
+  begin
+    Result := pos('</MDFe>', AXMLString);
+  end;
+
+begin
+  Result := False;
+  N := PosMDFe;
+  while N > 0 do
+  begin
+    P := pos('</mdfeProc>', AXMLString);
+    if P > 0 then
+    begin
+      AXML := copy(AXMLString, 1, P + 5);
+      AXMLString := Trim(copy(AXMLString, P + 10, length(AXMLString)));
+    end
+    else
+    begin
+      AXML := copy(AXMLString, 1, N + 5);
+      AXMLString := Trim(copy(AXMLString, N + 6, length(AXMLString)));
+    end;
+
+    with Self.Add do
+    begin
+      LerXML(AXML);
+
+      if AGerarMDFe then // Recalcula o XML
+        GerarXML;
+    end;
+
+    N := PosMDFe;
+  end;
+end;
+
+function TManifestos.GravarXML(PathArquivo: String): Boolean;
+var
+  i: integer;
+begin
+  Result := True;
+  i := 0;
+  while Result and (i < Self.Count) do
+  begin
+    Result := Self.Items[i].GravarXML('', PathArquivo);
+    Inc(i);
   end;
 end;
 

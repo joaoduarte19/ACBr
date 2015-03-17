@@ -80,7 +80,7 @@ interface
 
 uses
   Windows,
-  Classes, ClipBrd, Controls, Graphics, Messages, SysUtils;
+  Classes, ClipBrd, Controls, Graphics, Messages, SysUtils, ACBrMDFe;
 
 const
   bcMaxBarCodeLen = 255;
@@ -587,7 +587,7 @@ var
         bcDigits[RLen + 1] := J;
         Inc(I);
       except
-        raise Exception.Create('Caracteres inválidos');
+        raise EACBrCTeException.Create( 'Caracteres inválidos' );
       end;
     end;
     Inc(I);
