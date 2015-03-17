@@ -56,8 +56,6 @@
 
 unit pcnNFeW;
 
-// {$H+}
-
 interface
 
 uses
@@ -240,20 +238,8 @@ begin
        Gerador.wAlerta('A01', 'infNFe', DSC_CHAVE, ERR_MSG_GERAR_CHAVE);
    end;
 
-  if trim(nfe.infNFe.ID) = '' then
-    nfe.infNFe.ID := chave;
+  nfe.infNFe.ID := chave;
 
-  if (copy(nfe.infNFe.ID, 1, 3) <> 'NFe') then
-    NFe.infNFe.ID := 'NFe' + NFe.infNFe.ID;
-
-  if (Trim(nfe.infNFe.ID) = '') or (not ValidarChave(nfe.infNFe.ID)) then
-     nfe.infNFe.ID := chave
-  else
-   begin
-     NFe.infNFe.ID := StringReplace( UpperCase(NFe.infNFe.ID), 'NFE', '', [rfReplaceAll] ) ;
-     NFe.infNFe.ID := 'NFe' + NFe.infNFe.ID;
-   end;
-   
   nfe.ide.cDV := RetornarDigito(nfe.infNFe.ID);
   nfe.Ide.cNF := RetornarCodigoNumerico(nfe.infNFe.ID, NFe.infNFe.Versao);
   // Carrega Layout que sera utilizado para gera o txt
@@ -363,7 +349,6 @@ begin
    begin
      Gerador.wCampo(tcStr, 'B09', 'dhEmi   ', 25, 25, 1, DateTimeTodh(nfe.ide.dEmi) + GetUTC(CodigoParaUF(nfe.ide.cUF), nfe.ide.dEmi), DSC_DEMI);
 
-     // Alterado por Italo em 12/03/2014
      if (nfe.ide.modelo = 55) and (nfe.ide.dSaiEnt <> 0) then
        Gerador.wCampo(tcStr, 'B10', 'dhSaiEnt', 25, 25, 0, DateTimeTodh(nfe.ide.dSaiEnt) + GetUTC(CodigoParaUF(nfe.ide.cUF), nfe.ide.dSaiEnt), DSC_DSAIENT);
    end
@@ -500,7 +485,6 @@ begin
   Gerador.wCampo(tcStr, 'C04', 'xFant  ', 01, 60, 0, nfe.Emit.xFant, DSC_XFANT);
   (**)GerarEmitEnderEmit;
   Gerador.IDNivel := 'C01';
-  // Alterado por Italo em 20/02/2014
   if nfe.Emit.IE = 'ISENTO' then
     Gerador.wCampo(tcStr, 'C17', 'IE     ', 00, 14, 1, nfe.Emit.IE, DSC_IE)
   else
@@ -518,7 +502,6 @@ begin
   end;
   Gerador.wCampo(tcStr, 'C18', 'IEST   ', 02, 14, 0, nfe.Emit.IEST, DSC_IEST);
   Gerador.wCampo(tcStr, 'C19', 'IM     ', 01, 15, 0, nfe.Emit.IM, DSC_IM);
-  // Alterado por Italo em 27/06/2014
   // NT 2013/005 versão 1.03
   // o CNAE passa ser opcional mesmo quando informado o IM, mas o CNAE só pode
   // ser informado se o IM for informado.
@@ -588,21 +571,10 @@ begin
 
   if nfe.infNFe.Versao >= 3 then
    begin
-    // Alterado por Italo em 26/06/2014
     if (nfe.Dest.enderDest.cPais = 1058) and (nfe.Dest.CNPJCPF <> '') then
       Gerador.wCampoCNPJCPF('E02', 'E03', nfe.Dest.CNPJCPF, nfe.Dest.enderDest.cPais)
     else
       Gerador.wCampo(tcStr, 'E03a', 'idEstrangeiro', 01, 20, 1, nfe.Dest.idEstrangeiro, DSC_IDESTR);
-
-    (*
-    if nfe.Dest.idEstrangeiro <> '' then
-       Gerador.wCampo(tcStr, 'E03a', 'idEstrangeiro', 01, 20, 1, nfe.Dest.idEstrangeiro, DSC_IDESTR)
-    else begin
-       // Alterado por Italo em 12/03/2014
-       if nfe.Dest.enderDest.cPais = 1058 then
-         Gerador.wCampoCNPJCPF('E02', 'E03', nfe.Dest.CNPJCPF, nfe.Dest.enderDest.cPais);
-    end;
-    *)
    end
   else
      Gerador.wCampoCNPJCPF('E02', 'E03', nfe.Dest.CNPJCPF, nfe.Dest.enderDest.cPais);
@@ -639,8 +611,6 @@ begin
         else if (trim(nfe.Dest.IE) <> '') or (nfe.Ide.modelo <> 65)  then
         Gerador.wCampo(tcStr, 'E17', 'IE     ', 00, 14, 1, OnlyNumber(nfe.Dest.IE), DSC_IE);
 
-      //  if (length(nfe.Dest.CNPJCPF) = 11) and (OnlyNumber(nfe.Dest.IE) <> '') then
-      //    Gerador.wAlerta('E17', 'IE', DSC_IE, ERR_MSG_INVALIDO); // Para MG produtor rural possui CPF e IE
         if (FOpcoes.ValidarInscricoes) and (nfe.Dest.IE <> '') and (nfe.Dest.IE <> 'ISENTO') then
           if not ValidarIE(nfe.Dest.IE, UF) then
             Gerador.wAlerta('E17', 'IE', DSC_IE, ERR_MSG_INVALIDO);
@@ -677,7 +647,6 @@ begin
   if not ValidarUF(xUF) then
     Gerador.wAlerta('E12', 'UF', DSC_UF, ERR_MSG_INVALIDO);
   Gerador.wCampo(tcInt, 'E13', 'CEP    ', 08, 08, 0, nfe.Dest.enderDest.CEP, DSC_CEP);
-  //Gerador.wCampo(tcStr, 'E14', 'cPais  ', 01, 04, 0, IntToStrZero(nfe.Dest.enderDest.cPais,4), DSC_CPAIS);
   Gerador.wCampo(tcStr, 'E14', 'cPais ', 01, 04, 0, IIf(nfe.Dest.enderDest.cPais <> 0, IntToStrZero(nfe.Dest.enderDest.cPais,4), ''), DSC_CPAIS);
   if not ValidarCodigoPais(nfe.Dest.enderDest.cPais) = -1 then
     Gerador.wAlerta('E14', 'cPais', DSC_CPAIS, ERR_MSG_INVALIDO);
@@ -833,7 +802,6 @@ begin
     begin
       Gerador.wCampo(tcStr, 'I23a', 'tpViaTransp ', 02, 02, 1, TipoViaTranspToStr(nfe.Det[i].Prod.DI[j].tpViaTransp), DSC_TPVIATRANSP);
 
-      // Alterado por Italo em 26/06/2014
       if nfe.Det[i].Prod.DI[j].tpViaTransp = tvMaritima then
         Gerador.wCampo(tcDe2, 'I23b', 'vAFRMM', 00, 15, 1, nfe.Det[i].Prod.DI[j].vAFRMM, DSC_VAFRMM)
       else
@@ -841,11 +809,8 @@ begin
 
       Gerador.wCampo(tcStr, 'I23c', 'tpIntermedio', 01, 01, 1, TipoIntermedioToStr(nfe.Det[i].Prod.DI[j].tpIntermedio), DSC_TPINTERMEDIO);
 
-      // Alterado por Italo em 25/06/2014
       Gerador.wCampo(tcStr, 'I23d', 'CNPJ        ', 14, 14, 0, nfe.Det[i].Prod.DI[j].CNPJ, DSC_CNPJ);
-//      Gerador.wCampoCNPJCPF('I23d', 'I23d', nfe.Det[i].Prod.DI[j].CNPJ, CODIGO_BRASIL);
 
-      // Alterado por Italo em 12/03/2014
       Gerador.wCampo(tcStr, 'I23e', 'UFTerceiro  ', 02, 02, 0, nfe.Det[i].Prod.DI[j].UFTerceiro, DSC_UF);
       if nfe.Det[i].Prod.DI[j].UFTerceiro <> '' then
         if not ValidarUF(nfe.Det[i].Prod.DI[j].UFTerceiro) then
@@ -1130,10 +1095,6 @@ begin
 end;
 
 procedure TNFeW.GerarDetImpostoICMS(const i: Integer);
-// Rotina melhorada por
-// Perterson          - > peterson161@yahoo.com
-// Henrique Leonardo  - > Hleonardopa@yahoo.com.br
-// Jeandeson Merelis  - > jeanmerelis@yahoo.com
    var
     sTagTemp : String;
 
