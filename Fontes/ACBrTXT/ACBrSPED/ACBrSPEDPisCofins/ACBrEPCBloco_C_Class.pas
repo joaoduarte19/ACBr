@@ -75,6 +75,10 @@ type
   TBloco_C = class(TACBrSPED)
   private
     FRegistroC001: TRegistroC001;      /// BLOCO 0 - Registro0001
+    FRegistroC860Count: Integer;
+    FRegistroC870Count: Integer;
+    FRegistroC880Count: Integer;
+    FRegistroC890Count: Integer;
     FRegistroC990: TRegistroC990;      /// BLOCO 0 - Registro0990
 
     FRegistroC010Count: Integer;
@@ -155,6 +159,10 @@ type
     procedure WriteRegistroC601(RegC600: TRegistroC600);
     procedure WriteRegistroC605(RegC600: TRegistroC600);
     procedure WriteRegistroC609(RegC600: TRegistroC600);
+    procedure WriteRegistroC860(RegC010: TRegistroC010);
+    procedure WriteRegistroC870(RegC860: TRegistroC860);
+    procedure WriteRegistroC880(RegC860: TRegistroC860);
+    procedure WriteRegistroC890(RegC860: TRegistroC860);
 
     procedure CriaRegistros;
     procedure LiberaRegistros;
@@ -207,6 +215,10 @@ type
     function RegistroC601New: TRegistroC601;
     function RegistroC605New: TRegistroC605;
     function RegistroC609New: TRegistroC609;
+    function RegistroC860New: TRegistroC860;
+    function RegistroC870New: TRegistroC870;
+    function RegistroC880New: TRegistroC880;
+    function RegistroC890New: TRegistroC890;
 
     procedure WriteRegistroC001 ;
     procedure WriteRegistroC990 ;
@@ -253,6 +265,10 @@ type
     property RegistroC601Count: Integer read FRegistroC601Count write FRegistroC601Count;
     property RegistroC605Count: Integer read FRegistroC605Count write FRegistroC605Count;
     property RegistroC609Count: Integer read FRegistroC609Count write FRegistroC609Count;
+    property RegistroC860Count: Integer read FRegistroC860Count write FRegistroC860Count;
+    property RegistroC870Count: Integer read FRegistroC870Count write FRegistroC870Count;
+    property RegistroC880Count: Integer read FRegistroC880Count write FRegistroC880Count;
+    property RegistroC890Count: Integer read FRegistroC890Count write FRegistroC890Count;
 
     property OnBeforeWriteRegistroC481: TWriteRegistroC481Event read FOnBeforeWriteRegistroC481 write FOnBeforeWriteRegistroC481;
     property OnBeforeWriteRegistroC485: TWriteRegistroC485Event read FOnBeforeWriteRegistroC485 write FOnBeforeWriteRegistroC485;
@@ -326,6 +342,11 @@ begin
   FRegistroC601Count      := 0;
   FRegistroC605Count      := 0;
   FRegistroC609Count      := 0;
+  FRegistroC860Count      := 0;
+  FRegistroC870Count      := 0;
+  FRegistroC880Count      := 0;
+  FRegistroC890Count      := 0;
+
 
   FRegistroC990.QTD_LIN_C := 0;
 end;
@@ -713,6 +734,44 @@ begin
    Result    := FRegistroC001.RegistroC010.Items[C010Count].RegistroC600.Items[C600Count].RegistroC609.New;
 end;
 
+function TBloco_C.RegistroC860New: TRegistroC860;
+begin
+  Result := FRegistroC001.RegistroC010.Items[FRegistroC001.RegistroC010.Count -1].RegistroC860.New;
+end;
+
+function TBloco_C.RegistroC870New: TRegistroC870;
+var
+  C010Count: integer;
+  C860Count: integer;
+begin
+ C010Count := FRegistroC001.RegistroC010.Count -1;
+ C860Count := FRegistroC001.RegistroC010.Items[C010Count].RegistroC860.Count -1;
+ //
+ Result    := FRegistroC001.RegistroC010.Items[C010Count].RegistroC860.Items[C860Count].RegistroC870.New;
+end;
+
+function TBloco_C.RegistroC880New: TRegistroC880;
+var
+  C010Count: integer;
+  C860Count: integer;
+begin
+ C010Count := FRegistroC001.RegistroC010.Count -1;
+ C860Count := FRegistroC001.RegistroC010.Items[C010Count].RegistroC860.Count -1;
+ //
+ Result    := FRegistroC001.RegistroC010.Items[C010Count].RegistroC860.Items[C860Count].RegistroC880.New;
+end;
+
+function TBloco_C.RegistroC890New: TRegistroC890;
+var
+  C010Count: integer;
+  C860Count: integer;
+begin
+ C010Count := FRegistroC001.RegistroC010.Count -1;
+ C860Count := FRegistroC001.RegistroC010.Items[C010Count].RegistroC860.Count -1;
+ //
+ Result    := FRegistroC001.RegistroC010.Items[C010Count].RegistroC860.Items[C860Count].RegistroC890.New;
+end;
+
 
 procedure TBloco_C.WriteRegistroC001 ;
 begin
@@ -768,6 +827,8 @@ begin
         WriteRegistroC490( RegC001.RegistroC010.Items[intFor] );
         WriteRegistroC500( RegC001.RegistroC010.Items[intFor] );
         WriteRegistroC600( RegC001.RegistroC010.Items[intFor] );
+        if DT_INI >= StrToDate('01/05/2015') then
+          WriteRegistroC860( RegC001.RegistroC010.Items[intFor] );
         //
         RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
       end;
@@ -786,6 +847,9 @@ begin
       WriteRegistroC490( RegC001.RegistroC010.Items[FRegistroC010Count-1] );
       WriteRegistroC500( RegC001.RegistroC010.Items[FRegistroC010Count-1] );
       WriteRegistroC600( RegC001.RegistroC010.Items[FRegistroC010Count-1] );
+      if DT_INI >= StrToDate('01/05/2015') then
+        WriteRegistroC860( RegC001.RegistroC010.Items[FRegistroC010Count-1] );
+
     end;
   end;
 end;
@@ -936,9 +1000,8 @@ begin
 end;
 
 procedure TBloco_C.WriteRegistroC111(RegC100: TRegistroC100);
-  var
-    intFor      : integer;
-    strIND_PROC : string;
+var
+  intFor      : integer;
 begin
   if Assigned(RegC100.RegistroC111) then
   begin
@@ -946,16 +1009,10 @@ begin
     begin
       with RegC100.RegistroC111.Items[intFor] do
       begin
-        case IND_PROC of
-           opJusticaFederal : strIND_PROC := '1';
-           opSecexRFB       : strIND_PROC := '3';
-           opOutros         : strIND_PROC := '9';
-           opNenhum         : strIND_PROC := '';
-        end;
 
         Add( LFill('C111')   +
              LFill(NUM_PROC) +
-             LFill(strIND_PROC) ) ;
+             LFill(ACBrOrigemProcessoStr[ Integer(IND_PROC)]) ) ;
         //
         RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
       end;
@@ -1078,10 +1135,10 @@ begin
         begin
           Add(
               {01}  LFill('C175')                   +
-              {02}  LFill( CFOP )                   +
+              {02}  LFill( CFOP, 4 )                +
               {03} VLFill( VL_OPR, 0, 2 )           +
               {04} VLFill( VL_DESC, 0, 2 )          +
-              {05}  LFill( CstPisToStr(CST_PIS) )     +
+              {05}  LFill( CstPisToStr(CST_PIS) )   +
               {06} VLFill( VL_BC_PIS, 0, 2)        +
               {07} VLFill( ALIQ_PIS, 8, 4)         +
               {08} VLFill( QUANT_BC_PIS, 0, 3)     +
@@ -1148,8 +1205,8 @@ begin
       with RegC180.RegistroC181.Items[intFor] do
       begin
         Add( LFill('C181')             +
-             LFill(CstPisToStr(CST_PIS)) +
-             LFill(CFOP)               +
+             LFill( CstPisToStr(CST_PIS)) +
+             LFill( CFOP, 4)               +
              VLFill(VL_ITEM,0,2)        +
              VLFill(VL_DESC,0,2)        +
              VLFill(VL_BC_PIS,0,2) +
@@ -1180,7 +1237,7 @@ begin
 
         Add( LFill('C185')                     +
              LFill(CstCofinsToStr(CST_COFINS)) +
-             LFill(CFOP)                       +
+             LFill(CFOP, 4)                       +
              VLFill(VL_ITEM,0,2)         +
              VLFill(VL_DESC,0,2)         +
              VLFill(VL_BC_COFINS,0,2)    +
@@ -1199,9 +1256,8 @@ begin
 end;
 
 procedure TBloco_C.WriteRegistroC188(RegC180: TRegistroC180);
-  var
-    intFor      : integer;
-    strIND_PROC : string;
+var
+  intFor      : integer;
 begin
   if Assigned(RegC180.RegistroC188) then
   begin
@@ -1209,16 +1265,9 @@ begin
     begin
       with RegC180.RegistroC188.Items[intFor] do
       begin
-        case IND_PROC of
-           opJusticaFederal : strIND_PROC := '1';
-           opSecexRFB       : strIND_PROC := '3';
-           opOutros         : strIND_PROC := '9';
-           opNenhum         : strIND_PROC := '';
-        end;
-
         Add( LFill('C188')   +
              LFill(NUM_PROC) +
-             LFill(strIND_PROC) ) ;
+             LFill(ACBrOrigemProcessoStr[ Integer(IND_PROC)]) ) ;
         //
         RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
       end;
@@ -1325,9 +1374,8 @@ begin
 end;
 
 procedure TBloco_C.WriteRegistroC198(RegC190: TRegistroC190);
-  var
-    intFor      : integer;
-    strIND_PROC : string;
+var
+  intFor      : integer;
 begin
   if Assigned(RegC190.RegistroC198) then
   begin
@@ -1335,16 +1383,9 @@ begin
     begin
       with RegC190.RegistroC198.Items[intFor] do
       begin
-        case IND_PROC of
-           opJusticaFederal : strIND_PROC := '1';
-           opSecexRFB       : strIND_PROC := '3';
-           opOutros         : strIND_PROC := '9';
-           opNenhum         : strIND_PROC := '';
-        end;
-
         Add( LFill('C198')   +
              LFill(NUM_PROC) +
-             LFill(strIND_PROC) ) ;
+             LFill(ACBrOrigemProcessoStr[ Integer(IND_PROC)]) ) ;
         //
         RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
       end;
@@ -1758,9 +1799,8 @@ begin
 end;
 
 procedure TBloco_C.WriteRegistroC489(RegC400: TRegistroC400);
-  var
-    intFor      : integer;
-    strIND_PROC : string;
+var
+  intFor      : integer;
 begin
   if Assigned(RegC400.RegistroC489) then
   begin
@@ -1768,16 +1808,9 @@ begin
     begin
       with RegC400.RegistroC489.Items[intFor] do
       begin
-        case IND_PROC of
-           opJusticaFederal : strIND_PROC := '1';
-           opSecexRFB       : strIND_PROC := '3';
-           opOutros         : strIND_PROC := '9';
-           opNenhum         : strIND_PROC := '';
-        end;
-
         Add( LFill('C489')   +
              LFill(NUM_PROC) +
-             LFill(strIND_PROC) ) ;
+             LFill(ACBrOrigemProcessoStr[ Integer(IND_PROC)]) ) ;
         //
         RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
       end;
@@ -1959,9 +1992,8 @@ begin
 end;
 
 procedure TBloco_C.WriteRegistroC499(RegC490: TRegistroC490);
-  var
-    intFor      : integer;
-    strIND_PROC : string;
+var
+  intFor      : integer;
 begin
   if Assigned(RegC490.RegistroC499) then
   begin
@@ -1969,16 +2001,10 @@ begin
     begin
       with RegC490.RegistroC499.Items[intFor] do
       begin
-        case IND_PROC of
-           opJusticaFederal : strIND_PROC := '1';
-           opSecexRFB       : strIND_PROC := '3';
-           opOutros         : strIND_PROC := '9';
-           opNenhum         : strIND_PROC := '';
-        end;
 
         Add( LFill('C499')   +
              LFill(NUM_PROC) +
-             LFill(strIND_PROC) ) ;
+             LFill(ACBrOrigemProcessoStr[ Integer(IND_PROC)]) ) ;
         //
         RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
       end;
@@ -2127,9 +2153,8 @@ begin
 end;
 
 procedure TBloco_C.WriteRegistroC509(RegC500: TRegistroC500);
-  var
-    intFor      : integer;
-    strIND_PROC : string;
+var
+  intFor      : integer;
 begin
   if Assigned(RegC500.RegistroC509) then
   begin
@@ -2137,16 +2162,9 @@ begin
     begin
       with RegC500.RegistroC509.Items[intFor] do
       begin
-        case IND_PROC of
-           opJusticaFederal : strIND_PROC := '1';
-           opSecexRFB       : strIND_PROC := '3';
-           opOutros         : strIND_PROC := '9';
-           opNenhum         : strIND_PROC := '';
-        end;
-
         Add( LFill('C509')   +
              LFill(NUM_PROC) +
-             LFill(strIND_PROC) ) ;
+             LFill(ACBrOrigemProcessoStr[ Integer(IND_PROC)]) ) ;
         //
         RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
       end;
@@ -2157,8 +2175,8 @@ begin
 end;
 
 procedure TBloco_C.WriteRegistroC600(RegC010: TRegistroC010);
-  var
-    intFor: integer;
+var
+  intFor: integer;
 begin
   if Assigned( RegC010.RegistroC600 ) then
   begin
@@ -2204,8 +2222,8 @@ begin
 end;
 
 procedure TBloco_C.WriteRegistroC601(RegC600: TRegistroC600);
-  var
-    intFor: integer;
+var
+  intFor: integer;
 begin
   if Assigned(RegC600.RegistroC601) then
   begin
@@ -2258,7 +2276,6 @@ end;
 procedure TBloco_C.WriteRegistroC609(RegC600: TRegistroC600);
   var
     intFor      : integer;
-    strIND_PROC : string;
 begin
   if Assigned(RegC600.RegistroC609) then
   begin
@@ -2266,22 +2283,132 @@ begin
     begin
       with RegC600.RegistroC609.Items[intFor] do
       begin
-        case IND_PROC of
-           opJusticaFederal : strIND_PROC := '1';
-           opSecexRFB       : strIND_PROC := '3';
-           opOutros         : strIND_PROC := '9';
-           opNenhum         : strIND_PROC := '';
-        end;
-
         Add( LFill('C609')   +
              LFill(NUM_PROC) +
-             LFill(strIND_PROC) ) ;
+             LFill(ACBrOrigemProcessoStr[ Integer(IND_PROC)]) ) ;
         //
         RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
       end;
     end;
     // Variavél para armazenar a quantidade de registro do tipo.
     FRegistroC609Count := FRegistroC609Count + RegC600.RegistroC609.Count;
+  end;
+end;
+
+procedure TBloco_C.WriteRegistroC860(RegC010: TRegistroC010);
+  var
+    intFor: integer;
+  begin
+    if Assigned( RegC010.RegistroC860 ) then
+    begin
+       for intFor := 0 to RegC010.RegistroC860.Count - 1 do
+       begin
+          with RegC010.RegistroC860.Items[intFor] do
+          begin
+            Add( LFill('C860')       +
+                 LFill( COD_MOD, 2 ) +
+                 LFill( NR_SAT )     +
+                 LFill( DT_DOC)      +
+                 LFill( DOC_INI )    +
+                 LFill( DOC_FIM )    ) ;
+          end;
+          /// Registros FILHOS
+          WriteRegistroC870( RegC010.RegistroC860.Items[intFor] ) ;
+          WriteRegistroC880( RegC010.RegistroC860.Items[intFor] ) ;
+          WriteRegistroC890( RegC010.RegistroC860.Items[intFor] ) ;
+
+          RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
+       end;
+       /// Variavél para armazenar a quantidade de registro do tipo.
+       Inc( FRegistroC860Count , RegC010.RegistroC860.Count);
+
+       RegC010.RegistroC860.Clear;
+    end;
+end;
+
+procedure TBloco_C.WriteRegistroC870(RegC860: TRegistroC860);
+var
+  intFor: integer;
+begin
+  if Assigned(RegC860.RegistroC870) then
+  begin
+    for intFor := 0 to RegC860.RegistroC870.Count - 1 do
+    begin
+      with RegC860.RegistroC870.Items[intFor] do
+      begin
+        Add( LFill('C870')        +
+             LFill(CFOP, 4)       +
+             LFill(VL_ITEM,0,2)   +
+             LFill(COD_ITEM)      +
+             LFill(CstPisToStr(CST_PIS))       +
+             LFill(VL_BC_PIS,0,2)              +
+             DFill(ALIQ_PIS, 4)                +
+             LFill(VL_PIS,0,2)                 +
+             LFill(CstCofinsToStr(CST_COFINS)) +
+             LFill(VL_BC_COFINS,0,2)           +
+             DFill(ALIQ_COFINS, 4)             +
+             LFill(VL_COFINS,0,2)              +
+             LFill(COD_CTA) ) ;
+        //
+        RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
+      end;
+    end;
+    // Variavél para armazenar a quantidade de registro do tipo.
+    Inc( FRegistroC870Count , RegC860.RegistroC870.Count);
+  end;
+end;
+
+procedure TBloco_C.WriteRegistroC880(RegC860: TRegistroC860);
+var
+  intFor: integer;
+begin
+  if Assigned(RegC860.RegistroC880) then
+  begin
+    for intFor := 0 to RegC860.RegistroC880.Count - 1 do
+    begin
+      with RegC860.RegistroC880.Items[intFor] do
+      begin
+        Add( LFill('C880')                     +
+             LFill(COD_ITEM)                   +
+             LFill(CFOP, 4)                    +
+             LFill(VL_ITEM, 0, 2)              +
+             LFill(CstPisToStr(CST_PIS))       +
+             LFill(QUANT_BC_PIS,0,3)           +
+             LFill(ALIQ_PIS_QUANT,0, 4)        +
+             LFill(VL_PIS,0,2)                 +
+             LFill(CstCofinsToStr(CST_COFINS)) +
+             LFill(QUANT_BC_COFINS,0,3)        +
+             LFill(ALIQ_COFINS_QUANT,0, 4)       +
+             LFill(VL_COFINS,0,2)              +
+             LFill(COD_CTA) ) ;
+        //
+        RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
+      end;
+    end;
+    // Variavél para armazenar a quantidade de registro do tipo.
+    Inc(FRegistroC880Count , RegC860.RegistroC880.Count);
+  end;
+end;
+
+procedure TBloco_C.WriteRegistroC890(RegC860: TRegistroC860);
+var
+  intFor: integer;
+begin
+  if Assigned(RegC860.RegistroC890) then
+  begin
+    for intFor := 0 to RegC860.RegistroC890.Count - 1 do
+    begin
+      with RegC860.RegistroC890.Items[intFor] do
+      begin
+        Add( LFill('C890')        +
+             LFill(NUM_PROC)       +
+             LFill(ACBrOrigemProcessoStr[ Integer(IND_PROC)]) ) ;
+        //
+        RegistroC990.QTD_LIN_C := RegistroC990.QTD_LIN_C + 1;
+      end;
+    end;
+    // Variavél para armazenar a quantidade de registro do tipo.
+    Inc(FRegistroC890Count, RegC860.RegistroC890.Count);
   end;
 end;
 

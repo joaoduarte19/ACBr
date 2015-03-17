@@ -84,6 +84,10 @@ type
   TRegistroC601List = class;
   TRegistroC605List = class;
   TRegistroC609List = class;
+  TRegistroC860List = class;
+  TRegistroC870List = class;
+  TRegistroC880List = class;
+  TRegistroC890List = class;
 
 
   //REGISTRO C001: ABERTURA DO BLOCO C
@@ -98,6 +102,9 @@ type
   end;
 
   //REGISTRO C010: IDENTIFICAÇÃO DO ESTABELECIMENTO
+
+  { TRegistroC010 }
+
   TRegistroC010 = class
   private
     fCNPJ                 : string;               //02	CNPJ	Número de inscrição do estabelecimento no CNPJ.	N	014*	-
@@ -112,6 +119,7 @@ type
     FRegistroC490         : TRegistroC490List;
     FRegistroC500         : TRegistroC500List;
     FRegistroC600         : TRegistroC600List;
+    FRegistroC860         : TRegistroC860List;
   public
     constructor Create;  virtual;                 // Create
     destructor  Destroy; override;                // Destroy
@@ -128,6 +136,7 @@ type
     property RegistroC490 : TRegistroC490List    read FRegistroC490 write FRegistroC490;
     property RegistroC500 : TRegistroC500List    read FRegistroC500 write FRegistroC500;
     property RegistroC600 : TRegistroC600List    read FRegistroC600 write FRegistroC600;
+    property RegistroC860 : TRegistroC860List    read FRegistroC860 write FRegistroC860;
   end;
 
   // Registro C010 - Lista
@@ -1490,6 +1499,155 @@ type
     property Items[Index: Integer]: TRegistroC609 read GetItem write SetItem;
   end;
 
+  // REGISTRO C860: IDENTIFICAÇÃO DO EQUIPAMENTO SAT-CF-E
+
+  { TRegistroC860 }
+
+  TRegistroC860 = class
+  private
+    fCOD_MOD: String;
+    fDOC_FIM: Integer;
+    fDOC_INI: Integer;
+    fDT_DOC: TDate;
+    fNR_SAT: Integer;
+    FRegistroC870: TRegistroC870List;
+    FRegistroC880: TRegistroC880List;
+    FRegistroC890: TRegistroC890List;
+  public
+    constructor Create; virtual;                         /// Create
+    destructor Destroy; override;                        /// Destroy
+
+    property COD_MOD : String read fCOD_MOD write fCOD_MOD;
+    property NR_SAT : Integer read fNR_SAT write fNR_SAT;
+    property DT_DOC : TDate read fDT_DOC write fDT_DOC;
+    property DOC_INI : Integer read fDOC_INI write fDOC_INI;
+    property DOC_FIM : Integer read fDOC_FIM write fDOC_FIM;
+
+    property RegistroC870  : TRegistroC870List read FRegistroC870  write FRegistroC870;
+    property RegistroC880  : TRegistroC880List read FRegistroC880  write FRegistroC880;
+    property RegistroC890  : TRegistroC890List read FRegistroC890  write FRegistroC890;
+  end;
+
+  // Registro C860 - Lista
+
+  TRegistroC860List = class(TObjectList)
+  private
+    function  GetItem(Index: Integer): TRegistroC860;
+    procedure SetItem(Index: Integer; const Value: TRegistroC860);
+  public
+    function New: TRegistroC860;
+    property Items[Index: Integer]: TRegistroC860 read GetItem write SetItem;
+  end;
+
+  //REGISTRO C870: RESUMO DIÁRIO DE DOCUMENTOS EMITIDOS POR EQUIPAMENTO
+  //SAT-CF-E (CÓDIGO 59) – PIS/PASEP E COFINS
+
+  TRegistroC870 = class
+  private
+    fALIQ_COFINS: Variant;
+    fALIQ_PIS: Variant;
+    fCFOP: String;
+    fCOD_CTA: string;
+    fCOD_ITEM: String;
+    fCST_COFINS: TACBrCstCofins;
+    fCST_PIS: TACBrCstPis;
+    fVL_BC_COFINS: Variant;
+    fVL_BC_PIS: Variant;
+    fVL_COFINS: Variant;
+    fVL_ITEM: Variant;
+    fVL_PIS: Variant;
+  public
+    property CFOP : String read fCFOP write fCFOP;
+    property VL_ITEM : Variant read fVL_ITEM write fVL_ITEM;
+    property COD_ITEM : String read fCOD_ITEM write fCOD_ITEM;
+    property CST_PIS : TACBrCstPis read fCST_PIS write fCST_PIS;
+    property VL_BC_PIS : Variant read fVL_BC_PIS write fVL_BC_PIS;
+    property ALIQ_PIS : Variant read fALIQ_PIS write fALIQ_PIS;
+    property VL_PIS : Variant read fVL_PIS write fVL_PIS;
+    property CST_COFINS : TACBrCstCofins read fCST_COFINS write fCST_COFINS;
+    property VL_BC_COFINS : Variant read fVL_BC_COFINS write fVL_BC_COFINS;
+    property ALIQ_COFINS : Variant read fALIQ_COFINS write fALIQ_COFINS;
+    property VL_COFINS : Variant read fVL_COFINS write fVL_COFINS;
+    property COD_CTA : string read fCOD_CTA write fCOD_CTA;
+  end;
+
+  // Registro C870 - Lista
+
+  TRegistroC870List = class(TObjectList)
+  private
+    function  GetItem(Index: Integer): TRegistroC870;
+    procedure SetItem(Index: Integer; const Value: TRegistroC870);
+  public
+    function New: TRegistroC870;
+    property Items[Index: Integer]: TRegistroC870 read GetItem write SetItem;
+  end;
+
+  // REGISTRO C880: RESUMO DIÁRIO DE DOCUMENTOS EMITIDOS POR EQUIPAMENTO
+  // SAT-CF-E (CÓDIGO 59) – PIS/PASEP E COFINS APURADO POR UNIDADE DE MEDIDA DE
+  // PRODUTO
+
+  TRegistroC880 = class
+  private
+    fALIQ_COFINS_QUANT: Variant;
+    fALIQ_PIS_QUANT: Variant;
+    fCFOP: string;
+    fCOD_CTA: String;
+    fCOD_ITEM: string;
+    fCST_COFINS: TACBrCstCofins;
+    fCST_PIS: TACBrCstPis;
+    fQUANT_BC_COFINS: Variant;
+    fQUANT_BC_PIS: Variant;
+    fVL_COFINS: Variant;
+    fVL_ITEM: Variant;
+    fVL_PIS: Variant;
+  public
+    property COD_ITEM : string read fCOD_ITEM write fCOD_ITEM;
+    property CFOP : string read fCFOP write fCFOP;
+    property VL_ITEM : Variant read fVL_ITEM write fVL_ITEM;
+    property CST_PIS : TACBrCstPis read fCST_PIS write fCST_PIS;
+    property QUANT_BC_PIS : Variant read fQUANT_BC_PIS write fQUANT_BC_PIS;
+    property ALIQ_PIS_QUANT : Variant read fALIQ_PIS_QUANT write fALIQ_PIS_QUANT;
+    property VL_PIS : Variant read fVL_PIS write fVL_PIS;
+    property CST_COFINS : TACBrCstCofins read fCST_COFINS write fCST_COFINS;
+    property QUANT_BC_COFINS : Variant read fQUANT_BC_COFINS write fQUANT_BC_COFINS;
+    property ALIQ_COFINS_QUANT : Variant read fALIQ_COFINS_QUANT write fALIQ_COFINS_QUANT;
+    property VL_COFINS : Variant read fVL_COFINS write fVL_COFINS;
+    property COD_CTA : String read fCOD_CTA write fCOD_CTA;
+  end;
+
+  // Registro C880 - Lista
+
+  TRegistroC880List = class(TObjectList)
+  private
+    function  GetItem(Index: Integer): TRegistroC880;
+    procedure SetItem(Index: Integer; const Value: TRegistroC880);
+  public
+    function New: TRegistroC880;
+    property Items[Index: Integer]: TRegistroC880 read GetItem write SetItem;
+  end;
+
+  // REGISTRO C890: PROCESSO REFERENCIADO
+
+  TRegistroC890 = class
+  private
+    fNome: TACBrOrigemProcesso;
+    fNUM_PROC: String;
+  public
+    property NUM_PROC : String read fNUM_PROC write fNUM_PROC;
+    property IND_PROC : TACBrOrigemProcesso read fNome write fNome;
+  end;
+
+  // Registro C890 - Lista
+
+  TRegistroC890List = class(TObjectList)
+  private
+    function  GetItem(Index: Integer): TRegistroC890;
+    procedure SetItem(Index: Integer; const Value: TRegistroC890);
+  public
+    function New: TRegistroC890;
+    property Items[Index: Integer]: TRegistroC890 read GetItem write SetItem;
+  end;
+
   //REGISTRO C990: ENCERRAMENTO DO BLOCO C
   TRegistroC990 = class
   private
@@ -1499,6 +1657,96 @@ type
   end;
 
 implementation
+
+{ TRegistroC860 }
+
+constructor TRegistroC860.Create;
+begin
+  FRegistroC870 := TRegistroC870List.Create;
+  FRegistroC880 := TRegistroC880List.Create;
+  FRegistroC890 := TRegistroC890List.Create;
+
+end;
+
+destructor TRegistroC860.Destroy;
+begin
+  FRegistroC870.Free;
+  FRegistroC880.Free;
+  FRegistroC890.Free;
+  inherited Destroy;
+end;
+
+{ TRegistroC860List }
+
+function TRegistroC860List.GetItem(Index: Integer): TRegistroC860;
+begin
+  Result := TRegistroC860(Inherited Items[Index]);
+end;
+
+procedure TRegistroC860List.SetItem(Index: Integer; const Value: TRegistroC860);
+begin
+    Put(Index, Value);
+end;
+
+function TRegistroC860List.New: TRegistroC860;
+begin
+  Result := TRegistroC860.Create;
+  Add(Result);
+end;
+
+{ TRegistroC870List }
+
+function TRegistroC870List.GetItem(Index: Integer): TRegistroC870;
+begin
+  Result := TRegistroC870(Inherited Items[Index]);
+end;
+
+procedure TRegistroC870List.SetItem(Index: Integer; const Value: TRegistroC870);
+begin
+    Put(Index, Value);
+end;
+
+function TRegistroC870List.New: TRegistroC870;
+begin
+  Result := TRegistroC870.Create;
+  Add(Result);
+end;
+
+{ TRegistroC880List }
+
+function TRegistroC880List.GetItem(Index: Integer): TRegistroC880;
+begin
+  Result := TRegistroC880(Inherited Items[Index]);
+end;
+
+procedure TRegistroC880List.SetItem(Index: Integer; const Value: TRegistroC880);
+begin
+  Put(Index, Value);
+end;
+
+function TRegistroC880List.New: TRegistroC880;
+begin
+  Result := TRegistroC880.Create;
+  Add(Result);
+end;
+
+{ TRegistroC890List }
+
+function TRegistroC890List.GetItem(Index: Integer): TRegistroC890;
+begin
+  Result := TRegistroC890(Inherited Items[Index]);
+end;
+
+procedure TRegistroC890List.SetItem(Index: Integer; const Value: TRegistroC890);
+begin
+  Put(Index, Value);
+end;
+
+function TRegistroC890List.New: TRegistroC890;
+begin
+  Result := TRegistroC890.Create;
+  Add(Result);
+end;
 
 { TRegistroC175List }
 
@@ -1562,6 +1810,7 @@ begin
   FRegistroC490 := TRegistroC490List.Create;
   FRegistroC500 := TRegistroC500List.Create;
   FRegistroC600 := TRegistroC600List.Create;
+  FRegistroC860 := TRegistroC860List.Create;
 end;
 
 destructor TRegistroC010.Destroy;
@@ -1575,6 +1824,7 @@ begin
   FRegistroC490.Free;
   FRegistroC500.Free;
   FRegistroC600.Free;
+  FRegistroC860.Free;
   inherited;
 end;
 

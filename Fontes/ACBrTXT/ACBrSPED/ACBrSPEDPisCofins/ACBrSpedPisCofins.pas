@@ -1502,9 +1502,40 @@ begin
            QTD_REG_BLC := Bloco_C.RegistroC609Count;
          end;
        end;
+       if Bloco_C.RegistroC860Count > 0 then
+       begin
+         with New do
+         begin
+           REG_BLC := 'C860';
+           QTD_REG_BLC := Bloco_C.RegistroC860Count;
+         end;
+       end;
+       if Bloco_C.RegistroC870Count > 0 then
+       begin
+         with New do
+         begin
+           REG_BLC := 'C870';
+           QTD_REG_BLC := Bloco_C.RegistroC870Count;
+         end;
+       end;
+       if Bloco_C.RegistroC880Count > 0 then
+       begin
+         with New do
+         begin
+           REG_BLC := 'C880';
+           QTD_REG_BLC := Bloco_C.RegistroC880Count;
+         end;
+       end;
+       if Bloco_C.RegistroC890Count > 0 then
+       begin
+         with New do
+         begin
+           REG_BLC := 'C890';
+           QTD_REG_BLC := Bloco_C.RegistroC890Count;
+         end;
+       end;
     end;
   end;
-
   with Bloco_9.Registro9900 do
   begin
      with New do
@@ -1513,7 +1544,6 @@ begin
        QTD_REG_BLC := 1;
      end;
   end;
-
   Bloco_C.WriteRegistroC990;
 end;
 

@@ -1011,6 +1011,13 @@ type
   end;
 
 const
+  ACBrOrigemProcessoStr : array[0..3] of string =
+                        ('1',  // 1 - Justiça Federal'
+                        '3',   // 3 – Secretaria da Receita Federal do Brasil
+                        '9',   // 9 - Outros
+                        '' );  // Preencher vazio
+
+
 cstcofins01 = stcofinsValorAliquotaNormal;
 cstcofins02 = stcofinsValorAliquotaDiferenciada;
 cstcofins03 = stcofinsQtdeAliquotaUnidade;
