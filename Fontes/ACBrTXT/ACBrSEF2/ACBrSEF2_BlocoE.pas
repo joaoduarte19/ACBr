@@ -47,7 +47,7 @@ unit ACBrSEF2_BlocoE;
 
 interface
 
-Uses Classes, SysUtils, ACBrSEF2Conversao;
+Uses Classes, SysUtils, Controls, ACBrSEF2Conversao;
 
 type
   TRegistroSEFE003List = class;

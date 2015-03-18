@@ -43,7 +43,7 @@ unit ACBrEPCBloco_C;
 interface
 
 uses
-  SysUtils, Classes, Contnrs, DateUtils, ACBrEPCBlocos;
+  SysUtils, Classes, Contnrs, DateUtils, Controls, ACBrEPCBlocos;
 
 type
   TRegistroC010List = class;
