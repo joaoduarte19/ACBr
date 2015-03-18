@@ -177,7 +177,7 @@ Uses ACBrUtil ;
 
 procedure Register;
 begin
-  RegisterComponents('ACBr', [TACBrSPEDContabil]);
+  RegisterComponents('ACBrTXT', [TACBrSPEDContabil]);
 end;
 
 (* TACBrSPEDContabil *)
@@ -1033,4 +1033,4 @@ initialization
    {$I ACBrSpedContabil.lrs}
 {$endif}
 
-end.
+end.

@@ -52,6 +52,7 @@
       </Item6>
       <Item7>
         <Filename Value="..\..\..\Fontes\ACBrDFe\ACBrDFeCapicom.pas"/>
+        <AddToUsesPkgSection Value="False"/>
         <UnitName Value="ACBrDFeCapicom"/>
       </Item7>
     </Files>
