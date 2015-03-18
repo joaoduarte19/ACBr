@@ -834,7 +834,11 @@ begin
   5102686, // Campos de Júlio/MT
   5103379, // Cotriguacu/MT
   5103502, // Diamantino/MT
-  3108404  // Botelhos/MG
+  3108404,  // Botelhos/MG
+  4202537, // Bom Jesus/SC
+  4207684, // Ipuaçu/SC
+  4209458, // Lajeado Grande/SC
+  4210555  // Marema/SC
          : Provedor := 'Betha';
 
 //  3106705  // Betim/MG
