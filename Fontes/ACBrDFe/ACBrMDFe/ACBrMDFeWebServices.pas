@@ -42,23 +42,12 @@ interface
 
 uses
   Classes, SysUtils,
-{$IFDEF CLX} QDialogs,{$ELSE} Dialogs,{$ENDIF}
-{$IFDEF ACBrMDFeOpenSSL}
-  HTTPSend,
-{$ELSE}
-     {$IFDEF SoapHTTP}
-       SoapHTTPClient, SOAPHTTPTrans, SOAPConst,
-       JwaWinCrypt, WinInet, ACBrCAPICOM_TLB,
-     {$ELSE}
-       ACBrHTTPReqResp,
-     {$ENDIF}
-{$ENDIF}
-  pcnAuxiliar, pmdfeConversao, pcnConversao,
-  ACBrMDFeConfiguracoes, ACBrMDFeManifestos,
-  pmdfeProcMDFe, pmdfeConsStatServ, pmdfeRetConsStatServ, pmdfeRetEnvMDFe,
-  pmdfeConsReciMDFe, pmdfeRetConsReciMDFe, pmdfeConsSitMDFe, pmdfeRetConsSitMDFe,
-  pmdfeEnvEventoMDFe, pmdfeRetEnvEventoMDFe, pmdfeConsMDFeNaoEnc,
-  pmdfeRetConsMDFeNaoEnc, ActiveX;
+  ACBrDFe, ACBrDFeWebService,
+  pmdfeMDFe,
+  pmdfeRetConsReciMDFe, pcnAuxiliar, pcnConversao, pmdfeConversaoMDFe,
+  pmdfeProcMDFe, pmdfeEnvEventoMDFe, pmdfeRetEnvEventoMDFe,
+  pmdfeRetConsSitMDFe, pmdfeRetConsMDFeNaoEnc, pmdfeRetEnvMDFe,
+  ACBrMDFeManifestos, ACBrMDFeConfiguracoes;
 
 const
   CURL_WSDL = 'http://www.portalfiscal.inf.br/mdfe/wsdl/';
@@ -66,91 +55,42 @@ const
 
 type
 
-  { TWebServicesBase }
+  { TMDFeWebService }
 
-  TWebServicesBase = Class
+  TMDFeWebService = class(TDFeWebService)
   private
-    {$IFDEF ACBrMDFeOpenSSL}
-     procedure ConfiguraHTTP(HTTP: THTTPSend; Action: AnsiString);
-    {$ELSE}
-     {$IFDEF SoapHTTP}
-      procedure ConfiguraReqResp(ReqResp: THTTPReqResp);
-      procedure OnBeforePost(const HTTPReqResp: THTTPReqResp; Data:Pointer);
-     {$ELSE}
-      procedure ConfiguraReqResp(ReqResp: TACBrHTTPReqResp);
-     {$ENDIF}
-    {$ENDIF}
   protected
-    FCabMsg: WideString;
-    FDadosMsg: AnsiString;
-    FEnvelopeSoap: AnsiString;
-    FRetornoWS: AnsiString;
-    FRetWS: AnsiString;
-    FMsg: AnsiString;
-    FURL: WideString;
-    FConfiguracoes: TConfiguracoes;
-    FACBrMDFe: TComponent;
-    FArqEnv: AnsiString;
-    FArqResp: AnsiString;
-    FServico: AnsiString;
-    FSoapAction: AnsiString;
-    FStatus: TStatusACBrMDFe;
-    FLayout: TLayOutMDFe;
-    FRetMDFeDFe: AnsiString;
-  protected
-    procedure AssinarXML(AXML: String; MsgErro: String);
-    procedure FazerLog(Msg: String; Exibir: Boolean = False);
-    procedure GerarException(Msg: AnsiString);
-  protected
-    procedure InicializarServico; virtual;
-    procedure DefinirServicoEAction; virtual;
-    procedure DefinirURL; virtual;
-    procedure DefinirDadosMsg; virtual;
-    procedure DefinirEnvelopeSoap; virtual;
-    procedure SalvarEnvio; virtual;
-    procedure EnviarDados; virtual;
-    function TratarResposta: Boolean; virtual;
-    procedure SalvarResposta; virtual;
-    procedure FinalizarServico; virtual;
+    FPStatus: TStatusACBrMDFe;
+    FPLayout: TLayOut;
+    FPConfiguracoesMDFe: TConfiguracoesMDFe;
 
-    function GerarMsgLog: AnsiString; virtual;
-    function GerarMsgErro(E: Exception): AnsiString; virtual;
-    function GerarVersaoDadosSoap: AnsiString; virtual;
-    function GerarUFSoap:AnsiString; virtual;
-    function GerarPrefixoArquivo: AnsiString; virtual;
+    function ExtrairModeloChaveAcesso(AChaveMDFe: String): String;
+
+  protected
+    procedure InicializarServico; override;
+    procedure DefinirURL; override;
+    function GerarVersaoDadosSoap: String; override;
+    procedure FinalizarServico; override;
+
   public
-    constructor Create(AOwner: TComponent); virtual;
+    constructor Create(AOwner: TACBrDFe); override;
 
-    function Executar: Boolean; virtual;
-
-    property Servico: AnsiString      read FServico;
-    property SoapAction: AnsiString   read FSoapAction;
-    property Status: TStatusACBrMDFe  read FStatus;
-    property Layout: TLayOutMDFe      read FLayout;
-    property URL: WideString          read FURL;
-    property CabMsg: WideString       read FCabMsg;
-    property DadosMsg: AnsiString     read FDadosMsg;
-    property EnvelopeSoap: AnsiString read FEnvelopeSoap;
-    property RetornoWS: AnsiString    read FRetornoWS;
-    property RetWS: AnsiString        read FRetWS;
-    property Msg: AnsiString          read FMsg;
-    property ArqEnv: AnsiString       read FArqEnv;
-    property ArqResp: AnsiString      read FArqResp;
-    property RetMDFeDFe: AnsiString   read FRetMDFeDFe;
+    property Status: TStatusACBrMDFe read FPStatus;
+    property Layout: TLayOut read FPLayout;
   end;
 
   { TMDFeStatusServico }
 
-  TMDFeStatusServico = Class(TWebServicesBase)
+  TMDFeStatusServico = class(TMDFeWebService)
   private
     Fversao: String;
     FtpAmb: TpcnTipoAmbiente;
     FverAplic: String;
-    FcStat: Integer;
+    FcStat: integer;
     FxMotivo: String;
-    FcUF: Integer;
+    FcUF: integer;
     FdhRecbto: TDateTime;
-    FTMed: Integer;
+    FTMed: integer;
     FdhRetorno: TDateTime;
     FxObs: String;
   protected
@@ -158,26 +98,26 @@ type
     procedure DefinirDadosMsg; override;
     function TratarResposta: Boolean; override;
 
-    function GerarMsgLog: AnsiString; override;
-    function GerarMsgErro(E: Exception): AnsiString; override;
+    function GerarMsgLog: String; override;
+    function GerarMsgErro(E: Exception): String; override;
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TACBrDFe); override;
 
-    property versao: String          read Fversao;
+    property versao: String read Fversao;
     property tpAmb: TpcnTipoAmbiente read FtpAmb;
-    property verAplic: String        read FverAplic;
-    property cStat: Integer          read FcStat;
-    property xMotivo: String         read FxMotivo;
-    property cUF: Integer            read FcUF;
-    property dhRecbto: TDateTime     read FdhRecbto;
-    property TMed: Integer           read FTMed;
-    property dhRetorno: TDateTime    read FdhRetorno;
-    property xObs: String            read FxObs;
+    property verAplic: String read FverAplic;
+    property cStat: integer read FcStat;
+    property xMotivo: String read FxMotivo;
+    property cUF: integer read FcUF;
+    property dhRecbto: TDateTime read FdhRecbto;
+    property TMed: integer read FTMed;
+    property dhRetorno: TDateTime read FdhRetorno;
+    property xObs: String read FxObs;
   end;
 
   { TMDFeRecepcao }
 
-  TMDFeRecepcao = Class(TWebServicesBase)
+  TMDFeRecepcao = class(TMDFeWebService)
   private
     FLote: String;
     FRecibo: String;
@@ -185,11 +125,11 @@ type
     Fversao: String;
     FTpAmb: TpcnTipoAmbiente;
     FverAplic: String;
-    FcStat: Integer;
-    FcUF: Integer;
+    FcStat: integer;
+    FcUF: integer;
     FxMotivo: String;
     FdhRecbto: TDateTime;
-    FTMed: Integer;
+    FTMed: integer;
 
     FMDFeRetorno: TretEnvMDFe;
 
@@ -202,27 +142,28 @@ type
     function TratarResposta: Boolean; override;
     procedure FinalizarServico; override;
 
-    function GerarMsgLog: AnsiString; override;
-    function GerarPrefixoArquivo: AnsiString; override;
+    function GerarMsgLog: String; override;
+    function GerarPrefixoArquivo: String; override;
   public
-    constructor Create(AOwner: TComponent; AManifestos: TManifestos); reintroduce; overload;
+    constructor Create(AOwner: TACBrDFe; AManifestos: TManifestos);
+      reintroduce; overload;
     destructor Destroy; override;
 
-    property Recibo: String          read GetRecibo;
-    property versao: String          read Fversao;
+    property Recibo: String read GetRecibo;
+    property versao: String read Fversao;
     property TpAmb: TpcnTipoAmbiente read FTpAmb;
-    property verAplic: String        read FverAplic;
-    property cStat: Integer          read FcStat;
-    property cUF: Integer            read FcUF;
-    property xMotivo: String         read FxMotivo;
-    property dhRecbto: TDateTime     read FdhRecbto;
-    property TMed: Integer           read FTMed;
-    property Lote: String            read GetLote write FLote;
+    property verAplic: String read FverAplic;
+    property cStat: integer read FcStat;
+    property cUF: integer read FcUF;
+    property xMotivo: String read FxMotivo;
+    property dhRecbto: TDateTime read FdhRecbto;
+    property TMed: integer read FTMed;
+    property Lote: String read GetLote write FLote;
   end;
 
   { TMDFeRetRecepcao }
 
-  TMDFeRetRecepcao = Class(TWebServicesBase)
+  TMDFeRetRecepcao = class(TMDFeWebService)
   private
     FRecibo: String;
     FProtocolo: String;
@@ -231,10 +172,10 @@ type
     Fversao: String;
     FTpAmb: TpcnTipoAmbiente;
     FverAplic: String;
-    FcStat: Integer;
-    FcUF: Integer;
+    FcStat: integer;
+    FcUF: integer;
     FxMotivo: String;
-    FcMsg: Integer;
+    FcMsg: integer;
     FxMsg: String;
 
     FMDFeRetorno: TRetConsReciMDFe;
@@ -248,42 +189,43 @@ type
     function TratarResposta: Boolean; override;
     procedure FinalizarServico; override;
 
-    function GerarMsgLog: AnsiString; override;
-    function GerarPrefixoArquivo: AnsiString; override;
+    function GerarMsgLog: String; override;
+    function GerarPrefixoArquivo: String; override;
   public
-    constructor Create(AOwner: TComponent; AManifestos: TManifestos); reintroduce; overload;
+    constructor Create(AOwner: TACBrDFe; AManifestos: TManifestos);
+      reintroduce; overload;
     destructor Destroy; override;
 
     function Executar: Boolean; override;
 
-    property versao: String          read Fversao;
+    property versao: String read Fversao;
     property TpAmb: TpcnTipoAmbiente read FTpAmb;
-    property verAplic: String        read FverAplic;
-    property cStat: Integer          read FcStat;
-    property cUF: Integer            read FcUF;
-    property xMotivo: String         read FxMotivo;
-    property cMsg: Integer           read FcMsg;
-    property xMsg: String            read FxMsg;
-    property Recibo: String          read GetRecibo  write FRecibo;
-    property Protocolo: String       read FProtocolo write FProtocolo;
-    property ChaveMDFe: String       read FChaveMDFe write FChaveMDFe;
+    property verAplic: String read FverAplic;
+    property cStat: integer read FcStat;
+    property cUF: integer read FcUF;
+    property xMotivo: String read FxMotivo;
+    property cMsg: integer read FcMsg;
+    property xMsg: String read FxMsg;
+    property Recibo: String read GetRecibo write FRecibo;
+    property Protocolo: String read FProtocolo write FProtocolo;
+    property ChaveMDFe: String read FChaveMDFe write FChaveMDFe;
 
     property MDFeRetorno: TRetConsReciMDFe read FMDFeRetorno;
   end;
 
   { TMDFeRecibo }
 
-  TMDFeRecibo = Class(TWebServicesBase)
+  TMDFeRecibo = class(TMDFeWebService)
   private
     FRecibo: String;
     Fversao: String;
     FTpAmb: TpcnTipoAmbiente;
     FverAplic: String;
-    FcStat: Integer;
+    FcStat: integer;
     FxMotivo: String;
-    FcUF: Integer;
+    FcUF: integer;
     FxMsg: String;
-    FcMsg: Integer;
+    FcMsg: integer;
 
     FMDFeRetorno: TRetConsReciMDFe;
   protected
@@ -292,38 +234,38 @@ type
     procedure DefinirDadosMsg; override;
     function TratarResposta: Boolean; override;
 
-    function GerarMsgLog: AnsiString; override;
+    function GerarMsgLog: String; override;
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TACBrDFe); override;
     destructor Destroy; override;
 
-    property versao: String          read Fversao;
+    property versao: String read Fversao;
     property TpAmb: TpcnTipoAmbiente read FTpAmb;
-    property verAplic: String        read FverAplic;
-    property cStat: Integer          read FcStat;
-    property xMotivo: String         read FxMotivo;
-    property cUF: Integer            read FcUF;
-    property xMsg: String            read FxMsg;
-    property cMsg: Integer           read FcMsg;
-    property Recibo: String          read FRecibo write FRecibo;
+    property verAplic: String read FverAplic;
+    property cStat: integer read FcStat;
+    property xMotivo: String read FxMotivo;
+    property cUF: integer read FcUF;
+    property xMsg: String read FxMsg;
+    property cMsg: integer read FcMsg;
+    property Recibo: String read FRecibo write FRecibo;
 
     property MDFeRetorno: TRetConsReciMDFe read FMDFeRetorno;
   end;
 
   { TMDFeConsulta }
 
-  TMDFeConsulta = Class(TWebServicesBase)
+  TMDFeConsulta = class(TMDFeWebService)
   private
-    FMDFeChave: WideString;
-    FProtocolo: WideString;
+    FMDFeChave: String;
+    FProtocolo: String;
     FDhRecbto: TDateTime;
-    FXMotivo: WideString;
+    FXMotivo: String;
     Fversao: String;
     FTpAmb: TpcnTipoAmbiente;
     FverAplic: String;
-    FcStat: Integer;
-    FcUF: Integer;
-    FdigVal: String;
+    FcStat: integer;
+    FcUF: integer;
+    FRetMDFeDFe: String;
 
     FprotMDFe: TProcMDFe;
     FprocEventoMDFe: TRetEventoMDFeCollection;
@@ -332,35 +274,35 @@ type
     procedure DefinirDadosMsg; override;
     function TratarResposta: Boolean; override;
 
-    function GerarMsgLog: AnsiString; override;
-    function GerarPrefixoArquivo: AnsiString; override;
+    function GerarMsgLog: String; override;
+    function GerarPrefixoArquivo: String; override;
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TACBrDFe); override;
     destructor Destroy; override;
 
-    property MDFeChave: WideString   read FMDFeChave write FMDFeChave;
-    property Protocolo: WideString   read FProtocolo write FProtocolo;
-    property DhRecbto: TDateTime     read FDhRecbto  write FDhRecbto;
-    property XMotivo: WideString     read FXMotivo   write FXMotivo;
-    property versao: String          read Fversao;
+    property MDFeChave: String read FMDFeChave write FMDFeChave;
+    property Protocolo: String read FProtocolo write FProtocolo;
+    property DhRecbto: TDateTime read FDhRecbto write FDhRecbto;
+    property XMotivo: String read FXMotivo write FXMotivo;
+    property versao: String read Fversao;
     property TpAmb: TpcnTipoAmbiente read FTpAmb;
-    property verAplic: String        read FverAplic;
-    property cStat: Integer          read FcStat;
-    property cUF: Integer            read FcUF;
-    property digVal: String          read FdigVal;
+    property verAplic: String read FverAplic;
+    property cStat: integer read FcStat;
+    property cUF: integer read FcUF;
+    property RetMDFeDFe: String read FRetMDFeDFe;
 
-    property protMDFe: TProcMDFe                      read FprotMDFe;
+    property protMDFe: TProcMDFe read FprotMDFe;
     property procEventoMDFe: TRetEventoMDFeCollection read FprocEventoMDFe;
   end;
 
   { TMDFeEnvEvento }
 
-  TMDFeEnvEvento = Class(TWebServicesBase)
+  TMDFeEnvEvento = class(TMDFeWebService)
   private
-    FidLote: Integer;
+    FidLote: integer;
     Fversao: String;
     FEvento: TEventoMDFe;
-    FcStat: Integer;
+    FcStat: integer;
     FxMotivo: String;
     FTpAmb: TpcnTipoAmbiente;
 
@@ -375,16 +317,16 @@ type
     function TratarResposta: Boolean; override;
     procedure SalvarResposta; override;
 
-    function GerarMsgLog: AnsiString; override;
-    function GerarPrefixoArquivo: AnsiString; override;
+    function GerarMsgLog: String; override;
+    function GerarPrefixoArquivo: String; override;
   public
-    constructor Create(AOwner: TComponent; AEvento: TEventoMDFe); reintroduce; overload;
+    constructor Create(AOwner: TACBrDFe; AEvento: TEventoMDFe); reintroduce; overload;
     destructor Destroy; override;
 
-    property idLote: Integer         read FidLote write FidLote;
-    property versao: String          read Fversao write Fversao;
-    property cStat: Integer          read FcStat;
-    property xMotivo: String         read FxMotivo;
+    property idLote: integer read FidLote write FidLote;
+    property versao: String read Fversao write Fversao;
+    property cStat: integer read FcStat;
+    property xMotivo: String read FxMotivo;
     property TpAmb: TpcnTipoAmbiente read FTpAmb;
 
     property EventoRetorno: TRetEventoMDFe read FEventoRetorno;
@@ -392,7 +334,7 @@ type
 
   { TMDFeConsultaMDFeNaoEnc }
 
-  TMDFeConsultaMDFeNaoEnc = Class(TWebServicesBase)
+  TMDFeConsultaMDFeNaoEnc = Class(TMDFeWebService)
   private
     FCNPJ: String;
     Fversao: String;
@@ -402,6 +344,7 @@ type
     FxMotivo: String;
     FcUF: Integer;
     FInfMDFe: TRetInfMDFeCollection;
+    FRetConsMDFeNaoEnc: TRetConsMDFeNaoEnc;
   protected
     procedure DefinirURL; override;
     procedure DefinirServicoEAction; override;
@@ -424,12 +367,12 @@ type
     property InfMDFe: TRetInfMDFeCollection read FInfMDFe;
   end;
 
-  { TMDFeEnvioWebService }
+ { TMDFeEnvioWebService }
 
-  TMDFeEnvioWebService = Class(TWebServicesBase)
+  TMDFeEnvioWebService = class(TMDFeWebService)
   private
     FXMLEnvio: String;
-    FURLEnvio: String;
+    FPURLEnvio: String;
     FVersao: String;
     FSoapActionEnvio: String;
   protected
@@ -438,524 +381,158 @@ type
     procedure DefinirDadosMsg; override;
     function TratarResposta: Boolean; override;
 
-    function GerarMsgLog: AnsiString; override;
-    function GerarMsgErro(E: Exception): AnsiString; override;
-    function GerarVersaoDadosSoap: AnsiString; override;
+    function GerarMsgErro(E: Exception): String; override;
+    function GerarVersaoDadosSoap: String; override;
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TACBrDFe); override;
     destructor Destroy; override;
     function Executar: Boolean; override;
 
-    property XMLEnvio: String        read FXMLEnvio        write FXMLEnvio;
-    property URLEnvio: String        read FURLEnvio        write FURLEnvio;
+    property XMLEnvio: String read FXMLEnvio write FXMLEnvio;
+    property URLEnvio: String read FPURLEnvio write FPURLEnvio;
     property SoapActionEnvio: String read FSoapActionEnvio write FSoapActionEnvio;
   end;
 
-  { TWebService }
+  { TWebServices }
 
-  TWebServices = Class(TWebServicesBase)
+  TWebServices = class
   private
-    FACBrMDFe: TComponent;
+    FACBrMDFe: TACBrDFe;
     FStatusServico: TMDFeStatusServico;
     FEnviar: TMDFeRecepcao;
     FRetorno: TMDFeRetRecepcao;
     FRecibo: TMDFeRecibo;
     FConsulta: TMDFeConsulta;
-    FConsMDFeNaoEnc: TMDFeConsultaMDFeNaoEnc;
     FEnvEvento: TMDFeEnvEvento;
+    FConsMDFeNaoEnc: TMDFeConsultaMDFeNaoEnc;
     FEnvioWebService: TMDFeEnvioWebService;
   public
-    constructor Create(AFMDFe: TComponent); reintroduce;
+    constructor Create(AOwner: TACBrDFe); overload;
     destructor Destroy; override;
-    function Envia(ALote: Integer): Boolean; overload;
-    function Envia(ALote: String): Boolean; overload;
-    function ConsultaMDFeNaoEnc(ACNPJ: String): Boolean;
-//  published
-    property ACBrMDFe: TComponent                    read FACBrMDFe        write FACBrMDFe;
-    property StatusServico: TMDFeStatusServico       read FStatusServico   write FStatusServico;
-    property Enviar: TMDFeRecepcao                   read FEnviar          write FEnviar;
-    property Retorno: TMDFeRetRecepcao               read FRetorno         write FRetorno;
-    property Recibo: TMDFeRecibo                     read FRecibo          write FRecibo;
-    property Consulta: TMDFeConsulta                 read FConsulta        write FConsulta;
-    property ConsMDFeNaoEnc: TMDFeConsultaMDFeNaoEnc read FConsMDFeNaoEnc  write FConsMDFeNaoEnc;
-    property EnvEvento: TMDFeEnvEvento               read FEnvEvento       write FEnvEvento;
-    property EnvioWebService: TMDFeEnvioWebService   read FEnvioWebService write FEnvioWebService;
+
+    function Envia(ALote: integer; const ASincrono: Boolean = False): Boolean;
+      overload;
+    function Envia(ALote: String; const ASincrono: Boolean = False): Boolean;
+      overload;
+
+    property ACBrMDFe: TACBrDFe read FACBrMDFe write FACBrMDFe;
+    property StatusServico: TMDFeStatusServico read FStatusServico write FStatusServico;
+    property Enviar: TMDFeRecepcao read FEnviar write FEnviar;
+    property Retorno: TMDFeRetRecepcao read FRetorno write FRetorno;
+    property Recibo: TMDFeRecibo read FRecibo write FRecibo;
+    property Consulta: TMDFeConsulta read FConsulta write FConsulta;
+    property EnvEvento: TMDFeEnvEvento read FEnvEvento write FEnvEvento;
+    property ConsMDFeNaoEnc: TMDFeConsultaMDFeNaoEnc read FConsMDFeNaoEnc write FConsMDFeNaoEnc;
+    property EnvioWebService: TMDFeEnvioWebService read FEnvioWebService write FEnvioWebService;
   end;
 
 implementation
 
 uses
-{$IFDEF ACBrMDFeOpenSSL}
-  ssl_openssl,
-{$ENDIF}
-  ACBrUtil, ACBrDFeUtil, ACBrMDFeUtil, ACBrMDFe, pmdfeMDFeW, 
-  pcnGerador, pmdfeCabecalho, pcnLeitor;
+  StrUtils,
+  ACBrUtil, ACBrMDFe,
+  pcnGerador, pmdfeConsStatServ, pmdfeRetConsStatServ,
+  pmdfeConsSitMDFe, pmdfeConsReciMDFe, pmdfeConsMDFeNaoEnc,
+  pcnLeitor;
 
-{ TWebServicesBase }
+//  ACBrDFeUtil, ACBrMDFeUtil, pmdfeMDFeW,
+//  pmdfeCabecalho;
 
-constructor TWebServicesBase.Create(AOwner: TComponent);
+{ TMDFeWebService }
+
+constructor TMDFeWebService.Create(AOwner: TACBrDFe);
 begin
-  FConfiguracoes := TACBrMDFe(AOwner).Configuracoes;
-  FACBrMDFe      := TACBrMDFe(AOwner);
-  FLayout        := LayMDFeStatusServico;
-  FStatus        := stMDFeIdle;
-  FCabMsg        := '';
-  FDadosMsg      := '';
-  FRetornoWS     := '';
-  FRetWS         := '';
-  FMsg           := '';
-  FURL           := '';
-  FArqEnv        := '';
-  FArqResp       := '';
-  FServico       := '';
-  FSoapAction    := '';
+  inherited Create(AOwner);
+
+  FPConfiguracoesMDFe := TConfiguracoesMDFe(FPConfiguracoes);
+  FPLayout := LayMDFeStatusServico;
+  FPStatus := stIdle;
 end;
 
-procedure TWebServicesBase.AssinarXML(AXML: String; MsgErro: String);
+function TMDFeWebService.ExtrairModeloChaveAcesso(AChaveMDFe: String): String;
 begin
-  {$IFDEF ACBrMDFeOpenSSL}
-   if not(MAssinar(AXML,
-                           FConfiguracoes.Certificados.Certificado,
-                           FConfiguracoes.Certificados.Senha,
-                           FDadosMsg, FMsg)) then
-  {$ELSE}
-   if not(MAssinar(AXML,
-                           FConfiguracoes.Certificados.GetCertificado,
-                           FDadosMsg, FMsg)) then
-  {$ENDIF}
-   GerarException(MsgErro);
+  AChaveMDFe := OnlyNumber(AChaveMDFe);
+  if ValidarChave('MDFe' + AChaveMDFe) then
+    Result := copy(AChaveMDFe, 21, 2)
+  else
+    Result := '';
 end;
 
-{$IFDEF ACBrMDFeOpenSSL}
- procedure TWebServicesBase.ConfiguraHTTP(HTTP: THTTPSend; Action: AnsiString);
- begin
-   if FileExists(FConfiguracoes.Certificados.Certificado) then
-     HTTP.Sock.SSL.PFXfile := FConfiguracoes.Certificados.Certificado
-   else
-     HTTP.Sock.SSL.PFX     := FConfiguracoes.Certificados.Certificado;
-
-   HTTP.Sock.SSL.KeyPassword := FConfiguracoes.Certificados.Senha;
-
-   HTTP.ProxyHost := FConfiguracoes.WebServices.ProxyHost;
-   HTTP.ProxyPort := FConfiguracoes.WebServices.ProxyPort;
-   HTTP.ProxyUser := FConfiguracoes.WebServices.ProxyUser;
-   HTTP.ProxyPass := FConfiguracoes.WebServices.ProxyPass;
-
-   if (pos('SCERECEPCAORFB',UpperCase(FURL)) <= 0) and
-      (pos('SCECONSULTARFB',UpperCase(FURL)) <= 0) then
-      HTTP.MimeType := 'application/soap+xml; charset=utf-8'
-   else
-      HTTP.MimeType := 'text/xml; charset=utf-8';
-
-   HTTP.UserAgent := '';
-   HTTP.Protocol  := '1.1';
-   HTTP.AddPortNumberToHost := False;
-   HTTP.Headers.Add(Action);
- end;
-{$ELSE}
- {$IFDEF SoapHTTP}
-  procedure TWebServicesBase.ConfiguraReqResp(ReqResp: THTTPReqResp);
-  begin
-    if FConfiguracoes.WebServices.ProxyHost <> '' then
-    begin
-      ReqResp.Proxy    := FConfiguracoes.WebServices.ProxyHost + ':' +
-                          FConfiguracoes.WebServices.ProxyPort;
-      ReqResp.UserName := FConfiguracoes.WebServices.ProxyUser;
-      ReqResp.Password := FConfiguracoes.WebServices.ProxyPass;
-    end;
-    ReqResp.OnBeforePost := OnBeforePost;
-  end;
-
-  procedure TWebServicesBase.OnBeforePost(const HTTPReqResp: THTTPReqResp;
-    Data: Pointer);
-  var
-    Cert: ICertificate2;
-    CertContext: ICertContext;
-    PCertContext: Pointer;
-    ContentHeader: string;
-  begin
-    Cert := FConfiguracoes.Certificados.GetCertificado;
-    CertContext := Cert as ICertContext;
-    CertContext.Get_CertContext(Integer(PCertContext));
-
-    if not InternetSetOption(Data,
-                             INTERNET_OPTION_CLIENT_CERT_CONTEXT,
-                             PCertContext,SizeOf(CERT_CONTEXT)) then
-      GerarException('OnBeforePost: ' + IntToStr(GetLastError));
-
-    if trim(FConfiguracoes.WebServices.ProxyUser) <> '' then
-      if not InternetSetOption(Data,
-                               INTERNET_OPTION_PROXY_USERNAME,
-                               PChar(FConfiguracoes.WebServices.ProxyUser),
-                               Length(FConfiguracoes.WebServices.ProxyUser)) then
-        GerarException('OnBeforePost: ' + IntToStr(GetLastError));
-
-    if trim(FConfiguracoes.WebServices.ProxyPass) <> '' then
-      if not InternetSetOption(Data,
-                               INTERNET_OPTION_PROXY_PASSWORD,
-                               PChar(FConfiguracoes.WebServices.ProxyPass),
-                               Length(FConfiguracoes.WebServices.ProxyPass)) then
-        GerarException('OnBeforePost: ' + IntToStr(GetLastError));
-
-    if (pos('SCERECEPCAORFB',UpperCase(FURL)) <= 0) and
-       (pos('SCECONSULTARFB',UpperCase(FURL)) <= 0) then
-    begin
-       ContentHeader := Format(ContentTypeTemplate,
-                               ['application/soap+xml; charset=utf-8']);
-       HttpAddRequestHeaders(Data,
-                             PChar(ContentHeader),
-                             Length(ContentHeader),
-                             HTTP_ADDREQ_FLAG_REPLACE);
-    end;
-
-    HTTPReqResp.CheckContentType;
-  end;
- {$ELSE}
-  procedure TWebServicesBase.ConfiguraReqResp(ReqResp: TACBrHTTPReqResp);
-  begin
-    if FConfiguracoes.WebServices.ProxyHost <> '' then
-    begin
-      ReqResp.ProxyHost := FConfiguracoes.WebServices.ProxyHost;
-      ReqResp.ProxyPort := FConfiguracoes.WebServices.ProxyPort;
-      ReqResp.ProxyUser := FConfiguracoes.WebServices.ProxyUser;
-      ReqResp.ProxyPass := FConfiguracoes.WebServices.ProxyPass;
-    end;
-
-    ReqResp.SetCertificate(FConfiguracoes.Certificados.GetCertificado);
-
-    if (pos('SCERECEPCAORFB',UpperCase(FURL)) <= 0) and
-       (pos('SCECONSULTARFB',UpperCase(FURL)) <= 0) then
-      ReqResp.MimeType := 'application/soap+xml'
-    else
-      ReqResp.MimeType := 'text/xml';
-  end;
- {$ENDIF}
-{$ENDIF}
-
-function TWebServicesBase.Executar: Boolean;
-var
-  ErroMsg: String;
-begin
-  { Sobrescrever apenas se realmente necessário }
-
-  Result := False;
-
-  InicializarServico;
-  try
-    DefinirDadosMsg;
-    DefinirEnvelopeSoap;
-    SalvarEnvio;
-
-    try
-      EnviarDados;
-      Result := TratarResposta;
-      FazerLog(GerarMsgLog, True);
-      SalvarResposta;
-    except
-      on E: Exception do
-      begin
-        Result  := False;
-        ErroMsg := GerarMsgErro(E);
-        GerarException(ErroMsg);
-      end;
-    end;
-  finally
-     FinalizarServico;
-  end;
-end;
-
-procedure TWebServicesBase.InicializarServico;
+procedure TMDFeWebService.InicializarServico;
 begin
   { Sobrescrever apenas se necessário }
+  inherited InicializarServico;
 
-  DefinirURL;
-  if URL = '' then
-    GerarException('URL não definida para: ' + ClassName);
-
-  DefinirServicoEAction;
-  if Servico = '' then
-    GerarException('Servico não definido para: ' + ClassName);
-
-  if SoapAction = '' then
-    GerarException('SoapAction não definido para: ' + ClassName);
-
-  TACBrMDFe(FACBrMDFe).SetStatus(FStatus);
+  TACBrMDFe(FPDFeOwner).SetStatus(FPStatus);
 end;
 
-procedure TWebServicesBase.DefinirServicoEAction;
-begin
-  { sobrescrever, obrigatoriamente }
-
-  FServico    := '';
-  FSoapAction := '';
-end;
-
-procedure TWebServicesBase.DefinirURL;
+procedure TMDFeWebService.DefinirURL;
+var
+  Versao: Double;
 begin
   { sobrescrever apenas se necessário.
     Você também pode mudar apenas o valor de "FLayoutServico" na classe
     filha e chamar: Inherited;     }
 
-  FURL := MGetURL(FConfiguracoes.WebServices.UFCodigo,
-                          FConfiguracoes.WebServices.AmbienteCodigo,
-                          FConfiguracoes.Geral.FormaEmissaoCodigo,
-                          Layout);
+  Versao := 0;
+  FPVersaoServico := '';
+  FPURL := '';
+
+  TACBrMDFe(FPDFeOwner).LerServicoDeParams(FPLayout, Versao, FPURL);
+
+  FPVersaoServico := FloatToString(Versao, '.', '0.00');
 end;
 
-procedure TWebServicesBase.DefinirDadosMsg;
-begin
-  { sobrescrever, obrigatoriamente }
 
-  FDadosMsg := '';
-end;
-
-procedure TWebServicesBase.DefinirEnvelopeSoap;
-var
-  Texto: AnsiString;
+function TMDFeWebService.GerarVersaoDadosSoap: String;
 begin
   { Sobrescrever apenas se necessário }
 
-  Texto := '<?xml version="1.0" encoding="utf-8"?>';
-  Texto := Texto + '<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' +
-                                   ' xmlns:xsd="http://www.w3.org/2001/XMLSchema"' +
-                                   ' xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">';
-  Texto := Texto +   '<soap12:Header>';
-  Texto := Texto +     '<mdfeCabecMsg xmlns="' + Servico + '">';
-  Texto := Texto +       GerarUFSoap;
-  Texto := Texto +       GerarVersaoDadosSoap;
-  Texto := Texto +     '</mdfeCabecMsg>';
-  Texto := Texto +   '</soap12:Header>';
-  Texto := Texto +   '<soap12:Body>';
-  Texto := Texto +     '<mdfeDadosMsg xmlns="' + Servico + '">';
-  Texto := Texto +       DadosMsg;
-  Texto := Texto +     '</mdfeDadosMsg>';
-  Texto := Texto +   '</soap12:Body>';
-  Texto := Texto + '</soap12:Envelope>';
+  if EstaVazio(FPVersaoServico) then
+    FPVersaoServico := TACBrMDFe(FPDFeOwner).LerVersaoDeParams(FPLayout);
 
-  FEnvelopeSoap := Texto;
+  Result := '<versaoDados>' + FPVersaoServico + '</versaoDados>';
 end;
 
-function TWebServicesBase.GerarUFSoap: AnsiString;
-begin
-  Result := '<cUF>' +
-              IntToStr(FConfiguracoes.WebServices.UFCodigo) +
-            '</cUF>';
-end;
-
-function TWebServicesBase.GerarVersaoDadosSoap: AnsiString;
+procedure TMDFeWebService.FinalizarServico;
 begin
   { Sobrescrever apenas se necessário }
 
-  Result := '<versaoDados>' +
-              GetVersaoMDFe(FConfiguracoes.Geral.VersaoDF, Layout) +
-            '</versaoDados>';
-end;
-
-procedure TWebServicesBase.EnviarDados;
-var
-  {$IFDEF ACBrMDFeOpenSSL}
-   HTTP: THTTPSend;
-   OK: Boolean;
-  {$ELSE}
-   Stream: TMemoryStream;
-   StrStream: TStringStream;
-   {$IFDEF SoapHTTP}
-    ReqResp: THTTPReqResp;
-   {$ELSE}
-    ReqResp: TACBrHTTPReqResp;
-   {$ENDIF}
-  {$ENDIF}
-begin
-  { Sobrescrever apenas se necessário }
-  
-  FRetWS     := '';
-  FRetornoWS := '';
-
-  {$IFDEF ACBrMDFeOpenSSL}
-   HTTP := THTTPSend.Create;
-  {$ELSE}
-   {$IFDEF SoapHTTP}
-    ReqResp := THTTPReqResp.Create(nil);
-    ReqResp.UseUTF8InHeader := True;
-   {$ELSE}
-    ReqResp := TACBrHTTPReqResp.Create;
-   {$ENDIF}
-   ConfiguraReqResp(ReqResp);
-   ReqResp.URL := URL;
-   ReqResp.SoapAction := SoapAction;
-  {$ENDIF}
-  FEnvelopeSoap := UTF8Encode(FEnvelopeSoap);
-
-  try
-    {$IFDEF ACBrMDFeOpenSSL}
-     ConfiguraHTTP(HTTP, 'SOAPAction: "' + SoapAction + '"');
-     HTTP.Document.WriteBuffer(FEnvelopeSoap[1], Length(FEnvelopeSoap));
-     OK := HTTP.HTTPMethod('POST', URL);
-     OK := OK and (HTTP.ResultCode = 200);
-     if not OK then
-       GerarException('Cod.Erro HTTP: ' + IntToStr(HTTP.ResultCode) +
-                      ' ' + HTTP.ResultString);
-
-     // Lendo a resposta //
-     HTTP.Document.Position := 0;
-     SetLength(FRetornoWS, HTTP.Document.Size);
-     HTTP.Document.ReadBuffer(FRetornoWS[1], HTTP.Document.Size);
-    {$ELSE}
-      {$IFDEF SoapHTTP}
-        Stream := TMemoryStream.Create;
-        StrStream := TStringStream.Create('');
-        try
-          ReqResp.Execute(FEnvelopeSoap, Stream);  // Dispara exceptions no caso de erro
-          StrStream.CopyFrom(Stream, 0);
-          FRetornoWS := StrStream.DataString;
-        finally
-          StrStream.Free;
-          Stream.Free;
-        end;
-      {$ELSE}
-        ReqResp.Data := FEnvelopeSoap;
-        FRetornoWS := ReqResp.Execute;
-      {$ENDIF}
-    {$ENDIF}
-    FRetornoWS := ParseText(FRetornoWS, True, True); // Resposta sempre é UTF8
-  finally
-    {$IFDEF ACBrMDFeOpenSSL}
-     HTTP.Free;
-    {$ELSE}
-     ReqResp.Free;
-    {$ENDIF}
-  end;
-end;
-
-function TWebServicesBase.GerarPrefixoArquivo: AnsiString;
-begin
-  Result := FormatDateTime('yyyymmddhhnnss', Now);
-end;
-
-procedure TWebServicesBase.SalvarEnvio;
-var
-  Prefixo, ArqEnv: String;
-begin
-  { Sobrescrever apenas se necessário }
-
-  if FArqEnv = '' then exit;
-
-  Prefixo := GerarPrefixoArquivo;
-
-  if FConfiguracoes.Geral.Salvar then
-  begin
-    ArqEnv := Prefixo + '-' + FArqEnv + '.xml';
-    FConfiguracoes.Geral.Save(ArqEnv, FDadosMsg);
-  end;
-
-  if FConfiguracoes.WebServices.Salvar then
-  begin
-    ArqEnv := Prefixo + '-' + FArqEnv + '-soap.xml';
-    FConfiguracoes.Geral.Save(ArqEnv, FEnvelopeSoap);
-  end;
-end;
-
-procedure TWebServicesBase.SalvarResposta;
-var
-  Prefixo, ArqResp: String;
-begin
-  { Sobrescrever apenas se necessário }
-
-  if FArqResp = '' then exit;
-
-  Prefixo := GerarPrefixoArquivo;
-
-  if FConfiguracoes.Geral.Salvar then
-  begin
-    ArqResp := Prefixo + '-' + FArqResp + '.xml';
-    FConfiguracoes.Geral.Save(ArqResp, FRetWS);
-  end;
-
-  if FConfiguracoes.WebServices.Salvar then
-  begin
-    ArqResp := Prefixo + '-' + FArqResp + '-soap.xml';
-    FConfiguracoes.Geral.Save(ArqResp, FRetornoWS);
-  end;
-end;
-
-function TWebServicesBase.GerarMsgLog: AnsiString;
-begin
-  { sobrescrever, se quiser Logar }
-
-  Result := '';
-end;
-
-function TWebServicesBase.TratarResposta: Boolean;
-begin
-  { sobrescrever, obrigatoriamente }
-  
-  Result := False;
-end;
-
-procedure TWebServicesBase.FazerLog(Msg: String; Exibir: Boolean);
-begin
-  if (Msg <> '') then
-  begin
-    if Assigned(TACBrMDFe(FACBrMDFe).OnGerarLog) then
-      TACBrMDFe(FACBrMDFe).OnGerarLog(Msg);
-
-    if Exibir and FConfiguracoes.WebServices.Visualizar then
-      ShowMessage(Msg);
-  end;
-end;
-
-procedure TWebServicesBase.GerarException(Msg: AnsiString);
-begin
-  FazerLog('ERRO: ' + Msg, False);
-  raise EACBrMDFeException.Create(Msg);
-end;
-
-function TWebServicesBase.GerarMsgErro(E: Exception): AnsiString;
-begin
-  { Sobrescrever com mensagem adicional, se desejar }
-
-  Result := E.Message;
-end;
-
-procedure TWebServicesBase.FinalizarServico;
-begin
-  { Sobrescrever apenas se necessário }
-
-  TACBrMDFe(FACBrMDFe).SetStatus(stMDFeIdle);
-  ConfAmbiente;
+  TACBrMDFe(FPDFeOwner).SetStatus(stIdle);
 end;
 
 { TMDFeStatusServico }
 
-constructor TMDFeStatusServico.Create(AOwner: TComponent);
+constructor TMDFeStatusServico.Create(AOwner: TACBrDFe);
 begin
   inherited Create(AOwner);
 
-  FStatus  := stMDFeStatusServico;
-  FLayout  := LayMDFeStatusServico;
-  FArqEnv  := 'ped-sta';
-  FArqResp := 'sta';
+  FPStatus := stMDFeStatusServico;
+  FPLayout := LayMDFeStatusServico;
+  FPArqEnv := 'ped-sta';
+  FPArqResp := 'sta';
 end;
 
 procedure TMDFeStatusServico.DefinirServicoEAction;
 begin
-  FServico    := CURL_WSDL + 'MDFeStatusServico';
-  FSoapAction := FServico + '/mdfeStatusServicoMDF';
+  FPServico := GetUrlWsd + 'MDFeStatusServico';
+  FPSoapAction := FPServico + '/mdfeStatusServicoMDF';
 end;
 
 procedure TMDFeStatusServico.DefinirDadosMsg;
 var
   ConsStatServ: TConsStatServ;
 begin
-  ConsStatServ := TConsStatServ.create;
+  ConsStatServ := TConsStatServ.Create;
   try
-    ConsStatServ.TpAmb := TpcnTipoAmbiente(FConfiguracoes.WebServices.AmbienteCodigo - 1);
-    ConsStatServ.CUF   := FConfiguracoes.WebServices.UFCodigo;
+    ConsStatServ.TpAmb := FPConfiguracoesMDFe.WebServices.Ambiente;
+    ConsStatServ.CUF := FPConfiguracoesMDFe.WebServices.UFCodigo;
 
+    ConsStatServ.Versao := FPVersaoServico;
     ConsStatServ.GerarXML;
 
     // Atribuindo o XML para propriedade interna //
-    FDadosMsg := ConsStatServ.Gerador.ArquivoFormatoXML;
+    FPDadosMsg := ConsStatServ.Gerador.ArquivoFormatoXML;
   finally
     ConsStatServ.Free;
   end;
@@ -965,27 +542,27 @@ function TMDFeStatusServico.TratarResposta: Boolean;
 var
   MDFeRetorno: TRetConsStatServ;
 begin
-  FRetWS := SeparaDados(FRetornoWS, 'mdfeStatusServicoMDFResult');
+  FPRetWS := SeparaDados(FPRetornoWS, 'mdfeStatusServicoMDFResult');
 
   MDFeRetorno := TRetConsStatServ.Create;
   try
-    MDFeRetorno.Leitor.Arquivo := FRetWS;
+    MDFeRetorno.Leitor.Arquivo := FPRetWS;
     MDFeRetorno.LerXml;
 
-    Fversao    := MDFeRetorno.versao;
-    FtpAmb     := MDFeRetorno.tpAmb;
-    FverAplic  := MDFeRetorno.verAplic;
-    FcStat     := MDFeRetorno.cStat;
-    FxMotivo   := MDFeRetorno.xMotivo;
-    FcUF       := MDFeRetorno.cUF;
-    FdhRecbto  := MDFeRetorno.dhRecbto;
-    FTMed      := MDFeRetorno.TMed;
+    Fversao := MDFeRetorno.versao;
+    FtpAmb := MDFeRetorno.tpAmb;
+    FverAplic := MDFeRetorno.verAplic;
+    FcStat := MDFeRetorno.cStat;
+    FxMotivo := MDFeRetorno.xMotivo;
+    FcUF := MDFeRetorno.cUF;
+    FdhRecbto := MDFeRetorno.dhRecbto;
+    FTMed := MDFeRetorno.TMed;
     FdhRetorno := MDFeRetorno.dhRetorno;
-    FxObs      := MDFeRetorno.xObs;
-    FMsg       := FxMotivo + LineBreak + FxObs;
+    FxObs := MDFeRetorno.xObs;
+    FPMsg := FxMotivo + LineBreak + FxObs;
 
-    if FConfiguracoes.WebServices.AjustaAguardaConsultaRet then
-       FConfiguracoes.WebServices.AguardarConsultaRet := FTMed * 1000;
+    if FPConfiguracoesMDFe.WebServices.AjustaAguardaConsultaRet then
+      FPConfiguracoesMDFe.WebServices.AguardarConsultaRet := FTMed * 1000;
 
     Result := (FcStat = 107);
 
@@ -994,46 +571,44 @@ begin
   end;
 end;
 
-function TMDFeStatusServico.GerarMsgLog: AnsiString;
+function TMDFeStatusServico.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : '     + Fversao + LineBreak +
-            'Ambiente : '          + TpAmbToStr(FtpAmb) + LineBreak +
-            'Versão Aplicativo : ' + FverAplic + LineBreak +
-            'Status Código : '     + IntToStr(FcStat) + LineBreak +
-            'Status Descrição : '  + FxMotivo + LineBreak +
-            'UF : '                + CodigoParaUF(FcUF) + LineBreak +
-            'Recebimento : '       + SeSenao(FdhRecbto = 0,
-                                                     '',
-                                                     DateTimeToStr(FdhRecbto)) +
-                                     LineBreak +
-            'Tempo Médio : '       + IntToStr(FTMed) + LineBreak +
-            'Retorno : '           + SeSenao(FdhRetorno = 0,
-                                                     '',
-                                                     DateTimeToStr(FdhRetorno)) +
-                                     LineBreak +
-            'Observação : '        + FxObs + LineBreak;
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Ambiente: %s' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Status Código: %s' + LineBreak +
+                           'Status Descrição: %s' + LineBreak +
+                           'UF: %s' + LineBreak +
+                           'Recebimento: %s' + LineBreak +
+                           'Tempo Médio: %s' + LineBreak +
+                           'Retorno: %s' + LineBreak +
+                           'Observação: %s' + LineBreak),
+                   [Fversao, TpAmbToStr(FtpAmb), FverAplic, IntToStr(FcStat),
+                    FxMotivo, CodigoParaUF(FcUF),
+                    IfThen(FdhRecbto = 0, '', FormatDateTimeBr(FdhRecbto)),
+                    IntToStr(FTMed),
+                    IfThen(FdhRetorno = 0, '', FormatDateTimeBr(FdhRetorno)),
+                    FxObs]);
 end;
 
-function TMDFeStatusServico.GerarMsgErro(E: Exception): AnsiString;
+function TMDFeStatusServico.GerarMsgErro(E: Exception): String;
 begin
-  Result := 'WebService Consulta Status serviço:' + LineBreak +
-            '- Inativo ou Inoperante tente novamente.' + LineBreak +
-            '- ' + E.Message
+  Result := ACBrStr('WebService Consulta Status serviço:' + LineBreak +
+                    '- Inativo ou Inoperante tente novamente.');
 end;
 
 { TMDFeRecepcao }
 
-constructor TMDFeRecepcao.Create(AOwner: TComponent;
-  AManifestos: TManifestos);
+constructor TMDFeRecepcao.Create(AOwner: TACBrDFe; AManifestos: TManifestos);
 begin
   inherited Create(AOwner);
 
   FManifestos := AManifestos;
 
-  FStatus  := stMDFeRecepcao;
-  FLayout  := LayMDFeRecepcao;
-  FArqEnv  := 'env-lot';
-  FArqResp := 'rec';
+  FPStatus := stMDFeRecepcao;
+  FPLayout := LayMDFeRecepcao;
+  FPArqEnv := 'env-lot';
+  FPArqResp := 'rec';
 
   FMDFeRetorno := nil;
 end;
@@ -1058,68 +633,62 @@ end;
 
 procedure TMDFeRecepcao.DefinirURL;
 begin
-  FLayout := LayMDFeRecepcao;
+  FPLayout := LayMDFeRecepcao;
 
   inherited DefinirURL;
 end;
 
 procedure TMDFeRecepcao.DefinirServicoEAction;
 begin
-  FServico    := CURL_WSDL + 'MDFeRecepcao';
-  FSoapAction := FServico + '/mdfeRecepcaoLote';
+  FPServico := GetUrlWsd + 'MDFeRecepcao';
+  FPSoapAction := FPServico + '/mdfeRecepcaoLote';
 end;
 
 procedure TMDFeRecepcao.DefinirDadosMsg;
 var
-  I: Integer;
-  vMDFe: WideString;
-  Versao: String;
+  I: integer;
+  vMDFe: String;
 begin
-  Versao := GetVersaoMDFe(FConfiguracoes.Geral.VersaoDF, Layout);
-
-  if FLote = '' then
-    FLote := '0';
-
   vMDFe := '';
   for I := 0 to FManifestos.Count - 1 do
-    vMDFe := vMDFe + '<MDFe' +
-                       RetornarConteudoEntre(FManifestos.Items[I].XML, '<MDFe', '</MDFe>') +
-                     '</MDFe>';
+    vMDFe := vMDFe + '<MDFe' + RetornarConteudoEntre(
+      FManifestos.Items[I].XMLAssinado, '<MDFe', '</MDFe>') + '</MDFe>';
 
-  FDadosMsg := '<enviMDFe xmlns="http://www.portalfiscal.inf.br/mdfe" versao="' + Versao + '">'+
-                 '<idLote>' +
-                   FLote +
-                 '</idLote>'+
-                 vMDFe +
-               '</enviMDFe>';
+  FPDadosMsg := '<enviMDFe xmlns="http://www.portalfiscal.inf.br/mdfe" versao="' +
+    FPVersaoServico + '">' + '<idLote>' + FLote + '</idLote>' +
+    vMDFe + '</enviMDFe>';
 
   // Lote tem mais de 500kb ? //
-  if Length(FDadosMsg) > (500 * 1024) then
-    GerarException('Tamanho do XML de Dados superior a 500 Kbytes. Tamanho atual: ' +
-                   IntToStr(trunc(Length(FDadosMsg) / 1024)) + ' Kbytes');
+  if Length(FPDadosMsg) > (500 * 1024) then
+    GerarException(ACBrStr('Tamanho do XML de Dados superior a 500 Kbytes. Tamanho atual: ' +
+      IntToStr(trunc(Length(FPDadosMsg) / 1024)) + ' Kbytes'));
 
   FRecibo := '';
 end;
 
 function TMDFeRecepcao.TratarResposta: Boolean;
+var
+  I: integer;
+  chMDFe, NomeArquivo: String;
+  AProcMDFe: TProcMDFe;
 begin
-  FRetWS := SeparaDados(FRetornoWS, 'mdfeRecepcaoLoteResult');
+  FPRetWS := SeparaDados(FPRetornoWS, 'mdfeRecepcaoLoteResult');
 
   FMDFeRetorno := TretEnvMDFe.Create;
 
-  FMDFeRetorno.Leitor.Arquivo := FRetWS;
+  FMDFeRetorno.Leitor.Arquivo := FPRetWS;
   FMDFeRetorno.LerXml;
 
-  Fversao   := FMDFeRetorno.versao;
-  FTpAmb    := FMDFeRetorno.TpAmb;
+  Fversao := FMDFeRetorno.versao;
+  FTpAmb := FMDFeRetorno.TpAmb;
   FverAplic := FMDFeRetorno.verAplic;
-  FcStat    := FMDFeRetorno.cStat;
-  FxMotivo  := FMDFeRetorno.xMotivo;
+  FcStat := FMDFeRetorno.cStat;
+  FxMotivo := FMDFeRetorno.xMotivo;
   FdhRecbto := FMDFeRetorno.infRec.dhRecbto;
-  FTMed     := FMDFeRetorno.infRec.tMed;
-  FcUF      := FMDFeRetorno.cUF;
-  FMsg      := FMDFeRetorno.xMotivo;
-  FRecibo   := FMDFeRetorno.infRec.nRec;
+  FTMed := FMDFeRetorno.infRec.tMed;
+  FcUF := FMDFeRetorno.cUF;
+  FPMsg := FMDFeRetorno.xMotivo;
+  FRecibo := FMDFeRetorno.infRec.nRec;
 
   Result := (FMDFeRetorno.CStat = 103);
 end;
@@ -1132,46 +701,50 @@ begin
     FreeAndNil(FMDFeRetorno);
 end;
 
-function TMDFeRecepcao.GerarMsgLog: AnsiString;
+function TMDFeRecepcao.GerarMsgLog: String;
 begin
   if Assigned(FMDFeRetorno) then
-    Result := 'Versão Layout : '     + FMDFeRetorno.versao + LineBreak +
-              'Ambiente : '          + TpAmbToStr(FMDFeRetorno.TpAmb) + LineBreak +
-              'Versão Aplicativo : ' + FMDFeRetorno.verAplic + LineBreak +
-              'Status Código : '     + IntToStr(FMDFeRetorno.cStat) + LineBreak +
-              'Status Descrição : '  + FMDFeRetorno.xMotivo + LineBreak +
-              'UF : '                + CodigoParaUF(FMDFeRetorno.cUF) + LineBreak +
-              'Recibo : '            + FMDFeRetorno.infRec.nRec + LineBreak +
-              'Recebimento : '       + SeSenao(FMDFeRetorno.InfRec.dhRecbto = 0,
-                                                       '',
-                                                       DateTimeToStr(FMDFeRetorno.InfRec.dhRecbto)) +
-                                                       LineBreak +
-              'Tempo Médio : '       + IntToStr(FMDFeRetorno.InfRec.TMed) +
-                                       LineBreak
+    Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                             'Ambiente: %s ' + LineBreak +
+                             'Versão Aplicativo: %s ' + LineBreak +
+                             'Status Código: %s ' + LineBreak +
+                             'Status Descrição: %s ' + LineBreak +
+                             'UF: %s ' + sLineBreak +
+                             'Recibo: %s ' + LineBreak +
+                             'Recebimento: %s ' + LineBreak +
+                             'Tempo Médio: %s ' + LineBreak),
+                     [FMDFeRetorno.versao,
+                      TpAmbToStr(FMDFeRetorno.TpAmb),
+                      FMDFeRetorno.verAplic,
+                      IntToStr(FMDFeRetorno.cStat),
+                      FMDFeRetorno.xMotivo,
+                      CodigoParaUF(FMDFeRetorno.cUF),
+                      FMDFeRetorno.infRec.nRec,
+                      IfThen(FMDFeRetorno.InfRec.dhRecbto = 0, '',
+                             FormatDateTimeBr(FMDFeRetorno.InfRec.dhRecbto)),
+                      IntToStr(FMDFeRetorno.InfRec.TMed)])
   else
     Result := '';
 end;
 
-function TMDFeRecepcao.GerarPrefixoArquivo: AnsiString;
+function TMDFeRecepcao.GerarPrefixoArquivo: String;
 begin
   Result := Lote;
 end;
 
 { TMDFeRetRecepcao }
 
-constructor TMDFeRetRecepcao.Create(AOwner: TComponent;
-  AManifestos: TManifestos);
+constructor TMDFeRetRecepcao.Create(AOwner: TACBrDFe; AManifestos: TManifestos);
 begin
   inherited Create(AOwner);
 
+  FManifestos := AManifestos;
   FMDFeRetorno := TRetConsReciMDFe.Create;
 
-  FManifestos := AManifestos;
-
-  FStatus  := stMDFeRetRecepcao;
-  FLayout  := LayMDFeRetRecepcao;
-  FArqEnv  := 'ped-rec';
-  FArqResp := 'pro-rec';
+  FPStatus := stMDFeRetRecepcao;
+  FPLayout := LayMDFeRetRecepcao;
+  FPArqEnv := 'ped-rec';
+  FPArqResp := 'pro-rec';
 end;
 
 destructor TMDFeRetRecepcao.Destroy;
@@ -1188,10 +761,9 @@ end;
 
 function TMDFeRetRecepcao.TratarRespostaFinal: Boolean;
 var
-  I, J: Integer;
+  I, J: integer;
   AProcMDFe: TProcMDFe;
   AInfProt: TProtMDFeCollection;
-  Data: TDateTime;
 begin
   Result := False;
 
@@ -1199,48 +771,52 @@ begin
 
   if (AInfProt.Count > 0) then
   begin
-    FMsg     := FMDFeRetorno.ProtMDFe.Items[0].xMotivo;
+    FPMsg := FMDFeRetorno.ProtMDFe.Items[0].xMotivo;
     FxMotivo := FMDFeRetorno.ProtMDFe.Items[0].xMotivo;
   end;
 
-  //Setando os retornos das notas fiscais;
+  //Setando os retornos dos Manifestos;
   for I := 0 to AInfProt.Count - 1 do
   begin
     for J := 0 to FManifestos.Count - 1 do
     begin
-      if OnlyNumber(AInfProt.Items[I].chMDFe) = OnlyNumber(FManifestos.Items[J].MDFe.InfMDFe.Id) then
+      if OnlyNumber(AInfProt.Items[I].chMDFe) = FManifestos.Items[J].NumID then
       begin
-        if (TACBrMDFe( FACBrMDFe ).Configuracoes.Geral.ValidarDigest ) and
-           (FManifestos.Items[J].MDFe.Signature.DigestValue <> AInfProt.Items[I].digVal) and
-           (AInfProt.Items[I].digVal <> '') then
-         begin
-           raise EACBrMDFeException.Create('DigestValue do documento '+
-                                           OnlyNumber(FManifestos.Items[J].MDFe.infMDFe.Id)+
-                                           ' não confere.');
-         end;
-        FManifestos.Items[J].Confirmada             := (AInfProt.Items[I].cStat in [100, 150]);
-        FManifestos.Items[J].Msg                    := AInfProt.Items[I].xMotivo;
-        FManifestos.Items[J].MDFe.procMDFe.tpAmb    := AInfProt.Items[I].tpAmb;
-        FManifestos.Items[J].MDFe.procMDFe.verAplic := AInfProt.Items[I].verAplic;
-        FManifestos.Items[J].MDFe.procMDFe.chMDFe   := AInfProt.Items[I].chMDFe;
-        FManifestos.Items[J].MDFe.procMDFe.dhRecbto := AInfProt.Items[I].dhRecbto;
-        FManifestos.Items[J].MDFe.procMDFe.nProt    := AInfProt.Items[I].nProt;
-        FManifestos.Items[J].MDFe.procMDFe.digVal   := AInfProt.Items[I].digVal;
-        FManifestos.Items[J].MDFe.procMDFe.cStat    := AInfProt.Items[I].cStat;
-        FManifestos.Items[J].MDFe.procMDFe.xMotivo  := AInfProt.Items[I].xMotivo;
-
-        if FConfiguracoes.Geral.Salvar or NaoEstaVazio(FManifestos.Items[J].NomeArq) then
+        if (TACBrMDFe(FPDFeOwner).Configuracoes.Geral.ValidarDigest) and
+          (FManifestos.Items[J].MDFe.signature.DigestValue <>
+          AInfProt.Items[I].digVal) and (AInfProt.Items[I].digVal <> '') then
         begin
-          if FileExists(PathWithDelim(FConfiguracoes.Geral.PathSalvar) + AInfProt.Items[I].chMDFe + '-mdfe.xml') and
-             FileExists(PathWithDelim(FConfiguracoes.Geral.PathSalvar) + FMDFeRetorno.nRec + '-pro-rec.xml') then
+          raise EACBrMDFeException.Create('DigestValue do documento ' +
+            FManifestos.Items[J].NumID + ' não confere.');
+        end;
+
+        FManifestos.Items[J].MDFe.procMDFe.tpAmb := AInfProt.Items[I].tpAmb;
+        FManifestos.Items[J].MDFe.procMDFe.verAplic := AInfProt.Items[I].verAplic;
+        FManifestos.Items[J].MDFe.procMDFe.chMDFe := AInfProt.Items[I].chMDFe;
+        FManifestos.Items[J].MDFe.procMDFe.dhRecbto := AInfProt.Items[I].dhRecbto;
+        FManifestos.Items[J].MDFe.procMDFe.nProt := AInfProt.Items[I].nProt;
+        FManifestos.Items[J].MDFe.procMDFe.digVal := AInfProt.Items[I].digVal;
+        FManifestos.Items[J].MDFe.procMDFe.cStat := AInfProt.Items[I].cStat;
+        FManifestos.Items[J].MDFe.procMDFe.xMotivo := AInfProt.Items[I].xMotivo;
+
+        if FPConfiguracoesMDFe.Arquivos.Salvar or NaoEstaVazio(
+          FManifestos.Items[J].NomeArq) then
+        begin
+          if FileExists(PathWithDelim(FPConfiguracoesMDFe.Arquivos.PathSalvar) +
+                        AInfProt.Items[I].chMDFe + '-mdfe.xml') and
+             FileExists(PathWithDelim(FPConfiguracoesMDFe.Arquivos.PathSalvar) +
+                        FMDFeRetorno.nRec + '-pro-rec.xml') then
           begin
             AProcMDFe := TProcMDFe.Create;
             try
-              AProcMDFe.PathMDFe := PathWithDelim(FConfiguracoes.Geral.PathSalvar)+AInfProt.Items[I].chMDFe+'-mdfe.xml';
-              AProcMDFe.PathRetConsReciMDFe := PathWithDelim(FConfiguracoes.Geral.PathSalvar) +
-                                               FMDFeRetorno.nRec +
-                                               '-pro-rec.xml';
+              AProcMDFe.PathMDFe :=
+                PathWithDelim(FPConfiguracoesMDFe.Arquivos.PathSalvar) +
+                AInfProt.Items[I].chMDFe + '-mdfe.xml';
+              AProcMDFe.PathRetConsReciMDFe :=
+                PathWithDelim(FPConfiguracoesMDFe.Arquivos.PathSalvar) +
+                FMDFeRetorno.nRec + '-pro-rec.xml';
 
+              AProcMDFe.Versao := FPVersaoServico;
               AProcMDFe.GerarXML;
 
               if NaoEstaVazio(AProcMDFe.Gerador.ArquivoFormatoXML) then
@@ -1248,46 +824,25 @@ begin
                 if NaoEstaVazio(FManifestos.Items[J].NomeArq) then
                   AProcMDFe.Gerador.SalvarArquivo(FManifestos.Items[J].NomeArq)
                 else
-                  AProcMDFe.Gerador.SalvarArquivo(PathWithDelim(FConfiguracoes.Geral.PathSalvar) +
-                                                  AInfProt.Items[I].chMDFe +
-                                                  '-mdfe.xml');
+                  AProcMDFe.Gerador.SalvarArquivo(
+                    PathWithDelim(FPConfiguracoesMDFe.Arquivos.PathSalvar) +
+                    AInfProt.Items[I].chMDFe + '-mdfe.xml');
               end;
             finally
               AProcMDFe.Free;
             end;
           end;
-
-//          if FConfiguracoes.Arquivos.Salvar then
-//          begin
-//            if FConfiguracoes.Arquivos.EmissaoPathMDFe then
-//              Data := FManifestos.Items[J].MDFe.Ide.dhEmi
-//            else
-//              Data := Now;
-
-//            FManifestos.Items[J].SaveToFile(PathWithDelim(FConfiguracoes.Arquivos.GetPathMDFe(Data,
-//               FManifestos.Items[J].MDFe.Emit.CNPJ)) +
-//               OnlyNumber(FManifestos.Items[J].MDFe.InfMDFe.Id) + '-mdfe.xml')
-//          end;
         end;
 
-        if FConfiguracoes.Arquivos.Salvar then
+        if FPConfiguracoesMDFe.Arquivos.Salvar then
         begin
-          if FConfiguracoes.Arquivos.EmissaoPathMDFe then
-            Data := FManifestos.Items[J].MDFe.Ide.dhEmi
+          if FPConfiguracoesMDFe.Arquivos.SalvarApenasMDFeProcessadas then
+          begin
+            if FManifestos.Items[J].Processada then
+              FManifestos.Items[J].GravarXML;
+          end
           else
-            Data := Now;
-
-          if FConfiguracoes.Arquivos.SalvarApenasMDFeProcessados then
-           begin
-              if FManifestos.Items[J].MDFe.procMDFe.cStat in [100, 150] then
-               FManifestos.Items[J].SaveToFile(PathWithDelim(FConfiguracoes.Arquivos.GetPathMDFe(Data,
-                   FManifestos.Items[J].MDFe.Emit.CNPJ)) +
-                   OnlyNumber(FManifestos.Items[J].MDFe.InfMDFe.Id) + '-mdfe.xml');
-           end
-           else
-            FManifestos.Items[J].SaveToFile(PathWithDelim(FConfiguracoes.Arquivos.GetPathMDFe(Data,
-                FManifestos.Items[J].MDFe.Emit.CNPJ)) +
-                OnlyNumber(FManifestos.Items[J].MDFe.InfMDFe.Id) + '-mdfe.xml');
+            FManifestos.Items[J].GravarXML;
         end;
 
         break;
@@ -1295,7 +850,7 @@ begin
     end;
   end;
 
-  //Verificando se existe algum conhecimento confirmado
+  //Verificando se existe algum Manifesto confirmado
   for I := 0 to FManifestos.Count - 1 do
   begin
     if FManifestos.Items[I].Confirmada then
@@ -1305,12 +860,12 @@ begin
     end;
   end;
 
-  //Verificando se existe algum conhecimento nao confirmado
+  //Verificando se existe algum Manifesto nao confirmado
   for I := 0 to FManifestos.Count - 1 do
   begin
     if not FManifestos.Items[I].Confirmada then
     begin
-      FMsg := 'Conhecimento(s) não confirmado(s):' + LineBreak;
+      FPMsg := ACBrStr('Manifesto(s) não confirmado(s):') + LineBreak;
       break;
     end;
   end;
@@ -1319,34 +874,34 @@ begin
   for I := 0 to FManifestos.Count - 1 do
   begin
     if not FManifestos.Items[I].Confirmada then
-      FMsg := FMsg + IntToStr(FManifestos.Items[I].MDFe.Ide.nMDF) + '->' +
-                     FManifestos.Items[I].Msg + LineBreak;
+      FPMsg := FPMsg + IntToStr(FManifestos.Items[I].MDFe.Ide.nNF) +
+        '->' + FManifestos.Items[I].Msg + LineBreak;
   end;
 
   if AInfProt.Count > 0 then
   begin
-     FChaveMDFe := AInfProt.Items[0].chMDFe;
-     FProtocolo := AInfProt.Items[0].nProt;
-     FcStat     := AInfProt.Items[0].cStat;
+    FChaveMDFe := AInfProt.Items[0].chMDFe;
+    FProtocolo := AInfProt.Items[0].nProt;
+    FcStat := AInfProt.Items[0].cStat;
   end;
 end;
 
 function TMDFeRetRecepcao.Executar: Boolean;
 var
-  IntervaloTentativas, vCont, qTent: Integer;
+  IntervaloTentativas, vCont, qTent: integer;
 begin
   Result := False;
 
-  TACBrMDFe(FACBrMDFe).SetStatus(stMDFeRetRecepcao);
+  TACBrMDFe(FPDFeOwner).SetStatus(stMDFeRetRecepcao);
   try
-    Sleep(FConfiguracoes.WebServices.AguardarConsultaRet);
+    Sleep(FPConfiguracoesMDFe.WebServices.AguardarConsultaRet);
 
     vCont := 1000;
     qTent := 0; // Inicializa o contador de tentativas
-    IntervaloTentativas := FConfiguracoes.WebServices.IntervaloTentativas;
+    IntervaloTentativas := FPConfiguracoesMDFe.WebServices.IntervaloTentativas;
 
     while (inherited Executar) and
-          (qTent < FConfiguracoes.WebServices.Tentativas) do
+      (qTent < FPConfiguracoesMDFe.WebServices.Tentativas) do
     begin
       Inc(qTent);
 
@@ -1356,7 +911,7 @@ begin
         Sleep(vCont);
     end;
   finally
-    TACBrMDFe(FACBrMDFe).SetStatus(stMDFeIdle);
+    TACBrMDFe(FPDFeOwner).SetStatus(stIdle);
   end;
 
   if FMDFeRetorno.CStat = 104 then  // Lote processado ?
@@ -1365,15 +920,15 @@ end;
 
 procedure TMDFeRetRecepcao.DefinirURL;
 begin
-  FLayout := LayMDFeRetRecepcao;
+  FPLayout := LayMDFeRetRecepcao;
 
   inherited DefinirURL;
 end;
 
 procedure TMDFeRetRecepcao.DefinirServicoEAction;
 begin
-  FServico    := CURL_WSDL + 'MDFeRetRecepcao';
-  FSoapAction := FServico + '/mdfeRetRecepcao';
+  FPServico := GetUrlWsd + 'MDFeRetRecepcao';
+  FPSoapAction := FPServico + '/mdfeRetRecepcao';
 end;
 
 procedure TMDFeRetRecepcao.DefinirDadosMsg;
@@ -1382,12 +937,12 @@ var
 begin
   ConsReciMDFe := TConsReciMDFe.Create;
   try
-    ConsReciMDFe.tpAmb := TpcnTipoAmbiente(FConfiguracoes.WebServices.AmbienteCodigo - 1);
-    ConsReciMDFe.nRec  := FRecibo;
-
+    ConsReciMDFe.tpAmb := FPConfiguracoesMDFe.WebServices.Ambiente;
+    ConsReciMDFe.nRec := FRecibo;
+    ConsReciMDFe.Versao := FPVersaoServico;
     ConsReciMDFe.GerarXML;
 
-    FDadosMsg := ConsReciMDFe.Gerador.ArquivoFormatoXML;
+    FPDadosMsg := ConsReciMDFe.Gerador.ArquivoFormatoXML;
   finally
     ConsReciMDFe.Free;
   end;
@@ -1395,81 +950,86 @@ end;
 
 function TMDFeRetRecepcao.TratarResposta: Boolean;
 begin
-  FRetWS := SeparaDados(FRetornoWS, 'mdfeRetRecepcaoResult');
+  FPRetWS := SeparaDados(FPRetornoWS, 'mdfeRetRecepcaoResult');
 
   // Limpando variaveis internas
   FMDFeRetorno.Free;
   FMDFeRetorno := TRetConsReciMDFe.Create;
 
-  FMDFeRetorno.Leitor.Arquivo := FRetWS;
+  FMDFeRetorno.Leitor.Arquivo := FPRetWS;
   FMDFeRetorno.LerXML;
 
-  Fversao   := FMDFeRetorno.versao;
-  FTpAmb    := FMDFeRetorno.TpAmb;
+  Fversao := FMDFeRetorno.versao;
+  FTpAmb := FMDFeRetorno.TpAmb;
   FverAplic := FMDFeRetorno.verAplic;
-  FcStat    := FMDFeRetorno.cStat;
-  FcUF      := FMDFeRetorno.cUF;
-  FMsg      := FMDFeRetorno.xMotivo;
-  FxMotivo  := FMDFeRetorno.xMotivo;
-//  FcMsg     := FMDFeRetorno.cMsg;
-//  FxMsg     := FMDFeRetorno.xMsg;
+  FcStat := FMDFeRetorno.cStat;
+  FcUF := FMDFeRetorno.cUF;
+  FPMsg := FMDFeRetorno.xMotivo;
+  FxMotivo := FMDFeRetorno.xMotivo;
+  FcMsg := FMDFeRetorno.cMsg;
+  FxMsg := FMDFeRetorno.xMsg;
 
   Result := (FMDFeRetorno.CStat = 105); // Lote em Processamento
 end;
 
 procedure TMDFeRetRecepcao.FinalizarServico;
 begin
-  ConfAmbiente;
-  // Não libera para stIdle... não ainda...;
+  // Sobrescrito, para não liberar para stIdle... não ainda...;
 end;
 
-function TMDFeRetRecepcao.GerarMsgLog: AnsiString;
+function TMDFeRetRecepcao.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : '     + FMDFeRetorno.versao + LineBreak +
-            'Ambiente : '          + TpAmbToStr(FMDFeRetorno.tpAmb) + LineBreak +
-            'Versão Aplicativo : ' + FMDFeRetorno.verAplic + LineBreak +
-            'Recibo : '            + FMDFeRetorno.nRec + LineBreak +
-            'Status Código : '     + IntToStr(FMDFeRetorno.cStat) + LineBreak +
-            'Status Descrição : '  + FMDFeRetorno.xMotivo + LineBreak +
-            'UF : '                + CodigoParaUF(FMDFeRetorno.cUF) + LineBreak {+
-            'cMsg : '              + IntToStr(FMDFeRetorno.cMsg) + LineBreak +
-            'xMsg : '              + FMDFeRetorno.xMsg + LineBreak};
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Ambiente: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Recibo: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'UF: %s ' + LineBreak +
+                           'cMsg: %s ' + LineBreak +
+                           'xMsg: %s ' + LineBreak),
+                   [FMDFeRetorno.versao, TpAmbToStr(FMDFeRetorno.tpAmb),
+                    FMDFeRetorno.verAplic, FMDFeRetorno.nRec,
+                    IntToStr(FMDFeRetorno.cStat), FMDFeRetorno.xMotivo,
+                    CodigoParaUF(FMDFeRetorno.cUF), IntToStr(FMDFeRetorno.cMsg),
+                    FMDFeRetorno.xMsg]);
 end;
 
-function TMDFeRetRecepcao.GerarPrefixoArquivo: AnsiString;
+function TMDFeRetRecepcao.GerarPrefixoArquivo: String;
 begin
   Result := Recibo;
 end;
 
 { TMDFeRecibo }
 
-constructor TMDFeRecibo.Create(AOwner: TComponent);
+constructor TMDFeRecibo.Create(AOwner: TACBrDFe);
 begin
   inherited Create(AOwner);
 
   FMDFeRetorno := TRetConsReciMDFe.Create;
 
-  FStatus  := stMDFeRecibo;
-  FLayout  := LayMDFeRetRecepcao;
-  FArqEnv  := 'ped-rec';
-  FArqResp := 'pro-rec';
+  FPStatus := stMDFeRecibo;
+  FPLayout := LayMDFeRetRecepcao;
+  FPArqEnv := 'ped-rec';
+  FPArqResp := 'pro-rec';
 end;
 
 destructor TMDFeRecibo.Destroy;
 begin
   FMDFeRetorno.Free;
+
   inherited Destroy;
 end;
 
 procedure TMDFeRecibo.DefinirServicoEAction;
 begin
-  FServico    := CURL_WSDL + 'MDFeRetRecepcao';
-  FSoapAction := FServico + '/mdfeRetRecepcao';
+  FPServico := GetUrlWsd + 'MDFeRetRecepcao';
+  FPSoapAction := FPServico + '/mdfeRetRecepcao';
 end;
 
 procedure TMDFeRecibo.DefinirURL;
 begin
-  FLayout := LayMDFeRetRecepcao;
+  FPLayout := LayMDFeRetRecepcao;
 
   inherited DefinirURL;
 end;
@@ -1480,12 +1040,12 @@ var
 begin
   ConsReciMDFe := TConsReciMDFe.Create;
   try
-    ConsReciMDFe.tpAmb := TpcnTipoAmbiente(FConfiguracoes.WebServices.AmbienteCodigo - 1);
-    ConsReciMDFe.nRec  := FRecibo;
-
+    ConsReciMDFe.tpAmb := FPConfiguracoesMDFe.WebServices.Ambiente;
+    ConsReciMDFe.nRec := FRecibo;
+    ConsReciMDFe.Versao := FPVersaoServico;
     ConsReciMDFe.GerarXML;
 
-    FDadosMsg := ConsReciMDFe.Gerador.ArquivoFormatoXML;
+    FPDadosMsg := ConsReciMDFe.Gerador.ArquivoFormatoXML;
   finally
     ConsReciMDFe.Free;
   end;
@@ -1493,52 +1053,57 @@ end;
 
 function TMDFeRecibo.TratarResposta: Boolean;
 begin
-  FRetWS := SeparaDados(FRetornoWS, 'mdfeRetRecepcaoResult');
+  FPRetWS := SeparaDados(FPRetornoWS, 'mdfeRetRecepcaoResult');
 
   // Limpando variaveis internas
   FMDFeRetorno.Free;
   FMDFeRetorno := TRetConsReciMDFe.Create;
 
-  FMDFeRetorno.Leitor.Arquivo := FRetWS;
+  FMDFeRetorno.Leitor.Arquivo := FPRetWS;
   FMDFeRetorno.LerXML;
 
-  Fversao   := FMDFeRetorno.versao;
-  FTpAmb    := FMDFeRetorno.TpAmb;
+  Fversao := FMDFeRetorno.versao;
+  FTpAmb := FMDFeRetorno.TpAmb;
   FverAplic := FMDFeRetorno.verAplic;
-  FcStat    := FMDFeRetorno.cStat;
-  FxMotivo  := FMDFeRetorno.xMotivo;
-  FcUF      := FMDFeRetorno.cUF;
-//  FxMsg     := FMDFeRetorno.xMsg;
-//  FcMsg     := FMDFeRetorno.cMsg;
-  FMsg      := FxMotivo;
+  FcStat := FMDFeRetorno.cStat;
+  FxMotivo := FMDFeRetorno.xMotivo;
+  FcUF := FMDFeRetorno.cUF;
+  FxMsg := FMDFeRetorno.xMsg;
+  FcMsg := FMDFeRetorno.cMsg;
+  FPMsg := FxMotivo;
 
   Result := (FMDFeRetorno.CStat = 104);
 end;
 
-function TMDFeRecibo.GerarMsgLog: AnsiString;
+function TMDFeRecibo.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : '     + FMDFeRetorno.versao + LineBreak +
-            'Ambiente : '          + TpAmbToStr(FMDFeRetorno.TpAmb) + LineBreak +
-            'Versão Aplicativo : ' + FMDFeRetorno.verAplic + LineBreak +
-            'Recibo : '            + FMDFeRetorno.nRec + LineBreak +
-            'Status Código : '     + IntToStr(FMDFeRetorno.cStat) + LineBreak +
-            'Status Descrição : '  + FMDFeRetorno.ProtMDFe.Items[0].xMotivo + LineBreak +
-            'UF : '                + CodigoParaUF(FMDFeRetorno.cUF) + LineBreak;
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Ambiente: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Recibo: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'UF: %s ' + LineBreak),
+                   [FMDFeRetorno.versao, TpAmbToStr(FMDFeRetorno.TpAmb),
+                   FMDFeRetorno.verAplic, FMDFeRetorno.nRec,
+                   IntToStr(FMDFeRetorno.cStat),
+                   FMDFeRetorno.ProtMDFe.Items[0].xMotivo,
+                   CodigoParaUF(FMDFeRetorno.cUF)]);
 end;
 
 { TMDFeConsulta }
 
-constructor TMDFeConsulta.Create(AOwner: TComponent);
+constructor TMDFeConsulta.Create(AOwner: TACBrDFe);
 begin
   inherited Create(AOwner);
 
   FprotMDFe := TProcMDFe.Create;
   FprocEventoMDFe := TRetEventoMDFeCollection.Create(AOwner);
 
-  FStatus  := stMDFeConsulta;
-  FLayout  := LayMDFeConsulta;
-  FArqEnv  := 'ped-sit';
-  FArqResp := 'sit';
+  FPStatus := stMDFeConsulta;
+  FPLayout := LayMDFeConsulta;
+  FPArqEnv := 'ped-sit';
+  FPArqResp := 'sit';
 end;
 
 destructor TMDFeConsulta.Destroy;
@@ -1547,27 +1112,30 @@ begin
   if Assigned(FprocEventoMDFe) then
     FprocEventoMDFe.Free;
 
-  Inherited Destroy;
+  inherited Destroy;
 end;
 
 procedure TMDFeConsulta.DefinirServicoEAction;
 begin
-  FServico    := CURL_WSDL + 'MDFeConsulta';
-  FSoapAction := FServico + '/mdfeConsultaMDF';
+  FPServico := GetUrlWsd + 'MDFeConsulta';
+  FPSoapAction := FPServico + '/mdfeConsultaMDF';
 end;
 
 procedure TMDFeConsulta.DefinirDadosMsg;
 var
   ConsSitMDFe: TConsSitMDFe;
+  OK: Boolean;
 begin
+  OK := False;
   ConsSitMDFe := TConsSitMDFe.Create;
   try
-    ConsSitMDFe.TpAmb  := TpcnTipoAmbiente(FConfiguracoes.WebServices.AmbienteCodigo - 1);
+    ConsSitMDFe.TpAmb := FPConfiguracoesMDFe.WebServices.Ambiente;
     ConsSitMDFe.chMDFe := FMDFeChave;
 
+    ConsSitMDFe.Versao := FPVersaoServico;
     ConsSitMDFe.GerarXML;
 
-    FDadosMsg := ConsSitMDFe.Gerador.ArquivoFormatoXML;
+    FPDadosMsg := ConsSitMDFe.Gerador.ArquivoFormatoXML;
   finally
     ConsSitMDFe.Free;
   end;
@@ -1580,289 +1148,283 @@ var
   aEventos, aMsg, NomeArquivo, aMDFe, aMDFeDFe: String;
   AProcMDFe: TProcMDFe;
   I, J, K, Inicio, Fim: Integer;
-  Data: TDateTime;
   LocMDFeW: TMDFeW;
 begin
   MDFeRetorno := TRetConsSitMDFe.Create;
-  try
-    FRetWS := SeparaDados(FRetornoWS, 'mdfeConsultaMDFResult');
 
-    MDFeRetorno.Leitor.Arquivo := FRetWS;
+  try
+    FPRetWS := SeparaDados(FPRetornoWS, 'mdfeConsultaMDFResult');
+
+    MDFeRetorno.Leitor.Arquivo := FPRetWS;
     MDFeRetorno.LerXML;
 
     MDFCancelado := False;
-    aEventos     := '';
+    aEventos := '';
 
-    // <retConsSitMDFe> - Retorno da consulta da situação do MDF-e
-    // Este é o status oficial do MDF-e
-    Fversao    := MDFeRetorno.versao;
-    FTpAmb     := MDFeRetorno.TpAmb;
-    FverAplic  := MDFeRetorno.verAplic;
-    FcStat     := MDFeRetorno.cStat;
-    FxMotivo   := MDFeRetorno.xMotivo;
-    FcUF       := MDFeRetorno.cUF;
+    // <retConsSitMDFe> - Retorno da consulta da situação da NF-e
+    // Este é o status oficial da NF-e
+    Fversao := MDFeRetorno.versao;
+    FTpAmb := MDFeRetorno.tpAmb;
+    FverAplic := MDFeRetorno.verAplic;
+    FcStat := MDFeRetorno.cStat;
+    FXMotivo := MDFeRetorno.xMotivo;
+    FcUF := MDFeRetorno.cUF;
     FMDFeChave := MDFeRetorno.chMDFe;
-    FMsg       := MDFeRetorno.XMotivo;
+    FPMsg := FXMotivo;
 
-    // <protMDFe> - Retorno dos dados do ENVIO do MDF-e
+    // <protMDFe> - Retorno dos dados do ENVIO da NF-e
     // Considerá-los apenas se não existir nenhum evento de cancelamento (110111)
-    FprotMDFe.PathMDFe            := MDFeRetorno.protMDFe.PathMDFe;
+    FprotMDFe.PathMDFe := MDFeRetorno.protMDFe.PathMDFe;
     FprotMDFe.PathRetConsReciMDFe := MDFeRetorno.protMDFe.PathRetConsReciMDFe;
-    FprotMDFe.PathRetConsSitMDFe  := MDFeRetorno.protMDFe.PathRetConsSitMDFe;
-    FprotMDFe.tpAmb               := MDFeRetorno.protMDFe.tpAmb;
-    FprotMDFe.verAplic            := MDFeRetorno.protMDFe.verAplic;
-    FprotMDFe.chMDFe              := MDFeRetorno.protMDFe.chMDFe;
-    FprotMDFe.dhRecbto            := MDFeRetorno.protMDFe.dhRecbto;
-    FprotMDFe.nProt               := MDFeRetorno.protMDFe.nProt;
-    FprotMDFe.digVal              := MDFeRetorno.protMDFe.digVal;
-    FprotMDFe.cStat               := MDFeRetorno.protMDFe.cStat;
-    FprotMDFe.xMotivo             := MDFeRetorno.protMDFe.xMotivo;
+    FprotMDFe.PathRetConsSitMDFe := MDFeRetorno.protMDFe.PathRetConsSitMDFe;
+    FprotMDFe.PathRetConsSitMDFe := MDFeRetorno.protMDFe.PathRetConsSitMDFe;
+    FprotMDFe.tpAmb := MDFeRetorno.protMDFe.tpAmb;
+    FprotMDFe.verAplic := MDFeRetorno.protMDFe.verAplic;
+    FprotMDFe.chMDFe := MDFeRetorno.protMDFe.chMDFe;
+    FprotMDFe.dhRecbto := MDFeRetorno.protMDFe.dhRecbto;
+    FprotMDFe.nProt := MDFeRetorno.protMDFe.nProt;
+    FprotMDFe.digVal := MDFeRetorno.protMDFe.digVal;
+    FprotMDFe.cStat := MDFeRetorno.protMDFe.cStat;
+    FprotMDFe.xMotivo := MDFeRetorno.protMDFe.xMotivo;
 
-    if Assigned(MDFeRetorno.procEventoMDFe) and
-       (MDFeRetorno.procEventoMDFe.Count > 0) then
+    if Assigned(MDFeRetorno.procEventoMDFe) and (MDFeRetorno.procEventoMDFe.Count > 0) then
     begin
       aEventos := '=====================================================' +
-                  LineBreak +
-                  '================== Eventos da MDF-e =================' +
-                  LineBreak +
-                  '====================================================='+
-                  LineBreak + '' + LineBreak +
-                  'Quantidade total de eventos: ' +
-                  IntToStr(MDFeRetorno.procEventoMDFe.Count);
+        LineBreak + '================== Eventos da MDF-e ==================' +
+        LineBreak + '=====================================================' +
+        LineBreak + '' + LineBreak + 'Quantidade total de eventos: ' +
+        IntToStr(MDFeRetorno.procEventoMDFe.Count);
 
       FprocEventoMDFe.Clear;
       for I := 0 to MDFeRetorno.procEventoMDFe.Count - 1 do
       begin
-        FprocEventoMDFe.Add;
-        FprocEventoMDFe.Items[I].RetEventoMDFe.idLote   := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.idLote;
-        FprocEventoMDFe.Items[I].RetEventoMDFe.tpAmb    := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.tpAmb;
-        FprocEventoMDFe.Items[I].RetEventoMDFe.verAplic := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.verAplic;
-        FprocEventoMDFe.Items[I].RetEventoMDFe.cOrgao   := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.cOrgao;
-        FprocEventoMDFe.Items[I].RetEventoMDFe.cStat    := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.cStat;
-        FprocEventoMDFe.Items[I].RetEventoMDFe.xMotivo  := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.xMotivo;
-        FprocEventoMDFe.Items[I].RetEventoMDFe.XML      := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.XML;
-
-        FprocEventoMDFe.Items[I].RetEventoMDFe.Infevento.ID              := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.ID;
-        FprocEventoMDFe.Items[I].RetEventoMDFe.Infevento.tpAmb           := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.tpAmb;
-        FprocEventoMDFe.Items[I].RetEventoMDFe.InfEvento.CNPJ            := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.CNPJ;
-        FprocEventoMDFe.Items[I].RetEventoMDFe.InfEvento.chMDFe          := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.chMDFe;
-        FprocEventoMDFe.Items[I].RetEventoMDFe.InfEvento.dhEvento        := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.dhEvento;
-        FprocEventoMDFe.Items[I].RetEventoMDFe.InfEvento.TpEvento        := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.TpEvento;
-        FprocEventoMDFe.Items[I].RetEventoMDFe.InfEvento.nSeqEvento      := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.nSeqEvento;
-        FprocEventoMDFe.Items[I].RetEventoMDFe.InfEvento.VersaoEvento    := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.VersaoEvento;
-        FprocEventoMDFe.Items[I].RetEventoMDFe.InfEvento.DetEvento.nProt := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.DetEvento.nProt;
-        FprocEventoMDFe.Items[I].RetEventoMDFe.InfEvento.DetEvento.xJust := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.DetEvento.xJust;
-        FprocEventoMDFe.Items[I].RetEventoMDFe.InfEvento.DetEvento.xNome := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.DetEvento.xNome;
-        FprocEventoMDFe.Items[I].RetEventoMDFe.InfEvento.DetEvento.CPF   := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.DetEvento.CPF;
-
-        FprocEventoMDFe.Items[I].RetEventoMDFe.retEvento.Clear;
-        for J := 0 to MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Count - 1 do
+        with FprocEventoMDFe.Add.RetEventoMDFe do
         begin
-          FprocEventoMDFe.Items[I].RetEventoMDFe.retEvento.Add;
-          FprocEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.Id          := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.Id;
-          FprocEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.tpAmb       := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.tpAmb;
-          FprocEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.verAplic    := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.verAplic;
-          FprocEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.cOrgao      := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.cOrgao;
-          FprocEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.cStat       := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.cStat;
-          FprocEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.xMotivo     := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.xMotivo;
-          FprocEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.chMDFe      := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.chMDFe;
-          FprocEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.tpEvento    := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.tpEvento;
-          FprocEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.xEvento     := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.xEvento;
-          FprocEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.nSeqEvento  := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.nSeqEvento;
-          FprocEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.CNPJDest    := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.CNPJDest;
-          FprocEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.emailDest   := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.emailDest;
-          FprocEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.dhRegEvento := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.dhRegEvento;
-          FprocEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.nProt       := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.nProt;
-          FprocEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.XML         := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.XML;
+          idLote := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.idLote;
+          tpAmb := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.tpAmb;
+          verAplic := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.verAplic;
+          cOrgao := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.cOrgao;
+          cStat := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.cStat;
+          xMotivo := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.xMotivo;
+          XML := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.XML;
 
+          Infevento.ID              := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.ID;
+          Infevento.tpAmb           := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.tpAmb;
+          InfEvento.CNPJ            := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.CNPJ;
+          InfEvento.chMDFe          := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.chMDFe;
+          InfEvento.dhEvento        := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.dhEvento;
+          InfEvento.TpEvento        := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.TpEvento;
+          InfEvento.nSeqEvento      := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.nSeqEvento;
+          InfEvento.VersaoEvento    := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.VersaoEvento;
+          InfEvento.DetEvento.nProt := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.DetEvento.nProt;
+          InfEvento.DetEvento.xJust := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.DetEvento.xJust;
+          InfEvento.DetEvento.xNome := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.DetEvento.xNome;
+          InfEvento.DetEvento.CPF   := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.DetEvento.CPF;
+
+          retEvento.Clear;
+          for J := 0 to MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Count-1 do
+          begin
+            with retEvento.Add.RetInfEvento do
+            begin
+              Id          := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.Id;
+              tpAmb       := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.tpAmb;
+              verAplic    := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.verAplic;
+              cOrgao      := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.cOrgao;
+              cStat       := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.cStat;
+              xMotivo     := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.xMotivo;
+              chMDFe      := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.chMDFe;
+              tpEvento    := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.tpEvento;
+              xEvento     := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.xEvento;
+              nSeqEvento  := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.nSeqEvento;
+              CNPJDest    := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.CNPJDest;
+              emailDest   := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.emailDest;
+              dhRegEvento := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.dhRegEvento;
+              nProt       := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.nProt;
+              XML         := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[j].RetInfEvento.XML;
+            end;
+          end;
+        end;
+
+        with MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe do
+        begin
           aEventos := aEventos + LineBreak + LineBreak +
-                      'Número de sequência: ' + IntToStr(MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.nSeqEvento) + LineBreak +
-                      'Código do evento: '    + TpEventoToStr(MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.TpEvento) + LineBreak +
-                      'Descrição do evento: ' + ACBrStrToAnsi(MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.InfEvento.DescEvento) + LineBreak +
-                      'Status do evento: '    + IntToStr(MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[J].RetInfEvento.cStat) + LineBreak +
-                      'Descrição do status: ' + ACBrStrToAnsi(MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[J].RetInfEvento.xMotivo) + LineBreak +
-                      'Protocolo: '           + MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[J].RetInfEvento.nProt + LineBreak +
-                      'Data / hora do registro: ' + DateTimeToStr(MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[J].RetInfEvento.dhRegEvento);
+            Format(ACBrStr('Número de sequência: %s ' + LineBreak +
+                           'Código do evento: %s ' + LineBreak +
+                           'Descrição do evento: %s ' + LineBreak +
+                           'Status do evento: %s ' + LineBreak +
+                           'Descrição do status: %s ' + LineBreak +
+                           'Protocolo: %s ' + LineBreak +
+                           'Data/Hora do registro: %s '),
+                   [IntToStr(InfEvento.nSeqEvento),
+                    TpEventoToStr(InfEvento.TpEvento),
+                    InfEvento.DescEvento,
+                    IntToStr(retEvento.Items[J].RetInfEvento.cStat),
+                    retEvento.Items[J].RetInfEvento.xMotivo,
+                    retEvento.Items[J].RetInfEvento.nProt,
+                    FormatDateTimeBr(retEvento.Items[J].RetInfEvento.dhRegEvento)]);
 
-          if MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[J].RetInfEvento.tpEvento = teCancelamento then
+          if retEvento.Items[J].RetInfEvento.tpEvento = teCancelamento then
           begin
             MDFCancelado := True;
-            FProtocolo   := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[J].RetInfEvento.nProt;
-            FDhRecbto    := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[J].RetInfEvento.dhRegEvento;
-            FMsg         := MDFeRetorno.procEventoMDFe.Items[I].RetEventoMDFe.retEvento.Items[J].RetInfEvento.xMotivo;
+            FProtocolo := retEvento.Items[J].RetInfEvento.nProt;
+            FDhRecbto := retEvento.Items[J].RetInfEvento.dhRegEvento;
+            FPMsg := retEvento.Items[J].RetInfEvento.xMotivo;
           end;
         end;
       end;
     end;
 
-    if not MDFCancelado then
+    if not MDFCancelada then
     begin
       FProtocolo := MDFeRetorno.protMDFe.nProt;
-      FDhRecbto  := MDFeRetorno.protMDFe.dhRecbto;
-      FMsg       := MDFeRetorno.protMDFe.xMotivo;
+      FDhRecbto := MDFeRetorno.protMDFe.dhRecbto;
+      FPMsg := MDFeRetorno.protMDFe.xMotivo;
     end;
 
+    //TODO: Verificar porque monta "aMsg", pois ela não está sendo usada em lugar nenhum
     aMsg := GerarMsgLog;
     if aEventos <> '' then
       aMsg := aMsg + sLineBreak + aEventos;
 
-    Result := (MDFeRetorno.CStat in [100, 101, 110, 132, 150, 151, 155]);
+    Result := (MDFeRetorno.CStat in [100, 101, 110, 150, 151, 155]);
 
-    NomeArquivo := PathWithDelim(FConfiguracoes.Geral.PathSalvar) + FMDFeChave;
+    NomeArquivo := PathWithDelim(FPConfiguracoesMDFe.Arquivos.PathSalvar) + FMDFeChave;
 
-    for i := 0 to TACBrMDFe(FACBrMDFe).Manifestos.Count-1 do
+    for i := 0 to TACBrMDFe(FPDFeOwner).Manifestos.Count - 1 do
     begin
-      if OnlyNumber(FMDFeChave) = OnlyNumber(TACBrMDFe( FACBrMDFe ).Manifestos.Items[i].MDFe.infMDFe.Id) then
-//      if pos(String(FMDFeChave), TACBrMDFe(FACBrMDFe).Manifestos.Items[i].MDFe.infMDFe.ID) > 0 then
+      with TACBrMDFe(FPDFeOwner).Manifestos.Items[i] do
       begin
-        Atualiza := True;
-        if ((MDFeRetorno.CStat in [101, 151, 155]) and
-           (not FConfiguracoes.Geral.AtualizarXMLCancelado)) then
-          Atualiza := False;
-
-        TACBrMDFe(FACBrMDFe).Manifestos.Items[i].Confirmada := (MDFeRetorno.cStat in [100, 150]);
-        if Atualiza then
+        if (OnlyNumber(FMDFeChave) = NumID) then
         begin
-          if (TACBrMDFe( FACBrMDFe ).Configuracoes.Geral.ValidarDigest ) and
-             (TACBrMDFe( FACBrMDFe ).Manifestos.Items[i].MDFe.Signature.DigestValue <> MDFeRetorno.protMDFe.digVal) and
-             (MDFeRetorno.protMDFe.digVal <> '') then
-           begin
-             raise EACBrMDFeException.Create('DigestValue do documento '+
-                                             OnlyNumber(TACBrMDFe( FACBrMDFe ).Manifestos.Items[i].MDFe.infMDFe.Id)+
-                                             ' não confere.');
-           end;
-          TACBrMDFe(FACBrMDFe).Manifestos.Items[i].Msg                    := FprotMDFe.xMotivo;
-          TACBrMDFe(FACBrMDFe).Manifestos.Items[i].MDFe.procMDFe.tpAmb    := FprotMDFe.tpAmb;
-          TACBrMDFe(FACBrMDFe).Manifestos.Items[i].MDFe.procMDFe.verAplic := FprotMDFe.verAplic;
-          TACBrMDFe(FACBrMDFe).Manifestos.Items[i].MDFe.procMDFe.chMDFe   := FprotMDFe.chMDFe;
-          TACBrMDFe(FACBrMDFe).Manifestos.Items[i].MDFe.procMDFe.dhRecbto := FprotMDFe.dhRecbto;
-          TACBrMDFe(FACBrMDFe).Manifestos.Items[i].MDFe.procMDFe.nProt    := FprotMDFe.nProt;
-          TACBrMDFe(FACBrMDFe).Manifestos.Items[i].MDFe.procMDFe.digVal   := FprotMDFe.digVal;
-          TACBrMDFe(FACBrMDFe).Manifestos.Items[i].MDFe.procMDFe.cStat    := FprotMDFe.cStat;
-          TACBrMDFe(FACBrMDFe).Manifestos.Items[i].MDFe.procMDFe.xMotivo  := FprotMDFe.xMotivo;
+          Atualiza := True;
+          if ((MDFeRetorno.CStat in [101, 151, 155]) and
+            (not FPConfiguracoesMDFe.Geral.AtualizarXMLCancelado)) then
+            Atualiza := False;
 
-          if FileExists(NomeArquivo + '-mdfe.xml') or
-             NaoEstaVazio(TACBrMDFe(FACBrMDFe).Manifestos.Items[i].NomeArq) then
+          // Atualiza o Status da MDFe interna //
+          MDFe.procMDFe.cStat := MDFeRetorno.cStat;
+
+          if Atualiza then
           begin
-            AProcMDFe := TProcMDFe.Create;
-            try
-              if NaoEstaVazio(TACBrMDFe(FACBrMDFe).Manifestos.Items[i].NomeArq) then
-                AProcMDFe.PathMDFe := TACBrMDFe(FACBrMDFe).Manifestos.Items[i].NomeArq
-              else
-                AProcMDFe.PathMDFe := NomeArquivo + '-mdfe.xml';
-
-              AProcMDFe.PathRetConsSitMDFe := NomeArquivo + '-sit.xml';
-
-              AProcMDFe.GerarXML;
-
-              aMDFe := AProcMDFe.Gerador.ArquivoFormatoXML;
-
-              if NaoEstaVazio(AProcMDFe.Gerador.ArquivoFormatoXML) then
-                AProcMDFe.Gerador.SalvarArquivo(AProcMDFe.PathMDFe);
-
-              FRetMDFeDFe := '';
-
-              if (NaoEstaVazio(aMDFe)) and
-                 (NaoEstaVazio(SeparaDados(FRetWS, 'procEventoMDFe'))) then
-              begin
-                Inicio := Pos('<procEventoMDFe', FRetWS);
-                Fim    := Pos('</retConsSitMDFe', FRetWS) - 1;
-
-                aEventos := Copy(FRetWS, Inicio, Fim - Inicio + 1);
-
-                aMDFeDFe := '<?xml version="1.0" encoding="UTF-8" ?>' +
-                            '<MDFeDFe>' +
-                             '<procMDFe versao="' + MDFeenviMDFe + '">' +
-                               SeparaDados(aMDFe, 'MDFeProc') +
-                             '</procMDFe>' +
-                             '<procEventoMDFe versao="' + MDFeEventoMDFe + '">' +
-                               aEventos +
-                             '</procEventoMDFe>' +
-                            '</MDFeDFe>';
-
-                FRetMDFeDFe := aMDFeDFe;
-              end;
-            finally
-              AProcMDFe.Free;
+            if (FPConfiguracoesMDFe.Geral.ValidarDigest) and
+              (MDFeRetorno.protMDFe.digVal <> '') and
+              (MDFe.signature.DigestValue <> MDFeRetorno.protMDFe.digVal) then
+            begin
+              raise EACBrMDFeException.Create('DigestValue do documento ' +
+                NumID + ' não confere.');
             end;
-          end
-          else begin
-           LocMDFeW := TMDFeW.Create(TACBrMDFe(FACBrMDFe).Manifestos.Items[i].MDFe);
-           try
-             LocMDFeW.GerarXML;
 
-             aMDFe := LocMDFeW.Gerador.ArquivoFormatoXML;
+            MDFe.procMDFe.tpAmb := MDFeRetorno.tpAmb;
+            MDFe.procMDFe.verAplic := MDFeRetorno.verAplic;
+            MDFe.procMDFe.chMDFe := MDFeRetorno.chMDFe;
+            MDFe.procMDFe.dhRecbto := FDhRecbto;
+            MDFe.procMDFe.nProt := FProtocolo;
+            MDFe.procMDFe.digVal := MDFeRetorno.protMDFe.digVal;
+            MDFe.procMDFe.cStat := MDFeRetorno.cStat;
+            MDFe.procMDFe.xMotivo := MDFeRetorno.xMotivo;
 
-             FRetMDFeDFe := '';
+            if FileExists(NomeArquivo + '-mdfe.xml') or NaoEstaVazio(NomeArq) then
+            begin
+              AProcMDFe := TProcMDFe.Create;
+              try
+                if NaoEstaVazio(NomeArq) then
+                  AProcMDFe.PathMDFe := NomeArq
+                else
+                  AProcMDFe.PathMDFe := NomeArquivo + '-mdfe.xml';
 
-             if (NaoEstaVazio(aMDFe)) and
-                (NaoEstaVazio(SeparaDados(FRetWS, 'procEventoMDFe'))) then
-              begin
-                Inicio := Pos('<procEventoMDFe', FRetWS);
-                Fim    := Pos('</retConsSitMDFe', FRetWS) -1;
+                AProcMDFe.PathRetConsSitMDFe := NomeArquivo + '-sit.xml';
 
-                aEventos := Copy(FRetWS, Inicio, Fim - Inicio + 1);
+                AProcMDFe.Versao :=
+                    TACBrMDFe(FPDFeOwner).LerVersaoDeParams(LayMDFeRecepcao);
 
-                aMDFeDFe := '<?xml version="1.0" encoding="UTF-8" ?>' +
-                            '<MDFeDFe>' +
-                             '<procMDFe versao="' + MDFeenviMDFe + '">' +
-                               SeparaDados(aMDFe, 'MDFeProc') +
-                             '</procMDFe>' +
-                             '<procEventoMDFe versao="' + MDFeEventoMDFe + '">' +
-                               aEventos +
-                             '</procEventoMDFe>' +
-                            '</MDFeDFe>';
+                AProcMDFe.GerarXML;
 
-                FRetMDFeDFe := aMDFeDFe;
+                aMDFe := AProcMDFe.Gerador.ArquivoFormatoXML;
+
+                if NaoEstaVazio(AProcMDFe.Gerador.ArquivoFormatoXML) then
+                  AProcMDFe.Gerador.SalvarArquivo(AProcMDFe.PathMDFe);
+
+                FRetMDFeDFe := '';
+
+                if (NaoEstaVazio(aMDFe)) and
+                   (NaoEstaVazio(SeparaDados(FRetWS, 'procEventoMDFe'))) then
+                begin
+                  Inicio := Pos('<procEventoMDFe', FRetWS);
+                  Fim    := Pos('</retConsSitMDFe', FRetWS) - 1;
+
+                  aEventos := Copy(FRetWS, Inicio, Fim - Inicio + 1);
+
+                  aMDFeDFe := '<?xml version="1.0" encoding="UTF-8" ?>' +
+                              '<MDFeDFe>' +
+                               '<procMDFe versao="' + MDFeenviMDFe + '">' +
+                                 SeparaDados(aMDFe, 'MDFeProc') +
+                               '</procMDFe>' +
+                               '<procEventoMDFe versao="' + MDFeEventoMDFe + '">' +
+                                 aEventos +
+                               '</procEventoMDFe>' +
+                              '</MDFeDFe>';
+
+                  FRetMDFeDFe := aMDFeDFe;
+                end;
+
+              finally
+                AProcMDFe.Free;
               end;
-           finally
-             LocMDFeW.Free;
-           end;
+            end
+            else begin
+             LocMDFeW := TMDFeW.Create(TACBrMDFe(FACBrMDFe).Manifestos.Items[i].MDFe);
+             try
+               LocMDFeW.GerarXML;
+
+               aMDFe := LocMDFeW.Gerador.ArquivoFormatoXML;
+
+               FRetMDFeDFe := '';
+
+               if (NaoEstaVazio(aMDFe)) and
+                  (NaoEstaVazio(SeparaDados(FRetWS, 'procEventoMDFe'))) then
+                begin
+                  Inicio := Pos('<procEventoMDFe', FRetWS);
+                  Fim    := Pos('</retConsSitMDFe', FRetWS) -1;
+
+                  aEventos := Copy(FRetWS, Inicio, Fim - Inicio + 1);
+
+                  aMDFeDFe := '<?xml version="1.0" encoding="UTF-8" ?>' +
+                              '<MDFeDFe>' +
+                               '<procMDFe versao="' + MDFeenviMDFe + '">' +
+                                 SeparaDados(aMDFe, 'MDFeProc') +
+                               '</procMDFe>' +
+                               '<procEventoMDFe versao="' + MDFeEventoMDFe + '">' +
+                                 aEventos +
+                               '</procEventoMDFe>' +
+                              '</MDFeDFe>';
+
+                  FRetMDFeDFe := aMDFeDFe;
+                end;
+             finally
+               LocMDFeW.Free;
+             end;
+            end;
+
+            if FPConfiguracoesMDFe.Arquivos.Salvar then
+            begin
+              if FPConfiguracoesMDFe.Arquivos.SalvarApenasMDFeProcessadas then
+              begin
+                if Processada then
+                  GravarXML();
+              end
+              else
+                GravarXML();
+            end;
           end;
 
-          if FConfiguracoes.Arquivos.Salvar then
-          begin
-            if FConfiguracoes.Arquivos.EmissaoPathMDFe then
-              Data := TACBrMDFe(FACBrMDFe).Manifestos.Items[i].MDFe.Ide.dhEmi
-            else
-              Data := Now;
-
-            if FConfiguracoes.Arquivos.SalvarApenasMDFeProcessados then
-             begin
-                if TACBrMDFe( FACBrMDFe ).Manifestos.Items[i].MDFe.procMDFe.cStat in [100, 150] then
-                  TACBrMDFe( FACBrMDFe ).Manifestos.Items[i].SaveToFile(
-                      PathWithDelim(FConfiguracoes.Arquivos.GetPathMDFe(Data,
-                      TACBrMDFe( FACBrMDFe ).Manifestos.Items[i].MDFe.Emit.CNPJ)) +
-                      OnlyNumber(TACBrMDFe( FACBrMDFe ).Manifestos.Items[i].MDFe.InfMDFe.Id) + '-mdfe.xml')
-
-             end
-            else
-               TACBrMDFe( FACBrMDFe ).Manifestos.Items[i].SaveToFile(
-                   PathWithDelim(FConfiguracoes.Arquivos.GetPathMDFe(Data,
-                   TACBrMDFe( FACBrMDFe ).Manifestos.Items[i].MDFe.Emit.CNPJ)) +
-                   OnlyNumber(TACBrMDFe( FACBrMDFe ).Manifestos.Items[i].MDFe.InfMDFe.Id) + '-mdfe.xml')
-          end;
-
-          if FConfiguracoes.Arquivos.Salvar and (FRetMDFeDFe <> '') then
-          begin
-            if FConfiguracoes.Arquivos.EmissaoPathMDFe then
-              Data := TACBrMDFe(FACBrMDFe).Manifestos.Items[i].MDFe.Ide.dhEmi
-            else
-              Data := Now;
-
-            FConfiguracoes.Geral.Save(FMDFeChave + '-MDFeDFe.xml',
-                                      aMDFeDFe,
-                                      PathWithDelim(FConfiguracoes.Arquivos.GetPathMDFe(Data)));
-          end;
+          break;
         end;
-
-        break;
       end;
     end;
 
-    if (TACBrMDFe(FACBrMDFe).Manifestos.Count <= 0) then
+    if (TACBrMDFe(FPDFeOwner).Manifestos.Count <= 0) then
     begin
-      if FConfiguracoes.Geral.Salvar then
+      if FPConfiguracoesMDFe.Arquivos.Salvar then
       begin
         if FileExists(NomeArquivo + '-mdfe.xml') then
         begin
@@ -1870,6 +1432,8 @@ begin
           try
             AProcMDFe.PathMDFe := NomeArquivo + '-mdfe.xml';
             AProcMDFe.PathRetConsSitMDFe := NomeArquivo + '-sit.xml';
+
+            AProcMDFe.Versao := TACBrMDFe(FPDFeOwner).LerVersaoDeParams(LayMDFeRecepcao);
 
             AProcMDFe.GerarXML;
 
@@ -1898,21 +1462,10 @@ begin
 
               FRetMDFeDFe := aMDFeDFe;
             end;
+
           finally
             AProcMDFe.Free;
           end;
-        end;
-
-        if (FConfiguracoes.Arquivos.Salvar) and (FRetMDFeDFe <> '') then
-        begin
-          if FConfiguracoes.Arquivos.EmissaoPathMDFe then
-            Data := TACBrMDFe(FACBrMDFe).Manifestos.Items[i].MDFe.Ide.dhEmi
-          else
-            Data := Now;
-
-          FConfiguracoes.Geral.Save(FMDFeChave + '-MDFeDFe.xml',
-                                    aMDFeDFe,
-                                    PathWithDelim(FConfiguracoes.Arquivos.GetPathMDFe(Data)));
         end;
       end;
     end;
@@ -1921,39 +1474,42 @@ begin
   end;
 end;
 
-function TMDFeConsulta.GerarMsgLog: AnsiString;
+function TMDFeConsulta.GerarMsgLog: String;
 begin
-  Result := 'Versão Layout : '     + Fversao + LineBreak +
-            'Identificador : '     + FMDFeChave + LineBreak +
-            'Ambiente : '          + TpAmbToStr(FTpAmb) + LineBreak +
-            'Versão Aplicativo : ' + FverAplic + LineBreak+
-            'Status Código : '     + IntToStr(FcStat) + LineBreak+
-            'Status Descrição : '  + FXMotivo + LineBreak +
-            'UF : '                + CodigoParaUF(FcUF) + LineBreak +
-            'Chave Acesso : '      + FMDFeChave + LineBreak +
-            'Recebimento : '       + DateTimeToStr(FDhRecbto) + LineBreak +
-            'Protocolo : '         + FProtocolo + LineBreak +
-            'Digest Value : '      + FprotMDFe.digVal + LineBreak;
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Identificador: %s ' + LineBreak +
+                           'Ambiente: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'UF: %s ' + LineBreak +
+                           'Chave Acesso: %s ' + LineBreak +
+                           'Recebimento: %s ' + LineBreak +
+                           'Protocolo: %s ' + LineBreak +
+                           'Digest Value: %s ' + LineBreak),
+                   [Fversao, FMDFeChave, TpAmbToStr(FTpAmb), FverAplic,
+                    IntToStr(FcStat), FXMotivo, CodigoParaUF(FcUF), FMDFeChave,
+                    FormatDateTimeBr(FDhRecbto), FProtocolo, FprotMDFe.digVal]);
 end;
 
-function TMDFeConsulta.GerarPrefixoArquivo: AnsiString;
+function TMDFeConsulta.GerarPrefixoArquivo: String;
 begin
   Result := Trim(FMDFeChave);
 end;
 
 { TMDFeEnvEvento }
 
-constructor TMDFeEnvEvento.Create(AOwner: TComponent; AEvento: TEventoMDFe);
+constructor TMDFeEnvEvento.Create(AOwner: TACBrDFe; AEvento: TEventoMDFe);
 begin
   inherited Create(AOwner);
 
   FEventoRetorno := TRetEventoMDFe.Create;
+  FEvento := AEvento;
 
-  FEvento  := AEvento;
-  FStatus  := stMDFeEvento;
-  FLayout  := LayMDFeEvento;
-  FArqEnv  := 'ped-eve';
-  FArqResp := 'eve';
+  FPStatus := stMDFeEvento;
+  FPLayout := LayMDFeEvento;
+  FPArqEnv := 'ped-eve';
+  FPArqResp := 'eve';
 end;
 
 destructor TMDFeEnvEvento.Destroy;
@@ -1965,75 +1521,76 @@ end;
 
 function TMDFeEnvEvento.GerarPathEvento: String;
 begin
-  Result := FConfiguracoes.Arquivos.GetPathEvento(FEvento.Evento.Items[0].InfEvento.tpEvento);
+  with FEvento.Evento.Items[0].InfEvento do
+  begin
+    Result := FPConfiguracoesMDFe.Arquivos.GetPathEvento(tpEvento);
+  end;
 end;
 
 procedure TMDFeEnvEvento.DefinirURL;
 begin
-  { Verificação necessária pois somente os eventos de Cancelamento e CCe serão tratados pela SEFAZ do estado
-    os outros eventos como manifestacao de destinatários serão tratados diretamente pela RFB }
-
-  FLayout := LayMDFeEvento;
+  FPLayout := LayMDFeEvento;
 
   inherited DefinirURL;
 end;
 
 procedure TMDFeEnvEvento.DefinirServicoEAction;
 begin
-  FServico    := CURL_WSDL + 'MDFeRecepcaoEvento';
-  FSoapAction := FServico + '/mdfeRecepcaoEvento';
+  FPServico := GetUrlWsd + 'MDFeRecepcaoEvento';
+  FPSoapAction := FPServico + '/mdfeRecepcaoEvento';
 end;
 
 procedure TMDFeEnvEvento.DefinirDadosMsg;
 var
   EventoMDFe: TEventoMDFe;
-  I, J, F: Integer;
+  I, F: integer;
   Lote, Evento, Eventos, EventosAssinados: String;
 begin
   EventoMDFe := TEventoMDFe.Create;
   try
     EventoMDFe.idLote := FidLote;
 
-    for i := 0 to TMDFeEnvEvento(Self).FEvento.Evento.Count-1 do
-     begin
-       with EventoMDFe.Evento.Add do
-        begin
-          infEvento.tpAmb      := TpcnTipoAmbiente(FConfiguracoes.WebServices.AmbienteCodigo-1);
-          infEvento.CNPJ       := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.CNPJ;
-          infEvento.chMDFe     := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.chMDFe;
-          infEvento.dhEvento   := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.dhEvento;
-          infEvento.tpEvento   := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.tpEvento;
-          infEvento.nSeqEvento := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.nSeqEvento;
+    for I := 0 to TMDFeEnvEvento(Self).FEvento.Evento.Count - 1 do
+    begin
+      with EventoMDFe.Evento.Add do
+      begin
+        infEvento.tpAmb      := TpcnTipoAmbiente(FConfiguracoes.WebServices.AmbienteCodigo-1);
+        infEvento.CNPJ       := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.CNPJ;
+        infEvento.chMDFe     := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.chMDFe;
+        infEvento.dhEvento   := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.dhEvento;
+        infEvento.tpEvento   := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.tpEvento;
+        infEvento.nSeqEvento := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.nSeqEvento;
 
-          case InfEvento.tpEvento of
-            teCancelamento:
-            begin
-              infEvento.detEvento.nProt := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.detEvento.nProt;
-              infEvento.detEvento.xJust := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.detEvento.xJust;
-            end;
-            teEncerramento:
-            begin
-              infEvento.detEvento.nProt := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.detEvento.nProt;
-              infEvento.detEvento.dtEnc := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.detEvento.dtEnc;
-              infEvento.detEvento.cUF   := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.detEvento.cUF;
-              infEvento.detEvento.cMun  := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.detEvento.cMun;
-            end;
-            teInclusaoCondutor:
-            begin
-              infEvento.detEvento.xNome := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.detEvento.xNome;
-              infEvento.detEvento.CPF   := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.detEvento.CPF;
-            end;
+        case InfEvento.tpEvento of
+          teCancelamento:
+          begin
+            infEvento.detEvento.nProt := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.detEvento.nProt;
+            infEvento.detEvento.xJust := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.detEvento.xJust;
+          end;
+          teEncerramento:
+          begin
+            infEvento.detEvento.nProt := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.detEvento.nProt;
+            infEvento.detEvento.dtEnc := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.detEvento.dtEnc;
+            infEvento.detEvento.cUF   := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.detEvento.cUF;
+            infEvento.detEvento.cMun  := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.detEvento.cMun;
+          end;
+          teInclusaoCondutor:
+          begin
+            infEvento.detEvento.xNome := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.detEvento.xNome;
+            infEvento.detEvento.CPF   := TMDFeEnvEvento(Self).FEvento.Evento[i].InfEvento.detEvento.CPF;
           end;
         end;
-     end;
+      end;
+    end;
 
+    EventoMDFe.Versao := FPVersaoServico;
     EventoMDFe.GerarXML;
-    (*
+
     // Separa os grupos <evento> e coloca na variável Eventos
-    I       := Pos('<evento ', EventoMDFe.Gerador.ArquivoFormatoXML);
-    Lote    := Copy(EventoMDFe.Gerador.ArquivoFormatoXML, 1, I - 1);
+    I := Pos('<evento ', EventoMDFe.Gerador.ArquivoFormatoXML);
+    Lote := Copy(EventoMDFe.Gerador.ArquivoFormatoXML, 1, I - 1);
     Eventos := SeparaDados(EventoMDFe.Gerador.ArquivoFormatoXML, 'envEvento');
-    I       := Pos('<evento ', Eventos);
+    I := Pos('<evento ', Eventos);
     Eventos := Copy(Eventos, I, length(Eventos));
 
     EventosAssinados := '';
@@ -2045,13 +1602,13 @@ begin
 
       if F > 0 then
       begin
-        Evento  := Copy(Eventos, 1, F + 8);
+        Evento := Copy(Eventos, 1, F + 8);
         Eventos := Copy(Eventos, F + 9, length(Eventos));
 
-        AssinarXML(Evento,
-                   'Falha ao assinar o Envio de Evento ' + LineBreak + FMsg);
+        AssinarXML(Evento, 'evento', 'infEvento', 'Falha ao assinar o Envio de Evento ');
 
-        EventosAssinados := EventosAssinados + FDadosMsg;
+        EventosAssinados := EventosAssinados + StringReplace(
+          FPDadosMsg, '<?xml version="1.0"?>', '', []);
       end
       else
         Break;
@@ -2059,22 +1616,17 @@ begin
 
     F := Pos('?>', EventosAssinados);
     if F <> 0 then
-      FDadosMsg := copy(EventosAssinados, 1, F + 1) +
-                   Lote +
-                   copy(EventosAssinados, F + 2, Length(EventosAssinados)) +
-                   '</envEvento>'
+      FPDadosMsg := copy(EventosAssinados, 1, F + 1) + Lote +
+        copy(EventosAssinados, F + 2, Length(EventosAssinados)) + '</envEvento>'
     else
-      FDadosMsg := Lote + EventosAssinados + '</envEvento>';
-    *)
+      FPDadosMsg := Lote + EventosAssinados + '</envEvento>';
 
-    AssinarXML(EventoMDFe.Gerador.ArquivoFormatoXML,
-               'Falha ao assinar o Envio de Evento ' + LineBreak + FMsg);
+    with TACBrMDFe(FPDFeOwner) do
+    begin
+      SSL.Validar(FPDadosMsg, GerarNomeArqSchema(FPLayout, FPVersaoServico), FPMsg);
+    end;
 
-    if not(MValida(FDadosMsg, FMsg, TACBrMDFe(FACBrMDFe).Configuracoes.Geral.PathSchemas)) then
-      GerarException('Falha na validação dos dados do Envio de Evento ' +
-                     LineBreak + FMsg);
-
-    for I := 0 to FEvento.Evento.Count-1 do
+    for I := 0 to FEvento.Evento.Count - 1 do
       FEvento.Evento[I].InfEvento.id := EventoMDFe.Evento[I].InfEvento.id;
   finally
     EventoMDFe.Free;
@@ -2084,32 +1636,28 @@ end;
 function TMDFeEnvEvento.TratarResposta: Boolean;
 var
   Leitor: TLeitor;
-  I, J: Integer;
+  I, J: integer;
   wProc: TStringList;
-  NomeArq: String;
+  NomeArq, VersaoEvento: String;
 begin
   FEvento.idLote := idLote;
 
-  FRetWS := SeparaDados(FRetornoWS, 'mdfeRecepcaoEventoResult');
+  FPRetWS := SeparaDados(FPRetornoWS, 'mdfeRecepcaoEventoResult');
 
   // Limpando variaveis internas
   FEventoRetorno.Free;
   FEventoRetorno := TRetEventoMDFe.Create;
 
-  FEventoRetorno.Leitor.Arquivo := FRetWS;
-  FEventoRetorno.LerXml;
+  EventoRetorno.Leitor.Arquivo := FPRetWS;
+  EventoRetorno.LerXml;
 
-//  FcStat   := FEventoRetorno.cStat;
-//  FxMotivo := FEventoRetorno.xMotivo;
-//  FMsg     := FEventoRetorno.xMotivo;
-//  FTpAmb   := FEventoRetorno.tpAmb;
+  FcStat := EventoRetorno.cStat;
+  FxMotivo := EventoRetorno.xMotivo;
+  FPMsg := EventoRetorno.xMotivo;
+  FTpAmb := EventoRetorno.tpAmb;
 
-  FcStat   := FEventoRetorno.retEvento.Items[0].RetInfEvento.cStat;
-  FxMotivo := FEventoRetorno.retEvento.Items[0].RetInfEvento.xMotivo;
-  FMsg     := FEventoRetorno.retEvento.Items[0].RetInfEvento.xMotivo;
-  FTpAmb   := FEventoRetorno.retEvento.Items[0].RetInfEvento.tpAmb;
-
-  Result := (FcStat in [128, 135, 136, 155]);
+  Result := (EventoRetorno.cStat = 128) or (EventoRetorno.cStat = 135) or
+    (EventoRetorno.cStat = 136) or (EventoRetorno.cStat = 155);
 
   //gerar arquivo proc de evento
   if Result then
@@ -2118,58 +1666,61 @@ begin
     try
       for I := 0 to FEvento.Evento.Count - 1 do
       begin
-        for J := 0 to FEventoRetorno.retEvento.Count - 1 do
+        for J := 0 to EventoRetorno.retEvento.Count - 1 do
         begin
-          if FEvento.Evento.Items[I].InfEvento.chMDFe = FEventoRetorno.retEvento.Items[J].RetInfEvento.chMDFe then
+          if FEvento.Evento.Items[I].InfEvento.chMDFe =
+            EventoRetorno.retEvento.Items[J].RetInfEvento.chMDFe then
           begin
-            FEvento.Evento.Items[I].RetInfEvento.nProt       := FEventoRetorno.retEvento.Items[J].RetInfEvento.nProt;
-            FEvento.Evento.Items[I].RetInfEvento.dhRegEvento := FEventoRetorno.retEvento.Items[J].RetInfEvento.dhRegEvento;
-            FEvento.Evento.Items[I].RetInfEvento.cStat       := FEventoRetorno.retEvento.Items[J].RetInfEvento.cStat;
-            FEvento.Evento.Items[I].RetInfEvento.xMotivo     := FEventoRetorno.retEvento.Items[J].RetInfEvento.xMotivo;
-            FEvento.Evento.Items[i].RetInfEvento.chMDFe      := FEventoRetorno.retEvento.Items[j].RetInfEvento.chMDFe;
+            FEvento.Evento.Items[I].RetInfEvento.nProt :=
+              EventoRetorno.retEvento.Items[J].RetInfEvento.nProt;
+            FEvento.Evento.Items[I].RetInfEvento.dhRegEvento :=
+              EventoRetorno.retEvento.Items[J].RetInfEvento.dhRegEvento;
+            FEvento.Evento.Items[I].RetInfEvento.cStat :=
+              EventoRetorno.retEvento.Items[J].RetInfEvento.cStat;
+            FEvento.Evento.Items[I].RetInfEvento.xMotivo :=
+              EventoRetorno.retEvento.Items[J].RetInfEvento.xMotivo;
 
             wProc := TStringList.Create;
             try
-              wProc.Add('<?xml version="1.0" encoding="UTF-8" ?>');
-              wProc.Add('<procEventoMDFe versao="' + GetVersaoMDFe(FConfiguracoes.Geral.VersaoDF,
-                                                                 LayMDFeEvento) +
-                                      '" xmlns="http://www.portalfiscal.inf.br/mdfe">');
-              wProc.Add('<eventoMDFe versao="' + GetVersaoMDFe(FConfiguracoes.Geral.VersaoDF,
-                                                               LayMDFeEvento) + '">');
-              Leitor.Arquivo := FDadosMSG;
-              wProc.Add(UTF8Encode(Leitor.rExtrai(1, 'infEvento', '', I + 1)));
+              VersaoEvento := TACBrMDFe(FPDFeOwner).LerVersaoDeParams(LayMDFeEvento);
+
+              wProc.Add('<' + ENCODING_UTF8 + '>');
+              wProc.Add('<procEventoMDFe versao="' + VersaoEvento +
+                '" xmlns="http://www.portalfiscal.inf.br/mdfe">');
+              wProc.Add('<eventoMDFe versao="' + VersaoEvento + '">');
+              Leitor.Arquivo := FPDadosMsg;
+              wProc.Add(Leitor.rExtrai(1, 'infEvento', '', I + 1));
               wProc.Add('<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">');
 
-              Leitor.Arquivo := FDadosMSG;
-              wProc.Add(UTF8Encode(Leitor.rExtrai(1, 'SignedInfo', '', I + 1)));
+              Leitor.Arquivo := FPDadosMsg;
+              wProc.Add(Leitor.rExtrai(1, 'SignedInfo', '', I + 1));
 
-              Leitor.Arquivo := FDadosMSG;
-              wProc.Add(UTF8Encode(Leitor.rExtrai(1, 'SignatureValue', '', I + 1)));
+              Leitor.Arquivo := FPDadosMsg;
+              wProc.Add(Leitor.rExtrai(1, 'SignatureValue', '', I + 1));
 
-              Leitor.Arquivo := FDadosMSG;
-              wProc.Add(UTF8Encode(Leitor.rExtrai(1, 'KeyInfo', '', I + 1)));
+              Leitor.Arquivo := FPDadosMsg;
+              wProc.Add(Leitor.rExtrai(1, 'KeyInfo', '', I + 1));
               wProc.Add('</Signature>');
               wProc.Add('</eventoMDFe>');
-              wProc.Add('<retEventoMDFe versao="' + GetVersaoMDFe(FConfiguracoes.Geral.VersaoDF,
-                                                                  LayMDFeEvento) + '">');
+              wProc.Add('<retEventoMDFe versao="' + VersaoEvento + '">');
 
-              Leitor.Arquivo := FRetWS;
-              wProc.Add(UTF8Encode(Leitor.rExtrai(1, 'infEvento', '', J + 1)));
+              Leitor.Arquivo := FPRetWS;
+              wProc.Add(Leitor.rExtrai(1, 'infEvento', '', J + 1));
               wProc.Add('</retEventoMDFe>');
               wProc.Add('</procEventoMDFe>');
 
-              FEventoRetorno.retEvento.Items[J].RetInfEvento.XML := wProc.Text;
+              EventoRetorno.retEvento.Items[J].RetInfEvento.XML := wProc.Text;
 
               FEvento.Evento.Items[I].RetInfEvento.XML := wProc.Text;
 
               NomeArq := OnlyNumber(FEvento.Evento.Items[i].InfEvento.Id) +
-                         '-procEventoMDFe.xml';
+                '-procEventoMDFe.xml';
 
-              if FConfiguracoes.Geral.Salvar then
-                FConfiguracoes.Geral.Save(NomeArq, wProc.Text);
+              if FPConfiguracoesMDFe.Geral.Salvar then
+                FPDFeOwner.Gravar(NomeArq, wProc.Text);
 
-              if FConfiguracoes.Arquivos.Salvar then
-                FConfiguracoes.Geral.Save(NomeArq, wProc.Text, GerarPathEvento);
+              if FPConfiguracoesMDFe.Arquivos.Salvar then
+                FPDFeOwner.Gravar(NomeArq, wProc.Text, GerarPathEvento);
             finally
               wProc.Free;
             end;
@@ -2188,55 +1739,58 @@ procedure TMDFeEnvEvento.SalvarEnvio;
 begin
   inherited SalvarEnvio;
 
-  if FConfiguracoes.Arquivos.Salvar then
-    FConfiguracoes.Geral.Save(GerarPrefixoArquivo + '-' + ArqEnv + '.xml',
-                              FDadosMsg, GerarPathEvento);
+  if FPConfiguracoesMDFe.Arquivos.Salvar then
+    FPDFeOwner.Gravar(GerarPrefixoArquivo + '-' + ArqEnv + '.xml',
+      FPDadosMsg, GerarPathEvento);
 end;
 
 procedure TMDFeEnvEvento.SalvarResposta;
 begin
   inherited SalvarResposta;
 
-  if FConfiguracoes.Arquivos.Salvar then
-    FConfiguracoes.Geral.Save(GerarPrefixoArquivo + '-' + ArqEnv + '.xml',
-                              FDadosMsg, GerarPathEvento);
+  if FPConfiguracoesMDFe.Arquivos.Salvar then;
+  FPDFeOwner.Gravar(GerarPrefixoArquivo + '-' + ArqEnv + '.xml',
+    FPDadosMsg, GerarPathEvento);
 end;
 
-function TMDFeEnvEvento.GerarMsgLog: AnsiString;
+function TMDFeEnvEvento.GerarMsgLog: String;
 var
   aMsg: String;
 begin
-  aMsg := 'Versão Layout : '     + FEventoRetorno.versao + LineBreak +
-          'Ambiente : '          + TpAmbToStr(FEventoRetorno.tpAmb) + LineBreak +
-          'Versão Aplicativo : ' + FEventoRetorno.verAplic + LineBreak +
-          'Status Código : '     + IntToStr(FEventoRetorno.cStat) + LineBreak +
-          'Status Descrição : '  + FEventoRetorno.xMotivo + LineBreak;
+  aMsg := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                         'Ambiente: %s ' + LineBreak +
+                         'Versão Aplicativo: %s ' + LineBreak +
+                         'Status Código: %s ' + LineBreak +
+                         'Status Descrição: %s ' + LineBreak),
+                 [FEventoRetorno.versao, TpAmbToStr(FEventoRetorno.tpAmb),
+                  FEventoRetorno.verAplic, IntToStr(FEventoRetorno.cStat),
+                  FEventoRetorno.xMotivo]);
 
-  if (FEventoRetorno.retEvento.Count > 0) then
-      aMsg := aMsg + 'Recebimento : ' +
-              SeSenao(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento = 0,
-                              '',
-                              DateTimeToStr(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento));
+  if FEventoRetorno.retEvento.Count > 0 then
+    aMsg := aMsg + Format(ACBrStr('Recebimento: %s ' + LineBreak),
+       [IfThen(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento = 0, '',
+               FormatDateTimeBr(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento))]);
+
   Result := aMsg;
 end;
 
-function TMDFeEnvEvento.GerarPrefixoArquivo: AnsiString;
+function TMDFeEnvEvento.GerarPrefixoArquivo: String;
 begin
   Result := IntToStr(FEvento.idLote);
 end;
 
 { TMDFeConsultaMDFeNaoEnc }
 
-constructor TMDFeConsultaMDFeNaoEnc.Create(AOwner: TComponent);
+constructor TMDFeConsultaMDFeNaoEnc.Create(AOwner: TACBrDFe);
 begin
   inherited Create(AOwner);
 
   FInfMDFe := TRetInfMDFeCollection.Create(AOwner);
 
-  FStatus  := stMDFeConsulta;
-  FLayout  := LayMDFeConsNaoEnc;
-  FArqEnv  := 'ped-cons';
-  FArqResp := 'cons';
+  FPStatus  := stMDFeConsulta;
+  FPLayout  := LayMDFeConsNaoEnc;
+  FPArqEnv  := 'ped-cons';
+  FPArqResp := 'cons';
 end;
 
 destructor TMDFeConsultaMDFeNaoEnc.Destroy;
@@ -2246,17 +1800,17 @@ begin
   inherited;
 end;
 
-procedure TMDFeConsultaMDFeNaoEnc.DefinirURL;
-begin
-  FLayout := LayMDFeConsNaoEnc;
-
-  inherited DefinirURL;
-end;
-
 procedure TMDFeConsultaMDFeNaoEnc.DefinirServicoEAction;
 begin
-  FServico    := CURL_WSDL + 'MDFeConsNaoEnc';
-  FSoapAction := FServico + '/mdfeConsNaoEnc';
+  FPServico    := GetUrlWsd + 'MDFeConsNaoEnc';
+  FPSoapAction := FPServico + '/mdfeConsNaoEnc';
+end;
+
+procedure TMDFeConsultaMDFeNaoEnc.DefinirURL;
+begin
+  FPLayout := LayMDFeConsNaoEnc;
+
+  inherited DefinirURL;
 end;
 
 procedure TMDFeConsultaMDFeNaoEnc.DefinirDadosMsg;
@@ -2265,14 +1819,13 @@ var
 begin
   ConsMDFeNaoEnc := TConsMDFeNaoEnc.create;
   try
-    ConsMDFeNaoEnc.TpAmb := TpcnTipoAmbiente(FConfiguracoes.WebServices.AmbienteCodigo - 1);
+    ConsMDFeNaoEnc.TpAmb := FPConfiguracoesNFe.WebServices.Ambiente;
     ConsMDFeNaoEnc.CNPJ  := FCNPJ; // TMDFeConsultaMDFeNaoEnc(Self).CNPJ;
 
-    ConsMDFeNaoEnc.Gerador.Opcoes.RetirarAcentos := FConfiguracoes.Geral.RetirarAcentos;
-    
+//    ConsMDFeNaoEnc.Gerador.Opcoes.RetirarAcentos := FConfiguracoes.Geral.RetirarAcentos;
+
     ConsMDFeNaoEnc.GerarXML;
 
-    // Atribuindo o XML para propriedade interna //
     FDadosMsg := ConsMDFeNaoEnc.Gerador.ArquivoFormatoXML;
   finally
     ConsMDFeNaoEnc.Free;
@@ -2281,65 +1834,66 @@ end;
 
 function TMDFeConsultaMDFeNaoEnc.TratarResposta: Boolean;
 var
-  MDFeRetorno: TRetConsMDFeNaoEnc;
   i: Integer;
 begin
 //  FRetWS := SeparaDados(FRetornoWS, 'mdfeConsNaoEncMDFResult');
-  FRetWS := SeparaDados(FRetornoWS, 'mdfeConsNaoEncResult');
+  FPRetWS := SeparaDados(FPRetornoWS, 'mdfeConsNaoEncResult');
 
-  MDFeRetorno := TRetConsMDFeNaoEnc.Create;
-  try
-    MDFeRetorno.Leitor.Arquivo := FRetWS;
-    MDFeRetorno.LerXml;
+  // Limpando variaveis internas
+  FRetConsMDFeNaoEnc.Free;
+  FRetConsMDFeNaoEnc := TRetConsMDFeNaoEnc.Create;
 
-    Fversao    := MDFeRetorno.versao;
-    FtpAmb     := MDFeRetorno.tpAmb;
-    FverAplic  := MDFeRetorno.verAplic;
-    FcStat     := MDFeRetorno.cStat;
-    FxMotivo   := MDFeRetorno.xMotivo;
-    FcUF       := MDFeRetorno.cUF;
-    FMsg       := FxMotivo;
+  FRetConsMDFeNaoEnc.Leitor.Arquivo := FPRetWS;
+  FRetConsMDFeNaoEnc.LerXml;
 
-    for i := 0 to MDFeRetorno.InfMDFe.Count -1 do
-    begin
-     FinfMDFe.Add;
-     FinfMDFe.Items[i].chMDFe := MDFeRetorno.InfMDFe.Items[i].chMDFe;
-     FinfMDFe.Items[i].nProt  := MDFeRetorno.InfMDFe.Items[i].nProt;
-    end;
+  Fversao    := FRetConsMDFeNaoEnc.versao;
+  FtpAmb     := FRetConsMDFeNaoEnc.tpAmb;
+  FverAplic  := FRetConsMDFeNaoEnc.verAplic;
+  FcStat     := FRetConsMDFeNaoEnc.cStat;
+  FxMotivo   := FRetConsMDFeNaoEnc.xMotivo;
+  FcUF       := FRetConsMDFeNaoEnc.cUF;
+  FMsg       := FxMotivo;
+
+  for i := 0 to FRetConsMDFeNaoEnc.InfMDFe.Count -1 do
+  begin
+    FinfMDFe.Add;
+    FinfMDFe.Items[i].chMDFe := FRetConsMDFeNaoEnc.InfMDFe.Items[i].chMDFe;
+    FinfMDFe.Items[i].nProt  := FRetConsMDFeNaoEnc.InfMDFe.Items[i].nProt;
+  end;
 
     // 111 = MDF-e não encerrados localizados
     // 112 = MDF-e não encerrados não localizados
-    Result := (FcStat in [111, 112]);
-
-  finally
-    MDFeRetorno.Free;
-  end;
+  Result := (FcStat in [111, 112]);
 end;
 
 function TMDFeConsultaMDFeNaoEnc.GerarMsgLog: AnsiString;
 begin
-  Result := 'Versão Layout : '     + Fversao + LineBreak +
-            'Ambiente : '          + TpAmbToStr(FtpAmb) + LineBreak +
-            'Versão Aplicativo : ' + FverAplic + LineBreak +
-            'Status Código : '     + IntToStr(FcStat) + LineBreak +
-            'Status Descrição : '  + FxMotivo + LineBreak +
-            'UF : '                + CodigoParaUF(FcUF) + LineBreak;
+  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
+                           'Ambiente: %s ' + LineBreak +
+                           'Versão Aplicativo: %s ' + LineBreak +
+                           'Status Código: %s ' + LineBreak +
+                           'Status Descrição: %s ' + LineBreak +
+                           'UF: %s ' + LineBreak),
+                   [FRetConsMDFeNaoEnc.versao, TpAmbToStr(FRetConsMDFeNaoEnc.tpAmb),
+                    FRetConsMDFeNaoEnc.verAplic, IntToStr(FRetConsMDFeNaoEnc.cStat),
+                    FRetConsMDFeNaoEnc.xMotivo,
+                    FRetConsMDFeNaoEnc.cUF]);
 end;
 
-function TMDFeConsultaMDFeNaoEnc.GerarMsgErro(E: Exception): AnsiString;
+function TMDFeConsultaMDFeNaoEnc.GerarMsgErro(E: Exception): String;
 begin
-  Result := 'WebService Consulta MDF-e nao Encerrado:' + LineBreak +
-            '- Inativo ou Inoperante tente novamente.' + LineBreak +
-            '- ' + E.Message
+  Result := ACBrStr('WebService Consulta MDF-e nao Encerradas:' + LineBreak +
+                    '- Inativo ou Inoperante tente novamente.');
 end;
 
 { TMDFeEnvioWebService }
 
-constructor TMDFeEnvioWebService.Create(AOwner: TComponent);
+constructor TMDFeEnvioWebService.Create(AOwner: TACBrDFe);
 begin
   inherited Create(AOwner);
 
-  FStatus := stMDFeEnvioWebService;
+  FPStatus := stEnvioWebService;
+  FVersao := '';
 end;
 
 destructor TMDFeEnvioWebService.Destroy;
@@ -2354,12 +1908,12 @@ end;
 
 procedure TMDFeEnvioWebService.DefinirURL;
 begin
-  FURL := FURLEnvio;
+  FPURL := FPURLEnvio;
 end;
 
 procedure TMDFeEnvioWebService.DefinirServicoEAction;
 begin
-  FServico := FSoapAction;
+  FPServico := FPSoapAction;
 end;
 
 procedure TMDFeEnvioWebService.DefinirDadosMsg;
@@ -2369,53 +1923,46 @@ begin
   LeitorXML := TLeitor.Create;
   try
     LeitorXML.Arquivo := FXMLEnvio;
-    LeitorXML.Grupo   := FXMLEnvio;
-    FVersao           := LeitorXML.rAtributo('versao')
+    LeitorXML.Grupo := FXMLEnvio;
+    FVersao := LeitorXML.rAtributo('versao')
   finally
     LeitorXML.Free;
   end;
 
-  FDadosMsg := FXMLEnvio;
+  FPDadosMsg := FXMLEnvio;
 end;
 
 function TMDFeEnvioWebService.TratarResposta: Boolean;
 begin
-  FRetWS := SeparaDados(FRetornoWS, 'soap:Body');
+  FPRetWS := SeparaDados(FPRetornoWS, 'soap:Body');
   Result := True;
 end;
 
-function TMDFeEnvioWebService.GerarMsgLog: AnsiString;
+function TMDFeEnvioWebService.GerarMsgErro(E: Exception): String;
 begin
-  Result := inherited GerarMsgLog;
+  Result := ACBrStr('WebService: '+FPServico + LineBreak +
+                    '- Inativo ou Inoperante tente novamente.');
 end;
 
-function TMDFeEnvioWebService.GerarMsgErro(E: Exception): AnsiString;
+function TMDFeEnvioWebService.GerarVersaoDadosSoap: String;
 begin
-  Result := 'WebService' + LineBreak +
-            '- Inativo ou Inoperante tente novamente.' + LineBreak +
-            '- ' + E.Message;
-end;
-
-function TMDFeEnvioWebService.GerarVersaoDadosSoap: AnsiString;
-begin
-  Result := '<versaoDados>' +
-              FVersao +
-            '</versaoDados>';
+  Result := '<versaoDados>' + FVersao + '</versaoDados>';
 end;
 
 { TWebServices }
 
-constructor TWebServices.Create(AFMDFe: TComponent);
+constructor TWebServices.Create(AOwner: TACBrDFe);
 begin
-  FACBrMDFe        := TACBrMDFe(AFMDFe);
-  FStatusServico   := TMDFeStatusServico.Create(AFMDFe);
-  FEnviar          := TMDFeRecepcao.Create(AFMDFe, TACBrMDFe(AFMDFe).Manifestos);
-  FRetorno         := TMDFeRetRecepcao.Create(AFMDFe, TACBrMDFe(AFMDFe).Manifestos);
-  FRecibo          := TMDFeRecibo.Create(AFMDFe);
-  FConsulta        := TMDFeConsulta.Create(AFMDFe);
-  FConsMDFeNaoEnc  := TMDFeConsultaMDFeNaoEnc.Create(AFMDFe);
-  FEnvEvento       := TMDFeEnvEvento.Create(AFMDFe, TACBrMDFe(AFMDFe).EventoMDFe);
-  FEnvioWebService := TMDFeEnvioWebService.Create(AFMDFe);
+  FACBrMDFe := TACBrMDFe(AOwner);
+
+  FStatusServico := TMDFeStatusServico.Create(FACBrMDFe);
+  FEnviar := TMDFeRecepcao.Create(FACBrMDFe, TACBrMDFe(FACBrMDFe).Manifestos);
+  FRetorno := TMDFeRetRecepcao.Create(FACBrMDFe, TACBrMDFe(FACBrMDFe).Manifestos);
+  FRecibo := TMDFeRecibo.Create(FACBrMDFe);
+  FConsulta := TMDFeConsulta.Create(FACBrMDFe);
+  FEnvEvento := TMDFeEnvEvento.Create(FACBrMDFe, TACBrMDFe(FACBrMDFe).EventoMDFe);
+  FConsMDFeNaoEnc := TMDFeConsultaMDFeNaoEnc.Create(FACBrMDFe);
+  FEnvioWebService := TMDFeEnvioWebService.Create(FACBrMDFe);
 end;
 
 destructor TWebServices.Destroy;
@@ -2425,14 +1972,14 @@ begin
   FRetorno.Free;
   FRecibo.Free;
   FConsulta.Free;
-  FConsMDFeNaoEnc.Free;
   FEnvEvento.Free;
+  FConsMDFeNaoEnc.Free;
   FEnvioWebService.Free;
 
   inherited Destroy;
 end;
 
-function TWebServices.Envia(ALote: Integer): Boolean;
+function TWebServices.Envia(ALote: integer): Boolean;
 begin
   Result := Envia(IntToStr(ALote));
 end;
@@ -2442,12 +1989,11 @@ begin
   FEnviar.FLote := ALote;
 
   if not Enviar.Executar then
-    Enviar.GerarException(Enviar.Msg);
+    Enviar.GerarException( Enviar.Msg );
 
   FRetorno.Recibo := FEnviar.Recibo;
-
   if not FRetorno.Executar then
-    FRetorno.GerarException(FRetorno.Msg);
+    FRetorno.GerarException( FRetorno.Msg );
 
   Result := True;
 end;
@@ -2457,7 +2003,7 @@ begin
   FConsMDFeNaoEnc.FCNPJ := ACNPJ;
 
   if not FConsMDFeNaoEnc.Executar then
-    FConsMDFeNaoEnc.GerarException(FConsMDFeNaoEnc.Msg);
+    FConsMDFeNaoEnc.GerarException( FConsMDFeNaoEnc.Msg );
 
   Result := True;
 end;

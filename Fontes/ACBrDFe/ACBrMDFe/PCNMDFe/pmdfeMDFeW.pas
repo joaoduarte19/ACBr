@@ -154,9 +154,9 @@ begin
 
   chave := StringReplace(chave,'NFe','MDFe',[rfReplaceAll]);
 
-  if trim(MDFe.infMDFe.Id) = '' then
+//  if trim(MDFe.infMDFe.Id) = '' then
     MDFe.infMDFe.Id := chave;
-
+(*
   if (copy(MDFe.infMDFe.Id, 1, 4) <> 'MDFe') then
     MDFe.infMDFe.Id := 'MDFe' + MDFe.infMDFe.Id;
 
@@ -167,7 +167,7 @@ begin
      MDFe.infMDFe.Id := StringReplace( UpperCase(MDFe.infMDFe.Id), 'MDFE', '', [rfReplaceAll] ) ;
      MDFe.infMDFe.Id := 'MDFe' + MDFe.infMDFe.Id;
    end;
-
+*)
   MDFe.ide.cDV  := RetornarDigito(MDFe.infMDFe.Id);
   MDFe.Ide.cMDF := RetornarCodigoNumerico(MDFe.infMDFe.Id, 2);
 

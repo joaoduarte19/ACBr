@@ -57,9 +57,9 @@ type
   TpcnTipoCTe = (tnEntrada, tnSaida);
   TpcnFinalidadeCTe = (fnNormal, fnComplementar, fnAjuste, fnDevolucao);
 
-  TLayOut = (LayCTeRecepcao, LayCTeRetRecepcao, LayCTeCancelamento,
-             LayCTeInutilizacao, LayCTeConsulta, LayCTeStatusServico,
-             LayCTeCadastro, LayCTeCCe, LayCTeEvento, LayCTeEventoAN);
+  TLayOutCTe = (LayCTeRecepcao, LayCTeRetRecepcao, LayCTeCancelamento,
+                LayCTeInutilizacao, LayCTeConsulta, LayCTeStatusServico,
+                LayCTeCadastro, LayCTeCCe, LayCTeEvento, LayCTeEventoAN);
 
   TSchemaCTe = (schCTe, schCancCTe, schInutCTe, schEnvCCe,
                 schEnvEventoCancCTe, schEnvEPEC);
@@ -69,7 +69,7 @@ type
                     stCTeRecibo, stCTeCadastro, stCTeEmail, stCTeCCe,
                     stCTeEvento, stEnvioWebService);
 
-  TpcnVersaoCTe = (ve200);
+  TVersaoCTe = (ve200);
   TpcnSituacaoCTe = (snAutorizado, snDenegado, snCancelada);
 
   TpcteFormaPagamento = (fpPago, fpAPagar, fpOutros);
@@ -81,7 +81,7 @@ type
   TpcteLotacao = (ltNao, ltSim);
   TpcteProp = (tpTACAgregado, tpTACIndependente, tpOutros);
   TpcteMask = (msk4x2, msk7x2, msk9x2, msk10x2, msk13x2, msk15x2, msk6x3, mskAliq);
-  UnidMed = (uM3,uKG, uTON, uUNIDADE, uLITROS, uMMBTU);
+  TUnidMed = (uM3,uKG, uTON, uUNIDADE, uLITROS, uMMBTU);
   TpcteDirecao = (drNorte, drLeste, drSul, drOeste);
   TpcteTipoNavegacao = (tnInterior, tnCabotagem);
   TpcteTipoTrafego = (ttProprio, ttMutuo, ttRodoferroviario, ttRodoviario);
@@ -109,11 +109,11 @@ function StrToFinCTe(out ok: Boolean; const s: String): TpcnFinalidadeCTe;
 function SituacaoCTeToStr(const t: TpcnSituacaoCTe): String;
 function StrToSituacaoCTe(out ok: Boolean; const s: String): TpcnSituacaoCTe;
 
-function StrToVersaoCTe(out ok: Boolean; const s: String): TpcnVersaoCTe;
-function VersaoCTeToStr(const t: TpcnVersaoCTe): String;
+function StrToVersaoCTe(out ok: Boolean; const s: String): TVersaoCTe;
+function VersaoCTeToStr(const t: TVersaoCTe): String;
 
-function DblToVersaoCTe(out ok: Boolean; const d: Double): TpcnVersaoCTe;
-function VersaoCTeToDbl(const t: TpcnVersaoCTe): Double;
+function DblToVersaoCTe(out ok: Boolean; const d: Double): TVersaoCTe;
+function VersaoCTeToDbl(const t: TVersaoCTe): Double;
 
 function tpforPagToStr(const t: TpcteFormaPagamento): string;
 function tpforPagToStrText(const t: TpcteFormaPagamento): string;
@@ -146,8 +146,8 @@ function StrToTpLotacao(out ok: boolean; const s: String ): TpcteLotacao;
 function TpPropToStr(const t: TpcteProp): String;
 function StrToTpProp(out ok: boolean; const s: String ): TpcteProp;
 
-function UnidMedToStr(const t: UnidMed): string;
-function StrToUnidMed(out ok: boolean; const s: String ): UnidMed;
+function UnidMedToStr(const t: TUnidMed): string;
+function StrToUnidMed(out ok: boolean; const s: String ): TUnidMed;
 
 function TpMaskToStrText(const t: TpcteMask): string;
 function StrToTpMask(out ok: boolean; const s: string): TpcteMask;
@@ -257,17 +257,17 @@ begin
     snDenegado, snCancelada]);
 end;
 
-function StrToVersaoCTe(out ok: Boolean; const s: String): TpcnVersaoCTe;
+function StrToVersaoCTe(out ok: Boolean; const s: String): TVersaoCTe;
 begin
   Result := StrToEnumerado(ok, s, ['2.00'], [ve200]);
 end;
 
-function VersaoCTeToStr(const t: TpcnVersaoCTe): String;
+function VersaoCTeToStr(const t: TVersaoCTe): String;
 begin
   Result := EnumeradoToStr(t, ['2.00'], [ve200]);
 end;
 
-function DblToVersaoCTe(out ok: Boolean; const d: Double): TpcnVersaoCTe;
+function DblToVersaoCTe(out ok: Boolean; const d: Double): TVersaoCTe;
 begin
   ok := True;
 
@@ -280,7 +280,7 @@ begin
   end;
 end;
 
-function VersaoCTeToDbl(const t: TpcnVersaoCTe): Double;
+function VersaoCTeToDbl(const t: TVersaoCTe): Double;
 begin
   case t of
     ve200: Result := 2.0;
@@ -421,13 +421,13 @@ begin
   result := StrToEnumerado(ok, s, ['0', '1', '2'], [tpTACAgregado, tpTACIndependente, tpOutros]);
 end;
 
-function UnidMedToStr(const t: UnidMed): string;
+function UnidMedToStr(const t: TUnidMed): string;
 begin
   result := EnumeradoToStr(t, ['00', '01', '02', '03', '04', '05'],
    [uM3,uKG, uTON, uUNIDADE, uLITROS, uMMBTU]);
 end;
 
-function StrToUnidMed(out ok: boolean; const s: String ): UnidMed;
+function StrToUnidMed(out ok: boolean; const s: String ): TUnidMed;
 begin
   result := StrToEnumerado(ok, s, ['00', '01', '02', '03', '04', '05'],
    [uM3,uKG, uTON, uUNIDADE, uLITROS, uMMBTU]);

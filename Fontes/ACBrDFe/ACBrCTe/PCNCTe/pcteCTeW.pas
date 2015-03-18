@@ -247,9 +247,9 @@ begin
 
   chave := StringReplace(chave,'NFe','CTe',[rfReplaceAll]);
 
-  if trim(CTe.infCTe.Id) = '' then
+//  if trim(CTe.infCTe.Id) = '' then
     CTe.infCTe.Id := chave;
-
+(*
   if (copy(CTe.infCTe.Id, 1, 4) <> 'CTe') then
     CTe.infCTe.Id := 'CTe' + CTe.infCTe.Id;
 
@@ -260,7 +260,7 @@ begin
      CTe.infCTe.Id := StringReplace( UpperCase(CTe.infCTe.Id), 'CTE', '', [rfReplaceAll] ) ;
      CTe.infCTe.Id := 'CTe' + CTe.infCTe.Id;
    end;
-
+*)
 
   CTe.ide.cDV := RetornarDigito(CTe.infCTe.ID);
   CTe.Ide.cCT := RetornarCodigoNumerico(CTe.infCTe.ID, 2);

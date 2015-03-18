@@ -41,18 +41,21 @@ unit pmdfeConversaoMDFe;
 interface
 
 uses
-  SysUtils,
-{$IFNDEF VER130}
-  Variants,
-{$ENDIF}
-  Classes{, pcnConversao};
+  SysUtils, Classes;
 
 type
-  TMDFeTpEmitente = (teTransportadora, teTranspCargaPropria);
-  TMDFeModal      = (moRodoviario, moAereo, moAquaviario, moFerroviario);
-  TMDFeVersao     = (ve100, ve100a);
+  TTpEmitenteMDFe = (teTransportadora, teTranspCargaPropria);
+  TModalMDFe      = (moRodoviario, moAereo, moAquaviario, moFerroviario);
+  TVersaoMDFe     = (ve100, ve100a);
+
   TLayOutMDFe     = (LayMDFeRecepcao, LayMDFeRetRecepcao, LayMDFeConsulta,
                      LayMDFeStatusServico, LayMDFeEvento, LayMDFeConsNaoEnc);
+
+  TSchemaMDFe     = (schMDFe, schEnvEventoMDFe);
+
+  TStatusACBrMDFe = (stIdle, stMDFeStatusServico, stMDFeRecepcao, stMDFeRetRecepcao,
+                     stMDFeConsulta, stMDFeRecibo, stMDFeEmail, stMDFeEvento,
+                     stEnvioWebService);
 
 
 const
@@ -123,16 +126,24 @@ function StrToEnumerado(var ok: boolean; const s: string; const AString: array o
 function EnumeradoToStr(const t: variant; const AString:
   array of string; const AEnumerados: array of variant): variant;
 
-function TpEmitenteToStr(const t: TMDFeTpEmitente): String;
-function StrToTpEmitente(var ok: Boolean; const s: String): TMDFeTpEmitente;
+function TpEmitenteToStr(const t: TTpEmitenteMDFe): String;
+function StrToTpEmitente(var ok: Boolean; const s: String): TTpEmitenteMDFe;
 
-function ModalToStr(const t: TMDFeModal): String;
-function StrToModal(var ok: Boolean; const s: String): TMDFeModal;
+function ModalToStr(const t: TModalMDFe): String;
+function StrToModal(var ok: Boolean; const s: String): TModalMDFe;
 
-function GetVersaoMDFe(AVersaoDF: TMDFeVersao; ALayOut: TLayOutMDFe): string;
-function GetVersaoModalMDFe(AVersaoDF: TMDFeVersao; AModal: TMDFeModal): string;
+function GetVersaoMDFe(AVersaoDF: TVersaoMDFe; ALayOut: TLayOutMDFe): string;
+function GetVersaoModalMDFe(AVersaoDF: TVersaoMDFe; AModal: TMDFeModal): string;
+
+function LayOutToServico(const t: TLayOutMDFe): String;
+function ServicoToLayOut(out ok: Boolean; const s: String): TLayOutMDFe;
+
+function SchemaMDFeToStr(const t: TSchemaMDFe): String;
 
 implementation
+
+uses
+  pcnConversao;
 
 function StrToEnumerado(var ok: boolean; const s: string; const AString:
   array of string; const AEnumerados: array of variant): variant;
@@ -161,14 +172,14 @@ end;
 
 // Tipo de Emitente*************************************************************
 
-function TpEmitenteToStr(const t: TMDFeTpEmitente): String;
+function TpEmitenteToStr(const t: TTpEmitenteMDFe): String;
 begin
   result := EnumeradoToStr(t,
                            ['1', '2'],
                            [teTransportadora, teTranspCargaPropria]);
 end;
 
-function StrToTpEmitente(var ok: Boolean; const s: String): TMDFeTpEmitente;
+function StrToTpEmitente(var ok: Boolean; const s: String): TTpEmitenteMDFe;
 begin
   result := StrToEnumerado(ok, s,
                            ['1', '2'],
@@ -177,21 +188,21 @@ end;
 
 // Modal************************************************************************
 
-function ModalToStr(const t: TMDFeModal): String;
+function ModalToStr(const t: TModalMDFe): String;
 begin
   result := EnumeradoToStr(t,
                            ['1', '2', '3', '4'],
                            [moRodoviario, moAereo, moAquaviario, moFerroviario]);
 end;
 
-function StrToModal(var ok: Boolean; const s: String): TMDFeModal;
+function StrToModal(var ok: Boolean; const s: String): TModalMDFe;
 begin
   result := StrToEnumerado(ok, s,
                            ['1', '2', '3', '4'],
                            [moRodoviario, moAereo, moAquaviario, moFerroviario]);
 end;
 
-function GetVersaoMDFe(AVersaoDF: TMDFeVersao; ALayOut: TLayOutMDFe): string;
+function GetVersaoMDFe(AVersaoDF: TVersaoMDFe; ALayOut: TLayOutMDFe): string;
 begin
   result := '';
 
@@ -210,7 +221,7 @@ begin
   end;
 end;
 
-function GetVersaoModalMDFe(AVersaoDF: TMDFeVersao; AModal: TMDFeModal): string;
+function GetVersaoModalMDFe(AVersaoDF: TVersaoMDFe; AModal: TMDFeModal): string;
 begin
   result := '';
 
@@ -225,6 +236,31 @@ begin
               end;
             end;
   end;
+end;
+
+function LayOutToServico(const t: TLayOutMDFe): String;
+begin
+  Result := EnumeradoToStr(t,
+    ['MDFeRecepcao', 'MDFeRetRecepcao', 'MDFeConsultaProtocolo',
+     'MDFeStatusServico', 'LayMDFeEvento', 'MDFeConsNaoEnc'],
+    [ LayMDFeRecepcao, LayMDFeRetRecepcao, LayMDFeConsulta,
+      LayMDFeStatusServico, LayMDFeEvento, LayMDFeConsNaoEnc ] );
+end;
+
+function ServicoToLayOut(out ok: Boolean; const s: String): TLayOutMDFe;
+begin
+  Result := StrToEnumerado(ok, s,
+  ['MDFeRecepcao', 'MDFeRetRecepcao', 'MDFeConsultaProtocolo',
+     'MDFeStatusServico', 'LayMDFeEvento', 'MDFeConsNaoEnc'],
+  [ LayMDFeRecepcao, LayMDFeRetRecepcao, LayMDFeConsulta,
+    LayMDFeStatusServico, LayMDFeEvento, LayMDFeConsNaoEnc ] );
+end;
+
+function SchemaMDFeToStr(const t: TSchemaMDFe): String;
+begin
+  Result := EnumeradoToStr(t,
+    ['mdfe', 'envEventoMDFe'],
+    [ schMDFe, schEnvEventoMDFe ] );
 end;
 
 end.

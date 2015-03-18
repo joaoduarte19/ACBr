@@ -94,16 +94,15 @@ type
     function Cancelamento(AJustificativa: WideString; ALote: integer = 0): Boolean;
     function Consultar: Boolean;
     function ConsultarMDFeNaoEnc(ACNPJ: String): Boolean;
-    function EnviarEventoMDFe(idLote: integer): Boolean;
+    function EnviarEvento(idLote: integer): Boolean;
 
     procedure LerServicoDeParams(LayOutServico: TLayOut; var Versao: Double;
       var URL: String); reintroduce; overload;
     function LerVersaoDeParams(LayOutServico: TLayOut): String; reintroduce; overload;
 
-    function IdentificaSchemaMDFe(const AXML: String): TSchemaMDFe;
+    function IdentificaSchema(const AXML: String): TSchemaMDFe;
     function IdentificaSchemaLayout(const ALayOut: TLayOut): TSchemaMDFe;
-    function GerarNomeArqSchema(const ALayOut: TLayOut;
-      VersaoServico: String): String;
+    function GerarNomeArqSchema(const ALayOut: TLayOut; VersaoServico: String): String;
     function GerarChaveContingencia(FMDFe: TMDFe): String;
 
     property WebServices: TWebServices read FWebServices write FWebServices;
@@ -243,7 +242,7 @@ begin
   end;
 end;
 
-function TACBrMDFe.IdentificaSchemaMDFe(const AXML: String): TSchemaMDFe;
+function TACBrMDFe.IdentificaSchema(const AXML: String): TSchemaMDFe;
 var
  lTipoEvento: TpcnTpEvento;
  I: Integer;
@@ -395,7 +394,7 @@ begin
     end;
 
     try
-      Self.EnviarEventoMDFe(ALote);
+      Self.EnviarEvento(ALote);
     except
       raise Exception.Create(Self.WebServices.EnvEvento.EventoRetorno.xMotivo);
     end;
@@ -458,7 +457,7 @@ begin
   end;
 end;
 
-function TACBrMDFe.EnviarEventoMDFe(idLote: Integer): Boolean;
+function TACBrMDFe.EnviarEvento(idLote: Integer): Boolean;
 var
   i: integer;
 begin
