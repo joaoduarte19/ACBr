@@ -104,12 +104,12 @@ type
 
     function Cancelamento(AJustificativa: WideString; ALote: Integer = 0): Boolean;
     function Consultar: Boolean;
-    function EnviarEventoCTe(idLote: Integer): Boolean;
+    function EnviarEvento(idLote: Integer): Boolean;
 
     procedure LerServicoDeParams(LayOutServico: TLayOut; var Versao: Double; var URL: String); reintroduce; overload;
     function LerVersaoDeParams(LayOutServico: TLayOut): String; reintroduce; overload;
 
-    function IdentificaSchemaCTe(const AXML: String): TSchemaCTe;
+    function IdentificaSchema(const AXML: String): TSchemaCTe;
     function IdentificaSchemaLayOut(const ALayOut: TLayOut): TSchemaCTe;
     function GerarNomeArqSchema(const ALayOut: TLayOut; VersaoServico: String): String;
     function GerarChaveContingencia(FCTe: TCTe): String;
@@ -254,7 +254,7 @@ begin
   end;
 end;
 
-function TACBrCTe.IdentificaSchemaCTe(const AXML: String): TSchemaCTe;
+function TACBrCTe.IdentificaSchema(const AXML: String): TSchemaCTe;
 var
  lTipoEvento: TpcnTpEvento;
  I: Integer;
@@ -532,7 +532,7 @@ begin
     end;
 
     try
-      Self.EnviarEventoCTe(ALote);
+      Self.EnviarEvento(ALote);
     except
       raise Exception.Create(Self.WebServices.EnvEvento.EventoRetorno.xMotivo);
     end;
@@ -591,7 +591,7 @@ begin
   end;
 end;
 
-function TACBrCTe.EnviarEventoCTe(idLote: Integer): Boolean;
+function TACBrCTe.EnviarEvento(idLote: Integer): Boolean;
 var
   i: Integer;
 begin
