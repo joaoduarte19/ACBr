@@ -87,12 +87,6 @@ begin
    fValorTotalDocs:= 0;
 
    fpOrientacoesBanco.Clear;
-   
-   // DONE -oJacinto Junior: Ajustar a mensagem a ser apresentada nos boletos.
-//   fpOrientacoesBanco.Add(ACBrStr('SAC CAIXA: 0800 726 0101 (informações,reclamações e elogios) ' + sLineBreak+
-//                          'Para pessoas com deficiência auditiva ou de fala: 0800 726 2492 ' + sLineBreak +
-//                          'Ouvidoria: 0800 725 7474 (reclamações não solucionadas e denúncias)') + sLineBreak+
-//                          '     caixa.gov.br      ');
    fpOrientacoesBanco.Add(ACBrStr(
                           'SAC CAIXA: 0800 726 0101 (informações, reclamações, sugestões e elogios) ' + sLineBreak +
                           'Para pessoas com deficiência auditiva ou de fala: 0800 726 2492 ' + sLineBreak +
@@ -225,23 +219,15 @@ end;
 
 function TACBrCaixaEconomica.TipoOCorrenciaToCod(const TipoOcorrencia: TACBrTipoOcorrencia): String;
 begin
-  // DONE -oJacinto Junior: Ajustar para utilizar as ocorrências corretas.
-  // TODO -oJacinto Junior: Definir ocorrências pendentes.
   case TipoOcorrencia of
-//                                                   : Result := '01'; // Solicitação de Impressão de Títulos Confirmada
     toRetornoRegistroConfirmado                    : Result := '02';
     toRetornoRegistroRecusado                      : Result := '03';
-//                                                   : Result := '04'; // Transferência de Carteira/Entrada
-//                                                   : Result := '05'; // Transferência de Carteira/Baixa
     toRetornoLiquidado                             : Result := '06';
     toRetornoRecebimentoInstrucaoConcederDesconto  : Result := '07';
     toRetornoRecebimentoInstrucaoCancelarDesconto  : Result := '08';
     toRetornoBaixado                               : Result := '09';
-//    toRetornoAbatimentoConcedido                   : Result := '12';
     toRetornoRecebimentoInstrucaoConcederAbatimento: Result := '12';
-//    toRetornoAbatimentoCancelado                   : Result := '13';
     toRetornoRecebimentoInstrucaoCancelarAbatimento: Result := '13';
-//    toRetornoVencimentoAlterado                    : Result := '14';
     toRetornoRecebimentoInstrucaoAlterarVencimento : Result := '14';
     toRetornoRecebimentoInstrucaoProtestar         : Result := '19';
     toRetornoRecebimentoInstrucaoSustarProtesto    : Result := '20';
@@ -249,42 +235,13 @@ begin
     toRetornoRetiradoDeCartorio                    : Result := '24';
     toRetornoBaixaPorProtesto                      : Result := '25';
     toRetornoInstrucaoRejeitada                    : Result := '26';
-//                                                   : Result := '27'; // Confirmação do Pedido de Alteração de Outros Dados
     toRetornoDebitoTarifas                         : Result := '28';
     toRetornoAlteracaoOutrosDadosRejeitada         : Result := '30';
-//                                                   : Result := '35'; // Confirmação de Inclusão Banco de Sacado
-//                                                   : Result := '36'; // Confirmação de Alteração Banco de Sacado
-//                                                   : Result := '37'; // Confirmação de Exclusão Banco de Sacado
-//                                                   : Result := '38'; // Emissão de Bloquetos de Banco de Sacado
-//                                                   : Result := '39'; // Manutenção de Sacado Rejeitada
-//                                                   : Result := '40'; // Entrada de Título via Banco de Sacado Rejeitada
-//                                                   : Result := '41'; // Manutenção de Banco de Sacado Rejeitada
     toRetornoBaixaOuLiquidacaoEstornada            : Result := '44';
     toRetornoRecebimentoInstrucaoAlterarDados      : Result := '45';
   else
     Result := '00';
   end;
-
-  // Implementação obsoleta.
-  {***
-//escol
-  case TipoOcorrencia of
-    toRetornoRegistroConfirmado                 : Result := '02';
-    toRetornoRegistroRecusado                   : Result := '03';
-    toRetornoLiquidado                          : Result := '06';
-    toRetornoAbatimentoConcedido                : Result := '12';
-    toRetornoAbatimentoCancelado                : Result := '13';
-    toRetornoVencimentoAlterado                 : Result := '14';
-    toRetornoRecebimentoInstrucaoProtestar      : Result := '19';
-    toRetornoRecebimentoInstrucaoSustarProtesto : Result := '20';
-    toRetornoInstrucaoRejeitada                 : Result:=  '26';
-    toRetornoDebitoTarifas                      : Result := '28';
-    toRetornoALteracaoOutrosDadosRejeitada      : Result := '30';
-    toRetornoRecebimentoInstrucaoAlterarDados   : Result := '45';
-  else
-    Result := '00';
-  end;
-  ***}
 end;
 
 function TACBrCaixaEconomica.MontarCampoCodigoCedente (
@@ -724,8 +681,7 @@ begin
             Carteira             := Copy(Linha,40,2);
             CodigoLiquidacao     := Copy(Linha,214,02);
             CodigoLiquidacaoDescricao := CodigoLiquidacao_Descricao( StrToIntDef(CodigoLiquidacao,0) );
-
-            // DONE -oJacinto Junior: Implementar a leitura dos motivos das ocorrências.
+          
             MotivoLinha := 214;
 
             for I := 0 to 4 do
@@ -779,24 +735,16 @@ begin
 end;
 function TACBrCaixaEconomica.CodOcorrenciaToTipo(
   const CodOcorrencia: Integer): TACBrTipoOcorrencia;
-begin
-  // DONE -oJacinto Junior: Ajustar para utilizar as ocorrências corretas.
-  // TODO -oJacinto Junior: Definir ocorrências pendentes.
+begin  
   case CodOcorrencia of
-//    01: Result := ; // Solicitação de Impressão de Títulos Confirmada
     02: Result := toRetornoRegistroConfirmado;
     03: Result := toRetornoRegistroRecusado;
-//    04: Result := ; // Transferência de Carteira/Entrada
-//    05: Result := ; // Transferência de Carteira/Baixa
     06: Result := toRetornoLiquidado;
     07: Result := toRetornoRecebimentoInstrucaoConcederDesconto;
     08: Result := toRetornoRecebimentoInstrucaoCancelarDesconto;
     09: Result := toRetornoBaixado;
-//    12: Result := toRetornoAbatimentoConcedido;
     12: Result := toRetornoRecebimentoInstrucaoConcederAbatimento;
-//    13: Result := toRetornoAbatimentoCancelado;
     13: Result := toRetornoRecebimentoInstrucaoCancelarAbatimento;
-//    14: Result := toRetornoVencimentoAlterado;
     14: Result := toRetornoRecebimentoInstrucaoAlterarVencimento;
     19: Result := toRetornoRecebimentoInstrucaoProtestar;
     20: Result := toRetornoRecebimentoInstrucaoSustarProtesto;
@@ -804,46 +752,17 @@ begin
     24: Result := toRetornoRetiradoDeCartorio;
     25: Result := toRetornoBaixaPorProtesto;
     26: Result := toRetornoInstrucaoRejeitada;
-//    27: Result := ; // Confirmação do Pedido de Alteração de Outros Dados
     28: Result := toRetornoDebitoTarifas;
     30: Result := toRetornoAlteracaoOutrosDadosRejeitada;
-//    35: Result := ; // Confirmação de Inclusão Banco de Sacado
-//    36: Result := ; // Confirmação de Alteração Banco de Sacado
-//    37: Result := ; // Confirmação de Exclusão Banco de Sacado
-//    38: Result := ; // Emissão de Bloquetos de Banco de Sacado
-//    39: Result := ; // Manutenção de Sacado Rejeitada
-//    40: Result := ; // Entrada de Título via Banco de Sacado Rejeitada
-//    41: Result := ; // Manutenção de Banco de Sacado Rejeitada
     44: Result := toRetornoBaixaOuLiquidacaoEstornada;
     45: Result := toRetornoRecebimentoInstrucaoAlterarDados;
   else
     Result := toRetornoOutrasOcorrencias;
   end;
-
-  // Implementação obsoleta.
-  {***
-  case CodOcorrencia of
-    02: Result := toRetornoRegistroConfirmado;
-    03: Result := toRetornoRegistroRecusado;
-    06: Result := toRetornoLiquidado;
-    12: Result := toRetornoAbatimentoConcedido;
-    13: Result := toRetornoAbatimentoCancelado;
-    14: Result := toRetornoVencimentoAlterado;
-    19: Result := toRetornoRecebimentoInstrucaoProtestar;
-    20: Result := toRetornoRecebimentoInstrucaoSustarProtesto;
-    26: Result := toRetornoInstrucaoRejeitada;
-    28: Result := toRetornoDebitoTarifas;
-    30: Result := toRetornoALteracaoOutrosDadosRejeitada;
-    45: Result := toRetornoRecebimentoInstrucaoAlterarDados;
-  else
-    Result := toRetornoOutrasOcorrencias;
-  end;
-  ***}
 end;
 
 function TACBrCaixaEconomica.CodMotivoRejeicaoToDescricao(const TipoOcorrencia: TACBrTipoOcorrencia; CodMotivo: Integer): string;
-begin
-  // DONE -oJacinto Junior: Ajustar para utilizar as descrições corretas conforme a ocorrência.
+begin  
   case TipoOcorrencia of
     toRetornoRegistroConfirmado, toRetornoRegistroRecusado,
       toRetornoInstrucaoRejeitada, toRetornoALteracaoOutrosDadosRejeitada:
@@ -1001,130 +920,13 @@ begin
     else
       Result := IntToStrZero(CodMotivo, 2) + ' - Outros Motivos';
     end;
-  end;
-
-  {***
-  case TipoOcorrencia of
-    toRetornoRegistroConfirmado,
-      toRetornoRegistroRecusado,
-      toRetornoInstrucaoRejeitada,
-      toRetornoALteracaoOutrosDadosRejeitada:
-      case CodMotivo of
-        01: Result := '01-Código do banco inválido';
-        02: Result := '02-Código do registro inválido';
-        03: Result := '03-Código do segmento inválido';
-        05: Result := '05-Código de movimento inválido';
-        06: Result := '06-Tipo/número de inscrição do cedente inválido';
-        07: Result := '07-Agência/Conta/DV inválido';
-        08: Result := '08-Nosso número inválido';
-        09: Result := '09-Nosso número duplicado';
-        10: Result := '10-Carteira inválida';
-        11: Result := '11-Forma de cadastramento do título inválido';
-        12: Result := '12-Tipo de documento inválido';
-        13: Result := '13-Identificação da emissão do bloqueto inválida';
-        14: Result := '14-Identificação da distribuição do bloqueto inválida';
-        15: Result := '15-Características da cobrança incompatíveis';
-        16: Result := '16-Data de vencimento inválida';
-        20: Result := '20-Valor do título inválido';
-        21: Result := '21-Espécie do título inválida';
-        23: Result := '23-Aceite inválido';
-        24: Result := '24-Data da emissão inválida';
-        26: Result := '26-Código de juros de mora inválido';
-        27: Result := '27-Valor/Taxa de juros de mora inválido';
-        28: Result := '28-Código do desconto inválido';
-        29: Result := '29-Valor do desconto maior ou igual ao valor do título';
-        30: Result := '30-Desconto a conceder não confere';
-        32: Result := '32-Valor do IOF inválido';
-        33: Result := '33-Valor do abatimento inválido';
-        37: Result := '37-Código para protesto inválido';
-        38: Result := '38-Prazo para protesto inválido';
-        40: Result := '40-Título com ordem de protesto emitida';
-        42: Result := '42-Código para baixa/devolução inválido';
-        43: Result := '43-Prazo para baixa/devolução inválido';
-        44: Result := '44-Código da moeda inválido';
-        45: Result := '45-Nome do sacado não informado';
-        46: Result := '46-Tipo/número de inscrição do sacado inválido';
-        47: Result := '47-Endereço do sacado não informado';
-        48: Result := '48-CEP inválido';
-        49: Result := '49-CEP sem praça de cobrança (não localizado)';
-        52: Result := '52-Unidade da federação inválida';
-        53: Result := '53-Tipo/número de inscrição do sacador/avalista inválido';
-        57: Result := '57-Código da multa inválido';
-        58: Result := '58-Data da multa inválida';
-        59: Result := '59-Valor/Percentual da multa inválido';
-        60: Result := '60-Movimento para título não cadastrado. Erro genérico para as situações:' + #13#10 +
-          '“Cedente não cadastrado” ou' + #13#10 +
-            '“Agência Cedente não cadastrada ou desativada”';
-        61: Result := '61-Agência cobradora inválida';
-        62: Result := '62-Tipo de impressão inválido';
-        63: Result := '63-Entrada para título já cadastrado';
-        68: Result := '68-Movimentação inválida para o título';
-        69: Result := '69-Alteração de dados inválida';
-        70: Result := '70-Apelido do cliente não cadastrado';
-        71: Result := '71-Erro na composição do arquivo';
-        72: Result := '72-Lote de serviço inválido';
-        73: Result := '73-Código do cedente inválido';
-        74: Result := '74-Cedente não pertence a cobrança eletrônica/apelido não confere com cedente';
-        75: Result := '75-Nome da empresa inválido';
-        76: Result := '76-Nome do banco inválido';
-        77: Result := '77-Código da remessa inválido';
-        78: Result := '78-Data/Hora de geração do arquivo inválida';
-        79: Result := '79-Número seqüencial do arquivo inválido';
-        80: Result := '80-Número da versão do Layout do arquivo/lote inválido';
-        81: Result := '81-Literal ‘REMESSA-TESTE’ válida somente para fase de testes';
-        82: Result := '82-Literal ‘REMESSA-TESTE’ obrigatório para fase de testes';
-        83: Result := '83-Tipo/número de inscrição da empresa inválido';
-        84: Result := '84-Tipo de operação inválido';
-        85: Result := '85-Tipo de serviço inválido';
-        86: Result := '86-Forma de lançamento inválido';
-        87: Result := '87-Número da remessa inválido';
-        88: Result := '88-Número da remessa menor/igual que da remessa anterior';
-        89: Result := '89-Lote de serviço divergente';
-        90: Result := '90-Número seqüencial do registro inválido';
-        91: Result := '91-Erro na seqüência de segmento do registro detalhe';
-        92: Result := '92-Código de movimento divergente entre grupo de segmentos';
-        93: Result := '93-Quantidade de registros no lote inválido';
-        94: Result := '94-Quantidade de registros no lote divergente';
-        95: Result := '95-Quantidade de lotes do arquivo inválido';
-        96: Result := '96-Quantidade de lotes no arquivo divergente';
-        97: Result := '97-Quantidade de registros no arquivo inválido';
-        98: Result := '98-Quantidade de registros no arquivo divergente';
-        99: Result := '99-Código de DDD inválido';
-      else
-        Result := IntToStrZero(CodMotivo, 2) + ' - Outros Motivos';
-      end;
-    toRetornoDebitoTarifas:
-      case CodMotivo of
-        01: Result := '01-Tarifa de Extrato de Posição';
-        02: Result := '02-Tarifa de Manutenção de Título Vencido';
-        03: Result := '03-Tarifa de Sustação';
-        04: Result := '04-Tarifa de Protesto';
-        05: Result := '05-Tarifa de Outras Instruções';
-        06: Result := '06-Tarifa de Outras Ocorrências';
-        07: Result := '07-Tarifa de Envio de Duplicata ao Sacado';
-        08: Result := '08-Custas de Protesto';
-        09: Result := '09-Custas de Sustação de Protesto';
-        10: Result := '10-Custas de Cartório Distribuidor';
-        11: Result := '11-Custas de Edital';
-        12: Result := '12-Redisponibilização de Arquivo Retorno Eletrônico';
-        13: Result := 'Tarifa Sobre Registro Cobrada na Baixa/Liquidação';
-        14: Result := 'Tarifa Sobre Reapresentação Automática';
-        15: Result := 'Banco de Sacados';
-        16: Result := 'Tarifa Sobre Informações Via Fax';
-        17: Result := 'Entrega Aviso Disp Bloqueto via e-amail ao sacado (s/ emissão Bloqueto)';
-        18: Result := 'Emissão de Bloqueto Pré-impresso CAIXA matricial';
-        19: Result := 'Emissão de Bloqueto Pré-impresso CAIXA A4';
-        20: Result := 'Emissão de Bloqueto Padrão CAIXA';
-      end;
-  end;
-  ***}
+  end;  
 end;
 
 function TACBrCaixaEconomica.TipoOcorrenciaToDescricao(const TipoOcorrencia: TACBrTipoOcorrencia): String;
 var
   CodOcorrencia: Integer;
-begin
-  // DONE -oJacinto Junior: Ajustar para utilizar as ocorrências e descrições corretas.
+begin  
   CodOcorrencia := StrToIntDef(TipoOCorrenciaToCod(TipoOcorrencia),0);
   case CodOcorrencia of
     01: Result := '01-Solicitação de Impressão de Títulos Confirmada';
@@ -1156,38 +958,7 @@ begin
     40: Result := '40-Entrada de Título via Banco de Sacado Rejeitada';
     41: Result := '41-Manutenção de Banco de Sacado Rejeitada';
     44: Result := '44-Estorno de Baixa / Liquidação';
-    45: Result := '45-Alteração de Dados';
-    
-    // Implementação obsoleta.
-    {***
-    02: Result := '02-Entrada Confirmada';
-    03: Result := '03-Entrada Rejeitada';
-    04: Result := '04-Transferência de Carteira/Entrada';
-    05: Result := '05-Transferência de Carteira/Baixa';
-    06: Result := '06-Liquidação';
-    09: Result := '09-Baixa';
-    12: Result := '12-Confirmação Recebimento Instrução de Abatimento';
-    13: Result := '13-Confirmação Recebimento Instrução de Cancelamento Abatimento';
-    14: Result := '14-Confirmação Recebimento Instrução Alteração de Vencimento';
-    17: Result := '17-Liquidação Após Baixa ou Liquidação Título Não Registrado';
-    19: Result := '19-Confirmação Recebimento Instrução de Protesto';
-    20: Result := '20-Confirmação Recebimento Instrução de Sustação/Cancelamento de Protesto';
-    23: Result := '23-Remessa a Cartório (Aponte em Cartório)';
-    24: Result := '24-Retirada de Cartório e Manutenção em Carteira';
-    25: Result := '25-Protestado e Baixado (Baixa por Ter Sido Protestado)';
-    26: Result := '26-Instrução Rejeitada';
-    27: Result := '27-Confirmação do Pedido de Alteração de Outros Dados';
-    28: Result := '28-Débito de Tarifas/Custas';
-    30: Result := '30-Alteração de Dados Rejeitada';
-    36: Result := '36-Confirmação de envio de e-mail/SMS';
-    37: Result := '37-Envio de e-mail/SMS rejeitado';
-    43: Result := '43-Estorno de Protesto/Sustação';
-    44: Result := '44-Estorno de Baixa/Liquidação';
-    45: Result := '45-Alteração de dados';
-    51: Result := '51-Título DDA reconhecido pelo sacado';
-    52: Result := '52-Título DDA não reconhecido pelo sacado';
-    53: Result := '53-Título DDA recusado pela CIP';
-    ***}
+    45: Result := '45-Alteração de Dados';        
   end;
 end;
 

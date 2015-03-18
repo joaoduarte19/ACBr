@@ -185,10 +185,8 @@ begin
       else if Length(AConvenio) <= 4 then
           ANossoNumero := PadLeft(AConvenio, 4, '0') + PadLeft(ANossoNumero, 7, '0')
       else if (Length(AConvenio) > 4) and (Length(AConvenio) <= 6) then
-          ANossoNumero := PadLeft(AConvenio, 6, '0') + PadLeft(ANossoNumero, 5, '0')
-      else if (Length(AConvenio) = 7) and (ACBrTitulo.Carteira = '11') then
-          ANossoNumero := PadLeft('0', 7, '0') + PadLeft(ANossoNumero, 10, '0')
-      else if (Length(AConvenio) = 7) and ((ACBrTitulo.Carteira <> '11')) then
+          ANossoNumero := PadLeft(AConvenio, 6, '0') + PadLeft(ANossoNumero, 5, '0')      
+      else if (Length(AConvenio) = 7) then
           ANossoNumero := PadLeft(AConvenio, 7, '0') + PadLeft(ANossoNumero, 10, '0');
    end;
    Result := ANossoNumero;

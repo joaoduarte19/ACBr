@@ -48,6 +48,14 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+Data: 17/03/2015 ver. 0.0.118a
+-- ACBrBancoBrasil --
+
+[*] Ajuste para que o complemento do endereço do pagador seja incluido
+    na remessa CNAB400. (Dedox)
+http://www.projetoacbr.com.br/forum/index.php?/topic/14155-erro-ao-gerar-boleto-do-banco-do-brasil-com-a-carteira-11-e-convenio-de-7-digitos/
+
+
 Data: 13/03/2015 ver. 0.0.117a
 -- ACBrBancoBrasil --
 
