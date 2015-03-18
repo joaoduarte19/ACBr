@@ -101,7 +101,7 @@ type
     function GetCertNumeroSerie: String;
     function GetCertSubjectName: String;
 
-    procedure InitSSLClass( LerCertificado: Boolean = True);
+    procedure InitSSLClass(LerCertificado: Boolean = True);
     procedure DeInitSSLClass;
 
     procedure SetSSLLib(ASSLLib: TSSLLib);
@@ -134,8 +134,10 @@ type
 
 implementation
 
-uses strutils, ACBrUtil, ACBrDFe, ACBrDFeOpenSSL, ACBrDFeCapicom
-  {$IFNDEF FPC}, ACBrDFeCapicomDelphiSoap{$ENDIF};
+uses strutils, ACBrUtil, ACBrDFe, ACBrDFeOpenSSL
+  {$IFDEF MSWINDOWS}
+  , ACBrDFeCapicom {$IFNDEF FPC}, ACBrDFeCapicomDelphiSoap{$ENDIF}
+  {$ENDIF};
 
 { TDFeSSL }
 
@@ -178,8 +180,8 @@ begin
   Result := FSSLClass.Enviar(ConteudoXML, URL, SoapAction);
 end;
 
-function TDFeSSL.Validar(const ConteudoXML: String; ArqSchema: String; out
-  MsgErro: String): Boolean;
+function TDFeSSL.Validar(const ConteudoXML: String; ArqSchema: String;
+  out MsgErro: String): Boolean;
 begin
   InitSSLClass;
 
@@ -187,8 +189,8 @@ begin
     ArqSchema := TACBrDFe(FDFeOwner).Configuracoes.Arquivos.PathSchemas + ArqSchema;
 
   if not FileExists(ArqSchema) then
-    raise EACBrDFeException.Create('Arquivo ' + sLineBreak +
-      ArqSchema + sLineBreak + 'Não encontrado');
+    raise EACBrDFeException.Create('Arquivo ' + sLineBreak + ArqSchema +
+      sLineBreak + 'Não encontrado');
 
   Result := FSSLClass.Validar(ConteudoXML, ArqSchema, MsgErro);
 end;
@@ -210,7 +212,7 @@ begin
   InitSSLClass(False);
   Result := FSSLClass.SelecionarCertificado;
 
-  if NaoEstaVazio( Result ) then
+  if NaoEstaVazio(Result) then
     FSSLClass.CarregarCertificado;
 end;
 
@@ -241,7 +243,7 @@ end;
 procedure TDFeSSL.InitSSLClass(LerCertificado: Boolean);
 begin
   if FSSLClass.Inicializado then
-    exit ;
+    exit;
 
   SetSSLLib(FConfiguracoes.Geral.SSLLib);
   FSSLClass.Inicializar;
@@ -263,20 +265,27 @@ begin
   if Assigned(FSSLClass) then
     FreeAndNil(FSSLClass);
 
+  {$IFDEF MSWINDOWS}
   case ASSLLib of
     libCapicom: FSSLClass := TDFeCapicom.Create(FConfiguracoes);
     libOpenSSL: FSSLClass := TDFeOpenSSL.Create(FConfiguracoes);
     libCapicomDelphiSoap:
     begin
-      {$IFNDEF FPC}
+       {$IFNDEF FPC}
       FSSLClass := TDFeCapicomDelphiSoap.Create(FConfiguracoes);
-      {$ELSE}
+       {$ELSE}
       FSSLClass := TDFeCapicom.Create(FConfiguracoes);
-      {$ENDIF}
+       {$ENDIF}
     end
     else
       FSSLClass := TDFeSSLClass.Create(FConfiguracoes);
   end;
+  {$ELSE}
+  case ASSLLib of
+    libOpenSSL, libCapicom, libCapicomDelphiSoap: FSSLClass :=
+        TDFeOpenSSL.Create(FConfiguracoes);
+  end;
+  {$ENDIF}
 
   FSSLLib := ASSLLib;
 end;
@@ -388,4 +397,3 @@ begin
 end;
 
 end.
-
