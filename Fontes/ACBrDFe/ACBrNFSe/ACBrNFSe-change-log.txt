@@ -48,6 +48,8 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 19/03/2015
+[*] Alterado o formato da DataEmissao do provedor SisPMJP.
+    Por: Italo Jurisato Junior
 [-] Incluido a função para a conversão de string para o TipoRPS.
     Por: Italo Jurisato Junior
 

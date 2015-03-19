@@ -1278,9 +1278,10 @@ begin
       proVitoria,
       proMitra,
       proGovDigital,
+      proSisPMJP,
       proActcon: Gerador.wCampoNFSe(tcDat, '#4', 'DataEmissao', 10, 10, 1, NFSe.DataEmissao, DSC_DEMI);
 
-      proSisPMJP: Gerador.wCampoNFSe(tcStr, '#4', 'DataEmissao', 16, 16, 1, FormatDateTime('yyyy-mm-dd-hh:nn', NFSe.DataEmissao), DSC_DEMI);
+//      proSisPMJP: Gerador.wCampoNFSe(tcStr, '#4', 'DataEmissao', 16, 16, 1, FormatDateTime('yyyy-mm-dd-hh:nn', NFSe.DataEmissao), DSC_DEMI);
 
       else Gerador.wCampoNFSe(tcDatHor, '#4', 'DataEmissao', 19, 19, 1, NFSe.DataEmissao, DSC_DEMI);
     end;
@@ -1313,7 +1314,9 @@ begin
        proPVH,
        proSisPMJP,
        proSystemPro: Gerador.wCampoNFSe(tcDat, '#4', 'Competencia', 10, 10, 1, NFSe.Competencia, DSC_DEMI);
+
        proGovDigital : Gerador.wCampoNFSe(tcDat, '#4', 'Competencia', 10, 10, 1, StrToDate(NFSe.Competencia), DSC_DEMI);  // Alterado por Nilton Olher - 20/02/2015
+       
        proGoiania,
        proVirtual,
        proTecnos:  Gerador.wCampoNFSe(tcDatHor, '#4', 'Competencia', 19, 19, 0, NFSe.Competencia, DSC_DEMI);
