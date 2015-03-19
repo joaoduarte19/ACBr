@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/03/2015
+[-] Incluido a função para a conversão de string para o TipoRPS.
+    Por: Italo Jurisato Junior
+
 16/03/2015
 [*] Melhorias no DANSE em Rave.
     Por: Andre(Prodez)

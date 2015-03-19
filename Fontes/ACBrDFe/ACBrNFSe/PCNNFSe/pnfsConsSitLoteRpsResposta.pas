@@ -192,6 +192,7 @@ end;
 function TretSitLote.LerXml: boolean;
 var
   i: Integer;
+  ok: Boolean;
 begin
   result := True;
 
@@ -224,7 +225,8 @@ begin
           InfSit.FMsgRetorno.Add;
           InfSit.FMsgRetorno[i].FIdentificacaoRps.Numero := Leitor.rCampo(tcStr, 'Numero');
           InfSit.FMsgRetorno[i].FIdentificacaoRps.Serie  := Leitor.rCampo(tcStr, 'Serie');
-          InfSit.FMsgRetorno[i].FIdentificacaoRps.Tipo   := Leitor.rCampo(tcStr, 'Tipo');
+          InfSit.FMsgRetorno[i].FIdentificacaoRps.Tipo   := StrToTipoRPS(ok, Leitor.rCampo(tcStr, 'Tipo'));
+
           InfSit.FMsgRetorno[i].FCodigo   := Leitor.rCampo(tcStr, 'Codigo');
           InfSit.FMsgRetorno[i].FMensagem := Leitor.rCampo(tcStr, 'Mensagem');
           InfSit.FMsgRetorno[i].FCorrecao := Leitor.rCampo(tcStr, 'Correcao');
