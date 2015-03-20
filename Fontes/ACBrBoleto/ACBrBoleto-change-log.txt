@@ -47,6 +47,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+Data: 19/03/2015 ver. 0.0.119a
+-- ACBrBancoCaixa --
+
+[*] Ajuste na remessa CNAB240. (aocampioni)
+http://www.projetoacbr.com.br/forum/index.php?/topic/19393-erro-ao-enviar-remessa-santander-033/page-2#entry131566
+
+
 
 Data: 17/03/2015 ver. 0.0.118a
 -- ACBrBancoBrasil --
