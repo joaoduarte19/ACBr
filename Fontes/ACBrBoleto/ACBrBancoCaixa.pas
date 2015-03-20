@@ -681,6 +681,13 @@ begin
             Carteira             := Copy(Linha,40,2);
             CodigoLiquidacao     := Copy(Linha,214,02);
             CodigoLiquidacaoDescricao := CodigoLiquidacao_Descricao( StrToIntDef(CodigoLiquidacao,0) );
+            
+            // prevenir quando o seunumero não vem informado no arquivo
+            if StrToInt(SeuNumero) = 0 then
+            begin
+              SeuNumero := NossoNumero;
+              NumeroDocumento := NossoNumero
+            end;            
           
             MotivoLinha := 214;
 
@@ -696,6 +703,17 @@ begin
 
               MotivoLinha := MotivoLinha + 2; // Incrementa a coluna dos motivos.
             end;
+            
+            // informações do local de pagamento
+            Liquidacao.Banco      := StrToIntDef(Copy(Linha,97,3), -1);
+            Liquidacao.Agencia    := Copy(Linha,100,5);
+            Liquidacao.Origem     := '';
+            Liquidacao.FormaPagto := '';
+
+            // quando a liquidação ocorre nos canais da caixa o banco vem zero
+            // então acertar
+            if Liquidacao.Banco = 0 then
+              Liquidacao.Banco := 104;            
           end
          {Ssegmento U}
          else if Copy(Linha,14,1)= 'U' then

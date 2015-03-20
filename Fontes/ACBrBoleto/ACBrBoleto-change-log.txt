@@ -47,6 +47,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+Data: 20/03/2015 ver. 0.0.120a
+-- ACBrBancoCaixa --
+
+[*] Ajuste no retorno CNAB240. (regyssilveira)
+[+] Adicionados dados de liquidação do título
+[+] Adicionado valor pago pelo cliente
+
+
 Data: 19/03/2015 ver. 0.0.119a
 -- ACBrBancoCaixa --
 

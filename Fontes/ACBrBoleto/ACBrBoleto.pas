@@ -56,7 +56,7 @@ uses Classes, Graphics, Contnrs,
      ACBrBase, ACBrMail, ACBrValidador;
 
 const
-  CACBrBoleto_Versao = '0.0.119a' ;
+  CACBrBoleto_Versao = '0.0.120a' ;
 
 type
   TACBrTipoCobranca =
@@ -507,6 +507,19 @@ type
     property Telefone    : String  read fTelefone    write fTelefone;
     property ACBrBoleto  : TACBrBoleto read fACBrBoleto;
   end;
+  
+  TACBrTituloLiquidacao = class
+  private
+    fBanco: Integer;
+    fAgencia: String;
+    fOrigem: String;
+    fFormaPagto: String;
+  public
+    property Banco     : Integer read fBanco      write fBanco;
+    property Agencia   : String  read fAgencia    write fAgencia;
+    property Origem    : String  read fOrigem     write fOrigem;
+    property FormaPagto: String  read fFormaPagto write fFormaPagto;
+  end; 
 
   TACBrSacadoAvalista = class
   private
@@ -610,6 +623,7 @@ type
     fMensagem          : TStrings;
     fInstrucoes        : TStrings;
     fSacado            : TACBrSacado;
+    fLiquidacao        : TACBrTituloLiquidacao;
 
     fMotivoRejeicaoComando          : TStrings;
     fDescricaoMotivoRejeicaoComando : TStrings;
@@ -706,6 +720,7 @@ type
      property TipoImpressao        : TACBrTipoImpressao read fTipoImpressao write fTipoImpressao;
      property LinhaDigitada : String read fpLinhaDigitada;
      property CodigoGeracao: String read fCodigoGeracao write SetCodigoGeracao;
+     property Liquidacao: TACBrTituloLiquidacao read fLiquidacao write fLiquidacao;
    end;
 
   { TListadeBoletos }
@@ -1086,6 +1101,7 @@ begin
    fMensagem          := TStringList.Create;
    fInstrucoes        := TStringList.Create;
    fSacado            := TACBrSacado.Create;
+   fLiquidacao        := TACBrTituloLiquidacao.Create;
 
    fOcorrenciaOriginal:= TACBrOcorrencia.Create(Self);
    fMotivoRejeicaoComando          := TStringList.Create;
@@ -1118,6 +1134,7 @@ destructor TACBrTitulo.Destroy;
 begin
    fMensagem.Free;
    fSacado.Free;
+   fLiquidacao.Free;
    fInstrucoes.Free;
    fOcorrenciaOriginal.Free;
    fMotivoRejeicaoComando.Free;
