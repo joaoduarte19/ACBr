@@ -47,7 +47,7 @@ interface
 uses SysUtils,
      Classes,
      {$IFDEF DELPHI16_UP}Vcl.Graphics,{$ELSE}Graphics,{$ENDIF}
-     ACBrBase,
+     ACBrBase, ACBrConsts,
      pcnCFe, pcnCFeCanc;
 
 type
