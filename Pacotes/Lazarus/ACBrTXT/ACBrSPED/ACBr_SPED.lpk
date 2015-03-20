@@ -232,13 +232,10 @@
       </Item52>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="2">
+    <RequiredPkgs Count="1">
       <Item1>
         <PackageName Value="ACBrTXTComum"/>
       </Item1>
-      <Item2>
-        <PackageName Value="ACBrDiversos"/>
-      </Item2>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

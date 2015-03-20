@@ -65,7 +65,7 @@ type
     LayNFeDownloadNFe, LayNfeAutorizacao, LayNfeRetAutorizacao,
     LayAdministrarCSCNFCe, LayDistDFeInt);
 
-  TSchemaNFe = (schNfe, schCancNFe, schInutNFe, schEnvCCe,
+  TSchemaNFe = (schErro, schNfe, schCancNFe, schInutNFe, schEnvCCe,
                 schEnvEventoCancNFe, schEnvConfRecebto, schEnvEPEC );
 
   TStatusACBrNFe = (stIdle, stNFeStatusServico, stNFeRecepcao, stNFeRetRecepcao,
@@ -155,9 +155,9 @@ end;
 function SchemaNFeToStr(const t: TSchemaNFe): String;
 begin
   Result := EnumeradoToStr(t,
-    ['nfe', 'cancNFe', 'inutNFe', 'envCCe',
+    ['', 'nfe', 'cancNFe', 'inutNFe', 'envCCe',
      'envEventoCancNFe', 'envConfRecebto', 'envEPEC'],
-    [ schNfe, schCancNFe, schInutNFe, schEnvCCe,
+    [ schErro, schNfe, schCancNFe, schInutNFe, schEnvCCe,
       schEnvEventoCancNFe, schEnvConfRecebto, schEnvEPEC ] );
 end;
 

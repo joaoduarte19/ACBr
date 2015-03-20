@@ -51,18 +51,6 @@
 |*    Régys Borges da Silveira
 ******************************************************************************}
 
-// Para Usar os componentes de nota fiscal com openssl descomente as linhas abaixo
-//--------------------------------------------------------------------------------
-//{$DEFINE ACBrNFeOpenSSL}  
-//{$DEFINE ACBrCTeOpenSSL}
-//{$DEFINE ACBrNFSeOpenSSL}
-//{$DEFINE ACBrMDFeOpenSSL}
-//{$DEFINE ACBrGNREOpenSSL}
-
-// Descomente a linha abaixo para usar o componente de comunicação SOAP do Delphi ao invés do ACBrHTTPReqResp(Funciona apenas com a versão CAPICOM) - Não é compatível com o Lazarus
-//--------------------------------------------------------------------------------
-//{$DEFINE SoapHTTP}
-
 // Descomente as linhas abaixo para usar os recursos de Collate e/ou Botão Salvar do Preview do componente Danfe com Rave Reports
 // Essas opções funcionam dependendo da sua versão do Rave Reports. Verifique se sua versão suporta o recurso para não causar erro de compilação
 //--------------------------------------------------------------------------------
@@ -73,11 +61,6 @@
 // Ajusta FreePascal para o modo Delphi
 //------------------------------------------------------------------------------
 {$IFDEF FPC}
-//  {$DEFINE ACBrNFeOpenSSL}
-//  {$DEFINE ACBrCTeOpenSSL}
-//  {$DEFINE ACBrNFSeOpenSSL}
-//  {$DEFINE ACBrMDFeOpenSSL}
-//  {$DEFINE ACBrGNREOpenSSL}
   {$DEFINE VCL}
   {$DEFINE UNICODE} // Lazarus 0.9.26 usa UnicodeString como default para String
   {$DEFINE DELPHI7}
@@ -110,17 +93,6 @@
 
 // Para usar FMX (Firemonkey) Windows / Delphi descomente essa linha
 //{$DEFINE FMX}
-
-{$IFDEF BORLAND}
-  {$IFDEF LINUX}
-    {$DEFINE ACBrNFeOpenSSL}
-    {$DEFINE ACBrCTeOpenSSL}
-    {$DEFINE ACBrNFSeOpenSSL}
-    {$DEFINE ACBrMDFeOpenSSL}
-	{$DEFINE ACBrGNREOpenSSL}
-    {$DEFINE KYLIX}
-  {$ENDIF LINUX}
-{$ENDIF BORLAND}
 
 // Definições multi-plataforma
 //------------------------------------------------------------------------------
@@ -191,25 +163,6 @@
     {$WARN UNSAFE_CODE OFF}
     {$WARN UNSAFE_CAST OFF}
   {$ENDIF}
-{$ENDIF}
-
-// Delphi 6 ou inferior tem suporte apenas por OpenSSL  
-//------------------------------------------------------------------------------
-{$IFNDEF COMPILER7_UP}
-  {$DEFINE ACBrNFeOpenSSL}
-  {$DEFINE ACBrCTeOpenSSL}
-  {$DEFINE ACBrNFSeOpenSSL}
-  {$DEFINE ACBrMDFeOpenSSL}
-  {$DEFINE ACBrGNREOpenSSL}
-{$ENDIF}
-
-{$IFDEF ACBrNFeOpenSSL}
-  {$DEFINE ACBrCTeOpenSSL}
-  {$DEFINE ACBrMDFeOpenSSL}
-{$ENDIF}
-
-{$IFDEF ACBrCTeOpenSSL}
-  {$DEFINE ACBrNFeOpenSSL}// Para usar Lazarus com Capcom deve ser cometando as linhas 65 e 191
 {$ENDIF}
 
 // Definições para o Quick Report

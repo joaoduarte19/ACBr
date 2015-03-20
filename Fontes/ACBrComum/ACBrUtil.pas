@@ -1119,7 +1119,7 @@ end;
 
 {-----------------------------------------------------------------------------
   Converte um Double para string, semelhante a FloatToStr(), porém
-  garante que não haverá sepeador de Milhar e o Separador Decimal será igual a
+  garante que não haverá separador de Milhar e o Separador Decimal será igual a
   "SeparadorDecimal" ( o default é .(ponto))
  ---------------------------------------------------------------------------- }
 function FloatToString(const AValue: Double; SeparadorDecimal: Char;

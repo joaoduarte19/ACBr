@@ -37,19 +37,13 @@
       </Item1>
       <Item2>
         <Filename Value="..\..\..\Fontes\ACBrTXT\ACBrTXTUtils.pas"/>
-        <UnitName Value="ACBrSpedUtils"/>
+        <UnitName Value="ACBrTXTUtils"/>
       </Item2>
     </Files>
-    <RequiredPkgs Count="3">
+    <RequiredPkgs Count="1">
       <Item1>
         <PackageName Value="ACBrDiversos"/>
       </Item1>
-      <Item2>
-        <PackageName Value="ACBrComum"/>
-      </Item2>
-      <Item3>
-        <PackageName Value="FCL"/>
-      </Item3>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
