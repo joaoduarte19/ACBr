@@ -47,6 +47,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+Data: 20/03/2015 ver. 0.0.121a
+-- Diversos --
+
+[*] Adicionado ao títulos indivualmente a propriedade CaracTitulo, desta
+    forma é possível adicionar títulos de diferentes tipos na mesma remessa.    (Denise Lima)
+
 Data: 20/03/2015 ver. 0.0.120a
 -- ACBrBancoCaixa --
 

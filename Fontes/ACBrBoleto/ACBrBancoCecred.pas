@@ -302,7 +302,7 @@ begin
       { Pegando Tipo de Cobrança}
       case StrToInt(ACBrTitulo.Carteira) of
         11,17 :
-          case ACBrBoleto.Cedente.CaracTitulo of
+          case CaracTitulo of
             tcSimples: aTipoCobranca:='     ';
             tcDescontada: aTipoCobranca:='04DSC';
             tcVendor: aTipoCobranca:='08VDR';

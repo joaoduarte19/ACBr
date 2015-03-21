@@ -345,7 +345,7 @@ begin
 
     sDigitoNossoNumero := CalcularDigitoVerificador(ACBrTitulo);
 
-    case ACBrBoleto.Cedente.CaracTitulo of
+    case CaracTitulo of
       tcSimples     : sTipoCobranca  := '1'; {Cobrança Simples (Sem Registro e Eletrônica com Registro)}
       tcCaucionada  : sTipoCobranca  := '3'; {Cobrança Caucionada (Eletrônica com Registro e Convencional com Registro)}
       tcDescontada  : sTipoCobranca  := '4'; {Cobrança Descontada (Eletrônica com Registro)}

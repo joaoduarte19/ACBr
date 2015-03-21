@@ -56,7 +56,7 @@ uses Classes, Graphics, Contnrs,
      ACBrBase, ACBrMail, ACBrValidador;
 
 const
-  CACBrBoleto_Versao = '0.0.120a' ;
+  CACBrBoleto_Versao = '0.0.121a' ;
 
 type
   TACBrTipoCobranca =
@@ -506,8 +506,10 @@ type
     property CEP         : String  read fCEP         write fCEP;
     property Telefone    : String  read fTelefone    write fTelefone;
     property ACBrBoleto  : TACBrBoleto read fACBrBoleto;
+    property CaracTitulo: TACBrCaracTitulo read fCaracTitulo  write fCaracTitulo default tcSimples;
   end;
-  
+
+
   TACBrTituloLiquidacao = class
   private
     fBanco: Integer;
@@ -519,7 +521,7 @@ type
     property Agencia   : String  read fAgencia    write fAgencia;
     property Origem    : String  read fOrigem     write fOrigem;
     property FormaPagto: String  read fFormaPagto write fFormaPagto;
-  end; 
+  end;
 
   TACBrSacadoAvalista = class
   private
@@ -653,6 +655,8 @@ type
     fCodigoLiquidacaoDescricao: String;
     fCarteiraEnvio        : TACBrCarteiraEnvio;
     fCodigoGeracao        : String;
+    fValorPago            : Currency;
+    fCaracTitulo          :TACBrCaracTitulo;
 
     procedure SetCarteira(const AValue: String);
     procedure SetCodigoMora(AValue: String);
@@ -708,6 +712,7 @@ type
      property ValorIOF             : Currency read fValorIOF              write fValorIOF;
      property ValorOutrasDespesas  : Currency read fValorOutrasDespesas   write fValorOutrasDespesas;
      property ValorOutrosCreditos  : Currency read fValorOutrosCreditos   write fValorOutrosCreditos;
+     property ValorPago            : Currency read fValorPago             write fValorPago;
      property ValorRecebido        : Currency read fValorRecebido         write fValorRecebido;
      property Referencia           : String   read fReferencia            write fReferencia;
      property Versao               : String   read fVersao                write fVersao;
@@ -721,6 +726,7 @@ type
      property LinhaDigitada : String read fpLinhaDigitada;
      property CodigoGeracao: String read fCodigoGeracao write SetCodigoGeracao;
      property Liquidacao: TACBrTituloLiquidacao read fLiquidacao write fLiquidacao;
+     property CaracTitulo: TACBrCaracTitulo read fCaracTitulo  write fCaracTitulo default tcSimples;
    end;
 
   { TListadeBoletos }
@@ -1128,6 +1134,7 @@ begin
 
    fCodigoMora    := '12';
    fCodigoGeracao := '2';
+   fCaracTitulo   := fACBrBoleto.Cedente.CaracTitulo;
 end;
 
 destructor TACBrTitulo.Destroy;

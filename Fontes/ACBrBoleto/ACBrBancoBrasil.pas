@@ -427,7 +427,7 @@ begin
          tbBancoNaoReemite : ATipoBoleto := '5' + '2';
       end;
 
-      case ACBrBoleto.Cedente.CaracTitulo of
+      case CaracTitulo of
         tcSimples     : ACaracTitulo  := '1';
         tcVinculada   : ACaracTitulo  := '2';
         tcCaucionada  : ACaracTitulo  := '3';

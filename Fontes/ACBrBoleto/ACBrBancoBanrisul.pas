@@ -332,7 +332,7 @@ begin
     end;
 
     { Pegando Tipo de Cobrança - Tipo de Carteira}
-    case ACBrBoleto.Cedente.CaracTitulo of
+    case CaracTitulo of
       tcSimples: aTipoCobranca := '1';
       //tcDescontada: aTipoCobranca:='';
       tcVendor: aTipoCobranca:='F';
