@@ -40,9 +40,6 @@ interface
 
 uses
   SysUtils, Classes,
-  {$IFNDEF VER130}
-   Variants,
-  {$ENDIF}
   pcnConversao, pcnLeitor, pcnCFe;
 
 type

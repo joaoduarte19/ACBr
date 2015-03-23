@@ -39,9 +39,6 @@ unit pcnRedeR;
 interface uses
 
   SysUtils, Classes,
-{$IFNDEF VER130}
-  Variants,
-{$ENDIF}
   pcnConversao, pcnLeitor, pcnRede;
 
 type
