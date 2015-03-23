@@ -1232,7 +1232,7 @@ begin
     CTeRetorno.Leitor.Arquivo := FPRetWS;
     CTeRetorno.LerXML;
 
-    NFCancelada := False;
+    CTCancelado := False;
     aEventos := '';
 
     // <retConsSitCTe> - Retorno da consulta da situação do CT-e
@@ -1246,8 +1246,8 @@ begin
     FCTeChave := CTeRetorno.chCTe;
     FPMsg := FXMotivo;
 
-    // Verifica se a nota fiscal está cancelada pelo método antigo. Se estiver,
-    // então NFCancelada será True e já atribui Protocolo, Data e Mensagem
+    // Verifica se o Conhecimento está cancelado pelo método antigo. Se estiver,
+    // então CTCancelado será True e já atribui Protocolo, Data e Mensagem
     if CTeRetorno.retCancCTe.cStat > 0 then
     begin
       FRetCancCTe.versao := CTeRetorno.retCancCTe.versao;
@@ -1260,7 +1260,7 @@ begin
       FretCancCTe.dhRecbto := CTeRetorno.retCancCTe.dhRecbto;
       FretCancCTe.nProt := CTeRetorno.retCancCTe.nProt;
 
-      NFCancelada := True;
+      CTCancelado := True;
       FProtocolo := CTeRetorno.retCancCTe.nProt;
       FDhRecbto := CTeRetorno.retCancCTe.dhRecbto;
       FPMsg := CTeRetorno.xMotivo;
@@ -1687,7 +1687,7 @@ begin
     InutCTe.GerarXML;
 
     AssinarXML(InutCTe.Gerador.ArquivoFormatoXML, 'inutCTe', 'infInut',
-      'Falha ao assinar Inutilização Nota Fiscal Eletrônica ');
+      'Falha ao assinar Inutilização Conhecimento Eletrônico ');
 
     FID := InutCTe.ID;
   finally
@@ -1974,7 +1974,8 @@ procedure TCTeEnvEvento.DefinirDadosMsg;
 var
   EventoCTe: TEventoCTe;
   I, J, F: integer;
-  Lote, Evento, Eventos, EventosAssinados: String;
+  Lote, Evento, Eventos, EventosAssinados, AXMLEvento: String;
+  EventoEhValido: Boolean;
 begin
   EventoCTe := TEventoCTe.Create;
   try
@@ -2084,9 +2085,13 @@ begin
 //    AssinarXML(EventoCTe.Gerador.ArquivoFormatoXML,
 //               'Falha ao assinar o Envio de Evento ' + LineBreak + FMsg);
 
+    // Implementar a validação do evento.
+    AXMLEvento := '';
+
     with TACBrCTe(FPDFeOwner) do
     begin
-      SSL.Validar(FPDadosMsg, GerarNomeArqSchema(FPLayout, FPVersaoServico), FPMsg);
+      EventoEhValido := SSL.Validar(FPDadosMsg, GerarNomeArqSchema(FPLayout, FPVersaoServico), FPMsg) and
+                        SSL.Validar(AXMLEvento, GerarNomeArqSchemaEvento(FPDadosMsg, FPVersaoServico), FPMsg);
     end;
 
     for I := 0 to FEvento.Evento.Count - 1 do

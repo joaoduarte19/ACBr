@@ -59,10 +59,12 @@ type
 
   TLayOutCTe = (LayCTeRecepcao, LayCTeRetRecepcao, LayCTeCancelamento,
                 LayCTeInutilizacao, LayCTeConsulta, LayCTeStatusServico,
-                LayCTeCadastro, LayCTeCCe, LayCTeEvento, LayCTeEventoAN);
+                LayCTeCadastro, LayCTeEvento, LayCTeEventoEPEC);
 
-  TSchemaCTe = (schCTe, schCancCTe, schInutCTe, schEnvCCe,
-                schEnvEventoCancCTe, schEnvEPEC);
+  TSchemaCTe = ( schErro, schCTe, schInutCTe, schEventoCTe,
+                 schcteModalAereo, schcteModalAquaviario, schcteModalDutoviario,
+                 schcteModalFerroviario, schcteModalRodoviario, schcteMultiModal,
+                 schevEPECCTe, schevCancCTe, schevRegMultimodal, schevCCeCTe );
 
   TStatusACBrCTe = (stIdle, stCTeStatusServico, stCTeRecepcao, stCTeRetRecepcao,
                     stCTeConsulta, stCTeCancelamento, stCTeInutilizacao,
@@ -95,8 +97,8 @@ type
   TpcteTrafegoMutuo = (tmOrigem, tmDestino);
 
 
-function LayOutToServico(const t: TLayOut): String;
-function ServicoToLayOut(out ok: Boolean; const s: String): TLayOut;
+function LayOutToServico(const t: TLayOutCTe): String;
+function ServicoToLayOut(out ok: Boolean; const s: String): TLayOutCTe;
 
 function SchemaCTeToStr(const t: TSchemaCTe): String;
 
@@ -190,35 +192,39 @@ implementation
 uses
   pcnConversao;
 
-function LayOutToServico(const t: TLayOut): String;
+function LayOutToServico(const t: TLayOutCTe): String;
 begin
   Result := EnumeradoToStr(t,
-    ['CTeRecepcao', 'CTeRetRecepcao', 'CTeCancelamento', 'CTeInutilizacao',
-     'CTeConsultaProtocolo', 'CTeStatusServico', 'CTeConsultaCadastro',
-     'RecepcaoEvento', 'LayCTeEvento', 'RecepcaoEvento'],
-    [ LayCTeRecepcao, LayCTeRetRecepcao, LayCTeCancelamento, LayCTeInutilizacao,
-      LayCTeConsulta, LayCTeStatusServico, LayCTeCadastro, LayCTeCCe,
-      LayCTeEvento, LayCTeEventoAN]);
+    ['CTeRecepcao', 'CTeRetRecepcao', 'CTeCancelamento',
+     'CTeInutilizacao', 'CTeConsultaProtocolo', 'CTeStatusServico',
+     'CTeConsultaCadastro', 'RecepcaoEvento', 'RecepcaoEventoEPEC'],
+    [ LayCTeRecepcao, LayCTeRetRecepcao, LayCTeCancelamento,
+      LayCTeInutilizacao, LayCTeConsulta, LayCTeStatusServico,
+      LayCTeCadastro, LayCTeEvento, LayCTeEventoEPEC]);
 end;
 
-function ServicoToLayOut(out ok: Boolean; const s: String): TLayOut;
+function ServicoToLayOut(out ok: Boolean; const s: String): TLayOutCTe;
 begin
   Result := StrToEnumerado(ok, s,
-  ['CTeRecepcao', 'CTeRetRecepcao', 'CTeCancelamento', 'CTeInutilizacao',
-   'CTeConsultaProtocolo', 'CTeStatusServico', 'CTeConsultaCadastro',
-   'RecepcaoEvento', 'LayCTeEvento', 'RecepcaoEvento'],
-  [ LayCTeRecepcao, LayCTeRetRecepcao, LayCTeCancelamento, LayCTeInutilizacao,
-    LayCTeConsulta, LayCTeStatusServico, LayCTeCadastro, LayCTeCCe,
-    LayCTeEvento, LayCTeEventoAN]);
+    ['CTeRecepcao', 'CTeRetRecepcao', 'CTeCancelamento',
+     'CTeInutilizacao', 'CTeConsultaProtocolo', 'CTeStatusServico',
+     'CTeConsultaCadastro', 'RecepcaoEvento', 'RecepcaoEventoEPEC'],
+    [ LayCTeRecepcao, LayCTeRetRecepcao, LayCTeCancelamento,
+      LayCTeInutilizacao, LayCTeConsulta, LayCTeStatusServico,
+      LayCTeCadastro, LayCTeEvento, LayCTeEventoEPEC]);
 end;
 
 function SchemaCTeToStr(const t: TSchemaCTe): String;
 begin
   Result := EnumeradoToStr(t,
-    ['CTe', 'cancCTe', 'inutCTe', 'envDPEC', 'envCCe',
-     'envEventoCancCTe', 'envConfRecebto', 'envEPEC'],
-    [ schCTe, schCancCTe, schInutCTe, schEnvDPEC, schEnvCCe,
-      schEnvEventoCancCTe, schEnvConfRecebto, schEnvEPEC ] );
+    ['', 'cte', 'inutCTe', 'eventoCTe',
+     'cteModalAereo', 'cteModalAquaviario', 'cteModalDutoviario',
+     'cteModalFerroviario', 'cteModalRodoviario', 'cteMultiModal',
+     'evEPECCTe', 'evCancCTe', 'evRegMultimodal', 'evCCeCTe'],
+    [ schErro, schCTe, schInutCTe, schEventoCTe,
+      schcteModalAereo, schcteModalAquaviario, schcteModalDutoviario,
+      schcteModalFerroviario, schcteModalRodoviario, schcteMultiModal,
+      schevEPECCTe, schevCancCTe, schevRegMultimodal, schevCCeCTe ] );
 end;
 
 // B11 - Tipo do Documento Fiscal **********************************************

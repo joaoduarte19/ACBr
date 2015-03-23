@@ -110,8 +110,14 @@ type
     function LerVersaoDeParams(LayOutServico: TLayOut): String; reintroduce; overload;
 
     function IdentificaSchema(const AXML: String): TSchemaCTe;
+    function IdentificaSchemaModal(const AXML: String): TSchemaCTe;
+    function IdentificaSchemaEvento(const AXML: String): TSchemaCTe;
     function IdentificaSchemaLayOut(const ALayOut: TLayOut): TSchemaCTe;
+
     function GerarNomeArqSchema(const ALayOut: TLayOut; VersaoServico: String): String;
+    function GerarNomeArqSchemaModal(const AXML: String; VersaoServico: String): String;
+    function GerarNomeArqSchemaEvento(const AXML: String; VersaoServico: String): String;
+
     function GerarChaveContingencia(FCTe: TCTe): String;
 
     property WebServices: TWebServices     read FWebServices   write FWebServices;
@@ -236,7 +242,7 @@ begin
   Result := ACBRCTE_NAMESPACE;
 end;
 
-function TACBrCTe.CstatConfirmada(AValue: integer): Boolean;
+function TACBrCTe.cStatConfirmado(AValue: integer): Boolean;
 begin
   case AValue of
     100, 150: Result := True;
@@ -245,7 +251,7 @@ begin
   end;
 end;
 
-function TACBrCTe.CstatProcessado(AValue: integer): Boolean;
+function TACBrCTe.cStatProcessado(AValue: integer): Boolean;
 begin
   case AValue of
     100, 110, 150, 301, 302: Result := True;
@@ -264,57 +270,83 @@ begin
 
   I := pos('<infCte', AXML);
   if I = 0  then
-   begin
-     I := pos('<infCanc', AXML);
-     if I > 0 then
-        Result := schCancCTe
-     else
+  begin
+    I := pos('<infInut', AXML);
+    if I > 0 then
+      Result := schInutCTe
+    else begin
+      I := pos('<infEvento', AXML);
+      if I > 0 then
       begin
-        I := pos('<infInut', AXML);
-        if I > 0 then
-           Result := schInutCTe
-        else
-         begin
-          I := Pos('<infEvento', AXML);
-          if I > 0 then
-          begin
-            lTipoEvento := StrToTpEvento(Ok, Trim(RetornarConteudoEntre(AXML, '<tpEvento>', '</tpEvento>')));
+        lTipoEvento := StrToTpEvento(Ok, Trim(RetornarConteudoEntre(AXML, '<tpEvento>', '</tpEvento>')));
 
-            case lTipoEvento of
-              teCCe: Result := schEnvCCe;
-              teCancelamento: Result := schEnvEventoCancCTe;
-              teManifDestConfirmacao: Result := schEnvConfRecebto;
-              teManifDestCiencia: Result := schEnvConfRecebto;
-              teManifDestDesconhecimento: Result := schEnvConfRecebto;
-              teManifDestOperNaoRealizada: Result := schEnvConfRecebto;
-              else Result := schEnvEPEC; // teEPEC
-            end;
-          end
-          else
-            Result := schEnvEPEC;
-         end;
-     end;
-   end;
+        case lTipoEvento of
+          teCCe:          Result := schEventoCTe;
+          teCancelamento: Result := schEventoCTe;
+          teEPEC:         Result := schEventoCTe;
+          teMultiModal:   Result := schEventoCTe;
+          else            Result := schErro;
+        end;
+      end
+      else
+        Result := schErro;
+    end;
+  end;
+end;
+
+function TACBrCTe.IdentificaSchemaModal(const AXML: String): TSchemaCTe;
+var
+  XML: String;
+  I: Integer;
+begin
+  XML := Trim(RetornarConteudoEntre(AXML, '<infModal', '</infModal>'));
+
+  Result := schcteModalRodoviario;
+
+  I := pos( '<rodo>', XML);
+  if I = 0 then
+  begin
+    I := pos( '<aereo>', XML);
+    if I> 0 then
+      Result := schcteModalAereo
+    else begin
+      I := pos( '<aquav>', XML);
+      if I> 0 then
+        Result := schcteModalAquaviario
+      else begin
+        I := pos( '<duto>', XML);
+        if I> 0 then
+          Result := schcteModalDutoviario
+        else begin
+          I := pos( '<ferrov>', XML);
+          if I> 0 then
+            Result := schcteModalFerroviario
+          else begin
+            I := pos( '<multimodal>', XML);
+            if I> 0 then
+              Result := schcteMultiModal
+            else
+              Result := schErro;
+          end;
+        end;
+      end;
+    end;
+  end;
+end;
+
+function TACBrCTe.IdentificaSchemaEvento(const AXML: String): TSchemaCTe;
+begin
+  // Implementar
 end;
 
 function TACBrCTe.IdentificaSchemaLayout(const ALayOut: TLayOut): TSchemaCTe;
 begin
   case ALayOut of
-    LayCTeRecepcao:
-      Result := schCTe;
-    //LayCTeRetRecepcao,
-    //LayCTeCancelamento,
-    //LayCTeInutilizacao,
-    //LayCTeConsulta,
-    //LayCTeStatusServico,
-    //LayCTeCadastro,
-    //LayCTeCCe,
-    LayCTeEvento:
-      Result := schEnvConfRecebto;
-    LayCTeEventoAN:
-      Result := schEnvConfRecebto;
-    else
-      Result := schCTe;
+    LayCTeRecepcao:     Result := schCTe;
+    LayCTeInutilizacao: Result := schInutCTe;
+    LayCTeEvento:       Result := schEventoCTe;
+    LayCTeEventoEPEC:   Result := schEventoCTe;
+    else                Result := schErro;
   end;
 end;
 
@@ -326,6 +358,22 @@ begin
 
   Result := SchemaCTeToStr(IdentificaSchemaLayout(ALayOut)) + '_v' +
             VersaoServico + '.xsd';
+end;
+
+function TACBrCTe.GerarNomeArqSchemaModal(const AXML: String;
+  VersaoServico: String): String;
+begin
+  if EstaVazio(VersaoServico) then
+    Result := ''
+  else
+    Result := SchemaCTeToStr(IdentificaSchemaModal(AXML)) + '_v' +
+              VersaoServico + '.xsd';
+end;
+
+function TACBrCTe.GerarNomeArqSchemaEvento(const AXML: String;
+  VersaoServico: String): String;
+begin
+ // Implementar
 end;
 
 function TACBrCTe.GerarChaveContingencia(FCTe:TCTe): String;

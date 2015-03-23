@@ -228,7 +228,7 @@ begin
     XMLAss := SSL.Assinar(ArqXML, 'CTe', 'infCte');
     FXMLAssinado := XMLAss;
 
-    // Remove header, pois podem existir várias Notas no XML //
+    // Remove header, pois podem existir vários Conhecimentos no XML //
     //TODO: Verificar se precisa
     //XMLAss := StringReplace(XMLAss, '<' + ENCODING_UTF8_STD + '>', '', [rfReplaceAll]);
     //XMLAss := StringReplace(XMLAss, '<' + XML_V01 + '>', '', [rfReplaceAll]);
@@ -254,7 +254,7 @@ end;
 
 procedure Conhecimento.Validar;
 var
-  Erro, AXML: String;
+  Erro, AXML, AXMLModal: String;
   CTeEhValido: Boolean;
   ALayout: TLayOut;
   VersaoStr: String;
@@ -267,12 +267,51 @@ begin
     AXML := FXMLAssinado;
   end;
 
+  AXMLModal := Trim(RetornarConteudoEntre(AXML, '<infModal', '</infModal>'));
+  case IdentificaSchemaModal(AXML) of
+   schcteModalAereo: begin
+                       AXMLModal := '<aereo xmlns="' + ACBRCTE_NAMESPACE + '">' +
+                                      AXMLModal +
+                                    '</aereo>';
+                     end;
+   schcteModalAquaviario: begin
+                            AXMLModal := '<aquav xmlns="' + ACBRCTE_NAMESPACE + '">' +
+                                           AXMLModal +
+                                         '</aquav>';
+                          end;
+   schcteModalDutoviario: begin
+                            AXMLModal := '<duto xmlns="' + ACBRCTE_NAMESPACE + '">' +
+                                           AXMLModal +
+                                         '</duto>';
+                          end;
+   schcteModalFerroviario: begin
+                             AXMLModal := '<ferrov xmlns="' + ACBRCTE_NAMESPACE + '">' +
+                                            AXMLModal +
+                                          '</ferrov>';
+                           end;
+   schcteModalRodoviario: begin
+                            AXMLModal := '<rodo xmlns="' + ACBRCTE_NAMESPACE + '">' +
+                                           AXMLModal +
+                                         '</rodo>';
+                          end;
+   schcteMultiModal: begin
+                       AXMLModal := '<multimodal xmlns="' + ACBRCTE_NAMESPACE + '">' +
+                                      AXMLModal +
+                                    '</multimodal>';
+                     end;
+  end;
+
   with TACBrCTe(TConhecimentos(Collection).ACBrCTe) do
   begin
     ALayout := LayCTeRetRecepcao;
 
-    VersaoStr := FloatToString( FCTe.infCTe.Versao, '.', '0.00');
-    CTeEhValido := SSL.Validar(AXML, GerarNomeArqSchema(ALayout, VersaoStr), Erro);
+    VersaoStr := FloatToString(FCTe.infCTe.Versao, '.', '0.00');
+
+    if (FCTe.infCTe.tpCTe = tcNormal) or (FCTe.infCTe.tpCTe = tcSubstituto) then
+      CTeEhValido := SSL.Validar(AXML, GerarNomeArqSchema(ALayout, VersaoStr), Erro) and
+                   SSL.Validar(AXMLModal, GerarNomeArqSchemaModal(AXML, VersaoStr), Erro)
+    else
+      CTeEhValido := SSL.Validar(AXML, GerarNomeArqSchema(ALayout, VersaoStr), Erro);
 
     if not CTeEhValido then
     begin
@@ -582,7 +621,7 @@ begin
   Result := 'Conhecimento';
 end;
 
-procedure TNotasFiscais.VerificarDACTE;
+procedure TConhecimentos.VerificarDACTE;
 begin
   if not Assigned(TACBrCTe(FACBrCTe).DACTE) then
     raise EACBrCTeException.Create('Componente DACTE não associado.');
