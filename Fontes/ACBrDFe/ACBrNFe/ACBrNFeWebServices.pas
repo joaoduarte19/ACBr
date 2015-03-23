@@ -2890,9 +2890,9 @@ begin
     if (AXML <> '') then
     begin
       case FretDistDFeInt.docZip.Items[I].schema of
-        tsprocNFe:
+        schprocNFe:
           NomeArq := FretDistDFeInt.docZip.Items[I].resNFe.chNFe + '-nfe.xml';
-        tsprocEventoNFe:
+        schprocEventoNFe:
           NomeArq := OnlyNumber(FretDistDFeInt.docZip.Items[I].procEvento.Id) +
             '-procEventoNFe.xml';
       end;

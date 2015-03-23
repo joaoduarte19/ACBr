@@ -240,8 +240,7 @@ type
   private
     // Atributos do resumo da NFe ou Evento
     FNSU: String;
-//    Fschema: String;
-    Fschema: TpcnTipoSchema;
+    Fschema: TSchemaNFe;
 
     // A propriedade InfZip contem a informação Resumida ou documento fiscal
     // eletrônico Compactado no padrão gZip
@@ -260,8 +259,7 @@ type
     destructor Destroy; override;
   published
     property NSU: String             read FNSU        write FNSU;
-//    property schema: String        read Fschema    write Fschema;
-    property schema: TpcnTipoSchema  read Fschema     write Fschema;
+    property schema: TSchemaNFe      read Fschema     write Fschema;
     property InfZip: String          read FInfZip     write FInfZip;
     property resNFe: TresNFe         read FresNFe     write FresNFe;
     property resEvento: TresEvento   read FresEvento  write FresEvento;
@@ -428,8 +426,7 @@ begin
       begin
         FdocZip.Add;
         FdocZip.Items[i].FNSU   := Leitor.rAtributo('NSU');
-//        FdocZip.Items[i].schema  := Leitor.rAtributo('schema');
-        FdocZip.Items[i].schema := StrToTipoSchema(ok, Leitor.rAtributo('schema'));
+        FdocZip.Items[i].schema := StrToSchemaNFe(ok, Leitor.rAtributo('schema'));
 
         StrAux := RetornarConteudoEntre(Leitor.Grupo, '>', '</docZip');
         StrDecod := DecodeBase64(StrAux);
@@ -441,7 +438,6 @@ begin
 
           if (oLeitorInfZip.rExtrai(1, 'resNFe') <> '') then
           begin
-            // Incluido Por Italo em 22/01/2015
             FdocZip.Items[i].XML := oLeitorInfZip.Grupo;
 
             FdocZip.Items[i].FresNFe.chNFe    := oLeitorInfZip.rCampo(tcStr, 'chNFe');
@@ -463,7 +459,6 @@ begin
 
           if (oLeitorInfZip.rExtrai(1, 'resEvento') <> '') then
           begin
-            // Incluido Por Italo em 22/01/2015
             FdocZip.Items[i].XML := oLeitorInfZip.Grupo;
 
             FdocZip.Items[i].FresEvento.FcOrgao  := oLeitorInfZip.rCampo(tcInt, 'cOrgao');
@@ -483,7 +478,6 @@ begin
 
           if (oLeitorInfZip.rExtrai(1, 'nfeProc') <> '') then
           begin
-            // Incluido Por Italo em 22/01/2015
             FdocZip.Items[i].XML := oLeitorInfZip.Grupo;
 
             oLeitorInfZip.rExtrai(1, 'infNFe');

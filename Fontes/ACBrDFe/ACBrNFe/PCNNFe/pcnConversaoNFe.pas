@@ -66,7 +66,8 @@ type
     LayAdministrarCSCNFCe, LayDistDFeInt);
 
   TSchemaNFe = (schErro, schNfe, schCancNFe, schInutNFe, schEnvCCe,
-                schEnvEventoCancNFe, schEnvConfRecebto, schEnvEPEC );
+                schEnvEventoCancNFe, schEnvConfRecebto, schEnvEPEC,
+                schresNFe, schresEvento, schprocNFe, schprocEventoNFe );
 
   TStatusACBrNFe = (stIdle, stNFeStatusServico, stNFeRecepcao, stNFeRetRecepcao,
     stNFeConsulta, stNFeCancelamento, stNFeInutilizacao, stNFeRecibo,
@@ -86,6 +87,7 @@ function LayOutToServico(const t: TLayOut): String;
 function ServicoToLayOut(out ok: Boolean; const s: String): TLayOut;
 
 function SchemaNFeToStr(const t: TSchemaNFe): String;
+function StrToSchemaNFe(out ok: Boolean; const s: String): TSchemaNFe;
 
 function tpNFToStr(const t: TpcnTipoNFe): String;
 function StrToTpNF(out ok: Boolean; const s: String): TpcnTipoNFe;
@@ -120,7 +122,7 @@ function StrTotpArma(out ok: boolean; const s: string): TpcnTipoArma;
 
 implementation
 
-Uses pcnConversao;
+Uses pcnConversao, typinfo;
 
 function LayOutToServico(const t: TLayOut): String;
 begin
@@ -154,11 +156,25 @@ end;
 
 function SchemaNFeToStr(const t: TSchemaNFe): String;
 begin
-  Result := EnumeradoToStr(t,
-    ['', 'nfe', 'cancNFe', 'inutNFe', 'envCCe',
-     'envEventoCancNFe', 'envConfRecebto', 'envEPEC'],
-    [ schErro, schNfe, schCancNFe, schInutNFe, schEnvCCe,
-      schEnvEventoCancNFe, schEnvConfRecebto, schEnvEPEC ] );
+  Result := GetEnumName(TypeInfo(TSchemaNFe), Integer( t ) );
+  Result := copy(Result, 4, Length(Result)); // Remove prefixo "sch"
+end;
+
+function StrToSchemaNFe(out ok: Boolean; const s: String): TSchemaNFe;
+var
+  P: Integer;
+  SchemaStr: String;
+begin
+  P := pos('_',s);
+  if p > 0 then
+    SchemaStr := copy(s,1,P-1)
+  else
+    SchemaStr := s;
+
+  if LeftStr(SchemaStr,3) <> 'sch' then
+    SchemaStr := 'sch'+SchemaStr;
+
+  Result := TSchemaNFe( GetEnumValue(TypeInfo(TSchemaNFe), SchemaStr ) );
 end;
 
 // B11 - Tipo do Documento Fiscal **********************************************
@@ -291,19 +307,4 @@ begin
 end;
 
 end.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

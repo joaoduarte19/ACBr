@@ -46,26 +46,15 @@
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
 
-{*******************************************************************************
-|* Historico
-|*
-|* 28/09/2012: Italo
-|*  - Incluído constantes com as versões atuais dos WebServices
-*******************************************************************************}
-
 {$I ACBr.inc}
 
 unit pcnConversao;
 
-interface uses
+interface
 
+uses
   SysUtils,
-{$IFNDEF VER130}
-  Variants,
-{$ENDIF}
   Classes;
-
-// TODO: Criar pcnConversaoNFe, pcnConversaoCTe, etc
 
 type
   TpcnTipoCampo = (tcStr, tcInt, tcDat, tcDatHor, tcEsp, tcDe2, tcDe3, tcDe4, tcDe10,
@@ -149,14 +138,8 @@ type
   TpcnindISSRet = (iirSim, iirNao);
   TpcnindISS = (iiExigivel, iiNaoIncidencia, iiIsencao, iiExportacao, iiImunidade, iiExigSuspDecisaoJudicial, iiExigSuspProcessoAdm);
   TpcnindIncentivo = (iiSim, iiNao);
-  // Incluido por Italo em 20/05/2014
   TpcnTipoAutor = (taEmpresaEmitente, taEmpresaDestinataria, taEmpresa, taFisco, taRFB, taOutros);
-  // Incluido por Italo em 25/08/2014
   TpcnIndOperacao = (ioConsultaCSC, ioNovoCSC, ioRevogaCSC);
-
-  // Incluido por Italo em 18/02/2015
-  TpcnTipoSchema = (tsresNFe, tsresEvento, tsprocNFe, tsprocEventoNFe);
-
 
   TpcteModal = (mdRodoviario, mdAereo, mdAquaviario, mdFerroviario, mdDutoviario, mdMultimodal);
 
@@ -324,14 +307,13 @@ function StrToTipoAutor(out ok: boolean; const s: string): TpcnTipoAutor;
 function IndOperacaoToStr(const t: TpcnIndOperacao ): string;
 function StrToIndOperacao(out ok: boolean; const s: string): TpcnIndOperacao;
 
-function TipoSchemaToStr(const t: TpcnTipoSchema ): string;
-function StrToTipoSchema(out ok: boolean; const s: string): TpcnTipoSchema;
-
 function TpModalToStr(const t: TpcteModal): string;
 function TpModalToStrText(const t: TpcteModal): string;
 function StrToTpModal(out ok: boolean; const s: string): TpcteModal;
 
 implementation
+
+uses typinfo;
 
 function StrToHex(S: String): String;
 var I: Integer;
@@ -824,7 +806,7 @@ begin
 end;
 
 function StrToEnumerado2(out ok: boolean;  const s: string; Const AString: array of string ): variant;
-// Atencao  NÃo Funciona em Alguns Enumerados ja existentes
+// Atencao  não Funciona em Alguns Enumerados ja existentes
 var
   i: integer;
 begin
@@ -844,7 +826,7 @@ begin
 end;
 
 function EnumeradoToStr2(const t: variant; const AString: array of string ): variant;
-// Atencao NÃo Funciona em Alguns Enumerados ja existentes
+// Atencao não Funciona em Alguns Enumerados ja existentes
 begin
   result := AString[ integer( t ) ];
 end;
@@ -1172,24 +1154,6 @@ function StrToIndOperacao(out ok: boolean; const s: string): TpcnIndOperacao;
 begin
   result := StrToEnumerado(ok, s, ['1', '2', '3'],
                                   [ioConsultaCSC, ioNovoCSC, ioRevogaCSC]);
-end;
-
-function TipoSchemaToStr(const t: TpcnTipoSchema ): string;
-begin
-  result := EnumeradoToStr(t, ['resNFe_v1.00.xsd', 'resEvento_v1.00.xsd',
-                               'procNFe_v1.00.xsd', 'procNFe_v2.00.xsd',
-                               'procNFe_v3.10.xsd', 'procEventoNFe_v1.00.xsd'],
-                              [tsresNFe, tsresEvento, tsprocNFe, tsprocNFe,
-                               tsprocNFe, tsprocEventoNFe]);
-end;
-
-function StrToTipoSchema(out ok: boolean; const s: string): TpcnTipoSchema;
-begin
-  result := StrToEnumerado(ok, s, ['resNFe_v1.00.xsd', 'resEvento_v1.00.xsd',
-                                   'procNFe_v1.00.xsd', 'procNFe_v2.00.xsd',
-                                   'procNFe_v3.10.xsd', 'procEventoNFe_v1.00.xsd'],
-                                  [tsresNFe, tsresEvento, tsprocNFe, tsprocNFe,
-                                   tsprocNFe, tsprocEventoNFe]);
 end;
 
 function TpModalToStr(const t: TpcteModal): string;
