@@ -94,13 +94,13 @@ type
     function ConsultarNFSeServicoTomado(const ACabecalho, AMSG: String): string; override;
     function Cancelar(const ACabecalho, AMSG: string): string; override;
     function SubstituirNFSe(const ACabecalho, AMSG: String): string; override;
-    {
+
     function ConsultarNFSePorChave(const ACabecalho, AMSG: string): string; override;
     function ConsultarEvento(const ACabecalho, AMSG: string): string; override;
     function ConsultarDFe(const ACabecalho, AMSG: string): string; override;
     function ConsultarParam(const ACabecalho, AMSG: string): string; override;
     function ObterDANFSE(const ACabecalho, AMSG: string): string; override;
-    }
+
     function TratarXmlRetornado(const aXML: string): string; override;
 
     property Namespace: string read GetNamespace;
@@ -774,13 +774,13 @@ var
   URL, AMimeType: string;
 begin
   URL := GetWebServiceURL(AMetodo);
-  AMimeType := 'text/xml';
-{
-  if AMetodo in [tmGerar, tmEnviarEvento, tmConsultarSituacao] then
-    AMimeType := 'text/xml'
+
+  if AMetodo in [tmConsultarEvento, tmConsultarDFe, tmConsultarParam,
+                 tmConsultarNFSePorChave, tmObterDANFSE] then
+    AMimeType := 'application/json'
   else
-    AMimeType := 'application/json';
-}
+    AMimeType := 'text/xml';
+
   if URL <> '' then
   begin
     URL := URL + Path;
@@ -1708,6 +1708,7 @@ begin
     tcPorNumero: PrepararConsultaNFSeporFaixa(Response);
     tcServicoPrestado: PrepararConsultaNFSeServicoPrestado(Response);
     tcServicoTomado: PrepararConsultaNFSeServicoTomado(Response);
+    tcPorChave: PrepararConsultaNFSePorChave(Response);
   else
     begin
       AErro := Response.Erros.New;
@@ -1717,6 +1718,9 @@ begin
   end;
 
   Method := 'POST';
+
+  if Response.InfConsultaNFSe.tpConsulta = tcPorChave then
+    Method := 'GET';
 end;
 
 procedure TACBrNFSeProviderCoplanAPIPropria.GerarMsgDadosConsultaNFSe(
@@ -1729,6 +1733,7 @@ begin
     tcPorFaixa: GerarMsgDadosConsultaNFSeporFaixa(Response, Params);
     tcServicoPrestado: GerarMsgDadosConsultaNFSeServicoPrestado(Response, Params);
     tcServicoTomado: GerarMsgDadosConsultaNFSeServicoTomado(Response, Params);
+    tcPorChave: GerarMsgDadosConsultaNFSePorChave(Response, Params);
   else
     begin
       AErro := Response.Erros.New;
@@ -1748,6 +1753,7 @@ begin
     tcPorNumero: TratarRetornoConsultaNFSeporFaixa(Response);
     tcServicoPrestado: TratarRetornoConsultaNFSeServicoPrestado(Response);
     tcServicoTomado: TratarRetornoConsultaNFSeServicoTomado(Response);
+    tcPorChave: TratarRetornoConsultaNFSePorChave(Response);
   else
     begin
       AErro := Response.Erros.New;
@@ -3203,7 +3209,7 @@ begin
     ['Substituirnfseresponse', 'outputXML', 'SubstituirNfseResposta'],
     ['xmlns:trib="Tributario"', NameSpace]);
 end;
-(*
+
 function TACBrNFSeXWebserviceCoplanAPIPropria.ConsultarNFSePorChave(
   const ACabecalho, AMSG: string): string;
 begin
@@ -3243,7 +3249,7 @@ begin
 
   Result := Executar('', FPMsgOrig, [], []);
 end;
-*)
+
 function TACBrNFSeXWebserviceCoplanAPIPropria.TratarXmlRetornado(const aXML: string): string;
 begin
   Result := inherited TratarXmlRetornado(aXML);

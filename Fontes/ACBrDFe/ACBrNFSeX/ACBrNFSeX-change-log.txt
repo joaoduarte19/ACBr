@@ -45,6 +45,9 @@ Símbolo : Significado
 
 08/02/2026
 -- Coplan.Provider --
+[*] ACBR-8907 - Implementado os serviços disponibilizados na API do Padrão Nacional:
+    ConsultarNFSePorChave, ConsultarEvento, ConsultarDFe, ConsultarParam, ObterDANFSE.
+   Por: Italo Giurizzato Junior
 [*] ACBR-8907 - Implementado os serviços disponibilizados no webservice do provedor:
     Recepcionar Lote modo Assíncrono, Recepcionar Lote modo Síncrono, GerarNFSe,
     ConsultarLote, ConsultarNFSePorDPS, ConsultarNFSePorFaixa, ConsultarNFSeServicoPrestado,
