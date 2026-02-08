@@ -44,6 +44,12 @@ Símbolo : Significado
 
 
 08/02/2026
+-- Coplan.Provider --
+[*] ACBR-8907 - Implementado os serviços disponibilizados no webservice do provedor:
+    Recepcionar Lote modo Assíncrono, Recepcionar Lote modo Síncrono, GerarNFSe,
+    ConsultarLote, ConsultarNFSePorDPS, ConsultarNFSePorFaixa, ConsultarNFSeServicoPrestado,
+    ConsultarNFSeServicoTomado, CancelarNFSe e SubstituirNFSe.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXProviderBase/Fiorilli.GravarXml/Fiorilli.Provider --
 [*] Removido da geração do XML do DPS os prefixos.
    Por: Italo Giurizzato Junior
