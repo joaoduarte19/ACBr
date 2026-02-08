@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+08/02/2026
+-- ACBrNFSeXProviderBase/Fiorilli.GravarXml/Fiorilli.Provider --
+[*] Removido da geração do XML do DPS os prefixos.
+   Por: Italo Giurizzato Junior
+
 06/02/2026
 -- Centi.GravarXml/Centi.Provider --
 [*] ACBR-8880 - Ajustes visando compatibilização com alterações feitas para atender a RTC

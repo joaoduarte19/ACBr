@@ -904,9 +904,9 @@ begin
     with TACBrNFSeX(FAOwner) do
     begin
       // Primeiro verifica as URLs definidas para a cidade
-      Sessao := IntToStr(Configuracoes.Geral.CodigoMunicipio);
-//      APIPropria := IniParams.ReadString(Sessao, 'Params', '') = 'APIPropria:';
+      Sessao := Configuracoes.Geral.xProvedorOrigem;
       APIPropria := (Pos('APIPropria:', IniParams.ReadString(Sessao, 'Params', '')) > 0);
+      Sessao := IntToStr(Configuracoes.Geral.CodigoMunicipio);
 
       ConfigWebServices.LoadUrlProducao(IniParams, Sessao);
       ConfigWebServices.LoadUrlHomologacao(IniParams, Sessao);

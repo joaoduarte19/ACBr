@@ -463,8 +463,6 @@ begin
 
   with ConfigMsgDados do
   begin
-    Prefixo := 'nfse1';
-
     UsarNumLoteConsLote := False;
 
     DadosCabecalho := GetCabecalho('');
@@ -709,10 +707,8 @@ begin
        (ConfigAssinar.RpsGerarNFSe and (Response.ModoEnvio in [meUnitario, meAutomatico])) then
     begin
       Nota.XmlRps := FAOwner.SSL.Assinar(Nota.XmlRps,
-                               'nfse:' + ConfigMsgDados.XmlRps.DocElemento,
-                              ConfigMsgDados.XmlRps.InfElemento, '', '', '',
-                              IdAttr);
-
+                         ConfigMsgDados.XmlRps.DocElemento,
+                         ConfigMsgDados.XmlRps.InfElemento, '', '', '', IdAttr);
     end;
 
     SalvarXmlRps(Nota);
@@ -807,13 +803,12 @@ var
 begin
   FPMSgOrig := RemoverDeclaracaoXML(AMSG);
 
-  Request := '<nfse:RecepcionarLoteDpsEnvio>' +
+  Request := '<fio:RecepcionarLoteDpsEnvio>' +
                 FPMsgOrig +
-             '</nfse:RecepcionarLoteDpsEnvio>';
+             '</fio:RecepcionarLoteDpsEnvio>';
 
   Result := Executar('recepcionarLoteDps',
-    Request, [], ['xmlns:nfse="http://www.fiorilli.com.br/nfse-nacional"',
-    'xmlns:nfse1="http://www.sped.fazenda.gov.br/nfse"']);
+    Request, [], ['xmlns:fio="http://www.fiorilli.com.br/nfse-nacional"']);
 end;
 
 function TACBrNFSeXWebserviceFiorilliAPIPropria.RecepcionarSincrono(
@@ -823,13 +818,12 @@ var
 begin
   FPMSgOrig := RemoverDeclaracaoXML(AMSG);
 
-  Request := '<nfse:RecepcionarLoteDpsSincronoEnvio>' +
+  Request := '<fio:RecepcionarLoteDpsSincronoEnvio>' +
                 FPMsgOrig +
-             '</nfse:RecepcionarLoteDpsSincronoEnvio>';
+             '</fio:RecepcionarLoteDpsSincronoEnvio>';
 
   Result := Executar('recepcionarLoteDpsSincrono',
-    Request, [], ['xmlns:nfse="http://www.fiorilli.com.br/nfse-nacional"',
-    'xmlns:nfse1="http://www.sped.fazenda.gov.br/nfse"']);
+    Request, [], ['xmlns:fio="http://www.fiorilli.com.br/nfse-nacional"']);
 end;
 
 function TACBrNFSeXWebserviceFiorilliAPIPropria.GerarNFSe(const ACabecalho,
@@ -841,13 +835,12 @@ begin
 
   Request := RemoverDeclaracaoXML(AMSG);
 
-  Request := '<nfse:RecepcionarDpsEnvio>' +
+  Request := '<fio:RecepcionarDpsEnvio>' +
                 Request +
-             '</nfse:RecepcionarDpsEnvio>';
+             '</fio:RecepcionarDpsEnvio>';
 
   Result := Executar('recepcionarDPS',
-    Request, [], ['xmlns:nfse="http://www.fiorilli.com.br/nfse-nacional"',
-    'xmlns:nfse1="http://www.sped.fazenda.gov.br/nfse"']);
+    Request, [], ['xmlns:fio="http://www.fiorilli.com.br/nfse-nacional"']);
 end;
 
 function TACBrNFSeXWebserviceFiorilliAPIPropria.TratarXmlRetornado(
