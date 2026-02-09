@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 09/02/2026
+-- SigCorp.GravarXml/SigCorp.LerXml --
+[*] ACBR-8402 - Incluído a tag Inscrição na consulta a NFS-e serviço prestado e tomado.
+   Por: Italo Giurizzato Junior
 -- ISSSaoPaulo.Provider --
 [*] ACBR-8402 - Incluído a tag Inscrição na consulta a NFS-e serviço prestado e tomado.
    Por: Italo Giurizzato Junior
