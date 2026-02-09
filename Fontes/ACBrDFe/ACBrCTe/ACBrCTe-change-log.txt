@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+09/02/2026
+-- ACBrCTe.IniReader --
+[*] Correção para leitura da Componentes do Valor da Prestação no modelo 67 - https://www.projetoacbr.com.br/forum/topic/90148-cte-n%C3%A3o-mostra-componentes-do-valor-da-presta%C3%A7%C3%A3o/
+  Por: Renato Rubinho
+
 10/12/2025
 -- ACBrCTeWebServices --
 [-] Ajuste visando sanar AV ao ler arquivo de retorno de DistribuiçãoDFe.

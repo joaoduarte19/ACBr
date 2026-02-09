@@ -328,6 +328,7 @@ begin
   Ler_Emitente(AINIRec, FCTe.emit);
   Ler_Tomador(AINIRec, FCTe.toma);
   Ler_ValorPrestacao(AINIRec, FCTe.vPrest);
+  Ler_ValorPrestacaoComposicao(AINIRec, FCTe.vPrest.Comp);
   Ler_Imposto(AINIRec, FCTe.imp);
 
   FCTe.infCTeNorm.refCTeCanc := AINIRec.ReadString('infCTeNorm', 'refCTeCanc', '');
