@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+09/02/2026
+-- ISSSaoPaulo.Provider --
+[*] ACBR-8402 - Incluído a tag Inscrição na consulta a NFS-e serviço prestado e tomado.
+   Por: Italo Giurizzato Junior
+
 08/02/2026
 -- Coplan.Provider --
 [*] ACBR-8907 - Implementado os serviços disponibilizados na API do Padrão Nacional:

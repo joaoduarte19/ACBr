@@ -1289,7 +1289,8 @@ procedure TACBrNFSeProviderISSSaoPaulo.PrepararConsultaNFSeServicoPrestado(
 var
   LErro: TNFSeEventoCollectionItem;
   LEmitente: TEmitenteConfNFSe;
-  LNameSpace, LCNPJCPF, LDoc, LCNPJCPFPrestador, LDocPrestador: string;
+  LNameSpace, LCNPJCPF, LDoc, LCNPJCPFPrestador, LDocPrestador,
+  LIMPrestador: string;
 begin
   if EstaVazio(Response.InfConsultaNFSe.CNPJPrestador) then
   begin
@@ -1338,6 +1339,8 @@ begin
   else
     LCNPJCPFPrestador := '<CPF>' + LDocPrestador + '</CPF>';
 
+  LIMPrestador := OnlyNumber(Response.InfConsultaNFSe.IMPrestador);
+
   Response.ArquivoEnvio := '<PedidoConsultaNFePeriodo' + LNameSpace + '>' +
                               '<Cabecalho xmlns="" Versao="' + FPVersaoDFe + '">' +
                                 '<CPFCNPJRemetente>' +
@@ -1346,6 +1349,9 @@ begin
                                 '<CPFCNPJ>' +
                                   LCNPJCPFPrestador +
                                 '</CPFCNPJ>' +
+                                '<Inscricao>' +
+                                  LIMPrestador +
+                                '</Inscricao>' +
                                 '<dtInicio>' +
                                   FormatDateTime('yyyy-mm-dd', Response.InfConsultaNFSe.DataInicial) +
                                 '</dtInicio>' +
@@ -1444,7 +1450,7 @@ procedure TACBrNFSeProviderISSSaoPaulo.PrepararConsultaNFSeServicoTomado(
 var
   LErro: TNFSeEventoCollectionItem;
   LEmitente: TEmitenteConfNFSe;
-  LNameSpace, LCNPJCPF, LDoc, LCNPJCPFTomador, LDocTomador: string;
+  LNameSpace, LCNPJCPF, LDoc, LCNPJCPFTomador, LDocTomador, LIMTomador: string;
 begin
   if EstaVazio(Response.InfConsultaNFSe.CNPJTomador) then
   begin
@@ -1488,6 +1494,11 @@ begin
 
   LDocTomador := OnlyNumber(Response.InfConsultaNFSe.CNPJTomador);
 
+  LIMTomador := OnlyNumber(Response.InfConsultaNFSe.IMTomador);
+
+  if LIMTomador <> '' then
+    LIMTomador := '<Inscricao>' + LIMTomador + '</Inscricao>';
+
   if Length(LDocTomador) = 14 then
     LCNPJCPFTomador := '<CNPJ>' + LDocTomador + '</CNPJ>'
   else
@@ -1501,6 +1512,7 @@ begin
                                 '<CPFCNPJ>' +
                                   LCNPJCPFTomador +
                                 '</CPFCNPJ>' +
+                                LIMTomador +
                                 '<dtInicio>' +
                                   FormatDateTime('yyyy-mm-dd', Response.InfConsultaNFSe.DataInicial) +
                                 '</dtInicio>' +
