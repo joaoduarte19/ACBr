@@ -9,7 +9,7 @@ namespace ACBrLib.Core
     /// Classe base para as bibliotecas ACBrLib 
     /// Essa classe define os métodos e propriedades comuns a todas as bibliotecas ACBrLib em alto nível.
     /// </summary>
-    public abstract class ACBrLibBase
+    public abstract class ACBrLibBase: IACBrLibBase
     {
 
         #region fields

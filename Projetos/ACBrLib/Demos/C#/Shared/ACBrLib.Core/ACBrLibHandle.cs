@@ -11,7 +11,7 @@ using System.Text;
 namespace ACBrLib.Core
 {
     /// <inheritdoc />
-    public abstract partial class ACBrLibHandle : SafeHandle
+    public abstract partial class ACBrLibHandle : SafeHandle, IACBrLibBase
     {
         #region Fields
 
