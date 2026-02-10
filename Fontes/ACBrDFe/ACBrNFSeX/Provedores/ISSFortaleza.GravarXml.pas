@@ -69,9 +69,13 @@ type
     function GerarXMLgIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode; override;
     function GerarXMLgTribRegular(gTribRegular: TgTribRegular): TACBrXmlNode;
     function GerarXMLgDif(gDif: TgDif): TACBrXmlNode;
+
     function GerarConstrucaoCivil: TACBrXmlNode; override;
     function GerarEnderecoObra: TACBrXmlNode;
     function GerarServico: TACBrXmlNode; override;
+    function GeraAtividadeEvento: TACBrXmlNode; override;
+    function GerarEnderecoEvento: TACBrXmlNode; override;
+    function GerarEnderecoExteriorEvento: TACBrXmlNode; override;
   end;
 
 implementation
@@ -93,6 +97,9 @@ uses
 procedure TNFSeW_ISSFortaleza.Configuracao;
 begin
   inherited Configuracao;
+
+  GerarAtividadeEventoAposConstrucaoCivil := True;
+  GerarAtividadeEventoAposIncentivoFiscal := False;
 
   DivAliq100 := True;
 
@@ -524,6 +531,76 @@ begin
     Result.AppendChild(AddNode(tcStr, '#59', 'Cep', 1, 8, 0,
                                    NFSe.ConstrucaoCivil.Endereco.CEP, DSC_CEP));
   end;
+end;
+
+function TNFSeW_ISSFortaleza.GeraAtividadeEvento: TACBrXmlNode;
+begin
+  Result := nil;
+
+  if NFSe.Servico.Evento.xNome <> '' then
+  begin
+    Result := CreateElement('Eventos');
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'NomeEvento', 1, 255, 1,
+                                                NFSe.Servico.Evento.xNome, ''));
+
+    Result.AppendChild(AddNode(tcDatHor, '#1', 'DataInicioEvento', 10, 10, 1,
+                                                NFSe.Servico.Evento.dtIni, ''));
+
+    Result.AppendChild(AddNode(tcDatHor, '#1', 'DataFimEvento', 10, 10, 1,
+                                                NFSe.Servico.Evento.dtFim, ''));
+
+//    if NFSe.Servico.Evento.idAtvEvt <> '' then
+      Result.AppendChild(AddNode(tcStr, '#1', 'IdentificacaoEvento', 1, 30, 1,
+                                             NFSe.Servico.Evento.idAtvEvt, ''));
+//    else
+      Result.AppendChild(GerarEnderecoEvento);
+  end;
+end;
+
+function TNFSeW_ISSFortaleza.GerarEnderecoEvento: TACBrXmlNode;
+begin
+  Result := CreateElement('Endereco');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'Endereco', 1, 255, 1,
+                                    NFSe.Servico.Evento.Endereco.Endereco, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'Numero', 1, 60, 1,
+                                      NFSe.Servico.Evento.Endereco.Numero, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'Complemento', 1, 60, 0,
+                                 NFSe.Servico.Evento.Endereco.Complemento, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'Bairro', 1, 60, 1,
+                                      NFSe.Servico.Evento.Endereco.Bairro, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'CodigoMunicipio', 1, 7, 1,
+                             NFSe.Servico.Evento.Endereco.CodigoMunicipio, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'Uf', 1, 60, 1,
+                                          NFSe.Servico.Evento.Endereco.UF, ''));
+
+//-- No manual tem os campos de EndExt mas no XSD não tem!!!
+//  if (NFSe.Servico.Evento.Endereco.UF = '') then
+    Result.AppendChild(AddNode(tcStr, '#1', 'Cep', 8, 8, 1,
+                                          NFSe.Servico.Evento.Endereco.CEP, ''))
+//  else
+//    Result.AppendChild(GerarEnderecoExteriorEvento);
+
+end;
+
+function TNFSeW_ISSFortaleza.GerarEnderecoExteriorEvento: TACBrXmlNode;
+begin
+  Result := CreateElement('EndExt');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'CEPExterior', 1, 11, 1,
+                                         NFSe.Servico.Evento.Endereco.CEP, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'CidadeExterior', 1, 60, 1,
+                                  NFSe.Servico.Evento.Endereco.xMunicipio, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'EstadoExterior', 1, 60, 1,
+                                          NFSe.Servico.Evento.Endereco.UF, ''));
 end;
 
 end.

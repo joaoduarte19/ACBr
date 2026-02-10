@@ -45,6 +45,9 @@ Símbolo : Significado
 
 10/02/2026
 -- ISSFortaleza.GravarXml --
+[*] ACBR-8680 - Ajustes para gerar os campos de AtvEventos.
+   Por: Milton Campanhã
+-- ISSFortaleza.GravarXml --
 [*] ACBR-8923 - Ajustes para gerar corretamente a tag CodigoNbs.
    Por: Italo Giurizzato Junior
 -- WebISS.GravarXml --
