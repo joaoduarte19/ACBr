@@ -48,10 +48,10 @@ type
 
   TNFSeW_PadraoNacional = class(TNFSeWClass)
   private
-    FpVersao: string;
     function DevoGerarXMLObra: Boolean;
 
   protected
+    FpVersao: string;
     LSecao: string;
 
     function GerarChaveDPS(const AcMun, ACNPJCPF, ASerie, ANumero: string): string;
@@ -64,7 +64,7 @@ type
     function GerarXMLEnderecoEmitente: TACBrXmlNode;
     function GerarXMLValoresNFSe: TACBrXmlNode;
 
-    function GerarXMLDPS: TACBrXmlNode;
+    function GerarXMLDPS: TACBrXmlNode; virtual;
 
     function GerarXMLInfDps: TACBrXmlNode; virtual;
 

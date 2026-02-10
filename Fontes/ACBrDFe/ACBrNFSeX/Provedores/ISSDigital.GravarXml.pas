@@ -38,7 +38,9 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
+  ACBrXmlDocument,
   ACBrNFSeXGravarXml_ABRASFv2,
+  ACBrDFe.Conversao,
   ACBrNFSeXConversao,
   PadraoNacional.GravarXml;
 
@@ -57,6 +59,7 @@ type
   private
 
   protected
+    function GerarXMLPrestador: TACBrXmlNode; override;
 
   end;
 
@@ -82,6 +85,48 @@ begin
   NrOcorrFraseSecreta := 1;
 
   GerarIDRps := True;
+end;
+
+{ TNFSeW_ISSDigitalAPIPropria }
+
+function TNFSeW_ISSDigitalAPIPropria.GerarXMLPrestador: TACBrXmlNode;
+begin
+  Result := CreateElement('prest');
+
+  if NFSe.Prestador.IdentificacaoPrestador.CpfCnpj <> '' then
+    Result.AppendChild(AddNodeCNPJCPF('#1', '#1',
+                                 NFSe.Prestador.IdentificacaoPrestador.CpfCnpj))
+  else
+  begin
+    if NFSe.Prestador.IdentificacaoPrestador.Nif <> '' then
+      Result.AppendChild(AddNode(tcStr, '#1', 'NIF', 1, 40, 1,
+                                 NFSe.Prestador.IdentificacaoPrestador.Nif, ''))
+    else
+      Result.AppendChild(AddNode(tcStr, '#1', 'cNaoNIF', 1, 1, 1,
+               NaoNIFToStr(NFSe.Prestador.IdentificacaoPrestador.cNaoNIF), ''));
+  end;
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'CAEPF', 1, 14, 0,
+                              NFSe.Prestador.IdentificacaoPrestador.CAEPF, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'IM', 1, 15, 0,
+                 NFSe.Prestador.IdentificacaoPrestador.InscricaoMunicipal, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'xNome', 1, 300, 0,
+                                               NFSe.Prestador.RazaoSocial, ''));
+
+  if NFSe.tpEmit <> tePrestador then
+  begin
+    Result.AppendChild(GerarXMLEnderecoPrestador);
+  end;
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'fone', 6, 20, 0,
+                                          NFSe.Prestador.Contato.Telefone, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'email', 1, 80, 0,
+                                             NFSe.Prestador.Contato.Email, ''));
+
+  Result.AppendChild(GerarXMLRegimeTributacaoPrestador);
 end;
 
 end.

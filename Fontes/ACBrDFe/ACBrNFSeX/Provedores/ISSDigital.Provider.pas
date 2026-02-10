@@ -532,7 +532,7 @@ begin
   with ConfigGeral do
   begin
     Layout := loPadraoNacional;
-    Identificador := 'id';
+    Identificador := 'Id';
     QuebradeLinha := '|';
     ConsultaLote := False;
     FormatoArqEnvio := tfaXml;
@@ -583,8 +583,8 @@ begin
     EnviarEvento := True;
   end;
 
-  SetNomeXSD('SchemaDPS.xsd');
-  {
+  SetNomeXSD('***');
+
   with ConfigSchemas do
   begin
     GerarNFSe := 'DPS_v' + VersaoDFe + '.xsd';
@@ -592,11 +592,7 @@ begin
     ConsultarNFSeRps := 'DPS_v' + VersaoDFe + '.xsd';
     EnviarEvento := 'pedRegEvento_v' + VersaoDFe + '.xsd';
     ConsultarEvento := 'DPS_v' + VersaoDFe + '.xsd';
-
-    Validar := False;
   end;
-  }
-  ConfigSchemas.Validar := False;
 end;
 
 function TACBrNFSeProviderISSDigitalAPIPropria.CriarGeradorXml(

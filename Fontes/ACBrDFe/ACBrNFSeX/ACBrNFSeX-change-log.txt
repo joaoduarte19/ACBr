@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+10/02/2026
+-- ISSDigital.GravarXml/ISSDigital.Provider --
+[-] Correção na geração do atributo ID no XML do DPS.
+   Por: Italo Giurizzato Junior
+
 09/02/2026
 -- SigCorp.GravarXml/SigCorp.LerXml --
 [*] ACBR-8402 - Incluído as tags de retenção do PIS e COFINS.
