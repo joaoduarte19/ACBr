@@ -709,10 +709,12 @@ begin
     LJsonObject.AddPair('demisTitloCobr', DateTimeToDateBradesco(ATitulo.DataDocumento));
     LJsonObject.AddPair('dvctoTitloCobr', DateTimeToDateBradesco(ATitulo.Vencimento));
     LJsonObject.AddPair('cidtfdTpoVcto', 0);//FIXO.
-    if Boleto.Configuracoes.WebService.UseCertificateHTTP then // Portal Developers
-      LJsonObject.AddPair('cindcdEconmMoeda', '9')
-    else // LEGADO
+
+    // A propriedade cindcdEconmMoeda só existe no boleto com QrCode/Hibrido tanto no legado/portal dev
+    // Segundo manual do portal DEV QrCode v1.8.1 e Convencional v1.7.0
+    if Boleto.Cedente.CedenteWS.IndicadorPix then
       LJsonObject.AddPair('cindcdEconmMoeda', '00006');
+
     LJsonObject.AddPair('vnmnalTitloCobr', ATitulo.ValorDocumento*100);
     LJsonObject.AddPair('qmoedaNegocTitlo', 0);//FIXO.
     LJsonObject.AddPair('cespceTitloCobr', EspecieDocumento);
@@ -746,7 +748,7 @@ begin
     GerarDesconto(LJsonObject);
 
     //Tipo de prazo desconto/bonificação: 1 = Dias corridos | 2 = Dias úteis. Obrigatório? Sim, caso informado valor ou percentual de desconto/bonificação.
-    LJsonObject.AddPair('ctpoPrzCobr', 0);
+    LJsonObject.AddPair('ctpoPrzCobr', '00');
     if Boleto.Configuracoes.WebService.UseCertificateHTTP then
     begin
       LJsonObject.AddPair('pdescBonifPgto', '');//NÃO Obrigatório;
@@ -1291,7 +1293,7 @@ var
 
   procedure AdicionarDescontoJSON(const Sufixo: string; TipoDesconto: Integer);
   begin
-    if TipoDesconto <> 0 then
+    if (TipoDesconto <> 0) and (ATitulo.ValorDesconto > 0) then
     begin
       if TipoDesconto = 1 then
       begin
