@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 10/02/2026
+-- WebISS.GravarXml --
+[*] ACBR-8947 - Ajustes para gerar corretamente a tag CodigoNbs.
+   Por: Italo Giurizzato Junior
 -- ISSDigital.GravarXml/ISSDigital.Provider --
 [-] Correção na geração do atributo ID no XML do DPS.
    Por: Italo Giurizzato Junior
