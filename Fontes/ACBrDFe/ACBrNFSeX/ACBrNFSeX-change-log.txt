@@ -45,6 +45,7 @@ Símbolo : Significado
 
 10/02/2026
 -- ISSFortaleza.GravarXml --
+-- ACBrNFSeXGravarXml_ABRASFv1/ACBrNFSeXGravarXml_ABRASFv2 --
 [*] ACBR-8680 - Ajustes para gerar os campos de AtvEventos.
    Por: Milton Campanhã
 -- ISSFortaleza.GravarXml --

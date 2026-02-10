@@ -85,6 +85,8 @@ type
     FNrOcorrInscMunTomador: Integer;
     FGerarTagTomadorMesmoVazia: Boolean;
 
+    FGerarAtividadeEventoAposConstrucaoCivil : Boolean;
+    FGerarAtividadeEventoAposIncentivoFiscal : Boolean;
   protected
     procedure Configuracao; override;
 
@@ -102,6 +104,9 @@ type
     function GerarContatoTomador: TACBrXmlNode; virtual;
     function GerarIntermediarioServico: TACBrXmlNode; virtual;
     function GerarConstrucaoCivil: TACBrXmlNode; virtual;
+    function GeraAtividadeEvento: TACBrXmlNode; virtual;
+    function GerarEnderecoEvento: TACBrXmlNode; virtual;
+    function GerarEnderecoExteriorEvento: TACBrXmlNode; virtual;
     function GerarCondicaoPagamento: TACBrXmlNode; virtual;
     function GerarParcelas: TACBrXmlNodeArray; virtual;
     function GerarDestinatario: TACBrXmlNode; virtual;
@@ -189,6 +194,9 @@ type
     property NrOcorrInformacoesComplemetares: Integer read FNrOcorrInformacoesComplemetares write FNrOcorrInformacoesComplemetares;
 
     property GerarTagTomadorMesmoVazia: Boolean read FGerarTagTomadorMesmoVazia write FGerarTagTomadorMesmoVazia;
+
+    property GerarAtividadeEventoAposConstrucaoCivil: Boolean read FGerarAtividadeEventoAposConstrucaoCivil write FGerarAtividadeEventoAposConstrucaoCivil;
+    property GerarAtividadeEventoAposIncentivoFiscal: Boolean read FGerarAtividadeEventoAposIncentivoFiscal write FGerarAtividadeEventoAposIncentivoFiscal;
   end;
 
 implementation
@@ -264,6 +272,9 @@ begin
   FNrOcorrInformacoesComplemetares := -1;
 
   FGerarTagTomadorMesmoVazia := False;
+
+  FGerarAtividadeEventoAposConstrucaoCivil := False;
+  FGerarAtividadeEventoAposIncentivoFiscal := False;
 end;
 
 function TNFSeW_ABRASFv1.GerarXml: Boolean;
@@ -336,6 +347,9 @@ begin
   Result.AppendChild(GerarImovel);
   Result.AppendChild(GerarCondicaoPagamento);
   Result.AppendChild(GerarConstrucaoCivil);
+
+  if GerarAtividadeEventoAposConstrucaoCivil then
+    Result.AppendChild(GeraAtividadeEvento);
 end;
 
 function TNFSeW_ABRASFv1.GerarIdentificacaoRPS: TACBrXmlNode;
@@ -1067,6 +1081,21 @@ begin
       LIniNFSe.Free;
     end;
   end;
+end;
+
+function TNFSeW_ABRASFv1.GeraAtividadeEvento: TACBrXmlNode;
+begin
+  Result := nil;
+end;
+
+function TNFSeW_ABRASFv1.GerarEnderecoEvento: TACBrXmlNode;
+begin
+  Result := nil;
+end;
+
+function TNFSeW_ABRASFv1.GerarEnderecoExteriorEvento: TACBrXmlNode;
+begin
+  Result := nil;
 end;
 
 end.
