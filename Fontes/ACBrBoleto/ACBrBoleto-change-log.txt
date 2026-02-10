@@ -48,11 +48,16 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
 10/02/2026
 -- ACBrBoletoW_Bradesco  --
 [-] Corrigido a propriedade cindcdEconmMoeda conforme manual Hibrido (portal/legado), tbm corrigido ctpoPrzCobr, adicionado validacao no metodo AdicionarDescontoJSON
    ACBR-8543 https://www.projetoacbr.com.br/forum/topic/88007-boleto-bradesco-api/
    Por: Fernanda Penteado
+-- ACBrBancoCredisan --
+[+] Implementado número sequencial como sufixo do nome do arquivo do banco 089-Credisan quando houverem mais de um arquivo gerados no mesmo dia
+   https://www.projetoacbr.com.br/forum/topic/90227-remessa-banco-credisan-89-substitui-arquivo-do-mesmo-dia/
+   Por: Renato Rubinho
 
 04/02/2026
 -- ACBrBoletoW_BancoBrasil_API  --

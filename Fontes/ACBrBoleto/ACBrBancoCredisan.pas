@@ -485,19 +485,30 @@ end;
 
 function TACBrBancoCredisan.CalcularNomeArquivoRemessa: string;
 var Boleto : TACBrBoleto;
+  LSequencia: Integer;
+  LNomeFixo: String;
+  LNomeArq: String;
 begin
+  LSequencia := 0;
+
   Boleto := ACBrBanco.ACBrBoleto;
 
   fNumeroRemessa := Boleto.NumeroArquivo;
 
-  Boleto.NomeArqRemessa := PadLeft(Boleto.Cedente.Conta, 9, '0')
-                           + PadLeft(Boleto.Cedente.ContaDigito,1 , '0')
-                           + FormatDateTime('ddmmyyyy', Now)
-                           + '.REM';
+  LNomeFixo := PadLeft(Boleto.Cedente.Conta, 9, '0')
+               + PadLeft(Boleto.Cedente.ContaDigito, 1, '0')
+               + FormatDateTime('ddmmyyyy', Now);
 
-  Result := Boleto.DirArqRemessa
-            + PathDelim
-            + Boleto.NomeArqRemessa;
+  LNomeArq := LNomeFixo + '.REM';
+  if FileExists(LNomeArq) then
+  begin
+    repeat
+      Inc(LSequencia);
+      LNomeArq := LNomeFixo + IntToStrZero(LSequencia, FDigitosSequencialArquivoRemessa) + '.REM';
+    until not FileExists(LNomeArq);
+  end;
+
+  Result := LNomeArq;
 end;
 
 function TACBrBancoCredisan.CodOcorrenciaToTipo(const CodOcorrencia: Integer): TACBrTipoOcorrencia;
