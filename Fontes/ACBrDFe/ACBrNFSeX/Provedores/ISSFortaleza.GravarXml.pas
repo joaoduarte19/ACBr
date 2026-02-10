@@ -69,6 +69,9 @@ type
     function GerarXMLgIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode; override;
     function GerarXMLgTribRegular(gTribRegular: TgTribRegular): TACBrXmlNode;
     function GerarXMLgDif(gDif: TgDif): TACBrXmlNode;
+    function GerarConstrucaoCivil: TACBrXmlNode; override;
+    function GerarEnderecoObra: TACBrXmlNode;
+    function GerarServico: TACBrXmlNode; override;
   end;
 
 implementation
@@ -102,6 +105,14 @@ begin
   NrOcorrValorIss := 1;
 
   PrefixoPadrao := 'ns4';
+end;
+
+function TNFSeW_ISSFortaleza.GerarServico: TACBrXmlNode;
+begin
+  Result := inherited GerarServico;
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'CodigoNbs', 1, 9, 0,
+                                                   NFSe.Servico.CodigoNBS, ''));
 end;
 
 function TNFSeW_ISSFortaleza.GerarInfRps: TACBrXmlNode;
@@ -474,6 +485,45 @@ begin
 
   Result.AppendChild(AddNode(tcDe2, '#1', 'PercentualDiferimentoCbs', 1, 15, 1,
                                                              gDif.pDifCBS, ''));
+end;
+
+function TNFSeW_ISSFortaleza.GerarConstrucaoCivil: TACBrXmlNode;
+begin
+ Result := inherited GerarConstrucaoCivil;
+
+ if Result <> nil then
+   Result.AppendChild(GerarEnderecoObra);
+end;
+
+function TNFSeW_ISSFortaleza.GerarEnderecoObra: TACBrXmlNode;
+begin
+  Result := nil;
+
+  if (NFSe.ConstrucaoCivil.Endereco.Endereco <> '') then
+  begin
+    Result := CreateElement('Endereco');
+
+    Result.AppendChild(AddNode(tcStr, '#53', 'Endereco', 1, 125, 0,
+                             NFSe.ConstrucaoCivil.Endereco.Endereco, DSC_XLGR));
+
+    Result.AppendChild(AddNode(tcStr, '#54', 'Numero', 1, 10, 0,
+                                NFSe.ConstrucaoCivil.Endereco.Numero, DSC_NRO));
+
+    Result.AppendChild(AddNode(tcStr, '#55', 'Complemento', 1, 80, 0,
+                          NFSe.ConstrucaoCivil.Endereco.Complemento, DSC_XCPL));
+
+    Result.AppendChild(AddNode(tcStr, '#56', 'Bairro', 1, 60, 0,
+                            NFSe.ConstrucaoCivil.Endereco.Bairro, DSC_XBAIRRO));
+
+    Result.AppendChild(AddNode(tcStr, '#57', 'CodigoMunicipio', 1, 7, 0,
+                      NFSe.ConstrucaoCivil.Endereco.CodigoMunicipio, DSC_CMUN));
+
+    Result.AppendChild(AddNode(tcStr, '#57', 'Uf', 2, 2, 0,
+                                     NFSe.ConstrucaoCivil.Endereco.UF, DSC_UF));
+
+    Result.AppendChild(AddNode(tcStr, '#59', 'Cep', 1, 8, 0,
+                                   NFSe.ConstrucaoCivil.Endereco.CEP, DSC_CEP));
+  end;
 end;
 
 end.

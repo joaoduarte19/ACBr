@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 10/02/2026
+-- ISSFortaleza.GravarXml --
+[*] ACBR-8923 - Ajustes para gerar corretamente a tag CodigoNbs.
+   Por: Italo Giurizzato Junior
 -- WebISS.GravarXml --
 [*] ACBR-8947 - Ajustes para gerar corretamente a tag CodigoNbs.
    Por: Italo Giurizzato Junior
