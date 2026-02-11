@@ -6,7 +6,9 @@ namespace ACBrLib.Core
 {
 
     /// <summary>
-    /// Classe base para as bibliotecas ACBrLib 
+    /// Classe base para as novas biblioteca ACBrLib C# Mono.
+    /// É indica para uso em ambiente Linux, principalmente desenvolvimento de APIs REST, mas também pode ser usada em ambiente Windows.
+    /// Diferente de ACBrLibHandle essa classe define apenas os métodos e propriedades comuns a todas as bibliotecas ACBrLib em alto nível, ou seja, sem lidar diretamente com ponteiros e buffers.
     /// Essa classe define os métodos e propriedades comuns a todas as bibliotecas ACBrLib em alto nível.
     /// </summary>
     public abstract class ACBrLibBase: IACBrLibBase
@@ -35,7 +37,6 @@ namespace ACBrLib.Core
         public abstract void ConfigGravar(string eArqConfig);
         public abstract string ConfigLerValor(string eSessao, string eChave);
         public abstract void ConfigGravarValor(string eSessao, string eChave, string eValor);
-
         public abstract T ConfigLerValor<T>(ACBrSessao eSessao, string eChave);
 
         public abstract void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value);

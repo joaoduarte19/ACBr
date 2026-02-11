@@ -1,6 +1,6 @@
 ﻿namespace ACBrLib.Core.Config
 {
-    public class DownloadConfig<TLib> : ACBrLibConfig<TLib> where TLib : ACBrLibHandle
+    public class DownloadConfig<TLib> : ACBrLibConfig<TLib> where TLib : IACBrLibBase
     {
         #region Constructors
 

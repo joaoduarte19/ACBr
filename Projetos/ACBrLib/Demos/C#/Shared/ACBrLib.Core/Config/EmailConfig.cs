@@ -2,7 +2,7 @@
 
 namespace ACBrLib.Core.Config
 {
-    public sealed class EmailConfig<TLib> : ACBrLibConfig<TLib> where TLib : ACBrLibHandle
+    public sealed class EmailConfig<TLib> : ACBrLibConfig<TLib> where TLib : IACBrLibBase
     {
         #region Constructors
 

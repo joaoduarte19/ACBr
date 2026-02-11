@@ -2,7 +2,7 @@
 
 namespace ACBrLib.Core.Config
 {
-    public sealed class DeviceConfig<TLib> : ACBrLibConfigBase<TLib> where TLib : ACBrLibHandle
+    public sealed class DeviceConfig<TLib> : ACBrLibConfigBase<TLib> where TLib : IACBrLibBase
     {
         #region Constructors
 

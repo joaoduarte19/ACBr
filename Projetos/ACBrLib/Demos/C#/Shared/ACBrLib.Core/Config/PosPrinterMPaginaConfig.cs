@@ -2,7 +2,7 @@
 
 namespace ACBrLib.Core.Config
 {
-    public sealed class PosPrinterMPaginaConfig<TLib> : ACBrLibConfigBase<TLib> where TLib : ACBrLibHandle
+    public sealed class PosPrinterMPaginaConfig<TLib> : ACBrLibConfigBase<TLib> where TLib : IACBrLibBase
     {
         #region Constructors
 

@@ -1,6 +1,6 @@
 ﻿namespace ACBrLib.Core.Config
 {
-    public sealed class ExpandeLogoMarcaConfig<TLib> : ACBrLibConfigBase<TLib> where TLib : ACBrLibHandle
+    public sealed class ExpandeLogoMarcaConfig<TLib> : ACBrLibConfigBase<TLib> where TLib : IACBrLibBase
     {
         #region Constructors
 

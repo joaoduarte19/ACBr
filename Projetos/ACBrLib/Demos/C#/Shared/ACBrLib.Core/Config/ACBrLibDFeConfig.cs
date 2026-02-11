@@ -2,7 +2,7 @@
 
 namespace ACBrLib.Core.Config
 {
-    public abstract class ACBrLibDFeConfig<TLib> : ACBrLibConfig<TLib> where TLib : ACBrLibHandle
+    public abstract class ACBrLibDFeConfig<TLib> : ACBrLibConfig<TLib> where TLib : IACBrLibBase
     {
         #region Constructors
 

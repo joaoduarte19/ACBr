@@ -3,7 +3,7 @@ using ACBrLib.Core.DFe;
 
 namespace ACBrLib.Core.Config
 {
-    public sealed class DFeConfig<TLib> : ACBrLibConfigBase<TLib> where TLib : ACBrLibHandle
+    public sealed class DFeConfig<TLib> : ACBrLibConfigBase<TLib> where TLib : IACBrLibBase
     {
         #region Constructors
 
