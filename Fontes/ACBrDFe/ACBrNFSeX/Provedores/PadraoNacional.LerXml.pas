@@ -920,16 +920,31 @@ begin
         BaseCalculo := ValorServicos - ValorDeducoes - DescontoIncondicionado;
 
         case tribFed.tpRetPisCofins of
-          trpcNaoRetido:
+          trpiscofinscsllNaoRetido:
+            RetencoesFederais := ValorInss + ValorIr;
+
+          trpiscofinscsllRetido:
+            RetencoesFederais := ValorInss + ValorIr + ValorPis + ValorCofins + ValorCsll;
+
+          trpiscofinsRetidocsllNaoRetido:
+            RetencoesFederais := ValorInss + ValorIr + ValorPis + ValorCofins;
+
+          trPisRetidoCofinsCsllNaoRetido:
+            RetencoesFederais := ValorInss + ValorIr + ValorPis;
+
+          trCofinsRetidoPisCsllNaoRetido:
+            RetencoesFederais := ValorInss + ValorIr + ValorCofins;
+
+          trCofinsCsllRetidoPisNaoRetido:
+            RetencoesFederais := ValorInss + ValorIr + ValorCofins + ValorCsll;
+
+          trCsllRetidoPisCofinsNaoRetido:
             RetencoesFederais := ValorInss + ValorIr + ValorCsll;
 
-          trpcPISRetido:
-            RetencoesFederais := ValorPis + ValorInss + ValorIr + ValorCsll;
-
-          trpcCOFINSRetido:
-            RetencoesFederais := ValorCofins + ValorInss + ValorIr + ValorCsll;
+          trPisCsllRetidoCofinsNaoRetido:
+            RetencoesFederais := ValorInss + ValorIr + ValorPis + ValorCsll;
         else
-          RetencoesFederais := ValorPis + ValorCofins + ValorInss + ValorIr + ValorCsll;
+          RetencoesFederais := ValorInss + ValorIr + ValorPis + ValorCofins + ValorCsll;
         end;
 
         ValorLiquidoNfse := ValorServicos - RetencoesFederais - OutrasRetencoes -
@@ -1619,16 +1634,31 @@ begin
       BaseCalculo := ValorServicos - ValorDeducoes - DescontoIncondicionado;
 
       case tribFed.tpRetPisCofins of
-        trpcNaoRetido:
+        trpiscofinscsllNaoRetido:
+          RetencoesFederais := ValorInss + ValorIr;
+
+        trpiscofinscsllRetido:
+          RetencoesFederais := ValorInss + ValorIr + ValorPis + ValorCofins + ValorCsll;
+
+        trpiscofinsRetidocsllNaoRetido:
+          RetencoesFederais := ValorInss + ValorIr + ValorPis + ValorCofins;
+
+        trPisRetidoCofinsCsllNaoRetido:
+          RetencoesFederais := ValorInss + ValorIr + ValorPis;
+
+        trCofinsRetidoPisCsllNaoRetido:
+          RetencoesFederais := ValorInss + ValorIr + ValorCofins;
+
+        trCofinsCsllRetidoPisNaoRetido:
+          RetencoesFederais := ValorInss + ValorIr + ValorCofins + ValorCsll;
+
+        trCsllRetidoPisCofinsNaoRetido:
           RetencoesFederais := ValorInss + ValorIr + ValorCsll;
 
-        trpcPISRetido:
-          RetencoesFederais := ValorPis + ValorInss + ValorIr + ValorCsll;
-
-        trpcCOFINSRetido:
-          RetencoesFederais := ValorCofins + ValorInss + ValorIr + ValorCsll;
+        trPisCsllRetidoCofinsNaoRetido:
+          RetencoesFederais := ValorInss + ValorIr + ValorPis + ValorCsll;
       else
-        RetencoesFederais := ValorPis + ValorCofins + ValorInss + ValorIr + ValorCsll;
+        RetencoesFederais := ValorInss + ValorIr + ValorPis + ValorCofins + ValorCsll;
       end;
 
       ValorLiquidoNfse := ValorServicos - RetencoesFederais - OutrasRetencoes -

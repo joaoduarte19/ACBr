@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 11/02/2026
+-- ACBrNFSeXConversao/PadraoNacional.LerXml --
+[*] ACBR-8963 - Ajustes nos valores do tipo: TtpRetPisCofins visando atender a NT 007.
+   Por: Bruno
 -- Fiorilli.Provider, ACBrNFSeXServicos --
 [*] ACBR-8782 - Ajustes visando compatibilização com a nova API do provedor que recepciona no leiaute do Padrão Nacional.
    Por: Diego Folieni
