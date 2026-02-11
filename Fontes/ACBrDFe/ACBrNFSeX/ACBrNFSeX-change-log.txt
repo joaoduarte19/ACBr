@@ -42,6 +42,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/02/2026
+-- Fiorilli.Provider, ACBrNFSeXServicos --
+[*] ACBR-8782 - Ajustes visando compatibilização com a nova API do provedor que recepciona no leiaute do Padrão Nacional.
+   Por: Diego Folieni
 
 10/02/2026
 -- ISSFortaleza.GravarXml --
