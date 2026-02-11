@@ -982,10 +982,7 @@ begin
 
     Result := FDocument.CreateElement('retirada');
 
-    if NFe.Retirada.CNPJCPF <> '' then
-      Result.AppendChild(AddNodeCNPJCPF('F02', 'F02a',
-                                            NFe.Retirada.CNPJCPF, True, False));
-
+    Result.AppendChild(AddNodeCNPJCPF('F02', 'F02a', NFe.Retirada.CNPJCPF, True, False));
     Result.AppendChild(AddNode(tcStr, 'F02b', 'xNome', 02, 60, 0,
       NFe.Retirada.xNome, DSC_XNOME));
     Result.AppendChild(AddNode(tcStr, 'F03', 'xLgr', 02, 60, 1,
@@ -994,7 +991,7 @@ begin
       ExecutarAjusteTagNro(Opcoes.FAjustarTagNro, NFe.Retirada.nro), DSC_NRO));
     Result.AppendChild(AddNode(tcStr, 'F05', 'xCpl', 01, 60, 0,
       NFe.Retirada.xCpl, DSC_XCPL));
-    Result.AppendChild(AddNode(tcStr, 'F06', 'xBairro', 01, 60, 1,
+    Result.AppendChild(AddNode(tcStr, 'F06', 'xBairro', 02, 60, 1,
       NFe.Retirada.xBairro, DSC_XBAIRRO));
     Result.AppendChild(AddNode(tcInt, 'F07', 'cMun', 01, 07, 1, cMun, DSC_CMUN));
     if not ValidarMunicipio(cMun) then
@@ -1006,7 +1003,7 @@ begin
 
     Result.AppendChild(AddNode(tcInt, 'F10', 'CEP', 08, 08, 0,
       NFe.Retirada.CEP, DSC_CEP));
-    Result.AppendChild(AddNode(tcInt, 'F11', 'cPais', 02, 04, 0,
+    Result.AppendChild(AddNode(tcInt, 'F11', 'cPais', 01, 04, 0,
       NFe.Retirada.cPais, DSC_CPAIS));
     if not ValidarCodigoPais(NFe.Retirada.cPais) = -1 then
       wAlerta('F11', 'cPais', DSC_CPAIS, ERR_MSG_INVALIDO);
@@ -1035,11 +1032,8 @@ begin
 
     Result := FDocument.CreateElement('entrega');
 
-    if NFe.Entrega.CNPJCPF <> '' then
-      Result.AppendChild(AddNodeCNPJCPF('G02', 'G02a',
-                                             NFe.Entrega.CNPJCPF, True, False));
-
-    Result.AppendChild(AddNode(tcStr, 'G02b', 'xNome', 02, 60, 0,
+    Result.AppendChild(AddNodeCNPJCPF('G02', 'G02a', NFe.Entrega.CNPJCPF, True, False));
+	Result.AppendChild(AddNode(tcStr, 'G02b', 'xNome', 02, 60, 0,
       NFe.Entrega.xNome, DSC_XNOME));
     Result.AppendChild(AddNode(tcStr, 'G03', 'xLgr', 02, 60, 1,
       NFe.Entrega.xLgr, DSC_XLGR));
@@ -1047,7 +1041,7 @@ begin
       ExecutarAjusteTagNro(Opcoes.FAjustarTagNro, NFe.Entrega.nro), DSC_NRO));
     Result.AppendChild(AddNode(tcStr, 'G05', 'xCpl', 01, 60, 0,
       NFe.Entrega.xCpl, DSC_XCPL));
-    Result.AppendChild(AddNode(tcStr, 'G06', 'xBairro', 01, 60, 1,
+    Result.AppendChild(AddNode(tcStr, 'G06', 'xBairro', 02, 60, 1,
       NFe.Entrega.xBairro, DSC_XBAIRRO));
     Result.AppendChild(AddNode(tcInt, 'G07', 'cMun', 01, 07, 1, cMun, DSC_CMUN));
     if not ValidarMunicipio(NFe.Entrega.cMun) then
@@ -1059,7 +1053,7 @@ begin
 
     Result.AppendChild(AddNode(tcInt, 'G10', 'CEP', 08, 08, 0,
       NFe.Entrega.CEP, DSC_CEP));
-    Result.AppendChild(AddNode(tcInt, 'G11', 'cPais', 02, 04, 0,
+    Result.AppendChild(AddNode(tcInt, 'G11', 'cPais', 01, 04, 0,
       NFe.Entrega.cPais, DSC_CPAIS));
     if not ValidarCodigoPais(NFe.Entrega.cPais) = -1 then
       wAlerta('G11', 'cPais', DSC_CPAIS, ERR_MSG_INVALIDO);

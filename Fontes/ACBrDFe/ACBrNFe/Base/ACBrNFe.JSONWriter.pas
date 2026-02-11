@@ -465,12 +465,12 @@ procedure TNFeJSONWriter.GerarRetirada(const ARetirada: TRetirada; AJSONObject: 
 var
   lRetiradaJSONObj: TACBrJSONObject;
 begin
-  if Trim(ARetirada.CNPJCPF) = '' then
+  if (Trim(ARetirada.xLgr) = '') then
     exit;
 
   lRetiradaJSONObj := TACBrJSONObject.Create;
 
-  if Length(ARetirada.CNPJCPF) = 14 then
+  if (Length(ARetirada.CNPJCPF) = 14) or (Length(ARetirada.CNPJCPF) = 0) then
     lRetiradaJSONObj.AddPair('CNPJ', ARetirada.CNPJCPF)
   else if Length(ARetirada.CNPJCPF) = 11 then
     lRetiradaJSONObj.AddPair('CPF', ARetirada.CNPJCPF);
@@ -497,11 +497,11 @@ procedure TNFeJSONWriter.GerarEntrega(const AEntrega: TEntrega; AJSONObject: TAC
 var
   lEntregaJSONObj: TACBrJSONObject;
 begin
-  if (Trim(AEntrega.CNPJCPF) = '') and (Trim(AEntrega.xLgr) = '') then
+  if (Trim(AEntrega.xLgr) = '') then
     exit;
 
   lEntregaJSONObj := TACBrJSONObject.Create;
-  if Length(AEntrega.CNPJCPF) = 14 then
+  if (Length(AEntrega.CNPJCPF) = 14) or (Length(AEntrega.CNPJCPF) = 0) then
     lEntregaJSONObj.AddPair('CNPJ', AEntrega.CNPJCPF)
   else if Length(AEntrega.CNPJCPF) = 11 then
     lEntregaJSONObj.AddPair('CPF', AEntrega.CNPJCPF);

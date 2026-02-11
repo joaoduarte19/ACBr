@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/02/2026
+-- ACBrNFe.XmlWriter/ACBrNFe.JSONWriter --
+[-] ACBR-8886: Ajuste visando geração da tag CNPJ vazia para os grupos entrega e retirada a fim de evitar erro de schema
+   Por: Valter Patrick
+
 26/01/2026
 -- ACBrNFe.XmlWriter --
 [*] ACBR-8761: Alteração no método 'AjustarMunicipioUF()' para assumir valor 1058(Brasil) para o código país 
