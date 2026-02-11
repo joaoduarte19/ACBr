@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 11/02/2026
+-- Digifred.Provider --
+[*] ACBR-8915 - Ajustes na leitura do retorno do envio de uma nota.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXConversao/PadraoNacional.LerXml --
 [*] ACBR-8963 - Ajustes nos valores do tipo: TtpRetPisCofins visando atender a NT 007.
    Por: Bruno

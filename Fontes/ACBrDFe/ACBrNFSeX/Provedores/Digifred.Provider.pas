@@ -131,6 +131,7 @@ type
 implementation
 
 uses
+  ACBrJSON,
   ACBrUtil.XMLHTML,
   ACBrUtil.Strings,
   ACBrUtil.DateTime,
@@ -796,10 +797,13 @@ procedure TACBrNFSeProviderDigifredAPIPropria.TratarRetornoEmitir(
   Response: TNFSeEmiteResponse);
 var
   Document: TACBrXmlDocument;
+  DocJson, JSon: TACBrJSONObject;
+  JSonLista: TACBrJSONArray;
   AErro: TNFSeEventoCollectionItem;
-  ANode: TACBrXmlNode;
+  ANode, AuxNode: TACBrXmlNode;
   ANota: TNotaFiscal;
-  respostaADN: string;
+  resposta: string;
+  i: Integer;
 begin
   Document := TACBrXmlDocument.Create;
   try
@@ -814,31 +818,64 @@ begin
 
       Document.LoadFromXml(Response.ArquivoRetorno);
 
-  // Existe o elemento outputXML/GerarNfseResposta e o respostaADN
-  // acredito que no elemento outputXML temos um retorno do webservice do provedor
-  // no elemento respostaADN temos um retorno da API do Padrão Nacional.
-
-      respostaADN := ObterConteudoTag(Document.Root.Childrens.FindAnyNs('respostaADN'), tcStr);
-
-      if respostaADN <> '' then
-      begin
-        ANota := TACBrNFSeX(FAOwner).NotasFiscais.Items[0];
-        ANota := CarregarXmlNfse(ANota, respostaADN);
-        SalvarXmlNfse(ANota);
-      end;
-
       ANode := Document.Root.Childrens.FindAnyNs('outputXML');
 
       if Assigned(ANode) then
-        ANode := ANode.Childrens.FindAnyNs('GerarNfseResposta');
+        AuxNode := ANode.Childrens.FindAnyNs('GerarNfseResposta');
+
+      if Assigned(AuxNode) then
+      begin
+        ProcessarMensagemErros(AuxNode, Response);
+
+        Response.Data := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('dhRecebimento'), tcDatHor);
+        Response.Protocolo := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('protocolo'), tcStr);
+        Response.Situacao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('status'), tcStr);
+      end;
 
       if Assigned(ANode) then
-      begin
-        ProcessarMensagemErros(ANode, Response);
+        AuxNode := ANode.Childrens.FindAnyNs('NFSe');
 
-        Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhRecebimento'), tcDatHor);
-        Response.Protocolo := ObterConteudoTag(ANode.Childrens.FindAnyNs('protocolo'), tcStr);
-        Response.Situacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('status'), tcStr);
+      if Assigned(AuxNode) then
+      begin
+        ANota := TACBrNFSeX(FAOwner).NotasFiscais.Items[0];
+        ANota := CarregarXmlNfse(ANota, AuxNode.OuterXml);
+        SalvarXmlNfse(ANota);
+      end;
+
+      ANode := Document.Root.Childrens.FindAnyNs('respostaADN');
+
+      if Assigned(ANode) then
+        AuxNode := ANode.Childrens.FindAnyNs('RespostaADN');
+
+      if Assigned(AuxNode) then
+      begin
+        resposta := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('resposta'), tcStr);
+        // o conteudo da variável resposta é um Json
+
+        DocJson := TACBrJsonObject.Parse(resposta);
+
+        try
+          Response.Data := DocJson.AsISODateTime['DataHoraProcessamento'];
+          try
+            JSonLista := DocJson.AsJSONArray['Lote'];
+
+            for i := 0 to JSonLista.Count-1 do
+            begin
+              JSon := JSonLista.ItemAsJSONObject[i];
+
+              Response.Link := JSon.AsString['ChaveAcesso'];
+            end;
+          except
+            on E:Exception do
+            begin
+              AErro := Response.Erros.New;
+              AErro.Codigo := Cod999;
+              AErro.Descricao := ACBrStr(Desc999 + E.Message);
+            end;
+          end;
+        finally
+          FreeAndNil(DocJson);
+        end;
       end;
     except
       on E:Exception do
