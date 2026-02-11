@@ -68,6 +68,7 @@ type
   TSSLDgst = (dgstMD2, dgstMD4, dgstMD5, dgstRMD160, dgstSHA, dgstSHA1, dgstSHA256, dgstSHA512) ;
   TSSLHashOutput = (outHexa, outBase64, outBinary) ;
   TSSLStoreLocation = (slMemory, slLocalMachine, slCurrentUser, slActiveDirectory, slSmartCard);
+  TSSLC14NMode = (cmC14N_1_0, cmC14N_EXCLUSIVE);
 
   TDFeSSL = class;
 
@@ -330,6 +331,7 @@ type
     FTimeOutPorThread: Boolean;
     FUseCertificateHTTP: Boolean;
     FSSLDgst: TSSLDgst;
+    FSSLC14NMode: TSSLC14NMode;
 
     function GetCertCNPJ: String;
     function GetCertContextWinApi: Pointer;
@@ -463,6 +465,7 @@ type
       default xsNone;
     property SSLType: TSSLType read FSSLType write FSSLType default LT_TLSv1_2;
     property SSLDgst: TSSLDgst read FSSLDgst write FSSLDgst default dgstSHA1;
+    property SSLC14NMode: TSSLC14NMode read FSSLC14NMode write FSSLC14NMode default cmC14N_1_0;
 
     property StoreLocation: TSSLStoreLocation read FStoreLocation
       write FStoreLocation default slCurrentUser;
@@ -1122,7 +1125,7 @@ begin
 
   Result := copy(ConteudoXML, 1, I - 1) +
             SignatureElement(URI, AddX509Data, IdSignature, FpDFeSSL.SSLDgst,
-                             IdSignatureValue) +
+                             IdSignatureValue, FpDFeSSL.SSLC14NMode) +
             copy(ConteudoXML, I, Length(ConteudoXML));
 end;
 
@@ -1304,6 +1307,7 @@ begin
   FSSLDgst       := dgstSHA1;
   FStoreLocation := slCurrentUser;
   FStoreName     := CDEFAULT_STORE_NAME;
+  FSSLC14NMode   := cmC14N_1_0;
 
   // Para emissão de NFS-e essas propriedades podem ter valores diferentes dos
   // atribuidos abaixo, dependendo do provedor...

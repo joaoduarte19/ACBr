@@ -200,7 +200,7 @@ begin
     //WriteToTXT('C:\TEMP\CanonDigest.xml', Canon, False, False, True);
 
     SignNode := AdicionarNode(aDoc, SignatureElement(URI, True, IdSignature,
-                               FpDFeSSL.SSLDgst, IdSignatureValue), docElement);
+                               FpDFeSSL.SSLDgst, IdSignatureValue, FpDFeSSL.SSLC14NMode), docElement);
 
     // gerar o hash
     DigestValue := FpDFeSSL.CalcHash(Canon, FpDFeSSL.SSLDgst, outBase64);
@@ -298,6 +298,7 @@ var
   SubDoc: xmlDocPtr;
   RootNs: xmlNsPtr;
   TodoDocumento: Boolean;
+  c14nMode: Integer;
 begin
   Result   := '';
   buffer   := Nil;
@@ -346,7 +347,12 @@ begin
 
         xmlDocSetRootElement(SubDoc, NewNode);
 
-        if xmlC14NDocDumpMemory(SubDoc, nil, 0, nil, 0, @buffer) < 0 then
+        if FpDFeSSL.SSLC14NMode = cmC14N_1_0 then
+          c14nMode := 0
+        else
+          c14nMode := 1;
+
+        if xmlC14NDocDumpMemory(SubDoc, nil, c14nMode, nil, 0, @buffer) < 0 then
           raise EACBrDFeException.Create(cErrC14NTransformation);
       finally
         if (SubDoc <> nil) then

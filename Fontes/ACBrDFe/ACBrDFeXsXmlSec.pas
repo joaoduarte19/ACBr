@@ -455,7 +455,7 @@ begin
 
     if (SignNode = nil) then
       SignNode := AdicionarNode(aDoc, SignatureElement(URI, True, IdSignature,
-                               FpDFeSSL.SSLDgst, IdSignatureValue), docElement);
+                               FpDFeSSL.SSLDgst, IdSignatureValue, FpDFeSSL.SSLC14NMode), docElement);
 
     { sign the template }
     SignResult := xmlSecDSigCtxSign(FdsigCtx, SignNode);

@@ -65,7 +65,8 @@ function ValidaNVE(const AValue: string): Boolean;
 function XmlEstaAssinado(const AXML: String): Boolean;
 function SignatureElement(const URI: String; AddX509Data: Boolean;
     const IdSignature: String = ''; const Digest: TSSLDgst = dgstSHA1;
-    const IdSignatureValue: String = ''): String;
+    const IdSignatureValue: String = '';
+    const C14NMode: TSSLC14NMode = cmC14N_1_0): String;
 function EncontrarURI(const AXML: String; docElement: String = ''; IdAttr: String = ''): String;
 function ObterNomeMunicipio(const AcMun: Integer; var AxUF: String;
   const APathArqMun: String = ''; const AGerarException : Boolean = True): String;
@@ -408,9 +409,9 @@ end;
 
 function SignatureElement(const URI: String; AddX509Data: Boolean;
   const IdSignature: String; const Digest: TSSLDgst;
-  const IdSignatureValue: String): String;
+  const IdSignatureValue: String; const C14NMode: TSSLC14NMode): String;
 var
-  MethodAlgorithm, DigestAlgorithm: String;
+  MethodAlgorithm, DigestAlgorithm, CanonicalizationAlgorithm, TransformAlgorithm: String;
 begin
   case Digest of
     dgstSHA256:
@@ -430,16 +431,26 @@ begin
       end;
   end;
 
+  if C14NMode = cmC14N_1_0 then
+  begin
+    CanonicalizationAlgorithm := 'http://www.w3.org/TR/2001/REC-xml-c14n-20010315';
+    TransformAlgorithm := 'http://www.w3.org/TR/2001/REC-xml-c14n-20010315';
+  end else
+  begin
+    CanonicalizationAlgorithm := 'http://www.w3.org/2001/10/xml-exc-c14n#';
+    TransformAlgorithm := 'http://www.w3.org/2001/10/xml-exc-c14n#';
+  end;
+
   {(*}
   Result :=
   '<Signature xmlns="http://www.w3.org/2000/09/xmldsig#"' + IdSignature + '>' +
     '<SignedInfo>' +
-      '<CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />' +
+      '<CanonicalizationMethod Algorithm="'+CanonicalizationAlgorithm+'" />' +
       '<SignatureMethod Algorithm="'+MethodAlgorithm+'" />' +
       '<Reference URI="' + IfThen(URI = '', '', '#' + URI) + '">' +
         '<Transforms>' +
           '<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />' +
-          '<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />' +
+          '<Transform Algorithm="'+TransformAlgorithm+'" />' +
         '</Transforms>' +
         '<DigestMethod Algorithm="'+DigestAlgorithm+'" />' +
         '<DigestValue></DigestValue>' +
