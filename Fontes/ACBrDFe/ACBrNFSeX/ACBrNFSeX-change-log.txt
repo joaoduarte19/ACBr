@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 12/02/2026
+-- Digifred.Provider --
+[*] ACBR-8915 - Ajustes no TratarXmlRetornado por conta de conter duas Declarações no XML diferentes.
+   Por: Italo Giurizzato Junior
 -- PadraoNacional.LerXml --
 [*] Ajustes para considerar ISSQN retido na leitura do XML.
    Por: Helius_ERP

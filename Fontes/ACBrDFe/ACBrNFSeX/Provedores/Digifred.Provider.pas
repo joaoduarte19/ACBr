@@ -131,6 +131,7 @@ type
 implementation
 
 uses
+  ACBrUtil.FilesIO,
   ACBrJSON,
   ACBrUtil.XMLHTML,
   ACBrUtil.Strings,
@@ -482,6 +483,9 @@ begin
 
   Result := ParseText(Result);
   Result := RemoverDeclaracaoXML(Result);
+  // a linha abaixo é necessária pois no XML contem duas declarações diferentes
+  Result := RemoverDeclaracaoXML(Result);
+  Result := RemoverIdentacao(Result);
   Result := RemoverPrefixosDesnecessarios(Result);
 end;
 
