@@ -1220,7 +1220,7 @@ type
   public
     constructor Create();
     destructor Destroy; override;
-    property url : String read Furl write Seturl;
+    property url   : String read Furl write Seturl;
     property txId  : String read FtxId write SettxId;
     property emv   : String read Femv write Setemv;
     procedure PIXQRCodeDinamico(const AURL, ATXID: String; ATitulo : TACBrTitulo);
@@ -2476,6 +2476,10 @@ begin
   FClientID := '';
   FClientSecret := '';
   FKeyUser := '';
+
+  FIndicadorPix := False;
+  FIndicadorSMS := False;
+  FIndicadorEmail := False;
 end;
 
 procedure TACBrCedenteWS.SetClientID(const Value: string);
@@ -2531,6 +2535,7 @@ begin
   fTipoInscricao := pJuridica;
   fAcbrBoleto    := TACBrBoleto(AOwner);
   fTipoDocumento := Tradicional;
+  fTipoCarteira := tctSimples;
 
   fCedenteWS := TACBrCedenteWS.Create(self);
   fCedenteWS.Name := 'CedenteWS';
@@ -2726,6 +2731,12 @@ begin
   fCodigoMora    := '';
   fCodigoGeracao := '2';
   fCaracTitulo   := fACBrBoleto.Cedente.CaracTitulo;
+  fCodigoMoraJuros := cjIsento;
+  fCodigoNegativacao := cnNaoProtestar;
+  fParcela := 1;
+  fTotalParcelas := 1;
+  fVerso := False;
+  fTipoPagamento := tpNao_Aceita_Valor_Divergente;
 
    if ACBrBoleto.Cedente.ResponEmissao = tbCliEmite then
      fCarteiraEnvio := tceCedente
@@ -3085,8 +3096,14 @@ constructor TACBrBoleto.Create(AOwner: TComponent);
 begin
    inherited Create(AOwner);
 
+   fHomologacao := False;
+   fLeCedenteRetorno := False;
+   fLayoutRemessa := c400;
+   fRemoveAcentosArqRemessa := False;
+   fLerNossoNumeroCompleto := False;
+   
    fACBrBoletoFC           := nil;
-   FMAIL                   := nil;
+   fMAIL                   := nil;
    fImprimirMensagemPadrao := True;
 
    fListadeBoletos := TListadeBoletos.Create(true);
@@ -3109,8 +3126,8 @@ begin
    {$IFDEF COMPILER6_UP}
    fConfiguracoes.SetSubComponent(True);   // Ajustando como SubComponente para aparecer no ObjectInspector
    {$ENDIF}
-   FOnAntesAutenticar    := nil;
-   FOnDepoisAutenticar   := nil;
+   fOnAntesAutenticar    := nil;
+   fOnDepoisAutenticar   := nil;
    fOnPrecisaAutenticar  := nil;
    fOnQuandoAlterarBanco := nil;
 end;
