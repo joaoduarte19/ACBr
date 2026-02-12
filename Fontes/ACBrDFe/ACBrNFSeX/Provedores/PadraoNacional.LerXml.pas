@@ -956,6 +956,9 @@ begin
                                 DescontoIncondicionado;
     end;
 
+    NFSe.Servico.Valores.RetencoesFederais := NFSe.Servico.Valores.RetencoesFederais -
+                                              NFSe.Servico.Valores.ValorIssRetido;
+
     // Reforma Tributária
     LerXMLIBSCBSNFSe(AuxNode.Childrens.FindAnyNs('IBSCBS'), NFSe.infNFSe.IBSCBS);
   end;
@@ -1454,7 +1457,8 @@ begin
     NFSe.Servico.Valores.BaseCalculo := NFSe.infNFSe.valores.BaseCalculo;
     NFSe.Servico.Valores.Aliquota := NFSe.infNFSe.valores.Aliquota;
     NFSe.Servico.Valores.ValorIss := NFSe.infNFSe.valores.ValorIss;
-    NFSe.Servico.Valores.ValorIssRetido := NFSe.infNFSe.valores.vTotalRet;
+    NFSe.Servico.Valores.ValorIssRetido := NFSe.infNFSe.valores.ValorIss;
+    NFSe.Servico.Valores.RetencoesFederais := NFSe.infNFSe.valores.vTotalRet;
     NFSe.Servico.Valores.ValorLiquidoNfse := NFSe.infNFSe.valores.ValorLiquidoNfse;
   end;
 
@@ -1665,6 +1669,8 @@ begin
                  ValorIssRetido - DescontoIncondicionado - DescontoCondicionado;
     end;
 
+    RetencoesFederais := RetencoesFederais - ValorIssRetido;
+
     if ValorTotalNotaFiscal = 0 then
       ValorTotalNotaFiscal := ValorServicos - DescontoCondicionado -
                               DescontoIncondicionado;
@@ -1817,7 +1823,8 @@ begin
     NFSe.Servico.Valores.BaseCalculo := NFSe.infNFSe.valores.BaseCalculo;
     NFSe.Servico.Valores.Aliquota := NFSe.infNFSe.valores.Aliquota;
     NFSe.Servico.Valores.ValorIss := NFSe.infNFSe.valores.ValorIss;
-    NFSe.Servico.Valores.ValorIssRetido := NFSe.infNFSe.valores.vTotalRet;
+    NFSe.Servico.Valores.ValorIssRetido := NFSe.infNFSe.valores.ValorIss;
+    NFSe.Servico.Valores.RetencoesFederais := NFSe.infNFSe.valores.vTotalRet;
     NFSe.Servico.Valores.ValorLiquidoNfse := NFSe.infNFSe.valores.ValorLiquidoNfse;
   end;
 end;

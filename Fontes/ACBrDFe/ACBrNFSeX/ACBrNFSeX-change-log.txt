@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+12/02/2026
+-- PadraoNacional.LerXml --
+[*] Ajustes para considerar ISSQN retido na leitura do XML.
+   Por: Helius_ERP
+
 11/02/2026
 -- Digifred.Provider --
 [*] ACBR-8915 - Ajustes na leitura do retorno do envio de uma nota.
