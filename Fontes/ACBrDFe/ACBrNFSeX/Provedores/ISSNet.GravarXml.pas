@@ -70,8 +70,10 @@ type
 
   TNFSeW_ISSNetAPIPropria = class(TNFSeW_PadraoNacional)
   protected
+    function GerarXMLPrestador: TACBrXmlNode; override;
 
   public
+    function GerarXml: Boolean; override;
 
   end;
 
@@ -183,6 +185,63 @@ begin
   end;
 
   Result := inherited GerarXml;
+end;
+
+{ TNFSeW_ISSNetAPIPropria }
+
+function TNFSeW_ISSNetAPIPropria.GerarXml: Boolean;
+var
+  NFSeNode, xmlNode: TACBrXmlNode;
+  chave, CodigoMun, CNPJ: string;
+begin
+  Configuracao;
+  LerParamsTabIni(True);
+
+  ListaDeAlertas.Clear;
+
+  FDocument.Clear();
+
+  FpVersao := VersaoNFSeToStr(VersaoNFSe);
+
+  CodigoMun := IntToStr(CodMunEmit);
+  CNPJ := CNPJEmitente;
+
+  if CNPJ = '' then
+    CNPJ := NFSe.Prestador.IdentificacaoPrestador.CpfCnpj;
+
+  chave := GerarChaveDPS(CodigoMun,
+                         CNPJ,
+                         NFSe.IdentificacaoRps.Serie,
+                         NFSe.IdentificacaoRps.Numero);
+
+  NFSe.InfID.ID := 'DPS' + chave;
+
+  NFSeNode := CreateElement('Dps');
+  NFSeNode.SetAttribute('versao', FpVersao);
+  NFSeNode.SetNamespace(FpAOwner.ConfigMsgDados.LoteRps.xmlns, Self.PrefixoPadrao);
+
+  FDocument.Root := NFSeNode;
+
+  xmlNode := GerarXMLInfDps;
+  NFSeNode.AppendChild(xmlNode);
+
+  Result := True;
+end;
+
+function TNFSeW_ISSNetAPIPropria.GerarXMLPrestador: TACBrXmlNode;
+begin
+  Result := CreateElement('prest');
+
+  Result.AppendChild(AddNodeCNPJCPF('#1', '#1',
+                                NFSe.Prestador.IdentificacaoPrestador.CpfCnpj));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'CAEPF', 1, 14, 0,
+                              NFSe.Prestador.IdentificacaoPrestador.CAEPF, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'IM', 1, 15, 0,
+                 NFSe.Prestador.IdentificacaoPrestador.InscricaoMunicipal, ''));
+
+  Result.AppendChild(GerarXMLRegimeTributacaoPrestador);
 end;
 
 end.

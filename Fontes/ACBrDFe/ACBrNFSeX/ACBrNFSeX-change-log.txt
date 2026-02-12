@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 12/02/2026
+-- ISSNet.GravarXml/ISSNet.Provider --
+[+] ACBR-8496 - Implementado o Provider para os serviços: Emitir e ConsultarLote.
+    Obs: O WebService responde que o serviço não esta disponível, esta em construção.
+   Por: Italo Giurizzato Junior
 -- Conam.LerXml --
 [*] Inclusão de campos novos na leitura do arquivo INI.
     Seção [Servico] agora tem mais esses campos: CodigoCnae, CodigoAnexoSN, CodigoCTN, CodigoNBS e InfAdicional.
