@@ -592,6 +592,11 @@ begin
     NFSe.Servico.Discriminacao := AINIRec.ReadString(sSecao, 'Discriminacao', '');
     NFSe.Servico.Discriminacao := StringReplace(NFSe.Servico.Discriminacao,
                 FpAOwner.ConfigGeral.QuebradeLinha, sLineBreak, [rfReplaceAll]);
+    NFSe.Servico.CodigoCnae := AINIRec.ReadString(sSecao, 'CodigoCnae', '');
+    NFSe.Servico.CodigoAnexoCnae := AINIRec.ReadString(sSecao, 'CodigoAnexoSN', '');
+    NFSe.Servico.CodigoServicoNacional := AINIRec.ReadString(sSecao, 'CodigoCTN', '');
+    NFSe.Servico.CodigoNBS := AINIRec.ReadString(sSecao, 'CodigoNBS', '');
+    NFSe.Servico.InfAdicional := AINIRec.ReadString(sSecao, 'InfAdicional', '');
 
     if NFSe.tpXML = txmlNFSe then
     begin
@@ -624,6 +629,7 @@ begin
     NFSe.Servico.Valores.AliquotaInss := StringToFloatDef(AINIRec.ReadString(sSecao, 'AliquotaInss', ''), 0);
     NFSe.Servico.Valores.ValorIr := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorIr', ''), 0);
     NFSe.Servico.Valores.AliquotaIr := StringToFloatDef(AINIRec.ReadString(sSecao, 'AliquotaIr', ''), 0);
+    NFSe.Servico.Valores.DescontoIncondicionado := StringToFloatDef(AINIRec.ReadString(sSecao, 'DescontoIncondicionado', ''), 0);
 
     if NFSe.tpXML = txmlNFSe then
     begin

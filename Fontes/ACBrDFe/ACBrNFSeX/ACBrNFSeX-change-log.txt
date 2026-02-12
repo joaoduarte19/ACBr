@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 12/02/2026
+-- Conam.LerXml --
+[*] Inclusão de campos novos na leitura do arquivo INI.
+    Seção [Servico] agora tem mais esses campos: CodigoCnae, CodigoAnexoSN, CodigoCTN, CodigoNBS e InfAdicional.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXGravarXml/ACBrNFSeXLerXml/ISSSaoPaulo.GravarXml/ISSSaoPaulo.LerXml --
 [*] ACBR-8944 - Ajustes diversos para aparelhar a escrita/leitura do XML com a escrita/leitura do INI para o ISSSaoPaulo.
    Por: Diego Folieni 
