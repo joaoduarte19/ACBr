@@ -63,6 +63,9 @@ Símbolo : Significado
 -- PadraoNacional.LerXml --
 [*] Ajustes para considerar ISSQN retido na leitura do XML.
    Por: Helius_ERP
+-- Citta.Provider --
+[-] Corrigida geração do lote de envio do provedor Citta - https://www.projetoacbr.com.br/forum/topic/90338-nfsex-david-canabarrors/
+   Por: Renato Rubinho
 
 11/02/2026
 -- Digifred.Provider --
