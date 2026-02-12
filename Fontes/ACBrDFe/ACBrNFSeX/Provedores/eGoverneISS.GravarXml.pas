@@ -101,6 +101,9 @@ begin
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'Atividade', 1, 9, 1,
                                    NFSe.Servico.ItemListaServico, ''));
 
+  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'BairroPrestacaoServico', 1, 36, 1,
+                                                NFSe.Tomador.Endereco.Bairro, ''));
+
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CEPPrestacaoServico', 1, 36, 1,
                                                 NFSe.Tomador.Endereco.CEP, ''));
 
@@ -109,6 +112,9 @@ begin
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CidadePrestacaoServico', 1, 36, 1,
                                          NFSe.Tomador.Endereco.xMunicipio, ''));
+
+  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CodigoCidadeIBGEPrestacaoServico', 1, 36, 1,
+                                         NFSe.Tomador.Endereco.CodigoMunicipio, ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CodObra', 1, 15, 0,
                                           NFSe.ConstrucaoCivil.CodigoObra, ''));
@@ -138,6 +144,9 @@ begin
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'NotificarTomadorPorEmail', 4, 5, 1,
                  ifThen(NFSe.Tomador.Contato.Email = '', 'false', 'true'), ''));
 
+  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'NumeroPrestacaoServico', 1, 36, 1,
+                                         NFSe.Tomador.Endereco.Numero, ''));
+
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'NumeroCDC', 1, 15, 0,
                                                  NFSe.ConstrucaoCivil.Art, ''));
 
@@ -146,6 +155,9 @@ begin
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'NumeroRecibo', 1, 15, 0,
                                              NFSe.IdentificacaoRps.Numero, ''));
+
+  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'PaisPrestacaoServico', 1, 36, 0,
+                                             NFSe.Tomador.Endereco.xPais, ''));
 
   if (Trim(NFSe.Tomador.Endereco.xPais) <> '') and
      (NFSe.Tomador.Endereco.xPais <> 'BRASIL') then
