@@ -43,6 +43,17 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 12/02/2026
+-- ISSFortaleza.LerXml --
+[+] Inclusão da leitura dos campos IBSCBS no XML.
+    por: Elias
+
+-- ACBrNFSeXLerXml --
+[*] Definindo métodos necessários como 'virtual'.
+
+-- ACBrNFSeXLerXml_ABRASFv1 --
+[*] Inclusão de métodos utilizados em GravarXML.
+
+12/02/2026
 -- ACBrNFSeXServicos --
 [-] A cidade de Ganhaes/MG usa a versão 2.04 do provedor EL.
    Por: Diego Folieni

@@ -77,6 +77,10 @@ type
 
     procedure LerOrgaoGerador(const ANode: TACBrXmlNode);
     procedure LerConstrucaoCivil(const ANode: TACBrXmlNode); virtual;
+    procedure LerAtividadeEvento(const ANode: TACBrXmlNode); virtual;
+    procedure LerCondicaoPagamento(const ANode: TACBrXmlNode); virtual;
+    procedure LerDestinatario(const ANode: TACBrXmlNode); virtual;
+    procedure LerImovel(const ANode: TACBrXmlNode); virtual;
 
     procedure LerNfseCancelamento(const ANode: TACBrXmlNode);
     procedure LerConfirmacao(const ANode: TACBrXmlNode);
@@ -227,6 +231,26 @@ begin
       Art        := ObterConteudo(AuxNode.Childrens.FindAnyNs('Art'), tcStr);
     end;
   end;
+end;
+
+procedure TNFSeR_ABRASFv1.LerAtividadeEvento(const ANode: TACBrXmlNode);
+begin
+  // Implementar na classe filha, caso necessário
+end;
+
+procedure TNFSeR_ABRASFv1.LerCondicaoPagamento(const ANode: TACBrXmlNode);
+begin 
+  // Implementar na classe filha, caso necessário
+end;
+
+procedure TNFSeR_ABRASFv1.LerDestinatario(const ANode: TACBrXmlNode);
+begin
+  // Implementar na classe filha, caso necessário
+end;
+
+procedure TNFSeR_ABRASFv1.LerImovel(const ANode: TACBrXmlNode);
+begin
+  // Implementar na classe filha, caso necessário
 end;
 
 procedure TNFSeR_ABRASFv1.LerContatoPrestador(const ANode: TACBrXmlNode);
@@ -966,6 +990,10 @@ begin
     LerTomadorServico(AuxNode);
     LerIntermediarioServico(AuxNode);
     LerConstrucaoCivil(AuxNode);
+    LerAtividadeEvento(AuxNode);
+    LerCondicaoPagamento(AuxNode);
+    LerDestinatario(AuxNode);
+    LerImovel(AuxNode);
   end;
 end;
 
