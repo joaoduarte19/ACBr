@@ -59,6 +59,7 @@ type
     procedure LerCPFCNPJTomador(const ANode: TACBrXmlNode);
     procedure LerEnderecoTomador(const ANode: TACBrXmlNode);
     procedure LerCPFCNPJIntermediario(const ANode: TACBrXmlNode);
+    procedure LerRetornoComplementarIBSCBS(const ANode: TACBrXmlNode);
   public
     function LerXml: Boolean; override;
     function LerXmlRps(const ANode: TACBrXmlNode): Boolean;
@@ -199,6 +200,40 @@ begin
     if NFSe.Tomador.Endereco.UF = '' then
       NFSe.Tomador.Endereco.UF := LUF;
   end;
+end;
+
+procedure TNFSeR_ISSSaoPaulo.LerRetornoComplementarIBSCBS(
+  const ANode: TACBrXmlNode);
+begin
+  if not Assigned(ANode) then
+    exit;
+
+  NFSe.infNFSe.IBSCBS.valores.vBC := ObterConteudo(ANode.Childrens.FindAnyNs('ValorBCIBSCBS'), tcDe2);
+  NFSe.infNFSe.IBSCBS.valores.uf.pIBSUF := ObterConteudo(ANode.Childrens.FindAnyNs('ValorAliqEstadualIBS'), tcDe2);
+  NFSe.infNFSe.IBSCBS.valores.uf.pRedAliqUF := ObterConteudo(ANode.Childrens.FindAnyNs('ValorPercRedEstadualIBS'), tcDe2);
+  NFSe.infNFSe.IBSCBS.valores.uf.pAliqEfetUF := ObterConteudo(ANode.Childrens.FindAnyNs('ValorAliqEfetivaEstadualIBS'), tcDe2);
+  NFSe.infNFSe.IBSCBS.valores.mun.pIBSMun := ObterConteudo(ANode.Childrens.FindAnyNs('ValorAliqMunicipalIBS'), tcDe2);
+  NFSe.infNFSe.IBSCBS.valores.mun.pRedAliqMun := ObterConteudo(ANode.Childrens.FindAnyNs('ValorPercRedMunicipalIBS'), tcDe2);
+  NFSe.infNFSe.IBSCBS.valores.mun.pAliqEfetMun := ObterConteudo(ANode.Childrens.FindAnyNs('ValorAliqEfetivaMunicipalIBS'), tcDe2);
+  NFSe.infNFSe.IBSCBS.valores.fed.pCBS := ObterConteudo(ANode.Childrens.FindAnyNs('ValorAliqCBS'), tcDe2);
+  NFSe.infNFSe.IBSCBS.valores.fed.pRedAliqCBS := ObterConteudo(ANode.Childrens.FindAnyNs('ValorPercRedCBS'), tcDe2);
+  NFSe.infNFSe.IBSCBS.valores.fed.pAliqEfetCBS := ObterConteudo(ANode.Childrens.FindAnyNs('ValorAliqEfetivaCBS'), tcDe2);
+
+  NFSe.infNFSe.IBSCBS.totCIBS.gIBS.gIBSUFTot.vIBSUF := ObterConteudo(ANode.Childrens.FindAnyNs('ValorEstadualIBS'), tcDe2);
+  NFSe.infNFSe.IBSCBS.totCIBS.gIBS.gIBSMunTot.vIBSMun := ObterConteudo(ANode.Childrens.FindAnyNs('ValorMunicipalIBS'), tcDe2);
+  NFSe.infNFSe.IBSCBS.totCIBS.gIBS.vIBSTot := ObterConteudo(ANode.Childrens.FindAnyNs('ValorIBS'), tcDe2);
+  NFSE.infNFSe.IBSCBS.totCIBS.gCBS.vCBS := ObterConteudo(ANode.Childrens.FindAnyNs('ValorCBS'), tcDe2);
+
+  NFSe.infNFSe.IBSCBS.totCIBS.gTribCompraGov.pIBSUF := ObterConteudo(ANode.Childrens.FindAnyNs('ValorAliqEstadualIBSCompraGov'), tcDe2);
+  NFSe.infNFSe.IBSCBS.totCIBS.gTribCompraGov.pIBSMun := ObterConteudo(ANode.Childrens.FindAnyNs('ValorAliqMunicipalIBSCompraGov'), tcDe2);
+  NFSe.infNFSe.IBSCBS.totCIBS.gTribCompraGov.pCBS := ObterConteudo(ANode.Childrens.FindAnyNs('ValorAliqCBSCompraGov'), tcDe2);
+
+  NFSe.infNFSe.IBSCBS.totCIBS.gTribRegular.pAliqEfeRegIBSUF := ObterConteudo(ANode.Childrens.FindAnyNs('ValorAliqEstadualRegularIBS'), tcDe2);
+  NFSe.infNFSe.IBSCBS.totCIBS.gTribRegular.vTribRegIBSUF := ObterConteudo(ANode.Childrens.FindAnyNs('ValorEstadualRegularIBS'), tcDe2);
+  NFSe.infNFSe.IBSCBS.totCIBS.gTribRegular.pAliqEfeRegIBSMun := ObterConteudo(ANode.Childrens.FindAnyNs('ValorAliqMunicipalRegularIBS'), tcDe2);
+  NFSe.infNFSe.IBSCBS.totCIBS.gTribRegular.vTribRegIBSMun := ObterConteudo(ANode.Childrens.FindAnyNs('ValorMunicipalRegularIBS'), tcDe2);
+  NFSe.infNFSe.IBSCBS.totCIBS.gTribRegular.pAliqEfeRegCBS := ObterConteudo(ANode.Childrens.FindAnyNs('ValorAliqRegularCBS'), tcDe2);
+  NFSe.infNFSe.IBSCBS.totCIBS.gTribRegular.vTribRegCBS := ObterConteudo(ANode.Childrens.FindAnyNs('ValorRegularCBS'), tcDe2);
 end;
 
 function TNFSeR_ISSSaoPaulo.LerXml: Boolean;
@@ -364,6 +399,10 @@ begin
   NFSe.ConstrucaoCivil.nNumeroEncapsulamento := ObterConteudo(ANode.Childrens.FindAnyNs('NumeroEncapsulamento'), tcStr);
   NFSe.Servico.ValorTotalRecebido := ObterConteudo(ANode.Childrens.FindAnyNs('ValorTotalRecebido'), tcDe2);
 
+  NFSe.Servico.CodigoNBS := ObterConteudo(ANode.Childrens.FindAnyNs('NBS'), tcStr);
+  LerXMLIBSCBSDPS(ANode.Childrens.FindAnyNs('IBSCBS'), NFSE.IBSCBS);
+  LerRetornoComplementarIBSCBS(ANode.Childrens.FindAnyNs('RetornoComplementarIBSCBS'));
+
   LerCampoLink;
 end;
 
@@ -442,6 +481,8 @@ begin
   NFSe.ConstrucaoCivil.nCei := ObterConteudo(ANode.Childrens.FindAnyNs('CodigoCEI'), tcStr);
   NFSe.ConstrucaoCivil.nMatri := ObterConteudo(ANode.Childrens.FindAnyNs('MatriculaObra'), tcStr);
   NFSe.ConstrucaoCivil.nNumeroEncapsulamento := ObterConteudo(ANode.Childrens.FindAnyNs('NumeroEncapsulamento'), tcStr);
+
+  LerXMLIBSCBSDPS(ANode.Childrens.FindAnyNs('IBSCBS'), NFSE.IBSCBS);
 end;
 
 end.

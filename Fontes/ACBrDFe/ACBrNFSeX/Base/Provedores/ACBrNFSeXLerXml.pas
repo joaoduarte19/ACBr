@@ -266,10 +266,10 @@ begin
     xCodigo := PadLeft(IntToStr(Item), 6, '0');
     lResultNacional := Copy(xCodigo, 1, 2) + '.' + Copy(xCodigo, 3, 2) + '.' + Copy(xCodigo, 5, 2);
 
-    if ItemListaServicoDescricao(lResultProprio) <> '' then
-      Result := lResultProprio
+    if ItemListaServicoDescricao(lResultNacional) <> '' then
+      Result := lResultNacional
     else
-      Result := lResultNacional;
+      Result := lResultProprio;
   end;
 end;
 
@@ -1363,6 +1363,7 @@ begin
     end;
 
     LerINIIBSCBS(AINIRec, IBSCBS);
+    LerINIIBSCBSNFSe(AINIRec, infNFSe.IBSCBS);
   end;
 end;
 

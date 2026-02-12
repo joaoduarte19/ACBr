@@ -397,7 +397,8 @@ begin
   if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
      (NFSe.IBSCBS.imovel.ender.CEP <> '') or
      (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
-     (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
+     (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) or
+     (NFSe.IBSCBS.valores.trib.gIBSCBS.cClassTrib <> '') then
     LNFSeNode.AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
 
   Result := True;
