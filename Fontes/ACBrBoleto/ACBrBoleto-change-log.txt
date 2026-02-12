@@ -48,6 +48,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+12/02/2026
+-- ACBrBoletoW_BancoBrasil_API  --
+[*]Permitir enviar um boleto sem o nossoNumero para que o banco possa gerar o NN 
+   ACBR-8930 https://www.projetoacbr.com.br/forum/topic/86064-acbr-8930-acbr-boleto-gera%C3%A7%C3%A3o-de-boleto-do-banco-do-brasil-via-api/
+   Por: Sergio Fuchs
 
 10/02/2026
 -- ACBrBoletoW_Bradesco  --

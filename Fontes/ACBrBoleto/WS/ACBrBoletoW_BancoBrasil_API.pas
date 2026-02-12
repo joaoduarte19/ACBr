@@ -407,9 +407,12 @@ begin
       //LJsonObject.AddPair('campoUtilizacaoBeneficiario', Trim(Copy(OnlyCharsInSet(AnsiUpperCase(ATitulo.Mensagem.Text),CHARS_VALIDOS),0,30)));
       LJsonObject.AddPair('campoUtilizacaoBeneficiario',Trim(Copy(OnlyCharsInSet(AnsiUpperCase(ATitulo.NumeroDocumento),CHARS_VALIDOS),0,30)));
       LJsonObject.AddPair('numeroTituloBeneficiario', Copy(Trim(UpperCase(IfThen(ATitulo.SeuNumero<>'',ATitulo.SeuNumero,ATitulo.NumeroDocumento))),0,15));
-      LJsonObject.AddPair('numeroTituloCliente', Boleto.Banco.MontarCampoNossoNumero(ATitulo));
-      LJsonObject.AddPair('mensagemBloquetoOcorrencia', UpperCase(Copy(Trim(ATitulo.Mensagem.Text),0,30)));
 
+
+      if (StrToInt64Def(ATitulo.NossoNumero,0) > 0)  then
+        LJsonObject.AddPair('numeroTituloCliente', Boleto.Banco.MontarCampoNossoNumero(ATitulo)) ;
+
+      LJsonObject.AddPair('mensagemBloquetoOcorrencia', UpperCase(Copy(Trim(ATitulo.Mensagem.Text),0,30)));
       GerarDesconto( LJsonObject );
       GerarJuros( LJsonObject );
       GerarMulta( LJsonObject );
