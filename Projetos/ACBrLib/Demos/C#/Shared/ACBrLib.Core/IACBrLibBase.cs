@@ -48,5 +48,11 @@ namespace ACBrLib.Core
         /// </summary>
         /// <returns>Configuração da biblioteca em formato de string.</returns>
         string ExportarConfig();
+
+        /// <summary>
+        /// Retorna informações sobre a versão do OpenSSL utilizada pela biblioteca
+        /// </summary>
+        /// <returns></returns>
+        string OpenSSLInfo();
     }
 }

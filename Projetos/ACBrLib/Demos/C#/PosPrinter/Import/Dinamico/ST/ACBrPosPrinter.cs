@@ -327,6 +327,19 @@ namespace ACBrLib.PosPrinter
             return ProcessResult(buffer, bufferLen);
         }
 
+        public override string OpenSSLInfo()
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = GetMethod<POS_OpenSSLInfo>();
+            var ret = ExecuteMethod(() => method(buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return ProcessResult(buffer, bufferLen);
+        }
+
         #endregion Diversos
 
         #region Imprimir
@@ -442,7 +455,7 @@ namespace ACBrLib.PosPrinter
             ExecuteMethod(() => ultimoRetorno(buffer, ref bufferLen));
             return FromUTF8(buffer);
         }
-
+        
         #endregion Private Methods
 
         #endregion Metodos

@@ -165,7 +165,7 @@ namespace ACBrLib.CTe
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int CTE_ImprimirInutilizacaoPDF(string eArquivoXml);
-
+        
         protected override void InitializeMethods()
         {
             AddMethod<CTE_Inicializar>("CTE_Inicializar");

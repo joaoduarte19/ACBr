@@ -329,7 +329,7 @@ namespace ACBrLib.PIXCD
             return ProcessResult(buffer, bufferLen);
         }
 
-        public string OpenSSLInfo()
+        public override string OpenSSLInfo()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);

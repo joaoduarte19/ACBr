@@ -273,6 +273,7 @@ namespace ACBrLib.ETQ
             AddMethod<ETQ_ImprimirCaixa>("ETQ_ImprimirCaixa");
             AddMethod<ETQ_ImprimirImagem>("ETQ_ImprimirImagem");
             AddMethod<ETQ_ImprimirQRCode>("ETQ_ImprimirQRCode");
+            AddMethod<ETQ_OpenSSLInfo>("ETQ_OpenSSLInfo");
         }
 
         protected override string GetUltimoRetorno(int iniBufferLen = 0)
@@ -291,6 +292,19 @@ namespace ACBrLib.ETQ
 
             ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
             return FromUTF8(buffer);
+        }
+
+        public override string OpenSSLInfo()
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = GetMethod<ETQ_OpenSSLInfo>();
+            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return ProcessResult(buffer, bufferLen);
         }
 
         #endregion Private Methods

@@ -100,6 +100,9 @@ namespace ACBrLib.AbecsPinpad
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int AbecsPinpad_DMF(IntPtr handle, string sNomeArquivo);
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int AbecsPinpad_OpenSSLInfo(IntPtr handle, StringBuilder buffer, ref int bufferSize);
+
         protected override void InitializeMethods()
         {
             AddMethod<AbecsPinpad_Inicializar>("AbecsPinpad_Inicializar");
@@ -132,6 +135,7 @@ namespace ACBrLib.AbecsPinpad
             AddMethod<AbecsPinpad_LMF>("AbecsPinpad_LMF");
             AddMethod<AbecsPinpad_DSI>("AbecsPinpad_DSI");
             AddMethod<AbecsPinpad_DMF>("AbecsPinpad_DMF");
+            AddMethod<AbecsPinpad_OpenSSLInfo>("AbecsPinpad_OpenSSLInfo");
         }
     }
 }

@@ -56,6 +56,9 @@ namespace ACBrLib.BAL
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int BAL_InterpretarRespostaPeso(string resposta, ref double peso);
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int BAL_OpenSSLInfo(StringBuilder buffer, ref int bufferSize);
+
         protected override void InitializeMethods()
         {
             AddMethod<BAL_Inicializar>("BAL_Inicializar");
@@ -75,6 +78,7 @@ namespace ACBrLib.BAL
             AddMethod<BAL_SolicitarPeso>("BAL_SolicitarPeso");
             AddMethod<BAL_UltimoPesoLido>("BAL_UltimoPesoLido");
             AddMethod<BAL_InterpretarRespostaPeso>("BAL_InterpretarRespostaPeso");
+            AddMethod<BAL_OpenSSLInfo>("BAL_OpenSSLInfo");
         }
     }
 }

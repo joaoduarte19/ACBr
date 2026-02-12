@@ -49,6 +49,9 @@ namespace ACBrLib.Sedex
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int Sedex_Rastrear(IntPtr handle, string eCodRastreio, StringBuilder buffer, ref int bufferSize);
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int Sedex_OpenSSLInfo(IntPtr handle, StringBuilder buffer, ref int bufferSize);
+
         protected override void InitializeMethods()
         {
             AddMethod<Sedex_Inicializar>("Sedex_Inicializar");
@@ -64,6 +67,7 @@ namespace ACBrLib.Sedex
             AddMethod<Sedex_ConfigGravarValor>("Sedex_ConfigGravarValor");
             AddMethod<Sedex_Consultar>("Sedex_Consultar");
             AddMethod<Sedex_Rastrear>("Sedex_Rastrear");
+            AddMethod<Sedex_OpenSSLInfo>("Sedex_OpenSSLInfo");
         }
     }
 }

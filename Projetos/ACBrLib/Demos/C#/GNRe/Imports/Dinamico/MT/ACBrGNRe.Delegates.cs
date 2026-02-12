@@ -90,6 +90,9 @@ namespace ACBrLib.GNRe
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int GNRE_ImprimirPDF(IntPtr handle);
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int GNRE_OpenSSLInfo(IntPtr handle, StringBuilder buffer, ref int bufferSize);
+
         protected override void InitializeMethods()
         {
             AddMethod<GNRE_Inicializar>("GNRE_Inicializar");
@@ -119,6 +122,7 @@ namespace ACBrLib.GNRe
             AddMethod<GNRE_EnviarEmail>("GNRE_EnviarEmail");
             AddMethod<GNRE_Imprimir>("GNRE_Imprimir");
             AddMethod<GNRE_ImprimirPDF>("GNRE_ImprimirPDF");
+            AddMethod<GNRE_OpenSSLInfo>("GNRE_OpenSSLInfo");
         }
     }
 }

@@ -49,6 +49,9 @@ namespace ACBrLib.IBGE
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int IBGE_BuscarPorNome(string eCidade, string eUF, bool Exata, StringBuilder buffer, ref int bufferSize);
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int IBGE_OpenSSLInfo(StringBuilder buffer, ref int bufferSize);
+
         protected override void InitializeMethods()
         {
             AddMethod<IBGE_Inicializar>("IBGE_Inicializar");
@@ -64,6 +67,7 @@ namespace ACBrLib.IBGE
             AddMethod<IBGE_ConfigGravarValor>("IBGE_ConfigGravarValor");
             AddMethod<IBGE_BuscarPorCodigo>("IBGE_BuscarPorCodigo");
             AddMethod<IBGE_BuscarPorNome>("IBGE_BuscarPorNome");
+            AddMethod<IBGE_OpenSSLInfo>("IBGE_OpenSSLInfo");
         }
     }
 }

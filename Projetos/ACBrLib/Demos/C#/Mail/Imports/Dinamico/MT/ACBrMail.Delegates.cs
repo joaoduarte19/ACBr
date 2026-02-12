@@ -79,6 +79,9 @@ namespace ACBrLib.Mail
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int MAIL_Versao(IntPtr handle, StringBuilder buffer, ref int bufferSize);
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int MAIL_OpenSSLInfo(IntPtr handle, StringBuilder buffer, ref int bufferSize);
+
         protected override void InitializeMethods()
         {
             AddMethod<MAIL_Inicializar>("MAIL_Inicializar");
@@ -104,6 +107,7 @@ namespace ACBrLib.Mail
             AddMethod<MAIL_SaveToFile>("MAIL_SaveToFile");
             AddMethod<MAIL_Clear>("MAIL_Clear");
             AddMethod<MAIL_Send>("MAIL_Send");
+            AddMethod<MAIL_OpenSSLInfo>("MAIL_OpenSSLInfo");
         }
     }
 }

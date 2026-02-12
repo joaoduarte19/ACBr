@@ -127,6 +127,9 @@ namespace ACBrLib.PosPrinter
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int POS_LerCaracteristicas(IntPtr handle, StringBuilder buffer, ref int bufferSize);
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int POS_OpenSSLInfo(IntPtr handle, StringBuilder buffer, ref int bufferSize);
+
         protected override void InitializeMethods()
         {
             AddMethod<POS_Inicializar>("POS_Inicializar");
@@ -168,6 +171,7 @@ namespace ACBrLib.PosPrinter
             AddMethod<POS_EjetarCheque>("POS_EjetarCheque");
             AddMethod<POS_PodeLerDaPorta>("POS_PodeLerDaPorta");
             AddMethod<POS_LerCaracteristicas>("POS_LerCaracteristicas");
+            AddMethod<POS_OpenSSLInfo>("POS_OpenSSLInfo");
         }
     }
 }

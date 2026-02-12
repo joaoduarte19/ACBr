@@ -209,6 +209,8 @@ namespace ACBrLib.Core
 
         public abstract string ExportarConfig();
 
+        public abstract string OpenSSLInfo();
+
         protected async void Base64ToStream(string base64, Stream aStream)
         {
             var pdfBytes = Convert.FromBase64String(base64);
@@ -357,6 +359,7 @@ namespace ACBrLib.Core
 
         protected string ProcessResult(StringBuilder buffer, int bufferLen) => bufferLen > BUFFER_LEN ? GetUltimoRetorno(bufferLen) : FromUTF8(buffer);
 
+       
         protected virtual void CheckResult(int ret)
         {
             if (ret >= 0) return;

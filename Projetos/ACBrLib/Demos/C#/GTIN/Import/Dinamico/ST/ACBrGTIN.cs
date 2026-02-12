@@ -130,7 +130,7 @@ namespace ACBrLib.GTIN
             CheckResult(ret);
         }
 
-        public string OpenSSLInfo()
+        public override string OpenSSLInfo()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
