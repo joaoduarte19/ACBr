@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+13/02/2026
+-- DBSeller.GravarXml --
+[-] ACBR-8979 - Correção da geração da tag CodigoNBS.
+   Por: Diego Folieni
+
 12/02/2026
 -- ISSFortaleza.LerXml --
 [+] Inclusão da leitura dos campos IBSCBS no XML.
