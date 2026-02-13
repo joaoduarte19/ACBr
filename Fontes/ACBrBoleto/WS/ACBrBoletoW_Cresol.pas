@@ -285,8 +285,11 @@ begin
             LJson.AddPair('valorDesconto', aTitulo.ValorDesconto);
          GerarJuros(LJson);
          GerarMulta(LJson);
+         if ATitulo.DiasDeNegativacao > 0 then
+            LJson.AddPair('nrDiasNegativacaoSerasa', ATitulo.DiasDeNegativacao);
          if aTitulo.DiasDeProtesto > 0 then
             LJson.AddPair('nrProtestoDias', aTitulo.DiasDeProtesto);
+
          FPDadosMsg := Format('[%s]',[LJson.ToJSON]);
       finally
          LJson.Free;
