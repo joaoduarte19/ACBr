@@ -46,7 +46,7 @@ type
 
   TNFSeR_Publica = class(TNFSeR_ABRASFv1)
   protected
-    procedure LerCondicaoPagamento(const ANode: TACBrXmlNode);
+    procedure LerCondicaoPagamento(const ANode: TACBrXmlNode); override;
     procedure LerConstrucaoCivil(const ANode: TACBrXmlNode); override;
     procedure LerInfNfse(const ANode: TACBrXmlNode); override;
 

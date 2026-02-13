@@ -54,7 +54,7 @@ type
     function DeveGerarIBSCBS: Boolean;
   protected
     procedure Configuracao; override;
-    function GerarXml: Boolean; override;
+
     function GerarInfRps: TACBrXmlNode; override;
     function GerarTomador: TACBrXmlNode; override;
     function GerarValores: TACBrXmlNode; override;
@@ -69,6 +69,7 @@ type
     procedure GerarINISecaoValores(const AINIRec: TMemIniFile); override;
     procedure GerarINIIBSCBSValores(AINIRec: TMemIniFile; Valores: Tvalorestrib); override;
   public
+    function GerarXml: Boolean; override;
     function GerarIni: string; override;
   end;
 

@@ -47,7 +47,7 @@ type
   protected
     procedure LerInfNfse(const ANode: TACBrXmlNode); override;
     procedure LerDadosDPS(const ANode: TACBrXmlNode);
-    procedure LerDestinatario(const ANode: TACBrXmlNode);
+    procedure LerDestinatario(const ANode: TACBrXmlNode); override;
     procedure LerControleIBSCBS(const ANode: TACBRXmlNode);
     procedure LerIBSCBS(const ANode: TACBrXmlNode);
     //======Arquivo INI===========================================

@@ -816,8 +816,8 @@ begin
   else
     IdAttr := 'ID';
 
+  lSSLC14NMode := FAOwner.SSL.SSLC14NMode;
   try
-    lSSLC14NMode := FAOwner.SSL.SSLC14NMode;
     FAOwner.SSL.SSLC14NMode := cmC14N_EXCLUSIVE;
     for I := 0 to TACBrNFSeX(FAOwner).NotasFiscais.Count -1 do
     begin

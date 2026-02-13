@@ -52,7 +52,7 @@ type
   private
     LSecao: string;
   protected
-    procedure LerCondicaoPagamento(const ANode: TACBrXmlNode);
+    procedure LerCondicaoPagamento(const ANode: TACBrXmlNode); override;
 
     procedure LerINISecaoCondicaoPagamento(const AINIRec: TMemIniFile); override;
     procedure LerINISecaoParcelas(const AINIRec: TMemIniFile); override;

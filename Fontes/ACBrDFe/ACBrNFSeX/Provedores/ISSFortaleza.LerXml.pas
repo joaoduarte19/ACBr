@@ -125,7 +125,6 @@ end;
 procedure TNFSeR_ISSFortaleza.LerXMLDestinatario(const aNode: TACBrXmlNode; Dest: TDadosdaPessoa);
 var
   oK: Boolean;
-  enderecoNode: TACBrXmlNode;
 begin
   if not Assigned(aNode) then Exit;
 

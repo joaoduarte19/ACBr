@@ -857,7 +857,7 @@ begin
 
   if Pos('<Erro>', Result) = 1 then
   begin
-    aMsg := LerTagXML(Result, 'Erro');
+    aMsg := SepararDados(Result, 'Erro');
     Result := '<a>' +
                 '<Erros>' +
                   '<Erro>' +

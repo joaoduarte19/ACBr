@@ -59,7 +59,7 @@ type
     function GerarXMLEnderecoNacionalImovel(ender: TenderImovel): TACBrXmlNode;
     function GerarXMLIBSCBSTribValores(valores: Tvalorestrib): TACBrXmlNode; override;
     function GerarXMLgReeRepRes(gReeRepRes: TgReeRepRes): TACBrXmlNode;
-    function GerarXMLDocumentos: TACBrXmlNodeArray;
+    function GerarXMLDocumentos: TACBrXmlNodeArray; override;
     function GerarXMLdFeNacional(dFeNacional: TdFeNacional): TACBrXmlNode;
     function GerarXMLdocFiscalOutro(docFiscalOutro: TdocFiscalOutro): TACBrXmlNode;
     function GerarXMLdocOutro(docOutro: TdocOutro): TACBrXmlNode;

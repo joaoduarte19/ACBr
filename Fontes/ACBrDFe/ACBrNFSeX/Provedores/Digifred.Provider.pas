@@ -486,6 +486,7 @@ begin
   // a linha abaixo é necessária pois no XML contem duas declarações diferentes
   Result := RemoverDeclaracaoXML(Result);
   Result := RemoverIdentacao(Result);
+  Result := RemoverCDATA(Result);
   Result := RemoverPrefixosDesnecessarios(Result);
 end;
 
@@ -540,8 +541,8 @@ begin
     XmlRps.InfElemento := 'infNFSe';
     XmlRps.DocElemento := 'NFSe';
 
-    EnviarEvento.InfElemento := 'infEvento';
-    EnviarEvento.DocElemento := 'evento';
+    EnviarEvento.InfElemento := 'infPedReg';
+    EnviarEvento.DocElemento := 'pedRegEvento';
   end;
 
   with ConfigAssinar do
@@ -729,9 +730,19 @@ end;
 
 function TACBrNFSeProviderDigifredAPIPropria.PrepararArquivoEnvio(
   const aXml: string; aMetodo: TMetodo): string;
+var
+  LXml: string;
 begin
+  LXml := aXml;
+
+  if aMetodo = tmEnviarEvento then
+    LXml := FAOwner.SSL.Assinar(LXml,
+                                   'infEvento',
+                                   'evento',
+                                   '', '', '', 'Id');
+
   if aMetodo in [tmGerar, tmEnviarEvento] then
-    Result := ChangeLineBreak(aXml, '');
+    Result := ChangeLineBreak(LXml, '');
 end;
 
 procedure TACBrNFSeProviderDigifredAPIPropria.PrepararEmitir(
@@ -825,60 +836,66 @@ begin
       ANode := Document.Root.Childrens.FindAnyNs('outputXML');
 
       if Assigned(ANode) then
+      begin
         AuxNode := ANode.Childrens.FindAnyNs('GerarNfseResposta');
 
-      if Assigned(AuxNode) then
-      begin
-        ProcessarMensagemErros(AuxNode, Response);
+        if Assigned(AuxNode) then
+        begin
+          ProcessarMensagemErros(AuxNode, Response);
 
-        Response.Data := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('dhRecebimento'), tcDatHor);
-        Response.Protocolo := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('protocolo'), tcStr);
-        Response.Situacao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('status'), tcStr);
+          Response.Data := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('dhRecebimento'), tcDatHor);
+          Response.Protocolo := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('protocolo'), tcStr);
+          Response.Situacao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('status'), tcStr);
+        end;
       end;
 
       if Assigned(ANode) then
+      begin
         AuxNode := ANode.Childrens.FindAnyNs('NFSe');
 
-      if Assigned(AuxNode) then
-      begin
-        ANota := TACBrNFSeX(FAOwner).NotasFiscais.Items[0];
-        ANota := CarregarXmlNfse(ANota, AuxNode.OuterXml);
-        SalvarXmlNfse(ANota);
+        if Assigned(AuxNode) then
+        begin
+          ANota := TACBrNFSeX(FAOwner).NotasFiscais.Items[0];
+          ANota := CarregarXmlNfse(ANota, AuxNode.OuterXml);
+          SalvarXmlNfse(ANota);
+        end;
       end;
 
       ANode := Document.Root.Childrens.FindAnyNs('respostaADN');
 
       if Assigned(ANode) then
+      begin
         AuxNode := ANode.Childrens.FindAnyNs('RespostaADN');
 
-      if Assigned(AuxNode) then
-      begin
-        resposta := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('resposta'), tcStr);
-        // o conteudo da variável resposta é um Json
+        if Assigned(AuxNode) then
+        begin
+          resposta := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('resposta'), tcStr);
+          // o conteudo da variável resposta é um Json
 
-        DocJson := TACBrJsonObject.Parse(resposta);
+          DocJson := TACBrJsonObject.Parse(resposta);
 
-        try
-          Response.Data := DocJson.AsISODateTime['DataHoraProcessamento'];
           try
-            JSonLista := DocJson.AsJSONArray['Lote'];
+            Response.Data := DocJson.AsISODateTime['DataHoraProcessamento'];
+            try
+              JSonLista := DocJson.AsJSONArray['Lote'];
 
-            for i := 0 to JSonLista.Count-1 do
-            begin
-              JSon := JSonLista.ItemAsJSONObject[i];
+              for i := 0 to JSonLista.Count-1 do
+              begin
+                JSon := JSonLista.ItemAsJSONObject[i];
 
-              Response.Link := JSon.AsString['ChaveAcesso'];
+                Response.Link := JSon.AsString['ChaveAcesso'];
+              end;
+            except
+              on E:Exception do
+              begin
+                AErro := Response.Erros.New;
+                AErro.Codigo := Cod999;
+                AErro.Descricao := ACBrStr(Desc999 + E.Message);
+              end;
             end;
-          except
-            on E:Exception do
-            begin
-              AErro := Response.Erros.New;
-              AErro.Codigo := Cod999;
-              AErro.Descricao := ACBrStr(Desc999 + E.Message);
-            end;
+          finally
+            FreeAndNil(DocJson);
           end;
-        finally
-          FreeAndNil(DocJson);
         end;
       end;
     except
@@ -899,7 +916,7 @@ procedure TACBrNFSeProviderDigifredAPIPropria.PrepararEnviarEvento(
 var
   AErro: TNFSeEventoCollectionItem;
   xEvento, xUF, xAutorEvento, IdAttrPRE, IdAttrEVT, xCamposEvento, nomeArq,
-  CnpjCpf: string;
+  CnpjCpf, NumNFSe: string;
 begin
   with Response.InfEvento.pedRegEvento do
   begin
@@ -971,7 +988,9 @@ begin
       xCamposEvento := '';
     end;
 
-    xEvento := '<pedRegEvento xmlns="' + ConfigMsgDados.EnviarEvento.xmlns +
+    NumNFSe := Copy(chNFSe, 24, 13);
+
+    xEvento := '<pedRegEvento ' + //xmlns="' + ConfigMsgDados.EnviarEvento.xmlns +
                            '" versao="' + ConfigWebServices.VersaoAtrib + '">' +
                  '<infPedReg ' + IdAttrPRE + '>' +
                    '<tpAmb>' + IntToStr(tpAmb) + '</tpAmb>' +
@@ -994,12 +1013,12 @@ begin
                  '<infEvento ' + IdAttrEVT + '>' +
                    '<verAplic>' + verAplic + '</verAplic>' +
                    '<ambGer>' + '1' + '</ambGer>' +
-                   '<nSeqEvento>' + '001' + '</nSeqEvento>' +
+                   '<nSeqEvento>' + IntToStr(nPedRegEvento) + '</nSeqEvento>' +
                    '<dhProc>' +
                      FormatDateTime('yyyy-mm-dd"T"hh:nn:ss', dhEvento) +
                      GetUTC(xUF, dhEvento) +
                    '</dhProc>' +
-                   '<nDFSe>' + '0' + '</nDFSe>' +
+                   '<nDFSe>' + NumNFSe + '</nDFSe>' +
                     xEvento +
                  '</infEvento>' +
                '</evento>';
@@ -1007,10 +1026,6 @@ begin
     xEvento := ConverteXMLtoUTF8(xEvento);
     xEvento := ChangeLineBreak(xEvento, '');
 
-    xEvento := FAOwner.SSL.Assinar(xEvento,
-                                   ConfigMsgDados.EnviarEvento.InfElemento,
-                                   ConfigMsgDados.EnviarEvento.DocElemento,
-                                   '', '', '', IdAttrEVT);
     Response.ArquivoEnvio := xEvento;
 
     nomeArq := '';
@@ -1024,11 +1039,14 @@ end;
 procedure TACBrNFSeProviderDigifredAPIPropria.TratarRetornoEnviarEvento(
   Response: TNFSeEnviarEventoResponse);
 var
-  Document, DocumentXml: TACBrXmlDocument;
+  Document{, DocumentXml}: TACBrXmlDocument;
   AErro: TNFSeEventoCollectionItem;
-  ANode: TACBrXmlNode;
-  respostaADN, IDEvento, nomeArq: string;
-  Ok: Boolean;
+  ANode, AuxNode: TACBrXmlNode;
+  resposta{, IDEvento, nomeArq}: string;
+//  Ok: Boolean;
+  DocJson, JSon: TACBrJSONObject;
+  JSonLista: TACBrJSONArray;
+  i: Integer;
 begin
   Document := TACBrXmlDocument.Create;
   try
@@ -1043,10 +1061,63 @@ begin
 
       Document.LoadFromXml(Response.ArquivoRetorno);
 
+      ANode := Document.Root.Childrens.FindAnyNs('outputXML');
+
+      if Assigned(ANode) then
+      begin
+        AuxNode := ANode.Childrens.FindAnyNs('CancelarNfseResposta');
+
+        if Assigned(AuxNode) then
+        begin
+          ProcessarMensagemErros(AuxNode, Response);
+
+          Response.Data := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('dhRecebimento'), tcDatHor);
+          Response.Protocolo := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('protocolo'), tcStr);
+          Response.Situacao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('status'), tcStr);
+        end;
+      end;
+
+      ANode := Document.Root.Childrens.FindAnyNs('respostaADN');
+
+      if Assigned(ANode) then
+      begin
+        AuxNode := ANode.Childrens.FindAnyNs('RespostaADN');
+
+        if Assigned(AuxNode) then
+        begin
+          resposta := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('resposta'), tcStr);
+          // o conteudo da variável resposta é um Json
+
+          DocJson := TACBrJsonObject.Parse(resposta);
+
+          try
+            Response.Data := DocJson.AsISODateTime['DataHoraProcessamento'];
+            try
+              JSonLista := DocJson.AsJSONArray['Lote'];
+
+              for i := 0 to JSonLista.Count-1 do
+              begin
+                JSon := JSonLista.ItemAsJSONObject[i];
+
+                Response.Link := JSon.AsString['ChaveAcesso'];
+              end;
+            except
+              on E:Exception do
+              begin
+                AErro := Response.Erros.New;
+                AErro.Codigo := Cod999;
+                AErro.Descricao := ACBrStr(Desc999 + E.Message);
+              end;
+            end;
+          finally
+            FreeAndNil(DocJson);
+          end;
+        end;
+      end;
   // Existe o elemento outputXML/GerarNfseResposta e o respostaADN
   // acredito que no elemento outputXML temos um retorno do webservice do provedor
   // no elemento respostaADN temos um retorno da API do Padrão Nacional.
-
+      (*
       respostaADN := ObterConteudoTag(Document.Root.Childrens.FindAnyNs('respostaADN'), tcStr);
 
       if respostaADN <> '' then
@@ -1108,20 +1179,7 @@ begin
           FreeAndNil(DocumentXml);
         end;
       end;
-
-      ANode := Document.Root.Childrens.FindAnyNs('outputXML');
-
-      if Assigned(ANode) then
-        ANode := ANode.Childrens.FindAnyNs('CancelarNfseResponse');
-
-      if Assigned(ANode) then
-      begin
-        ProcessarMensagemErros(ANode, Response);
-
-        Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhRecebimento'), tcDatHor);
-        Response.Protocolo := ObterConteudoTag(ANode.Childrens.FindAnyNs('protocolo'), tcStr);
-        Response.Situacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('status'), tcStr);
-      end;
+      *)
     except
       on E:Exception do
       begin

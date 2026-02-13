@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 13/02/2026
+-- ABase.Provider/Betha.LerXml/Digifred.Provider/Fiorilli.Provider/ISSDigital.Provider --
+-- ISSFortaleza.GravarXml/ISSFortaleza.LerXml/NFSeBrasil.LerXml/Publica.GravarXml --
+-- Publica.LerXml/SilTecnologia.Provider/SpeedGov.GravarXml/SpeedGov.LerXml --
+[*] Ajustes para eliminar alguns Warnings e Hints.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] A cidade Aripuanã/MT, não deve gerar a tag CodigoCnae.
    Por: Alex Heinen

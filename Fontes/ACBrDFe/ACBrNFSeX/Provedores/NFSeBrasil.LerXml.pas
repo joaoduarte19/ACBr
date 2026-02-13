@@ -50,13 +50,13 @@ type
     procedure LerPrestadorServico(const ANode: TACBrXmlNode);
     procedure LerIdentificacaoPrestador(const ANode: TACBrXmlNode);
 
-    procedure LerTomadorServico(const ANode: TACBrXmlNode);
+    procedure LerTomadorServico(const ANode: TACBrXmlNode); override;
     procedure LerIdentificacaoTomador(const ANode: TACBrXmlNode);
 
     procedure LerInfNfse(const ANode: TACBrXmlNode); override;
     procedure LerIdentificacaoRps(const ANode: TACBrXmlNode);
     procedure LerServico(const ANode: TACBrXmlNode); override;
-    procedure LerValores(const ANode: TACBrXmlNode);
+    procedure LerValores(const ANode: TACBrXmlNode); override;
 
   public
     function LerXml: Boolean; override;

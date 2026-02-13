@@ -616,7 +616,7 @@ var
 begin
   URL := GetWebServiceURL(AMetodo);
 
-  if AMetodo in [tmGerar, tmEnviarEvento, tmConsultarSituacao] then
+  if AMetodo in [tmGerar, tmConsultarLote, tmConsultarSituacao] then
     AMimeType := 'text/xml'
   else
     AMimeType := 'application/json';
