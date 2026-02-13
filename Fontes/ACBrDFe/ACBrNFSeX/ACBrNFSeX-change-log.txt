@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 13/02/2026
+-- fintelISS.GravarXml --
+[*] ACBR-8984 - O componente já esta pronto para gerar na versão 2.02 apesar de no arquivo INI
+    constar a versão 2.00 (não se deve alterar)
+    Ajuste feito para gerar corretamente a tag CodigoNbs.
+   Por: Italo Giurizzato Junior
 -- DBSeller.GravarXml --
 [-] ACBR-8979 - Correção da geração da tag CodigoNBS.
    Por: Diego Folieni

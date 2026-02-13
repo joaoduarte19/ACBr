@@ -96,6 +96,11 @@ begin
   NrOcorrAliquota := 1;
   NrOcorrCodigoPaisServico := 1;
   NrOcorrDataPagamento := 0;
+  NrOcorrDiscriminacao_1 := -1;
+  NrOcorrCodigoMunic_1 := -1;
+
+  NrOcorrDiscriminacao_2 := 1;
+  NrOcorrCodigoMunic_2 := 1;
 end;
 
 function TNFSeW_fintelISS200.GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode;
