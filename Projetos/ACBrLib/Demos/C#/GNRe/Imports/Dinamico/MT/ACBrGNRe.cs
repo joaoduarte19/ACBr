@@ -13,12 +13,15 @@ namespace ACBrLib.GNRe
         public ACBrGNRe(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrGNRe64.dll" : "libacbrgnre64.so",
                                                                                 IsWindows ? "ACBrGNRe32.dll" : "libacbrgnre32.so")
         {
-            var inicializar = GetMethod<GNRE_Inicializar>();
-            var ret = ExecuteMethod(() => inicializar(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
-            CheckResult(ret);
-
+            Inicializar(eArqConfig, eChaveCrypt);
             Config = new GNReConfig(this);
+        }
+
+        public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
+        {
+            var inicializarLib = GetMethod<GNRE_Inicializar>();
+            var ret = ExecuteMethod<int>(() => inicializarLib(ref libHandle,ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            CheckResult(ret);
         }
 
         #endregion Constructors
@@ -287,10 +290,10 @@ namespace ACBrLib.GNRe
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<GNRE_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar(libHandle));
+            var finalizarLib = GetMethod<GNRE_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib(libHandle));
             CheckResult(codRet);
         }
 

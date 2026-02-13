@@ -12,15 +12,18 @@ namespace ACBrLib.Sat
         public ACBrSat(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrSAT64.dll" : "libacbrsat64.so",
             IsWindows ? "ACBrSAT32.dll" : "libacbrsat32.so")
         {
-            var inicializar = GetMethod<SAT_Inicializar>();
-            var ret = ExecuteMethod<int>(() => inicializar(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
-            CheckResult(ret);
-
+            Inicializar(eArqConfig,eChaveCrypt);
             Config = new SatBaseConfig(this);
         }
 
         #endregion Constructors
+
+        public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
+        {
+            var inicializarLib = GetMethod<SAT_Inicializar>();
+            var ret = ExecuteMethod<int>(() => inicializarLib(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            CheckResult(ret);
+        }
 
         #region Properties
 
@@ -507,10 +510,10 @@ namespace ACBrLib.Sat
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<SAT_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar());
+            var finalizarLib = GetMethod<SAT_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib());
             CheckResult(codRet);
         }
 
@@ -533,6 +536,19 @@ namespace ACBrLib.Sat
         }
 
         #endregion Private Methods
+
+        public override string OpenSSLInfo()
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = GetMethod<SAT_OpenSSLInfo>();
+            var ret = ExecuteMethod(() => method(buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return ProcessResult(buffer, bufferLen);
+        }
 
         #endregion Methods
     }

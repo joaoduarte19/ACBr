@@ -172,7 +172,8 @@
     <Compile Include="..\Shared\Respostas\ConsultaNFeRetEventoResposta.cs" Link="Respostas\ConsultaNFeRetEventoResposta.cs" />
     <Compile Include="..\Shared\Respostas\EventoItemResposta.cs" Link="Respostas\EventoItemResposta.cs" />
     <Compile Include="..\Shared\Respostas\EventoResposta.cs" Link="Respostas\EventoResposta.cs" />
-    <Compile Include="..\Shared\Respostas\InutilizarNFeResposta.cs" Link="Respostas\InutilizarNFeResposta.cs" />	
+    <Compile Include="..\Shared\Respostas\InutilizarNFeResposta.cs" Link="Respostas\InutilizarNFeResposta.cs" />
+    <Compile Include="..\Shared\IACBrLibNFe.cs" Link="IACBrLibNFe.cs" />
   </ItemGroup>
 
   <ItemGroup>

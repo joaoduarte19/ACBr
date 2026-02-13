@@ -19,11 +19,14 @@ namespace ACBrLib.NFSe
         public ACBrNFSe(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrNFSe64.dll" : "libacbrnfse64.so",
                                                                                       IsWindows ? "ACBrNFSe32.dll" : "libacbrnfse32.so")
         {
+            Inicializar(eArqConfig, eChaveCrypt);
+        }
+
+        private void Inicializar(string eArqConfig, string eChaveCrypt)
+        {
             var inicializar = GetMethod<NFSE_Inicializar>();
             var ret = ExecuteMethod(() => inicializar(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
             CheckResult(ret);
-
             Config = new ACBrNFSeConfig(this);
         }
 
@@ -647,10 +650,10 @@ namespace ACBrLib.NFSe
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<NFSE_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar());
+            var finalizarLib = GetMethod<NFSE_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib());
             CheckResult(codRet);
         }
 

@@ -19,7 +19,7 @@ namespace ACBrLib.NFe.Demo
     {
         #region Fields
 
-        private ACBrNFe ACBrNFe;
+        private IACBrLibNFe ACBrNFe;
 
         #endregion Fields
 
@@ -30,7 +30,7 @@ namespace ACBrLib.NFe.Demo
             InitializeComponent();
 
             // Inicializando a dll
-                       
+
             ACBrNFe = new ACBrNFe();
             //boleto = new ACBrNFe("[Memory]"); -- Exemplo utilizar ACBrlib.ini em memória.
         }
@@ -124,7 +124,7 @@ namespace ACBrLib.NFe.Demo
             notaFiscal.Identificacao.indIntermed = IndIntermed.iiSemOperacao;
             notaFiscal.Identificacao.verProc = "ACBrNFe";
             //Reforma tributária
-            
+
             notaFiscal.Identificacao.cMunFGIBS = 3554003;
             notaFiscal.Identificacao.tpNFCredito = TipoNFeCredito.tcTransferenciaCreditoSucessao;
             notaFiscal.Identificacao.tpNFDebito = TipoNFeDebito.tdNenhum;
@@ -132,7 +132,7 @@ namespace ACBrLib.NFe.Demo
             notaFiscal.Identificacao.pRedutor = 2.5m;
             notaFiscal.Identificacao.tpOperGov = TipoOperGov.togFornecimento;
             notaFiscal.Identificacao.dPrevEntrega = DateTime.Now;
-            
+
             //--
 
             // Emitente
@@ -201,17 +201,17 @@ namespace ACBrLib.NFe.Demo
             produto.vProd = totalProdutos;
 
             //Reforma tributária
-            
+
             produto.IndBemMovelUsado = IndBemMovelUsado.tieNenhum;
             produto.tpCredPresIBSZFM = TipoCredPresIBSZFM.tcpBensConsumoFinal;
             produto.vItem = 100;
-            
+
             //--
             //Reforma tributária
-            
+
             produto.DFeReferenciado.nItem = 100;
             produto.DFeReferenciado.chaveAcesso = "35250518760540000139550010000000011374749890";
-            
+
 
             //--
 
@@ -236,35 +236,35 @@ namespace ACBrLib.NFe.Demo
             produto.infAdProd = "Informação adicional do produto";
 
             //Reforma tributária
-            
+
             produto.IS.CSTIS = CSTIS.cstis000;
-            produto.IS.cClassTribIS = "000000" ;
+            produto.IS.cClassTribIS = "000000";
             produto.IS.vBCIS = 100;
             produto.IS.pIS = 5;
             produto.IS.pISEspec = 5;
             produto.IS.uTrib = "UNIDAD";
             produto.IS.qTrib = 10;
             produto.IS.vIS = 100;
-            
+
             //Reforma tributária
 
             //Utilize os CST(cst000, cst200, cst220, cst510 e cst550) e os cClassTrib correspondentes para gerar o grupo IBSCBS
             //Utilize o CST cst610 e os cClassTrib correspondentes para gerar o grupo IBSCBSMono
             //Utilize o CST cst800 e os cClassTrib correspondentes para gerar o grupo gTransfcred
             //Utilize o CST cst810 e os cClassTrib correspondentes para gerar o grupo gCredPresIBSZFM
-           
+
             // Exemplo normal cst000 // 000001
             // Exemplo monofasico cst620 // 620001
 
-            
+
             produto.IBSCBS.CST = CSTIBSCBS.cst620;
             produto.IBSCBS.cClassTrib = "620000";
             produto.IBSCBS.indDoacao = IndDoacao.tieSim;
-            
+
             // Produto tributacao regular reforma tributaria
-            
-             
-            produto.IBSCBS.gIBSCBS.vBC = 100; 
+
+
+            produto.IBSCBS.gIBSCBS.vBC = 100;
             produto.IBSCBS.gIBSCBS.vIBS = 100;
 
             produto.IBSCBS.gIBSCBS.gIBSUF.pIBSUF = 5;
@@ -292,7 +292,7 @@ namespace ACBrLib.NFe.Demo
             produto.IBSCBS.gIBSCBS.gCBS.pAliqEfet = 5;
 
             produto.IBSCBS.gIBSCBS.gTribRegular.CSTReg = CSTIBSCBS.cst000;
-            produto.IBSCBS.gIBSCBS.gTribRegular.cClassTribReg = "000000"; 
+            produto.IBSCBS.gIBSCBS.gTribRegular.cClassTribReg = "000000";
             produto.IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegIBSUF = 5;
             produto.IBSCBS.gIBSCBS.gTribRegular.vTribRegIBSUF = 100;
             produto.IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegIBSMun = 5;
@@ -353,10 +353,10 @@ namespace ACBrLib.NFe.Demo
             produto.IBSCBS.gCredPresOper.gIBSCredPres.pCredPres = 5;
             produto.IBSCBS.gCredPresOper.gIBSCredPres.vCredPres = 100;
             produto.IBSCBS.gCredPresOper.gIBSCredPres.vCredPresCondSus = 100;
-            
+
             produto.IBSCBS.gCredPresOper.gCBSCredPres.pCredPres = 5;
             produto.IBSCBS.gCredPresOper.gCBSCredPres.vCredPres = 100;
-            produto.IBSCBS.gCredPresOper.gCBSCredPres.vCredPresCondSus = 100;           
+            produto.IBSCBS.gCredPresOper.gCBSCredPres.vCredPresCondSus = 100;
 
             // Reforma Credito Presumido IBS Zona Franca de Manaus
 
@@ -384,10 +384,10 @@ namespace ACBrLib.NFe.Demo
             notaFiscal.Total.vNF = produto.vProd;
 
             //Reforma tributária
-            
+
             notaFiscal.Total.ISTot.vIS = 100;
             notaFiscal.Total.IBSCBSTot.vBCIBSCBS = 100;
-                
+
             notaFiscal.Total.IBSCBSTot.gIBS.vIBS = 100;
             notaFiscal.Total.IBSCBSTot.gIBS.vCredPres = 100;
             notaFiscal.Total.IBSCBSTot.gIBS.vCredPresCondSus = 100;
@@ -404,8 +404,8 @@ namespace ACBrLib.NFe.Demo
             notaFiscal.Total.IBSCBSTot.gCBS.vDevTrib = 100;
             notaFiscal.Total.IBSCBSTot.gCBS.vCBS = 100;
             notaFiscal.Total.IBSCBSTot.gCBS.vCredPres = 100;
-            notaFiscal.Total.IBSCBSTot.gCBS.vCredPresCondSus = 100;            
-            
+            notaFiscal.Total.IBSCBSTot.gCBS.vCredPresCondSus = 100;
+
             notaFiscal.Total.IBSCBSTot.gMono.vIBSMono = 100;
             notaFiscal.Total.IBSCBSTot.gMono.vCBSMono = 100;
             notaFiscal.Total.IBSCBSTot.gMono.vIBSMonoReten = 100;
@@ -415,7 +415,7 @@ namespace ACBrLib.NFe.Demo
 
             notaFiscal.Total.IBSCBSTot.gEstornoCredTot.vIBSEstCred = 100;
             notaFiscal.Total.IBSCBSTot.gEstornoCredTot.vCBSEstCred = 100;
-            
+
 
             notaFiscal.Total.vNFTot = 100;
             //--
@@ -432,7 +432,7 @@ namespace ACBrLib.NFe.Demo
             //https://acbr.nutror.com/curso/8d575bd8a7c0ac0fda312f9b12b1eb521e606446/aula/9286660
             //Disponível no curso Integração dos Meios de Pagamento aos Documentos Fiscais Eletrônicos
             //-->Exemplo pagamento cartão débito/crédito para o Mato Grosso.
-            
+
             //PagamentoNFe pagtoCartaoMT = new PagamentoNFe();
             //pagtoCartaoMT.tPag = FormaPagamento.fpCartaoCredito;
 
@@ -447,7 +447,7 @@ namespace ACBrLib.NFe.Demo
 
             //-->Exemplo pagamento PIX para o Mato Grosso.
             //PagamentoNFe pagtoPIXMT = new PagamentoNFe();
-            
+
             //pagtoPIXMT.tPag = FormaPagamento.fpPagamentoInstantaneo;
             //pagtoPIXMT.vPag = 100;
             //pagtoPIXMT.tpIntegra = TpIntegra.tiPagIntegrado;
@@ -481,7 +481,7 @@ namespace ACBrLib.NFe.Demo
 
             //notaFiscal.Pagamentos.Add(pagtoPIXRS);
 
-            
+
             return notaFiscal.ToString();
         }
 
@@ -1327,7 +1327,7 @@ namespace ACBrLib.NFe.Demo
                 ACBrNFe.CarregarXML(arquivoXml);
 
                 var nomeArquivo = Helpers.SaveFile("Salvar em PDF (*.pdf)|*.pdf|Todos os Arquivos (*.*)|*.*");
-                
+
                 using (FileStream aStream = File.Create(nomeArquivo))
                 {
                     ACBrNFe.ImprimirPDF(aStream);

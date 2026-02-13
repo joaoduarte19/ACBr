@@ -12,12 +12,15 @@ namespace ACBrLib.ETQ
         public ACBrETQ(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrETQ64.dll" : "libacbretq64.so",
                                                                                IsWindows ? "ACBrETQ32.dll" : "libacbretq32.so")
         {
-            var inicializar = GetMethod<ETQ_Inicializar>();
-            var ret = ExecuteMethod(() => inicializar(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
-            CheckResult(ret);
-
+            Inicializar(eArqConfig, eChaveCrypt);
             Config = new ACBrETQConfig(this);
+        }
+
+        public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
+        {
+            var inicializarLib = GetMethod<ETQ_Inicializar>();
+            var ret = ExecuteMethod<int>(() => inicializarLib(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            CheckResult(ret);
         }
 
         #endregion Constructors
@@ -241,10 +244,10 @@ namespace ACBrLib.ETQ
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<ETQ_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar());
+            var finalizarLib = GetMethod<ETQ_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib());
             CheckResult(codRet);
         }
 

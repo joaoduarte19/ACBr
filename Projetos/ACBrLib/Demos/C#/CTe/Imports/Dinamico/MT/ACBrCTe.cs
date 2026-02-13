@@ -16,12 +16,15 @@ namespace ACBrLib.CTe
         public ACBrCTe(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrCTe64.dll" : "libacbrcte64.so",
                                                                                IsWindows ? "ACBrCTe32.dll" : "libacbrcte32.so")
         {
-            var inicializar = GetMethod<CTE_Inicializar>();
-            var ret = ExecuteMethod(() => inicializar(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
-            CheckResult(ret);
-
+            Inicializar(eArqConfig, eChaveCrypt);
             Config = new CTeConfig(this);
+        }
+
+        public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
+        {
+            var inicializarLib = GetMethod<CTE_Inicializar>();
+            var ret = ExecuteMethod<int>(() => inicializarLib(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            CheckResult(ret);
         }
 
         #endregion Constructors
@@ -574,11 +577,12 @@ namespace ACBrLib.CTe
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<CTE_Finalizar>();
-            var ret = ExecuteMethod(() => finalizar(libHandle));
+            var finalizarLib = GetMethod<CTE_Finalizar>();
+            var ret = ExecuteMethod(() => finalizarLib(libHandle));
             CheckResult(ret);
+            libHandle = IntPtr.Zero;
         }
 
         protected override string GetUltimoRetorno(int iniBufferLen = 0)

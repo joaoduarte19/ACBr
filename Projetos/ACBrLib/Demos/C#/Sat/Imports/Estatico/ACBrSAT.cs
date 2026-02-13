@@ -580,10 +580,10 @@ namespace ACBrLib.Sat
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<Delegates.SAT_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar());
+            var finalizarLib = GetMethod<Delegates.SAT_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib());
             CheckResult(codRet);
         }
 

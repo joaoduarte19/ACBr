@@ -18,12 +18,15 @@ namespace ACBrLib.CEP
         public ACBrCEP(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrCEP64.dll" : "libacbrcep64.so",
                                                                                       IsWindows ? "ACBrCEP32.dll" : "libacbrcep32.so")
         {
-            var inicializar = GetMethod<CEP_Inicializar>();
-            var ret = ExecuteMethod(() => inicializar(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
-            CheckResult(ret);
-
+            Inicializar(eArqConfig, eChaveCrypt);
             Config = new ACBrCEPConfig(this);
+        }
+
+        public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
+        {
+            var inicializarLib = GetMethod<CEP_Inicializar>();
+            var ret = ExecuteMethod<int>(() => inicializarLib(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            CheckResult(ret);
         }
 
         #endregion Constructors
@@ -167,10 +170,10 @@ namespace ACBrLib.CEP
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<CEP_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar());
+            var finalizarLib = GetMethod<CEP_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib());
             CheckResult(codRet);
         }
 

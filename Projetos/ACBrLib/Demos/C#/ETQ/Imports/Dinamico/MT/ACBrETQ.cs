@@ -1,6 +1,8 @@
 ﻿using ACBrLib.Core;
 using System.Text;
 using ACBrLib.Core.ETQ;
+using System;
+using System.IO;
 
 namespace ACBrLib.ETQ
 {
@@ -11,12 +13,15 @@ namespace ACBrLib.ETQ
         public ACBrETQ(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrETQ64.dll" : "libacbretq64.so",
                                                                                IsWindows ? "ACBrETQ32.dll" : "libacbretq32.so")
         {
-            var inicializar = GetMethod<ETQ_Inicializar>();
-            var ret = ExecuteMethod(() => inicializar(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
-            CheckResult(ret);
-
+            Inicializar(eArqConfig, eChaveCrypt);
             Config = new ACBrETQConfig(this);
+        }
+
+        public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
+        {
+            var inicializarLib = GetMethod<ETQ_Inicializar>();
+            var ret = ExecuteMethod<int>(() => inicializarLib(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            CheckResult(ret);
         }
 
         #endregion Constructors
@@ -156,6 +161,7 @@ namespace ACBrLib.ETQ
             var ret = ExecuteMethod(() => method(libHandle, aCopias, aAvancoEtq));
 
             CheckResult(ret);
+    
         }
 
         public void CarregarImagem(string eArquivoImagem, string eNomeImagem, bool flipped = true)
@@ -240,11 +246,12 @@ namespace ACBrLib.ETQ
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<ETQ_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar(libHandle));
+            var finalizarLib = GetMethod<ETQ_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib(libHandle));
             CheckResult(codRet);
+            libHandle = IntPtr.Zero;
         }
 
         protected override void InitializeMethods()

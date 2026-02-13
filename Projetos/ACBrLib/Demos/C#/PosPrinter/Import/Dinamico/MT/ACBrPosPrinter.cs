@@ -16,12 +16,16 @@ namespace ACBrLib.PosPrinter
         public ACBrPosPrinter(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrPosPrinter64.dll" : "libacbrposprinter64.so",
                                                                                       IsWindows ? "ACBrPosPrinter32.dll" : "libacbrposprinter32.so")
         {
+            Inicializar(eArqConfig, eChaveCrypt);
+            Config = new PosPrinterConfig(this);
+        }
+
+        public override void Inicializar(string eArqConfig, string eChaveCrypt)
+        {
             var inicializar = GetMethod<POS_Inicializar>();
             var ret = ExecuteMethod(() => inicializar(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
             CheckResult(ret);
-
-            Config = new PosPrinterConfig(this);
+            
         }
 
         #endregion Constructors
@@ -431,11 +435,12 @@ namespace ACBrLib.PosPrinter
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<POS_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar(libHandle));
+            var finalizarLib = GetMethod<POS_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib(libHandle));
             CheckResult(codRet);
+            libHandle = IntPtr.Zero;
         }
 
         protected override string GetUltimoRetorno(int iniBufferLen = 0)

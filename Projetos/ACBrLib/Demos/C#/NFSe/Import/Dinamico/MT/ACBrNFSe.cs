@@ -20,12 +20,16 @@ namespace ACBrLib.NFSe
         public ACBrNFSe(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrNFSe64.dll" : "libacbrnfse64.so",
                                                                                       IsWindows ? "ACBrNFSe32.dll" : "libacbrnfse32.so")
         {
+            Inicializar(eArqConfig, eChaveCrypt);
+            Config = new ACBrNFSeConfig(this);
+        }
+
+        public override void Inicializar(string eArqConfig, string eChaveCrypt)
+        {
             var inicializar = GetMethod<NFSE_Inicializar>();
             var ret = ExecuteMethod(() => inicializar(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
             CheckResult(ret);
 
-            Config = new ACBrNFSeConfig(this);
         }
 
         #endregion Constructors
@@ -173,7 +177,7 @@ namespace ACBrLib.NFSe
 
             return ProcessResult(buffer, bufferLen);
         }
-		
+
         public string ObterXmlRps(int aIndex)
         {
             var bufferLen = BUFFER_LEN;
@@ -185,7 +189,7 @@ namespace ACBrLib.NFSe
             CheckResult(ret);
 
             return ProcessResult(buffer, bufferLen);
-        }		
+        }
 
         public void GravarXml(int aIndex, string eNomeArquivo = "", string ePathArquivo = "")
         {
@@ -682,11 +686,12 @@ namespace ACBrLib.NFSe
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<NFSE_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar(libHandle));
+            var finalizarLib = GetMethod<NFSE_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib(libHandle));
             CheckResult(codRet);
+            libHandle = IntPtr.Zero;
         }
 
         protected override string GetUltimoRetorno(int iniBufferLen = 0)

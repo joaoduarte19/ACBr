@@ -17,12 +17,15 @@ namespace ACBrLib.GTIN
         public ACBrGTIN(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrGTIN64.dll" : "libacbrgtin64.so",
                                                                                       IsWindows ? "ACBrGTIN32.dll" : "libacbrgtin32.so")
         {
-            var inicializar = GetMethod<GTIN_Inicializar>();
-            var ret = ExecuteMethod(() => inicializar(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
-            CheckResult(ret);
-
+            Inicializar(eArqConfig, eChaveCrypt);
             Config = new ACBrGTINConfig(this);
+        }
+
+        public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
+        {
+            var inicializarLib = GetMethod<GTIN_Inicializar>();
+            var ret = ExecuteMethod<int>(() => inicializarLib(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            CheckResult(ret);
         }
 
         #endregion Constructors
@@ -151,10 +154,10 @@ namespace ACBrLib.GTIN
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<GTIN_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar());
+            var finalizarLib = GetMethod<GTIN_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib());
             CheckResult(codRet);
         }
 

@@ -8,18 +8,22 @@ using ACBrLib.Core.NFe;
 
 namespace ACBrLib.NFe
 {
-    public sealed partial class ACBrNFe : ACBrLibHandle
+    public sealed partial class ACBrNFe : ACBrLibHandle, IACBrLibNFe
     {
         #region Constructors
 
         public ACBrNFe(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrNFe64.dll" : "libacbrnfe64.so",
                                                                                IsWindows ? "ACBrNFe32.dll" : "libacbrnfe32.so")
         {
-            var inicializar = GetMethod<NFE_Inicializar>();
-            var ret = ExecuteMethod(() => inicializar(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
-            CheckResult(ret);
+            Inicializar(eArqConfig, eChaveCrypt);
             Config = new ACBrNFeConfig(this);
+        }
+
+        public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
+        {
+            var inicializarLib = GetMethod<NFE_Inicializar>();
+            var ret = ExecuteMethod<int>(() => inicializarLib(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            CheckResult(ret);
         }
 
         #endregion Constructors
@@ -134,6 +138,8 @@ namespace ACBrLib.NFe
         /// </summary>
         /// <param name="nfe"></param>
         public void CarregarNFe(NotaFiscal nfe) => CarregarINI(nfe.ToString());
+
+        public void CarregarNota(NotaFiscal nfe) =>CarregarNFe(nfe);
 
         /// <summary>
         /// Retornar os dados da NFe no index informado.
@@ -621,10 +627,10 @@ namespace ACBrLib.NFe
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<NFE_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar());
+            var finalizarLib = GetMethod<NFE_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib());
             CheckResult(codRet);
         }
 

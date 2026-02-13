@@ -31,8 +31,8 @@ namespace ACBrLib.Core
         public const int BUFFER_LEN = 1024;
 
         #region métodos  abstratos comuns 
-        public abstract int Inicializar();
-        public abstract int Finalizar();
+        public abstract void Inicializar( string eArqConfig = "", string eChaveCrypt = "");
+        public abstract void Finalizar();
         public abstract void ConfigLer(string eArqConfig);
         public abstract void ConfigGravar(string eArqConfig);
         public abstract string ConfigLerValor(string eSessao, string eChave);

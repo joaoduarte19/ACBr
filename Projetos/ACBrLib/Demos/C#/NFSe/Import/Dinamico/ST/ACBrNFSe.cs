@@ -19,12 +19,16 @@ namespace ACBrLib.NFSe
         public ACBrNFSe(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrNFSe64.dll" : "libacbrnfse64.so",
                                                                                       IsWindows ? "ACBrNFSe32.dll" : "libacbrnfse32.so")
         {
+            Inicializar(eArqConfig, eChaveCrypt);
+            Config = new ACBrNFSeConfig(this);
+        }
+
+        public override void Inicializar(string eArqConfig, string eChaveCrypt)
+        {
             var inicializar = GetMethod<NFSE_Inicializar>();
             var ret = ExecuteMethod(() => inicializar(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
             CheckResult(ret);
 
-            Config = new ACBrNFSeConfig(this);
         }
 
         #endregion Constructors
@@ -347,7 +351,7 @@ namespace ACBrLib.NFSe
             var ret = ExecuteMethod(() => method(ToUTF8(aProcotolo), ToUTF8(aNumLote), buffer, ref bufferLen));
 
             CheckResult(ret);
-            
+
             return ProcessResult(buffer, bufferLen);
         }
 
@@ -509,7 +513,7 @@ namespace ACBrLib.NFSe
 
             return ProcessResult(buffer, bufferLen);
         }
-        
+
         public string ConsultarNFSeServicoPrestadoPorIntermediario(string aCNPJ, string aInscMun, int aPagina, DateTime aDataInicial, DateTime aDataFinal, int aTipoPeriodo)
         {
             var bufferLen = BUFFER_LEN;
@@ -588,7 +592,7 @@ namespace ACBrLib.NFSe
             return ProcessResult(buffer, bufferLen);
         }
 
-		public string EnviarEvento(string aInfEvento)
+        public string EnviarEvento(string aInfEvento)
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
@@ -679,10 +683,10 @@ namespace ACBrLib.NFSe
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<NFSE_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar());
+            var finalizarLib = GetMethod<NFSE_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib());
             CheckResult(codRet);
         }
 

@@ -16,10 +16,7 @@ namespace ACBrLib.PIXCD
         public ACBrPIXCD(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrPIXCD64.dll" : "libacbrpixcd64.so",
                                                                                       IsWindows ? "ACBrPIXCD32.dll" : "libacbrpixcd32.so")
         {
-            var inicializar = GetMethod<PIXCD_Inicializar>();
-            var ret = ExecuteMethod(() => inicializar(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
-            CheckResult(ret);
+           
 
             Config = new ACBrPIXCDConfig(this);
         }
@@ -27,6 +24,13 @@ namespace ACBrLib.PIXCD
         #endregion Constructors
 
         #region Properties
+
+        public override void Inicializar(string eArqConfig, string eChaveCrypt)
+        {
+            var inicializar = GetMethod<PIXCD_Inicializar>();
+            var ret = ExecuteMethod(() => inicializar(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            CheckResult(ret);
+        }
 
         public string Nome
         {
@@ -332,11 +336,12 @@ namespace ACBrLib.PIXCD
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<PIXCD_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar(libHandle));
+            var finalizarLib = GetMethod<PIXCD_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib(libHandle));
             CheckResult(codRet);
+            libHandle = IntPtr.Zero;
         }
 
         protected override string GetUltimoRetorno(int iniBufferLen = 0)

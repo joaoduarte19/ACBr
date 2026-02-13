@@ -17,12 +17,15 @@ namespace ACBrLib.AbecsPinpad
         public ACBrAbecsPinpad(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrAbecsPinpad64.dll" : "libacbrabecspinpad64.so",
                                                                                       IsWindows ? "ACBrAbecsPinpad32.dll" : "libacbrabecspinpad32.so")
         {
-            var inicializar = GetMethod<AbecsPinpad_Inicializar>();
-            var ret = ExecuteMethod(() => inicializar(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
-            CheckResult(ret);
-
+            Inicializar(eArqConfig, eChaveCrypt);
             Config = new AbecsPinpadConfig(this);
+        }
+
+        public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
+        {
+            var inicializarLib = GetMethod<AbecsPinpad_Inicializar>();
+            var ret = ExecuteMethod<int>(() => inicializarLib(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            CheckResult(ret);
         }
 
         public string Nome
@@ -313,11 +316,12 @@ namespace ACBrLib.AbecsPinpad
             CheckResult(ret);
         }
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<AbecsPinpad_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar(libHandle));
+            var finalizarLib = GetMethod<AbecsPinpad_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib(libHandle));
             CheckResult(codRet);
+            libHandle = IntPtr.Zero;
         }
 
         protected override string GetUltimoRetorno(int iniBufferLen = 0)

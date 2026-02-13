@@ -11,14 +11,17 @@ namespace ACBrLib.Boleto
         #region Constructors
 
         public ACBrBoleto(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrBoleto64.dll" : "libacbrboleto64.so",
-                                                                                  IsWindows ? "ACBrBoleto32.dll" : "libacbrboleto32.so")
+                                                                                      IsWindows ? "ACBrBoleto32.dll" : "libacbrboleto32.so")
         {
-            var inicializar = GetMethod<Boleto_Inicializar>();
-            var ret = ExecuteMethod<int>(() => inicializar(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
-            CheckResult(ret);
-
+            Inicializar(eArqConfig, eChaveCrypt);
             Config = new ACBrBoletoConfig(this);
+        }
+
+        public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
+        {
+            var inicializarLib = GetMethod<Boleto_Inicializar>();
+            var ret = ExecuteMethod<int>(() => inicializarLib(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            CheckResult(ret);
         }
 
         #endregion Constructors
@@ -150,7 +153,7 @@ namespace ACBrLib.Boleto
             var iniFile = new ACBrIniFile();
             for (var i = 0; i < titulos.Length; i++)
             {
-                titulos[i].Index = i+1;
+                titulos[i].Index = i + 1;
                 titulos[i].WriteToIni(iniFile);
             }
 
@@ -162,7 +165,7 @@ namespace ACBrLib.Boleto
             var iniFile = new ACBrIniFile();
             for (var i = 0; i < titulos.Length; i++)
             {
-                titulos[i].Index = i+1;
+                titulos[i].Index = i + 1;
                 titulos[i].WriteToIni(iniFile);
             }
 
@@ -271,7 +274,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
-        public void GerarRemessaStream(int eNumArquivo, Stream aStream) 
+        public void GerarRemessaStream(int eNumArquivo, Stream aStream)
         {
             if (aStream == null) throw new ArgumentNullException(nameof(aStream));
 
@@ -509,7 +512,7 @@ namespace ACBrLib.Boleto
         {
 
             var method = GetMethod<Boleto_InformarToken>();
-            var ret = ExecuteMethod<int>(() => method(eToken, eData)); 
+            var ret = ExecuteMethod<int>(() => method(eToken, eData));
 
             CheckResult(ret);
             return ret.ToString();
@@ -533,10 +536,10 @@ namespace ACBrLib.Boleto
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<Boleto_Finalizar>();
-            var ret = ExecuteMethod<int>(() => finalizar());
+            var finalizarLib = GetMethod<Boleto_Finalizar>();
+            var ret = ExecuteMethod<int>(() => finalizarLib());
             CheckResult(ret);
         }
 

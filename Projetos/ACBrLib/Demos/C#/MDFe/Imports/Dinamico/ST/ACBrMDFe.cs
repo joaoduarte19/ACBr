@@ -17,12 +17,15 @@ namespace ACBrLib.MDFe
         public ACBrMDFe(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrMDFe64.dll" : "libacbrmdfe64.so",
                                                                                 IsWindows ? "ACBrMDFe32.dll" : "libacbrmdfe32.so")
         {
-            var inicializar = GetMethod<MDFE_Inicializar>();
-            var ret = ExecuteMethod(() => inicializar(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
-            CheckResult(ret);
-
+            Inicializar(eArqConfig, eChaveCrypt);
             Config = new MDFeConfig(this);
+        }
+
+        public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
+        {
+            var inicializarLib = GetMethod<MDFE_Inicializar>();
+            var ret = ExecuteMethod<int>(() => inicializarLib(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            CheckResult(ret);
         }
 
         #endregion Constructors
@@ -552,11 +555,12 @@ namespace ACBrLib.MDFe
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<MDFE_Finalizar>();
-            var ret = ExecuteMethod(() => finalizar());
+            var finalizarLib = GetMethod<MDFE_Finalizar>();
+            var ret = ExecuteMethod(() => finalizarLib());
             CheckResult(ret);
+            libHandle = IntPtr.Zero;
         }
 
         protected override string GetUltimoRetorno(int iniBufferLen = 0)

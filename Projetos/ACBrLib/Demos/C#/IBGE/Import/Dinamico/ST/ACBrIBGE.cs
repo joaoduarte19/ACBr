@@ -18,12 +18,15 @@ namespace ACBrLib.IBGE
         public ACBrIBGE(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrIBGE64.dll" : "libacbribge64.so",
                                                                                       IsWindows ? "ACBrIBGE32.dll" : "libacbribge32.so")
         {
-            var inicializar = GetMethod<IBGE_Inicializar>();
-            var ret = ExecuteMethod(() => inicializar(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
-            CheckResult(ret);
-
+            Inicializar(eArqConfig, eChaveCrypt);
             Config = new ACBrCEPConfig(this);
+        }
+
+        public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
+        {
+            var inicializarLib = GetMethod<IBGE_Inicializar>();
+            var ret = ExecuteMethod<int>(() => inicializarLib(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            CheckResult(ret);
         }
 
         #endregion Constructors
@@ -165,10 +168,10 @@ namespace ACBrLib.IBGE
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<IBGE_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar());
+            var finalizarLib = GetMethod<IBGE_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib());
             CheckResult(codRet);
         }
 

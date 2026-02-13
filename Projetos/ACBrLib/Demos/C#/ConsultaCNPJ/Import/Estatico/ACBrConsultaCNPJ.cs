@@ -17,12 +17,15 @@ namespace ACBrLib.ConsultaCNPJ
         public ACBrConsultaCNPJ(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrConsultaCNPJ64.dll" : "libacbrconsultacnpj64.so",
                                                                                       IsWindows ? "ACBrConsultaCNPJ32.dll" : "libacbrconsultacnpj32.so")
         {
-            var inicializar = GetMethod<CNPJ_Inicializar>();
-            var ret = ExecuteMethod(() => inicializar(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
-            CheckResult(ret);
-
+            Inicializar(eArqConfig, eChaveCrypt);
             Config = new ACBrCNPJConfig(this);
+        }
+
+        public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
+        {
+            var inicializarLib = GetMethod<CNPJ_Inicializar>();
+            var ret = ExecuteMethod<int>(() => inicializarLib(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            CheckResult(ret);
         }
 
         #endregion Constructors
@@ -164,10 +167,10 @@ namespace ACBrLib.ConsultaCNPJ
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<CNPJ_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar());
+            var finalizarLib = GetMethod<CNPJ_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib());
             CheckResult(codRet);
         }
 

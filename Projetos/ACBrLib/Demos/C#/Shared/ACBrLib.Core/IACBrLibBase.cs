@@ -8,6 +8,10 @@ namespace ACBrLib.Core
     /// Define o contrato para operações comuns para classes de alto nível Da ACBrLib em C# 
     public interface IACBrLibBase
     {
+
+        void Inicializar(string eArqConfig = "", string eChaveCrypt = "");
+        void Finalizar();
+
         /// <summary>
         /// Método usado para gravar a configuração da biblioteca no arquivo INI informado.
         /// </summary>

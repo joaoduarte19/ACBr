@@ -18,12 +18,15 @@ namespace ACBrLib.eSocial
         public ACBreSocial(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBreSocial64.dll" : "libacbresocial64.so",
                                                                                       IsWindows ? "ACBreSocial32.dll" : "libacbresocial32.so")
         {
-            var inicializar = GetMethod<eSocial_Inicializar>();
-            var ret = ExecuteMethod(() => inicializar(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
-            CheckResult(ret);
-
+            Inicializar(eArqConfig, eChaveCrypt);
             Config = new ACBreSocialConfig(this);
+        }
+
+        public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
+        {
+            var inicializarLib = GetMethod<eSocial_Inicializar>();
+            var ret = ExecuteMethod<int>(() => inicializarLib(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            CheckResult(ret);
         }
 
         #endregion Constructors
@@ -310,10 +313,10 @@ namespace ACBrLib.eSocial
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<eSocial_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar());
+            var finalizarLib = GetMethod<eSocial_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib());
             CheckResult(codRet);
         }
 

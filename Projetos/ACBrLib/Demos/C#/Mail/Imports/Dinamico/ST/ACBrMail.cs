@@ -11,11 +11,15 @@ namespace ACBrLib.Mail
         public ACBrMail(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrMail64.dll" : "libacbrmail64.so",
                                                                                 IsWindows ? "ACBrMail32.dll" : "libacbrmail32.so")
         {
-            var inicializar = GetMethod<MAIL_Inicializar>();
-            var ret = ExecuteMethod(() => inicializar(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
-            CheckResult(ret);
+            Inicializar(eArqConfig, eChaveCrypt);
             Config = new MailConfig(this);
+        }
+
+        public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
+        {
+            var inicializarLib = GetMethod<MAIL_Inicializar>();
+            var ret = ExecuteMethod<int>(() => inicializarLib(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            CheckResult(ret);
         }
 
         #endregion Constructors
@@ -223,10 +227,10 @@ namespace ACBrLib.Mail
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<MAIL_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar());
+            var finalizarLib = GetMethod<MAIL_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib());
             CheckResult(codRet);
         }
 

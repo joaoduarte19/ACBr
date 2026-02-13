@@ -12,16 +12,18 @@ namespace ACBrLib.Sat
         public ACBrSat(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrSAT64.dll" : "libacbrsat64.so",
                                                                                IsWindows ? "ACBrSAT32.dll" : "libacbrsat32.so")
         {
-            var inicializar = GetMethod<SAT_Inicializar>();
-            var ret = ExecuteMethod(() => inicializar(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
-            CheckResult(ret);
-
+            Inicializar(eArqConfig, eChaveCrypt);
             Config = new SatBaseConfig(this);
         }
 
         #endregion Constructors
 
+        public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
+        {
+            var inicializarLib = GetMethod<SAT_Inicializar>();
+            var ret = ExecuteMethod<int>(() => inicializarLib(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            CheckResult(ret);
+        }
         #region Properties
 
         public string Nome
@@ -507,11 +509,12 @@ namespace ACBrLib.Sat
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<SAT_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar(libHandle));
+            var finalizarLib = GetMethod<SAT_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib(libHandle));
             CheckResult(codRet);
+            libHandle = IntPtr.Zero;
         }
 
         protected override string GetUltimoRetorno(int iniBufferLen = 0)
@@ -533,6 +536,19 @@ namespace ACBrLib.Sat
         }
 
         #endregion Private Methods
+
+        public override string OpenSSLInfo()
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = GetMethod<SAT_OpenSSLInfo>();
+            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return ProcessResult(buffer, bufferLen);
+        }
 
         #endregion Methods
     }

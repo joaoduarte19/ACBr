@@ -4,7 +4,7 @@ using ACBrLib.Core.NFe;
 
 namespace ACBrLib.NFe
 {
-    public sealed class ACBrNFeConfig : ACBrLibDFeConfig<ACBrNFe>
+    public sealed class ACBrNFeConfig : ACBrLibDFeConfig<IACBrLibNFe>
     {
         #region Constructors
 

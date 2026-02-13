@@ -17,12 +17,16 @@ namespace ACBrLib.Reinf
         public ACBrReinf(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrReinf64.dll" : "libacbrReinf64.so",
                                                                                       IsWindows ? "ACBrReinf32.dll" : "libacbrReinf32.so")
         {
+            Inicializar(eArqConfig, eChaveCrypt);
+            Config = new ACBrReinfConfig(this);
+        }
+
+        public override void Inicializar(string eArqConfig, string eChaveCrypt)
+        {
             var inicializar = GetMethod<Reinf_Inicializar>();
             var ret = ExecuteMethod(() => inicializar(ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
-
             CheckResult(ret);
-
-            Config = new ACBrReinfConfig(this);
+            
         }
 
         #endregion Constructors
@@ -276,10 +280,10 @@ namespace ACBrLib.Reinf
 
         #region Private Methods
 
-        protected override void FinalizeLib()
+        public override void Finalizar()
         {
-            var finalizar = GetMethod<Reinf_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizar());
+            var finalizarLib = GetMethod<Reinf_Finalizar>();
+            var codRet = ExecuteMethod(() => finalizarLib());
             CheckResult(codRet);
         }
 

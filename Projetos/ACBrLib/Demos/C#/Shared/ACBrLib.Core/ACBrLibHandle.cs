@@ -226,7 +226,7 @@ namespace ACBrLib.Core
         {
             if (IsInvalid) return true;
 
-            FinalizeLib();
+            Finalizar();
 
             var ret = LibLoader.FreeLibrary(handle);
 
@@ -240,7 +240,11 @@ namespace ACBrLib.Core
 
         protected abstract string GetUltimoRetorno(int iniBufferLen = 0);
 
-        protected abstract void FinalizeLib();
+        public abstract void Finalizar();
+
+        public abstract void Inicializar(string eArqConfig = "", string eChaveCrypt = "");
+
+
 
         protected virtual T ConvertValue<T>(string value)
         {
