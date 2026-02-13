@@ -44,10 +44,12 @@ Símbolo : Significado
 
 13/02/2026
 -- ACBrNFSeXServicos --
-[+] ACBR-8992 - Incluída a cidade de Santa Barbara do Sul/RS, o provedor é ABase.
+[*] A cidade Aripuanã/MT, não deve gerar a tag CodigoCnae.
+   Por: Alex Heinen
+[+] ACBR-8982 - Incluída a cidade de Santa Barbara do Sul/RS, o provedor é ABase.
    Por: overstep
 [*] A cidade Santa Helena/PR constava que o provedor era PadraoNacional, mas o correto é IPM.
-   Por: Armando Boza
+   Por: Armando boza
 -- fintelISS.GravarXml --
 [*] ACBR-8984 - O componente já esta pronto para gerar na versão 2.02 apesar de no arquivo INI
     constar a versão 2.00 (não se deve alterar)
