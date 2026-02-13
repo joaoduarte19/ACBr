@@ -4,11 +4,11 @@ using ACBrLib.Core.NFe;
 
 namespace ACBrLib.NFe
 {
-    public sealed class DANFeNFCeConfig : ACBrLibConfigBase<ACBrNFe>
+   public sealed class DANFeNFCeConfig : ACBrLibConfigBase<IACBrLibNFe>
     {
         #region Constructors
 
-        public DANFeNFCeConfig(ACBrNFe acbrlib) : base(acbrlib, ACBrSessao.DANFENFCe)
+        public DANFeNFCeConfig(IACBrLibNFe acbrlib) : base(acbrlib, ACBrSessao.DANFENFCe)
         {
             Fonte = new FonteDANFCeConfig(acbrlib, ACBrSessao.DANFENFCe);
         }

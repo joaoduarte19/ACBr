@@ -5,13 +5,13 @@ using ACBrLib.Core.NFe;
 
 namespace ACBrLib.NFe
 {
-    public sealed class DANFeNFeConfig : ACBrLibConfigBase<ACBrNFe>
+    public sealed class DANFeNFeConfig : ACBrLibConfigBase<IACBrLibNFe>
     {
         #region Constructors
 
-        public DANFeNFeConfig(ACBrNFe acbrlib) : base(acbrlib, ACBrSessao.DANFENFe)
+        public DANFeNFeConfig(IACBrLibNFe acbrlib) : base(acbrlib, ACBrSessao.DANFENFe)
         {
-            Fonte = new FontConfig<ACBrNFe>(acbrlib, ACBrSessao.DANFENFe);
+            Fonte = new FontConfig<IACBrLibNFe>(acbrlib, ACBrSessao.DANFENFe);
         }
 
         #endregion Constructors
@@ -210,7 +210,7 @@ namespace ACBrLib.NFe
             set => SetProperty(value);
         }
 
-        public FontConfig<ACBrNFe> Fonte { get; }
+        public FontConfig<IACBrLibNFe> Fonte { get; }
 
         public PosCanhotoLayout PosCanhotoLayout
         {

@@ -4,11 +4,11 @@ using ACBrLib.Core.NFe;
 
 namespace ACBrLib.NFe
 {
-    public sealed class DANFeConfig : ReportConfig<ACBrNFe>
+    public sealed class DANFeConfig : ReportConfig<IACBrLibNFe>
     {
         #region Constructors
 
-        public DANFeConfig(ACBrNFe acbrlib) : base(acbrlib, ACBrSessao.DANFE)
+        public DANFeConfig(IACBrLibNFe acbrlib) : base(acbrlib, ACBrSessao.DANFE)
         {
             NFe = new DANFeNFeConfig(acbrlib);
             NFCe = new DANFeNFCeConfig(acbrlib);

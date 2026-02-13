@@ -3,11 +3,11 @@ using ACBrLib.Core.Config;
 
 namespace ACBrLib.NFe
 {
-    public sealed class FonteDANFCeConfig : ACBrLibConfigBase<ACBrNFe>
+    public sealed class FonteDANFCeConfig : ACBrLibConfigBase<IACBrLibNFe>
     {
         #region Constructors
 
-        public FonteDANFCeConfig(ACBrNFe acbrlib, ACBrSessao sessao) : base(acbrlib, sessao)
+        public FonteDANFCeConfig(IACBrLibNFe acbrlib, ACBrSessao sessao) : base(acbrlib, sessao)
         {
             SubName = "FonteLinhaItem";
         }
