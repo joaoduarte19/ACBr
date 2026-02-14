@@ -139,7 +139,7 @@ type
                 {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
 
     xContinuaFuncaoSiTefInterativo : function (
-               var ProximoComando: SmallInt;
+               var ProximoComando: Integer;
                var TipoCampo: LongInt;
                var TamanhoMinimo: SmallInt;
                var TamanhoMaximo: SmallInt;
@@ -235,7 +235,7 @@ type
                pParamAdic: PAnsiChar ): integer;
 
     function ContinuaFuncaoSiTefInterativo(
-               var ProximoComando: SmallInt;
+               var ProximoComando: Integer;
                var TipoCampo: LongInt;
                var TamanhoMinimo: SmallInt;
                var TamanhoMaximo: SmallInt;
@@ -779,7 +779,7 @@ begin
 end;
 
 function TACBrTEFCliSiTefAPI.ContinuaFuncaoSiTefInterativo(
-  var ProximoComando: SmallInt; var TipoCampo: LongInt;
+  var ProximoComando: Integer; var TipoCampo: LongInt;
   var TamanhoMinimo: SmallInt; var TamanhoMaximo: SmallInt; pBuffer: PAnsiChar;
   TamMaxBuffer: Integer; ContinuaNavegacao: Integer): integer;
 begin

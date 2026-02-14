@@ -3,7 +3,7 @@
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
 {                                                                              }
-{ Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
+{ Direitos Autorais Reservados (c) 2026 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
 {                                                                              }
@@ -674,8 +674,8 @@ end;
 function TACBrTEFDCliSiTef.ContinuarRequisicao(ImprimirComprovantes: Boolean
   ): Integer;
 var
-  Continua, ItemSelecionado, I: Integer;
-  ProximoComando,TamanhoMinimo, TamanhoMaximo : SmallInt;
+  Continua, ItemSelecionado, ProximoComando, I: Integer;
+  TamanhoMinimo, TamanhoMaximo : SmallInt;
   TipoCampo: LongInt;
   Buffer: array [0..20000] of AnsiChar;
   Mensagem, MensagemOperador, MensagemCliente, CaptionMenu : String ;

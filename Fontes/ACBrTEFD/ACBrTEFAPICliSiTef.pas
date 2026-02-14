@@ -3,7 +3,7 @@
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
 {                                                                              }
-{ Direitos Autorais Reservados (c) 2024 Daniel Simoes de Almeida               }
+{ Direitos Autorais Reservados (c) 2026 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
 {                                                                              }
@@ -492,10 +492,10 @@ procedure TACBrTEFAPIClassCliSiTef.ContinuarRequisicaoSiTef;
 const
   CBufferSize = 20480;
 var
-  ContinuaNavegacao, EsperaMensagem: Integer;
-  ProximoComando,TamanhoMinimo, TamanhoMaximo : SmallInt;
+  ContinuaNavegacao, EsperaMensagem, ProximoComando: Integer;
+  TamanhoMinimo, TamanhoMaximo : SmallInt;
   TipoCampo: LongInt;
-  pBuffer:PAnsiChar;
+  pBuffer: PAnsiChar;
   RespBuffer: AnsiString;
   Mensagem, TituloMenu: String;
   EhCarteiraDigital: Boolean ;
@@ -518,7 +518,7 @@ begin
   RespBuffer := '';
   TituloMenu := '' ;
 
-  pBuffer :=  AllocMem(CBufferSize);
+  pBuffer := AllocMem(CBufferSize);
   RespCliSiTef := TACBrTEFRespCliSiTef(fpACBrTEFAPI.UltimaRespostaTEF);
   try
     repeat
@@ -605,13 +605,13 @@ begin
           16:  // Deve remover o cabeçalho apresentado pelo comando 15
             DoExibirMensagem('', telaCliente, -1);
 
-          20:  // Deve apresentar o texto em pBuffer, e obter uma resposta do tipo SIM/NÃO.
+          20:  // Deve apresentar o texto, e obter uma resposta do tipo SIM/NÃO.
             RespBuffer := DoPerguntarSimNao(Mensagem);
 
           21:  // Deve apresentar um menu de opções e permitir que o usuário selecione uma delas
             RespBuffer := DoPerguntarMenu(TituloMenu, Mensagem);
 
-          22:  // Deve apresentar a mensagem em pBuffer, e aguardar uma tecla do operador.
+          22:  // Deve apresentar a mensagem, e aguardar uma tecla do operador.
           begin
             if (Mensagem = '') then
               Mensagem := CACBrTEFCliSiTef_PressioneEnter;
@@ -631,7 +631,7 @@ begin
 
           30,  // Deve ser lido um campo cujo tamanho está entre TamMinimo e TamMaximo
           31,  // Deve ser lido o número de um cheque. A coleta pode ser feita via leitura de CMC-7, digitação do CMC-7 ou pela digitação da primeira linha do cheque
-          34,  // Deve ser lido um campo monetário ou seja, aceita o delimitador de centavos e devolvido no parâmetro pBuffer
+          34,  // Deve ser lido um campo monetário ou seja, aceita o delimitador de centavos e devolvido no parâmetro Buffer
           35,  // Deve ser lido um código em barras ou o mesmo deve ser coletado manualmente.
           41:  // Análogo ao Comando 30, porém o campo deve ser coletado de forma mascarada
           begin
@@ -701,8 +701,8 @@ begin
         fpACBrTEFAPI.GravarLog( '*** Finalizando ContinuaFuncaoSiTefInterativo: STS = '+IntToStr(fUltimoRetornoAPI) ) ;
 
       //StrPCopy(pBuffer, RespBuffer);
-      RespBuffer := RespBuffer + #00;
-      Move( RespBuffer[1], pBuffer^, Length(RespBuffer)+1);
+      RespBuffer := RespBuffer + #0;
+      Move( RespBuffer[1], pBuffer^, Length(RespBuffer));
 
     until (fUltimoRetornoAPI <> CRET_ITERATIVO_CONTINUA);
 

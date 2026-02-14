@@ -45,7 +45,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
-08/01/2025
+13/02/2026
+-- ACBrTEFAPICliSiTef, ACBrTEFDCliSiTef, ACBrTEFCliSiTefComum --
+[-] Correção de Erro de A.V. no D7.
+    Ajuste na chamada de 'ContinuaFuncaoSiTefInterativo', de acordo com a
+    documentação oficial
+    (por: DSA)
+
+08/01/2026
 -- ACBrTEFAPI, ACBrTEFTXTComum, ACBrTEFTXTGerenciadorPadrao --
 [+] Inicio do desenvolvimento de TEF por troca de Arquivos, com suporte a
     múltiplos Gerenciadores
