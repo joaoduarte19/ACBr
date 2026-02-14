@@ -1,70 +1,63 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using ACBrLib.Core;
-using ACBrLib.Core.CEP;
-using ACBrLib.CEP;
 
 namespace ACBrLib.CEP
 {
     /// <inheritdoc />
-    public sealed partial class ACBrCEP : ACBrLibHandle
+    public class ACBrCEP : ACBrLibBase, IDisposable
     {
         #region Constructors
 
-        public ACBrCEP(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrCEP64.dll" : "libacbrcep64.so",
-                                                                                      IsWindows ? "ACBrCEP32.dll" : "libacbrcep32.so")
+        private readonly ACBrCEPHandle acbrCepBridge;
+        private IntPtr libHandle = IntPtr.Zero;
+        private bool disposed = false;
+
+        public ACBrCEP(string eArqConfig = "", string eChaveCrypt = "") : base(eArqConfig, eChaveCrypt)
         {
+
+            acbrCepBridge = ACBrCEPHandle.Instance;
             Inicializar(eArqConfig, eChaveCrypt);
             Config = new ACBrCEPConfig(this);
         }
 
         public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
         {
-            var inicializarLib = GetMethod<CEP_Inicializar>();
-            var ret = ExecuteMethod<int>(() => inicializarLib(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            var inicializarLib = acbrCepBridge.GetMethod<ACBrCEPHandle.CEP_Inicializar>();
+            var ret = acbrCepBridge.ExecuteMethod<int>(() => inicializarLib(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
             CheckResult(ret);
         }
 
         #endregion Constructors
 
+        public override string Nome()
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = acbrCepBridge.GetMethod<ACBrCEPHandle.CEP_Nome>();
+            var ret = acbrCepBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return CheckBuffer(buffer, bufferLen);
+        }
+
+        public override string Versao()
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = acbrCepBridge.GetMethod<ACBrCEPHandle.CEP_Versao>();
+            var ret = acbrCepBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return CheckBuffer(buffer, bufferLen);
+        }
+
         #region Properties
-
-        public string Nome
-        {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
-
-                var method = GetMethod<CEP_Nome>();
-                var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
-
-                CheckResult(ret);
-
-                return ProcessResult(buffer, bufferLen);
-            }
-        }
-
-        public string Versao
-        {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
-
-                var method = GetMethod<CEP_Versao>();
-                var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
-
-                CheckResult(ret);
-
-                return ProcessResult(buffer, bufferLen);
-            }
-        }
-
         public ACBrCEPConfig Config { get; }
 
         #endregion Properties
@@ -75,16 +68,16 @@ namespace ACBrLib.CEP
 
         public override void ConfigGravar(string eArqConfig = "")
         {
-            var gravarIni = GetMethod<CEP_ConfigGravar>();
-            var ret = ExecuteMethod(() => gravarIni(libHandle, ToUTF8(eArqConfig)));
+            var gravarIni = acbrCepBridge.GetMethod<ACBrCEPHandle.CEP_ConfigGravar>();
+            var ret = acbrCepBridge.ExecuteMethod(() => gravarIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
         public override void ImportarConfig(string eArqConfig)
         {
-            var lerIni = GetMethod<CEP_ConfigImportar>();
-            var ret = ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
+            var lerIni = acbrCepBridge.GetMethod<ACBrCEPHandle.CEP_ConfigImportar>();
+            var ret = acbrCepBridge.ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
@@ -94,32 +87,32 @@ namespace ACBrLib.CEP
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<CEP_ConfigExportar>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrCepBridge.GetMethod<ACBrCEPHandle.CEP_ConfigExportar>();
+            var ret = acbrCepBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         public override void ConfigLer(string eArqConfig = "")
         {
-            var lerIni = GetMethod<CEP_ConfigLer>();
-            var ret = ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
+            var lerIni = acbrCepBridge.GetMethod<ACBrCEPHandle.CEP_ConfigLer>();
+            var ret = acbrCepBridge.ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
         public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
         {
-            var method = GetMethod<CEP_ConfigLerValor>();
+            var method = acbrCepBridge.GetMethod<ACBrCEPHandle.CEP_ConfigLerValor>();
 
             var bufferLen = BUFFER_LEN;
             var pValue = new StringBuilder(bufferLen);
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), pValue, ref bufferLen));
+            var ret = acbrCepBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), pValue, ref bufferLen));
             CheckResult(ret);
 
-            var value = ProcessResult(pValue, bufferLen);
+            var value = CheckBuffer(pValue, bufferLen);
             return ConvertValue<T>(value);
         }
 
@@ -127,10 +120,10 @@ namespace ACBrLib.CEP
         {
             if (value == null) return;
 
-            var method = GetMethod<CEP_ConfigGravarValor>();
+            var method = acbrCepBridge.GetMethod<ACBrCEPHandle.CEP_ConfigGravarValor>();
             var propValue = ConvertValue(value);
 
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), ToUTF8(propValue)));
+            var ret = acbrCepBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), ToUTF8(propValue)));
             CheckResult(ret);
         }
 
@@ -143,12 +136,12 @@ namespace ACBrLib.CEP
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<CEP_BuscarPorCEP>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eCEP), buffer, ref bufferLen));
+            var method = acbrCepBridge.GetMethod<ACBrCEPHandle.CEP_BuscarPorCEP>();
+            var ret = acbrCepBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eCEP), buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            var ini = ACBrIniFile.Parse(ProcessResult(buffer, bufferLen));
+            var ini = ACBrIniFile.Parse(CheckBuffer(buffer, bufferLen));
             return ini.Where(x => x.Name.StartsWith("Endereco")).Select(ACBrEndereco.LerResposta).SingleOrDefault();
         }
 
@@ -157,12 +150,12 @@ namespace ACBrLib.CEP
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<CEP_BuscarPorLogradouro>();
-            var ret = ExecuteMethod(() => method(libHandle, (ToUTF8(eCidade)), (ToUTF8(eTipoLogradouro)), (ToUTF8(eLogradouro)), (ToUTF8(eUF)), (ToUTF8(eUF)), buffer, ref bufferLen));
+            var method = acbrCepBridge.GetMethod<ACBrCEPHandle.CEP_BuscarPorLogradouro>();
+            var ret = acbrCepBridge.ExecuteMethod(() => method(libHandle, (ToUTF8(eCidade)), (ToUTF8(eTipoLogradouro)), (ToUTF8(eLogradouro)), (ToUTF8(eUF)), (ToUTF8(eUF)), buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            var ini = ACBrIniFile.Parse(ProcessResult(buffer, bufferLen));
+            var ini = ACBrIniFile.Parse(CheckBuffer(buffer, bufferLen));
             return ini.Where(x => x.Name.StartsWith("Endereco")).Select(ACBrEndereco.LerResposta).ToArray();
         }
 
@@ -172,8 +165,8 @@ namespace ACBrLib.CEP
 
         public override void Finalizar()
         {
-            var finalizarLib = GetMethod<CEP_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizarLib(libHandle));
+            var finalizarLib = acbrCepBridge.GetMethod<ACBrCEPHandle.CEP_Finalizar>();
+            var codRet = acbrCepBridge.ExecuteMethod(() => finalizarLib(libHandle));
             CheckResult(codRet);
             libHandle = IntPtr.Zero;
         }
@@ -182,17 +175,17 @@ namespace ACBrLib.CEP
         {
             var bufferLen = iniBufferLen < 1 ? BUFFER_LEN : iniBufferLen;
             var buffer = new StringBuilder(bufferLen);
-            var ultimoRetorno = GetMethod<CEP_UltimoRetorno>();
+            var ultimoRetorno = acbrCepBridge.GetMethod<ACBrCEPHandle.CEP_UltimoRetorno>();
 
             if (iniBufferLen < 1)
             {
-                ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
+                acbrCepBridge.ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
                 if (bufferLen <= BUFFER_LEN) return FromUTF8(buffer);
 
                 buffer.Capacity = bufferLen;
             }
 
-            ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
+            acbrCepBridge.ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
             return FromUTF8(buffer);
         }
 
@@ -203,14 +196,41 @@ namespace ACBrLib.CEP
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<CEP_OpenSSLInfo>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrCepBridge.GetMethod<ACBrCEPHandle.CEP_OpenSSLInfo>();
+            var ret = acbrCepBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
+        public override string ConfigLerValor(string eSessao, string eChave)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void ConfigGravarValor(string eSessao, string eChave, string eValor)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    Finalizar();
+                }
+                disposed = true;
+            }
+        }
         #endregion Metodos
     }
 }

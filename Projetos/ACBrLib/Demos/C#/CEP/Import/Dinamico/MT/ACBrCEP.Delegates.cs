@@ -4,10 +4,14 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using ACBrLib.Core;
 
 namespace ACBrLib.CEP
 {
-    public sealed partial class ACBrCEP
+    /// <summary>
+    /// Handle class for ACBr CEP library operations.
+    /// </summary>
+    public sealed class ACBrCEPHandle : ACBrLibHandleBase
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int CEP_Inicializar(ref IntPtr handle, string eArqConfig, string eChaveCrypt);
@@ -68,5 +72,23 @@ namespace ACBrLib.CEP
             AddMethod<CEP_BuscarPorLogradouro>("CEP_BuscarPorLogradouro");
             AddMethod<CEP_OpenSSLInfo>("CEP_OpenSSLInfo");
         }
-    }
+
+        protected override string GetLibraryName()
+        {
+            var arch = Environment.Is64BitProcess ? "64" : "32";
+            if ( PlatformID.Unix == Environment.OSVersion.Platform )
+                return $"libacbrcep{arch}.so";
+            
+            
+            return $"ACBrCEP{arch}.dll";
+        }
+
+
+       //singleton dessa classe, para garantir que apenas uma instância do handle seja criada durante a execução do programa
+        private static readonly Lazy<ACBrCEPHandle> instance = new Lazy<ACBrCEPHandle>(() => new ACBrCEPHandle());
+            public static ACBrCEPHandle Instance => instance.Value;
+
+
+        
+    }   
 }
