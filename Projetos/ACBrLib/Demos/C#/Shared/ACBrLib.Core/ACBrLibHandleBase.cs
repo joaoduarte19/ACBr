@@ -44,6 +44,23 @@ namespace ACBrLib.Core
         }
 
 
+        /// <summary>
+        /// Atualiza a variável de ambiente PATH para incluir o caminho especificado.
+        /// </summary>
+        /// <param name="currentValue"></param>
+        private void updateEnvPath(string currentValue)
+        {
+            if (PlatformID.Unix == Environment.OSVersion.Platform)
+                return;
+
+            var delimiter = ";";
+            var currentPath = Environment.GetEnvironmentVariable("PATH");
+            var updatedPath = string.Concat(currentPath, delimiter, currentValue);
+            Environment.SetEnvironmentVariable("PATH", updatedPath);
+
+        }
+
+
 
         /// <summary>
         ///     Adiciona um delegate a lista para a função informada.
@@ -113,12 +130,20 @@ namespace ACBrLib.Core
                 {
                     libraryHandle = LibLoader.LoadLibrary(fullPath);
                     if (libraryHandle != IntPtr.Zero && libraryHandle != MisusOne)
+                    {
+                        updateEnvPath(p);
                         return;
+                    }
                 }
             }
             throw new DllNotFoundException($"Unable to load library '{libraryName}' from paths: {string.Join(", ", path)}");
         }
 
+        /// <summary>
+        /// Método usado para obter a lista de diretórios para pesquisa da biblioteca.
+        /// Ele inclui o diretório do assembly em execução, o diretório atual e um subdiretório específico para a arquitetura (x64 ou x86). Em sistemas Unix, ele também inclui diretórios comuns de bibliotecas (/usr/local/lib, /usr/lib, /lib). As classes derivadas podem substituir este método para adicionar ou modificar os caminhos de pesquisa conforme necessário.
+        /// </summary>
+        /// <returns></returns>
         protected virtual string[] GetLibrarySearchPath()
         {
             var path = new List<string>();
@@ -134,6 +159,14 @@ namespace ACBrLib.Core
             var acbrlibPath = Path.Combine(assemblyLocation, "ACBrLib", Environment.Is64BitProcess ? "x64" : "x86");
             if (!path.Contains(acbrlibPath))
                 path.Add(acbrlibPath);
+
+
+            if (PlatformID.Unix == Environment.OSVersion.Platform)
+            {
+                path.Add("/usr/local/lib");
+                path.Add("/usr/lib");
+                path.Add("/lib");
+            }
 
             return path.ToArray();
         }

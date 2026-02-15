@@ -4,10 +4,16 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using ACBrLib.Core;
 
 namespace ACBrLib.NFSe
 {
-    public sealed partial class ACBrNFSe
+
+    /// <summary>
+    /// ACBrNFSeHandle é a classe bridge para os métodos nativos da biblioteca ACBrLibNFSe. Ela é responsável por carregar a biblioteca, mapear os métodos nativos e fornecer uma interface para que o ACBrNFSe possa chamar esses métodos de forma segura e eficiente.
+    /// A classe utiliza o padrão Singleton para garantir que apenas uma instância do handle seja criada durante a execução do programa, evitando problemas de concorrência e garantindo o gerenciamento adequado dos recursos.
+    /// </summary>
+    public class ACBrNFSeHandle : ACBrLibHandleBase
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int NFSE_Inicializar(ref IntPtr handle, string eArqConfig, string eChaveCrypt);
@@ -240,5 +246,18 @@ namespace ACBrLib.NFSe
             AddMethod<NFSE_ConsultarParametros>("NFSE_ConsultarParametros");
             AddMethod<NFSE_ObterInformacoesProvedor>("NFSE_ObterInformacoesProvedor");
         }
+
+        protected override string GetLibraryName()
+        {
+            var arch = Environment.Is64BitProcess ? "64" : "32";
+            if (PlatformID.Unix == Environment.OSVersion.Platform)
+                return $"libacbrnfse{arch}.so";
+
+            return $"ACBrNFSe{arch}.dll";
+        }
+
+        private static readonly Lazy<ACBrNFSeHandle> instance = new Lazy<ACBrNFSeHandle>(() => new ACBrNFSeHandle());
+        public static ACBrNFSeHandle Instance => instance.Value;
+
     }
 }
