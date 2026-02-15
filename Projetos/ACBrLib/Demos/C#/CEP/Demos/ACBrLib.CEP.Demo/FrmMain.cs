@@ -13,7 +13,7 @@ namespace ACBrLibCEP.Demo
     {
         #region Fields
 
-        private ACBrCEP ACBrCEP;
+        private IACBrLibCEP ACBrCEP;
 
         #endregion Fields
 
