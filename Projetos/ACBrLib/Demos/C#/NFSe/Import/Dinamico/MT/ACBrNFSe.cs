@@ -13,7 +13,7 @@ using static ACBrLib.NFSe.ACBrNFSe;
 namespace ACBrLib.NFSe
 {
     /// <inheritdoc />
-    public class ACBrNFSe : ACBrLibBase, IDisposable
+    public class ACBrNFSe : ACBrLibBase, IACBrLibNFSe, IDisposable
     {
 
         private readonly ACBrNFSeHandle acbrNFseBridge;

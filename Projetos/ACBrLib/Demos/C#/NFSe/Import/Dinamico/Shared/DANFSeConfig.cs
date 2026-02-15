@@ -5,11 +5,11 @@ using ACBrLib.Core.NFSe;
 
 namespace ACBrLib.NFSe
 {
-    public sealed class DANFSeConfig : ReportConfig<ACBrNFSe>
+    public sealed class DANFSeConfig : ReportConfig<IACBrLibNFSe>
     {
         #region Constructors
 
-        public DANFSeConfig(ACBrNFSe acbrlib) : base(acbrlib, ACBrSessao.DANFSe)
+        public DANFSeConfig(IACBrLibNFSe acbrlib) : base(acbrlib, ACBrSessao.DANFSe)
         {
 
         }

@@ -12,7 +12,7 @@ using ACBrLib.NFSe;
 namespace ACBrLib.NFSe
 {
     /// <inheritdoc />
-    public sealed partial class ACBrNFSe : ACBrLibHandle
+    public sealed partial class ACBrNFSe : ACBrLibHandle, IACBrLibNFSe
     {
         #region Constructors
 

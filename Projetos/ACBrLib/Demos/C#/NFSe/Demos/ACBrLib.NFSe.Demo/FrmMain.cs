@@ -16,7 +16,7 @@ namespace ACBrLibNFSe.Demo
     {
         #region Fields
 
-        private ACBrNFSe ACBrNFSe;
+        private IACBrLibNFSe ACBrNFSe;
 
         #endregion Fields
 

@@ -1,16 +1,15 @@
 ﻿using ACBrLib.Core;
 using ACBrLib.Core.Config;
 using ACBrLib.Core.DFe;
-using ACBrLib.Core.Config;
 using ACBrLib.Core.NFSe;
 
 namespace ACBrLib.NFSe
 {
-    public sealed class ACBrNFSeConfig : ACBrLibDFeConfig<ACBrNFSe>
+    public sealed class ACBrNFSeConfig : ACBrLibDFeConfig<IACBrLibNFSe>
     {
         #region Constructors
 
-        public ACBrNFSeConfig(ACBrNFSe acbrlib) : base(acbrlib, ACBrSessao.NFSe)
+        public ACBrNFSeConfig(IACBrLibNFSe acbrlib) : base(acbrlib, ACBrSessao.NFSe)
         {
             DANFSe = new DANFSeConfig(acbrlib);
         }
