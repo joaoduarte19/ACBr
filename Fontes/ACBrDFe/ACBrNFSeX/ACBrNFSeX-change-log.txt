@@ -42,6 +42,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/02/2026
+-- ISSNet.Provider --
+[+] ACBR-8496 - Implementado todos os serviços disponibilizados no WS do provedor.
+   Por: Italo Giurizzato Junior
+Provedores/PadraoNacional.GravarXml.pas
+[*] ACBR-8982 - Alteração visando evitar o erro E0713;
+   Por: DSA
+
 13/02/2026
 -- ABase.Provider/Betha.LerXml/Digifred.Provider/Fiorilli.Provider/ISSDigital.Provider --
 -- ISSFortaleza.GravarXml/ISSFortaleza.LerXml/NFSeBrasil.LerXml/Publica.GravarXml --
