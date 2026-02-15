@@ -11,7 +11,7 @@ namespace ACBrLib.CEP
     /// <summary>
     /// Handle class for ACBr CEP library operations.
     /// </summary>
-    public sealed class ACBrCEPHandle : ACBrLibHandleBase
+    internal sealed class ACBrCEPHandle : ACBrLibHandleBase
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int CEP_Inicializar(ref IntPtr handle, string eArqConfig, string eChaveCrypt);

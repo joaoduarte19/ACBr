@@ -4,7 +4,7 @@ using System.Text;
 using ACBrLib.Core;
 namespace ACBrLib.NFe
 {
-    public class ACBrNFeHandle : ACBrLibHandleBase
+    internal sealed class ACBrNFeHandle : ACBrLibHandleBase
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int NFE_Inicializar(ref IntPtr handle, string eArqConfig, string eChaveCrypt);

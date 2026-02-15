@@ -9,7 +9,17 @@ namespace ACBrLib.Core
     public interface IACBrLibBase
     {
 
+        /// <summary>
+        ///Método usado para inicializar o componente ACBr para uso da biblioteca.
+        /// </summary>
+        /// <param name="eArqConfig">Caminho do arquivo INI de configuração. Se vazio, utiliza o padrão da biblioteca.</param>
+        /// <param name="eChaveCrypt">Chave de criptografia para o arquivo de configuração. Se vazio, utiliza o padrão da biblioteca.</param>
         void Inicializar(string eArqConfig = "", string eChaveCrypt = "");
+
+
+        /// <summary>
+        /// Método usado para remover o componente ACBr e suas classes da memoria.
+        /// </summary>
         void Finalizar();
 
         /// <summary>

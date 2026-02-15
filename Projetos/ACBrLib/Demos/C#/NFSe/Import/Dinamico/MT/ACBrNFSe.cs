@@ -20,9 +20,14 @@ namespace ACBrLib.NFSe
         private IntPtr libHandle = IntPtr.Zero;
 
         private bool disposed = false;
-        
+
         #region Constructors
 
+        /// <summary>
+        /// Construtor da classe ACBrNFSe, responsável por inicializar a biblioteca e configurar o caminho do arquivo de configuração e a chave de criptografia.
+        /// </summary>
+        /// <param name="eArqConfig"></param>
+        /// <param name="eChaveCrypt"></param>
         public ACBrNFSe(string eArqConfig = "", string eChaveCrypt = "") : base(eArqConfig, eChaveCrypt)
         {
             acbrNFseBridge = ACBrNFSeHandle.Instance;
@@ -30,6 +35,7 @@ namespace ACBrLib.NFSe
             Config = new ACBrNFSeConfig(this);
         }
 
+        /// <inheritdoc />
         public override void Inicializar(string eArqConfig, string eChaveCrypt)
         {
             var inicializar = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_Inicializar>();
@@ -49,7 +55,7 @@ namespace ACBrLib.NFSe
         #region Metodos
 
         #region Ini
-
+        /// <inheritdoc />
         public override void ConfigGravar(string eArqConfig = "")
         {
             var gravarIni = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_ConfigGravar>();
@@ -58,6 +64,7 @@ namespace ACBrLib.NFSe
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public override void ImportarConfig(string eArqConfig)
         {
             var lerIni = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_ConfigImportar>();
@@ -66,6 +73,7 @@ namespace ACBrLib.NFSe
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public override string ExportarConfig()
         {
             var bufferLen = BUFFER_LEN;
@@ -79,6 +87,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc />
         public override void ConfigLer(string eArqConfig = "")
         {
             var lerIni = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_ConfigLer>();
@@ -86,29 +95,20 @@ namespace ACBrLib.NFSe
 
             CheckResult(ret);
         }
-
+        
+        /// <inheritdoc />
         public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
         {
-            var method = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_ConfigLerValor>();
-
-            var bufferLen = BUFFER_LEN;
-            var pValue = new StringBuilder(bufferLen);
-            var ret = acbrNFseBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), pValue, ref bufferLen));
-            CheckResult(ret);
-
-            var value = CheckBuffer(pValue, bufferLen);
+            var value = ConfigLerValor(eSessao.ToString(), eChave);
             return ConvertValue<T>(value);
         }
 
+        /// <inheritdoc />        
         public override void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value)
         {
             if (value == null) return;
-
-            var method = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_ConfigGravarValor>();
             var propValue = ConvertValue(value);
-
-            var ret = acbrNFseBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), ToUTF8(propValue)));
-            CheckResult(ret);
+            ConfigGravarValor(eSessao.ToString(), eChave, propValue);
         }
 
         #endregion Ini
@@ -687,6 +687,9 @@ namespace ACBrLib.NFSe
         }
         #endregion Private Methods
 
+        /// <summary>
+        /// Faz a liberação dos recursos utilizados pela classe ACBrNFSe, garantindo que a biblioteca seja finalizada corretamente e evitando vazamentos de memória.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
@@ -706,6 +709,7 @@ namespace ACBrLib.NFSe
             }
         }
 
+        /// <inheritdoc />
         public override string ConfigLerValor(string eSessao, string eChave)
         {
             var method = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_ConfigLerValor>();
@@ -723,6 +727,7 @@ namespace ACBrLib.NFSe
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public override string Versao()
         {
             var method = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_Versao>();
@@ -733,6 +738,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc />
         public override string Nome()
         {
             var method = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_Nome>();

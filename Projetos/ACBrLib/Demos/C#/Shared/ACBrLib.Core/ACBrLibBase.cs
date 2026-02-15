@@ -30,12 +30,27 @@ namespace ACBrLib.Core
 
         public const int BUFFER_LEN = 1024;
 
-        #region métodos  abstratos comuns 
+        #region métodos  abstratos comuns
+        
         public abstract void Inicializar( string eArqConfig = "", string eChaveCrypt = "");
         public abstract void Finalizar();
         public abstract void ConfigLer(string eArqConfig);
         public abstract void ConfigGravar(string eArqConfig);
+
+        /// <summary>
+        /// Método usado para ler um valor específico da configuração da biblioteca.
+        /// </summary>
+        /// <param name="eSessao">Sessão da configuração.</param>
+        /// <param name="eChave">Chave da configuração.</param>
+        /// <returns>Valor da configuração.</returns>
         public abstract string ConfigLerValor(string eSessao, string eChave);
+
+        /// <summary>
+        /// Método usado para gravar um valor específico na configuração da biblioteca.
+        /// </summary>
+        /// <param name="eSessao">Sessão da configuração.</param>
+        /// <param name="eChave">Chave da configuração.</param>
+        /// <param name="eValor">Valor da configuração.</param>
         public abstract void ConfigGravarValor(string eSessao, string eChave, string eValor);
         public abstract T ConfigLerValor<T>(ACBrSessao eSessao, string eChave);
 
@@ -135,7 +150,7 @@ namespace ACBrLib.Core
             }
         }
 
-        protected String CheckBuffer(StringBuilder buffer, int bufferLen)
+        protected string CheckBuffer(StringBuilder buffer, int bufferLen)
         {
             if (bufferLen > BUFFER_LEN)
             {
