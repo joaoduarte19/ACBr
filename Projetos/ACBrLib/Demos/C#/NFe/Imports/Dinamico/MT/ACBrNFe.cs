@@ -659,7 +659,7 @@ namespace ACBrLib.NFe
 
         public override string Versao()
         {
-            var method = nfeBridge.GetMethod<ACBrNFeHandle.NFE_Nome>();
+            var method = nfeBridge.GetMethod<ACBrNFeHandle.NFE_Versao>();
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
             var ret = nfeBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
@@ -669,7 +669,7 @@ namespace ACBrLib.NFe
 
         public override string Nome()
         {
-            var method = nfeBridge.GetMethod<ACBrNFeHandle.NFE_Versao>();
+            var method = nfeBridge.GetMethod<ACBrNFeHandle.NFE_Nome>();
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
             var ret = nfeBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
