@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
-
+using ACBrLib.Core;
 namespace ACBrLib.NFe
 {
-    public sealed partial class ACBrNFe
+    public class ACBrNFeHandle : ACBrLibHandleBase
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int NFE_Inicializar(ref IntPtr handle, string eArqConfig, string eChaveCrypt);
@@ -224,5 +224,21 @@ namespace ACBrLib.NFe
             AddMethod<NFE_ImprimirInutilizacaoPDF>("NFE_ImprimirInutilizacaoPDF");
             AddMethod<NFE_SalvarInutilizacaoPDF>("NFE_SalvarInutilizacaoPDF");
         }
+
+
+        protected override string GetLibraryName()
+        {
+            var arch = Environment.Is64BitProcess ? "64" : "32";
+            if (PlatformID.Unix == Environment.OSVersion.Platform)
+                return $"libacbrnfe{arch}.so";
+
+            return $"ACBrNFe{arch}.dll";
+        }
+
+
+        private static readonly Lazy<ACBrNFeHandle> instance = new Lazy<ACBrNFeHandle>(() => new ACBrNFeHandle());
+        public static ACBrNFeHandle Instance => instance.Value;
+
     }
+
 }
