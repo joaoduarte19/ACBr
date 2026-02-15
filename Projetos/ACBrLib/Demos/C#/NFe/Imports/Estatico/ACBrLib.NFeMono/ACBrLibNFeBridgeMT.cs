@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace ACBrLib.NFeMono;
 
-public sealed class ACBrLibNFeBridgeMT
+internal sealed class ACBrLibNFeBridgeMT
 {
 
 
