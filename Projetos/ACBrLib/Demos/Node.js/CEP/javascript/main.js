@@ -22,7 +22,7 @@ const ACBrLibCepMT = require('@projetoacbr/acbrlib-cep-node/dist/src').default
  */
 
 
-const acbrlibPath = path.resolve(__dirname, os.platform() === 'win32' ? 'ACBrCEP64.dll' : 'libacbrcep64.so')
+const acbrlibPath = path.resolve(__dirname,'..' ,os.platform() === 'win32' ? 'ACBrCEP64.dll' : 'libacbrcep64.so')
 const configPath = path.resolve(__dirname, 'acbrlib.ini')
 const chaveCrypt = '' // Deixar vazio se não estiver usando criptografia
 
@@ -31,7 +31,7 @@ const acbrlibCep = new ACBrLibCepMT(acbrlibPath, configPath, chaveCrypt)
 // Exemplo simples de uso da ACBrLibCep, somente o código essencial foi adicionado aqui
 try {
     //inicializa a biblioteca, obrigatório antes de qualquer outra chamada
-    acbrlibCep.inicializar()
+    //acbrlibCep.inicializar()
 
     // configura webservice 3
     acbrlibCep.configGravarValor('CEP', 'WebService', '3')

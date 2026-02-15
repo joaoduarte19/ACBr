@@ -6,6 +6,7 @@ const dotenv = require('dotenv')
 const ACBrLibNFSeMT = require("@projetoacbr/acbrlib-nfse-node/dist/src").default;
 
 const { NFSeModoEnvio } = require("@projetoacbr/acbrlib-nfse-node/dist/src");
+const {AmbienteEmissaoDFe} = require("@projetoacbr/acbrlib-dfe-node/dist/src/dfe-comum")
 
 
 
@@ -47,7 +48,7 @@ const dotenvPath = path.resolve(__dirname, '.env')
 let tipoResposta = 2
 let codigoMunicipio = "3531902";
 let layoutNFSe = 0;
-let ambienteDeEmissao = 0;
+let ambienteDeEmissao = AmbienteEmissaoDFe.HOMOLOGACAO;
 let nfse = new ACBrLibNFSeMT(pathACBrLibNFSe, eArqConfig, eChaveCrypt);
 
 let inicio = 2;
