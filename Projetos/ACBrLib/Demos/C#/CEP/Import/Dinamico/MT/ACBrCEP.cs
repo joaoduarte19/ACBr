@@ -181,6 +181,7 @@ namespace ACBrLib.CEP
         }
 
 
+        /// <inheritdoc/>
         protected override string GetUltimoRetorno(int iniBufferLen = 0)
         {
             var bufferLen = iniBufferLen < 1 ? BUFFER_LEN : iniBufferLen;

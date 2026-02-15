@@ -32,9 +32,16 @@ namespace ACBrLib.Core
 
         #region métodos  abstratos comuns
         
+        /// <inheritdoc/>
         public abstract void Inicializar( string eArqConfig = "", string eChaveCrypt = "");
+        
+        /// <inheritdoc/>
         public abstract void Finalizar();
+
+        /// <inheritdoc/>
         public abstract void ConfigLer(string eArqConfig);
+        
+        /// <inheritdoc/>
         public abstract void ConfigGravar(string eArqConfig);
 
         /// <summary>
@@ -52,17 +59,33 @@ namespace ACBrLib.Core
         /// <param name="eChave">Chave da configuração.</param>
         /// <param name="eValor">Valor da configuração.</param>
         public abstract void ConfigGravarValor(string eSessao, string eChave, string eValor);
+        /// <inheritdoc/>
         public abstract T ConfigLerValor<T>(ACBrSessao eSessao, string eChave);
 
+        /// <inheritdoc/>
         public abstract void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value);
-
+        
+        /// <inheritdoc/>
         public abstract void ImportarConfig(string eArqConfig);
 
+        /// <inheritdoc/>
         public abstract string ExportarConfig();
 
+        /// <inheritdoc/>
         public abstract string Versao();
+
+        /// <inheritdoc/>
         public abstract string Nome();
+
+
+        /// <summary>
+        /// Método usado retornar o ultimo retorno processado pela biblioteca
+        /// </summary>
+        /// <param name="iniBufferLen">Tamanho inicial do buffer.</param>
+        /// <returns>Último retorno processado pela biblioteca.</returns>
         protected abstract string GetUltimoRetorno(int iniBufferLen = 0);
+
+        /// <inheritdoc/>
         public abstract string OpenSSLInfo();
 
         #endregion
