@@ -6,7 +6,7 @@ const dotenv = require('dotenv')
 const ACBrLibNFSeMT = require("@projetoacbr/acbrlib-nfse-node/dist/src").default;
 
 const { NFSeModoEnvio } = require("@projetoacbr/acbrlib-nfse-node/dist/src");
-const {AmbienteEmissaoDFe} = require("@projetoacbr/acbrlib-dfe-node/dist/src/dfe-comum")
+const { AmbienteEmissaoDFe } = require("@projetoacbr/acbrlib-dfe-node/dist/src/dfe-comum")
 
 
 
@@ -111,7 +111,7 @@ function configuraSecaoDFe() {
  */
 
 function configuraSecaoPrincipal() {
- 
+
   nfse.configGravarValor("Principal", "LogPath", logPath);
 
   nfse.configGravarValor("Principal", "TipoResposta", tipoResposta.toString());
@@ -137,50 +137,55 @@ function aplicarConfiguracoes() {
  * Função para emitir NFSe a partir de um arquivo INI
  * Como emitir: https://acbr.sourceforge.io/ACBrLib/ComoemitirumaNFSe.html
  */
-function emitirNFSeDeUmArquivoIni() {
-  try {
+async function emitirNFSeDeUmArquivoIni() {
+  
+  await new Promise((resolve) => {
+    try {
 
-    inicio = nfse.inicializar();
-    console.log(`iniciou >>>>>>> ${inicio}`);
+      inicio = nfse.inicializar();
+      console.log(`iniciou >>>>>>> ${inicio}`);
 
-    aplicarConfiguracoes();
-    //
-    let modoEnvio = NFSeModoEnvio.UNITARIO;
+      aplicarConfiguracoes();
+      //
+      let modoEnvio = NFSeModoEnvio.UNITARIO;
 
-    let informacoesProvedor = nfse.obterInformacoesProvedor();
+      let informacoesProvedor = nfse.obterInformacoesProvedor();
 
-    let inputIniRps = path.resolve(__dirname, "data", "notas", "NFSe_Layout_ABRASF.ini")
+      let inputIniRps = path.resolve(__dirname, "data", "notas", "NFSe_Layout_ABRASF.ini")
 
-    let resultConsulta = ""
+      let resultConsulta = ""
 
-    let numeroLote = "12"
+      let numeroLote = "12"
 
-    let resultadoEmissao = ""
+      let resultadoEmissao = ""
 
-    let resultadoEmissaoJSON = {}
+      let resultadoEmissaoJSON = {}
 
-    nfse.limparLista();
+      nfse.limparLista();
 
-    nfse.carregarINI(inputIniRps);
+      nfse.carregarINI(inputIniRps);
 
-    console.log("Informacoes do Provedor:\n", JSON.parse(informacoesProvedor));
+      console.log("Informacoes do Provedor:\n", JSON.parse(informacoesProvedor));
 
-    resultadoEmissao = nfse.emitir(numeroLote, modoEnvio, false);
-    resultadoEmissaoJSON = JSON.parse(resultadoEmissao);
+      resultadoEmissao = nfse.emitir(numeroLote, modoEnvio, false);
+      resultadoEmissaoJSON = JSON.parse(resultadoEmissao);
 
-    console.log("Resultado da Emissão:\n", resultadoEmissaoJSON);
+      console.log("Resultado da Emissão:\n", resultadoEmissaoJSON);
 
-    resultConsulta = nfse.consultarLoteRPS(resultadoEmissao.Protocolo, numeroLote)
+      resultConsulta = nfse.consultarLoteRPS(resultadoEmissao.Protocolo, numeroLote)
 
-    console.log("Resultado da Consulta do Lote RPS:");
-    console.log(JSON.parse(resultConsulta));
+      console.log("Resultado da Consulta do Lote RPS:");
+      console.log(JSON.parse(resultConsulta));
 
-  } catch (error) {
-    console.error("Erro:", error);
-  }
-  finally {
-    nfse.finalizar();
-  }
+      resolve(resultadoEmissaoJSON);
+
+    } catch (error) {
+      console.error("Erro:", error);
+    }
+    finally {
+      nfse.finalizar();
+    }
+  })
 
 }
 
