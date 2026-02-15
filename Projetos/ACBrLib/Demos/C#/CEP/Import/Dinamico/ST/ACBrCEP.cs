@@ -11,7 +11,7 @@ using ACBrLib.CEP;
 namespace ACBrLib.CEP
 {
     /// <inheritdoc />
-    public sealed partial class ACBrCEP : ACBrLibHandle
+    public sealed partial class ACBrCEP : ACBrLibHandle, IACBrLibCEP
     {
         #region Constructors
 

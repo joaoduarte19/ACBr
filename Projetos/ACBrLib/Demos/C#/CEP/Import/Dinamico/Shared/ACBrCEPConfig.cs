@@ -4,11 +4,11 @@ using ACBrLib.Core.CEP;
 
 namespace ACBrLib.CEP
 {
-    public sealed class ACBrCEPConfig : ACBrLibConfig<ACBrCEP>
+    public sealed class ACBrCEPConfig : ACBrLibConfig<IACBrLibCEP>
     {
         #region Constructors
 
-        public ACBrCEPConfig(ACBrCEP acbrlib) : base(acbrlib, ACBrSessao.CEP)
+        public ACBrCEPConfig(IACBrLibCEP acbrlib) : base(acbrlib, ACBrSessao.CEP)
         {
         }
 

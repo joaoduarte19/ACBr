@@ -55,6 +55,7 @@
   
   <ItemGroup>
     <Compile Include="..\Shared\Retorno\ACBrEndereco.cs" Link="ACBrEndereco.cs" />
+    <Compile Include="..\Shared\IACBrLibCEP.cs" Link="IACBrLibCEP.cs" />
   </ItemGroup>
 
   <ItemGroup>

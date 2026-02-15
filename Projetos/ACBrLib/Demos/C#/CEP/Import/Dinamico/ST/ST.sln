@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACBrLib.CEP", "ACBrLib.CEP.csproj", "{7CBD5F3D-3785-E8B6-71D9-E64374B5FDAF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7CBD5F3D-3785-E8B6-71D9-E64374B5FDAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CBD5F3D-3785-E8B6-71D9-E64374B5FDAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CBD5F3D-3785-E8B6-71D9-E64374B5FDAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CBD5F3D-3785-E8B6-71D9-E64374B5FDAF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C2483279-C1F6-410B-A2E1-14B7BA367EFE}
+	EndGlobalSection
+EndGlobal

@@ -29,22 +29,26 @@
     <DefineConstants>NET45;NETFULL</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net452|AnyCPU'">
+  <PropertyGroup
+    Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net452|AnyCPU'">
     <OutputPath>..\..\bin\Debug\</OutputPath>
     <DocumentationFile>..\..\bin\Debug\net452\ACBrLib.CEP.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net452|AnyCPU'">
+  <PropertyGroup
+    Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net452|AnyCPU'">
     <OutputPath>..\..\bin\Release\</OutputPath>
     <DocumentationFile>..\..\bin\Release\net452\ACBrLib.CEP.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+  <PropertyGroup
+    Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
     <OutputPath>..\..\bin\Debug\</OutputPath>
     <DocumentationFile>..\..\bin\Debug\netstandard2.0\ACBrLib.CEP.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+  <PropertyGroup
+    Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
     <OutputPath>..\..\bin\Release\</OutputPath>
     <DocumentationFile>..\..\bin\Release\netstandard2.0\ACBrLib.CEP.xml</DocumentationFile>
   </PropertyGroup>
@@ -53,13 +57,14 @@
     <Compile Include="..\Shared\ACBrCEPConfig.cs" Link="ACBrCEPConfig.cs" />
   </ItemGroup>
 
-	<ItemGroup>
-		<Compile Include="..\Shared\Retorno\ACBrEndereco.cs" Link="ACBrEndereco.cs" />
-	</ItemGroup>
-  
+  <ItemGroup>
+    <Compile Include="..\Shared\Retorno\ACBrEndereco.cs" Link="ACBrEndereco.cs" />
+    <Compile Include="..\Shared\IACBrLibCEP.cs" Link="IACBrLibCEP.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Shared\ACBrLib.Core\ACBrLib.Core.csproj" />
   </ItemGroup>
-	
-  
+
+
 </Project>
