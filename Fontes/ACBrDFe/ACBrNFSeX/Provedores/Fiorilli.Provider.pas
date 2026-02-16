@@ -103,7 +103,7 @@ type
 
   TACBrNFSeProviderFiorilliAPIPropria = class(TACBrNFSeProviderPadraoNacional)
   private
-
+    FNaoAssinar: Boolean;
   protected
     procedure Configuracao; override;
 
@@ -434,6 +434,8 @@ begin
   inherited Configuracao;
 
   VersaoDFe := VersaoNFSeToStr(TACBrNFSeX(FAOwner).Configuracoes.Geral.Versao);
+  FNaoAssinar := (ConfigGeral.Params.ParamTemValor('Assinar', 'NaoAssinar')) or
+                 (ConfigAssinar.Assinaturas = taNaoAssinar);
 
   with ConfigGeral do
   begin
@@ -525,7 +527,7 @@ begin
   URL := GetWebServiceURL(AMetodo);
 
   if AMetodo in [tmGerar, tmEnviarEvento, tmConsultarSituacao, tmConsultarLote] then
-    AMimeType := 'text/xml'
+    AMimeType := 'text/xml; charset=utf-8'
   else
     AMimeType := 'application/json';
 
@@ -742,6 +744,7 @@ end;
 function TACBrNFSeProviderFiorilliAPIPropria.PrepararArquivoEnvio(
   const aXml: string; aMetodo: TMetodo): string;
 begin
+  Result := aXml;
   if aMetodo in [tmGerar, tmRecepcionarSincrono, tmRecepcionar, tmEnviarEvento] then
     Result := ChangeLineBreak(aXml, '');
 end;
@@ -828,8 +831,10 @@ begin
       Nota.XmlRps := ConverteXMLtoUTF8(Nota.XmlRps);
       Nota.XmlRps := ChangeLineBreak(Nota.XmlRps, '');
 
-      if (ConfigAssinar.Rps and (Response.ModoEnvio in [meLoteAssincrono, meLoteSincrono])) or
-         (ConfigAssinar.RpsGerarNFSe and (Response.ModoEnvio in [meUnitario, meAutomatico])) then
+
+      if (not FNaoAssinar) and
+         ((ConfigAssinar.Rps and (Response.ModoEnvio in [meLoteAssincrono, meLoteSincrono])) or
+         (ConfigAssinar.RpsGerarNFSe and (Response.ModoEnvio in [meUnitario, meAutomatico]))) then
       begin
         Nota.XmlRps := FAOwner.SSL.Assinar(Nota.XmlRps,
                            ConfigMsgDados.XmlRps.DocElemento,
@@ -1127,9 +1132,7 @@ end;
 function TACBrNFSeXWebserviceFiorilliAPIPropria.TratarXmlRetornado(
   const aXML: string): string;
 begin
-  Result := ConverteANSItoUTF8(aXML);
-
-  Result := inherited TratarXmlRetornado(Result);
+  Result := inherited TratarXmlRetornado(aXML);
 
   Result := RemoverCaracteresDesnecessarios(Result);
   Result := ParseText(Result);

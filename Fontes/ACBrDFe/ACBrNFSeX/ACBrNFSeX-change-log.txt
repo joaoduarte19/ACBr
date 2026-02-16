@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 16/02/2026
+-- Fiorilli.Provider --
+[*] ACBR-8782 - Ajuste para permitir gerar o arquivo sem assinatura para atender determinadas cidades e também corrigir divergência da resposta com OpenSSL e WinCrypt.
+   Por: Diego Folieni
 -- Digifred.Provider --
 [-] Ajustes para correto cancelamento da NFSe na nova API do Digifred.
    Por: Italo Giurizzato Junior/Daniel Moraes/Diego Folieni
