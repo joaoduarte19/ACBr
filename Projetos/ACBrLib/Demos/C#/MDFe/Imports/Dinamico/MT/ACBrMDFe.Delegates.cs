@@ -4,10 +4,11 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using ACBrLib.Core;
 
 namespace ACBrLib.MDFe
 {
-    public sealed partial class ACBrMDFe
+    internal sealed class ACBrMDFeHandle : ACBrLibHandleBase
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int MDFE_Inicializar(ref IntPtr handle, string eArqConfig, string eChaveCrypt);
@@ -126,7 +127,7 @@ namespace ACBrLib.MDFe
         public delegate int MDFE_ConsultaMDFeNaoEnc(IntPtr handle, string nCNPJ, StringBuilder buffer, ref int bufferSize);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate int MDFE_DistribuicaoDFePorUltNSU(IntPtr handle,  string eCnpjcpf, string eultNsu, StringBuilder buffer, ref int bufferSize);
+        public delegate int MDFE_DistribuicaoDFePorUltNSU(IntPtr handle, string eCnpjcpf, string eultNsu, StringBuilder buffer, ref int bufferSize);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int MDFE_DistribuicaoDFePorNSU(IntPtr handle, string eCnpjcpf, string eNsu, StringBuilder buffer, ref int bufferSize);
@@ -206,5 +207,19 @@ namespace ACBrLib.MDFe
             AddMethod<MDFE_ImprimirEvento>("MDFE_ImprimirEvento");
             AddMethod<MDFE_ImprimirEventoPDF>("MDFE_ImprimirEventoPDF");
         }
+
+        protected override string GetLibraryName()
+        {
+            var arch = Environment.Is64BitProcess ? "64" : "32";
+            if (PlatformID.Unix == Environment.OSVersion.Platform)
+                return $"libacbrmdfe{arch}.so";
+
+            return $"ACBrMDFe{arch}.dll";
+        }
+
+
+        private static readonly Lazy<ACBrMDFeHandle> instance = new Lazy<ACBrMDFeHandle>(() => new ACBrMDFeHandle());
+        public static ACBrMDFeHandle Instance => instance.Value;
+
     }
 }

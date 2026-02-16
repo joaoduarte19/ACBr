@@ -10,7 +10,7 @@ using ACBrLib.Core.MDFe;
 
 namespace ACBrLib.MDFe
 {
-    public sealed partial class ACBrMDFe : ACBrLibHandle
+    public sealed partial class ACBrMDFe : ACBrLibHandle, IACBrLibMDFe
     {
         #region Constructors
 

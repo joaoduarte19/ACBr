@@ -132,6 +132,7 @@
     <Compile Include="..\Shared\Resposta\EventoResposta.cs" Link="Resposta\EventoResposta.cs" />
     <Compile Include="..\Shared\Resposta\NaoEncerradosResposta.cs" Link="Resposta\NaoEncerradosResposta.cs" />
     <Compile Include="..\Shared\Resposta\NaoEncerradosRespostaItem.cs" Link="Resposta\NaoEncerradosRespostaItem.cs" />
+    <Compile Include="..\Shared\IACBrLibMDFe.cs" Link="IACBrLibMDFe.cs" />
   </ItemGroup>
 
   <ItemGroup>

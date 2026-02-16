@@ -5,11 +5,11 @@ using ACBrLib.Core.MDFe;
 
 namespace ACBrLib.MDFe
 {
-    public sealed class DAMDFeConfig : ReportConfig<ACBrMDFe>
+    public sealed class DAMDFeConfig : ReportConfig<IACBrLibMDFe>
     {
         #region Constructors
 
-        public DAMDFeConfig(ACBrMDFe acbrlib) : base(acbrlib, ACBrSessao.DAMDFe)
+        public DAMDFeConfig(IACBrLibMDFe acbrlib) : base(acbrlib, ACBrSessao.DAMDFe)
         {
         }
 
