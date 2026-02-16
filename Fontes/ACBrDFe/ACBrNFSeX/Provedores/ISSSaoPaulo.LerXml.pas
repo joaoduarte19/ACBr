@@ -483,6 +483,23 @@ begin
   NFSe.ConstrucaoCivil.nNumeroEncapsulamento := ObterConteudo(ANode.Childrens.FindAnyNs('NumeroEncapsulamento'), tcStr);
 
   LerXMLIBSCBSDPS(ANode.Childrens.FindAnyNs('IBSCBS'), NFSE.IBSCBS);
+
+  NFSe.Servico.Valores.RetencoesFederais := NFSe.Servico.Valores.ValorPis +
+                            NFSe.Servico.Valores.ValorCofins +
+                            NFSe.Servico.Valores.ValorInss +
+                            NFSe.Servico.Valores.ValorIr +
+                            NFSe.Servico.Valores.ValorCsll;
+
+  NFSe.Servico.Valores.ValorLiquidoNfse := NFSe.Servico.Valores.ValorServicos -
+                      (NFSe.Servico.Valores.RetencoesFederais +
+                      NFSe.Servico.Valores.ValorDeducoes +
+                      NFSe.Servico.Valores.ValorIssRetido +
+                      NFSe.Servico.Valores.DescontoCondicionado +
+                      NFSe.Servico.Valores.DescontoIncondicionado);
+
+  NFSe.Servico.Valores.ValorTotalNotaFiscal := NFSe.Servico.Valores.ValorServicos -
+                          NFSe.Servico.Valores.DescontoCondicionado -
+                          NFSe.Servico.Valores.DescontoIncondicionado;
 end;
 
 end.

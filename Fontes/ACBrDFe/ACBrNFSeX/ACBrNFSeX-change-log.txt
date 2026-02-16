@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 16/02/2026
+-- ISSSaoPaulo.LerXml --
+[*] ACBR-8868 - Ajuste para que o impresso do DANFSe não fique com os valores zerados quando XML for de RPS.
+   Por: Diego Folieni
 -- Fiorilli.Provider --
 [*] ACBR-8782 - Ajuste para permitir gerar o arquivo sem assinatura para atender determinadas cidades e também corrigir divergência da resposta com OpenSSL e WinCrypt.
    Por: Diego Folieni
