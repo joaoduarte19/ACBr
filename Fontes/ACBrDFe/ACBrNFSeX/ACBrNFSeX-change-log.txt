@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/02/2026
+-- Digifred.Provider --
+[-] Ajustes para correto cancelamento da NFSe na nova API do Digifred.
+   Por: Italo Giurizzato Junior/Daniel Moraes/Diego Folieni
+
 15/02/2026
 -- ISSNet.Provider --
 [+] ACBR-8496 - Implementado todos os serviços disponibilizados no WS do provedor.
