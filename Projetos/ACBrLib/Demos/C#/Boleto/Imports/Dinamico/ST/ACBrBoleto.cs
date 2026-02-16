@@ -6,7 +6,7 @@ using ACBrLib.Core.Boleto;
 
 namespace ACBrLib.Boleto
 {
-    public sealed partial class ACBrBoleto : ACBrLibHandle
+    public sealed partial class ACBrBoleto : ACBrLibHandle, IACBrLibBoleto, IDisposable
     {
         #region Constructors
 

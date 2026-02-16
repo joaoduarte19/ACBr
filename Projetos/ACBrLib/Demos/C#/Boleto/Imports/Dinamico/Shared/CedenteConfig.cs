@@ -7,7 +7,7 @@ namespace ACBrLib.Boleto
     /// <summary>
     /// Configurações da Sessão [BoletoDiretorioConfig]
     /// </summary>
-    public sealed class CedenteConfig : ACBrLibConfigBase<ACBrBoleto>
+    public sealed class CedenteConfig : ACBrLibConfigBase<IACBrLibBoleto>
     {
         #region Constructors
 
@@ -15,7 +15,7 @@ namespace ACBrLib.Boleto
         /// Inicializa uma nova instancia da classe  <see cref="CedenteConfig"/>.
         /// </summary>
         /// <param name="acbrboleto">Instancia do ACBrBoleto</param>
-        public CedenteConfig(ACBrBoleto acbrboleto) : base(acbrboleto, ACBrSessao.BoletoCedenteConfig)
+        public CedenteConfig(IACBrLibBoleto acbrboleto) : base(acbrboleto, ACBrSessao.BoletoCedenteConfig)
         {
         }
 

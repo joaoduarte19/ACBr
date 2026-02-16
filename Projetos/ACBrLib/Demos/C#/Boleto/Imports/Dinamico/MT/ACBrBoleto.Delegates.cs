@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using ACBrLib.Core;
 
 namespace ACBrLib.Boleto
 {
-    public sealed partial class ACBrBoleto
+    internal sealed class ACBrBoletoHandle : ACBrLibHandleBase
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int Boleto_Inicializar(ref IntPtr handle, string eArqConfig, string eChaveCrypt);
@@ -80,7 +81,7 @@ namespace ACBrLib.Boleto
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int Boleto_LerRetorno(IntPtr handle, string eDir, string eNomeArq);
-        
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int Boleto_LerRetornoStream(IntPtr handle, string ARetornoBase64, StringBuilder buffer, ref int bufferSize);
 
@@ -190,5 +191,22 @@ namespace ACBrLib.Boleto
             AddMethod<Boleto_InformarToken>("Boleto_InformarToken");
             AddMethod<Boleto_OpenSSLInfo>("Boleto_OpenSSLInfo");
         }
+
+        protected override string GetLibraryName()
+        {
+            var arch = Environment.Is64BitProcess ? "64" : "32";
+            if (PlatformID.Unix == Environment.OSVersion.Platform)
+                return $"libacbrboleto{arch}.so";
+
+
+            return $"ACBrBoleto{arch}.dll";
+        }
+
+
+        //singleton dessa classe, para garantir que apenas uma instância do handle seja criada durante a execução do programa
+        private static readonly Lazy<ACBrBoletoHandle> instance = new Lazy<ACBrBoletoHandle>(() => new ACBrBoletoHandle());
+        public static ACBrBoletoHandle Instance => instance.Value;
+
+
     }
 }

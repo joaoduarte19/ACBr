@@ -5,11 +5,11 @@ using ACBrLib.Core.Config;
 
 namespace ACBrLib.Boleto
 {
-    public sealed class WebserviceConfig : ACBrLibConfigBase<ACBrBoleto>
+    public sealed class WebserviceConfig : ACBrLibConfigBase<IACBrLibBoleto>
     {
         #region Constructors
 
-        public WebserviceConfig(ACBrBoleto acbrlib) : base(acbrlib, ACBrSessao.BoletoWebSevice)
+        public WebserviceConfig(IACBrLibBoleto acbrlib) : base(acbrlib, ACBrSessao.BoletoWebSevice)
         {
         }
 

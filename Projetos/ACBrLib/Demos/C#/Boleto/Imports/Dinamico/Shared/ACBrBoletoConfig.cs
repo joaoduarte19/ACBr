@@ -6,7 +6,7 @@ namespace ACBrLib.Boleto
     /// <summary>
     /// Configurações da Sessão [BoletoBancoConfig]
     /// </summary>
-    public sealed class ACBrBoletoConfig : ACBrLibConfig<ACBrBoleto>
+    public sealed class ACBrBoletoConfig : ACBrLibConfig<IACBrLibBoleto>
     {
         #region Constructors
 
@@ -14,7 +14,7 @@ namespace ACBrLib.Boleto
         /// Inicializa uma nova instancia da classe  <see cref="ACBrBoletoConfig"/>.
         /// </summary>
         /// <param name="acbrboleto">Instancia do ACBrBoleto</param>
-        public ACBrBoletoConfig(ACBrBoleto acbrboleto) : base(acbrboleto, ACBrSessao.BoletoConfig)
+        public ACBrBoletoConfig(IACBrLibBoleto acbrboleto) : base(acbrboleto, ACBrSessao.BoletoConfig)
         {
             Banco = new BancoConfig(acbrboleto);
             Cedente = new CedenteConfig(acbrboleto);
@@ -22,8 +22,8 @@ namespace ACBrLib.Boleto
             Impressao = new ImpressaoConfig(acbrboleto);
             Webservice = new WebserviceConfig(acbrboleto);
             CedenteWebservice = new CedenteWebserviceConfig(acbrboleto);
-            Email = new EmailConfig<ACBrBoleto>(acbrboleto);
-            DFe = new DFeConfig<ACBrBoleto>(acbrboleto);
+            Email = new EmailConfig<IACBrLibBoleto>(acbrboleto);
+            DFe = new DFeConfig<IACBrLibBoleto>(acbrboleto);
         }
 
         #endregion Constructors
@@ -63,14 +63,14 @@ namespace ACBrLib.Boleto
         /// <summary>
         /// Configurações da Sessão [Email]
         /// </summar
-        public EmailConfig<ACBrBoleto> Email { get; }
+        public EmailConfig<IACBrLibBoleto> Email { get; }
 
         /// <summary>
         /// Assunto padrão do envio de email.
         /// </summary>
         /// 
 
-        public DFeConfig<ACBrBoleto> DFe { get; }
+        public DFeConfig<IACBrLibBoleto> DFe { get; }
 
         public string EmailAssuntoBoleto
         {

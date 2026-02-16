@@ -19,7 +19,7 @@ namespace ACBrLibBoleto.Demo
     {
         #region Fields
 
-        private ACBrBoleto boleto;
+        private IACBrLibBoleto boleto;
 
         #endregion Fields
 

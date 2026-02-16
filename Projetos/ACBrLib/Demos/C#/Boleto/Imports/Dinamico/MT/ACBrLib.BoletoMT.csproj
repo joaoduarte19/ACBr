@@ -130,6 +130,8 @@
       Link="Consulta\ACBrIndicadorSituacaoBoleto.cs" />
     <Compile Include="..\Shared\Consulta\ConsultaTitulosPorPeriodo.cs"
       Link="Consulta\ConsultaTitulosPorPeriodo.cs" />
+
+    <Compile Include="..\Shared\IACBrLibBoleto.cs" Link="IACBrLibBoleto.cs" />
   </ItemGroup>
 
   <ItemGroup>

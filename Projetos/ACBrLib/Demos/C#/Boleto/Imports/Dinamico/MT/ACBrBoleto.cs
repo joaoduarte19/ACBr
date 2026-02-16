@@ -7,59 +7,32 @@ using ACBrLib.Core.Boleto;
 
 namespace ACBrLib.Boleto
 {
-    public sealed partial class ACBrBoleto : ACBrLibHandle
+    public class ACBrBoleto : ACBrLibBase, IACBrLibBoleto
     {
+
+        private readonly ACBrBoletoHandle acbrBoletoBridge;
+        private bool disposed = false;
+        private IntPtr libHandle = IntPtr.Zero;
         #region Constructors
 
-        public ACBrBoleto(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrBoleto64.dll" : "libacbrboleto64.so",
-                                                                                  IsWindows ? "ACBrBoleto32.dll" : "libacbrboleto32.so")
+        public ACBrBoleto(string eArqConfig = "", string eChaveCrypt = "") : base(eArqConfig, eChaveCrypt)
         {
+            acbrBoletoBridge = ACBrBoletoHandle.Instance;
             Inicializar(eArqConfig, eChaveCrypt);
             Config = new ACBrBoletoConfig(this);
         }
 
+        /// <inheritdoc/>
         public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
         {
-            var inicializarLib = GetMethod<Boleto_Inicializar>();
-            var ret = ExecuteMethod<int>(() => inicializarLib(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            var inicializarLib = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_Inicializar>();
+            var ret = acbrBoletoBridge.ExecuteMethod<int>(() => inicializarLib(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
             CheckResult(ret);
         }
 
         #endregion Constructors
 
         #region Properties
-
-        public string Nome
-        {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
-
-                var method = GetMethod<Boleto_Nome>();
-                var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
-
-                CheckResult(ret);
-
-                return ProcessResult(buffer, bufferLen);
-            }
-        }
-
-        public string Versao
-        {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
-
-                var method = GetMethod<Boleto_Versao>();
-                var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
-
-                CheckResult(ret);
-
-                return ProcessResult(buffer, bufferLen);
-            }
-        }
 
         public ACBrBoletoConfig Config { get; }
 
@@ -71,67 +44,62 @@ namespace ACBrLib.Boleto
 
         public override void ConfigGravar(string eArqConfig = "")
         {
-            var gravarIni = GetMethod<Boleto_ConfigGravar>();
-            var ret = ExecuteMethod(() => gravarIni(libHandle, ToUTF8(eArqConfig)));
+            var gravarIni = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_ConfigGravar>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => gravarIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override void ConfigLer(string eArqConfig = "")
         {
-            var lerIni = GetMethod<Boleto_ConfigLer>();
-            var ret = ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
+            var lerIni = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_ConfigLer>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
         {
-            var method = GetMethod<Boleto_ConfigLerValor>();
-
-            var bufferLen = BUFFER_LEN;
-            var pValue = new StringBuilder(bufferLen);
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), pValue, ref bufferLen));
-            CheckResult(ret);
-
-            var value = ProcessResult(pValue, bufferLen);
+            var value = ConfigLerValor(eSessao.ToString(), eChave);
             return ConvertValue<T>(value);
         }
 
+        ///  <inheritdoc/>
         public override void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value)
         {
             if (value == null) return;
-
-            var method = GetMethod<Boleto_ConfigGravarValor>();
             var propValue = ConvertValue(value);
-
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), ToUTF8(propValue)));
-            CheckResult(ret);
+            ConfigGravarValor(eSessao.ToString(), eChave, propValue);
         }
 
+        ///  <inheritdoc/>
         public override void ImportarConfig(string eArqConfig = "")
         {
-            var importarConfig = GetMethod<Boleto_ConfigImportar>();
-            var ret = ExecuteMethod(() => importarConfig(libHandle, ToUTF8(eArqConfig)));
+            var importarConfig = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_ConfigImportar>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => importarConfig(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override string ExportarConfig()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Boleto_ConfigExportar>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_ConfigExportar>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         #endregion Ini
 
+        /// <inheritdoc/>
         public void ConfigurarDados(params BoletoInfo[] infos)
         {
             var iniFile = new ACBrIniFile();
@@ -141,14 +109,16 @@ namespace ACBrLib.Boleto
             ConfigurarDados(iniFile.ToString());
         }
 
+        /// <inheritdoc/>
         public void ConfigurarDados(string eArquivoIni)
         {
-            var method = GetMethod<Boleto_ConfigurarDados>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eArquivoIni)));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_ConfigurarDados>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eArquivoIni)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void IncluirTitulos(params Titulo[] titulos)
         {
             var iniFile = new ACBrIniFile();
@@ -160,7 +130,7 @@ namespace ACBrLib.Boleto
 
             IncluirTitulos(iniFile.ToString());
         }
-
+        /// <inheritdoc/>
         public void IncluirTitulos(BoletoTpSaida eTpSaida, params Titulo[] titulos)
         {
             var iniFile = new ACBrIniFile();
@@ -172,55 +142,55 @@ namespace ACBrLib.Boleto
 
             IncluirTitulos(iniFile.ToString(), eTpSaida);
         }
-
+        /// <inheritdoc/>
         public void IncluirTitulos(string eArquivoIni, BoletoTpSaida? eTpSaida = null)
         {
             var tpSaida = $"{(eTpSaida.HasValue ? (char)eTpSaida.Value : ' ')}";
 
-            var method = GetMethod<Boleto_IncluirTitulos>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eArquivoIni), ToUTF8(tpSaida)));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_IncluirTitulos>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eArquivoIni), ToUTF8(tpSaida)));
 
             CheckResult(ret);
         }
-
+        /// <inheritdoc/>
         public void LimparLista()
         {
-            var method = GetMethod<Boleto_LimparLista>();
-            var ret = ExecuteMethod(() => method(libHandle));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_LimparLista>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle));
             CheckResult(ret);
         }
-
+        /// <inheritdoc/>
         public int TotalTitulosLista()
         {
-            var method = GetMethod<Boleto_TotalTitulosLista>();
-            var ret = ExecuteMethod(() => method(libHandle));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_TotalTitulosLista>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle));
 
             CheckResult(ret);
 
             return ret;
         }
-
+        /// <inheritdoc/>
         public void Imprimir(string eNomeImpressora = "")
         {
-            var method = GetMethod<Boleto_Imprimir>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eNomeImpressora)));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_Imprimir>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eNomeImpressora)));
             CheckResult(ret);
         }
-
+        /// <inheritdoc/>
         public void Imprimir(int indice, string eNomeImpressora = "")
         {
-            var method = GetMethod<Boleto_ImprimirBoleto>();
-            var ret = ExecuteMethod(() => method(libHandle, indice, ToUTF8(eNomeImpressora)));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_ImprimirBoleto>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, indice, ToUTF8(eNomeImpressora)));
             CheckResult(ret);
         }
-
+        /// <inheritdoc/>
         public void GerarPDF()
         {
-            var method = GetMethod<Boleto_GerarPDF>();
-            var ret = ExecuteMethod(() => method(libHandle));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_GerarPDF>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle));
             CheckResult(ret);
         }
-
+        /// <inheritdoc/>
         public void GerarPDF(Stream aStream)
         {
             if (aStream == null) throw new ArgumentNullException(nameof(aStream));
@@ -228,45 +198,46 @@ namespace ACBrLib.Boleto
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Boleto_SalvarPDF>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_SalvarPDF>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            var pdf = ProcessResult(buffer, bufferLen);
+            var pdf = CheckBuffer(buffer, bufferLen);
             Base64ToStream(pdf, aStream);
         }
-
+        /// <inheritdoc/>
         public void GerarPDF(int indice)
         {
-            var method = GetMethod<Boleto_GerarPDFBoleto>();
-            var ret = ExecuteMethod(() => method(libHandle, indice));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_GerarPDFBoleto>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, indice));
             CheckResult(ret);
         }
-
+        /// <inheritdoc/>
         public string GerarToken()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Boleto_GerarToken>();
-            var ret = ExecuteMethod<int>(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_GerarToken>();
+            var ret = acbrBoletoBridge.ExecuteMethod<int>(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
+        /// <inheritdoc/>
         public string InformarToken(string eToken, DateTime eData)
         {
 
-            var method = GetMethod<Boleto_InformarToken>();
-            var ret = ExecuteMethod<int>(() => method(libHandle, eToken, eData));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_InformarToken>();
+            var ret = acbrBoletoBridge.ExecuteMethod<int>(() => method(libHandle, eToken, eData));
 
             CheckResult(ret);
             return ret.ToString();
 
         }
-
+        /// <inheritdoc/>
         public void GerarPDF(int indice, Stream aStream)
         {
             if (aStream == null) throw new ArgumentNullException(nameof(aStream));
@@ -274,29 +245,31 @@ namespace ACBrLib.Boleto
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Boleto_SalvarPDFBoleto>();
-            var ret = ExecuteMethod(() => method(libHandle, indice, buffer, ref bufferLen));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_SalvarPDFBoleto>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, indice, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            var pdf = ProcessResult(buffer, bufferLen);
+            var pdf = CheckBuffer(buffer, bufferLen);
             Base64ToStream(pdf, aStream);
         }
 
+
         public void GerarHTML()
         {
-            var method = GetMethod<Boleto_GerarHTML>();
-            var ret = ExecuteMethod(() => method(libHandle));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_GerarHTML>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle));
             CheckResult(ret);
         }
-
+        /// <inheritdoc/>
         public void GerarRemessa(string eDir, int eNumArquivo, string eNomeArq)
         {
-            var method = GetMethod<Boleto_GerarRemessa>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eDir), eNumArquivo, ToUTF8(eNomeArq)));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_GerarRemessa>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eDir), eNumArquivo, ToUTF8(eNomeArq)));
 
             CheckResult(ret);
         }
+        /// <inheritdoc/>
 
         public void GerarRemessaStream(int eNumArquivo, Stream aStream)
         {
@@ -305,129 +278,138 @@ namespace ACBrLib.Boleto
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Boleto_GerarRemessaStream>();
-            var ret = ExecuteMethod(() => method(libHandle, eNumArquivo, buffer, ref bufferLen));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_GerarRemessaStream>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, eNumArquivo, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            var rem = ProcessResult(buffer, bufferLen);
+            var rem = CheckBuffer(buffer, bufferLen);
             Base64ToStream(rem, aStream);
         }
-
+        /// <inheritdoc/>
         public RetornoBoleto ObterRetorno(string eDir, string eNomeArq)
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Boleto_ObterRetorno>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eDir), ToUTF8(eNomeArq), buffer, ref bufferLen));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_ObterRetorno>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eDir), ToUTF8(eNomeArq), buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return RetornoBoleto.LerRetorno(ProcessResult(buffer, bufferLen));
+            return RetornoBoleto.LerRetorno(CheckBuffer(buffer, bufferLen));
         }
+        /// <inheritdoc/>
 
         public void LerRetorno(string eDir, string eNomeArq)
         {
-            var method = GetMethod<Boleto_LerRetorno>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eDir), ToUTF8(eNomeArq)));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_LerRetorno>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eDir), ToUTF8(eNomeArq)));
 
             CheckResult(ret);
         }
+        /// <inheritdoc/>
 
         public string LerRetornoStream(string ARetornoBase64)
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Boleto_LerRetornoStream>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(ARetornoBase64), buffer, ref bufferLen));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_LerRetornoStream>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, ToUTF8(ARetornoBase64), buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public void EnviarEmail(string ePara, string eAssunto, string eMensagem, string eCC)
         {
-            var method = GetMethod<Boleto_EnviarEmail>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(ePara), ToUTF8(eAssunto), ToUTF8(eMensagem), ToUTF8(eCC)));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_EnviarEmail>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, ToUTF8(ePara), ToUTF8(eAssunto), ToUTF8(eMensagem), ToUTF8(eCC)));
 
             CheckResult(ret);
         }
+
+        /// <inheritdoc/>
 
         public void EnviarEmailBoleto(int eIndex, string ePara, string eAssunto, string eMensagem, string eCC)
         {
-            var method = GetMethod<Boleto_EnviarEmailBoleto>();
-            var ret = ExecuteMethod(() => method(libHandle, eIndex, ToUTF8(ePara), ToUTF8(eAssunto), ToUTF8(eMensagem), ToUTF8(eCC)));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_EnviarEmailBoleto>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, eIndex, ToUTF8(ePara), ToUTF8(eAssunto), ToUTF8(eMensagem), ToUTF8(eCC)));
 
             CheckResult(ret);
         }
 
         public void SetDiretorioArquivo(string eDir, string eArq = "")
         {
-            var method = GetMethod<Boleto_SetDiretorioArquivo>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eDir), ToUTF8(eArq)));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_SetDiretorioArquivo>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eDir), ToUTF8(eArq)));
 
             CheckResult(ret);
         }
-
+        /// <inheritdoc/>
         public string[] ListaBancos()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Boleto_ListaBancos>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_ListaBancos>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen).Split('|');
+            return CheckBuffer(buffer, bufferLen).Split('|');
         }
-
+        /// <inheritdoc/>
         public string[] ListaCaractTitulo()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Boleto_ListaCaractTitulo>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_ListaCaractTitulo>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen).Split('|');
+            return CheckBuffer(buffer, bufferLen).Split('|');
         }
-
+        /// <inheritdoc/>
         public string[] ListaOcorrencias()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Boleto_ListaOcorrencias>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_ListaOcorrencias>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen).Split('|');
+            return CheckBuffer(buffer, bufferLen).Split('|');
         }
+
+        /// <inheritdoc/>
 
         public string[] ListaOcorrenciasEX()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Boleto_ListaOcorrenciasEX>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_ListaOcorrenciasEX>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen).Split('|');
+            return CheckBuffer(buffer, bufferLen).Split('|');
         }
+
+        /// <inheritdoc/>
 
         public int TamNossoNumero(string eCarteira, string enossoNumero, string eConvenio)
         {
-            var method = GetMethod<Boleto_TamNossoNumero>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eCarteira), ToUTF8(enossoNumero), ToUTF8(eConvenio)));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_TamNossoNumero>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eCarteira), ToUTF8(enossoNumero), ToUTF8(eConvenio)));
 
             CheckResult(ret);
 
@@ -439,130 +421,201 @@ namespace ACBrLib.Boleto
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Boleto_CodigosMoraAceitos>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_CodigosMoraAceitos>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
-
+        /// <inheritdoc/>
         public void SelecionaBanco(string eCodBanco)
         {
-            var method = GetMethod<Boleto_SelecionaBanco>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eCodBanco)));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_SelecionaBanco>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eCodBanco)));
 
             CheckResult(ret);
         }
+
+        /// <inheritdoc/>
 
         public string MontarNossoNumero(int eIndex)
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Boleto_MontarNossoNumero>();
-            var ret = ExecuteMethod(() => method(libHandle, eIndex, buffer, ref bufferLen));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_MontarNossoNumero>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, eIndex, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
+
+        /// <inheritdoc/>
 
         public string RetornaLinhaDigitavel(int eIndex)
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Boleto_RetornaLinhaDigitavel>();
-            var ret = ExecuteMethod(() => method(libHandle, eIndex, buffer, ref bufferLen));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_RetornaLinhaDigitavel>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, eIndex, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
-
+        /// <inheritdoc/>
         public string RetornaCodigoBarras(int eIndex)
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Boleto_RetornaCodigoBarras>();
-            var ret = ExecuteMethod(() => method(libHandle, eIndex, buffer, ref bufferLen));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_RetornaCodigoBarras>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, eIndex, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
-
+        /// <inheritdoc/>
         public RetornoWeb EnviarBoleto(OperacaoBoleto opercao)
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Boleto_EnviarBoleto>();
-            var ret = ExecuteMethod(() => method(libHandle, (int)opercao, buffer, ref bufferLen));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_EnviarBoleto>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, (int)opercao, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return RetornoWeb.LerRetorno(ProcessResult(buffer, bufferLen));
+            return RetornoWeb.LerRetorno(CheckBuffer(buffer, bufferLen));
         }
-
+        /// <inheritdoc/>
         public string ConsultarTitulosPorPeriodo(string eArquivoIni)
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Boleto_ConsultarTitulosPorPeriodo>();
-            var ret = ExecuteMethod<int>(() => method(libHandle, eArquivoIni, buffer, ref bufferLen));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_ConsultarTitulosPorPeriodo>();
+            var ret = acbrBoletoBridge.ExecuteMethod<int>(() => method(libHandle, eArquivoIni, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
+        /// <inheritdoc/>
 
         public override string OpenSSLInfo()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Boleto_OpenSSLInfo>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_OpenSSLInfo>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         #region Private Methods
-
+        /// <inheritdoc/>
         public override void Finalizar()
         {
-            var finalizarLib = GetMethod<Boleto_Finalizar>();
-            var ret = ExecuteMethod(() => finalizarLib(libHandle));
+            var finalizarLib = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_Finalizar>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => finalizarLib(libHandle));
             CheckResult(ret);
             libHandle = IntPtr.Zero;
         }
+        /// <inheritdoc/>
 
         protected override string GetUltimoRetorno(int iniBufferLen = 0)
         {
             var bufferLen = iniBufferLen < 1 ? BUFFER_LEN : iniBufferLen;
             var buffer = new StringBuilder(bufferLen);
-            var ultimoRetorno = GetMethod<Boleto_UltimoRetorno>();
+            var ultimoRetorno = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_UltimoRetorno>();
 
             if (iniBufferLen < 1)
             {
-                ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
+                acbrBoletoBridge.ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
                 if (bufferLen <= BUFFER_LEN) return FromUTF8(buffer);
 
                 buffer.Capacity = bufferLen;
             }
 
-            ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
+            acbrBoletoBridge.ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
             return FromUTF8(buffer);
+        }
+        /// <inheritdoc/>
+        public override string ConfigLerValor(string eSessao, string eChave)
+        {
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_ConfigLerValor>();
+
+            var bufferLen = BUFFER_LEN;
+            var pValue = new StringBuilder(bufferLen);
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao), ToUTF8(eChave), pValue, ref bufferLen));
+            CheckResult(ret);
+            return CheckBuffer(pValue, bufferLen);
+        }
+        /// <inheritdoc/>
+        public override void ConfigGravarValor(string eSessao, string eChave, string eValor)
+        {
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_ConfigGravarValor>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao), ToUTF8(eChave), ToUTF8(eValor)));
+            CheckResult(ret);
+        }
+        /// <inheritdoc/>
+        public override string Versao()
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_Versao>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return CheckBuffer(buffer, bufferLen);
+        }
+        /// <inheritdoc/>
+        public override string Nome()
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_Nome>();
+            var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return CheckBuffer(buffer, bufferLen);
         }
 
         #endregion Private Methods
 
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+
+        /// <inheritdoc/>
+        protected void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    Finalizar();   // Libera recursos gerenciados
+                }
+            }
+
+            disposed = true;
+        }
         #endregion Methods
     }
 }
