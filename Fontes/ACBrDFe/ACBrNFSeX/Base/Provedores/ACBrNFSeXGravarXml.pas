@@ -1147,6 +1147,7 @@ begin
       //Padrão Nacional e IssNet
       INIRec.WriteString(sSecao, 'CodigoNBS', Servico.CodigoNBS);
       INIRec.WriteString(sSecao, 'CodigoInterContr', Servico.CodigoInterContr);
+      INIRec.WriteString(sSecao, 'xNBS', infNFSe.xNBS);
 
       // Provedor SoftPlan
       INIRec.WriteString(sSecao, 'CFPS', '');
