@@ -778,10 +778,6 @@ begin
   Result := StringReplace(Result, '&', '&amp;', [rfReplaceAll]);
 end;
 
-{
-  Para a versão 1 desse provedor todas as tags recebem prefixo, inclusive as
-  referente a montagem do lote de envio, por exemplo.
-}
 { TACBrNFSeProviderSimplISSAPIPropria }
 
 function TACBrNFSeProviderSimplISSAPIPropria.CriarGeradorXml(
