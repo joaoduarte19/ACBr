@@ -386,15 +386,6 @@ begin
   Result := Executar('GerarNfse', Request,
                      [],
                      ['xmlns:tns="http://www.sped.fazenda.gov.br/nfse/wsdl"']);
-{
-  Request := '<wsdl:GerarNfse>';
-  Request := Request + XmlToStr(AMSG);
-  Request := Request + '</wsdl:GerarNfse>';
-
-  Result := Executar('GerarNfse', Request,
-                     ['outputXML', 'GerarNfseResposta'],
-                     ['xmlns:wsdl="http://www.sped.fazenda.gov.br/nfse/wsdl"']);
-}
 end;
 
 function TACBrNFSeXWebserviceDigifredAPIPropria.EnviarEvento(const ACabecalho,
@@ -416,16 +407,6 @@ begin
   Result := Executar(aTag, Request,
                      [],
                      ['xmlns:tns="http://www.sped.fazenda.gov.br/nfse/wsdl"']);
-
-  {
-  Request := '<wsdl:' + aTag + '>' +
-               XmlToStr(Request) +
-             '</wsdl:' + aTag + '>';
-
-  Result := Executar(aTag, Request,
-                     ['outputXML', aTag + 'Resposta'],
-                     ['xmlns:wsdl="http://www.sped.fazenda.gov.br/nfse/wsdl"']);
-  }
 end;
 
 function TACBrNFSeXWebserviceDigifredAPIPropria.ConsultarNFSePorRps(
@@ -547,7 +528,7 @@ begin
 
   with ConfigAssinar do
   begin
-    RpsGerarNFSe := True;
+    RpsGerarNFSe := False;
     EnviarEvento := False;
   end;
 
@@ -556,7 +537,6 @@ begin
   with ConfigSchemas do
   begin
     GerarNFSe := 'DPS_v' + VersaoDFe + '.xsd';
-//    GerarNFSe := 'NFSe_v' + VersaoDFe + '.xsd';
     ConsultarNFSe := 'DPS_v' + VersaoDFe + '.xsd';
     ConsultarNFSeRps := 'DPS_v' + VersaoDFe + '.xsd';
     EnviarEvento := 'pedRegEvento_v' + VersaoDFe + '.xsd';
@@ -782,16 +762,7 @@ begin
     Nota.XmlRps := ConverteXMLtoUTF8(Nota.XmlRps);
     Nota.XmlRps := ChangeLineBreak(Nota.XmlRps, '');
 
-    if (ConfigAssinar.Rps and (Response.ModoEnvio in [meLoteAssincrono, meLoteSincrono])) or
-       (ConfigAssinar.RpsGerarNFSe and (Response.ModoEnvio in [meUnitario, meAutomatico])) then
-    begin
-//      Nota.XmlRps := FAOwner.SSL.Assinar(Nota.XmlRps,
-//                                         ConfigMsgDados.XmlRps.DocElemento,
-//                                         ConfigMsgDados.XmlRps.InfElemento, '', '', '', IdAttr);
-
-      Response.ArquivoEnvio := Nota.XmlRps;
-    end;
-
+    Response.ArquivoEnvio := Nota.XmlRps;
     SalvarXmlRps(Nota);
 
     ListaDps := ListaDps + Nota.XmlRps;
@@ -934,7 +905,7 @@ begin
     end;
 
 
-    ID := chNFSe + OnlyNumber(tpEventoToStr(tpEvento)) ;
+    ID := chNFSe + OnlyNumber(tpEventoToStr(tpEvento));
 
     IdAttrPRE := 'Id="' + 'PRE' + ID + '"';
 
@@ -944,31 +915,19 @@ begin
     IdAttrEVT := 'Id="' + 'EVT' + ID + '"';
 
     case tpEvento of
-      teCancelamento:
+      teCancelamento,
+      teAnaliseParaCancelamento:
         xCamposEvento := '<cMotivo>' + IntToStr(cMotivo) + '</cMotivo>' +
                          '<xMotivo>' + xMotivo + '</xMotivo>';
+
 
       teCancelamentoSubstituicao:
         xCamposEvento := '<cMotivo>' + Formatfloat('00', cMotivo) + '</cMotivo>' +
                          '<xMotivo>' + xMotivo + '</xMotivo>' +
                          '<chSubstituta>' + chSubstituta + '</chSubstituta>';
 
-      teAnaliseParaCancelamento:
-        xCamposEvento := '<cMotivo>' + IntToStr(cMotivo) + '</cMotivo>' +
-                         '<xMotivo>' + xMotivo + '</xMotivo>';
-
-      teRejeicaoPrestador:
-        xCamposEvento := '<infRej>' +
-                           '<cMotivo>' + IntToStr(cMotivo) + '</cMotivo>' +
-                           '<xMotivo>' + xMotivo + '</xMotivo>' +
-                         '</infRej>';
-
-      teRejeicaoTomador:
-        xCamposEvento := '<infRej>' +
-                           '<cMotivo>' + IntToStr(cMotivo) + '</cMotivo>' +
-                           '<xMotivo>' + xMotivo + '</xMotivo>' +
-                         '</infRej>';
-
+      teRejeicaoPrestador,
+      teRejeicaoTomador,
       teRejeicaoIntermediario:
         xCamposEvento := '<infRej>' +
                            '<cMotivo>' + IntToStr(cMotivo) + '</cMotivo>' +
@@ -983,9 +942,7 @@ begin
     //NumNFSe := Copy(chNFSe, 24, 13);
     NumNFSe := trim(IntTostr(StrToInt(Copy(chNFSe, 28, 9)))) ;
 
-    //xEvento := '<pedRegEvento xmlns="' + ConfigMsgDados.EnviarEvento.xmlns +
-    //                       '" versao="' + ConfigWebServices.VersaoAtrib + '">' +
-    xEvento := '<pedRegEvento '+'versao="' + ConfigWebServices.VersaoAtrib + '">' +
+    xEvento := '<pedRegEvento versao="' + ConfigWebServices.VersaoAtrib + '">' +
 
                  '<infPedReg ' + IdAttrPRE + '>' +
                    '<tpAmb>' + IntToStr(tpAmb) + '</tpAmb>' +

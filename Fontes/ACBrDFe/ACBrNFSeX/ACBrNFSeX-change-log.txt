@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+17/02/2026
+-- Digifred.Provider --
+[*] Remoção de linhas de códigos que estavam comentadas.
+   Por: Italo Giurizzato Junior
+
 16/02/2026
 -- ISSSaoPaulo.LerXml --
 [*] ACBR-8868 - Ajuste para que o impresso do DANFSe não fique com os valores zerados quando XML for de RPS.
