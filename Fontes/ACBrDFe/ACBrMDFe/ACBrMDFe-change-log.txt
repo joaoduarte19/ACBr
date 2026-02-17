@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/02/2026
+-- ACBrMDFeManifestos --
+[-] ACBr-8942: Ajuste visando evitar erro ao ler XML na codificação UTF-8 BOM.
+   Por: Italo Giurizzato Junior
+
 28/01/2026
 -- ACBrMDFeDAMDFeFPDF --
 [-] Correção para não duplicar os títulos do grupo Vale Pedágio quando não houverem informações - https://www.projetoacbr.com.br/forum/topic/89878-acbr-8578-acbrlibmdfeconsolemt-ajustes-na-impress%C3%A3o-do-damdfe/?&_rid=62658#findComment-584357
