@@ -745,6 +745,7 @@ function TACBrNFSeProviderFiorilliAPIPropria.PrepararArquivoEnvio(
   const aXml: string; aMetodo: TMetodo): string;
 begin
   Result := aXml;
+
   if aMetodo in [tmGerar, tmRecepcionarSincrono, tmRecepcionar, tmEnviarEvento] then
     Result := ChangeLineBreak(aXml, '');
 end;

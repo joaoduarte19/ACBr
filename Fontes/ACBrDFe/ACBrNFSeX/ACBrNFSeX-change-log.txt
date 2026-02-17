@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 17/02/2026
+-- Diversos --
+[*] Para alguns métodos a função PrepararArquivoEnvio estava retornando uma string vazia.
+   Por: Italo Giurizzato Junior
 -- Digifred.Provider --
 [*] Remoção de linhas de códigos que estavam comentadas.
    Por: Italo Giurizzato Junior

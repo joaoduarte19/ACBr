@@ -828,6 +828,8 @@ end;
 function TACBrNFSeProviderCittaAPIPropria.PrepararArquivoEnvio(
   const aXml: string; aMetodo: TMetodo): string;
 begin
+  Result := aXml;
+
   if aMetodo in [tmGerar, tmEnviarEvento] then
   begin
     case aMetodo of

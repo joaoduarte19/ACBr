@@ -1485,6 +1485,8 @@ end;
 function TACBrNFSeProviderPadraoNacional.PrepararArquivoEnvio(
   const aXml: string; aMetodo: TMetodo): string;
 begin
+  Result := aXml;
+
   if aMetodo in [tmGerar, tmEnviarEvento] then
   begin
     Result := ChangeLineBreak(aXml, '');

@@ -710,13 +710,11 @@ end;
 
 function TACBrNFSeProviderDigifredAPIPropria.PrepararArquivoEnvio(
   const aXml: string; aMetodo: TMetodo): string;
-var
-  LXml: string;
 begin
-  LXml := aXml;
+  Result := aXml;
 
   if aMetodo in [tmGerar, tmEnviarEvento] then
-    Result := ChangeLineBreak(LXml, '');
+    Result := ChangeLineBreak(aXml, '');
 end;
 
 procedure TACBrNFSeProviderDigifredAPIPropria.PrepararEmitir(

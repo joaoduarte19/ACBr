@@ -756,6 +756,8 @@ end;
 function TACBrNFSeProviderISSDigitalAPIPropria.PrepararArquivoEnvio(
   const aXml: string; aMetodo: TMetodo): string;
 begin
+  Result := aXml;
+
   if aMetodo in [tmGerar, tmEnviarEvento] then
     Result := ChangeLineBreak(aXml, '');
 end;
