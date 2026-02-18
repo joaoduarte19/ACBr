@@ -920,28 +920,28 @@ begin
         BaseCalculo := ValorServicos - ValorDeducoes - DescontoIncondicionado;
 
         case tribFed.tpRetPisCofins of
-          trpiscofinscsllNaoRetido:
+          trpiscofinscsllNaoRetido:  // tpRetPisCofins = 0
             RetencoesFederais := ValorInss + ValorIr;
 
-          trpiscofinscsllRetido:
+          trpiscofinscsllRetido:  // tpRetPisCofins = 3
             RetencoesFederais := ValorInss + ValorIr + ValorPis + ValorCofins + ValorCsll;
 
-          trpiscofinsRetidocsllNaoRetido:
+          trpiscofinsRetidocsllNaoRetido:   // tpRetPisCofins = 4
             RetencoesFederais := ValorInss + ValorIr + ValorPis + ValorCofins;
 
-          trPisRetidoCofinsCsllNaoRetido:
+          trPisRetidoCofinsCsllNaoRetido:  // tpRetPisCofins = 5
             RetencoesFederais := ValorInss + ValorIr + ValorPis;
 
-          trCofinsRetidoPisCsllNaoRetido:
+          trCofinsRetidoPisCsllNaoRetido:  // tpRetPisCofins = 6
             RetencoesFederais := ValorInss + ValorIr + ValorCofins;
 
-          trCofinsCsllRetidoPisNaoRetido:
+          trCofinsCsllRetidoPisNaoRetido:  // tpRetPisCofins = 7
             RetencoesFederais := ValorInss + ValorIr + ValorCofins + ValorCsll;
 
-          trCsllRetidoPisCofinsNaoRetido:
+          trCsllRetidoPisCofinsNaoRetido:  // tpRetPisCofins = 8
             RetencoesFederais := ValorInss + ValorIr + ValorCsll;
 
-          trPisCsllRetidoCofinsNaoRetido:
+          trPisCsllRetidoCofinsNaoRetido:  // tpRetPisCofins = 9
             RetencoesFederais := ValorInss + ValorIr + ValorPis + ValorCsll;
         else
           RetencoesFederais := ValorInss + ValorIr + ValorPis + ValorCofins + ValorCsll;

@@ -592,7 +592,8 @@ begin
           vogais acentuadas e cedilha.
         }
         if NFSeXml <> '' then
-          NFSeXml := DecodeToString(DeCompress(DecodeBase64(NFSeXml)), True);
+          NFSeXml := DeCompress(DecodeBase64(NFSeXml));
+//          NFSeXml := DecodeToString(DeCompress(DecodeBase64(NFSeXml)), True);
 
         DocumentXml := TACBrXmlDocument.Create;
 
@@ -777,7 +778,8 @@ begin
 
       if EventoXml <> '' then
       begin
-        EventoXml := DecodeToString(DeCompress(DecodeBase64(EventoXml)), True);
+//        EventoXml := DecodeToString(DeCompress(DecodeBase64(EventoXml)), True);
+        EventoXml := DeCompress(DecodeBase64(EventoXml));
 
         DocumentXml := TACBrXmlDocument.Create;
 
@@ -937,7 +939,7 @@ begin
         else
           ArquivoXml := DeCompress(DecodeBase64(ArquivoXml));
 
-        ArquivoXml := DecodeToString(ArquivoXml, True);
+//        ArquivoXml := DecodeToString(ArquivoXml, True);
 
         if ArquivoXml = '' then
         begin

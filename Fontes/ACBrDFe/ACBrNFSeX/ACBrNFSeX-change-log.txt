@@ -44,6 +44,12 @@ Símbolo : Significado
 
 
 18/02/2026
+-- PadraoNacional.LerXml --
+[*] Breve documentação sobre os enumerados de: tpRetPisCofins.
+-- PadraoNacional.Provider --
+[*] Removido a função: DecodeToString pois estava ocorrendo erro de UTF-8 quando o 
+    XML retornado possui vogais acentuadas e cedilha.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] Incluído as URLs dos demais serviços para as cidades atendidas pelo provedor RLZ.
    Por: Italo Giurizzato Junior
