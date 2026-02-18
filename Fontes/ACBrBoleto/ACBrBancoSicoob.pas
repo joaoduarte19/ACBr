@@ -890,6 +890,7 @@ begin
         toRemessaAlterarDadosPagador           : ATipoOcorrencia := '23';
         toRemessaOutrasOcorrencias,
           toRemessaAlterarOutrosDados          : ATipoOcorrencia := '31';
+        toRemessaNegativacaoSemProtesto        : ATipoOcorrencia := '45';
       else
        ATipoOcorrencia := '01';
       end;
