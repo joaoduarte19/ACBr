@@ -582,6 +582,16 @@ begin
   begin
     ACBrNFSeX.NotasFiscais.Clear;
 
+    if Assigned(ACBrNFSeX.DANFSE) then
+    begin
+      ACBrNFSeX.DANFSE.Tomador.InscricaoEstadual := '';
+      ACBrNFSeX.DANFSE.Tomador.InscricaoMunicipal := '';
+      ACBrNFSeX.DANFSE.Tomador.Fone := '';
+      ACBrNFSeX.DANFSE.Tomador.Endereco := '';
+      ACBrNFSeX.DANFSE.Tomador.Complemento := '';
+      ACBrNFSeX.DANFSE.Tomador.Email := '';
+    end;
+
     CargaDFe := TACBrCarregarNFSe.Create(ACBrNFSeX, APathXML);
     try
       ACBrNFSeX.NotasFiscais.ImprimirPDF;
@@ -618,6 +628,16 @@ begin
   with TACBrObjetoNFSe(fpObjetoDono) do
   begin
     ACBrNFSeX.NotasFiscais.Clear;
+
+    if Assigned(ACBrNFSeX.DANFSE) then
+    begin
+      ACBrNFSeX.DANFSE.Tomador.InscricaoEstadual := '';
+      ACBrNFSeX.DANFSE.Tomador.InscricaoMunicipal := '';
+      ACBrNFSeX.DANFSE.Tomador.Fone := '';
+      ACBrNFSeX.DANFSE.Tomador.Endereco := '';
+      ACBrNFSeX.DANFSE.Tomador.Complemento := '';
+      ACBrNFSeX.DANFSE.Tomador.Email := '';
+    end;
 
     CargaDFe := TACBrCarregarNFSe.Create(ACBrNFSeX, APathXML);
     try
@@ -665,6 +685,16 @@ begin
   with TACBrObjetoNFSe(fpObjetoDono) do
   begin
     ACBrNFSeX.NotasFiscais.Clear;
+
+    if Assigned(ACBrNFSeX.DANFSE) then
+    begin
+      ACBrNFSeX.DANFSE.Tomador.InscricaoEstadual := '';
+      ACBrNFSeX.DANFSE.Tomador.InscricaoMunicipal := '';
+      ACBrNFSeX.DANFSE.Tomador.Fone := '';
+      ACBrNFSeX.DANFSE.Tomador.Endereco := '';
+      ACBrNFSeX.DANFSE.Tomador.Complemento := '';
+      ACBrNFSeX.DANFSE.Tomador.Email := '';
+    end;
 
     slMensagemEmail := TStringList.Create;
     slCC := TStringList.Create;

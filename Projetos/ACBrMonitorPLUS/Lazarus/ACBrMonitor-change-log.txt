@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+18/02/2026
+-- DoACBrNFSeUnit --
+[-] Corrigida impressão de DANFSe sem dados de Tomador não trazendo dados do DANFSe anterior - https://www.projetoacbr.com.br/forum/topic/90390-erro-impress%C3%A3o-nfse-pelo-acbrmonitor/
+  Por: Renato Rubinho
+
 29/12/2025
 --- ACBrMonitor1 ---
 [*] Correção na configuração do IniServicos do ACBrNFSeX.
