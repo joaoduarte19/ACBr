@@ -1,177 +1,144 @@
-Provedor            Versão Funcional (data)
---------            ------ ----------------
-Abaco                1.00
-Abaco                1.01
-Abaco                2.04  05/09/2022
-ABase                2.01
-Actcon               2.01
-Actcon               2.02
-Adm                  2.01
-ADPM                 2.00
-AEG                  2.02
-Agili                1.00  08/09/2022
-Aspec                1.00
-AssessorPublico      1.00  23/08/2022
-Asten                2.02
-Bauhaus              1.00  20/10/2022
-Betha                1.00  23/09/2022
-Betha                2.02  17/08/2022
-BHISS                1.00  11/08/2022
-Centi                2.02
-CIGA                 1.00
-Citta                2.03
-Conam                1.00
-Contass              1.00
-Coplan               2.01
-CTA                  2.00 
-CTAConsult           1.00
-DataSmart            2.02
-DBSeller             1.00  20/10/2022
-DBSeller             2.04  23/11/2022
-DeISS                2.03
-Desenvolve           2.03  02/12/2022
-Digifred             2.00
-DSF                  1.00
-DSF                  2.00
-DSF                  2.03
-eGoverneISS          1.00  06/09/2022
-eISS                 1.00
-EL                   1.00
-EL                   2.04  21/01/2025
-Elmar                2.02
-EloTech              2.03  10/08/2022
-Equiplano            1.00  22/11/2022
-eReceita             2.02
-Etherium             2.03
-Etherium             2.04
-Facundo              1.00
-FGMaiss              1.00  19/08/2022
-fintelISS            2.00  02/08/2022
-fintelISS            2.02
-Fiorilli             2.00
-Fisco                2.03
-FISSLex              1.00
-Futurize             2.02
-GeisWeb              1.00
-geNFe                1.00
-GestaoISS            2.02  31/03/2023
-Giap                 1.00  02/08/2022
-Giap                 1.01  
-Ginfes               1.00  19/09/2022
-Giss                 2.04             (GissOnline)
-GovBr                1.00
-GovDigital           2.00
-GovDigital           2.01
-Governa              1.00
-Horus                1.00
-iiBrasil             2.04
-infisc               1.00
-infisc               1.01
-infisc               2.01
-infisc               2.03
-Intertec             1.00
-IPM                  1.00
-IPM                  1.01  24/08/2022
-IPM                  2.04
-Isaneto              2.03
-ISSBarueri           1.00  19/09/2022
-ISSCamacari          2.01
-ISSCambe             1.00
-ISSCampinas          1.00
-ISSCampinas          2.03
-ISSCuritiba          1.00
-ISSDigital           2.00             (Quasar)
-ISSDSF               1.00
-ISSe                 2.00
-ISSFortaleza         1.00
-ISSGoiania           2.00  02/08/2022
-ISSIntel             1.00
-ISSJoinville         2.04  10/08/2022
-ISSLegal             2.03
-ISSLencois           1.00
-ISSMap               1.00
-ISSNatal             1.00
-ISSNet               1.00  04/08/2022 (NotaControl)
-ISSNet               2.04             (NotaControl)
-ISSPortoVelho        2.00
-ISSRecife            1.00
-ISSRio               1.00
-ISSSalvador          1.00
-ISSSaoPaulo          1.00
-ISSSJP               1.00
-ISSVitoria           2.00
-Kalana               1.00
-Lexsom               1.00
-Libre                2.04
-Link3                2.00
-MegaSoft             2.00  26/10/2022
-MetropolisWeb        1.00
-Mitra                2.00
-ModernizacaoPublica  2.02
-NEAInformatica       2.00
-NFEletronica         1.00
-NFSeBrasil           1.00             (Memory)
-NotaInteligente      2.00
-PadraoNacional       1.00
-Prescon              1.00  14/03/2023
-PriMax               1.00
-Prodata              2.01
-PRODAUB              2.04
-Pronim               1.00
-Pronim               2.02  17/08/2022
-Pronim               2.03
-Publica              1.00  08/08/2022
-PublicSoft           2.03  
-RLZ                  1.00
-RLZ                  2.03
-Saatri               2.01
-Saatri               2.03
-SafeWeb              2.00
-Sam                  1.00
-SH3                  2.00
-Siam                 2.00
-SiapNet              2.00
-Siappa               1.00  11/08/2022
-SiapSistemas         2.03
-Siat                 1.00
-SigCorp              2.03
-SigCorp              2.04
-Sigep                2.00
-SigISS               1.00
-SigISS               1.03  01/08/2022
-SigISSWeb            1.00
-SilTecnologia        1.00
-SilTecnologia        2.03
-Simple               1.00
-SimplISS             1.00
-SimplISS             2.03
-Sintese              2.04
-SisPMJP              2.02
-Sistemas4R           2.00  20/09/2022
-SmarAPD              1.00
-SmarAPD              2.03
-SmarAPD              2.04
-Smart4               1.00             (Ativ!)
-SoftPlan             1.00
-SpeedGov             1.00
-SSInformatica        2.03
-Sudoeste             2.02
-SysISS               2.02
-SystemPro            2.01
-TcheInfo             2.04
-Tecnos               2.01
-Thema                1.00
-Tinus                1.00
-Tinus                1.01
-Tinus                1.02
-Tiplan               1.00
-Tiplan               2.03  30/08/2022
-Tributus             2.04
-VersaTecnologia      2.00
-VersaTecnologia      2.01
-VersaTecnologia      2.02
-Virtual              2.02
-WebFisco             1.00  20/09/2022
-WebISS               1.00
-WebISS               2.02
-XTRTecnologia        1.00
+Provedor             Quantidade de cidades
+--------             ---------------------
+ABase                 31 cidades - Pronto para a RTC
+Actcon                 8 cidades
+Adm                   11 cidades
+Agili                 20 cidades - Pronto para a RTC
+Aspec                 28 cidades
+AssessorPublico        4 cidades
+Asten                  1 cidade
+Bauhaus                9 cidades
+Betha                244 cidades - Pronto para a RTC
+Centi                 41 cidades
+CIGA                   1 cidade
+Citta                 22 cidades - Pronto para a RTC
+Conam                 12 cidades - Pronto para a RTC
+Coplan                33 cidades - Pronto para a RTC
+CTA                    2 cidades
+CTAConsult             5 cidades
+DataSmart              7 cidades
+DBSeller               4 cidades
+Desenvolve             4 cidades
+Digifred              11 cidades - Pronto para a RTC
+DSF                    5 cidades
+eGoverneISS            1 cidade 
+EL                   109 cidades - Pronto para a RTC
+Elmar                 40 cidades
+EloTech               90 cidades - Pronto para a RTC
+Equiplano             27 cidades - Pronto para a RTC
+eReceita               5 cidades
+Etherium               1 cidade  - Pronto para a RTC
+Facundo                1 cidade  - Pronto para a RTC
+FGMaiss                1 cidade  - Pronto para a RTC
+fintelISS              4 cidades - Pronto para a RTC
+Fiorilli             383 cidades - Pronto para a RTC
+Fisco                 46 cidades
+FISSLex                4 cidades
+Futurize             111 cidades
+GeisWeb                7 cidades - Pronto para a RTC
+GestaoISS             10 cidades - Pronto para a RTC
+Giap                   5 cidades
+Ginfes                19 cidades - Pronto para a RTC
+Giss                  23 cidades - Pronto para a RTC (GissOnline) 
+GovDigital            22 cidades - Pronto para a RTC
+Horus                  2 cidades
+iiBrasil               2 cidades
+infisc                 9 cidades - Pronto para a RTC
+Intertec               1 cidade
+IPM                  156 cidades - Pronto para a RTC
+ISSBarueri             1 cidade  - Pronto para a RTC
+ISSCamacari            1 cidade
+ISSCampinas            1 cidade
+ISSDigital             4 cidades (Quasar) 
+ISSDSF                 2 cidades
+ISSe                   1 cidade  - Pronto para a RTC
+ISSFortaleza           1 cidade  - Pronto para a RTC
+ISSIntel              21 cidades
+ISSLegal               9 cidades
+ISSMap                10 cidades
+ISSNatal               1 cidade  - Pronto para a RTC
+ISSNet                23 cidades - Pronto para a RTC (NotaControl)
+ISSSalvador            1 cidade
+ISSSaoPaulo            1 cidade  - Pronto para a RTC
+Kalana                 3 cidades
+MegaSoft             117 cidades
+MetropolisWeb          2 cidades
+ModernizacaoPublica    6 cidades - Pronto para a RTC
+NEAInformatica         2 cidades
+NFSeBrasil            24 cidades (Memory) 
+PadraoNacional      2137 cidades - Pronto para a RTC
+Prescon                1 cidade
+PriMax                 5 cidades - Pronto para a RTC
+Prodata                9 cidades
+Pronim               159 cidades - Pronto para a RTC
+Publica               16 cidades - Pronto para a RTC
+PublicSoft            23 cidades
+RLZ                    9 cidades - Pronto para a RTC
+Saatri                40 cidades
+SafeWeb                1 cidade
+Sam                    6 cidades - Pronto para a RTC
+SH3                   16 cidades
+Siappa                 1 cidade
+SigCorp                9 cidades - Pronto para a RTC
+Sigep                  9 cidades
+SigISS                 4 cidades - Pronto para a RTC
+SigISSWeb             11 cidades - Pronto para a RTC
+SilTecnologia          9 cidades - Pronto para a RTC
+SimplISS              22 cidades - Pronto para a RTC
+Sintese               62 cidades
+Sistemas4R             2 cidades
+SpeedGov              30 cidades - Pronto para a RTC
+SSInformatica          1 cidade
+Sudoeste               7 cidades
+SysISS                 5 cidades
+Tecnos                37 cidades
+Tinus                 37 cidades - Pronto para a RTC
+Tiplan                 7 cidades - Pronto para a RTC
+Tributus              73 cidades
+VersaTecnologia       14 cidades - Pronto para a RTC
+WebFisco               3 cidades - Pronto para a RTC
+WebISS                80 cidades - Pronto para a RTC
+XTRTecnologia          7 cidades
+
+
+Abaco               zero cidades
+ADPM                zero cidades
+AEG                 zero cidades
+BHISS               zero cidades
+Contass             zero cidades
+DeISS               zero cidades
+eISS                zero cidades
+geNFe               zero cidades
+GovBr               zero cidades
+Governa             zero cidades
+Isaneto             zero cidades
+ISSCambe            zero cidades
+ISSCuritiba         zero cidades
+ISSGoiania          zero cidades
+ISSJoinville        zero cidades
+ISSLencois          zero cidades
+ISSPortoVelho       zero cidades
+ISSRecife           zero cidades
+ISSRio              zero cidades
+ISSSJP              zero cidades
+ISSVitoria          zero cidades
+Lexsom              zero cidades
+Libre               zero cidades
+Link3               zero cidades
+Mitra               zero cidades
+NFEletronica        zero cidades
+NotaInteligente     zero cidades
+PRODAUB             zero cidades
+Siam                zero cidades
+SiapNet             zero cidades
+SiapSistemas        zero cidades
+Siat                zero cidades
+Simple              zero cidades
+SisPMJP             zero cidades
+SmarAPD             zero cidades
+Smart4              zero cidades (Ativ!)  
+SoftPlan            zero cidades
+SystemPro           zero cidades
+TcheInfo            zero cidades
+Thema               zero cidades
+Virtual             zero cidades

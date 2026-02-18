@@ -43,6 +43,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+18/02/2026
+-- ACBrNFSeXServicos --
+[*] Incluído as URLs dos demais serviços para as cidades atendidas pelo provedor RLZ.
+   Por: Italo Giurizzato Junior
+[*] Alterado as URLs da cidade Carlos Barbosa/RS, o provedor continua o mesmo.
+   Por: dna Automacao
+
 17/02/2026
 -- Diversos --
 [*] Para alguns métodos a função PrepararArquivoEnvio estava retornando uma string vazia.
