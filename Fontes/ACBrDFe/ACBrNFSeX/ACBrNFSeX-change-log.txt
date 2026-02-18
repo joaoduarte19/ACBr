@@ -51,6 +51,8 @@ Símbolo : Significado
 [*] Incluído a escrita e a leitura do campo CodigoNBS no arquivo INI.
    Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
+[*] ACBR-9011 - A cidade de Pantano Grande/RS mudou de provedor, agora é Pronim.
+   Por: Diego Folieni
 [*] ACBR-8913 - Altera o ProLinkURL para o município de Três Lagoas/MS
    Por: Sunny / Rev: Valter Patrick
 [+] ACBR-8914 - Adiciona ProLinkURL para o município de Castilho/SP
