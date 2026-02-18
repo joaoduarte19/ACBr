@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+18/02/2026
+-- ACBrBoletoW_Santander_API  --
+[-] Correção quando o EnvioAuxiliar ou EnvioComplementar receberem um json inválido
+   Por: Renato Rubinho
+
 12/02/2026
 -- ACBrBoletoW_BancoBrasil_API  --
 [*]Permitir enviar um boleto sem o nossoNumero para que o banco possa gerar o NN 

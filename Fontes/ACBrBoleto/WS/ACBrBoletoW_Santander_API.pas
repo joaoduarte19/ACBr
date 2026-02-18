@@ -867,11 +867,13 @@ begin
       Boleto.Configuracoes.WebService.Filtro.indicadorSituacao := isbNenhum;
       inherited Enviar;
 
-      if NaoEstaVazio(LEnvioPrincipal) then
-        LEnvioAuxiliar := ',';
-
       if ACBrUtil.FilesIO.StringIsJSON(FRetornoWS) then
+      begin
+        if NaoEstaVazio(LEnvioPrincipal) then
+          LEnvioAuxiliar := ',';
+
         LEnvioAuxiliar := LEnvioAuxiliar + FRetornoWS;
+      end;  
     finally
       Boleto.Cedente.CedenteWS.IndicadorPix := True;
     end;
@@ -887,11 +889,14 @@ begin
       Boleto.Configuracoes.WebService.Filtro.indicadorSituacao := isbBaixado;
       Result := inherited Enviar;
 
-      if NaoEstaVazio(LEnvioPrincipal) or NaoEstaVazio(LEnvioAuxiliar) then
-         LEnvioComplementar := ',';
-
       if ACBrUtil.FilesIO.StringIsJSON(FRetornoWS) then
+      begin
+        if NaoEstaVazio(LEnvioPrincipal) or NaoEstaVazio(LEnvioAuxiliar) then
+           LEnvioComplementar := ',';
+
         LEnvioComplementar := LEnvioComplementar + FRetornoWS;
+      end;
+        
       Boleto.Cedente.CedenteWS.IndicadorPix := true;
       Boleto.Configuracoes.WebService.Filtro.indicadorSituacao := isbNenhum;
     end;
