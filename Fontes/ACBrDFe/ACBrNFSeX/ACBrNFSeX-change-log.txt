@@ -74,6 +74,9 @@ Símbolo : Significado
 -- ACBrNFSeXDANFSeRLRetrato --
 [*] Ajuste no DANFSe para exibir Optante SN corretamente na impressão de xmls do padrão nacional - https://www.projetoacbr.com.br/forum/topic/90408-diverg%C3%AAncia-nas-informa%C3%A7%C3%B5es-impressas-no-site-prefeitura-x-rotina-acbr/
    Por: Renato Rubinho
+-- SigCorp.Provider --
+[*] Configurado provedor para preencher o motivo do cancelamento - https://www.projetoacbr.com.br/forum/topic/89881-erro-consulta-e-cancelamento-nfs-e-caraguatatubasp-sigcorp/
+   Por: Renato Rubinho
 
 17/02/2026
 -- Diversos --

@@ -487,6 +487,7 @@ begin
   with ConfigGeral do
   begin
     QuebradeLinha := '|';
+    CancPreencherMotivo := True;
     ConsultaPorFaixaPreencherNumNfseFinal := True;
   end;
 
