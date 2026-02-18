@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 18/02/2026
+-- ACBrNFSeXServicos --
+[*] Incluído o Params para a cidade Novo Progresso/PA.
+    https://www.projetoacbr.com.br/forum/topic/90196-erro-na-emiss%C3%A3o-de-nfse-novo-progresso-pa-tag-unidadegestora-n%C3%A3o-esta-sendo-preenchida/#comment-588505
+   Por: Matheus Klein
 -- PadraoNacional.LerXml --
 [*] Breve documentação sobre os enumerados de: tpRetPisCofins.
 -- PadraoNacional.Provider --
