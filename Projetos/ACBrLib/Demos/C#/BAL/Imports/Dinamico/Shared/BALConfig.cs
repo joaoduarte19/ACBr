@@ -4,13 +4,13 @@ using ACBrLib.Core.Config;
 
 namespace ACBrLib.BAL
 {
-    public sealed class BALConfig : ACBrLibConfig<ACBrBAL>
+    public sealed class BALConfig : ACBrLibConfig<IACBrLibBAL>
     {
         #region Constructors
 
-        public BALConfig(ACBrBAL acbrlib) : base(acbrlib, ACBrSessao.BAL)
+        public BALConfig(IACBrLibBAL acbrlib) : base(acbrlib, ACBrSessao.BAL)
         {
-            Device = new DeviceConfig<ACBrBAL>(acbrlib, ACBrSessao.BAL_Device);
+            Device = new DeviceConfig<IACBrLibBAL>(acbrlib, ACBrSessao.BAL_Device);
         }
 
         #endregion Constructors
@@ -59,7 +59,7 @@ namespace ACBrLib.BAL
             set => SetProperty(value);
         }
 
-        public DeviceConfig<ACBrBAL> Device { get; }
+        public DeviceConfig<IACBrLibBAL> Device { get; }
 
         #endregion Properties
     }

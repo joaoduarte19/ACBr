@@ -3,7 +3,7 @@ using ACBrLib.Core;
 
 namespace ACBrLib.BAL
 {
-    public sealed partial class ACBrBAL : ACBrLibHandle
+    public sealed partial class ACBrBAL : ACBrLibHandle, IACBrLibBAL
     {
         #region Constructors
 

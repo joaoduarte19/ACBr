@@ -5,21 +5,25 @@ using System.IO;
 
 namespace ACBrLib.BAL
 {
-    public sealed partial class ACBrBAL : ACBrLibHandle
+    public class ACBrBAL : ACBrLibBase, IACBrLibBAL
     {
+
+        private readonly ACBrBALHandle acbrBALBridge;
+        private bool disposed = false;
+        private IntPtr libHandle = IntPtr.Zero; 
         #region Constructors
 
-        public ACBrBAL(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrBAL64.dll" : "libacbrbal64.so",
-                                                                               IsWindows ? "ACBrBAL32.dll" : "libacbrbal32.so")
-        {
+        public ACBrBAL(string eArqConfig = "", string eChaveCrypt = "") :base(eArqConfig, eChaveCrypt)
+        {   
+            acbrBALBridge = ACBrBALHandle.Instance;
             Inicializar(eArqConfig, eChaveCrypt);
             Config = new BALConfig(this);
         }
 
         public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
         {
-            var inicializarLib = GetMethod<BAL_Inicializar>();
-            var ret = ExecuteMethod<int>(() => inicializarLib(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            var inicializarLib = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_Inicializar>();
+            var ret =acbrBALBridge.ExecuteMethod<int>(() => inicializarLib(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
             CheckResult(ret);
         }
 
@@ -27,37 +31,7 @@ namespace ACBrLib.BAL
 
         #region Properties
 
-        public string Nome
-        {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
-
-                var method = GetMethod<BAL_Nome>();
-                var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
-
-                CheckResult(ret);
-
-                return ProcessResult(buffer, bufferLen);
-            }
-        }
-
-        public string Versao
-        {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
-
-                var method = GetMethod<BAL_Versao>();
-                var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
-
-                CheckResult(ret);
-
-                return ProcessResult(buffer, bufferLen);
-            }
-        }
+      
 
         public BALConfig Config { get; }
 
@@ -69,30 +43,24 @@ namespace ACBrLib.BAL
 
         public override void ConfigGravar(string eArqConfig = "")
         {
-            var gravarIni = GetMethod<BAL_ConfigGravar>();
-            var ret = ExecuteMethod(() => gravarIni(libHandle, ToUTF8(eArqConfig)));
+            var gravarIni = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_ConfigGravar>();
+            var ret =acbrBALBridge.ExecuteMethod(() => gravarIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
         public override void ConfigLer(string eArqConfig = "")
         {
-            var lerIni = GetMethod<BAL_ConfigLer>();
-            var ret = ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
+            var lerIni = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_ConfigLer>();
+            var ret =acbrBALBridge.ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
         public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
         {
-            var method = GetMethod<BAL_ConfigLerValor>();
-
-            var bufferLen = BUFFER_LEN;
-            var pValue = new StringBuilder(bufferLen);
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), pValue, ref bufferLen));
-            CheckResult(ret);
-
-            var value = ProcessResult(pValue, bufferLen);
+         
+            var value = ConfigLerValor(eSessao.ToString(), eChave);
             return ConvertValue<T>(value);
         }
 
@@ -100,17 +68,14 @@ namespace ACBrLib.BAL
         {
             if (value == null) return;
 
-            var method = GetMethod<BAL_ConfigGravarValor>();
-            var propValue = ConvertValue(value);
-
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), ToUTF8(propValue)));
-            CheckResult(ret);
+            string valor = ConvertValue(value);
+            ConfigGravarValor(eSessao.ToString(), eChave, valor);
         }
 
         public override void ImportarConfig(string eArqConfig = "")
         {
-            var importarConfig = GetMethod<BAL_ConfigImportar>();
-            var ret = ExecuteMethod(() => importarConfig(libHandle, ToUTF8(eArqConfig)));
+            var importarConfig = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_ConfigImportar>();
+            var ret =acbrBALBridge.ExecuteMethod(() => importarConfig(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
@@ -120,28 +85,28 @@ namespace ACBrLib.BAL
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<BAL_ConfigExportar>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_ConfigExportar>();
+            var ret =acbrBALBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         #endregion Ini
 
         public void Ativar()
         {
-            var method = GetMethod<BAL_Ativar>();
-            var ret = ExecuteMethod(() => method(libHandle));
+            var method = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_Ativar>();
+            var ret =acbrBALBridge.ExecuteMethod(() => method(libHandle));
 
             CheckResult(ret);
         }
 
         public void Desativar()
         {
-            var method = GetMethod<BAL_Desativar>();
-            var ret = ExecuteMethod(() => method(libHandle));
+            var method = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_Desativar>();
+            var ret =acbrBALBridge.ExecuteMethod(() => method(libHandle));
 
             CheckResult(ret);
         }
@@ -149,8 +114,8 @@ namespace ACBrLib.BAL
         public decimal LePeso(int MillisecTimeOut = 1000)
         {
             var peso = 0D;
-            var method = GetMethod<BAL_LePeso>();
-            var ret = ExecuteMethod(() => method(libHandle, MillisecTimeOut, ref peso));
+            var method = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_LePeso>();
+            var ret =acbrBALBridge.ExecuteMethod(() => method(libHandle, MillisecTimeOut, ref peso));
 
             CheckResult(ret);
 
@@ -159,8 +124,8 @@ namespace ACBrLib.BAL
 
         public void SolicitarPeso()
         {
-            var method = GetMethod<BAL_SolicitarPeso>();
-            var ret = ExecuteMethod(() => method(libHandle));
+            var method = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_SolicitarPeso>();
+            var ret =acbrBALBridge.ExecuteMethod(() => method(libHandle));
 
             CheckResult(ret);
         }
@@ -168,8 +133,8 @@ namespace ACBrLib.BAL
         public decimal UltimoPesoLido()
         {
             var peso = 0D;
-            var method = GetMethod<BAL_UltimoPesoLido>();
-            var ret = ExecuteMethod(() => method(libHandle, ref peso));
+            var method = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_UltimoPesoLido>();
+            var ret =acbrBALBridge.ExecuteMethod(() => method(libHandle, ref peso));
 
             CheckResult(ret);
 
@@ -179,8 +144,8 @@ namespace ACBrLib.BAL
         public decimal InterpretarRespostaPeso(string resposta)
         {
             var peso = 0D;
-            var method = GetMethod<BAL_InterpretarRespostaPeso>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(resposta), ref peso));
+            var method = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_InterpretarRespostaPeso>();
+            var ret =acbrBALBridge.ExecuteMethod(() => method(libHandle, ToUTF8(resposta), ref peso));
 
             CheckResult(ret);
 
@@ -191,8 +156,8 @@ namespace ACBrLib.BAL
 
         public override void Finalizar()
         {
-            var finalizarLib = GetMethod<BAL_Finalizar>();
-            var ret = ExecuteMethod(() => finalizarLib(libHandle));
+            var finalizarLib = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_Finalizar>();
+            var ret =acbrBALBridge.ExecuteMethod(() => finalizarLib(libHandle));
             CheckResult(ret);
             libHandle = IntPtr.Zero;
         }
@@ -201,17 +166,17 @@ namespace ACBrLib.BAL
         {
             var bufferLen = iniBufferLen < 1 ? BUFFER_LEN : iniBufferLen;
             var buffer = new StringBuilder(bufferLen);
-            var ultimoRetorno = GetMethod<BAL_UltimoRetorno>();
+            var ultimoRetorno = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_UltimoRetorno>();
 
             if (iniBufferLen < 1)
             {
-                ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
+               acbrBALBridge.ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
                 if (bufferLen <= BUFFER_LEN) return FromUTF8(buffer);
 
                 buffer.Capacity = bufferLen;
             }
 
-            ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
+           acbrBALBridge.ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
             return FromUTF8(buffer);
         }
 
@@ -223,12 +188,73 @@ namespace ACBrLib.BAL
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<BAL_OpenSSLInfo>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_OpenSSLInfo>();
+            var ret =acbrBALBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
+        }
+
+        public override string ConfigLerValor(string eSessao, string eChave)
+        {
+            var method = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_ConfigLerValor>();
+
+            var bufferLen = BUFFER_LEN;
+            var pValue = new StringBuilder(bufferLen);
+            var ret = acbrBALBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao), ToUTF8(eChave), pValue, ref bufferLen));
+            CheckResult(ret);
+
+            return CheckBuffer(pValue, bufferLen);
+        }
+
+        public override void ConfigGravarValor(string eSessao, string eChave, string eValor)
+        {
+            var method = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_ConfigGravarValor>();
+            var ret = acbrBALBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), ToUTF8(eValor)));
+            CheckResult(ret);
+        }
+
+        public override string Versao()
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_Versao>();
+            var ret = acbrBALBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return CheckBuffer(buffer, bufferLen);
+        }
+
+        public override string Nome()
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_Nome>();
+            var ret = acbrBALBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return CheckBuffer(buffer, bufferLen);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (disposed) return;
+            if (disposing)
+            {
+               Finalizar();
+            }
+            disposed = true;
         }
 
 

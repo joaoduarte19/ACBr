@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using ACBrLib.Core;
 
 namespace ACBrLib.BAL
 {
-    public sealed partial class ACBrBAL
+    internal sealed class ACBrBALHandle : ACBrLibHandleBase
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int BAL_Inicializar(ref IntPtr handle, string eArqConfig, string eChaveCrypt);
@@ -82,5 +83,16 @@ namespace ACBrLib.BAL
             AddMethod<BAL_InterpretarRespostaPeso>("BAL_InterpretarRespostaPeso");
             AddMethod<BAL_OpenSSLInfo>("BAL_OpenSSLInfo");
         }
+
+        protected override string GetLibraryName()
+        {
+            var arch = Environment.Is64BitProcess ? "64" : "32";
+            if (PlatformID.Unix == Environment.OSVersion.Platform)
+                return $"libacbrbal{arch}.so";
+            return $"ACBrBAL{arch}.dll";
+        }
+
+        static readonly Lazy<ACBrBALHandle> _instance = new Lazy<ACBrBALHandle>(() => new ACBrBALHandle()); 
+        static public ACBrBALHandle Instance => _instance.Value;        
     }
 }

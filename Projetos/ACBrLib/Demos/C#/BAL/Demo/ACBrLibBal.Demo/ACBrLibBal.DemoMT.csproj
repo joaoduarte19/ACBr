@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>ACBrLibBal.Demo</RootNamespace>
     <AssemblyName>ACBrLibBal.Demo</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\MT\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,7 +26,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\MT\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -85,11 +85,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\ACBrLib.Core\ACBrLib.Core.csproj">
-      <Project>{9b79e20d-34e2-4442-886c-242ac657e3ac}</Project>
       <Name>ACBrLib.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Imports\Dinamico\MT\ACBrLib.BALMT.csproj">
-      <Project>{3989a535-1e78-4e45-b3ae-47335ea6a359}</Project>
+    
       <Name>ACBrLib.BALMT</Name>
     </ProjectReference>
   </ItemGroup>
