@@ -69,6 +69,9 @@ Símbolo : Significado
    Por: Italo Giurizzato Junior
 [*] Alterado as URLs da cidade Carlos Barbosa/RS, o provedor continua o mesmo.
    Por: dna Automacao
+-- ACBrNFSeXDANFSeRLRetrato --
+[*] Ajuste no DANFSe para exibir Optante SN corretamente na impressão de xmls do padrão nacional - https://www.projetoacbr.com.br/forum/topic/90408-diverg%C3%AAncia-nas-informa%C3%A7%C3%B5es-impressas-no-site-prefeitura-x-rotina-acbr/
+   Por: Renato Rubinho
 
 17/02/2026
 -- Diversos --
