@@ -73,14 +73,12 @@ type
     procedure TratarRetornoConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
   end;
 
-  TACBrNFSeXWebserviceABaseAPIPropria = class(TACBrNFSeXWebserviceRest)
+  TACBrNFSeXWebserviceABaseAPIPropria = class(TACBrNFSeXWebservicePadraoNacional)
   protected
     procedure SetHeaders(aHeaderReq: THTTPHeader); override;
 
   public
-    function GerarNFSe(const ACabecalho, AMSG: string): string; override;
     function ConsultarLote(const ACabecalho, AMSG: String): string; override;
-    function ConsultarNFSePorChave(const ACabecalho, AMSG: string): string; override;
 
     // Cancelamento sendo implementado pelo provedor
 
@@ -112,8 +110,8 @@ type
     procedure PrepararConsultaLoteRps(Response: TNFSeConsultaLoteRpsResponse); override;
     procedure TratarRetornoConsultaLoteRps(Response: TNFSeConsultaLoteRpsResponse); override;
 
-    procedure PrepararConsultaNFSeporChave(Response: TNFSeConsultaNFSeResponse); override;
-    procedure TratarRetornoConsultaNFSeporChave(Response: TNFSeConsultaNFSeResponse); override;
+    procedure PrepararConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
+    procedure TratarRetornoConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
 
     // Cancelamento sendo implementado pelo provedor
   end;
@@ -430,16 +428,21 @@ end;
 function TACBrNFSeProviderABaseAPIPropria.CriarServiceClient(
   const AMetodo: TMetodo): TACBrNFSeXWebservice;
 var
-  URL: string;
+  URL, AMimeType: string;
 begin
   URL := GetWebServiceURL(AMetodo);
+
+  if AMetodo in [tmGerar, tmEnviarEvento] then
+    AMimeType := 'application/xml; charset=utf-8'
+  else
+    AMimeType := 'application/json';
 
   if URL <> '' then
   begin
     URL := URL + Path;
 
     Result := TACBrNFSeXWebserviceABaseAPIPropria.Create(FAOwner, AMetodo, URL,
-      Method, 'application/xml');
+      Method, AMimeType);
   end
   else
   begin
@@ -690,16 +693,16 @@ begin
   end;
 end;
 
-procedure TACBrNFSeProviderABaseAPIPropria.PrepararConsultaNFSeporChave(
-  Response: TNFSeConsultaNFSeResponse);
+procedure TACBrNFSeProviderABaseAPIPropria.PrepararConsultaNFSeporRps(
+  Response: TNFSeConsultaNFSeporRpsResponse);
 var
   AErro: TNFSeEventoCollectionItem;
 begin
   if EstaVazio(Response.NumeroRps) then
   begin
     AErro := Response.Erros.New;
-    AErro.Codigo := Cod126;
-    AErro.Descricao := ACBrStr(Desc126);
+    AErro.Codigo := Cod102;
+    AErro.Descricao := ACBrStr(Desc102);
     Exit;
   end;
 
@@ -708,8 +711,8 @@ begin
   Method := 'GET';
 end;
 
-procedure TACBrNFSeProviderABaseAPIPropria.TratarRetornoConsultaNFSeporChave(
-  Response: TNFSeConsultaNFSeResponse);
+procedure TACBrNFSeProviderABaseAPIPropria.TratarRetornoConsultaNFSeporRps(
+  Response: TNFSeConsultaNFSeporRpsResponse);
 var
   Document: TACBrXmlDocument;
   AErro: TNFSeEventoCollectionItem;
@@ -796,32 +799,8 @@ end;
 
 { TACBrNFSeXWebserviceABaseAPIPropria }
 
-function TACBrNFSeXWebserviceABaseAPIPropria.GerarNFSe(const ACabecalho,
-  AMSG: string): string;
-var
-  Request: string;
-begin
-  FPMsgOrig := AMSG;
-
-  Request := AMSG;
-
-  Result := Executar('', Request, [], []);
-end;
-
 function TACBrNFSeXWebserviceABaseAPIPropria.ConsultarLote(const ACabecalho,
   AMSG: String): string;
-var
-  Request: string;
-begin
-  FPMsgOrig := AMSG;
-
-  Request := AMSG;
-
-  Result := Executar('', Request, [], []);
-end;
-
-function TACBrNFSeXWebserviceABaseAPIPropria.ConsultarNFSePorChave(
-  const ACabecalho, AMSG: string): string;
 var
   Request: string;
 begin
@@ -848,7 +827,7 @@ function TACBrNFSeXWebserviceABaseAPIPropria.TratarXmlRetornado(
 var
   aMsg: string;
 begin
-  Result := inherited TratarXmlRetornado(aXML);
+  Result := GetSoapBody(aXML);
 
   Result := RemoverCaracteresDesnecessarios(Result);
   Result := ParseText(Result);

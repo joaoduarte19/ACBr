@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 18/02/2026
+-- ACBrNFSeXConsts/ABase.Provider --
+[*] Ajustes para consumir os serviços disponibilizados pela API do Padrão Nacional.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] Incluído as URLs de homologação e de produção para acessar os serviços da API do Padrão Nacional
     para as cidades atendidas pelo provedor ABase

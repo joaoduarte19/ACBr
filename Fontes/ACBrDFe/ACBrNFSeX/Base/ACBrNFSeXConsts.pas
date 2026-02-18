@@ -190,7 +190,7 @@ resourcestring
   Cod101 = 'X101';
   Desc101 = 'Número do Protocolo não informado.';
   Cod102 = 'X102';
-  Desc102 = 'Número do RPS não informado.';
+  Desc102 = 'Número do RPS/DPS não informado.';
   Cod103 = 'X103';
   Desc103 = 'Série do Rps não informada.';
   Cod104 = 'X104';
