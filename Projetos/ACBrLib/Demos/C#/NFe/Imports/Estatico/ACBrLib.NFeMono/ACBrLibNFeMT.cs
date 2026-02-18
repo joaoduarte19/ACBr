@@ -142,13 +142,8 @@ public class ACBrLibNFeMT : ACBrLibBase, IACBrLibNFe
 
     public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
     {
-        var bufferLen = BUFFER_LEN;
-        var pValue = new StringBuilder(bufferLen);
-        var ret = ACBrLibNFeBridgeMT.NFE_ConfigLerValor(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), pValue, ref bufferLen);
-        CheckResult(ret);
-
-        var value = CheckBuffer(pValue, bufferLen);
-        return ConvertValue<T>(value);
+        var valorStr = ConfigLerValor(eSessao.ToString(), eChave);
+        return ConvertValue<T>(valorStr);
     }
 
     public override void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value)
@@ -156,9 +151,7 @@ public class ACBrLibNFeMT : ACBrLibBase, IACBrLibNFe
         if (value == null) return;
 
         var propValue = ConvertValue(value);
-
-        var ret = ACBrLibNFeBridgeMT.NFE_ConfigGravarValor(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), ToUTF8(propValue));
-        CheckResult(ret);
+        ConfigGravarValor(eSessao.ToString(), eChave, propValue);
     }
 
     /// <summary>
