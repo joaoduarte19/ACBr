@@ -4,10 +4,11 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using ACBrLib.Core;
 
 namespace ACBrLib.PosPrinter
 {
-    public sealed partial class ACBrPosPrinter
+    internal sealed class ACBrPosPrinterHandle : ACBrLibHandleBase
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int POS_Inicializar(ref IntPtr handle, string eArqConfig, string eChaveCrypt);
@@ -173,5 +174,22 @@ namespace ACBrLib.PosPrinter
             AddMethod<POS_LerCaracteristicas>("POS_LerCaracteristicas");
             AddMethod<POS_OpenSSLInfo>("POS_OpenSSLInfo");
         }
+
+        protected override string GetLibraryName()
+        {
+            var arch = Environment.Is64BitProcess ? "64" : "32";
+            if (PlatformID.Unix == Environment.OSVersion.Platform)
+                return $"libacbrposprinter{arch}.so";
+
+
+            return $"ACBrPosPrinter{arch}.dll";
+        }
+
+
+        //singleton dessa classe, para garantir que apenas uma instância do handle seja criada durante a execução do programa
+        private static readonly Lazy<ACBrPosPrinterHandle> instance = new Lazy<ACBrPosPrinterHandle>(() => new ACBrPosPrinterHandle());
+        public static ACBrPosPrinterHandle Instance => instance.Value;
+
+
     }
 }

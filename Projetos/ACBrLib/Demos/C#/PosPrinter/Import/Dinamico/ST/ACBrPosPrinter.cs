@@ -9,7 +9,7 @@ using ACBrLib.Core.PosPrinter;
 namespace ACBrLib.PosPrinter
 {
     /// <inheritdoc />
-    public sealed partial class ACBrPosPrinter : ACBrLibHandle
+    public sealed partial class ACBrPosPrinter : ACBrLibHandle, IACBrLibPosPrinter
     {
         #region Constructors
 
@@ -165,7 +165,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
-        public void Inicializar()
+        public void InicializarPos()
         {
             var method = GetMethod<POS_InicializarPos>();
             var ret = ExecuteMethod(() => method());

@@ -52,6 +52,7 @@
 
   <ItemGroup>
     <Compile Include="..\Shared\PosPrinterConfig.cs" Link="PosPrinterConfig.cs" />
+    <Compile Include="..\Shared\IACBrLibPosPrinter.cs" Link="IACBrLibPosPrinter.cs" />
   </ItemGroup>
 
   <ItemGroup>

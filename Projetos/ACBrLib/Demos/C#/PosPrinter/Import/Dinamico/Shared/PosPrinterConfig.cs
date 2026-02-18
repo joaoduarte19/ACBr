@@ -4,35 +4,35 @@ using ACBrLib.Core.PosPrinter;
 
 namespace ACBrLib.PosPrinter
 {
-    public sealed class PosPrinterConfig : ACBrLibConfig<ACBrPosPrinter>
+    public sealed class PosPrinterConfig : ACBrLibConfig<IACBrLibPosPrinter>
     {
         #region Constructors
 
-        public PosPrinterConfig(ACBrPosPrinter acbrlib) : base(acbrlib, ACBrSessao.PosPrinter)
+        public PosPrinterConfig(IACBrLibPosPrinter acbrlib) : base(acbrlib, ACBrSessao.PosPrinter)
         {
-            BarrasConfig = new PosPrinterBarrasConfig<ACBrPosPrinter>(acbrlib);
-            QrCodeConfig = new PosPrinterQRCodeConfig<ACBrPosPrinter>(acbrlib);
-            LogoConfig = new PosPrinterLogoConfig<ACBrPosPrinter>(acbrlib);
-            GavetaConfig = new PosPrinterGavetaConfig<ACBrPosPrinter>(acbrlib);
-            MPaginaConfig = new PosPrinterMPaginaConfig<ACBrPosPrinter>(acbrlib);
-            Device = new DeviceConfig<ACBrPosPrinter>(acbrlib, ACBrSessao.PosPrinter_Device);
+            BarrasConfig = new PosPrinterBarrasConfig<IACBrLibPosPrinter>(acbrlib);
+            QrCodeConfig = new PosPrinterQRCodeConfig<IACBrLibPosPrinter>(acbrlib);
+            LogoConfig = new PosPrinterLogoConfig<IACBrLibPosPrinter>(acbrlib);
+            GavetaConfig = new PosPrinterGavetaConfig<IACBrLibPosPrinter>(acbrlib);
+            MPaginaConfig = new PosPrinterMPaginaConfig<IACBrLibPosPrinter>(acbrlib);
+            Device = new DeviceConfig<IACBrLibPosPrinter>(acbrlib, ACBrSessao.PosPrinter_Device);
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public PosPrinterBarrasConfig<ACBrPosPrinter> BarrasConfig { get; }
+        public PosPrinterBarrasConfig<IACBrLibPosPrinter> BarrasConfig { get; }
+                
+        public PosPrinterQRCodeConfig<IACBrLibPosPrinter> QrCodeConfig { get; }
 
-        public PosPrinterQRCodeConfig<ACBrPosPrinter> QrCodeConfig { get; }
+        public PosPrinterLogoConfig<IACBrLibPosPrinter> LogoConfig { get; }
 
-        public PosPrinterLogoConfig<ACBrPosPrinter> LogoConfig { get; }
+        public PosPrinterGavetaConfig<IACBrLibPosPrinter> GavetaConfig { get; }
 
-        public PosPrinterGavetaConfig<ACBrPosPrinter> GavetaConfig { get; }
+        public PosPrinterMPaginaConfig<IACBrLibPosPrinter> MPaginaConfig { get; }
 
-        public PosPrinterMPaginaConfig<ACBrPosPrinter> MPaginaConfig { get; }
-
-        public DeviceConfig<ACBrPosPrinter> Device { get; }
+        public DeviceConfig<IACBrLibPosPrinter> Device { get; }
 
         public string ArqLog
         {

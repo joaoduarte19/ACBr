@@ -13,7 +13,7 @@ namespace ACBrLibPosPrinter.Demo
     {
         #region Fields
 
-        public ACBrPosPrinter PosPrinter { get; set; }
+        public IACBrLibPosPrinter PosPrinter { get; set; }
 
         #endregion Fields
 
