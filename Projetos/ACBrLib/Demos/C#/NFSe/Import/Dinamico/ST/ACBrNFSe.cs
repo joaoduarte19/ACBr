@@ -318,7 +318,7 @@ namespace ACBrLib.NFSe
             return ProcessResult(buffer, bufferLen);
         }
 
-        public void GerarToken()
+        public string GerarToken()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
@@ -327,6 +327,8 @@ namespace ACBrLib.NFSe
             var ret = ExecuteMethod(() => method(buffer, ref bufferLen));
 
             CheckResult(ret);
+
+            return ProcessResult(buffer, bufferLen);
         }
 
         public string ConsultarSituacao(string aProtocolo, string aNumeroLote)

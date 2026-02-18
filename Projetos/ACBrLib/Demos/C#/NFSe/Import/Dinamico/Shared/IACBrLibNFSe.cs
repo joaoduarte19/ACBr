@@ -7,7 +7,7 @@ namespace ACBrLib.NFSe
 {
 
     /// <summary>
-    /// Interface IACBrLibNFSe, responsável por definir os métodos e propriedades para a emissão de Notas Fiscais de Serviço Eletrônicas (NFSe) utilizando a biblioteca ACBrLib.
+    /// Interface IACBrLibNFSe, responsï¿½vel por definir os mï¿½todos e propriedades para a emissï¿½o de Notas Fiscais de Serviï¿½o Eletrï¿½nicas (NFSe) utilizando a biblioteca ACBrLib.
     /// </summary>
     public interface IACBrLibNFSe : IACBrLibBase, IDisposable
        {
@@ -27,7 +27,7 @@ namespace ACBrLib.NFSe
               string SubstituirNFSe(string aNumeroNFSe, string aSerieNFSe, string aCodigoCancelamento, string aMotivoCancelamento, string aNumeroLote, string aCodigoVerificacao);
               string LinkNFSe(string aNumeroNFSe, string aCodigoVerificacao, string aChaveAcesso, string aValorServico);
               string GerarLote(string aLote, int aQtdMaximaRps, int aModoEnvio);
-              void GerarToken();
+              string GerarToken();
               string ConsultarSituacao(string aProtocolo, string aNumeroLote);
               string ConsultarLoteRps(string aProcotolo, string aNumLote);
               string ConsultarNFSePorRps(string aNumeroRps, string aSerie, string aTipo, string aCodigoVerificacao);
