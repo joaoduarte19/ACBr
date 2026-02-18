@@ -861,6 +861,7 @@ begin
   AINIRec.WriteInteger(sSecao, 'MunicipioIncidencia', NFSe.Servico.MunicipioIncidencia);
   AINIRec.WriteString(sSecao, 'NumeroProcesso', NFSe.Servico.NumeroProcesso);
   AINIRec.WriteString(sSecao, 'ResponsavelRetencao', FpAOwner.ResponsavelRetencaoToStr(NFSe.Servico.ResponsavelRetencao));
+  AINIRec.WriteString(sSecao, 'CodigoNBS', NFSe.Servico.CodigoNBS);
 
   if NFSe.tpXML = txmlNFSe then
   begin
