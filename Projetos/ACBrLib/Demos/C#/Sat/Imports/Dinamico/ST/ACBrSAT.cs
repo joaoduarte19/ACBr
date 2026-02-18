@@ -5,6 +5,7 @@ using ACBrLib.Core;
 
 namespace ACBrLib.Sat
 {
+    [Obsolete("Desde 01/01/2026, O SAT foi descontinuado pela SEFAZ, além de não atender a RTC (Reforma Tributária), utilize a classe ACBrNFe.")]
     public sealed partial class ACBrSat : ACBrLibHandle
     {
         #region Constructors
