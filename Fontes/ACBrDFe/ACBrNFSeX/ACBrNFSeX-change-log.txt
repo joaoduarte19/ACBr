@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 18/02/2026
+-- ACBrNFSeXServicos --
+[*] Incluído as URLs de homologação e de produção para acessar os serviços da API do Padrão Nacional
+    para as cidades atendidas pelo provedor ABase
+   Por: Italo Giurizzato Junior
 -- ISSIntel.GravarXml --
 [*] ACBR-8964 - Adiciona CodigoServicoNacional no grupo serviço conforme novos schemas.
    Por: Valter Patrick
