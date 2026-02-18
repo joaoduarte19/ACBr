@@ -5,11 +5,11 @@ using ACBrLib.Core.PIXCD;
 
 namespace ACBrLib.PIXCD
 {
-    public sealed class InterConfig : ACBrLibDFeConfig<ACBrPIXCD>
+    public sealed class InterConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
     {
         #region Constructors
 
-        public InterConfig(ACBrPIXCD acbrlib) : base(acbrlib, ACBrSessao.Inter)
+        public InterConfig(IACBrLibPIXCD acbrlib) : base(acbrlib, ACBrSessao.Inter)
         {
 
         }

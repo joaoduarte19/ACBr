@@ -9,7 +9,7 @@ using ACBrLib.Core;
 namespace ACBrLib.PIXCD
 {
     /// <inheritdoc />
-    public sealed partial class ACBrPIXCD : ACBrLibHandle
+    public sealed partial class ACBrPIXCD : ACBrLibHandle, IACBrLibPIXCD
     {
         #region Constructors
 

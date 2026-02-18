@@ -5,11 +5,11 @@ using ACBrLib.Core.PIXCD;
 
 namespace ACBrLib.PIXCD
 {
-    public sealed class ItauConfig : ACBrLibDFeConfig<ACBrPIXCD>
+    public sealed class ItauConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
     {
         #region Constructors
 
-        public ItauConfig(ACBrPIXCD acbrlib) : base(acbrlib, ACBrSessao.Itau)
+        public ItauConfig(IACBrLibPIXCD acbrlib) : base(acbrlib, ACBrSessao.Itau)
         {
 
         }

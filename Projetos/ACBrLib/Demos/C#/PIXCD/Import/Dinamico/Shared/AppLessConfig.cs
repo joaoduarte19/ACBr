@@ -5,11 +5,11 @@ using ACBrLib.Core.PIXCD;
 
 namespace ACBrLib.PIXCD
 {
-    public sealed class AppLessConfig : ACBrLibDFeConfig<ACBrPIXCD>
+    public sealed class AppLessConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
     {
         #region Constructors
 
-        public AppLessConfig(ACBrPIXCD acbrlib) : base(acbrlib, ACBrSessao.AppLess)
+        public AppLessConfig(IACBrLibPIXCD acbrlib) : base(acbrlib, ACBrSessao.AppLess)
         {
 
         }

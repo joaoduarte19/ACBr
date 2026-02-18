@@ -68,6 +68,7 @@
 		<Compile Include="..\Shared\C6BankConfig.cs" Link="C6BankConfig.cs" />
 		<Compile Include="..\Shared\AppLessConfig.cs" Link="AppLessConfig.cs" />
 		<Compile Include="..\Shared\ACBrPIXCDConfig.cs" Link="ACBrPIXCDConfig.cs" />
+    <Compile Include="..\Shared\IACBrLibPIXCD.cs" Link="IACBrLibPIXCD.cs" />
 	</ItemGroup>
 	
   <ItemGroup>

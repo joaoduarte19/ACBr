@@ -5,11 +5,11 @@ using ACBrLib.Core.PIXCD;
 
 namespace ACBrLib.PIXCD
 {
-    public sealed class ShipayConfig : ACBrLibDFeConfig<ACBrPIXCD>
+    public sealed class ShipayConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
     {
         #region Constructors
 
-        public ShipayConfig(ACBrPIXCD acbrlib) : base(acbrlib, ACBrSessao.Shipay)
+        public ShipayConfig(IACBrLibPIXCD acbrlib) : base(acbrlib, ACBrSessao.Shipay)
         {
 
         }

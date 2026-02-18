@@ -5,11 +5,11 @@ using ACBrLib.Core.PIXCD;
 
 namespace ACBrLib.PIXCD
 {
-    public sealed class CieloConfig : ACBrLibDFeConfig<ACBrPIXCD>
+    public sealed class CieloConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
     {
         #region Constructors
 
-        public CieloConfig(ACBrPIXCD acbrlib) : base(acbrlib, ACBrSessao.Cielo)
+        public CieloConfig(IACBrLibPIXCD acbrlib) : base(acbrlib, ACBrSessao.Cielo)
         {
 
         }

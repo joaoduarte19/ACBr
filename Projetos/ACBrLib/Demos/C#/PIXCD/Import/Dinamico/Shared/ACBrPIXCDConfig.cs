@@ -5,11 +5,11 @@ using ACBrLib.Core.PIXCD;
 
 namespace ACBrLib.PIXCD
 {
-    public sealed class ACBrPIXCDConfig : ACBrLibDFeConfig<ACBrPIXCD>
+    public sealed class ACBrPIXCDConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
     {
         #region Constructors
 
-        public ACBrPIXCDConfig(ACBrPIXCD acbrlib) : base(acbrlib, ACBrSessao.PIXCD)
+        public ACBrPIXCDConfig(IACBrLibPIXCD acbrlib) : base(acbrlib, ACBrSessao.PIXCD)
         {
             Bradesco = new BradescoConfig(acbrlib);
             Sicredi = new SicrediConfig(acbrlib);

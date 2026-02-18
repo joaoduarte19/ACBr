@@ -9,21 +9,26 @@ using ACBrLib.Core;
 namespace ACBrLib.PIXCD
 {
     /// <inheritdoc />
-    public sealed partial class ACBrPIXCD : ACBrLibHandle
+    public class ACBrPIXCD : ACBrLibBase, IACBrLibPIXCD
     {
-        #region Constructors
+        #region fields
+        private IntPtr libHandle = IntPtr.Zero;
+        private bool disposed = false;
+        private readonly ACBrPIXCDHandle acbrPIXCDBridge;
+        #endregion
 
-        public ACBrPIXCD(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrPIXCD64.dll" : "libacbrpixcd64.so",
-                                                                                      IsWindows ? "ACBrPIXCD32.dll" : "libacbrpixcd32.so")
+        #region Constructors
+        public ACBrPIXCD(string eArqConfig = "", string eChaveCrypt = "") : base(eArqConfig, eChaveCrypt)
         {
+            acbrPIXCDBridge = ACBrPIXCDHandle.Instance;
             Inicializar(eArqConfig, eChaveCrypt);
             Config = new ACBrPIXCDConfig(this);
         }
 
         public override void Inicializar(string eArqConfig, string eChaveCrypt)
         {
-            var inicializar = GetMethod<PIXCD_Inicializar>();
-            var ret = ExecuteMethod(() => inicializar(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            var inicializar = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_Inicializar>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => inicializar(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
             CheckResult(ret);
 
         }
@@ -32,37 +37,6 @@ namespace ACBrLib.PIXCD
 
         #region Properties
 
-        public string Nome
-        {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
-
-                var method = GetMethod<PIXCD_Nome>();
-                var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
-
-                CheckResult(ret);
-
-                return ProcessResult(buffer, bufferLen);
-            }
-        }
-
-        public string Versao
-        {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
-
-                var method = GetMethod<PIXCD_Versao>();
-                var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
-
-                CheckResult(ret);
-
-                return ProcessResult(buffer, bufferLen);
-            }
-        }
 
         public ACBrPIXCDConfig Config { get; }
 
@@ -74,16 +48,16 @@ namespace ACBrLib.PIXCD
 
         public override void ConfigGravar(string eArqConfig = "")
         {
-            var gravarIni = GetMethod<PIXCD_ConfigGravar>();
-            var ret = ExecuteMethod(() => gravarIni(libHandle, ToUTF8(eArqConfig)));
+            var gravarIni = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_ConfigGravar>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => gravarIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
         public override void ImportarConfig(string eArqConfig)
         {
-            var lerIni = GetMethod<PIXCD_ConfigImportar>();
-            var ret = ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
+            var lerIni = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_ConfigImportar>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
@@ -93,44 +67,33 @@ namespace ACBrLib.PIXCD
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<PIXCD_ConfigExportar>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_ConfigExportar>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         public override void ConfigLer(string eArqConfig = "")
         {
-            var lerIni = GetMethod<PIXCD_ConfigLer>();
-            var ret = ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
+            var lerIni = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_ConfigLer>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
         public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
         {
-            var method = GetMethod<PIXCD_ConfigLerValor>();
-
-            var bufferLen = BUFFER_LEN;
-            var pValue = new StringBuilder(bufferLen);
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), pValue, ref bufferLen));
-            CheckResult(ret);
-
-            var value = ProcessResult(pValue, bufferLen);
+            var value = ConfigLerValor(eSessao.ToString(), eChave);
             return ConvertValue<T>(value);
         }
 
         public override void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value)
         {
             if (value == null) return;
-
-            var method = GetMethod<PIXCD_ConfigGravarValor>();
-            var propValue = ConvertValue(value);
-
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), ToUTF8(propValue)));
-            CheckResult(ret);
+            var sValor = ConvertValue(value);
+            ConfigGravarValor(eSessao.ToString(), eChave, sValor);
         }
 
         #endregion Ini
@@ -142,12 +105,12 @@ namespace ACBrLib.PIXCD
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<PIXCD_GerarQRCodeEstatico>();
-            var ret = ExecuteMethod(() => method(libHandle, AValor, ToUTF8(AinfoAdicional), ToUTF8(ATxID), buffer, ref bufferLen));
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_GerarQRCodeEstatico>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, AValor, ToUTF8(AinfoAdicional), ToUTF8(ATxID), buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         public string ConsultarPix(string Ae2eid)
@@ -155,12 +118,12 @@ namespace ACBrLib.PIXCD
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<PIXCD_ConsultarPix>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(Ae2eid), buffer, ref bufferLen));
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_ConsultarPix>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, ToUTF8(Ae2eid), buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         public string ConsultarPixRecebidos(DateTime ADataInicio, DateTime ADataFim, string ATxId, string ACpfCnpj, int PagAtual, int ItensPorPagina)
@@ -168,12 +131,12 @@ namespace ACBrLib.PIXCD
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<PIXCD_ConsultarPixRecebidos>();
-            var ret = ExecuteMethod(() => method(libHandle, ADataInicio, ADataFim, ToUTF8(ATxId), ToUTF8(ACpfCnpj), PagAtual, ItensPorPagina, buffer, ref bufferLen));
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_ConsultarPixRecebidos>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, ADataInicio, ADataFim, ToUTF8(ATxId), ToUTF8(ACpfCnpj), PagAtual, ItensPorPagina, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         public string SolicitarDevolucaoPix(string AInfDevolucao, string Ae2eid, string AidDevolucao)
@@ -181,12 +144,12 @@ namespace ACBrLib.PIXCD
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<PIXCD_SolicitarDevolucaoPix>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(AInfDevolucao), ToUTF8(Ae2eid), ToUTF8(AidDevolucao), buffer, ref bufferLen));
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_SolicitarDevolucaoPix>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, ToUTF8(AInfDevolucao), ToUTF8(Ae2eid), ToUTF8(AidDevolucao), buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         public string ConsultarDevolucaoPix(string Ae2eid, string AidDevolucao)
@@ -194,12 +157,12 @@ namespace ACBrLib.PIXCD
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<PIXCD_ConsultarDevolucaoPix>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(Ae2eid), ToUTF8(AidDevolucao), buffer, ref bufferLen));
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_ConsultarDevolucaoPix>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, ToUTF8(Ae2eid), ToUTF8(AidDevolucao), buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         public string CriarCobrancaImediata(string AInfCobSolicitada, string ATxId)
@@ -208,12 +171,12 @@ namespace ACBrLib.PIXCD
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<PIXCD_CriarCobrancaImediata>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(AInfCobSolicitada), ToUTF8(ATxId), buffer, ref bufferLen));
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_CriarCobrancaImediata>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, ToUTF8(AInfCobSolicitada), ToUTF8(ATxId), buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         public string ConsultarCobrancaImediata(string ATxId, int ARevisao)
@@ -221,12 +184,12 @@ namespace ACBrLib.PIXCD
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<PIXCD_ConsultarCobrancaImediata>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(ATxId), ARevisao, buffer, ref bufferLen));
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_ConsultarCobrancaImediata>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, ToUTF8(ATxId), ARevisao, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         public string ConsultarCobrancasCob(DateTime ADataInicio, DateTime ADataFim, string ACpfCnpj, Boolean ALocationPresente, int AStatus, int PagAtual, int ItensPorPagina)
@@ -234,12 +197,12 @@ namespace ACBrLib.PIXCD
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<PIXCD_ConsultarCobrancasCob>();
-            var ret = ExecuteMethod(() => method(libHandle, ADataInicio, ADataFim, ToUTF8(ACpfCnpj), ALocationPresente, AStatus, PagAtual, ItensPorPagina, buffer, ref bufferLen));
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_ConsultarCobrancasCob>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, ADataInicio, ADataFim, ToUTF8(ACpfCnpj), ALocationPresente, AStatus, PagAtual, ItensPorPagina, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         public string RevisarCobrancaImediata(string AInfCobRevisada, string ATxId)
@@ -247,12 +210,12 @@ namespace ACBrLib.PIXCD
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<PIXCD_RevisarCobrancaImediata>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(AInfCobRevisada), ToUTF8(ATxId), buffer, ref bufferLen));
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_RevisarCobrancaImediata>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, ToUTF8(AInfCobRevisada), ToUTF8(ATxId), buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         public string CancelarCobrancaImediata(string ATxId)
@@ -260,12 +223,12 @@ namespace ACBrLib.PIXCD
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<PIXCD_CancelarCobrancaImediata>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(ATxId), buffer, ref bufferLen));
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_CancelarCobrancaImediata>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, ToUTF8(ATxId), buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         public string CriarCobranca(string AInfCobVSolicitada, string ATxId)
@@ -273,12 +236,12 @@ namespace ACBrLib.PIXCD
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<PIXCD_CriarCobranca>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(AInfCobVSolicitada), ToUTF8(ATxId), buffer, ref bufferLen));
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_CriarCobranca>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, ToUTF8(AInfCobVSolicitada), ToUTF8(ATxId), buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         public string ConsultarCobranca(string ATxId, int ARevisao)
@@ -286,12 +249,12 @@ namespace ACBrLib.PIXCD
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<PIXCD_ConsultarCobranca>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(ATxId), ARevisao, buffer, ref bufferLen));
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_ConsultarCobranca>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, ToUTF8(ATxId), ARevisao, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         public string ConsultarCobrancasCobV(DateTime ADataInicio, DateTime ADataFim, string ACpfCnpj, Boolean ALocationPresente, int AStatus, int PagAtual, int ItensPorPagina)
@@ -299,12 +262,12 @@ namespace ACBrLib.PIXCD
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<PIXCD_ConsultarCobrancasCobV>();
-            var ret = ExecuteMethod(() => method(libHandle, ADataInicio, ADataFim, ToUTF8(ACpfCnpj), ALocationPresente, AStatus, PagAtual, ItensPorPagina, buffer, ref bufferLen));
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_ConsultarCobrancasCobV>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, ADataInicio, ADataFim, ToUTF8(ACpfCnpj), ALocationPresente, AStatus, PagAtual, ItensPorPagina, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         public string RevisarCobranca(string AInfCobVRevisada, string ATxId)
@@ -312,12 +275,12 @@ namespace ACBrLib.PIXCD
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<PIXCD_RevisarCobranca>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(AInfCobVRevisada), ToUTF8(ATxId), buffer, ref bufferLen));
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_RevisarCobranca>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, ToUTF8(AInfCobVRevisada), ToUTF8(ATxId), buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         public string CancelarCobranca(string ATxId)
@@ -325,12 +288,12 @@ namespace ACBrLib.PIXCD
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<PIXCD_CancelarCobranca>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(ATxId), buffer, ref bufferLen));
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_CancelarCobranca>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, ToUTF8(ATxId), buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         public override string OpenSSLInfo()
@@ -338,12 +301,12 @@ namespace ACBrLib.PIXCD
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<PIXCD_OpenSSLInfo>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_OpenSSLInfo>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         #endregion Diversos
@@ -352,8 +315,8 @@ namespace ACBrLib.PIXCD
 
         public override void Finalizar()
         {
-            var finalizarLib = GetMethod<PIXCD_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizarLib(libHandle));
+            var finalizarLib = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_Finalizar>();
+            var codRet = acbrPIXCDBridge.ExecuteMethod(() => finalizarLib(libHandle));
             CheckResult(codRet);
             libHandle = IntPtr.Zero;
         }
@@ -362,22 +325,85 @@ namespace ACBrLib.PIXCD
         {
             var bufferLen = iniBufferLen < 1 ? BUFFER_LEN : iniBufferLen;
             var buffer = new StringBuilder(bufferLen);
-            var ultimoRetorno = GetMethod<PIXCD_UltimoRetorno>();
+            var ultimoRetorno = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_UltimoRetorno>();
 
             if (iniBufferLen < 1)
             {
-                ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
+                acbrPIXCDBridge.ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
                 if (bufferLen <= BUFFER_LEN) return FromUTF8(buffer);
 
                 buffer.Capacity = bufferLen;
             }
 
-            ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
+            acbrPIXCDBridge.ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
             return FromUTF8(buffer);
+        }
+
+
+
+        public override string ConfigLerValor(string eSessao, string eChave)
+        {
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_ConfigLerValor>();
+
+            var bufferLen = BUFFER_LEN;
+            var pValue = new StringBuilder(bufferLen);
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), pValue, ref bufferLen));
+            CheckResult(ret);
+
+            return CheckBuffer(pValue, bufferLen);
+        }
+
+        public override void ConfigGravarValor(string eSessao, string eChave, string eValor)
+        {
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_ConfigGravarValor>();
+
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), ToUTF8(eValor)));
+            CheckResult(ret);
+        }
+
+        public override string Versao()
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_Versao>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return CheckBuffer(buffer, bufferLen);
+        }
+
+        public override string Nome()
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_Nome>();
+            var ret = acbrPIXCDBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return CheckBuffer(buffer, bufferLen);
         }
 
         #endregion Private Methods
 
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Finalizar();// dispose managed resources
+            }
+
+        }
         #endregion Metodos
     }
 }

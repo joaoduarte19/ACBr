@@ -5,11 +5,11 @@ using ACBrLib.Core.PIXCD;
 
 namespace ACBrLib.PIXCD
 {
-    public sealed class GerenciaNetConfig : ACBrLibDFeConfig<ACBrPIXCD>
+    public sealed class GerenciaNetConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
     {
         #region Constructors
 
-        public GerenciaNetConfig(ACBrPIXCD acbrlib) : base(acbrlib, ACBrSessao.GerenciaNet)
+        public GerenciaNetConfig(IACBrLibPIXCD acbrlib) : base(acbrlib, ACBrSessao.GerenciaNet)
         {
 
         }

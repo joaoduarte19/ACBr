@@ -5,11 +5,11 @@ using ACBrLib.Core.PIXCD;
 
 namespace ACBrLib.PIXCD
 {
-    public sealed class SantanderConfig : ACBrLibDFeConfig<ACBrPIXCD>
+    public sealed class SantanderConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
     {
         #region Constructors
 
-        public SantanderConfig(ACBrPIXCD acbrlib) : base(acbrlib, ACBrSessao.Santander)
+        public SantanderConfig(IACBrLibPIXCD acbrlib) : base(acbrlib, ACBrSessao.Santander)
         {
 
         }

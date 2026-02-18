@@ -5,11 +5,11 @@ using ACBrLib.Core.PIXCD;
 
 namespace ACBrLib.PIXCD
 {
-    public sealed class MateraConfig : ACBrLibDFeConfig<ACBrPIXCD>
+    public sealed class MateraConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
     {
         #region Constructors
 
-        public MateraConfig(ACBrPIXCD acbrlib) : base(acbrlib, ACBrSessao.Matera)
+        public MateraConfig(IACBrLibPIXCD acbrlib) : base(acbrlib, ACBrSessao.Matera)
         {
 
         }

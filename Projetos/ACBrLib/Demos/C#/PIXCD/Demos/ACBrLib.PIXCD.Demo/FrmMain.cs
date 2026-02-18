@@ -16,7 +16,7 @@ namespace ACBrLibPIXCD.Demo
     {
         #region Fields
 
-        private ACBrPIXCD ACBrPIXCD;
+        private IACBrLibPIXCD acbr_pixcd;
 
         #endregion Fields
 
@@ -27,7 +27,7 @@ namespace ACBrLibPIXCD.Demo
             InitializeComponent();
 
             // Inicializando a classe e carregando a dll
-            ACBrPIXCD = new ACBrPIXCD();
+            acbr_pixcd = new ACBrPIXCD();
         }
 
         #endregion Constructors
@@ -50,17 +50,17 @@ namespace ACBrLibPIXCD.Demo
                 cmbPixPDVAPIVersao.EnumDataSource(PixPDVAPIVersao.apiVersao1);
                 cmbNivelLogPSP.EnumDataSource(NivelLogPSP.logPSPNenhum);
                 cmbTipoChave.EnumDataSource(TipoChave.tchNenhuma);
-                ACBrPIXCD.Config.ProxyPort = 0;
+                acbr_pixcd.Config.ProxyPort = 0;
                 
                 // Altera as config de log
-                ACBrPIXCD.Config.Principal.LogNivel = NivelLog.logParanoico;
+                acbr_pixcd.Config.Principal.LogNivel = NivelLog.logParanoico;
 
                 var logPath = Path.Combine(Application.StartupPath, "Logs");
                 if (!Directory.Exists(logPath))
                     Directory.CreateDirectory(logPath);
 
-                ACBrPIXCD.Config.Principal.LogPath = logPath;
-                ACBrPIXCD.ConfigGravar();
+                acbr_pixcd.Config.Principal.LogPath = logPath;
+                acbr_pixcd.ConfigGravar();
 
                 LoadConfig();
             }
@@ -73,7 +73,7 @@ namespace ACBrLibPIXCD.Demo
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Liberando a dll
-            ACBrPIXCD.Dispose();
+            acbr_pixcd.Dispose();
         }
 
         #endregion EventHandlers
@@ -100,152 +100,152 @@ namespace ACBrLibPIXCD.Demo
             try
             {
                 //PIXCD
-                ACBrPIXCD.Config.Ambiente = cmbAmbiente.GetSelectedValue<Ambiente>();
-                ACBrPIXCD.Config.ArqLog = txtArqLogPSP.Text;
-                ACBrPIXCD.Config.NivelLog = cmbNivelLogPSP.GetSelectedValue<NivelLogPSP>();
-                ACBrPIXCD.Config.TipoChave = cmbTipoChave.GetSelectedValue<TipoChave>();
-                ACBrPIXCD.Config.PSP = cmbPSP.GetSelectedValue<PSP>();
-                ACBrPIXCD.Config.Timeout = (int)nudPSPTimeout.Value;
-                ACBrPIXCD.Config.ProxyHost = txtProxyServidor.Text;
-                ACBrPIXCD.Config.ProxyPass = txtProxySenha.Text;
-                ACBrPIXCD.Config.ProxyPort = (int)nudProxyPorta.Value;
-                ACBrPIXCD.Config.ProxyUser = txtProxyUsuario.Text;
-                ACBrPIXCD.Config.CEPRecebedor = txtCEPRecebedor.Text;
-                ACBrPIXCD.Config.CidadeRecebedor = txtCidadeRecebedor.Text;
-                ACBrPIXCD.Config.NomeRecebedor = txtNomeRecebedor.Text;
-                ACBrPIXCD.Config.UFRecebedor = txtUFRecebedor.Text;
+                acbr_pixcd.Config.Ambiente = cmbAmbiente.GetSelectedValue<Ambiente>();
+                acbr_pixcd.Config.ArqLog = txtArqLogPSP.Text;
+                acbr_pixcd.Config.NivelLog = cmbNivelLogPSP.GetSelectedValue<NivelLogPSP>();
+                acbr_pixcd.Config.TipoChave = cmbTipoChave.GetSelectedValue<TipoChave>();
+                acbr_pixcd.Config.PSP = cmbPSP.GetSelectedValue<PSP>();
+                acbr_pixcd.Config.Timeout = (int)nudPSPTimeout.Value;
+                acbr_pixcd.Config.ProxyHost = txtProxyServidor.Text;
+                acbr_pixcd.Config.ProxyPass = txtProxySenha.Text;
+                acbr_pixcd.Config.ProxyPort = (int)nudProxyPorta.Value;
+                acbr_pixcd.Config.ProxyUser = txtProxyUsuario.Text;
+                acbr_pixcd.Config.CEPRecebedor = txtCEPRecebedor.Text;
+                acbr_pixcd.Config.CidadeRecebedor = txtCidadeRecebedor.Text;
+                acbr_pixcd.Config.NomeRecebedor = txtNomeRecebedor.Text;
+                acbr_pixcd.Config.UFRecebedor = txtUFRecebedor.Text;
 
                 //Bradesco
-                ACBrPIXCD.Config.Bradesco.ChavePIX = txtChavePIXBradesco.Text;
-                ACBrPIXCD.Config.Bradesco.ClientID = txtClientIDBradesco.Text;
-                ACBrPIXCD.Config.Bradesco.ClientSecret = txtClientSecretBradesco.Text;
-                ACBrPIXCD.Config.Bradesco.ArqPFX = txtArquivoPFXBradesco.Text;
-                ACBrPIXCD.Config.Bradesco.SenhaPFX = txtSenhaCertificadoBradesco.Text;
-                ACBrPIXCD.Config.Bradesco.Scopes = txtScopesBradesco.Text;
-                ACBrPIXCD.Config.Bradesco.ArqChavePrivada = txtArquivoChavePrivadaBradesco.Text;
-                ACBrPIXCD.Config.Bradesco.ArqCertificado = txtArquivoCertificadoBradesco.Text;
-                ACBrPIXCD.Config.Bradesco.APIVersao = cmbBradescoAPIVersao.GetSelectedValue<BradescoAPIVersao>();
+                acbr_pixcd.Config.Bradesco.ChavePIX = txtChavePIXBradesco.Text;
+                acbr_pixcd.Config.Bradesco.ClientID = txtClientIDBradesco.Text;
+                acbr_pixcd.Config.Bradesco.ClientSecret = txtClientSecretBradesco.Text;
+                acbr_pixcd.Config.Bradesco.ArqPFX = txtArquivoPFXBradesco.Text;
+                acbr_pixcd.Config.Bradesco.SenhaPFX = txtSenhaCertificadoBradesco.Text;
+                acbr_pixcd.Config.Bradesco.Scopes = txtScopesBradesco.Text;
+                acbr_pixcd.Config.Bradesco.ArqChavePrivada = txtArquivoChavePrivadaBradesco.Text;
+                acbr_pixcd.Config.Bradesco.ArqCertificado = txtArquivoCertificadoBradesco.Text;
+                acbr_pixcd.Config.Bradesco.APIVersao = cmbBradescoAPIVersao.GetSelectedValue<BradescoAPIVersao>();
 
                 //Sicredi
-                ACBrPIXCD.Config.Sicredi.ChavePIX = txtChavePIXSicredi.Text;
-                ACBrPIXCD.Config.Sicredi.ClientID = txtClientIDSicredi.Text;
-                ACBrPIXCD.Config.Sicredi.ClientSecret = txtClientSecretSicredi.Text;
-                ACBrPIXCD.Config.Sicredi.ArqChavePrivada = txtArquivoChavePrivadaSicredi.Text;
-                ACBrPIXCD.Config.Sicredi.ArqCertificado = txtArquivoCertificadoSicredi.Text;
-                ACBrPIXCD.Config.Sicredi.Scopes = txtScopesSicredi.Text;
+                acbr_pixcd.Config.Sicredi.ChavePIX = txtChavePIXSicredi.Text;
+                acbr_pixcd.Config.Sicredi.ClientID = txtClientIDSicredi.Text;
+                acbr_pixcd.Config.Sicredi.ClientSecret = txtClientSecretSicredi.Text;
+                acbr_pixcd.Config.Sicredi.ArqChavePrivada = txtArquivoChavePrivadaSicredi.Text;
+                acbr_pixcd.Config.Sicredi.ArqCertificado = txtArquivoCertificadoSicredi.Text;
+                acbr_pixcd.Config.Sicredi.Scopes = txtScopesSicredi.Text;
 
                 //Sicoob
-                ACBrPIXCD.Config.Sicoob.ChavePIX = txtChavePIXSicoob.Text;
-                ACBrPIXCD.Config.Sicoob.ClientID = txtClientIDSicoob.Text;
-                ACBrPIXCD.Config.Sicoob.TokenSandbox = txtTokenSandboxSicoob.Text;
-                ACBrPIXCD.Config.Sicoob.ArqChavePrivada = txtArquivoChavePrivadaSicoob.Text;
-                ACBrPIXCD.Config.Sicoob.ArqCertificado = txtArquivoCertificadoSicoob.Text;
-                ACBrPIXCD.Config.Sicoob.Scopes = txtScopesSicoob.Text;
+                acbr_pixcd.Config.Sicoob.ChavePIX = txtChavePIXSicoob.Text;
+                acbr_pixcd.Config.Sicoob.ClientID = txtClientIDSicoob.Text;
+                acbr_pixcd.Config.Sicoob.TokenSandbox = txtTokenSandboxSicoob.Text;
+                acbr_pixcd.Config.Sicoob.ArqChavePrivada = txtArquivoChavePrivadaSicoob.Text;
+                acbr_pixcd.Config.Sicoob.ArqCertificado = txtArquivoCertificadoSicoob.Text;
+                acbr_pixcd.Config.Sicoob.Scopes = txtScopesSicoob.Text;
 
                 //Shipay
-                ACBrPIXCD.Config.Shipay.ClientID = txtClientIDShipay.Text;
-                ACBrPIXCD.Config.Shipay.SecretKey = txtSecretKeyShipay.Text;
-                ACBrPIXCD.Config.Shipay.AccessKey = txtAccessKeyShipay.Text;
-                ACBrPIXCD.Config.Shipay.Scopes = txtScopesShipay.Text;
+                acbr_pixcd.Config.Shipay.ClientID = txtClientIDShipay.Text;
+                acbr_pixcd.Config.Shipay.SecretKey = txtSecretKeyShipay.Text;
+                acbr_pixcd.Config.Shipay.AccessKey = txtAccessKeyShipay.Text;
+                acbr_pixcd.Config.Shipay.Scopes = txtScopesShipay.Text;
 
                 //Santander
-                ACBrPIXCD.Config.Santander.ChavePIX = txtChavePIXSantander.Text;
-                ACBrPIXCD.Config.Santander.ConsumerKey = txtConsumerKeySantander.Text;
-                ACBrPIXCD.Config.Santander.ConsumerSecret = txtConsumerSecretSantander.Text;
-                ACBrPIXCD.Config.Santander.ArqCertificadoPFX = txtArquivoCertificadoPFXSantander.Text;
-                ACBrPIXCD.Config.Santander.SenhaCertificadoPFX = txtSenhaCertificadoPFXSantander.Text;
-                ACBrPIXCD.Config.Santander.Scopes = txtScopesSantander.Text;
+                acbr_pixcd.Config.Santander.ChavePIX = txtChavePIXSantander.Text;
+                acbr_pixcd.Config.Santander.ConsumerKey = txtConsumerKeySantander.Text;
+                acbr_pixcd.Config.Santander.ConsumerSecret = txtConsumerSecretSantander.Text;
+                acbr_pixcd.Config.Santander.ArqCertificadoPFX = txtArquivoCertificadoPFXSantander.Text;
+                acbr_pixcd.Config.Santander.SenhaCertificadoPFX = txtSenhaCertificadoPFXSantander.Text;
+                acbr_pixcd.Config.Santander.Scopes = txtScopesSantander.Text;
 
                 //PixPDV
-                ACBrPIXCD.Config.PixPDV.CNPJ = txtCNPJPixPDV.Text;
-                ACBrPIXCD.Config.PixPDV.Token = txtPixPDVToken.Text;
-                ACBrPIXCD.Config.PixPDV.SecretKey = txtSecretKeyPixPDV.Text;
-                ACBrPIXCD.Config.PixPDV.PixPDVAPIVersao = cmbPixPDVAPIVersao.GetSelectedValue<PixPDVAPIVersao>();
-                ACBrPIXCD.Config.PixPDV.Scopes = txtScopesPixPDV.Text;
+                acbr_pixcd.Config.PixPDV.CNPJ = txtCNPJPixPDV.Text;
+                acbr_pixcd.Config.PixPDV.Token = txtPixPDVToken.Text;
+                acbr_pixcd.Config.PixPDV.SecretKey = txtSecretKeyPixPDV.Text;
+                acbr_pixcd.Config.PixPDV.PixPDVAPIVersao = cmbPixPDVAPIVersao.GetSelectedValue<PixPDVAPIVersao>();
+                acbr_pixcd.Config.PixPDV.Scopes = txtScopesPixPDV.Text;
 
                 //PagSeguro
-                ACBrPIXCD.Config.PagSeguro.ChavePIX = txtChavePIXPagSeguro.Text;
-                ACBrPIXCD.Config.PagSeguro.ClientID = txtClientIDPagSeguro.Text;
-                ACBrPIXCD.Config.PagSeguro.ClientSecret = txtClientSecretPagSeguro.Text;
-                ACBrPIXCD.Config.PagSeguro.ArqChavePrivada = txtArquivoChavePrivadaPagSeguro.Text;
-                ACBrPIXCD.Config.PagSeguro.ArqCertificado = txtArquivoCertificadoPagSeguro.Text;
-                ACBrPIXCD.Config.PagSeguro.Scopes = txtScopesPagSeguro.Text;
+                acbr_pixcd.Config.PagSeguro.ChavePIX = txtChavePIXPagSeguro.Text;
+                acbr_pixcd.Config.PagSeguro.ClientID = txtClientIDPagSeguro.Text;
+                acbr_pixcd.Config.PagSeguro.ClientSecret = txtClientSecretPagSeguro.Text;
+                acbr_pixcd.Config.PagSeguro.ArqChavePrivada = txtArquivoChavePrivadaPagSeguro.Text;
+                acbr_pixcd.Config.PagSeguro.ArqCertificado = txtArquivoCertificadoPagSeguro.Text;
+                acbr_pixcd.Config.PagSeguro.Scopes = txtScopesPagSeguro.Text;
 
                 //Itau
-                ACBrPIXCD.Config.Itau.ChavePIX = txtChavePIXItau.Text;
-                ACBrPIXCD.Config.Itau.ClientID = txtClientIDItau.Text;
-                ACBrPIXCD.Config.Itau.ClientSecret = txtClientSecretItau.Text;
-                ACBrPIXCD.Config.Itau.ArqChavePrivada = txtArquivoChavePrivadaItau.Text;
-                ACBrPIXCD.Config.Itau.ArqCertificado = txtArquivoCertificadoItau.Text;
-                ACBrPIXCD.Config.Itau.Scopes = txtScopesItau.Text;
+                acbr_pixcd.Config.Itau.ChavePIX = txtChavePIXItau.Text;
+                acbr_pixcd.Config.Itau.ClientID = txtClientIDItau.Text;
+                acbr_pixcd.Config.Itau.ClientSecret = txtClientSecretItau.Text;
+                acbr_pixcd.Config.Itau.ArqChavePrivada = txtArquivoChavePrivadaItau.Text;
+                acbr_pixcd.Config.Itau.ArqCertificado = txtArquivoCertificadoItau.Text;
+                acbr_pixcd.Config.Itau.Scopes = txtScopesItau.Text;
 
                 //Inter
-                ACBrPIXCD.Config.Inter.ChavePIX = txtChavePIXInter.Text;
-                ACBrPIXCD.Config.Inter.ClientID = txtClientIDInter.Text;
-                ACBrPIXCD.Config.Inter.ClientSecret = txtClientSecretInter.Text;
-                ACBrPIXCD.Config.Inter.ArqChavePrivada = txtArquivoChavePrivadaInter.Text;
-                ACBrPIXCD.Config.Inter.ArqCertificado = txtArquivoCertificadoInter.Text;
-                ACBrPIXCD.Config.Inter.Scopes = txtScopesInter.Text;
+                acbr_pixcd.Config.Inter.ChavePIX = txtChavePIXInter.Text;
+                acbr_pixcd.Config.Inter.ClientID = txtClientIDInter.Text;
+                acbr_pixcd.Config.Inter.ClientSecret = txtClientSecretInter.Text;
+                acbr_pixcd.Config.Inter.ArqChavePrivada = txtArquivoChavePrivadaInter.Text;
+                acbr_pixcd.Config.Inter.ArqCertificado = txtArquivoCertificadoInter.Text;
+                acbr_pixcd.Config.Inter.Scopes = txtScopesInter.Text;
 
                 //GerenciaNet
-                ACBrPIXCD.Config.GerenciaNet.ChavePIX = txtChavePIXGerenciaNet.Text;
-                ACBrPIXCD.Config.GerenciaNet.ClientID = txtClientIDGerenciaNet.Text;
-                ACBrPIXCD.Config.GerenciaNet.ClientSecret = txtClientSecretGerenciaNet.Text;
-                ACBrPIXCD.Config.GerenciaNet.ArqPFX = txtArquivoCertificadoGerenciaNet.Text;
-                ACBrPIXCD.Config.GerenciaNet.Scopes = txtScopesGerenciaNet.Text;
+                acbr_pixcd.Config.GerenciaNet.ChavePIX = txtChavePIXGerenciaNet.Text;
+                acbr_pixcd.Config.GerenciaNet.ClientID = txtClientIDGerenciaNet.Text;
+                acbr_pixcd.Config.GerenciaNet.ClientSecret = txtClientSecretGerenciaNet.Text;
+                acbr_pixcd.Config.GerenciaNet.ArqPFX = txtArquivoCertificadoGerenciaNet.Text;
+                acbr_pixcd.Config.GerenciaNet.Scopes = txtScopesGerenciaNet.Text;
 
                 //BancoBrasil
-                ACBrPIXCD.Config.BancoBrasil.ChavePIX = txtChavePIXBancoBrasil.Text;
-                ACBrPIXCD.Config.BancoBrasil.ClientID = txtClientIDBancoBrasil.Text;
-                ACBrPIXCD.Config.BancoBrasil.ClientSecret = txtClientSecretBancoBrasil.Text;
-                ACBrPIXCD.Config.BancoBrasil.DeveloperApplicationKey = txtDeveloperApplicationKeyBancoBrasil.Text;
-                ACBrPIXCD.Config.BancoBrasil.ArqChavePrivada = txtArquivoChavePrivadaBancoBrasil.Text;
-                ACBrPIXCD.Config.BancoBrasil.ArqCertificado = txtArquivoCertificadoBancoBrasil.Text;
-                ACBrPIXCD.Config.BancoBrasil.ArqPFX = txtArquivoPXFBancoBrasil.Text;
-                ACBrPIXCD.Config.BancoBrasil.SenhaPFX = txtSenhaPFXBancoBrasil.Text;
-                ACBrPIXCD.Config.BancoBrasil.BBAPIVersao = cmbBBAPIVersao.GetSelectedValue<BBAPIVersao>();
-                ACBrPIXCD.Config.BancoBrasil.Scopes = txtScopesBancoBrasil.Text;
+                acbr_pixcd.Config.BancoBrasil.ChavePIX = txtChavePIXBancoBrasil.Text;
+                acbr_pixcd.Config.BancoBrasil.ClientID = txtClientIDBancoBrasil.Text;
+                acbr_pixcd.Config.BancoBrasil.ClientSecret = txtClientSecretBancoBrasil.Text;
+                acbr_pixcd.Config.BancoBrasil.DeveloperApplicationKey = txtDeveloperApplicationKeyBancoBrasil.Text;
+                acbr_pixcd.Config.BancoBrasil.ArqChavePrivada = txtArquivoChavePrivadaBancoBrasil.Text;
+                acbr_pixcd.Config.BancoBrasil.ArqCertificado = txtArquivoCertificadoBancoBrasil.Text;
+                acbr_pixcd.Config.BancoBrasil.ArqPFX = txtArquivoPXFBancoBrasil.Text;
+                acbr_pixcd.Config.BancoBrasil.SenhaPFX = txtSenhaPFXBancoBrasil.Text;
+                acbr_pixcd.Config.BancoBrasil.BBAPIVersao = cmbBBAPIVersao.GetSelectedValue<BBAPIVersao>();
+                acbr_pixcd.Config.BancoBrasil.Scopes = txtScopesBancoBrasil.Text;
 
                 //Ailos
-                ACBrPIXCD.Config.Ailos.ChavePIX = txtChavePIXAilos.Text;
-                ACBrPIXCD.Config.Ailos.ClientID = txtClientIDAilos.Text;
-                ACBrPIXCD.Config.Ailos.ClientSecret = txtClientSecretAilos.Text;
-                ACBrPIXCD.Config.Ailos.ArqChavePrivada = txtArquivoChavePrivadaAilos.Text;
-                ACBrPIXCD.Config.Ailos.ArqCertificado = txtArquivoCertificadoAilos.Text;
-                ACBrPIXCD.Config.Ailos.ArqCertificadoRoot = txtArquivoCeriticadoRootAilos.Text;
-                ACBrPIXCD.Config.Ailos.Scopes = txtScopesAilos.Text;
+                acbr_pixcd.Config.Ailos.ChavePIX = txtChavePIXAilos.Text;
+                acbr_pixcd.Config.Ailos.ClientID = txtClientIDAilos.Text;
+                acbr_pixcd.Config.Ailos.ClientSecret = txtClientSecretAilos.Text;
+                acbr_pixcd.Config.Ailos.ArqChavePrivada = txtArquivoChavePrivadaAilos.Text;
+                acbr_pixcd.Config.Ailos.ArqCertificado = txtArquivoCertificadoAilos.Text;
+                acbr_pixcd.Config.Ailos.ArqCertificadoRoot = txtArquivoCeriticadoRootAilos.Text;
+                acbr_pixcd.Config.Ailos.Scopes = txtScopesAilos.Text;
 
                 //Matera
-                ACBrPIXCD.Config.Matera.ChavePIX = txtChavePIXMatera.Text;
-                ACBrPIXCD.Config.Matera.ClientID = txtClientIDMatera.Text;
-                ACBrPIXCD.Config.Matera.SecretKey = txtSecretKeyMatera.Text;
-                ACBrPIXCD.Config.Matera.ClientSecret = txtClientSecretMatera.Text;
-                ACBrPIXCD.Config.Matera.ArqCertificado = txtArquivoCertificadoMatera.Text;
-                ACBrPIXCD.Config.Matera.ArqChavePrivada = txtArquivoChavePrivadaMatera.Text;
-                ACBrPIXCD.Config.Matera.AccountID = txtAccountIDMatera.Text;
-                ACBrPIXCD.Config.Matera.MediatorFee = txtMediatorFeeMatera.Text;
-                ACBrPIXCD.Config.Matera.Scopes = txtScopesMatera.Text;
+                acbr_pixcd.Config.Matera.ChavePIX = txtChavePIXMatera.Text;
+                acbr_pixcd.Config.Matera.ClientID = txtClientIDMatera.Text;
+                acbr_pixcd.Config.Matera.SecretKey = txtSecretKeyMatera.Text;
+                acbr_pixcd.Config.Matera.ClientSecret = txtClientSecretMatera.Text;
+                acbr_pixcd.Config.Matera.ArqCertificado = txtArquivoCertificadoMatera.Text;
+                acbr_pixcd.Config.Matera.ArqChavePrivada = txtArquivoChavePrivadaMatera.Text;
+                acbr_pixcd.Config.Matera.AccountID = txtAccountIDMatera.Text;
+                acbr_pixcd.Config.Matera.MediatorFee = txtMediatorFeeMatera.Text;
+                acbr_pixcd.Config.Matera.Scopes = txtScopesMatera.Text;
 
                 //Cielo
-                ACBrPIXCD.Config.Cielo.ChavePIX = txtChavePIXCielo.Text;
-                ACBrPIXCD.Config.Cielo.ClientID = txtClientIDCielo.Text;
-                ACBrPIXCD.Config.Cielo.ClientSecret = txtClientSecretCielo.Text;
-                ACBrPIXCD.Config.Cielo.ArqChavePrivada = txtArquivoChavePrivadaCielo.Text;
-                ACBrPIXCD.Config.Cielo.ArqCertificado = txtArquivoCertificadoCielo.Text;
-                ACBrPIXCD.Config.Cielo.Scopes = txtScopesCielo.Text;
+                acbr_pixcd.Config.Cielo.ChavePIX = txtChavePIXCielo.Text;
+                acbr_pixcd.Config.Cielo.ClientID = txtClientIDCielo.Text;
+                acbr_pixcd.Config.Cielo.ClientSecret = txtClientSecretCielo.Text;
+                acbr_pixcd.Config.Cielo.ArqChavePrivada = txtArquivoChavePrivadaCielo.Text;
+                acbr_pixcd.Config.Cielo.ArqCertificado = txtArquivoCertificadoCielo.Text;
+                acbr_pixcd.Config.Cielo.Scopes = txtScopesCielo.Text;
 
                 //MercadoPago
-                ACBrPIXCD.Config.MercadoPago.ChavePIX = txtChavePIXMercadoPago.Text;
-                ACBrPIXCD.Config.MercadoPago.AccessToken = txtAccessTokenMercadoPago.Text;
-                ACBrPIXCD.Config.MercadoPago.Scopes = txtScopesMercadoPago.Text;
+                acbr_pixcd.Config.MercadoPago.ChavePIX = txtChavePIXMercadoPago.Text;
+                acbr_pixcd.Config.MercadoPago.AccessToken = txtAccessTokenMercadoPago.Text;
+                acbr_pixcd.Config.MercadoPago.Scopes = txtScopesMercadoPago.Text;
 
                 //AppLess
-                ACBrPIXCD.Config.AppLess.ClientID = txtClientIDAppLess.Text;
-                ACBrPIXCD.Config.AppLess.ClientSecret = txtClientSecretAppLess.Text;
-                ACBrPIXCD.Config.AppLess.SecretKeyHMAC = txtSecretKeyHMACAppLess.Text;
-                ACBrPIXCD.Config.AppLess.Scopes = txtScopesAppLess.Text;
+                acbr_pixcd.Config.AppLess.ClientID = txtClientIDAppLess.Text;
+                acbr_pixcd.Config.AppLess.ClientSecret = txtClientSecretAppLess.Text;
+                acbr_pixcd.Config.AppLess.SecretKeyHMAC = txtSecretKeyHMACAppLess.Text;
+                acbr_pixcd.Config.AppLess.Scopes = txtScopesAppLess.Text;
 
-                ACBrPIXCD.ConfigGravar();
+                acbr_pixcd.ConfigGravar();
 
                 Application.DoEvents();
             }
@@ -265,153 +265,153 @@ namespace ACBrLibPIXCD.Demo
 
         private void LoadConfig(string file = "ACBrLib.ini")
         {
-            ACBrPIXCD.ConfigLer(file);
+            acbr_pixcd.ConfigLer(file);
 
             //PIXCD
-            cmbAmbiente.SetSelectedValue(ACBrPIXCD.Config.Ambiente);
-            txtArqLogPSP.Text = ACBrPIXCD.Config.ArqLog;
-            cmbNivelLogPSP.SetSelectedValue(ACBrPIXCD.Config.NivelLog);
-            cmbTipoChave.SetSelectedValue(ACBrPIXCD.Config.TipoChave);
-            cmbPSP.SetSelectedValue(ACBrPIXCD.Config.PSP);
-            nudPSPTimeout.Value = ACBrPIXCD.Config.Timeout;
-            txtProxyServidor.Text = ACBrPIXCD.Config.ProxyHost;
-            txtProxySenha.Text = ACBrPIXCD.Config.ProxyPass;
-            nudProxyPorta.Value = ACBrPIXCD.Config.ProxyPort;
-            txtProxyUsuario.Text = ACBrPIXCD.Config.ProxyUser;
-            txtCEPRecebedor.Text = ACBrPIXCD.Config.CEPRecebedor;
-            txtCidadeRecebedor.Text = ACBrPIXCD.Config.CidadeRecebedor;
-            txtNomeRecebedor.Text = ACBrPIXCD.Config.NomeRecebedor;
-            txtUFRecebedor.Text = ACBrPIXCD.Config.UFRecebedor;
+            cmbAmbiente.SetSelectedValue(acbr_pixcd.Config.Ambiente);
+            txtArqLogPSP.Text = acbr_pixcd.Config.ArqLog;
+            cmbNivelLogPSP.SetSelectedValue(acbr_pixcd.Config.NivelLog);
+            cmbTipoChave.SetSelectedValue(acbr_pixcd.Config.TipoChave);
+            cmbPSP.SetSelectedValue(acbr_pixcd.Config.PSP);
+            nudPSPTimeout.Value = acbr_pixcd.Config.Timeout;
+            txtProxyServidor.Text = acbr_pixcd.Config.ProxyHost;
+            txtProxySenha.Text = acbr_pixcd.Config.ProxyPass;
+            nudProxyPorta.Value = acbr_pixcd.Config.ProxyPort;
+            txtProxyUsuario.Text = acbr_pixcd.Config.ProxyUser;
+            txtCEPRecebedor.Text = acbr_pixcd.Config.CEPRecebedor;
+            txtCidadeRecebedor.Text = acbr_pixcd.Config.CidadeRecebedor;
+            txtNomeRecebedor.Text = acbr_pixcd.Config.NomeRecebedor;
+            txtUFRecebedor.Text = acbr_pixcd.Config.UFRecebedor;
 
             //Bradesco
-            txtChavePIXBradesco.Text = ACBrPIXCD.Config.Bradesco.ChavePIX;
-            txtClientIDBradesco.Text = ACBrPIXCD.Config.Bradesco.ClientID;
-            txtClientSecretBradesco.Text = ACBrPIXCD.Config.Bradesco.ClientSecret;
-            txtArquivoPFXBradesco.Text = ACBrPIXCD.Config.Bradesco.ArqPFX;
-            txtSenhaCertificadoBradesco.Text = ACBrPIXCD.Config.Bradesco.SenhaPFX;
-            txtScopesBradesco.Text = ACBrPIXCD.Config.Bradesco.Scopes;
-            txtArquivoChavePrivadaBradesco.Text = ACBrPIXCD.Config.Bradesco.ArqChavePrivada;
-            txtArquivoCertificadoBradesco.Text = ACBrPIXCD.Config.Bradesco.ArqCertificado;
-            cmbBradescoAPIVersao.SetSelectedValue(ACBrPIXCD.Config.Bradesco.APIVersao);
+            txtChavePIXBradesco.Text = acbr_pixcd.Config.Bradesco.ChavePIX;
+            txtClientIDBradesco.Text = acbr_pixcd.Config.Bradesco.ClientID;
+            txtClientSecretBradesco.Text = acbr_pixcd.Config.Bradesco.ClientSecret;
+            txtArquivoPFXBradesco.Text = acbr_pixcd.Config.Bradesco.ArqPFX;
+            txtSenhaCertificadoBradesco.Text = acbr_pixcd.Config.Bradesco.SenhaPFX;
+            txtScopesBradesco.Text = acbr_pixcd.Config.Bradesco.Scopes;
+            txtArquivoChavePrivadaBradesco.Text = acbr_pixcd.Config.Bradesco.ArqChavePrivada;
+            txtArquivoCertificadoBradesco.Text = acbr_pixcd.Config.Bradesco.ArqCertificado;
+            cmbBradescoAPIVersao.SetSelectedValue(acbr_pixcd.Config.Bradesco.APIVersao);
 
             //Sicredi
-            txtChavePIXSicredi.Text = ACBrPIXCD.Config.Sicredi.ChavePIX;
-            txtClientIDSicredi.Text = ACBrPIXCD.Config.Sicredi.ClientID;
-            txtClientSecretSicredi.Text = ACBrPIXCD.Config.Sicredi.ClientSecret;
-            txtArquivoChavePrivadaSicredi.Text = ACBrPIXCD.Config.Sicredi.ArqChavePrivada;
-            txtArquivoCertificadoSicredi.Text = ACBrPIXCD.Config.Sicredi.ArqCertificado;
-            txtScopesSicredi.Text = ACBrPIXCD.Config.Sicredi.Scopes;
+            txtChavePIXSicredi.Text = acbr_pixcd.Config.Sicredi.ChavePIX;
+            txtClientIDSicredi.Text = acbr_pixcd.Config.Sicredi.ClientID;
+            txtClientSecretSicredi.Text = acbr_pixcd.Config.Sicredi.ClientSecret;
+            txtArquivoChavePrivadaSicredi.Text = acbr_pixcd.Config.Sicredi.ArqChavePrivada;
+            txtArquivoCertificadoSicredi.Text = acbr_pixcd.Config.Sicredi.ArqCertificado;
+            txtScopesSicredi.Text = acbr_pixcd.Config.Sicredi.Scopes;
 
             //Sicoob
-            txtChavePIXSicoob.Text = ACBrPIXCD.Config.Sicoob.ChavePIX;
-            txtClientIDSicoob.Text = ACBrPIXCD.Config.Sicoob.ClientID;
-            txtTokenSandboxSicoob.Text = ACBrPIXCD.Config.Sicoob.TokenSandbox;
-            txtArquivoChavePrivadaSicoob.Text = ACBrPIXCD.Config.Sicoob.ArqChavePrivada;
-            txtArquivoCertificadoSicoob.Text = ACBrPIXCD.Config.Sicoob.ArqCertificado;
-            txtScopesSicoob.Text = ACBrPIXCD.Config.Sicoob.Scopes;
+            txtChavePIXSicoob.Text = acbr_pixcd.Config.Sicoob.ChavePIX;
+            txtClientIDSicoob.Text = acbr_pixcd.Config.Sicoob.ClientID;
+            txtTokenSandboxSicoob.Text = acbr_pixcd.Config.Sicoob.TokenSandbox;
+            txtArquivoChavePrivadaSicoob.Text = acbr_pixcd.Config.Sicoob.ArqChavePrivada;
+            txtArquivoCertificadoSicoob.Text = acbr_pixcd.Config.Sicoob.ArqCertificado;
+            txtScopesSicoob.Text = acbr_pixcd.Config.Sicoob.Scopes;
 
             //Shipay
-            txtClientIDShipay.Text = ACBrPIXCD.Config.Shipay.ClientID;
-            txtSecretKeyShipay.Text = ACBrPIXCD.Config.Shipay.SecretKey;
-            txtAccessKeyShipay.Text = ACBrPIXCD.Config.Shipay.AccessKey;
-            txtScopesShipay.Text = ACBrPIXCD.Config.Shipay.Scopes;
+            txtClientIDShipay.Text = acbr_pixcd.Config.Shipay.ClientID;
+            txtSecretKeyShipay.Text = acbr_pixcd.Config.Shipay.SecretKey;
+            txtAccessKeyShipay.Text = acbr_pixcd.Config.Shipay.AccessKey;
+            txtScopesShipay.Text = acbr_pixcd.Config.Shipay.Scopes;
 
             //Santander
-            txtChavePIXSantander.Text = ACBrPIXCD.Config.Santander.ChavePIX;
-            txtConsumerKeySantander.Text = ACBrPIXCD.Config.Santander.ConsumerKey;
-            txtConsumerSecretSantander.Text = ACBrPIXCD.Config.Santander.ConsumerSecret;
-            txtArquivoCertificadoPFXSantander.Text = ACBrPIXCD.Config.Santander.ArqCertificadoPFX;
-            txtSenhaCertificadoPFXSantander.Text = ACBrPIXCD.Config.Santander.SenhaCertificadoPFX;
-            txtScopesSantander.Text = ACBrPIXCD.Config.Santander.Scopes;
+            txtChavePIXSantander.Text = acbr_pixcd.Config.Santander.ChavePIX;
+            txtConsumerKeySantander.Text = acbr_pixcd.Config.Santander.ConsumerKey;
+            txtConsumerSecretSantander.Text = acbr_pixcd.Config.Santander.ConsumerSecret;
+            txtArquivoCertificadoPFXSantander.Text = acbr_pixcd.Config.Santander.ArqCertificadoPFX;
+            txtSenhaCertificadoPFXSantander.Text = acbr_pixcd.Config.Santander.SenhaCertificadoPFX;
+            txtScopesSantander.Text = acbr_pixcd.Config.Santander.Scopes;
 
             //PixPDV
-            txtCNPJPixPDV.Text = ACBrPIXCD.Config.PixPDV.CNPJ;
-            txtPixPDVToken.Text = ACBrPIXCD.Config.PixPDV.Token;
-            txtSecretKeyPixPDV.Text = ACBrPIXCD.Config.PixPDV.SecretKey;
-            cmbPixPDVAPIVersao.SetSelectedValue(ACBrPIXCD.Config.PixPDV.PixPDVAPIVersao);
-            txtScopesPixPDV.Text = ACBrPIXCD.Config.PixPDV.Scopes;
+            txtCNPJPixPDV.Text = acbr_pixcd.Config.PixPDV.CNPJ;
+            txtPixPDVToken.Text = acbr_pixcd.Config.PixPDV.Token;
+            txtSecretKeyPixPDV.Text = acbr_pixcd.Config.PixPDV.SecretKey;
+            cmbPixPDVAPIVersao.SetSelectedValue(acbr_pixcd.Config.PixPDV.PixPDVAPIVersao);
+            txtScopesPixPDV.Text = acbr_pixcd.Config.PixPDV.Scopes;
 
             //PagSeguro
-            txtChavePIXPagSeguro.Text = ACBrPIXCD.Config.PagSeguro.ChavePIX;
-            txtClientIDPagSeguro.Text = ACBrPIXCD.Config.PagSeguro.ClientID;
-            txtClientSecretPagSeguro.Text = ACBrPIXCD.Config.PagSeguro.ClientSecret;
-            txtArquivoChavePrivadaPagSeguro.Text = ACBrPIXCD.Config.PagSeguro.ArqChavePrivada;
-            txtArquivoCertificadoPagSeguro.Text = ACBrPIXCD.Config.PagSeguro.ArqCertificado;
-            txtScopesPagSeguro.Text = ACBrPIXCD.Config.PagSeguro.Scopes;
+            txtChavePIXPagSeguro.Text = acbr_pixcd.Config.PagSeguro.ChavePIX;
+            txtClientIDPagSeguro.Text = acbr_pixcd.Config.PagSeguro.ClientID;
+            txtClientSecretPagSeguro.Text = acbr_pixcd.Config.PagSeguro.ClientSecret;
+            txtArquivoChavePrivadaPagSeguro.Text = acbr_pixcd.Config.PagSeguro.ArqChavePrivada;
+            txtArquivoCertificadoPagSeguro.Text = acbr_pixcd.Config.PagSeguro.ArqCertificado;
+            txtScopesPagSeguro.Text = acbr_pixcd.Config.PagSeguro.Scopes;
 
             //Itau
-            txtChavePIXItau.Text = ACBrPIXCD.Config.Itau.ChavePIX;
-            txtClientIDItau.Text = ACBrPIXCD.Config.Itau.ClientID;
-            txtClientSecretItau.Text = ACBrPIXCD.Config.Itau.ClientSecret;
-            txtArquivoChavePrivadaItau.Text = ACBrPIXCD.Config.Itau.ArqChavePrivada;
-            txtArquivoCertificadoItau.Text = ACBrPIXCD.Config.Itau.ArqCertificado;
-            txtScopesItau.Text = ACBrPIXCD.Config.Itau.Scopes;
+            txtChavePIXItau.Text = acbr_pixcd.Config.Itau.ChavePIX;
+            txtClientIDItau.Text = acbr_pixcd.Config.Itau.ClientID;
+            txtClientSecretItau.Text = acbr_pixcd.Config.Itau.ClientSecret;
+            txtArquivoChavePrivadaItau.Text = acbr_pixcd.Config.Itau.ArqChavePrivada;
+            txtArquivoCertificadoItau.Text = acbr_pixcd.Config.Itau.ArqCertificado;
+            txtScopesItau.Text = acbr_pixcd.Config.Itau.Scopes;
 
             //Inter
-            txtChavePIXInter.Text = ACBrPIXCD.Config.Inter.ChavePIX;
-            txtClientIDInter.Text = ACBrPIXCD.Config.Inter.ClientID;
-            txtClientSecretInter.Text = ACBrPIXCD.Config.Inter.ClientSecret;
-            txtArquivoChavePrivadaInter.Text = ACBrPIXCD.Config.Inter.ArqChavePrivada;
-            txtArquivoCertificadoInter.Text = ACBrPIXCD.Config.Inter.ArqCertificado;
-            txtScopesInter.Text = ACBrPIXCD.Config.Inter.Scopes;
+            txtChavePIXInter.Text = acbr_pixcd.Config.Inter.ChavePIX;
+            txtClientIDInter.Text = acbr_pixcd.Config.Inter.ClientID;
+            txtClientSecretInter.Text = acbr_pixcd.Config.Inter.ClientSecret;
+            txtArquivoChavePrivadaInter.Text = acbr_pixcd.Config.Inter.ArqChavePrivada;
+            txtArquivoCertificadoInter.Text = acbr_pixcd.Config.Inter.ArqCertificado;
+            txtScopesInter.Text = acbr_pixcd.Config.Inter.Scopes;
 
             //GerenciaNet
-            txtChavePIXGerenciaNet.Text = ACBrPIXCD.Config.GerenciaNet.ChavePIX;
-            txtClientIDGerenciaNet.Text = ACBrPIXCD.Config.GerenciaNet.ClientID;
-            txtClientSecretGerenciaNet.Text = ACBrPIXCD.Config.GerenciaNet.ClientSecret;
-            txtArquivoCertificadoGerenciaNet.Text = ACBrPIXCD.Config.GerenciaNet.ArqPFX;
-            txtScopesGerenciaNet.Text = ACBrPIXCD.Config.GerenciaNet.Scopes;
+            txtChavePIXGerenciaNet.Text = acbr_pixcd.Config.GerenciaNet.ChavePIX;
+            txtClientIDGerenciaNet.Text = acbr_pixcd.Config.GerenciaNet.ClientID;
+            txtClientSecretGerenciaNet.Text = acbr_pixcd.Config.GerenciaNet.ClientSecret;
+            txtArquivoCertificadoGerenciaNet.Text = acbr_pixcd.Config.GerenciaNet.ArqPFX;
+            txtScopesGerenciaNet.Text = acbr_pixcd.Config.GerenciaNet.Scopes;
 
             //BancoBrasil
-            txtChavePIXBancoBrasil.Text = ACBrPIXCD.Config.BancoBrasil.ChavePIX;
-            txtClientIDBancoBrasil.Text = ACBrPIXCD.Config.BancoBrasil.ClientID;
-            txtClientSecretBancoBrasil.Text = ACBrPIXCD.Config.BancoBrasil.ClientSecret;
-            txtDeveloperApplicationKeyBancoBrasil.Text = ACBrPIXCD.Config.BancoBrasil.DeveloperApplicationKey;
-            txtArquivoChavePrivadaBancoBrasil.Text = ACBrPIXCD.Config.BancoBrasil.ArqChavePrivada;
-            txtArquivoCertificadoBancoBrasil.Text = ACBrPIXCD.Config.BancoBrasil.ArqCertificado;
-            txtArquivoPXFBancoBrasil.Text = ACBrPIXCD.Config.BancoBrasil.ArqPFX;
-            txtSenhaPFXBancoBrasil.Text = ACBrPIXCD.Config.BancoBrasil.SenhaPFX;
-            cmbBBAPIVersao.SetSelectedValue(ACBrPIXCD.Config.BancoBrasil.BBAPIVersao);
-            txtScopesBancoBrasil.Text = ACBrPIXCD.Config.BancoBrasil.Scopes;           
+            txtChavePIXBancoBrasil.Text = acbr_pixcd.Config.BancoBrasil.ChavePIX;
+            txtClientIDBancoBrasil.Text = acbr_pixcd.Config.BancoBrasil.ClientID;
+            txtClientSecretBancoBrasil.Text = acbr_pixcd.Config.BancoBrasil.ClientSecret;
+            txtDeveloperApplicationKeyBancoBrasil.Text = acbr_pixcd.Config.BancoBrasil.DeveloperApplicationKey;
+            txtArquivoChavePrivadaBancoBrasil.Text = acbr_pixcd.Config.BancoBrasil.ArqChavePrivada;
+            txtArquivoCertificadoBancoBrasil.Text = acbr_pixcd.Config.BancoBrasil.ArqCertificado;
+            txtArquivoPXFBancoBrasil.Text = acbr_pixcd.Config.BancoBrasil.ArqPFX;
+            txtSenhaPFXBancoBrasil.Text = acbr_pixcd.Config.BancoBrasil.SenhaPFX;
+            cmbBBAPIVersao.SetSelectedValue(acbr_pixcd.Config.BancoBrasil.BBAPIVersao);
+            txtScopesBancoBrasil.Text = acbr_pixcd.Config.BancoBrasil.Scopes;           
 
             //Ailos
-            txtChavePIXAilos.Text = ACBrPIXCD.Config.Ailos.ChavePIX;
-            txtClientIDAilos.Text = ACBrPIXCD.Config.Ailos.ClientID;
-            txtClientSecretAilos.Text = ACBrPIXCD.Config.Ailos.ClientSecret;
-            txtArquivoChavePrivadaAilos.Text = ACBrPIXCD.Config.Ailos.ArqChavePrivada;
-            txtArquivoCertificadoAilos.Text = ACBrPIXCD.Config.Ailos.ArqCertificado;
-            txtArquivoCeriticadoRootAilos.Text = ACBrPIXCD.Config.Ailos.ArqCertificadoRoot;
-            txtScopesAilos.Text = ACBrPIXCD.Config.Ailos.Scopes;
+            txtChavePIXAilos.Text = acbr_pixcd.Config.Ailos.ChavePIX;
+            txtClientIDAilos.Text = acbr_pixcd.Config.Ailos.ClientID;
+            txtClientSecretAilos.Text = acbr_pixcd.Config.Ailos.ClientSecret;
+            txtArquivoChavePrivadaAilos.Text = acbr_pixcd.Config.Ailos.ArqChavePrivada;
+            txtArquivoCertificadoAilos.Text = acbr_pixcd.Config.Ailos.ArqCertificado;
+            txtArquivoCeriticadoRootAilos.Text = acbr_pixcd.Config.Ailos.ArqCertificadoRoot;
+            txtScopesAilos.Text = acbr_pixcd.Config.Ailos.Scopes;
 
             //Matera
-            txtChavePIXMatera.Text = ACBrPIXCD.Config.Matera.ChavePIX;
-            txtClientIDMatera.Text = ACBrPIXCD.Config.Matera.ClientID;
-            txtSecretKeyMatera.Text = ACBrPIXCD.Config.Matera.SecretKey;
-            txtClientSecretMatera.Text = ACBrPIXCD.Config.Matera.ClientSecret;
-            txtArquivoCertificadoMatera.Text = ACBrPIXCD.Config.Matera.ArqCertificado;
-            txtArquivoChavePrivadaMatera.Text = ACBrPIXCD.Config.Matera.ArqChavePrivada;
-            txtAccountIDMatera.Text = ACBrPIXCD.Config.Matera.AccountID;
-            txtMediatorFeeMatera.Text = ACBrPIXCD.Config.Matera.MediatorFee;
-            txtScopesMatera.Text = ACBrPIXCD.Config.Matera.Scopes;
+            txtChavePIXMatera.Text = acbr_pixcd.Config.Matera.ChavePIX;
+            txtClientIDMatera.Text = acbr_pixcd.Config.Matera.ClientID;
+            txtSecretKeyMatera.Text = acbr_pixcd.Config.Matera.SecretKey;
+            txtClientSecretMatera.Text = acbr_pixcd.Config.Matera.ClientSecret;
+            txtArquivoCertificadoMatera.Text = acbr_pixcd.Config.Matera.ArqCertificado;
+            txtArquivoChavePrivadaMatera.Text = acbr_pixcd.Config.Matera.ArqChavePrivada;
+            txtAccountIDMatera.Text = acbr_pixcd.Config.Matera.AccountID;
+            txtMediatorFeeMatera.Text = acbr_pixcd.Config.Matera.MediatorFee;
+            txtScopesMatera.Text = acbr_pixcd.Config.Matera.Scopes;
 
             //Cielo
-            txtChavePIXCielo.Text = ACBrPIXCD.Config.Cielo.ChavePIX;
-            txtClientIDCielo.Text = ACBrPIXCD.Config.Cielo.ClientID;
-            txtClientSecretCielo.Text = ACBrPIXCD.Config.Cielo.ClientSecret;
-            txtArquivoChavePrivadaCielo.Text = ACBrPIXCD.Config.Cielo.ArqChavePrivada;
-            txtArquivoCertificadoCielo.Text = ACBrPIXCD.Config.Cielo.ArqCertificado;
-            txtScopesCielo.Text = ACBrPIXCD.Config.Cielo.Scopes;
+            txtChavePIXCielo.Text = acbr_pixcd.Config.Cielo.ChavePIX;
+            txtClientIDCielo.Text = acbr_pixcd.Config.Cielo.ClientID;
+            txtClientSecretCielo.Text = acbr_pixcd.Config.Cielo.ClientSecret;
+            txtArquivoChavePrivadaCielo.Text = acbr_pixcd.Config.Cielo.ArqChavePrivada;
+            txtArquivoCertificadoCielo.Text = acbr_pixcd.Config.Cielo.ArqCertificado;
+            txtScopesCielo.Text = acbr_pixcd.Config.Cielo.Scopes;
 
             //MercadoPago
-            txtChavePIXMercadoPago.Text = ACBrPIXCD.Config.MercadoPago.ChavePIX;
-            txtAccessTokenMercadoPago.Text = ACBrPIXCD.Config.MercadoPago.AccessToken;
-            txtScopesMercadoPago.Text = ACBrPIXCD.Config.MercadoPago.Scopes;
+            txtChavePIXMercadoPago.Text = acbr_pixcd.Config.MercadoPago.ChavePIX;
+            txtAccessTokenMercadoPago.Text = acbr_pixcd.Config.MercadoPago.AccessToken;
+            txtScopesMercadoPago.Text = acbr_pixcd.Config.MercadoPago.Scopes;
 
             //AppLess
-            txtClientIDAppLess.Text = ACBrPIXCD.Config.AppLess.ClientID;
-            txtClientSecretAppLess.Text = ACBrPIXCD.Config.AppLess.ClientSecret;
-            txtSecretKeyHMACAppLess.Text = ACBrPIXCD.Config.AppLess.SecretKeyHMAC;
-            txtScopesAppLess.Text = ACBrPIXCD.Config.AppLess.Scopes;
+            txtClientIDAppLess.Text = acbr_pixcd.Config.AppLess.ClientID;
+            txtClientSecretAppLess.Text = acbr_pixcd.Config.AppLess.ClientSecret;
+            txtSecretKeyHMACAppLess.Text = acbr_pixcd.Config.AppLess.SecretKeyHMAC;
+            txtScopesAppLess.Text = acbr_pixcd.Config.AppLess.Scopes;
         }
 
         private void btnCertificadoBradesco_Click(object sender, EventArgs e)
@@ -531,7 +531,7 @@ namespace ACBrLibPIXCD.Demo
         {
             try
             {
-                var ret = ACBrPIXCD.GerarQRCodeEstatico(double.Parse(txtValor.Text), txtInformacoesAdicionais.Text, txtTxIdQRCodeEstatico.Text);
+                var ret = acbr_pixcd.GerarQRCodeEstatico(double.Parse(txtValor.Text), txtInformacoesAdicionais.Text, txtTxIdQRCodeEstatico.Text);
                 rtbRespostas.AppendText(ret);
             } 
             catch (Exception ex)
@@ -544,7 +544,7 @@ namespace ACBrLibPIXCD.Demo
         {
             try
             {
-                var ret = ACBrPIXCD.ConsultarPix(txte2eidConsultarPIX.Text);
+                var ret = acbr_pixcd.ConsultarPix(txte2eidConsultarPIX.Text);
                 rtbRespostas.AppendText(ret);
             } 
             catch (Exception ex)
@@ -557,7 +557,7 @@ namespace ACBrLibPIXCD.Demo
         {
             try
             { 
-                var ret = ACBrPIXCD.ConsultarPixRecebidos(DateTime.Parse(txtDataInicialConsultarPIXRecebidos.Text), DateTime.Parse(txtDataFinalConsultarPIXRecebidos.Text), txtTxIdConsultarPIXRecebidos.Text, txtCPFCNPJConsultarPIXRecebidos.Text, (int)nudPagAtualConsultarPIXRecebidos.Value, (int)nudItensPorPaginaConsultarPIXRecebidos.Value);
+                var ret = acbr_pixcd.ConsultarPixRecebidos(DateTime.Parse(txtDataInicialConsultarPIXRecebidos.Text), DateTime.Parse(txtDataFinalConsultarPIXRecebidos.Text), txtTxIdConsultarPIXRecebidos.Text, txtCPFCNPJConsultarPIXRecebidos.Text, (int)nudPagAtualConsultarPIXRecebidos.Value, (int)nudItensPorPaginaConsultarPIXRecebidos.Value);
                 rtbRespostas.AppendText(ret);
             }
             catch (Exception ex)
@@ -570,7 +570,7 @@ namespace ACBrLibPIXCD.Demo
         {
             try
             {
-                var ret = ACBrPIXCD.SolicitarDevolucaoPix(rtbSolicitarDevolucaoPIX.Text, txte2eidSolicitarDevolucaoPIX.Text, txtIdDevolucaoSolicitarDevolucaoPIX.Text);
+                var ret = acbr_pixcd.SolicitarDevolucaoPix(rtbSolicitarDevolucaoPIX.Text, txte2eidSolicitarDevolucaoPIX.Text, txtIdDevolucaoSolicitarDevolucaoPIX.Text);
                 rtbRespostas.AppendText(ret);
             }
             catch (Exception ex)
@@ -583,7 +583,7 @@ namespace ACBrLibPIXCD.Demo
         {
             try
             {
-                var ret = ACBrPIXCD.ConsultarDevolucaoPix(txte2eidConsultarDevolucaoPIX.Text, txtIdDevolucaoConsultarDevolucaoPIX.Text);
+                var ret = acbr_pixcd.ConsultarDevolucaoPix(txte2eidConsultarDevolucaoPIX.Text, txtIdDevolucaoConsultarDevolucaoPIX.Text);
                 rtbRespostas.AppendText(ret);
             }
             catch (Exception ex)
@@ -596,7 +596,7 @@ namespace ACBrLibPIXCD.Demo
         {
             try
             {
-                var ret = ACBrPIXCD.CriarCobrancaImediata(rtbCriarCobrancaImediata.Text, txtTxIdCriarCobrancaImediata.Text);
+                var ret = acbr_pixcd.CriarCobrancaImediata(rtbCriarCobrancaImediata.Text, txtTxIdCriarCobrancaImediata.Text);
                 rtbRespostas.AppendText(ret);
             }
             catch (Exception ex)
@@ -609,7 +609,7 @@ namespace ACBrLibPIXCD.Demo
         {
             try
             {
-                var ret = ACBrPIXCD.ConsultarCobrancaImediata(txtTxIdConsultarCobrancaImediata.Text, int.Parse(txtRevisaoConsultarCobrancaImediata.Text));
+                var ret = acbr_pixcd.ConsultarCobrancaImediata(txtTxIdConsultarCobrancaImediata.Text, int.Parse(txtRevisaoConsultarCobrancaImediata.Text));
                 rtbRespostas.AppendText(ret);
             }
             catch (Exception ex)
@@ -622,7 +622,7 @@ namespace ACBrLibPIXCD.Demo
         {
             try
             {
-                var ret = ACBrPIXCD.ConsultarCobrancasCob(DateTime.Parse(txtDataInicialConsultarCobrancasCob.Text), DateTime.Parse(txtDataFinalConsultarCobrancasCob.Text), txtCPFCNPJConsultarCobrancasCob.Text, ckbLocationConsultarCobrancasCob.Checked, cmbStatusConsultarCobrancasCob.SelectedIndex, (int)nudPagAtualConsultarCobrancasCob.Value, (int)nudItensPorPaginaConsultarCobrancasCob.Value);
+                var ret = acbr_pixcd.ConsultarCobrancasCob(DateTime.Parse(txtDataInicialConsultarCobrancasCob.Text), DateTime.Parse(txtDataFinalConsultarCobrancasCob.Text), txtCPFCNPJConsultarCobrancasCob.Text, ckbLocationConsultarCobrancasCob.Checked, cmbStatusConsultarCobrancasCob.SelectedIndex, (int)nudPagAtualConsultarCobrancasCob.Value, (int)nudItensPorPaginaConsultarCobrancasCob.Value);
                 rtbRespostas.AppendText(ret);
             }
             catch (Exception ex)
@@ -635,7 +635,7 @@ namespace ACBrLibPIXCD.Demo
         {
             try
             {
-                var ret = ACBrPIXCD.ConsultarCobrancasCobV(DateTime.Parse(txtDataInicialConsultarCobrancasCobV.Text), DateTime.Parse(txtDataFinalConsultarCobrancasCobV.Text), txtCPFCNPJConsultarCobrancasCobV.Text, ckbLocationConsultarCobrancasCobV.Checked, cmbStatusConsultarCobrancasCobV.SelectedIndex, (int)nudPagAtualConsultarCobrancasCobV.Value, (int)nudItensPorPaginaConsultarCobrancasCobV.Value);
+                var ret = acbr_pixcd.ConsultarCobrancasCobV(DateTime.Parse(txtDataInicialConsultarCobrancasCobV.Text), DateTime.Parse(txtDataFinalConsultarCobrancasCobV.Text), txtCPFCNPJConsultarCobrancasCobV.Text, ckbLocationConsultarCobrancasCobV.Checked, cmbStatusConsultarCobrancasCobV.SelectedIndex, (int)nudPagAtualConsultarCobrancasCobV.Value, (int)nudItensPorPaginaConsultarCobrancasCobV.Value);
                 rtbRespostas.AppendText(ret);
             }
             catch (Exception ex)
@@ -648,7 +648,7 @@ namespace ACBrLibPIXCD.Demo
         {
             try
             {
-                var ret = ACBrPIXCD.RevisarCobrancaImediata(rtbRevisarCobrancaImediata.Text, txtTxIdRevisarCobrancaImediata.Text);
+                var ret = acbr_pixcd.RevisarCobrancaImediata(rtbRevisarCobrancaImediata.Text, txtTxIdRevisarCobrancaImediata.Text);
                 rtbRespostas.AppendText(ret);
             }
             catch (Exception ex)
@@ -661,7 +661,7 @@ namespace ACBrLibPIXCD.Demo
         {
             try
             {
-                var ret = ACBrPIXCD.CancelarCobrancaImediata(txtTxIdCancelarCobrancaImediata.Text);
+                var ret = acbr_pixcd.CancelarCobrancaImediata(txtTxIdCancelarCobrancaImediata.Text);
                 rtbRespostas.AppendText(ret);
             }
             catch (Exception ex)
@@ -674,7 +674,7 @@ namespace ACBrLibPIXCD.Demo
         {
             try
             {
-                var ret = ACBrPIXCD.CriarCobranca(rtbCriarCobranca.Text, txtTxIdCriarCobranca.Text);
+                var ret = acbr_pixcd.CriarCobranca(rtbCriarCobranca.Text, txtTxIdCriarCobranca.Text);
                 rtbRespostas.AppendText(ret);
             }
             catch (Exception ex)
@@ -687,7 +687,7 @@ namespace ACBrLibPIXCD.Demo
         {
             try
             {
-                var ret = ACBrPIXCD.ConsultarCobranca(txtTxIdConsultarCobranca.Text, int.Parse(txtRevisaoConsultarCobranca.Text));
+                var ret = acbr_pixcd.ConsultarCobranca(txtTxIdConsultarCobranca.Text, int.Parse(txtRevisaoConsultarCobranca.Text));
                 rtbRespostas.AppendText(ret);
             }
             catch (Exception ex)
@@ -700,7 +700,7 @@ namespace ACBrLibPIXCD.Demo
         {
             try
             {
-                var ret = ACBrPIXCD.RevisarCobranca(rtbRevisarCobranca.Text, txtTxIdRevisarCobranca.Text);
+                var ret = acbr_pixcd.RevisarCobranca(rtbRevisarCobranca.Text, txtTxIdRevisarCobranca.Text);
                 rtbRespostas.AppendText(ret);
             }
             catch (Exception ex)
@@ -713,7 +713,7 @@ namespace ACBrLibPIXCD.Demo
         {
             try
             {
-                var ret = ACBrPIXCD.CancelarCobranca(txtTxIdCancelarCobranca.Text);
+                var ret = acbr_pixcd.CancelarCobranca(txtTxIdCancelarCobranca.Text);
                 rtbRespostas.AppendText(ret);
             }
             catch (Exception ex)
@@ -724,7 +724,7 @@ namespace ACBrLibPIXCD.Demo
 
         private void btnOpenSSLInfo_Click(object sender, EventArgs e)
         {
-            var ret = ACBrPIXCD.OpenSSLInfo();
+            var ret = acbr_pixcd.OpenSSLInfo();
             rtbRespostas.AppendText(ret);
         }
 

@@ -5,11 +5,11 @@ using ACBrLib.Core.PIXCD;
 
 namespace ACBrLib.PIXCD
 {
-    public sealed class SicoobConfig : ACBrLibDFeConfig<ACBrPIXCD>
+    public sealed class SicoobConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
     {
         #region Constructors
 
-        public SicoobConfig(ACBrPIXCD acbrlib) : base(acbrlib, ACBrSessao.Sicoob)
+        public SicoobConfig(IACBrLibPIXCD acbrlib) : base(acbrlib, ACBrSessao.Sicoob)
         {
 
         }

@@ -5,11 +5,11 @@ using ACBrLib.Core.PIXCD;
 
 namespace ACBrLib.PIXCD
 {
-    public sealed class PagSeguroConfig : ACBrLibDFeConfig<ACBrPIXCD>
+    public sealed class PagSeguroConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
     {
         #region Constructors
 
-        public PagSeguroConfig(ACBrPIXCD acbrlib) : base(acbrlib, ACBrSessao.PagSeguro)
+        public PagSeguroConfig(IACBrLibPIXCD acbrlib) : base(acbrlib, ACBrSessao.PagSeguro)
         {
 
         }

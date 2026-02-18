@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACBrLib.PIXCDMT", "ACBrLib.PIXCDMT.csproj", "{6FB969E7-0062-6605-5B07-BED5D9F30457}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6FB969E7-0062-6605-5B07-BED5D9F30457}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FB969E7-0062-6605-5B07-BED5D9F30457}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FB969E7-0062-6605-5B07-BED5D9F30457}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FB969E7-0062-6605-5B07-BED5D9F30457}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {455F5DCB-4879-493F-88EF-4E9983F661F8}
+	EndGlobalSection
+EndGlobal

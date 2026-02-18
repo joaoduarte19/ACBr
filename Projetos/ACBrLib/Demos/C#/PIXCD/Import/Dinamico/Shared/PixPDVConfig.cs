@@ -5,11 +5,11 @@ using ACBrLib.Core.PIXCD;
 
 namespace ACBrLib.PIXCD
 {
-    public sealed class PixPDVConfig : ACBrLibDFeConfig<ACBrPIXCD>
+    public sealed class PixPDVConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
     {
         #region Constructors
 
-        public PixPDVConfig(ACBrPIXCD acbrlib) : base(acbrlib, ACBrSessao.PixPDV)
+        public PixPDVConfig(IACBrLibPIXCD acbrlib) : base(acbrlib, ACBrSessao.PixPDV)
         {
 
         }

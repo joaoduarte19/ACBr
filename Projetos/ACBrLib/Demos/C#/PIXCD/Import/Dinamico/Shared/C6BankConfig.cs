@@ -5,11 +5,11 @@ using ACBrLib.Core.PIXCD;
 
 namespace ACBrLib.PIXCD
 {
-    public sealed class C6BankConfig : ACBrLibDFeConfig<ACBrPIXCD>
+    public sealed class C6BankConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
     {
         #region Constructors
 
-        public C6BankConfig(ACBrPIXCD acbrlib) : base(acbrlib, ACBrSessao.C6Bank)
+        public C6BankConfig(IACBrLibPIXCD acbrlib) : base(acbrlib, ACBrSessao.C6Bank)
         {
 
         }

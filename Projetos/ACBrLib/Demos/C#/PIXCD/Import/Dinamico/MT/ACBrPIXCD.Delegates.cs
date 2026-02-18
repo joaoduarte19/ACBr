@@ -4,10 +4,11 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using ACBrLib.Core;
 
 namespace ACBrLib.PIXCD
 {
-    public sealed partial class ACBrPIXCD
+    internal sealed class ACBrPIXCDHandle: ACBrLibHandleBase
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int PIXCD_Inicializar(ref IntPtr handle, string eArqConfig, string eChaveCrypt);
@@ -120,5 +121,21 @@ namespace ACBrLib.PIXCD
             AddMethod<PIXCD_CancelarCobranca>("PIXCD_CancelarCobranca");
             AddMethod<PIXCD_OpenSSLInfo>("PIXCD_OpenSSLInfo");
         }
+
+        protected override string GetLibraryName()
+        {
+            var arch = Environment.Is64BitProcess ? "64" : "32";
+            if ( PlatformID.Unix == Environment.OSVersion.Platform )
+                return $"libacbrpixcd{arch}.so";
+            
+            
+            return $"ACBrPIXCD{arch}.dll";
+        }
+
+
+       //singleton dessa classe, para garantir que apenas uma instância do handle seja criada durante a execução do programa
+        private static readonly Lazy<ACBrPIXCDHandle> instance = new Lazy<ACBrPIXCDHandle>(() => new ACBrPIXCDHandle());
+            public static ACBrPIXCDHandle Instance => instance.Value;
+
     }
 }

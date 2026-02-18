@@ -5,11 +5,11 @@ using ACBrLib.Core.PIXCD;
 
 namespace ACBrLib.PIXCD
 {
-    public sealed class AilosConfig : ACBrLibDFeConfig<ACBrPIXCD>
+    public sealed class AilosConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
     {
         #region Constructors
 
-        public AilosConfig(ACBrPIXCD acbrlib) : base(acbrlib, ACBrSessao.Ailos)
+        public AilosConfig(IACBrLibPIXCD acbrlib) : base(acbrlib, ACBrSessao.Ailos)
         {
 
         }

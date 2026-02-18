@@ -5,11 +5,11 @@ using ACBrLib.Core.PIXCD;
 
 namespace ACBrLib.PIXCD
 {
-    public sealed class MercadoPagoConfig : ACBrLibDFeConfig<ACBrPIXCD>
+    public sealed class MercadoPagoConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
     {
         #region Constructors
 
-        public MercadoPagoConfig(ACBrPIXCD acbrlib) : base(acbrlib, ACBrSessao.MercadoPago)
+        public MercadoPagoConfig(IACBrLibPIXCD acbrlib) : base(acbrlib, ACBrSessao.MercadoPago)
         {
 
         }
