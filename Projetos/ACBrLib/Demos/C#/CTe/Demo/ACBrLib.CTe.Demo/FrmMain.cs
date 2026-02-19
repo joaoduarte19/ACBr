@@ -14,7 +14,7 @@ namespace ACBrLib.CTe.Demo
     {
         #region Fields
 
-        private ACBrCTe ACBrCTe;
+        private IACBrLibCTe ACBrCTe;
 
         #endregion Fields
 

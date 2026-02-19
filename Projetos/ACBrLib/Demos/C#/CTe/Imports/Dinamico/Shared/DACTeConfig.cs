@@ -5,11 +5,11 @@ using ACBrLib.Core.DFe;
 
 namespace ACBrLib.CTe
 {
-    public sealed class DACTeConfig : ReportConfig<ACBrCTe>
+    public sealed class DACTeConfig : ReportConfig<IACBrLibCTe>
     {
         #region Constructors
 
-        public DACTeConfig(ACBrCTe acbrlib) : base(acbrlib, ACBrSessao.DACTe)
+        public DACTeConfig(IACBrLibCTe acbrlib) : base(acbrlib, ACBrSessao.DACTe)
         {
         }
 

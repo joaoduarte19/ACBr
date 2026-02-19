@@ -4,11 +4,11 @@ using ACBrLib.Core.CTe;
 
 namespace ACBrLib.CTe
 {
-    public sealed class CTeConfig : ACBrLibDFeConfig<ACBrCTe>
+    public sealed class CTeConfig : ACBrLibDFeConfig<IACBrLibCTe>
     {
         #region Constructors
 
-        public CTeConfig(ACBrCTe acbrlib) : base(acbrlib, ACBrSessao.CTe)
+        public CTeConfig(IACBrLibCTe acbrlib) : base(acbrlib, ACBrSessao.CTe)
         {
             DACTe = new DACTeConfig(acbrlib);
         }

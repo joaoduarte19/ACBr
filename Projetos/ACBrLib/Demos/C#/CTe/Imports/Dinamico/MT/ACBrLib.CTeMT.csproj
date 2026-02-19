@@ -143,6 +143,7 @@
 	  <Compile Include="..\Shared\Respostas\ConsultaCTeResposta.cs" Link="Respostas\ConsultaCTeResposta.cs" />
 	  <Compile Include="..\Shared\Respostas\CancelamentoCTeResposta.cs" Link="Respostas\CancelamentoCTeResposta.cs" />
 	  <Compile Include="..\Shared\Respostas\InutilizacaoCTeResposta.cs" Link="Respostas\InutilizacaoCTeResposta.cs" />
+	  <Compile Include="..\Shared\IACBrLibCTe.cs" Link="IACBrLibCTe.cs" />
 
   </ItemGroup>
 
