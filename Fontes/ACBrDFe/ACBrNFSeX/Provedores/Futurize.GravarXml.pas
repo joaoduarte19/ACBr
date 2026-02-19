@@ -101,7 +101,7 @@ begin
   Result.AppendChild(AddNode(tcStr, '#38', 'NumeroProcesso', 1, 30, 0,
                                    NFSe.Servico.NumeroProcesso, DSC_NPROCESSO));
 
-  Result.AppendChild(AddNode(tcStr, '#38', 'CTribNac', 6, 6, 1,
+  Result.AppendChild(AddNode(tcStr, '#38', 'cTribNac', 6, 6, 1,
                                             NFSe.Servico.ItemListaServico, ''));
 
   Result.AppendChild(AddNode(tcStr, '#32', 'cNBS', 1, 9, 1,

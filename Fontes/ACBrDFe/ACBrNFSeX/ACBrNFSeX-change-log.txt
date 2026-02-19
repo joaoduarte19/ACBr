@@ -44,6 +44,17 @@ Símbolo : Significado
 
 
 19/02/2026
+-- ACBrNFSeXParametros --
+[+] Implementado os métodos: LoadUrlProducaoAPIPadraoNacional e LoadUrlHomologacaoAPIPadraoNacional.
+ -- ACBrNFSeXConversao -- 
+[+] Implementado o tipo: TServicoAPIPadraoNacional e as funções de conversão:
+    ServicoAPIPadraoNacionalToStr e StrToServicoAPIPadraoNacional.
+-- Fisco.GravarXml --
+[*] Ajustes para gerar a tag CodigoNBS na posição correta no XML.
+ Por: Italo Giurizzato Junior
+-- Futurize.GravarXml --
+[-] ACBR-8992 - Correção na grafia da tag cTribNac.
+   Por: C4Dev
 -- Tiplan.GravarXml --
 [*] ACBR-9014 - inclusão do preenchimento dos campos AliquotaPis e AliquotaCofins
     https://www.projetoacbr.com.br/forum/topic/90480-acbr-9014-nfse-maca%C3%A9-provedor-tiplan-modelo-abrasf-opera%C3%A7%C3%A3o-com-preenchimento-do-grupo-de-ibscbs-e-impostos-retidos/

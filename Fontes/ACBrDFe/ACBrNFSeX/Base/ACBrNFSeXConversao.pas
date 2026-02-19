@@ -647,6 +647,14 @@ const
   TcMotivoEmisTIArrayStrings: array[TcMotivoEmisTI] of string =
     ('', '1', '2', '3', '4');
 
+type
+  TServicoAPIPadraoNacional = (sConsultarNFSeRPS, sConsultarNFSePorChave,
+    sEnviarEvento, sConsultarEvento, sConsultarDFe, sConsultarParam, sObterDANFSE);
+
+const
+  TServicoAPIPadraoNacionalArrayStrings: array[TServicoAPIPadraoNacional] of string =
+    ('ConsultarNFSeRPS', 'ConsultarNFSePorChave', 'EnviarEvento',
+     'ConsultarEvento', 'ConsultarDFe', 'ConsultarParam', 'ObterDANFSE');
 
 // Reforma Tributária
 
@@ -896,6 +904,9 @@ function StrTocMotivoEmisTI(const s: string): TcMotivoEmisTI;
 
 function LayoutToStr(t: TLayout): string;
 function StrToLayout(const s: string): TLayout;
+
+function ServicoAPIPadraoNacionalToStr(t: TServicoAPIPadraoNacional): string;
+function StrToServicoAPIPadraoNacional(const s: string): TServicoAPIPadraoNacional;
 
 // Reforma Tributária
 function finNFSeToStr(const t: TfinNFSe): string;
@@ -13878,6 +13889,26 @@ begin
     end;
   end;
   raise EACBrException.CreateFmt('Valor string inválido para TLayout: %s', [s]);
+end;
+
+function ServicoAPIPadraoNacionalToStr(t: TServicoAPIPadraoNacional): string;
+begin
+  Result := TServicoAPIPadraoNacionalArrayStrings[t];
+end;
+
+function StrToServicoAPIPadraoNacional(const s: string): TServicoAPIPadraoNacional;
+var
+  idx: TServicoAPIPadraoNacional;
+begin
+  for idx:= Low(TServicoAPIPadraoNacionalArrayStrings) to High(TServicoAPIPadraoNacionalArrayStrings) do
+  begin
+    if (TServicoAPIPadraoNacionalArrayStrings[idx] = s) then
+    begin
+      Result := idx;
+      exit;
+    end;
+  end;
+  raise EACBrException.CreateFmt('Valor string inválido para TServicoAPIPadraoNacional: %s', [s]);
 end;
 
 // Reforma Tributária

@@ -390,13 +390,15 @@ type
     procedure LoadNameSpaceHomologacao(AINI: TCustomIniFile; const ASession: string);
     procedure LoadSoapActionProducao(AINI: TCustomIniFile; const ASession: string);
     procedure LoadSoapActionHomologacao(AINI: TCustomIniFile; const ASession: string);
+    // Releitura das URLs visando consumir os serviços da API do Padrão Nacional
+    procedure LoadUrlProducaoAPIPadraoNacional(AINI: TCustomIniFile; const AServico: string);
+    procedure LoadUrlHomologacaoAPIPadraoNacional(AINI: TCustomIniFile; const AServico: string);
 
     property VersaoDados: string read FVersaoDados write FVersaoDados;
     property VersaoAtrib: string read FVersaoAtrib write FVersaoAtrib;
     property AtribVerLote: string read FAtribVerLote write FAtribVerLote;
     property Producao: TWebserviceInfo read FProducao;
     property Homologacao: TWebserviceInfo read FHomologacao;
-
   end;
 
   { TDocElement }
@@ -875,6 +877,60 @@ begin
 
     FTesteEnvio      := AINI.ReadString(ASession, 'ProTesteEnvio'     , FRecepcionar);
     FConsultarSeqRps := AINI.ReadString(ASession, 'ProConsultarSeqRps', FRecepcionar);
+  end;
+end;
+
+procedure TConfigWebServices.LoadUrlProducaoAPIPadraoNacional(
+  AINI: TCustomIniFile; const AServico: string);
+begin
+  case StrToServicoAPIPadraoNacional(AServico) of
+    sConsultarNFSeRPS:
+      Producao.FConsultarNFSeRPS := AINI.ReadString('PadraoNacional', 'ProConsultarNFSeRps', '');
+
+    sConsultarNFSePorChave:
+      Producao.FConsultarNFSePorChave := AINI.ReadString('PadraoNacional', 'ProConsultarNFSePorChave', '');
+
+    sEnviarEvento:
+      Producao.FEnviarEvento := AINI.ReadString('PadraoNacional', 'ProEnviarEvento', '');
+
+    sConsultarEvento:
+      Producao.FConsultarEvento := AINI.ReadString('PadraoNacional', 'ProConsultarEvento', '');
+
+    sConsultarDFe:
+      Producao.FConsultarDFe := AINI.ReadString('PadraoNacional', 'ProConsultarDFe', '');
+
+    sConsultarParam:
+      Producao.FConsultarParam := AINI.ReadString('PadraoNacional', 'ProConsultarParam', '');
+
+    sObterDANFSE:
+     Producao.FObterDANFSE := AINI.ReadString('PadraoNacional', 'ProObterDANFSE', '');
+  end;
+end;
+
+procedure TConfigWebServices.LoadUrlHomologacaoAPIPadraoNacional(
+  AINI: TCustomIniFile; const AServico: string);
+begin
+  case StrToServicoAPIPadraoNacional(AServico) of
+    sConsultarNFSeRPS:
+      Homologacao.FConsultarNFSeRPS := AINI.ReadString('PadraoNacional', 'HomConsultarNFSeRps', '');
+
+    sConsultarNFSePorChave:
+      Homologacao.FConsultarNFSePorChave := AINI.ReadString('PadraoNacional', 'HomConsultarNFSePorChave', '');
+
+    sEnviarEvento:
+      Homologacao.FEnviarEvento := AINI.ReadString('PadraoNacional', 'HomEnviarEvento', '');
+
+    sConsultarEvento:
+      Homologacao.FConsultarEvento := AINI.ReadString('PadraoNacional', 'HomConsultarEvento', '');
+
+    sConsultarDFe:
+      Homologacao.FConsultarDFe := AINI.ReadString('PadraoNacional', 'HomConsultarDFe', '');
+
+    sConsultarParam:
+      Homologacao.FConsultarParam := AINI.ReadString('PadraoNacional', 'HomConsultarParam', '');
+
+    sObterDANFSE:
+     Homologacao.FObterDANFSE := AINI.ReadString('PadraoNacional', 'HomObterDANFSE', '');
   end;
 end;
 
