@@ -495,10 +495,8 @@ begin
   begin
     VersaoDados := '2.04';
     VersaoAtrib := '2.04';
-    AtribVerLote := '';
+    AtribVerLote := 'versao';
   end;
-
-  SetXmlNameSpace('http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd');
 
   ConfigMsgDados.GerarPrestadorLoteRps := True;
 
