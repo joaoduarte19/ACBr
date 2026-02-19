@@ -94,6 +94,7 @@ end;
 procedure TNFSeW_Tiplan203.Configuracao;
 begin
   inherited Configuracao;
+
 end;
 
 function TNFSeW_Tiplan203.DefinirNameSpaceDeclaracao: string;
@@ -115,6 +116,12 @@ begin
   begin
     Result.AppendChild(AddNode(tcStr, '#', 'SituacaoTributariaPISCOFINS', 2, 2, 1,
                                CSTToStr(NFSe.Servico.Valores.tribFed.CST), ''));
+
+    Result.AppendChild(AddNode(tcDe2, '#15', 'AliquotaPis', 1, 15, 0,
+                                  NFSe.Servico.Valores.AliquotaPis, DSC_VALIQ));
+
+    Result.AppendChild(AddNode(tcDe2, '#15', 'AliquotaCofins', 1, 15, 0,
+                               NFSe.Servico.Valores.AliquotaCofins, DSC_VALIQ));
   end;
 end;
 

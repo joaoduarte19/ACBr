@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+19/02/2026
+-- Tiplan.GravarXml --
+[*] ACBR-9014 - inclusão do preenchimento dos campos AliquotaPis e AliquotaCofins
+    https://www.projetoacbr.com.br/forum/topic/90480-acbr-9014-nfse-maca%C3%A9-provedor-tiplan-modelo-abrasf-opera%C3%A7%C3%A3o-com-preenchimento-do-grupo-de-ibscbs-e-impostos-retidos/
+   Por: Leonardo Gomes
+
 18/02/2026
 -- ACBrNFSeXConsts/ABase.Provider --
 [*] Ajustes para consumir os serviços disponibilizados pela API do Padrão Nacional.
