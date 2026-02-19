@@ -140,20 +140,6 @@ public class ACBrLibNFeMT : ACBrLibBase, IACBrLibNFe
         CheckResult(status);
     }
 
-    public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
-    {
-        var valorStr = ConfigLerValor(eSessao.ToString(), eChave);
-        return ConvertValue<T>(valorStr);
-    }
-
-    public override void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value)
-    {
-        if (value == null) return;
-
-        var propValue = ConvertValue(value);
-        ConfigGravarValor(eSessao.ToString(), eChave, propValue);
-    }
-
     /// <summary>
     /// Adiciona uma nota fiscal na lista.
     /// </summary>

@@ -57,21 +57,6 @@ namespace ACBrLib.BAL
             CheckResult(ret);
         }
 
-        public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
-        {
-         
-            var value = ConfigLerValor(eSessao.ToString(), eChave);
-            return ConvertValue<T>(value);
-        }
-
-        public override void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value)
-        {
-            if (value == null) return;
-
-            string valor = ConvertValue(value);
-            ConfigGravarValor(eSessao.ToString(), eChave, valor);
-        }
-
         public override void ImportarConfig(string eArqConfig = "")
         {
             var importarConfig = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_ConfigImportar>();

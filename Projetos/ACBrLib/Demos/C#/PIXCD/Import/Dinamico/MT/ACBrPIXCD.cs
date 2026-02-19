@@ -83,19 +83,6 @@ namespace ACBrLib.PIXCD
             CheckResult(ret);
         }
 
-        public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
-        {
-            var value = ConfigLerValor(eSessao.ToString(), eChave);
-            return ConvertValue<T>(value);
-        }
-
-        public override void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value)
-        {
-            if (value == null) return;
-            var sValor = ConvertValue(value);
-            ConfigGravarValor(eSessao.ToString(), eChave, sValor);
-        }
-
         #endregion Ini
 
         #region Diversos

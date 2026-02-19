@@ -11,7 +11,7 @@ namespace ACBrLib.Core
     /// Diferente de ACBrLibHandle essa classe define apenas os métodos e propriedades comuns a todas as bibliotecas ACBrLib em alto nível, ou seja, sem lidar diretamente com ponteiros e buffers.
     /// Essa classe define os métodos e propriedades comuns a todas as bibliotecas ACBrLib em alto nível.
     /// </summary>
-    public abstract class ACBrLibBase: IACBrLibBase
+    public abstract class ACBrLibBase : IACBrLibBase
     {
 
         #region fields
@@ -31,16 +31,16 @@ namespace ACBrLib.Core
         public const int BUFFER_LEN = 1024;
 
         #region métodos  abstratos comuns
-        
+
         /// <inheritdoc/>
-        public abstract void Inicializar( string eArqConfig = "", string eChaveCrypt = "");
-        
+        public abstract void Inicializar(string eArqConfig = "", string eChaveCrypt = "");
+
         /// <inheritdoc/>
         public abstract void Finalizar();
 
         /// <inheritdoc/>
         public abstract void ConfigLer(string eArqConfig);
-        
+
         /// <inheritdoc/>
         public abstract void ConfigGravar(string eArqConfig);
 
@@ -59,12 +59,7 @@ namespace ACBrLib.Core
         /// <param name="eChave">Chave da configuração.</param>
         /// <param name="eValor">Valor da configuração.</param>
         public abstract void ConfigGravarValor(string eSessao, string eChave, string eValor);
-        /// <inheritdoc/>
-        public abstract T ConfigLerValor<T>(ACBrSessao eSessao, string eChave);
 
-        /// <inheritdoc/>
-        public abstract void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value);
-        
         /// <inheritdoc/>
         public abstract void ImportarConfig(string eArqConfig);
 
@@ -87,6 +82,23 @@ namespace ACBrLib.Core
 
         /// <inheritdoc/>
         public abstract string OpenSSLInfo();
+
+        #endregion
+
+        #region metodos comuns implementados
+        /// <inheritdoc/>
+        public virtual T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
+        {
+            var value = ConfigLerValor(eSessao.ToString(), eChave);
+            return ConvertValue<T>(value);
+        }
+
+        /// <inheritdoc/>
+        public virtual void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value)
+        {
+            var propValue = ConvertValue(value);
+            ConfigGravarValor(eSessao.ToString(), eChave, propValue);
+        }
 
         #endregion
 

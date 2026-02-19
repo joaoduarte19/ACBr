@@ -116,22 +116,6 @@ namespace ACBrLib.CEP
             CheckResult(ret);
         }
 
-        /// <inheritdoc/>
-        public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
-        {
-            var value = ConfigLerValor(eSessao.ToString(), eChave);
-            return ConvertValue<T>(value);
-        }
-
-        /// <inheritdoc/>
-        public override void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value)
-        {
-            if (value == null) return;
-
-            var propValue = ConvertValue(value);
-            ConfigGravarValor(eSessao.ToString(), eChave, propValue);
-        }
-
         #endregion Ini
 
         #region Diversos
