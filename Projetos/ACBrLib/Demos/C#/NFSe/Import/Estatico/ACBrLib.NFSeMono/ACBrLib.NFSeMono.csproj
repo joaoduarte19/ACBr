@@ -3,13 +3,13 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ACBrLib.Core" Version="1.2.37" />
-     <!---<ProjectReference Include="../../Dinamico/MT/ACBrLib.NFSeMT.csproj" />-->
-     <PackageReference Include="ACBrLib.NFSeMT" Version="1.0.9" />
+    <PackageReference Include="ACBrLib.Core" Version="1.2.39" />
+     <PackageReference Include="ACBrLib.NFSeMT" Version="1.0.11" />
   </ItemGroup>
 
 </Project>

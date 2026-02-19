@@ -1,31 +1,32 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net8;net452;netstandard2.0</TargetFrameworks>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Company>Projeto ACBr</Company>
-    <Product>ACBrLib</Product>
-    <Authors>Projeto ACBr</Authors>
-    <Copyright>Copyright © Projeto ACBr 2018 - 2021</Copyright>
-    <PackageProjectUrl>http://projetoacbr.com.br/</PackageProjectUrl>
-    <RepositoryType>svn</RepositoryType>
-    <RepositoryUrl>http://svn.code.sf.net/p/acbr/code/trunk2/</RepositoryUrl>
-    <NeutralLanguage>pt-BR</NeutralLanguage>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <Version>1.2.39.0</Version>
-    <AssemblyVersion>1.2.39.0</AssemblyVersion>
-    <FileVersion>1.2.39.0</FileVersion>
-    <Platforms>AnyCPU;x86</Platforms>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>ProJetoACBr.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>false</DelaySign>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net8;net452;netstandard2.0</TargetFrameworks>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Company>Projeto ACBr</Company>
+		<Product>ACBrLib</Product>
+		<Authors>Projeto ACBr</Authors>
+		<Copyright>Copyright © Projeto ACBr 2018 - 2021</Copyright>
+		<PackageProjectUrl>http://projetoacbr.com.br/</PackageProjectUrl>
+		<RepositoryType>svn</RepositoryType>
+		<RepositoryUrl>http://svn.code.sf.net/p/acbr/code/trunk2/</RepositoryUrl>
+		<NeutralLanguage>pt-BR</NeutralLanguage>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<Version>1.2.39.0</Version>
+		<AssemblyVersion>1.2.39.0</AssemblyVersion>
+		<FileVersion>1.2.39.0</FileVersion>
+		<Platforms>AnyCPU;x86</Platforms>
+		<SignAssembly>true</SignAssembly>
+		<AssemblyOriginatorKeyFile>ProJetoACBr.snk</AssemblyOriginatorKeyFile>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<DelaySign>false</DelaySign>
+	</PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="System.Runtime" Version="4.3.1" />
-  </ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+		<PackageReference Include="System.Runtime" Version="4.3.1" />
+	</ItemGroup>
 
 </Project>

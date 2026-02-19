@@ -10,11 +10,8 @@
   
   <ItemGroup>
     <!--<PackageReference Include="ACBrLib.Core" Version="1.2.36" />-->
-
-
-    
-    
-    <ProjectReference Include="../../Dinamico/MT/ACBrLib.NFeMT.csproj" />
+    <PackageReference Include="ACBrLib.NFeMT" Version="1.0.30" />
+    <PackageReference Include="ACBrLib.Core" Version="1.2.39" />
 
   </ItemGroup>
 

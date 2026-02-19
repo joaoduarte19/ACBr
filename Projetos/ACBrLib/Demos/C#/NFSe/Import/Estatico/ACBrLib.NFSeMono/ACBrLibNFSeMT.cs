@@ -28,7 +28,7 @@ public class ACBrLibNFSeMT : ACBrLibBase, IACBrLibNFSe, IDisposable
         int status = ACBrLibNFSeBridgeMT.NFSE_Inicializar(ref libHandle, ToUTF8(arquivoConfig), ToUTF8(chaveCrypt));
         CheckResult(status);
         // Config será implementado quando necessário
-        
+
 
     }
 
@@ -281,7 +281,7 @@ public class ACBrLibNFSeMT : ACBrLibBase, IACBrLibNFSe, IDisposable
 
         int status = ACBrLibNFSeBridgeMT.NFSE_GerarToken(libHandle, buffer, ref bufferLen);
         CheckResult(status);
-       return CheckBuffer(buffer, bufferLen);
+        return CheckBuffer(buffer, bufferLen);
     }
 
     // Métodos de consulta
@@ -576,7 +576,12 @@ public class ACBrLibNFSeMT : ACBrLibBase, IACBrLibNFSe, IDisposable
 
     public void Imprimir(string cImpressora = "", int nNumCopias = 1, bool? bGerarPDF = null, bool? bMostrarPreview = null, string cCancelada = "")
     {
-        throw new NotImplementedException();
+        var gerarPDF = bGerarPDF.HasValue ? $"{Convert.ToInt32(bMostrarPreview.Value)}" : string.Empty;
+        var mostrarPreview = bMostrarPreview.HasValue ? $"{Convert.ToInt32(bMostrarPreview.Value)}" : string.Empty;
+
+        var ret = ACBrLibNFSeBridgeMT.NFSE_Imprimir(libHandle, ToUTF8(cImpressora), nNumCopias, gerarPDF, mostrarPreview, ToUTF8(cCancelada));
+
+        CheckResult(ret);
     }
 
     #endregion

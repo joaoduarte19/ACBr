@@ -19,6 +19,7 @@
     <FileVersion>1.0.15.0</FileVersion>
     <Version>1.0.15.0</Version>
     <Platforms>AnyCPU</Platforms>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
