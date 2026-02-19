@@ -908,6 +908,8 @@ function StrToLayout(const s: string): TLayout;
 function ServicoAPIPadraoNacionalToStr(t: TServicoAPIPadraoNacional): string;
 function StrToServicoAPIPadraoNacional(const s: string): TServicoAPIPadraoNacional;
 
+function MoedaBACENToMoedaISO(const ACodigoMoedaBACEN: Integer): Integer;
+
 // Reforma Tributária
 function finNFSeToStr(const t: TfinNFSe): string;
 function StrTofinNFSe(const s: string): TfinNFSe;
@@ -1195,6 +1197,180 @@ const
     (CodPaisIBGE:8885; DescricaoPaisIBGE:'CONGO, REPUBLICA DEMOCRATICA DO'; ISO2:'CD'; Comentario:''),
     (CodPaisIBGE:8907; DescricaoPaisIBGE:'ZAMBIA'; ISO2:'ZM'; Comentario:''),
     (CodPaisIBGE:8958; DescricaoPaisIBGE:'ZONA DO CANAL DO PANAMA'; ISO2:'PA'; Comentario:'Região do Panama.')
+  );
+
+type
+  TMoedaBACENISO = record
+    CodigoMoedaBACEN: Integer;
+    SiglaMoedaBACEN: string;
+    NomePaisMoedaBACEN: string;
+    CodigoMoedaISO: Integer;
+    SiglaMoedaISO: string;
+    NomePaisMoedaISO: string;
+  end;
+
+const
+  Moedas: array[0..157] of TMoedaBACENISO = (
+    (CodigoMoedaBACEN: 005; SiglaMoedaBACEN: 'AFN'; NomePaisMoedaBACEN: 'AFEGANISTAO'; CodigoMoedaISO: 971; SiglaMoedaISO: 'AFN'; NomePaisMoedaISO: 'AFEGANISTÃO'),
+    (CodigoMoedaBACEN: 785; SiglaMoedaBACEN: 'ZAR'; NomePaisMoedaBACEN: 'AFRICA DO SUL'; CodigoMoedaISO: 710; SiglaMoedaISO: 'ZAR'; NomePaisMoedaISO: 'ÁFRICA DO SUL'),
+    (CodigoMoedaBACEN: 490; SiglaMoedaBACEN: 'ALL'; NomePaisMoedaBACEN: 'ALBANIA, REPUBLICA DA'; CodigoMoedaISO: 008; SiglaMoedaISO: 'ALL'; NomePaisMoedaISO: 'ALBANIA'),
+    (CodigoMoedaBACEN: 635; SiglaMoedaBACEN: 'AOA'; NomePaisMoedaBACEN: 'ANGOLA'; CodigoMoedaISO: 973; SiglaMoedaISO: 'AOA'; NomePaisMoedaISO: 'ANGOLA'),
+    (CodigoMoedaBACEN: 820; SiglaMoedaBACEN: 'SAR'; NomePaisMoedaBACEN: 'ARABIA SAUDITA'; CodigoMoedaISO: 682; SiglaMoedaISO: 'SAR'; NomePaisMoedaISO: 'ARÁBIA SAUDITA'),
+    (CodigoMoedaBACEN: 095; SiglaMoedaBACEN: 'DZD'; NomePaisMoedaBACEN: 'ARGELIA'; CodigoMoedaISO: 012; SiglaMoedaISO: 'DZD'; NomePaisMoedaISO: 'ARGÉLIA'),
+    (CodigoMoedaBACEN: 706; SiglaMoedaBACEN: 'ARS'; NomePaisMoedaBACEN: 'ARGENTINA'; CodigoMoedaISO: 032; SiglaMoedaISO: 'ARS'; NomePaisMoedaISO: 'ARGENTINA'),
+    (CodigoMoedaBACEN: 275; SiglaMoedaBACEN: 'AMD'; NomePaisMoedaBACEN: 'ARMENIA, REPUBLICA DA'; CodigoMoedaISO: 051; SiglaMoedaISO: 'AMD'; NomePaisMoedaISO: 'ARMÊNIA'),
+    (CodigoMoedaBACEN: 328; SiglaMoedaBACEN: 'AWG'; NomePaisMoedaBACEN: 'ARUBA'; CodigoMoedaISO: 533; SiglaMoedaISO: 'AWG'; NomePaisMoedaISO: 'ARUBA'),
+    (CodigoMoedaBACEN: 150; SiglaMoedaBACEN: 'AUD'; NomePaisMoedaBACEN: 'AUSTRALIA'; CodigoMoedaISO: 036; SiglaMoedaISO: 'AUD'; NomePaisMoedaISO: 'AUSTRÁLIA'),
+    (CodigoMoedaBACEN: 607; SiglaMoedaBACEN: 'AZN'; NomePaisMoedaBACEN: 'AZERBAIJAO, REPUBLICA DO'; CodigoMoedaISO: 944; SiglaMoedaISO: 'AZN'; NomePaisMoedaISO: 'AZERBAIJÃO'),
+    (CodigoMoedaBACEN: 155; SiglaMoedaBACEN: 'BSD'; NomePaisMoedaBACEN: 'BAHAMAS, ILHAS'; CodigoMoedaISO: 044; SiglaMoedaISO: 'BSD'; NomePaisMoedaISO: 'BAHAMAS (THE)'),
+    (CodigoMoedaBACEN: 105; SiglaMoedaBACEN: 'BHD'; NomePaisMoedaBACEN: 'BAHREIN, ILHAS'; CodigoMoedaISO: 048; SiglaMoedaISO: 'BHD'; NomePaisMoedaISO: 'BAHREIN'),
+    (CodigoMoedaBACEN: 905; SiglaMoedaBACEN: 'BDT'; NomePaisMoedaBACEN: 'BANGLADESH'; CodigoMoedaISO: 050; SiglaMoedaISO: 'BDT'; NomePaisMoedaISO: 'BANGLADESH'),
+    (CodigoMoedaBACEN: 175; SiglaMoedaBACEN: 'BBD'; NomePaisMoedaBACEN: 'BARBADOS'; CodigoMoedaISO: 052; SiglaMoedaISO: 'BBD'; NomePaisMoedaISO: 'BARBADOS'),
+    (CodigoMoedaBACEN: 831; SiglaMoedaBACEN: 'BYN'; NomePaisMoedaBACEN: 'BELARUS, REPUBLICA DA'; CodigoMoedaISO: 974; SiglaMoedaISO: 'BYR'; NomePaisMoedaISO: 'BELARUS'),
+    (CodigoMoedaBACEN: 180; SiglaMoedaBACEN: 'BZD'; NomePaisMoedaBACEN: 'BELIZE'; CodigoMoedaISO: 084; SiglaMoedaISO: 'BZD'; NomePaisMoedaISO: 'BELIZE'),
+    (CodigoMoedaBACEN: 160; SiglaMoedaBACEN: 'BMD'; NomePaisMoedaBACEN: 'BERMUDAS'; CodigoMoedaISO: 060; SiglaMoedaISO: 'BMD'; NomePaisMoedaISO: 'BERMUDA'),
+    (CodigoMoedaBACEN: 030; SiglaMoedaBACEN: 'BOB'; NomePaisMoedaBACEN: 'BOLIVIA'; CodigoMoedaISO: 068; SiglaMoedaISO: 'BOB'; NomePaisMoedaISO: 'BOLÍVIA (ESTADO PLURINACIONAL DA)'),
+    (CodigoMoedaBACEN: 612; SiglaMoedaBACEN: 'BAM'; NomePaisMoedaBACEN: 'BOSNIA-HERZEGOVINA (REPUBLICA DA)'; CodigoMoedaISO: 977; SiglaMoedaISO: 'BAM'; NomePaisMoedaISO: 'BOSNIA E HERZEGOVINA'),
+    (CodigoMoedaBACEN: 755; SiglaMoedaBACEN: 'BWP'; NomePaisMoedaBACEN: 'BOTSUANA'; CodigoMoedaISO: 072; SiglaMoedaISO: 'BWP'; NomePaisMoedaISO: 'BOTSWANA'),
+    (CodigoMoedaBACEN: 790; SiglaMoedaBACEN: 'BRL'; NomePaisMoedaBACEN: 'BRASIL'; CodigoMoedaISO: 986; SiglaMoedaISO: 'BRL'; NomePaisMoedaISO: 'BRASIL'),
+    (CodigoMoedaBACEN: 185; SiglaMoedaBACEN: 'BND'; NomePaisMoedaBACEN: 'BRUNEI'; CodigoMoedaISO: 096; SiglaMoedaISO: 'BND'; NomePaisMoedaISO: 'BRUNEI DARUSSALAM'),
+    (CodigoMoedaBACEN: 365; SiglaMoedaBACEN: 'BIF'; NomePaisMoedaBACEN: 'BURUNDI'; CodigoMoedaISO: 108; SiglaMoedaISO: 'BIF'; NomePaisMoedaISO: 'BURUNDI'),
+    (CodigoMoedaBACEN: 665; SiglaMoedaBACEN: 'BTN'; NomePaisMoedaBACEN: 'BUTAO'; CodigoMoedaISO: 064; SiglaMoedaISO: 'BTN'; NomePaisMoedaISO: 'Butão'),
+    (CodigoMoedaBACEN: 665; SiglaMoedaBACEN: 'BTN'; NomePaisMoedaBACEN: 'BUTAO'; CodigoMoedaISO: 356; SiglaMoedaISO: 'INR'; NomePaisMoedaISO: 'Butão'),
+    (CodigoMoedaBACEN: 295; SiglaMoedaBACEN: 'CVE'; NomePaisMoedaBACEN: 'CABO VERDE, REPUBLICA DE'; CodigoMoedaISO: 132; SiglaMoedaISO: 'CVE'; NomePaisMoedaISO: 'CABO VERDE'),
+    (CodigoMoedaBACEN: 825; SiglaMoedaBACEN: 'KHR'; NomePaisMoedaBACEN: 'CAMBOJA'; CodigoMoedaISO: 116; SiglaMoedaISO: 'KHR'; NomePaisMoedaISO: 'CAMBODIA'),
+    (CodigoMoedaBACEN: 165; SiglaMoedaBACEN: 'CAD'; NomePaisMoedaBACEN: 'CANADA'; CodigoMoedaISO: 124; SiglaMoedaISO: 'CAD'; NomePaisMoedaISO: 'CANADÁ'),
+    (CodigoMoedaBACEN: 800; SiglaMoedaBACEN: 'QAR'; NomePaisMoedaBACEN: 'CATAR'; CodigoMoedaISO: 634; SiglaMoedaISO: 'QAR'; NomePaisMoedaISO: 'QATAR'),
+    (CodigoMoedaBACEN: 190; SiglaMoedaBACEN: 'KYD'; NomePaisMoedaBACEN: 'CAYMAN, ILHAS'; CodigoMoedaISO: 136; SiglaMoedaISO: 'KYD'; NomePaisMoedaISO: 'ILHAS CAYMAN'),
+    (CodigoMoedaBACEN: 913; SiglaMoedaBACEN: 'KZT'; NomePaisMoedaBACEN: 'CAZAQUISTAO, REPUBLICA DO'; CodigoMoedaISO: 398; SiglaMoedaISO: 'KZT'; NomePaisMoedaISO: 'CAZAQUISTÃO'),
+    (CodigoMoedaBACEN: 197; SiglaMoedaBACEN: 'CLF'; NomePaisMoedaBACEN: 'CHILE'; CodigoMoedaISO: 990; SiglaMoedaISO: 'CLF'; NomePaisMoedaISO: 'CHILE'),
+    (CodigoMoedaBACEN: 197; SiglaMoedaBACEN: 'CLF'; NomePaisMoedaBACEN: 'CHILE'; CodigoMoedaISO: 152; SiglaMoedaISO: 'CLP'; NomePaisMoedaISO: 'CHILE'),
+    (CodigoMoedaBACEN: 715; SiglaMoedaBACEN: 'CLP'; NomePaisMoedaBACEN: 'CHILE'; CodigoMoedaISO: 990; SiglaMoedaISO: 'CLF'; NomePaisMoedaISO: 'CHILE'),
+    (CodigoMoedaBACEN: 715; SiglaMoedaBACEN: 'CLP'; NomePaisMoedaBACEN: 'CHILE'; CodigoMoedaISO: 152; SiglaMoedaISO: 'CLP'; NomePaisMoedaISO: 'CHILE'),
+    (CodigoMoedaBACEN: 795; SiglaMoedaBACEN: 'CNY'; NomePaisMoedaBACEN: 'CHINA, REPUBLICA POPULAR'; CodigoMoedaISO: 156; SiglaMoedaISO: 'CNY'; NomePaisMoedaISO: 'CHINA'),
+    (CodigoMoedaBACEN: 195; SiglaMoedaBACEN: 'SGD'; NomePaisMoedaBACEN: 'CINGAPURA'; CodigoMoedaISO: 702; SiglaMoedaISO: 'SGD'; NomePaisMoedaISO: 'CINGAPURA'),
+    (CodigoMoedaBACEN: 720; SiglaMoedaBACEN: 'COP'; NomePaisMoedaBACEN: 'COLOMBIA'; CodigoMoedaISO: 170; SiglaMoedaISO: 'COP'; NomePaisMoedaISO: 'COLÔMBIA'),
+    (CodigoMoedaBACEN: 720; SiglaMoedaBACEN: 'COP'; NomePaisMoedaBACEN: 'COLOMBIA'; CodigoMoedaISO: 970; SiglaMoedaISO: 'COU'; NomePaisMoedaISO: 'COLÔMBIA'),
+    (CodigoMoedaBACEN: 721; SiglaMoedaBACEN: 'COU'; NomePaisMoedaBACEN: 'COLOMBIA'; CodigoMoedaISO: 170; SiglaMoedaISO: 'COP'; NomePaisMoedaISO: 'COLÔMBIA'),
+    (CodigoMoedaBACEN: 721; SiglaMoedaBACEN: 'COU'; NomePaisMoedaBACEN: 'COLOMBIA'; CodigoMoedaISO: 970; SiglaMoedaISO: 'COU'; NomePaisMoedaISO: 'COLÔMBIA'),
+    (CodigoMoedaBACEN: 368; SiglaMoedaBACEN: 'KMF'; NomePaisMoedaBACEN: 'COMORES, ILHAS'; CodigoMoedaISO: 174; SiglaMoedaISO: 'KMF'; NomePaisMoedaISO: 'COMOROS'),
+    (CodigoMoedaBACEN: 363; SiglaMoedaBACEN: 'CDF'; NomePaisMoedaBACEN: 'CONGO, REPUBLICA DEMOCRATICA DO'; CodigoMoedaISO: 976; SiglaMoedaISO: 'CDF'; NomePaisMoedaISO: 'CONGO (REPÚBLICA DEMOCRÁTICA DO)'),
+    (CodigoMoedaBACEN: 925; SiglaMoedaBACEN: 'KPW'; NomePaisMoedaBACEN: 'COREIA, REP.POP.DEMOCRATICA'; CodigoMoedaISO: 408; SiglaMoedaISO: 'KPW'; NomePaisMoedaISO: 'CORÉIA (REPÚLICA POPULAR)'),
+    (CodigoMoedaBACEN: 930; SiglaMoedaBACEN: 'KRW'; NomePaisMoedaBACEN: 'COREIA, REPUBLICA DA'; CodigoMoedaISO: 410; SiglaMoedaISO: 'KRW'; NomePaisMoedaISO: 'CORÉIA (REPÚBLICA DA)'),
+    (CodigoMoedaBACEN: 040; SiglaMoedaBACEN: 'CRC'; NomePaisMoedaBACEN: 'COSTA RICA'; CodigoMoedaISO: 188; SiglaMoedaISO: 'CRC'; NomePaisMoedaISO: 'COSTA RICA'),
+    (CodigoMoedaBACEN: 100; SiglaMoedaBACEN: 'KWD'; NomePaisMoedaBACEN: 'COVEITE'; CodigoMoedaISO: 414; SiglaMoedaISO: 'KWD'; NomePaisMoedaISO: 'O Dinar do Kuwait'),
+    (CodigoMoedaBACEN: 725; SiglaMoedaBACEN: 'CUP'; NomePaisMoedaBACEN: 'CUBA'; CodigoMoedaISO: 931; SiglaMoedaISO: 'CUC'; NomePaisMoedaISO: 'CUBA'),
+    (CodigoMoedaBACEN: 725; SiglaMoedaBACEN: 'CUP'; NomePaisMoedaBACEN: 'CUBA'; CodigoMoedaISO: 192; SiglaMoedaISO: 'CUP'; NomePaisMoedaISO: 'CUBA'),
+    (CodigoMoedaBACEN: 055; SiglaMoedaBACEN: 'DKK'; NomePaisMoedaBACEN: 'DINAMARCA'; CodigoMoedaISO: 208; SiglaMoedaISO: 'DKK'; NomePaisMoedaISO: 'DINAMARCA'),
+    (CodigoMoedaBACEN: 390; SiglaMoedaBACEN: 'DJF'; NomePaisMoedaBACEN: 'DJIBUTI'; CodigoMoedaISO: 262; SiglaMoedaISO: 'DJIBOUTI'; NomePaisMoedaISO: 'Franco do Djibouti'),
+    (CodigoMoedaBACEN: 535; SiglaMoedaBACEN: 'EGP'; NomePaisMoedaBACEN: 'EGITO'; CodigoMoedaISO: 818; SiglaMoedaISO: 'EGP'; NomePaisMoedaISO: 'EGITO'),
+    (CodigoMoedaBACEN: 045; SiglaMoedaBACEN: 'SVC'; NomePaisMoedaBACEN: 'EL SALVADOR'; CodigoMoedaISO: 222; SiglaMoedaISO: 'SVC'; NomePaisMoedaISO: 'EL SALVADOR'),
+    (CodigoMoedaBACEN: 045; SiglaMoedaBACEN: 'SVC'; NomePaisMoedaBACEN: 'EL SALVADOR'; CodigoMoedaISO: 840; SiglaMoedaISO: 'USD'; NomePaisMoedaISO: 'EL SALVADOR'),
+    (CodigoMoedaBACEN: 145; SiglaMoedaBACEN: 'AED'; NomePaisMoedaBACEN: 'EMIRADOS ARABES UNIDOS'; CodigoMoedaISO: 784; SiglaMoedaISO: 'AED'; NomePaisMoedaISO: 'EMIRADOS ÁRABES UNIDOS'),
+    (CodigoMoedaBACEN: 625; SiglaMoedaBACEN: 'ERN'; NomePaisMoedaBACEN: 'ERITREIA'; CodigoMoedaISO: 232; SiglaMoedaISO: 'ERN'; NomePaisMoedaISO: 'ERITREA'),
+    (CodigoMoedaBACEN: 009; SiglaMoedaBACEN: 'ETB'; NomePaisMoedaBACEN: 'ETIOPIA'; CodigoMoedaISO: 230; SiglaMoedaISO: 'ETB'; NomePaisMoedaISO: 'ETIÓPIA'),
+    (CodigoMoedaBACEN: 545; SiglaMoedaBACEN: 'FKP'; NomePaisMoedaBACEN: 'FALKLAND (ILHAS MALVINAS)'; CodigoMoedaISO: 238; SiglaMoedaISO: 'FKP'; NomePaisMoedaISO: 'ILHAS FALKLAND [MALVINAS]'),
+    (CodigoMoedaBACEN: 200; SiglaMoedaBACEN: 'FJD'; NomePaisMoedaBACEN: 'FIJI'; CodigoMoedaISO: 242; SiglaMoedaISO: 'FJD'; NomePaisMoedaISO: 'FIJI'),
+    (CodigoMoedaBACEN: 735; SiglaMoedaBACEN: 'PHP'; NomePaisMoedaBACEN: 'FILIPINAS'; CodigoMoedaISO: 608; SiglaMoedaISO: 'PHP'; NomePaisMoedaISO: 'FILIPINAS'),
+    (CodigoMoedaBACEN: 640; SiglaMoedaBACEN: 'TWD'; NomePaisMoedaBACEN: 'FORMOSA (TAIWAN)'; CodigoMoedaISO: 901; SiglaMoedaISO: 'TWD'; NomePaisMoedaISO: 'TAIWAN, PROVÍNCIA DA CHINA)'),
+    (CodigoMoedaBACEN: 090; SiglaMoedaBACEN: 'GMD'; NomePaisMoedaBACEN: 'GAMBIA'; CodigoMoedaISO: 270; SiglaMoedaISO: 'GMD'; NomePaisMoedaISO: 'GÂMBIA'),
+    (CodigoMoedaBACEN: 035; SiglaMoedaBACEN: 'GHS'; NomePaisMoedaBACEN: 'GANA'; CodigoMoedaISO: 936; SiglaMoedaISO: 'GHS'; NomePaisMoedaISO: 'GANA'),
+    (CodigoMoedaBACEN: 482; SiglaMoedaBACEN: 'GEL'; NomePaisMoedaBACEN: 'GEORGIA, REPUBLICA DA'; CodigoMoedaISO: 981; SiglaMoedaISO: 'GEL'; NomePaisMoedaISO: 'GEÓRGIA'),
+    (CodigoMoedaBACEN: 530; SiglaMoedaBACEN: 'GIP'; NomePaisMoedaBACEN: 'GIBRALTAR'; CodigoMoedaISO: 292; SiglaMoedaISO: 'GIP'; NomePaisMoedaISO: 'GIBRALTAR'),
+    (CodigoMoedaBACEN: 770; SiglaMoedaBACEN: 'GTQ'; NomePaisMoedaBACEN: 'GUATEMALA'; CodigoMoedaISO: 320; SiglaMoedaISO: 'GTQ'; NomePaisMoedaISO: 'GUATEMALA'),
+    (CodigoMoedaBACEN: 170; SiglaMoedaBACEN: 'GYD'; NomePaisMoedaBACEN: 'GUIANA'; CodigoMoedaISO: 328; SiglaMoedaISO: 'GYD'; NomePaisMoedaISO: 'GUIANA'),
+    (CodigoMoedaBACEN: 398; SiglaMoedaBACEN: 'GNF'; NomePaisMoedaBACEN: 'GUINE'; CodigoMoedaISO: 324; SiglaMoedaISO: 'GNF'; NomePaisMoedaISO: 'GUINÉ'),
+    (CodigoMoedaBACEN: 440; SiglaMoedaBACEN: 'HTG'; NomePaisMoedaBACEN: 'HAITI'; CodigoMoedaISO: 332; SiglaMoedaISO: 'HTG'; NomePaisMoedaISO: 'HAITI'),
+    (CodigoMoedaBACEN: 440; SiglaMoedaBACEN: 'HTG'; NomePaisMoedaBACEN: 'HAITI'; CodigoMoedaISO: 840; SiglaMoedaISO: 'USD'; NomePaisMoedaISO: 'HAITI'),
+    (CodigoMoedaBACEN: 495; SiglaMoedaBACEN: 'HNL'; NomePaisMoedaBACEN: 'HONDURAS'; CodigoMoedaISO: 340; SiglaMoedaISO: 'HNL'; NomePaisMoedaISO: 'HONDURAS'),
+    (CodigoMoedaBACEN: 205; SiglaMoedaBACEN: 'HKD'; NomePaisMoedaBACEN: 'HONG KONG'; CodigoMoedaISO: 344; SiglaMoedaISO: 'HKD'; NomePaisMoedaISO: 'HONG KONG'),
+    (CodigoMoedaBACEN: 345; SiglaMoedaBACEN: 'HUF'; NomePaisMoedaBACEN: 'HUNGRIA, REPUBLICA DA'; CodigoMoedaISO: 348; SiglaMoedaISO: 'HUF'; NomePaisMoedaISO: 'HUNGRIA'),
+    (CodigoMoedaBACEN: 810; SiglaMoedaBACEN: 'YER'; NomePaisMoedaBACEN: 'IEMEN'; CodigoMoedaISO: 886; SiglaMoedaISO: 'YER'; NomePaisMoedaISO: 'IÉMEN'),
+    (CodigoMoedaBACEN: 860; SiglaMoedaBACEN: 'INR'; NomePaisMoedaBACEN: 'INDIA'; CodigoMoedaISO: 356; SiglaMoedaISO: 'INR'; NomePaisMoedaISO: 'ÍNDIA'),
+    (CodigoMoedaBACEN: 865; SiglaMoedaBACEN: 'IDR'; NomePaisMoedaBACEN: 'INDONESIA'; CodigoMoedaISO: 360; SiglaMoedaISO: 'IDR'; NomePaisMoedaISO: 'INDONÉSIA'),
+    (CodigoMoedaBACEN: 815; SiglaMoedaBACEN: 'IRR'; NomePaisMoedaBACEN: 'IRA, REPUBLICA ISLAMICA DO'; CodigoMoedaISO: 364; SiglaMoedaISO: 'IRR'; NomePaisMoedaISO: 'IRÃ (REPÚBLICA ISLÂMICA DO)'),
+    (CodigoMoedaBACEN: 115; SiglaMoedaBACEN: 'IQD'; NomePaisMoedaBACEN: 'IRAQUE'; CodigoMoedaISO: 368; SiglaMoedaISO: 'IQD'; NomePaisMoedaISO: 'IRAQUE'),
+    (CodigoMoedaBACEN: 060; SiglaMoedaBACEN: 'ISK'; NomePaisMoedaBACEN: 'ISLANDIA'; CodigoMoedaISO: 352; SiglaMoedaISO: 'ISK'; NomePaisMoedaISO: 'ISLÂNDIA'),
+    (CodigoMoedaBACEN: 880; SiglaMoedaBACEN: 'ILS'; NomePaisMoedaBACEN: 'ISRAEL'; CodigoMoedaISO: 376; SiglaMoedaISO: 'ILS'; NomePaisMoedaISO: 'ISRAEL'),
+    (CodigoMoedaBACEN: 230; SiglaMoedaBACEN: 'JMD'; NomePaisMoedaBACEN: 'JAMAICA'; CodigoMoedaISO: 388; SiglaMoedaISO: 'JMD'; NomePaisMoedaISO: 'JAMAICA'),
+    (CodigoMoedaBACEN: 470; SiglaMoedaBACEN: 'JPY'; NomePaisMoedaBACEN: 'JAPAO'; CodigoMoedaISO: 392; SiglaMoedaISO: 'JPY'; NomePaisMoedaISO: 'JAPÃO'),
+    (CodigoMoedaBACEN: 125; SiglaMoedaBACEN: 'JOD'; NomePaisMoedaBACEN: 'JORDANIA'; CodigoMoedaISO: 400; SiglaMoedaISO: 'JOD'; NomePaisMoedaISO: 'JORDÂNIA'),
+    (CodigoMoedaBACEN: 780; SiglaMoedaBACEN: 'LAK'; NomePaisMoedaBACEN: 'LAOS, REP.POP.DEMOCR.DO'; CodigoMoedaISO: 418; SiglaMoedaISO: 'LAK'; NomePaisMoedaISO: 'LAO'),
+    (CodigoMoedaBACEN: 603; SiglaMoedaBACEN: 'LSL'; NomePaisMoedaBACEN: 'LESOTO'; CodigoMoedaISO: 426; SiglaMoedaISO: 'LSL'; NomePaisMoedaISO: 'LESOTHO'),
+    (CodigoMoedaBACEN: 560; SiglaMoedaBACEN: 'LBP'; NomePaisMoedaBACEN: 'LIBANO'; CodigoMoedaISO: 422; SiglaMoedaISO: 'LBP'; NomePaisMoedaISO: 'LÍBANO'),
+    (CodigoMoedaBACEN: 235; SiglaMoedaBACEN: 'LRD'; NomePaisMoedaBACEN: 'LIBERIA'; CodigoMoedaISO: 430; SiglaMoedaISO: 'LRD'; NomePaisMoedaISO: 'LIBÉRIA'),
+    (CodigoMoedaBACEN: 130; SiglaMoedaBACEN: 'LYD'; NomePaisMoedaBACEN: 'LIBIA'; CodigoMoedaISO: 434; SiglaMoedaISO: 'LYD'; NomePaisMoedaISO: 'LÍBIA'),
+    (CodigoMoedaBACEN: 685; SiglaMoedaBACEN: 'MOP'; NomePaisMoedaBACEN: 'MACAU'; CodigoMoedaISO: 446; SiglaMoedaISO: 'MOP'; NomePaisMoedaISO: 'MACAO'),
+    (CodigoMoedaBACEN: 132; SiglaMoedaBACEN: 'MKD'; NomePaisMoedaBACEN: 'MACEDONIA DO NORTE'; CodigoMoedaISO: 807; SiglaMoedaISO: 'MKD'; NomePaisMoedaISO: 'MACEDÔNIA (ANTIGA REPÚBLICA JUGOSLAVA)'),
+    (CodigoMoedaBACEN: 406; SiglaMoedaBACEN: 'MGA'; NomePaisMoedaBACEN: 'MADAGASCAR'; CodigoMoedaISO: 969; SiglaMoedaISO: 'MGA'; NomePaisMoedaISO: 'MADAGASCAR'),
+    (CodigoMoedaBACEN: 828; SiglaMoedaBACEN: 'MYR'; NomePaisMoedaBACEN: 'MALASIA'; CodigoMoedaISO: 458; SiglaMoedaISO: 'MYR'; NomePaisMoedaISO: 'MALÁSIA'),
+    (CodigoMoedaBACEN: 760; SiglaMoedaBACEN: 'MWK'; NomePaisMoedaBACEN: 'MALAVI'; CodigoMoedaISO: 454; SiglaMoedaISO: 'MWK'; NomePaisMoedaISO: 'MALAWI'),
+    (CodigoMoedaBACEN: 870; SiglaMoedaBACEN: 'MVR'; NomePaisMoedaBACEN: 'MALDIVAS'; CodigoMoedaISO: 462; SiglaMoedaISO: 'MVR'; NomePaisMoedaISO: 'MALDIVAS'),
+    (CodigoMoedaBACEN: 139; SiglaMoedaBACEN: 'MAD'; NomePaisMoedaBACEN: 'MARROCOS'; CodigoMoedaISO: 504; SiglaMoedaISO: 'MAD'; NomePaisMoedaISO: 'MARROCOS'),
+    (CodigoMoedaBACEN: 840; SiglaMoedaBACEN: 'MUR'; NomePaisMoedaBACEN: 'MAURICIO'; CodigoMoedaISO: 480; SiglaMoedaISO: 'MUR'; NomePaisMoedaISO: 'MAURÍCIA'),
+    (CodigoMoedaBACEN: 670; SiglaMoedaBACEN: 'MRO'; NomePaisMoedaBACEN: 'MAURITANIA'; CodigoMoedaISO: 478; SiglaMoedaISO: 'MRO'; NomePaisMoedaISO: 'MAURITÂNIA'),
+    (CodigoMoedaBACEN: 671; SiglaMoedaBACEN: 'MRU'; NomePaisMoedaBACEN: 'MAURITANIA'; CodigoMoedaISO: 478; SiglaMoedaISO: 'MRO'; NomePaisMoedaISO: 'MAURITÂNIA'),
+    (CodigoMoedaBACEN: 741; SiglaMoedaBACEN: 'MXN'; NomePaisMoedaBACEN: 'MEXICO'; CodigoMoedaISO: 979; SiglaMoedaISO: 'MXV'; NomePaisMoedaISO: 'MÉXICO'),
+    (CodigoMoedaBACEN: 741; SiglaMoedaBACEN: 'MXN'; NomePaisMoedaBACEN: 'MEXICO'; CodigoMoedaISO: 484; SiglaMoedaISO: 'MXN'; NomePaisMoedaISO: 'MÉXICO'),
+    (CodigoMoedaBACEN: 775; SiglaMoedaBACEN: 'MMK'; NomePaisMoedaBACEN: 'MIANMAR (BIRMANIA)'; CodigoMoedaISO: 104; SiglaMoedaISO: 'MMK'; NomePaisMoedaISO: 'MYANMAR'),
+    (CodigoMoedaBACEN: 622; SiglaMoedaBACEN: 'MZN'; NomePaisMoedaBACEN: 'MOCAMBIQUE'; CodigoMoedaISO: 943; SiglaMoedaISO: 'MZN'; NomePaisMoedaISO: 'MOÇAMBIQUE'),
+    (CodigoMoedaBACEN: 503; SiglaMoedaBACEN: 'MDL'; NomePaisMoedaBACEN: 'MOLDAVIA, REPUBLICA DA'; CodigoMoedaISO: 498; SiglaMoedaISO: 'MDL'; NomePaisMoedaISO: 'MOLDÁVIA'),
+    (CodigoMoedaBACEN: 915; SiglaMoedaBACEN: 'MNT'; NomePaisMoedaBACEN: 'MONGOLIA'; CodigoMoedaISO: 496; SiglaMoedaISO: 'MNT'; NomePaisMoedaISO: 'MONGÓLIA'),
+    (CodigoMoedaBACEN: 173; SiglaMoedaBACEN: 'NAD'; NomePaisMoedaBACEN: 'NAMIBIA'; CodigoMoedaISO: 516; SiglaMoedaISO: 'NAD'; NomePaisMoedaISO: 'NAMÍBIA'),
+    (CodigoMoedaBACEN: 173; SiglaMoedaBACEN: 'NAD'; NomePaisMoedaBACEN: 'NAMIBIA'; CodigoMoedaISO: 710; SiglaMoedaISO: 'ZAR'; NomePaisMoedaISO: 'NAMÍBIA'),
+    (CodigoMoedaBACEN: 845; SiglaMoedaBACEN: 'NPR'; NomePaisMoedaBACEN: 'NEPAL'; CodigoMoedaISO: 524; SiglaMoedaISO: 'NPR'; NomePaisMoedaISO: 'NEPAL'),
+    (CodigoMoedaBACEN: 051; SiglaMoedaBACEN: 'NIO'; NomePaisMoedaBACEN: 'NICARAGUA'; CodigoMoedaISO: 558; SiglaMoedaISO: 'NIO'; NomePaisMoedaISO: 'NICARÁGUA'),
+    (CodigoMoedaBACEN: 630; SiglaMoedaBACEN: 'NGN'; NomePaisMoedaBACEN: 'NIGERIA'; CodigoMoedaISO: 566; SiglaMoedaISO: 'NGN'; NomePaisMoedaISO: 'NIGÉRIA'),
+    (CodigoMoedaBACEN: 065; SiglaMoedaBACEN: 'NOK'; NomePaisMoedaBACEN: 'NORUEGA'; CodigoMoedaISO: 578; SiglaMoedaISO: 'NOK'; NomePaisMoedaISO: 'NORUEGA'),
+    (CodigoMoedaBACEN: 805; SiglaMoedaBACEN: 'OMR'; NomePaisMoedaBACEN: 'OMA'; CodigoMoedaISO: 512; SiglaMoedaISO: 'OMR'; NomePaisMoedaISO: 'OMAN'),
+    (CodigoMoedaBACEN: 020; SiglaMoedaBACEN: 'PAB'; NomePaisMoedaBACEN: 'PANAMA'; CodigoMoedaISO: 590; SiglaMoedaISO: 'PAB'; NomePaisMoedaISO: 'PANAMÁ'),
+    (CodigoMoedaBACEN: 020; SiglaMoedaBACEN: 'PAB'; NomePaisMoedaBACEN: 'PANAMA'; CodigoMoedaISO: 840; SiglaMoedaISO: 'USD'; NomePaisMoedaISO: 'PANAMÁ'),
+    (CodigoMoedaBACEN: 778; SiglaMoedaBACEN: 'PGK'; NomePaisMoedaBACEN: 'PAPUA NOVA GUINE'; CodigoMoedaISO: 598; SiglaMoedaISO: 'PGK'; NomePaisMoedaISO: 'PAPUA NOVA GUINÉ'),
+    (CodigoMoedaBACEN: 875; SiglaMoedaBACEN: 'PKR'; NomePaisMoedaBACEN: 'PAQUISTAO'; CodigoMoedaISO: 586; SiglaMoedaISO: 'PKR'; NomePaisMoedaISO: 'PAQUISTÃO'),
+    (CodigoMoedaBACEN: 450; SiglaMoedaBACEN: 'PYG'; NomePaisMoedaBACEN: 'PARAGUAI'; CodigoMoedaISO: 600; SiglaMoedaISO: 'PYG'; NomePaisMoedaISO: 'PARAGUAI'),
+    (CodigoMoedaBACEN: 660; SiglaMoedaBACEN: 'PEN'; NomePaisMoedaBACEN: 'PERU'; CodigoMoedaISO: 604; SiglaMoedaISO: 'PEN'; NomePaisMoedaISO: 'PERU'),
+    (CodigoMoedaBACEN: 380; SiglaMoedaBACEN: 'XPF'; NomePaisMoedaBACEN: 'POLINESIA FRANCESA'; CodigoMoedaISO: 953; SiglaMoedaISO: 'XPF'; NomePaisMoedaISO: 'POLINÉSIA FRANCESA'),
+    (CodigoMoedaBACEN: 975; SiglaMoedaBACEN: 'PLN'; NomePaisMoedaBACEN: 'POLONIA, REPUBLICA DA'; CodigoMoedaISO: 985; SiglaMoedaISO: 'PLN'; NomePaisMoedaISO: 'POLÔNIA'),
+    (CodigoMoedaBACEN: 950; SiglaMoedaBACEN: 'KES'; NomePaisMoedaBACEN: 'QUENIA'; CodigoMoedaISO: 404; SiglaMoedaISO: 'KES'; NomePaisMoedaISO: 'QUÊNIA'),
+    (CodigoMoedaBACEN: 892; SiglaMoedaBACEN: 'KGS'; NomePaisMoedaBACEN: 'QUIRGUIZ, REPUBLICA'; CodigoMoedaISO: 417; SiglaMoedaISO: 'KGS'; NomePaisMoedaISO: 'QUIRGUIZISTÃO'),
+    (CodigoMoedaBACEN: 730; SiglaMoedaBACEN: 'DOP'; NomePaisMoedaBACEN: 'REPUBLICA DOMINICANA'; CodigoMoedaISO: 214; SiglaMoedaISO: 'DOP'; NomePaisMoedaISO: 'REPÚBLICA DOMINICANA'),
+    (CodigoMoedaBACEN: 506; SiglaMoedaBACEN: 'RON'; NomePaisMoedaBACEN: 'ROMENIA'; CodigoMoedaISO: 946; SiglaMoedaISO: 'RON'; NomePaisMoedaISO: 'ROMÊNIA'),
+    (CodigoMoedaBACEN: 420; SiglaMoedaBACEN: 'RWF'; NomePaisMoedaBACEN: 'RUANDA'; CodigoMoedaISO: 646; SiglaMoedaISO: 'RWF'; NomePaisMoedaISO: 'RWANDA'),
+    (CodigoMoedaBACEN: 830; SiglaMoedaBACEN: 'RUB'; NomePaisMoedaBACEN: 'RUSSIA, FEDERACAO DA'; CodigoMoedaISO: 643; SiglaMoedaISO: 'RUB'; NomePaisMoedaISO: 'FEDERAÇÃO RUSSA'),
+    (CodigoMoedaBACEN: 250; SiglaMoedaBACEN: 'SBD'; NomePaisMoedaBACEN: 'SALOMAO, ILHAS'; CodigoMoedaISO: 090; SiglaMoedaISO: 'SBD'; NomePaisMoedaISO: 'ILHAS SALOMÃO'),
+    (CodigoMoedaBACEN: 912; SiglaMoedaBACEN: 'WST'; NomePaisMoedaBACEN: 'SAMOA'; CodigoMoedaISO: 882; SiglaMoedaISO: 'WST'; NomePaisMoedaISO: 'SAMOA'),
+    (CodigoMoedaBACEN: 570; SiglaMoedaBACEN: 'SHP'; NomePaisMoedaBACEN: 'SANTA HELENA'; CodigoMoedaISO: 654; SiglaMoedaISO: 'SHP'; NomePaisMoedaISO: 'SAINT HELENA, ASCENSION E TRISTAN DA CUNHA'),
+    //(CodigoMoedaBACEN: 149; SiglaMoedaBACEN: 'STN'; NomePaisMoedaBACEN: 'SAO TOME E PRINCIPE, ILHAS'; CodigoMoedaISO: ; SiglaMoedaISO: ''; NomePaisMoedaISO: ''),
+    (CodigoMoedaBACEN: 500; SiglaMoedaBACEN: 'SLL'; NomePaisMoedaBACEN: 'SERRA LEOA'; CodigoMoedaISO: 694; SiglaMoedaISO: 'SLL'; NomePaisMoedaISO: 'SERRA LEOA'),
+    (CodigoMoedaBACEN: 133; SiglaMoedaBACEN: 'RSD'; NomePaisMoedaBACEN: 'SERVIA'; CodigoMoedaISO: 941; SiglaMoedaISO: 'RSD'; NomePaisMoedaISO: 'SÉRVIA'),
+    (CodigoMoedaBACEN: 850; SiglaMoedaBACEN: 'SCR'; NomePaisMoedaBACEN: 'SEYCHELLES'; CodigoMoedaISO: 690; SiglaMoedaISO: 'SCR'; NomePaisMoedaISO: 'SEYCHELLES'),
+    (CodigoMoedaBACEN: 575; SiglaMoedaBACEN: 'SYP'; NomePaisMoedaBACEN: 'SIRIA, REPUBLICA ARABE DA'; CodigoMoedaISO: 760; SiglaMoedaISO: 'SYP'; NomePaisMoedaISO: 'REPÚBLICA ÁRABE DA SÍRIA'),
+    (CodigoMoedaBACEN: 960; SiglaMoedaBACEN: 'SOS'; NomePaisMoedaBACEN: 'SOMALIA'; CodigoMoedaISO: 706; SiglaMoedaISO: 'SOS'; NomePaisMoedaISO: 'SOMÁLIA'),
+    (CodigoMoedaBACEN: 855; SiglaMoedaBACEN: 'LKR'; NomePaisMoedaBACEN: 'SRI LANKA'; CodigoMoedaISO: 144; SiglaMoedaISO: 'LKR'; NomePaisMoedaISO: 'SRI LANKA'),
+    (CodigoMoedaBACEN: 585; SiglaMoedaBACEN: 'SZL'; NomePaisMoedaBACEN: 'SUAZILANDIA'; CodigoMoedaISO: 748; SiglaMoedaISO: 'SZL'; NomePaisMoedaISO: 'Suazilândia'),
+    (CodigoMoedaBACEN: 134; SiglaMoedaBACEN: 'SDG'; NomePaisMoedaBACEN: 'SUDAO'; CodigoMoedaISO: 938; SiglaMoedaISO: 'SDG'; NomePaisMoedaISO: 'SUDÃO'),
+    (CodigoMoedaBACEN: 136; SiglaMoedaBACEN: 'SSP'; NomePaisMoedaBACEN: 'SUDAO DO SUL'; CodigoMoedaISO: 728; SiglaMoedaISO: 'SSP'; NomePaisMoedaISO: 'SUDÃO DO SUL'),
+    (CodigoMoedaBACEN: 070; SiglaMoedaBACEN: 'SEK'; NomePaisMoedaBACEN: 'SUECIA'; CodigoMoedaISO: 752; SiglaMoedaISO: 'SEK'; NomePaisMoedaISO: 'SUÉCIA'),
+    (CodigoMoedaBACEN: 255; SiglaMoedaBACEN: 'SRD'; NomePaisMoedaBACEN: 'SURINAME'; CodigoMoedaISO: 968; SiglaMoedaISO: 'SRD'; NomePaisMoedaISO: 'SURINAME'),
+    (CodigoMoedaBACEN: 835; SiglaMoedaBACEN: 'TJS'; NomePaisMoedaBACEN: 'TADJIQUISTAO, REPUBLICA DO'; CodigoMoedaISO: 972; SiglaMoedaISO: 'TJS'; NomePaisMoedaISO: 'TAJIQUISTÃO'),
+    (CodigoMoedaBACEN: 015; SiglaMoedaBACEN: 'THB'; NomePaisMoedaBACEN: 'TAILANDIA'; CodigoMoedaISO: 764; SiglaMoedaISO: 'THB'; NomePaisMoedaISO: 'TAILÂNDIA'),
+    (CodigoMoedaBACEN: 946; SiglaMoedaBACEN: 'TZS'; NomePaisMoedaBACEN: 'TANZANIA, REP.UNIDA DA'; CodigoMoedaISO: 834; SiglaMoedaISO: 'TZS'; NomePaisMoedaISO: 'TANZÂNIA, REPÚBLICA UNIDA'),
+    (CodigoMoedaBACEN: 075; SiglaMoedaBACEN: 'CZK'; NomePaisMoedaBACEN: 'TCHECA, REPUBLICA'; CodigoMoedaISO: 203; SiglaMoedaISO: 'CZK'; NomePaisMoedaISO: 'REPÚBLICA CHECA'),
+    (CodigoMoedaBACEN: 680; SiglaMoedaBACEN: 'TOP'; NomePaisMoedaBACEN: 'TONGA'; CodigoMoedaISO: 776; SiglaMoedaISO: 'TOP'; NomePaisMoedaISO: 'TONGA'),
+    (CodigoMoedaBACEN: 210; SiglaMoedaBACEN: 'TTD'; NomePaisMoedaBACEN: 'TRINIDAD E TOBAGO'; CodigoMoedaISO: 780; SiglaMoedaISO: 'TTD'; NomePaisMoedaISO: 'TRINIDAD E TOBAGO'),
+    (CodigoMoedaBACEN: 135; SiglaMoedaBACEN: 'TND'; NomePaisMoedaBACEN: 'TUNISIA'; CodigoMoedaISO: 788; SiglaMoedaISO: 'TND'; NomePaisMoedaISO: 'TUNÍSIA'),
+    (CodigoMoedaBACEN: 608; SiglaMoedaBACEN: 'TMT'; NomePaisMoedaBACEN: 'TURCOMENISTAO, REPUBLICA DO'; CodigoMoedaISO: 934; SiglaMoedaISO: 'TMT'; NomePaisMoedaISO: 'Turquemenistão'),
+    (CodigoMoedaBACEN: 642; SiglaMoedaBACEN: 'TRY'; NomePaisMoedaBACEN: 'TURQUIA'; CodigoMoedaISO: 949; SiglaMoedaISO: 'TRY'; NomePaisMoedaISO: 'TURQUIA'),
+    (CodigoMoedaBACEN: 460; SiglaMoedaBACEN: 'UAH'; NomePaisMoedaBACEN: 'UCRANIA'; CodigoMoedaISO: 980; SiglaMoedaISO: 'UAH'; NomePaisMoedaISO: 'UCRÂNIA'),
+    (CodigoMoedaBACEN: 955; SiglaMoedaBACEN: 'UGX'; NomePaisMoedaBACEN: 'UGANDA'; CodigoMoedaISO: 800; SiglaMoedaISO: 'UGX'; NomePaisMoedaISO: 'UGANDA'),
+    (CodigoMoedaBACEN: 745; SiglaMoedaBACEN: 'UYU'; NomePaisMoedaBACEN: 'URUGUAI'; CodigoMoedaISO: 940; SiglaMoedaISO: 'UYI'; NomePaisMoedaISO: 'URUGUAI'),
+    (CodigoMoedaBACEN: 745; SiglaMoedaBACEN: 'UYU'; NomePaisMoedaBACEN: 'URUGUAI'; CodigoMoedaISO: 858; SiglaMoedaISO: 'UYU'; NomePaisMoedaISO: 'URUGUAI'),
+    (CodigoMoedaBACEN: 893; SiglaMoedaBACEN: 'UZS'; NomePaisMoedaBACEN: 'UZBEQUISTAO, REPUBLICA DO'; CodigoMoedaISO: 860; SiglaMoedaISO: 'UZS'; NomePaisMoedaISO: 'Uzbequistão'),
+    (CodigoMoedaBACEN: 920; SiglaMoedaBACEN: 'VUV'; NomePaisMoedaBACEN: 'VANUATU'; CodigoMoedaISO: 548; SiglaMoedaISO: 'VUV'; NomePaisMoedaISO: 'VANUATU'),
+    //(CodigoMoedaBACEN: 027; SiglaMoedaBACEN: 'VES'; NomePaisMoedaBACEN: 'VENEZUELA'; CodigoMoedaISO: ; SiglaMoedaISO: ''; NomePaisMoedaISO: ''),
+    (CodigoMoedaBACEN: 260; SiglaMoedaBACEN: 'VND'; NomePaisMoedaBACEN: 'VIETNA'; CodigoMoedaISO: 704; SiglaMoedaISO: 'VND'; NomePaisMoedaISO: 'VIET NAM'),
+    (CodigoMoedaBACEN: 766; SiglaMoedaBACEN: 'ZMW'; NomePaisMoedaBACEN: 'ZAMBIA'; CodigoMoedaISO: 967; SiglaMoedaISO: 'ZMW'; NomePaisMoedaISO: 'ZÂMBIA'),
+    (CodigoMoedaBACEN: 218; SiglaMoedaBACEN: 'ZWG'; NomePaisMoedaBACEN: 'ZIMBABUE'; CodigoMoedaISO: 932; SiglaMoedaISO: 'ZWL'; NomePaisMoedaISO: 'ZIMBÁBUE')
   );
 
 const
@@ -13909,6 +14085,23 @@ begin
     end;
   end;
   raise EACBrException.CreateFmt('Valor string inválido para TServicoAPIPadraoNacional: %s', [s]);
+end;
+
+function MoedaBACENToMoedaISO(const ACodigoMoedaBACEN: Integer): Integer;
+var
+  I: Integer;
+  MoedaISO: Integer;
+begin
+  MoedaISO := 0;
+
+  for I := Low(Moedas) to High(Moedas) do
+    if Moedas[I].CodigoMoedaBACEN = ACodigoMoedaBACEN then
+    begin
+      MoedaISO := Moedas[I].CodigoMoedaISO;
+      Break;
+    end;
+
+  Result := MoedaISO;
 end;
 
 // Reforma Tributária

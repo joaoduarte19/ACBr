@@ -76,6 +76,7 @@ type
     function GeraAtividadeEvento: TACBrXmlNode; override;
     function GerarEnderecoEvento: TACBrXmlNode; override;
     function GerarEnderecoExteriorEvento: TACBrXmlNode; override;
+    function GerarComercioExterior: TACBrXmlNode; override;
   end;
 
 implementation
@@ -601,6 +602,46 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#1', 'EstadoExterior', 1, 60, 1,
                                           NFSe.Servico.Evento.Endereco.UF, ''));
+end;
+
+function TNFSeW_ISSFortaleza.GerarComercioExterior: TACBrXmlNode;
+begin
+  Result := nil;
+
+  if NFSe.Servico.comExt.tpMoeda > 0 then
+  begin
+    Result := CreateElement('Exportacao');
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'ModoPrestacao', 1, 1, 1,
+                        mdPrestacaoToStr(NFSe.Servico.comExt.mdPrestacao), ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'VinculoPrestacao', 1, 1, 1,
+                            vincPrestToStr(NFSe.Servico.comExt.vincPrest), ''));
+
+    Result.AppendChild(AddNode(tcInt, '#1', 'TipoMoeda', 3, 3, 1,
+                        MoedaBACENToMoedaISO(NFSe.Servico.comExt.tpMoeda), ''));
+
+    Result.AppendChild(AddNode(tcDe2, '#1', 'ValorServicoExportacao', 1, 15, 1,
+                                           NFSe.Servico.comExt.vServMoeda, ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'MecanismoComexPrestador', 2, 2, 1,
+                        mecAFComexPToStr(NFSe.Servico.comExt.mecAFComexP), ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'MecanismoComexTomador', 2, 2, 1,
+                        mecAFComexTToStr(NFSe.Servico.comExt.mecAFComexT), ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'MovimentacaoTempBens', 1, 1, 1,
+                        movTempBensToStr(NFSe.Servico.comExt.movTempBens), ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'NumeroDeclaracao', 1, 12, 0,
+                                                  NFSe.Servico.comExt.nDI, ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'NumeroRegistro', 1, 12, 0,
+                                                  NFSe.Servico.comExt.nRE, ''));
+
+    Result.AppendChild(AddNode(tcInt, '#1', 'Mdic', 1, 1, 1,
+                                                 NFSe.Servico.comExt.mdic, ''));
+  end;
 end;
 
 end.

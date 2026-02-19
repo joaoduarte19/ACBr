@@ -44,6 +44,13 @@ Símbolo : Significado
 
 
 19/02/2026
+-- ACBrNFSeXConversao --
+[+] Implementado a função de conversao: MoedaBACENToMoedaISO.
+-- ACBrNFSeXGravarXml_ABRASFv1 --
+[+] Implementado a função: GerarComercioExterior para gerar as informações sobre o comércio exterior.
+-- ISSFortaleza.GravarXml --
+[+] ACBR-8991 - Implementado a função: GerarComercioExterior para gerar as informações sobre o comércio exterior.
+   Por: Leonardo Gomes
 -- ACBrNFSeXParametros --
 [+] Implementado os métodos: LoadUrlProducaoAPIPadraoNacional e LoadUrlHomologacaoAPIPadraoNacional.
  -- ACBrNFSeXConversao -- 

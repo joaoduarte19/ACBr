@@ -111,6 +111,7 @@ type
     function GerarParcelas: TACBrXmlNodeArray; virtual;
     function GerarDestinatario: TACBrXmlNode; virtual;
     function GerarImovel: TACBrXmlNode; virtual;
+    function GerarComercioExterior: TACBrXmlNode; virtual;
 
     function GerarServicoCodigoMunicipio: TACBrXmlNode; virtual;
     function GerarCodigoMunicipioUF: TACBrXmlNodeArray; virtual;
@@ -350,6 +351,8 @@ begin
 
   if GerarAtividadeEventoAposConstrucaoCivil then
     Result.AppendChild(GeraAtividadeEvento);
+
+  Result.AppendChild(GerarComercioExterior);
 end;
 
 function TNFSeW_ABRASFv1.GerarIdentificacaoRPS: TACBrXmlNode;
@@ -1095,6 +1098,12 @@ end;
 
 function TNFSeW_ABRASFv1.GerarEnderecoExteriorEvento: TACBrXmlNode;
 begin
+  Result := nil;
+end;
+
+function TNFSeW_ABRASFv1.GerarComercioExterior: TACBrXmlNode;
+begin
+  // Aqui não fazer nada
   Result := nil;
 end;
 
