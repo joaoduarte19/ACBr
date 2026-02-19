@@ -54,6 +54,7 @@ type
     function GerarQuartos: TACBrXmlNode; override;
     function GerarQuarto: TACBrXmlNodeArray; override;
     function GerarValores: TACBrXmlNode; override;
+    function GerarServico: TACBrXmlNode; override;
 
     procedure GerarINISecaoQuartos(const AINIRec: TMemIniFile); override;
   end;
@@ -203,11 +204,64 @@ begin
   Result.AppendChild(AddNode(FormatoAliq, '#25', 'Aliquota', 1, 5, 0,
                                                           Aliquota, DSC_VALIQ));
 
+  Result.AppendChild(AddNode(FormatoAliq, '#25', 'AliquotaCbs', 1, 5, 0,
+                              NFSe.infNFSe.IBSCBS.valores.fed.pCBS, DSC_VALIQ));
+
+  Result.AppendChild(AddNode(FormatoAliq, '#25', 'AliquotaIbs', 1, 5, 0,
+                           NFSe.infNFSe.IBSCBS.valores.mun.pIBSMun, DSC_VALIQ));
+
   Result.AppendChild(AddNode(tcDe2, '#27', 'DescontoIncondicionado', 1, 15, 0,
                  NFSe.Servico.Valores.DescontoIncondicionado, DSC_VDESCINCOND));
 
   Result.AppendChild(AddNode(tcDe2, '#28', 'DescontoCondicionado', 1, 15, 0,
                      NFSe.Servico.Valores.DescontoCondicionado, DSC_VDESCCOND));
+end;
+
+function TNFSeW_iiBrasil204.GerarServico: TACBrXmlNode;
+var
+  item: string;
+begin
+  Result := CreateElement('Servico');
+
+  Result.AppendChild(GerarValores);
+
+  Result.AppendChild(AddNode(tcStr, '#20', 'IssRetido', 1, 1, 1,
+    FpAOwner.SituacaoTributariaToStr(NFSe.Servico.Valores.IssRetido), DSC_INDISSRET));
+
+  Result.AppendChild(AddNode(tcStr, '#21', 'ResponsavelRetencao', 1, 1, 0,
+    FpAOwner.ResponsavelRetencaoToStr(NFSe.Servico.ResponsavelRetencao), DSC_INDRESPRET));
+
+  item := FormatarItemServico(NFSe.Servico.ItemListaServico, FormatoItemListaServico);
+
+  Result.AppendChild(AddNode(tcStr, '#29', 'ItemListaServico', 1, 8, 1,
+                                                          item, DSC_CLISTSERV));
+
+  Result.AppendChild(AddNode(tcStr, '#30', 'CodigoCnae', 1, 9, 0,
+                                OnlyNumber(NFSe.Servico.CodigoCnae), DSC_CNAE));
+
+  Result.AppendChild(AddNode(tcStr, '#31', 'CodigoTributacaoMunicipio', 1, 20, 0,
+                     NFSe.Servico.CodigoTributacaoMunicipio, DSC_CSERVTRIBMUN));
+
+  Result.AppendChild(AddNode(tcStr, '#31', 'CodigoTributacaoNacional', 1, 20, 1,
+                      NFSe.Servico.CodigoTributacaoNacional, DSC_CSERVTRIBMUN));
+
+  Result.AppendChild(AddNode(tcStr, '#32', 'CodigoNbs', 1, 9, 0,
+                                             NFSe.Servico.CodigoNBS, DSC_CMUN));
+
+  Result.AppendChild(AddNode(tcStr, '#33', 'Discriminacao', 1, 2000, 1,
+      StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+               FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]), DSC_DISCR));
+
+  Result.AppendChild(AddNode(tcStr, '#33', 'CodigoMunicipio', 1, 7, 1,
+                           OnlyNumber(NFSe.Servico.CodigoMunicipio), DSC_CMUN));
+
+  Result.AppendChild(GerarCodigoPaisServico);
+
+  Result.AppendChild(AddNode(tcInt, '#37', 'MunicipioIncidencia', 7, 7, 0,
+                                NFSe.Servico.MunicipioIncidencia, DSC_MUNINCI));
+
+  Result.AppendChild(AddNode(tcStr, '#38', 'NumeroProcesso', 1, 30, 0,
+                                   NFSe.Servico.NumeroProcesso, DSC_NPROCESSO));
 end;
 
 procedure TNFSeW_iiBrasil204.GerarINISecaoQuartos(const AINIRec: TMemIniFile);

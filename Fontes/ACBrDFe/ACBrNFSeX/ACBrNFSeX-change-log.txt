@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 19/02/2026
+-- ACBrNFSeXClass/iiBrasil.GravarXml --
+[-] ACBR-8973 - Alteração visando gerar a tag CodigoTributacaoNacional.
+ Por: Italo Giurizzato Junior
 -- DBSeller.Provider --
 [-] ACBR-8990 - Ajustes para gerar o XML na versão 2.04 e ser validado corretamente.
  Por: Italo Giurizzato Junior
