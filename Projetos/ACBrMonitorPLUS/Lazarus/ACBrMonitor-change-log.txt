@@ -43,6 +43,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+19/02/2026
+-- DoACBrNFSeUnit --
+[-] Corrigida a validação do parametro nome impressora, quando passado " " espaco, apresentava o problema de comportamento relatado no topico abaixo.
+	https://www.projetoacbr.com.br/forum/topic/90337-acbr-8986-acbrmonitor-nao-volta-para-a-impressora-correta-depois-de-imprimir-um-nfce/?&_rid=1706#findComment-588201
+	Por: Daniel de Morais InfoCotidiano
 
 18/02/2026
 -- DoACBrNFSeUnit --

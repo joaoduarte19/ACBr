@@ -642,7 +642,7 @@ begin
     CargaDFe := TACBrCarregarNFSe.Create(ACBrNFSeX, APathXML);
     try
 
-      if NaoEstaVazio(AImpressora) then
+      if trim(AImpressora) <> EmptyStr then
         ACBrNFSeX.DANFSE.Impressora := AImpressora;
 
       if (ACopias > 0) then
