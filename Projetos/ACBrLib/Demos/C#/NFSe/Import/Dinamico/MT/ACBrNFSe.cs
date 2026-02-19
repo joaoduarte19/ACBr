@@ -100,6 +100,7 @@ namespace ACBrLib.NFSe
 
         #region Diversos
 
+        /// <inheritdoc/>
         public void CarregarXML(string eArquivoOuXml)
         {
             var method = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_CarregarXML>();
@@ -108,6 +109,7 @@ namespace ACBrLib.NFSe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void CarregarLoteXML(string eArquivoOuXml)
         {
             var method = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_CarregarLoteXML>();
@@ -116,6 +118,7 @@ namespace ACBrLib.NFSe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void CarregarINI(string eArquivoOuIni)
         {
             var method = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_CarregarINI>();
@@ -124,6 +127,7 @@ namespace ACBrLib.NFSe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public string ObterXml(int aIndex)
         {
             var bufferLen = BUFFER_LEN;
@@ -137,6 +141,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ObterXmlRps(int aIndex)
         {
             var bufferLen = BUFFER_LEN;
@@ -150,6 +155,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public void GravarXml(int aIndex, string eNomeArquivo = "", string ePathArquivo = "")
         {
             var method = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_GravarXml>();
@@ -158,6 +164,7 @@ namespace ACBrLib.NFSe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public string ObterIni(int aIndex)
         {
             var bufferLen = BUFFER_LEN;
@@ -171,6 +178,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public void GravarIni(int aIndex, string eNomeArquivo = "", string ePathArquivo = "")
         {
             var method = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_GravarIni>();
@@ -179,6 +187,7 @@ namespace ACBrLib.NFSe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void LimparLista()
         {
             var method = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_LimparLista>();
@@ -187,6 +196,7 @@ namespace ACBrLib.NFSe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public InfoCertificado[] ObterCertificados()
         {
             var bufferLen = BUFFER_LEN;
@@ -200,6 +210,7 @@ namespace ACBrLib.NFSe
             var certificados = CheckBuffer(buffer, bufferLen).Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             return certificados.Length == 0 ? new InfoCertificado[0] : certificados.Select(x => new InfoCertificado(x)).ToArray();
         }
+        /// <inheritdoc/>
         public override string OpenSSLInfo()
         {
             var bufferLen = BUFFER_LEN;
@@ -213,6 +224,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string Emitir(string aLote, int aModoEnvio, bool aImprimir)
         {
             var bufferLen = BUFFER_LEN;
@@ -226,6 +238,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string Cancelar(string aInfCancelamento)
         {
             var bufferLen = BUFFER_LEN;
@@ -239,6 +252,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string SubstituirNFSe(string aNumeroNFSe, string aSerieNFSe, string aCodigoCancelamento, string aMotivoCancelamento, string aNumeroLote, string aCodigoVerificacao)
         {
             var bufferLen = BUFFER_LEN;
@@ -252,6 +266,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string LinkNFSe(string aNumeroNFSe, string aCodigoVerificacao, string aChaveAcesso, string aValorServico)
         {
             var bufferLen = BUFFER_LEN;
@@ -265,6 +280,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string GerarLote(string aLote, int aQtdMaximaRps, int aModoEnvio)
         {
             var bufferLen = BUFFER_LEN;
@@ -278,6 +294,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string GerarToken()
         {
             var bufferLen = BUFFER_LEN;
@@ -291,6 +308,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarSituacao(string aProtocolo, string aNumeroLote)
         {
             var bufferLen = BUFFER_LEN;
@@ -304,6 +322,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarLoteRps(string aProcotolo, string aNumLote)
         {
             var bufferLen = BUFFER_LEN;
@@ -317,6 +336,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarNFSePorRps(string aNumeroRps, string aSerie, string aTipo, string aCodigoVerificacao)
         {
             var bufferLen = BUFFER_LEN;
@@ -330,6 +350,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarNFSePorNumero(string aNumero, int aPagina)
         {
             var bufferLen = BUFFER_LEN;
@@ -343,6 +364,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarNFSePorPeriodo(DateTime aDataInicial, DateTime aDataFinal, int aPagina, string aNumeroLote, int aTipoPeriodo)
         {
             var bufferLen = BUFFER_LEN;
@@ -356,6 +378,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarNFSePorFaixa(string aNumeroInicial, string aNumeroFinal, int aPagina)
         {
             var bufferLen = BUFFER_LEN;
@@ -369,6 +392,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarNFSeGenerico(string aInfConsultaNFSe)
         {
             var bufferLen = BUFFER_LEN;
@@ -382,6 +406,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarLinkNFSe(string aInfConsultaLinkNFSe)
         {
             var bufferLen = BUFFER_LEN;
@@ -395,6 +420,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public void EnviarEmail(string ePara, string eXmlNFSe, bool aEnviaPDF, string eAssunto, string eCc, string eAnexos, string eMensagem)
         {
             var method = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_EnviarEmail>();
@@ -403,6 +429,7 @@ namespace ACBrLib.NFSe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void Imprimir(string cImpressora = "", int nNumCopias = 1, bool? bGerarPDF = null, bool? bMostrarPreview = null, string cCancelada = "")
         {
             var gerarPDF = bGerarPDF.HasValue ? $"{Convert.ToInt32(bMostrarPreview.Value)}" : string.Empty;
@@ -414,6 +441,7 @@ namespace ACBrLib.NFSe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void ImprimirPDF()
         {
             var method = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_ImprimirPDF>();
@@ -422,6 +450,7 @@ namespace ACBrLib.NFSe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void ImprimirPDF(Stream aStream)
         {
             if (aStream == null) throw new ArgumentNullException(nameof(aStream));
@@ -438,6 +467,7 @@ namespace ACBrLib.NFSe
             Base64ToStream(pdf, aStream);
         }
 
+        /// <inheritdoc/>
         public string ConsultarNFSeServicoPrestadoPorNumero(string aNumero, int aPagina, DateTime aDataInicial, DateTime aDataFinal, int aTipoPeriodo)
         {
             var bufferLen = BUFFER_LEN;
@@ -451,6 +481,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarNFSeServicoPrestadoPorPeriodo(DateTime aDataInicial, DateTime aDataFinal, int aPagina, int aTipoPeriodo)
         {
             var bufferLen = BUFFER_LEN;
@@ -464,6 +495,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarNFSeServicoPrestadoPorTomador(string aCNPJ, string aInscMun, int aPagina, DateTime aDataInicial, DateTime aDataFinal, int aTipoPeriodo)
         {
             var bufferLen = BUFFER_LEN;
@@ -477,6 +509,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarNFSeServicoPrestadoPorIntermediario(string aCNPJ, string aInscMun, int aPagina, DateTime aDataInicial, DateTime aDataFinal, int aTipoPeriodo)
         {
             var bufferLen = BUFFER_LEN;
@@ -490,6 +523,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarNFSeServicoTomadoPorNumero(string aNumero, int aPagina, DateTime aDataInicial, DateTime aDataFinal, int aTipoPeriodo)
         {
             var bufferLen = BUFFER_LEN;
@@ -503,6 +537,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarNFSeServicoTomadoPorPrestador(string aCNPJ, string aInscMun, int aPagina, DateTime aDataInicial, DateTime aDataFinal, int aTipoPeriodo)
         {
             var bufferLen = BUFFER_LEN;
@@ -516,6 +551,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarNFSeServicoTomadoPorTomador(string aCNPJ, string aInscMun, int aPagina, DateTime aDataInicial, DateTime aDataFinal, int aTipoPeriodo)
         {
             var bufferLen = BUFFER_LEN;
@@ -529,6 +565,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarNFSeServicoTomadoPorPeriodo(DateTime aDataInicial, DateTime aDataFinal, int aPagina, int aTipoPeriodo)
         {
             var bufferLen = BUFFER_LEN;
@@ -542,6 +579,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarNFSeServicoTomadoPorIntermediario(string aCNPJ, string aInscMun, int aPagina, DateTime aDataInicial, DateTime aDataFinal, int aTipoPeriodo)
         {
             var bufferLen = BUFFER_LEN;
@@ -555,6 +593,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string EnviarEvento(string aInfEvento)
         {
             var bufferLen = BUFFER_LEN;
@@ -566,6 +605,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarDPSPorChave(string aChaveDPS)
         {
             var bufferLen = BUFFER_LEN;
@@ -577,6 +617,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarNFSePorChave(string aChaveNFSe)
         {
             var bufferLen = BUFFER_LEN;
@@ -588,6 +629,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarEvento(string aChave, int aTipoEvento, int aNumSeq)
         {
             var bufferLen = BUFFER_LEN;
@@ -599,6 +641,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarDFe(int aNSU)
         {
             var bufferLen = BUFFER_LEN;
@@ -610,6 +653,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ObterDANFSE(string aChaveNFSe)
         {
             var bufferLen = BUFFER_LEN;
@@ -621,6 +665,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarParametros(int aTipoParametroMunicipio, string aCodigoServico, DateTime aCompetencia, string aNumeroBeneficio)
         {
             var bufferLen = BUFFER_LEN;
@@ -632,6 +677,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ObterInformacoesProvedor()
         {
             var bufferLen = BUFFER_LEN;
@@ -646,7 +692,8 @@ namespace ACBrLib.NFSe
         #endregion Diversos
 
         #region Private Methods
-
+        
+        /// <inheritdoc/>
         public override void Finalizar()
         {
             var finalizarLib = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_Finalizar>();
@@ -655,6 +702,7 @@ namespace ACBrLib.NFSe
             libHandle = IntPtr.Zero;
         }
 
+        /// <inheritdoc/>
         protected override string GetUltimoRetorno(int iniBufferLen = 0)
         {
             var bufferLen = iniBufferLen < 1 ? BUFFER_LEN : iniBufferLen;
@@ -677,12 +725,14 @@ namespace ACBrLib.NFSe
         /// <summary>
         /// Faz a liberação dos recursos utilizados pela classe ACBrNFSe, garantindo que a biblioteca seja finalizada corretamente e evitando vazamentos de memória.
         /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <inheritdoc/>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposed)
@@ -707,6 +757,7 @@ namespace ACBrLib.NFSe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        ///<inheritdoc/>
         public override void ConfigGravarValor(string eSessao, string eChave, string eValor)
         {
             var method = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_ConfigGravarValor>();
