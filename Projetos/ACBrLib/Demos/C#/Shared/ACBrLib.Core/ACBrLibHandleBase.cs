@@ -146,29 +146,41 @@ namespace ACBrLib.Core
         /// <returns></returns>
         protected virtual string[] GetLibrarySearchPath()
         {
-            var path = new List<string>();
+            var listPaths = new List<string>();
+          
+
+            var baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            if (!string.IsNullOrEmpty(baseDir))
+            {
+                var uri = new Uri(baseDir);
+                var pathStr = Path.GetDirectoryName(!uri.IsFile ? uri.ToString() : uri.LocalPath + Uri.UnescapeDataString(uri.Fragment));
+                var acbrlibPath = Path.Combine(pathStr, "ACBrLib", Environment.Is64BitProcess ? "x64" : "x86");
+
+                if (!listPaths.Contains(pathStr))
+                    listPaths.Add(pathStr);
+
+                if (!listPaths.Contains(acbrlibPath))
+                    listPaths.Add(acbrlibPath);
+            }
 
             var assemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             if (!string.IsNullOrEmpty(assemblyLocation))
-                path.Add(assemblyLocation);
+                listPaths.Add(assemblyLocation);
 
             var currentDirectory = Directory.GetCurrentDirectory();
-            if (!string.IsNullOrEmpty(currentDirectory) && !path.Contains(currentDirectory))
-                path.Add(currentDirectory);
+            if (!string.IsNullOrEmpty(currentDirectory) && !listPaths.Contains(currentDirectory))
+                listPaths.Add(currentDirectory);
 
-            var acbrlibPath = Path.Combine(assemblyLocation, "ACBrLib", Environment.Is64BitProcess ? "x64" : "x86");
-            if (!path.Contains(acbrlibPath))
-                path.Add(acbrlibPath);
 
 
             if (PlatformID.Unix == Environment.OSVersion.Platform)
             {
-                path.Add("/usr/local/lib");
-                path.Add("/usr/lib");
-                path.Add("/lib");
+                listPaths.Add("/usr/local/lib");
+                listPaths.Add("/usr/lib");
+                listPaths.Add("/lib");
             }
 
-            return path.ToArray();
+            return listPaths.ToArray();
         }
 
 
