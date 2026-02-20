@@ -147,20 +147,16 @@ namespace ACBrLib.Core
         protected virtual string[] GetLibrarySearchPath()
         {
             var listPaths = new List<string>();
-          
-
             var baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            
             if (!string.IsNullOrEmpty(baseDir))
             {
                 var uri = new Uri(baseDir);
                 var pathStr = Path.GetDirectoryName(!uri.IsFile ? uri.ToString() : uri.LocalPath + Uri.UnescapeDataString(uri.Fragment));
                 var acbrlibPath = Path.Combine(pathStr, "ACBrLib", Environment.Is64BitProcess ? "x64" : "x86");
 
-                if (!listPaths.Contains(pathStr))
-                    listPaths.Add(pathStr);
-
-                if (!listPaths.Contains(acbrlibPath))
-                    listPaths.Add(acbrlibPath);
+                listPaths.Add(pathStr);
+                listPaths.Add(acbrlibPath);
             }
 
             var assemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -170,7 +166,6 @@ namespace ACBrLib.Core
             var currentDirectory = Directory.GetCurrentDirectory();
             if (!string.IsNullOrEmpty(currentDirectory) && !listPaths.Contains(currentDirectory))
                 listPaths.Add(currentDirectory);
-
 
 
             if (PlatformID.Unix == Environment.OSVersion.Platform)
