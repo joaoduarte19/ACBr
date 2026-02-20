@@ -44,11 +44,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
-
 20/02/2026
 -- ACBrCTe.EnvEvento --
 [-] ACBr-8755: Possível solução para o erro que esta ocorrendo com a leitura do XML do evento.
   Por: Italo Giurizzato Junior
+-- Frm_ACBrCTe --
+[+] ACBR-8588: Implementado motor FPDF no programa de exemplo em Delphi
+  Por: Renato Rubinho
 
 09/02/2026
 -- ACBrCTe.IniReader --

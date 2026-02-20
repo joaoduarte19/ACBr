@@ -32,13 +32,18 @@ unit Frm_ACBrCTe;
 
 interface
 
+//descomentar o motor de relatório que desejar utilizar! removendo o ponto
+{$DEFINE GERADOR_FORTES_REPORT}
+{.$DEFINE GERADOR_FPDF}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, StdCtrls, Spin, Buttons, ComCtrls, OleCtrls, SHDocVw,
   ShellAPI, XMLIntf, XMLDoc, zlib,
-  ACBrBase, ACBrMail, ACBrDFe, ACBrDFeReport, ACBrCTe,
-  ACBrCTeDACTEClass, ACBrCTeDACTeRLClass;
-
+  ACBrBase, ACBrMail, ACBrDFe, ACBrCTe,
+{$IFDEF GERADOR_FORTES_REPORT}ACBrCTeDACTeRLClass,{$ENDIF}
+{$IFDEF GERADOR_FPDF}ACBrCTeDACTeFPDF,{$ENDIF}
+  ACBrDFeReport;
 type
   TfrmACBrCTe = class(TForm)
     pnlMenus: TPanel;
@@ -233,7 +238,6 @@ type
     OpenDialog1: TOpenDialog;
     btnStatusServ: TButton;
     ACBrCTe1: TACBrCTe;
-    ACBrCTeDACTeRL1: TACBrCTeDACTeRL;
     btnCriarEnviarSincrono: TButton;
     btnCompEntr: TButton;
     btnCancEntr: TButton;
@@ -249,6 +253,7 @@ type
     btnGerarArqINI: TButton;
     btnLerArqINI: TButton;
     rgReformaTributaria: TRadioGroup;
+    rgMotorDACTE: TRadioGroup;
 
     procedure FormCreate(Sender: TObject);
     procedure btnSalvarConfigClick(Sender: TObject);
@@ -317,6 +322,14 @@ type
     procedure btnGerarArqINIClick(Sender: TObject);
     procedure btnLerArqINIClick(Sender: TObject);
   private
+  {$IFDEF GERADOR_FORTES_REPORT}
+    FACBrCTeDACTeRL   : TACBrCTeDACTeRL;
+  {$ENDIF}
+
+  {$IFDEF GERADOR_FPDF}
+    FACBrCTeDACTeFPDF: TACBrCTeDACTeFPDF;
+  {$ENDIF}
+
     { Private declarations }
     procedure GravarConfiguracao;
     procedure LerConfiguracao;
@@ -3636,6 +3649,20 @@ begin
      cbVersaoDF.Items.Add( GetEnumName(TypeInfo(TVersaoCTe), integer(K) ) );
   cbVersaoDF.ItemIndex := 0;
 
+  rgMotorDACTE.Items.Clear;
+{$IFDEF GERADOR_FORTES_REPORT}
+  FACBrCTeDACTeRL := TACBrCTeDACTeRL.Create(Self);
+  rgMotorDACTE.Items.Add('Fortes');
+{$ENDIF}
+
+{$IFDEF GERADOR_FPDF}
+  FACBrCTeDACTeFPDF := TACBrCTeDACTeFPDF.Create(Self);
+  rgMotorDACTE.Items.Add('FPDF');
+{$ENDIF}
+
+  if rgMotorDACTE.Items.Count = 0 then
+    rgMotorDACTE.Items.Add('Nenhum');
+
   LerConfiguracao;
   pgRespostas.ActivePageIndex := 2;
 end;
@@ -3727,6 +3754,7 @@ begin
 
     Ini.WriteInteger('DACTE', 'Tipo',      rgTipoDaCTe.ItemIndex);
     Ini.WriteString( 'DACTE', 'LogoMarca', edtLogoMarca.Text);
+    Ini.WriteInteger('DACTE', 'Motor',     rgMotorDACTE.ItemIndex);
 
     ConfigurarComponente;
     ConfigurarEmail;
@@ -3852,6 +3880,7 @@ begin
 
     rgTipoDaCTe.ItemIndex := Ini.ReadInteger('DACTE', 'Tipo',      0);
     edtLogoMarca.Text     := Ini.ReadString( 'DACTE', 'LogoMarca', '');
+    rgMotorDACTE.ItemIndex := Ini.ReadInteger('DACTE', 'Motor', 0);
 
     ConfigurarComponente;
     ConfigurarEmail;
@@ -3936,6 +3965,17 @@ begin
     PathMensal       := GetPathCTe(0);
     PathSalvar       := PathMensal;
   end;
+
+  ACBrCTe1.DACTe := nil;
+  {$IFDEF GERADOR_FORTES_REPORT}
+    if rgMotorDACTE.Items[rgMotorDACTE.ItemIndex] = 'Fortes' then
+      ACBrCTe1.DACTe := FACBrCTeDACTeRL;
+  {$ENDIF}
+
+  {$IFDEF GERADOR_FPDF}
+    if rgMotorDACTE.Items[rgMotorDACTE.ItemIndex] = 'FPDF' then
+      ACBrCTe1.DACTe := FACBrCTeDACTeFPDF;
+  {$ENDIF}
 
   if ACBrCTe1.DACTe <> nil then
   begin
