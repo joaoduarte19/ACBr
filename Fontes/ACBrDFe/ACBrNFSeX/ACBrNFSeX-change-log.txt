@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 20/02/2026
+-- EloTech.GravarXml --
+[-] ACBR-8933 - Alterado o formato do ItemListaServico para que seja gerado o XML conforme o usuário informar.
+ Por: Italo Giurizzato Junior
 -- ModernizacaoPublica.Provider --
 [-] ACBR-8948 - Correção para emissão em produção, requer informar Usuário e senha em Basic Auth.
  Por: Jefferson Junglaus

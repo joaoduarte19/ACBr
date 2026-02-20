@@ -91,7 +91,7 @@ begin
   NrOcorrCodTribMun_1 := -1;
   NrOcorrCodigoMunic_1 := -1;
 
-  FormatoItemListaServico := filsSemFormatacao;
+  FormatoItemListaServico := filsNaoSeAplica;
   NrOcorrRespRetencao := -1;
   NrOcorrValorDeducoes := 1;
   NrOcorrDescIncond := 1;
