@@ -48,7 +48,9 @@ uses
   PadraoNacional.Provider,
   ACBrNFSeXWebserviceBase,
   ACBrNFSeXWebservicesResponse,
-  ACBrJson;
+  ACBrJson,
+  ACBrBase,
+  synacode;
 
 type
   TACBrNFSeXWebserviceModernizacaoPublica202 = class(TACBrNFSeXWebserviceSoap11)
@@ -83,7 +85,7 @@ type
 
   TACBrNFSeXWebserviceModernizacaoPublicaAPIPropria = class(TACBrNFSeXWebservicePadraoNacional)
   protected
-
+    procedure SetHeaders(aHeaderReq: THTTPHeader); override;
   public
 
     function TratarXmlRetornado(const aXML: string): string; override;
@@ -554,6 +556,19 @@ begin
 end;
 
 { TACBrNFSeXWebserviceModernizacaoPublicaAPIPropria }
+
+procedure TACBrNFSeXWebserviceModernizacaoPublicaAPIPropria.SetHeaders(
+  aHeaderReq: THTTPHeader);
+var
+  Auth: string;
+begin
+  // Necessário para emitir em Produção
+  with TConfiguracoesNFSe(FPConfiguracoes).Geral.Emitente do
+    Auth := 'Basic ' + string(EncodeBase64(AnsiString(WSUser + ':' +
+      AnsiString(WSSenha))));
+
+  aHeaderReq.AddHeader('Authorization', Auth);
+end;
 
 function TACBrNFSeXWebserviceModernizacaoPublicaAPIPropria.TratarXmlRetornado(
   const aXML: string): string;

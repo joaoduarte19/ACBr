@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 20/02/2026
+-- ModernizacaoPublica.Provider --
+[-] ACBR-8948 - Correção para emissão em produção, requer informar Usuário e senha em Basic Auth.
+ Por: Jefferson Junglaus
 -- ISSDigital.Provider --
 [-] ACBR-8959 - Correção na montagem do XML das consultas: Situação e Lote.
  Por: Italo Giurizzato Junior
