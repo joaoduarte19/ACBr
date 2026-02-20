@@ -2,6 +2,10 @@
 
 namespace ACBrLib.Core.PIXCD
 {
+    /// <summary>
+    /// Enumera os tipos de chave PIX para configuração do PIXCD.
+    /// <para>Veja mais em: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html</para>
+    /// </summary>
     public enum TipoChave
     {
         [Description("Nenhuma")]

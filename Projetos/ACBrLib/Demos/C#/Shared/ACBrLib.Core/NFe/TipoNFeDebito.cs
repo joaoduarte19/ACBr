@@ -1,5 +1,8 @@
 ﻿namespace ACBrLib.Core.NFe
 {
+    /// <summary>
+    /// Enumera os tipos de débito para configuração da NFe.
+    /// </summary>
     public enum TipoNFeDebito
     {
         [EnumValue("")]

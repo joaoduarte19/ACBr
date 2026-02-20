@@ -2,6 +2,10 @@
 
 namespace ACBrLib.Core.PIXCD
 {
+    /// <summary>
+    /// Enumera os ambientes de operação do PIXCD.
+    /// <para>Veja mais em: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html</para>
+    /// </summary>
     public enum Ambiente
     {
         [Description("Teste")]

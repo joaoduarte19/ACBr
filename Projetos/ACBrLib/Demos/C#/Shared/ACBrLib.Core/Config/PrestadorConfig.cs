@@ -1,5 +1,9 @@
 ﻿namespace ACBrLib.Core.Config
 {
+    /// <summary>
+    /// Configurações do prestador de serviço para relatórios na ACBrLib.
+    /// <para>Veja mais em: https://acbr.sourceforge.io/ACBrLib/Geral.html</para>
+    /// </summary>
     public sealed class PrestadorConfig<TLib> : ACBrLibConfigBase<TLib> where TLib : IACBrLibBase
     {
         #region Constructors

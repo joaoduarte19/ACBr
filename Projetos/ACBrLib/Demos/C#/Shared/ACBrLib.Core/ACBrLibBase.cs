@@ -7,7 +7,6 @@ namespace ACBrLib.Core
 
     /// <summary>
     /// Classe base para as novas biblioteca ACBrLib C# Mono.
-    /// É indica para uso em ambiente Linux, principalmente desenvolvimento de APIs REST, mas também pode ser usada em ambiente Windows.
     /// Diferente de ACBrLibHandle essa classe define apenas os métodos e propriedades comuns a todas as bibliotecas ACBrLib em alto nível, ou seja, sem lidar diretamente com ponteiros e buffers.
     /// Essa classe define os métodos e propriedades comuns a todas as bibliotecas ACBrLib em alto nível.
     /// </summary>
@@ -20,6 +19,12 @@ namespace ACBrLib.Core
         #endregion
 
         #region constructor
+
+        /// <summary>
+        /// Construtor da classe base para as novas biblioteca ACBrLib C#
+        /// </summary>
+        /// <param name="eArqConfig"></param>
+        /// <param name="eChaveCrypt"></param>
         public ACBrLibBase(string eArqConfig = "", string eChaveCrypt = "")
         {
             arquivoConfig = eArqConfig;

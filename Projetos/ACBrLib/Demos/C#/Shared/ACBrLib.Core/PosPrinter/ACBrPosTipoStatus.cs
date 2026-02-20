@@ -2,6 +2,10 @@
 
 namespace ACBrLib.Core.PosPrinter
 {
+    /// <summary>
+    /// Enumera os tipos de status possíveis para a impressora PosPrinter.
+    /// <para>Veja mais em: https://acbr.sourceforge.io/ACBrLib/BemVindo.html</para>
+    /// </summary>
     [Flags]
     public enum ACBrPosTipoStatus
     {
@@ -17,6 +21,10 @@ namespace ACBrLib.Core.PosPrinter
         ErroLeitura = 1 << 8
     }
 
+    /// <summary>
+    /// Enumera as direções de impressão suportadas pela PosPrinter.
+    /// <para>Veja mais em: https://acbr.sourceforge.io/ACBrLib/BemVindo.html</para>
+    /// </summary>
     public enum PosDirecao
     {
         dirEsquerdaParaDireita,

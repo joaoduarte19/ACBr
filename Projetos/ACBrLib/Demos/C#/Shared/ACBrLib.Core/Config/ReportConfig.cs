@@ -1,5 +1,10 @@
 ﻿namespace ACBrLib.Core.Config
 {
+    /// <summary>
+    /// Classe base para configurações de relatórios na ACBrLib.
+    /// <para>Permite definir impressora, PDF, casas decimais, logomarca e prestador.</para>
+    /// <para>Veja mais em: https://acbr.sourceforge.io/ACBrLib/Geral.html</para>
+    /// </summary>
     public abstract class ReportConfig<TLib> : ACBrLibConfigBase<TLib> where TLib : IACBrLibBase
     {
         #region Constructors

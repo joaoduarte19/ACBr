@@ -2,6 +2,10 @@
 
 namespace ACBrLib.Core.PIXCD
 {
+    /// <summary>
+    /// Enumera os provedores de serviço de pagamento (PSP) suportados pelo PIXCD.
+    /// <para>Veja mais em: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html</para>
+    /// </summary>
     public enum PSP
     {
         [Description("Bradesco")]

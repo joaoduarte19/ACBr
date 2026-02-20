@@ -2,6 +2,9 @@
 
 namespace ACBrLib.Core.MDFe
 {
+    /// <summary>
+    /// Enumera os tipos de impressão do DAMDFE.
+    /// </summary>
     public enum TipoDAMDFe
     {
         [Description("Sem Impressão")]

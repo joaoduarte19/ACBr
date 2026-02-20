@@ -3,6 +3,11 @@ using System.ComponentModel;
 
 namespace ACBrLib.Core.NFSe
 {
+    /// <summary>
+    /// Enumera os códigos de municípios para configuração da NFSe.
+    /// <para>Utilizado para identificar o município de emissão conforme tabela IBGE.</para>
+    /// <para>Veja mais em: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca22.html</para>
+    /// </summary>
     public enum CodigoMunicipio
     {
         [EnumValue("0")]
