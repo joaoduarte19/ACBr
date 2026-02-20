@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 20/02/2026
+-- Conam.GravarXml --
+[-] ACBR-8919 - Ajustes para a geração correta do XML do RPS.
+   Por: Henrique Souza
 -- Diversos --
 [+] ACBR-8969 - Adiciona novo leiaute 1.01 para WebFisco, Facundo, SAM, FGMais e Primax a fim de atender a Reforma Tributária.
    Por: Diego Folieni
