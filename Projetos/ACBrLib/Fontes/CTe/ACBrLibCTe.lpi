@@ -522,13 +522,13 @@
     </PublishOptions>
     <RunParams>
       <local>
-        <HostApplicationFilename Value="C:\Pascal\Comp\ACBr\trunk2\Projetos\ACBrLib\Testes\CTe\bin\ACBrLibCTeTest.exe"/>
+        <HostApplicationFilename Value="$(ProjSrcPath)\..\..\Testes\CTe\bin\ACBrLibCTeTest.exe"/>
       </local>
       <FormatVersion Value="2"/>
       <Modes Count="1">
         <Mode0 Name="default">
           <local>
-            <HostApplicationFilename Value="C:\Pascal\Comp\ACBr\trunk2\Projetos\ACBrLib\Testes\CTe\bin\ACBrLibCTeTest.exe"/>
+            <HostApplicationFilename Value="$(ProjSrcPath)\..\..\Testes\CTe\bin\ACBrLibCTeTest.exe"/>
           </local>
         </Mode0>
       </Modes>

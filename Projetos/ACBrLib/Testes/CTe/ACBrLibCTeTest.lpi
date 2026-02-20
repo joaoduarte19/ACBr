@@ -48,7 +48,7 @@
         <PackageName Value="FCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="5">
       <Unit0>
         <Filename Value="ACBrLibCTeTest.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -61,6 +61,14 @@
         <Filename Value="..\..\Fontes\CTe\ACBrLibCTeStaticImport.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="..\..\Fontes\Comum\ACBrLibConsts.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\Fontes\Comum\ACBrLibErros.inc"/>
+        <IsPartOfProject Value="True"/>
+      </Unit4>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -70,8 +78,8 @@
       <Filename Value="bin\ACBrLibCTeTest"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir);..\..\Comum"/>
-      <OtherUnitFiles Value="..\..\Fontes\Comum;..\..\Fontes\CTe"/>
+      <IncludeFiles Value="$(ProjOutDir);..\..\Fontes\Comum"/>
+      <OtherUnitFiles Value="..\..\Fontes\Comum;..\..\Fontes\CTe;..\..\..\..\Fontes\ACBrOpenSSL"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>
