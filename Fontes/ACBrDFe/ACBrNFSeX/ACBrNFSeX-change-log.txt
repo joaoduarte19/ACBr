@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+20/02/2026
+-- ACBrNFSeXServicos --
+[*] A cidade São Caetano do Sul/SP vai passar a usar o provedor Giss a partir de 01/03/2026
+   Por: João Siscom
+
 19/02/2026
 -- Agili.LerXml --
 [-] Adiciona o campo ItemListaServico na leitura das seções do arquivo INI.
