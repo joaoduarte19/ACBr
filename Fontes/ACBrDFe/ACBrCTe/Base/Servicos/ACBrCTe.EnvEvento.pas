@@ -904,6 +904,7 @@ begin
       infEvento.detEvento.dhHashEntrega := RetEventoCTe.InfEvento.detEvento.dhHashEntrega;
 
       infEvento.detEvento.nProtCE := RetEventoCTe.InfEvento.detEvento.nProtCE;
+      infEvento.detEvento.nProtIE := RetEventoCTe.InfEvento.detEvento.nProtIE;
 
       infEvento.detEvento.dhTentativaEntrega := RetEventoCTe.InfEvento.detEvento.dhTentativaEntrega;
       infEvento.detEvento.nTentativa := RetEventoCTe.InfEvento.detEvento.nTentativa;
