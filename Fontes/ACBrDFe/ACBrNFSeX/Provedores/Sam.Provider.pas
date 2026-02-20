@@ -61,6 +61,18 @@ type
 
   end;
 
+  TACBrNFSeXWebserviceSam101 = class(TACBrNFSeXWebserviceSam)
+
+  end;
+
+  TACBrNFSeProviderSam101 = class (TACBrNFSeProviderWebFisco101)
+  protected
+    function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
+    function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
+    function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
+
+  end;
+
 implementation
 
 uses
@@ -107,6 +119,40 @@ end;
 function TACBrNFSeXWebserviceSam.GetSoapActionURL: string;
 begin
   Result := 'https://www2.samtributacao.com.br/issqn/wservice/';
+end;
+
+{ TACBrNFSeProviderSam101 }
+
+function TACBrNFSeProviderSam101.CriarGeradorXml(
+  const ANFSe: TNFSe): TNFSeWClass;
+begin
+  Result := TNFSeW_Sam101.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderSam101.CriarLeitorXml(
+  const ANFSe: TNFSe): TNFSeRClass;
+begin
+  Result := TNFSeR_Sam101.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderSam101.CriarServiceClient(
+  const AMetodo: TMetodo): TACBrNFSeXWebservice;
+var
+  URL: string;
+begin
+  URL := GetWebServiceURL(AMetodo);
+
+  if URL <> '' then
+    Result := TACBrNFSeXWebserviceSam101.Create(FAOwner, AMetodo, URL)
+  else
+  begin
+    if ConfigGeral.Ambiente = taProducao then
+      raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
+    else
+      raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
 end;
 
 end.

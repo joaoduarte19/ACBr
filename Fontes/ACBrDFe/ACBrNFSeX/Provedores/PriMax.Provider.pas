@@ -61,6 +61,18 @@ type
 
   end;
 
+  TACBrNFSeXWebservicePrimax101 = class(TACBrNFSeXWebservicePriMax)
+
+  end;
+
+  TACBrNFSeProviderPriMax101 = class (TACBrNFSeProviderWebFisco101)
+  protected
+    function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
+    function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
+    function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
+
+  end;
+
 implementation
 
 uses
@@ -113,6 +125,40 @@ begin
 
   if Result = '' then
     Result := 'https://www.primaxonline.com.br/issqn/wservice/';
+end;
+
+{ TACBrNFSeProviderPriMax101 }
+
+function TACBrNFSeProviderPriMax101.CriarGeradorXml(
+  const ANFSe: TNFSe): TNFSeWClass;
+begin
+  Result := TNFSeW_PriMax101.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderPriMax101.CriarLeitorXml(
+  const ANFSe: TNFSe): TNFSeRClass;
+begin
+  Result := TNFSeR_PriMax101.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderPriMax101.CriarServiceClient(
+  const AMetodo: TMetodo): TACBrNFSeXWebservice;
+var
+  URL: string;
+begin
+  URL := GetWebServiceURL(AMetodo);
+
+  if URL <> '' then
+    Result := TACBrNFSeXWebservicePrimax101.Create(FAOwner, AMetodo, URL)
+  else
+  begin
+    if ConfigGeral.Ambiente = taProducao then
+      raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
+    else
+      raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
 end;
 
 end.

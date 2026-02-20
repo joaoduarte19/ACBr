@@ -47,6 +47,10 @@ type
 
   end;
 
+  TNFSeR_Sam101 = class(TNFSeR_WebFisco101)
+
+  end;
+
 implementation
 
 //==============================================================================

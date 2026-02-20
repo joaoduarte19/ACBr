@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 20/02/2026
+-- Diversos --
+[+] ACBR-8969 - Adiciona novo leiaute 1.01 para WebFisco, Facundo, SAM, FGMais e Primax a fim de atender a Reforma Tributária.
+   Por: Diego Folieni
 -- ACBrNFSeXNotasFiscais/ACBrNFSeXLerXml/ACBrNFSeXLerXml_ABRASFv1 --
 [*] ACBR-8946 - Alterações visando ler um lote de NFSe obtidos do site da prefeitura que
    utiliza o provedor Ginfes.
@@ -58,6 +61,8 @@ Símbolo : Significado
 [-] ACBR-8959 - Correção na montagem do XML das consultas: Situação e Lote.
  Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
+[*] ACBR-8969 - Altera as URLs de Tres Rios/RJ para versão 1.01 criada para atender ao Padrão Nacional
+   Por: Diego Folieni
 [*] ACBR-9018 - A cidade São Caetano do Sul/SP vai passar a usar o provedor Giss a partir de 01/03/2026
    Por: João Siscom
 

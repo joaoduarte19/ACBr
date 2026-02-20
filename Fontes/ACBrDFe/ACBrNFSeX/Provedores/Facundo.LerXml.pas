@@ -47,6 +47,10 @@ type
 
   end;
 
+  TNFSeR_Facundo101 = class(TNFSeR_WebFisco101)
+
+  end;
+
 implementation
 
 //==============================================================================

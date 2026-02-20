@@ -56,6 +56,10 @@ type
     function LerXmlNfse(const ANode: TACBrXmlNode): Boolean;
   end;
 
+  TNFSeR_WebFisco101 = class(TNFSeR_WebFisco)
+
+  end;
+
 implementation
 
 uses

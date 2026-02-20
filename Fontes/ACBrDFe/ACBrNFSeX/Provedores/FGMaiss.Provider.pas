@@ -60,6 +60,18 @@ type
 
   end;
 
+  TACBrNFSeXWebserviceFGMaiss101 = class(TACBrNFSeXWebserviceFGMaiss)
+
+  end;
+
+  TACBrNFSeProviderFGMaiss101 = class (TACBrNFSeProviderWebFisco101)
+  protected
+    function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
+    function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
+    function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
+
+  end;
+
 implementation
 
 uses
@@ -106,6 +118,40 @@ end;
 function TACBrNFSeXWebserviceFGMaiss.GetSoapActionURL: string;
 begin
   Result := 'https://www1.fgmaiss.com.br:443/issqn/wservice/';
+end;
+
+{ TACBrNFSeProviderFGMaiss101 }
+
+function TACBrNFSeProviderFGMaiss101.CriarGeradorXml(
+  const ANFSe: TNFSe): TNFSeWClass;
+begin
+  Result := TNFSeW_FGMaiss101.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderFGMaiss101.CriarLeitorXml(
+  const ANFSe: TNFSe): TNFSeRClass;
+begin
+  Result := TNFSeR_FGMaiss101.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderFGMaiss101.CriarServiceClient(
+  const AMetodo: TMetodo): TACBrNFSeXWebservice;
+var
+  URL: string;
+begin
+  URL := GetWebServiceURL(AMetodo);
+
+  if URL <> '' then
+    Result := TACBrNFSeXWebserviceFGMaiss101.Create(FAOwner, AMetodo, URL)
+  else
+  begin
+    if ConfigGeral.Ambiente = taProducao then
+      raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
+    else
+      raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
 end;
 
 end.

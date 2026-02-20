@@ -93,6 +93,19 @@ type
 
   end;
 
+  TACBrNFSeXWebserviceWebFisco101 = class(TACBrNFSeXWebserviceWebFisco)
+
+  end;
+
+  TACBrNFSeProviderWebFisco101 = class(TACBrNFSeProviderWebFisco)
+  protected
+    procedure Configuracao; override;
+
+    function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
+    function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
+    function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
+  end;
+
 implementation
 
 uses
@@ -778,6 +791,47 @@ begin
                      ['return', 'item'],
                      ['xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
                       'xmlns:xsd="http://www.w3.org/2001/XMLSchema"']);
+end;
+
+{ TACBrNFSeProviderWebFisco101 }
+
+procedure TACBrNFSeProviderWebFisco101.Configuracao;
+begin
+  inherited Configuracao;
+  ConfigGeral.Particularidades.PermiteMaisDeUmServico := False;
+  ConfigGeral.Particularidades.AtendeReformaTributaria := True;
+end;
+
+function TACBrNFSeProviderWebFisco101.CriarGeradorXml(
+  const ANFSe: TNFSe): TNFSeWClass;
+begin
+  Result := TNFSeW_WebFisco101.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderWebFisco101.CriarLeitorXml(
+  const ANFSe: TNFSe): TNFSeRClass;
+begin
+  Result := TNFSeR_WebFisco101.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderWebFisco101.CriarServiceClient(
+  const AMetodo: TMetodo): TACBrNFSeXWebservice;
+var
+  URL: string;
+begin
+  URL := GetWebServiceURL(AMetodo);
+
+  if URL <> '' then
+    Result := TACBrNFSeXWebserviceWebFisco101.Create(FAOwner, AMetodo, URL)
+  else
+  begin
+    if ConfigGeral.Ambiente = taProducao then
+      raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
+    else
+      raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
 end;
 
 end.
