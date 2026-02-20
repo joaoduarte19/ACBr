@@ -44,8 +44,11 @@ Símbolo : Significado
 
 
 20/02/2026
+-- ISSDigital.Provider --
+[-] ACBR-8959 - Correção na montagem do XML das consultas: Situação e Lote.
+ Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
-[*] A cidade São Caetano do Sul/SP vai passar a usar o provedor Giss a partir de 01/03/2026
+[*] ACBR-9018 - A cidade São Caetano do Sul/SP vai passar a usar o provedor Giss a partir de 01/03/2026
    Por: João Siscom
 
 19/02/2026
