@@ -305,7 +305,8 @@ var
 begin
   aXML := RemoverPrefixosDesnecessarios(aArquivo);
 
-  if (Pos('/infnfse>', LowerCase(aXML)) > 0) then
+  if (Pos('/infnfse>', LowerCase(aXML)) > 0) or
+     (Pos('/identificacaonfse>', LowerCase(aXML)) > 0) then
     Result := txmlNFSe
   else
     Result := txmlRPS;
@@ -1374,10 +1375,14 @@ var
   ANodeAux: TACBrXmlNode;
   ANodes: TACBrXmlNodeArray;
   i: Integer;
+  aValor: string;
 begin
   if not Assigned(ANode) then Exit;
 
-  IBSCBS.finNFSe := StrTofinNFSe(ObterConteudo(ANode.Childrens.FindAnyNs('finNFSe'), tcStr));
+  aValor := ObterConteudo(ANode.Childrens.FindAnyNs('finNFSe'), tcStr);
+  if aValor <> '' then
+    IBSCBS.finNFSe := StrTofinNFSe(aValor);
+
   IBSCBS.indFinal := StrToindFinal(ObterConteudo(ANode.Childrens.FindAnyNs('indFinal'), tcStr));
   IBSCBS.cIndOp := ObterConteudo(ANode.Childrens.FindAnyNs('cIndOp'), tcStr);
   IBSCBS.tpOper := StrTotpOperGovNFSe(ObterConteudo(ANode.Childrens.FindAnyNs('tpOper'), tcStr));
@@ -1392,7 +1397,10 @@ begin
   end;
 
   IBSCBS.tpEnteGov := StrTotpEnteGov(ObterConteudo(ANode.Childrens.FindAnyNs('tpEnteGov'), tcStr));
-  IBSCBS.indDest := StrToindDest(ObterConteudo(ANode.Childrens.FindAnyNs('indDest'), tcStr));
+
+  aValor := ObterConteudo(ANode.Childrens.FindAnyNs('indDest'), tcStr);
+  if aValor <> '' then
+    IBSCBS.indDest := StrToindDest(aValor);
 
   LerXMLDestinatario(ANode.Childrens.FindAnyNs('dest'), IBSCBS.dest);
   LerXMLImovel(ANode.Childrens.FindAnyNs('imovel'), IBSCBS.imovel);

@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 20/02/2026
+-- ACBrNFSeXNotasFiscais/ACBrNFSeXLerXml/ACBrNFSeXLerXml_ABRASFv1 --
+[*] ACBR-8946 - Alterações visando ler um lote de NFSe obtidos do site da prefeitura que
+   utiliza o provedor Ginfes.
+ Por: Italo Giurizzato Junior
 -- EloTech.GravarXml --
 [-] ACBR-8933 - Alterado o formato do ItemListaServico para que seja gerado o XML conforme o usuário informar.
  Por: Italo Giurizzato Junior
