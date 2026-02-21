@@ -525,6 +525,9 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'xTribNac', 1, 600, 1,
                  ItemListaServicoDescricao(NFSe.Servico.ItemListaServico), ''));
 
+  Result.AppendChild(AddNode(tcStr, '#1', 'xNBS', 1, 600, 0,
+                                                        NFSe.infNFSe.xNBS, ''));
+
   Result.AppendChild(AddNode(tcStr, '#1', 'verAplic', 1, 20, 1,
                                                             NFSe.verAplic, ''));
 
@@ -1700,14 +1703,16 @@ begin
      (NFSe.Servico.Valores.totTrib.pTotTribEst > 0) or
      (NFSe.Servico.Valores.totTrib.pTotTribMun > 0) then
     Result.AppendChild(GerarXMLPercentualTotalTributos)
-  else if (NFSe.Servico.Valores.totTrib.pTotTribSN > 0) then
-    Result.AppendChild(AddNode(tcDe2, '#1', 'pTotTribSN', 1, 5, 1,
-                               NFSe.Servico.Valores.totTrib.pTotTribSN, ''))
-  else if (NFSe.Servico.Valores.totTrib.indTotTrib <> indSim) then
-    Result.AppendChild(AddNode(tcStr, '#1', 'indTotTrib', 1, 1, 1,
-            indTotTribToStr(NFSe.Servico.Valores.totTrib.indTotTrib), ''))
   else
-    Result.AppendChild(GerarXMLValorTotalTributos);
+    if (NFSe.OptanteSN <> osnNaoOptante) then
+      Result.AppendChild(AddNode(tcDe2, '#1', 'pTotTribSN', 1, 5, 1,
+                                   NFSe.Servico.Valores.totTrib.pTotTribSN, ''))
+    else
+      if (NFSe.Servico.Valores.totTrib.indTotTrib <> indSim) then
+        Result.AppendChild(AddNode(tcStr, '#1', 'indTotTrib', 1, 1, 1,
+                  indTotTribToStr(NFSe.Servico.Valores.totTrib.indTotTrib), ''))
+      else
+        Result.AppendChild(GerarXMLValorTotalTributos);
 end;
 
 function TNFSeW_PadraoNacional.GerarXMLValorTotalTributos: TACBrXmlNode;

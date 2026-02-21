@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 21/02/2026
+-- PadraoNacional.GravarXml --
+[*] ACBR-8894 - Ajustes para gerar o campo pTotTribSN se o emitente for diferente de
+    não Optante SN.
+   Por: Italo Giurizzato Junior
 -- IPM.GravarXml/IPM.Provider --
 [+] ACBR-8855 - Ajustes para gerar o grupo pis_cofins.
    Por: WLE
