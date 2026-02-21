@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 21/02/2026
+-- PadraoNacional.LerXml --
+[*] ACBR-8845 - Ajustes na leitura do grupo infNFSe visando pegar a base de calculo já 
+    retornada no XML em vez de calcular ela.
+   Por: Microsys Sistemas
 -- PadraoNacional.GravarXml --
 [*] ACBR-8894 - Ajustes para gerar o campo pTotTribSN se o emitente for diferente de
     não Optante SN.

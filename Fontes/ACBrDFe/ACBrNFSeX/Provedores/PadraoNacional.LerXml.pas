@@ -913,48 +913,64 @@ begin
     NFSe.Numero := NFSe.infNFSe.nNFSe;
     NFSe.CodigoVerificacao := NFSe.infNFSe.ID;
 
-    with NFSe.Servico.Valores do
+    if NFSe.Servico.Valores.BaseCalculo = 0 then
+      NFSe.Servico.Valores.BaseCalculo := NFSe.infNFSe.valores.BaseCalculo;
+//        BaseCalculo := ValorServicos - ValorDeducoes - DescontoIncondicionado;
+
+    if NFSe.Servico.Valores.RetencoesFederais = 0 then
     begin
-      if (BaseCalculo = 0) and (ValorLiquidoNfse = 0) and (ValorTotalNotaFiscal = 0) then
-      begin
-        BaseCalculo := ValorServicos - ValorDeducoes - DescontoIncondicionado;
+      case NFSe.Servico.Valores.tribFed.tpRetPisCofins of
+        trpiscofinscsllNaoRetido:  // tpRetPisCofins = 0
+          NFSe.Servico.Valores.RetencoesFederais := NFSe.Servico.Valores.ValorInss +
+            NFSe.Servico.Valores.ValorIr;
 
-        case tribFed.tpRetPisCofins of
-          trpiscofinscsllNaoRetido:  // tpRetPisCofins = 0
-            RetencoesFederais := ValorInss + ValorIr;
+        trpiscofinscsllRetido:  // tpRetPisCofins = 3
+          NFSe.Servico.Valores.RetencoesFederais := NFSe.Servico.Valores.ValorInss +
+            NFSe.Servico.Valores.ValorIr + NFSe.Servico.Valores.ValorPis +
+            NFSe.Servico.Valores.ValorCofins + NFSe.Servico.Valores.ValorCsll;
 
-          trpiscofinscsllRetido:  // tpRetPisCofins = 3
-            RetencoesFederais := ValorInss + ValorIr + ValorPis + ValorCofins + ValorCsll;
+        trpiscofinsRetidocsllNaoRetido:   // tpRetPisCofins = 4
+          NFSe.Servico.Valores.RetencoesFederais := NFSe.Servico.Valores.ValorInss +
+            NFSe.Servico.Valores.ValorIr + NFSe.Servico.Valores.ValorPis +
+            NFSe.Servico.Valores.ValorCofins;
 
-          trpiscofinsRetidocsllNaoRetido:   // tpRetPisCofins = 4
-            RetencoesFederais := ValorInss + ValorIr + ValorPis + ValorCofins;
+        trPisRetidoCofinsCsllNaoRetido:  // tpRetPisCofins = 5
+          NFSe.Servico.Valores.RetencoesFederais := NFSe.Servico.Valores.ValorInss +
+            NFSe.Servico.Valores.ValorIr + NFSe.Servico.Valores.ValorPis;
 
-          trPisRetidoCofinsCsllNaoRetido:  // tpRetPisCofins = 5
-            RetencoesFederais := ValorInss + ValorIr + ValorPis;
+        trCofinsRetidoPisCsllNaoRetido:  // tpRetPisCofins = 6
+          NFSe.Servico.Valores.RetencoesFederais := NFSe.Servico.Valores.ValorInss +
+            NFSe.Servico.Valores.ValorIr + NFSe.Servico.Valores.ValorCofins;
 
-          trCofinsRetidoPisCsllNaoRetido:  // tpRetPisCofins = 6
-            RetencoesFederais := ValorInss + ValorIr + ValorCofins;
+        trCofinsCsllRetidoPisNaoRetido:  // tpRetPisCofins = 7
+          NFSe.Servico.Valores.RetencoesFederais := NFSe.Servico.Valores.ValorInss +
+            NFSe.Servico.Valores.ValorIr + NFSe.Servico.Valores.ValorCofins +
+            NFSe.Servico.Valores.ValorCsll;
 
-          trCofinsCsllRetidoPisNaoRetido:  // tpRetPisCofins = 7
-            RetencoesFederais := ValorInss + ValorIr + ValorCofins + ValorCsll;
+        trCsllRetidoPisCofinsNaoRetido:  // tpRetPisCofins = 8
+          NFSe.Servico.Valores.RetencoesFederais := NFSe.Servico.Valores.ValorInss +
+            NFSe.Servico.Valores.ValorIr + NFSe.Servico.Valores.ValorCsll;
 
-          trCsllRetidoPisCofinsNaoRetido:  // tpRetPisCofins = 8
-            RetencoesFederais := ValorInss + ValorIr + ValorCsll;
-
-          trPisCsllRetidoCofinsNaoRetido:  // tpRetPisCofins = 9
-            RetencoesFederais := ValorInss + ValorIr + ValorPis + ValorCsll;
-        else
-          RetencoesFederais := ValorInss + ValorIr + ValorPis + ValorCofins + ValorCsll;
-        end;
-
-        ValorLiquidoNfse := ValorServicos - RetencoesFederais - OutrasRetencoes -
-                   ValorIssRetido - DescontoIncondicionado - DescontoCondicionado;
+        trPisCsllRetidoCofinsNaoRetido:  // tpRetPisCofins = 9
+          NFSe.Servico.Valores.RetencoesFederais := NFSe.Servico.Valores.ValorInss +
+            NFSe.Servico.Valores.ValorIr + NFSe.Servico.Valores.ValorPis +
+            NFSe.Servico.Valores.ValorCsll;
+      else
+        NFSe.Servico.Valores.RetencoesFederais := NFSe.Servico.Valores.ValorInss +
+          NFSe.Servico.Valores.ValorIr + NFSe.Servico.Valores.ValorPis +
+          NFSe.Servico.Valores.ValorCofins + NFSe.Servico.Valores.ValorCsll;
       end;
-
-      if ValorTotalNotaFiscal = 0 then
-        ValorTotalNotaFiscal := ValorServicos - DescontoCondicionado -
-                                DescontoIncondicionado;
     end;
+
+    if NFSe.Servico.Valores.ValorLiquidoNfse = 0 then
+      NFSe.Servico.Valores.ValorLiquidoNfse := NFSe.Servico.Valores.ValorServicos -
+        NFSe.Servico.Valores.RetencoesFederais - NFSe.Servico.Valores.OutrasRetencoes -
+        NFSe.Servico.Valores.ValorIssRetido - NFSe.Servico.Valores.DescontoIncondicionado -
+        NFSe.Servico.Valores.DescontoCondicionado;
+
+    if NFSe.Servico.Valores.ValorTotalNotaFiscal = 0 then
+      NFSe.Servico.Valores.ValorTotalNotaFiscal := NFSe.Servico.Valores.ValorServicos -
+        NFSe.Servico.Valores.DescontoCondicionado - NFSe.Servico.Valores.DescontoIncondicionado;
 
     NFSe.Servico.Valores.RetencoesFederais := NFSe.Servico.Valores.RetencoesFederais -
                                               NFSe.Servico.Valores.ValorIssRetido;
