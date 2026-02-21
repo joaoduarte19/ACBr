@@ -5,6 +5,10 @@ using System.IO;
 
 namespace ACBrLib.BAL
 {
+    /// <summary>
+    /// Implementação da interface <see cref="IACBrLibBAL"/> para comunicação com balanças via ACBrLib.
+    /// Responsável por encapsular as operações de configuração, ativação, leitura e interpretação de peso.
+    /// </summary>
     public class ACBrBAL : ACBrLibBase, IACBrLibBAL
     {
 
@@ -13,6 +17,11 @@ namespace ACBrLib.BAL
         private IntPtr libHandle = IntPtr.Zero; 
         #region Constructors
 
+        /// <summary>
+        /// Inicializa uma nova instância da classe <see cref="ACBrBAL"/>.
+        /// </summary>
+        /// <param name="eArqConfig">Caminho do arquivo de configuração INI.</param>
+        /// <param name="eChaveCrypt">Chave de criptografia para o arquivo de configuração.</param>
         public ACBrBAL(string eArqConfig = "", string eChaveCrypt = "") :base(eArqConfig, eChaveCrypt)
         {   
             acbrBALBridge = ACBrBALHandle.Instance;
@@ -20,6 +29,7 @@ namespace ACBrLib.BAL
             Config = new BALConfig(this);
         }
 
+        /// <inheritdoc/>
         public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
         {
             var inicializarLib = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_Inicializar>();
@@ -33,6 +43,7 @@ namespace ACBrLib.BAL
 
       
 
+        /// <inheritdoc/>
         public BALConfig Config { get; }
 
         #endregion Properties
@@ -41,6 +52,7 @@ namespace ACBrLib.BAL
 
         #region Ini
 
+        /// <inheritdoc/>
         public override void ConfigGravar(string eArqConfig = "")
         {
             var gravarIni = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_ConfigGravar>();
@@ -49,6 +61,7 @@ namespace ACBrLib.BAL
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override void ConfigLer(string eArqConfig = "")
         {
             var lerIni = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_ConfigLer>();
@@ -57,6 +70,7 @@ namespace ACBrLib.BAL
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override void ImportarConfig(string eArqConfig = "")
         {
             var importarConfig = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_ConfigImportar>();
@@ -65,6 +79,7 @@ namespace ACBrLib.BAL
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override string ExportarConfig()
         {
             var bufferLen = BUFFER_LEN;
@@ -80,6 +95,7 @@ namespace ACBrLib.BAL
 
         #endregion Ini
 
+        /// <inheritdoc/>
         public void Ativar()
         {
             var method = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_Ativar>();
@@ -88,6 +104,7 @@ namespace ACBrLib.BAL
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void Desativar()
         {
             var method = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_Desativar>();
@@ -96,6 +113,7 @@ namespace ACBrLib.BAL
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public decimal LePeso(int MillisecTimeOut = 1000)
         {
             var peso = 0D;
@@ -107,6 +125,7 @@ namespace ACBrLib.BAL
             return (decimal)peso;
         }
 
+        /// <inheritdoc/>
         public void SolicitarPeso()
         {
             var method = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_SolicitarPeso>();
@@ -115,6 +134,7 @@ namespace ACBrLib.BAL
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public decimal UltimoPesoLido()
         {
             var peso = 0D;
@@ -126,6 +146,7 @@ namespace ACBrLib.BAL
             return (decimal)peso;
         }
 
+        /// <inheritdoc/>
         public decimal InterpretarRespostaPeso(string resposta)
         {
             var peso = 0D;
@@ -139,6 +160,7 @@ namespace ACBrLib.BAL
 
         #region Private Methods
 
+        /// <inheritdoc/>
         public override void Finalizar()
         {
             var finalizarLib = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_Finalizar>();
@@ -147,6 +169,7 @@ namespace ACBrLib.BAL
             libHandle = IntPtr.Zero;
         }
 
+        /// <inheritdoc/>
         protected override string GetUltimoRetorno(int iniBufferLen = 0)
         {
             var bufferLen = iniBufferLen < 1 ? BUFFER_LEN : iniBufferLen;
@@ -168,6 +191,7 @@ namespace ACBrLib.BAL
         #endregion Private Methods
 
 
+        /// <inheritdoc/>
         public override string OpenSSLInfo()
         {
             var bufferLen = BUFFER_LEN;
@@ -181,6 +205,7 @@ namespace ACBrLib.BAL
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public override string ConfigLerValor(string eSessao, string eChave)
         {
             var method = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_ConfigLerValor>();
@@ -193,6 +218,7 @@ namespace ACBrLib.BAL
             return CheckBuffer(pValue, bufferLen);
         }
 
+        /// <inheritdoc/>
         public override void ConfigGravarValor(string eSessao, string eChave, string eValor)
         {
             var method = acbrBALBridge.GetMethod<ACBrBALHandle.BAL_ConfigGravarValor>();
@@ -200,6 +226,7 @@ namespace ACBrLib.BAL
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override string Versao()
         {
             var bufferLen = BUFFER_LEN;
@@ -213,6 +240,7 @@ namespace ACBrLib.BAL
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public override string Nome()
         {
             var bufferLen = BUFFER_LEN;
@@ -226,12 +254,19 @@ namespace ACBrLib.BAL
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <summary>
+        /// Libera os recursos utilizados pela instância da classe <see cref="ACBrBAL"/>.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Libera os recursos gerenciados e não gerenciados utilizados pela instância.
+        /// </summary>
+        /// <param name="disposing">Indica se deve liberar recursos gerenciados.</param>
         protected void Dispose(bool disposing)
         {
             if (disposed) return;
