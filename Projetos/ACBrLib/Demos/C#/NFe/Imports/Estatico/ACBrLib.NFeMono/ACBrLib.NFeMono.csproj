@@ -10,8 +10,8 @@
   
   <ItemGroup>
     <!--<PackageReference Include="ACBrLib.Core" Version="1.2.36" />-->
-    <PackageReference Include="ACBrLib.NFeMT" Version="1.0.30" />
-    <PackageReference Include="ACBrLib.Core" Version="1.2.39" />
+    <PackageReference Include="ACBrLib.NFeMT" Version="1.0.32" />
+    <PackageReference Include="ACBrLib.Core" Version="1.2.41" />
 
   </ItemGroup>
 

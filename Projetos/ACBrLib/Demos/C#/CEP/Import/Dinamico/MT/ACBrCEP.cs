@@ -5,7 +5,10 @@ using ACBrLib.Core;
 
 namespace ACBrLib.CEP
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Classe principal da biblioteca ACBrLibCEP, responsável por fornecer os métodos e propriedades para interação com o componente de consulta de CEP.
+    /// Baseado na documentação oficial: https://acbr.sourceforge.io/ACBrLib/MetodosCEP.html
+    /// </summary>
     public class ACBrCEP : ACBrLibBase, IACBrLibCEP, IDisposable
     {
         #region Constructors
@@ -14,6 +17,7 @@ namespace ACBrLib.CEP
         private IntPtr libHandle = IntPtr.Zero;
         private bool disposed = false;
 
+        /// <inheritdoc/>
         public ACBrCEP(string eArqConfig = "", string eChaveCrypt = "") : base(eArqConfig, eChaveCrypt)
         {
 

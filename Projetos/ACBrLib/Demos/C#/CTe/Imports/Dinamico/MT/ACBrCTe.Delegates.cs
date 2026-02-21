@@ -5,7 +5,7 @@ using ACBrLib.Core;
 
 namespace ACBrLib.CTe
 {
-    public sealed partial class ACBrCTeHandle : ACBrLibHandleBase
+    internal sealed partial class ACBrCTeHandle : ACBrLibHandleBase
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int CTE_Inicializar(ref IntPtr handle, string eArqConfig, string eChaveCrypt);
