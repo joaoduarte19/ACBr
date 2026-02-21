@@ -43,6 +43,14 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+21/02/2026
+-- GovDigital.GravarXml --
+[+] ACBR-8887 - Ajustes para gerar o grupo AtvEvento.
+   Por: Milton Campanhã
+-- ACBrNFSeXServicos --
+[*] ACBR-8887 - A cidade Guaxupé/MG continua com o provedor GovDigital.
+   Por: Milton Campanhã
+
 20/02/2026
 -- Conam.GravarXml --
 [-] ACBR-8919 - Ajustes para a geração correta do XML do RPS.
