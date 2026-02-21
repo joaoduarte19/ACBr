@@ -7,14 +7,22 @@ using ACBrLib.Core.Boleto;
 
 namespace ACBrLib.Boleto
 {
+    /// <summary>
+    /// Classe de integração com ACBrLibBoleto para manipulação de boletos.
+    /// Implementa métodos de alto nível conforme interface IACBrLibBoleto.
+    /// </summary>
     public class ACBrBoleto : ACBrLibBase, IACBrLibBoleto
     {
-
         private readonly ACBrBoletoHandle acbrBoletoBridge;
         private bool disposed = false;
         private IntPtr libHandle = IntPtr.Zero;
         #region Constructors
 
+        /// <summary>
+        /// Inicializa uma nova instância da classe ACBrBoleto.
+        /// </summary>
+        /// <param name="eArqConfig">Arquivo de configuração opcional.</param>
+        /// <param name="eChaveCrypt">Chave de criptografia opcional.</param>
         public ACBrBoleto(string eArqConfig = "", string eChaveCrypt = "") : base(eArqConfig, eChaveCrypt)
         {
             acbrBoletoBridge = ACBrBoletoHandle.Instance;
@@ -34,6 +42,7 @@ namespace ACBrLib.Boleto
 
         #region Properties
 
+        /// <inheritdoc/>
         public ACBrBoletoConfig Config { get; }
 
         #endregion Properties
@@ -42,6 +51,7 @@ namespace ACBrLib.Boleto
 
         #region Ini
 
+        /// <inheritdoc/>
         public override void ConfigGravar(string eArqConfig = "")
         {
             var gravarIni = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_ConfigGravar>();
@@ -59,8 +69,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
-
-        ///  <inheritdoc/>
+        /// <inheritdoc/>
         public override void ImportarConfig(string eArqConfig = "")
         {
             var importarConfig = acbrBoletoBridge.GetMethod<ACBrBoletoHandle.Boleto_ConfigImportar>();
@@ -516,7 +525,6 @@ namespace ACBrLib.Boleto
             libHandle = IntPtr.Zero;
         }
         /// <inheritdoc/>
-
         protected override string GetUltimoRetorno(int iniBufferLen = 0)
         {
             var bufferLen = iniBufferLen < 1 ? BUFFER_LEN : iniBufferLen;
@@ -578,7 +586,7 @@ namespace ACBrLib.Boleto
 
             return CheckBuffer(buffer, bufferLen);
         }
-
+        /// <inheritdoc/>
         #endregion Private Methods
 
         /// <inheritdoc/>

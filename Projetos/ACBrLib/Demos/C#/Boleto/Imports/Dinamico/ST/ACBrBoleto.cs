@@ -6,10 +6,16 @@ using ACBrLib.Core.Boleto;
 
 namespace ACBrLib.Boleto
 {
+    /// <summary>
+    /// Implementação concreta de alto nível para integração com ACBrLibBoleto.
+    /// Esta classe encapsula operações de boletos, retornando buffers como strings.
+    /// Métodos herdados de <see cref="IACBrLibBase"/> e <see cref="IACBrLibBoleto"/> são documentados via <c>inheritdoc</c>.
+    /// </summary>
     public sealed partial class ACBrBoleto : ACBrLibHandle, IACBrLibBoleto, IDisposable
     {
         #region Constructors
 
+        /// <inheritdoc/>
         public ACBrBoleto(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrBoleto64.dll" : "libacbrboleto64.so",
                                                                                       IsWindows ? "ACBrBoleto32.dll" : "libacbrboleto32.so")
         {
@@ -17,6 +23,7 @@ namespace ACBrLib.Boleto
             Config = new ACBrBoletoConfig(this);
         }
 
+        /// <inheritdoc/>
         public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
         {
             var inicializarLib = GetMethod<Boleto_Inicializar>();
@@ -68,6 +75,7 @@ namespace ACBrLib.Boleto
 
         #region Ini
 
+        /// <inheritdoc/>
         public override void ConfigGravar(string eArqConfig = "")
         {
             var gravarIni = GetMethod<Boleto_ConfigGravar>();
@@ -76,6 +84,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override void ConfigLer(string eArqConfig = "")
         {
             var lerIni = GetMethod<Boleto_ConfigLer>();
@@ -84,6 +93,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
         {
             var method = GetMethod<Boleto_ConfigLerValor>();
@@ -97,6 +107,7 @@ namespace ACBrLib.Boleto
             return ConvertValue<T>(value);
         }
 
+        /// <inheritdoc/>
         public override void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value)
         {
             if (value == null) return;
@@ -108,6 +119,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override void ImportarConfig(string eArqConfig = "")
         {
             var importarConfig = GetMethod<Boleto_ConfigImportar>();
@@ -116,6 +128,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override string ExportarConfig()
         {
             var bufferLen = BUFFER_LEN;
@@ -131,6 +144,7 @@ namespace ACBrLib.Boleto
 
         #endregion Ini
 
+        /// <inheritdoc/>
         public void ConfigurarDados(params BoletoInfo[] infos)
         {
             var iniFile = new ACBrIniFile();
@@ -140,6 +154,7 @@ namespace ACBrLib.Boleto
             ConfigurarDados(iniFile.ToString());
         }
 
+        /// <inheritdoc/>
         public void ConfigurarDados(string eArquivoIni)
         {
             var method = GetMethod<Boleto_ConfigurarDados>();
@@ -148,6 +163,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void IncluirTitulos(params Titulo[] titulos)
         {
             var iniFile = new ACBrIniFile();
@@ -160,6 +176,7 @@ namespace ACBrLib.Boleto
             IncluirTitulos(iniFile.ToString());
         }
 
+        /// <inheritdoc/>
         public void IncluirTitulos(BoletoTpSaida eTpSaida, params Titulo[] titulos)
         {
             var iniFile = new ACBrIniFile();
@@ -172,6 +189,7 @@ namespace ACBrLib.Boleto
             IncluirTitulos(iniFile.ToString(), eTpSaida);
         }
 
+        /// <inheritdoc/>
         public void IncluirTitulos(string eArquivoIni, BoletoTpSaida? eTpSaida = null)
         {
             var tpSaida = $"{(eTpSaida.HasValue ? (char)eTpSaida.Value : ' ')}";
@@ -182,6 +200,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void LimparLista()
         {
             var method = GetMethod<Boleto_LimparLista>();
@@ -189,6 +208,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public int TotalTitulosLista()
         {
             var method = GetMethod<Boleto_TotalTitulosLista>();
@@ -199,6 +219,7 @@ namespace ACBrLib.Boleto
             return ret;
         }
 
+        /// <inheritdoc/>
         public void Imprimir(string eNomeImpressora = "")
         {
             var method = GetMethod<Boleto_Imprimir>();
@@ -206,6 +227,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void Imprimir(int indice, string eNomeImpressora = "")
         {
             var method = GetMethod<Boleto_ImprimirBoleto>();
@@ -213,6 +235,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void GerarPDF()
         {
             var method = GetMethod<Boleto_GerarPDF>();
@@ -220,6 +243,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void GerarPDF(Stream aStream)
         {
             if (aStream == null) throw new ArgumentNullException(nameof(aStream));
@@ -236,6 +260,7 @@ namespace ACBrLib.Boleto
             Base64ToStream(pdf, aStream);
         }
 
+        /// <inheritdoc/>
         public void GerarPDF(int indice)
         {
             var method = GetMethod<Boleto_GerarPDFBoleto>();
@@ -243,6 +268,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void GerarPDF(int indice, Stream aStream)
         {
             if (aStream == null) throw new ArgumentNullException(nameof(aStream));
@@ -259,6 +285,7 @@ namespace ACBrLib.Boleto
             Base64ToStream(pdf, aStream);
         }
 
+        /// <inheritdoc/>
         public void GerarHTML()
         {
             var method = GetMethod<Boleto_GerarHTML>();
@@ -266,6 +293,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void GerarRemessa(string eDir, int eNumArquivo, string eNomeArq)
         {
             var method = GetMethod<Boleto_GerarRemessa>();
@@ -274,6 +302,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void GerarRemessaStream(int eNumArquivo, Stream aStream)
         {
             if (aStream == null) throw new ArgumentNullException(nameof(aStream));
@@ -290,6 +319,7 @@ namespace ACBrLib.Boleto
             Base64ToStream(rem, aStream);
         }
 
+        /// <inheritdoc/>
         public RetornoBoleto ObterRetorno(string eDir, string eNomeArq)
         {
             var bufferLen = BUFFER_LEN;
@@ -303,6 +333,7 @@ namespace ACBrLib.Boleto
             return RetornoBoleto.LerRetorno(ProcessResult(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public void LerRetorno(string eDir, string eNomeArq)
         {
             var method = GetMethod<Boleto_LerRetorno>();
@@ -311,6 +342,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public string LerRetornoStream(string ARetornoBase64)
         {
             var bufferLen = BUFFER_LEN;
@@ -324,6 +356,7 @@ namespace ACBrLib.Boleto
             return ProcessResult(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public void EnviarEmail(string ePara, string eAssunto, string eMensagem, string eCC)
         {
             var method = GetMethod<Boleto_EnviarEmail>();
@@ -332,6 +365,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void EnviarEmailBoleto(int indice, string ePara, string eAssunto, string eMensagem, string eCC)
         {
             var method = GetMethod<Boleto_EnviarEmailBoleto>();
@@ -340,6 +374,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void SetDiretorioArquivo(string eDir, string eArq = "")
         {
             var method = GetMethod<Boleto_SetDiretorioArquivo>();
@@ -348,6 +383,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public string[] ListaBancos()
         {
             var bufferLen = BUFFER_LEN;
@@ -361,6 +397,7 @@ namespace ACBrLib.Boleto
             return ProcessResult(buffer, bufferLen).Split('|');
         }
 
+        /// <inheritdoc/>
         public string[] ListaCaractTitulo()
         {
             var bufferLen = BUFFER_LEN;
@@ -374,6 +411,7 @@ namespace ACBrLib.Boleto
             return ProcessResult(buffer, bufferLen).Split('|');
         }
 
+        /// <inheritdoc/>
         public string[] ListaOcorrencias()
         {
             var bufferLen = BUFFER_LEN;
@@ -387,6 +425,7 @@ namespace ACBrLib.Boleto
             return ProcessResult(buffer, bufferLen).Split('|');
         }
 
+        /// <inheritdoc/>
         public string[] ListaOcorrenciasEX()
         {
             var bufferLen = BUFFER_LEN;
@@ -400,6 +439,7 @@ namespace ACBrLib.Boleto
             return ProcessResult(buffer, bufferLen).Split('|');
         }
 
+        /// <inheritdoc/>
         public int TamNossoNumero(string eCarteira, string enossoNumero, string eConvenio)
         {
             var method = GetMethod<Boleto_TamNossoNumero>();
@@ -410,6 +450,7 @@ namespace ACBrLib.Boleto
             return ret;
         }
 
+        /// <inheritdoc/>
         public string CodigosMoraAceitos()
         {
             var bufferLen = BUFFER_LEN;
@@ -423,6 +464,7 @@ namespace ACBrLib.Boleto
             return ProcessResult(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public void SelecionaBanco(string eCodBanco)
         {
             var method = GetMethod<Boleto_SelecionaBanco>();
@@ -431,6 +473,7 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public string MontarNossoNumero(int eIndex)
         {
             var bufferLen = BUFFER_LEN;
@@ -444,6 +487,7 @@ namespace ACBrLib.Boleto
             return ProcessResult(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string RetornaLinhaDigitavel(int eIndex)
         {
             var bufferLen = BUFFER_LEN;
@@ -457,6 +501,7 @@ namespace ACBrLib.Boleto
             return ProcessResult(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string RetornaCodigoBarras(int eIndex)
         {
             var bufferLen = BUFFER_LEN;
@@ -470,6 +515,7 @@ namespace ACBrLib.Boleto
             return ProcessResult(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public RetornoWeb EnviarBoleto(OperacaoBoleto opercao)
         {
             var bufferLen = BUFFER_LEN;
@@ -483,6 +529,7 @@ namespace ACBrLib.Boleto
             return RetornoWeb.LerRetorno(ProcessResult(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public string ConsultarTitulosPorPeriodo(string eArquivoIni)
         {
             var bufferLen = BUFFER_LEN;
@@ -496,6 +543,7 @@ namespace ACBrLib.Boleto
             return ProcessResult(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string GerarToken()
         {
             var bufferLen = BUFFER_LEN;
@@ -508,6 +556,7 @@ namespace ACBrLib.Boleto
 
             return ProcessResult(buffer, bufferLen);
         }
+        /// <inheritdoc/>
         public string InformarToken(string eToken, DateTime eData)
         {
 
@@ -519,6 +568,7 @@ namespace ACBrLib.Boleto
 
         }
 
+        /// <inheritdoc/>
         public override string OpenSSLInfo()
         {
             var bufferLen = BUFFER_LEN;
@@ -536,6 +586,7 @@ namespace ACBrLib.Boleto
 
         #region Private Methods
 
+        /// <inheritdoc/>
         public override void Finalizar()
         {
             var finalizarLib = GetMethod<Boleto_Finalizar>();
