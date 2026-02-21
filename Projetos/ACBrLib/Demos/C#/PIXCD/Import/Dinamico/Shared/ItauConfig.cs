@@ -9,7 +9,7 @@ namespace ACBrLib.PIXCD
     /// Configurações específicas do PSP Itaú para PIXCD.
     /// Veja todas as chaves e descrições em: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html
     /// </summary>
-    public sealed class ItauConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
+    public sealed class ItauConfig : ACBrLibConfigBase<IACBrLibPIXCD>
     {
         #region Constructors
 

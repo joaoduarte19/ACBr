@@ -9,7 +9,7 @@ namespace ACBrLib.PIXCD
     /// Configurações específicas do PSP Sicoob para PIXCD.
     /// Veja todas as chaves e descrições em: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html
     /// </summary>
-    public sealed class SicoobConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
+    public sealed class SicoobConfig : ACBrLibConfigBase<IACBrLibPIXCD>
     {
         #region Constructors
 

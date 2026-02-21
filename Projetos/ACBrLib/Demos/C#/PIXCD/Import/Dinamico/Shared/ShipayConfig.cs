@@ -9,7 +9,7 @@ namespace ACBrLib.PIXCD
     /// Configurações específicas do PSP Shipay para PIXCD.
     /// Veja todas as chaves e descrições em: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html
     /// </summary>
-    public sealed class ShipayConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
+    public sealed class ShipayConfig : ACBrLibConfigBase<IACBrLibPIXCD>
     {
         #region Constructors
 

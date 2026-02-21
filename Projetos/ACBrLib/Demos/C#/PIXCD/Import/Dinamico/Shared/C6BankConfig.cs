@@ -9,7 +9,7 @@ namespace ACBrLib.PIXCD
     /// Configurações específicas do PSP C6Bank para PIXCD.
     /// Veja todas as chaves e descrições em: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html
     /// </summary>
-    public sealed class C6BankConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
+    public sealed class C6BankConfig : ACBrLibConfigBase<IACBrLibPIXCD>
     {
         #region Constructors
 

@@ -9,7 +9,7 @@ namespace ACBrLib.PIXCD
     /// Configurações específicas do PSP Matera para PIXCD.
     /// Veja todas as chaves e descrições em: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html
     /// </summary>
-    public sealed class MateraConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
+    public sealed class MateraConfig : ACBrLibConfigBase<IACBrLibPIXCD>
     {
         #region Constructors
 

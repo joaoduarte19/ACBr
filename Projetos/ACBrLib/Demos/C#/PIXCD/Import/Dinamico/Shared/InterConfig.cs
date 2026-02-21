@@ -9,7 +9,7 @@ namespace ACBrLib.PIXCD
     /// Configurações específicas do PSP Inter para PIXCD.
     /// Veja todas as chaves e descrições em: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html
     /// </summary>
-    public sealed class InterConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
+    public sealed class InterConfig : ACBrLibConfigBase<IACBrLibPIXCD>
     {
         #region Constructors
 

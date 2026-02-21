@@ -9,7 +9,7 @@ namespace ACBrLib.PIXCD
     /// Configurações específicas do PSP PixPDV para PIXCD.
     /// Veja todas as chaves e descrições em: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html
     /// </summary>
-    public sealed class PixPDVConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
+    public sealed class PixPDVConfig : ACBrLibConfigBase<IACBrLibPIXCD>
     {
         #region Constructors
 

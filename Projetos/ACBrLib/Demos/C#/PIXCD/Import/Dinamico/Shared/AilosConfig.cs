@@ -9,7 +9,7 @@ namespace ACBrLib.PIXCD
     /// Configurações específicas do PSP Ailos para PIXCD.
     /// Veja todas as chaves e descrições em: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html
     /// </summary>
-    public sealed class AilosConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
+    public sealed class AilosConfig : ACBrLibConfigBase<IACBrLibPIXCD>
     {
         #region Constructors
 

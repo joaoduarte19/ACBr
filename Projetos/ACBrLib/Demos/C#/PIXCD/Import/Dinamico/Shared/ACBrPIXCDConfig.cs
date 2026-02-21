@@ -9,7 +9,7 @@ namespace ACBrLib.PIXCD
     /// Configurações da biblioteca ACBrLib PIXCD.
     /// Veja todas as chaves e descrições em: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html
     /// </summary>
-    public sealed class ACBrPIXCDConfig : ACBrLibConfigBase<IACBrLibPIXCD>
+    public sealed class ACBrPIXCDConfig : ACBrLibConfig<IACBrLibPIXCD>
     {
         #region Constructors
 

@@ -9,7 +9,7 @@ namespace ACBrLib.PIXCD
     /// Configurações específicas do PSP PagSeguro para PIXCD.
     /// Veja todas as chaves e descrições em: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html
     /// </summary>
-    public sealed class PagSeguroConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
+    public sealed class PagSeguroConfig : ACBrLibConfigBase<IACBrLibPIXCD>
     {
         #region Constructors
 

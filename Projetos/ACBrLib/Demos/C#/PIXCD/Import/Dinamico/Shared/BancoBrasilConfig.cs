@@ -9,7 +9,7 @@ namespace ACBrLib.PIXCD
     /// Configurações específicas do PSP Banco do Brasil para PIXCD.
     /// Veja todas as chaves e descrições em: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html
     /// </summary>
-    public sealed class BancoBrasilConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
+    public sealed class BancoBrasilConfig : ACBrLibConfigBase<IACBrLibPIXCD>
     {
         #region Constructors
 

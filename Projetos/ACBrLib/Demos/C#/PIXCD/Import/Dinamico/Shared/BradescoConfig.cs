@@ -9,7 +9,7 @@ namespace ACBrLib.PIXCD
     /// Configurações específicas do PSP Bradesco para PIXCD.
     /// Veja todas as chaves e descrições em: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html
     /// </summary>
-    public sealed class BradescoConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
+    public sealed class BradescoConfig : ACBrLibConfigBase<IACBrLibPIXCD>
     {
         #region Constructors
 

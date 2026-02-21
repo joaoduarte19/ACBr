@@ -9,7 +9,7 @@ namespace ACBrLib.PIXCD
     /// Configurações específicas do PSP GerenciaNet para PIXCD.
     /// Veja todas as chaves e descrições em: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html
     /// </summary>
-    public sealed class GerenciaNetConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
+    public sealed class GerenciaNetConfig : ACBrLibConfigBase<IACBrLibPIXCD>
     {
         #region Constructors
 
