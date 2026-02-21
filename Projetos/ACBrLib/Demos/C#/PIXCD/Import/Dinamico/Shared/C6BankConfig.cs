@@ -5,49 +5,74 @@ using ACBrLib.Core.PIXCD;
 
 namespace ACBrLib.PIXCD
 {
+    /// <summary>
+    /// Configurações específicas do PSP C6Bank para PIXCD.
+    /// Veja todas as chaves e descrições em: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html
+    /// </summary>
     public sealed class C6BankConfig : ACBrLibDFeConfig<IACBrLibPIXCD>
     {
         #region Constructors
 
+        /// <summary>
+        /// Inicializa as configurações do PSP C6Bank.
+        /// </summary>
+        /// <param name="acbrlib">Instância da interface PIXCD.</param>
         public C6BankConfig(IACBrLibPIXCD acbrlib) : base(acbrlib, ACBrSessao.C6Bank)
         {
-
         }
 
         #endregion Constructors
 
         #region Properties
 
+        /// <summary>
+        /// Chave PIX utilizada para transações.
+        /// </summary>
         public string ChavePIX
         {
             get => GetProperty<string>();
             set => SetProperty(value);
         }
 
+        /// <summary>
+        /// ClientID para autenticação no C6Bank.
+        /// </summary>
         public string ClientID
         {
             get => GetProperty<string>();
             set => SetProperty(value);
         }
 
+        /// <summary>
+        /// ClientSecret para autenticação no C6Bank.
+        /// </summary>
         public string ClientSecret
         {
             get => GetProperty<string>();
             set => SetProperty(value);
         }
 
+        /// <summary>
+        /// Caminho do arquivo de chave privada.
+        /// </summary>
         public string ArqChavePrivada
         {
             get => GetProperty<string>();
             set => SetProperty(value);
         }
 
+        /// <summary>
+        /// Caminho do arquivo de certificado.
+        /// </summary>
         public string ArqCertificado
         {
             get => GetProperty<string>();
             set => SetProperty(value);
         }
 
+        /// <summary>
+        /// Scopes enviados para a API. Exemplo: [scCobWrite,scCobRead,scPixWrite,scPixRead]
+        /// </summary>
         public string Scopes
         {
             get => GetProperty<string>();

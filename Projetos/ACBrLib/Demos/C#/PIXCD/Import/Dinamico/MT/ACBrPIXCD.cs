@@ -8,7 +8,10 @@ using ACBrLib.Core;
 
 namespace ACBrLib.PIXCD
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Classe principal para interação com a biblioteca ACBrLibPIXCD.
+    /// Implementa a interface <see cref="IACBrLibPIXCD"/>.
+    /// </summary>
     public class ACBrPIXCD : ACBrLibBase, IACBrLibPIXCD
     {
         #region fields
@@ -18,6 +21,14 @@ namespace ACBrLib.PIXCD
         #endregion
 
         #region Constructors
+
+        /// <summary>
+        /// Construtor da classe ACBrPIXCD.
+        /// Inicializa a ponte de comunicação com a biblioteca nativa e as configurações.
+        /// </summary>
+        /// <param name="eArqConfig">Caminho do arquivo de configuração (opcional).</param>
+        /// <param name="eChaveCrypt">Chave de criptografia para o arquivo
+        /// de configuração (opcional).</param>
         public ACBrPIXCD(string eArqConfig = "", string eChaveCrypt = "") : base(eArqConfig, eChaveCrypt)
         {
             acbrPIXCDBridge = ACBrPIXCDHandle.Instance;
@@ -25,6 +36,7 @@ namespace ACBrLib.PIXCD
             Config = new ACBrPIXCDConfig(this);
         }
 
+        /// <inheritdoc/>
         public override void Inicializar(string eArqConfig, string eChaveCrypt)
         {
             var inicializar = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_Inicializar>();
@@ -37,7 +49,7 @@ namespace ACBrLib.PIXCD
 
         #region Properties
 
-
+        /// <inheritdoc/>
         public ACBrPIXCDConfig Config { get; }
 
         #endregion Properties
@@ -46,6 +58,7 @@ namespace ACBrLib.PIXCD
 
         #region Ini
 
+        /// <inheritdoc/>
         public override void ConfigGravar(string eArqConfig = "")
         {
             var gravarIni = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_ConfigGravar>();
@@ -54,6 +67,7 @@ namespace ACBrLib.PIXCD
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override void ImportarConfig(string eArqConfig)
         {
             var lerIni = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_ConfigImportar>();
@@ -62,6 +76,7 @@ namespace ACBrLib.PIXCD
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override string ExportarConfig()
         {
             var bufferLen = BUFFER_LEN;
@@ -75,6 +90,7 @@ namespace ACBrLib.PIXCD
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public override void ConfigLer(string eArqConfig = "")
         {
             var lerIni = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_ConfigLer>();
@@ -87,6 +103,7 @@ namespace ACBrLib.PIXCD
 
         #region Diversos
 
+        /// <inheritdoc/>
         public string GerarQRCodeEstatico(double AValor, string AinfoAdicional, string ATxID)
         {
             var bufferLen = BUFFER_LEN;
@@ -100,6 +117,7 @@ namespace ACBrLib.PIXCD
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarPix(string Ae2eid)
         {
             var bufferLen = BUFFER_LEN;
@@ -113,6 +131,7 @@ namespace ACBrLib.PIXCD
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarPixRecebidos(DateTime ADataInicio, DateTime ADataFim, string ATxId, string ACpfCnpj, int PagAtual, int ItensPorPagina)
         {
             var bufferLen = BUFFER_LEN;
@@ -126,6 +145,7 @@ namespace ACBrLib.PIXCD
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string SolicitarDevolucaoPix(string AInfDevolucao, string Ae2eid, string AidDevolucao)
         {
             var bufferLen = BUFFER_LEN;
@@ -139,6 +159,7 @@ namespace ACBrLib.PIXCD
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarDevolucaoPix(string Ae2eid, string AidDevolucao)
         {
             var bufferLen = BUFFER_LEN;
@@ -152,6 +173,7 @@ namespace ACBrLib.PIXCD
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string CriarCobrancaImediata(string AInfCobSolicitada, string ATxId)
         {
 
@@ -166,6 +188,7 @@ namespace ACBrLib.PIXCD
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarCobrancaImediata(string ATxId, int ARevisao)
         {
             var bufferLen = BUFFER_LEN;
@@ -179,6 +202,7 @@ namespace ACBrLib.PIXCD
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarCobrancasCob(DateTime ADataInicio, DateTime ADataFim, string ACpfCnpj, Boolean ALocationPresente, int AStatus, int PagAtual, int ItensPorPagina)
         {
             var bufferLen = BUFFER_LEN;
@@ -192,6 +216,7 @@ namespace ACBrLib.PIXCD
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string RevisarCobrancaImediata(string AInfCobRevisada, string ATxId)
         {
             var bufferLen = BUFFER_LEN;
@@ -205,6 +230,7 @@ namespace ACBrLib.PIXCD
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string CancelarCobrancaImediata(string ATxId)
         {
             var bufferLen = BUFFER_LEN;
@@ -218,6 +244,7 @@ namespace ACBrLib.PIXCD
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string CriarCobranca(string AInfCobVSolicitada, string ATxId)
         {
             var bufferLen = BUFFER_LEN;
@@ -231,6 +258,7 @@ namespace ACBrLib.PIXCD
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarCobranca(string ATxId, int ARevisao)
         {
             var bufferLen = BUFFER_LEN;
@@ -244,6 +272,7 @@ namespace ACBrLib.PIXCD
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultarCobrancasCobV(DateTime ADataInicio, DateTime ADataFim, string ACpfCnpj, Boolean ALocationPresente, int AStatus, int PagAtual, int ItensPorPagina)
         {
             var bufferLen = BUFFER_LEN;
@@ -257,6 +286,7 @@ namespace ACBrLib.PIXCD
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string RevisarCobranca(string AInfCobVRevisada, string ATxId)
         {
             var bufferLen = BUFFER_LEN;
@@ -270,6 +300,7 @@ namespace ACBrLib.PIXCD
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string CancelarCobranca(string ATxId)
         {
             var bufferLen = BUFFER_LEN;
@@ -283,6 +314,7 @@ namespace ACBrLib.PIXCD
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public override string OpenSSLInfo()
         {
             var bufferLen = BUFFER_LEN;
@@ -300,6 +332,7 @@ namespace ACBrLib.PIXCD
 
         #region Private Methods
 
+        /// <inheritdoc/>
         public override void Finalizar()
         {
             var finalizarLib = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_Finalizar>();
@@ -308,6 +341,7 @@ namespace ACBrLib.PIXCD
             libHandle = IntPtr.Zero;
         }
 
+        /// <inheritdoc/>
         protected override string GetUltimoRetorno(int iniBufferLen = 0)
         {
             var bufferLen = iniBufferLen < 1 ? BUFFER_LEN : iniBufferLen;
@@ -328,6 +362,7 @@ namespace ACBrLib.PIXCD
 
 
 
+        /// <inheritdoc/>
         public override string ConfigLerValor(string eSessao, string eChave)
         {
             var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_ConfigLerValor>();
@@ -340,6 +375,7 @@ namespace ACBrLib.PIXCD
             return CheckBuffer(pValue, bufferLen);
         }
 
+        /// <inheritdoc/>
         public override void ConfigGravarValor(string eSessao, string eChave, string eValor)
         {
             var method = acbrPIXCDBridge.GetMethod<ACBrPIXCDHandle.PIXCD_ConfigGravarValor>();
@@ -348,6 +384,7 @@ namespace ACBrLib.PIXCD
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override string Versao()
         {
             var bufferLen = BUFFER_LEN;
@@ -361,6 +398,7 @@ namespace ACBrLib.PIXCD
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public override string Nome()
         {
             var bufferLen = BUFFER_LEN;
@@ -376,19 +414,22 @@ namespace ACBrLib.PIXCD
 
         #endregion Private Methods
 
-
+        /// <inheritdoc/>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <inheritdoc/>
         protected void Dispose(bool disposing)
         {
+            if (disposed) return;
             if (disposing)
             {
                 Finalizar();// dispose managed resources
             }
+            disposed = true;
 
         }
         #endregion Metodos
