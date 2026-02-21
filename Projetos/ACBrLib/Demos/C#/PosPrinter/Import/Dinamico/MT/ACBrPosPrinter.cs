@@ -8,7 +8,10 @@ using ACBrLib.Core.PosPrinter;
 
 namespace ACBrLib.PosPrinter
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Implementação do componente ACBrPosPrinter para integração com impressoras POS.
+    /// Permite acesso a métodos de alto nível para controle, impressão e leitura de informações.
+    /// </summary>
     public class ACBrPosPrinter : ACBrLibBase, IACBrLibPosPrinter
     {
 
@@ -16,6 +19,11 @@ namespace ACBrLib.PosPrinter
         private IntPtr libHandle;
         #region Constructors
 
+        /// <summary>
+        /// Inicializa a classe ACBrPosPrinter com as configurações de arquivo e chave de criptografia.
+        /// </summary>
+        /// <param name="eArqConfig">Caminho do arquivo de configuração.</param>
+        /// <param name="eChaveCrypt">Chave de criptografia.</param>
         public ACBrPosPrinter(string eArqConfig = "", string eChaveCrypt = "") : base(eArqConfig, eChaveCrypt)
         {
             acbrPosPrinterBridge = ACBrPosPrinterHandle.Instance;
@@ -23,6 +31,7 @@ namespace ACBrLib.PosPrinter
             Config = new PosPrinterConfig(this);
         }
 
+        /// <inheritdoc />
         public override void Inicializar(string eArqConfig, string eChaveCrypt)
         {
             var inicializar = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_Inicializar>();
@@ -35,6 +44,7 @@ namespace ACBrLib.PosPrinter
 
         #region Properties
 
+        /// <inheritdoc />
         public override string Nome()
         {
             var bufferLen = BUFFER_LEN;
@@ -48,6 +58,7 @@ namespace ACBrLib.PosPrinter
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc />
         public override string Versao()
         {
             var bufferLen = BUFFER_LEN;
@@ -69,6 +80,7 @@ namespace ACBrLib.PosPrinter
 
         #region Ini
 
+        /// <inheritdoc />
         public override void ConfigGravar(string eArqConfig = "")
         {
             var gravarIni = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_ConfigGravar>();
@@ -77,6 +89,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public override void ImportarConfig(string eArqConfig)
         {
             var lerIni = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_ConfigImportar>();
@@ -85,6 +98,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public override string ExportarConfig()
         {
             var bufferLen = BUFFER_LEN;
@@ -98,6 +112,7 @@ namespace ACBrLib.PosPrinter
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc />
         public override void ConfigLer(string eArqConfig = "")
         {
             var lerIni = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_ConfigLer>();
@@ -106,12 +121,14 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
         {
             var value = ConfigLerValor(eSessao.ToString(), eChave);
             return ConvertValue<T>(value);
         }
 
+        /// <inheritdoc />
         public override void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value)
         {
             if (value == null) return;
@@ -125,6 +142,7 @@ namespace ACBrLib.PosPrinter
 
         #region Ativar
 
+        /// <inheritdoc />
         public void Ativar()
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_Ativar>();
@@ -133,6 +151,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public void Desativar()
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_Desativar>();
@@ -145,6 +164,7 @@ namespace ACBrLib.PosPrinter
 
         #region Diversos
 
+        /// <inheritdoc />
         public void Zerar()
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_Zerar>();
@@ -153,6 +173,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public void Reset()
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_Reset>();
@@ -161,6 +182,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public void PularLinhas(int numLinhas = 0)
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_PularLinhas>();
@@ -169,6 +191,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public void CortarPapel(bool parcial = false)
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_CortarPapel>();
@@ -177,6 +200,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public void AbrirGaveta()
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_AbrirGaveta>();
@@ -185,6 +209,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public string LerInfoImpressora()
         {
             var bufferLen = BUFFER_LEN;
@@ -198,6 +223,7 @@ namespace ACBrLib.PosPrinter
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc />
         public ACBrPosTipoStatus LerStatusImpressora(int tentativas = 1)
         {
             var status = 0;
@@ -209,6 +235,7 @@ namespace ACBrLib.PosPrinter
             return (ACBrPosTipoStatus)status;
         }
 
+        /// <inheritdoc />
         public string[] RetornarTags(bool incluiAjuda = true)
         {
             var bufferLen = BUFFER_LEN;
@@ -222,6 +249,7 @@ namespace ACBrLib.PosPrinter
             return CheckBuffer(buffer, bufferLen).Split('|');
         }
 
+        /// <inheritdoc />
         public string[] AcharPortas()
         {
             var bufferLen = BUFFER_LEN;
@@ -238,6 +266,7 @@ namespace ACBrLib.PosPrinter
                          .ToArray();
         }
 
+        /// <inheritdoc />
         public void GravarLogoArquivo(string aPath, int nAKC1, int nAKC2)
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_GravarLogoArquivo>();
@@ -246,6 +275,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public void ApagarLogo(int nAKC1, int nAKC2)
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_ApagarLogo>();
@@ -254,6 +284,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public string LeituraCheque()
         {
             var bufferLen = BUFFER_LEN;
@@ -267,6 +298,7 @@ namespace ACBrLib.PosPrinter
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc />
         public string LerCMC7(bool AguardaCheque, int SegundosEspera)
         {
             var bufferLen = BUFFER_LEN;
@@ -280,6 +312,7 @@ namespace ACBrLib.PosPrinter
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc />
         public void EjetarCheque()
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_EjetarCheque>();
@@ -288,6 +321,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public bool PodeLerDaPorta()
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_PodeLerDaPorta>();
@@ -298,6 +332,7 @@ namespace ACBrLib.PosPrinter
             return ret == 1;
         }
 
+        /// <inheritdoc />
         public string LerCaracteristicas()
         {
             var bufferLen = BUFFER_LEN;
@@ -311,6 +346,7 @@ namespace ACBrLib.PosPrinter
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc />
         public override string OpenSSLInfo()
         {
             var bufferLen = BUFFER_LEN;
@@ -328,6 +364,7 @@ namespace ACBrLib.PosPrinter
 
         #region Imprimir
 
+        /// <inheritdoc />
         public void Imprimir(string aString = "", bool pulaLinha = false, bool decodificarTags = true, bool codificarPagina = true, int copias = 1)
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_Imprimir>();
@@ -336,6 +373,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public void ImprimirLinha(string aString)
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_ImprimirLinha>();
@@ -344,6 +382,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public void ImprimirCmd(string aString)
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_ImprimirCmd>();
@@ -352,6 +391,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public void ImprimirTags()
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_ImprimirTags>();
@@ -360,6 +400,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public void ImprimirImagemArquivo(string aPath)
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_ImprimirImagemArquivo>();
@@ -368,6 +409,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public void ImprimirLogo(int nAKC1, int nAKC2, int nFatorX, int nFatorY)
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_ImprimirLogo>();
@@ -376,6 +418,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public void ImprimirCheque(int CodBanco, decimal AValor, DateTime ADataEmissao, string AFavorecido,
             string ACidade, string AComplemento, bool LerCMC7, int SegundosEspera)
         {
@@ -390,6 +433,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public void ImprimirTextoCheque(int X, int Y, string AString, bool AguardaCheque, int SegundosEspera)
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_ImprimirTextoCheque>();
@@ -398,6 +442,7 @@ namespace ACBrLib.PosPrinter
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public string TxRx(string aString, byte bytesToRead = 1, int aTimeOut = 500, bool waitForTerminator = false)
         {
             var bufferLen = BUFFER_LEN;
@@ -415,6 +460,7 @@ namespace ACBrLib.PosPrinter
 
         #region Private Methods
 
+        /// <inheritdoc/>
         public override void Finalizar()
         {
             var finalizarLib = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_Finalizar>();
@@ -423,6 +469,7 @@ namespace ACBrLib.PosPrinter
             libHandle = IntPtr.Zero;
         }
 
+        /// <inheritdoc/>
         protected override string GetUltimoRetorno(int iniBufferLen = 0)
         {
             var bufferLen = iniBufferLen < 1 ? BUFFER_LEN : iniBufferLen;
@@ -441,6 +488,7 @@ namespace ACBrLib.PosPrinter
             return FromUTF8(buffer);
         }
 
+        /// <inheritdoc/>
         public override string ConfigLerValor(string eSessao, string eChave)
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_ConfigLerValor>();
@@ -453,6 +501,7 @@ namespace ACBrLib.PosPrinter
             return CheckBuffer(pValue, bufferLen);
         }
 
+        /// <inheritdoc/>
         public override void ConfigGravarValor(string eSessao, string eChave, string eValor)
         {
             var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_ConfigGravarValor>();
@@ -465,12 +514,15 @@ namespace ACBrLib.PosPrinter
         #endregion Private Methods
 
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+
+        /// <inheritdoc/>
         public void Dispose(bool disposing)
         {
             if (disposing)
@@ -479,11 +531,13 @@ namespace ACBrLib.PosPrinter
             }
         }
 
+
+        /// <inheritdoc />
         public void InicializarPos()
         {
-           var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_InicializarPos>();
-           var ret = acbrPosPrinterBridge.ExecuteMethod(() => method(libHandle));
-           CheckResult(ret);
+            var method = acbrPosPrinterBridge.GetMethod<ACBrPosPrinterHandle.POS_InicializarPos>();
+            var ret = acbrPosPrinterBridge.ExecuteMethod(() => method(libHandle));
+            CheckResult(ret);
         }
 
         #endregion Metodos
