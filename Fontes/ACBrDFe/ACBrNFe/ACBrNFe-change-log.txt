@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+21/02/2026
+-- ACBrNFe.RetEnvEvento --
+[-] ACBR-8931: Ajuste visando a leitura da tag chNFeRef do XML de Cancelamento por Substituição.
+   Por: SG Sistemas
+
 11/02/2026
 -- ACBrNFe.XmlWriter/ACBrNFe.JSONWriter --
 [-] ACBR-8886: Ajuste visando geração da tag CNPJ vazia para os grupos entrega e retirada a fim de evitar erro de schema

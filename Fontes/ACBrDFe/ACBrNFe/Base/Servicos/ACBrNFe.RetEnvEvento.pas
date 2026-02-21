@@ -594,6 +594,11 @@ begin
         for i := 0 to Length(ANodes) - 1 do
           Ler_gCredito(ANodes[i], i+1);
       end;
+
+    teCancSubst:
+      begin
+         infEvento.DetEvento.chNFeRef := ObterConteudoTag(ANode.Childrens.FindAnyNs('chNFeRef'), tcStr);
+      end;
   end;
 end;
 
