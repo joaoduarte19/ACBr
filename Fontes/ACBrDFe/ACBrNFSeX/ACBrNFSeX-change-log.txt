@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 21/02/2026
+-- Digifred.Provider/Ginfes.GravarXml/WebFisco.GravarXml --
+[*] Ajustes para eliminar alguns Warnings e Hints.
+   Por: Italo Giurizzato Junior
 -- PadraoNacional.LerXml --
 [*] ACBR-8845 - Ajustes na leitura do grupo infNFSe visando pegar a base de calculo já 
     retornada no XML em vez de calcular ela.

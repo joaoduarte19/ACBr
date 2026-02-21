@@ -1190,16 +1190,17 @@ begin
   NFSeNode.AppendChild(AddNode(tcDe2, '#', 'liqpag', 1, 12, 1,
                                                      valAux, '', True, xAtrib));
 
-  if cSimples then
-    valAux := NFSe.Prestador.ValorReceitaBruta
-  else
-    valAux := 0.00;
+//  if cSimples then
+//    valAux := NFSe.Prestador.ValorReceitaBruta
+//  else
+//    valAux := 0.00;
 
   // Manual WebFisco 2026 - Pagina 9: Optante Simples Nacional (obrigatorio)
   if cSimples then
     strAux := 'SIM'
   else
     strAux := 'NAO';
+
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'ssusr', 1, 3, 1,
                                                    strAux, '', True, xAtrib));
 

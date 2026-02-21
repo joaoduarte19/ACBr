@@ -166,8 +166,7 @@ function TNFSeW_Ginfes.GerarServico: TACBrXmlNode;
 begin
   Result := inherited GerarServico;
 
-  if Now >= EncodeDate(2026, 1, 1) then
-    Result.AppendChild(AddNode(tcStr, '#32', 'CodigoNbs', 1, 9, 0,
+  Result.AppendChild(AddNode(tcStr, '#32', 'CodigoNbs', 1, 9, 0,
                                  OnlyNumber(NFSe.Servico.CodigoNBS), DSC_CMUN));
 
   Result.AppendChild(GerarcomExt);
