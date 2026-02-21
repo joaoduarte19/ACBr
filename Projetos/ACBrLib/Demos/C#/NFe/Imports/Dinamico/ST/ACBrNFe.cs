@@ -8,10 +8,19 @@ using ACBrLib.Core.NFe;
 
 namespace ACBrLib.NFe
 {
+    /// <summary>
+    /// Classe principal da biblioteca ACBrLibNFe, responsável por fornecer os métodos e propriedades para manipulação de notas fiscais eletrônicas (NFe) utilizando a biblioteca ACBrLib em C#.
+    /// Implementa a interface IACBrLibNFe.
+    /// </summary>
     public sealed partial class ACBrNFe : ACBrLibHandle, IACBrLibNFe
     {
         #region Constructors
 
+        /// <summary>
+        /// Construtor da classe ACBrNFe, responsável por inicializar a biblioteca e carregar as configurações iniciais, se fornecidas.
+        /// </summary>
+        /// <param name="eArqConfig">Caminho do arquivo de configuração (opcional).</param>
+        /// <param name="eChaveCrypt">Chave de criptografia para o arquivo de configuração (opcional).</param>
         public ACBrNFe(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrNFe64.dll" : "libacbrnfe64.so",
                                                                                IsWindows ? "ACBrNFe32.dll" : "libacbrnfe32.so")
         {
@@ -19,6 +28,7 @@ namespace ACBrLib.NFe
             Config = new ACBrNFeConfig(this);
         }
 
+        /// <inheritdoc/>
         public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
         {
             var inicializarLib = GetMethod<NFE_Inicializar>();
@@ -30,6 +40,7 @@ namespace ACBrLib.NFe
 
         #region Properties
 
+        /// <inheritdoc/>
         public string Nome
         {
             get
@@ -46,6 +57,7 @@ namespace ACBrLib.NFe
             }
         }
 
+        /// <inheritdoc/>
         public string Versao
         {
             get
@@ -62,6 +74,7 @@ namespace ACBrLib.NFe
             }
         }
 
+        /// <inheritdoc/>
         public ACBrNFeConfig Config { get; }
 
         #endregion Properties
@@ -70,6 +83,7 @@ namespace ACBrLib.NFe
 
         #region Ini
 
+        /// <inheritdoc/>
         public override void ConfigGravar(string eArqConfig = "")
         {
             var gravarIni = GetMethod<NFE_ConfigGravar>();
@@ -78,6 +92,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override void ConfigLer(string eArqConfig = "")
         {
             var lerIni = GetMethod<NFE_ConfigLer>();
@@ -86,6 +101,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
         {
             var method = GetMethod<NFE_ConfigLerValor>();
@@ -99,6 +115,7 @@ namespace ACBrLib.NFe
             return ConvertValue<T>(value);
         }
 
+        /// <inheritdoc/>
         public override void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value)
         {
             if (value == null) return;
@@ -110,6 +127,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override void ImportarConfig(string eArqConfig = "")
         {
             var importarConfig = GetMethod<NFE_ConfigImportar>();
@@ -118,6 +136,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override string ExportarConfig()
         {
             var bufferLen = BUFFER_LEN;
@@ -133,23 +152,18 @@ namespace ACBrLib.NFe
 
         #endregion Ini
 
-        /// <summary>
-        /// Adiciona uma nota fiscal na lista.
-        /// </summary>
-        /// <param name="nfe"></param>
         public void CarregarNFe(NotaFiscal nfe) => CarregarINI(nfe.ToString());
 
+        /// <inheritdoc/>
         public void CarregarNota(NotaFiscal nfe) =>CarregarNFe(nfe);
 
-        /// <summary>
-        /// Retornar os dados da NFe no index informado.
-        /// </summary>
-        /// <param name="aIndex"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public NotaFiscal ObterNFe(int aIndex) => NotaFiscal.Load(ObterIni(aIndex));
 
+        /// <inheritdoc/>
         public void CarregarEvento(EventoNFeBase evento) => CarregarEventoINI(evento.ToString());
 
+        /// <inheritdoc/>
         public void CarregarXML(string eArquivoOuXml)
         {
             var method = GetMethod<NFE_CarregarXML>();
@@ -158,6 +172,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void CarregarINI(string eArquivoOuIni)
         {
             var method = GetMethod<NFE_CarregarINI>();
@@ -166,6 +181,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public string ObterXml(int aIndex)
         {
             var bufferLen = BUFFER_LEN;
@@ -179,6 +195,7 @@ namespace ACBrLib.NFe
             return ProcessResult(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public void GravarXml(int aIndex, string eNomeArquivo = "", string ePathArquivo = "")
         {
             var method = GetMethod<NFE_GravarXml>();
@@ -187,6 +204,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public string ObterIni(int aIndex)
         {
             var bufferLen = BUFFER_LEN;
@@ -200,6 +218,7 @@ namespace ACBrLib.NFe
             return ProcessResult(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public void GravarIni(int aIndex, string eNomeArquivo = "", string ePathArquivo = "")
         {
             var method = GetMethod<NFE_GravarIni>();
@@ -208,6 +227,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void CarregarEventoXML(string eArquivoOuXml)
         {
             var method = GetMethod<NFE_CarregarEventoXML>();
@@ -216,6 +236,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void CarregarEventoINI(string eArquivoOuIni)
         {
             var method = GetMethod<NFE_CarregarEventoINI>();
@@ -224,6 +245,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void LimparLista()
         {
             var method = GetMethod<NFE_LimparLista>();
@@ -232,6 +254,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void LimparListaEventos()
         {
             var method = GetMethod<NFE_LimparListaEventos>();
@@ -240,6 +263,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void Assinar()
         {
             var method = GetMethod<NFE_Assinar>();
@@ -248,6 +272,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void Validar()
         {
             var method = GetMethod<NFE_Validar>();
@@ -256,6 +281,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public string ValidarRegrasdeNegocios()
         {
             var bufferLen = BUFFER_LEN;
@@ -269,6 +295,7 @@ namespace ACBrLib.NFe
             return ProcessResult(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string VerificarAssinatura()
         {
             var bufferLen = BUFFER_LEN;
@@ -282,6 +309,7 @@ namespace ACBrLib.NFe
             return ProcessResult(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string GerarChave(int aCodigoUf, int aCodigoNumerico, int aModelo, int aSerie, int aNumero,
             int aTpEmi, DateTime aEmissao, string acpfcnpj)
         {
@@ -298,6 +326,7 @@ namespace ACBrLib.NFe
             return ProcessResult(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public InfoCertificado[] ObterCertificados()
         {
             var bufferLen = BUFFER_LEN;
@@ -312,6 +341,7 @@ namespace ACBrLib.NFe
             return certificados.Length == 0 ? new InfoCertificado[0] : certificados.Select(x => new InfoCertificado(x)).ToArray();
         }
 
+        /// <inheritdoc/>
         public override string OpenSSLInfo()
         {
             var bufferLen = BUFFER_LEN;
@@ -325,6 +355,7 @@ namespace ACBrLib.NFe
             return ProcessResult(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string GetPath(TipoPathNFe tipo)
         {
             var bufferLen = BUFFER_LEN;
@@ -336,6 +367,7 @@ namespace ACBrLib.NFe
             return ProcessResult(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string GetPathEvento(string evento)
         {
             var bufferLen = BUFFER_LEN;
@@ -347,6 +379,7 @@ namespace ACBrLib.NFe
             return ProcessResult(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public StatusServicoResposta StatusServico()
         {
             var bufferLen = BUFFER_LEN;
@@ -360,6 +393,7 @@ namespace ACBrLib.NFe
             return StatusServicoResposta.LerResposta(ProcessResult(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public ConsultaNFeResposta Consultar(string eChaveOuNFe, bool AExtrairEventos = false)
         {
             var bufferLen = BUFFER_LEN;
@@ -373,6 +407,7 @@ namespace ACBrLib.NFe
             return ConsultaNFeResposta.LerResposta(ProcessResult(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public ConsultaCadastroResposta ConsultaCadastro(string cUF, string nDocumento, bool nIE)
         {
             var bufferLen = BUFFER_LEN;
@@ -386,6 +421,7 @@ namespace ACBrLib.NFe
             return ConsultaCadastroResposta.LerResposta(ProcessResult(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public InutilizarNFeResposta Inutilizar(string acnpj, string aJustificativa, int ano, int modelo,
             int serie, int numeroInicial, int numeroFinal)
         {
@@ -400,6 +436,7 @@ namespace ACBrLib.NFe
             return InutilizarNFeResposta.LerResposta(ProcessResult(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public EnvioRetornoResposta Enviar(int aLote, bool imprimir = false, bool sincrono = false, bool zipado = false)
         {
             var bufferLen = BUFFER_LEN;
@@ -413,6 +450,7 @@ namespace ACBrLib.NFe
             return EnvioRetornoResposta.LerResposta(ProcessResult(buffer, bufferLen), "NFe");
         }
 
+        /// <inheritdoc/>
         public RetornoResposta ConsultarRecibo(string aRecibo)
         {
             var bufferLen = BUFFER_LEN;
@@ -426,6 +464,7 @@ namespace ACBrLib.NFe
             return RetornoResposta.LerResposta(ProcessResult(buffer, bufferLen), "NFe");
         }
 
+        /// <inheritdoc/>
         public CancelamentoNFeResposta Cancelar(string eChave, string eJustificativa, string eCNPJ, int aLote)
         {
             var bufferLen = BUFFER_LEN;
@@ -439,6 +478,7 @@ namespace ACBrLib.NFe
             return CancelamentoNFeResposta.LerResposta(ProcessResult(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public EventoResposta EnviarEvento(int aLote)
         {
             var bufferLen = BUFFER_LEN;
@@ -452,6 +492,7 @@ namespace ACBrLib.NFe
             return EventoResposta.LerResposta(ProcessResult(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public DistribuicaoDFeResposta<TipoEventoNFe> DistribuicaoDFePorUltNSU(int acUFAutor, string eCnpjcpf, string eultNsu)
         {
             var bufferLen = BUFFER_LEN;
@@ -465,6 +506,7 @@ namespace ACBrLib.NFe
             return DistribuicaoDFeResposta<TipoEventoNFe>.LerResposta(ProcessResult(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public DistribuicaoDFeResposta<TipoEventoNFe> DistribuicaoDFe(int acUFAutor, string eCnpjcpf, string eultNsu, string ArquivoOuXml)
         {
             var bufferLen = BUFFER_LEN;
@@ -478,6 +520,7 @@ namespace ACBrLib.NFe
             return DistribuicaoDFeResposta<TipoEventoNFe>.LerResposta(ProcessResult(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public DistribuicaoDFeResposta<TipoEventoNFe> DistribuicaoDFePorNSU(int acUFAutor, string eCnpjcpf, string eNsu)
         {
             var bufferLen = BUFFER_LEN;
@@ -491,6 +534,7 @@ namespace ACBrLib.NFe
             return DistribuicaoDFeResposta<TipoEventoNFe>.LerResposta(ProcessResult(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public DistribuicaoDFeResposta<TipoEventoNFe> DistribuicaoDFePorChave(int acUFAutor, string eCnpjcpf, string echNFe)
         {
             var bufferLen = BUFFER_LEN;
@@ -504,6 +548,7 @@ namespace ACBrLib.NFe
             return DistribuicaoDFeResposta<TipoEventoNFe>.LerResposta(ProcessResult(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public void EnviarEmail(string ePara, string eChaveNFe, bool aEnviaPDF, string eAssunto, string eMensagem, string[] eCc = null, string[] eAnexos = null)
         {
             var method = GetMethod<NFE_EnviarEmail>();
@@ -513,6 +558,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void EnviarEmailEvento(string ePara, string eChaveEvento, string eChaveNFe, bool aEnviaPDF, string eAssunto, string eMensagem, string[] eCc = null, string[] eAnexos = null)
         {
             var method = GetMethod<NFE_EnviarEmailEvento>();
@@ -522,6 +568,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void Imprimir(string cImpressora = "", int nNumCopias = 1, string cProtocolo = "", bool? bMostrarPreview = null, bool? cMarcaDagua = null,
             bool? bViaConsumidor = null, bool? bSimplificado = null)
         {
@@ -537,6 +584,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void ImprimirPDF()
         {
             var method = GetMethod<NFE_ImprimirPDF>();
@@ -545,6 +593,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public async void ImprimirPDF(Stream aStream)
         {
             if (aStream == null) throw new ArgumentNullException(nameof(aStream));
@@ -561,6 +610,7 @@ namespace ACBrLib.NFe
             Base64ToStream(pdf, aStream);
         }
 
+        /// <inheritdoc/>
         public void ImprimirEvento(string eArquivoXmlNFe, string eArquivoXmlEvento)
         {
             var method = GetMethod<NFE_ImprimirEvento>();
@@ -569,6 +619,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void ImprimirEventoPDF(string eArquivoXmlNFe, string eArquivoXmlEvento)
         {
             var method = GetMethod<NFE_ImprimirEventoPDF>();
@@ -577,6 +628,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void ImprimirEventoPDF(string eArquivoXmlNFe, string eArquivoXmlEvento, Stream aStream)
         {
             if (aStream == null) throw new ArgumentNullException(nameof(aStream));
@@ -593,6 +645,7 @@ namespace ACBrLib.NFe
             Base64ToStream(pdf, aStream);
         }
 
+        /// <inheritdoc/>
         public void ImprimirInutilizacao(string eArquivoXml)
         {
             var method = GetMethod<NFE_ImprimirInutilizacao>();
@@ -601,6 +654,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void ImprimirInutilizacaoPDF(string eArquivoXml)
         {
             var method = GetMethod<NFE_ImprimirInutilizacaoPDF>();
@@ -609,6 +663,7 @@ namespace ACBrLib.NFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void ImprimirInutilizacaoPDF(string eArquivoXml, Stream aStream)
         {
             if (aStream == null) throw new ArgumentNullException(nameof(aStream));
@@ -627,6 +682,7 @@ namespace ACBrLib.NFe
 
         #region Private Methods
 
+        /// <inheritdoc/>
         public override void Finalizar()
         {
             var finalizarLib = GetMethod<NFE_Finalizar>();
