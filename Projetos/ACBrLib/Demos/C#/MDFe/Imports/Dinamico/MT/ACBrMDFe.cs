@@ -10,6 +10,11 @@ using static ACBrLib.MDFe.ACBrMDFe;
 
 namespace ACBrLib.MDFe
 {
+    /// <summary>
+    /// Classe de alto nível para integração com a ACBrLibMDFe.
+    /// Responsável por encapsular as operações de MDF-e, fornecendo métodos para configuração, envio, consulta, impressão e manipulação de manifestos e eventos.
+    /// Herda de <see cref="ACBrLibBase"/> e implementa <see cref="IACBrLibMDFe"/>.
+    /// </summary>
     public class ACBrMDFe : ACBrLibBase, IACBrLibMDFe
     {
 
@@ -18,6 +23,12 @@ namespace ACBrLib.MDFe
         private bool disposed = false;
         #region Constructors
 
+
+        /// <summary>
+        /// Inicializa uma nova instância da classe <see cref="ACBrMDFe"/>.
+        /// </summary>
+        /// <param name="eArqConfig">Caminho do arquivo de configuração INI. Se vazio, utiliza o padrão da biblioteca.</param>
+        /// <param name="eChaveCrypt">Chave de criptografia para o arquivo de configuração. Se vazio, utiliza o padrão da biblioteca.</param>
         public ACBrMDFe(string eArqConfig = "", string eChaveCrypt = "") : base(eArqConfig, eChaveCrypt)
         {
             acbrMDFeBridge = ACBrMDFeHandle.Instance;
@@ -25,6 +36,7 @@ namespace ACBrLib.MDFe
             Config = new MDFeConfig(this);
         }
 
+        /// <inheritdoc/>
         public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
         {
             var inicializarLib = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_Inicializar>();
@@ -44,6 +56,7 @@ namespace ACBrLib.MDFe
 
         #region Ini
 
+        /// <inheritdoc/>
         public override void ConfigGravar(string eArqConfig = "")
         {
             var gravarIni = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_ConfigGravar>();
@@ -52,6 +65,7 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override void ConfigLer(string eArqConfig = "")
         {
             var lerIni = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_ConfigLer>();
@@ -60,12 +74,14 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
         {
             var value = ConfigLerValor(eSessao.ToString(), eChave);
             return ConvertValue<T>(value);
         }
 
+        /// <inheritdoc/>
         public override void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value)
         {
             if (value == null) return;
@@ -73,6 +89,7 @@ namespace ACBrLib.MDFe
             ConfigGravarValor(eSessao.ToString(), eChave, propValue);
         }
 
+        /// <inheritdoc/>
         public override void ImportarConfig(string eArqConfig = "")
         {
             var importarConfig = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_ConfigImportar>();
@@ -81,6 +98,7 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override string ExportarConfig()
         {
             var bufferLen = BUFFER_LEN;
@@ -96,12 +114,16 @@ namespace ACBrLib.MDFe
 
         #endregion Ini
 
+        /// <inheritdoc/>
         public void CarregarManifesto(Manifesto manifesto) => CarregarINI(manifesto.ToString());
 
+        /// <inheritdoc/>
         public Manifesto ObterManifesto(int aIndex) => Manifesto.Load(ObterIni(aIndex));
 
+        /// <inheritdoc/>
         public void CarregarEvento(EventoMDFeBase evento) => CarregarEventoINI(evento.ToString());
 
+        /// <inheritdoc/>
         public void CarregarXML(string eArquivoOuXml)
         {
             var method = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_CarregarXML>();
@@ -110,6 +132,7 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void CarregarINI(string eArquivoOuIni)
         {
             var method = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_CarregarINI>();
@@ -118,6 +141,7 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public string ObterXml(int aIndex)
         {
             var bufferLen = BUFFER_LEN;
@@ -131,6 +155,7 @@ namespace ACBrLib.MDFe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public void GravarXml(int aIndex, string eNomeArquivo = "", string ePathArquivo = "")
         {
             var method = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_GravarXml>();
@@ -139,6 +164,7 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public string ObterIni(int aIndex)
         {
             var bufferLen = BUFFER_LEN;
@@ -152,6 +178,7 @@ namespace ACBrLib.MDFe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public void GravarIni(int aIndex, string eNomeArquivo = "", string ePathArquivo = "")
         {
             var method = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_GravarIni>();
@@ -160,6 +187,7 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void CarregarEventoXML(string eArquivoOuXml)
         {
             var method = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_CarregarEventoXML>();
@@ -168,6 +196,7 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void CarregarEventoINI(string eArquivoOuIni)
         {
             var method = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_CarregarEventoINI>();
@@ -176,6 +205,7 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void LimparLista()
         {
             var method = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_LimparLista>();
@@ -184,6 +214,7 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void LimparListaEventos()
         {
             var method = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_LimparListaEventos>();
@@ -192,6 +223,7 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void Assinar()
         {
             var method = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_Assinar>();
@@ -200,6 +232,7 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void Validar()
         {
             var method = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_Validar>();
@@ -208,6 +241,7 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public string ValidarRegrasdeNegocios()
         {
             var bufferLen = BUFFER_LEN;
@@ -221,6 +255,7 @@ namespace ACBrLib.MDFe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string VerificarAssinatura()
         {
             var bufferLen = BUFFER_LEN;
@@ -234,6 +269,7 @@ namespace ACBrLib.MDFe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string GerarChave(int aCodigoUf, int aCodigoNumerico, int aModelo, int aSerie, int aNumero,
             int aTpEmi, DateTime aEmissao, string acpfcnpj)
         {
@@ -250,6 +286,7 @@ namespace ACBrLib.MDFe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public InfoCertificado[] ObterCertificados()
         {
             var bufferLen = BUFFER_LEN;
@@ -264,6 +301,7 @@ namespace ACBrLib.MDFe
             return certificados.Length == 0 ? new InfoCertificado[0] : certificados.Select(x => new InfoCertificado(x)).ToArray();
         }
 
+        /// <inheritdoc/>
         public override string OpenSSLInfo()
         {
             var bufferLen = BUFFER_LEN;
@@ -277,6 +315,7 @@ namespace ACBrLib.MDFe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string GetPath(TipoPathMDFe tipo)
         {
             var bufferLen = BUFFER_LEN;
@@ -288,6 +327,7 @@ namespace ACBrLib.MDFe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string GetPathEvento(TipoEventoMDFe evento)
         {
             var bufferLen = BUFFER_LEN;
@@ -299,6 +339,7 @@ namespace ACBrLib.MDFe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public StatusServicoResposta StatusServico()
         {
             var bufferLen = BUFFER_LEN;
@@ -312,6 +353,7 @@ namespace ACBrLib.MDFe
             return StatusServicoResposta.LerResposta(CheckBuffer(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public ConsultaMDFeResposta Consultar(string eChaveOuNFe, bool AExtrairEventos = false)
         {
             var bufferLen = BUFFER_LEN;
@@ -325,6 +367,7 @@ namespace ACBrLib.MDFe
             return ConsultaMDFeResposta.LerResposta(CheckBuffer(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public EnvioRetornoResposta Enviar(int aLote, bool imprimir = false, bool sincrono = false)
         {
             var bufferLen = BUFFER_LEN;
@@ -338,6 +381,7 @@ namespace ACBrLib.MDFe
             return EnvioRetornoResposta.LerResposta(CheckBuffer(buffer, bufferLen), "MDFe");
         }
 
+        /// <inheritdoc/>
         public RetornoResposta ConsultarRecibo(string aRecibo)
         {
             var bufferLen = BUFFER_LEN;
@@ -351,6 +395,7 @@ namespace ACBrLib.MDFe
             return RetornoResposta.LerResposta(CheckBuffer(buffer, bufferLen), "MDFe");
         }
 
+        /// <inheritdoc/>
         public CancelamentoMDFeResposta Cancelar(string eChave, string eJustificativa, string eCNPJ, int aLote)
         {
             var bufferLen = BUFFER_LEN;
@@ -364,6 +409,7 @@ namespace ACBrLib.MDFe
             return CancelamentoMDFeResposta.LerResposta(CheckBuffer(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public EventoResposta EnviarEvento(int aLote)
         {
             var bufferLen = BUFFER_LEN;
@@ -377,6 +423,7 @@ namespace ACBrLib.MDFe
             return EventoResposta.LerResposta(CheckBuffer(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public EncerramentoResposta EncerrarMDFe(string eChaveOuMDFe, DateTime eDtEnc, string cMunicipioDescarga, string nCNPJ = "", string nProtocolo = "")
         {
             var bufferLen = BUFFER_LEN;
@@ -391,6 +438,7 @@ namespace ACBrLib.MDFe
             return EncerramentoResposta.LerResposta(CheckBuffer(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public NaoEncerradosResposta ConsultaMDFeNaoEnc(string cnpj)
         {
             var bufferLen = BUFFER_LEN;
@@ -404,6 +452,7 @@ namespace ACBrLib.MDFe
             return NaoEncerradosResposta.LerResposta(CheckBuffer(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public DistribuicaoDFeResposta<TipoEventoMDFe> DistribuicaoDFePorUltNSU(string eCnpjcpf, string eultNsu)
         {
             var bufferLen = BUFFER_LEN;
@@ -417,6 +466,7 @@ namespace ACBrLib.MDFe
             return DistribuicaoDFeResposta<TipoEventoMDFe>.LerResposta(CheckBuffer(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public DistribuicaoDFeResposta<TipoEventoMDFe> DistribuicaoDFePorNSU(string eCnpjcpf, string eNsu)
         {
             var bufferLen = BUFFER_LEN;
@@ -430,6 +480,7 @@ namespace ACBrLib.MDFe
             return DistribuicaoDFeResposta<TipoEventoMDFe>.LerResposta(CheckBuffer(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public DistribuicaoDFeResposta<TipoEventoMDFe> DistribuicaoDFePorChave(int acUFAutor, string eCnpjcpf, string echNFe)
         {
             var bufferLen = BUFFER_LEN;
@@ -443,6 +494,7 @@ namespace ACBrLib.MDFe
             return DistribuicaoDFeResposta<TipoEventoMDFe>.LerResposta(CheckBuffer(buffer, bufferLen));
         }
 
+        /// <inheritdoc/>
         public void EnviarEmail(string ePara, string eChaveNFe, bool aEnviaPDF, string eAssunto, string eMensagem, string[] eCc = null, string[] eAnexos = null)
         {
             var method = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_EnviarEmail>();
@@ -452,6 +504,7 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void EnviarEmailEvento(string ePara, string eChaveEvento, string eChaveNFe, bool aEnviaPDF, string eAssunto, string eMensagem, string[] eCc = null, string[] eAnexos = null)
         {
             var method = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_EnviarEmailEvento>();
@@ -461,6 +514,7 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void Imprimir(string cImpressora = "", int nNumCopias = 1, string cProtocolo = "", bool? bMostrarPreview = null)
         {
             var mostrarPreview = bMostrarPreview.HasValue ? $"{Convert.ToInt32(bMostrarPreview.Value)}" : string.Empty;
@@ -471,6 +525,7 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void ImprimirPDF()
         {
             var method = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_ImprimirPDF>();
@@ -479,6 +534,7 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public async void ImprimirPDF(Stream aStream)
         {
             if (aStream == null) throw new ArgumentNullException(nameof(aStream));
@@ -495,6 +551,7 @@ namespace ACBrLib.MDFe
             Base64ToStream(pdf, aStream);
         }
 
+        /// <inheritdoc/>
         public void ImprimirEvento(string eArquivoXmlNFe, string eArquivoXmlEvento)
         {
             var method = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_ImprimirEvento>();
@@ -503,6 +560,7 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void ImprimirEventoPDF(string eArquivoXmlNFe, string eArquivoXmlEvento)
         {
             var method = acbrMDFeBridge.GetMethod<ACBrMDFeHandle.MDFE_ImprimirEventoPDF>();
@@ -521,6 +579,7 @@ namespace ACBrLib.MDFe
             libHandle = IntPtr.Zero;
         }
 
+        /// <inheritdoc/>
         protected override string GetUltimoRetorno(int iniBufferLen = 0)
         {
             var bufferLen = iniBufferLen < 1 ? BUFFER_LEN : iniBufferLen;
@@ -574,6 +633,7 @@ namespace ACBrLib.MDFe
             return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public override string Nome()
         {
             var bufferLen = BUFFER_LEN;
@@ -589,12 +649,15 @@ namespace ACBrLib.MDFe
 
         #endregion Private Methods
 
+
+        /// <inheritdoc/>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <inheritdoc/>
         protected void Dispose(bool disposing)
         {
             if (disposed) return;
