@@ -1059,6 +1059,7 @@ begin
           Situacao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('situacao_codigo_nfse'), tcStr);
           DescSituacao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('situacao_descricao_nfse'), tcStr);
           CodigoVerificacao := Protocolo;
+          idNota := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('chave_acesso_nfse_nacional'), tcStr);
         end;
 
         AResumo := Response.Resumos.New;

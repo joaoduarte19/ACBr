@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 21/02/2026
+-- IPM.GravarXml/IPM.Provider --
+[+] ACBR-8855 - Ajustes para gerar o grupo pis_cofins.
+   Por: WLE
 -- GovDigital.GravarXml --
 [+] ACBR-8887 - Ajustes para gerar o grupo AtvEvento.
    Por: Milton Campanhã

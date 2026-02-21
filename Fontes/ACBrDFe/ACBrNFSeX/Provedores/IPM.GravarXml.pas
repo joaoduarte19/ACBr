@@ -61,6 +61,7 @@ type
     procedure Configuracao; override;
 
     function GerarIdentificacaoRPS: TACBrXmlNode;
+    function GerarPisCofinsNaoRetido: TACBrXmlNode;
     function GerarValoresServico: TACBrXmlNode;
     function GerarPrestador: TACBrXmlNode;
     function GerarTomador: TACBrXmlNode;
@@ -559,6 +560,25 @@ begin
                                                                        '', ''));
 end;
 
+function TNFSeW_IPM.GerarPisCofinsNaoRetido: TACBrXmlNode;
+begin
+  result := CreateElement('pis_cofins');
+
+  result.AppendChild(AddNode(tcStr,'#','cst', 1, 2, 1,
+                                  CSTPisToStr(NFSe.Servico.Valores.CSTPis),''));
+
+  result.AppendChild(AddNode(tcInt,'#','tipo_retencao', 1, 4, 1, 2,''));
+
+  result.AppendChild(AddNode(tcDe2, '#', 'base_calculo', 1, 15, 0,
+                                         NFSe.Servico.Valores.BaseCalculo, ''));
+
+  result.AppendChild(AddNode(tcDe2, '#', 'aliquota_pis', 1, 15, 0,
+                                         NFSe.Servico.Valores.AliquotaPis, ''));
+
+  result.AppendChild(AddNode(tcDe2, '#', 'aliquota_cofins', 1, 15, 0,
+                                      NFSe.Servico.Valores.AliquotaCofins, ''));
+end;
+
 function TNFSeW_IPM.GerarValoresServico: TACBrXmlNode;
 begin
   Result := CreateElement('nf');
@@ -591,6 +611,9 @@ begin
 
   Result.AppendChild(AddNode(tcDe2, '#1', 'valor_rps', 1, 15, 0,
                                                                         0, ''));
+
+  if Nfse.Servico.Valores.RetidoPis = snNao then
+    Result.AppendChild(GerarPisCofinsNaoRetido);
 
   Result.AppendChild(AddNode(tcDe2, '#1', 'valor_pis', 1, 15, 0,
                                       NFSe.Servico.Valores.ValorPis, DSC_VPIS));
