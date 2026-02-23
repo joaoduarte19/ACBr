@@ -71,6 +71,15 @@ type
     procedure ArquivoAnsi;
   end;
 
+  { TestRemoverUTF8BOM }
+
+  TestRemoverUTF8BOM = class(TTestCase)
+  published
+    procedure ArquivoUTF8BOM;
+    procedure ArquivoUTF8SemBOM;
+    procedure ArquivoAnsi;
+  end;
+
   { SepararDadosTest }
 
   SepararDadosTest = class(TTestCase)
@@ -2755,6 +2764,60 @@ begin
   end;
 end;
 
+{ TestRemoverUTF8BOM }
+
+procedure TestRemoverUTF8BOM.ArquivoUTF8BOM;
+var
+  LMS: TMemoryStream;
+  LXML: AnsiString;
+begin
+  LMS := TMemoryStream.Create;
+  try
+    LMS.LoadFromFile(ARQUIVO_UTF8BOM);
+    LXML := ReadStrFromStream(LMS, LMS.Size);
+
+    Check(XmlEhUTF8BOM(LXML), 'Falhou ao definir se é UTF8BOM');
+    LXML := RemoverUTF8BOM(LXML);
+    Check(not XmlEhUTF8BOM(LXML), 'Falhou ao remover UTF8BOM');
+  finally
+    LMS.Free;
+  end;
+end;
+
+procedure TestRemoverUTF8BOM.ArquivoUTF8SemBOM;
+var
+  LMS: TMemoryStream;
+  LXML1, LXML2: AnsiString;
+begin
+  LMS := TMemoryStream.Create;
+  try
+    LMS.LoadFromFile(ARQUIVO_UTF8);
+    LXML1 := ReadStrFromStream(LMS, LMS.Size);
+
+    LXML2 := RemoverUTF8BOM(LXML1);
+    Check(LXML1 = LXML2, 'Falhou ao ignorar arquivo sem UTF8BOM');
+  finally
+    LMS.Free;
+  end;
+end;
+
+procedure TestRemoverUTF8BOM.ArquivoAnsi;
+var
+  LMS: TMemoryStream;
+  LXML1, LXML2: AnsiString;
+begin
+  LMS := TMemoryStream.Create;
+  try
+    LMS.LoadFromFile(ARQUIVO_ANSI);
+    LXML1 := ReadStrFromStream(LMS, LMS.Size);
+
+    LXML2 := RemoverUTF8BOM(LXML1);
+    Check(LXML1 = LXML2, 'Falhou ao ignorar arquivo sem UTF8BOM');
+  finally
+    LMS.Free;
+  end;
+end;
+
 { ParseTextTest }
 
 procedure ParseTextTest.ParseDecode;
@@ -3131,6 +3194,7 @@ initialization
   _RegisterTest('ACBrComum.ACBrUtil', LerTagXMLTest);
   _RegisterTest('ACBrComum.ACBrUtil', TestXmlEhUTF8);
   _RegisterTest('ACBrComum.ACBrUtil', TestXmlEhUTF8BOM);
+  _RegisterTest('ACBrComum.ACBrUtil', TestRemoverUTF8BOM);
   _RegisterTest('ACBrComum.ACBrUtil', SepararDadosTest);
   _RegisterTest('ACBrComum.ACBrUtil', TruncFixTest);
   _RegisterTest('ACBrComum.ACBrUtil', TruncToTest);
