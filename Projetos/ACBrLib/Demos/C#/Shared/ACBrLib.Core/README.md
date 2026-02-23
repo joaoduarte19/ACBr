@@ -104,7 +104,7 @@ A refatoração das classes C# está em andamento. Este documento descreve apena
 
 ## Documentação
 
-- [Wiki ACBrLib](https://acbr.sourceforge.io/ACBrLib/)
+- [Wiki ACBrLib](https://acbr.sourceforge.io/ACBrLib/BemVindo.html)
 - [Notícia oficial da refatoração](https://www.projetoacbr.com.br/forum/topic/90474-projeto-acbr-est%C3%A1-refatorando-as-classes-c/)
 - Consulte os comentários XML nas classes para detalhes de cada método e propriedade.
 

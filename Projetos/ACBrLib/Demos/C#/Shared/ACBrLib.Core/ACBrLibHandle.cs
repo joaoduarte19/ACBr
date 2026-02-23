@@ -10,7 +10,10 @@ using System.Text;
 
 namespace ACBrLib.Core
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// ACBrLibHandle é uma classe descontinuada e não deve ser utilizada para desenvolvimento de novas bibliotecas ACBrLib em C#. Ela é mantida apenas para compatibilidade com bibliotecas legadas.
+    /// Gradualmente, as bibliotecas ACBrLib em C# estão migrando para uma nova estrutura baseada em ACBrLibBase, que é mais simples e fácil de usar, sem a necessidade de lidar diretamente com ponteiros e buffers.
+    /// </summary>
     public abstract partial class ACBrLibHandle : SafeHandle, IACBrLibBase
     {
         #region Fields
@@ -123,7 +126,7 @@ namespace ACBrLib.Core
                                                     pNewSession = LibLoader.LoadLibrary(Path.Combine(libraryNuget, dllName));
 
                                                 if (pNewSession == IntPtr.Zero || pNewSession == MinusOne)
-                                                    pastaPackage = ""; 
+                                                    pastaPackage = "";
                                                 else
                                                     break;
                                             }
@@ -221,7 +224,6 @@ namespace ACBrLib.Core
         }
 
         /// <inheritdoc />
-        [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
         protected override bool ReleaseHandle()
         {
             if (IsInvalid) return true;
@@ -317,8 +319,6 @@ namespace ACBrLib.Core
         /// <param name="method"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        /// <exception cref="ApplicationException"></exception>
-        [HandleProcessCorruptedStateExceptions]
         protected virtual T ExecuteMethod<T>(Func<T> method)
         {
             try
@@ -363,7 +363,7 @@ namespace ACBrLib.Core
 
         protected string ProcessResult(StringBuilder buffer, int bufferLen) => bufferLen > BUFFER_LEN ? GetUltimoRetorno(bufferLen) : FromUTF8(buffer);
 
-       
+
         protected virtual void CheckResult(int ret)
         {
             if (ret >= 0) return;

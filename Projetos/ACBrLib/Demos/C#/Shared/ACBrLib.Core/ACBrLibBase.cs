@@ -203,7 +203,8 @@ namespace ACBrLib.Core
 
 
 
-        ///     Cria e dispara uma <see cref="ApplicationException" /> com a mensagem informada.
+        /// <summary>
+        ///  Cria e dispara uma <see cref="ApplicationException" /> com a mensagem informada.
         /// </summary>
         /// <param name="errorMessage">Mensagem de erro.</param>
         /// <returns>

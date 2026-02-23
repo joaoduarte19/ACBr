@@ -5,66 +5,67 @@ namespace ACBrLib.Core
 
     /// <summary>
     /// Interface base para todas as bibliotecas ACBrLib.
-    /// Define o contrato para operações comuns para classes de alto nível Da ACBrLib em C# 
+    /// Define o contrato para operaï¿½ï¿½es comuns para classes de alto nï¿½vel Da ACBrLib em C# 
+    /// </summary>
     public interface IACBrLibBase
     {
 
         /// <summary>
-        ///Método usado para inicializar o componente ACBr para uso da biblioteca.
+        ///Mï¿½todo usado para inicializar o componente ACBr para uso da biblioteca.
         /// </summary>
-        /// <param name="eArqConfig">Caminho do arquivo INI de configuração. Se vazio, utiliza o padrão da biblioteca.</param>
-        /// <param name="eChaveCrypt">Chave de criptografia para o arquivo de configuração. Se vazio, utiliza o padrão da biblioteca.</param>
+        /// <param name="eArqConfig">Caminho do arquivo INI de configuraï¿½ï¿½o. Se vazio, utiliza o padrï¿½o da biblioteca.</param>
+        /// <param name="eChaveCrypt">Chave de criptografia para o arquivo de configuraï¿½ï¿½o. Se vazio, utiliza o padrï¿½o da biblioteca.</param>
         void Inicializar(string eArqConfig = "", string eChaveCrypt = "");
 
 
         /// <summary>
-        /// Método usado para remover o componente ACBr e suas classes da memoria.
+        /// Mï¿½todo usado para remover o componente ACBr e suas classes da memoria.
         /// </summary>
         void Finalizar();
 
         /// <summary>
-        /// Método usado para gravar a configuração da biblioteca no arquivo INI informado.
+        /// Mï¿½todo usado para gravar a configuraï¿½ï¿½o da biblioteca no arquivo INI informado.
         /// </summary>
-        /// <param name="eArqConfig">Caminho do arquivo INI onde a configuração será gravada. Se vazio, utiliza o padrão da biblioteca.</param>
+        /// <param name="eArqConfig">Caminho do arquivo INI onde a configuraï¿½ï¿½o serï¿½ gravada. Se vazio, utiliza o padrï¿½o da biblioteca.</param>
         void ConfigGravar(string eArqConfig = "");
 
         /// <summary>
-        /// Método usado para ler a configuração da biblioteca a partir do arquivo INI informado.
+        /// Mï¿½todo usado para ler a configuraï¿½ï¿½o da biblioteca a partir do arquivo INI informado.
         /// </summary>
-        /// <param name="eArqConfig">Caminho do arquivo INI de onde a configuração será lida. Se vazio, utiliza o padrão da biblioteca.</param>
+        /// <param name="eArqConfig">Caminho do arquivo INI de onde a configuraï¿½ï¿½o serï¿½ lida. Se vazio, utiliza o padrï¿½o da biblioteca.</param>
         void ConfigLer(string eArqConfig = "");
 
         /// <summary>
-        /// Método usado para ler um valor específico da configuração da biblioteca.
+        /// Mï¿½todo usado para ler um valor especï¿½fico da configuraï¿½ï¿½o da biblioteca.
         /// </summary>
         /// <typeparam name="T">Tipo do valor a ser lido.</typeparam>
-        /// <param name="eSessao">Sessão da configuração.</param>
-        /// <param name="eChave">Chave da configuração.</param>
-        /// <returns>Valor da configuração.</returns>
+        /// <param name="eSessao">Sessï¿½o da configuraï¿½ï¿½o.</param>
+        /// <param name="eChave">Chave da configuraï¿½ï¿½o.</param>
+        /// <returns>Valor da configuraï¿½ï¿½o.</returns>
         T ConfigLerValor<T>(ACBrSessao eSessao, string eChave);
 
         /// <summary>
-        /// Método usado para gravar um valor específico na configuração da biblioteca.
+        /// Mï¿½todo usado para gravar um valor especï¿½fico na configuraï¿½ï¿½o da biblioteca.
         /// </summary>
-        /// <param name="eSessao">Sessão da configuração.</param>
-        /// <param name="eChave">Chave da configuração.</param>
+        /// <param name="eSessao">Sessï¿½o da configuraï¿½ï¿½o.</param>
+        /// <param name="eChave">Chave da configuraï¿½ï¿½o.</param>
         /// <param name="value">Valor a ser gravado.</param>
         void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value);
 
         /// <summary>
-        /// Método usado para importar a configuração da biblioteca a partir de um arquivo INI.
+        /// Mï¿½todo usado para importar a configuraï¿½ï¿½o da biblioteca a partir de um arquivo INI.
         /// </summary>
-        /// <param name="eArqConfig">Caminho do arquivo INI de onde a configuração será importada.</param>
+        /// <param name="eArqConfig">Caminho do arquivo INI de onde a configuraï¿½ï¿½o serï¿½ importada.</param>
         void ImportarConfig(string eArqConfig);
 
         /// <summary>
-        /// Método usado para exportar a configuração da biblioteca para uma string.
+        /// Mï¿½todo usado para exportar a configuraï¿½ï¿½o da biblioteca para uma string.
         /// </summary>
-        /// <returns>Configuração da biblioteca em formato de string.</returns>
+        /// <returns>Configuraï¿½ï¿½o da biblioteca em formato de string.</returns>
         string ExportarConfig();
 
         /// <summary>
-        /// Retorna informações sobre a versão do OpenSSL utilizada pela biblioteca
+        /// Retorna informaï¿½ï¿½es sobre a versï¿½o do OpenSSL utilizada pela biblioteca
         /// </summary>
         /// <returns></returns>
         string OpenSSLInfo();

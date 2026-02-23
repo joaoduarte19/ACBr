@@ -100,8 +100,6 @@ namespace ACBrLib.Core
         /// <param name="method"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        /// <exception cref="ApplicationException"></exception>
-        [HandleProcessCorruptedStateExceptions]
         public virtual T ExecuteMethod<T>(Func<T> method)
         {
             try
@@ -148,7 +146,7 @@ namespace ACBrLib.Core
         {
             var listPaths = new List<string>();
             var baseDir = AppDomain.CurrentDomain.BaseDirectory;
-            
+
             if (!string.IsNullOrEmpty(baseDir))
             {
                 var uri = new Uri(baseDir);
