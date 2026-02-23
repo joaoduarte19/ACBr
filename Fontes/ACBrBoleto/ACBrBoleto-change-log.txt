@@ -49,8 +49,15 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 23/02/2026
+-- ACBrBoletoW_Bradesco.pas, ACBrBoletoRet_Bradesco.pas  --
+[*] Implementação de Lista de Boletos Liquido com QR CODE Bradesco via API do site bradesco developers
+   https://www.projetoacbr.com.br/forum/topic/88636-acbr-8655implementa%C3%A7%C3%A3o-de-lista-de-boletos-liquido-com-qr-code-bradesco-via-api-do-site-bradesco-developers
+   Por: Jhonlenon Ribeiro
+
+23/02/2026
 -- ACBrBoletoW_Safra.pas  --
 [*] Ajsutes para Consutas Banco Safra Homologação.
+   https://www.projetoacbr.com.br/forum/topic/85230-problema-na-homologa%C3%A7%C3%A3o-banco-safra
    Por: João Vitor Bogo / Daniel de Morais InfoCotidano
 
 18/02/2026
