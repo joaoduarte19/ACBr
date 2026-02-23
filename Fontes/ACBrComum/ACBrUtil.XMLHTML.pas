@@ -122,6 +122,7 @@ function ParseText( const Texto : AnsiString; const Decode : Boolean = True;
 function LerTagXML( const AXML, ATag: String; IgnoreCase: Boolean = True) : String; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o método SeparaDados()' {$ENDIF};
 function XmlEhUTF8(const AXML: String): Boolean;
 function XmlEhUTF8BOM(const AXML: String): Boolean;
+function RemoverUTF8BOM(const AXML: String): String;
 function ConverteANSItoUTF8(const AXML: string): string;
 function ConverteXMLtoUTF8(const AXML: String): String;
 function ConverteXMLtoNativeString(const AXML: String): String;
@@ -257,18 +258,32 @@ end;
    Retorna True se o XML contêm a os bytes do BOM em seu início;
  ------------------------------------------------------------------------------}
 function XmlEhUTF8BOM(const AXML: String): Boolean;
-const
-  UTF8BOM: array[0..2] of Byte = ($EF, $BB, $BF);
 var
-  LBytesOfXML: array[0..2] of Byte;
-  i: Integer;
+  lb, i: Integer;
 begin
-  for i := 1 to 3 do
-    LBytesOfXML[i-1] := Byte(ord(AXML[i]));
+  lb := Length(CUTF8BOM);
+  Result := (Length(AXML) >= lb);
+  i := 1;
+  while Result and (i <= lb) do
+  begin
+    Result := Result and (Ord(AXML[i]) = Ord(CUTF8BOM[i]));
+    inc(i);
+  end;
+end;
 
-  Result := (LBytesOfXML[0] = UTF8BOM[0]) and
-            (LBytesOfXML[1] = UTF8BOM[1]) and
-            (LBytesOfXML[2] = UTF8BOM[2]) ;
+{------------------------------------------------------------------------------
+   Retorna uma String, sem o UTF8BOM, no inicio;
+ ------------------------------------------------------------------------------}
+function RemoverUTF8BOM(const AXML: String): String;
+var
+  lb: Integer;
+begin
+  Result := AXML;
+  if XmlEhUTF8BOM(AXML) then
+  begin
+    lb := Length(CUTF8BOM);
+    Delete(Result, 1, lb);
+  end;
 end;
 
 {------------------------------------------------------------------------------

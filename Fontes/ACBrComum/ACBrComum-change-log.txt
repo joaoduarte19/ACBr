@@ -37,6 +37,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/02/2026
+-- ACBrUtil.XMLHTML --
+[*] Melhoria de performança e mitigação de A.V. em 'XmlEhUTF8BOM'
+[+] Adicionado o método 'RemoverUTF8BOM(const AXML: String): String;'
+    (por: DSA)
+
 02/02/2026
 -- ACBrBase --
 [+] ACBR-8791: Adiciona Exceção EACBrConversaoEnumeradoException para tratar erros de conversão de enumerado.
