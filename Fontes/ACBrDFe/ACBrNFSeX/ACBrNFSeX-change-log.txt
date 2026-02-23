@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/02/2026
+-- ISSNet.Provider --
+[*] ACBR-8496 - Ajustes na leitura dos retornos dos serviços implementados pelo provedor.
+    Como o ambiente de homologação e produção ainda não estão funcionando não tem como saber se 
+    os ajustes feitos estão 100%.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] A cidade de Bofete/SP mudou de provedor, agora é Fiorilli.
    Por: willians.wsac
