@@ -202,8 +202,8 @@ begin
     end;
 
     try
-      Consulta.Add('agencia=' + IfThen(Boleto.Configuracoes.WebService.Ambiente = tawsProducao, LAgencia, ''));
-      Consulta.Add('conta=' + IfThen(Boleto.Configuracoes.WebService.Ambiente = tawsProducao, LConta, ''));
+      Consulta.Add('agencia=' + LAgencia);
+      Consulta.Add('conta=' + LConta);
 
       if LNossoNumero <> '' then
         Consulta.Add('numero=' + LNossoNumero);
@@ -241,13 +241,19 @@ end;
 procedure TBoletoW_Safra.RequisicaoJson;
 var
   LJson: TACBrJSONObject;
+  LConta: string;
 begin
   if Assigned(aTitulo) then
   begin
     LJson := TACBrJSONObject.Create;
     try
+      LConta := IfThen(Boleto.Configuracoes.WebService.Ambiente = tawsProducao,
+                          inttostr(StrToIntDef(aTitulo.ACBrBoleto.Cedente.Conta,0))+aTitulo.ACBrBoleto.Cedente.ContaDigito,
+                          inttostr(StrToIntDef(aTitulo.ACBrBoleto.Cedente.Conta,0)));
+
       LJson.AddPair('agencia',aTitulo.ACBrBoleto.Cedente.Agencia);
-      LJson.AddPair('conta', inttostr(strToInt(aTitulo.ACBrBoleto.Cedente.Conta)) + aTitulo.ACBrBoleto.Cedente.ContaDigito);
+      LJson.AddPair('conta', LConta);
+
       GerarDocumento(LJson);
       FPDadosMsg := LJson.ToJSON;
     finally

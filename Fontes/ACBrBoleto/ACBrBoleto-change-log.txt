@@ -48,6 +48,10 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+23/02/2026
+-- ACBrBoletoW_Safra.pas  --
+[*] Ajsutes para Consutas Banco Safra Homologação.
+   Por: João Vitor Bogo / Daniel de Morais InfoCotidano
 
 18/02/2026
 -- ACBrBoletoW_Santander_API  --
