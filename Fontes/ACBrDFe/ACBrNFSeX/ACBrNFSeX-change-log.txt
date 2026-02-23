@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/02/2026
+-- ACBrNFSeXConsts/ACBrNFSeXLerXml_ABRASFv2/iiBrasil.GravarXml --
+[*] ACBR-9029 - Criado a constante para o campo CodigoTributacaoNacional e incluído a leitura do mesmo
+    no INI.
+   Por: Italo Giurizzato Junior
 -- PadraoNacional.GravarXml --
 [*] ACBR-9030 - Ajuste para que a geração do campo vRetCSLL não seja amarrada ao valor de tpRetPisCofins.
    Por: cezar.sakugawa 

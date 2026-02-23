@@ -243,7 +243,7 @@ begin
                      NFSe.Servico.CodigoTributacaoMunicipio, DSC_CSERVTRIBMUN));
 
   Result.AppendChild(AddNode(tcStr, '#31', 'CodigoTributacaoNacional', 1, 20, 1,
-                      NFSe.Servico.CodigoTributacaoNacional, DSC_CSERVTRIBMUN));
+                      NFSe.Servico.CodigoTributacaoNacional, DSC_CSERVTRIBNAC));
 
   Result.AppendChild(AddNode(tcStr, '#32', 'CodigoNbs', 1, 9, 0,
                                              NFSe.Servico.CodigoNBS, DSC_CMUN));

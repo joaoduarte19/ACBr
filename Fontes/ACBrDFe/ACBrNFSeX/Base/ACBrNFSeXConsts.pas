@@ -97,6 +97,7 @@ resourcestring
   DSC_REGISSQN = 'Regime Especial de Tributação do ISSQN';
   DSC_CNAE = 'Classificação Nacional de Atividades Econômicas';
   DSC_CSERVTRIBMUN = 'Codigo de tributação pelo ISSQN do municipio';
+  DSC_CSERVTRIBNAC = 'Codigo de tributação Nacional';
 
   DSC_XSERV = 'Descrição do serviço';
   DSC_QTDE = 'Quantidade';
