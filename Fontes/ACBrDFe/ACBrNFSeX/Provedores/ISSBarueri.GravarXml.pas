@@ -297,7 +297,10 @@ begin
 
   Linha := Linha + PadLeft(NFSe.IBSCBS.valores.trib.gIBSCBS.cClassTrib, 6, '0');
 
-  Linha := Linha + CSTIBSCBSToStr(NFSe.IBSCBS.valores.trib.gIBSCBS.CST);
+  if NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum then
+    Linha := Linha + CSTIBSCBSToStr(NFSe.IBSCBS.valores.trib.gIBSCBS.CST)
+  else
+    Linha := Linha + Space(3);
 
   Linha := Linha + indFinalToStr(NFSe.IBSCBS.indFinal);
 
