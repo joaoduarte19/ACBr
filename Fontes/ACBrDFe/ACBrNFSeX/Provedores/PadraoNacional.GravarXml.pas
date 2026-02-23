@@ -1657,7 +1657,7 @@ begin
                                     NFSe.Servico.Valores.tribFed.vRetIRRF, ''));
 
     NrOcorrvRetCSLL := 0;
-    if NFSe.Servico.Valores.tribFed.tpRetPisCofins <> trpiscofinscsllNaoRetido then
+    if NFSe.Servico.Valores.tribFed.vRetCSLL > 0 then
       NrOcorrvRetCSLL := 1;
 
     Result.AppendChild(AddNode(tcDe2, '#1', 'vRetCSLL', 1, 15, NrOcorrvRetCSLL,

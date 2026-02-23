@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/02/2026
+-- PadraoNacional.GravarXml --
+[*] ACBR-9030 - Ajuste para que a geração do campo vRetCSLL não seja amarrada ao valor de tpRetPisCofins.
+   Por: cezar.sakugawa 
 -- ISSNet.Provider --
 [*] ACBR-8496 - Ajustes na leitura dos retornos dos serviços implementados pelo provedor.
     Como o ambiente de homologação e produção ainda não estão funcionando não tem como saber se 
