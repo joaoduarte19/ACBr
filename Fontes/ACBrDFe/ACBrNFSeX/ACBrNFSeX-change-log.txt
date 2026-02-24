@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+24/02/2026
+-- ACBrNFSeXServicos --
+[*] O provedor Tiplan tem uma URL própria para o envio de eventos para a cidade de Americana/SP
+   Por: NW Software 
+
 23/02/2026
 -- ACBrNFSeXConsts/ACBrNFSeXLerXml_ABRASFv2/iiBrasil.GravarXml --
 [*] ACBR-9029 - Criado a constante para o campo CodigoTributacaoNacional e incluído a leitura do mesmo
