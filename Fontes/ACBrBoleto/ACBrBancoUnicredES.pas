@@ -807,7 +807,12 @@ begin
     if PercentualMulta > 0 then
     begin
       case StrToIntDef(ACodMulta,3) of
-        1: AValorMulta := PadLeft(FloatToStr(TruncTo((ValorDocumento*( 1 + PercentualMulta/100)-ValorDocumento),2)*100), 15, '0');
+        1:begin
+            if MultaValorFixo then
+              AValorMulta := IntToStrZero(Round(PercentualMulta * 100), 15)
+            else
+              AValorMulta := PadLeft(FloatToStr(TruncTo((ValorDocumento*( 1 + PercentualMulta/100)-ValorDocumento),2)*100), 15, '0');
+          end;
         2: AValorMulta := IntToStrZero(Round(PercentualMulta * 100), 15);
         else
           AValorMulta  := PadRight('', 15, '0');
