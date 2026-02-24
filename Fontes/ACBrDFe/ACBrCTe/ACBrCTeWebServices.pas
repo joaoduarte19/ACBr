@@ -47,7 +47,7 @@ uses
   pcnRetConsReciDFe,
   ACBrDFeComum.RetConsCad,
   ACBrDFeComum.RetEnvio,
-  pcteConversaoCTe, pcteProcCte,
+  pcteConversaoCTe, pcteProcCTe,
   ACBrCTe.EnvEvento,
   ACBrCTe.RetEnvEvento,
   ACBrCTe.RetConsSit,
