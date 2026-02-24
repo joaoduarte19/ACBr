@@ -52,7 +52,7 @@ const
   cShipayURLStaging = 'https://api-staging.shipay.com.br';
   cShipayURLProducao = 'https://api.shipay.com.br';
   cShipayEndPointAuth = '/pdvauth';
-  cShipayEndPointRefreshToken = '/refresh-token';
+  cShipayEndPointRefreshToken = '/v2/refresh-token';
   cShipayEndPointWallets = '/v1/wallets';
   cShipayEndPointOrder = '/order';
   cShipayEndPointOrdersList = '/orders/list';
