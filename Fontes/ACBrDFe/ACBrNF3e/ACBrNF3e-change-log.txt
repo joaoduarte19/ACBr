@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/02/2026
+-- ACBrNF3eNotasFiscais --
+[*] Alteração visando remover se necessário os bytes do UTF8 BOM ao carregar um XML.
+   Por: Italo Giurizzato Junior
+
 05/12/2025
 -- ACBrNF3eXmlReader --
 [-] Corrige leitura dos dados da tag Compet* tarefa ACBR-8542

@@ -125,12 +125,13 @@ type
                   tscAgroindustria, tscServPublIrrigacaoRural, tscEscolaAgrotecnica,
                   tscAquicultura, tscPoderPublicoFederal, tscPoderPublicoEstadual,
                   tscPoderPublicoMunicipal, tscTracaoEletrica, tscAguaEsgoto,
-                  tscOutros);
+                  tscResidDescSocial, tscOutros);
 
 const
   TtpSubClasseArrayStrings: array[TtpSubClasse] of string = ('01', '02', '03',
     '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16',
-    '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '99');
+    '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29',
+    '99');
 
 type
   TtpFase = (tfMonofasico, tfBifasico, tfTrifasico);
