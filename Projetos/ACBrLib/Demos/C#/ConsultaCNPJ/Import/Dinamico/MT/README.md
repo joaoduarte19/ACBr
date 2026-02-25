@@ -1,7 +1,7 @@
 
 
 
-# ACBrConsultaCNPJ
+# ACBrConsultaCNPJ C\#
 
 
 [![C#](https://img.shields.io/badge/C%23-8.0%2B-239120?logo=c-sharp&logoColor=white)](https://learn.microsoft.com/dotnet/csharp/)
@@ -20,14 +20,14 @@ Pacote NuGet: [ACBrLib.ConsultaCNPJMT](https://www.nuget.org/packages/ACBrLib.Co
 2. [Instalação](#2-instalação)
 3. [Estrutura do Projeto](#3-estrutura-do-projeto)
 4. [Exemplo de Uso](#4-exemplo-de-uso)
-5. [Guia de Mapeamento da ACBrLib em C, C++ e C#](#5-guia-de-mapeamento-da-acbrlib-em-c-c-e-c)
+5. [Guia de Mapeamento da ACBrLib em C, C++ e C\#](#5-guia-de-mapeamento-da-acbrlib-em-c-c-e-c)
     1. [Tipos Primitivos em Pascal](#51-tipos-primitivos-em-pascal)
-    2. [Mapeamento de Tipos: Pascal, C/C++ e C#](#52-mapeamento-de-tipos-pascal-cc-e-c)
+    2. [Mapeamento de Tipos: Pascal, C/C++ e C\#](#52-mapeamento-de-tipos-pascal-cc-e-c)
     3. [Exemplos de Interoperabilidade](#53-exemplos-de-interoperabilidade)
         1. [Pascal](#531-pascal)
         2. [C](#532-c)
         3. [C++](#533-c)
-        4. [C#](#534-c)
+        4. [C\#](#534-c)
 6. [Referências](#6-referências)
 
 ## 1. Introdução
@@ -77,7 +77,7 @@ finally {
 
 O tipo `integer` é o mais utilizado para valores inteiros nas funções da ACBrLib, mapeado para `int` em C/C#.
 
-## 5. Guia de Mapeamento da ACBrLib em C, C++ e C#
+## 5. Guia de Mapeamento da ACBrLib em C, C++ e C\#
 
 Este guia tem por objetivo trazer informações relevantes sobre o mapeamento de métodos da ACBrLib. Muitas vezes não há exemplos prontos em outras linguagens, por isso este guia foi criado: para mostrar como mapear a ACBrLib em qualquer linguagem que tenha interoperabilidade com C/C++.
 
@@ -90,7 +90,7 @@ A ACBrLib utiliza tipos compatíveis com C, incluindo [strings](https://acbr.sou
 
 
 
-### 5.2 Mapeamento de Tipos: Pascal, C/C++ e C#
+### 5.2 Mapeamento de Tipos: Pascal, C/C++ e C\#
 
 Veja: [C# ref - Microsoft Docs](https://learn.microsoft.com/pt-br/dotnet/csharp/language-reference/keywords/method-parameters#ref-parameter-modifier)
 
@@ -157,7 +157,7 @@ extern "C" {
 
 
 
-#### 5.3.4 C#
+#### 5.3.4 C\#
 ```csharp
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 public delegate int CNPJ_Inicializar(ref IntPtr libHandle, string eArqConfig, string eChaveCrypt);
