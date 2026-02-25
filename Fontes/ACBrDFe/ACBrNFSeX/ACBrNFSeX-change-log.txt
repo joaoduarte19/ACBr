@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/02/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9012 - As cidades Treviso/SC, Guaramirim/SC e Bombinhas/SC mudaram para o provedor IPM versão 1.01
+   Por: Jacke Venson
 -- PadraoNacional.LerXml --
 [-] ACBR-9023 - Incluído a leitura do campo xPed na seção InformacoesComplementares do arquivo INI.
     https://www.projetoacbr.com.br/forum/topic/90531-acbr-9023-informando-campo-xped-na-nfse-e-n%C3%A3o-gera-no-xml/
