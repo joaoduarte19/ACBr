@@ -169,7 +169,7 @@ end;
 function RemoverPrefixosDesnecessarios(const aXML: string): string;
 begin
   Result := RemoverPrefixos(aXML, ['ns1:', 'ns2:', 'ns3:', 'ns4:', 'ns5:', 'tc:',
-              'ii:', 'p1:', 'nfse:', 'm:']);
+              'ii:', 'p1:', 'nfse:', 'm:', 's01:']);
 end;
 
 function RemoverCaracteresDesnecessarios(const aXML: string): string;

@@ -39,6 +39,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/02/2026
+-- ACBrXmlBase --
+[*] ACBR-8925: Alterada a função: RemoverPrefixosDesnecessarios para remover também o prefixo s01.
+   Por: Italo Giurizzato Junior
+
 11/02/2026
 -- ACBrDFeUtil/ACBrDFeSSL/ACBrDFeXsLibXml2/ACBrDFeXsXmlSec --
 [*] ACBR-8782: Adiciona possibilidade de usar canonicalização exclusiva ao assinar arquivos XML.
