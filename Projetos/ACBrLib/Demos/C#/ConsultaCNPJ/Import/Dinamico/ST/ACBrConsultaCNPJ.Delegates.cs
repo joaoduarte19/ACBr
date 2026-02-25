@@ -45,9 +45,6 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_ConfigGravarValor(string eSessao, string eChave, string valor);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate int CNPJ_ConsultarCaptcha(string ePathDownload, StringBuilder buffer, ref int bufferSize);
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int CNPJ_Consultar(string eCNPJ, StringBuilder buffer, ref int bufferSize);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -66,7 +63,6 @@ namespace ACBrLib.ConsultaCNPJ
             AddMethod<CNPJ_ConfigGravar>("CNPJ_ConfigGravar");
             AddMethod<CNPJ_ConfigLerValor>("CNPJ_ConfigLerValor");
             AddMethod<CNPJ_ConfigGravarValor>("CNPJ_ConfigGravarValor");
-            AddMethod<CNPJ_ConsultarCaptcha>("CNPJ_ConsultarCaptcha");
             AddMethod<CNPJ_Consultar>("CNPJ_Consultar");
             AddMethod<CNPJ_OpenSSLInfo>("CNPJ_OpenSSLInfo");
         }

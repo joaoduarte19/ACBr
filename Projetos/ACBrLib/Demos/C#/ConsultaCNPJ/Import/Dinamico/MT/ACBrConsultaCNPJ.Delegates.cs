@@ -10,41 +10,63 @@ using ACBrLib.Core.DFe;
 namespace ACBrLib.ConsultaCNPJ
 {
     /// <summary>
-    /// Handle de interoperabilidade para a ACBrConsultaCNPJ MT.
+    /// Esta classe é o mapeamento C# da interface MultiThread (MT) cdecl da ACBrLibConsultaCNPJ.
     /// <para>
-    /// <see href="https://acbr.sourceforge.io/ACBrLib/ACBrLibeMultiThread.html">ACBrLib MultiThread</see>
-    /// </para>
-    /// <para>
-    /// Esta classe encapsula os delegates (ponteiros de função) para chamada de métodos nativos da biblioteca ACBrConsultaCNPJ,
-    /// permitindo integração entre C# e o código nativo Pascal.
+    /// <see href="https://acbr.sourceforge.io/ACBrLib/ACBrLibeMultiThread.html">ACBrLib MultiThread</see> — Permite integração direta e segura com a DLL nativa, usando delegates para cada função exportada.
     /// </para>
     /// <para>
     /// <b>Fonte original Pascal:</b>
     /// <see href="https://sourceforge.net/p/acbr/code/HEAD/tree/trunk2/Projetos/ACBrLib/Fontes/ConsultaCNPJ/ACBrLibConsultaCNPJMT.pas">ACBrLibConsultaCNPJMT.pas</see>
     /// </para>
     /// <para>
-    /// <b>Mapeamento de tipos e interoperabilidade:</b>
-    /// <list type="bullet">
-    /// <item><description><b>plibHandle</b> (Pascal: <c>PLibHandle = ^LibHandle; LibHandle = Pointer</c>) → <b>IntPtr</b> em C#.</description></item>
-    /// <item><description><b>IntPtr</b> representa ponteiro nativo (<c>void*</c> em C/C++), usado para handles e instâncias nativas.</description></item>
-    /// <item><description><b>StringBuilder</b> é usado como buffer de texto, equivalente a <c>char*</c> em C/C++.</description></item>
-    /// <item><description><b>ref IntPtr</b> indica passagem por referência de ponteiro (<c>void**</c>), permitindo inicialização/alteração do ponteiro.</description></item>
-    /// <item><description><b>ref int</b> (ex: <c>ref bufferSize</c>) indica passagem por referência de inteiros, geralmente para informar e receber o tamanho real do buffer.</description></item>
-    /// <item><description>Em Pascal, o uso de <b>ref</b> em C# corresponde à palavra-chave especial <b>var</b>, que indica passagem por referência.</description></item>
-    /// </list>
+    /// <b>Mapeamento de tipos:</b>
+    /// <para>
+    /// <b>Mapeamento de tipos (linha a linha):</b>
     /// </para>
     /// <para>
-    /// <b>Sobre delegates em C#:</b> Delegates são tipos que representam referências para métodos, permitindo encapsular funções como objetos. Neste contexto, são usados para mapear funções exportadas por bibliotecas nativas (DLLs) e possibilitar chamadas diretas do código gerenciado (C#) para o código nativo (Pascal/C/C++).
+    /// <b>Pascal | C/C++ | C#</b>
     /// </para>
     /// <para>
-    /// <b>Convenção de chamada cdecl:</b> Todos os métodos nativos da ACBrLib utilizam a convenção de chamada <b>cdecl</b> (<see href="https://acbr.sourceforge.io/ACBrLib/CdeclouStdCallqualusar.html">documentação</see>), que define como os parâmetros são passados e quem é responsável por limpar a pilha após a chamada. No caso de cdecl, a responsabilidade é do chamador. Isso garante compatibilidade entre diferentes compiladores e linguagens.
+    /// <c>PLibHandle = ^LibHandler </c> | <c>void*</c> | <c>IntPtr</c>
+    /// </para>
+    /// <para>
+    /// <c>PAnsiChar</c> | <c>char*</c> | <c>StringBuilder</c>
+    /// </para>
+    /// <para>
+    /// <c>var integer</c> | <c>int*</c> | <c>ref int</c>
+    /// </para>
+    /// <para>
+    /// <c>var PLibHandle</c> | <c>void**</c> | <c>ref IntPtr</c>
+    /// </para>
+    /// <para>
+    /// <c>var</c> | <c>ref</c> | <c>ref</c>
+    /// </para>
+    /// <para>
+    /// Em Pascal, <b>var</b> indica passagem por referência, equivalente a <b>ref</b> em C#.
+    /// </para>
+    /// <para>
+    /// <b>Exemplo de documentação externa (Markdown):</b>
+    /// </para>
+    /// <example>
+    /// <code>
+    /// // C# interop
+    /// [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    /// public delegate int CNPJ_Nome(IntPtr handle, StringBuilder buffer, ref int bufferSize);
+    /// </code>
+    /// </example>
+    /// </para>
+    /// <para>
+    /// <b>Sobre delegates:</b> Delegates são tipos que representam referências para métodos, usados para mapear funções exportadas por DLLs nativas.
+    /// </para>
+    /// <para>
+    /// <b>Convenção cdecl:</b> Todos os métodos nativos da ACBrLib MT usam <b>cdecl</b> (<see href="https://acbr.sourceforge.io/ACBrLib/CdeclouStdCallqualusar.html">documentação</see>), onde o chamador limpa a pilha.
     /// </para>
     /// </summary>
     internal sealed class ACBrConsultaCNPJHandle : ACBrLibHandleBase
     {
 
 
-        // Pascal: function CNPJ_Inicializar(var libHandle: PLibHandle; eArqConfig: PChar; eChaveCrypt: PChar): longint; cdecl;
+        // Pascal: function CNPJ_Inicializar(var libHandle: PLibHandle; eArqConfig: PAnsiChar; eChaveCrypt: PAnsiChar): integer; cdecl;
         /// <summary>
         /// Inicializa a biblioteca ACBrConsultaCNPJ, criando uma nova instância e retornando um handle para ela.
         /// </summary>
@@ -58,7 +80,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_Finalizar(IntPtr handle);
 
 
-        // Pascal: function CNPJ_Nome(libHandle: PLibHandle; buffer: PChar; var bufferSize: longint): longint; cdecl;
+        // Pascal: function CNPJ_Nome(libHandle: PLibHandle; buffer: PAnsiChar; var bufferSize: integer): integer; cdecl;
         /// <summary>
         /// Obtém o nome da biblioteca ACBrConsultaCNPJ.
         /// </summary>
@@ -70,7 +92,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_Nome(IntPtr handle, StringBuilder buffer, ref int bufferSize);
 
 
-        // Pascal: function CNPJ_Versao(libHandle: PLibHandle; buffer: PChar; var bufferSize: longint): longint; cdecl;
+        // Pascal: function CNPJ_Versao(libHandle: PLibHandle; buffer: PAnsiChar; var bufferSize: integer): integer; cdecl;
         /// <summary>
         /// Obtém a versão da biblioteca ACBrConsultaCNPJ.
         /// </summary>
@@ -82,7 +104,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_Versao(IntPtr handle, StringBuilder buffer, ref int bufferSize);
 
 
-        // Pascal: function CNPJ_UltimoRetorno(libHandle: PLibHandle; buffer: PChar; var bufferSize: longint): longint; cdecl;
+        // Pascal: function CNPJ_UltimoRetorno(libHandle: PLibHandle; buffer: PAnsiChar; var bufferSize: integer): integer; cdecl;
         /// <summary>
         /// Obtém a última mensagem de retorno da biblioteca.
         /// </summary>
@@ -94,7 +116,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_UltimoRetorno(IntPtr handle, StringBuilder buffer, ref int bufferSize);
 
 
-        // Pascal: function CNPJ_ConfigImportar(libHandle: PLibHandle; eArqConfig: PChar): longint; cdecl;
+        // Pascal: function CNPJ_ConfigImportar(libHandle: PLibHandle; eArqConfig: PAnsiChar): integer; cdecl;
         /// <summary>
         /// Importa configurações de um arquivo INI para a biblioteca.
         /// </summary>
@@ -105,7 +127,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_ConfigImportar(IntPtr handle, string eArqConfig);
 
 
-        // Pascal: function CNPJ_ConfigExportar(libHandle: PLibHandle; buffer: PChar; var bufferSize: longint): longint; cdecl;
+        // Pascal: function CNPJ_ConfigExportar(libHandle: PLibHandle; buffer: PAnsiChar; var bufferSize: integer): integer; cdecl;
         /// <summary>
         /// Exporta as configurações atuais da biblioteca para uma string no formato INI.
         /// </summary>
@@ -117,7 +139,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_ConfigExportar(IntPtr handle, StringBuilder buffer, ref int bufferSize);
 
 
-        // Pascal: function CNPJ_ConfigLer(libHandle: PLibHandle; eArqConfig: PChar): longint; cdecl;
+        // Pascal: function CNPJ_ConfigLer(libHandle: PLibHandle; eArqConfig: PAnsiChar): integer; cdecl;
         /// <summary>
         /// Lê as configurações de um arquivo INI e aplica na biblioteca.
         /// </summary>
@@ -128,7 +150,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_ConfigLer(IntPtr handle, string eArqConfig);
 
 
-        // Pascal: function CNPJ_ConfigGravar(libHandle: PLibHandle; eArqConfig: PChar): longint; cdecl;
+        // Pascal: function CNPJ_ConfigGravar(libHandle: PLibHandle; eArqConfig: PAnsiChar): integer; cdecl;
         /// <summary>
         /// Grava as configurações atuais da biblioteca em um arquivo INI.
         /// </summary>
@@ -139,7 +161,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_ConfigGravar(IntPtr handle, string eArqConfig);
 
 
-        // Pascal: function CNPJ_ConfigLerValor(libHandle: PLibHandle; eSessao, eChave: PChar; buffer: PChar; var bufferSize: longint): longint; cdecl;
+        // Pascal: function CNPJ_ConfigLerValor(libHandle: PLibHandle; eSessao, eChave: PAnsiChar; buffer: PAnsiChar; var bufferSize: integer): integer; cdecl;
         /// <summary>
         /// Lê o valor de uma chave de configuração específica.
         /// </summary>
@@ -153,7 +175,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_ConfigLerValor(IntPtr handle, string eSessao, string eChave, StringBuilder buffer, ref int bufferSize);
 
 
-        // Pascal: function CNPJ_ConfigGravarValor(libHandle: PLibHandle; eSessao, eChave, valor: PChar): longint; cdecl;
+        // Pascal: function CNPJ_ConfigGravarValor(libHandle: PLibHandle; eSessao, eChave, valor: PAnsiChar): integer; cdecl;
         /// <summary>
         /// Grava o valor de uma chave de configuração específica.
         /// </summary>
@@ -166,7 +188,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_ConfigGravarValor(IntPtr handle, string eSessao, string eChave, string valor);
 
 
-        // Pascal: function CNPJ_Consultar(libHandle: PLibHandle; eCNPJ: PChar; buffer: PChar; var bufferSize: longint): longint; cdecl;
+        // Pascal: function CNPJ_Consultar(libHandle: PLibHandle; eCNPJ: PAnsiChar; buffer: PAnsiChar; var bufferSize: integer): integer; cdecl;
         /// <summary>
         /// Realiza a consulta de informações cadastrais de um CNPJ.
         /// </summary>
@@ -179,7 +201,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_Consultar(IntPtr handle, string eCNPJ, StringBuilder buffer, ref int bufferSize);
 
 
-        // Pascal: function CNPJ_OpenSSLInfo(libHandle: PLibHandle; buffer: PChar; var bufferSize: longint): longint; cdecl;
+        // Pascal: function CNPJ_OpenSSLInfo(libHandle: PLibHandle; buffer: PAnsiChar; var bufferSize: integer): integer; cdecl;
         /// <summary>
         /// Obtém informações sobre a biblioteca OpenSSL utilizada internamente.
         /// </summary>
