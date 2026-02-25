@@ -123,10 +123,13 @@ Em Pascal, `var` indica passagem por referência, equivalente a `ref` em C#. Tod
 ### 5.3 Exemplos de Interoperabilidade
 
 #### 5.3.1 Pascal
-Procedures são mapeadas como funções `void` em linguagens baseadas em C.
+
+Por convenção, o prefixo `es` em declarações de variáveis em Pascal indica que são variáveis de leitura e escrita, por exemplo: `esTamanho`.
+Procedures são mapeadas como funções `void` em linguagens baseadas em C,
 ```pascal
 function CNPJ_Inicializar(var libHandle: PLibHandle; eArqConfig, eChaveCrypt: PAnsiChar): integer; cdecl;
 function CNPJ_Finalizar(libHandle: PLibHandle); cdecl;
+function CNPJ_Nome(libHandle: PLibHandle; const esRetorno; var esTamanho : integer);integer; cdecl;
 procedure CNPJ_F(); cdecl; // Exemplo didático
 ```
 
