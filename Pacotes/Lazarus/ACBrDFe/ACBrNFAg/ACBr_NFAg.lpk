@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="ACBr_NFAg"/>
+    <Type Value="RunAndDesignTime"/>
+    <Author Value="Juliomar Marchetti - Daniel Simões de Almeida"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg;..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\DANFAg;..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\Base;..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\Base\Servicos"/>
+        <UnitOutputDirectory Value="..\..\..\..\Lib\Lazarus\ACBrDFe\ACBrNFAg\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Other>
+        <CompilerMessages>
+          <IgnoredMessages idx5024="True"/>
+        </CompilerMessages>
+      </Other>
+    </CompilerOptions>
+    <Description Value="ACBr - Nota Fiscal de Energia Elétrica Eletrônica - (http://www.projetoacbr.com.br/)"/>
+    <License Value="LGPL"/>
+    <Files Count="18">
+      <Item1>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\ACBrNFAg.pas"/>
+        <UnitName Value="ACBrNFAg"/>
+      </Item1>
+      <Item2>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\ACBrNFAgReg.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ACBrNFAgReg"/>
+      </Item2>
+      <Item3>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\ACBrNFAgNotasFiscais.pas"/>
+        <UnitName Value="ACBrNFAgNotasFiscais"/>
+      </Item3>
+      <Item4>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\ACBrNFAgConfiguracoes.pas"/>
+        <UnitName Value="ACBrNFAgConfiguracoes"/>
+      </Item4>
+      <Item5>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\ACBrNFAgWebServices.pas"/>
+        <UnitName Value="ACBrNFAgWebServices"/>
+      </Item5>
+      <Item6>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\DANFAg\ACBrNFAgDANFAgClass.pas"/>
+        <UnitName Value="ACBrNFAgDANFAgClass"/>
+      </Item6>
+      <Item7>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\Base\Servicos\ACBrNFAg.ConsSit.pas"/>
+        <UnitName Value="ACBrNFAg.ConsSit"/>
+      </Item7>
+      <Item8>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\Base\Servicos\ACBrNFAg.EnvEvento.pas"/>
+        <UnitName Value="ACBrNFAg.EnvEvento"/>
+      </Item8>
+      <Item9>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\Base\Servicos\ACBrNFAg.EventoClass.pas"/>
+        <UnitName Value="ACBrNFAg.EventoClass"/>
+      </Item9>
+      <Item10>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\Base\ACBrNFAg.Classes.pas"/>
+        <UnitName Value="ACBrNFAg.Classes"/>
+      </Item10>
+      <Item11>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\Base\ACBrNFAg.XmlReader.pas"/>
+        <UnitName Value="ACBrNFAg.XmlReader"/>
+      </Item11>
+      <Item12>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\Base\ACBrNFAg.XmlWriter.pas"/>
+        <UnitName Value="ACBrNFAg.XmlWriter"/>
+      </Item12>
+      <Item13>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\Base\Servicos\ACBrNFAg.RetConsSit.pas"/>
+        <UnitName Value="ACBrNFAg.RetConsSit"/>
+      </Item13>
+      <Item14>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\Base\Servicos\ACBrNFAg.RetEnvEvento.pas"/>
+        <UnitName Value="ACBrNFAg.RetEnvEvento"/>
+      </Item14>
+      <Item15>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\Base\ACBrNFAg.Conversao.pas"/>
+        <UnitName Value="ACBrNFAg.Conversao"/>
+      </Item15>
+      <Item16>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\Base\ACBrNFAg.Consts.pas"/>
+        <UnitName Value="ACBrNFAg.Consts"/>
+      </Item16>
+      <Item17>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\Base\ACBrNFAg.IniReader.pas"/>
+        <UnitName Value="ACBrNFAg.IniReader"/>
+      </Item17>
+      <Item18>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFAg\Base\ACBrNFAg.IniWriter.pas"/>
+        <UnitName Value="ACBrNFAg.IniWriter"/>
+      </Item18>
+    </Files>
+    <RequiredPkgs Count="1">
+      <Item1>
+        <PackageName Value="ACBrDFeComum"/>
+      </Item1>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>
