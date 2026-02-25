@@ -1704,7 +1704,7 @@ begin
      (NFSe.Servico.Valores.totTrib.pTotTribMun > 0) then
     Result.AppendChild(GerarXMLPercentualTotalTributos)
   else
-    if (NFSe.OptanteSN <> osnNaoOptante) then
+    if (NFSe.OptanteSN = osnOptanteMEEPP) then
       Result.AppendChild(AddNode(tcDe2, '#1', 'pTotTribSN', 1, 5, 1,
                                    NFSe.Servico.Valores.totTrib.pTotTribSN, ''))
     else
