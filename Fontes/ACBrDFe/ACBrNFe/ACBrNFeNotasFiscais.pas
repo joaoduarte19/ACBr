@@ -1041,9 +1041,7 @@ begin
   try
     MS.LoadFromFile(CaminhoArquivo);
     XMLUTF8 := ReadStrFromStream(MS, MS.Size);
-    l := Length(CUTF8BOM);
-    if (copy(XMLUTF8, 1, l) = CUTF8BOM) then
-      System.Delete(XMLUTF8, 1, l);
+    XMLUTF8 := RemoverUTF8Bom(XMLUTF8);
   finally
     MS.Free;
   end;
@@ -1098,15 +1096,8 @@ var
 begin
   // Verifica se precisa Converter de UTF8 para a String nativa da IDE //
 
-  if (Trim(AXMLString) <> '') and (XmlEhUTF8BOM(AXMLString)) then
-  begin
-    //Se tiver o BOM, eu ignoro os bytes do mesmo.
-    XMLStr := Copy(AXMLString, 4, Length(AXMLString));
-    XMLStr := ConverteXMLtoNativeString(XMLStr);
-  end
-  else
-    XMLStr := ConverteXMLtoNativeString(AXMLString);
-
+  XMLStr := RemoverUTF8Bom(AXMLString);
+  XMLStr := ConverteXMLtoNativeString(XMLStr);
   XMLStr := RemoverDeclaracaoXML(XMLStr);
 
   Fecha := PosFechaNFe;

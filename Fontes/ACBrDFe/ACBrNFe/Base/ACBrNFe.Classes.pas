@@ -48,6 +48,7 @@ uses
    System.Contnrs,
   {$IfEnd}
   ACBrDFe.Conversao,
+  ACBrNFe.Conversao,
   pcnConversao,
   pcnConversaoNFe,
   pcnSignature,
