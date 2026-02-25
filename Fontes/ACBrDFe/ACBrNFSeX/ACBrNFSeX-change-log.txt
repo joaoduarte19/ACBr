@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/02/2026
+-- Pronim.Provider --
+[*] ACBR-8927 - Ajuste para retornar o valor do campo Situação ao executar o método: ConsultaNFSeporChave.
+    https://www.projetoacbr.com.br/forum/topic/90086-acbr-8927-nfse-pronim-parou-de-retornar-a-tag-situacao-na-consulta-por-chave/
+   Por: Marco Prodata
 -- ACBrNFSeXServicos --
 [*] ACBR-9005 - A cidade Capinzal/SC mudou para o provedor PadraoNacional.
    Por: Adriano Wolff

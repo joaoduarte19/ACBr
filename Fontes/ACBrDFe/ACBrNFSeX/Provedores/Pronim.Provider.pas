@@ -919,11 +919,12 @@ var
   NotasArray : TACBrJSONArray;
   LQuantidadeNotas, X : integer;
   AErro: TNFSeEventoCollectionItem;
-  NFSeXml: string;
+  NFSeXml, Situacao: string;
   DocumentXml: TACBrXmlDocument;
   ANode: TACBrXmlNode;
   NumNFSe, NumDps: string;
   ANota: TNotaFiscal;
+  AResumo: TNFSeResumoCollectionItem;
 begin
   LQuantidadeNotas := 0;
   if Response.ArquivoRetorno = '' then
@@ -952,7 +953,7 @@ begin
           for X := 0 to LQuantidadeNotas-1 do
           begin
             NFSeXml := NotasArray.ItemAsJSONObject[X].AsString['xmlGZipB64'];
-            response.Situacao := NotasArray.ItemAsJSONObject[X].AsString['situacao'];
+            Situacao := NotasArray.ItemAsJSONObject[X].AsString['situacao'];
             if NFSeXml <> '' then
               NFSeXml :=  DeCompress(DecodeBase64(NFSeXml));
             DocumentXml := TACBrXmlDocument.Create;
@@ -969,6 +970,12 @@ begin
                 DocumentXml.LoadFromXml(NFSeXml);
 
                 Response.XmlRetorno := NFSeXml;
+                Response.Situacao := Situacao;
+
+                AResumo := Response.Resumos.New;
+                AResumo.XmlRetorno := NFSeXml;
+                AResumo.Situacao := Situacao;
+
                 ANode := DocumentXml.Root.Childrens.FindAnyNs('infNFSe');
 
                 NumNFSe := ObterConteudoTag(ANode.Childrens.FindAnyNs('nNFSe'), tcStr);
