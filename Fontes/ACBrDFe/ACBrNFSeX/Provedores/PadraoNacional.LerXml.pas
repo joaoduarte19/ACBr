@@ -2078,6 +2078,7 @@ begin
   begin
     NFSe.Servico.infoCompl.idDocTec := AINIRec.ReadString(sSecao, 'idDocTec', '');
     NFSe.Servico.infoCompl.docRef := AINIRec.ReadString(sSecao, 'docRef', '');
+    NFSe.Servico.infoCompl.xPed := AINIRec.ReadString(sSecao, 'xPed', '');
     NFSe.Servico.infoCompl.xInfComp := AINIRec.ReadString(sSecao, 'xInfComp', '');
   end;
 end;
