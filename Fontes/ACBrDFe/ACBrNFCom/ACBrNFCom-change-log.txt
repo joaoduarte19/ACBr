@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/02/2026
+-- ACBrNFComNotasFiscais --
+[*] Alteração visando remover se necessário os bytes do UTF8 BOM ao carregar um XML.
+   Por: Italo Giurizzato Junior
+
 30/01/2026
 -- ACBrNFComXmlReader --
 [-] Ajuste visando a correta leitura do grupo ICMS conforme as varias tags possíveis.
