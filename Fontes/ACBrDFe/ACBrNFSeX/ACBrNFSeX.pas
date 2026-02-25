@@ -413,7 +413,7 @@ begin
   xCNPJ := ANFSe.Prestador.IdentificacaoPrestador.CpfCnpj;
 
   if (Configuracoes.Geral.Provedor = proPadraoNacional) or
-     Configuracoes.Geral.APIPropria then
+     Configuracoes.Geral.APIPropria or (ANFSe.infNFSe.nNFSe <> '') then
   begin
     Result := NomeXmlPadraoNacional;
 

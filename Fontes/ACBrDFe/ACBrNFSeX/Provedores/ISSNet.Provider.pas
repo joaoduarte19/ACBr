@@ -1253,11 +1253,7 @@ end;
 function TACBrNFSeXWebserviceISSNetAPIPropria.TratarXmlRetornado(
   const aXML: string): string;
 begin
-  if (Trim(aXML) <> '') and (XmlEhUTF8BOM(aXML)) then
-  begin
-    //Se tiver o BOM, eu ignoro os bytes do mesmo.
-    Result := Copy(aXML, 4, Length(aXML));
-  end;
+  Result := RemoverUTF8Bom(aXML);
 
   Result := inherited TratarXmlRetornado(Result);
 
@@ -1584,11 +1580,8 @@ var
   DataAut: TDateTime;
   ANota: TNotaFiscal;
   AResumo: TNFSeResumoCollectionItem;
-  Node2: TACBrXmlNode;
-  NumeroRps: Integer;
 begin
   Result := False;
-  NumeroRps := 0;
 
   if Node <> nil then
   begin
@@ -1653,11 +1646,8 @@ var
   DataAut: TDateTime;
   ANota: TNotaFiscal;
   AResumo: TNFSeResumoCollectionItem;
-  Node2: TACBrXmlNode;
-  NumeroRps: Integer;
 begin
   Result := False;
-  NumeroRps := 0;
 
   if Node <> nil then
   begin
@@ -2548,7 +2538,7 @@ end;
 procedure TACBrNFSeProviderISSNetAPIPropria.TratarRetornoConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse);
 var
   Document: TACBrXmlDocument;
-  ANode, AuxNode, AuxNode2: TACBrXmlNode;
+  ANode, AuxNode: TACBrXmlNode;
   AErro: TNFSeEventoCollectionItem;
   ANota: TNotaFiscal;
   NumNFSe, NumRps, SerieRps: String;
@@ -3611,9 +3601,8 @@ procedure TACBrNFSeProviderISSNetAPIPropria.TratarRetornoEnviarEvento(
 var
   Document: TACBrXmlDocument;
   ANode, AuxNode: TACBrXmlNode;
-  IdAttr, xCancelamento, xXMLNS, nomeArq: string;
+  IdAttr, nomeArq: string;
   AErro: TNFSeEventoCollectionItem;
-  Inicio, Fim: Integer;
 begin
   Document := TACBrXmlDocument.Create;
 

@@ -726,8 +726,8 @@ begin
   MS := TMemoryStream.Create;
   try
     MS.LoadFromFile(CaminhoArquivo);
-
     XmlUTF8 := ReadStrFromStream(MS, MS.Size);
+    XMLUTF8 := RemoverUTF8Bom(XMLUTF8);
   finally
     MS.Free;
   end;
@@ -849,6 +849,7 @@ begin
     end;
 
     XMLUTF8 := ReadStrFromStream(MS, MS.Size);
+    XMLUTF8 := RemoverUTF8Bom(XMLUTF8);
   finally
     MS.Free;
   end;
@@ -904,10 +905,14 @@ end;
 
 function TNotasFiscais.LoadFromString(const AXMLString: string;
   AGerarNFSe: Boolean = True): Boolean;
+var
+  XMLStr: AnsiString;
 begin
+  XMLStr := RemoverUTF8Bom(AXMLString);
+
   with Self.New do
   begin
-    LerXML(AXMLString);
+    LerXML(XMLStr);
 
     if AGerarNFSe then
       GerarXML;

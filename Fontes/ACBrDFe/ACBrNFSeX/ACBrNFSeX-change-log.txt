@@ -43,6 +43,18 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/02/2026
+-- ACBrNFSeX --
+[*] Como tem provedor que esta retornando o XML segundo o Padrão Nacional foi necessário incluir mais uma condição para
+    gerar o nome do XML corretamente.
+-- ACBrNFSeXNotasFiscais --
+[*] Alteração visando remover se necessário os bytes que identifica UTF8 BOM do XML a ser carregado.
+-- ISSNet.Provider --
+[*] Alteração visando remover se necessário os bytes que identifica UTF8 BOM do XML retornado.
+-- PadraoNacional.LerXml --
+[*] ACBR-9034 - Alteração visando a leitura correta do XML da NFS-e, quando o mesmo contem a tag CompNfse.
+-- Tinus.Provider --
+[*] ACBR-9034 - Incluída a função para remover prefixos do XML.
+   Por: Italo Giurizzato Junior
 -- ISSSaoPaulo.GravarXml --
 [*] ACBR-9034 - Ajustes para gerar as informações sobre o imóvel na posição correta.
     https://www.projetoacbr.com.br/forum/topic/88339-acbr-9034-no-schema-200-na-prefeitura-de-s%C3%A3o-paulo-indop-020201-grupo-imovel/

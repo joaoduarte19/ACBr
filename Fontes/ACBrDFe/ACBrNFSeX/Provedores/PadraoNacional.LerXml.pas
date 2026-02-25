@@ -864,7 +864,12 @@ var
   AuxNode: TACBrXmlNode;
   Ok: Boolean;
 begin
-  AuxNode := ANode.Childrens.FindAnyNs('infNFSe');
+  AuxNode := ANode.Childrens.FindAnyNs('Nfse');
+
+  if AuxNode <> nil  then
+    AuxNode := AuxNode.Childrens.FindAnyNs('infNFSe')
+  else
+    AuxNode := ANode.Childrens.FindAnyNs('infNFSe');
 
   if AuxNode <> nil then
   begin
@@ -1514,6 +1519,7 @@ begin
   Arquivo := NormatizarXml(Arquivo);
 
   Arquivo := RemoverCaracteresDesnecessarios(Arquivo);
+  Arquivo := RemoverPrefixosDesnecessarios(Arquivo);
 
   if FDocument = nil then
     FDocument := TACBrXmlDocument.Create();
