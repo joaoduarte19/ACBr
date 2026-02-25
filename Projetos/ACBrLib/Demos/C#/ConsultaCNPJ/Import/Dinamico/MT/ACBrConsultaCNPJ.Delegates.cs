@@ -66,7 +66,7 @@ namespace ACBrLib.ConsultaCNPJ
     {
 
 
-        // Pascal: function CNPJ_Inicializar(var libHandle: PLibHandle; eArqConfig: PAnsiChar; eChaveCrypt: PAnsiChar): integer; cdecl;
+        
         /// <summary>
         /// Inicializa a biblioteca ACBrConsultaCNPJ, criando uma nova instância e retornando um handle para ela.
         /// </summary>
@@ -80,7 +80,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_Finalizar(IntPtr handle);
 
 
-        // Pascal: function CNPJ_Nome(libHandle: PLibHandle; buffer: PAnsiChar; var bufferSize: integer): integer; cdecl;
+        
         /// <summary>
         /// Obtém o nome da biblioteca ACBrConsultaCNPJ.
         /// </summary>
@@ -92,7 +92,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_Nome(IntPtr handle, StringBuilder buffer, ref int bufferSize);
 
 
-        // Pascal: function CNPJ_Versao(libHandle: PLibHandle; buffer: PAnsiChar; var bufferSize: integer): integer; cdecl;
+        
         /// <summary>
         /// Obtém a versão da biblioteca ACBrConsultaCNPJ.
         /// </summary>
@@ -104,7 +104,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_Versao(IntPtr handle, StringBuilder buffer, ref int bufferSize);
 
 
-        // Pascal: function CNPJ_UltimoRetorno(libHandle: PLibHandle; buffer: PAnsiChar; var bufferSize: integer): integer; cdecl;
+        
         /// <summary>
         /// Obtém a última mensagem de retorno da biblioteca.
         /// </summary>
@@ -116,7 +116,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_UltimoRetorno(IntPtr handle, StringBuilder buffer, ref int bufferSize);
 
 
-        // Pascal: function CNPJ_ConfigImportar(libHandle: PLibHandle; eArqConfig: PAnsiChar): integer; cdecl;
+        
         /// <summary>
         /// Importa configurações de um arquivo INI para a biblioteca.
         /// </summary>
@@ -127,7 +127,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_ConfigImportar(IntPtr handle, string eArqConfig);
 
 
-        // Pascal: function CNPJ_ConfigExportar(libHandle: PLibHandle; buffer: PAnsiChar; var bufferSize: integer): integer; cdecl;
+        
         /// <summary>
         /// Exporta as configurações atuais da biblioteca para uma string no formato INI.
         /// </summary>
@@ -139,7 +139,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_ConfigExportar(IntPtr handle, StringBuilder buffer, ref int bufferSize);
 
 
-        // Pascal: function CNPJ_ConfigLer(libHandle: PLibHandle; eArqConfig: PAnsiChar): integer; cdecl;
+        
         /// <summary>
         /// Lê as configurações de um arquivo INI e aplica na biblioteca.
         /// </summary>
@@ -150,7 +150,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_ConfigLer(IntPtr handle, string eArqConfig);
 
 
-        // Pascal: function CNPJ_ConfigGravar(libHandle: PLibHandle; eArqConfig: PAnsiChar): integer; cdecl;
+        
         /// <summary>
         /// Grava as configurações atuais da biblioteca em um arquivo INI.
         /// </summary>
@@ -161,7 +161,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_ConfigGravar(IntPtr handle, string eArqConfig);
 
 
-        // Pascal: function CNPJ_ConfigLerValor(libHandle: PLibHandle; eSessao, eChave: PAnsiChar; buffer: PAnsiChar; var bufferSize: integer): integer; cdecl;
+        
         /// <summary>
         /// Lê o valor de uma chave de configuração específica.
         /// </summary>
@@ -175,7 +175,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_ConfigLerValor(IntPtr handle, string eSessao, string eChave, StringBuilder buffer, ref int bufferSize);
 
 
-        // Pascal: function CNPJ_ConfigGravarValor(libHandle: PLibHandle; eSessao, eChave, valor: PAnsiChar): integer; cdecl;
+        
         /// <summary>
         /// Grava o valor de uma chave de configuração específica.
         /// </summary>
@@ -188,7 +188,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_ConfigGravarValor(IntPtr handle, string eSessao, string eChave, string valor);
 
 
-        // Pascal: function CNPJ_Consultar(libHandle: PLibHandle; eCNPJ: PAnsiChar; buffer: PAnsiChar; var bufferSize: integer): integer; cdecl;
+        
         /// <summary>
         /// Realiza a consulta de informações cadastrais de um CNPJ.
         /// </summary>
@@ -201,7 +201,7 @@ namespace ACBrLib.ConsultaCNPJ
         public delegate int CNPJ_Consultar(IntPtr handle, string eCNPJ, StringBuilder buffer, ref int bufferSize);
 
 
-        // Pascal: function CNPJ_OpenSSLInfo(libHandle: PLibHandle; buffer: PAnsiChar; var bufferSize: integer): integer; cdecl;
+        
         /// <summary>
         /// Obtém informações sobre a biblioteca OpenSSL utilizada internamente.
         /// </summary>
