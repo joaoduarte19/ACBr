@@ -848,6 +848,7 @@ begin
   try
     MS.LoadFromFile(CaminhoArquivo);
     XMLUTF8 := ReadStrFromStream(MS, MS.Size);
+    XMLUTF8 := RemoverUTF8Bom(XMLUTF8);
   finally
     MS.Free;
   end;
@@ -887,7 +888,9 @@ var
 
 begin
   // Verifica se precisa Converter de UTF8 para a String nativa da IDE //
-  XMLStr := ConverteXMLtoNativeString(AXMLString);
+  XMLStr := RemoverUTF8Bom(AXMLString);
+  XMLStr := ConverteXMLtoNativeString(XMLStr);
+  XMLStr := RemoverDeclaracaoXML(XMLStr);
 
   N := PosDCe;
   while N > 0 do
