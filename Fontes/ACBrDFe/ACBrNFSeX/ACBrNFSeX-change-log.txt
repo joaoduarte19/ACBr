@@ -44,6 +44,10 @@ Símbolo : Significado
 
 25/02/2026
 -- ACBrNFSeXServicos --
+[*] ACBR-9005 - A cidade Capinzal/SC mudou para o provedor PadraoNacional.
+   Por: Adriano Wolff
+[*] ACBR-9013 - Incluído Params NaoDividir100 para a cidade Vargem Grande Paulista/SP
+   Por: Destak
 [*] ACBR-9021 - A cidade Joviânia/GO usa o provedor Centi.
    Por: Welber Eduardo
 -- ACBrNFSeX --
