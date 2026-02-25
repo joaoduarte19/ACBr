@@ -10,7 +10,7 @@ using ACBrLib.ConsultaCNPJ;
 namespace ACBrLib.ConsultaCNPJ
 {
     /// <inheritdoc />
-    public sealed partial class ACBrConsultaCNPJ : ACBrLibHandle
+    public sealed partial class ACBrConsultaCNPJ : ACBrLibHandle, IACBrLibConsultaCNPJ 
     {
         #region Constructors
 
@@ -138,20 +138,7 @@ namespace ACBrLib.ConsultaCNPJ
         #endregion Ini
 
         #region Diversos
-
-        public string ConsultarCaptcha(string ePathDownload)
-        {
-            var bufferLen = BUFFER_LEN;
-            var buffer = new StringBuilder(bufferLen);
-
-            var method = GetMethod<CNPJ_ConsultarCaptcha>();
-            var ret = ExecuteMethod(() => method(ToUTF8(ePathDownload), buffer, ref bufferLen));
-
-            CheckResult(ret);
-
-            return ProcessResult(buffer, bufferLen);
-        }
-
+        
         public string Consultar(string eCNPJ)
         {
             var bufferLen = BUFFER_LEN;
