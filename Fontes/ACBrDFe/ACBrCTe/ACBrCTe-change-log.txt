@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/02/2026
+-- ACBrCTeConhecimentos --
+[*] Alteração visando remover se necessário os bytes do UTF8 BOM ao carregar um XML.
+   Por: Italo Giurizzato Junior
+
 20/02/2026
 -- ACBrCTe.EnvEvento --
 [-] ACBr-8755: Possível solução para o erro que esta ocorrendo com a leitura do XML do evento.
