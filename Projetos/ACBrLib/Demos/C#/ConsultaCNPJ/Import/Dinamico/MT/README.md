@@ -21,10 +21,14 @@ Pacote NuGet: [ACBrLib.ConsultaCNPJMT](https://www.nuget.org/packages/ACBrLib.Co
 3. [Estrutura do Projeto](#3-estrutura-do-projeto)
 4. [Exemplo de Uso](#4-exemplo-de-uso)
 5. [Guia de Mapeamento da ACBrLib em C, C++ e C#](#5-guia-de-mapeamento-da-acbrlib-em-c-c-e-c)
-6. [Tipos Primitivos em Pascal](#6-tipos-primitivos-em-pascal)
-7. [Mapeamento de Tipos: Pascal, C/C++ e C#](#7-mapeamento-de-tipos-pascal-cc-e-c)
-8. [Exemplos de Interoperabilidade](#8-exemplos-de-interoperabilidade)
-9. [Referências](#9-referências)
+    1. [Tipos Primitivos em Pascal](#51-tipos-primitivos-em-pascal)
+    2. [Mapeamento de Tipos: Pascal, C/C++ e C#](#52-mapeamento-de-tipos-pascal-cc-e-c)
+    3. [Exemplos de Interoperabilidade](#53-exemplos-de-interoperabilidade)
+        1. [Pascal](#531-pascal)
+        2. [C](#532-c)
+        3. [C++](#533-c)
+        4. [C#](#534-c)
+6. [Referências](#6-referências)
 
 ## 1. Introdução
 Este projeto fornece interoperabilidade entre .NET e ACBrLibConsultaCNPJ, facilitando integração, configuração e consulta de CNPJ.
@@ -77,7 +81,7 @@ O tipo `integer` é o mais utilizado para valores inteiros nas funções da ACBr
 
 Este guia tem por objetivo trazer informações relevantes sobre o mapeamento de métodos da ACBrLib. Muitas vezes não há exemplos prontos em outras linguagens, por isso este guia foi criado: para mostrar como mapear a ACBrLib em qualquer linguagem que tenha interoperabilidade com C/C++.
 
-## 6. Tipos Primitivos em Pascal
+### 5.1 Tipos Primitivos em Pascal
 
 Consulte: [Free Pascal Reference - Types](https://www.freepascal.org/docs-html/ref/refch3.html)
 
@@ -86,7 +90,7 @@ A ACBrLib utiliza tipos compatíveis com C, incluindo [strings](https://acbr.sou
 
 
 
-## 7. Mapeamento de Tipos: Pascal, C/C++ e C#
+### 5.2 Mapeamento de Tipos: Pascal, C/C++ e C#
 
 Veja: [C# ref - Microsoft Docs](https://learn.microsoft.com/pt-br/dotnet/csharp/language-reference/keywords/method-parameters#ref-parameter-modifier)
 
@@ -116,9 +120,9 @@ Em Pascal, `var` indica passagem por referência, equivalente a `ref` em C#. Tod
 
 
 
-## 8. Exemplos de Interoperabilidade
+### 5.3 Exemplos de Interoperabilidade
 
-### Pascal
+#### 5.3.1 Pascal
 Procedures são mapeadas como funções `void` em linguagens baseadas em C.
 ```pascal
 function CNPJ_Inicializar(var libHandle: PLibHandle; eArqConfig, eChaveCrypt: PAnsiChar): integer; cdecl;
@@ -129,7 +133,7 @@ procedure CNPJ_F(); cdecl; // Exemplo didático
 
 
 
-### C
+#### 5.3.2 C
 ```c
 extern int CNPJ_Inicializar(void **libHandle, const char *eArqConfig, const char *eChaveCrypt);
 extern int CNPJ_Finalizar(void *libHandle);
@@ -140,7 +144,7 @@ extern void CNPJ_F();
 
 
 
-### C++
+#### 5.3.3 C++
 ```cpp
 extern "C" {
     int  CNPJ_Inicializar(void **libHandle, const char *eArqConfig, const char *eChaveCrypt);
@@ -153,7 +157,7 @@ extern "C" {
 
 
 
-### C\#
+#### 5.3.4 C#
 ```csharp
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 public delegate int CNPJ_Inicializar(ref IntPtr libHandle, string eArqConfig, string eChaveCrypt);
@@ -174,7 +178,7 @@ public delegate void CNPJ_F();
 Cada parâmetro e tipo é convertido conforme a tabela acima. Consulte o código-fonte para detalhes de cada método e mapeamento.
 
 
-## 9. Referências
+## 6. Referências
 - [ACBrLibConsultaCNPJMT.pas (Pascal)](https://sourceforge.net/p/acbr/code/HEAD/tree/trunk2/Projetos/ACBrLib/Fontes/ConsultaCNPJ/ACBrLibConsultaCNPJMT.pas)
 - [Documentação ACBrLib MultiThread](https://acbr.sourceforge.io/ACBrLib/ACBrLibeMultiThread.html)
 - [Var em Freepascal](https://wiki.freepascal.org/Var)
