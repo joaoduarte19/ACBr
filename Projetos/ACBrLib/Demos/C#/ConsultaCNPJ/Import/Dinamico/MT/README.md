@@ -153,7 +153,7 @@ extern "C" {
 
 
 
-### C#
+### C\#
 ```csharp
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 public delegate int CNPJ_Inicializar(ref IntPtr libHandle, string eArqConfig, string eChaveCrypt);
