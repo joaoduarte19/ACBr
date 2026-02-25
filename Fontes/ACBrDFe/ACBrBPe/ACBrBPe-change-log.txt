@@ -45,6 +45,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/02/2026
+-- ACBrBPeBilhetes --
+[*] Alteração visando remover se necessário os bytes do UTF8 BOM ao carregar um XML.
+   Por: Italo Giurizzato Junior
+
 11/10/2025
 -- Diversos --
 [*] Mais ajustes para a correta geração/leitura do arquivo XML e INI.
