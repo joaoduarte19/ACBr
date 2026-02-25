@@ -45,6 +45,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/02/2026
+-- ACBrCTe.XmlWriter --
+[*] ACBr-9026: Ajuste para gerar a tag vTotDFe mesmo quando o seu valor for zero.
+  Por: THx
 -- ACBrCTeConhecimentos --
 [*] Alteração visando remover se necessário os bytes do UTF8 BOM ao carregar um XML.
    Por: Italo Giurizzato Junior
