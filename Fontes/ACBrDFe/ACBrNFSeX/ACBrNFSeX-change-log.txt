@@ -42,6 +42,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/02/2026
+-- ISSSaoPaulo.GravarXml --
+[*] ACBR-9034 - Ajustes para gerar as informações sobre o imóvel na posição correta.
+    https://www.projetoacbr.com.br/forum/topic/88339-acbr-9034-no-schema-200-na-prefeitura-de-s%C3%A3o-paulo-indop-020201-grupo-imovel/
+    Fiz umas alterações na colaboração visando minimizar a reescrita de linhas de código.
+   Por: Silvio Torres/cueiogordo/Italo Giurizzato Junior
+
 24/02/2026
 -- ACBrNFSeXServicos --
 [*] O provedor Tiplan tem uma URL própria para o envio de eventos para a cidade de Americana/SP

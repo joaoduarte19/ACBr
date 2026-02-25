@@ -40,7 +40,8 @@ uses
   SysUtils, Classes, StrUtils,
   ACBrXmlBase,
   ACBrXmlDocument,
-  ACBrNFSeXGravarXml;
+  ACBrNFSeXGravarXml,
+  ACBrNFSeXClass;
 
 type
   { TNFSeW_ISSSaoPaulo }
@@ -57,6 +58,9 @@ type
     function GerarCPFCNPJIntermediario: TACBrXmlNode;
 
     function GerarXMLDocumentos: TACBrXmlNodeArray; override;
+
+    function GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode; override;
+    function GerarXMLImovel(Imovel: TDadosimovel): TACBrXmlNode;
   public
     function GerarXml: Boolean; override;
 
@@ -87,6 +91,7 @@ begin
   NrOcorrCSTReg := -1;
 
   GerargDif := False;
+  GerarImovel := False;
 
   if VersaoNFSe = ve200 then
     FNrOcorr := 1;
@@ -445,6 +450,37 @@ begin
 
   if NFSe.Servico.Valores.DocDeducao.Count > 1000 then
     wAlerta('#1', 'documentos', '', ERR_MSG_MAIOR_MAXIMO + '1000');
+end;
+
+function TNFSeW_ISSSaoPaulo.GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode;
+begin
+  Result := inherited GerarXMLIBSCBS(IBSCBS);
+
+  if ((IBSCBS.imovel.cCIB <> '') or (IBSCBS.imovel.ender.xLgr <> '')) then
+    Result.AppendChild(GerarXMLImovel(IBSCBS.imovel));
+end;
+
+function TNFSeW_ISSSaoPaulo.GerarXMLImovel(Imovel: TDadosimovel): TACBrXmlNode;
+begin
+  Result := nil;
+
+  if (Imovel.cCIB <> '') or (NFSe.ConstrucaoCivil.CodigoObra <> '') or
+     (Imovel.ender.CEP <> '') or (Imovel.ender.endExt.cEndPost <> '') then
+  begin
+    Result := CreateElement('imovelobra');
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'inscImobFisc', 1, 30, 0,
+                                                      Imovel.inscImobFisc, ''));
+
+    if (Imovel.cCIB <> '') then
+      Result.AppendChild(AddNode(tcStr, '#1', 'cCIB', 1, 8, 1, Imovel.cCIB, ''))
+    else
+      if (NFSe.ConstrucaoCivil.CodigoObra <> '') then
+        Result.AppendChild(AddNode(tcStr, '#1', 'cObra', 1, 30, 1,
+                                           NFSe.ConstrucaoCivil.CodigoObra, ''))
+      else
+        Result.AppendChild(GerarXMLEnderecoNacionalImovel(Imovel.ender));
+  end;
 end;
 
 end.
