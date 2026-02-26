@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 26/02/2026
+-- SigISSWeb.Provider --
+[*] ACBR-8987 - Ajuste para retornar informações da nota cancelada ao executar o ConsultarNSePorRps.
+    https://www.projetoacbr.com.br/forum/topic/90398-acbr-8987-sigissweb-consultanfseporrps-n%C3%A3o-captura-se-est%C3%A1-cancelada/   
+   Por: HUGO753
 -- SilTecnologia.Provider --
 [*] ACBR-8995 - Correção no tratamento de erros.
     https://www.projetoacbr.com.br/forum/topic/90038-tratamento-de-erros-na-emiss%C3%A3o-da-nfs-e-provedor-siltecnologia/

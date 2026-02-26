@@ -465,6 +465,12 @@ begin
       Response.SerieRps := ObterConteudoTag(ANode.Childrens.FindAnyNs('serie_rps'), tcStr);
       Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('data_emissao'), tcDatVcto);
 
+      if ObterConteudoTag( ANode.Childrens.FindAnyNs('cancelada'), tcStr) = 'S' then
+      begin
+        Response.Cancelamento.DataHora := ObterConteudoTag(ANode.Childrens.FindAnyNs('data_canc'), tcDatVcto);
+        Response.Cancelamento.Motivo := ObterConteudoTag(ANode.Childrens.FindAnyNs('motivo_canc'), tcStr);
+      end;
+
       ProcessarMensagemErros(ANode, Response);
 
       Response.Sucesso := (Response.Erros.Count = 0);
