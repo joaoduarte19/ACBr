@@ -520,25 +520,27 @@ var
 
       if JSonLista.Count > 0 then
         LerListaErrosAlertas(JSonLista, Collection);
-    end;
-
-    if LJson.IsJSONObject(aNome) then
-    begin
-      JSon := LJson.AsJSONObject[aNome];
-
-      if JSon <> nil then
-        AdicionaCollectionItem(JSon, Collection);
     end
     else
     begin
-      Codigo := LJson.AsString[aNome];
-
-      if Codigo <> '' then
+      if LJson.IsJSONObject(aNome) then
       begin
-        AItem := Collection.New;
-        AItem.Codigo := Codigo;
-        AItem.Descricao := LJson.AsString['mensagem'];
-        AItem.Correcao := '';
+        JSon := LJson.AsJSONObject[aNome];
+
+        if JSon <> nil then
+          AdicionaCollectionItem(JSon, Collection);
+      end
+      else
+      begin
+        Codigo := LJson.AsString[aNome];
+
+        if Codigo <> '' then
+        begin
+          AItem := Collection.New;
+          AItem.Codigo := Codigo;
+          AItem.Descricao := LJson.AsString['mensagem'];
+          AItem.Correcao := '';
+        end;
       end;
     end;
   end;
@@ -576,13 +578,25 @@ var
   lJSON, lErroJSON: TACBrJSONObject;
   lJSONArray: TACBrJSONArray;
 begin
-//  Result := inherited TratarXmlRetornado(aXML);
-
   Result := AnsiToNativeString(aXML);
 
   if not StringIsPDF(Result) then
   begin
-//    Result := UTF8Decode(Result);
+    if StringIsJSON(Result) then
+    begin
+      if Pos('"sucesso":"false"', Result) > 0 then
+      begin
+        lJSON := TACBrJsonObject.Parse(Result);
+
+//        lJSON := TACBrJSONObject.Create;
+        try
+          Result := lJSON.AsString['mensagem'];
+        finally
+          FreeAndNil(lJSON);
+//          lJSON.Free;
+        end;
+      end;
+    end;
 
     if not StringIsJSON(Result) then
     begin

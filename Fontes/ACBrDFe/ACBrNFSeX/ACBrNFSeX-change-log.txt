@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 26/02/2026
+-- ModernizacaoPublica.Provider --
+[*] ACBR-9007 - Ajustes para mostrar corretamente o erro retornado pela API.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] ACBR-9007 - As cidades Cabo Frio/RJ, trocou de provedor, agora é ModernizacaoPulica
    Por: Marcelo Toller/Italo Giurizzato Junior
