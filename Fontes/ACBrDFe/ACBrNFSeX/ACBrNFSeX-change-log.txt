@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 26/02/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9007 - As cidades Cabo Frio/RJ, trocou de provedor, agora é ModernizacaoPulica
+   Por: Marcelo Toller/Italo Giurizzato Junior
 -- MegaSoft.GravarXml/MegaSoft.Provider --
 [*] ACBR-9001 - Alteração visando gerar a tag NumeroNbs.
    Por: Italo Giurizzato Junior
