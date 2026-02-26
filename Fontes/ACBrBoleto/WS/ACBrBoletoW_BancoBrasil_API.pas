@@ -272,8 +272,8 @@ begin
         if Boleto.Configuracoes.WebService.Filtro.contaCaucao > 0 then
           LConsulta.Add('contaCaucao='+ IntToStr(Boleto.Configuracoes.WebService.Filtro.contaCaucao));
 
-        LConsulta.Add('agenciaBeneficiario='+OnlyNumber( Boleto.Cedente.Agencia ));
-        LConsulta.Add('contaBeneficiario='+OnlyNumber( Boleto.Cedente.Conta ));
+        LConsulta.Add('agenciaBeneficiario='+RemoveZerosEsquerda(OnlyNumber( Boleto.Cedente.Agencia )));
+        LConsulta.Add('contaBeneficiario='+RemoveZerosEsquerda(OnlyNumber( Boleto.Cedente.Conta )));
 
         if Boleto.Configuracoes.WebService.Filtro.carteira > 0 then
           LConsulta.Add('carteiraConvenio='+IntToStr(Boleto.Configuracoes.WebService.Filtro.carteira));
