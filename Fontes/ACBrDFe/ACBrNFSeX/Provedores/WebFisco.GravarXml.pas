@@ -66,6 +66,7 @@ implementation
 
 uses
   ACBrDFe.Conversao,
+  ACBrUtil.Strings,
   ACBrValidador;
 
 //==============================================================================
@@ -198,7 +199,7 @@ begin
                                                          '', '', True, xAtrib));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'cep', 1, 8, 1,
-                                  NFSe.Tomador.Endereco.CEP, '', True, xAtrib));
+                        OnlyNumber(NFSe.Tomador.Endereco.CEP), '', True, xAtrib));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'fon', 1, 12, 1,
                               NFSe.Tomador.Contato.Telefone, '', True, xAtrib));
@@ -634,7 +635,7 @@ begin
           FormatFloat('00000000', NFSe.ConstrucaoCivil.Cib), '', True, xAtrib));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'infobrascep', 1, 8, 1,
-                          NFSe.ConstrucaoCivil.Endereco.CEP, '', True, xAtrib));
+                       OnlyNumber(NFSe.ConstrucaoCivil.Endereco.CEP), '', True, xAtrib));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'infobrasmunicipio', 1, 4, 1,
               NFSe.ConstrucaoCivil.Endereco.CodigoMunicipio, '', True, xAtrib));
@@ -681,7 +682,7 @@ begin
                                NFSe.Servico.Evento.idAtvEvt, '', True, xAtrib));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'infoatividadeeventocep', 1, 8, 1,
-                           NFSe.Servico.Evento.Endereco.CEP, '', True, xAtrib));
+                        OnlyNumber(NFSe.Servico.Evento.Endereco.CEP), '', True, xAtrib));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'infoatividadeeventomunicipio', 1, 4, 1,
                NFSe.Servico.Evento.Endereco.CodigoMunicipio, '', True, xAtrib));
@@ -912,11 +913,11 @@ begin
                                NFSe.Tomador.Endereco.Bairro, '', True, xAtrib));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'cep', 1, 8, 1,
-                                  NFSe.Tomador.Endereco.CEP, '', True, xAtrib));
+                        OnlyNumber(NFSe.Tomador.Endereco.CEP), '', True, xAtrib));
 
   if locEstab = 'BR' then
     NFSeNode.AppendChild(AddNode(tcStr, '#', 'cid', 1, 4, 1,
-                           NFSe.Tomador.Endereco.xMunicipio, '', True, xAtrib))
+                           NFSe.Tomador.Endereco.CodigoMunicipio, '', True, xAtrib))
   else
     NFSeNode.AppendChild(AddNode(tcStr, '#', 'cid', 1, 4, 1,
                                                          '', '', True, xAtrib));
@@ -1036,7 +1037,7 @@ begin
   if strAux <> '00' then
   begin
     NFSeNode.AppendChild(AddNode(tcDe2, '#', 'bpis', 1, 12, 1,
-                                                          0, '', True, xAtrib));
+                  NFSe.Servico.Valores.BaseCalculoPisCofins, '', True, xAtrib));
 
     NFSeNode.AppendChild(AddNode(tcDe2, '#', 'apis', 1, 6, 1,
                            NFSe.Servico.Valores.AliquotaPis, '', True, xAtrib));
@@ -1045,7 +1046,7 @@ begin
                               NFSe.Servico.Valores.ValorPis, '', True, xAtrib));
 
     NFSeNode.AppendChild(AddNode(tcDe2, '#', 'bcofins', 1, 12, 1,
-                                                          0, '', True, xAtrib));
+                  NFSe.Servico.Valores.BaseCalculoPisCofins, '', True, xAtrib));
 
     NFSeNode.AppendChild(AddNode(tcDe2, '#', 'acofins', 1, 6, 1,
                         NFSe.Servico.Valores.AliquotaCofins, '', True, xAtrib));
@@ -1223,8 +1224,12 @@ begin
   // Manual WebFisco 2026 - Paginas 9 a 15: Campos opcionais/condicionais
   // Para evitar rejeicao por falta de dados, enviamos os campos com opcao = 0 e demais vazios.
   // --- Obras (infobras*) - pag. 9-10
-  NFSeNode.AppendChild(AddNode(tcInt, '#', 'infobrasopcao', 1, 1, 1,
-               IntToStr(NFSe.ConstrucaoCivil.infobrasopcao), '', True, xAtrib));
+  if NFSe.ConstrucaoCivil.infobrasopcao > 0 then
+    NFSeNode.AppendChild(AddNode(tcInt, '#', 'infobrasopcao', 1, 1, 1,
+                 IntToStr(NFSe.ConstrucaoCivil.infobrasopcao), '', True, xAtrib))
+  else
+    NFSeNode.AppendChild(AddNode(tcStr, '#', 'infobrasopcao', 1, 1, 1,
+                                                           '', '', True, xAtrib));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'infobrascodobra', 1, 30, 1,
                             NFSe.ConstrucaoCivil.CodigoObra, '', True, xAtrib));
@@ -1232,11 +1237,15 @@ begin
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'infobrasim', 1, 30, 1,
                           NFSe.ConstrucaoCivil.inscImobFisc, '', True, xAtrib));
 
-  NFSeNode.AppendChild(AddNode(tcStr, '#', 'ccib', 1, 8, 1,
-          FormatFloat('00000000', NFSe.ConstrucaoCivil.Cib), '', True, xAtrib));
+  if NFSe.ConstrucaoCivil.infobrasopcao > 0 then
+    NFSeNode.AppendChild(AddNode(tcStr, '#', 'ccib', 1, 8, 1,
+            FormatFloat('00000000', NFSe.ConstrucaoCivil.Cib), '', True, xAtrib))
+  else
+    NFSeNode.AppendChild(AddNode(tcStr, '#', 'ccib', 1, 8, 1,
+                                                           '', '', True, xAtrib));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'infobrascep', 1, 8, 1,
-                          NFSe.ConstrucaoCivil.Endereco.CEP, '', True, xAtrib));
+                          OnlyNumber(NFSe.ConstrucaoCivil.Endereco.CEP), '', True, xAtrib));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'infobrasmunicipio', 1, 4, 1,
               NFSe.ConstrucaoCivil.Endereco.CodigoMunicipio, '', True, xAtrib));
@@ -1257,8 +1266,12 @@ begin
                        NFSe.ConstrucaoCivil.Endereco.Bairro, '', True, xAtrib));
 
   // --- Evento (infoatividadeevento*) - pag. 11-12
-  NFSeNode.AppendChild(AddNode(tcInt, '#', 'infoatividadeeventoopcao', 1, 1, 1,
-     IntToStr(NFSe.Servico.Evento.infoatividadeeventoopcao), '', True, xAtrib));
+  if NFSe.Servico.Evento.infoatividadeeventoopcao > 0 then
+    NFSeNode.AppendChild(AddNode(tcInt, '#', 'infoatividadeeventoopcao', 1, 1, 1,
+       IntToStr(NFSe.Servico.Evento.infoatividadeeventoopcao), '', True, xAtrib))
+  else
+    NFSeNode.AppendChild(AddNode(tcStr, '#', 'infoatividadeeventoopcao', 1, 1, 1,
+                                                           '', '', True, xAtrib));
 
   if NFSe.Servico.Evento.dtIni > 0 then
     strAux := FormatDateTime('DD/MM/YYYY', NFSe.Servico.Evento.dtIni)
@@ -1283,7 +1296,7 @@ begin
                                NFSe.Servico.Evento.idAtvEvt, '', True, xAtrib));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'infoatividadeeventocep', 1, 8, 1,
-                           NFSe.Servico.Evento.Endereco.CEP, '', True, xAtrib));
+                           OnlyNumber(NFSe.Servico.Evento.Endereco.CEP), '', True, xAtrib));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'infoatividadeeventomunicipio', 1, 4, 1,
                NFSe.Servico.Evento.Endereco.CodigoMunicipio, '', True, xAtrib));
@@ -1304,27 +1317,52 @@ begin
                         NFSe.Servico.Evento.Endereco.Bairro, '', True, xAtrib));
 
   // --- Exportacao (infocomext*) - pag. 13
+  strAux := mdPrestacaoToStr(NFSe.Servico.comExt.mdPrestacao);
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'infocomextmodoprest', 1, 1, 1,
-         IntToStr(Integer(NFSe.Servico.comExt.mdPrestacao)), '', True, xAtrib));
+                                                 strAux, '', True, xAtrib));
 
+  strAux := vincPrestToStr(NFSe.Servico.comExt.vincPrest);
+  if strAux = '9' then
+    strAux := '';
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'infocomextvinculo', 1, 1, 1,
-           IntToStr(Integer(NFSe.Servico.comExt.vincPrest)), '', True, xAtrib));
+                                                     strAux, '', True, xAtrib));
 
+  if NFSe.Servico.comExt.tpMoeda > 0 then
+    strAux := FormatFloat('000', NFSe.Servico.comExt.tpMoeda)
+  else
+    strAux := '';
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'infocomextmoeda_codigo', 1, 3, 1,
-            FormatFloat('000', NFSe.Servico.comExt.tpMoeda), '', True, xAtrib));
+                                            strAux, '', True, xAtrib));
 
-  NFSeNode.AppendChild(AddNode(tcDe2, '#', 'infocomextvlrmoeda', 1, 12, 1,
-                             NFSe.Servico.comExt.vServMoeda, '', True, xAtrib));
+  if NFSe.Servico.comExt.vServMoeda > 0 then
+    NFSeNode.AppendChild(AddNode(tcDe2, '#', 'infocomextvlrmoeda', 1, 12, 1,
+                              NFSe.Servico.comExt.vServMoeda, '', True, xAtrib))
+  else
+    NFSeNode.AppendChild(AddNode(tcStr, '#', 'infocomextvlrmoeda', 1, 12, 1,
+                                                          '', '', True, xAtrib));
 
+  if Integer(NFSe.Servico.comExt.mecAFComexP) > 0 then
+    strAux := FormatFloat('00', Integer(NFSe.Servico.comExt.mecAFComexP))
+  else
+    strAux := '';
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'infocomextmecprest', 1, 2, 1,
-    FormatFloat('00', Integer(NFSe.Servico.comExt.mecAFComexP)), '', True, xAtrib));
+                                            strAux, '', True, xAtrib));
+
+  if Integer(NFSe.Servico.comExt.mecAFComexT) > 0 then
+    strAux := FormatFloat('00', Integer(NFSe.Servico.comExt.mecAFComexT))
+  else
+    strAux := '';
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'infocomextmectomador', 1, 2, 1,
-    FormatFloat('00', Integer(NFSe.Servico.comExt.mecAFComexT)), '', True, xAtrib));
+                                              strAux, '', True, xAtrib));
 
   // --- Exportacao (vincopemovtempbens/didsidadri/reaverb/compartdpsmdic) - pag. 14-15
+  if Integer(NFSe.Servico.comExt.movTempBens) > 0 then
+    strAux := IntToStr(Integer(NFSe.Servico.comExt.movTempBens))
+  else
+    strAux := '';
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'vincopemovtempbens', 1, 1, 1,
-         IntToStr(Integer(NFSe.Servico.comExt.movTempBens)), '', True, xAtrib));
+                                              strAux, '', True, xAtrib));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'didsidadri', 1, 12, 1,
                                     NFSe.Servico.comExt.nDI, '', True, xAtrib));
@@ -1332,8 +1370,13 @@ begin
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'reaverb', 1, 12, 1,
                                     NFSe.Servico.comExt.nRE, '', True, xAtrib));
 
+  if not (NFSe.Servico.comExt.mdic in [0,1]) then
+    strAux := ''
+  else
+    strAux := IntToStr(NFSe.Servico.comExt.mdic);
+
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'compartdpsmdic', 1, 1, 1,
-                         IntToStr(NFSe.Servico.comExt.mdic), '', True, xAtrib));
+                         strAux, '', True, xAtrib));
 
   Result := True;
 end;

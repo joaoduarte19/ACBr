@@ -196,6 +196,9 @@ begin
 //          IssRetido := stNormal;
 
     Servico.Valores.ValorServicos := ObterConteudo(ANode.Childrens.FindAnyNs('nfevalor'), tcDe2);
+    if Servico.Valores.ValorServicos = 0 then
+      Servico.Valores.ValorServicos := ObterConteudo(ANode.Childrens.FindAnyNs('nfevaltributavel'), tcDe2);
+
     Servico.Valores.ValorLiquidoNfse := Servico.Valores.ValorServicos;
     Servico.Valores.ValorIss := ObterConteudo(ANode.Childrens.FindAnyNs('nfevaliss'), tcDe2);
     Servico.Valores.ValorIssRetido := ObterConteudo(ANode.Childrens.FindAnyNs('nfevalissretido'), tcDe2);

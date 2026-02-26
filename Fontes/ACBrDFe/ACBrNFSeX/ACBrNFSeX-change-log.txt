@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 26/02/2026
+-- WebFisco.GravarXml/WebFisco.LerXml --
+[*] ACBr-8969 - Ajustes visando a correta geração de alguns campos conforme novo manual que atende a Reforma Tributaria.
+   Por: Marcelo Gonçalves / Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/90155-acbr-8969-nfs-e-tr%C3%AAs-riosrj-n%C3%A3o-sincroniza-com-portal-nacional/?&_rid=124795#findComment-590096
 -- ModernizacaoPublica.Provider --
 [*] ACBR-9007 - Ajustes para mostrar corretamente o erro retornado pela API.
    Por: Italo Giurizzato Junior
