@@ -47,17 +47,19 @@ type
 
   TNFSeW_MegaSoft200 = class(TNFSeW_ABRASFv2)
   protected
-    function GerarContatoTomador: TACBrXmlNode; override;
-    function GerarStatus: TACBrXmlNode; override;
-
     procedure Configuracao; override;
 
+    function GerarContatoTomador: TACBrXmlNode; override;
+    function GerarStatus: TACBrXmlNode; override;
+    function GerarServico: TACBrXmlNode; override;
   end;
 
 implementation
 
 uses
-  ACBrDFe.Conversao;
+  ACBrDFe.Conversao,
+  ACBrNFSeXConsts,
+  ACBrUtil.Strings;
 
 //==============================================================================
 // Essa unit tem por finalidade exclusiva gerar o XML do RPS do provedor:
@@ -90,13 +92,6 @@ begin
   NrOcorrRegimeEspecialTributacao := -1;
   NrOcorrOptanteSimplesNacional := -1;
   NrOcorrIncentCultural := -1;
-  NrOcorrItemListaServico := -1;
-  NrOcorrCodigoCNAE := -1;
-  NrOcorrCodTribMun_1 := -1;
-  NrOcorrDiscriminacao_1 := -1;
-  NrOcorrExigibilidadeISS := -1;
-  NrOcorrMunIncid := -1;
-  NrOcorrRespRetencao := -1;
 end;
 
 function TNFSeW_MegaSoft200.GerarContatoTomador: TACBrXmlNode;
@@ -107,6 +102,32 @@ end;
 function TNFSeW_MegaSoft200.GerarStatus: TACBrXmlNode;
 begin
   Result := nil;
+end;
+
+function TNFSeW_MegaSoft200.GerarServico: TACBrXmlNode;
+begin
+  Result := CreateElement('Servico');
+
+  Result.AppendChild(GerarValores);
+
+  Result.AppendChild(AddNode(tcStr, '#20', 'IssRetido', 1, 1, 1,
+    FpAOwner.SituacaoTributariaToStr(NFSe.Servico.Valores.IssRetido), DSC_INDISSRET));
+
+  Result.AppendChild(AddNode(tcStr, '#33', 'CodigoMunicipio', 1, 7, 1,
+                           OnlyNumber(NFSe.Servico.CodigoMunicipio), DSC_CMUN));
+
+  Result.AppendChild(AddNode(tcStr, '#31', 'CodigoTributacaoMunicipio', 1, 20, 0,
+                     NFSe.Servico.CodigoTributacaoMunicipio, DSC_CSERVTRIBMUN));
+
+  Result.AppendChild(AddNode(tcStr, '#32', 'NumeroNbs', 1, 9, 1,
+                                             NFSe.Servico.CodigoNBS, DSC_CMUN));
+
+  Result.AppendChild(AddNode(tcStr, '#32', 'Discriminacao', 1, 2000, 1,
+    StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+               FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]), DSC_DISCR));
+
+  Result.AppendChild(AddNode(tcStr, '#39', 'InfAdicional', 1, 255, 0,
+                                  NFSe.Servico.InfAdicional, DSC_INFADICIONAL));
 end;
 
 end.

@@ -111,6 +111,7 @@ begin
   begin
     GerarNFSe := 'nfse_v01.xsd';
     ConsultarNFSeRps := 'nfse_v01.xsd';
+//    Validar := False;
   end;
 end;
 

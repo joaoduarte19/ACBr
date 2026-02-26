@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/02/2026
+-- MegaSoft.GravarXml/MegaSoft.Provider --
+[*] ACBR-9001 - Alteração visando gerar a tag NumeroNbs.
+   Por: Italo Giurizzato Junior
+
 25/02/2026
 -- ACBrNFSeXServicos --
 [*] ACBR-9012 - As cidades Treviso/SC, Guaramirim/SC e Bombinhas/SC mudaram para o provedor IPM versão 1.01
