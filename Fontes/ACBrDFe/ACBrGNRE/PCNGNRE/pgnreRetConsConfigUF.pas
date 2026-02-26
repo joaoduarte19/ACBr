@@ -42,6 +42,7 @@ uses
   pcnConversao, pcnLeitor, pgnreRetReceita;
 
 type
+  TenderecoObr = class;
 
   TTConfigUf = class(TObject)
   private
@@ -64,6 +65,7 @@ type
     FexigeContribuinteDestinatario: String;
     FexigeParcela: String;
     FexigeConvenio: String;
+    FenderecoObr: TenderecoObr;
   public
     constructor Create;
     destructor Destroy; override;
@@ -88,8 +90,19 @@ type
     property exigeDataVencimento : String read FexigeDataVencimento write FexigeDataVencimento;
     property exigeDataPagamento : String read FexigeDataPagamento write FexigeDataPagamento;
     property exigeConvenio : String read FexigeConvenio write FexigeConvenio;
+    property enderecoObr: TenderecoObr read FenderecoObr write FenderecoObr;
 
     property InfReceita: TRetReceita read FInfReceita write FInfReceita;
+  end;
+
+  { TenderecoObr }
+  TenderecoObr = class(TObject)
+  private
+    FemitCpf: string;
+    FemitCnpj: string;
+  public
+    property emitCpf: string read FemitCpf write FemitCpf;
+    property emitCnpj: string read FemitCnpj write FemitCnpj;
   end;
 
 implementation
@@ -103,12 +116,14 @@ constructor TTConfigUf.Create;
 begin
   FLeitor := TLeitor.Create;
   FInfReceita := TRetReceita.Create;
+  FenderecoObr := TenderecoObr.Create;
 end;
 
 destructor TTConfigUf.Destroy;
 begin
   FLeitor.Free;
   FInfReceita.Free;
+  FenderecoObr.Free;
 
   inherited;
 end;
@@ -129,6 +144,8 @@ begin
       Fcodigo            := Leitor.rCampo(tcInt, 'ns1:codigo');
       Fdescricao         := Leitor.rCampo(tcStr, 'ns1:descricao');
       FexigeUfFavorecida := SeparaDados(Leitor.Grupo, 'ns1:exigeUfFavorecida');
+      FenderecoObr.emitCpf := Leitor.rCampo(tcStr, 'ns1:emitCpf');
+      FenderecoObr.emitCnpj := Leitor.rCampo(tcStr, 'ns1:emitCnpj');
       FexigeReceita      := SeparaDados(Leitor.Grupo, 'ns1:exigeReceita');
 
       if SameText(FexigeReceita, 'S') then

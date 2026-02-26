@@ -45,6 +45,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/02/2026
+-- pgnreConfigUF, pgnreRetConsConfigUF, pgnreRetReceita --
+[+] ACBR-8563: Implementadas alterações das versões 2.12 a 2.14 do manual e schemas.
+  Por: Renato Rubinho
+
 02/02/2026
 -- ACBrGNReGuiaRLClass --
 --ACBrGNReGuiaRLRetrato --

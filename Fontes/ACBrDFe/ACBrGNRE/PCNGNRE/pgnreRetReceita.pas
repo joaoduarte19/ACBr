@@ -230,6 +230,7 @@ begin
         FretReceita.Items[i].RetInfReceita.exigeDataPagamento            := SeparaDados(Leitor.Grupo, 'ns1:exigeDataPagamento');
         FretReceita.Items[i].RetInfReceita.exigeConvenio                 := SeparaDados(Leitor.Grupo, 'ns1:exigeConvenio');
         FretReceita.Items[i].RetInfReceita.exigeCamposAdicionais         := SeparaDados(Leitor.Grupo, 'ns1:exigeCamposAdicionais');
+        FretReceita.Items[i].RetInfReceita.aceitaPgPix                   := SeparaDados(Leitor.Grupo, 'ns1:aceitaPgPix');
 
         if Assigned(FInfDetalhamentoReceita) then
           FInfDetalhamentoReceita.Free;

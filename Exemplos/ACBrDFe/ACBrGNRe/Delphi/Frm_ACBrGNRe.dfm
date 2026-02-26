@@ -1453,7 +1453,6 @@ object frmACBrGNRe: TfrmACBrGNRe
     ACBrGNRE = ACBrGNRE1
     MostrarPreview = True
     MostrarStatus = True
-    TamanhoPapel = tpA4
     NumCopias = 1
     MargemInferior = 8.000000000000000000
     MargemSuperior = 8.000000000000000000

@@ -96,6 +96,7 @@ type
     FexigeDataPagamento: string;
     FexigeConvenio: string; 
     FexigeCamposAdicionais: string;
+    FaceitaPgPix: string;
   public
     property codigo: Integer read Fcodigo write Fcodigo;
     property descricao: string read Fdescricao write Fdescricao;
@@ -113,6 +114,7 @@ type
     property exigeDataPagamento: string read FexigeDataPagamento write FexigeDataPagamento;    
     property exigeConvenio: string read FexigeConvenio write FexigeConvenio;
     property exigeCamposAdicionais: string read FexigeCamposAdicionais write FexigeCamposAdicionais;
+    property aceitaPgPix: string read FaceitaPgPix write FaceitaPgPix;
   end;
 
   TInfDetalhamentoReceita = class(TObject)
