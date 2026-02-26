@@ -906,7 +906,7 @@ var
   I: Integer;
   ANode: TACBrXmlNode;
   ANodeArray: TACBrXmlNodeArray;
-  AAlerta: TNFSeEventoCollectionItem;
+  AAlerta, AErro: TNFSeEventoCollectionItem;
   Codigo, Mensagem: string;
 
 procedure ProcessarErro(ErrorNode: TACBrXmlNode; const ACodigo, AMensagem: string);
@@ -1004,18 +1004,18 @@ begin
 
     if Mensagem <> '' then
     begin
-      AAlerta := Response.Alertas.New;
-      AAlerta.Codigo := ObterConteudoTag(RootNode.Childrens.FindAnyNs('codigo'), tcStr);
-      AAlerta.Descricao := Mensagem;
-      AAlerta.Correcao := ObterConteudoTag(RootNode.Childrens.FindAnyNs('correcao'), tcStr);
+      AErro := Response.Erros.New;
+      AErro.Codigo := ObterConteudoTag(RootNode.Childrens.FindAnyNs('codigo'), tcStr);
+      AErro.Descricao := Mensagem;
+      AErro.Correcao := ObterConteudoTag(RootNode.Childrens.FindAnyNs('correcao'), tcStr);
     end
     else
     begin
       if Pos('<return>', Copy(Response.ArquivoRetorno,1,20)) > 0 then
       begin
-        AAlerta := Response.Erros.New;
-        AAlerta.Codigo := Cod201;
-        AAlerta.Descricao := ACBrStr(SeparaDados(Response.ArquivoRetorno, 'return'));
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod201;
+        AErro.Descricao := ACBrStr(SeparaDados(Response.ArquivoRetorno, 'return'));
       end;
     end;
   end;

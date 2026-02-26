@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 26/02/2026
+-- SilTecnologia.Provider --
+[*] ACBR-8995 - Correção no tratamento de erros.
+    https://www.projetoacbr.com.br/forum/topic/90038-tratamento-de-erros-na-emiss%C3%A3o-da-nfs-e-provedor-siltecnologia/
+   Por: ArecoDesenv
 -- ACBrNFSeXConversao --
 [+] ACBR-8969 - Adiciona novo enumerado para ser considerado e campo ser gerado vazio para o WebFisco.
    Por: Diego Folieni
