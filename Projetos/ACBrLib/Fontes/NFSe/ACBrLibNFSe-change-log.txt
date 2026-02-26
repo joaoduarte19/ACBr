@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/02/2026
+-- ACBrLibNFSeRespostas --
+[*] ACBR-8927 - Adiciona mais informações na resposta da consulta e do envio de evento.
+   Por: marcoprodata
+   Veja: https://www.projetoacbr.com.br/forum/topic/90086-acbr-8927-nfse-pronim-parou-de-retornar-a-tag-situacao-na-consulta-por-chave/?&_rid=124795#findComment-588058 
+
 22/12/2025
 -- ACBrLibNFSeBase, ACBrLibNFSeRespostas --
 [-] ACBr-8299 - Corrige resposta do ObterDANFSE e melhora resposta do ConsultarLoteRPS
