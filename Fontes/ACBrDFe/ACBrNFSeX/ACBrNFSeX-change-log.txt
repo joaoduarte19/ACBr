@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 26/02/2026
+-- ACBrNFSeXConversao --
+[+] ACBR-8969 - Adiciona novo enumerado para ser considerado e campo ser gerado vazio para o WebFisco.
+   Por: Diego Folieni
 -- WebFisco.GravarXml/WebFisco.LerXml --
 [*] ACBr-8969 - Ajustes visando a correta geração de alguns campos conforme novo manual que atende a Reforma Tributaria.
    Por: Marcelo Gonçalves / Diego Folieni
