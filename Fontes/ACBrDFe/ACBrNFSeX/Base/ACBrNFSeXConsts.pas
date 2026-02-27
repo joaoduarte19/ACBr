@@ -291,6 +291,8 @@ resourcestring
   Desc213 = 'Não foi retornado nenhum Token.';
   Cod214 = 'X214';
   Desc214 = 'Não foi retornado nenhum DANFSE, chave/ambiente pode estar errado.';
+  Cod215 = 'X215';
+  Desc215 = 'Identificacao do Prestador ou Senha inválida.';
 
   Cod800 = 'X800';
   Desc800 = 'Erro de Validação: ';

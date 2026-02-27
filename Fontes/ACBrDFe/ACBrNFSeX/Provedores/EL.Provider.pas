@@ -577,9 +577,12 @@ procedure TACBrNFSeProviderEL.Emite;
 begin
   AbreSessao(EmiteResponse.NumeroLote);
 
-  inherited Emite;
+  if FPHash <> '' then
+  begin
+    inherited Emite;
 
-  FechaSessao(EmiteResponse.NumeroLote);
+    FechaSessao(EmiteResponse.NumeroLote);
+  end;
 end;
 
 function TACBrNFSeProviderEL.PrepararRpsParaLote(const aXml: string): string;
@@ -777,9 +780,17 @@ begin
 
       ProcessarMensagemErros(Document.Root, Response, 'return', 'mensagens');
 
-      Response.Sucesso := (Response.Erros.Count = 0);
-
       FPHash := ObterConteudoTag(Document.Root.Childrens.FindAnyNs('return'), tcStr);
+
+      if FPHash = '' then
+      begin
+        AErro := EmiteResponse.Erros.New;
+        AErro.Codigo := Cod215;
+        AErro.Descricao := ACBrStr(Desc215);
+        Exit
+      end;
+
+      Response.Sucesso := (Response.Erros.Count = 0);
     except
       on E:Exception do
       begin

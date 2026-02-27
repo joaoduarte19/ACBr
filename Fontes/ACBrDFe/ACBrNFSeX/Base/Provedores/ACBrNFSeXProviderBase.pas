@@ -966,20 +966,71 @@ begin
           ConfigWebServices.LoadUrlHomologacao(IniParams, Sessao);
         end;
 
+        // Se Params estiver vazio usar o que foi definido para o provedor
+        if (ConfigGeral.Params.AsString = '') then
+        begin
+          Sessao := Configuracoes.Geral.xProvedor;
+          ConfigGeral.LoadParams(IniParams, Sessao);
+        end;
+
+        if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ConsultarNFSeRPS') then
+        begin
+          ConfigWebServices.LoadUrlProducaoAPIPadraoNacional(IniParams, 'ConsultarNFSeRPS');
+          ConfigWebServices.LoadUrlHomologacaoAPIPadraoNacional(IniParams, 'ConsultarNFSeRPS');
+        end;
+
+        if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ConsultarNFSePorChave') then
+        begin
+          ConfigWebServices.LoadUrlProducaoAPIPadraoNacional(IniParams, 'ConsultarNFSePorChave');
+          ConfigWebServices.LoadUrlHomologacaoAPIPadraoNacional(IniParams, 'ConsultarNFSePorChave');
+        end;
+
+        if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'EnviarEvento') then
+        begin
+          ConfigWebServices.LoadUrlProducaoAPIPadraoNacional(IniParams, 'EnviarEvento');
+          ConfigWebServices.LoadUrlHomologacaoAPIPadraoNacional(IniParams, 'EnviarEvento');
+        end;
+
+        if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ConsultarEvento') then
+        begin
+          ConfigWebServices.LoadUrlProducaoAPIPadraoNacional(IniParams, 'ConsultarEvento');
+          ConfigWebServices.LoadUrlHomologacaoAPIPadraoNacional(IniParams, 'ConsultarEvento');
+        end;
+
+        if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ConsultarDFe') then
+        begin
+          ConfigWebServices.LoadUrlProducaoAPIPadraoNacional(IniParams, 'ConsultarDFe');
+          ConfigWebServices.LoadUrlHomologacaoAPIPadraoNacional(IniParams, 'ConsultarDFe');
+        end;
+
+        if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ConsultarParam') then
+        begin
+          ConfigWebServices.LoadUrlProducaoAPIPadraoNacional(IniParams, 'ConsultarParam');
+          ConfigWebServices.LoadUrlHomologacaoAPIPadraoNacional(IniParams, 'ConsultarParam');
+        end;
+
+        if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ObterDANFSE') then
+        begin
+          ConfigWebServices.LoadUrlProducaoAPIPadraoNacional(IniParams, 'ObterDANFSE');
+          ConfigWebServices.LoadUrlHomologacaoAPIPadraoNacional(IniParams, 'ObterDANFSE');
+        end;
+
         if (ConfigWebServices.Producao.LinkURL = '') or
            (Configuracoes.Geral.Provedor = proPadraoNacional) then
         begin
-          Sessao := Configuracoes.Geral.xProvedorOrigem;
+          Sessao := 'PadraoNacional'; // Configuracoes.Geral.xProvedorOrigem;
           ConfigWebServices.LoadlinkUrlProducao(IniParams, Sessao);
         end;
 
         if (ConfigWebServices.Homologacao.LinkURL = '') or
            (Configuracoes.Geral.Provedor = proPadraoNacional) then
         begin
-          Sessao := Configuracoes.Geral.xProvedorOrigem;
+          Sessao := 'PadraoNacional'; // Configuracoes.Geral.xProvedorOrigem;
           ConfigWebServices.LoadLinkUrlHomologacao(IniParams, Sessao);
         end;
       end;
+
+      ConfigGeral.LoadParams(IniParams, Sessao);
 
       if ConfigWebServices.Producao.XMLNameSpace = '' then
       begin
@@ -1017,7 +1068,7 @@ begin
         ConfigWebServices.LoadSoapActionHomologacao(IniParams, Sessao);
       end;
 
-      // Se Params1 estiver vazio usar o que foi definido para o provedor
+      // Se Params estiver vazio usar o que foi definido para o provedor
       if (ConfigGeral.Params.AsString = '') then
       begin
         Sessao := Configuracoes.Geral.xProvedor;

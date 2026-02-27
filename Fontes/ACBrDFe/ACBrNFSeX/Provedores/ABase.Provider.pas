@@ -122,6 +122,7 @@ uses
   ACBrUtil.XMLHTML,
   ACBrUtil.Strings,
   ACBrUtil.Base,
+  ACBrUtil.FilesIO,
   ACBrDFeException,
   ACBrDFe.Conversao,
   ACBrNFSeXConsts,
@@ -829,24 +830,27 @@ var
 begin
   Result := GetSoapBody(aXML);
 
-  Result := RemoverCaracteresDesnecessarios(Result);
-  Result := ParseText(Result);
-  Result := RemoverIdentacao(Result);
-  Result := RemoverDeclaracaoXML(Result);
-
-  Result := RemoverPrefixosDesnecessarios(Result);
-
-  if Pos('<Erro>', Result) = 1 then
+  if not StringIsPDF(Result) then
   begin
-    aMsg := SepararDados(Result, 'Erro');
-    Result := '<a>' +
-                '<Erros>' +
-                  '<Erro>' +
-                    '<Codigo></Codigo>' +
-                    '<Descricao>' + aMsg + '</Descricao>' +
-                  '</Erro>' +
-                '</Erros>' +
-              '</a>';
+    Result := RemoverCaracteresDesnecessarios(Result);
+    Result := ParseText(Result);
+    Result := RemoverIdentacao(Result);
+    Result := RemoverDeclaracaoXML(Result);
+
+    Result := RemoverPrefixosDesnecessarios(Result);
+
+    if Pos('<Erro>', Result) = 1 then
+    begin
+      aMsg := SepararDados(Result, 'Erro');
+      Result := '<a>' +
+                  '<Erros>' +
+                    '<Erro>' +
+                      '<Codigo></Codigo>' +
+                      '<Descricao>' + aMsg + '</Descricao>' +
+                    '</Erro>' +
+                  '</Erros>' +
+                '</a>';
+    end;
   end;
 end;
 

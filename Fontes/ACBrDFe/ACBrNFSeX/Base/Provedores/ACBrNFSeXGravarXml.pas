@@ -394,16 +394,22 @@ end;
 
 procedure TNFSeWClass.ConsolidarVariosItensServicosEmUmSo;
 var
-  i: Integer;
-  xDiscriminacao, xItemListaServ: string;
-  vValorDeducoes, vValorServicos, vDescontoCondicionado, vAliquota, vBaseCalculo,
-  vDescontoIncondicionado, vValorPis, vValorCofins, vValorInss, vValorIr,
-  vValorCsll, vValorIss, vAliquotaPis, vAliquotaCofins, vAliquotaInss,
-  vAliquotaIr, vAliquotaCsll, vValorIssRetido: Double;
+  i, UltimoItem: Integer;
+  xDiscriminacao{, xItemListaServ}: string;
+  vQtdeDiaria, vValorTaxaTurismo,
+  vValorDeducoes, vValorServicos, vDescontoCondicionado,
+  {vAliquota, vAliquotaPis, vAliquotaCofins, vAliquotaInss, vAliquotaIr, vAliquotaCsll,}
+  vBaseCalculo, vDescontoIncondicionado, vValorPis, vValorCofins, vValorInss, vValorIr,
+  vValorCsll, vValorIss,
+  vValorIssRetido: Double;
 begin
   if NFSe.Servico.ItemServico.Count > 0 then
   begin
     xDiscriminacao := '';
+
+    vQtdeDiaria := 0;
+    vValorTaxaTurismo := 0;
+
     vValorDeducoes := 0;
     vValorServicos := 0;
     vDescontoCondicionado := 0;
@@ -416,17 +422,19 @@ begin
     vValorCsll := 0;
     vValorIss := 0;
     vValorIssRetido := 0;
+    {
     vAliquota := 0;
     vAliquotaPis := 0;
     vAliquotaCofins := 0;
     vAliquotaInss := 0;
     vAliquotaIr := 0;
     vAliquotaCsll := 0;
-
+    }
     with FNFSe.Servico do
     begin
       for i := 0 to ItemServico.Count -1 do
       begin
+        {
         xItemListaServ := ItemServico[i].ItemListaServico;
         vAliquota := ItemServico[i].Aliquota;
         vAliquotaPis := ItemServico[i].AliqRetPIS;
@@ -434,7 +442,9 @@ begin
         vAliquotaInss := ItemServico[i].AliqRetINSS;
         vAliquotaIr := ItemServico[i].AliqRetIRRF;
         vAliquotaCsll := ItemServico[i].AliqRetCSLL;
-
+        }
+        vQtdeDiaria := vQtdeDiaria + ItemServico[i].QtdeDiaria;
+        vValorTaxaTurismo := vValorTaxaTurismo + ItemServico[i].ValorTaxaTurismo;
         vValorDeducoes := vValorDeducoes + ItemServico[i].ValorDeducoes;
         vValorServicos := vValorServicos + ItemServico[i].ValorTotal;
         vDescontoCondicionado := vDescontoCondicionado + ItemServico[i].DescontoCondicionado;
@@ -481,15 +491,6 @@ begin
       end;
     end;
 
-    // Leva em consideração a informação do ultimo item da lista.
-    NFSe.Servico.ItemListaServico := xItemListaServ;
-    NFSe.Servico.Valores.Aliquota := vAliquota;
-    NFSe.Servico.Valores.AliquotaPis := vAliquotaPis;
-    NFSe.Servico.Valores.AliquotaCofins := vAliquotaCofins;
-    NFSe.Servico.Valores.AliquotaInss := vAliquotaInss;
-    NFSe.Servico.Valores.AliquotaIr := vAliquotaIr;
-    NFSe.Servico.Valores.AliquotaCsll := vAliquotaCsll;
-
     // Consolida todos os itens da lista.
     case FormatoDiscriminacao of
       fdTabulado:
@@ -501,6 +502,40 @@ begin
       NFSe.Servico.Discriminacao := xDiscriminacao;
     end;
 
+    // Leva em consideração a informação do ultimo item da lista.
+    UltimoItem := FNFSe.Servico.ItemServico.Count -1;
+    NFSe.Servico.ItemListaServico := FNFSe.Servico.ItemServico[UltimoItem].ItemListaServico;
+    NFSe.Servico.xItemListaServico := FNFSe.Servico.ItemServico[UltimoItem].xItemListaServico;
+    NFSe.Servico.CodigoTributacaoMunicipio := FNFSe.Servico.ItemServico[UltimoItem].CodigoTributacaoMunicipio;
+    NFSe.Servico.CodigoNBS := FNFSe.Servico.ItemServico[UltimoItem].CodigoNBS;
+    NFSe.infNFSe.xNBS := FNFSe.Servico.ItemServico[UltimoItem].xNBS;
+    NFSe.Servico.CodigoInterContr := FNFSe.Servico.ItemServico[UltimoItem].CodigoInterContr;
+    NFSe.Servico.CodigoCnae := FNFSe.Servico.ItemServico[UltimoItem].CodigoCnae;
+    NFSe.Servico.ResponsavelRetencao := FNFSe.Servico.ItemServico[UltimoItem].ResponsavelRetencao;
+    NFSe.Servico.ExigibilidadeISS := FNFSe.Servico.ItemServico[UltimoItem].ExigibilidadeISS;
+    NFSe.Servico.MunicipioIncidencia := FNFSe.Servico.ItemServico[UltimoItem].MunicipioIncidencia;
+    NFSe.Servico.xMunicipioIncidencia := FNFSe.Servico.ItemServico[UltimoItem].xMunicipioIncidencia;
+    NFSe.Servico.NumeroProcesso := FNFSe.Servico.ItemServico[UltimoItem].NumeroProcesso;
+    NFSe.Servico.InfAdicional := FNFSe.Servico.ItemServico[UltimoItem].InfAdicional;
+    NFSe.Servico.CodigoServicoNacional := FNFSe.Servico.ItemServico[UltimoItem].CodigoServicoNacional;
+    NFSe.Servico.CodigoTributacaoNacional := FNFSe.Servico.ItemServico[UltimoItem].CodigoTributacaoNacional;
+
+    NFSe.Servico.Valores.Aliquota := FNFSe.Servico.ItemServico[UltimoItem].Aliquota;
+    NFSe.Servico.Valores.AliquotaPis := FNFSe.Servico.ItemServico[UltimoItem].AliqRetPIS;
+    NFSe.Servico.Valores.AliquotaCofins := FNFSe.Servico.ItemServico[UltimoItem].AliqRetCOFINS;
+    NFSe.Servico.Valores.AliquotaInss := FNFSe.Servico.ItemServico[UltimoItem].AliqRetINSS;
+    NFSe.Servico.Valores.AliquotaIr := FNFSe.Servico.ItemServico[UltimoItem].AliqRetIRRF;
+    NFSe.Servico.Valores.AliquotaCsll := FNFSe.Servico.ItemServico[UltimoItem].AliqRetCSLL;
+    NFSe.Servico.Valores.RetidoCSLL := FNFSe.Servico.ItemServico[UltimoItem].RetidoCSLL;
+    NFSe.Servico.Valores.RetidoPIS := FNFSe.Servico.ItemServico[UltimoItem].RetidoPIS;
+    NFSe.Servico.Valores.RetidoCOFINS := FNFSe.Servico.ItemServico[UltimoItem].RetidoCOFINS;
+    NFSe.Servico.Valores.RetidoINSS := FNFSe.Servico.ItemServico[UltimoItem].RetidoINSS;
+    NFSe.Servico.Valores.RetidoIR := FNFSe.Servico.ItemServico[UltimoItem].RetidoIRRF;
+    NFSe.Servico.Valores.RetidoCPP := FNFSe.Servico.ItemServico[UltimoItem].RetidoCPP;
+
+    // Realiza a totalização dos valores
+    NFSe.Servico.Valores.QtdeDiaria := vQtdeDiaria;
+    NFSe.Servico.Valores.ValorTaxaTurismo := vValorTaxaTurismo;
     NFSe.Servico.Valores.ValorDeducoes := vValorDeducoes;
     NFSe.Servico.Valores.ValorServicos := vValorServicos;
     NFSe.Servico.Valores.DescontoCondicionado := vDescontoCondicionado;

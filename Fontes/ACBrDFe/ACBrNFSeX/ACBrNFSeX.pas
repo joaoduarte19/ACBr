@@ -485,7 +485,8 @@ begin
     Exit;
 
   if Configuracoes.Geral.ConsultaLoteAposEnvio and
-     (FWebService.Emite.ModoEnvio = meLoteAssincrono) then
+     ((FWebService.Emite.ModoEnvio = meLoteAssincrono) or
+      Configuracoes.Geral.APIPropria) then
   begin
     if (FWebService.Emite.Protocolo <> '') or (FWebService.Emite.NumeroLote <> '') then
     begin
