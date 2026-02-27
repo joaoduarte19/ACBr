@@ -342,6 +342,12 @@ public
   procedure Executar; override;
 end;
 
+{ TMetodoSetAmbiente}
+
+TMetodoSetAmbiente = class(TACBrMetodo)
+public
+  procedure Executar; override;
+end;
 
 implementation
 
@@ -415,6 +421,27 @@ begin
   end;
 end;
 
+{ TMetodoSetAmbiente }
+
+// Params: 0 - NumAmbiente : Integer 1- Producao / 2- Homologacao
+
+procedure TMetodoSetAmbiente.Executar;
+var
+  NumAmbiente: Integer;
+begin
+  NumAmbiente := StrToIntDef(fpCmd.Params(0), 2);
+
+  if (NumAmbiente < 1) or (NumAmbiente > 2) then
+    raise Exception.Create('Ambiente Inválido: ' + IntToStr(NumAmbiente));
+
+  with TACBrObjetoNFSe(fpObjetoDono) do
+  begin
+    with MonitorConfig.DFE.WebService do
+      Ambiente := NumAmbiente -1;
+
+    MonitorConfig.SalvarArquivo;
+  end;
+end;
 
 { TMetodoSetEmitente }
 
@@ -1927,6 +1954,7 @@ begin
   ListaDeMetodos.Add(CMetodoSetAutenticacaoNFSe);
   ListaDeMetodos.Add(CMetodoConsultarLinkNFSe);
   ListaDeMetodos.Add(CMetodoSetPathArquivoWebServices);
+  ListaDeMetodos.Add(CMetodoSetambiente);
 
   // DoACBrUnit
   ListaDeMetodos.Add(CMetodoSavetofile);
@@ -2004,6 +2032,7 @@ begin
     41  : AMetodoClass := TMetodoSetAutenticacaoNFSe;
     42  : AMetodoClass := TMetodoConsultarLinkNFSe;
     43  : AMetodoClass := TMetodoSetPathArquivoWebServices;
+    44  : AMetodoClass := TMetodoSetAmbiente;
 
     else
     begin

@@ -43,6 +43,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+27/02/2026
+-- DoACBrNFSeUnit --
+[+] ACBR-8974 - Adicionado método NFSe.SetAmbiente no Monitor - https://www.projetoacbr.com.br/forum/topic/90355-acbr-8974-nfsesetambiente/
+    Por: Renato Rubinho
+
 19/02/2026
 -- DoACBrNFSeUnit --
 [-] Corrigida a validação do parametro nome impressora, quando passado " " espaco, apresentava o problema de comportamento relatado no topico abaixo.
