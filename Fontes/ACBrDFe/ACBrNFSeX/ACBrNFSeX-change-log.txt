@@ -42,7 +42,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
-26/02/2026
+27/02/2026
+-- ACBrNFSeXServicos --
+[*] Alteração nas seções de alguns provedores para realizar a leitura do parâmetro: ServicosPadraoNacional.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeX --
 [*] ACBR-9024 - Alteração visando realizar a consulta automatizada também para os provedores que aderiram o layout
     do Padrão Nacional
