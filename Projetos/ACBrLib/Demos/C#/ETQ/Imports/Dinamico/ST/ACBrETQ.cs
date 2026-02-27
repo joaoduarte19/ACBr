@@ -1,11 +1,11 @@
-﻿using ACBrLib.Core;
+using ACBrLib.Core;
 using System;
 using System.Text;
 using ACBrLib.Core.ETQ;
 
 namespace ACBrLib.ETQ
 {
-    public sealed partial class ACBrETQ : ACBrLibHandle
+    public sealed partial class ACBrETQ : ACBrLibHandle, IACBrLibETQ
     {
         #region Constructors
 
@@ -27,36 +27,32 @@ namespace ACBrLib.ETQ
 
         #region Properties
 
-        public string Nome
+        /// <inheritdoc />
+        public string Nome()
         {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
 
-                var method = GetMethod<ETQ_Nome>();
-                var ret = ExecuteMethod(() => method(buffer, ref bufferLen));
+            var method = GetMethod<ETQ_Nome>();
+            var ret = ExecuteMethod(() => method(buffer, ref bufferLen));
 
-                CheckResult(ret);
+            CheckResult(ret);
 
-                return ProcessResult(buffer, bufferLen);
-            }
+            return ProcessResult(buffer, bufferLen);
         }
 
-        public string Versao
+        /// <inheritdoc />
+        public string Versao()
         {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
 
-                var method = GetMethod<ETQ_Versao>();
-                var ret = ExecuteMethod(() => method(buffer, ref bufferLen));
+            var method = GetMethod<ETQ_Versao>();
+            var ret = ExecuteMethod(() => method(buffer, ref bufferLen));
 
-                CheckResult(ret);
+            CheckResult(ret);
 
-                return ProcessResult(buffer, bufferLen);
-            }
+            return ProcessResult(buffer, bufferLen);
         }
 
         public ACBrETQConfig Config { get; }
@@ -309,6 +305,13 @@ namespace ACBrLib.ETQ
             CheckResult(ret);
 
             return ProcessResult(buffer, bufferLen);
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            Finalizar();
+            GC.SuppressFinalize(this);
         }
 
         #endregion Private Methods

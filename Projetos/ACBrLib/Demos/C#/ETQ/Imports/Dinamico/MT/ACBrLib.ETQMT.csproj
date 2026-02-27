@@ -15,9 +15,9 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <AssemblyVersion>1.0.6.0</AssemblyVersion>
-    <FileVersion>1.0.6.0</FileVersion>
-    <Version>1.0.6.0</Version>
+    <AssemblyVersion>1.0.7.0</AssemblyVersion>
+    <FileVersion>1.0.7.0</FileVersion>
+    <Version>1.0.7.0</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>ProJetoACBr.snk</AssemblyOriginatorKeyFile>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -53,6 +53,7 @@
 
   <ItemGroup>
     <Compile Include="..\Shared\ACBrETQConfig.cs" Link="ACBrETQConfig.cs" />
+    <Compile Include="..\Shared\IACBrLibETQ.cs" Link="IACBrLibETQ.cs" />
   </ItemGroup>
   
   <ItemGroup>
