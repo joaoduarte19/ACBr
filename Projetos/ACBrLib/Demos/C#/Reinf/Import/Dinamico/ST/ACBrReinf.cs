@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -10,7 +10,7 @@ using ACBrLib.Core.DFe;
 namespace ACBrLib.Reinf
 {
     /// <inheritdoc />
-    public sealed partial class ACBrReinf : ACBrLibHandle
+    public sealed partial class ACBrReinf : ACBrLibHandle, IACBrLibReinf
     {
         #region Constructors
 
@@ -242,6 +242,11 @@ namespace ACBrLib.Reinf
             CheckResult(ret);
         }
 
+        public void SetTipoContribuinte(int aTipoContribuinte)
+        {
+            TipoContribuinte(aTipoContribuinte);
+        }
+
         public void SetVersao(string sVersao)
         {
             var method = GetMethod<Reinf_SetVersaoDF>();
@@ -250,6 +255,7 @@ namespace ACBrLib.Reinf
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public InfoCertificado[] ObterCertificados()
         {
             var bufferLen = BUFFER_LEN;

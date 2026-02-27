@@ -14,7 +14,7 @@ namespace ACBrLibReinf.Demo
     {
         #region Fields
 
-        private ACBrReinf ACBrReinf;
+        private IACBrLibReinf ACBrReinf;
 
         #endregion Fields
 
@@ -383,7 +383,7 @@ namespace ACBrLibReinf.Demo
         {
             try
             {
-                ACBrReinf.TipoContribuinte(cmbTipoContribuinte.SelectedIndex);
+                ACBrReinf.SetTipoContribuinte(cmbTipoContribuinte.SelectedIndex);
             }
             catch (Exception ex)
             {
