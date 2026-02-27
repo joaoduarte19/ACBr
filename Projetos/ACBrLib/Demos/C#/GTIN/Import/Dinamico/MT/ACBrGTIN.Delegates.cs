@@ -4,10 +4,11 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using ACBrLib.Core;
 
 namespace ACBrLib.GTIN
 {
-    public sealed partial class ACBrGTIN
+    internal sealed class ACBrGTINHandle: ACBrLibHandleBase
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int GTIN_Inicializar(ref IntPtr handle, string eArqConfig, string eChaveCrypt);
@@ -65,5 +66,18 @@ namespace ACBrLib.GTIN
             AddMethod<GTIN_Consultar>("GTIN_Consultar");
 
         }
+
+        protected override string GetLibraryName()
+        {
+          var arch = Environment.Is64BitProcess ? "64" : "32";
+          if ( PlatformID.Unix == Environment.OSVersion.Platform )
+              return $"libacbrgtin{arch}.so";
+          else
+              return $"ACBrGTIN{arch}.dll";
+        }
+
+
+        static readonly Lazy<ACBrGTINHandle> instance = new Lazy<ACBrGTINHandle>(() => new ACBrGTINHandle());
+        public static ACBrGTINHandle Instance => instance.Value;
     }
 }

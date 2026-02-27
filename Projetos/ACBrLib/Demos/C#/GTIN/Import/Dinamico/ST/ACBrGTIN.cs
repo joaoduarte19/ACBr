@@ -10,7 +10,7 @@ using ACBrLib.GTIN;
 namespace ACBrLib.GTIN
 {
     /// <inheritdoc />
-    public sealed partial class ACBrGTIN : ACBrLibHandle
+    public sealed partial class ACBrGTIN : ACBrLibHandle, IACBrLibGTIN
     {
         #region Constructors
 

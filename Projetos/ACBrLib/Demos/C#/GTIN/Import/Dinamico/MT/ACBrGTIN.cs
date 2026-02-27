@@ -9,23 +9,37 @@ using ACBrLib.GTIN;
 
 namespace ACBrLib.GTIN
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Classe principal para interação com a biblioteca ACBrLibGTIN, fornecendo métodos para inicialização, configuração e consulta de GTINs.
+    /// Implementa a interface <see cref="IACBrLibGTIN"/>
+    /// </summary>
 
-    public sealed partial class ACBrGTIN : ACBrLibHandle
+    public class ACBrGTIN : ACBrLibBase, IACBrLibGTIN
     {
+
+        private IntPtr libHandle = IntPtr.Zero;
+        private bool disposed = false;
+        private ACBrGTINHandle acbrGTINBridge;
+
         #region Constructors
 
-        public ACBrGTIN(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrGTIN64.dll" : "libacbrgtin64.so",
-                                                                                      IsWindows ? "ACBrGTIN32.dll" : "libacbrgtin32.so")
+        /// <summary>
+        /// Inicializa a classe ACBrGTIN, criando uma instância da biblioteca e carregando as configurações iniciais, se fornecidas.
+        /// </summary>
+        /// <param name="eArqConfig">Caminho para o arquivo de configuração.</param>
+        /// <param name="eChaveCrypt">Chave de criptografia para o arquivo de configuração.</param>
+        public ACBrGTIN(string eArqConfig = "", string eChaveCrypt = "") : base(eArqConfig, eChaveCrypt)
         {
+            acbrGTINBridge = ACBrGTINHandle.Instance;
             Inicializar(eArqConfig, eChaveCrypt);
             Config = new ACBrGTINConfig(this);
         }
 
+        /// <inheritdoc />
         public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
         {
-            var inicializarLib = GetMethod<GTIN_Inicializar>();
-            var ret = ExecuteMethod<int>(() => inicializarLib(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            var inicializarLib =acbrGTINBridge. GetMethod<ACBrGTINHandle.GTIN_Inicializar>();
+            var ret = acbrGTINBridge.ExecuteMethod<int>(() => inicializarLib(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
             CheckResult(ret);
         }
 
@@ -33,38 +47,38 @@ namespace ACBrLib.GTIN
 
         #region Properties
 
-        public string Nome
+        /// <inheritdoc />
+        public override string Nome()
         {
-            get
-            {
+        
                 var bufferLen = BUFFER_LEN;
                 var buffer = new StringBuilder(bufferLen);
 
-                var method = GetMethod<GTIN_Nome>();
-                var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+                var method =acbrGTINBridge. GetMethod<ACBrGTINHandle.GTIN_Nome>();
+                var ret = acbrGTINBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
                 CheckResult(ret);
 
-                return ProcessResult(buffer, bufferLen);
-            }
+                return CheckBuffer(buffer, bufferLen);
+        
         }
 
-        public string Versao
+        /// <inheritdoc />
+        public override string Versao() 
         {
-            get
-            {
+           
                 var bufferLen = BUFFER_LEN;
                 var buffer = new StringBuilder(bufferLen);
 
-                var method = GetMethod<GTIN_Versao>();
-                var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+                var method =acbrGTINBridge. GetMethod<ACBrGTINHandle.GTIN_Versao>();
+                var ret = acbrGTINBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
                 CheckResult(ret);
 
-                return ProcessResult(buffer, bufferLen);
-            }
+                return CheckBuffer(buffer, bufferLen);
+        
         }
-
+        /// <inheritdoc />
         public ACBrGTINConfig Config { get; }
 
         #endregion Properties
@@ -72,130 +86,157 @@ namespace ACBrLib.GTIN
         #region Metodos
 
         #region Ini
-
+        /// <inheritdoc />
         public override void ConfigGravar(string eArqConfig = "")
         {
-            var gravarIni = GetMethod<GTIN_ConfigGravar>();
-            var ret = ExecuteMethod(() => gravarIni(libHandle, ToUTF8(eArqConfig)));
+            var gravarIni =acbrGTINBridge. GetMethod<ACBrGTINHandle.GTIN_ConfigGravar>();
+            var ret = acbrGTINBridge.ExecuteMethod(() => gravarIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public override void ImportarConfig(string eArqConfig)
         {
-            var lerIni = GetMethod<GTIN_ConfigImportar>();
-            var ret = ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
+            var lerIni =acbrGTINBridge. GetMethod<ACBrGTINHandle.GTIN_ConfigImportar>();
+            var ret = acbrGTINBridge.ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public override string ExportarConfig()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<GTIN_ConfigExportar>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method =acbrGTINBridge. GetMethod<ACBrGTINHandle.GTIN_ConfigExportar>();
+            var ret = acbrGTINBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc />
         public override void ConfigLer(string eArqConfig = "")
         {
-            var lerIni = GetMethod<GTIN_ConfigLer>();
-            var ret = ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
+            var lerIni =acbrGTINBridge. GetMethod<ACBrGTINHandle.GTIN_ConfigLer>();
+            var ret = acbrGTINBridge.ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
-        public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
+
+        /// <inheritdoc />
+        public override string ConfigLerValor(string eSessao, string eChave)
         {
-            var method = GetMethod<GTIN_ConfigLerValor>();
+            var method =acbrGTINBridge. GetMethod<ACBrGTINHandle.GTIN_ConfigLerValor>();
 
             var bufferLen = BUFFER_LEN;
             var pValue = new StringBuilder(bufferLen);
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), pValue, ref bufferLen));
+            var ret = acbrGTINBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), pValue, ref bufferLen));
             CheckResult(ret);
 
-            var value = ProcessResult(pValue, bufferLen);
-            return ConvertValue<T>(value);
-        }
+            return  CheckBuffer(pValue, bufferLen);        }
 
-        public override void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value)
+        /// <inheritdoc />
+        public override void ConfigGravarValor(string eSessao, string eChave, string eValor)
         {
-            if (value == null) return;
+          
+            var method =acbrGTINBridge. GetMethod<ACBrGTINHandle.GTIN_ConfigGravarValor>();
 
-            var method = GetMethod<GTIN_ConfigGravarValor>();
-            var propValue = ConvertValue(value);
-
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), ToUTF8(propValue)));
+            var ret = acbrGTINBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), ToUTF8(eValor)));
             CheckResult(ret);
         }
-
+        /// <inheritdoc />
         public override string OpenSSLInfo()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<GTIN_OpenSSLInfo>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method =acbrGTINBridge. GetMethod<ACBrGTINHandle.GTIN_OpenSSLInfo>();
+            var ret = acbrGTINBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         #endregion Ini
 
         #region Diversos
 
+        /// <inheritdoc />
         public string Consultar(string aGTIN)
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<GTIN_Consultar>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(aGTIN), buffer, ref bufferLen));
+            var method =acbrGTINBridge. GetMethod<ACBrGTINHandle.GTIN_Consultar>();
+            var ret = acbrGTINBridge.ExecuteMethod(() => method(libHandle, ToUTF8(aGTIN), buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         #endregion Diversos
 
         #region Private Methods
 
+        /// <inheritdoc />
         public override void Finalizar()
         {
-            var finalizarLib = GetMethod<GTIN_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizarLib(libHandle));
+            var finalizarLib =acbrGTINBridge. GetMethod<ACBrGTINHandle.GTIN_Finalizar>();
+            var codRet = acbrGTINBridge.ExecuteMethod(() => finalizarLib(libHandle));
             CheckResult(codRet);
             libHandle = IntPtr.Zero;
         }
 
+        /// <inheritdoc />
         protected override string GetUltimoRetorno(int iniBufferLen = 0)
         {
             var bufferLen = iniBufferLen < 1 ? BUFFER_LEN : iniBufferLen;
             var buffer = new StringBuilder(bufferLen);
-            var ultimoRetorno = GetMethod<GTIN_UltimoRetorno>();
+            var ultimoRetorno =acbrGTINBridge. GetMethod<ACBrGTINHandle.GTIN_UltimoRetorno>();
 
             if (iniBufferLen < 1)
             {
-                ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
+                acbrGTINBridge.ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
                 if (bufferLen <= BUFFER_LEN) return FromUTF8(buffer);
 
                 buffer.Capacity = bufferLen;
             }
 
-            ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
+            acbrGTINBridge.ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
             return FromUTF8(buffer);
         }
 
         #endregion Private Methods
 
+        /// <inheritdoc/>
+        protected void Dispose(bool disposing)
+        {
+           if (disposed) return;
+           
+            if (disposing)
+            {
+                Finalizar();
+            }
+            disposed = true;
+        }
+
+
+        /// <summary>
+        /// Libera os recursos utilizados pela classe ACBrGTIN
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
         #endregion Metodos
+
     }
 }

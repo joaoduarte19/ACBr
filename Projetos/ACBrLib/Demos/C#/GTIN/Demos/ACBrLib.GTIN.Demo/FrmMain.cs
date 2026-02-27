@@ -14,7 +14,7 @@ namespace ACBrLibGTIN.Demo
     {
         #region Fields
 
-        private ACBrGTIN ACBrGTIN;
+        private IACBrLibGTIN ACBrGTIN;
 
         #endregion Fields
 
