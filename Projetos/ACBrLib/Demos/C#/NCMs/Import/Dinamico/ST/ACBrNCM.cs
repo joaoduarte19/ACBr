@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -10,7 +10,7 @@ using ACBrLib.NCM;
 namespace ACBrLib.NCM
 {
     /// <inheritdoc />
-    public sealed partial class ACBrNCM : ACBrLibHandle
+    public sealed partial class ACBrNCM : ACBrLibHandle, IACBrLibNCM
     {
         #region Constructors
 
@@ -32,41 +32,41 @@ namespace ACBrLib.NCM
 
         #region Properties
 
-        public string Nome
-        {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
-
-                var method = GetMethod<NCM_Nome>();
-                var ret = ExecuteMethod(() => method(buffer, ref bufferLen));
-
-                CheckResult(ret);
-
-                return ProcessResult(buffer, bufferLen);
-            }
-        }
-
-        public string Versao
-        {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
-
-                var method = GetMethod<NCM_Versao>();
-                var ret = ExecuteMethod(() => method(buffer, ref bufferLen));
-
-                CheckResult(ret);
-
-                return ProcessResult(buffer, bufferLen);
-            }
-        }
-
         public ACBrNCMConfig Config { get; }
 
         #endregion Properties
+
+        #region IACBrLibBase (Nome e Versao como métodos)
+
+        /// <inheritdoc />
+        public string Nome()
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = GetMethod<NCM_Nome>();
+            var ret = ExecuteMethod(() => method(buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return ProcessResult(buffer, bufferLen);
+        }
+
+        /// <inheritdoc />
+        public string Versao()
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = GetMethod<NCM_Versao>();
+            var ret = ExecuteMethod(() => method(buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return ProcessResult(buffer, bufferLen);
+        }
+
+        #endregion IACBrLibBase
 
         #region Metodos
 

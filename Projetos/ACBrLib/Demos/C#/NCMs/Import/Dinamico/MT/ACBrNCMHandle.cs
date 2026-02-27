@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
+using ACBrLib.Core;
 
 namespace ACBrLib.NCM
 {
-    public sealed partial class ACBrNCM
+    internal sealed class ACBrNCMHandle : ACBrLibHandleBase
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int NCM_Inicializar(ref IntPtr handle, string eArqConfig, string eChaveCrypt);
@@ -84,5 +83,16 @@ namespace ACBrLib.NCM
             AddMethod<NCM_BuscarPorDescricao>("NCM_BuscarPorDescricao");
             AddMethod<NCM_OpenSSLInfo>("NCM_OpenSSLInfo");
         }
+
+        protected override string GetLibraryName()
+        {
+            var arch = Environment.Is64BitProcess ? "64" : "32";
+            if (PlatformID.Unix == Environment.OSVersion.Platform)
+                return $"libacbrncms{arch}.so";
+            return $"ACBrNCMs{arch}.dll";
+        }
+
+        private static readonly Lazy<ACBrNCMHandle> instance = new Lazy<ACBrNCMHandle>(() => new ACBrNCMHandle());
+        public static ACBrNCMHandle Instance => instance.Value;
     }
 }
