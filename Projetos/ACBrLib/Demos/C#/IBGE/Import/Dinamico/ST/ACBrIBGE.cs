@@ -10,7 +10,7 @@ using ACBrLib.IBGE;
 namespace ACBrLib.IBGE
 {
     /// <inheritdoc />
-    public sealed partial class ACBrIBGE : ACBrLibHandle
+    public sealed partial class ACBrIBGE : ACBrLibHandle, IACBrLibIBGE
     {
 				
         #region Constructors
@@ -19,7 +19,7 @@ namespace ACBrLib.IBGE
                                                                                       IsWindows ? "ACBrIBGE32.dll" : "libacbribge32.so")
         {
             Inicializar(eArqConfig, eChaveCrypt);
-            Config = new ACBrCEPConfig(this);
+            Config = new ACBrIBGEConfig(this);
         }
 
         public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
@@ -65,7 +65,7 @@ namespace ACBrLib.IBGE
             }
         }
 
-        public ACBrCEPConfig Config { get; }
+        public ACBrIBGEConfig Config { get; }
 
         #endregion Properties
 

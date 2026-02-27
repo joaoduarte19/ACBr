@@ -4,10 +4,11 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using ACBrLib.Core;
 
 namespace ACBrLib.IBGE
 {
-    public sealed partial class ACBrIBGE
+    internal sealed class ACBrIBGEHandle : ACBrLibHandleBase
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int IBGE_Inicializar(ref IntPtr handle, string eArqConfig, string eChaveCrypt);
@@ -68,5 +69,19 @@ namespace ACBrLib.IBGE
             AddMethod<IBGE_BuscarPorNome>("IBGE_BuscarPorNome");
             AddMethod<IBGE_OpenSSLInfo>("IBGE_OpenSSLInfo");
         }
+
+        protected override string GetLibraryName()
+        {
+            var arch = Environment.Is64BitProcess ? "64" : "32";
+            if (PlatformID.Unix == Environment.OSVersion.Platform)
+            {
+                return $"libacbribge{arch}.so";
+            }
+            return $"ACBrIBGE{arch}.dll";
+
+        }
+
+        static readonly Lazy<ACBrIBGEHandle> instance = new Lazy<ACBrIBGEHandle>(() => new ACBrIBGEHandle());
+        public static ACBrIBGEHandle Instance => instance.Value;
     }
 }
