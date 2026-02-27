@@ -52,6 +52,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/02/2026
+-- Diversos --
+[*] ACBR-9037: Implementada NT 2026/006 e atualizados schemas
+  Por: Renato Rubinho
+
 25/11/2025
 -- Diversos --
 [*] ACBR-8343: Implementada NT 2025/005

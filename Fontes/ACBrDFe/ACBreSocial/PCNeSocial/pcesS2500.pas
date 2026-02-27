@@ -499,11 +499,13 @@ type
     FufVara: string;
     FcodMunic: Integer;
     FidVara: Integer;
+    FinfoPatPrec: double;
   public
     property dtSent: TDateTime read FDtSent write FDtSent;
     property ufVara: string read FUfVara write FUfVara;
     property codMunic: Integer read FCodMunic write FCodMunic;
     property idVara: Integer read FIdVara write FIdVara;
+    property infoPatPrec: double read FinfoPatPrec write FinfoPatPrec;
   end;
 
   TInfoCCP = class(TObject)
@@ -1340,6 +1342,7 @@ begin
   Gerador.wCampo(tcStr, '', 'ufVara',    2,  2, 0, obj.ufVara);
   Gerador.wCampo(tcInt, '', 'codMunic',  7,  7, 1, obj.codMunic);
   Gerador.wCampo(tcInt, '', 'idVara',    4,  4, 1, obj.idVara);
+  Gerador.wCampo(tcDe2, '', 'infoPatPrec',1, 14, 0, obj.infoPatPrec);
 
   Gerador.wGrupo('/infoProcJud');
 end;
@@ -1875,6 +1878,7 @@ begin
       infoProcesso.dadosCompl.infoProcJud.ufVara   := INIRec.ReadString(sSecao, 'ufVara', EmptyStr);
       infoProcesso.dadosCompl.infoProcJud.codMunic := INIRec.ReadInteger(sSecao, 'codMunic', 0);
       infoProcesso.dadosCompl.infoProcJud.idVara   := INIRec.ReadInteger(sSecao, 'idVara', 0);
+      infoProcesso.dadosCompl.infoProcJud.infoPatPrec := StringToFloatDef(INIRec.ReadString(sSecao, 'infoPatPrec', EmptyStr), 0);
 
       sSecao := 'infoCCP';
       sFim := INIRec.ReadString(sSecao, 'dtCCP', '');
