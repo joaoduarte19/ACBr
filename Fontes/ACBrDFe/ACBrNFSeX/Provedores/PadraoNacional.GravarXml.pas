@@ -376,6 +376,8 @@ begin
 end;
 
 function TNFSeW_PadraoNacional.GerarXMLValoresNFSe: TACBrXmlNode;
+var
+  LvTotalRet: double;
 begin
   Result := CreateElement('valores');
 
@@ -408,8 +410,12 @@ begin
   Result.AppendChild(AddNode(tcDe2, '#1', 'vISSQN', 1, 15, 0,
                                             NFSe.Servico.Valores.ValorIss, ''));
 
-  Result.AppendChild(AddNode(tcDe2, '#1', 'vTotalRet', 1, 15, 0,
-                                      NFSe.Servico.Valores.ValorIssRetido, ''));
+  if NFSe.infNFSe.valores.vTotalRet > 0 then
+    LvTotalRet := NFSe.infNFSe.valores.vTotalRet
+  else
+    LvTotalRet := NFSe.Servico.Valores.ValorIssRetido;
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vTotalRet', 1, 15, 0, LvTotalRet, ''));
 
   Result.AppendChild(AddNode(tcDe2, '#1', 'vLiq', 1, 15, 1,
                                     NFSe.Servico.Valores.ValorLiquidoNfse, ''));
