@@ -1,25 +1,40 @@
-﻿using System;
+using System;
 using System.Text;
 using ACBrLib.Core;
 using ACBrLib.Core.Mail;
 
 namespace ACBrLib.Mail
 {
-    public sealed partial class ACBrMail : ACBrLibHandle
+    /// <summary>
+    /// Implementação de alto nível da biblioteca ACBrLib Mail para uso em aplicações .NET (Multi-Thread).
+    /// </summary>
+    public class ACBrMail : ACBrLibBase, IACBrLibMail
     {
+        #region Fields
+
+        private IntPtr libHandle = IntPtr.Zero;
+        private bool disposed;
+        private ACBrMailHandle mailBridge;
+
+        #endregion Fields
+
         #region Constructors
 
-        public ACBrMail(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrMail64.dll" : "libacbrmail64.so",
-                                                                                IsWindows ? "ACBrMail32.dll" : "libacbrmail32.so")
+        /// <summary>
+        /// Cria uma nova instância do componente ACBrMail.
+        /// </summary>
+        public ACBrMail(string eArqConfig = "", string eChaveCrypt = "") : base(eArqConfig, eChaveCrypt)
         {
+            mailBridge = ACBrMailHandle.Instance;
             Inicializar(eArqConfig, eChaveCrypt);
             Config = new MailConfig(this);
         }
 
+        /// <inheritdoc />
         public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
         {
-            var inicializarLib = GetMethod<MAIL_Inicializar>();
-            var ret = ExecuteMethod<int>(() => inicializarLib(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            var inicializar = mailBridge.GetMethod<ACBrMailHandle.MAIL_Inicializar>();
+            var ret = mailBridge.ExecuteMethod<int>(() => inicializar(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
             CheckResult(ret);
         }
 
@@ -27,248 +42,248 @@ namespace ACBrLib.Mail
 
         #region Properties
 
-        public string Nome
+        /// <inheritdoc />
+        public override string Nome()
         {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
-
-                var method = GetMethod<MAIL_Nome>();
-                var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
-
-                CheckResult(ret);
-
-                return ProcessResult(buffer, bufferLen);
-            }
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_Nome>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            CheckResult(ret);
+            return CheckBuffer(buffer, bufferLen);
         }
 
-        public string Versao
+        /// <inheritdoc />
+        public override string Versao()
         {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
-
-                var method = GetMethod<MAIL_Versao>();
-                var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
-
-                CheckResult(ret);
-
-                return ProcessResult(buffer, bufferLen);
-            }
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_Versao>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            CheckResult(ret);
+            return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc />
         public MailConfig Config { get; }
 
         #endregion Properties
 
-        #region Methods
+        #region Config
 
-        #region Ini
-
+        /// <inheritdoc />
         public override void ConfigGravar(string eArqConfig = "")
         {
-            var gravarIni = GetMethod<MAIL_ConfigGravar>();
-            var ret = ExecuteMethod(() => gravarIni(libHandle, ToUTF8(eArqConfig)));
-
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_ConfigGravar>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eArqConfig)));
             CheckResult(ret);
         }
 
-        public override void ConfigLer(string eArqConfig = "")
-        {
-            var lerIni = GetMethod<MAIL_ConfigLer>();
-            var ret = ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
-
-            CheckResult(ret);
-        }
-
-        public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
-        {
-            var method = GetMethod<MAIL_ConfigLerValor>();
-
-            var bufferLen = BUFFER_LEN;
-            var pValue = new StringBuilder(bufferLen);
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), pValue, ref bufferLen));
-            CheckResult(ret);
-
-            var value = ProcessResult(pValue, bufferLen);
-            return ConvertValue<T>(value);
-        }
-
-        public override void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value)
-        {
-            if (value == null) return;
-
-            var method = GetMethod<MAIL_ConfigGravarValor>();
-            var propValue = ConvertValue(value);
-
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), ToUTF8(propValue)));
-            CheckResult(ret);
-        }
-
+        /// <inheritdoc />
         public override void ImportarConfig(string eArqConfig = "")
         {
-            var importarConfig = GetMethod<MAIL_ConfigImportar>();
-            var ret = ExecuteMethod(() => importarConfig(libHandle, ToUTF8(eArqConfig)));
-
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_ConfigImportar>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eArqConfig)));
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public override string ExportarConfig()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
-
-            var method = GetMethod<MAIL_ConfigExportar>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
-
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_ConfigExportar>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
             CheckResult(ret);
-
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
-        #endregion Ini
-
-        public void SetSubject(string subject)
+        /// <inheritdoc />
+        public override void ConfigLer(string eArqConfig = "")
         {
-            var method = GetMethod<MAIL_SetSubject>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(subject)));
-
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_ConfigLer>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eArqConfig)));
             CheckResult(ret);
         }
 
-        public void AddAddress(string eEmail, string eName)
+        /// <inheritdoc />
+        public override string ConfigLerValor(string eSessao, string eChave)
         {
-            var method = GetMethod<MAIL_AddAddress>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eEmail), ToUTF8(eName)));
-
+            var bufferLen = BUFFER_LEN;
+            var pValue = new StringBuilder(bufferLen);
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_ConfigLerValor>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao), ToUTF8(eChave), pValue, ref bufferLen));
             CheckResult(ret);
+            return CheckBuffer(pValue, bufferLen);
         }
 
-        public void AddReplyTo(string eEmail, string eName)
+        /// <inheritdoc />
+        public override void ConfigGravarValor(string eSessao, string eChave, string eValor)
         {
-            var method = GetMethod<MAIL_AddReplyTo>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eEmail), ToUTF8(eName)));
-
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_ConfigGravarValor>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao), ToUTF8(eChave), ToUTF8(eValor)));
             CheckResult(ret);
         }
 
-        public void AddCC(string eEmail, string eName)
-        {
-            var method = GetMethod<MAIL_AddCC>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eEmail), ToUTF8(eName)));
+        #endregion Config
 
-            CheckResult(ret);
-        }
+        #region Mail
 
-        public void AddBCC(string eEmail, string eName)
-        {
-            var method = GetMethod<MAIL_AddBCC>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eEmail)));
-
-            CheckResult(ret);
-        }
-
-        public void AddAttachment(string eFileName, string eDescription, MailAttachmentDisposition aDisposition)
-        {
-            var method = GetMethod<MAIL_AddAttachment>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eFileName), ToUTF8(eDescription), (int)aDisposition));
-
-            CheckResult(ret);
-        }
-
-        public void ClearAttachment()
-        {
-            var method = GetMethod<MAIL_ClearAttachment>();
-            var ret = ExecuteMethod(() => method(libHandle));
-
-            CheckResult(ret);
-        }
-
-        public void AddBody(string eBody)
-        {
-            var method = GetMethod<MAIL_AddBody>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eBody)));
-
-            CheckResult(ret);
-        }
-
-        public void AddAltBody(string eAltBody)
-        {
-            var method = GetMethod<MAIL_AddAltBody>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eAltBody)));
-
-            CheckResult(ret);
-        }
-
-        public void SaveToFile(string eFileName)
-        {
-            var method = GetMethod<MAIL_SaveToFile>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eFileName)));
-
-            CheckResult(ret);
-        }
-
+        /// <inheritdoc />
         public void Clear()
         {
-            var method = GetMethod<MAIL_Clear>();
-            var ret = ExecuteMethod(() => method(libHandle));
-
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_Clear>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle));
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
+        public void SetSubject(string subject)
+        {
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_SetSubject>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle, ToUTF8(subject)));
+            CheckResult(ret);
+        }
+
+        /// <inheritdoc />
+        public void AddAddress(string eEmail, string eName)
+        {
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_AddAddress>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eEmail), ToUTF8(eName)));
+            CheckResult(ret);
+        }
+
+        /// <inheritdoc />
+        public void AddReplyTo(string eEmail, string eName)
+        {
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_AddReplyTo>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eEmail), ToUTF8(eName)));
+            CheckResult(ret);
+        }
+
+        /// <inheritdoc />
+        public void AddCC(string eEmail, string eName)
+        {
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_AddCC>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eEmail), ToUTF8(eName)));
+            CheckResult(ret);
+        }
+
+        /// <inheritdoc />
+        public void AddBCC(string eEmail, string eName)
+        {
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_AddBCC>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eEmail)));
+            CheckResult(ret);
+        }
+
+        /// <inheritdoc />
+        public void AddBody(string eBody)
+        {
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_AddBody>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eBody)));
+            CheckResult(ret);
+        }
+
+        /// <inheritdoc />
+        public void AddAltBody(string eAltBody)
+        {
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_AddAltBody>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eAltBody)));
+            CheckResult(ret);
+        }
+
+        /// <inheritdoc />
+        public void ClearAttachment()
+        {
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_ClearAttachment>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle));
+            CheckResult(ret);
+        }
+
+        /// <inheritdoc />
+        public void AddAttachment(string eFileName, string eDescription, MailAttachmentDisposition aDisposition)
+        {
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_AddAttachment>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eFileName), ToUTF8(eDescription), (int)aDisposition));
+            CheckResult(ret);
+        }
+
+        /// <inheritdoc />
         public void Send()
         {
-            var method = GetMethod<MAIL_Send>();
-            var ret = ExecuteMethod(() => method(libHandle));
-
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_Send>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle));
             CheckResult(ret);
         }
 
-        #region Private Methods
+        /// <inheritdoc />
+        public void SaveToFile(string eFileName)
+        {
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_SaveToFile>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eFileName)));
+            CheckResult(ret);
+        }
 
+        #endregion Mail
+
+        #region Private
+
+        /// <inheritdoc />
         public override void Finalizar()
         {
-            var finalizarLib = GetMethod<MAIL_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizarLib(libHandle));
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_Finalizar>();
+            var codRet = mailBridge.ExecuteMethod(() => method(libHandle));
             CheckResult(codRet);
             libHandle = IntPtr.Zero;
         }
 
+        /// <inheritdoc />
         protected override string GetUltimoRetorno(int iniBufferLen = 0)
         {
             var bufferLen = iniBufferLen < 1 ? BUFFER_LEN : iniBufferLen;
             var buffer = new StringBuilder(bufferLen);
-            var ultimoRetorno = GetMethod<MAIL_UltimoRetorno>();
-
+            var ultimoRetorno = mailBridge.GetMethod<ACBrMailHandle.MAIL_UltimoRetorno>();
             if (iniBufferLen < 1)
             {
-                ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
+                mailBridge.ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
                 if (bufferLen <= BUFFER_LEN) return FromUTF8(buffer);
-
                 buffer.Capacity = bufferLen;
             }
-
-            ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
+            mailBridge.ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
             return FromUTF8(buffer);
         }
 
+        /// <inheritdoc />
         public override string OpenSSLInfo()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
-
-            var method = GetMethod<MAIL_OpenSSLInfo>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
-
+            var method = mailBridge.GetMethod<ACBrMailHandle.MAIL_OpenSSLInfo>();
+            var ret = mailBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
             CheckResult(ret);
-
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
-        #endregion Private Methods
+        #endregion Private
 
-        #endregion Methods
+        #region IDisposable
+
+        /// <inheritdoc />
+        protected void Dispose(bool disposing)
+        {
+            if (disposed) return;
+            if (disposing) Finalizar();
+            disposed = true;
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion IDisposable
     }
 }

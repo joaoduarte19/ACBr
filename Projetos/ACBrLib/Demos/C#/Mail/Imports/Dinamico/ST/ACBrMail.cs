@@ -1,10 +1,11 @@
-﻿using System.Text;
+using System.Text;
 using ACBrLib.Core;
 using ACBrLib.Core.Mail;
 
 namespace ACBrLib.Mail
 {
-    public sealed partial class ACBrMail : ACBrLibHandle
+    /// <inheritdoc />
+    public sealed partial class ACBrMail : ACBrLibHandle, IACBrLibMail
     {
         #region Constructors
 

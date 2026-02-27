@@ -9,7 +9,7 @@ namespace ACBrLibMail.Demo
     {
         #region Fields
 
-        private ACBrMail acBrMail;
+        private IACBrLibMail acBrMail;
 
         #endregion Fields
 

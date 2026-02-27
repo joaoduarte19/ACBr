@@ -15,7 +15,7 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <Version>1.0.6.0</Version>
+    <Version>1.0.7.0</Version>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -48,6 +48,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\Shared\IACBrLibMail.cs" Link="IACBrLibMail.cs" />
     <Compile Include="..\Shared\MailConfig.cs" Link="MailConfig.cs" />
   </ItemGroup>
 
