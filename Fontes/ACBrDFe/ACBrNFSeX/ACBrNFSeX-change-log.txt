@@ -42,6 +42,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+28/02/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9018 - A cidade São Caetano do Sul/SP mudou de provedor, agora é Giss.
+   Por: João Siscom
+[*] ACBR-896 - A cidade Olimpia/SP mudou de provedor, agora é Giss.
+   Por: Murilo Esteves OlimTec
+
 27/02/2026
 -- ACBrNFSeXServicos --
 [*] Alteração nas seções de alguns provedores para realizar a leitura do parâmetro: ServicosPadraoNacional.
