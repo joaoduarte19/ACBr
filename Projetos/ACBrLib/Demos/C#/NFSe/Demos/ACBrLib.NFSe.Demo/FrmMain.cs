@@ -6,9 +6,7 @@ using ACBrLib.Core;
 using ACBrLib.Core.DFe;
 using ACBrLib.Core.Extensions;
 using ACBrLib.Core.NFSe;
-using ACBrLib.Core.PosPrinter;
 using ACBrLib.NFSe;
-using ACBrLib.Core.Config;
 using System.Linq;
 namespace ACBrLibNFSe.Demo
 {
