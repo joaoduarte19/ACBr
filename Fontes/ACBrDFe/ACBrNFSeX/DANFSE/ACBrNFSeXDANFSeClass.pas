@@ -122,6 +122,7 @@ type
   TACBrNFSeXDANFSeClass = class(TACBrDFeReport)
   private
     FProducao: TnfseSimNao;
+    FLogoNFSe: String;
 
     procedure SetACBrNFSe(const Value: TComponent);
     procedure ErroAbstract( const NomeProcedure: String );
@@ -163,12 +164,13 @@ type
     property Atividade: String read FAtividade write FAtividade;
     property Cancelada: Boolean read FNFSeCancelada write FNFSeCancelada;
     property ImprimeCanhoto: Boolean read FImprimeCanhoto write FImprimeCanhoto default False;
-    property TipoDANFSE: TTipoDANFSE read FTipoDANFSE write FTipoDANFSE default tpPadrao;
+    property TipoDANFSE: TTipoDANFSE read FTipoDANFSE write FTipoDANFSE default tpGeral;
     property TamanhoFonte: Integer read FTamanhoFonte write FTamanhoFonte;
     property FormatarNumeroDocumentoNFSe: Boolean read FFormatarNumeroDocumentoNFSe write FFormatarNumeroDocumentoNFSe;
     property Provedor: TNFSeProvedor read FProvedor write FProvedor;
     property Producao: TnfseSimNao read FProducao write FProducao;
     property DataCompetenciaCompleta: Boolean read FDataCompetenciaCompleta write FDataCompetenciaCompleta default False;
+    property LogoNFSe: String read FLogoNFSe write FLogoNFSe;
   end;
 
 implementation
@@ -242,6 +244,7 @@ begin
   FFormatarNumeroDocumentoNFSe := True;
   FNFSeCancelada := False;
   FProvedor := proNenhum;
+  FLogoNFSe := '';
 end;
 
 destructor TACBrNFSeXDANFSeClass.Destroy;

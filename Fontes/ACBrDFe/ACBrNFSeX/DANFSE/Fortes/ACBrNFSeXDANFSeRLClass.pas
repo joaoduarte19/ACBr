@@ -39,7 +39,8 @@ interface
 uses
   SysUtils, Classes,
   ACBrBase,
-  ACBrNFSeXClass, ACBrNFSeXDANFSeClass;
+  ACBrNFSeXClass,
+  ACBrNFSeXDANFSeClass;
 
 type
   {$IFDEF RTL230_UP}
@@ -70,8 +71,13 @@ implementation
 
 uses
   ACBrUtil.FilesIO,
-  ACBrNFSeX, ACBrNFSeXConversao, ACBrNFSeXDANFSeRL,
-  ACBrNFSeXDANFSeRLRetrato, ACBrNFSeXDANFSeRLSimplISS, ACBrNFSeXDANFSeRLISSNet;
+  ACBrNFSeX,
+  ACBrNFSeXConversao,
+  ACBrNFSeXDANFSeRL,
+  ACBrNFSeXDANFSeRLRetrato,
+  ACBrNFSeXDANFSeRLSimplISS,
+  ACBrNFSeXDANFSeRLISSNet,
+  ACBrNFSeXDANFSeRLPadraoNacional;
 
 constructor TACBrNFSeXDANFSeRL.Create(AOwner: TComponent);
 begin
@@ -92,17 +98,25 @@ var
   i: Integer;
   Notas: array of TNFSe;
   fqrXDANFSeRLRetrato: TfrlXDANFSeRL;
+  Layout: TLayout;
 begin
   SetDadosPrestador;
   Provedor := TACBrNFSeX(ACBrNFSe).Configuracoes.Geral.Provedor;
+  Layout := TACBrNFSeX(ACBrNFSe).Configuracoes.Geral.Layout;
 
-  case Provedor of
-    proSimplISS:
-      fqrXDANFSeRLRetrato := TfrlXDANFSeRLSimplISS.Create(Self);
-    proIssNet:
-      fqrXDANFSeRLRetrato := TfrlXDANFSeRLISSNet.Create(Self);
+  if (Provedor = proPadraoNacional) or (TipoDANFSE = tpPadraoNacional) or
+     (Layout = loPadraoNacional) then
+    fqrXDANFSeRLRetrato := TfrlXDANFSeRLPadraoNacional.Create(Self)
   else
-    fqrXDANFSeRLRetrato := TfrlXDANFSeRLRetrato.Create(Self);
+  begin
+    case Provedor of
+      proSimplISS:
+        fqrXDANFSeRLRetrato := TfrlXDANFSeRLSimplISS.Create(Self);
+      proIssNet:
+        fqrXDANFSeRLRetrato := TfrlXDANFSeRLISSNet.Create(Self);
+    else
+      fqrXDANFSeRLRetrato := TfrlXDANFSeRLRetrato.Create(Self);
+    end;
   end;
 
   fqrXDANFSeRLRetrato.QuebradeLinha(TACBrNFSeX(ACBrNFSe).Provider.ConfigGeral.QuebradeLinha);
@@ -133,17 +147,25 @@ procedure TACBrNFSeXDANFSeRL.ImprimirDANFSePDF(NFSe: TNFSe);
 var
   i: integer;
   fqrXDANFSeRLRetrato: TfrlXDANFSeRL;
+  Layout: TLayout;
 begin
   SetDadosPrestador;
   Provedor := TACBrNFSeX(ACBrNFSe).Configuracoes.Geral.Provedor;
+  Layout := TACBrNFSeX(ACBrNFSe).Configuracoes.Geral.Layout;
 
-  case Provedor of
-    proSimplISS:
-      fqrXDANFSeRLRetrato := TfrlXDANFSeRLSimplISS.Create(Self);
-    proIssNet:
-      fqrXDANFSeRLRetrato := TfrlXDANFSeRLISSNet.Create(Self);
+  if (Provedor = proPadraoNacional) or (TipoDANFSE = tpPadraoNacional) or
+     (Layout = loPadraoNacional) then
+    fqrXDANFSeRLRetrato := TfrlXDANFSeRLPadraoNacional.Create(Self)
   else
-    fqrXDANFSeRLRetrato := TfrlXDANFSeRLRetrato.Create(Self);
+  begin
+    case Provedor of
+      proSimplISS:
+        fqrXDANFSeRLRetrato := TfrlXDANFSeRLSimplISS.Create(Self);
+      proIssNet:
+        fqrXDANFSeRLRetrato := TfrlXDANFSeRLISSNet.Create(Self);
+    else
+      fqrXDANFSeRLRetrato := TfrlXDANFSeRLRetrato.Create(Self);
+    end;
   end;
 
   fqrXDANFSeRLRetrato.QuebradeLinha(TACBrNFSeX(ACBrNFSe).Provider.ConfigGeral.QuebradeLinha);
@@ -176,17 +198,25 @@ procedure TACBrNFSeXDANFSeRL.ImprimirDANFSePDF(AStream: TStream; NFSe: TNFSe);
 var
   i: integer;
   fqrXDANFSeRLRetrato: TfrlXDANFSeRL;
+  Layout: TLayout;
 begin
   SetDadosPrestador;
   Provedor := TACBrNFSeX(ACBrNFSe).Configuracoes.Geral.Provedor;
+  Layout := TACBrNFSeX(ACBrNFSe).Configuracoes.Geral.Layout;
 
-  case Provedor of
-    proSimplISS:
-      fqrXDANFSeRLRetrato := TfrlXDANFSeRLSimplISS.Create(Self);
-    proIssNet:
-      fqrXDANFSeRLRetrato := TfrlXDANFSeRLISSNet.Create(Self);
+  if (Provedor = proPadraoNacional) or (TipoDANFSE = tpPadraoNacional) or
+     (Layout = loPadraoNacional) then
+    fqrXDANFSeRLRetrato := TfrlXDANFSeRLPadraoNacional.Create(Self)
   else
-    fqrXDANFSeRLRetrato := TfrlXDANFSeRLRetrato.Create(Self);
+  begin
+    case Provedor of
+      proSimplISS:
+        fqrXDANFSeRLRetrato := TfrlXDANFSeRLSimplISS.Create(Self);
+      proIssNet:
+        fqrXDANFSeRLRetrato := TfrlXDANFSeRLISSNet.Create(Self);
+    else
+      fqrXDANFSeRLRetrato := TfrlXDANFSeRLRetrato.Create(Self);
+    end;
   end;
 
   fqrXDANFSeRLRetrato.QuebradeLinha(TACBrNFSeX(ACBrNFSe).Provider.ConfigGeral.QuebradeLinha);

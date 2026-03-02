@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+02/03/2026
+-- Diversos --
+[+] ACBR-8724 - Implementado o DANFSE em Fortes Report com o layout do Padrão Nacional.
+    Criado a propriedade LogoNFSe para informar o caminho e o nome da imagem do Logo da NFS-e.
+   Por: Italo Giurizzato Junior
+
 28/02/2026
 -- ACBrNFSeXServicos --
 [*] ACBR-9018 - A cidade São Caetano do Sul/SP mudou de provedor, agora é Giss.

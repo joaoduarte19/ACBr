@@ -65,7 +65,7 @@ type
 
   TAssinaturas = (taConfigProvedor, taAssinar, taNaoAssinar);
 
-  TTipoDANFSE = (tpPadrao, tpISSDSF, tpFiorilli);
+  TTipoDANFSE = (tpGeral, tpPadraoNacional);
 
   {
     Tipos que tem Funções de conversão, mas elas estão interfaceadas
