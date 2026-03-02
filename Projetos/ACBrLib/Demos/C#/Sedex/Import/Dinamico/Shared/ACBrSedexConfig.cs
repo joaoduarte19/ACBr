@@ -1,14 +1,29 @@
-﻿using ACBrLib.Core;
+using ACBrLib.Core;
 using ACBrLib.Core.Config;
-using ACBrLib.Core.IBGE;
 
-namespace ACBrLib.IBGE
+namespace ACBrLib.Sedex
 {
-    public sealed class ACBrSedexConfig : ACBrLibConfig<ACBrSedex>
+    /// <summary>
+    /// Classe de configuração de alto nível para a biblioteca ACBrLib Sedex.
+    /// <para>
+    /// Mapeia as chaves da sessão <c>[Sedex]</c> do arquivo de configuração da ACBrLib,
+    /// utilizadas para autenticação no webservice dos Correios.
+    /// </para>
+    /// <para>
+    /// Documentação: <see href="https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca10.html">
+    /// Configurações da Biblioteca - ACBrLibSedex
+    /// </see>.
+    /// </para>
+    /// </summary>
+    public sealed class ACBrSedexConfig : ACBrLibConfig<IACBrLibSedex>
     {
         #region Constructors
 
-        public ACBrSedexConfig(ACBrSedex acbrlib) : base(acbrlib, ACBrSessao.IBGE)
+        /// <summary>
+        /// Cria uma instância de configuração Sedex associada à biblioteca informada.
+        /// </summary>
+        /// <param name="acbrlib">Instância da interface do ACBrLib Sedex.</param>
+        public ACBrSedexConfig(IACBrLibSedex acbrlib) : base(acbrlib, ACBrSessao.Sedex)
         {
         }
 
@@ -16,9 +31,21 @@ namespace ACBrLib.IBGE
 
         #region Properties
 
-        public bool IgnorarCaixaEAcentos
+        /// <summary>
+        /// Código do contrato para usar o webservice dos Correios (<c>CodContrato</c>).
+        /// </summary>
+        public string CodContrato
         {
-            get => GetProperty<bool>();
+            get => GetProperty<string>();
+            set => SetProperty(value);
+        }
+
+        /// <summary>
+        /// Senha para usar o webservice dos Correios (<c>Senha</c>).
+        /// </summary>
+        public string Senha
+        {
+            get => GetProperty<string>();
             set => SetProperty(value);
         }
 

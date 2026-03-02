@@ -11,7 +11,7 @@ namespace ACBrLibSedex.Demo
     {
         #region Fields
 
-        private ACBrSedex ACBrSedex;
+        private IACBrLibSedex ACBrSedex;
 
         #endregion Fields
 

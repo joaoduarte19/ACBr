@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -9,7 +9,7 @@ using ACBrLib.Sedex;
 namespace ACBrLib.Sedex
 {
     /// <inheritdoc />
-    public sealed partial class ACBrSedex : ACBrLibHandle
+    public sealed partial class ACBrSedex : ACBrLibHandle, IACBrLibSedex
     {
 				
         #region Constructors
@@ -209,5 +209,11 @@ namespace ACBrLib.Sedex
         #endregion Private Methods
 
         #endregion Metodos
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            // ACBrLibHandle (SafeHandle) gerencia o ciclo de vida; interface IDisposable satisfeita.
+        }
     }
 }

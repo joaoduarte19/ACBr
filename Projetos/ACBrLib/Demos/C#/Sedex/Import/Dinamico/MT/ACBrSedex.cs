@@ -1,70 +1,71 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Runtime.InteropServices;
+using System;
 using System.Text;
 using ACBrLib.Core;
-using ACBrLib.Sedex;
 
 namespace ACBrLib.Sedex
 {
     /// <inheritdoc />
-    public sealed partial class ACBrSedex : ACBrLibHandle
+    public class ACBrSedex : ACBrLibBase, IACBrLibSedex
     {
-				
+        #region Fields
+
+        private IntPtr libHandle = IntPtr.Zero;
+        private bool disposed;
+        private readonly ACBrSedexHandle sedexBridge;
+
+        #endregion Fields
+
         #region Constructors
 
-        public ACBrSedex(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrSedex64.dll" : "libacbrsedex64.so",
-                                                                                      IsWindows ? "ACBrSedex32.dll" : "libacbrsedex32.so")
+        /// <inheritdoc />
+        public ACBrSedex(string eArqConfig = "", string eChaveCrypt = "") : base(eArqConfig, eChaveCrypt)
         {
+            sedexBridge = ACBrSedexHandle.Instance;
             Inicializar(eArqConfig, eChaveCrypt);
             Config = new ACBrSedexConfig(this);
         }
 
-        public override void Inicializar(string eArqConfig, string eChaveCrypt)
+        /// <inheritdoc />
+        public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
         {
-            var inicializar = GetMethod<Sedex_Inicializar>();
-            var ret = ExecuteMethod(() => inicializar(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            var inicializar = sedexBridge.GetMethod<ACBrSedexHandle.Sedex_Inicializar>();
+            var ret = sedexBridge.ExecuteMethod<int>(() => inicializar(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
             CheckResult(ret);
-           
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public string Nome
+        /// <inheritdoc />
+        public override string Nome()
         {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
 
-                var method = GetMethod<Sedex_Nome>();
-                var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = sedexBridge.GetMethod<ACBrSedexHandle.Sedex_Nome>();
+            var ret = sedexBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
-                CheckResult(ret);
+            CheckResult(ret);
 
-                return ProcessResult(buffer, bufferLen);
-            }
+            return CheckBuffer(buffer, bufferLen);
         }
 
-        public string Versao
+        /// <inheritdoc />
+        public override string Versao()
         {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
 
-                var method = GetMethod<Sedex_Versao>();
-                var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = sedexBridge.GetMethod<ACBrSedexHandle.Sedex_Versao>();
+            var ret = sedexBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
-                CheckResult(ret);
+            CheckResult(ret);
 
-                return ProcessResult(buffer, bufferLen);
-            }
+            return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc />
         public ACBrSedexConfig Config { get; }
 
         #endregion Properties
@@ -73,64 +74,65 @@ namespace ACBrLib.Sedex
 
         #region Ini
 
+        /// <inheritdoc />
         public override void ConfigGravar(string eArqConfig = "")
         {
-            var gravarIni = GetMethod<Sedex_ConfigGravar>();
-            var ret = ExecuteMethod(() => gravarIni(libHandle, ToUTF8(eArqConfig)));
+            var gravarIni = sedexBridge.GetMethod<ACBrSedexHandle.Sedex_ConfigGravar>();
+            var ret = sedexBridge.ExecuteMethod(() => gravarIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public override void ImportarConfig(string eArqConfig)
         {
-            var lerIni = GetMethod<Sedex_ConfigImportar>();
-            var ret = ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
+            var lerIni = sedexBridge.GetMethod<ACBrSedexHandle.Sedex_ConfigImportar>();
+            var ret = sedexBridge.ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc />
         public override string ExportarConfig()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Sedex_ConfigExportar>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = sedexBridge.GetMethod<ACBrSedexHandle.Sedex_ConfigExportar>();
+            var ret = sedexBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc />
         public override void ConfigLer(string eArqConfig = "")
         {
-            var lerIni = GetMethod<Sedex_ConfigLer>();
-            var ret = ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
+            var lerIni = sedexBridge.GetMethod<ACBrSedexHandle.Sedex_ConfigLer>();
+            var ret = sedexBridge.ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
-        public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
+        /// <inheritdoc />
+        public override string ConfigLerValor(string eSessao, string eChave)
         {
-            var method = GetMethod<Sedex_ConfigLerValor>();
+            var method = sedexBridge.GetMethod<ACBrSedexHandle.Sedex_ConfigLerValor>();
 
             var bufferLen = BUFFER_LEN;
             var pValue = new StringBuilder(bufferLen);
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), pValue, ref bufferLen));
+            var ret = sedexBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao), ToUTF8(eChave), pValue, ref bufferLen));
             CheckResult(ret);
 
-            var value = ProcessResult(pValue, bufferLen);
-            return ConvertValue<T>(value);
+            return CheckBuffer(pValue, bufferLen);
         }
 
-        public override void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value)
+        /// <inheritdoc />
+        public override void ConfigGravarValor(string eSessao, string eChave, string eValor)
         {
-            if (value == null) return;
-
-            var method = GetMethod<Sedex_ConfigGravarValor>();
-            var propValue = ConvertValue(value);
-
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), ToUTF8(propValue)));
+            var method = sedexBridge.GetMethod<ACBrSedexHandle.Sedex_ConfigGravarValor>();
+            var ret = sedexBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao), ToUTF8(eChave), ToUTF8(eValor)));
             CheckResult(ret);
         }
 
@@ -138,77 +140,109 @@ namespace ACBrLib.Sedex
 
         #region Diversos
 
-        public string Consultar()
-        {
-            var bufferLen = BUFFER_LEN;
-            var buffer = new StringBuilder(bufferLen);
-
-            var method = GetMethod<Sedex_Consultar>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
-
-            CheckResult(ret);
-
-            return ProcessResult(buffer, bufferLen);
-        }
-
-        public string Rastrear(string eCodRastreio)
-        {
-            var bufferLen = BUFFER_LEN;
-            var buffer = new StringBuilder(bufferLen);
-
-            var method = GetMethod<Sedex_Rastrear>();
-            var ret = ExecuteMethod(() => method(libHandle, (ToUTF8(eCodRastreio)), buffer, ref bufferLen));
-
-            CheckResult(ret);
-
-            return ProcessResult(buffer, bufferLen);
-        }
-
+        /// <inheritdoc />
         public override string OpenSSLInfo()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<Sedex_OpenSSLInfo>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = sedexBridge.GetMethod<ACBrSedexHandle.Sedex_OpenSSLInfo>();
+            var ret = sedexBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
+        }
+
+        /// <inheritdoc />
+        public string Consultar()
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = sedexBridge.GetMethod<ACBrSedexHandle.Sedex_Consultar>();
+            var ret = sedexBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return CheckBuffer(buffer, bufferLen);
+        }
+
+        /// <inheritdoc />
+        public string Rastrear(string eCodRastreio)
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = sedexBridge.GetMethod<ACBrSedexHandle.Sedex_Rastrear>();
+            var ret = sedexBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eCodRastreio), buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return CheckBuffer(buffer, bufferLen);
         }
 
         #endregion Diversos
 
         #region Private Methods
 
+        /// <inheritdoc />
         public override void Finalizar()
         {
-            var finalizarLib = GetMethod<Sedex_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizarLib(libHandle));
+            var finalizarLib = sedexBridge.GetMethod<ACBrSedexHandle.Sedex_Finalizar>();
+            var codRet = sedexBridge.ExecuteMethod(() => finalizarLib(libHandle));
             CheckResult(codRet);
             libHandle = IntPtr.Zero;
         }
 
+        /// <inheritdoc />
         protected override string GetUltimoRetorno(int iniBufferLen = 0)
         {
             var bufferLen = iniBufferLen < 1 ? BUFFER_LEN : iniBufferLen;
             var buffer = new StringBuilder(bufferLen);
-            var ultimoRetorno = GetMethod<Sedex_UltimoRetorno>();
+            var ultimoRetorno = sedexBridge.GetMethod<ACBrSedexHandle.Sedex_UltimoRetorno>();
 
             if (iniBufferLen < 1)
             {
-                ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
+                sedexBridge.ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
                 if (bufferLen <= BUFFER_LEN) return FromUTF8(buffer);
 
                 buffer.Capacity = bufferLen;
             }
 
-            ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
+            sedexBridge.ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
             return FromUTF8(buffer);
         }
 
         #endregion Private Methods
 
         #endregion Metodos
+
+        #region IDisposable
+
+        /// <summary>
+        /// Libera recursos gerenciados e finaliza a biblioteca nativa.
+        /// </summary>
+        /// <param name="disposing">True para liberar recursos gerenciados; false apenas para finalizer.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed) return;
+
+            if (disposing)
+            {
+                Finalizar();
+            }
+
+            disposed = true;
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion IDisposable
     }
 }
