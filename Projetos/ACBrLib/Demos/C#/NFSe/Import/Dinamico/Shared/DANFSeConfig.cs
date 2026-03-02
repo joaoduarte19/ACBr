@@ -88,6 +88,16 @@ namespace ACBrLib.NFSe
             get => GetProperty<bool>();
             set => SetProperty(value);
         }
+
+        /// <summary>
+        /// Defina o Logotipo da NFSe que será exibido no DANFSe.
+        /// Chave: LogoNFSe
+        /// </summary>
+        public string LogoNFSe
+        {
+            get => GetProperty<string>();
+            set => SetProperty(value);
+        }
         #endregion Properties
     }
 }
