@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+02/03/2026
+-- ACBrMonitorConfig/ACBrMonitorConsts/ACBrMonitor1 --
+[*] ACBR-9063 - Adiciona propriedade LogoNFSe para novo DANFSE
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/90726-boas-novas-para-quem-emite-nfs-e/ 
+
 27/02/2026
 -- DoACBrNFSeUnit --
 [+] ACBR-8974 - Adicionado método NFSe.SetAmbiente no Monitor - https://www.projetoacbr.com.br/forum/topic/90355-acbr-8974-nfsesetambiente/
