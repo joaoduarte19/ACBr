@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+02/03/2026
+-- ACBrLibNFSeConsts/ACBrLibNFSeConfig --
+[*] ACBR-9062 - Adiciona configuração LogoNFSe para o DANFSe.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/90726-boas-novas-para-quem-emite-nfs-e/ 
+
 26/02/2026
 -- ACBrLibNFSeRespostas --
 [*] ACBR-8927 - Adiciona mais informações na resposta da consulta e do envio de evento.

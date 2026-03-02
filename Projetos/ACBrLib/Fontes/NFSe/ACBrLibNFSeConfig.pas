@@ -76,6 +76,7 @@ type
     FProducao: TnfseSimNao;
     FDetalharServico : Boolean;
     FDataCompetenciaCompleta: Boolean;
+    FLogoNFSe: String;
 
     function SimNaoToStr(const t: TnfseSimNao): string;
     function StrToSimNao(out ok: boolean; const s: string): TnfseSimNao;
@@ -111,12 +112,13 @@ type
     property Atividade: String read FAtividade write FAtividade;
     property Cancelada: Boolean read FNFSeCancelada write FNFSeCancelada;
     property ImprimeCanhoto: Boolean read FImprimeCanhoto write FImprimeCanhoto default False;
-    property TipoDANFSE: TTipoDANFSE read FTipoDANFSE   write FTipoDANFSE default tpPadrao;
+    property TipoDANFSE: TTipoDANFSE read FTipoDANFSE   write FTipoDANFSE default tpGeral;
     property TamanhoFonte: Integer   read FTamanhoFonte write FTamanhoFonte;
     property FormatarNumeroDocumentoNFSe: Boolean read FFormatarNumeroDocumentoNFSe write FFormatarNumeroDocumentoNFSe;
     property Producao: TnfseSimNao   read FProducao     write FProducao;
     property DetalharServico: Boolean read FDetalharServico write FDetalharServico default False;
     property DataCompetenciaCompleta: Boolean read  FDataCompetenciaCompleta write FDataCompetenciaCompleta default False;
+    property LogoNFSe: String read FLogoNFSe write FLogoNFSe;
   end;
 
   { TLibNFSeConfig }
@@ -198,6 +200,7 @@ begin
   FDetalharServico := AIni.ReadBool(CSessaoDANFSE, CChaveDetalharServico, FDetalharServico);
   FProducao := StrToSimNao(ok, AIni.ReadString(CSessaoDANFSE, CChaveProducao, SimNaoToStr(FProducao)));
   FDataCompetenciaCompleta:=AIni.ReadBool(CSessaoDANFSe, CChaveDataCompetenciaCompleta,FDataCompetenciaCompleta);
+  FLogoNFSe := AIni.ReadString(CSessaoDANFSE, CChaveLogoNFSe, FLogoNFSe);
 end;
 
 procedure TDANFSeReportConfig.GravarIniChild(const AIni: TCustomIniFile);
@@ -229,6 +232,7 @@ begin
   AIni.WriteBool(CSessaoDANFSE, CChaveDetalharServico, FDetalharServico);
   AIni.WriteString(CSessaoDANFSE, CChaveProducao, SimNaoToStr(FProducao));
   AIni.WriteBool(CSessaoDANFSE,CChaveDataCompetenciaCompleta,FDataCompetenciaCompleta);
+  AIni.WriteString(CSessaoDANFSe, CChaveLogoNFSe, FLogoNFSe);
 end;
 
 procedure TDANFSeReportConfig.ApplyChild(const DFeReport: TACBrDFeReport; const Lib: TACBrLib);
@@ -273,6 +277,7 @@ begin
     DetalharServico := FDetalharServico;
     Producao := FProducao;
     DataCompetenciaCompleta:= FDataCompetenciaCompleta;
+    LogoNFSe := FLogoNFSe;
   end;
 end;
 
@@ -302,6 +307,7 @@ begin
   FNFSeCancelada := False;
   FDetalharServico := False;
   FDataCompetenciaCompleta:= False;
+  FLogoNFSe := EmptyStr;
 end;
 
 { TLibNFSeConfig }
