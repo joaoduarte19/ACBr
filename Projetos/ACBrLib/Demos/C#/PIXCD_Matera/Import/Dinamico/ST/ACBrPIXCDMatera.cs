@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -9,7 +9,7 @@ using ACBrLib.Core;
 namespace ACBrLib.PIXCD
 {
     /// <inheritdoc />
-    public sealed partial class ACBrPIXCD : ACBrLibHandle
+    public sealed partial class ACBrPIXCD : ACBrLibHandle, IACBrLibPIXCDMatera
     {
         #region Constructors
 
