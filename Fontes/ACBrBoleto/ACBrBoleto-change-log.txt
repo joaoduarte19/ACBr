@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+02/03/2026
+-- ACBrBoletoW_Sicoob_V3 --
+[-] ACBR-8936 - Corrigidos vazamentos de memória na criação de objetos desnecessários - https://www.projetoacbr.com.br/forum/topic/90135-acbr-8936-boleto-sicoob-api-memory-leak-na-fun%C3%A7%C3%A3o-gerarinstrucao-acbrboletow_sicoob_v3pas/
+   Por: Luizfern
+
 26/02/2026
 -- ACBrBoletoW_BancoBrasil_API  --
 [*] Remoção dos zeros a esquerda agencia e conta na consulta conforma orientação do banco. evitando erro Contrato de cobrança não localizado.

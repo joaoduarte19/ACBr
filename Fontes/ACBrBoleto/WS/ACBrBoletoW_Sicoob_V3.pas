@@ -542,7 +542,6 @@ end;
 procedure TBoletoW_Sicoob_V3.GerarPagador(AJson: TACBrJSONObject);
  var
   LJsonDadosPagador: TACBrJSONObject;
-  LJsonArrayEmail: TACBrJSONArray;
 begin
   if not Assigned(aTitulo) or not Assigned(AJson) then
     Exit;
@@ -562,7 +561,6 @@ end;
 
 procedure TBoletoW_Sicoob_V3.GerarInstrucao(AJson: TACBrJSONObject);
 var
-  JsonDadosInstrucao: TACBrJSONObject;
   JsonArrayInstrucao: TACBrJSONArray;
 begin
   if not Assigned(aTitulo) or not Assigned(AJson) then
@@ -571,7 +569,6 @@ begin
   if ATitulo.Instrucao1 = '' then
     Exit;
 
-  JsonDadosInstrucao := TACBrJSONObject.Create;
   JsonArrayInstrucao := TACBrJSONArray.Create;
   if NaoEstaVazio(ATitulo.Instrucao1) then
     JsonArrayInstrucao.AddElement(ATitulo.Instrucao1);
