@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/03/2026
+-- ACBrNFSeXDANFSeRLPadraoNacional --
+[*] ACBR-9068 - Ajustes na geração do DANFSE - Padrão Nacional - Fortes Report
+   Por: Armando Boza
+
 02/03/2026
 -- ACBrNFSeXServicos --
 [+] ACBR-9032 - Incluída a cidade Coari/AM, o provedor é Betha.

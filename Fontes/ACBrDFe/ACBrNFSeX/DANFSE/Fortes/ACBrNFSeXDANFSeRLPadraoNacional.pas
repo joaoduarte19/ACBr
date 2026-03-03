@@ -593,7 +593,7 @@ begin
 
   case fpNFSe.Servico.Valores.tribMun.tribISSQN of
     tiOperacaoTributavel:
-      rllTribISSQN.Caption := 'Operaçãoo Tributável';
+      rllTribISSQN.Caption := 'Operação Tributável';
     tiImunidade:
       rllTribISSQN.Caption := 'Imunidade';
     tiExportacao:
@@ -777,8 +777,11 @@ begin
   else
     rllValorTotalDescCond.Caption := '-';
 
-  LValor := fpNFSe.Servico.Valores.tribFed.vPis +
-            fpNFSe.Servico.Valores.tribFed.vCofins;
+  if fpNFSe.Servico.Valores.tribFed.tpRetPisCofins = trpcNaoRetido then
+    LValor := 0
+  else
+    LValor := fpNFSe.Servico.Valores.tribFed.vPis +
+              fpNFSe.Servico.Valores.tribFed.vCofins;
 
   if LValor > 0 then
     rllValorTotalPISCOFINSRet.Caption := 'R$ ' + FormatFloatBr(LValor)
