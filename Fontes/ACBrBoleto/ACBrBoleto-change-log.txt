@@ -49,6 +49,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 03/03/2026
+-- ACBrBancoAmazonia --
+[-] ACBr-9049 - Ajustado conforme documentação para enviar 7 posições
+	https://www.projetoacbr.com.br/forum/topic/90617-acbr-9049-nosso-n%C3%BAmero-portador-banco-da-amaz%C3%B4nia
+   Por: Daniel Morais InfoCotidiano
+
+03/03/2026
 -- ACBrBancoBanrisul --
 [-] ACBR-8922 - Definindo especies do titulo (DM, DMI, DS, etc) como padrao dos outros bancos, pois estava hardcoded '02' ao gerar a remessa.
 	https://www.projetoacbr.com.br/forum/topic/89969-acbr-8922-banco-banrisul/ 

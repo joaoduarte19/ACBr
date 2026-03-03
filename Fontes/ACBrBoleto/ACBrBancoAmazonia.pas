@@ -523,7 +523,7 @@ begin
                aConta +                                                                                                      // 24 a 35 - Número da conta corrente
                PadRight(ACBrBoleto.Cedente.ContaDigito, 1, '0') +                                                            // 36 - Dígito verificador da conta
                ' ' +                                                                                                         // 37 - Dígito verificador da agência / conta
-               PadRight(ANossoNumero + aDV, 20, ' ') +                                                                       // 38 a 57 - Nosso número - identificação do título no banco
+               PadRight(PadLeft(ANossoNumero + aDV, 7,'0'), 20, ' ') +                                                                       // 38 a 57 - Nosso número - identificação do título no banco
                PadRight(IntToStr(wCarteira), 1, '0') +                                                                       // 58 - Cobrança Simples
                '1' +                                                                                                         // 59 - Forma de cadastramento do título no banco: com cadastramento
                IntToStr(wTipoDocumento) +                                                                                    // 60 - Tipo de documento: Tradicional
