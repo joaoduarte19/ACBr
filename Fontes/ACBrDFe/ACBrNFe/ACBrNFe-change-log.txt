@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/03/2026
+-- ACBrNFeDANFeRLPaisagem --
+[-] ACBR-8936 - DANFe Paisagem - Não exibir Motivo sobre o código de barras quando a NFe for autorizada fora do prazo, cStat=150 - https://www.projetoacbr.com.br/forum/topic/89794-acbr-8860-erro-danfe-em-modo-paisagem/
+   Por: Renato Rubinho
+
 25/02/2026
 -- ACBrNFeNotasFiscais --
 [*] Alteração visando remover se necessário os bytes do UTF8 BOM ao carregar um XML.
