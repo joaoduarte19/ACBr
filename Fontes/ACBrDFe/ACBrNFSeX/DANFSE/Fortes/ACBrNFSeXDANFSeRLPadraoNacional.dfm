@@ -4,7 +4,6 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
   Caption = 'frlXDANFSeRLPadraoNacional'
   ClientHeight = 988
   ClientWidth = 1050
-  StyleElements = [seFont, seClient, seBorder]
   TextHeight = 13
   inherited RLNFSe: TRLReport
     Left = 24
