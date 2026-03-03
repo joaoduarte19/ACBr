@@ -48,6 +48,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+03/03/2026
+-- ACBrBancoBanrisul --
+[-] ACBR-8922 - Definindo especies do titulo (DM, DMI, DS, etc) como padrao dos outros bancos, pois estava hardcoded '02' ao gerar a remessa.
+	https://www.projetoacbr.com.br/forum/topic/89969-acbr-8922-banco-banrisul/ 
+   Por: Simons/Cleomar Pacheco/ Daniel Morais InfoCotidiano
 
 02/03/2026
 -- ACBrBoletoW_Sicoob_V3 --

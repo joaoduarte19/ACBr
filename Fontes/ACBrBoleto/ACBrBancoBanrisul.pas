@@ -632,7 +632,7 @@ end;
 function TACBrBanrisul.GerarRegistroTransacao240(
   ACBrTitulo: TACBrTitulo): String;
 var
-    aAceite, DiasProt, Juros, TipoInscSacado, Ocorrencia: String;
+    aAceite, DiasProt, Juros, TipoInscSacado, Ocorrencia, LEspecie: String;
     sDiasBaixaDevol, ACaracTitulo, ATipoBoleto, AEspecieCobranca : String;
     LTipoMoraJuros : byte;
 begin
@@ -721,6 +721,30 @@ begin
          Ocorrencia := '01'; {Remessa}
       end;
 
+      {Definindo o tipo da Especie do Titulo}
+      if Trim(EspecieDoc) = 'DM' then
+         LEspecie := '02'
+      else if Trim(EspecieDoc) = 'DMI' then
+         LEspecie := '03'
+      else if Trim(EspecieDoc) = 'DS' then
+         LEspecie := '04'
+      else if Trim(EspecieDoc) = 'DSI' then
+         LEspecie := '05'
+      else if Trim(EspecieDoc) = 'LC' then
+         LEspecie := '07'
+      else if Trim(EspecieDoc) = 'NP' then
+         LEspecie := '12'
+      else if Trim(EspecieDoc) = 'PC' then
+         LEspecie := '22'
+      else if Trim(EspecieDoc) = 'CC' then
+         LEspecie := '31'
+      else if Trim(EspecieDoc) = 'BDP' then
+         LEspecie := '32'
+      else if Trim(EspecieDoc) = 'OUTROS' then
+         LEspecie := '99'
+      else
+         LEspecie := '02';  // valor padrão DM
+
      {Pegando Tipo de Boleto}
      ATipoBoleto := '1';
      case ACBrBoleto.Cedente.ResponEmissao of
@@ -770,7 +794,7 @@ begin
                   PadLeft(StringReplace(FormatFloat('#####0.00', ValorDocumento), ',', '', []), 15, '0') +                              //  86-100 VALOR DO TITULO
                   '00000' +                                                                                                             // 101-105 AGENCIA COBRADORA
                   '0' +                                                                                                                 // 106-106 DV AGENCIA COBRADORA
-                  '02' +                                                                                                                // 107-108 ESPECIDE DO TITULO
+                  PadRight(LEspecie,2) +                                                                                                // 107-108 ESPECIDE DO TITULO
                   aAceite +                                                                                                             // 109-109 ACEITE
                   FormatDateTime('ddmmyyyy', DataProcessamento) +                                                                       // 110-117 DATA DE EMISSAO
                   Juros +                                                                                                               // 118-141 JUROS
@@ -812,7 +836,7 @@ begin
                   PadLeft(StringReplace(FormatFloat('#####0.00', ValorDocumento), ',', '', []), 15, '0') +                              //  86-100 VALOR DO TITULO
                   '00000' +                                                                                                             // 101-105 AGENCIA COBRADORA
                   '0' +                                                                                                                 // 106-106 DV AGENCIA COBRADORA
-                  '02' +                                                                                                                // 107-108 ESPECIDE DO TITULO
+                  PadRight(LEspecie,2) +                                                                                                // 107-108 ESPECIDE DO TITULO
                   aAceite +                                                                                                             // 109-109 ACEITE
                   FormatDateTime('ddmmyyyy', DataProcessamento) +                                                                       // 110-117 DATA DE EMISSAO
                   Juros +                                                                                                               // 118-141 JUROS
