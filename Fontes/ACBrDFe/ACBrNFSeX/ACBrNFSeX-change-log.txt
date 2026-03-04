@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 04/03/2026
+-- ACBrNFSeXServicos --
+[+] Incluído o Params: ServicosPadraoNacional para todas as cidades dos provedores IPM e SigCorp.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXWebServiceBase/Fiorilli.Provider/ACBrNFSeXServicos --
 [+] ACBR-8782 - Implementa o envio de evento através dos ServicosPadraoNacional para o Fiorilli
  * Implementa nova classe WebService Misto.
