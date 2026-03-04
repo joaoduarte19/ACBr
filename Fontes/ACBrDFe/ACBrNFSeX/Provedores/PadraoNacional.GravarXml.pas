@@ -518,6 +518,8 @@ begin
     cLocIncid := NFSe.infNFSe.IBSCBS.cLocalidadeIncid;
     xLocIncid := NFSe.infNFSe.IBSCBS.xLocalidadeIncid;
   end
+  else if NFSe.Servico.MunicipioIncidencia > 0 then
+    cLocIncid := NFSe.Servico.MunicipioIncidencia
   else
     cLocIncid := StrToIntDef(NFSe.Prestador.Endereco.CodigoMunicipio, 0);
 
@@ -1293,6 +1295,9 @@ begin
       Result.AppendChild(AddNode(tcStr, '#1', 'xItemPed', 1, 60, 1,
                                 NFSe.Servico.infoCompl.gItemPed[i].xItemPed));
     end;
+
+    if NFSe.Servico.infoCompl.gItemPed.Count > 99 then
+      wAlerta('#1', 'xItemPed', '', ERR_MSG_MAIOR_MAXIMO + '99');
   end;
 end;
 
@@ -1781,6 +1786,9 @@ begin
   NFSeNode.SetNamespace(FpAOwner.ConfigMsgDados.LoteRps.xmlns, Self.PrefixoPadrao);
 
   FDocument.Root := NFSeNode;
+
+  if FormatoDiscriminacao <> fdNenhum then
+    ConsolidarVariosItensServicosEmUmSo;
 
   xmlNode := GerarXMLInfDps;
   NFSeNode.AppendChild(xmlNode);
