@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 04/03/2026
+-- ACBrNFSeX.LerIni --
+[+] ACBR-9054 - Implementado uma unit exclusiva para realizar a leitura do arquivo INI que contem os 
+    dados do serviço prestado, esse arquivo INI vai ser utilizado para todos os provedores.
+    Observação: a unit ainda não esta em uso, pois requer testes.
+   Por: Italo Giurizzato Junior
 -- PadraoNacional.GravarXml --
 [*] ACBR-8786 - Ajuste para gerar corretamente o Local de incidência.
     https://www.projetoacbr.com.br/forum/topic/89349-acbr-8786-informar-munic%C3%ADpio-de-incid%C3%AAncia-do-iss/
