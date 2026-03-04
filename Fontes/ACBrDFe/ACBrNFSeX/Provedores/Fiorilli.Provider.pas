@@ -38,6 +38,7 @@ interface
 
 uses
   SysUtils, Classes,
+  ACBrUtil.FilesIO,
   ACBrXmlBase,
   ACBrXmlDocument,
   ACBrNFSeXClass,
@@ -81,22 +82,24 @@ type
     procedure PrepararEmitir(Response: TNFSeEmiteResponse); override;
   end;
 
-  TACBrNFSeXWebserviceFiorilliAPIPropria = class(TACBrNFSeXWebserviceSoap11)
+  TACBrNFSeXWebserviceFiorilliAPIPropria = class(TACBrNFSeXWebserviceMisto1)
   protected
 
   public
+    // Serviços que utilizam o WS Soap do provedor
     function Recepcionar(const ACabecalho, AMSG: String): string; override;
     function RecepcionarSincrono(const ACabecalho, AMSG: String): string; override;
     function GerarNFSe(const ACabecalho, AMSG: string): string; override;
     function ConsultarLote(const ACabecalho, AMSG: String): string; override;
 
+    // Serviços que utilizam a API Rest do Padrão Nacional
     function ConsultarNFSePorRps(const ACabecalho, AMSG: string): string; override;
     function ConsultarNFSePorChave(const ACabecalho, AMSG: string): string; override;
+    function EnviarEvento(const ACabecalho, AMSG: string): string; override;
     function ConsultarEvento(const ACabecalho, AMSG: string): string; override;
     function ConsultarDFe(const ACabecalho, AMSG: string): string; override;
     function ConsultarParam(const ACabecalho, AMSG: string): string; override;
     function ObterDANFSE(const ACabecalho, AMSG: string): string; override;
-
 
     function TratarXmlRetornado(const aXML: string): string; override;
   end;
@@ -129,21 +132,18 @@ type
 
     procedure PrepararConsultaLoteRps(Response: TNFSeConsultaLoteRpsResponse); override;
     procedure TratarRetornoConsultaLoteRps(Response: TNFSeConsultaLoteRpsResponse); override;
-    {
-
-    procedure PrepararConsultaSituacao(Response: TNFSeConsultaSituacaoResponse); override;
-    procedure TratarRetornoConsultaSituacao(Response: TNFSeConsultaSituacaoResponse); override;
 
     procedure PrepararEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
-    procedure TratarRetornoEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
-    }
   public
+    procedure EnviarEvento; override;
 
   end;
 
 implementation
 
 uses
+  synacode,
+  ACBrCompress,
   ACBrDFe.Conversao,
   ACBrNFSeXConsts,
   ACBrDFeException,
@@ -526,7 +526,7 @@ var
 begin
   URL := GetWebServiceURL(AMetodo);
 
-  if AMetodo in [tmGerar, tmEnviarEvento, tmConsultarSituacao, tmConsultarLote] then
+  if AMetodo in [tmGerar, tmRecepcionar, tmRecepcionarSincrono, tmConsultarLote] then
     AMimeType := 'text/xml; charset=utf-8'
   else
     AMimeType := 'application/json';
@@ -545,6 +545,17 @@ begin
     else
       raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
   end;
+end;
+
+procedure TACBrNFSeProviderFiorilliAPIPropria.EnviarEvento;
+begin
+  inherited EnviarEvento;
+
+  ConfigGeral.FormatoArqEnvio := tfaXml;
+  ConfigGeral.FormatoArqRetorno := tfaXml;
+  ConfigGeral.FormatoArqEnvioSoap := tfaXml;
+  ConfigGeral.FormatoArqRetornoSoap := tfaXml;
+  ConfigWebServices.VersaoAtrib := '1.00';
 end;
 
 function TACBrNFSeProviderFiorilliAPIPropria.VerificarAlerta(
@@ -746,7 +757,16 @@ function TACBrNFSeProviderFiorilliAPIPropria.PrepararArquivoEnvio(
 begin
   Result := aXml;
 
-  if aMetodo in [tmGerar, tmRecepcionarSincrono, tmRecepcionar, tmEnviarEvento] then
+  if aMetodo in [tmEnviarEvento] then
+  begin
+    Result := ChangeLineBreak(aXml, '');
+    Result := EncodeBase64(GZipCompress(Result));
+
+    Result := '{"pedidoRegistroEventoXmlGZipB64":"' + Result + '"}';
+    Path := '/nfse/' + Chave + '/eventos';
+    Method := 'POST';
+  end
+  else
     Result := ChangeLineBreak(aXml, '');
 end;
 
@@ -874,6 +894,19 @@ begin
   Method := 'POST';
 end;
 
+procedure TACBrNFSeProviderFiorilliAPIPropria.PrepararEnviarEvento(
+  Response: TNFSeEnviarEventoResponse);
+begin
+  ConfigGeral.FormatoArqEnvio := tfaJson;
+  ConfigGeral.FormatoArqRetorno := tfaJson;
+  ConfigGeral.FormatoArqEnvioSoap := tfaJson;
+  ConfigGeral.FormatoArqRetornoSoap := tfaJson;
+  ConfigMsgDados.EnviarEvento.xmlns := 'http://www.sped.fazenda.gov.br/nfse';
+  ConfigWebServices.VersaoAtrib := '1.01';
+
+  inherited PrepararEnviarEvento(Response);
+end;
+
 procedure TACBrNFSeProviderFiorilliAPIPropria.TratarRetornoConsultaLoteRps(
   Response: TNFSeConsultaLoteRpsResponse);
 var
@@ -952,8 +985,6 @@ begin
           end;
         end;
       end;
-
-
     except
       on E: Exception do
       begin
@@ -1089,6 +1120,14 @@ begin
   Result := Executar('', FPMsgOrig, [], []);
 end;
 
+function TACBrNFSeXWebserviceFiorilliAPIPropria.EnviarEvento(const ACabecalho,
+  AMSG: string): string;
+begin
+  FPMsgOrig := AMSG;
+
+  Result := Executar('', FPMsgOrig, [], []);
+end;
+
 function TACBrNFSeXWebserviceFiorilliAPIPropria.ConsultarNFSePorRps(
   const ACabecalho, AMSG: string): string;
 begin
@@ -1135,11 +1174,14 @@ function TACBrNFSeXWebserviceFiorilliAPIPropria.TratarXmlRetornado(
 begin
   Result := inherited TratarXmlRetornado(aXML);
 
-  Result := RemoverCaracteresDesnecessarios(Result);
-  Result := ParseText(Result);
-  Result := RemoverDeclaracaoXML(Result);
-  Result := RemoverIdentacao(Result);
-  Result := RemoverPrefixosDesnecessarios(Result);
+  if not StringIsPDF(Result) then
+  begin
+    Result := RemoverCaracteresDesnecessarios(Result);
+    Result := ParseText(Result);
+    Result := RemoverDeclaracaoXML(Result);
+    Result := RemoverIdentacao(Result);
+    Result := RemoverPrefixosDesnecessarios(Result);
+  end;
 end;
 
 end.

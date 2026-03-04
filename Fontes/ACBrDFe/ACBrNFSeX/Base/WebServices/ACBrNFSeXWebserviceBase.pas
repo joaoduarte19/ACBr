@@ -247,6 +247,34 @@ type
 
   end;
 
+  {
+    Utilizado pelos provedores que para alguns serviços usa o WS Soap 1.1
+    e para outros serviços a API Rest
+  }
+  TACBrNFSeXWebserviceMisto1 = class(TACBrNFSeXWebservice)
+  protected
+    function DefinirMsgEnvio(const Message, SoapAction, SoapHeader: string;
+                                  namespace: array of string): string; override;
+  public
+    constructor Create(AOwner: TACBrDFe; AMetodo: TMetodo; const AURL: string;
+      const AMethod: string = 'POST'; const AMimeType: string = 'text/xml');
+
+  end;
+
+  {
+    Utilizado pelos provedores que para alguns serviços usa o WS Soap 1.2
+    e para outros serviços a API Rest
+  }
+  TACBrNFSeXWebserviceMisto2 = class(TACBrNFSeXWebservice)
+  protected
+    function DefinirMsgEnvio(const Message, SoapAction, SoapHeader: string;
+                                  namespace: array of string): string; override;
+  public
+    constructor Create(AOwner: TACBrDFe; AMetodo: TMetodo; const AURL: string;
+      const AMethod: string = 'POST'; const AMimeType: string = 'application/soap+xml');
+
+  end;
+
   TInfConsultaNFSe = class
  private
    FtpConsulta: TtpConsulta;
@@ -428,7 +456,7 @@ type
 implementation
 
 uses
-  IniFiles, StrUtils, synautil,
+  IniFiles, StrUtils, synautil, synacode,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.XMLHTML, ACBrUtil.DateTime,
   ACBrUtil.FilesIO,
   ACBrConsts, ACBrDFeException, ACBrXmlBase,
@@ -1578,6 +1606,109 @@ begin
   FPHttpClient := FPDFeOwner.SSL.SSLHttpClass;
 
   FPHttpClient.Clear;
+end;
+
+{ TACBrNFSeXWebserviceMisto1 }
+
+constructor TACBrNFSeXWebserviceMisto1.Create(AOwner: TACBrDFe;
+  AMetodo: TMetodo; const AURL, AMethod, AMimeType: string);
+begin
+  inherited Create(AOwner, AMetodo, AURL, AMethod);
+
+  FPMimeType := AMimeType;
+end;
+
+function TACBrNFSeXWebserviceMisto1.DefinirMsgEnvio(const Message, SoapAction,
+  SoapHeader: string; namespace: array of string): string;
+var
+  i: Integer;
+  ns: string;
+begin
+  if MimeType = 'application/json' then
+  begin
+    Result := Message;
+
+    FPHttpClient := FPDFeOwner.SSL.SSLHttpClass;
+
+    FPHttpClient.Clear;
+  end
+  else
+  begin
+    Result := '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"';
+
+    for i := Low(namespace) to High(namespace) do
+    begin
+      ns := namespace[i];
+      Result := Result + ' ' + ns;
+    end;
+
+    Result := Result + '>';
+
+    if NaoEstaVazio(SoapHeader) then
+      Result := Result + '<soapenv:Header>' + soapHeader + '</soapenv:Header>'
+    else
+      Result := Result + '<soapenv:Header/>';
+
+    Result := Result + '<soapenv:Body>' + Message + '</soapenv:Body></soapenv:Envelope>';
+    Result := string(NativeStringToUTF8(Result));
+
+    FPHttpClient := FPDFeOwner.SSL.SSLHttpClass;
+
+    FPHttpClient.Clear;
+    FPHttpClient.HeaderReq.AddHeader('SOAPAction', SoapAction);
+  end;
+end;
+
+{ TACBrNFSeXWebserviceMisto2 }
+
+constructor TACBrNFSeXWebserviceMisto2.Create(AOwner: TACBrDFe;
+  AMetodo: TMetodo; const AURL, AMethod, AMimeType: string);
+begin
+  inherited Create(AOwner, AMetodo, AURL, AMethod);
+
+  FPMimeType := AMimeType;
+end;
+
+function TACBrNFSeXWebserviceMisto2.DefinirMsgEnvio(const Message, SoapAction,
+  SoapHeader: string; namespace: array of string): string;
+var
+  i: Integer;
+  ns: string;
+begin
+  if MimeType = 'application/json' then
+  begin
+    Result := Message;
+
+    FPHttpClient := FPDFeOwner.SSL.SSLHttpClass;
+
+    FPHttpClient.Clear;
+  end
+  else
+  begin
+    Result := '<soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"';
+
+    for i := Low(namespace) to High(namespace) do
+    begin
+      ns := namespace[i];
+      Result := Result + ' ' + ns;
+    end;
+
+    Result := Result + '>';
+
+    if NaoEstaVazio(SoapHeader) then
+      Result := Result + '<soapenv:Header>' + soapHeader + '</soapenv:Header>'
+    else
+      Result := Result + '<soapenv:Header/>';
+
+    Result := Result + '<soapenv:Body>' + message + '</soapenv:Body></soapenv:Envelope>';
+    Result := string(NativeStringToUTF8(Result));
+
+    FPMimeType := FPMimeType + ';action="' + SoapAction + '"';
+
+    FPHttpClient := FPDFeOwner.SSL.SSLHttpClass;
+
+    FPHttpClient.Clear;
+  end;
 end;
 
 { TInfConsulta }
