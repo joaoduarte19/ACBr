@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 05/03/2026
+-- PadraoNacional.LerXml --
+[-] ACBR-9083 - Ajuste para correta geração do grupo TotTrib a partir de um XML como fonte de dados.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/90822-acbr-9083-nfse-gerando-o-elemento-tottrib-com-valor-que-n%C3%A3o-foi-informado/ 
 -- WebFisco.LerXml --
 [-] ACBR-8969 - Atualiza a rotina de leitura para capturar corretamente a Descricao do Serviço
    Por: mlgoncalves / Diego Folieni
