@@ -1229,7 +1229,6 @@ begin
       xCampo := 'ObsFisco';
       xTexto := 'Texto';
     end;
-
     {
       abaixo o campo incluido no layout a partir da NT 2020/006
     }
@@ -1240,6 +1239,25 @@ begin
     // (agenciador, plataforma de delivery, marketplace e similar) de serviços e de
     // negócios.
     infIntermed.idCadIntTran := '';
+
+  //Campos específicos para agropecuario / defensivo
+  // Devemos gerar somente o grupo defensivo ou o grupo guiaTransito
+  (*
+    with Agropecuario.defensivo.New do
+    begin
+      nReceituario := '123';
+      CPFRespTec := '12345678901';
+    end;
+  *)
+
+  //Campos específicos para agropecuario / guiaTransito
+  (*
+    Agropecuario.guiaTransito.tpGuia := tpgGuiaFlorestal;
+    Agropecuario.guiaTransito.UFGuia := 'SP';
+    Agropecuario.guiaTransito.serieGuia := '1';
+    Agropecuario.guiaTransito.nGuia := '1';
+  *)
+
   end;
 
   ACBrNFe1.NotasFiscais.GerarNFe;
@@ -1264,8 +1282,7 @@ var
 //    Reboque: TreboqueCollectionItem;
 //    Lacre: TLacresCollectionItem;
 //    ProcReferenciado: TprocRefCollectionItem;
-//  Agropecuario: Tagropecuario;
-//  Defensivo: TdefensivoCollectionItem;
+  Defensivo: TdefensivoCollectionItem;
   InfoPgto: TpagCollectionItem;
 begin
   NotaF := ACBrNFe1.NotasFiscais.Add;
@@ -1572,22 +1589,6 @@ begin
   Arma.descr  := '';
   *)
 
-//Campos específicos para agropecuario / defensivo
-// Devemos gerar somente o grupo defensivo ou o grupo guiaTransito
-(*
-  Defensivo := Agropecuario.defensivo.Add;
-  Defensivo.nReceituario := '123';
-  Defensivo.CPFRespTec := '12345678901';
-*)
-
-//Campos específicos para agropecuario / guiaTransito
-(*
-  Agropecuario.guiaTransito.tpGuia := tpgGuiaFlorestal;
-  Agropecuario.guiaTransito.UFGuia := 'SP';
-  Agropecuario.guiaTransito.serieGuia := '1';
-  Agropecuario.guiaTransito.nGuia := '1';
-*)
-
 //Campos específicos para venda de combustível(distribuidoras)
 
   Produto.Prod.comb.cProdANP := 0;
@@ -1893,8 +1894,8 @@ begin
       }
 
       //  Informações do tributo: IBS / CBS
-      IBSCBS.CST := cst811;
-      IBSCBS.cClassTrib := '000001';
+      IBSCBS.CST := cst011;
+      IBSCBS.cClassTrib := '011001';
       IBSCBS.indDoacao := tieSim;
 
       IBSCBS.gIBSCBS.vBC := 100;
@@ -2251,6 +2252,22 @@ begin
   // (agenciador, plataforma de delivery, marketplace e similar) de serviços e de
   // negócios.
   NotaF.NFe.infIntermed.idCadIntTran := '';
+
+//Campos específicos para agropecuario / defensivo
+// Devemos gerar somente o grupo defensivo ou o grupo guiaTransito
+(*
+  Defensivo := NotaF.NFe.Agropecuario.defensivo.New;
+  Defensivo.nReceituario := '123';
+  Defensivo.CPFRespTec := '12345678901';
+*)
+
+//Campos específicos para agropecuario / guiaTransito
+(*
+  NotaF.NFe.Agropecuario.guiaTransito.tpGuia := tpgGuiaFlorestal;
+  NotaF.NFe.Agropecuario.guiaTransito.UFGuia := 'SP';
+  NotaF.NFe.Agropecuario.guiaTransito.serieGuia := '1';
+  NotaF.NFe.Agropecuario.guiaTransito.nGuia := '1';
+*)
 
   ACBrNFe1.NotasFiscais.GerarNFe;
 end;
