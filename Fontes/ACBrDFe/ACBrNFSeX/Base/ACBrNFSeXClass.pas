@@ -341,6 +341,7 @@ type
     FindTotTrib: TindTotTrib;
     FpTotTribSN: Double;
   public
+    constructor Create;
     property vTotTribFed: Double read FvTotTribFed write FvTotTribFed;
     property vTotTribEst: Double read FvTotTribEst write FvTotTribEst;
     property vTotTribMun: Double read FvTotTribMun write FvTotTribMun;
@@ -3741,6 +3742,14 @@ destructor TinfoCompl.Destroy;
 begin
   FgItemPed.Free;
   inherited;
+end;
+
+{ TtotTrib }
+
+constructor TtotTrib.Create;
+begin
+  inherited Create;
+  FindTotTrib := indSim;
 end;
 
 end.

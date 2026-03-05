@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 05/03/2026
+-- PadraoNacional.LerXml/ACBrNFSeXClass --
+[*] ACBR-9038 - Altera inicialização de indTotTrib visando evitar rejeição E0713 ao gerar XML
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/90206-acbr-8970-rejei%C3%A7%C3%A3o-e0713-para-n%C3%A3o-optante-n%C3%A3o-deve-informar-totais-de-tributos/page/3/?&_rid=124795#findComment-591831 
 -- Ginfes.GravarXml --
 [-] Ajuste para correta geração do grupo TotTrib.
    https://www.projetoacbr.com.br/forum/topic/90648-ginfes-fora-da-estrutura/#comment-591670
