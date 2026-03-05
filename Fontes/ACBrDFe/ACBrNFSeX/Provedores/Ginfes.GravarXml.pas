@@ -158,7 +158,9 @@ function TNFSeW_Ginfes.GerarTrib(trib: Ttrib): TACBrXmlNode;
 begin
   Result := CreateElement('trib');
 
-//  Result.AppendChild(GerarXMLTributacaoFederal);
+  if NFSe.Servico.Valores.tribFed.CST <> cstVazio then
+    Result.AppendChild(GerarXMLTributacaoFederal);
+
   Result.AppendChild(GerarXMLTotalTributos);
 end;
 
@@ -243,7 +245,8 @@ begin
   // Reforma Tributária
   if (NFSe.Servico.Valores.totTrib.pTotTribFed > 0) or
      (NFSe.Servico.Valores.totTrib.pTotTribEst > 0) or
-     (NFSe.Servico.Valores.totTrib.pTotTribMun > 0) then
+     (NFSe.Servico.Valores.totTrib.pTotTribMun > 0) or
+     (NFSe.Servico.Valores.totTrib.pTotTribSN > 0) then
     Result.AppendChild(GerarTrib(NFSe.IBSCBS.valores.trib));
 
   if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
@@ -274,21 +277,6 @@ begin
 
   if NFSe.Servico.Valores.tribFed.CST <> cstVazio then
     Result.AppendChild(GerarXMLTributacaoOutrosPisCofins);
-  {
-  if (NFSe.Servico.Valores.tribFed.vRetCP > 0) or
-     (NFSe.Servico.Valores.tribFed.vRetIRRF > 0) or
-     (NFSe.Servico.Valores.tribFed.vRetCSLL > 0) then
-  begin
-    Result.AppendChild(AddNode(tcDe2, '#1', 'vRetCP', 1, 15, 0,
-                                      NFSe.Servico.Valores.tribFed.vRetCP, ''));
-
-    Result.AppendChild(AddNode(tcDe2, '#1', 'vRetIRRF', 1, 15, 0,
-                                    NFSe.Servico.Valores.tribFed.vRetIRRF, ''));
-
-    Result.AppendChild(AddNode(tcDe2, '#1', 'vRetCSLL', 1, 15, 0,
-                                    NFSe.Servico.Valores.tribFed.vRetCSLL, ''));
-  end;
-  }
 end;
 
 function TNFSeW_Ginfes.GerarXMLTributacaoOutrosPisCofins: TACBrXmlNode;

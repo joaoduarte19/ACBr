@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 05/03/2026
+-- Ginfes.GravarXml --
+[-] Ajuste para correta geração do grupo TotTrib.
+   https://www.projetoacbr.com.br/forum/topic/90648-ginfes-fora-da-estrutura/#comment-591670
+   Por: Italo Giurizzato Junior
 -- PadraoNacional.LerXml --
 [-] ACBR-9083 - Ajuste para correta geração do grupo TotTrib a partir de um XML como fonte de dados.
    Por: Diego Folieni
