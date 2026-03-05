@@ -790,6 +790,8 @@ begin
       NumeroParcelas := AINIRec.ReadInteger(sSecao, 'NumeroParcelas', 0);
       id_sis_legado := AINIRec.ReadInteger(sSecao, 'id_sis_legado', 0);
       DeducaoMateriais := FpAOwner.StrToSimNao(Ok, AINIRec.ReadString(sSecao, 'DeducaoMateriais', ''));
+      // Provedor SigISSWeb
+      NFSe.verAplic := AINIRec.ReadString(sSecao, 'verAplic', NFSe.verAplic);
     end;
 
     sSecao := 'RpsSubstituido';
