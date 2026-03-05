@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+05/03/2026
+-- WebFisco.LerXml --
+[-] ACBR-8969 - Atualiza a rotina de leitura para capturar corretamente a Descricao do Serviço
+   Por: mlgoncalves / Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/90155-acbr-8969-nfs-e-tr%C3%AAs-riosrj-n%C3%A3o-sincroniza-com-portal-nacional/?&_rid=124795#findComment-591601  
+
 04/03/2026
 -- ACBrNFSeXServicos --
 [+] Incluído o Params: ServicosPadraoNacional para todas as cidades dos provedores IPM e SigCorp.
