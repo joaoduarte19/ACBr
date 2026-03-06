@@ -46,6 +46,9 @@ Símbolo : Significado
 -- Frm_ACBrMDFe --
 [+] ACBR-8578: Implementado motor FPDF no programa de exemplo em Delphi DE MDFe
   Por: Renato Rubinho
+-- ACBrMDFeDAMDFeFPDF --
+[-] ACBR-8578: Corrigido AV e implementada impressão do Logo no DAMDFe com FPDF - https://www.projetoacbr.com.br/forum/topic/87166-acbr-8578-problema-ao-imprimir-mdf-e-com-logo-da-empresa-informado-acbrlibmdfe-122345/
+  Por: Renato Rubinho
 
 25/02/2026
 -- ACBrMDFeManifestos --

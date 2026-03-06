@@ -457,7 +457,7 @@ begin
         end;
         if IsPNG(LStream, false) then
         begin
-          //SetLength(FLogo, LStream.Size);
+          SetLength(FLogo, LStream.Size);
           LStream.Position := 0;
           LStream.Read(FLogo[0], LStream.Size);
         end;
@@ -624,6 +624,7 @@ var
   x1, y1: double;
   DadosQRCode: string;
   LTexto: string;
+  Stream: TMemoryStream;
 begin
   inherited OnDraw(Args);
 
@@ -635,9 +636,22 @@ begin
   y := - 20;
 
   // Cabeçalho - Logo
-  LPDF.SetFont('Arial', 'B', 10);
-  LPDF.Rect(x, y, 40, 30); // Logo
-  LPDF.Text(x + 2, y + 15, 'LOGO EMPRESA');
+  if Length(FLogo) > 0 then
+  begin
+    Stream := TMemoryStream.Create;
+    try
+      Stream.Write(FLogo[0], Length(FLogo));
+      LPDF.Image(x, y, 40, 30, Stream);
+    finally
+      Stream.Free;
+    end;
+  end
+  else
+  begin
+    LPDF.SetFont('Arial', 'B', 10);
+    LPDF.Rect(x, y, 40, 30);
+    LPDF.Text(x + 2, y + 15, '');
+  end;
 
   // Cabeçalho - Emitente
   LPDF.SetFont('Arial', 'B', 12);
