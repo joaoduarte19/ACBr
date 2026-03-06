@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 06/03/2026
+-- ISSBarueri.GravarXml --
+[*] ACBR-9058 - Ajustes na geração do XML do RPS.
+   Por: Jéter Rabelo Ferreira
 -- ACBrNFSeXConversao/ACBrNFSeXDANFSeRLPadraoNacional --
 [*] ACBR-9082 - Implementado a função que retorna da descrição do tipo de retenção e]
     alteração no DANFSE para que a descrição seja impressa.

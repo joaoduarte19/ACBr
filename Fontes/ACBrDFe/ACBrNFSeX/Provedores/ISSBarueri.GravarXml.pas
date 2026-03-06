@@ -81,7 +81,7 @@ begin
   FConteudoTxt.Add(
     '1'+ // Tipo do Registro S Numérico 1 1 1 1
     PadRight(NFSe.Prestador.IdentificacaoPrestador.InscricaoMunicipal, 7, ' ')+ // Inscrição do Contribuinte S Texto 7 2 8 Inscrição do Prestador de Serviço
-    'PMB002'+ // Versão do Lay-Out S Texto 6 9 14 Versão do Lay-Out "PMB002"
+    'PMB004'+ // Versão do Lay-Out S Texto 6 9 14 Versão do Lay-Out "PMB002"
     PadLeft(AIdentificacaoRemessa, 11, '0') // Identificação da Remessa do Contribuinte
   );
 end;
@@ -227,7 +227,7 @@ begin
   else
     Linha := Linha + ' ';
 
-  if NFSe.Servico.CodigoPais <> 1058 then
+  if NFSe.Servico.CodigoPais <> 1 then
     Linha := Linha + CodIBGEPaisToSiglaISO2(NFSe.Servico.CodigoPais)
   else
     Linha := Linha + Space(3);
@@ -249,12 +249,12 @@ begin
 
   Linha := Linha + PadLeft(NFSe.Servico.CodigoNBS, 9, '0');
 
-  if (NFSe.Servico.CodigoPais <> 1058) and (NFSe.Tomador.Endereco.CEP <> '') then
+  if (NFSe.Servico.CodigoPais <> 1) and (NFSe.Tomador.Endereco.CEP <> '') then
     Linha := Linha + PadLeft(NFSe.Tomador.Endereco.CEP, 11, ' ')
   else
     Linha := Linha + Space(11);
 
-  if (NFSe.Servico.CodigoPais <> 1058) and (NFSe.Tomador.Endereco.xMunicipio <> '') then
+  if (NFSe.Servico.CodigoPais <> 1) and (NFSe.Tomador.Endereco.xMunicipio <> '') then
     Linha := Linha + PadLeft(NFSe.Tomador.Endereco.xMunicipio, 60, ' ')
   else
     Linha := Linha + Space(60);
@@ -266,12 +266,12 @@ begin
 
   Linha := Linha + Space(30); // Reservado
 
-  if NFSe.Servico.CodigoPais <> 1058 then
+  if NFSe.Servico.CodigoPais <> 1 then
     Linha := Linha + PadLeft(NFSe.Servico.Endereco.CEP, 11, ' ')
   else
     Linha := Linha + Space(11);
 
-  if NFSe.Servico.CodigoPais <> 1058 then
+  if NFSe.Servico.CodigoPais <> 1 then
     Linha := Linha + PadLeft(NFSe.Servico.Endereco.xMunicipio, 60, ' ')
   else
     Linha := Linha + Space(60);
@@ -291,7 +291,7 @@ begin
   else
     Linha := Linha + Space(8);
 
-  Linha := Linha + '0';  // Implementar o código de justificativa do cancelamento substituição
+  Linha := Linha + ' ';  // Implementar o código de justificativa do cancelamento substituição
 
   Linha := Linha + PadLeft(NFSe.IBSCBS.cIndOp, 6, '0');
 
