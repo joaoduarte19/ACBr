@@ -78,7 +78,7 @@ type
 
   end;
 
-  TACBrNFSeXWebserviceDigifredAPIPropria = class(TACBrNFSeXWebserviceSoap12)
+  TACBrNFSeXWebserviceDigifredAPIPropria = class(TACBrNFSeXWebserviceSoap11)
   protected
 
   public

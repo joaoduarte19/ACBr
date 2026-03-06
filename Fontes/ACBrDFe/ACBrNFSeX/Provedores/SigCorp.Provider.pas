@@ -41,10 +41,11 @@ uses
   ACBrXmlBase, ACBrXmlDocument, ACBrNFSeXClass, ACBrNFSeXConversao,
   ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
   ACBrNFSeXProviderABRASFv2,
-  ACBrNFSeXWebserviceBase, ACBrNFSeXWebservicesResponse;
+  ACBrNFSeXWebserviceBase, ACBrNFSeXWebservicesResponse,
+  ACBrJSON;
 
 type
-  TACBrNFSeXWebserviceSigCorp203 = class(TACBrNFSeXWebserviceSoap11)
+  TACBrNFSeXWebserviceSigCorp203 = class(TACBrNFSeXWebserviceMisto1)
   public
     function Recepcionar(const ACabecalho, AMSG: String): string; override;
     function RecepcionarSincrono(const ACabecalho, AMSG: String): string; override;
@@ -57,10 +58,17 @@ type
     function Cancelar(const ACabecalho, AMSG: String): string; override;
     function SubstituirNFSe(const ACabecalho, AMSG: String): string; override;
 
+    function ObterDANFSE(const ACabecalho, AMSG: string): string; override;
+
     function TratarXmlRetornado(const aXML: string): string; override;
   end;
 
   TACBrNFSeProviderSigCorp203 = class (TACBrNFSeProviderABRASFv2)
+  private
+    FPath: string;
+    FMethod: string;
+    FChave: string;
+
   protected
     procedure Configuracao; override;
 
@@ -69,9 +77,21 @@ type
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
 
     procedure TratarRetornoCancelaNFSe(Response: TNFSeCancelaNFSeResponse); override;
+
+    procedure PrepararObterDANFSE(Response: TNFSeObterDANFSEResponse); override;
+    procedure TratarRetornoObterDANFSE(Response: TNFSeObterDANFSEResponse); override;
+
+    procedure ProcessarMensagemDeErros(LJson: TACBrJSONObject;
+      Response: TNFSeWebserviceResponse; const AListTag: string);
+
+    procedure ValidarSchema(Response: TNFSeWebserviceResponse; aMetodo: TMetodo); override;
+  public
+    property Path: string read FPath write FPath;
+    property Method: string read FMethod write FMethod;
+    property Chave: string read FChave write FChave;
   end;
 
-  TACBrNFSeXWebserviceSigCorp204 = class(TACBrNFSeXWebserviceSoap11)
+  TACBrNFSeXWebserviceSigCorp204 = class(TACBrNFSeXWebserviceMisto1)
   private
     function GetNameSpace: string;
     function GetSoapAction: string;
@@ -89,6 +109,8 @@ type
     function Cancelar(const ACabecalho, AMSG: String): string; override;
     function SubstituirNFSe(const ACabecalho, AMSG: String): string; override;
 
+    function ObterDANFSE(const ACabecalho, AMSG: string): string; override;
+
     function TratarXmlRetornado(const aXML: string): string; override;
 
     property URL: string read GetURL;
@@ -98,6 +120,11 @@ type
   end;
 
   TACBrNFSeProviderSigCorp204 = class (TACBrNFSeProviderABRASFv2)
+  private
+    FPath: string;
+    FMethod: string;
+    FChave: string;
+
   protected
     procedure Configuracao; override;
 
@@ -105,13 +132,23 @@ type
     function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
 
+    procedure PrepararObterDANFSE(Response: TNFSeObterDANFSEResponse); override;
+    procedure TratarRetornoObterDANFSE(Response: TNFSeObterDANFSEResponse); override;
+
+    procedure ProcessarMensagemDeErros(LJson: TACBrJSONObject;
+      Response: TNFSeWebserviceResponse; const AListTag: string);
+    procedure ValidarSchema(Response: TNFSeWebserviceResponse; aMetodo: TMetodo); override;
+  public
+    property Path: string read FPath write FPath;
+    property Method: string read FMethod write FMethod;
+    property Chave: string read FChave write FChave;
   end;
 
 implementation
 
 uses
   ACBrDFe.Conversao,
-  ACBrUtil.XMLHTML, ACBrUtil.DateTime, ACBrUtil.Strings,
+  ACBrUtil.Base, ACBrUtil.XMLHTML, ACBrUtil.FilesIO, ACBrUtil.DateTime, ACBrUtil.Strings,
   ACBrDFeException, ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXConsts,
   ACBrNFSeXNotasFiscais, SigCorp.GravarXml, SigCorp.LerXml;
 
@@ -179,12 +216,25 @@ end;
 function TACBrNFSeProviderSigCorp203.CriarServiceClient(
   const AMetodo: TMetodo): TACBrNFSeXWebservice;
 var
-  URL: string;
+  URL, AMimeType: string;
 begin
   URL := GetWebServiceURL(AMetodo);
 
+  if AMetodo in [tmObterDANFSE] then
+  begin
+    ConfigGeral.FormatoArqEnvioSoap := tfaJson;
+    AMimeType := 'application/json';
+    URL := URL + Path;
+  end
+  else
+  begin
+    ConfigGeral.FormatoArqEnvioSoap := tfaXml;
+    AMimeType := 'text/xml';
+    Method := 'POST';
+  end;
+
   if URL <> '' then
-    Result := TACBrNFSeXWebserviceSigCorp203.Create(FAOwner, AMetodo, URL)
+    Result := TACBrNFSeXWebserviceSigCorp204.Create(FAOwner, AMetodo, URL, Method, AMimeType)
   else
   begin
     if ConfigGeral.Ambiente = taProducao then
@@ -294,6 +344,173 @@ begin
     end;
   finally
     FreeAndNil(Document);
+  end;
+end;
+
+procedure TACBrNFSeProviderSigCorp203.PrepararObterDANFSE(
+  Response: TNFSeObterDANFSEResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+begin
+  if EstaVazio(Response.ChaveNFSe) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod118;
+    AErro.Descricao := ACBrStr(Desc118);
+    Exit;
+  end;
+
+  Path := '/danfse/' + Response.ChaveNFSe;
+  Response.Metodo := tmObterDANFSE;
+
+  Response.ArquivoEnvio := Path;
+  Method := 'GET';
+end;
+
+procedure TACBrNFSeProviderSigCorp203.TratarRetornoObterDANFSE(
+  Response: TNFSeObterDANFSEResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+  Document: TACBrJSONObject;
+begin
+  if Response.ArquivoRetorno = '' then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod201;
+    AErro.Descricao := ACBrStr(Desc201);
+    Exit
+  end;
+
+  if Pos('"title":"Not Found","status":404', Response.ArquivoRetorno) > 0 then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod214;
+    AErro.Descricao := ACBrStr(Desc214);
+    Exit
+  end;
+
+  if not StringISPDF(Response.ArquivoRetorno) then
+  begin
+    Document := TACBrJsonObject.Parse(Response.ArquivoRetorno);
+
+    try
+      try
+        ProcessarMensagemDeErros(Document, Response, 'Erros');
+        Response.Sucesso := (Response.Erros.Count = 0);
+
+        if Response.Sucesso then
+          SalvarPDFNfse(Response.ChaveNFSe, Response.ArquivoRetorno);
+      except
+        on E:Exception do
+        begin
+          AErro := Response.Erros.New;
+          AErro.Codigo := Cod999;
+          AErro.Descricao := ACBrStr(Desc999 + E.Message);
+        end;
+      end;
+    finally
+      FreeAndNil(Document);
+    end;
+  end else
+  begin
+    try
+      Response.Sucesso := True;
+      SalvarPDFNfse(Response.ChaveNFSe, Response.ArquivoRetorno);
+    except
+      on E:Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
+      end;
+    end;
+  end;
+end;
+
+procedure TACBrNFSeProviderSigCorp203.ProcessarMensagemDeErros(
+  LJson: TACBrJSONObject; Response: TNFSeWebserviceResponse;
+  const AListTag: string);
+var
+  JSonLista: TACBrJSONArray;
+  JSon: TACBrJSONObject;
+
+  procedure AdicionaCollectionItem(JSonItem: TACBrJSONObject; Collection: TNFSeEventoCollection);
+  var
+    AItem: TNFSeEventoCollectionItem;
+    Codigo: string;
+  begin
+    Codigo := JSonItem.AsString['Codigo'];
+
+    if Codigo <> '' then
+    begin
+      AItem := Collection.New;
+      AItem.Codigo := Codigo;
+      AItem.Descricao := JSonItem.AsString['Descricao'];
+      AItem.Correcao := JSonItem.AsString['Complemento'];
+    end
+    else
+    begin
+      Codigo := JSonItem.AsString['codigo'];
+
+      if Codigo <> '' then
+      begin
+        AItem := Collection.New;
+        AItem.Codigo := Codigo;
+        AItem.Descricao := JSonItem.AsString['descricao'];
+        AItem.Correcao := JSonItem.AsString['complemento'];
+      end;
+    end;
+  end;
+
+  procedure LerListaErrosAlertas(jsLista: TACBrJSONArray; Collection: TNFSeEventoCollection);
+  var
+    i: Integer;
+  begin
+    for i := 0 to jsLista.Count-1 do
+    begin
+      JSon := jsLista.ItemAsJSONObject[i];
+
+      AdicionaCollectionItem(JSon, Collection);
+    end;
+  end;
+
+  procedure VerificaSeObjetoOuArray(aNome: string; Collection: TNFSeEventoCollection);
+  begin
+    // Verifica se no retorno contem um objeto ou array
+    if LJson.IsJSONArray(aNome) then
+    begin
+      JSonLista := LJson.AsJSONArray[aNome];
+
+      if JSonLista.Count > 0 then
+        LerListaErrosAlertas(JSonLista, Collection);
+    end
+    else
+    begin
+      JSon := LJson.AsJSONObject[aNome];
+
+      if JSon <> nil then
+        AdicionaCollectionItem(JSon, Collection);
+    end;
+  end;
+begin
+  // Verifica se no retorno contem a lista de Erros
+  VerificaSeObjetoOuArray(AListTag, Response.Erros);
+  // Verifica se no retorno contem a lista de erros
+  VerificaSeObjetoOuArray('erros', Response.Erros);
+  // Verifica se no retorno contem a lista de erro
+  VerificaSeObjetoOuArray('erro', Response.Erros);
+  // Verifica se no retorno contem a lista de Alertas
+  VerificaSeObjetoOuArray('Alertas', Response.Alertas);
+  // Verifica se no retorno contem a lista de Alertas
+  VerificaSeObjetoOuArray('alertas', Response.Alertas);
+end;
+
+procedure TACBrNFSeProviderSigCorp203.ValidarSchema(
+  Response: TNFSeWebserviceResponse; aMetodo: TMetodo);
+begin
+  if aMetodo <> tmObterDANFSE then
+  begin
+    inherited ValidarSchema(Response, aMetodo);
   end;
 end;
 
@@ -468,14 +685,26 @@ begin
                      ['xmlns:tem="http://tempuri.org/"']);
 end;
 
+function TACBrNFSeXWebserviceSigCorp203.ObterDANFSE(const ACabecalho,
+  AMSG: string): string;
+begin
+  FPMsgOrig := AMSG;
+
+  Result := Executar('', FPMsgOrig, [], []);
+end;
+
 function TACBrNFSeXWebserviceSigCorp203.TratarXmlRetornado(
   const aXML: string): string;
 begin
   Result := inherited TratarXmlRetornado(aXML);
 
-  Result := ParseText(Result);
-  Result := RemoverDeclaracaoXML(Result);
-  Result := RemoverCaracteresDesnecessarios(Result);
+  if not StringIsPDF(Result) then
+  begin
+
+    Result := ParseText(Result);
+    Result := RemoverDeclaracaoXML(Result);
+    Result := RemoverCaracteresDesnecessarios(Result);
+  end;
 end;
 
 { TACBrNFSeProviderSigCorp204 }
@@ -487,8 +716,9 @@ begin
   with ConfigGeral do
   begin
     QuebradeLinha := '|';
-    CancPreencherMotivo := True;
     ConsultaPorFaixaPreencherNumNfseFinal := True;
+    CancPreencherMotivo := True;
+    ServicosDisponibilizados.ObterDANFSE := True;
   end;
 
   with ConfigAssinar do
@@ -533,18 +763,196 @@ end;
 function TACBrNFSeProviderSigCorp204.CriarServiceClient(
   const AMetodo: TMetodo): TACBrNFSeXWebservice;
 var
-  URL: string;
+  URL, AMimeType: string;
 begin
   URL := GetWebServiceURL(AMetodo);
 
+  if AMetodo in [tmObterDANFSE] then
+  begin
+    ConfigGeral.FormatoArqEnvioSoap := tfaJson;
+    AMimeType := 'application/json';
+    URL := URL + Path;
+  end
+  else
+  begin
+    ConfigGeral.FormatoArqEnvioSoap := tfaXml;
+    AMimeType := 'text/xml';
+    Method := 'POST';
+  end;
+
   if URL <> '' then
-    Result := TACBrNFSeXWebserviceSigCorp204.Create(FAOwner, AMetodo, URL)
+    Result := TACBrNFSeXWebserviceSigCorp204.Create(FAOwner, AMetodo, URL, Method, AMimeType)
   else
   begin
     if ConfigGeral.Ambiente = taProducao then
       raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
     else
       raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
+end;
+
+procedure TACBrNFSeProviderSigCorp204.ProcessarMensagemDeErros(
+  LJson: TACBrJSONObject; Response: TNFSeWebserviceResponse;
+  const AListTag: string);
+var
+  JSonLista: TACBrJSONArray;
+  JSon: TACBrJSONObject;
+
+  procedure AdicionaCollectionItem(JSonItem: TACBrJSONObject; Collection: TNFSeEventoCollection);
+  var
+    AItem: TNFSeEventoCollectionItem;
+    Codigo: string;
+  begin
+    Codigo := JSonItem.AsString['Codigo'];
+
+    if Codigo <> '' then
+    begin
+      AItem := Collection.New;
+      AItem.Codigo := Codigo;
+      AItem.Descricao := JSonItem.AsString['Descricao'];
+      AItem.Correcao := JSonItem.AsString['Complemento'];
+    end
+    else
+    begin
+      Codigo := JSonItem.AsString['codigo'];
+
+      if Codigo <> '' then
+      begin
+        AItem := Collection.New;
+        AItem.Codigo := Codigo;
+        AItem.Descricao := JSonItem.AsString['descricao'];
+        AItem.Correcao := JSonItem.AsString['complemento'];
+      end;
+    end;
+  end;
+
+  procedure LerListaErrosAlertas(jsLista: TACBrJSONArray; Collection: TNFSeEventoCollection);
+  var
+    i: Integer;
+  begin
+    for i := 0 to jsLista.Count-1 do
+    begin
+      JSon := jsLista.ItemAsJSONObject[i];
+
+      AdicionaCollectionItem(JSon, Collection);
+    end;
+  end;
+
+  procedure VerificaSeObjetoOuArray(aNome: string; Collection: TNFSeEventoCollection);
+  begin
+    // Verifica se no retorno contem um objeto ou array
+    if LJson.IsJSONArray(aNome) then
+    begin
+      JSonLista := LJson.AsJSONArray[aNome];
+
+      if JSonLista.Count > 0 then
+        LerListaErrosAlertas(JSonLista, Collection);
+    end
+    else
+    begin
+      JSon := LJson.AsJSONObject[aNome];
+
+      if JSon <> nil then
+        AdicionaCollectionItem(JSon, Collection);
+    end;
+  end;
+begin
+  // Verifica se no retorno contem a lista de Erros
+  VerificaSeObjetoOuArray(AListTag, Response.Erros);
+  // Verifica se no retorno contem a lista de erros
+  VerificaSeObjetoOuArray('erros', Response.Erros);
+  // Verifica se no retorno contem a lista de erro
+  VerificaSeObjetoOuArray('erro', Response.Erros);
+  // Verifica se no retorno contem a lista de Alertas
+  VerificaSeObjetoOuArray('Alertas', Response.Alertas);
+  // Verifica se no retorno contem a lista de Alertas
+  VerificaSeObjetoOuArray('alertas', Response.Alertas);
+end;
+
+procedure TACBrNFSeProviderSigCorp204.PrepararObterDANFSE(Response: TNFSeObterDANFSEResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+begin
+  if EstaVazio(Response.ChaveNFSe) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod118;
+    AErro.Descricao := ACBrStr(Desc118);
+    Exit;
+  end;
+
+  Path := '/danfse/' + Response.ChaveNFSe;
+  Response.Metodo := tmObterDANFSE;
+
+  Response.ArquivoEnvio := Path;
+  Method := 'GET';
+end;
+
+procedure TACBrNFSeProviderSigCorp204.TratarRetornoObterDANFSE(Response: TNFSeObterDANFSEResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+  Document: TACBrJSONObject;
+begin
+  if Response.ArquivoRetorno = '' then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod201;
+    AErro.Descricao := ACBrStr(Desc201);
+    Exit
+  end;
+
+  if Pos('"title":"Not Found","status":404', Response.ArquivoRetorno) > 0 then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod214;
+    AErro.Descricao := ACBrStr(Desc214);
+    Exit
+  end;
+
+  if not StringISPDF(Response.ArquivoRetorno) then
+  begin
+    Document := TACBrJsonObject.Parse(Response.ArquivoRetorno);
+
+    try
+      try
+        ProcessarMensagemDeErros(Document, Response, 'Erros');
+        Response.Sucesso := (Response.Erros.Count = 0);
+
+        if Response.Sucesso then
+          SalvarPDFNfse(Response.ChaveNFSe, Response.ArquivoRetorno);
+      except
+        on E:Exception do
+        begin
+          AErro := Response.Erros.New;
+          AErro.Codigo := Cod999;
+          AErro.Descricao := ACBrStr(Desc999 + E.Message);
+        end;
+      end;
+    finally
+      FreeAndNil(Document);
+    end;
+  end else
+  begin
+    try
+      Response.Sucesso := True;
+      SalvarPDFNfse(Response.ChaveNFSe, Response.ArquivoRetorno);
+    except
+      on E:Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
+      end;
+    end;
+  end;
+end;
+
+procedure TACBrNFSeProviderSigCorp204.ValidarSchema(
+  Response: TNFSeWebserviceResponse; aMetodo: TMetodo);
+begin
+  if aMetodo <> tmObterDANFSE then
+  begin
+    inherited ValidarSchema(Response, aMetodo);
   end;
 end;
 
@@ -885,14 +1293,24 @@ begin
   end;
 end;
 
+function TACBrNFSeXWebserviceSigCorp204.ObterDANFSE(const ACabecalho, AMSG: string): string;
+begin
+  FPMsgOrig := AMSG;
+
+  Result := Executar('', FPMsgOrig, [], []);
+end;
+
 function TACBrNFSeXWebserviceSigCorp204.TratarXmlRetornado(
   const aXML: string): string;
 begin
   Result := inherited TratarXmlRetornado(aXML);
 
-  Result := ParseText(Result);
-  Result := RemoverDeclaracaoXML(Result);
-  Result := RemoverCaracteresDesnecessarios(Result);
+  if not StringIsPDF(Result) then
+  begin
+    Result := ParseText(Result);
+    Result := RemoverDeclaracaoXML(Result);
+    Result := RemoverCaracteresDesnecessarios(Result);
+  end;
 end;
 
 end.

@@ -251,6 +251,9 @@ end;
 { TACBrNFSeProviderNFSeBrasil }
 
 procedure TACBrNFSeProviderNFSeBrasil.Configuracao;
+const
+  ProXMLNameSpace = 'https://www.nfsebrasil.net.br/nfse/rps/xsd/rps.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance';
+  HomXMLNameSpace = 'https://web1.memory.com.br/nfse/rps/xsd/rps.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance';
 begin
   inherited Configuracao;
 
@@ -268,9 +271,9 @@ begin
   ConfigMsgDados.Prefixo := 'xs';
 
   if FAOwner.Configuracoes.WebServices.AmbienteCodigo = 1 then
-    SetXmlNameSpace(ConfigWebServices.Producao.XMLNameSpace)
+    SetXmlNameSpace(ProXMLNameSpace)
   else
-    SetXmlNameSpace(ConfigWebServices.Homologacao.XMLNameSpace);
+    SetXmlNameSpace(HomXMLNameSpace);
 
   ConfigMsgDados.ConsultarNFSe.DocElemento := 'ConsultarNfsePorRpsEnvio';
 

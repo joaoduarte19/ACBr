@@ -327,7 +327,7 @@ begin
   // Propriedades de Formatação de informações
   FFormatoEmissao := tcDatHor;
   FFormatoCompetencia := tcDatHor;
-  FFormDiscriminacao := fdNenhum;
+//  FFormDiscriminacao := fdNenhum;
   FFormItemLServico := filsComFormatacao;
 
   // Os 4 IF abaixo vão configurar o componente conforme a presença do

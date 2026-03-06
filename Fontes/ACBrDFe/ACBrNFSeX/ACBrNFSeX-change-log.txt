@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 06/03/2026
+-- Diversos --
+[*] ACBR-9002 - Alteraçoes em diversas units para poder implementar serviços do Padrão Nacional 
+    em provedores que trabalham com WebService Soap.
+    https://www.projetoacbr.com.br/forum/topic/90459-acbr-9002-recuperar-danfse-nacional-provedores-sem-implementa%C3%A7%C3%A3o/
+   Por: Diogo Loff/Italo Giurizzato Junior
 -- ACBrNFSeXDANFSeRLPadraoNacional --
 [*] ACBR-9068 - Mais alguns ajustes no DANFSE.
     https://www.projetoacbr.com.br/forum/topic/90733-acbr-9068-novo-danfse-segundo-o-layout-do-padr%C3%A3o-nacional/?&_rid=37999#findComment-591675

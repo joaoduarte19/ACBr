@@ -275,61 +275,94 @@ type
 
   end;
 
+  {
+    Utilizado pelos provedores que para alguns serviços usa a API text/xml
+    e para outros serviços a API Rest
+  }
+  TACBrNFSeXWebserviceMisto3 = class(TACBrNFSeXWebserviceNoSoap)
+  protected
+    FPBound: string;
+
+    function DefinirMsgEnvio(const Message, SoapAction, SoapHeader: string;
+                                  namespace: array of string): string; override;
+  public
+    constructor Create(AOwner: TACBrDFe; AMetodo: TMetodo; const AURL: string;
+      const AMethod: string = 'POST'; const AMimeType: string = 'text/xml');
+
+  end;
+
+  {
+    Utilizado pelos provedores que para alguns serviços usa a API text/xml
+    e para outros serviços a API Rest
+  }
+  TACBrNFSeXWebserviceMisto4 = class(TACBrNFSeXWebserviceNoSoap)
+  protected
+    FPBound: string;
+
+    function DefinirMsgEnvio(const Message, SoapAction, SoapHeader: string;
+                           namespace: array of string): string; override;
+
+  public
+    constructor Create(AOwner: TACBrDFe; AMetodo: TMetodo; const AURL: string;
+      const AMethod: string = 'POST'; const AMimeType: string = 'text/xml');
+
+  end;
+
   TInfConsultaNFSe = class
- private
-   FtpConsulta: TtpConsulta;
-   FtpPeriodo: TtpPeriodo;
-   FtpRetorno: TtpRetorno;
-   FNumeroIniNFSe: string;
-   FNumeroFinNFSe: string;
-   FSerieNFSe: string;
-   FNumeroLote: string;
-   FDataInicial: TDateTime;
-   FDataFinal: TDateTime;
+  private
+    FtpConsulta: TtpConsulta;
+    FtpPeriodo: TtpPeriodo;
+    FtpRetorno: TtpRetorno;
+    FNumeroIniNFSe: string;
+    FNumeroFinNFSe: string;
+    FSerieNFSe: string;
+    FNumeroLote: string;
+    FDataInicial: TDateTime;
+    FDataFinal: TDateTime;
 
-   FCNPJPrestador: string;
-   FIMPrestador: string;
-   FCNPJTomador: string;
-   FIMTomador: string;
-   FCNPJInter: string;
-   FIMInter: string;
-   FRazaoInter: string;
-   FCadEconomico: string;
-   FCodServ: string;
-   FCodVerificacao: string;
-   FChaveNFSe: string;
-   FPagina: Integer;
-   FNumeroRps: string;
-   FDataRecibo: TDateTime;
- public
-   constructor Create;
+    FCNPJPrestador: string;
+    FIMPrestador: string;
+    FCNPJTomador: string;
+    FIMTomador: string;
+    FCNPJInter: string;
+    FIMInter: string;
+    FRazaoInter: string;
+    FCadEconomico: string;
+    FCodServ: string;
+    FCodVerificacao: string;
+    FChaveNFSe: string;
+    FPagina: Integer;
+    FNumeroRps: string;
+    FDataRecibo: TDateTime;
+  public
+    constructor Create;
 
-   function LerFromIni(const AIniStr: string): Boolean;
+    function LerFromIni(const AIniStr: string): Boolean;
 
-   property tpConsulta: TtpConsulta read FtpConsulta    write FtpConsulta;
-   property tpPeriodo: TtpPeriodo   read FtpPeriodo     write FtpPeriodo;
-   property tpRetorno: TtpRetorno   read FtpRetorno     write FtpRetorno;
-   property NumeroIniNFSe: string   read FNumeroIniNFSe write FNumeroIniNFSe;
-   property NumeroFinNFSe: string   read FNumeroFinNFSe write FNumeroFinNFSe;
-   property SerieNFSe: string       read FSerieNFSe     write FSerieNFSe;
-   property NumeroLote: string      read FNumeroLote    write FNumeroLote;
-   property DataInicial: TDateTime  read FDataInicial   write FDataInicial;
-   property DataFinal: TDateTime    read FDataFinal     write FDataFinal;
-   property CNPJPrestador: string   read FCNPJPrestador write FCNPJPrestador;
-   property IMPrestador: string     read FIMPrestador   write FIMPrestador;
-   property CNPJTomador: string     read FCNPJTomador   write FCNPJTomador;
-   property IMTomador: string       read FIMTomador     write FIMTomador;
-   property CNPJInter: string       read FCNPJInter     write FCNPJInter;
-   property IMInter: string         read FIMInter       write FIMInter;
-   property RazaoInter: string      read FRazaoInter    write FRazaoInter;
-   property CadEconomico: string    read FCadEconomico  write FCadEconomico;
-   property CodServ: string         read FCodServ       write FCodServ;
-   property CodVerificacao: string  read FCodVerificacao write FCodVerificacao;
-   property ChaveNFSe: string       read FChaveNFSe     write FChaveNFSe;
-   property Pagina: Integer         read FPagina        write FPagina;
-   property NumeroRps: string       read FNumeroRps     write FNumeroRps;
-   property DataRecibo: TDateTime   read FDataRecibo    write FDataRecibo;
- end;
+    property tpConsulta: TtpConsulta read FtpConsulta    write FtpConsulta;
+    property tpPeriodo: TtpPeriodo   read FtpPeriodo     write FtpPeriodo;
+    property tpRetorno: TtpRetorno   read FtpRetorno     write FtpRetorno;
+    property NumeroIniNFSe: string   read FNumeroIniNFSe write FNumeroIniNFSe;
+    property NumeroFinNFSe: string   read FNumeroFinNFSe write FNumeroFinNFSe;
+    property SerieNFSe: string       read FSerieNFSe     write FSerieNFSe;
+    property NumeroLote: string      read FNumeroLote    write FNumeroLote;
+    property DataInicial: TDateTime  read FDataInicial   write FDataInicial;
+    property DataFinal: TDateTime    read FDataFinal     write FDataFinal;
+    property CNPJPrestador: string   read FCNPJPrestador write FCNPJPrestador;
+    property IMPrestador: string     read FIMPrestador   write FIMPrestador;
+    property CNPJTomador: string     read FCNPJTomador   write FCNPJTomador;
+    property IMTomador: string       read FIMTomador     write FIMTomador;
+    property CNPJInter: string       read FCNPJInter     write FCNPJInter;
+    property IMInter: string         read FIMInter       write FIMInter;
+    property RazaoInter: string      read FRazaoInter    write FRazaoInter;
+    property CadEconomico: string    read FCadEconomico  write FCadEconomico;
+    property CodServ: string         read FCodServ       write FCodServ;
+    property CodVerificacao: string  read FCodVerificacao write FCodVerificacao;
+    property ChaveNFSe: string       read FChaveNFSe     write FChaveNFSe;
+    property Pagina: Integer         read FPagina        write FPagina;
+    property NumeroRps: string       read FNumeroRps     write FNumeroRps;
+    property DataRecibo: TDateTime   read FDataRecibo    write FDataRecibo;
+  end;
 
   TInfConsultaLinkNFSe = class
   private
@@ -1158,6 +1191,7 @@ begin
     FPHttpClient.DataResp.Position := 0;
 
     FPRetorno := ReadStrFromStream(FPHttpClient.DataResp, FPHttpClient.DataResp.Size);
+//    FPRetorno := RemoverUTF8BOM(FPRetorno);
 
     if FPRetorno = '' then
       raise EACBrDFeException.Create('WebService retornou um XML vazio.');
@@ -1704,6 +1738,117 @@ begin
     Result := string(NativeStringToUTF8(Result));
 
     FPMimeType := FPMimeType + ';action="' + SoapAction + '"';
+
+    FPHttpClient := FPDFeOwner.SSL.SSLHttpClass;
+
+    FPHttpClient.Clear;
+  end;
+end;
+
+{ TACBrNFSeXWebserviceMisto3 }
+
+constructor TACBrNFSeXWebserviceMisto3.Create(AOwner: TACBrDFe;
+  AMetodo: TMetodo; const AURL, AMethod, AMimeType: string);
+begin
+  inherited Create(AOwner, AMetodo, AURL, AMethod);
+
+  if AMimeType = 'application/json' then
+    FPMimeType := AMimeType
+  else
+  begin
+    FPBound := IntToHex(Random(MaxInt), 8) + '_Synapse_boundary';
+    FPMimeType := 'multipart/form-data; boundary=' + AnsiQuotedStr(FPBound, '"');
+  end;
+end;
+
+function TACBrNFSeXWebserviceMisto3.DefinirMsgEnvio(const Message, SoapAction,
+  SoapHeader: string; namespace: array of string): string;
+var
+  UsuarioWeb, SenhaWeb: string;
+begin
+  if MimeType = 'application/json' then
+  begin
+    Result := Message;
+
+    FPHttpClient := FPDFeOwner.SSL.SSLHttpClass;
+
+    FPHttpClient.Clear;
+  end
+  else
+  begin
+    UsuarioWeb := Trim(TConfiguracoesNFSe(FPConfiguracoes).Geral.Emitente.WSUser);
+
+    if UsuarioWeb = '' then
+      GerarException(ACBrStr('O provedor ' + TConfiguracoesNFSe(FPConfiguracoes).Geral.xProvedor +
+        ' necessita que a propriedade: Configuracoes.Geral.Emitente.WSUser seja informada.'));
+
+    SenhaWeb := Trim(TConfiguracoesNFSe(FPConfiguracoes).Geral.Emitente.WSSenha);
+
+    if SenhaWeb = '' then
+      GerarException(ACBrStr('O provedor ' + TConfiguracoesNFSe(FPConfiguracoes).Geral.xProvedor +
+        ' necessita que a propriedade: Configuracoes.Geral.Emitente.WSSenha seja informada.'));
+
+    Result := '--' + FPBound + sLineBreak +
+              'Content-Disposition: form-data; name=' +
+              AnsiQuotedStr( 'login', '"') + sLineBreak + sLineBreak + UsuarioWeb + sLineBreak +
+              '--' + FPBound + sLineBreak +
+              'Content-Disposition: form-data; name=' +
+              AnsiQuotedStr( 'senha', '"') + sLineBreak + sLineBreak + SenhaWeb + sLineBreak +
+              '--' + FPBound + sLineBreak +
+              'Content-Disposition: form-data; name=' +
+              AnsiQuotedStr('f1', '"' ) + '; ' + 'filename=' +
+              AnsiQuotedStr(GerarPrefixoArquivo + '-' + FPArqEnv + '.xml', '"') + sLineBreak +
+              'Content-Type: text/xml' + sLineBreak + sLineBreak + Message + sLineBreak +
+              '--' + FPBound + '--' + sLineBreak;
+
+    FPHttpClient := FPDFeOwner.SSL.SSLHttpClass;
+
+    FPHttpClient.Clear;
+  end;
+end;
+
+{ TACBrNFSeXWebserviceMisto4 }
+
+constructor TACBrNFSeXWebserviceMisto4.Create(AOwner: TACBrDFe;
+  AMetodo: TMetodo; const AURL, AMethod, AMimeType: string);
+begin
+  inherited Create(AOwner, AMetodo, AURL, AMethod);
+
+  if AMimeType = 'application/json' then
+    FPMimeType := AMimeType
+  else
+  begin
+    FPBound := '----=_Part_3_' + IntToHex(Random(MaxInt), 8);
+    FPMimeType := 'multipart/form-data; boundary=' + AnsiQuotedStr(FPBound, '"');
+  end;
+end;
+
+function TACBrNFSeXWebserviceMisto4.DefinirMsgEnvio(const Message, SoapAction,
+  SoapHeader: string; namespace: array of string): string;
+var
+  NomeArq: string;
+begin
+  if MimeType = 'application/json' then
+  begin
+    Result := Message;
+
+    FPHttpClient := FPDFeOwner.SSL.SSLHttpClass;
+
+    FPHttpClient.Clear;
+  end
+  else
+  begin
+    NomeArq := GerarPrefixoArquivo + '-' + FPArqEnv + '.xml';
+
+    Result := '--' + FPBound + sLineBreak +
+              'Content-Type: text/xml; charset=Cp1252; name=' +
+              NomeArq + sLineBreak +
+              'Content-Transfer-Encoding: binary' + sLineBreak +
+              'Content-Disposition: form-data; name=' + AnsiQuotedStr(NomeArq, '"') +
+              '; filename=' + AnsiQuotedStr(NomeArq, '"') + sLineBreak +
+              sLineBreak +
+              Message + sLineBreak +
+              '--' + FPBound + '--' + sLineBreak;
 
     FPHttpClient := FPDFeOwner.SSL.SSLHttpClass;
 

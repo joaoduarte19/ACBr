@@ -816,68 +816,62 @@ end;
 procedure TConfigWebServices.LoadUrlHomologacao(AINI: TCustomIniFile;
   const ASession: string);
 begin
-  with Homologacao do
-  begin
-    FRecepcionar         := AINI.ReadString(ASession, 'HomRecepcionar'        , '');
-    FConsultarSituacao   := AINI.ReadString(ASession, 'HomConsultarSituacao'  , FRecepcionar);
-    FConsultarLote       := AINI.ReadString(ASession, 'HomConsultarLote'      , FRecepcionar);
-    FConsultarNFSeRPS    := AINI.ReadString(ASession, 'HomConsultarNFSeRps'   , FRecepcionar);
-    FConsultarNFSe       := AINI.ReadString(ASession, 'HomConsultarNFSe'      , FRecepcionar);
-    FConsultarLinkNFSe   := AINI.ReadString(ASession, 'HomConsultarLinkNFSe'  , FRecepcionar);
-    FCancelarNFSe        := AINI.ReadString(ASession, 'HomCancelarNFSe'       , FRecepcionar);
-    FGerarNFSe           := AINI.ReadString(ASession, 'HomGerarNFSe'          , FRecepcionar);
-    FRecepcionarSincrono := AINI.ReadString(ASession, 'HomRecepcionarSincrono', FRecepcionar);
-    FSubstituirNFSe      := AINI.ReadString(ASession, 'HomSubstituirNFSe'     , FRecepcionar);
-    FAbrirSessao         := AINI.ReadString(ASession, 'HomAbrirSessao'        , FRecepcionar);
-    FFecharSessao        := AINI.ReadString(ASession, 'HomFecharSessao'       , FRecepcionar);
-    FGerarToken          := AINI.ReadString(ASession, 'HomGerarToken'         , FRecepcionar);
-    FEnviarEvento        := AINI.ReadString(ASession, 'HomEnviarEvento'       , FRecepcionar);
-    FConsultarEvento     := AINI.ReadString(ASession, 'HomConsultarEvento'    , FRecepcionar);
-    FConsultarDFe        := AINI.ReadString(ASession, 'HomConsultarDFe'       , FRecepcionar);
-    FConsultarParam      := AINI.ReadString(ASession, 'HomConsultarParam'     , FRecepcionar);
-    FObterDANFSE         := AINI.ReadString(ASession, 'HomObterDANFSE'        , FRecepcionar);
+  Homologacao.FRecepcionar         := AINI.ReadString(ASession, 'HomRecepcionar'        , '');
+  Homologacao.FConsultarSituacao   := AINI.ReadString(ASession, 'HomConsultarSituacao'  , Homologacao.FRecepcionar);
+  Homologacao.FConsultarLote       := AINI.ReadString(ASession, 'HomConsultarLote'      , Homologacao.FRecepcionar);
+  Homologacao.FConsultarNFSeRPS    := AINI.ReadString(ASession, 'HomConsultarNFSeRps'   , Homologacao.FRecepcionar);
+  Homologacao.FConsultarNFSe       := AINI.ReadString(ASession, 'HomConsultarNFSe'      , Homologacao.FRecepcionar);
+  Homologacao.FConsultarLinkNFSe   := AINI.ReadString(ASession, 'HomConsultarLinkNFSe'  , Homologacao.FRecepcionar);
+  Homologacao.FCancelarNFSe        := AINI.ReadString(ASession, 'HomCancelarNFSe'       , Homologacao.FRecepcionar);
+  Homologacao.FGerarNFSe           := AINI.ReadString(ASession, 'HomGerarNFSe'          , Homologacao.FRecepcionar);
+  Homologacao.FRecepcionarSincrono := AINI.ReadString(ASession, 'HomRecepcionarSincrono', Homologacao.FRecepcionar);
+  Homologacao.FSubstituirNFSe      := AINI.ReadString(ASession, 'HomSubstituirNFSe'     , Homologacao.FRecepcionar);
+  Homologacao.FAbrirSessao         := AINI.ReadString(ASession, 'HomAbrirSessao'        , Homologacao.FRecepcionar);
+  Homologacao.FFecharSessao        := AINI.ReadString(ASession, 'HomFecharSessao'       , Homologacao.FRecepcionar);
+  Homologacao.FGerarToken          := AINI.ReadString(ASession, 'HomGerarToken'         , Homologacao.FRecepcionar);
+  Homologacao.FEnviarEvento        := AINI.ReadString(ASession, 'HomEnviarEvento'       , Homologacao.FRecepcionar);
+  Homologacao.FConsultarEvento     := AINI.ReadString(ASession, 'HomConsultarEvento'    , Homologacao.FRecepcionar);
+  Homologacao.FConsultarDFe        := AINI.ReadString(ASession, 'HomConsultarDFe'       , Homologacao.FRecepcionar);
+  Homologacao.FConsultarParam      := AINI.ReadString(ASession, 'HomConsultarParam'     , Homologacao.FRecepcionar);
+  Homologacao.FObterDANFSE         := AINI.ReadString(ASession, 'HomObterDANFSE'        , Homologacao.FRecepcionar);
 
-    FConsultarNFSePorChave        := AINI.ReadString(ASession, 'HomConsultarNFSePorChave'       , FRecepcionar);
-    FConsultarNFSePorFaixa        := AINI.ReadString(ASession, 'HomConsultarNFSePorFaixa'       , FRecepcionar);
-    FConsultarNFSeServicoPrestado := AINI.ReadString(ASession, 'HomConsultarNFSeServicoPrestado', FRecepcionar);
-    FConsultarNFSeServicoTomado   := AINI.ReadString(ASession, 'HomConsultarNFSeServicoTomado'  , FRecepcionar);
+  Homologacao.FConsultarNFSePorChave        := AINI.ReadString(ASession, 'HomConsultarNFSePorChave'       , Homologacao.FRecepcionar);
+  Homologacao.FConsultarNFSePorFaixa        := AINI.ReadString(ASession, 'HomConsultarNFSePorFaixa'       , Homologacao.FRecepcionar);
+  Homologacao.FConsultarNFSeServicoPrestado := AINI.ReadString(ASession, 'HomConsultarNFSeServicoPrestado', Homologacao.FRecepcionar);
+  Homologacao.FConsultarNFSeServicoTomado   := AINI.ReadString(ASession, 'HomConsultarNFSeServicoTomado'  , Homologacao.FRecepcionar);
 
-    FTesteEnvio      := AINI.ReadString(ASession, 'HomTesteEnvio'     , FRecepcionar);
-    FConsultarSeqRps := AINI.ReadString(ASession, 'HomConsultarSeqRps', FRecepcionar);
-  end;
+  Homologacao.FTesteEnvio      := AINI.ReadString(ASession, 'HomTesteEnvio'     , Homologacao.FRecepcionar);
+  Homologacao.FConsultarSeqRps := AINI.ReadString(ASession, 'HomConsultarSeqRps', Homologacao.FRecepcionar);
 end;
 
 procedure TConfigWebServices.LoadUrlProducao(AINI: TCustomIniFile; const ASession: string);
 begin
-  with Producao do
-  begin
-    FRecepcionar         := AINI.ReadString(ASession, 'ProRecepcionar'        , '');
-    FConsultarSituacao   := AINI.ReadString(ASession, 'ProConsultarSituacao'  , FRecepcionar);
-    FConsultarLote       := AINI.ReadString(ASession, 'ProConsultarLote'      , FRecepcionar);
-    FConsultarNFSeRPS    := AINI.ReadString(ASession, 'ProConsultarNFSeRps'   , FRecepcionar);
-    FConsultarNFSe       := AINI.ReadString(ASession, 'ProConsultarNFSe'      , FRecepcionar);
-    FConsultarLinkNFSe   := AINI.ReadString(ASession, 'ProConsultarLinkNFSe'  , FRecepcionar);
-    FCancelarNFSe        := AINI.ReadString(ASession, 'ProCancelarNFSe'       , FRecepcionar);
-    FGerarNFSe           := AINI.ReadString(ASession, 'ProGerarNFSe'          , FRecepcionar);
-    FRecepcionarSincrono := AINI.ReadString(ASession, 'ProRecepcionarSincrono', FRecepcionar);
-    FSubstituirNFSe      := AINI.ReadString(ASession, 'ProSubstituirNFSe'     , FRecepcionar);
-    FAbrirSessao         := AINI.ReadString(ASession, 'ProAbrirSessao'        , FRecepcionar);
-    FFecharSessao        := AINI.ReadString(ASession, 'ProFecharSessao'       , FRecepcionar);
-    FGerarToken          := AINI.ReadString(ASession, 'ProGerarToken'         , FRecepcionar);
-    FEnviarEvento        := AINI.ReadString(ASession, 'ProEnviarEvento'       , FRecepcionar);
-    FConsultarEvento     := AINI.ReadString(ASession, 'ProConsultarEvento'    , FRecepcionar);
-    FConsultarDFe        := AINI.ReadString(ASession, 'ProConsultarDFe'       , FRecepcionar);
-    FConsultarParam      := AINI.ReadString(ASession, 'ProConsultarParam'     , FRecepcionar);
-    FObterDANFSE         := AINI.ReadString(ASession, 'ProObterDANFSE'        , FRecepcionar);
+  Producao.FRecepcionar         := AINI.ReadString(ASession, 'ProRecepcionar'        , '');
+  Producao.FConsultarSituacao   := AINI.ReadString(ASession, 'ProConsultarSituacao'  , Producao.FRecepcionar);
+  Producao.FConsultarLote       := AINI.ReadString(ASession, 'ProConsultarLote'      , Producao.FRecepcionar);
+  Producao.FConsultarNFSeRPS    := AINI.ReadString(ASession, 'ProConsultarNFSeRps'   , Producao.FRecepcionar);
+  Producao.FConsultarNFSe       := AINI.ReadString(ASession, 'ProConsultarNFSe'      , Producao.FRecepcionar);
+  Producao.FConsultarLinkNFSe   := AINI.ReadString(ASession, 'ProConsultarLinkNFSe'  , Producao.FRecepcionar);
+  Producao.FCancelarNFSe        := AINI.ReadString(ASession, 'ProCancelarNFSe'       , Producao.FRecepcionar);
+  Producao.FGerarNFSe           := AINI.ReadString(ASession, 'ProGerarNFSe'          , Producao.FRecepcionar);
+  Producao.FRecepcionarSincrono := AINI.ReadString(ASession, 'ProRecepcionarSincrono', Producao.FRecepcionar);
+  Producao.FSubstituirNFSe      := AINI.ReadString(ASession, 'ProSubstituirNFSe'     , Producao.FRecepcionar);
+  Producao.FAbrirSessao         := AINI.ReadString(ASession, 'ProAbrirSessao'        , Producao.FRecepcionar);
+  Producao.FFecharSessao        := AINI.ReadString(ASession, 'ProFecharSessao'       , Producao.FRecepcionar);
+  Producao.FGerarToken          := AINI.ReadString(ASession, 'ProGerarToken'         , Producao.FRecepcionar);
+  Producao.FEnviarEvento        := AINI.ReadString(ASession, 'ProEnviarEvento'       , Producao.FRecepcionar);
+  Producao.FConsultarEvento     := AINI.ReadString(ASession, 'ProConsultarEvento'    , Producao.FRecepcionar);
+  Producao.FConsultarDFe        := AINI.ReadString(ASession, 'ProConsultarDFe'       , Producao.FRecepcionar);
+  Producao.FConsultarParam      := AINI.ReadString(ASession, 'ProConsultarParam'     , Producao.FRecepcionar);
+  Producao.FObterDANFSE         := AINI.ReadString(ASession, 'ProObterDANFSE'        , Producao.FRecepcionar);
 
-    FConsultarNFSePorChave        := AINI.ReadString(ASession, 'ProConsultarNFSePorChave'       , FRecepcionar);
-    FConsultarNFSePorFaixa        := AINI.ReadString(ASession, 'ProConsultarNFSePorFaixa'       , FRecepcionar);
-    FConsultarNFSeServicoPrestado := AINI.ReadString(ASession, 'ProConsultarNFSeServicoPrestado', FRecepcionar);
-    FConsultarNFSeServicoTomado   := AINI.ReadString(ASession, 'ProConsultarNFSeServicoTomado'  , FRecepcionar);
+  Producao.FConsultarNFSePorChave        := AINI.ReadString(ASession, 'ProConsultarNFSePorChave'       , Producao.FRecepcionar);
+  Producao.FConsultarNFSePorFaixa        := AINI.ReadString(ASession, 'ProConsultarNFSePorFaixa'       , Producao.FRecepcionar);
+  Producao.FConsultarNFSeServicoPrestado := AINI.ReadString(ASession, 'ProConsultarNFSeServicoPrestado', Producao.FRecepcionar);
+  Producao.FConsultarNFSeServicoTomado   := AINI.ReadString(ASession, 'ProConsultarNFSeServicoTomado'  , Producao.FRecepcionar);
 
-    FTesteEnvio      := AINI.ReadString(ASession, 'ProTesteEnvio'     , FRecepcionar);
-    FConsultarSeqRps := AINI.ReadString(ASession, 'ProConsultarSeqRps', FRecepcionar);
-  end;
+  Producao.FTesteEnvio      := AINI.ReadString(ASession, 'ProTesteEnvio'     , Producao.FRecepcionar);
+  Producao.FConsultarSeqRps := AINI.ReadString(ASession, 'ProConsultarSeqRps', Producao.FRecepcionar);
 end;
 
 procedure TConfigWebServices.LoadUrlProducaoAPIPadraoNacional(
