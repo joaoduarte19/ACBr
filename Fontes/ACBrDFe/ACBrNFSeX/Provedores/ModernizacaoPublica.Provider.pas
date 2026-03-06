@@ -95,6 +95,7 @@ type
   private
 
   protected
+    procedure Configuracao; override;
     function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
     function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
@@ -392,6 +393,12 @@ begin
 end;
 
 { TACBrNFSeProviderModernizacaoPublicaAPIPropria }
+
+procedure TACBrNFSeProviderModernizacaoPublicaAPIPropria.Configuracao;
+begin
+  inherited Configuracao;
+  ConfigGeral.Autenticacao.RequerLogin := True;
+end;
 
 function TACBrNFSeProviderModernizacaoPublicaAPIPropria.CriarGeradorXml(
   const ANFSe: TNFSe): TNFSeWClass;

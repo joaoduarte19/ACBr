@@ -448,7 +448,10 @@ begin
     FormatoArqEnvioSoap := tfaXml;
     FormatoArqRetornoSoap := tfaXml;
 
+    ServicosDisponibilizados.EnviarLoteAssincrono := True;
+    ServicosDisponibilizados.EnviarLoteSincrono := True;
     ServicosDisponibilizados.EnviarUnitario := True;
+    ServicosDisponibilizados.ConsultarLote := True;
     ServicosDisponibilizados.ConsultarNfseChave := True;
     ServicosDisponibilizados.ConsultarRps := True;
     ServicosDisponibilizados.EnviarEvento := True;

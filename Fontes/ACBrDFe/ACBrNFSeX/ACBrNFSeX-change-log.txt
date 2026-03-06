@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 06/03/2026
+-- ABase.Provider/EL.Provider/Fiorilli.Provider/ModernizacaoPublica.Provider --
+[*] ACBR-8729 - Ajustes visando deixar as informações sobre o provedor mais fieis as suas respectivas particularidades.
+   Por: Diego Folieni
 -- ACBrNFSeXServicos --
 [*] A cidade Caçu/GO trocou e provedor, agora é Centi.
    Por: eusouhudsonsantos

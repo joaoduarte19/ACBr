@@ -409,6 +409,8 @@ begin
     FormatoArqRetornoSoap := tfaXml;
 
     ServicosDisponibilizados.ConsultarLote := True;
+
+    Autenticacao.RequerChaveAcesso := True;
   end;
 end;
 
