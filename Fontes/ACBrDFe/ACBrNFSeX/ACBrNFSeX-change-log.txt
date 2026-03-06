@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 06/03/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9081 - As cidades cujo provedor é GeisWeb tiveram suas URLs alteradas.
+   Por: Marcos LP
+[*] ACBR-9054 - A cidade Balneário Gaivota/SC trocou e provedor, agora é PadraoNacional.
+   Por: Mario Inacio
 -- ACBrNFSeXDANFSeRLPadraoNacional --
 [*] Melhorias na impressão estava cortando os dados do Intermediário.
    Por: Italo Giurizzato Junior
