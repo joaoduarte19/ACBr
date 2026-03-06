@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 06/03/2026
+-- SigISS.Provider --
+[*] ACBR-9085 - Ajustes na geração do XML de cancelamento.
+    https://www.projetoacbr.com.br/forum/topic/90730-acbr-9085-cancelamento-da-nfse-itapira/
+   Por: Italo Giurizzato Junior
 -- ISSBarueri.GravarXml --
 [*] ACBR-9058 - Ajustes na geração do XML do RPS.
    Por: Jéter Rabelo Ferreira

@@ -458,6 +458,14 @@ begin
     Exit;
   end;
 
+  if EstaVazio(Response.InfCancelamento.CodCancelamento) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod109;
+    AErro.Descricao := ACBrStr(Desc109);
+    Exit;
+  end;
+
   if EstaVazio(Response.InfCancelamento.MotCancelamento) then
   begin
     AErro := Response.Erros.New;
@@ -476,9 +484,12 @@ begin
                                '<nota>' +
                                  Response.InfCancelamento.NumeroNFSe +
                                '</nota>' +
-                               '<motivo>' +
+                               '<cMotivo>' +
+                                 Response.InfCancelamento.CodCancelamento +
+                               '</cMotivo>' +
+                               '<xMotivo>' +
                                  Response.InfCancelamento.MotCancelamento +
-                               '</motivo>' +
+                               '</xMotivo>' +
                                '<email>' +
                                  Response.InfCancelamento.email +
                                '</email>' +
@@ -630,6 +641,14 @@ begin
     Exit;
   end;
 
+  if EstaVazio(Response.InfCancelamento.CodCancelamento) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod109;
+    AErro.Descricao := ACBrStr(Desc109);
+    Exit;
+  end;
+
   if EstaVazio(Response.InfCancelamento.MotCancelamento) then
   begin
     AErro := Response.Erros.New;
@@ -650,9 +669,12 @@ begin
                                '<nota>' +
                                  Response.InfCancelamento.NumeroNFSe +
                                '</nota>' +
-                               '<motivo>' +
+                               '<cMotivo>' +
+                                 Response.InfCancelamento.CodCancelamento +
+                               '</cMotivo>' +
+                               '<xMotivo>' +
                                  Response.InfCancelamento.MotCancelamento +
-                               '</motivo>' +
+                               '</xMotivo>' +
                                '<email>' +
                                  Response.InfCancelamento.email +
                                '</email>' +
