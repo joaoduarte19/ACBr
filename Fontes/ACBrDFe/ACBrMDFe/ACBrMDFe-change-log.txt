@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+06/03/2026
+-- Frm_ACBrMDFe --
+[+] ACBR-8578: Implementado motor FPDF no programa de exemplo em Delphi DE MDFe
+  Por: Renato Rubinho
+
 25/02/2026
 -- ACBrMDFeManifestos --
 [*] Alteração visando remover se necessário os bytes do UTF8 BOM ao carregar um XML.

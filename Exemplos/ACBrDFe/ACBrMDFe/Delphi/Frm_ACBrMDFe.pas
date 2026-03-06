@@ -32,6 +32,10 @@ unit Frm_ACBrMDFe;
 
 interface
 
+//descomentar o motor de relatório que desejar utilizar! removendo o ponto
+{$DEFINE GERADOR_FORTES_REPORT}
+{.$DEFINE GERADOR_FPDF}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, StdCtrls, Spin, Buttons, ComCtrls, OleCtrls, SHDocVw,
@@ -39,7 +43,10 @@ uses
   ACBrBase, ACBrUtil.Base, ACBrUtil.FilesIO, ACBrUtil.XMLHTML, ACBrUtil.DateTime,
   ACBrUtil.Strings,
   ACBrDFe, ACBrDFeReport,
-  ACBrMDFe, ACBrMail, ACBrMDFeDAMDFeClass, ACBrMDFeDAMDFeRLClass;
+  ACBrMDFe, ACBrMail,
+{$IFDEF GERADOR_FORTES_REPORT}ACBrMDFeDAMDFeRLClass,{$ENDIF}
+{$IFDEF GERADOR_FPDF}ACBrMDFeDAMDFeFPDF,{$ENDIF}
+  ACBrMDFeDAMDFeClass;
 
 type
   TfrmACBrMDFe = class(TForm)
@@ -233,11 +240,11 @@ type
     btnInclusaoDFe: TButton;
     btnConsultarNaoEncerrados: TButton;
     btnPagOperacaoTransp: TButton;
-    ACBrMDFeDAMDFeRL1: TACBrMDFeDAMDFeRL;
     btnEnviarEventoEmail: TButton;
     tsoutros: TTabSheet;
     btnLerArqINI: TButton;
     btnGerarArqINI: TButton;
+    rgMotorDAMDFE: TRadioGroup;
     procedure FormCreate(Sender: TObject);
     procedure btnSalvarConfigClick(Sender: TObject);
     procedure sbPathMDFeClick(Sender: TObject);
@@ -299,6 +306,14 @@ type
     procedure btnGerarArqINIClick(Sender: TObject);
   private
     { Private declarations }
+  {$IFDEF GERADOR_FORTES_REPORT}
+    FACBrMDFeDAMDFeRL   : TACBrMDFeDAMDFeRL;
+  {$ENDIF}
+
+  {$IFDEF GERADOR_FPDF}
+    FACBrMDFeDAMDFeFPDF: TACBrMDFeDAMDFeFPDF;
+  {$ENDIF}
+
     procedure GravarConfiguracao;
     procedure LerConfiguracao;
     procedure ConfigurarComponente;
@@ -320,6 +335,7 @@ uses
   strutils, math, TypInfo, DateUtils, synacode, blcksock, FileCtrl, Grids,
   IniFiles, Printers,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   pcnAuxiliar, ACBrMDFe.Classes, pcnConversao, pmdfeConversaoMDFe, pcnRetConsReciDFe,
   ACBrDFeConfiguracoes, ACBrDFeSSL, ACBrDFeOpenSSL, ACBrDFeUtil,
   ACBrMDFeManifestos, ACBrMDFeConfiguracoes,
@@ -1976,6 +1992,20 @@ begin
      cbVersaoDF.Items.Add( GetEnumName(TypeInfo(TVersaoMDFe), integer(K) ) );
   cbVersaoDF.ItemIndex := 0;
 
+  rgMotorDAMDFE.Items.Clear;
+{$IFDEF GERADOR_FORTES_REPORT}
+  FACBrMDFeDAMDFeRL := TACBrMDFeDAMDFeRL.Create(Self);
+  rgMotorDAMDFE.Items.Add('Fortes');
+{$ENDIF}
+
+{$IFDEF GERADOR_FPDF}
+  FACBrMDFeDAMDFeFPDF := TACBrMDFeDAMDFeFPDF.Create(Self);
+  rgMotorDAMDFE.Items.Add('FPDF');
+{$ENDIF}
+
+  if rgMotorDAMDFE.Items.Count = 0 then
+    rgMotorDAMDFE.Items.Add('Nenhum');
+
   LerConfiguracao;
   pgRespostas.ActivePageIndex := 2;
 end;
@@ -2065,6 +2095,7 @@ begin
 
     Ini.WriteInteger('DAMDFE', 'Tipo',      rgTipoDaMDFe.ItemIndex);
     Ini.WriteString( 'DAMDFE', 'LogoMarca', edtLogoMarca.Text);
+    Ini.WriteInteger('DAMDFE', 'Motor',     rgMotorDAMDFE.ItemIndex);
 
     ConfigurarComponente;
     ConfigurarEmail;
@@ -2188,6 +2219,7 @@ begin
 
     rgTipoDaMDFe.ItemIndex := Ini.ReadInteger('DAMDFe', 'Tipo',       0);
     edtLogoMarca.Text      := Ini.ReadString( 'DAMDFe', 'LogoMarca',  '');
+    rgMotorDAMDFE.ItemIndex := Ini.ReadInteger('DAMDFe', 'Motor', 0);
 
     ConfigurarComponente;
     ConfigurarEmail;
@@ -2273,13 +2305,23 @@ begin
     PathSalvar       := PathMensal;
   end;
 
+  ACBrMDFe1.DAMDFe := nil;
+  {$IFDEF GERADOR_FORTES_REPORT}
+  if rgMotorDAMDFE.Items[rgMotorDAMDFE.ItemIndex] = 'Fortes' then
+    ACBrMDFe1.DAMDFe := FACBrMDFeDAMDFeRL;
+  {$ENDIF}
+
+  {$IFDEF GERADOR_FPDF}
+  if rgMotorDAMDFE.Items[rgMotorDAMDFE.ItemIndex] = 'FPDF' then
+    ACBrMDFe1.DAMDFe := FACBrMDFeDAMDFeFPDF;
+  {$ENDIF}
+
   if ACBrMDFe1.DAMDFe <> nil then
   begin
     ACBrMDFe1.DAMDFe.TipoDAMDFe := StrToTpImp(OK, IntToStr(rgTipoDaMDFe.ItemIndex + 1));
     ACBrMDFe1.DAMDFe.Logo       := edtLogoMarca.Text;
 
     ACBrMDFe1.DAMDFe.PathPDF      := PathMensal;
-    ACBrMDFe1.DAMDFe.TamanhoPapel := tpA4;
 
     ACBrMDFe1.DAMDFe.MargemDireita  := 4;
     ACBrMDFe1.DAMDFe.MargemEsquerda := 4;

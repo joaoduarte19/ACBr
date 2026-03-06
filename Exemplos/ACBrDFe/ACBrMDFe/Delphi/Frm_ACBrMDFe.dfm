@@ -1185,6 +1185,20 @@ object frmACBrMDFe: TfrmACBrMDFe
             'Paisagem')
           TabOrder = 1
         end
+        object rgMotorDAMDFE: TRadioGroup
+          Left = 8
+          Top = 110
+          Width = 257
+          Height = 49
+          Caption = 'Motor de Relat'#243'rios'
+          Columns = 3
+          ItemIndex = 0
+          Items.Strings = (
+            'Nenhum'
+            'Fortes'
+            'FPDF')
+          TabOrder = 2
+        end
       end
       object TabSheet14: TTabSheet
         Caption = 'Email'
@@ -1721,39 +1735,7 @@ object frmACBrMDFe: TfrmACBrMDFe
     Configuracoes.WebServices.AguardarConsultaRet = 0
     Configuracoes.WebServices.QuebradeLinha = '|'
     Configuracoes.RespTec.IdCSRT = 0
-    DAMDFE = ACBrMDFeDAMDFeRL1
     Left = 334
-    Top = 238
-  end
-  object ACBrMDFeDAMDFeRL1: TACBrMDFeDAMDFeRL
-    Sistema = 'Projeto ACBr - www.projetoacbr.com.br'
-    Usuario = 'ACBr'
-    MargemInferior = 8.000000000000000000
-    MargemSuperior = 8.000000000000000000
-    MargemEsquerda = 6.000000000000000000
-    MargemDireita = 5.100000000000000000
-    ExpandeLogoMarcaConfig.Altura = 0
-    ExpandeLogoMarcaConfig.Esquerda = 0
-    ExpandeLogoMarcaConfig.Topo = 0
-    ExpandeLogoMarcaConfig.Largura = 0
-    ExpandeLogoMarcaConfig.Dimensionar = False
-    ExpandeLogoMarcaConfig.Esticar = True
-    CasasDecimais.Formato = tdetInteger
-    CasasDecimais.qCom = 2
-    CasasDecimais.vUnCom = 2
-    CasasDecimais.MaskqCom = ',0.00'
-    CasasDecimais.MaskvUnCom = ',0.00'
-    CasasDecimais.Aliquota = 2
-    CasasDecimais.MaskAliquota = ',0.00'
-    ACBrMDFe = ACBrMDFe1
-    ImprimeHoraSaida = False
-    TipoDAMDFe = tiSemGeracao
-    Cancelada = False
-    Encerrado = False
-    ImprimeDadosExtras = [deValorTotal, deRelacaoDFe]
-    ExibirMunicipioDescarregamento = False
-    PrintDialog = True
-    Left = 454
     Top = 238
   end
 end
