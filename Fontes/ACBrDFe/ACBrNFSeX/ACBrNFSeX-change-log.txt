@@ -43,8 +43,22 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 06/03/2026
+-- ACBrNFSeXDANFSeRLPadraoNacional --
+[*] Melhorias na impressão estava cortando os dados do Intermediário.
+   Por: Italo Giurizzato Junior
+-- ACBrNFSeXClass --
+[*] ACBR-9054 - Inclusão de novos campos na classe TItemServicoCollectionItem para atender a leitura da 
+    seção [Itensxxx]
+-- ACBrNFSeX.LerIni --
+[*] ACBR-9054 - Inclusão dos novos campos na leitura da seção [Itemxxx]
+-- ACBrNFSeXGravarXml --
+[*] ACBR-9054 - Inclusão dos novos campos na procedure: ConsolidarVariosItensServicosEmUmSo
+   Por: Italo Giurizzato Junior
+-- ACBrNFSeXLerXml --
+[*] ACBR-9091 - Correção na leitura dos campos da procedure: LerXMLgReeRepRes
+   Por: Bruno Italo/Italo Giurizzato Junior
 -- Diversos --
-[*] ACBR-9002 - Alteraçoes em diversas units para poder implementar serviços do Padrão Nacional 
+[*] ACBR-9002 - Alterações em diversas units para poder implementar serviços do Padrão Nacional 
     em provedores que trabalham com WebService Soap.
     https://www.projetoacbr.com.br/forum/topic/90459-acbr-9002-recuperar-danfse-nacional-provedores-sem-implementa%C3%A7%C3%A3o/
    Por: Diogo Loff/Italo Giurizzato Junior

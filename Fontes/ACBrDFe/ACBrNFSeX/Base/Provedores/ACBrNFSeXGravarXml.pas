@@ -396,7 +396,7 @@ procedure TNFSeWClass.ConsolidarVariosItensServicosEmUmSo;
 var
   i, UltimoItem: Integer;
   xDiscriminacao{, xItemListaServ}: string;
-  vQtdeDiaria, vValorTaxaTurismo,
+  vQtdeDiaria, vValorTaxaTurismo, vValorRecebido,
   vValorDeducoes, vValorServicos, vDescontoCondicionado,
   {vAliquota, vAliquotaPis, vAliquotaCofins, vAliquotaInss, vAliquotaIr, vAliquotaCsll,}
   vBaseCalculo, vDescontoIncondicionado, vValorPis, vValorCofins, vValorInss, vValorIr,
@@ -409,6 +409,7 @@ begin
 
     vQtdeDiaria := 0;
     vValorTaxaTurismo := 0;
+    vValorRecebido := 0;
 
     vValorDeducoes := 0;
     vValorServicos := 0;
@@ -446,6 +447,7 @@ begin
         vQtdeDiaria := vQtdeDiaria + ItemServico[i].QtdeDiaria;
         vValorTaxaTurismo := vValorTaxaTurismo + ItemServico[i].ValorTaxaTurismo;
         vValorDeducoes := vValorDeducoes + ItemServico[i].ValorDeducoes;
+        vValorRecebido := vValorRecebido + ItemServico[i].ValorRecebido;
         vValorServicos := vValorServicos + ItemServico[i].ValorTotal;
         vDescontoCondicionado := vDescontoCondicionado + ItemServico[i].DescontoCondicionado;
         vDescontoIncondicionado := vDescontoIncondicionado + ItemServico[i].DescontoIncondicionado;
@@ -504,6 +506,8 @@ begin
 
     // Leva em consideração a informação do ultimo item da lista.
     UltimoItem := FNFSe.Servico.ItemServico.Count -1;
+    NFSe.Servico.CodigoMunicipio := IntToStr(FNFSe.Servico.ItemServico[UltimoItem].CodigoMunicipio);
+    NFSe.Servico.CodigoPais := FNFSe.Servico.ItemServico[UltimoItem].CodigoPais;
     NFSe.Servico.ItemListaServico := FNFSe.Servico.ItemServico[UltimoItem].ItemListaServico;
     NFSe.Servico.xItemListaServico := FNFSe.Servico.ItemServico[UltimoItem].xItemListaServico;
     NFSe.Servico.CodigoTributacaoMunicipio := FNFSe.Servico.ItemServico[UltimoItem].CodigoTributacaoMunicipio;
@@ -521,6 +525,7 @@ begin
     NFSe.Servico.CodigoTributacaoNacional := FNFSe.Servico.ItemServico[UltimoItem].CodigoTributacaoNacional;
 
     NFSe.Servico.Valores.Aliquota := FNFSe.Servico.ItemServico[UltimoItem].Aliquota;
+    NFSe.Servico.Valores.AliquotaDeducoes := FNFSe.Servico.ItemServico[UltimoItem].AliqDeducoes;
     NFSe.Servico.Valores.AliquotaPis := FNFSe.Servico.ItemServico[UltimoItem].AliqRetPIS;
     NFSe.Servico.Valores.AliquotaCofins := FNFSe.Servico.ItemServico[UltimoItem].AliqRetCOFINS;
     NFSe.Servico.Valores.AliquotaInss := FNFSe.Servico.ItemServico[UltimoItem].AliqRetINSS;
@@ -534,20 +539,36 @@ begin
     NFSe.Servico.Valores.RetidoCPP := FNFSe.Servico.ItemServico[UltimoItem].RetidoCPP;
 
     // Realiza a totalização dos valores
-    NFSe.Servico.Valores.QtdeDiaria := vQtdeDiaria;
-    NFSe.Servico.Valores.ValorTaxaTurismo := vValorTaxaTurismo;
-    NFSe.Servico.Valores.ValorDeducoes := vValorDeducoes;
-    NFSe.Servico.Valores.ValorServicos := vValorServicos;
-    NFSe.Servico.Valores.DescontoCondicionado := vDescontoCondicionado;
-    NFSe.Servico.Valores.DescontoIncondicionado := vDescontoIncondicionado;
-    NFSe.Servico.Valores.BaseCalculo := vBaseCalculo;
-    NFSe.Servico.Valores.ValorPis := vValorPis;
-    NFSe.Servico.Valores.ValorCofins := vValorCofins;
-    NFSe.Servico.Valores.ValorInss := vValorInss;
-    NFSe.Servico.Valores.ValorIr := vValorIr;
-    NFSe.Servico.Valores.ValorCsll := vValorCsll;
-    NFSe.Servico.Valores.ValorIss := vValorIss;
-    NFSe.Servico.Valores.ValorIssRetido := vValorIssRetido;
+    if NFSe.Servico.Valores.QtdeDiaria = 0 then
+      NFSe.Servico.Valores.QtdeDiaria := vQtdeDiaria;
+    if NFSe.Servico.Valores.ValorTaxaTurismo = 0 then
+      NFSe.Servico.Valores.ValorTaxaTurismo := vValorTaxaTurismo;
+    if NFSe.Servico.Valores.ValorDeducoes = 0 then
+      NFSe.Servico.Valores.ValorDeducoes := vValorDeducoes;
+    if NFSe.Servico.Valores.ValorRecebido = 0 then
+      NFSe.Servico.Valores.ValorRecebido := vValorRecebido;
+    if NFSe.Servico.Valores.ValorServicos = 0 then
+      NFSe.Servico.Valores.ValorServicos := vValorServicos;
+    if NFSe.Servico.Valores.DescontoCondicionado = 0 then
+      NFSe.Servico.Valores.DescontoCondicionado := vDescontoCondicionado;
+    if NFSe.Servico.Valores.DescontoIncondicionado = 0 then
+      NFSe.Servico.Valores.DescontoIncondicionado := vDescontoIncondicionado;
+    if NFSe.Servico.Valores.BaseCalculo = 0 then
+      NFSe.Servico.Valores.BaseCalculo := vBaseCalculo;
+    if NFSe.Servico.Valores.ValorPis = 0 then
+      NFSe.Servico.Valores.ValorPis := vValorPis;
+    if NFSe.Servico.Valores.ValorCofins = 0 then
+      NFSe.Servico.Valores.ValorCofins := vValorCofins;
+    if NFSe.Servico.Valores.ValorInss = 0 then
+      NFSe.Servico.Valores.ValorInss := vValorInss;
+    if NFSe.Servico.Valores.ValorIr = 0 then
+      NFSe.Servico.Valores.ValorIr := vValorIr;
+    if NFSe.Servico.Valores.ValorCsll = 0 then
+      NFSe.Servico.Valores.ValorCsll := vValorCsll;
+    if NFSe.Servico.Valores.ValorIss = 0 then
+      NFSe.Servico.Valores.ValorIss := vValorIss;
+    if NFSe.Servico.Valores.ValorIssRetido = 0 then
+      NFSe.Servico.Valores.ValorIssRetido := vValorIssRetido;
   end;
 end;
 
@@ -571,8 +592,8 @@ function TNFSeWClass.GerarJson(const xDescricao, xCodigoItem: string;
 begin
   Result := '{"Descricao":"' + xDescricao + '",' +
              '"ItemServico":"' + xCodigoItem + '",' +
-             '"ValorUnitario":' + FloatToStr(aValorUnitario) + ',' +
              '"Quantidade":' + FloatToStr(aQuantidade) + ',' +
+             '"ValorUnitario":' + FloatToStr(aValorUnitario) + ',' +
              '"ValorServico":' + FloatToStr(aValorServico) + ',' +
              '"ValorBaseCalculo":' + FloatToStr(aBaseCalculo) + ',' +
              '"Aliquota":' + FloatToStr(aAliquota) + '}';
@@ -1973,11 +1994,13 @@ begin
     if NFSe.IBSCBS.valores.gReeRepRes.documentos[i].dFeNacional.chaveDFe <> '' then
       Result[i].AppendChild(GerarXMLdFeNacional(NFSe.IBSCBS.valores.gReeRepRes.documentos[i].dFeNacional))
     else
-    if NFSe.IBSCBS.valores.gReeRepRes.documentos[i].docFiscalOutro.cMunDocFiscal > 0 then
-      Result[i].AppendChild(GerarXMLdocFiscalOutro(NFSe.IBSCBS.valores.gReeRepRes.documentos[i].docFiscalOutro))
-    else
-    if NFSe.IBSCBS.valores.gReeRepRes.documentos[i].docOutro.nDoc <> '' then
-      Result[i].AppendChild(GerarXMLdocOutro(NFSe.IBSCBS.valores.gReeRepRes.documentos[i].docOutro));
+    begin
+      if NFSe.IBSCBS.valores.gReeRepRes.documentos[i].docFiscalOutro.cMunDocFiscal > 0 then
+        Result[i].AppendChild(GerarXMLdocFiscalOutro(NFSe.IBSCBS.valores.gReeRepRes.documentos[i].docFiscalOutro))
+      else
+      if NFSe.IBSCBS.valores.gReeRepRes.documentos[i].docOutro.nDoc <> '' then
+        Result[i].AppendChild(GerarXMLdocOutro(NFSe.IBSCBS.valores.gReeRepRes.documentos[i].docOutro));
+    end;
 
     if NFSe.IBSCBS.valores.gReeRepRes.documentos[i].fornec.xNome <> '' then
       Result[i].AppendChild(GerarXMLfornec(NFSe.IBSCBS.valores.gReeRepRes.documentos[i].fornec));

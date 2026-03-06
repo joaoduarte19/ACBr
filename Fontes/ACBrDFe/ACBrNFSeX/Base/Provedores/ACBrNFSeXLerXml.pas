@@ -43,7 +43,9 @@ uses
   ACBrDFe.Conversao,
   ACBrXmlReader,
   ACBrXmlDocument,
-  ACBrNFSeXInterface, ACBrNFSeXClass, ACBrNFSeXConversao;
+  ACBrNFSeXInterface,
+  ACBrNFSeXClass,
+  ACBrNFSeXConversao;
 
 type
   { TNFSeRClass }
@@ -176,7 +178,10 @@ uses
   synautil,
   StrUtils, StrUtilsEx,
   ACBrJSON,
-  ACBrUtil.Strings, ACBrUtil.XMLHTML, ACBrUtil.FilesIO,
+//  ACBrNFSeX.LerIni, {Em teste}
+  ACBrUtil.Strings,
+  ACBrUtil.XMLHTML,
+  ACBrUtil.FilesIO,
   ACBrUtil.DateTime,
   ACBrUtil.Base,
   ACBrDFeException,
@@ -279,7 +284,6 @@ begin
   Result := aXml;
 {$Else}
   Result := ParseText(aXml);
-//  Result := ParseText(aXml, True, False);
   Result := FastStringReplace(Result, '&', '&amp;', [rfReplaceAll]);
 {$EndIf}
 end;
@@ -423,9 +427,9 @@ begin
       ItemListaServico := NormatizarItemListaServico(xItemServico);
       xItemListaServico := ItemListaServicoDescricao(ItemListaServico);
       Descricao := jsonItem.AsString['Descricao'];
-      ValorUnitario := jsonItem.AsCurrency['ValorUnitario'];
       Quantidade := jsonItem.AsCurrency['Quantidade'];
-      ValorTotal := jsonItem.AsCurrency['ValorTotal'];
+      ValorUnitario := jsonItem.AsCurrency['ValorUnitario'];
+      ValorTotal := jsonItem.AsCurrency['ValorServico'];
       BaseCalculo := jsonItem.AsCurrency['ValorBaseCalculo'];
       Aliquota := jsonItem.AsCurrency['Aliquota'];
       ValorISS := jsonItem.AsCurrency['ValorISS'];
@@ -640,7 +644,21 @@ function TNFSeRClass.LerIni: Boolean;
 var
   INIRec: TMemIniFile;
   TipoXML: string;
+//  RIni: TNFSeIniReader;  {Em Teste}
 begin
+  {
+  RIni := TNFSeIniReader.Create(NFSe, FpAOwner);  //Em Teste
+
+  try
+    RIni.IniParams := IniParams;
+
+    RIni.LerArquivoIni(Arquivo);
+
+    NFSe := RIni.NFSe;
+  finally
+    RIni.Free;
+  end;
+  }
   INIRec := TMemIniFile.Create('');
 
   // Usar o FpAOwner em vez de  FProvider
@@ -660,8 +678,6 @@ begin
   end;
 
   Result := True;
-//  Result := False;
-//  raise EACBrDFeException.Create(ClassName + '.LerIni, não implementado');
 end;
 
 function TNFSeRClass.LerIniNfse(AINIRec: TMemIniFile): Boolean;
@@ -791,7 +807,7 @@ begin
       id_sis_legado := AINIRec.ReadInteger(sSecao, 'id_sis_legado', 0);
       DeducaoMateriais := FpAOwner.StrToSimNao(Ok, AINIRec.ReadString(sSecao, 'DeducaoMateriais', ''));
       // Provedor SigISSWeb
-      NFSe.verAplic := AINIRec.ReadString(sSecao, 'verAplic', NFSe.verAplic);
+      NFSe.verAplic := AINIRec.ReadString(sSecao, 'verAplic', 'ACBrNFSeX-1.00');
     end;
 
     sSecao := 'RpsSubstituido';
@@ -1523,6 +1539,8 @@ procedure TNFSeRClass.LerXMLgReeRepRes(const ANode: TACBrXmlNode;
 var
   ANodes: TACBrXmlNodeArray;
   i: Integer;
+  aDado: string;
+  Item: TDocumentosCollectionItem;
 begin
   if not Assigned(ANode) then Exit;
 
@@ -1530,20 +1548,25 @@ begin
 
   for i := 0 to Length(ANodes) - 1 do
   begin
-    gReeRepRes.documentos.New;
-    with gReeRepRes.documentos[i] do
-    begin
-      LerXMLdFeNacional(ANodes[i].Childrens.FindAnyNs('dFeNacional'), gReeRepRes.documentos[i].dFeNacional);
-      LerXMLdocFiscalOutro(ANodes[i].Childrens.FindAnyNs('docFiscalOutro'), gReeRepRes.documentos[i].docFiscalOutro);
-      LerXMLdocOutro(ANodes[i].Childrens.FindAnyNs('docOutro'), gReeRepRes.documentos[i].docOutro);
-      LerXMLfornec(ANodes[i].Childrens.FindAnyNs('fornec'), gReeRepRes.documentos[i].fornec);
+    Item := gReeRepRes.documentos.New;
 
-      dtEmiDoc := ObterConteudo(ANode.Childrens.FindAnyNs('dtEmiDoc'), tcDat);
-      dtCompDoc := ObterConteudo(ANode.Childrens.FindAnyNs('dtCompDoc'), tcDat);
-      tpReeRepRes := StrTotpReeRepRes(ObterConteudo(ANode.Childrens.FindAnyNs('tpReeRepRes'), tcStr));
-      xTpReeRepRes := ObterConteudo(ANode.Childrens.FindAnyNs('xTpReeRepRes'), tcStr);
-      vlrReeRepRes := ObterConteudo(ANode.Childrens.FindAnyNs('vlrReeRepRes'), tcDe2);
-    end;
+    LerXMLdFeNacional(ANodes[i].Childrens.FindAnyNs('dFeNacional'), Item.dFeNacional);
+    LerXMLdocFiscalOutro(ANodes[i].Childrens.FindAnyNs('docFiscalOutro'), Item.docFiscalOutro);
+    LerXMLdocOutro(ANodes[i].Childrens.FindAnyNs('docOutro'), Item.docOutro);
+    LerXMLfornec(ANodes[i].Childrens.FindAnyNs('fornec'), Item.fornec);
+
+    Item.dtEmiDoc := ObterConteudo(ANodes[i].Childrens.FindAnyNs('dtEmiDoc'), tcDat);
+    Item.dtCompDoc := ObterConteudo(ANodes[i].Childrens.FindAnyNs('dtCompDoc'), tcDat);
+
+    aDado := ObterConteudo(ANodes[i].Childrens.FindAnyNs('tpReeRepRes'), tcStr);
+
+    if aDado <> '' then
+      Item.tpReeRepRes := StrTotpReeRepRes(aDado)
+    else
+      Item.tpReeRepRes := trrr01;
+
+    Item.xTpReeRepRes := ObterConteudo(ANodes[i].Childrens.FindAnyNs('xTpReeRepRes'), tcStr);
+    Item.vlrReeRepRes := ObterConteudo(ANodes[i].Childrens.FindAnyNs('vlrReeRepRes'), tcDe2);
   end;
 end;
 
