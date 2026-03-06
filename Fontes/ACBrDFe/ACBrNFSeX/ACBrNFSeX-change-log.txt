@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 06/03/2026
+-- ACBrNFSeXConversao/ACBrNFSeXDANFSeRLPadraoNacional --
+[*] ACBR-9082 - Implementado a função que retorna da descrição do tipo de retenção e]
+    alteração no DANFSE para que a descrição seja impressa.
+   Por: Armando Boza
 -- ACBrNFSeXConversao --
 [*] ACBR-9089 - Inclusão dos novos CST para o PIS/COFINS.
    Por: Equipe Multilógica

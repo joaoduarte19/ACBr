@@ -864,6 +864,7 @@ function StrToCSTPis(out ok: Boolean; const s: string): TCSTPis;
 
 function tpRetPisCofinsToStr(const t: TtpRetPisCofins): string;
 function StrTotpRetPisCofins(out ok: Boolean; const s: string): TtpRetPisCofins;
+function tpRetPisCofinsDescricao(const t: TtpRetPisCofins): string;
 
 function indTotTribToStr(const t: TindTotTrib): string;
 function StrToindTotTrib(out ok: Boolean; const s: string): TindTotTrib;
@@ -13747,6 +13748,24 @@ begin
                trpiscofinsRetidocsllNaoRetido, trPisRetidoCofinsCsllNaoRetido,
                trCofinsRetidoPisCsllNaoRetido, trCofinsCsllRetidoPisNaoRetido,
                trCsllRetidoPisCofinsNaoRetido, trPisCsllRetidoCofinsNaoRetido]);
+end;
+
+function tpRetPisCofinsDescricao(const t: TtpRetPisCofins): string;
+begin
+  case t of
+    trpiscofinscsllNaoRetido: Result := 'PIS/COFINS/CSLL Não Retidos';
+    trpcRetido: Result := 'PIS/COFINS Retidos';
+    trpcNaoRetido: Result := 'PIS/COFINS Não Retidos';
+    trpiscofinscsllRetido: Result := 'PIS/COFINS/CSLL Retidos';
+    trpiscofinsRetidocsllNaoRetido: Result := 'PIS/COFINS Retidos, CSLL Não Retido';
+    trPisRetidoCofinsCsllNaoRetido: Result := 'PIS Retido, COFINS/CSLL Não Retido';
+    trCofinsRetidoPisCsllNaoRetido: Result := 'COFINS Retido, PIS/CSLL Não Retido';
+    trCofinsCsllRetidoPisNaoRetido: Result := 'PIS Não Retido, COFINS/CSLL Retidos';
+    trCsllRetidoPisCofinsNaoRetido: Result := 'PIS/COFINS Não Retidos, CSLL Retido';
+    trPisCsllRetidoCofinsNaoRetido: Result := 'COFINS Não Retido, PIS/CSLL Retidos';
+  else
+    Result := '-';
+  end;
 end;
 
 function indTotTribToStr(const t: TindTotTrib): string;

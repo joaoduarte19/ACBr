@@ -753,10 +753,7 @@ begin
   else
     rllValorCSLL.Caption := '-';
 
-//  if fpNFSe.Servico.Valores.tribFed.???? > 0 then
-//    rllDescCSLL.Caption := fpNFSe.Servico.Valores.tribFed.????
-//  else
-    rllDescCSLL.Caption := '-';
+  rllDescCSLL.Caption := tpRetPisCofinsDescricao(fpNFSe.Servico.Valores.tribFed.tpRetPisCofins);
 end;
 
 procedure TfrlXDANFSeRLPadraoNacional.rlbBanda11_ValorTotaNFSeBeforePrint(
