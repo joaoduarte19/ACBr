@@ -76,6 +76,9 @@ Símbolo : Significado
 [*] ACBR-9054 - Inclusão dos novos campos na procedure: ConsolidarVariosItensServicosEmUmSo
    Por: Italo Giurizzato Junior
 -- ACBrNFSeXLerXml --
+[-] ACBR-8969 - Adiciona leitura das seções ComercioExterior e Evento no INI para que os campos sejam corretamente gerados no novo leiaute do WebFisco.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/90809-acbr-9059-e-acbr-8969-situacaotomador-estrangeiro-nao-pode-ter-cnpjcpf-241195560001-60-valido/   
 [*] ACBR-9091 - Correção na leitura dos campos da procedure: LerXMLgReeRepRes
    Por: Bruno Italo/Italo Giurizzato Junior
 -- Diversos --

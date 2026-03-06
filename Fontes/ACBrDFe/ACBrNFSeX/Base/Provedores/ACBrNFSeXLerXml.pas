@@ -1381,6 +1381,36 @@ begin
       Inc(i);
     end;
 
+    sSecao := 'ComercioExterior';
+    if AINIRec.SectionExists(sSecao) then
+    begin
+      Servico.comExt.mdPrestacao := StrTomdPrestacao(Ok, AINIRec.ReadString(sSecao, 'mdPrestacao', ''));
+      Servico.comExt.vincPrest := StrToVincPrest(Ok, AINIRec.ReadString(sSecao, 'vincPrest', ''));
+      Servico.comExt.tpMoeda := AINIRec.ReadInteger(sSecao, 'tpMoeda', 0);
+      Servico.comExt.vServMoeda := AINIRec.ReadFloat(sSecao, 'vServMoeda', 0);
+      Servico.comExt.mecAFComexP := StrTomecAFComexP(Ok, AINIRec.ReadString(sSecao, 'mecAFComexP', ''));
+      Servico.comExt.mecAFComexT := StrTomecAFComexT(Ok, AINIRec.ReadString(sSecao, 'mecAFComexT', ''));
+      Servico.comExt.movTempBens := StrToMovTempBens(Ok, AINIRec.ReadString(sSecao, 'movTempBens', ''));
+      Servico.comExt.nDI := AINIRec.ReadString(sSecao, 'nDI', '');
+      Servico.comExt.nRE := AINIRec.ReadString(sSecao, 'nRE', '');
+      Servico.comExt.mdic := AINIRec.ReadInteger(sSecao, 'mdic', 0);
+    end;
+
+    sSecao := 'Evento';
+    if AINIRec.SectionExists(sSecao) then
+    begin
+      Servico.Evento.xNome := AINIRec.ReadString(sSecao, 'xNome', '');
+      Servico.Evento.dtIni := AINIRec.ReadDate(sSecao, 'dtIni', 0);
+      Servico.Evento.dtFim := AINIRec.ReadDate(sSecao, 'dtFim', 0);
+      Servico.Evento.idAtvEvt := AINIRec.ReadString(sSecao, 'idAtvEvt', '');
+      Servico.Evento.Endereco.CEP := AINIRec.ReadString(sSecao, 'CEP', '');
+      Servico.Evento.Endereco.xMunicipio := AINIRec.ReadString(sSecao, 'xMunicipio', '');
+      Servico.Evento.Endereco.UF := AINIRec.ReadString(sSecao, 'UF', '');
+      Servico.Evento.Endereco.Endereco := AINIRec.ReadString(sSecao, 'Logradouro', '');
+      Servico.Evento.Endereco.Complemento := AINIRec.ReadString(sSecao, 'Complemento', '');
+      Servico.Evento.Endereco.Bairro := AINIRec.ReadString(sSecao, 'Bairro', '');
+    end;
+
     LerINIIBSCBS(AINIRec, IBSCBS);
     LerINIIBSCBSNFSe(AINIRec, infNFSe.IBSCBS);
   end;
