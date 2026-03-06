@@ -564,17 +564,14 @@ end;
 procedure TObterInformacoesProvedorResposta.Processar(const Response: TGeralConfNFSe);
 begin
   FIdentificacaoProvedor := 'Nome:'+ Response.xProvedor +
-                            '|Versão:' + VersaoNFSeToStr(Response.Versao);
-  if Response.Layout = loABRASF then
-    FIdentificacaoProvedor := FIdentificacaoProvedor + '|Layout: ABRASF'
-  else
-    FIdentificacaoProvedor := FIdentificacaoProvedor + '|Layout: Próprio';
+                            '|Versão:' + VersaoNFSeToStr(Response.Versao) +
+                            '|Layout:' + ACBrStr(LayoutToStr(Response.Layout));
 
   if Response.Autenticacao.RequerCertificado then
     FAutenticacoesRequeridas := FAutenticacoesRequeridas + 'RequerCertificado|';
 
   if Response.Autenticacao.RequerLogin then
-    FAutenticacoesRequeridas := FAutenticacoesRequeridas + 'RequerLogin|';
+    FAutenticacoesRequeridas := FAutenticacoesRequeridas + 'RequerLoginSenha|';
 
   if Response.Autenticacao.RequerChaveAcesso then
     FAutenticacoesRequeridas := FAutenticacoesRequeridas + 'RequerChaveAcesso|';
@@ -649,10 +646,19 @@ begin
     FServicosDisponibilizados := FServicosDisponibilizados + 'TestarEnvio|';
 
   if Response.Particularidades.PermiteMaisDeUmServico then
-    FParticularidades := FParticularidades + 'PermiteMaisDeUmServico|';
+    FParticularidades := FParticularidades + 'PermiteMaisDeUmServico|'
+  else
+    FParticularidades := FParticularidades + 'NãoPermiteMaisDeUmServico|';
 
   if Response.Particularidades.PermiteTagOutrasInformacoes then
-    FParticularidades := FParticularidades + 'PermiteTagOutrasInformacoes|';
+    FParticularidades := FParticularidades + 'PermiteTagOutrasInformacoes|'
+  else
+    FParticularidades := FParticularidades + 'NãoPermiteTagOutrasInformacoes|';
+
+  if Response.Particularidades.AtendeReformaTributaria then
+    FParticularidades := FParticularidades + 'AtendeReformaTributaria'
+  else
+    FParticularidades := FParticularidades + 'NãoAtendeReformaTributaria';
 
 end;
 

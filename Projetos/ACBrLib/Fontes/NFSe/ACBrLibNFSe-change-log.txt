@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+06/03/2026
+-- ACBrLibNFSeRespostas --
+[*] ACBR-8729 - Ajuste visando atualizar a resposta do ObterInformacoesProvedor para os provedores de API Propria.
+   Por: Diego Folieni 
+
 02/03/2026
 -- ACBrLibNFSeConsts/ACBrLibNFSeConfig --
 [*] ACBR-9062 - Adiciona configuração LogoNFSe para o DANFSe.
