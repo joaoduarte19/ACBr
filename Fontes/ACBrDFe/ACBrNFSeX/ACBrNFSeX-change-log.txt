@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+06/03/2026
+-- ACBrNFSeXDANFSeRLPadraoNacional --
+[*] ACBR-9068 - Mais alguns ajustes no DANFSE.
+    https://www.projetoacbr.com.br/forum/topic/90733-acbr-9068-novo-danfse-segundo-o-layout-do-padr%C3%A3o-nacional/?&_rid=37999#findComment-591675
+   Por: netstart
+
 05/03/2026
 -- PadraoNacional.LerXml/ACBrNFSeXClass --
 [*] ACBR-9038 - Altera inicialização de indTotTrib visando evitar rejeição E0713 ao gerar XML
