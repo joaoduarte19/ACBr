@@ -45,13 +45,14 @@ Símbolo : Significado
 
 06/03/2026
 -- ACBrNFSeXServicos --
+[*] A cidade Caçu/GO trocou e provedor, agora é Centi.
+   Por: eusouhudsonsantos
+-- ACBrNFSeXServicos --
 [*]Atualização do provedor do município de Ivai (PR) para EloTech.
 [*]Atualização do provedor dos municípios de Siqueira Campos (PR) e Maringá (PR) para Padrão Nacional.
 [*]Atualização do provedor do município de Palmeiras de Goiás (GO) para Fiorilli.
 [*]Atualização do provedor do município de Belford Roxo (RJ) para ModernizacaoPublica.
    Por: Matheus Klein
-
-06/03/2026
 -- ACBrNFSeXServicos --
 [*] ACBR-9081 - As cidades cujo provedor é GeisWeb tiveram suas URLs alteradas.
    Por: Marcos LP
