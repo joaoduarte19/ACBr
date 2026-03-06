@@ -44,11 +44,14 @@ Símbolo : Significado
 
 
 06/03/2026
+-- ACBrNFSeXConversao --
+[*] ACBR-9089 - Inclusão dos novos CST para o PIS/COFINS.
+   Por: Equipe Multilógica
 -- ABase.Provider/EL.Provider/Fiorilli.Provider/ModernizacaoPublica.Provider --
 [*] ACBR-8729 - Ajustes visando deixar as informações sobre o provedor mais fieis as suas respectivas particularidades.
    Por: Diego Folieni
 -- ACBrNFSeXServicos --
-[*] A cidade Caçu/GO trocou e provedor, agora é Centi.
+[*] A cidade Caçu/GO trocou de provedor, agora é Centi.
    Por: eusouhudsonsantos
 -- ACBrNFSeXServicos --
 [*]Atualização do provedor do município de Ivai (PR) para EloTech.
@@ -59,7 +62,7 @@ Símbolo : Significado
 -- ACBrNFSeXServicos --
 [*] ACBR-9081 - As cidades cujo provedor é GeisWeb tiveram suas URLs alteradas.
    Por: Marcos LP
-[*] ACBR-9054 - A cidade Balneário Gaivota/SC trocou e provedor, agora é PadraoNacional.
+[*] ACBR-9054 - A cidade Balneário Gaivota/SC trocou de provedor, agora é PadraoNacional.
    Por: Mario Inacio
 -- ACBrNFSeXDANFSeRLPadraoNacional --
 [*] Melhorias na impressão estava cortando os dados do Intermediário.

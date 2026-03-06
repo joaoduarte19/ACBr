@@ -522,11 +522,15 @@ const
 
 type
   TCST = (cstVazio, cst00, cst01, cst02, cst03, cst04, cst05, cst06, cst07,
-          cst08, cst09);
+          cst08, cst09, cst49, cst50, cst51, cst52, cst53, cst54, cst55, cst56,
+          cst60, cst61, cst62, cst63, cst64, cst65, cst66, cst67, cst70, cst71,
+          cst72, cst73, cst74, cst75, cst98, cst99);
 
 const
   TCSTArrayStrings: array[TCST] of string = ('', '00', '01', '02', '03', '04',
-    '05', '06', '07', '08', '09');
+    '05', '06', '07', '08', '09', '49', '50', '51', '52', '53', '54', '55',
+    '56', '60', '61', '62', '63', '64', '65', '66', '67', '70', '71', '72',
+    '73', '74', '75', '98', '99');
 
 type
   TCSTPis = (cstPisVazio, cstPis00, cstPis01, cstPis02, cstPis03, cstPis04,
@@ -13684,17 +13688,27 @@ end;
 function CSTToStr(const t: TCST): string;
 begin
   result := EnumeradoToStr(t,
-        ['', '00', '01', '02', '03', '04', '05', '06', '07', '08', '09'],
+        ['', '00', '01', '02', '03', '04', '05', '06', '07', '08', '09', 
+         '49', '50', '51', '52', '53', '54', '55', '56', '60', '61', '62', 
+         '63', '64', '65', '66', '67', '70', '71', '72', '73', '74', '75',
+         '98', '99'],
         [cstVazio, cst00, cst01, cst02, cst03, cst04, cst05, cst06, cst07,
-         cst08, cst09]);
+         cst08, cst09, cst49, cst50, cst51, cst52, cst53, cst54, cst55, cst56,
+         cst60, cst61, cst62, cst63, cst64, cst65, cst66, cst67, cst70, cst71,
+         cst72, cst73, cst74, cst75, cst98, cst99]);
 end;
 
 function StrToCST(out ok: Boolean; const s: string): TCST;
 begin
   result := StrToEnumerado(ok, s,
-        ['', '00', '01', '02', '03', '04', '05', '06', '07', '08', '09'],
+        ['', '00', '01', '02', '03', '04', '05', '06', '07', '08', '09', 
+         '49', '50', '51', '52', '53', '54', '55', '56', '60', '61', '62', 
+         '63', '64', '65', '66', '67', '70', '71', '72', '73', '74', '75',
+         '98', '99'],
         [cstVazio, cst00, cst01, cst02, cst03, cst04, cst05, cst06, cst07,
-         cst08, cst09]);
+         cst08, cst09, cst49, cst50, cst51, cst52, cst53, cst54, cst55, cst56,
+         cst60, cst61, cst62, cst63, cst64, cst65, cst66, cst67, cst70, cst71,
+         cst72, cst73, cst74, cst75, cst98, cst99]);
 end;
 
 function CSTPisToStr(const t: TCSTPis): string;
