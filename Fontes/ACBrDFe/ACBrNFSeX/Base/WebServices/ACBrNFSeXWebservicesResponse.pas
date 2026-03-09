@@ -300,6 +300,7 @@ type
     FMinRps: Integer;
     FModoEnvio: TmodoEnvio;
     FCodigoVerificacao: string;
+    FChaveNotaNacional: string;
     FNomeArq: string;
   public
     constructor Create;
@@ -311,6 +312,7 @@ type
     property MinRps: Integer read FMinRps write FMinRps;
     property ModoEnvio: TmodoEnvio read FModoEnvio write FModoEnvio;
     property CodigoVerificacao: string read FCodigoVerificacao write FCodigoVerificacao;
+    property ChaveNotaNacional: string read FChaveNotaNacional write FChaveNotaNacional;
     property NomeArq: string read FNomeArq write FNomeArq;
   end;
 
