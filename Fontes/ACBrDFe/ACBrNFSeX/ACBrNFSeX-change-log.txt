@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+09/03/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9098 - A cidade Cordilheira Alta/SC trocou de provedor, agora é PadraoNacional.
+[*] ACBR-9100 - A cidade Alfredo Wagner/SC trocou de provedor, agora é PadraoNacional.
+   Por: C4Dev
+
 06/03/2026
 -- SigISS.Provider --
 [*] ACBR-9085 - Ajustes na geração do XML de cancelamento.
