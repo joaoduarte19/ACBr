@@ -80,6 +80,7 @@ type
     FSituacao: string;
     FDescSituacao: string;
     FLink: string;
+    FLinkVerificacao: string;
     FProtocolo: string;
     FSerieNota: string;
     FData: TDateTime;
@@ -102,6 +103,7 @@ type
     property Situacao: string read FSituacao write FSituacao;
     property DescSituacao: string read FDescSituacao write FDescSituacao;
     property Link: string read FLink write FLink;
+    property LinkVerificacao: string read FLinkVerificacao write FLinkVerificacao;
     property Protocolo: string read FProtocolo write FProtocolo;
     property SerieNota: string read FSerieNota write FSerieNota;
     property Data: TDateTime read FData write FData;
@@ -222,6 +224,7 @@ type
     FidNota: string;
     FidRps: string;
     FLink: string;
+    FLinkVerificacao: string;
     FStatus: Integer;
     FProtocolo: string;
     FNumeroRps: string;
@@ -265,6 +268,7 @@ type
     property idNota: string read FidNota write FidNota;
     property idRps: string read FidRps write FidRps;
     property Link: string read FLink write FLink;
+    property LinkVerificacao: string read FLinkVerificacao write FLinkVerificacao;
     property Status: Integer read FStatus write FStatus;
     property Protocolo: string read FProtocolo write FProtocolo;
     property NumeroRps: string read FNumeroRps write FNumeroRps;

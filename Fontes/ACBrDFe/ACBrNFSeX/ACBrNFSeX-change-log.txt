@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 09/03/2026
+-- ACBrNFSeXWebservicesResponse/ISSNet.Provider --
+[*] ACBR-9041 - Incluído a leitura do campo UrlVerificaAutenticidade ao ler o retorno do método
+    ConsultarLinkNFSe.
+   Por: Weber de Paula
 -- Centi.GravarXml --
 [*] ACBR-9099 - Incluído em Configurações o numero de ocorrências para gerar a tag InscricaoEstadual como sendo 
     opcional.

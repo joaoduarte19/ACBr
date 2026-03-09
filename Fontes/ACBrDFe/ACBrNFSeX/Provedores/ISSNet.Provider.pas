@@ -235,6 +235,7 @@ uses
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML,
   ACBrUtil.DateTime,
+  ACBrUtil.FilesIO,
   ACBrDFeException,
   ACBrNFSeX,
   ACBrNFSeXConfiguracoes,
@@ -1224,14 +1225,16 @@ begin
           AResumo.SerieRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('Serie'), tcStr);
 
           AResumo.Link := ObterConteudoTag(ANode.Childrens.FindAnyNs('UrlVisualizacaoNfse'), tcStr);
+          AResumo.LinkVerificacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('UrlVerificaAutenticidade'), tcStr);
 
           // Grava o primeiro retorno no Response
-          if Response.Link = '' then
+          if AResumo.Link <> '' then
           begin
             Response.NumeroNota := AResumo.NumeroNota;
             Response.NumeroRps := AResumo.NumeroRps;
             Response.SerieRps := AResumo.SerieRps;
             Response.Link := AResumo.Link;
+            Response.LinkVerificacao := AResumo.LinkVerificacao;
           end;
         end;
       end;
@@ -1255,14 +1258,17 @@ function TACBrNFSeXWebserviceISSNetAPIPropria.TratarXmlRetornado(
 begin
   Result := RemoverUTF8Bom(aXML);
 
-  Result := inherited TratarXmlRetornado(Result);
+  if not StringIsPDF(Result) then
+  begin
+    Result := inherited TratarXmlRetornado(Result);
 
-  Result := RemoverCaracteresDesnecessarios(Result);
-  Result := ParseText(Result);
-  Result := RemoverDeclaracaoXML(Result);
-  Result := RemoverIdentacao(Result);
+    Result := RemoverCaracteresDesnecessarios(Result);
+    Result := ParseText(Result);
+    Result := RemoverDeclaracaoXML(Result);
+    Result := RemoverIdentacao(Result);
 
-  Result := RemoverPrefixosDesnecessarios(Result);
+    Result := RemoverPrefixosDesnecessarios(Result);
+  end;
 end;
 
 function TACBrNFSeXWebserviceISSNetAPIPropria.Recepcionar(const ACabecalho,
@@ -3471,14 +3477,16 @@ begin
           AResumo.SerieRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('SerieDPS'), tcStr);
 
           AResumo.Link := ObterConteudoTag(ANode.Childrens.FindAnyNs('UrlVisualizacaoNfse'), tcStr);
+          AResumo.LinkVerificacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('UrlVerificaAutenticidade'), tcStr);
 
           // Grava o primeiro retorno no Response
-          if Response.Link = '' then
+          if AResumo.Link <> '' then
           begin
             Response.NumeroNota := AResumo.NumeroNota;
             Response.NumeroRps := AResumo.NumeroRps;
             Response.SerieRps := AResumo.SerieRps;
             Response.Link := AResumo.Link;
+            Response.LinkVerificacao := AResumo.LinkVerificacao;
           end;
         end;
       end;
