@@ -742,6 +742,7 @@ begin
           begin
             NumeroNota := ObterConteudoTag(LNodeChave.Childrens.FindAnyNs('NumeroNFe'), tcStr);
             CodigoVerificacao := ObterConteudoTag(LNodeChave.Childrens.FindAnyNs('CodigoVerificacao'), tcStr);
+            ChaveNotaNacional := ObterConteudoTag(LNodeChave.Childrens.FindAnyNs('ChaveNotaNacional'), tcStr);
           end;
         end;
       end;

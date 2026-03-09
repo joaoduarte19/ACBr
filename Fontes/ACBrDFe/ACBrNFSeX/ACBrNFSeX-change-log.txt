@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 09/03/2026
+-- ISSSaoPaulo.Provider --
+[*] ACBR-8977 - Implementado a leitura da tag ChaveNotaNacional ao ler o retorno do Emitir.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXWebservicesResponse/ISSNet.Provider --
 [*] ACBR-9041 - Incluído a leitura do campo UrlVerificaAutenticidade ao ler o retorno do método
     ConsultarLinkNFSe.
