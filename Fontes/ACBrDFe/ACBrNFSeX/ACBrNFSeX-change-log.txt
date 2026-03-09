@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 09/03/2026
+-- Centi.GravarXml --
+[*] ACBR-9099 - Incluído em Configurações o numero de ocorrências para gerar a tag InscricaoEstadual como sendo 
+    opcional.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] ACBR-9098 - A cidade Cordilheira Alta/SC trocou de provedor, agora é PadraoNacional.
 [*] ACBR-9100 - A cidade Alfredo Wagner/SC trocou de provedor, agora é PadraoNacional.

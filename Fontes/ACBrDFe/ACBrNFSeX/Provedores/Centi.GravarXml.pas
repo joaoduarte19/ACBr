@@ -48,7 +48,7 @@ type
   TNFSeW_Centi202 = class(TNFSeW_ABRASFv2)
   protected
     procedure Configuracao; override;
-	function GerarServico: TACBrXmlNode; override;
+    function GerarServico: TACBrXmlNode; override;
 
   end;
 
@@ -89,6 +89,8 @@ begin
   NrOcorrCompetencia := -1;
   NrOcorrOptanteSimplesNacional := -1;
   NrOcorrIncentCultural := -1;
+
+  NrOcorrInscEstTomador_2 := 0;
 end;
 
 function TNFSeW_Centi202.GerarServico: TACBrXmlNode;
