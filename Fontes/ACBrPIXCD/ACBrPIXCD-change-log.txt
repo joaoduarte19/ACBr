@@ -46,7 +46,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
-
+09/03/2026
+-- ACBrPIXPSPBradesco --
+[*] Alterações para utilizar as novas URLs referentes à Pix Automático.
+	https://www.projetoacbr.com.br/forum/topic/90186-correcao-do-bradesco-do-retorno-do-metodo-cobr/
+    por: Daniel de Morais InfoCotidiano
+	
 12/01/2025
 -- ACBrPIXPSPItau --
 [*] Alterações para utilizar as novas URLs referentes à Pix Automático.

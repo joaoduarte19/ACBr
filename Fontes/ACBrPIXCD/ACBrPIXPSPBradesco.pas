@@ -37,18 +37,25 @@ unit ACBrPIXPSPBradesco;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, StrUtils,
   {$IFDEF RTL230_UP}ACBrBase,{$ENDIF RTL230_UP}
   ACBrPIXCD;
 
 const
 
   cBradescoURLSandbox = 'https://qrpix-h.bradesco.com.br';
+  cBradescoURLSandboxRecorrente = 'https://apipix-h.bradesco.com.br';
+
   cBradescoURLProducao = 'https://qrpix.bradesco.com.br';
+  cBradescoURLProducaoRecorrente = 'https://apipix.bradesco.com.br';
+
   cBradescoURLSandboxV2 = 'https://openapisandbox.prebanco.com.br';
+
   cBradescoPathAuthToken = '/oauth/token';
   cBradescoPathAuthTokenV2 = '/auth/server/oauth/token';
+
   cBradescoPathAPIPix = '/v2';
+  cBradescoPathAPIPixRecorrente = '/v1';
 
 type
 
@@ -62,7 +69,13 @@ type
   TACBrPSPBradesco = class(TACBrPSPCertificate)
   protected
     function ObterURLAuth: String;
+
+    function ObterURL(const aMethod, aEndPoint: String): String;
     function ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String; override;
+    function ObterURLAmbienteREC(const aAmbiente: TACBrPixCDAmbiente): String;
+
+    function CalcularURLEndPoint(const Method, EndPoint: String): String; override;
+
   private
     fAPIVersao: TACBrBradescoAPIVersao;
     procedure QuandoReceberRespostaEndPoint(const aEndPoint, AURL, aMethod: String; var aResultCode: Integer; var aRespostaHttp: AnsiString);
@@ -98,6 +111,23 @@ begin
   end;
 end;
 
+function TACBrPSPBradesco.ObterURL(const aMethod, aEndPoint: String): String;
+begin
+
+  VerificarPIXCDAtribuido;
+  if  (aEndPoint = cEndPointCobR) or
+     (aEndPoint = cEndPointRec) or
+     (aEndPoint = cEndPointLocRec) or
+     (aEndPoint = cEndPointSolicRec) or
+     (aEndPoint = cEndPointWebhookCobR) or
+     (aEndPoint = cEndPointWebhookRec) then
+    Result := ObterURLAmbienteRec(ACBrPixCD.Ambiente)
+  else
+    Result := ObterURLAmbiente(ACBrPixCD.Ambiente);
+
+  Result := URLSemDelimitador(Result);
+end;
+
 function TACBrPSPBradesco.ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String;
 begin
   if (aAmbiente = ambProducao) then
@@ -107,6 +137,17 @@ begin
   else
     Result := cBradescoURLSandbox + cBradescoPathAPIPix
 end;
+
+function TACBrPSPBradesco.ObterURLAmbienteREC(const aAmbiente: TACBrPixCDAmbiente): String;
+begin
+  if (aAmbiente = ambProducao) then
+    Result := cBradescoURLProducaoRecorrente + cBradescoPathAPIPixRecorrente
+  else if (fAPIVersao = braVersao2) then
+    Result := cBradescoURLSandboxV2 + cBradescoPathAPIPix
+  else
+    Result := cBradescoURLSandboxRecorrente + cBradescoPathAPIPixRecorrente
+end;
+
 
 procedure TACBrPSPBradesco.QuandoReceberRespostaEndPoint(const aEndPoint, AURL,
   aMethod: String; var aResultCode: Integer; var aRespostaHttp: AnsiString);
@@ -118,6 +159,37 @@ begin
   // Bradesco responde OK(200) ao POST: /cob de forma diferente da especificada(201)
   if (UpperCase(AMethod) = ChttpMethodPOST) and (AEndPoint = cEndPointCob) and (AResultCode = HTTP_OK) then
     AResultCode := HTTP_CREATED;
+end;
+
+function TACBrPSPBradesco.CalcularURLEndPoint(const Method,
+  EndPoint: String): String;
+var
+  AEndPointPath, p: String;
+  i: Integer;
+begin
+  if (NivelLog > 3) then
+    RegistrarLog('CalcularURLEndPoint( '+Method+', '+EndPoint+' )');
+  AEndPointPath := CalcularEndPointPath(Method, EndPoint);
+
+  //Adicionado para para pegar deferentes urls dependendo do EndPont
+  Result := ObterURL(Method, EndPoint);
+
+  if (AEndPointPath <> '') then
+    Result := Result + AEndPointPath;
+
+  ConfigurarPathParameters(Method, EndPoint);
+  ConfigurarQueryParameters(Method, EndPoint);
+
+  if (URLPathParams.Count > 0) then
+    for i := 0 to URLPathParams.Count-1 do
+      Result := URLComDelimitador(Result) + URLSemDelimitador(EncodeURLElement(URLPathParams[i]));
+
+  p := URLQueryParams.AsURL;
+  if (p <> '') then
+    Result := Result + '?' + p;
+
+  if (NivelLog > 3) then
+    RegistrarLog('  '+Result);
 end;
 
 constructor TACBrPSPBradesco.Create(aOwner: TComponent);
