@@ -95,7 +95,8 @@ type
     // Serviços que utilizam a API Rest do Padrão Nacional
     function ConsultarNFSePorRps(const ACabecalho, AMSG: string): string; override;
     function ConsultarNFSePorChave(const ACabecalho, AMSG: string): string; override;
-    function EnviarEvento(const ACabecalho, AMSG: string): string; override;
+    //Confirmado que o envio de evento não deve ser feito pelo padrão nacional
+    //function EnviarEvento(const ACabecalho, AMSG: string): string; override;
     function ConsultarEvento(const ACabecalho, AMSG: string): string; override;
     function ConsultarDFe(const ACabecalho, AMSG: string): string; override;
     function ConsultarParam(const ACabecalho, AMSG: string): string; override;
@@ -1123,13 +1124,13 @@ begin
   Result := Executar('', FPMsgOrig, [], []);
 end;
 
-function TACBrNFSeXWebserviceFiorilliAPIPropria.EnviarEvento(const ACabecalho,
-  AMSG: string): string;
-begin
-  FPMsgOrig := AMSG;
-
-  Result := Executar('', FPMsgOrig, [], []);
-end;
+//function TACBrNFSeXWebserviceFiorilliAPIPropria.EnviarEvento(const ACabecalho,
+//  AMSG: string): string;
+//begin
+//  FPMsgOrig := AMSG;
+//
+//  Result := Executar('', FPMsgOrig, [], []);
+//end;
 
 function TACBrNFSeXWebserviceFiorilliAPIPropria.ConsultarNFSePorRps(
   const ACabecalho, AMSG: string): string;
