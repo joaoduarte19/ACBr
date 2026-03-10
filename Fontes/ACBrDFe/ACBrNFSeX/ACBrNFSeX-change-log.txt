@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 10/03/2026
+-- PadraoNacional.LerXml --
+[-] Corrige a leitura do elemento cNaoNIF no XML do DPS.   
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/90791-nfse-n%C3%A3o-importando-o-c%C3%B3digo-cnaonif-quando-carrega-se-o-xml-de-uma-nota/ 
 -- Fiorilli.Provider --
 [*] O envio de evento não deve ser feito direto para a API do Padrão Nacional.
    Por: Diego Folieni

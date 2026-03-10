@@ -1302,7 +1302,7 @@ begin
         IdentificacaoTomador.Nif := ObterConteudo(AuxNode.Childrens.FindAnyNs('NIF'), tcStr);
 
       if IdentificacaoTomador.Nif = '' then
-        IdentificacaoTomador.cNaoNIF := StrToNaoNIF(Ok, ObterConteudo(ANode.Childrens.FindAnyNs('cNaoNIF'), tcStr));
+        IdentificacaoTomador.cNaoNIF := StrToNaoNIF(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('cNaoNIF'), tcStr));
 
       IdentificacaoTomador.CAEPF := ObterConteudo(AuxNode.Childrens.FindAnyNs('CAEPF'), tcStr);
       IdentificacaoTomador.InscricaoMunicipal := ObterConteudo(AuxNode.Childrens.FindAnyNs('IM'), tcStr);
