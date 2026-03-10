@@ -42,6 +42,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+10/03/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9050 - A cidade Itaobim/MG trocou de provedor, agora é Sintese.
+   Por: SupraMAIS
 
 09/03/2026
 -- ISSSaoPaulo.Provider --
