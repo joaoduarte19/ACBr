@@ -39,7 +39,6 @@ interface
 uses
   Classes, SysUtils, IniFiles,
   ACBrDFe.Conversao,
-//  ACBrNFSeX.IniResource,
   ACBrNFSeXClass,
   ACBrNFSeXLerXml,
   ACBrNFSeXConversao,
@@ -51,11 +50,10 @@ type
   TNFSeIniReader = class(TNFSeRClass)
   private
     FNFSe: TNFSe;
-//    FNFSeIniResource : TNFSeIniResource;
 //    FVersaoDF: TVersaoNFSe;
 //    FAmbiente: Integer;
 //    FtpEmis: Integer;
-    FIniParams: TMemIniFile;
+//    FIniParams: TMemIniFile;
 
     procedure LerINIIdentificacaoNFSe(AINIRec: TMemIniFile);
     procedure LerINIIdentificacaoRps(AINIRec: TMemIniFile);
@@ -69,7 +67,7 @@ type
     procedure LerINIDadosTomador(AINIRec: TMemIniFile);
     procedure LerINIDadosIntermediario(AINIRec: TMemIniFile);
     procedure LerINIConstrucaoCivil(AINIRec: TMemIniFile);
-//    procedure LerINIDadosServico(AINIRec: TMemIniFile);
+    procedure LerINIDadosServico(AINIRec: TMemIniFile);
     procedure LerINIQuartos(AINIRec: TMemIniFile);
     procedure LerINIDespesas(AINIRec: TMemIniFile);
     procedure LerINIGenericos(AINIRec: TMemIniFile);
@@ -92,6 +90,8 @@ type
     procedure LerINIOrgaoGerador(AINIRec: TMemIniFile);
     procedure LerINICondicaoPagamento(AINIRec: TMemIniFile);
     procedure LerINIParcelas(AINIRec: TMemIniFile);
+    procedure LerINIEmail(AINIRec: TMemIniFile);
+    procedure LerINITransportadora(AINIRec: TMemIniFile);
 
     // Reforma Tributária DPS
     procedure LerINIIBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBSDPS);
@@ -127,7 +127,7 @@ type
 //    property VersaoDF: TVersaoNFSe read FVersaoDF write FVersaoDF;
 //    property Ambiente: Integer read FAmbiente write FAmbiente;
 //    property tpEmis: Integer read FtpEmis write FtpEmis;
-    property IniParams: TMemIniFile read FIniParams write FIniParams;
+//    property IniParams: TMemIniFile read FIniParams write FIniParams;
   end;
 
 implementation
@@ -141,16 +141,12 @@ uses
 
 constructor TNFSeIniReader.Create(AOwner: TNFSe; AIOwner: IACBrNFSeXProvider);
 begin
-//  inherited Create;
-
   FpAOwner := AIOwner;
   FNFSe := AOwner;
-//  FNFSeIniResource := TNFSeIniResource.Create(AIOwner);
 end;
 
 destructor TNFSeIniReader.Destroy;
 begin
-//  FNFSeIniResource.Free;
 
   inherited;
 end;
@@ -165,7 +161,6 @@ begin
   // Usar o FpAOwner em vez de  FProvider
 
   try
-//    FNFSeIniResource.IniParams := IniParams;
     LerIniArquivoOuString(AIniString, INIRec);
 
     TipoXML := INIRec.ReadString('IdentificacaoNFSe', 'TipoXML', '');
@@ -194,7 +189,7 @@ begin
   LerINIDadosPrestador(AINIRec);
   LerINIDadosTomador(AINIRec);
   LerINIDadosIntermediario(AINIRec);
-//  LerINIDadosServico(AINIRec);
+  LerINIDadosServico(AINIRec);
   LerINIQuartos(AINIRec);
   LerINIDespesas(AINIRec);
   LerINIGenericos(AINIRec);
@@ -216,6 +211,8 @@ begin
   LerINIOrgaoGerador(AINIRec);
   LerINICondicaoPagamento(AINIRec);
   LerINIParcelas(AINIRec);
+  LerINIEmail(AINIRec);
+  LerINITransportadora(AINIRec);
 
   // Reforma Tributária
   LerINIIBSCBS(AINIRec, NFSe.IBSCBS);
@@ -236,7 +233,7 @@ begin
   LerINIDadosPrestador(AINIRec);
   LerINIDadosTomador(AINIRec);
   LerINIDadosIntermediario(AINIRec);
-//  LerINIDadosServico(AINIRec);
+  LerINIDadosServico(AINIRec);
   LerINIQuartos(AINIRec);
   LerINIDespesas(AINIRec);
   LerINIGenericos(AINIRec);
@@ -258,6 +255,8 @@ begin
   LerINIOrgaoGerador(AINIRec);
   LerINICondicaoPagamento(AINIRec);
   LerINIParcelas(AINIRec);
+  LerINIEmail(AINIRec);
+  LerINITransportadora(AINIRec);
 
   // Reforma Tributária
   LerINIIBSCBS(AINIRec, NFSe.IBSCBS);
@@ -506,7 +505,7 @@ begin
     NFSe.infNFSe.emit.Endereco.Bairro := AINIRec.ReadString(sSecao, 'Bairro', '');
     NFSe.infNFSe.emit.Endereco.CodigoMunicipio := AINIRec.ReadString(sSecao, 'CodigoMunicipio', '');
     NFSe.infNFSe.emit.Endereco.CEP := AINIRec.ReadString(sSecao, 'CEP', '');
-    NFSe.infNFSe.emit.Endereco.xMunicipio := {FNFSeIniResource.}ObterNomeMunicipioUF(StrToIntDef(NFSe.infNFSe.emit.Endereco.CodigoMunicipio, 0), xUF);
+    NFSe.infNFSe.emit.Endereco.xMunicipio := ObterNomeMunicipioUF(StrToIntDef(NFSe.infNFSe.emit.Endereco.CodigoMunicipio, 0), xUF);
     NFSe.infNFSe.emit.Endereco.UF := AINIRec.ReadString(sSecao, 'UF', '');
 
     NFSe.infNFSe.emit.Contato.Telefone := AINIRec.ReadString(sSecao, 'Telefone', '');
@@ -579,7 +578,7 @@ end;
 
 procedure TNFSeIniReader.LerINIDadosPrestador(AINIRec: TMemIniFile);
 var
-  sSecao, sCampo1, sCampo2: string;
+  sSecao, sCampo1: string;
   Ok: Boolean;
 begin
   sSecao := 'Prestador'; // Completo
@@ -628,29 +627,9 @@ begin
     NFSe.Prestador.ValorReceitaBruta := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorReceitaBruta', ''), 0);
     NFSe.Prestador.DataInicioAtividade := StringToDateTimeDef(AINIRec.ReadString(sSecao, 'DataInicioAtividade', ''), 0);
 
-    sCampo1 := AINIRec.ReadString(sSecao, 'opSimpNac', '');
-    sCampo2 := AINIRec.ReadString(sSecao, 'OptanteMEISimei', '');
-
-    if (sCampo1 <> '') and (sCampo2 = '')  then
-    begin
-      // osnNaoOptante, osnOptanteMEI, osnOptanteMEEPP
-      NFSe.OptanteSN := StrToOptanteSN(Ok, sCampo1);
-
-      if NFSe.OptanteSN = osnNaoOptante then
-        NFSe.OptanteMEISimei := snNao
-      else
-        NFSe.OptanteMEISimei := snSim;
-    end;
-
-    if (sCampo1 = '') and (sCampo2 <> '')  then
-    begin
-      NFSe.OptanteMEISimei := FpAOwner.StrToSimNao(Ok, sCampo2);
-
-      if NFSe.OptanteMEISimei = snNao then
-        NFSe.OptanteSN := osnNaoOptante
-      else
-        NFSe.OptanteSN := osnOptanteMEEPP;
-    end;
+    NFSe.OptanteSimplesNacional := FpAOwner.StrToSimNao(Ok, AINIRec.ReadString(sSecao, 'OptanteSN', '1'));
+    NFSe.OptanteSN := StrToOptanteSN(Ok, AINIRec.ReadString(sSecao, 'opSimpNac', '2'));
+    NFSe.OptanteMEISimei := FpAOwner.StrToSimNao(Ok, AINIRec.ReadString(sSecao, 'OptanteMEISimei', '1'));
 
     // raFederaisMunicipalpeloSN, raFederaisSN, raFederaisMunicipalforaSN
     sCampo1 := AINIRec.ReadString(sSecao, 'RegimeApuracaoSN', '');
@@ -682,7 +661,7 @@ begin
   sSecao := 'Tomador'; // Completo
   if AINIRec.SectionExists(sSecao) then
   begin
-    NFSe.Tomador.IdentificacaoTomador.Tipo := FpAOwner.StrToTipoPessoa(Ok, AINIRec.ReadString(sSecao, 'Tipo', '1'));
+    NFSe.Tomador.IdentificacaoTomador.Tipo := FpAOwner.StrToTipoPessoa(Ok, AINIRec.ReadString(sSecao, 'TipoPessoa', '1'));
     NFSe.Tomador.IdentificacaoTomador.CpfCnpj := AINIRec.ReadString(sSecao, 'CNPJCPF', '');
     NFSe.Tomador.IdentificacaoTomador.InscricaoMunicipal := AINIRec.ReadString(sSecao, 'InscricaoMunicipal', '');
     NFSe.Tomador.IdentificacaoTomador.InscricaoEstadual := AINIRec.ReadString(sSecao, 'InscricaoEstadual', '');
@@ -936,12 +915,14 @@ begin
     Item.ValorCPP := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorCPP', ''), 0);
 
     Item.ValorRecebido := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorRecebido', ''), 0);
-    Item.ValorTotal := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorTotal', ''), 0);
+    Item.ValorTotal := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorTotal',
+                           AINIRec.ReadString(sSecao, 'ValorServicos', '')), 0);
 
     Item.Tributavel := FpAOwner.StrToSimNao(Ok, AINIRec.ReadString(sSecao, 'Tributavel', '1'));
 
     // Provedores que usam o layout da ABRASF
-    Item.CodMunPrestacao := AINIRec.ReadString(sSecao, 'CodigoMunicipio', AINIRec.ReadString(sSecao, 'CodMunPrestacao', ''));
+    Item.CodMunPrestacao := AINIRec.ReadString(sSecao, 'CodigoMunicipio',
+                             AINIRec.ReadString(sSecao, 'CodMunPrestacao', ''));
     Item.CodigoMunicipio := StrToIntDef(Item.CodMunPrestacao, 0);
     Item.CodigoPais := AINIRec.ReadInteger(sSecao, 'CodigoPais', 0);
     Item.CodigoTributacaoMunicipio := AINIRec.ReadString(sSecao, 'CodigoTributacaoMunicipio', '');
@@ -1000,25 +981,93 @@ begin
   end;
 end;
 
-
-{
 procedure TNFSeIniReader.LerINIDadosServico(AINIRec: TMemIniFile);
 var
   sSecao: string;
+  Ok: Boolean;
 begin
   sSecao := 'Servico';
   if AINIRec.SectionExists(sSecao) then
   begin
     NFSe.Servico.CodigoMunicipio := AINIRec.ReadString(sSecao, 'CodigoMunicipio', '');
     NFSe.Servico.CodigoPais := AINIRec.ReadInteger(sSecao, 'CodigoPais', 0);
+    NFSe.Servico.xPais := AINIRec.ReadString(sSecao, 'xPais', '');
     NFSe.Servico.ItemListaServico := AINIRec.ReadString(sSecao, 'ItemListaServico', '');
+    NFSe.Servico.xItemListaServico := AINIRec.ReadString(sSecao, 'xItemListaServico', '');
     NFSe.Servico.CodigoTributacaoMunicipio := AINIRec.ReadString(sSecao, 'CodigoTributacaoMunicipio', '');
+    NFSe.Servico.xCodigoTributacaoMunicipio := AINIRec.ReadString(sSecao, 'xCodigoTributacaoMunicipio', '');
     NFSe.Servico.Discriminacao := AINIRec.ReadString(sSecao, 'Discriminacao', '');
+    NFSe.Servico.Discriminacao := StringReplace(NFSe.Servico.Discriminacao,
+                FpAOwner.ConfigGeral.QuebradeLinha, sLineBreak, [rfReplaceAll]);
     NFSe.Servico.CodigoNBS := AINIRec.ReadString(sSecao, 'CodigoNBS', '');
+    // Provedor IssNet e Padrão Nacional
+    NFSe.infNFSe.xNBS := AINIRec.ReadString(sSecao, 'xNBS', '');
     NFSe.Servico.CodigoInterContr := AINIRec.ReadString(sSecao, 'CodigoInterContr', '');
+    NFSe.Servico.CodigoCnae := AINIRec.ReadString(sSecao, 'CodigoCnae', '');
+    NFSe.Servico.Descricao := AINIRec.ReadString(sSecao, 'Descricao', '');
+    NFSe.Servico.Descricao := StringReplace(NFSe.Servico.Descricao,
+                FpAOwner.ConfigGeral.QuebradeLinha, sLineBreak, [rfReplaceAll]);
+
+    if NFSe.Servico.Descricao = '' then
+      NFSe.Servico.Descricao := NFSe.Servico.Discriminacao;
+
+    NFSe.Servico.ExigibilidadeISS := FpAOwner.StrToExigibilidadeISS(Ok, AINIRec.ReadString(sSecao, 'ExigibilidadeISS', '1'));
+    NFSe.Servico.IdentifNaoExigibilidade := AINIRec.ReadString(sSecao, 'IdentifNaoExigibilidade', '');
+    NFSe.Servico.MunicipioIncidencia := AINIRec.ReadInteger(sSecao, 'MunicipioIncidencia', 0);
+    NFSe.Servico.xMunicipioIncidencia := AINIRec.ReadString(sSecao, 'xMunicipioIncidencia', '');
+    NFSe.Servico.NumeroProcesso := AINIRec.ReadString(sSecao, 'NumeroProcesso', '');
+    NFSe.Servico.MunicipioPrestacaoServico := AINIRec.ReadString(sSecao, 'MunicipioPrestacaoServico', '');
+
+    if Trim(NFSe.Servico.MunicipioPrestacaoServico) <> '' then
+      FpAOwner.ConfigGeral.ImprimirLocalPrestServ := True
+    else
+      FpAOwner.ConfigGeral.ImprimirLocalPrestServ := False;
+
+    NFSe.Servico.UFPrestacao := AINIRec.ReadString(sSecao, 'UFPrestacao', '');
+    NFSe.Servico.ResponsavelRetencao := FpAOwner.StrToResponsavelRetencao(Ok, AINIRec.ReadString(sSecao, 'ResponsavelRetencao', ''));
+    NFSe.Servico.TipoLancamento := StrToTipoLancamento(Ok, AINIRec.ReadString(sSecao, 'TipoLancamento', 'P'));
+
+    // Provedor ISSDSF
+    NFSe.Servico.Operacao := StrToOperacao(Ok, AINIRec.ReadString(sSecao, 'Operacao', ''));
+    NFSe.Servico.Tributacao := FpAOwner.StrToTributacao(Ok, AINIRec.ReadString(sSecao, 'Tributacao', ''));
+    // Provedor ISSSaoPaulo
+    NFSe.Servico.ValorTotalRecebido := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorTotalRecebido', ''), 0);
+    NFSe.Servico.ValorCargaTributaria := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorCargaTributaria', ''), 0);
+    NFSe.Servico.PercentualCargaTributaria := StringToFloatDef(AINIRec.ReadString(sSecao, 'PercentualCargaTributaria', ''), 0);
+    NFSe.Servico.FonteCargaTributaria := AINIRec.ReadString(sSecao, 'FonteCargaTributaria', '');
+
+    // Provedor SoftPlan
+    NFSe.Servico.CFPS := AINIRec.ReadString(sSecao, 'CFPS', '');
+
+    // Provedor Giap Informações sobre o Endereço da Prestação de Serviço
+    NFSe.Servico.Endereco.Bairro := AINIRec.ReadString(sSecao, 'Bairro', '');
+    NFSe.Servico.Endereco.CEP := AINIRec.ReadString(sSecao, 'CEP', '');
+    NFSe.Servico.Endereco.xMunicipio := AINIRec.ReadString(sSecao, 'xMunicipio', '');
+    NFSe.Servico.Endereco.Complemento := AINIRec.ReadString(sSecao, 'Complemento', '');
+    NFSe.Servico.Endereco.Endereco := AINIRec.ReadString(sSecao, 'Logradouro', '');
+    NFSe.Servico.Endereco.Numero := AINIRec.ReadString(sSecao, 'Numero', '');
+    NFSe.Servico.Endereco.xPais := AINIRec.ReadString(sSecao, 'xPais', '');
+    NFSe.Servico.Endereco.UF := AINIRec.ReadString(sSecao, 'UF', '');
+
+    // Provedor ISSBarueri
+    NFSe.Servico.LocalPrestacao := StrToLocalPrestacao(Ok, AINIRec.ReadString(sSecao, 'LocalPrestacao', '1'));
+    NFSe.Servico.PrestadoEmViasPublicas := AINIRec.ReadBool(sSecao, 'PrestadoEmViasPublicas', True);
+
+    // Provedor Megasoft
+    NFSe.Servico.InfAdicional := AINIRec.ReadString(sSecao, 'InfAdicional', '');
+
+    // Provedor SigISSWeb
+    NFSe.Servico.xFormaPagamento := AINIRec.ReadString(sSecao, 'xFormaPagamento', '');
+
+    // Provedor ISSSalvador
+    NFSe.Servico.cClassTrib := AINIRec.ReadString(sSecao, 'cClassTrib', '');
+    NFSe.Servico.INDOP := AINIRec.ReadString(sSecao, 'INDOP', '');
+
+    //Provedor ISSSaoPaulo
+    NFSe.Servico.CodigoNCM := AINIRec.ReadString(sSecao, 'CodigoNCM', '');
   end;
 end;
-}
+
 procedure TNFSeIniReader.LerINIComercioExterior(AINIRec: TMemIniFile);
 var
   SSecao: string;
@@ -1236,6 +1285,11 @@ begin
     NFSe.Servico.Valores.ValorIPI := StringtoFloatDef(AINIRec.ReadString(sSecao, 'ValorIPI', ''), 0);
     NFSe.Servico.Valores.ValorInicialCobrado := StringtoFloatDef(AINIRec.ReadString(sSecao, 'ValorInicialCobrado', ''), 0);
     NFSe.Servico.Valores.ValorFinalCobrado := StringtoFloatDef(AINIRec.ReadString(sSecao, 'ValorFinalCobrado', ''), 0);
+
+    if NFSe.Servico.Valores.ValorTotalNotaFiscal = 0 then
+      NFSe.Servico.Valores.ValorTotalNotaFiscal := NFSe.Servico.Valores.ValorServicos -
+                                     NFSe.Servico.Valores.DescontoCondicionado -
+                                     NFSe.Servico.Valores.DescontoIncondicionado;
   end;
 end;
 
@@ -1276,7 +1330,7 @@ begin
   i := 1;
   while true do
   begin
-    sSecao := 'DocumentosDeducoes' + IntToStrZero(i, 3); // Completo
+    sSecao := 'DocumentosDeducoes' + IntToStrZero(i, 4); // Completo
 
     if not AINIRec.SectionExists(sSecao) then
       break;
@@ -1455,6 +1509,48 @@ begin
     Item.Condicao := FpAOwner.StrToCondicaoPag(Ok, AINIRec.ReadString(sSecao, 'Condicao', ''));
 
     Inc(i);
+  end;
+end;
+
+procedure TNFSeIniReader.LerINIEmail(AINIRec: TMemIniFile);
+var
+  i: Integer;
+  sSecao, sFim: string;
+begin
+  i := 1;
+  while true do
+  begin
+    sSecao := 'Email' + IntToStrZero(I + 1, 1);
+    sFim := AINIRec.ReadString(sSecao, 'emailCC', 'FIM');
+
+    if (Length(sFim) <= 0) or (sFim = 'FIM') then
+      break;
+
+    with NFSe.email.New do
+      emailCC := sFim;
+
+    Inc(i);
+  end;
+end;
+
+procedure TNFSeIniReader.LerINITransportadora(AINIRec: TMemIniFile);
+var
+  sSecao: string;
+  Ok: Boolean;
+begin
+  sSecao := 'Transportadora';  // Completo
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    NFSe.Transportadora.xNomeTrans := AINIRec.ReadString(sSecao, 'xNomeTrans', '');
+    NFSe.Transportadora.xCpfCnpjTrans := AINIRec.ReadString(sSecao, 'xCpfCnpjTrans', '');
+    NFSe.Transportadora.xInscEstTrans := AINIRec.ReadString(sSecao, 'xInscEstTrans', '');
+    NFSe.Transportadora.xPlacaTrans := AINIRec.ReadString(sSecao, 'xPlacaTrans', '');
+    NFSe.Transportadora.xEndTrans := AINIRec.ReadString(sSecao, 'xEndTrans', '');
+    NFSe.Transportadora.cMunTrans := AINIRec.ReadInteger(sSecao, 'cMunTrans', 0);
+    NFSe.Transportadora.xMunTrans := AINIRec.ReadString(sSecao, 'xMunTrans', '');
+    NFSe.Transportadora.xUFTrans := AINIRec.ReadString(sSecao, 'xUFTrans', '');
+    NFSe.Transportadora.xPaisTrans := AINIRec.ReadString(sSecao, 'xPaisTrans', '');
+    NFSe.Transportadora.vTipoFreteTrans := StrToTipoFrete(Ok, AINIRec.ReadString(sSecao, 'vTipoFreteTrans', ''));
   end;
 end;
 

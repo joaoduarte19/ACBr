@@ -42,6 +42,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/03/2026
+-- ACBrNFSeX.LerIni --
+[*] Diversos ajustes com a inclusão de novos campos e seções.
+   Por: Italo Giurizzato Junior
+-- ACBrNFSeX.GravarIni --
+[+] Implementado a a unit responsável por gerar arquivo INI de um RPS/DPS ou NFS-e.
+   Por: Italo Giurizzato Junior
+
 10/03/2026
 -- PadraoNacional.LerXml --
 [-] Corrige a leitura do elemento cNaoNIF no XML do DPS.   
