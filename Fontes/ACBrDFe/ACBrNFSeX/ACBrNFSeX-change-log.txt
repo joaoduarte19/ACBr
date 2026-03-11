@@ -56,6 +56,9 @@ Símbolo : Significado
 -- ACBrNFSeX.GravarIni --
 [+] Implementado a a unit responsável por gerar arquivo INI de um RPS/DPS ou NFS-e.
    Por: Italo Giurizzato Junior
+-- iiBrasil.Provider --
+[*] ACBR-9095 - Tratamento quando o provedor devolver apenas a mensagem de erro, não contida em um xml - https://www.projetoacbr.com.br/forum/topic/90731-erro-de-conex%C3%A3o-input-is-not-proper-utf-8-indicate-encoding-bytes-0xc7-0xc3-0x4f-0x20
+   Por: Renato Rubinho
 
 10/03/2026
 -- PadraoNacional.LerXml --

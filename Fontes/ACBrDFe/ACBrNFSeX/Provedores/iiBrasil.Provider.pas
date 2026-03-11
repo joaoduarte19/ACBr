@@ -45,6 +45,8 @@ uses
 
 type
   TACBrNFSeXWebserviceiiBrasil204 = class(TACBrNFSeXWebserviceSoap11)
+  private
+    function AjustarRetorno(const Retorno: string): string;
   public
     function Recepcionar(const ACabecalho, AMSG: String): string; override;
     function RecepcionarSincrono(const ACabecalho, AMSG: String): string; override;
@@ -448,6 +450,16 @@ begin
                      ['xmlns:nfse="http://nfse.abrasf.org.br"']);
 end;
 
+function TACBrNFSeXWebserviceiiBrasil204.AjustarRetorno(const Retorno: string): string;
+begin
+  Result := RemoverDeclaracaoXML(Retorno);
+
+  if ((Result = '') or StringIsXML(Result)) then
+    Result := Retorno
+  else
+    Result := NativeStringToUTF8(Result);
+end;
+
 function TACBrNFSeXWebserviceiiBrasil204.Cancelar(const ACabecalho, AMSG: String): string;
 var
   Request: string;
@@ -484,9 +496,11 @@ end;
 function TACBrNFSeXWebserviceiiBrasil204.TratarXmlRetornado(
   const aXML: string): string;
 begin
-  if StringIsXML(aXML) then
+  Result := AjustarRetorno(aXML);
+
+  if StringIsXML(Result) then
   begin
-    Result := inherited TratarXmlRetornado(aXML);
+    Result := inherited TratarXmlRetornado(Result);
 
     Result := ParseText(Result);
     Result := RemoverCDATA(Result);
@@ -500,7 +514,7 @@ begin
                 '<ListaMensagemRetorno>' +
                   '<MensagemRetorno>' +
                     '<Codigo>' + '</Codigo>' +
-                    '<Mensagem>' + aXML + '</Mensagem>' +
+                    '<Mensagem>' + Result + '</Mensagem>' +
                     '<Correcao>' + '</Correcao>' +
                   '</MensagemRetorno>' +
                 '</ListaMensagemRetorno>' +
