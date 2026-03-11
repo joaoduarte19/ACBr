@@ -1,0 +1,83 @@
+using System;
+using System.Runtime.InteropServices;
+using System.Text;
+using ACBrLib.Core;
+
+namespace ACBrLib.Sedex
+{
+    internal sealed class ACBrSedexHandle : ACBrLibHandleBase
+    {
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int Sedex_Inicializar(ref IntPtr handle, string eArqConfig, string eChaveCrypt);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int Sedex_Finalizar(IntPtr handle);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int Sedex_Nome(IntPtr handle, StringBuilder buffer, ref int bufferSize);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int Sedex_Versao(IntPtr handle, StringBuilder buffer, ref int bufferSize);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int Sedex_UltimoRetorno(IntPtr handle, StringBuilder buffer, ref int bufferSize);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int Sedex_ConfigImportar(IntPtr handle, string eArqConfig);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int Sedex_ConfigExportar(IntPtr handle, StringBuilder buffer, ref int bufferSize);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int Sedex_ConfigLer(IntPtr handle, string eArqConfig);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int Sedex_ConfigGravar(IntPtr handle, string eArqConfig);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int Sedex_ConfigLerValor(IntPtr handle, string eSessao, string eChave, StringBuilder buffer, ref int bufferSize);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int Sedex_ConfigGravarValor(IntPtr handle, string eSessao, string eChave, string valor);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int Sedex_Consultar(IntPtr handle, StringBuilder buffer, ref int bufferSize);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int Sedex_Rastrear(IntPtr handle, string eCodRastreio, StringBuilder buffer, ref int bufferSize);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int Sedex_OpenSSLInfo(IntPtr handle, StringBuilder buffer, ref int bufferSize);
+
+        protected override void InitializeMethods()
+        {
+            AddMethod<Sedex_Inicializar>("Sedex_Inicializar");
+            AddMethod<Sedex_Finalizar>("Sedex_Finalizar");
+            AddMethod<Sedex_Nome>("Sedex_Nome");
+            AddMethod<Sedex_Versao>("Sedex_Versao");
+            AddMethod<Sedex_UltimoRetorno>("Sedex_UltimoRetorno");
+            AddMethod<Sedex_ConfigImportar>("Sedex_ConfigImportar");
+            AddMethod<Sedex_ConfigExportar>("Sedex_ConfigExportar");
+            AddMethod<Sedex_ConfigLer>("Sedex_ConfigLer");
+            AddMethod<Sedex_ConfigGravar>("Sedex_ConfigGravar");
+            AddMethod<Sedex_ConfigLerValor>("Sedex_ConfigLerValor");
+            AddMethod<Sedex_ConfigGravarValor>("Sedex_ConfigGravarValor");
+            AddMethod<Sedex_Consultar>("Sedex_Consultar");
+            AddMethod<Sedex_Rastrear>("Sedex_Rastrear");
+            AddMethod<Sedex_OpenSSLInfo>("Sedex_OpenSSLInfo");
+        }
+
+        protected override string GetLibraryName()
+        {
+            var arch = Environment.Is64BitProcess ? "64" : "32";
+            if (PlatformID.Unix == Environment.OSVersion.Platform)
+                return $"libacbrsedex{arch}.so";
+
+            return $"ACBrSedex{arch}.dll";
+        }
+
+        private static readonly Lazy<ACBrSedexHandle> instance = new Lazy<ACBrSedexHandle>(() => new ACBrSedexHandle());
+
+        public static ACBrSedexHandle Instance => instance.Value;
+    }
+}
