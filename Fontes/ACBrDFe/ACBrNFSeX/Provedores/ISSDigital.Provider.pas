@@ -573,8 +573,8 @@ begin
     XmlRps.InfElemento := 'infDPS';
     XmlRps.DocElemento := 'DPS';
 
-    EnviarEvento.InfElemento := 'infEvento';
-    EnviarEvento.DocElemento := 'evento';
+    EnviarEvento.InfElemento := 'infPedReg';
+    EnviarEvento.DocElemento := 'pedRegEvento';
   end;
 
   with ConfigAssinar do
@@ -759,7 +759,29 @@ begin
   Result := aXml;
 
   if aMetodo in [tmGerar, tmEnviarEvento] then
+  begin
     Result := ChangeLineBreak(aXml, '');
+
+    case aMetodo of
+      tmGerar:
+        begin
+          Path := '';
+        end;
+
+      tmEnviarEvento:
+        begin
+          Result := '{"pedidoRegistroEventoXmlGZipB64":"' + Result + '"}';
+          Path := '/nfse/' + Chave + '/eventos';
+        end;
+    else
+      begin
+        Result := '';
+        Path := '';
+      end;
+    end;
+
+    Method := 'POST';
+  end;
 end;
 
 procedure TACBrNFSeProviderISSDigitalAPIPropria.PrepararEmitir(

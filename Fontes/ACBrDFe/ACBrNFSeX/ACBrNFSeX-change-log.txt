@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 11/03/2026
+-- ISSDigital.Provider --
+[-] ACBR-9075 - Correção para realizar a assinatura no XML de pedido de registro de evento.
+   Por: Italo Giurizzato Junior
+
 -- ACBrNFSeX.LerIni --
 [*] Diversos ajustes com a inclusão de novos campos e seções.
    Por: Italo Giurizzato Junior
