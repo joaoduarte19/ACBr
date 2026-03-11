@@ -79,7 +79,8 @@ type
 
     function LerXML(const AXML: string): Boolean;
     function LerArqIni(const AIniString: string): Boolean;
-    function GerarNFSeIni: string;
+    function GerarNFSeIni(GerarTodasSecoes: Boolean = False;
+      Documentar: Boolean = False): string;
 
     function GerarXML: string;
     function GravarXML(const NomeArquivo: string = '';
@@ -152,7 +153,8 @@ type
     function LoadFromIni(const AIniString: string): Boolean;
     function LoadFromLoteNfse(const CaminhoArquivo: string): Boolean;
 
-    function GerarIni: string;
+    function GerarIni(GerarTodasSecoes: Boolean = False;
+  Documentar: Boolean = False): string;
     function GravarXML(const PathNomeArquivo: string = ''): Boolean;
 
     property XMLLoteOriginal: string read FXMLLoteOriginal write FXMLLoteOriginal;
@@ -318,7 +320,8 @@ begin
   Result := FProvider.LerIni(AIniString, FNFSe);
 end;
 
-function TNotaFiscal.GerarNFSeIni: string;
+function TNotaFiscal.GerarNFSeIni(GerarTodasSecoes: Boolean = False;
+  Documentar: Boolean = False): string;
 var
   FProvider: IACBrNFSeXProvider;
 begin
@@ -329,7 +332,7 @@ begin
   if not Assigned(FProvider) then
     raise EACBrNFSeException.Create(ERR_SEM_PROVEDOR);
 
-  Result := FProvider.GerarIni(FNFSe);
+  Result := FProvider.GerarIni(FNFSe, GerarTodasSecoes, Documentar);
 end;
 
 function TNotaFiscal.LerXML(const AXML: string): Boolean;
@@ -545,12 +548,13 @@ begin
   Result := inherited Add(ANota);
 end;
 
-function TNotasFiscais.GerarIni: string;
+function TNotasFiscais.GerarIni(GerarTodasSecoes: Boolean = False;
+  Documentar: Boolean = False): string;
 begin
   Result := '';
 
   if (Self.Count > 0) then
-    Result := Self.Items[0].GerarNFSeIni;
+    Result := Self.Items[0].GerarNFSeIni(GerarTodasSecoes, Documentar);
 end;
 
 procedure TNotasFiscais.GerarNFSe;
