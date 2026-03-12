@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 12/03/2026
+-- ACBrNFSeX.GravarIni/ACBrNFSeX.LerIni --
+[*] Melhorias nas novas units responsáveis por gerar e ler o arquivo INI.
+   Por: Italo Giurizzato Junior
 -- SimplISS.Provider --
 [*] ACBR-9077 - Ajustes para gerar corretamente o evento de cancelamento.
    Por: Italo Giurizzato Junior
