@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 12/03/2026
+-- SimplISS.Provider --
+[*] ACBR-9077 - Ajustes para gerar corretamente o evento de cancelamento.
+   Por: Italo Giurizzato Junior
 -- EL.Provider --
 [*] ACBR-9076 - Ajustes para gerar corretamente o evento de cancelamento.
    Por: Italo Giurizzato Junior

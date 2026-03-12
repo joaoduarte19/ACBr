@@ -449,7 +449,7 @@ function TACBrNFSeXWebserviceEL204.TratarXmlRetornado(
 begin
   Result := inherited TratarXmlRetornado(aXML);
 
-  Result := ParseText(Result);
+  Result := ParseText(AnsiString(Result));
   Result := RemoverDeclaracaoXML(Result);
 end;
 
@@ -1658,7 +1658,7 @@ function TACBrNFSeXWebserviceEL.TratarXmlRetornado(const aXML: string): string;
 begin
   Result := inherited TratarXmlRetornado(aXML);
 
-  Result := ParseText(Result);
+  Result := ParseText(AnsiString(Result));
   Result := RemoverDeclaracaoXML(Result);
 end;
 
@@ -1892,7 +1892,7 @@ begin
     Chave := chNFSe;
 
     nomeArq := '';
-    SalvarXmlEvento(ID + '-pedRegEvento', Response.ArquivoEnvio, nomeArq);
+    SalvarXmlEvento(ID + '-pedRegEvento', AnsiString(Response.ArquivoEnvio), nomeArq);
     Response.PathNome := nomeArq;
 //    Path := '';
     Method := 'POST';
@@ -1933,10 +1933,6 @@ procedure TACBrNFSeProviderELAPIPropria.TratarRetornoEnviarEvento(
 var
   Document: TACBrJSONObject;
   AErro: TNFSeEventoCollectionItem;
-  EventoXml, IDEvento, nomeArq: string;
-  DocumentXml: TACBrXmlDocument;
-  ANode: TACBrXmlNode;
-  Ok: Boolean;
 begin
   if Response.ArquivoRetorno = '' then
   begin
@@ -1986,7 +1982,7 @@ begin
   if not StringIsPDF(Result) then
   begin
     Result := RemoverCaracteresDesnecessarios(Result);
-    Result := ParseText(Result);
+    Result := ParseText(AnsiString(Result));
     Result := RemoverIdentacao(Result);
     Result := RemoverDeclaracaoXML(Result);
 
