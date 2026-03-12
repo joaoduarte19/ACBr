@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+12/03/2026
+-- EL.Provider --
+[*] ACBR-9076 - Ajustes para gerar corretamente o evento de cancelamento.
+   Por: Italo Giurizzato Junior
+
 11/03/2026
 -- ACBrNFSeXServicos --
 [*] ACBR-9075 - Incluído no Params: ServicosPadraoNacional o serviço EnviarEvento para o provedor ISSDigital
