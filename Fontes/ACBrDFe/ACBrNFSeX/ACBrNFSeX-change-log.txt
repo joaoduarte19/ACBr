@@ -42,6 +42,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+13/03/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9093 - Atualizadas as URLs novas do provedor Tiplan de todas as cidades atendidas pelo provedor.
+   Por: Italo Giurizzato Junior
+-- Tiplan.Provider --
+[+] ACBR-9093 - Implementado o método ConsultarNFSporDPS (para este provedor devemos informar o numero do DPS).
+   Por: Italo Giurizzato Junior
+
 12/03/2026
 -- ACBrNFSeX.GravarIni/ACBrNFSeX.LerIni --
 [*] Melhorias nas novas units responsáveis por gerar e ler o arquivo INI.

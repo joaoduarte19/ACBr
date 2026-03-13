@@ -47,6 +47,7 @@ uses
   ACBrNFSeXProviderABRASFv1,
   ACBrNFSeXProviderABRASFv2,
   ACBrNFSeXWebserviceBase,
+  ACBrNFSeXWebservicesResponse,
   PadraoNacional.Provider;
 
 type
@@ -101,7 +102,7 @@ type
   protected
 
   public
-
+    function TratarXmlRetornado(const aXML: string): string; override;
   end;
 
   TACBrNFSeProviderTiplanAPIPropria = class(TACBrNFSeProviderPadraoNacional)
@@ -111,15 +112,25 @@ type
     function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
     function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
+
+    function PrepararArquivoEnvio(const aXml: string; aMetodo: TMetodo): string; override;
+
+    procedure PrepararConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
   end;
 
 implementation
 
 uses
+  synacode,
+  ACBrJson,
+  ACBrCompress,
   ACBrDFe.Conversao,
   ACBrUtil.XMLHTML,
+  ACBrUtil.Base,
+  ACBrUtil.Strings,
   ACBrDFeException,
   ACBrNFSeX,
+  ACBrNFSeXConsts,
   ACBrNFSeXConfiguracoes,
   ACBrNFSeXNotasFiscais,
   Tiplan.GravarXml,
@@ -534,13 +545,120 @@ begin
   URL := GetWebServiceURL(AMetodo);
 
   if URL <> '' then
-    Result := TACBrNFSeXWebserviceTiplanAPIPropria.Create(FAOwner, AMetodo, URL, Method)
+  begin
+    URL := URL + Path;
+
+    Result := TACBrNFSeXWebserviceTiplanAPIPropria.Create(FAOwner, AMetodo, URL, Method);
+  end
   else
   begin
     if ConfigGeral.Ambiente = taProducao then
       raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
     else
       raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
+end;
+
+function TACBrNFSeProviderTiplanAPIPropria.PrepararArquivoEnvio(
+  const aXml: string; aMetodo: TMetodo): string;
+begin
+  Result := aXml;
+
+  if aMetodo in [tmGerar, tmEnviarEvento] then
+  begin
+    Result := ChangeLineBreak(aXml, '');
+    Result := EncodeBase64(GZipCompress(Result));
+
+    case aMetodo of
+      tmGerar:
+        begin
+          Result := '{"dpsXmlGZipB64":"' + Result + '"}';
+          Path := '';
+        end;
+
+      tmEnviarEvento:
+        begin
+          Result := '{"pedidoRegistroEventoXmlGZipB64":"' + Result + '"}';
+          Path := '';
+        end;
+    else
+      begin
+        Result := '';
+        Path := '';
+      end;
+    end;
+
+    Method := 'POST';
+  end;
+end;
+
+procedure TACBrNFSeProviderTiplanAPIPropria.PrepararConsultaNFSeporRps(
+  Response: TNFSeConsultaNFSeporRpsResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+begin
+  if EstaVazio(Response.NumeroRps) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod102;
+    AErro.Descricao := ACBrStr(Desc102);
+    Exit;
+  end;
+
+  Path := '/' + Response.NumeroRps;
+  Response.ArquivoEnvio := Path;
+  Method := 'GET';
+end;
+
+{ TACBrNFSeXWebserviceTiplanAPIPropria }
+
+function TACBrNFSeXWebserviceTiplanAPIPropria.TratarXmlRetornado(
+  const aXML: string): string;
+var
+  lJSON, lErroJSON: TACBrJSONObject;
+  lJSONArray: TACBrJSONArray;
+  LMsg: string;
+  i, j: Integer;
+begin
+  Result := inherited TratarXmlRetornado(aXML);
+
+  if Pos('{"Message"', Result) > 0 then
+  begin
+    i := Pos('":"', Result) + 3;
+    j := Pos('"}', Result);
+    LMsg := Copy(Result, i, j-i);
+
+    lJSON := TACBrJSONObject.Create;
+    try
+      lJSONArray := TACBrJSONArray.Create;
+      try
+        lErroJSON := TACBrJSONObject.Create;
+        try
+          lJSON.AddPair('tipoAmbiente', EmptyStr);
+          lJSON.AddPair('versaoAplicativo', EmptyStr);
+          lJSON.AddPair('dataHoraProcessamento', EmptyStr);
+          lJSON.AddPair('idDps', EmptyStr);
+          lJSON.AddPair('chaveAcesso', EmptyStr);
+          lJSON.AddPair('nfseXmlGZipB64', EmptyStr);
+
+          lErroJSON.AddPair('mensagem', EmptyStr);
+          lErroJSON.AddPair('codigo', 'E9999');
+          lErroJSON.AddPair('descricao', LMsg);
+          lErroJSON.AddPair('complemento', '');
+
+          lJSONArray.AddElementJSON(lErroJSON);
+          lJSON.AddPair('erros', lJSONArray, False);
+
+          Result := lJSON.ToJSON;
+        finally
+          //lErroJSON.Free;
+        end;
+      finally
+        //lJSONArray.Free;
+      end;
+    finally
+      lJSON.Free;
+    end;
   end;
 end;
 
