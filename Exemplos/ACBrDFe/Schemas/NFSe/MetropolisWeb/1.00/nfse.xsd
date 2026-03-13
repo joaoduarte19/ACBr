@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd" targetNamespace="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<xsd:import schemaLocation="xmldsig-core-schema20020212.xsd" namespace="http://www.w3.org/2000/09/xmldsig#"/>
+<xsd:import schemaLocation="xmldsig-core-schema.xsd" namespace="http://www.w3.org/2000/09/xmldsig#"/>
 <!-- definition of simple elements -->
 <xsd:simpleType name="tsNumeroNfse">
 <xsd:restriction base="xsd:nonNegativeInteger">
@@ -261,7 +261,8 @@
 			<xsd:maxLength value="9" />
 			<xsd:minLength value="1" />
 			<xsd:whiteSpace value="collapse" />
-	</xsd:restriction>
+		</xsd:restriction>
+	</xsd:simpleType>
 	<xsd:simpleType name="tsIndOp">
 		<xsd:restriction base="xsd:string">
 			<xsd:whiteSpace value="preserve"/>
