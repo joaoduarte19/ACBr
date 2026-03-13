@@ -261,6 +261,7 @@ implementation
 
 uses
   IniFiles,
+  ACBrUtil.FilesIO,
   ACBreSocial;
 
 { TS2410Collection }
@@ -634,8 +635,82 @@ begin
 end;
 
 function TEvtCdBenIn.LerArqIni(const AIniString: String): Boolean;
+var
+  lINIRec: TMemIniFile;
+  lSecao: String;
+  Ok: Boolean;
 begin
   Result := True;
+  lINIRec := TMemIniFile.Create('');
+  try
+    LerIniArquivoOuString(AIniString, lINIRec);
+    lSecao := 'evtCdBenIn';
+    Id := lINIRec.ReadString(lSecao, 'Id', '');
+    Sequencial := lINIRec.ReadInteger(lSecao, 'Sequencial', 0);
+
+    lSecao             := 'ideEvento';
+    ideEvento.indRetif := eSStrToIndRetificacao(Ok, lINIRec.ReadString(lSecao, 'indRetif'  , '1'));
+    ideEvento.NrRecibo := lINIRec.ReadString(lSecao , 'nrRecibo'  , EmptyStr);
+    ideEvento.ProcEmi  := eSStrToprocEmi(Ok, lINIRec.ReadString(lSecao, 'procEmi', '1'));
+    ideEvento.VerProc  := lINIRec.ReadString(lSecao, 'verProc', EmptyStr);
+
+    lSecao             := 'ideEmpregador';
+    IdeEmpregador.OrgaoPublico := (TACBreSocial(FACBreSocial).Configuracoes.Geral.TipoEmpregador = teOrgaoPublico);
+    IdeEmpregador.TpInsc := eSStrToTpInscricao(Ok, lINIRec.ReadString(lSecao, 'tpInsc', '1'));
+    IdeEmpregador.NrInsc := lINIRec.ReadString(lSecao, 'nrInsc', EmptyStr);
+
+    lSecao             := 'beneficiario';
+    Beneficiario.cpfBenef  := lINIRec.ReadString(lSecao, 'cpfBenef'  , EmptyStr);
+    Beneficiario.matricula := lINIRec.ReadString(lSecao, 'matricula' , EmptyStr);
+    Beneficiario.cnpjOrigem := lINIRec.ReadString(lSecao, 'cnpjOrigem', EmptyStr);
+
+    lSecao := 'infoBenInicio';
+    InfoBenInicio.cadIni := eSStrToSimNao(Ok, lINIRec.ReadString(lSecao, 'cadIni', ''));
+    InfoBenInicio.indSitBenef := eSStrToTpIndSitBenef(Ok, lINIRec.ReadString(lSecao, 'indSitBenef', ''));
+    InfoBenInicio.nrBeneficio := lINIRec.ReadString(lSecao, 'nrBeneficio', '');
+    InfoBenInicio.dtIniBeneficio := lINIRec.ReadDate(lSecao, 'dtIniBeneficio', 0);
+    InfoBenInicio.dtPublic := lINIRec.ReadDate(lSecao, 'dtPublic', 0);
+
+    lSecao := 'dadosBeneficio';
+    InfoBenInicio.dadosBeneficio.tpBeneficio := lINIRec.ReadInteger(lSecao, 'tpBeneficio', 0);
+    InfoBenInicio.dadosBeneficio.tpPlanRP := eSStrToTpPlanRP(Ok, lINIRec.ReadString(lSecao, 'tpPlanRP', ''));
+    InfoBenInicio.dadosBeneficio.dsc := lINIRec.ReadString(lSecao, 'dsc', '');
+    InfoBenInicio.dadosBeneficio.indDecJud := eSStrToSimNaoFacultativo(Ok, lINIRec.ReadString(lSecao, 'indDecJud', ''));
+
+    lSecao := 'infoPenMorte';
+    InfoBenInicio.dadosBeneficio.infoPenMorte.tpPenMorte := eSStrTotpTpPenMorteEX(lINIRec.ReadString(lSecao, 'tpPenMorte', ''));
+
+    lSecao := 'instPenMorte';
+    InfoBenInicio.dadosBeneficio.infoPenMorte.instPenMorte.cpfInst := lINIRec.ReadString(lSecao, 'cpfInst', '');
+    InfoBenInicio.dadosBeneficio.infoPenMorte.instPenMorte.dtInst := lINIRec.ReadDate(lSecao, 'dtInst', 0);
+    InfoBenInicio.dadosBeneficio.infoPenMorte.instPenMorte.tpDepInst := eSStrTotpTpDepInst(lINIRec.ReadString(lSecao, 'tpDepInst', ''));
+    InfoBenInicio.dadosBeneficio.infoPenMorte.instPenMorte.descrDepInst := lINIRec.ReadString(lSecao, 'descrDepInst', '');
+
+    lSecao := 'infoHomolog';
+    InfoBenInicio.dadosBeneficio.infoHomolog.sitHomolog := eSStrToTpSitHomolog(lINIRec.ReadString(lSecao, 'sitHomolog', ''));
+    InfoBenInicio.dadosBeneficio.infoHomolog.dtHomolog := lINIRec.ReadDate(lSecao, 'dtHomolog', 0);
+
+    lSecao := 'sucessaoBenef';
+    InfoBenInicio.sucessaoBenef.cnpjOrgaoAnt := lINIRec.ReadString(lSecao, 'cnpjOrgaoAnt', '');
+    InfoBenInicio.sucessaoBenef.nrBeneficioAnt := lINIRec.ReadString(lSecao, 'nrBeneficioAnt', '');
+    InfoBenInicio.sucessaoBenef.dtTransf := lINIRec.ReadDate(lSecao, 'dtTransf', 0);
+    InfoBenInicio.sucessaoBenef.observacao := lINIRec.ReadString(lSecao, 'observacao', '');
+
+    lSecao := 'mudancaCPF';
+    InfoBenInicio.mudancaCPF.cpfAnt := lINIRec.ReadString(lSecao, 'cpfAnt', '');
+    InfoBenInicio.mudancaCPF.nrBeneficioAnt := lINIRec.ReadString(lSecao, 'nrBeneficioAnt', '');
+    InfoBenInicio.mudancaCPF.dtAltCPF := lINIRec.ReadDate(lSecao, 'dtAltCPF', 0);
+    InfoBenInicio.mudancaCPF.observacao := lINIRec.ReadString(lSecao, 'observacao', '');
+
+    lSecao := 'infoBemTermino';
+    InfoBenInicio.infoBenTermino.dtTermBeneficio := lINIRec.ReadDate(lSecao, 'dtTermBeneficio', 0);
+    InfoBenInicio.infoBenTermino.mtvTermino := eSStrToTpMotCessBenefEX(lINIRec.ReadString(lSecao, 'mtvTermino', ''));
+
+    GerarXML;
+    XML := FXML;
+  finally
+    lINIRec.Free;
+  end;
 end;
 
 { TInfoHomolog }
