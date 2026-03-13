@@ -134,6 +134,9 @@ type
 
     function StatusRPSToStr(const t: TStatusRPS): string;
     function StrToStatusRPS(out ok: boolean; const s: string): TStatusRPS;
+
+    function tpDedRedToStr(const t: TtpDedRed): string;
+    function StrTotpDedRed(out ok: Boolean; const s: string): TtpDedRed;
   end;
 
 implementation

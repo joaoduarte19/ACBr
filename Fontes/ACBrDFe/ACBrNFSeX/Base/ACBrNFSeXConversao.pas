@@ -838,9 +838,6 @@ function StrTocategVeic(out ok: Boolean; const s: string): TcategVeic;
 function rodagemToStr(const t: Trodagem): string;
 function StrTorodagem(out ok: Boolean; const s: string): Trodagem;
 
-function tpDedRedToStr(const t: TtpDedRed): string;
-function StrTotpDedRed(out ok: Boolean; const s: string): TtpDedRed;
-
 function tribISSQNToStr(const t: TtribISSQN): string;
 function StrTotribISSQN(out ok: Boolean; const s: string): TtribISSQN;
 
@@ -13594,24 +13591,6 @@ begin
   result := StrToEnumerado(ok, s,
                            ['1', '2'],
                            [trSimples, trDupla]);
-end;
-
-function tpDedRedToStr(const t: TtpDedRed): string;
-begin
-  result := EnumeradoToStr(t,
-                           ['1', '2', '3', '4', '5', '6', '7', '8', '9', '99'],
-    [drAlimentacao, drMateriais, drProducaoExt, drReembolso, drRepasseConsorciado,
-     drRepassePlanoSaude, drServicos, drSubEmpreitada, drProfissionalParceiro,
-     drOutrasDeducoes]);
-end;
-
-function StrTotpDedRed(out ok: Boolean; const s: string): TtpDedRed;
-begin
-  result := StrToEnumerado(ok, s,
-                           ['1', '2', '3', '4', '5', '6', '7', '8', '9', '99'],
-    [drAlimentacao, drMateriais, drProducaoExt, drReembolso, drRepasseConsorciado,
-     drRepassePlanoSaude, drServicos, drSubEmpreitada, drProfissionalParceiro,
-     drOutrasDeducoes]);
 end;
 
 function tribISSQNToStr(const t: TtribISSQN): string;

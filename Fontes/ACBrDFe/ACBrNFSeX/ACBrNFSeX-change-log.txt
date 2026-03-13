@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 13/03/2026
+-- Diversos --
+[*] ACBR-8979/ACBR-8960 - Ajustes visando correta geração dos novos campos da RTC no XML do DBSeller.
+   Por: Marco Moreira / Diego Folieni 
+   Veja: https://www.projetoacbr.com.br/forum/topic/89229-acbr-8960-cidade-sapiranga-rs/
+   Veja: https://www.projetoacbr.com.br/forum/topic/90245-acbr-8990-problema-ao-carregar-o-xml-de-uma-nfs-e/
 -- MetropolisWeb.GravarXml --
 [-] ACBR-8965 - Correção na geração do XML.
    Por: Dino Rodrigo S. Moreira

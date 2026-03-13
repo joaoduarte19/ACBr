@@ -1642,7 +1642,7 @@ begin
     NFSe.Servico.CodigoMunicipioLocalPrestacao := StrToIntDef(NFSe.Servico.CodigoMunicipio, 0);
     NFSe.Servico.ValorTotalRecebido := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorTotalRecebido', ''), 0);
 
-    NFSe.Servico.CClassTrib := AINIRec.ReadString(LSecao, 'CClassTribReg', '');
+    NFSe.Servico.CClassTrib := AINIRec.ReadString(LSecao, 'CClassTribReg', AINIRec.ReadString(LSecao, 'cClassTrib', ''));
     NFSe.Servico.INDOP := AINIRec.ReadString(LSecao, 'CIndOp', '');
   end;
 end;

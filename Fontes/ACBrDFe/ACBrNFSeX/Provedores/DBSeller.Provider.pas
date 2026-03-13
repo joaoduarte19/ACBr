@@ -39,7 +39,7 @@ interface
 uses
   SysUtils, Classes,
   ACBrXmlDocument,
-  ACBrNFSeXClass, ACBrNFSeXConversao,
+  ACBrNFSeXClass, ACBrNFSeXConversao, ACBrNFSeXConsts,
   ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
   ACBrNFSeXProviderABRASFv1, ACBrNFSeXProviderABRASFv2,
   ACBrNFSeXWebserviceBase, ACBrNFSeXWebservicesResponse;
@@ -113,12 +113,17 @@ type
 
     procedure GerarMsgDadosConsultaNFSeServicoPrestado(Response: TNFSeConsultaNFSeResponse;
       Params: TNFSeParamsResponse); override;
+
+    function tpDedRedToStr(const t: TtpDedRed): string; override;
+    function StrTotpDedRed(out ok: Boolean; const s: string): TtpDedRed; override;
   end;
 
 implementation
 
 uses
-  ACBrUtil.XMLHTML, ACBrUtil.Strings,
+  ACBrUtil.Base,
+  ACBrUtil.XMLHTML,
+  ACBrUtil.Strings,
   ACBrDFe.Conversao,
   ACBrXmlBase,
   ACBrDFeException, ACBrNFSeX, ACBrNFSeXConfiguracoes,
@@ -334,32 +339,38 @@ end;
 
 function TACBrNFSeXWebserviceDBSeller204.RecepcionarSincrono(const ACabecalho,
   AMSG: String): string;
-var
-  Request: string;
+//var
+//  Request: string;
 begin
-  FPMsgOrig := AMSG;
+  inherited RecepcionarSincrono(ACabecalho, AMSG);
 
-  Request := '<e:RecepcionarLoteRpsSincrono>';
-  Request := Request + '<xml>' + XmlToStr(AMSG) + '</xml>';
-  Request := Request + '</e:RecepcionarLoteRpsSincrono>';
-
-  Result := Executar('', Request,
-                     ['return'], [Namespace]);
+// End-Point de envio síncrono não existe no ?WSDL
+//  FPMsgOrig := AMSG;
+//
+//  Request := '<e:RecepcionarLoteRpsSincrono>';
+//  Request := Request + '<xml>' + XmlToStr(AMSG) + '</xml>';
+//  Request := Request + '</e:RecepcionarLoteRpsSincrono>';
+//
+//  Result := Executar('', Request,
+//                     ['return'], [Namespace]);
 end;
 
 function TACBrNFSeXWebserviceDBSeller204.GerarNFSe(const ACabecalho,
   AMSG: String): string;
-var
-  Request: string;
+//var
+//  Request: string;
 begin
-  FPMsgOrig := AMSG;
+  inherited GerarNFSe(ACabecalho, AMSG);
 
-  Request := '<e:GerarNfse>';
-  Request := Request + '<xml>' + XmlToStr(AMSG) + '</xml>';
-  Request := Request + '</e:GerarNfse>';
-
-  Result := Executar('', Request,
-                     ['return'], [Namespace]);
+// End-Point de envio unitário não existe no ?WSDL
+//  FPMsgOrig := AMSG;
+//
+//  Request := '<e:GerarNfse>';
+//  Request := Request + '<xml>' + XmlToStr(AMSG) + '</xml>';
+//  Request := Request + '</e:GerarNfse>';
+//
+//  Result := Executar('', Request,
+//                     ['return'], [Namespace]);
 end;
 
 function TACBrNFSeXWebserviceDBSeller204.ConsultarLote(const ACabecalho,
@@ -489,6 +500,7 @@ begin
   begin
     Identificador := '';
     ConsultaPorFaixaPreencherNumNfseFinal := True;
+    ModoEnvio := meLoteAssincrono;
   end;
 
   with ConfigWebServices do
@@ -501,6 +513,7 @@ begin
   ConfigMsgDados.GerarPrestadorLoteRps := True;
 
   ConfigAssinar.LoteRps := True;
+  ConfigSchemas.Validar := False;
 end;
 
 function TACBrNFSeProviderDBSeller204.CriarGeradorXml(
@@ -564,6 +577,23 @@ begin
   end
   else
     inherited ProcessarMensagemErros(RootNode, Response, AListTag, AMessageTag);
+end;
+
+function TACBrNFSeProviderDBSeller204.StrTotpDedRed(out ok: Boolean;
+  const s: string): TtpDedRed;
+begin
+  result := StrToEnumerado(ok, s,
+                           ['1', '2', '3', '4', '5', '6', '7', '8', '99'],
+    [drMateriais, drSubEmpreitada, drServicos, drProducaoExt, drAlimentacao,
+    drReembolso, drRepasseConsorciado, drRepassePlanoSaude, drOutrasDeducoes]);
+end;
+
+function TACBrNFSeProviderDBSeller204.tpDedRedToStr(const t: TtpDedRed): string;
+begin
+  result := EnumeradoToStr(t,
+                           ['1', '2', '3', '4', '5', '6', '7', '8', '99'],
+    [drMateriais, drSubEmpreitada, drServicos, drProducaoExt, drAlimentacao,
+    drReembolso, drRepasseConsorciado, drRepassePlanoSaude, drOutrasDeducoes]);
 end;
 
 procedure TACBrNFSeProviderDBSeller204.GerarMsgDadosConsultaNFSeServicoPrestado(

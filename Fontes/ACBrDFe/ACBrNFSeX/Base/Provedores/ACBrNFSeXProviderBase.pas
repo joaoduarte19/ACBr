@@ -324,6 +324,9 @@ type
 
     function StatusRPSToStr(const t: TStatusRPS): string; virtual;
     function StrToStatusRPS(out ok: boolean; const s: string): TStatusRPS; virtual;
+
+    function tpDedRedToStr(const t: TtpDedRed): string; virtual;
+    function StrTotpDedRed(out ok: Boolean; const s: string): TtpDedRed; virtual;
   end;
 
 implementation
@@ -1950,6 +1953,15 @@ begin
                             ttExpServicos]);
 end;
 
+function TACBrNFSeXProvider.tpDedRedToStr(const t: TtpDedRed): string;
+begin
+  result := EnumeradoToStr(t,
+                           ['1', '2', '3', '4', '5', '6', '7', '8', '9', '99'],
+    [drAlimentacao, drMateriais, drProducaoExt, drReembolso, drRepasseConsorciado,
+     drRepassePlanoSaude, drServicos, drSubEmpreitada, drProfissionalParceiro,
+     drOutrasDeducoes]);
+end;
+
 function TACBrNFSeXProvider.StrToTipoTributacaoRPS(out ok: Boolean;
   const s: string): TTipoTributacaoRPS;
 begin
@@ -1960,6 +1972,16 @@ begin
                             ttTribnoMunImune, ttTribforaMunImune,
                             ttTribnoMunSuspensa, ttTribforaMunSuspensa,
                             ttExpServicos]);
+end;
+
+function TACBrNFSeXProvider.StrTotpDedRed(out ok: Boolean;
+  const s: string): TtpDedRed;
+begin
+  result := StrToEnumerado(ok, s,
+                           ['1', '2', '3', '4', '5', '6', '7', '8', '9', '99'],
+    [drAlimentacao, drMateriais, drProducaoExt, drReembolso, drRepasseConsorciado,
+     drRepassePlanoSaude, drServicos, drSubEmpreitada, drProfissionalParceiro,
+     drOutrasDeducoes]);
 end;
 
 function TACBrNFSeXProvider.CondicaoPagToStr(

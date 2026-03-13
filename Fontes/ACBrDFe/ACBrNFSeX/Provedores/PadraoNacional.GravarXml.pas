@@ -1425,7 +1425,7 @@ begin
     end;
 
     Result[i].AppendChild(AddNode(tcStr, '#1', 'tpDedRed', 1, 2, 1,
-         tpDedRedToStr(NFSe.Servico.Valores.DocDeducao.Items[i].tpDedRed), ''));
+         FpAOwner.tpDedRedToStr(NFSe.Servico.Valores.DocDeducao.Items[i].tpDedRed), ''));
 
     Result[i].AppendChild(AddNode(tcStr, '#1', 'xDescOutDed', 1, 150, 0,
                      NFSe.Servico.Valores.DocDeducao.Items[i].xDescOutDed, ''));
@@ -2160,7 +2160,7 @@ begin
     AINIRec.WriteString(LSecao, 'chNFe', NFSe.Servico.Valores.DocDeducao[i].chNFe);
     AINIRec.WriteString(LSecao, 'nDocFisc', NFSe.Servico.Valores.DocDeducao[i].nDocFisc);
     AINIRec.WriteString(LSecao, 'nDoc', NFSe.Servico.Valores.DocDeducao[i].nDoc);
-    AINIRec.WriteString(LSecao, 'tpDedRed', tpDedRedToStr(NFSe.Servico.Valores.DocDeducao[i].tpDedRed));
+    AINIRec.WriteString(LSecao, 'tpDedRed', FpAOwner.tpDedRedToStr(NFSe.Servico.Valores.DocDeducao[i].tpDedRed));
     AINIRec.WriteString(LSecao, 'xDescOutDed', NFSe.Servico.Valores.DocDeducao[i].xDescOutDed);
     AINIRec.WriteString(LSecao, 'dtEmiDoc', DateToStr(NFSe.Servico.Valores.DocDeducao[i].dtEmiDoc));
     AINIRec.WriteFloat(LSecao, 'vDedutivelRedutivel', NFSe.Servico.Valores.DocDeducao[i].vDedutivelRedutivel);

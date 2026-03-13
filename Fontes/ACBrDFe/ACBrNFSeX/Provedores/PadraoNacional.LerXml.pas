@@ -320,7 +320,7 @@ begin
 
         nDocFisc := ObterConteudo(ANodes[i].Childrens.FindAnyNs('nDocFisc'), tcStr);
         nDoc := ObterConteudo(ANodes[i].Childrens.FindAnyNs('nDoc'), tcStr);
-        tpDedRed := StrTotpDedRed(Ok, ObterConteudo(ANodes[i].Childrens.FindAnyNs('tpDedRed'), tcStr));
+        tpDedRed := FpAOwner.StrTotpDedRed(Ok, ObterConteudo(ANodes[i].Childrens.FindAnyNs('tpDedRed'), tcStr));
         xDescOutDed := ObterConteudo(ANodes[i].Childrens.FindAnyNs('xDescOutDed'), tcStr);
         dtEmiDoc := ObterConteudo(ANodes[i].Childrens.FindAnyNs('dtEmiDoc'), tcDat);
         vDedutivelRedutivel := ObterConteudo(ANodes[i].Childrens.FindAnyNs('vDedutivelRedutivel'), tcDe2);
@@ -2141,7 +2141,7 @@ begin
     Item.chNFe := AINIRec.ReadString(sSecao, 'chNFe', '');
     Item.nDocFisc := AINIRec.ReadString(sSecao, 'nDocFisc', '');
     Item.nDoc := AINIRec.ReadString(sSecao, 'nDoc', '');
-    Item.tpDedRed := StrTotpDedRed(Ok, AINIRec.ReadString(sSecao, 'tpDedRed', '1'));
+    Item.tpDedRed := FpAOwner.StrTotpDedRed(Ok, AINIRec.ReadString(sSecao, 'tpDedRed', '1'));
     Item.xDescOutDed := AINIRec.ReadString(sSecao, 'xDescOutDed', '');
     Item.dtEmiDoc := AINIRec.ReadDate(sSecao, 'dtEmiDoc', Now);
     Item.vDedutivelRedutivel := StringToFloatDef(AINIRec.ReadString(sSecao, 'vDedutivelRedutivel', ''), 0);
