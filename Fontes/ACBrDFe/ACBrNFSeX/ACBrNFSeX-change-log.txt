@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 13/03/2026
+-- MetropolisWeb.GravarXml --
+[-] ACBR-8965 - Correção na geração do XML.
+   Por: Dino Rodrigo S. Moreira
 -- ACBrNFSeXServicos --
 [*] ACBR-9093 - Atualizadas as URLs novas do provedor Tiplan de todas as cidades atendidas pelo provedor.
    Por: Italo Giurizzato Junior
