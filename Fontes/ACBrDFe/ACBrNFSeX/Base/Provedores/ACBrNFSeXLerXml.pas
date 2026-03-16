@@ -659,6 +659,7 @@ begin
     RIni.Free;
   end;
   }
+
   INIRec := TMemIniFile.Create('');
 
   // Usar o FpAOwner em vez de  FProvider
@@ -1409,6 +1410,26 @@ begin
       Servico.Evento.Endereco.Endereco := AINIRec.ReadString(sSecao, 'Logradouro', '');
       Servico.Evento.Endereco.Complemento := AINIRec.ReadString(sSecao, 'Complemento', '');
       Servico.Evento.Endereco.Bairro := AINIRec.ReadString(sSecao, 'Bairro', '');
+    end;
+
+    sSecao := 'tribFederal';
+    if AINIRec.SectionExists(sSecao) then
+    begin
+      NFSe.Servico.Valores.tribFed.CST := StrToCST(Ok, AINIRec.ReadString(sSecao, 'CST', ''));
+      NFSe.Servico.Valores.tribFed.vBCPisCofins := StringToFloatDef(AINIRec.ReadString(sSecao, 'vBCPisCofins', ''), 0);
+      NFSe.Servico.Valores.tribFed.pAliqPis := StringToFloatDef(AINIRec.ReadString(sSecao, 'pAliqPis', ''), 0);
+      NFSe.Servico.Valores.tribFed.pAliqCofins := StringToFloatDef(AINIRec.ReadString(sSecao, 'pAliqCofins' ,''), 0);
+      NFSe.Servico.Valores.tribFed.vPis := StringToFloatDef(AINIRec.ReadString(sSecao, 'vPis', ''), 0);
+      NFSe.Servico.Valores.tribFed.vCofins := StringToFloatDef(AINIRec.ReadString(sSecao, 'vCofins', ''), 0);
+      NFSe.Servico.Valores.tribFed.tpRetPisCofins := StrTotpRetPisCofins(Ok, AINIRec.ReadString(sSecao, 'tpRetPisCofins', ''));
+      NFSe.Servico.Valores.tribFed.vRetCP := StringToFloatDef(AINIRec.ReadString(sSecao, 'vRetCP', ''), 0);
+      NFSe.Servico.Valores.tribFed.vRetIRRF := StringToFloatDef(AINIRec.ReadString(sSecao, 'vRetIRRF', ''), 0);
+      NFSe.Servico.Valores.tribFed.vRetCSLL := StringToFloatDef(AINIRec.ReadString(sSecao, 'vRetCSLL', ''), 0);
+
+      NFSe.Servico.Valores.CSTPis := StrToCSTPIS(Ok, AINIRec.ReadString(sSecao, 'CST', ''));
+      NFSe.Servico.Valores.BaseCalculo := NFSe.Servico.Valores.tribFed.vBCPisCofins;
+      NFSe.Servico.Valores.AliquotaPis := NFSe.Servico.Valores.tribFed.pAliqPis;
+      NFSe.Servico.Valores.AliquotaCofins := NFSe.Servico.Valores.tribFed.pAliqCofins;
     end;
 
     LerINIIBSCBS(AINIRec, IBSCBS);

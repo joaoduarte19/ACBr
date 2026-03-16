@@ -51,6 +51,9 @@ type
     FPathArquivoMunicipios: string;
     FValidarInscricoes: boolean;
     FValidarListaServicos: boolean;
+    // Propriedades a serem utilizadas na geração do arquivo INI
+    FGerarTodasSecoes: boolean;
+    FDocumentar: boolean;
 
   public
     property AjustarTagNro: boolean read FAjustarTagNro write FAjustarTagNro;
@@ -59,7 +62,9 @@ type
     property PathArquivoMunicipios: string read FPathArquivoMunicipios write FPathArquivoMunicipios;
     property ValidarInscricoes: boolean read FValidarInscricoes write FValidarInscricoes;
     property ValidarListaServicos: boolean read FValidarListaServicos write FValidarListaServicos;
-
+    // Propriedades a serem utilizadas na geração do arquivo INI
+    property GerarTodasSecoes: boolean read FGerarTodasSecoes write FGerarTodasSecoes;
+    property Documentar: boolean read FDocumentar write FDocumentar;
   end;
 
   TNFSeWClass = class(TACBrXmlWriter)
@@ -121,8 +126,8 @@ type
     FParamsTabW: TStrings;
     FIniParamsTabW: TMemIniFile;
 
-    function GetOpcoes: TACBrXmlWriterOptions;
-    procedure SetOpcoes(AValue: TACBrXmlWriterOptions);
+    function GetOpcoes: TXmlWriterOptions;
+    procedure SetOpcoes(AValue: TXmlWriterOptions);
     procedure SetParamsTabW(const Value: TStrings);
   protected
     FpAOwner: IACBrNFSeXProvider;
@@ -228,7 +233,7 @@ type
     function GerarXml: Boolean; Override;
     function GerarIni: string; virtual;
 
-    property Opcoes: TACBrXmlWriterOptions read GetOpcoes write SetOpcoes;
+    property Opcoes: TXmlWriterOptions read GetOpcoes write SetOpcoes;
 
     property NFSe: TNFSe                 read FNFSe           write FNFSe;
     property VersaoNFSe: TVersaoNFSe     read FVersaoNFSe     write FVersaoNFSe;
@@ -294,6 +299,7 @@ uses
   ACBrUtil.Strings,
   ACBrDFeConsts,
   ACBrDFeException,
+//  ACBrNFSeX.GravarIni, {Em Teste}
   ACBrNFSeX,
   ACBrNFSeXConsts;
 
@@ -310,6 +316,9 @@ begin
   TXmlWriterOptions(Opcoes).PathArquivoMunicipios := '';
   TXmlWriterOptions(Opcoes).ValidarInscricoes := False;
   TXmlWriterOptions(Opcoes).ValidarListaServicos := False;
+  // Propriedades a serem utilizadas na geração do arquivo INI
+  TXmlWriterOptions(Opcoes).GerarTodasSecoes := False;
+  TXmlWriterOptions(Opcoes).Documentar := False;
 
   FConteudoTxt := TStringList.Create;
   FConteudoTxt.Clear;
@@ -327,7 +336,6 @@ begin
   // Propriedades de Formatação de informações
   FFormatoEmissao := tcDatHor;
   FFormatoCompetencia := tcDatHor;
-//  FFormDiscriminacao := fdNenhum;
   FFormItemLServico := filsComFormatacao;
 
   // Os 4 IF abaixo vão configurar o componente conforme a presença do
@@ -395,10 +403,9 @@ end;
 procedure TNFSeWClass.ConsolidarVariosItensServicosEmUmSo;
 var
   i, UltimoItem: Integer;
-  xDiscriminacao{, xItemListaServ}: string;
+  xDiscriminacao: string;
   vQtdeDiaria, vValorTaxaTurismo, vValorRecebido,
   vValorDeducoes, vValorServicos, vDescontoCondicionado,
-  {vAliquota, vAliquotaPis, vAliquotaCofins, vAliquotaInss, vAliquotaIr, vAliquotaCsll,}
   vBaseCalculo, vDescontoIncondicionado, vValorPis, vValorCofins, vValorInss, vValorIr,
   vValorCsll, vValorIss,
   vValorIssRetido: Double;
@@ -423,27 +430,11 @@ begin
     vValorCsll := 0;
     vValorIss := 0;
     vValorIssRetido := 0;
-    {
-    vAliquota := 0;
-    vAliquotaPis := 0;
-    vAliquotaCofins := 0;
-    vAliquotaInss := 0;
-    vAliquotaIr := 0;
-    vAliquotaCsll := 0;
-    }
+
     with FNFSe.Servico do
     begin
       for i := 0 to ItemServico.Count -1 do
       begin
-        {
-        xItemListaServ := ItemServico[i].ItemListaServico;
-        vAliquota := ItemServico[i].Aliquota;
-        vAliquotaPis := ItemServico[i].AliqRetPIS;
-        vAliquotaCofins := ItemServico[i].AliqRetCOFINS;
-        vAliquotaInss := ItemServico[i].AliqRetINSS;
-        vAliquotaIr := ItemServico[i].AliqRetIRRF;
-        vAliquotaCsll := ItemServico[i].AliqRetCSLL;
-        }
         vQtdeDiaria := vQtdeDiaria + ItemServico[i].QtdeDiaria;
         vValorTaxaTurismo := vValorTaxaTurismo + ItemServico[i].ValorTaxaTurismo;
         vValorDeducoes := vValorDeducoes + ItemServico[i].ValorDeducoes;
@@ -711,7 +702,7 @@ begin
     Result := Codigo;
 end;
 
-function TNFSeWClass.GetOpcoes: TACBrXmlWriterOptions;
+function TNFSeWClass.GetOpcoes: TXmlWriterOptions;
 begin
   Result := TXmlWriterOptions(FOpcoes);
 end;
@@ -794,7 +785,7 @@ begin
   Result := ACBrStr(FIniParamsTabW.ReadString(OnlyNumber(ACodigo), 'Descricao', ''));
 end;
 
-procedure TNFSeWClass.SetOpcoes(AValue: TACBrXmlWriterOptions);
+procedure TNFSeWClass.SetOpcoes(AValue: TXmlWriterOptions);
 begin
   FOpcoes := AValue;
 end;
@@ -831,16 +822,29 @@ begin
 end;
 
 function TNFSeWClass.GerarIni: string;
+//var
+//  WIni: TNFSeIniWriter;  {Em Teste}
 begin
+  {
+  WIni := TNFSeIniWriter.Create(NFSe, FpAOwner);  //Em Teste
+
+  try
+    WIni.IniParams := IniParams;
+    WIni.GerarSecaoOpcional := Opcoes.GerarTodasSecoes;
+    WIni.Documentar := Opcoes.Documentar;
+
+    Result := WIni.GerarArquivoIni;
+  finally
+    WIni.Free;
+  end;
+  }
+
   // Usar o FpAOwner em vez de  FProvider
 
-//  if NFSe.tpXML = txmlRPS then
-  Result := GerarIniRps
-//  else
-//    Result := GerarIniNfse;
-
-//  Result := '';
-//  raise EACBrNFSeException.Create(ClassName + '.GerarIni, não implementado');
+  if NFSe.tpXML = txmlRPS then
+    Result := GerarIniRps
+  else
+    Result := GerarIniNfse;
 end;
 
 function TNFSeWClass.GerarIniNfse: string;
