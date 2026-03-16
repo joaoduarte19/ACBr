@@ -576,7 +576,12 @@ begin
     Result.AppendChild(AddNode(tcStr, '#1', 'xOutInf', 1, 15, 0,
                                                    NFSe.OutrasInformacoes, ''));
 
-  if GerarIBSCBSNFSe and (NFSe.OptanteSN = osnNaoOptante) then
+//  if GerarIBSCBSNFSe and (NFSe.OptanteSN = osnNaoOptante) then
+
+  if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
+     (NFSe.IBSCBS.imovel.ender.CEP <> '') or
+     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
+     (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
   begin
     xmlNode := GerarXMLIBSCBSNFSe;
     Result.AppendChild(xmlNode);
@@ -1797,6 +1802,7 @@ begin
 end;
 
 //====== Gerar o Arquivo INI=========================================
+
 function TNFSeW_PadraoNacional.GerarIni: string;
 var
   INIRec: TMemIniFile;
@@ -1926,8 +1932,8 @@ begin
 
   AINIRec.WriteString(LSecao, 'Numero', NFSe.IdentificacaoRps.Numero);
   AINIRec.WriteString(LSecao, 'Serie', NFSe.IdentificacaoRps.Serie);
-  AINIRec.WriteString(LSecao, 'DataEmissaoRPS', DateTimeTodh(NFSe.DataEmissaoRps));
-  AINIRec.WriteString(LSecao, 'Competencia', DateTimeTodh(NFSe.Competencia));
+  AINIRec.WriteString(LSecao, 'DataEmissaoRPS', DateTimeToStr(NFSe.DataEmissaoRps));
+  AINIRec.WriteString(LSecao, 'Competencia', DateTimeToStr(NFSe.Competencia));
   AINIRec.WriteString(LSecao, 'verAplic', NFSe.verAplic);
   AINIRec.WriteString(LSecao, 'tpEmit', tpEmitToStr(NFSe.tpEmit));
   AINIRec.WriteString(LSecao, 'cMotivoEmisTI', cMotivoEmisTIToStr(NFSe.cMotivoEmisTI));
