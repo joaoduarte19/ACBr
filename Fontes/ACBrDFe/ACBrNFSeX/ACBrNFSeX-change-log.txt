@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 16/03/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9059 - A cidade de Cravinhos/SP mudou para a versão 1.01 do Primax;
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/90809-acbr-9059-e-acbr-8969-situacaotomador-estrangeiro-nao-pode-ter-cnpjcpf-241195560001-60-valido/ 
 -- ACBrNFSeX.GravarIni/ACBrNFSeX.LerIni --
 [*] Melhorias nas novas units responsáveis por gerar e ler o arquivo INI.
    Por: Italo Giurizzato Junior
