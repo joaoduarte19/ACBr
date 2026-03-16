@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/03/2026
+-- ACBrCTe.XmlWriter --
+[*] ACBr-9087: Alteração visando gerar a tag vTotDFe quando for CT-e Simplificado.
+   Por: Italo Giurizzato Junior
+
 25/02/2026
 -- ACBrCTe.XmlWriter --
 [*] ACBr-9026: Ajuste para gerar a tag vTotDFe mesmo quando o seu valor for zero.

@@ -1445,7 +1445,7 @@ begin
   if (VersaoDF >= ve400) then
     Result.AppendChild(Gerar_IBSCBS(CTe.imp.IBSCBS));
 
-  if (VersaoDF >= ve400) and (ModeloDF in [moCTe, moCTeOS]) then
+  if (VersaoDF >= ve400) and (ModeloDF in [moCTe, moCTeSimp, moCTeOS]) then
     if (CTe.imp.IBSCBS.CST <> cstNenhum) and (CTe.imp.IBSCBS.cClassTrib <> '') then
       Result.AppendChild(AddNode(tcDe2, '#250', 'vTotDFe', 1, 15, 1,
                                                  CTe.Imp.vTotDFe, DSC_VTOTDFE));
