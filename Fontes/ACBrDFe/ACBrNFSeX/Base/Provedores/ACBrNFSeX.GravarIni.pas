@@ -50,12 +50,12 @@ type
   TNFSeIniWriter = class(TNFSeWClass)
   private
     FNFSe: TNFSe;
+    FGerarSecaoOpcional: Boolean;
+    FDocumentar: Boolean;
 
   protected
     FpAOwner: IACBrNFSeXProvider;
     LSecao: string;
-    FpGerarSecaoOpcional: Boolean;
-    FpDocumentar: Boolean;
 
     procedure PularLinha(const AINIRec: TMemIniFile; const Secao: string);
     procedure SecaoOpcional(const AINIRec: TMemIniFile; const Secao: string;
@@ -133,10 +133,11 @@ type
     constructor Create(AOwner: TNFSe; AIOwner: IACBrNFSeXProvider); virtual;
     destructor Destroy; override;
 
-    function GerarArquivoIni(AGerarTodasSecoes: Boolean = False;
-      Documentar: Boolean = False): string; virtual;
+    function GerarArquivoIni: string; virtual;
 
     property NFSe: TNFSe read FNFSe write FNFSe;
+    property GerarSecaoOpcional: Boolean read FGerarSecaoOpcional write FGerarSecaoOpcional;
+    property Documentar: Boolean read FDocumentar write FDocumentar;
   end;
 
 implementation
@@ -158,14 +159,14 @@ end;
 procedure TNFSeIniWriter.SecaoOpcional(const AINIRec: TMemIniFile; const Secao,
   Complemento: string);
 begin
-  if FpDocumentar then
+  if Documentar then
     AINIRec.WriteString(Secao, 'ACBrDoc', 'Seção Opcional que contem dados ' + Complemento);
 end;
 
 procedure TNFSeIniWriter.FaixadeValores(const AINIRec: TMemIniFile; const Secao,
   Valores: string; Indice: Integer);
 begin
-  if FpDocumentar then
+  if Documentar then
     AINIRec.WriteString(Secao, 'ACBrDoc' + IntToStr(Indice), Valores);
 end;
 
@@ -176,7 +177,7 @@ var
 begin
   QtdeDigitos := Length(IntToStr(IndiceMax));
 
-  if FpDocumentar then
+  if Documentar then
     AINIRec.WriteString(Secao + IntToStrZero(1, QtdeDigitos), 'ACBrDoc',
       'O Indice varia de ' + IntToStrZero(1, QtdeDigitos) + ' até ' +
       IntToStrZero(IndiceMax, QtdeDigitos) + ', deve ser informado com ' +
@@ -208,16 +209,13 @@ begin
   inherited Destroy;
 end;
 
-function TNFSeIniWriter.GerarArquivoIni(AGerarTodasSecoes: Boolean = False;
-  Documentar: Boolean = False): string;
+function TNFSeIniWriter.GerarArquivoIni: string;
 var
   INIRec: TMemIniFile;
   IniNFSe: TStringList;
 begin
-  Result:= '';
-  FpGerarSecaoOpcional := AGerarTodasSecoes;
-  FpDocumentar := Documentar;
 // Usar FpAOwner no lugar de FProvider
+  Result:= '';
 
   INIRec := TMemIniFile.Create('');
   try
@@ -483,7 +481,7 @@ begin
 
   SecaoOpcional(AINIRec, LSecao, 'da NFSe Substituição.');
 
-  if (Trim(NFSe.subst.chSubstda) <> '') or FpGerarSecaoOpcional then
+  if (Trim(NFSe.subst.chSubstda) <> '') or GerarSecaoOpcional then
   begin
     AINIRec.WriteString(LSecao, 'chSubstda', NFSe.subst.chSubstda);
     AINIRec.WriteString(LSecao, 'cMotivo', cMotivoToStr(NFSe.subst.cMotivo));
@@ -499,7 +497,7 @@ begin
 
   SecaoOpcional(AINIRec, LSecao, 'do RPS/DPS Substituido.');
 
-  if (NFSe.RpsSubstituido.Numero <> '') or FpGerarSecaoOpcional then
+  if (NFSe.RpsSubstituido.Numero <> '') or GerarSecaoOpcional then
   begin
     AINIRec.WriteString(LSecao, 'Numero', NFSe.RpsSubstituido.Numero);
     AINIRec.WriteString(LSecao, 'Serie', NFSe.RpsSubstituido.Serie);
@@ -516,7 +514,7 @@ begin
   SecaoOpcional(AINIRec, LSecao, 'da NFSe Cancelamento.');
 
   if (NFSe.NfseCancelamento.DataHora > 0) or (Trim(NFSe.MotivoCancelamento) <> '') or
-     FpGerarSecaoOpcional then
+     GerarSecaoOpcional then
   begin
     AINIRec.WriteString(LSecao, 'MotivoCancelamento', NFSe.MotivoCancelamento);
     AINIRec.WriteString(LSecao, 'JustificativaCancelamento', NFSe.JustificativaCancelamento);
@@ -609,7 +607,7 @@ begin
 
   SecaoOpcional(AINIRec, LSecao, 'do Tomador.');
 
-  if (NFSe.Tomador.IdentificacaoTomador.CpfCnpj <> '') or FpGerarSecaoOpcional then
+  if (NFSe.Tomador.IdentificacaoTomador.CpfCnpj <> '') or GerarSecaoOpcional then
   begin
     LValores := '1=PF Nao Identificada; 2=PF; 3=PJ do Municipio; ' +
         '4=PJ fora Municipio; 5=PJ fora Pais';
@@ -661,7 +659,7 @@ begin
 
   SecaoOpcional(AINIRec, LSecao, 'do Intermediário.');
 
-  if (NFSe.Intermediario.Identificacao.CpfCnpj <> '') or FpGerarSecaoOpcional then
+  if (NFSe.Intermediario.Identificacao.CpfCnpj <> '') or GerarSecaoOpcional then
   begin
     AINIRec.WriteString(LSecao, 'CNPJCPF', NFSe.Intermediario.Identificacao.CpfCnpj);
     AINIRec.WriteString(LSecao, 'InscricaoMunicipal', NFSe.Intermediario.Identificacao.InscricaoMunicipal);
@@ -765,7 +763,7 @@ begin
   SecaoOpcional(AINIRec, LSecao, 'do Comercio Exterior.');
 
   if (NFSe.Servico.comExt.tpMoeda <> 0) or (NFSe.Servico.comExt.vServMoeda > 0) or
-     FpGerarSecaoOpcional then
+     GerarSecaoOpcional then
   begin
     AINIRec.WriteString(LSecao, 'mdPrestacao', mdPrestacaoToStr(NFSe.Servico.comExt.mdPrestacao));
     AINIRec.WriteString(LSecao, 'vincPrest', vincPrestToStr(NFSe.Servico.comExt.vincPrest));
@@ -789,7 +787,7 @@ begin
   SecaoOpcional(AINIRec, LSecao, 'da Locação SubLocação.');
 
   if (NFSe.Servico.Locacao.extensao <> '') or (NFSe.Servico.Locacao.nPostes > 0) or
-     FpGerarSecaoOpcional then
+     GerarSecaoOpcional then
   begin
     AINIRec.WriteString(LSecao, 'categ', categToStr(NFSe.Servico.Locacao.categ));
     AINIRec.WriteString(LSecao, 'objeto', objetoToStr(NFSe.Servico.Locacao.objeto));
@@ -807,7 +805,7 @@ begin
   SecaoOpcional(AINIRec, LSecao, 'da Construção Civil.');
 
   if (NFSe.ConstrucaoCivil.CodigoObra <> '') or (NFSe.ConstrucaoCivil.nCei <> '') or
-     (NFSe.ConstrucaoCivil.Endereco.CEP <> '') or FpGerarSecaoOpcional then
+     (NFSe.ConstrucaoCivil.Endereco.CEP <> '') or GerarSecaoOpcional then
   begin
     AINIRec.WriteInteger(LSecao, 'TipoIdentificacaoObra', NFSe.ConstrucaoCivil.Tipo);
     AINIRec.WriteString(LSecao, 'CodigoObra', NFSe.ConstrucaoCivil.CodigoObra);
@@ -820,7 +818,7 @@ begin
     AINIRec.WriteInteger(LSecao, 'Cib', NFSe.ConstrucaoCivil.Cib);
 
     if (NFSe.ConstrucaoCivil.Endereco.Endereco <> '') or
-       (NFSe.ConstrucaoCivil.Endereco.CEP <> '') or FpGerarSecaoOpcional then
+       (NFSe.ConstrucaoCivil.Endereco.CEP <> '') or GerarSecaoOpcional then
     begin
       AINIRec.WriteString(LSecao, 'CEP', NFSe.ConstrucaoCivil.Endereco.CEP);
       AINIRec.WriteString(LSecao, 'xMunicipio', NFSe.ConstrucaoCivil.Endereco.XMunicipio);
@@ -842,7 +840,7 @@ begin
   SecaoOpcional(AINIRec, LSecao, 'do Evento.');
 
   if (NFSe.Servico.Evento.xNome <> '') or (NFSe.Servico.Evento.dtIni > 0) or
-     (NFSe.Servico.Evento.dtFim > 0) or FpGerarSecaoOpcional then
+     (NFSe.Servico.Evento.dtFim > 0) or GerarSecaoOpcional then
   begin
     AINIRec.WriteString(LSecao, 'xNome', NFSe.Servico.Evento.xNome);
     AINIRec.WriteDate(LSecao, 'dtIni', NFSe.Servico.Evento.dtIni);
@@ -866,7 +864,7 @@ begin
 
   SecaoOpcional(AINIRec, LSecao, 'da Rodoviaria.');
 
-  if (NFSe.Servico.explRod.placa <> '') or FpGerarSecaoOpcional then
+  if (NFSe.Servico.explRod.placa <> '') or GerarSecaoOpcional then
   begin
     AINIRec.WriteString(LSecao, 'categVeic', categVeicToStr(NFSe.Servico.ExplRod.categVeic));
     AINIRec.WriteInteger(LSecao, 'nEixos', NFSe.Servico.ExplRod.nEixos);
@@ -888,7 +886,7 @@ begin
   SecaoOpcional(AINIRec, LSecao, 'de Informações Complementares.');
 
   if (NFSe.Servico.infoCompl.idDocTec <> '') or (NFSe.Servico.infoCompl.docRef <> '') or
-     (NFSe.Servico.infoCompl.xInfComp <> '') or FpGerarSecaoOpcional then
+     (NFSe.Servico.infoCompl.xInfComp <> '') or GerarSecaoOpcional then
   begin
     AINIRec.WriteString(LSecao, 'idDocTec', NFSe.Servico.infoCompl.idDocTec);
     AINIRec.WriteString(LSecao, 'docRef', NFSe.Servico.infoCompl.docRef);
@@ -985,7 +983,7 @@ begin
     AINIRec.WriteString(LSecao, 'chNFe', NFSe.Servico.Valores.DocDeducao[i].chNFe);
     AINIRec.WriteString(LSecao, 'nDocFisc', NFSe.Servico.Valores.DocDeducao[i].nDocFisc);
     AINIRec.WriteString(LSecao, 'nDoc', NFSe.Servico.Valores.DocDeducao[i].nDoc);
-    AINIRec.WriteString(LSecao, 'tpDedRed', tpDedRedToStr(NFSe.Servico.Valores.DocDeducao[i].tpDedRed));
+    AINIRec.WriteString(LSecao, 'tpDedRed', FpAOwner.tpDedRedToStr(NFSe.Servico.Valores.DocDeducao[i].tpDedRed));
     AINIRec.WriteString(LSecao, 'xDescOutDed', NFSe.Servico.Valores.DocDeducao[i].xDescOutDed);
     AINIRec.WriteString(LSecao, 'dtEmiDoc', DateToStr(NFSe.Servico.Valores.DocDeducao[i].dtEmiDoc));
     AINIRec.WriteFloat(LSecao, 'vDedutivelRedutivel', NFSe.Servico.Valores.DocDeducao[i].vDedutivelRedutivel);
@@ -1012,7 +1010,7 @@ begin
 
   LSecao := 'DocumentosDeducoesFornecedor' + IntToStrZero(Indice + 1, 4);
 
-  if (fornec.Identificacao.CpfCnpj <> '') or FpGerarSecaoOpcional then
+  if (fornec.Identificacao.CpfCnpj <> '') or GerarSecaoOpcional then
   begin
     AINIRec.WriteString(LSecao, 'CNPJCPF', fornec.Identificacao.CpfCnpj);
     AINIRec.WriteString(LSecao, 'InscricaoMunicipal', fornec.Identificacao.InscricaoMunicipal);
@@ -1044,7 +1042,7 @@ begin
 
   if (NFSe.Servico.Valores.tribMun.pAliq > 0) or (NFSe.Servico.Valores.tribMun.pRedBCBM > 0) or
      (NFSe.Servico.Valores.tribMun.vRedBCBM > 0) or (NFSe.Servico.Valores.tribMun.cPaisResult > 0) or
-     FpGerarSecaoOpcional then
+     GerarSecaoOpcional then
   begin
     AINIRec.WriteString(LSecao, 'tribISSQN', tribISSQNToStr(NFSe.Servico.Valores.tribMun.tribISSQN));
     AINIRec.WriteInteger(LSecao, 'cPaisResult', NFSe.Servico.Valores.tribMun.cPaisResult);
@@ -1070,7 +1068,7 @@ begin
 
   if (NFSe.Servico.Valores.tribFed.pAliqPis > 0) or (NFSe.Servico.Valores.tribFed.pAliqCofins > 0) or
      (NFSe.Servico.Valores.tribFed.vRetIRRF > 0) or (NFSe.Servico.Valores.tribFed.vRetCP > 0) or
-     FpGerarSecaoOpcional then
+     GerarSecaoOpcional then
   begin
     AINIRec.WriteString(LSecao, 'CST', CSTToStr(NFSe.Servico.Valores.tribFed.CST));
     AINIRec.WriteFloat(LSecao, 'vBCPisCofins', NFSe.Servico.Valores.tribFed.vBCPisCofins);
@@ -1318,7 +1316,7 @@ begin
 
   SecaoOpcional(AINIRec, LSecao, 'do Orgão Gerador.');
 
-  if (Trim(NFSe.OrgaoGerador.Uf) <> '') or FpGerarSecaoOpcional then
+  if (Trim(NFSe.OrgaoGerador.Uf) <> '') or GerarSecaoOpcional then
   begin
     AINIRec.WriteString(LSecao, 'CodigoMunicipio', NFSe.OrgaoGerador.CodigoMunicipio);
     AINIRec.WriteString(LSecao, 'UF', NFSe.OrgaoGerador.Uf);
@@ -1333,13 +1331,13 @@ begin
 
   SecaoOpcional(AINIRec, LSecao, 'da Condição de Pagamento.');
 
-  if (NFSe.CondicaoPagamento.QtdParcela > 0) or FpGerarSecaoOpcional then
+  if (NFSe.CondicaoPagamento.QtdParcela > 0) or GerarSecaoOpcional then
   begin
     AINIRec.WriteInteger(LSecao, 'QtdParcela', NFSe.CondicaoPagamento.QtdParcela);
     AINIRec.WriteString(LSecao, 'Condicao', FpAOwner.CondicaoPagToStr(NFSe.CondicaoPagamento.Condicao));
 
     // Provedor NFEletronica
-    if (NFSe.CondicaoPagamento.DataVencimento > 0) or FpGerarSecaoOpcional then
+    if (NFSe.CondicaoPagamento.DataVencimento > 0) or GerarSecaoOpcional then
     begin
       AINIRec.WriteDate(LSecao, 'DataVencimento', NFSe.CondicaoPagamento.DataVencimento);
       AINIRec.WriteString(LSecao, 'InstrucaoPagamento', NFSe.CondicaoPagamento.InstrucaoPagamento);
@@ -1396,7 +1394,7 @@ begin
 
   SecaoOpcional(AINIRec, LSecao, 'da Transportadora.');
 
-  if (Trim(NFSe.Transportadora.xCpfCnpjTrans) <> '') or FpGerarSecaoOpcional then
+  if (Trim(NFSe.Transportadora.xCpfCnpjTrans) <> '') or GerarSecaoOpcional then
   begin
     AINIRec.WriteString(LSecao, 'xNomeTrans', NFSe.Transportadora.xNomeTrans);
     AINIRec.WriteString(LSecao, 'xCpfCnpjTrans', NFSe.Transportadora.xCpfCnpjTrans);
@@ -1525,7 +1523,7 @@ begin
 
   SecaoOpcional(AINIRec, LSecao, 'do Destinatário.');
 
-  if (Dest.CNPJCPF <> '') or (Dest.NIF <> '') or FpGerarSecaoOpcional then
+  if (Dest.CNPJCPF <> '') or (Dest.NIF <> '') or GerarSecaoOpcional then
   begin
     AINIRec.WriteString(LSecao, 'CNPJCPF', Dest.CNPJCPF);
     AINIRec.WriteString(LSecao, 'NIF', Dest.NIF);
@@ -1564,7 +1562,7 @@ begin
 
   SecaoOpcional(AINIRec, LSecao, 'do Imovel.');
 
-  if (Imovel.inscImobFisc <> '') or (Imovel.cCIB <> '') or FpGerarSecaoOpcional then
+  if (Imovel.inscImobFisc <> '') or (Imovel.cCIB <> '') or GerarSecaoOpcional then
   begin
     AINIRec.WriteString(LSecao, 'inscImobFisc', Imovel.inscImobFisc);
     AINIRec.WriteString(LSecao, 'cCIB', Imovel.cCIB);

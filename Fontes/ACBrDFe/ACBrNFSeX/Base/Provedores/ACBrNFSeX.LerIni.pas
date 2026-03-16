@@ -1381,7 +1381,7 @@ begin
     Item.chNFe := AINIRec.ReadString(sSecao, 'chNFe', '');
     Item.nDocFisc := AINIRec.ReadString(sSecao, 'nDocFisc', '');
     Item.nDoc := AINIRec.ReadString(sSecao, 'nDoc', '');
-    Item.tpDedRed := StrTotpDedRed(Ok, AINIRec.ReadString(sSecao, 'tpDedRed', '1'));
+    Item.tpDedRed := FpAOwner.StrTotpDedRed(Ok, AINIRec.ReadString(sSecao, 'tpDedRed', '1'));
     Item.xDescOutDed := AINIRec.ReadString(sSecao, 'xDescOutDed', '');
     Item.dtEmiDoc := AINIRec.ReadDate(sSecao, 'dtEmiDoc', Now);
     Item.vDedutivelRedutivel := StringToFloatDef(AINIRec.ReadString(sSecao, 'vDedutivelRedutivel', ''), 0);
@@ -1472,6 +1472,11 @@ begin
     NFSe.Servico.Valores.tribFed.vRetCP := StringToFloatDef(AINIRec.ReadString(sSecao, 'vRetCP', ''), 0);
     NFSe.Servico.Valores.tribFed.vRetIRRF := StringToFloatDef(AINIRec.ReadString(sSecao, 'vRetIRRF', ''), 0);
     NFSe.Servico.Valores.tribFed.vRetCSLL := StringToFloatDef(AINIRec.ReadString(sSecao, 'vRetCSLL', ''), 0);
+
+    NFSe.Servico.Valores.CSTPis := StrToCSTPIS(Ok, AINIRec.ReadString(sSecao, 'CST', ''));
+    NFSe.Servico.Valores.BaseCalculo := NFSe.Servico.Valores.tribFed.vBCPisCofins;
+    NFSe.Servico.Valores.AliquotaPis := NFSe.Servico.Valores.tribFed.pAliqPis;
+    NFSe.Servico.Valores.AliquotaCofins := NFSe.Servico.Valores.tribFed.pAliqCofins;
   end;
 end;
 
