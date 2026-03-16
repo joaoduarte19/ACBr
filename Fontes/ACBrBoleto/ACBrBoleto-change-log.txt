@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+16/03/2026
+-- ACBrBancoBradesco --
+[-] ACBr-9140 - Ajustado CNAB 400 do Bradesco, para gerar ValorMoraJuros qdo for maior que zero. ja que no 400, não envia Codigo Mora segundo manual.
+	https://www.projetoacbr.com.br/forum/topic/90963-d%C3%BAvida-juros-n%C3%A3o-aparece-no-arquivo-de-remessa
+   Por: Daniel Morais InfoCotidiano
+
 03/03/2026
 -- ACBrBancoAmazonia --
 [-] ACBr-9049 - Ajustado conforme documentação para enviar 7 posições

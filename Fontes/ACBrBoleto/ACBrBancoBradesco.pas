@@ -136,6 +136,7 @@ end;
 function TACBrBancoBradesco.ConverterJurosValorDiario(
   const ACBrTitulo: TACBrTitulo): Double;
 begin
+  Result := 0;	
   with ACBrTitulo do
   begin
     case CodigoMoraJuros of
@@ -145,6 +146,8 @@ begin
       cjValorMensal: Result := (ValorMoraJuros / 30);
       cjTaxaDiaria: Result := (ValorMoraJuros * ValorDocumento / 100);
     end;
+    if (Result = 0) and (ValorMoraJuros > 0) then
+      Result := ValorMoraJuros;
   end;
 end;
 
