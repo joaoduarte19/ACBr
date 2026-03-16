@@ -63,6 +63,36 @@ Símbolo : Significado
     Feito ajustes também no TratarXmlRetornado na unit Provider do provedor.
    Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
+[*] Atualização do provedor do município de Caratinga (MG) por mudança de URL.
+   Por: marcoprodata
+   Veja:https://www.projetoacbr.com.br/forum/topic/90713-acbr-9057-pronim-caratinga-novo-padr%C3%A3o-de-endere%C3%A7amento/
+[*] Atualização do provedor do município de Boituva (SP) por mudança de URL.
+   Por: edivaldo oliveira
+   Veja:https://www.projetoacbr.com.br/forum/topic/91042-altera%C3%A7%C3%A3o-url-cidade-boituvasp/
+[*] Atualização do provedor do município de Rolândia (PR) por mudança de URL.
+   Por: armando.boza 
+   Veja: https://www.projetoacbr.com.br/forum/topic/90725-acbr-9060-pronim-rol%C3%A2ndia-pr-novos-endere%C3%A7os/
+[*] Atualização do provedor do município de Santa Lúcia (PR) para o padrão nacional.
+   Por: Ronaldo.Bispo 
+   Veja: https://www.projetoacbr.com.br/forum/topic/90882-nfsex-adicionar-no-servi%C3%A7osini-o-munic%C3%ADpio-de-santa-lucia-pr/#comment-593182
+[*] Atualização do provedor do município de Guaporé (RS) por mudança de URL.
+   Por: Edvilson Chaves 
+   Veja: https://www.projetoacbr.com.br/forum/topic/90781-a-prefeitura-de-guapor%C3%A9-informa-que-os-sistemas-tribut%C3%A1rios-iss-digital-nfs-e-e-demais-acessos-online-passaram-a-utilizar-novo-endere%C3%A7o-eletr%C3%B4nico/
+[*] Atualização do provedor do município de São Gabriel (RS) por mudança de URL.
+   Por: Guilherme Martin Ewz 
+   Veja: https://www.projetoacbr.com.br/forum/topic/88831-nfse-pronimgovernan%C3%A7a-brasil-aipropria-erro-certificado-ou-acesso-negado/page/2/#comment-593382
+[*] Atualização do provedor do município de Gaúcha do Norte (MT) por mudança de URL.
+   Por: Ronaldo.Bispo 
+   Veja: https://www.projetoacbr.com.br/forum/topic/91051-nfsex-atualizar-a-url-de-gaucha-do-norte-mt-acbrnfsexservicosini/
+[*] Atualização do provedor do município de Jaciara (MT) por mudança de URL.
+   Por: Diego Reckziegel   
+   Veja: https://www.projetoacbr.com.br/forum/topic/91036-alterar-link-de-http-para-https-em-jaciara-mt/
+[*] Atualização do provedor do município de Silva Jardim(RJ) por mudança de URL.
+   Por: emsoft
+   Veja:https://www.projetoacbr.com.br/forum/topic/91083-nfse-nacional-silva-jardim-rj/
+[*] Atualização do provedor do município de Uruguaiana(RS) por mudança de URL.
+   Por: hcn 
+   Veja: https://www.projetoacbr.com.br/forum/topic/90939-acbr-9107-mudan%C3%A7a-de-url-ws-uruguaiana-rs-padr%C3%A3o-pronim/
 [*] ACBR-9059 - A cidade de Cravinhos/SP mudou para a versão 1.01 do Primax;
    Por: Diego Folieni
    Veja: https://www.projetoacbr.com.br/forum/topic/90809-acbr-9059-e-acbr-8969-situacaotomador-estrangeiro-nao-pode-ter-cnpjcpf-241195560001-60-valido/ 
