@@ -129,6 +129,7 @@ type
     FCodigoVerificacao : string;
     FLink : string;
     FSituacao: string;
+    FDescSituacao: String;
 
   public
     constructor Create(const ATipo: TACBrLibRespostaTipo; const AFormato: TACBrLibCodificacao); reintroduce;
@@ -147,6 +148,7 @@ type
     property CodigoVerificacao: string read FCodigoVerificacao write FCodigoVerificacao;
     property Link: string read FLink write FLink;
     property Situacao: string read FSituacao write FSituacao;
+    property DescSituacao: string read FDescSituacao write FDescSituacao;
   end;
 
   { TConsultaSituacaoResposta }
@@ -792,6 +794,7 @@ begin
   CodigoVerificacao := Response.CodigoVerificacao;
   Link := Response.Link;
   Situacao := Response.Situacao;
+  DescSituacao := Response.DescSituacao;
 end;
 
 { TConsultaSituacaoResposta }

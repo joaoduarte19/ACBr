@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/03/2026
+-- ACBrLibNFSeRespostas --
+[+] ACBR-9061 - Adiciona informação DescSituacao na resposta da Lib.
+   Por: Eric Bortoleto / Diego Folieni
+
 06/03/2026
 -- ACBrLibNFSeRespostas --
 [*] ACBR-8729 - Ajuste visando atualizar a resposta do ObterInformacoesProvedor para os provedores de API Propria.
