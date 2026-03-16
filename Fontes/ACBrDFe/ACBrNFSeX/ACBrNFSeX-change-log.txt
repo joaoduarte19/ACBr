@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 16/03/2026
+-- ACBrNFSeXConfiguracoes/ACBrNFSeXProviderBase --
+[+] Acrescentado as propriedades de configuração: GerarTodasSecoes e Documentar em Geral.
+   Por: Italo Giurizzato Junior
 -- Agili.Provider --
 [*] ACBR-9061 - Melhora a rotina TratarRetornoEmitir para o correto preenchimento das informações.
    Por: Diego Folieni / Eric Bortoleto

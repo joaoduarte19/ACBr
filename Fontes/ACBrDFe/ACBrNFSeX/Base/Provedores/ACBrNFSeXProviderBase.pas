@@ -943,14 +943,14 @@ var
     if (ConfigWebServices.Producao.LinkURL = '') or
        (TACBrNFSeX(FAOwner).Configuracoes.Geral.Provedor = proPadraoNacional) then
     begin
-      Sessao := 'PadraoNacional'; // Configuracoes.Geral.xProvedorOrigem;
+      Sessao := 'PadraoNacional';
       ConfigWebServices.LoadlinkUrlProducao(IniParams, Sessao);
     end;
 
     if (ConfigWebServices.Homologacao.LinkURL = '') or
        (TACBrNFSeX(FAOwner).Configuracoes.Geral.Provedor = proPadraoNacional) then
     begin
-      Sessao := 'PadraoNacional'; // Configuracoes.Geral.xProvedorOrigem;
+      Sessao := 'PadraoNacional';
       ConfigWebServices.LoadLinkUrlHomologacao(IniParams, Sessao);
     end;
   end;
@@ -985,7 +985,6 @@ begin
     // Depois verifica as URLs definidas para o provedor
     Sessao := TACBrNFSeX(FAOwner).Configuracoes.Geral.xProvedor;
     // Verifica se na seção do provedor tem o Params: APIPropria
-//    Sessao := TACBrNFSeX(FAOwner).Configuracoes.Geral.xProvedorOrigem;
     APIPropria := (Pos('APIPropria:', IniParams.ReadString(Sessao, 'Params', '')) > 0);
 
     if not APIPropria then
@@ -1624,8 +1623,10 @@ begin
   AWriter := CriarGeradorXml(aNFSe);
 
   try
-    Result := AWriter.GerarIni;
+    AWriter.Opcoes.GerarTodasSecoes := TACBrNFSeX(FAOwner).Configuracoes.Geral.GerarTodasSecoes;
+    AWriter.Opcoes.Documentar := TACBrNFSeX(FAOwner).Configuracoes.Geral.Documentar;
 
+    Result := AWriter.GerarIni;
   finally
     AWriter.Destroy;
   end;
