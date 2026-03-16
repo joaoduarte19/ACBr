@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 16/03/2026
+-- Agili.Provider --
+[*] ACBR-9061 - Melhora a rotina TratarRetornoEmitir para o correto preenchimento das informações.
+   Por: Diego Folieni / Eric Bortoleto
+   Veja: https://www.projetoacbr.com.br/forum/topic/90719-acbr-9061-retorno-da-emiss%C3%A3o-agili-n%C3%A3o-esta-tendo-a-chave-de-acesso-e-a-numera%C3%A7%C3%A3o-da-nfse/ 
 -- ACBrNFSeXGravarXml --
 [*] Acrescentado as propriedades: GerarTodasSecoes e Documentar na classe TXmlWriterOptions
     que vão ser utilizadas para gerar o Arquivo INI.

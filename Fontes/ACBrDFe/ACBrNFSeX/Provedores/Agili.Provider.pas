@@ -374,9 +374,12 @@ procedure TACBrNFSeProviderAgili.TratarRetornoEmitir(Response: TNFSeEmiteRespons
 var
   Document: TACBrXmlDocument;
   AErro: TNFSeEventoCollectionItem;
+  AResumo: TNFSeResumoCollectionItem;
   ANode, AuxNode: TACBrXmlNode;
   ANota: TNotaFiscal;
-  NumRps: String;
+  NumRps, lNumNFSe, lCodVerif, lSerieRPS, lSituacao, lDescSituacao: String;
+  lNFSeArray: TACBrXMLNodeArray;
+  I: Integer;
 begin
   Document := TACBrXmlDocument.Create;
 
@@ -407,35 +410,59 @@ begin
         end;
       end;
 
-      if Response.ModoEnvio = meUnitario then
+      lNFSeArray := ANode.Childrens.FindAllAnyNs('Nfse');
+      for I := 0 to Length(lNFSeArray) - 1 do
       begin
-        ANode := ANode.Childrens.FindAnyNs('Nfse');
-
-        if not Assigned(ANode) then
-        begin
-          AErro := Response.Erros.New;
-          AErro.Codigo := Cod203;
-          AErro.Descricao := ACBrStr(Desc203);
-          Exit;
-        end;
+        AResumo := Response.Resumos.New;
+        ANode := lNFSeArray[I];
 
         AuxNode := ANode;
         AuxNode := AuxNode.Childrens.FindAnyNs('DeclaracaoPrestacaoServico');
-        if not Assigned(AuxNode) then Exit;
+        if not Assigned(AuxNode) then break;
 
         AuxNode := AuxNode.Childrens.FindAnyNs('Rps');
-        if not Assigned(AuxNode) then Exit;
+        if not Assigned(AuxNode) then break;
 
         AuxNode := AuxNode.Childrens.FindAnyNs('IdentificacaoRps');
-        if not Assigned(AuxNode) then Exit;
+        if not Assigned(AuxNode) then break;
 
         NumRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('Numero'), tcStr);
+        lSerieRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('Serie'), tcStr);
+        lNumNFSe := ObterConteudoTag(ANode.Childrens.FindAnyNs('Numero'), tcStr);
+        lCodVerif := ObterConteudoTag(ANode.Childrens.FindAnyNs('CodigoAutenticidade'), tcStr);
+
+        AuxNode := ANode.Childrens.FindAnyNs('SituacaoNfse');
+        if Assigned(AuxNode) then
+          lSituacao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('Codigo'), tcStr);
+
+        if lSituacao = '-8' then
+          lDescSituacao := 'EMITIDO'
+        else if lSituacao = '-2' then
+          lDescSituacao := 'CANCELADO';
 
         ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByRps(NumRps);
 
         ANota := CarregarXmlNfse(ANota, ANode.OuterXml);
         SalvarXmlNfse(ANota);
+
+        AResumo.NumeroRps := NumRps;
+        AResumo.NumeroNota := lNumNFSe;
+        AResumo.CodigoVerificacao := lCodVerif;
+        AResumo.SerieRps := lSerieRps;
+        AResumo.Situacao := lSituacao;
+        AResumo.DescSituacao := lDescSituacao;
       end;
+
+      if Response.ModoEnvio = meUnitario then
+      begin
+        Response.NumeroRps := NumRps;
+        Response.NumeroNota := lNumNFSe;
+        Response.CodigoVerificacao := lCodVerif;
+        Response.SerieRps := lSerieRps;
+        Response.Situacao := lSituacao;
+        Response.DescSituacao := lDescSituacao;
+      end;
+
     except
       on E:Exception do
       begin
