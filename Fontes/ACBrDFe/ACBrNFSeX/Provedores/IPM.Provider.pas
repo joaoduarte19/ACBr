@@ -1757,7 +1757,52 @@ var
 begin
   if not StringIsPDF(aXML) then
   begin
+    Xml := ConverteANSItoUTF8(aXML);
+    Xml := RemoverDeclaracaoXML(Xml);
 
+    if (Pos('{"', Xml) > 0) and (Pos('":"', Xml) > 0) then
+    begin
+      jDocument := TACBrJSONObject.Parse(Xml);
+      JSonErro := jDocument.AsJSONObject['retorno'];
+
+      if not Assigned(JSonErro) then Exit;
+
+      Codigo := Poem_Zeros(JSonErro.AsString['code'], 5);
+      Mensagem := ACBrStr(JSonErro.AsString['msg']);
+
+      Result := '<retorno>' +
+                  '<mensagem>' +
+                    '<codigo>' + Codigo + '</codigo>' +
+                    '<Mensagem>' + Mensagem + '</Mensagem>' +
+                    '<Correcao>' + '</Correcao>' +
+                  '</mensagem>' +
+                '</retorno>';
+
+      Result := ParseText(Result);
+    end
+    else
+    begin
+      Result := inherited TratarXmlRetornado(Xml);
+
+      Result := AjustarRetorno(Result);
+
+      if not StringIsXML(Result) then
+      begin
+        Result := '<retorno>' +
+                    '<mensagem>' +
+                      '<codigo>' + '</codigo>' +
+                      '<Mensagem>' + Result + '</Mensagem>' +
+                      '<Correcao>' + '</Correcao>' +
+                    '</mensagem>' +
+                  '</retorno>';
+      end;
+
+      Result := ParseText(Result);
+      Result := RemoverDeclaracaoXML(Result);
+      Result := RemoverIdentacao(Result);
+      Result := RemoverCaracteresDesnecessarios(Result);
+      Result := Trim(StringReplace(Result, '&', '&amp;', [rfReplaceAll]));
+    end;
   end;
 end;
 

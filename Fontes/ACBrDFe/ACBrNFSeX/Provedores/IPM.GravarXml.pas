@@ -565,9 +565,10 @@ begin
   result := CreateElement('pis_cofins');
 
   result.AppendChild(AddNode(tcStr,'#','cst', 1, 2, 1,
-                                  CSTPisToStr(NFSe.Servico.Valores.CSTPis),''));
+                                  CSTPISToStr(NFSe.Servico.Valores.CSTPis),''));
 
-  result.AppendChild(AddNode(tcInt,'#','tipo_retencao', 1, 4, 1, 2,''));
+  Result.AppendChild(AddNode(tcStr, '#1', 'tipo_retencao', 1, 1, 1,
+         tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins), ''));
 
   result.AppendChild(AddNode(tcDe2, '#', 'base_calculo', 1, 15, 0,
                                          NFSe.Servico.Valores.BaseCalculo, ''));

@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 16/03/2026
+-- IPM.GravarXml/IPM.Provider --
+[*] ACBR-9112 - Correção na geração da tag tipo retenção que estava fixo o valor 2 e agora
+    vai gerar a tag com o valor informado em: NFSe.Servico.Valores.tribFed.tpRetPisCofins.
+    Feito ajustes também no TratarXmlRetornado na unit Provider do provedor.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] ACBR-9059 - A cidade de Cravinhos/SP mudou para a versão 1.01 do Primax;
    Por: Diego Folieni
