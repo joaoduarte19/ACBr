@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 17/03/2026
+-- SigISSWeb.GravarXml --
+[*] ACBR-9090 - Incluído a geração da tag n_retencao_piscofins.
+   Por: Luis AGSI
 -- ACBrNFSeXServicos --
 [*] ACBR-9108 - A cidade Arroio do Sal/RS teve sua URL de produção
     atualizadas, o provedor continua o mesmo.

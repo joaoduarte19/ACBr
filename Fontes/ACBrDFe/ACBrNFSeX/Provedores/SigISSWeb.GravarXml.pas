@@ -383,6 +383,10 @@ begin
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'uf_local_op', 2, 2, 1,
                                                        NFSe.IBSCBS.OperUF, ''));
 
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'n_retencao_piscofins', 2, 2, 1,
+                                                  ifthen(NFSe.Servico.Valores.tribFed.tpRetPisCofins = trpcRetido, '0', '1'), ''));
+
+
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'cidade_local_op', 1, 60, 1,
                                                   NFSe.IBSCBS.OperxCidade, ''));
 
