@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace ACBrLib.Core
@@ -55,6 +56,11 @@ namespace ACBrLib.Core
 
             var delimiter = ";";
             var currentPath = Environment.GetEnvironmentVariable("PATH");
+
+            //ignora se currenValue já estiver na PATH
+            if (currentPath.Contains(currentValue))
+                return;
+
             var updatedPath = string.Concat(currentPath, delimiter, currentValue);
             Environment.SetEnvironmentVariable("PATH", updatedPath);
 
@@ -137,15 +143,37 @@ namespace ACBrLib.Core
             throw new DllNotFoundException($"Unable to load library '{libraryName}' from paths: {string.Join(", ", path)}");
         }
 
+
+        private void setUnixSearchPathLibraries(List<string> listPaths)
+        {
+            if (listPaths == null || listPaths.Count == 0) return;
+
+            if (PlatformID.Unix == Environment.OSVersion.Platform)
+            {  // adiciona  a variável LD_LIBRARY_PATH no caminho de busca
+                var ldLibraryPath = Environment.GetEnvironmentVariable("LD_LIBRARY_PATH");
+
+                if (!string.IsNullOrEmpty(ldLibraryPath))
+                    listPaths.AddRange(ldLibraryPath.Split(':'));
+
+                listPaths.Add("/usr/local/lib");
+                listPaths.Add("/usr/lib");
+                listPaths.Add("/lib");
+
+            }
+
+        }
         /// <summary>
         /// Método usado para obter a lista de diretórios para pesquisa da biblioteca.
         /// Ele inclui o diretório do assembly em execução, o diretório atual e um subdiretório específico para a arquitetura (x64 ou x86). Em sistemas Unix, ele também inclui diretórios comuns de bibliotecas (/usr/local/lib, /usr/lib, /lib). As classes derivadas podem substituir este método para adicionar ou modificar os caminhos de pesquisa conforme necessário.
         /// </summary>
         /// <returns></returns>
+        /// 
+ 
         protected virtual string[] GetLibrarySearchPath()
         {
             var listPaths = new List<string>();
             var baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            var envPath = Environment.GetEnvironmentVariable("PATH").Split(PlatformID.Unix == Environment.OSVersion.Platform ? ';' : ':');
 
             if (!string.IsNullOrEmpty(baseDir))
             {
@@ -165,15 +193,19 @@ namespace ACBrLib.Core
             if (!string.IsNullOrEmpty(currentDirectory) && !listPaths.Contains(currentDirectory))
                 listPaths.Add(currentDirectory);
 
-
             if (PlatformID.Unix == Environment.OSVersion.Platform)
-            {
-                listPaths.Add("/usr/local/lib");
-                listPaths.Add("/usr/lib");
-                listPaths.Add("/lib");
+            {  
+                setUnixSearchPathLibraries(listPaths);
             }
 
-            return listPaths.ToArray();
+            else
+            {
+                // adiciona caminhos de Path no caminho de busca
+                listPaths.AddRange(envPath);
+            }
+
+
+                return listPaths.ToArray();
         }
 
 
