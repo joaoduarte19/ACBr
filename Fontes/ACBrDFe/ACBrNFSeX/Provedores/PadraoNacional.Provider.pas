@@ -1005,6 +1005,8 @@ procedure TACBrNFSeProviderPadraoNacional.PrepararConsultarDFe(
 begin
   if Response.ChaveNFSe <> '' then
     Path := '/NFSe/' + Response.ChaveNFSe + '/Eventos'
+  else if Response.Cnpj <> '' then
+    Path := '/DFe/' + IntToStr(Response.NSU) + '?cnpjConsulta=' + Response.Cnpj
   else
     Path := '/DFe/' + IntToStr(Response.NSU);
 

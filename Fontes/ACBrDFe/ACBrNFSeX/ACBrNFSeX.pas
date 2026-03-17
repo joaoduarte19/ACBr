@@ -192,6 +192,7 @@ type
     procedure ConsultarEvento(const aChave: string; atpEvento: TtpEvento); overload;
     procedure ConsultarEvento(const aChave: string; atpEvento: TtpEvento;
       aNumSeq: Integer); overload;
+    procedure ConsultarDFe(const aCNPJ: String; aNSU: Integer); overload;
     procedure ConsultarDFe(aNSU: Integer); overload;
     procedure ConsultarDFe(const aChave: string); overload;
 
@@ -616,6 +617,21 @@ begin
   FWebService.ConsultarEvento.nSeqEvento := aNumSeq;
 
   FProvider.ConsultarEvento;
+end;
+
+procedure TACBrNFSeX.ConsultarDFe(const aCNPJ: String; aNSU: Integer);
+begin
+  if not Assigned(FProvider) then
+    raise EACBrNFSeException.Create(ERR_SEM_PROVEDOR);
+
+  if (Length(aCNPJ) > 0) and (Length(aCNPJ) <> 14) then
+    raise EACBrNFSeException.Create('Cnpj inválido');
+
+  FWebService.ConsultarDFe.Clear;
+  FWebService.ConsultarDFe.NSU  := aNSU;
+  FWebService.ConsultarDFe.Cnpj := aCNPJ;
+
+  FProvider.ConsultarDFe;
 end;
 
 procedure TACBrNFSeX.ConsultarDFe(aNSU: Integer);

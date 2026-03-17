@@ -501,6 +501,7 @@ type
   private
     FNSU: Integer;
     FChaveNFSe: string;
+    FCnpj: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -509,7 +510,8 @@ type
 
     property NSU: Integer read FNSU write FNSU;
     property ChaveNFSe: string read FChaveNFSe write FChaveNFSe;
-  end;
+     property Cnpj: String read FCnpj write FCnpj;
+ end;
 
   TNFSeConsultarParamResponse = class(TNFSeWebserviceResponse)
   private
@@ -1071,6 +1073,7 @@ begin
 
   NSU := -1;
   ChaveNFSe := '';
+  FCnpj := '';
 end;
 
 constructor TNFSeConsultarDFeResponse.Create;
