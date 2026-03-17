@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 17/03/2026
+-- IPM.LerXml --
+[*] ACBR-8997 - Incluído a leitura da tag chave_acesso_nfse_nacional.
+   Por: Diogo Loff
 -- SigISSWeb.GravarXml --
 [*] ACBR-9090 - Incluído a geração da tag n_retencao_piscofins.
    Por: Luis AGSI
