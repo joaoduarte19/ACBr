@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 17/03/2026
+-- Infisc.LerXml --
+[*] ACBR-9071 - Alteração visando a leitura da tag: tpRetPisCofins. 
+   Por: Tiago Tecchio
 -- ACBrNFSeXServicos --
 [*] ACBR-9011 - A cidade Pantano Grande/RS teve sua URL de produção
     atualizada, o provedor continua o mesmo.

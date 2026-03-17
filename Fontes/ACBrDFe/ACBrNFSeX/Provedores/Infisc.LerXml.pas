@@ -495,6 +495,8 @@ var
   i: integer;
   AuxNode: TACBrXmlNode;
   AuxNodeItem: TACBrXmlNode;
+  tmp: string;
+  ok: Boolean;
 begin
   NFSe.Servico.MunicipioIncidencia := 0;
 
@@ -581,6 +583,10 @@ begin
 
       if NFSe.Servico.CodigoNBS = '' then
          NFSe.Servico.CodigoNBS := ObterConteudo(AuxNode.Childrens.FindAnyNs('cNBS'), tcStr);
+
+      tmp := ObterConteudo(AuxNode.Childrens.FindAnyNs('tpRetPisCofins'), tcStr);
+      if tmp <> '' then
+         NFSe.Servico.Valores.tribFed.tpRetPisCofins := StrTotpRetPisCofins(ok, tmp);
     end;
   end;
 end;
