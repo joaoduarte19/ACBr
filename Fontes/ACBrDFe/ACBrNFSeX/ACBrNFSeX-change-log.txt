@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 17/03/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9011 - A cidade Pantano Grande/RS teve sua URL de produção
+    atualizada, o provedor continua o mesmo.
+   Por: WINDEL
 -- ACBrNFSeX/ACBrNFSeXWebservicesResponse/PadraoNacional.Provider --
 [+] ACBR-9006 - Implementado a ConsultaDFe por CNPJ, permitindo consultar por outros CNPJ.
    Por: galegoga
