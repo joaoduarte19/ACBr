@@ -42,6 +42,19 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/03/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9108 - A cidade Arroio do Sal/RS teve sua URL de produção
+    atualizadas, o provedor continua o mesmo.
+   Por: IgorAcertSoft
+[*] ACBR-9116 - As cidades: Morro Reuter/RS, IPÊ/RS e Picada Café/RS tiveram suas URLs de produção
+    atualizadas, o provedor continua o mesmo.
+   Por: dna.automacao
+[*] A cidade Pareci Novo/RS, se utiliza do provedor Tecnos e não PadraoNacional.
+   Por: Italo Giurizzato Junior
+[+] ACBR-9092 - Incluída a cidade Tianguá/CE, o provedor é SpeedGov.
+   Por: Light System Software
+
 16/03/2026
 -- PadraoNacional.GravarXml --
 [*] ACBR-9132 - Possível solução para gerar o grupo IBSCBS dentro do grupo infNFSe 
