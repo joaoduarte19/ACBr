@@ -55,6 +55,18 @@ Símbolo : Significado
    Por: Diego Folieni
    Veja: https://www.projetoacbr.com.br/forum/topic/91166-particularidades-da-reforma-tribut%C3%A1ria-com-os-provedores-primax-facundo-fgmaiss-sam-e-webfisco/ 
 -- ACBrNFSeXServicos --
+[*] Atualiza a URL de Homologação para o provedor Pronim.
+    Por: marcoprodata
+    Veja: https://www.projetoacbr.com.br/forum/topic/91148-pronim-nova-url-de-homologa%C3%A7%C3%A3o/
+[+] Adiciona a URL de Homologação para Marília/SP.
+    Por: Windel Sistemas
+    Veja: https://www.projetoacbr.com.br/forum/topic/91151-nfs-e-mar%C3%ADlia-sp-homologa%C3%A7%C3%A3o/ 
+[*] Atualizada a URL de Pato Branco/PR, provedor ainda é o Pronim.
+    Por: Microsys Sistemas
+    Veja: https://www.projetoacbr.com.br/forum/topic/91135-nfse-pato-brancopr/#comment-593965
+[*] Atualizada a URL de Cachoeira do Sul/RS, provedor ainda é o Pronim.
+    Por: Compusis Informática Ltda.
+    Veja: https://www.projetoacbr.com.br/forum/topic/91095-mudanca-de-url-prefeitura-de-cachoeira-do-sul-rs/ 
 [*] Atualização do provedor do município de Lagarto(SE) para WebISS.
     Por: Matheus Klein
 [+] Incluída a cidade Maracacume/MA, provedor é o Fiorilli.
