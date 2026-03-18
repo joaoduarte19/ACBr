@@ -1163,6 +1163,7 @@ begin
             begin
               INIRec.WriteString(sSecao, 'CEP', ConstrucaoCivil.Endereco.CEP);
               INIRec.WriteString(sSecao, 'xMunicipio', ConstrucaoCivil.Endereco.XMunicipio);
+              INIRec.WriteString(sSecao, 'CodigoMunicipio', ConstrucaoCivil.Endereco.CodigoMunicipio);
               INIRec.WriteString(sSecao, 'UF', ConstrucaoCivil.Endereco.UF);
               INIRec.WriteString(sSecao, 'Logradouro', ConstrucaoCivil.Endereco.Endereco);
               INIRec.WriteString(sSecao, 'Numero', ConstrucaoCivil.Endereco.Numero);
@@ -1178,6 +1179,10 @@ begin
           INIRec.WriteString(sSecao, 'nNumeroEncapsulamento', ConstrucaoCivil.nNumeroEncapsulamento);
           //Padrão Nacional
           INIRec.WriteString(sSecao, 'inscImobFisc', ConstrucaoCivil.inscImobFisc);
+          if ConstrucaoCivil.Cib > 0 then
+            INIRec.WriteInteger(sSecao, 'Cib', ConstrucaoCivil.Cib);
+          if ConstrucaoCivil.infobrasopcao > 0 then
+            INIRec.WriteInteger(sSecao, 'ObrasOpcao', ConstrucaoCivil.infobrasopcao);
         end;
       end;
 
@@ -1400,10 +1405,13 @@ begin
         INIRec.WriteDate(sSecao, 'dtIni', Servico.Evento.dtIni);
         INIRec.WriteDate(sSecao, 'dtFim', Servico.Evento.dtFim);
         INIRec.WriteString(sSecao, 'idAtvEvt', Servico.Evento.idAtvEvt);
+        INIRec.WriteInteger(sSecao, 'AtividadeEventoOpcao', Servico.Evento.infoatividadeeventoopcao);
         INIRec.WriteString(sSecao, 'CEP', Servico.Evento.Endereco.CEP);
+        INIRec.WriteString(sSecao, 'CodigoMunicipio', Servico.Evento.Endereco.CodigoMunicipio);
         INIRec.WriteString(sSecao, 'xMunicipio', Servico.Evento.Endereco.xMunicipio);
         INIRec.WriteString(sSecao, 'UF', Servico.Evento.Endereco.UF);
         INIRec.WriteString(sSecao, 'Logradouro', Servico.Evento.Endereco.Endereco);
+        INIRec.WriteString(sSecao, 'Numero', Servico.Evento.Endereco.Numero);
         INIRec.WriteString(sSecao, 'Complemento', Servico.Evento.Endereco.Complemento);
         INIRec.WriteString(sSecao, 'Bairro', Servico.Evento.Endereco.Bairro);
       end;
@@ -1434,6 +1442,7 @@ begin
       INIRec.WriteFloat(sSecao, 'ValorDeducoes', Servico.Valores.ValorDeducoes);
       INIRec.WriteFloat(sSecao, 'AliquotaDeducoes', Servico.Valores.AliquotaDeducoes);
       INIRec.WriteString(sSecao, 'JustificativaDeducao', Servico.Valores.JustificativaDeducao);
+      INIRec.WriteFloat(sSecao, 'BaseCalculoPISCOFINS', Servico.Valores.BaseCalculoPisCofins);
       INIRec.WriteFloat(sSecao, 'ValorPis', Servico.Valores.ValorPis);
       INIRec.WriteFloat(sSecao, 'AliquotaPis', Servico.Valores.AliquotaPis);
       INIRec.WriteString(sSecao, 'RetidoPis', FpAOwner.SimNaoToStr(Servico.Valores.RetidoPis));
@@ -1560,6 +1569,9 @@ begin
         INIRec.WriteFloat(sSecao, 'vRetCP', Servico.Valores.tribFed.vRetCP);
         INIRec.WriteFloat(sSecao, 'vRetIRRF', Servico.Valores.tribFed.vRetIRRF);
         INIRec.WriteFloat(sSecao, 'vRetCSLL', Servico.Valores.tribFed.vRetCSLL);
+        INIRec.WriteFloat(sSecao, 'vBCPIRRF', Servico.Valores.tribFed.vBCPIRRF);
+        INIRec.WriteFloat(sSecao, 'vBCCSLL', Servico.Valores.tribFed.vBCCSLL);
+        INIRec.WriteFloat(sSecao, 'vBCPCP', Servico.Valores.tribFed.vBCPCP);
       end;
 
       sSecao := 'totTrib';
