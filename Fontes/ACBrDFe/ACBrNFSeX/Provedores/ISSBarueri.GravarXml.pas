@@ -230,7 +230,7 @@ begin
   if NFSe.Servico.CodigoPais <> 1 then
     Linha := Linha + CodIBGEPaisToSiglaISO2(NFSe.Servico.CodigoPais)
   else
-    Linha := Linha + Space(3);
+    Linha := Linha + Space(4);
 
   if NFSe.Servico.CodigoMunicipio <> '' then
     Linha := Linha + NFSe.Servico.CodigoMunicipio

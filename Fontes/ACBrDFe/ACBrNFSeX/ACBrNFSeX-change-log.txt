@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 18/03/2026
+-- ISSBarueri.GravarXml --
+[*] ACBR-9151 - Quando não informado o código do pais estava gerando 3 espaços em branco sendo
+    que o correto é 4.
+    Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] ACBR-9149 - Correção nas URLs de todas as cidades atendidas pelo provedor GeisWeb.
     Por: Italo Giurizzato Junior
