@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/03/2026
+-- ACBrNFSeXServicos --
+[*] Atualização do provedor do município de Lagarto(SE) para WebISS.
+    Por: Matheus Klein
+
 18/03/2026
 -- ACBrNFSeXServicos --
 [+] Incluída a cidade Maracacume/MA, provedor é o Fiorilli.
