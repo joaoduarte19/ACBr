@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 18/03/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9149 - Correção nas URLs de todas as cidades atendidas pelo provedor GeisWeb.
+    Por: Italo Giurizzato Junior
 -- ACBrNFSeXGravarXml/ACBrNFSeXLerXml --
 [*] ACBR-9059 - Adiciona alguns campos que estavam faltando na leitura e na geração do INI específicos para o WebFisco e provedores derivados.
    Por: Diego Folieni
