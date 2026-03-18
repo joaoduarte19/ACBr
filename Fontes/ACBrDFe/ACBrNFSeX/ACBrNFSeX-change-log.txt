@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+18/03/2026
+-- ACBrNFSeXServicos --
+[+] Incluída a cidade Maracacume/MA, provedor é o Fiorilli.
+   Por: VEXCOM Sistemas Valtair
+   Veja: https://www.projetoacbr.com.br/forum/topic/91129-acbr-api-credenciamento-de-nova-cidade/ 
+
 17/03/2026
 -- Infisc.LerXml --
 [*] ACBR-9071 - Alteração visando a leitura da tag: tpRetPisCofins. 
