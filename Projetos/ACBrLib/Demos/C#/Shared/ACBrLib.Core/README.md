@@ -30,11 +30,11 @@ dotnet add package ACBrLib.Core
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="ACBrLib.Core" Version="[1.2.41,)" />
+  <PackageReference Include="ACBrLib.Core" Version="[1.2.46,)" />
 </ItemGroup>
 ```
 
-> `Version="[1.2.41,)"` permite restaurar a versão 1.2.41 ou superior.
+> `Version="[1.2.46,)"` permite restaurar a versão 1.2.46 ou superior.
 
 Após a instalação, referencie os tipos base conforme a necessidade do pacote consumidor (por exemplo, [IACBrLibBase](IACBrLibBase.cs), [ACBrLibConfig](Config/ACBrLibConfig.cs) e [ACBrLibConfigBase](Config/ACBrLibConfigBase.cs)).
 
@@ -93,7 +93,7 @@ Além dos tipos principais, este pacote também fornece utilitários compartilha
 
 A refatoração das classes C# está em andamento. Este documento descreve apenas conceitos e tipos gerais já disponíveis no projeto, sem exemplos de uso específicos.
 
-## Recomendações de Herança e Interfaces
+##Recomendações de Herança e Interfaces
 
 - Prefira programar contra interfaces: interfaces específicas dos pacotes consumidores devem herdar de [IACBrLibBase](IACBrLibBase.cs).
 - Classes de configuração devem receber no tipo genérico uma interface que implemente [IACBrLibBase](IACBrLibBase.cs) (padrão: `where TLib : IACBrLibBase`).

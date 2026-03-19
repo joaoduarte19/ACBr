@@ -173,7 +173,8 @@ namespace ACBrLib.Core
         {
             var listPaths = new List<string>();
             var baseDir = AppDomain.CurrentDomain.BaseDirectory;
-            var envPath = Environment.GetEnvironmentVariable("PATH").Split(PlatformID.Unix == Environment.OSVersion.Platform ? ';' : ':');
+
+            var envPath = Environment.GetEnvironmentVariable("PATH").Split(Path.PathSeparator) ;
 
             if (!string.IsNullOrEmpty(baseDir))
             {
