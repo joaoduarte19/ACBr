@@ -542,7 +542,7 @@ begin
     rliMarcaDagua1.Top := ((rlbCorrecao.Top + rlbCorrecao.Height) div 2) - (rliMarcaDagua1.Height div 2);
   end;
 
-    teCancelamento, teManifDestConfirmacao, teManifDestCiencia, teManifDestDesconhecimento, teManifDestOperNaoRealizada:
+    teCancelamento, teCancSubst, teManifDestConfirmacao, teManifDestCiencia, teManifDestDesconhecimento, teManifDestOperNaoRealizada:
     begin
       rlbJustificativa.Visible := True;
       rlbCondUso.Visible := False;
