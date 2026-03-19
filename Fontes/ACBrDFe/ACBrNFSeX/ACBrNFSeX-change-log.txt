@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 19/03/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9156 - Atualiza a URL de Produção para o provedor Pronim de diversas cidades.
+    Por: Rodrigo Pinto
 -- ACBrNFSeXConfiguracoes/ACBrNFSeXInterface/ACBrNFSeXProviderABRASFv1/ACBrNFSeXProviderABRASFv2/ACBrNFSeXProviderBase/ACBrNFSeXProviderProprio/ISSSaoPaulo.Provider --
 [-] Adiciona Setter para a propriedade Versão para ser utilizado para o provedor ISSSaoPaulo.
    Por: Diego Folieni / Elton Barbosa	
