@@ -38,7 +38,7 @@ interface
 
 uses
   SysUtils, Classes,
-  ACBrXmlDocument,
+  ACBrXmlDocument, ACBrNFSeXConversao,
   ACBrNFSeXProviderBase, ACBrNFSeXWebservicesResponse;
 
 type
@@ -155,6 +155,9 @@ type
                                      Response: TNFSeWebserviceResponse;
                                      const AListTag: string = 'ListaMensagemRetorno';
                                      const AMessageTag: string = 'MensagemRetorno'); virtual;
+  public
+    procedure AlteraVersao(const AVersao: TVersaoNFSe); override;
+    function SuportaVersao(const AVersao: TVersaoNFSe): Boolean; override;
 
   end;
 
@@ -163,7 +166,7 @@ implementation
 uses
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.XMLHTML,
   ACBrDFeException,
-  ACBrNFSeX, ACBrNFSeXNotasFiscais, ACBrNFSeXConsts, ACBrNFSeXConversao,
+  ACBrNFSeX, ACBrNFSeXNotasFiscais, ACBrNFSeXConsts,
   ACBrNFSeXWebserviceBase;
 
 { TACBrNFSeProviderProprio }
@@ -483,6 +486,11 @@ procedure TACBrNFSeProviderProprio.GerarMsgDadosConsultaNFSe(
   Response: TNFSeConsultaNFSeResponse; Params: TNFSeParamsResponse);
 begin
   // Deve ser implementado para cada provedor que tem o seu próprio layout
+end;
+
+procedure TACBrNFSeProviderProprio.AlteraVersao(const AVersao: TVersaoNFSe);
+begin
+  //Não vai fazer nada aqui, sobrescrever na herança
 end;
 
 function TACBrNFSeProviderProprio.AplicarLineBreak(const AXMLRps,
@@ -990,6 +998,11 @@ procedure TACBrNFSeProviderProprio.ProcessarMensagemErros(
   const AListTag: string; const AMessageTag: string);
 begin
   // Deve ser implementado para cada provedor que tem o seu próprio layout
+end;
+
+function TACBrNFSeProviderProprio.SuportaVersao(const AVersao: TVersaoNFSe): Boolean;
+begin
+  Result := True;
 end;
 
 procedure TACBrNFSeProviderProprio.PrepararObterDANFSE(Response: TNFSeObterDANFSEResponse);

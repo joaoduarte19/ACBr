@@ -39,7 +39,7 @@ interface
 uses
   SysUtils, Classes,
   ACBrDFe.Conversao,
-  ACBrXmlBase, ACBrXmlDocument,
+  ACBrXmlBase, ACBrXmlDocument, ACBrNFSeXConversao,
   ACBrNFSeXProviderBase, ACBrNFSeXWebservicesResponse;
 
 type
@@ -161,6 +161,9 @@ type
                                      Response: TNFSeWebserviceResponse;
                                      const AListTag: string = 'ListaMensagemRetorno';
                                      const AMessageTag: string = 'MensagemRetorno'); virtual;
+  public
+    procedure AlteraVersao(const AVersao: TVersaoNFSe); override;
+    function SuportaVersao(const AVersao: TVersaoNFSe): Boolean; override;
 
   end;
 
@@ -170,7 +173,7 @@ uses
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.XMLHTML, ACBrUtil.DateTime,
   ACBrDFeException,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXNotasFiscais, ACBrNFSeXConsts,
-  ACBrNFSeXConversao, ACBrNFSeXWebserviceBase;
+  ACBrNFSeXWebserviceBase;
 
 { TACBrNFSeProviderABRASFv2 }
 
@@ -1255,6 +1258,11 @@ begin
       AErro.Descricao := ACBrStr(Desc001);
     end;
   end;
+end;
+
+procedure TACBrNFSeProviderABRASFv2.AlteraVersao(const AVersao: TVersaoNFSe);
+begin
+  //Não vai fazer nada aqui, sobrescrever na herança
 end;
 
 procedure TACBrNFSeProviderABRASFv2.AssinarConsultaNFSe(Response: TNFSeConsultaNFSeResponse);
@@ -3034,6 +3042,11 @@ begin
       end;
     end;
   end;
+end;
+
+function TACBrNFSeProviderABRASFv2.SuportaVersao(const AVersao: TVersaoNFSe): Boolean;
+begin
+  Result := True;
 end;
 
 end.

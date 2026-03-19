@@ -215,11 +215,14 @@ type
     procedure GerarMsgDadosObterDANFSE(Response: TNFSeObterDANFSEResponse); virtual; abstract;
     procedure AssinarObterDANFSE(Response: TNFSeObterDANFSEResponse); virtual;
     procedure TratarRetornoObterDANFSE(Response: TNFSeObterDANFSEResponse); virtual; abstract;
+
   public
     constructor Create(AOwner: TACBrDFe);
     destructor Destroy; override;
 
     function GetSchemaPath: string; virtual;
+    procedure AlteraVersao(const AVersao: TVersaoNFSe); virtual; abstract;
+    function SuportaVersao(const AVersao: TVersaoNFSe): Boolean; virtual; abstract;
 
     function GerarXml(const aNFSe: TNFSe; var aXml, aAlerts: string): Boolean; virtual;
     function LerXML(const aXML: String; var aNFSe: TNFSe; var ATipo: TtpXML;

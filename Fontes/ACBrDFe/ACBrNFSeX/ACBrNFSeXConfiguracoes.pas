@@ -218,6 +218,7 @@ type
     FDocumentar: Boolean;
 
     procedure SetCodigoMunicipio(const Value: Integer);
+    procedure SetVersao(const Value: TVersaoNFSe);
   public
     constructor Create(AOwner: TConfiguracoes); override;
     destructor Destroy; override;
@@ -230,7 +231,7 @@ type
   published
     property CodigoMunicipio: Integer read FCodigoMunicipio write SetCodigoMunicipio;
     property Provedor: TnfseProvedor read FProvedor write FProvedor;
-    property Versao: TVersaoNFSe read FVersao write FVersao;
+    property Versao: TVersaoNFSe read FVersao write SetVersao;
     property xProvedor: String read FxProvedor;
     property xMunicipio: String read FxMunicipio;
     property xUF: String read FxUF;
@@ -665,6 +666,23 @@ begin
 
   if FCodigoMunicipio <> 0 then
     LerParamsMunicipio;
+end;
+
+procedure TGeralConfNFSe.SetVersao(const Value: TVersaoNFSe);
+var
+  ACBrNFSeXLocal: TACBrNFSeX;
+begin
+  ACBrNFSeXLocal := TACBrNFSeX(fpConfiguracoes.Owner);
+  if Assigned(ACBrNFSeXLocal.Provider) then
+  begin
+    if not(ACBrNFSeXLocal.Provider.SuportaVersao(Value)) then
+      FVersao := ve100
+    else
+      FVersao := Value;
+    ACBrNFSeXLocal.Provider.AlteraVersao(FVersao);
+  end
+  else
+    FVersao := Value;
 end;
 
 { TArquivosConfNFSe }

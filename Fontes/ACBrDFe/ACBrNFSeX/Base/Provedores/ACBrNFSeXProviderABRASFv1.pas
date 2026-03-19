@@ -40,7 +40,7 @@ uses
   SysUtils, Classes,
   ACBrDFe.Conversao,
   ACBrXmlBase,
-  ACBrXmlDocument,
+  ACBrXmlDocument, ACBrNFSeXConversao,
   ACBrNFSeXProviderBase, ACBrNFSeXWebservicesResponse;
 
 type
@@ -138,6 +138,9 @@ type
                                      Response: TNFSeWebserviceResponse;
                                      const AListTag: string = 'ListaMensagemRetorno';
                                      const AMessageTag: string = 'MensagemRetorno'); virtual;
+  public
+    procedure AlteraVersao(const AVersao: TVersaoNFSe); override;
+    function SuportaVersao(const AVersao: TVersaoNFSe): Boolean; override;
 
   end;
 
@@ -147,9 +150,14 @@ uses
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.XMLHTML,
   ACBrDFeException,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXNotasFiscais, ACBrNFSeXConsts,
-  ACBrNFSeXConversao, ACBrNFSeXWebserviceBase;
+  ACBrNFSeXWebserviceBase;
 
 { TACBrNFSeProviderABRASFv1 }
+
+procedure TACBrNFSeProviderABRASFv1.AlteraVersao(const AVersao: TVersaoNFSe);
+begin
+  //Não vai fazer nada aqui, sobrescrever na herança
+end;
 
 procedure TACBrNFSeProviderABRASFv1.Configuracao;
 const
@@ -1920,6 +1928,11 @@ begin
       AErro.Correcao := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('Correcao'), tcStr);
     end;
   end;
+end;
+
+function TACBrNFSeProviderABRASFv1.SuportaVersao(const AVersao: TVersaoNFSe): Boolean;
+begin
+  Result := True;
 end;
 
 end.

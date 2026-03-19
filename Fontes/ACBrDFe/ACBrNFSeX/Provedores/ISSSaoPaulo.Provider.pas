@@ -74,6 +74,9 @@ type
   TACBrNFSeProviderISSSaoPaulo = class(TACBrNFSeProviderProprio)
   private
     FPVersaoDFe: string;
+    procedure ConfiguraNomeDosSchemas;
+    procedure DefineConfiguracaoDaMensagemDeDados;
+
   protected
     procedure Configuracao; override;
 
@@ -115,6 +118,8 @@ type
     function LerChaveNFe(ANode: TACBrXmlNode): string;
     function LerChaveRPS(ANode: TACBrXmlNode): string;
   public
+    procedure AlteraVersao(const AVersao: TVersaoNFSe); override;
+    function SuportaVersao(const AVersao: TVersaoNFSe): Boolean; override;
     function SituacaoLoteRpsToStr(const t: TSituacaoLoteRps): string; override;
     function StrToSituacaoLoteRps(out ok: boolean; const s: string): TSituacaoLoteRps; override;
     function SituacaoLoteRpsToDescr(const t: TSituacaoLoteRps): string; override;
@@ -135,6 +140,21 @@ uses
   ISSSaoPaulo.LerXml;
 
 { TACBrNFSeProviderISSSaoPaulo }
+
+procedure TACBrNFSeProviderISSSaoPaulo.AlteraVersao(const AVersao: TVersaoNFSe);
+begin
+  if AVersao <> ve200 then
+    FPVersaoDFe := '1';
+
+  if AVersao = ve200 then
+  begin
+    FPVersaoDFe := '2';
+
+    ConfigGeral.Particularidades.AtendeReformaTributaria := True;
+  end;
+  ConfiguraNomeDosSchemas;
+  DefineConfiguracaoDaMensagemDeDados;
+end;
 
 procedure TACBrNFSeProviderISSSaoPaulo.AssinaturaAdicional(Nota: TNotaFiscal);
 var
@@ -230,14 +250,7 @@ procedure TACBrNFSeProviderISSSaoPaulo.Configuracao;
 begin
   inherited Configuracao;
 
-  FPVersaoDFe := '1';
-
-  if TACBrNFSeX(FAOwner).Configuracoes.Geral.Versao = ve200 then
-  begin
-    FPVersaoDFe := '2';
-
-    ConfigGeral.Particularidades.AtendeReformaTributaria := True;
-  end;
+  AlteraVersao(TACBrNFSeX(FAOwner).Configuracoes.Geral.Versao);
 
   ConfigGeral.Identificador := '';
   ConfigGeral.QuebradeLinha := '|';
@@ -271,60 +284,26 @@ begin
 
   SetXmlNameSpace('http://www.prefeitura.sp.gov.br/nfe');
 
-  with ConfigMsgDados do
-  begin
-    UsarNumLoteConsLote := True;
+  DefineConfiguracaoDaMensagemDeDados;
 
-    GerarNSLoteRps := True;
-    LoteRps.InfElemento := 'RPS';
-    LoteRps.DocElemento := 'PedidoEnvioLoteRPS';
+  //SetNomeXSD('***');
 
-    GerarNFSe.InfElemento := '';
-    GerarNFSe.DocElemento := 'PedidoEnvioRPS';
+  ConfiguraNomeDosSchemas;
+end;
 
-    ConsultarSituacao.InfElemento := '';
-    ConsultarSituacao.DocElemento := 'PedidoInformacoesLote';
-
-    ConsultarLote.InfElemento := '';
-    ConsultarLote.DocElemento := 'PedidoConsultaLote';
-
-    ConsultarNFSeRps.InfElemento := '';
-    ConsultarNFSeRps.DocElemento := 'PedidoConsultaNFe';
-
-    ConsultarNFSe.InfElemento := '';
-    ConsultarNFSe.DocElemento := 'PedidoConsultaNFe';
-
-    ConsultarNFSeServicoPrestado.InfElemento := '';
-    ConsultarNFSeServicoPrestado.DocElemento := 'PedidoConsultaNFePeriodo';
-
-    ConsultarNFSeServicoTomado.InfElemento := '';
-    ConsultarNFSeServicoTomado.DocElemento := 'PedidoConsultaNFePeriodo';
-
-    CancelarNFSe.InfElemento := '';
-    CancelarNFSe.DocElemento := 'PedidoCancelamentoNFe';
-
-    LoteRpsSincrono.InfElemento := 'RPS';
-    LoteRpsSincrono.DocElemento := 'PedidoEnvioLoteRPS';
-
-    DadosCabecalho := FPVersaoDFe;
-  end;
-
-  SetNomeXSD('***');
-
-  with ConfigSchemas do
-  begin
-    Teste := 'PedidoEnvioLoteRPS_v0' + FPVersaoDFe + '.xsd';
-    Recepcionar := 'PedidoEnvioLoteRPS_v0' + FPVersaoDFe + '.xsd';
-    GerarNFSe := 'PedidoEnvioRPS_v0' + FPVersaoDFe + '.xsd';
-    ConsultarSituacao := 'PedidoInformacoesLote_v0' + FPVersaoDFe + '.xsd';
-    ConsultarLote := 'PedidoConsultaLote_v0' + FPVersaoDFe + '.xsd';
-    ConsultarNFSeRps := 'PedidoConsultaNFe_v0' + FPVersaoDFe + '.xsd';
-    ConsultarNFSe := 'PedidoConsultaNFe_v0' + FPVersaoDFe + '.xsd';
-    ConsultarNFSeServicoPrestado := 'PedidoConsultaNFePeriodo_v0' + FPVersaoDFe + '.xsd';
-    ConsultarNFSeServicoTomado := 'PedidoConsultaNFePeriodo_v0' + FPVersaoDFe + '.xsd';
-    CancelarNFSe := 'PedidoCancelamentoNFe_v0' + FPVersaoDFe + '.xsd';
-    RecepcionarSincrono := 'PedidoEnvioLoteRPS_v0' + FPVersaoDFe + '.xsd';
-  end;
+procedure TACBrNFSeProviderISSSaoPaulo.ConfiguraNomeDosSchemas;
+begin
+  ConfigSchemas.Teste := 'PedidoEnvioLoteRPS_v0' + FPVersaoDFe + '.xsd';
+  ConfigSchemas.Recepcionar := 'PedidoEnvioLoteRPS_v0' + FPVersaoDFe + '.xsd';
+  ConfigSchemas.GerarNFSe := 'PedidoEnvioRPS_v0' + FPVersaoDFe + '.xsd';
+  ConfigSchemas.ConsultarSituacao := 'PedidoInformacoesLote_v0' + FPVersaoDFe + '.xsd';
+  ConfigSchemas.ConsultarLote := 'PedidoConsultaLote_v0' + FPVersaoDFe + '.xsd';
+  ConfigSchemas.ConsultarNFSeRps := 'PedidoConsultaNFe_v0' + FPVersaoDFe + '.xsd';
+  ConfigSchemas.ConsultarNFSe := 'PedidoConsultaNFe_v0' + FPVersaoDFe + '.xsd';
+  ConfigSchemas.ConsultarNFSeServicoPrestado := 'PedidoConsultaNFePeriodo_v0' + FPVersaoDFe + '.xsd';
+  ConfigSchemas.ConsultarNFSeServicoTomado := 'PedidoConsultaNFePeriodo_v0' + FPVersaoDFe + '.xsd';
+  ConfigSchemas.CancelarNFSe := 'PedidoCancelamentoNFe_v0' + FPVersaoDFe + '.xsd';
+  ConfigSchemas.RecepcionarSincrono := 'PedidoEnvioLoteRPS_v0' + FPVersaoDFe + '.xsd';
 end;
 
 function TACBrNFSeProviderISSSaoPaulo.CriarGeradorXml(
@@ -360,6 +339,44 @@ begin
     else
       raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
   end;
+end;
+
+procedure TACBrNFSeProviderISSSaoPaulo.DefineConfiguracaoDaMensagemDeDados;
+begin
+  ConfigMsgDados.UsarNumLoteConsLote := True;
+
+  ConfigMsgDados.GerarNSLoteRps := True;
+  ConfigMsgDados.LoteRps.InfElemento := 'RPS';
+  ConfigMsgDados.LoteRps.DocElemento := 'PedidoEnvioLoteRPS';
+
+  ConfigMsgDados.GerarNFSe.InfElemento := '';
+  ConfigMsgDados.GerarNFSe.DocElemento := 'PedidoEnvioRPS';
+
+  ConfigMsgDados.ConsultarSituacao.InfElemento := '';
+  ConfigMsgDados.ConsultarSituacao.DocElemento := 'PedidoInformacoesLote';
+
+  ConfigMsgDados.ConsultarLote.InfElemento := '';
+  ConfigMsgDados.ConsultarLote.DocElemento := 'PedidoConsultaLote';
+
+  ConfigMsgDados.ConsultarNFSeRps.InfElemento := '';
+  ConfigMsgDados.ConsultarNFSeRps.DocElemento := 'PedidoConsultaNFe';
+
+  ConfigMsgDados.ConsultarNFSe.InfElemento := '';
+  ConfigMsgDados.ConsultarNFSe.DocElemento := 'PedidoConsultaNFe';
+
+  ConfigMsgDados.ConsultarNFSeServicoPrestado.InfElemento := '';
+  ConfigMsgDados.ConsultarNFSeServicoPrestado.DocElemento := 'PedidoConsultaNFePeriodo';
+
+  ConfigMsgDados.ConsultarNFSeServicoTomado.InfElemento := '';
+  ConfigMsgDados.ConsultarNFSeServicoTomado.DocElemento := 'PedidoConsultaNFePeriodo';
+
+  ConfigMsgDados.CancelarNFSe.InfElemento := '';
+  ConfigMsgDados.CancelarNFSe.DocElemento := 'PedidoCancelamentoNFe';
+
+  ConfigMsgDados.LoteRpsSincrono.InfElemento := 'RPS';
+  ConfigMsgDados.LoteRpsSincrono.DocElemento := 'PedidoEnvioLoteRPS';
+
+  ConfigMsgDados.DadosCabecalho := FPVersaoDFe;
 end;
 
 function TACBrNFSeProviderISSSaoPaulo.LerChaveNFe(ANode: TACBrXmlNode): string;
@@ -457,6 +474,11 @@ begin
   Result := StrToEnumerado(ok, s,
                            ['true', 'false'],
                            [sLoteProcessadoSucesso, sLoteProcessadoErro]);
+end;
+
+function TACBrNFSeProviderISSSaoPaulo.SuportaVersao(const AVersao: TVersaoNFSe): Boolean;
+begin
+  Result := (AVersao = ve100) or (AVersao = ve200);
 end;
 
 function TACBrNFSeProviderISSSaoPaulo.SituacaoLoteRpsToDescr(const t: TSituacaoLoteRps): string;

@@ -78,6 +78,9 @@ type
     property ConfigAssinar: TConfigAssinar read GetConfigAssinar;
     property ConfigSchemas: TConfigSchemas read GetConfigSchemas;
 
+    procedure AlteraVersao(const AVersao: TVersaoNFSe);
+    function SuportaVersao(const AVersao: TVersaoNFSe): Boolean;
+
     function SituacaoLoteRpsToStr(const t: TSituacaoLoteRps): string;
     function StrToSituacaoLoteRps(out ok: boolean; const s: string): TSituacaoLoteRps;
     function SituacaoLoteRpsToDescr(const t: TSituacaoLoteRps): string;
