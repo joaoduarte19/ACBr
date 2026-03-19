@@ -41,12 +41,17 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+19/03/2026
+-- ACBrLibNFeBase --
+[*] ACBr-8018 - https://www.projetoacbr.com.br/forum/topic/85510-ajustes-no-evento-cancelamento-por-substitui%C3%A7%C3%A3o/
+   Por: Luiz Alberto da Silva Lope
+
 30/12/2025
 -- ACBrLibNFe.lpi, ACBrLibNFeDemo.lpi --
 [*] Alterado opções do projeto para UseXPManifest solucionar problemas com a escala do monitor em fortes
     ACBr-8573 - https://www.projetoacbr.com.br/forum/topic/83895-impress%C3%A3o-danfe-lib-java-errada-quando-escala-windows-alterada/?&_rid=1706#findComment-572945
 Por: Daniel Morais InfoCodiano
-
 
 27/11/2025
 -- ACBrLibNFeBase.pas --
