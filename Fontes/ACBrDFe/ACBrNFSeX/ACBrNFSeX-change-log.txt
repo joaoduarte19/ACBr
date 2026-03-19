@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 19/03/2026
+-- ISSSaoPaulo.Provider --
+[-] Ajuste para que a URL de produção não seja utilizada quando versão 2.00 e ambiente configurado homologação.
+   Por: Diego Folieni
 -- ACBrNFSeXServicos --
 [*] ACBR-9156 - Atualiza a URL de Produção para o provedor Pronim de diversas cidades.
     Por: Rodrigo Pinto

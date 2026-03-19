@@ -327,7 +327,7 @@ var
 begin
   LURL := GetWebServiceURL(AMetodo);
 
-  if FPVersaoDFe = '2' then
+  if (FPVersaoDFe = '2') and (TACBrNFSeX(FAOwner).Configuracoes.WebServices.Ambiente = taProducao) then
     LURL := 'https://nfews.prefeitura.sp.gov.br/lotenfe.asmx';
 
   if LURL <> '' then
