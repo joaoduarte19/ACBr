@@ -174,7 +174,9 @@ namespace ACBrLib.Core
             var listPaths = new List<string>();
             var baseDir = AppDomain.CurrentDomain.BaseDirectory;
 
-            var envPath = Environment.GetEnvironmentVariable("PATH").Split(Path.PathSeparator) ;
+            var envPath = Environment
+                .GetEnvironmentVariable("PATH")
+                .Split(Path.PathSeparator);
 
             if (!string.IsNullOrEmpty(baseDir))
             {
