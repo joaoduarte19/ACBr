@@ -50,69 +50,67 @@ type
 
   TACBrETQTspl = class(TACBrETQClass)
   private
-    function ConverterOrientacao(aOrientacao: TACBrETQOrientacao): String; // Ok
-    function ConverterMultiplicador(aMultiplicador: Integer): String; //ok
+    function ConverterOrientacao(aOrientacao: TACBrETQOrientacao): String;
+    function ConverterMultiplicador(aMultiplicador: Integer): String;
     function ConverterCoordenadas(aVertical, aHorizontal: Integer): String;
-    function ConverterFonte(const aFonte: String; var aTexto: String): String; //ok
+    function ConverterFonte(const aFonte: String; var aTexto: String): String;
     function ConverterReverso(aImprimirReverso: Boolean; aHorizontal, aVertical, aLarguraTexto, aAlturaTexto: integer): String;
     function ConverterLarguraBarras(aBarraLarga, aBarraFina: Integer): String;
     function ConverterUnidadeAlturaBarras(aAlturaBarras: Integer): String;
-    function ConverterPaginaDeCodigo(aPaginaDeCodigo: TACBrETQPaginaCodigo): String; //ok
+    function ConverterPaginaDeCodigo(aPaginaDeCodigo: TACBrETQPaginaCodigo): String;
 
-    function FormatarTexto(const aTexto: String): String; //ok
+    function FormatarTexto(const aTexto: String): String;
 
-    procedure VerificarTipoBarras(const aTipo: String; aBarraFina: Integer); // ok I.A.
+    procedure VerificarTipoBarras(const aTipo: String; aBarraFina: Integer);
 
-    function ConverterExibeCodigo(aExibeCodigo: TACBrETQBarraExibeCodigo): String; // ok
+    function ConverterExibeCodigo(aExibeCodigo: TACBrETQBarraExibeCodigo): String;
 
     function CalcularEspessuraLinha(aVertical, aHorizontal: Integer): String;
 
     function AjustarNomeArquivoImagem( const aNomeImagem: String): String;
-
-    function AlturaFonteEmDots(const Fonte: String; Mult: Integer): Integer;
-    function ComprimentoTextoEmDots(const Texto, Fonte: String;
-      Mult: Integer): Integer;
+    function AlturaFonteEmDots(const aFonte: string; aMultVertical: Integer): Integer;
+    function ComprimentoTextoEmDots(const aTexto, aFonte: string; aMultHorizontal: Integer): Integer;
 
   public
     constructor Create(AOwner: TComponent);
 
-    function ComandoLimparMemoria: AnsiString; override; //ok
-    function ComandoAbertura: AnsiString; override; // ok
-    function ComandoGuilhotina: AnsiString; override; // ok
-    function ComandoBackFeed: AnsiString; override; //ok
-    function ComandoTemperatura: AnsiString; override; //ok
-    function ComandoPaginaDeCodigo: AnsiString; override; //ok
-    function ComandoOrigemCoordenadas: AnsiString; override; //ok
-    function ComandoVelocidade: AnsiString; override; //ok
+    function ComandoLimparMemoria: AnsiString; override;
+    function ComandoAbertura: AnsiString; override;
+    function ComandoGuilhotina: AnsiString; override;
+    function ComandoBackFeed: AnsiString; override;
+    function ComandoTemperatura: AnsiString; override;
+    function ComandoPaginaDeCodigo: AnsiString; override;
+    function ComandoOrigemCoordenadas: AnsiString; override;
+    function ComandoVelocidade: AnsiString; override;
 
-    function ComandoCopias(const NumCopias: Integer): AnsiString; override; //ok
+    function ComandoCopias(const NumCopias: Integer): AnsiString; override;
 
     function ComandoImprimirTexto(aOrientacao: TACBrETQOrientacao; aFonte: String;
       aMultHorizontal, aMultVertical, aVertical, aHorizontal: Integer; aTexto: String;
-      aSubFonte: Integer = 0; aImprimirReverso: Boolean = False): AnsiString; override; //ok
+      aSubFonte: Integer = 0; aImprimirReverso: Boolean = False): AnsiString; override;
 
     function ConverterTipoBarras(TipoBarras: TACBrTipoCodBarra): String; override;
 
-    function ComandoImprimirBarras(aOrientacao: TACBrETQOrientacao; aTipoBarras: String; //ok
+    function ComandoImprimirBarras(aOrientacao: TACBrETQOrientacao; aTipoBarras: String;
       aBarraLarga, aBarraFina, aVertical, aHorizontal: Integer; aTexto: String;
       aAlturaBarras: Integer; aExibeCodigo: TACBrETQBarraExibeCodigo = becPadrao
       ): AnsiString; override;
 
-    function ComandoImprimirQRCode(aVertical, aHorizontal: Integer; // ok
+    function ComandoImprimirQRCode(aVertical, aHorizontal: Integer;
       const aTexto: String; aLarguraModulo: Integer; aErrorLevel: Integer;
       aTipo: Integer): AnsiString; override;
 
-    function ComandoImprimirLinha(aVertical, aHorizontal, aLargura, aAltura: Integer //ok
+    function ComandoImprimirLinha(aVertical, aHorizontal, aLargura, aAltura: Integer
       ): AnsiString; override;
 
-    function ComandoImprimirCaixa(aVertical, aHorizontal, aLargura, aAltura, //ok
+    function ComandoImprimirCaixa(aVertical, aHorizontal, aLargura, aAltura,
       aEspVertical, aEspHorizontal: Integer; aCanto: Integer = 0): AnsiString; override;
 
-    function ComandoImprimirImagem(aMultImagem, aVertical, aHorizontal: Integer; //ok
+    function ComandoImprimirImagem(aMultImagem, aVertical, aHorizontal: Integer;
       aNomeImagem: String): AnsiString; override;
-    function ComandoCarregarImagem(aStream: TStream; var aNomeImagem: String; //ok
+    function ComandoCarregarImagem(aStream: TStream; var aNomeImagem: String;
       aFlipped: Boolean; aTipo: String): AnsiString; override;
-    function ComandoApagarImagem(const NomeImagem: String = '*'): String; override; //ok
+    function ComandoApagarImagem(const aNomeImagem: String = '*'): String; override;
   end;
 
 implementation
@@ -138,17 +136,10 @@ end;
 function TACBrETQTspl.FormatarTexto(const aTexto: String): String;
 begin
   Result := aTexto;
-
-  if (LeftStr(Result, 1) = '"') then  // Usuário já faz os ajustes ?
-    Exit;
-
-  // Ajustando o TEXTO com caraceteres especiais //
-  Result := StringReplace(Result, '\', '\\"', [rfReplaceAll]);
-
-  {If there is any double quote (") within the text, please change it to \["].}
-  Result := StringReplace(aTexto, '"',  '\["]' ,[rfReplaceAll, rfIgnoreCase]);
-
-  //epl Result := StringReplace(Result, '"', '\"', [rfReplaceAll]);
+  if Pos('\["]', Result) = 0 then   // verifica se o usuario mandou aspas formatado conforme manual
+  begin
+    Result := StringReplace(Result, '"', '\["]', [rfReplaceAll]);
+  end;
 
   Result := '"' + Result + '"';
 end;
@@ -158,58 +149,53 @@ function TACBrETQTspl.ConverterFonte(const aFonte: String; var aTexto: String
 var
   cFonte: Char;
 begin
-  {Nem todas as fontes estão disponíveis para todos modelos,
-  vide manual pagina 65}
+  {Nem todas as fontes estão disponíveis para todos modelos, vide manual pagina 65}
   cFonte := PadLeft(aFonte,1,'3')[1];
 
   if not CharInSet(cFonte, ['0'..'8']) then
     raise Exception.Create('Fonte deve ser de "0" a "8"');
-
-  {O pitch da fonte interna (fontes #1 a #5) entre TSPL e TSPL2 é diferente.}
 
   Result := cFonte;
 end;
 
 function TACBrETQTspl.ConverterMultiplicador(aMultiplicador: Integer): String;
 begin
+  Result := '1';
   if (aMultiplicador < 1) or (aMultiplicador > 10) then
     raise Exception.Create('Multiplicador deve ser de 1 a 10');
 
   Result := IntToStr(aMultiplicador);
 end;
 
-function TACBrETQTspl.ConverterCoordenadas(aVertical, aHorizontal: Integer
-  ): String;
-begin
-  Result := IntToStr(ConverterUnidade(etqDots, aHorizontal)) + ',' +
-            IntToStr(ConverterUnidade(etqDots, aVertical));
-end;
-
 function TACBrETQTspl.CalcularEspessuraLinha(aVertical, aHorizontal: Integer
   ): String;
 var
-  wEspessura: Integer;
+  LEspessura: Integer;
 begin
-  wEspessura := Max(aHorizontal, aVertical);
-  wEspessura := ConverterUnidade(etqDots, wEspessura);
-
-  Result := IntToStr(max(wEspessura,1));
+  Result := EmptyStr;
+  LEspessura := Max(aHorizontal, aVertical);
+  LEspessura := ConverterUnidade(etqDots, LEspessura);
+  Result := IntToStr(max(LEspessura,1));
 end;
 
 function TACBrETQTspl.AjustarNomeArquivoImagem(const aNomeImagem: String): String;
 begin
+  Result := EmptyStr;
   Result := UpperCase(LeftStr(OnlyAlphaNum(aNomeImagem), 8));
 end;
 
 function TACBrETQTspl.ConverterUnidadeAlturaBarras(aAlturaBarras: Integer
   ): String;
 begin
+  Result := EmptyStr;
   Result := IntToStr(ConverterUnidade(etqDots, aAlturaBarras));
 end;
 
 function TACBrETQTspl.ConverterPaginaDeCodigo(
   aPaginaDeCodigo: TACBrETQPaginaCodigo): String;
 begin
+  Result := EmptyStr;
+  {as páginas de código do Windows (1250 e 1252) são suportadas exclusivamente em impressoras com a linguagem TSPL2}
   case aPaginaDeCodigo of
     pce437 : Result := '437';
     pce850 : Result := '850';
@@ -218,58 +204,52 @@ begin
     pce1250: Result := '1250';
     pce1252: Result := '1252';
   else
-    Result := '';
+    Result := '437'; // existem diversos modelos, a mais comum é 437
   end;
 end;
 
 function TACBrETQTspl.ConverterOrientacao(aOrientacao: TACBrETQOrientacao
   ): String;
 begin
+  Result := '0';
   case aOrientacao of
-    or270: Result := '270';  // 270
-    or180: Result := '180';  // 180
-    or90:  Result := '90';   // 90
-  else
-    Result := '0';  // Normal
+    or270: Result := '270';
+    or180: Result := '180';
+    or90:  Result := '90';
   end;
 end;
 
 procedure TACBrETQTspl.VerificarTipoBarras(const aTipo: String; aBarraFina: Integer);
 var
-  MinBarraFina, MaxBarraFina: Integer;
+  LMinBarraFina, LMaxBarraFina: Integer;
 begin
-  MinBarraFina := 1;
-  MaxBarraFina := 10;
+  LMinBarraFina := 1;
+  LMaxBarraFina := 10;
 
-  //(estreita)narrow: valor de 1 a 10 (representa a largura da barra fina em dots)
-
-  //(larga)wide: valor de 2 a 30 (representa a largura da barra larga em dots)
-
-  // Tipos com faixa mais restrita (2 a 4, exceto 2G que é 3 a 4)
   if (pos(aTipo, 'CODE128;CODE128M;EAN128;CODE39;CODE39C;CODE39S;CODE93;CODE93EXT') > 0) then
   begin
-    MinBarraFina := 2;
-    MaxBarraFina := 4;
+    LMinBarraFina := 2;
+    LMaxBarraFina := 4;
     if aTipo = 'CODE128M' then
-      MinBarraFina := 3;
+      LMinBarraFina := 3;
   end;
 
-  if (aBarraFina < MinBarraFina) or (aBarraFina > MaxBarraFina) then
+  if (aBarraFina < LMinBarraFina) or (aBarraFina > LMaxBarraFina) then
     raise Exception.CreateFmt('Barra Fina para o Cod.Barras %s deve ser de %d a %d',
-                              [aTipo, MinBarraFina, MaxBarraFina]);
+                              [aTipo, LMinBarraFina, LMaxBarraFina]);
 end;
 
 function TACBrETQTspl.ConverterExibeCodigo(
   aExibeCodigo: TACBrETQBarraExibeCodigo): String;
 begin
+  Result := '0';
   if (aExibeCodigo = becSIM) then
-    Result := '1'
-  else
-    Result := '0';
+    Result := '1';
 end;
 
 function TACBrETQTspl.ConverterLarguraBarras(aBarraLarga, aBarraFina: Integer): String;
 begin
+  Result := EmptyStr;
   if (aBarraFina < 1) or (aBarraFina > 10) then
     raise Exception.Create('Barra Fina deve ser de 1 a 10');
 
@@ -284,14 +264,15 @@ end;
 
 function TACBrETQTspl.ConverterReverso(aImprimirReverso: Boolean; aHorizontal, aVertical, aLarguraTexto, aAlturaTexto:integer): String;
 begin
+  Result := EmptyStr;
   If aImprimirReverso then
      begin
 
-      Result := 'REVERSE ' +
+      Result :=  LF+'REVERSE ' +
             IntToStr(aHorizontal) + ',' +
             IntToStr(aVertical) + ',' +
             IntToStr(aLarguraTexto) + ',' +
-            IntToStr(aAlturaTexto) + LF;
+            IntToStr(aAlturaTexto);
      end;
 end;
 
@@ -300,7 +281,7 @@ begin
   if (Origem = ogTop) then
     Result := 'DIRECTION 0'
   else
-    Result := 'DIRECTION 1';  // ACBr Default
+    Result := 'DIRECTION 1';
 end;
 
 function TACBrETQTspl.ComandoLimparMemoria: AnsiString;
@@ -322,23 +303,27 @@ function TACBrETQTspl.ComandoPaginaDeCodigo: AnsiString;
 var
   APagCod: String;
 begin
+  Result := EmptyStr;
   APagCod := ConverterPaginaDeCodigo(PaginaDeCodigo);
   if (APagCod <> '') then
     Result := 'CODEPAGE '+APagCod
-  else
-    Result := '';
 end;
 
 function TACBrETQTspl.ComandoVelocidade: AnsiString;
 begin
   Result := EmptyStr;
-  if Velocidade < 0 then
-     Exit;
 
-  if (Velocidade > 6) then
-    raise Exception.Create('Velocidade deve ser de 0 a 6');
+  if Velocidade <= 0 then
+    Exit;
 
-  Result := 'SPEED ' + IntToStr(Velocidade);
+  case Velocidade of
+    1,2,3,4,5,6,8,10,12:
+      Result := 'SPEED ' + IntToStr(Velocidade);
+  else
+    raise Exception.Create(
+      'Velocidade inválida. Valores permitidos: 1,2,3,4,5,6,8,10,12'
+    );
+  end;
 end;
 
 function TACBrETQTspl.ComandoCopias(const NumCopias: Integer): AnsiString;
@@ -359,8 +344,11 @@ end;
 
 function TACBrETQTspl.ComandoAbertura: AnsiString;
 begin
-  Result := 'AUTODETECT';
-  //+sLineBreak+'REFERENCE 0,0';
+  Result := 'SHIFT 0';
+
+  // removido autodectec para evitar pular etiquetas  , pois ele vai detectar tamanho etiqueta
+  // Result := 'AUTODETECT';
+
 end;
 
 function TACBrETQTspl.ComandoGuilhotina: AnsiString;
@@ -378,25 +366,39 @@ function TACBrETQTspl.ComandoImprimirTexto(aOrientacao: TACBrETQOrientacao;
 
 var
   LLarguraTexto, LAlturaTexto: Integer;
+  LCoordenadaHorizontal, LCoordenadaVertical: Integer;
 begin
+  // Coordenadas base
+  LCoordenadaHorizontal := ConverterUnidade(etqDots, aHorizontal);
+  LCoordenadaVertical   := ConverterUnidade(etqDots, aVertical);
 
-  // Calcular altura e largura estimadas do texto com base na fonte e multiplicadores
+  // Calcula dimensões do texto (em DOTS)
   LLarguraTexto := ComprimentoTextoEmDots(aTexto, aFonte, aMultHorizontal);
   LAlturaTexto  := AlturaFonteEmDots(aFonte, aMultVertical);
 
+  // Ajustes finos do REVERSE (aproximadamente)
+  Dec(LCoordenadaHorizontal, 3);
+  Dec(LCoordenadaVertical, 1);
+  Inc(LLarguraTexto, 8);
+  Inc(LAlturaTexto, 3);
 
-  Result := ConverterReverso(aImprimirReverso, aHorizontal, aVertical,LLarguraTexto,LAlturaTexto) + 'TEXT ' +
-            ConverterCoordenadas(aVertical, aHorizontal) + ',' +
-            '"'+ConverterFonte(aFonte, aTexto)+'"'       + ',' +
-            ConverterOrientacao(aOrientacao)             + ',' +
-            ConverterMultiplicador(aMultHorizontal)      + ',' +
-            ConverterMultiplicador(aMultVertical)        + ',' +
-            FormatarTexto(aTexto);
+  // TEXT primeiro (conforme manual TSPL)
+  Result := 'TEXT ' +
+            IntToStr(ConverterUnidade(etqDots, aHorizontal)) + ',' +
+            IntToStr(ConverterUnidade(etqDots, aVertical))   + ',' +
+            '"' + ConverterFonte(aFonte, aTexto) + '"'       + ',' +
+            ConverterOrientacao(aOrientacao)                 + ',' +
+            ConverterMultiplicador(aMultHorizontal)          + ',' +
+            ConverterMultiplicador(aMultVertical)            + ',' +
+            FormatarTexto(aTexto) +
+            ConverterReverso(aImprimirReverso, LCoordenadaHorizontal, LCoordenadaVertical, LLarguraTexto, LAlturaTexto); // Reverse deve se impresso apos o Texto
 end;
+
 
 function TACBrETQTspl.ConverterTipoBarras(TipoBarras: TACBrTipoCodBarra
   ): String;
 begin
+  Result := EmptyStr;
   case TipoBarras of
     barEAN13      : Result := 'EAN13';
     barEAN8       : Result := 'EAN8';
@@ -407,8 +409,6 @@ begin
     barUPCA       : Result := 'UPCA';
     barCODABAR    : Result := 'CODA';
     barMSI        : Result := 'MSI';
-  else
-    Result := '';
   end;
 end;
 
@@ -418,9 +418,6 @@ function TACBrETQTspl.ComandoImprimirBarras(aOrientacao: TACBrETQOrientacao;
   aExibeCodigo: TACBrETQBarraExibeCodigo): AnsiString;
 begin
   VerificarTipoBarras(aTipoBarras, aBarraFina);
-
-//  BARCODE VVV,HHH,BBBB,AL,H,R,E,L
-//  BARCODE 100,100,”39”,96,1,0,2,4,”1000”
 
   Result := 'BARCODE ' +                                              // Barcode
             ConverterCoordenadas(aVertical, aHorizontal)    + ',' +   // Coordenadas Horizontal x Vertical
@@ -436,6 +433,7 @@ function TACBrETQTspl.ComandoImprimirQRCode(aVertical, aHorizontal: Integer;
   const aTexto: String; aLarguraModulo: Integer; aErrorLevel: Integer;
   aTipo: Integer): AnsiString;
 begin
+
  // QRCODE X  , Y, ECC Level, cell width, mode, rotation, [model, mask,]"Data string"
  // QRCODE 100,10, L        ,7          ,M    ,0          ,M1   ,S1    ,"ATHE FIRMWARE HAS BEEN UPDATED"
   result := 'QRCODE ' +                                          // qrcode
@@ -445,8 +443,6 @@ begin
             'A' + ',' +                                          // mode  A = Auto / manual encode
             '0' + ',' +                                          // rotation
             FormatarTexto(aTexto);                               // text
-
-
 end;
 
 function TACBrETQTspl.ComandoImprimirLinha(aVertical, aHorizontal, aLargura,
@@ -469,7 +465,6 @@ end;
 function TACBrETQTspl.ComandoImprimirImagem(aMultImagem, aVertical,
   aHorizontal: Integer; aNomeImagem: String): AnsiString;
 begin
-  // PUTPCX X,Y,"filename
   Result := 'PUTPCX' +
             ConverterCoordenadas(aVertical, aHorizontal) + ',' +
             '"' + AjustarNomeArquivoImagem(aNomeImagem)+ '"';
@@ -498,29 +493,92 @@ begin
             'DOWNLOAD F,"' + aNomeImagem + '",' + IntToStr(aStream.Size) + ',' + ImgData + LF;
 end;
 
-function TACBrETQTspl.ComandoApagarImagem(const NomeImagem: String): String;
+function TACBrETQTspl.ComandoApagarImagem(const aNomeImagem: String): String;
 var
   LNomeImagem: String;
 begin
-  if (NomeImagem = '*') then
+  Result := EmptyStr;
+  if (aNomeImagem = '*') then
   begin
     Result := 'KILL F,"*"' + LF;
   end
   else
   begin
-    LNomeImagem := AjustarNomeArquivoImagem(NomeImagem);
+    LNomeImagem := AjustarNomeArquivoImagem(aNomeImagem);
     Result := 'KILL F,"' + LNomeImagem + '"' + LF;
   end;
 end;
 
-function TACBrETQTspl.ComprimentoTextoEmDots(const Texto, Fonte: String; Mult: Integer): Integer;
+function TACBrETQTspl.AlturaFonteEmDots(const aFonte: string; aMultVertical: Integer): Integer;
+var
+  LFonte: Integer;
+  LAlturaBase: Integer;
 begin
-  Result := Length(Texto) * 8 * Mult; // 8 dots por caractere base
+  Result := 20; // altura base padrao
+  // tenta converter para número (fontes 1..8)
+  if TryStrToInt(aFonte, LFonte) then
+  begin
+    case LFonte of
+      1: LAlturaBase := 12;
+      2: LAlturaBase := 20;
+      3: LAlturaBase := 24;
+      4: LAlturaBase := 32;
+      5: LAlturaBase := 48;
+      6: LAlturaBase := 14;
+      7: LAlturaBase := 21;
+      8: LAlturaBase := 27;
+    end;
+
+    Result := LAlturaBase * aMultVertical;
+    Dec(Result, 7);
+  end
+  else
+  begin
+    // TTF / TSPL usa altura baseada no multiplicador aproximadamente
+    Result := 24 * aMultVertical;
+    // margem pequena
+    Inc(Result, 2);
+  end;
 end;
 
-function TACBrETQTspl.AlturaFonteEmDots(const Fonte: String; Mult: Integer): Integer;
+function TACBrETQTspl.ComprimentoTextoEmDots(const aTexto, aFonte: string; aMultHorizontal: Integer): Integer;
+var
+  LFonte: Integer;
+  LLarguraBase: Integer;
 begin
-  Result := 16 * Mult; // 16 dots de altura como base (ajuste conforme fonte)
+  Result := 12; // Largura base padrao
+  if TryStrToInt(aFonte, LFonte) then
+  begin
+    case LFonte of
+      1: LLarguraBase := 8;
+      2: LLarguraBase := 12;
+      3: LLarguraBase := 16;
+      4: LLarguraBase := 24;
+      5: LLarguraBase := 32;
+      6: LLarguraBase := 8;
+      7: LLarguraBase := 12;
+      8: LLarguraBase := 16;
+    end;
+    Result := Length(aTexto) * LLarguraBase * aMultHorizontal;
+    Inc(Result, LLarguraBase+7);
+  end
+  else
+  begin
+    // TTF largura variável Aproximadamente
+    LLarguraBase := 12;
+    Result := Length(aTexto) * LLarguraBase * aMultHorizontal;
+    Inc(Result, 6);
+  end;
 end;
+
+function TACBrETQTspl.ConverterCoordenadas(aVertical, aHorizontal: Integer
+  ): String;
+begin
+  Result := EmptyStr;
+  Result := IntToStr(ConverterUnidade(etqDots, aHorizontal)) + ',' +
+            IntToStr(ConverterUnidade(etqDots, aVertical));
+end;
+
+
 
 end.

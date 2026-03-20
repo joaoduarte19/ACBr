@@ -38,6 +38,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/03/2026
+-- ACBrETQTspl.pas --
+[*] ACBr-9120 Realizado diversos ajustes para impressão com texto, area reverse, Caixa TSPL
+  (por: Daniel de Morais Infocotidiano)
+  
 11/12/2025
 -- ACBrAbecsPinPad --
 [*] Adicionado o método 'CKE', para leitura de Trilha Completa
