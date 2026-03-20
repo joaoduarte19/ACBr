@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/03/2026
+-- ACBrNFSeX.GravarIni/ACBrNFSeX.LerIni --
+[*] Inclusão na geração e leitura de alguns campos que estavam faltando.
+   Por: Italo Giurizzato Junior
+
 19/03/2026
 -- ACBrNFSeXServicos --
 [+] Incluída a cidade Estiva Gerbi/SP, o provedor é Pronim.

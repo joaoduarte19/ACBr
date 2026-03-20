@@ -816,12 +816,14 @@ begin
     AINIRec.WriteString(LSecao, 'nNumeroEncapsulamento', NFSe.ConstrucaoCivil.nNumeroEncapsulamento);
     AINIRec.WriteString(LSecao, 'inscImobFisc', NFSe.ConstrucaoCivil.inscImobFisc);
     AINIRec.WriteInteger(LSecao, 'Cib', NFSe.ConstrucaoCivil.Cib);
+    AINIRec.WriteInteger(LSecao, 'ObrasOpcao', NFSe.ConstrucaoCivil.infobrasopcao);
 
     if (NFSe.ConstrucaoCivil.Endereco.Endereco <> '') or
        (NFSe.ConstrucaoCivil.Endereco.CEP <> '') or GerarSecaoOpcional then
     begin
       AINIRec.WriteString(LSecao, 'CEP', NFSe.ConstrucaoCivil.Endereco.CEP);
       AINIRec.WriteString(LSecao, 'xMunicipio', NFSe.ConstrucaoCivil.Endereco.XMunicipio);
+      AINIRec.WriteString(LSecao, 'CodigoMunicipio', NFSe.ConstrucaoCivil.Endereco.CodigoMunicipio);
       AINIRec.WriteString(LSecao, 'UF', NFSe.ConstrucaoCivil.Endereco.UF);
       AINIRec.WriteString(LSecao, 'Logradouro', NFSe.ConstrucaoCivil.Endereco.Endereco);
       AINIRec.WriteString(LSecao, 'Numero', NFSe.ConstrucaoCivil.Endereco.Numero);
@@ -846,11 +848,14 @@ begin
     AINIRec.WriteDate(LSecao, 'dtIni', NFSe.Servico.Evento.dtIni);
     AINIRec.WriteDate(LSecao, 'dtFim', NFSe.Servico.Evento.dtFim);
     AINIRec.WriteString(LSecao, 'idAtvEvt', NFSe.Servico.Evento.idAtvEvt);
+    AINIRec.WriteInteger(LSecao, 'AtividadeEventoOpcao', NFSe.Servico.Evento.infoatividadeeventoopcao);
 
     AINIRec.WriteString(LSecao, 'CEP', NFSe.Servico.Evento.Endereco.CEP);
+    AINIRec.WriteString(LSecao, 'CodigoMunicipio', NFSe.Servico.Evento.Endereco.CodigoMunicipio);
     AINIRec.WriteString(LSecao, 'xMunicipio', NFSe.Servico.Evento.Endereco.xMunicipio);
     AINIRec.WriteString(LSecao, 'UF', NFSe.Servico.Evento.Endereco.UF);
     AINIRec.WriteString(LSecao, 'Logradouro', NFSe.Servico.Evento.Endereco.Endereco);
+    AINIRec.WriteString(LSecao, 'Numero', NFSe.Servico.Evento.Endereco.Numero);
     AINIRec.WriteString(LSecao, 'Complemento', NFSe.Servico.Evento.Endereco.Complemento);
     AINIRec.WriteString(LSecao, 'Bairro', NFSe.Servico.Evento.Endereco.Bairro);
 
@@ -925,6 +930,7 @@ begin
     AINIRec.WriteFloat(LSecao, 'AliquotaDeducoes', NFSe.Servico.Valores.AliquotaDeducoes);
     AINIRec.WriteFloat(LSecao, 'ValorDeducoes', NFSe.Servico.Valores.ValorDeducoes);
     AINIRec.WriteString(LSecao, 'JustificativaDeducao', NFSe.Servico.Valores.JustificativaDeducao);
+    AINIRec.WriteFloat(LSecao, 'BaseCalculoPISCOFINS', NFSe.Servico.Valores.BaseCalculoPisCofins);
     AINIRec.WriteFloat(LSecao, 'ValorPis', NFSe.Servico.Valores.ValorPis);
     AINIRec.WriteFloat(LSecao, 'AliquotaPis', NFSe.Servico.Valores.AliquotaPis);
     AINIRec.WriteString(LSecao, 'RetidoPis', FpAOwner.SimNaoToStr(NFSe.Servico.Valores.RetidoPis));
@@ -1080,6 +1086,9 @@ begin
     AINIRec.WriteFloat(LSecao, 'vRetCP', NFSe.Servico.Valores.tribFed.vRetCP);
     AINIRec.WriteFloat(LSecao, 'vRetIRRF', NFSe.Servico.Valores.tribFed.vRetIRRF);
     AINIRec.WriteFloat(LSecao, 'vRetCSLL', NFSe.Servico.Valores.tribFed.vRetCSLL);
+    AINIRec.WriteFloat(LSecao, 'vBCPIRRF', NFSe.Servico.Valores.tribFed.vBCPIRRF);
+    AINIRec.WriteFloat(LSecao, 'vBCCSLL', NFSe.Servico.Valores.tribFed.vBCCSLL);
+    AINIRec.WriteFloat(LSecao, 'vBCPCP', NFSe.Servico.Valores.tribFed.vBCPCP);
 
     PularLinha(AINIRec, LSecao);
   end;

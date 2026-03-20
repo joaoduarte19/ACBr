@@ -1149,6 +1149,7 @@ begin
     NFSe.ConstrucaoCivil.inscImobFisc := AINIRec.ReadString(sSecao, 'inscImobFisc', '');
     NFSe.ConstrucaoCivil.Cib := AINIRec.ReadInteger(sSecao, 'Cib', 0);
     NFSe.ConstrucaoCivil.Art := AINIRec.ReadString(sSecao, 'Art', '');
+    NFSe.ConstrucaoCivil.infobrasopcao := AINIRec.ReadInteger(sSecao, 'ObrasOpcao', 0);
 
     NFSe.ConstrucaoCivil.Endereco.Endereco := AINIRec.ReadString(sSecao, 'Logradouro', '');
     NFSe.ConstrucaoCivil.Endereco.Numero := AINIRec.ReadString(sSecao, 'Numero', '');
@@ -1188,9 +1189,11 @@ begin
     NFSe.Servico.Evento.dtIni := AINIRec.ReadDate(sSecao, 'dtIni', Now);
     NFSe.Servico.Evento.dtFim := AINIRec.ReadDate(sSecao, 'dtFim', Now);
     NFSe.Servico.Evento.idAtvEvt := AINIRec.ReadString(sSecao, 'idAtvEvt', '');
+    NFSe.Servico.Evento.infoatividadeeventoopcao := AINIRec.ReadInteger(sSecao, 'AtividadeEventoOpcao', 0);
 
     NFSe.Servico.Evento.Endereco.CEP := AINIRec.ReadString(sSecao, 'CEP', '');
     NFSe.Servico.Evento.Endereco.xMunicipio := AINIRec.ReadString(sSecao, 'xMunicipio', '');
+    NFSe.Servico.Evento.Endereco.CodigoMunicipio := AINIRec.ReadString(sSecao, 'CodigoMunicipio', '');
     NFSe.Servico.Evento.Endereco.UF := AINIRec.ReadString(sSecao, 'UF', '');
     NFSe.Servico.Evento.Endereco.Endereco := AINIRec.ReadString(sSecao, 'Logradouro', '');
     NFSe.Servico.Evento.Endereco.Numero := AINIRec.ReadString(sSecao, 'Numero', '');
@@ -1268,6 +1271,7 @@ begin
     NFSe.Servico.Valores.OutrosDescontos := StringToFloatDef(AINIRec.ReadString(sSecao, 'OutrosDescontos', ''), 0);
     NFSe.Servico.Valores.AliquotaDeducoes := StringToFloatDef(AINIRec.ReadString(sSecao, 'AliquotaDeducoes', ''), 0);
     NFSe.Servico.Valores.ValorDeducoes := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorDeducoes', ''), 0);
+    NFSe.Servico.Valores.BaseCalculoPisCofins := StringToFloatDef(AINIRec.ReadString(sSecao, 'BaseCalculoPISCOFINS', ''), 0);
 
     NFSe.Servico.Valores.ValorOutrasRetencoes := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorOutrasRetencoes', ''), 0);
     NFSe.Servico.Valores.OutrasRetencoes := StringtoFloatDef(AINIRec.ReadString(sSecao, 'OutrasRetencoes', ''), 0);
@@ -1472,6 +1476,9 @@ begin
     NFSe.Servico.Valores.tribFed.vRetCP := StringToFloatDef(AINIRec.ReadString(sSecao, 'vRetCP', ''), 0);
     NFSe.Servico.Valores.tribFed.vRetIRRF := StringToFloatDef(AINIRec.ReadString(sSecao, 'vRetIRRF', ''), 0);
     NFSe.Servico.Valores.tribFed.vRetCSLL := StringToFloatDef(AINIRec.ReadString(sSecao, 'vRetCSLL', ''), 0);
+    NFSe.Servico.Valores.tribFed.vBCPIRRF := StringToFloatDef(AINIRec.ReadString(sSecao, 'vBCPIRRF', ''), 0);
+    NFSe.Servico.Valores.tribFed.vBCCSLL := StringToFloatDef(AINIRec.ReadString(sSecao, 'vBCCSLL', ''), 0);
+    NFSe.Servico.Valores.tribFed.vBCPCP := StringToFloatDef(AINIRec.ReadString(sSecao, 'vBCPCP', ''), 0);
 
     NFSe.Servico.Valores.CSTPis := StrToCSTPIS(Ok, AINIRec.ReadString(sSecao, 'CST', ''));
     NFSe.Servico.Valores.BaseCalculo := NFSe.Servico.Valores.tribFed.vBCPisCofins;
