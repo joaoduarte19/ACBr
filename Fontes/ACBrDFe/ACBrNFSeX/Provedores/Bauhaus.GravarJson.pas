@@ -75,7 +75,7 @@ type
     procedure GerarIniNfse(AINIRec: TMemIniFile);
   public
     function GerarXml: Boolean; override;
-    function GerarIni: string; override;
+//    function GerarIni: string; override;
   end;
 
 implementation
@@ -251,7 +251,7 @@ begin
       .AddPair('ValorCredito', NFSe.ValorCredito)
       .AddPair('ValorTotalNota', ValorLiquidoNfse);
 end;
-
+(*
 function TNFSeW_Bauhaus.GerarIni: string;
 var
   INIRec: TMemIniFile;
@@ -278,7 +278,7 @@ begin
     end;
   end;
 end;
-
+*)
 procedure TNFSeW_Bauhaus.GerarIniNfse(AINIRec: TMemIniFile);
 begin
   GerarINIIdentificacaoNFSe(AINIRec);

@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/03/2026
+-- Diversos --
+[*] Alterações visando usar a unit ACBrNFSeX.GravarIni para gerar o arquivo INI
+    padronizado.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeX.GravarIni/ACBrNFSeX.LerIni --
 [*] Inclusão na geração e leitura de alguns campos que estavam faltando.
    Por: Italo Giurizzato Junior

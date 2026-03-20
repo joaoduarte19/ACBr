@@ -70,7 +70,7 @@ type
   public
     function GerarXml: Boolean; override;
 
-    function GerarIni: string; override;
+//    function GerarIni: string; override;
   end;
 
 implementation
@@ -196,7 +196,7 @@ begin
   Result := TACBrJSONObject.Create
               .AddPair('codigo', NFSe.Servico.ItemListaServico);
 end;
-
+(*
 function TNFSeW_Aspec.GerarIni: string;
 var
   INIRec: TMemIniFile;
@@ -223,7 +223,7 @@ begin
     end;
   end;
 end;
-
+*)
 procedure TNFSeW_Aspec.GerarIniNfse(AINIRec: TMemIniFile);
 begin
   GerarINIIdentificacaoNFSe(AINIRec);

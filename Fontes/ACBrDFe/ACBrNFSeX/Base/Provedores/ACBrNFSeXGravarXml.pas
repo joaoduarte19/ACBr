@@ -299,7 +299,7 @@ uses
   ACBrUtil.Strings,
   ACBrDFeConsts,
   ACBrDFeException,
-//  ACBrNFSeX.GravarIni, {Em Teste}
+  ACBrNFSeX.GravarIni,
   ACBrNFSeX,
   ACBrNFSeXConsts;
 
@@ -822,11 +822,12 @@ begin
 end;
 
 function TNFSeWClass.GerarIni: string;
-//var
-//  WIni: TNFSeIniWriter;  {Em Teste}
+var
+  WIni: TNFSeIniWriter;
 begin
-  {
-  WIni := TNFSeIniWriter.Create(NFSe, FpAOwner);  //Em Teste
+  // Usar o FpAOwner em vez de  FProvider
+
+  WIni := TNFSeIniWriter.Create(NFSe, FpAOwner);
 
   try
     WIni.IniParams := IniParams;
@@ -837,14 +838,12 @@ begin
   finally
     WIni.Free;
   end;
-  }
-
-  // Usar o FpAOwner em vez de  FProvider
-
+{
   if NFSe.tpXML = txmlRPS then
     Result := GerarIniRps
   else
     Result := GerarIniNfse;
+}
 end;
 
 function TNFSeWClass.GerarIniNfse: string;

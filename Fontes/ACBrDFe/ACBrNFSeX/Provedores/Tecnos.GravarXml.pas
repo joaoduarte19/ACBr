@@ -66,7 +66,7 @@ type
     procedure GerarINIIBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBSDPS); override;
     procedure GerarINIIBSCBSValores(AINIRec: TMemIniFile; Valores: Tvalorestrib); override;
   public
-    function GerarIni: String; override;
+//    function GerarIni: String; override;
   end;
 
 implementation
@@ -359,7 +359,7 @@ begin
 
   Result.AppendChild(GerarInfDeclaracaoPrestacaoServ);
 end;
-
+(*
 function TNFSeW_Tecnos201.GerarIni: String;
 var
   LINIRec: TMemIniFile;
@@ -398,7 +398,7 @@ begin
     end;
   end;
 end;
-
+*)
 procedure TNFSeW_Tecnos201.GerarINIIBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBSDPS);
 begin
   GerarINIIBSCBSValores(AINIRec, IBSCBS.valores);

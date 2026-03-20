@@ -70,7 +70,7 @@ type
     procedure GerarINIIBSCBSValores(AINIRec: TMemIniFile; Valores: Tvalorestrib); override;
   public
     function GerarXml: Boolean; override;
-    function GerarIni: string; override;
+//    function GerarIni: string; override;
   end;
 
 implementation
@@ -325,7 +325,7 @@ begin
     Result.AppendChild(AddNode(tcDat, '#30', 'DataCompetencia', 1, 10, 0,
                                    NFSe.Competencia, ''));
 end;
-
+(*
 function TNFSeW_SpeedGov.GerarIni: string;
 var
   LINIRec: TMemIniFile;
@@ -363,7 +363,7 @@ begin
     end;
   end;
 end;
-
+*)
 procedure TNFSeW_SpeedGov.GerarINIIBSCBSValores(AINIRec: TMemIniFile;
   Valores: Tvalorestrib);
 var

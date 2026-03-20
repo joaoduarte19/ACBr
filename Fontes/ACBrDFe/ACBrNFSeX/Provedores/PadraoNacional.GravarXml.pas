@@ -156,7 +156,7 @@ type
     procedure GerarIniNfse(AINIRec: TMemIniFile);
   public
     function GerarXml: Boolean; override;
-    function GerarIni: string; override;
+//    function GerarIni: string; override;
   end;
 
 implementation
@@ -1802,7 +1802,7 @@ begin
 end;
 
 //====== Gerar o Arquivo INI=========================================
-
+(*
 function TNFSeW_PadraoNacional.GerarIni: string;
 var
   INIRec: TMemIniFile;
@@ -1829,7 +1829,7 @@ begin
     end;
   end;
 end;
-
+*)
 procedure TNFSeW_PadraoNacional.GerarIniNfse(AINIRec: TMemIniFile);
 begin
   GerarINIIdentificacaoNFSe(AINIRec);

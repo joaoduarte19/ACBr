@@ -101,7 +101,7 @@ type
   public
     function GerarXml: Boolean; override;
 
-    function GerarIni: string; override;
+//    function GerarIni: string; override;
   end;
 
 implementation
@@ -691,7 +691,7 @@ begin
   Result.AppendChild(AddNode(tcDat, '#1', 'DataEmissao', 10, 10, 1,
                                                   NFSe.DataEmissao, DSC_DHEMI));
 end;
-
+(*
 function TNFSeW_Agili.GerarIni: string;
 var
   INIRec: TMemIniFile;
@@ -718,7 +718,7 @@ begin
     end;
   end;
 end;
-
+*)
 procedure TNFSeW_Agili.GerarIniNfse(AINIRec: TMemIniFile);
 begin
   GerarINIIdentificacaoNFSe(AINIRec);

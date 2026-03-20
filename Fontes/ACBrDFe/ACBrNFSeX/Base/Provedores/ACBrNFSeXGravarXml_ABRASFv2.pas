@@ -234,7 +234,7 @@ type
 
   public
     function GerarXml: Boolean; override;
-    function GerarIni: string; override;
+//    function GerarIni: string; override;
 
     property NrOcorrComplTomador: Integer read FNrOcorrComplTomador write FNrOcorrComplTomador;
     property NrOcorrFoneTomador: Integer  read FNrOcorrFoneTomador  write FNrOcorrFoneTomador;
@@ -1369,6 +1369,8 @@ begin
   AINIRec.WriteString(FpSecao, 'MunicipioPrestacaoServico', NFSe.Servico.MunicipioPrestacaoServico);
   AINIRec.WriteFloat(FpSecao,'ValorTotalRecebido', NFSe.Servico.ValorTotalRecebido);
   AINIRec.WriteString(FpSecao, 'CodigoNBS', NFSe.Servico.CodigoNBS);
+  AINIRec.WriteString(FpSecao, 'ResponsavelRetencao', FpAOwner.ResponsavelRetencaoToStr(NFSe.Servico.ResponsavelRetencao));
+  AINIRec.WriteInteger(FpSecao, 'CodigoPais', NFSe.Servico.CodigoPais);
 end;
 
 procedure TNFSeW_ABRASFv2.GerarINISecaoServicos(const AINIRec: TMemIniFile);
@@ -1536,7 +1538,7 @@ procedure TNFSeW_ABRASFv2.GerarINISecaoParcelas(const AINIRec: TMemIniFile);
 begin
   //Não faz nada neste leiaute...
 end;
-
+(*
 function TNFSeW_ABRASFv2.GerarIni: string;
 var
   LINIRec: TMemIniFile;
@@ -1590,7 +1592,7 @@ begin
     end;
   end;
 end;
-
+*)
 function TNFSeW_ABRASFv2.GeraAtividadeEvento: TACBrXmlNode;
 begin
   Result := nil;
