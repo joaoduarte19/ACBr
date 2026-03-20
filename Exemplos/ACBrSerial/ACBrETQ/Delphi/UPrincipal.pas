@@ -222,6 +222,16 @@ begin
       ImprimirTexto(orNormal, 'G', 40, 80, 18, 35, 'R$');
       ImprimirTexto(orNormal, 'G', 55, 100, 15, 50, '20,59');
     end
+    else if (Modelo = etqTSPL) then
+    begin
+      DefinirCor(clBlue, 0, 0, 0);
+      ImprimirTexto(orNormal, 2, 2, 2, 3, 1, 'RA«√O PARA C√ES ¡…Õ”⁄ 5KG', 0, True);
+      ImprimirTexto(orNormal, 2, 2, 1, 8, 1, 'M…DIO PORTE');
+      ImprimirBarras(orNormal  , barEAN13  , 2, 2,13, 1,'7896003701685', 10, becSIM);
+      ImprimirCaixa(11,31,60,15,1,1);
+      ImprimirTexto(orNormal, 3, 3, 2, 18, 32, 'R$');
+      ImprimirTexto(orNormal, 3, 4, 4, 13, 46, '20,59');
+    end
     else
     begin
       DefinirCor(clBlue, 0, 0, 0);
@@ -344,21 +354,7 @@ begin
 
   with ACBrETQ do
   begin
-     if not (ETQ is TACBrETQZplII) then
-      begin
-        ImprimirTexto(orNormal, 2, 1, 2, 2, 3, 'BISCOITO REC 33G');
-        ImprimirTexto(orNormal, 2, 1, 1, 6, 3, 'CHOC BRANCO');
-        ImprimirBarras(orNormal, barEAN13, 2, 2, 8, 3, '7896003701685', 10);
-
-        ImprimirTexto(orNormal, 2, 1, 2, 2, 32, 'BISCOITO RECH 33G');
-        ImprimirTexto(orNormal, 2, 1, 1, 6, 32, 'CHOC BRANCO');
-        ImprimirBarras(orNormal, barEAN13, 2, 2, 8, 32, '7896003701685', 10);
-
-        ImprimirTexto(orNormal, 2, 1, 2, 2, 61, 'BISCOITO RECH 33G');
-        ImprimirTexto(orNormal, 2, 1, 1, 6, 61, 'CHOC BRANCO');
-        ImprimirBarras(orNormal, barEAN13, 2, 2, 8, 61, '7896003701685', 10);
-      end
-     else
+     if Modelo = etqZPLII then
       begin
          ImprimirTexto(orNormal, '0', 20, 30, 2, 3, 'BISCOITO REC 33G');
          ImprimirTexto(orNormal, '0', 20, 20, 6, 3, 'CHOC BRANCO');
@@ -371,6 +367,34 @@ begin
          ImprimirTexto(orNormal, '0', 20, 30, 2, 61, 'BISCOITO RECH 33G');
          ImprimirTexto(orNormal, '0', 20, 20, 6, 61, 'CHOC BRANCO');
          ImprimirBarras(orNormal, barEAN13, 2, 2, 8, 61, '7896003701685', 10);
+      end
+     else if Modelo = etqTSPL then
+      begin
+        ImprimirTexto(orNormal, 2, 1, 2, 2, 3, 'BISCOITO REC 33G');
+        ImprimirTexto(orNormal, 2, 1, 1, 7, 3, 'CHOC BRANCO');
+        ImprimirBarras(orNormal, barEAN13, 2, 2, 10, 3, '7896003701685', 8, becSIM);
+
+        ImprimirTexto(orNormal, 2, 1, 2, 2, 33, 'BOLACHA MAIZENA');
+        ImprimirTexto(orNormal, 2, 1, 1, 7, 33, 'Johnson & Johnson');
+        ImprimirBarras(orNormal, barEAN13, 2, 2, 10, 33, '7896003701685', 8, becSIM);
+
+        ImprimirTexto(orNormal, 2, 1, 2, 2, 65, 'REPELENTE OFF');
+        ImprimirTexto(orNormal, 2, 1, 1, 7, 65, 'CHOC BRANCO');
+        ImprimirBarras(orNormal, barEAN13, 2, 2, 10, 65, '7896003701685', 8, becSIM);
+      end
+     else
+      begin
+        ImprimirTexto(orNormal, 2, 1, 2, 2, 3, 'BISCOITO REC 33G');
+        ImprimirTexto(orNormal, 2, 1, 1, 6, 3, 'CHOC BRANCO');
+        ImprimirBarras(orNormal, barEAN13, 2, 2, 8, 3, '7896003701685', 10);
+
+        ImprimirTexto(orNormal, 2, 1, 2, 2, 32, 'BISCOITO RECH 33G');
+        ImprimirTexto(orNormal, 2, 1, 1, 6, 32, 'CHOC BRANCO');
+        ImprimirBarras(orNormal, barEAN13, 2, 2, 8, 32, '7896003701685', 10);
+
+        ImprimirTexto(orNormal, 2, 1, 2, 2, 61, 'BISCOITO RECH 33G');
+        ImprimirTexto(orNormal, 2, 1, 1, 6, 61, 'CHOC BRANCO');
+        ImprimirBarras(orNormal, barEAN13, 2, 2, 8, 61, '7896003701685', 10);
       end;
 
       FinalizarEtiqueta;
