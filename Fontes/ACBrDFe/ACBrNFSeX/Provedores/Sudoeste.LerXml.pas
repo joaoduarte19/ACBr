@@ -50,6 +50,15 @@ type
 
   end;
 
+  { TNFSeR_Sudoeste302 }
+
+  TNFSeR_Sudoeste302 = class(TNFSeR_ABRASFv2)
+  protected
+
+  public
+
+  end;
+
 implementation
 
 //==============================================================================

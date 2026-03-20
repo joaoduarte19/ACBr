@@ -289,11 +289,11 @@ const
 
 type
   TVersaoNFSe = (ve100, ve101, ve102, ve103,
-                 ve200, ve201, ve202, ve203, ve204);
+                 ve200, ve201, ve202, ve203, ve204, ve302);
 
 const
   TVersaoNFSeArrayStrings: array[TVersaoNFSe] of string = ('1.00', '1.01',
-    '1.02', '1.03', '2.00', '2.01', '2.02', '2.03', '2.04');
+    '1.02', '1.03', '2.00', '2.01', '2.02', '2.03', '2.04', '3.02');
 
 type
   TnfseFrete = (tfPrestador, tfTomador);
@@ -13187,17 +13187,17 @@ end;
 function VersaoNFSeToStr(const t: TVersaoNFSe): string;
 begin
   Result := EnumeradoToStr(t, ['1.00', '1.01', '1.02', '1.03',
-                               '2.00', '2.01', '2.02', '2.03', '2.04'],
+                               '2.00', '2.01', '2.02', '2.03', '2.04', '3.02'],
                               [ve100, ve101, ve102, ve103,
-                               ve200, ve201, ve202, ve203, ve204]);
+                               ve200, ve201, ve202, ve203, ve204, ve302]);
 end;
 
 function StrToVersaoNFSe(out ok: Boolean; const s: string): TVersaoNFSe;
 begin
   Result := StrToEnumerado(ok, s, ['1.00', '1.01', '1.02', '1.03',
-                                   '2.00', '2.01', '2.02', '2.03', '2.04'],
+                                   '2.00', '2.01', '2.02', '2.03', '2.04', '3.02'],
                                   [ve100, ve101, ve102, ve103,
-                                   ve200, ve201, ve202, ve203, ve204]);
+                                   ve200, ve201, ve202, ve203, ve204, ve302]);
 end;
 
 function TipoFreteToStr(const t: TnfseFrete): string;

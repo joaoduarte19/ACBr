@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/03/2026
+-- ACBrNFSeXConversao/ACBrNFSeXProviderManager --
+-- Sudoeste.GravarXml/Sudoeste.LerXml/Sudoeste.Provider --
+[*] ACBR-9069 - Implementado a versão 3.02 que contempla a reforma tributária.
+   Por: Italo Giurizzato Junior
 -- Diversos --
 [*] Alterações visando usar a unit ACBrNFSeX.GravarIni para gerar o arquivo INI
     padronizado.

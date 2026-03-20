@@ -746,7 +746,16 @@ begin
       proSSInformatica:
         Result := TACBrNFSeProviderSSInformatica203.Create(ACBrNFSe);
 
-      proSudoeste:  Result := TACBrNFSeProviderSudoeste202.Create(ACBrNFSe);
+      proSudoeste:
+        begin
+          case Versao of
+            ve202: Result := TACBrNFSeProviderSudoeste202.Create(ACBrNFSe);
+            ve302: Result := TACBrNFSeProviderSudoeste302.Create(ACBrNFSe);
+          else
+            Result := nil;
+          end;
+        end;
+
       proSystemPro: Result := TACBrNFSeProviderSystemPro201.Create(ACBrNFSe);
       proSysISS:    Result := TACBrNFSeProviderSysISS202.Create(ACBrNFSe);
       proTcheInfo:  Result := TACBrNFSeProviderTcheInfo204.Create(ACBrNFSe);

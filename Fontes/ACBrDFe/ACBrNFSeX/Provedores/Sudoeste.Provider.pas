@@ -75,6 +75,20 @@ type
                                      const AMessageTag: string = 'Erro'); override;
   end;
 
+  TACBrNFSeXWebserviceSudoeste302 = class(TACBrNFSeXWebserviceSudoeste202)
+  public
+
+  end;
+
+  TACBrNFSeProviderSudoeste302 = class (TACBrNFSeProviderSudoeste202)
+  protected
+    procedure Configuracao; override;
+
+    function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
+    function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
+    function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
+  end;
+
 implementation
 
 uses
@@ -145,21 +159,27 @@ var
 procedure MontarListaErros(AuxNode: TACBrXmlNode);
 var
   Codigo, Descricao, Correcao: string;
+  ANode: TACBrXmlNode;
 begin
-  Codigo := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('Codigo'), tcStr);
+  ANode := AuxNode.Childrens.FindAnyNs('MensagemRetorno');
+
+  if (ANode = nil) then
+    ANode := AuxNode;
+
+  Codigo := ObterConteudoTag(ANode.Childrens.FindAnyNs('Codigo'), tcStr);
 
   if Codigo = '' then
-    Codigo := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('ErroID'), tcStr);
+    Codigo := ObterConteudoTag(ANode.Childrens.FindAnyNs('ErroID'), tcStr);
 
-  Descricao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('Mensagem'), tcStr);
+  Descricao := ObterConteudoTag(ANode.Childrens.FindAnyNs('Mensagem'), tcStr);
 
   if Descricao = '' then
-    Descricao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('ErroMensagem'), tcStr);
+    Descricao := ObterConteudoTag(ANode.Childrens.FindAnyNs('ErroMensagem'), tcStr);
 
-  Correcao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('Correcao'), tcStr);
+  Correcao := ObterConteudoTag(ANode.Childrens.FindAnyNs('Correcao'), tcStr);
 
   if Correcao = '' then
-    Correcao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('ErroSolucao'), tcStr);
+    Correcao := ObterConteudoTag(ANode.Childrens.FindAnyNs('ErroSolucao'), tcStr);
 
   if (Codigo <> '') or (Descricao <> '') or (Correcao <> '') then
   begin
@@ -371,6 +391,56 @@ begin
   Result := RemoverDeclaracaoXML(Result);
   Result := RemoverIdentacao(Result);
   Result := RemoverPrefixosDesnecessarios(Result);
+end;
+
+{ TACBrNFSeProviderSudoeste302 }
+
+procedure TACBrNFSeProviderSudoeste302.Configuracao;
+begin
+  inherited Configuracao;
+
+  with ConfigWebServices do
+  begin
+    // Reforma Tributária, Informe Versão/Layout 3.02
+
+    VersaoDados := '3.02';
+    VersaoAtrib := '3.02';
+    AtribVerLote := 'versao';
+  end;
+
+  ConfigSchemas.Validar := False;
+end;
+
+function TACBrNFSeProviderSudoeste302.CriarGeradorXml(
+  const ANFSe: TNFSe): TNFSeWClass;
+begin
+  Result := TNFSeW_Sudoeste302.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderSudoeste302.CriarLeitorXml(
+  const ANFSe: TNFSe): TNFSeRClass;
+begin
+  Result := TNFSeR_Sudoeste302.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderSudoeste302.CriarServiceClient(
+  const AMetodo: TMetodo): TACBrNFSeXWebservice;
+var
+  URL: string;
+begin
+  URL := GetWebServiceURL(AMetodo);
+
+  if URL <> '' then
+    Result := TACBrNFSeXWebserviceSudoeste302.Create(FAOwner, AMetodo, URL)
+  else
+  begin
+    if ConfigGeral.Ambiente = taProducao then
+      raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
+    else
+      raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
 end;
 
 end.

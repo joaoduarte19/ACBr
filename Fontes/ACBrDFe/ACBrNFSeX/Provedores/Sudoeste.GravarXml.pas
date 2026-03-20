@@ -39,6 +39,7 @@ interface
 uses
   SysUtils, Classes, StrUtils,
   ACBrXmlBase,
+  ACBrXmlDocument,
   ACBrNFSeXGravarXml_ABRASFv2;
 
 type
@@ -51,11 +52,20 @@ type
 
   end;
 
+  { TNFSeW_Sudoeste302 }
+
+  TNFSeW_Sudoeste302 = class(TNFSeW_Sudoeste202)
+  protected
+    function GerarServico: TACBrXmlNode; override;
+
+  end;
+
 implementation
 
 uses
   ACBrDFe.Conversao,
-  ACBrUtil.Strings;
+  ACBrUtil.Strings,
+  ACBrNFSeXConsts;
 
 //==============================================================================
 // Essa unit tem por finalidade exclusiva gerar o XML do RPS do provedor:
@@ -81,6 +91,85 @@ procedure TNFSeW_Sudoeste202.DefinirIDRps;
 begin
   NFSe.InfID.ID := 'Rps_' + OnlyNumber(NFSe.IdentificacaoRps.Numero) +
                    NFSe.IdentificacaoRps.Serie;
+end;
+
+{ TNFSeW_Sudoeste302 }
+
+function TNFSeW_Sudoeste302.GerarServico: TACBrXmlNode;
+var
+  item: string;
+begin
+  Result := CreateElement('Servico');
+
+  Result.AppendChild(GerarValores);
+
+  Result.AppendChild(AddNode(tcStr, '#20', 'IssRetido', 1, 1, NrOcorrIssRetido,
+      FpAOwner.SituacaoTributariaToStr(NFSe.Servico.Valores.IssRetido), DSC_INDISSRET));
+
+  Result.AppendChild(AddNode(tcStr, '#21', 'ResponsavelRetencao', 1, 1, NrOcorrRespRetencao,
+     FpAOwner.ResponsavelRetencaoToStr(NFSe.Servico.ResponsavelRetencao), DSC_INDRESPRET));
+
+  item := FormatarItemServico(NFSe.Servico.ItemListaServico, FormatoItemListaServico);
+
+  Result.AppendChild(AddNode(tcStr, '#29', 'ItemListaServico', 1, 8, NrOcorrItemListaServico,
+                                                          item, DSC_CLISTSERV));
+
+  Result.AppendChild(AddNode(tcStr, '#30', 'CodigoCnae', 1, 9, NrOcorrCodigoCNAE,
+                                OnlyNumber(NFSe.Servico.CodigoCnae), DSC_CNAE));
+
+  Result.AppendChild(AddNode(tcStr, '#31', 'CodigoTributacaoMunicipio', 1, 20, NrOcorrCodTribMun_1,
+                     NFSe.Servico.CodigoTributacaoMunicipio, DSC_CSERVTRIBMUN));
+
+  Result.AppendChild(AddNode(tcStr, '#32', 'Discriminacao', 1, 2000, NrOcorrDiscriminacao_1,
+      StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+               FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]), DSC_DISCR));
+
+  Result.AppendChild(AddNode(tcStr, '#33', 'CodigoMunicipio', 1, 7, NrOcorrCodigoMunic_1,
+                           OnlyNumber(NFSe.Servico.CodigoMunicipio), DSC_CMUN));
+
+  Result.AppendChild(AddNode(tcStr, '#31', 'CodigoTributacaoMunicipio', 1, 20, NrOcorrCodTribMun_2,
+                     NFSe.Servico.CodigoTributacaoMunicipio, DSC_CSERVTRIBMUN));
+
+  Result.AppendChild(AddNode(tcStr, '#31', 'CodigoServicoNacional', 1, 20, 0,
+                                       NFSe.Servico.CodigoServicoNacional, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#33', 'Discriminacao', 1, 2000, NrOcorrDiscriminacao_2,
+      StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+               FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]), DSC_DISCR));
+
+  Result.AppendChild(AddNode(tcStr, '#34', 'CodigoMunicipio', 1, 7, NrOcorrCodigoMunic_2,
+                           OnlyNumber(NFSe.Servico.CodigoMunicipio), DSC_CMUN));
+
+  Result.AppendChild(GerarCodigoPaisServico);
+
+  Result.AppendChild(AddNode(tcInt, '#36', 'ExigibilidadeISS',
+                               NrMinExigISS, NrMaxExigISS, NrOcorrExigibilidadeISS,
+    StrToInt(FpAOwner.ExigibilidadeISSToStr(NFSe.Servico.ExigibilidadeISS)), DSC_INDISS));
+
+  Result.AppendChild(AddNode(tcStr, '#9', 'OutrasInformacoes', 0, 255, NrOcorrOutrasInformacoes_2,
+      StringReplace(NFSe.OutrasInformacoes, Opcoes.QuebraLinha,
+           FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]), DSC_OUTRASINF));
+
+  Result.AppendChild(AddNode(tcInt, '#37', 'MunicipioIncidencia', 7, 7, NrOcorrMunIncid,
+                                NFSe.Servico.MunicipioIncidencia, DSC_MUNINCI));
+
+  Result.AppendChild(AddNode(tcStr, '#38', 'NumeroProcesso', 1, 30, NrOcorrNumProcesso,
+                                   NFSe.Servico.NumeroProcesso, DSC_NPROCESSO));
+
+  Result.AppendChild(AddNode(tcStr, '#39', 'InfAdicional', 1, 255, NrOcorrInfAdicional,
+                                  NFSe.Servico.InfAdicional, DSC_INFADICIONAL));
+
+  Result.AppendChild(AddNode(tcStr, '#32', 'cNBS', 1, 9, 0,
+                                                   NFSe.Servico.CodigoNBS, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#39', 'CST', 3, 3, 0,
+                     CSTIBSCBSToStr(NFSe.IBSCBS.valores.trib.gIBSCBS.CST), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#39', 'cClassTrib', 6, 6, 0,
+                              NFSe.IBSCBS.valores.trib.gIBSCBS.cClassTrib, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#39', 'cIndOp', 1, 1, 0,
+                                                       NFSe.IBSCBS.cIndOp, ''));
 end;
 
 end.
