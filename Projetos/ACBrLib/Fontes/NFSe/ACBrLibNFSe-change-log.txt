@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/03/2026
+-- ACBrLibNFSeBase/ACBrLibNFSeMT/ACBrLibNFSeST --
+[+] ACBR-8944 - Adiciona um novo método NFSe_SetVersaoDF
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/90107-isssaopaulo-orienta%C3%A7%C3%B5es-e-particularidades/
+
 16/03/2026
 -- ACBrLibNFSeRespostas --
 [+] ACBR-9061 - Adiciona informação DescSituacao na resposta da Lib.

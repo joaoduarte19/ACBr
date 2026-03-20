@@ -106,6 +106,7 @@ type
     function ObterDANFSE(const aChaveNFSe: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
     function ConsultarParametros(aTipoParametroMunicipio: Integer; const aCodigoServico: PAnsiChar; aCompetencia: TDateTime; aNumeroBeneficio: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
     function ObterInformacoesProvedor(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+    function SetVersaoDF(const sVersao: PAnsiChar):integer;
 
   end;
 
@@ -1948,6 +1949,35 @@ begin
 
     on E: Exception do
        Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
+  end;
+end;
+
+function TACBrLibNFSe.SetVersaoDF(const sVersao: PAnsiChar): integer;
+var
+  versao: AnsiString;
+  ok: Boolean;
+begin
+  try
+    versao := ConverterStringEntrada(sVersao);
+
+    if Config.Log.Nivel > logNormal then
+      GravarLog('NFSE_SetVersaoDF(' + versao + ' ) ', logCompleto, True)
+    else
+      GravarLog('NFSE_SetVersaoDF', logNormal);
+
+    NFSeDM.Travar;
+    try
+      NFSeDM.ACBrNFSeX1.Configuracoes.Geral.Versao := StrToVersaoNFSe(ok, versao);
+      Result := SetRetorno(ErrOK);
+    finally
+      NFSeDM.Destravar;
+    end;
+  except
+    on E: EACBrLibException do
+      Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
+
+    on E: Exception do
+      Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
   end;
 end;
 

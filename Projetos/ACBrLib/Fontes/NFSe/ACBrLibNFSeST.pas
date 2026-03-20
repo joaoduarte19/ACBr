@@ -217,6 +217,9 @@ function NFSE_ConsultarParametros(aTipoParametroMunicipio: Integer; const aCodig
 function NFSE_ObterInformacoesProvedor(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 
+function NFSE_SetVersaoDF (const sVersao: PAnsiChar):integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
 {%endregion}
 
 {%endregion}
@@ -978,6 +981,21 @@ begin
 
       on E: Exception do
          Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function NFSE_SetVersaoDF (const sVersao: PAnsiChar):integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+   VerificarLibInicializada(pLib);
+   Result := TACBrLibNFSe(pLib^.Lib).SetVersaoDF(sVersao);
+  except
+   on E: EACBrLibException do
+   Result := E.Erro;
+
+   on E: Exception do
+   Result := ErrExecutandoMetodo;
   end;
 end;
 
