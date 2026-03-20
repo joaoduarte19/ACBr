@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 19/03/2026
+-- ACBrNFSeXServicos --
+[+] Incluída a cidade Estiva Gerbi/SP, o provedor é Pronim.
+    Por: RedIDSoftware
 -- ISSSaoPaulo.Provider --
 [-] Ajuste para que a URL de produção não seja utilizada quando versão 2.00 e ambiente configurado homologação.
    Por: Diego Folieni
