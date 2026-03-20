@@ -71,6 +71,7 @@ contains
   ACBrNFSeXDANFSeRL in '..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\DANFSE\Fortes\ACBrNFSeXDANFSeRL.pas',
   ACBrNFSeXDANFSeRLClass in '..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\DANFSE\Fortes\ACBrNFSeXDANFSeRLClass.pas',
   ACBrNFSeXDANFSeRLSimplISS in '..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\DANFSE\Fortes\ACBrNFSeXDANFSeRLSimplISS.pas',
+  ACBrNFSeXDANFSeRLPadraoNacional in '..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\DANFSE\Fortes\ACBrNFSeXDANFSeRLPadraoNacional.pas',
   ACBrNFSeXDANFSeRLRetrato in '..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\DANFSE\Fortes\ACBrNFSeXDANFSeRLRetrato.pas';
 
 end.

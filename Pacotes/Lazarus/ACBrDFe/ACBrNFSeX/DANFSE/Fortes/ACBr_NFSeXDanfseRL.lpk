@@ -13,7 +13,7 @@
         <UnitOutputDirectory Value="..\..\..\..\..\..\Lib\Lazarus\ACBrDFe\ACBrNFSeX\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
     </CompilerOptions>
-    <Files Count="6">
+    <Files Count="7">
       <Item1>
         <Filename Value="..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\DANFSE\Fortes\ACBrNFSeXDANFSeRLReg.pas"/>
         <HasRegisterProc Value="True"/>
@@ -39,6 +39,10 @@
         <Filename Value="..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\DANFSE\Fortes\ACBrNFSeXDANFSeRLSimplISS.pas"/>
         <UnitName Value="ACBrNFSeXDANFSeRLSimplISS"/>
       </Item6>
+      <Item7>
+        <Filename Value="..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\DANFSE\Fortes\ACBrNFSeXDANFSeRLPadraoNacional.pas"/>
+        <UnitName Value="ACBrNFSeXDANFSeRLPadraoNacional"/>
+      </Item7>
     </Files>
     <RequiredPkgs Count="4">
       <Item1>

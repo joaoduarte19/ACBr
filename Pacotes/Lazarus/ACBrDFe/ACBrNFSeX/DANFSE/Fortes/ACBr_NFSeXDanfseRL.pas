@@ -8,8 +8,10 @@ unit ACBr_NFSeXDanfseRL;
 interface
 
 uses
-  ACBrNFSeXDANFSeRLReg, ACBrNFSeXDANFSeRL, ACBrNFSeXDANFSeRLClass, ACBrNFSeXDANFSeRLISSNet, 
-  ACBrNFSeXDANFSeRLRetrato, ACBrNFSeXDANFSeRLSimplISS, LazarusPackageIntf;
+  ACBrNFSeXDANFSeRLReg, ACBrNFSeXDANFSeRL, ACBrNFSeXDANFSeRLClass, 
+  ACBrNFSeXDANFSeRLISSNet, ACBrNFSeXDANFSeRLRetrato, 
+  ACBrNFSeXDANFSeRLSimplISS, ACBrNFSeXDANFSeRLPadraoNacional, 
+  LazarusPackageIntf;
 
 implementation
 

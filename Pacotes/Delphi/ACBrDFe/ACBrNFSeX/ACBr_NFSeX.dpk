@@ -89,6 +89,8 @@ contains
   ACBrNFSeXLerXml in '..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Base\Provedores\ACBrNFSeXLerXml.pas',
   ACBrNFSeXLerXml_ABRASFv1 in '..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Base\Provedores\ACBrNFSeXLerXml_ABRASFv1.pas',
   ACBrNFSeXLerXml_ABRASFv2 in '..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Base\Provedores\ACBrNFSeXLerXml_ABRASFv2.pas',
+  ACBrNFSeX.GravarIni in '..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Base\Provedores\ACBrNFSeX.GravarIni.pas',
+  ACBrNFSeX.LerIni in '..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Base\Provedores\ACBrNFSeX.LerIni.pas',
   ACBrNFSeXWebservicesResponse in '..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Base\WebServices\ACBrNFSeXWebservicesResponse.pas',
   ACBrNFSeXWebserviceBase in '..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Base\WebServices\ACBrNFSeXWebserviceBase.pas',
   ACBrNFSeXDANFSeClass in '..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\DANFSE\ACBrNFSeXDANFSeClass.pas',
