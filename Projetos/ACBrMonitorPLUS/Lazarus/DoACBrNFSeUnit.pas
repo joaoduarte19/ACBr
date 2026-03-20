@@ -349,6 +349,13 @@ public
   procedure Executar; override;
 end;
 
+{ TMetodoSetVersaoDF }
+
+TMetodoSetVersaoDF = class(TACBrMetodo)
+public
+  procedure Executar; override;
+end;
+
 implementation
 
 uses
@@ -441,6 +448,29 @@ begin
 
     MonitorConfig.SalvarArquivo;
   end;
+end;
+
+{ TMetodoSetVersaoDF }
+
+procedure TMetodoSetVersaoDF.Executar;
+var
+  lVersaoDF: TVersaoNFSe;
+  Ok: Boolean;
+  lParam: String;
+begin
+  {Atenção, esse método é diferente dos SetVersaoDF implementados em outros objetos.
+   aqui a configuração não pode ser aplicada fisicamente (salva no ini) ela só é trabalhada em memória.
+   se precisar implementar método semelhante para outro DFe, utilize eSocial ou Reinf como base.
+  }
+  lParam := fpCmd.Params(0);
+  if lParam = '' then
+    lParam := '1.00';
+
+  lVersaoDF := StrToVersaoNFSe(Ok, lParam);
+  if not(OK) then
+    raise Exception.Create('Versão inválida: ' + lParam);
+
+  TACBrObjetoNFSe(fpObjetoDono).ACBrNFSeX.Configuracoes.Geral.Versao := lVersaoDF;
 end;
 
 { TMetodoSetEmitente }
@@ -1955,6 +1985,7 @@ begin
   ListaDeMetodos.Add(CMetodoConsultarLinkNFSe);
   ListaDeMetodos.Add(CMetodoSetPathArquivoWebServices);
   ListaDeMetodos.Add(CMetodoSetambiente);
+  ListaDeMetodos.Add(CMetodoSetversaodf);
 
   // DoACBrUnit
   ListaDeMetodos.Add(CMetodoSavetofile);
@@ -2033,6 +2064,7 @@ begin
     42  : AMetodoClass := TMetodoConsultarLinkNFSe;
     43  : AMetodoClass := TMetodoSetPathArquivoWebServices;
     44  : AMetodoClass := TMetodoSetAmbiente;
+    45  : AMetodoClass := TMetodoSetVersaoDF;
 
     else
     begin
