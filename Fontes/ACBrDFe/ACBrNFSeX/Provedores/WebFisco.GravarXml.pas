@@ -978,13 +978,13 @@ begin
   if not cSimples then
   begin
     NFSeNode.AppendChild(AddNode(tcDe2, '#', 'impfederal', 1, 4, 1,
-                                                          0, '', True, xAtrib));
+                   NFSe.Servico.Valores.totTrib.pTotTribFed, '', True, xAtrib));
 
     NFSeNode.AppendChild(AddNode(tcDe2, '#', 'impestadual', 1, 4, 1,
-                                                          0, '', True, xAtrib));
+                   NFSe.Servico.Valores.totTrib.pTotTribEst, '', True, xAtrib));
 
     NFSeNode.AppendChild(AddNode(tcDe2, '#', 'impmunicipal', 1, 4, 1,
-                                                          0, '', True, xAtrib));
+                   NFSe.Servico.Valores.totTrib.pTotTribMun, '', True, xAtrib));
   end
   else
   begin

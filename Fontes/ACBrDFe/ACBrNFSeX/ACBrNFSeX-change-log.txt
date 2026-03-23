@@ -43,10 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/03/2026
+-- WebFisco.GravarXml --
+[*] ACBR-9132 - Ajustes para gerar os tributos IBPT.
+   Por: mlgoncalves
 -- ACBrNFSeXServicos --
 [*] Atualização do provedor do município de Virginopolis(MG) para Padrão Nacional.
     Por: Matheus Klein
-
 23/03/2026
 -- PadraoNacional.LerXml --
 [*] ACBR-9172 - Ajustes para a leitura do Valor da Dedução quando a dedução informada em percentual.
