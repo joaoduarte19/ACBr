@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/03/2026
+-- ACBrNFCeDANFeFPDF --
+[-] ACBR-8578: Corrigida impressão do logo jpg da NFCe em FPDF - https://www.projetoacbr.com.br/forum/topic/91219-acbr-8578-acbrlibmdfeconsolemt-ajustes-na-impress%C3%A3o-do-damdfe
+   Por: Renato Rubinho
+
 19/03/2026
 -- Diversos --
 [*] ACBr-8018 - https://www.projetoacbr.com.br/forum/topic/85510-ajustes-no-evento-cancelamento-por-substitui%C3%A7%C3%A3o/

@@ -2441,12 +2441,9 @@ begin
             LLogoStringStream.Free;
           end;
         end;
-        if IsPNG(LStream, false) then
-        begin
-          SetLength(FLogo, LStream.Size);
-          LStream.Position := 0;
-          LStream.Read(FLogo[0], LStream.Size);
-        end;
+        SetLength(FLogo, LStream.Size);
+        LStream.Position := 0;
+        LStream.Read(FLogo[0], LStream.Size);
       finally
         LStream.Free;
       end;
