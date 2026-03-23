@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/03/2026
+-- Tinus.Provider --
+[*] ACBR-8884 - Melhorias no TratarRetornoConsultaNFSeporRps.
+   Por: Milton Campanhã
 -- ABase.Provider --
 [+] ACBR-9131 - Implementado o envio do evento de cancelamento.
    Por: Dalvan

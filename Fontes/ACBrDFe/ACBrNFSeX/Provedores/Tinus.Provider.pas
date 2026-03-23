@@ -654,7 +654,7 @@ var
   ANode, AuxNode, AuxNode2: TACBrXmlNode;
   AErro: TNFSeEventoCollectionItem;
   ANota: TNotaFiscal;
-  NumNFSe, NumRps: String;
+  NumNFSe, NumRps: string;
 begin
   // USA PADRAO NACIONAL
 
@@ -717,8 +717,9 @@ begin
         with Response do
         begin
           NumeroNota := NumNFSe;
-          CodigoVerificacao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('nDFSe'), tcStr);
+          CodigoVerificacao := OnlyNumber(ObterConteudoTag(AuxNode.Attributes.Items['Id']));
           Data := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('dhProc'), FpFormatoDataEmissao);
+          Status := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('cStat'), tcInt);
         end;
 
         ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByNFSe(NumNFSe);
