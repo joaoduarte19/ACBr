@@ -79,8 +79,7 @@ type
 
   public
     function ConsultarLote(const ACabecalho, AMSG: String): string; override;
-
-    // Cancelamento sendo implementado pelo provedor
+    function EnviarEvento(const ACabecalho, AMSG: string): string; override;
 
     function TratarXmlRetornado(const aXML: string): string; override;
   end;
@@ -113,7 +112,8 @@ type
     procedure PrepararConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
     procedure TratarRetornoConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
 
-    // Cancelamento sendo implementado pelo provedor
+    procedure PrepararEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
+    procedure TratarRetornoEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
   end;
 
 implementation
@@ -408,6 +408,9 @@ begin
     FormatoArqEnvioSoap := tfaXml;
     FormatoArqRetornoSoap := tfaXml;
 
+    ConfigGeral.ServicosDisponibilizados.EnviarEvento := True;
+    ConfigSchemas.EnviarEvento := 'pedRegEvento_v1.01.xsd';
+
     ServicosDisponibilizados.ConsultarLote := True;
 
     Autenticacao.RequerChaveAcesso := True;
@@ -579,16 +582,9 @@ begin
     Result := ChangeLineBreak(aXml, '');
 
     case aMetodo of
-      tmGerar:
-        begin
-          Path := '/recepcionardps';
-        end;
+      tmGerar: Path := '/recepcionardps';
 
-      tmEnviarEvento:
-        begin
-          Result := '{"pedidoRegistroEventoXmlGZipB64":"' + Result + '"}';
-          Path := '/nfse/' + Chave + '/eventos';
-        end;
+      tmEnviarEvento: Path := '/CancelarNfse';
     else
       begin
         Result := '';
@@ -746,11 +742,12 @@ begin
       Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('DataHoraRecebimento'), tcDatHor);
       Response.Situacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('StatusProcessamento'), tcStr);
       Response.idNota := ObterConteudoTag(ANode.Childrens.FindAnyNs('ChaveAcesso'), tcStr);
-      aXML := SepararDados(ANode.OuterXml, '<NFSe ', True);
+      aXML := SepararDados(ANode.OuterXml, 'NFSe', True);
 
       if aXml <> '' then
       begin
         try
+          DocumentXml := TACBrXmlDocument.Create;
           try
             DocumentXml.LoadFromXml(aXml);
 
@@ -800,18 +797,99 @@ begin
   end;
 end;
 
+procedure TACBrNFSeProviderABaseAPIPropria.PrepararEnviarEvento(
+  Response: TNFSeEnviarEventoResponse);
+begin
+  inherited;
+  // Utiliza a lógica padrão de montagem do XML pedRegEvento definida na classe base
+  inherited PrepararEnviarEvento(Response);
+
+  // Define o Path específico para o cancelamento conforme solicitado
+  Path := '/CancelarNfse';
+  Method := 'POST';
+end;
+
+procedure TACBrNFSeProviderABaseAPIPropria.TratarRetornoEnviarEvento(
+  Response: TNFSeEnviarEventoResponse);
+var
+  Document: TACBrXmlDocument;
+  ANode, NodeErro: TACBrXmlNode;
+  AErro: TNFSeEventoCollectionItem;
+  i: Integer;
+begin
+  // Verifica se o retorno é o XML específico de Cancelamento da ABase (Customizado)
+  if Pos('<CancelarNfseResponse>', Response.ArquivoRetorno) > 0 then
+  begin
+    Document := TACBrXmlDocument.Create;
+    try
+      try
+        Document.LoadFromXml(Response.ArquivoRetorno);
+        ANode := Document.Root;
+
+        // Tenta ler a Data de Recebimento
+        Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('DataHoraRecebimento'), tcDatHor);
+
+        // Processa lista de erros
+        ANode := ANode.Childrens.FindAnyNs('Erros');
+        if Assigned(ANode) then
+        begin
+          for i := 0 to ANode.Childrens.Count - 1 do
+          begin
+            NodeErro := ANode.Childrens[i];
+
+            if NodeErro.Name = 'Erro' then
+            begin
+              AErro := Response.Erros.New;
+
+              AErro.Codigo := ObterConteudoTag(NodeErro.Childrens.FindAnyNs('Codigo'), tcStr);
+              AErro.Descricao := ObterConteudoTag(NodeErro.Childrens.FindAnyNs('Descricao'), tcStr);
+              AErro.Correcao := ObterConteudoTag(NodeErro.Childrens.FindAnyNs('Correcao'), tcStr);
+            end;
+          end;
+        end;
+
+        // Define sucesso: Se não tiver erros na lista e o status não for PROCESSADO_COM_ERROS
+        Response.Sucesso := (Response.Erros.Count = 0);
+
+        // Se desejar preencher o protocolo ou ID, verifique se existem outras tags no XML,
+        // mas para erros, o código acima é suficiente.
+
+      except
+        on E: Exception do
+        begin
+          AErro := Response.Erros.New;
+          AErro.Codigo := Cod999;
+          AErro.Descricao := ACBrStr(Desc999 + E.Message);
+        end;
+      end;
+    finally
+      FreeAndNil(Document);
+    end;
+  end
+  else
+  begin
+    // Se não for o XML específico de cancelamento, chama o tratamento padrão
+    // (Útil caso eles retornem JSON ou o XML padrão nacional em outros cenários)
+    inherited TratarRetornoEnviarEvento(Response);
+  end;
+end;
+
 { TACBrNFSeXWebserviceABaseAPIPropria }
 
 function TACBrNFSeXWebserviceABaseAPIPropria.ConsultarLote(const ACabecalho,
   AMSG: String): string;
-var
-  Request: string;
 begin
   FPMsgOrig := AMSG;
 
-  Request := AMSG;
+  Result := Executar('', AMSG, [], []);
+end;
 
-  Result := Executar('', Request, [], []);
+function TACBrNFSeXWebserviceABaseAPIPropria.EnviarEvento(const ACabecalho,
+  AMSG: string): string;
+begin
+  FPMsgOrig := AMSG;
+
+  Result := Executar('', AMSG, [], []);
 end;
 
 procedure TACBrNFSeXWebserviceABaseAPIPropria.SetHeaders(

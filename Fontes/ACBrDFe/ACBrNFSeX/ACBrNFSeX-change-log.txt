@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/03/2026
+-- ABase.Provider --
+[+] ACBR-9131 - Implementado o envio do evento de cancelamento.
+   Por: Dalvan
 -- PadraoNacional.GravarXml --
 [*] ACBR-9125 - Imposta uma condição para gerar a tag pAliq mesmo com o valor zerado.
    Por: Italo Giurizzato Junior
