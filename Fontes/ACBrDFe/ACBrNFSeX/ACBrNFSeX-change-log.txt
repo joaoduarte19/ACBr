@@ -42,6 +42,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/03/2026
+-- Publica.GravarXml --
+[+] ACBR-9171 - Implementado a geração do ComercioExterior e EnderecoTomador (especifico para o provedor).
+   Por: HMAX AUTOMAÇÃO HOTELEIRA
+[-] ACBR-9166 - Correção, estava gerando de forma fiz o código do pais no grupo Construção Civil.
+   Por: WLE/Italo Giurizzato Junior
+
 20/03/2026
 -- ACBrNFSeXConversao/ACBrNFSeXProviderManager --
 -- Sudoeste.GravarXml/Sudoeste.LerXml/Sudoeste.Provider --

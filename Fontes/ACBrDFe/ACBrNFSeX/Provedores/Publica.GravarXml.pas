@@ -62,6 +62,8 @@ type
     function GerartribMun: TACBrXmlNode;
     function GerarServico: TACBrXmlNode; override;
     function GerarConstrucaoCivil: TACBrXmlNode; override;
+    function GerarEnderecoTomador : TACBrXmlNode; override;
+    function GerarComercioExterior: TACBrXmlNode;
 
     procedure GerarINISecaoParcelas(const AINIRec: TMemIniFile); override;
   end;
@@ -96,6 +98,46 @@ begin
 
   NrOcorrInformacoesComplemetares := 0;
   NrOcorrRegimeEspecialTributacao := -1;
+end;
+
+function TNFSeW_Publica.GerarComercioExterior: TACBrXmlNode;
+begin
+  Result := nil;
+
+  if NFSe.Servico.comExt.tpMoeda > 0 then
+  begin
+    Result := CreateElement('comExt');
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'mdPrestacao', 1, 1, 1,
+                        mdPrestacaoToStr(NFSe.Servico.comExt.mdPrestacao), ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'vincPrest', 1, 1, 1,
+                            vincPrestToStr(NFSe.Servico.comExt.vincPrest), ''));
+
+    Result.AppendChild(AddNode(tcInt, '#1', 'tpMoeda', 3, 3, 1,
+                        MoedaBACENToMoedaISO(NFSe.Servico.comExt.tpMoeda), ''));
+
+    Result.AppendChild(AddNode(tcDe2, '#1', 'vServMoeda', 1, 15, 1,
+                                           NFSe.Servico.comExt.vServMoeda, ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'mecAFComexP', 2, 2, 1,
+                        mecAFComexPToStr(NFSe.Servico.comExt.mecAFComexP), ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'mecAFComexT', 2, 2, 1,
+                        mecAFComexTToStr(NFSe.Servico.comExt.mecAFComexT), ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'movTempBens', 1, 1, 1,
+                        movTempBensToStr(NFSe.Servico.comExt.movTempBens), ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'nDI', 1, 12, 0,
+                                                  NFSe.Servico.comExt.nDI, ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'nRE', 1, 12, 0,
+                                                  NFSe.Servico.comExt.nRE, ''));
+
+    Result.AppendChild(AddNode(tcInt, '#1', 'mdic', 1, 1, 1,
+                                                 NFSe.Servico.comExt.mdic, ''));
+  end;
 end;
 
 function TNFSeW_Publica.GerarCondicaoPagamento: TACBrXmlNode;
@@ -309,6 +351,53 @@ begin
   end;
 end;
 
+function TNFSeW_Publica.GerarEnderecoTomador: TACBrXmlNode;
+var
+  nodeArray: TACBrXmlNodeArray;
+  i: Integer;
+begin
+  // Em conformidade com a versão 1 do layout da ABRASF não deve ser alterado
+  Result := nil;
+
+  if (NFSe.Tomador.Endereco.Endereco <> '') or (NFSe.Tomador.Endereco.Numero <> '') or
+     (NFSe.Tomador.Endereco.Bairro <> '') or (NFSe.Tomador.Endereco.CodigoMunicipio <> '') or
+     (NFSe.Tomador.Endereco.UF <> '') or (NFSe.Tomador.Endereco.CEP <> '') then
+  begin
+    Result := CreateElement('Endereco');
+
+    Result.AppendChild(AddNode(tcStr, '#39', 'Endereco', 1, 125, 0,
+                                     NFSe.Tomador.Endereco.Endereco, DSC_XLGR));
+
+    Result.AppendChild(AddNode(tcStr, '#40', 'Numero', 1, 10, 0,
+                                        NFSe.Tomador.Endereco.Numero, DSC_NRO));
+
+    Result.AppendChild(AddNode(tcStr, '#41', 'Complemento', 1, 60, NrOcorrComplTomador,
+                                  NFSe.Tomador.Endereco.Complemento, DSC_XCPL));
+
+    Result.AppendChild(AddNode(tcStr, '#42', 'Bairro', 1, 60, 0,
+                                    NFSe.Tomador.Endereco.Bairro, DSC_XBAIRRO));
+
+    Result.AppendChild(AddNode(tcStr, '#43', 'CodigoMunicipio', 7, 7, 0,
+                   OnlyNumber(NFSe.Tomador.Endereco.CodigoMunicipio), DSC_CMUN));
+
+
+    Result.AppendChild(AddNode(tcStr, '#44', 'Uf', 2, 2, 0,
+                                              NFSe.Tomador.Endereco.UF, DSC_UF));
+
+    Result.AppendChild(AddNode(tcStr, '#45', 'Cep', 8, 8, 0,
+                               OnlyNumber(NFSe.Tomador.Endereco.CEP), DSC_CEP));
+
+    if (OnlyNumber(NFSe.Tomador.Endereco.CodigoMunicipio) = '9999999') or
+     (NrOcorrCodigoPaisTomador = 1) then
+    Result.AppendChild(AddNode(tcInt, '#45', 'CodigoPais', 4, 4, NrOcorrCodigoPaisTomador,
+                                   NFSe.Tomador.Endereco.CodigoPais, DSC_CPAIS));
+
+    Result.AppendChild(AddNode(tcStr, '#46', 'Municipio', 1, 60, 0,
+                                NFSe.Tomador.Endereco.xMunicipio, DSC_XBAIRRO));
+
+  end;
+end;
+
 function TNFSeW_Publica.GerarValores: TACBrXmlNode;
 begin
   Result := inherited GerarValores;
@@ -404,8 +493,13 @@ begin
   Result.AppendChild(AddNode(tcInt, '#1', 'CodigoMunicipioLocalPrestacao', 7, 7, 0,
                                NFSe.Servico.CodigoMunicipioLocalPrestacao, ''));
 
+  Result.AppendChild(AddNode(tcInt, '#1', 'CodigoPaisLocalPrestacao', 4, 4, 0,
+                               NFSe.Prestador.Endereco.CodigoPais, DSC_CPAIS));
+
   Result.AppendChild(AddNode(tcStr, '#1', 'cNBS', 1, 10, 0,
                                                    NFSe.Servico.CodigoNBS, ''));
+
+  Result.AppendChild(GerarComercioExterior);
 end;
 
 function TNFSeW_Publica.GerarConstrucaoCivil: TACBrXmlNode;
@@ -473,14 +567,14 @@ begin
         NodeEnd.AppendChild(AddNode(tcStr, '#66', 'Uf', 2, 2, 1,
                                                       Endereco.UF, DSC_UFOBRA));
 
-        NodeEnd.AppendChild(AddNode(tcStr, '#67', 'CodigoPais', 8, 8, 1,
-                                                          '1055', DSC_CEPOBRA));
+        NodeEnd.AppendChild(AddNode(tcInt, '#67', 'CodigoPais', 4, 4, 0,
+                                               Endereco.CodigoPais, DSC_CPAIS));
       end;
     end;
 
     if Trim(Endereco.Endereco) <> '' then
       Result.AppendChild(AddNode(tcStr, '#53', 'Endereco', 1, 100, 1,
-                                                                 Endereco.Endereco, DSC_ART));
+                                                   Endereco.Endereco, DSC_ART));
                                                                  
     If Trim(inscImobFisc) <> '' then
       Result.AppendChild(AddNode(tcStr, '#54', 'Cib', 1, 60, 1,
