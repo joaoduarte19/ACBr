@@ -1590,6 +1590,8 @@ begin
 end;
 
 function TNFSeW_PadraoNacional.GerarXMLTributacaoMunicipal: TACBrXmlNode;
+var
+  NrOcorr: Integer;
 begin
   Result := CreateElement('tribMun');
 
@@ -1610,7 +1612,13 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'tpRetISSQN', 2, 2, 1,
                  tpRetISSQNToStr(NFSe.Servico.Valores.tribMun.tpRetISSQN), ''));
 
-  Result.AppendChild(AddNode(tcDe2, '#1', 'pAliq', 1, 3, 0,
+  NrOcorr := 0;
+
+  if (NFSe.Servico.Valores.tribMun.tpRetISSQN = trNaoRetido) and
+     (NFSe.OptanteSN <> osnNaoOptante) then
+    NrOcorr := 1;
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pAliq', 1, 3, NrOcorr,
                                        NFSe.Servico.Valores.tribMun.pAliq, ''));
 end;
 

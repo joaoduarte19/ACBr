@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/03/2026
+-- PadraoNacional.GravarXml --
+[*] ACBR-9125 - Imposta uma condição para gerar a tag pAliq mesmo com o valor zerado.
+   Por: Italo Giurizzato Junior
 -- Publica.GravarXml --
 [+] ACBR-9171 - Implementado a geração do ComercioExterior e EnderecoTomador (especifico para o provedor).
    Por: HMAX AUTOMAÇÃO HOTELEIRA
