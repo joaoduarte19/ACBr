@@ -108,6 +108,7 @@ begin
     case fpLayoutVersaoArquivo of
       3 : Result := 86;
       4 : Result := 84;
+      6 : Result := 63;
     end;
   end else
     Result := 63;
@@ -707,6 +708,7 @@ var
   ContLinha: Integer;
   Linha, rCedente, rCNPJCPF: String;
   rCodEmpresa: String;
+  LTamanhoMaximoNossoNumero : integer;
 begin
   // Foi necessário utilizar o número e nome do Banco Daycoval
   fpNumero := 707;
@@ -790,7 +792,13 @@ begin
       ValorDesconto        := StrToFloatDef(Copy(Linha, 241, 13), 0) / 100;
       ValorMoraJuros       := StrToFloatDef(Copy(Linha, 267, 13), 0) / 100;
       ValorRecebido        := StrToFloatDef(Copy(Linha, 254, 13), 0) / 100;
+
+      LTamanhoMaximoNossoNumero := fpTamanhoMaximoNossoNum;
+      if (fpLayoutVersaoArquivo = 6) and (ACBrBanco.ACBrBoleto.LerNossoNumeroCompleto) then
+        fpTamanhoMaximoNossoNum := 11;
       NossoNumero          := DefineNossoNumeroRetorno(Linha);
+      fpTamanhoMaximoNossoNum := LTamanhoMaximoNossoNumero;
+
       Carteira             := Copy(Linha, 83, 3);
       ValorDespesaCobranca := StrToFloatDef(Copy(Linha, 176, 13), 0) / 100;
       NossoNumeroCorrespondente := Copy(Linha, 95, 13);

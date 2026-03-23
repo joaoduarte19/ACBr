@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+23/03/2026
+-- ACBrBancoDaycoval --
+[-] ACBr-8883 - Ajustado LerNossoNumeroCompleto qdo fpLayoutVersaoArquivo = 6  
+	https://www.projetoacbr.com.br/forum/topic/89820-leitura-do-nosso-n%C3%BAmero-no-retorno-cortando-banco-daycoval/
+   Por: Daniel Morais InfoCotidiano
+
 16/03/2026
 -- ACBrBancoBradesco --
 [-] ACBr-9140 - Ajustado CNAB 400 do Bradesco, para gerar ValorMoraJuros qdo for maior que zero. ja que no 400, não envia Codigo Mora segundo manual.
