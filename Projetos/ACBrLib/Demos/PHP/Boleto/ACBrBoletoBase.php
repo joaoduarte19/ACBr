@@ -584,16 +584,21 @@
                 </div>
             </div>
             <div id="webservices" class="panelAba panelConfiguracoes-container">
-                <div class="grid2Col">
-                    <label>Ambiente</label>
-                    <div>
-                        <input type="radio" id="producao" name="ambiente" value="0" checked>
-                        <label for="producao">Produção</label>
-                        <input type="radio" id="homologacao" name="ambiente" value="1">
-                        <label for="homologacao">Homologação</label>
+                <div class="grid4Col">
+                    <div class="form-group">
+                        <label for="ambiente">Ambiente</label>
+                        <select id="ambiente" name="ambiente">
+                            <option value="0" selected>Produção</option>
+                            <option value="1">Homologação</option>
+                            <option value="2">Sandbox</option>
+                        </select>
                     </div>
+                    <div class="form-group">
+                        <label for="VersaoDF">Versão</label>
+                        <input type="text" id="VersaoDF">
+                    </div>
+
                 </div>
-                <br>
                 <div class="grid4Col">
                     <div class="form-group">
                         <label for="SSLType">SSL Type</label>
@@ -632,15 +637,9 @@
                             <option value="9">Ticket</option>
                         </select>
                     </div>
-                    <div class="grid2Col">
-                        <div class="form-group">
-                            <label for="VersaoDF">Versão</label>
-                            <input type="text" id="VersaoDF">
-                        </div>
-                        <div class="form-group">
-                            <label for="Timeout">Timeout</label>
-                            <input type="number" id="Timeout" value="30000">
-                        </div>
+                    <div class="form-group">
+                        <label for="Timeout">Timeout</label>
+                        <input type="number" id="Timeout" value="30000">
                     </div>
                 </div>
                 <div class="form-group">
@@ -848,7 +847,7 @@
                 emailUsuario: $('#emailUsuario').val(),
                 emailSenha: $('#emailSenha').val(),
 
-                ambiente: parseInt($('input[name="ambiente"]:checked').val(), 10),
+                ambiente: $('#ambiente').val(),
                 WSOperacao: $('#WSOperacao').val(),
                 SSLType: $('#SSLType').val(),
                 VersaoDF: $('#VersaoDF').val(),
@@ -1160,7 +1159,7 @@
                 $('#emailUsuario').val(response.dados.emailUsuario);
                 $('#emailSenha').val(response.dados.emailSenha);
 
-                $('input[name="ambiente"][value="' + response.dados.ambiente + '"]').prop('checked', true);
+                $('#ambiente').val(response.dados.ambiente);
                 $('#WSOperacao').val(response.dados.WSOperacao);
                 $('#SSLType').val(response.dados.SSLType);
                 $('#VersaoDF').val(response.dados.VersaoDF);
