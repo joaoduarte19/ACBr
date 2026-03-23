@@ -151,7 +151,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       object rllChaveAcesso: TRLLabel
         Left = 4
         Top = 23
-        Width = 320
+        Width = 380
         Height = 17
         AutoSize = False
         Font.Charset = DEFAULT_CHARSET

@@ -137,7 +137,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Left = 4
         Height = 17
         Top = 23
-        Width = 320
+        Width = 380
         AutoSize = False
         Font.Color = clBlack
         Font.Height = -13
