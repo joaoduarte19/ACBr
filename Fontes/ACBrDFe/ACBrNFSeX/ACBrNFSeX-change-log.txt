@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/03/2026
+-- ACBrNFSeXServicos --
+[*] Incluída o campo versão para a cidade Lagarto/SE.
+   Por: Italo Giurizzato Junior
 -- EloTech.GravarXml --
 [*] ACBR-8972 - Alteração para não gerar a tag referente ao código do pais no grupo de serviços.
    Por: WesleySantos
