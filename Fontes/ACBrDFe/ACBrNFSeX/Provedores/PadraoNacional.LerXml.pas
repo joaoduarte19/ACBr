@@ -273,6 +273,9 @@ begin
       AliquotaDeducoes := ObterConteudo(AuxNode.Childrens.FindAnyNs('pDR'), tcDe2);
       ValorDeducoes := ObterConteudo(AuxNode.Childrens.FindAnyNs('vDR'), tcDe2);
 
+      if (ValorDeducoes = 0) and (NFSe.infNFSe.valores.vCalcDR > 0) then
+        ValorDeducoes := NFSe.infNFSe.valores.vCalcDR;
+
       LerXMLDocDeducoes(AuxNode);
     end;
   end;

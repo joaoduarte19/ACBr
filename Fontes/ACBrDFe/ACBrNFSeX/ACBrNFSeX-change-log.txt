@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/03/2026
+-- PadraoNacional.LerXml --
+[*] ACBR-9172 - Ajustes para a leitura do Valor da Dedução quando a dedução informada em percentual.
+   Por: armando.boza
 -- ACBrNFSeXServicos --
 [*] Incluída o campo versão para a cidade Lagarto/SE.
    Por: Italo Giurizzato Junior
