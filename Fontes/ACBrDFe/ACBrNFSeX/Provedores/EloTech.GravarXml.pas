@@ -90,6 +90,7 @@ begin
   NrOcorrCodigoCNAE := -1;
   NrOcorrCodTribMun_1 := -1;
   NrOcorrCodigoMunic_1 := -1;
+  NrOcorrCodigoPaisServico := -1;
 
   FormatoItemListaServico := filsNaoSeAplica;
   NrOcorrRespRetencao := -1;

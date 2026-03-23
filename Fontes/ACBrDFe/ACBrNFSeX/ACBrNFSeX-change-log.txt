@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/03/2026
+-- EloTech.GravarXml --
+[*] ACBR-8972 - Alteração para não gerar a tag referente ao código do pais no grupo de serviços.
+   Por: WesleySantos
 -- Tinus.Provider --
 [*] ACBR-8884 - Melhorias no TratarRetornoConsultaNFSeporRps.
    Por: Milton Campanhã
