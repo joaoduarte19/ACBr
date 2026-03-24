@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+24/03/2026
+-- ACBrNFSeXServicos --
+[-] ACBR-9185 - Corrige a URL de homologação para o provedor Pronim.
+   Por: Diego Folieni
+
 23/03/2026
 -- WebFisco.GravarXml --
 [*] ACBR-9132 - Ajustes para gerar os tributos IBPT.
