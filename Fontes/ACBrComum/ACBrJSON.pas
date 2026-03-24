@@ -252,7 +252,7 @@ begin
   {$Else}{$IfDef FPC}
     FJSON.Int64s[AName] := AValue;
   {$Else}
-    FJson[AName].AsNumber := AValue;
+    FJson[AName].AsInt64 := AValue;
   {$EndIf}{$EndIf}
 end;
 
@@ -1123,7 +1123,7 @@ begin
   {$Else}{$IfDef FPC}
   Result := AJSonValue.AsInt64;
   {$Else}
-  Result := Trunc(AJSonValue.AsNumber);
+  Result := AJSonValue.AsInt64;
   {$EndIf}{$EndIf}
 end;
 
