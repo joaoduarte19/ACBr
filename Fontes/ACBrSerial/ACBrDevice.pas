@@ -945,7 +945,7 @@ begin
 
   if APorta = '*' then
     Result := dtRawPrinter   // usará a impressora default
-  else if (copy(UPorta, 1, 4) = 'NULL') then
+  else if (APorta = '') or (copy(UPorta, 1, 4) = 'NULL') then
     Result := dtNenhum
   else if (copy(UPorta, 1, 4) = 'TCP:') then
     Result := dtTCP
