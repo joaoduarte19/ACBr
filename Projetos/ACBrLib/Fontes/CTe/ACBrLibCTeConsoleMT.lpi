@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
     <Version Value="12"/>
@@ -17,11 +17,11 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <AutoIncrementBuild Value="True"/>
+      <AutoIncrementBuild Value="False"/>
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="3"/>
       <RevisionNr Value="6"/>
-      <BuildNr Value="356"/>
+      <BuildNr Value="359"/>
       <Language Value="0416"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable CompanyName="Projeto ACBr" FileDescription="ACBrCTe - Biblioteca para emissão e impressão de Conhecimento de Transporte Eletrônico" InternalName="ACBrLibCTe" LegalCopyright="Projeto ACBr" LegalTrademarks="Projeto ACBr" ProductName="ACBrCTe " ProductVersion="0.3.3.20"/>
@@ -145,14 +145,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dANDROID
--dNOGUI
--dNOREPORT
--dMT
--Xd
--CfVFPv3
--CpARMV7A
--XParm-linux-androideabi-"/>
+            <CustomOptions Value="-dANDROID  -dNOGUI  -dNOREPORT  -dMT  -Xd  -CfVFPv3  -CpARMV7A  -XParm-linux-androideabi-"/>
           </Other>
         </CompilerOptions>
       </Item4>
@@ -191,16 +184,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dANDROID
--dNOGUI
--dNOREPORT
--dMT
--Xd
--XPaarch64-linux-android-
--k-z
--kcommon-page-size=16384
--k-z
--kmax-page-size=16384"/>
+            <CustomOptions Value="-dANDROID  -dNOGUI  -dNOREPORT  -dMT  -Xd  -XPaarch64-linux-android-  -k-z  -kcommon-page-size=16384  -k-z  -kmax-page-size=16384"/>
           </Other>
         </CompilerOptions>
       </Item5>
