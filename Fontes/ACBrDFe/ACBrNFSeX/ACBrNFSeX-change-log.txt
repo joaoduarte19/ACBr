@@ -44,6 +44,9 @@ Símbolo : Significado
 
 24/03/2026
 -- ACBrNFSeXServicos --
+[*] ACBR-9137 - Ajustes nas URLs das cidades atendidas pelo provedor Tinus, a maioria
+    migrou para a versão 2.03
+   Por: Italo Giurizzato Junior
 [-] ACBR-9185 - Corrige a URL de homologação para o provedor Pronim.
    Por: Diego Folieni
 
