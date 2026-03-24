@@ -16,11 +16,11 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <AutoIncrementBuild Value="True"/>
+      <AutoIncrementBuild Value="False"/>
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="1"/>
       <RevisionNr Value="2"/>
-      <BuildNr Value="273"/>
+      <BuildNr Value="281"/>
       <Language Value="0416"/>
       <StringTable CompanyName="Projeto ACBr" FileDescription="ACBrNCMs - Biblioteca para consulta de NCMs" InternalName="ACBrLibNCMs" LegalCopyright="Projeto ACBr" LegalTrademarks="Projeto ACBr" ProductVersion="0.0.0.0"/>
     </VersionInfo>
@@ -143,13 +143,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dANDROID
--dNOGUI
--dMT
--Xd
--CfVFPv3
--CpARMV7A
--XParm-linux-androideabi-"/>
+            <CustomOptions Value="-dANDROID  -dNOGUI  -dMT  -Xd  -CfVFPv3  -CpARMV7A  -XParm-linux-androideabi-"/>
           </Other>
         </CompilerOptions>
       </Item4>
@@ -188,15 +182,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dANDROID
--dNOGUI
--dMT
--Xd
--XPaarch64-linux-android-
--k-z
--kcommon-page-size=16384
--k-z
--kmax-page-size=16384"/>
+            <CustomOptions Value="-dANDROID  -dNOGUI  -dMT  -Xd  -XPaarch64-linux-android-  -k-z  -kcommon-page-size=16384  -k-z  -kmax-page-size=16384"/>
           </Other>
         </CompilerOptions>
       </Item5>
