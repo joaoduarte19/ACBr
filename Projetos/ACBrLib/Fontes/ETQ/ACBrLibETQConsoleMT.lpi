@@ -16,7 +16,7 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <AutoIncrementBuild Value="True"/>
+      <AutoIncrementBuild Value="False"/>
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="1"/>
       <RevisionNr Value="2"/>
@@ -144,14 +144,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dANDROID
--dNOGUI
--dNOREPORT
--dMT
--Xd
--CfVFPv3
--CpARMV7A
--XParm-linux-androideabi-"/>
+            <CustomOptions Value="-dANDROID  -dNOGUI  -dNOREPORT  -dMT  -Xd  -CfVFPv3  -CpARMV7A  -XParm-linux-androideabi-"/>
           </Other>
         </CompilerOptions>
       </Item4>
@@ -190,16 +183,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dANDROID
--dNOGUI
--dNOREPORT
--dMT
--Xd
--XPaarch64-linux-android-
--k-z
--kcommon-page-size=16384
--k-z
--kmax-page-size=16384"/>
+            <CustomOptions Value="-dANDROID  -dNOGUI  -dNOREPORT  -dMT  -Xd  -XPaarch64-linux-android-  -k-z  -kcommon-page-size=16384  -k-z  -kmax-page-size=16384"/>
           </Other>
         </CompilerOptions>
       </Item5>
