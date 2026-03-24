@@ -157,10 +157,10 @@ begin
   WriteStrToStream(BB.HTTPSend.Document, Body);
   BB.HTTPSend.MimeType := CContentTypeApplicationJSon;
   BB.HTTPSend.Headers.Insert(0, ChttpHeaderAuthorization + cHTTPAuthorizationBearer +' '+ Token);
-
   BB.URLQueryParams.Values['gw-dev-app-key'] := BB.developerApplicationKey;
   BB.URLPathParams.Add(cPagamentoBBPathLotesBoletos);
   RegistrarLog('  Req.Body: ' + sLineBreak + Body, 3);
+
   try
     BB.HTTPMethod(cHTTPMethodPOST, BB.CalcularURL);
   except
@@ -169,12 +169,17 @@ begin
       raise e;
   end;
 
+  RegistrarLog('  Response: ' + sLineBreak + BB.HTTPResponse, 3);
   Result := (BB.HTTPResultCode = HTTP_CREATED);
   case BB.HTTPResultCode of
     HTTP_CREATED: LoteBoletosCriado.AsJSON := BB.HTTPResponse;
     HTTP_UNAUTHORIZED: RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
   else
-    RespostaErros.AsJSON := BB.HTTPResponse;
+    begin
+      RespostaErros.AsJSON := BB.HTTPResponse;
+      if (RespostaErros.Count = 0) and (BB.HTTPResultCode >= 400) then
+        RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
+    end;
   end;
 end;
 
@@ -191,18 +196,23 @@ begin
 
   try
     BB.HTTPMethod(cHTTPMethodGET, BB.CalcularURL);
-  except 
+  except
     on e: Exception do
     if not (e is EACBrHTTPError) then
       raise e;
   end;
 
+  RegistrarLog('  Response: ' + sLineBreak + BB.HTTPResponse, 3);
   Result := (BB.HTTPResultCode = HTTP_OK);
   case BB.HTTPResultCode of
     HTTP_OK: PagamentoBoletoConsultado.AsJSON := BB.HTTPResponse;
     HTTP_UNAUTHORIZED: RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
   else
-    RespostaErros.AsJSON := BB.HTTPResponse;
+    begin
+      RespostaErros.AsJSON := BB.HTTPResponse;
+      if (RespostaErros.Count = 0) and (BB.HTTPResultCode >= 400) then
+        RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
+    end;
   end;
 end;
 
@@ -233,12 +243,17 @@ begin
       raise e;
   end;
 
+  RegistrarLog('  Response: ' + sLineBreak + BB.HTTPResponse, 3);
   Result := (BB.HTTPResultCode = HTTP_CREATED);
   case BB.HTTPResultCode of
     HTTP_CREATED: LoteGuiasCodigoBarrasCriado.AsJSON := BB.HTTPResponse;
     HTTP_UNAUTHORIZED: RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
   else
-    RespostaErros.AsJSON := BB.HTTPResponse;
+    begin
+      RespostaErros.AsJSON := BB.HTTPResponse;
+      if (RespostaErros.Count = 0) and (BB.HTTPResultCode >= 400) then
+        RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
+    end;
   end;
 end;
 
@@ -261,12 +276,17 @@ begin
       raise e;
   end;
                                                        
+  RegistrarLog('  Response: ' + sLineBreak + BB.HTTPResponse, 3);
   Result := (BB.HTTPResultCode = HTTP_OK);
   case BB.HTTPResultCode of
     HTTP_OK: LoteGuiasCodigoBarrasConsultado.AsJSON := BB.HTTPResponse;
     HTTP_UNAUTHORIZED: RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
   else
-    RespostaErros.AsJSON := BB.HTTPResponse;
+    begin
+      RespostaErros.AsJSON := BB.HTTPResponse;
+      if (RespostaErros.Count = 0) and (BB.HTTPResultCode >= 400) then
+        RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
+    end;
   end;
 end;
 
@@ -288,12 +308,17 @@ begin
       raise e;
   end;
 
+  RegistrarLog('  Response: ' + sLineBreak + BB.HTTPResponse, 3);
   Result := (BB.HTTPResultCode = HTTP_OK);
   case BB.HTTPResultCode of
     HTTP_OK: PagamentoGuiaCodigoBarrasConsultado.AsJSON := BB.HTTPResponse;
     HTTP_UNAUTHORIZED: RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
   else
-    RespostaErros.AsJSON := BB.HTTPResponse;
+    begin
+      RespostaErros.AsJSON := BB.HTTPResponse;
+      if (RespostaErros.Count = 0) and (BB.HTTPResultCode >= 400) then
+        RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
+    end;
   end;
 end;
 
@@ -324,12 +349,17 @@ begin
       raise e;
   end;
 
+  RegistrarLog('  Response: ' + sLineBreak + BB.HTTPResponse, 3);
   Result := (BB.HTTPResultCode = HTTP_CREATED);
   case BB.HTTPResultCode of
     HTTP_CREATED: LoteGRUCriado.AsJSON := BB.HTTPResponse;
     HTTP_UNAUTHORIZED: RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
   else
-    RespostaErros.AsJSON := BB.HTTPResponse;
+    begin
+      RespostaErros.AsJSON := BB.HTTPResponse;
+      if (RespostaErros.Count = 0) and (BB.HTTPResultCode >= 400) then
+        RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
+    end;
   end;
 end;
 
@@ -353,12 +383,17 @@ begin
       raise e;
   end;
 
+  RegistrarLog('  Response: ' + sLineBreak + BB.HTTPResponse, 3);
   Result := (BB.HTTPResultCode = HTTP_OK);
   case BB.HTTPResultCode of
     HTTP_OK: LoteGRUConsultado.AsJSON := BB.HTTPResponse;
     HTTP_UNAUTHORIZED: RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
   else
-    RespostaErros.AsJSON := BB.HTTPResponse;
+    begin
+      RespostaErros.AsJSON := BB.HTTPResponse;
+      if (RespostaErros.Count = 0) and (BB.HTTPResultCode >= 400) then
+        RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
+    end;
   end;
 end;
 
@@ -380,12 +415,17 @@ begin
       raise e;
   end;
 
+  RegistrarLog('  Response: ' + sLineBreak + BB.HTTPResponse, 3);
   Result := (BB.HTTPResultCode = HTTP_OK);
   case BB.HTTPResultCode of
     HTTP_OK: PagamentoGRUConsultado.AsJSON := BB.HTTPResponse;
     HTTP_UNAUTHORIZED: RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
   else
-    RespostaErros.AsJSON := BB.HTTPResponse;
+    begin
+      RespostaErros.AsJSON := BB.HTTPResponse;
+      if (RespostaErros.Count = 0) and (BB.HTTPResultCode >= 400) then
+        RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
+    end;
   end;
 end;
 
@@ -416,12 +456,17 @@ begin
       raise e;
   end;
 
+  RegistrarLog('  Response: ' + sLineBreak + BB.HTTPResponse, 3);
   Result := (BB.HTTPResultCode = HTTP_CREATED);
   case BB.HTTPResultCode of
     HTTP_CREATED: LoteDARFCriado.AsJSON := BB.HTTPResponse;
     HTTP_UNAUTHORIZED: RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
   else
-    RespostaErros.AsJSON := BB.HTTPResponse;
+    begin
+      RespostaErros.AsJSON := BB.HTTPResponse;
+      if (RespostaErros.Count = 0) and (BB.HTTPResultCode >= 400) then
+        RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
+    end;
   end;
 end;
 
@@ -445,12 +490,17 @@ begin
       raise e;
   end;
 
+  RegistrarLog('  Response: ' + sLineBreak + BB.HTTPResponse, 3);
   Result := (BB.HTTPResultCode = HTTP_OK);
   case BB.HTTPResultCode of
     HTTP_OK: LoteDARFConsultado.AsJSON := BB.HTTPResponse;
     HTTP_UNAUTHORIZED: RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
   else
-    RespostaErros.AsJSON := BB.HTTPResponse;
+    begin
+      RespostaErros.AsJSON := BB.HTTPResponse;
+      if (RespostaErros.Count = 0) and (BB.HTTPResultCode >= 400) then
+        RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
+    end;
   end;
 end;
 
@@ -472,12 +522,17 @@ begin
       raise e;
   end;
 
+  RegistrarLog('  Response: ' + sLineBreak + BB.HTTPResponse, 3);
   Result := (BB.HTTPResultCode = HTTP_OK);
   case BB.HTTPResultCode of
     //HTTP_OK: PagamentoDARFConsultado.AsJSON := BB.HTTPResponse;
     HTTP_UNAUTHORIZED: RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
   else
-    RespostaErros.AsJSON := BB.HTTPResponse;
+    begin
+      RespostaErros.AsJSON := BB.HTTPResponse;
+      if (RespostaErros.Count = 0) and (BB.HTTPResultCode >= 400) then
+        RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
+    end;
   end;
 end;
 
@@ -508,12 +563,17 @@ begin
       raise e;
   end;
 
+  RegistrarLog('  Response: ' + sLineBreak + BB.HTTPResponse, 3);
   Result := (BB.HTTPResultCode = HTTP_CREATED);
   case BB.HTTPResultCode of
     HTTP_CREATED: LoteGPSCriado.AsJSON := BB.HTTPResponse;
     HTTP_UNAUTHORIZED: RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
   else
-    RespostaErros.AsJSON := BB.HTTPResponse;
+    begin
+      RespostaErros.AsJSON := BB.HTTPResponse;
+      if (RespostaErros.Count = 0) and (BB.HTTPResultCode >= 400) then
+        RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
+    end;
   end;
 end;
 
@@ -536,12 +596,17 @@ begin
       raise e;
   end;
 
+  RegistrarLog('  Response: ' + sLineBreak + BB.HTTPResponse, 3);
   Result := (BB.HTTPResultCode = HTTP_OK);
   case BB.HTTPResultCode of
     HTTP_OK: LoteGPSConsultado.AsJSON := BB.HTTPResponse;
     HTTP_UNAUTHORIZED: RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
   else
-    RespostaErros.AsJSON := BB.HTTPResponse;
+    begin
+      RespostaErros.AsJSON := BB.HTTPResponse;
+      if (RespostaErros.Count = 0) and (BB.HTTPResultCode >= 400) then
+        RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
+    end;
   end;
 end;
 
@@ -563,12 +628,17 @@ begin
       raise e;
   end;
 
+  RegistrarLog('  Response: ' + sLineBreak + BB.HTTPResponse, 3);
   Result := (BB.HTTPResultCode = HTTP_OK);
   case BB.HTTPResultCode of
     HTTP_OK: PagamentoGPSConsultado.AsJSON := BB.HTTPResponse;
     HTTP_UNAUTHORIZED: RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
   else
-    RespostaErros.AsJSON := BB.HTTPResponse;
+    begin
+      RespostaErros.AsJSON := BB.HTTPResponse;
+      if (RespostaErros.Count = 0) and (BB.HTTPResultCode >= 400) then
+        RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
+    end;
   end;
 end;
 
@@ -592,12 +662,17 @@ begin
       raise e;
   end;
 
+  RegistrarLog('  Response: ' + sLineBreak + BB.HTTPResponse, 3);
   Result := (BB.HTTPResultCode = HTTP_OK);
   case BB.HTTPResultCode of
     HTTP_OK: LoteBoletosConsultado.AsJSON := BB.HTTPResponse;
     HTTP_UNAUTHORIZED: RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
   else
-    RespostaErros.AsJSON := BB.HTTPResponse;
+    begin
+      RespostaErros.AsJSON := BB.HTTPResponse;
+      if (RespostaErros.Count = 0) and (BB.HTTPResultCode >= 400) then
+        RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
+    end;
   end;
 end;
 
