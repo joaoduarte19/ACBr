@@ -16,7 +16,7 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <AutoIncrementBuild Value="True"/>
+      <AutoIncrementBuild Value="False"/>
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
