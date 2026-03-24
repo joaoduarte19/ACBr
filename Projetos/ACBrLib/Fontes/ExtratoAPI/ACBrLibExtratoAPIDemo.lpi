@@ -17,10 +17,13 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <AutoIncrementBuild Value="True"/>
+      <AutoIncrementBuild Value="False"/>
       <BuildNr Value="22"/>
       <Language Value="0416"/>
       <StringTable CompanyName="Projeto ACBr" FileDescription="ACBrExtratoAPI - Biblioteca para consulta de Extratos via API" InternalName="ACBrLibExtratoAPI" LegalCopyright="Projeto ACBr" LegalTrademarks="Projeto ACBr" ProductVersion="1.0.0.0"/>
+      <MajorVersionNr Value="0"/>
+      <MinorVersionNr Value="0"/>
+      <RevisionNr Value="0"/>
     </VersionInfo>
     <BuildModes Count="13">
       <Item1 Name="Win32-i386-CDECL" Default="True"/>
