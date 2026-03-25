@@ -270,7 +270,16 @@ begin
   with TACBrDCe(TDeclaracoes(Collection).ACBrDCe) do
   begin
     if not Assigned(SSL.AntesDeAssinar) then
-      SSL.ValidarCNPJCertificado(DCe.Emit.CNPJCPF);
+    begin
+      case DCe.Ide.tpEmit of
+        teFisco: SSL.ValidarCNPJCertificado(DCe.Fisco.CNPJ);
+        teMarketplace: SSL.ValidarCNPJCertificado(DCe.Marketplace.CNPJ);
+        teTransportadora: SSL.ValidarCNPJCertificado(DCe.Transportadora.CNPJ);
+        teECT: SSL.ValidarCNPJCertificado(DCe.ECT.CNPJ);
+      else // teEmissorProprio:
+        SSL.ValidarCNPJCertificado(DCe.Emit.CNPJCPF);
+      end;
+    end;
   end;
 
   // Gera novamente, para processar propriedades que podem ter sido modificadas
