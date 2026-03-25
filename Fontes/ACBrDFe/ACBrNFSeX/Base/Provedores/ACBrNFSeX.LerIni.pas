@@ -1481,6 +1481,7 @@ begin
     NFSe.Servico.Valores.tribFed.vBCPCP := StringToFloatDef(AINIRec.ReadString(sSecao, 'vBCPCP', ''), 0);
 
     NFSe.Servico.Valores.CSTPis := StrToCSTPIS(Ok, AINIRec.ReadString(sSecao, 'CST', ''));
+    NFSe.Servico.Valores.tpRetPisCofins := StrTotpRetPisCofins(Ok, AINIRec.ReadString(sSecao, 'tpRetPisCofins', ''));
     NFSe.Servico.Valores.BaseCalculo := NFSe.Servico.Valores.tribFed.vBCPisCofins;
     NFSe.Servico.Valores.AliquotaPis := NFSe.Servico.Valores.tribFed.pAliqPis;
     NFSe.Servico.Valores.AliquotaCofins := NFSe.Servico.Valores.tribFed.pAliqCofins;

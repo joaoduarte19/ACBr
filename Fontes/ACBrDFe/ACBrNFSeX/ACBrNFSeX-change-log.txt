@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/03/2026
+-- ACBrNFSeXLerXml/ACBrNFSeX.LerIni --
+[-] ACBR-9059 - Adiciona leitura de tpRetPisCofins, CSTPis, pTotTribFed, pTotTribEst e pTotTribMun para alimentar propriedades usadas pelo provedor Primax.
+   Por: Diego Folieni
 -- ACBrNFSeXServicos --
 [*] ACBR-9158 - Ajustes nas URLs da cidade Matupá/MT o provedor continua o mesmo.
    Por: Italo Giurizzato Junior

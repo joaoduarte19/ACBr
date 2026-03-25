@@ -1335,6 +1335,9 @@ begin
       Servico.Valores.ValorIPI := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorIPI', ''), 0);
       Servico.Valores.ValorInicialCobrado := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorInicialCobrado', ''), 0);
       Servico.Valores.ValorFinalCobrado := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorFinalCobrado', ''), 0);
+
+      Servico.Valores.CSTPis := StrToCSTPis(Ok, AINIRec.ReadString(sSecao, 'CSTPis', ''));
+      Servico.Valores.tpRetPisCofins := StrTotpRetPisCofins(Ok, AINIRec.ReadString(sSecao, 'tpRetPisCofins', ''));
     end;
 
     sSecao := 'ValoresNFSe';
@@ -1440,6 +1443,17 @@ begin
       NFSe.Servico.Valores.BaseCalculo := NFSe.Servico.Valores.tribFed.vBCPisCofins;
       NFSe.Servico.Valores.AliquotaPis := NFSe.Servico.Valores.tribFed.pAliqPis;
       NFSe.Servico.Valores.AliquotaCofins := NFSe.Servico.Valores.tribFed.pAliqCofins;
+    end;
+
+    sSecao := 'totTrib';
+    if AINIRec.SectionExists(sSecao) then
+    begin
+      NFSe.Servico.Valores.totTrib.pTotTribFed := StringToFloatDef(AINIRec.ReadString(sSecao, 'pTotTribFed', ''), 0);
+      NFSe.Servico.Valores.totTrib.pTotTribEst := StringToFloatDef(AINIRec.ReadString(sSecao, 'pTotTribEst', ''), 0);
+      NFSe.Servico.Valores.totTrib.pTotTribMun := StringToFloatDef(AINIRec.ReadString(sSecao, 'pTotTribMun', ''), 0);
+      NFSe.Servico.Valores.totTrib.vTotTribFed := StringToFloatDef(AINIRec.ReadString(sSecao, 'vTotTribFed', ''), 0);
+      NFSe.Servico.Valores.totTrib.vTotTribEst := StringToFloatDef(AINIRec.ReadString(sSecao, 'vTotTribEst', ''), 0);
+      NFSe.Servico.Valores.totTrib.vTotTribMun := StringToFloatDef(AINIRec.ReadString(sSecao, 'vTotTribMun', ''), 0);
     end;
 
     LerINIIBSCBS(AINIRec, IBSCBS);
