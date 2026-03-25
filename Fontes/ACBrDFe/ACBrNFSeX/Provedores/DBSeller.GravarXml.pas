@@ -47,6 +47,7 @@ uses
   ACBrDFe.Conversao,
   ACBrNFSeXClass,
   ACBrNFSeXConsts,
+  ACBrNFSeXConversao,
   ACBrNFSeXGravarXml_ABRASFv1,
   ACBrNFSeXGravarXml_ABRASFv2;
 
@@ -65,6 +66,8 @@ type
   protected
     procedure Configuracao; override;
 
+    function GerarEnderecoExteriorTomador: TACBrXmlNode; override;
+    function GerarIntermediarioServico: TACBrXmlNode; override;
     function GerarServico: TACBrXmlNode; override;
     function GerarValores: TACBrXmlNode; override;
     function GeraAtividadeEvento: TACBrXmlNode; override;
@@ -104,9 +107,10 @@ begin
   TagTomador := 'TomadorServico';
 
   NrOcorrCodigoPaisTomador := -1;
-  NrOcorrCodigoPaisServico := -1;
 
+  NrOcorrCodigoPaisServico := 0;
   NrOcorrInformacoesComplemetares := 0;
+
   NrOcorrValorDeducoes := 1;
   NrOcorrValorISS := 1;
   NrOcorrAliquota := 1;
@@ -184,6 +188,32 @@ begin
     Result.AppendChild(GerarFornecedorExterior(AIndex))
   else
     Result.AppendChild(GerarIdentificacaoFornecedor(AIndex));
+end;
+
+function TNFSeW_DBSeller204.GerarEnderecoExteriorTomador: TACBrXmlNode;
+begin
+  Result := CreateElement('EnderecoExterior');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'CodigoPais', 2, 2, 0,
+               CodIBGEPaisToSiglaISO2(NFSe.Tomador.Endereco.CodigoPais), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'cEndPost', 1, 11, 0,
+                                              NFSe.Tomador.Endereco.CEP, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'xCidade', 1, 60, 0,
+                                       NFSe.Tomador.Endereco.xMunicipio, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'xEstProvReg', 1, 60, 0,
+                                               NFSe.Tomador.Endereco.UF, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'xLgr', 1, 255, 0,
+                                               NFSe.Tomador.Endereco.Endereco, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'nro', 1, 60, 0,
+                                               NFSe.Tomador.Endereco.Numero, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'xBairro', 1, 60, 0,
+                                               NFSe.Tomador.Endereco.Bairro, ''));
 end;
 
 function TNFSeW_DBSeller204.GerarFornecedorExterior(
@@ -292,6 +322,54 @@ begin
   end;
 end;
 
+function TNFSeW_DBSeller204.GerarIntermediarioServico: TACBrXmlNode;
+begin
+  Result := inherited GerarIntermediarioServico;
+
+  if Assigned(Result) then
+  begin
+    Result.AppendChild(AddNode(tcStr, '#50', 'Cep', 1, 8, 0,
+                               NFSe.Intermediario.Endereco.CEP, ''));
+
+    if NFSe.Intermediario.CodigoMunicipio = '9999999' then
+    begin
+      Result.AppendChild(AddNode(tcStr, '#51', 'NIF', 1, 40, 0,
+                                 NFSe.Intermediario.Identificacao.Nif, ''));
+
+      Result.AppendChild(AddNode(tcInt, '#51', 'cPais', 1, 4, 0,
+                                 NFSe.Intermediario.Endereco.CodigoPais, ''));
+
+      Result.AppendChild(AddNode(tcStr, '#51', 'cEndPost', 1, 11, 0,
+                                 NFSe.Intermediario.Endereco.CEP, ''));
+
+      Result.AppendChild(AddNode(tcStr, '#51', 'xCidade', 1, 60, 0,
+                                 NFSe.Intermediario.Endereco.xMunicipio, ''));
+
+      Result.AppendChild(AddNode(tcStr, '#51', 'xEstProvReg', 1, 60, 0,
+                                 NFSe.Intermediario.Endereco.UF, ''));
+    end else
+    begin
+      Result.AppendChild(AddNode(tcStr, '#51', 'xLgr', 1, 255, 0,
+                                 NFSe.Intermediario.Endereco.Endereco, ''));
+
+      Result.AppendChild(AddNode(tcInt, '#51', 'nro', 1, 60, 0,
+                                 NFSe.Intermediario.Endereco.CodigoPais, ''));
+
+      Result.AppendChild(AddNode(tcStr, '#51', 'xCpl', 1, 156, 0,
+                                 NFSe.Intermediario.Endereco.CEP, ''));
+
+      Result.AppendChild(AddNode(tcStr, '#51', 'xBairro', 1, 60, 0,
+                                 NFSe.Intermediario.Endereco.xMunicipio, ''));
+    end;
+
+    Result.AppendChild(AddNode(tcStr, '#51', 'fone', 6, 20, 0,
+                               NFSe.Intermediario.Contato.Telefone, ''));
+
+    Result.AppendChild(AddNode(tcStr, '#51', 'email', 1, 80, 0,
+                               NFSe.Intermediario.Contato.Email, ''));
+  end;
+end;
+
 function TNFSeW_DBSeller204.GerarServico: TACBrXmlNode;
 var
   item, lcIndOP, lcClassTrib, lNaoExigencia: string;
@@ -362,6 +440,7 @@ end;
 function TNFSeW_DBSeller204.GerarValores: TACBrXmlNode;
 var
   Aliquota: Double;
+  lCSTPisCofins, lTpRetPisCofins: String;
 begin
   Result := CreateElement('Valores');
 
@@ -385,6 +464,24 @@ begin
 
   Result.AppendChild(AddNode(tcDe2, '#19', 'ValorCsll', 1, 15, NrOcorrValorCsll,
                                     NFSe.Servico.Valores.ValorCsll, DSC_VCSLL));
+
+  lCSTPisCofins := '';
+  if NFSe.Servico.Valores.CSTPis <> cstPisVazio then
+  begin
+    lCSTPisCofins := CSTPisToStr(NFSe.Servico.Valores.CSTPis);
+    lTpRetPisCofins := tpRetPisCofinsToStr(NFSe.Servico.Valores.tpRetPisCofins);
+  end
+  else if NFSE.Servico.Valores.tribFed.CST <> cstVazio then
+  begin
+    lCSTPisCofins := CSTToStr(NFSe.Servico.Valores.tribFed.CST);
+    lTpRetPisCofins := tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins);
+  end;
+
+  if lCSTPisCofins <> '' then
+  begin
+    Result.AppendChild(AddNode(tcStr, '#30', 'CSTPisCofins', 2, 2, 1, lCSTPisCofins, ''));
+    Result.AppendChild(AddNode(tcStr, '#31', 'TpRetPisCofins', 1, 1, 1, lTpRetPisCofins, ''));
+  end;
 
   Result.AppendChild(AddNode(tcDe2, '#23', 'OutrasRetencoes', 1, 15, NrOcorrOutrasRet,
                     NFSe.Servico.Valores.OutrasRetencoes, DSC_OUTRASRETENCOES));

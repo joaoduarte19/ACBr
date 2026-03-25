@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/03/2026
+-- DBSeller.GravarXml --
+[*] ACBR-8960 - Ajustes visando compatibilização com o novo leiaute do provedor para atender a Reforma Tributária.
+   Por: Márcio Lima - TecnicaSoft / Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/89229-acbr-8960-cidade-sapiranga-rs/page/2/?&_rid=124795#findComment-595318 
 -- ACBrNFSeXLerXml/ACBrNFSeX.LerIni --
 [-] ACBR-9059 - Adiciona leitura de tpRetPisCofins, CSTPis, pTotTribFed, pTotTribEst e pTotTribMun para alimentar propriedades usadas pelo provedor Primax.
    Por: Diego Folieni
