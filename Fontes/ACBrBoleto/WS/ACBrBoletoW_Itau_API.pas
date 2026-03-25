@@ -752,48 +752,44 @@ var
   LAceitarPagamentoParcial : boolean;
 begin
   LJsonDados := TACBrJSONObject.Create;
-  try
-    LJsonDados.AddPair('descricao_instrumento_cobranca', IfThen(Boleto.Cedente.CedenteWS.IndicadorPix,'boleto_pix','boleto'));
-    LJsonDados.AddPair('tipo_boleto', 'a vista');
-    LJsonDados.AddPair('codigo_carteira', StrToIntDef(ATitulo.carteira, 0));
-    LJsonDados.AddPair('valor_total_titulo', IntToStrZero(round(ATitulo.ValorDocumento * 100), 17));
-    LJsonDados.AddPair('codigo_especie', CodigoEspeciaDoc);
-    LJsonDados.AddPair('valor_abatimento', IntToStrZero(round(ATitulo.ValorAbatimento * 100), 17));
-    LJsonDados.AddPair('data_emissao', FormatDateBr(ATitulo.DataDocumento, 'yyyy-mm-dd'));
 
-    LAceitarPagamentoParcial := ((ATitulo.QtdePagamentoParcial > 0) or (ATitulo.TipoPagamento <> tpNao_Aceita_Valor_Divergente));
-    LJsonDados.AddPair('indicador_pagamento_parcial', LAceitarPagamentoParcial);
+  LJsonDados.AddPair('descricao_instrumento_cobranca', IfThen(Boleto.Cedente.CedenteWS.IndicadorPix,'boleto_pix','boleto'));
+  LJsonDados.AddPair('tipo_boleto', 'a vista');
+  LJsonDados.AddPair('codigo_carteira', StrToIntDef(ATitulo.carteira, 0));
+  LJsonDados.AddPair('valor_total_titulo', IntToStrZero(round(ATitulo.ValorDocumento * 100), 17));
+  LJsonDados.AddPair('codigo_especie', CodigoEspeciaDoc);
+  LJsonDados.AddPair('valor_abatimento', IntToStrZero(round(ATitulo.ValorAbatimento * 100), 17));
+  LJsonDados.AddPair('data_emissao', FormatDateBr(ATitulo.DataDocumento, 'yyyy-mm-dd'));
 
-    if ((LAceitarPagamentoParcial) and (ATitulo.QtdePagamentoParcial = 0)) then
-      raise EACBrBoletoWSException.Create
-        (ClassName + sLineBreak+'Quando TipoPagamento aceitar pagamento parcial,'+sLineBreak+
-         'informar QtdePagamentoParcial maior que zero !');
+  LAceitarPagamentoParcial := ((ATitulo.QtdePagamentoParcial > 0) or (ATitulo.TipoPagamento <> tpNao_Aceita_Valor_Divergente));
+  LJsonDados.AddPair('indicador_pagamento_parcial', LAceitarPagamentoParcial);
 
-    LJsonDados.AddPair('quantidade_maximo_parcial', ATitulo.QtdePagamentoParcial);
+  if ((LAceitarPagamentoParcial) and (ATitulo.QtdePagamentoParcial = 0)) then
+    raise EACBrBoletoWSException.Create
+      (ClassName + sLineBreak+'Quando TipoPagamento aceitar pagamento parcial,'+sLineBreak+
+       'informar QtdePagamentoParcial maior que zero !');
 
-    LJsonDados.AddPair('desconto_expresso', 'False');
+  LJsonDados.AddPair('quantidade_maximo_parcial', ATitulo.QtdePagamentoParcial);
 
-    GerarPagador(LJsonDados);
-    if (ATitulo.Sacado.SacadoAvalista.NomeAvalista<>'') and (Length(ATitulo.Sacado.SacadoAvalista.CNPJCPF)>= 11) then
-       GerarSacadoAvalista(LJsonDados);
-    GerarDadosIndividuaisBoleto(LJsonDados);
-    GerarMulta(LJsonDados);
-    GerarJuros(LJsonDados);
-    GerarDesconto(LJsonDados);
-    GerarRecebimentoDivergente(LJsonDados);
-    if ATitulo.Instrucao1 <> '' then
-      GerarInstruCaoCobranca(LJsonDados);
+  LJsonDados.AddPair('desconto_expresso', 'False');
 
-    if ATitulo.DiasDeProtesto > 0 then
-      GerarProtesto(LJsonDados);
-    if (ATitulo.DiasDeNegativacao > 0) then
-      GerarNegativacao(LJsonDados);
+  GerarPagador(LJsonDados);
+  if (ATitulo.Sacado.SacadoAvalista.NomeAvalista<>'') and (Length(ATitulo.Sacado.SacadoAvalista.CNPJCPF)>= 11) then
+     GerarSacadoAvalista(LJsonDados);
+  GerarDadosIndividuaisBoleto(LJsonDados);
+  GerarMulta(LJsonDados);
+  GerarJuros(LJsonDados);
+  GerarDesconto(LJsonDados);
+  GerarRecebimentoDivergente(LJsonDados);
+  if ATitulo.Instrucao1 <> '' then
+    GerarInstruCaoCobranca(LJsonDados);
 
-    AJson.AddPair('dado_boleto',LJsonDados);
+  if ATitulo.DiasDeProtesto > 0 then
+    GerarProtesto(LJsonDados);
+  if (ATitulo.DiasDeNegativacao > 0) then
+    GerarNegativacao(LJsonDados);
 
-  finally
-    LJsonDados.Free;
-  end;
+  AJson.AddPair('dado_boleto',LJsonDados);
 end;
 
 procedure TBoletoW_Itau_API.GerarData(AJson: TACBrJSONObject);
@@ -822,19 +818,23 @@ begin
   if Assigned(ATitulo) then
   begin
     LJson := TACBrJSONObject.Create;
-    if Boleto.Cedente.CedenteWS.IndicadorPix then
-    begin
-      LJson.AddPair('etapa_processo_boleto', IfThen(OAuth.Ambiente=tawsProducao,'efetivacao', 'simulacao'));
-      GeraIdBeneficiario(LJson);
-      GeraDadoBoleto(LJson);
-      GerarDadosQrCode(LJson);
-    end
-    else
-    begin
-      GerarData(LJson);
-    end;
+    try
+      if Boleto.Cedente.CedenteWS.IndicadorPix then
+      begin
+        LJson.AddPair('etapa_processo_boleto', IfThen(OAuth.Ambiente=tawsProducao,'efetivacao', 'simulacao'));
+        GeraIdBeneficiario(LJson);
+        GeraDadoBoleto(LJson);
+        GerarDadosQrCode(LJson);
+      end
+      else
+      begin
+        GerarData(LJson);
+      end;
 
-    FPDadosMsg := LJson.ToJSON;
+      FPDadosMsg := LJson.ToJSON;
+    finally
+      LJson.Free;
+    end;
   end;
 end;
 
@@ -1089,10 +1089,10 @@ var
 begin
   if Assigned(ATitulo) and Assigned(AJson) then
   begin
-    LJsonJuros := TACBrJSONObject.Create;
-
     if (ATitulo.ValorMoraJuros > 0) then
     begin
+      LJsonJuros := TACBrJSONObject.Create;
+
       if ATitulo.CodigoMora = '' then
       begin
         ATitulo.CodigoMora := '90';
@@ -1268,11 +1268,11 @@ var
 begin
   if Assigned(ATitulo) and Assigned(AJson) then
   begin
-    LJsonDesconto := TACBrJSONObject.Create;
     LJsonArray := TACBrJSONArray.Create;
 
       if ATitulo.DataDesconto > 0 then
       begin
+        LJsonDesconto := TACBrJSONObject.Create;
         if (ATitulo.TipoDesconto = tdValorFixoAteDataInformada) or (ATitulo.TipoDesconto = tdPercentualAteDataInformada) then
           LJsonDesconto.AddPair('quantidade_dias_desconto', DaysBetween(ATitulo.DataDesconto,ATitulo.Vencimento));
 
@@ -1361,10 +1361,9 @@ var
 begin
   if Assigned(ATitulo) and Assigned(AJson) then
   begin
-    LJsonJuros := TacbrJsonObject.Create;
-
     if (ATitulo.ValorMoraJuros > 0) then
     begin
+      LJsonJuros := TacbrJsonObject.Create;
       if ATitulo.CodigoMora = '' then
       begin
         LCodigoMora := '90';

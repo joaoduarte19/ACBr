@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+25/03/2026
+-- ACBrBoletoW_Itau_API --
+[-] ACBR-8971 - Corrigidos vazamentos de memória - https://www.projetoacbr.com.br/forum/topic/90184-acbr-8971-bolecode-ita%C3%BA-api-memory-leak-no-envio-do-boleto-acbrboletow_itau_apipas/
+   Por: Luizfern
+
 23/03/2026
 -- ACBrBancoDaycoval --
 [-] ACBr-8883 - Ajustado LerNossoNumeroCompleto qdo fpLayoutVersaoArquivo = 6  
