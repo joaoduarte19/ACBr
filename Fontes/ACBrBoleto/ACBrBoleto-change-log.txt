@@ -53,6 +53,11 @@ Símbolo : Significado
 -- ACBrBoletoW_Itau_API --
 [-] ACBR-8971 - Corrigidos vazamentos de memória - https://www.projetoacbr.com.br/forum/topic/90184-acbr-8971-bolecode-ita%C3%BA-api-memory-leak-no-envio-do-boleto-acbrboletow_itau_apipas/
    Por: Luizfern
+-- ACBrBoleto --
+[+] ACBR-8582 - Implementados dados recebidos no parâmetro AReplyTo no EnviarEmail() do ACBrBoleto - https://www.projetoacbr.com.br/forum/topic/88308-acbr-8582-par%C3%A2metro-areplyto-est%C3%A1-sendo-ignorado-no-m%C3%A9todo-tacbrboletoenviaremail/ 
+-- uDemoBoleto --
+[+] ACBR-8582 - Atribuído ACBrMail ao ACBrBoleto na criação dos componentes do programa de exemplo
+   Por: Renato Rubinho
 
 23/03/2026
 -- ACBrBancoDaycoval --

@@ -955,6 +955,8 @@ begin
   FACBrBoleto.OnPrecisaAutenticar := OnPrecisaAutenticar;
 
   FACBrMail   := TACBrMail.Create(FACBrBoleto);
+  FACBrBoleto.MAIL := FACBrMail;
+
   {$IFDEF GERADOR_FORTES_REPORT}
     FACBrBoletoFCRL   := TACBrBoletoFCFortes.Create(FACBrBoleto);
     cbxMotorRelatorio.AddItem('Fortes Reports', FACBrBoletoFCRL);

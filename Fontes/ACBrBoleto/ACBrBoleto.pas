@@ -3578,6 +3578,12 @@ begin
       FMAIL.AddBCC(sBCC[i]);
   end;
 
+  if Assigned(AReplyTo) then
+  begin
+    for i := 0 to AReplyTo.Count - 1 do
+      FMAIL.AddReplyTo(AReplyTo[i]);
+  end;
+
   FMAIL.Send;
 end;
 
