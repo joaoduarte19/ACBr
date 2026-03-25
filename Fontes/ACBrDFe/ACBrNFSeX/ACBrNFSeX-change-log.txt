@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/03/2026
+-- WebFisco.GravarXml --
+[-] ACBR-9059 - Corrige index utilizado na leitura da informação da classe do item.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/90809-acbr-9059-e-acbr-8969-situacaotomador-estrangeiro-nao-pode-ter-cnpjcpf-241195560001-60-valido/page/2/#comment-595534
 -- DBSeller.GravarXml --
 [*] ACBR-8960 - Ajustes visando compatibilização com o novo leiaute do provedor para atender a Reforma Tributária.
    Por: Márcio Lima - TecnicaSoft / Diego Folieni

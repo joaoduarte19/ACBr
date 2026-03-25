@@ -999,10 +999,10 @@ begin
   end;
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'item1', 1, 5, 1,
-      NFSe.Servico.ItemServico.Items[i].ItemListaServico, '', True, xAtrib));
+      NFSe.Servico.ItemServico.Items[0].ItemListaServico, '', True, xAtrib));
 
   NFSeNode.AppendChild(AddNode(tcDe2, '#', 'aliq1', 1, 5, 1,
-              NFSe.Servico.ItemServico.Items[i].Aliquota, '', True, xAtrib));
+              NFSe.Servico.ItemServico.Items[0].Aliquota, '', True, xAtrib));
 
   if NFSe.Servico.Valores.IssRetido = stRetencao then
     NFSeNode.AppendChild(AddNode(tcStr, '#', 'impret', 1, 3, 1,
@@ -1012,7 +1012,7 @@ begin
                                                       'NAO', '', True, xAtrib));
 
   NFSeNode.AppendChild(AddNode(tcDe2, '#', 'val1', 1, 12, 1,
-         NFSe.Servico.ItemServico.Items[i].ValorUnitario, '', True, xAtrib));
+         NFSe.Servico.ItemServico.Items[0].ValorUnitario, '', True, xAtrib));
 
   // Codigo da localidade de execucao do servico, se no local do estabelecimento
   // do prestador, deixar como 0000...
