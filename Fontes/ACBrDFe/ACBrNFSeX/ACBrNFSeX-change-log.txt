@@ -42,6 +42,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+26/03/2026
+-- Infisc.GravarXml/PadraoNacional.GravarXml --
+[*] ACBR-9125 - Imposta uma condição para gerar a tag pAliq mesmo com o valor zerado somente 
+    para o provedor Infisc e voltando como era antes no PadraoNacional.
+   Por: Italo Giurizzato Junior
+
 25/03/2026
 -- WebFisco.GravarXml --
 [-] ACBR-9059 - Corrige index utilizado na leitura da informação da classe do item.
