@@ -52,6 +52,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/03/2026
+-- pcesS1202 --
+[-] Ajuste para que o grupo infPerAnt seja gerado a partir do INI apenas se informado remunOrgSuc
+  Por: Diego Folieni
+  Veja: https://www.projetoacbr.com.br/forum/topic/91369-erro-envio-evento-s1202-esocial/ 
+
 13/03/2026
 -- pcesS2410 --
 [*] ACBR-9111 - Adiciona a rotina de leitura do INI para o evento S-2410 (evtCdBenIn)
