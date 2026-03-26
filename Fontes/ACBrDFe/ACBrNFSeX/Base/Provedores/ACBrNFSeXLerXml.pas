@@ -178,7 +178,7 @@ uses
   synautil,
   StrUtils, StrUtilsEx,
   ACBrJSON,
-//  ACBrNFSeX.LerIni, {Em teste}
+//  ACBrNFSeX.LerIni,
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML,
   ACBrUtil.FilesIO,
@@ -644,10 +644,11 @@ function TNFSeRClass.LerIni: Boolean;
 var
   INIRec: TMemIniFile;
   TipoXML: string;
-//  RIni: TNFSeIniReader;  {Em Teste}
+//  RIni: TNFSeIniReader;
 begin
+  // Usar o FpAOwner em vez de  FProvider
   {
-  RIni := TNFSeIniReader.Create(NFSe, FpAOwner);  //Em Teste
+  RIni := TNFSeIniReader.Create(NFSe, FpAOwner);
 
   try
     RIni.IniParams := IniParams;
@@ -659,10 +660,7 @@ begin
     RIni.Free;
   end;
   }
-
   INIRec := TMemIniFile.Create('');
-
-  // Usar o FpAOwner em vez de  FProvider
 
   try
     LerIniArquivoOuString(Arquivo, INIRec);
@@ -1067,13 +1065,12 @@ begin
 
       //Provedor ISSSaoPaulo
       Servico.CodigoNCM := AINIRec.ReadString(sSecao, 'CodigoNCM', '');
-      Servico.CodigoNBS := AINIRec.ReadString(sSecao, 'CodigoNBS', '');
     end;
 
     i := 1;
     while true do
     begin
-      sSecao := 'Deducoes' + IntToStrZero(I + 1, 3);
+      sSecao := 'Deducoes' + IntToStrZero(I, 3);
       sFim := AINIRec.ReadString(sSecao, 'ValorDeduzir', 'FIM');
       if (Length(sFim) <= 0) or (sFim = 'FIM') then
         break;
@@ -1095,7 +1092,7 @@ begin
     i := 1;
     while true do
     begin
-      sSecao := 'Impostos' + IntToStrZero(I + 1, 3);
+      sSecao := 'Impostos' + IntToStrZero(I, 3);
       sFim := AINIRec.ReadString(sSecao, 'Valor', 'FIM');
 
       if (Length(sFim) <= 0) or (sFim = 'FIM') then
@@ -1116,7 +1113,7 @@ begin
     i := 1;
     while true do
     begin
-      sSecao := 'Despesas' + IntToStrZero(I + 1, 3);
+      sSecao := 'Despesas' + IntToStrZero(I, 3);
       sFim := AINIRec.ReadString(sSecao, 'vDesp', 'FIM');
 
       if (Length(sFim) <= 0) or (sFim='FIM') then
@@ -1136,7 +1133,7 @@ begin
     i := 1;
     while true do
     begin
-      sSecao := 'Genericos' + IntToStrZero(I + 1, 1);
+      sSecao := 'Genericos' + IntToStrZero(I, 1);
       if not AINIRec.SectionExists(sSecao) then
         break;
 
@@ -1187,6 +1184,7 @@ begin
       Item.CodServ := AINIRec.ReadString(sSecao, 'CodServico', '');
       Item.codLCServ := AINIRec.ReadString(sSecao, 'codLCServico', '');
       Item.CodigoCnae := AINIRec.ReadString(sSecao, 'CodigoCnae', '');
+      Item.CodigoNBS := AINIRec.ReadString(sSecao, 'CodigoNBS', '');
 
       Item.TipoUnidade := StrToUnidade(Ok, AINIRec.ReadString(sSecao, 'TipoUnidade', '2'));
       Item.Unidade := AINIRec.ReadString(sSecao, 'Unidade', '');
@@ -1248,7 +1246,7 @@ begin
       // Provedor Infisc
       Item.totalAproxTribServ := StringToFloatDef(AINIRec.ReadString(sSecao, 'totalAproxTribServ', ''), 0);
 
-      sSecao := 'DadosDeducao' + IntToStrZero(I + 1, 3);
+      sSecao := 'Deducoes' + IntToStrZero(i, 3);
       if AINIRec.SectionExists(sSecao) then
       begin
         Item.DadosDeducao.TipoDeducao := FpAOwner.StrToTipoDeducao(Ok, AINIRec.ReadString(sSecao, 'TipoDeducao', ''));

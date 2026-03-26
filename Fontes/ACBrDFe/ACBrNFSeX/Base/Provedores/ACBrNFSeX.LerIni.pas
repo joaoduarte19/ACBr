@@ -50,10 +50,6 @@ type
   TNFSeIniReader = class(TNFSeRClass)
   private
     FNFSe: TNFSe;
-//    FVersaoDF: TVersaoNFSe;
-//    FAmbiente: Integer;
-//    FtpEmis: Integer;
-//    FIniParams: TMemIniFile;
 
     procedure LerINIIdentificacaoNFSe(AINIRec: TMemIniFile);
     procedure LerINIIdentificacaoRps(AINIRec: TMemIniFile);
@@ -72,7 +68,7 @@ type
     procedure LerINIDespesas(AINIRec: TMemIniFile);
     procedure LerINIGenericos(AINIRec: TMemIniFile);
     procedure LerINIItens(AINIRec: TMemIniFile);
-    procedure LerINIDadosDeducao(AINIRec: TMemIniFile);
+    procedure LerINIDeducoes(AINIRec: TMemIniFile);
     procedure LerINIComercioExterior(AINIRec: TMemIniFile);
     procedure LerINILocacaoSubLocacao(AINIRec: TMemIniFile);
     procedure LerINIEvento(AINIRec: TMemIniFile);
@@ -124,10 +120,6 @@ type
     function LerArquivoIni(const AIniString: string): Boolean;
 
     property NFSe: TNFSe read FNFSe write FNFSe;
-//    property VersaoDF: TVersaoNFSe read FVersaoDF write FVersaoDF;
-//    property Ambiente: Integer read FAmbiente write FAmbiente;
-//    property tpEmis: Integer read FtpEmis write FtpEmis;
-//    property IniParams: TMemIniFile read FIniParams write FIniParams;
   end;
 
 implementation
@@ -204,7 +196,7 @@ begin
 
   LerINIItens(AINIRec);
 
-  LerINIDadosDeducao(AINIRec);
+  LerINIDeducoes(AINIRec);
   LerINILocacaoSubLocacao(AINIRec);
   LerINIRodoviaria(AINIRec);
   LerINIQuartos(AINIRec);
@@ -253,7 +245,7 @@ begin
 
   LerINIItens(AINIRec);
 
-  LerINIDadosDeducao(AINIRec);
+  LerINIDeducoes(AINIRec);
   LerINILocacaoSubLocacao(AINIRec);
   LerINIRodoviaria(AINIRec);
   LerINIQuartos(AINIRec);
@@ -376,7 +368,7 @@ end;
 
 procedure TNFSeIniReader.LerINIIdentificacaoRps(AINIRec: TMemIniFile);
 var
-  sSecao, sCampo: string;
+  sSecao, sCampo, sValor: string;
   Ok: Boolean;
 begin
   sSecao := 'IdentificacaoRps';  // Completo
@@ -460,10 +452,19 @@ begin
       NFSe.DataFatoGerador := StringToDateTimeDef(sCampo, 0);
 
     // Provedor Governa
-    NFSe.RegRec := StrToRegRec(Ok, AINIRec.ReadString(sSecao, 'RegRec', ''));
+    sValor := AINIRec.ReadString(sSecao, 'RegRec', '');
+    if sValor <> '' then
+      sValor := FormatFloat('00', StrToIntDef(sValor, 0));
+
+    NFSe.RegRec := StrToRegRec(Ok, sValor);
     NFSe.EqptoRecibo := AINIRec.ReadString(sSecao, 'EqptoRecibo', '');
+
     // Provedor Governa e Prescon
-    NFSe.FrmRec := StrToFrmRec(Ok, AINIRec.ReadString(sSecao, 'FrmRec', ''));
+    sValor := AINIRec.ReadString(sSecao, 'FrmRec', '');
+    if sValor <> '' then
+      sValor := FormatFloat('00', StrToIntDef(sValor, 0));
+
+    NFSe.FrmRec := StrToFrmRec(Ok, sValor);
 
     // Provedor Prescon
     NFSe.DeducaoMateriais := FpAOwner.StrToSimNao(Ok, AINIRec.ReadString(sSecao, 'DeducaoMateriais', ''));
@@ -472,7 +473,7 @@ end;
 
 procedure TNFSeIniReader.LerININFSeSubstituicao(AINIRec: TMemIniFile);
 var
-  sSecao: string;
+  sSecao, sValor: string;
   Ok: Boolean;
 begin
   sSecao := 'NFSeSubstituicao';  // Completo
@@ -480,7 +481,12 @@ begin
   if AINIRec.SectionExists(sSecao) then
   begin
     NFSe.subst.chSubstda := AINIRec.ReadString(sSecao, 'chSubstda', '');
-    NFSe.subst.cMotivo := StrTocMotivo(Ok, AINIRec.ReadString(sSecao, 'cMotivo', ''));
+
+    sValor := AINIRec.ReadString(sSecao, 'cMotivo', '');
+    if sValor <> '' then
+      sValor := FormatFloat('00', StrToIntDef(sValor, 0));
+
+    NFSe.subst.cMotivo := StrTocMotivo(Ok, sValor);
     NFSe.subst.xMotivo := AINIRec.ReadString(sSecao, 'xMotivo', '');
   end;
 end;
@@ -797,7 +803,7 @@ begin
   i := 1;
   while true do
   begin
-    sSecao := 'Despesas' + IntToStrZero(I, 3); // Completo
+    sSecao := 'Despesas' + IntToStrZero(i, 3); // Completo
 
     sFim := AINIRec.ReadString(sSecao, 'vDesp', 'FIM');
 
@@ -979,7 +985,7 @@ begin
   end;
 end;
 
-procedure TNFSeIniReader.LerINIDadosDeducao(AINIRec: TMemIniFile);
+procedure TNFSeIniReader.LerINIDeducoes(AINIRec: TMemIniFile);
 var
   sSecao, sFim: string;
   Ok: Boolean;
@@ -989,7 +995,7 @@ begin
   i := 1;
   while True do
   begin
-    sSecao := 'DadosDeducao' + IntToStrZero(i, 3); // Completo
+    sSecao := 'Deducoes' + IntToStrZero(i, 3); // Completo
 
     sFim := AINIRec.ReadString(sSecao, 'CNPJCPF', 'FIM');
 
@@ -1024,6 +1030,7 @@ begin
     NFSe.Servico.xPais := AINIRec.ReadString(sSecao, 'xPais', '');
     NFSe.Servico.ItemListaServico := AINIRec.ReadString(sSecao, 'ItemListaServico', '');
     NFSe.Servico.xItemListaServico := AINIRec.ReadString(sSecao, 'xItemListaServico', '');
+    NFSe.Servico.CodigoServicoNacional := AINIRec.ReadString(sSecao, 'CodigoServicoNacional', '');
     NFSe.Servico.CodigoTributacaoMunicipio := AINIRec.ReadString(sSecao, 'CodigoTributacaoMunicipio', '');
     NFSe.Servico.xCodigoTributacaoMunicipio := AINIRec.ReadString(sSecao, 'xCodigoTributacaoMunicipio', '');
     NFSe.Servico.Discriminacao := AINIRec.ReadString(sSecao, 'Discriminacao', '');
@@ -1100,7 +1107,7 @@ end;
 
 procedure TNFSeIniReader.LerINIComercioExterior(AINIRec: TMemIniFile);
 var
-  SSecao: string;
+  SSecao, sValor: string;
   Ok: Boolean;
 begin
   sSecao := 'ComercioExterior'; // Completo
@@ -1111,9 +1118,19 @@ begin
     NFSe.Servico.comExt.vincPrest := StrTovincPrest(Ok, AINIRec.ReadString(sSecao, 'vincPrest', '0'));
     NFSe.Servico.comExt.tpMoeda := AINIRec.ReadInteger(sSecao, 'tpMoeda', 0);
     NFSe.Servico.comExt.vServMoeda := StringToFloatDef(AINIRec.ReadString(sSecao, 'vServMoeda', '0'), 0);
-    NFSe.Servico.comExt.mecAFComexP := StrTomecAFComexP(Ok, AINIRec.ReadString(sSecao, 'mecAFComexP', '00'));
-    NFSe.Servico.comExt.mecAFComexT := StrTomecAFComexT(Ok, AINIRec.ReadString(sSecao, 'mecAFComexT', '00'));
-    NFSe.Servico.comExt.movTempBens := StrToMovTempBens(Ok, AINIRec.ReadString(sSecao, 'movTempBens', '00'));
+
+    sValor := AINIRec.ReadString(sSecao, 'mecAFComexP', '00');
+    if sValor <> '' then
+      sValor := FormatFloat('00', StrToIntDef(sValor, 0));
+
+    NFSe.Servico.comExt.mecAFComexP := StrTomecAFComexP(Ok, sValor);
+
+    sValor := AINIRec.ReadString(sSecao, 'mecAFComexT', '00');
+    if sValor <> '' then
+      sValor := FormatFloat('00', StrToIntDef(sValor, 0));
+
+    NFSe.Servico.comExt.mecAFComexT := StrTomecAFComexT(Ok, sValor);
+    NFSe.Servico.comExt.movTempBens := StrToMovTempBens(Ok, AINIRec.ReadString(sSecao, 'movTempBens', '0'));
     NFSe.Servico.comExt.nDI := AINIRec.ReadString(sSecao, 'nDI', '');
     NFSe.Servico.comExt.nRE := AINIRec.ReadString(sSecao, 'nRE', '');
     NFSe.Servico.comExt.mdic := AINIRec.ReadInteger(sSecao, 'mdic', 0);
@@ -1204,14 +1221,18 @@ end;
 
 procedure TNFSeIniReader.LerINIRodoviaria(AINIRec: TMemIniFile);
 var
-  SSecao: string;
+  SSecao, sValor: string;
   Ok: Boolean;
 begin
   sSecao := 'Rodoviaria'; // Completo
 
   if AINIRec.SectionExists(sSecao) then
   begin
-    NFSe.Servico.explRod.categVeic := StrTocategVeic(Ok, AINIRec.ReadString(sSecao, 'categVeic', '00'));
+    sValor := AINIRec.ReadString(sSecao, 'categVeic', '00');
+    if sValor <> '' then
+      sValor := FormatFloat('00', StrToIntDef(sValor, 0));
+
+    NFSe.Servico.explRod.categVeic := StrTocategVeic(Ok, sValor);
     NFSe.Servico.explRod.nEixos := AINIRec.ReadInteger(sSecao, 'nEixos', 0);
     NFSe.Servico.explRod.rodagem := StrTorodagem(Ok, AINIRec.ReadString(sSecao, 'rodagem', '1'));
     NFSe.Servico.explRod.sentido := AINIRec.ReadString(sSecao, 'sentido', '');
@@ -1459,14 +1480,20 @@ end;
 
 procedure TNFSeIniReader.LerINIValoresTribFederal(AINIRec: TMemIniFile);
 var
-  sSecao: string;
+  sSecao, sValor: string;
   Ok: Boolean;
 begin
   sSecao := 'tribFederal'; // Completo
 
   if AINIRec.SectionExists(sSecao) then
   begin
-    NFSe.Servico.Valores.tribFed.CST := StrToCST(Ok, AINIRec.ReadString(sSecao, 'CST', ''));
+    sValor := AINIRec.ReadString(sSecao, 'CST', '');
+    if sValor <> '' then
+      sValor := FormatFloat('00', StrToIntDef(sValor, 0));
+
+    NFSe.Servico.Valores.tribFed.CST := StrToCST(Ok, sValor);
+    NFSe.Servico.Valores.CSTPis := StrToCSTPIS(Ok, sValor);
+
     NFSe.Servico.Valores.tribFed.vBCPisCofins := StringToFloatDef(AINIRec.ReadString(sSecao, 'vBCPisCofins', ''), 0);
     NFSe.Servico.Valores.tribFed.pAliqPis := StringToFloatDef(AINIRec.ReadString(sSecao, 'pAliqPis', ''), 0);
     NFSe.Servico.Valores.tribFed.pAliqCofins := StringToFloatDef(AINIRec.ReadString(sSecao, 'pAliqCofins' ,''), 0);
@@ -1480,7 +1507,6 @@ begin
     NFSe.Servico.Valores.tribFed.vBCCSLL := StringToFloatDef(AINIRec.ReadString(sSecao, 'vBCCSLL', ''), 0);
     NFSe.Servico.Valores.tribFed.vBCPCP := StringToFloatDef(AINIRec.ReadString(sSecao, 'vBCPCP', ''), 0);
 
-    NFSe.Servico.Valores.CSTPis := StrToCSTPIS(Ok, AINIRec.ReadString(sSecao, 'CST', ''));
     NFSe.Servico.Valores.tpRetPisCofins := StrTotpRetPisCofins(Ok, AINIRec.ReadString(sSecao, 'tpRetPisCofins', ''));
     NFSe.Servico.Valores.BaseCalculo := NFSe.Servico.Valores.tribFed.vBCPisCofins;
     NFSe.Servico.Valores.AliquotaPis := NFSe.Servico.Valores.tribFed.pAliqPis;
@@ -1579,7 +1605,7 @@ begin
   i := 1;
   while true do
   begin
-    sSecao := 'Email' + IntToStrZero(I + 1, 1);
+    sSecao := 'Email' + IntToStrZero(i, 1);
 
     sFim := AINIRec.ReadString(sSecao, 'emailCC', 'FIM');
 
@@ -1740,7 +1766,7 @@ procedure TNFSeIniReader.LerINIDocumentos(AINIRec: TMemIniFile;
   Documentos: TdocumentosCollection);
 var
   i: Integer;
-  sSecao, sFim: string;
+  sSecao, sFim, sValor: string;
   Ok: Boolean;
   Item: TDocumentosCollectionItem;
 begin
@@ -1778,7 +1804,12 @@ begin
 
     Item.dtEmiDoc := AINIRec.ReadDate(sSecao, 'dtEmiDoc', 0);
     Item.dtCompDoc := AINIRec.ReadDate(sSecao, 'dtCompDoc', 0);
-    Item.tpReeRepRes := StrTotpReeRepRes(AINIRec.ReadString(sSecao, 'tpReeRepRes', ''));
+
+    sValor := AINIRec.ReadString(sSecao, 'tpReeRepRes', '');
+    if sValor <> '' then
+      sValor := FormatFloat('00', StrToIntDef(sValor, 0));
+
+    Item.tpReeRepRes := StrTotpReeRepRes(sValor);
     Item.xTpReeRepRes := AINIRec.ReadString(sSecao, 'xTpReeRepRes', '');
     Item.vlrReeRepRes := StringToFloatDef(AINIRec.ReadString(sSecao, 'vlrReeRepRes', ''), 0);
 
@@ -1795,15 +1826,24 @@ end;
 procedure TNFSeIniReader.LerINIgIBSCBS(AINIRec: TMemIniFile;
   gIBSCBS: TgIBSCBS);
 var
-  sSecao: string;
+  sSecao, sValor: string;
 begin
   sSecao := 'gIBSCBS';  // Completo
 
   if AINIRec.SectionExists(sSecao) then
   begin
-    gIBSCBS.CST := StrToCSTIBSCBS(AINIRec.ReadString(sSecao, 'CST', ''));
+    sValor := AINIRec.ReadString(sSecao, 'CST', '');
+    if sValor <> '' then
+      sValor := FormatFloat('000', StrToIntDef(sValor, 0));
+
+    gIBSCBS.CST := StrToCSTIBSCBS(sValor);
     gIBSCBS.cClassTrib := AINIRec.ReadString(sSecao, 'cClassTrib', '');
-    gIBSCBS.cCredPres := StrTocCredPres(AINIRec.ReadString(sSecao, 'cCredPres', ''));
+
+    sValor := AINIRec.ReadString(sSecao, 'cCredPres', '');
+    if sValor <> '' then
+      sValor := FormatFloat('00', StrToIntDef(sValor, 0));
+
+    gIBSCBS.cCredPres := StrTocCredPres(sValor);
 
     LerINIgTribRegular(AINIRec, gIBSCBS.gTribRegular);
     LerINIgDif(AINIRec, gIBSCBS.gDif);
@@ -1813,13 +1853,17 @@ end;
 procedure TNFSeIniReader.LerINIgTribRegular(AINIRec: TMemIniFile;
   gTribRegular: TgTribRegular);
 var
-  sSecao: string;
+  sSecao, sValor: string;
 begin
   sSecao := 'gTribRegular';  // Completo
 
   if AINIRec.SectionExists(sSecao) then
   begin
-    gTribRegular.CSTReg := StrToCSTIBSCBS(AINIRec.ReadString(sSecao, 'CSTReg', ''));
+    sValor := AINIRec.ReadString(sSecao, 'CSTReg', '');
+    if sValor <> '' then
+      sValor := FormatFloat('000', StrToIntDef(sValor, 0));
+
+    gTribRegular.CSTReg := StrToCSTIBSCBS(sValor);
     gTribRegular.cClassTribReg := AINIRec.ReadString(sSecao, 'cClassTribReg', '');
   end;
 end;

@@ -95,7 +95,7 @@ type
     procedure GerarINIDespesas(AINIRec: TMemIniFile);
     procedure GerarINIGenericos(AINIRec: TMemIniFile);
     procedure GerarINIItens(AINIRec: TMemIniFile);
-    procedure GerarINIDadosDeducao(AINIRec: TMemIniFile);
+    procedure GerarINIDeducoes(AINIRec: TMemIniFile);
     procedure GerarINIImpostos(AINIRec: TMemIniFile);
     procedure GerarINIOrgaoGerador(AINIRec: TMemIniFile);
     procedure GerarINICondicaoPagamento(AINIRec: TMemIniFile);
@@ -263,7 +263,7 @@ begin
 
   GerarINIItens(AINIRec);
 
-  GerarINIDadosDeducao(AINIRec);
+  GerarINIDeducoes(AINIRec);
   GerarINILocacaoSubLocacao(AINIRec);
   GerarINIRodoviaria(AINIRec);
   GerarINIQuartos(AINIRec);
@@ -314,7 +314,7 @@ begin
 
   GerarINIItens(AINIRec);
 
-  GerarINIDadosDeducao(AINIRec);
+  GerarINIDeducoes(AINIRec);
   GerarINILocacaoSubLocacao(AINIRec);
   GerarINIRodoviaria(AINIRec);
   GerarINIQuartos(AINIRec);
@@ -699,6 +699,7 @@ begin
     AINIRec.WriteInteger(LSecao, 'CodigoPais', NFSe.Servico.CodigoPais);
     AINIRec.WriteString(LSecao, 'ItemListaServico', NFSe.Servico.ItemListaServico);
     AINIRec.WriteString(LSecao, 'xItemListaServico', NFSe.Servico.xItemListaServico);
+    AINIRec.WriteString(LSecao, 'CodigoServicoNacional', NFSe.Servico.CodigoServicoNacional);
     AINIRec.WriteString(LSecao, 'CodigoTributacaoMunicipio', NFSe.Servico.CodigoTributacaoMunicipio);
     AINIRec.WriteString(LSecao, 'xCodigoTributacaoMunicipio', NFSe.Servico.xCodigoTributacaoMunicipio);
     AINIRec.WriteString(LSecao, 'Discriminacao', ChangeLineBreak(NFSe.Servico.Discriminacao, FpAOwner.ConfigGeral.QuebradeLinha));
@@ -1003,9 +1004,11 @@ begin
     AINIRec.WriteString(LSecao, 'modNFS', NFSe.Servico.Valores.DocDeducao[i].NFNFS.modNFS);
     AINIRec.WriteString(LSecao, 'serieNFS', NFSe.Servico.Valores.DocDeducao[i].NFNFS.serieNFS);
 
+    PularLinha(AINIRec, LSecao);
+
     GerarINIDocumentosDeducoesFornecedor(AINIRec, NFSe.Servico.Valores.DocDeducao[i].fornec, i);
 
-    PularLinha(AINIRec, LSecao);
+//    PularLinha(AINIRec, LSecao);
   end;
 end;
 
@@ -1278,15 +1281,15 @@ begin
   end;
 end;
 
-procedure TNFSeIniWriter.GerarINIDadosDeducao(AINIRec: TMemIniFile);
+procedure TNFSeIniWriter.GerarINIDeducoes(AINIRec: TMemIniFile);
 var
   i: Integer;
 begin
-  IndicesdeLista(AINIRec, 'DadosDeducao', 999);
+  IndicesdeLista(AINIRec, 'Deducoes', 999);
 
   for I := 0 to NFSe.Servico.Deducao.Count - 1 do
   begin
-    LSecao := 'DadosDeducao' + IntToStrZero(I + 1, 3);
+    LSecao := 'Deducoes' + IntToStrZero(I + 1, 3);
 
     AINIRec.WriteString(LSecao, 'TipoDeducao', FpAOwner.TipoDeducaoToStr(NFSe.Servico.Deducao[I].TipoDeducao));
     AINIRec.WriteString(LSecao, 'CNPJCPF', NFSe.Servico.Deducao[I].CpfCnpjReferencia);

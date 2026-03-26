@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 26/03/2026
+-- ACBrNFSeX.GravarIni/ACBrNFSeX.LerIni/ACBrNFSeXLerXml --
+[*] Ajustes na leitura e escrita do arquivo INI.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXProviderManager/ISSDSF.GravarXml/ISSDSF.LerXml/ISSDSF.Provider --
 [*] ACBR-9174 - Implementado a versão 2.03 (ABRASF) a ser utilizada pela cidade Campo Grande/MS.
    Por: Italo Giurizzato Junior
