@@ -58,8 +58,8 @@ const
   cPagamentoBBURLAuthSandbox = 'https://oauth.hm.bb.com.br/oauth/token';
   cPagamentoBBURLAuthProducao = 'https://oauth.bb.com.br/oauth/token';
   cPagamentoBBPathLotesPix = 'lotes-transferencias-pix';
-  cPagamentoBBPathLotesDARF = 'lotes-darf-preto-normal';
-  cPagamentoBBPathLotesBoletos = 'lotes-boletos'; 
+  cPagamentoBBPathLotesDARF = 'lotes-darf-normal-preto';
+  cPagamentoBBPathLotesBoletos = 'lotes-boletos';
   cPagamentoBBPathLotesGRU = 'lotes-gru';
   cPagamentoBBPathLotesGPS = 'lotes-gps';
   cPagamentoBBPathLotesGuias = 'lotes-guias-codigo-barras';
@@ -438,14 +438,14 @@ begin
 
   Body := Trim(LoteDARFSolicitado.AsJSON);
   if EstaVazio(Body) then
-    raise EACBrPagamentosAPIException.CreateFmt(ACBrStr(sErroObjetoNaoPrenchido), ['LoteGRUSolicitado']);
+    raise EACBrPagamentosAPIException.CreateFmt(ACBrStr(sErroObjetoNaoPrenchido), ['LoteDARFSolicitado']);
 
   BB.PrepararHTTP;
   WriteStrToStream(BB.HTTPSend.Document, Body);
   BB.HTTPSend.MimeType := CContentTypeApplicationJSon;
   BB.HTTPSend.Headers.Insert(0, ChttpHeaderAuthorization + cHTTPAuthorizationBearer +' '+ Token);
   BB.URLQueryParams.Values['gw-dev-app-key'] := BB.developerApplicationKey;
-  BB.URLPathParams.Add(cPagamentoBBPathPagamentosGRU);
+  BB.URLPathParams.Add(cPagamentoBBPathLotesDARF);
   RegistrarLog('  Req.Body: ' + sLineBreak + Body, 3);
 
   try
