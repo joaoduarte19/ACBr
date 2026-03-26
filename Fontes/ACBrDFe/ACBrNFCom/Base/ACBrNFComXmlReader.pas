@@ -301,7 +301,7 @@ begin
   NFCom.Emit.IE := ObterConteudo(ANode.Childrens.FindAnyNs('IE'), tcStr);
   NFCom.Emit.xNome := ObterConteudo(ANode.Childrens.FindAnyNs('xNome'), tcStr);
   NFCom.Emit.xFant := ObterConteudo(ANode.Childrens.FindAnyNs('xFant'), tcStr);
-
+  NFCom.Emit.CRT:= ObterConteudo(ANode.Childrens.FindAnyNs('CRT'),tcStr);
   Ler_EmitEnderEmit(ANode.Childrens.FindAnyNs('enderEmit'));
 end;
 

@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/03/2026
+-- ACBrNFComXmlReader --
+[+] Expõe a leitura da propriedade CRT do nó Emit
+   Por: doszapro
+
 25/02/2026
 -- ACBrNFComNotasFiscais --
 [*] Alteração visando remover se necessário os bytes do UTF8 BOM ao carregar um XML.
