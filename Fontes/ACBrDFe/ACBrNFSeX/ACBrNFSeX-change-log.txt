@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 26/03/2026
+-- ACBrNFSeXProviderManager/ISSDSF.GravarXml/ISSDSF.LerXml/ISSDSF.Provider --
+[*] ACBR-9174 - Implementado a versão 2.03 (ABRASF) a ser utilizada pela cidade Campo Grande/MS.
+   Por: Italo Giurizzato Junior
 -- Infisc.GravarXml/PadraoNacional.GravarXml --
 [*] ACBR-9125 - Imposta uma condição para gerar a tag pAliq mesmo com o valor zerado somente 
     para o provedor Infisc e voltando como era antes no PadraoNacional.

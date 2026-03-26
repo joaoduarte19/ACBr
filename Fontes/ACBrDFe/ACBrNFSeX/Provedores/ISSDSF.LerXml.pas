@@ -40,7 +40,9 @@ uses
   SysUtils, Classes, StrUtils, synacode,
   ACBrXmlBase,
   ACBrXmlDocument,
-  ACBrNFSeXConversao, ACBrNFSeXLerXml;
+  ACBrNFSeXConversao,
+  ACBrNFSeXLerXml,
+  ACBrNFSeXLerXml_ABRASFv2;
 
 type
   { Provedor com layout próprio }
@@ -57,11 +59,21 @@ type
     function LerXmlNfse(const ANode: TACBrXmlNode): Boolean;
   end;
 
+  { TNFSeR_ISSDSF203 }
+
+  TNFSeR_ISSDSF203 = class(TNFSeR_ABRASFv2)
+  protected
+
+  public
+
+  end;
+
 implementation
 
 uses
   ACBrDFe.Conversao,
-  ACBrUtil.Base, ACBrUtil.Strings;
+  ACBrUtil.Base,
+  ACBrUtil.Strings;
 
 //==============================================================================
 // Essa unit tem por finalidade exclusiva ler o XML do provedor:

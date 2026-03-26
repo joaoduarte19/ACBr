@@ -41,7 +41,8 @@ uses
   ACBrBase,
   ACBrXmlBase,
   ACBrXmlDocument,
-  ACBrNFSeXGravarXml;
+  ACBrNFSeXGravarXml,
+  ACBrNFSeXGravarXml_ABRASFv2;
 
 type
   { TNFSeW_ISSDSF }
@@ -58,6 +59,13 @@ type
   public
     function GerarXml: Boolean; override;
 
+  end;
+
+  { TNFSeW_ISSDSF203 }
+
+  TNFSeW_ISSDSF203 = class(TNFSeW_ABRASFv2)
+  protected
+    procedure Configuracao; override;
   end;
 
 implementation
@@ -453,6 +461,23 @@ begin
   NFSeNode.AppendChild(xmlNode);
 
   Result := True;
+end;
+
+{ TNFSeW_ISSDSF203 }
+
+procedure TNFSeW_ISSDSF203.Configuracao;
+begin
+  inherited Configuracao;
+
+//  FormatoCompetencia := tcDat;
+
+  NrOcorrCodigoPaisTomador := 0;
+  NrOcorrCodigoNbs := -1;
+  NrOcorrDiscriminacao_1 := -1;
+  NrOcorrCodigoMunic_1 := -1;
+
+  NrOcorrDiscriminacao_2 := 1;
+  NrOcorrCodigoMunic_2 := 1;
 end;
 
 end.

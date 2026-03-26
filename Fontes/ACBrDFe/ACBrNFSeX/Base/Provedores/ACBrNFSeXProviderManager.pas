@@ -512,7 +512,18 @@ begin
             Result := TACBrNFSeProviderISSDigital200.Create(ACBrNFSe);
         end;
 
-      proISSDSF:     Result := TACBrNFSeProviderISSDSF.Create(ACBrNFSe);
+      proISSDSF:
+        begin
+          case Versao of
+            // Layout Próprio
+            ve100: Result := TACBrNFSeProviderISSDSF.Create(ACBrNFSe);
+            // Layout ABRASF
+            ve203: Result := TACBrNFSeProviderISSDSF203.Create(ACBrNFSe);
+          else
+            Result := nil;
+          end;
+        end;
+
       proISSe:       Result := TACBrNFSeProviderISSe201.Create(ACBrNFSe);
 
       proISSFortaleza:
