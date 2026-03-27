@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 26/03/2026
+-- ACBRNFSeXLerXML_ABRASFv1 --
+[*] ACBR-9198 - Adiciona a leitura de INDOP e cClassTrib a partir do INI para a classe de Serviços.
+   Por: Valter Patrick
+   Veja: https://www.projetoacbr.com.br/forum/topic/91365-acbr-9198-emiss%C3%A3o-da-nfs-e-com-novas-tags-lib-java/
 -- ACBrNFSeX.GravarIni/ACBrNFSeX.LerIni/ACBrNFSeXLerXml --
 [*] Ajustes na leitura e escrita do arquivo INI.
    Por: Italo Giurizzato Junior
