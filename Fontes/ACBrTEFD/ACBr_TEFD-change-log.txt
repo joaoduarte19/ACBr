@@ -46,6 +46,16 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/03/2026
+-- ACBrTEFAPIComum --
+[+] Adicionadas novas constantes de Erros comuns, a todos TEFs
+[+] Adicionada as propriedades:
+    TACBrTEFAPIDadosAutomacao.Idioma: (idPortugues, idIngles, idEspanhol)
+    TACBrTEFAPIDadosAutomacao.ParamAplicacao: String
+[-] Correção no método TACBrTEFAPIDadosAutomacao.Assign
+[-] Método TACBrTEFAPIComum.Destroy modificado para desligar Eventos de Log,
+    para evitar A.V. no encerramento
+    (por: DSA)
+
 -- ACBrTEFAPICliSiTef --
 [-] Correção em "TACBrTEFAPIClassCliSiTef.FazerRequisicaoSiTef" para que o parâmetro
     "NumeroCuponFiscal" do método "IniciaFuncaoSiTefInterativo", não tenha repetição,

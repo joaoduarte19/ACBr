@@ -3,7 +3,7 @@
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
 {                                                                              }
-{ Direitos Autorais Reservados (c) 2024 Daniel Simoes de Almeida               }
+{ Direitos Autorais Reservados (c) 2026 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
 {                                                                              }
@@ -53,6 +53,7 @@ uses
 resourcestring
   sACBrTEFAPIIdentificadorVendaVazioException = 'IdentificadorVenda não pode ser vazio';
   sACBrTEFAPIValorPagamentoInvalidoException = 'Valor do Pagamento inválido';
+  sACBrTEFAPIParamNaoInformado = 'Parâmetro %s não informado';
 
   sACBrTEFAPIClassDonoNaoDefinido = 'O componente TACBrTEFAPIComumClass, deve ser filho de TACBrTEFAPIComum';
   sACBrTEFAPIMetodoInvalidoException = 'Método: %s '+ sLineBreak +
@@ -70,7 +71,10 @@ resourcestring
                                  'Rede: %s' + sLineBreak +
                                  'NSU: %s';
   sACBrTEFAPIPNGNaoSuportado = 'PNG não suportado nesse compilador';
-
+  sACBrTEFAPILibJaInicializada = 'Biblioteca %s já foi inicializada';
+  sACBrTEFAPILibNaoInicializada = 'Biblioteca %s ainda NÃO foi carregada';
+  sACBrTEFAPIErroAoCarregarMetodoDeLib = 'Erro ao carregar método: %s da biblioteca: %s';
+  sACBrTEFAPIMetodoNaoRequeridoNaoEncontrado = 'Método não obrigatório: %s não encontrado na biblioteca: %s';
 
 const
   CPREFIXO_ARQUIVO_TEF = 'ACBr_';
@@ -85,14 +89,18 @@ type
 
   TACBrTEFRespHack = class(TACBrTEFResp);
 
+  TACBrTEFAPIIdioma = (idPortugues, idIngles, idEspanhol);
+
   { TACBrTEFAPIDadosAutomacao }
 
   TACBrTEFAPIDadosAutomacao = class( TPersistent )
   private
     fAutoAtendimento: Boolean;
+    fIdioma: TACBrTEFAPIIdioma;
     fMensagemPinPad: String;
     fNomeSoftwareHouse: String;
     fNomeAplicacao: String;
+    fParamAplicacao: String;
     fVersaoAplicacao: String;
     fSuportaSaque: Boolean;
     fSuportaDesconto: Boolean;
@@ -113,8 +121,9 @@ type
   published
     property NomeSoftwareHouse: String read fNomeSoftwareHouse write SetNomeSoftwareHouse;
     property CNPJSoftwareHouse: String read fCNPJSoftwareHouse write fCNPJSoftwareHouse;
-    property NomeAplicacao: String read fNomeAplicacao write SetNomeAplicacao ;
-    property VersaoAplicacao: String read fVersaoAplicacao write SetVersaoAplicacao ;
+    property NomeAplicacao: String read fNomeAplicacao write SetNomeAplicacao;
+    property VersaoAplicacao: String read fVersaoAplicacao write SetVersaoAplicacao;
+    property ParamAplicacao: String read fParamAplicacao write fParamAplicacao;
     property MensagemPinPad: String read fMensagemPinPad write fMensagemPinPad;
 
     Property SuportaSaque: Boolean read fSuportaSaque write fSuportaSaque default False;
@@ -126,6 +135,7 @@ type
     property UtilizaSaldoTotalVoucher: Boolean read fUtilizaSaldoTotalVoucher
       write fUtilizaSaldoTotalVoucher default False;
     property MoedaISO4217: Integer read fMoedaISO4217 write fMoedaISO4217 default CMODEDA_BRL;
+    property Idioma: TACBrTEFAPIIdioma read fIdioma write fIdioma default idPortugues;
     property AutoAtendimento: Boolean read fAutoAtendimento write fAutoAtendimento;  // Ainda NÃO utilizado
   end;
 
@@ -472,6 +482,7 @@ begin
   fNomeSoftwareHouse := '';
   fNomeAplicacao := '';
   fVersaoAplicacao := '';
+  fParamAplicacao := '';
   fMensagemPinPad := '';
   fImprimeViaClienteReduzida := False;
   fSuportaDesconto := False;
@@ -480,6 +491,7 @@ begin
   fUtilizaSaldoTotalVoucher := False;
   fMoedaISO4217 := 986;
   fAutoAtendimento := False;
+  fIdioma := idPortugues;
 end;
 
 procedure TACBrTEFAPIDadosAutomacao.Assign(Source: TPersistent);
@@ -491,14 +503,18 @@ begin
     DadosSource := TACBrTEFAPIDadosAutomacao(Source);
 
     fNomeSoftwareHouse := DadosSource.NomeSoftwareHouse;
+    fCNPJSoftwareHouse := DadosSource.CNPJSoftwareHouse;
     fNomeAplicacao := DadosSource.NomeAplicacao;
     fVersaoAplicacao := DadosSource.VersaoAplicacao;
+    fParamAplicacao := DadosSource.ParamAplicacao;
     fMensagemPinPad := DadosSource.MensagemPinPad;
-    fImprimeViaClienteReduzida := DadosSource.ImprimeViaClienteReduzida;
-    fSuportaDesconto := DadosSource.SuportaDesconto;
     fSuportaSaque := DadosSource.SuportaSaque;
+    fSuportaDesconto := DadosSource.SuportaDesconto;
+    fImprimeViaClienteReduzida := DadosSource.ImprimeViaClienteReduzida;
     fSuportaViasDiferenciadas := DadosSource.SuportaViasDiferenciadas;
     fUtilizaSaldoTotalVoucher := DadosSource.UtilizaSaldoTotalVoucher;
+    fMoedaISO4217 := DadosSource.MoedaISO4217;
+    fIdioma := DadosSource.Idioma;
     fAutoAtendimento := DadosSource.AutoAtendimento;
   end;
 end;
@@ -1108,6 +1124,10 @@ end;
 
 destructor TACBrTEFAPIComum.Destroy;
 begin
+  // Desliga gravação de Logs, para evitar A.V.
+  fArqLOG := '';
+  fQuandoGravarLog := Nil;
+
   fpTEFAPIClass.Free;
   fDadosAutomacao.Free;
   fDadosEstabelecimento.Free;
