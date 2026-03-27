@@ -448,7 +448,7 @@ begin
   else
   begin
     DataHora := Now;
-    DoctoStr := FormatDateTime('YYYYMMDDHHNNSS', DataHora );
+    DoctoStr := FormatDateTime('YYMMDDHHNNSSZZZ', DataHora );
   end;
 
   DataStr := FormatDateTime('YYYYMMDD', DataHora );
@@ -981,6 +981,7 @@ end;
 
 procedure TACBrTEFAPIClassCliSiTef.DoExibirQRCode(const DadosQRCode: String);
 begin
+  fpACBrTEFAPI.GravarLog( 'TACBrTEFAPIClassCliSiTef.DoExibirQRCode( '+DadosQRCode+' )');
   with TACBrTEFAPI(fpACBrTEFAPI) do
   begin
     if Assigned(QuandoExibirQRCode) then

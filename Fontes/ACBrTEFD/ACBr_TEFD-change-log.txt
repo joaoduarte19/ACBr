@@ -45,6 +45,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/03/2026
+-- ACBrTEFAPICliSiTef --
+[-] Correção em "TACBrTEFAPIClassCliSiTef.FazerRequisicaoSiTef" para que o parâmetro
+    "NumeroCuponFiscal" do método "IniciaFuncaoSiTefInterativo", não tenha repetição,
+    quando transações diferentes, forem iniciadas no mesmo segundo.
+[+] Adicionado Log no método TACBrTEFAPIClassCliSiTef.DoExibirQRCode
+    (por: DSA)
+
 13/02/2026
 -- ACBrTEFAPICliSiTef, ACBrTEFDCliSiTef, ACBrTEFCliSiTefComum --
 [-] Correção de Erro de A.V. no D7.
