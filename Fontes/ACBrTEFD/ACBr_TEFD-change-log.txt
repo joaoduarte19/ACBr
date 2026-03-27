@@ -46,6 +46,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/03/2026
+-- ACBrTEFComum, ACBrTEFDClass --
+[+] Método: "AjustaLinhaImagemComprovante" movido de "TACBrTEFDRespTXT" para "TACBrTEFResp"
+    (por: DSA)
+
 -- ACBrTEFAPICliSiTef.pas --
 [*] Correção no envio do parâmetro DevolveStringQRCode (CliSiTef) para exibir QRCode na tela.
     [ACBR-9199] - https://www.projetoacbr.com.br/forum/topic/91294-qr-code-na-tela-acbrtefapi/

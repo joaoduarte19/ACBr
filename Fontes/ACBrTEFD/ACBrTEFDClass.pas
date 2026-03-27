@@ -3,7 +3,7 @@
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
 {                                                                              }
-{ Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
+{ Direitos Autorais Reservados (c) 2026 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
 {                                                                              }
@@ -302,7 +302,6 @@ type
    private
      function GetTrailerOK : Boolean;
    protected
-     function AjustaLinhaImagemComprovante(Linha: AnsiString): AnsiString;
      function GetTransacaoAprovada : Boolean; override;
    public
      procedure ConteudoToProperty; override;
@@ -944,16 +943,6 @@ function TACBrTEFDRespTXT.GetTransacaoAprovada : Boolean;
 begin
    Result := (StrToIntDef(Trim(fpStatusTransacao),-1) = 0) or
              (UpperCase(Trim(fpStatusTransacao)) = 'P1') ;  // Consulta de Cheque
-end;
-
-function TACBrTEFDRespTXT.AjustaLinhaImagemComprovante( Linha: AnsiString ) : AnsiString;
-begin
-   Result := Linha;
-
-   if LeftStr(Result,1) = '"' then
-      Delete(Result,1,1);
-   if RightStr(Result,1) = '"' then
-      Delete(Result,Length(Result),1);
 end;
 
 function TACBrTEFDRespTXT.GetTrailerOK : Boolean;

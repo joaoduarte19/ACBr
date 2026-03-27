@@ -72,6 +72,7 @@ const
   // https://pt.wikipedia.org/wiki/ISO_4217
   CMODEDA_BRL = 986;
   CMODEDA_USD = 840;
+  CMODEDA_EUR = 978;
 
 type
 
@@ -409,6 +410,7 @@ type
 
     procedure SetCNFEnviado(const AValue: Boolean);
     procedure SetArqBackup(const AValue: String);
+    function AjustaLinhaImagemComprovante(const Linha: AnsiString): AnsiString;
 
     function GetTransacaoAprovada: Boolean; virtual;
     procedure ExtrairBINdePAN;
@@ -1240,6 +1242,16 @@ end;
 procedure TACBrTEFResp.SetArqBackup(const AValue: String);
 begin
   fpArqBackup := Trim(AValue);
+end;
+
+function TACBrTEFResp.AjustaLinhaImagemComprovante(const Linha: AnsiString): AnsiString;
+begin
+  Result := Linha;
+
+  if LeftStr(Result,1) = '"' then
+    Delete(Result, 1, 1);
+  if RightStr(Result,1) = '"' then
+    Delete(Result, Length(Result), 1);
 end;
 
 function TACBrTEFResp.GetTransacaoAprovada: Boolean;
