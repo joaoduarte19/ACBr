@@ -3,7 +3,7 @@
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
 {                                                                              }
-{ Direitos Autorais Reservados (c) 2024 Daniel Simoes de Almeida               }
+{ Direitos Autorais Reservados (c) 2026 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
 {                                                                              }
@@ -1709,6 +1709,7 @@ implementation
 
 uses
   IniFiles, StrUtils, TypInfo, Math, DateUtils,
+  ACBrTEFAPIComum,
   ACBrUtil.Strings,
   ACBrUtil.Math,
   ACBrUtil.FilesIO;
@@ -2058,9 +2059,9 @@ procedure TACBrTEFScopeAPI.LoadLibFunctions;
       begin
         LibPointer := NIL ;
         if FuncIsRequired then
-          DoException(Format('Erro ao carregar a função: %s de: %s',[FuncName, LibName]))
+          DoException(Format(ACBrStr(sACBrTEFAPIErroAoCarregarMetodoDeLib),[FuncName, LibName]))
         else
-          GravarLog(Format('     Função não requerida: %s não encontrada em: %s',[FuncName, LibName]));
+          GravarLog(Format('     '+ACBrStr(sACBrTEFAPIMetodoNaoRequeridoNaoEncontrado),[FuncName, LibName]));
         end ;
     end ;
   end;

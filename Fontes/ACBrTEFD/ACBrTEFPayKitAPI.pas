@@ -3,7 +3,7 @@
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
 {                                                                              }
-{ Direitos Autorais Reservados (c) 2024 Daniel Simoes de Almeida               }
+{ Direitos Autorais Reservados (c) 2026 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
 {                                                                              }
@@ -65,16 +65,12 @@ resourcestring
   sErrLojaNaoInformada = 'Número de Loja não informado';
 
   sErrArqPayKitNaoEncontrado = 'Arquivo do PayKit: "%s", não encontrado em: %s';
-  sErrLibJaInicializada = 'Biblioteca DPOSDRV já foi inicializada';
-  sErrLibNaoInicializada = 'Biblioteca DPOSDRV ainda NÃO foi carregada';
   sErrDirPayKitInvalido = 'Subdiretório "%s" do PayKit, não encontrado na Pasta: %s';
   sErrEventoNaoAtribuido = 'Evento %s não atribuido';
   sErrImagemNaoEncontrada = 'Imagem %s não encontrada';
 
 type
   EACBrTEFPayKitAPI = class(Exception);
-
-  TACBrTEFPayKitGravarLog = procedure(const ALogLine: String; var Tratado: Boolean) of object ;
 
   TACBrTEFPayKitTipoMensagem = (msgInfo, msgAlerta, msgErro, msgAdicional, msgTerminal, msgPreview);
 
@@ -204,7 +200,7 @@ type
     fNumeroEmpresa: Integer;
     fNumeroLoja: Integer;
     fNumeroPDV: Integer;
-    fOnGravarLog: TACBrTEFPayKitGravarLog;
+    fOnGravarLog: TACBrGravarLog;
     fPortaPinPad: String;
     fUltimoNumeroControle: Integer;
     fUltimaMsgEnviada: String;
@@ -366,18 +362,18 @@ type
     xRegPDVComandos: procedure(pCallBackComandos: TACBrTEFPayKitCallBackComandos);
       {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
 
-    procedure SetCNPJEstabelecimento(AValue: String);
-    procedure SetConfiguracaoIpPortaSsl(AValue: String);
+    procedure SetCNPJEstabelecimento(const AValue: String);
+    procedure SetConfiguracaoIpPortaSsl(const AValue: String);
     procedure SetEmTransacao(AValue: Boolean);
-    procedure SetURLCertificado(AValue: String);
+    procedure SetURLCertificado(const AValue: String);
     procedure SetInicializada(AValue: Boolean);
     procedure SetModoDesfazimento(AValue: Byte);
-    procedure SetNomeAutomacao(AValue: String);
+    procedure SetNomeAutomacao(const AValue: String);
     procedure SetNumeroEmpresa(AValue: Integer);
     procedure SetNumeroLoja(AValue: Integer);
     procedure SetNumeroPDV(AValue: Integer);
-    procedure SetVersaoAutomacao(AValue: String);
-    procedure SetPathPayKit(AValue: String);
+    procedure SetVersaoAutomacao(const AValue: String);
+    procedure SetPathPayKit(const AValue: String);
 
   protected
     procedure LoadLibFunctions;
@@ -420,7 +416,7 @@ type
     property Inicializada: Boolean read fInicializada write SetInicializada;
     property EmTransacao: Boolean read fEmTransacao write SetEmTransacao;
 
-    property OnGravarLog: TACBrTEFPayKitGravarLog read fOnGravarLog write fOnGravarLog;
+    property OnGravarLog: TACBrGravarLog read fOnGravarLog write fOnGravarLog;
     property OnExibeMensagem: TACBrTEFPayKitQuandoExibirMensagem read fOnExibeMensagem
       write fOnExibeMensagem;
     property OnTransacaoEmAndamento: TACBrTEFPayKitTransacaoEmAndamento read fOnTransacaoEmAndamento
@@ -442,7 +438,7 @@ type
     function VersaoDPOS: String;
     procedure InicializaDPOS(Forcar: Boolean = False);
     procedure FinalizaDPOS(Forcar: Boolean = False);
-    function CalcPayKitPath(ASubFolder: String; VerificarSeExiste: Boolean = True): String;
+    function CalcPayKitPath(const ASubFolder: String; VerificarSeExiste: Boolean = True): String;
 
     procedure TransacaoEspecial(iCodigoTransacao: LongInt; var Dados: AnsiString);
     procedure DefineParametroTransacao(iCodigoParametro: LongInt; const ValorParametro: AnsiString);
@@ -569,6 +565,7 @@ implementation
 
 uses
   IniFiles, Math, StrUtils, DateUtils,
+  ACBrTEFAPIComum,
   ACBrUtil.Strings,
   ACBrUtil.FilesIO;
 
@@ -2251,21 +2248,21 @@ begin
     DesInicializar;
 end;
 
-procedure TACBrTEFPayKitAPI.SetCNPJEstabelecimento(AValue: String);
+procedure TACBrTEFPayKitAPI.SetCNPJEstabelecimento(const AValue: String);
 begin
   if fCNPJEstabelecimento = AValue then
     Exit;
   if fInicializada then
-    DoException(sErrLibJaInicializada);
+    DoException(Format(sACBrTEFAPILibJaInicializada, [CPayKitLib]));
   fCNPJEstabelecimento := LeftStr(OnlyNumber(AValue), 14);
 end;
 
-procedure TACBrTEFPayKitAPI.SetConfiguracaoIpPortaSsl(AValue: String);
+procedure TACBrTEFPayKitAPI.SetConfiguracaoIpPortaSsl(const AValue: String);
 begin
   if fConfiguracaoIpPortaSsl = AValue then
     Exit;
   if fInicializada then
-    DoException(sErrLibJaInicializada);
+    DoException(Format(sACBrTEFAPILibJaInicializada, [CPayKitLib]));
   fConfiguracaoIpPortaSsl := AValue;
 end;
 
@@ -2281,12 +2278,12 @@ begin
   fUltimaMsgEnviada := '';
 end;
 
-procedure TACBrTEFPayKitAPI.SetURLCertificado(AValue: String);
+procedure TACBrTEFPayKitAPI.SetURLCertificado(const AValue: String);
 begin
   if fURLCertificado = AValue then
     Exit;
   if fInicializada then
-    DoException(sErrLibJaInicializada);
+    DoException(Format(sACBrTEFAPILibJaInicializada, [CPayKitLib]));
   fURLCertificado := AValue;
 end;
 
@@ -2295,16 +2292,16 @@ begin
   if fModoDesfazimento = AValue then
     Exit;
   if fInicializada then
-    DoException(sErrLibJaInicializada);
+    DoException(Format(sACBrTEFAPILibJaInicializada, [CPayKitLib]));
   fModoDesfazimento := max(0, min(1, AValue));
 end;
 
-procedure TACBrTEFPayKitAPI.SetNomeAutomacao(AValue: String);
+procedure TACBrTEFPayKitAPI.SetNomeAutomacao(const AValue: String);
 begin
   if fNomeAutomacao = AValue then
     Exit;
   if fInicializada then
-    DoException(sErrLibJaInicializada);
+    DoException(Format(sACBrTEFAPILibJaInicializada, [CPayKitLib]));
   fNomeAutomacao := LeftStr(AValue, 20);
 end;
 
@@ -2313,7 +2310,7 @@ begin
   if fNumeroEmpresa = AValue then
     Exit;
   if fInicializada then
-    DoException(sErrLibJaInicializada);
+    DoException(Format(sACBrTEFAPILibJaInicializada, [CPayKitLib]));
   fNumeroEmpresa := max(AValue, 0);
 end;
 
@@ -2322,7 +2319,7 @@ begin
   if fNumeroLoja = AValue then
     Exit;
   if fInicializada then
-    DoException(sErrLibJaInicializada);
+    DoException(Format(sACBrTEFAPILibJaInicializada, [CPayKitLib]));
   fNumeroLoja := max(AValue, 0);
 end;
 
@@ -2331,17 +2328,17 @@ begin
   if fNumeroPDV = AValue then
     Exit;
   if fInicializada then
-    DoException(sErrLibJaInicializada);
+    DoException(Format(sACBrTEFAPILibJaInicializada, [CPayKitLib]));
   fNumeroPDV := max(AValue, 0);
 end;
 
-procedure TACBrTEFPayKitAPI.SetVersaoAutomacao(AValue: String);
+procedure TACBrTEFPayKitAPI.SetVersaoAutomacao(const AValue: String);
 begin
   if fVersaoAutomacao = AValue then Exit;
   fVersaoAutomacao := LeftStr(AValue, 20);
 end;
 
-procedure TACBrTEFPayKitAPI.SetPathPayKit(AValue: String);
+procedure TACBrTEFPayKitAPI.SetPathPayKit(const AValue: String);
 var
   p: String;
 begin
@@ -2351,7 +2348,7 @@ begin
   GravarLog('TACBrTEFPayKitAPI.SetPathPayKit( '+AValue+' )');
 
   if fInicializada then
-    DoException(sErrLibJaInicializada);
+    DoException(Format(sACBrTEFAPILibJaInicializada, [CPayKitLib]));
 
   if (AValue = '') then
   begin
@@ -2369,7 +2366,7 @@ begin
   fPathPayKit := p;
 end;
 
-function TACBrTEFPayKitAPI.CalcPayKitPath(ASubFolder: String;
+function TACBrTEFPayKitAPI.CalcPayKitPath(const ASubFolder: String;
   VerificarSeExiste: Boolean): String;
 var
   p: String;
@@ -2470,9 +2467,9 @@ procedure TACBrTEFPayKitAPI.LoadLibFunctions;
       begin
         LibPointer := NIL ;
         if FuncIsRequired then
-          DoException(Format('Erro ao carregar a função: %s de: %s',[FuncName, LibName]))
+          DoException(Format(ACBrStr(sACBrTEFAPIErroAoCarregarMetodoDeLib),[FuncName, LibName]))
         else
-          GravarLog(Format('     Função não requerida: %s não encontrada em: %s',[FuncName, LibName]));
+          GravarLog(Format('     '+ACBrStr(sACBrTEFAPIMetodoNaoRequeridoNaoEncontrado),[FuncName, LibName]));
         end ;
     end ;
   end;
@@ -2566,9 +2563,8 @@ begin
   if not fCarregada then
     Exit;
 
-  GravarLog('TACBrTEFPayKitAPI.UnLoadLibFunctions');
-
   sLibName := CalcPayKitPath(CPayKitDirBin) + CPayKitLib;
+  GravarLog('TACBrTEFPayKitAPI.UnLoadLibFunctions( '+sLibName+' )');
   UnLoadLibrary( sLibName );
   fCarregada := False;
   ClearMethodPointers;
@@ -2703,7 +2699,7 @@ end;
 procedure TACBrTEFPayKitAPI.VerificarCarregada;
 begin
   if not fCarregada then
-    DoException(sErrLibNaoInicializada);
+    DoException(Format(sACBrTEFAPILibNaoInicializada, [CPayKitLib]));
 end;
 
 initialization

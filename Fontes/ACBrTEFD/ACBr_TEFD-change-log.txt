@@ -46,6 +46,16 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/03/2026
+-- ACBrTEFCliSiTefComum, ACBrTEFPayKitAPI, ACBrTEFScopeAPI, ACBrTEFTPagAPI --
+[*] Units Modificadas para usar Constantes "sACBrTEFAPIErroAoCarregarMetodoDeLib" e
+    "sACBrTEFAPIMetodoNaoRequeridoNaoEncontrado"
+
+-- ACBrTEFPayKitAPI --
+[*] Tipo "TACBrTEFPayKitGravarLog" removido, por ser identico a TACBrGravarLog
+[*] Método "TACBrTEFPayKitAPI.OnGravarLog" modificado para usar TACBrGravarLog
+[*] Métodos "Setter" modificados, para usar "Const" nas Strings
+    (por: DSA)
+
 -- ACBrTEFAPIComum --
 [+] Adicionadas novas constantes de Erros comuns, a todos TEFs
 [+] Adicionada as propriedades:

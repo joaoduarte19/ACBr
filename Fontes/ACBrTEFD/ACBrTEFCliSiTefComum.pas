@@ -3,7 +3,7 @@
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
 {                                                                              }
-{ Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
+{ Direitos Autorais Reservados (c) 2026 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
 {                                                                              }
@@ -278,9 +278,8 @@ procedure ConteudoToPropertyCliSiTef(AACBrTEFResp: TACBrTEFResp);
 implementation
 
 uses
-  StrUtils,
-  Math,
-  DateUtils,
+  StrUtils, Math, DateUtils,
+  ACBrTEFAPIComum,
   ACBrUtil.Strings,
   ACBrUtil.Base,
   ACBrUtil.Math,
@@ -575,9 +574,9 @@ procedure TACBrTEFCliSiTefAPI.LoadDLLFunctions ;
      begin
        LibPointer := NIL ;
        if FuncIsRequired then
-         DoException(Format(ACBrStr('Erro ao carregar a função: %s de: %s'),[FuncName, LibName]))
+         DoException(Format(ACBrStr(sACBrTEFAPIErroAoCarregarMetodoDeLib),[FuncName, LibName]))
        else
-         GravarLog(Format(ACBrStr('     Função não requerida: %s não encontrada em: %s'),[FuncName, LibName]));
+         GravarLog(Format(ACBrStr('     '+ACBrStr(sACBrTEFAPIMetodoNaoRequeridoNaoEncontrado)),[FuncName, LibName]));
        end ;
    end ;
  end;
