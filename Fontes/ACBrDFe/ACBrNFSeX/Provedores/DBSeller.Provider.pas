@@ -415,7 +415,7 @@ begin
   Request := Request + '</e:ConsultarNfsePorRps>';
 
   Result := Executar('', Request,
-                     ['return'], [Namespace]);
+                     ['return', 'ConsultarNfseRpsResposta'], [Namespace]);
 end;
 
 function TACBrNFSeXWebserviceDBSeller204.ConsultarNFSeServicoPrestado(

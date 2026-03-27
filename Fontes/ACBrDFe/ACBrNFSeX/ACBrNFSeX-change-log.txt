@@ -44,24 +44,27 @@ Símbolo : Significado
 
 
 27/03/2026
+-- DBSeller.Provider --
+[-] Ajuste para correta leitura do retorno da consulta por RPS.
+   Por: MGWare Dev
+   Veja: https://www.projetoacbr.com.br/forum/topic/88480-acbr-8649-altera%C3%A7%C3%B5es-para-reforma-tribut%C3%A1ria-provedor-dbseller-204/?&_rid=124795#findComment-596095 
 -- ACBrNFSeXServicos --
 [*] ACBR-9186 - A cidade de Santa Helena de Goias/GO trocou de provedor, agora é o Centi.
    Por: PrimeSoftware
+[*] A cidade de Monte Aprazível/SP trocou de provedor, agora usa o Padrão Nacional.
+   Por: johnny_camara
+   Veja: https://www.projetoacbr.com.br/forum/topic/91410-dificuldades-emissao-nfse-municipio-monte-aprazivel-sp/ 
 [*] ACBR-9157 - A cidade de Borda da Mata/MG trocou as URLs, o provedor continua o mesmo.
    Por: PrimeSoftware
 -- Pronim.Provider --
 [*] ACBR-9181 - Possível solução para o Memory Leak.
    Por: Italo Giurizzato Junior
-
-26/03/2026
--- ACBrNFSeXServicos --
-[*] A cidade de Monte Aprazível/SP trocou de provedor, agora usa o Padrão Nacional.
-   Por: johnny_camara
-   Veja: https://www.projetoacbr.com.br/forum/topic/91410-dificuldades-emissao-nfse-municipio-monte-aprazivel-sp/ 
 -- ACBRNFSeXLerXML_ABRASFv1 --
 [*] ACBR-9198 - Adiciona a leitura de INDOP e cClassTrib a partir do INI para a classe de Serviços.
    Por: Valter Patrick
    Veja: https://www.projetoacbr.com.br/forum/topic/91365-acbr-9198-emiss%C3%A3o-da-nfs-e-com-novas-tags-lib-java/
+
+26/03/2026
 -- ACBrNFSeX.GravarIni/ACBrNFSeX.LerIni/ACBrNFSeXLerXml --
 [*] Ajustes na leitura e escrita do arquivo INI.
    Por: Italo Giurizzato Junior
