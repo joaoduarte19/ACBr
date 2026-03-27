@@ -3,7 +3,7 @@
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
 {                                                                              }
-{ Direitos Autorais Reservados (c) 2024 Daniel Simoes de Almeida               }
+{ Direitos Autorais Reservados (c) 2026 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
 {                                                                              }
@@ -228,6 +228,7 @@ begin
   fTEFPayGoAPI.ImprimeViaClienteReduzida := fpACBrTEFAPI.DadosAutomacao.ImprimeViaClienteReduzida;
   fTEFPayGoAPI.UtilizaSaldoTotalVoucher := fpACBrTEFAPI.DadosAutomacao.UtilizaSaldoTotalVoucher;
   fTEFPayGoAPI.MensagemPinPad := fpACBrTEFAPI.DadosAutomacao.MensagemPinPad;
+  fTEFPayGoAPI.Idioma := Integer(fpACBrTEFAPI.DadosAutomacao.Idioma);
   i := Integer(TACBrTEFAPI(fpACBrTEFAPI).ExibicaoQRCode);
   fTEFPayGoAPI.ExibicaoQRCode := TACBrTEFPGWebAPIExibicaoQRCode(i);
 

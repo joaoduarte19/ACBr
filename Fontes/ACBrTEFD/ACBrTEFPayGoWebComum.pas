@@ -3,7 +3,7 @@
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
 {                                                                              }
-{ Direitos Autorais Reservados (c) 2024 Daniel Simoes de Almeida               }
+{ Direitos Autorais Reservados (c) 2026 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
 {                                                                              }
@@ -568,6 +568,7 @@ type
     fAmbiente: SmallInt;
     fExibeMensagemCheckout: Boolean;
     fExibicaoQRCode: TACBrTEFPGWebAPIExibicaoQRCode;
+    fIdioma: SmallInt;
     fImprimeViaClienteReduzida: Boolean;
     fInicializada: Boolean;
     fCarregada: Boolean;
@@ -821,6 +822,7 @@ type
     property PortaPinPad: Integer read fPortaPinPad write fPortaPinPad;
     property ParametrosAdicionais: TACBrTEFParametros read fParametrosAdicionais;
     property Ambiente: SmallInt read fAmbiente write fAmbiente;
+    property Idioma: SmallInt read fIdioma write fIdioma default 0;   // 0: Português; 1: Inglês; 2: Espanhol
 
     Property SuportaSaque: Boolean read fSuportaSaque write fSuportaSaque;
     Property SuportaDesconto: Boolean read fSuportaDesconto write fSuportaDesconto;
@@ -874,7 +876,7 @@ implementation
 
 uses
   StrUtils, dateutils, math, typinfo,
-  ACBrConsts,
+  ACBrConsts, ACBrTEFAPIComum,
   ACBrUtil.Strings,
   ACBrUtil.Base,
   ACBrUtil.FilesIO,
@@ -1196,6 +1198,7 @@ begin
   fPortaTCP := '';
   fPortaPinPad := 0;
   fAmbiente := -1;
+  fIdioma := 0;
   fConfirmarTransacoesPendentesNoHost := True;
   fPerguntarCartaoDigitadoAposCancelarLeitura := False;
 
@@ -1252,7 +1255,9 @@ begin
     ExibicaoQRCode := qreExibirNoPinPad;
 
   if (fDiretorioTrabalho = '') then
-    fDiretorioTrabalho := ApplicationPath + 'TEF' + PathDelim + 'PGWeb';
+    fDiretorioTrabalho := ApplicationPath + 'TEF' + PathDelim + 'PGWeb' + PathDelim
+  else
+    fDiretorioTrabalho := PathWithDelim(Trim(fDiretorioTrabalho));
 
   if not DirectoryExists(fDiretorioTrabalho) then
     ForceDirectories(fDiretorioTrabalho);
@@ -3036,6 +3041,7 @@ begin
   AdicionarParametro(PWINFO_MERCHADDDATA4, CACBrTEFPGWebAPIName+' '+CACBrTEFPGWebAPIVersao);
   if (fExibicaoQRCode > qreAuto) then
     AdicionarParametro(PWINFO_DSPQRPREF, IfThen(fExibicaoQRCode=qreExibirNoCheckOut, '2', '1') );
+  AdicionarParametro(PWINFO_LANGUAGE, IntToStr(Integer(Idioma)));
 end;
 
 function TACBrTEFPGWebAPI.CalcularCapacidadesDaAutomacao: Integer;
@@ -3100,10 +3106,10 @@ begin
   if (PathNovo <> '') then
   begin
     if not FileExists(PathNovo) then
-      raise EACBrTEFPayGoWeb.CreateFmt(sErrLibNaoEncontrada, [PathNovo]);
+      raise EACBrTEFPayGoWeb.CreateFmt(ACBrStr(sErrLibNaoEncontrada), [PathNovo]);
 
     if not SetPathPGWebLib(PathNovo) then
-      raise EACBrTEFPayGoWeb.CreateFmt(sErrVarDef, [PathNovo, GetVarPathPGWebLib]);
+      raise EACBrTEFPayGoWeb.CreateFmt(ACBrStr(sErrVarDef), [PathNovo, GetVarPathPGWebLib]);
   end;
 
   fIsDebug := AValue;
@@ -3318,9 +3324,9 @@ procedure TACBrTEFPGWebAPI.LoadLibFunctions;
       begin
         LibPointer := NIL ;
         if FuncIsRequired then
-          DoException(Format(ACBrStr('Erro ao carregar a função: %s de: %s'),[FuncName, LibName]))
+          DoException(Format(ACBrStr(sACBrTEFAPIErroAoCarregarMetodoDeLib),[FuncName, LibName]))
         else
-          GravarLog(Format(ACBrStr('     Função não requerida: %s não encontrada em: %s'),[FuncName, LibName]));
+          GravarLog(Format(ACBrStr('     '+ACBrStr(sACBrTEFAPIMetodoNaoRequeridoNaoEncontrado)),[FuncName, LibName]));
         end ;
     end ;
   end;

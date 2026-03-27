@@ -46,6 +46,15 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/03/2026
+-- ACBrTEFAPIPayGoWeb --
+[*] TACBrTEFAPIClassPayGoWeb.Inicializar modificado, para considerar propriedade
+    TACBrTEFAPI.DadosAutomacao.Idioma
+
+-- ACBrTEFPayGoWebComum --
+[+] Adicionada propriedade "TACBrTEFPGWebAPI.Idioma: SmallInt"
+[*] Ajuste em "TACBrTEFPGWebAPI.Inicializar", para sempre adicionar Barra no final
+    do Path informado em "DiretorioTrabalho"
+
 -- ACBrTEFCliSiTefComum, ACBrTEFPayKitAPI, ACBrTEFScopeAPI, ACBrTEFTPagAPI --
 [*] Units Modificadas para usar Constantes "sACBrTEFAPIErroAoCarregarMetodoDeLib" e
     "sACBrTEFAPIMetodoNaoRequeridoNaoEncontrado"
@@ -54,7 +63,6 @@ Símbolo : Significado
 [*] Tipo "TACBrTEFPayKitGravarLog" removido, por ser identico a TACBrGravarLog
 [*] Método "TACBrTEFPayKitAPI.OnGravarLog" modificado para usar TACBrGravarLog
 [*] Métodos "Setter" modificados, para usar "Const" nas Strings
-    (por: DSA)
 
 -- ACBrTEFAPIComum --
 [+] Adicionadas novas constantes de Erros comuns, a todos TEFs
@@ -64,7 +72,6 @@ Símbolo : Significado
 [-] Correção no método TACBrTEFAPIDadosAutomacao.Assign
 [-] Método TACBrTEFAPIComum.Destroy modificado para desligar Eventos de Log,
     para evitar A.V. no encerramento
-    (por: DSA)
 
 -- ACBrTEFAPICliSiTef --
 [-] Correção em "TACBrTEFAPIClassCliSiTef.FazerRequisicaoSiTef" para que o parâmetro
