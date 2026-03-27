@@ -241,6 +241,7 @@ var
   ANode: TACBrXmlNode;
   ANodeArray: TACBrXmlNodeArray;
   AErro: TNFSeEventoCollectionItem;
+  Codigo, Descricao: string;
 begin
   ANode := RootNode.Document.Root.Childrens.FindAnyNs('notaFiscal');
 
@@ -257,6 +258,11 @@ begin
     for I := Low(ANodeArray) to High(ANodeArray) do
     begin
       ANode := ANodeArray[I];
+
+      Codigo := ObterValor(ANode, 'code');
+      Descricao := ObterValor(ANode, 'message');
+
+      if (Codigo = '') and (Descricao = '') then Continue;
 
       AErro := Response.Erros.New;
       AErro.Codigo := ObterValor(ANode, 'code');

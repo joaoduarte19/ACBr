@@ -39,9 +39,13 @@ interface
 uses
   SysUtils, Classes, Variants,
   ACBrXmlBase,
-  ACBrNFSeXClass, ACBrNFSeXConversao,
-  ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
+  ACBrXmlDocument,
+  ACBrNFSeXClass,
+  ACBrNFSeXConversao,
+  ACBrNFSeXGravarXml,
+  ACBrNFSeXLerXml,
   ACBrNFSeXWebserviceBase,
+  ACBrNFSeXWebservicesResponse,
   Giap.Provider;
 
 type
@@ -58,6 +62,10 @@ type
     function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
 
+    procedure ProcessarMensagemErros(RootNode: TACBrXmlNode;
+                                     Response: TNFSeWebserviceResponse;
+                                     const AListTag: string = '';
+                                     const AMessageTag: string = 'Erro'); override;
   public
 
   end;
@@ -67,7 +75,8 @@ implementation
 uses
   ACBrDFe.Conversao,
   ACBrDFeException,
-  Intertec.GravarXml, Intertec.LerXml;
+  Intertec.GravarXml,
+  Intertec.LerXml;
 
 { TACBrNFSeProviderIntertec }
 
@@ -100,6 +109,34 @@ begin
       raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
     else
       raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
+end;
+
+procedure TACBrNFSeProviderIntertec.ProcessarMensagemErros(RootNode: TACBrXmlNode;
+  Response: TNFSeWebserviceResponse; const AListTag, AMessageTag: string);
+var
+  ANode: TACBrXmlNode;
+  AErro: TNFSeEventoCollectionItem;
+  StatusEmissao: Integer;
+begin
+  inherited ProcessarMensagemErros(RootNode, Response, AListTag, AMessageTag);
+
+  ANode := RootNode.Document.Root.Childrens.FindAnyNs('notaFiscal');
+
+  if not Assigned(ANode) then
+    ANode := RootNode.Document.Root;
+
+  if not Assigned(ANode) then
+    Exit;
+
+  StatusEmissao := ObterConteudoTag(ANode.Childrens.FindAnyNs('statusEmissao'), tcInt);
+
+  if StatusEmissao = 401 then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := IntToStr(StatusEmissao);
+    AErro.Descricao := ObterConteudoTag(ANode.Childrens.FindAnyNs('messages'), tcStr);
+    AErro.Correcao := '';
   end;
 end;
 

@@ -49,6 +49,11 @@ Símbolo : Significado
    Por: MGWare Dev
    Veja: https://www.projetoacbr.com.br/forum/topic/88480-acbr-8649-altera%C3%A7%C3%B5es-para-reforma-tribut%C3%A1ria-provedor-dbseller-204/?&_rid=124795#findComment-596095 
 -- ACBrNFSeXServicos --
+[*] ACBR-9182 - Inclusão da URL de homologação para cidade de Vinhedo/SP
+-- Giap.Provider/Intertec.Provider --
+[*] ACBR-9182 - Ajustes no ProcessarMensagemErros dos provedores Giap e Intertec.
+   Por: ArecoDesenv
+-- ACBrNFSeXServicos --
 [*] ACBR-9186 - A cidade de Santa Helena de Goias/GO trocou de provedor, agora é o Centi.
    Por: PrimeSoftware
 [*] A cidade de Monte Aprazível/SP trocou de provedor, agora usa o Padrão Nacional.
