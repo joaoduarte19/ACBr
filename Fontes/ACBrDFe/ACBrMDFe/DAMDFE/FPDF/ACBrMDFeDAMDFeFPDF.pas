@@ -455,9 +455,9 @@ begin
             LLogoStringStream.Free;
           end;
         end;
-        SetLength(FLogo, LStream.Size);
-        LStream.Position := 0;
-        LStream.Read(FLogo[0], LStream.Size);
+          SetLength(FLogo, LStream.Size);
+          LStream.Position := 0;
+          LStream.Read(FLogo[0], LStream.Size);
       finally
         LStream.Free;
       end;
@@ -1799,7 +1799,21 @@ var
   x, y: double;
   x1, y1: double;
   i: Integer;
+  j: Integer;
+  k: Integer;
   LTexto: string;
+
+  function AdicionarChave(ATexto: string): boolean;
+  begin
+    Result := (y1 <= -40);
+
+    if not Result then
+      exit;
+
+    LPDF.TextBox(x1, y1, 90, 5, Trim(ATexto), 'T', 'L', 0, '');
+    y1 := y1 + 4;
+  end;
+
 begin
   LPDF := Args.PDF;
   LMDFE := FMDFeUtils.MDFe;
@@ -1824,18 +1838,25 @@ begin
   x1 := x;
   y1 := y - 80;
   LPDF.SetFont('Arial', '', 9);
+  LTexto := '';
+
   for i := 0 to LMDFE.rodo.veicTracao.condutor.Count - 1 do
     begin
-      LTexto := '';
-      if LMDFE.infDoc.infMunDescarga.Count > 0 then
+      for j:=0 to LMDFE.infDoc.infMunDescarga.Count - 1 do
       begin
-        if LMDFE.infDoc.infMunDescarga.Items[0].infNFe.Count > 0 then
-          LTexto := 'NFe - ' + FormatarChaveAcesso(LMDFE.infDoc.infMunDescarga.Items[0].infNFe.Items[0].chNFe)
-        else if LMDFE.infDoc.infMunDescarga.Items[0].infCTe.Count > 0 then
-          LTexto := 'CTe - ' + FormatarChaveAcesso(LMDFE.infDoc.infMunDescarga.Items[0].infCTe.Items[0].chCTe);
+        for k:=0 to LMDFE.infDoc.infMunDescarga.Items[j].infNFe.Count - 1 do
+        begin
+          if not AdicionarChave('NFe - ' + FormatarChaveAcesso(LMDFE.infDoc.infMunDescarga.Items[j].infNFe.Items[k].chNFe)) then
+            break;
+        end;
+
+        for k:=0 to LMDFE.infDoc.infMunDescarga.Items[j].infCTe.Count - 1 do
+        begin
+          if not AdicionarChave('CTe - ' + FormatarChaveAcesso(LMDFE.infDoc.infMunDescarga.Items[j].infCTe.Items[k].chCTe)) then
+            break;
+        end;
       end;
     end;
-  LPDF.TextBox(x1, y1, 90, 5, Trim(LTexto), 'T', 'L', 0, '');
 
   x1 := x + 90;
   y1 := y - 84;
@@ -1846,6 +1867,7 @@ begin
   x1 := x + 90;
   y1 := y - 80;
   LPDF.SetFont('Arial', '', 9);
+  LTexto := '';
   for i := 0 to LMDFE.rodo.veicTracao.condutor.Count - 1 do
     begin
       LTexto := 'Rodoviário Tração';
@@ -1861,6 +1883,7 @@ begin
   x1 := x + 145;
   y1 := y - 80;
   LPDF.SetFont('Arial', '', 9);
+  LTexto := '';
   for i := 0 to LMDFE.rodo.veicTracao.condutor.Count - 1 do
     begin
       LTexto := 'Container';
