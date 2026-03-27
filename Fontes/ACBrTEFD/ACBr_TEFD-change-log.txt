@@ -46,6 +46,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/03/2026
+-- ACBrTEFAPICliSiTef.pas --
+[*] Correção no envio do parâmetro DevolveStringQRCode (CliSiTef) para exibir QRCode na tela.
+    [ACBR-9199] - https://www.projetoacbr.com.br/forum/topic/91294-qr-code-na-tela-acbrtefapi/
+    (Por: Antonio Carlos Junior) 
+
+27/03/2026
 -- ACBrTEFAPIPayGoWeb --
 [*] TACBrTEFAPIClassPayGoWeb.Inicializar modificado, para considerar propriedade
     TACBrTEFAPI.DadosAutomacao.Idioma
