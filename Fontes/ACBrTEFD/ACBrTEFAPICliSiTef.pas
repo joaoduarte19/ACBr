@@ -315,15 +315,6 @@ begin
     if fpACBrTEFAPI.DadosAutomacao.SuportaViasDiferenciadas then
       ParamAdicConfig.Values[CPARAM_MultiplosCupons] := '1';
 
-  // Tratamento de QRCode exibido na tela da automação
-  // https://dev.softwareexpress.com.br/docs/clisitef-interface-aplicacao/parametro-adicional-tratamento-de-qrcode
-  //
-  // Parametro de CONFIGURAÇÃO (ConfiguraIntSiTefInterativoEx). A CliSiTef espera este
-  // parametro no formato de "funcionalidade" (com chaves) e não como restrição (colchetes).
-  if (TACBrTEFAPI(fpACBrTEFAPI).ExibicaoQRCode = qrapiExibirAplicacao) then
-    if (pos(CPARAM_DevolveStringQRCode, ParamAdicConfig.Text) = 0) then
-      ParamAdicConfig.Add('{' + CPARAM_DevolveStringQRCode + '=1}');
-
   if not ParamTemChave(ParamAdicConfig, CPARAM_VersaoAutomacao) then
   begin
     Aplicacao := PadRight(fpACBrTEFAPI.DadosAutomacao.NomeAplicacao, 5) +
@@ -474,14 +465,16 @@ begin
 
   // Se a automação vai exibir o QRCode, solicitar que a CliSiTef devolva a String do QRCode
   // no fluxo iterativo (comandos 50/51/52).
-  // Formato esperado: "funcionalidade" entre chaves, no ParamAdic da transação.
-  if (TACBrTEFAPI(fpACBrTEFAPI).ExibicaoQRCode = qrapiExibirAplicacao) then
-    if (pos(CPARAM_DevolveStringQRCode, ParamAdicStr) = 0) then
+  // https://dev.softwareexpress.com.br/docs/clisitef-interface-aplicacao/parametro-adicional-tratamento-de-qrcode
+  if (pos(CPARAM_DevolveStringQRCode, ParamAdicStr) = 0) then
+  begin
+    if (TACBrTEFAPI(fpACBrTEFAPI).ExibicaoQRCode = qrapiExibirAplicacao) then
     begin
       if NaoEstaVazio(ParamAdicStr) then
         ParamAdicStr := ParamAdicStr + ';';
       ParamAdicStr := ParamAdicStr + '{' + CPARAM_DevolveStringQRCode + '=1;}';
     end;
+  end;
 
   fDocumentosFinalizados := '' ;
 
