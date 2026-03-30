@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 30/03/2026
+-- WebFisco.GravarXML --
+[*] ACBR-9059 - Ajustes na geração do XML conforme orientações recebidas do Primax.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/90809-acbr-9059-e-acbr-8969-situacaotomador-estrangeiro-nao-pode-ter-cnpjcpf-241195560001-60-valido/page/3/ 
 -- ISSSaoPaulo.GravarXml/ISSSaoPaulo.LerXml --
 [*] Ajustes para gerar e ler a tag com a grafia NaoNIF em vez de cNaoNIF.
    Por: Italo Giurizzato Junior

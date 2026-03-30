@@ -784,7 +784,7 @@ function TNFSeW_WebFisco101.GerarXml: Boolean;
 var
   NFSeNode: TACBrXmlNode;
   cSimples: Boolean;
-  xAtrib, strAux, locEstab, nifInf, paisTomador: string;
+  xAtrib, strAux, locEstab, nifInf, paisTomador, lLoc: string;
   i: Integer;
   valAux: Double;
 begin
@@ -963,13 +963,12 @@ begin
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'paisloc', 1, 2, 1,
                                                      strAux, '', True, xAtrib));
+  lLoc := '';
+  lLoc := NFSe.Servico.CodigoMunicipio;
+  if Trim(lLoc) = '' then
+    lLoc := '0000';
 
-  if (NFSe.Prestador.Endereco.CodigoMunicipio <> IntToStr(NFSe.Servico.MunicipioIncidencia)) then
-    NFSeNode.AppendChild(AddNode(tcStr, '#', 'loc', 1, 4, 1,
-                                NFSe.Servico.CodigoMunicipio, '', True, xAtrib))
-  else
-    NFSeNode.AppendChild(AddNode(tcStr, '#', 'loc', 1, 4, 1,
-                                                     '0000', '', True, xAtrib));
+  NFSeNode.AppendChild(AddNode(tcStr, '#', 'loc', 1, 4, 1, lLoc, '', True, xAtrib));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'txt', 1, 720, 1,
                       NFSe.Servico.ItemServico[0].Descricao, '', True, xAtrib));
@@ -988,14 +987,14 @@ begin
   end
   else
   begin
-    NFSeNode.AppendChild(AddNode(tcStr, '#', 'impfederal', 1, 4, 1,
-                                                         '', '', True, xAtrib));
+    NFSeNode.AppendChild(AddNode(tcDe2, '#', 'impfederal', 1, 4, 1,
+                                                         0, '', True, xAtrib));
 
-    NFSeNode.AppendChild(AddNode(tcStr, '#', 'impestadual', 1, 4, 1,
-                                                         '', '', True, xAtrib));
+    NFSeNode.AppendChild(AddNode(tcDe2, '#', 'impestadual', 1, 4, 1,
+                                                         0, '', True, xAtrib));
 
-    NFSeNode.AppendChild(AddNode(tcStr, '#', 'impmunicipal', 1, 4, 1,
-                                                         '', '', True, xAtrib));
+    NFSeNode.AppendChild(AddNode(tcDe2, '#', 'impmunicipal', 1, 4, 1,
+                                                         0, '', True, xAtrib));
   end;
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'item1', 1, 5, 1,
@@ -1142,12 +1141,19 @@ begin
   else
     NFSeNode.AppendChild(AddNode(tcStr, '#', 'inss', 1, 12, 1,
                                                          '', '', True, xAtrib));
+  valAux := 0;
+  valAux := NFSe.Servico.Valores.DescontoIncondicionado;
+  if valAux > 0 then
+    NFSeNode.AppendChild(AddNode(tcDe2, '#', 'desci', 1, 12, 1, valAux, '', True, xAtrib))
+  else
+    NFSeNode.AppendChild(AddNode(tcStr, '#', 'desci', 1, 12, 1, '', '', True, xAtrib));
 
-  NFSeNode.AppendChild(AddNode(tcDe2, '#', 'desci', 1, 12, 1,
-                NFSe.Servico.Valores.DescontoIncondicionado, '', True, xAtrib));
-
-  NFSeNode.AppendChild(AddNode(tcDe2, '#', 'desco', 1, 12, 1,
-                  NFSe.Servico.Valores.DescontoCondicionado, '', True, xAtrib));
+  valAux := 0;
+  valAux := NFSe.Servico.Valores.DescontoCondicionado;
+  if valAux > 0 then
+    NFSeNode.AppendChild(AddNode(tcDe2, '#', 'desco', 1, 12, 1, valAux, '', True, xAtrib))
+  else
+    NFSeNode.AppendChild(AddNode(tcStr, '#', 'desco', 1, 12, 1, '', '', True, xAtrib));
 
   // A tag abaixo foi incluida para atender o provedor FGMaiss
   if NFSe.Servico.Valores.OutrosDescontos > 0 then
@@ -1174,8 +1180,13 @@ begin
   NFSeNode.AppendChild(AddNode(tcDe2, '#', 'iss', 1, 12, 1,
                               NFSe.Servico.Valores.ValorIss, '', True, xAtrib));
 
-  NFSeNode.AppendChild(AddNode(tcDe2, '#', 'issret', 1, 12, 1,
-                        NFSe.Servico.Valores.ValorIssRetido, '', True, xAtrib));
+  valAux := 0;
+  valAux := NFSe.Servico.Valores.ValorIssRetido;
+  if valAux > 0 then
+    NFSeNode.AppendChild(AddNode(tcDe2, '#', 'issret', 1, 12, 1, valAux, '', True, xAtrib))
+  else
+    NFSeNode.AppendChild(AddNode(tcStr, '#', 'issret', 1, 12, 1, '', '', True, xAtrib));
+
 
   // Manual WebFisco 2026 - Pagina 9: Valor do ISSQN NAO Retido (obrigatorio)
   NFSeNode.AppendChild(AddNode(tcDe2, '#', 'issrec', 1, 12, 1,
