@@ -55,6 +55,7 @@ type
     function GerarDadosDeducao(Item: Integer): TACBrXmlNode;
     function GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode; override;
     function GerarXMLDestinatario(Dest: TDadosdaPessoa): TACBrXmlNode; override;
+    function GerarValores: TACBrXmlNode; override;
 
     procedure GerarINISecaoServicos(const AINIRec: TMemIniFile); override;
     procedure GerarINISecaoDadosDeducao(const AINIRec: TMemIniFile;
@@ -216,6 +217,96 @@ begin
       Result.AppendChild(nodeArray[i]);
     end;
   end;
+end;
+
+function TNFSeW_Elotech203.GerarValores: TACBrXmlNode;
+var
+  Aliquota: Double;
+begin
+  Result := CreateElement('Valores');
+
+  Result.AppendChild(AddNode(tcDe2, '#13', 'ValorServicos', 1, 15, 1,
+                             NFSe.Servico.Valores.ValorServicos, DSC_VSERVICO));
+
+  Result.AppendChild(AddNode(tcDe2, '#14', 'ValorDeducoes', 1, 15, 0,
+                            NFSe.Servico.Valores.ValorDeducoes, DSC_VDEDUCISS));
+
+  Result.AppendChild(AddNode(FormatoAliq, '#15', 'AliquotaPis', 1, 15, 0,
+                                  NFSe.Servico.Valores.AliquotaPis, DSC_VALIQ));
+
+  Result.AppendChild(AddNode(tcStr, '#15', 'RetidoPis', 1, 1, 0,
+               FpAOwner.SimNaoToStr(NFSe.Servico.Valores.RetidoPis), DSC_VPIS));
+
+  Result.AppendChild(AddNode(tcDe2, '#15', 'ValorPis', 1, 15, 0,
+                                      NFSe.Servico.Valores.ValorPis, DSC_VPIS));
+
+  Result.AppendChild(AddNode(FormatoAliq, '#15', 'AliquotaCofins', 1, 15, 0,
+                               NFSe.Servico.Valores.AliquotaCofins, DSC_VALIQ));
+
+  Result.AppendChild(AddNode(tcStr, '#15', 'RetidoCofins', 1, 1, 0,
+            FpAOwner.SimNaoToStr(NFSe.Servico.Valores.RetidoCofins), DSC_VPIS));
+
+  Result.AppendChild(AddNode(tcDe2, '#16', 'ValorCofins', 1, 15, 0,
+                                NFSe.Servico.Valores.ValorCofins, DSC_VCOFINS));
+
+  Result.AppendChild(AddNode(FormatoAliq, '#15', 'AliquotaInss', 1, 15, 0,
+                                 NFSe.Servico.Valores.AliquotaInss, DSC_VALIQ));
+
+  Result.AppendChild(AddNode(tcStr, '#15', 'RetidoInss', 1, 1, 0,
+              FpAOwner.SimNaoToStr(NFSe.Servico.Valores.RetidoInss), DSC_VPIS));
+
+  Result.AppendChild(AddNode(tcDe2, '#17', 'ValorInss', 1, 15, 0,
+                                    NFSe.Servico.Valores.ValorInss, DSC_VINSS));
+
+  Result.AppendChild(AddNode(FormatoAliq, '#15', 'AliquotaIr', 1, 15, 0,
+                                   NFSe.Servico.Valores.AliquotaIr, DSC_VALIQ));
+
+  Result.AppendChild(AddNode(tcStr, '#15', 'RetidoIr', 1, 1, 0,
+                FpAOwner.SimNaoToStr(NFSe.Servico.Valores.RetidoIr), DSC_VPIS));
+
+  Result.AppendChild(AddNode(tcDe2, '#18', 'ValorIr', 1, 15, 0,
+                                        NFSe.Servico.Valores.ValorIr, DSC_VIR));
+
+  Result.AppendChild(AddNode(FormatoAliq, '#15', 'AliquotaCsll', 1, 15, 0,
+                                 NFSe.Servico.Valores.AliquotaCsll, DSC_VALIQ));
+
+  Result.AppendChild(AddNode(tcStr, '#15', 'RetidoCsll', 1, 1, 0,
+              FpAOwner.SimNaoToStr(NFSe.Servico.Valores.RetidoCsll), DSC_VPIS));
+
+  Result.AppendChild(AddNode(tcDe2, '#19', 'ValorCsll', 1, 15, 0,
+                                    NFSe.Servico.Valores.ValorCsll, DSC_VCSLL));
+
+  Result.AppendChild(AddNode(FormatoAliq, '#15', 'AliquotaCpp', 1, 15, 0,
+                                 NFSe.Servico.Valores.AliquotaCpp, DSC_VALIQ));
+
+  Result.AppendChild(AddNode(tcStr, '#15', 'RetidoCpp', 1, 1, 0,
+              FpAOwner.SimNaoToStr(NFSe.Servico.Valores.RetidoCpp), DSC_VPIS));
+
+  Result.AppendChild(AddNode(tcDe2, '#19', 'ValorCpp', 1, 15, 0,
+                                    NFSe.Servico.Valores.ValorCpp, DSC_VCSLL));
+
+  Result.AppendChild(AddNode(tcDe2, '#23', 'OutrasRetencoes', 1, 15, 0,
+                    NFSe.Servico.Valores.OutrasRetencoes, DSC_OUTRASRETENCOES));
+
+  Result.AppendChild(AddNode(tcDe2, '#23', 'ValTotTributos', 1, 15, 0,
+                                  NFSe.Servico.Valores.ValorTotalTributos, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#21', 'ValorIss', 1, 15, 0,
+                                      NFSe.Servico.Valores.ValorIss, DSC_VISS));
+
+  Aliquota := NormatizarAliquota(NFSe.Servico.Valores.Aliquota, DivAliq100);
+
+  Result.AppendChild(AddNode(FormatoAliq, '#25', 'Aliquota', 1, 5, 0,
+                                                          Aliquota, DSC_VALIQ));
+
+  Result.AppendChild(AddNode(tcDe2, '#27', 'DescontoIncondicionado', 1, 15, 0,
+                 NFSe.Servico.Valores.DescontoIncondicionado, DSC_VDESCINCOND));
+
+  Result.AppendChild(AddNode(tcDe2, '#28', 'DescontoCondicionado', 1, 15, 0,
+                     NFSe.Servico.Valores.DescontoCondicionado, DSC_VDESCCOND));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'CSTPisCofins', 2, 2, 0,
+                               CSTToStr(NFSe.Servico.Valores.tribFed.CST), ''));
 end;
 
 function TNFSeW_Elotech203.GerarXMLDestinatario(

@@ -44,6 +44,11 @@ Símbolo : Significado
 
 
 30/03/2026
+-- ACBrNFSeXLerXml_ABRASFv2 --
+--  EloTech.GravarXml/EloTech.LerXml --
+[*] ACBR-9127 - Alteração visando a geração e a leitura do novo campo: CSTPisCofins.
+    Para alimentar esse campo deve-se usar: NFSe.Servico.Valores.tribFed.CST := cst00; (por exemplo)
+   Por: Italo Giurizzato Junior
 -- Centi.Provider --
 [*] ACBR-9189 - Alteração na forma de assinar, foi mudado o algoritmo de canonicalização utilizado
     de Inclusivo para Exclusivo.

@@ -80,7 +80,7 @@ type
     procedure LerListaServicos(const ANode: TACBrXmlNode); virtual;
     procedure LerServicos(const ANode: TACBrXmlNode); virtual;
     procedure LerServico(const ANode: TACBrXmlNode); virtual;
-    procedure LerValores(const ANode: TACBrXmlNode);
+    procedure LerValores(const ANode: TACBrXmlNode); virtual;
 
     procedure LerPrestador(const ANode: TACBrXmlNode);
     procedure LerIdentificacaoPrestador(const ANode: TACBrXmlNode);

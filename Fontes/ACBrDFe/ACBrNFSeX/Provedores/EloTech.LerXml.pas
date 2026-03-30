@@ -52,6 +52,7 @@ type
     procedure LerListaServicos(const ANode: TACBrXmlNode); override;
     procedure LerServicos(const ANode: TACBrXmlNode); override;
     procedure LerDadosDeducao(const ANode: TACBrXmlNode; Item: Integer);
+    procedure LerValores(const ANode: TACBrXmlNode); override;
 
     procedure LerINISecaoItens(const AINIRec: TMemIniFile); override;
     procedure LerINISecaoDadosDeducao(const AINIRec: TMemIniFile;
@@ -64,6 +65,7 @@ implementation
 
 uses
   ACBrDFe.Conversao,
+  ACBrNFSeXConversao,
   ACBrUtil.Base;
 
 //==============================================================================
@@ -173,6 +175,19 @@ begin
       LerDadosDeducao(ANodes[i], i);
     end;
   end;
+end;
+
+procedure TNFSeR_EloTech203.LerValores(const ANode: TACBrXmlNode);
+var
+  AuxNode: TACBrXmlNode;
+  Ok: Boolean;
+begin
+  inherited LerValores(ANode);
+
+  AuxNode := ANode.Childrens.FindAnyNs('Valores');
+
+  if AuxNode <> nil then
+    NFSe.Servico.Valores.tribFed.CST := StrToCST(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('CSTPisCofins'), tcStr));
 end;
 
 procedure TNFSeR_EloTech203.LerDadosDeducao(const ANode: TACBrXmlNode; Item: Integer);
