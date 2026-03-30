@@ -43,6 +43,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+30/03/2026
+-- ACBrNFSeXConversao/ACBrNFSeXProviderManager --
+-- BWSistemas.GravarXml/BWSistemas.LerXml/BWSistemas.Provider --
+[*] ACBR-9160 - Implementação do provedor BWSistemas que utiliza a versão 2 do layout da ABRASF e atende
+    a cidade Nova Lusitânia/SP.
+   Por: Italo Giurizzato Junior
+
 27/03/2026
 -- DBSeller.Provider --
 [-] Ajuste para correta leitura do retorno da consulta por RPS.

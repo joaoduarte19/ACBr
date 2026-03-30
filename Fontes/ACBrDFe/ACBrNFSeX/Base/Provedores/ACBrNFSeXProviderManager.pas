@@ -90,6 +90,7 @@ uses
   ADPM.Provider,
   AEG.Provider,
   Asten.Provider,
+  BWSistemas.Provider,
   Centi.Provider,
   Citta.Provider,
   Coplan.Provider,
@@ -271,6 +272,7 @@ begin
         end;
 
       proBHISS:     Result := TACBrNFSeProviderBHISS.Create(ACBrNFSe);
+      proBWSistemas: Result := TACBrNFSeProviderBWSistemas200.Create(ACBrNFSe);
       proCenti:     Result := TACBrNFSeProviderCenti202.Create(ACBrNFSe);
       proCIGA:      Result := TACBrNFSeProviderCIGA.Create(ACBrNFSe);
 
