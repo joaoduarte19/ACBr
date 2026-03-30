@@ -181,6 +181,9 @@ namespace ACBrLib.NFSe
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int NFSE_ObterInformacoesProvedor(StringBuilder buffer, ref int bufferSize);
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int NFSE_SetVersaoDF(string aVersao);
+
         protected override void InitializeMethods()
         {
             AddMethod<NFSE_Inicializar>("NFSE_Inicializar");
@@ -240,6 +243,7 @@ namespace ACBrLib.NFSe
             AddMethod<NFSE_ObterDANFSE>("NFSE_ObterDANFSE");
             AddMethod<NFSE_ConsultarParametros>("NFSE_ConsultarParametros");
             AddMethod<NFSE_ObterInformacoesProvedor>("NFSE_ObterInformacoesProvedor");
+            AddMethod<NFSE_SetVersaoDF>("NFSE_SetVersaoDF");
         }
     }
 }

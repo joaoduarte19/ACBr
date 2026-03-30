@@ -494,6 +494,12 @@ namespace ACBrLib.NFSe
         /// informações como nome do provedor, versão do layout, peculiaridades de implementação, entre outros.
         /// </returns>
         string ObterInformacoesProvedor();
+
+        /// <summary>
+        /// Define a versão a ser utilizada em conjunto com o provedor (Usar apenas para SP)
+        /// </summary>
+        /// <param name="Versao">Versão da NFS-e</param>
+        void SetVersaoDF(string aVersao);
     }
 }
 

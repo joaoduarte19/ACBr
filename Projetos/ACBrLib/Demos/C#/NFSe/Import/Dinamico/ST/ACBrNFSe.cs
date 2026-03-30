@@ -712,6 +712,15 @@ namespace ACBrLib.NFSe
 
             return ProcessResult(buffer, bufferLen);
         }
+        /// <summary>
+        /// <inheritdoc/>       
+        public void SetVersaoDF(string aVersao)
+        {
+            var method = GetMethod<NFSE_SetVersaoDF>();
+            var ret = ExecuteMethod(() => method(aVersao));
+
+            CheckResult(ret);
+        }
         #endregion Diversos
 
         #region Private Methods

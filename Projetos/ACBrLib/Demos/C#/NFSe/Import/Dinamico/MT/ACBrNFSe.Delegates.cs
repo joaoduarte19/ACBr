@@ -187,6 +187,8 @@ namespace ACBrLib.NFSe
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int NFSE_ObterInformacoesProvedor(IntPtr handle, StringBuilder buffer, ref int bufferSize);
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int NFSE_SetVersaoDF(IntPtr handle, string aVersao);
         /// <summary>
         /// Inicializa os métodos nativos da biblioteca ACBrLibNFSe, mapeando cada método nativo para um delegate correspondente. Essa configuração é essencial para que o ACBrNFSe possa chamar os métodos nativos de forma segura e eficiente, garantindo a correta comunicação entre o código gerenciado em C# e a biblioteca nativa.
         /// </summary>
@@ -249,6 +251,7 @@ namespace ACBrLib.NFSe
             AddMethod<NFSE_ObterDANFSE>("NFSE_ObterDANFSE");
             AddMethod<NFSE_ConsultarParametros>("NFSE_ConsultarParametros");
             AddMethod<NFSE_ObterInformacoesProvedor>("NFSE_ObterInformacoesProvedor");
+            AddMethod<NFSE_SetVersaoDF>("NFSE_SetVersaoDF");
         }
 
         /// <inheritdoc />
