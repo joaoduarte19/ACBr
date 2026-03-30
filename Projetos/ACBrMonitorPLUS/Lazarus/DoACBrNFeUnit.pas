@@ -437,6 +437,12 @@ public
   procedure Executar; override;
 end;
 
+{ TMetodoSetRespTecnico}
+TMetodoSetRespTecnico = class(TACBrMetodo)
+public
+  procedure Executar; override;
+end;
+
 implementation
 
 uses
@@ -512,6 +518,7 @@ begin
   ListaDeMetodos.Add(CMetodoDistribuicaoDFe);
   ListaDeMetodos.Add(CMetodoDataVencimentoCertificado);
   ListaDeMetodos.Add(CMetodoSetTipoImpressao);
+  ListaDeMetodos.Add(CMetodoSetRespTecnico);
 
   // DoACBrUnit
   ListaDeMetodos.Add(CMetodoSavetofile);
@@ -603,6 +610,7 @@ begin
     55 : AMetodoClass := TMetodoDistribuicaoDFe;
     56 : AMetodoClass := TMetodoCertificadoDataVencimento; // DataVencimentoCertificado
     57 : AMetodoClass := TMetodoSetTipoImpressao;
+    58 : AMetodoClass := TMetodoSetRespTecnico;
 
     else
       begin
@@ -3532,6 +3540,26 @@ begin
 
   end;
 
+end;
+
+{ TMetodoSetRespTecnico }
+
+{ Params: 0 - idCSRT
+          1 - CSRT
+}
+procedure TMetodoSetRespTecnico.Executar;
+begin
+  with TACBrObjetoNFe(fpObjetoDono) do
+  begin
+    with MonitorConfig.DFE.RespTecnico do
+    begin
+      if NaoEstaVazio(fpCmd.Params(0)) then
+        IdCSRT := fpCmd.Params(0);
+      CSRT := fpCmd.Params(1);
+    end;
+
+    MonitorConfig.SalvarArquivo;
+  end;
 end;
 
 end.
