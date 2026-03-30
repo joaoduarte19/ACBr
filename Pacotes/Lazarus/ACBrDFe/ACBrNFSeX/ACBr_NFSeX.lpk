@@ -13,7 +13,7 @@
         <UnitOutputDirectory Value="..\..\..\..\Lib\Lazarus\ACBrDFe\ACBrNFSeX\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
     </CompilerOptions>
-    <Files Count="446">
+    <Files Count="449">
       <Item1>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\ACBrNFSeXReg.pas"/>
         <HasRegisterProc Value="True"/>
@@ -1799,6 +1799,18 @@
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Base\Provedores\ACBrNFSeX.GravarIni.pas"/>
         <UnitName Value="ACBrNFSeX.GravarIni"/>
       </Item446>
+      <Item447>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\BWSistemas.GravarXml.pas"/>
+        <UnitName Value="BWSistemas.GravarXml"/>
+      </Item447>
+      <Item448>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\BWSistemas.LerXml.pas"/>
+        <UnitName Value="BWSistemas.LerXml"/>
+      </Item448>
+      <Item449>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\BWSistemas.Provider.pas"/>
+        <UnitName Value="BWSistemas.Provider"/>
+      </Item449>
    </Files>
     <RequiredPkgs Count="2">
       <Item1>
