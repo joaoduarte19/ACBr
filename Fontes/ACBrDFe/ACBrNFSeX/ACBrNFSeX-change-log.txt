@@ -44,9 +44,12 @@ Símbolo : Significado
 
 
 30/03/2026
+-- ACBrNFSeXServicos --
+[+] ACBR-9160 - Incluída a cidade de Nova Luzitania/SP, o provedor é BWSistemas.
+   Por: Geraldo Moura/Italo Giurizzato Junior
 -- ACBrNFSeXConversao/ACBrNFSeXProviderManager --
 -- BWSistemas.GravarXml/BWSistemas.LerXml/BWSistemas.Provider --
-[*] ACBR-9160 - Implementação do provedor BWSistemas que utiliza a versão 2 do layout da ABRASF e atende
+[+] ACBR-9160 - Implementação do provedor BWSistemas que utiliza a versão 2 do layout da ABRASF e atende
     a cidade Nova Lusitânia/SP.
    Por: Italo Giurizzato Junior
 
