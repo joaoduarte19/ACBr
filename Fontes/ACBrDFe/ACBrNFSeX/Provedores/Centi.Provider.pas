@@ -39,9 +39,13 @@ interface
 uses
   SysUtils, Classes,
   ACBrXmlBase,
-  ACBrNFSeXClass, ACBrNFSeXConversao, ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
+  ACBrNFSeXClass,
+  ACBrNFSeXConversao,
+  ACBrNFSeXGravarXml,
+  ACBrNFSeXLerXml,
   ACBrNFSeXProviderABRASFv2,
-  ACBrNFSeXWebserviceBase, ACBrNFSeXWebservicesResponse;
+  ACBrNFSeXWebserviceBase,
+  ACBrNFSeXWebservicesResponse;
 
 type
   TACBrNFSeXWebserviceCenti202 = class(TACBrNFSeXWebserviceRest2)
@@ -64,6 +68,7 @@ type
     function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
 
+    procedure PrepararEmitir(Response: TNFSeEmiteResponse); override;
     procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
     procedure TratarRetornoConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
     procedure TratarRetornoCancelaNFSe(Response: TNFSeCancelaNFSeResponse); override;
@@ -80,13 +85,32 @@ type
 implementation
 
 uses
-  ACBrDFeException, ACBrUtil.Strings,
+  ACBrDFeException,
+  ACBrUtil.Strings,
+  ACBrDFeSSL,
   ACBrDFe.Conversao,
   ACBrXmlDocument,
-  ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXNotasFiscais, ACBrNFSeXConsts,
-  Centi.GravarXml, Centi.LerXml;
+  ACBrNFSeX,
+  ACBrNFSeXConfiguracoes,
+  ACBrNFSeXNotasFiscais,
+  ACBrNFSeXConsts,
+  Centi.GravarXml,
+  Centi.LerXml;
 
 { TACBrNFSeProviderCenti202 }
+
+procedure TACBrNFSeProviderCenti202.PrepararEmitir(Response: TNFSeEmiteResponse);
+var
+  lSSLC14Mode: TSSLC14NMode;
+begin
+  lSSLC14Mode := FAOwner.SSL.SSLC14NMode;
+  try
+    FAOwner.SSL.SSLC14NMode := cmC14N_EXCLUSIVE;
+    inherited PrepararEmitir(Response);
+  finally
+    FAOwner.SSL.SSLC14NMode := lSSLC14Mode;
+  end;
+end;
 
 procedure TACBrNFSeProviderCenti202.Configuracao;
 begin
@@ -97,7 +121,6 @@ begin
     ModoEnvio := meUnitario;
     ConsultaNFSe := False;
     CancPreencherCodVerificacao := True;
-	Identificador := '';
 
     ServicosDisponibilizados.EnviarUnitario := True;
     ServicosDisponibilizados.ConsultarRps := True;
@@ -120,6 +143,8 @@ begin
   end;
 
   SetXmlNameSpace('http://www.centi.com.br/files/nfse.xsd');
+
+  ConfigSchemas.Validar := False;
 end;
 
 function TACBrNFSeProviderCenti202.CriarGeradorXml(
@@ -529,40 +554,28 @@ end;
 
 function TACBrNFSeXWebserviceCenti202.GerarNFSe(const ACabecalho,
   AMSG: String): string;
-var
-  Request: string;
 begin
   FPMsgOrig := AMSG;
 
-  Request := AMSG;
-
   Result := Executar('http://tempuri.org/IServiceNfse/GerarNfse' + Operacao,
-                     Request, ['GerarNfseResposta'], []);
+                     AMSG, ['GerarNfseResposta'], []);
 end;
 
 function TACBrNFSeXWebserviceCenti202.ConsultarNFSePorRps(const ACabecalho,
   AMSG: String): string;
-var
-  Request: string;
 begin
   FPMsgOrig := AMSG;
 
-  Request := AMSG;
-
   Result := Executar('http://tempuri.org/IServiceNfse/ConsultarNfseRps' + Operacao,
-                     Request, ['ConsultarNfseRpsResposta'], []);
+                     AMSG, ['ConsultarNfseRpsResposta'], []);
 end;
 
 function TACBrNFSeXWebserviceCenti202.Cancelar(const ACabecalho, AMSG: String): string;
-var
-  Request: string;
 begin
   FPMsgOrig := AMSG;
 
-  Request := AMSG;
-
   Result := Executar('http://tempuri.org/IServiceNfse/CancelarNfse' + Operacao,
-                     Request, ['CancelarNfseResposta'], []);
+                     AMSG, ['CancelarNfseResposta'], []);
 end;
 
 end.

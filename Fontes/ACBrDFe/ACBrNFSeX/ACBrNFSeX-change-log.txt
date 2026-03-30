@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 30/03/2026
+-- Centi.Provider --
+[*] ACBR-9189 - Alteração na forma de assinar, foi mudado o algoritmo de canonicalização utilizado
+    de Inclusivo para Exclusivo.
+   Por: Diego Folieni/Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [+] ACBR-9160 - Incluída a cidade de Nova Luzitania/SP, o provedor é BWSistemas.
    Por: Geraldo Moura/Italo Giurizzato Junior
