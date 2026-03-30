@@ -44,7 +44,8 @@ uses
   ACBrXmlDocument,
   ACBrDFe.Conversao,
   ACBrNFSeXConversao,
-  ACBrNFSeXLerXml;
+  ACBrNFSeXLerXml,
+  ACBrNFSeXClass;
 
 type
   { TNFSeR_ISSSaoPaulo }
@@ -60,6 +61,7 @@ type
     procedure LerEnderecoTomador(const ANode: TACBrXmlNode);
     procedure LerCPFCNPJIntermediario(const ANode: TACBrXmlNode);
     procedure LerRetornoComplementarIBSCBS(const ANode: TACBrXmlNode);
+    procedure LerXMLDestinatario(const ANode: TACBrXmlNode; Dest: TDadosdaPessoa); override;
   public
     function LerXml: Boolean; override;
     function LerXmlRps(const ANode: TACBrXmlNode): Boolean;
@@ -147,11 +149,16 @@ end;
 procedure TNFSeR_ISSSaoPaulo.LerCPFCNPJTomador(const ANode: TACBrXmlNode);
 var
   LNode: TACBrXmlNode;
+  Ok: Boolean;
 begin
   LNode := ANode.Childrens.FindAnyNs('CPFCNPJTomador');
 
   if LNode <> nil then
+  begin
     NFSe.Tomador.IdentificacaoTomador.CpfCnpj := ObterCNPJCPF(LNode);
+    NFSe.Tomador.IdentificacaoTomador.Nif  := ObterConteudo(LNode.Childrens.FindAnyNs('NIF'), tcStr);
+    NFSe.Tomador.IdentificacaoTomador.cNaoNIF  := StrToNaoNIF(Ok, ObterConteudo(LNode.Childrens.FindAnyNs('NaoNIF'), tcStr));
+  end;
 end;
 
 procedure TNFSeR_ISSSaoPaulo.LerEnderecoPrestador(const ANode: TACBrXmlNode);
@@ -274,6 +281,25 @@ begin
   finally
     FreeAndNil(FDocument);
   end;
+end;
+
+procedure TNFSeR_ISSSaoPaulo.LerXMLDestinatario(const ANode: TACBrXmlNode;
+  Dest: TDadosdaPessoa);
+var
+  oK: Boolean;
+begin
+  if not Assigned(ANode) then Exit;
+
+  Dest.CNPJCPF := ObterCNPJCPF(ANode);
+  Dest.NIF := ObterConteudo(ANode.Childrens.FindAnyNs('NIF'), tcStr);
+  Dest.cNaoNIF := StrToNaoNIF(Ok, ObterConteudo(ANode.Childrens.FindAnyNs('NaoNIF'), tcStr));
+
+  Dest.xNome := ObterConteudo(ANode.Childrens.FindAnyNs('xNome'), tcStr);
+
+  LerXMLEnderecoDestinatario(ANode.Childrens.FindAnyNs('end'), Dest.ender);
+
+  Dest.fone := ObterConteudo(ANode.Childrens.FindAnyNs('fone'), tcStr);
+  Dest.email := ObterConteudo(ANode.Childrens.FindAnyNs('email'), tcStr);
 end;
 
 function TNFSeR_ISSSaoPaulo.LerXmlNfse(const ANode: TACBrXmlNode): Boolean;

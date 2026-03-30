@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 30/03/2026
+-- ISSSaoPaulo.GravarXml/ISSSaoPaulo.LerXml --
+[*] Ajustes para gerar e ler a tag com a grafia NaoNIF em vez de cNaoNIF.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXLerXml_ABRASFv2 --
 --  EloTech.GravarXml/EloTech.LerXml --
 [*] ACBR-9127 - Alteração visando a geração e a leitura do novo campo: CSTPisCofins.
