@@ -837,12 +837,6 @@ begin
   if fpNFSe.Servico.CodigoNBS <> '' then
     rlmDadosAdicionais.Lines.Append(ACBrStr('NBS: ') + fpNFSe.Servico.CodigoNBS);
 
-  {
-  if fpNFSe.Servico.MunicipioIncidencia <> 0 then
-    rlmDadosAdicionais.Lines.Add('Cod/Municipio da incidencia do ISSQN: ' +
-      IntToStr(fpNFSe.Servico.MunicipioIncidencia) + ' / ' +
-      fpNFSe.Servico.xMunicipioIncidencia);
-
   if fpDANFSe.OutrasInformacaoesImp <> '' then
     rlmDadosAdicionais.Lines.Add(StringReplace(fpDANFSe.OutrasInformacaoesImp,
                                         FQuebradeLinha, #13#10, [rfReplaceAll]))
@@ -854,7 +848,6 @@ begin
   if fpNFSe.InformacoesComplementares <> '' then
     rlmDadosAdicionais.Lines.Add(StringReplace(fpNFSe.InformacoesComplementares,
                                        FQuebradeLinha, #13#10, [rfReplaceAll]));
-  }
 
   rlmDadosAdicionais.Lines.EndUpdate;
 

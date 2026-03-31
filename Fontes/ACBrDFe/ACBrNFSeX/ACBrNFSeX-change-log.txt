@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 31/03/2026
+-- ACBrNFSeXDANFSeRLPadraoNacional --
+[*] Alterações visando imprimir as informações complementares.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] Incluído Params Dividir100 para as cidades Campos dos Goytacazes/RJ e Jaboticabal/SP, ambas usam o provedor Giss.
    Por: Italo Giurizzato Junior

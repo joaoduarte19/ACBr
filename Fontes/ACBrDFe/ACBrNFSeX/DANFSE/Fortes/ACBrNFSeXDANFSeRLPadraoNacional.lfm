@@ -3,9 +3,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
   Top = 76
   Caption = 'frlXDANFSeRLPadraoNacional'
   inherited RLNFSe: TRLReport
-    Left = 56
+    Left = 50
     Height = 1403
-    Top = 32
+    Top = 0
     Width = 992
     Margins.LeftMargin = 6
     Margins.TopMargin = 8
@@ -31,8 +31,8 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Width = 140
         AutoSize = False
         Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'Arial'
+        Font.Height = -12
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
         Transparent = False
       end
@@ -69,8 +69,8 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Width = 140
         AutoSize = False
         Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'Arial'
+        Font.Height = -12
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
       end
       object RLLabel7: TRLLabel
@@ -88,12 +88,12 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
       object rllCompetencia: TRLLabel
         Left = 195
-        Height = 16
+        Height = 15
         Top = 66
-        Width = 90
+        Width = 86
         Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'Arial'
+        Font.Height = -12
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
       end
       object RLLabel18: TRLLabel
@@ -116,19 +116,19 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Width = 118
         AutoSize = False
         Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'Arial'
+        Font.Height = -12
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
       end
       object rllCodigoChave: TRLLabel
         Left = 4
-        Height = 14
+        Height = 13
         Top = 6
-        Width = 150
+        Width = 160
         Caption = 'Chave de Acesso da NFS-e'
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         Font.Style = [fsBold]
         ParentFont = False
         Transparent = False
@@ -140,8 +140,8 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Width = 380
         AutoSize = False
         Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'Arial'
+        Font.Height = -12
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
       end
       object RLLabel16: TRLLabel
@@ -164,8 +164,8 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Width = 118
         AutoSize = False
         Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'Arial'
+        Font.Height = -12
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
       end
       object RLLabel22: TRLLabel
@@ -188,8 +188,8 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Width = 140
         AutoSize = False
         Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'Arial'
+        Font.Height = -12
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
       end
       object RLMemo1: TRLMemo
@@ -202,7 +202,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Behavior = [beSiteExpander]
         Font.Color = clBlack
         Font.Height = -10
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         Lines.Strings = (
           'A autenticidade desta NFS-e pode ser verificada'
           'pela leitura deste código QR ou pela consulta da'
@@ -252,12 +252,12 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
       object rllEmitenteInscMunicipal: TRLLabel
         Left = 408
-        Height = 14
+        Height = 13
         Top = 17
-        Width = 115
+        Width = 116
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
         Transparent = False
       end
@@ -269,7 +269,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         AutoSize = False
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
         Transparent = False
       end
@@ -288,12 +288,12 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
       object rllEmitenteNome: TRLLabel
         Left = 4
-        Height = 14
+        Height = 13
         Top = 50
-        Width = 78
+        Width = 79
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
         Transparent = False
       end
@@ -325,12 +325,12 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
       object rllEmitenteTelefone: TRLLabel
         Left = 607
-        Height = 14
+        Height = 13
         Top = 17
         Width = 93
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
         Transparent = False
       end
@@ -349,12 +349,12 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
       object rllEmitenteEndereco: TRLLabel
         Left = 4
-        Height = 14
+        Height = 13
         Top = 80
         Width = 97
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
         Transparent = False
       end
@@ -373,12 +373,12 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
       object rllEmitenteEmail: TRLLabel
         Left = 408
-        Height = 14
+        Height = 13
         Top = 48
-        Width = 75
+        Width = 76
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
         Transparent = False
       end
@@ -397,19 +397,19 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
       object rllEmitenteMunicipio: TRLLabel
         Left = 408
-        Height = 14
+        Height = 13
         Top = 78
-        Width = 95
+        Width = 96
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
         Transparent = False
       end
       object RLLabel55: TRLLabel
         Left = 607
         Height = 14
-        Top = 55
+        Top = 63
         Width = 24
         Caption = 'CEP'
         Font.Color = clBlack
@@ -421,12 +421,12 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
       object rllEmitenteCEP: TRLLabel
         Left = 607
-        Height = 14
-        Top = 70
-        Width = 70
+        Height = 13
+        Top = 78
+        Width = 72
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
         Transparent = False
       end
@@ -445,12 +445,12 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
       object rllEmitenteSimplesNacional: TRLLabel
         Left = 3
-        Height = 14
+        Height = 13
         Top = 110
         Width = 129
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
         Transparent = False
       end
@@ -469,23 +469,23 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
       object rllEmitenteRegimeApuracao: TRLLabel
         Left = 409
-        Height = 14
+        Height = 13
         Top = 108
-        Width = 134
+        Width = 133
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
         Transparent = False
       end
       object rllEmitente: TRLLabel
         Left = 4
-        Height = 14
+        Height = 13
         Top = 17
         Width = 51
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
         Transparent = False
       end
@@ -504,77 +504,77 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       BeforePrint = rlbBanda04_TomadorBeforePrint
       object rllTomaCNPJ: TRLLabel
         Left = 264
-        Height = 14
+        Height = 13
         Top = 17
-        Width = 62
+        Width = 64
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
         Transparent = False
       end
       object rllTomaInscMunicipal: TRLLabel
         Left = 408
-        Height = 14
+        Height = 13
         Top = 18
-        Width = 101
+        Width = 102
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
         Transparent = False
       end
       object rllTomaNome: TRLLabel
         Left = 4
-        Height = 14
+        Height = 13
         Top = 51
-        Width = 64
+        Width = 65
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
         Transparent = False
       end
       object rllTomaEndereco: TRLLabel
         Left = 5
-        Height = 14
+        Height = 13
         Top = 78
         Width = 83
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
         Transparent = False
       end
       object rllTomaMunicipio: TRLLabel
         Left = 409
-        Height = 14
+        Height = 13
         Top = 80
-        Width = 81
+        Width = 82
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
       end
       object rllTomaEmail: TRLLabel
         Left = 409
-        Height = 14
+        Height = 13
         Top = 49
-        Width = 61
+        Width = 62
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
         Transparent = False
       end
       object rllTomaTelefone: TRLLabel
         Left = 607
-        Height = 14
+        Height = 13
         Top = 18
         Width = 79
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
         Transparent = False
       end
@@ -685,7 +685,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       object RLLabel78: TRLLabel
         Left = 607
         Height = 14
-        Top = 57
+        Top = 65
         Width = 24
         Caption = 'CEP'
         Font.Color = clBlack
@@ -697,19 +697,19 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
       object rllTomaCEP: TRLLabel
         Left = 608
-        Height = 14
-        Top = 72
-        Width = 56
+        Height = 13
+        Top = 80
+        Width = 58
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         ParentFont = False
       end
     end
     object rlbBanda06_ServicoPrestado: TRLBand[3]
       Left = 28
       Height = 96
-      Top = 565
+      Top = 568
       Width = 940
       BandType = btTitle
       Borders.Sides = sdCustom
@@ -868,8 +868,8 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
     end
     object rlbBanda13_InformacoesComplementares: TRLBand[4]
       Left = 28
-      Height = 61
-      Top = 1057
+      Height = 60
+      Top = 1060
       Width = 940
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -880,13 +880,13 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       BeforePrint = rlbBanda13_InformacoesComplementaresBeforePrint
       object rlmDadosAdicionais: TRLMemo
         Left = 5
-        Height = 14
+        Height = 13
         Top = 21
         Width = 743
         Behavior = [beSiteExpander]
         Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Arial'
+        Font.Name = 'Microsoft Sans Serif'
         Lines.Strings = (
           'Dados Adicionais....'
         )
@@ -922,7 +922,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
     object rlbBanda07_ItensDetalhado: TRLBand[5]
       Left = 28
       Height = 20
-      Top = 661
+      Top = 664
       Width = 940
       BandType = btColumnHeader
       Borders.Sides = sdCustom
@@ -1008,7 +1008,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
     object rlbBanda08_SubItens: TRLSubDetail[6]
       Left = 28
       Height = 19
-      Top = 681
+      Top = 684
       Width = 940
       Borders.Sides = sdCustom
       Borders.DrawLeft = True
@@ -1104,7 +1104,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
     object rlbBanda14_Sistema: TRLBand[7]
       Left = 28
       Height = 18
-      Top = 1118
+      Top = 1120
       Width = 940
       BandType = btSummary
       BeforePrint = rlbBanda14_SistemaBeforePrint
@@ -1136,7 +1136,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
     object rlbBanda09_TributacaoMunicipal: TRLBand[8]
       Left = 28
       Height = 145
-      Top = 700
+      Top = 703
       Width = 940
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -1614,7 +1614,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
     end
     object rlbBanda05_Intermediario: TRLBand[10]
       Left = 28
-      Height = 99
+      Height = 102
       Top = 466
       Width = 940
       BandType = btTitle
@@ -1649,7 +1649,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       object rllInterNome: TRLLabel
         Left = 4
         Height = 14
-        Top = 53
+        Top = 51
         Width = 59
         Font.Color = clBlack
         Font.Height = -11
@@ -1660,7 +1660,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       object rllInterEndereco: TRLLabel
         Left = 4
         Height = 14
-        Top = 80
+        Top = 82
         Width = 78
         Font.Color = clBlack
         Font.Height = -11
@@ -1716,7 +1716,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       object RLLabel82: TRLLabel
         Left = 4
         Height = 14
-        Top = 38
+        Top = 36
         Width = 145
         Caption = 'Nome / Nome Empresarial'
         Font.Color = clBlack
@@ -1729,7 +1729,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       object RLLabel83: TRLLabel
         Left = 4
         Height = 14
-        Top = 69
+        Top = 67
         Width = 55
         Caption = 'Endereço'
         Font.Color = clBlack
@@ -1807,7 +1807,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       object RLLabel89: TRLLabel
         Left = 607
         Height = 14
-        Top = 59
+        Top = 67
         Width = 24
         Caption = 'CEP'
         Font.Color = clBlack
@@ -1820,7 +1820,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       object rllInterCEP: TRLLabel
         Left = 607
         Height = 14
-        Top = 74
+        Top = 82
         Width = 51
         Font.Color = clBlack
         Font.Height = -11
@@ -1846,7 +1846,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
     object rlbBanda10_TributacaoFederal: TRLBand[11]
       Left = 28
       Height = 80
-      Top = 845
+      Top = 848
       Width = 940
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -2016,7 +2016,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
     object rlbBanda11_ValorTotaNFSe: TRLBand[12]
       Left = 28
       Height = 81
-      Top = 925
+      Top = 928
       Width = 940
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -2210,7 +2210,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
     object rlbBanda12_TotaisAproximados: TRLBand[13]
       Left = 28
       Height = 51
-      Top = 1006
+      Top = 1009
       Width = 940
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -2307,7 +2307,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
     end
   end
   inherited RLPDFFilter1: TRLPDFFilter
-    Left = 656
-    Top = 168
+    Left = 168
+    Top = 24
   end
 end
