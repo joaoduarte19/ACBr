@@ -6393,8 +6393,8 @@ begin
 
   if ACBrNFSeX1.DANFSE <> nil then
   begin
-    // TTipoDANFSE = ( tpPadrao, tpIssDSF, tpFiorilli );
-    ACBrNFSeX1.DANFSE.TipoDANFSE := tpPadrao;
+    // TTipoDANFSE
+    ACBrNFSeX1.DANFSE.TipoDANFSE := tpGeral;
     ACBrNFSeX1.DANFSE.Logo       := edtLogoMarca.Text;
     ACBrNFSeX1.DANFSE.Prefeitura := edtPrefeitura.Text;
     ACBrNFSeX1.DANFSE.PathPDF    := edtPathPDF.Text;
