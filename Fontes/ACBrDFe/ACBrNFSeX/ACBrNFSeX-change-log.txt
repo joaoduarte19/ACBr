@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+31/03/2026
+-- ACBrNFSeXServicos --
+[*] Incluído Params Dividir100 para as cidades Campos dos Goytacazes/RJ e Jaboticabal/SP, ambas usam o provedor Giss.
+   Por: Italo Giurizzato Junior
+
 30/03/2026
 -- WebFisco.GravarXML --
 [*] ACBR-9059 - Ajustes na geração do XML conforme orientações recebidas do Primax.
