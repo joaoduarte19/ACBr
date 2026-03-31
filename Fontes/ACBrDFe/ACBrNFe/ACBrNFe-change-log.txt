@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+31/03/2026
+-- ACBrNFe.EnvEvento --
+[*] ACBR-9207: Alterações visando não gerar alertar para Numero de Protocolo com 17 dígitos.
+    O XSD que define o TProt já esta pronto para aceitar protocolo com 15 ou 17 dígitos.
+   Por: Italo Giurizzato Junior
+
 23/03/2026
 -- ACBrNFCeDANFeFPDF --
 [-] ACBR-8578: Corrigida impressão do logo jpg da NFCe em FPDF - https://www.projetoacbr.com.br/forum/topic/91219-acbr-8578-acbrlibmdfeconsolemt-ajustes-na-impress%C3%A3o-do-damdfe

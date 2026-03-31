@@ -494,7 +494,7 @@ begin
   Result.AppendChild(AddNode(tcStr, 'HP22', 'verAplic', 1, 20, 1,
                                     Evento[Idx].FInfEvento.detEvento.verAplic));
 
-  Result.AppendChild(AddNode(tcStr, 'HP23', 'nProtEvento', 15, 15, 1,
+  Result.AppendChild(AddNode(tcStr, 'HP23', 'nProtEvento', 15, 17, 1,
                                  Evento[Idx].FInfEvento.detEvento.nProtEvento));
 end;
 
@@ -506,7 +506,7 @@ begin
   Result.AppendChild(AddNode(tcStr, 'HP19', 'descEvento', 4, 60, 1,
                                             Evento[Idx].FInfEvento.DescEvento));
 
-  Result.AppendChild(AddNode(tcStr, 'HP20', 'nProt', 15, 15, 1,
+  Result.AppendChild(AddNode(tcStr, 'HP20', 'nProt', 15, 17, 1,
                                        Evento[Idx].FInfEvento.detEvento.nProt));
 
   Result.AppendChild(AddNode(tcStr, 'HP21', 'xJust', 15, 255, 1,
@@ -524,7 +524,7 @@ begin
   Result.AppendChild(AddNode(tcStr, 'HP20', 'idPedidoCancelado', 54, 54, 1,
                            Evento[Idx].FInfEvento.detEvento.idPedidoCancelado));
 
-  Result.AppendChild(AddNode(tcStr, 'HP21', 'nProt', 15, 15, 1,
+  Result.AppendChild(AddNode(tcStr, 'HP21', 'nProt', 15, 17, 1,
                                        Evento[Idx].FInfEvento.detEvento.nProt));
 end;
 
@@ -545,7 +545,7 @@ begin
   Result.AppendChild(AddNode(tcStr, 'HP22', 'verAplic', 1, 20, 1,
                                     Evento[Idx].FInfEvento.detEvento.verAplic));
 
-  Result.AppendChild(AddNode(tcStr, 'HP23', 'nProt', 15, 15, 1,
+  Result.AppendChild(AddNode(tcStr, 'HP23', 'nProt', 15, 17, 1,
                                        Evento[Idx].FInfEvento.detEvento.nProt));
 
   Result.AppendChild(AddNode(tcStr, 'HP24', 'xJust', 15, 255, 1,
@@ -764,7 +764,7 @@ begin
   Result.AppendChild(AddNode(tcStr, 'HP19', 'descEvento', 4, 60, 1,
                                             Evento[Idx].FInfEvento.DescEvento));
 
-  Result.AppendChild(AddNode(tcStr, 'HP20', 'nProt', 15, 15, 1,
+  Result.AppendChild(AddNode(tcStr, 'HP20', 'nProt', 15, 17, 1,
                                        Evento[Idx].FInfEvento.detEvento.nProt));
 
   nodeArray := Gerar_ItemPedido(Idx);
@@ -836,7 +836,7 @@ begin
   Result.AppendChild(AddNode(tcStr, 'P21', 'verAplic', 1, 20, 1,
                                     Evento[Idx].FInfEvento.detEvento.verAplic));
 
-  Result.AppendChild(AddNode(tcStr, 'HP23', 'nProtEvento', 15, 15, 1,
+  Result.AppendChild(AddNode(tcStr, 'HP23', 'nProtEvento', 15, 17, 1,
                                  Evento[Idx].FInfEvento.detEvento.nProtEvento));
 end;
 
@@ -937,7 +937,7 @@ begin
   Result.AppendChild(AddNode(tcStr, 'P22', 'verAplic', 1, 20, 1,
                                     Evento[Idx].FInfEvento.detEvento.verAplic));
 
-  Result.AppendChild(AddNode(tcStr, 'P23', 'nProtEvento', 15, 15, 1,
+  Result.AppendChild(AddNode(tcStr, 'P23', 'nProtEvento', 15, 17, 1,
                                  Evento[Idx].FInfEvento.detEvento.nProtEvento));
 end;
 
@@ -2487,7 +2487,7 @@ begin
   Result.AppendChild(AddNode(tcStr, 'HP22', 'tpEventoAut', 6, 6, 1,
                                  Evento[Idx].FInfEvento.detEvento.tpEventoAut));
 
-  Result.AppendChild(AddNode(tcStr, 'HP23', 'nProtEvento', 15, 255, 1,
+  Result.AppendChild(AddNode(tcStr, 'HP23', 'nProtEvento', 15, 17, 1,
                                  Evento[Idx].FInfEvento.detEvento.nProtEvento));
 end;
 
