@@ -56,6 +56,9 @@ Símbolo : Significado
 [*] Alterações visando imprimir as informações complementares.
    Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
+[*] A cidade de Barao/RS ainda usa IPM apesar de estar na lista de municípios aderentes do Padrão Nacional.
+   Por: Daniel Ostoic
+   Veja: https://www.projetoacbr.com.br/forum/topic/91361-acbr-9183-troca-de-provedor-munic%C3%ADpio-de-bar%C3%A3ors/ 
 [*] Incluído Params Dividir100 para as cidades Campos dos Goytacazes/RJ e Jaboticabal/SP, ambas usam o provedor Giss.
    Por: Italo Giurizzato Junior
 
