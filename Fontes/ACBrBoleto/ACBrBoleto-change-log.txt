@@ -48,11 +48,17 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+01/04/2026
+-- ACBrBoletoW_BancoBrasil_API --
+[*] ACBr-8818 - Implementado TpAltera: Baixa e Cancelamento de Negativação
+   https://www.projetoacbr.com.br/forum/topic/89573-acbr-8818-altera%C3%A7%C3%A3o-negativa%C3%A7%C3%A3o-boletos-banco-do-brasil/
+   Por: Desenvolvimento Eagle / Daniel Morais InfoCotidiano
 
 25/03/2026
 -- ACBrBoletoW_Itau_API --
 [-] ACBR-8971 - Corrigidos vazamentos de memória - https://www.projetoacbr.com.br/forum/topic/90184-acbr-8971-bolecode-ita%C3%BA-api-memory-leak-no-envio-do-boleto-acbrboletow_itau_apipas/
    Por: Luizfern
+
 -- ACBrBoleto --
 [+] ACBR-8582 - Implementados dados recebidos no parâmetro AReplyTo no EnviarEmail() do ACBrBoleto - https://www.projetoacbr.com.br/forum/topic/88308-acbr-8582-par%C3%A2metro-areplyto-est%C3%A1-sendo-ignorado-no-m%C3%A9todo-tacbrboletoenviaremail/ 
 -- uDemoBoleto --

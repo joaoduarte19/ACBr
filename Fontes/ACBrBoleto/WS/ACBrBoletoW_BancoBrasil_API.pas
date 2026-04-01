@@ -546,7 +546,10 @@ begin
         LJsonObject.AddPair('indicadorAlterarPrazoBoletoVencido', 'S');
         AlteracaoPrazo(LJsonObject);
       end;
-      toRemessaNegativacaoSemProtesto:  begin
+      toRemessaNegativacaoSemProtesto,
+      ToRemessaPedidoNegativacao,
+      ToRemessaExcluirNegativacaoBaixar,
+      ToRemessaExcluirNegativacaoSerasaBaixar:  begin
         LJsonObject.AddPair('indicadorNegativar', 'S');
         AtribuirNegativacao(LJsonObject);
       end;
@@ -1024,16 +1027,62 @@ begin
   if not Assigned(ATitulo) or not Assigned(AJsonObject) then
     Exit;
 
-  if ATitulo.DiasDeNegativacao <= 0 then
-    Exit;
+    {
+    https://apoio.developers.bb.com.br/apis/5?versaoApi=2&topico=17571996
+    Código para identificação do tipoNegativacao que deverá ser aplicado ao Boleto.
+    Valores a informar: 1 - Incluir Negativação
+                        2 - Alterar Negativação
+                        3 - Cancelar Negativação (cancela a instrução antes da data de negativação)
+                        4 - Excluir Negativação  (exclusão do cliente já negativado no Serasa/Quod).
 
-  LJsonAtribuirNegativacaoObject := TACBrJSONObject.Create;
-  try
-    LJsonAtribuirNegativacaoObject.AddPair('quantidadeDiasNegativacao', ATitulo.DiasDeNegativacao);
-    LJsonAtribuirNegativacaoObject.AddPair('tipoNegativacao', 1);
-  finally
-    AJsonObject.AddPair('negativacao', LJsonAtribuirNegativacaoObject);
-  end;
+    Código do Órgão Negativador.
+        Domínio: 10 - SERASA 11 - QUOD.
+    }
+
+    case ATitulo.OcorrenciaOriginal.Tipo of
+      ToRemessaExcluirNegativacaoBaixar:  // 3 - Cancelar Negativação (cancela a instrução antes da data de negativação)
+      begin
+         LJsonAtribuirNegativacaoObject := TACBrJSONObject.Create;
+          try
+            LJsonAtribuirNegativacaoObject.AddPair('tipoNegativacao', 3);
+            if NaoEstaVazio(ATitulo.OrgaoNegativador) then
+              LJsonAtribuirNegativacaoObject.AddPair('orgaoNegativador', ATitulo.OrgaoNegativador);
+          finally
+            AJsonObject.AddPair('negativacao', LJsonAtribuirNegativacaoObject);
+          end;
+      end;
+
+      ToRemessaExcluirNegativacaoSerasaBaixar: //4 - Excluir Negativação  (exclusão do cliente já negativado no Serasa/Quod).
+      begin
+         LJsonAtribuirNegativacaoObject := TACBrJSONObject.Create;
+          try
+            LJsonAtribuirNegativacaoObject.AddPair('tipoNegativacao', 4);
+            if NaoEstaVazio(ATitulo.OrgaoNegativador) then
+              LJsonAtribuirNegativacaoObject.AddPair('orgaoNegativador', ATitulo.OrgaoNegativador);
+          finally
+            AJsonObject.AddPair('negativacao', LJsonAtribuirNegativacaoObject);
+          end;
+      end;
+    end;
+
+    if ATitulo.DiasDeNegativacao <= 0 then
+     Exit;
+
+    case ATitulo.OcorrenciaOriginal.Tipo of
+      toRemessaNegativacaoSemProtesto,
+      ToRemessaPedidoNegativacao: // 1 - Incluir Negativação
+      begin
+        LJsonAtribuirNegativacaoObject := TACBrJSONObject.Create;
+        try
+          LJsonAtribuirNegativacaoObject.AddPair('quantidadeDiasNegativacao', ATitulo.DiasDeNegativacao);
+          LJsonAtribuirNegativacaoObject.AddPair('tipoNegativacao', 1);
+          if NaoEstaVazio(ATitulo.OrgaoNegativador) then
+            LJsonAtribuirNegativacaoObject.AddPair('orgaoNegativador',StrToInt64Def(ATitulo.OrgaoNegativador,0));;
+        finally
+          AJsonObject.AddPair('negativacao', LJsonAtribuirNegativacaoObject);
+        end;
+      end;
+    end;
 end;
 
 procedure TBoletoW_BancoBrasil_API.AlteracaoSeuNumero(AJsonObject: TACBrJSONObject);
