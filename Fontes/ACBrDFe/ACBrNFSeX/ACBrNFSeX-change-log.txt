@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 31/03/2026
+-- ISSDSF.Provider/ISSDSF.GravarXml --
+[*] Sobrescreve as rotinas TipoDeducaoToStr e StrToTipoDeducao a fim de fidelizar seus valores aos schemas.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/91143-acbr-9174-problema-no-envio-do-valor-de-dedu%C3%A7%C3%B5es-issdsf/?&_rid=124795#findComment-594533 
 -- ACBrNFSeXDANFSeRLPadraoNacional --
 [*] Alterações visando imprimir as informações complementares.
    Por: Italo Giurizzato Junior

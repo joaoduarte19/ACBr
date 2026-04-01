@@ -106,6 +106,9 @@ type
 
     function LerChaveNFe(ANode: TACBrXmlNode): string;
     function LerChaveRPS(ANode: TACBrXmlNode): string;
+  public
+    function TipoDeducaoToStr(const t: TTipoDeducao): string; override;
+    function StrToTipoDeducao(out ok: Boolean; const s: string): TTipoDeducao; override;
   end;
 
   TACBrNFSeXWebserviceISSDSF203 = class(TACBrNFSeXWebserviceSoap11)
@@ -447,6 +450,19 @@ begin
         AAlerta.Descricao := ANodeArray[I].AsString;
     end;
   end;
+end;
+
+function TACBrNFSeProviderISSDSF.StrToTipoDeducao(out ok: Boolean;
+  const s: string): TTipoDeducao;
+begin
+  Result := StrToEnumerado(ok, s, ['', 'Servicos', 'Mapa de Const. Civil', 'Despesas com Materiais',
+                               'Despesas com Subempreitada', 'Despesas com Mercadorias',
+                               'Servicos de Veiculacao e Divulgacao', 'Deducao de Valor',
+                               'Deducao de Valor por Decisao Judicial', 'Deducao de Valor por Incentivo Fiscal'],
+                              [tdNenhum, tdServicos, tdConstrucaoCivil, tdMateriais,
+                               tdSubEmpreitada, tdMercadorias,
+                               tdVeiculacao, tdDeducaoVal,
+                               tdDecisJudicial, tdDeducaoIncentivoFiscal]);
 end;
 
 procedure TACBrNFSeProviderISSDSF.PrepararEmitir(Response: TNFSeEmiteResponse);
@@ -1566,6 +1582,19 @@ begin
                                '</Nota>' +
                              '</Lote>' +
                            '</' + Prefixo + 'ReqCancelamentoNFSe>';
+end;
+
+function TACBrNFSeProviderISSDSF.TipoDeducaoToStr(
+  const t: TTipoDeducao): string;
+begin
+  Result := EnumeradoToStr(t, ['', 'Servicos', 'Mapa de Const. Civil', 'Despesas com Materiais',
+                               'Despesas com Subempreitada', 'Despesas com Mercadorias',
+                               'Servicos de Veiculacao e Divulgacao', 'Deducao de Valor',
+                               'Deducao de Valor por Decisao Judicial', 'Deducao de Valor por Incentivo Fiscal'],
+                              [tdNenhum, tdServicos, tdConstrucaoCivil, tdMateriais,
+                               tdSubEmpreitada, tdMercadorias,
+                               tdVeiculacao, tdDeducaoVal,
+                               tdDecisJudicial, tdDeducaoIncentivoFiscal]);
 end;
 
 procedure TACBrNFSeProviderISSDSF.TratarRetornoCancelaNFSe(

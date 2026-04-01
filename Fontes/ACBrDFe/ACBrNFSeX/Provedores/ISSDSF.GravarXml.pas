@@ -98,10 +98,7 @@ begin
 
     sDeducaoPor := FpAOwner.DeducaoPorToStr(NFSe.Servico.Deducao.Items[i].DeducaoPor);
 
-    sTipoDeducao := EnumeradoToStr( NFSe.Servico.Deducao.Items[i].TipoDeducao,
-      ['', 'Despesas com Materiais', 'Despesas com Subempreitada',
-       'Deducao de Valor', 'Servicos de Veiculacao e Divulgacao'],
-      [tdNenhum, tdMateriais, tdSubEmpreitada, tdValor, tdVeiculacao]);
+    sTipoDeducao := FpAOwner.TipoDeducaoToStr(NFSe.Servico.Deducao.Items[i].TipoDeducao);
 
     Result[i].AppendChild(AddNode(tcStr, '#', 'DeducaoPor', 1, 20, 1,
                                                               sDeducaoPor, ''));
