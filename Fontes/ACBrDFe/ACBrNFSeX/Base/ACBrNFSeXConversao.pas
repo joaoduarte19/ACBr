@@ -118,7 +118,9 @@ type
   TDeducaoPor = (dpNenhum, dpPercentual, dpValor);
 
   TTipoDeducao = (tdNenhum, tdMateriais, tdSubEmpreitada, tdValor, tdVeiculacao,
-                  tdPercentual, tdPercMateriais, tdIntermediacao, tdEquipamento);
+                  tdPercentual, tdPercMateriais, tdIntermediacao, tdEquipamento,
+                  tdServicos, tdConstrucaoCivil, tdMercadorias, tdDeducaoVal,
+                  tdDecisJudicial, tdDeducaoIncentivoFiscal);
 
   TnfseProvedor = (proNenhum,
                    proPadraoNacional,
