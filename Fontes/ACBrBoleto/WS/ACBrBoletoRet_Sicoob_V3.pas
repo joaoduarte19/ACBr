@@ -338,6 +338,12 @@ begin
 
     except
       Result := False;
+      if NaoEstaVazio(RetWS) then
+      begin
+        LRejeicao            := ARetornoWS.CriarRejeicaoLista;
+        LRejeicao.Codigo     := '';
+        LRejeicao.mensagem   := RetWS;
+      end;
     end;
 
   end;

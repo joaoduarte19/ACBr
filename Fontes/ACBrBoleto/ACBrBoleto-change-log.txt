@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+02/04/2026
+-- ACBrBoletoRet_Sicoob_V3.pas --
+[*] ACBR-8474 - Quando erro de credenciais, não retorna json e sim string, isso gerava erro na hora do parse
+   https://www.projetoacbr.com.br/forum/topic/87538-erro-no-parse-do-retws-no-siccob-v3/#comment-568732
+   Por: Sady Martins Membros / Validado Valter Patrick
+
 01/04/2026
 -- ACBrBoletoW_BancoBrasil_API --
 [*] ACBr-8818 - Implementado TpAltera: Baixa e Cancelamento de Negativação
