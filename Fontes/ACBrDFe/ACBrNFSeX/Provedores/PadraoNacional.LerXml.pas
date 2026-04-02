@@ -985,6 +985,11 @@ begin
 
     // Reforma Tributária
     LerXMLIBSCBSNFSe(AuxNode.Childrens.FindAnyNs('IBSCBS'), NFSe.infNFSe.IBSCBS);
+    if NFSe.InfNFSe.IBSCBS.cLocalidadeIncid = 0 then
+    begin
+      NFSe.InfNFSe.IBSCBS.cLocalidadeIncid := NFSe.InfNFSe.cLocIncid;
+      NFSe.InfNFSe.IBSCBS.xLocalidadeIncid := NFSe.infNFSe.xLocIncid;
+    end;
   end;
 end;
 

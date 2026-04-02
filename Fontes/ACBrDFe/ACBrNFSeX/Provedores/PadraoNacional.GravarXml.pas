@@ -513,7 +513,12 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'nNFSe', 1, 13, 1,
                                              NFSe.IdentificacaoRps.Numero, ''));
 
-  if NFSe.infNFSe.IBSCBS.cLocalidadeIncid > 0 then
+  if NFSe.infNFSe.cLocIncid > 0 then
+  begin
+    cLocIncid := NFSe.infNFSe.cLocIncid;
+    xLocIncid := NFSe.infNFSe.xLocIncid;
+  end
+  else if NFSe.infNFSe.IBSCBS.cLocalidadeIncid > 0 then
   begin
     cLocIncid := NFSe.infNFSe.IBSCBS.cLocalidadeIncid;
     xLocIncid := NFSe.infNFSe.IBSCBS.xLocalidadeIncid;

@@ -2535,6 +2535,7 @@ begin
     FValorTotalNotaFiscal := 0;
   end;
 
+  FMunicipioIncidencia := 0;
   FItemServico := TItemServicoCollection.Create;
   FDeducao := TDeducaoCollection.Create;
   FcomExt := TComExterior.Create;
@@ -3286,7 +3287,7 @@ end;
 constructor TinfNFSe.Create;
 begin
   inherited Create;
-
+  FcLocIncid := 0;
   Femit := TDadosPessoa.Create;
   Fvalores := TValoresNfse.Create;
   FIBSCBS := TIBSCBSNfse.Create;
@@ -3479,7 +3480,7 @@ end;
 constructor TIBSCBSNfse.Create;
 begin
   inherited Create;
-
+  FcLocalidadeIncid := 0;
   Fvalores := TvaloresIBSCBS.Create;
 
   FtotCIBS := TtotCIBS.Create;

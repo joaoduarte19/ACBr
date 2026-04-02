@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+02/04/2026
+-- ACBrNFSeXClass/PadraoNacional.GravarXml/PadraoNacional.LerXml --
+[*] Inicializa as propriedades cLocIncid, cLocalidadeIncid e MunicipioIncidencia com zero visando evitar possíveis problemas com lixo de memória na inicialização para a correta geração do XML;
+[*] Ajusta a rotina de leitura e escrita do XML do Padrao Nacional visando padronizar cLocIncid;
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/90438-rejei%C3%A7%C3%A3o-na-tentativa-de-aprova%C3%A7%C3%A3o-de-uma-nfse-para-cascars-nuvem-fiscal-acbr/?&_rid=37999 
 
 31/03/2026
 -- ACBrNFSeXConversao --
