@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 02/04/2026
+-- ISSSaoPaulo.GravarXML --
+[*] O provedor não esta mais aceitando a tag ValorInicialCobrado
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/91478-envio-valor-para-a-nfs-e-mas-a-nota-%C3%A9-emitida-com-valor-zerado/ 
 -- ACBrNFSeXClass/PadraoNacional.GravarXml/PadraoNacional.LerXml --
 [*] Inicializa as propriedades cLocIncid, cLocalidadeIncid e MunicipioIncidencia com zero visando evitar possíveis problemas com lixo de memória na inicialização para a correta geração do XML;
 [*] Ajusta a rotina de leitura e escrita do XML do Padrao Nacional visando padronizar cLocIncid;
