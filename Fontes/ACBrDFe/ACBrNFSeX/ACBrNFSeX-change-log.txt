@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+06/04/2026
+-- Elotech.GravarXML --
+[-] O CodigoPais é obrigatório no grupo do Endereço do Tomador.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/91514-erro-1871-problema-valida%C3%A7%C3%A3o-xsd-nfse-elotech-pitanga-pr/
+
 02/04/2026
 -- ISSSaoPaulo.GravarXML --
 [*] O provedor não esta mais aceitando a tag ValorInicialCobrado
