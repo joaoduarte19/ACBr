@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+06/04/2026
+-- ACBrNFSeBase.php --
+[+] Adicionado lnfsPadraoNacionalv101 para seleção do LayoutNFSe
+   Por: Renato Rubinho
+
 20/03/2026
 -- ACBrLibNFSeBase/ACBrLibNFSeMT/ACBrLibNFSeST --
 [+] ACBR-8944 - Adiciona um novo método NFSe_SetVersaoDF

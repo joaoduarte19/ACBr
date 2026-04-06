@@ -303,6 +303,7 @@
                             <select id="LayoutNFSe">
                                 <option value="0" selected>lnfsProvedor</option>
                                 <option value="1">lnfsPadraoNacionalv1</option>
+                                <option value="2">lnfsPadraoNacionalv101</option>
                             </select>
                         </div>
                     </div>
