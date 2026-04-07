@@ -1,0 +1,12 @@
+-hbexe
+-inc
+-trace
+-gtcgi
+-I../Comum
+-icon=ACBrMonitor.ico
+
+ACBrConsultaCNPJDemo.prg
+ACBrConsultaCNPJ.prg
+Debugger.prg
+xhb.hbc
+hbxpp.hbc
