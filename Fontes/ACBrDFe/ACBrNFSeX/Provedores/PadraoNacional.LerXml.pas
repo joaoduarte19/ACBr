@@ -1626,6 +1626,7 @@ begin
   LerINIInformacoesComplementares(AINIRec);
   LerINIInformacoesComplementaresgItemPed(AINIRec);
   LerINIValores(AINIRec);
+  LerINIValoresNFSe(AINIRec);
   LerINIDocumentosDeducoes(AINIRec);
   LerINIValoresTribMun(AINIRec);
   LerINIValoresTribFederal(AINIRec);
