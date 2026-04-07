@@ -26,9 +26,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
     Title = 'DACT-e Retrato'
     BeforePrint = RLCTeBeforePrint
     object rlb_01_Recibo: TRLBand
-      Left = 26
-      Top = 103
-      Width = 742
+      Left = 33
+      Top = 110
+      Width = 926
       Height = 72
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -69,7 +69,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw48: TRLDraw
         Left = 1
         Top = 14
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -325,7 +325,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw46: TRLDraw
         Left = 1
         Top = 70
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -333,9 +333,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_07_HeaderItens: TRLBand
-      Left = 26
-      Top = 1220
-      Width = 742
+      Left = 33
+      Top = 1227
+      Width = 926
       Height = 81
       AutoSize = True
       BandType = btHeader
@@ -369,7 +369,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw32: TRLDraw
         Left = 1
         Top = 14
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -541,9 +541,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_09_Obs: TRLBand
-      Left = 26
-      Top = 1426
-      Width = 742
+      Left = 33
+      Top = 1433
+      Width = 926
       Height = 70
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -557,7 +557,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw1: TRLDraw
         Left = 1
         Top = 18
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -621,9 +621,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_02_Cabecalho: TRLBand
-      Left = 26
-      Top = 291
-      Width = 742
+      Left = 33
+      Top = 298
+      Width = 926
       Height = 184
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -1199,7 +1199,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw88: TRLDraw
         Left = 1
         Top = 154
-        Width = 740
+        Width = 924
         Height = 1
         Align = faWidth
         Brush.Style = bsClear
@@ -1338,9 +1338,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_10_ModRodFracionado: TRLBand
-      Left = 26
-      Top = 1603
-      Width = 742
+      Left = 33
+      Top = 1610
+      Width = 926
       Height = 44
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -1362,7 +1362,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw24: TRLDraw
         Left = 1
         Top = 15
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -1584,9 +1584,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_11_ModRodLot103: TRLBand
-      Left = 26
-      Top = 1647
-      Width = 742
+      Left = 33
+      Top = 1654
+      Width = 926
       Height = 108
       BandType = btHeader
       Color = clWhite
@@ -2192,9 +2192,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_03_DadosDACTe: TRLBand
-      Left = 26
-      Top = 475
-      Width = 742
+      Left = 33
+      Top = 482
+      Width = 926
       Height = 202
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -2217,7 +2217,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object rlsLinhaH08: TRLDraw
         Left = 1
         Top = 167
-        Width = 740
+        Width = 924
         Height = 1
         Align = faWidth
         Brush.Style = bsClear
@@ -2235,7 +2235,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object rlsLinhaH07: TRLDraw
         Left = 1
         Top = 109
-        Width = 740
+        Width = 924
         Height = 1
         Align = faWidth
         Brush.Style = bsClear
@@ -2244,7 +2244,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object rlsLinhaH06: TRLDraw
         Left = 1
         Top = 51
-        Width = 740
+        Width = 924
         Height = 1
         Align = faWidth
         Brush.Style = bsClear
@@ -2253,7 +2253,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object rlsLinhaH05: TRLDraw
         Left = 1
         Top = 26
-        Width = 740
+        Width = 924
         Height = 1
         Align = faWidth
         Brush.Style = bsClear
@@ -3654,9 +3654,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_04_DadosNotaFiscal: TRLBand
-      Left = 26
-      Top = 746
-      Width = 742
+      Left = 33
+      Top = 753
+      Width = 926
       Height = 90
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -3891,7 +3891,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw55: TRLDraw
         Left = 1
         Top = 26
-        Width = 740
+        Width = 924
         Height = 1
         Align = faWidth
         Brush.Style = bsClear
@@ -4195,9 +4195,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_05_Complemento: TRLBand
-      Left = 26
-      Top = 836
-      Width = 742
+      Left = 33
+      Top = 843
+      Width = 926
       Height = 81
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -4218,7 +4218,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw5: TRLDraw
         Left = 1
         Top = 16
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -4318,9 +4318,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_17_Sistema: TRLBand
-      Left = 26
-      Top = 2134
-      Width = 742
+      Left = 33
+      Top = 2141
+      Width = 926
       Height = 16
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -4365,9 +4365,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_16_DadosExcEmitente: TRLBand
-      Left = 26
-      Top = 2065
-      Width = 742
+      Left = 33
+      Top = 2072
+      Width = 926
       Height = 69
       AutoSize = True
       BandType = btHeader
@@ -4433,7 +4433,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw27: TRLDraw
         Left = 1
         Top = 15
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -4470,9 +4470,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_06_ValorPrestacao: TRLBand
-      Left = 26
-      Top = 1077
-      Width = 742
+      Left = 33
+      Top = 1084
+      Width = 926
       Height = 143
       AutoExpand = False
       BandType = btHeader
@@ -4496,7 +4496,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw17: TRLDraw
         Left = 1
         Top = 16
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -4569,7 +4569,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw45: TRLDraw
         Left = 1
         Top = 78
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -4588,7 +4588,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw21: TRLDraw
         Left = 1
         Top = 93
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -5120,7 +5120,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object rlpnlTributosFederais: TRLPanel
         Left = 1
         Top = 117
-        Width = 740
+        Width = 924
         Height = 25
         Align = faBottom
         Borders.Sides = sdCustom
@@ -5331,9 +5331,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_12_ModAereo: TRLBand
-      Left = 26
-      Top = 1862
-      Width = 742
+      Left = 33
+      Top = 1869
+      Width = 926
       Height = 97
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -5382,7 +5382,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw57: TRLDraw
         Left = 1
         Top = 38
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -5821,7 +5821,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw54: TRLDraw
         Left = 1
         Top = 14
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -5830,7 +5830,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw63: TRLDraw
         Left = 1
         Top = 70
-        Width = 740
+        Width = 924
         Height = 1
         Align = faWidth
         Brush.Style = bsClear
@@ -5844,9 +5844,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_13_ModAquaviario: TRLBand
-      Left = 26
-      Top = 1959
-      Width = 742
+      Left = 33
+      Top = 1966
+      Width = 926
       Height = 92
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -5878,7 +5878,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw74: TRLDraw
         Left = 1
         Top = 15
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -5947,7 +5947,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw75: TRLDraw
         Left = 1
         Top = 39
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -5986,7 +5986,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw76: TRLDraw
         Left = 1
         Top = 63
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -6202,9 +6202,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_14_ModFerroviario: TRLBand
-      Left = 26
-      Top = 2051
-      Width = 742
+      Left = 33
+      Top = 2058
+      Width = 926
       Height = 7
       BandType = btHeader
       Color = clWhite
@@ -6212,9 +6212,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       BeforePrint = rlb_14_ModFerroviarioBeforePrint
     end
     object rlb_15_ModDutoviario: TRLBand
-      Left = 26
-      Top = 2058
-      Width = 742
+      Left = 33
+      Top = 2065
+      Width = 926
       Height = 7
       BandType = btHeader
       Color = clWhite
@@ -6222,9 +6222,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       BeforePrint = rlb_15_ModDutoviarioBeforePrint
     end
     object rlb_01_Recibo_Aereo: TRLBand
-      Left = 26
-      Top = 175
-      Width = 742
+      Left = 33
+      Top = 182
+      Width = 926
       Height = 116
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -6238,7 +6238,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw81: TRLDraw
         Left = 1
         Top = 112
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -6248,7 +6248,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw2: TRLDraw
         Left = 1
         Top = 15
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -6310,7 +6310,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw82: TRLDraw
         Left = 1
         Top = 61
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -6491,7 +6491,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw10: TRLDraw
         Left = 1
         Top = 50
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -6500,9 +6500,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_11_ModRodLot104: TRLBand
-      Left = 26
-      Top = 1755
-      Width = 742
+      Left = 33
+      Top = 1762
+      Width = 926
       Height = 107
       BandType = btHeader
       Color = clWhite
@@ -6985,9 +6985,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_06_ProdutosPerigosos: TRLBand
-      Left = 26
-      Top = 917
-      Width = 742
+      Left = 33
+      Top = 924
+      Width = 926
       Height = 83
       AutoSize = True
       BandType = btHeader
@@ -7020,7 +7020,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw102: TRLDraw
         Left = 1
         Top = 16
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -7271,7 +7271,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw107: TRLDraw
         Left = 1
         Top = 30
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -7279,9 +7279,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_06_VeiculosNovos: TRLBand
-      Left = 26
-      Top = 1496
-      Width = 742
+      Left = 33
+      Top = 1503
+      Width = 926
       Height = 63
       AutoSize = True
       BandType = btHeader
@@ -7314,7 +7314,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw229: TRLDraw
         Left = 1
         Top = 16
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -7523,9 +7523,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_Fluxo_Carga: TRLBand
-      Left = 26
-      Top = 1382
-      Width = 742
+      Left = 33
+      Top = 1389
+      Width = 926
       Height = 44
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -7555,7 +7555,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw34: TRLDraw
         Left = 1
         Top = 14
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -7679,9 +7679,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_03_DadosDACTe_OS: TRLBand
-      Left = 26
-      Top = 677
-      Width = 742
+      Left = 33
+      Top = 684
+      Width = 926
       Height = 69
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -7703,7 +7703,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object rlsLinhaH7: TRLDraw
         Left = 1
         Top = 28
-        Width = 740
+        Width = 924
         Height = 1
         Align = faWidth
         Brush.Style = bsClear
@@ -8072,9 +8072,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_Dados_Seguradora: TRLBand
-      Left = 26
-      Top = 1559
-      Width = 742
+      Left = 33
+      Top = 1566
+      Width = 926
       Height = 44
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -8088,7 +8088,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw29: TRLDraw
         Left = 1
         Top = 15
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -8238,9 +8238,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_CTeOS_PrestacaoServico: TRLBand
-      Left = 26
-      Top = 1000
-      Width = 742
+      Left = 33
+      Top = 1007
+      Width = 926
       Height = 77
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -8325,7 +8325,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw35: TRLDraw
         Left = 1
         Top = 14
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -8334,9 +8334,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_Cte_Anulado_Substituido: TRLBand
-      Left = 26
-      Top = 1301
-      Width = 742
+      Left = 33
+      Top = 1308
+      Width = 926
       Height = 81
       AutoSize = True
       BandType = btHeader
@@ -8369,7 +8369,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       object RLDraw117: TRLDraw
         Left = 1
         Top = 14
-        Width = 740
+        Width = 924
         Height = 1
         HelpContext = 1
         Align = faWidth
@@ -8452,9 +8452,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_01_ReciboBarra: TRLBand
-      Left = 26
-      Top = 38
-      Width = 742
+      Left = 33
+      Top = 45
+      Width = 926
       Height = 65
       BandType = btHeader
       BeforePrint = rlb_01_ReciboBarraBeforePrint
@@ -8623,9 +8623,9 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
     end
     object rlb_DivisaoRecibo: TRLBand
-      Left = 26
-      Top = 26
-      Width = 742
+      Left = 33
+      Top = 33
+      Width = 926
       Height = 12
       BandType = btHeader
       BeforePrint = rlb_DivisaoReciboBeforePrint

@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+07/04/2026
+-- ACBrCTeDACTeRLRetrato --
+[*] Alteração visando imprimir a chave da DC-e no DACTE quando o documento vinculado
+    é uma DC-e em vez de NF-e.
+   Por: Italo Giurizzato Junior
+
 16/03/2026
 -- ACBrCTe.XmlWriter --
 [*] ACBr-9087: Alteração visando gerar a tag vTotDFe quando for CT-e Simplificado.
