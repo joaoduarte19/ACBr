@@ -1,0 +1,1342 @@
+35|SP|São Paulo|SE|Sudeste|0|0
+3500105|Adamantina|35|SP|0|0
+3500204|Adolfo|35|SP|0|0
+3500303|Aguaí|35|SP|0|0
+3500402|Águas da Prata|35|SP|0|0
+3500501|Águas de Lindóia|35|SP|0|0
+3500550|Águas de Santa Bárbara|35|SP|0|0
+3500600|Águas de São Pedro|35|SP|0|0
+3500709|Agudos|35|SP|0|0
+3500758|Alambari|35|SP|0|0
+3500808|Alfredo Marcondes|35|SP|0|0
+3500907|Altair|35|SP|0|0
+3501004|Altinópolis|35|SP|0|0
+3501103|Alto Alegre|35|SP|0|0
+3501152|Alumínio|35|SP|0|0
+3501202|Álvares Florence|35|SP|0|0
+3501301|Álvares Machado|35|SP|0|0
+3501400|Álvaro de Carvalho|35|SP|0|0
+3501509|Alvinlândia|35|SP|0|0
+3501608|Americana|35|SP|0|0
+3501707|Américo Brasiliense|35|SP|0|0
+3501806|Américo de Campos|35|SP|0|0
+3501905|Amparo|35|SP|0|0
+3502002|Analândia|35|SP|0|0
+3502101|Andradina|35|SP|0|0
+3502200|Angatuba|35|SP|0|0
+3502309|Anhembi|35|SP|0|0
+3502408|Anhumas|35|SP|0|0
+3502507|Aparecida|35|SP|0|0
+3502606|Aparecida d'Oeste|35|SP|0|0
+3502705|Apiaí|35|SP|0|0
+3502754|Araçariguama|35|SP|0|0
+3502804|Araçatuba|35|SP|0|0
+3502903|Araçoiaba da Serra|35|SP|0|0
+3503000|Aramina|35|SP|0|0
+3503109|Arandu|35|SP|0|0
+3503158|Arapeí|35|SP|0|0
+3503208|Araraquara|35|SP|0|0
+3503307|Araras|35|SP|0|0
+3503356|Arco-Íris|35|SP|0|0
+3503406|Arealva|35|SP|0|0
+3503505|Areias|35|SP|0|0
+3503604|Areiópolis|35|SP|0|0
+3503703|Ariranha|35|SP|0|0
+3503802|Artur Nogueira|35|SP|0|0
+3503901|Arujá|35|SP|0|0
+3503950|Aspásia|35|SP|0|0
+3504008|Assis|35|SP|0|0
+3504107|Atibaia|35|SP|0|0
+3504206|Auriflama|35|SP|0|0
+3504305|Avaí|35|SP|0|0
+3504404|Avanhandava|35|SP|0|0
+3504503|Avaré|35|SP|0|0
+3504602|Bady Bassitt|35|SP|0|0
+3504701|Balbinos|35|SP|0|0
+3504800|Bálsamo|35|SP|0|0
+3504909|Bananal|35|SP|0|0
+3505005|Barão de Antonina|35|SP|0|0
+3505104|Barbosa|35|SP|0|0
+3505203|Bariri|35|SP|0|0
+3505302|Barra Bonita|35|SP|0|0
+3505351|Barra do Chapéu|35|SP|0|0
+3505401|Barra do Turvo|35|SP|0|0
+3505500|Barretos|35|SP|0|0
+3505609|Barrinha|35|SP|0|0
+3505708|Barueri|35|SP|0|0
+3505807|Bastos|35|SP|0|0
+3505906|Batatais|35|SP|0|0
+3506003|Bauru|35|SP|0|0
+3506102|Bebedouro|35|SP|0|0
+3506201|Bento de Abreu|35|SP|0|0
+3506300|Bernardino de Campos|35|SP|0|0
+3506359|Bertioga|35|SP|0|0
+3506409|Bilac|35|SP|0|0
+3506508|Birigui|35|SP|0|0
+3506607|Biritiba Mirim|35|SP|0|0
+3506706|Boa Esperança do Sul|35|SP|0|0
+3506805|Bocaina|35|SP|0|0
+3506904|Bofete|35|SP|0|0
+3507001|Boituva|35|SP|0|0
+3507100|Bom Jesus dos Perdões|35|SP|0|0
+3507159|Bom Sucesso de Itararé|35|SP|0|0
+3507209|Borá|35|SP|0|0
+3507308|Boracéia|35|SP|0|0
+3507407|Borborema|35|SP|0|0
+3507456|Borebi|35|SP|0|0
+3507506|Botucatu|35|SP|0|0
+3507605|Bragança Paulista|35|SP|0|0
+3507704|Braúna|35|SP|0|0
+3507753|Brejo Alegre|35|SP|0|0
+3507803|Brodowski|35|SP|0|0
+3507902|Brotas|35|SP|0|0
+3508009|Buri|35|SP|0|0
+3508108|Buritama|35|SP|0|0
+3508207|Buritizal|35|SP|0|0
+3508306|Cabrália Paulista|35|SP|0|0
+3508405|Cabreúva|35|SP|0|0
+3508504|Caçapava|35|SP|0|0
+3508603|Cachoeira Paulista|35|SP|0|0
+3508702|Caconde|35|SP|0|0
+3508801|Cafelândia|35|SP|0|0
+3508900|Caiabu|35|SP|0|0
+3509007|Caieiras|35|SP|0|0
+3509106|Caiuá|35|SP|0|0
+3509205|Cajamar|35|SP|0|0
+3509254|Cajati|35|SP|0|0
+3509304|Cajobi|35|SP|0|0
+3509403|Cajuru|35|SP|0|0
+3509452|Campina do Monte Alegre|35|SP|0|0
+3509502|Campinas|35|SP|0|0
+3509601|Campo Limpo Paulista|35|SP|0|0
+3509700|Campos do Jordão|35|SP|0|0
+3509809|Campos Novos Paulista|35|SP|0|0
+3509908|Cananéia|35|SP|0|0
+3509957|Canas|35|SP|0|0
+3510005|Cândido Mota|35|SP|0|0
+3510104|Cândido Rodrigues|35|SP|0|0
+3510153|Canitar|35|SP|0|0
+3510203|Capão Bonito|35|SP|0|0
+3510302|Capela do Alto|35|SP|0|0
+3510401|Capivari|35|SP|0|0
+3510500|Caraguatatuba|35|SP|0|0
+3510609|Carapicuíba|35|SP|0|0
+3510708|Cardoso|35|SP|0|0
+3510807|Casa Branca|35|SP|0|0
+3510906|Cássia dos Coqueiros|35|SP|0|0
+3511003|Castilho|35|SP|0|0
+3511102|Catanduva|35|SP|0|0
+3511201|Catiguá|35|SP|0|0
+3511300|Cedral|35|SP|0|0
+3511409|Cerqueira César|35|SP|0|0
+3511508|Cerquilho|35|SP|0|0
+3511607|Cesário Lange|35|SP|0|0
+3511706|Charqueada|35|SP|0|0
+3511904|Clementina|35|SP|0|0
+3512001|Colina|35|SP|0|0
+3512100|Colômbia|35|SP|0|0
+3512209|Conchal|35|SP|0|0
+3512308|Conchas|35|SP|0|0
+3512407|Cordeirópolis|35|SP|0|0
+3512506|Coroados|35|SP|0|0
+3512605|Coronel Macedo|35|SP|0|0
+3512704|Corumbataí|35|SP|0|0
+3512803|Cosmópolis|35|SP|0|0
+3512902|Cosmorama|35|SP|0|0
+3513009|Cotia|35|SP|0|0
+3513108|Cravinhos|35|SP|0|0
+3513207|Cristais Paulista|35|SP|0|0
+3513306|Cruzália|35|SP|0|0
+3513405|Cruzeiro|35|SP|0|0
+3513504|Cubatão|35|SP|0|0
+3513603|Cunha|35|SP|0|0
+3513702|Descalvado|35|SP|0|0
+3513801|Diadema|35|SP|0|0
+3513850|Dirce Reis|35|SP|0|0
+3513900|Divinolândia|35|SP|0|0
+3514007|Dobrada|35|SP|0|0
+3514106|Dois Córregos|35|SP|0|0
+3514205|Dolcinópolis|35|SP|0|0
+3514304|Dourado|35|SP|0|0
+3514403|Dracena|35|SP|0|0
+3514502|Duartina|35|SP|0|0
+3514601|Dumont|35|SP|0|0
+3514700|Echaporã|35|SP|0|0
+3514809|Eldorado|35|SP|0|0
+3514908|Elias Fausto|35|SP|0|0
+3514924|Elisiário|35|SP|0|0
+3514957|Embaúba|35|SP|0|0
+3515004|Embu das Artes|35|SP|0|0
+3515103|Embu-Guaçu|35|SP|0|0
+3515129|Emilianópolis|35|SP|0|0
+3515152|Engenheiro Coelho|35|SP|0|0
+3515186|Espírito Santo do Pinhal|35|SP|0|0
+3515194|Espírito Santo do Turvo|35|SP|0|0
+3515202|Estrela d'Oeste|35|SP|0|0
+3515301|Estrela do Norte|35|SP|0|0
+3515350|Euclides da Cunha Paulista|35|SP|0|0
+3515400|Fartura|35|SP|0|0
+3515509|Fernandópolis|35|SP|0|0
+3515608|Fernando Prestes|35|SP|0|0
+3515657|Fernão|35|SP|0|0
+3515707|Ferraz de Vasconcelos|35|SP|0|0
+3515806|Flora Rica|35|SP|0|0
+3515905|Floreal|35|SP|0|0
+3516002|Flórida Paulista|35|SP|0|0
+3516101|Florínea|35|SP|0|0
+3516200|Franca|35|SP|0|0
+3516309|Francisco Morato|35|SP|0|0
+3516408|Franco da Rocha|35|SP|0|0
+3516507|Gabriel Monteiro|35|SP|0|0
+3516606|Gália|35|SP|0|0
+3516705|Garça|35|SP|0|0
+3516804|Gastão Vidigal|35|SP|0|0
+3516853|Gavião Peixoto|35|SP|0|0
+3516903|General Salgado|35|SP|0|0
+3517000|Getulina|35|SP|0|0
+3517109|Glicério|35|SP|0|0
+3517208|Guaiçara|35|SP|0|0
+3517307|Guaimbê|35|SP|0|0
+3517406|Guaíra|35|SP|0|0
+3517505|Guapiaçu|35|SP|0|0
+3517604|Guapiara|35|SP|0|0
+3517703|Guará|35|SP|0|0
+3517802|Guaraçaí|35|SP|0|0
+3517901|Guaraci|35|SP|0|0
+3518008|Guarani d'Oeste|35|SP|0|0
+3518107|Guarantã|35|SP|0|0
+3518206|Guararapes|35|SP|0|0
+3518305|Guararema|35|SP|0|0
+3518404|Guaratinguetá|35|SP|0|0
+3518503|Guareí|35|SP|0|0
+3518602|Guariba|35|SP|0|0
+3518701|Guarujá|35|SP|0|0
+3518800|Guarulhos|35|SP|0|0
+3518859|Guatapará|35|SP|0|0
+3518909|Guzolândia|35|SP|0|0
+3519006|Herculândia|35|SP|0|0
+3519055|Holambra|35|SP|0|0
+3519071|Hortolândia|35|SP|0|0
+3519105|Iacanga|35|SP|0|0
+3519204|Iacri|35|SP|0|0
+3519253|Iaras|35|SP|0|0
+3519303|Ibaté|35|SP|0|0
+3519402|Ibirá|35|SP|0|0
+3519501|Ibirarema|35|SP|0|0
+3519600|Ibitinga|35|SP|0|0
+3519709|Ibiúna|35|SP|0|0
+3519808|Icém|35|SP|0|0
+3519907|Iepê|35|SP|0|0
+3520004|Igaraçu do Tietê|35|SP|0|0
+3520103|Igarapava|35|SP|0|0
+3520202|Igaratá|35|SP|0|0
+3520301|Iguape|35|SP|0|0
+3520400|Ilhabela|35|SP|0|0
+3520426|Ilha Comprida|35|SP|0|0
+3520442|Ilha Solteira|35|SP|0|0
+3520509|Indaiatuba|35|SP|0|0
+3520608|Indiana|35|SP|0|0
+3520707|Indiaporã|35|SP|0|0
+3520806|Inúbia Paulista|35|SP|0|0
+3520905|Ipaussu|35|SP|0|0
+3521002|Iperó|35|SP|0|0
+3521101|Ipeúna|35|SP|0|0
+3521150|Ipiguá|35|SP|0|0
+3521200|Iporanga|35|SP|0|0
+3521309|Ipuã|35|SP|0|0
+3521408|Iracemápolis|35|SP|0|0
+3521507|Irapuã|35|SP|0|0
+3521606|Irapuru|35|SP|0|0
+3521705|Itaberá|35|SP|0|0
+3521804|Itaí|35|SP|0|0
+3521903|Itajobi|35|SP|0|0
+3522000|Itaju|35|SP|0|0
+3522109|Itanhaém|35|SP|0|0
+3522158|Itaoca|35|SP|0|0
+3522208|Itapecerica da Serra|35|SP|0|0
+3522307|Itapetininga|35|SP|0|0
+3522406|Itapeva|35|SP|0|0
+3522505|Itapevi|35|SP|0|0
+3522604|Itapira|35|SP|0|0
+3522653|Itapirapuã Paulista|35|SP|0|0
+3522703|Itápolis|35|SP|0|0
+3522802|Itaporanga|35|SP|0|0
+3522901|Itapuí|35|SP|0|0
+3523008|Itapura|35|SP|0|0
+3523107|Itaquaquecetuba|35|SP|0|0
+3523206|Itararé|35|SP|0|0
+3523305|Itariri|35|SP|0|0
+3523404|Itatiba|35|SP|0|0
+3523503|Itatinga|35|SP|0|0
+3523602|Itirapina|35|SP|0|0
+3523701|Itirapuã|35|SP|0|0
+3523800|Itobi|35|SP|0|0
+3523909|Itu|35|SP|0|0
+3524006|Itupeva|35|SP|0|0
+3524105|Ituverava|35|SP|0|0
+3524204|Jaborandi|35|SP|0|0
+3524303|Jaboticabal|35|SP|0|0
+3524402|Jacareí|35|SP|0|0
+3524501|Jaci|35|SP|0|0
+3524600|Jacupiranga|35|SP|0|0
+3524709|Jaguariúna|35|SP|0|0
+3524808|Jales|35|SP|0|0
+3524907|Jambeiro|35|SP|0|0
+3525003|Jandira|35|SP|0|0
+3525102|Jardinópolis|35|SP|0|0
+3525201|Jarinu|35|SP|0|0
+3525300|Jaú|35|SP|0|0
+3525409|Jeriquara|35|SP|0|0
+3525508|Joanópolis|35|SP|0|0
+3525607|João Ramalho|35|SP|0|0
+3525706|José Bonifácio|35|SP|0|0
+3525805|Júlio Mesquita|35|SP|0|0
+3525854|Jumirim|35|SP|0|0
+3525904|Jundiaí|35|SP|0|0
+3526001|Junqueirópolis|35|SP|0|0
+3526100|Juquiá|35|SP|0|0
+3526209|Juquitiba|35|SP|0|0
+3526308|Lagoinha|35|SP|0|0
+3526407|Laranjal Paulista|35|SP|0|0
+3526506|Lavínia|35|SP|0|0
+3526605|Lavrinhas|35|SP|0|0
+3526704|Leme|35|SP|0|0
+3526803|Lençóis Paulista|35|SP|0|0
+3526902|Limeira|35|SP|0|0
+3527009|Lindóia|35|SP|0|0
+3527108|Lins|35|SP|0|0
+3527207|Lorena|35|SP|0|0
+3527256|Lourdes|35|SP|0|0
+3527306|Louveira|35|SP|0|0
+3527405|Lucélia|35|SP|0|0
+3527504|Lucianópolis|35|SP|0|0
+3527603|Luís Antônio|35|SP|0|0
+3527702|Luiziânia|35|SP|0|0
+3527801|Lupércio|35|SP|0|0
+3527900|Lutécia|35|SP|0|0
+3528007|Macatuba|35|SP|0|0
+3528106|Macaubal|35|SP|0|0
+3528205|Macedônia|35|SP|0|0
+3528304|Magda|35|SP|0|0
+3528403|Mairinque|35|SP|0|0
+3528502|Mairiporã|35|SP|0|0
+3528601|Manduri|35|SP|0|0
+3528700|Marabá Paulista|35|SP|0|0
+3528809|Maracaí|35|SP|0|0
+3528858|Marapoama|35|SP|0|0
+3528908|Mariápolis|35|SP|0|0
+3529005|Marília|35|SP|0|0
+3529104|Marinópolis|35|SP|0|0
+3529203|Martinópolis|35|SP|0|0
+3529302|Matão|35|SP|0|0
+3529401|Mauá|35|SP|0|0
+3529500|Mendonça|35|SP|0|0
+3529609|Meridiano|35|SP|0|0
+3529658|Mesópolis|35|SP|0|0
+3529708|Miguelópolis|35|SP|0|0
+3529807|Mineiros do Tietê|35|SP|0|0
+3529906|Miracatu|35|SP|0|0
+3530003|Mira Estrela|35|SP|0|0
+3530102|Mirandópolis|35|SP|0|0
+3530201|Mirante do Paranapanema|35|SP|0|0
+3530300|Mirassol|35|SP|0|0
+3530409|Mirassolândia|35|SP|0|0
+3530508|Mococa|35|SP|0|0
+3530607|Mogi das Cruzes|35|SP|0|0
+3530706|Mogi Guaçu|35|SP|0|0
+3530805|Mogi Mirim|35|SP|0|0
+3530904|Mombuca|35|SP|0|0
+3531001|Monções|35|SP|0|0
+3531100|Mongaguá|35|SP|0|0
+3531209|Monte Alegre do Sul|35|SP|0|0
+3531308|Monte Alto|35|SP|0|0
+3531407|Monte Aprazível|35|SP|0|0
+3531506|Monte Azul Paulista|35|SP|0|0
+3531605|Monte Castelo|35|SP|0|0
+3531704|Monteiro Lobato|35|SP|0|0
+3531803|Monte Mor|35|SP|0|0
+3531902|Morro Agudo|35|SP|0|0
+3532009|Morungaba|35|SP|0|0
+3532058|Motuca|35|SP|0|0
+3532108|Murutinga do Sul|35|SP|0|0
+3532157|Nantes|35|SP|0|0
+3532207|Narandiba|35|SP|0|0
+3532306|Natividade da Serra|35|SP|0|0
+3532405|Nazaré Paulista|35|SP|0|0
+3532504|Neves Paulista|35|SP|0|0
+3532603|Nhandeara|35|SP|0|0
+3532702|Nipoã|35|SP|0|0
+3532801|Nova Aliança|35|SP|0|0
+3532827|Nova Campina|35|SP|0|0
+3532843|Nova Canaã Paulista|35|SP|0|0
+3532868|Nova Castilho|35|SP|0|0
+3532900|Nova Europa|35|SP|0|0
+3533007|Nova Granada|35|SP|0|0
+3533106|Nova Guataporanga|35|SP|0|0
+3533205|Nova Independência|35|SP|0|0
+3533254|Novais|35|SP|0|0
+3533304|Nova Luzitânia|35|SP|0|0
+3533403|Nova Odessa|35|SP|0|0
+3533502|Novo Horizonte|35|SP|0|0
+3533601|Nuporanga|35|SP|0|0
+3533700|Ocauçu|35|SP|0|0
+3533809|Óleo|35|SP|0|0
+3533908|Olímpia|35|SP|0|0
+3534005|Onda Verde|35|SP|0|0
+3534104|Oriente|35|SP|0|0
+3534203|Orindiúva|35|SP|0|0
+3534302|Orlândia|35|SP|0|0
+3534401|Osasco|35|SP|0|0
+3534500|Oscar Bressane|35|SP|0|0
+3534609|Osvaldo Cruz|35|SP|0|0
+3534708|Ourinhos|35|SP|0|0
+3534757|Ouroeste|35|SP|0|0
+3534807|Ouro Verde|35|SP|0|0
+3534906|Pacaembu|35|SP|0|0
+3535002|Palestina|35|SP|0|0
+3535101|Palmares Paulista|35|SP|0|0
+3535200|Palmeira d'Oeste|35|SP|0|0
+3535309|Palmital|35|SP|0|0
+3535408|Panorama|35|SP|0|0
+3535507|Paraguaçu Paulista|35|SP|0|0
+3535606|Paraibuna|35|SP|0|0
+3535705|Paraíso|35|SP|0|0
+3535804|Paranapanema|35|SP|0|0
+3535903|Paranapuã|35|SP|0|0
+3536000|Parapuã|35|SP|0|0
+3536109|Pardinho|35|SP|0|0
+3536208|Pariquera-Açu|35|SP|0|0
+3536257|Parisi|35|SP|0|0
+3536307|Patrocínio Paulista|35|SP|0|0
+3536406|Paulicéia|35|SP|0|0
+3536505|Paulínia|35|SP|0|0
+3536570|Paulistânia|35|SP|0|0
+3536604|Paulo de Faria|35|SP|0|0
+3536703|Pederneiras|35|SP|0|0
+3536802|Pedra Bela|35|SP|0|0
+3536901|Pedranópolis|35|SP|0|0
+3537008|Pedregulho|35|SP|0|0
+3537107|Pedreira|35|SP|0|0
+3537156|Pedrinhas Paulista|35|SP|0|0
+3537206|Pedro de Toledo|35|SP|0|0
+3537305|Penápolis|35|SP|0|0
+3537404|Pereira Barreto|35|SP|0|0
+3537503|Pereiras|35|SP|0|0
+3537602|Peruíbe|35|SP|0|0
+3537701|Piacatu|35|SP|0|0
+3537800|Piedade|35|SP|0|0
+3537909|Pilar do Sul|35|SP|0|0
+3538006|Pindamonhangaba|35|SP|0|0
+3538105|Pindorama|35|SP|0|0
+3538204|Pinhalzinho|35|SP|0|0
+3538303|Piquerobi|35|SP|0|0
+3538501|Piquete|35|SP|0|0
+3538600|Piracaia|35|SP|0|0
+3538709|Piracicaba|35|SP|0|0
+3538808|Piraju|35|SP|0|0
+3538907|Pirajuí|35|SP|0|0
+3539004|Pirangi|35|SP|0|0
+3539103|Pirapora do Bom Jesus|35|SP|0|0
+3539202|Pirapozinho|35|SP|0|0
+3539301|Pirassununga|35|SP|0|0
+3539400|Piratininga|35|SP|0|0
+3539509|Pitangueiras|35|SP|0|0
+3539608|Planalto|35|SP|0|0
+3539707|Platina|35|SP|0|0
+3539806|Poá|35|SP|0|0
+3539905|Poloni|35|SP|0|0
+3540002|Pompéia|35|SP|0|0
+3540101|Pongaí|35|SP|0|0
+3540200|Pontal|35|SP|0|0
+3540259|Pontalinda|35|SP|0|0
+3540309|Pontes Gestal|35|SP|0|0
+3540408|Populina|35|SP|0|0
+3540507|Porangaba|35|SP|0|0
+3540606|Porto Feliz|35|SP|0|0
+3540705|Porto Ferreira|35|SP|0|0
+3540754|Potim|35|SP|0|0
+3540804|Potirendaba|35|SP|0|0
+3540853|Pracinha|35|SP|0|0
+3540903|Pradópolis|35|SP|0|0
+3541000|Praia Grande|35|SP|0|0
+3541059|Pratânia|35|SP|0|0
+3541109|Presidente Alves|35|SP|0|0
+3541208|Presidente Bernardes|35|SP|0|0
+3541307|Presidente Epitácio|35|SP|0|0
+3541406|Presidente Prudente|35|SP|0|0
+3541505|Presidente Venceslau|35|SP|0|0
+3541604|Promissão|35|SP|0|0
+3541653|Quadra|35|SP|0|0
+3541703|Quatá|35|SP|0|0
+3541802|Queiroz|35|SP|0|0
+3541901|Queluz|35|SP|0|0
+3542008|Quintana|35|SP|0|0
+3542107|Rafard|35|SP|0|0
+3542206|Rancharia|35|SP|0|0
+3542305|Redenção da Serra|35|SP|0|0
+3542404|Regente Feijó|35|SP|0|0
+3542503|Reginópolis|35|SP|0|0
+3542602|Registro|35|SP|0|0
+3542701|Restinga|35|SP|0|0
+3542800|Ribeira|35|SP|0|0
+3542909|Ribeirão Bonito|35|SP|0|0
+3543006|Ribeirão Branco|35|SP|0|0
+3543105|Ribeirão Corrente|35|SP|0|0
+3543204|Ribeirão do Sul|35|SP|0|0
+3543238|Ribeirão dos Índios|35|SP|0|0
+3543253|Ribeirão Grande|35|SP|0|0
+3543303|Ribeirão Pires|35|SP|0|0
+3543402|Ribeirão Preto|35|SP|0|0
+3543501|Riversul|35|SP|0|0
+3543600|Rifaina|35|SP|0|0
+3543709|Rincão|35|SP|0|0
+3543808|Rinópolis|35|SP|0|0
+3543907|Rio Claro|35|SP|0|0
+3544004|Rio das Pedras|35|SP|0|0
+3544103|Rio Grande da Serra|35|SP|0|0
+3544202|Riolândia|35|SP|0|0
+3544251|Rosana|35|SP|0|0
+3544301|Roseira|35|SP|0|0
+3544400|Rubiácea|35|SP|0|0
+3544509|Rubinéia|35|SP|0|0
+3544608|Sabino|35|SP|0|0
+3544707|Sagres|35|SP|0|0
+3544806|Sales|35|SP|0|0
+3544905|Sales Oliveira|35|SP|0|0
+3545001|Salesópolis|35|SP|0|0
+3545100|Salmourão|35|SP|0|0
+3545159|Saltinho|35|SP|0|0
+3545209|Salto|35|SP|0|0
+3545308|Salto de Pirapora|35|SP|0|0
+3545407|Salto Grande|35|SP|0|0
+3545506|Sandovalina|35|SP|0|0
+3545605|Santa Adélia|35|SP|0|0
+3545704|Santa Albertina|35|SP|0|0
+3545803|Santa Bárbara d'Oeste|35|SP|0|0
+3546009|Santa Branca|35|SP|0|0
+3546108|Santa Clara d'Oeste|35|SP|0|0
+3546207|Santa Cruz da Conceição|35|SP|0|0
+3546256|Santa Cruz da Esperança|35|SP|0|0
+3546306|Santa Cruz das Palmeiras|35|SP|0|0
+3546405|Santa Cruz do Rio Pardo|35|SP|0|0
+3546504|Santa Ernestina|35|SP|0|0
+3546603|Santa Fé do Sul|35|SP|0|0
+3546702|Santa Gertrudes|35|SP|0|0
+3546801|Santa Isabel|35|SP|0|0
+3546900|Santa Lúcia|35|SP|0|0
+3547007|Santa Maria da Serra|35|SP|0|0
+3547106|Santa Mercedes|35|SP|0|0
+3547205|Santana da Ponte Pensa|35|SP|0|0
+3547304|Santana de Parnaíba|35|SP|0|0
+3547403|Santa Rita d'Oeste|35|SP|0|0
+3547502|Santa Rita do Passa Quatro|35|SP|0|0
+3547601|Santa Rosa de Viterbo|35|SP|0|0
+3547650|Santa Salete|35|SP|0|0
+3547700|Santo Anastácio|35|SP|0|0
+3547809|Santo André|35|SP|0|0
+3547908|Santo Antônio da Alegria|35|SP|0|0
+3548005|Santo Antônio de Posse|35|SP|0|0
+3548054|Santo Antônio do Aracanguá|35|SP|0|0
+3548104|Santo Antônio do Jardim|35|SP|0|0
+3548203|Santo Antônio do Pinhal|35|SP|0|0
+3548302|Santo Expedito|35|SP|0|0
+3548401|Santópolis do Aguapeí|35|SP|0|0
+3548500|Santos|35|SP|0|0
+3548609|São Bento do Sapucaí|35|SP|0|0
+3548708|São Bernardo do Campo|35|SP|0|0
+3548807|São Caetano do Sul|35|SP|0|0
+3548906|São Carlos|35|SP|0|0
+3549003|São Francisco|35|SP|0|0
+3549102|São João da Boa Vista|35|SP|0|0
+3549201|São João das Duas Pontes|35|SP|0|0
+3549250|São João de Iracema|35|SP|0|0
+3549300|São João do Pau d'Alho|35|SP|0|0
+3549409|São Joaquim da Barra|35|SP|0|0
+3549508|São José da Bela Vista|35|SP|0|0
+3549607|São José do Barreiro|35|SP|0|0
+3549706|São José do Rio Pardo|35|SP|0|0
+3549805|São José do Rio Preto|35|SP|0|0
+3549904|São José dos Campos|35|SP|0|0
+3549953|São Lourenço da Serra|35|SP|0|0
+3550001|São Luiz do Paraitinga|35|SP|0|0
+3550100|São Manuel|35|SP|0|0
+3550209|São Miguel Arcanjo|35|SP|0|0
+3550308|São Paulo|35|SP|0|0
+3550407|São Pedro|35|SP|0|0
+3550506|São Pedro do Turvo|35|SP|0|0
+3550605|São Roque|35|SP|0|0
+3550704|São Sebastião|35|SP|0|0
+3550803|São Sebastião da Grama|35|SP|0|0
+3550902|São Simão|35|SP|0|0
+3551009|São Vicente|35|SP|0|0
+3551108|Sarapuí|35|SP|0|0
+3551207|Sarutaiá|35|SP|0|0
+3551306|Sebastianópolis do Sul|35|SP|0|0
+3551405|Serra Azul|35|SP|0|0
+3551504|Serrana|35|SP|0|0
+3551603|Serra Negra|35|SP|0|0
+3551702|Sertãozinho|35|SP|0|0
+3551801|Sete Barras|35|SP|0|0
+3551900|Severínia|35|SP|0|0
+3552007|Silveiras|35|SP|0|0
+3552106|Socorro|35|SP|0|0
+3552205|Sorocaba|35|SP|0|0
+3552304|Sud Mennucci|35|SP|0|0
+3552403|Sumaré|35|SP|0|0
+3552502|Suzano|35|SP|0|0
+3552551|Suzanápolis|35|SP|0|0
+3552601|Tabapuã|35|SP|0|0
+3552700|Tabatinga|35|SP|0|0
+3552809|Taboão da Serra|35|SP|0|0
+3552908|Taciba|35|SP|0|0
+3553005|Taguaí|35|SP|0|0
+3553104|Taiaçu|35|SP|0|0
+3553203|Taiúva|35|SP|0|0
+3553302|Tambaú|35|SP|0|0
+3553401|Tanabi|35|SP|0|0
+3553500|Tapiraí|35|SP|0|0
+3553609|Tapiratiba|35|SP|0|0
+3553658|Taquaral|35|SP|0|0
+3553708|Taquaritinga|35|SP|0|0
+3553807|Taquarituba|35|SP|0|0
+3553856|Taquarivaí|35|SP|0|0
+3553906|Tarabai|35|SP|0|0
+3553955|Tarumã|35|SP|0|0
+3554003|Tatuí|35|SP|0|0
+3554102|Taubaté|35|SP|0|0
+3554201|Tejupá|35|SP|0|0
+3554300|Teodoro Sampaio|35|SP|0|0
+3554409|Terra Roxa|35|SP|0|0
+3554508|Tietê|35|SP|0|0
+3554607|Timburi|35|SP|0|0
+3554656|Torre de Pedra|35|SP|0|0
+3554706|Torrinha|35|SP|0|0
+3554755|Trabiju|35|SP|0|0
+3554805|Tremembé|35|SP|0|0
+3554904|Três Fronteiras|35|SP|0|0
+3554953|Tuiuti|35|SP|0|0
+3555000|Tupã|35|SP|0|0
+3555109|Tupi Paulista|35|SP|0|0
+3555208|Turiúba|35|SP|0|0
+3555307|Turmalina|35|SP|0|0
+3555356|Ubarana|35|SP|0|0
+3555406|Ubatuba|35|SP|0|0
+3555505|Ubirajara|35|SP|0|0
+3555604|Uchoa|35|SP|0|0
+3555703|União Paulista|35|SP|0|0
+3555802|Urânia|35|SP|0|0
+3555901|Uru|35|SP|0|0
+3556008|Urupês|35|SP|0|0
+3556107|Valentim Gentil|35|SP|0|0
+3556206|Valinhos|35|SP|0|0
+3556305|Valparaíso|35|SP|0|0
+3556354|Vargem|35|SP|0|0
+3556404|Vargem Grande do Sul|35|SP|0|0
+3556453|Vargem Grande Paulista|35|SP|0|0
+3556503|Várzea Paulista|35|SP|0|0
+3556602|Vera Cruz|35|SP|0|0
+3556701|Vinhedo|35|SP|0|0
+3556800|Viradouro|35|SP|0|0
+3556909|Vista Alegre do Alto|35|SP|0|0
+3556958|Vitória Brasil|35|SP|0|0
+3557006|Votorantim|35|SP|0|0
+3557105|Votuporanga|35|SP|0|0
+3557154|Zacarias|35|SP|0|0
+3557204|Chavantes|35|SP|0|0
+3557303|Estiva Gerbi|35|SP|0|0
+41|PR|Paraná|S|Sul|0|0
+4100103|Abatiá|41|PR|0|0
+4100202|Adrianópolis|41|PR|0|0
+4100301|Agudos do Sul|41|PR|0|0
+4100400|Almirante Tamandaré|41|PR|0|0
+4100459|Altamira do Paraná|41|PR|0|0
+4100509|Altônia|41|PR|0|0
+4100608|Alto Paraná|41|PR|0|0
+4100707|Alto Piquiri|41|PR|0|0
+4100806|Alvorada do Sul|41|PR|0|0
+4100905|Amaporã|41|PR|0|0
+4101002|Ampére|41|PR|0|0
+4101051|Anahy|41|PR|0|0
+4101101|Andirá|41|PR|0|0
+4101150|Ângulo|41|PR|0|0
+4101200|Antonina|41|PR|0|0
+4101309|Antônio Olinto|41|PR|0|0
+4101408|Apucarana|41|PR|0|0
+4101507|Arapongas|41|PR|0|0
+4101606|Arapoti|41|PR|0|0
+4101655|Arapuã|41|PR|0|0
+4101705|Araruna|41|PR|0|0
+4101804|Araucária|41|PR|0|0
+4101853|Ariranha do Ivaí|41|PR|0|0
+4101903|Assaí|41|PR|0|0
+4102000|Assis Chateaubriand|41|PR|0|0
+4102109|Astorga|41|PR|0|0
+4102208|Atalaia|41|PR|0|0
+4102307|Balsa Nova|41|PR|0|0
+4102406|Bandeirantes|41|PR|0|0
+4102505|Barbosa Ferraz|41|PR|0|0
+4102604|Barracão|41|PR|0|0
+4102703|Barra do Jacaré|41|PR|0|0
+4102752|Bela Vista da Caroba|41|PR|0|0
+4102802|Bela Vista do Paraíso|41|PR|0|0
+4102901|Bituruna|41|PR|0|0
+4103008|Boa Esperança|41|PR|0|0
+4103024|Boa Esperança do Iguaçu|41|PR|0|0
+4103040|Boa Ventura de São Roque|41|PR|0|0
+4103057|Boa Vista da Aparecida|41|PR|0|0
+4103107|Bocaiúva do Sul|41|PR|0|0
+4103156|Bom Jesus do Sul|41|PR|0|0
+4103206|Bom Sucesso|41|PR|0|0
+4103222|Bom Sucesso do Sul|41|PR|0|0
+4103305|Borrazópolis|41|PR|0|0
+4103354|Braganey|41|PR|0|0
+4103370|Brasilândia do Sul|41|PR|0|0
+4103404|Cafeara|41|PR|0|0
+4103453|Cafelândia|41|PR|0|0
+4103479|Cafezal do Sul|41|PR|0|0
+4103503|Califórnia|41|PR|0|0
+4103602|Cambará|41|PR|0|0
+4103701|Cambé|41|PR|0|0
+4103800|Cambira|41|PR|0|0
+4103909|Campina da Lagoa|41|PR|0|0
+4103958|Campina do Simão|41|PR|0|0
+4104006|Campina Grande do Sul|41|PR|0|0
+4104055|Campo Bonito|41|PR|0|0
+4104105|Campo do Tenente|41|PR|0|0
+4104204|Campo Largo|41|PR|0|0
+4104253|Campo Magro|41|PR|0|0
+4104303|Campo Mourão|41|PR|0|0
+4104402|Cândido de Abreu|41|PR|0|0
+4104428|Candói|41|PR|0|0
+4104451|Cantagalo|41|PR|0|0
+4104501|Capanema|41|PR|0|0
+4104600|Capitão Leônidas Marques|41|PR|0|0
+4104659|Carambeí|41|PR|0|0
+4104709|Carlópolis|41|PR|0|0
+4104808|Cascavel|41|PR|0|0
+4104907|Castro|41|PR|0|0
+4105003|Catanduvas|41|PR|0|0
+4105102|Centenário do Sul|41|PR|0|0
+4105201|Cerro Azul|41|PR|0|0
+4105300|Céu Azul|41|PR|0|0
+4105409|Chopinzinho|41|PR|0|0
+4105508|Cianorte|41|PR|0|0
+4105607|Cidade Gaúcha|41|PR|0|0
+4105706|Clevelândia|41|PR|0|0
+4105805|Colombo|41|PR|0|0
+4105904|Colorado|41|PR|0|0
+4106001|Congonhinhas|41|PR|0|0
+4106100|Conselheiro Mairinck|41|PR|0|0
+4106209|Contenda|41|PR|0|0
+4106308|Corbélia|41|PR|0|0
+4106407|Cornélio Procópio|41|PR|0|0
+4106456|Coronel Domingos Soares|41|PR|0|0
+4106506|Coronel Vivida|41|PR|0|0
+4106555|Corumbataí do Sul|41|PR|0|0
+4106571|Cruzeiro do Iguaçu|41|PR|0|0
+4106605|Cruzeiro do Oeste|41|PR|0|0
+4106704|Cruzeiro do Sul|41|PR|0|0
+4106803|Cruz Machado|41|PR|0|0
+4106852|Cruzmaltina|41|PR|0|0
+4106902|Curitiba|41|PR|0|0
+4107009|Curiúva|41|PR|0|0
+4107108|Diamante do Norte|41|PR|0|0
+4107124|Diamante do Sul|41|PR|0|0
+4107157|Diamante D'Oeste|41|PR|0|0
+4107207|Dois Vizinhos|41|PR|0|0
+4107256|Douradina|41|PR|0|0
+4107306|Doutor Camargo|41|PR|0|0
+4107405|Enéas Marques|41|PR|0|0
+4107504|Engenheiro Beltrão|41|PR|0|0
+4107520|Esperança Nova|41|PR|0|0
+4107538|Entre Rios do Oeste|41|PR|0|0
+4107546|Espigão Alto do Iguaçu|41|PR|0|0
+4107553|Farol|41|PR|0|0
+4107603|Faxinal|41|PR|0|0
+4107652|Fazenda Rio Grande|41|PR|0|0
+4107702|Fênix|41|PR|0|0
+4107736|Fernandes Pinheiro|41|PR|0|0
+4107751|Figueira|41|PR|0|0
+4107801|Floraí|41|PR|0|0
+4107850|Flor da Serra do Sul|41|PR|0|0
+4107900|Floresta|41|PR|0|0
+4108007|Florestópolis|41|PR|0|0
+4108106|Flórida|41|PR|0|0
+4108205|Formosa do Oeste|41|PR|0|0
+4108304|Foz do Iguaçu|41|PR|0|0
+4108320|Francisco Alves|41|PR|0|0
+4108403|Francisco Beltrão|41|PR|0|0
+4108452|Foz do Jordão|41|PR|0|0
+4108502|General Carneiro|41|PR|0|0
+4108551|Godoy Moreira|41|PR|0|0
+4108601|Goioerê|41|PR|0|0
+4108650|Goioxim|41|PR|0|0
+4108700|Grandes Rios|41|PR|0|0
+4108809|Guaíra|41|PR|0|0
+4108908|Guairaçá|41|PR|0|0
+4108957|Guamiranga|41|PR|0|0
+4109005|Guapirama|41|PR|0|0
+4109104|Guaporema|41|PR|0|0
+4109203|Guaraci|41|PR|0|0
+4109302|Guaraniaçu|41|PR|0|0
+4109401|Guarapuava|41|PR|0|0
+4109500|Guaraqueçaba|41|PR|0|0
+4109609|Guaratuba|41|PR|0|0
+4109658|Honório Serpa|41|PR|0|0
+4109708|Ibaiti|41|PR|0|0
+4109757|Ibema|41|PR|0|0
+4109807|Ibiporã|41|PR|0|0
+4109906|Icaraíma|41|PR|0|0
+4110003|Iguaraçu|41|PR|0|0
+4110052|Iguatu|41|PR|0|0
+4110078|Imbaú|41|PR|0|0
+4110102|Imbituva|41|PR|0|0
+4110201|Inácio Martins|41|PR|0|0
+4110300|Inajá|41|PR|0|0
+4110409|Indianópolis|41|PR|0|0
+4110508|Ipiranga|41|PR|0|0
+4110607|Iporã|41|PR|0|0
+4110656|Iracema do Oeste|41|PR|0|0
+4110706|Irati|41|PR|0|0
+4110805|Iretama|41|PR|0|0
+4110904|Itaguajé|41|PR|0|0
+4110953|Itaipulândia|41|PR|0|0
+4111001|Itambaracá|41|PR|0|0
+4111100|Itambé|41|PR|0|0
+4111209|Itapejara d'Oeste|41|PR|0|0
+4111258|Itaperuçu|41|PR|0|0
+4111308|Itaúna do Sul|41|PR|0|0
+4111407|Ivaí|41|PR|0|0
+4111506|Ivaiporã|41|PR|0|0
+4111555|Ivaté|41|PR|0|0
+4111605|Ivatuba|41|PR|0|0
+4111704|Jaboti|41|PR|0|0
+4111803|Jacarezinho|41|PR|0|0
+4111902|Jaguapitã|41|PR|0|0
+4112009|Jaguariaíva|41|PR|0|0
+4112108|Jandaia do Sul|41|PR|0|0
+4112207|Janiópolis|41|PR|0|0
+4112306|Japira|41|PR|0|0
+4112405|Japurá|41|PR|0|0
+4112504|Jardim Alegre|41|PR|0|0
+4112603|Jardim Olinda|41|PR|0|0
+4112702|Jataizinho|41|PR|0|0
+4112751|Jesuítas|41|PR|0|0
+4112801|Joaquim Távora|41|PR|0|0
+4112900|Jundiaí do Sul|41|PR|0|0
+4112959|Juranda|41|PR|0|0
+4113007|Jussara|41|PR|0|0
+4113106|Kaloré|41|PR|0|0
+4113205|Lapa|41|PR|0|0
+4113254|Laranjal|41|PR|0|0
+4113304|Laranjeiras do Sul|41|PR|0|0
+4113403|Leópolis|41|PR|0|0
+4113429|Lidianópolis|41|PR|0|0
+4113452|Lindoeste|41|PR|0|0
+4113502|Loanda|41|PR|0|0
+4113601|Lobato|41|PR|0|0
+4113700|Londrina|41|PR|0|0
+4113734|Luiziana|41|PR|0|0
+4113759|Lunardelli|41|PR|0|0
+4113809|Lupionópolis|41|PR|0|0
+4113908|Mallet|41|PR|0|0
+4114005|Mamborê|41|PR|0|0
+4114104|Mandaguaçu|41|PR|0|0
+4114203|Mandaguari|41|PR|0|0
+4114302|Mandirituba|41|PR|0|0
+4114351|Manfrinópolis|41|PR|0|0
+4114401|Mangueirinha|41|PR|0|0
+4114500|Manoel Ribas|41|PR|0|0
+4114609|Marechal Cândido Rondon|41|PR|0|0
+4114708|Maria Helena|41|PR|0|0
+4114807|Marialva|41|PR|0|0
+4114906|Marilândia do Sul|41|PR|0|0
+4115002|Marilena|41|PR|0|0
+4115101|Mariluz|41|PR|0|0
+4115200|Maringá|41|PR|0|0
+4115309|Mariópolis|41|PR|0|0
+4115358|Maripá|41|PR|0|0
+4115408|Marmeleiro|41|PR|0|0
+4115457|Marquinho|41|PR|0|0
+4115507|Marumbi|41|PR|0|0
+4115606|Matelândia|41|PR|0|0
+4115705|Matinhos|41|PR|0|0
+4115739|Mato Rico|41|PR|0|0
+4115754|Mauá da Serra|41|PR|0|0
+4115804|Medianeira|41|PR|0|0
+4115853|Mercedes|41|PR|0|0
+4115903|Mirador|41|PR|0|0
+4116000|Miraselva|41|PR|0|0
+4116059|Missal|41|PR|0|0
+4116109|Moreira Sales|41|PR|0|0
+4116208|Morretes|41|PR|0|0
+4116307|Munhoz de Melo|41|PR|0|0
+4116406|Nossa Senhora das Graças|41|PR|0|0
+4116505|Nova Aliança do Ivaí|41|PR|0|0
+4116604|Nova América da Colina|41|PR|0|0
+4116703|Nova Aurora|41|PR|0|0
+4116802|Nova Cantu|41|PR|0|0
+4116901|Nova Esperança|41|PR|0|0
+4116950|Nova Esperança do Sudoeste|41|PR|0|0
+4117008|Nova Fátima|41|PR|0|0
+4117057|Nova Laranjeiras|41|PR|0|0
+4117107|Nova Londrina|41|PR|0|0
+4117206|Nova Olímpia|41|PR|0|0
+4117214|Nova Santa Bárbara|41|PR|0|0
+4117222|Nova Santa Rosa|41|PR|0|0
+4117255|Nova Prata do Iguaçu|41|PR|0|0
+4117271|Nova Tebas|41|PR|0|0
+4117297|Novo Itacolomi|41|PR|0|0
+4117305|Ortigueira|41|PR|0|0
+4117404|Ourizona|41|PR|0|0
+4117453|Ouro Verde do Oeste|41|PR|0|0
+4117503|Paiçandu|41|PR|0|0
+4117602|Palmas|41|PR|0|0
+4117701|Palmeira|41|PR|0|0
+4117800|Palmital|41|PR|0|0
+4117909|Palotina|41|PR|0|0
+4118006|Paraíso do Norte|41|PR|0|0
+4118105|Paranacity|41|PR|0|0
+4118204|Paranaguá|41|PR|0|0
+4118303|Paranapoema|41|PR|0|0
+4118402|Paranavaí|41|PR|0|0
+4118451|Pato Bragado|41|PR|0|0
+4118501|Pato Branco|41|PR|0|0
+4118600|Paula Freitas|41|PR|0|0
+4118709|Paulo Frontin|41|PR|0|0
+4118808|Peabiru|41|PR|0|0
+4118857|Perobal|41|PR|0|0
+4118907|Pérola|41|PR|0|0
+4119004|Pérola d'Oeste|41|PR|0|0
+4119103|Piên|41|PR|0|0
+4119152|Pinhais|41|PR|0|0
+4119202|Pinhalão|41|PR|0|0
+4119251|Pinhal de São Bento|41|PR|0|0
+4119301|Pinhão|41|PR|0|0
+4119400|Piraí do Sul|41|PR|0|0
+4119509|Piraquara|41|PR|0|0
+4119608|Pitanga|41|PR|0|0
+4119657|Pitangueiras|41|PR|0|0
+4119707|Planaltina do Paraná|41|PR|0|0
+4119806|Planalto|41|PR|0|0
+4119905|Ponta Grossa|41|PR|0|0
+4119954|Pontal do Paraná|41|PR|0|0
+4120002|Porecatu|41|PR|0|0
+4120101|Porto Amazonas|41|PR|0|0
+4120150|Porto Barreiro|41|PR|0|0
+4120200|Porto Rico|41|PR|0|0
+4120309|Porto Vitória|41|PR|0|0
+4120333|Prado Ferreira|41|PR|0|0
+4120358|Pranchita|41|PR|0|0
+4120408|Presidente Castelo Branco|41|PR|0|0
+4120507|Primeiro de Maio|41|PR|0|0
+4120606|Prudentópolis|41|PR|0|0
+4120655|Quarto Centenário|41|PR|0|0
+4120705|Quatiguá|41|PR|0|0
+4120804|Quatro Barras|41|PR|0|0
+4120853|Quatro Pontes|41|PR|0|0
+4120903|Quedas do Iguaçu|41|PR|0|0
+4121000|Querência do Norte|41|PR|0|0
+4121109|Quinta do Sol|41|PR|0|0
+4121208|Quitandinha|41|PR|0|0
+4121257|Ramilândia|41|PR|0|0
+4121307|Rancho Alegre|41|PR|0|0
+4121356|Rancho Alegre D'Oeste|41|PR|0|0
+4121406|Realeza|41|PR|0|0
+4121505|Rebouças|41|PR|0|0
+4121604|Renascença|41|PR|0|0
+4121703|Reserva|41|PR|0|0
+4121752|Reserva do Iguaçu|41|PR|0|0
+4121802|Ribeirão Claro|41|PR|0|0
+4121901|Ribeirão do Pinhal|41|PR|0|0
+4122008|Rio Azul|41|PR|0|0
+4122107|Rio Bom|41|PR|0|0
+4122156|Rio Bonito do Iguaçu|41|PR|0|0
+4122172|Rio Branco do Ivaí|41|PR|0|0
+4122206|Rio Branco do Sul|41|PR|0|0
+4122305|Rio Negro|41|PR|0|0
+4122404|Rolândia|41|PR|0|0
+4122503|Roncador|41|PR|0|0
+4122602|Rondon|41|PR|0|0
+4122651|Rosário do Ivaí|41|PR|0|0
+4122701|Sabáudia|41|PR|0|0
+4122800|Salgado Filho|41|PR|0|0
+4122909|Salto do Itararé|41|PR|0|0
+4123006|Salto do Lontra|41|PR|0|0
+4123105|Santa Amélia|41|PR|0|0
+4123204|Santa Cecília do Pavão|41|PR|0|0
+4123303|Santa Cruz de Monte Castelo|41|PR|0|0
+4123402|Santa Fé|41|PR|0|0
+4123501|Santa Helena|41|PR|0|0
+4123600|Santa Inês|41|PR|0|0
+4123709|Santa Isabel do Ivaí|41|PR|0|0
+4123808|Santa Izabel do Oeste|41|PR|0|0
+4123824|Santa Lúcia|41|PR|0|0
+4123857|Santa Maria do Oeste|41|PR|0|0
+4123907|Santa Mariana|41|PR|0|0
+4123956|Santa Mônica|41|PR|0|0
+4124004|Santana do Itararé|41|PR|0|0
+4124020|Santa Tereza do Oeste|41|PR|0|0
+4124053|Santa Terezinha de Itaipu|41|PR|0|0
+4124103|Santo Antônio da Platina|41|PR|0|0
+4124202|Santo Antônio do Caiuá|41|PR|0|0
+4124301|Santo Antônio do Paraíso|41|PR|0|0
+4124400|Santo Antônio do Sudoeste|41|PR|0|0
+4124509|Santo Inácio|41|PR|0|0
+4124608|São Carlos do Ivaí|41|PR|0|0
+4124707|São Jerônimo da Serra|41|PR|0|0
+4124806|São João|41|PR|0|0
+4124905|São João do Caiuá|41|PR|0|0
+4125001|São João do Ivaí|41|PR|0|0
+4125100|São João do Triunfo|41|PR|0|0
+4125209|São Jorge d'Oeste|41|PR|0|0
+4125308|São Jorge do Ivaí|41|PR|0|0
+4125357|São Jorge do Patrocínio|41|PR|0|0
+4125407|São José da Boa Vista|41|PR|0|0
+4125456|São José das Palmeiras|41|PR|0|0
+4125506|São José dos Pinhais|41|PR|0|0
+4125555|São Manoel do Paraná|41|PR|0|0
+4125605|São Mateus do Sul|41|PR|0|0
+4125704|São Miguel do Iguaçu|41|PR|0|0
+4125753|São Pedro do Iguaçu|41|PR|0|0
+4125803|São Pedro do Ivaí|41|PR|0|0
+4125902|São Pedro do Paraná|41|PR|0|0
+4126009|São Sebastião da Amoreira|41|PR|0|0
+4126108|São Tomé|41|PR|0|0
+4126207|Sapopema|41|PR|0|0
+4126256|Sarandi|41|PR|0|0
+4126272|Saudade do Iguaçu|41|PR|0|0
+4126306|Sengés|41|PR|0|0
+4126355|Serranópolis do Iguaçu|41|PR|0|0
+4126405|Sertaneja|41|PR|0|0
+4126504|Sertanópolis|41|PR|0|0
+4126603|Siqueira Campos|41|PR|0|0
+4126652|Sulina|41|PR|0|0
+4126678|Tamarana|41|PR|0|0
+4126702|Tamboara|41|PR|0|0
+4126801|Tapejara|41|PR|0|0
+4126900|Tapira|41|PR|0|0
+4127007|Teixeira Soares|41|PR|0|0
+4127106|Telêmaco Borba|41|PR|0|0
+4127205|Terra Boa|41|PR|0|0
+4127304|Terra Rica|41|PR|0|0
+4127403|Terra Roxa|41|PR|0|0
+4127502|Tibagi|41|PR|0|0
+4127601|Tijucas do Sul|41|PR|0|0
+4127700|Toledo|41|PR|0|0
+4127809|Tomazina|41|PR|0|0
+4127858|Três Barras do Paraná|41|PR|0|0
+4127882|Tunas do Paraná|41|PR|0|0
+4127908|Tuneiras do Oeste|41|PR|0|0
+4127957|Tupãssi|41|PR|0|0
+4127965|Turvo|41|PR|0|0
+4128005|Ubiratã|41|PR|0|0
+4128104|Umuarama|41|PR|0|0
+4128203|União da Vitória|41|PR|0|0
+4128302|Uniflor|41|PR|0|0
+4128401|Uraí|41|PR|0|0
+4128500|Wenceslau Braz|41|PR|0|0
+4128534|Ventania|41|PR|0|0
+4128559|Vera Cruz do Oeste|41|PR|0|0
+4128609|Verê|41|PR|0|0
+4128625|Alto Paraíso|41|PR|0|0
+4128633|Doutor Ulysses|41|PR|0|0
+4128658|Virmond|41|PR|0|0
+4128708|Vitorino|41|PR|0|0
+4128807|Xambrê|41|PR|0|0
+42|SC|Santa Catarina|S|Sul|0|0
+4200051|Abdon Batista|42|SC|0|0
+4200101|Abelardo Luz|42|SC|0|0
+4200200|Agrolândia|42|SC|0|0
+4200309|Agronômica|42|SC|0|0
+4200408|Água Doce|42|SC|0|0
+4200507|Águas de Chapecó|42|SC|0|0
+4200556|Águas Frias|42|SC|0|0
+4200606|Águas Mornas|42|SC|0|0
+4200705|Alfredo Wagner|42|SC|0|0
+4200754|Alto Bela Vista|42|SC|0|0
+4200804|Anchieta|42|SC|0|0
+4200903|Angelina|42|SC|0|0
+4201000|Anita Garibaldi|42|SC|0|0
+4201109|Anitápolis|42|SC|0|0
+4201208|Antônio Carlos|42|SC|0|0
+4201257|Apiúna|42|SC|0|0
+4201273|Arabutã|42|SC|0|0
+4201307|Araquari|42|SC|0|0
+4201406|Araranguá|42|SC|0|0
+4201505|Armazém|42|SC|0|0
+4201604|Arroio Trinta|42|SC|0|0
+4201653|Arvoredo|42|SC|0|0
+4201703|Ascurra|42|SC|0|0
+4201802|Atalanta|42|SC|0|0
+4201901|Aurora|42|SC|0|0
+4201950|Balneário Arroio do Silva|42|SC|0|0
+4202008|Balneário Camboriú|42|SC|0|0
+4202057|Balneário Barra do Sul|42|SC|0|0
+4202073|Balneário Gaivota|42|SC|0|0
+4202081|Bandeirante|42|SC|0|0
+4202099|Barra Bonita|42|SC|0|0
+4202107|Barra Velha|42|SC|0|0
+4202131|Bela Vista do Toldo|42|SC|0|0
+4202156|Belmonte|42|SC|0|0
+4202206|Benedito Novo|42|SC|0|0
+4202305|Biguaçu|42|SC|0|0
+4202404|Blumenau|42|SC|0|0
+4202438|Bocaina do Sul|42|SC|0|0
+4202453|Bombinhas|42|SC|0|0
+4202503|Bom Jardim da Serra|42|SC|0|0
+4202537|Bom Jesus|42|SC|0|0
+4202578|Bom Jesus do Oeste|42|SC|0|0
+4202602|Bom Retiro|42|SC|0|0
+4202701|Botuverá|42|SC|0|0
+4202800|Braço do Norte|42|SC|0|0
+4202859|Braço do Trombudo|42|SC|0|0
+4202875|Brunópolis|42|SC|0|0
+4202909|Brusque|42|SC|0|0
+4203006|Caçador|42|SC|0|0
+4203105|Caibi|42|SC|0|0
+4203154|Calmon|42|SC|0|0
+4203204|Camboriú|42|SC|0|0
+4203253|Capão Alto|42|SC|0|0
+4203303|Campo Alegre|42|SC|0|0
+4203402|Campo Belo do Sul|42|SC|0|0
+4203501|Campo Erê|42|SC|0|0
+4203600|Campos Novos|42|SC|0|0
+4203709|Canelinha|42|SC|0|0
+4203808|Canoinhas|42|SC|0|0
+4203907|Capinzal|42|SC|0|0
+4203956|Capivari de Baixo|42|SC|0|0
+4204004|Catanduvas|42|SC|0|0
+4204103|Caxambu do Sul|42|SC|0|0
+4204152|Celso Ramos|42|SC|0|0
+4204178|Cerro Negro|42|SC|0|0
+4204194|Chapadão do Lageado|42|SC|0|0
+4204202|Chapecó|42|SC|0|0
+4204251|Cocal do Sul|42|SC|0|0
+4204301|Concórdia|42|SC|0|0
+4204350|Cordilheira Alta|42|SC|0|0
+4204400|Coronel Freitas|42|SC|0|0
+4204459|Coronel Martins|42|SC|0|0
+4204509|Corupá|42|SC|0|0
+4204558|Correia Pinto|42|SC|0|0
+4204608|Criciúma|42|SC|0|0
+4204707|Cunha Porã|42|SC|0|0
+4204756|Cunhataí|42|SC|0|0
+4204806|Curitibanos|42|SC|0|0
+4204905|Descanso|42|SC|0|0
+4205001|Dionísio Cerqueira|42|SC|0|0
+4205100|Dona Emma|42|SC|0|0
+4205159|Doutor Pedrinho|42|SC|0|0
+4205175|Entre Rios|42|SC|0|0
+4205191|Ermo|42|SC|0|0
+4205209|Erval Velho|42|SC|0|0
+4205308|Faxinal dos Guedes|42|SC|0|0
+4205357|Flor do Sertão|42|SC|0|0
+4205407|Florianópolis|42|SC|0|0
+4205431|Formosa do Sul|42|SC|0|0
+4205456|Forquilhinha|42|SC|0|0
+4205506|Fraiburgo|42|SC|0|0
+4205555|Frei Rogério|42|SC|0|0
+4205605|Galvão|42|SC|0|0
+4205704|Garopaba|42|SC|0|0
+4205803|Garuva|42|SC|0|0
+4205902|Gaspar|42|SC|0|0
+4206009|Governador Celso Ramos|42|SC|0|0
+4206108|Grão-Pará|42|SC|0|0
+4206207|Gravatal|42|SC|0|0
+4206306|Guabiruba|42|SC|0|0
+4206405|Guaraciaba|42|SC|0|0
+4206504|Guaramirim|42|SC|0|0
+4206603|Guarujá do Sul|42|SC|0|0
+4206652|Guatambú|42|SC|0|0
+4206702|Herval d'Oeste|42|SC|0|0
+4206751|Ibiam|42|SC|0|0
+4206801|Ibicaré|42|SC|0|0
+4206900|Ibirama|42|SC|0|0
+4207007|Içara|42|SC|0|0
+4207106|Ilhota|42|SC|0|0
+4207205|Imaruí|42|SC|0|0
+4207304|Imbituba|42|SC|0|0
+4207403|Imbuia|42|SC|0|0
+4207502|Indaial|42|SC|0|0
+4207577|Iomerê|42|SC|0|0
+4207601|Ipira|42|SC|0|0
+4207650|Iporã do Oeste|42|SC|0|0
+4207684|Ipuaçu|42|SC|0|0
+4207700|Ipumirim|42|SC|0|0
+4207759|Iraceminha|42|SC|0|0
+4207809|Irani|42|SC|0|0
+4207858|Irati|42|SC|0|0
+4207908|Irineópolis|42|SC|0|0
+4208005|Itá|42|SC|0|0
+4208104|Itaiópolis|42|SC|0|0
+4208203|Itajaí|42|SC|0|0
+4208302|Itapema|42|SC|0|0
+4208401|Itapiranga|42|SC|0|0
+4208450|Itapoá|42|SC|0|0
+4208500|Ituporanga|42|SC|0|0
+4208609|Jaborá|42|SC|0|0
+4208708|Jacinto Machado|42|SC|0|0
+4208807|Jaguaruna|42|SC|0|0
+4208906|Jaraguá do Sul|42|SC|0|0
+4208955|Jardinópolis|42|SC|0|0
+4209003|Joaçaba|42|SC|0|0
+4209102|Joinville|42|SC|0|0
+4209151|José Boiteux|42|SC|0|0
+4209177|Jupiá|42|SC|0|0
+4209201|Lacerdópolis|42|SC|0|0
+4209300|Lages|42|SC|0|0
+4209409|Laguna|42|SC|0|0
+4209458|Lajeado Grande|42|SC|0|0
+4209508|Laurentino|42|SC|0|0
+4209607|Lauro Müller|42|SC|0|0
+4209706|Lebon Régis|42|SC|0|0
+4209805|Leoberto Leal|42|SC|0|0
+4209854|Lindóia do Sul|42|SC|0|0
+4209904|Lontras|42|SC|0|0
+4210001|Luiz Alves|42|SC|0|0
+4210035|Luzerna|42|SC|0|0
+4210050|Macieira|42|SC|0|0
+4210100|Mafra|42|SC|0|0
+4210209|Major Gercino|42|SC|0|0
+4210308|Major Vieira|42|SC|0|0
+4210407|Maracajá|42|SC|0|0
+4210506|Maravilha|42|SC|0|0
+4210555|Marema|42|SC|0|0
+4210605|Massaranduba|42|SC|0|0
+4210704|Matos Costa|42|SC|0|0
+4210803|Meleiro|42|SC|0|0
+4210852|Mirim Doce|42|SC|0|0
+4210902|Modelo|42|SC|0|0
+4211009|Mondaí|42|SC|0|0
+4211058|Monte Carlo|42|SC|0|0
+4211108|Monte Castelo|42|SC|0|0
+4211207|Morro da Fumaça|42|SC|0|0
+4211256|Morro Grande|42|SC|0|0
+4211306|Navegantes|42|SC|0|0
+4211405|Nova Erechim|42|SC|0|0
+4211454|Nova Itaberaba|42|SC|0|0
+4211504|Nova Trento|42|SC|0|0
+4211603|Nova Veneza|42|SC|0|0
+4211652|Novo Horizonte|42|SC|0|0
+4211702|Orleans|42|SC|0|0
+4211751|Otacílio Costa|42|SC|0|0
+4211801|Ouro|42|SC|0|0
+4211850|Ouro Verde|42|SC|0|0
+4211876|Paial|42|SC|0|0
+4211892|Painel|42|SC|0|0
+4211900|Palhoça|42|SC|0|0
+4212007|Palma Sola|42|SC|0|0
+4212056|Palmeira|42|SC|0|0
+4212106|Palmitos|42|SC|0|0
+4212205|Papanduva|42|SC|0|0
+4212239|Paraíso|42|SC|0|0
+4212254|Passo de Torres|42|SC|0|0
+4212270|Passos Maia|42|SC|0|0
+4212304|Paulo Lopes|42|SC|0|0
+4212403|Pedras Grandes|42|SC|0|0
+4212502|Penha|42|SC|0|0
+4212601|Peritiba|42|SC|0|0
+4212650|Pescaria Brava|42|SC|0|0
+4212700|Petrolândia|42|SC|0|0
+4212809|Balneário Piçarras|42|SC|0|0
+4212908|Pinhalzinho|42|SC|0|0
+4213005|Pinheiro Preto|42|SC|0|0
+4213104|Piratuba|42|SC|0|0
+4213153|Planalto Alegre|42|SC|0|0
+4213203|Pomerode|42|SC|0|0
+4213302|Ponte Alta|42|SC|0|0
+4213351|Ponte Alta do Norte|42|SC|0|0
+4213401|Ponte Serrada|42|SC|0|0
+4213500|Porto Belo|42|SC|0|0
+4213609|Porto União|42|SC|0|0
+4213708|Pouso Redondo|42|SC|0|0
+4213807|Praia Grande|42|SC|0|0
+4213906|Presidente Castello Branco|42|SC|0|0
+4214003|Presidente Getúlio|42|SC|0|0
+4214102|Presidente Nereu|42|SC|0|0
+4214151|Princesa|42|SC|0|0
+4214201|Quilombo|42|SC|0|0
+4214300|Rancho Queimado|42|SC|0|0
+4214409|Rio das Antas|42|SC|0|0
+4214508|Rio do Campo|42|SC|0|0
+4214607|Rio do Oeste|42|SC|0|0
+4214706|Rio dos Cedros|42|SC|0|0
+4214805|Rio do Sul|42|SC|0|0
+4214904|Rio Fortuna|42|SC|0|0
+4215000|Rio Negrinho|42|SC|0|0
+4215059|Rio Rufino|42|SC|0|0
+4215075|Riqueza|42|SC|0|0
+4215109|Rodeio|42|SC|0|0
+4215208|Romelândia|42|SC|0|0
+4215307|Salete|42|SC|0|0
+4215356|Saltinho|42|SC|0|0
+4215406|Salto Veloso|42|SC|0|0
+4215455|Sangão|42|SC|0|0
+4215505|Santa Cecília|42|SC|0|0
+4215554|Santa Helena|42|SC|0|0
+4215604|Santa Rosa de Lima|42|SC|0|0
+4215653|Santa Rosa do Sul|42|SC|0|0
+4215679|Santa Terezinha|42|SC|0|0
+4215687|Santa Terezinha do Progresso|42|SC|0|0
+4215695|Santiago do Sul|42|SC|0|0
+4215703|Santo Amaro da Imperatriz|42|SC|0|0
+4215752|São Bernardino|42|SC|0|0
+4215802|São Bento do Sul|42|SC|0|0
+4215901|São Bonifácio|42|SC|0|0
+4216008|São Carlos|42|SC|0|0
+4216057|São Cristóvão do Sul|42|SC|0|0
+4216107|São Domingos|42|SC|0|0
+4216206|São Francisco do Sul|42|SC|0|0
+4216255|São João do Oeste|42|SC|0|0
+4216305|São João Batista|42|SC|0|0
+4216354|São João do Itaperiú|42|SC|0|0
+4216404|São João do Sul|42|SC|0|0
+4216503|São Joaquim|42|SC|0|0
+4216602|São José|42|SC|0|0
+4216701|São José do Cedro|42|SC|0|0
+4216800|São José do Cerrito|42|SC|0|0
+4216909|São Lourenço do Oeste|42|SC|0|0
+4217006|São Ludgero|42|SC|0|0
+4217105|São Martinho|42|SC|0|0
+4217154|São Miguel da Boa Vista|42|SC|0|0
+4217204|São Miguel do Oeste|42|SC|0|0
+4217253|São Pedro de Alcântara|42|SC|0|0
+4217303|Saudades|42|SC|0|0
+4217402|Schroeder|42|SC|0|0
+4217501|Seara|42|SC|0|0
+4217550|Serra Alta|42|SC|0|0
+4217600|Siderópolis|42|SC|0|0
+4217709|Sombrio|42|SC|0|0
+4217758|Sul Brasil|42|SC|0|0
+4217808|Taió|42|SC|0|0
+4217907|Tangará|42|SC|0|0
+4217956|Tigrinhos|42|SC|0|0
+4218004|Tijucas|42|SC|0|0
+4218103|Timbé do Sul|42|SC|0|0
+4218202|Timbó|42|SC|0|0
+4218251|Timbó Grande|42|SC|0|0
+4218301|Três Barras|42|SC|0|0
+4218350|Treviso|42|SC|0|0
+4218400|Treze de Maio|42|SC|0|0
+4218509|Treze Tílias|42|SC|0|0
+4218608|Trombudo Central|42|SC|0|0
+4218707|Tubarão|42|SC|0|0
+4218756|Tunápolis|42|SC|0|0
+4218806|Turvo|42|SC|0|0
+4218855|União do Oeste|42|SC|0|0
+4218905|Urubici|42|SC|0|0
+4218954|Urupema|42|SC|0|0
+4219002|Urussanga|42|SC|0|0
+4219101|Vargeão|42|SC|0|0
+4219150|Vargem|42|SC|0|0
+4219176|Vargem Bonita|42|SC|0|0
+4219200|Vidal Ramos|42|SC|0|0
+4219309|Videira|42|SC|0|0
+4219358|Vitor Meireles|42|SC|0|0
+4219408|Witmarsum|42|SC|0|0
+4219507|Xanxerê|42|SC|0|0
+4219606|Xavantina|42|SC|0|0
+4219705|Xaxim|42|SC|0|0
+4219853|Zortéa|42|SC|0|0
+4220000|Balneário Rincão|42|SC|0|0
