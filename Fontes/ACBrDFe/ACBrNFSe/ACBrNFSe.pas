@@ -169,11 +169,7 @@ implementation
 uses
   strutils, dateutils, ACBrDFeSSL;
 
-{$IFDEF FPC}
- {$R ACBrNFSeServicos.rc}
-{$ELSE}
- {$R ACBrNFSeServicos.res}
-{$ENDIF}
+{$R ACBrNFSeServicos.res}
 
 { TACBrNFSe }
 

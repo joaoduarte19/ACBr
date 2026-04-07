@@ -131,11 +131,7 @@ type
 
 implementation
 
-{$IFDEF FPC}
- {$R ACBreSocialServicos.rc}
-{$ELSE}
- {$R ACBreSocialServicos.res}
-{$ENDIF}
+{$R ACBreSocialServicos.res}
 
 { TACBreSocial }
 

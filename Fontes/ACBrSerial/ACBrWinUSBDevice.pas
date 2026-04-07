@@ -319,14 +319,10 @@ type
 
 implementation
 
-{$IFDEF FPC}
- {$R ACBrUSBID.rc}
-{$ELSE}
- {$R ACBrUSBID.res}
-{$ENDIF}
+{$R ACBrUSBID.res}
 
 uses
-  Types, dateutils, strutils, math, 
+  Types, dateutils, strutils, math,
   ACBrConsts,
   ACBrUtil.Strings,
   ACBrUtil.FilesIO;

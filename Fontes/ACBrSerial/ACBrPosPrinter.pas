@@ -649,11 +649,7 @@ type
 
 implementation
 
-{$IFDEF FPC}
- {$R ACBrPosCheque.rc}
-{$ELSE}
- {$R ACBrPosCheque.res}
-{$ENDIF}
+{$R ACBrPosCheque.res}
 
 uses
   strutils, Math, typinfo, IniFiles, dateutils,

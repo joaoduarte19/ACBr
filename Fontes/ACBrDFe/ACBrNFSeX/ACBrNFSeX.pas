@@ -230,13 +230,8 @@ uses
   ACBrDFeSSL,
   ACBrNFSeXProviderManager;
 
-{$IFDEF FPC}
- {$R ACBrNFSeXServicos.rc}
- {$R TabServicos.rc}
-{$ELSE}
- {$R ACBrNFSeXServicos.res}
- {$R TabServicos.res}
-{$ENDIF}
+{$R ACBrNFSeXServicos.res}
+{$R TabServicos.res}
 
 { TACBrNFSeX }
 

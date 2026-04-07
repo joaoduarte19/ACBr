@@ -141,11 +141,7 @@ uses
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.FilesIO,
   ACBrDFeSSL;
 
-{$IFDEF FPC}
- {$R ACBrNFComServicos.rc}
-{$ELSE}
- {$R ACBrNFComServicos.res}
-{$ENDIF}
+{$R ACBrNFComServicos.res}
 
 { TACBrNFCom }
 

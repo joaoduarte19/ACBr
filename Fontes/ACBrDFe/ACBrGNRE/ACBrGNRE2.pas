@@ -124,11 +124,7 @@ uses
   ACBrUtil.Base,
   ACBrUtil.Strings;
 
-{$IFDEF FPC}
- {$R ACBrGNREServicos.rc}
-{$ELSE}
- {$R ACBrGNREServicos.res}
-{$ENDIF}
+{$R ACBrGNREServicos.res}
 
 { TACBrGNRE }
 

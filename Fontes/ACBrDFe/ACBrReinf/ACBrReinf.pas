@@ -116,11 +116,7 @@ type
 
 implementation
 
-{$IFDEF FPC}
- {$R ACBrReinfServicos.rc}
-{$ELSE}
- {$R ACBrReinfServicos.res}
-{$ENDIF}
+{$R ACBrReinfServicos.res}
 
 { TACBrReinf }
 

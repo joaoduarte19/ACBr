@@ -111,11 +111,7 @@ uses
   ACBrUtil.Base,
   ACBrUtil.Strings;
 
-{$IFDEF FPC}
- {$R ACBrCIOTServicos.rc}
-{$ELSE}
- {$R ACBrCIOTServicos.res}
-{$ENDIF}
+{$R ACBrCIOTServicos.res}
 
 { TACBrCIOT }
 

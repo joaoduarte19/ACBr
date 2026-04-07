@@ -195,11 +195,7 @@ uses
   ACBrUtil.DateTime,
   synacode;
 
-{$IFDEF FPC}
- {$R ACBrNFeServicos.rc}
-{$ELSE}
- {$R ACBrNFeServicos.res}
-{$ENDIF}
+{$R ACBrNFeServicos.res}
 
 { TACBrNFe }
 

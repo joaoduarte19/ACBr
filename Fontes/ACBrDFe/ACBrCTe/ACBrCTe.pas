@@ -171,11 +171,7 @@ uses
   ACBrUtil.FilesIO,
   ACBrDFeSSL;
 
-{$IFDEF FPC}
- {$R ACBrCTeServicos.rc}
-{$ELSE}
- {$R ACBrCTeServicos.res}
-{$ENDIF}
+{$R ACBrCTeServicos.res}
 
 { TACBrCTe }
 

@@ -153,11 +153,7 @@ uses
   ACBrUtil.FilesIO,
   ACBrDFeSSL;
 
-{$IFDEF FPC}
- {$R ACBrBPeServicos.rc}
-{$ELSE}
- {$R ACBrBPeServicos.res}
-{$ENDIF}
+{$R ACBrBPeServicos.res}
 
 { TACBrBPe }
 

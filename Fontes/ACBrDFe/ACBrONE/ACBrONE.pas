@@ -129,11 +129,7 @@ implementation
 uses
   dateutils;
 
-{$IFDEF FPC}
- {$R ACBrONEServicos.rc}
-{$ELSE}
- {$R ACBrONEServicos.res}
-{$ENDIF}
+{$R ACBrONEServicos.res}
 
 { TACBrONE }
 

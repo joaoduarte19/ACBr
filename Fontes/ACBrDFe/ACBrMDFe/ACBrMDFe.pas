@@ -152,11 +152,7 @@ uses
   dateutils,
   ACBrDFeSSL;
 
-{$IFDEF FPC}
- {$R ACBrMDFeServicos.rc}
-{$ELSE}
- {$R ACBrMDFeServicos.res}
-{$ENDIF}
+{$R ACBrMDFeServicos.res}
 
 { TACBrMDFe }
 

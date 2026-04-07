@@ -108,11 +108,7 @@ var
 
 implementation
 
-{$IFDEF FPC}
- {$R ACBrTEFPayGo.rc}
-{$ELSE}
- {$R ACBrTEFPayGo.res}
-{$ENDIF}
+{$R ACBrTEFPayGo.res}
 
 uses
   Types,

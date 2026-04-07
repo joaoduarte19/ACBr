@@ -112,11 +112,7 @@ uses
   ACBrDFeSSL,
   ACBrANe.ProviderManager;
 
-{$IFDEF FPC}
- {$R ACBrANeServicos.rc}
-{$ELSE}
- {$R ACBrANeServicos.res}
-{$ENDIF}
+{$R ACBrANeServicos.res}
 
 { TACBrANe }
 

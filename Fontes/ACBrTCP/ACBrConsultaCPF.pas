@@ -93,11 +93,7 @@ type
 
 implementation
 
-{$IFDEF FPC}
- {$R ACBrConsultaCPFServicos.rc}
-{$ELSE}
- {$R ACBrConsultaCPFServicos.res}
-{$ENDIF}
+{$R ACBrConsultaCPFServicos.res}
 
 uses
   strutils,

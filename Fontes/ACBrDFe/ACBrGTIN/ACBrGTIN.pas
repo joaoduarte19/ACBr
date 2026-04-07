@@ -96,11 +96,7 @@ uses
   dateutils,
   ACBrUtil.Base, ACBrDFeSSL;
 
-{$IFDEF FPC}
- {$R ACBrGTINServicos.rc}
-{$ELSE}
- {$R ACBrGTINServicos.res}
-{$ENDIF}
+{$R ACBrGTINServicos.res}
 
 { TACBrGTIN }
 
