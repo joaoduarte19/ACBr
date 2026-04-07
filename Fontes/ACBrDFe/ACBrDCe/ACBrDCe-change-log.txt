@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 07/04/2026
+-- ACBrDCe.XmlWriter --
+[-] Alteração visando levar em consideração o cPais do emitente, pois estava fixo o
+    valor CODIGO_BRASIL.
+   Por: Italo Giurizzato Junior
 -- ACBrDCe.XmlReader/ACBrDCe.XmlWriter --
 [-] Alteração visando gerar os grupos de observação no local correto do layout do XML.
    Por: Italo Giurizzato Junior

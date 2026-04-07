@@ -343,7 +343,7 @@ var
   xMun: string;
   xUF: string;
 begin
-  AjustarMunicipioUF(xUF, xMun, cMun, CODIGO_BRASIL, DCe.Emit.enderEmit.UF,
+  AjustarMunicipioUF(xUF, xMun, cMun, DCe.emit.enderEmit.cPais, DCe.Emit.enderEmit.UF,
     DCe.Emit.enderEmit.xMun, DCe.Emit.EnderEmit.cMun);
 
   Result := FDocument.CreateElement('enderEmit');
@@ -376,7 +376,7 @@ begin
                                               DCe.Emit.enderEmit.CEP, DSC_CEP));
 
   Result.AppendChild(AddNode(tcInt, 'C13', 'cPais', 4, 4, 0,
-                                                     CODIGO_BRASIL, DSC_CPAIS));
+                                          DCe.emit.enderEmit.cPais, DSC_CPAIS));
 
   if DCe.Emit.enderEmit.xPais = '' then
     DCe.Emit.enderEmit.xPais := 'BRASIL';
