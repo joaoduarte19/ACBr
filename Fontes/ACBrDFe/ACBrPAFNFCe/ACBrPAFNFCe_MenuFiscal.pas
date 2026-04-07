@@ -40,8 +40,7 @@ uses
   ACBrPAFNFCe_Comum,
   pcnSignature,
   Classes,
-  SysUtils,
-  Forms;
+  SysUtils;
 
 type
   TACBrPAFNFCe_MenuFiscal = class(TACBrPAFNFCe_BaseFile)
