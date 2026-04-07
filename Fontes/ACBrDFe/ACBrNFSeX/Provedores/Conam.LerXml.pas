@@ -583,7 +583,7 @@ end;
 
 procedure TNFSeR_Conam.LerINIDadosServico(AINIRec: TMemIniFile);
 var
-  sSecao: string;
+  sSecao, lUF: string;
 begin
   sSecao := 'Servico';
   if AINIRec.SectionExists(sSecao) then
@@ -597,6 +597,20 @@ begin
     NFSe.Servico.CodigoServicoNacional := AINIRec.ReadString(sSecao, 'CodigoCTN', '');
     NFSe.Servico.CodigoNBS := AINIRec.ReadString(sSecao, 'CodigoNBS', '');
     NFSe.Servico.InfAdicional := AINIRec.ReadString(sSecao, 'InfAdicional', '');
+
+    NFSe.Servico.Endereco.Endereco := AINIRec.ReadString(sSecao, 'Logradouro', '');
+    NFSe.Servico.Endereco.Numero := AINIRec.ReadString(sSecao, 'Numero', '');
+    NFSe.Servico.Endereco.Bairro := AINIRec.ReadString(sSecao, 'Bairro', '');
+    NFSe.Servico.Endereco.Complemento := AINIRec.ReadString(sSecao, 'Complemento', '');
+    NFSe.Servico.Endereco.CEP := AINIRec.ReadString(sSecao, 'CEP', '');
+    NFSe.Servico.Endereco.CodigoPais := AINIRec.ReadInteger(sSecao, 'CodigoPais', 1058);
+    NFSe.Servico.Endereco.UF := AINIRec.ReadString(sSecao, 'UF', '');
+    NFSe.Servico.Endereco.xPais := AINIRec.ReadString(sSecao, 'xPais', 'BRASIL');
+    NFSe.Servico.Endereco.CodigoMunicipio := AINIRec.ReadString(sSecao, 'CodigoMunicipio', '');
+    NFSe.Servico.Endereco.xMunicipio := AINIRec.ReadString(sSecao, 'xMunicipio', '');
+    lUF := '';
+    if NFSe.Servico.Endereco.xMunicipio = '' then
+      NFSe.Servico.Endereco.xMunicipio := ObterNomeMunicipioUF(StrToIntDef(NFSe.Servico.Endereco.CodigoMunicipio, 0), lUF);
 
     if NFSe.tpXML = txmlNFSe then
     begin
