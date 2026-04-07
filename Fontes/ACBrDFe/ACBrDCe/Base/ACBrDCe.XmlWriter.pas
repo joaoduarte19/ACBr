@@ -277,33 +277,6 @@ begin
   Result.AppendChild(Gerar_Transp);
   Result.AppendChild(Gerar_InfAdic);
 
-  nodeArray := Gerar_ObsEmit;
-
-  for i := 0 to DCe.obsEmit.Count - 1 do
-  begin
-    Result.AppendChild(nodeArray[i]);
-  end;
-
-  nodeArray := Gerar_ObsFisco;
-
-  for i := 0 to DCe.obsFisco.Count - 1 do
-  begin
-    Result.AppendChild(nodeArray[i]);
-  end;
-
-  nodeArray := Gerar_ObsMarketplace;
-  for i := 0 to DCe.obsMarketplace.Count - 1 do
-  begin
-    Result.AppendChild(nodeArray[i]);
-  end;
-
-  nodeArray := Gerar_ObsECT;
-
-  for i := 0 to DCe.obsECT.Count - 1 do
-  begin
-    Result.AppendChild(nodeArray[i]);
-  end;
-
   Result.AppendChild(Gerar_InfDec);
 end;
 
@@ -646,6 +619,9 @@ begin
 end;
 
 function TDCeXmlWriter.Gerar_InfAdic: TACBrXmlNode;
+var
+  nodeArray: TACBrXmlNodeArray;
+  i: Integer;
 begin
   Result := nil;
 
@@ -653,7 +629,11 @@ begin
      (trim(DCe.InfAdic.infCpl) <> '') or
      (trim(DCe.InfAdic.infadMarketplace) <> '') or
      (trim(DCe.InfAdic.infadTransp) <> '') or
-     (trim(DCe.InfAdic.infAdECT) <> '') then
+     (trim(DCe.InfAdic.infAdECT) <> '') or
+     (DCe.obsEmit.Count > 0) or
+     (DCe.obsFisco.Count > 0) or
+     (DCe.obsMarketplace.Count > 0) or
+     (DCe.obsECT.Count > 0) then
   begin
     Result := FDocument.CreateElement('infAdic');
 
@@ -671,6 +651,33 @@ begin
 
     Result.AppendChild(AddNode(tcStr, 'Z04b', 'infAdECT', 01, 5000, 0,
                                              DCe.InfAdic.infadECT, DSC_INFCPL));
+
+    nodeArray := Gerar_ObsEmit;
+
+    for i := 0 to DCe.obsEmit.Count - 1 do
+    begin
+      Result.AppendChild(nodeArray[i]);
+    end;
+
+    nodeArray := Gerar_ObsFisco;
+
+    for i := 0 to DCe.obsFisco.Count - 1 do
+    begin
+      Result.AppendChild(nodeArray[i]);
+    end;
+
+    nodeArray := Gerar_ObsMarketplace;
+    for i := 0 to DCe.obsMarketplace.Count - 1 do
+    begin
+      Result.AppendChild(nodeArray[i]);
+    end;
+
+    nodeArray := Gerar_ObsECT;
+
+    for i := 0 to DCe.obsECT.Count - 1 do
+    begin
+      Result.AppendChild(nodeArray[i]);
+    end;
   end;
 end;
 

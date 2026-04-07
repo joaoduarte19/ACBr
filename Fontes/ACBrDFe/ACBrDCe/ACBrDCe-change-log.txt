@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+07/04/2026
+-- ACBrDCe.XmlReader/ACBrDCe.XmlWriter --
+[-] Alteração visando gerar os grupos de observação no local correto do layout do XML.
+   Por: Italo Giurizzato Junior
+
 25/03/2026
 -- ACBrDCeDeclaracoes --
 [*] Alteração visando Checar o CNPJ do Certificado com o CNPJ de quem realmente esta emitindo o 

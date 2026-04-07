@@ -238,6 +238,9 @@ begin
 end;
 
 procedure TDCeXmlReader.Ler_InfAdic(const ANode: TACBrXmlNode);
+var
+  i: Integer;
+  ANodes: TACBrXmlNodeArray;
 begin
   if not Assigned(ANode) then Exit;
 
@@ -246,39 +249,6 @@ begin
   DCe.InfAdic.infAdMarketplace := ObterConteudo(ANode.Childrens.Find('infAdMarketplace'), tcStr);
   DCe.InfAdic.infAdTransp := ObterConteudo(ANode.Childrens.Find('infAdTransp'), tcStr);
   DCe.InfAdic.infAdECT := ObterConteudo(ANode.Childrens.Find('infAdECT'), tcStr);
-end;
-
-procedure TDCeXmlReader.Ler_InfDCe(const ANode: TACBrXmlNode);
-var
-  i: Integer;
-  ANodes: TACBrXmlNodeArray;
-begin
-  if not Assigned(ANode) then Exit;
-
-  Ler_Ide(ANode.Childrens.Find('ide'));
-  Ler_Emit(ANode.Childrens.Find('emit'));
-  Ler_Fisco(ANode.Childrens.Find('Fisco'));
-  Ler_Marketplace(ANode.Childrens.Find('Marketplace'));
-  Ler_Transportadora(ANode.Childrens.Find('Transportadora'));
-  Ler_ECT(ANode.Childrens.Find('ECT'));
-  Ler_Dest(ANode.Childrens.Find('dest'));
-
-  ANodes := ANode.Childrens.FindAll('autXML');
-  for i := 0 to Length(ANodes) - 1 do
-  begin
-    DCe.autXML.New;
-    DCe.autXML[i].CNPJCPF := ObterCNPJCPF(ANodes[i]);
-  end;
-
-  ANodes := ANode.Childrens.FindAll('det');
-  for i := 0 to Length(ANodes) - 1 do
-  begin
-    Ler_Det(ANodes[i]);
-  end;
-
-  Ler_Total(ANode.Childrens.Find('total'));
-  Ler_Transp(ANode.Childrens.Find('transp'));
-  Ler_InfAdic(ANode.Childrens.Find('infAdic'));
 
   DCe.obsEmit.Clear;
   ANodes := ANode.Childrens.FindAll('obsEmit');
@@ -315,6 +285,39 @@ begin
     DCe.obsECT[i].xCampo := ANodes[i].Attributes.Items['xCampo'].Content;
     DCe.obsECT[i].xTexto := ObterConteudo(ANodes[i].Childrens.Find('xTexto'), tcStr);
   end;
+end;
+
+procedure TDCeXmlReader.Ler_InfDCe(const ANode: TACBrXmlNode);
+var
+  i: Integer;
+  ANodes: TACBrXmlNodeArray;
+begin
+  if not Assigned(ANode) then Exit;
+
+  Ler_Ide(ANode.Childrens.Find('ide'));
+  Ler_Emit(ANode.Childrens.Find('emit'));
+  Ler_Fisco(ANode.Childrens.Find('Fisco'));
+  Ler_Marketplace(ANode.Childrens.Find('Marketplace'));
+  Ler_Transportadora(ANode.Childrens.Find('Transportadora'));
+  Ler_ECT(ANode.Childrens.Find('ECT'));
+  Ler_Dest(ANode.Childrens.Find('dest'));
+
+  ANodes := ANode.Childrens.FindAll('autXML');
+  for i := 0 to Length(ANodes) - 1 do
+  begin
+    DCe.autXML.New;
+    DCe.autXML[i].CNPJCPF := ObterCNPJCPF(ANodes[i]);
+  end;
+
+  ANodes := ANode.Childrens.FindAll('det');
+  for i := 0 to Length(ANodes) - 1 do
+  begin
+    Ler_Det(ANodes[i]);
+  end;
+
+  Ler_Total(ANode.Childrens.Find('total'));
+  Ler_Transp(ANode.Childrens.Find('transp'));
+  Ler_InfAdic(ANode.Childrens.Find('infAdic'));
 
   Ler_InfDec(ANode.Childrens.Find('infDec'));
   Ler_InfSolicDCe(ANode.Childrens.Find('infSolicDCe'));
