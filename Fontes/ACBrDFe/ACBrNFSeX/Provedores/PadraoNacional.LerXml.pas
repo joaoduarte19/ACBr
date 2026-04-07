@@ -1841,13 +1841,21 @@ end;
 
 procedure TNFSeR_PadraoNacional.LerINIValoresNFSe(AINIRec: TMemIniFile);
 var
-  sSecao: string;
+  sSecao, lValtpBM: string;
+  Ok: Boolean;
 begin
   sSecao := 'ValoresNFSe';
   if AINIRec.SectionExists(sSecao) then
   begin
     NFSe.infNFSe.valores.vCalcDR := StringToFloatDef(AINIRec.ReadString(sSecao, 'vCalcDR', ''), 0);
-    NFSe.infNFSe.valores.tpBM := AINIRec.ReadString(sSecao, 'tpBM', '');
+    lValtpBM := '';
+    lValtpBM := AINIRec.ReadString(sSecao, 'tpBM', '');
+    if Trim(lValtpBM) <> '' then
+    begin
+      NFSe.infNFSe.valores.tpBM := lValtpBM;
+      NFSe.Servico.Valores.tribMun.tpBM := StrTotpBM(Ok, lValtpBM)
+    end;
+
     NFSe.infNFSe.valores.vCalcBM := StringToFloatDef(AINIRec.ReadString(sSecao, 'vCalcBM', ''), 0);
     NFSe.infNFSe.valores.BaseCalculo := StringToFloatDef(AINIRec.ReadString(sSecao, 'vBC', ''), 0);
     NFSe.infNFSe.valores.Aliquota := StringToFloatDef(AINIRec.ReadString(sSecao, 'pAliqAplic', ''), 0);
