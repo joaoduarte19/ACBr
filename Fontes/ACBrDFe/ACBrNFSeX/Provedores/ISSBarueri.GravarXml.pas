@@ -228,9 +228,9 @@ begin
     Linha := Linha + ' ';
 
   if NFSe.Servico.CodigoPais <> 1 then
-    Linha := Linha + CodIBGEPaisToSiglaISO2(NFSe.Servico.CodigoPais)
+    Linha := Linha + FormatFloat('000', NFSe.Servico.CodigoPais)
   else
-    Linha := Linha + Space(4);
+    Linha := Linha + Space(3);
 
   if NFSe.Servico.CodigoMunicipio <> '' then
     Linha := Linha + NFSe.Servico.CodigoMunicipio

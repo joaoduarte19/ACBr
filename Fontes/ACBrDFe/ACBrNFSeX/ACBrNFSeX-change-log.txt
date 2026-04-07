@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 07/04/2026
+-- ISSBarueri.GravarXml/ISSBarueri.LerXml --
+[-] ACBR-9212 - Correção na geração do código do país do local do serviço prestado o correto é 3 dígitos.
+    O provedor se utiliza de uma codificação própria.
+   Por: Italo Giurizzato Junior
 -- Conam.LerXML --
 [*] Adiciona a leitura das informações do endereço a partir da seção Servico no INI
    Por: Diego Folieni

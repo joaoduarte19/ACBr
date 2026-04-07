@@ -580,6 +580,8 @@ begin
         Result := LerXmlNfse(AuxNode);
       end;
     end;
+
+    VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
   finally
     FreeAndNil(FDocument);
     FreeAndNil(DadosTxt);
