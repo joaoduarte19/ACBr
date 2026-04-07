@@ -921,7 +921,12 @@ begin
   i := 1;
   while true do
   begin
-    sSecao := 'infCTe' + IntToStrZero(Idx, 3) + IntToStrZero(i, 3);
+    //Pode ter até 10000 ocorrências...
+    if I > 999 then
+      sSecao := 'infCTe' + IntToStrZero(Idx, 3) + IntToStrZero(i, 5)
+    else
+      sSecao := 'infCTe' + IntToStrZero(Idx, 3) + IntToStrZero(i, 3);
+
     sFim   := AINIRec.ReadString(sSecao, 'chCTe', 'FIM');
 
     if sFim = 'FIM' then
@@ -1124,7 +1129,12 @@ begin
   i := 1;
   while true do
   begin
-    sSecao := 'infNFe' + IntToStrZero(Idx, 3) + IntToStrZero(i, 3);
+    //Pode ter até 10000 ocorrências...
+    if I > 999 then
+      sSecao := 'infNFe' + IntToStrZero(Idx, 3) + IntToStrZero(i, 5)
+    else
+      sSecao := 'infNFe' + IntToStrZero(Idx, 3) + IntToStrZero(i, 3);
+
     sFim   := AINIRec.ReadString(sSecao, 'chNFe', 'FIM');
 
     if sFim = 'FIM' then
@@ -1153,7 +1163,12 @@ begin
   i := 1;
   while true do
   begin
-    sSecao := 'infMDFeTransp' + IntToStrZero(Idx, 3) + IntToStrZero(i, 3);
+    //Pode ter até 10000 ocorrências...
+    if I > 999 then
+      sSecao := 'infMDFeTransp' + IntToStrZero(Idx, 3) + IntToStrZero(i, 5)
+    else
+      sSecao := 'infMDFeTransp' + IntToStrZero(Idx, 3) + IntToStrZero(i, 3);
+
     sFim   := AINIRec.ReadString(sSecao, 'chMDFe', 'FIM');
 
     if sFim = 'FIM' then

@@ -693,7 +693,11 @@ var
 begin
   for i := 0 to infCTe.Count - 1 do
   begin
-    sSecao := 'infCTe' + IntToStrZero(Idx + 1, 3) + IntToStrZero(i + 1, 3);
+    //Pode ter até 10000 ocorrências
+    if I >= 999 then
+      sSecao := 'infCTe' + IntToStrZero(Idx + 1, 3) + IntToStrZero(i + 1, 5)
+    else
+      sSecao := 'infCTe' + IntToStrZero(Idx + 1, 3) + IntToStrZero(i + 1, 3);
 
     AINIRec.WriteString(sSecao, 'chCTe', infCTe[i].chCTe);
     AINIRec.WriteString(sSecao, 'SegCodBarra', infCTe[i].SegCodBarra);
@@ -833,7 +837,11 @@ var
 begin
   for i := 0 to infNFe.Count - 1 do
   begin
-    sSecao := 'infNFe' + IntToStrZero(Idx + 1, 3) + IntToStrZero(i + 1, 3);
+    //Pode ter até 10000 ocorrências
+    if I >= 999 then
+      sSecao := 'infNFe' + IntToStrZero(Idx + 1, 3) + IntToStrZero(i + 1, 5)
+    else
+      sSecao := 'infNFe' + IntToStrZero(Idx + 1, 3) + IntToStrZero(i + 1, 3);
 
     AINIRec.WriteString(sSecao, 'chNFe', infNFe[i].chNFe);
     AINIRec.WriteString(sSecao, 'SegCodBarra', infNFe[i].SegCodBarra);
@@ -852,7 +860,11 @@ var
 begin
   for i := 0 to infMDFeTransp.Count - 1 do
   begin
-    sSecao := 'infMDFeTransp' + IntToStrZero(Idx + 1, 3) + IntToStrZero(i + 1, 3);
+    //Pode ter até 10000 ocorrências
+    if I >= 999 then
+      sSecao := 'infMDFeTransp' + IntToStrZero(Idx + 1, 3) + IntToStrZero(i + 1, 5)
+    else
+      sSecao := 'infMDFeTransp' + IntToStrZero(Idx + 1, 3) + IntToStrZero(i + 1, 3);
 
     AINIRec.WriteString(sSecao, 'chMDFe', infMDFeTransp[i].chMDFe);
     AINIRec.WriteString(sSecao, 'indReentrega', infMDFeTransp[i].indReentrega);
