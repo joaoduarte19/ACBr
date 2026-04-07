@@ -57,6 +57,10 @@ Símbolo : Significado
 [-] Adiciona leitura da seção ValoresNFSe na rotina que lê o INI para o padrão nacional.
    Por: Diego Folieni
    Veja: https://www.projetoacbr.com.br/forum/topic/91564-sil-tecnologia-emiss%C3%A3o-nfse-franca-sp/ 
+-- IPM.Provider --
+[*] Ajustes no tratamento de códigos, descrições dos retornos e preenchimento da propriedade Sucesso na emissão da versão 1.01 do IPM
+   Por: Renato Rubinho
+
 06/04/2026
 -- Elotech.GravarXML --
 [-] O CodigoPais é obrigatório no grupo do Endereço do Tomador.

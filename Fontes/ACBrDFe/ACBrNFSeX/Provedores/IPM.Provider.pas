@@ -230,6 +230,7 @@ begin
     FormatoArqEnvioSoap := tfaTxt;
     ImprimirOptanteSN := False;
     UseCertificateHTTP := (ConfigAssinar.RpsGerarNFSe) or (ConfigAssinar.CancelarNFSe);
+    CancPreencherMotivo := True;
 
     Autenticacao.RequerCertificado := UseCertificateHTTP;
     Autenticacao.RequerLogin := True;
@@ -439,12 +440,28 @@ begin
 
       if Length(aMsg) > 5 then
       begin
-        Codigo := Copy(aMsg, 1, 5);
-        aMsg := Copy(aMsg, 9, Length(aMsg));
+        if Copy(aMsg, 1, 9) = 'XSD Error' then
+        begin
+          Codigo := OnlyNumber(Copy(aMsg, 11, 5));
+          aMsg := Trim(Copy(aMsg, 16, Length(aMsg)));
+        end
+        else
+        begin
+          Codigo := Trim(Copy(aMsg, 1, 5));
+
+          if OnlyNumber(Codigo) = Codigo then
+            aMsg := Trim(Copy(aMsg, 8, Length(aMsg)))
+          else
+          begin
+            if (ObterConteudoTag(ANode.Childrens.FindAnyNs('situacao_codigo_nfse'), tcStr) = '1') then
+              Codigo := '00000';
+          end;    
+        end;
       end;
     end;
 
-    if Codigo = '00001' then
+    if (Codigo = '00000') or
+       (Codigo = '00001') then
     begin
       AAlerta := Response.Alertas.New;
       AAlerta.Codigo := Codigo;
