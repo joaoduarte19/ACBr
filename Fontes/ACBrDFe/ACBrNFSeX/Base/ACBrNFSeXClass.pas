@@ -283,6 +283,7 @@ type
     FpAliq: Double;
     FtpRetISSQN: TtpRetISSQN;
   public
+    constructor Create;
     property tribISSQN: TtribISSQN read FtribISSQN write FtribISSQN;
     property cPaisResult: Integer read FcPaisResult write FcPaisResult;
     property tpBM: TtpBM read FtpBM write FtpBM;
@@ -3756,6 +3757,16 @@ constructor TtotTrib.Create;
 begin
   inherited Create;
   FindTotTrib := indSim;
+end;
+
+{ TtribMun }
+
+constructor TtribMun.Create;
+begin
+  inherited Create;
+  FtpBM := tbNenhum;
+  FtpSusp := tsNenhum;
+  FtpImunidade := timNenhum;
 end;
 
 end.

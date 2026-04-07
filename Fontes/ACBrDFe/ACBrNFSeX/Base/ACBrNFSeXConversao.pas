@@ -511,10 +511,10 @@ const
   TtpRetISSQNArrayStrings: array[TtpRetISSQN] of string = ('1', '2', '3');
 
 type
-  TtpBM = (tbIsencao, tbReducaoBCperc, tbReducaoBCvalor, tbAliquota);
+  TtpBM = (tbIsencao, tbReducaoBCperc, tbReducaoBCvalor, tbAliquota, tbNenhum);
 
 const
-  TtpBMArrayStrings: array[TtpBM] of string = ('1', '2', '3', '4');
+  TtpBMArrayStrings: array[TtpBM] of string = ('1', '2', '3', '4', '');
 
 type
   TtpSusp = (tsNenhum, tsDecisaoJudicial, tsProcessoAdm);
@@ -13642,15 +13642,15 @@ end;
 function tpBMToStr(const t: TtpBM): string;
 begin
   result := EnumeradoToStr(t,
-                           ['1', '2', '3', '4'],
-                           [tbIsencao, tbReducaoBCperc, tbReducaoBCvalor, tbAliquota]);
+                           ['1', '2', '3', '4', ''],
+                           [tbIsencao, tbReducaoBCperc, tbReducaoBCvalor, tbAliquota, tbNenhum]);
 end;
 
 function StrTotpBM(out ok: Boolean; const s: string): TtpBM;
 begin
   result := StrToEnumerado(ok, s,
-                           ['1', '2', '3', '4'],
-                           [tbIsencao, tbReducaoBCperc, tbReducaoBCvalor, tbAliquota]);
+                           ['1', '2', '3', '4', ''],
+                           [tbIsencao, tbReducaoBCperc, tbReducaoBCvalor, tbAliquota, tbNenhum]);
 end;
 
 function tpSuspToStr(const t: TtpSusp): string;
