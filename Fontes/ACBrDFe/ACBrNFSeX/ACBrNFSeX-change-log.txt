@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 07/04/2026
+-- ISSBarueri.GravarXml --
+[*] ACBR-9212 - Alteração visando gerar os valores de CPP e de Valor não incluso na Base de Calculo.
+    Para gerar o valor do CPP os campos: RetidoCpp = snSim e ValorCpp > 0.
+    Para gerar o valor não incluso da BC o campo: ValorDespesasNaoTributaveis > 0.
+   Por: Italo Giurizzato Junior
 -- ISSBarueri.GravarXml/ISSBarueri.LerXml --
 [-] ACBR-9212 - Correção na geração do código do país do local do serviço prestado o correto é 3 dígitos.
     O provedor se utiliza de uma codificação própria.
