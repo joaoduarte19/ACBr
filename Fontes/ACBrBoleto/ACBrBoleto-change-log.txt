@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+07/04/2026
+-- ACBrBoletoW_Banrisul.pas --
+[*] ACBR-9008 - Adicionado a opção de Alterar Data de Vencimento e Alterar Valor do Abatimento
+   https://www.projetoacbr.com.br/forum/topic/89444-acbr-9008-boleto-api-banrisul-adicionado-a-op%C3%A7%C3%A3o-de-alterar-data-de-vencimento-e-alterar-valor-do-abatimento
+   Por: Pablo Cerbaro
+
 02/04/2026
 -- ACBrBoletoRet_Sicoob_V3.pas --
 [*] ACBR-8474 - Quando erro de credenciais, não retorna json e sim string, isso gerava erro na hora do parse
