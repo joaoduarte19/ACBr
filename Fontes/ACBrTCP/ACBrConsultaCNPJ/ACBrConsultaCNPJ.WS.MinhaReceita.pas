@@ -71,7 +71,7 @@ begin
 
   inherited Executar;
 
-  LResultCode := SendHttp('GET', C_URL +  OnlyNumber(FCNPJ), LRetorno);
+  LResultCode := SendHttp('GET', C_URL +  OnlyAlphaNum(FCNPJ), LRetorno);
 
   LJSon := TACBrJSONArray.Parse('[' + UTF8ToNativeString(LRetorno) + ']');
 

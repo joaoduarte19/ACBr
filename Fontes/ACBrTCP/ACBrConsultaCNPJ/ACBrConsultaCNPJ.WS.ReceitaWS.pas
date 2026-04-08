@@ -76,7 +76,7 @@ begin
     LAuxiliar := '/days/'+IntToStr(FDefasagemMaxima);
   end;
 
-  LResultCode := SendHttp('GET',C_URL +  OnlyNumber(FCNPJ) + LAuxiliar, LRetorno);
+  LResultCode := SendHttp('GET',C_URL +  OnlyAlphaNum(FCNPJ) + LAuxiliar, LRetorno);
 
   LJSon := TACBrJSONArray.Parse('[' + UTF8ToNativeString(LRetorno) + ']');
 

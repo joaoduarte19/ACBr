@@ -81,7 +81,7 @@ begin
   end else
     LURL := C_URL_PUBLICA;
 
-  LCodigoRetorno := SendHttp('GET', LURL +  OnlyNumber(FCNPJ), LRetorno);
+  LCodigoRetorno := SendHttp('GET', LURL +  OnlyAlphaNum(FCNPJ), LRetorno);
 
   LJson := TACBrJSONObject.Parse( UTF8ToNativeString(LRetorno) );
   try
