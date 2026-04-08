@@ -171,6 +171,8 @@ begin
   Emit.EnderEmit.xMun := AINIRec.ReadString(sSecao, 'xMun', '');
   Emit.EnderEmit.CEP := AINIRec.ReadInteger(sSecao, 'CEP', 0);
   Emit.EnderEmit.UF := AINIRec.ReadString(sSecao, 'UF', '');
+  Emit.EnderEmit.cPais := AINIRec.ReadInteger(sSecao, 'cPais', 0);
+  Emit.EnderEmit.xPais := AINIRec.ReadString(sSecao, 'xPais', '');
   Emit.EnderEmit.fone := AINIRec.ReadString(sSecao, 'fone', '');
   Emit.EnderEmit.email := AINIRec.ReadString(sSecao, 'email', '');
 end;
@@ -232,6 +234,8 @@ begin
   Dest.EnderDest.xMun := AINIRec.ReadString(sSecao, 'xMun', '');
   Dest.EnderDest.CEP := AINIRec.ReadInteger(sSecao, 'CEP', 0);
   Dest.EnderDest.UF := AINIRec.ReadString(sSecao, 'UF', '');
+  Dest.EnderDest.cPais := AINIRec.ReadInteger(sSecao, 'cPais', 0);
+  Dest.EnderDest.xPais := AINIRec.ReadString(sSecao, 'xPais', '');
   Dest.EnderDest.fone := AINIRec.ReadString(sSecao, 'fone', '');
   Dest.EnderDest.email := AINIRec.ReadString(sSecao, 'email', '');
 end;

@@ -1497,6 +1497,37 @@ object frmACBrDCe: TfrmACBrDCe
           OnClick = btnEnviarEventoEmailClick
         end
       end
+      object tsOutros: TTabSheet
+        Caption = 'Outros'
+        ImageIndex = 3
+        object btnLerArqINI: TButton
+          Left = 3
+          Top = 3
+          Width = 177
+          Height = 25
+          Caption = 'Ler Arquivo INI/Gerar XML'
+          TabOrder = 0
+          OnClick = btnLerArqINIClick
+        end
+        object btnGerarArqINI: TButton
+          Left = 186
+          Top = 3
+          Width = 177
+          Height = 25
+          Caption = 'Gerar Arquivo INI'
+          TabOrder = 1
+          OnClick = btnGerarArqINIClick
+        end
+        object btnLerArqINIEnviarEvento: TButton
+          Left = 3
+          Top = 41
+          Width = 177
+          Height = 25
+          Caption = 'Ler Arq. INI e Gerar Evento'
+          TabOrder = 2
+          OnClick = btnLerArqINIEnviarEventoClick
+        end
+      end
     end
     object pgRespostas: TPageControl
       Left = 1

@@ -171,6 +171,8 @@ begin
   AINIRec.WriteString(sSecao, 'xMun', Emit.EnderEmit.xMun);
   AINIRec.WriteInteger(sSecao, 'CEP', Emit.EnderEmit.CEP);
   AINIRec.WriteString(sSecao, 'UF', Emit.EnderEmit.UF);
+  AINIRec.WriteInteger(sSecao, 'cPais', Emit.EnderEmit.cPais);
+  AINIRec.WriteString(sSecao, 'xPais', Emit.EnderEmit.xPais);
   AINIRec.WriteString(sSecao, 'fone', Emit.EnderEmit.fone);
   AINIRec.WriteString(sSecao, 'email', Emit.EnderEmit.email);
 end;
@@ -244,6 +246,8 @@ begin
   AINIRec.WriteString(sSecao, 'xMun', Dest.EnderDest.xMun);
   AINIRec.WriteInteger(sSecao, 'CEP', Dest.EnderDest.CEP);
   AINIRec.WriteString(sSecao, 'UF', Dest.EnderDest.UF);
+  AINIRec.WriteInteger(sSecao, 'cPais', Dest.EnderDest.cPais);
+  AINIRec.WriteString(sSecao, 'xPais', Dest.EnderDest.xPais);
   AINIRec.WriteString(sSecao, 'fone', Dest.EnderDest.fone);
   AINIRec.WriteString(sSecao, 'email', Dest.EnderDest.email);
 end;

@@ -230,6 +230,10 @@ type
     btnEnviarEventoEmail: TButton;
     ACBrDCe1: TACBrDCe;
     ACBrDCeDACERL1: TACBrDCeDACERL;
+    tsOutros: TTabSheet;
+    btnGerarArqINI: TButton;
+    btnLerArqINI: TButton;
+    btnLerArqINIEnviarEvento: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnSalvarConfigClick(Sender: TObject);
     procedure sbPathDCeClick(Sender: TObject);
@@ -280,6 +284,9 @@ type
     procedure btnEnviarEventoEmailClick(Sender: TObject);
     procedure ACBrDCe1GerarLog(const ALogLine: string; var Tratado: Boolean);
     procedure ACBrDCe1StatusChange(Sender: TObject);
+    procedure btnGerarArqINIClick(Sender: TObject);
+    procedure btnLerArqINIClick(Sender: TObject);
+    procedure btnLerArqINIEnviarEventoClick(Sender: TObject);
   private
     { Private declarations }
     procedure GravarConfiguracao;
@@ -303,7 +310,7 @@ uses
   strutils, math, TypInfo, DateUtils, synacode, blcksock, FileCtrl, Grids,
   IniFiles, Printers,
   pcnAuxiliar,
-  ACBrDCe.Classes, pcnConversao, ACBrDCe.Conversao,
+  ACBrDCe.Classes, ACBrDFe.Conversao, ACBrDCe.Conversao,
   pcnRetConsReciDFe,
   ACBrDFeConfiguracoes, ACBrDFeSSL, ACBrDFeOpenSSL, ACBrDFeUtil,
   ACBrDCeDeclaracoes, ACBrDCeConfiguracoes,
@@ -762,7 +769,7 @@ begin
 
     MemoDados.Lines.Add('');
     MemoDados.Lines.Add('Envio DCe');
-    MemoDados.Lines.Add('tpAmb: '+ TpAmbToStr(ACBrDCe1.WebServices.Enviar.TpAmb));
+    MemoDados.Lines.Add('tpAmb: '+ TipoAmbienteToStr(ACBrDCe1.WebServices.Enviar.TpAmb));
     MemoDados.Lines.Add('verAplic: '+ ACBrDCe1.WebServices.Enviar.verAplic);
     MemoDados.Lines.Add('cStat: '+ IntToStr(ACBrDCe1.WebServices.Enviar.cStat));
     MemoDados.Lines.Add('cUF: '+ IntToStr(ACBrDCe1.WebServices.Enviar.cUF));
@@ -860,7 +867,7 @@ begin
   begin
     Lines.Add('');
     Lines.Add('Envio DCe');
-    Lines.Add('tpAmb: '     + TpAmbToStr(ACBrDCe1.WebServices.Enviar.tpAmb));
+    Lines.Add('tpAmb: '     + TipoAmbienteToStr(ACBrDCe1.WebServices.Enviar.tpAmb));
     Lines.Add('verAplic: '  + ACBrDCe1.WebServices.Enviar.verAplic);
     Lines.Add('cStat: '     + IntToStr(ACBrDCe1.WebServices.Enviar.cStat));
     Lines.Add('xMotivo: '   + ACBrDCe1.WebServices.Enviar.xMotivo);
@@ -1331,7 +1338,7 @@ end;
 procedure TfrmACBrDCe.FormCreate(Sender: TObject);
 var
   T: TSSLLib;
-  I: TpcnTipoEmissao;
+  I: TACBrTipoEmissao;
   K: TVersaoDCe;
   U: TSSLCryptLib;
   V: TSSLHttpLib;
@@ -1364,8 +1371,8 @@ begin
   cbSSLType.ItemIndex := 0;
 
   cbFormaEmissao.Items.Clear;
-  for I := Low(TpcnTipoEmissao) to High(TpcnTipoEmissao) do
-     cbFormaEmissao.Items.Add( GetEnumName(TypeInfo(TpcnTipoEmissao), integer(I) ) );
+  for I := Low(TACBrTipoEmissao) to High(TACBrTipoEmissao) do
+     cbFormaEmissao.Items.Add( GetEnumName(TypeInfo(TACBrTipoEmissao), integer(I) ) );
   cbFormaEmissao.ItemIndex := 0;
 
   cbVersaoDF.Items.Clear;
@@ -1375,6 +1382,116 @@ begin
 
   LerConfiguracao;
   pgRespostas.ActivePageIndex := 2;
+end;
+
+procedure TfrmACBrDCe.btnLerArqINIClick(Sender: TObject);
+begin
+  OpenDialog1.Title := 'Selecione o Arquivo INI';
+  OpenDialog1.DefaultExt := '*.ini';
+  OpenDialog1.Filter :=
+    'Arquivos INI (*.ini)|*.ini|Todos os Arquivos (*.*)|*.*';
+  OpenDialog1.InitialDir := ACBrDCe1.Configuracoes.Arquivos.PathSalvar;
+
+  if OpenDialog1.Execute then
+  begin
+    ACBrDCe1.Declaracoes.Clear;
+    ACBrDCe1.Declaracoes.LoadFromIni(OpenDialog1.FileName);
+    ACBrDCe1.Declaracoes.Assinar;
+    ACBrDCe1.Declaracoes.GravarXML();
+
+    memoLog.Lines.Add('Arquivo gerado em: ' + ACBrDCe1.Declaracoes[0].NomeArq);
+
+    try
+      ACBrDCe1.Declaracoes.Validar;
+
+      if ACBrDCe1.Declaracoes[0].Alertas <> '' then
+        MemoDados.Lines.Add('Alertas: '+ACBrDCe1.Declaracoes[0].Alertas);
+
+      ShowMessage('Declaração de Conteúdo Eletrônica Valida');
+    except
+      on E: Exception do
+      begin
+        pgRespostas.ActivePage := Dados;
+        MemoDados.Lines.Add('Exception: ' + E.Message);
+        MemoDados.Lines.Add('Erro: ' + ACBrDCe1.Declaracoes[0].ErroValidacao);
+        MemoDados.Lines.Add('Erro Completo: ' + ACBrDCe1.Declaracoes[0].ErroValidacaoCompleto);
+      end;
+    end;
+  end;
+end;
+
+procedure TfrmACBrDCe.btnLerArqINIEnviarEventoClick(Sender: TObject);
+var
+  LIdLote: String;
+  SaveDlg: TSaveDialog;
+  LTempXML: TStringList;
+begin
+  OpenDialog1.Title := 'Selecione o Arquivo INI';
+  OpenDialog1.DefaultExt := '*.ini';
+  OpenDialog1.Filter :=
+    'Arquivos INI (*.ini)|*.ini|Todos os Arquivos (*.*)|*.*';
+  OpenDialog1.InitialDir := ACBrDCe1.Configuracoes.Arquivos.PathSalvar;
+
+  if OpenDialog1.Execute then
+  begin
+    LIdLote := '1';
+    if not(InputQuery('WebServices Eventos', 'Identificador de controle do Lote de envio do Evento', LIdLote)) then
+       exit;
+    ACBrDCe1.EventoDCe.Evento.Clear;
+    ACBrDCe1.EventoDCe.LerFromIni(OpenDialog1.FileName);
+    LTempXML := TStringList.Create;
+    try
+      ACBrDCe1.EventoDCe.GerarXml;
+      LTempXML.Text := ACBrDCe1.EventoDCe.XmlEnvio;
+      SaveDlg := TSaveDialog.Create(nil);
+      try
+        SaveDlg.Title := 'Escolha o local onde salvar o XML';
+        SaveDlg.DefaultExt := '*.XML';
+        SaveDlg.Filter := 'Arquivo XML(*.XML)|*.XML|Arquivo xml(*.xml)|*.xml|Todos os arquivos(*.*)|*.*';
+        if SaveDlg.Execute then
+          LTempXML.SaveToFile(SaveDlg.FileName);
+
+        memoLog.Lines.Add('Arquivo Salvo: ' + SaveDlg.FileName);
+      finally
+        SaveDlg.Free;
+      end;
+    finally
+      LTempXML.Free;
+    end;
+  end;
+end;
+
+procedure TfrmACBrDCe.btnGerarArqINIClick(Sender: TObject);
+var
+  vAux: string;
+  SaveDlg: TSaveDialog;
+  ArqINI: TStringList;
+begin
+  vAux := '1';
+  if not(InputQuery('Gerar Arquivo INI', 'Numero da Declaração', vAux)) then
+    exit;
+
+  ACBrDCe1.Declaracoes.Clear;
+  AlimentarComponente(vAux);
+  ACBrDCe1.Declaracoes.GerarDCe;
+
+  ArqINI := TStringList.Create;
+  SaveDlg := TSaveDialog.Create(nil);
+  try
+    ArqINI.Text := ACBrDCe1.Declaracoes.GerarIni;
+
+    SaveDlg.Title := 'Escolha o local onde salvar o INI';
+    SaveDlg.DefaultExt := '*.INI';
+    SaveDlg.Filter := 'Arquivo INI(*.INI)|*.INI|Arquivo ini(*.ini)|*.ini|Todos os arquivos(*.*)|*.*';
+
+    if SaveDlg.Execute then
+      ArqINI.SaveToFile(SaveDlg.FileName);
+
+    memoLog.Lines.Add('Arquivo Salvo: ' + SaveDlg.FileName);
+  finally
+    SaveDlg.Free;
+    ArqINI.Free;
+  end;
 end;
 
 procedure TfrmACBrDCe.GravarConfiguracao;
@@ -1594,7 +1711,6 @@ end;
 
 procedure TfrmACBrDCe.ConfigurarComponente;
 var
-  Ok: Boolean;
   PathMensal: string;
 begin
   ACBrDCe1.Configuracoes.Certificados.ArquivoPFX  := edtCaminho.Text;
@@ -1616,14 +1732,14 @@ begin
     ExibirErroSchema := cbxExibirErroSchema.Checked;
     RetirarAcentos   := cbxRetirarAcentos.Checked;
     FormatoAlerta    := edtFormatoAlerta.Text;
-    FormaEmissao     := TpcnTipoEmissao(cbFormaEmissao.ItemIndex);
+    FormaEmissao     := TACBrTipoEmissao(cbFormaEmissao.ItemIndex);
     VersaoDF         := TVersaoDCe(cbVersaoDF.ItemIndex);
   end;
 
   with ACBrDCe1.Configuracoes.WebServices do
   begin
     UF         := cbUF.Text;
-    Ambiente   := StrToTpAmb(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
+    Ambiente   := StrToTipoAmbiente(IntToStr(rgTipoAmb.ItemIndex+1));
     Visualizar := cbxVisualizar.Checked;
     Salvar     := cbxSalvarSOAP.Checked;
 
@@ -1670,11 +1786,10 @@ begin
 
   if ACBrDCe1.DACE <> nil then
   begin
-    ACBrDCe1.DACE.TipoDACE := StrToTpImp(OK, IntToStr(rgTipoDACE.ItemIndex + 1));
+    ACBrDCe1.DACE.TipoDACE := StrToTpImp(IntToStr(rgTipoDACE.ItemIndex + 1));
     ACBrDCe1.DACE.Logo := edtLogoMarca.Text;
 
     ACBrDCe1.DACE.PathPDF := PathMensal;
-    ACBrDCe1.DACE.TamanhoPapel := tpA4;
     ACBrDCe1.DACE.Usuario := 'ACBr';
 
     ACBrDCe1.DACE.MargemDireita  := 4;

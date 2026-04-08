@@ -400,7 +400,7 @@ begin
     while true do
     begin
       sSecao := 'EVENTO' + IntToStrZero(I, 3);
-      sFim := INIRec.ReadString(sSecao, 'chNFe', 'FIM');
+      sFim := INIRec.ReadString(sSecao, 'chDCe', 'FIM');
 
       if (sFim = 'FIM') or (Length(sFim) <= 0) then
         break ;

@@ -42,6 +42,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+08/04/2026
+-- ACBrDCe.IniReader, ACBrDCe.IniWriter --
+[*] Leitura e escrita dos campos cPais e xPais no ini
+-- Frm_ACBrDCe.dfm, Frm_ACBrDCe, Frm_ACBrDCe.lfm --
+[*] Correção da compilação dos programas de exemplo em Delphi e Lazarus
+  - Adicionada aba Outros e botões para leitura e geração de ini 
+   Por: Renato Rubinho
+
 07/04/2026
 -- ACBrDCe.XmlWriter --
 [-] Alteração visando levar em consideração o cPais do emitente, pois estava fixo o
