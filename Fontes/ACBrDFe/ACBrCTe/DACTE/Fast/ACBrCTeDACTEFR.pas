@@ -182,6 +182,7 @@ type
 
     procedure ImprimirDACTe(ACTE: TCTe = nil); override;
     procedure ImprimirDACTePDF(ACTE: TCTe = nil); override;
+    procedure ImprimirDACTePDF(AStream: TStream; ACTE: TCTe = nil); override;
     procedure ImprimirEVENTO(ACTE: TCTe = nil); override;
     procedure ImprimirEVENTOPDF(ACTE: TCTe = nil); override;
     procedure ImprimirINUTILIZACAO(ACTE: TCTe = nil); override;
@@ -1305,6 +1306,32 @@ begin
     finally
       frxPDFExport.ShowDialog := OldShowDialog;
       FPArquivoPDF := frxPDFExport.FileName;
+    end;
+  end;
+end;
+
+procedure TACBrCTeDACTEFR.ImprimirDACTePDF(AStream: TStream; ACTE: TCTe = nil);
+const
+  TITULO_PDF = 'Conhecimento de Transporte Eletrônico';
+var
+  OldShowDialog: Boolean;
+begin
+  if PrepareReport(ACTE) then
+  begin
+    frxPDFExport.Author   := Sistema;
+    frxPDFExport.Creator  := Sistema;
+    frxPDFExport.Producer := Sistema;
+    frxPDFExport.Title    := TITULO_PDF;
+    frxPDFExport.Subject  := TITULO_PDF;
+    frxPDFExport.Keywords := TITULO_PDF;
+    OldShowDialog         := frxPDFExport.ShowDialog;
+    try
+      frxPDFExport.ShowDialog := False;
+      frxPDFExport.FileName := '';
+      frxPDFExport.Stream := AStream;
+      frxReport.Export(frxPDFExport);
+    finally
+      frxPDFExport.ShowDialog := OldShowDialog;
     end;
   end;
 end;
