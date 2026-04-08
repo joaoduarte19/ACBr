@@ -48,6 +48,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+08/04/2026
+-- Particularidades --
+[*] Adicionado particularidades C6 responsavel da emissao que impacta na barras e linha digitavel do boleto.
+   Por: Daniel de Morais InfoCotidano
+
 07/04/2026
 -- ACBrBoletoW_Banrisul.pas --
 [*] ACBR-9008 - Adicionado a opção de Alterar Data de Vencimento e Alterar Valor do Abatimento
