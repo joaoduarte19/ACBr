@@ -42,6 +42,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+08/04/2026
+-- ISSDigital.Provider --
+[*] ACBR-9053 - Alteração visando assinar o ConsultarSituacao e o ConsultarLote bem como gerar o
+    atributo Id com a chave do DPS ou NFSe.
+    Para usar o ConsultarSituacao:   ACBrNFSeX1.ConsultarSituacao(Protocolo, Chave);
+    Para usar o ConsultarLote:   ACBrNFSeX1.ConsultarLoteRps(Protocolo, Chave);
+   Por: Italo Giurizzato Junior
+
 07/04/2026
 -- ISSBarueri.GravarXml --
 [*] ACBR-9212 - Alteração visando gerar os valores de CPP e de Valor não incluso na Base de Calculo.
