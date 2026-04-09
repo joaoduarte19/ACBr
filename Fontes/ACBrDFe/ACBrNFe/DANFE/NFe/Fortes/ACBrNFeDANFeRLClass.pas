@@ -39,8 +39,13 @@ unit ACBrNFeDANFeRLClass;
 interface
 
 uses
-  SysUtils, Classes, Graphics,
-  ACBrBase, ACBrNFe.Classes, ACBrNFeDANFEClass, pcnConversao;
+  SysUtils, 
+  Classes, 
+  Graphics,
+  ACBrBase, 
+  ACBrNFe.Classes, 
+  ACBrNFeDANFEClass, 
+  pcnConversao;
 
 type
   TNomeFonte = (nfTimesNewRoman, nfCourierNew, nfArial);
@@ -141,13 +146,19 @@ type
 implementation
 
 uses
-  synautil, ACBrNFe,
-  ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.FilesIO,
+  synautil,
+  ACBrNFe,
+  ACBrUtil.Base,
+  ACBrUtil.Strings,
+  ACBrUtil.FilesIO,
   ACBrNFeNotasFiscais,
   ACBrNFe.EnvEvento,
-  ACBrNFeDANFeRL, ACBrNFeDANFeEventoRL,
-  ACBrNFeDANFeRLRetrato, ACBrNFeDANFeRLPaisagem,
-  ACBrNFeDANFeEventoRLRetrato, ACBrNFeDANFeRLSimplificado,
+  ACBrNFeDANFeRL,
+  ACBrNFeDANFeEventoRL,
+  ACBrNFeDANFeRLRetrato,
+  ACBrNFeDANFeRLPaisagem,
+  ACBrNFeDANFeEventoRLRetrato,
+  ACBrNFeDANFeRLSimplificado,
   ACBrNFeDANFeRLEtiqueta,
   ACBrNFeDAInutRLRetrato;
 

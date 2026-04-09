@@ -41,11 +41,21 @@ interface
 uses
   SysUtils, Classes,
   {$IFDEF CLX}
-  QGraphics, QControls, QForms, Qt,
+  QGraphics,
+  QControls,
+  QForms,
+  Qt,
   {$ELSE}
-  Graphics, Controls, Forms,
+  Graphics,
+  Controls,
+  Forms,
   {$ENDIF}
-  RLReport, RLBarcode, ACBrNFeDANFeRL, RLFilters, RLPDFFilter, math;
+  RLReport,
+  RLBarcode,
+  ACBrNFeDANFeRL,
+  RLFilters,
+  RLPDFFilter,
+  math;
 
 type
 
@@ -199,10 +209,17 @@ type
 implementation
 
 uses
-  StrUtils, DateUtils,
-  ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.DateTime,
-  ACBrValidador, ACBrDFeUtil,
-  ACBrDFeReportFortes, ACBrNFe.Classes, pcnConversao, pcnConversaoNFe;
+  StrUtils,
+  DateUtils,
+  ACBrUtil.Base,
+  ACBrUtil.Strings,
+  ACBrUtil.DateTime,
+  ACBrValidador,
+  ACBrDFeUtil,
+  ACBrDFeReportFortes,
+  ACBrNFe.Classes,
+  pcnConversao,
+  pcnConversaoNFe;
 
 {$IfNDef FPC}
   {$R *.dfm}
@@ -630,6 +647,8 @@ end;
 
 procedure TfrlDANFeRLSimplificado.RLBand1BeforePrint(Sender: TObject; var
     PrintIt: Boolean);
+var
+   LTextoObservacao : string;
 begin
   inherited;
   if not fpDANFe.Etiqueta then
@@ -644,7 +663,13 @@ begin
   end;
   rlmDadosAdicionais.Lines.Clear;
   rlmDadosAdicionais.Lines.Add(ACBrStr('Informações Adicionais:'));
-  rlmDadosAdicionais.Lines.Add(fpNFe.infAdic.infCpl);
+
+  LTextoObservacao := Trim(fpNFe.infAdic.infCpl);
+  if LTextoObservacao <> '' then
+  begin
+     LTextoObservacao := StringReplace(LTextoObservacao, fpDANFe.CaractereQuebraDeLinha, sLineBreak, [rfReplaceAll]);
+     rlmDadosAdicionais.Lines.Add(LTextoObservacao);
+  end;
 end;
 
 procedure TfrlDANFeRLSimplificado.RLNFeDataRecord(Sender: TObject; RecNo, CopyNo: Integer; var EOF: Boolean; var RecordAction: TRLRecordAction);

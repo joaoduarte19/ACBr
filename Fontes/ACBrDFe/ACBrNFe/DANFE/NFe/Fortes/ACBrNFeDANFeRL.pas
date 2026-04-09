@@ -41,12 +41,22 @@ interface
 uses
   SysUtils, Classes,
   {$IFDEF CLX}
-  QGraphics, QControls, QForms, Qt,
+  QGraphics,
+  QControls,
+  QForms,
+  Qt,
   {$ELSE}
-  Graphics, Controls, Forms, synautil,
+  Graphics,
+  Controls,
+  Forms,
+  synautil,
   {$ENDIF}
-  ACBrNFeDANFeRLClass, ACBrDFeReportFortes,
-  ACBrNFe.Classes, RLReport, RLPDFFilter, RLFilters;
+  ACBrNFeDANFeRLClass,
+  ACBrDFeReportFortes,
+  ACBrNFe.Classes,
+  RLReport,
+  RLPDFFilter,
+  RLFilters;
 
 type
 
@@ -80,8 +90,11 @@ type
 implementation
 
 uses
-  StrUtils, Math,
-  ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.DateTime;
+  StrUtils,
+  Math,
+  ACBrUtil.Base,
+  ACBrUtil.Strings,
+  ACBrUtil.DateTime;
 
 {$IfNDef FPC}
  {$R *.dfm}
