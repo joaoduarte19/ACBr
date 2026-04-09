@@ -384,21 +384,24 @@ begin
   Result.AppendChild(AddNode(tcDe2, '#1', 'vCalcDR', 1, 15, 0,
                                        NFSe.Servico.Valores.ValorDeducoes, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'tpBM', 1, 1, 0,
+  if NFSe.Servico.Valores.tribMun.tpBM <> tbNenhum then
+  begin
+    Result.AppendChild(AddNode(tcStr, '#1', 'tpBM', 1, 1, 0,
                              tpBMToStr(NFSe.Servico.Valores.tribMun.tpBM), ''));
 
-  case NFSe.Servico.Valores.tribMun.tpBM of
-    tbIsencao:
-      Result.AppendChild(AddNode(tcDe2, '#1', 'vCalcBM', 1, 15, 0, 0, ''));
+    case NFSe.Servico.Valores.tribMun.tpBM of
+      tbIsencao:
+        Result.AppendChild(AddNode(tcDe2, '#1', 'vCalcBM', 1, 15, 0, 0, ''));
 
-    tbReducaoBCvalor:
-      Result.AppendChild(AddNode(tcDe2, '#1', 'vCalcBM', 1, 15, 0,
+      tbReducaoBCvalor:
+        Result.AppendChild(AddNode(tcDe2, '#1', 'vCalcBM', 1, 15, 0,
                                     NFSe.Servico.Valores.tribMun.vRedBCBM, ''));
 
-    tbReducaoBCperc,
-    tbAliquota:
-      Result.AppendChild(AddNode(tcDe2, '#1', 'vCalcBM', 1, 15, 0,
+      tbReducaoBCperc,
+      tbAliquota:
+        Result.AppendChild(AddNode(tcDe2, '#1', 'vCalcBM', 1, 15, 0,
                                     NFSe.Servico.Valores.tribMun.pRedBCBM, ''));
+    end;
   end;
 
   Result.AppendChild(AddNode(tcDe2, '#1', 'vBC', 1, 15, 0,
@@ -1328,7 +1331,7 @@ begin
   Result.AppendChild(AddNode(tcDe2, '#1', 'vReceb', 1, 15, 0,
                                        NFSe.Servico.Valores.ValorRecebido, ''));
 
-  Result.AppendChild(AddNode(tcDe2, '#1', 'vServ', 1, 15, 0,
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vServ', 1, 15, 1,
                                        NFSe.Servico.Valores.ValorServicos, ''));
 end;
 
@@ -1797,7 +1800,7 @@ begin
 
   FDocument.Root := NFSeNode;
 
-  if FormatoDiscriminacao <> fdNenhum then
+  if (FormatoDiscriminacao <> fdNenhum) or (NFSe.Servico.ItemServico.Count > 0) then
     ConsolidarVariosItensServicosEmUmSo;
 
   xmlNode := GerarXMLInfDps;

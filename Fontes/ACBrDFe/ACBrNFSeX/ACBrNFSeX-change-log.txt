@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 09/04/2026
+-- PadraoNacional.GravarXml --
+[*] ACBR-9231 - Imposta uma condição para gerar as tags: tpBM e vCalcBM.
+   Por: Quality Automação
 -- Tiplan.GravarXml --
 [*] ACBR-8789 - Alterado de obrigatório para opcional a geração da tag: SituacaoTributariaPISCOFINS.
    Por: Italo Giurizzato Junior
