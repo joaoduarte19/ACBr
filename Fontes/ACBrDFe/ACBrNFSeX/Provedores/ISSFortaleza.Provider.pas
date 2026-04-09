@@ -411,6 +411,8 @@ begin
 
   Result := inherited TratarXmlRetornado(Result);
 
+  Result := StringReplace(Result, '&amp;lt;', '[', [rfReplaceAll]);
+  Result := StringReplace(Result, '&amp;gt;', ']', [rfReplaceAll]);
   Result := ParseText(Result);
   Result := RemoverDeclaracaoXML(Result);
   Result := RemoverIdentacao(Result);

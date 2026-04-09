@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 09/04/2026
+-- ISSFortaleza.Provider --
+[*] ACBR-9190 - Possível solução para os escape inseridos nos conteúdos das tags.
+   Por: Italo Giurizzato Junior
 -- ISSNet.GravarXml/ISSNet.LerXml/ISSNet.Provider --
 [*] ACBR-9208 - Diversas alterações visando consumir os serviços do novo webservice do provedor
     que vai trabalhar com o layout do Padrão Nacional.
