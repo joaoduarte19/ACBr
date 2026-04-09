@@ -2005,7 +2005,7 @@ begin
   rlb_09_Obs.Height := rlmObs.Height + 20 + 4;
 
   if rllMsgTeste.Visible and (rlb_09_Obs.Height < 68) then
-    rlb_09_Obs.Height := 38;
+    rlb_09_Obs.Height := 68;
 end;
 
 procedure TfrmDACTeRLRetrato.rlb_10_ModRodFracionadoBeforePrint(Sender: TObject;
