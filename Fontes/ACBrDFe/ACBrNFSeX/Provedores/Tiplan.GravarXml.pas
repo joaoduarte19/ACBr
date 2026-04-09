@@ -114,7 +114,7 @@ begin
   if (Result <> nil) and not
      (NFSe.Servico.Valores.tribFed.CST in [cstVazio, cst00, cst08, cst09]) then
   begin
-    Result.AppendChild(AddNode(tcStr, '#', 'SituacaoTributariaPISCOFINS', 2, 2, 1,
+    Result.AppendChild(AddNode(tcStr, '#', 'SituacaoTributariaPISCOFINS', 2, 2, 0,
                                CSTToStr(NFSe.Servico.Valores.tribFed.CST), ''));
 
     Result.AppendChild(AddNode(tcDe2, '#15', 'AliquotaPis', 1, 15, 0,
