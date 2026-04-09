@@ -124,6 +124,8 @@ begin
                   + ACBrTitulo.Carteira
                   + PadLeft(Boleto.Cedente.CodigoCedente, 7, '0')
                   + PadLeft(ACBrTitulo.NossoNumero, TamanhoMaximoNossoNum, '0');
+  if ACBrTitulo.Carteira <> '112' then
+    CodigoBarras := CodigoBarras + CalcularDigitoVerificador(ACBrTitulo);
 
   DigitoCodBarras := CalcularDigitoCodigoBarras(CodigoBarras);
 

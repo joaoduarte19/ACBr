@@ -48,6 +48,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+09/04/2026
+-- ACBrBancoInter.pas --
+[-] Corrigido MontarCodigoBarras devido a divirgencia entre as carteiras 110/112;
+   Por: Daniel de Morais InfoCotidano / Victor H. Gonzales Pandaaaa
+
 08/04/2026
 -- Particularidades --
 [*] Adicionado particularidades C6 responsavel da emissao que impacta na barras e linha digitavel do boleto.
