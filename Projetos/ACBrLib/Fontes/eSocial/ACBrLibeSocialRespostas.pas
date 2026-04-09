@@ -723,7 +723,7 @@ end;
 constructor TConsultaResposta.Create(const ItemID: Integer; const ATipo: TACBrLibRespostaTipo;
   const AFormato: TACBrLibCodificacao);
 begin
-  inherited Create( CSessaoRespConsulta + IntToStrZero(ItemID,1), ATipo, AFormato);
+  inherited Create( CSessaoRespConsulta + IntToStr(ItemID), ATipo, AFormato);
   FItemOcorrenciaConsulta := TObjectList.Create(true);
   FItemTotais := TObjectList.Create(true);
 
