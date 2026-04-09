@@ -582,7 +582,7 @@
 
     <xsd:complexType name="tcIdentificacaoNfse">
         <xsd:sequence>
-            <xsd:element name="Numero" type="tsNumerNfse" minOccurs="1"
+            <xsd:element name="Numero" type="tsNumeroNfse" minOccurs="1"
                          maxOccurs="1"/>
             <xsd:element name="CpfCnpj" type="tcCpfCnpj" minOccurs="1"
                          maxOccurs="1"/>
