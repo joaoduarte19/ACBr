@@ -594,7 +594,7 @@ begin
                 FpAOwner.ConfigGeral.QuebradeLinha, sLineBreak, [rfReplaceAll]);
     NFSe.Servico.CodigoCnae := AINIRec.ReadString(sSecao, 'CodigoCnae', '');
     NFSe.Servico.CodigoAnexoCnae := AINIRec.ReadString(sSecao, 'CodigoAnexoSN', '');
-    NFSe.Servico.CodigoServicoNacional := AINIRec.ReadString(sSecao, 'CodigoCTN', '');
+    NFSe.Servico.CodigoServicoNacional := AINIRec.ReadString(sSecao, 'CodigoCTN', AINIRec.ReadString(sSecao, 'CodigoServicoNacional', ''));
     NFSe.Servico.CodigoNBS := AINIRec.ReadString(sSecao, 'CodigoNBS', '');
     NFSe.Servico.InfAdicional := AINIRec.ReadString(sSecao, 'InfAdicional', '');
 
