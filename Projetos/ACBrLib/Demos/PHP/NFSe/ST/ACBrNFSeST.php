@@ -699,3 +699,16 @@ function ConsultarParametros($ffi, $ATipoParametroMunicipio, $ACodigoServico, $A
 
     return 0;
 }
+
+function SetVersaoDF($ffi, $sVersao)
+{
+    $retorno = $ffi->NFSE_SetVersaoDF($sVersao);
+    $sMensagem = FFI::new("char[535]");
+
+    if ($retorno !== 0) {
+        if (UltimoRetorno($ffi, $retorno, $sMensagem, "Erro ao setar a versão", 1) != 0)
+            return -10;
+    }
+
+    return 0;
+}

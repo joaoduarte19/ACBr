@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+09/04/2026
+-- ACBrNFSeBase.php, ACBrNFSeMT.h, ACBrNFSeMT.php, ACBrNFSeServicosMT.php, ACBrNFSeServicosST.php, ACBrNFSeST.h, ACBrNFSeST.php --
+[+] ACBR-9244 - Adicionada combo VersaoDF no programa de exemplo em PHP para situações especiais em provedores com mais de uma versão ativa
+   Por: Renato Rubinho
+
 06/04/2026
 -- ACBrNFSeBase.php --
 [+] Adicionado lnfsPadraoNacionalv101 para seleção do LayoutNFSe

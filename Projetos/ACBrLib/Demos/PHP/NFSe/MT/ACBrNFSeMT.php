@@ -746,3 +746,16 @@ function ConsultarParametros($handle, $ffi, $ATipoParametroMunicipio, $ACodigoSe
 
     return 0;
 }
+
+function SetVersaoDF($handle, $ffi, $sVersao)
+{
+    $retorno = $ffi->NFSE_SetVersaoDF($handle->cdata, $sVersao);
+    $sMensagem = FFI::new("char[535]");
+
+    if ($retorno !== 0) {
+        if (UltimoRetorno($handle, $ffi, $retorno, $sMensagem, "Erro ao setar a versão", 1) != 0)
+            return -10;
+    }
+
+    return 0;
+}

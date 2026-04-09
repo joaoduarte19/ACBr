@@ -87,3 +87,4 @@ int NFSE_ConsultarDFe(long aNSU, const char* sResposta, long* esTamanho);
 int NFSE_ObterDANFSE(const char* aChaveNFSe, char* sResposta, long* esTamanho);
 int NFSE_ConsultarParametros(long aTipoParametroMunicipio, const char* aCodigoServico, double aCompetencia, const char* aNumeroBeneficio, char* sResposta, long* esTamanho);
 int NFSE_ObterInformacoesProvedor(char* sResposta, long* esTamanho);
+int NFSE_SetVersaoDF(const char* sVersao);

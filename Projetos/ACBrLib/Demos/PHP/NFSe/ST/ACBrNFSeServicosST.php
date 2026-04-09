@@ -316,6 +316,14 @@ try {
         }
     }
 
+    $VersaoDF = $_POST['VersaoDF'];
+    if ($VersaoDF != "") {
+
+        if (SetVersaoDF($ffi, $VersaoDF) != 0) {
+            exit;
+        }
+    }
+
     // Carrega ini ou xml
     function CarregaIniOuXml($ffi, $arquivo)
     {
