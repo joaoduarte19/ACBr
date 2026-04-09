@@ -68,6 +68,7 @@ type
   TNFSeR_ISSNetAPIPropria = class(TNFSeR_PadraoNacional)
   protected
 
+    function NormatizarXml(const aXml: string): string; override;
   public
 
   end;
@@ -76,7 +77,8 @@ implementation
 
 uses
   ACBrXmlBase,
-  ACBrUtil.Strings;
+  ACBrUtil.Strings,
+  ACBrUtil.XMLHTML;
 
 //==============================================================================
 // Essa unit tem por finalidade exclusiva ler o XML do provedor:
@@ -100,6 +102,21 @@ begin
   Result := inherited NormatizarXml(aXml);
 
   Result := RemoverPrefixosDesnecessarios(Result);
+  Result := RemoverCaracteresDesnecessarios(Result);
+end;
+
+{ TNFSeR_ISSNetAPIPropria }
+
+function TNFSeR_ISSNetAPIPropria.NormatizarXml(const aXml: string): string;
+begin
+  Result := inherited NormatizarXml(aXml);
+
+  Result := StringReplace(Result, '<br>', ' ', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, '<br/>', ' ', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, ' & ', ' &amp; ', [rfReplaceAll]);
+
+  Result := RemoverPrefixosDesnecessarios(Result);
+  Result := RemoverDeclaracaoXML(Result);
   Result := RemoverCaracteresDesnecessarios(Result);
 end;
 

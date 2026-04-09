@@ -203,7 +203,9 @@ begin
 
   FpVersao := VersaoNFSeToStr(VersaoNFSe);
 
-  CodigoMun := IntToStr(CodMunEmit);
+  { Nas emissões para o Ambiente de Homologação, gerar a Chave do DPS
+    com o Código do Município de Campo Grande - MS (Nota Control) }
+  CodigoMun := IfThen(FpAOwner.ConfigGeral.Ambiente = taProducao, IntToStr(CodMunEmit), '5002704');
   CNPJ := CNPJEmitente;
 
   if CNPJ = '' then
@@ -216,7 +218,7 @@ begin
 
   NFSe.InfID.ID := 'DPS' + chave;
 
-  NFSeNode := CreateElement('Dps');
+  NFSeNode := CreateElement('DPS');
   NFSeNode.SetAttribute('versao', FpVersao);
   NFSeNode.SetNamespace(FpAOwner.ConfigMsgDados.LoteRps.xmlns, Self.PrefixoPadrao);
 

@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+09/04/2026
+-- ISSNet.GravarXml/ISSNet.LerXml/ISSNet.Provider --
+[*] ACBR-9208 - Diversas alterações visando consumir os serviços do novo webservice do provedor
+    que vai trabalhar com o layout do Padrão Nacional.
+   Por: Jhonlenon Ribeiro/Italo Giurizzato Junior
+
 08/04/2026
 -- ISSDigital.Provider --
 [*] ACBR-9053 - Alteração visando assinar o ConsultarSituacao e o ConsultarLote bem como gerar o
