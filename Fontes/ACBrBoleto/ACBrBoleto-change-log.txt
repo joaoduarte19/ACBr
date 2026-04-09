@@ -51,6 +51,7 @@ Símbolo : Significado
 09/04/2026
 -- ACBrBancoInter.pas --
 [-] Corrigido MontarCodigoBarras devido a divirgencia entre as carteiras 110/112;
+   [ACBr-ACBR-9236] - https://www.projetoacbr.com.br/forum/topic/91415-boleto-inter-linha-digit%C3%A1vel
    Por: Daniel de Morais InfoCotidano / Victor H. Gonzales Pandaaaa
 
 08/04/2026
