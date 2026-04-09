@@ -4919,7 +4919,7 @@ O identificador do pedido de registro do evento √© formado conforme a concatena√
       <xsd:element name="ListaDps" minOccurs="1" maxOccurs="1">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="Dps" type="TCDPS" minOccurs="1" maxOccurs="unbounded" />
+            <xsd:element name="DPS" type="TCDPS" minOccurs="1" maxOccurs="unbounded" />
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
@@ -5167,7 +5167,7 @@ O identificador do pedido de registro do evento √© formado conforme a concatena√
   <xsd:element name="GerarNfseEnvio">
     <xsd:complexType>
       <xsd:sequence>
-        <xsd:element name="Dps" type="TCDPS" minOccurs="1" maxOccurs="1" />      
+        <xsd:element name="DPS" type="TCDPS" minOccurs="1" maxOccurs="1" />      
       </xsd:sequence>
     </xsd:complexType>
   </xsd:element>
