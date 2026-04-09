@@ -7,6 +7,7 @@
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
 { - Elias César Vieira                                                         }
+{ - Newton Michel de OLiveira                                                  }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -75,6 +76,7 @@ type
     procedure QuandoPerguntarCampoAPI(aMensagem, aMascara: String; aTipo: TACBrTEFDestaxaColetaTipo; var Resposta: String; var Cancelar: Boolean);
 
     function ExibirMenuAdministrativo: Boolean;
+	function IncluirOpcoesAdicionaisNoMenuAdministrativo(aOpcoes:string):string;
   protected
     procedure InterpretarRespostaAPI; override;
     procedure InicializarChamadaAPI(aMetodoOperacao: TACBrTEFAPIMetodo); override;
@@ -405,7 +407,7 @@ begin
      (DestaxaClient.Resposta.retorno = drsErroDesconhecido) or
      EstaVazio(DestaxaClient.Resposta.transacao) then
     Exit;
-
+  DestaxaClient.Resposta.transacao := IncluirOpcoesAdicionaisNoMenuAdministrativo(DestaxaClient.Resposta.transacao);
   sr := Split(';', DestaxaClient.Resposta.transacao);
 
   QuandoPerguntarMenuAPI(CDESTAXA_MENU_ADMIN, sr, wOpcao, Cancelar);
@@ -416,7 +418,19 @@ begin
     Result := DestaxaClient.ExecutarTransacao(sr[wOpcao]);
   end;
 end;
+function TACBrTEFAPIClassDestaxa.IncluirOpcoesAdicionaisNoMenuAdministrativo(aOpcoes:string):string;
+begin
+  if aOpcoes <> EmptyStr then
+     aOpcoes := aOpcoes + ';';
 
+  //destaxa opcoes extras
+  result := aOpcoes;
+  result := result + ACBrTEFDestaxaComum.CDESTAXA_ADM_COLETACPF;
+  result := result + ';';
+  result := result + ACBrTEFDestaxaComum.CDESTAXA_ADM_EXTRATOPORPERIODO;
+  result := result + ';';
+  result := result + ACBrTEFDestaxaComum.CDESTAXA_ADM_CONSULTASALDOCARTAO;
+end;
 procedure TACBrTEFAPIClassDestaxa.InterpretarRespostaAPI;
 var
   resp: String;

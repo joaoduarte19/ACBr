@@ -7,6 +7,7 @@
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
 { - Elias César Vieira                                                         }
+{ - Newton Michel de OLiveira                                                  }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -69,6 +70,8 @@ const
   CDESTAXA_ADM_REIMPRIMIR = 'Administracao Reimprimir';
   CDESTAXA_ADM_CONSULTAR_ENDERECO = 'Cartao Consultar Endereco';
   CDESTAXA_ADM_CONSULTAR_FINANCIADO = 'Cartao Consultar Financiado';
+  CDESTAXA_ADM_CONSULTA_SALDO_CARTAO = 'Cartao Consultar Saldo';
+  CDESTAXA_ADM_PERIODO_EXTRATO = 'Periodo do Extrato';
 
   CDESTAXA_ADM_PRIMEIRA = 'Primeira';
   CDESTAXA_ADM_ANTERIOR = 'Anterior';
@@ -82,8 +85,12 @@ const
   CDESTAXA_MASCARA_VALIDADE = 'MM/yy';
   CDESTAXA_MASCARA_DATA1 = 'dd/MM/yy';
   CDESTAXA_MASCARA_DATA2 = 'dd/MM/yyyy';
+  CDESTAXA_MASCARA_PERIODO = 'dd/MM/yyyy HH:mm;dd/MM/yyyy HH:mm';
   CDESTAXA_MASCARA_DECIMAL = '.##';
 
+  CDESTAXA_ADM_COLETACPF = 'Coleta CPF';
+  CDESTAXA_ADM_EXTRATOPORPERIODO = 'Extrato por Periodo';
+  CDESTAXA_ADM_CONSULTASALDOCARTAO = 'Consulta do Saldo do Cartao';
   CDESTAXA_MENU_ADMIN = 'Menu Administrativo';
 
 type
@@ -137,7 +144,8 @@ type
     dctAlfabetico,
     dctDataHora,
     dctNumerico,
-    dctAlfanumerico
+    dctAlfanumerico,
+	dctPeriodo
   );
 
   TACBrTEFDestaxaBinarioTipo = (
@@ -339,6 +347,9 @@ type
     ftransacao_valor_maximo: Double;
     ftransacao_valor_minimo: Double;
     ftransacao_vendedor: String;
+  	fTransacao_periodo:string;
+    fTransacao_tipo_extrato:string;
+    fTransacao_coleta_pinpad_formato:string;
     procedure Setaplicacao_tela(aValue: String);
   protected
     procedure PreencherCampos(const aStrList: TStringList); override;
@@ -367,6 +378,10 @@ type
     property transacao_valor_minimo: Double read ftransacao_valor_minimo write ftransacao_valor_minimo;
     property transacao_valor_maximo: Double read ftransacao_valor_maximo write ftransacao_valor_maximo;
     property transacao_vendedor: String read ftransacao_vendedor write ftransacao_vendedor;
+    property transacao_periodo:String read fTransacao_periodo write fTransacao_periodo;
+    property transacao_tipo_extrato:string read fTransacao_tipo_extrato write fTransacao_tipo_extrato;
+    property transacao_coleta_pinpad_formato:string read fTransacao_coleta_pinpad_formato write fTransacao_coleta_pinpad_formato;
+ 
   end;
 
   { TACBrTEFDestaxaTransacaoResposta }
@@ -545,6 +560,7 @@ type
     procedure AutomacaoExibirQRCode;
     procedure AutomacaoColetarOpcao;
     procedure AutomacaoColetarInformacao;
+    function AutomacaoColetarInformacaoExtrato:string;
     procedure AutomacaoExibirMensagem(MilissegundosExibicao: Integer = 0);
 
     procedure ProcessarColeta;
@@ -1220,6 +1236,10 @@ begin
   PreencherCampo(aStrList, 'transacao_valor_maximo', ftransacao_valor_maximo);
   PreencherCampo(aStrList, 'transacao_valor_minimo', ftransacao_valor_minimo);
   PreencherCampo(aStrList, 'retorno', DestaxaRetornoRequisicaoToInteger(fretorno));
+  PreencherCampo(aStrList, 'transacao_data', fTransacao_periodo);
+  PreencherCampo(aStrList, 'tipo_extrato', fTransacao_tipo_extrato);
+  PreencherCampo(aStrList, 'coleta_pinpad_formato', fTransacao_coleta_pinpad_formato);
+
 end;
 
 procedure TACBrTEFDestaxaTransacaoRequisicao.Clear;
@@ -1247,6 +1267,9 @@ begin
   ftransacao_valor_maximo := -1;
   ftransacao_vendedor := EmptyStr;
   fretorno := drqNenhum;
+	fTransacao_periodo := EmptyStr;
+  fTransacao_tipo_extrato := EmptyStr;
+  fTransacao_coleta_pinpad_formato := EmptyStr
 end;
 
 { TACBrTEFDestaxaSocket }
@@ -1520,13 +1543,44 @@ begin
 end;
 
 function TACBrTEFDestaxaSocket.Executar(aTransacao: String): Boolean;
+var
+  ResultPeriodo:string;
 begin
   Result := False;
   if EstaVazio(aTransacao) then
     Exit;
 
-  Requisicao.servico := dxsExecutar;
-  Requisicao.transacao := aTransacao;
+  //destaxa opcoes extras
+  if aTransacao = CDESTAXA_ADM_COLETACPF then
+  begin
+    Requisicao.servico := dxsColetar;
+    //Requisicao.transacao_coleta_pinpad_formato := '1';
+    Requisicao.mensagem := '7';
+  end
+  else if aTransacao = CDESTAXA_ADM_EXTRATOPORPERIODO then
+  begin
+    Requisicao.servico := dxsExecutar;
+    Requisicao.transacao := CDESTAXA_ADM_EXTRATO_TRANSACAO;
+    Requisicao.transacao_tipo_extrato := 'Periodo';
+    ResultPeriodo := Self.fDestaxaClient.AutomacaoColetarInformacaoExtrato;
+
+    if Pos('"',ResultPeriodo) > 0 then
+       ResultPeriodo := StringReplace(ResultPeriodo,'"','',[rfReplaceAll]);
+
+    ResultPeriodo := StringReplace(ResultPeriodo,';','";"',[rfReplaceAll]);
+    Requisicao.transacao_periodo := ResultPeriodo;
+  end
+  else if aTransacao = CDESTAXA_ADM_CONSULTASALDOCARTAO then
+  begin
+    Requisicao.servico := dxsExecutar;
+    Requisicao.transacao := CDESTAXA_ADM_CONSULTA_SALDO_CARTAO;
+  end
+  else
+  begin
+    Requisicao.servico := dxsExecutar;
+    Requisicao.transacao := aTransacao;
+  end;
+
   ExecutarTransacao;
   Result := True;
 end;
@@ -1673,7 +1727,30 @@ begin
     ColetaRequisicao.automacao_coleta_retorno := dcrExecutarProcedimento;
   end;
 end;
+function TACBrTEFDestaxaClient.AutomacaoColetarInformacaoExtrato:string;
+var
+  wResposta: String;
+  wCancelar: Boolean;
+begin
+  ColetaResposta.automacao_coleta_mascara := CDESTAXA_MASCARA_PERIODO;
+  ColetaResposta.automacao_coleta_mensagem := CDESTAXA_ADM_PERIODO_EXTRATO;
 
+  wCancelar := False;
+  wResposta := EmptyStr;
+  if Assigned(fOnColetarInformacao) then
+    fOnColetarInformacao(
+      'Informe o periodo '#13+'('+CDESTAXA_MASCARA_PERIODO+')',
+      ColetaResposta.automacao_coleta_mascara,
+      ColetaResposta.automacao_coleta_tipo, wResposta, wCancelar);
+
+  if wCancelar then
+  begin
+    ColetaRequisicao.automacao_coleta_retorno := dcrCancelarProcedimento;
+    result := '';
+  end
+  else
+    result := wResposta;
+end;
 procedure TACBrTEFDestaxaClient.AutomacaoColetarInformacao;
 var
   wResposta: String;
@@ -1682,6 +1759,11 @@ begin
   if (ColetaResposta.automacao_coleta_tipo = dctNenhum) then
     Exit;
 
+  if (ColetaResposta.automacao_coleta_tipo = dctPeriodo) then
+  begin
+    ColetaResposta.automacao_coleta_mascara := CDESTAXA_MASCARA_PERIODO;
+    ColetaResposta.automacao_coleta_mensagem := CDESTAXA_ADM_PERIODO_EXTRATO;
+  end;
   wCancelar := False;
   wResposta := EmptyStr;
   if Assigned(fOnColetarInformacao) then
@@ -1725,12 +1807,14 @@ begin
   while (ColetaResposta.automacao_coleta_retorno in [dcrExecutarProcedimento, dcrErroParametrosInvalidos]) do
   begin
     ColetaRequisicao.Clear;
+    if Requisicao.transacao = CDESTAXA_ADM_EXTRATO_TRANSACAO then
+      ColetaResposta.automacao_coleta_tipo := TACBrTEFDestaxaColetaTipo.dctPeriodo;
 
     if (Pos(CDESTAXA_STR_QRCODE, ColetaResposta.automacao_coleta_mensagem) > 0) then
       AutomacaoExibirQRCode
     else if NaoEstaVazio(ColetaResposta.automacao_coleta_opcao) then
       AutomacaoColetarOpcao
-    else if (ColetaResposta.automacao_coleta_tipo <> dctNenhum) then
+    else if ((ColetaResposta.automacao_coleta_tipo <> dctNenhum) and (ColetaResposta.automacao_coleta_tipo <> dctPeriodo)) then
       AutomacaoColetarInformacao
     else if NaoEstaVazio(ColetaResposta.automacao_coleta_mensagem) and fExibirMensagem then
       AutomacaoExibirMensagem(-1);
@@ -1754,7 +1838,7 @@ begin
   begin
     if Assigned(fOnExibirMensagem) and fExibirMensagem and NaoEstaVazio(ColetaResposta.automacao_coleta_mensagem) then
       fOnExibirMensagem(ColetaResposta.automacao_coleta_mensagem, 0, Cancelar);
-                                    
+
     if (ColetaResposta.automacao_coleta_retorno = dcrCancelarProcedimento) then
       Aguardar := False;
 
