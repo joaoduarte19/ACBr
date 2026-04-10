@@ -54,6 +54,22 @@ uses
 type
   EventoException = class(Exception);
 
+  Tpgto = class
+  private
+    FtpMeioPgto: string;
+    FCNPJReceb: string;
+    FCNPJBasePSP: string;
+    FnPag: Integer;
+    FidTransacao: string;
+  public
+
+    property tpMeioPgto: string read FtpMeioPgto write FtpMeioPgto;
+    property CNPJReceb: string read FCNPJReceb write FCNPJReceb;
+    property CNPJBasePSP: string read FCNPJBasePSP write FCNPJBasePSP;
+    property nPag: Integer read FnPag write FnPag;
+    property idTransacao: string read FidTransacao write FidTransacao;
+  end;
+
   TDetEvento = class
   private
     FVersao: string;
@@ -66,7 +82,13 @@ type
 
     FidPedidoCancelado: string;
     FIBSCBS: TIBSCBS;
+    FvTotDFe: Currency;
+    Fpgto: Tpgto;
+    FnProtVincPgto: string;
   public
+    constructor Create;
+    destructor Destroy; override;
+
     property versao: string     read FVersao     write FVersao;
     property descEvento: string read FDescEvento write FDescEvento;
     property nProt: string      read FnProt      write FnProt;
@@ -74,10 +96,13 @@ type
     property poltrona: Integer  read Fpoltrona   write Fpoltrona;
     property qBagagem: Integer  read FqBagagem   write FqBagagem;
     property vTotBag: Currency  read FvTotBag    write FvTotBag;
+    property nProtVincPgto: string read FnProtVincPgto write FnProtVincPgto;
 
     property idPedidoCancelado: string read FidPedidoCancelado write FidPedidoCancelado;
     // Reforma Tributária
     property IBSCBS: TIBSCBS read FIBSCBS write FIBSCBS;
+    property vTotDFe: Currency  read FvTotDFe    write FvTotDFe;
+    property pgto: Tpgto read Fpgto write Fpgto;
   end;
 
   TInfEvento = class
@@ -191,6 +216,8 @@ begin
     teNaoEmbarque:       Result := 'Nao Embarque';
     teAlteracaoPoltrona: Result := 'Alteracao Poltrona';
     teExcessoBagagem:    Result := 'Excesso Bagagem';
+    teVinculoPgto:       Result := 'Vinculacao do Pagamento';
+    teCancVinculoPgto:   Result := 'Cancelamento da vinculacao do pagamento';
   else
     Result := '';
   end;
@@ -213,9 +240,29 @@ begin
     teNaoEmbarque:       Result := 'NAO EMBARQUE';
     teAlteracaoPoltrona: Result := 'ALTERACAO DE POLTRONA';
     teExcessoBagagem:    Result := 'EXCESSO BAGAGEM';
+    teVinculoPgto:       Result := 'VINCULACAO DE PAGAMENTO';
+    teCancVinculoPgto:   Result := 'CANCELAMENTO DA VINCULACAO DO PAGAMENTO';
   else
     Result := 'Não Definido';
   end;
+end;
+
+{ TDetEvento }
+
+constructor TDetEvento.Create;
+begin
+  inherited Create;
+
+  FIBSCBS := TIBSCBS.Create;
+  Fpgto := Tpgto.Create;
+end;
+
+destructor TDetEvento.Destroy;
+begin
+  FIBSCBS.Free;
+  Fpgto.Free;
+
+  inherited;
 end;
 
 end.

@@ -49,6 +49,7 @@ uses
   pcnConversao,
   pcnSignature,
 //  ACBrDFeComum.SignatureClass,
+  ACBrXmlDocument,
   ACBrBPeEventoClass;
 
 type
@@ -60,13 +61,35 @@ type
 
     FXML: string;
     FXmlRetorno: string;
+    FInfEvento: TInfEvento;
+    FidLote: Int64;
+    FtpAmb: TpcnTipoAmbiente;
+    FverAplic: string;
+    FcOrgao: Integer;
+    FcStat: Integer;
+    FxMotivo: string;
+
+  protected
+    procedure Ler_InfEvento(const ANode: TACBrXmlNode);
+    procedure Ler_DetEvento(const ANode: TACBrXmlNode);
+    procedure Ler_Pagamento(const ANode: TACBrXmlNode);
+    procedure Ler_RetEvento(const ANode: TACBrXmlNode);
+    procedure Ler_RetInfEvento(const ANode: TACBrXmlNode);
   public
     constructor Create;
     destructor Destroy; override;
 
     function LerXml: Boolean;
 
+    property idLote: Int64 read FidLote write FidLote;
     property versao: string read Fversao write Fversao;
+    property tpAmb: TpcnTipoAmbiente read FtpAmb write FtpAmb;
+    property verAplic: string read FverAplic write FverAplic;
+    property cOrgao: Integer read FcOrgao write FcOrgao;
+    property cStat: Integer read FcStat write FcStat;
+    property xMotivo: string read FxMotivo write FxMotivo;
+
+    property InfEvento: TInfEvento read FInfEvento write FInfEvento;
     property retInfEvento: TRetInfEvento read FretInfEvento write FretInfEvento;
     property signature: Tsignature read Fsignature write Fsignature;
 
@@ -79,7 +102,6 @@ implementation
 uses
   ACBrBPeConversao,
   ACBrUtil.Strings,
-  ACBrXmlDocument,
   ACBrXmlReader;
 
 { TRetEventoBPe }
@@ -90,12 +112,14 @@ begin
 
   Fsignature := Tsignature.Create;
   FretInfEvento := TRetInfEvento.Create;
+  FInfEvento := TInfEvento.Create;
 end;
 
 destructor TRetEventoBPe.Destroy;
 begin
   Fsignature.Free;
   FretInfEvento.Free;
+  FInfEvento.Free;
 
   inherited;
 end;
@@ -110,49 +134,38 @@ begin
 
   try
     try
+      Result := False;
+      if XmlRetorno = '' then Exit;
+
       Document.LoadFromXml(XmlRetorno);
 
       ANode := Document.Root;
 
       if ANode <> nil then
       begin
-        versao := ObterConteudoTag(ANode.Attributes.Items['versao']);
-
-        ANodeAux := ANode.Childrens.FindAnyNs('infEvento');
-
-        if ANodeAux <> nil then
+        if (ANode.LocalName = 'procEventoBPe') or (ANode.LocalName = 'envEvento') then
         begin
-          retInfEvento.Id := ObterConteudoTag(ANodeAux.Attributes.Items['Id']);
-          retInfEvento.tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('tpAmb'), tcStr));
-          retInfEvento.verAplic := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('verAplic'), tcStr);
-          retInfEvento.cOrgao := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('cOrgao'), tcInt);
-          retInfEvento.cStat := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('cStat'), tcInt);
-          retInfEvento.xMotivo := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('xMotivo'), tcStr);
-          retInfEvento.chBPe := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('chBPe'), tcStr);
-          retInfEvento.tpEvento := StrToTpEventoBPe(ok, ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('tpEvento'), tcStr));
-          retInfEvento.xEvento := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('xEvento'), tcStr);
-          retInfEvento.nSeqEvento := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('nSeqEvento'), tcInt);
-          retInfEvento.dhRegEvento := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('dhRegEvento'), tcDatHor);
-          retInfEvento.nProt := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('nProt'), tcStr);
+          versao := ObterConteudoTag(ANode.Attributes.Items['versao']);
+
+          Ler_InfEvento(ANode.Childrens.FindAnyNs('evento').Childrens.FindAnyNs('infEvento'));
+          Ler_RetEvento(ANode);
         end;
 
-        SignatureNode := ANode.Childrens.FindAnyNs('Signature');
-
-        LerSignature(SignatureNode, signature);
-        {
-        if SignatureNode <> nil then
+        if (ANode.LocalName = 'BPeDFe') then
         begin
-          ReferenceNode := SignatureNode.Childrens.FindAnyNs('SignedInfo')
-                                        .Childrens.FindAnyNs('Reference');
-          X509DataNode :=  SignatureNode.Childrens.FindAnyNs('KeyInfo')
-                                        .Childrens.FindAnyNs('X509Data');
+          versao := ObterConteudoTag(ANode.Childrens.FindAnyNs('procEventoBPe').Childrens.FindAnyNs('procEventoBPe').Attributes.Items['versao']);
 
-          signature.URI := ObterConteudoTag(ReferenceNode.Attributes.Items['URI']);
-          signature.DigestValue := ObterConteudoTag(ReferenceNode.Childrens.FindAnyNs('DigestValue'), tcStr);
-          signature.SignatureValue := ObterConteudoTag(SignatureNode.Childrens.FindAnyNs('SignatureValue'), tcStr);
-          signature.X509Certificate := ObterConteudoTag(X509DataNode.Childrens.FindAnyNs('X509Certificate'), tcStr);
+          Ler_InfEvento(ANode.Childrens.FindAnyNs('procEventoBPe').Childrens.FindAnyNs('procEventoBPe').Childrens.FindAnyNs('evento').Childrens.FindAnyNs('infEvento'));
+          Ler_RetEvento(ANode);
         end;
-        }
+
+        if ANode.LocalName = 'retEnvEvento' then
+          Ler_RetEvento(ANode);
+
+        if ANode.LocalName = 'evento' then
+          Ler_InfEvento(ANode.Childrens.FindAnyNs('infEvento'));
+
+        LerSignature(ANode.Childrens.Find('Signature'), signature);
       end;
 
       Result := True;
@@ -162,6 +175,103 @@ begin
   finally
     FreeAndNil(Document);
   end;
+end;
+
+procedure TRetEventoBPe.Ler_InfEvento(const ANode: TACBrXmlNode);
+var
+  ok: Boolean;
+begin
+  if not Assigned(ANode) then Exit;
+
+  infEvento.Id := ObterConteudoTag(ANode.Attributes.Items['Id']);
+  infEvento.cOrgao := ObterConteudoTag(ANode.Childrens.FindAnyNs('cOrgao'), tcInt);
+  infEvento.tpAmb := StrToTpAmb(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
+  infEvento.CNPJ := ObterConteudoTagCNPJCPF(ANode);
+  infEvento.chBPe := ObterConteudoTag(ANode.Childrens.FindAnyNs('chBPe'), tcStr);
+  infEvento.dhEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhEvento'), tcDatHor);
+  infEvento.tpEvento := StrToTpEventoBPe(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpEvento'), tcStr));
+  infEvento.nSeqEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('nSeqEvento'), tcInt);
+//  infEvento.VersaoEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('verEvento'), tcStr);
+
+  Ler_DetEvento(ANode.Childrens.FindAnyNs('detEvento'));
+end;
+
+procedure TRetEventoBPe.Ler_DetEvento(const ANode: TACBrXmlNode);
+var
+  ok: Boolean;
+  i: Integer;
+  ANodes: TACBrXmlNodeArray;
+  aValor: string;
+begin
+  if not Assigned(ANode) then Exit;
+
+  infEvento.DetEvento.descEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('descEvento'), tcStr);
+  infEvento.DetEvento.nProt := ObterConteudoTag(ANode.Childrens.FindAnyNs('nProt'), tcStr);
+  infEvento.DetEvento.xJust := ObterConteudoTag(ANode.Childrens.FindAnyNs('xJust'), tcStr);
+
+  // teAlteracaoPoltrona
+  InfEvento.detEvento.poltrona := ObterConteudoTag(ANode.Childrens.FindAnyNs('poltrona'), tcInt);
+
+  // teExcessoBagagem
+  infEvento.detEvento.qBagagem := ObterConteudoTag(ANode.Childrens.FindAnyNs('qBagagem'), tcInt);
+  infEvento.detEvento.vTotBag := ObterConteudoTag(ANode.Childrens.FindAnyNs('vTotBag'), tcDe2);
+  infEvento.detEvento.vTotDFe := ObterConteudoTag(ANode.Childrens.FindAnyNs('vTotDFe'), tcDe2);
+
+  Ler_Pagamento(ANode.Childrens.FindAnyNs('pgto'));
+end;
+
+procedure TRetEventoBPe.Ler_Pagamento(const ANode: TACBrXmlNode);
+begin
+  if not Assigned(ANode) then Exit;
+
+  // teVinculoPgto
+  infEvento.detEvento.pgto.nPag := ObterConteudoTag(ANode.Childrens.FindAnyNs('nPag'), tcInt);
+  infEvento.detEvento.pgto.idTransacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('idTransacao'), tcStr);
+  infEvento.detEvento.pgto.tpMeioPgto := ObterConteudoTag(ANode.Childrens.FindAnyNs('tpMeioPgto'), tcStr);
+  infEvento.detEvento.pgto.CNPJReceb := ObterConteudoTag(ANode.Childrens.FindAnyNs('CNPJReceb'), tcStr);
+  infEvento.detEvento.pgto.CNPJBasePSP := ObterConteudoTag(ANode.Childrens.FindAnyNs('CNPJBasePSP'), tcStr);
+end;
+
+procedure TRetEventoBPe.Ler_RetEvento(const ANode: TACBrXmlNode);
+var
+  ok: Boolean;
+  aValor: string;
+begin
+  if not Assigned(ANode) then Exit;
+
+  versao := ObterConteudoTag(ANode.Attributes.Items['versao']);
+  idLote := ObterConteudoTag(ANode.Childrens.FindAnyNs('idLote'), tcInt64);
+
+  aValor := ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr);
+  if aValor <> '' then
+    tpAmb := StrToTpAmb(ok, aValor);
+
+  verAplic := ObterConteudoTag(ANode.Childrens.FindAnyNs('verAplic'), tcStr);
+  cOrgao := ObterConteudoTag(ANode.Childrens.FindAnyNs('cOrgao'), tcInt);
+  cStat := ObterConteudoTag(ANode.Childrens.FindAnyNs('cStat'), tcInt);
+  xMotivo := ObterConteudoTag(ANode.Childrens.FindAnyNs('xMotivo'), tcStr);
+
+  Ler_RetInfEvento(ANode.Childrens.FindAnyNs('retEvento').Childrens.FindAnyNs('infEvento'));
+end;
+
+procedure TRetEventoBPe.Ler_RetInfEvento(const ANode: TACBrXmlNode);
+var
+  ok: Boolean;
+begin
+  if not Assigned(ANode) then Exit;
+
+  retInfEvento.Id := ObterConteudoTag(ANode.Attributes.Items['Id']);
+  retInfEvento.tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
+  retInfEvento.verAplic := ObterConteudoTag(ANode.Childrens.FindAnyNs('verAplic'), tcStr);
+  retInfEvento.cOrgao := ObterConteudoTag(ANode.Childrens.FindAnyNs('cOrgao'), tcInt);
+  retInfEvento.cStat := ObterConteudoTag(ANode.Childrens.FindAnyNs('cStat'), tcInt);
+  retInfEvento.xMotivo := ObterConteudoTag(ANode.Childrens.FindAnyNs('xMotivo'), tcStr);
+  retInfEvento.chBPe := ObterConteudoTag(ANode.Childrens.FindAnyNs('chBPe'), tcStr);
+  retInfEvento.tpEvento := StrToTpEventoBPe(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpEvento'), tcStr));
+  retInfEvento.xEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('xEvento'), tcStr);
+  retInfEvento.nSeqEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('nSeqEvento'), tcInt);
+  retInfEvento.dhRegEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhRegEvento'), tcDatHor);
+  retInfEvento.nProt := ObterConteudoTag(ANode.Childrens.FindAnyNs('nProt'), tcStr);
 end;
 
 end.

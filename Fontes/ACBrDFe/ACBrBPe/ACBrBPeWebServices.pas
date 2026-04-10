@@ -1448,14 +1448,27 @@ begin
           teNaoEmbarque: SchemaEventoBPe := schevNaoEmbBPe;
           teAlteracaoPoltrona: SchemaEventoBPe := schevAlteracaoPoltrona;
           teExcessoBagagem: SchemaEventoBPe := schevExcessoBagagem;
+          teVinculoPgto: SchemaEventoBPe := schevVincPgto;
+          teCancVinculoPgto: SchemaEventoBPe := schevCancVincPgto;
         end;
 
         infEvento.detEvento.nProt    := FEvento.Evento[I].infEvento.detEvento.nProt;
         infEvento.detEvento.xJust    := FEvento.Evento[I].infEvento.detEvento.xJust;
+        // teAlteracaoPoltrona
         infEvento.detEvento.poltrona := FEvento.Evento[I].infEvento.detEvento.poltrona;
+        // teExcessoBagagem
         infEvento.detEvento.qBagagem := FEvento.Evento[I].infEvento.detEvento.qBagagem;
         infEvento.detEvento.vTotBag  := FEvento.Evento[I].infEvento.detEvento.vTotBag;
-      end;
+        infEvento.detEvento.vTotDFe  := FEvento.Evento[I].infEvento.detEvento.vTotDFe;
+        // teVinculoPgto
+        infEvento.detEvento.pgto.nPag := FEvento.Evento[I].infEvento.detEvento.pgto.nPag;
+        infEvento.detEvento.pgto.idTransacao := FEvento.Evento[I].infEvento.detEvento.pgto.idTransacao;
+        infEvento.detEvento.pgto.tpMeioPgto := FEvento.Evento[I].infEvento.detEvento.pgto.tpMeioPgto;
+        infEvento.detEvento.pgto.CNPJReceb := FEvento.Evento[I].infEvento.detEvento.pgto.CNPJReceb;
+        infEvento.detEvento.pgto.CNPJBasePSP := FEvento.Evento[I].infEvento.detEvento.pgto.CNPJBasePSP;
+        // teCancVinculoPgto
+        infEvento.detEvento.nProtVincPgto := FEvento.Evento[I].infEvento.detEvento.nProtVincPgto;
+       end;
     end;
     {*)}
 
@@ -1513,6 +1526,20 @@ begin
           AXMLEvento := '<evExcessoBagagem xmlns="' + ACBRBPE_NAMESPACE + '">' +
                           Trim(RetornarConteudoEntre(AXMLEvento, '<evExcessoBagagem>', '</evExcessoBagagem>')) +
                         '</evExcessoBagagem>';
+        end;
+
+      schevVincPgto:
+        begin
+          AXMLEvento := '<evVincPgto xmlns="' + ACBRBPE_NAMESPACE + '">' +
+                          Trim(RetornarConteudoEntre(AXMLEvento, '<evVincPgto>', '</evVincPgto>')) +
+                        '</evVincPgto>';
+        end;
+
+      schevCancVincPgto:
+        begin
+          AXMLEvento := '<evCancVincPgto xmlns="' + ACBRBPE_NAMESPACE + '">' +
+                          Trim(RetornarConteudoEntre(AXMLEvento, '<evCancVincPgto>', '</evCancVincPgto>')) +
+                        '</evCancVincPgto>';
         end;
     else
       AXMLEvento := '';

@@ -52,6 +52,7 @@ type
     FBPe: TBPe;
 
     procedure Gerar_Identificacao(AINIRec: TMemIniFile; Ide: TIde);
+    procedure Gerar_refDFe(AINIRec: TMemIniFile; refDFe: TrefDFeCollection);
     procedure Gerar_Emitente(AINIRec: TMemIniFile; Emit: TEmit);
     procedure Gerar_Comprador(AINIRec: TMemIniFile; Comp: TComp);
     procedure Gerar_Agencia(AINIRec: TMemIniFile; Agencia: TAgencia);
@@ -65,6 +66,7 @@ type
     procedure Gerar_ICMS(AINIRec: TMemIniFile; ICMS: TICMS);
     procedure Gerar_ICMSUFFim(AINIRec: TMemIniFile; ICMSUFFim: TICMSUFFim);
     procedure Gerar_Pagamentos(AINIRec: TMemIniFile; Pag: TpagCollection);
+    procedure Gerar_PagamentosVinculados(AINIRec: TMemIniFile; pgto: TpgtoCollection);
     procedure Gerar_AutorizadosXml(AINIRec: TMemIniFile; autXML: TautXMLCollection);
     procedure Gerar_InfAdic(AINIRec: TMemIniFile; InfAdic: TInfAdic);
     procedure Gerar_InfRespTec(AINIRec: TMemIniFile; infRespTec: TinfRespTec);
@@ -160,6 +162,7 @@ begin
       Gerar_Componentes(INIRec, FBPe.infValorBPe.Comp);
       Gerar_Impostos(INIRec, FBPe.Imp);
       Gerar_Pagamentos(INIRec, FBPe.pag);
+      Gerar_PagamentosVinculados(INIRec, FBPe.pgtoVinc.pgto);
       Gerar_AutorizadosXml(INIRec, FBPe.autXML);
       Gerar_InfAdic(INIRec, FBPe.InfAdic);
       Gerar_InfRespTec(INIRec, FBPe.infRespTec);
@@ -215,6 +218,23 @@ begin
   begin
     AINIRec.WriteString('ide', 'tpEnteGov', tpEnteGovToStr(Ide.gCompraGov.tpEnteGov));
     AINIRec.WriteFloat('ide', 'pRedutor', Ide.gCompraGov.pRedutor);
+    AINIRec.WriteString('ide', 'tpOperGov', tpOperGovToStr(Ide.gCompraGov.tpOperGov));
+
+    Gerar_refDFe(AINIRec, Ide.gCompraGov.refDFe);
+  end;
+end;
+
+procedure TBPeIniWriter.Gerar_refDFe(AINIRec: TMemIniFile;
+  refDFe: TrefDFeCollection);
+var
+  i: Integer;
+  sSecao: string;
+begin
+  for i := 0 to refDFe.Count - 1 do
+  begin
+    sSecao := 'refDFe' + IntToStrZero(i + 1, 3);
+
+    AINIRec.WriteString(sSecao, 'refDFeAnt', refDFe[i].refDFeAnt);
   end;
 end;
 
@@ -467,6 +487,26 @@ begin
     AINIRec.WriteString(sSecao, 'nsuHost', pag[I].nsuHost);
     AINIRec.WriteInteger(sSecao, 'nParcelas', pag[I].nParcelas);
     AINIRec.WriteString(sSecao, 'infAdCard', pag[I].infAdCard);
+  end;
+end;
+
+procedure TBPeIniWriter.Gerar_PagamentosVinculados(AINIRec: TMemIniFile;
+  pgto: TpgtoCollection);
+var
+  i: integer;
+  sSecao: string;
+begin
+  // Pagamentos Vinculados
+
+  for i := 0 to pgto.Count - 1 do
+  begin
+    sSecao := 'pgtoVinc' + IntToStrZero(i + 1, 2);
+
+    AINIRec.WriteInteger(sSecao, 'nPag', pgto[I].nPag);
+    AINIRec.WriteString(sSecao, 'idTransacao', pgto[I].idTransacao);
+    AINIRec.WriteString(sSecao, 'tpMeioPgto', pgto[I].tpMeioPgto);
+    AINIRec.WriteString(sSecao, 'CNPJReceb', pgto[I].CNPJReceb);
+    AINIRec.WriteString(sSecao, 'CNPJBasePSP', pgto[I].CNPJBasePSP);
   end;
 end;
 

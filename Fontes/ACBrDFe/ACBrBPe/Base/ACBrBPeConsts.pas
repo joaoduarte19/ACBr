@@ -133,6 +133,9 @@ resourcestring
   DSC_CAUT = 'Número da Autorização';
 
   DSC_PLACA = 'Placa do Veículo';
+  DSC_TPMEIOPGTO = 'Meio de pagamento utilizado';
+  DSC_CNPJRECEB = 'CNPJ do recebedor do pagamento';
+  DSC_CNPJBASEPSP = 'CNPJ base da instituição financeira';
 
 implementation
 

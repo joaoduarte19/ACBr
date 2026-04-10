@@ -55,12 +55,13 @@ const
 type
   TSchemaBPe = (schErro, schBPe, schBPeTM, schconsSitBPe, schconsStatServ,
                 schEventoBPe, schdistDFeInt, schevCancBPe, schevNaoEmbBPe,
-                schevAlteracaoPoltrona, schevExcessoBagagem);
+                schevAlteracaoPoltrona, schevExcessoBagagem, schevVincPgto,
+                schevCancVincPgto);
 
 const
   TSchemaBPeArrayStrings: array[TSchemaBPe] of string = ('', '', '', '',
     '', '', '', 'evCancBPe', 'evNaoEmbBPe', 'evAlteracaoPoltrona',
-    'evExcessoBagagem');
+    'evExcessoBagagem', 'evVincPgto', 'evCancVincPgto');
 
 type
   TLayOutBPe = (LayBPeRecepcao, LayBPeRecepcaoTM, LayBPeRetRecepcao, LayBPeConsulta,

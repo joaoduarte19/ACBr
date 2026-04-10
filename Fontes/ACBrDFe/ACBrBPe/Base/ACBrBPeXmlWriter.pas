@@ -109,6 +109,8 @@ type
     function Gerar_ICMSUFFim: TACBrXmlNode;
 
     function Gerar_Pag: TACBrXmlNodeArray;
+    function Gerar_pgtoVinc: TACBrXmlNode;
+    function Gerar_pgto: TACBrXmlNodeArray;
 
     // BPe TM
     function Gerar_DetBPeTM: TACBrXmlNodeArray;
@@ -390,6 +392,9 @@ begin
     begin
       Result.AppendChild(nodeArray[i]);
     end;
+
+    if BPe.pgtoVinc.pgto.Count > 0 then
+      Result.AppendChild(Gerar_pgtoVinc);
   end;
 
   nodeArray := Gerar_autXML;
@@ -1147,6 +1152,54 @@ begin
     wAlerta('#160', 'pag', '', ERR_MSG_MENOR_MINIMO + '1');
 end;
 
+function TBPeXmlWriter.Gerar_pgtoVinc: TACBrXmlNode;
+var
+  nodeArray: TACBrXmlNodeArray;
+  i: integer;
+begin
+  Result := FDocument.CreateElement('pgtoVinc');
+
+  nodeArray := Gerar_pgto;
+  for i := 0 to BPe.pgtoVinc.pgto.Count - 1 do
+  begin
+    Result.AppendChild(nodeArray[i]);
+  end;
+end;
+
+function TBPeXmlWriter.Gerar_pgto: TACBrXmlNodeArray;
+var
+  i: integer;
+  nodeArray: TACBrXmlNodeArray;
+begin
+  Result := nil;
+
+  SetLength(Result, BPe.pgtoVinc.pgto.Count);
+
+  for i := 0 to BPe.pgtoVinc.pgto.Count - 1 do
+  begin
+    Result[i] := FDocument.CreateElement('pgto');
+
+    Result[i].SetAttribute('nPag', IntToStr(BPe.pgtoVinc.pgto[i].nPag));
+
+    Result[i].SetAttribute('idTransacao', BPe.pgtoVinc.pgto[i].idTransacao);
+
+    Result[i].AppendChild(AddNode(tcStr, '#44', 'tpMeioPgto', 2, 2, 1,
+                              BPe.pgtoVinc.pgto[i].tpMeioPgto, DSC_TPMEIOPGTO));
+
+    Result[i].AppendChild(AddNode(tcStr, '#44', 'CNPJReceb', 14, 14, 1,
+                                BPe.pgtoVinc.pgto[i].CNPJReceb, DSC_CNPJRECEB));
+
+    Result[i].AppendChild(AddNode(tcStr, '#44', 'CNPJBasePSP', 8, 8, 1,
+                            BPe.pgtoVinc.pgto[i].CNPJBasePSP, DSC_CNPJBASEPSP));
+  end;
+
+  if BPe.pgtoVinc.pgto.Count > 99 then
+    wAlerta('#42', 'pgto', '', ERR_MSG_MAIOR_MAXIMO + '99');
+
+  if BPe.pgtoVinc.pgto.Count < 1 then
+    wAlerta('#42', 'pgto', '', ERR_MSG_MENOR_MINIMO + '1');
+end;
+
 function TBPeXmlWriter.Gerar_DetBPeTM: TACBrXmlNodeArray;
 var
   i, j: integer;
@@ -1531,6 +1584,8 @@ end;
 // Reforma Tributária
 function TBPeXmlWriter.Gerar_Ide_CompraGov(
   gCompraGov: TgCompraGovReduzido): TACBrXmlNode;
+var
+  i: Integer;
 begin
   Result := nil;
 
@@ -1543,6 +1598,15 @@ begin
 
     Result.AppendChild(AddNode(tcDe4, 'B33', 'pRedutor', 1, 7, 1,
                                             gCompraGov.pRedutor, DSC_PREDUTOR));
+
+    Result.AppendChild(AddNode(tcStr, 'B34', 'tpOperGov', 1, 1, 1,
+                          tpOperGovToStr(gCompraGov.tpOperGov), DSC_TPOPERGOV));
+
+    for i := 0 to gCompraGov.refDFe.Count - 1 do
+    begin
+      Result.AppendChild(AddNode(tcStr, 'B35', 'refDFeAnt', 44, 44, 1,
+                                    gCompraGov.refDFe[i].refDFeAnt, DSC_CHAVE));
+    end;
   end;
 end;
 
