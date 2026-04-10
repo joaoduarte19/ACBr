@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+10/04/2024
+-- ACBrDFeComum.RetConsStatServ --
+[*] Remoção de variável definida e não utilizada.
+   Por: Italo Giurizzato Junior
+
 18/12/2025
 -- ACBrDFeComum.DistDFeInt --
 [*] Alteração visando a leitura e a gravação correta do XML de eventos.
