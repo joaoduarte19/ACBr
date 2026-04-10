@@ -267,6 +267,8 @@ const
   teSolicApropCredBensServicos = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoEvento.{$ENDIF}teSolicApropCredBensServicos deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoEvento da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   teManifPedTransfCredIBSSucessao = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoEvento.{$ENDIF}teManifPedTransfCredIBSSucessao deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoEvento da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   teManifPedTransfCredCBSSucessao = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoEvento.{$ENDIF}teManifPedTransfCredCBSSucessao deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoEvento da Unit ACBrDFe.Conversao.pas' {$ENDIF};
+  teVinculoPgto = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoEvento.{$ENDIF}teVinculoPgto deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoEvento da Unit ACBrDFe.Conversao.pas' {$ENDIF};
+  teCancVinculoPgto = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoEvento.{$ENDIF}teCancVinculoPgto deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoEvento da Unit ACBrDFe.Conversao.pas' {$ENDIF};
 
   // Enumerados do TModal
 const
@@ -581,7 +583,7 @@ type
   end;
 
 const
-  TpcnTpEventoString : array[0..93] of String =('-99999', '110110', '110111',
+  TpcnTpEventoString : array[0..95] of String =('-99999', '110110', '110111',
                                                 '210200', '210210', '210220',
                                                 '210240', '110112', '110113',
                                                 '110114', '110160', '310620',
@@ -612,7 +614,7 @@ const
                                                 '211110', '211120', '211124',
                                                 '211128', '211130', '211140',
                                                 '211150', '212110', '212120',
-                                                '112150');
+                                                '112150', '110300', '110301');
 
   DFeUF: array[0..26] of String =
   ('AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA',
@@ -1225,7 +1227,7 @@ begin
               'AceiteDebitoApuracaoNotaCredito', 'ImobilizacaoItem',
               'SolicApropCredCombustivel', 'SolicApropCredBensServicos',
               'ManifPedTransfCredIBSSucessao', 'ManifPedTransfCredCBSSucessao',
-              'AtualizacaoDataPrevisaoEntrega'],
+              'AtualizacaoDataPrevisaoEntrega', 'VinculoPagamento', 'CancVinculoPgto'],
              [teNaoMapeado, teCCe, teCancelamento, teManifDestConfirmacao, teManifDestCiencia,
               teManifDestDesconhecimento, teManifDestOperNaoRealizada,
               teEncerramento, teEPEC, teInclusaoCondutor, teMultiModal,
@@ -1255,7 +1257,7 @@ begin
               teAceiteDebitoApuracaoNotaCredito, teImobilizacaoItem,
               teSolicApropCredCombustivel, teSolicApropCredBensServicos,
               teManifPedTransfCredIBSSucessao, teManifPedTransfCredCBSSucessao,
-              teAtualizacaoDataPrevisaoEntrega]);
+              teAtualizacaoDataPrevisaoEntrega, teVinculoPgto, teCancVinculoPgto]);
 end;
 
 function StrToEnumerado2(out ok: boolean; const s: string;
