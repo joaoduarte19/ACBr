@@ -1808,7 +1808,7 @@ begin
   begin
     ColetaRequisicao.Clear;
     if Requisicao.transacao = CDESTAXA_ADM_EXTRATO_TRANSACAO then
-      ColetaResposta.automacao_coleta_tipo := TACBrTEFDestaxaColetaTipo.dctPeriodo;
+      ColetaResposta.automacao_coleta_tipo := dctPeriodo;
 
     if (Pos(CDESTAXA_STR_QRCODE, ColetaResposta.automacao_coleta_mensagem) > 0) then
       AutomacaoExibirQRCode
