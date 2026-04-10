@@ -1,52 +1,60 @@
 {******************************************************************************}
 { Projeto: Componentes ACBr                                                    }
-{  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
-{ mentos de Automação Comercial utilizados no Brasil                           }
+{  Biblioteca multiplataforma de componentes Delphi para interaï¿½ï¿½o com equipa- }
+{ mentos de Automaï¿½ï¿½o Comercial utilizados no Brasil                           }
 {                                                                              }
-{  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
+{  Vocï¿½ pode obter a ï¿½ltima versï¿½o desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
 {                                                                              }
-{  Esta biblioteca é software livre; você pode redistribuí-la e/ou modificá-la }
-{ sob os termos da Licença Pública Geral Menor do GNU conforme publicada pela  }
-{ Free Software Foundation; tanto a versão 2.1 da Licença, ou (a seu critério) }
-{ qualquer versão posterior.                                                   }
+{  Esta biblioteca ï¿½ software livre; vocï¿½ pode redistribuï¿½-la e/ou modificï¿½-la }
+{ sob os termos da Licenï¿½a Pï¿½blica Geral Menor do GNU conforme publicada pela  }
+{ Free Software Foundation; tanto a versï¿½o 2.1 da Licenï¿½a, ou (a seu critï¿½rio) }
+{ qualquer versï¿½o posterior.                                                   }
 {                                                                              }
-{  Esta biblioteca é distribuída na expectativa de que seja útil, porém, SEM   }
-{ NENHUMA GARANTIA; nem mesmo a garantia implícita de COMERCIABILIDADE OU      }
-{ ADEQUAÇÃO A UMA FINALIDADE ESPECÍFICA. Consulte a Licença Pública Geral Menor}
-{ do GNU para mais detalhes. (Arquivo LICENÇA.TXT ou LICENSE.TXT)              }
+{  Esta biblioteca ï¿½ distribuï¿½da na expectativa de que seja ï¿½til, porï¿½m, SEM   }
+{ NENHUMA GARANTIA; nem mesmo a garantia implï¿½cita de COMERCIABILIDADE OU      }
+{ ADEQUAï¿½ï¿½O A UMA FINALIDADE ESPECï¿½FICA. Consulte a Licenï¿½a Pï¿½blica Geral Menor}
+{ do GNU para mais detalhes. (Arquivo LICENï¿½A.TXT ou LICENSE.TXT)              }
 {                                                                              }
-{  Você deve ter recebido uma cópia da Licença Pública Geral Menor do GNU junto}
-{ com esta biblioteca; se não, escreva para a Free Software Foundation, Inc.,  }
-{ no endereço 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
-{ Você também pode obter uma copia da licença em:                              }
+{  Vocï¿½ deve ter recebido uma cï¿½pia da Licenï¿½a Pï¿½blica Geral Menor do GNU junto}
+{ com esta biblioteca; se nï¿½o, escreva para a Free Software Foundation, Inc.,  }
+{ no endereï¿½o 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
+{ Vocï¿½ tambï¿½m pode obter uma copia da licenï¿½a em:                              }
 { http://www.opensource.org/licenses/lgpl-license.php                          }
 {                                                                              }
-{ Daniel Simões de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
-{       Rua Coronel Aureliano de Camargo, 963 - Tatuí - SP - 18270-170         }
+{ Daniel Simï¿½es de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
+{       Rua Coronel Aureliano de Camargo, 963 - Tatuï¿½ - SP - 18270-170         }
 {******************************************************************************}
 Agradecimentos:
 
 * Administradores:
-- Daniel Simões de Almeida
+- Daniel Simï¿½es de Almeida
 
 {******************************************************************************
 |* ACBrLibNFe
 |*
-|* PROPÓSITO: Registro de Alterações
+|* PROPï¿½SITO: Registro de Alteraï¿½ï¿½es
 ******************************************************************************}
 
-Símbolo : Significado
+Sï¿½mbolo : Significado
 
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
-[-]     : Correção de Bug (assim esperamos)
+[-]     : Correï¿½ï¿½o de Bug (assim esperamos)
+
+10/04/2026
+
+-- ACBrLibComum --
+[+] Adiciona a informaÃ§Ã£o ThreadID no mÃ©todo TACBrLib.Gravar para versÃµes MT da ACBrLib.
+[*] Essa informaÃ§Ã£o visa facilitar o debug em ambiente Multi-Thread.
+
+ Por: doszapro
 
 02/02/2026
 
 -- ACBrLibComum --
-[-] Previne a inicialização da biblioteca quando a exceção EACBrConversaoEnumeradoException for lançada
-[*] Esse erro indica que há configuração de enumerado inválidas no ACBrLib.ini 
+[-] Previne a inicializaï¿½ï¿½o da biblioteca quando a exceï¿½ï¿½o EACBrConversaoEnumeradoException for lanï¿½ada
+[*] Esse erro indica que hï¿½ configuraï¿½ï¿½o de enumerado invï¿½lidas no ACBrLib.ini 
   Por:doszapro
   
 07/01/2026
@@ -56,46 +64,46 @@ Símbolo : Significado
 
 29/09/2025
 -- ACBrLibDistribuicaoDFe --
-[*] Alteração visando usar as novas units do DistribuicaoDFe.
+[*] Alteraï¿½ï¿½o visando usar as novas units do DistribuicaoDFe.
  Por: Italo Giurizzato Junior
 
 15/09/2025
 -- ACBrLibComum --
-[+] Adiciona funções para obter informações de compilação sobre o sistema operacional e arquitetura (informações relevantes para Log).
-[*] Refatora TACBrLib.GetInformacaoAdicional para mostrar essas informações.
+[+] Adiciona funï¿½ï¿½es para obter informaï¿½ï¿½es de compilaï¿½ï¿½o sobre o sistema operacional e arquitetura (informaï¿½ï¿½es relevantes para Log).
+[*] Refatora TACBrLib.GetInformacaoAdicional para mostrar essas informaï¿½ï¿½es.
 
  Por: doszapro
  
 25/08/2025
 -- ACBrLibComum --
-[+] Adiciona LIB_FinalizarLiberar para liberar memória do ponteiro handle apontando para NULL
-[+] Adiciona TACBrLib.GetInformacaoAdicional para mostrar no Log informações ST/MT STDCALL/cdecl
+[+] Adiciona LIB_FinalizarLiberar para liberar memï¿½ria do ponteiro handle apontando para NULL
+[+] Adiciona TACBrLib.GetInformacaoAdicional para mostrar no Log informaï¿½ï¿½es ST/MT STDCALL/cdecl
 
   Por: doszapro
   
 06/05/2025
 -- ACBrLibConfig, ACBrLibConsts --
-[*] #TK-6998: Formata mensagem para exibir chave/seção inexistente de forma explícita.
+[*] #TK-6998: Formata mensagem para exibir chave/seï¿½ï¿½o inexistente de forma explï¿½cita.
     Por: Julio Cavalcanti \ Rev: Diego Folieni
 
 23/04/2025
 --- ACBrLibConfig.pas, ACBrLibConsts.pas ---
-[*] Controle para zerar configurações SSL desativadas para não levantar exceção.
+[*] Controle para zerar configuraï¿½ï¿½es SSL desativadas para nï¿½o levantar exceï¿½ï¿½o.
     Por: Renato Rubinho
 
 11/04/2025
 --- ACBrLibComum.pas ---
-[-] Corrige erro de compilação na lib pro
+[-] Corrige erro de compilaï¿½ï¿½o na lib pro
     Por: doszapro
 
 10/04/2025
 --- ACBrLibComum.pas ---
-[-] Corrige AV do FPDemo, previne múltiplas liberações de memória na variável FPDemo
+[-] Corrige AV do FPDemo, previne mï¿½ltiplas liberaï¿½ï¿½es de memï¿½ria na variï¿½vel FPDemo
     Por: doszapro
 
 10/03/2025
 -- ACBrComum.php --
-[*] #TK-6733 - Controle para localizar a lib na pasta padrão de bibliotecas do linux
+[*] #TK-6733 - Controle para localizar a lib na pasta padrï¿½o de bibliotecas do linux
    Por: Renato Rubinho
 
 24/02/2025
@@ -105,38 +113,38 @@ Símbolo : Significado
 
 06/02/2025
 -- ACBrComum.php --
-[*] Sem TK: Removida trava da CarregaContents() quando não for identificado ambiente gráfico
+[*] Sem TK: Removida trava da CarregaContents() quando nï¿½o for identificado ambiente grï¿½fico
   Por: Renato Rubinho
 
 10/12/2024
 -- ACBrConsultaCNPJ.php, ACBrConsultaCNPJ.php --
-[*] #TK-6342: Correção na composição do caminho da lib para usar somente DIRECTORY_SEPARATOR
+[*] #TK-6342: Correï¿½ï¿½o na composiï¿½ï¿½o do caminho da lib para usar somente DIRECTORY_SEPARATOR
   Por: Renato Rubinho
 
 09/12/2024
 -- ACBrComum.php --
-[*] Sem TK: Ajuste na função para identificar ambiente gráfico ou emulado e comando no php para funcionar lib com gráfico emulado
+[*] Sem TK: Ajuste na funï¿½ï¿½o para identificar ambiente grï¿½fico ou emulado e comando no php para funcionar lib com grï¿½fico emulado
   Por: Renato Rubinho
 
 29/11/2024
 -- ACBrComum.php --
-[*] Sem TK: Corrigida composição do caminho da Lib no linux
+[*] Sem TK: Corrigida composiï¿½ï¿½o do caminho da Lib no linux
   Por: Renato Rubinho
 
 05/11/2024
 -- ACBrComum.php --
-[+] #TK-6148: Função para identificar ambiente gráfico ou emulado e comando no php para funcionar lib com gráfico emulado
+[+] #TK-6148: Funï¿½ï¿½o para identificar ambiente grï¿½fico ou emulado e comando no php para funcionar lib com grï¿½fico emulado
   Por: Renato Rubinho
 
 29/08/2024
 --- ACBrLibResposta ---
-[-] Correção da função GerarResposta - #TK-5915 https://www.projetoacbr.com.br/forum/topic/79415-boleto_enviarboleto-sresposta-vazio/#comment-513525
+[-] Correï¿½ï¿½o da funï¿½ï¿½o GerarResposta - #TK-5915 https://www.projetoacbr.com.br/forum/topic/79415-boleto_enviarboleto-sresposta-vazio/#comment-513525
     Por: Antonio Carlos Junior
 
 19/08/2024
 -- ACBrLibComum --
-[-] Correção na função GetNome() com a diretiva "{$IFDEF Demo}"
-    por: Elias César
+[-] Correï¿½ï¿½o na funï¿½ï¿½o GetNome() com a diretiva "{$IFDEF Demo}"
+    por: Elias Cï¿½sar
 
 15/08/2024
 -- ACBrLibConsReciDFe --
@@ -146,23 +154,23 @@ Símbolo : Significado
 10/08/2024
 -- ACBrLibComum --
 [+] Adicionada compatibilidade com Compilador Delphi
-[*] Método 'MoverStringParaPChar', ajustado para usar AnsiString
-[*] Método 'ConverterAnsiParaUTF8' modificado para 'ConverterStringEntrada',
+[*] Mï¿½todo 'MoverStringParaPChar', ajustado para usar AnsiString
+[*] Mï¿½todo 'ConverterAnsiParaUTF8' modificado para 'ConverterStringEntrada',
     para considerar se o compilador utilizado usa ANSI ou UTF8
-[*] Método 'ConverterUTF8ParaAnsi' modificado para 'ConverterStringSaida',
+[*] Mï¿½todo 'ConverterUTF8ParaAnsi' modificado para 'ConverterStringSaida',
     para considerar se o compilador utilizado usa ANSI ou UTF8
-[*] Métodos que usam PChar, modificados para usar PAnsiChar, para compatibilizar
+[*] Mï¿½todos que usam PChar, modificados para usar PAnsiChar, para compatibilizar
     com Delphi
-[*] Métodos que usam e retornam LongInt, modificados para usar Integer para
+[*] Mï¿½todos que usam e retornam LongInt, modificados para usar Integer para
     compatibilizar com Delphi e POSIX 64
 [*] Tipo 'TLibHandle' renomeado para 'TACBrLibHandle', para nao confundir com
     tipo interno do Delphi e FPC
 [*] Adicionada mais entradas de Log, como por exemplo 'GetOpenSSLInfo'
 [*] Melhorias no Log para Android, inserindo a "Tag", com o nome da ACBrLib
-[*] Ajuste em 'MoverStringParaPChar', para não tentar mover Strings vazias e
+[*] Ajuste em 'MoverStringParaPChar', para nï¿½o tentar mover Strings vazias e
     evitar crash em Delphi
-[*] Melhorias nos métodos da Externo da ACBrLibComum, para usar 'ConverterStringSaida'
-    no conteúdo do retorno, e 'ConverterStringSaida', nos parâmetros de Entrada
+[*] Melhorias nos mï¿½todos da Externo da ACBrLibComum, para usar 'ConverterStringSaida'
+    no conteï¿½do do retorno, e 'ConverterStringSaida', nos parï¿½metros de Entrada
 [+] Adicionadas as Unit functions
     - ConverterStringEntradaParaNativa(AData: AnsiString; CodificacaoEntrada: TACBrLibCodificacao): AnsiString;
     - ConverterStringNativaParaSaida(AData: AnsiString; CodificacaoSaida: TACBrLibCodificacao): AnsiString;
@@ -174,14 +182,14 @@ Símbolo : Significado
     - TACBrLibCodificacao = (codUTF8, codANSI);
 [+] Adicionada propriedade 'TimeOut: Integer' em 'TSocketConfig'
 [*] Propriedade TLibConfig.ChaveCrypt modificada para usar 'AnsiString'
-[*] Método 'TLogConfig.DefinirValoresPadroes' assume 'logParanoico' para Android
-    para enviar mais informações ao 'Logcat' do Android
-[*] Ajuste em 'TLibConfig.Ler', em Android, para detetar se Arquivo informado é
-    na verdade um Diretório. Se for, adiciona nome padrão do arq.Config no NomeArq
+[*] Mï¿½todo 'TLogConfig.DefinirValoresPadroes' assume 'logParanoico' para Android
+    para enviar mais informaï¿½ï¿½es ao 'Logcat' do Android
+[*] Ajuste em 'TLibConfig.Ler', em Android, para detetar se Arquivo informado ï¿½
+    na verdade um Diretï¿½rio. Se for, adiciona nome padrï¿½o do arq.Config no NomeArq
 
 -- ACBrLibConsts --
 [+] Adicionada o Erro:
-    SErrNaoDisponivelEmModoConsole = 'Recurso não disponível em modo CONSOLE';
+    SErrNaoDisponivelEmModoConsole = 'Recurso nï¿½o disponï¿½vel em modo CONSOLE';
 
 -- ACBrLibHelpers, ACBrLibHelpersIni --
 [*] Classe 'TACBrMemIniFileHelper' movida para 'ACBrLibHelpersIni'
@@ -190,53 +198,53 @@ Símbolo : Significado
 [*] Tipos movidos para 'ACBrLibConfig'
     - TACBrLibRespostaTipo = (resINI, resXML, resJSON);
     - TACBrLibCodificacao = (codUTF8, codANSI);
-[*] Classe 'TACBrLibRespostaBase' refatorada para melhor tratamento dos parâmetros
-    de Conversão do Formato da resposta de Saida em ANSI e UTF8 e de acordo com
+[*] Classe 'TACBrLibRespostaBase' refatorada para melhor tratamento dos parï¿½metros
+    de Conversï¿½o do Formato da resposta de Saida em ANSI e UTF8 e de acordo com
     o compilador utilizado
-    - A Resposta sempre será gerada no formato correto para a Saida, não
-      necessitando novas conversões das classes que a criaram
-[*] Classe 'TACBrObjectSerializer', refatorada, para permitir implementação em
+    - A Resposta sempre serï¿½ gerada no formato correto para a Saida, nï¿½o
+      necessitando novas conversï¿½es das classes que a criaram
+[*] Classe 'TACBrObjectSerializer', refatorada, para permitir implementaï¿½ï¿½o em
     Lazarus e Delphi
 
 
 11/07/2024
 -- ACBrLibConfig, ACBrLibConsts --
-[+] Adicionada seção de configuração para "ACBrSocket"
+[+] Adicionada seï¿½ï¿½o de configuraï¿½ï¿½o para "ACBrSocket"
     (por: DSA)
 
 20/05/2024
 -- ACBrLib.NFSe.csproj, ACBrLib.Core.csproj, ACBrLibHandle.cs --
-[*] Correção no Core do C# para não sobrescrever a variável PATH do usuário/sistema
+[*] Correï¿½ï¿½o no Core do C# para nï¿½o sobrescrever a variï¿½vel PATH do usuï¿½rio/sistema
   Por: gostartlab
 
 16/05/2024
 -- ACBrLibHandle.cs --
-[*] Correção na localização das dependências distribuídas na estrutura dos pacotes nuget quando houver mais de um nuget na mesma aplicação
+[*] Correï¿½ï¿½o na localizaï¿½ï¿½o das dependï¿½ncias distribuï¿½das na estrutura dos pacotes nuget quando houver mais de um nuget na mesma aplicaï¿½ï¿½o
   Por: Renato Rubinho
 
 13/05/2024
 -- ACBrLibHandle.cs --
-[*] Buscar dependências distribuídas na estrutura dos pacotes nuget e exibir na exceção o caminho previsto quando não for encontrado
+[*] Buscar dependï¿½ncias distribuï¿½das na estrutura dos pacotes nuget e exibir na exceï¿½ï¿½o o caminho previsto quando nï¿½o for encontrado
   Por: Renato Rubinho
 
 09/05/2024
 -- build.cake --
-[*] Adicionada informação no final dos scripts para identificar quando foram executados com sucesso
+[*] Adicionada informaï¿½ï¿½o no final dos scripts para identificar quando foram executados com sucesso
   Por: Renato Rubinho
 
 30/04/2024
 -- ACBrLibHandle.cs --
-[*] TK-5375 - Compatibilização da LibraryPath da ACBrLib.Core com pacote self-contained
+[*] TK-5375 - Compatibilizaï¿½ï¿½o da LibraryPath da ACBrLib.Core com pacote self-contained
   Por: gostartlab, Renato Rubinho
 
 03/04/2024
 -- Diversos --
-[+] Implementado método LIB_OpenSSLInfo
+[+] Implementado mï¿½todo LIB_OpenSSLInfo
   Por: Renato Rubinho
 
 21/02/2024
 -- ACBrLib.hnd, Diversos inis --
-[+] Enviados arquivos ini da versão 1.2 do e-Social com correção do Encoding e configurado help da Lib
+[+] Enviados arquivos ini da versï¿½o 1.2 do e-Social com correï¿½ï¿½o do Encoding e configurado help da Lib
   Por: Renato Rubinho
 
 19/02/2024
@@ -244,7 +252,7 @@ Símbolo : Significado
 [*] TK-5014 Ajustado para criptografar Usuario e Senha do Provedor ConsultaCNPJ
   Por: Daniel Morais InfoCotidiano
 -- Diversos --
-[+] Scripts para compilação dos nugets para c# com cake
+[+] Scripts para compilaï¿½ï¿½o dos nugets para c# com cake
   Por: Renato Rubinho
 
 14/02/2024
@@ -254,39 +262,39 @@ Símbolo : Significado
 
 12/02/2024
 -- ACBrLibConsultaCadastro --
-[*] Substitui pcnRetConsCad por ACBrDFeComum.RetConsCad visando compatibilização com o processo de remoção da pcn.
+[*] Substitui pcnRetConsCad por ACBrDFeComum.RetConsCad visando compatibilizaï¿½ï¿½o com o processo de remoï¿½ï¿½o da pcn.
   Por: Diego Folieni
 
 06/02/2022
 --- ACBrLibComum ---
-[+] Adicionado o método 'ConverterUTF8ParaAnsi', converter a resposta de UTF8
+[+] Adicionado o mï¿½todo 'ConverterUTF8ParaAnsi', converter a resposta de UTF8
     para ANSI, se assim estiver configurado na Lib
     (por: DSA)
 
 20/07/2022
 --- ACBrLibComum ---
-[*] Remoção de Warning @deprecated ref. ACBrUtils
+[*] Remoï¿½ï¿½o de Warning @deprecated ref. ACBrUtils
 
 14/06/2022
 ---DFeReportConfig---
-[-] Remoção do campo FAX da classe DFeReportConfig da lib, compatibilizando com o componente DFeReport
+[-] Remoï¿½ï¿½o do campo FAX da classe DFeReportConfig da lib, compatibilizando com o componente DFeReport
 
 21/12/2021
 --- ACBrLibComum ---
 [*] Melhoria em "LIB_Inicializar", e para evitar A.V. em "LiberarLib" caso a Lib
-    não consiga ser criada
+    nï¿½o consiga ser criada
 
 --- ACBrLibDataModule ---
-[-] Adicionado .LFM, para permitir que Lazarus faça a herança visual de formulárip
+[-] Adicionado .LFM, para permitir que Lazarus faï¿½a a heranï¿½a visual de formulï¿½rip
     (por: DSA)
 
 26/03/2020
 --- ACBrLibRespostas--
-[*] Ajuste na geração de Respostas tipo data e hora
+[*] Ajuste na geraï¿½ï¿½o de Respostas tipo data e hora
 
 26/02/2020
 --- ACBrLibRespostas--
-[-] Correção na geração XML Retorno com subitens de objetos 
+[-] Correï¿½ï¿½o na geraï¿½ï¿½o XML Retorno com subitens de objetos 
 
 22/06/2020
 --- ACBrLibCertUtils ---
@@ -294,36 +302,36 @@ Símbolo : Significado
 
 17/03/2020
 --- ACBrLibConfig ---
-[*] Ajuste para que os métodos TLibConfig.GravarValor e TLibConfig.LerValor,
-    verifique se houve modificações no arquivo de Configuração no Disco, antes
+[*] Ajuste para que os mï¿½todos TLibConfig.GravarValor e TLibConfig.LerValor,
+    verifique se houve modificaï¿½ï¿½es no arquivo de Configuraï¿½ï¿½o no Disco, antes
     de processar o novo valor
 
 [-] Ajuste em TLibConfig.SetNomeArquivo, para que o Novo arquivo seja carregado
-    na memória, após atribuido
+    na memï¿½ria, apï¿½s atribuido
     (por: DSA)
 
 --- ACBrLibDeviceUtils ---
-[+] Adicionado Classe para funções utilitárias do Componente ACBrDevice.
-Por: José M S Junior
+[+] Adicionado Classe para funï¿½ï¿½es utilitï¿½rias do Componente ACBrDevice.
+Por: Josï¿½ M S Junior
 
 16/01/2020
 --- ACBrLibConsultaCadastro
-[-] Ajuste na formatação de retorno do campo CEP
-   Por: José M S Junior
+[-] Ajuste na formataï¿½ï¿½o de retorno do campo CEP
+   Por: Josï¿½ M S Junior
 
 16/01/2020
 --- ACBrLibCTeClass, ACBrLibConsultaCadastro, ACBrLibDistribuicaoDFe, ACBrLibConsReciDFe ---
-[-] Correção nos métodos Respostas da LibDFe devido alteração na nomenclatura do Retorno de Consulta
-   Por: José M S Junior
+[-] Correï¿½ï¿½o nos mï¿½todos Respostas da LibDFe devido alteraï¿½ï¿½o na nomenclatura do Retorno de Consulta
+   Por: Josï¿½ M S Junior
 
 27/06/2019
 --- ACBrLibComum ---
-[+] Adicionado validação para campo DateTime na geração da Resposta, para evitar problema de gerar o campo com data inicial do Sistema
+[+] Adicionado validaï¿½ï¿½o para campo DateTime na geraï¿½ï¿½o da Resposta, para evitar problema de gerar o campo com data inicial do Sistema
 
 12/02/2019
 --- ACBrLibConfig ---
-[-] Modificado comportamento enviado anteriormente que gravava o arquivo de log no diretório
-	da DLL, evitando possíveis erros de escrita em diretórios do sistema do Windows.
+[-] Modificado comportamento enviado anteriormente que gravava o arquivo de log no diretï¿½rio
+	da DLL, evitando possï¿½veis erros de escrita em diretï¿½rios do sistema do Windows.
 [+] Adicionada propriedade TipoCorte
 
 --- ACBrLibConsts ---
@@ -331,8 +339,8 @@ Por: José M S Junior
 
 30/01/2019
 --- ACBrLibComum ---
-[+] Modificada inicialização da lib, informando um path válido, onde o arquivo de
-	configuração será automaticamente criado caso não exista.  Por: (Celso Marigo Junior)
-[*] Na inicialização do arquivo de logs, caso path do arquivo não exista, será
-	utilizado path da aplicação.  Por: (Celso Marigo Junior)
+[+] Modificada inicializaï¿½ï¿½o da lib, informando um path vï¿½lido, onde o arquivo de
+	configuraï¿½ï¿½o serï¿½ automaticamente criado caso nï¿½o exista.  Por: (Celso Marigo Junior)
+[*] Na inicializaï¿½ï¿½o do arquivo de logs, caso path do arquivo nï¿½o exista, serï¿½
+	utilizado path da aplicaï¿½ï¿½o.  Por: (Celso Marigo Junior)
 

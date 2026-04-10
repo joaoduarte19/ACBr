@@ -415,7 +415,7 @@ begin
     (not Assigned(fpConfig)) or (NivelLog > fpConfig.Log.Nivel) then
     Exit;
 
-  s := FormatDateTime('dd/mm/yy hh:nn:ss:zzz', now) + ' - ' + AMsg;
+  s := FormatDateTime('dd/mm/yy hh:nn:ss:zzz', now) {$IFDEF MT} + ' - ThreadID = ' +  IntToHex(GetThreadID,0) {$ENDIF} + ' - ' + AMsg;
   {$IfDef ANDROID}{$IfDef FPC}
    SysLogWrite(DefaultSysLogPriority, PAnsiChar(Self.Nome), PAnsiChar(s));      // Write a message to the Android system log.
   {$EndIf}{$EndIf}
