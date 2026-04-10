@@ -1,37 +1,37 @@
 {******************************************************************************}
 { Projeto: Componentes ACBr                                                    }
-{  Biblioteca multiplataforma de componentes Delphi para intera√ß√£o com equipa- }
-{ mentos de Automa√ß√£o Comercial utilizados no Brasil                           }
+{  Biblioteca multiplataforma de componentes Delphi para interaÁ„o com equipa- }
+{ mentos de AutomaÁ„o Comercial utilizados no Brasil                           }
 {                                                                              }
 { Direitos Autorais Reservados (c) 2024 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
-{ - Elias C√©sar                                                                }
+{ - Elias CÈsar                                                                }
 {                                                                              }
-{  Voc√™ pode obter a √∫ltima vers√£o desse arquivo na pagina do  Projeto ACBr    }
+{  VocÍ pode obter a ˙ltima vers„o desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
 {                                                                              }
-{  Esta biblioteca √© software livre; voc√™ pode redistribu√≠-la e/ou modific√°-la }
-{ sob os termos da Licen√ßa P√∫blica Geral Menor do GNU conforme publicada pela  }
-{ Free Software Foundation; tanto a vers√£o 2.1 da Licen√ßa, ou (a seu crit√©rio) }
-{ qualquer vers√£o posterior.                                                   }
+{  Esta biblioteca È software livre; vocÍ pode redistribuÌ-la e/ou modific·-la }
+{ sob os termos da LicenÁa P˙blica Geral Menor do GNU conforme publicada pela  }
+{ Free Software Foundation; tanto a vers„o 2.1 da LicenÁa, ou (a seu critÈrio) }
+{ qualquer vers„o posterior.                                                   }
 {                                                                              }
-{  Esta biblioteca √© distribu√≠da na expectativa de que seja √∫til, por√©m, SEM   }
-{ NENHUMA GARANTIA; nem mesmo a garantia impl√≠cita de COMERCIABILIDADE OU      }
-{ ADEQUA√á√ÉO A UMA FINALIDADE ESPEC√çFICA. Consulte a Licen√ßa P√∫blica Geral Menor}
-{ do GNU para mais detalhes. (Arquivo LICEN√áA.TXT ou LICENSE.TXT)              }
+{  Esta biblioteca È distribuÌda na expectativa de que seja ˙til, porÈm, SEM   }
+{ NENHUMA GARANTIA; nem mesmo a garantia implÌcita de COMERCIABILIDADE OU      }
+{ ADEQUA«√O A UMA FINALIDADE ESPECÕFICA. Consulte a LicenÁa P˙blica Geral Menor}
+{ do GNU para mais detalhes. (Arquivo LICEN«A.TXT ou LICENSE.TXT)              }
 {                                                                              }
-{  Voc√™ deve ter recebido uma c√≥pia da Licen√ßa P√∫blica Geral Menor do GNU junto}
-{ com esta biblioteca; se n√£o, escreva para a Free Software Foundation, Inc.,  }
-{ no endere√ßo 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
-{ Voc√™ tamb√©m pode obter uma copia da licen√ßa em:                              }
+{  VocÍ deve ter recebido uma cÛpia da LicenÁa P˙blica Geral Menor do GNU junto}
+{ com esta biblioteca; se n„o, escreva para a Free Software Foundation, Inc.,  }
+{ no endereÁo 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
+{ VocÍ tambÈm pode obter uma copia da licenÁa em:                              }
 { http://www.opensource.org/licenses/lgpl-license.php                          }
 {                                                                              }
-{ Daniel Sim√µes de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
-{       Rua Coronel Aureliano de Camargo, 963 - Tatu√≠ - SP - 18270-170         }
+{ Daniel Simıes de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
+{       Rua Coronel Aureliano de Camargo, 963 - TatuÌ - SP - 18270-170         }
 {******************************************************************************}
                                   
-// Documenta√ß√£o:
+// DocumentaÁ„o:
 // https://apoio.developers.bb.com.br/referency/post/61cdac823948cb0012557c8f
 
 {$I ACBr.inc}
@@ -49,39 +49,39 @@ uses
 type
 
   TACBrPagamentosBBScope = (
-    pscLotesRequisicao,                // pagamentos-lote.lotes-requisicao: Permite Registrar libera√ß√£o dos lotes de pagamentos.
-    pscTransferenciasInfo,             // pagamentos-lote.transferencias-info: Permite Consultar Lote de Pagamentos realizados via Transfer√™ncia
-    pscTransferenciasRequisicao,       // pagamentos-lote.transferencias-requisicao: Permite Efetuar Lote de Pagamentos realizados via Transfer√™ncia
+    pscLotesRequisicao,                // pagamentos-lote.lotes-requisicao: Permite Registrar liberaÁ„o dos lotes de pagamentos.
+    pscTransferenciasInfo,             // pagamentos-lote.transferencias-info: Permite Consultar Lote de Pagamentos realizados via TransferÍncia
+    pscTransferenciasRequisicao,       // pagamentos-lote.transferencias-requisicao: Permite Efetuar Lote de Pagamentos realizados via TransferÍncia
     pscCancelarRequisicao,             // pagamentos-lote.cancelar-requisicao: Permite Cancelar Lotes de Pagamentos.
     pscDevolvidosInfo,                 // pagamentos-lote.devolvidos-info: Permite Consultar pagamentos Devolvidos em um Lote de Pagamentos
-    pscLotesInfo,                      // pagamentos-lote.lotes-info: Permite Consultar informa√ß√µes de um Lote de Pagamentos
-    pscGuiasSemCodigoBarrasInfo,       // pagamentos-lote.pagamentos-guias-sem-codigo-barras-info: Permite Consultar informa√ß√µes de pagamentos de guias sem c√≥digo de barras (GPS, GRU e Darf Preto).
-    pscPagamentosInfo,                 // pagamentos-lote.pagamentos-info: Permite Consultar informa√ß√µes sobre um Pagamento espec√≠fico em um Lote de Pagamentos
-    pscGuiasSemCodigoBarrasRequisicao, // pagamentos-lote.pagamentos-guias-sem-codigo-barras-requisicao: Permite Efetuar pagamentos de guias sem c√≥digo de barras (GPS, GRU e Darf Preto) em lote.
-    pscCodigoBarrasInfo,               // pagamentos-lote.pagamentos-codigo-barras-info: Permite Consultar Pagamentos Vinculados a um C√≥digo de Barras em um Lote de Pagamentos
+    pscLotesInfo,                      // pagamentos-lote.lotes-info: Permite Consultar informaÁıes de um Lote de Pagamentos
+    pscGuiasSemCodigoBarrasInfo,       // pagamentos-lote.pagamentos-guias-sem-codigo-barras-info: Permite Consultar informaÁıes de pagamentos de guias sem cÛdigo de barras (GPS, GRU e Darf Preto).
+    pscPagamentosInfo,                 // pagamentos-lote.pagamentos-info: Permite Consultar informaÁıes sobre um Pagamento especÌfico em um Lote de Pagamentos
+    pscGuiasSemCodigoBarrasRequisicao, // pagamentos-lote.pagamentos-guias-sem-codigo-barras-requisicao: Permite Efetuar pagamentos de guias sem cÛdigo de barras (GPS, GRU e Darf Preto) em lote.
+    pscCodigoBarrasInfo,               // pagamentos-lote.pagamentos-codigo-barras-info: Permite Consultar Pagamentos Vinculados a um CÛdigo de Barras em um Lote de Pagamentos
     pscBoletosRequisicao,              // pagamentos-lote.boletos-requisicao: Permite efetuar pagamentos em lote de Boletos
-    pscGuiasCodigoBarrasInfo,          // pagamentos-lote.guias-codigo-barras-info: Permite consultar a solicita√ß√£o de um lote de pagamentos via guias com c√≥digo de barras
-    pscGuiasCodigoBarrasRequisicao,    // pagamentos-lote.guias-codigo-barras-requisicao: Permite pagamento em lote de guias de recolhimento com c√≥digo de barras.
-    pscTransferenciasPixInfo,          // pagamentos-lote.transferencias-pix-info: Permite consultar solicita√ß√£o de transfer√™ncias Pix.
-    pscTransferenciasPixRequisicao,    // pagamentos-lote.transferencias-pix-requisicao: Permite efetuar pagamentos em lote via transfer√™ncia PIX.
-    pscPixInfo,                        // pagamentos-lote.pix-info: Permite consultar um pagamento espec√≠fico de um lote de PIX
-    pscBoletosInfo,                    // pagamentos-lote.boletos-info: Permite consultar a solicita√ß√£o de um lote de pagamentos via boletos
-    pscLancamentosInfo                 // pagamentos-lote.lancamentos-info: Permite Consultar pagamentos em um determinado per√≠odo
+    pscGuiasCodigoBarrasInfo,          // pagamentos-lote.guias-codigo-barras-info: Permite consultar a solicitaÁ„o de um lote de pagamentos via guias com cÛdigo de barras
+    pscGuiasCodigoBarrasRequisicao,    // pagamentos-lote.guias-codigo-barras-requisicao: Permite pagamento em lote de guias de recolhimento com cÛdigo de barras.
+    pscTransferenciasPixInfo,          // pagamentos-lote.transferencias-pix-info: Permite consultar solicitaÁ„o de transferÍncias Pix.
+    pscTransferenciasPixRequisicao,    // pagamentos-lote.transferencias-pix-requisicao: Permite efetuar pagamentos em lote via transferÍncia PIX.
+    pscPixInfo,                        // pagamentos-lote.pix-info: Permite consultar um pagamento especÌfico de um lote de PIX
+    pscBoletosInfo,                    // pagamentos-lote.boletos-info: Permite consultar a solicitaÁ„o de um lote de pagamentos via boletos
+    pscLancamentosInfo                 // pagamentos-lote.lancamentos-info: Permite Consultar pagamentos em um determinado perÌodo
   );
 
   TACBrPagamentosBBScopes = set of TACBrPagamentosBBScope;
 
   TACBrPagamentosBBEstado = (
     pgeNenhum,
-    pgeAgendado,       // Agendado - Pagamento aguardando a data para efetiva√ß√£o do cr√©dito
-    pgeCancelado,      // Cancelado - Pagamento cancelado pelo Cliente Conveniado antes da data do cr√©dito
-    pgeConsistente,    // Consistente - Dados recebidos pelo Banco sem ocorr√™ncias quanto ao formato. Aguardando valida√ß√£o dos dados para libera√ß√£o/efetiva√ß√£o dos pagamentos
-    pgeDevolvido,      // Devolvido - Pagamento efetuado e posteriormente recusado pelo recebedor. O valor √© devolvida para a Conta corrente onde ocorreu o d√©bito da requisi√ß√£o
-    pgeInconsistente,  // Inconsistente - Dados recebidos pelo Banco com ocorr√™ncias quanto ao formato. A situa√ß√£o ser√° alterada para rejeitado
+    pgeAgendado,       // Agendado - Pagamento aguardando a data para efetivaÁ„o do crÈdito
+    pgeCancelado,      // Cancelado - Pagamento cancelado pelo Cliente Conveniado antes da data do crÈdito
+    pgeConsistente,    // Consistente - Dados recebidos pelo Banco sem ocorrÍncias quanto ao formato. Aguardando validaÁ„o dos dados para liberaÁ„o/efetivaÁ„o dos pagamentos
+    pgeDevolvido,      // Devolvido - Pagamento efetuado e posteriormente recusado pelo recebedor. O valor È devolvida para a Conta corrente onde ocorreu o dÈbito da requisiÁ„o
+    pgeInconsistente,  // Inconsistente - Dados recebidos pelo Banco com ocorrÍncias quanto ao formato. A situaÁ„o ser· alterada para rejeitado
     pgePago,           // Pago - Pagamento efetuado;
-    pgePendente,       // Pendente - Falta autoriza√ß√£o para o d√©bito do pagamento na conta do cliente conveniado
-    pgeRejeitado,      // Rejeitado - Dados do pagamento n√£o passaram na valida√ß√µes f√≠sicas e/ou l√≥gicas. Ex: ag√™ncia e conta n√£o existem, conta n√£o pertence ao CPF informado
-    pgeVencido        // Vencido - Pagamento n√£o efetuado na data indicada por falta de saldo ou falta de autoriza√ß√£o para d√©bito do pagamento na conta do cliente conveniado
+    pgePendente,       // Pendente - Falta autorizaÁ„o para o dÈbito do pagamento na conta do cliente conveniado
+    pgeRejeitado,      // Rejeitado - Dados do pagamento n„o passaram na validaÁıes fÌsicas e/ou lÛgicas. Ex: agÍncia e conta n„o existem, conta n„o pertence ao CPF informado
+    pgeVencido        // Vencido - Pagamento n„o efetuado na data indicada por falta de saldo ou falta de autorizaÁ„o para dÈbito do pagamento na conta do cliente conveniado
   );
 
   TACBrPagamentosBBLoteEstado = (
@@ -96,7 +96,7 @@ type
     pleCancelado,          // 8 - Cancelado
     pleDebitado,           // 9 - Debitado
     pleBloqueado,          // 10 - Bloqueado
-    pleAguardandoDebito    // 11 - Aguardando D√©bito
+    pleAguardandoDebito    // 11 - Aguardando DÈbito
   );
 
   TACBrPagamentosBBTipoBeneficiario = (
@@ -109,206 +109,269 @@ type
     ptcNenhum,
     ptcContaCorrente,   // 1 - Conta Corrente
     ptcContaPagamento,  // 2 - Conta Pagamento
-    ptcContaPoupanca    // 3 - Conta Poupan√ßa
+    ptcContaPoupanca    // 3 - Conta PoupanÁa
   );
 
   TACBrPagamenosBBTransferenciaErro = (
     pteNenhum,
-    pteAgenciaZerada,                    // 1 - Ag√™ncia de cr√©dito est√° zerada. Informe o n¬∫ da Ag√™ncia de Cr√©dito
-    pteAgenciaNaoNumerica,               // 2 - Conta de cr√©dito informada n√£o √© num√©rica. Informe apenas n√∫meros
-    pteDVContaNaoInformado,              // 3 - D√≠gito da conta de cr√©dito n√£o informado. Informe o DV da conta de cr√©dito
-    pteCPFNaoNumerico,                   // 4 - CPF informado n√£o √© num√©rico. Informe apenas n√∫meros
-    pteCNPJNaoNumerico,                  // 5 - CNPJ informado n√£o √© num√©rico. Informe apenas n√∫meros
-    pteDataNaoInformada,                 // 6 - Data do pagamento n√£o informada. Informe a data do pagamento
-    pteDataInvalida,                     // 7 - Data do pagamento inv√°lida. Verifique o dado informado
-    pteValorNaoNumerico,                 // 8 - Valor do pagamento informado n√£o √© n√∫merico. Informe apenas n√∫meros
-    pteValorZerado,                      // 9 - Valor do pagamento est√° zerado. Informe o valor do pagamento
-    pteCompensacaoISPBNaoInformados,     // 10 - Ambos os campos N√∫mero Compensa√ß√£o e N√∫mero ISPB n√£o foram informados. Informe um dos campos
-    pteCompensacaoISPBInformados,        // 11 - Ambos os campos N√∫mero Compensa√ß√£o e N√∫mero ISPB foram informados. Informe apenas um dos campos
-    pteDOCTEDNaoInformados,              // 12 - Ambos os campos Finalidade DOC e Finalidade TED n√£o foram informados. Informe um dos campos
+    pteAgenciaZerada,                    // 1 - AgÍncia de crÈdito est· zerada. Informe o n∫ da AgÍncia de CrÈdito
+    pteAgenciaNaoNumerica,               // 2 - Conta de crÈdito informada n„o È numÈrica. Informe apenas n˙meros
+    pteDVContaNaoInformado,              // 3 - DÌgito da conta de crÈdito n„o informado. Informe o DV da conta de crÈdito
+    pteCPFNaoNumerico,                   // 4 - CPF informado n„o È numÈrico. Informe apenas n˙meros
+    pteCNPJNaoNumerico,                  // 5 - CNPJ informado n„o È numÈrico. Informe apenas n˙meros
+    pteDataNaoInformada,                 // 6 - Data do pagamento n„o informada. Informe a data do pagamento
+    pteDataInvalida,                     // 7 - Data do pagamento inv·lida. Verifique o dado informado
+    pteValorNaoNumerico,                 // 8 - Valor do pagamento informado n„o È n˙merico. Informe apenas n˙meros
+    pteValorZerado,                      // 9 - Valor do pagamento est· zerado. Informe o valor do pagamento
+    pteCompensacaoISPBNaoInformados,     // 10 - Ambos os campos N˙mero CompensaÁ„o e N˙mero ISPB n„o foram informados. Informe um dos campos
+    pteCompensacaoISPBInformados,        // 11 - Ambos os campos N˙mero CompensaÁ„o e N˙mero ISPB foram informados. Informe apenas um dos campos
+    pteDOCTEDNaoInformados,              // 12 - Ambos os campos Finalidade DOC e Finalidade TED n„o foram informados. Informe um dos campos
     pteDOCTEDInformados,                 // 13 - Ambos os campos Finalidade DOC e Finalidade TED foram informados. Informe apenas um dos campos
-    pteNumDepositoJudicialNaoInformado,  // 14 - N√∫mero de dep√≥sito judicial n√£o informado. Informe o n√∫mero do dep√≥sito judicial
-    pteDVContaInvalido,                  // 15 - Digito da conta de cr√©dito inv√°lido. Verifique o dado informado
-    pteCPFCNPJInformados,                // 16 - Ambos os campos CPF e CNPJ foram informados. Informe apenas um dos campos. Caso informado os 2 campos, nas consultas ser√° exibido apenas os dados do CPF
-    pteCPFCNPJNaoInformaos,              // 17 - Ambos os campos CPF e CNPJ n√£o foram informados. Informe um dos campos
-    pteCPFInvalido,                      // 18 - D√≠gito do CPF inv√°lido. Verifique o dado informado
-    pteCNPJInvalido,                     // 19 - D√≠gito do CNPJ inv√°lido. Verifique o dado informado
-    pteAgenciaContaIguais,               // 20 - Ag√™ncia e conta de cr√©dito est√£o iguais √†s de d√©bito. Op√ß√£o n√£o permitida
-    pteNumCompensacaoInvalido,           // 21 - N√∫mero Compensa√ß√£o inv√°lido. Verifique o dado informado
-    pteISPBDiferenteDeZeros,             // 22 - N√∫mero ISPB diferente de zeros. N√£o informe o n¬∫ ISPB
-    pteContaCreditoNaoInformada,         // 23 - Conta de cr√©dito n√£o informada. Informe o n√∫mero da conta de cr√©dito
-    pteCPFNaoInformado,                  // 24 - CPF n√£o informado. Informe o n¬∫ do CPF
-    pteCNPJNaoInformado,                 // 25 - CNPJ foi informado. N√£o informe CNPJ
-    pteContaCreditoInformada,            // 26 - Conta de cr√©dito foi informada. N√£o informe Conta de cr√©dito
-    pteDVCreditoInformado,               // 27 - D√≠gito da conta de cr√©dito foi informado. N√£o informe d√≠gito da conta de cr√©dito
-    pteFinalidadeDOCInformada,           // 28 - Finalidade do DOC foi informada. N√£o informe finalidade do DOC
-    pteFinalidadeTEDInformada,           // 29 - Finalidade da TED foi informada. N√£o informe finalidade da TED
-    pteNumDepositoJudicialInformado,     // 30 - N√∫mero Dep√≥sito Judicial informado. N√£o informe finalidade Dep√≥sito Judicial
-    pteDocumentoCreditoNaoNumerico,      // 31 - N√∫mero do documento de cr√©dito informado n√£o √© num√©rico. Informe apenas n√∫meros
-    pteDocumentoDebitoNaoNumerico,       // 32 - N√∫mero do documento de d√©bito n√£o √© num√©rico. Informe apenas n√∫meros
-    pteCPFNaoEncontrado,                 // 33 - CPF n√£o encontrado na base da receita federal. Verifique o dado informado
-    pteCNPJNaoEncontrado,                // 34 - CNPJ n√£o encontrado na base da receita federal. Verifique o dado informado
-    pteContaPoupancaNaoPermitida,        // 35 - Conta poupan√ßa n√£o permitido para "Pagamento ao Fornecedor". Para creditar em conta poupan√ßa utilize o recurso para efetiva√ß√£o de "Pagamentos Diversos"
-    pteCOMPEDeveSer1,                    // 36 - C√≥digo COMPE deve ser igual a 1
-    pteISPBDeveSer0,                     // 37 - C√≥digo ISPB deve ser igual a 0
-    pteCodBarrasNaoNumerio,              // 38 - C√≥digo de barras n√£o √© num√©rico. Informe apenas n√∫meros
-    pteCodBarrasIgualZeros,              // 39 - C√≥digo de barras igual a zeros. Informe apenas n√∫meros
-    pteNumInscricaoNaoNumerico,          // 40 - N√∫mero de inscri√ß√£o do pagador n√£o √© num√©rico. Informe apenas n√∫meros
-    pteInscricaoBeneficiarioNaoNumerico, // 41 - N√∫mero de inscri√ß√£o do benefici√°rio n√£o √© num√©rico. Informe apenas n√∫meros
-    pteInscricaoAvalistaNaoNumerico,     // 42 - N√∫mero de inscri√ß√£o do avalista n√£o √© num√©rico. Informe apenas n√∫meros
-    pteDVCPFPagadorInvalido,             // 43 - Digito do CPF para o pagador inv√°lido. Verifique o dado informado
-    pteDVCPFBeneficiarioInvalido,        // 44 - Digito do CPF para o benefici√°rio inv√°lido. Verifique o dado informado
-    pteDVCPFAvalistaInvalido,            // 45 - Digito do CPF para o avalista inv√°lido. Verifique o dado informado
-    pteDVCNPJPagadorInvalido,            // 46 - Digito do CNPJ para o pagador inv√°lido. Verifique o dado informado
-    pteDVCNPJBeneficiarioInvalido,       // 47 - Digito do CNPJ para o benefici√°rio inv√°lido. Verifique o dado informado
-    pteDVCNPJAvalistaInvalido,           // 48 - Digito do CNPJ para o avalista inv√°lido.Verifique o dado informado
-    pteDataVencimentoInvalida,           // 49 - Data do vencimento inv√°lida. Verifique o dado informado
-    pteValorNominalNaoNumerico,          // 50 - Valor nominal n√£o √© num√©rico. Informe apenas n√∫meros
-    pteValorDescontoNaoNumerico,         // 51 - Valor de desconto n√£o √© num√©rico. Informe apenas n√∫meros
-    pteValorMoraNaoNumerico,             // 52 - Valor de mora n√£o √© num√©rico. Informe apenas n√∫meros
+    pteNumDepositoJudicialNaoInformado,  // 14 - N˙mero de depÛsito judicial n„o informado. Informe o n˙mero do depÛsito judicial
+    pteDVContaInvalido,                  // 15 - Digito da conta de crÈdito inv·lido. Verifique o dado informado
+    pteCPFCNPJInformados,                // 16 - Ambos os campos CPF e CNPJ foram informados. Informe apenas um dos campos. Caso informado os 2 campos, nas consultas ser· exibido apenas os dados do CPF
+    pteCPFCNPJNaoInformaos,              // 17 - Ambos os campos CPF e CNPJ n„o foram informados. Informe um dos campos
+    pteDVCPFInvalido,                    // 18 - DÌgito do CPF inv·lido. Verifique o dado informado
+    pteDVCNPJInvalido,                   // 19 - DÌgito do CNPJ inv·lido. Verifique o dado informado
+    pteAgenciaContaIguais,               // 20 - AgÍncia e conta de crÈdito est„o iguais ‡s de dÈbito. OpÁ„o n„o permitida
+    pteNumCompensacaoInvalido,           // 21 - N˙mero CompensaÁ„o inv·lido. Verifique o dado informado
+    pteISPBDiferenteDeZeros,             // 22 - N˙mero ISPB diferente de zeros. N„o informe o n∫ ISPB
+    pteContaCreditoNaoInformada,         // 23 - Conta de crÈdito n„o informada. Informe o n˙mero da conta de crÈdito
+    pteCPFNaoInformado,                  // 24 - CPF n„o informado. Informe o n∫ do CPF
+    pteCNPJNaoInformado,                 // 25 - CNPJ foi informado. N„o informe CNPJ
+    pteContaCreditoInformada,            // 26 - Conta de crÈdito foi informada. N„o informe Conta de crÈdito
+    pteDVCreditoInformado,               // 27 - DÌgito da conta de crÈdito foi informado. N„o informe dÌgito da conta de crÈdito
+    pteFinalidadeDOCInformada,           // 28 - Finalidade do DOC foi informada. N„o informe finalidade do DOC
+    pteFinalidadeTEDInformada,           // 29 - Finalidade da TED foi informada. N„o informe finalidade da TED
+    pteNumDepositoJudicialInformado,     // 30 - N˙mero DepÛsito Judicial informado. N„o informe finalidade DepÛsito Judicial
+    pteDocumentoCreditoNaoNumerico,      // 31 - N˙mero do documento de crÈdito informado n„o È numÈrico. Informe apenas n˙meros
+    pteDocumentoDebitoNaoNumerico,       // 32 - N˙mero do documento de dÈbito n„o È numÈrico. Informe apenas n˙meros
+    pteCPFNaoEncontrado,                 // 33 - CPF n„o encontrado na base da receita federal. Verifique o dado informado
+    pteCNPJNaoEncontrado,                // 34 - CNPJ n„o encontrado na base da receita federal. Verifique o dado informado
+    pteContaPoupancaNaoPermitida,        // 35 - Conta poupanÁa n„o permitido para "Pagamento ao Fornecedor". Para creditar em conta poupanÁa utilize o recurso para efetivaÁ„o de "Pagamentos Diversos"
+    pteCOMPEDeveSer1,                    // 36 - CÛdigo COMPE deve ser igual a 1
+    pteISPBDeveSer0,                     // 37 - CÛdigo ISPB deve ser igual a 0
+    pteCodBarrasNaoNumerico,             // 38 - CÛdigo de barras n„o È numÈrico. Informe apenas n˙meros
+    pteCodBarrasIgualZeros,              // 39 - CÛdigo de barras igual a zeros. Informe apenas n˙meros
+    pteNumInscricaoNaoNumerico,          // 40 - N˙mero de inscriÁ„o do pagador n„o È numÈrico. Informe apenas n˙meros
+    pteInscricaoBeneficiarioNaoNumerico, // 41 - N˙mero de inscriÁ„o do benefici·rio n„o È numÈrico. Informe apenas n˙meros
+    pteInscricaoAvalistaNaoNumerico,     // 42 - N˙mero de inscriÁ„o do avalista n„o È numÈrico. Informe apenas n˙meros
+    pteDVCPFPagadorInvalido,             // 43 - Digito do CPF para o pagador inv·lido. Verifique o dado informado
+    pteDVCPFBeneficiarioInvalido,        // 44 - Digito do CPF para o benefici·rio inv·lido. Verifique o dado informado
+    pteDVCPFAvalistaInvalido,            // 45 - Digito do CPF para o avalista inv·lido. Verifique o dado informado
+    pteDVCNPJPagadorInvalido,            // 46 - Digito do CNPJ para o pagador inv·lido. Verifique o dado informado
+    pteDVCNPJBeneficiarioInvalido,       // 47 - Digito do CNPJ para o benefici·rio inv·lido. Verifique o dado informado
+    pteDVCNPJAvalistaInvalido,           // 48 - Digito do CNPJ para o avalista inv·lido.Verifique o dado informado
+    pteDataVencimentoInvalida,           // 49 - Data do vencimento inv·lida. Verifique o dado informado
+    pteValorNominalNaoNumerico,          // 50 - Valor nominal n„o È numÈrico. Informe apenas n˙meros
+    pteValorDescontoNaoNumerico,         // 51 - Valor de desconto n„o È numÈrico. Informe apenas n˙meros
+    pteValorMoraNaoNumerico,             // 52 - Valor de mora n„o È numÈrico. Informe apenas n˙meros
     pteDataPagamentoMenorAtual,          // 53 - Data do pagamento deve ser maior ou igual ao dia atual
-    pteDocDebitoNaoInformado,            // 54 - N√∫mero do documento de d√©bito n√£o informado. Informe o n¬∫ do doc de d√©bito
-    pteDataVencimentoNaoInformada,       // 55 - Data do vencimento n√£o informada. Informe a data de vencimento
-    pteNomeBeneficiarioNaoInformado,     // 56 - Nome do benefici√°rio n√£o informado. Informe o nome do benefici√°rio
-    pteInscricaoBeneficiarioNaoInformada,// 57 - N√∫mero de inscri√ß√£o do benefici√°rio n√£o informado. Informe o CPF ou o CNPJ do benefici√°rio
-    pteContaPagamentoInformada,          // 58 - Conta pagamento foi informada. N√£o informe conta pagamento
-    pteContaCreditoPagamentoInformada,   // 59 - Ambos os campos conta de cr√©dito e conta pagamento foram informados. Informe apenas um dos campos
+    pteDocDebitoNaoInformado,            // 54 - N˙mero do documento de dÈbito n„o informado. Informe o n∫ do doc de dÈbito
+    pteDataVencimentoNaoInformada,       // 55 - Data do vencimento n„o informada. Informe a data de vencimento
+    pteNomeBeneficiarioNaoInformado,     // 56 - Nome do benefici·rio n„o informado. Informe o nome do benefici·rio
+    pteInscricaoBeneficiarioNaoInformada,// 57 - N˙mero de inscriÁ„o do benefici·rio n„o informado. Informe o CPF ou o CNPJ do benefici·rio
+    pteContaPagamentoInformada,          // 58 - Conta pagamento foi informada. N„o informe conta pagamento
+    pteContaCreditoPagamentoInformada,   // 59 - Ambos os campos conta de crÈdito e conta pagamento foram informados. Informe apenas um dos campos
+    pteTransacaoCanceladaCliente,                     // 60 - TransaÁ„o cancelada pelo cliente
+    pteCodigoReceitaTributoNaoInformado,              // 61 - CÛdigo da Receita do Tributo n„o informado
+    pteTipoIdentificacaoContribuinteNaoInformado,     // 62 - Tipo de IdentificaÁ„o do Contribuinte n„o informado
+    pteNumeroIdentificacaoContribuinteNaoInformado,   // 63 - N∫ de IdentificaÁ„o do Contribuinte n„o informado
+    pteNumeroIdentificacaoContribuinteNaoNumerico,    // 64 - N∫ de IdentificaÁ„o do Contribuinte n„o numÈrico
+    pteCodigoIdentificacaoTributoNaoInformado,        // 65 - CÛdigo de IdentificaÁ„o do Tributo n„o informado
+    ptePeriodoApuracaoNaoInformado,                   // 66 - PerÌodo de apuraÁ„o n„o informado
+    pteNumeroReferenciaNaoInformado,                  // 67 - Numero de ReferÍncia n„o informado
+    pteValorPrincipalNaoNumerico,                     // 68 - Valor Principal n„o È numÈrico
+    pteValorPrincipalNaoInformado,                    // 69 - Valor Principal n„o informado
+    pteValorMultaNaoNumerico,                         // 70 - Valor da Multa n„o È numÈrico
+    pteValorJurosEncargosNaoNumerico,                 // 71 - Valor dos Juros/Encargos n„o È numÈrico
+    pteDataVencimentoNaoInformada2,                   // 72 - Data de Vencimento n„o informada
+    pteMesAnoCompetenciaNaoInformados,                // 73 - MÍs e ano de competÍncia n„o informados
+    pteValorPrevistoPagamentoINSSNaoNumerico,         // 74 - Valor previsto do pagamento do INSS n„o È numÈrico
+    pteValorPrevistoPagamentoINSSNaoInformado,        // 75 - Valor previsto do pagamento do INSS n„o informado
+    pteValorOutrasEntidadesNaoNumerico,               // 76 - Valor de Outras Entidades n„o È numÈrico
+    pteValorAtualizacaoMonetariaNaoNumerico,          // 77 - Valor de AtualizaÁ„o Monet·ria n„o È numÈrico
+    ptePeriodoApuracaoInvalido,                       // 79 - PerÌodo de apuraÁ„o inv·lido
+    pteContaCreditoInvalida,                          // 80 - Conta de crÈdito inv·lida. Informe o numero sem o 45 do inÌcio
+    pteContaNaoPertenceFuncionario,                   // 81 - A conta informada n„o pertence ao funcion·rio
+    ptePagamentoPermitidoApenasPessoasFisicas,        // 82 - Pagamento permitido apenas para pessoas fÌsicas
+    pteAgenciaContaIncorretos,                        // 83 - AgÍncia e Conta incorretos
+    pteContaNaoAtiva,                                 // 84 - A conta informada n„o est· ativa
+    pteContaNaoPermiteCreditoSalario,                 // 85 - Conta n„o permite crÈdito de sal·rio. Informe outra conta
+    pteAgenciaCreditoContaPagamentoInformados,        // 86 - Ambos os campos agÍncia de crÈdito e conta pagamento foram informados
+    pteMesCompetenciaInvalido,                        // 90 - MÍs de competÍncia inv·lido
+    pteValorOutrasDedInvalido,                        // 91 - Valor de outras deduÁıes inv·lido
+    pteValorOutrosAcresInvalido,                      // 92 - Valor de outros acrÈscimos inv·lido
+    pteCodigoFormaIdentificacaoClienteNaoInformado,   // 93 - CÛdigo da forma de identificaÁ„o do cliente n„o foi informado
+    pteDDDPixNaoInformado,                            // 94 - DDD do cliente do Pix n„o foi informado
+    pteTelefonePixNaoInformado,                       // 95 - Telefone do Cliente do Pix n„o foi informado
+    pteEmailPixNaoInformado,                          // 96 - Email do cliente do Pix n„o foi informado
+    pteChaveAleatoriaPixNaoInformada,                 // 97 - Chave AleatÛria do Cliente do Pix n„o foi informado
+    pteCodigoTipoContaPixNaoInformado,                // 98 - CÛdigo de tipo de conta do Cliente do Pix n„o foi informado
     pteConsultarBancoErro,               // 99 - Consultar o Banco para detalhar o erro
-    pteInsuficienciaFundos,              // 200 - Insufici√™ncia de Fundos - D√©bito N√£o Efetuado
-    pteCreditoDebitoCancelado,           // 201 - Cr√©dito ou D√©bito Cancelado pelo Pagador
-    pteDebitoAutorizado,                 // 202 - D√©bito Autorizado pela Ag√™ncia - Efetuado
-    pteControleInvalido,                 // 203 - Controle Inv√°lido. Verificar campos 01, 02 e 03 do header ou segmento A, B, C, J, J52, N, O ou W do Arquivo CNAB240.
-    pteTipoOperacaoInvalido,             // 204 - Tipo de Opera√ß√£o Inv√°lido. Verificar campo 04.1 do header de lote. Valor default = "C"
-    pteTipoServicoInvalido,              // 205 - Tipo de Servi√ßo Inv√°lido. Utilize 20 para Pagamento a Fornecedores, 30 Pagamento de Sal√°rios ou 98 Pagamentos Diversos no header de Lote, campo 05.1, do CNAB240
-    pteFormaLancamentoInvalida,          // 206 - Forma de Lan√ßamento Inv√°lida. Para cr√©dito em Poupan√ßa utilize Pagamentos Diversos. Para cr√©dito em Conta Pagamento utilize Pagamentos Diversos ou Pagamento a Fornecedores. Para Pagamento de sal√°rio a conta de cr√©dito deve ser do BB.
-    pteTipoNumeroInscricaoInvalido,      // 207 - Tipo/N√∫mero de Inscri√ß√£o Inv√°lido. CPF ou CNPJ inv√°lido. Verifique dados informados.
-    pteCodigoConvenioInvalido,           // 208 - C√≥digo de Conv√™nio Inv√°lido. Verifique dados informados.
-    pteAgenciaContaCorrenteDVInvalido,   // 209 - Ag√™ncia/Conta Corrente/DV Inv√°lido. Verifique dados informados.
-    pteNumeroSequencialRegistroInvalido, // 210 - N¬∫ Seq√ºencial do Registro no Lote Inv√°lido. Verifique dado informado.
-    pteCodigoSegmentoDetalheInvalido,    // 211 - C√≥digo de Segmento de Detalhe Inv√°lido. Verifique dado informado.
-    pteLancamentoInconsistente,          // 212 - Lan√ßamento inconsistente, rejeitado na pr√©via. Corrigir os dados do lan√ßamento e enviar novo pagamento.
-    pteNumeroCompeBancoCreditoInvalido,  // 213 - N¬∫ Compe do Banco para cr√©dito Inv√°lido. Verifique dado informado.
-    pteNumeroISPBInvalido,               // 214 - N¬∫ do ISPB Banco, Institui√ß√£o de Pagamento para cr√©dito Inv√°lido. Verifique dado informado.
-    pteAgenciaMantenedoraInvalida,       // 215 - Ag√™ncia Mantenedora da Conta Corrente do Favorecido Inv√°lida. Verifique dado informado.
-    pteContaCorrenteDVInvalido,          // 216 - Conta Corrente/DV/Conta de Pagamento do Favorecido Inv√°lido. Verifique dado informado.
-    pteNomeFavorecidoNaoInformado,       // 217 - Nome do Favorecido n√£o Informado. Informe o nome do favorecido.
-    pteDataLancamentoInvalida,           // 218 - Data Lan√ßamento Inv√°lido. Verifique dado informado.
-    pteTipoQuantidadeMoedaInvalida,      // 219 - Tipo/Quantidade da Moeda Inv√°lido. Verifique dado informado.
-    pteValorLancamentoInvalido,          // 220 - Valor do Lan√ßamento Inv√°lido. Verifique dado informado.
-    pteAvisoFavorecidoIdentificacaoInvalida, // 221 - Aviso ao Favorecido - Identifica√ß√£o Inv√°lida.
-    pteTipoNumeroInscricaoFavorecidoInvalido, // 222 - Tipo/N√∫mero de Inscri√ß√£o do Favorecido Inv√°lido CPF ou CNPJ do favorecido inv√°lido. Arquivo: Verifique o campo 07.3B - registro detalhe do segmento B.
-    pteLogradouroFavorecidoNaoInformado, // 223 - Logradouro do Favorecido n√£o Informado. Informe o logradouro do favorecido.
-    pteNumeroLocalFavorecidoNaoInformado,// 224 - N¬∫ do Local do Favorecido n√£o Informado. Informe o n¬∫ do local do favorecido.
-    pteCidadeFavorecidoNaoInformada,     // 225 - Cidade do Favorecido n√£o Informada. Informe a cidade do favorecido.
-    pteCEPFavorecidoInvalido,            // 226 - CEP/Complemento do Favorecido Inv√°lido. Verifique dado informado.
-    pteSiglaEstadoFavorecidoInvalida,    // 227 - Sigla do Estado do Favorecido Inv√°lida. Verifique dado informado.
-    pteNumeroBancoCreditoInvalido,       // 228 - N¬∫ do Banco para cr√©dito Inv√°lido. Verifique dado informado.
-    pteCodigoNomeAgenciaDepositariaNaoInformado, // 229 - C√≥digo/Nome da Ag√™ncia Deposit√°ria n√£o Informado. Informe o dado solicitado.
-    pteSeuNumeroInvalido,                // 230 - Seu N√∫mero Inv√°lido. Verifique dado informado.
-    pteNossoNumeroInvalido,              // 231 - Nosso N√∫mero Inv√°lido. Verifique dado informado.
-    pteInclusaoEfetuadaSucesso,          // 232 - Inclus√£o Efetuada com Sucesso
-    pteAlteracaoEfetuadaSucesso,         // 233 - Altera√ß√£o Efetuada com Sucesso
-    pteExclusaoEfetuadaSucesso,          // 234 - Exclus√£o Efetuada com Sucesso
-    pteAgenciaContaImpedidaLegalmente,   // 235 - Ag√™ncia/Conta Impedida Legalmente
-    pteEmpresaNaoPagouSalario,           // 236 - Empresa n√£o pagou sal√°rio Conta de cr√©dito s√≥ aceita pagamento de sal√°rio.
-    pteFalecimentoMutuario,              // 237 - Falecimento do mutu√°rio.
-    pteEmpresaNaoEnviouRemessaMutuario,  // 238 - Empresa n√£o enviou remessa do mutu√°rio
-    pteEmpresaNaoEnviouRemessaVencimento,// 239 - Empresa n√£o enviou remessa no vencimento
-    pteValorParcelaInvalida,             // 240 - Valor da parcela inv√°lida. Verifique dado informado.
-    pteIdentificacaoContratoInvalida,    // 241 - Identifica√ß√£o do contrato inv√°lida. Verifique dado informado.
-    pteOperacaoConsignacaoIncluidaSucesso, // 242 - Opera√ß√£o de Consigna√ß√£o Inclu√≠da com Sucesso
-    pteOperacaoConsignacaoAlteradaSucesso, // 243 - Opera√ß√£o de Consigna√ß√£o Alterada com Sucesso
-    pteOperacaoConsignacaoExcluidaSucesso, // 244 - Opera√ß√£o de Consigna√ß√£o Exclu√≠da com Sucesso
-    pteOperacaoConsignacaoLiquidadaSucesso, // 245 - Opera√ß√£o de Consigna√ß√£o Liquidada com Sucesso
-    pteReativacaoEfetuadaSucesso,        // 246 - Reativa√ß√£o Efetuada com Sucesso
-    pteSuspensaoEfetuadaSucesso,         // 247 - Suspens√£o Efetuada com Sucesso
-    pteCodigoBarrasBancoInvalido,        // 248 - C√≥digo de Barras - C√≥digo do Banco Inv√°lido.
-    pteCodigoBarrasMoedaInvalido,        // 249 - C√≥digo de Barras - C√≥digo da Moeda Inv√°lido
-    pteCodigoBarrasDigitoVerificadorInvalido, // 250 - C√≥digo de Barras - D√≠gito Verificador Geral Inv√°lido
-    pteCodigoBarrasValorTituloInvalido,  // 251 - C√≥digo de Barras - Valor do T√≠tulo Inv√°lido
-    pteCodigoBarrasCampoLivreInvalido,   // 252 - C√≥digo de Barras - Campo Livre Inv√°lido
-    pteValorDocumentoInvalido,           // 253 - Valor do Documento Inv√°lido. Verifique dado informado.
-    pteValorAbatimentoInvalido,          // 254 - Valor do Abatimento Inv√°lido. Verifique dado informado.
-    pteValorDescontoInvalido,            // 255 - Valor do Desconto Inv√°lido. Verifique dado informado.
-    pteValorMoraInvalido,                // 256 - Valor de Mora Inv√°lido. Verifique dado informado.
-    pteValorMultaInvalido,               // 257 - Valor da Multa Inv√°lido. Verifique dado informado.
-    pteValorIRInvalido,                  // 258 - Valor do IR Inv√°lido. Verifique dado informado.
-    pteValorISSInvalido,                 // 259 - Valor do ISS Inv√°lido. Verifique dado informado.
-    pteValorIOFInvalido,                 // 260 - Valor do IOF Inv√°lido. Verifique dado informado.
-    pteValorOutrasDeducoesInvalido,      // 261 - Valor de Outras Dedu√ß√µes Inv√°lido. Verifique dado informado.
-    pteValorOutrosAcrescimosInvalido,    // 262 - Valor de Outros Acr√©scimos Inv√°lido. Verifique dado informado.
-    pteValorINSSInvalido,                // 263 - Valor do INSS Inv√°lido. Verifique dado informado.
-    pteLoteNaoAceito,                    // 264 - Lote N√£o Aceito. Reenvie os documentos.
-    pteInscricaoEmpresaInvalidaContrato, // 265 - Inscri√ß√£o da Empresa Inv√°lida para o Contrato
-    pteConvenioEmpresaInexistenteContrato, // 266 - Conv√™nio com a Empresa Inexistente/Inv√°lido para o Contrato
-    pteAgenciaContaCorrenteEmpresaInexistenteContrato, // 267 - Ag√™ncia/Conta Corrente da Empresa Inexistente/Inv√°lido para o Contrato. Verifique dado informado.
-    pteTipoServicoInvalidoContrato,      // 268 - Tipo de Servi√ßo Inv√°lido para o Contrato. Para contrato de Pagamentos, utilize 20 para Pagamento a Fornecedores, 30 Pagamento de Sal√°rios ou 98 Pagamentos Diversos no header de Lote, campo 05.1, do CNAB240
+    pteEmailInvalido,                    // 100 - E-mail inv·lido
+    pteEmailPixCaractereEspecial,        // 101 - Email do cliente do PIX n„o deve conter caractere especial
+    pteTelefoneInvalido,                 // 102 - Telefone Inv·lido
+    pteDDDInvalido,                      // 103 - DDD inv·lido
+    pteEmailTamanhoMaior77,              // 104 - E-mail com tamanho maior que 77 caracteres
+    pteContaDeCreditoInvalida,           // 105	- Conta de crÈdito inv·lida. Informe um n˙mero de conta v·lido.
+    pteCpfInvalido,                      // 106	- CPF inv·lido. Informe um CPF v·lido.
+    pteCnpjInvalido,                     // 107	- CNPJ inv·lido. Informe um CNPJ v·lido.
+    pteNroDocCreditoInvalido,            // 108	- N˙mero do documento de crÈdito inv·lido. Informe um n˙mero v·lido.
+    pteNroDocDebitoInvalido,             // 109	- N˙mero do documento de dÈbito inv·lido. Informe um n˙mero v·lido.
+    pteValorPgtoInvalido,                // 110	- Valor do pagamento inv·lido. Informe um valor v·lido.
+    pteValorNominalInvalido,             // 111	- Valor nominal inv·lido. Informe um valor v·lido.
+    pteValorDescInvalido,                // 112	- Valor de desconto inv·lido. Informe um valor v·lido.
+    pteValorJuro2Invalido,               // 113	- Valor de mora inv·lido. Informe um valor v·lido.
+    pteNroInscBeneficiarioInvalido,      // 114	- N˙mero de inscriÁ„o do benefici·rio inv·lido. Informe um n˙mero
+    pteNroInscPagadorInvalido,           // 115	- N˙mero de inscriÁ„o do pagador inv·lido. Informe um n˙mero v·lido.
+    pteNroInscAvalistaInvalido,          // 116	- N˙mero de inscriÁ„o do avalista inv·lido. Informe um n˙mero v·lido.
+    pteNroIndentContribuinteDarfInvalido,// 117	- N∫ de identifiaÁ„o do contribuinte DARF inv·lido. Informe um
+    pteNroReferenciaInvalido,            // 118	- N˙mero de referÍncia inv·lido. Informe um n˙mero v·lido.
+    pteValorPrincipalInvalido,           // 119	- Valor principal inv·lido. Informe um valor v·lido.
+    pteValorMulta2Invalido,              // 120	- Valor da multa inv·lido. Informe um valor v·lido.
+    pteValorJurosInvalido,               // 121	- Valor dos juros/encargos inv·lido. Informe um valor v·lido.
+    pteNroIndentContribuinteGpsInvalido, // 122	- N∫ de identificaÁ„o do contribuinte GPS inv·lido. Informe um
+    pteValorPrevPgtoInssInvalido,        // 123	- Valor previsto do pagamento do INSS inv·lido. Informe um valor
+    pteValorOutrasEntInvalido,           // 124	- Valor de outras entidades inv·lido. Informe um valor v·lido.
+    pteValorAtualizaMonetariaInvalido,   // 125	- Valor de atualizaÁ„o monet·ria inv·lido. Informe um valor v·lido.
+    pteValorDescontoGruInvalido,         // 126	- Valor de desconto GRU inv·lido. Informe um valor v·lido.
+    pteCodBarInconpativelModalidadePgto, // 127	- Codigo de barras incompativel com a modalidade de pagamento.
+    pteInsuficienciaFundos,              // 200 - InsuficiÍncia de Fundos - DÈbito N„o Efetuado
+    pteCreditoDebitoCancelado,           // 201 - CrÈdito ou DÈbito Cancelado pelo Pagador
+    pteDebitoAutorizado,                 // 202 - DÈbito Autorizado pela AgÍncia - Efetuado
+    pteControleInvalido,                 // 203 - Controle Inv·lido. Verificar campos 01, 02 e 03 do header ou segmento A, B, C, J, J52, N, O ou W do Arquivo CNAB240.
+    pteTipoOperacaoInvalido,             // 204 - Tipo de OperaÁ„o Inv·lido. Verificar campo 04.1 do header de lote. Valor default = "C"
+    pteTipoServicoInvalido,              // 205 - Tipo de ServiÁo Inv·lido. Utilize 20 para Pagamento a Fornecedores, 30 Pagamento de Sal·rios ou 98 Pagamentos Diversos no header de Lote, campo 05.1, do CNAB240
+    pteFormaLancamentoInvalida,          // 206 - Forma de LanÁamento Inv·lida. Para crÈdito em PoupanÁa utilize Pagamentos Diversos. Para crÈdito em Conta Pagamento utilize Pagamentos Diversos ou Pagamento a Fornecedores. Para Pagamento de sal·rio a conta de crÈdito deve ser do BB.
+    pteTipoNumeroInscricaoInvalido,      // 207 - Tipo/N˙mero de InscriÁ„o Inv·lido. CPF ou CNPJ inv·lido. Verifique dados informados.
+    pteCodigoConvenioInvalido,           // 208 - CÛdigo de ConvÍnio Inv·lido. Verifique dados informados.
+    pteAgenciaContaCorrenteDVInvalido,   // 209 - AgÍncia/Conta Corrente/DV Inv·lido. Verifique dados informados.
+    pteNumeroSequencialRegistroInvalido, // 210 - N∫ Seq¸encial do Registro no Lote Inv·lido. Verifique dado informado.
+    pteCodigoSegmentoDetalheInvalido,    // 211 - CÛdigo de Segmento de Detalhe Inv·lido. Verifique dado informado.
+    pteLancamentoInconsistente,          // 212 - LanÁamento inconsistente, rejeitado na prÈvia. Corrigir os dados do lanÁamento e enviar novo pagamento.
+    pteNumeroCompeBancoCreditoInvalido,  // 213 - N∫ Compe do Banco para crÈdito Inv·lido. Verifique dado informado.
+    pteNumeroISPBInvalido,               // 214 - N∫ do ISPB Banco, InstituiÁ„o de Pagamento para crÈdito Inv·lido. Verifique dado informado.
+    pteAgenciaMantenedoraInvalida,       // 215 - AgÍncia Mantenedora da Conta Corrente do Favorecido Inv·lida. Verifique dado informado.
+    pteContaCorrenteDVInvalido,          // 216 - Conta Corrente/DV/Conta de Pagamento do Favorecido Inv·lido. Verifique dado informado.
+    pteNomeFavorecidoNaoInformado,       // 217 - Nome do Favorecido n„o Informado. Informe o nome do favorecido.
+    pteDataLancamentoInvalida,           // 218 - Data LanÁamento Inv·lido. Verifique dado informado.
+    pteTipoQuantidadeMoedaInvalida,      // 219 - Tipo/Quantidade da Moeda Inv·lido. Verifique dado informado.
+    pteValorLancamentoInvalido,          // 220 - Valor do LanÁamento Inv·lido. Verifique dado informado.
+    pteAvisoFavorecidoIdentificacaoInvalida, // 221 - Aviso ao Favorecido - IdentificaÁ„o Inv·lida.
+    pteTipoNumeroInscricaoFavorecidoInvalido, // 222 - Tipo/N˙mero de InscriÁ„o do Favorecido Inv·lido CPF ou CNPJ do favorecido inv·lido. Arquivo: Verifique o campo 07.3B - registro detalhe do segmento B.
+    pteLogradouroFavorecidoNaoInformado, // 223 - Logradouro do Favorecido n„o Informado. Informe o logradouro do favorecido.
+    pteNumeroLocalFavorecidoNaoInformado,// 224 - N∫ do Local do Favorecido n„o Informado. Informe o n∫ do local do favorecido.
+    pteCidadeFavorecidoNaoInformada,     // 225 - Cidade do Favorecido n„o Informada. Informe a cidade do favorecido.
+    pteCEPFavorecidoInvalido,            // 226 - CEP/Complemento do Favorecido Inv·lido. Verifique dado informado.
+    pteSiglaEstadoFavorecidoInvalida,    // 227 - Sigla do Estado do Favorecido Inv·lida. Verifique dado informado.
+    pteNumeroBancoCreditoInvalido,       // 228 - N∫ do Banco para crÈdito Inv·lido. Verifique dado informado.
+    pteCodigoNomeAgenciaDepositariaNaoInformado, // 229 - CÛdigo/Nome da AgÍncia Deposit·ria n„o Informado. Informe o dado solicitado.
+    pteSeuNumeroInvalido,                // 230 - Seu N˙mero Inv·lido. Verifique dado informado.
+    pteNossoNumeroInvalido,              // 231 - Nosso N˙mero Inv·lido. Verifique dado informado.
+    pteInclusaoEfetuadaSucesso,          // 232 - Inclus„o Efetuada com Sucesso
+    pteAlteracaoEfetuadaSucesso,         // 233 - AlteraÁ„o Efetuada com Sucesso
+    pteExclusaoEfetuadaSucesso,          // 234 - Exclus„o Efetuada com Sucesso
+    pteAgenciaContaImpedidaLegalmente,   // 235 - AgÍncia/Conta Impedida Legalmente
+    pteEmpresaNaoPagouSalario,           // 236 - Empresa n„o pagou sal·rio Conta de crÈdito sÛ aceita pagamento de sal·rio.
+    pteFalecimentoMutuario,              // 237 - Falecimento do mutu·rio.
+    pteEmpresaNaoEnviouRemessaMutuario,  // 238 - Empresa n„o enviou remessa do mutu·rio
+    pteEmpresaNaoEnviouRemessaVencimento,// 239 - Empresa n„o enviou remessa no vencimento
+    pteValorParcelaInvalida,             // 240 - Valor da parcela inv·lida. Verifique dado informado.
+    pteIdentificacaoContratoInvalida,    // 241 - IdentificaÁ„o do contrato inv·lida. Verifique dado informado.
+    pteOperacaoConsignacaoIncluidaSucesso, // 242 - OperaÁ„o de ConsignaÁ„o IncluÌda com Sucesso
+    pteOperacaoConsignacaoAlteradaSucesso, // 243 - OperaÁ„o de ConsignaÁ„o Alterada com Sucesso
+    pteOperacaoConsignacaoExcluidaSucesso, // 244 - OperaÁ„o de ConsignaÁ„o ExcluÌda com Sucesso
+    pteOperacaoConsignacaoLiquidadaSucesso, // 245 - OperaÁ„o de ConsignaÁ„o Liquidada com Sucesso
+    pteReativacaoEfetuadaSucesso,        // 246 - ReativaÁ„o Efetuada com Sucesso
+    pteSuspensaoEfetuadaSucesso,         // 247 - Suspens„o Efetuada com Sucesso
+    pteCodigoBarrasBancoInvalido,        // 248 - CÛdigo de Barras - CÛdigo do Banco Inv·lido.
+    pteCodigoBarrasMoedaInvalido,        // 249 - CÛdigo de Barras - CÛdigo da Moeda Inv·lido
+    pteCodigoBarrasDigitoVerificadorInvalido, // 250 - CÛdigo de Barras - DÌgito Verificador Geral Inv·lido
+    pteCodigoBarrasValorTituloInvalido,  // 251 - CÛdigo de Barras - Valor do TÌtulo Inv·lido
+    pteCodigoBarrasCampoLivreInvalido,   // 252 - CÛdigo de Barras - Campo Livre Inv·lido
+    pteValorDocumentoInvalido,           // 253 - Valor do Documento Inv·lido. Verifique dado informado.
+    pteValorAbatimentoInvalido,          // 254 - Valor do Abatimento Inv·lido. Verifique dado informado.
+    pteValorDescontoInvalido,            // 255 - Valor do Desconto Inv·lido. Verifique dado informado.
+    pteValorMoraInvalido,                // 256 - Valor de Mora Inv·lido. Verifique dado informado.
+    pteValorMultaInvalido,               // 257 - Valor da Multa Inv·lido. Verifique dado informado.
+    pteValorIRInvalido,                  // 258 - Valor do IR Inv·lido. Verifique dado informado.
+    pteValorISSInvalido,                 // 259 - Valor do ISS Inv·lido. Verifique dado informado.
+    pteValorIOFInvalido,                 // 260 - Valor do IOF Inv·lido. Verifique dado informado.
+    pteValorOutrasDeducoesInvalido,      // 261 - Valor de Outras DeduÁıes Inv·lido. Verifique dado informado.
+    pteValorOutrosAcrescimosInvalido,    // 262 - Valor de Outros AcrÈscimos Inv·lido. Verifique dado informado.
+    pteValorINSSInvalido,                // 263 - Valor do INSS Inv·lido. Verifique dado informado.
+    pteLoteNaoAceito,                    // 264 - Lote N„o Aceito. Reenvie os documentos.
+    pteInscricaoEmpresaInvalidaContrato, // 265 - InscriÁ„o da Empresa Inv·lida para o Contrato
+    pteConvenioEmpresaInexistenteContrato, // 266 - ConvÍnio com a Empresa Inexistente/Inv·lido para o Contrato
+    pteAgenciaContaCorrenteEmpresaInexistenteContrato, // 267 - AgÍncia/Conta Corrente da Empresa Inexistente/Inv·lido para o Contrato. Verifique dado informado.
+    pteTipoServicoInvalidoContrato,      // 268 - Tipo de ServiÁo Inv·lido para o Contrato. Para contrato de Pagamentos, utilize 20 para Pagamento a Fornecedores, 30 Pagamento de Sal·rios ou 98 Pagamentos Diversos no header de Lote, campo 05.1, do CNAB240
     pteContaCorrenteSaldoInsuficiente,   // 269 - Conta Corrente da Empresa com Saldo Insuficiente.
-    pteLoteServicoForaSequencia,         // 270 - Lote de Servi√ßo Fora de Seq√º√™ncia
-    pteLoteServicoInvalido,              // 271 - Lote de Servi√ßo Inv√°lido
-    pteArquivoNaoAceito,                 // 272 - Arquivo n√£o aceito
-    pteTipoRegistroInvalido,             // 273 - Tipo de Registro Inv√°lido
-    pteCodigoRemessaRetornoInvalido,     // 274 - C√≥digo Remessa / Retorno Inv√°lido
-    pteVersaoLayoutInvalida,             // 275 - Vers√£o de layout inv√°lida
-    pteMutuarioNaoIdentificado,          // 276 - Mutu√°rio n√£o identificado
-    pteTipoBeneficioNaoPermiteEmprestimo, // 277 - Tipo do beneficio n√£o permite empr√©stimo
+    pteLoteServicoForaSequencia,         // 270 - Lote de ServiÁo Fora de Seq¸Íncia
+    pteLoteServicoInvalido,              // 271 - Lote de ServiÁo Inv·lido
+    pteArquivoNaoAceito,                 // 272 - Arquivo n„o aceito
+    pteTipoRegistroInvalido,             // 273 - Tipo de Registro Inv·lido
+    pteCodigoRemessaRetornoInvalido,     // 274 - CÛdigo Remessa / Retorno Inv·lido
+    pteVersaoLayoutInvalida,             // 275 - Vers„o de layout inv·lida
+    pteMutuarioNaoIdentificado,          // 276 - Mutu·rio n„o identificado
+    pteTipoBeneficioNaoPermiteEmprestimo, // 277 - Tipo do beneficio n„o permite emprÈstimo
     pteBeneficioCessadoSuspenso,         // 278 - Beneficio cessado/suspenso
     pteBeneficioPossuiRepresentanteLegal, // 279 - Beneficio possui representante legal
-    pteBeneficioTipoPA,                  // 280 - Beneficio √© do tipo PA (Pens√£o aliment√≠cia)
+    pteBeneficioTipoPA,                  // 280 - Beneficio È do tipo PA (Pens„o alimentÌcia)
     pteQuantidadeContratosExcedida,      // 281 - Quantidade de contratos permitida excedida
-    pteBeneficioNaoPertenceBanco,        // 282 - Beneficio n√£o pertence ao Banco informado
-    pteInicioDescontoUltrapassado,       // 283 - In√≠cio do desconto informado j√° ultrapassado
-    pteNumeroParcelaInvalida,            // 284 - N√∫mero da parcela inv√°lida. Verifique dado informado.
-    pteQuantidadeParcelaInvalida,        // 285 - Quantidade de parcela inv√°lida. Verifique dado informado.
-    pteMargemConsignavelExcedidaPrazo,   // 286 - Margem consign√°vel excedida para o mutu√°rio dentro do prazo do contrato. Verifique suas margens dispon√≠veis.
-    pteEmprestimoJaCadastrado,           // 287 - Empr√©stimo j√° cadastrado
-    pteEmprestimoInexistente,            // 288 - Empr√©stimo inexistente
-    pteEmprestimoJaEncerrado,            // 289 - Empr√©stimo j√° encerrado
+    pteBeneficioNaoPertenceBanco,        // 282 - Beneficio n„o pertence ao Banco informado
+    pteInicioDescontoUltrapassado,       // 283 - InÌcio do desconto informado j· ultrapassado
+    pteNumeroParcelaInvalida,            // 284 - N˙mero da parcela inv·lida. Verifique dado informado.
+    pteQuantidadeParcelaInvalida,        // 285 - Quantidade de parcela inv·lida. Verifique dado informado.
+    pteMargemConsignavelExcedidaPrazo,   // 286 - Margem consign·vel excedida para o mutu·rio dentro do prazo do contrato. Verifique suas margens disponÌveis.
+    pteEmprestimoJaCadastrado,           // 287 - EmprÈstimo j· cadastrado
+    pteEmprestimoInexistente,            // 288 - EmprÈstimo inexistente
+    pteEmprestimoJaEncerrado,            // 289 - EmprÈstimo j· encerrado
     pteArquivoSemTrailer,                // 290 - Arquivo sem trailer
-    pteMutuarioSemCreditoCompetencia,    // 291 - Mutu√°rio sem cr√©dito na compet√™ncia
-    pteNaoDescontadoOutrosMotivos,       // 292 - N√£o descontado ‚Äì outros motivos
-    pteRetornoCreditoNaoPago,            // 293 - Retorno de Cr√©dito n√£o pago
-    pteCancelamentoEmprestimoRetroativo, // 294 - Cancelamento de empr√©stimo retroativo
+    pteMutuarioSemCreditoCompetencia,    // 291 - Mutu·rio sem crÈdito na competÍncia
+    pteNaoDescontadoOutrosMotivos,       // 292 - N„o descontado ñ outros motivos
+    pteRetornoCreditoNaoPago,            // 293 - Retorno de CrÈdito n„o pago
+    pteCancelamentoEmprestimoRetroativo, // 294 - Cancelamento de emprÈstimo retroativo
     pteOutrosMotivosGlosa,               // 295 - Outros Motivos de Glosa
-    pteMargemConsignavelExcedidaAcimaPrazo, // 296 - Margem consign√°vel excedida para o mutu√°rio acima do prazo do contrato
-    pteMutuarioDesligadoEmpregador,      // 297 - Mutu√°rio desligado do empregador. Pagamento n√£o permitido.
-    pteMutuarioAfastadoLicenca,          // 298 - Mutu√°rio afastado por licen√ßa. Pagamento n√£o permitido.
-    ptePrimeiroNomeMutuarioDiferente,    // 299 - Primeiro nome do mutu√°rio diferente do primeiro nome do movimento do censo ou diferente da base de Titular do Benef√≠cio. Verificar necessidade de ajustes.
-    pteBeneficioSuspensoCessadoAPS,      // 300 - Benef√≠cio suspenso/cessado pela APS ou Sisobi
-    pteBeneficioSuspensoDependenciaCalculo, // 301 - Benef√≠cio suspenso por depend√™ncia de c√°lculo
-    pteBeneficioSuspensoCessadoInspetoria, // 302 - Benef√≠cio suspenso/cessado pela inspetoria/auditoria
-    pteBeneficioBloqueadoEmprestimoBeneficiario, // 303 - Benef√≠cio bloqueado para empr√©stimo pelo benefici√°rio
-    pteBeneficioBloqueadoEmprestimoTBM,  // 304 - Benef√≠cio bloqueado para empr√©stimo por TBM
-    pteBeneficioFaseConcessaoPA,         // 305 - Benef√≠cio est√° em fase de concess√£o de PA ou desdobramento.
-    pteBeneficioCessadoObito,            // 306 - Benef√≠cio cessado por √≥bito.
-    pteBeneficioCessadoFraude,           // 307 - Benef√≠cio cessado por fraude.
-    pteBeneficioCessadoOutroBeneficio,   // 308 - Benef√≠cio cessado por concess√£o de outro benef√≠cio.
-    pteBeneficioCessadoEstatutario,      // 309 - Benef√≠cio cessado: estatut√°rio transferido para √≥rg√£o de origem.
-    pteEmprestimoSuspensoAPS,            // 310 - Empr√©stimo suspenso pela APS.
-    pteEmprestimoCanceladoBanco,         // 311 - Empr√©stimo cancelado pelo banco.
-    pteCreditoTransformadoPAB,           // 312 - Cr√©dito transformado em PAB.
-    pteTerminoConsignacaoAlterado,       // 313 - T√©rmino da consigna√ß√£o foi alterado.
-    pteFimEmprestimoPeriodoSuspensao,    // 314 - Fim do empr√©stimo ocorreu durante per√≠odo de suspens√£o ou concess√£o.
-    pteEmprestimoSuspensoBanco,          // 315 - Empr√©stimo suspenso pelo banco.
-    pteNaoAverbacaoContratoQuantidadeParcelas, // 316 - N√£o averba√ß√£o de contrato ‚Äì quantidade de parcelas/compet√™ncias informadas ultrapassou a data limite da extin√ß√£o de cota do dependente titular de benef√≠cios
-    pteLoteNaoAceitoTotaisDiferenca,     // 317 - Lote N√£o Aceito - Totais do Lote com Diferen√ßa
-    pteTituloNaoEncontrado,              // 318 - T√≠tulo N√£o Encontrado
-    pteIdentificadorRegistroOpcionalInvalido, // 319 - Identificador Registro Opcional Inv√°lido. Verifique dado informado.
-    pteCodigoPadraoInvalido,             // 320 - C√≥digo Padr√£o Inv√°lido. Verifique dado informado.
-    pteCodigoOcorrenciaInvalido,         // 321 - C√≥digo de Ocorr√™ncia Inv√°lido. Verifique dado informado.
-    pteComplementoOcorrenciaInvalido,    // 322 - Complemento de Ocorr√™ncia Inv√°lido. Verifique dado informado.
-    pteAlegacaoJaInformada,              // 323 - Alega√ß√£o j√° Informada
-    pteAgenciaContaFavorecidoSubstituida, // 324 - Ag√™ncia / Conta do Favorecido Substitu√≠da. Verifique dado informado.
-    pteDivergenciaNomeBeneficiario,      // 325 - Diverg√™ncia entre o primeiro e √∫ltimo nome do benefici√°rio versus primeiro e √∫ltimo nome na Receita Federal. Verificar com benefici√°rio necessidade de ajustes.
-    pteConfirmacaoAntecipacaoValor,      // 326 - Confirma√ß√£o de Antecipa√ß√£o de Valor
-    pteAntecipacaoParcialValor,          // 327 - Antecipa√ß√£o parcial de valor
-    pteBoletoBloqueadoBase,              // 328 - Boleto bloqueado na base. N√£o pass√≠vel de pagamento.
-    pteSistemaContingenciaBoletoValorMaior, // 329 - Sistema em conting√™ncia ‚Äì Boleto valor maior que refer√™ncia. Consulte o benefici√°rio ou tente efetuar o pagamento mais tarde.
-    pteSistemaContingenciaBoletoVencido, // 330 - Sistema em conting√™ncia ‚Äì Boleto vencido. Consulte o benefici√°rio ou tente efetuar o pagamento mais tarde.
-    pteSistemaContingenciaBoletoIndexado, // 331 - Sistema em conting√™ncia ‚Äì Boleto indexado. Consulte o benefici√°rio ou tente efetuar o pagamento mais tarde.
-    pteBeneficiarioDivergente,           // 332 - Benefici√°rio divergente. Verifique dado informado.
-    pteLimitePagamentosParciaisExcedido, // 333 - Limite de pagamentos parciais do boleto excedido. Consulte o Benefici√°rio do boleto.
-    pteBoletoJaLiquidado,                // 334 - Boleto j√° liquidado. N√£o pass√≠vel de pagamento.
+    pteMargemConsignavelExcedidaAcimaPrazo, // 296 - Margem consign·vel excedida para o mutu·rio acima do prazo do contrato
+    pteMutuarioDesligadoEmpregador,      // 297 - Mutu·rio desligado do empregador. Pagamento n„o permitido.
+    pteMutuarioAfastadoLicenca,          // 298 - Mutu·rio afastado por licenÁa. Pagamento n„o permitido.
+    ptePrimeiroNomeMutuarioDiferente,    // 299 - Primeiro nome do mutu·rio diferente do primeiro nome do movimento do censo ou diferente da base de Titular do BenefÌcio. Verificar necessidade de ajustes.
+    pteBeneficioSuspensoCessadoAPS,      // 300 - BenefÌcio suspenso/cessado pela APS ou Sisobi
+    pteBeneficioSuspensoDependenciaCalculo, // 301 - BenefÌcio suspenso por dependÍncia de c·lculo
+    pteBeneficioSuspensoCessadoInspetoria, // 302 - BenefÌcio suspenso/cessado pela inspetoria/auditoria
+    pteBeneficioBloqueadoEmprestimoBeneficiario, // 303 - BenefÌcio bloqueado para emprÈstimo pelo benefici·rio
+    pteBeneficioBloqueadoEmprestimoTBM,  // 304 - BenefÌcio bloqueado para emprÈstimo por TBM
+    pteBeneficioFaseConcessaoPA,         // 305 - BenefÌcio est· em fase de concess„o de PA ou desdobramento.
+    pteBeneficioCessadoObito,            // 306 - BenefÌcio cessado por Ûbito.
+    pteBeneficioCessadoFraude,           // 307 - BenefÌcio cessado por fraude.
+    pteBeneficioCessadoOutroBeneficio,   // 308 - BenefÌcio cessado por concess„o de outro benefÌcio.
+    pteBeneficioCessadoEstatutario,      // 309 - BenefÌcio cessado: estatut·rio transferido para Ûrg„o de origem.
+    pteEmprestimoSuspensoAPS,            // 310 - EmprÈstimo suspenso pela APS.
+    pteEmprestimoCanceladoBanco,         // 311 - EmprÈstimo cancelado pelo banco.
+    pteCreditoTransformadoPAB,           // 312 - CrÈdito transformado em PAB.
+    pteTerminoConsignacaoAlterado,       // 313 - TÈrmino da consignaÁ„o foi alterado.
+    pteFimEmprestimoPeriodoSuspensao,    // 314 - Fim do emprÈstimo ocorreu durante perÌodo de suspens„o ou concess„o.
+    pteEmprestimoSuspensoBanco,          // 315 - EmprÈstimo suspenso pelo banco.
+    pteNaoAverbacaoContratoQuantidadeParcelas, // 316 - N„o averbaÁ„o de contrato ñ quantidade de parcelas/competÍncias informadas ultrapassou a data limite da extinÁ„o de cota do dependente titular de benefÌcios
+    pteLoteNaoAceitoTotaisDiferenca,     // 317 - Lote N„o Aceito - Totais do Lote com DiferenÁa
+    pteTituloNaoEncontrado,              // 318 - TÌtulo N„o Encontrado
+    pteIdentificadorRegistroOpcionalInvalido, // 319 - Identificador Registro Opcional Inv·lido. Verifique dado informado.
+    pteCodigoPadraoInvalido,             // 320 - CÛdigo Padr„o Inv·lido. Verifique dado informado.
+    pteCodigoOcorrenciaInvalido,         // 321 - CÛdigo de OcorrÍncia Inv·lido. Verifique dado informado.
+    pteComplementoOcorrenciaInvalido,    // 322 - Complemento de OcorrÍncia Inv·lido. Verifique dado informado.
+    pteAlegacaoJaInformada,              // 323 - AlegaÁ„o j· Informada
+    pteAgenciaContaFavorecidoSubstituida, // 324 - AgÍncia / Conta do Favorecido SubstituÌda. Verifique dado informado.
+    pteDivergenciaNomeBeneficiario,      // 325 - DivergÍncia entre o primeiro e ˙ltimo nome do benefici·rio versus primeiro e ˙ltimo nome na Receita Federal. Verificar com benefici·rio necessidade de ajustes.
+    pteConfirmacaoAntecipacaoValor,      // 326 - ConfirmaÁ„o de AntecipaÁ„o de Valor
+    pteAntecipacaoParcialValor,          // 327 - AntecipaÁ„o parcial de valor
+    pteBoletoBloqueadoBase,              // 328 - Boleto bloqueado na base. N„o passÌvel de pagamento.
+    pteSistemaContingenciaBoletoValorMaior, // 329 - Sistema em contingÍncia ñ Boleto valor maior que referÍncia. Consulte o benefici·rio ou tente efetuar o pagamento mais tarde.
+    pteSistemaContingenciaBoletoVencido, // 330 - Sistema em contingÍncia ñ Boleto vencido. Consulte o benefici·rio ou tente efetuar o pagamento mais tarde.
+    pteSistemaContingenciaBoletoIndexado, // 331 - Sistema em contingÍncia ñ Boleto indexado. Consulte o benefici·rio ou tente efetuar o pagamento mais tarde.
+    pteBeneficiarioDivergente,           // 332 - Benefici·rio divergente. Verifique dado informado.
+    pteLimitePagamentosParciaisExcedido, // 333 - Limite de pagamentos parciais do boleto excedido. Consulte o Benefici·rio do boleto.
+    pteBoletoJaLiquidado,                // 334 - Boleto j· liquidado. N„o passÌvel de pagamento.
     pteConsultarBancoDetalharErro        // 999 - Consultar o Banco para detalhar o erro.
   );
 
@@ -317,311 +380,334 @@ type
     pfiTelefone,        // 1 igual a Chave Pix tipo Telefone
     pfiEmail,           // 2 igual a Chave Pix tipo Email
     pfiCPFCNPJ,         // 3 igual a Chave Pix tipo CPF/CNPJ
-    pfiChaveAleatoria,  // 4 igual a Chave Aleat√≥ria
-    pfiDadosBancarios   // 5 igual a Dados Banc√°rios
+    pfiChaveAleatoria,  // 4 igual a Chave AleatÛria
+    pfiDadosBancarios   // 5 igual a Dados Banc·rios
   );
 
   TACBrPagamentosBBEstadoRequisicao = (
     perNenhum,
-    perDadosConsistentes,              // 1 - Requisi√ß√£o com todos os lan√ßamentos com dados consistentes
-    perDadosInconsistentesParcial,     // 2 - Requisi√ß√£o com ao menos um dos lan√ßamentos com dados inconsistentes
-    perDadosInconsistentesTotal,       // 3 - Requisi√ß√£o com todos os lan√ßamentos com dados inconsistentes
-    perPendenteAcaoConveniado,         // 4 - Requisi√ß√£o pendente de a√ß√£o pelo Conveniado - falta autorizar o pagamento
-    perEmProcessamentoBanco,           // 5 - Requisi√ß√£o em processamento pelo Banco
-    perProcessada,                     // 6 - Requisi√ß√£o Processada
-    perRejeitada,                      // 7 - Requisi√ß√£o Rejeitada
-    perPreparandoRemessaNaoLiberada,   // 8 - Preparando remessa n√£o liberada
-    perLiberadaViaAPI,                 // 9 - Requisi√ß√£o liberada via API
+    perDadosConsistentes,              // 1 - RequisiÁ„o com todos os lanÁamentos com dados consistentes
+    perDadosInconsistentesParcial,     // 2 - RequisiÁ„o com ao menos um dos lanÁamentos com dados inconsistentes
+    perDadosInconsistentesTotal,       // 3 - RequisiÁ„o com todos os lanÁamentos com dados inconsistentes
+    perPendenteAcaoConveniado,         // 4 - RequisiÁ„o pendente de aÁ„o pelo Conveniado - falta autorizar o pagamento
+    perEmProcessamentoBanco,           // 5 - RequisiÁ„o em processamento pelo Banco
+    perProcessada,                     // 6 - RequisiÁ„o Processada
+    perRejeitada,                      // 7 - RequisiÁ„o Rejeitada
+    perPreparandoRemessaNaoLiberada,   // 8 - Preparando remessa n„o liberada
+    perLiberadaViaAPI,                 // 9 - RequisiÁ„o liberada via API
     perPreparandoRemessaLiberada       // 10 - Preparando remessa liberada
   );
 
   TACBrPagamentosBBTipoPagamento = (
     ppgNenhum,
     ppgPagamentoFornecedores,  // 126 - Pagamento de fornecedores
-    ppgPagamentoSalario,       // 127 - Pagamento de sal√°rio
+    ppgPagamentoSalario,       // 127 - Pagamento de sal·rio
     ppgPagamentoDiverso        // 128 - Pagamento diverso
   );
 
   TACBrPagamentosBBTipoCredito = (
     pcrNenhum,
-    pcrCreditoContaCorrente,           // 1 - Cr√©dito em Conta Corrente
+    pcrCreditoContaCorrente,           // 1 - CrÈdito em Conta Corrente
     pcrDOCTED,                         // 3 - DOC ou TED
-    pcrCreditoContaPoupanca,           // 5 - Cr√©dito em Conta Poupan√ßa
-    pcrLiquidacaoGuiaCodigoBarra,      // 13 - Liquida√ß√£o de Guia com C√≥digo de Barra
-    pcrLiquidacaoGuiaSemCodigoBarra,   // 21 - Liquida√ß√£o de Guia sem C√≥digo de Barra
-    pcrLiquidacaoBoletoBB,             // 30 - Liquida√ß√£o de Boleto do Banco do Brasil
-    pcrLiquidacaoBoletoOutrosBancos,   // 31 - Liquida√ß√£o de Boleto de Outros Bancos
-    pcrDepositoJudicial                // 71 - Dep√≥sito Judicial
+    pcrCreditoContaPoupanca,           // 5 - CrÈdito em Conta PoupanÁa
+    pcrLiquidacaoGuiaCodigoBarra,      // 13 - LiquidaÁ„o de Guia com CÛdigo de Barra
+    pcrLiquidacaoGuiaSemCodigoBarra,   // 21 - LiquidaÁ„o de Guia sem CÛdigo de Barra
+    pcrLiquidacaoBoletoBB,             // 30 - LiquidaÁ„o de Boleto do Banco do Brasil
+    pcrLiquidacaoBoletoOutrosBancos,   // 31 - LiquidaÁ„o de Boleto de Outros Bancos
+    pcrDepositoJudicial                // 71 - DepÛsito Judicial
   );
 
   TACBrPagamentosBBCodigoDevolucao = (
     pcdNenhum,
-    pcdAgenciaCreditoZerada,                          // 1 - Ag√™ncia de cr√©dito est√° zerada. Informe o n¬∫ da Ag√™ncia de Cr√©dito
-    pcdContaCreditoNaoNumerica,                       // 2 - Conta de cr√©dito informada n√£o √© num√©rica. Informe apenas n√∫meros
-    pcdDigitoContaCreditoNaoInformado,                // 3 - D√≠gito da conta de cr√©dito n√£o informado. Informe o DV da conta de cr√©dito
-    pcdCPFInformadoNaoNumerico,                       // 4 - CPF informado n√£o √© num√©rico. Informe apenas n√∫meros
-    pcdCNPJInformadoNaoNumerico,                      // 5 - CNPJ informado n√£o √© num√©rico. Informe apenas n√∫meros
-    pcdDataPagamentoNaoInformada,                     // 6 - Data do pagamento n√£o informada. Informe a data do pagamento
-    pcdDataPagamentoInvalida,                         // 7 - Data do pagamento inv√°lida. Verifique o dado informado
-    pcdValorPagamentoNaoNumerico,                     // 8 - Valor do pagamento informado n√£o √© n√∫merico. Informe apenas n√∫meros
-    pcdValorPagamentoZerado,                          // 9 - Valor do pagamento est√° zerado. Informe o valor do pagamento
-    pcdNumeroCompensacaoISPBNaoInformados,            // 10 - Ambos os campos N√∫mero Compensa√ß√£o e N√∫mero ISPB n√£o foram informados. Informe um dos campos
-    pcdNumeroCompensacaoISPBInformados,               // 11 - Ambos os campos N√∫mero Compensa√ß√£o e N√∫mero ISPB foram informados. Informe apenas um dos campos
-    pcdFinalidadeDOCTEDNaoInformados,                 // 12 - Ambos os campos Finalidade DOC e Finalidade TED n√£o foram informados. Informe um dos campos
+    pcdAgenciaCreditoZerada,                          // 1 - AgÍncia de crÈdito est· zerada. Informe o n∫ da AgÍncia de CrÈdito
+    pcdContaCreditoNaoNumerica,                       // 2 - Conta de crÈdito informada n„o È numÈrica. Informe apenas n˙meros
+    pcdDigitoContaCreditoNaoInformado,                // 3 - DÌgito da conta de crÈdito n„o informado. Informe o DV da conta de crÈdito
+    pcdCPFInformadoNaoNumerico,                       // 4 - CPF informado n„o È numÈrico. Informe apenas n˙meros
+    pcdCNPJInformadoNaoNumerico,                      // 5 - CNPJ informado n„o È numÈrico. Informe apenas n˙meros
+    pcdDataPagamentoNaoInformada,                     // 6 - Data do pagamento n„o informada. Informe a data do pagamento
+    pcdDataPagamentoInvalida,                         // 7 - Data do pagamento inv·lida. Verifique o dado informado
+    pcdValorPagamentoNaoNumerico,                     // 8 - Valor do pagamento informado n„o È n˙merico. Informe apenas n˙meros
+    pcdValorPagamentoZerado,                          // 9 - Valor do pagamento est· zerado. Informe o valor do pagamento
+    pcdNumeroCompensacaoISPBNaoInformados,            // 10 - Ambos os campos N˙mero CompensaÁ„o e N˙mero ISPB n„o foram informados. Informe um dos campos
+    pcdNumeroCompensacaoISPBInformados,               // 11 - Ambos os campos N˙mero CompensaÁ„o e N˙mero ISPB foram informados. Informe apenas um dos campos
+    pcdFinalidadeDOCTEDNaoInformados,                 // 12 - Ambos os campos Finalidade DOC e Finalidade TED n„o foram informados. Informe um dos campos
     pcdFinalidadeDOCTEDInformados,                    // 13 - Ambos os campos Finalidade DOC e Finalidade TED foram informados. Informe apenas um dos campos
-    pcdNumeroDepositoJudicialNaoInformado,            // 14 - N√∫mero de dep√≥sito judicial n√£o informado. Informe o n√∫mero do dep√≥sito judicial
-    pcdDigitoContaCreditoInvalido,                    // 15 - Digito da conta de cr√©dito inv√°lido. Verifique o dado informado
-    pcdCPFECNPJInformados,                            // 16 - Ambos os campos CPF e CNPJ foram informados. Informe apenas um dos campos. Caso informado os 2 campos, nas consultas ser√° exibido apenas os dados do CPF
-    pcdCPFECNPJNaoInformados,                         // 17 - Ambos os campos CPF e CNPJ n√£o foram informados. Informe um dos campos
-    pcdDigitoCPFNaoInformado,                         // 18 - D√≠gito do CPF inv√°lido. Verifique o dado informado
-    pcdDigitoCNPJInvalido,                            // 19 - D√≠gito do CNPJ inv√°lido. Verifique o dado informado
-    pcdAgenciaContaCreditoIguaisDebito,               // 20 - Ag√™ncia e conta de cr√©dito est√£o iguais √†s de d√©bito. Op√ß√£o n√£o permitida
-    pcdNumeroCompensacaoInvalido,                     // 21 - N√∫mero Compensa√ß√£o inv√°lido. Verifique o dado informado
-    pcdNumeroISPBDiferenteZeros,                      // 22 - N√∫mero ISPB diferente de zeros. N√£o informe o n¬∫ ISPB
-    pcdContaCreditoNaoInformada,                      // 23 - Conta de cr√©dito n√£o informada. Informe o n√∫mero da conta de cr√©dito
-    pcdCPFNaoInformado,                               // 24 - CPF n√£o informado. Informe o n¬∫ do CPF
-    pcdCNPJInformado,                                 // 25 - CNPJ foi informado. N√£o informe CNPJ
-    pcdContaCreditoInformada,                         // 26 - Conta de cr√©dito foi informada. N√£o informe Conta de cr√©dito
-    pcdDigitoContaCreditoInformado,                   // 27 - D√≠gito da conta de cr√©dito foi informado. N√£o informe d√≠gito da conta de cr√©dito
-    pcdFinalidadeDOCInformada,                        // 28 - Finalidade do DOC foi informada. N√£o informe finalidade do DOC
-    pcdFinalidadeTEDInformada,                        // 29 - Finalidade da TED foi informada. N√£o informe finalidade da TED
-    pcdNumeroDepositoJudicialInformado,               // 30 - N√∫mero Dep√≥sito Judicial informado. N√£o informe finalidade Dep√≥sito Judicial
-    pcdNumeroDocumentoCreditoNaoNumerico,             // 31 - N√∫mero do documento de cr√©dito informado n√£o √© num√©rico. Informe apenas n√∫meros
-    pcdNumeroDocumentoDebitoNaoNumerico,              // 32 - N√∫mero do documento de d√©bito n√£o √© num√©rico. Informe apenas n√∫meros
-    pcdCPFNaoEncontradoReceitaFederal,                // 33 - CPF n√£o encontrado na base da receita federal. Verifique o dado informado
-    pcdCNPJNaoEncontradoReceitaFederal,               // 34 - CNPJ n√£o encontrado na base da receita federal. Verifique o dado informado
-    pcdContaPoupancaNaoPermitidaFornecedor,           // 35 - Conta poupan√ßa n√£o permitido para "Pagamento ao Fornecedor". Para creditar em conta poupan√ßa utilize o recurso para efetiva√ß√£o de "Pagamentos Diversos"
-    pcdCodigoCOMPEIgualUm,                            // 36 - C√≥digo COMPE deve ser igual a 1
-    pcdCodigoISPBIgualZero,                           // 37 - C√≥digo ISPB deve ser igual a 0
-    pcdCodigoBarrasNaoNumerico,                       // 38 - C√≥digo de barras n√£o √© num√©rico. Informe apenas n√∫meros
-    pcdCodigoBarrasZeros,                             // 39 - C√≥digo de barras igual a zeros. Informe apenas n√∫meros
-    pcdNumeroInscricaoPagadorNaoNumerico,             // 40 - N√∫mero de inscri√ß√£o do pagador n√£o √© num√©rico. Informe apenas n√∫meros
-    pcdNumeroInscricaoBeneficiarioNaoNumerico,        // 41 - N√∫mero de inscri√ß√£o do benefici√°rio n√£o √© num√©rico. Informe apenas n√∫meros
-    pcdNumeroInscricaoAvalistaNaoNumerico,            // 42 - N√∫mero de inscri√ß√£o do avalista n√£o √© num√©rico. Informe apenas n√∫meros
-    pcdDigitoCPFPagadorInvalido,                      // 43 - Digito do CPF para o pagador inv√°lido. Verifique o dado informado
-    pcdDigitoCPFBeneficiarioInvalido,                 // 44 - Digito do CPF para o benefici√°rio inv√°lido. Verifique o dado informado
-    pcdDigitoCPFAvalistaInvalido,                     // 45 - Digito do CPF para o avalista inv√°lido. Verifique o dado informado
-    pcdDigitoCNPJPagadorInvalido,                     // 46 - Digito do CNPJ para o pagador inv√°lido. Verifique o dado informado
-    pcdDigitoCNPJBeneficiarioInvalido,                // 47 - Digito do CNPJ para o benefici√°rio inv√°lido. Verifique o dado informado
-    pcdDigitoCNPJAvalistaInvalido,                    // 48 - Digito do CNPJ para o avalista inv√°lido. Verifique o dado informado
-    pcdDataVencimentoInvalida,                        // 49 - Data do vencimento inv√°lida. Verifique o dado informado
-    pcdValorNominalNaoNumerico,                       // 50 - Valor nominal n√£o √© num√©rico. Informe apenas n√∫meros
-    pcdValorDescontoNaoNumerico,                      // 51 - Valor de desconto n√£o √© num√©rico. Informe apenas n√∫meros
-    pcdValorMoraNaoNumerico,                          // 52 - Valor de mora n√£o √© num√©rico. Informe apenas n√∫meros
+    pcdNumeroDepositoJudicialNaoInformado,            // 14 - N˙mero de depÛsito judicial n„o informado. Informe o n˙mero do depÛsito judicial
+    pcdDigitoContaCreditoInvalido,                    // 15 - Digito da conta de crÈdito inv·lido. Verifique o dado informado
+    pcdCPFECNPJInformados,                            // 16 - Ambos os campos CPF e CNPJ foram informados. Informe apenas um dos campos. Caso informado os 2 campos, nas consultas ser· exibido apenas os dados do CPF
+    pcdCPFECNPJNaoInformados,                         // 17 - Ambos os campos CPF e CNPJ n„o foram informados. Informe um dos campos
+    pcdDigitoCPFNaoInformado,                         // 18 - DÌgito do CPF inv·lido. Verifique o dado informado
+    pcdDigitoCNPJInvalido,                            // 19 - DÌgito do CNPJ inv·lido. Verifique o dado informado
+    pcdAgenciaContaCreditoIguaisDebito,               // 20 - AgÍncia e conta de crÈdito est„o iguais ‡s de dÈbito. OpÁ„o n„o permitida
+    pcdNumeroCompensacaoInvalido,                     // 21 - N˙mero CompensaÁ„o inv·lido. Verifique o dado informado
+    pcdNumeroISPBDiferenteZeros,                      // 22 - N˙mero ISPB diferente de zeros. N„o informe o n∫ ISPB
+    pcdContaCreditoNaoInformada,                      // 23 - Conta de crÈdito n„o informada. Informe o n˙mero da conta de crÈdito
+    pcdCPFNaoInformado,                               // 24 - CPF n„o informado. Informe o n∫ do CPF
+    pcdCNPJInformado,                                 // 25 - CNPJ foi informado. N„o informe CNPJ
+    pcdContaCreditoInformada,                         // 26 - Conta de crÈdito foi informada. N„o informe Conta de crÈdito
+    pcdDigitoContaCreditoInformado,                   // 27 - DÌgito da conta de crÈdito foi informado. N„o informe dÌgito da conta de crÈdito
+    pcdFinalidadeDOCInformada,                        // 28 - Finalidade do DOC foi informada. N„o informe finalidade do DOC
+    pcdFinalidadeTEDInformada,                        // 29 - Finalidade da TED foi informada. N„o informe finalidade da TED
+    pcdNumeroDepositoJudicialInformado,               // 30 - N˙mero DepÛsito Judicial informado. N„o informe finalidade DepÛsito Judicial
+    pcdNumeroDocumentoCreditoNaoNumerico,             // 31 - N˙mero do documento de crÈdito informado n„o È numÈrico. Informe apenas n˙meros
+    pcdNumeroDocumentoDebitoNaoNumerico,              // 32 - N˙mero do documento de dÈbito n„o È numÈrico. Informe apenas n˙meros
+    pcdCPFNaoEncontradoReceitaFederal,                // 33 - CPF n„o encontrado na base da receita federal. Verifique o dado informado
+    pcdCNPJNaoEncontradoReceitaFederal,               // 34 - CNPJ n„o encontrado na base da receita federal. Verifique o dado informado
+    pcdContaPoupancaNaoPermitidaFornecedor,           // 35 - Conta poupanÁa n„o permitido para "Pagamento ao Fornecedor". Para creditar em conta poupanÁa utilize o recurso para efetivaÁ„o de "Pagamentos Diversos"
+    pcdCodigoCOMPEIgualUm,                            // 36 - CÛdigo COMPE deve ser igual a 1
+    pcdCodigoISPBIgualZero,                           // 37 - CÛdigo ISPB deve ser igual a 0
+    pcdCodigoBarrasNaoNumerico,                       // 38 - CÛdigo de barras n„o È numÈrico. Informe apenas n˙meros
+    pcdCodigoBarrasZeros,                             // 39 - CÛdigo de barras igual a zeros. Informe apenas n˙meros
+    pcdNumeroInscricaoPagadorNaoNumerico,             // 40 - N˙mero de inscriÁ„o do pagador n„o È numÈrico. Informe apenas n˙meros
+    pcdNumeroInscricaoBeneficiarioNaoNumerico,        // 41 - N˙mero de inscriÁ„o do benefici·rio n„o È numÈrico. Informe apenas n˙meros
+    pcdNumeroInscricaoAvalistaNaoNumerico,            // 42 - N˙mero de inscriÁ„o do avalista n„o È numÈrico. Informe apenas n˙meros
+    pcdDigitoCPFPagadorInvalido,                      // 43 - Digito do CPF para o pagador inv·lido. Verifique o dado informado
+    pcdDigitoCPFBeneficiarioInvalido,                 // 44 - Digito do CPF para o benefici·rio inv·lido. Verifique o dado informado
+    pcdDigitoCPFAvalistaInvalido,                     // 45 - Digito do CPF para o avalista inv·lido. Verifique o dado informado
+    pcdDigitoCNPJPagadorInvalido,                     // 46 - Digito do CNPJ para o pagador inv·lido. Verifique o dado informado
+    pcdDigitoCNPJBeneficiarioInvalido,                // 47 - Digito do CNPJ para o benefici·rio inv·lido. Verifique o dado informado
+    pcdDigitoCNPJAvalistaInvalido,                    // 48 - Digito do CNPJ para o avalista inv·lido. Verifique o dado informado
+    pcdDataVencimentoInvalida,                        // 49 - Data do vencimento inv·lida. Verifique o dado informado
+    pcdValorNominalNaoNumerico,                       // 50 - Valor nominal n„o È numÈrico. Informe apenas n˙meros
+    pcdValorDescontoNaoNumerico,                      // 51 - Valor de desconto n„o È numÈrico. Informe apenas n˙meros
+    pcdValorMoraNaoNumerico,                          // 52 - Valor de mora n„o È numÈrico. Informe apenas n˙meros
     pcdDataPagamentoMaiorIgualAtual,                  // 53 - Data do pagamento deve ser maior ou igual ao dia atual
-    pcdNumeroDocumentoDebitoNaoInformado,             // 54 - N√∫mero do documento de d√©bito n√£o informado. Informe o n¬∫ do doc de d√©bito
-    pcdDataVencimentoNaoInformada,                    // 55 - Data do vencimento n√£o informada. Informe a data de vencimento
-    pcdNomeBeneficiarioNaoInformado,                  // 56 - Nome do benefici√°rio n√£o informado. Informe o nome do benefici√°rio
-    pcdNumeroInscricaoBeneficiarioNaoInformado,       // 57 - N√∫mero de inscri√ß√£o do benefici√°rio n√£o informado. Informe o CPF ou o CNPJ do benefici√°rio
-    pcdContaPagamentoInformada,                       // 58 - Conta pagamento foi informada. N√£o informe conta pagamento
-    pcdContaCreditoContaPagamentoInformados,          // 59 - Ambos os campos conta de cr√©dito e conta pagamento foram informados. Informe apenas um dos campos
-    pcdTransacaoCanceladaCliente,                     // 60 - Transa√ß√£o cancelada pelo cliente
-    pcdCodigoReceitaTributoNaoInformado,              // 61 - C√≥digo da Receita do Tributo n√£o informado
-    pcdTipoIdentificacaoContribuinteNaoInformado,     // 62 - Tipo de Identifica√ß√£o do Contribuinte n√£o informado
-    pcdNumeroIdentificacaoContribuinteNaoInformado,   // 63 - N¬∫ de Identifica√ß√£o do Contribuinte n√£o informado
-    pcdNumeroIdentificacaoContribuinteNaoNumerico,    // 64 - N¬∫ de Identifica√ß√£o do Contribuinte n√£o num√©rico
-    pcdCodigoIdentificacaoTributoNaoInformado,        // 65 - C√≥digo de Identifica√ß√£o do Tributo n√£o informado
-    pcdPeriodoApuracaoNaoInformado,                   // 66 - Per√≠odo de apura√ß√£o n√£o informado
-    pcdNumeroReferenciaNaoInformado,                  // 67 - Numero de Refer√™ncia n√£o informado
-    pcdValorPrincipalNaoNumerico,                     // 68 - Valor Principal n√£o √© num√©rico
-    pcdValorPrincipalNaoInformado,                    // 69 - Valor Principal n√£o informado
-    pcdValorMultaNaoNumerico,                         // 70 - Valor da Multa n√£o √© num√©rico
-    pcdValorJurosEncargosNaoNumerico,                 // 71 - Valor dos Juros/Encargos n√£o √© num√©rico
-    pcdDataVencimentoNaoInformada2,                   // 72 - Data de Vencimento n√£o informada
-    pcdMesAnoCompetenciaNaoInformados,                // 73 - M√™s e ano de compet√™ncia n√£o informados
-    pcdValorPrevistoPagamentoINSSNaoNumerico,         // 74 - Valor previsto do pagamento do INSS n√£o √© num√©rico
-    pcdValorPrevistoPagamentoINSSNaoInformado,        // 75 - Valor previsto do pagamento do INSS n√£o informado
-    pcdValorOutrasEntidadesNaoNumerico,               // 76 - Valor de Outras Entidades n√£o √© num√©rico
-    pcdValorAtualizacaoMonetariaNaoNumerico,          // 77 - Valor de Atualiza√ß√£o Monet√°ria n√£o √© num√©rico
-    pcdPeriodoApuracaoInvalido,                       // 79 - Per√≠odo de apura√ß√£o inv√°lido
-    pcdContaCreditoInvalida,                          // 80 - Conta de cr√©dito inv√°lida. Informe o numero sem o 45 do in√≠cio
-    pcdContaNaoPertenceFuncionario,                   // 81 - A conta informada n√£o pertence ao funcion√°rio
-    pcdPagamentoPermitidoApenasPessoasFisicas,        // 82 - Pagamento permitido apenas para pessoas f√≠sicas
-    pcdAgenciaContaIncorretos,                        // 83 - Ag√™ncia e Conta incorretos
-    pcdContaNaoAtiva,                                 // 84 - A conta informada n√£o est√° ativa
-    pcdContaNaoPermiteCreditoSalario,                 // 85 - Conta n√£o permite cr√©dito de sal√°rio. Informe outra conta
-    pcdAgenciaCreditoContaPagamentoInformados,        // 86 - Ambos os campos ag√™ncia de cr√©dito e conta pagamento foram informados
-    pcdMesCompetenciaInvalido,                        // 90 - M√™s de compet√™ncia inv√°lido
-    pcdValorOutrasDeducoesInvalido,                   // 91 - Valor de outras dedu√ß√µes inv√°lido
-    pcdValorOutrosAcrescimosInvalido,                 // 92 - Valor de outros acr√©scimos inv√°lido
-    pcdCodigoFormaIdentificacaoClienteNaoInformado,   // 93 - C√≥digo da forma de identifica√ß√£o do cliente n√£o foi informado
-    pcdDDDPixNaoInformado,                            // 94 - DDD do cliente do Pix n√£o foi informado
-    pcdTelefonePixNaoInformado,                       // 95 - Telefone do Cliente do Pix n√£o foi informado
-    pcdEmailPixNaoInformado,                          // 96 - Email do cliente do Pix n√£o foi informado
-    pcdChaveAleatoriaPixNaoInformada,                 // 97 - Chave Aleat√≥ria do Cliente do Pix n√£o foi informado
-    pcdCodigoTipoContaPixNaoInformado,                // 98 - C√≥digo de tipo de conta do Cliente do Pix n√£o foi informado
+    pcdNumeroDocumentoDebitoNaoInformado,             // 54 - N˙mero do documento de dÈbito n„o informado. Informe o n∫ do doc de dÈbito
+    pcdDataVencimentoNaoInformada,                    // 55 - Data do vencimento n„o informada. Informe a data de vencimento
+    pcdNomeBeneficiarioNaoInformado,                  // 56 - Nome do benefici·rio n„o informado. Informe o nome do benefici·rio
+    pcdNumeroInscricaoBeneficiarioNaoInformado,       // 57 - N˙mero de inscriÁ„o do benefici·rio n„o informado. Informe o CPF ou o CNPJ do benefici·rio
+    pcdContaPagamentoInformada,                       // 58 - Conta pagamento foi informada. N„o informe conta pagamento
+    pcdContaCreditoContaPagamentoInformados,          // 59 - Ambos os campos conta de crÈdito e conta pagamento foram informados. Informe apenas um dos campos
+    pcdTransacaoCanceladaCliente,                     // 60 - TransaÁ„o cancelada pelo cliente
+    pcdCodigoReceitaTributoNaoInformado,              // 61 - CÛdigo da Receita do Tributo n„o informado
+    pcdTipoIdentificacaoContribuinteNaoInformado,     // 62 - Tipo de IdentificaÁ„o do Contribuinte n„o informado
+    pcdNumeroIdentificacaoContribuinteNaoInformado,   // 63 - N∫ de IdentificaÁ„o do Contribuinte n„o informado
+    pcdNumeroIdentificacaoContribuinteNaoNumerico,    // 64 - N∫ de IdentificaÁ„o do Contribuinte n„o numÈrico
+    pcdCodigoIdentificacaoTributoNaoInformado,        // 65 - CÛdigo de IdentificaÁ„o do Tributo n„o informado
+    pcdPeriodoApuracaoNaoInformado,                   // 66 - PerÌodo de apuraÁ„o n„o informado
+    pcdNumeroReferenciaNaoInformado,                  // 67 - Numero de ReferÍncia n„o informado
+    pcdValorPrincipalNaoNumerico,                     // 68 - Valor Principal n„o È numÈrico
+    pcdValorPrincipalNaoInformado,                    // 69 - Valor Principal n„o informado
+    pcdValorMultaNaoNumerico,                         // 70 - Valor da Multa n„o È numÈrico
+    pcdValorJurosEncargosNaoNumerico,                 // 71 - Valor dos Juros/Encargos n„o È numÈrico
+    pcdDataVencimentoNaoInformada2,                   // 72 - Data de Vencimento n„o informada
+    pcdMesAnoCompetenciaNaoInformados,                // 73 - MÍs e ano de competÍncia n„o informados
+    pcdValorPrevistoPagamentoINSSNaoNumerico,         // 74 - Valor previsto do pagamento do INSS n„o È numÈrico
+    pcdValorPrevistoPagamentoINSSNaoInformado,        // 75 - Valor previsto do pagamento do INSS n„o informado
+    pcdValorOutrasEntidadesNaoNumerico,               // 76 - Valor de Outras Entidades n„o È numÈrico
+    pcdValorAtualizacaoMonetariaNaoNumerico,          // 77 - Valor de AtualizaÁ„o Monet·ria n„o È numÈrico
+    pcdPeriodoApuracaoInvalido,                       // 79 - PerÌodo de apuraÁ„o inv·lido
+    pcdContaCreditoInvalida,                          // 80 - Conta de crÈdito inv·lida. Informe o numero sem o 45 do inÌcio
+    pcdContaNaoPertenceFuncionario,                   // 81 - A conta informada n„o pertence ao funcion·rio
+    pcdPagamentoPermitidoApenasPessoasFisicas,        // 82 - Pagamento permitido apenas para pessoas fÌsicas
+    pcdAgenciaContaIncorretos,                        // 83 - AgÍncia e Conta incorretos
+    pcdContaNaoAtiva,                                 // 84 - A conta informada n„o est· ativa
+    pcdContaNaoPermiteCreditoSalario,                 // 85 - Conta n„o permite crÈdito de sal·rio. Informe outra conta
+    pcdAgenciaCreditoContaPagamentoInformados,        // 86 - Ambos os campos agÍncia de crÈdito e conta pagamento foram informados
+    pcdMesCompetenciaInvalido,                        // 90 - MÍs de competÍncia inv·lido
+    pcdValorOutrasDeducoesInvalido,                   // 91 - Valor de outras deduÁıes inv·lido
+    pcdValorOutrosAcrescimosInvalido,                 // 92 - Valor de outros acrÈscimos inv·lido
+    pcdCodigoFormaIdentificacaoClienteNaoInformado,   // 93 - CÛdigo da forma de identificaÁ„o do cliente n„o foi informado
+    pcdDDDPixNaoInformado,                            // 94 - DDD do cliente do Pix n„o foi informado
+    pcdTelefonePixNaoInformado,                       // 95 - Telefone do Cliente do Pix n„o foi informado
+    pcdEmailPixNaoInformado,                          // 96 - Email do cliente do Pix n„o foi informado
+    pcdChaveAleatoriaPixNaoInformada,                 // 97 - Chave AleatÛria do Cliente do Pix n„o foi informado
+    pcdCodigoTipoContaPixNaoInformado,                // 98 - CÛdigo de tipo de conta do Cliente do Pix n„o foi informado
     pcdConsultarBancoDetalharErro,                    // 99 - Consultar o Banco para detalhar o erro
-    pcdEmailInvalido,                                 // 100 - E-mail inv√°lido
-    pcdEmailPixCaractereEspecial,                     // 101 - Email do cliente do PIX n√£o deve conter caractere especial
-    pcdTelefoneInvalido,                              // 102 - Telefone Inv√°lido
-    pcdDDDInvalido,                                   // 103 - DDD inv√°lido
+    pcdEmailInvalido,                                 // 100 - E-mail inv·lido
+    pcdEmailPixCaractereEspecial,                     // 101 - Email do cliente do PIX n„o deve conter caractere especial
+    pcdTelefoneInvalido,                              // 102 - Telefone Inv·lido
+    pcdDDDInvalido,                                   // 103 - DDD inv·lido
     pcdEmailTamanhoMaior77,                           // 104 - E-mail com tamanho maior que 77 caracteres
-    pcdInsuficienciaFundosDebitoNaoEfetuado,          // 200 - Insufici√™ncia de Fundos - D√©bito N√£o Efetuado
-    pcdCreditoDebitoCanceladoPagador,                 // 201 - Cr√©dito ou D√©bito Cancelado pelo Pagador
-    pcdDebitoAutorizadoAgenciaEfetuado,               // 202 - D√©bito Autorizado pela Ag√™ncia - Efetuado
-    pcdControleInvalido,                              // 203 - Controle Inv√°lido. Verificar campos 01, 02 e 03 do header ou segmento A, B, C, J, J52, N, O ou W do Arquivo CNAB240
-    pcdTipoOperacaoInvalido,                          // 204 - Tipo de Opera√ß√£o Inv√°lido. Verificar campo 04.1 do header de lote. Valor default = "C"
-    pcdTipoServicoInvalido,                           // 205 - Tipo de Servi√ßo Inv√°lido. Utilize 20 para Pagamento a Fornecedores, 30 Pagamento de Sal√°rios ou 98 Pagamentos Diversos no header de Lote, campo 05.1, do CNAB240
-    pcdFormaLancamentoInvalida,                       // 206 - Forma de Lan√ßamento Inv√°lida. Para cr√©dito em Poupan√ßa utilize Pagamentos Diversos. Para cr√©dito em Conta Pagamento utilize Pagamentos Diversos ou Pagamento a Fornecedores. Para Pagamento de sal√°rio a conta de cr√©dito deve ser do BB
-    pcdTipoNumeroInscricaoInvalido,                   // 207 - Tipo/N√∫mero de Inscri√ß√£o Inv√°lido. CPF ou CNPJ inv√°lido. Verifique dados informados
-    pcdCodigoConvenioInvalido,                        // 208 - C√≥digo de Conv√™nio Inv√°lido. Verifique dados informados
-    pcdAgenciaContaCorrenteDVInvalido,                // 209 - Ag√™ncia/Conta Corrente/DV Inv√°lido. Verifique dados informados
-    pcdNumeroSequencialRegistroLoteInvalido,          // 210 - N¬∫ Seq√ºencial do Registro no Lote Inv√°lido. Verifique dado informado
-    pcdCodigoSegmentoDetalheInvalido,                 // 211 - C√≥digo de Segmento de Detalhe Inv√°lido. Verifique dado informado
-    pcdLancamentoInconsistenteRejeitadoPrevia,        // 212 - Lan√ßamento inconsistente, rejeitado na pr√©via. Corrigir os dados do lan√ßamento e enviar novo pagamento
-    pcdNumeroCompeBancoCreditoInvalido,               // 213 - N¬∫ Compe do Banco para cr√©dito Inv√°lido. Verifique dado informado
-    pcdNumeroISPBInvalido,                            // 214 - N¬∫ do ISPB Banco, Institui√ß√£o de Pagamento para cr√©dito Inv√°lido. Verifique dado informado
-    pcdAgenciaMantenedoraContaCorrenteFavorecidoInvalida, // 215 - Ag√™ncia Mantenedora da Conta Corrente do Favorecido Inv√°lida. Verifique dado informado
-    pcdContaCorrenteDVContaPagamentoFavorecidoInvalido, // 216 - Conta Corrente/DV/Conta de Pagamento do Favorecido Inv√°lido. Verifique dado informado
-    pcdNomeFavorecidoNaoInformado,                    // 217 - Nome do Favorecido n√£o Informado. Informe o nome do favorecido
-    pcdDataLancamentoInvalida,                        // 218 - Data Lan√ßamento Inv√°lido. Verifique dado informado
-    pcdTipoQuantidadeMoedaInvalido,                   // 219 - Tipo/Quantidade da Moeda Inv√°lido. Verifique dado informado
-    pcdValorLancamentoInvalido,                       // 220 - Valor do Lan√ßamento Inv√°lido. Verifique dado informado
-    pcdAvisoFavorecidoIdentificacaoInvalida,          // 221 - Aviso ao Favorecido - Identifica√ß√£o Inv√°lida
-    pcdTipoNumeroInscricaoFavorecidoInvalido,         // 222 - Tipo/N√∫mero de Inscri√ß√£o do Favorecido Inv√°lido CPF ou CNPJ do favorecido inv√°lido. Arquivo: Verifique o campo 07.3B - registro detalhe do segmento B
-    pcdLogradouroFavorecidoNaoInformado,              // 223 - Logradouro do Favorecido n√£o Informado. Informe o logradouro do favorecido
-    pcdNumeroLocalFavorecidoNaoInformado,             // 224 - N¬∫ do Local do Favorecido n√£o Informado. Informe o n¬∫ do local do favorecido
-    pcdCidadeFavorecidoNaoInformada,                  // 225 - Cidade do Favorecido n√£o Informada. Informe a cidade do favorecido
-    pcdCEPFavorecidoInvalido,                         // 226 - CEP/Complemento do Favorecido Inv√°lido. Verifique dado informado
-    pcdSiglaEstadoFavorecidoInvalida,                 // 227 - Sigla do Estado do Favorecido Inv√°lida. Verifique dado informado
-    pcdNumeroBancoCreditoInvalido,                    // 228 - N¬∫ do Banco para cr√©dito Inv√°lido. Verifique dado informado
-    pcdCodigoNomeAgenciaDepositariaNaoInformado,      // 229 - C√≥digo/Nome da Ag√™ncia Deposit√°ria n√£o Informado. Informe o dado solicitado
-    pcdSeuNumeroInvalido,                             // 230 - Seu N√∫mero Inv√°lido. Verifique dado informado
-    pcdNossoNumeroInvalido,                           // 231 - Nosso N√∫mero Inv√°lido. Verifique dado informado
-    pcdInclusaoEfetuadaSucesso,                       // 232 - Inclus√£o Efetuada com Sucesso
-    pcdAlteracaoEfetuadaSucesso,                      // 233 - Altera√ß√£o Efetuada com Sucesso
-    pcdExclusaoEfetuadaSucesso,                       // 234 - Exclus√£o Efetuada com Sucesso
-    pcdAgenciaContaImpedidaLegalmente,                // 235 - Ag√™ncia/Conta Impedida Legalmente
-    pcdEmpresaNaoPagouSalario,                        // 236 - Empresa n√£o pagou sal√°rio Conta de cr√©dito s√≥ aceita pagamento de sal√°rio
-    pcdFalecimentoMutuario,                           // 237 - Falecimento do mutu√°rio
-    pcdEmpresaNaoEnviouRemessaMutuario,               // 238 - Empresa n√£o enviou remessa do mutu√°rio
-    pcdEmpresaNaoEnviouRemessaVencimento,             // 239 - Empresa n√£o enviou remessa no vencimento
-    pcdValorParcelaInvalida,                          // 240 - Valor da parcela inv√°lida. Verifique dado informado
-    pcdIdentificacaoContratoInvalida,                 // 241 - Identifica√ß√£o do contrato inv√°lida. Verifique dado informado
-    pcdOperacaoConsignacaoIncluidaSucesso,            // 242 - Opera√ß√£o de Consigna√ß√£o Inclu√≠da com Sucesso
-    pcdOperacaoConsignacaoAlteradaSucesso,            // 243 - Opera√ß√£o de Consigna√ß√£o Alterada com Sucesso
-    pcdOperacaoConsignacaoExcluidaSucesso,            // 244 - Opera√ß√£o de Consigna√ß√£o Exclu√≠da com Sucesso
-    pcdOperacaoConsignacaoLiquidadaSucesso,           // 245 - Opera√ß√£o de Consigna√ß√£o Liquidada com Sucesso
-    pcdReativacaoEfetuadaSucesso,                     // 246 - Reativa√ß√£o Efetuada com Sucesso
-    pcdSuspensaoEfetuadaSucesso,                      // 247 - Suspens√£o Efetuada com Sucesso
-    pcdCodigoBarrasCodigoBancoInvalido,               // 248 - C√≥digo de Barras - C√≥digo do Banco Inv√°lido
-    pcdCodigoBarrasCodigoMoedaInvalido,               // 249 - C√≥digo de Barras - C√≥digo da Moeda Inv√°lido
-    pcdCodigoBarrasDigitoVerificadorGeralInvalido,    // 250 - C√≥digo de Barras - D√≠gito Verificador Geral Inv√°lido
-    pcdCodigoBarrasValorTituloInvalido,               // 251 - C√≥digo de Barras - Valor do T√≠tulo Inv√°lido
-    pcdCodigoBarrasCampoLivreInvalido,                // 252 - C√≥digo de Barras - Campo Livre Inv√°lido
-    pcdValorDocumentoInvalido,                        // 253 - Valor do Documento Inv√°lido. Verifique dado informado
-    pcdValorAbatimentoInvalido,                       // 254 - Valor do Abatimento Inv√°lido. Verifique dado informado
-    pcdValorDescontoInvalido,                         // 255 - Valor do Desconto Inv√°lido. Verifique dado informado
-    pcdValorMoraInvalido,                             // 256 - Valor de Mora Inv√°lido. Verifique dado informado
-    pcdValorMultaInvalido,                            // 257 - Valor da Multa Inv√°lido. Verifique dado informado
-    pcdValorIRInvalido,                               // 258 - Valor do IR Inv√°lido. Verifique dado informado
-    pcdValorISSInvalido,                              // 259 - Valor do ISS Inv√°lido. Verifique dado informado
-    pcdValorIOFInvalido,                              // 260 - Valor do IOF Inv√°lido. Verifique dado informado
-    pcdValorOutrasDeducoesInvalido2,                  // 261 - Valor de Outras Dedu√ß√µes Inv√°lido. Verifique dado informado
-    pcdValorOutrosAcrescimosInvalido2,                // 262 - Valor de Outros Acr√©scimos Inv√°lido. Verifique dado informado
-    pcdValorINSSInvalido,                             // 263 - Valor do INSS Inv√°lido. Verifique dado informado
-    pcdLoteNaoAceito,                                 // 264 - Lote N√£o Aceito. Reenvie os documentos
-    pcdInscricaoEmpresaInvalidaContrato,              // 265 - Inscri√ß√£o da Empresa Inv√°lida para o Contrato
-    pcdConvenioEmpresaInexistenteContrato,            // 266 - Conv√™nio com a Empresa Inexistente/Inv√°lido para o Contrato
-    pcdAgenciaContaCorrenteEmpresaInexistenteContrato,// 267 - Ag√™ncia/Conta Corrente da Empresa Inexistente/Inv√°lido para o Contrato. Verifique dado informado
-    pcdTipoServicoInvalidoContrato,                   // 268 - Tipo de Servi√ßo Inv√°lido para o Contrato. Para contrato de Pagamentos, utilize 20 para Pagamento a Fornecedores, 30 Pagamento de Sal√°rios ou 98 Pagamentos Diversos no header de Lote, campo 05.1, do CNAB240
+    pcdContaDeCreditoInvalida,                        // 105 - Conta de crÈdito inv·lida. Informe um n˙mero de conta v·lido.
+    pcdCpfInvalido,                                   // 106 - CPF inv·lido. Informe um CPF v·lido.
+    pcdCnpjInvalido,                                  // 107 - CNPJ inv·lido. Informe um CNPJ v·lido.
+    pcdNroDocCreditoInvalido,                         // 108 - N˙mero do documento de crÈdito inv·lido. Informe um n˙mero v·lido.
+    pcdNroDocDebitoInvalido,                          // 109 - N˙mero do documento de dÈbito inv·lido. Informe um n˙mero v·lido.
+    pcdValorPgtoInvalido,                             // 110 - Valor do pagamento inv·lido. Informe um valor v·lido.
+    pcdValorNominalInvalido,                          // 111 - Valor nominal inv·lido. Informe um valor v·lido.
+    pcdValorDescInvalido,                             // 112 - Valor de desconto inv·lido. Informe um valor v·lido.
+    pcdValorJuro2Invalido,                            // 113 - Valor de mora inv·lido. Informe um valor v·lido.
+    pcdNroInscBeneficiarioInvalido,                   // 114 - N˙mero de inscriÁ„o do benefici·rio inv·lido. Informe um n˙mero
+    pcdNroInscPagadorInvalido,                        // 115 - N˙mero de inscriÁ„o do pagador inv·lido. Informe um n˙mero v·lido.
+    pcdNroInscAvalistaInvalido,                       // 116 - N˙mero de inscriÁ„o do avalista inv·lido. Informe um n˙mero v·lido.
+    pcdNroIndentContribuinteDarfInvalido,             // 117 - N∫ de identifiaÁ„o do contribuinte DARF inv·lido. Informe um
+    pcdNroReferenciaInvalido,                         // 118 - N˙mero de referÍncia inv·lido. Informe um n˙mero v·lido.
+    pcdValorPrincipalInvalido,                        // 119 - Valor principal inv·lido. Informe um valor v·lido.
+    pcdValorMulta2Invalido,                           // 120 - Valor da multa inv·lido. Informe um valor v·lido.
+    pcdValorJurosInvalido,                            // 121 - Valor dos juros/encargos inv·lido. Informe um valor v·lido.
+    pcdNroIndentContribuinteGpsInvalido,              // 122 - N∫ de identificaÁ„o do contribuinte GPS inv·lido. Informe um
+    pcdValorPrevPgtoInssInvalido,                     // 123 - Valor previsto do pagamento do INSS inv·lido. Informe um valor
+    pcdValorOutrasEntInvalido,                        // 124 - Valor de outras entidades inv·lido. Informe um valor v·lido.
+    pcdValorAtualizaMonetariaInvalido,                // 125 - Valor de atualizaÁ„o monet·ria inv·lido. Informe um valor v·lido.
+    pcdValorDescontoGruInvalido,                      // 126 - Valor de desconto GRU inv·lido. Informe um valor v·lido.
+    pcdCodBarInconpativelModalidadePgto,              // 127 - Codigo de barras incompativel com a modalidade de pagamento.
+    pcdInsuficienciaFundosDebitoNaoEfetuado,          // 200 - InsuficiÍncia de Fundos - DÈbito N„o Efetuado
+    pcdCreditoDebitoCanceladoPagador,                 // 201 - CrÈdito ou DÈbito Cancelado pelo Pagador
+    pcdDebitoAutorizadoAgenciaEfetuado,               // 202 - DÈbito Autorizado pela AgÍncia - Efetuado
+    pcdControleInvalido,                              // 203 - Controle Inv·lido. Verificar campos 01, 02 e 03 do header ou segmento A, B, C, J, J52, N, O ou W do Arquivo CNAB240
+    pcdTipoOperacaoInvalido,                          // 204 - Tipo de OperaÁ„o Inv·lido. Verificar campo 04.1 do header de lote. Valor default = "C"
+    pcdTipoServicoInvalido,                           // 205 - Tipo de ServiÁo Inv·lido. Utilize 20 para Pagamento a Fornecedores, 30 Pagamento de Sal·rios ou 98 Pagamentos Diversos no header de Lote, campo 05.1, do CNAB240
+    pcdFormaLancamentoInvalida,                       // 206 - Forma de LanÁamento Inv·lida. Para crÈdito em PoupanÁa utilize Pagamentos Diversos. Para crÈdito em Conta Pagamento utilize Pagamentos Diversos ou Pagamento a Fornecedores. Para Pagamento de sal·rio a conta de crÈdito deve ser do BB
+    pcdTipoNumeroInscricaoInvalido,                   // 207 - Tipo/N˙mero de InscriÁ„o Inv·lido. CPF ou CNPJ inv·lido. Verifique dados informados
+    pcdCodigoConvenioInvalido,                        // 208 - CÛdigo de ConvÍnio Inv·lido. Verifique dados informados
+    pcdAgenciaContaCorrenteDVInvalido,                // 209 - AgÍncia/Conta Corrente/DV Inv·lido. Verifique dados informados
+    pcdNumeroSequencialRegistroLoteInvalido,          // 210 - N∫ Seq¸encial do Registro no Lote Inv·lido. Verifique dado informado
+    pcdCodigoSegmentoDetalheInvalido,                 // 211 - CÛdigo de Segmento de Detalhe Inv·lido. Verifique dado informado
+    pcdLancamentoInconsistenteRejeitadoPrevia,        // 212 - LanÁamento inconsistente, rejeitado na prÈvia. Corrigir os dados do lanÁamento e enviar novo pagamento
+    pcdNumeroCompeBancoCreditoInvalido,               // 213 - N∫ Compe do Banco para crÈdito Inv·lido. Verifique dado informado
+    pcdNumeroISPBInvalido,                            // 214 - N∫ do ISPB Banco, InstituiÁ„o de Pagamento para crÈdito Inv·lido. Verifique dado informado
+    pcdAgenciaMantenedoraContaCorrenteFavorecidoInvalida, // 215 - AgÍncia Mantenedora da Conta Corrente do Favorecido Inv·lida. Verifique dado informado
+    pcdContaCorrenteDVContaPagamentoFavorecidoInvalido, // 216 - Conta Corrente/DV/Conta de Pagamento do Favorecido Inv·lido. Verifique dado informado
+    pcdNomeFavorecidoNaoInformado,                    // 217 - Nome do Favorecido n„o Informado. Informe o nome do favorecido
+    pcdDataLancamentoInvalida,                        // 218 - Data LanÁamento Inv·lido. Verifique dado informado
+    pcdTipoQuantidadeMoedaInvalido,                   // 219 - Tipo/Quantidade da Moeda Inv·lido. Verifique dado informado
+    pcdValorLancamentoInvalido,                       // 220 - Valor do LanÁamento Inv·lido. Verifique dado informado
+    pcdAvisoFavorecidoIdentificacaoInvalida,          // 221 - Aviso ao Favorecido - IdentificaÁ„o Inv·lida
+    pcdTipoNumeroInscricaoFavorecidoInvalido,         // 222 - Tipo/N˙mero de InscriÁ„o do Favorecido Inv·lido CPF ou CNPJ do favorecido inv·lido. Arquivo: Verifique o campo 07.3B - registro detalhe do segmento B
+    pcdLogradouroFavorecidoNaoInformado,              // 223 - Logradouro do Favorecido n„o Informado. Informe o logradouro do favorecido
+    pcdNumeroLocalFavorecidoNaoInformado,             // 224 - N∫ do Local do Favorecido n„o Informado. Informe o n∫ do local do favorecido
+    pcdCidadeFavorecidoNaoInformada,                  // 225 - Cidade do Favorecido n„o Informada. Informe a cidade do favorecido
+    pcdCEPFavorecidoInvalido,                         // 226 - CEP/Complemento do Favorecido Inv·lido. Verifique dado informado
+    pcdSiglaEstadoFavorecidoInvalida,                 // 227 - Sigla do Estado do Favorecido Inv·lida. Verifique dado informado
+    pcdNumeroBancoCreditoInvalido,                    // 228 - N∫ do Banco para crÈdito Inv·lido. Verifique dado informado
+    pcdCodigoNomeAgenciaDepositariaNaoInformado,      // 229 - CÛdigo/Nome da AgÍncia Deposit·ria n„o Informado. Informe o dado solicitado
+    pcdSeuNumeroInvalido,                             // 230 - Seu N˙mero Inv·lido. Verifique dado informado
+    pcdNossoNumeroInvalido,                           // 231 - Nosso N˙mero Inv·lido. Verifique dado informado
+    pcdInclusaoEfetuadaSucesso,                       // 232 - Inclus„o Efetuada com Sucesso
+    pcdAlteracaoEfetuadaSucesso,                      // 233 - AlteraÁ„o Efetuada com Sucesso
+    pcdExclusaoEfetuadaSucesso,                       // 234 - Exclus„o Efetuada com Sucesso
+    pcdAgenciaContaImpedidaLegalmente,                // 235 - AgÍncia/Conta Impedida Legalmente
+    pcdEmpresaNaoPagouSalario,                        // 236 - Empresa n„o pagou sal·rio Conta de crÈdito sÛ aceita pagamento de sal·rio
+    pcdFalecimentoMutuario,                           // 237 - Falecimento do mutu·rio
+    pcdEmpresaNaoEnviouRemessaMutuario,               // 238 - Empresa n„o enviou remessa do mutu·rio
+    pcdEmpresaNaoEnviouRemessaVencimento,             // 239 - Empresa n„o enviou remessa no vencimento
+    pcdValorParcelaInvalida,                          // 240 - Valor da parcela inv·lida. Verifique dado informado
+    pcdIdentificacaoContratoInvalida,                 // 241 - IdentificaÁ„o do contrato inv·lida. Verifique dado informado
+    pcdOperacaoConsignacaoIncluidaSucesso,            // 242 - OperaÁ„o de ConsignaÁ„o IncluÌda com Sucesso
+    pcdOperacaoConsignacaoAlteradaSucesso,            // 243 - OperaÁ„o de ConsignaÁ„o Alterada com Sucesso
+    pcdOperacaoConsignacaoExcluidaSucesso,            // 244 - OperaÁ„o de ConsignaÁ„o ExcluÌda com Sucesso
+    pcdOperacaoConsignacaoLiquidadaSucesso,           // 245 - OperaÁ„o de ConsignaÁ„o Liquidada com Sucesso
+    pcdReativacaoEfetuadaSucesso,                     // 246 - ReativaÁ„o Efetuada com Sucesso
+    pcdSuspensaoEfetuadaSucesso,                      // 247 - Suspens„o Efetuada com Sucesso
+    pcdCodigoBarrasCodigoBancoInvalido,               // 248 - CÛdigo de Barras - CÛdigo do Banco Inv·lido
+    pcdCodigoBarrasCodigoMoedaInvalido,               // 249 - CÛdigo de Barras - CÛdigo da Moeda Inv·lido
+    pcdCodigoBarrasDigitoVerificadorGeralInvalido,    // 250 - CÛdigo de Barras - DÌgito Verificador Geral Inv·lido
+    pcdCodigoBarrasValorTituloInvalido,               // 251 - CÛdigo de Barras - Valor do TÌtulo Inv·lido
+    pcdCodigoBarrasCampoLivreInvalido,                // 252 - CÛdigo de Barras - Campo Livre Inv·lido
+    pcdValorDocumentoInvalido,                        // 253 - Valor do Documento Inv·lido. Verifique dado informado
+    pcdValorAbatimentoInvalido,                       // 254 - Valor do Abatimento Inv·lido. Verifique dado informado
+    pcdValorDescontoInvalido,                         // 255 - Valor do Desconto Inv·lido. Verifique dado informado
+    pcdValorMoraInvalido,                             // 256 - Valor de Mora Inv·lido. Verifique dado informado
+    pcdValorMultaInvalido,                            // 257 - Valor da Multa Inv·lido. Verifique dado informado
+    pcdValorIRInvalido,                               // 258 - Valor do IR Inv·lido. Verifique dado informado
+    pcdValorISSInvalido,                              // 259 - Valor do ISS Inv·lido. Verifique dado informado
+    pcdValorIOFInvalido,                              // 260 - Valor do IOF Inv·lido. Verifique dado informado
+    pcdValorOutrasDeducoesInvalido2,                  // 261 - Valor de Outras DeduÁıes Inv·lido. Verifique dado informado
+    pcdValorOutrosAcrescimosInvalido2,                // 262 - Valor de Outros AcrÈscimos Inv·lido. Verifique dado informado
+    pcdValorINSSInvalido,                             // 263 - Valor do INSS Inv·lido. Verifique dado informado
+    pcdLoteNaoAceito,                                 // 264 - Lote N„o Aceito. Reenvie os documentos
+    pcdInscricaoEmpresaInvalidaContrato,              // 265 - InscriÁ„o da Empresa Inv·lida para o Contrato
+    pcdConvenioEmpresaInexistenteContrato,            // 266 - ConvÍnio com a Empresa Inexistente/Inv·lido para o Contrato
+    pcdAgenciaContaCorrenteEmpresaInexistenteContrato,// 267 - AgÍncia/Conta Corrente da Empresa Inexistente/Inv·lido para o Contrato. Verifique dado informado
+    pcdTipoServicoInvalidoContrato,                   // 268 - Tipo de ServiÁo Inv·lido para o Contrato. Para contrato de Pagamentos, utilize 20 para Pagamento a Fornecedores, 30 Pagamento de Sal·rios ou 98 Pagamentos Diversos no header de Lote, campo 05.1, do CNAB240
     pcdContaCorrenteEmpresaSaldoInsuficiente,         // 269 - Conta Corrente da Empresa com Saldo Insuficiente
-    pcdLoteServicoForaSequencia,                      // 270 - Lote de Servi√ßo Fora de Seq√º√™ncia
-    pcdLoteServicoInvalido,                           // 271 - Lote de Servi√ßo Inv√°lido
-    pcdArquivoNaoAceito,                              // 272 - Arquivo n√£o aceito
-    pcdTipoRegistroInvalido,                          // 273 - Tipo de Registro Inv√°lido
-    pcdCodigoRemessaRetornoInvalido,                  // 274 - C√≥digo Remessa / Retorno Inv√°lido
-    pcdVersaoLayoutInvalida,                          // 275 - Vers√£o de layout inv√°lida
-    pcdMutuarioNaoIdentificado,                       // 276 - Mutu√°rio n√£o identificado
-    pcdTipoBeneficioNaoPermiteEmprestimo,             // 277 - Tipo do beneficio n√£o permite empr√©stimo
+    pcdLoteServicoForaSequencia,                      // 270 - Lote de ServiÁo Fora de Seq¸Íncia
+    pcdLoteServicoInvalido,                           // 271 - Lote de ServiÁo Inv·lido
+    pcdArquivoNaoAceito,                              // 272 - Arquivo n„o aceito
+    pcdTipoRegistroInvalido,                          // 273 - Tipo de Registro Inv·lido
+    pcdCodigoRemessaRetornoInvalido,                  // 274 - CÛdigo Remessa / Retorno Inv·lido
+    pcdVersaoLayoutInvalida,                          // 275 - Vers„o de layout inv·lida
+    pcdMutuarioNaoIdentificado,                       // 276 - Mutu·rio n„o identificado
+    pcdTipoBeneficioNaoPermiteEmprestimo,             // 277 - Tipo do beneficio n„o permite emprÈstimo
     pcdBeneficioCessadoSuspenso,                      // 278 - Beneficio cessado/suspenso
     pcdBeneficioPossuiRepresentanteLegal,             // 279 - Beneficio possui representante legal
-    pcdBeneficioTipoPA,                               // 280 - Beneficio √© do tipo PA (Pens√£o aliment√≠cia)
+    pcdBeneficioTipoPA,                               // 280 - Beneficio È do tipo PA (Pens„o alimentÌcia)
     pcdQuantidadeContratosExcedida,                   // 281 - Quantidade de contratos permitida excedida
-    pcdBeneficioNaoPertenceBanco,                     // 282 - Beneficio n√£o pertence ao Banco informado
-    pcdInicioDescontoUltrapassado,                    // 283 - In√≠cio do desconto informado j√° ultrapassado
-    pcdNumeroParcelaInvalida,                         // 284 - N√∫mero da parcela inv√°lida. Verifique dado informado
-    pcdQuantidadeParcelaInvalida,                     // 285 - Quantidade de parcela inv√°lida. Verifique dado informado
-    pcdMargemConsignavelExcedidaPrazo,                // 286 - Margem consign√°vel excedida para o mutu√°rio dentro do prazo do contrato. Verifique suas margens dispon√≠veis
-    pcdEmprestimoJaCadastrado,                        // 287 - Empr√©stimo j√° cadastrado
-    pcdEmprestimoInexistente,                         // 288 - Empr√©stimo inexistente
-    pcdEmprestimoJaEncerrado,                         // 289 - Empr√©stimo j√° encerrado
+    pcdBeneficioNaoPertenceBanco,                     // 282 - Beneficio n„o pertence ao Banco informado
+    pcdInicioDescontoUltrapassado,                    // 283 - InÌcio do desconto informado j· ultrapassado
+    pcdNumeroParcelaInvalida,                         // 284 - N˙mero da parcela inv·lida. Verifique dado informado
+    pcdQuantidadeParcelaInvalida,                     // 285 - Quantidade de parcela inv·lida. Verifique dado informado
+    pcdMargemConsignavelExcedidaPrazo,                // 286 - Margem consign·vel excedida para o mutu·rio dentro do prazo do contrato. Verifique suas margens disponÌveis
+    pcdEmprestimoJaCadastrado,                        // 287 - EmprÈstimo j· cadastrado
+    pcdEmprestimoInexistente,                         // 288 - EmprÈstimo inexistente
+    pcdEmprestimoJaEncerrado,                         // 289 - EmprÈstimo j· encerrado
     pcdArquivoSemTrailer,                             // 290 - Arquivo sem trailer
-    pcdMutuarioSemCreditoCompetencia,                 // 291 - Mutu√°rio sem cr√©dito na compet√™ncia
-    pcdNaoDescontadoOutrosMotivos,                    // 292 - N√£o descontado ‚Äì outros motivos
-    pcdRetornoCreditoNaoPago,                         // 293 - Retorno de Cr√©dito n√£o pago
-    pcdCancelamentoEmprestimoRetroativo,              // 294 - Cancelamento de empr√©stimo retroativo
+    pcdMutuarioSemCreditoCompetencia,                 // 291 - Mutu·rio sem crÈdito na competÍncia
+    pcdNaoDescontadoOutrosMotivos,                    // 292 - N„o descontado ñ outros motivos
+    pcdRetornoCreditoNaoPago,                         // 293 - Retorno de CrÈdito n„o pago
+    pcdCancelamentoEmprestimoRetroativo,              // 294 - Cancelamento de emprÈstimo retroativo
     pcdOutrosMotivosGlosa,                            // 295 - Outros Motivos de Glosa
-    pcdMargemConsignavelExcedidaAcimaPrazo,           // 296 - Margem consign√°vel excedida para o mutu√°rio acima do prazo do contrato
-    pcdMutuarioDesligadoEmpregador,                   // 297 - Mutu√°rio desligado do empregador. Pagamento n√£o permitido
-    pcdMutuarioAfastadoLicenca,                       // 298 - Mutu√°rio afastado por licen√ßa. Pagamento n√£o permitido
-    pcdPrimeiroNomeMutuarioDiferente,                 // 299 - Primeiro nome do mutu√°rio diferente do primeiro nome do movimento do censo ou diferente da base de Titular do Benef√≠cio. Verificar necessidade de ajustes
-    pcdBeneficioSuspensoCessadoAPS,                   // 300 - Benef√≠cio suspenso/cessado pela APS ou Sisobi
-    pcdBeneficioSuspensoDependenciaCalculo,           // 301 - Benef√≠cio suspenso por depend√™ncia de c√°lculo
-    pcdBeneficioSuspensoCessadoInspetoria,            // 302 - Benef√≠cio suspenso/cessado pela inspetoria/auditoria
-    pcdBeneficioBloqueadoEmprestimoBeneficiario,      // 303 - Benef√≠cio bloqueado para empr√©stimo pelo benefici√°rio
-    pcdBeneficioBloqueadoEmprestimoTBM,               // 304 - Benef√≠cio bloqueado para empr√©stimo por TBM
-    pcdBeneficioFaseConcessaoPA,                      // 305 - Benef√≠cio est√° em fase de concess√£o de PA ou desdobramento
-    pcdBeneficioCessadoObito,                         // 306 - Benef√≠cio cessado por √≥bito
-    pcdBeneficioCessadoFraude,                        // 307 - Benef√≠cio cessado por fraude
-    pcdBeneficioCessadoOutroBeneficio,                // 308 - Benef√≠cio cessado por concess√£o de outro benef√≠cio
-    pcdBeneficioCessadoEstatutario,                   // 309 - Benef√≠cio cessado: estatut√°rio transferido para √≥rg√£o de origem
-    pcdEmprestimoSuspensoAPS,                         // 310 - Empr√©stimo suspenso pela APS
-    pcdEmprestimoCanceladoBanco,                      // 311 - Empr√©stimo cancelado pelo banco
-    pcdCreditoTransformadoPAB,                        // 312 - Cr√©dito transformado em PAB
-    pcdTerminoConsignacaoAlterado,                    // 313 - T√©rmino da consigna√ß√£o foi alterado
-    pcdFimEmprestimoPeriodoSuspensao,                 // 314 - Fim do empr√©stimo ocorreu durante per√≠odo de suspens√£o ou concess√£o
-    pcdEmprestimoSuspensoBanco,                       // 315 - Empr√©stimo suspenso pelo banco
-    pcdNaoAverbacaoContratoQuantidadeParcelas,        // 316 - N√£o averba√ß√£o de contrato ‚Äì quantidade de parcelas/compet√™ncias informadas ultrapassou a data limite da extin√ß√£o de cota do dependente titular de benef√≠cios
-    pcdLoteNaoAceitoTotaisDiferenca,                  // 317 - Lote N√£o Aceito - Totais do Lote com Diferen√ßa
-    pcdTituloNaoEncontrado,                           // 318 - T√≠tulo N√£o Encontrado
-    pcdIdentificadorRegistroOpcionalInvalido,         // 319 - Identificador Registro Opcional Inv√°lido. Verifique dado informado
-    pcdCodigoPadraoInvalido,                          // 320 - C√≥digo Padr√£o Inv√°lido. Verifique dado informado
-    pcdCodigoOcorrenciaInvalido,                      // 321 - C√≥digo de Ocorr√™ncia Inv√°lido. Verifique dado informado
-    pcdComplementoOcorrenciaInvalido,                 // 322 - Complemento de Ocorr√™ncia Inv√°lido. Verifique dado informado
-    pcdAlegacaoJaInformada,                           // 323 - Alega√ß√£o j√° Informada
-    pcdAgenciaContaFavorecidoSubstituida,             // 324 - Ag√™ncia / Conta do Favorecido Substitu√≠da. Verifique dado informado
-    pcdDivergenciaNomeBeneficiario,                   // 325 - Diverg√™ncia entre o primeiro e √∫ltimo nome do benefici√°rio versus primeiro e √∫ltimo nome na Receita Federal. Verificar com benefici√°rio necessidade de ajustes
-    pcdConfirmacaoAntecipacaoValor,                   // 326 - Confirma√ß√£o de Antecipa√ß√£o de Valor
-    pcdAntecipacaoParcialValor,                       // 327 - Antecipa√ß√£o parcial de valor
-    pcdBoletoBloqueadoBase,                           // 328 - Boleto bloqueado na base. N√£o pass√≠vel de pagamento
-    pcdSistemaContingenciaBoletoValorMaior,           // 329 - Sistema em conting√™ncia ‚Äì Boleto valor maior que refer√™ncia. Consulte o benefici√°rio ou tente efetuar o pagamento mais tarde
-    pcdSistemaContingenciaBoletoVencido,              // 330 - Sistema em conting√™ncia ‚Äì Boleto vencido. Consulte o benefici√°rio ou tente efetuar o pagamento mais tarde
-    pcdSistemaContingenciaBoletoIndexado,             // 331 - Sistema em conting√™ncia ‚Äì Boleto indexado. Consulte o benefici√°rio ou tente efetuar o pagamento mais tarde
-    pcdBeneficiarioDivergente,                        // 332 - Benefici√°rio divergente. Verifique dado informado
-    pcdLimitePagamentosParciaisExcedido,              // 333 - Limite de pagamentos parciais do boleto excedido. Consulte o Benefici√°rio do boleto
-    pcdBoletoJaLiquidado,                             // 334 - Boleto j√° liquidado. N√£o pass√≠vel de pagamento
+    pcdMargemConsignavelExcedidaAcimaPrazo,           // 296 - Margem consign·vel excedida para o mutu·rio acima do prazo do contrato
+    pcdMutuarioDesligadoEmpregador,                   // 297 - Mutu·rio desligado do empregador. Pagamento n„o permitido
+    pcdMutuarioAfastadoLicenca,                       // 298 - Mutu·rio afastado por licenÁa. Pagamento n„o permitido
+    pcdPrimeiroNomeMutuarioDiferente,                 // 299 - Primeiro nome do mutu·rio diferente do primeiro nome do movimento do censo ou diferente da base de Titular do BenefÌcio. Verificar necessidade de ajustes
+    pcdBeneficioSuspensoCessadoAPS,                   // 300 - BenefÌcio suspenso/cessado pela APS ou Sisobi
+    pcdBeneficioSuspensoDependenciaCalculo,           // 301 - BenefÌcio suspenso por dependÍncia de c·lculo
+    pcdBeneficioSuspensoCessadoInspetoria,            // 302 - BenefÌcio suspenso/cessado pela inspetoria/auditoria
+    pcdBeneficioBloqueadoEmprestimoBeneficiario,      // 303 - BenefÌcio bloqueado para emprÈstimo pelo benefici·rio
+    pcdBeneficioBloqueadoEmprestimoTBM,               // 304 - BenefÌcio bloqueado para emprÈstimo por TBM
+    pcdBeneficioFaseConcessaoPA,                      // 305 - BenefÌcio est· em fase de concess„o de PA ou desdobramento
+    pcdBeneficioCessadoObito,                         // 306 - BenefÌcio cessado por Ûbito
+    pcdBeneficioCessadoFraude,                        // 307 - BenefÌcio cessado por fraude
+    pcdBeneficioCessadoOutroBeneficio,                // 308 - BenefÌcio cessado por concess„o de outro benefÌcio
+    pcdBeneficioCessadoEstatutario,                   // 309 - BenefÌcio cessado: estatut·rio transferido para Ûrg„o de origem
+    pcdEmprestimoSuspensoAPS,                         // 310 - EmprÈstimo suspenso pela APS
+    pcdEmprestimoCanceladoBanco,                      // 311 - EmprÈstimo cancelado pelo banco
+    pcdCreditoTransformadoPAB,                        // 312 - CrÈdito transformado em PAB
+    pcdTerminoConsignacaoAlterado,                    // 313 - TÈrmino da consignaÁ„o foi alterado
+    pcdFimEmprestimoPeriodoSuspensao,                 // 314 - Fim do emprÈstimo ocorreu durante perÌodo de suspens„o ou concess„o
+    pcdEmprestimoSuspensoBanco,                       // 315 - EmprÈstimo suspenso pelo banco
+    pcdNaoAverbacaoContratoQuantidadeParcelas,        // 316 - N„o averbaÁ„o de contrato ñ quantidade de parcelas/competÍncias informadas ultrapassou a data limite da extinÁ„o de cota do dependente titular de benefÌcios
+    pcdLoteNaoAceitoTotaisDiferenca,                  // 317 - Lote N„o Aceito - Totais do Lote com DiferenÁa
+    pcdTituloNaoEncontrado,                           // 318 - TÌtulo N„o Encontrado
+    pcdIdentificadorRegistroOpcionalInvalido,         // 319 - Identificador Registro Opcional Inv·lido. Verifique dado informado
+    pcdCodigoPadraoInvalido,                          // 320 - CÛdigo Padr„o Inv·lido. Verifique dado informado
+    pcdCodigoOcorrenciaInvalido,                      // 321 - CÛdigo de OcorrÍncia Inv·lido. Verifique dado informado
+    pcdComplementoOcorrenciaInvalido,                 // 322 - Complemento de OcorrÍncia Inv·lido. Verifique dado informado
+    pcdAlegacaoJaInformada,                           // 323 - AlegaÁ„o j· Informada
+    pcdAgenciaContaFavorecidoSubstituida,             // 324 - AgÍncia / Conta do Favorecido SubstituÌda. Verifique dado informado
+    pcdDivergenciaNomeBeneficiario,                   // 325 - DivergÍncia entre o primeiro e ˙ltimo nome do benefici·rio versus primeiro e ˙ltimo nome na Receita Federal. Verificar com benefici·rio necessidade de ajustes
+    pcdConfirmacaoAntecipacaoValor,                   // 326 - ConfirmaÁ„o de AntecipaÁ„o de Valor
+    pcdAntecipacaoParcialValor,                       // 327 - AntecipaÁ„o parcial de valor
+    pcdBoletoBloqueadoBase,                           // 328 - Boleto bloqueado na base. N„o passÌvel de pagamento
+    pcdSistemaContingenciaBoletoValorMaior,           // 329 - Sistema em contingÍncia ñ Boleto valor maior que referÍncia. Consulte o benefici·rio ou tente efetuar o pagamento mais tarde
+    pcdSistemaContingenciaBoletoVencido,              // 330 - Sistema em contingÍncia ñ Boleto vencido. Consulte o benefici·rio ou tente efetuar o pagamento mais tarde
+    pcdSistemaContingenciaBoletoIndexado,             // 331 - Sistema em contingÍncia ñ Boleto indexado. Consulte o benefici·rio ou tente efetuar o pagamento mais tarde
+    pcdBeneficiarioDivergente,                        // 332 - Benefici·rio divergente. Verifique dado informado
+    pcdLimitePagamentosParciaisExcedido,              // 333 - Limite de pagamentos parciais do boleto excedido. Consulte o Benefici·rio do boleto
+    pcdBoletoJaLiquidado,                             // 334 - Boleto j· liquidado. N„o passÌvel de pagamento
     pcdConsultarBancoDetalharErro2                    // 999 - Consultar o Banco para detalhar o erro
   );
 
   TACBrPagamentosBBVinculadosErros = (
     pveNenhum,
-    pveAgenciaZerada,                             // 1 - Ag√™ncia zerada. Campo obrigat√≥rio.
-    pveContaCreditoIncorreta,                     // 2 - Preenchimento da Conta de cr√©dito incorreto. Campo deve ser num√©rico.
-    pveDVCreditoEmBranco,                         // 3 - DV da conta de cr√©dito em branco. Campo obrigat√≥rio quando a conta √© informada.
-    pveCPFInvalido,                               // 4 - Preenchimento do CPF inv√°lido. Campo deve ser num√©rico.
-    pveCNPJInvalido,                              // 5 - Preenchimento do CNPJ inv√°lido. Campo deve ser num√©rico.
-    pveDataPagamentoZerada,                       // 6 - Data de pagamento zerada. Campo obrigat√≥rio.
-    pveDataPagamentoInvalida,                     // 7 - Data de pagamento inv√°lida.
-    pveValorIncorreto,                            // 8 - Preenchimento do valor incorreto. Campo deve ser num√©rico.
-    pveValorZerado,                               // 9 - Valor zerado. Campo obrigat√≥rio.
-    pveFinalidadeDOCeTEDNaoInformadas,            // 12 - Finalidade DOC e Finalidade TED n√£o foram informadas. Preencha uma das duas para transfer√™ncias para outros bancos.
+    pveAgenciaZerada,                             // 1 - AgÍncia zerada. Campo obrigatÛrio.
+    pveContaCreditoIncorreta,                     // 2 - Preenchimento da Conta de crÈdito incorreto. Campo deve ser numÈrico.
+    pveDVCreditoEmBranco,                         // 3 - DV da conta de crÈdito em branco. Campo obrigatÛrio quando a conta È informada.
+    pveCPFInvalido,                               // 4 - Preenchimento do CPF inv·lido. Campo deve ser numÈrico.
+    pveCNPJInvalido,                              // 5 - Preenchimento do CNPJ inv·lido. Campo deve ser numÈrico.
+    pveDataPagamentoZerada,                       // 6 - Data de pagamento zerada. Campo obrigatÛrio.
+    pveDataPagamentoInvalida,                     // 7 - Data de pagamento inv·lida.
+    pveValorIncorreto,                            // 8 - Preenchimento do valor incorreto. Campo deve ser numÈrico.
+    pveValorZerado,                               // 9 - Valor zerado. Campo obrigatÛrio.
+    pveFinalidadeDOCeTEDNaoInformadas,            // 12 - Finalidade DOC e Finalidade TED n„o foram informadas. Preencha uma das duas para transferÍncias para outros bancos.
     pveFinalidadesDOCeTEDInformadas,              // 13 - Informadas finalidades para DOC e para TED. Informe apenas uma das duas.
-    pveDVCreditoInvalido,                         // 15 - DV da conta de cr√©dito inv√°lido.
-    pveCPFECNPJInformados,                        // 16 - Ambos os identificadores do cliente CPF e CNPJ foram informados. Obrigat√≥rio informar apenas um dos identificadores do benefici√°rio.
-    pveCPFECNPJZerados,                           // 17 - Ambos os identificadores do cliente CPF e CNPJ zerados. Obrigat√≥rio informar um dos identificadores do benefici√°rio.
-    pveDVCPFInvalido,                             // 18 - DV do CPF inv√°lido.
-    pveDVCNPJInvalido,                            // 19 - DV do CNPJ inv√°lido.
-    pveContaCreditoIgualDebito,                   // 20 - Conta de cr√©dito igual √† conta de d√©bito.
-    pvePagamentoSalarioBB,                        // 21 - Pagamento de sal√°rio s√≥ √© permitido para Banco do Brasil. N√∫mero do banco do benefici√°rio deve ser zero ou 001 (BB).
-    pvePagamentoSalarioISPBZerado,                // 22 - Pagamento de sal√°rio s√≥ √© permitido para Banco do Brasil. C√≥digo ISPB deve ser zerado.
-    pveContaCreditoObrigatoria,                   // 23 - Conta de cr√©dito deve ser informada para todos os tipos de pagamento, exceto Dep√≥sito Judicial.
-    pveCPFouCNPJObrigatorioDepositoJudicial,      // 24 - CPF ou CNPJ obrigat√≥rio para Dep√≥sitos Judiciais.
-    pveContaCreditoNaoInformadaDepositoJudicial,  // 26 - N√∫mero da conta de cr√©dito n√£o deve ser informado para Dep√≥sitos Judiciais.
-    pveDVCreditoNaoInformadoDepositoJudicial,     // 27 - DV da conta de cr√©dito n√£o deve ser informado para Dep√≥sitos Judiciais.
-    pveFinalidadeDOCPreenchida,                   // 28 - C√≥digo de finalidade DOC s√≥ deve ser preenchido para transfer√™ncias para outros bancos.
-    pveFinalidadeTEDPreenchida,                   // 29 - C√≥digo de finalidade TED s√≥ deve ser preenchido para transfer√™ncias para outros bancos.
-    pveDepositoJudicialDOCouTED                   // 30 - N√∫mero do Dep√≥sito Judicial preenchido para DOC ou TED. N√£o √© permitido envio de dep√≥sito judicial para outros bancos.
+    pveDVCreditoInvalido,                         // 15 - DV da conta de crÈdito inv·lido.
+    pveCPFECNPJInformados,                        // 16 - Ambos os identificadores do cliente CPF e CNPJ foram informados. ObrigatÛrio informar apenas um dos identificadores do benefici·rio.
+    pveCPFECNPJZerados,                           // 17 - Ambos os identificadores do cliente CPF e CNPJ zerados. ObrigatÛrio informar um dos identificadores do benefici·rio.
+    pveDVCPFInvalido,                             // 18 - DV do CPF inv·lido.
+    pveDVCNPJInvalido,                            // 19 - DV do CNPJ inv·lido.
+    pveContaCreditoIgualDebito,                   // 20 - Conta de crÈdito igual ‡ conta de dÈbito.
+    pvePagamentoSalarioBB,                        // 21 - Pagamento de sal·rio sÛ È permitido para Banco do Brasil. N˙mero do banco do benefici·rio deve ser zero ou 001 (BB).
+    pvePagamentoSalarioISPBZerado,                // 22 - Pagamento de sal·rio sÛ È permitido para Banco do Brasil. CÛdigo ISPB deve ser zerado.
+    pveContaCreditoObrigatoria,                   // 23 - Conta de crÈdito deve ser informada para todos os tipos de pagamento, exceto DepÛsito Judicial.
+    pveCPFouCNPJObrigatorioDepositoJudicial,      // 24 - CPF ou CNPJ obrigatÛrio para DepÛsitos Judiciais.
+    pveContaCreditoNaoInformadaDepositoJudicial,  // 26 - N˙mero da conta de crÈdito n„o deve ser informado para DepÛsitos Judiciais.
+    pveDVCreditoNaoInformadoDepositoJudicial,     // 27 - DV da conta de crÈdito n„o deve ser informado para DepÛsitos Judiciais.
+    pveFinalidadeDOCPreenchida,                   // 28 - CÛdigo de finalidade DOC sÛ deve ser preenchido para transferÍncias para outros bancos.
+    pveFinalidadeTEDPreenchida,                   // 29 - CÛdigo de finalidade TED sÛ deve ser preenchido para transferÍncias para outros bancos.
+    pveDepositoJudicialDOCouTED                   // 30 - N˙mero do DepÛsito Judicial preenchido para DOC ou TED. N„o È permitido envio de depÛsito judicial para outros bancos.
   );
 
   TACBrPagamentosBBTipoContribuinte = (
@@ -631,9 +717,9 @@ type
     pctNITPISPASEP,   // 3 - NIT/PIS/PASEP
     pctCEI,           // 4 - CEI
     pctNB,            // 6 - NB
-    pctNumeroTitulo,  // 7 - N¬∞ T√≠tulo
+    pctNumeroTitulo,  // 7 - N∞ TÌtulo
     pctDEBCAD,        // 8 - DEBCAD
-    pctReferencia     // 9 - Refer√™ncia
+    pctReferencia     // 9 - ReferÍncia
   );
 
   { TACBrPagamentosBBLancamentoErroObject }
@@ -2163,6 +2249,29 @@ begin
     pcdTelefoneInvalido: Result := 102;
     pcdDDDInvalido: Result := 103;
     pcdEmailTamanhoMaior77: Result := 104;
+    pcdContaDeCreditoInvalida: Result := 105;
+    pcdCpfInvalido: Result := 106;
+    pcdCnpjInvalido: Result := 107;
+    pcdNroDocCreditoInvalido: Result := 108;
+    pcdNroDocDebitoInvalido: Result := 109;
+    pcdValorPgtoInvalido: Result := 110;
+    pcdValorNominalInvalido: Result := 111;
+    pcdValorDescInvalido: Result := 112;
+    pcdValorJuro2Invalido: Result := 113;
+    pcdNroInscBeneficiarioInvalido: Result := 114;
+    pcdNroInscPagadorInvalido: Result := 115;
+    pcdNroInscAvalistaInvalido: Result := 116;
+    pcdNroIndentContribuinteDarfInvalido: Result := 117;
+    pcdNroReferenciaInvalido: Result := 118;
+    pcdValorPrincipalInvalido: Result := 119;
+    pcdValorMulta2Invalido: Result := 120;
+    pcdValorJurosInvalido: Result := 121;
+    pcdNroIndentContribuinteGpsInvalido: Result := 122;
+    pcdValorPrevPgtoInssInvalido: Result := 123;
+    pcdValorOutrasEntInvalido: Result := 124;
+    pcdValorAtualizaMonetariaInvalido: Result := 125;
+    pcdValorDescontoGruInvalido: Result := 126;
+    pcdCodBarInconpativelModalidadePgto: Result := 127;
     pcdInsuficienciaFundosDebitoNaoEfetuado: Result := 200;
     pcdCreditoDebitoCanceladoPagador: Result := 201;
     pcdDebitoAutorizadoAgenciaEfetuado: Result := 202;
@@ -2406,6 +2515,29 @@ begin
     102: Result := pcdTelefoneInvalido;
     103: Result := pcdDDDInvalido;
     104: Result := pcdEmailTamanhoMaior77;
+    105: Result := pcdContaDeCreditoInvalida;
+    106: Result := pcdCpfInvalido;
+    107: Result := pcdCnpjInvalido;
+    108: Result := pcdNroDocCreditoInvalido;
+    109: Result := pcdNroDocDebitoInvalido;
+    110: Result := pcdValorPgtoInvalido;
+    111: Result := pcdValorNominalInvalido;
+    112: Result := pcdValorDescInvalido;
+    113: Result := pcdValorJuro2Invalido;
+    114: Result := pcdNroInscBeneficiarioInvalido;
+    115: Result := pcdNroInscPagadorInvalido;
+    116: Result := pcdNroInscAvalistaInvalido;
+    117: Result := pcdNroIndentContribuinteDarfInvalido;
+    118: Result := pcdNroReferenciaInvalido;
+    119: Result := pcdValorPrincipalInvalido;
+    120: Result := pcdValorMulta2Invalido;
+    121: Result := pcdValorJurosInvalido;
+    122: Result := pcdNroIndentContribuinteGpsInvalido;
+    123: Result := pcdValorPrevPgtoInssInvalido;
+    124: Result := pcdValorOutrasEntInvalido;
+    125: Result := pcdValorAtualizaMonetariaInvalido;
+    126: Result := pcdValorDescontoGruInvalido;
+    127: Result := pcdCodBarInconpativelModalidadePgto;
     200: Result := pcdInsuficienciaFundosDebitoNaoEfetuado;
     201: Result := pcdCreditoDebitoCanceladoPagador;
     202: Result := pcdDebitoAutorizadoAgenciaEfetuado;
@@ -2566,8 +2698,8 @@ begin
     pteDVContaInvalido: Result := 15;
     pteCPFCNPJInformados: Result := 16;
     pteCPFCNPJNaoInformaos: Result := 17;
-    pteCPFInvalido: Result := 18;
-    pteCNPJInvalido: Result := 19;
+    pteDVCPFInvalido: Result := 18;
+    pteDVCNPJInvalido: Result := 19;
     pteAgenciaContaIguais: Result := 20;
     pteNumCompensacaoInvalido: Result := 21;
     pteISPBDiferenteDeZeros: Result := 22;
@@ -2586,7 +2718,7 @@ begin
     pteContaPoupancaNaoPermitida: Result := 35;
     pteCOMPEDeveSer1: Result := 36;
     pteISPBDeveSer0: Result := 37;
-    pteCodBarrasNaoNumerio: Result := 38;
+    pteCodBarrasNaoNumerico: Result := 38;
     pteCodBarrasIgualZeros: Result := 39;
     pteNumInscricaoNaoNumerico: Result := 40;
     pteInscricaoBeneficiarioNaoNumerico: Result := 41;
@@ -2608,7 +2740,70 @@ begin
     pteInscricaoBeneficiarioNaoInformada: Result := 57;
     pteContaPagamentoInformada: Result := 58;
     pteContaCreditoPagamentoInformada: Result := 59;
+    pteTransacaoCanceladaCliente: Result := 60;
+    pteCodigoReceitaTributoNaoInformado: Result := 61;
+    pteTipoIdentificacaoContribuinteNaoInformado: Result := 62;
+    pteNumeroIdentificacaoContribuinteNaoInformado: Result := 63;
+    pteNumeroIdentificacaoContribuinteNaoNumerico: Result := 64;
+    pteCodigoIdentificacaoTributoNaoInformado: Result := 65;
+    ptePeriodoApuracaoNaoInformado: Result := 66;
+    pteNumeroReferenciaNaoInformado: Result := 67;
+    pteValorPrincipalNaoNumerico: Result := 68;
+    pteValorPrincipalNaoInformado: Result := 69;
+    pteValorMultaNaoNumerico: Result := 70;
+    pteValorJurosEncargosNaoNumerico: Result := 71;
+    pteDataVencimentoNaoInformada2: Result := 72;
+    pteMesAnoCompetenciaNaoInformados: Result := 73;
+    pteValorPrevistoPagamentoINSSNaoNumerico: Result := 74;
+    pteValorPrevistoPagamentoINSSNaoInformado: Result := 75;
+    pteValorOutrasEntidadesNaoNumerico: Result := 76;
+    pteValorAtualizacaoMonetariaNaoNumerico: Result := 77;
+    ptePeriodoApuracaoInvalido: Result := 79;
+    pteContaCreditoInvalida: Result := 80;
+    pteContaNaoPertenceFuncionario: Result := 81;
+    ptePagamentoPermitidoApenasPessoasFisicas: Result := 82;
+    pteAgenciaContaIncorretos: Result := 83;
+    pteContaNaoAtiva: Result := 84;
+    pteContaNaoPermiteCreditoSalario: Result := 85;
+    pteAgenciaCreditoContaPagamentoInformados: Result := 86;
+    pteMesCompetenciaInvalido: Result := 90;
+    pteValorOutrasDedInvalido: Result := 91;
+    pteValorOutrosAcresInvalido: Result := 92;
+    pteCodigoFormaIdentificacaoClienteNaoInformado: Result := 93;
+    pteDDDPixNaoInformado: Result := 94;
+    pteTelefonePixNaoInformado: Result := 95;
+    pteEmailPixNaoInformado: Result := 96;
+    pteChaveAleatoriaPixNaoInformada: Result := 97;
+    pteCodigoTipoContaPixNaoInformado: Result := 98;
     pteConsultarBancoErro: Result := 99;
+    pteEmailInvalido: Result := 100;
+    pteEmailPixCaractereEspecial: Result := 101;
+    pteTelefoneInvalido: Result := 102;
+    pteDDDInvalido: Result := 103;
+    pteEmailTamanhoMaior77: Result := 104;
+    pteContaDeCreditoInvalida: Result := 105;
+    pteCpfInvalido: Result := 106;
+    pteCnpjInvalido: Result := 107;
+    pteNroDocCreditoInvalido: Result := 108;
+    pteNroDocDebitoInvalido: Result := 109;
+    pteValorPgtoInvalido: Result := 110;
+    pteValorNominalInvalido: Result := 111;
+    pteValorDescInvalido: Result := 112;
+    pteValorJuro2Invalido: Result := 113;
+    pteNroInscBeneficiarioInvalido: Result := 114;
+    pteNroInscPagadorInvalido: Result := 115;
+    pteNroInscAvalistaInvalido: Result := 116;
+    pteNroIndentContribuinteDarfInvalido: Result := 117;
+    pteNroReferenciaInvalido: Result := 118;
+    pteValorPrincipalInvalido: Result := 119;
+    pteValorMulta2Invalido: Result := 120;
+    pteValorJurosInvalido: Result := 121;
+    pteNroIndentContribuinteGpsInvalido: Result := 122;
+    pteValorPrevPgtoInssInvalido: Result := 123;
+    pteValorOutrasEntInvalido: Result := 124;
+    pteValorAtualizaMonetariaInvalido: Result := 125;
+    pteValorDescontoGruInvalido: Result := 126;
+    pteCodBarInconpativelModalidadePgto: Result := 127;
     pteInsuficienciaFundos: Result := 200;
     pteCreditoDebitoCancelado: Result := 201;
     pteDebitoAutorizado: Result := 202;
@@ -2789,7 +2984,7 @@ begin
     35: Result := pteContaPoupancaNaoPermitida;
     36: Result := pteCOMPEDeveSer1;
     37: Result := pteISPBDeveSer0;
-    38: Result := pteCodBarrasNaoNumerio;
+    38: Result := pteCodBarrasNaoNumerico;
     39: Result := pteCodBarrasIgualZeros;
     40: Result := pteNumInscricaoNaoNumerico;
     41: Result := pteInscricaoBeneficiarioNaoNumerico;
@@ -2811,7 +3006,70 @@ begin
     57: Result := pteInscricaoBeneficiarioNaoInformada;
     58: Result := pteContaPagamentoInformada;
     59: Result := pteContaCreditoPagamentoInformada;
+    60: Result := pteTransacaoCanceladaCliente;
+    61: Result := pteCodigoReceitaTributoNaoInformado;
+    62: Result := pteTipoIdentificacaoContribuinteNaoInformado;
+    63: Result := pteNumeroIdentificacaoContribuinteNaoInformado;
+    64: Result := pteNumeroIdentificacaoContribuinteNaoNumerico;
+    65: Result := pteCodigoIdentificacaoTributoNaoInformado;
+    66: Result := ptePeriodoApuracaoNaoInformado;
+    67: Result := pteNumeroReferenciaNaoInformado;
+    68: Result := pteValorPrincipalNaoNumerico;
+    69: Result := pteValorPrincipalNaoInformado;
+    70: Result := pteValorMultaNaoNumerico;
+    71: Result := pteValorJurosEncargosNaoNumerico;
+    72: Result := pteDataVencimentoNaoInformada2;
+    73: Result := pteMesAnoCompetenciaNaoInformados;
+    74: Result := pteValorPrevistoPagamentoINSSNaoNumerico;
+    75: Result := pteValorPrevistoPagamentoINSSNaoInformado;
+    76: Result := pteValorOutrasEntidadesNaoNumerico;
+    77: Result := pteValorAtualizacaoMonetariaNaoNumerico;
+    79: Result := ptePeriodoApuracaoInvalido;
+    80: Result := pteContaCreditoInvalida;
+    81: Result := pteContaNaoPertenceFuncionario;
+    82: Result := ptePagamentoPermitidoApenasPessoasFisicas;
+    83: Result := pteAgenciaContaIncorretos;
+    84: Result := pteContaNaoAtiva;
+    85: Result := pteContaNaoPermiteCreditoSalario;
+    86: Result := pteAgenciaCreditoContaPagamentoInformados;
+    90: Result := pteMesCompetenciaInvalido;
+    91: Result := pteValorOutrasDeducoesInvalido;
+    92: Result := pteValorOutrosAcrescimosInvalido;
+    93: Result := pteCodigoFormaIdentificacaoClienteNaoInformado;
+    94: Result := pteDDDPixNaoInformado;
+    95: Result := pteTelefonePixNaoInformado;
+    96: Result := pteEmailPixNaoInformado;
+    97: Result := pteChaveAleatoriaPixNaoInformada;
+    98: Result := pteCodigoTipoContaPixNaoInformado;
     99: Result := pteConsultarBancoErro;
+    100: Result := pteEmailInvalido;
+    101: Result := pteEmailPixCaractereEspecial;
+    102: Result := pteTelefoneInvalido;
+    103: Result := pteDDDInvalido;
+    104: Result := pteEmailTamanhoMaior77;
+    105: Result := pteContaDeCreditoInvalida;
+    106: Result := pteCpfInvalido;
+    107: Result := pteCnpjInvalido;
+    108: Result := pteNroDocCreditoInvalido;
+    109: Result := pteNroDocDebitoInvalido;
+    110: Result := pteValorPgtoInvalido;
+    111: Result := pteValorNominalInvalido;
+    112: Result := pteValorDescInvalido;
+    113: Result := pteValorJuro2Invalido;
+    114: Result := pteNroInscBeneficiarioInvalido;
+    115: Result := pteNroInscPagadorInvalido;
+    116: Result := pteNroInscAvalistaInvalido;
+    117: Result := pteNroIndentContribuinteDarfInvalido;
+    118: Result := pteNroReferenciaInvalido;
+    119: Result := pteValorPrincipalInvalido;
+    120: Result := pteValorMulta2Invalido;
+    121: Result := pteValorJurosInvalido;
+    122: Result := pteNroIndentContribuinteGpsInvalido;
+    123: Result := pteValorPrevPgtoInssInvalido;
+    124: Result := pteValorOutrasEntInvalido;
+    125: Result := pteValorAtualizaMonetariaInvalido;
+    126: Result := pteValorDescontoGruInvalido;
+    127: Result := pteCodBarInconpativelModalidadePgto;
     200: Result := pteInsuficienciaFundos;
     201: Result := pteCreditoDebitoCancelado;
     202: Result := pteDebitoAutorizado;

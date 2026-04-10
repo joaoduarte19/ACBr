@@ -37,6 +37,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+10/04/2026
+-- ACBrPagamentosAPI, ACBrPagamentosAPIBB, ACBrSchemasPagamentosAPI, ACBrSchemasPagamentosAPIBB --
+[*] Correções e implementações nos PagamentosAPI
+  Por: Renato Rubinho
+
 27/02/2025
 -- ACBrExtratoAPI --
 [+] Implementação do banco Sicoob, com adição das propriedades "Identificador" e "CPFCNPJ".

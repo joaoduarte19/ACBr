@@ -120,8 +120,8 @@ type
     pteDVContaInvalido,                  // 15 - Digito da conta de crédito inválido. Verifique o dado informado
     pteCPFCNPJInformados,                // 16 - Ambos os campos CPF e CNPJ foram informados. Informe apenas um dos campos. Caso informado os 2 campos, nas consultas será exibido apenas os dados do CPF
     pteCPFCNPJNaoInformaos,              // 17 - Ambos os campos CPF e CNPJ não foram informados. Informe um dos campos
-    pteCPFInvalido,                      // 18 - Dígito do CPF inválido. Verifique o dado informado
-    pteCNPJInvalido,                     // 19 - Dígito do CNPJ inválido. Verifique o dado informado
+    pteDVCPFInvalido,                    // 18 - Dígito do CPF inválido. Verifique o dado informado
+    pteDVCNPJInvalido,                   // 19 - Dígito do CNPJ inválido. Verifique o dado informado
     pteAgenciaContaIguais,               // 20 - Agência e conta de crédito estão iguais às de débito. Opção não permitida
     pteNumCompensacaoInvalido,           // 21 - Número Compensação inválido. Verifique o dado informado
     pteISPBDiferenteDeZeros,             // 22 - Número ISPB diferente de zeros. Não informe o nº ISPB
@@ -140,7 +140,7 @@ type
     pteContaPoupancaNaoPermitida,        // 35 - Conta poupança não permitido para "Pagamento ao Fornecedor". Para creditar em conta poupança utilize o recurso para efetivação de "Pagamentos Diversos"
     pteCOMPEDeveSer1,                    // 36 - Código COMPE deve ser igual a 1
     pteISPBDeveSer0,                     // 37 - Código ISPB deve ser igual a 0
-    pteCodBarrasNaoNumerio,              // 38 - Código de barras não é numérico. Informe apenas números
+    pteCodBarrasNaoNumerico,             // 38 - Código de barras não é numérico. Informe apenas números
     pteCodBarrasIgualZeros,              // 39 - Código de barras igual a zeros. Informe apenas números
     pteNumInscricaoNaoNumerico,          // 40 - Número de inscrição do pagador não é numérico. Informe apenas números
     pteInscricaoBeneficiarioNaoNumerico, // 41 - Número de inscrição do beneficiário não é numérico. Informe apenas números
@@ -162,7 +162,70 @@ type
     pteInscricaoBeneficiarioNaoInformada,// 57 - Número de inscrição do beneficiário não informado. Informe o CPF ou o CNPJ do beneficiário
     pteContaPagamentoInformada,          // 58 - Conta pagamento foi informada. Não informe conta pagamento
     pteContaCreditoPagamentoInformada,   // 59 - Ambos os campos conta de crédito e conta pagamento foram informados. Informe apenas um dos campos
+    pteTransacaoCanceladaCliente,                     // 60 - Transação cancelada pelo cliente
+    pteCodigoReceitaTributoNaoInformado,              // 61 - Código da Receita do Tributo não informado
+    pteTipoIdentificacaoContribuinteNaoInformado,     // 62 - Tipo de Identificação do Contribuinte não informado
+    pteNumeroIdentificacaoContribuinteNaoInformado,   // 63 - Nº de Identificação do Contribuinte não informado
+    pteNumeroIdentificacaoContribuinteNaoNumerico,    // 64 - Nº de Identificação do Contribuinte não numérico
+    pteCodigoIdentificacaoTributoNaoInformado,        // 65 - Código de Identificação do Tributo não informado
+    ptePeriodoApuracaoNaoInformado,                   // 66 - Período de apuração não informado
+    pteNumeroReferenciaNaoInformado,                  // 67 - Numero de Referência não informado
+    pteValorPrincipalNaoNumerico,                     // 68 - Valor Principal não é numérico
+    pteValorPrincipalNaoInformado,                    // 69 - Valor Principal não informado
+    pteValorMultaNaoNumerico,                         // 70 - Valor da Multa não é numérico
+    pteValorJurosEncargosNaoNumerico,                 // 71 - Valor dos Juros/Encargos não é numérico
+    pteDataVencimentoNaoInformada2,                   // 72 - Data de Vencimento não informada
+    pteMesAnoCompetenciaNaoInformados,                // 73 - Mês e ano de competência não informados
+    pteValorPrevistoPagamentoINSSNaoNumerico,         // 74 - Valor previsto do pagamento do INSS não é numérico
+    pteValorPrevistoPagamentoINSSNaoInformado,        // 75 - Valor previsto do pagamento do INSS não informado
+    pteValorOutrasEntidadesNaoNumerico,               // 76 - Valor de Outras Entidades não é numérico
+    pteValorAtualizacaoMonetariaNaoNumerico,          // 77 - Valor de Atualização Monetária não é numérico
+    ptePeriodoApuracaoInvalido,                       // 79 - Período de apuração inválido
+    pteContaCreditoInvalida,                          // 80 - Conta de crédito inválida. Informe o numero sem o 45 do início
+    pteContaNaoPertenceFuncionario,                   // 81 - A conta informada não pertence ao funcionário
+    ptePagamentoPermitidoApenasPessoasFisicas,        // 82 - Pagamento permitido apenas para pessoas físicas
+    pteAgenciaContaIncorretos,                        // 83 - Agência e Conta incorretos
+    pteContaNaoAtiva,                                 // 84 - A conta informada não está ativa
+    pteContaNaoPermiteCreditoSalario,                 // 85 - Conta não permite crédito de salário. Informe outra conta
+    pteAgenciaCreditoContaPagamentoInformados,        // 86 - Ambos os campos agência de crédito e conta pagamento foram informados
+    pteMesCompetenciaInvalido,                        // 90 - Mês de competência inválido
+    pteValorOutrasDedInvalido,                        // 91 - Valor de outras deduções inválido
+    pteValorOutrosAcresInvalido,                      // 92 - Valor de outros acréscimos inválido
+    pteCodigoFormaIdentificacaoClienteNaoInformado,   // 93 - Código da forma de identificação do cliente não foi informado
+    pteDDDPixNaoInformado,                            // 94 - DDD do cliente do Pix não foi informado
+    pteTelefonePixNaoInformado,                       // 95 - Telefone do Cliente do Pix não foi informado
+    pteEmailPixNaoInformado,                          // 96 - Email do cliente do Pix não foi informado
+    pteChaveAleatoriaPixNaoInformada,                 // 97 - Chave Aleatória do Cliente do Pix não foi informado
+    pteCodigoTipoContaPixNaoInformado,                // 98 - Código de tipo de conta do Cliente do Pix não foi informado
     pteConsultarBancoErro,               // 99 - Consultar o Banco para detalhar o erro
+    pteEmailInvalido,                    // 100 - E-mail inválido
+    pteEmailPixCaractereEspecial,        // 101 - Email do cliente do PIX não deve conter caractere especial
+    pteTelefoneInvalido,                 // 102 - Telefone Inválido
+    pteDDDInvalido,                      // 103 - DDD inválido
+    pteEmailTamanhoMaior77,              // 104 - E-mail com tamanho maior que 77 caracteres
+    pteContaDeCreditoInvalida,           // 105	- Conta de crédito inválida. Informe um número de conta válido.
+    pteCpfInvalido,                      // 106	- CPF inválido. Informe um CPF válido.
+    pteCnpjInvalido,                     // 107	- CNPJ inválido. Informe um CNPJ válido.
+    pteNroDocCreditoInvalido,            // 108	- Número do documento de crédito inválido. Informe um número válido.
+    pteNroDocDebitoInvalido,             // 109	- Número do documento de débito inválido. Informe um número válido.
+    pteValorPgtoInvalido,                // 110	- Valor do pagamento inválido. Informe um valor válido.
+    pteValorNominalInvalido,             // 111	- Valor nominal inválido. Informe um valor válido.
+    pteValorDescInvalido,                // 112	- Valor de desconto inválido. Informe um valor válido.
+    pteValorJuro2Invalido,               // 113	- Valor de mora inválido. Informe um valor válido.
+    pteNroInscBeneficiarioInvalido,      // 114	- Número de inscrição do beneficiário inválido. Informe um número
+    pteNroInscPagadorInvalido,           // 115	- Número de inscrição do pagador inválido. Informe um número válido.
+    pteNroInscAvalistaInvalido,          // 116	- Número de inscrição do avalista inválido. Informe um número válido.
+    pteNroIndentContribuinteDarfInvalido,// 117	- Nº de identifiação do contribuinte DARF inválido. Informe um
+    pteNroReferenciaInvalido,            // 118	- Número de referência inválido. Informe um número válido.
+    pteValorPrincipalInvalido,           // 119	- Valor principal inválido. Informe um valor válido.
+    pteValorMulta2Invalido,              // 120	- Valor da multa inválido. Informe um valor válido.
+    pteValorJurosInvalido,               // 121	- Valor dos juros/encargos inválido. Informe um valor válido.
+    pteNroIndentContribuinteGpsInvalido, // 122	- Nº de identificação do contribuinte GPS inválido. Informe um
+    pteValorPrevPgtoInssInvalido,        // 123	- Valor previsto do pagamento do INSS inválido. Informe um valor
+    pteValorOutrasEntInvalido,           // 124	- Valor de outras entidades inválido. Informe um valor válido.
+    pteValorAtualizaMonetariaInvalido,   // 125	- Valor de atualização monetária inválido. Informe um valor válido.
+    pteValorDescontoGruInvalido,         // 126	- Valor de desconto GRU inválido. Informe um valor válido.
+    pteCodBarInconpativelModalidadePgto, // 127	- Codigo de barras incompativel com a modalidade de pagamento.
     pteInsuficienciaFundos,              // 200 - Insuficiência de Fundos - Débito Não Efetuado
     pteCreditoDebitoCancelado,           // 201 - Crédito ou Débito Cancelado pelo Pagador
     pteDebitoAutorizado,                 // 202 - Débito Autorizado pela Agência - Efetuado
@@ -469,6 +532,9 @@ type
   TACBrBoletoPagamentosEspecificos = class;
   TACBrGuiaCodBarrasPagamentosEspecificos = class;
   TACBrGRUPagamentosEspecificos = class;
+  TACBrDARFPagamentosEspecificos = class;
+  TACBrDARFLancamentosPagamento = class;
+  TACBrGPSPagamentosEspecificos = class;
 
   { TACBrLancamentoClass }
 
@@ -509,6 +575,10 @@ type
     flistaOcorrencias: TACBrPagamentoOcorrencias;
     fmesAnoCompetencia: Integer;
     fmesAnoCompetenciaGuiaPrevidenciaSocial: Integer;
+    ftipoContribuinte: Integer;
+    fidentificacaoGPS: String;
+    fvalorINSS: Double;
+    fvalorAtualizacaoMonetaria: Double;
     fnomeAvalista: String;
     fnomeBeneficiario: String;
     fnomeConvenente: String;
@@ -564,10 +634,16 @@ type
     fListaDevolucao: TACBrPagamentoDevolucoes;
     fGRULancamentosPagamento: TACBrGRULancamentosPagamento;
     fGRUPagamentosEspecificos: TACBrGRUPagamentosEspecificos;
+    fDARFLancamentosPagamento: TACBrDARFLancamentosPagamento;
+    fDARFPagamentosEspecificos: TACBrDARFPagamentosEspecificos;
     fBoletoPagamentosEspecificos: TACBrBoletoPagamentosEspecificos;
     fGuiaCodBarrasPagamentosEspecificos: TACBrGuiaCodBarrasPagamentosEspecificos;
+    fGPSPagamentosEspecificos: TACBrGPSPagamentosEspecificos;
     function GetGRULancamentosPagamento: TACBrGRULancamentosPagamento;
     function GetGRUPagamentosEspecificos: TACBrGRUPagamentosEspecificos;
+    function GetDARFLancamentosPagamento: TACBrDARFLancamentosPagamento;
+    function GetDARFPagamentosEspecificos: TACBrDARFPagamentosEspecificos;
+    function GetGPSPagamentosEspecificos: TACBrGPSPagamentosEspecificos;
     function GetBoletoPagamentosEspecificos: TACBrBoletoPagamentosEspecificos;
     function GetGuiaCodBarrasPagamentosEspecificos: TACBrGuiaCodBarrasPagamentosEspecificos;
     function GetListaDevolucao: TACBrPagamentoDevolucoes;
@@ -665,6 +741,10 @@ type
     property tipoPessoaPagador: Integer read ftipoPessoaPagador write ftipoPessoaPagador;
     property tipoPessoaAvalista: Integer read ftipoPessoaAvalista write ftipoPessoaAvalista;
     property dataAgendamento: TDateTime read fdataAgendamento write fdataAgendamento;
+    property tipoContribuinte: Integer read ftipoContribuinte write ftipoContribuinte;
+    property identificacaoGPS: String read fidentificacaoGPS write fidentificacaoGPS;
+    property valorINSS: Double read fvalorINSS write fvalorINSS;
+    property valorAtualizacaoMonetaria: Double read fvalorAtualizacaoMonetaria write fvalorAtualizacaoMonetaria;
 
     property errorCodes: TACBrTransferenciaErros read GeterrorCodes write ferrorCodes;
     property errors: TACBrTransferenciaErros read Geterrors write ferrors;
@@ -963,6 +1043,7 @@ type
     property nomeAvalista;
     property indicadorAceite;
     property errorCodes;
+    property erros;
   end;
 
   { TACBrBoletosLancamentosResposta }
@@ -1134,22 +1215,35 @@ type
     procedure Insert(aIndex: Integer; aLancamento: TACBrGRULancamentoResposta);
     function New: TACBrGRULancamentoResposta;
     property Items[aIndex: Integer]: TACBrGRULancamentoResposta read GetItem write SetItem; default;
-  end; 
+  end;
 
   { TACBrDARFLancamentoResposta }
 
   TACBrDARFLancamentoResposta = class(TACBrLancamentoClass)
   public
     constructor Create(const ObjectName: String = ''); override;
+    procedure Assign(aSource: TACBrLancamentoClass); override;
+
+    property codigoIdentificadorPagamento;
     property nomeConvenente;
-    property numeroReferencia;
-    property dataVencimento;
+    property dataPagamento;
+    property valorPagamento;
+    property numeroDocumentoDebito;
+    property codigoSeuDocumento;
+    property textoDescricaoPagamento;
     property codigoReceitaTributo;
     property codigoTipoContribuinte;
-    property numeroIdentificacaoContribuinte;
     property codigoIdentificadorTributo;
     property dataApuracao;
+    property numeroReferencia;
+    property valorPrincipal;
+    property valorMulta;
+    property valorJuroEncargo;
+    property dataVencimento;
+    property indicadorMovimentoAceito;
     property erros;
+
+    property pagamento: TACBrDARFLancamentosPagamento read GetDARFLancamentosPagamento write fDARFLancamentosPagamento;
   end;
 
   { TACBrDARFLancamentosResposta }
@@ -1167,6 +1261,21 @@ type
     property Items[aIndex: Integer]: TACBrDARFLancamentoResposta read GetItem write SetItem; default;
   end;
 
+  { TACBrDARFLancamentosPagamento }
+
+  TACBrDARFLancamentosPagamento = class(TACBrLancamentoClass)
+  public
+    property id;
+    property data;
+    property valor;
+    property valorPrincipal;
+    property valorMulta;
+    property valorJuroEncargo;
+    property cpfCnpjContribuinte;
+    property numeroDocumentoDebito;
+    property textoDescricao;
+  end;
+
   { TACBrGPSLancamentoResposta }
 
   TACBrGPSLancamentoResposta = class(TACBrLancamentoClass)
@@ -1178,6 +1287,7 @@ type
     property valorPagamento;
     property numeroDocumentoDebito;
     property codigoSeuDocumento;
+    property textoDescricaoPagamento;
     property codigoReceitaTributoGuiaPrevidenciaSocial;
     property codigoTipoContribuinteGuiaPrevidenciaSocial;
     property numeroIdentificacaoContribuinteGuiaPrevidenciaSocial;
@@ -1378,6 +1488,22 @@ type
     property lancamentos: TACBrDARFLancamentosResposta read GetDARFlancamentos write fDARFlancamentos;
   end;
 
+  { TACBrLoteDARFRespostaConsulta }
+
+  TACBrLoteDARFRespostaConsulta = class(TACBrLoteRespostaClass)
+  public
+    constructor Create(const ObjectName: String = ''); override;
+    procedure Assign(aSource: TACBrLoteRespostaClass); override;
+
+    property id;
+    property codigoEstado;
+    property quantidadeLancamentos;
+    property valorLancamentos;
+    property quantidadeLancamentosValidos;
+    property valorLancamentosValidos;
+    property lancamentos: TACBrDARFLancamentosResposta read GetDARFLancamentos write fDARFLancamentos;
+  end;
+
   { TACBrLoteGPSResposta }
 
   TACBrLoteGPSResposta = class(TACBrLoteRespostaClass)
@@ -1392,6 +1518,22 @@ type
     property quantidadeTotalValido;
     property valorTotalValido;
     property lancamentos: TACBrGPSLancamentosResposta read GetGPSlancamentos write fGPSlancamentos;
+  end;
+
+  { TACBrLoteGPSRespostaConsulta }
+
+  TACBrLoteGPSRespostaConsulta = class(TACBrLoteRespostaClass)
+  public
+    constructor Create(const ObjectName: String = ''); override;
+    procedure Assign(aSource: TACBrLoteRespostaClass); override;
+
+    property id;
+    property codigoEstadoRequisicao;
+    property quantidadeTotalLancamento;
+    property valorTotalLancamento;
+    property quantidadeTotalValido;
+    property valorTotalValido;
+    property lancamentos: TACBrGPSLancamentosResposta read GetGPSLancamentos write fGPSLancamentos;
   end;
 
   { TACBrBoletoPagamentoEspecifico }
@@ -1557,6 +1699,117 @@ type
     property codigoAutenticacaoPagamento;
     property listaOcorrencias;
     property listaPagamentos: TACBrGRUPagamentosEspecificos read GetGRUPagamentosEspecificos write fGRUPagamentosEspecificos;
+    property listaDevolucao: TACBrPagamentoDevolucoes read GetListaDevolucao write fListaDevolucao;
+  end;
+
+  { TACBrDARFPagamentoEspecifico }
+
+  TACBrDARFPagamentoEspecifico = class(TACBrLancamentoClass)
+  public
+    property codigo;
+    property nomeRecebedor;
+    property numeroReferencia;
+    property mesAnoCompetencia;
+    property dataVencimento;
+    property identificacaoContribuinte;
+    property valorPrincipal;
+    property valorDesconto;
+    property valorOutroDeducao;
+    property valorMulta;
+    property valorJuroEncargo;
+    property valorOutro;
+    property texto;
+  end;
+
+  { TACBrDARFPagamentosEspecificos }
+
+  TACBrDARFPagamentosEspecificos = class(TACBrAPISchemaArray)
+  private
+    function GetItem(aIndex: Integer): TACBrDARFPagamentoEspecifico;
+    procedure SetItem(aIndex: Integer; aValue: TACBrDARFPagamentoEspecifico);
+  protected
+    function NewSchema: TACBrAPISchema; override;
+  public
+    function Add(aItem: TACBrDARFPagamentoEspecifico): Integer;
+    procedure Insert(aIndex: Integer; aItem: TACBrDARFPagamentoEspecifico);
+    function New: TACBrDARFPagamentoEspecifico;
+    property Items[aIndex: Integer]: TACBrDARFPagamentoEspecifico read GetItem write SetItem; default;
+  end;
+
+  { TACBrPagamentoEspecificoDARFResposta }
+
+  TACBrPagamentoEspecificoDARFResposta  = class(TACBrLancamentoClass)
+  private
+    fDARFPagamentosEspecificos: TACBrDARFPagamentosEspecificos;
+  public
+    constructor Create(const ObjectName: String = ''); override;
+    procedure Assign(aSource: TACBrLancamentoClass); override;
+
+    property id;
+    property estadoPagamento;
+    property agenciaDebito;
+    property contaCorrenteDebito;
+    property digitoVerificadorContaCorrenteDebito;
+    property inicioCartaoCredito;
+    property fimCartaoCredito;
+    property dataPagamento;
+    property valorPagamento;
+    property documentoDebito;
+    property codigoAutenticacaoPagamento;
+    property listaOcorrencias;
+    property listaPagamentos: TACBrDARFPagamentosEspecificos read GetDARFPagamentosEspecificos write fDARFPagamentosEspecificos;
+    property listaDevolucao: TACBrPagamentoDevolucoes read GetListaDevolucao write fListaDevolucao;
+  end;
+
+  { TACBrPagamentoEspecificoGPSResposta }
+
+  TACBrPagamentoEspecificoGPSResposta  = class(TACBrLancamentoClass)
+  public
+    constructor Create(const ObjectName: String = ''); override;
+    procedure Assign(aSource: TACBrLancamentoClass); override;
+
+    property id;
+    property estadoPagamento;
+    property agenciaDebito;
+    property contaCorrenteDebito;
+    property digitoVerificadorContaCorrenteDebito;
+    property inicioCartaoCredito;
+    property fimCartaoCredito;
+    property dataPagamento;
+    property valorPagamento;
+    property documentoDebito;
+    property codigoAutenticacaoPagamento;
+    property listaPagamentos: TACBrGPSPagamentosEspecificos read GetGPSPagamentosEspecificos write fGPSPagamentosEspecificos;
+    property listaDevolucao: TACBrPagamentoDevolucoes read GetListaDevolucao write fListaDevolucao;
+  end;
+
+  { TACBrGPSPagamentoEspecifico }
+
+  TACBrGPSPagamentoEspecifico = class(TACBrLancamentoClass)
+  public
+    property codigo;
+    property tipoContribuinte;
+    property identificacaoGPS;
+    property mesAnoCompetencia;
+    property valorINSS;
+    property valorAtualizacaoMonetaria;
+    property texto;
+    property identificacaoContribuinte;
+  end;
+
+  { TACBrGPSPagamentosEspecificos }
+
+  TACBrGPSPagamentosEspecificos = class(TACBrAPISchemaArray)
+  private
+    function GetItem(aIndex: Integer): TACBrGPSPagamentoEspecifico;
+    procedure SetItem(aIndex: Integer; aValue: TACBrGPSPagamentoEspecifico);
+  protected
+    function NewSchema: TACBrAPISchema; override;
+  public
+    function Add(aItem: TACBrGPSPagamentoEspecifico): Integer;
+    procedure Insert(aIndex: Integer; aItem: TACBrGPSPagamentoEspecifico);
+    function New: TACBrGPSPagamentoEspecifico;
+    property Items[aIndex: Integer]: TACBrGPSPagamentoEspecifico read GetItem write SetItem; default;
   end;
 
   function TipoPessoaToInt(const aTipo: TACBrPagamentoTipoPessoa): Integer;
@@ -1621,8 +1874,8 @@ begin
     pteDVContaInvalido: Result := 15;
     pteCPFCNPJInformados: Result := 16;
     pteCPFCNPJNaoInformaos: Result := 17;
-    pteCPFInvalido: Result := 18;
-    pteCNPJInvalido: Result := 19;
+    pteDVCPFInvalido: Result := 18;
+    pteDVCNPJInvalido: Result := 19;
     pteAgenciaContaIguais: Result := 20;
     pteNumCompensacaoInvalido: Result := 21;
     pteISPBDiferenteDeZeros: Result := 22;
@@ -1641,7 +1894,7 @@ begin
     pteContaPoupancaNaoPermitida: Result := 35;
     pteCOMPEDeveSer1: Result := 36;
     pteISPBDeveSer0: Result := 37;
-    pteCodBarrasNaoNumerio: Result := 38;
+    pteCodBarrasNaoNumerico: Result := 38;
     pteCodBarrasIgualZeros: Result := 39;
     pteNumInscricaoNaoNumerico: Result := 40;
     pteInscricaoBeneficiarioNaoNumerico: Result := 41;
@@ -1663,7 +1916,70 @@ begin
     pteInscricaoBeneficiarioNaoInformada: Result := 57;
     pteContaPagamentoInformada: Result := 58;
     pteContaCreditoPagamentoInformada: Result := 59;
+    pteTransacaoCanceladaCliente: Result := 60;
+    pteCodigoReceitaTributoNaoInformado: Result := 61;
+    pteTipoIdentificacaoContribuinteNaoInformado: Result := 62;
+    pteNumeroIdentificacaoContribuinteNaoInformado: Result := 63;
+    pteNumeroIdentificacaoContribuinteNaoNumerico: Result := 64;
+    pteCodigoIdentificacaoTributoNaoInformado: Result := 65;
+    ptePeriodoApuracaoNaoInformado: Result := 66;
+    pteNumeroReferenciaNaoInformado: Result := 67;
+    pteValorPrincipalNaoNumerico: Result := 68;
+    pteValorPrincipalNaoInformado: Result := 69;
+    pteValorMultaNaoNumerico: Result := 70;
+    pteValorJurosEncargosNaoNumerico: Result := 71;
+    pteDataVencimentoNaoInformada2: Result := 72;
+    pteMesAnoCompetenciaNaoInformados: Result := 73;
+    pteValorPrevistoPagamentoINSSNaoNumerico: Result := 74;
+    pteValorPrevistoPagamentoINSSNaoInformado: Result := 75;
+    pteValorOutrasEntidadesNaoNumerico: Result := 76;
+    pteValorAtualizacaoMonetariaNaoNumerico: Result := 77;
+    ptePeriodoApuracaoInvalido: Result := 79;
+    pteContaCreditoInvalida: Result := 80;
+    pteContaNaoPertenceFuncionario: Result := 81;
+    ptePagamentoPermitidoApenasPessoasFisicas: Result := 82;
+    pteAgenciaContaIncorretos: Result := 83;
+    pteContaNaoAtiva: Result := 84;
+    pteContaNaoPermiteCreditoSalario: Result := 85;
+    pteAgenciaCreditoContaPagamentoInformados: Result := 86;
+    pteMesCompetenciaInvalido: Result := 90;
+    pteValorOutrasDedInvalido: Result := 91;
+    pteValorOutrosAcresInvalido: Result := 92;
+    pteCodigoFormaIdentificacaoClienteNaoInformado: Result := 93;
+    pteDDDPixNaoInformado: Result := 94;
+    pteTelefonePixNaoInformado: Result := 95;
+    pteEmailPixNaoInformado: Result := 96;
+    pteChaveAleatoriaPixNaoInformada: Result := 97;
+    pteCodigoTipoContaPixNaoInformado: Result := 98;
     pteConsultarBancoErro: Result := 99;
+    pteEmailInvalido: Result := 100;
+    pteEmailPixCaractereEspecial: Result := 101;
+    pteTelefoneInvalido: Result := 102;
+    pteDDDInvalido: Result := 103;
+    pteEmailTamanhoMaior77: Result := 104;
+    pteContaDeCreditoInvalida: Result := 105;
+    pteCpfInvalido: Result := 106;
+    pteCnpjInvalido: Result := 107;
+    pteNroDocCreditoInvalido: Result := 108;
+    pteNroDocDebitoInvalido: Result := 109;
+    pteValorPgtoInvalido: Result := 110;
+    pteValorNominalInvalido: Result := 111;
+    pteValorDescInvalido: Result := 112;
+    pteValorJuro2Invalido: Result := 113;
+    pteNroInscBeneficiarioInvalido: Result := 114;
+    pteNroInscPagadorInvalido: Result := 115;
+    pteNroInscAvalistaInvalido: Result := 116;
+    pteNroIndentContribuinteDarfInvalido: Result := 117;
+    pteNroReferenciaInvalido: Result := 118;
+    pteValorPrincipalInvalido: Result := 119;
+    pteValorMulta2Invalido: Result := 120;
+    pteValorJurosInvalido: Result := 121;
+    pteNroIndentContribuinteGpsInvalido: Result := 122;
+    pteValorPrevPgtoInssInvalido: Result := 123;
+    pteValorOutrasEntInvalido: Result := 124;
+    pteValorAtualizaMonetariaInvalido: Result := 125;
+    pteValorDescontoGruInvalido: Result := 126;
+    pteCodBarInconpativelModalidadePgto: Result := 127;
     pteInsuficienciaFundos: Result := 200;
     pteCreditoDebitoCancelado: Result := 201;
     pteDebitoAutorizado: Result := 202;
@@ -1824,8 +2140,8 @@ begin
     15: Result := pteDVContaInvalido;
     16: Result := pteCPFCNPJInformados;
     17: Result := pteCPFCNPJNaoInformaos;
-    18: Result := pteCPFInvalido;
-    19: Result := pteCNPJInvalido;
+    18: Result := pteDVCPFInvalido;
+    19: Result := pteDVCNPJInvalido;
     20: Result := pteAgenciaContaIguais;
     21: Result := pteNumCompensacaoInvalido;
     22: Result := pteISPBDiferenteDeZeros;
@@ -1844,7 +2160,7 @@ begin
     35: Result := pteContaPoupancaNaoPermitida;
     36: Result := pteCOMPEDeveSer1;
     37: Result := pteISPBDeveSer0;
-    38: Result := pteCodBarrasNaoNumerio;
+    38: Result := pteCodBarrasNaoNumerico;
     39: Result := pteCodBarrasIgualZeros;
     40: Result := pteNumInscricaoNaoNumerico;
     41: Result := pteInscricaoBeneficiarioNaoNumerico;
@@ -1866,7 +2182,70 @@ begin
     57: Result := pteInscricaoBeneficiarioNaoInformada;
     58: Result := pteContaPagamentoInformada;
     59: Result := pteContaCreditoPagamentoInformada;
+    60: Result := pteTransacaoCanceladaCliente;
+    61: Result := pteCodigoReceitaTributoNaoInformado;
+    62: Result := pteTipoIdentificacaoContribuinteNaoInformado;
+    63: Result := pteNumeroIdentificacaoContribuinteNaoInformado;
+    64: Result := pteNumeroIdentificacaoContribuinteNaoNumerico;
+    65: Result := pteCodigoIdentificacaoTributoNaoInformado;
+    66: Result := ptePeriodoApuracaoNaoInformado;
+    67: Result := pteNumeroReferenciaNaoInformado;
+    68: Result := pteValorPrincipalNaoNumerico;
+    69: Result := pteValorPrincipalNaoInformado;
+    70: Result := pteValorMultaNaoNumerico;
+    71: Result := pteValorJurosEncargosNaoNumerico;
+    72: Result := pteDataVencimentoNaoInformada2;
+    73: Result := pteMesAnoCompetenciaNaoInformados;
+    74: Result := pteValorPrevistoPagamentoINSSNaoNumerico;
+    75: Result := pteValorPrevistoPagamentoINSSNaoInformado;
+    76: Result := pteValorOutrasEntidadesNaoNumerico;
+    77: Result := pteValorAtualizacaoMonetariaNaoNumerico;
+    79: Result := ptePeriodoApuracaoInvalido;
+    80: Result := pteContaCreditoInvalida;
+    81: Result := pteContaNaoPertenceFuncionario;
+    82: Result := ptePagamentoPermitidoApenasPessoasFisicas;
+    83: Result := pteAgenciaContaIncorretos;
+    84: Result := pteContaNaoAtiva;
+    85: Result := pteContaNaoPermiteCreditoSalario;
+    86: Result := pteAgenciaCreditoContaPagamentoInformados;
+    90: Result := pteMesCompetenciaInvalido;
+    91: Result := pteValorOutrasDeducoesInvalido;
+    92: Result := pteValorOutrosAcrescimosInvalido;
+    93: Result := pteCodigoFormaIdentificacaoClienteNaoInformado;
+    94: Result := pteDDDPixNaoInformado;
+    95: Result := pteTelefonePixNaoInformado;
+    96: Result := pteEmailPixNaoInformado;
+    97: Result := pteChaveAleatoriaPixNaoInformada;
+    98: Result := pteCodigoTipoContaPixNaoInformado;
     99: Result := pteConsultarBancoErro;
+    100: Result := pteEmailInvalido;
+    101: Result := pteEmailPixCaractereEspecial;
+    102: Result := pteTelefoneInvalido;
+    103: Result := pteDDDInvalido;
+    104: Result := pteEmailTamanhoMaior77;
+    105: Result := pteContaDeCreditoInvalida;
+    106: Result := pteCpfInvalido;
+    107: Result := pteCnpjInvalido;
+    108: Result := pteNroDocCreditoInvalido;
+    109: Result := pteNroDocDebitoInvalido;
+    110: Result := pteValorPgtoInvalido;
+    111: Result := pteValorNominalInvalido;
+    112: Result := pteValorDescInvalido;
+    113: Result := pteValorJuro2Invalido;
+    114: Result := pteNroInscBeneficiarioInvalido;
+    115: Result := pteNroInscPagadorInvalido;
+    116: Result := pteNroInscAvalistaInvalido;
+    117: Result := pteNroIndentContribuinteDarfInvalido;
+    118: Result := pteNroReferenciaInvalido;
+    119: Result := pteValorPrincipalInvalido;
+    120: Result := pteValorMulta2Invalido;
+    121: Result := pteValorJurosInvalido;
+    122: Result := pteNroIndentContribuinteGpsInvalido;
+    123: Result := pteValorPrevPgtoInssInvalido;
+    124: Result := pteValorOutrasEntInvalido;
+    125: Result := pteValorAtualizaMonetariaInvalido;
+    126: Result := pteValorDescontoGruInvalido;
+    127: Result := pteCodBarInconpativelModalidadePgto;
     200: Result := pteInsuficienciaFundos;
     201: Result := pteCreditoDebitoCancelado;
     202: Result := pteDebitoAutorizado;
@@ -2117,7 +2496,15 @@ end;
 constructor TACBrDARFLancamentoResposta.Create(const ObjectName: String);
 begin
   inherited Create(ObjectName);
+  pagamento.Clear;
   erros.Clear;
+end;
+
+procedure TACBrDARFLancamentoResposta.Assign(aSource: TACBrLancamentoClass);
+begin
+  inherited Assign(aSource);
+  if (aSource is TACBrDARFLancamentoResposta) then
+    pagamento.Assign(TACBrDARFLancamentoResposta(aSource).pagamento);
 end;
 
 { TACBrLoteDARFResposta }
@@ -2166,6 +2553,21 @@ function TACBrDARFLancamentosResposta.New: TACBrDARFLancamentoResposta;
 begin
   Result := TACBrDARFLancamentoResposta.Create;
   Self.Add(Result);
+end;
+
+{ TACBrLoteDARFRespostaConsulta }
+
+procedure TACBrLoteDARFRespostaConsulta.Assign(aSource: TACBrLoteRespostaClass);
+begin
+  inherited Assign(aSource);
+  if (aSource is TACBrLoteDARFRespostaConsulta) then
+    lancamentos.Assign(TACBrLoteDARFRespostaConsulta(aSource).lancamentos);
+end;
+
+constructor TACBrLoteDARFRespostaConsulta.Create(const ObjectName: String);
+begin
+  inherited Create(ObjectName);
+  lancamentos.Clear;
 end;
 
 { TACBrLoteDARFRequisicao }
@@ -2276,7 +2678,7 @@ constructor TACBrPagamentoEspecificoGRUResposta.Create(const ObjectName: String)
 begin
   inherited Create(ObjectName);
   listaPagamentos.Clear;
-  listaOcorrencias.Clear;
+  listaDevolucao.Clear;
 end;
 
 procedure TACBrPagamentoEspecificoGRUResposta.Assign(aSource: TACBrLancamentoClass);
@@ -2285,7 +2687,7 @@ begin
   if (aSource is TACBrPagamentoEspecificoGRUResposta) then
   begin
     listaPagamentos.Assign(TACBrPagamentoEspecificoGRUResposta(aSource).listaPagamentos);
-    listaOcorrencias.Assign(TACBrPagamentoEspecificoGRUResposta(aSource).listaOcorrencias);
+    listaDevolucao.Assign(TACBrPagamentoEspecificoGRUResposta(aSource).listaDevolucao);
   end;
 end;
 
@@ -2703,6 +3105,7 @@ constructor TACBrBoletosLancamentoResposta.Create(const ObjectName: String);
 begin
   inherited Create(ObjectName);
   errorCodes.Clear;
+  erros.Clear;
 end;
 
 { TACBrLoteGPSResposta }
@@ -3064,7 +3467,7 @@ begin
   Clear;
   ja := AJSon.AsJSONArray[fpArrayName];
   for i := 0 to ja.Count - 1 do
-    New.Erro := TACBrTransferenciaErro(StrToIntDef(ja.Items[i], 0));
+    New.Erro := IntegerToTransferenciaErro(StrToIntDef(ja.Items[i], 0));
 end;
 
 procedure TACBrTransferenciaErros.WriteToJSon(AJSon: TACBrJSONObject);
@@ -3775,6 +4178,20 @@ begin
   Result := fGRUPagamentosEspecificos;
 end;
 
+function TACBrLancamentoClass.GetDARFLancamentosPagamento: TACBrDARFLancamentosPagamento;
+begin
+  if (not Assigned(fDARFLancamentosPagamento)) then
+    fDARFLancamentosPagamento := TACBrDARFLancamentosPagamento.Create('pagamento');
+  Result := fDARFLancamentosPagamento;
+end;
+
+function TACBrLancamentoClass.GetDARFPagamentosEspecificos: TACBrDARFPagamentosEspecificos;
+begin
+  if (not Assigned(fDARFPagamentosEspecificos)) then
+    fDARFPagamentosEspecificos := TACBrDARFPagamentosEspecificos.Create('listaPagamentos');
+  Result := fDARFPagamentosEspecificos;
+end;
+
 function TACBrLancamentoClass.GetBoletoPagamentosEspecificos: TACBrBoletoPagamentosEspecificos;
 begin
   if (not Assigned(fBoletoPagamentosEspecificos)) then
@@ -3914,7 +4331,12 @@ begin
     .AddPair('codigoAutenticacaoPagamento', fcodigoAutenticacaoPagamento, False)
     .AddPair('tipoPessoaPagador', ftipoPessoaPagador, False)
     .AddPair('tipoPessoaBeneficiario', ftipoPessoaBeneficiario, False)
-    .AddPair('tipoPessoaAvalista', ftipoPessoaAvalista, False);
+    .AddPair('tipoPessoaAvalista', ftipoPessoaAvalista, False)
+    .AddPair('identificacaoContribuinte', fidentificacaoContribuinte, False)
+    .AddPair('tipoContribuinte', ftipoContribuinte, False)
+    .AddPair('identificacaoGPS', fidentificacaoGPS, False)
+    .AddPair('valorINSS', fvalorINSS, False)
+    .AddPair('valorAtualizacaoMonetaria', fvalorAtualizacaoMonetaria, False);
 
   if Assigned(ferros) then
     ferros.WriteToJSon(AJSon);
@@ -3930,6 +4352,12 @@ begin
     fGRULancamentosPagamento.WriteToJSon(AJSon);
   if Assigned(fGRUPagamentosEspecificos) then
     fGRUPagamentosEspecificos.WriteToJSon(AJSon);
+  if Assigned(fDARFLancamentosPagamento) then
+    fDARFLancamentosPagamento.WriteToJSon(AJSon);
+  if Assigned(fDARFPagamentosEspecificos) then
+    fDARFPagamentosEspecificos.WriteToJSon(AJSon);
+  if Assigned(fGPSPagamentosEspecificos) then
+    fGPSPagamentosEspecificos.WriteToJSon(AJSon);
   if Assigned(fBoletoPagamentosEspecificos) then
     fBoletoPagamentosEspecificos.WriteToJSon(AJSon);
   if Assigned(fGuiaCodBarrasPagamentosEspecificos) then
@@ -4075,7 +4503,13 @@ begin
     .Value('codigoAutenticacaoPagamento', fcodigoAutenticacaoPagamento)
     .Value('tipoPessoaPagador', ftipoPessoaPagador)
     .Value('tipoPessoaBeneficiario', ftipoPessoaBeneficiario)
-    .Value('tipoPessoaAvalista', ftipoPessoaAvalista);
+    .Value('tipoPessoaAvalista', ftipoPessoaAvalista)
+    .Value('identificacaoContribuinte', fidentificacaoContribuinte)
+    .Value('tipoContribuinte', ftipoContribuinte)
+    .Value('identificacaoGPS', fidentificacaoGPS)
+    .Value('valorINSS', fvalorINSS)
+    .Value('valorAtualizacaoMonetaria', fvalorAtualizacaoMonetaria);
+
   if NaoEstaVazio(s2) then
     festadoPagamento := StringToEstadoPagamento(s2);
   if NaoEstaZerado(i7) then
@@ -4101,6 +4535,12 @@ begin
     fGRULancamentosPagamento.ReadFromJSon(AJSon);
   if Assigned(fGRUPagamentosEspecificos) then
     fGRUPagamentosEspecificos.ReadFromJSon(AJSon);
+  if Assigned(fDARFLancamentosPagamento) then
+    fDARFLancamentosPagamento.ReadFromJSon(AJSon);
+  if Assigned(fDARFPagamentosEspecificos) then
+    fDARFPagamentosEspecificos.ReadFromJSon(AJSon);
+  if Assigned(fGPSPagamentosEspecificos) then
+    fGPSPagamentosEspecificos.ReadFromJSon(AJSon);
   if Assigned(fBoletoPagamentosEspecificos) then
     fBoletoPagamentosEspecificos.ReadFromJSon(AJSon);
   if Assigned(fGuiaCodBarrasPagamentosEspecificos) then
@@ -4123,6 +4563,12 @@ begin
     fGRULancamentosPagamento.Free;
   if Assigned(fGRUPagamentosEspecificos) then
     fGRUPagamentosEspecificos.Free;
+  if Assigned(fDARFLancamentosPagamento) then
+    fDARFLancamentosPagamento.Free;
+  if Assigned(fDARFPagamentosEspecificos) then
+    fDARFPagamentosEspecificos.Free;
+  if Assigned(fGPSPagamentosEspecificos) then
+    fGPSPagamentosEspecificos.Free;
   if Assigned(fBoletoPagamentosEspecificos) then
     fBoletoPagamentosEspecificos.Free;
   if Assigned(fGuiaCodBarrasPagamentosEspecificos) then
@@ -4196,6 +4642,11 @@ begin
   finicioCartaoCredito := 0;
   ffimCartaoCredito := 0;
   ftipoPessoaAvalista := 0;
+  fidentificacaoContribuinte := 0;
+  ftipoContribuinte := 0;
+  fidentificacaoGPS := EmptyStr;
+  fvalorINSS := 0;
+  fvalorAtualizacaoMonetaria := 0;
   ftipoPessoaBeneficiario := 0;
   ftipoPessoaPagador := 0;
   fcodigoAutenticacaoPagamento := EmptyStr;
@@ -4219,6 +4670,12 @@ begin
     fGRULancamentosPagamento.Clear;
   if Assigned(fGRUPagamentosEspecificos) then
     fGRUPagamentosEspecificos.Clear;
+  if Assigned(fDARFLancamentosPagamento) then
+    fDARFLancamentosPagamento.Clear;
+  if Assigned(fDARFPagamentosEspecificos) then
+    fDARFPagamentosEspecificos.Clear;
+  if Assigned(fGPSPagamentosEspecificos) then
+    fGPSPagamentosEspecificos.Clear;
   if Assigned(fBoletoPagamentosEspecificos) then
     fBoletoPagamentosEspecificos.Clear;
   if Assigned(fGuiaCodBarrasPagamentosEspecificos) then
@@ -4297,6 +4754,11 @@ begin
     EstaZerado(finicioCartaoCredito) and
     EstaZerado(ffimCartaoCredito) and
     EstaZerado(ftipoPessoaAvalista) and
+    EstaZerado(fidentificacaoContribuinte) and
+    EstaZerado(ftipoContribuinte) and
+    EstaVazio(fidentificacaoGPS) and
+    EstaZerado(fvalorINSS) and
+    EstaZerado(fvalorAtualizacaoMonetaria) and
     EstaZerado(ftipoPessoaBeneficiario) and
     EstaZerado(ftipoPessoaPagador) and
     EstaVazio(fcodigoAutenticacaoPagamento);
@@ -4315,6 +4777,12 @@ begin
     Result := Result and fGRULancamentosPagamento.IsEmpty;
   if Assigned(fGRUPagamentosEspecificos) then
     Result := Result and fGRUPagamentosEspecificos.IsEmpty;
+  if Assigned(fDARFLancamentosPagamento) then
+    Result := Result and fDARFLancamentosPagamento.IsEmpty;
+  if Assigned(fDARFPagamentosEspecificos) then
+    Result := Result and fDARFPagamentosEspecificos.IsEmpty;
+  if Assigned(fGPSPagamentosEspecificos) then
+    Result := Result and fGPSPagamentosEspecificos.IsEmpty;
   if Assigned(fBoletoPagamentosEspecificos) then
     Result := Result and fBoletoPagamentosEspecificos.IsEmpty;
   if Assigned(fGuiaCodBarrasPagamentosEspecificos) then
@@ -4392,6 +4860,11 @@ begin
   finicioCartaoCredito := ASource.inicioCartaoCredito;
   ffimCartaoCredito := ASource.fimCartaoCredito;
   ftipoPessoaAvalista := ASource.tipoPessoaAvalista;
+  fidentificacaoContribuinte := ASource.identificacaoContribuinte;
+  ftipoContribuinte := ASource.tipoContribuinte;
+  fidentificacaoGPS := ASource.identificacaoGPS;
+  fvalorINSS := ASource.valorINSS;
+  fvalorAtualizacaoMonetaria := ASource.valorAtualizacaoMonetaria;
   ftipoPessoaBeneficiario := ASource.tipoPessoaBeneficiario;
   ftipoPessoaPagador := ASource.tipoPessoaPagador;
   fcodigoAutenticacaoPagamento := ASource.codigoAutenticacaoPagamento;
@@ -4404,6 +4877,132 @@ begin
     errorCodes.Assign(aSource.errorCodes);
   if (not aSource.listaOcorrencias.IsEmpty) then
     listaOcorrencias.Assign(aSource.listaOcorrencias);
+end;
+
+function TACBrLancamentoClass.GetGPSPagamentosEspecificos: TACBrGPSPagamentosEspecificos;
+begin
+  if (not Assigned(fGPSPagamentosEspecificos)) then
+    fGPSPagamentosEspecificos := TACBrGPSPagamentosEspecificos.Create('listaPagamentos');
+  Result := fGPSPagamentosEspecificos;
+end;
+
+{ TACBrPagamentoEspecificoDARFResposta }
+
+constructor TACBrPagamentoEspecificoDARFResposta.Create(const ObjectName: String);
+begin
+  inherited Create(ObjectName);
+  listaPagamentos.Clear;
+  listaDevolucao.Clear;
+end;
+
+procedure TACBrPagamentoEspecificoDARFResposta.Assign(aSource: TACBrLancamentoClass);
+begin
+  inherited Assign(aSource);
+  if (aSource is TACBrPagamentoEspecificoDARFResposta) then
+  begin
+    listaPagamentos.Assign(TACBrPagamentoEspecificoDARFResposta(aSource).listaPagamentos);
+    listaDevolucao.Assign(TACBrPagamentoEspecificoDARFResposta(aSource).listaDevolucao);
+  end;
+end;
+
+{ TACBrDARFPagamentosEspecificos }
+
+function TACBrDARFPagamentosEspecificos.GetItem(aIndex: Integer): TACBrDARFPagamentoEspecifico;
+begin
+  Result := TACBrDARFPagamentoEspecifico(inherited Items[aIndex]);
+end;
+
+procedure TACBrDARFPagamentosEspecificos.SetItem(aIndex: Integer; aValue: TACBrDARFPagamentoEspecifico);
+begin
+  inherited Items[aIndex] := aValue;
+end;
+
+function TACBrDARFPagamentosEspecificos.NewSchema: TACBrAPISchema;
+begin
+  Result := New;
+end;
+
+function TACBrDARFPagamentosEspecificos.Add(aItem: TACBrDARFPagamentoEspecifico): Integer;
+begin
+  Result := inherited Add(aItem);
+end;
+
+procedure TACBrDARFPagamentosEspecificos.Insert(aIndex: Integer; aItem: TACBrDARFPagamentoEspecifico);
+begin
+  inherited Insert(aIndex, aItem);
+end;
+
+function TACBrDARFPagamentosEspecificos.New: TACBrDARFPagamentoEspecifico;
+begin
+  Result := TACBrDARFPagamentoEspecifico.Create;
+  Self.Add(Result);
+end;
+
+{ TACBrLoteGPSRespostaConsulta }
+
+constructor TACBrLoteGPSRespostaConsulta.Create(const ObjectName: String);
+begin
+  inherited Create(ObjectName);
+  lancamentos.Clear;
+end;
+
+procedure TACBrLoteGPSRespostaConsulta.Assign(aSource: TACBrLoteRespostaClass);
+begin
+  inherited Assign(aSource);
+  if (aSource is TACBrLoteGPSRespostaConsulta) then
+    lancamentos.Assign(TACBrLoteGPSRespostaConsulta(aSource).lancamentos);
+end;
+
+{ TACBrPagamentoEspecificoGPSResposta }
+
+constructor TACBrPagamentoEspecificoGPSResposta.Create(const ObjectName: String);
+begin
+  inherited Create(ObjectName);
+  listaPagamentos.Clear;
+  listaDevolucao.Clear;
+end;
+
+procedure TACBrPagamentoEspecificoGPSResposta.Assign(aSource: TACBrLancamentoClass);
+begin
+  inherited Assign(aSource);
+  if (aSource is TACBrPagamentoEspecificoGPSResposta) then
+  begin
+    listaPagamentos.Assign(TACBrPagamentoEspecificoGPSResposta(aSource).listaPagamentos);
+    listaDevolucao.Assign(TACBrPagamentoEspecificoGPSResposta(aSource).listaDevolucao);
+  end;
+end;
+
+{ TACBrGPSPagamentosEspecificos }
+
+function TACBrGPSPagamentosEspecificos.GetItem(aIndex: Integer): TACBrGPSPagamentoEspecifico;
+begin
+  Result := TACBrGPSPagamentoEspecifico(inherited Items[aIndex]);
+end;
+
+procedure TACBrGPSPagamentosEspecificos.SetItem(aIndex: Integer; aValue: TACBrGPSPagamentoEspecifico);
+begin
+  inherited Items[aIndex] := aValue;
+end;
+
+function TACBrGPSPagamentosEspecificos.NewSchema: TACBrAPISchema;
+begin
+  Result := New;
+end;
+
+function TACBrGPSPagamentosEspecificos.Add(aItem: TACBrGPSPagamentoEspecifico): Integer;
+begin
+  Result := inherited Add(aItem);
+end;
+
+procedure TACBrGPSPagamentosEspecificos.Insert(aIndex: Integer; aItem: TACBrGPSPagamentoEspecifico);
+begin
+  inherited Insert(aIndex, aItem);
+end;
+
+function TACBrGPSPagamentosEspecificos.New: TACBrGPSPagamentoEspecifico;
+begin
+  Result := TACBrGPSPagamentoEspecifico.Create;
+  Self.Add(Result);
 end;
 
 end.

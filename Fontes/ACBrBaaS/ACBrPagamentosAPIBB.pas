@@ -59,6 +59,7 @@ const
   cPagamentoBBURLAuthProducao = 'https://oauth.bb.com.br/oauth/token';
   cPagamentoBBPathLotesPix = 'lotes-transferencias-pix';
   cPagamentoBBPathLotesDARF = 'lotes-darf-normal-preto';
+  cPagamentoBBPathLotesDARFGET = 'lotes-darf-preto-normal';
   cPagamentoBBPathLotesBoletos = 'lotes-boletos';
   cPagamentoBBPathLotesGRU = 'lotes-gru';
   cPagamentoBBPathLotesGPS = 'lotes-gps';
@@ -146,7 +147,6 @@ function TACBrPagamentosAPIBBPagamentos.BoletoSolicitarLotePagamentos: Boolean;
 var
   Body: String;
 begin 
-  Result := False;
   RegistrarLog('BoletoSolicitarLotePagamentos');
 
   Body := Trim(LoteBoletosSolicitado.AsJSON);
@@ -220,7 +220,6 @@ function TACBrPagamentosAPIBBPagamentos.GuiaCodigoBarrasSolicitarLotePagamentos:
 var
   Body: String;
 begin
-  Result := False;
   RegistrarLog('GuiaCodigoBarrasSolicitarLotePagamentos');
 
   Body := Trim(LoteGuiasCodigoBarrasSolicitado.AsJSON);
@@ -259,7 +258,6 @@ end;
 
 function TACBrPagamentosAPIBBPagamentos.GuiaCodigoBarrasConsultarLotePagamentos(const aId: String): Boolean;
 begin
-  Result := False;
   RegistrarLog('GuiaCodigoBarrasConsultarLotePagamentos(' + aId + ')');
 
   BB.PrepararHTTP;
@@ -326,7 +324,6 @@ function TACBrPagamentosAPIBBPagamentos.GRUSolicitarPagamentos: Boolean;
 var
   Body: String;
 begin
-  Result := False;
   RegistrarLog('GRUSolicitarPagamentos');
 
   Body := Trim(LoteGRUSolicitado.AsJSON);
@@ -365,7 +362,6 @@ end;
 
 function TACBrPagamentosAPIBBPagamentos.GRUConsultarLotePagamentos(const aId: String): Boolean;
 begin
-  Result := False;
   RegistrarLog('GRUConsultarLotePagamentos(' + aId + ')');
 
   BB.PrepararHTTP;
@@ -433,7 +429,6 @@ function TACBrPagamentosAPIBBPagamentos.DARFSolicitarPagamentos: Boolean;
 var
   Body: String;
 begin
-  Result := False;
   RegistrarLog('DARFSolicitarPagamentos');
 
   Body := Trim(LoteDARFSolicitado.AsJSON);
@@ -472,12 +467,11 @@ end;
 
 function TACBrPagamentosAPIBBPagamentos.DARFConsultarLotePagamentos(const aId: String): Boolean;
 begin
-  Result := False;
   RegistrarLog('DARFConsultarLotePagamentos(' + aId + ')');
 
   BB.PrepararHTTP;
   BB.HTTPSend.Headers.Insert(0, ChttpHeaderAuthorization + cHTTPAuthorizationBearer +' '+ Token);
-  BB.URLPathParams.Add(cPagamentoBBPathLotesDARF);
+  BB.URLPathParams.Add(cPagamentoBBPathLotesDARFGET);
   BB.URLPathParams.Add(aId);
   BB.URLPathParams.Add(cPagamentoBBPathsolicitacao);
   BB.URLQueryParams.Values['gw-dev-app-key'] := BB.developerApplicationKey;
@@ -525,7 +519,7 @@ begin
   RegistrarLog('  Response: ' + sLineBreak + BB.HTTPResponse, 3);
   Result := (BB.HTTPResultCode = HTTP_OK);
   case BB.HTTPResultCode of
-    //HTTP_OK: PagamentoDARFConsultado.AsJSON := BB.HTTPResponse;
+    HTTP_OK: PagamentoDARFConsultado.AsJSON := BB.HTTPResponse;
     HTTP_UNAUTHORIZED: RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
   else
     begin
@@ -540,7 +534,6 @@ function TACBrPagamentosAPIBBPagamentos.GPSSolicitarPagamentos: Boolean;
 var
   Body: String;
 begin
-  Result := False;
   RegistrarLog('GPSSolicitarPagamentos');
 
   Body := Trim(LoteGPSSolicitado.AsJSON);
@@ -579,7 +572,6 @@ end;
 
 function TACBrPagamentosAPIBBPagamentos.GPSConsultarLotePagamentos(const aId: String): Boolean;
 begin
-  Result := False;
   RegistrarLog('GPSConsultarLotePagamentos(' + aId + ')');
 
   BB.PrepararHTTP;

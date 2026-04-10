@@ -63,10 +63,10 @@ type
     fLoteBoletosCriado: TACBrLoteBoletosResposta;
     fLoteBoletosConsultado: TACBrLoteBoletosResposta;
     fLoteBoletosSolicitado: TACBrLoteBoletosRequisicao;
-    fLoteDARFConsultado: TACBrLoteDARFResposta;
+    fLoteDARFConsultado: TACBrLoteDARFRespostaConsulta;
     fLoteDARFCriado: TACBrLoteDARFResposta;
     fLoteDARFSolicitado: TACBrLoteDARFRequisicao;
-    fLoteGPSConsultado: TACBrLoteGPSResposta;
+    fLoteGPSConsultado: TACBrLoteGPSRespostaConsulta;
     fLoteGPSCriado: TACBrLoteGPSResposta;
     fLoteGPSSolicitado: TACBrLoteGPSRequisicao;
     fLoteGRUConsultado: TACBrLoteGRURespostaConsulta;
@@ -76,17 +76,18 @@ type
     fLoteGuiasCodigoBarrasCriado: TACBrLoteGuiaCodBarrasResposta;
     fLoteGuiasCodigoBarrasSolicitado: TACBrLoteGuiasCodigoBarrasRequisicao;
     fPagamentoBoletoConsultado: TACBrPagamentoEspecificoBoletoResposta;
-    fPagamentoGPSConsultado: TACBrPagamentoEspecificoGRUResposta;
+    fPagamentoGPSConsultado: TACBrPagamentoEspecificoGPSResposta;
     fPagamentoGRUConsultado: TACBrPagamentoEspecificoGRUResposta;
+    fPagamentoDARFConsultado: TACBrPagamentoEspecificoDARFResposta;
     fPagamentoGuiaCodigoBarrasConsultado: TACBrPagamentoEspecificoGuiaCodBarrasResposta;
     fRespostaErros: TACBrPagamentosAPIErros;
     function GetLoteBoletosConsultado: TACBrLoteBoletosResposta;
     function GetLoteBoletosCriado: TACBrLoteBoletosResposta;
     function GetLoteBoletosSolicitado: TACBrLoteBoletosRequisicao;
-    function GetLoteDARFConsultado: TACBrLoteDARFResposta;
+    function GetLoteDARFConsultado: TACBrLoteDARFRespostaConsulta;
     function GetLoteDARFCriado: TACBrLoteDARFResposta;
     function GetLoteDARFSolicitado: TACBrLoteDARFRequisicao;
-    function GetLoteGPSConsultado: TACBrLoteGPSResposta;
+    function GetLoteGPSConsultado: TACBrLoteGPSRespostaConsulta;
     function GetLoteGPSCriado: TACBrLoteGPSResposta;
     function GetLoteGPSSolicitado: TACBrLoteGPSRequisicao;
     function GetLoteGRUConsultado: TACBrLoteGRURespostaConsulta;
@@ -96,8 +97,9 @@ type
     function GetLoteGuiasCodigoBarrasCriado: TACBrLoteGuiaCodBarrasResposta;
     function GetLoteGuiasCodigoBarrasSolicitado: TACBrLoteGuiasCodigoBarrasRequisicao;
     function GetPagamentoBoletoConsultado: TACBrPagamentoEspecificoBoletoResposta;
-    function GetPagamentoGPSConsultado: TACBrPagamentoEspecificoGRUResposta;
+    function GetPagamentoGPSConsultado: TACBrPagamentoEspecificoGPSResposta;
     function GetPagamentoGRUConsultado: TACBrPagamentoEspecificoGRUResposta;
+    function GetPagamentoDARFConsultado: TACBrPagamentoEspecificoDARFResposta;
     function GetPagamentoGuiaCodigoBarrasConsultado: TACBrPagamentoEspecificoGuiaCodBarrasResposta;
     function GetRespostaErros: TACBrPagamentosAPIErros;
   protected
@@ -146,14 +148,14 @@ type
     property PagamentoGRUConsultado: TACBrPagamentoEspecificoGRUResposta read GetPagamentoGRUConsultado write fPagamentoGRUConsultado;
 
     property LoteDARFCriado: TACBrLoteDARFResposta read GetLoteDARFCriado write fLoteDARFCriado;
-    property LoteDARFConsultado: TACBrLoteDARFResposta read GetLoteDARFConsultado write fLoteDARFConsultado;
+    property LoteDARFConsultado: TACBrLoteDARFRespostaConsulta read GetLoteDARFConsultado write fLoteDARFConsultado;
     property LoteDARFSolicitado: TACBrLoteDARFRequisicao read GetLoteDARFSolicitado write fLoteDARFSolicitado;
-    //property PagamentoDARFConsultado: TACBrPagamentoEspecificoGRUResposta read GetPagamentoDARFConsultado write fPagamentoDARFConsultado;
+    property PagamentoDARFConsultado: TACBrPagamentoEspecificoDARFResposta read GetPagamentoDARFConsultado write fPagamentoDARFConsultado;
 
     property LoteGPSCriado: TACBrLoteGPSResposta read GetLoteGPSCriado write fLoteGPSCriado;
-    property LoteGPSConsultado: TACBrLoteGPSResposta read GetLoteGPSConsultado write fLoteGPSConsultado;
+    property LoteGPSConsultado: TACBrLoteGPSRespostaConsulta read GetLoteGPSConsultado write fLoteGPSConsultado;
     property LoteGPSSolicitado: TACBrLoteGPSRequisicao read GetLoteGPSSolicitado write fLoteGPSSolicitado;
-    property PagamentoGPSConsultado: TACBrPagamentoEspecificoGRUResposta read GetPagamentoGPSConsultado write fPagamentoGPSConsultado;
+    property PagamentoGPSConsultado: TACBrPagamentoEspecificoGPSResposta read GetPagamentoGPSConsultado write fPagamentoGPSConsultado;
 
     property RespostaErros: TACBrPagamentosAPIErros read GetRespostaErros write fRespostaErros;
   end;
@@ -194,6 +196,7 @@ type
   published
     property ClientID: String read fClientID write fClientID;
     property ClientSecret: String read fClientSecret write fClientSecret;
+    property DeveloperApplicationKey: String read fDeveloperApplicationKey write fDeveloperApplicationKey;
 
     property PagamentosAPI: TACBrPagamentosAPI read fpPagamentosAPI write SetACBrPagamentosAPI;
   end;
@@ -235,10 +238,10 @@ begin
   Result := fLoteBoletosSolicitado;
 end;
 
-function TACBrPagamentosAPIClass.GetLoteDARFConsultado: TACBrLoteDARFResposta;
+function TACBrPagamentosAPIClass.GetLoteDARFConsultado: TACBrLoteDARFRespostaConsulta;
 begin
   if (not Assigned(fLoteDARFConsultado)) then
-    fLoteDARFConsultado := TACBrLoteDARFResposta.Create;
+    fLoteDARFConsultado := TACBrLoteDARFRespostaConsulta.Create;
   Result := fLoteDARFConsultado;
 end;
 
@@ -256,10 +259,10 @@ begin
   Result := fLoteDARFSolicitado;
 end;
 
-function TACBrPagamentosAPIClass.GetLoteGPSConsultado: TACBrLoteGPSResposta;
+function TACBrPagamentosAPIClass.GetLoteGPSConsultado: TACBrLoteGPSRespostaConsulta;
 begin
   if (not Assigned(fLoteGPSConsultado)) then
-    fLoteGPSConsultado := TACBrLoteGPSResposta.Create;
+    fLoteGPSConsultado := TACBrLoteGPSRespostaConsulta.Create;
   Result := fLoteGPSConsultado;
 end;
 
@@ -326,10 +329,10 @@ begin
   Result := fPagamentoBoletoConsultado;
 end;
 
-function TACBrPagamentosAPIClass.GetPagamentoGPSConsultado: TACBrPagamentoEspecificoGRUResposta;
+function TACBrPagamentosAPIClass.GetPagamentoGPSConsultado: TACBrPagamentoEspecificoGPSResposta;
 begin
   if (not Assigned(fPagamentoGPSConsultado)) then
-    fPagamentoGPSConsultado := TACBrPagamentoEspecificoGRUResposta.Create;
+    fPagamentoGPSConsultado := TACBrPagamentoEspecificoGPSResposta.Create;
   Result := fPagamentoGPSConsultado;
 end;
 
@@ -338,6 +341,13 @@ begin
   if (not Assigned(fPagamentoGRUConsultado)) then
     fPagamentoGRUConsultado := TACBrPagamentoEspecificoGRUResposta.Create;
   Result := fPagamentoGRUConsultado;
+end;
+
+function TACBrPagamentosAPIClass.GetPagamentoDARFConsultado: TACBrPagamentoEspecificoDARFResposta;
+begin
+  if (not Assigned(fPagamentoDARFConsultado)) then
+    fPagamentoDARFConsultado := TACBrPagamentoEspecificoDARFResposta.Create;
+  Result := fPagamentoDARFConsultado;
 end;
 
 function TACBrPagamentosAPIClass.GetPagamentoGuiaCodigoBarrasConsultado: TACBrPagamentoEspecificoGuiaCodBarrasResposta;
@@ -419,6 +429,8 @@ begin
     fLoteGPSSolicitado.Free;
   if Assigned(fPagamentoGRUConsultado) then
     fPagamentoGRUConsultado.Free;
+  if Assigned(fPagamentoDARFConsultado) then
+    fPagamentoDARFConsultado.Free;
   if Assigned(fPagamentoGPSConsultado) then
     fPagamentoGPSConsultado.Free;
   if Assigned(fPagamentoBoletoConsultado) then
@@ -464,6 +476,8 @@ begin
     fLoteGPSSolicitado.Clear;
   if Assigned(fPagamentoGRUConsultado) then
     fPagamentoGRUConsultado.Clear;
+  if Assigned(fPagamentoDARFConsultado) then
+    fPagamentoDARFConsultado.Clear;
   if Assigned(fPagamentoGPSConsultado) then
     fPagamentoGPSConsultado.Clear;
   if Assigned(fPagamentoBoletoConsultado) then
@@ -480,11 +494,13 @@ end;
 
 function TACBrPagamentosAPIClass.BoletoConsultarLotePagamentos(const aId: String): Boolean;
 begin
+  Result := False;
   { abstract }
 end;
 
 function TACBrPagamentosAPIClass.BoletoConsultarPagamentoEspecifico(const aId: String): Boolean;
 begin
+  Result := False;
   { abstract }
 end;
 
