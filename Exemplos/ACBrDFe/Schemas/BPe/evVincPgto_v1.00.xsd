@@ -5,7 +5,7 @@
 	<xs:include schemaLocation="DFeTiposBasicos_v1.00.xsd"/>
 	<xs:element name="evVincPgto">
 		<xs:annotation>
-			<xs:documentation>Schema XML de validação do evento de vinculação do arranjo do pagamento com o DFe  - 110300</xs:documentation>
+			<xs:documentation>Schema XML de validação do evento de vinculação da transação de pagamento com o DFe  - 110300</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
