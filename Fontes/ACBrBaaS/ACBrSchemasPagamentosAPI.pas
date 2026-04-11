@@ -1739,8 +1739,6 @@ type
   { TACBrPagamentoEspecificoDARFResposta }
 
   TACBrPagamentoEspecificoDARFResposta  = class(TACBrLancamentoClass)
-  private
-    fDARFPagamentosEspecificos: TACBrDARFPagamentosEspecificos;
   public
     constructor Create(const ObjectName: String = ''); override;
     procedure Assign(aSource: TACBrLancamentoClass); override;
