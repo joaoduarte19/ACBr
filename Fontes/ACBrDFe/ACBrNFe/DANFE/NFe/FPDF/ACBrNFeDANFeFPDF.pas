@@ -2154,7 +2154,7 @@ begin
   //$this->wAdic com a largura do campo
   //$this->textoAdic com o texto completo do campo
   y := y + 1;
-  PDF.SetFont(7, '');
+  PDF.SetFont(6, '');
   PDF.TextBox(x, y+2, w-2, h-3, FNFeUtils.GetTextoAdicional, 'T', 'L', 0, '', false);
   //RESERVADO AO FISCO
   texto := 'RESERVADO AO FISCO';
