@@ -37,15 +37,19 @@ unit pcnReinfRetEventos;
 interface
 
 uses
-  SysUtils, Classes,
+  SysUtils,
+  Classes,
   {$IF DEFINED(HAS_SYSTEM_GENERICS)}
-   System.Generics.Collections, System.Generics.Defaults,
+  System.Generics.Collections,
+  System.Generics.Defaults,
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
-   System.Contnrs,
+  System.Contnrs,
   {$IFEND}
   ACBrBase,
-  pcnConversao, pcnLeitor,
-  pcnCommonReinf, pcnConversaoReinf,
+  pcnConversao,
+  pcnLeitor,
+  pcnCommonReinf,
+  pcnConversaoReinf,
   pcnReinfR9005;
 
 type
@@ -401,7 +405,10 @@ type
 implementation
 
 uses
-  IniFiles, ACBrUtil.Base, ACBrUtil.Strings, DateUtils;
+  IniFiles,
+  ACBrUtil.Base,
+  ACBrUtil.Strings,
+  DateUtils;
 
 { TRRecRepADCollection }
 
@@ -707,7 +714,7 @@ begin
         begin
           if leitor.rExtrai(4, 'evtTotal') <> '' then
           begin
-            FId := Leitor.rAtributo('Id=');
+            FId := Leitor.rAtributo('id=');
 
             if leitor.rExtrai(5, 'ideEvento') <> '' then
               IdeEvento.perApur := leitor.rCampo(tcStr, 'perApur');
