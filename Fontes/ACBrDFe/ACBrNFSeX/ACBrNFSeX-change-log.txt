@@ -42,6 +42,22 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+13/04/2026
+-- ACBrNFSeXConfiguracoes --
+[*] ACBr-9150 - Ajuste visando a correta leitura da chave Versao na seção do município quando também houver na seção do provedor.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/91158-acbr-9150-mudan%C3%A7a-de-url-na-nfse-de-volta-redonda-rj-provedor-simpliss/
+-- ACBrNFSeXServicos --
+[-] ACBr-9150 - A cidade de Volta Redonda/RJ voltou para a versão 2.03 do provedor SimplISS.
+   Por: dkinformatica
+   Veja: https://www.projetoacbr.com.br/forum/topic/91158-acbr-9150-mudan%C3%A7a-de-url-na-nfse-de-volta-redonda-rj-provedor-simpliss/
+[-] ACBr-9201 A cidade de Cataguases/MG vai mudar para o IPM na versão 2.04 em 12/05/2026
+   Por: AltC
+   Veja: https://www.projetoacbr.com.br/forum/topic/91418-acbr-9201-atualiza%C3%A7%C3%A3o-provedor-cidade-cataguases-mg/
+[*] ACBr-9203 - Adiciona parâmetro para Não Formatar Alíquota para a cidade de Barao/RS
+   Por: Daniel Ostoic
+   Veja: https://www.projetoacbr.com.br/forum/topic/91361-acbr-9183-troca-de-provedor-munic%C3%ADpio-de-bar%C3%A3ors/
+
 09/04/2026
 -- Conam.LerXml --
 [*] Ajuste para que também leia CodigoServicoNacional com essa nomenclatura no INI.

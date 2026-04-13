@@ -546,7 +546,7 @@ end;
 procedure TGeralConfNFSe.LerParamsMunicipio;
 var
   Ok: Boolean;
-  CodIBGE, aValor: string;
+  CodIBGE, aValor, lVersaoNoProvedor, lVersaoNoMunicipio: string;
   ACBrNFSeXLocal: TACBrNFSeX;
 begin
   if not Assigned(fpConfiguracoes.Owner) then
@@ -576,17 +576,35 @@ begin
     Verifica se na seção do Provedor consta a versão,
     caso contrario usa a versão da seção do município.
   }
-  aValor := FPIniParams.ReadString(FxProvedor, 'Versao', '');
+  if FPIniParams.SectionExists(FxProvedor) then
+  begin
+    lVersaoNoProvedor := FPIniParams.ReadString(FxProvedor, 'Versao', '1.00');
+    lVersaoNoMunicipio := FPIniParams.ReadString(CodIBGE, 'Versao', '');
 
-  if aValor <> '' then
-    FVersao := StrToVersaoNFSe(Ok, aValor)
-  else
+    if (lVersaoNoProvedor <> '') and (lVersaoNoMunicipio <> '') then
+    begin
+      //Se eu tenho versão no provedor e no município, eu priorizo o município.
+      if lVersaoNoMunicipio <> '***' then
+        FVersao := StrToVersaoNFSe(Ok, lVersaoNoMunicipio);
+    end else
+      FVersao := StrToVersaoNFSe(Ok, lVersaoNoProvedor);
+  end else
   begin
     aValor := FPIniParams.ReadString(CodIBGE, 'Versao', '');
 
     if aValor <> '***' then
       FVersao := StrToVersaoNFSe(Ok, FPIniParams.ReadString(CodIBGE, 'Versao', '1.00'));
   end;
+
+//  if aValor <> '' then
+//    FVersao := StrToVersaoNFSe(Ok, aValor)
+//  else
+//  begin
+//    aValor := FPIniParams.ReadString(CodIBGE, 'Versao', '');
+//
+//    if aValor <> '***' then
+//      FVersao := StrToVersaoNFSe(Ok, FPIniParams.ReadString(CodIBGE, 'Versao', '1.00'));
+//  end;
 
   {
     Verifica se na seção do município consta o Params,
