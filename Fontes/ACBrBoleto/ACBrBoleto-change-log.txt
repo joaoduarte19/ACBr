@@ -48,10 +48,16 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+13/04/2026
+-- ACBrBancoSicredi.pas --
+[-] Correção no comportamento do CNAB240 propriedade MultaValorFixo
+   [ACBR-8920] - https://www.projetoacbr.com.br/forum/topic/84603-banco-sicredi-n%C3%A3o-est%C3%A1-convertendo-multa-de-valor-fixo-para-percentual-cnab-240/
+   Por: Igor Rafael Martins / Valter Patrick
+
 09/04/2026
 -- ACBrBancoInter.pas --
 [-] Corrigido MontarCodigoBarras devido a divirgencia entre as carteiras 110/112;
-   [ACBr-ACBR-9236] - https://www.projetoacbr.com.br/forum/topic/91415-boleto-inter-linha-digit%C3%A1vel
+   [ACBR-9236] - https://www.projetoacbr.com.br/forum/topic/91415-boleto-inter-linha-digit%C3%A1vel
    Por: Daniel de Morais InfoCotidano / Victor H. Gonzales Pandaaaa
 
 08/04/2026

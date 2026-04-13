@@ -1987,6 +1987,7 @@ var
     TipoAvalista: Char;
     lDataDesconto: String;
     LCodigoMoraJuros : String;
+	LPercentualMulta : Double;
 begin
   with ACBrBanco.ACBrBoleto.Cedente, ACBrTitulo do
   begin
@@ -2088,6 +2089,9 @@ begin
        tbBancoReemite    : ATipoBoleto := '4' + '1';
        tbBancoNaoReemite : ATipoBoleto := '5' + '2';
      end;
+	 
+	  { Converte valor em moeda para %, pois o arquivo só permite multa em %}
+	  LPercentualMulta := ConverterMultaPercentual(ACBrTitulo);
 
     {Codigo Mora Juros}
     LCodigoMoraJuros := DefineCodigoMoraJuros(ACBrTitulo);
@@ -2197,8 +2201,8 @@ begin
                IfThen((DataMulta > 0),
                        FormatDateTime('ddmmyyyy', DataMulta),
                                       '00000000')                          + // 67 - 74 Se cobrar informe a data para iniciar a cobrança ou informe zeros se não cobrar
-               IfThen((PercentualMulta > 0),
-                      IntToStrZero(round(PercentualMulta * 100), 15),
+               IfThen((LPercentualMulta > 0),
+                      IntToStrZero(round(LPercentualMulta * 100), 15),
                       PadLeft('', 15, '0'))                                + // 75 - 89 Percentual de multa. Informar zeros se não cobrar
                space(10)                                                   + // 90-99 Informações do sacado
   			   space(40)    											   + // 100-139 Menssagem livre
