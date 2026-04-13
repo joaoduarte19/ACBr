@@ -57,6 +57,7 @@ type
     procedure Gerar_GTVe(AINIRec: TMemIniFile);
 
     procedure Gerar_Identificacao(AINIRec: TMemIniFile; Ide: TIde);
+    procedure Gerar_refDFe(AINIRec: TMemIniFile; refDFe: TrefDFeCollection);
     procedure Gerar_Tomador4(AINIRec: TMemIniFile; toma4: TToma4);
     procedure Gerar_Complemento(AINIRec: TMemIniFile; Compl: TCompl);
     procedure Gerar_ComplementoPassagem(AINIRec: TMemIniFile; pass: TPassCollection);
@@ -85,7 +86,6 @@ type
     procedure Gerar_Peri(AINIRec: TMemIniFile; peri: TPeriCollection);
     procedure Gerar_infTotAP(AINIRec: TMemIniFile; peri: TPeriCollection; Idx: Integer);
 
-
     procedure Gerar_InfModalAquav(AINIRec: TMemIniFile; aquav: TAquav);
     procedure Gerar_InfModalFerrov(AINIRec: TMemIniFile; ferrov: TFerrov);
     procedure Gerar_InfModalDuto(AINIRec: TMemIniFile; duto: TDuto);
@@ -107,7 +107,6 @@ type
     procedure Gerar_Secao_InfNFe(AINIRec: TMemIniFile; infNFe: TInfNFeCollection;
       const Secao: string; Idx1, Idx2: Integer);
 
-
     procedure Gerar_Total(AINIRec: TMemIniFile; total: Ttotal);
 
     procedure Gerar_InfPercurso(AINIRec: TMemIniFile; infPercurso: TinfPercursoCollection);
@@ -123,6 +122,7 @@ type
     procedure Gerar_DetalhamentoGTV(AINIRec: TMemIniFile; detGTV: TdetGTV);
 
     procedure Gerar_ProcessamentoCTe(AINIRec: TMemIniFile; procCTe: TprocCTe);
+    procedure Gerar_PagamentosVinculados(AINIRec: TMemIniFile; pgto: TpgtoCollection);
 
     // Reforma Tributária
     procedure Gerar_IBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBS);
@@ -270,10 +270,27 @@ begin
   begin
     AINIRec.WriteString('ide', 'tpEnteGov', tpEnteGovToStr(Ide.gCompraGov.tpEnteGov));
     AINIRec.WriteFloat('ide', 'pRedutor', Ide.gCompraGov.pRedutor);
+    AINIRec.WriteString('ide', 'tpOperGov', tpOperGovToStr(Ide.gCompraGov.tpOperGov));
+
+    Gerar_refDFe(AINIRec, Ide.gCompraGov.refDFe);
   end;
 
   if StrToModeloCTe(Ok, IntToStr(Ide.modelo)) = moCTe then
     AINIRec.WriteString('toma3', 'toma', TpTomadorToStr(Ide.toma03.Toma));
+end;
+
+procedure TCTeIniWriter.Gerar_refDFe(AINIRec: TMemIniFile;
+  refDFe: TrefDFeCollection);
+var
+  i: Integer;
+  sSecao: string;
+begin
+  for i := 0 to refDFe.Count - 1 do
+  begin
+    sSecao := 'refDFe' + IntToStrZero(i + 1, 3);
+
+    AINIRec.WriteString(sSecao, 'refDFeAnt', refDFe[i].refDFeAnt);
+  end;
 end;
 
 procedure TCTeIniWriter.Gerar_CTe(AINIRec: TMemIniFile);
@@ -291,6 +308,7 @@ begin
   Gerar_Destinatario(AINIRec, FCTe.dest);
   Gerar_ValorPrestacao(AINIRec, FCTe.vPrest);
   Gerar_Imposto(AINIRec, FCTe.Imp);
+  Gerar_PagamentosVinculados(AINIRec, FCTe.pgtoVinc.pgto);
 
   case FCTe.ide.tpCTe of
     tcNormal:
@@ -326,6 +344,7 @@ begin
   Gerar_InfCTeNormalCobr(AINIRec, FCTe.cobr);
   Gerar_InfCTeNormalInfCTeSub(AINIRec, FCTe.infCteSub);
   Gerar_Imposto(AINIRec, FCTe.imp);
+  Gerar_PagamentosVinculados(AINIRec, FCTe.pgtoVinc.pgto);
   Gerar_Total(AINIRec, FCTe.total);
   Gerar_AutorizadosXml(AINIRec, FCTe.autXML);
   Gerar_InfRespTecnico(AINIRec, FCTe.infRespTec);
@@ -343,6 +362,7 @@ begin
   Gerar_Tomador(AINIRec, FCTe.toma);
   Gerar_ValorPrestacao(AINIRec, FCTe.vPrest);
   Gerar_Imposto(AINIRec, FCTe.imp);
+  Gerar_PagamentosVinculados(AINIRec, FCTe.pgtoVinc.pgto);
 
   FCTe.infCTeNorm.refCTeCanc := AINIRec.ReadString('infCTeNorm', 'refCTeCanc', '');
 
@@ -1851,6 +1871,26 @@ begin
     AINIRec.WriteString('procCTe', 'digVal', procCTe.digVal);
     AINIRec.WriteString('procCTe', 'cStat', IntToStr(procCTe.cStat));
     AINIRec.WriteString('procCTe', 'xMotivo', procCTe.xMotivo);
+  end;
+end;
+
+procedure TCTeIniWriter.Gerar_PagamentosVinculados(AINIRec: TMemIniFile;
+  pgto: TpgtoCollection);
+var
+  i: integer;
+  sSecao: string;
+begin
+  // Pagamentos Vinculados
+
+  for i := 0 to pgto.Count - 1 do
+  begin
+    sSecao := 'pgtoVinc' + IntToStrZero(i + 1, 2);
+
+    AINIRec.WriteInteger(sSecao, 'nPag', pgto[I].nPag);
+    AINIRec.WriteString(sSecao, 'idTransacao', pgto[I].idTransacao);
+    AINIRec.WriteString(sSecao, 'tpMeioPgto', pgto[I].tpMeioPgto);
+    AINIRec.WriteString(sSecao, 'CNPJReceb', pgto[I].CNPJReceb);
+    AINIRec.WriteString(sSecao, 'CNPJBasePSP', pgto[I].CNPJBasePSP);
   end;
 end;
 

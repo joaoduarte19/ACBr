@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+13/04/2026
+-- Diversos --
+[*] ACBr-9136: Implementação dos novos campos constantes nas NT de 2025 e 2026 bem como 
+    os novos eventos de Vinculação de Pagamento e Cancelamento de Vinculação de Pagamento.
+   Por: Italo Giurizzato Junior
+
 07/04/2026
 -- ACBrCTeDACTeRLRetrato --
 [*] Alteração visando imprimir a chave da DC-e no DACTE quando o documento vinculado

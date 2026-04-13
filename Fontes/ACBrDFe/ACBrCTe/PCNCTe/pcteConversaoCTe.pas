@@ -67,22 +67,23 @@ const
   TVersaoCTeArrayDouble: array[TVersaoCTe] of Double = (2.00, 3.00, 4.00);
 
 type
-  TSchemaCTe = ( schErro, schCTe, schCTeOS, schGTVe, schcancCTe, schInutCTe,
-                 schEventoCTe, schCTeSimp,
-                 schconsReciCTe, schconsSitCTe, schconsStatServCTe, schconsCad,
-                 schcteModalAereo, schcteModalAquaviario, schcteModalDutoviario,
-                 schcteModalFerroviario, schcteModalRodoviario, schcteMultiModal,
-                 schevEPECCTe, schevCancCTe, schevRegMultimodal, schevCCeCTe,
-                 schdistDFeInt, schcteModalRodoviarioOS, schevPrestDesacordo,
-                 schevGTV, schevCECTe, schevCancCECTe, schevCancPrestDesacordo,
-                 schevIECTe, schevCancIECTe);
+  TSchemaCTe = (schErro, schCTe, schCTeOS, schGTVe, schcancCTe, schInutCTe,
+                schEventoCTe, schCTeSimp,
+                schconsReciCTe, schconsSitCTe, schconsStatServCTe, schconsCad,
+                schcteModalAereo, schcteModalAquaviario, schcteModalDutoviario,
+                schcteModalFerroviario, schcteModalRodoviario, schcteMultiModal,
+                schevEPECCTe, schevCancCTe, schevRegMultimodal, schevCCeCTe,
+                schdistDFeInt, schcteModalRodoviarioOS, schevPrestDesacordo,
+                schevGTV, schevCECTe, schevCancCECTe, schevCancPrestDesacordo,
+                schevIECTe, schevCancIECTe, schevVincPgto, schevCancVincPgto);
 
 const
   TSchemaCTeArrayStrings: array[TSchemaCTe] of string = ('', '', '', '', '', '',
     '', '', '', '', '', '', '', '', '', '', '', '', 'evEPECCTe', 'evCancCTe',
     'evRegMultimodal', 'evCCeCTe', 'distDFeInt', 'cteModalRodoviarioOS',
     'evPrestDesacordo', 'evGTV', 'evCECTe', 'evCancCECTe',
-    'evCancPrestDesacordo', 'evIECTe', 'evCancIECTe');
+    'evCancPrestDesacordo', 'evIECTe', 'evCancIECTe', 'evVincPgto',
+    'evCancVincPgto');
 
 type
   TLayOutCTe = (LayCTeRecepcao, LayCTeRetRecepcao, LayCTeCancelamento,

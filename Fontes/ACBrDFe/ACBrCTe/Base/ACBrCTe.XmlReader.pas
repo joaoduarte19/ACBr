@@ -110,6 +110,8 @@ type
     procedure Ler_InfNFe(ANode: TACBrXmlNode; infNFe: TInfNFeCollection);
     procedure Ler_InfDCe(ANode: TACBrXmlNode);
     procedure Ler_InfDocAnt(ANode: TACBrXmlNode; infDocAnt: TinfDocAntCollection);
+    procedure Ler_pgtoVinc(const ANode: TACBrXmlNode);
+    procedure Ler_pgto(const ANode: TACBrXmlNode);
 
     // Reforma Tributária
     procedure Ler_gCompraGov(gCompraGov: TgCompraGovReduzido; const ANode: TACBrXmlNode);
@@ -1997,6 +1999,7 @@ begin
   Ler_Dest(ANode.Childrens.FindAnyNs('dest'));
   Ler_VPrest(ANode.Childrens.FindAnyNs('vPrest'));
   Ler_Imp(ANode.Childrens.FindAnyNs('imp'));
+  Ler_pgtoVinc(ANode.Childrens.Find('pgtoVinc'));
   Ler_InfCTeNorm(ANode.Childrens.FindAnyNs('infCTeNorm'));
   Ler_InfCTeComp(ANode);
   Ler_InfCTeAnu(ANode.Childrens.FindAnyNs('infCteAnu'));
@@ -2013,6 +2016,7 @@ begin
   Ler_Toma(ANode.Childrens.FindAnyNs('toma'));
   Ler_VPrest(ANode.Childrens.FindAnyNs('vPrest'));
   Ler_Imp(ANode.Childrens.FindAnyNs('imp'));
+  Ler_pgtoVinc(ANode.Childrens.Find('pgtoVinc'));
   Ler_InfCTeNorm(ANode.Childrens.FindAnyNs('infCTeNorm'));
   Ler_InfCTeComp(ANode);
   Ler_AutXML(ANode);
@@ -2032,6 +2036,7 @@ begin
   Ler_Cobr(ANode.Childrens.FindAnyNs('cobr'));
   Ler_InfCTeSub(ANode.Childrens.FindAnyNs('infCteSub'), FCTe.infCTeSub);
   Ler_Imp(ANode.Childrens.FindAnyNs('imp'));
+  Ler_pgtoVinc(ANode.Childrens.Find('pgtoVinc'));
   Ler_Total(ANode.Childrens.FindAnyNs('total'));
   Ler_AutXML(ANode);
   Ler_InfRespTec(ANode.Childrens.FindAnyNs('infRespTec'));
@@ -2119,14 +2124,58 @@ begin
   FCTe.infCTe.versao := StringToFloat(att.Content);
 end;
 
+procedure TCTeXmlReader.Ler_pgtoVinc(const ANode: TACBrXmlNode);
+var
+  i: Integer;
+  ANodes: TACBrXmlNodeArray;
+begin
+  if not Assigned(ANode) then Exit;
+
+  ANodes := ANode.Childrens.FindAll('pgto');
+  for i := 0 to Length(ANodes) - 1 do
+  begin
+    Ler_pgto(ANodes[i]);
+  end;
+end;
+
+procedure TCTeXmlReader.Ler_pgto(const ANode: TACBrXmlNode);
+var
+  Item: TpgtoCollectionItem;
+  AuxNode: TACBrXmlNode;
+begin
+  if not Assigned(ANode) then Exit;
+
+  Item := CTe.pgtoVinc.pgto.New;
+
+  Item.nPag := StrToInt(ObterConteudoTag(ANode.Attributes.Items['nPag']));
+  Item.idTransacao := ObterConteudoTag(ANode.Attributes.Items['idTransacao']);
+
+  Item.tpMeioPgto := ObterConteudo(ANode.Childrens.Find('tpMeioPgto'), tcStr);
+  Item.CNPJReceb := ObterConteudo(ANode.Childrens.Find('CNPJReceb'), tcStr);
+  Item.CNPJBasePSP := ObterConteudo(ANode.Childrens.Find('CNPJBasePSP'), tcDe2);
+end;
+
 // Reforma Tributária
 procedure TCTeXmlReader.Ler_gCompraGov(gCompraGov: TgCompraGovReduzido;
   const ANode: TACBrXmlNode);
+var
+  i: Integer;
+  ANodes: TACBrXmlNodeArray;
 begin
   if not Assigned(ANode) then Exit;
 
   gCompraGov.tpEnteGov := StrTotpEnteGov(ObterConteudo(ANode.Childrens.Find('tpEnteGov'), tcStr));
   gCompraGov.pRedutor := ObterConteudo(ANode.Childrens.Find('pRedutor'), tcDe4);
+  gCompraGov.tpOperGov := StrTotpOperGov(ObterConteudo(ANode.Childrens.Find('tpOperGov'), tcStr));
+
+  gCompraGov.refDFe.Clear;
+  ANodes := ANode.Childrens.FindAllAnyNs('refDFeAnt');
+
+  for i := 0 to Length(ANodes) - 1 do
+  begin
+    gCompraGov.refDFe.New;
+    gCompraGov.refDFe[i].refDFeAnt := ObterConteudo(ANodes[i].Childrens.FindAnyNs('refDFeAnt'), tcStr);
+  end;
 end;
 
 procedure TCTeXmlReader.Ler_IBSCBS(const ANode: TACBrXmlNode; IBSCBS: TIBSCBS);

@@ -98,6 +98,7 @@ type
     procedure Ler_MDFe(const ANode: TACBrXmlNode);
     procedure Ler_Emitente(const ANode: TACBrXmlNode);
     procedure Ler_InfEntrega(const ANode: TACBrXmlNode);
+    procedure Ler_Pagamento(const ANode: TACBrXmlNode);
   public
     constructor Create;
     destructor Destroy; override;
@@ -327,6 +328,10 @@ begin
     teRegistroPassagem: AuxNode := ANode.Childrens.FindAnyNs('evCTeRegPassagem');
 
     teRegistroPassagemMDFe: AuxNode := ANode.Childrens.FindAnyNs('evCTeRegPassagemAutoMDFe');
+
+    teVinculoPgto: AuxNode := ANode.Childrens.FindAnyNs('evVincPgto');
+
+    teCancVinculoPgto: AuxNode := ANode.Childrens.FindAnyNs('evCancVincPgto');
   else
     AuxNode := nil;
   end;
@@ -407,6 +412,11 @@ begin
 
     // teRegistroPassagem e teRegistroPassagemMDFe
     infEvento.detEvento.chMDFe := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('chMDFe'), tcStr);
+
+    // teCancVinculoPgto
+    infEvento.detEvento.nProtVincPgto := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('nProtVincPgto'), tcStr);
+
+    Ler_Pagamento(AuxNode.Childrens.FindAnyNs('pgto'));
   end;
 end;
 
@@ -560,6 +570,18 @@ begin
   finally
     FreeAndNil(Document);
   end;
+end;
+
+procedure TRetEventoCTe.Ler_Pagamento(const ANode: TACBrXmlNode);
+begin
+  if not Assigned(ANode) then Exit;
+
+  // teVinculoPgto
+  infEvento.detEvento.pgto.nPag := ObterConteudoTag(ANode.Childrens.FindAnyNs('nPag'), tcInt);
+  infEvento.detEvento.pgto.idTransacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('idTransacao'), tcStr);
+  infEvento.detEvento.pgto.tpMeioPgto := ObterConteudoTag(ANode.Childrens.FindAnyNs('tpMeioPgto'), tcStr);
+  infEvento.detEvento.pgto.CNPJReceb := ObterConteudoTag(ANode.Childrens.FindAnyNs('CNPJReceb'), tcStr);
+  infEvento.detEvento.pgto.CNPJBasePSP := ObterConteudoTag(ANode.Childrens.FindAnyNs('CNPJBasePSP'), tcStr);
 end;
 
 end.

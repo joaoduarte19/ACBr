@@ -65,6 +65,7 @@ type
     procedure Ler_GTVe(AINIRec: TMemIniFile);
 
     procedure Ler_Identificacao(AINIRec: TMemIniFile; Ide: TIde);
+    procedure Ler_refDFe(AINIRec: TMemIniFile; refDFe: TrefDFeCollection);
     procedure Ler_InfPercurso(AINIRec: TMemIniFile; infPercurso: TinfPercursoCollection);
     procedure Ler_Tomador4(AINIRec: TMemIniFile; toma4: TToma4);
     procedure Ler_Complemento(AINIRec: TMemIniFile; Compl: TCompl);
@@ -125,6 +126,7 @@ type
     procedure Ler_DetalhamentoGTV(AINIRec: TMemIniFile; detGTV: TdetGTV);
 
     procedure Ler_ProcessamentoCTe(AINIRec: TMemIniFile; procCTe: TProcCTe);
+    procedure Ler_PagamentosVinculados(AINIRec: TMemIniFile; pgto: TpgtoCollection);
 
     // Reforma Tributária
     procedure Ler_IBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBS);
@@ -259,7 +261,35 @@ begin
   Ide.gCompraGov.pRedutor := StringToFloatDef(AINIRec.ReadString('ide', 'pRedutor', ''), 0);
 
   if Ide.gCompraGov.pRedutor > 0 then
+  begin
     Ide.gCompraGov.tpEnteGov := StrTotpEnteGov(AINIRec.ReadString('ide', 'tpEnteGov', ''));
+    Ide.gCompraGov.tpOperGov := StrTotpOperGov(AINIRec.ReadString('ide', 'tpOperGov', ''));
+
+    Ler_refDFe(AINIRec, Ide.gCompraGov.refDFe);
+  end;
+end;
+
+procedure TCTeIniReader.Ler_refDFe(AINIRec: TMemIniFile;
+  refDFe: TrefDFeCollection);
+var
+  i: Integer;
+  sSecao, sFim: string;
+  Item: TrefDFeCollectionItem;
+begin
+  i := 1;
+  while true do
+  begin
+    sSecao := 'refDFe' + IntToStrZero(i, 3);
+    sFim := AINIRec.ReadString(sSecao, 'refDFeAnt', 'FIM');
+    if sFim = 'FIM' then
+      break;
+
+    Item := refDFe.New;
+
+    Item.refDFeAnt := sFim;
+
+    Inc(i);
+  end;
 end;
 
 procedure TCTeIniReader.Ler_CTe(AINIRec: TMemIniFile);
@@ -278,10 +308,11 @@ begin
   Ler_ValorPrestacao(AINIRec, FCTe.vPrest);
   Ler_ValorPrestacaoComposicao(AINIRec, FCTe.vPrest.Comp);
   Ler_Imposto(AINIRec, FCTe.Imp);
+  Ler_PagamentosVinculados(AINIRec, FCTe.pgtoVinc.pgto);
 
   case FCTe.ide.tpCTe of
     tcNormal, 
-	tcSubstituto:
+    tcSubstituto:
       Ler_InfCTeNormal(AINIRec, FCTe.infCTeNorm);
 	  
     tcComplemento:
@@ -312,6 +343,7 @@ begin
   Ler_InfCTeNormalCobr(AINIRec, FCTe.cobr);
   Ler_InfCTeNormalInfCTeSub(AINIRec, FCTe.infCteSub);
   Ler_Imposto(AINIRec, FCTe.imp);
+  Ler_PagamentosVinculados(AINIRec, FCTe.pgtoVinc.pgto);
   Ler_Total(AINIRec, FCTe.total);
   Ler_AutorizadosXml(AINIRec, FCTe.autXML);
   Ler_InfRespTecnico(AINIRec, FCTe.infRespTec);
@@ -330,6 +362,7 @@ begin
   Ler_ValorPrestacao(AINIRec, FCTe.vPrest);
   Ler_ValorPrestacaoComposicao(AINIRec, FCTe.vPrest.Comp);
   Ler_Imposto(AINIRec, FCTe.imp);
+  Ler_PagamentosVinculados(AINIRec, FCTe.pgtoVinc.pgto);
 
   FCTe.infCTeNorm.refCTeCanc := AINIRec.ReadString('infCTeNorm', 'refCTeCanc', '');
 
@@ -2327,6 +2360,37 @@ begin
       cStat := AINIRec.ReadInteger(sSecao, 'cStat', 0);
       xMotivo := AINIRec.ReadString(sSecao, 'xMotivo', '');
     end;
+  end;
+end;
+
+procedure TCTeIniReader.Ler_PagamentosVinculados(AINIRec: TMemIniFile;
+  pgto: TpgtoCollection);
+var
+  I: Integer;
+  sSecao, sFim: String;
+  OK: Boolean;
+  ItemPag: TpgtoCollectionItem;
+begin
+  //
+  // Seção [pgtoVincxx] Dados do Pagamento Vinculado 01-99
+  //
+  I := 1 ;
+  while true do
+  begin
+    sSecao := 'pgtoVinc' + IntToStrZero(I,2) ;
+    sFim   := AINIRec.ReadString(sSecao, 'nPag', 'FIM');
+    if (sFim = 'FIM') or (Length(sFim) <= 0) then
+      break ;
+
+    ItemPag := pgto.New;
+
+    ItemPag.nPag := StrToIntDef(sFim, 0);
+    ItemPag.idTransacao := AINIRec.ReadString(sSecao, 'idTransacao', '');
+    ItemPag.tpMeioPgto := AINIRec.ReadString(sSecao, 'tpMeioPgto', '');
+    ItemPag.CNPJReceb := AINIRec.ReadString(sSecao, 'CNPJReceb', '');
+    ItemPag.CNPJBasePSP := AINIRec.ReadString(sSecao, 'CNPJBasePSP', '');
+
+    Inc(I);
   end;
 end;
 

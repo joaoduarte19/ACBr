@@ -244,15 +244,44 @@ type
     property gEstornoCred: TgEstornoCred read FgEstornoCred write FgEstornoCred;
   end;
 
+  { TrefDFeCollectionItem }
+
+  TrefDFeCollectionItem = class(TObject)
+  private
+    FrefDFeAnt: string;
+  public
+    property refDFeAnt: string read FrefDFeAnt write FrefDFeAnt;
+  end;
+
+  { TrefDFeCollection }
+
+  TrefDFeCollection = class(TACBrObjectList)
+  private
+    function GetItem(Index: Integer): TrefDFeCollectionItem;
+    procedure SetItem(Index: Integer; Value: TrefDFeCollectionItem);
+  public
+    function New: TrefDFeCollectionItem;
+    property Items[Index: Integer]: TrefDFeCollectionItem read GetItem write SetItem; default;
+  end;
+
   { TgCompraGovReduzido }
 
   TgCompraGovReduzido = class(TObject)
   private
     FtpEnteGov: TtpEnteGov;
     FpRedutor: Double;
+    FtpOperGov: TtpOperGov;
+    FrefDFe: TrefDFeCollection;
+
+    procedure SetrefDFe(const Value: TrefDFeCollection);
   public
+    constructor Create;
+    destructor Destroy; override;
+
     property tpEnteGov: TtpEnteGov read FtpEnteGov write FtpEnteGov;
     property pRedutor: Double read FpRedutor write FpRedutor;
+    property tpOperGov: TtpOperGov read FtpOperGov write FtpOperGov;
+    property refDFe: TrefDFeCollection read FrefDFe write SetrefDFe;
   end;
 
   {======== Fim das Classes da Reforma Tributária }
@@ -2630,6 +2659,45 @@ type
     property vTRec: Currency   read FvTRec   write FvTRec;
   end;
 
+  TpgtoCollectionItem = class(TObject)
+  private
+    FtpMeioPgto: string;
+    FCNPJReceb: string;
+    FCNPJBasePSP: string;
+    FnPag: Integer;
+    FidTransacao: string;
+  public
+    property tpMeioPgto: string read FtpMeioPgto write FtpMeioPgto;
+    property CNPJReceb: string read FCNPJReceb write FCNPJReceb;
+    property CNPJBasePSP: string read FCNPJBasePSP write FCNPJBasePSP;
+    property nPag: Integer read FnPag write FnPag;
+    property idTransacao: string read FidTransacao write FidTransacao;
+  end;
+
+  TpgtoCollection = class(TACBrObjectList)
+  private
+    function GetItem(Index: Integer): TpgtoCollectionItem;
+    procedure SetItem(Index: Integer; Value: TpgtoCollectionItem);
+  public
+    function Add: TpgtoCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
+    function New: TpgtoCollectionItem;
+    property Items[Index: Integer]: TpgtoCollectionItem read GetItem write SetItem; default;
+  end;
+
+  { TpgtoVinc }
+
+  TpgtoVinc = class(TObject)
+  private
+    Fpgto: TpgtoCollection;
+
+    procedure Setpgto(const Value: TpgtoCollection);
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    property pgto: TpgtoCollection read Fpgto write Setpgto;
+  end;
+
  TCTe = class(TObject)
   private
     FinfCTe: TInfCTe;
@@ -2669,6 +2737,7 @@ type
     FCobr: TCobr;
     FinfCteSub: TInfCteSub;
     Ftotal: Ttotal;
+    FpgtoVinc: TpgtoVinc;
 
     procedure SetinfCteComp10(const Value: TInfCteCompCollection);
     procedure SetautXML(const Value: TautXMLCollection);
@@ -2713,6 +2782,7 @@ type
     property cobr: TCobr           read FCobr      write FCobr;
     property infCteSub: TInfCteSub read FinfCteSub write FinfCteSub;
     property total: Ttotal         read Ftotal     write Ftotal;
+    property pgtoVinc: TpgtoVinc read FpgtoVinc write FpgtoVinc;
 
     property procCTe: TProcCTe     read FProcCTe   write FProcCTe;
     property signature: Tsignature read Fsignature write Fsignature;
@@ -2764,6 +2834,7 @@ begin
 
   FProcCTe := TProcCTe.Create;
   Fsignature := Tsignature.Create;
+  FpgtoVinc := TpgtoVinc.Create;
   {
    CT-e Simplificado
   }
@@ -2805,6 +2876,7 @@ begin
 
   FProcCTe.Free;
   Fsignature.Free;
+  FpgtoVinc.Free;
   {
    CT-e Simplificado
   }
@@ -5036,5 +5108,89 @@ begin
   inherited Destroy;
 end;
 {======== Fim das Classes da Reforma Tributária }
+
+{ TgCompraGovReduzido }
+
+constructor TgCompraGovReduzido.Create;
+begin
+  inherited Create;
+
+  FrefDFe := TrefDFeCollection.Create;
+end;
+
+destructor TgCompraGovReduzido.Destroy;
+begin
+  FrefDFe.Free;
+
+  inherited;
+end;
+
+procedure TgCompraGovReduzido.SetrefDFe(const Value: TrefDFeCollection);
+begin
+  FrefDFe := Value;
+end;
+
+{ TrefDFeCollection }
+
+function TrefDFeCollection.GetItem(Index: Integer): TrefDFeCollectionItem;
+begin
+  Result := TrefDFeCollectionItem(inherited Items[Index]);
+end;
+
+function TrefDFeCollection.New: TrefDFeCollectionItem;
+begin
+  Result := TrefDFeCollectionItem.Create;
+  Self.Add(Result);
+end;
+
+procedure TrefDFeCollection.SetItem(Index: Integer;
+  Value: TrefDFeCollectionItem);
+begin
+  inherited Items[Index] := Value;
+end;
+
+{ TpgtoVinc }
+
+constructor TpgtoVinc.Create;
+begin
+  inherited Create;
+
+  Fpgto := TpgtoCollection.Create;
+end;
+
+destructor TpgtoVinc.Destroy;
+begin
+  Fpgto.Free;
+
+  inherited;
+end;
+
+procedure TpgtoVinc.Setpgto(const Value: TpgtoCollection);
+begin
+  Fpgto := Value;
+end;
+
+{ TpgtoCollection }
+
+function TpgtoCollection.Add: TpgtoCollectionItem;
+begin
+  Result := Self.New;
+end;
+
+function TpgtoCollection.GetItem(Index: Integer): TpgtoCollectionItem;
+begin
+  Result := TpgtoCollectionItem(inherited Items[Index]);
+end;
+
+function TpgtoCollection.New: TpgtoCollectionItem;
+begin
+  Result := TpgtoCollectionItem.Create;
+  Self.Add(Result);
+end;
+
+procedure TpgtoCollection.SetItem(Index: Integer; Value: TpgtoCollectionItem);
+begin
+  inherited Items[Index] := Value;
+end;
 
 end.

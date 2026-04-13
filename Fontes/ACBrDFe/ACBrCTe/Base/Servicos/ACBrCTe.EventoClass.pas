@@ -49,6 +49,22 @@ uses
 type
   EventoException = class(Exception);
 
+  Tpgto = class
+  private
+    FtpMeioPgto: string;
+    FCNPJReceb: string;
+    FCNPJBasePSP: string;
+    FnPag: Integer;
+    FidTransacao: string;
+  public
+
+    property tpMeioPgto: string read FtpMeioPgto write FtpMeioPgto;
+    property CNPJReceb: string read FCNPJReceb write FCNPJReceb;
+    property CNPJBasePSP: string read FCNPJBasePSP write FCNPJBasePSP;
+    property nPag: Integer read FnPag write FnPag;
+    property idTransacao: string read FidTransacao write FidTransacao;
+  end;
+
   TInfCorrecaoCollectionItem = class(TObject)
   private
     FgrupoAlterado: string;
@@ -242,6 +258,8 @@ type
     Fplaca: string;
     FchMDFe: string;
     FSegCodBarras: string;
+    Fpgto: Tpgto;
+    FnProtVincPgto: string;
 
     procedure SetinfCorrecao(const Value: TInfCorrecaoCollection);
     procedure SetxCondUso(const Value: string);
@@ -307,6 +325,8 @@ type
     property placa: string read Fplaca write Fplaca;
     property chMDFe: string read FchMDFe write FchMDFe;
     property SegCodBarras: string read FSegCodBarras write FSegCodBarras;
+    property pgto: Tpgto read Fpgto write Fpgto;
+    property nProtVincPgto: string read FnProtVincPgto write FnProtVincPgto;
   end;
 
   TInfEvento = class
@@ -596,6 +616,7 @@ begin
   FinfEntrega := TInfEntregaCollection.Create;
   FMDFe := TMDFe.Create;
   Femit := TInfRemDest.Create;
+  Fpgto := Tpgto.Create;
 end;
 
 destructor TDetEvento.Destroy;
@@ -605,6 +626,7 @@ begin
   FinfEntrega.Free;
   FMDFe.Free;
   Femit.Free;
+  Fpgto.Free;
 
   inherited;
 end;

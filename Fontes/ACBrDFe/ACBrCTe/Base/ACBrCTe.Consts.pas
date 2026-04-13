@@ -264,6 +264,10 @@ resourcestring
   DSC_CODPONTOSAIDA = 'Código do Ponto de Saída';
   DSC_NCONTRATO = 'Número do Contrato de Capacidade';
 
+  DSC_TPMEIOPGTO = 'Meio de pagamento utilizado';
+  DSC_CNPJRECEB = 'CNPJ do recebedor do pagamento';
+  DSC_CNPJBASEPSP = 'CNPJ base da instituição financeira';
+
 implementation
 
 end.
