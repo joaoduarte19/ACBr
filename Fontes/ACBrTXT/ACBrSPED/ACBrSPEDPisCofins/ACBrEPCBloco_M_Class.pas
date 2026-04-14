@@ -642,7 +642,6 @@ procedure TBloco_M.WriteRegistroM110(RegM100: TRegistroM100) ;
   var
     intFor    : integer;
     strIND_AJ : String;
-    strCOD_AJ : String;    
 begin
   if Assigned(RegM100.RegistroM110) then
   begin
@@ -655,19 +654,10 @@ begin
             indAjAcressimo : strIND_AJ := '1' ;
           end;
 
-          case COD_AJ of
-            codAjAcaoJudicial      : strCOD_AJ := '01'; // Ajuste Oriundo de Ação Judicial
-            codAjProAdministrativo : strCOD_AJ := '02'; // Ajuste Oriundo de Processo Administrativo
-            codAjLegTributaria     : strCOD_AJ := '03'; // Ajuste Oriundo da Legislação Tributária
-            codAjEspRTI            : strCOD_AJ := '04'; // Ajuste Oriundo Especificamente do RTT
-            codAjOutrasSituacaoes  : strCOD_AJ := '05'; // Ajuste Oriundo de Outras Situações
-            codAjEstorno           : strCOD_AJ := '06'; // Estorno
-          end;
-
           Add( LFill('M110')       +
-               LFill( strIND_AJ )  +        
+               LFill( strIND_AJ )  +
                LFill( VL_AJ ,0,2 ) +
-               LFill( strCOD_AJ )  +
+               LFill( CodAjToStr(COD_AJ) )  +
                LFill( NUM_DOC )    +
                LFill( DESCR_AJ )   +
                LFill( DT_REF ) ) ;
@@ -695,8 +685,8 @@ begin
             Add( LFill('M115')                     +
                  LFill( DET_VALOR_AJ ,0, 2 )       +
                  LFill( CstPisToStr(CST_PIS) , 2,True ) +
-                 LFill( DET_BC_CRED ,0,3 )         +
-                 LFill( DET_ALIQ, 8, 4)            +
+                 VDFill( DET_BC_CRED, 3 ) +
+                 VDFill( DET_ALIQ, 4 ) +
                  LFill( DT_OPER_AJ)                +
                  LFill( DESC_AJ )                  +
                  LFill( COD_CTA )              +
@@ -889,7 +879,6 @@ procedure TBloco_M.WriteRegistroM220(RegM210: TRegistroM210) ;
   var
     intFor : integer;
     strIND_AJ : String;
-    strCOD_AJ : String;
 begin
   if Assigned(RegM210.RegistroM220) then
   begin
@@ -903,19 +892,10 @@ begin
             indAjAcressimo : strIND_AJ := '1' ;
           end;
 
-          case COD_AJ of
-            codAjAcaoJudicial      : strCOD_AJ := '01'; // Ajuste Oriundo de Ação Judicial
-            codAjProAdministrativo : strCOD_AJ := '02'; // Ajuste Oriundo de Processo Administrativo
-            codAjLegTributaria     : strCOD_AJ := '03'; // Ajuste Oriundo da Legislação Tributária
-            codAjEspRTI            : strCOD_AJ := '04'; // Ajuste Oriundo Especificamente do RTT
-            codAjOutrasSituacaoes  : strCOD_AJ := '05'; // Ajuste Oriundo de Outras Situações
-            codAjEstorno           : strCOD_AJ := '06'; // Estorno
-          end;
-
           Add( LFill('M220')       +
                LFill( strIND_AJ )  +
                LFill( VL_AJ ,0,2 ) +
-               LFill( strCOD_AJ )  +
+               LFill( CodAjToStr(COD_AJ) )  +
                LFill( NUM_DOC )    +
                LFill( DESCR_AJ )   +
                LFill( DT_REF ) ) ;
@@ -942,8 +922,8 @@ begin
           Add( LFill('M225')                 +
                LFill( DET_VALOR_AJ, 0, 2 )   +
                LFill( CstPisToStr(CST_PIS) ) +
-               LFill( DET_BC_CRED, 0, 3 )    +
-               LFill( DET_ALIQ, 8, 4 )       +
+               VDFill( DET_BC_CRED, 3 ) +
+               VDFill( DET_ALIQ, 4 ) +
                LFill( DT_OPER_AJ )           +
                LFill( DESC_AJ )              +
                LFill( COD_CTA)           +
@@ -1551,8 +1531,8 @@ begin
           Add( LFill('M625')                         +
                LFill( DET_VALOR_AJ, 0, 2 )           +
                LFill( CstCofinsToStr( CST_COFINS ) ) +
-               LFill( DET_BC_CRED, 0, 3 )            +
-               LFill( DET_ALIQ, 8, 4 )               +
+               VDFill( DET_BC_CRED, 3 )              +
+               VDFill( DET_ALIQ, 4 )                 +
                LFill( DT_OPER_AJ )                   +
                LFill( DESC_AJ )                      +
                LFill( COD_CTA)                   +

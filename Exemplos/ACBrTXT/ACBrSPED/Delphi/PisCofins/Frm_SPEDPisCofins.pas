@@ -42,7 +42,7 @@ uses
 {$ENDIF}
   SysUtils, Variants, Classes, Graphics, Controls, Forms, ACBrEPCBlocos,
   Dialogs, StdCtrls, ACBrSpedPisCofins, ExtCtrls, ComCtrls, ACBrUtil,
-  ACBrTXTClass, ACBrBase;
+  ACBrTXTClass, ACBrBase, DateUtils;
 
 type
   
@@ -1410,6 +1410,15 @@ begin
               DESC_CRED := '';
             end;
 
+            with RegistroM110New do
+            begin
+              IND_AJ := indAjReducao;
+              VL_AJ := 0.06;
+              COD_AJ := codAjLCP224ConcesCredTrib;
+              NUM_DOC := '12345678901234567890123456789012345678901234';
+              DESCR_AJ := 'LC 224/2025 - Redução de benefícios';
+              DT_REF := StartOfTheMonth(IncMonth(Date,-1));
+            end;
          end;
 
 
@@ -1458,6 +1467,28 @@ begin
              VL_CONT_DIFER := 0;
              VL_CONT_DIFER_ANT := 0;
              VL_CONT_PER := 0;
+
+             with RegistroM220New do
+             begin
+               IND_AJ := indAjAcressimo;
+               VL_AJ := 1.65;
+               COD_AJ := codAjLCP224AliqZero;
+               NUM_DOC := '12345678901234567890123456789012345678901234';
+               DESCR_AJ := 'Redução linear de benefícios fiscais - LC 224/2025';
+               DT_REF := StartOfTheMonth(IncMonth(Date,-1));
+
+               with RegistroM225New do
+               begin
+                 DET_VALOR_AJ := 1.65;
+                 CST_PIS := stpisAliquotaZero;
+                 DET_BC_CRED := 100;
+                 DET_ALIQ := 0.165;
+                 DT_OPER_AJ := StartOfTheMonth(IncMonth(Date,-1));
+                 DESC_AJ := '12345678901234567890123456789012345678901234';
+                 COD_CTA := '0001';
+                 INFO_COMPL := 'Redução linear dos benefícios';
+               end;
+             end;
            end;
          end;
 
