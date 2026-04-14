@@ -152,7 +152,9 @@ type
                         fpDuplicataMercantil, fpBoletoBancario, fpDepositoBancario,
                         fpPagamentoInstantaneo, fpTransfBancario, fpProgramaFidelidade,
                         fpSemPagamento, fpRegimeEspecial, fpOutro, fpPagamentoInstantaneoEstatico,
-                        fpCreditoEmLojaPorDevolucao, fpFalhaHardware, fpPagamentoPosterior);
+                        fpCreditoEmLojaPorDevolucao, fpFalhaHardware, fpPagamentoPosterior,
+                        fpPagInstantaneoPIXAutomatico, fpTEFBookTransfer);
+
   TpcnBandeiraCartao = (bcVisa, bcMasterCard, bcAmericanExpress, bcSorocred, bcDinersClub,
                         bcElo, bcHipercard, bcAura, bcCabal, bcAlelo, bcBanesCard,
                         bcCalCard, bcCredz, bcDiscover, bcGoodCard, bcGreenCard,
@@ -881,7 +883,7 @@ function FormaPagamentoToStr(const t: TpcnFormaPagamento): string;
 begin
   result := EnumeradoToStr(t, ['01', '02', '03', '04', '05', '10', '11', '12',
                                '13', '14', '15', '16', '17', '18', '19', '90',
-                               '98', '99', '20', '21', '22', '91'],
+                               '98', '99', '20', '21', '22', '91', '23', '24'],
                               [fpDinheiro, fpCheque, fpCartaoCredito, fpCartaoDebito,
                                fpCreditoLoja, fpValeAlimentacao, fpValeRefeicao,
                                fpValePresente, fpValeCombustivel, fpDuplicataMercantil,
@@ -890,7 +892,8 @@ begin
                                fpProgramaFidelidade, fpSemPagamento, fpRegimeEspecial,
                                fpOutro, fpPagamentoInstantaneoEstatico,
                                fpCreditoEmLojaPorDevolucao, fpFalhaHardware,
-                               fpPagamentoPosterior]);
+                               fpPagamentoPosterior, fpPagInstantaneoPIXAutomatico,
+                               fpTEFBookTransfer]);
 end;
 
 function FormaPagamentoToDescricao(const t: TpcnFormaPagamento): string; overload;
@@ -912,7 +915,8 @@ begin
                                 'Programa Fidelidade', 'Sem Pagamento',
                                 'Regime Especial NFF', 'Outro', 'PIX - Estático',
                                 'Crédito em Loja', 'Falha de hardware do sistema emissor',
-                                'Pagamento Posterior'],
+                                'Pagamento Posterior', 'PIX - Automatico',
+                                'TEF - Book Transfer'],
                               [fpDinheiro, fpCheque, fpCartaoCredito, fpCartaoDebito,
                                fpCreditoLoja, fpValeAlimentacao, fpValeRefeicao,
                                fpValePresente, fpValeCombustivel, fpDuplicataMercantil,
@@ -921,14 +925,15 @@ begin
                                fpProgramaFidelidade, fpSemPagamento, fpRegimeEspecial,
                                fpOutro, fpPagamentoInstantaneoEstatico,
                                fpCreditoEmLojaPorDevolucao, fpFalhaHardware,
-                               fpPagamentoPosterior]);
+                               fpPagamentoPosterior, fpPagInstantaneoPIXAutomatico,
+                               fpTEFBookTransfer]);
 end;
 
 function StrToFormaPagamento(out ok: boolean; const s: string): TpcnFormaPagamento;
 begin
   result := StrToEnumerado(ok, s, ['01', '02', '03', '04', '05', '10', '11', '12',
                                    '13', '14', '15', '16', '17', '18', '19', '90',
-                                   '98', '99', '20', '21', '22', '91'],
+                                   '98', '99', '20', '21', '22', '91', '23', '24'],
                               [fpDinheiro, fpCheque, fpCartaoCredito, fpCartaoDebito,
                                fpCreditoLoja, fpValeAlimentacao, fpValeRefeicao,
                                fpValePresente, fpValeCombustivel, fpDuplicataMercantil,
@@ -937,7 +942,8 @@ begin
                                fpProgramaFidelidade, fpSemPagamento, fpRegimeEspecial,
                                fpOutro,fpPagamentoInstantaneoEstatico,
                                fpCreditoEmLojaPorDevolucao, fpFalhaHardware,
-                               fpPagamentoPosterior]);
+                               fpPagamentoPosterior, fpPagInstantaneoPIXAutomatico,
+                               fpTEFBookTransfer]);
 end;
 
 function BandeiraCartaoToDescStr(const t: TpcnBandeiraCartao): string;

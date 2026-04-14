@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+14/04/2026
+-- pcnConversaoNFe --
+[*] ACBR-9097: Incluído as novas formas de pagamento: PIX Automático e TEF - Book Transfer.
+   Por: Italo Giurizzato Junior
+
 31/03/2026
 -- ACBrNFe.EnvEvento --
 [*] ACBR-9207: Alterações visando não gerar alertar para Numero de Protocolo com 17 dígitos.
