@@ -38,7 +38,7 @@ interface
 
 uses
   Classes, SysUtils,
-  pcnConversao,
+//  pcnConversao,
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrXmlDocument,
@@ -1169,7 +1169,6 @@ end;
 function TBPeXmlWriter.Gerar_pgto: TACBrXmlNodeArray;
 var
   i: integer;
-  nodeArray: TACBrXmlNodeArray;
 begin
   Result := nil;
 

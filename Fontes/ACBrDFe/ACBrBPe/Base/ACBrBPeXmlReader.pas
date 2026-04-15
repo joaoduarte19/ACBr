@@ -40,7 +40,7 @@ uses
   Classes, SysUtils,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  pcnConversao,
+//  pcnConversao,
   ACBrXmlDocument,
   ACBrXmlReader,
   ACBrBPeClass;
@@ -205,8 +205,6 @@ begin
 end;
 
 procedure TBPeXmlReader.Ler_ProtBPe(const ANode: TACBrXmlNode);
-var
-  ok: Boolean;
 begin
   if not Assigned(ANode) then Exit;
 
@@ -635,7 +633,6 @@ end;
 procedure TBPeXmlReader.Ler_pgto(const ANode: TACBrXmlNode);
 var
   Item: TpgtoCollectionItem;
-  AuxNode: TACBrXmlNode;
 begin
   if not Assigned(ANode) then Exit;
 
@@ -831,14 +828,12 @@ begin
 end;
 
 procedure TBPeXmlReader.Ler_IBSCBS(const ANode: TACBrXmlNode; IBSCBS: TIBSCBS);
-var
-  ok: Boolean;
 begin
   if not Assigned(ANode) then Exit;
 
   IBSCBS.CST := StrToCSTIBSCBS(ObterConteudo(ANode.Childrens.Find('CST'), tcStr));
   IBSCBS.cClassTrib := ObterConteudo(ANode.Childrens.Find('cClassTrib'), tcStr);
-  IBSCBS.indDoacao := pcnConversao.StrToTIndicadorEx(ok, ObterConteudo(ANode.Childrens.Find('indDoacao'), tcStr));
+  IBSCBS.indDoacao := StrToTIndicadorEx(ObterConteudo(ANode.Childrens.Find('indDoacao'), tcStr));
 
   Ler_IBSCBS_gIBSCBS(ANode.Childrens.Find('gIBSCBS'), IBSCBS.gIBSCBS);
   Ler_gEstornoCred(ANode.Childrens.Find('gEstornoCred'), IBSCBS.gEstornoCred);

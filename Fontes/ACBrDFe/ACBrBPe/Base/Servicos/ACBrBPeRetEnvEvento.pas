@@ -127,8 +127,7 @@ end;
 function TRetEventoBPe.LerXml: Boolean;
 var
   Document: TACBrXmlDocument;
-  ANode, ANodeAux, SignatureNode{, ReferenceNode, X509DataNode}: TACBrXmlNode;
-  ok: Boolean;
+  ANode: TACBrXmlNode;
 begin
   Document := TACBrXmlDocument.Create;
 
@@ -159,7 +158,7 @@ begin
           Ler_RetEvento(ANode);
         end;
 
-        if ANode.LocalName = 'retEnvEvento' then
+        if (ANode.LocalName = 'retEnvEvento') or (ANode.LocalName = 'retEventoBPe') then
           Ler_RetEvento(ANode);
 
         if ANode.LocalName = 'evento' then
@@ -197,11 +196,6 @@ begin
 end;
 
 procedure TRetEventoBPe.Ler_DetEvento(const ANode: TACBrXmlNode);
-var
-  ok: Boolean;
-  i: Integer;
-  ANodes: TACBrXmlNodeArray;
-  aValor: string;
 begin
   if not Assigned(ANode) then Exit;
 
@@ -216,6 +210,9 @@ begin
   infEvento.detEvento.qBagagem := ObterConteudoTag(ANode.Childrens.FindAnyNs('qBagagem'), tcInt);
   infEvento.detEvento.vTotBag := ObterConteudoTag(ANode.Childrens.FindAnyNs('vTotBag'), tcDe2);
   infEvento.detEvento.vTotDFe := ObterConteudoTag(ANode.Childrens.FindAnyNs('vTotDFe'), tcDe2);
+
+  // teCancVinculoPgto
+  infEvento.detEvento.nProtVincPgto := ObterConteudoTag(ANode.Childrens.FindAnyNs('nProtVincPgto'), tcStr);
 
   Ler_Pagamento(ANode.Childrens.FindAnyNs('pgto'));
 end;
@@ -251,27 +248,31 @@ begin
   cStat := ObterConteudoTag(ANode.Childrens.FindAnyNs('cStat'), tcInt);
   xMotivo := ObterConteudoTag(ANode.Childrens.FindAnyNs('xMotivo'), tcStr);
 
-  Ler_RetInfEvento(ANode.Childrens.FindAnyNs('retEvento').Childrens.FindAnyNs('infEvento'));
+  Ler_RetInfEvento(ANode.Childrens.FindAnyNs('retEvento'));
 end;
 
 procedure TRetEventoBPe.Ler_RetInfEvento(const ANode: TACBrXmlNode);
 var
   ok: Boolean;
+  AuxNode: TACBrXmlNode;
 begin
   if not Assigned(ANode) then Exit;
 
-  retInfEvento.Id := ObterConteudoTag(ANode.Attributes.Items['Id']);
-  retInfEvento.tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
-  retInfEvento.verAplic := ObterConteudoTag(ANode.Childrens.FindAnyNs('verAplic'), tcStr);
-  retInfEvento.cOrgao := ObterConteudoTag(ANode.Childrens.FindAnyNs('cOrgao'), tcInt);
-  retInfEvento.cStat := ObterConteudoTag(ANode.Childrens.FindAnyNs('cStat'), tcInt);
-  retInfEvento.xMotivo := ObterConteudoTag(ANode.Childrens.FindAnyNs('xMotivo'), tcStr);
-  retInfEvento.chBPe := ObterConteudoTag(ANode.Childrens.FindAnyNs('chBPe'), tcStr);
-  retInfEvento.tpEvento := StrToTpEventoBPe(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpEvento'), tcStr));
-  retInfEvento.xEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('xEvento'), tcStr);
-  retInfEvento.nSeqEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('nSeqEvento'), tcInt);
-  retInfEvento.dhRegEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhRegEvento'), tcDatHor);
-  retInfEvento.nProt := ObterConteudoTag(ANode.Childrens.FindAnyNs('nProt'), tcStr);
+  AuxNode := ANode.Childrens.FindAnyNs('infEvento');
+  if not Assigned(AuxNode) then Exit;
+
+  retInfEvento.Id := ObterConteudoTag(AuxNode.Attributes.Items['Id']);
+  retInfEvento.tpAmb := StrToTipoAmbiente(ObterConteudoTag(AuxNode.Childrens.FindAnyNs('tpAmb'), tcStr));
+  retInfEvento.verAplic := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('verAplic'), tcStr);
+  retInfEvento.cOrgao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('cOrgao'), tcInt);
+  retInfEvento.cStat := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('cStat'), tcInt);
+  retInfEvento.xMotivo := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('xMotivo'), tcStr);
+  retInfEvento.chBPe := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('chBPe'), tcStr);
+  retInfEvento.tpEvento := StrToTpEventoBPe(ok, ObterConteudoTag(AuxNode.Childrens.FindAnyNs('tpEvento'), tcStr));
+  retInfEvento.xEvento := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('xEvento'), tcStr);
+  retInfEvento.nSeqEvento := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('nSeqEvento'), tcInt);
+  retInfEvento.dhRegEvento := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('dhRegEvento'), tcDatHor);
+  retInfEvento.nProt := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('nProt'), tcStr);
 end;
 
 end.

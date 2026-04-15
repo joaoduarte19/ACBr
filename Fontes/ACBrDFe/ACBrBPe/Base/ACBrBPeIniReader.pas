@@ -40,7 +40,7 @@ uses
   Classes, SysUtils, IniFiles,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  pcnConversao,
+//  pcnConversao,
   ACBrBPeClass,
   ACBrBPeConversao;
 
@@ -563,7 +563,6 @@ procedure TBPeIniReader.Ler_PagamentosVinculados(AINIRec: TMemIniFile;
 var
   I: Integer;
   sSecao, sFim: String;
-  OK: Boolean;
   ItemPag: TpgtoCollectionItem;
 begin
   //
@@ -778,7 +777,7 @@ begin
   begin
     IBSCBS.CST := StrToCSTIBSCBS(AINIRec.ReadString(sSecao, 'CST', ''));
     IBSCBS.cClassTrib := AINIRec.ReadString(sSecao, 'cClassTrib', '');
-    IBSCBS.indDoacao := StrToTIndicadorEx(ok, AINIRec.ReadString(sSecao, 'indDoacao', ''));
+    IBSCBS.indDoacao := StrToTIndicadorEx(AINIRec.ReadString(sSecao, 'indDoacao', ''));
 
     Ler_IBSCBS_gIBSCBS(AINIRec, IBSCBS.gIBSCBS, Idx1, Idx2);
     Ler_gEstornoCred(AINIRec, IBSCBS.gEstornoCred, Idx1, Idx2);

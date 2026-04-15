@@ -1388,7 +1388,8 @@ begin
   end;
 
   if not (FEvento.Evento.Items[0].infEvento.tpEvento in
-    [teCancelamento, teNaoEmbarque, teAlteracaoPoltrona, teExcessoBagagem]) then
+    [teCancelamento, teNaoEmbarque, teAlteracaoPoltrona, teExcessoBagagem,
+     teVinculoPgto, teCancVinculoPgto]) then
   begin
     FPLayout := LayBPeEventoAN;
     UF       := 'AN';
@@ -1585,10 +1586,10 @@ begin
   EventoRetorno.XmlRetorno := ParseText(FPRetWS);
   EventoRetorno.LerXml;
 
-  FcStat := EventoRetorno.retInfEvento.cStat;
-  FxMotivo := EventoRetorno.retInfEvento.xMotivo;
-  FPMsg := EventoRetorno.retInfEvento.xMotivo;
-  FTpAmb := EventoRetorno.retInfEvento.tpAmb;
+  FcStat := EventoRetorno.cStat;
+  FxMotivo := EventoRetorno.xMotivo;
+  FPMsg := EventoRetorno.xMotivo;
+  FTpAmb := EventoRetorno.tpAmb;
 
   // 135 = Evento Registrado e vinculado ao BPe
   Result := (FcStat = 135);
@@ -1657,9 +1658,9 @@ begin
                          'Versão Aplicativo: %s ' + LineBreak +
                          'Status Código: %s ' + LineBreak +
                          'Status Descrição: %s ' + LineBreak),
-                 [FEventoRetorno.versao, TipoAmbienteToStr(FEventoRetorno.retInfEvento.tpAmb),
-                  FEventoRetorno.retInfEvento.verAplic, IntToStr(FEventoRetorno.retInfEvento.cStat),
-                  FEventoRetorno.retInfEvento.xMotivo]);
+                 [FEventoRetorno.versao, TipoAmbienteToStr(FEventoRetorno.tpAmb),
+                  FEventoRetorno.verAplic, IntToStr(FEventoRetorno.cStat),
+                  FEventoRetorno.xMotivo]);
 
   aMsg := aMsg + Format(ACBrStr('Recebimento: %s ' + LineBreak),
      [IfThen(FEventoRetorno.RetinfEvento.dhRegEvento = 0, '',

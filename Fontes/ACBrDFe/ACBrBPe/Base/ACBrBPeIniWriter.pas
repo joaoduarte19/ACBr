@@ -40,7 +40,7 @@ uses
   Classes, SysUtils, IniFiles,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  pcnConversao,
+//  pcnConversao,
   ACBrBPeClass,
   ACBrBPeConversao;
 
