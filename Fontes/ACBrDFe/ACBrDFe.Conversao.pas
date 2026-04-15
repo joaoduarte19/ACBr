@@ -551,16 +551,18 @@ const
   // Reforma Tributária
 type
   TtpEnteGov = (tcgNenhum, tcgUniao, tcgEstados, tcgDistritoFederal,
-                tcgMunicipios);
+                tcgMunicipios, tcConsorcioPublico, tcComiteGestorIBS);
 
 const
-  TtpEnteGovArrayStrings: array[TtpEnteGov] of string = ('', '1', '2', '3', '4');
+  TtpEnteGovArrayStrings: array[TtpEnteGov] of string = ('', '1', '2', '3', '4',
+    '5', '6');
 
 type
-  TtpOperGov = (togNenhum, togFornecimento, togRecebimentoPag);
+  TtpOperGov = (togNenhum, togFornecimento, togRecebimentoPag,
+                togFornecimentoPagRealizado, togRecebimentoPagFornecPosterior);
 
 const
-  TtpOperGovArrayStrings: array[TtpOperGov] of string = ('', '1', '2');
+  TtpOperGovArrayStrings: array[TtpOperGov] of string = ('', '1', '2', '3', '4');
 
 type
   TCSTIBSCBS = (cstNenhum,

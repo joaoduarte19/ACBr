@@ -39,7 +39,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
-10/04/2024
+15/04/2026
+-- ACBrDFeConsts --
+[*] Incluído algumas constantes de mensagens de erro de validação usadas pelos componentes:
+    BP-e, CT-e, NF3-e e NFCom.
+   Por: Italo Giurizzato Junior
+
+10/04/2026
 -- ACBrDFe.Conversao --
 [+] ACBR-9136 - Inclusão dos eventos: Vinculação de Pagamento e Cancelamento de Vinculação de Pagamento.
    Por: Italo Giurizzato Junior

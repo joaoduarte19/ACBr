@@ -189,6 +189,11 @@ resourcestring
   DSC_PALIQCBS = 'Aliquota do CBS';
   DSC_VTRIBCBS = 'Valor da Tributação do CBS';
 
+  DSC_PLACA = 'Placa do Veículo';
+  DSC_TPMEIOPGTO = 'Meio de pagamento utilizado';
+  DSC_CNPJRECEB = 'CNPJ do recebedor do pagamento';
+  DSC_CNPJBASEPSP = 'CNPJ base da instituição financeira';
+
 implementation
 
 end.
