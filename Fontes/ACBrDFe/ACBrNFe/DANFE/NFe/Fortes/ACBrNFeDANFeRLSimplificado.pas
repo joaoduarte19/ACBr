@@ -312,13 +312,13 @@ begin
   rllEntradaSaida.Caption := tpNFToStr(fpNFe.Ide.tpNF);
 
   if fpDANFe.FormatarNumeroDocumento then
-    lblNumero.Caption := ACBrStr('Número: ' + FormatFloat('000,000,000', fpNFe.Ide.nNF))
+    lblNumero.Caption := ACBrStr('Número: ') + FormatFloat('000,000,000', fpNFe.Ide.nNF)
   else
-    lblNumero.Caption := ACBrStr('Número: ' + IntToStr(fpNFe.Ide.nNF));
+    lblNumero.Caption := ACBrStr('Número: ') + IntToStr(fpNFe.Ide.nNF);
 
-  lblNumero.Caption :=  ACBrStr(lblNumero.Caption +' - Série: ' + FormatFloat('000', fpNFe.Ide.serie));
+  lblNumero.Caption :=  lblNumero.Caption + ACBrStr(' - Série: ') + FormatFloat('000', fpNFe.Ide.serie);
 
-  rllEmissao.Caption := ACBrStr('Emissão: ' + FormatDateTimeBr(fpNFe.Ide.dEmi));
+  rllEmissao.Caption := ACBrStr('Emissão: ') + FormatDateTimeBr(fpNFe.Ide.dEmi);
 end;
 
 procedure TfrlDANFeRLSimplificado.RLb04_DestinatarioBeforePrint(Sender: TObject; var PrintIt: Boolean);
