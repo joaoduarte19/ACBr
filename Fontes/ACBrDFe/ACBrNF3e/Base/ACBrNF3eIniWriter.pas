@@ -41,7 +41,7 @@ uses
   IniFiles,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  pcnConversao,
+//  pcnConversao,
   ACBrNF3eClass,
   ACBrNF3eConversao,
   ACBrDFeComum.Proc;
@@ -54,6 +54,7 @@ type
     FNF3e: TNF3e;
 
     procedure Gerar_Identificacao(AINIRec: TMemIniFile; Ide: TIde);
+    procedure Gerar_refDFe(AINIRec: TMemIniFile; refDFe: TrefDFeCollection);
     procedure Gerar_Emitente(AINIRec: TMemIniFile; Emit: TEmit);
     procedure Gerar_Destinatario(AINIRec: TMemIniFile; Dest: TDest);
     procedure Gerar_Acessante(AINIRec: TMemIniFile; acessante: Tacessante);
@@ -94,6 +95,7 @@ type
     procedure Gerar_InfRespTec(AINIRec: TMemIniFile; infRespTec: TinfRespTec);
     procedure Gerar_InfNF3eSupl(AINIRec: TMemIniFile; infNF3eSupl: TinfNF3eSupl);
     procedure Gerar_ProcessamentoNF3e(AINIRec: TMemIniFile; procNF3e: TProcDFe);
+    procedure Gerar_PagamentosVinculados(AINIRec: TMemIniFile; pgto: TpgtoCollection);
 
     // Reforma Tributária
     procedure Gerar_IBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBS; Idx1, Idx2: Integer);
@@ -172,6 +174,7 @@ begin
     Gerar_gTipoSaldo(INIRec, FNF3e.gSCEE.gTipoSaldo);
     Gerar_NFDet(INIRec, FNF3e.NFDet);
     Gerar_Total(INIRec, FNF3e.Total);
+    Gerar_PagamentosVinculados(INIRec, FNF3e.pgtoVinc.pgto);
     Gerar_gFat(INIRec, FNF3e.gFat);
     Gerar_gANEEL(INIRec, FNF3e.gANEEL);
     Gerar_AutorizadosXml(INIRec, FNF3e.autXML);
@@ -217,6 +220,23 @@ begin
   begin
     AINIRec.WriteString(sSecao, 'tpEnteGov', tpEnteGovToStr(Ide.gCompraGov.tpEnteGov));
     AINIRec.WriteFloat(sSecao, 'pRedutor', Ide.gCompraGov.pRedutor);
+    AINIRec.WriteString('ide', 'tpOperGov', tpOperGovToStr(Ide.gCompraGov.tpOperGov));
+
+    Gerar_refDFe(AINIRec, Ide.gCompraGov.refDFe);
+  end;
+end;
+
+procedure TNF3eIniWriter.Gerar_refDFe(AINIRec: TMemIniFile;
+  refDFe: TrefDFeCollection);
+var
+  i: Integer;
+  sSecao: string;
+begin
+  for i := 0 to refDFe.Count - 1 do
+  begin
+    sSecao := 'refDFe' + IntToStrZero(i + 1, 3);
+
+    AINIRec.WriteString(sSecao, 'refDFeAnt', refDFe[i].refDFeAnt);
   end;
 end;
 
@@ -980,6 +1000,26 @@ begin
   AINIRec.WriteString(sSecao, 'xMotivo', procNF3e.xMotivo);
   AINIRec.WriteInteger(sSecao, 'cMsg', procNF3e.cMsg);
   AINIRec.WriteString(sSecao, 'xMsg', procNF3e.xMsg);
+end;
+
+procedure TNF3eIniWriter.Gerar_PagamentosVinculados(AINIRec: TMemIniFile;
+  pgto: TpgtoCollection);
+var
+  i: integer;
+  sSecao: string;
+begin
+  // Pagamentos Vinculados
+
+  for i := 0 to pgto.Count - 1 do
+  begin
+    sSecao := 'pgtoVinc' + IntToStrZero(i + 1, 2);
+
+    AINIRec.WriteInteger(sSecao, 'nPag', pgto[I].nPag);
+    AINIRec.WriteString(sSecao, 'idTransacao', pgto[I].idTransacao);
+    AINIRec.WriteString(sSecao, 'tpMeioPgto', pgto[I].tpMeioPgto);
+    AINIRec.WriteString(sSecao, 'CNPJReceb', pgto[I].CNPJReceb);
+    AINIRec.WriteString(sSecao, 'CNPJBasePSP', pgto[I].CNPJBasePSP);
+  end;
 end;
 
 // Reforma Tributária

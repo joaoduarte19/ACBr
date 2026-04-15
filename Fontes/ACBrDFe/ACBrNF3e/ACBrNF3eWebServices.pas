@@ -2319,13 +2319,29 @@ begin
         infEvento.dhEvento := FEvento.Evento[I].InfEvento.dhEvento;
         infEvento.tpEvento := FEvento.Evento[I].InfEvento.tpEvento;
         infEvento.nSeqEvento := FEvento.Evento[I].InfEvento.nSeqEvento;
+        infEvento.detEvento.nProt := FEvento.Evento[I].InfEvento.detEvento.nProt;
 
         case InfEvento.tpEvento of
           teCancelamento:
             begin
               SchemaEventoNF3e := schCancNF3e;
-              infEvento.detEvento.nProt := FEvento.Evento[I].InfEvento.detEvento.nProt;
               infEvento.detEvento.xJust := FEvento.Evento[I].InfEvento.detEvento.xJust;
+            end;
+
+          teVinculoPgto:
+            begin
+              SchemaEventoNF3e := schevVincPgto;
+              infEvento.detEvento.pgto.nPag := FEvento.Evento[I].infEvento.detEvento.pgto.nPag;
+              infEvento.detEvento.pgto.idTransacao := FEvento.Evento[I].infEvento.detEvento.pgto.idTransacao;
+              infEvento.detEvento.pgto.tpMeioPgto := FEvento.Evento[I].infEvento.detEvento.pgto.tpMeioPgto;
+              infEvento.detEvento.pgto.CNPJReceb := FEvento.Evento[I].infEvento.detEvento.pgto.CNPJReceb;
+              infEvento.detEvento.pgto.CNPJBasePSP := FEvento.Evento[I].infEvento.detEvento.pgto.CNPJBasePSP;
+            end;
+
+          teCancVinculoPgto:
+            begin
+              SchemaEventoNF3e := schevCancVincPgto;
+              infEvento.detEvento.nProtVincPgto := FEvento.Evento[I].infEvento.detEvento.nProtVincPgto;
             end;
         end;
       end;
@@ -2349,6 +2365,20 @@ begin
 //                          AXMLEvento +
                           Trim(RetornarConteudoEntre(AXMLEvento, '<evCancNF3e>', '</evCancNF3e>')) +
                         '</evCancNF3e>';
+        end;
+
+      schevVincPgto:
+        begin
+          AXMLEvento := '<evVincPgto xmlns="' + ACBRNF3E_NAMESPACE + '">' +
+                          Trim(RetornarConteudoEntre(AXMLEvento, '<evVincPgto>', '</evVincPgto>')) +
+                        '</evVincPgto>';
+        end;
+
+      schevCancVincPgto:
+        begin
+          AXMLEvento := '<evCancVincPgto xmlns="' + ACBRNF3E_NAMESPACE + '">' +
+                          Trim(RetornarConteudoEntre(AXMLEvento, '<evCancVincPgto>', '</evCancVincPgto>')) +
+                        '</evCancVincPgto>';
         end;
     else
       AXMLEvento := '';
@@ -2399,10 +2429,10 @@ begin
   EventoRetorno.XmlRetorno := ParseText(FPRetWS);
   EventoRetorno.LerXml;
 
-  FcStat := EventoRetorno.retInfEvento.cStat;
-  FxMotivo := EventoRetorno.retInfEvento.xMotivo;
-  FPMsg := EventoRetorno.retInfEvento.xMotivo;
-  FTpAmb := EventoRetorno.retInfEvento.tpAmb;
+  FcStat := EventoRetorno.cStat;
+  FxMotivo := EventoRetorno.xMotivo;
+  FPMsg := EventoRetorno.xMotivo;
+  FTpAmb := EventoRetorno.tpAmb;
 
   Result := (FcStat = 128);
 
@@ -2479,9 +2509,9 @@ begin
                          'Versão Aplicativo: %s ' + sLineBreak +
                          'Status Código: %s ' + sLineBreak +
                          'Status Descrição: %s ' + sLineBreak),
-                 [FEventoRetorno.versao, TipoAmbienteToStr(FEventoRetorno.retInfEvento.tpAmb),
-                  FEventoRetorno.retInfEvento.verAplic, IntToStr(FEventoRetorno.retInfEvento.cStat),
-                  FEventoRetorno.retInfEvento.xMotivo]);
+                 [FEventoRetorno.versao, TipoAmbienteToStr(FEventoRetorno.tpAmb),
+                  FEventoRetorno.verAplic, IntToStr(FEventoRetorno.cStat),
+                  FEventoRetorno.xMotivo]);
   {
   if FEventoRetorno.retEvento.Count > 0 then
     aMsg := aMsg + Format(ACBrStr('Recebimento: %s ' + LineBreak),

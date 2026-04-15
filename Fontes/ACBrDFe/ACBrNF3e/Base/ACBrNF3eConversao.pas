@@ -56,11 +56,11 @@ const
 type
   TSchemaNF3e = (schErro, schconsStatServNF3e, schNF3e, schconsReciNF3e,
                  schconsSitNF3e, schInutNF3e, schEventoNF3e,
-                 schCancNF3e);
+                 schCancNF3e, schevVincPgto, schevCancVincPgto);
 
 const
   TSchemaArrayStrings: array[TSchemaNF3e] of string = ('', '', '', '',  '', '',
-    '', 'evCancNF3e');
+    '', 'evCancNF3e', 'evVincPgto', 'evCancVincPgto');
 
 type
   TLayOut = (LayNF3eStatusServico, LayNF3eRecepcao, LayNF3eRecepcaoSinc,

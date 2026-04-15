@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/04/2026
+-- Diversos --
+[*] ACBr-9136: Implementação dos novos campos constantes nas NT de 2025 e 2026 bem como 
+    os novos eventos de Vinculação de Pagamento e Cancelamento de Vinculação de Pagamento.
+   Por: Italo Giurizzato Junior
+
 25/02/2026
 -- ACBrNF3eNotasFiscais --
 [*] Alteração visando remover se necessário os bytes do UTF8 BOM ao carregar um XML.

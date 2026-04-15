@@ -38,7 +38,7 @@ interface
 
 uses
   Classes, SysUtils,
-  pcnConversao,
+//  pcnConversao,
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrXmlDocument, ACBrXmlWriter,
@@ -145,6 +145,8 @@ type
     function Gerar_InfAdic: TACBrXmlNode;
     function Gerar_gRespTec: TACBrXmlNode;
     function Gerar_ProtNF3e: TACBrXmlNode;
+    function Gerar_pgtoVinc: TACBrXmlNode;
+    function Gerar_pgto: TACBrXmlNodeArray;
 
     // Reforma Tributária
     function Gerar_Ide_CompraGov(gCompraGov: TgCompraGovReduzido): TACBrXmlNode;
@@ -392,6 +394,10 @@ begin
   end;
 
   Result.AppendChild(Gerar_Total);
+
+  if NF3e.pgtoVinc.pgto.Count > 0 then
+    Result.AppendChild(Gerar_pgtoVinc);
+
   Result.AppendChild(Gerar_gFat);
   Result.AppendChild(Gerar_gANEEL);
 
@@ -2253,8 +2259,56 @@ begin
   xmlNode.AddChild('xMotivo').Content := NF3e.procNF3e.xMotivo;
 end;
 
+function TNF3eXmlWriter.Gerar_pgtoVinc: TACBrXmlNode;
+var
+  nodeArray: TACBrXmlNodeArray;
+  i: integer;
+begin
+  Result := FDocument.CreateElement('pgtoVinc');
+
+  nodeArray := Gerar_pgto;
+  for i := 0 to NF3e.pgtoVinc.pgto.Count - 1 do
+  begin
+    Result.AppendChild(nodeArray[i]);
+  end;
+end;
+
+function TNF3eXmlWriter.Gerar_pgto: TACBrXmlNodeArray;
+var
+  i: integer;
+begin
+  Result := nil;
+
+  SetLength(Result, NF3e.pgtoVinc.pgto.Count);
+
+  for i := 0 to NF3e.pgtoVinc.pgto.Count - 1 do
+  begin
+    Result[i] := FDocument.CreateElement('pgto');
+
+    Result[i].SetAttribute('nPag', IntToStr(NF3e.pgtoVinc.pgto[i].nPag));
+
+    Result[i].SetAttribute('idTransacao', NF3e.pgtoVinc.pgto[i].idTransacao);
+
+    Result[i].AppendChild(AddNode(tcStr, '#44', 'tpMeioPgto', 2, 2, 1,
+                             NF3e.pgtoVinc.pgto[i].tpMeioPgto, DSC_TPMEIOPGTO));
+
+    Result[i].AppendChild(AddNode(tcStr, '#44', 'CNPJReceb', 14, 14, 1,
+                               NF3e.pgtoVinc.pgto[i].CNPJReceb, DSC_CNPJRECEB));
+
+    Result[i].AppendChild(AddNode(tcStr, '#44', 'CNPJBasePSP', 8, 8, 1,
+                           NF3e.pgtoVinc.pgto[i].CNPJBasePSP, DSC_CNPJBASEPSP));
+  end;
+
+  if NF3e.pgtoVinc.pgto.Count > 99 then
+    wAlerta('#42', 'pgto', '', ERR_MSG_MAIOR_MAXIMO + '99');
+
+  if NF3e.pgtoVinc.pgto.Count < 1 then
+    wAlerta('#42', 'pgto', '', ERR_MSG_MENOR_MINIMO + '1');
+end;
 // Reforma Tributária
 function TNF3eXmlWriter.Gerar_Ide_CompraGov(gCompraGov: TgCompraGovReduzido): TACBrXmlNode;
+var
+  i: Integer;
 begin
   Result := nil;
 
@@ -2267,6 +2321,15 @@ begin
 
     Result.AppendChild(AddNode(tcDe4, 'B33', 'pRedutor', 1, 7, 1,
                                             gCompraGov.pRedutor, DSC_PREDUTOR));
+
+    Result.AppendChild(AddNode(tcStr, 'B34', 'tpOperGov', 1, 1, 1,
+                          tpOperGovToStr(gCompraGov.tpOperGov), DSC_TPOPERGOV));
+
+    for i := 0 to gCompraGov.refDFe.Count - 1 do
+    begin
+      Result.AppendChild(AddNode(tcStr, 'B35', 'refDFeAnt', 44, 44, 1,
+                                    gCompraGov.refDFe[i].refDFeAnt, DSC_CHAVE));
+    end;
   end;
 end;
 
