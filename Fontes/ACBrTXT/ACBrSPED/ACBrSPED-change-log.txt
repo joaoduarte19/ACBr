@@ -44,6 +44,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/04/2026
+-- ACBrEPCBloco_M_Class --
+[+] #ACBR-9216 - Novos itens no enumerado TACBrCodAj dos registro M510 e M620 do EFDContribuições
+-- Frm_SPEDPisCofins --
+[+] #ACBR-9216 - Adicionados registros M510 e M620 no programa de exemplo do EFDContribuições
+    por: Renato Rubinho
+
 14/04/2026
 -- ACBrEPCBloco_M_Class --
 [*] #ACBR-9216 - Correção nas casas decimais da BC e Aliq nos registros M115, M225 e M625 do EFDContribuições

@@ -88,7 +88,7 @@ type
     procedure btnErrorClick(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure cbConcomitanteClick(Sender: TObject);
-    procedure ACBrSPEDPisCofins1Error(const MsnError: AnsiString);
+    procedure ACBrSPEDPisCofins1Error(const MsnError: string);
     procedure btnB_FClick(Sender: TObject);
     procedure btnB_MClick(Sender: TObject);
     procedure btnB_AClick(Sender: TObject);
@@ -117,7 +117,7 @@ uses
  {$R *.dfm}
 {$ENDIF}
 
-procedure TFrmSPEDPisCofins.ACBrSPEDPisCofins1Error(const MsnError: AnsiString);
+procedure TFrmSPEDPisCofins.ACBrSPEDPisCofins1Error(const MsnError: string);
 begin
    memoError.Lines.Add(MsnError);
 end;
@@ -1522,6 +1522,15 @@ begin
               DESC_CRED := '';
            end;
 
+           with RegistroM510New do
+           begin
+             IND_AJ := indAjReducao;
+             VL_AJ := 0.06;
+             COD_AJ := codAjLCP224ConcesCredTrib;
+             NUM_DOC := '12345678901234567890123456789012345678901234';
+             DESCR_AJ := 'LC 224/2025 - Redução de benefícios';
+             DT_REF := StartOfTheMonth(IncMonth(Date,-1));
+           end;
          end;
 
          with RegistroM500New do
@@ -1554,6 +1563,15 @@ begin
               DESC_CRED := '';
            end;
 
+           with RegistroM510New do
+           begin
+             IND_AJ := indAjReducao;
+             VL_AJ := 0.06;
+             COD_AJ := codAjLCP224ConcesCredTrib;
+             NUM_DOC := '12345678901234567890123456789012345678901234';
+             DESCR_AJ := 'LC 224/2025 - Redução de benefícios';
+             DT_REF := StartOfTheMonth(IncMonth(Date,-1));
+           end;
          end;
 
          with RegistroM500New do
@@ -1586,6 +1604,15 @@ begin
               DESC_CRED := '';
            end;
 
+           with RegistroM510New do
+           begin
+             IND_AJ := indAjReducao;
+             VL_AJ := 0.06;
+             COD_AJ := codAjLCP224ConcesCredTrib;
+             NUM_DOC := '12345678901234567890123456789012345678901234';
+             DESCR_AJ := 'LC 224/2025 - Redução de benefícios';
+             DT_REF := StartOfTheMonth(IncMonth(Date,-1));
+           end;
          end;
 
          with RegistroM500New do
@@ -1618,6 +1645,15 @@ begin
               DESC_CRED := '';
            end;
 
+           with RegistroM510New do
+           begin
+             IND_AJ := indAjReducao;
+             VL_AJ := 0.06;
+             COD_AJ := codAjLCP224ConcesCredTrib;
+             NUM_DOC := '12345678901234567890123456789012345678901234';
+             DESCR_AJ := 'LC 224/2025 - Redução de benefícios';
+             DT_REF := StartOfTheMonth(IncMonth(Date,-1));
+           end;
          end;
 
          with RegistroM600New do
@@ -1665,6 +1701,16 @@ begin
              VL_CONT_DIFER := 0;
              VL_CONT_DIFER_ANT := 0;
              VL_CONT_PER := 0;
+
+             with RegistroM620New do
+             begin
+               IND_AJ := indAjReducao;
+               VL_AJ := 0.06;
+               COD_AJ := codAjLCP224ConcesCredTrib;
+               NUM_DOC := '12345678901234567890123456789012345678901234';
+               DESCR_AJ := 'LC 224/2025 - Redução de benefícios';
+               DT_REF := StartOfTheMonth(IncMonth(Date,-1));
+             end;
            end;
 
          end;

@@ -1207,7 +1207,6 @@ procedure TBloco_M.WriteRegistroM510(RegM500: TRegistroM500) ;
   var
     intFor    : integer;
     strIND_AJ : String;
-    strCOD_AJ : String;    
 begin
   if Assigned(RegM500.RegistroM510) then
   begin
@@ -1221,19 +1220,10 @@ begin
             indAjAcressimo : strIND_AJ := '1' ;
           end;
 
-          case COD_AJ of
-            codAjAcaoJudicial      : strCOD_AJ := '01'; // Ajuste Oriundo de Ação Judicial
-            codAjProAdministrativo : strCOD_AJ := '02'; // Ajuste Oriundo de Processo Administrativo
-            codAjLegTributaria     : strCOD_AJ := '03'; // Ajuste Oriundo da Legislação Tributária
-            codAjEspRTI            : strCOD_AJ := '04'; // Ajuste Oriundo Especificamente do RTT
-            codAjOutrasSituacaoes  : strCOD_AJ := '05'; // Ajuste Oriundo de Outras Situações
-            codAjEstorno           : strCOD_AJ := '06'; // Estorno
-          end;
-
           Add( LFill('M510')       +
                LFill( strIND_AJ )  +        
                LFill( VL_AJ ,0,2 ) +
-               LFill( strCOD_AJ )  +
+               LFill( CodAjToStr(COD_AJ) )  +
                LFill( NUM_DOC )    +
                LFill( DESCR_AJ )   +
                LFill( DT_REF ) ) ;
@@ -1478,7 +1468,6 @@ procedure TBloco_M.WriteRegistroM620(RegM610: TRegistroM610) ;
 var
   intFor    : integer;
   strIND_AJ : String;
-  strCOD_AJ : String;
 begin
   if Assigned(RegM610.RegistroM620) then
   begin
@@ -1492,19 +1481,10 @@ begin
             indAjAcressimo : strIND_AJ := '1' ;
           end;
 
-          case COD_AJ of
-            codAjAcaoJudicial      : strCOD_AJ := '01'; // Ajuste Oriundo de Ação Judicial
-            codAjProAdministrativo : strCOD_AJ := '02'; // Ajuste Oriundo de Processo Administrativo
-            codAjLegTributaria     : strCOD_AJ := '03'; // Ajuste Oriundo da Legislação Tributária
-            codAjEspRTI            : strCOD_AJ := '04'; // Ajuste Oriundo Especificamente do RTT
-            codAjOutrasSituacaoes  : strCOD_AJ := '05'; // Ajuste Oriundo de Outras Situações
-            codAjEstorno           : strCOD_AJ := '06'; // Estorno
-          end;
-                    
           Add( LFill('M620')       +
                LFill( strIND_AJ )  +
                LFill( VL_AJ ,0,2 ) +
-               LFill( strCOD_AJ )  +
+               LFill( CodAjToStr(COD_AJ) )  +
                LFill( NUM_DOC )    +
                LFill( DESCR_AJ )   +
                LFill( DT_REF ) ) ;
