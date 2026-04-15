@@ -201,11 +201,6 @@ type
     btnAdicionarProtocolo: TButton;
     btnCarregarXMLEnviar: TButton;
     btnValidarAssinatura: TButton;
-    btnCancelarXML: TButton;
-    btnCancelarChave: TButton;
-    btnNaoEmbarque: TButton;
-    btnImprimirEvento: TButton;
-    btnEnviarEventoEmail: TButton;
     pgRespostas: TPageControl;
     TabSheet5: TTabSheet;
     MemoResp: TMemo;
@@ -244,15 +239,25 @@ type
     Label32: TLabel;
     cbVersaoDF: TComboBox;
     btnStatusServ: TButton;
-    btnAlteracaoPoltrona: TButton;
     chkLogoLateral: TCheckBox;
     Label30: TLabel;
     cbModeloDF: TComboBox;
-    btnExcessoBagagem: TButton;
     tsOutros: TTabSheet;
     btnLerArqINI: TButton;
     btnGerarArqINI: TButton;
     rgReformaTributaria: TRadioGroup;
+    pgcTiposEventos: TPageControl;
+    tsComuns: TTabSheet;
+    tsRTC: TTabSheet;
+    btnCancelarXML: TButton;
+    btnCancelarChave: TButton;
+    btnNaoEmbarque: TButton;
+    btnAlteracaoPoltrona: TButton;
+    btnExcessoBagagem: TButton;
+    btnImprimirEvento: TButton;
+    btnEnviarEventoEmail: TButton;
+    btnVincPagto: TButton;
+    btnCancelarPagVinc: TButton;
 
     procedure FormCreate(Sender: TObject);
     procedure btnSalvarConfigClick(Sender: TObject);
@@ -310,6 +315,8 @@ type
     procedure btnExcessoBagagemClick(Sender: TObject);
     procedure btnLerArqINIClick(Sender: TObject);
     procedure btnGerarArqINIClick(Sender: TObject);
+    procedure btnVincPagtoClick(Sender: TObject);
+    procedure btnCancelarPagVincClick(Sender: TObject);
   private
     { Private declarations }
     procedure GravarConfiguracao;
@@ -487,6 +494,15 @@ begin
     begin
       Ide.gCompraGov.tpEnteGov := tcgUniao;
       Ide.gCompraGov.pRedutor := 2;
+      {
+        togNenhum, togFornecimento, togRecebimentoPag,
+        togFornecimentoPagRealizado, togRecebimentoPagFornecPosterior
+      }
+      Ide.gCompraGov.tpOperGov := togFornecimentoPagRealizado;
+      with Ide.gCompraGov.refDFe.New do
+      begin
+        refDFeAnt := '12345678901234567890123456789012345678901234';
+      end;
     end;
 
     //
@@ -736,6 +752,16 @@ begin
 
     infAdic.infAdFisco := '';
     infAdic.infCpl     := 'Informações Complementares';
+
+    // Informações sobre Pagamentos Vinculados
+    with pgtoVinc.pgto.New do
+    begin
+      nPag := 1;
+      idTransacao := '1234';
+      tpMeioPgto := '10';
+      CNPJReceb := edtEmitCNPJ.Text;
+      CNPJBasePSP := Copy(edtEmitCNPJ.Text, 1, 8);
+    end;
   end;
 end;
 
@@ -1025,22 +1051,23 @@ end;
 
 procedure TfrmACBrBPe.btnAlteracaoPoltronaClick(Sender: TObject);
 var
-  Chave, idLote, CNPJ, Protocolo, NumPoltrona: string;
+  Titulo, Chave, idLote, CNPJ, Protocolo, NumPoltrona: string;
 begin
-  if not(InputQuery('WebServices Eventos: Alteração de Poltrona', 'Chave da BP-e', Chave)) then
+  Titulo := 'WebServices Eventos: Alteração de Poltrona';
+  if not(InputQuery(Titulo, 'Chave da BP-e', Chave)) then
      exit;
   Chave := Trim(OnlyNumber(Chave));
   idLote := '1';
-  if not(InputQuery('WebServices Eventos: Alteração de Poltrona', 'Identificador de controle do Lote de envio do Evento', idLote)) then
+  if not(InputQuery(Titulo, 'Identificador de controle do Lote de envio do Evento', idLote)) then
      exit;
   CNPJ := copy(Chave,7,14);
-  if not(InputQuery('WebServices Eventos: Alteração de Poltrona', 'CNPJ ou o CPF do autor do Evento', CNPJ)) then
+  if not(InputQuery(Titulo, 'CNPJ ou o CPF do autor do Evento', CNPJ)) then
      exit;
   Protocolo:='';
-  if not(InputQuery('WebServices Eventos: Alteração de Poltrona', 'Protocolo de Autorização', Protocolo)) then
+  if not(InputQuery(Titulo, 'Protocolo de Autorização', Protocolo)) then
      exit;
   NumPoltrona := '1';
-  if not(InputQuery('WebServices Eventos: Alteração de Poltrona', 'Número da Poltrona', NumPoltrona)) then
+  if not(InputQuery(Titulo, 'Número da Poltrona', NumPoltrona)) then
      exit;
 
   NumPoltrona := OnlyNumber(NumPoltrona);
@@ -1081,22 +1108,24 @@ end;
 
 procedure TfrmACBrBPe.btnCancelarChaveClick(Sender: TObject);
 var
-  Chave, idLote, CNPJ, Protocolo, Justificativa: string;
+  Titulo, Chave, idLote, CNPJ, Protocolo, Justificativa: string;
 begin
-  if not(InputQuery('WebServices Eventos: Cancelamento', 'Chave da BP-e', Chave)) then
+  Titulo := 'WebServices Eventos: Cancelamento';
+
+  if not(InputQuery(Titulo, 'Chave da BP-e', Chave)) then
      exit;
   Chave := Trim(OnlyNumber(Chave));
   idLote := '1';
-  if not(InputQuery('WebServices Eventos: Cancelamento', 'Identificador de controle do Lote de envio do Evento', idLote)) then
+  if not(InputQuery(Titulo, 'Identificador de controle do Lote de envio do Evento', idLote)) then
      exit;
   CNPJ := copy(Chave,7,14);
-  if not(InputQuery('WebServices Eventos: Cancelamento', 'CNPJ ou o CPF do autor do Evento', CNPJ)) then
+  if not(InputQuery(Titulo, 'CNPJ ou o CPF do autor do Evento', CNPJ)) then
      exit;
   Protocolo:='';
-  if not(InputQuery('WebServices Eventos: Cancelamento', 'Protocolo de Autorização', Protocolo)) then
+  if not(InputQuery(Titulo, 'Protocolo de Autorização', Protocolo)) then
      exit;
   Justificativa := 'Justificativa do Cancelamento';
-  if not(InputQuery('WebServices Eventos: Cancelamento', 'Justificativa do Cancelamento', Justificativa)) then
+  if not(InputQuery(Titulo, 'Justificativa do Cancelamento', Justificativa)) then
      exit;
 
   ACBrBPe1.EventoBPe.Evento.Clear;
@@ -1125,6 +1154,47 @@ begin
   ACBrBPe1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento
   ACBrBPe1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.nProt
   *)
+end;
+
+procedure TfrmACBrBPe.btnCancelarPagVincClick(Sender: TObject);
+var
+  Titulo, Chave, idLote, CNPJ, Protocolo, nProtVincPgto: string;
+begin
+  Titulo := 'WebServices Eventos: Cancelar Pagamento Vinculado';
+
+  if not(InputQuery(Titulo, 'Chave da BP-e', Chave)) then
+     exit;
+  Chave := Trim(OnlyNumber(Chave));
+  idLote := '1';
+  if not(InputQuery(Titulo, 'Identificador de controle do Lote de envio do Evento', idLote)) then
+     exit;
+  CNPJ := copy(Chave,7,14);
+  if not(InputQuery(Titulo, 'CNPJ ou o CPF do autor do Evento', CNPJ)) then
+     exit;
+  Protocolo:='';
+  if not(InputQuery(Titulo, 'Protocolo de Autorização', Protocolo)) then
+     exit;
+  nProtVincPgto := '';
+  if not(InputQuery(Titulo, 'Protocolo de Autorização do Vinculação de Pagamento', nProtVincPgto)) then
+     exit;
+
+  ACBrBPe1.EventoBPe.Evento.Clear;
+
+  with ACBrBPe1.EventoBPe.Evento.New do
+  begin
+    infevento.chBPe := Chave;
+    infevento.CNPJ   := CNPJ;
+    infEvento.dhEvento := now;
+    infEvento.tpEvento := teCancVinculoPgto;
+    infEvento.detEvento.nProt := Protocolo;
+    infEvento.detEvento.nProtVincPgto := nProtVincPgto;
+  end;
+
+  ACBrBPe1.EnviarEvento(StrToInt(idLote));
+
+  MemoResp.Lines.Text := ACBrBPe1.WebServices.EnvEvento.RetWS;
+  memoRespWS.Lines.Text := ACBrBPe1.WebServices.EnvEvento.RetornoWS;
+  LoadXML(ACBrBPe1.WebServices.EnvEvento.RetornoWS, WBResposta);
 end;
 
 procedure TfrmACBrBPe.btnCancelarXMLClick(Sender: TObject);
@@ -1414,25 +1484,27 @@ end;
 
 procedure TfrmACBrBPe.btnExcessoBagagemClick(Sender: TObject);
 var
-  Chave, idLote, CNPJ, Protocolo, qBagagem, vTotBag: string;
+  Titulo, Chave, idLote, CNPJ, Protocolo, qBagagem, vTotBag: string;
 begin
-  if not(InputQuery('WebServices Eventos: Excesso de Bagagem', 'Chave da BP-e', Chave)) then
+  Titulo := 'WebServices Eventos: Excesso de Bagagem';
+
+  if not(InputQuery(Titulo, 'Chave da BP-e', Chave)) then
      exit;
   Chave := Trim(OnlyNumber(Chave));
   idLote := '1';
-  if not(InputQuery('WebServices Eventos: Excesso de Bagagem', 'Identificador de controle do Lote de envio do Evento', idLote)) then
+  if not(InputQuery(Titulo, 'Identificador de controle do Lote de envio do Evento', idLote)) then
      exit;
   CNPJ := copy(Chave,7,14);
-  if not(InputQuery('WebServices Eventos: Excesso de Bagagem', 'CNPJ ou o CPF do autor do Evento', CNPJ)) then
+  if not(InputQuery(Titulo, 'CNPJ ou o CPF do autor do Evento', CNPJ)) then
      exit;
   Protocolo:='';
-  if not(InputQuery('WebServices Eventos: Excesso de Bagagem', 'Protocolo de Autorização', Protocolo)) then
+  if not(InputQuery(Titulo, 'Protocolo de Autorização', Protocolo)) then
      exit;
   qBagagem := '1';
-  if not(InputQuery('WebServices Eventos: Excesso de Bagagem', 'Quantidade de volumes de bagagem carregados', qBagagem)) then
+  if not(InputQuery(Titulo, 'Quantidade de volumes de bagagem carregados', qBagagem)) then
      exit;
   vTotBag := '1';
-  if not(InputQuery('WebServices Eventos: Excesso de Bagagem', 'Valor total do serviço', vTotBag)) then
+  if not(InputQuery(Titulo, 'Valor total do serviço', vTotBag)) then
      exit;
 
   qBagagem := OnlyNumber(qBagagem);
@@ -1712,22 +1784,24 @@ end;
 
 procedure TfrmACBrBPe.btnNaoEmbarqueClick(Sender: TObject);
 var
-  Chave, idLote, CNPJ, Protocolo, Justificativa: string;
+  Titulo, Chave, idLote, CNPJ, Protocolo, Justificativa: string;
 begin
-  if not(InputQuery('WebServices Eventos: Não Embarque', 'Chave da BP-e', Chave)) then
+  Titulo := 'WebServices Eventos: Não Embarque';
+
+  if not(InputQuery(Titulo, 'Chave da BP-e', Chave)) then
      exit;
   Chave := Trim(OnlyNumber(Chave));
   idLote := '1';
-  if not(InputQuery('WebServices Eventos: Não Embarque', 'Identificador de controle do Lote de envio do Evento', idLote)) then
+  if not(InputQuery(Titulo, 'Identificador de controle do Lote de envio do Evento', idLote)) then
      exit;
   CNPJ := copy(Chave,7,14);
-  if not(InputQuery('WebServices Eventos: Não Embarque', 'CNPJ ou o CPF do autor do Evento', CNPJ)) then
+  if not(InputQuery(Titulo, 'CNPJ ou o CPF do autor do Evento', CNPJ)) then
      exit;
   Protocolo:='';
-  if not(InputQuery('WebServices Eventos: Não Embarque', 'Protocolo de Autorização', Protocolo)) then
+  if not(InputQuery(Titulo, 'Protocolo de Autorização', Protocolo)) then
      exit;
   Justificativa := 'Justificativa do Não Embarque';
-  if not(InputQuery('WebServices Eventos: Não Embarque', 'Justificativa do Não Embarque', Justificativa)) then
+  if not(InputQuery(Titulo, 'Justificativa do Não Embarque', Justificativa)) then
      exit;
 
   ACBrBPe1.EventoBPe.Evento.Clear;
@@ -1903,6 +1977,72 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TfrmACBrBPe.btnVincPagtoClick(Sender: TObject);
+var
+  Titulo, Chave, idLote, CNPJ, Protocolo, nPag, idTransacao, tpMeioPgto,
+  CNPJReceb, CNPJBasePSP: string;
+begin
+  Titulo := 'WebServices Eventos: Pagamento Vinculado';
+  Chave := '';
+  if not(InputQuery(Titulo, 'Chave da BP-e', Chave)) then
+     exit;
+  Chave := Trim(OnlyNumber(Chave));
+
+  idLote := '1';
+  if not(InputQuery(Titulo, 'Identificador de controle do Lote de envio do Evento', idLote)) then
+     exit;
+
+  CNPJ := copy(Chave,7,14);
+  if not(InputQuery(Titulo, 'CNPJ ou o CPF do autor do Evento', CNPJ)) then
+     exit;
+
+  Protocolo := '';
+  if not(InputQuery('WebServices Eventos: Não Embarque', 'Protocolo de Autorização', Protocolo)) then
+     exit;
+
+  nPag:='1';
+  if not(InputQuery(Titulo, 'Numero do Pagamento', nPag)) then
+     exit;
+
+  idTransacao := '';
+  if not(InputQuery(Titulo, 'Identificação da Transação', idTransacao)) then
+     exit;
+
+  tpMeioPgto := '';
+  if not(InputQuery(Titulo, 'Código do Meio de Pagamento', tpMeioPgto)) then
+     exit;
+
+  CNPJReceb := '';
+  if not(InputQuery(Titulo, 'CNPJ do Recebedor', CNPJReceb)) then
+     exit;
+
+  CNPJBasePSP := '';
+  if not(InputQuery(Titulo, 'CNPJ Base do PSP', CNPJBasePSP)) then
+     exit;
+
+  ACBrBPe1.EventoBPe.Evento.Clear;
+
+  with ACBrBPe1.EventoBPe.Evento.New do
+  begin
+    infevento.chBPe := Chave;
+    infevento.CNPJ   := CNPJ;
+    infEvento.dhEvento := now;
+    infEvento.tpEvento := teVinculoPgto;
+    infEvento.detEvento.nProt := Protocolo;
+    infEvento.detEvento.pgto.nPag := StrToIntDef(nPag, 1);
+    infEvento.detEvento.pgto.idTransacao := idTransacao;
+    infEvento.detEvento.pgto.tpMeioPgto := tpMeioPgto;
+    infEvento.detEvento.pgto.CNPJReceb := CNPJReceb;
+    infEvento.detEvento.pgto.CNPJBasePSP := CNPJBasePSP;
+  end;
+
+  ACBrBPe1.EnviarEvento(StrToInt(idLote));
+
+  MemoResp.Lines.Text := ACBrBPe1.WebServices.EnvEvento.RetWS;
+  memoRespWS.Lines.Text := ACBrBPe1.WebServices.EnvEvento.RetornoWS;
+  LoadXML(ACBrBPe1.WebServices.EnvEvento.RetornoWS, WBResposta);
 end;
 
 procedure TfrmACBrBPe.btSerialClick(Sender: TObject);
@@ -2321,7 +2461,7 @@ begin
   with ACBrBPe1.Configuracoes.WebServices do
   begin
     UF         := cbUF.Text;
-    Ambiente   := StrToTipoAmbiente(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
+    Ambiente   := StrToTipoAmbiente(IntToStr(rgTipoAmb.ItemIndex+1));
     Visualizar := cbxVisualizar.Checked;
     Salvar     := cbxSalvarSOAP.Checked;
 
@@ -2369,7 +2509,7 @@ begin
 
   if ACBrBPe1.DABPE <> nil then
   begin
-    ACBrBPe1.DABPE.TipoDABPe := StrToTpImp(OK, IntToStr(rgTipoDaBPe.ItemIndex + 1));
+    ACBrBPe1.DABPE.TipoDABPe := StrToTpImp(IntToStr(rgTipoDaBPe.ItemIndex + 1));
     ACBrBPe1.DABPE.Logo      := edtLogoMarca.Text;
     ACBrBPe1.DABPE.ImprimeLogoLateral := chkLogoLateral.Checked;
   end;
