@@ -226,7 +226,7 @@ begin
   PDF.SetFont(6, '');
   PDF.TextBox(x1, y1, w1, h1, 'CÓDIGO DE VERIFICAÇÃO', 'T', 'L', False);
   PDF.SetFont(10, 'B');
-  PDF.TextBox(x1, y1, w1, h1, NFSe.CodigoVerificacao, 'B', 'C', False, False, True);
+  PDF.TextBox(x1, y1, w1, h1, NativeStringToAnsi( NFSe.CodigoVerificacao ), 'B', 'C', False, False, True);
 
   // QR Code
   if QRCode then
@@ -311,7 +311,7 @@ begin
     PDF.SetFont('Times', '', 6);
     h := PDF.GetStringHeight('CÓDIGO DE CLASSIFICAÇÃO DO SERVIÇO', w);
     PDF.SetFont('Times', 'B', 10);
-    Texto := Format('%s - %s', [NFSe.Servico.ItemListaServico, NFSe.Servico.xItemListaServico]);
+    Texto := NativeStringToAnsi(Format('%s - %s', [NFSe.Servico.ItemListaServico, NFSe.Servico.xItemListaServico]));
     h := h + PDF.GetStringHeight(Texto, w);
     if h < 8 then
       h := 8;
@@ -351,7 +351,7 @@ end;
 
 function TACBrDANFSeFPDFA4Retrato.GetTextoDiscriminacaoServicos: string;
 begin
-  Result := Trim(NFSe.Servico.Discriminacao);
+  Result := Trim( NativeStringToAnsi( NFSe.Servico.Discriminacao));
   if Result = '' then
     Exit;
 
@@ -365,7 +365,7 @@ end;
 
 function TACBrDANFSeFPDFA4Retrato.GetTextoOutrasInformacoes: string;
 begin
-  Result := Trim(NFSe.OutrasInformacoes);
+  Result := Trim(NativeStringToAnsi(NFSe.OutrasInformacoes));
   if Result = '' then
     Exit;
 
@@ -497,7 +497,7 @@ begin
   begin
     Item := NFSe.Servico.ItemServico[I];
 
-    IncY := PDF.TextBox(x1, y1, w1, h + 2, Item.Descricao, 'T', 'L', False);
+    IncY := PDF.TextBox(x1, y1, w1, h + 2, NativeStringToAnsi( Item.Descricao ), 'T', 'L', False);
 
     x1 := x1 + w1;
 
@@ -633,7 +633,7 @@ begin
   y1 := y1 + IncY;
 
   // NOME / RAZÃO SOCIAL
-  CampoValor('NOME / RAZÃO SOCIAL:', NFSe.Prestador.RazaoSocial);
+  CampoValor('NOME / RAZÃO SOCIAL:', NativeStringToAnsi(NFSe.Prestador.RazaoSocial));
   y1 := y1 + IncY;
 
   // ENDEREÇO
@@ -641,15 +641,15 @@ begin
     IfThen(NFSe.Prestador.Endereco.Numero <> '', ', ' + NFSe.Prestador.Endereco.Numero) +
     ' - ' + NFSe.Prestador.Endereco.Bairro +
     ' - CEP ' + FormatarCEP(NFSe.Prestador.Endereco.CEP);
-  CampoValor('ENDEREÇO:', Texto);
+  CampoValor('ENDEREÇO:',NativeStringToAnsi( Texto));
   y1 := y1 + IncY;
 
   // MUNICÍPIO
-  x1 := x1 + 10 + CampoValor('MUNICÍPIO:', IfThen(NFSe.Prestador.Endereco.xMunicipio <> '',
+  x1 := x1 + 10 + CampoValor('MUNICÍPIO:', NativeStringToAnsi( IfThen(NFSe.Prestador.Endereco.xMunicipio <> '',
     UpperCase(NFSe.Prestador.Endereco.xMunicipio), NFSe.Prestador.Endereco.CodigoMunicipio) +
-    ' / ' + NFSe.Prestador.Endereco.UF);
-  x1 := x1 + 10 + CampoValor('EMAIL:', LowerCase(NFSe.Prestador.Contato.Email));
-  x1 := x1 + 10 + CampoValor('TELEFONE:', NFSe.Prestador.Contato.Telefone);
+    ' / ' + NFSe.Prestador.Endereco.UF));
+  x1 := x1 + 10 + CampoValor('EMAIL:', LowerCase( NativeStringToAnsi( NFSe.Prestador.Contato.Email)));
+  x1 := x1 + 10 + CampoValor('TELEFONE:', NativeStringToAnsi(NFSe.Prestador.Contato.Telefone));
 end;
 
 procedure TACBrDANFSeFPDFA4Retrato.BlocoTomador(Args: TFPDFBandDrawArgs);
@@ -704,7 +704,7 @@ begin
   y1 := y1 + IncY;
 
   // NOME / RAZÃO SOCIAL
-  CampoValor('NOME / RAZÃO SOCIAL:', NFSe.Tomador.RazaoSocial);
+  CampoValor('NOME / RAZÃO SOCIAL:', NativeStringToAnsi( NFSe.Tomador.RazaoSocial));
   y1 := y1 + IncY;
 
   // ENDEREÇO
@@ -712,15 +712,15 @@ begin
     IfThen(NFSe.Tomador.Endereco.Numero <> '', ', ' + NFSe.Tomador.Endereco.Numero) +
     ' - ' + NFSe.Tomador.Endereco.Bairro +
     ' - CEP ' + FormatarCEP(NFSe.Tomador.Endereco.CEP);// +
-  CampoValor('ENDEREÇO:', Texto);
+  CampoValor('ENDEREÇO:', NativeStringToAnsi( Texto));
   y1 := y1 + IncY;
 
   // MUNICÍPIO
-  x1 := x1 + 10 + CampoValor('MUNICÍPIO:', IfThen(NFSe.Tomador.Endereco.xMunicipio <> '',
+  x1 := x1 + 10 + CampoValor('MUNICÍPIO:',NativeStringToAnsi( IfThen(NFSe.Tomador.Endereco.xMunicipio <> '',
     UpperCase(NFSe.Tomador.Endereco.xMunicipio), NFSe.Tomador.Endereco.CodigoMunicipio) +
-    ' / ' + NFSe.Tomador.Endereco.UF);
-  x1 := x1 + 10 + CampoValor('EMAIL:', LowerCase(NFSe.Tomador.Contato.Email));
-  x1 := x1 + 10 + CampoValor('TELEFONE:', NFSe.Tomador.Contato.Telefone);
+    ' / ' + NFSe.Tomador.Endereco.UF));
+  x1 := x1 + 10 + CampoValor('EMAIL:', LowerCase( NativeStringToAnsi( NFSe.Tomador.Contato.Email)));
+  x1 := x1 + 10 + CampoValor('TELEFONE:', NativeStringToAnsi( NFSe.Tomador.Contato.Telefone));
 end;
 
 procedure TACBrDANFSeFPDFA4Retrato.BlocoValores(Args: TFPDFBandDrawArgs);
@@ -771,7 +771,7 @@ begin
   Texto := 'CÓDIGO DE CLASSIFICAÇÃO DO SERVIÇO';
   h1 := PDF.GetStringHeight(Texto, w1);
   PDF.SetFont(10, 'B');
-  Texto := Format('%s - %s', [Servico.ItemListaServico, Servico.xItemListaServico]);
+  Texto := NativeStringToAnsi( Format('%s - %s', [Servico.ItemListaServico, Servico.xItemListaServico]));
   h1 := h1 + PDF.GetStringHeight(Texto, w1);
   if h1 < 8 then
     h1 := 8;

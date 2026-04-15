@@ -41,6 +41,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+15/04/2026
+-- ACBr.DANFSeX.FPDFA4Retrato --
+[-] ACBR-9246 - Ajuste na impressão NFSeX FPDF dos campos do XML em lazarus ( Lib/Monitor/Linux ) não estava saindo corretamente os acentos.
+   https://www.projetoacbr.com.br/forum/topic/91250-nfs-e-texto-apresentado-de-forma-estranha-no-pdf/page/2/
+   Por: Daniel de Morais
 
 13/04/2026
 -- ACBrNFSeXConfiguracoes --
