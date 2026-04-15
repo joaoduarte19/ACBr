@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/04/2026
+-- DoACBrMDFeUnit/DoACBrCTeUnit/ACBrMonitor1 --
+[*] ACBR-8957 - Adiciona tags para substituição na mensagem de e-mail para CT-e, MDF-e e NFS-e.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/90164-acbr-8957-tags-no-e-mail-da-nota-de-servi%C3%A7os/ 
+
 30/03/2026
 -- ACBrMonitorConsts, DoACBrNFeUnit --
 [+] ACBR-9164 - Adicionado método NFE.SetRespTecnico para preenchimento do idCSRT e CSRT - https://www.projetoacbr.com.br/forum/topic/91205-acbr-9164-consigo-enviar-o-csrt-e-o-id-via-comando-txt-para-o-acbrmonitorplus

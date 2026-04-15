@@ -1117,7 +1117,7 @@ begin
 
         with MonitorConfig.DFE.Email do
         begin
-          slMensagemEmail.Text := StringToBinaryString(MensagemCTe);
+          slMensagemEmail.Text := DoSubstituirVariaveis(StringToBinaryString(MensagemCTe));
           sAssunto := AssuntoCTe;
         end;
 
@@ -1132,7 +1132,7 @@ begin
 
         try
           ACBrCTe.Conhecimentos.Items[0].EnviarEmail(ADestinatario,
-            IfThen( NaoEstaVazio(AAssunto), AAssunto, sAssunto),
+            DoSubstituirVariaveis(IfThen( NaoEstaVazio(AAssunto), AAssunto, sAssunto)),
             slMensagemEmail,
             AEnviaPDF,
             // Enviar PDF junto
