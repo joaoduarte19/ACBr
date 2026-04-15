@@ -204,10 +204,6 @@ type
     btnAdicionarProtocolo: TButton;
     btnCarregarXMLEnviar: TButton;
     btnValidarAssinatura: TButton;
-    btnCancelarXML: TButton;
-    btnCancelarChave: TButton;
-    btnImprimirEvento: TButton;
-    btnEnviarEventoEmail: TButton;
     tsDistribuicao: TTabSheet;
     btnDistribuicaoDFe: TButton;
     pgRespostas: TPageControl;
@@ -252,6 +248,15 @@ type
     btnLerArqINI: TButton;
     btnGerarArqINI: TButton;
     rgReformaTributaria: TRadioGroup;
+    pgcEventos: TPageControl;
+    tsComuns: TTabSheet;
+    tsRTC: TTabSheet;
+    btnCancelarXML: TButton;
+    btnCancelarChave: TButton;
+    btnImprimirEvento: TButton;
+    btnEnviarEventoEmail: TButton;
+    btnVincPagto: TButton;
+    btnCancelarPagVinc: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnSalvarConfigClick(Sender: TObject);
     procedure sbPathNF3eClick(Sender: TObject);
@@ -307,6 +312,8 @@ type
     procedure ACBrNF3e1StatusChange(Sender: TObject);
     procedure btnLerArqINIClick(Sender: TObject);
     procedure btnGerarArqINIClick(Sender: TObject);
+    procedure btnVincPagtoClick(Sender: TObject);
+    procedure btnCancelarPagVincClick(Sender: TObject);
   private
     { Private declarations }
     procedure GravarConfiguracao;
@@ -390,6 +397,15 @@ begin
     begin
       Ide.gCompraGov.tpEnteGov := tcgUniao;
       Ide.gCompraGov.pRedutor := 5;
+      {
+        togNenhum, togFornecimento, togRecebimentoPag,
+        togFornecimentoPagRealizado, togRecebimentoPagFornecPosterior
+      }
+      Ide.gCompraGov.tpOperGov := togFornecimentoPagRealizado;
+      with Ide.gCompraGov.refDFe.New do
+      begin
+        refDFeAnt := '12345678901234567890123456789012345678901234';
+      end;
     end;
 
     // Dados do
@@ -613,6 +629,16 @@ begin
       total.IBSCBSTot.gEstornoCred.vCBSEstCred := 0;
     end;
 
+    // Informações sobre Pagamentos Vinculados
+    with pgtoVinc.pgto.New do
+    begin
+      nPag := 1;
+      idTransacao := '1234';
+      tpMeioPgto := '10';
+      CNPJReceb := edtEmitCNPJ.Text;
+      CNPJBasePSP := Copy(edtEmitCNPJ.Text, 1, 8);
+    end;
+
     with gFat do
     begin
       CompetFat    := StrToDate('01/10/2019');
@@ -764,6 +790,47 @@ begin
   ACBrNF3e1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento
   ACBrNF3e1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.nProt
   *)
+end;
+
+procedure TfrmACBrNF3e.btnCancelarPagVincClick(Sender: TObject);
+var
+  Titulo, Chave, idLote, CNPJ, Protocolo, nProtVincPgto: string;
+begin
+  Titulo := 'WebServices Eventos: Cancelar Pagamento Vinculado';
+
+  if not(InputQuery(Titulo, 'Chave da BP-e', Chave)) then
+     exit;
+  Chave := Trim(OnlyNumber(Chave));
+  idLote := '1';
+  if not(InputQuery(Titulo, 'Identificador de controle do Lote de envio do Evento', idLote)) then
+     exit;
+  CNPJ := copy(Chave,7,14);
+  if not(InputQuery(Titulo, 'CNPJ ou o CPF do autor do Evento', CNPJ)) then
+     exit;
+  Protocolo:='';
+  if not(InputQuery(Titulo, 'Protocolo de Autorização', Protocolo)) then
+     exit;
+  nProtVincPgto := '';
+  if not(InputQuery(Titulo, 'Protocolo de Autorização do Vinculação de Pagamento', nProtVincPgto)) then
+     exit;
+
+  ACBrNF3e1.EventoNF3e.Evento.Clear;
+
+  with ACBrNF3e1.EventoNF3e.Evento.New do
+  begin
+    infevento.chNF3e := Chave;
+    infevento.CNPJ   := CNPJ;
+    infEvento.dhEvento := now;
+    infEvento.tpEvento := teCancVinculoPgto;
+    infEvento.detEvento.nProt := Protocolo;
+    infEvento.detEvento.nProtVincPgto := nProtVincPgto;
+  end;
+
+  ACBrNF3e1.EnviarEvento(StrToInt(idLote));
+
+  MemoResp.Lines.Text := ACBrNF3e1.WebServices.EnvEvento.RetWS;
+  memoRespWS.Lines.Text := ACBrNF3e1.WebServices.EnvEvento.RetornoWS;
+  LoadXML(ACBrNF3e1.WebServices.EnvEvento.RetornoWS, WBResposta);
 end;
 
 procedure TfrmACBrNF3e.btnCancelarXMLClick(Sender: TObject);
@@ -1468,6 +1535,72 @@ begin
   end;
 end;
 
+procedure TfrmACBrNF3e.btnVincPagtoClick(Sender: TObject);
+var
+  Titulo, Chave, idLote, CNPJ, Protocolo, nPag, idTransacao, tpMeioPgto,
+  CNPJReceb, CNPJBasePSP: string;
+begin
+  Titulo := 'WebServices Eventos: Pagamento Vinculado';
+  Chave := '';
+  if not(InputQuery(Titulo, 'Chave da BP-e', Chave)) then
+     exit;
+  Chave := Trim(OnlyNumber(Chave));
+
+  idLote := '1';
+  if not(InputQuery(Titulo, 'Identificador de controle do Lote de envio do Evento', idLote)) then
+     exit;
+
+  CNPJ := copy(Chave,7,14);
+  if not(InputQuery(Titulo, 'CNPJ ou o CPF do autor do Evento', CNPJ)) then
+     exit;
+
+  Protocolo := '';
+  if not(InputQuery('WebServices Eventos: Não Embarque', 'Protocolo de Autorização', Protocolo)) then
+     exit;
+
+  nPag:='1';
+  if not(InputQuery(Titulo, 'Numero do Pagamento', nPag)) then
+     exit;
+
+  idTransacao := '';
+  if not(InputQuery(Titulo, 'Identificação da Transação', idTransacao)) then
+     exit;
+
+  tpMeioPgto := '';
+  if not(InputQuery(Titulo, 'Código do Meio de Pagamento', tpMeioPgto)) then
+     exit;
+
+  CNPJReceb := '';
+  if not(InputQuery(Titulo, 'CNPJ do Recebedor', CNPJReceb)) then
+     exit;
+
+  CNPJBasePSP := '';
+  if not(InputQuery(Titulo, 'CNPJ Base do PSP', CNPJBasePSP)) then
+     exit;
+
+  ACBrNF3e1.EventoNF3e.Evento.Clear;
+
+  with ACBrNF3e1.EventoNF3e.Evento.New do
+  begin
+    infevento.chNF3e := Chave;
+    infevento.CNPJ   := CNPJ;
+    infEvento.dhEvento := now;
+    infEvento.tpEvento := teVinculoPgto;
+    infEvento.detEvento.nProt := Protocolo;
+    infEvento.detEvento.pgto.nPag := StrToIntDef(nPag, 1);
+    infEvento.detEvento.pgto.idTransacao := idTransacao;
+    infEvento.detEvento.pgto.tpMeioPgto := tpMeioPgto;
+    infEvento.detEvento.pgto.CNPJReceb := CNPJReceb;
+    infEvento.detEvento.pgto.CNPJBasePSP := CNPJBasePSP;
+  end;
+
+  ACBrNF3e1.EnviarEvento(StrToInt(idLote));
+
+  MemoResp.Lines.Text := ACBrNF3e1.WebServices.EnvEvento.RetWS;
+  memoRespWS.Lines.Text := ACBrNF3e1.WebServices.EnvEvento.RetornoWS;
+  LoadXML(ACBrNF3e1.WebServices.EnvEvento.RetornoWS, WBResposta);
+end;
+
 procedure TfrmACBrNF3e.btSerialClick(Sender: TObject);
 begin
   frmConfiguraSerial.Device.Porta        := ACBrPosPrinter1.Device.Porta;
@@ -1876,7 +2009,7 @@ begin
   with ACBrNF3e1.Configuracoes.WebServices do
   begin
     UF         := cbUF.Text;
-    Ambiente   := StrToTipoAmbiente(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
+    Ambiente   := StrToTipoAmbiente(IntToStr(rgTipoAmb.ItemIndex+1));
     Visualizar := cbxVisualizar.Checked;
     Salvar     := cbxSalvarSOAP.Checked;
 
@@ -1924,7 +2057,7 @@ begin
 
   if ACBrNF3e1.DANF3e <> nil then
   begin
-    ACBrNF3e1.DANF3e.TipoDANF3e := StrToTpImp(OK, IntToStr(rgTipoDaNF3e.ItemIndex + 1));
+    ACBrNF3e1.DANF3e.TipoDANF3e := StrToTpImp(IntToStr(rgTipoDaNF3e.ItemIndex + 1));
     ACBrNF3e1.DANF3e.Logo       := edtLogoMarca.Text;
   end;
 end;

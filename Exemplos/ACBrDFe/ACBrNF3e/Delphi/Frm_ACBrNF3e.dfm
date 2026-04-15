@@ -1638,41 +1638,75 @@ object frmACBrNF3e: TfrmACBrNF3e
       object tsEventos: TTabSheet
         Caption = 'Eventos'
         ImageIndex = 4
-        object btnCancelarXML: TButton
-          Left = 8
-          Top = 9
-          Width = 177
-          Height = 25
-          Caption = 'Cancelamento com XML'
+        object pgcEventos: TPageControl
+          Left = 0
+          Top = 0
+          Width = 559
+          Height = 135
+          ActivePage = tsComuns
+          Align = alClient
           TabOrder = 0
-          OnClick = btnCancelarXMLClick
-        end
-        object btnCancelarChave: TButton
-          Left = 191
-          Top = 9
-          Width = 177
-          Height = 25
-          Caption = 'Cancelamento pela Chave'
-          TabOrder = 1
-          OnClick = btnCancelarChaveClick
-        end
-        object btnImprimirEvento: TButton
-          Left = 8
-          Top = 40
-          Width = 177
-          Height = 25
-          Caption = 'Imprimir Evento'
-          TabOrder = 2
-          OnClick = btnImprimirEventoClick
-        end
-        object btnEnviarEventoEmail: TButton
-          Left = 191
-          Top = 40
-          Width = 177
-          Height = 25
-          Caption = 'Enviar Evento Email'
-          TabOrder = 3
-          OnClick = btnEnviarEventoEmailClick
+          object tsComuns: TTabSheet
+            Caption = 'Comuns'
+            object btnCancelarXML: TButton
+              Left = 3
+              Top = 3
+              Width = 177
+              Height = 25
+              Caption = 'Cancelamento com XML'
+              TabOrder = 0
+              OnClick = btnCancelarXMLClick
+            end
+            object btnCancelarChave: TButton
+              Left = 186
+              Top = 3
+              Width = 177
+              Height = 25
+              Caption = 'Cancelamento pela Chave'
+              TabOrder = 1
+              OnClick = btnCancelarChaveClick
+            end
+            object btnImprimirEvento: TButton
+              Left = 3
+              Top = 34
+              Width = 177
+              Height = 25
+              Caption = 'Imprimir Evento'
+              TabOrder = 2
+              OnClick = btnImprimirEventoClick
+            end
+            object btnEnviarEventoEmail: TButton
+              Left = 186
+              Top = 34
+              Width = 177
+              Height = 25
+              Caption = 'Enviar Evento Email'
+              TabOrder = 3
+              OnClick = btnEnviarEventoEmailClick
+            end
+          end
+          object tsRTC: TTabSheet
+            Caption = 'RTC'
+            ImageIndex = 1
+            object btnVincPagto: TButton
+              Left = 3
+              Top = 3
+              Width = 150
+              Height = 25
+              Caption = 'Vincula'#231#227'o Pagamento'
+              TabOrder = 0
+              OnClick = btnVincPagtoClick
+            end
+            object btnCancelarPagVinc: TButton
+              Left = 159
+              Top = 3
+              Width = 150
+              Height = 25
+              Caption = 'Cancelar Pag. Vinculado'
+              TabOrder = 1
+              OnClick = btnCancelarPagVincClick
+            end
+          end
         end
       end
       object tsDistribuicao: TTabSheet
@@ -1742,7 +1776,7 @@ object frmACBrNF3e: TfrmACBrNF3e
           Align = alClient
           TabOrder = 0
           ControlData = {
-            4C000000C63900002C2700000000000000000000000000000000000000000000
+            4C000000382E0000561F00000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
             2B2E126200000000000000004C0000000114020000000000C000000000000046
             8000000000000000000000000000000000000000000000000000000000000000
@@ -1813,14 +1847,14 @@ object frmACBrNF3e: TfrmACBrNF3e
       Align = alTop
       Caption = 
         'Gera os campos da ReformaTributaria (em conformidade com a NT 20' +
-        '25/001 vers'#227'o 1.10)'
+        '26/001 vers'#227'o 1.01)'
       Columns = 2
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
-      ItemIndex = 1
+      ItemIndex = 0
       Items.Strings = (
         'Sim'
         'N'#227'o')
