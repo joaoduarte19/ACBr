@@ -43,7 +43,8 @@ uses
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$IfEnd}
-  pcnConversao, pcteConversaoCTe,
+  pcnConversao,
+  pcteConversaoCTe,
   ACBrBase;
 
 type

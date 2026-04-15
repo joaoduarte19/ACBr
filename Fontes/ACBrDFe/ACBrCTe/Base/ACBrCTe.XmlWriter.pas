@@ -4473,7 +4473,6 @@ end;
 function TCTeXmlWriter.Gerar_pgto: TACBrXmlNodeArray;
 var
   i: integer;
-  nodeArray: TACBrXmlNodeArray;
 begin
   Result := nil;
 

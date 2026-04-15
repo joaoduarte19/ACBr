@@ -3071,7 +3071,8 @@ begin
 
   if (FEvento.Evento.Items[0].InfEvento.tpEvento in [teCCe, teCancelamento,
       teMultiModal, tePrestDesacordo, teGTV, teComprEntrega, teCancComprEntrega,
-      teCancPrestDesacordo, teInsucessoEntregaCTe, teCancInsucessoEntregaCTe]) then
+      teCancPrestDesacordo, teInsucessoEntregaCTe, teCancInsucessoEntregaCTe,
+      teVinculoPgto, teCancVinculoPgto]) then
     FPLayout := LayCTeEvento
   else
     FPLayout := LayCTeEventoAN;

@@ -2368,7 +2368,6 @@ procedure TCTeIniReader.Ler_PagamentosVinculados(AINIRec: TMemIniFile;
 var
   I: Integer;
   sSecao, sFim: String;
-  OK: Boolean;
   ItemPag: TpgtoCollectionItem;
 begin
   //

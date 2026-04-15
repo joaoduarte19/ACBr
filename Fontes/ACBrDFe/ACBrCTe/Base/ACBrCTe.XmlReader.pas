@@ -151,7 +151,7 @@ uses
   ACBrUtil.Base, 
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  pcnConversao,
+//  pcnConversao,
   pcteConversaoCTe;
 
 { TCTeXmlReader }
@@ -239,7 +239,7 @@ begin
   aquav.prtEmb := ObterConteudo(ANode.Childrens.FindAnyNs('prtEmb'), tcStr);
   aquav.prtTrans := ObterConteudo(ANode.Childrens.FindAnyNs('prtTrans'), tcStr);
   aquav.prtDest := ObterConteudo(ANode.Childrens.FindAnyNs('prtDest'), tcStr);
-  aquav.tpNav := StrToTpNavegacao(ok, ObterConteudo(ANode.Childrens.FindAnyNs('tpNav'), tcStr));
+  aquav.tpNav := StrToTpNavegacao(ObterConteudo(ANode.Childrens.FindAnyNs('tpNav'), tcStr));
   aquav.irin := ObterConteudo(ANode.Childrens.FindAnyNs('irin'), tcStr);
 
   aquav.balsa.Clear;
@@ -735,12 +735,12 @@ begin
   FCTe.Ide.serie := ObterConteudo(ANode.Childrens.FindAnyNs('serie'), tcStr);
   FCTe.Ide.nCT := ObterConteudo(ANode.Childrens.FindAnyNs('nCT'), tcInt);
   FCTe.Ide.dhEmi := ObterConteudo(ANode.Childrens.FindAnyNs('dhEmi'), tcDatHor);
-  FCTe.Ide.tpImp := StrToTpImp(Ok, ObterConteudo(ANode.Childrens.FindAnyNs('tpImp'), tcStr));
-  FCTe.Ide.tpEmis := StrToTpEmis(OK, ObterConteudo(ANode.Childrens.FindAnyNs('tpEmis'), tcStr));
+  FCTe.Ide.tpImp := StrToTpImp(ObterConteudo(ANode.Childrens.FindAnyNs('tpImp'), tcStr));
+  FCTe.Ide.tpEmis := StrToTipoEmissao(ObterConteudo(ANode.Childrens.FindAnyNs('tpEmis'), tcStr));
   FCTe.Ide.cDV := ObterConteudo(ANode.Childrens.FindAnyNs('cDV'), tcInt);
-  FCTe.Ide.tpAmb := StrToTpAmb(OK, ObterConteudo(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
-  FCTe.Ide.tpCTe := StrTotpCTe(OK, ObterConteudo(ANode.Childrens.FindAnyNs('tpCTe'), tcStr));
-  FCTe.Ide.procEmi := StrToprocEmi(OK, ObterConteudo(ANode.Childrens.FindAnyNs('procEmi'), tcStr));
+  FCTe.Ide.tpAmb := StrToTipoAmbiente(ObterConteudo(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
+  FCTe.Ide.tpCTe := StrTotpCTe(Ok, ObterConteudo(ANode.Childrens.FindAnyNs('tpCTe'), tcStr));
+  FCTe.Ide.procEmi := StrToprocEmi(ObterConteudo(ANode.Childrens.FindAnyNs('procEmi'), tcStr));
   FCTe.Ide.verProc := ObterConteudo(ANode.Childrens.FindAnyNs('verProc'), tcStr);
 
   if ObterConteudo(ANode.Childrens.FindAnyNs('indGlobalizado'), tcStr) = '1' then
@@ -752,7 +752,7 @@ begin
   FCTe.Ide.cMunEnv := ObterConteudo(ANode.Childrens.FindAnyNs('cMunEnv'), tcInt);
   FCTe.Ide.xMunEnv := ObterConteudo(ANode.Childrens.FindAnyNs('xMunEnv'), tcStr);
   FCTe.Ide.UFEnv := ObterConteudo(ANode.Childrens.FindAnyNs('UFEnv'), tcStr);
-  FCTe.Ide.modal := StrToTpModal(OK, ObterConteudo(ANode.Childrens.FindAnyNs('modal'), tcStr));
+  FCTe.Ide.modal := StrToTpModal(ObterConteudo(ANode.Childrens.FindAnyNs('modal'), tcStr));
   FCTe.Ide.tpServ := StrtoTpServ(Ok, ObterConteudo(ANode.Childrens.FindAnyNs('tpServ'), tcStr));
   FCTe.Ide.cMunIni := ObterConteudo(ANode.Childrens.FindAnyNs('cMunIni'), tcInt);
   FCTe.Ide.xMunIni := ObterConteudo(ANode.Childrens.FindAnyNs('xMunIni'), tcStr);
@@ -772,7 +772,7 @@ begin
 
   sAux := ObterConteudo(ANode.Childrens.FindAnyNs('indIEToma'), tcStr);
   if sAux <> '' then
-    FCTe.Ide.IndIEToma := StrToindIEDest(OK, sAux);
+    FCTe.Ide.IndIEToma := StrToindIEDest(sAux);
 
   FCTe.Ide.dhSaidaOrig := ObterConteudo(ANode.Childrens.FindAnyNs('dhSaidaOrig'), tcDatHor);
   FCTe.Ide.dhChegadaDest := ObterConteudo(ANode.Childrens.FindAnyNs('dhChegadaDest'), tcDatHor);
@@ -788,14 +788,13 @@ end;
 procedure TCTeXmlReader.Ler_Imp(ANode: TACBrXmlNode);
 var
   AuxNode: TACBrXmlNode;
-  Ok: Boolean;
 
   procedure LerICMS00(ANode: TACBrXmlNode);
   begin
     if not Assigned(ANode) then exit;
 
     FCTe.Imp.ICMS.SituTrib := cst00;
-    FCTe.Imp.ICMS.ICMS00.CST := StrToCSTICMS(ok, ObterConteudo(ANode.Childrens.FindAnyNs('CST'), tcStr));
+    FCTe.Imp.ICMS.ICMS00.CST := StrToCSTICMS(ObterConteudo(ANode.Childrens.FindAnyNs('CST'), tcStr));
     FCTe.Imp.ICMS.ICMS00.vBC := ObterConteudo(ANode.Childrens.FindAnyNs('vBC'), tcDe2);
     FCTe.Imp.ICMS.ICMS00.pICMS := ObterConteudo(ANode.Childrens.FindAnyNs('pICMS'), tcDe2);
     FCTe.Imp.ICMS.ICMS00.vICMS := ObterConteudo(ANode.Childrens.FindAnyNs('vICMS'), tcDe2);
@@ -806,7 +805,7 @@ var
     if not Assigned(ANode) then exit;
 
     FCTe.Imp.ICMS.SituTrib := cst20;
-    FCTe.Imp.ICMS.ICMS20.CST := StrToCSTICMS(ok, ObterConteudo(ANode.Childrens.FindAnyNs('CST'), tcStr));
+    FCTe.Imp.ICMS.ICMS20.CST := StrToCSTICMS(ObterConteudo(ANode.Childrens.FindAnyNs('CST'), tcStr));
     FCTe.Imp.ICMS.ICMS20.pRedBC := ObterConteudo(ANode.Childrens.FindAnyNs('pRedBC'), tcDe2);
     FCTe.Imp.ICMS.ICMS20.vBC := ObterConteudo(ANode.Childrens.FindAnyNs('vBC'), tcDe2);
     FCTe.Imp.ICMS.ICMS20.pICMS := ObterConteudo(ANode.Childrens.FindAnyNs('pICMS'), tcDe2);
@@ -817,7 +816,7 @@ var
   begin
     if not Assigned(ANode) then exit;
 
-    FCTe.Imp.ICMS.ICMS45.CST := StrToCSTICMS(ok, ObterConteudo(ANode.Childrens.FindAnyNs('CST'), tcStr));
+    FCTe.Imp.ICMS.ICMS45.CST := StrToCSTICMS(ObterConteudo(ANode.Childrens.FindAnyNs('CST'), tcStr));
 
     case FCTe.Imp.ICMS.ICMS45.CST of
       cst40: FCTe.Imp.ICMS.SituTrib := cst40;
@@ -830,7 +829,7 @@ var
   begin
     if not Assigned(ANode) then exit;
     FCTe.Imp.ICMS.SituTrib := cst60;
-    FCTe.Imp.ICMS.ICMS60.CST := StrToCSTICMS(ok, ObterConteudo(ANode.Childrens.FindAnyNs('CST'), tcStr));
+    FCTe.Imp.ICMS.ICMS60.CST := StrToCSTICMS(ObterConteudo(ANode.Childrens.FindAnyNs('CST'), tcStr));
     FCTe.Imp.ICMS.ICMS60.vBCSTRet := ObterConteudo(ANode.Childrens.FindAnyNs('vBCSTRet'), tcDe2);
     FCTe.Imp.ICMS.ICMS60.vICMSSTRet := ObterConteudo(ANode.Childrens.FindAnyNs('vICMSSTRet'), tcDe2);
     FCTe.Imp.ICMS.ICMS60.pICMSSTRet := ObterConteudo(ANode.Childrens.FindANyNs('pICMSSTRet'), tcDe2);
@@ -842,7 +841,7 @@ var
     if not Assigned(ANode) then exit;
 
     FCTe.Imp.ICMS.SituTrib := cst90;
-    FCTe.Imp.ICMS.ICMS90.CST := StrToCSTICMS(ok, ObterConteudo(ANode.Childrens.FindAnyNs('CST'), tcStr));
+    FCTe.Imp.ICMS.ICMS90.CST := StrToCSTICMS(ObterConteudo(ANode.Childrens.FindAnyNs('CST'), tcStr));
     FCTe.Imp.ICMS.ICMS90.pRedBC := ObterConteudo(ANode.Childrens.FindAnyNs('pRedBC'), tcDe2);
     FCTe.Imp.ICMS.ICMS90.vBC := ObterConteudo(ANode.Childrens.FindAnyNs('vBC'), tcDe2);
     FCTe.Imp.ICMS.ICMS90.pICMS := ObterConteudo(ANode.Childrens.FindAnyNs('pICMS'), tcDe2);
@@ -856,7 +855,7 @@ var
 
     // ICMS devido à UF de origem da prestação, quando diferente da UF do emitente
     FCTe.Imp.ICMS.SituTrib := cstICMSOutraUF;
-    FCTe.Imp.ICMS.ICMSOutraUF.CST := StrToCSTICMS(ok, ObterConteudo(ANode.Childrens.FindAnyNs('CST'), tcStr));
+    FCTe.Imp.ICMS.ICMSOutraUF.CST := StrToCSTICMS(ObterConteudo(ANode.Childrens.FindAnyNs('CST'), tcStr));
     FCTe.Imp.ICMS.ICMSOutraUF.pRedBCOutraUF := ObterConteudo(ANode.Childrens.FindAnyNs('pRedBCOutraUF'), tcDe2);
     FCTe.Imp.ICMS.ICMSOutraUF.vBCOutraUF := ObterConteudo(ANode.Childrens.FindAnyNs('vBCOutraUF'), tcDe2);
     FCTe.Imp.ICMS.ICMSOutraUF.pICMSOutraUF := ObterConteudo(ANode.Childrens.FindAnyNs('pICMSOutraUF'), tcDe2);
@@ -870,7 +869,7 @@ var
     // ICMS Simples Nacional
     FCTe.Imp.ICMS.SituTrib := cstICMSSN;
 
-    FCTe.Imp.ICMS.ICMSSN.CST := StrToCSTICMS(ok, ObterConteudo(ANode.Childrens.FindAnyNs('CST'), tcStr));
+    FCTe.Imp.ICMS.ICMSSN.CST := StrToCSTICMS(ObterConteudo(ANode.Childrens.FindAnyNs('CST'), tcStr));
 
     FCTe.Imp.ICMS.ICMSSN.indSN := ObterConteudo(ANode.Childrens.FindAnyNs('indSN'), tcInt);
   end;
@@ -1020,7 +1019,7 @@ begin
       FCTe.infCTeNorm.infDoc.infNF.New;
       FCTe.infCTeNorm.infDoc.InfNF[i].nRoma := ObterConteudo(infArr[i].Childrens.FindAnyNs('nRoma'), tcStr);
       FCTe.infCTeNorm.infDoc.InfNF[i].nPed := ObterConteudo(infArr[i].Childrens.FindAnyNs('nPed'), tcStr);
-      FCTe.infCTeNorm.infDoc.InfNF[i].Modelo := StrToModeloNF(Ok, ObterConteudo(infArr[i].Childrens.FindAnyNs('mod'), tcStr));
+      FCTe.infCTeNorm.infDoc.InfNF[i].Modelo := StrToModeloNFEX(ObterConteudo(infArr[i].Childrens.FindAnyNs('mod'), tcStr));
       FCTe.infCTeNorm.infDoc.InfNF[i].serie := ObterConteudo(infArr[i].Childrens.FindAnyNs('serie'), tcStr);
       FCTe.infCTeNorm.infDoc.InfNF[i].nDoc := ObterConteudo(infArr[i].Childrens.FindAnyNs('nDoc'), tcEsp);
       FCTe.infCTeNorm.infDoc.InfNF[i].dEmi := ObterConteudo(infArr[i].Childrens.FindAnyNs('dEmi'), tcDat);
@@ -1039,7 +1038,7 @@ begin
       for j := 0 to Length(infUnidArr)-1 do
       begin
         FCTe.infCTeNorm.infDoc.infNF[i].infUnidTransp.New;
-        FCTe.infCTeNorm.infDoc.infNF[i].infUnidTransp[j].tpUnidTransp := StrToUnidTransp(ok, ObterConteudo(infUnidArr[j].Childrens.FindAnyNs('tpUnidTransp'), tcStr));
+        FCTe.infCTeNorm.infDoc.infNF[i].infUnidTransp[j].tpUnidTransp := StrToUnidTransp(ObterConteudo(infUnidArr[j].Childrens.FindAnyNs('tpUnidTransp'), tcStr));
         FCTe.infCTeNorm.infDoc.infNF[i].infUnidTransp[j].idUnidTransp := ObterConteudo(infUnidArr[j].Childrens.FindAnyNs('idUnidTransp'), tcStr);
         FCTe.infCTeNorm.infDoc.infNF[i].infUnidTransp[j].qtdRat := ObterConteudo(infUnidArr[j].Childrens.FindAnyNs('qtdRat'), tcDe2);
 
@@ -1055,7 +1054,7 @@ begin
         for k := 0 to Length(UnidArr)-1 do
         begin
           FCTe.infCTeNorm.infDoc.infNF[i].infUnidTransp[j].infUnidCarga.New;
-          FCTe.infCTeNorm.infDoc.infNF[i].infUnidTransp[j].infUnidCarga[k].tpUnidCarga := StrToUnidCarga(ok, ObterConteudo(UnidArr[k].Childrens.FindAnyNs('tpUnidCarga'), tcStr));
+          FCTe.infCTeNorm.infDoc.infNF[i].infUnidTransp[j].infUnidCarga[k].tpUnidCarga := StrToUnidCarga(ObterConteudo(UnidArr[k].Childrens.FindAnyNs('tpUnidCarga'), tcStr));
           FCTe.infCTeNorm.infDoc.infNF[i].infUnidTransp[j].infUnidCarga[k].idUnidCarga := ObterConteudo(UnidArr[k].Childrens.FindAnyNs('idUnidCarga'), tcStr);
           FCTe.infCTeNorm.infDoc.infNF[i].infUnidTransp[j].infUnidCarga[k].qtdRat := ObterConteudo(UnidArr[k].Childrens.FindAnyNs('qtdRat'), tcDe2);
 
@@ -1073,7 +1072,7 @@ begin
       for j := 0 to Length(UnidArr)-1 do
       begin
         FCTe.infCTeNorm.infDoc.infNF[i].infUnidCarga.New;
-        FCTe.infCTeNorm.infDoc.infNF[i].infUnidCarga[j].tpUnidCarga := StrToUnidCarga(ok, ObterConteudo(UnidArr[j].Childrens.FindAnyNs('tpUnidCarga'), tcStr));
+        FCTe.infCTeNorm.infDoc.infNF[i].infUnidCarga[j].tpUnidCarga := StrToUnidCarga(ObterConteudo(UnidArr[j].Childrens.FindAnyNs('tpUnidCarga'), tcStr));
         FCTe.infCTeNorm.infDoc.infNF[i].infUnidCarga[j].idUnidCarga := ObterConteudo(UnidArr[j].Childrens.FindAnyNs('idUnidCarga'), tcStr);
         FCTe.infCTeNorm.infDoc.infNF[i].infUnidCarga[j].qtdRat := ObterConteudo(UnidArr[j].Childrens.FindAnyNs('qtdRat'), tcDe2);
 
@@ -1104,7 +1103,7 @@ begin
       for j := 0 to Length(infUnidArr)-1 do
       begin
         FCTe.infCTeNorm.infDoc.InfOutros[i].infUnidTransp.New;
-        FCTe.infCTeNorm.infDoc.InfOutros[i].infUnidTransp[j].tpUnidTransp := StrToUnidTransp(ok, ObterConteudo(infUnidArr[j].Childrens.FindAnyNs('tpUnidTransp'), tcStr));
+        FCTe.infCTeNorm.infDoc.InfOutros[i].infUnidTransp[j].tpUnidTransp := StrToUnidTransp(ObterConteudo(infUnidArr[j].Childrens.FindAnyNs('tpUnidTransp'), tcStr));
         FCTe.infCTeNorm.infDoc.InfOutros[i].infUnidTransp[j].idUnidTransp := ObterConteudo(infUnidArr[j].Childrens.FindAnyNs('idUnidTransp'), tcStr);
         FCTe.infCTeNorm.infDoc.infOutros[i].infUnidTransp[j].qtdRat := ObterConteudo(infUnidArr[j].Childrens.FindAnyNs('qtdRat'), tcDe2);
 
@@ -1119,7 +1118,7 @@ begin
         for k := 0 to Length(UnidArr)-1 do
         begin
           FCTe.infCTeNorm.infDoc.InfOutros[i].infUnidTransp[j].infUnidCarga.New;
-          FCTe.infCTeNorm.infDoc.InfOutros[i].infUnidTransp[j].infUnidCarga[k].tpUnidCarga := StrToUnidCarga(ok, ObterConteudo(UnidArr[k].Childrens.FindAnyNs('tpUnidCarga'), tcStr));
+          FCTe.infCTeNorm.infDoc.InfOutros[i].infUnidTransp[j].infUnidCarga[k].tpUnidCarga := StrToUnidCarga(ObterConteudo(UnidArr[k].Childrens.FindAnyNs('tpUnidCarga'), tcStr));
           FCTe.infCTeNorm.infDoc.InfOutros[i].infUnidTransp[j].infUnidCarga[k].idUnidCarga := ObterConteudo(UnidArr[k].Childrens.FindAnyNs('idUnidCarga'), tcStr);
           FCTe.infCTeNorm.infDoc.InfOutros[i].infUnidTransp[j].infUnidCarga[k].qtdRat := ObterConteudo(UnidArr[k].Childrens.FindAnyNs('qtdRat'), tcDe2);
 
@@ -1136,7 +1135,7 @@ begin
       for j := 0 to Length(infUnidArr)-1 do
       begin
         FCTe.infCTeNorm.infDoc.InfOutros[i].infUnidCarga.New;
-        FCTe.infCTeNorm.infDoc.InfOutros[i].infUnidCarga[j].tpUnidCarga := StrToUnidCarga(ok, ObterConteudo(infUnidArr[j].Childrens.FindAnyNs('tpUnidCarga'), tcStr));
+        FCTe.infCTeNorm.infDoc.InfOutros[i].infUnidCarga[j].tpUnidCarga := StrToUnidCarga(ObterConteudo(infUnidArr[j].Childrens.FindAnyNs('tpUnidCarga'), tcStr));
         FCTe.infCTeNorm.infDoc.InfOutros[i].infUnidCarga[j].idUnidCarga := ObterConteudo(InfUnidArr[j].Childrens.FindAnyNs('idUnidCarga'), tcStr);
         FCTe.infCTeNorm.infDoc.InfOutros[i].infUnidCarga[j].qtdRat := ObterConteudo(InfUnidArr[j].Childrens.FindAnyNs('qtdRat'), tcDe2);
 
@@ -1228,7 +1227,6 @@ end;
 procedure TCTeXmlReader.Ler_InfCTeSub(infCteSubNd: TACBrXmlNode; infCTeSub: TInfCteSub);
 var
   indAlteraToma: string;
-  Ok: Boolean;
   tomaICMSNd, refNFNd, tomaNaoICMSNd: TACBrXmlNode;
 begin
   if not Assigned(infCTeSubNd) then exit;
@@ -1239,7 +1237,7 @@ begin
   indAlteratoma := ObterConteudo(infCTeSubNd.Childrens.FindAnyNs('indAlteraToma'), tcStr);
 
   if indAlteratoma <> '' then
-    infCTeSub.indAlteraToma := StrToTIndicador(Ok, indAlteraToma);
+    infCTeSub.indAlteraToma := StrToTIndicador(indAlteraToma);
 
   tomaICMSNd := infCTeSubNd.Childrens.FindAnyNs('tomaICMS');
 
@@ -1361,7 +1359,6 @@ procedure TCTeXmlReader.Ler_InfNFe(ANode: TACBrXmlNode; infNFe: TInfNFeCollectio
 var
   infArr, infUnidArr, UnidArr, ANodeArr: TACBrXmlNodeArray;
   i, j, k, l: Integer;
-  ok: Boolean;
 begin
   if not Assigned(ANode) then exit;
   infArr := ANode.Childrens.FindAllAnyNs('infNFe');
@@ -1382,7 +1379,7 @@ begin
     for j := 0 to Length(infUnidArr)-1 do
     begin
       InfNFE[i].infUnidTransp.New;
-      InfNFE[i].infUnidTransp[j].tpUnidTransp := StrToUnidTransp(ok, ObterConteudo(infUnidArr[j].Childrens.FindAnyNs('tpUnidTransp'), tcStr));
+      InfNFE[i].infUnidTransp[j].tpUnidTransp := StrToUnidTransp(ObterConteudo(infUnidArr[j].Childrens.FindAnyNs('tpUnidTransp'), tcStr));
       InfNFE[i].infUnidTransp[j].idUnidTransp := ObterConteudo(infUnidArr[j].Childrens.FindAnyNs('idUnidTransp'), tcStr);
       infNFE[i].infUnidTransp[j].qtdRat := ObterConteudo(infUnidArr[j].Childrens.FindAnyNs('qtdRat'), tcDe2);
 
@@ -1397,7 +1394,7 @@ begin
       for k := 0 to Length(UnidArr)-1 do
       begin
         InfNFE[i].infUnidTransp[j].infUnidCarga.New;
-        InfNFE[i].infUnidTransp[j].infUnidCarga[k].tpUnidCarga := StrToUnidCarga(ok, ObterConteudo(UnidArr[k].Childrens.FindAnyNS('tpUnidCarga'), tcStr));
+        InfNFE[i].infUnidTransp[j].infUnidCarga[k].tpUnidCarga := StrToUnidCarga(ObterConteudo(UnidArr[k].Childrens.FindAnyNS('tpUnidCarga'), tcStr));
         InfNFE[i].infUnidTransp[j].infUnidCarga[k].idUnidCarga := ObterConteudo(UnidArr[k].Childrens.FindAnyNs('idUnidCarga'), tcStr);
         InfNFE[i].infUnidTransp[j].infUnidCarga[k].qtdRat := ObterConteudo(UnidArr[k].Childrens.FindAnyNs('qtdRat'), tcDe2);
 
@@ -1414,7 +1411,7 @@ begin
     for j := 0 to Length(UnidArr)-1 do
     begin
       infNFE[i].infUnidCarga.New;
-      infNFE[i].infUnidCarga[j].tpUnidCarga := StrToUnidCarga(ok, ObterConteudo(UnidArr[j].Childrens.FindAnyNs('tpUnidCarga'), tcStr));
+      infNFE[i].infUnidCarga[j].tpUnidCarga := StrToUnidCarga(ObterConteudo(UnidArr[j].Childrens.FindAnyNs('tpUnidCarga'), tcStr));
       infNFE[i].infUnidCarga[j].idUnidCarga := ObterConteudo(UnidArr[j].Childrens.FindAnyNs('idUnidCarga'), tcStr);
       infNFE[i].infUnidCarga[j].qtdRat := ObterConteudo(UnidArr[j].Childrens.FindAnyNs('qtdRat'), tcDe2);
 
@@ -1556,7 +1553,6 @@ end;
 
 procedure TCTeXmlReader.Ler_ProtCTe(const ANode: TACBrXmlNode);
 var
-  ok: Boolean;
   ANodeAux: TACBrXmlNode;
 begin
   if not Assigned(ANode) then exit;
@@ -1565,7 +1561,7 @@ begin
 
   if not Assigned(ANodeAux) then Exit;
 
-  FCTe.procCTe.tpAmb := StrToTpAmb(Ok, ObterConteudo(ANodeAux.Childrens.FindAnyNs('tpAmb'), tcStr));
+  FCTe.procCTe.tpAmb := StrToTipoAmbiente(ObterConteudo(ANodeAux.Childrens.FindAnyNs('tpAmb'), tcStr));
   FCTe.procCTe.verAplic := ObterConteudo(ANodeAux.Childrens.FindAnyNs('verAplic'), tcStr);
   FCTe.procCTe.chCTe := ObterConteudo(ANodeAux.Childrens.FindAnyNs('chCTe'), tcStr);
   FCTe.procCTe.dhRecbto := ObterConteudo(ANodeAux.Childrens.FindAnyNs('dhRecbto'), tcDatHor);
@@ -1662,8 +1658,8 @@ begin
     rodo.veic[i].capM3 := ObterConteudo(AuxNodeArr[i].Childrens.FindAnyNs('capM3'), tcInt);
     rodo.veic[i].tpProp := StrToTpPropriedade(ok, ObterConteudo(AuxNodeArr[i].Childrens.FindAnyNs('tpProp'), tcStr));
     rodo.veic[i].tpVeic := StrToTpVeiculo(ok, ObterConteudo(AuxNodeArr[i].Childrens.FindAnyNs('tpVeic'), tcStr));
-    rodo.veic[i].tpRod := StrToTpRodado(ok, ObterConteudo(AuxNodeArr[i].Childrens.FindAnyNs('tpRod'), tcStr));
-    rodo.veic[i].tpCar := StrToTpCarroceria(ok, ObterConteudo(AuxNodeArr[i].Childrens.FindAnyNs('tpCar'), tcStr));
+    rodo.veic[i].tpRod := StrToTpRodado(ObterConteudo(AuxNodeArr[i].Childrens.FindAnyNs('tpRod'), tcStr));
+    rodo.veic[i].tpCar := StrToTpCarroceria(ObterConteudo(AuxNodeArr[i].Childrens.FindAnyNs('tpCar'), tcStr));
     rodo.veic[i].UF := ObterConteudo(AuxNodeArr[i].Childrens.FindAnyNs('UF'), tcStr);
 
     AuxNode := AuxNodeArr[i].Childrens.FindAnyNs('prop');
@@ -1675,7 +1671,7 @@ begin
       rodo.veic[i].prop.xNome := ObterConteudo(AuxNode.Childrens.FindAnyNs('xNome'), tcStr);
       rodo.veic[i].prop.IE := ObterConteudo(AuxNode.Childrens.FindAnyNs('IE'), tcStr);
       rodo.veic[i].prop.UF := ObterConteudo(AuxNode.Childrens.FindAnyNs('UF'), tcStr);
-      rodo.veic[i].prop.tpProp := StrToTpProp(ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpProp'), tcStr));
+      rodo.veic[i].prop.tpProp := StrToTpProp(ObterConteudo(AuxNode.Childrens.FindAnyNs('tpProp'), tcStr));
     end;
   end;
 
@@ -1725,7 +1721,7 @@ begin
       FCTe.infCTeNorm.rodoOS.veic.prop.xNome := ObterConteudo(propNd.Childrens.FindAnyNs('xNome'), tcStr);
       FCTe.infCTeNorm.rodoOS.veic.prop.IE := ObterConteudo(propNd.Childrens.FindAnyNs('IE'), tcStr);
       FCTe.infCTeNorm.rodoOS.veic.prop.UF := ObterConteudo(propNd.Childrens.FindAnyNs('UF'), tcStr);
-      FCTe.infCTeNorm.rodoOS.veic.prop.tpProp := StrToTpProp(ok, ObterConteudo(propNd.Childrens.FindAnyNs('tpProp'), tcStr));
+      FCTe.infCTeNorm.rodoOS.veic.prop.tpProp := StrToTpProp(ObterConteudo(propNd.Childrens.FindAnyNs('tpProp'), tcStr));
     end;
   end;
 
@@ -1781,7 +1777,6 @@ end;
 procedure TCTeXmlReader.Ler_Toma(ANode: TACBrXmlNode);
 var
   lAux: String;
-  OK: Boolean;
 begin
   if not Assigned(ANode) then exit;
 
@@ -1794,7 +1789,7 @@ begin
 
   lAux := ObterConteudo(ANode.Childrens.FindAnyNs('indIEToma'), tcStr);
   if lAux <> '' then
-    FCte.toma.indIEToma := StrToindIEDest(OK, lAux);
+    FCte.toma.indIEToma := StrToindIEDest(lAux);
 
   Ler_TomaEnderToma(ANode.Childrens.FindAnyNs('enderToma'));
 end;
@@ -2141,7 +2136,6 @@ end;
 procedure TCTeXmlReader.Ler_pgto(const ANode: TACBrXmlNode);
 var
   Item: TpgtoCollectionItem;
-  AuxNode: TACBrXmlNode;
 begin
   if not Assigned(ANode) then Exit;
 
@@ -2179,14 +2173,12 @@ begin
 end;
 
 procedure TCTeXmlReader.Ler_IBSCBS(const ANode: TACBrXmlNode; IBSCBS: TIBSCBS);
-var
-  ok: Boolean;
 begin
   if not Assigned(ANode) then Exit;
 
   IBSCBS.CST := StrToCSTIBSCBS(ObterConteudo(ANode.Childrens.Find('CST'), tcStr));
   IBSCBS.cClassTrib := ObterConteudo(ANode.Childrens.Find('cClassTrib'), tcStr);
-  IBSCBS.indDoacao := StrToTIndicadorEx(ok, ObterConteudo(ANode.Childrens.Find('indDoacao'), tcStr));
+  IBSCBS.indDoacao := StrToTIndicadorEx(ObterConteudo(ANode.Childrens.Find('indDoacao'), tcStr));
 
   Ler_IBSCBS_gIBSCBS(ANode.Childrens.Find('gIBSCBS'), IBSCBS.gIBSCBS);
   Ler_gEstornoCred(ANode.Childrens.Find('gEstornoCred'), IBSCBS.gEstornoCred);
