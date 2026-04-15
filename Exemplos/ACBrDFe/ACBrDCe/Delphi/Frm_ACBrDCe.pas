@@ -439,6 +439,8 @@ begin
     Emit.EnderEmit.UF := edtEmitUF.Text;
     Emit.EnderEmit.CEP := StrToIntDef(edtEmitCEP.Text, 0);
     Emit.EnderEmit.fone := edtEmitFone.Text;
+    Emit.EnderEmit.cPais := 1058;
+    Emit.EnderEmit.xPais := 'Brasil';
 
     //
     // Dados do Fisco ou Marketplace ou Transportadora ou ECT
@@ -474,7 +476,7 @@ begin
     //
     // Dados do Destinatário
     //
-    Dest.CNPJCPF := '11111111111';
+    Dest.CNPJCPF := edtEmitCNPJ.Text;
     Dest.idOutros := '';
     Dest.xNome := 'Joao';
 
