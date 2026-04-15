@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/04/2026
+-- ACBrDCe.XmlWriter --
+[*] Revertido a alteração, pois conforme consta no Schema o cPais do emitente, tem que ser
+    o código IBGE do Brasil.
+   Por: Italo Giurizzato Junior
+
 08/04/2026
 -- ACBrDCe.IniReader, ACBrDCe.IniWriter --
 [*] Leitura e escrita dos campos cPais e xPais no ini
