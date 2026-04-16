@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 16/04/2026
+-- PadraoNacional.Provider --
+[*] ACBr-9148 - Possível solução para tags que contem os caracteres: < e >.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [-] O município de Araraquara está na versão 1.00 do provedor Giap
    Por: newstandardsoftware
