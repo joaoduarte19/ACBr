@@ -305,7 +305,7 @@ function ValidarCNPJouCPF(const Documento : String) : String ;
 Var
   NumDocto : String ;
 begin
-   NumDocto := OnlyNumber(Documento) ;
+   NumDocto := OnlyAlphaNum(Documento) ;
    if Length(NumDocto) < 12 then
       Result := ValidarCPF( Documento )
    else
@@ -328,7 +328,7 @@ function OnlyCNPJorCPF(const Documento: String): String;
 var
   NumDocto: String;
 begin
-  NumDocto := OnlyNumber(Documento);
+  NumDocto := OnlyAlphaNum(Documento);
   if EstaVazio( ValidarCNPJouCPF(NumDocto) ) then
     Result := NumDocto
   else
@@ -851,7 +851,7 @@ begin
 
   if (Length( fsDocto ) <> 14) or ( not StrIsAlphaNum( fsDocto ) ) then
   begin
-     fsMsgErro := 'CNPJ deve ter 14 dígitos. (Apenas números)' ;
+     fsMsgErro := 'CNPJ deve ter 14 dígitos. (Apenas letras e números)' ;
      exit
   end ;
 
