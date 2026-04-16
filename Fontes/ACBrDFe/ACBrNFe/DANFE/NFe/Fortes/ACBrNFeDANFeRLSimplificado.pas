@@ -338,6 +338,7 @@ begin
 
     rlmDestinatario.Lines.Add(ACBrStr('CPF/CNPJ: ' + FormatarCNPJouCPF(CNPJCPF) + ' IE: ' + IE));
   end;
+  rlmDestinatario.AutoSize := True;
 
   rllMsgTipoEmissao.Visible := False;
   if (fpNFe.Ide.tpAmb = taHomologacao) then
@@ -448,7 +449,7 @@ begin
 
     {=============== Ajusta o tamanho do quadro das faturas ===============}
 
-    rlbFatura.Height := iQuantDup * 22;
+    rlbFatura.Height := iQuantDup * 28;
   end;
 
 end;
