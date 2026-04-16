@@ -193,10 +193,6 @@ type
     btnAdicionarProtocolo: TButton;
     btnCarregarXMLEnviar: TButton;
     btnValidarAssinatura: TButton;
-    btnCancelarXML: TButton;
-    btnCancelarChave: TButton;
-    btnImprimirEvento: TButton;
-    btnEnviarEventoEmail: TButton;
     pgRespostas: TPageControl;
     TabSheet6: TTabSheet;
     wbXmlRetorno: TWebBrowser;
@@ -218,6 +214,15 @@ type
     btnLerArqINI: TButton;
     btnGerarArqINI: TButton;
     rgReformaTributaria: TRadioGroup;
+    pgcEventos: TPageControl;
+    tsComuns: TTabSheet;
+    tsRTC: TTabSheet;
+    btnCancelarXML: TButton;
+    btnCancelarChave: TButton;
+    btnImprimirEvento: TButton;
+    btnEnviarEventoEmail: TButton;
+    btnVincPagto: TButton;
+    btnCancelarPagVinc: TButton;
 
     procedure FormCreate(Sender: TObject);
     procedure btnSalvarConfigClick(Sender: TObject);
@@ -269,6 +274,8 @@ type
     procedure ACBrNFCom1StatusChange(Sender: TObject);
     procedure btnLerArqINIClick(Sender: TObject);
     procedure btnGerarArqINIClick(Sender: TObject);
+    procedure btnVincPagtoClick(Sender: TObject);
+    procedure btnCancelarPagVincClick(Sender: TObject);
   private
     { Private declarations }
     procedure GravarConfiguracao;
@@ -353,6 +360,15 @@ begin
     begin
       Ide.gCompraGov.tpEnteGov := tcgUniao;
       Ide.gCompraGov.pRedutor := 2;
+      {
+        togNenhum, togFornecimento, togRecebimentoPag,
+        togFornecimentoPagRealizado, togRecebimentoPagFornecPosterior
+      }
+      Ide.gCompraGov.tpOperGov := togFornecimentoPagRealizado;
+      with Ide.gCompraGov.refDFe.New do
+      begin
+        refDFeAnt := '12345678901234567890123456789012345678901234';
+      end;
     end;
 
     // Dados do
@@ -624,6 +640,16 @@ begin
       infAdProd := '';
     end;
 
+    // Informações sobre Pagamentos Vinculados
+    with pgtoVinc.pgto.New do
+    begin
+      nPag := 1;
+      idTransacao := '1234';
+      tpMeioPgto := '10';
+      CNPJReceb := edtEmitCNPJ.Text;
+      CNPJBasePSP := Copy(edtEmitCNPJ.Text, 1, 8);
+    end;
+
     with Total do
     begin
       vProd      := 100;
@@ -821,6 +847,45 @@ begin
   ACBrNFCom1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento
   ACBrNFCom1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.nProt
   *)
+end;
+
+procedure TfrmACBrNFCom.btnCancelarPagVincClick(Sender: TObject);
+var
+  Titulo, Chave, idLote, CNPJ, Protocolo, nProtVincPgto: string;
+begin
+  Titulo := 'WebServices Eventos: Cancelar Pagamento Vinculado';
+
+  if not(InputQuery(Titulo, 'Chave da BP-e', Chave)) then
+     exit;
+  Chave := Trim(OnlyNumber(Chave));
+  idLote := '1';
+  if not(InputQuery(Titulo, 'Identificador de controle do Lote de envio do Evento', idLote)) then
+     exit;
+  CNPJ := copy(Chave,7,14);
+  if not(InputQuery(Titulo, 'CNPJ ou o CPF do autor do Evento', CNPJ)) then
+     exit;
+  Protocolo:='';
+  if not(InputQuery(Titulo, 'Protocolo de Autorização', Protocolo)) then
+     exit;
+  nProtVincPgto := '';
+  if not(InputQuery(Titulo, 'Protocolo de Autorização do Vinculação de Pagamento', nProtVincPgto)) then
+     exit;
+
+  ACBrNFCom1.EventoNFCom.Evento.Clear;
+
+  with ACBrNFCom1.EventoNFCom.Evento.New do
+  begin
+    infevento.chNFCom := Chave;
+    infevento.CNPJ   := CNPJ;
+    infEvento.dhEvento := now;
+    infEvento.tpEvento := teCancVinculoPgto;
+    infEvento.detEvento.nProt := Protocolo;
+    infEvento.detEvento.nProtVincPgto := nProtVincPgto;
+  end;
+
+  ACBrNFCom1.EnviarEvento(StrToInt(idLote));
+
+  LoadXML(ACBrNFCom1.WebServices.EnvEvento.RetWS, wbXmlRetorno);
 end;
 
 procedure TfrmACBrNFCom.btnCancelarXMLClick(Sender: TObject);
@@ -1431,6 +1496,70 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TfrmACBrNFCom.btnVincPagtoClick(Sender: TObject);
+var
+  Titulo, Chave, idLote, CNPJ, Protocolo, nPag, idTransacao, tpMeioPgto,
+  CNPJReceb, CNPJBasePSP: string;
+begin
+  Titulo := 'WebServices Eventos: Pagamento Vinculado';
+  Chave := '';
+  if not(InputQuery(Titulo, 'Chave da BP-e', Chave)) then
+     exit;
+  Chave := Trim(OnlyNumber(Chave));
+
+  idLote := '1';
+  if not(InputQuery(Titulo, 'Identificador de controle do Lote de envio do Evento', idLote)) then
+     exit;
+
+  CNPJ := copy(Chave,7,14);
+  if not(InputQuery(Titulo, 'CNPJ ou o CPF do autor do Evento', CNPJ)) then
+     exit;
+
+  Protocolo := '';
+  if not(InputQuery('WebServices Eventos: Não Embarque', 'Protocolo de Autorização', Protocolo)) then
+     exit;
+
+  nPag:='1';
+  if not(InputQuery(Titulo, 'Numero do Pagamento', nPag)) then
+     exit;
+
+  idTransacao := '';
+  if not(InputQuery(Titulo, 'Identificação da Transação', idTransacao)) then
+     exit;
+
+  tpMeioPgto := '';
+  if not(InputQuery(Titulo, 'Código do Meio de Pagamento', tpMeioPgto)) then
+     exit;
+
+  CNPJReceb := '';
+  if not(InputQuery(Titulo, 'CNPJ do Recebedor', CNPJReceb)) then
+     exit;
+
+  CNPJBasePSP := '';
+  if not(InputQuery(Titulo, 'CNPJ Base do PSP', CNPJBasePSP)) then
+     exit;
+
+  ACBrNFCom1.EventoNFCom.Evento.Clear;
+
+  with ACBrNFCom1.EventoNFCom.Evento.New do
+  begin
+    infevento.chNFCom := Chave;
+    infevento.CNPJ   := CNPJ;
+    infEvento.dhEvento := now;
+    infEvento.tpEvento := teVinculoPgto;
+    infEvento.detEvento.nProt := Protocolo;
+    infEvento.detEvento.pgto.nPag := StrToIntDef(nPag, 1);
+    infEvento.detEvento.pgto.idTransacao := idTransacao;
+    infEvento.detEvento.pgto.tpMeioPgto := tpMeioPgto;
+    infEvento.detEvento.pgto.CNPJReceb := CNPJReceb;
+    infEvento.detEvento.pgto.CNPJBasePSP := CNPJBasePSP;
+  end;
+
+  ACBrNFCom1.EnviarEvento(StrToInt(idLote));
+
+  LoadXML(ACBrNFCom1.WebServices.EnvEvento.RetWS, wbXmlRetorno);
 end;
 
 procedure TfrmACBrNFCom.cbCryptLibChange(Sender: TObject);
