@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 16/04/2026
+-- ACBrNFSeXConversao --
+[+] ACBr-9080 - Incluídos os enumerados para as Naturezas de Operação:
+    202, 203, 302, 304, 401, 702, 704, 705
+   Por: forbostec/Italo Giurizzato Junior
 -- PadraoNacional.Provider --
 [*] ACBr-9148 - Possível solução para tags que contem os caracteres: < e >.
    Por: Italo Giurizzato Junior
