@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/04/2026
+-- ACBrNFe.XmlWriter --
+[*] ACBR-9067 - Alterações visando atender a NT 2022/002 versão 1.30a
+   Por: Italo Giurizzato Junior
+
 14/04/2026
 -- pcnConversaoNFe --
 [*] ACBR-9097: Incluído as novas formas de pagamento: PIX Automático e TEF - Book Transfer.
