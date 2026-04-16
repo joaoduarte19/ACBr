@@ -847,7 +847,7 @@ end;
 function TACBrTEFAPIClassCliSiTef.ParamTemChave(AParam: TACBrTEFParametros;
   const Chave: String): Boolean;
 begin
-  Result := (AParam.IndexOf(Chave) >= 0);
+  Result := (AParam.IndexOfName(Chave) >= 0);
 end;
 
 procedure TACBrTEFAPIClassCliSiTef.QuandoGravarLogAPI(const ALogLine: String; var Tratado: Boolean);
