@@ -59,6 +59,9 @@ Símbolo : Significado
    Veja: https://www.projetoacbr.com.br/forum/topic/91421-ginfes-arquivo-enviado-fora-da-estrutura-do-arquivo-xml-de-entrada/   
 [+] ACBr-9209 - Incluída a cidade de Motuca/SP e o provedor é Fiorilli.
    Por: Light System Software
+-- PadraoNacional.GravarXml --
+[-] Removida condição para chamada da ConsolidarVariosItensServicosEmUmSo quando houverem itens na lista de serviços
+   Por: Renato Rubinho
 
 15/04/2026
 -- ACBr.DANFSeX.FPDFA4Retrato --

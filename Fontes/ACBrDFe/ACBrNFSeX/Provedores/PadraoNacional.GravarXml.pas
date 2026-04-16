@@ -1800,7 +1800,7 @@ begin
 
   FDocument.Root := NFSeNode;
 
-  if (FormatoDiscriminacao <> fdNenhum) or (NFSe.Servico.ItemServico.Count > 0) then
+  if FormatoDiscriminacao <> fdNenhum then
     ConsolidarVariosItensServicosEmUmSo;
 
   xmlNode := GerarXMLInfDps;
