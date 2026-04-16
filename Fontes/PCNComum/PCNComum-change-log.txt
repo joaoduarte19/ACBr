@@ -38,6 +38,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/04/2024
+-- pcnConversao --
+[+] ACBR-9067 - Inclusão do enumerado cstPart20 para o ICMSPart visando atender a NT 2022/002 versão 1.30a
+   Por: Italo Giurizzato Junior
+
 10/04/2024
 -- pcnConversao --
 [+] ACBR-9136 - Inclusão dos eventos: Vinculação de Pagamento e Cancelamento de Vinculação de Pagamento.

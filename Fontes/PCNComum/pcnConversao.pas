@@ -352,6 +352,7 @@ const
   cst81 = {$IFDEF SUPPORTS_SCOPEDENUMS}TCSTIcms.{$ENDIF}cst81 deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TCSTIcms da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   cst90 = {$IFDEF SUPPORTS_SCOPEDENUMS}TCSTIcms.{$ENDIF}cst90 deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TCSTIcms da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   cstPart10 = {$IFDEF SUPPORTS_SCOPEDENUMS}TCSTIcms.{$ENDIF}cstPart10 deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TCSTIcms da Unit ACBrDFe.Conversao.pas' {$ENDIF};
+  cstPart20 = {$IFDEF SUPPORTS_SCOPEDENUMS}TCSTIcms.{$ENDIF}cstPart20 deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TCSTIcms da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   cstPart90 = {$IFDEF SUPPORTS_SCOPEDENUMS}TCSTIcms.{$ENDIF}cstPart90 deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TCSTIcms da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   cstRep41 = {$IFDEF SUPPORTS_SCOPEDENUMS}TCSTIcms.{$ENDIF}cstRep41 deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TCSTIcms da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   cstVazio = {$IFDEF SUPPORTS_SCOPEDENUMS}TCSTIcms.{$ENDIF}cstVazio deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TCSTIcms da Unit ACBrDFe.Conversao.pas' {$ENDIF};
@@ -1071,11 +1072,11 @@ begin
   result := EnumeradoToStr(t, ['', '00', '10', '20', '30', '40', '41', '45', '50', '51',
                                '60', '70', '80', '81', '90', '90', 'SN',
                                '10', '90', '41', '60',
-                               '02', '15', '53', '61'],
+                               '02', '15', '53', '61', '20'],
                               [cstVazio, cst00, cst10, cst20, cst30, cst40, cst41, cst45, cst50, cst51,
                               cst60, cst70, cst80, cst81, cst90, cstICMSOutraUF, cstICMSSN,
                               cstPart10, cstPart90, cstRep41, cstRep60,
-                              cst02, cst15, cst53, cst61]);
+                              cst02, cst15, cst53, cst61, cstPart20]);
 end;
 
 function StrToCSTICMS(out ok: boolean; const s: string): TpcnCSTIcms;
@@ -1083,21 +1084,21 @@ begin
   result := StrToEnumerado(ok, s, ['', '00', '10', '20', '30', '40', '41', '45', '50', '51', '60',
                                    '70', '80', '81', '90', '91', 'SN',
                                    '10part', '90part', '41rep', '60rep',
-                                   '02', '15', '53', '61'],
+                                   '02', '15', '53', '61', '20part'],
                                   [cstVazio, cst00, cst10, cst20, cst30, cst40, cst41, cst45, cst50, cst51, cst60,
                                    cst70, cst80, cst81, cst90, cstICMSOutraUF, cstICMSSN,
                                    cstPart10, cstPart90, cstRep41, cstRep60,
-                                   cst02, cst15, cst53, cst61]);
+                                   cst02, cst15, cst53, cst61, cstPart20]);
 end;
 
 function CSTICMSToStrTagPos(const t: TpcnCSTIcms): string;
 begin
   result := EnumeradoToStr(t, ['02', '03', '04', '05', '06', '06', '06', '07',
                      '08', '09', '10', '11', '12', '10a', '10a', '10b', '10b',
-                     '13', '14', '15', '16'],
+                     '13', '14', '15', '16', '10a'],
     [cst00, cst10, cst20, cst30, cst40, cst41, cst50, cst51, cst60, cst70,
      cst80, cst81, cst90, cstPart10 , cstPart90 , cstRep41, cstRep60,
-     cst02, cst15, cst53, cst61]);
+     cst02, cst15, cst53, cst61, cstPart20]);
 end;
 
 function CSTICMSToStrTagPosText(const t: TpcnCSTIcms): string;
@@ -1127,11 +1128,12 @@ begin
     '02 - Tributação monofásica própria sobre combustíveis',
     '15 - Tributação monofásica própria e com responsabilidade pela retenção sobre combustíveis',
     '53 - Tributação monofásica sobre combustíveis com recolhimento diferido',
-    '61 - Tributação monofásica sobre combustíveis cobrada anteriormente'
+    '61 - Tributação monofásica sobre combustíveis cobrada anteriormente',
+    '10 - TRIBUTAÇÃO COM COBRANÇA DO ICMS POR SUBST. TRIBUTÁRIA'
     ],
     [cstVazio, cst00, cst10, cst20, cst30, cst40, cst41, cst45, cst50, cst51, cst60, cst70,
     cst80, cst81, cst90, cstICMSOutraUF, cstICMSSN, cstPart10, cstPart90, cstRep41, cstRep60,
-    cst02, cst15, cst53, cst61]);
+    cst02, cst15, cst53, cst61, cstPart20]);
 end;
 
 // CST PIS *********************************************************************
