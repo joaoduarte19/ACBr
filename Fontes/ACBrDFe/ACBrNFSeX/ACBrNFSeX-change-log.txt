@@ -41,6 +41,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+16/04/2026
+-- ACBrNFSeXServicos --
+[+] ACBr-9209 - Incluída a cidade de Motuca/SP e o provedor é Fiorilli.
+   Por: Light System Software
+
 15/04/2026
 -- ACBr.DANFSeX.FPDFA4Retrato --
 [-] ACBR-9246 - Ajuste na impressão NFSeX FPDF dos campos do XML em lazarus ( Lib/Monitor/Linux ) não estava saindo corretamente os acentos.
