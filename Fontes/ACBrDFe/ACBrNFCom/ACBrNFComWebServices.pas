@@ -1444,9 +1444,7 @@ var
   SalvarXML, NFCancelada, Atualiza: Boolean;
   aEventos, sPathNFCom, NomeXMLSalvo: string;
   AProcNFCom: TProcDFe;
-  I,
-  J,
-  Inicio, Fim: integer;
+  I, Inicio, Fim: integer;
   dhEmissao: TDateTime;
 begin
   NFComRetorno := TRetConsSitNFCom.Create;
@@ -1917,13 +1915,29 @@ begin
         infEvento.dhEvento := FEvento.Evento[I].InfEvento.dhEvento;
         infEvento.tpEvento := FEvento.Evento[I].InfEvento.tpEvento;
         infEvento.nSeqEvento := FEvento.Evento[I].InfEvento.nSeqEvento;
+        infEvento.detEvento.nProt := FEvento.Evento[I].InfEvento.detEvento.nProt;
 
         case InfEvento.tpEvento of
           teCancelamento:
             begin
               SchemaEventoNFCom := schevCancNFCom;
-              infEvento.detEvento.nProt := FEvento.Evento[I].InfEvento.detEvento.nProt;
               infEvento.detEvento.xJust := FEvento.Evento[I].InfEvento.detEvento.xJust;
+            end;
+
+          teVinculoPgto:
+            begin
+              SchemaEventoNFCom := schevVincPgto;
+              infEvento.detEvento.pgto.nPag := FEvento.Evento[I].infEvento.detEvento.pgto.nPag;
+              infEvento.detEvento.pgto.idTransacao := FEvento.Evento[I].infEvento.detEvento.pgto.idTransacao;
+              infEvento.detEvento.pgto.tpMeioPgto := FEvento.Evento[I].infEvento.detEvento.pgto.tpMeioPgto;
+              infEvento.detEvento.pgto.CNPJReceb := FEvento.Evento[I].infEvento.detEvento.pgto.CNPJReceb;
+              infEvento.detEvento.pgto.CNPJBasePSP := FEvento.Evento[I].infEvento.detEvento.pgto.CNPJBasePSP;
+            end;
+
+          teCancVinculoPgto:
+            begin
+              SchemaEventoNFCom := schevCancVincPgto;
+              infEvento.detEvento.nProtVincPgto := FEvento.Evento[I].infEvento.detEvento.nProtVincPgto;
             end;
         end;
       end;
@@ -1946,6 +1960,20 @@ begin
           AXMLEvento := '<evCancNFCom xmlns="' + ACBRNFCom_NAMESPACE + '">' +
                           Trim(RetornarConteudoEntre(AXMLEvento, '<evCancNFCom>', '</evCancNFCom>')) +
                         '</evCancNFCom>';
+        end;
+
+      schevVincPgto:
+        begin
+          AXMLEvento := '<evVincPgto xmlns="' + ACBRNFCom_NAMESPACE + '">' +
+                          Trim(RetornarConteudoEntre(AXMLEvento, '<evVincPgto>', '</evVincPgto>')) +
+                        '</evVincPgto>';
+        end;
+
+      schevCancVincPgto:
+        begin
+          AXMLEvento := '<evCancVincPgto xmlns="' + ACBRNFCom_NAMESPACE + '">' +
+                          Trim(RetornarConteudoEntre(AXMLEvento, '<evCancVincPgto>', '</evCancVincPgto>')) +
+                        '</evCancVincPgto>';
         end;
     else
       AXMLEvento := '';
@@ -1982,7 +2010,7 @@ end;
 
 function TNFComEnvEvento.TratarResposta: Boolean;
 var
-  I, J: integer;
+  I: integer;
   NomeArq, PathArq, VersaoEvento, Texto: string;
 begin
   FEvento.idLote := idLote;
@@ -1997,10 +2025,10 @@ begin
   EventoRetorno.XmlRetorno := ParseText(FPRetWS);
   EventoRetorno.LerXml;
 
-  FcStat := EventoRetorno.retInfEvento.cStat;
-  FxMotivo := EventoRetorno.retInfEvento.xMotivo;
-  FPMsg := EventoRetorno.retInfEvento.xMotivo;
-  FTpAmb := EventoRetorno.retInfEvento.tpAmb;
+  FcStat := EventoRetorno.cStat;
+  FxMotivo := EventoRetorno.xMotivo;
+  FPMsg := EventoRetorno.xMotivo;
+  FTpAmb := EventoRetorno.tpAmb;
 
   Result := (FcStat = 135);
 
@@ -2072,9 +2100,9 @@ begin
                          'Versão Aplicativo: %s ' + LineBreak +
                          'Status Código: %s ' + LineBreak +
                          'Status Descrição: %s ' + LineBreak),
-                 [FEventoRetorno.versao, TipoAmbienteToStr(FEventoRetorno.retInfEvento.tpAmb),
-                  FEventoRetorno.retInfEvento.verAplic, IntToStr(FEventoRetorno.retInfEvento.cStat),
-                  FEventoRetorno.retInfEvento.xMotivo]);
+                 [FEventoRetorno.versao, TipoAmbienteToStr(FEventoRetorno.tpAmb),
+                  FEventoRetorno.verAplic, IntToStr(FEventoRetorno.cStat),
+                  FEventoRetorno.xMotivo]);
   {
   if FEventoRetorno.retEvento.Count > 0 then
     aMsg := aMsg + Format(ACBrStr('Recebimento: %s ' + LineBreak),

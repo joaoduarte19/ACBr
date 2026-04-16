@@ -41,7 +41,7 @@ uses
   IniFiles,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  pcnConversao,
+//  pcnConversao,
   ACBrNFComClass,
   ACBrNFComConversao;
 
@@ -56,6 +56,7 @@ type
     FtpEmis: Integer;
 
     procedure Ler_Identificacao(AINIRec: TMemIniFile; Ide: TIde);
+    procedure Ler_refDFe(AINIRec: TMemIniFile; refDFe: TrefDFeCollection);
     procedure Ler_Emitente(AINIRec: TMemIniFile; Emit: TEmit);
     procedure Ler_Destinatario(AINIRec: TMemIniFile; Dest: TDest);
     procedure Ler_Assinante(AINIRec: TMemIniFile; assinante: Tassinante);
@@ -80,6 +81,7 @@ type
     procedure Ler_AutorizadosXml(AINIRec: TMemIniFile; autXML: TautXMLCollection);
     procedure Ler_InfAdic(AINIRec: TMemIniFile; InfAdic: TInfAdic);
     procedure Ler_InfRespTec(AINIRec: TMemIniFile; infRespTec: TinfRespTec);
+    procedure Ler_PagamentosVinculados(AINIRec: TMemIniFile; pgto: TpgtoCollection);
 
     // Reforma Tributária
     procedure Ler_IBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBS; Idx: Integer);
@@ -150,6 +152,7 @@ begin
     Ler_gSub(INIRec, FNFCom.gSub);
     Ler_gCofat(INIRec, FNFCom.gCofat);
     Ler_Det(INIRec, FNFCom.Det);
+    Ler_PagamentosVinculados(INIRec, FNFCom.pgtoVinc.pgto);
     Ler_Total(INIRec, FNFCom.Total);
     Ler_gFidelidade(INIRec, FNFCom.gFidelidade);
     Ler_gFat(INIRec, FNFCom.gFat);
@@ -165,7 +168,6 @@ end;
 procedure TNFComIniReader.Ler_Identificacao(AINIRec: TMemIniFile; Ide: TIde);
 var
   sSecao: string;
-  Ok: Boolean;
 begin
   sSecao := 'ide';
   Ide.tpAmb := StrToTipoAmbiente(AINIRec.ReadString(sSecao, 'tpAmb', IntToStr(Ambiente)));
@@ -189,7 +191,35 @@ begin
   Ide.gCompraGov.pRedutor := StringToFloatDef(AINIRec.ReadString(sSecao, 'pRedutor', ''), 0);
 
   if Ide.gCompraGov.pRedutor > 0 then
+  begin
     Ide.gCompraGov.tpEnteGov := StrTotpEnteGov(AINIRec.ReadString(sSecao, 'tpEnteGov', ''));
+    Ide.gCompraGov.tpOperGov := StrTotpOperGov(AINIRec.ReadString('ide', 'tpOperGov', ''));
+
+    Ler_refDFe(AINIRec, Ide.gCompraGov.refDFe);
+  end;
+end;
+
+procedure TNFComIniReader.Ler_refDFe(AINIRec: TMemIniFile;
+  refDFe: TrefDFeCollection);
+var
+  i: Integer;
+  sSecao, sFim: string;
+  Item: TrefDFeCollectionItem;
+begin
+  i := 1;
+  while true do
+  begin
+    sSecao := 'refDFe' + IntToStrZero(i, 3);
+    sFim := AINIRec.ReadString(sSecao, 'refDFeAnt', 'FIM');
+    if sFim = 'FIM' then
+      break;
+
+    Item := refDFe.New;
+
+    Item.refDFeAnt := sFim;
+
+    Inc(i);
+  end;
 end;
 
 procedure TNFComIniReader.Ler_Emitente(AINIRec: TMemIniFile; Emit: TEmit);
@@ -694,11 +724,40 @@ begin
   end;
 end;
 
+procedure TNFComIniReader.Ler_PagamentosVinculados(AINIRec: TMemIniFile;
+  pgto: TpgtoCollection);
+var
+  I: Integer;
+  sSecao, sFim: String;
+  ItemPag: TpgtoCollectionItem;
+begin
+  //
+  // Seção [pgtoVincxx] Dados do Pagamento Vinculado 01-99
+  //
+  I := 1 ;
+  while true do
+  begin
+    sSecao := 'pgtoVinc' + IntToStrZero(I,2) ;
+    sFim   := AINIRec.ReadString(sSecao, 'nPag', 'FIM');
+    if (sFim = 'FIM') or (Length(sFim) <= 0) then
+      break ;
+
+    ItemPag := pgto.New;
+
+    ItemPag.nPag := StrToIntDef(sFim, 0);
+    ItemPag.idTransacao := AINIRec.ReadString(sSecao, 'idTransacao', '');
+    ItemPag.tpMeioPgto := AINIRec.ReadString(sSecao, 'tpMeioPgto', '');
+    ItemPag.CNPJReceb := AINIRec.ReadString(sSecao, 'CNPJReceb', '');
+    ItemPag.CNPJBasePSP := AINIRec.ReadString(sSecao, 'CNPJBasePSP', '');
+
+    Inc(I);
+  end;
+end;
+
 // Reforma Tributária
 procedure TNFComIniReader.Ler_IBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBS; Idx: Integer);
 var
   sSecao: string;
-  ok: Boolean;
 begin
   sSecao := 'IBSCBS' + IntToStrZero(Idx, 3);
 
@@ -706,7 +765,7 @@ begin
   begin
     IBSCBS.CST := StrToCSTIBSCBS(AINIRec.ReadString(sSecao, 'CST', ''));
     IBSCBS.cClassTrib := AINIRec.ReadString(sSecao, 'cClassTrib', '');
-    IBSCBS.indDoacao := StrToTIndicadorEx(ok, AINIRec.ReadString(sSecao, 'indDoacao', ''));
+    IBSCBS.indDoacao := StrToTIndicadorEx(AINIRec.ReadString(sSecao, 'indDoacao', ''));
 
     Ler_IBSCBS_gIBSCBS(AINIRec, IBSCBS.gIBSCBS, Idx);
     Ler_gEstornoCred(AINIRec, IBSCBS.gEstornoCred, Idx);

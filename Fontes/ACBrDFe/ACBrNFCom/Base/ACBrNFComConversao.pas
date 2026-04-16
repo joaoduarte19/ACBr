@@ -56,11 +56,11 @@ const
 type
   TSchemaNFCom = (schErroNFCom, schconsStatServNFCom, schNFCom, schconsReciNFCom,
                   schconsSitNFCom, schEventoNFCom, schdistDFeInt,
-                  schevCancNFCom);
+                  schevCancNFCom, schevVincPgto, schevCancVincPgto);
 
 const
   TSchemaNFComArrayStrings: array[TSchemaNFCom] of string = ('', '', '', '',
-    '', '', '', 'evCancNFCom');
+    '', '', '', 'evCancNFCom', 'evVincPgto', 'evCancVincPgto');
 
 type
   TLayOutNFCom = (LayNFComStatusServico, LayNFComRecepcao, LayNFComRetRecepcao,

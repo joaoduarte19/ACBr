@@ -79,20 +79,36 @@ type
     FretInfEvento: TRetInfEvento;
     FretEvento: TRetInfEventoCollection;
     Fsignature: Tsignature;
-    FXML: AnsiString;
+    FidLote: Int64;
+    FtpAmb: TACBrTipoAmbiente;
+    FverAplic: string;
+    FcOrgao: Integer;
+    FcStat: Integer;
+    FxMotivo: string;
 
+    FXML: AnsiString;
     FXmlRetorno: string;
 
   protected
     procedure Ler_RetEvento(const ANode: TACBrXmlNode);
     procedure Ler_InfEvento(const ANode: TACBrXmlNode);
     procedure Ler_DetEvento(const ANode: TACBrXmlNode);
+    procedure Ler_Pagamento(const ANode: TACBrXmlNode);
+    procedure Ler_RetInfEvento(const ANode: TACBrXmlNode);
   public
     constructor Create;
     destructor Destroy; override;
+
     function LerXml: Boolean;
 
+    property idLote: Int64 read FidLote write FidLote;
     property versao: string read Fversao write Fversao;
+    property tpAmb: TACBrTipoAmbiente read FtpAmb write FtpAmb;
+    property verAplic: string read FverAplic write FverAplic;
+    property cOrgao: Integer read FcOrgao write FcOrgao;
+    property cStat: Integer read FcStat write FcStat;
+    property xMotivo: string read FxMotivo write FxMotivo;
+
     property infEvento: TInfEvento read FInfEvento write FInfEvento;
     property retInfEvento: TRetInfEvento read FretInfEvento write FretInfEvento;
     property retEvento: TRetInfEventoCollection read FretEvento write FretEvento;
@@ -133,8 +149,7 @@ end;
 function TRetEventoNFCom.LerXml: Boolean;
 var
   Document: TACBrXmlDocument;
-  ANode, ANodeAux, SignatureNode: TACBrXmlNode;
-  ok: Boolean;
+  ANode: TACBrXmlNode;
 begin
   Document := TACBrXmlDocument.Create;
 
@@ -195,9 +210,46 @@ begin
   infEvento.DetEvento.nProt := ObterConteudoTag(ANode.Childrens.FindAnyNs('nProt'), tcStr);
   infEvento.DetEvento.xJust := ObterConteudoTag(ANode.Childrens.FindAnyNs('xJust'), tcStr);
 
+  // teCancVinculoPgto
+  infEvento.detEvento.nProtVincPgto := ObterConteudoTag(ANode.Childrens.FindAnyNs('nProtVincPgto'), tcStr);
+
+  Ler_Pagamento(ANode.Childrens.FindAnyNs('pgto'));
+end;
+
+procedure TRetEventoNFCom.Ler_Pagamento(const ANode: TACBrXmlNode);
+begin
+  if not Assigned(ANode) then Exit;
+
+  // teVinculoPgto
+  infEvento.detEvento.pgto.nPag := ObterConteudoTag(ANode.Childrens.FindAnyNs('nPag'), tcInt);
+  infEvento.detEvento.pgto.idTransacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('idTransacao'), tcStr);
+  infEvento.detEvento.pgto.tpMeioPgto := ObterConteudoTag(ANode.Childrens.FindAnyNs('tpMeioPgto'), tcStr);
+  infEvento.detEvento.pgto.CNPJReceb := ObterConteudoTag(ANode.Childrens.FindAnyNs('CNPJReceb'), tcStr);
+  infEvento.detEvento.pgto.CNPJBasePSP := ObterConteudoTag(ANode.Childrens.FindAnyNs('CNPJBasePSP'), tcStr);
 end;
 
 procedure TRetEventoNFCom.Ler_RetEvento(const ANode: TACBrXmlNode);
+var
+  aValor: string;
+begin
+  if not Assigned(ANode) then Exit;
+
+  versao := ObterConteudoTag(ANode.Attributes.Items['versao']);
+  idLote := ObterConteudoTag(ANode.Childrens.FindAnyNs('idLote'), tcInt64);
+
+  aValor := ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr);
+  if aValor <> '' then
+    tpAmb := StrToTipoAmbiente(aValor);
+
+  verAplic := ObterConteudoTag(ANode.Childrens.FindAnyNs('verAplic'), tcStr);
+  cOrgao := ObterConteudoTag(ANode.Childrens.FindAnyNs('cOrgao'), tcInt);
+  cStat := ObterConteudoTag(ANode.Childrens.FindAnyNs('cStat'), tcInt);
+  xMotivo := ObterConteudoTag(ANode.Childrens.FindAnyNs('xMotivo'), tcStr);
+
+  Ler_RetInfEvento(ANode.Childrens.FindAnyNs('retEvento'));
+end;
+
+procedure TRetEventoNFCom.Ler_RetInfEvento(const ANode: TACBrXmlNode);
 var
   ok: Boolean;
 begin
@@ -217,7 +269,6 @@ begin
   RetInfEvento.nSeqEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('nSeqEvento'), tcInt);
   RetInfEvento.dhRegEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhRegEvento'), tcDatHor);
   RetInfEvento.nProt := ObterConteudoTag(ANode.Childrens.FindAnyNs('nProt'), tcStr);
-
 end;
 
 { TRetInfEventoCollectionItem }

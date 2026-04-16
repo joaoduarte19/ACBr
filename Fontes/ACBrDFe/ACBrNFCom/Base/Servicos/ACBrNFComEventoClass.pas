@@ -53,6 +53,22 @@ uses
 type
   EventoException = class(Exception);
 
+  Tpgto = class
+  private
+    FtpMeioPgto: string;
+    FCNPJReceb: string;
+    FCNPJBasePSP: string;
+    FnPag: Integer;
+    FidTransacao: string;
+  public
+
+    property tpMeioPgto: string read FtpMeioPgto write FtpMeioPgto;
+    property CNPJReceb: string read FCNPJReceb write FCNPJReceb;
+    property CNPJBasePSP: string read FCNPJBasePSP write FCNPJBasePSP;
+    property nPag: Integer read FnPag write FnPag;
+    property idTransacao: string read FidTransacao write FidTransacao;
+  end;
+
   TDetEvento = class
   private
     FVersao: string;
@@ -61,13 +77,20 @@ type
     FxJust: string;        // Cancelamento
 
     FidPedidoCancelado: string;
+    Fpgto: Tpgto;
+    FnProtVincPgto: string;
   public
+    constructor Create;
+    destructor Destroy; override;
+
     property versao: string read FVersao write FVersao;
     property descEvento: string read FDescEvento write FDescEvento;
     property nProt: string read FnProt write FnProt;
     property xJust: string read FxJust write FxJust;
 
     property idPedidoCancelado: string read FidPedidoCancelado write FidPedidoCancelado;
+    property pgto: Tpgto read Fpgto write Fpgto;
+    property nProtVincPgto: string read FnProtVincPgto write FnProtVincPgto;
   end;
 
   TInfEvento = class
@@ -199,6 +222,22 @@ begin
   else
     Result := 'Não Definido';
   end;
+end;
+
+{ TDetEvento }
+
+constructor TDetEvento.Create;
+begin
+  inherited Create;
+
+  Fpgto := Tpgto.Create;
+end;
+
+destructor TDetEvento.Destroy;
+begin
+  Fpgto.Free;
+
+  inherited;
 end;
 
 end.
