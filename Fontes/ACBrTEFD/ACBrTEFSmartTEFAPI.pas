@@ -386,6 +386,7 @@ type
     property CNPJIntegrador: String read fCNPJIntegrador write fCNPJIntegrador;
     property GWTokenIntegrador: String read fGWTokenIntegrador write fGWTokenIntegrador;
     property JWTTokenIntegrador: String read fJWTTokenIntegrador write fJWTTokenIntegrador;
+    property JWTTokenLoja: String read fTokenSW write fTokenSW;
   end;
 
 implementation

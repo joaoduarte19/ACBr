@@ -45,6 +45,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/04/2026
+-- ACBrTEFSmartTEFAPI --
+[+] [ACBR-9152] - Inclusão da propriedade JWT-Token-Loja
+    https://www.projetoacbr.com.br/forum/topic/91125-acbr-9152-sugest%C3%A3o-de-altera%C3%A7%C3%A3o-no-arquivo-acbrtefsmarttefapipas/
+    Por: Antonio Carlos Junior
+
 27/03/2026
 -- ACBrTEFComum, ACBrTEFDClass --
 [+] Método: "AjustaLinhaImagemComprovante" movido de "TACBrTEFDRespTXT" para "TACBrTEFResp"
