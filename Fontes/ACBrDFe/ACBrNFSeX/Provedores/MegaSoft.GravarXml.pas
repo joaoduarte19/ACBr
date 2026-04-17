@@ -119,8 +119,12 @@ begin
   Result.AppendChild(AddNode(tcStr, '#31', 'CodigoTributacaoMunicipio', 1, 20, 0,
                      NFSe.Servico.CodigoTributacaoMunicipio, DSC_CSERVTRIBMUN));
 
-  Result.AppendChild(AddNode(tcStr, '#32', 'NumeroNbs', 1, 9, 1,
-                                             NFSe.Servico.CodigoNBS, DSC_CMUN));
+  // Novo XSD (Megasoft): tcDadosServico exige Exigibilidade e NumeroNbs antes de Discriminacao
+  Result.AppendChild(AddNode(tcInt, '#32', 'Exigibilidade', 1, 7, 1,
+    StrToInt(FpAOwner.ExigibilidadeISSToStr(NFSe.Servico.ExigibilidadeISS)), DSC_INDISS));
+
+  Result.AppendChild(AddNode(tcStr, '#32', 'NumeroNbs', 1, 12, 1,
+                                            NFSe.Servico.CodigoNBS, DSC_CMUN));
 
   Result.AppendChild(AddNode(tcStr, '#32', 'Discriminacao', 1, 2000, 1,
     StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,

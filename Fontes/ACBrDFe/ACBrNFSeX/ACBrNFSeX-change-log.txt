@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 17/04/2026
+-- MegaSoft.GravarXml --
+[*] ACBr-9283 - Alteração visando gerar a tag Exigibilidade adicionada pelo provedor.
+   Por: Bill Barsch
 -- ACBrNFSeX.GravarIni/ACBrNFSeX.LerIni --
 [*] Atualização das rotinas de escrita e leitura do arquivo INI.
    Por: Italo Giurizzato Junior
