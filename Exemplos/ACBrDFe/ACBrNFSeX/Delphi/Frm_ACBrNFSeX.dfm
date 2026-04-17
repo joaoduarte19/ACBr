@@ -1536,8 +1536,8 @@ object frmACBrNFSe: TfrmACBrNFSe
           Columns = 2
           ItemIndex = 0
           Items.Strings = (
-            'Retrato'
-            'Paisagem')
+            'Geral'
+            'Padr'#227'o Nacional')
           TabOrder = 1
         end
         object edtPrestLogo: TEdit
@@ -1714,9 +1714,9 @@ object frmACBrNFSe: TfrmACBrNFSe
     TabOrder = 1
     object pgRespostas: TPageControl
       Left = 1
-      Top = 222
+      Top = 246
       Width = 567
-      Height = 420
+      Height = 396
       ActivePage = TabSheet8
       Align = alClient
       TabOrder = 0
@@ -1727,7 +1727,7 @@ object frmACBrNFSe: TfrmACBrNFSe
           Left = 0
           Top = 0
           Width = 559
-          Height = 392
+          Height = 368
           Align = alClient
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -1746,11 +1746,11 @@ object frmACBrNFSe: TfrmACBrNFSe
           Left = 0
           Top = 0
           Width = 559
-          Height = 392
+          Height = 368
           Align = alClient
           TabOrder = 0
           ControlData = {
-            4C000000382E0000692000000000000000000000000000000000000000000000
+            4C000000382E00006D1E00000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
             2B2E126200000000000000004C0000000114020000000000C000000000000046
             8000000000000000000000000000000000000000000000000000000000000000
@@ -1764,11 +1764,11 @@ object frmACBrNFSe: TfrmACBrNFSe
           Left = 0
           Top = 0
           Width = 559
-          Height = 392
+          Height = 368
           Align = alClient
           TabOrder = 0
           ControlData = {
-            4C000000382E0000692000000000000000000000000000000000000000000000
+            4C000000382E00006D1E00000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
             2B2E126200000000000000004C0000000114020000000000C000000000000046
             8000000000000000000000000000000000000000000000000000000000000000
@@ -1781,11 +1781,11 @@ object frmACBrNFSe: TfrmACBrNFSe
           Left = 0
           Top = 0
           Width = 559
-          Height = 392
+          Height = 368
           Align = alClient
           TabOrder = 0
           ControlData = {
-            4C000000382E0000692000000000000000000000000000000000000000000000
+            4C000000382E00006D1E00000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
             2B2E126200000000000000004C0000000114020000000000C000000000000046
             8000000000000000000000000000000000000000000000000000000000000000
@@ -1797,7 +1797,7 @@ object frmACBrNFSe: TfrmACBrNFSe
       Left = 1
       Top = 41
       Width = 567
-      Height = 181
+      Height = 205
       ActivePage = tsDemais
       Align = alTop
       TabOrder = 1
@@ -1807,7 +1807,7 @@ object frmACBrNFSe: TfrmACBrNFSe
           Left = 0
           Top = 0
           Width = 559
-          Height = 153
+          Height = 177
           ActivePage = tsEnvios
           Align = alClient
           TabOrder = 0
@@ -1905,6 +1905,21 @@ object frmACBrNFSe: TfrmACBrNFSe
           object tsConsultas: TTabSheet
             Caption = 'Consultas'
             ImageIndex = 3
+            object Label54: TLabel
+              Left = 3
+              Top = 133
+              Width = 470
+              Height = 13
+              Caption = 
+                '(*) Servi'#231'os Implementados os Provedores que compartilham as nov' +
+                'as com o ADN.'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
             object btnConsultarSitLote: TButton
               Left = 3
               Top = 10
@@ -1985,6 +2000,15 @@ object frmACBrNFSe: TfrmACBrNFSe
               Caption = 'Consultar NFSe por Chave'
               TabOrder = 8
               OnClick = btnConsultarNFSePelaChaveClick
+            end
+            object btnObterPDFdoDANFSE: TButton
+              Left = 3
+              Top = 103
+              Width = 177
+              Height = 25
+              Caption = 'Obter PDF do DANFSE (*)'
+              TabOrder = 9
+              OnClick = btnObterPDFdoDANFSEClick
             end
           end
           object tsConsServPrest: TTabSheet
@@ -2167,6 +2191,21 @@ object frmACBrNFSe: TfrmACBrNFSe
           object tsEnvios1: TTabSheet
             Caption = 'Envios'
             ImageIndex = 2
+            object Label55: TLabel
+              Left = 15
+              Top = 109
+              Width = 536
+              Height = 13
+              Caption = 
+                '(*) Servi'#231'os Implementados por alguns provedores que adotaram o ' +
+                'layout do Padr'#227'o Nacional.'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
             object btnImprimirPN: TButton
               Left = 186
               Top = 9
@@ -2214,6 +2253,24 @@ object frmACBrNFSe: TfrmACBrNFSe
               ParentFont = False
               TabOrder = 3
               OnClick = btnLerXmlClick
+            end
+            object btnGerarEnviarLotePN: TButton
+              Left = 3
+              Top = 71
+              Width = 177
+              Height = 25
+              Caption = 'Enviar Lote RPS (Ass'#237'ncrono) (*)'
+              TabOrder = 4
+              OnClick = btnGerarEnviarLotePNClick
+            end
+            object btnGerarEnviarSincronoPN: TButton
+              Left = 186
+              Top = 71
+              Width = 177
+              Height = 25
+              Caption = 'Enviar Lote RPS (S'#237'ncrono) (*)'
+              TabOrder = 5
+              OnClick = btnGerarEnviarSincronoPNClick
             end
           end
           object tsEventos1: TTabSheet
@@ -2472,6 +2529,34 @@ object frmACBrNFSe: TfrmACBrNFSe
               OnClick = btnGerarArqINIPNClick
             end
           end
+          object tsCancelamentoPN: TTabSheet
+            Caption = 'Cancelamento'
+            ImageIndex = 5
+            object Label53: TLabel
+              Left = 15
+              Top = 109
+              Width = 536
+              Height = 13
+              Caption = 
+                '(*) Servi'#231'os Implementados por alguns provedores que adotaram o ' +
+                'layout do Padr'#227'o Nacional.'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object btnCancNFSePN: TButton
+              Left = 11
+              Top = 18
+              Width = 177
+              Height = 25
+              Caption = 'Cancelar NFSe (*)'
+              TabOrder = 0
+              OnClick = btnCancNFSePNClick
+            end
+          end
         end
       end
     end
@@ -2503,7 +2588,7 @@ object frmACBrNFSe: TfrmACBrNFSe
       'dos os Arquivos (*.*)|*.*'
     Title = 'Selecione a NFe'
     Left = 352
-    Top = 248
+    Top = 288
   end
   object ACBrMail1: TACBrMail
     Host = '127.0.0.1'
@@ -2513,8 +2598,8 @@ object frmACBrNFSe: TfrmACBrNFSe
     Attempts = 3
     DefaultCharset = UTF_8
     IDECharset = CP1252
-    Left = 352
-    Top = 360
+    Left = 656
+    Top = 288
   end
   object ACBrNFSeX1: TACBrNFSeX
     MAIL = ACBrMail1
@@ -2529,14 +2614,13 @@ object frmACBrNFSe: TfrmACBrNFSe
     Configuracoes.Geral.Provedor = proNenhum
     Configuracoes.Geral.Versao = ve100
     Configuracoes.Geral.Emitente.DadosEmitente.Email = 'contato@provedor.com.br'
-    Configuracoes.Geral.FormatoDiscriminacao = fdTabulado
     Configuracoes.Arquivos.OrdenacaoPath = <>
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 0
     Configuracoes.WebServices.QuebradeLinha = '|'
     DANFSE = ACBrNFSeXDANFSeRL1
-    Left = 350
-    Top = 305
+    Left = 438
+    Top = 289
   end
   object ACBrNFSeXDANFSeRL1: TACBrNFSeXDANFSeRL
     Sistema = 'Projeto ACBr - www.projetoacbr.com.br'
@@ -2563,7 +2647,7 @@ object frmACBrNFSe: TfrmACBrNFSe
     FormatarNumeroDocumentoNFSe = True
     Provedor = proNenhum
     Producao = snSim
-    Left = 486
-    Top = 305
+    Left = 550
+    Top = 289
   end
 end
