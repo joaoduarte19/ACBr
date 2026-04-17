@@ -91,8 +91,8 @@ type
     function GetOuterXml: string;
     function GetInnerXml: string;
     function GetNodeType: TACBrXmlNodeType;
-    procedure SetName(AName: string);
-    procedure SetContent(AContent: string);
+    procedure SetName(const AName: string);
+    procedure SetContent(const AContent: string);
 
   public
     constructor Create(xmlDoc: TACBrXmlDocument; xmlNode: xmlNodePtr);
@@ -111,11 +111,13 @@ type
     property NodeType: TACBrXmlNodeType read GetNodeType;
 
     procedure AppendChild(ANode: TACBrXmlNode);
-    procedure ImportXml(AXmlString: string);
-    procedure SetAttribute(AName, AContent: string);
-    procedure SetNamespace(AHref: string; APrefix: string = '');
 
-    function AddChild(AName: string; ANamespace: string = ''; APrefix: string = ''): TACBrXmlNode;
+    procedure ImportXml(const AXmlString: string);
+    procedure SetAttribute(const AName, AContent: string);
+    procedure SetNamespace(const AHref: string; const APrefix: string = '');
+    procedure SetText(const AContent: string);
+
+    function AddChild(const AName: string; const ANamespace: string = ''; const APrefix: string = ''): TACBrXmlNode;
     function GetNextNamespace(var ANamespace: TACBrXmlNamespace): boolean;
     function GetNextChild(var ANode: TACBrXmlNode): boolean;
     function GetNextAttribute(var AAttribute: TACBrXmlAttribute): boolean;
@@ -129,6 +131,8 @@ type
 
   end;
 
+  { TACBrXmlNamespace }
+
   TACBrXmlNamespace = class
   private
     FParentNode: TACBrXmlNode;
@@ -138,8 +142,8 @@ type
 
     function GetPrefixo: string;
     function GetContent: string;
-    procedure SetPrefixo(AName: string);
-    procedure SetContent(AContent: string);
+    procedure SetPrefixo(const AName: string);
+    procedure SetContent(const AContent: string);
 
   public
     constructor Create(ParentNode: TACBrXmlNode; xmlNs: xmlNsPtr);
@@ -151,6 +155,8 @@ type
 
   end;
 
+  { TACBrXmlAttribute }
+
   TACBrXmlAttribute = class
   private
     FParentNode: TACBrXmlNode;
@@ -159,8 +165,8 @@ type
     function GetName: string;
     function GetContent: string;
 
-    procedure SetName(AName: string);
-    procedure SetContent(AContent: string);
+    procedure SetName(const AName: string);
+    procedure SetContent(const AContent: string);
 
   public
     constructor Create(ParentNode: TACBrXmlNode; xmlAtt: xmlAttrPtr);
@@ -171,6 +177,8 @@ type
     property Content: string read GetContent write SetContent;
 
   end;
+
+  { TACBrXMLNamespaceList }
 
   TACBrXMLNamespaceList = class
   private
@@ -189,7 +197,7 @@ type
     property Count: integer read GetCount;
     property Items[Index: integer]: TACBrXmlNamespace read GetItem;
 
-    procedure Add(ANamespace: string; APrefix: string = '');
+    procedure Add(const ANamespace: string; const APrefix: string = '');
     procedure Remove(Item: TACBrXmlNamespace);
     function GetEnumerator: TACBrXMLNamespaceListEnumerator;
 
@@ -200,9 +208,8 @@ type
     FIndex: integer;
     FList: TACBrXMLNamespaceList;
 
-    constructor Create(aList: TACBrXMLNamespaceList);
-
   public
+    constructor Create(aList: TACBrXMLNamespaceList);
     function GetCurrent: TACBrXmlNamespace;
     function MoveNext: boolean;
 
@@ -221,9 +228,8 @@ type
     function GetCount: integer;
     function GetItem(Index: integer): TACBrXmlNode;
 
-    constructor Create(AParent: TACBrXmlNode);
-
   public
+    constructor Create(AParent: TACBrXmlNode);
     destructor Destroy; override;
 
     property Parent: TACBrXmlNode read FParent;
@@ -245,9 +251,8 @@ type
     FIndex: integer;
     FList: TACBrXMLNodeList;
 
-    constructor Create(aList: TACBrXMLNodeList);
-
   public
+    constructor Create(aList: TACBrXMLNodeList);
     function GetCurrent: TACBrXmlNode;
     function MoveNext: boolean;
 
@@ -266,9 +271,8 @@ type
     function GetCount: integer;
     function GetItem(AName: string): TACBrXmlAttribute;
 
-    constructor Create(AParent: TACBrXmlNode);
-
   public
+    constructor Create(AParent: TACBrXmlNode);
     destructor Destroy; override;
 
     property Parent: TACBrXmlNode read FParent;
@@ -285,9 +289,8 @@ type
     FIndex: integer;
     FList: TACBrXMLAttributeList;
 
-    constructor Create(aList: TACBrXMLAttributeList);
-
   public
+    constructor Create(aList: TACBrXMLAttributeList);
     function GetCurrent: TACBrXmlAttribute;
     function MoveNext: boolean;
 
@@ -296,6 +299,8 @@ type
 
   end;
 
+  { TACBrXmlDocument }
+
   TACBrXmlDocument = class
   private
     xmlDocInternal: xmlDocPtr;
@@ -303,7 +308,7 @@ type
     FSaveOptions: TSaveOptions;
 
     function GetName: string;
-    function GetXml: string;
+    function GetXml: AnsiString;
     function GetSaveOptions: integer;
 
     procedure SetRootElement(ARootNode: TACBrXmlNode);
@@ -320,12 +325,12 @@ type
     procedure SaveToFile(AFilename: string);
     procedure SaveToStream(AStream: TStream);
     procedure LoadFromFile(AFilename: string);
-    procedure LoadFromXml(AXmlDocument: string);
+    procedure LoadFromXml(AXmlDocument: AnsiString);
     procedure LoadFromStream(AStream: TStream);
 
     property Name: string read GetName;
     property Root: TACBrXmlNode read xmlRootElement write SetRootElement;
-    property Xml: string read GetXml;
+    property Xml: AnsiString read GetXml;
     property SaveOptions: TSaveOptions read FSaveOptions write FSaveOptions;
 
   end;
@@ -371,6 +376,7 @@ begin
 
     xmlUnlinkNode(FXmlNode);
     xmlFreeNode(FXmlNode);
+    FXmlNode := Nil;
   end;
 
   inherited Destroy;
@@ -379,8 +385,6 @@ end;
 function TACBrXmlNode.GetName: string;
 begin
   Result := string(FXmlNode^.Name);
-  // a linha abaixo foi comentada pois segundo o DSA consome muito a CPU e causa lentidão
-//  Result := UTF8ToNativeString(Result);
 end;
 
 function TACBrXmlNode.GetLocalName: string;
@@ -389,8 +393,6 @@ Var
 begin
   AName := string(FXmlNode^.Name);
   Result := copy(AName, Pos(':', AName) + 1, Length(AName));
-  // a linha abaixo foi comentada pois segundo o DSA consome muito a CPU e causa lentidão
-//  Result := UTF8ToNativeString(Result);
 end;
 
 function TACBrXmlNode.GetContent: string;
@@ -421,8 +423,6 @@ begin
       xmlBufferFree(buffer);
     end;
   end;
-  // a linha abaixo foi comentada pois segundo o DSA consome muito a CPU e causa lentidão
-//  Result := UTF8ToNativeString(Result);
 end;
 
 function TACBrXmlNode.GetOuterXml: string;
@@ -435,14 +435,12 @@ begin
   try
     xmlNodeDump(buffer, FXmlNode.doc, FXmlNode, 0, 0);
     Result := string(buffer.content);
-  // a linha abaixo foi comentada pois segundo o DSA consome muito a CPU e causa lentidão
-//    Result := UTF8ToNativeString(Result);
   finally
     xmlBufferFree(buffer);
   end;
 end;
 
-procedure TACBrXmlNode.SetName(AName: string);
+procedure TACBrXmlNode.SetName(const AName: string);
 begin
   if AName = EmptyStr then
     raise EACBrXmlException.Create('O nome do nó não pode ser vazio.');
@@ -450,7 +448,7 @@ begin
   xmlNodeSetName(FXmlNode, PAnsiChar(ansistring(AName)));
 end;
 
-procedure TACBrXmlNode.SetContent(AContent: string);
+procedure TACBrXmlNode.SetContent(const AContent: string);
 var
   CDataValue: string;
   CDataNode: TACBrXmlNode;
@@ -463,13 +461,14 @@ begin
   end
   else
   begin
-  // a linha abaixo foi comentada pois segundo o DSA consome muito a CPU e causa lentidão
-//    AContent := NativeStringToUTF8(AContent);
+    // Esse método, sempre adiciona o texto no final do existente
+    // Veja SetText, para substituir o texto
     xmlNodeAddContent(FXmlNode, PAnsichar(ansistring(AContent)));
   end;
 end;
 
-function TACBrXmlNode.AddChild(AName: string; ANamespace: string = ''; APrefix: string = ''): TACBrXmlNode;
+function TACBrXmlNode.AddChild(const AName: string; const ANamespace: string;
+  const APrefix: string): TACBrXmlNode;
 begin
   Result := FXmlDoc.CreateElement(AName, ANamespace, APrefix);
   AppendChild(Result);
@@ -485,7 +484,7 @@ begin
   Childrens.Insert(ANode);
 end;
 
-procedure TACBrXmlNode.ImportXml(AXmlString: string);
+procedure TACBrXmlNode.ImportXml(const AXmlString: string);
 Var
   ANode: TACBrXmlNode;
   NewNode, curNode: xmlNodePtr;
@@ -517,7 +516,7 @@ begin
   end;
 end;
 
-procedure TACBrXmlNode.SetAttribute(AName, AContent: string);
+procedure TACBrXmlNode.SetAttribute(const AName, AContent: string);
 var
   xmlAtt: xmlAttrPtr;
 begin
@@ -528,7 +527,7 @@ begin
   Attributes.Insert(TACBrXmlAttribute.Create(Self, xmlAtt));
 end;
 
-procedure TACBrXmlNode.SetNamespace(AHref: string; APrefix: string);
+procedure TACBrXmlNode.SetNamespace(const AHref: string; const APrefix: string);
 Var
   xmlNs: xmlNsPtr;
   Prefix: PAnsichar;
@@ -545,6 +544,27 @@ begin
     raise EACBrXmlException.Create('Erro ao adicionar namespace');
 
   Namespaces.Insert(TACBrXmlNamespace.Create(Self, xmlNs));
+end;
+
+procedure TACBrXmlNode.SetText(const AContent: string);
+var
+  curNode, NewACBrNode: TACBrXmlNode;
+  textNode: xmlNodePtr;
+begin
+  // Remove apenas nós de textNode //
+  while self.GetNextChild(curNode) do
+  begin
+    if (curNode.NodeType = ntText) then
+    begin
+      Childrens.Remove(curNode);
+      Break;
+    end;
+  end;
+
+  // Insere o novo textNode //
+  textNode := xmlNewText(PAnsichar(ansistring(AContent)));
+  NewACBrNode := TACBrXmlNode.Create(FXmlDoc, textNode);
+  AppendChild(NewACBrNode);
 end;
 
 function TACBrXmlNode.GetNextNamespace(var ANamespace: TACBrXmlNamespace): boolean;
@@ -693,7 +713,7 @@ begin
   Result := UTF8ToNativeString(AnsiString(xmlNsInternal^.href));
 end;
 
-procedure TACBrXmlNamespace.SetPrefixo(AName: string);
+procedure TACBrXmlNamespace.SetPrefixo(const AName: string);
 Var
   xmlNs: xmlNsPtr;
 begin
@@ -701,7 +721,7 @@ begin
   ReplaceNamespace(xmlNs);
 end;
 
-procedure TACBrXmlNamespace.SetContent(AContent: string);
+procedure TACBrXmlNamespace.SetContent(const AContent: string);
 Var
   xmlNs: xmlNsPtr;
 begin
@@ -767,7 +787,7 @@ begin
   end;
 end;
 
-procedure TACBrXmlAttribute.SetName(AName: string);
+procedure TACBrXmlAttribute.SetName(const AName: string);
 var
   AContent: string;
 begin
@@ -782,7 +802,7 @@ begin
     PAnsiChar(ansistring(AContent)));
 end;
 
-procedure TACBrXmlAttribute.SetContent(AContent: string);
+procedure TACBrXmlAttribute.SetContent(const AContent: string);
 begin
   xmlAttInternal := xmlSetProp(FParentNode.FXmlNode, xmlAttInternal^.Name,
     PAnsiChar(ansistring(AContent)));
@@ -831,7 +851,8 @@ begin
   Result := FItems[Index];
 end;
 
-procedure TACBrXMLNamespaceList.Add(ANamespace: string; APrefix: string = '');
+procedure TACBrXMLNamespaceList.Add(const ANamespace: string;
+  const APrefix: string);
 var
   ns: xmlNsPtr;
   Item: TACBrXmlNamespace;
@@ -1220,8 +1241,6 @@ function TACBrXmlDocument.CreateCDATA(AContent: string): TACBrXmlNode;
 var
   Node: xmlNodePtr;
 begin
-  // a linha abaixo foi comentada pois segundo o DSA consome muito a CPU e causa lentidão
-//  AContent := NativeStringToUTF8(AContent);
   Node := xmlNewCDataBlock(xmlDocInternal, PAnsichar(ansistring(AContent)), Length(AContent));
   Result := TACBrXmlNode.Create(Self, Node);
 end;
@@ -1239,8 +1258,6 @@ end;
 function TACBrXmlDocument.GetName: string;
 begin
   Result := string(xmlDocInternal^.Name);
-  // a linha abaixo foi comentada pois segundo o DSA consome muito a CPU e causa lentidão
-//  Result := UTF8ToNativeString(Result);
 end;
 
 function TACBrXmlDocument.GetSaveOptions: integer;
@@ -1255,7 +1272,7 @@ begin
   end;
 end;
 
-function TACBrXmlDocument.GetXml: string;
+function TACBrXmlDocument.GetXml: AnsiString;
 var
   buffer: xmlBufferPtr;
   xmlSaveCtx: xmlSaveCtxtPtr;
@@ -1272,11 +1289,11 @@ begin
     finally
       if Assigned(xmlSaveCtx) then xmlSaveClose(xmlSaveCtx);
     end;
-    Result := string(buffer.content);
-  // a linha abaixo foi comentada pois segundo o DSA consome muito a CPU e causa lentidão
-//    Result := UTF8ToNativeString(Result);
+
+    Result := AnsiString(buffer.content);
   finally
-    if Assigned(buffer) then xmlBufferFree(buffer);
+    if Assigned(buffer) then
+      xmlBufferFree(buffer);
   end;
 end;
 
@@ -1298,8 +1315,6 @@ function TACBrXmlDocument.CreateElement(AName: string; ANamespace: string; APref
 var
   NodeName: PAnsichar;
 begin
-  // a linha abaixo foi comentada pois segundo o DSA consome muito a CPU e causa lentidão
-//  AName := NativeStringToUTF8(AName);
   NodeName := PAnsichar(ansistring(AName));
 
   Result := TACBrXmlNode.Create(Self, xmlNewDocNode(xmlDocInternal, nil, NodeName, nil));
@@ -1355,14 +1370,12 @@ begin
     RaizeExceptionTratandoNaoCarregamentoDLL;
 end;
 
-procedure TACBrXmlDocument.LoadFromXml(AXmlDocument: string);
+procedure TACBrXmlDocument.LoadFromXml(AXmlDocument: AnsiString);
 var
   loadedDoc: xmlDocPtr;
   loadedRoot: xmlNodePtr;
 begin
-  // a linha abaixo foi comentada pois segundo o DSA consome muito a CPU e causa lentidão
-//  AXmlDocument := NativeStringToUTF8(AXmlDocument);
-  loadedDoc := xmlParseDoc(PAnsiChar(ansistring(AXmlDocument)));
+  loadedDoc := xmlParseDoc(PAnsiChar(AXmlDocument));
 
   if loadedDoc <> nil then
   begin

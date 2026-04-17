@@ -40,6 +40,18 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 17/04/2026
+-- ACBrLibXml2 --
+[+] Adicionado o Bind, para o método 'xmlNewText'
+
+-- ACBrXmlDocument --
+[*] Otimização dos métodos, inserindo a diretiva "const" nos parêmtros String
+[*] Remoção de comentários, desnecessários
+{-] Remoção de Warnings, onde o método "Create" não era público
+[*] TACBrXmlDocument.Xml passa a ser AnsiString, para evitar perda de caracteres
+[+] Adicionado o método:  TACBrXmlNode.SetText(const AContent: string);
+    Que permite trocar o Texto de um Nó, sem afetar os demais Filhos dele
+    (por: DSA)
+
 -- ACBrDFeOpenSSL --
 [*] Métodos movidos para ACBrOpenSSLUtils
     function CertToDERBase64(cert: pX509): AnsiString;

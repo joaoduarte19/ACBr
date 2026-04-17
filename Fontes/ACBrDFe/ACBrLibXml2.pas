@@ -348,6 +348,7 @@ type
   TxmlSaveClose = function(ctxt: xmlSaveCtxtPtr): cint; cdecl;
   TxmlSaveToFilename = function(const filename: PAnsiChar; const encoding: PAnsiChar; options: cint): xmlSaveCtxtPtr; cdecl;
   TxmlCopyNode = function(const node: xmlNodePtr; extended: cint): xmlNodePtr; cdecl;
+  TxmlNewText = function(const text: xmlCharPtr): xmlNodePtr; cdecl;
   TxmlNodeGetContent = function(cur: xmlNodePtr): xmlCharPtr; cdecl;
   TxmlNodeSetContent = procedure(cur: xmlNodePtr; const content: xmlCharPtr); cdecl;
   TxmlNodeAddContent = procedure(cur: xmlNodePtr; const content: xmlCharPtr); cdecl;
@@ -409,6 +410,7 @@ function xmlSaveToFilename(const filename: PAnsiChar; const encoding: PAnsiChar;
 function xmlDocGetRootElement(doc: xmlDocPtr): xmlNodePtr;
 function xmlDocSetRootElement(doc: xmlDocPtr; root: xmlNodePtr): xmlNodePtr;
 function xmlDocCopyNode(const node: xmlNodePtr; doc: xmlDocPtr; extended: cint): xmlNodePtr;
+function xmlNewText(const text: xmlCharPtr): xmlNodePtr;
 function xmlNewDocNode(doc: xmlDocPtr; ns: xmlNsPtr; const name: xmlCharPtr; const content: xmlCharPtr): xmlNodePtr;
 function xmlNewCDataBlock(doc: xmlDocPtr; const content: xmlCharPtr; len: cint): xmlNodePtr;
 procedure xmlDocDumpMemory(cur: xmlDocPtr; mem: xmlCharPtrPtr; size: PInteger);
@@ -487,6 +489,7 @@ var
   _xmlDocGetRootElement: TxmlDocGetRootElement = nil;
   _xmlDocSetRootElement: TxmlDocSetRootElement = nil;
   _xmlDocCopyNode: TxmlDocCopyNode = nil;
+  _xmlNewText: TxmlNewText = nil;
   _xmlNewDocNode: TxmlNewDocNode = nil;
   _xmlNewCDataBlock: TxmlNewCDataBlock = nil;
   _xmlDocDumpMemory: TxmlDocDumpMemory = nil;
@@ -610,6 +613,7 @@ begin
   _xmlDocGetRootElement := GetProcAddr(LibXml2Handle, 'xmlDocGetRootElement');
   _xmlDocSetRootElement := GetProcAddr(LibXml2Handle, 'xmlDocSetRootElement');
   _xmlDocCopyNode := GetProcAddr(LibXml2Handle, 'xmlDocCopyNode');
+  _xmlNewText := GetProcAddr(LibXml2Handle, 'xmlNewText');
   _xmlNewDocNode := GetProcAddr(LibXml2Handle, 'xmlNewDocNode');
   _xmlNewCDataBlock := GetProcAddr(LibXml2Handle, 'xmlNewCDataBlock');
   _xmlDocDumpMemory := GetProcAddr(LibXml2Handle, 'xmlDocDumpMemory');
@@ -734,6 +738,7 @@ begin
   _xmlDocGetRootElement := nil;
   _xmlDocSetRootElement := nil;
   _xmlDocCopyNode := nil;
+  _xmlNewText := nil;
   _xmlNewDocNode := nil;
   _xmlNewCDataBlock := nil;
   _xmlDocDumpMemory := nil;
@@ -908,6 +913,14 @@ function xmlDocCopyNode(const node: xmlNodePtr; doc: xmlDocPtr;
 begin
   if InitLibXml2Interface and Assigned(_xmlDocCopyNode) then
     Result := _xmlDocCopyNode(node, doc, extended)
+  else
+    Result := nil;
+end;
+
+function xmlNewText(const text: xmlCharPtr): xmlNodePtr;
+begin
+  if InitLibXml2Interface and Assigned(_xmlNewText) then
+    Result := _xmlNewText(text)
   else
     Result := nil;
 end;
