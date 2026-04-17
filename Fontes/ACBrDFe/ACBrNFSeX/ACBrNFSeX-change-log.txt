@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 17/04/2026
+-- Citta.Provider --
+[-] Ajuste visando corrigir Memory Leak ao tratar retorno de emissão e de envio de eventos
+   Por: Diego Folieni
 -- Diversos --
 [*] Movido a chamada da procedure VerificarSeConteudoEhLista para o LerXml, visando
     primeiro a leitura de todos os campos do XML.

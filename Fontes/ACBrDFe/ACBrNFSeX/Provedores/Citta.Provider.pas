@@ -605,35 +605,39 @@ begin
   end;
 
   Document := TACBrJsonObject.Parse(Response.ArquivoRetorno);
+  try
+    Response.Data := Document.AsISODateTime['DataHoraProcessamento'];
 
-  Response.Data := Document.AsISODateTime['DataHoraProcessamento'];
+    JSonLote := Document.AsJSONArray['Lote'];
 
-  JSonLote := Document.AsJSONArray['Lote'];
-
-  if JSonLote.Count > 0 then
-  begin
-    for i := 0 to JSonLote.Count-1 do
+    if JSonLote.Count > 0 then
     begin
-      JSon := JSonLote.ItemAsJSONObject[i];
-
-      ProcessarMensagemDeErros(JSon, Response);
-      Response.Sucesso := (Response.Erros.Count = 0);
-
-      AResumo := Response.Resumos.New;
-      AResumo.idNota := JSon.AsString['id'];
-      AResumo.Link := JSon.AsString['ChaveAcesso'];
-
-      NFSeXml := JSon.AsString['xmlGZipB64'];
-
-      if NFSeXml <> '' then
+      for i := 0 to JSonLote.Count-1 do
       begin
-        NFSeXml := DeCompress(DecodeBase64(NFSeXml));
+        JSon := JSonLote.ItemAsJSONObject[i];
 
-        AResumo.XmlRetorno := NFSeXml;
+        ProcessarMensagemDeErros(JSon, Response);
+        Response.Sucesso := (Response.Erros.Count = 0);
 
-        LerNFSe(NFSeXml);
+        AResumo := Response.Resumos.New;
+        AResumo.idNota := JSon.AsString['id'];
+        AResumo.Link := JSon.AsString['ChaveAcesso'];
+
+        NFSeXml := JSon.AsString['xmlGZipB64'];
+
+        if NFSeXml <> '' then
+        begin
+          NFSeXml := DeCompress(DecodeBase64(NFSeXml));
+
+          AResumo.XmlRetorno := NFSeXml;
+
+          LerNFSe(NFSeXml);
+        end;
       end;
     end;
+  finally
+    if Assigned(Document) then
+      Document.Free;
   end;
 end;
 
@@ -809,19 +813,24 @@ begin
   end;
 
   Document := TACBrJsonObject.Parse(Response.ArquivoRetorno);
-  Response.Data := Document.AsISODateTime['DataHoraProcessamento'];
-  JSonLote := Document.AsJSONArray['Lote'];
+  try
+    Response.Data := Document.AsISODateTime['DataHoraProcessamento'];
+    JSonLote := Document.AsJSONArray['Lote'];
 
-  if JSonLote.Count > 0 then
-  begin
-    for i := 0 to JSonLote.Count-1 do
+    if JSonLote.Count > 0 then
     begin
-      JSon := JSonLote.ItemAsJSONObject[i];
+      for i := 0 to JSonLote.Count-1 do
+      begin
+        JSon := JSonLote.ItemAsJSONObject[i];
 
-      ProcessarMensagemDeErros(JSon, Response);
-      Response.Sucesso := (Response.Erros.Count = 0);
+        ProcessarMensagemDeErros(JSon, Response);
+        Response.Sucesso := (Response.Erros.Count = 0);
 
+      end;
     end;
+  finally
+    if Assigned(Document) then
+      Document.Free;
   end;
 end;
 
