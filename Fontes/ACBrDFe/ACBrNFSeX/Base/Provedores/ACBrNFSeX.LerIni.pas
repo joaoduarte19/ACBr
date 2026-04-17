@@ -955,7 +955,8 @@ begin
 
     // Provedores que usam o layout da ABRASF
     Item.CodMunPrestacao := AINIRec.ReadString(sSecao, 'CodigoMunicipio',
-                             AINIRec.ReadString(sSecao, 'CodMunPrestacao', ''));
+                            AINIRec.ReadString(sSecao, 'CodMunPrestacao', ''));
+
     Item.CodigoMunicipio := StrToIntDef(Item.CodMunPrestacao, 0);
     Item.CodigoPais := AINIRec.ReadInteger(sSecao, 'CodigoPais', 0);
     Item.CodigoTributacaoMunicipio := AINIRec.ReadString(sSecao, 'CodigoTributacaoMunicipio', '');

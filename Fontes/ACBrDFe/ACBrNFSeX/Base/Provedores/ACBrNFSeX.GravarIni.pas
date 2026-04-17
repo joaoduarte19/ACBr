@@ -700,6 +700,7 @@ begin
     AINIRec.WriteString(LSecao, 'ItemListaServico', NFSe.Servico.ItemListaServico);
     AINIRec.WriteString(LSecao, 'xItemListaServico', NFSe.Servico.xItemListaServico);
     AINIRec.WriteString(LSecao, 'CodigoServicoNacional', NFSe.Servico.CodigoServicoNacional);
+    AINIRec.WriteString(LSecao, 'CodigoTributacaoNacional', NFSe.Servico.CodigoTributacaoNacional);
     AINIRec.WriteString(LSecao, 'CodigoTributacaoMunicipio', NFSe.Servico.CodigoTributacaoMunicipio);
     AINIRec.WriteString(LSecao, 'xCodigoTributacaoMunicipio', NFSe.Servico.xCodigoTributacaoMunicipio);
     AINIRec.WriteString(LSecao, 'Discriminacao', ChangeLineBreak(NFSe.Servico.Discriminacao, FpAOwner.ConfigGeral.QuebradeLinha));
@@ -719,7 +720,6 @@ begin
     AINIRec.WriteString(LSecao, 'UFPrestacao', NFSe.Servico.UFPrestacao);
     AINIRec.WriteString(LSecao, 'ResponsavelRetencao', FpAOwner.ResponsavelRetencaoToStr(NFSe.Servico.ResponsavelRetencao));
     AINIRec.WriteString(LSecao, 'TipoLancamento', TipoLancamentoToStr(NFSe.Servico.TipoLancamento));
-    AINIRec.WriteFloat(LSecao,'ValorTotalRecebido', NFSe.Servico.ValorTotalRecebido);
     //Provedor ISSDSF
     AINIRec.WriteString(LSecao, 'Operacao', OperacaoToStr(NFSe.Servico.Operacao));
     AINIRec.WriteString(LSecao, 'Tributacao', FpAOwner.TributacaoToStr(NFSe.Servico.Tributacao));

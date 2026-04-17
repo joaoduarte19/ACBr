@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 17/04/2026
+-- ACBrNFSeX.GravarIni/ACBrNFSeX.LerIni --
+[*] Atualização das rotinas de escrita e leitura do arquivo INI.
+   Por: Italo Giurizzato Junior
 -- Citta.Provider --
 [-] Ajuste visando corrigir Memory Leak ao tratar retorno de emissão e de envio de eventos
    Por: Diego Folieni
