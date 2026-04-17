@@ -182,6 +182,8 @@ begin
   else
     Result := LerXmlRps(XmlNode);
 
+  VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
+
   FreeAndNil(FDocument);
 end;
 
@@ -270,8 +272,6 @@ begin
     Servico.Discriminacao    := ObterConteudo(AuxNode.Childrens.FindAnyNs('DiscrSrv'), tcStr);
     Servico.Discriminacao := StringReplace(Servico.Discriminacao, FpQuebradeLinha,
                                                     sLineBreak, [rfReplaceAll]);
-
-    VerificarSeConteudoEhLista(Servico.Discriminacao);
 
     Servico.ItemListaServico := ObterConteudo(AuxNode.Childrens.FindAnyNs('CodSrv'), tcStr);
 
@@ -369,8 +369,6 @@ begin
     Servico.Discriminacao := ObterConteudo(AuxNode.Childrens.FindAnyNs('DiscrSrv'), tcStr);
     Servico.Discriminacao := StringReplace(Servico.Discriminacao, FpQuebradeLinha,
                                                     sLineBreak, [rfReplaceAll]);
-
-    VerificarSeConteudoEhLista(Servico.Discriminacao);
 
     aValor := ObterConteudo(AuxNode.Childrens.FindAnyNs('RetFonte'), tcStr);
 

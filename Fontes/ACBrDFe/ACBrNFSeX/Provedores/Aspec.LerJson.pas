@@ -102,6 +102,9 @@ begin
     Result := LerJsonNfse(TiraAcentos(Arquivo))
   else
     Result := LerJsonRps(TiraAcentos(Arquivo));
+
+  VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
+
 end;
 
 function TNFSeR_Aspec.LerJsonNfse(const ArquivoRetorno: String): Boolean;
