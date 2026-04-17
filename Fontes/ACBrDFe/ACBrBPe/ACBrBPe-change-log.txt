@@ -45,6 +45,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/04/2026
+-- ACBrBPeXmlWriter --
+[*] ACBr-9119: Ajustes para gerar a tag CST com o valor correto quando for 
+    empresa do Simples Nacional.
+   Por: WLE
+
 15/04/2026
 -- Diversos --
 [*] ACBr-9136: Ajustes para o envio dos eventos de Vinculação de Pagamento e 

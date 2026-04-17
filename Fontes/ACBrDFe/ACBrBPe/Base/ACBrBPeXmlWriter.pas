@@ -38,7 +38,6 @@ interface
 
 uses
   Classes, SysUtils,
-//  pcnConversao,
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrXmlDocument,
@@ -972,7 +971,11 @@ begin
 
   xmlNode := Result.AddChild('ICMS' + sTagTemp);
 
-  xmlNode.AppendChild(AddNode(tcStr, '#128', 'CST', 2, 2, 1,
+  if BPe.Imp.ICMS.CST = cstSN then
+    xmlNode.AppendChild(AddNode(tcStr, '#128', 'CST', 2, 2, 1,
+                                                  CSTICMSTOStr(cst90), DSC_CST))
+  else
+    xmlNode.AppendChild(AddNode(tcStr, '#128', 'CST', 2, 2, 1,
                                       CSTICMSTOStr(BPe.Imp.ICMS.CST), DSC_CST));
 
   case BPe.Imp.ICMS.CST of
