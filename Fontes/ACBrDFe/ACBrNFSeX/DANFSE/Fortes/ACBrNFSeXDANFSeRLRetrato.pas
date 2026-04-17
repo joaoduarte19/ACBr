@@ -312,7 +312,7 @@ begin
 
   if fpNFSe.Link <> '' then
   begin
-    rlmDadosAdicionais.Width := 643;
+    rlmDadosAdicionais.Width := 610;
     rbOutrasInformacoes.AutoSize := True;
 
     rlImgQrCode := TRLImage.Create(rbOutrasInformacoes);

@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/04/2026
+-- ACBrNFSeXDANFSeRLRetrato --
+[*] ACBr-9122 - Possível solução para não sobrepor as observações com o QR-Code.
+   Por: Italo Giurizzato Junior
+
 16/04/2026
 -- ACBrNFSeXConversao --
 [+] ACBr-9080 - Incluídos os enumerados para as Naturezas de Operação:
