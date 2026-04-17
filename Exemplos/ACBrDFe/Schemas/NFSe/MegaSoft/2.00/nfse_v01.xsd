@@ -514,6 +514,8 @@
             <xsd:element name="CodigoMunicipio" type="tsCodigoMunicipioIbge" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="CodigoTributacaoMunicipio"
                          type="tsCodigoTributacao" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="Exigibilidade" type="tsExigibilidadeISS" minOccurs="1"
+                         maxOccurs="1"/>
             <xsd:element name="NumeroNbs"
                          type="tsNumeroNbs" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="Discriminacao" type="tsDiscriminacao"
