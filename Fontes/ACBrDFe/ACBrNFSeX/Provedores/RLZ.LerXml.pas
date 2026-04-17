@@ -216,6 +216,8 @@ begin
 
   Result := LerXmlNfse(XmlNode);
 
+  VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
+
   FreeAndNil(FDocument);
 end;
 

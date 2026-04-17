@@ -104,6 +104,8 @@ begin
 
   Result := LerXmlNfse(XmlNode);
 
+  VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
+
   FreeAndNil(FDocument);
 end;
 
@@ -236,8 +238,6 @@ begin
     Servico.Discriminacao := ObterConteudo(AuxNode.Childrens.FindAnyNs('descricao'), tcStr);
     Servico.Discriminacao := StringReplace(Servico.Discriminacao, FpQuebradeLinha,
                                                     sLineBreak, [rfReplaceAll]);
-
-    VerificarSeConteudoEhLista(Servico.Discriminacao);
 
     Servico.Valores.ValorServicos := ObterConteudo(AuxNode.Childrens.FindAnyNs('valorServico'), tcDe2);
 

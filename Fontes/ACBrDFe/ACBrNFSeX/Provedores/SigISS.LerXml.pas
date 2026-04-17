@@ -139,8 +139,6 @@ begin
       Servico.CodigoNBS := ObterConteudo(AuxNode.Childrens.FindAnyNs('dps_serv_cnbs'), tcStr);
       infNFSe.xNBS := ObterConteudo(AuxNode.Childrens.FindAnyNs('xnbs'), tcStr);
 
-      VerificarSeConteudoEhLista(Servico.Discriminacao);
-
       Servico.ItemListaServico := ObterConteudo(AuxNode.Childrens.FindAnyNs('servico'), tcInt);
       Servico.MunicipioIncidencia := ObterConteudo(AuxNode.Childrens.FindAnyNs('codigo_cidade_local_servico'), tcInt);
       Servico.CodigoMunicipio := ObterConteudo(AuxNode.Childrens.FindAnyNs('cod_outro_municipio'), tcStr);
@@ -234,6 +232,8 @@ begin
     else
       Result := LerXmlRps(XmlNode);
 
+  VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
+
   FreeAndNil(FDocument);
 end;
 
@@ -292,8 +292,6 @@ begin
     Servico.Discriminacao    := ObterConteudo(AuxNode.Childrens.FindAnyNs('descricao'), tcStr);
     Servico.Discriminacao := StringReplace(Servico.Discriminacao, FpQuebradeLinha,
                                                     sLineBreak, [rfReplaceAll]);
-
-    VerificarSeConteudoEhLista(Servico.Discriminacao);
 
     Servico.Valores.ValorServicos := NFSe.ValoresNfse.ValorLiquidoNfse;
     Servico.Valores.BaseCalculo   := Servico.Valores.ValorServicos;
@@ -420,8 +418,6 @@ begin
     Servico.Discriminacao    := ObterConteudo(DadosNfseNode.Childrens.FindAnyNs('Discriminacao'), tcStr);
     Servico.Discriminacao := StringReplace(Servico.Discriminacao, FpQuebradeLinha,
                                                     sLineBreak, [rfReplaceAll]);
-
-    VerificarSeConteudoEhLista(Servico.Discriminacao);
 
     Servico.Valores.ValorServicos := ObterConteudo(DadosNfseNode.Childrens.FindAnyNs('ValorServicos'), tcDe2);
     Servico.Valores.BaseCalculo   := NFSe.ValoresNfse.BaseCalculo;

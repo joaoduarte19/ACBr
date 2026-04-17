@@ -285,8 +285,6 @@ begin
       Discriminacao := StringReplace(Discriminacao, FpQuebradeLinha,
                                                     sLineBreak, [rfReplaceAll]);
 
-      VerificarSeConteudoEhLista(Discriminacao);
-
       CodigoMunicipio := ObterConteudo(AuxNode.Childrens.FindAnyNs('MunicipioPrestacaoServico'), tcStr);
       CodigoTributacaoMunicipio := ItemListaServico;
       xCodigoTributacaoMunicipio := xItemListaServico;
@@ -377,6 +375,8 @@ begin
     Result := LerXmlNfse(XmlNode)
   else
     Result := LerXmlRps(XmlNode);
+
+  VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
 
   FreeAndNil(FDocument);
 end;

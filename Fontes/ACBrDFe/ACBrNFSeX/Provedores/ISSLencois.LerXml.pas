@@ -193,6 +193,8 @@ begin
   else
     Result := LerXmlRps(XmlNode);
 
+  VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
+
   FreeAndNil(FDocument);
 end;
 
@@ -305,8 +307,6 @@ begin
   NFSe.Servico.Discriminacao := ObterConteudo(ANode.Childrens.FindAnyNs('Descricao'), tcStr);
   NFSe.Servico.Discriminacao := StringReplace(NFSe.Servico.Discriminacao, FpQuebradeLinha,
                                                     sLineBreak, [rfReplaceAll]);
-
-  VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
 
   AuxNode := ANode.Childrens.FindAnyNs('Tomador');
   if AuxNode <> nil then

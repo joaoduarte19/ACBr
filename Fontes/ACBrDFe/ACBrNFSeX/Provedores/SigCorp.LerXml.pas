@@ -177,8 +177,6 @@ begin
     NFSe.Servico.Discriminacao := StringReplace(NFSe.Servico.Discriminacao, FpQuebradeLinha,
                                                     sLineBreak, [rfReplaceAll]);
 
-    VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
-
     NFSe.Servico.CodigoMunicipio := ObterConteudo(AuxNode.Childrens.FindAnyNs('CodigoMunicipio'), tcStr);
 
     NFSe.Servico.MunicipioPrestacaoServico := '';

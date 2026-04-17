@@ -235,8 +235,6 @@ begin
       Discriminacao := StringReplace(Discriminacao, FpQuebradeLinha,
                                                     sLineBreak, [rfReplaceAll]);
 
-      VerificarSeConteudoEhLista(Discriminacao);
-
       Valores.Aliquota      := ObterConteudo(AuxNode.Childrens.FindAnyNs('aliquota'), tcDe3);
       Valores.ValorServicos := ObterConteudo(AuxNode.Childrens.FindAnyNs('valor'), tcDe2);
     end;
@@ -278,6 +276,8 @@ begin
     Result := LerXmlNfse(XmlNode)
   else
     Result := LerXmlRps(XmlNode);
+
+  VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
 
   FreeAndNil(FDocument);
 end;

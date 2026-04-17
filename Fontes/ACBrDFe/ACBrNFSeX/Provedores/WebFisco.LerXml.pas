@@ -108,6 +108,8 @@ begin
   else
     Result := LerXmlRps(XmlNode);
 
+  VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
+
   FreeAndNil(FDocument);
 end;
 

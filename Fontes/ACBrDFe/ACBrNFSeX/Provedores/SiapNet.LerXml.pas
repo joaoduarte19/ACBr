@@ -179,8 +179,6 @@ begin
       Discriminacao := StringReplace(Discriminacao, FpQuebradeLinha,
                                                     sLineBreak, [rfReplaceAll]);
 
-      VerificarSeConteudoEhLista(Discriminacao);
-
       CodigoMunicipio := GerarDigitoMunicipio(ObterConteudo(AuxNode.Childrens.FindAnyNs('CodigoMunicipio'), tcStr));
 
       MunicipioPrestacaoServico := ObterNomeMunicipioUF(StrToIntDef(CodigoMunicipio, 0), xUF);

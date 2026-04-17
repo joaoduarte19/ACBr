@@ -278,6 +278,9 @@ begin
       Result := LerXmlNfse(LNode)
     else
       Result := LerXmlRps(LNode);
+
+    VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
+
   finally
     FreeAndNil(FDocument);
   end;
@@ -344,8 +347,6 @@ begin
   NFSe.Servico.Discriminacao := ObterConteudo(ANode.Childrens.FindAnyNs('Discriminacao'), tcStr);
   NFSe.Servico.Discriminacao := StringReplace(NFSe.Servico.Discriminacao, FpQuebradeLinha,
                                                     sLineBreak, [rfReplaceAll]);
-
-  VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
 
   LValor := ObterConteudo(ANode.Childrens.FindAnyNs('ISSRetido'), tcStr);
 
@@ -457,8 +458,6 @@ begin
   NFSe.Servico.Discriminacao := ObterConteudo(ANode.Childrens.FindAnyNs('Discriminacao'), tcStr);
   NFSe.Servico.Discriminacao := StringReplace(NFSe.Servico.Discriminacao, FpQuebradeLinha,
                                                   sLineBreak, [rfReplaceAll]);
-
-  VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
 
   NFSe.ValorCargaTributaria := ObterConteudo(ANode.Childrens.FindAnyNs('ValorCargaTributaria'), tcDe2);
   NFSe.PercentualCargaTributaria := ObterConteudo(ANode.Childrens.FindAnyNs('PercentualCargaTributaria'), tcDe4);

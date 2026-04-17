@@ -83,6 +83,8 @@ begin
   else
     Result := LerJsonRps(TiraAcentos(Arquivo));
 
+  VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
+
   NFSe.tpXML := tpXml;
 end;
 

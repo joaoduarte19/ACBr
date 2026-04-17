@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 17/04/2026
+-- Diversos --
+[*] Movido a chamada da procedure VerificarSeConteudoEhLista para o LerXml, visando
+    primeiro a leitura de todos os campos do XML.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXDANFSeRLRetrato --
 [*] ACBr-9122 - Possível solução para não sobrepor as observações com o QR-Code.
    Por: Italo Giurizzato Junior

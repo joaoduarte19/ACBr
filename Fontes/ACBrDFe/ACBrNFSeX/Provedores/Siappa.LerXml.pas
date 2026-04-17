@@ -130,6 +130,8 @@ begin
   else
     Result := LerXmlRps(XmlNode);
 
+  VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
+
   FreeAndNil(FDocument);
 end;
 
@@ -176,8 +178,6 @@ begin
     Discriminacao := ObterConteudo(AuxNode.Childrens.FindAnyNs('NFS_E_DES_DET'), tcStr);
     Discriminacao := StringReplace(Discriminacao, FpQuebradeLinha,
                                                     sLineBreak, [rfReplaceAll]);
-
-    VerificarSeConteudoEhLista(Discriminacao);
 
     Valores.ValorServicos := ObterConteudo(AuxNode.Childrens.FindAnyNs('NFS_E_VLR_BRUTO'), tcDe2);
     Valores.ValorIss := ObterConteudo(AuxNode.Childrens.FindAnyNs('NFS_E_VLR_ISSQN'), tcDe2);

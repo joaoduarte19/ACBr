@@ -131,8 +131,6 @@ begin
   NFSe.Servico.Discriminacao := StringReplace(NFSe.Servico.Discriminacao, FpQuebradeLinha,
                                                     sLineBreak, [rfReplaceAll]);
 
-  VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
-
   with NFSe.ValoresNfse do
   begin
     ValorLiquidoNfse := ObterConteudo(AuxNode.Childrens.FindAnyNs('servicoValor'), tcDe2);
@@ -410,6 +408,8 @@ begin
     Result := LerXmlNfse(XmlNode)
   else
     Result := LerXmlRps(XmlNode);
+
+  VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
 
   FreeAndNil(FDocument);
 end;
