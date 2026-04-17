@@ -38,6 +38,23 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/04/2026
+-- ACBrOpenSSLUtils --
+[+] Adicionada propriedade, para expor o certificado lido (read-only)
+    property CertX509: pX509
+[+] Métodos movidos de ACBrDFeOpenSSL
+    function CertToDERBase64(cert: pX509): AnsiString;
+    function GetCertExt(cert: pX509; const FlagExt: AnsiString): AnsiString;
+    function GetIssuerName(cert: pX509): String;
+    function GetNotAfter(cert: pX509): TDateTime;
+    function GetNotBefore(cert: pX509): TDateTime;
+    function GetSerialNumber(cert: pX509): String;
+    function GetThumbPrint( cert: pX509 ): String;
+    function GetSubjectName(cert: pX509): String;
+    function GetTaxIDFromExtensions(cert: pX509): String;
+    function X509NameToString(AX509Name: PX509_NAME): AnsiString;
+    (por: DSA)
+
 12/12/2025
 - OpenSSLExt --
 [-] Ajuste para atribuir corretamente o Search Path para o Legacy

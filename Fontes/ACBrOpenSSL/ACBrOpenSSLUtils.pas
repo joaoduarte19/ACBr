@@ -236,6 +236,8 @@ type
     property PublicKeyAsString: AnsiString read GetPublicKeyAsString;
     property PublicKeyAsOpenSSH: AnsiString read GetPublicKeyAsOpenSSH;
     property CertificateAsString: AnsiString read GetCertificateAsString;
+
+    property CertX509: pX509 read fCertX509;
   published
     property BufferSize: Integer read fBufferSize write SetBufferSize default CBufferSize;
     property OnProgress: TACBrOpenSSLOnProgress read fOnProgress write fOnProgress;
@@ -266,6 +268,18 @@ function PublicKeyToString(APubKey: PEVP_PKEY): String;
 function PrivateKeyToString(APrivKey: PEVP_PKEY; const Password: AnsiString = ''): String;
 function CertificateToString(ACertX509: pX509): String;
 
+function CertToDERBase64(cert: pX509): AnsiString;
+function GetCertExt(cert: pX509; const FlagExt: AnsiString): AnsiString;
+function GetIssuerName(cert: pX509): String;
+function GetNotAfter(cert: pX509): TDateTime;
+function GetNotBefore(cert: pX509): TDateTime;
+function GetSerialNumber(cert: pX509): String;
+function GetThumbPrint( cert: pX509 ): String;
+function GetSubjectName(cert: pX509): String;
+function GetTaxIDFromExtensions(cert: pX509): String;
+
+function X509NameToString(AX509Name: PX509_NAME): AnsiString;
+
 procedure GenerateKeyPair(out APrivateKey: String; out APublicKey: String;
   const Password: AnsiString = ''; KeyBits: TACBrOpenSSLKeyBits = bit1024);
 
@@ -286,10 +300,12 @@ var
 implementation
 
 uses
-  Math, TypInfo,
+  Math, TypInfo, DateUtils,
   synacode, synautil,
+  ACBrUtil.Base,
   ACBrUtil.Math,
   ACBrUtil.Strings,
+  ACBrUtil.DateTime,
   ACBrUtil.FilesIO;
 
 procedure InitOpenSSL;
@@ -603,6 +619,211 @@ begin
     BioFreeAll(bio);
   end ;
 end;
+
+function CertToDERBase64(cert: pX509): AnsiString;
+var
+  MemBio: PBIO;
+  Buffer: AnsiString;
+begin
+  MemBio := BioNew(BioSMem());
+  try
+    i2dX509bio(MemBio, cert);
+    Buffer := BioToStr( MemBio );
+  finally
+    BioFreeAll( MemBio );
+  end;
+
+  Result := EncodeBase64(Buffer);
+end;
+
+function GetNotAfter( cert: pX509 ): TDateTime;
+var
+  Validade: String;
+  notAfter: PASN1_TIME;
+begin
+  notAfter := X509GetNotAfter(cert);
+  if not Assigned(notAfter) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+
+  Validade := String(PAnsiChar(notAfter^.data));
+  SetLength(Validade, notAfter^.length);
+  Validade := OnlyNumber(Validade);
+  if notAfter^.asn1_type = V_ASN1_UTCTIME then  // anos com 2 dígitos
+    Validade :=  LeftStr(IntToStrZero(YearOf(Now),4),2) + Validade;
+
+  Result := StoD(Validade);
+  Result := IncMinute(Result, TimeZoneBias);
+
+end;
+
+function GetNotBefore( cert: pX509 ): TDateTime;
+var
+  Validade: String;
+  notBefore: PASN1_TIME;
+begin
+  notBefore := X509GetNotBefore(cert);
+  if not Assigned(notBefore) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+
+  Validade := String(PAnsiChar(notBefore^.data));
+  SetLength(Validade, notBefore^.length);
+  Validade := OnlyNumber(Validade);
+  if notBefore^.asn1_type = V_ASN1_UTCTIME then  // anos com 2 dígitos
+    Validade :=  LeftStr(IntToStrZero(YearOf(Now),4),2) + Validade;
+
+  Result := StoD(Validade);
+  Result := IncMinute(Result, TimeZoneBias);
+end;
+
+function GetSerialNumber( cert: pX509 ): String;
+var
+  SN: PASN1_STRING;
+  s: AnsiString;
+begin
+  SN := X509GetSerialNumber(cert);
+  s := AnsiString(PAnsiChar(SN^.data));
+  SetLength(s,SN^.length);
+  Result := AsciiToHex(s);
+end;
+
+function GetThumbPrint( cert: pX509 ): String;
+var
+  md_type: PEVP_MD;
+  md_len: LongInt;
+  md: AnsiString;
+begin
+  md_type := EVP_get_digestbyname( 'sha1' );
+  md_len  := 0;
+  SetLength(md, EVP_MAX_MD_SIZE);
+  X509Digest(cert, md_type, md, md_len);
+  SetLength(md, md_len);
+  Result := AsciiToHex(md);
+end;
+
+function GetSubjectName( cert: pX509 ): String;
+var
+  X509SubjectName: PX509_NAME;
+begin
+  Result := '';
+  X509SubjectName := X509GetSubjectName(cert);
+
+  if Assigned(X509SubjectName) then
+    Result := X509NameToString(X509SubjectName);
+end;
+
+function GetCertExt(cert: pX509; const FlagExt: AnsiString): AnsiString;
+var
+  ext: pX509_EXTENSION;
+  ExtPos, P: Integer;
+  prop: PASN1_STRING;
+  propStr: AnsiString;
+
+  procedure LoadExtension;
+  begin
+    ext := X509GetExt(cert, ExtPos);
+  end;
+
+  function AdjustAnsiOID(aOID: AnsiString): AnsiString;
+  var
+    LenOID: Integer;
+  begin
+    Result := aOID;
+    LenOID := Length(aOID);
+    if LenOID < 2 then Exit;
+    if (ord(aOID[1]) <> 4) then Exit;   // Not ANSI
+
+    LenOID := ord(aOID[2]);
+    Result := copy(aOID,3,LenOID);
+  end;
+
+  function AdjustOID(aOID: AnsiString): AnsiString;
+  var
+    LenOID: Integer;
+  begin
+    Result := '';
+    if aOID = '' then Exit;
+
+    LenOID := ord(aOID[1]);
+    Result := copy(aOID,2,LenOID);
+    if (Result <> '') and (Result[1] = #4) then  // é ANSI
+      Result := AdjustAnsiOID(Result);
+  end;
+begin
+  Result := '';
+  ExtPos := 0;
+  LoadExtension;
+  while (ext <> nil) do
+  begin
+    prop := X509ExtensionGetData(ext);
+    if Assigned(prop) then
+    begin
+      propStr := PAnsiChar(prop^.data);
+      SetLength(propStr, prop^.length);
+      P := pos(FlagExt, propStr);
+      if P > 0 then
+      begin
+        Result := AdjustOID( AnsiString( copy(propStr,P+Length(FlagExt),Length(propStr))));
+        exit;
+      end;
+    end;
+
+    inc(ExtPos);
+    LoadExtension;
+  end;
+end;
+
+function GetTaxIDFromExtensions(cert: pX509): String;
+var
+  aOID: AnsiString;
+begin
+  Result := '';
+  // Procurando pela Extensão onde está o CNPJ
+  aOID := GetCertExt( cert, #1#3#3#160 );
+  if (aOID <> '') then
+    Result := copy(Trim(aOID), 1, 14);
+
+  // Ainda sem resposta, deve ser um eCPF, procure por CPF
+  if Result = '' then
+  begin
+    aOID := GetCertExt( cert, #1#3#1#160 );
+    if aOID <> ''then
+      Result := copy( Trim(aOID), 9 ,11);  // Pula DataNascimento
+  end;
+end;
+
+function GetIssuerName( cert: pX509 ): String;
+var
+  X509IssuerName: pX509_NAME;
+begin
+  Result := '';
+  X509IssuerName := X509GetIssuerName(cert);
+
+  if Assigned(X509IssuerName) then
+    Result := X509NameToString(X509IssuerName);
+end;
+
+function X509NameToString(AX509Name: PX509_NAME): AnsiString;
+var
+  MemBio: PBIO;
+begin
+  MemBio := BioNew(BioSMem());
+  try
+    X509NAMEprintEx( MemBio, AX509Name, 0,
+                     (XN_FLAG_SEP_CPLUS_SPC and XN_FLAG_SEP_MASK)
+                     {$IfDef FPC} or ASN1_STRFLGS_UTF8_CONVERT{$EndIf}
+                   );
+    Result := BioToStr(MemBio);
+  finally
+    BioFreeAll(MemBio);
+  end;
+end;
+
 
 procedure GenerateKeyPair(out APrivateKey: String; out APublicKey: String;
   const Password: AnsiString; KeyBits: TACBrOpenSSLKeyBits);
