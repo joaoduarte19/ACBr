@@ -19,7 +19,7 @@
       </Parsing>
       <Linking>
         <Debugging>
-          <DebugInfoType Value="dsDwarf2Set"/>
+          <DebugInfoType Value="dsDwarf3"/>
           <UseHeaptrc Value="True"/>
           <TrashVariables Value="True"/>
           <UseExternalDbgSyms Value="True"/>
@@ -34,7 +34,7 @@
     <Description Value="ACBr - Transferência Eletrônica de Fundos (http://www.projetoacbr.com.br/)"/>
     <License Value="LGPL"/>
     <Version Major="4" Minor="3" Release="9"/>
-    <Files Count="46">
+    <Files Count="49">
       <Item1>
         <Filename Value="..\..\..\Fontes\ACBrTEFD\ACBrTEFDReg.pas"/>
         <HasRegisterProc Value="True"/>
@@ -220,6 +220,18 @@
         <Filename Value="..\..\..\Fontes\ACBrTEFD\ACBrTEFAPITXT.pas"/>
         <UnitName Value="ACBrTEFAPITXT"/>
       </Item46>
+      <Item47>
+        <Filename Value="..\..\..\Fontes\ACBrTEFD\ACBrTEFTXTPayGo.pas"/>
+        <UnitName Value="ACBrTEFTXTPayGo"/>
+      </Item47>
+      <Item48>
+        <Filename Value="..\..\..\Fontes\ACBrTEFD\ACBrTEFAPIAuttar.pas"/>
+        <UnitName Value="ACBrTEFAPIAuttar"/>
+      </Item48>
+      <Item49>
+        <Filename Value="..\..\..\Fontes\ACBrTEFD\ACBrTEFAuttarAPI.pas"/>
+        <UnitName Value="ACBrTEFAuttarAPI"/>
+      </Item49>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="1">
