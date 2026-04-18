@@ -45,7 +45,7 @@ uses
   ImgList, ACBrPIXPSPSicoob, ACBrPIXPSPPagSeguro, ACBrPIXPSPGerenciaNet,
   ACBrPIXPSPBradesco, ACBrPIXPSPPixPDV, ACBrPIXPSPInter, ACBrPIXPSPAilos,
   ACBrPIXPSPMatera, ACBrPIXPSPCielo, ACBrPIXPSPMercadoPago, ACBrPIXPSPGate2All,
-  ACBrPIXPSPBanrisul, ACBrPIXPSPC6Bank, ACBrPIXPSPAppLess
+  ACBrPIXPSPBanrisul, ACBrPIXPSPC6Bank, ACBrPIXPSPAppLess, ACBrPIXPSPQQPag
   {$IfDef FPC}
   , DateTimePicker
   {$EndIf};
@@ -89,6 +89,7 @@ type
     ACBrPSPMercadoPago1: TACBrPSPMercadoPago;
     ACBrPSPPagSeguro1: TACBrPSPPagSeguro;
     ACBrPSPPixPDV1: TACBrPSPPixPDV;
+    ACBrPSPQQPag1: TACBrPSPQQPag;
     ACBrPSPSantander1: TACBrPSPSantander;
     ACBrPSPShipay1: TACBrPSPShipay;
     ACBrPSPSicoob1: TACBrPSPSicoob;
@@ -207,6 +208,7 @@ type
     cbBanrisulTipoChave: TComboBox;
     cbBBVersaoAPI: TComboBox;
     cbBradescoAPIVersao: TComboBox;
+    cbQQPagTipoChave: TComboBox;
     cbPagSeguroTipoChave: TComboBox;
     cbPIXPDVVersaoAPI: TComboBox;
     cbC6BankTipoChave: TComboBox;
@@ -258,6 +260,9 @@ type
     edConsultarLocationsRecItensPorPagina: TSpinEdit;
     edConsultarLocationsRecPagina: TSpinEdit;
     edConsultarLocationRecId: TEdit;
+    edQQPagChavePIX: TEdit;
+    edQQPagClientID: TEdit;
+    edQQPagClientSecret: TEdit;
     edPagSeguroArqCertificado: TEdit;
     edPagSeguroArqChavePrivada: TEdit;
     edPagSeguroChallengeToken: TEdit;
@@ -509,6 +514,7 @@ type
     imC6BankErroChavePix: TImage;
     imC6BankErroChavePrivada: TImage;
     imgBBErroChavePIX: TImage;
+    imQQPagErroChavePix: TImage;
     imMercadoPagoErroChavePix: TImage;
     imCobVQRCode: TImage;
     imCieloErroChavePix: TImage;
@@ -571,6 +577,10 @@ type
     lbBBSenhaPFX: TLabel;
     lbBBVersaoAPI: TLabel;
     lbBradescoAPIVersao: TLabel;
+    lbQQPagChave: TLabel;
+    lbQQPagClientID: TLabel;
+    lbQQPagClientSecret: TLabel;
+    lbQQPagTipoChave: TLabel;
     lbPagSeguroArqCertificado: TLabel;
     lbPagSeguroArqChavePrivada: TLabel;
     lbPagSeguroChallengeToken: TLabel;
@@ -924,6 +934,7 @@ type
     pnConsultarLocationRec: TPanel;
     pnConsultarLocationRecRodape: TPanel;
     pnCriarLocationRec: TPanel;
+    pnQQPag: TPanel;
     pnLocationRecRodape: TPanel;
     pnPagSeguroConfigCredenciais: TPanel;
     pnPagSeguroGerarChaves: TPanel;
@@ -1132,6 +1143,7 @@ type
     Splitter4: TSplitter;
     spCriarCobR: TSplitter;
     spLocationRec: TSplitter;
+    tsQQPag: TTabSheet;
     tsPagSeguroChallenge: TTabSheet;
     tsPagSeguroCertificado: TTabSheet;
     tsBBChaveECertificado: TTabSheet;
@@ -1391,6 +1403,7 @@ type
     procedure edPagSeguroArqsChange(Sender: TObject);
     procedure edPagSeguroArqChavePrivadaExit(Sender: TObject);
     procedure edPagSeguroChavePIXChange(Sender: TObject);
+    procedure edQQPagChavePIXChange(Sender: TObject);
     procedure edRevisarRecorrenciaNomeDevedorChange(Sender: TObject);
     procedure edSantanderArqCertificadoPFXChange(Sender: TObject);
     procedure edSicoobArqCertificadoExit(Sender: TObject);
@@ -1490,6 +1503,7 @@ type
     procedure LigarAlertasdeErrosDeConfiguracaoPSPBB;
     procedure LigarAlertasdeErrosDeConfiguracaoPSPBanrisul;
     procedure LigarAlertasdeErrosDeConfiguracaoPSPC6Bank;
+    procedure LigarAlertasdeErrosDeConfiguracaoPSPQQPag;
 
     procedure VerificarConfiguracao;
     procedure VerificarConfiguracaoPIXCD;
@@ -3158,8 +3172,8 @@ begin
   mConsultarCobrancas.Lines.Clear;
 
   Ok := ACBrPixCD1.PSP.epCob.ConsultarCobrancas(
-          StartOfTheDay(dtConsultarCobrancas_Inicio.DateTime),
-          EndOfTheDay(dtConsultarCobrancas_Fim.DateTime),
+          dtConsultarCobrancas_Inicio.DateTime,
+          dtConsultarCobrancas_Fim.DateTime,
           OnlyNumber(edtConsultarCobrancas_CPFCNPJ.Text),
           chConsultarCobrancas_ComLocation.Checked,
           TACBrPIXStatusCobranca(cbxConsultarCobrancas_Status.ItemIndex),
@@ -3468,7 +3482,7 @@ begin
       valor.original := fFluxoDados.Total;
     end;
 
-    if ACBrPixCD1.PSP.epCob.CriarCobrancaImediata then
+    if ACBrPixCD1.PSP.epCob.CriarCobrancaImediata(CriarTxId) then
     begin
       fFluxoDados.TxID := ACBrPixCD1.PSP.epCob.CobGerada.txId;
       fFluxoDados.QRCode := Trim(ACBrPixCD1.PSP.epCob.CobGerada.pixCopiaECola);
@@ -4143,6 +4157,12 @@ begin
   imPagSeguroErroChavePIX.Visible := NaoEstaVazio(edPagSeguroChavePIX.Text) and (cbPagSeguroTipoChave.ItemIndex = 0);
 end;
 
+procedure TForm1.edQQPagChavePIXChange(Sender: TObject);
+begin
+  cbQQPagTipoChave.ItemIndex := Integer(DetectarTipoChave(edQQPagChavePIX.Text));
+  imQQPagErroChavePix.Visible := NaoEstaVazio(edQQPagChavePIX.Text) and (cbQQPagTipoChave.ItemIndex = 0);
+end;
+
 procedure TForm1.edRevisarRecorrenciaNomeDevedorChange(Sender: TObject);
 begin
   edRevisarRecorrenciaDocDevedor.Enabled := NaoEstaVazio(Trim(edRevisarRecorrenciaNomeDevedor.Text));
@@ -4528,6 +4548,11 @@ begin
   edC6BankArqsChange(Nil);
   ValidarCertificadoPSPC6Bank;
   ValidarChavePSPC6Bank;
+end;
+
+procedure TForm1.LigarAlertasdeErrosDeConfiguracaoPSPQQPag;
+begin
+  edQQPagChavePIXChange(Nil);
 end;
 
 procedure TForm1.VerificarConfiguracao;
@@ -5413,6 +5438,10 @@ begin
     edAppLessClientId.Text := Ini.ReadString('AppLess', 'ClientId', EmptyStr);
     edAppLessClientSecret.Text := Ini.ReadString('AppLess', 'ClientSecret', EmptyStr);
     edAppLessHMAC.Text := Ini.ReadString('AppLess', 'HMAC', EmptyStr);
+
+    edQQPagChavePIX.Text := Ini.ReadString('QQPag', 'ChavePIX', '');
+    edQQPagClientID.Text := Ini.ReadString('QQPag', 'ClientID', '');
+    edQQPagClientSecret.Text := Ini.ReadString('QQPag', 'ClientSecret', '');
   finally
     Ini.Free;
   end;
@@ -5572,6 +5601,10 @@ begin
     Ini.WriteString('AppLess', 'ClientId', edAppLessClientId.Text);
     Ini.WriteString('AppLess', 'ClientSecret', edAppLessClientSecret.Text);
     Ini.WriteString('AppLess', 'HMAC', edAppLessHMAC.Text);
+
+    Ini.WriteString('QQPag', 'ChavePIX', edQQPagChavePIX.Text);
+    Ini.WriteString('QQPag', 'ClientID', edQQPagClientID.Text);
+    Ini.WriteString('QQPag', 'ClientSecret', edQQPagClientSecret.Text);
   finally
      Ini.Free;
   end;
@@ -5821,6 +5854,7 @@ begin
   cbBanrisulTipoChave.Items.Assign(cbxBBTipoChave.Items);
   cbC6BankTipoChave.Items.Assign(cbxBBTipoChave.Items);
   cbMercadoPagoTipoChave.Items.Assign(cbxBBTipoChave.Items);
+  cbQQPagTipoChave.Items.Assign(cbxBBTipoChave.Items);
 
   cbxSolicitarDevolucaoPix_Natureza.Items.Clear;
   for l := 0 to Integer(High(TACBrPIXNaturezaDevolucao)) do
@@ -5974,6 +6008,7 @@ begin
     16: ACBrPixCD1.PSP := ACBrPSPBanrisul1;
     17: ACBrPixCD1.PSP := ACBrPSPC6Bank1;
     18: ACBrPixCD1.PSP := ACBrPSPAppLess1;
+    19: ACBrPixCD1.PSP := ACBrPSPQQPag1;
   else
     raise Exception.Create('PSP configurado é inválido');
   end;
@@ -6117,6 +6152,10 @@ begin
   ACBrPSPAppLess1.ClientID := edAppLessClientId.Text;
   ACBrPSPAppLess1.ClientSecret := edAppLessClientSecret.Text;
   ACBrPSPAppLess1.SecretKeyHMAC := edAppLessHMAC.Text;
+
+  ACBrPSPQQPag1.ChavePIX := edQQPagChavePIX.Text;
+  ACBrPSPQQPag1.ClientID := edQQPagClientID.Text;
+  ACBrPSPQQPag1.ClientSecret := edQQPagClientSecret.Text;
 end;
 
 procedure TForm1.LimparQRCodeEstatico;
@@ -6565,7 +6604,7 @@ begin
     Cells[1,0] := 'Descricao';
     Cells[2,0] := 'Valor';
 
-    AdicionarItemGridFluxo('0123456789012', 'Batata Doce', 3.69);
+    AdicionarItemGridFluxo('0123456789012', 'Batata Doce', 0.70);
   end;
 end;
 

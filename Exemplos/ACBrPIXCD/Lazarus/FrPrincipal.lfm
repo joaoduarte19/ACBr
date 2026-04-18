@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 585
+  Left = 393
   Height = 652
-  Top = 210
+  Top = 190
   Width = 1008
   Caption = 'ACBrPIXCD Teste'
   ClientHeight = 652
@@ -86,7 +86,7 @@ object Form1: TForm1
     0000000000000000000000000000000000000000000000000000000000000000
     0000
   }
-  LCLVersion = '4.4.0.0'
+  LCLVersion = '4.6.0.0'
   OnCreate = FormCreate
   OnShow = FormShow
   object pgPrincipal: TPageControl
@@ -258,7 +258,7 @@ object Form1: TForm1
                 Height = 15
                 Top = 0
                 Width = 56
-                Caption = 'Descricao'
+                Caption = 'Descrição'
                 ParentColor = False
               end
               object btFluxoItemIncluir: TBitBtn
@@ -321,7 +321,7 @@ object Form1: TForm1
                 '0123456789012'
                 1
                 0
-                'Descricao'
+                'Descrição'
                 1
                 1
                 'Batata Doce'
@@ -524,7 +524,7 @@ object Form1: TForm1
                   Top = 30
                   Width = 250
                   Align = alTop
-                  Caption = 'Cancelar Cobranca'
+                  Caption = 'Cancelar Cobrança'
                   Images = ImageList1
                   ImageIndex = 17
                   TabOrder = 3
@@ -688,9 +688,9 @@ object Form1: TForm1
             Height = 550
             Top = 0
             Width = 624
-            ActivePage = tsEndPointPix
+            ActivePage = tsEndPointCob
             Align = alClient
-            TabIndex = 0
+            TabIndex = 1
             TabOrder = 0
             TabWidth = 120
             object tsEndPointPix: TTabSheet
@@ -801,7 +801,7 @@ object Form1: TForm1
                       Height = 15
                       Top = 56
                       Width = 171
-                      Caption = 'Identificador da Transacao (TxId)'
+                      Caption = 'Identificador da Transação (TxId)'
                       ParentColor = False
                     end
                     object edtConsultarPixRecebidosTxId: TEdit
@@ -830,7 +830,7 @@ object Form1: TForm1
                       Height = 15
                       Top = 8
                       Width = 29
-                      Caption = 'Inicio'
+                      Caption = 'Início'
                       ParentColor = False
                     end
                     object dtConsultarPixRecebidosInicio: TDateTimePicker
@@ -922,7 +922,7 @@ object Form1: TForm1
                       Top = 8
                       Width = 36
                       Anchors = [akTop, akRight]
-                      Caption = 'Pagina'
+                      Caption = 'Página'
                       ParentColor = False
                     end
                     object lPagina1: TLabel
@@ -931,7 +931,7 @@ object Form1: TForm1
                       Top = 5
                       Width = 69
                       Anchors = [akTop, akRight]
-                      Caption = 'Itens por Pag'
+                      Caption = 'Itens por Pág'
                       ParentColor = False
                     end
                     object seConsultarPixRecebidosItensPagina: TSpinEdit
@@ -1027,7 +1027,7 @@ object Form1: TForm1
                       Top = 16
                       Width = 126
                       Anchors = [akTop, akRight]
-                      Caption = 'Identificador Devolucao'
+                      Caption = 'Identificador Devolução'
                       ParentColor = False
                     end
                     object edtSolicitarDevolucaoPix_id: TEdit
@@ -1051,7 +1051,7 @@ object Form1: TForm1
                       Height = 15
                       Top = 72
                       Width = 106
-                      Caption = 'Natureza Devolucao'
+                      Caption = 'Natureza Devoluçao'
                       ParentColor = False
                     end
                     object cbxSolicitarDevolucaoPix_Natureza: TComboBox
@@ -1068,7 +1068,7 @@ object Form1: TForm1
                       Height = 15
                       Top = 72
                       Width = 51
-                      Caption = 'Descricao'
+                      Caption = 'Descrição'
                       ParentColor = False
                     end
                     object edtSolicitarDevolucaoPix_Descricao: TEdit
@@ -1169,7 +1169,7 @@ object Form1: TForm1
                       Height = 15
                       Top = 72
                       Width = 126
-                      Caption = 'Identificador Devolucao'
+                      Caption = 'Identificador Devolução'
                       ParentColor = False
                     end
                     object edtConsultarDevolucaoPix_id: TEdit
@@ -1314,7 +1314,7 @@ object Form1: TForm1
                       Height = 15
                       Top = 56
                       Width = 120
-                      Caption = 'Solicitacao ao Pagador'
+                      Caption = 'Solicitação ao Pagador'
                       ParentColor = False
                     end
                     object edtCriarCobrancaImediata_SolicitacaoAoPagador: TEdit
@@ -1329,7 +1329,7 @@ object Form1: TForm1
                       Height = 15
                       Top = 106
                       Width = 223
-                      Caption = 'Identificador da Transacao (TxId, opcional)'
+                      Caption = 'Identificador da Transação (TxId, opcional)'
                       ParentColor = False
                     end
                     object edtCriarCobrancaImediata_TxId: TEdit
@@ -1459,7 +1459,7 @@ object Form1: TForm1
                       Top = 17
                       Width = 40
                       Anchors = [akTop, akRight]
-                      Caption = 'Revisao'
+                      Caption = 'Revisão'
                       ParentColor = False
                     end
                     object seConsultarCobrancaImediata_Revisao: TSpinEdit
@@ -1536,7 +1536,7 @@ object Form1: TForm1
                       Height = 15
                       Top = 8
                       Width = 29
-                      Caption = 'Inicio'
+                      Caption = 'Início'
                       ParentColor = False
                     end
                     object dtConsultarCobrancas_Inicio: TDateTimePicker
@@ -1552,7 +1552,7 @@ object Form1: TForm1
                       TrailingSeparator = False
                       TextForNullDate = 'NULL'
                       LeadingZeros = True
-                      Kind = dtkDate
+                      Kind = dtkDateTime
                       TimeFormat = tf24
                       TimeDisplay = tdHMS
                       DateMode = dmComboBox
@@ -1583,7 +1583,7 @@ object Form1: TForm1
                       TrailingSeparator = False
                       TextForNullDate = 'NULL'
                       LeadingZeros = True
-                      Kind = dtkDate
+                      Kind = dtkDateTime
                       TimeFormat = tf24
                       TimeDisplay = tdHMS
                       DateMode = dmComboBox
@@ -1628,7 +1628,7 @@ object Form1: TForm1
                       Top = 56
                       Width = 36
                       Anchors = [akTop, akRight]
-                      Caption = 'Pagina'
+                      Caption = 'Página'
                       ParentColor = False
                     end
                     object lPagina4: TLabel
@@ -1637,7 +1637,7 @@ object Form1: TForm1
                       Top = 8
                       Width = 69
                       Anchors = [akTop, akRight]
-                      Caption = 'Itens por Pag'
+                      Caption = 'Itens por Pág'
                       ParentColor = False
                     end
                     object seConsultarCobrancas_ItensPagina: TSpinEdit
@@ -1800,7 +1800,7 @@ object Form1: TForm1
                 TabIndex = 0
                 TabOrder = 0
                 object tsCobVCriarCobranca: TTabSheet
-                  Caption = 'Criar Cobranca Vencimento'
+                  Caption = 'Criar Cobrança Vencimento'
                   ClientHeight = 494
                   ClientWidth = 608
                   object btCobVCopiaECola: TSpeedButton
@@ -1864,16 +1864,16 @@ object Form1: TForm1
                     Height = 15
                     Top = 305
                     Width = 80
-                    Caption = 'Valor Cobranca'
+                    Caption = 'Valor Cobrança'
                     ParentColor = False
                   end
                   object lbCobVDiasPagar: TLabel
                     Left = 204
                     Height = 15
-                    Hint = 'Quantidade de dias corridos apos a data de vencimento, em que a cobranca podera ser paga'
+                    Hint = 'Quantidade de dias corridos após a data de vencimento, em que a cobrança poderá ser paga'
                     Top = 304
                     Width = 132
-                    Caption = 'Dias pagar (Apos vencto)'
+                    Caption = 'Dias pagar (Após vencto)'
                     ParentColor = False
                   end
                   object edCobVDiasPagar: TSpinEdit
@@ -2140,7 +2140,7 @@ object Form1: TForm1
                   end
                 end
                 object tsCobVConsultarCobranca: TTabSheet
-                  Caption = 'Consultar Cobranca Vencto'
+                  Caption = 'Consultar Cobrança Vencto'
                   ClientHeight = 494
                   ClientWidth = 608
                   object pnConsultarCobrancaVencto: TPanel
@@ -2188,7 +2188,7 @@ object Form1: TForm1
                       Top = 16
                       Width = 40
                       Anchors = [akTop, akRight]
-                      Caption = 'Revisao'
+                      Caption = 'Revisão'
                       ParentColor = False
                     end
                     object edCobVConsultarRevisao: TSpinEdit
@@ -2234,7 +2234,7 @@ object Form1: TForm1
                   end
                 end
                 object tsCobVConsultarCobrancas: TTabSheet
-                  Caption = 'Consultar Cobrancas'
+                  Caption = 'Consultar Cobranças'
                   ClientHeight = 494
                   ClientWidth = 608
                   object CobVConsultarRodapeLista: TPanel
@@ -2296,7 +2296,7 @@ object Form1: TForm1
                       Height = 15
                       Top = 16
                       Width = 29
-                      Caption = 'Inicio'
+                      Caption = 'Início'
                       ParentColor = False
                     end
                     object edCobVConsultarInicio: TDateTimePicker
@@ -2388,7 +2388,7 @@ object Form1: TForm1
                       Top = 65
                       Width = 36
                       Anchors = [akTop, akRight]
-                      Caption = 'Pagina'
+                      Caption = 'Página'
                       ParentColor = False
                     end
                     object lbCobVConsultarItensPag: TLabel
@@ -2397,7 +2397,7 @@ object Form1: TForm1
                       Top = 16
                       Width = 69
                       Anchors = [akTop, akRight]
-                      Caption = 'Itens por Pag'
+                      Caption = 'Itens por Pág'
                       ParentColor = False
                     end
                     object edCobVConsultarItensPag: TSpinEdit
@@ -2438,7 +2438,7 @@ object Form1: TForm1
                   end
                 end
                 object tsCobVCancelarCobranca: TTabSheet
-                  Caption = 'Cancelar Cobranca'
+                  Caption = 'Cancelar Cobrança'
                   ClientHeight = 494
                   ClientWidth = 608
                   object pnCobVCancelarParams: TPanel
@@ -2583,7 +2583,7 @@ object Form1: TForm1
                       Height = 15
                       Top = 10
                       Width = 91
-                      Caption = 'Informacao Adic.'
+                      Caption = 'Informação Adic.'
                       ParentColor = False
                     end
                     object edCriarCobRInfoAdicional: TEdit
@@ -2843,7 +2843,7 @@ object Form1: TForm1
                   end
                 end
                 object tsConsultarCobR: TTabSheet
-                  Caption = 'Consultar Cobranca'
+                  Caption = 'Consultar Cobrança'
                   ClientHeight = 494
                   ClientWidth = 608
                   object pnConsultarCobR: TPanel
@@ -2919,7 +2919,7 @@ object Form1: TForm1
                   end
                 end
                 object tsConsultarCobsR: TTabSheet
-                  Caption = 'Consultar Cobrancas'
+                  Caption = 'Consultar Cobranças'
                   ClientHeight = 494
                   ClientWidth = 608
                   object pnConsultarCobsR: TPanel
@@ -2948,7 +2948,7 @@ object Form1: TForm1
                       Height = 15
                       Top = 10
                       Width = 29
-                      Caption = 'Inicio'
+                      Caption = 'Início'
                       ParentColor = False
                     end
                     object edConsultarCobsRInicio: TDateTimePicker
@@ -3036,7 +3036,7 @@ object Form1: TForm1
                       Height = 15
                       Top = 60
                       Width = 36
-                      Caption = 'Pagina'
+                      Caption = 'Página'
                       ParentColor = False
                     end
                     object lbConsultarCobsRItensPorPagina: TLabel
@@ -3044,7 +3044,7 @@ object Form1: TForm1
                       Height = 15
                       Top = 60
                       Width = 69
-                      Caption = 'Itens por Pag'
+                      Caption = 'Itens por Pág'
                       ParentColor = False
                     end
                     object edConsultarCobsRItensPorPagina: TSpinEdit
@@ -3140,7 +3140,7 @@ object Form1: TForm1
                   end
                 end
                 object tsCancelarCobR: TTabSheet
-                  Caption = 'Cancelar Cobranca'
+                  Caption = 'Cancelar Cobrança'
                   ClientHeight = 494
                   ClientWidth = 608
                   object pnCancelarCobR: TPanel
@@ -3569,7 +3569,7 @@ object Form1: TForm1
                     object lbCriarRecorrenciaLoc: TLabel
                       Left = 488
                       Height = 15
-                      Hint = 'Quantidade de dias corridos apos a data de vencimento, em que a cobranca podera ser paga'
+                      Hint = 'Quantidade de dias corridos após a data de vencimento, em que a cobrança poderá ser paga'
                       Top = 58
                       Width = 19
                       Caption = 'Loc'
@@ -4025,7 +4025,7 @@ object Form1: TForm1
                     object lbRevisarRecorrenciaLoc: TLabel
                       Left = 472
                       Height = 15
-                      Hint = 'Quantidade de dias corridos apos a data de vencimento, em que a cobranca podera ser paga'
+                      Hint = 'Quantidade de dias corridos após a data de vencimento, em que a cobrança poderá ser paga'
                       Top = 56
                       Width = 19
                       Caption = 'Loc'
@@ -4136,7 +4136,7 @@ object Form1: TForm1
                 TabIndex = 0
                 TabOrder = 0
                 object tsCriarSolicitacaoRec: TTabSheet
-                  Caption = 'Criar Solicitacao de Confirmacao'
+                  Caption = 'Criar Solicitação de Confirmação'
                   ClientHeight = 494
                   ClientWidth = 608
                   object pnCriarSolicitacaoRec: TPanel
@@ -4317,7 +4317,7 @@ object Form1: TForm1
                   end
                 end
                 object tsConsultarSolicitacaoRec: TTabSheet
-                  Caption = 'Consultar Solicitacao'
+                  Caption = 'Consultar Solicitação'
                   ClientHeight = 494
                   ClientWidth = 608
                   object pnConsultarSolicitacaoRec: TPanel
@@ -4657,7 +4657,7 @@ object Form1: TForm1
                       Height = 15
                       Top = 10
                       Width = 29
-                      Caption = 'Inicio'
+                      Caption = 'Início'
                       ParentColor = False
                     end
                     object edConsultarLocationsRecInicio: TDateTimePicker
@@ -5158,7 +5158,7 @@ object Form1: TForm1
                       Height = 21
                       Top = 24
                       Width = 392
-                      Caption = 'Clique aqui para efetuar o pagamento da cobranca!'
+                      Caption = 'Clique aqui para efetuar o pagamento da cobrança!'
                       Font.Color = clHighlight
                       Font.Height = -16
                       Font.Style = [fsBold]
@@ -5190,7 +5190,7 @@ object Form1: TForm1
             TabOrder = 0
             TabWidth = 200
             object tsQRCodeEstatico: TTabSheet
-              Caption = 'QRCode Estatico'
+              Caption = 'QRCode Estático'
               ClientHeight = 522
               ClientWidth = 616
               object pQREDados: TPanel
@@ -5216,7 +5216,7 @@ object Form1: TForm1
                   Height = 15
                   Top = 15
                   Width = 114
-                  Caption = 'Informacao Adicional'
+                  Caption = 'Informação Adicional'
                   ParentColor = False
                 end
                 object edtQREInfoAdicional: TEdit
@@ -5233,7 +5233,7 @@ object Form1: TForm1
                   Height = 15
                   Top = 72
                   Width = 171
-                  Caption = 'Identificador da Transacao (TxId)'
+                  Caption = 'Identificador da Transação (TxId)'
                   ParentColor = False
                 end
                 object edtQRETxId: TEdit
@@ -5405,7 +5405,7 @@ object Form1: TForm1
                   Height = 15
                   Top = 85
                   Width = 336
-                  Caption = 'TxId (Campo apenas informativo. TxID considerado sera da URL)'
+                  Caption = 'TxId (Campo apenas informativo. TxID considerado será da URL)'
                   ParentColor = False
                 end
               end
@@ -5519,7 +5519,7 @@ object Form1: TForm1
           Top = 1
           Width = 361
           Align = alTop
-          Caption = 'Log das Operacoes'
+          Caption = 'Log das Operações'
           ParentColor = False
         end
         object Panel2: TPanel
@@ -5565,11 +5565,11 @@ object Form1: TForm1
         Height = 546
         Top = 0
         Width = 1000
-        ActivePage = tsPIX
+        ActivePage = tsPSP
         Align = alClient
         Images = ImageList1
         TabHeight = 25
-        TabIndex = 0
+        TabIndex = 1
         TabOrder = 0
         TabWidth = 200
         object tsPIX: TTabSheet
@@ -5749,7 +5749,7 @@ object Form1: TForm1
                   Height = 15
                   Top = 42
                   Width = 40
-                  Caption = 'Usuario'
+                  Caption = 'Usuário'
                   ParentColor = False
                 end
                 object edtProxyHost: TEdit
@@ -5844,7 +5844,7 @@ object Form1: TForm1
                   Height = 15
                   Top = 42
                   Width = 27
-                  Caption = 'Nivel'
+                  Caption = 'Nível'
                   ParentColor = False
                 end
                 object edtArqLog: TEdit
@@ -5975,7 +5975,7 @@ object Form1: TForm1
               Height = 72
               Top = 224
               Width = 280
-              Caption = 'Cobranca'
+              Caption = 'Cobrança'
               ClientHeight = 52
               ClientWidth = 276
               TabOrder = 4
@@ -5994,7 +5994,7 @@ object Form1: TForm1
                   Height = 15
                   Top = 3
                   Width = 50
-                  Caption = 'Expiracao'
+                  Caption = 'Expiração'
                   ParentColor = False
                 end
                 object seCobrancaExpiracao: TSpinEdit
@@ -6032,7 +6032,7 @@ object Form1: TForm1
                   Height = 19
                   Top = 16
                   Width = 184
-                  Caption = 'Controlar Autenticacao Manual'
+                  Caption = 'Controlar Autenticação Manual'
                   TabOrder = 0
                 end
               end
@@ -6049,9 +6049,9 @@ object Form1: TForm1
             Height = 513
             Top = 0
             Width = 992
-            ActivePage = tsShipay
+            ActivePage = tsQQPag
             Align = alClient
-            TabIndex = 0
+            TabIndex = 19
             TabOrder = 0
             TabWidth = 100
             object tsShipay: TTabSheet
@@ -6252,7 +6252,7 @@ object Form1: TForm1
                       Height = 15
                       Top = 70
                       Width = 55
-                      Caption = 'Versao API'
+                      Caption = 'Versão API'
                       ParentColor = False
                     end
                     object rgBBTipoCertificado: TRadioGroup
@@ -6893,7 +6893,7 @@ object Form1: TForm1
                         Height = 15
                         Top = 16
                         Width = 168
-                        Caption = 'Desabilitado em Homologacao'
+                        Caption = 'Desabilitado em Homologação'
                         Font.Style = [fsBold]
                         ParentColor = False
                         ParentFont = False
@@ -7029,7 +7029,7 @@ object Form1: TForm1
                               Top = 0
                               Width = 834
                               Align = alTop
-                              Caption = 'Token Temporario'
+                              Caption = 'Token Temporário'
                               ParentColor = False
                             end
                             object mItauTokenTemporario: TMemo
@@ -7175,8 +7175,8 @@ object Form1: TForm1
                 Height = 368
                 Top = 56
                 Width = 888
-                ActivePage = tsSantanderCredenciais
-                TabIndex = 0
+                ActivePage = tsSantanderExtrairCertificado
+                TabIndex = 1
                 TabOrder = 0
                 object tsSantanderCredenciais: TTabSheet
                   Caption = 'Credenciais'
@@ -7488,8 +7488,8 @@ object Form1: TForm1
                 Height = 368
                 Top = 56
                 Width = 888
-                ActivePage = tsSicrediCredenciais
-                TabIndex = 0
+                ActivePage = tsSicrediGerarChaveCSR
+                TabIndex = 1
                 TabOrder = 0
                 object tsSicrediCredenciais: TTabSheet
                   Caption = 'Credenciais'
@@ -7897,8 +7897,8 @@ object Form1: TForm1
                 Height = 368
                 Top = 56
                 Width = 888
-                ActivePage = tsSicoobCredenciais
-                TabIndex = 0
+                ActivePage = tsSicoobExtrairChaveCertificado
+                TabIndex = 1
                 TabOrder = 0
                 object tsSicoobCredenciais: TTabSheet
                   Caption = 'Credenciais'
@@ -8496,7 +8496,7 @@ object Form1: TForm1
                       Height = 15
                       Top = 75
                       Width = 88
-                      Caption = 'Nome Aplicacao'
+                      Caption = 'Nome Aplicação'
                       ParentColor = False
                     end
                   end
@@ -8520,10 +8520,10 @@ object Form1: TForm1
                       Height = 391
                       Top = 0
                       Width = 858
-                      ActivePage = tsPagSeguroGerarCredenciaisClients
+                      ActivePage = tsPagSeguroChallenge
                       Align = alClient
                       TabHeight = 25
-                      TabIndex = 0
+                      TabIndex = 2
                       TabOrder = 0
                       TabWidth = 150
                       object tsPagSeguroGerarCredenciaisClients: TTabSheet
@@ -8545,7 +8545,7 @@ object Form1: TForm1
                             Height = 15
                             Top = 24
                             Width = 88
-                            Caption = 'Nome Aplicacao'
+                            Caption = 'Nome Aplicação'
                             ParentColor = False
                           end
                           object edPagSeguroNomeApp2: TEdit
@@ -8796,7 +8796,7 @@ object Form1: TForm1
                             Height = 15
                             Top = 7
                             Width = 165
-                            Caption = 'Token (Valido por 30 segundos)'
+                            Caption = 'Token (Válido por 30 segundos)'
                             ParentColor = False
                           end
                           object edPagSeguroChallengeToken: TEdit
@@ -8848,7 +8848,7 @@ object Form1: TForm1
                             Height = 15
                             Top = 24
                             Width = 165
-                            Caption = 'Token (Valido por 30 segundos)'
+                            Caption = 'Token (Válido por 30 segundos)'
                             ParentColor = False
                           end
                           object lbPagSeguroCertificadoChallenge: TLabel
@@ -9432,7 +9432,7 @@ object Form1: TForm1
                   Top = 68
                   Width = 55
                   Anchors = [akTop, akRight]
-                  Caption = 'Versao API'
+                  Caption = 'Versão API'
                   ParentColor = False
                 end
               end
@@ -9515,7 +9515,7 @@ object Form1: TForm1
                   Height = 15
                   Top = 50
                   Width = 55
-                  Caption = 'Versao API'
+                  Caption = 'Versão API'
                   ParentColor = False
                 end
               end
@@ -10957,6 +10957,99 @@ object Form1: TForm1
                 end
               end
             end
+            object tsQQPag: TTabSheet
+              Caption = 'Quero Quero Pag'
+              ClientHeight = 485
+              ClientWidth = 984
+              object pnQQPag: TPanel
+                Left = 48
+                Height = 322
+                Top = 72
+                Width = 880
+                Anchors = [akLeft, akRight]
+                BevelOuter = bvNone
+                ClientHeight = 322
+                ClientWidth = 880
+                TabOrder = 0
+                object lbQQPagTipoChave: TLabel
+                  Left = 680
+                  Height = 15
+                  Top = 24
+                  Width = 60
+                  Anchors = [akTop, akRight]
+                  Caption = 'Tipo Chave'
+                  ParentColor = False
+                end
+                object lbQQPagClientSecret: TLabel
+                  Left = 24
+                  Height = 15
+                  Top = 132
+                  Width = 66
+                  Caption = 'Client Secret'
+                  ParentColor = False
+                end
+                object lbQQPagClientID: TLabel
+                  Left = 24
+                  Height = 15
+                  Top = 75
+                  Width = 45
+                  Caption = 'Client ID'
+                  ParentColor = False
+                end
+                object lbQQPagChave: TLabel
+                  Left = 24
+                  Height = 15
+                  Top = 24
+                  Width = 53
+                  Caption = 'Chave PIX'
+                  ParentColor = False
+                end
+                object imQQPagErroChavePix: TImage
+                  Left = 844
+                  Height = 17
+                  Top = 43
+                  Width = 16
+                  Anchors = [akTop, akRight]
+                  Visible = False
+                end
+                object edQQPagClientSecret: TEdit
+                  Left = 24
+                  Height = 23
+                  Top = 148
+                  Width = 816
+                  Anchors = [akTop, akLeft, akRight]
+                  TabOrder = 3
+                end
+                object edQQPagClientID: TEdit
+                  Left = 24
+                  Height = 23
+                  Top = 90
+                  Width = 816
+                  Anchors = [akTop, akLeft, akRight]
+                  TabOrder = 2
+                end
+                object edQQPagChavePIX: TEdit
+                  Left = 24
+                  Height = 23
+                  Top = 40
+                  Width = 638
+                  Anchors = [akTop, akLeft, akRight]
+                  TabOrder = 0
+                  OnChange = edQQPagChavePIXChange
+                end
+                object cbQQPagTipoChave: TComboBox
+                  Left = 681
+                  Height = 23
+                  Top = 40
+                  Width = 157
+                  Anchors = [akTop, akRight]
+                  ItemHeight = 15
+                  Style = csDropDownList
+                  TabOrder = 1
+                  TabStop = False
+                end
+              end
+            end
           end
         end
       end
@@ -11188,7 +11281,7 @@ object Form1: TForm1
     Top = 472
   end
   object ACBrPSPItau1: TACBrPSPItau
-    Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
+    Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead, scRecWrite, scRecRead, scSolicRecWrite, scSolicRecRead, scCobRWrite, scCobRRead]
     Left = 196
     Top = 416
   end
@@ -11318,7 +11411,12 @@ object Form1: TForm1
   end
   object ACBrPSPAppLess1: TACBrPSPAppLess
     Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
-    Left = 704
+    Left = 696
+    Top = 416
+  end
+  object ACBrPSPQQPag1: TACBrPSPQQPag
+    Scopes = [scCobWrite, scCobRead, scCobVWrite, scCobVRead, scPixWrite, scPixRead]
+    Left = 728
     Top = 416
   end
 end
