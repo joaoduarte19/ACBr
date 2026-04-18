@@ -46,6 +46,18 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+16/04/2026
+-- ACBrPSPQQPag -- 
+[+] Inclusão do novo PSP QQPag (Quero Quero - VerdeCard)
+    por Elias César/Antonio Carlos Junior
+
+-- ACBrPIXCD --
+[+] Adicionado os Escopos: scBolePixRead, scBolePixWrite
+
+-- ACBrPIXPSPBanrisul, ACBrPIXPSPGate2All, ACBRÍACBrPIXPSPInter, ACBrPIXPSPC6Bank --
+[*] Remoção de Units desnecessárias
+
 09/03/2026
 -- ACBrPIXPSPBradesco --
 [*] Alterações para utilizar as novas URLs referentes à Pix Automático.

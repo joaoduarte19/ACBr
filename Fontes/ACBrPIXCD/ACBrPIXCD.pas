@@ -174,7 +174,8 @@ type
      scPayloadLocationWrite, scPayloadLocationRead, scRecWrite, scRecRead,
      scSolicRecWrite, scSolicRecRead, scCobRWrite, scCobRRead, scWebhookRecWrite,
      scWebhookRecRead, scWebhookCobRWrite, scWebhookCobRRead,
-     scPayloadLocationRecWrite, scPayloadLocationRecRead);
+     scPayloadLocationRecWrite, scPayloadLocationRecRead,
+     scBolePixRead, scBolePixWrite);
 
   TACBrPSPScopes = set of TACBrPSPScope;
 
@@ -3211,6 +3212,8 @@ begin
     scRecRead: Result := 'rec.read';
     scSolicRecWrite: Result := 'solicrec.write';
     scSolicRecRead: Result := 'solicrec.read';
+    scBolePixRead: Result := 'bolepix.read';
+    scBolePixWrite: Result := 'bolepix.write';
   end;
 end;
 

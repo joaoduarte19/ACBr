@@ -3,11 +3,10 @@
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
 {                                                                              }
-{ Direitos Autorais Reservados (c) 2023 Daniel Simoes de Almeida               }
+{ Direitos Autorais Reservados (c) 2026 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
-{ - Cristian Carvalho                                                          }
-{ - Sidnei Alves                                                               }
+{ - Elias César e Antonio Carlos (ACBr)                                        }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -35,11 +34,11 @@
 (*
 
   Documentação
-  https://developers.bancointer.com.br
+  https://docs.qqpag.com.br/pix-cobranca
 
 *)
 
-unit ACBrPIXPSPInter;
+unit ACBrPIXPSPQQPag;
 
 interface
 
@@ -49,21 +48,21 @@ uses
   ACBrPIXCD;
 
 const
-  cInterURLSandbox      = 'https://cdpj-sandbox.partners.uatinter.co';
-  cInterURLProducao     = 'https://cdpj.partners.bancointer.com.br';
-  cInterPathAuthToken   = '/oauth/v2/token';
-  cInterPathAPIPix      = '/pix/v2';
-  cInterURLAuthTeste    = cInterURLSandbox+cInterPathAuthToken;
-  cInterURLAuthProducao = cInterURLProducao+cInterPathAuthToken;
+  cQueroQueroURLSandbox      = 'https://sandbox.qqpag.com.br';
+  cQueroQueroURLProducao     = 'https://pix.qqpag.com.br';
+  cQueroQueroPathAuthToken   = '/api/oauth/token';
+  cQueroQueroPathAPIPix      = '/api/v2/';
+  cQueroQueroURLAuthSandbox  = cQueroQueroURLSandbox + cQueroQueroPathAuthToken;
+  cQueroQueroURLAuthProducao = cQueroQueroURLProducao + cQueroQueroPathAuthToken;
 
 type
 
-  { TACBrPSPInter }
+  { TACBrPSPQQPag }
 
   {$IFDEF RTL230_UP}
   [ComponentPlatformsAttribute(piacbrAllPlatforms)]
   {$ENDIF RTL230_UP}
-  TACBrPSPInter = class(TACBrPSPCertificate)
+  TACBrPSPQQPag = class(TACBrPSPCertificate)
   protected
     function ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String; override;
   public
@@ -75,45 +74,44 @@ implementation
 uses
   synautil, DateUtils, ACBrJSON, ACBrUtil.Strings;
 
-{ TACBrPSPInter }
+{ TACBrPSPQQPag }
 
-function TACBrPSPInter.ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String;
+function TACBrPSPQQPag.ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String;
 begin
   if (aAmbiente = ambProducao) then
-    Result := cInterURLProducao + cInterPathAPIPix
+    Result := cQueroQueroURLProducao + cQueroQueroPathAPIPix
   else
-    Result := cInterURLSandbox + cInterPathAPIPix;
+    Result := cQueroQueroURLSandbox + cQueroQueroPathAPIPix;
 end;
 
-procedure TACBrPSPInter.Autenticar;
+procedure TACBrPSPQQPag.Autenticar;
 var
   wURL, Body: String;
   wRespostaHttp: AnsiString;
   wResultCode, sec: Integer;
-  js: TACBrJSONObject;
-  qp: TACBrQueryParams;
+  js, jsBody: TACBrJSONObject;
 begin
   LimparHTTP;
-
   if (ACBrPixCD.Ambiente = ambProducao) then
-    wURL := cInterURLAuthProducao
+    wURL := cQueroQueroURLAuthProducao
   else
-    wURL := cInterURLAuthTeste;
-
-
-  qp := TACBrQueryParams.Create;
+    wURL := cQueroQueroURLAuthSandbox;
+        
+  jsBody := TACBrJSONObject.Create;
   try
-    qp.Values['grant_type'] := 'client_credentials';
-    qp.Values['client_id'] := ClientID;
-    qp.Values['client_secret'] := ClientSecret;
-    qp.Values['scope'] := ScopesToString(Scopes);
-    Body := qp.AsURL;
+    jsBody
+      .AddPair('grant_type', 'client_credentials')
+      .AddPair('client_id', ClientID)
+      .AddPair('client_secret', ClientSecret)
+      .AddPair('scope', ScopesToString(Scopes)); 
+    Body := jsBody.ToJSON;
     WriteStrToStream(Http.Document, Body);
-    Http.MimeType := CContentTypeApplicationWwwFormUrlEncoded;
+    Http.MimeType := CContentTypeApplicationJSon;
   finally
-    qp.Free;
+    jsBody.Free;
   end;
 
+  Http.UserAgent := 'TACBrPSPQueroQuero/1.0.0';
   TransmitirHttp(ChttpMethodPOST, wURL, wResultCode, wRespostaHttp);
 
   if (wResultCode = HTTP_OK) then

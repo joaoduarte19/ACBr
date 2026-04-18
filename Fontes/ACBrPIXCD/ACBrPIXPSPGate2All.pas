@@ -6,8 +6,6 @@
 { Direitos Autorais Reservados (c) 2023 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
-{ - Cristian Carvalho                                                          }
-{ - Sidnei Alves                                                               }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -49,7 +47,7 @@ uses
   Classes, SysUtils,
   {$IFDEF RTL230_UP}ACBrBase,{$ENDIF RTL230_UP}
   ACBrPIXCD, ACBrPIXBase, ACBrSchemasGate2All,
-  ACBrPIXSchemasProblema, ACBrOpenSSLUtils;
+  ACBrPIXSchemasProblema;
 
 const
   cGate2AllURLSandbox = 'https://apidemo.gate2all.com.br';

@@ -42,7 +42,8 @@ uses
   ACBrPIXPSPShipay, ACBrPIXPSPSicredi, ACBrPIXPSPSicoob, ACBrPIXPSPPagSeguro,
   ACBrPIXPSPGerenciaNet, ACBrPIXPSPBradesco, ACBrPIXPSPPixPDV, ACBrPIXPSPInter,
   ACBrPIXPSPAilos, ACBrPIXPSPMatera, ACBrPIXPSPCielo, ACBrPIXPSPMercadoPago,
-  ACBrPIXPSPGate2All, ACBrPIXPSPBanrisul, ACBrPIXPSPC6Bank, ACBrPIXPSPAppLess
+  ACBrPIXPSPGate2All, ACBrPIXPSPBanrisul, ACBrPIXPSPC6Bank, ACBrPIXPSPAppLess,
+  ACBrPIXPSPQQPag
   {$IFDEF FPC}, LResources {$ENDIF};
 
 procedure Register;
@@ -60,7 +61,7 @@ begin
     TACBrPSPSicredi, TACBrPSPSicoob, TACBrPSPPagSeguro, TACBrPSPGerenciaNet,
     TACBrPSPBradesco, TACBrPSPPixPDV, TACBrPSPInter, TACBrPSPAilos,
     TACBrPSPMatera, TACBrPSPCielo, TACBrPSPMercadoPago, TACBrPSPGate2All,
-    TACBrPSPBanrisul, TACBrPSPC6Bank, TACBrPSPAppLess]);
+    TACBrPSPBanrisul, TACBrPSPC6Bank, TACBrPSPAppLess, TACBrPSPQQPag]);
 end;
 
 {$IFDEF FPC}

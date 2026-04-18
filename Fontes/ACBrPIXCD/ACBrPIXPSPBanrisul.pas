@@ -6,8 +6,6 @@
 { Direitos Autorais Reservados (c) 2023 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
-{ - Cristian Carvalho                                                          }
-{ - Sidnei Alves                                                               }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -46,7 +44,7 @@ interface
 uses
   Classes, SysUtils,
   {$IFDEF RTL230_UP}ACBrBase,{$ENDIF RTL230_UP}
-  ACBrPIXCD, ACBrOpenSSLUtils;
+  ACBrPIXCD;
 
 const
   cBanrisulURLSandbox      = 'https://mtls-api-h.banrisul.com.br';
