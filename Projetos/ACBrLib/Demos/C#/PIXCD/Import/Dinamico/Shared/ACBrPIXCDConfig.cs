@@ -36,6 +36,7 @@ namespace ACBrLib.PIXCD
             MercadoPago = new MercadoPagoConfig(acbrlib);
             C6Bank = new C6BankConfig(acbrlib);
             AppLess = new AppLessConfig(acbrlib);
+            QQPag = new QQPagConfig(acbrlib);
         }
         // ...existing code...
 
@@ -296,5 +297,10 @@ namespace ACBrLib.PIXCD
         /// Configurações do PSP AppLess.
         /// </summary>
         public AppLessConfig AppLess { get; }
+
+        /// <summary>
+        /// Configurações do PSP Quero Quero Pag.
+        /// </summary>
+        public QQPagConfig QQPag { get; }
     }
 }

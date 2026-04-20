@@ -245,6 +245,11 @@ namespace ACBrLibPIXCD.Demo
                 acbr_pixcd.Config.AppLess.SecretKeyHMAC = txtSecretKeyHMACAppLess.Text;
                 acbr_pixcd.Config.AppLess.Scopes = txtScopesAppLess.Text;
 
+                //QQPag
+                acbr_pixcd.Config.QQPag.ChavePIX = txtChavePIXQQPag.Text;
+                acbr_pixcd.Config.QQPag.ClientID = txtClientIDQQPag.Text;
+                acbr_pixcd.Config.QQPag.ClientSecret = txtClientSecretQQPag.Text;
+
                 acbr_pixcd.ConfigGravar();
 
                 Application.DoEvents();
@@ -412,6 +417,11 @@ namespace ACBrLibPIXCD.Demo
             txtClientSecretAppLess.Text = acbr_pixcd.Config.AppLess.ClientSecret;
             txtSecretKeyHMACAppLess.Text = acbr_pixcd.Config.AppLess.SecretKeyHMAC;
             txtScopesAppLess.Text = acbr_pixcd.Config.AppLess.Scopes;
+
+            //QQPag
+            txtChavePIXQQPag.Text = acbr_pixcd.Config.QQPag.ChavePIX;
+            txtClientIDQQPag.Text = acbr_pixcd.Config.QQPag.ClientID;
+            txtClientSecretQQPag.Text = acbr_pixcd.Config.QQPag.ClientSecret;
         }
 
         private void btnCertificadoBradesco_Click(object sender, EventArgs e)
