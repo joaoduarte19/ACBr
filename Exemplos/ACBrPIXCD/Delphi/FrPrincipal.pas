@@ -45,7 +45,8 @@ uses
   ImgList, ACBrPIXPSPSicoob, ACBrPIXPSPPagSeguro, ACBrPIXPSPGerenciaNet,
   ACBrPIXPSPBradesco, ACBrPIXPSPPixPDV, ACBrPIXPSPInter, ACBrPIXPSPAilos,
   ACBrPIXPSPMatera, ACBrPIXPSPCielo, ACBrPIXPSPMercadoPago, ACBrPIXPSPGate2All,
-  ACBrPIXPSPBanrisul, ACBrPIXPSPC6Bank, ACBrPIXPSPAppLess
+  ACBrPIXPSPBanrisul, ACBrPIXPSPC6Bank, ACBrPIXPSPAppLess, ACBrPIXPSPQQPag,
+  System.ImageList
   {$IfDef FPC}
   , DateTimePicker
   {$EndIf};
@@ -1229,6 +1230,18 @@ type
     Valor: TLabel;
     ACBrPSPGerenciaNet1: TACBrPSPGerenciaNet;
     tsGerenciaNet: TTabSheet;
+    ACBrPSPQQPag1: TACBrPSPQQPag;
+    tsQQPag: TTabSheet;
+    pnQQPag: TPanel;
+    lbQQPagTipoChave: TLabel;
+    edQQPagChavePIX: TEdit;
+    edQQPagClientID: TEdit;
+    cbQQPagTipoChave: TComboBox;
+    imQQPagErroChavePix: TImage;
+    edQQPagClientSecret: TEdit;
+    lbQQPagClientSecret: TLabel;
+    lbQQPagClientID: TLabel;
+    lbQQPagChave: TLabel;
     procedure ACBrPixCD1QuandoAlterarPSP(Sender: TObject);
     procedure ACBrPixCD1QuandoGravarLog(const ALogLine: String; var Tratado: Boolean);
     procedure ACBrPSPBancoDoBrasil1AntesAutenticar(var aToken: String; var aValidadeToken: TDateTime);
@@ -1459,6 +1472,8 @@ type
     procedure tmConsultarPagtoTimer(Sender: TObject);
     procedure tsSicrediGerarChaveCSRShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure edQQPagChavePIXChange(Sender: TObject);
+
   private
     fTokenBB: String;
     fValidadeTokenBB: TDateTime;
@@ -1490,6 +1505,7 @@ type
     procedure LigarAlertasdeErrosDeConfiguracaoPSPBB;
     procedure LigarAlertasdeErrosDeConfiguracaoPSPBanrisul;
     procedure LigarAlertasdeErrosDeConfiguracaoPSPC6Bank;
+    procedure LigarAlertasdeErrosDeConfiguracaoPSPQQPag;
 
     procedure VerificarConfiguracao;
     procedure VerificarConfiguracaoPIXCD;
@@ -3468,7 +3484,7 @@ begin
       valor.original := fFluxoDados.Total;
     end;
 
-    if ACBrPixCD1.PSP.epCob.CriarCobrancaImediata then
+    if ACBrPixCD1.PSP.epCob.CriarCobrancaImediata(CriarTxId) then
     begin
       fFluxoDados.TxID := ACBrPixCD1.PSP.epCob.CobGerada.txId;
       fFluxoDados.QRCode := Trim(ACBrPixCD1.PSP.epCob.CobGerada.pixCopiaECola);
@@ -4143,6 +4159,12 @@ begin
   imPagSeguroErroChavePIX.Visible := NaoEstaVazio(edPagSeguroChavePIX.Text) and (cbPagSeguroTipoChave.ItemIndex = 0);
 end;
 
+procedure TForm1.edQQPagChavePIXChange(Sender: TObject);
+begin
+  cbQQPagTipoChave.ItemIndex := Integer(DetectarTipoChave(edQQPagChavePIX.Text));
+  imQQPagErroChavePix.Visible := NaoEstaVazio(edQQPagChavePIX.Text) and (cbQQPagTipoChave.ItemIndex = 0);
+end;
+
 procedure TForm1.edRevisarRecorrenciaNomeDevedorChange(Sender: TObject);
 begin
   edRevisarRecorrenciaDocDevedor.Enabled := NaoEstaVazio(Trim(edRevisarRecorrenciaNomeDevedor.Text));
@@ -4487,6 +4509,11 @@ begin
   edPagSeguroArqsChange(Nil);
   ValidarCertificadoPSPPagSeguro;
   ValidarChavePSPPagSeguro;
+end;
+
+procedure TForm1.LigarAlertasdeErrosDeConfiguracaoPSPQQPag;
+begin
+  edQQPagChavePIXChange(Nil);
 end;
 
 procedure TForm1.LigarAlertasdeErrosDeConfiguracaoPSPInter;
@@ -5413,6 +5440,10 @@ begin
     edAppLessClientId.Text := Ini.ReadString('AppLess', 'ClientId', EmptyStr);
     edAppLessClientSecret.Text := Ini.ReadString('AppLess', 'ClientSecret', EmptyStr);
     edAppLessHMAC.Text := Ini.ReadString('AppLess', 'HMAC', EmptyStr);
+
+    edQQPagChavePIX.Text := Ini.ReadString('QQPag', 'ChavePIX', '');
+    edQQPagClientID.Text := Ini.ReadString('QQPag', 'ClientID', '');
+    edQQPagClientSecret.Text := Ini.ReadString('QQPag', 'ClientSecret', '');
   finally
     Ini.Free;
   end;
@@ -5572,6 +5603,10 @@ begin
     Ini.WriteString('AppLess', 'ClientId', edAppLessClientId.Text);
     Ini.WriteString('AppLess', 'ClientSecret', edAppLessClientSecret.Text);
     Ini.WriteString('AppLess', 'HMAC', edAppLessHMAC.Text);
+
+    Ini.WriteString('QQPag', 'ChavePIX', edQQPagChavePIX.Text);
+    Ini.WriteString('QQPag', 'ClientID', edQQPagClientID.Text);
+    Ini.WriteString('QQPag', 'ClientSecret', edQQPagClientSecret.Text);
   finally
      Ini.Free;
   end;
@@ -5821,6 +5856,7 @@ begin
   cbBanrisulTipoChave.Items.Assign(cbxBBTipoChave.Items);
   cbC6BankTipoChave.Items.Assign(cbxBBTipoChave.Items);
   cbMercadoPagoTipoChave.Items.Assign(cbxBBTipoChave.Items);
+  cbQQPagTipoChave.Items.Assign(cbxBBTipoChave.Items);
 
   cbxSolicitarDevolucaoPix_Natureza.Items.Clear;
   for l := 0 to Integer(High(TACBrPIXNaturezaDevolucao)) do
@@ -5974,6 +6010,7 @@ begin
     16: ACBrPixCD1.PSP := ACBrPSPBanrisul1;
     17: ACBrPixCD1.PSP := ACBrPSPC6Bank1;
     18: ACBrPixCD1.PSP := ACBrPSPAppLess1;
+    19: ACBrPixCD1.PSP := ACBrPSPQQPag1;
   else
     raise Exception.Create('PSP configurado é inválido');
   end;
@@ -6117,6 +6154,10 @@ begin
   ACBrPSPAppLess1.ClientID := edAppLessClientId.Text;
   ACBrPSPAppLess1.ClientSecret := edAppLessClientSecret.Text;
   ACBrPSPAppLess1.SecretKeyHMAC := edAppLessHMAC.Text;
+
+  ACBrPSPQQPag1.ChavePIX := edQQPagChavePIX.Text;
+  ACBrPSPQQPag1.ClientID := edQQPagClientID.Text;
+  ACBrPSPQQPag1.ClientSecret := edQQPagClientSecret.Text;
 end;
 
 procedure TForm1.LimparQRCodeEstatico;

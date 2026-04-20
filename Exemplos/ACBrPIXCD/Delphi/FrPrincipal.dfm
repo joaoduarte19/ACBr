@@ -1,9 +1,9 @@
 object Form1: TForm1
   Left = 388
   Top = 139
-  Width = 1024
-  Height = 691
   Caption = 'ACBrPIXCD Teste'
+  ClientHeight = 652
+  ClientWidth = 1008
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -89,10 +89,8 @@ object Form1: TForm1
     0000000000000000000000000000000000000000000000000000000000000000
     0000000000000000000000000000000000000000000000000000000000000000
     0000}
-  OldCreateOrder = True
   OnCreate = FormCreate
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object lURLTEF: TLabel
     Left = 0
@@ -113,6 +111,7 @@ object Form1: TForm1
     ParentFont = False
     Transparent = False
     OnClick = lURLTEFClick
+    ExplicitWidth = 234
   end
   object pgPrincipal: TPageControl
     Left = 0
@@ -703,7 +702,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 36
                       Width = 464
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -823,7 +822,7 @@ object Form1: TForm1
                       Left = 8
                       Top = 75
                       Width = 297
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 2
                     end
@@ -842,9 +841,9 @@ object Form1: TForm1
                       Top = 24
                       Width = 137
                       Height = 23
-                      Date = 44568.565578831020000000
-                      Time = 44568.565578831020000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 44568.000000000000000000
+                      Time = 44568.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       TabOrder = 0
                     end
@@ -853,9 +852,9 @@ object Form1: TForm1
                       Top = 24
                       Width = 137
                       Height = 23
-                      Date = 44568.565578831020000000
-                      Time = 44568.565578831020000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 44568.000000000000000000
+                      Time = 44568.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       TabOrder = 1
                     end
@@ -863,7 +862,7 @@ object Form1: TForm1
                       Left = 328
                       Top = 75
                       Width = 145
-                      Height = 23
+                      Height = 21
                       Anchors = [akTop, akRight]
                       TabOrder = 3
                       OnChange = edtConsultarPixRecebidosCPFCNPJChange
@@ -873,7 +872,7 @@ object Form1: TForm1
                       Left = 495
                       Top = 27
                       Width = 97
-                      Height = 23
+                      Height = 22
                       Anchors = [akTop, akRight]
                       MaxValue = 9999
                       MinValue = 0
@@ -884,7 +883,7 @@ object Form1: TForm1
                       Left = 328
                       Top = 24
                       Width = 145
-                      Height = 23
+                      Height = 22
                       Anchors = [akTop, akRight]
                       MaxValue = 100
                       MinValue = 0
@@ -986,7 +985,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 36
                       Width = 290
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -1004,7 +1003,7 @@ object Form1: TForm1
                       Left = 328
                       Top = 36
                       Width = 264
-                      Height = 23
+                      Height = 21
                       Anchors = [akTop, akRight]
                       TabOrder = 1
                     end
@@ -1014,14 +1013,13 @@ object Form1: TForm1
                       Width = 160
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 0
                       TabOrder = 2
                     end
                     object edtSolicitarDevolucaoPix_Descricao: TEdit
                       Left = 328
                       Top = 89
                       Width = 266
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 3
                     end
@@ -1029,7 +1027,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 89
                       Width = 104
-                      Height = 23
+                      Height = 21
                       TabOrder = 5
                       Text = '0,00'
                     end
@@ -1100,7 +1098,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 36
                       Width = 576
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -1118,7 +1116,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 92
                       Width = 576
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 1
                     end
@@ -1264,7 +1262,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 25
                       Width = 266
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                       OnChange = edtCriarCobrancaImediata_NomeDevedorChange
@@ -1273,7 +1271,7 @@ object Form1: TForm1
                       Left = 298
                       Top = 25
                       Width = 145
-                      Height = 23
+                      Height = 21
                       Anchors = [akTop, akRight]
                       Enabled = False
                       TabOrder = 1
@@ -1292,21 +1290,21 @@ object Form1: TForm1
                       Left = 16
                       Top = 73
                       Width = 266
-                      Height = 23
+                      Height = 21
                       TabOrder = 2
                     end
                     object edtCriarCobrancaImediata_TxId: TEdit
                       Left = 16
                       Top = 123
                       Width = 266
-                      Height = 23
+                      Height = 21
                       TabOrder = 4
                     end
                     object feCriarCobrancaImediatax_Valor: TEdit
                       Left = 298
                       Top = 73
                       Width = 145
-                      Height = 23
+                      Height = 21
                       TabOrder = 6
                       Text = '1,00'
                     end
@@ -1378,7 +1376,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 36
                       Width = 450
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -1396,7 +1394,7 @@ object Form1: TForm1
                       Left = 495
                       Top = 36
                       Width = 97
-                      Height = 23
+                      Height = 22
                       Anchors = [akTop, akRight]
                       MaxValue = 9999
                       MinValue = 0
@@ -1520,9 +1518,9 @@ object Form1: TForm1
                       Top = 24
                       Width = 137
                       Height = 23
-                      Date = 44568.565578831020000000
-                      Time = 44568.565578831020000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 44568.000000000000000000
+                      Time = 44568.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       TabOrder = 0
                     end
@@ -1531,9 +1529,9 @@ object Form1: TForm1
                       Top = 73
                       Width = 137
                       Height = 23
-                      Date = 44568.565578831020000000
-                      Time = 44568.565578831020000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 44568.000000000000000000
+                      Time = 44568.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       TabOrder = 1
                     end
@@ -1541,7 +1539,7 @@ object Form1: TForm1
                       Left = 178
                       Top = 24
                       Width = 160
-                      Height = 23
+                      Height = 21
                       Anchors = [akTop, akRight]
                       TabOrder = 2
                       OnChange = edtConsultarPixRecebidosCPFCNPJChange
@@ -1551,7 +1549,7 @@ object Form1: TForm1
                       Left = 523
                       Top = 75
                       Width = 66
-                      Height = 23
+                      Height = 22
                       Anchors = [akTop, akRight]
                       MaxValue = 9999
                       MinValue = 0
@@ -1562,7 +1560,7 @@ object Form1: TForm1
                       Left = 523
                       Top = 27
                       Width = 66
-                      Height = 23
+                      Height = 22
                       Anchors = [akTop, akRight]
                       MaxValue = 100
                       MinValue = 0
@@ -1583,7 +1581,6 @@ object Form1: TForm1
                       Width = 160
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 0
                       TabOrder = 3
                     end
                   end
@@ -1644,7 +1641,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 36
                       Width = 450
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -1766,7 +1763,7 @@ object Form1: TForm1
                     Left = 204
                     Top = 449
                     Width = 332
-                    Height = 23
+                    Height = 21
                     TabOrder = 0
                     Visible = False
                   end
@@ -1783,7 +1780,7 @@ object Form1: TForm1
                     Left = 398
                     Top = 320
                     Width = 170
-                    Height = 23
+                    Height = 21
                     TabOrder = 2
                     Text = '0,50'
                   end
@@ -1791,7 +1788,7 @@ object Form1: TForm1
                     Left = 204
                     Top = 320
                     Width = 170
-                    Height = 23
+                    Height = 22
                     MaxValue = 0
                     MinValue = 0
                     TabOrder = 3
@@ -1803,9 +1800,9 @@ object Form1: TForm1
                     Width = 165
                     Height = 23
                     BiDiMode = bdLeftToRight
-                    Date = 44713.393125636580000000
-                    Time = 44713.393125636580000000
-                    MaxDate = 2958465.000000000000000000
+                    Date = 44713.000000000000000000
+                    Time = 44713.000000000000000000
+                    MaxDate = 2958465.999988426000000000
                     MinDate = -53780.000000000000000000
                     ParentBiDiMode = False
                     TabOrder = 4
@@ -1848,7 +1845,7 @@ object Form1: TForm1
                         Left = 398
                         Top = 15
                         Width = 170
-                        Height = 23
+                        Height = 21
                         TabOrder = 1
                         Text = '0,00'
                       end
@@ -1858,7 +1855,6 @@ object Form1: TForm1
                         Width = 356
                         Height = 21
                         Style = csDropDownList
-                        ItemHeight = 0
                         TabOrder = 0
                       end
                     end
@@ -1901,7 +1897,7 @@ object Form1: TForm1
                         Left = 398
                         Top = 15
                         Width = 170
-                        Height = 23
+                        Height = 21
                         TabOrder = 1
                         Text = '0,00'
                       end
@@ -1911,7 +1907,6 @@ object Form1: TForm1
                         Width = 356
                         Height = 21
                         Style = csDropDownList
-                        ItemHeight = 0
                         TabOrder = 0
                       end
                     end
@@ -1954,7 +1949,7 @@ object Form1: TForm1
                         Left = 398
                         Top = 15
                         Width = 170
-                        Height = 23
+                        Height = 21
                         TabOrder = 1
                         Text = '0,00'
                       end
@@ -1964,7 +1959,6 @@ object Form1: TForm1
                         Width = 356
                         Height = 21
                         Style = csDropDownList
-                        ItemHeight = 0
                         TabOrder = 0
                       end
                     end
@@ -1978,10 +1972,10 @@ object Form1: TForm1
                     Caption = 'Comprador'
                     TabOrder = 8
                     object pnCobVComprador: TPanel
-                      Left = 0
-                      Top = 0
+                      Left = 2
+                      Top = 15
                       Width = 604
-                      Height = 52
+                      Height = 55
                       Align = alClient
                       BevelOuter = bvNone
                       TabOrder = 0
@@ -2007,7 +2001,7 @@ object Form1: TForm1
                         Left = 15
                         Top = 15
                         Width = 356
-                        Height = 23
+                        Height = 21
                         TabOrder = 0
                         Text = 'Elias Cesar Vieira'
                       end
@@ -2015,7 +2009,7 @@ object Form1: TForm1
                         Left = 398
                         Top = 15
                         Width = 170
-                        Height = 23
+                        Height = 21
                         TabOrder = 1
                         Text = '67751079002'
                       end
@@ -2058,7 +2052,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 32
                       Width = 450
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -2076,7 +2070,7 @@ object Form1: TForm1
                       Left = 495
                       Top = 32
                       Width = 97
-                      Height = 23
+                      Height = 22
                       Anchors = [akTop, akRight]
                       MaxValue = 9999
                       MinValue = 0
@@ -2230,9 +2224,9 @@ object Form1: TForm1
                       Top = 32
                       Width = 137
                       Height = 23
-                      Date = 44568.565578831020000000
-                      Time = 44568.565578831020000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 44568.000000000000000000
+                      Time = 44568.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       TabOrder = 0
                     end
@@ -2241,9 +2235,9 @@ object Form1: TForm1
                       Top = 81
                       Width = 137
                       Height = 23
-                      Date = 44568.565578831020000000
-                      Time = 44568.565578831020000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 44568.000000000000000000
+                      Time = 44568.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       TabOrder = 1
                     end
@@ -2251,7 +2245,7 @@ object Form1: TForm1
                       Left = 178
                       Top = 32
                       Width = 137
-                      Height = 23
+                      Height = 21
                       Anchors = [akTop, akRight]
                       TabOrder = 2
                       OnChange = edtConsultarPixRecebidosCPFCNPJChange
@@ -2261,7 +2255,7 @@ object Form1: TForm1
                       Left = 344
                       Top = 81
                       Width = 137
-                      Height = 23
+                      Height = 22
                       Anchors = [akTop, akRight]
                       MaxValue = 9999
                       MinValue = 0
@@ -2272,7 +2266,7 @@ object Form1: TForm1
                       Left = 344
                       Top = 32
                       Width = 137
-                      Height = 23
+                      Height = 22
                       Anchors = [akTop, akRight]
                       MaxValue = 100
                       MinValue = 0
@@ -2293,7 +2287,6 @@ object Form1: TForm1
                       Width = 137
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 0
                       TabOrder = 3
                     end
                   end
@@ -2324,7 +2317,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 32
                       Width = 456
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -2541,7 +2534,7 @@ object Form1: TForm1
                       Left = 254
                       Top = 124
                       Width = 160
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                       OnChange = edCriarRecorrenciaNomeDevedorChange
@@ -2550,14 +2543,14 @@ object Form1: TForm1
                       Left = 254
                       Top = 25
                       Width = 105
-                      Height = 23
+                      Height = 21
                       TabOrder = 3
                     end
                     object edCriarCobRValor: TEdit
                       Left = 492
                       Top = 25
                       Width = 98
-                      Height = 23
+                      Height = 21
                       TabOrder = 1
                       Text = '1,00'
                     end
@@ -2567,9 +2560,9 @@ object Form1: TForm1
                       Width = 105
                       Height = 23
                       BiDiMode = bdLeftToRight
-                      Date = 45809.393125636580000000
-                      Time = 45809.393125636580000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 45809.000000000000000000
+                      Time = 45809.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       ParentBiDiMode = False
                       TabOrder = 4
@@ -2580,7 +2573,6 @@ object Form1: TForm1
                       Width = 105
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 0
                       TabOrder = 2
                     end
                     object btCriarCobRPreencher: TBitBtn
@@ -2597,7 +2589,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 25
                       Width = 224
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 7
                     end
@@ -2605,7 +2597,7 @@ object Form1: TForm1
                       Left = 492
                       Top = 73
                       Width = 98
-                      Height = 23
+                      Height = 21
                       TabOrder = 8
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
                     end
@@ -2613,7 +2605,7 @@ object Form1: TForm1
                       Left = 373
                       Top = 73
                       Width = 105
-                      Height = 23
+                      Height = 21
                       TabOrder = 9
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
                     end
@@ -2621,14 +2613,14 @@ object Form1: TForm1
                       Left = 16
                       Top = 73
                       Width = 200
-                      Height = 23
+                      Height = 21
                       TabOrder = 10
                     end
                     object edCriarCobREmail: TEdit
                       Left = 430
                       Top = 124
                       Width = 160
-                      Height = 23
+                      Height = 21
                       TabOrder = 11
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
                     end
@@ -2636,7 +2628,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 124
                       Width = 74
-                      Height = 23
+                      Height = 21
                       TabOrder = 12
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
                     end
@@ -2644,7 +2636,7 @@ object Form1: TForm1
                       Left = 104
                       Top = 124
                       Width = 90
-                      Height = 23
+                      Height = 21
                       TabOrder = 13
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
                     end
@@ -2652,7 +2644,7 @@ object Form1: TForm1
                       Left = 198
                       Top = 124
                       Width = 42
-                      Height = 23
+                      Height = 21
                       TabOrder = 14
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
                     end
@@ -2714,7 +2706,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 36
                       Width = 576
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -2773,7 +2765,7 @@ object Form1: TForm1
                     object lbConsultarCobsRInicio: TLabel
                       Left = 10
                       Top = 10
-                      Width = 27
+                      Width = 25
                       Height = 13
                       Caption = 'Inicio'
                       Color = clBtnFace
@@ -2809,7 +2801,7 @@ object Form1: TForm1
                     object lbConsultarCobsRItensPorPagina: TLabel
                       Left = 128
                       Top = 60
-                      Width = 67
+                      Width = 63
                       Height = 13
                       Caption = 'Itens por Pag'
                       Color = clBtnFace
@@ -2856,9 +2848,9 @@ object Form1: TForm1
                       Top = 25
                       Width = 100
                       Height = 23
-                      Date = 44568.565578831020000000
-                      Time = 44568.565578831020000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 44568.000000000000000000
+                      Time = 44568.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       TabOrder = 0
                     end
@@ -2867,9 +2859,9 @@ object Form1: TForm1
                       Top = 25
                       Width = 100
                       Height = 23
-                      Date = 44568.565578831020000000
-                      Time = 44568.565578831020000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 44568.000000000000000000
+                      Time = 44568.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       TabOrder = 1
                     end
@@ -2877,7 +2869,7 @@ object Form1: TForm1
                       Left = 244
                       Top = 25
                       Width = 106
-                      Height = 23
+                      Height = 21
                       TabOrder = 2
                       OnChange = edtConsultarPixRecebidosCPFCNPJChange
                       OnKeyPress = edOnlyNumbersKeyPress
@@ -2886,7 +2878,7 @@ object Form1: TForm1
                       Left = 10
                       Top = 75
                       Width = 100
-                      Height = 23
+                      Height = 22
                       MaxValue = 9999
                       MinValue = 0
                       TabOrder = 5
@@ -2896,7 +2888,7 @@ object Form1: TForm1
                       Left = 128
                       Top = 75
                       Width = 100
-                      Height = 23
+                      Height = 22
                       MaxValue = 100
                       MinValue = 0
                       TabOrder = 6
@@ -2908,14 +2900,13 @@ object Form1: TForm1
                       Width = 106
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 0
                       TabOrder = 7
                     end
                     object edConsultarCobsRConvenio: TEdit
                       Left = 486
                       Top = 25
                       Width = 106
-                      Height = 23
+                      Height = 21
                       TabOrder = 4
                       OnChange = edtConsultarPixRecebidosCPFCNPJChange
                     end
@@ -2923,7 +2914,7 @@ object Form1: TForm1
                       Left = 365
                       Top = 25
                       Width = 106
-                      Height = 23
+                      Height = 21
                       TabOrder = 3
                       OnChange = edtConsultarPixRecebidosCPFCNPJChange
                     end
@@ -2985,7 +2976,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 36
                       Width = 466
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -3066,7 +3057,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 36
                       Width = 344
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -3086,9 +3077,9 @@ object Form1: TForm1
                       Width = 107
                       Height = 23
                       BiDiMode = bdLeftToRight
-                      Date = 45809.393125636580000000
-                      Time = 45809.393125636580000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 45809.000000000000000000
+                      Time = 45809.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       ParentBiDiMode = False
                       TabOrder = 2
@@ -3273,7 +3264,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 25
                       Width = 224
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                       OnChange = edCriarRecorrenciaNomeDevedorChange
@@ -3282,7 +3273,7 @@ object Form1: TForm1
                       Left = 254
                       Top = 25
                       Width = 102
-                      Height = 23
+                      Height = 21
                       Enabled = False
                       TabOrder = 1
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
@@ -3292,14 +3283,14 @@ object Form1: TForm1
                       Left = 16
                       Top = 73
                       Width = 224
-                      Height = 23
+                      Height = 21
                       TabOrder = 4
                     end
                     object edCriarRecorrenciaValor: TEdit
                       Left = 370
                       Top = 25
                       Width = 102
-                      Height = 23
+                      Height = 21
                       TabOrder = 2
                       Text = '1,00'
                     end
@@ -3307,7 +3298,7 @@ object Form1: TForm1
                       Left = 254
                       Top = 73
                       Width = 218
-                      Height = 23
+                      Height = 21
                       TabOrder = 5
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
                       OnKeyPress = edOnlyNumbersKeyPress
@@ -3318,9 +3309,9 @@ object Form1: TForm1
                       Width = 102
                       Height = 23
                       BiDiMode = bdLeftToRight
-                      Date = 44713.393125636580000000
-                      Time = 44713.393125636580000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 44713.000000000000000000
+                      Time = 44713.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       ParentBiDiMode = False
                       TabOrder = 9
@@ -3331,9 +3322,9 @@ object Form1: TForm1
                       Width = 102
                       Height = 23
                       BiDiMode = bdLeftToRight
-                      Date = 44713.393125636580000000
-                      Time = 44713.393125636580000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 44713.000000000000000000
+                      Time = 44713.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       ParentBiDiMode = False
                       TabOrder = 10
@@ -3344,7 +3335,6 @@ object Form1: TForm1
                       Width = 102
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 0
                       TabOrder = 8
                     end
                     object cbCriarRecorrenciaPoliticaRetentativa: TComboBox
@@ -3353,21 +3343,20 @@ object Form1: TForm1
                       Width = 102
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 0
                       TabOrder = 3
                     end
                     object edCriarRecorrenciaTxID: TEdit
                       Left = 16
                       Top = 124
                       Width = 224
-                      Height = 23
+                      Height = 21
                       TabOrder = 7
                     end
                     object edCriarRecorrenciaLoc: TSpinEdit
                       Left = 488
                       Top = 73
                       Width = 102
-                      Height = 23
+                      Height = 22
                       MaxValue = 0
                       MinValue = 0
                       TabOrder = 6
@@ -3449,7 +3438,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 30
                       Width = 296
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -3467,7 +3456,7 @@ object Form1: TForm1
                       Left = 333
                       Top = 30
                       Width = 259
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 2
                     end
@@ -3590,9 +3579,9 @@ object Form1: TForm1
                       Top = 25
                       Width = 100
                       Height = 23
-                      Date = 44568.565578831020000000
-                      Time = 44568.565578831020000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 44568.000000000000000000
+                      Time = 44568.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       TabOrder = 0
                     end
@@ -3601,9 +3590,9 @@ object Form1: TForm1
                       Top = 25
                       Width = 100
                       Height = 23
-                      Date = 44568.565578831020000000
-                      Time = 44568.565578831020000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 44568.000000000000000000
+                      Time = 44568.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       TabOrder = 1
                     end
@@ -3611,7 +3600,7 @@ object Form1: TForm1
                       Left = 244
                       Top = 25
                       Width = 170
-                      Height = 23
+                      Height = 21
                       TabOrder = 2
                       OnChange = edtConsultarPixRecebidosCPFCNPJChange
                       OnKeyPress = edOnlyNumbersKeyPress
@@ -3620,7 +3609,7 @@ object Form1: TForm1
                       Left = 10
                       Top = 75
                       Width = 100
-                      Height = 23
+                      Height = 22
                       MaxValue = 9999
                       MinValue = 0
                       TabOrder = 6
@@ -3630,7 +3619,7 @@ object Form1: TForm1
                       Left = 128
                       Top = 75
                       Width = 100
-                      Height = 23
+                      Height = 22
                       MaxValue = 100
                       MinValue = 0
                       TabOrder = 5
@@ -3650,14 +3639,13 @@ object Form1: TForm1
                       Width = 170
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 0
                       TabOrder = 3
                     end
                     object edConsultarRecorrenciasConvenio: TEdit
                       Left = 429
                       Top = 25
                       Width = 163
-                      Height = 23
+                      Height = 21
                       TabOrder = 8
                       OnChange = edtConsultarPixRecebidosCPFCNPJChange
                       OnKeyPress = edOnlyNumbersKeyPress
@@ -3768,7 +3756,7 @@ object Form1: TForm1
                       Left = 275
                       Top = 25
                       Width = 177
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                       OnChange = edRevisarRecorrenciaNomeDevedorChange
@@ -3777,7 +3765,7 @@ object Form1: TForm1
                       Left = 472
                       Top = 25
                       Width = 120
-                      Height = 23
+                      Height = 21
                       Enabled = False
                       TabOrder = 1
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
@@ -3789,9 +3777,9 @@ object Form1: TForm1
                       Width = 177
                       Height = 23
                       BiDiMode = bdLeftToRight
-                      Date = 44713.393125636580000000
-                      Time = 44713.393125636580000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 44713.000000000000000000
+                      Time = 44713.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       ParentBiDiMode = False
                       TabOrder = 2
@@ -3800,7 +3788,7 @@ object Form1: TForm1
                       Left = 472
                       Top = 71
                       Width = 120
-                      Height = 23
+                      Height = 22
                       MaxValue = 0
                       MinValue = 0
                       TabOrder = 3
@@ -3810,7 +3798,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 71
                       Width = 240
-                      Height = 23
+                      Height = 21
                       TabOrder = 4
                     end
                     object btCancelarRecorrencia: TBitBtn
@@ -3837,7 +3825,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 25
                       Width = 240
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 7
                       OnChange = edRevisarRecorrenciaNomeDevedorChange
@@ -3974,7 +3962,7 @@ object Form1: TForm1
                       Left = 273
                       Top = 25
                       Width = 150
-                      Height = 23
+                      Height = 21
                       TabOrder = 1
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
                       OnKeyPress = edOnlyNumbersKeyPress
@@ -3983,14 +3971,14 @@ object Form1: TForm1
                       Left = 16
                       Top = 73
                       Width = 240
-                      Height = 23
+                      Height = 21
                       TabOrder = 3
                     end
                     object edCriarSolicitacaoRecAgencia: TEdit
                       Left = 273
                       Top = 73
                       Width = 150
-                      Height = 23
+                      Height = 21
                       TabOrder = 4
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
                       OnKeyPress = edOnlyNumbersKeyPress
@@ -4001,9 +3989,9 @@ object Form1: TForm1
                       Width = 150
                       Height = 23
                       BiDiMode = bdLeftToRight
-                      Date = 44713.393125636580000000
-                      Time = 44713.393125636580000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 44713.000000000000000000
+                      Time = 44713.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       ParentBiDiMode = False
                       TabOrder = 2
@@ -4012,14 +4000,14 @@ object Form1: TForm1
                       Left = 439
                       Top = 73
                       Width = 150
-                      Height = 23
+                      Height = 21
                       TabOrder = 5
                     end
                     object edCriarSolicitacaoRecIdRec: TEdit
                       Left = 16
                       Top = 25
                       Width = 240
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                       OnChange = edRevisarRecorrenciaNomeDevedorChange
@@ -4082,7 +4070,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 36
                       Width = 576
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -4154,7 +4142,7 @@ object Form1: TForm1
                       Left = 15
                       Top = 25
                       Width = 449
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                       OnChange = edRevisarRecorrenciaNomeDevedorChange
@@ -4300,7 +4288,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 36
                       Width = 576
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -4359,7 +4347,7 @@ object Form1: TForm1
                     object lbConsultarLocationsRecInicio: TLabel
                       Left = 10
                       Top = 10
-                      Width = 27
+                      Width = 25
                       Height = 13
                       Caption = 'Inicio'
                       Color = clBtnFace
@@ -4415,9 +4403,9 @@ object Form1: TForm1
                       Top = 25
                       Width = 100
                       Height = 23
-                      Date = 45831.565578831020000000
-                      Time = 45831.565578831020000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 45831.000000000000000000
+                      Time = 45831.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       TabOrder = 0
                     end
@@ -4426,9 +4414,9 @@ object Form1: TForm1
                       Top = 25
                       Width = 100
                       Height = 23
-                      Date = 45831.565578831020000000
-                      Time = 45831.565578831020000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 45831.000000000000000000
+                      Time = 45831.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       TabOrder = 1
                     end
@@ -4436,7 +4424,7 @@ object Form1: TForm1
                       Left = 416
                       Top = 25
                       Width = 80
-                      Height = 23
+                      Height = 22
                       MaxValue = 9999
                       MinValue = 0
                       TabOrder = 4
@@ -4446,7 +4434,7 @@ object Form1: TForm1
                       Left = 512
                       Top = 25
                       Width = 80
-                      Height = 23
+                      Height = 22
                       MaxValue = 100
                       MinValue = 0
                       TabOrder = 3
@@ -4464,7 +4452,7 @@ object Form1: TForm1
                       Left = 239
                       Top = 25
                       Width = 163
-                      Height = 23
+                      Height = 21
                       TabOrder = 6
                       OnChange = edtConsultarPixRecebidosCPFCNPJChange
                       OnKeyPress = edOnlyNumbersKeyPress
@@ -4527,7 +4515,7 @@ object Form1: TForm1
                       Left = 15
                       Top = 25
                       Width = 449
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                       OnChange = edRevisarRecorrenciaNomeDevedorChange
@@ -4643,7 +4631,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 36
                       Width = 472
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -4724,7 +4712,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 40
                       Width = 472
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -4742,7 +4730,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 88
                       Width = 472
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 2
                     end
@@ -4774,7 +4762,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 36
                       Width = 472
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -4826,7 +4814,7 @@ object Form1: TForm1
                     Left = 0
                     Top = 0
                     Width = 608
-                    Height = 494
+                    Height = 501
                     Align = alClient
                     TabOrder = 0
                     object lbMateraSimularPagamento: TLabel
@@ -4909,7 +4897,7 @@ object Form1: TForm1
                   Left = 185
                   Top = 32
                   Width = 415
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 0
                   OnChange = QuandoMudarDadosQRCode
@@ -4918,7 +4906,7 @@ object Form1: TForm1
                   Left = 16
                   Top = 92
                   Width = 584
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 1
                   OnChange = QuandoMudarDadosQRCode
@@ -4927,7 +4915,7 @@ object Form1: TForm1
                   Left = 16
                   Top = 32
                   Width = 145
-                  Height = 23
+                  Height = 21
                   TabOrder = 2
                   Text = '0,00'
                 end
@@ -4971,7 +4959,7 @@ object Form1: TForm1
                     Left = 0
                     Top = 0
                     Width = 316
-                    Height = 288
+                    Height = 295
                     Align = alClient
                     Alignment = taCenter
                     ScrollBars = ssBoth
@@ -5048,7 +5036,7 @@ object Form1: TForm1
                   Left = 16
                   Top = 44
                   Width = 584
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 0
                   OnChange = QuandoMudarDadosQRCode
@@ -5067,7 +5055,7 @@ object Form1: TForm1
                   Left = 16
                   Top = 100
                   Width = 400
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 2
                   OnChange = QuandoMudarDadosQRCode
@@ -5102,7 +5090,7 @@ object Form1: TForm1
                     Left = 0
                     Top = 0
                     Width = 316
-                    Height = 336
+                    Height = 343
                     Align = alClient
                     Alignment = taCenter
                     ScrollBars = ssBoth
@@ -5157,12 +5145,13 @@ object Form1: TForm1
         object Label2: TLabel
           Left = 1
           Top = 1
-          Width = 93
+          Width = 361
           Height = 13
           Align = alTop
           Caption = 'Log das Operacoes'
           Color = clBtnFace
           ParentColor = False
+          ExplicitWidth = 93
         end
         object mLog: TMemo
           Left = 1
@@ -5339,7 +5328,6 @@ object Form1: TForm1
                   Width = 113
                   Height = 21
                   Style = csDropDownList
-                  ItemHeight = 13
                   TabOrder = 3
                   OnChange = cbxPSPAtualChange
                 end
@@ -5516,7 +5504,6 @@ object Form1: TForm1
                   Width = 217
                   Height = 21
                   Style = csDropDownList
-                  ItemHeight = 13
                   ItemIndex = 2
                   TabOrder = 1
                   Text = 'Normal'
@@ -5588,7 +5575,6 @@ object Form1: TForm1
                   Width = 182
                   Height = 21
                   Style = csDropDownList
-                  ItemHeight = 13
                   TabOrder = 0
                   OnChange = cbxPSPAtualChange
                 end
@@ -5598,7 +5584,6 @@ object Form1: TForm1
                   Width = 170
                   Height = 21
                   Style = csDropDownList
-                  ItemHeight = 13
                   TabOrder = 1
                   OnChange = cbxAmbienteChange
                 end
@@ -5847,7 +5832,7 @@ object Form1: TForm1
                       Left = 25
                       Top = 35
                       Width = 692
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 2
                       OnChange = edtBBChavePIXChange
@@ -5858,7 +5843,6 @@ object Form1: TForm1
                       Width = 184
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 0
                       TabOrder = 1
                       TabStop = False
                     end
@@ -5866,7 +5850,7 @@ object Form1: TForm1
                       Left = 25
                       Top = 85
                       Width = 692
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 3
                     end
@@ -5874,7 +5858,7 @@ object Form1: TForm1
                       Left = 25
                       Top = 135
                       Width = 692
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 4
                     end
@@ -5882,7 +5866,7 @@ object Form1: TForm1
                       Left = 25
                       Top = 185
                       Width = 692
-                      Height = 23
+                      Height = 21
                       TabOrder = 5
                     end
                     object cbBBVersaoAPI: TComboBox
@@ -5891,7 +5875,6 @@ object Form1: TForm1
                       Width = 184
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 0
                       TabOrder = 0
                       TabStop = False
                       OnChange = cbBBVersaoAPIChange
@@ -6016,7 +5999,7 @@ object Form1: TForm1
                               Left = 728
                               Top = 32
                               Width = 172
-                              Height = 23
+                              Height = 21
                               Anchors = [akLeft, akTop, akRight]
                               PasswordChar = '*'
                               TabOrder = 1
@@ -6206,7 +6189,7 @@ object Form1: TForm1
                           Height = 23
                           Date = 45993.000000000000000000
                           Time = 45993.000000000000000000
-                          MaxDate = 2958465.000000000000000000
+                          MaxDate = 2958465.999988426000000000
                           MinDate = -53780.000000000000000000
                           TabOrder = 1
                         end
@@ -6326,7 +6309,7 @@ object Form1: TForm1
                       Left = 48
                       Top = 40
                       Width = 691
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 1
                       OnChange = edtItauChavePIXChange
@@ -6338,7 +6321,6 @@ object Form1: TForm1
                       Height = 21
                       Style = csDropDownList
                       Anchors = [akTop, akRight]
-                      ItemHeight = 0
                       TabOrder = 0
                       TabStop = False
                     end
@@ -6346,7 +6328,7 @@ object Form1: TForm1
                       Left = 48
                       Top = 91
                       Width = 856
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 2
                       OnChange = edtItauClientIDChange
@@ -6355,7 +6337,7 @@ object Form1: TForm1
                       Left = 48
                       Top = 147
                       Width = 856
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 3
                       OnChange = edtItauClientSecretChange
@@ -6371,7 +6353,7 @@ object Form1: TForm1
                     Left = 19
                     Top = 24
                     Width = 900
-                    Height = 381
+                    Height = 376
                     ActivePage = tsItauChaveCertificadoArquivos
                     Anchors = [akLeft, akTop, akRight, akBottom]
                     TabOrder = 0
@@ -6380,7 +6362,7 @@ object Form1: TForm1
                       Caption = 'Arquivos'
                       DesignSize = (
                         892
-                        353)
+                        348)
                       object lItauAvisoChaveCertificadoDesabilitado: TLabel
                         Left = 35
                         Top = 16
@@ -6531,12 +6513,12 @@ object Form1: TForm1
                       Caption = 'Gerar Chave e Certificado'
                       DesignSize = (
                         892
-                        353)
+                        348)
                       object pgPSPItauGerarChaveCertificado: TPageControl
                         Left = 16
                         Top = 16
                         Width = 842
-                        Height = 333
+                        Height = 328
                         ActivePage = tsItauCertPasso1
                         Anchors = [akLeft, akTop, akRight, akBottom]
                         TabOrder = 0
@@ -6544,7 +6526,7 @@ object Form1: TForm1
                           Caption = 'Passo 1 - Definir Chave Privada'
                           DesignSize = (
                             834
-                            305)
+                            300)
                           object Label39: TLabel
                             Left = 16
                             Top = 24
@@ -6558,7 +6540,7 @@ object Form1: TForm1
                             Left = 16
                             Top = 40
                             Width = 626
-                            Height = 23
+                            Height = 21
                             TabStop = False
                             Anchors = [akLeft, akTop, akRight]
                             ReadOnly = True
@@ -6579,7 +6561,7 @@ object Form1: TForm1
                             Left = 16
                             Top = 72
                             Width = 794
-                            Height = 216
+                            Height = 211
                             Anchors = [akLeft, akTop, akRight, akBottom]
                             Font.Charset = DEFAULT_CHARSET
                             Font.Color = clWindowText
@@ -6592,6 +6574,7 @@ object Form1: TForm1
                             TabOrder = 2
                             WantReturns = False
                             WordWrap = False
+                            ExplicitHeight = 212
                           end
                         end
                         object tsItauCertPasso3: TTabSheet
@@ -6660,9 +6643,9 @@ object Form1: TForm1
                             end
                             object mItauTokenTemporario: TMemo
                               Left = 0
-                              Top = 15
+                              Top = 13
                               Width = 834
-                              Height = 65
+                              Height = 67
                               Align = alClient
                               Font.Charset = DEFAULT_CHARSET
                               Font.Color = clWindowText
@@ -6678,10 +6661,11 @@ object Form1: TForm1
                             Left = 0
                             Top = 136
                             Width = 834
-                            Height = 169
+                            Height = 164
                             Align = alClient
                             BevelOuter = bvNone
                             TabOrder = 2
+                            ExplicitHeight = 165
                             object Label6: TLabel
                               Left = 0
                               Top = 0
@@ -6694,9 +6678,9 @@ object Form1: TForm1
                             end
                             object mItauCertificadoPEM: TMemo
                               Left = 0
-                              Top = 15
+                              Top = 13
                               Width = 834
-                              Height = 155
+                              Height = 152
                               Align = alClient
                               Font.Charset = DEFAULT_CHARSET
                               Font.Color = clWindowText
@@ -6734,9 +6718,9 @@ object Form1: TForm1
                         end
                         object mmItauRenovarCertificadoPEM: TMemo
                           Left = 0
-                          Top = 15
+                          Top = 13
                           Width = 862
-                          Height = 269
+                          Height = 271
                           Align = alClient
                           Font.Charset = DEFAULT_CHARSET
                           Font.Color = clWindowText
@@ -6933,7 +6917,7 @@ object Form1: TForm1
                       Left = 24
                       Top = 40
                       Width = 640
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 1
                       OnChange = edSantanderChavePIXChange
@@ -6945,7 +6929,6 @@ object Form1: TForm1
                       Height = 21
                       Style = csDropDownList
                       Anchors = [akTop, akRight]
-                      ItemHeight = 0
                       TabOrder = 0
                       TabStop = False
                     end
@@ -6953,7 +6936,7 @@ object Form1: TForm1
                       Left = 24
                       Top = 91
                       Width = 828
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 2
                     end
@@ -6961,7 +6944,7 @@ object Form1: TForm1
                       Left = 24
                       Top = 147
                       Width = 828
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 3
                     end
@@ -6979,7 +6962,7 @@ object Form1: TForm1
                       Left = 688
                       Top = 197
                       Width = 164
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       PasswordChar = '*'
                       TabOrder = 5
@@ -7097,7 +7080,7 @@ object Form1: TForm1
                       Left = 640
                       Top = 56
                       Width = 164
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       PasswordChar = '*'
                       TabOrder = 3
@@ -7282,7 +7265,7 @@ object Form1: TForm1
                       Left = 24
                       Top = 147
                       Width = 808
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 3
                     end
@@ -7290,7 +7273,7 @@ object Form1: TForm1
                       Left = 24
                       Top = 91
                       Width = 808
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 2
                     end
@@ -7298,7 +7281,7 @@ object Form1: TForm1
                       Left = 24
                       Top = 40
                       Width = 630
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                       OnChange = edSicrediChavePIXChange
@@ -7334,7 +7317,6 @@ object Form1: TForm1
                       Height = 21
                       Style = csDropDownList
                       Anchors = [akTop, akRight]
-                      ItemHeight = 0
                       TabOrder = 1
                       TabStop = False
                     end
@@ -7342,7 +7324,7 @@ object Form1: TForm1
                       Left = 674
                       Top = 197
                       Width = 158
-                      Height = 23
+                      Height = 21
                       Anchors = [akTop, akRight]
                       PasswordChar = '*'
                       TabOrder = 6
@@ -7692,7 +7674,7 @@ object Form1: TForm1
                         Left = 24
                         Top = 40
                         Width = 630
-                        Height = 23
+                        Height = 21
                         Anchors = [akLeft, akTop, akRight]
                         TabOrder = 0
                         OnChange = edSicoobChavePIXChange
@@ -7704,7 +7686,6 @@ object Form1: TForm1
                         Height = 21
                         Style = csDropDownList
                         Anchors = [akTop, akRight]
-                        ItemHeight = 0
                         TabOrder = 1
                         TabStop = False
                       end
@@ -7712,7 +7693,7 @@ object Form1: TForm1
                         Left = 24
                         Top = 99
                         Width = 808
-                        Height = 23
+                        Height = 21
                         Anchors = [akLeft, akTop, akRight]
                         TabOrder = 2
                       end
@@ -7744,7 +7725,7 @@ object Form1: TForm1
                         Left = 24
                         Top = 296
                         Width = 808
-                        Height = 23
+                        Height = 21
                         Anchors = [akLeft, akTop, akRight]
                         TabOrder = 5
                       end
@@ -7859,7 +7840,7 @@ object Form1: TForm1
                       Left = 640
                       Top = 56
                       Width = 164
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       PasswordChar = '*'
                       TabOrder = 1
@@ -8124,7 +8105,6 @@ object Form1: TForm1
                       Height = 21
                       Style = csDropDownList
                       Anchors = [akTop, akRight]
-                      ItemHeight = 13
                       TabOrder = 1
                       TabStop = False
                     end
@@ -8306,7 +8286,7 @@ object Form1: TForm1
                             Left = 24
                             Top = 40
                             Width = 384
-                            Height = 23
+                            Height = 21
                             Anchors = [akLeft, akTop, akRight]
                             TabOrder = 1
                             Text = 'PagSeguro_Public.key'
@@ -8315,7 +8295,7 @@ object Form1: TForm1
                             Left = 424
                             Top = 40
                             Width = 386
-                            Height = 23
+                            Height = 21
                             Anchors = [akLeft, akTop, akRight]
                             TabOrder = 2
                             Text = 'PagSeguro_Private.key'
@@ -8403,7 +8383,7 @@ object Form1: TForm1
                             Left = 24
                             Top = 176
                             Width = 624
-                            Height = 23
+                            Height = 21
                             Anchors = [akLeft, akTop, akRight]
                             TabOrder = 1
                             Text = 'PagSeguro_Private.key'
@@ -8456,7 +8436,7 @@ object Form1: TForm1
                             Left = 216
                             Top = 23
                             Width = 608
-                            Height = 23
+                            Height = 21
                             Anchors = [akLeft, akTop, akRight]
                             TabOrder = 5
                           end
@@ -8670,7 +8650,7 @@ object Form1: TForm1
                   Left = 32
                   Top = 143
                   Width = 816
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 0
                 end
@@ -8678,7 +8658,7 @@ object Form1: TForm1
                   Left = 32
                   Top = 83
                   Width = 816
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 1
                 end
@@ -8686,7 +8666,7 @@ object Form1: TForm1
                   Left = 32
                   Top = 35
                   Width = 638
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 2
                   OnChange = edGerenciaNetChavePIXChange
@@ -8710,7 +8690,6 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 0
                   TabOrder = 4
                   TabStop = False
                 end
@@ -8791,7 +8770,7 @@ object Form1: TForm1
                   Left = 32
                   Top = 143
                   Width = 616
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 0
                 end
@@ -8799,7 +8778,7 @@ object Form1: TForm1
                   Left = 32
                   Top = 83
                   Width = 616
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 1
                 end
@@ -8807,7 +8786,7 @@ object Form1: TForm1
                   Left = 32
                   Top = 35
                   Width = 616
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 2
                   OnChange = edBradescoChavePIXChange
@@ -8819,7 +8798,6 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 0
                   TabOrder = 4
                   TabStop = False
                 end
@@ -8947,7 +8925,7 @@ object Form1: TForm1
                           Left = 678
                           Top = 39
                           Width = 161
-                          Height = 23
+                          Height = 21
                           Anchors = [akLeft, akTop, akRight]
                           PasswordChar = '*'
                           TabOrder = 1
@@ -9088,7 +9066,6 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 0
                   TabOrder = 3
                   TabStop = False
                 end
@@ -9150,7 +9127,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 64
                   Width = 704
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 1
                 end
@@ -9158,7 +9135,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 115
                   Width = 884
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 2
                 end
@@ -9166,7 +9143,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 171
                   Width = 884
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 3
                 end
@@ -9176,7 +9153,6 @@ object Form1: TForm1
                   Width = 158
                   Height = 21
                   Style = csDropDownList
-                  ItemHeight = 0
                   TabOrder = 0
                   TabStop = False
                 end
@@ -9331,7 +9307,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 148
                   Width = 816
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 3
                 end
@@ -9339,7 +9315,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 90
                   Width = 816
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 2
                 end
@@ -9347,7 +9323,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 40
                   Width = 638
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 0
                   OnChange = edInterChavePIXChange
@@ -9359,7 +9335,6 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 0
                   TabOrder = 1
                   TabStop = False
                 end
@@ -9577,7 +9552,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 147
                   Width = 816
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 3
                 end
@@ -9585,7 +9560,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 91
                   Width = 816
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 2
                 end
@@ -9593,7 +9568,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 40
                   Width = 638
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 0
                   OnChange = edAilosChavePIXChange
@@ -9628,7 +9603,6 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 0
                   TabOrder = 1
                   TabStop = False
                 end
@@ -9652,7 +9626,7 @@ object Form1: TForm1
                 Left = 0
                 Top = 0
                 Width = 984
-                Height = 485
+                Height = 492
                 Align = alClient
                 BevelOuter = bvNone
                 TabOrder = 0
@@ -9796,7 +9770,7 @@ object Form1: TForm1
                   Left = 496
                   Top = 103
                   Width = 376
-                  Height = 23
+                  Height = 21
                   PasswordChar = '*'
                   TabOrder = 0
                 end
@@ -9822,7 +9796,7 @@ object Form1: TForm1
                   Left = 496
                   Top = 159
                   Width = 376
-                  Height = 23
+                  Height = 21
                   PasswordChar = '*'
                   TabOrder = 3
                 end
@@ -9830,21 +9804,21 @@ object Form1: TForm1
                   Left = 87
                   Top = 212
                   Width = 617
-                  Height = 23
+                  Height = 21
                   TabOrder = 4
                 end
                 object edMateraChavePIX: TEdit
                   Left = 87
                   Top = 103
                   Width = 385
-                  Height = 23
+                  Height = 21
                   TabOrder = 5
                 end
                 object edMateraClientSecret: TEdit
                   Left = 87
                   Top = 159
                   Width = 385
-                  Height = 23
+                  Height = 21
                   PasswordChar = '*'
                   TabOrder = 6
                 end
@@ -9852,7 +9826,7 @@ object Form1: TForm1
                   Left = 727
                   Top = 212
                   Width = 145
-                  Height = 23
+                  Height = 21
                   TabOrder = 7
                   Text = '0,10'
                 end
@@ -10007,7 +9981,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 148
                   Width = 816
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 3
                 end
@@ -10015,7 +9989,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 90
                   Width = 816
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 2
                 end
@@ -10023,7 +9997,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 40
                   Width = 638
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 0
                   OnChange = edCieloChavePIXChange
@@ -10035,7 +10009,6 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 0
                   TabOrder = 1
                   TabStop = False
                 end
@@ -10121,7 +10094,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 90
                   Width = 816
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 2
                 end
@@ -10129,7 +10102,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 40
                   Width = 638
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 0
                   OnChange = edMercadoPagoChavePIXChange
@@ -10141,7 +10114,6 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 0
                   TabOrder = 1
                   TabStop = False
                 end
@@ -10185,7 +10157,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 90
                   Width = 816
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 1
                 end
@@ -10193,7 +10165,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 40
                   Width = 816
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 0
                   OnChange = edCieloChavePIXChange
@@ -10327,7 +10299,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 148
                   Width = 846
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 3
                 end
@@ -10335,7 +10307,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 90
                   Width = 846
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 2
                 end
@@ -10343,7 +10315,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 40
                   Width = 668
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 0
                   OnChange = edBanrisulChavePIXChange
@@ -10355,7 +10327,6 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 0
                   TabOrder = 1
                   TabStop = False
                 end
@@ -10363,7 +10334,7 @@ object Form1: TForm1
                   Left = 688
                   Top = 197
                   Width = 180
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   PasswordChar = '*'
                   TabOrder = 4
@@ -10531,7 +10502,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 148
                   Width = 816
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 3
                 end
@@ -10539,7 +10510,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 90
                   Width = 816
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 2
                 end
@@ -10547,7 +10518,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 40
                   Width = 638
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 0
                   OnChange = edC6BankChavePIXChange
@@ -10559,7 +10530,6 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 0
                   TabOrder = 1
                   TabStop = False
                 end
@@ -10635,7 +10605,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 90
                   Width = 816
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 1
                 end
@@ -10643,7 +10613,7 @@ object Form1: TForm1
                   Left = 24
                   Top = 40
                   Width = 816
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 0
                   OnChange = edCieloChavePIXChange
@@ -10652,9 +10622,94 @@ object Form1: TForm1
                   Left = 24
                   Top = 141
                   Width = 816
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 2
+                end
+              end
+            end
+            object tsQQPag: TTabSheet
+              Caption = 'Quero Quero Pag'
+              ImageIndex = 19
+              DesignSize = (
+                984
+                492)
+              object pnQQPag: TPanel
+                Left = 56
+                Top = 80
+                Width = 880
+                Height = 322
+                Anchors = [akLeft, akRight]
+                BevelOuter = bvNone
+                TabOrder = 0
+                DesignSize = (
+                  880
+                  322)
+                object lbQQPagTipoChave: TLabel
+                  Left = 680
+                  Top = 24
+                  Width = 55
+                  Height = 13
+                  Anchors = [akTop, akRight]
+                  Caption = 'Tipo Chave'
+                  Color = clBtnFace
+                  ParentColor = False
+                end
+                object imQQPagErroChavePix: TImage
+                  Left = 831
+                  Top = 47
+                  Width = 16
+                  Height = 17
+                end
+                object lbQQPagClientSecret: TLabel
+                  Left = 24
+                  Top = 132
+                  Width = 60
+                  Height = 13
+                  Caption = 'Client Secret'
+                end
+                object lbQQPagClientID: TLabel
+                  Left = 24
+                  Top = 75
+                  Width = 40
+                  Height = 13
+                  Caption = 'Client ID'
+                end
+                object lbQQPagChave: TLabel
+                  Left = 24
+                  Top = 24
+                  Width = 51
+                  Height = 13
+                  Caption = 'Chave PIX'
+                end
+                object edQQPagChavePIX: TEdit
+                  Left = 24
+                  Top = 43
+                  Width = 641
+                  Height = 21
+                  TabOrder = 0
+                  OnChange = edQQPagChavePIXChange
+                end
+                object edQQPagClientID: TEdit
+                  Left = 24
+                  Top = 94
+                  Width = 801
+                  Height = 21
+                  TabOrder = 1
+                end
+                object edQQPagClientSecret: TEdit
+                  Left = 24
+                  Top = 151
+                  Width = 801
+                  Height = 21
+                  TabOrder = 2
+                end
+                object cbQQPagTipoChave: TComboBox
+                  Left = 680
+                  Top = 43
+                  Width = 145
+                  Height = 21
+                  TabOrder = 3
                 end
               end
             end
@@ -12032,6 +12087,11 @@ object Form1: TForm1
   object ACBrPSPAppLess1: TACBrPSPAppLess
     Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
     Left = 704
+    Top = 416
+  end
+  object ACBrPSPQQPag1: TACBrPSPQQPag
+    Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
+    Left = 738
     Top = 416
   end
 end
