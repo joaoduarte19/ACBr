@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/04/2026
+-- IPM.GravarXml --
+[*] ACBr-9146 - Alteração visando gerar a tag indFinal com os valores corretos.
+   Por: Centrodata Sistemas/Italo Giurizzato Junior
 -- ACBrNFSeXDANFSeRLPadraoNacional --
 [*] Ajuste para imprimir no DANFSE do Padrão Nacional o conteúdo do campo xInfComp.
     Ajuste para imprimir a chave por inteiro.

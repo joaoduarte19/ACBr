@@ -106,6 +106,7 @@ type
     procedure Configuracao; override;
 
     function GerarServico: TACBrXmlNode; override;
+    function GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode; override;
     function GerarXMLIBSCBSServico: TACBrXmlNode;
     function GerarValoresBrutosIbsCbs: TACBrXmlNode;
     function GerarValoresIbsEstadual: TACBrXmlNode;
@@ -660,6 +661,47 @@ begin
   NrOcorrindDest := -1;
   GerarDest := False;
   GerargReeRepRes := False;
+end;
+
+function TNFSeW_IPM204.GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode;
+var
+  xSimNao: string;
+begin
+  Result := CreateElement(TagIBSCBS);
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'finNFSe', 1, 1, NrOcorrfinNFSe,
+                                             finNFSeToStr(IBSCBS.finNFSe), ''));
+
+  xSimNao := '2';
+  if IBSCBS.indFinal = ifSim then
+    xSimNao := '1';
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'indFinal', 1, 1, NrOcorrindFinal,
+                                                                  xSimNao, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'cIndOp', 6, 6, NrOcorrcIndOp,
+                                                            IBSCBS.cIndOp, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'tpOper', 1, 1, NrOcorrtpOper,
+                                        tpOperGovNFSeToStr(IBSCBS.tpOper), ''));
+
+  if IBSCBS.gRefNFSe.Count > 0 then
+    Result.AppendChild(GerarXMLgRefNFSe(IBSCBS.gRefNFSe));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'tpEnteGov', 1, 1, 0,
+                                         tpEnteGovToStr(IBSCBS.tpEnteGov), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'indDest', 1, 1, NrOcorrindDest,
+                                             indDestToStr(IBSCBS.indDest), ''));
+
+  if (IBSCBS.dest.xNome <> '') and GerarDest then
+    Result.AppendChild(GerarXMLDestinatario(IBSCBS.dest));
+
+  if ((IBSCBS.imovel.cCIB <> '') or (IBSCBS.imovel.ender.xLgr <> '')) and
+     GerarImovel then
+    Result.AppendChild(GerarXMLImovel(IBSCBS.imovel));
+
+  Result.AppendChild(GerarXMLIBSCBSTribValores(IBSCBS.valores));
 end;
 
 function TNFSeW_IPM204.GerarXMLIBSCBSServico: TACBrXmlNode;
