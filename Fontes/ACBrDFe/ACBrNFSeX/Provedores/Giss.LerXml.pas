@@ -49,6 +49,17 @@ type
     function LerCodigoPaisServico(const ANode: TACBrXmlNode): Integer; override;
     function LerCodigoPaisTomador(const ANode: TACBrXmlNode): Integer; override;
 
+    procedure LerValores(const ANode: TACBrXmlNode); override;
+    procedure LerXMLTributacao(const ANode: TACBrXmlNode);
+    procedure LerXMLTributacaoMunicipal(const ANode: TACBrXmlNode);
+    procedure LerXMLBeneficioMunicipal(const ANode: TACBrXmlNode);
+    procedure LerXMLExigibilidadeSuspensa(const ANode: TACBrXmlNode);
+    procedure LerXMLTributacaoFederal(const ANode: TACBrXmlNode);
+    procedure LerXMLTributacaoOutrosPisCofins(const ANode: TACBrXmlNode);
+    procedure LerXMLTotalTributos(const ANode: TACBrXmlNode);
+    procedure LerXMLValorTotalTributos(const ANode: TACBrXmlNode);
+    procedure LerXMLPercentualTotalTributos(const ANode: TACBrXmlNode);
+
     procedure LerINISecaoValores(const AINIRec: TMemIniFile); override;
     procedure LerINIValoresTribFederal(AINIRec: TMemIniFile);
     procedure LerINIValoresTotalTrib(AINIRec: TMemIniFile);
@@ -132,6 +143,215 @@ begin
     NFSe.Servico.Valores.tribFed.vRetCP := StringToFloatDef(AINIRec.ReadString(sSecao, 'vRetCP', ''), 0);
     NFSe.Servico.Valores.tribFed.vRetIRRF := StringToFloatDef(AINIRec.ReadString(sSecao, 'vRetIRRF', ''), 0);
     NFSe.Servico.Valores.tribFed.vRetCSLL := StringToFloatDef(AINIRec.ReadString(sSecao, 'vRetCSLL', ''), 0);
+  end;
+end;
+
+procedure TNFSeR_Giss204.LerValores(const ANode: TACBrXmlNode);
+var
+  AuxNode: TACBrXmlNode;
+begin
+  inherited LerValores(ANode);
+
+  if not Assigned(ANode) then Exit;
+
+  AuxNode := ANode.Childrens.FindAnyNs('Valores');
+
+  if AuxNode <> nil then
+  begin
+    LerXMLTributacao(AuxNode);
+    LerXMLIBSCBSDPS(AuxNode.Childrens.FindAnyNs('IBSCBS'), NFSe.IBSCBS);
+  end;
+end;
+
+procedure TNFSeR_Giss204.LerXMLTributacao(const ANode: TACBrXmlNode);
+var
+  AuxNode: TACBrXmlNode;
+begin
+  AuxNode := ANode.Childrens.FindAnyNs('trib');
+
+  if AuxNode <> nil then
+  begin
+    LerXMLTributacaoMunicipal(AuxNode);
+    LerXMLTributacaoFederal(AuxNode);
+    LerXMLTotalTributos(AuxNode);
+  end;
+end;
+
+procedure TNFSeR_Giss204.LerXMLTributacaoMunicipal(const ANode: TACBrXmlNode);
+var
+  AuxNode: TACBrXmlNode;
+  Ok: Boolean;
+begin
+  AuxNode := ANode.Childrens.FindAnyNs('tribMun');
+
+  if AuxNode <> nil then
+  begin
+    with NFSe.Servico.Valores.tribMun do
+    begin
+      tribISSQN := StrTotribISSQN(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tribISSQN'), tcStr));
+      cPaisResult := SiglaISO2ToCodIBGEPais(ObterConteudo(AuxNode.Childrens.FindAnyNs('cPaisResult'), tcStr));
+
+      LerXMLBeneficioMunicipal(AuxNode);
+      LerXMLExigibilidadeSuspensa(AuxNode);
+
+      tpImunidade := StrTotpImunidade(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpImunidade'), tcStr));
+      tpRetISSQN := StrTotpRetISSQN(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpRetISSQN'), tcStr));
+      pAliq := ObterConteudo(AuxNode.Childrens.FindAnyNs('pAliq'), tcDe2);
+
+      if tpRetISSQN = trNaoRetido then
+      begin
+        NFSe.Servico.Valores.IssRetido := stNormal;
+        NFSe.Servico.Valores.ValorIssRetido := 0;
+      end
+      else
+      begin
+        NFSe.Servico.Valores.IssRetido := stRetencao;
+        NFSe.Servico.Valores.ValorIssRetido := NFSe.infNFSe.valores.ValorIss;
+      end;
+    end;
+  end;
+end;
+
+procedure TNFSeR_Giss204.LerXMLBeneficioMunicipal(const ANode: TACBrXmlNode);
+var
+  AuxNode: TACBrXmlNode;
+begin
+  AuxNode := ANode.Childrens.FindAnyNs('BM');
+
+  if AuxNode <> nil then
+  begin
+    with NFSe.Servico.Valores.tribMun do
+    begin
+      nBM := ObterConteudo(AuxNode.Childrens.FindAnyNs('nBM'), tcStr);
+      vRedBCBM := ObterConteudo(AuxNode.Childrens.FindAnyNs('vRedBCBM'), tcDe2);
+      pRedBCBM := ObterConteudo(AuxNode.Childrens.FindAnyNs('pRedBCBM'), tcDe2);
+    end;
+  end;
+end;
+
+procedure TNFSeR_Giss204.LerXMLExigibilidadeSuspensa(const ANode: TACBrXmlNode);
+var
+  AuxNode: TACBrXmlNode;
+  Ok: Boolean;
+begin
+  AuxNode := ANode.Childrens.FindAnyNs('exigSusp');
+
+  if AuxNode <> nil then
+  begin
+    with NFSe.Servico.Valores.tribMun do
+    begin
+      tpSusp := StrTotpSusp(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpSusp'), tcStr));
+      nProcesso := ObterConteudo(AuxNode.Childrens.FindAnyNs('nProcesso'), tcStr);
+    end;
+  end;
+end;
+
+procedure TNFSeR_Giss204.LerXMLTributacaoFederal(const ANode: TACBrXmlNode);
+var
+  AuxNode: TACBrXmlNode;
+begin
+  AuxNode := ANode.Childrens.FindAnyNs('tribFed');
+
+  if AuxNode <> nil then
+  begin
+    with NFSe.Servico.Valores.tribFed do
+    begin
+      LerXMLTributacaoOutrosPisCofins(AuxNode);
+
+      vRetCP := ObterConteudo(AuxNode.Childrens.FindAnyNs('vRetCP'), tcDe2);
+      vRetIRRF := ObterConteudo(AuxNode.Childrens.FindAnyNs('vRetIRRF'), tcDe2);
+      vRetCSLL := ObterConteudo(AuxNode.Childrens.FindAnyNs('vRetCSLL'), tcDe2);
+
+      NFSe.Servico.Valores.ValorIr := vRetIRRF;
+      NFSe.Servico.Valores.ValorCsll := vRetCSLL;
+      NFSe.Servico.Valores.ValorInss := vRetCP;
+    end;
+  end;
+end;
+
+procedure TNFSeR_Giss204.LerXMLTributacaoOutrosPisCofins(
+  const ANode: TACBrXmlNode);
+var
+  AuxNode: TACBrXmlNode;
+  Ok: Boolean;
+begin
+  AuxNode := ANode.Childrens.FindAnyNs('piscofins');
+
+  if AuxNode <> nil then
+  begin
+    with NFSe.Servico.Valores.tribFed do
+    begin
+      CST := StrToCST(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('CST'), tcStr));
+      vBCPisCofins := ObterConteudo(AuxNode.Childrens.FindAnyNs('vBCPisCofins'), tcDe2);
+      pAliqPis := ObterConteudo(AuxNode.Childrens.FindAnyNs('pAliqPis'), tcDe2);
+      pAliqCofins := ObterConteudo(AuxNode.Childrens.FindAnyNs('pAliqCofins'), tcDe2);
+      vPis := ObterConteudo(AuxNode.Childrens.FindAnyNs('vPis'), tcDe2);
+      vCofins := ObterConteudo(AuxNode.Childrens.FindAnyNs('vCofins'), tcDe2);
+      tpRetPisCofins := StrTotpRetPisCofins(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpRetPisCofins'), tcStr));
+
+      NFSe.Servico.Valores.ValorPis := vPis;
+      NFSe.Servico.Valores.ValorCofins := vCofins;
+    end;
+  end;
+end;
+
+procedure TNFSeR_Giss204.LerXMLTotalTributos(const ANode: TACBrXmlNode);
+var
+  AuxNode: TACBrXmlNode;
+  Ok: Boolean;
+  lindTotTrib: String;
+begin
+  AuxNode := ANode.Childrens.FindAnyNs('totTrib');
+
+  if AuxNode <> nil then
+  begin
+    with NFSe.Servico.Valores.totTrib do
+    begin
+      LerXMLValorTotalTributos(AuxNode);
+      LerXMLPercentualTotalTributos(AuxNode);
+
+      lindTotTrib := ObterConteudo(AuxNode.Childrens.FindAnyNs('indTotTrib'), tcStr);
+      if lIndTotTrib = EmptyStr then
+        lIndTotTrib := '1'; //indSim para não gerar a tag indTotTrib depois
+
+      indTotTrib := StrToindTotTrib(Ok, lIndTotTrib);
+      pTotTribSN := ObterConteudo(AuxNode.Childrens.FindAnyNs('pTotTribSN'), tcDe2);
+    end;
+  end;
+end;
+
+procedure TNFSeR_Giss204.LerXMLValorTotalTributos(const ANode: TACBrXmlNode);
+var
+  AuxNode: TACBrXmlNode;
+begin
+  AuxNode := ANode.Childrens.FindAnyNs('vTotTrib');
+
+  if AuxNode <> nil then
+  begin
+    with NFSe.Servico.Valores.totTrib do
+    begin
+      vTotTribFed := ObterConteudo(AuxNode.Childrens.FindAnyNs('vTotTribFed'), tcDe2);
+      vTotTribEst := ObterConteudo(AuxNode.Childrens.FindAnyNs('vTotTribEst'), tcDe2);
+      vTotTribMun := ObterConteudo(AuxNode.Childrens.FindAnyNs('vTotTribMun'), tcDe2);
+    end;
+  end;
+end;
+
+procedure TNFSeR_Giss204.LerXMLPercentualTotalTributos(
+  const ANode: TACBrXmlNode);
+var
+  AuxNode: TACBrXmlNode;
+begin
+  AuxNode := ANode.Childrens.FindAnyNs('pTotTrib');
+
+  if AuxNode <> nil then
+  begin
+    with NFSe.Servico.Valores.totTrib do
+    begin
+      pTotTribFed := ObterConteudo(AuxNode.Childrens.FindAnyNs('pTotTribFed'), tcDe2);
+      pTotTribEst := ObterConteudo(AuxNode.Childrens.FindAnyNs('pTotTribEst'), tcDe2);
+      pTotTribMun := ObterConteudo(AuxNode.Childrens.FindAnyNs('pTotTribMun'), tcDe2);
+    end;
   end;
 end;
 
