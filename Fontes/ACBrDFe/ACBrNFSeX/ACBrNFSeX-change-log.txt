@@ -42,6 +42,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/04/2026
+-- ACBrNFSeXServicos --
+[*] Ajuste para continuar usando o webservice antigo (ABRASF) do provedor Fiorilli.
+   Por: Italo Giurizzato Junior
+-- ISSDSF.GravarXml --
+[*] Ajuste para gerar a tag CodigoNbs.
+   Por: Italo Giurizzato Junior
+
 17/04/2026
 -- MegaSoft.GravarXml --
 [*] ACBr-9283 - Alteração visando gerar a tag Exigibilidade adicionada pelo provedor.
