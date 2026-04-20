@@ -3052,6 +3052,7 @@ begin
     FPHeaderElement := '';
 
   VerServ := VersaoCTeToDbl(FPConfiguracoesCTe.Geral.VersaoDF);
+
   FCNPJ   := FEvento.Evento.Items[0].InfEvento.CNPJ;
   FIE     := FEvento.Evento.Items[0].InfEvento.detEvento.IE;
   FTpAmb  := FEvento.Evento.Items[0].InfEvento.tpAmb;

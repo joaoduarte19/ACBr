@@ -1465,12 +1465,12 @@ begin
     Result.AppendChild(Gerar_infTribFed);
 
   // Reforma Tributária
-  if (VersaoDF >= ve400) then
+  if (VersaoDF >= ve400) and (CTe.imp.IBSCBS.CST <> cstNenhum) and
+     (CTe.imp.IBSCBS.cClassTrib <> '') then
     Result.AppendChild(Gerar_IBSCBS(CTe.imp.IBSCBS));
 
-  if (VersaoDF >= ve400) and (ModeloDF in [moCTe, moCTeSimp, moCTeOS]) then
-    if (CTe.imp.IBSCBS.CST <> cstNenhum) and (CTe.imp.IBSCBS.cClassTrib <> '') then
-      Result.AppendChild(AddNode(tcDe2, '#250', 'vTotDFe', 1, 15, 1,
+  if (VersaoDF >= ve400) and (ModeloDF in [moCTe, moCTeOS]) then
+    Result.AppendChild(AddNode(tcDe2, '#250', 'vTotDFe', 1, 15, 0,
                                                  CTe.Imp.vTotDFe, DSC_VTOTDFE));
 end;
 
@@ -4512,6 +4512,10 @@ begin
 
   Result.AppendChild(AddNode(tcDe2, '#210', 'vTRec', 1, 15, 1,
                                                     CTe.total.vTRec, DSC_VREC));
+
+  if (VersaoDF >= ve400) and (ModeloDF = moCTeSimp) then
+    Result.AppendChild(AddNode(tcDe2, '#250', 'vTotDFe', 1, 15, 0,
+                                                 CTe.Imp.vTotDFe, DSC_VTOTDFE));
 end;
 
 function TCTeXmlWriter.Gerar_autXML: TACBrXmlNodeArray;

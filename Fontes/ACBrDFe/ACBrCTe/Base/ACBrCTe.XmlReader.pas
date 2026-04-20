@@ -1879,6 +1879,9 @@ begin
 
   FCTe.total.vTPrest := ObterConteudo(ANode.Childrens.FindAnyNs('vTPrest'), tcDe2);
   FCTe.total.vTRec := ObterConteudo(ANode.Childrens.FindAnyNs('vTRec'), tcDe2);
+
+  if FCTe.ide.tpCTe = tcCTeSimp then
+    FCTe.Imp.vTotDFe := ObterConteudo(ANode.Childrens.FindAnyNs('vTotDFe'), tcDe2);
 end;
 
 procedure TCTeXmlReader.Ler_VeicNovos(veicArr: TACBrXmlNodeArray);

@@ -518,6 +518,8 @@ begin
     teCancPrestDesacordo          : Result := 'Cancelamento Prestacao do Servico em Desacordo';
     teInsucessoEntregaCTe         : Result := 'Insucesso na Entrega do CT-e';
     teCancInsucessoEntregaCTe     : Result := 'Cancelamento do Insucesso de Entrega do CT-e';
+    teVinculoPgto                 : Result := 'Vinculacao do Pagamento';
+    teCancVinculoPgto             : Result := 'Cancelamento da vinculacao do pagamento';
   else
     Result := '';
   end;
@@ -576,6 +578,8 @@ begin
     teCancPrestDesacordo       : Result := 'Cancelamento Prestacao do Servico em Desacordo';
     teInsucessoEntregaCTe      : Result := 'Insucesso na Entrega do CT-e';
     teCancInsucessoEntregaCTe  : Result := 'Cancelamento do Insucesso de Entrega do CT-e';
+    teVinculoPgto              : Result := 'Vinculacao do Pagamento';
+    teCancVinculoPgto          : Result := 'Cancelamento da vinculacao do pagamento';
   else
     Result := 'Não Definido';
   end;
