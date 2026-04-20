@@ -52,13 +52,9 @@ const
 
 type
 
-  { TACBrTEFRespTXT }
-
   { TACBrTEFRespTXTGerenciadorPadrao }
 
   TACBrTEFRespTXTGerenciadorPadrao = class( TACBrTEFResp )
-  protected
-    function AjustaLinhaImagemComprovante(const ALinha: String): String;
   public
     procedure ConteudoToProperty; override;
   end;
@@ -79,17 +75,19 @@ type
     procedure PrepararRequisicao(const AHeader: String); override;
     procedure ATV;
     function ADM: Boolean;
-    function CRT(Valor: Double; const DocumentoVinculado: String = ''; Moeda: Integer = 0): Boolean;
+    function CRT(Valor: Double; const DocumentoVinculado: String = '';
+      Moeda: Integer = 0): Boolean; virtual;
     function CHQ(Valor: Double; const DocumentoVinculado: String = '';
       CMC7: String = ''; TipoPessoa: AnsiChar = 'F'; DocumentoPessoa: String = '';
       DataCheque: TDateTime = 0; Banco: String = '';
       Agencia: String = ''; AgenciaDC : String = '';
       Conta: String = ''; ContaDC: String = '';
       Cheque: String = ''; ChequeDC: String = '';
-      Compensacao: String = '' ): Boolean;
-    Function CNC(Valor: Double; const Rede, NSU: String; DataHoraTransacao: TDateTime; DocumentoVinculado: String = ''): Boolean;
-    Procedure CNF(const Rede, NSU, Finalizacao: String; const DocumentoVinculado: String = '');
-    Procedure NCN(const Rede, NSU, Finalizacao: String; const DocumentoVinculado: String = '') ;
+      Compensacao: String = '' ): Boolean; virtual;
+    Function CNC(Valor: Double; const Rede, NSU: String;
+      DataHoraTransacao: TDateTime; DocumentoVinculado: String = ''): Boolean; virtual;
+    Procedure CNF(const Rede, NSU, Finalizacao: String; const DocumentoVinculado: String = ''); virtual;
+    Procedure NCN(const Rede, NSU, Finalizacao: String; const DocumentoVinculado: String = ''); virtual;
 
     property Enviar_ATV_Antes: Boolean read fEnviarATV write fEnviarATV default True;
   end;
@@ -102,18 +100,6 @@ uses
   ACBrUtil.Strings;
 
 { TACBrTEFRespTXTGerenciadorPadrao }
-
-function TACBrTEFRespTXTGerenciadorPadrao.AjustaLinhaImagemComprovante(const ALinha: String): String;
-var
-  l: Integer;
-begin
-  Result := ALinha;
-  if copy(Result, 1, 1) = '"' then
-    Delete(Result, 1, 1);
-  l := Length(Result);
-  if copy(Result, l, 1) = '"' then
-    Delete(Result, l, 1);
-end;
 
 procedure TACBrTEFRespTXTGerenciadorPadrao.ConteudoToProperty;
 var
@@ -287,7 +273,9 @@ function TACBrTEFTXTGerenciadorPadrao.CRT(Valor: Double;
   const DocumentoVinculado: String; Moeda: Integer): Boolean;
 begin
   PrepararRequisicao(CACBRTEFTXT_CMD_CRT);
-  Req.Campo[2,0].AsString := DocumentoVinculado;
+  if (DocumentoVinculado <> '') then
+    Req.Campo[2,0].AsString := DocumentoVinculado;
+
   Req.Campo[3,0].AsFloat := Valor;
   Req.Campo[4,0].AsInteger := Moeda;
   EnviarRequisicao;
@@ -301,19 +289,44 @@ function TACBrTEFTXTGerenciadorPadrao.CHQ(Valor: Double;
   Cheque: String; ChequeDC: String; Compensacao: String): Boolean;
 begin
   PrepararRequisicao(CACBRTEFTXT_CMD_CHQ);
-  Req.Campo[02,0].AsString := DocumentoVinculado;
+  if (DocumentoVinculado <> '') then
+    Req.Campo[02,0].AsString := DocumentoVinculado;
+
   Req.Campo[03,0].AsFloat := Valor;
-  Req.Campo[05,0].AsString := CMC7;
+  if (CMC7 <> '') then
+    Req.Campo[05,0].AsString := CMC7;
+
   Req.Campo[06,0].AsString := TipoPessoa;
-  Req.Campo[07,0].AsString := DocumentoPessoa;
-  Req.Campo[08,0].AsDate := DataCheque;
-  Req.Campo[33,0].AsString := Banco;
-  Req.Campo[34,0].AsString := Agencia;
-  Req.Campo[35,0].AsString := AgenciaDC;
-  Req.Campo[36,0].AsString := Conta;
-  Req.Campo[37,0].AsString := ContaDC;
-  Req.Campo[38,0].AsString := Cheque;
-  Req.Campo[39,0].AsString := ChequeDC;
+  if (DocumentoPessoa <> '') then
+  begin
+    Req.Campo[06,0].AsString := TipoPessoa;
+    Req.Campo[07,0].AsString := DocumentoPessoa;
+  end;
+
+  if (DataCheque > 0) then
+    Req.Campo[08,0].AsDate := DataCheque;
+
+  if (Banco <> '') then
+    Req.Campo[33,0].AsString := Banco;
+
+  if (Agencia <> '') then
+    Req.Campo[34,0].AsString := Agencia;
+
+  if (AgenciaDC <> '') then
+    Req.Campo[35,0].AsString := AgenciaDC;
+
+  if (Conta <> '') then
+    Req.Campo[36,0].AsString := Conta;
+
+  if (ContaDC <> '') then
+    Req.Campo[37,0].AsString := ContaDC;
+
+  if (Cheque <> '') then
+    Req.Campo[38,0].AsString := Cheque;
+
+  if (ChequeDC <> '') then
+    Req.Campo[39,0].AsString := ChequeDC;
+
   EnviarRequisicao;
   Result := RespostaTransacaoComSucesso;
 end;
@@ -324,6 +337,7 @@ begin
   PrepararRequisicao(CACBRTEFTXT_CMD_CNC);
   if (DocumentoVinculado <> '') then
     Req.Campo[02,0].AsString := DocumentoVinculado;
+
   Req.Campo[03,0].AsFloat := Valor;
   Req.Campo[10,0].AsString := Rede;
   Req.Campo[12,0].AsString := NSU;
@@ -351,6 +365,7 @@ begin
   PrepararRequisicao(CACBRTEFTXT_CMD_NCN);
   if (DocumentoVinculado <> '') then
     Req.Campo[02,0].AsString := DocumentoVinculado;
+
   Req.Campo[10,0].AsString := Rede;
   Req.Campo[12,0].AsString := NSU;
   Req.Campo[27,0].AsString := Finalizacao;

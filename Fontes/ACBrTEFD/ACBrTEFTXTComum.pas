@@ -52,8 +52,8 @@ const
   CACBrTEFTXT_TimeOutStatus = 7000;
   CACBrTEFTXT_Sleep = 250;
 
-  CACBRTEFTXT_DIRREQ = 'C:\Client\Req\';
-  CACBRTEFTXT_DIRRESP = 'C:\Client\Resp\';
+  CACBRTEFTXT_DIRREQ = 'C:\TEF_Dial\Req\';
+  CACBRTEFTXT_DIRRESP = 'C:\TEF_Dial\Resp\';
   CACBRTEFTXT_ARQREQ = 'IntPos.001';
   CACBRTEFTXT_ARQTEMP = 'IntPos.tmp';
   CACBRTEFTXT_ARQSTS = 'IntPos.sts';
@@ -69,6 +69,7 @@ resourcestring
   CErroValorInvalidoParaOCampo = 'Valor %s inválido para o campo %s';
   CErroApagarArquivo = 'Erro ao apagar o arquivo: %s';
   CErroRenomearArquivo = 'Erro ao Renomear:' + sLineBreak + '%s para:' + sLineBreak + '%s';
+  CErroComandoNaoExisteEmTEF = 'Comando %s não existe no TEF %s';
 
   CErroGerenciadorNaoResponde = '%s não está respondendo';
   CErroRespostaInvalida = 'Resposta do %s, inválida';
@@ -86,8 +87,6 @@ type
     function GetCampoIdSeq(AIdentificacao, ASequencia: Integer): TACBrInformacao;
     function GetItem(Index: Integer): TACBrInformacao;
     procedure SetItem(Index: Integer; const Value: TACBrInformacao);
-
-    function ComporIdSeqTEF(AIdentificacao, ASequencia: Integer): String;
   public
     function Add(Obj: TACBrInformacao): Integer;
     procedure Insert(Index: Integer; Obj: TACBrInformacao);
@@ -99,7 +98,7 @@ type
     procedure RemoverCampo(const AIdentificacao: Integer); overload;
     procedure RemoverCampo(const AIdentificacao, ASequencia: Integer); overload;
 
-    property Informacao[Index: Integer]: TACBrInformacao read GetItem write SetItem;
+    property Items[Index: Integer]: TACBrInformacao read GetItem write SetItem;
     property Campo[AIdentificacao, ASequencia: Integer]: TACBrInformacao read GetCampoIdSeq;
   end;
 
@@ -110,6 +109,8 @@ type
     fCampos: TACBrTEFCampos;
     fIgnorarVazios: Boolean;
     function GetCampoIdSeq(AIdentificacao, ASequencia: Integer): TACBrInformacao;
+    function GetCount: Integer;
+    function GetItem(AIndex: Integer): TACBrInformacao;
   protected
     property Campos: TACBrTEFCampos read fCampos;
   public
@@ -117,13 +118,16 @@ type
     destructor Destroy; override;
     procedure Clear; virtual;
 
-    function LerArquivo(const ANomeArquivo: String): Boolean;
+    procedure LerArquivo(const ANomeArquivo: String); overload;
+    procedure LerArquivo(TheStrings: TStrings); overload;
     procedure SalvarArquivo(const ANomeArquivo: String); overload;
     procedure SalvarArquivo(TheStrings: TStrings); overload;
 
     property IgnorarVazios: Boolean read fIgnorarVazios write fIgnorarVazios default True;
 
     property Campo[AIdentificacao, ASequencia: Integer]: TACBrInformacao read GetCampoIdSeq;
+    property Items[AIndex: Integer]: TACBrInformacao read GetItem;
+    property Count: Integer read GetCount;
   end;
 
   { TACBrTEFTXTConfig }
@@ -181,8 +185,6 @@ type
     fConfig: TACBrTEFTXTConfig;
     fQuandoGravarLog: TACBrGravarLog;
     fQuandoAguardarArquivo: TACBrTEFTXTAguardaArquivo;
-    fReq: TACBrTEFTXTArquivo;
-    fResp: TACBrTEFTXTArquivo;
 
     function GetArqReq: String;
     function GetArqResp: String;
@@ -206,9 +208,6 @@ type
     property ArqResp: String read GetArqResp;
     property NivelLog: Byte read GetNivelLog;
 
-    property Req: TACBrTEFTXTArquivo read fReq;
-    property Resp: TACBrTEFTXTArquivo read fResp;
-
     property ModeloTEF: String read GetModeloTEF;
     property VersaoTEF: String read  GetVersaoTEF;
     property Config: TACBrTEFTXTConfig read fConfig write SetConfig;
@@ -228,6 +227,9 @@ type
   TACBrTEFTXTBaseClass = class( TACBrTEFTXTClass )
   private
     fAntesGravarRequisicao: TACBrTEFTXTAntesGravarRequisicao;
+    fReq: TACBrTEFTXTArquivo;
+    fResp: TACBrTEFTXTArquivo;
+    fParamReq: TACBrTEFTXTArquivo;
     fQuandoMudarStatus: TNotifyEvent;
     fQuandoObterID: TACBrTEFTXTObterID;
     fStatus: TACBrTEFTXTStatus;
@@ -249,11 +251,16 @@ type
     procedure PrepararRequisicao(const AHeader: String); virtual;
     procedure EnviarRequisicao(AguardaResposta: Boolean = True); virtual;
 
+    procedure LerParamRequisicao; virtual;
     procedure GravarRequisicao; virtual;
     function AguardarStatus: Boolean; virtual;
     function AguardarResposta: Boolean; virtual;
     procedure LerArquivoResposta(const AArq: String); virtual;
     function VerificarRespostaValida: Boolean; virtual;
+
+    property Req: TACBrTEFTXTArquivo read fReq;
+    property Resp: TACBrTEFTXTArquivo read fResp;
+    property ParamReq: TACBrTEFTXTArquivo read fParamReq;
 
     property Status: TACBrTEFTXTStatus read fStatus write SetStatus;
     property QuandoMudarStatus: TNotifyEvent read fQuandoMudarStatus write fQuandoMudarStatus;
@@ -263,6 +270,8 @@ type
   end;
 
 Procedure DecomporLinhaArquivoTEF(const ALinha: String; out AIdentificacao: Integer; out ASequencia: Integer; out AValor: String);
+function ComporIdSeqTEF(AIdentificacao, ASequencia: Integer): String;
+procedure DeComporIdSeqTEF(const ANome: String; out AIdentificacao: Integer; out ASequencia: Integer);
 
 implementation
 
@@ -298,6 +307,22 @@ begin
   AValor := Trim(copy(lin, pf+1, Length(lin)));
 end;
 
+function ComporIdSeqTEF(AIdentificacao, ASequencia: Integer): String;
+begin
+  Result := Format('%3.3d', [AIdentificacao])+'-'+Format('%3.3d', [ASequencia]);
+end;
+
+procedure DeComporIdSeqTEF(const ANome: String; out AIdentificacao: Integer; out ASequencia: Integer);
+var
+  s: String;
+begin
+  s := Trim(copy(ANome, 1, 3));
+  AIdentificacao := StrToIntDef(s, -1);
+  s := Trim(copy(ANome, 5, 3));
+  ASequencia := StrToIntDef(s, -1);
+end;
+
+
 { TACBrTEFCampos }
 
 function TACBrTEFCampos.GetItem(Index: Integer): TACBrInformacao;
@@ -308,11 +333,6 @@ end;
 procedure TACBrTEFCampos.SetItem(Index: Integer; const Value: TACBrInformacao);
 begin
   inherited Items[Index] := Value;
-end;
-
-function TACBrTEFCampos.ComporIdSeqTEF(AIdentificacao, ASequencia: Integer): String;
-begin
-  Result := Format('%3.3d', [AIdentificacao])+'-'+Format('%3.3d', [ASequencia]);
 end;
 
 function TACBrTEFCampos.Add(Obj: TACBrInformacao): Integer;
@@ -359,7 +379,7 @@ begin
   Result := Nil;
   for i := 0 to Self.Count - 1 do
   begin
-    if (Self.Informacao[I].Nome = s) then
+    if (Self.Items[i].Nome = s) then
     begin
       Result := GetItem(i);
       Exit;
@@ -400,13 +420,11 @@ begin
   inherited Destroy;
 end;
 
-function TACBrTEFTXTArquivo.LerArquivo(const ANomeArquivo: String): Boolean;
+procedure TACBrTEFTXTArquivo.LerArquivo(const ANomeArquivo: String);
 var
   sl: TStringList;
-  arq, lin, lVal: String;
-  i, lID, lSeq: Integer;
+  arq: String;
 begin
-  Result := False;
   arq := Trim(ANomeArquivo);
   if (arq = '') then
     Exit;
@@ -417,15 +435,23 @@ begin
   try
     sl.LoadFromFile(arq);
     sl.Sort;
-    for i := 0 to sl.Count-1 do
-    begin
-      lin := sl[i];
-      DecomporLinhaArquivoTEF(lin, lID, lSeq, lVal);
-      if (not IgnorarVazios) or (lVal <> '') then
-        fCampos.AdicionarCampo(lID, lSeq, lVal);
-    end;
+    LerArquivo(sl);
   finally
     sl.Free;
+  end;
+end;
+
+procedure TACBrTEFTXTArquivo.LerArquivo(TheStrings: TStrings);
+var
+  lin, lVal: String;
+  lID, lSeq, i: Integer;
+begin
+  for i := 0 to TheStrings.Count-1 do
+  begin
+    lin := TheStrings[i];
+    DecomporLinhaArquivoTEF(lin, lID, lSeq, lVal);
+    if (not IgnorarVazios) or (lVal <> '') then
+      fCampos.AdicionarCampo(lID, lSeq, lVal);
   end;
 end;
 
@@ -460,9 +486,9 @@ begin
   TheStrings.Clear;
   for i := 0 to fCampos.Count-1 do
   begin
-    lVal := fCampos.Informacao[i].AsString;
+    lVal := fCampos.Items[i].AsString;
     if (not IgnorarVazios) or (lVal <> '') then
-      TheStrings.Add(fCampos.Informacao[i].Nome + ' = ' + lVal);
+      TheStrings.Add(fCampos.Items[i].Nome + ' = ' + lVal);
   end;
 end;
 
@@ -471,6 +497,16 @@ begin
   Result := fCampos.Campo[AIdentificacao, ASequencia];
   if (Result = Nil) then
     Result := fCampos.AdicionarCampo(AIdentificacao, ASequencia);
+end;
+
+function TACBrTEFTXTArquivo.GetCount: Integer;
+begin
+  Result := fCampos.Count;
+end;
+
+function TACBrTEFTXTArquivo.GetItem(AIndex: Integer): TACBrInformacao;
+begin
+  Result := fCampos.Items[AIndex];
 end;
 
 { TACBrTEFTXTConfig }
@@ -585,7 +621,7 @@ end;
 procedure TACBrTEFTXTConfig.SetEsperaStsMilissegundos(AValue: Integer);
 const
   CACBrTEFTXT_EsperaStsMin = 1000;
-  CACBrTEFTXT_EsperaStsMax = 1000;
+  CACBrTEFTXT_EsperaStsMax = 30000;
 begin
   if fTempoLimiteEsperaStatus = AValue then Exit;
   fTempoLimiteEsperaStatus := Min(Max(CACBrTEFTXT_EsperaStsMin, AValue), CACBrTEFTXT_EsperaStsMax);
@@ -599,14 +635,10 @@ begin
   fQuandoGravarLog := Nil;
   fQuandoAguardarArquivo := Nil;
   fConfig := TACBrTEFTXTConfig.Create;
-  fReq := TACBrTEFTXTArquivo.Create;
-  fResp := TACBrTEFTXTArquivo.Create;
 end;
 
 destructor TACBrTEFTXTClass.Destroy;
 begin
-  fResp.Free;
-  fReq.Free;
   fConfig.Free;
   inherited Destroy;
 end;
@@ -717,10 +749,16 @@ begin
   fAntesGravarRequisicao := Nil;
   fStatus := tefstLivre;
   fIdSeq := 0;
+  fReq := TACBrTEFTXTArquivo.Create;
+  fResp := TACBrTEFTXTArquivo.Create;
+  fParamReq := TACBrTEFTXTArquivo.Create;
 end;
 
 destructor TACBrTEFTXTBaseClass.Destroy;
 begin
+  fResp.Free;
+  fReq.Free;
+  fParamReq.Free;
   inherited Destroy;
 end;
 
@@ -795,6 +833,8 @@ begin
   Req.Campo[0,0].AsString := AHeader;
   Req.Campo[1,0].AsInt64 := ObterID(AHeader);
   Req.Campo[999,999].AsString := '0' ;
+
+  LerParamRequisicao;
 end;
 
 procedure TACBrTEFTXTBaseClass.EnviarRequisicao(AguardaResposta: Boolean);
@@ -827,6 +867,20 @@ begin
   finally
     Status := tefstLivre;
   end;
+end;
+
+procedure TACBrTEFTXTBaseClass.LerParamRequisicao;
+var
+  info: TACBrInformacao;
+  i, Aidentificacao, ASequencia: Integer;
+begin
+  for i := 0 to ParamReq.Count-1 do
+  begin
+    info := ParamReq.Items[i];
+    DeComporIdSeqTEF(info.Nome, Aidentificacao, ASequencia);
+    Req.Campo[Aidentificacao, ASequencia].AsString := info.AsString;
+  end;
+  ParamReq.Clear;
 end;
 
 procedure TACBrTEFTXTBaseClass.GravarRequisicao;

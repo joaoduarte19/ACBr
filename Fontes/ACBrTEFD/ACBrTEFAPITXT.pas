@@ -39,7 +39,8 @@ interface
 uses
   Classes, SysUtils,
   ACBrBase,
-  ACBrTEFComum, ACBrTEFAPI, ACBrTEFAPIComum, ACBrTEFTXTComum, ACBrTEFTXTGerenciadorPadrao;
+  ACBrTEFComum, ACBrTEFAPI, ACBrTEFAPIComum, ACBrTEFTXTComum,
+  ACBrTEFTXTGerenciadorPadrao, ACBrTEFTXTPayGo;
 
 resourcestring
   CINFOTEFTXT_EnviandoRequisicao = 'Enviando Requisição';
@@ -63,6 +64,8 @@ type
       SegundosParaTimeOut: Double; var Interromper: Boolean);
     procedure QuandoMudarStatusAPI(Sender: TObject);
     procedure SetModelo(AValue: TACBrTEFTXTModelo);
+
+    procedure ConfigurarTEFTXTPayGo;
 
   protected
     procedure InterpretarRespostaAPI; override;
@@ -98,6 +101,11 @@ type
     procedure FinalizarTransacao(
       const Rede, NSU, CodigoFinalizacao: String;
       AStatus: TACBrTEFStatusTransacao = tefstsSucessoAutomatico); override;
+
+    function ObterDadoPinPad(TipoDado: TACBrTEFAPIDadoPinPad; TimeOut: Integer = 30000;
+      MinLen: SmallInt = 0; MaxLen: SmallInt = 0): String; override;
+    function MenuPinPad(const Titulo: String; Opcoes: TStrings; TimeOut: Integer = 30000):
+      Integer; override;
 
     function VersaoAPI: String; override;
 
@@ -157,9 +165,9 @@ begin
   case AValue of
     teftxtPayGo:
       begin
-        //TODO
-        fTEFTXT := TACBrTEFTXTGerenciadorPadrao.Create;
-        fpTEFRespClass := TACBrTEFRespTXTGerenciadorPadrao;
+        fTEFTXT := TACBrTEFTXTPayGo.Create;
+        fpTEFRespClass := TACBrTEFRespTXTPayGo;
+        ConfigurarTEFTXTPayGo;
       end;
     teftxtSiTEF:
       begin
@@ -179,6 +187,35 @@ begin
   fTEFTXT.AntesGravarRequisicao := lEventoGravarRequisicao;
 
   fModelo := AValue;
+end;
+
+procedure TACBrTEFAPIClassTXT.ConfigurarTEFTXTPayGo;
+begin
+  if not (fTEFTXT is TACBrTEFTXTPayGo) then
+    Exit;
+
+  with TACBrTEFTXTPayGo(fTEFTXT) do
+  begin
+    if (fpACBrTEFAPI.DadosAutomacao.MoedaISO4217 = CMODEDA_USD) then
+      Moeda := 1
+    else if (fpACBrTEFAPI.DadosAutomacao.MoedaISO4217 = CMODEDA_EUR) then
+      Moeda := 2
+    else
+      Moeda := 0;
+
+    Idioma := Integer(fpACBrTEFAPI.DadosAutomacao.Idioma); // 0: Português, 1: Inglês, 2: Espanhol
+    SuportaTroco := fpACBrTEFAPI.DadosAutomacao.SuportaSaque;
+    SuportaDesconto := fpACBrTEFAPI.DadosAutomacao.SuportaDesconto;
+    SuportaViasDiferentes := fpACBrTEFAPI.DadosAutomacao.SuportaViasDiferenciadas;
+    SuportaCupomReduzido := fpACBrTEFAPI.DadosAutomacao.SuportaViasDiferenciadas;
+    UsarCupomReduzido := fpACBrTEFAPI.DadosAutomacao.ImprimeViaClienteReduzida;
+    SuportaReajusteValor := fpACBrTEFAPI.DadosAutomacao.SuportaSaque and fpACBrTEFAPI.DadosAutomacao.SuportaDesconto;
+    NomeAplicacao := fpACBrTEFAPI.DadosAutomacao.NomeAplicacao;
+    VersaoAplicacao := fpACBrTEFAPI.DadosAutomacao.VersaoAplicacao;
+    RegistroCertificacao := fpACBrTEFAPI.DadosAutomacao.ParamAplicacao;
+    SoftwareHouse := fpACBrTEFAPI.DadosAutomacao.NomeSoftwareHouse;
+    DadosAdicionais1 := fpACBrTEFAPI.DadosAutomacao.CNPJSoftwareHouse;
+  end;
 end;
 
 procedure TACBrTEFAPIClassTXT.QuandoGravarLogAPI(const ALogLine: String;  var Tratado: Boolean);
@@ -232,6 +269,7 @@ procedure TACBrTEFAPIClassTXT.InterpretarRespostaAPI;
 begin
   fpACBrTEFAPI.UltimaRespostaTEF.Clear;
   fTEFTXT.Resp.SalvarArquivo(fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.Conteudo);
+  fpACBrTEFAPI.UltimaRespostaTEF.ViaClienteReduzida := fpACBrTEFAPI.DadosAutomacao.ImprimeViaClienteReduzida;
   fpACBrTEFAPI.UltimaRespostaTEF.ConteudoToProperty;
 end;
 
@@ -261,20 +299,73 @@ function TACBrTEFAPIClassTXT.EfetuarPagamento(ValorPagto: Currency;
   Financiamento: TACBrTEFModalidadeFinanciamento; Parcelas: Byte;
   DataPreDatado: TDateTime; DadosAdicionais: String): Boolean;
 var
-  Moeda: Integer;
+  Moeda, tc, tf, fp: Integer;
+  sl: TStringList;
 begin
+  // Gerenciador padrão (original) não preve forma da passar parâmetros:
+  // CartoesAceitos, Financiamento, Parcelas, DataPreDatado
+
+  sl := TStringList.Create;
+  try
+    sl.Text := DadosAdicionais;
+    fTEFTXT.ParamReq.LerArquivo(sl);
+  finally
+    sl.Free
+  end;
+
   if (fpACBrTEFAPI.DadosAutomacao.MoedaISO4217 = CMODEDA_USD) then
     Moeda := 1
   else
     Moeda := 0;
+  if (fTEFTXT is TACBrTEFTXTPayGo) then
+  begin
+    with TACBrTEFTXTPayGo(fTEFTXT) do
+    begin
+      tc := 0;
+      if (teftcCredito in CartoesAceitos) then
+        tc := 1
+      else if (teftcDebito in CartoesAceitos) then
+        tc := 2
+      else if (teftcVoucher in CartoesAceitos) then
+        tc := 3;
 
-  // Gerenciador padrão (original) não preve forma da passar parâmetros:
-  // CartoesAceitos, Financiamento, Parcelas, DataPreDatado
+      case Financiamento of
+        tefmfAVista: tf := 1;
+        tefmfParceladoEmissor: tf := 2;
+        tefmfParceladoEstabelecimento: tf := 3;
+        tefmfPredatado: tf := 4;
+        tefmfCreditoEmissor: tf := 5;
+      else
+        tf := 0;
+      end;
 
-  if (Modalidade = tefmpCheque) then
-    Result := fTEFTXT.CHQ( ValorPagto, fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao)
+      case Modalidade of
+        tefmpCartao: fp := 1;
+        tefmpDinheiro: fp := 2;
+        tefmpCheque: fp := 4;
+        tefmpCarteiraVirtual: fp := 8;
+      else
+        fp := 0;
+      end;
+
+      CRT( ValorPagto,
+           fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao,
+           fpACBrTEFAPI.RespostasTEF.DataHoraIdentificador,
+           tc, tf, fp,
+           'F', ParamReq.Campo[7,0].AsString,  // 007-000 Identificador Cliente
+           Parcelas, DataPreDatado,
+           ParamReq.Campo[727,0].AsFloat,      // 727-000 Taxa de serviço
+           ParamReq.Campo[728,0].AsFloat,      // 728-000 Taxa de embarque
+           ParamReq.Campo[010,0].AsString);    // 010-000 Rede Adquirente
+    end;
+  end
   else
-    Result := fTEFTXT.CRT( ValorPagto, fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao, Moeda);
+  begin
+    if (Modalidade = tefmpCheque) then
+      Result := fTEFTXT.CHQ( ValorPagto, fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao)
+    else
+      Result := fTEFTXT.CRT( ValorPagto, fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao, Moeda);
+  end;
 end;
 
 function TACBrTEFAPIClassTXT.EfetuarAdministrativa(CodOperacaoAdm: TACBrTEFOperacao): Boolean;
@@ -309,6 +400,39 @@ begin
     fTEFTXT.CNF(Rede, NSU, CodigoFinalizacao)
   else
     fTEFTXT.NCN(Rede, NSU, CodigoFinalizacao)
+end;
+
+function TACBrTEFAPIClassTXT.ObterDadoPinPad(TipoDado: TACBrTEFAPIDadoPinPad;
+  TimeOut: Integer; MinLen: SmallInt; MaxLen: SmallInt): String;
+var
+  lCmdExiste: Boolean;
+  tp: Char;
+begin
+  lCmdExiste := False;
+  if (fTEFTXT is TACBrTEFTXTPayGo) then
+  begin
+    with TACBrTEFTXTPayGo(fTEFTXT) do
+    begin
+      lCmdExiste := True;
+      case TipoDado of
+        dpCPF: tp := 'F';
+        dpCNPJ: tp := 'J';
+      else
+        tp := 'X';
+      end;
+
+      Result := CPD(tp);
+    end;
+  end;
+
+  if not lCmdExiste then
+    fpACBrTEFAPI.DoException(Format(ACBrStr(CErroComandoNaoExisteEmTEF), ['CPD', fTEFTXT.ModeloTEF]));
+end;
+
+function TACBrTEFAPIClassTXT.MenuPinPad(const Titulo: String; Opcoes: TStrings;
+  TimeOut: Integer): Integer;
+begin
+  Result := inherited MenuPinPad(Titulo, Opcoes, TimeOut);
 end;
 
 procedure TACBrTEFAPIClassTXT.ResolverTransacaoPendente(
