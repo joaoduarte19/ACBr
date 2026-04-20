@@ -1992,6 +1992,7 @@ begin
   Result := inherited TratarXmlRetornado(aXML);
 
   Result := ParseText(Result);
+  Result := RemoverPrefixosDesnecessarios(Result);
 end;
 
 { TACBrNFSeProviderISSDSF203 }

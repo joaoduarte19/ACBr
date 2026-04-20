@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/04/2026
+-- ISSDSF.Provider --
+[*] ACBr-9250 - Incluído na função TratarXmlRetornado a função para remover os prefixos
+    desnecessários.
+   Por: Italo Giurizzato Junior
 -- ISSDSF.GravarXml/ISSDSF.Provider --
 [*] ACBr-9229 - Alteração visando assinar tanto o RPS quanto o Lote de RPS sem 
     ocorrer erro de assinatura invalida.
