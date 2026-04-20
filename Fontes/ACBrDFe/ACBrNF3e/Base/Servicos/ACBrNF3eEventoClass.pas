@@ -199,6 +199,8 @@ function TInfEvento.getDescEvento: String;
 begin
   case fTpEvento of
     teCancelamento: Result := 'Cancelamento';
+    teVinculoPgto: Result := 'Vinculacao do Pagamento';
+    teCancVinculoPgto: Result := 'Cancelamento da vinculacao do pagamento';
   else
     Result := '';
   end;
@@ -217,6 +219,8 @@ function TInfEvento.DescricaoTipoEvento(TipoEvento: TpcnTpEvento): String;
 begin
   case TipoEvento of
     teCancelamento: Result := 'CANCELAMENTO DE NF3-e';
+    teVinculoPgto: Result := 'Vinculacao do Pagamento';
+    teCancVinculoPgto: Result := 'Cancelamento da vinculacao do pagamento';
   else
     Result := 'Não Definido';
   end;
