@@ -339,6 +339,11 @@ const
   CChaveClientSecretAppLess = 'ClientSecret';
   CChaveSecretKeyHMACAppLess = 'SecretKeyHMAC';
 
+  CSessaoPIXCDQQPagConfig = 'QQPag';
+  CChavePIXQQPag = 'ChavePIX';
+  CChaveClientIDQQPag = 'ClientID';
+  CChaveClientSecretQQPag = 'ClientSecret';
+
 implementation
 
 end.

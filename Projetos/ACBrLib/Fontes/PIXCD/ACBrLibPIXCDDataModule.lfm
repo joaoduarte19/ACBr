@@ -1,8 +1,8 @@
 inherited LibPIXCDDM: TLibPIXCDDM
-  Height = 315
+  Height = 353
   HorizontalOffset = 554
   VerticalOffset = 268
-  Width = 563
+  Width = 623
   object ACBrPixCD1: TACBrPixCD[0]
     Recebedor.CodCategoriaComerciante = 0
     OnQuandoAlterarPSP = ACBrPixCD1QuandoAlterarPSP
@@ -109,5 +109,10 @@ inherited LibPIXCDDM: TLibPIXCDDM
     Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
     Left = 472
     Top = 224
+  end
+  object ACBrPSPQQPag1: TACBrPSPQQPag[20]
+    Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
+    Left = 54
+    Top = 288
   end
 end

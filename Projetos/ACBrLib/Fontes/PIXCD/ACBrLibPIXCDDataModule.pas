@@ -37,12 +37,13 @@ unit ACBrLibPIXCDDataModule;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, ACBrLibComum, ACBrLibDataModule, ACBrPIXCD, ACBrJSON,
-  ACBrPIXPSPBradesco, ACBrPIXPSPItau, ACBrPIXPSPBancoDoBrasil,
+  Classes, SysUtils, FileUtil, ACBrLibComum, ACBrLibDataModule, ACBrPIXCD,
+  ACBrJSON, ACBrPIXPSPBradesco, ACBrPIXPSPItau, ACBrPIXPSPBancoDoBrasil,
   ACBrPIXPSPSantander, ACBrPIXPSPShipay, ACBrPIXPSPSicredi, ACBrPIXPSPSicoob,
   ACBrPIXPSPPagSeguro, ACBrPIXPSPGerenciaNet, ACBrPIXPSPPixPDV, ACBrPIXPSPInter,
   ACBrPIXPSPAilos, ACBrPIXPSPMatera, ACBrPIXPSPCielo, ACBrPIXPSPMercadoPago,
-  ACBrPIXPSPBanrisul, ACBrPIXPSPGate2All, ACBrPIXPSPC6Bank, ACBrPIXPSPAppLess;
+  ACBrPIXPSPBanrisul, ACBrPIXPSPGate2All, ACBrPIXPSPC6Bank, ACBrPIXPSPAppLess,
+  ACBrPIXPSPQQPag;
 
 type
 
@@ -64,7 +65,8 @@ type
                  Gate2All,
                  Banrisul,
                  C6Bank,
-                 AppLess);
+                 AppLess,
+                 QQPag);
 
   { TLibPIXCDDM }
 
@@ -85,6 +87,7 @@ type
     ACBrPSPMercadoPago1: TACBrPSPMercadoPago;
     ACBrPSPPagSeguro1: TACBrPSPPagSeguro;
     ACBrPSPPixPDV1: TACBrPSPPixPDV;
+    ACBrPSPQQPag1: TACBrPSPQQPag;
     ACBrPSPSantander1: TACBrPSPSantander;
     ACBrPSPShipay1: TACBrPSPShipay;
     ACBrPSPSicoob1: TACBrPSPSicoob;
@@ -275,6 +278,7 @@ begin
       Banrisul: ACBrPixCD1.PSP := ACBrPSPBanrisul1;
       C6Bank: ACBrPixCD1.PSP := ACBrPSPC6Bank1;
       AppLess: ACBrPixCD1.PSP := ACBrPSPAppLess1;
+      QQPag: ACBrPixCD1.PSP := ACBrPSPQQPag1;
     end;
 
     with ACBrPixCD1 do
@@ -501,6 +505,13 @@ begin
       ClientID           := pLibPIXCDConfig.PIXCDAppLess.ClientID;
       ClientSecret       := pLibPIXCDConfig.PIXCDAppLess.ClientSecret;
       SecretKeyHMAC      := pLibPIXCDConfig.PIXCDAppLess.SecretKeyHMAC;
+    end;
+
+    with ACBrPSPQQPag1 do
+    begin
+      ChavePIX     := pLibPIXCDConfig.PIXCDQQPag.ChavePIX;
+      ClientID     := pLibPIXCDConfig.PIXCDQQPag.ClientID;
+      ClientSecret := pLibPIXCDConfig.PIXCDQQPag.ClientSecret;
     end;
 
     {$IFDEF Demo}
