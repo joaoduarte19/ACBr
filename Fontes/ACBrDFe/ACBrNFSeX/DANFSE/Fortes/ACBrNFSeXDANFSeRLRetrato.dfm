@@ -13,9 +13,9 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
     Margins.BottomMargin = 8.000000000000000000
     BeforePrint = RLNFSeBeforePrint
     object rlbCabecalho: TRLBand
-      Left = 23
-      Top = 30
-      Width = 752
+      Left = 28
+      Top = 38
+      Width = 940
       Height = 219
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -387,9 +387,9 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
       end
     end
     object rlbPrestador: TRLBand
-      Left = 23
-      Top = 249
-      Width = 752
+      Left = 28
+      Top = 257
+      Width = 940
       Height = 104
       BandType = btTitle
       Borders.Sides = sdCustom
@@ -547,9 +547,9 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
       end
     end
     object rlbTomador: TRLBand
-      Left = 23
-      Top = 353
-      Width = 752
+      Left = 28
+      Top = 361
+      Width = 940
       Height = 102
       BandType = btTitle
       Borders.Sides = sdCustom
@@ -844,9 +844,9 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
       end
     end
     object rlbHeaderItens: TRLBand
-      Left = 23
-      Top = 455
-      Width = 752
+      Left = 28
+      Top = 463
+      Width = 940
       Height = 23
       BandType = btColumnHeader
       Borders.Sides = sdCustom
@@ -871,9 +871,9 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
       end
     end
     object rlbItens: TRLBand
-      Left = 23
-      Top = 498
-      Width = 752
+      Left = 28
+      Top = 506
+      Width = 940
       Height = 18
       Borders.Sides = sdCustom
       Borders.DrawLeft = True
@@ -897,9 +897,9 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
       end
     end
     object rlbISSQN: TRLBand
-      Left = 23
-      Top = 593
-      Width = 752
+      Left = 28
+      Top = 601
+      Width = 940
       Height = 259
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -1843,9 +1843,9 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
       end
     end
     object rbOutrasInformacoes: TRLBand
-      Left = 23
-      Top = 852
-      Width = 752
+      Left = 28
+      Top = 860
+      Width = 940
       Height = 40
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -1886,9 +1886,9 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
       end
     end
     object rlbCanhoto: TRLBand
-      Left = 23
-      Top = 910
-      Width = 752
+      Left = 28
+      Top = 918
+      Width = 940
       Height = 73
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -2049,9 +2049,9 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
       end
     end
     object rlbHeaderItensDetalhado: TRLBand
-      Left = 23
-      Top = 478
-      Width = 752
+      Left = 28
+      Top = 486
+      Width = 940
       Height = 20
       BandType = btColumnHeader
       Borders.Sides = sdCustom
@@ -2147,9 +2147,9 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
       end
     end
     object subItens: TRLSubDetail
-      Left = 23
-      Top = 516
-      Width = 752
+      Left = 28
+      Top = 524
+      Width = 940
       Height = 19
       Borders.Sides = sdCustom
       Borders.DrawLeft = True
@@ -2160,7 +2160,7 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
       object rlbItensServico: TRLBand
         Left = 1
         Top = 0
-        Width = 750
+        Width = 938
         Height = 16
         BeforePrint = rlbItensServicoBeforePrint
         object txtServicoQtde: TRLLabel
@@ -2255,9 +2255,9 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
       end
     end
     object RLBand1: TRLBand
-      Left = 23
-      Top = 892
-      Width = 752
+      Left = 28
+      Top = 900
+      Width = 940
       Height = 18
       BandType = btSummary
       object rllDataHoraImpressao: TRLLabel
@@ -2290,9 +2290,9 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
       end
     end
     object rbCodServico: TRLBand
-      Left = 23
-      Top = 535
-      Width = 752
+      Left = 28
+      Top = 543
+      Width = 940
       Height = 58
       BandType = btSummary
       Borders.Sides = sdCustom

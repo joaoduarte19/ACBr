@@ -3,7 +3,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
   Top = 76
   Caption = 'frlXDANFSeRLPadraoNacional'
   inherited RLNFSe: TRLReport
-    Left = 50
+    Left = 32
     Height = 1403
     Top = 0
     Width = 992
@@ -137,7 +137,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Left = 4
         Height = 17
         Top = 23
-        Width = 380
+        Width = 506
         AutoSize = False
         Font.Color = clBlack
         Font.Height = -12
@@ -1557,9 +1557,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       Borders.DrawBottom = True
       BeforePrint = rlbBanda01_LogosBeforePrint
       object RLLabel74: TRLLabel
-        Left = 264
+        Left = 263
         Height = 19
-        Top = 12
+        Top = 3
         Width = 104
         Alignment = taCenter
         Caption = 'DANFSe v1.0'
@@ -1570,9 +1570,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Transparent = False
       end
       object RLLabel8: TRLLabel
-        Left = 226
+        Left = 219
         Height = 19
-        Top = 40
+        Top = 28
         Width = 222
         Alignment = taCenter
         Caption = 'Documento Auxiliar da NFS-e'
@@ -1607,6 +1607,19 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Behavior = [beSiteExpander]
         Font.Color = clBlack
         Font.Height = -13
+        Font.Name = 'Arial'
+        ParentFont = False
+        Transparent = False
+      end
+      object rlbHomologacao: TRLLabel
+        Left = 210
+        Height = 19
+        Top = 49
+        Width = 240
+        Alignment = taCenter
+        Caption = 'NFS-e emitida em Homologação'
+        Font.Color = clRed
+        Font.Height = -17
         Font.Name = 'Arial'
         ParentFont = False
         Transparent = False
@@ -2308,6 +2321,6 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
   end
   inherited RLPDFFilter1: TRLPDFFilter
     Left = 168
-    Top = 24
+    Top = 16
   end
 end

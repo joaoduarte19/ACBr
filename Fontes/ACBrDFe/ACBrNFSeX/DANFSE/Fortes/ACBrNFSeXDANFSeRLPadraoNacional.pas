@@ -244,6 +244,7 @@ type
     rllTotaisAproxTribMun: TRLLabel;
     RLLabel145: TRLLabel;
     rllValorTotalTribFed: TRLLabel;
+    rlbHomologacao: TRLLabel;
 
     procedure RLNFSeBeforePrint(Sender: TObject; var PrintIt: Boolean);
 
@@ -326,6 +327,8 @@ begin
 
   TDFeReportFortes.CarregarLogo(rliLogoNFSe, fpDANFSe.LogoNFSe);
   TDFeReportFortes.CarregarLogo(rliLogoPref, fpDANFSe.Logo);
+
+  rlbHomologacao.Visible := (fpNFSe.Producao = snNao);
 
   if (fpDANFSe.TamanhoLogoHeight = 0) and (fpDANFSe.TamanhoLogoWidth = 0) then
   begin
@@ -835,14 +838,14 @@ begin
   rlmDadosAdicionais.Lines.Clear;
 
   if fpNFSe.Servico.CodigoNBS <> '' then
-    rlmDadosAdicionais.Lines.Append(ACBrStr('NBS: ') + fpNFSe.Servico.CodigoNBS);
+    rlmDadosAdicionais.Lines.Add(ACBrStr('NBS: ') + fpNFSe.Servico.CodigoNBS);
 
   if fpDANFSe.OutrasInformacaoesImp <> '' then
     rlmDadosAdicionais.Lines.Add(StringReplace(fpDANFSe.OutrasInformacaoesImp,
-                                        FQuebradeLinha, #13#10, [rfReplaceAll]))
-  else
-    if fpNFSe.OutrasInformacoes <> '' then
-      rlmDadosAdicionais.Lines.Add(StringReplace(fpNFSe.OutrasInformacoes,
+                                       FQuebradeLinha, #13#10, [rfReplaceAll]));
+
+  if fpNFSe.OutrasInformacoes <> '' then
+    rlmDadosAdicionais.Lines.Add(StringReplace(fpNFSe.OutrasInformacoes,
                                        FQuebradeLinha, #13#10, [rfReplaceAll]));
 
   if fpNFSe.InformacoesComplementares <> '' then

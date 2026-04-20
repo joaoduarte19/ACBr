@@ -3,10 +3,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
   Top = 76
   Caption = 'frlXDANFSeRLPadraoNacional'
   ClientHeight = 988
-  ClientWidth = 1050
   TextHeight = 13
   inherited RLNFSe: TRLReport
-    Left = 50
+    Left = 32
     Top = 0
     Margins.LeftMargin = 6.000000000000000000
     Margins.TopMargin = 8.000000000000000000
@@ -150,7 +149,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       object rllChaveAcesso: TRLLabel
         Left = 4
         Top = 23
-        Width = 380
+        Width = 506
         Height = 17
         AutoSize = False
         Font.Charset = DEFAULT_CHARSET
@@ -1731,8 +1730,8 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       Borders.DrawBottom = True
       BeforePrint = rlbBanda01_LogosBeforePrint
       object RLLabel74: TRLLabel
-        Left = 264
-        Top = 12
+        Left = 263
+        Top = 3
         Width = 104
         Height = 19
         Alignment = taCenter
@@ -1746,8 +1745,8 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Transparent = False
       end
       object RLLabel8: TRLLabel
-        Left = 226
-        Top = 40
+        Left = 219
+        Top = 28
         Width = 222
         Height = 19
         Alignment = taCenter
@@ -1786,6 +1785,21 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+      end
+      object rlbHomologacao: TRLLabel
+        Left = 210
+        Top = 49
+        Width = 240
+        Height = 19
+        Alignment = taCenter
+        Caption = 'NFS-e emitida em Homologa'#231#227'o'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -17
         Font.Name = 'Arial'
         Font.Style = []
         ParentFont = False

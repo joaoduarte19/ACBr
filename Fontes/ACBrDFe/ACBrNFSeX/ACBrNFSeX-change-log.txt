@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/04/2026
+-- ACBrNFSeXDANFSeRLPadraoNacional --
+[*] Ajuste para imprimir no DANFSE do Padrão Nacional o conteúdo do campo xInfComp.
+    Ajuste para imprimir a chave por inteiro.
+   Por: ML Gonçalves/Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] Ajuste para continuar usando o webservice antigo (ABRASF) do provedor Fiorilli.
    Por: Italo Giurizzato Junior

@@ -848,6 +848,8 @@ begin
     NFSe.cMotivoEmisTI := StrTocMotivoEmisTI(ObterConteudo(AuxNode.Childrens.FindAnyNs('cMotivoEmisTI'), tcStr));
     NFSe.cLocEmi := ObterConteudo(AuxNode.Childrens.FindAnyNs('cLocEmi'), tcStr);
 
+    NFSe.Producao := FpAOwner.StrToSimNao(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpAmb'), tcStr));
+
     LerXMLSubstituicao(AuxNode);
     LerXMLPrestador(AuxNode);
     LerXMLTomador(AuxNode);
