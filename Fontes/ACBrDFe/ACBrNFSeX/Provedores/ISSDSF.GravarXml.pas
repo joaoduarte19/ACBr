@@ -472,6 +472,8 @@ begin
 
   NrOcorrDiscriminacao_2 := 1;
   NrOcorrCodigoMunic_2 := 1;
+
+  GerarNSRps := False;
 end;
 
 end.

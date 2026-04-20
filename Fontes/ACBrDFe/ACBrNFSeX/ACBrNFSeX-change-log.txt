@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/04/2026
+-- ISSDSF.GravarXml/ISSDSF.Provider --
+[*] ACBr-9229 - Alteração visando assinar tanto o RPS quanto o Lote de RPS sem 
+    ocorrer erro de assinatura invalida.
+   Por: Italo Giurizzato Junior
 -- IPM.GravarXml --
 [*] ACBr-9146 - Alteração visando gerar a tag indFinal com os valores corretos.
    Por: Centrodata Sistemas/Italo Giurizzato Junior
