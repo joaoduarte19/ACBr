@@ -2234,9 +2234,14 @@ begin
               end;
             end;
 
-            if (NFe.infNFe.Versao >= 4) and
-              (NFe.Det[i].Imposto.ICMS.vICMSDeson > 0) and
-              (NFe.Det[i].Imposto.ICMS.CST = cstPart20) then
+            if ((
+                (NFe.infNFe.Versao >= 3.1) and
+                (NFe.Det[i].Imposto.ICMS.CST = cst20)
+              ) or (
+                (NFe.infNFe.Versao >= 4) and
+                (NFe.Det[i].Imposto.ICMS.CST = cstPart20)
+              )) and
+              (NFe.Det[i].Imposto.ICMS.vICMSDeson > 0) then
             begin
               xmlNode.AppendChild(AddNode(tcDe2, 'N27a', 'vICMSDeson',
                 01, 15, 1, NFe.Det[i].Imposto.ICMS.vICMSDeson, DSC_VICMSDESON));
