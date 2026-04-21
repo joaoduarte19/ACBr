@@ -301,6 +301,7 @@ implementation
 
 uses
   Math, TypInfo, DateUtils,
+  {$IfDef FPC}ctypes,{$EndIf}
   synacode, synautil,
   ACBrUtil.Base,
   ACBrUtil.Math,
@@ -695,8 +696,8 @@ end;
 function GetThumbPrint( cert: pX509 ): String;
 var
   md_type: PEVP_MD;
-  md_len: LongInt;
   md: AnsiString;
+  md_len: cInt;
 begin
   md_type := EVP_get_digestbyname( 'sha1' );
   md_len  := 0;
