@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+21/04/2026
+-- Conam.GravarXml --
+[-] ACBr-9251 - Correção na geração da tag DestCpgCnpj e ajuste na geração do grupo 
+    de endereço do destinatário.
+   Por: Strategix
+
 20/04/2026
 -- ISSDSF.Provider --
 [*] ACBr-9250 - Incluído na função TratarXmlRetornado a função para remover os prefixos

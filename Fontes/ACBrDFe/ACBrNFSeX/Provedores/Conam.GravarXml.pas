@@ -54,6 +54,7 @@ type
     FValReg30: Double;
     FQtdReg40: Integer;
     FQtdReg50: Integer;
+    FEnder   : TEnder;
   protected
     procedure Configuracao; override;
 
@@ -642,6 +643,8 @@ begin
     // TipoEnd = 3
     Result.AppendChild(GerarXmlItemImovel(NFSe.IBSCBS.imovel));
   end;
+
+  Result.AppendChild(GerarXMLItemEnderecoDestinatario(Fender));
 end;
 
 function TNFSeW_Conam.GerarXmlItemDestinatario(
@@ -685,14 +688,14 @@ begin
     Result.AppendChild(AddNode(tcStr, '#1', 'DestNIF', 1, 40, 1, Dest.Nif, ''))
   else
   if CNPJCPF <> '' then
-    Result := AddNode(tcStr, '#1', 'DestCpfCnpj', 0, 14, 1, CNPJCPF)
+    Result.AppendChild(AddNode(tcStr, '#1', 'DestCpfCnpj', 0, 14, 1, CNPJCPF , ''))
   else
     Result.AppendChild(AddNode(tcStr, '#1', 'DestNaoNIF', 1, 1, 1,
                                                 NaoNIFToStr(Dest.cNaoNIF), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'DestNome', 1, 300, 1, Dest.xNome, ''));
 
-  Result.AppendChild(GerarXMLItemEnderecoDestinatario(Dest.ender));
+  FEnder := Dest.ender;
 end;
 
 function TNFSeW_Conam.GerarXMLItemEnderecoDestinatario(
