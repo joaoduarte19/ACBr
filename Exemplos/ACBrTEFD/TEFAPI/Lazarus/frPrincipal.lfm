@@ -11,7 +11,7 @@ object FormPrincipal: TFormPrincipal
   KeyPreview = True
   ParentFont = True
   Position = poScreenCenter
-  LCLVersion = '4.4.0.0'
+  LCLVersion = '4.6.0.0'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
@@ -39,12 +39,12 @@ object FormPrincipal: TFormPrincipal
       Height = 507
       Top = 0
       Width = 775
-      ActivePage = tsConfiguracao
+      ActivePage = tsOperacao
       Align = alTop
       Constraints.MinHeight = 375
       Images = ImageList1
       TabHeight = 33
-      TabIndex = 0
+      TabIndex = 1
       TabOrder = 0
       object tsConfiguracao: TTabSheet
         Caption = 'Configuração'
@@ -56,11 +56,11 @@ object FormPrincipal: TFormPrincipal
           Height = 428
           Top = 0
           Width = 767
-          ActivePage = tsConfTEF
+          ActivePage = tsConfImpressora
           Align = alClient
           Images = ImageList1
           TabHeight = 33
-          TabIndex = 0
+          TabIndex = 1
           TabOrder = 0
           object tsConfTEF: TTabSheet
             Caption = 'Configuração TEF'
@@ -110,7 +110,7 @@ object FormPrincipal: TFormPrincipal
                     Left = 24
                     Height = 23
                     Top = 14
-                    Width = 212
+                    Width = 224
                     Anchors = [akTop, akLeft, akRight]
                     TabOrder = 0
                     Text = 'PROJETO ACBR'
@@ -118,7 +118,7 @@ object FormPrincipal: TFormPrincipal
                   object Label16: TLabel
                     Left = 24
                     Height = 15
-                    Top = 41
+                    Top = 40
                     Width = 88
                     Caption = 'Nome Aplicação'
                     ParentColor = False
@@ -126,27 +126,25 @@ object FormPrincipal: TFormPrincipal
                   object edNomeAplicacao: TEdit
                     Left = 24
                     Height = 23
-                    Top = 57
-                    Width = 212
-                    Anchors = [akTop, akLeft, akRight]
+                    Top = 56
+                    Width = 109
                     TabOrder = 2
                     Text = 'TEFAPIDemo'
                   end
                   object Label19: TLabel
-                    Left = 260
+                    Left = 141
                     Height = 15
-                    Top = 41
+                    Top = 40
                     Width = 34
                     Anchors = [akTop, akRight]
                     Caption = 'Versão'
                     ParentColor = False
                   end
                   object edVersaoAplicacao: TEdit
-                    Left = 260
+                    Left = 141
                     Height = 23
-                    Top = 57
-                    Width = 141
-                    Anchors = [akTop, akRight]
+                    Top = 56
+                    Width = 63
                     TabOrder = 3
                     Text = '1.0'
                   end
@@ -179,10 +177,75 @@ object FormPrincipal: TFormPrincipal
                     Left = 24
                     Height = 23
                     Top = 102
-                    Width = 377
+                    Width = 224
                     Anchors = [akTop, akLeft, akRight]
                     TabOrder = 4
                     Text = 'TEF ACBR.  SEJA NOSSO PARCEIRO'
+                  end
+                  object cbxIdioma: TComboBox
+                    Left = 212
+                    Height = 23
+                    Top = 56
+                    Width = 89
+                    ItemHeight = 15
+                    ItemIndex = 0
+                    Items.Strings = (
+                      'Português'
+                      'Inglês'
+                      'Espanhol'
+                    )
+                    Style = csDropDownList
+                    TabOrder = 5
+                    Text = 'Português'
+                  end
+                  object Label45: TLabel
+                    Left = 212
+                    Height = 15
+                    Top = 40
+                    Width = 37
+                    Caption = 'Idioma'
+                    ParentColor = False
+                  end
+                  object Label46: TLabel
+                    Left = 310
+                    Height = 15
+                    Top = 40
+                    Width = 37
+                    Caption = 'Moeda'
+                    ParentColor = False
+                  end
+                  object cbxMoeda: TComboBox
+                    Left = 310
+                    Height = 23
+                    Top = 56
+                    Width = 91
+                    Anchors = [akTop, akLeft, akRight]
+                    ItemHeight = 15
+                    ItemIndex = 0
+                    Items.Strings = (
+                      'REAL - 986'
+                      'DOLAR - 840'
+                      'EURO - 978'
+                    )
+                    Style = csDropDownList
+                    TabOrder = 6
+                    Text = 'REAL - 986'
+                  end
+                  object Label47: TLabel
+                    Left = 260
+                    Height = 15
+                    Top = 86
+                    Width = 115
+                    Caption = 'Parâmetros Aplicação'
+                    ParentColor = False
+                  end
+                  object edParamAplic: TEdit
+                    Left = 260
+                    Height = 23
+                    Top = 102
+                    Width = 141
+                    Anchors = [akTop, akLeft, akRight]
+                    TabOrder = 7
                   end
                 end
                 object gbDadosTerminal: TGroupBox
@@ -1409,7 +1472,7 @@ object FormPrincipal: TFormPrincipal
                 object Label36: TLabel
                   Left = 544
                   Height = 15
-                  Top = 1
+                  Top = -33
                   Width = 91
                   Caption = 'Dados Adicionais'
                   ParentColor = False
@@ -1661,8 +1724,8 @@ object FormPrincipal: TFormPrincipal
       BevelInner = bvLowered
       BevelWidth = 2
       BorderStyle = bsSingle
-      ClientHeight = 189
-      ClientWidth = 326
+      ClientHeight = 193
+      ClientWidth = 330
       Font.Height = -16
       Font.Style = [fsBold]
       ParentFont = False
