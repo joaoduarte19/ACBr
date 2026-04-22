@@ -555,6 +555,7 @@ begin
   cdsPrestador.FieldDefs.Add('CodigoPais', ftString, 4);
   cdsPrestador.FieldDefs.Add('Telefone', ftString, 15);
   cdsPrestador.FieldDefs.Add('Email', ftString, 60);
+  cdsPrestador.FieldDefs.Add('RegimeApuracao', ftString, 35);
 
   cdsPrestador.CreateDataSet;
 
@@ -611,7 +612,7 @@ begin
   cdsServicos.FieldDefs.Add('FonteCargaTributaria', ftString, 10);
 
   //Padrao Nacional
-  cdsServicos.FieldDefs.Add('tribISSQN', ftString, 1);
+  cdsServicos.FieldDefs.Add('tribISSQN', ftString, 25);
   cdsServicos.FieldDefs.Add('tpRetISSQN', ftString, 1);
   cdsServicos.FieldDefs.Add('CST', ftString, 2);
   cdsServicos.FieldDefs.Add('vBCPisCofins', ftCurrency);
@@ -861,6 +862,7 @@ begin
   frxPrestador.FieldAliases.Add('CodigoPais=CodigoPais');
   frxPrestador.FieldAliases.Add('Telefone=Telefone');
   frxPrestador.FieldAliases.Add('Email=Email');
+  frxPrestador.FieldAliases.Add('RegimeApuracao=RegimeApuracao');
   frxPrestador.DataSet := cdsPrestador;
   frxPrestador.BCDToCurrency := false;
 
@@ -1238,6 +1240,7 @@ var
   LMunicipio, LUF   : string;
   LDadosServico     : TDadosServico;
   LCDS              : TACBrFRDataSet;
+  LRegimeEspecialTributacao :string;
 begin
   FProvider := TACBrNFSeX(FACBrNFSe).Provider;
   LCDS := cdsParametros;
@@ -1254,8 +1257,15 @@ begin
     FProvider.NaturezaOperacaoDescricao(ANFSe.NaturezaOperacao);
   LCDS.FieldByName('RegimeEspecialTributacao').AsString :=
     FProvider.RegimeEspecialTributacaoDescricao(ANFSe.RegimeEspecialTributacao);
-  LCDS.FieldByName('OptanteSimplesNacional').AsString :=
-    FProvider.SimNaoDescricao(ANFSe.OptanteSimplesNacional);
+  case ANFSe.OptanteSN of
+    osnNaoOptante:
+      LCDS.FieldByName('OptanteSimplesNacional').AsString :=  'Não Optante';
+    osnOptanteMEI:
+      LCDS.FieldByName('OptanteSimplesNacional').AsString :=  'Optante - Microempreendedor Individual (MEI)';
+  else
+    // osnOptanteMEEPP
+    LCDS.FieldByName('OptanteSimplesNacional').AsString :=  'Optante - MicroEmpresa EPP';
+  end;
   LCDS.FieldByName('IncentivadorCultural').AsString :=
     FProvider.SimNaoDescricao(ANFSe.IncentivadorCultural);
   LCDS.FieldByName('CodigoMunicipio').AsString :=
@@ -1405,6 +1415,21 @@ begin
   LConfiguracaoNFSE :=
     TACBrNFSeX(DANFSeXClassOwner.ACBrNFSe).Configuracoes.Geral;
 
+  if ANFSe.OptanteSN = osnOptanteMEEPP then
+  begin
+    case ANFSe.RegimeApuracaoSN of
+      raFederaisMunicipalpeloSN:
+        LCDS.FieldByName('RegimeApuracao').AsString := 'Federais e Municipal pelo SN';
+      raFederaisSN:
+        LCDS.FieldByName('RegimeApuracao').AsString := 'Federais pelo SN';
+    else
+      // raFederaisMunicipalforaSN
+      LCDS.FieldByName('RegimeApuracao').AsString := 'Federais e Municipal fora SN';
+    end;
+  end
+  else
+    LCDS.FieldByName('RegimeApuracao').AsString := '-';
+
   if LConfiguracaoNFSE.Emitente.DadosEmitente.Endereco <> EmptyStr then
   begin
     LCDS.FieldByName('RazaoSocial').AsString :=
@@ -1490,7 +1515,7 @@ begin
     TACBrNFSeX(DANFSeXClassOwner.ACBrNFSe).Provider.ConfigGeral.QuebradeLinha,
     #13,
     [rfReplaceAll, rfIgnoreCase]);
-  LCDS.FieldByName('CodigoPais').AsString := IntToStr(LServico.CodigoPais);
+  LCDS.FieldByName('CodigoPais').AsString := CodIBGEPaisToDescricao(ANFSe.Servico.CodigoPais);
   LCDS.FieldByName('NumeroProcesso').AsString := LServico.NumeroProcesso;
   LCDS.FieldByName('Descricao').AsString := LServico.Descricao;
   LCDS.FieldByName('ResponsavelRetencao').AsString :=
@@ -1562,8 +1587,17 @@ begin
   end;
 
   //Padrao Nacional
-  LCDS.FieldByName('tribISSQN').AsString :=
-    tribISSQNToStr(LValores.tribMun.tribISSQN);
+  case ANFSe.Servico.Valores.tribMun.tribISSQN of
+    tiOperacaoTributavel:
+      LCDS.FieldByName('tribISSQN').AsString := 'Operação Tributável';
+    tiImunidade:
+      LCDS.FieldByName('tribISSQN').AsString := 'Imunidade';
+    tiExportacao:
+      LCDS.FieldByName('tribISSQN').AsString := 'Exportação';
+  else
+    // tiNaoIncidencia
+    LCDS.FieldByName('tribISSQN').AsString := 'Não Incidência';
+  end;
   LCDS.FieldByName('tpRetISSQN').AsString :=
     tpRetISSQNToStr(LValores.tribMun.tpRetISSQN);
   LCDS.FieldByName('CST').AsString := CSTToStr(LValores.tribFed.CST);
