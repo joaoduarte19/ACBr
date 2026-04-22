@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/04/2026
+
+-- ACBrNFSeXServicos.ini
+[*] Altera provedor de Tres de Maio/RS
+
+   Por: doszapro
+   
 -- ACBrNFSeXServicos.ini
 [*] Altera a URL de produção de Itapeva/MG
    Por: Italo Giurizzato Junior
@@ -51,6 +57,7 @@ Símbolo : Significado
    Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos.ini
 [*] Altera a URL  de produção de São Valentim do Sul/RS
+
    Por: doszapro
 
 21/04/2026
