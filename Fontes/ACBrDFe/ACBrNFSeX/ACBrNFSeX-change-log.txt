@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/04/2026
+-- ACBrNFSeXConversao --
+[*] Incluído os enumerarios: fnfsCredito e fnfsDebito para o tipo TfinNFSe.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos.ini
 [*] Altera a URL  de produção de São Valentim do Sul/RS
    Por: doszapro

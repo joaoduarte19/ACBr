@@ -668,10 +668,10 @@ const
 // Reforma Tributária
 
 type
-  TfinNFSe = (fnfsRegular);
+  TfinNFSe = (fnfsRegular, fnfsCredito, fnfsDebito);
 
 const
-  TfinNFSeArrayStrings: array[TfinNFSe] of string = ('0');
+  TfinNFSeArrayStrings: array[TfinNFSe] of string = ('0', '1', '2');
 
 type
   TindFinal = (ifSim, ifNao);
