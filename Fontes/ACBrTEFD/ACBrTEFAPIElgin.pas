@@ -51,6 +51,7 @@ type
     fTEFElginAPI: TACBrTEFElginAPI;
     fInFluxoAPI: Boolean;
     fConfirmaColeta: Boolean;
+    fComunicacaoPOS: Boolean;
     fSequencial: String;
     fCancelarColeta: String;
     fModPagamento: TACBrTEFModalidadePagamento;
@@ -104,7 +105,8 @@ type
 
 //  procedure ResolverTransacaoPendente(AStatus: TACBrTEFStatusTransacao = tefstsSucessoManual); override;
 //  procedure ExibirMensagemPinPad(const MsgPinPad: String); override;
-    property ConfirmaColeta: boolean read fConfirmaColeta write fConfirmaColeta;
+    property ConfirmaColeta: boolean read fConfirmaColeta write fConfirmaColeta default False;
+    property ComunicacaoPOS: Boolean read fComunicacaoPOS write fComunicacaoPOS default False;
   end;
 
 implementation
@@ -120,6 +122,8 @@ begin
   inherited;
   fpTEFRespClass := TACBrTEFRespElgin;
   fTEFElginAPI := TACBrTEFElginAPI.Create(fpACBrTEFAPI);
+  fConfirmaColeta := False;
+  fComunicacaoPOS := False;
 end;
 
 destructor TACBrTEFAPIClassElgin.Destroy;
@@ -584,8 +588,6 @@ begin
     CartaoAceito := teftcNAoDefinido;
 
   case CartaoAceito of
-    teftcNaoDefinido, teftcOutros:
-      CartaoInt := 0; // Pgto --> Perguntar tipo do cartao
     teftcCredito:
       CartaoInt := 1; // Pgto --> Cartao de credito
     teftcDebito:
@@ -596,8 +598,13 @@ begin
       CartaoInt := 4; // Pgto --> Frota (debito)
     teftcPrivateLabel:
       CartaoInt := 5; // Pgto --> Private label (credito)
+  else
+    CartaoInt := 0; // Pgto --> Perguntar tipo do cartao
   end;
 
+  if fComunicacaoPOS then
+    CartaoInt := CartaoInt + 40;
+    
   try
     fModPagamento := Modalidade;
     sValor := CurrToStrF(ValorPagto, ffCurrency, 2);
