@@ -281,12 +281,25 @@ begin
     if (NumeroTerminal = '') then
       fpACBrTEFAPI.DoException(ACBrStr(sErroCliSiTef_SemTerminal));
   end
-  else  // homologação
+  else  // homologação ou NãoDefinido
   begin
-    fpACBrTEFAPI.GravarLog( 'Ajustando Loja e Terminal para ambiente de homologacao') ;
-    EnderecoIP := IfEmptyThen(EnderecoIP, CURL_LOCALHOST);
-    CodLoja := IfEmptyThen(CodLoja, '00000000' );
-    NumeroTerminal := IfEmptyThen(NumeroTerminal, 'SE000001');
+    if (EnderecoIP = '') then
+    begin
+      fpACBrTEFAPI.GravarLog( 'Ajustando IP para: '+CURL_LOCALHOST);
+      EnderecoIP := CURL_LOCALHOST;
+    end;
+
+    if (CodLoja = '') then
+    begin
+      fpACBrTEFAPI.GravarLog( 'Ajustando CodLoja para: 00000000');
+      CodLoja := '00000000';
+    end;
+
+    if (NumeroTerminal = '') then
+    begin
+      fpACBrTEFAPI.GravarLog( 'Ajustando NumeroTerminal para: SE000001');
+      NumeroTerminal := 'SE000001';
+    end;
   end;
 
   // Poderiamos ajustar o Diretorio de trabalho na Clisitef.ini,
