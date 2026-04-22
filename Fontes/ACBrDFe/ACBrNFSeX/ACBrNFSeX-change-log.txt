@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+22/04/2026
+-- ACBrNFSeXServicos.ini
+[*] Altera a URL  de produção de São Valentim do Sul/RS
+   Por: doszapro
+
 21/04/2026
 -- Conam.GravarXml --
 [-] ACBr-9251 - Correção na geração da tag DestCpgCnpj e ajuste na geração do grupo 
