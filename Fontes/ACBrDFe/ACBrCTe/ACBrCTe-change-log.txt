@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+22/04/2026
+-- ACBrCTe.XmlReader --
+[-] A tag tpNav não é obrigatório no XML e estava causando problema de conversão.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/91908-erro-ao-carregar-xml-cte/ 
+
 15/04/2026
 -- Diversos --
 [*] ACBr-9136: Ajustes para o envio dos eventos de Vinculação de Pagamento e 

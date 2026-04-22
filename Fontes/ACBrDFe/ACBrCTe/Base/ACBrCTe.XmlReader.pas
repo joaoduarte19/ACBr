@@ -226,6 +226,7 @@ var
   infDocND: TACBrXmlNode;
   balsaArr, detContArr, lacreArr, infArr: TACBrXmlNodeArray;
   i, j: Integer;
+  lAux: String;
 begin
   if not Assigned(ANode) then exit;
 
@@ -239,7 +240,10 @@ begin
   aquav.prtEmb := ObterConteudo(ANode.Childrens.FindAnyNs('prtEmb'), tcStr);
   aquav.prtTrans := ObterConteudo(ANode.Childrens.FindAnyNs('prtTrans'), tcStr);
   aquav.prtDest := ObterConteudo(ANode.Childrens.FindAnyNs('prtDest'), tcStr);
-  aquav.tpNav := StrToTpNavegacao(ObterConteudo(ANode.Childrens.FindAnyNs('tpNav'), tcStr));
+  lAux := '';
+  lAux := ObterConteudo(ANode.Childrens.FindAnyNs('tpNav'), tcStr);
+  if lAux <> '' then
+    aquav.tpNav := StrToTpNavegacao(lAux);
   aquav.irin := ObterConteudo(ANode.Childrens.FindAnyNs('irin'), tcStr);
 
   aquav.balsa.Clear;
