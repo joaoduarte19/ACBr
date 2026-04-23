@@ -42,14 +42,17 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+23/04/2026
+-- WebISS.GravarXml --
+[*] ACBr-9252 - Alteração na procedure Configuração para identificar mudança na formatação
+    do ItemListaServico
+   Por: SupraMAIS
+
 22/04/2026
-
--- ACBrNFSeXServicos.ini
+-- ACBrNFSeXServicos.ini --
 [*] Altera provedor de Tres de Maio/RS
-
    Por: doszapro
-   
--- ACBrNFSeXServicos.ini
 [*] Altera a URL de produção de Itapeva/MG
    Por: Italo Giurizzato Junior
 -- ACBrNFSeXConversao --

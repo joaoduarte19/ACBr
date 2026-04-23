@@ -94,6 +94,9 @@ begin
 
   FormatoItemListaServico := filsSemFormatacao;
 
+  if FpAOwner.ConfigGeral.Params.TemParametro('FormatarItemServicoNaoSeAplica') then
+    FormatoItemListaServico := filsNaoSeAplica;
+
   NrOcorrCodigoPaisServico := 0;
 
   NrOcorrCodigoPaisTomador := -1;
