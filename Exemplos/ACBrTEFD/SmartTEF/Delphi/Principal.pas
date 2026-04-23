@@ -42,7 +42,7 @@ uses
   StdCtrls, Buttons, Spin, ExtDlgs,
   ACBrTEFSmartTEFInterface,
   ACBrTEFSmartTEFSchemas,
-  ACBrTEFSmartTEFAPI, ImgList
+  ACBrTEFSmartTEFAPI, ImgList, ACBrBase, ACBrSocket, System.ImageList
   {$IfDef FPC}
   , DateTimePicker
   {$EndIf};
@@ -86,6 +86,8 @@ type
     cbOrdemPagamentoCriarTipoPagamento: TComboBox;
     edPoolingConsultarData: TDateTimePicker;
     edConfigSmartTEFJWTToken: TEdit;
+    edConfigSmartTEFJWTTokenLoja: TEdit;
+    lbConfigSmartTEFJWTTokenLoja: TLabel;
     edConfigProxyHost: TEdit;
     edConfigProxySenha: TEdit;
     edConfigProxyUsuario: TEdit;
@@ -762,6 +764,7 @@ begin
     edConfigSmartTEFCNPJIntegrador.Text := wIni.ReadString('SmartTEF', 'CNPJIntegrador', '');
     edConfigSmartTEFTokenIntegrador.Text := wIni.ReadString('SmartTEF', 'TokenIntegrador', '');
     edConfigSmartTEFJWTToken.Text := wIni.ReadString('SmartTEF', 'JWTToken', '');
+    edConfigSmartTEFJWTTokenLoja.Text := wIni.ReadString('SmartTEF', 'JWTTokenLoja', '');
 
     edConfigProxyHost.Text := wIni.ReadString('Proxy', 'Host', '');
     edConfigProxyPorta.Text := wIni.ReadString('Proxy', 'Porta', '');
@@ -789,6 +792,7 @@ begin
     wIni.WriteString('SmartTEF', 'CNPJIntegrador', edConfigSmartTEFCNPJIntegrador.Text);
     wIni.WriteString('SmartTEF', 'TokenIntegrador', edConfigSmartTEFTokenIntegrador.Text);
     wIni.WriteString('SmartTEF', 'JWTToken', edConfigSmartTEFJWTToken.Text);
+    wIni.WriteString('SmartTEF', 'JWTTokenLoja', edConfigSmartTEFJWTTokenLoja.Text);
 
     wIni.WriteString('Proxy', 'Host', edConfigProxyHost.Text);
     wIni.WriteString('Proxy', 'Porta', edConfigProxyPorta.Text);
@@ -813,6 +817,7 @@ begin
   ACBrSmartTEF.CNPJIntegrador := edConfigSmartTEFCNPJIntegrador.Text;
   ACBrSmartTEF.GWTokenIntegrador := edConfigSmartTEFTokenIntegrador.Text;
   ACBrSmartTEF.JWTTokenIntegrador := edConfigSmartTEFJWTToken.Text;
+  ACBrSmartTEF.JWTTokenLoja := edConfigSmartTEFJWTTokenLoja.Text;
 
   ACBrSmartTEF.ProxyHost := edConfigProxyHost.Text;
   ACBrSmartTEF.ProxyPort := edConfigProxyPorta.Text;

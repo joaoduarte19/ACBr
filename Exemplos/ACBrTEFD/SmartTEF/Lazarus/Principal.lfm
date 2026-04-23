@@ -1,16 +1,16 @@
 object frPrincipal: TfrPrincipal
   Left = 503
-  Height = 564
+  Height = 643
   Top = 199
   Width = 967
   Caption = 'SmartTEF Teste'
-  ClientHeight = 564
+  ClientHeight = 643
   ClientWidth = 967
+  LCLVersion = '4.6.0.0'
   OnCreate = FormCreate
-  LCLVersion = '3.6.0.0'
   object pcPrincipal: TPageControl
     Left = 0
-    Height = 533
+    Height = 612
     Top = 0
     Width = 967
     ActivePage = tsEndpoints
@@ -22,23 +22,23 @@ object frPrincipal: TfrPrincipal
     TabWidth = 300
     object tsEndpoints: TTabSheet
       Caption = 'Endpoints'
-      ClientHeight = 495
+      ClientHeight = 574
       ClientWidth = 959
       ImageIndex = 14
       object pnEndpointsLog: TPanel
         Left = 596
-        Height = 495
+        Height = 574
         Top = 0
         Width = 363
         Align = alRight
         BevelOuter = bvNone
-        ClientHeight = 495
+        ClientHeight = 574
         ClientWidth = 363
         ParentBackground = False
         TabOrder = 0
         object mmEndpointsLog: TMemo
           Left = 3
-          Height = 443
+          Height = 522
           Top = 18
           Width = 357
           Align = alClient
@@ -59,7 +59,7 @@ object frPrincipal: TfrPrincipal
         object pnEndpointsLogRodape: TPanel
           Left = 0
           Height = 31
-          Top = 464
+          Top = 543
           Width = 363
           Align = alBottom
           BevelOuter = bvNone
@@ -77,14 +77,14 @@ object frPrincipal: TfrPrincipal
             Caption = 'Limpar'
             Images = ImageList1
             ImageIndex = 18
-            OnClick = btEndpointsLogLimparClick
             TabOrder = 0
+            OnClick = btEndpointsLogLimparClick
           end
         end
       end
       object Splitter1: TSplitter
         Left = 591
-        Height = 495
+        Height = 574
         Top = 0
         Width = 5
         Align = alRight
@@ -92,24 +92,24 @@ object frPrincipal: TfrPrincipal
       end
       object pcEndpoints: TPageControl
         Left = 0
-        Height = 495
+        Height = 574
         Top = 0
         Width = 591
-        ActivePage = tsERP
+        ActivePage = tsIntegrador
         Align = alClient
         Images = ImageList1
         TabHeight = 30
-        TabIndex = 1
+        TabIndex = 0
         TabOrder = 2
         TabWidth = 150
         object tsIntegrador: TTabSheet
           Caption = 'Integrador'
-          ClientHeight = 457
+          ClientHeight = 536
           ClientWidth = 583
           ImageIndex = 30
           object pcIntegrador: TPageControl
             Left = 0
-            Height = 457
+            Height = 536
             Top = 0
             Width = 583
             ActivePage = tsIntegradorCriarLoja
@@ -120,16 +120,16 @@ object frPrincipal: TfrPrincipal
             TabWidth = 146
             object tsIntegradorCriarLoja: TTabSheet
               Caption = 'Criar Loja'
-              ClientHeight = 419
+              ClientHeight = 498
               ClientWidth = 575
               object pnIntegradorCriarLoja: TPanel
                 Left = 0
-                Height = 419
+                Height = 498
                 Top = 0
                 Width = 575
                 Align = alClient
                 BevelOuter = bvNone
-                ClientHeight = 419
+                ClientHeight = 498
                 ClientWidth = 575
                 ParentBackground = False
                 TabOrder = 0
@@ -248,12 +248,12 @@ object frPrincipal: TfrPrincipal
         end
         object tsERP: TTabSheet
           Caption = 'ERPs'
-          ClientHeight = 457
+          ClientHeight = 536
           ClientWidth = 583
           ImageIndex = 23
           object pcERP: TPageControl
             Left = 0
-            Height = 457
+            Height = 536
             Top = 0
             Width = 583
             ActivePage = tsOrdemPagamento
@@ -264,11 +264,11 @@ object frPrincipal: TfrPrincipal
             TabWidth = 143
             object tsOrdemPagamento: TTabSheet
               Caption = 'Ordens de Pagamento'
-              ClientHeight = 419
+              ClientHeight = 498
               ClientWidth = 575
               object pcOrdemPagamento: TPageControl
                 Left = 0
-                Height = 419
+                Height = 498
                 Top = 0
                 Width = 575
                 ActivePage = tsOrdemPagamentoCriar
@@ -279,16 +279,16 @@ object frPrincipal: TfrPrincipal
                 TabWidth = 139
                 object tsOrdemPagamentoCriar: TTabSheet
                   Caption = 'Criar'
-                  ClientHeight = 381
+                  ClientHeight = 460
                   ClientWidth = 567
                   object pnOrdemPagamentoCriar: TPanel
                     Left = 0
-                    Height = 381
+                    Height = 460
                     Top = 0
                     Width = 567
                     Align = alClient
                     BevelOuter = bvNone
-                    ClientHeight = 381
+                    ClientHeight = 460
                     ClientWidth = 567
                     ParentBackground = False
                     TabOrder = 0
@@ -341,8 +341,8 @@ object frPrincipal: TfrPrincipal
                       Caption = 'Criar'
                       Images = ImageList1
                       ImageIndex = 16
-                      OnClick = btOrdemPagamentoCriarClick
                       TabOrder = 10
+                      OnClick = btOrdemPagamentoCriarClick
                     end
                     object edOrdemPagamentoCriarValor: TEdit
                       Left = 427
@@ -367,7 +367,7 @@ object frPrincipal: TfrPrincipal
                       Left = 156
                       Height = 15
                       Top = 20
-                      Width = 87
+                      Width = 88
                       Caption = 'Tipo Pagamento'
                       ParentColor = False
                     end
@@ -423,7 +423,7 @@ object frPrincipal: TfrPrincipal
                       Height = 15
                       Hint = 'Tipo de juros em pagamento de Crédito, podendo ser:'#13#10'- F_STORE - é o padrão e a loja paga os juros do'#13#10'parcelamento;'#13#10'- F_CLIENT - e o cliente que paga.'
                       Top = 70
-                      Width = 53
+                      Width = 54
                       Caption = 'Tipo Juros'
                       ParentColor = False
                     end
@@ -440,7 +440,7 @@ object frPrincipal: TfrPrincipal
                       Left = 20
                       Height = 15
                       Top = 70
-                      Width = 63
+                      Width = 64
                       Caption = 'Tipo Ordem'
                       ParentColor = False
                     end
@@ -514,7 +514,7 @@ object frPrincipal: TfrPrincipal
                       Height = 19
                       Hint = 'Caso a opção seja false, não será exibido tela'
                       Top = 128
-                      Width = 95
+                      Width = 94
                       Caption = 'Exibir Detalhes'
                       TabOrder = 8
                       OnChange = cbOrdemPagamentoCriarDetalhesChange
@@ -523,16 +523,16 @@ object frPrincipal: TfrPrincipal
                 end
                 object tsOrdemPagamentoConsultar: TTabSheet
                   Caption = 'Consultar'
-                  ClientHeight = 381
+                  ClientHeight = 460
                   ClientWidth = 567
                   object pnOrdemPagamentoConsultar: TPanel
                     Left = 0
-                    Height = 381
+                    Height = 460
                     Top = 0
                     Width = 567
                     Align = alClient
                     BevelOuter = bvNone
-                    ClientHeight = 381
+                    ClientHeight = 460
                     ClientWidth = 567
                     ParentBackground = False
                     TabOrder = 0
@@ -576,23 +576,23 @@ object frPrincipal: TfrPrincipal
                       Caption = 'Consultar'
                       Images = ImageList1
                       ImageIndex = 8
-                      OnClick = btOrdemPagamentoConsultarClick
                       TabOrder = 2
+                      OnClick = btOrdemPagamentoConsultarClick
                     end
                   end
                 end
                 object tsOrdemPagamentoCancelar: TTabSheet
                   Caption = 'Cancelar'
-                  ClientHeight = 381
+                  ClientHeight = 460
                   ClientWidth = 567
                   object pnOrdemPagamentoCancelar: TPanel
                     Left = 0
-                    Height = 381
+                    Height = 460
                     Top = 0
                     Width = 567
                     Align = alClient
                     BevelOuter = bvNone
-                    ClientHeight = 381
+                    ClientHeight = 460
                     ClientWidth = 567
                     ParentBackground = False
                     TabOrder = 0
@@ -620,23 +620,23 @@ object frPrincipal: TfrPrincipal
                       Caption = 'Cancelar'
                       Images = ImageList1
                       ImageIndex = 17
-                      OnClick = btOrdemPagamentoCancelarClick
                       TabOrder = 1
+                      OnClick = btOrdemPagamentoCancelarClick
                     end
                   end
                 end
                 object tsOrdemPagamentoEstornar: TTabSheet
                   Caption = 'Estornar'
-                  ClientHeight = 381
+                  ClientHeight = 460
                   ClientWidth = 567
                   object pnOrdemPagamentoEstornar: TPanel
                     Left = 0
-                    Height = 381
+                    Height = 460
                     Top = 0
                     Width = 567
                     Align = alClient
                     BevelOuter = bvNone
-                    ClientHeight = 381
+                    ClientHeight = 460
                     ClientWidth = 567
                     ParentBackground = False
                     TabOrder = 0
@@ -664,8 +664,8 @@ object frPrincipal: TfrPrincipal
                       Caption = 'Estornar'
                       Images = ImageList1
                       ImageIndex = 12
-                      OnClick = btOrdemPagamentoEstornarClick
                       TabOrder = 1
+                      OnClick = btOrdemPagamentoEstornarClick
                     end
                   end
                 end
@@ -673,11 +673,11 @@ object frPrincipal: TfrPrincipal
             end
             object tsOrdemImpressao: TTabSheet
               Caption = 'Ordens de Impressão'
-              ClientHeight = 419
+              ClientHeight = 498
               ClientWidth = 575
               object pcOrdemImpressao: TPageControl
                 Left = 0
-                Height = 419
+                Height = 498
                 Top = 0
                 Width = 575
                 ActivePage = tsOrdemImpressaoCriar
@@ -688,16 +688,16 @@ object frPrincipal: TfrPrincipal
                 TabWidth = 139
                 object tsOrdemImpressaoCriar: TTabSheet
                   Caption = 'Criar'
-                  ClientHeight = 381
+                  ClientHeight = 460
                   ClientWidth = 567
                   object pnOrdemImpressaoCriar: TPanel
                     Left = 0
-                    Height = 381
+                    Height = 460
                     Top = 0
                     Width = 567
                     Align = alClient
                     BevelOuter = bvNone
-                    ClientHeight = 381
+                    ClientHeight = 460
                     ClientWidth = 567
                     ParentBackground = False
                     TabOrder = 0
@@ -741,8 +741,8 @@ object frPrincipal: TfrPrincipal
                       Caption = 'Criar'
                       Images = ImageList1
                       ImageIndex = 16
-                      OnClick = btOrdemImpressaoCriarClick
                       TabOrder = 5
+                      OnClick = btOrdemImpressaoCriarClick
                     end
                     object cbOrdemImpressaoCriarTipoOrdem: TComboBox
                       Left = 20
@@ -757,7 +757,7 @@ object frPrincipal: TfrPrincipal
                       Left = 20
                       Height = 15
                       Top = 20
-                      Width = 63
+                      Width = 64
                       Caption = 'Tipo Ordem'
                       ParentColor = False
                     end
@@ -789,10 +789,10 @@ object frPrincipal: TfrPrincipal
                       Font.Name = 'MS Sans Serif'
                       Images = ImageList1
                       ImageIndex = 9
-                      OnClick = btOrdemImpressaoCriarArquivoClick
                       ShowHint = True
                       ParentFont = False
                       ParentShowHint = False
+                      OnClick = btOrdemImpressaoCriarArquivoClick
                     end
                     object edOrdemImpressaoCriarPrintId: TEdit
                       Left = 156
@@ -812,16 +812,16 @@ object frPrincipal: TfrPrincipal
                 end
                 object tsOrdemImpressaoConsultar: TTabSheet
                   Caption = 'Consultar'
-                  ClientHeight = 381
+                  ClientHeight = 460
                   ClientWidth = 567
                   object pnOrdemImpressaoConsultar: TPanel
                     Left = 0
-                    Height = 381
+                    Height = 460
                     Top = 0
                     Width = 567
                     Align = alClient
                     BevelOuter = bvNone
-                    ClientHeight = 381
+                    ClientHeight = 460
                     ClientWidth = 567
                     ParentBackground = False
                     TabOrder = 0
@@ -849,23 +849,23 @@ object frPrincipal: TfrPrincipal
                       Caption = 'Consultar'
                       Images = ImageList1
                       ImageIndex = 8
-                      OnClick = btOrdemImpressaoConsultarClick
                       TabOrder = 1
+                      OnClick = btOrdemImpressaoConsultarClick
                     end
                   end
                 end
                 object tsOrdemImpressaoCancelar: TTabSheet
                   Caption = 'Cancelar'
-                  ClientHeight = 381
+                  ClientHeight = 460
                   ClientWidth = 567
                   object pnOrdemImpressaoCancelar: TPanel
                     Left = 0
-                    Height = 381
+                    Height = 460
                     Top = 0
                     Width = 567
                     Align = alClient
                     BevelOuter = bvNone
-                    ClientHeight = 381
+                    ClientHeight = 460
                     ClientWidth = 567
                     ParentBackground = False
                     TabOrder = 0
@@ -894,8 +894,8 @@ object frPrincipal: TfrPrincipal
                       Default = True
                       Images = ImageList1
                       ImageIndex = 17
-                      OnClick = btOrdemImpressaoCancelarClick
                       TabOrder = 1
+                      OnClick = btOrdemImpressaoCancelarClick
                     end
                   end
                 end
@@ -903,16 +903,16 @@ object frPrincipal: TfrPrincipal
             end
             object tsTerminais: TTabSheet
               Caption = 'Terminais'
-              ClientHeight = 419
+              ClientHeight = 498
               ClientWidth = 575
               object pnTerminais: TPanel
                 Left = 0
-                Height = 419
+                Height = 498
                 Top = 0
                 Width = 575
                 Align = alClient
                 BevelOuter = bvNone
-                ClientHeight = 419
+                ClientHeight = 498
                 ClientWidth = 575
                 ParentBackground = False
                 TabOrder = 0
@@ -945,8 +945,8 @@ object frPrincipal: TfrPrincipal
                       Caption = 'Listar'
                       Images = ImageList1
                       ImageIndex = 8
-                      OnClick = btTerminaisListarClick
                       TabOrder = 0
+                      OnClick = btTerminaisListarClick
                     end
                   end
                 end
@@ -979,8 +979,8 @@ object frPrincipal: TfrPrincipal
                       Caption = 'Alterar'
                       Images = ImageList1
                       ImageIndex = 11
-                      OnClick = btTerminaisNicknameClick
                       TabOrder = 2
+                      OnClick = btTerminaisNicknameClick
                     end
                     object lbTerminaisNicknameSerialPos: TLabel
                       Left = 20
@@ -1041,8 +1041,8 @@ object frPrincipal: TfrPrincipal
                       Caption = 'Desbloquear'
                       Images = ImageList1
                       ImageIndex = 16
-                      OnClick = btTerminaisDesbloquearClick
                       TabOrder = 2
+                      OnClick = btTerminaisDesbloquearClick
                     end
                     object lbTerminaisBloqueioSerialPos: TLabel
                       Left = 20
@@ -1066,8 +1066,8 @@ object frPrincipal: TfrPrincipal
                       Caption = 'Bloquear'
                       Images = ImageList1
                       ImageIndex = 17
-                      OnClick = btTerminaisBloquearClick
                       TabOrder = 1
+                      OnClick = btTerminaisBloquearClick
                     end
                   end
                 end
@@ -1075,16 +1075,16 @@ object frPrincipal: TfrPrincipal
             end
             object tsUsuarios: TTabSheet
               Caption = 'Usuarios'
-              ClientHeight = 419
+              ClientHeight = 498
               ClientWidth = 575
               object pnUsuarios: TPanel
                 Left = 0
-                Height = 419
+                Height = 498
                 Top = 0
                 Width = 575
                 Align = alClient
                 BevelOuter = bvNone
-                ClientHeight = 419
+                ClientHeight = 498
                 ClientWidth = 575
                 ParentBackground = False
                 TabOrder = 0
@@ -1117,8 +1117,8 @@ object frPrincipal: TfrPrincipal
                       Caption = 'Listar'
                       Images = ImageList1
                       ImageIndex = 8
-                      OnClick = btUsuariosListarClick
                       TabOrder = 0
+                      OnClick = btUsuariosListarClick
                     end
                   end
                 end
@@ -1151,8 +1151,8 @@ object frPrincipal: TfrPrincipal
                       Caption = 'Criar'
                       Images = ImageList1
                       ImageIndex = 16
-                      OnClick = btUsuariosCriarClick
                       TabOrder = 3
+                      OnClick = btUsuariosCriarClick
                     end
                     object lbUsuariosCriarEmail: TLabel
                       Left = 20
@@ -1195,7 +1195,7 @@ object frPrincipal: TfrPrincipal
                       Left = 391
                       Height = 15
                       Top = 10
-                      Width = 23
+                      Width = 24
                       Caption = 'Tipo'
                       ParentColor = False
                     end
@@ -1205,16 +1205,16 @@ object frPrincipal: TfrPrincipal
             end
             object tsLoja: TTabSheet
               Caption = 'Loja'
-              ClientHeight = 419
+              ClientHeight = 498
               ClientWidth = 575
               object pnLoja: TPanel
                 Left = 0
-                Height = 419
+                Height = 498
                 Top = 0
                 Width = 575
                 Align = alClient
                 BevelOuter = bvNone
-                ClientHeight = 419
+                ClientHeight = 498
                 ClientWidth = 575
                 ParentBackground = False
                 TabOrder = 0
@@ -1247,8 +1247,8 @@ object frPrincipal: TfrPrincipal
                       Caption = 'Consultar'
                       Images = ImageList1
                       ImageIndex = 8
-                      OnClick = btLojaConsultarClick
                       TabOrder = 0
+                      OnClick = btLojaConsultarClick
                     end
                   end
                 end
@@ -1281,8 +1281,8 @@ object frPrincipal: TfrPrincipal
                       Caption = 'Consultar'
                       Images = ImageList1
                       ImageIndex = 8
-                      OnClick = btLojaConfigConsultarClick
                       TabOrder = 0
+                      OnClick = btLojaConfigConsultarClick
                     end
                   end
                 end
@@ -1290,16 +1290,16 @@ object frPrincipal: TfrPrincipal
             end
             object tsPooling: TTabSheet
               Caption = 'Pooling'
-              ClientHeight = 419
+              ClientHeight = 498
               ClientWidth = 575
               object pnPooling: TPanel
                 Left = 0
-                Height = 419
+                Height = 498
                 Top = 0
                 Width = 575
                 Align = alClient
                 BevelOuter = bvNone
-                ClientHeight = 419
+                ClientHeight = 498
                 ClientWidth = 575
                 ParentBackground = False
                 TabOrder = 0
@@ -1332,8 +1332,8 @@ object frPrincipal: TfrPrincipal
                       Caption = 'Consultar'
                       Images = ImageList1
                       ImageIndex = 8
-                      OnClick = btPoolingConsultarClick
                       TabOrder = 1
+                      OnClick = btPoolingConsultarClick
                     end
                     object edPoolingConsultarData: TDateTimePicker
                       Left = 20
@@ -1376,17 +1376,17 @@ object frPrincipal: TfrPrincipal
     end
     object tsConfig: TTabSheet
       Caption = 'Configuração'
-      ClientHeight = 495
+      ClientHeight = 574
       ClientWidth = 959
       ImageIndex = 2
       object pnConfig: TPanel
         Left = 0
-        Height = 495
+        Height = 574
         Top = 0
         Width = 959
         Align = alClient
         BevelOuter = bvNone
-        ClientHeight = 495
+        ClientHeight = 574
         ClientWidth = 959
         ParentBackground = False
         TabOrder = 0
@@ -1402,23 +1402,23 @@ object frPrincipal: TfrPrincipal
           TabOrder = 0
           object gbConfigSmartTEF: TGroupBox
             Left = 0
-            Height = 178
+            Height = 210
             Top = 0
             Width = 500
             Align = alTop
             Caption = 'Smart TEF'
-            ClientHeight = 158
+            ClientHeight = 190
             ClientWidth = 496
             ParentBackground = False
             TabOrder = 0
             object pnConfigSmartTEF: TPanel
               Left = 0
-              Height = 158
+              Height = 190
               Top = 0
               Width = 496
               Align = alClient
               BevelOuter = bvNone
-              ClientHeight = 158
+              ClientHeight = 190
               ClientWidth = 496
               ParentBackground = False
               TabOrder = 0
@@ -1426,7 +1426,7 @@ object frPrincipal: TfrPrincipal
                 Left = 20
                 Height = 15
                 Top = 5
-                Width = 115
+                Width = 116
                 Caption = 'GW-Token-Integrador'
                 ParentColor = False
               end
@@ -1441,7 +1441,7 @@ object frPrincipal: TfrPrincipal
                 Left = 20
                 Height = 15
                 Top = 55
-                Width = 82
+                Width = 83
                 Caption = 'GW-Token-Loja'
                 ParentColor = False
               end
@@ -1492,33 +1492,48 @@ object frPrincipal: TfrPrincipal
               object lbConfigSmartTEFJWTToken: TLabel
                 Left = 20
                 Height = 15
-                Top = 105
-                Width = 117
+                Top = 104
+                Width = 119
                 Caption = 'JWT-Token-Integrador'
                 ParentColor = False
+              end
+              object lbConfigSmartTEFJWTTokenLoja: TLabel
+                Left = 20
+                Height = 15
+                Top = 144
+                Width = 86
+                Caption = 'JWT-Token-Loja'
+                ParentColor = False
+              end
+              object edConfigSmartTEFJWTTokenLoja: TEdit
+                Left = 20
+                Height = 23
+                Top = 160
+                Width = 456
+                TabOrder = 5
               end
             end
           end
           object gbConfigProxy: TGroupBox
             Left = 0
-            Height = 130
-            Top = 188
+            Height = 116
+            Top = 220
             Width = 500
             Align = alTop
             BorderSpacing.Top = 10
             Caption = 'Proxy'
-            ClientHeight = 110
+            ClientHeight = 96
             ClientWidth = 496
             ParentBackground = False
             TabOrder = 1
             object pnConfigProxy: TPanel
               Left = 0
-              Height = 110
+              Height = 96
               Top = 0
               Width = 496
               Align = alClient
               BevelOuter = bvNone
-              ClientHeight = 110
+              ClientHeight = 96
               ClientWidth = 496
               ParentBackground = False
               TabOrder = 0
@@ -1602,24 +1617,24 @@ object frPrincipal: TfrPrincipal
           end
           object gbConfigLog: TGroupBox
             Left = 0
-            Height = 81
-            Top = 328
+            Height = 63
+            Top = 346
             Width = 500
             Align = alClient
             BorderSpacing.Top = 10
             Caption = 'Log'
-            ClientHeight = 61
+            ClientHeight = 43
             ClientWidth = 496
             ParentBackground = False
             TabOrder = 2
             object pnConfigLog: TPanel
               Left = 0
-              Height = 61
+              Height = 43
               Top = 0
               Width = 496
               Align = alClient
               BevelOuter = bvNone
-              ClientHeight = 61
+              ClientHeight = 43
               ClientWidth = 496
               ParentBackground = False
               TabOrder = 0
@@ -1683,7 +1698,7 @@ object frPrincipal: TfrPrincipal
         object pnConfigRodape: TPanel
           Left = 0
           Height = 37
-          Top = 458
+          Top = 537
           Width = 959
           Align = alBottom
           BevelOuter = bvNone
@@ -1699,8 +1714,8 @@ object frPrincipal: TfrPrincipal
             Caption = 'Salvar Parâmetros'
             Images = ImageList1
             ImageIndex = 10
-            OnClick = btConfigSalvarClick
             TabOrder = 0
+            OnClick = btConfigSalvarClick
           end
           object btConfigLerParametros: TBitBtn
             Left = 800
@@ -1710,8 +1725,8 @@ object frPrincipal: TfrPrincipal
             Caption = 'Ler Parâmetros'
             Images = ImageList1
             ImageIndex = 11
-            OnClick = btConfigLerParametrosClick
             TabOrder = 1
+            OnClick = btConfigLerParametrosClick
           end
         end
       end
@@ -1721,7 +1736,7 @@ object frPrincipal: TfrPrincipal
     Cursor = crHandPoint
     Left = 5
     Height = 21
-    Top = 538
+    Top = 617
     Width = 957
     Align = alBottom
     Alignment = taCenter

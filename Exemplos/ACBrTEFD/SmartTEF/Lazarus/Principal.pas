@@ -84,6 +84,7 @@ type
     cbOrdemPagamentoCriarTipoOrdem: TComboBox;
     cbOrdemImpressaoCriarTipoOrdem: TComboBox;
     cbOrdemPagamentoCriarTipoPagamento: TComboBox;
+    edConfigSmartTEFJWTTokenLoja: TEdit;
     edPoolingConsultarData: TDateTimePicker;
     edConfigSmartTEFJWTToken: TEdit;
     edConfigProxyHost: TEdit;
@@ -137,6 +138,7 @@ type
     gbConfigSmartTEF: TGroupBox;
     gbConfigLog: TGroupBox;
     ImageList1: TImageList;
+    lbConfigSmartTEFJWTTokenLoja: TLabel;
     lbIntegradorCriarLojaCNPJIntegrador: TLabel;
     lbIntegradorCriarLojaCNPJ: TLabel;
     lbIntegradorCriarLojaEmail: TLabel;
@@ -762,6 +764,7 @@ begin
     edConfigSmartTEFCNPJIntegrador.Text := wIni.ReadString('SmartTEF', 'CNPJIntegrador', '');
     edConfigSmartTEFTokenIntegrador.Text := wIni.ReadString('SmartTEF', 'TokenIntegrador', '');
     edConfigSmartTEFJWTToken.Text := wIni.ReadString('SmartTEF', 'JWTToken', '');
+    edConfigSmartTEFJWTTokenLoja.Text := wIni.ReadString('SmartTEF', 'JWTTokenLoja', '');
 
     edConfigProxyHost.Text := wIni.ReadString('Proxy', 'Host', '');
     edConfigProxyPorta.Text := wIni.ReadString('Proxy', 'Porta', '');
@@ -789,6 +792,7 @@ begin
     wIni.WriteString('SmartTEF', 'CNPJIntegrador', edConfigSmartTEFCNPJIntegrador.Text);
     wIni.WriteString('SmartTEF', 'TokenIntegrador', edConfigSmartTEFTokenIntegrador.Text);
     wIni.WriteString('SmartTEF', 'JWTToken', edConfigSmartTEFJWTToken.Text);
+    wIni.WriteString('SmartTEF', 'JWTTokenLoja', edConfigSmartTEFJWTTokenLoja.Text);
 
     wIni.WriteString('Proxy', 'Host', edConfigProxyHost.Text);
     wIni.WriteString('Proxy', 'Porta', edConfigProxyPorta.Text);
@@ -813,6 +817,7 @@ begin
   ACBrSmartTEF.CNPJIntegrador := edConfigSmartTEFCNPJIntegrador.Text;
   ACBrSmartTEF.GWTokenIntegrador := edConfigSmartTEFTokenIntegrador.Text;
   ACBrSmartTEF.JWTTokenIntegrador := edConfigSmartTEFJWTToken.Text;
+  ACBrSmartTEF.JWTTokenLoja := edConfigSmartTEFJWTTokenLoja.Text;
 
   ACBrSmartTEF.ProxyHost := edConfigProxyHost.Text;
   ACBrSmartTEF.ProxyPort := edConfigProxyPorta.Text;

@@ -1,9 +1,9 @@
 object frPrincipal: TfrPrincipal
   Left = 491
   Top = 199
-  Width = 983
-  Height = 603
   Caption = 'SmartTEF Teste'
+  ClientHeight = 564
+  ClientWidth = 967
   Color = clBtnFace
   TransparentColorValue = clDefault
   Font.Charset = DEFAULT_CHARSET
@@ -11,9 +11,7 @@ object frPrincipal: TfrPrincipal
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  OldCreateOrder = True
   OnCreate = FormCreate
-  PixelsPerInch = 96
   TextHeight = 13
   object lURLTEF: TLabel
     Left = 0
@@ -34,6 +32,7 @@ object frPrincipal: TfrPrincipal
     ParentFont = False
     Transparent = False
     OnClick = lURLTEFClick
+    ExplicitWidth = 234
   end
   object pcPrincipal: TPageControl
     Left = 0
@@ -72,6 +71,7 @@ object frPrincipal: TfrPrincipal
           Height = 13
           Align = alTop
           Caption = 'Log das Opera'#231#245'es'
+          ExplicitWidth = 93
         end
         object mmEndpointsLog: TMemo
           Left = 0
@@ -138,7 +138,7 @@ object frPrincipal: TfrPrincipal
                 Left = 0
                 Top = 0
                 Width = 575
-                Height = 419
+                Height = 424
                 Align = alClient
                 BevelOuter = bvNone
                 ParentBackground = False
@@ -203,28 +203,28 @@ object frPrincipal: TfrPrincipal
                   Left = 20
                   Top = 35
                   Width = 260
-                  Height = 23
+                  Height = 21
                   TabOrder = 0
                 end
                 object edIntegradorCriarLojaCNPJ: TEdit
                   Left = 295
                   Top = 35
                   Width = 260
-                  Height = 23
+                  Height = 21
                   TabOrder = 1
                 end
                 object edIntegradorCriarLojaEmail: TEdit
                   Left = 20
                   Top = 87
                   Width = 260
-                  Height = 23
+                  Height = 21
                   TabOrder = 2
                 end
                 object edIntegradorCriarLojaSenha: TEdit
                   Left = 295
                   Top = 87
                   Width = 237
-                  Height = 23
+                  Height = 21
                   PasswordChar = '*'
                   TabOrder = 3
                 end
@@ -232,14 +232,14 @@ object frPrincipal: TfrPrincipal
                   Left = 20
                   Top = 143
                   Width = 535
-                  Height = 23
+                  Height = 21
                   TabOrder = 4
                 end
                 object edIntegradorCriarLojaNomeLoja: TEdit
                   Left = 20
                   Top = 199
                   Width = 535
-                  Height = 23
+                  Height = 21
                   TabOrder = 5
                 end
                 object btIntegradorCriarLoja: TBitBtn
@@ -419,7 +419,6 @@ object frPrincipal: TfrPrincipal
                       Width = 120
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 13
                       TabOrder = 1
                       OnSelect = cbOrdemPagamentoCriarTipoPagamentoSelect
                     end
@@ -454,7 +453,6 @@ object frPrincipal: TfrPrincipal
                         ' '#233' o padr'#227'o e a loja paga os juros do'#13#10'parcelamento;'#13#10'- F_CLIENT' +
                         ' - e o cliente que paga.'
                       Style = csDropDownList
-                      ItemHeight = 13
                       TabOrder = 5
                     end
                     object cbOrdemPagamentoCriarTipoOrdem: TComboBox
@@ -463,7 +461,6 @@ object frPrincipal: TfrPrincipal
                       Width = 123
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 13
                       TabOrder = 4
                     end
                     object gbOrdemPagamentoCriarDetalhes: TGroupBox
@@ -545,7 +542,7 @@ object frPrincipal: TfrPrincipal
                     Left = 0
                     Top = 0
                     Width = 567
-                    Height = 381
+                    Height = 384
                     Align = alClient
                     BevelOuter = bvNone
                     ParentBackground = False
@@ -570,7 +567,7 @@ object frPrincipal: TfrPrincipal
                       Left = 291
                       Top = 35
                       Width = 256
-                      Height = 23
+                      Height = 21
                       Hint = 'Campo de identifica'#231#227'o em string'
                       TabOrder = 1
                     end
@@ -578,7 +575,7 @@ object frPrincipal: TfrPrincipal
                       Left = 20
                       Top = 35
                       Width = 256
-                      Height = 23
+                      Height = 21
                       Hint = 'Campo de identifica'#231#227'o em string'
                       TabOrder = 0
                     end
@@ -599,7 +596,7 @@ object frPrincipal: TfrPrincipal
                     Left = 0
                     Top = 0
                     Width = 567
-                    Height = 381
+                    Height = 384
                     Align = alClient
                     BevelOuter = bvNone
                     ParentBackground = False
@@ -616,7 +613,7 @@ object frPrincipal: TfrPrincipal
                       Left = 20
                       Top = 35
                       Width = 527
-                      Height = 23
+                      Height = 21
                       Hint = 'Campo de identifica'#231#227'o em string'
                       TabOrder = 0
                     end
@@ -637,7 +634,7 @@ object frPrincipal: TfrPrincipal
                     Left = 0
                     Top = 0
                     Width = 567
-                    Height = 381
+                    Height = 384
                     Align = alClient
                     BevelOuter = bvNone
                     ParentBackground = False
@@ -654,7 +651,7 @@ object frPrincipal: TfrPrincipal
                       Left = 20
                       Top = 35
                       Width = 527
-                      Height = 23
+                      Height = 21
                       Hint = 'Campo de identifica'#231#227'o em string'
                       TabOrder = 0
                     end
@@ -689,7 +686,7 @@ object frPrincipal: TfrPrincipal
                     Left = 0
                     Top = 0
                     Width = 567
-                    Height = 381
+                    Height = 384
                     Align = alClient
                     BevelOuter = bvNone
                     ParentBackground = False
@@ -765,7 +762,7 @@ object frPrincipal: TfrPrincipal
                       Left = 427
                       Top = 35
                       Width = 120
-                      Height = 23
+                      Height = 21
                       Hint = 
                         'O Serial do POS que ir'#225' receber o card.'#13#10'Sendo obrigat'#243'rio apena' +
                         's quando o order_type for'#13#10#8220'CRD_UNICO'#8221'.'#13#10#13#10'ATEN'#199#195'O n'#227'o pode ser ' +
@@ -776,7 +773,7 @@ object frPrincipal: TfrPrincipal
                       Left = 291
                       Top = 35
                       Width = 120
-                      Height = 23
+                      Height = 21
                       Hint = 
                         'O ID do usu'#225'rio logado que ir'#225' receber o card.'#13#10'Sendo obrigat'#243'ri' +
                         'o apenas quando o order_type for'#13#10#8220'CRD_UNICO'#8221'.'#13#10#13#10'ATEN'#199#195'O n'#227'o po' +
@@ -796,16 +793,15 @@ object frPrincipal: TfrPrincipal
                       Left = 20
                       Top = 35
                       Width = 123
-                      Height = 23
+                      Height = 21
                       Style = csDropDownList
-                      ItemHeight = 0
                       TabOrder = 0
                     end
                     object edOrdemImpressaoCriarArquivo: TEdit
                       Left = 20
                       Top = 85
                       Width = 504
-                      Height = 23
+                      Height = 21
                       Hint = 
                         'O ID do usu'#225'rio logado que ir'#225' receber o card.'#13#10'Sendo obrigat'#243'ri' +
                         'o apenas quando o order_type for'#13#10#8220'CRD_UNICO'#8221'.'#13#10#13#10'ATEN'#199#195'O n'#227'o po' +
@@ -816,7 +812,7 @@ object frPrincipal: TfrPrincipal
                       Left = 156
                       Top = 35
                       Width = 120
-                      Height = 23
+                      Height = 21
                       TabOrder = 1
                     end
                   end
@@ -827,7 +823,7 @@ object frPrincipal: TfrPrincipal
                     Left = 0
                     Top = 0
                     Width = 567
-                    Height = 381
+                    Height = 384
                     Align = alClient
                     BevelOuter = bvNone
                     ParentBackground = False
@@ -844,7 +840,7 @@ object frPrincipal: TfrPrincipal
                       Left = 20
                       Top = 35
                       Width = 527
-                      Height = 23
+                      Height = 21
                       Hint = 'Campo de identifica'#231#227'o em string'
                       TabOrder = 0
                     end
@@ -865,7 +861,7 @@ object frPrincipal: TfrPrincipal
                     Left = 0
                     Top = 0
                     Width = 567
-                    Height = 381
+                    Height = 384
                     Align = alClient
                     BevelOuter = bvNone
                     ParentBackground = False
@@ -882,7 +878,7 @@ object frPrincipal: TfrPrincipal
                       Left = 20
                       Top = 35
                       Width = 527
-                      Height = 23
+                      Height = 21
                       Hint = 'Campo de identifica'#231#227'o em string'
                       TabOrder = 0
                     end
@@ -906,7 +902,7 @@ object frPrincipal: TfrPrincipal
                 Left = 0
                 Top = 0
                 Width = 575
-                Height = 419
+                Height = 424
                 Align = alClient
                 BevelOuter = bvNone
                 ParentBackground = False
@@ -920,10 +916,10 @@ object frPrincipal: TfrPrincipal
                   ParentBackground = False
                   TabOrder = 0
                   object pnTerminaisListar: TPanel
-                    Left = 0
-                    Top = 0
+                    Left = 2
+                    Top = 15
                     Width = 531
-                    Height = 55
+                    Height = 58
                     Align = alClient
                     BevelOuter = bvNone
                     TabOrder = 0
@@ -947,10 +943,10 @@ object frPrincipal: TfrPrincipal
                   ParentBackground = False
                   TabOrder = 1
                   object pnTerminaisNickname: TPanel
-                    Left = 0
-                    Top = 0
+                    Left = 2
+                    Top = 15
                     Width = 531
-                    Height = 100
+                    Height = 103
                     Align = alClient
                     BevelOuter = bvNone
                     TabOrder = 0
@@ -981,14 +977,14 @@ object frPrincipal: TfrPrincipal
                       Left = 20
                       Top = 25
                       Width = 238
-                      Height = 23
+                      Height = 21
                       TabOrder = 0
                     end
                     object edTerminaisNickname: TEdit
                       Left = 277
                       Top = 25
                       Width = 234
-                      Height = 23
+                      Height = 21
                       TabOrder = 1
                     end
                   end
@@ -1002,10 +998,10 @@ object frPrincipal: TfrPrincipal
                   ParentBackground = False
                   TabOrder = 2
                   object pnTerminaisBloqueio: TPanel
-                    Left = 0
-                    Top = 0
+                    Left = 2
+                    Top = 15
                     Width = 531
-                    Height = 100
+                    Height = 103
                     Align = alClient
                     BevelOuter = bvNone
                     TabOrder = 0
@@ -1029,7 +1025,7 @@ object frPrincipal: TfrPrincipal
                       Left = 20
                       Top = 25
                       Width = 491
-                      Height = 23
+                      Height = 21
                       TabOrder = 0
                     end
                     object btTerminaisBloquear: TBitBtn
@@ -1051,7 +1047,7 @@ object frPrincipal: TfrPrincipal
                 Left = 0
                 Top = 0
                 Width = 575
-                Height = 419
+                Height = 424
                 Align = alClient
                 BevelOuter = bvNone
                 ParentBackground = False
@@ -1065,10 +1061,10 @@ object frPrincipal: TfrPrincipal
                   ParentBackground = False
                   TabOrder = 0
                   object pnUsuariosListar: TPanel
-                    Left = 0
-                    Top = 0
+                    Left = 2
+                    Top = 15
                     Width = 531
-                    Height = 55
+                    Height = 58
                     Align = alClient
                     BevelOuter = bvNone
                     TabOrder = 0
@@ -1092,10 +1088,10 @@ object frPrincipal: TfrPrincipal
                   ParentBackground = False
                   TabOrder = 1
                   object pnUsuariosCriar: TPanel
-                    Left = 0
-                    Top = 0
+                    Left = 2
+                    Top = 15
                     Width = 531
-                    Height = 100
+                    Height = 103
                     Align = alClient
                     BevelOuter = bvNone
                     TabOrder = 0
@@ -1135,23 +1131,22 @@ object frPrincipal: TfrPrincipal
                       Left = 20
                       Top = 25
                       Width = 221
-                      Height = 23
+                      Height = 21
                       TabOrder = 0
                     end
                     object edUsuariosCriarNome: TEdit
                       Left = 256
                       Top = 25
                       Width = 120
-                      Height = 23
+                      Height = 21
                       TabOrder = 1
                     end
                     object cbUsuariosCriarTipo: TComboBox
                       Left = 391
                       Top = 25
                       Width = 120
-                      Height = 23
+                      Height = 21
                       Style = csDropDownList
-                      ItemHeight = 0
                       TabOrder = 2
                     end
                   end
@@ -1164,7 +1159,7 @@ object frPrincipal: TfrPrincipal
                 Left = 0
                 Top = 0
                 Width = 575
-                Height = 419
+                Height = 424
                 Align = alClient
                 BevelOuter = bvNone
                 ParentBackground = False
@@ -1178,10 +1173,10 @@ object frPrincipal: TfrPrincipal
                   ParentBackground = False
                   TabOrder = 0
                   object pnLojaConsultar: TPanel
-                    Left = 0
-                    Top = 0
+                    Left = 2
+                    Top = 15
                     Width = 531
-                    Height = 55
+                    Height = 58
                     Align = alClient
                     BevelOuter = bvNone
                     TabOrder = 0
@@ -1205,10 +1200,10 @@ object frPrincipal: TfrPrincipal
                   ParentBackground = False
                   TabOrder = 1
                   object pnLojaConfigConsultar: TPanel
-                    Left = 0
-                    Top = 0
+                    Left = 2
+                    Top = 15
                     Width = 531
-                    Height = 55
+                    Height = 58
                     Align = alClient
                     BevelOuter = bvNone
                     TabOrder = 0
@@ -1231,7 +1226,7 @@ object frPrincipal: TfrPrincipal
                 Left = 0
                 Top = 0
                 Width = 575
-                Height = 419
+                Height = 424
                 Align = alClient
                 BevelOuter = bvNone
                 TabOrder = 0
@@ -1244,10 +1239,10 @@ object frPrincipal: TfrPrincipal
                   ParentBackground = False
                   TabOrder = 0
                   object pnPoolingConsultar: TPanel
-                    Left = 0
-                    Top = 0
+                    Left = 2
+                    Top = 15
                     Width = 531
-                    Height = 72
+                    Height = 75
                     Align = alClient
                     BevelOuter = bvNone
                     TabOrder = 0
@@ -1274,9 +1269,9 @@ object frPrincipal: TfrPrincipal
                       Top = 25
                       Width = 137
                       Height = 23
-                      Date = 45901.565578831020000000
-                      Time = 45901.565578831020000000
-                      MaxDate = 2958465.000000000000000000
+                      Date = 45901.000000000000000000
+                      Time = 45901.000000000000000000
+                      MaxDate = 2958465.999988426000000000
                       MinDate = -53780.000000000000000000
                       TabOrder = 0
                     end
@@ -1312,16 +1307,16 @@ object frPrincipal: TfrPrincipal
             Left = 0
             Top = 0
             Width = 500
-            Height = 178
+            Height = 205
             Align = alTop
             Caption = 'Smart TEF'
             ParentBackground = False
             TabOrder = 0
             object pnConfigSmartTEF: TPanel
-              Left = 0
-              Top = 0
+              Left = 2
+              Top = 15
               Width = 496
-              Height = 158
+              Height = 188
               Align = alClient
               BevelOuter = bvNone
               ParentBackground = False
@@ -1364,10 +1359,19 @@ object frPrincipal: TfrPrincipal
               end
               object lbConfigSmartTEFJWTToken: TLabel
                 Left = 20
-                Top = 105
+                Top = 98
                 Width = 108
                 Height = 13
                 Caption = 'JWT-Token-Integrador'
+                Color = clBtnFace
+                ParentColor = False
+              end
+              object lbConfigSmartTEFJWTTokenLoja: TLabel
+                Left = 20
+                Top = 140
+                Width = 80
+                Height = 13
+                Caption = 'JWT-Token-Loja'
                 Color = clBtnFace
                 ParentColor = False
               end
@@ -1375,42 +1379,49 @@ object frPrincipal: TfrPrincipal
                 Left = 20
                 Top = 20
                 Width = 316
-                Height = 23
+                Height = 21
                 TabOrder = 0
               end
               object edConfigSmartTEFTokenLoja: TEdit
                 Left = 20
                 Top = 70
                 Width = 316
-                Height = 23
+                Height = 21
                 TabOrder = 2
               end
               object edConfigSmartTEFCNPJIntegrador: TEdit
                 Left = 356
                 Top = 20
                 Width = 120
-                Height = 23
+                Height = 21
                 TabOrder = 1
               end
               object edConfigSmartTEFCNPJLoja: TEdit
                 Left = 356
                 Top = 70
                 Width = 120
-                Height = 23
+                Height = 21
                 TabOrder = 3
               end
               object edConfigSmartTEFJWTToken: TEdit
                 Left = 20
-                Top = 120
+                Top = 113
                 Width = 456
-                Height = 23
+                Height = 21
                 TabOrder = 4
+              end
+              object edConfigSmartTEFJWTTokenLoja: TEdit
+                Left = 20
+                Top = 154
+                Width = 456
+                Height = 21
+                TabOrder = 5
               end
             end
           end
           object gbConfigProxy: TGroupBox
             Left = 0
-            Top = 178
+            Top = 205
             Width = 500
             Height = 130
             Align = alTop
@@ -1418,10 +1429,10 @@ object frPrincipal: TfrPrincipal
             ParentBackground = False
             TabOrder = 1
             object pnConfigProxy: TPanel
-              Left = 0
-              Top = 0
+              Left = 2
+              Top = 15
               Width = 496
-              Height = 110
+              Height = 113
               Align = alClient
               BevelOuter = bvNone
               ParentBackground = False
@@ -1480,21 +1491,21 @@ object frPrincipal: TfrPrincipal
                 Left = 20
                 Top = 20
                 Width = 316
-                Height = 23
+                Height = 21
                 TabOrder = 0
               end
               object edConfigProxyUsuario: TEdit
                 Left = 20
                 Top = 70
                 Width = 316
-                Height = 23
+                Height = 21
                 TabOrder = 1
               end
               object edConfigProxySenha: TEdit
                 Left = 356
                 Top = 70
                 Width = 96
-                Height = 23
+                Height = 21
                 PasswordChar = '*'
                 TabOrder = 2
               end
@@ -1502,7 +1513,7 @@ object frPrincipal: TfrPrincipal
                 Left = 356
                 Top = 21
                 Width = 120
-                Height = 23
+                Height = 22
                 MaxValue = 999999
                 MinValue = 0
                 TabOrder = 3
@@ -1512,9 +1523,9 @@ object frPrincipal: TfrPrincipal
           end
           object gbConfigLog: TGroupBox
             Left = 0
-            Top = 308
+            Top = 335
             Width = 500
-            Height = 101
+            Height = 74
             Align = alClient
             Caption = 'Log'
             ParentBackground = False
@@ -1523,14 +1534,14 @@ object frPrincipal: TfrPrincipal
               Left = 2
               Top = 15
               Width = 496
-              Height = 84
+              Height = 57
               Align = alClient
               BevelOuter = bvNone
               ParentBackground = False
               TabOrder = 0
               DesignSize = (
                 496
-                84)
+                57)
               object lbConfigLogArquivo: TLabel
                 Left = 16
                 Top = 5
@@ -1568,7 +1579,7 @@ object frPrincipal: TfrPrincipal
                 Left = 16
                 Top = 20
                 Width = 297
-                Height = 23
+                Height = 21
                 Anchors = [akLeft, akTop, akRight]
                 TabOrder = 0
               end
@@ -1578,7 +1589,6 @@ object frPrincipal: TfrPrincipal
                 Width = 124
                 Height = 21
                 Style = csDropDownList
-                ItemHeight = 13
                 ItemIndex = 4
                 TabOrder = 1
                 Text = '4 - Muito Alto'
@@ -1627,136 +1637,8 @@ object frPrincipal: TfrPrincipal
     Left = 904
     Top = 8
     Bitmap = {
-      494C010122002700040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
-      000000000000360000002800000040000000A0000000010020000000000000A0
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      494C010122002500040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      0000000000003600000028000000400000009000000001002000000000000090
       0000000000000000000000000000000000000000000000000000000000000000
       0000D4D4D400717171002C2C2C000C0C0C000C0C0C002C2C2C0072727200D5D5
       D500000000000000000000000000000000000000000000000000000000000000
@@ -2910,12 +2792,8 @@ object frPrincipal: TfrPrincipal
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000F9F9F900C2C2C200E7E7E70000000000000000000000
       000000000000000000000000000000000000424D3E000000000000003E000000
-      2800000040000000A00000000100010000000000000500000000000000000000
-      000000000000000000000000FFFFFF0000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000F00FF00F00000000C003C00300000000
+      2800000040000000900000000100010000000000800400000000000000000000
+      000000000000000000000000FFFFFF00F00FF00F00000000C003C00300000000
       87E18241000000008FF18E71000000001FF81C38000000003FFC181800000000
       3FFC381C00000000300C3C1C00000000300C383C000000003FFC389C00000000
       3FFC1818000000001FF81C38000000008FF18E710000000087E1824100000000
