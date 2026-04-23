@@ -102,7 +102,7 @@ object FormPrincipal: TFormPrincipal
                   end
                   object Label16: TLabel
                     Left = 12
-                    Top = 48
+                    Top = 47
                     Width = 78
                     Height = 13
                     Caption = 'Nome Aplica'#231#227'o'
@@ -110,8 +110,8 @@ object FormPrincipal: TFormPrincipal
                     ParentColor = False
                   end
                   object Label19: TLabel
-                    Left = 299
-                    Top = 48
+                    Left = 131
+                    Top = 47
                     Width = 33
                     Height = 13
                     Anchors = [akTop, akRight]
@@ -120,7 +120,7 @@ object FormPrincipal: TFormPrincipal
                     ParentColor = False
                   end
                   object Label15: TLabel
-                    Left = 299
+                    Left = 283
                     Top = 11
                     Width = 27
                     Height = 13
@@ -138,10 +138,37 @@ object FormPrincipal: TFormPrincipal
                     Color = clBtnFace
                     ParentColor = False
                   end
+                  object Label45: TLabel
+                    Left = 188
+                    Top = 47
+                    Width = 31
+                    Height = 13
+                    Caption = 'Idioma'
+                    Color = clBtnFace
+                    ParentColor = False
+                  end
+                  object Label46: TLabel
+                    Left = 284
+                    Top = 47
+                    Width = 33
+                    Height = 13
+                    Caption = 'Moeda'
+                    Color = clBtnFace
+                    ParentColor = False
+                  end
+                  object Label47: TLabel
+                    Left = 233
+                    Top = 83
+                    Width = 103
+                    Height = 13
+                    Caption = 'Par'#226'metros Aplica'#231#227'o'
+                    Color = clBtnFace
+                    ParentColor = False
+                  end
                   object edRazaoSocialSwHouse: TEdit
                     Left = 12
                     Top = 25
-                    Width = 275
+                    Width = 261
                     Height = 21
                     Anchors = [akLeft, akTop, akRight]
                     TabOrder = 0
@@ -149,26 +176,26 @@ object FormPrincipal: TFormPrincipal
                   end
                   object edNomeAplicacao: TEdit
                     Left = 12
-                    Top = 62
-                    Width = 275
+                    Top = 61
+                    Width = 109
                     Height = 21
                     Anchors = [akLeft, akTop, akRight]
                     TabOrder = 2
                     Text = 'TEFAPIDemo'
                   end
                   object edVersaoAplicacao: TEdit
-                    Left = 299
-                    Top = 62
-                    Width = 87
+                    Left = 131
+                    Top = 61
+                    Width = 46
                     Height = 21
                     Anchors = [akTop, akRight]
                     TabOrder = 3
                     Text = '1.0'
                   end
                   object edCNPJSwHouse: TEdit
-                    Left = 299
+                    Left = 283
                     Top = 25
-                    Width = 87
+                    Width = 102
                     Height = 21
                     Anchors = [akTop, akRight]
                     TabOrder = 1
@@ -176,11 +203,50 @@ object FormPrincipal: TFormPrincipal
                   object edMsgPinPad: TEdit
                     Left = 12
                     Top = 96
-                    Width = 374
+                    Width = 213
                     Height = 21
                     Anchors = [akLeft, akTop, akRight]
                     TabOrder = 4
                     Text = 'TEF ACBR.  SEJA NOSSO PARCEIRO'
+                  end
+                  object cbxIdioma: TComboBox
+                    Left = 188
+                    Top = 61
+                    Width = 84
+                    Height = 21
+                    Style = csDropDownList
+                    ItemHeight = 13
+                    ItemIndex = 0
+                    TabOrder = 5
+                    Text = 'Portugu'#234's'
+                    Items.Strings = (
+                      'Portugu'#234's'
+                      'Ingl'#234's'
+                      'Espanhol')
+                  end
+                  object cbxMoeda: TComboBox
+                    Left = 282
+                    Top = 61
+                    Width = 103
+                    Height = 21
+                    Style = csDropDownList
+                    Anchors = [akLeft, akTop, akRight]
+                    ItemHeight = 13
+                    ItemIndex = 0
+                    TabOrder = 6
+                    Text = 'REAL - 986'
+                    Items.Strings = (
+                      'REAL - 986'
+                      'DOLAR - 840'
+                      'EURO - 978')
+                  end
+                  object edParamAplic: TEdit
+                    Left = 232
+                    Top = 96
+                    Width = 153
+                    Height = 21
+                    Anchors = [akLeft, akTop, akRight]
+                    TabOrder = 7
                   end
                 end
                 object gbEstabelecimentoComercial: TGroupBox
@@ -1620,7 +1686,7 @@ object FormPrincipal: TFormPrincipal
       object btMudaPagina: TBitBtn
         Left = 112
         Top = 3
-        Width = 83
+        Width = 89
         Height = 42
         Anchors = [akTop]
         Caption = 'Opera'#231'oes'
@@ -1735,9 +1801,9 @@ object FormPrincipal: TFormPrincipal
         300
         33)
       object btImprimir: TBitBtn
-        Left = 168
+        Left = 160
         Top = 4
-        Width = 49
+        Width = 65
         Height = 24
         Anchors = [akTop, akRight]
         Caption = 'Imprimir'
@@ -1745,9 +1811,9 @@ object FormPrincipal: TFormPrincipal
         OnClick = btImprimirClick
       end
       object btLimparImpressora: TBitBtn
-        Left = 230
+        Left = 232
         Top = 4
-        Width = 48
+        Width = 62
         Height = 24
         Anchors = [akTop, akRight]
         Caption = 'Limpar'

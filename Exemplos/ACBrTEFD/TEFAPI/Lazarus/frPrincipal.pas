@@ -368,7 +368,7 @@ uses
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.DateTime, ACBrUtil.FilesIO,
   ACBrTEFPayGoComum,
   ACBrTEFAPIPayGoWeb, ACBrTEFAPIScope, ACBrTEFAPICliSiTef, ACBrTEFAPIPayKit,
-  ACBrTEFAPITXT, ACBrTEFAPIElgin;
+  ACBrTEFAPITXT;
 
 {$R *.lfm}
 

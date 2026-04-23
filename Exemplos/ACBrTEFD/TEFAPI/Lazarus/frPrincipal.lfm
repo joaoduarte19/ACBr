@@ -39,12 +39,12 @@ object FormPrincipal: TFormPrincipal
       Height = 507
       Top = 0
       Width = 775
-      ActivePage = tsOperacao
+      ActivePage = tsConfiguracao
       Align = alTop
       Constraints.MinHeight = 375
       Images = ImageList1
       TabHeight = 33
-      TabIndex = 1
+      TabIndex = 0
       TabOrder = 0
       object tsConfiguracao: TTabSheet
         Caption = 'Configuração'
@@ -56,11 +56,11 @@ object FormPrincipal: TFormPrincipal
           Height = 428
           Top = 0
           Width = 767
-          ActivePage = tsConfImpressora
+          ActivePage = tsConfTEF
           Align = alClient
           Images = ImageList1
           TabHeight = 33
-          TabIndex = 1
+          TabIndex = 0
           TabOrder = 0
           object tsConfTEF: TTabSheet
             Caption = 'Configuração TEF'
@@ -1724,8 +1724,8 @@ object FormPrincipal: TFormPrincipal
       BevelInner = bvLowered
       BevelWidth = 2
       BorderStyle = bsSingle
-      ClientHeight = 193
-      ClientWidth = 330
+      ClientHeight = 189
+      ClientWidth = 326
       Font.Height = -16
       Font.Style = [fsBold]
       ParentFont = False

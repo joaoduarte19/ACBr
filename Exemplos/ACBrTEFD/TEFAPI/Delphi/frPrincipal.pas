@@ -225,6 +225,12 @@ type
     Label43: TLabel;
     seNivelLogTXT: TSpinEdit;
     btVersaoTEF: TButton;
+    Label45: TLabel;
+    cbxIdioma: TComboBox;
+    Label46: TLabel;
+    cbxMoeda: TComboBox;
+    Label47: TLabel;
+    edParamAplic: TEdit;
     procedure ACBrTEFAPI1QuandoDetectarTransacaoPendente(
       RespostaTEF: TACBrTEFResp; const MsgErro: String);
     procedure ACBrTEFAPI1QuandoExibirMensagem(const Mensagem: String;
@@ -713,7 +719,8 @@ var
   ms: TMemoryStream;
 begin
   if (ACBrTEFAPI1.TEF is TACBrTEFAPIClassPayGoWeb) or
-     (ACBrTEFAPI1.TEF is TACBrTEFAPIClassScope) then
+     (ACBrTEFAPI1.TEF is TACBrTEFAPIClassScope) or
+     (ACBrTEFAPI1.TEF is TACBrTEFAPIClassPayKit) then
   begin
     FileLogo := ApplicationPath+'LogoACBr.png';
     if not FileExists(FileLogo) then
@@ -1430,6 +1437,9 @@ begin
     edNomeAplicacao.Text := INI.ReadString('Aplicacao', 'Nome', edNomeAplicacao.Text);
     edVersaoAplicacao.Text := INI.ReadString('Aplicacao', 'Versao', edVersaoAplicacao.Text);
     edMsgPinPad.Text := INI.ReadString('Aplicacao', 'MsgPinPad', edMsgPinPad.Text);
+    cbxIdioma.ItemIndex := INI.ReadInteger('Aplicacao', 'Idioma', 0);
+    cbxMoeda.ItemIndex := INI.ReadInteger('Aplicacao', 'Moeda', 0);
+    edParamAplic.Text := INI.ReadString('Aplicacao', 'Parametros', edParamAplic.Text);
 
     edRazaoSocialEstabelecimento.Text := INI.ReadString('Estabelecimento', 'RazaoSocial', edRazaoSocialEstabelecimento.Text);
     edCNPJEstabelecimento.Text := INI.ReadString('Estabelecimento', 'CNPJ', edCNPJEstabelecimento.Text);
@@ -1494,6 +1504,9 @@ begin
     INI.WriteString('Aplicacao', 'Nome', edNomeAplicacao.Text);
     INI.WriteString('Aplicacao', 'Versao', edVersaoAplicacao.Text);
     INI.WriteString('Aplicacao', 'MsgPinPad', edMsgPinPad.Text);
+    INI.WriteInteger('Aplicacao', 'Idioma', cbxIdioma.ItemIndex);
+    INI.WriteInteger('Aplicacao', 'Moeda', cbxMoeda.ItemIndex);
+    INI.WriteString('Aplicacao', 'Parametros', edParamAplic.Text);
 
     INI.WriteString('Estabelecimento', 'RazaoSocial', edRazaoSocialEstabelecimento.Text);
     INI.WriteString('Estabelecimento', 'CNPJ', edCNPJEstabelecimento.Text);
@@ -1927,8 +1940,8 @@ begin
         with TACBrTEFAPIClassPayGoWeb(ACBrTEFAPI1.TEF) do
         begin
           TEFPayGoAPI.ParametrosAdicionais.ValueInfo[PWINFO_POSID] := '99999';   // PDC
-          TEFPayGoAPI.ParametrosAdicionais.ValueInfo[PWINFO_DESTTCPIP] := 'esba-hom01.tpgweb.io:17500'  // Homologação
-          TEFPayGoAPI.ParametrosAdicionais.ValueInfo[PWINFO_DESTTCPIP] := 'pl03.pgweb.io:17500'  // Produção
+          TEFPayGoAPI.ParametrosAdicionais.ValueInfo[PWINFO_DESTTCPIP] := 'esba-hom01.tpgweb.io:17500';  // Homologação
+          TEFPayGoAPI.ParametrosAdicionais.ValueInfo[PWINFO_DESTTCPIP] := 'pl03.pgweb.io:17500';  // Produção
           TEFPayGoAPI.ParametrosAdicionais.ValueInfo[PWINFO_AUTHSYST] := 'REDE';   // Autorizador
           TEFPayGoAPI.ParametrosAdicionais.ValueInfo[PWINFO_FINTYPE] := '2';       // 01: à vista, 2: parcelado
           TEFPayGoAPI.ParametrosAdicionais.ValueInfo[PWINFO_INSTALLMENTS] := '3';  // Parcelas
@@ -1963,6 +1976,7 @@ begin
       end;
       *)
 
+      (*
       if ACBrTEFAPI1.TEF is TACBrTEFAPIClassPayKit then
       begin
         with TACBrTEFAPIClassPayKit(ACBrTEFAPI1.TEF) do
@@ -1971,6 +1985,27 @@ begin
           ValorTaxaServico := 10;
         end;
       end;
+      *)
+
+      (*
+      if ACBrTEFAPI1.TEF is TACBrTEFAPIClassTXT then
+      begin
+        with TACBrTEFAPIClassTXT(ACBrTEFAPI1.TEF) do
+        begin
+          TEFTXT.ParamReq.Campo[010,0].AsString := 'REDE';
+        end;
+      end;
+      *)
+
+      (*
+      if ACBrTEFAPI1.TEF is TACBrTEFAPIClassElgin then
+      begin
+        with TACBrTEFAPIClassElgin(ACBrTEFAPI1.TEF) do
+        begin
+          ComunicacaoPOS := True;
+        end;
+      end;
+      *)
 
       Ok := ACBrTEFAPI1.EfetuarPagamento(
                IntToStr(Venda.NumOperacao),
@@ -2396,6 +2431,9 @@ begin
   ACBrTEFAPI1.DadosAutomacao.NomeAplicacao := edNomeAplicacao.Text;
   ACBrTEFAPI1.DadosAutomacao.VersaoAplicacao := edVersaoAplicacao.Text;
   ACBrTEFAPI1.DadosAutomacao.MensagemPinPad := edMsgPinPad.Text;
+  ACBrTEFAPI1.DadosAutomacao.Idioma := TACBrTEFAPIIdioma(cbxIdioma.ItemIndex);
+  ACBrTEFAPI1.DadosAutomacao.MoedaISO4217 := StrToIntDef(OnlyNumber(cbxMoeda.Text), CMODEDA_BRL);
+  ACBrTEFAPI1.DadosAutomacao.ParamAplicacao := edParamAplic.Text;
   ACBrTEFAPI1.DadosEstabelecimento.RazaoSocial := edRazaoSocialEstabelecimento.Text;
   ACBrTEFAPI1.DadosEstabelecimento.CNPJ := edCNPJEstabelecimento.Text;
 
@@ -2424,10 +2462,10 @@ begin
     begin
       //DiretorioTrabalho := 'C:\PAYGOWEB\PROD';
       //DiretorioTrabalho := 'C:\PAYGOWEB\INGENICO';
-      DiretorioTrabalho := 'C:\PAYGOWEB';
+      DiretorioTrabalho :=  'C:\PAYGOWEB\';
       //TEFPayGoAPI.PathLib := 'C:\temp\64bits\PGWebLib.dll';
       {$IFDEF DEBUG}
-       TEFPayGoAPI.IsDebug := True;
+       //TEFPayGoAPI.IsDebug := True;
       {$EndIf}
     end;
   end;
@@ -2444,13 +2482,15 @@ begin
     end;
   end;
 
-  //if ACBrTEFAPI1.TEF is TACBrTEFAPIClassCliSiTef then
-  //begin
-  //  with TACBrTEFAPIClassCliSiTef(ACBrTEFAPI1.TEF) do
-  //  begin
-  //    FinalizarTransacaoIndividual := True;
-  //  end;
-  //end;
+  (*
+  if ACBrTEFAPI1.TEF is TACBrTEFAPIClassCliSiTef then
+  begin
+    with TACBrTEFAPIClassCliSiTef(ACBrTEFAPI1.TEF) do
+    begin
+      FinalizarTransacaoIndividual := True;
+    end;
+  end;
+  *)
 
   if ACBrTEFAPI1.TEF is TACBrTEFAPIClassTXT then
   begin
@@ -2468,7 +2508,6 @@ begin
       end;
     end;
   end;
-
 end;
 
 procedure TFormPrincipal.AtivarTEF;
