@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 23/04/2026
+-- ACBrNFSeXServicos.ini --
+[*] ACBr-9255 - A cidade Pouso Novo/RS trocou de provedor, agora é Tecnos.
+   Por: Windel Sistemas
 -- PadraoNacional.GravarXml --
 [*] ACBr-9254 - Ajustes visando atender as regras para gerar os grupos: vTotTrib, pTotTrib,
     indTotTrib e pTotTribSN.
