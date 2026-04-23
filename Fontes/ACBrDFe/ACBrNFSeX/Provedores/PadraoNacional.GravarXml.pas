@@ -1720,9 +1720,43 @@ begin
 end;
 
 function TNFSeW_PadraoNacional.GerarXMLTotalTributos: TACBrXmlNode;
+
+  procedure PercentualouValor;
+  begin
+    if (NFSe.Servico.Valores.totTrib.pTotTribFed > 0) or
+       (NFSe.Servico.Valores.totTrib.pTotTribEst > 0) or
+       (NFSe.Servico.Valores.totTrib.pTotTribMun > 0) then
+      Result.AppendChild(GerarXMLPercentualTotalTributos)
+    else
+      Result.AppendChild(GerarXMLValorTotalTributos);
+  end;
 begin
   Result := CreateElement('totTrib');
 
+  case NFSe.OptanteSN of
+    osnOptanteMEI:
+      begin
+        if (NFSe.Servico.Valores.totTrib.indTotTrib <> indSim) then
+          Result.AppendChild(AddNode(tcStr, '#1', 'indTotTrib', 1, 1, 1,
+                  indTotTribToStr(NFSe.Servico.Valores.totTrib.indTotTrib), ''))
+        else
+          PercentualouValor;
+      end;
+
+    osnOptanteMEEPP:
+      begin
+        if NFSe.Servico.Valores.totTrib.pTotTribSN > 0 then
+          Result.AppendChild(AddNode(tcDe2, '#1', 'pTotTribSN', 1, 5, 1,
+                                   NFSe.Servico.Valores.totTrib.pTotTribSN, ''))
+        else
+          PercentualouValor;
+      end;
+  else
+    begin
+      PercentualouValor;
+    end;
+  end;
+  (*
   if (NFSe.Servico.Valores.totTrib.pTotTribFed > 0) or
      (NFSe.Servico.Valores.totTrib.pTotTribEst > 0) or
      (NFSe.Servico.Valores.totTrib.pTotTribMun > 0) then
@@ -1737,6 +1771,7 @@ begin
                   indTotTribToStr(NFSe.Servico.Valores.totTrib.indTotTrib), ''))
       else
         Result.AppendChild(GerarXMLValorTotalTributos);
+  *)
 end;
 
 function TNFSeW_PadraoNacional.GerarXMLValorTotalTributos: TACBrXmlNode;

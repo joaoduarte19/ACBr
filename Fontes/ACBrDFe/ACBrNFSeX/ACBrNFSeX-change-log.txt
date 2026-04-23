@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 23/04/2026
+-- PadraoNacional.GravarXml --
+[*] ACBr-9254 - Ajustes visando atender as regras para gerar os grupos: vTotTrib, pTotTrib,
+    indTotTrib e pTotTribSN.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos.ini --
 [*] ACBr-9252 - Incluído o Params FormatarItemServicoNaoSeAplica para a cidade Barbacena/MG.
    Por: SupraMAIS
