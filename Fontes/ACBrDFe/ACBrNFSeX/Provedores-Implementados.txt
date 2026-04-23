@@ -3,34 +3,34 @@ Provedor             Quantidade de cidades
 ABase                 31 cidades - Pronto para a RTC
 Actcon                 8 cidades
 Adm                   11 cidades
-Agili                 20 cidades - Pronto para a RTC
-Aspec                 28 cidades
-AssessorPublico        4 cidades
+Agili                 20 cidades - Pronto para a RTC (Permite uma lista de itens)
+Aspec                 28 cidades                     (Permite uma lista de itens)
+AssessorPublico        4 cidades                     (Permite uma lista de itens)
 Asten                  1 cidade
-Bauhaus                9 cidades
+Bauhaus                9 cidades                     (Permite uma lista de itens)
 Betha                244 cidades - Pronto para a RTC
 Centi                 41 cidades
 CIGA                   1 cidade
 Citta                 22 cidades - Pronto para a RTC
 Conam                 12 cidades - Pronto para a RTC
 Coplan                33 cidades - Pronto para a RTC
-CTA                    2 cidades
-CTAConsult             5 cidades
+CTA                    2 cidades                     (Permite uma lista de itens)
+CTAConsult             5 cidades                     (Permite uma lista de itens)
 DataSmart              7 cidades
 DBSeller               4 cidades
 Desenvolve             4 cidades
 Digifred              11 cidades - Pronto para a RTC
 DSF                    5 cidades
 eGoverneISS            1 cidade 
-EL                   109 cidades - Pronto para a RTC
+EL                   109 cidades - Pronto para a RTC (Permite uma lista de itens - Layout Próprio) - Aderiu o layout do Padrão Nacional
 Elmar                 40 cidades
-EloTech               90 cidades - Pronto para a RTC
-Equiplano             27 cidades - Pronto para a RTC
+EloTech               90 cidades - Pronto para a RTC (Permite uma lista de itens)
+Equiplano             27 cidades - Pronto para a RTC (Permite uma lista de itens)
 eReceita               5 cidades
 Etherium               1 cidade  - Pronto para a RTC
 Facundo                1 cidade  - Pronto para a RTC
 FGMaiss                1 cidade  - Pronto para a RTC
-fintelISS              4 cidades - Pronto para a RTC
+fintelISS              4 cidades - Pronto para a RTC (Permite uma lista de itens)
 Fiorilli             383 cidades - Pronto para a RTC
 Fisco                 46 cidades
 FISSLex                4 cidades
@@ -43,19 +43,19 @@ Giss                  23 cidades - Pronto para a RTC (GissOnline)
 GovDigital            22 cidades - Pronto para a RTC
 Horus                  2 cidades
 iiBrasil               2 cidades
-infisc                 9 cidades - Pronto para a RTC
+infisc                 9 cidades - Pronto para a RTC (Permite uma lista de itens - Layout Próprio) - Aderiu o layout do Padrão Nacional
 Intertec               1 cidade
-IPM                  156 cidades - Pronto para a RTC
-ISSBarueri             1 cidade  - Pronto para a RTC
+IPM                  156 cidades - Pronto para a RTC (Permite uma lista de itens - Layout Próprio)
+ISSBarueri             1 cidade  - Pronto para a RTC (Permite uma lista de itens)
 ISSCamacari            1 cidade
-ISSCampinas            1 cidade
+ISSCampinas            1 cidade                      (Permite uma lista de itens - Layout Próprio) - Aderiu o layout versão 2.03 da ABRASF
 ISSDigital             4 cidades (Quasar) 
-ISSDSF                 2 cidades
+ISSDSF                 2 cidades                     (Permite uma lista de itens - Layout Próprio) - Aderiu o layout versão 2.03 da ABRASF
 ISSe                   1 cidade  - Pronto para a RTC
 ISSFortaleza           1 cidade  - Pronto para a RTC
 ISSIntel              21 cidades
 ISSLegal               9 cidades
-ISSMap                10 cidades
+ISSMap                10 cidades                     (Permite uma lista de itens na leitura????)
 ISSNatal               1 cidade  - Pronto para a RTC
 ISSNet                23 cidades - Pronto para a RTC (NotaControl)
 ISSSalvador            1 cidade
@@ -73,7 +73,7 @@ Prodata                9 cidades
 Pronim               159 cidades - Pronto para a RTC
 Publica               16 cidades - Pronto para a RTC
 PublicSoft            23 cidades
-RLZ                    9 cidades - Pronto para a RTC
+RLZ                    9 cidades - Pronto para a RTC (Permite uma lista de itens - Layout Próprio) - Aderiu o layout do Padrão Nacional
 Saatri                40 cidades
 SafeWeb                1 cidade
 Sam                    6 cidades - Pronto para a RTC
@@ -84,7 +84,7 @@ Sigep                  9 cidades
 SigISS                 4 cidades - Pronto para a RTC
 SigISSWeb             11 cidades - Pronto para a RTC
 SilTecnologia          9 cidades - Pronto para a RTC
-SimplISS              22 cidades - Pronto para a RTC
+SimplISS              22 cidades - Pronto para a RTC (Permite uma lista de itens - versão 1 da ABRASF) - Aderiu o layout do Padrão Nacional
 Sintese               62 cidades
 Sistemas4R             2 cidades
 SpeedGov              30 cidades - Pronto para a RTC
@@ -96,9 +96,9 @@ Tinus                 37 cidades - Pronto para a RTC
 Tiplan                 7 cidades - Pronto para a RTC
 Tributus              73 cidades
 VersaTecnologia       14 cidades - Pronto para a RTC
-WebFisco               3 cidades - Pronto para a RTC
+WebFisco               3 cidades - Pronto para a RTC (Permite uma lista de itens)
 WebISS                80 cidades - Pronto para a RTC
-XTRTecnologia          7 cidades
+XTRTecnologia          7 cidades                     (Permite uma lista de itens)
 
 
 Abaco               zero cidades
@@ -107,10 +107,10 @@ AEG                 zero cidades
 BHISS               zero cidades
 Contass             zero cidades
 DeISS               zero cidades
-eISS                zero cidades
+eISS                zero cidades         (Permite uma lista de itens)
 geNFe               zero cidades
 GovBr               zero cidades
-Governa             zero cidades
+Governa             zero cidades         (Permite uma lista de itens)
 Isaneto             zero cidades
 ISSCambe            zero cidades
 ISSCuritiba         zero cidades
@@ -126,18 +126,18 @@ Lexsom              zero cidades
 Libre               zero cidades
 Link3               zero cidades
 Mitra               zero cidades
-NFEletronica        zero cidades
+NFEletronica        zero cidades         (Permite uma lista de itens)
 NotaInteligente     zero cidades
 PRODAUB             zero cidades
 Siam                zero cidades
 SiapNet             zero cidades
 SiapSistemas        zero cidades
 Siat                zero cidades
-Simple              zero cidades
+Simple              zero cidades         (Permite uma lista de itens)
 SisPMJP             zero cidades
-SmarAPD             zero cidades
-Smart4              zero cidades (Ativ!)  
-SoftPlan            zero cidades
+SmarAPD             zero cidades         (Permite uma lista de itens)
+Smart4              zero cidades (Ativ!) (Permite uma lista de itens) 
+SoftPlan            zero cidades         (Permite uma lista de itens)
 SystemPro           zero cidades
 TcheInfo            zero cidades
 Thema               zero cidades
