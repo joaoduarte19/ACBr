@@ -140,9 +140,9 @@ public class MainActivity extends AppCompatActivity {
 				acbrlibbal.configGravarValor( "BAL", "Porta", "/dev/ttyUSER0" );
 				// Configurações seriais comuns (ajuste conforme o manual da balança).
 				acbrlibbal.configGravarValor( "BAL_Device", "BaudRate", "9600" );
-				acbrlibbal.configGravarValor( "BAL_Device", "DataBits", "8" );
-				acbrlibbal.configGravarValor( "BAL_Device", "Paridade", "0" );
-				acbrlibbal.configGravarValor( "BAL_Device", "StopBits", "1" );
+				acbrlibbal.configGravarValor( "BAL_Device", "Data", "8" );
+				acbrlibbal.configGravarValor( "BAL_Device", "Parity", "0" );
+				acbrlibbal.configGravarValor( "BAL_Device", "Stop", "1" );
 				acbrlibbal.configGravarValor( "BAL_Device", "HandShake", "0" );
 				acbrlibbal.configGravar();
 			}catch (Exception e) {
