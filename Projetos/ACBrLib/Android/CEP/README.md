@@ -5,7 +5,7 @@ Biblioteca para uso de componente ACBrLibCEP em Android
 
 Permite a utilização da ACBrCEP em projetos Android, facilitando a integração de funcionalidades relacionadas à consulta de CEPs.
 
-## Getting Started ##
+# Getting Started #
 
 ## Índice ##
 1. [Requisitos Mínimos](#1-requisitos-minimos)
@@ -15,7 +15,9 @@ Permite a utilização da ACBrCEP em projetos Android, facilitando a integraçã
 5. [Configurações da Biblioteca](#5-configuracoes-da-biblioteca)
 6. [Permissões Necessárias](#6-permissoes-necessarias)
 7. [Fluxo de uso](#7-fluxo-de-uso)
-8. [Exemplo de uso](#8-exemplo-de-uso)
+8. [Informações adicionais](#8-informacoes-adicionais)
+9. [Exemplo de uso](#9-exemplo-de-uso)
+10. [Debug](#10-debug)
 
 
 <a id="1-requisitos-minimos"></a>
@@ -94,9 +96,30 @@ Link para documentação de configurações da biblioteca: https://acbr.sourcefo
 3. Utilização das funcionalidades da biblioteca
 4. Finalização da biblioteca (recomendada para liberação de recursos) (considere o ciclo de vida da sua aplicação para escolher o melhor momento para finalizar, ex: onDestroy de uma Activity ou Fragment')
 
+<a id="8-informacoes-adicionais"></a>
+### 8. Informações adicionais ###
 
-<a id="8-exemplo-de-uso"></a>
-### 8. Utilizando a biblioteca ACBrLibCep ###
+#### Classe principal da biblioteca ACBrLibCep ####
+[ACBrLibCep](ACBrLibCep/src/main/java/br/com/acbr/lib/cep/ACBrLibCep.java)
+
+### Informações adicionais sobre configuração do CEP ###
+
+Na ACBrLibCEP, a configuração essencial é a escolha do WebService de consulta.
+
+Exemplo prático de configuração mínima:
+```java
+acbrlibcep.configGravarValor( "CEP", "WebService", "3" ); // Republica Virtual
+```
+
+Dependendo do provedor escolhido, pode ser necessário informar também:
+- ChaveAcesso
+- Usuario
+- Senha
+- PesquisarIBGE
+
+
+<a id="9-exemplo-de-uso"></a>
+### 9. Utilizando a biblioteca ACBrLibCep ###
 Exemplo de código para utilização da biblioteca ACBrLibCep:
 ```java
 import br.com.acbr.lib.cep.ACBrLibCep;
@@ -158,5 +181,9 @@ public class MainActivity extends AppCompatActivity {
 ```
 
 
+<a id="10-Debug"></a>
+### 10. Debug ###
+
+Logs da biblioteca são mostrados no logcat, basta  procurar pela tag `ACBrLibCep`. Para facilitar a identificação, é recomendado configurar o LogNivel para 4 (Debug) durante o desenvolvimento, e ajustar para um nível mais restritivo (ex: 2 - Erro) em produção.
 
 

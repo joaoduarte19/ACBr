@@ -5,7 +5,7 @@ Biblioteca para uso de componente ACBrLibPIXCD em Android
 
 Permite a utilização da ACBrPIXCD em projetos Android, facilitando a integração de funcionalidades relacionadas ao sistema de pagamentos instantâneos PIX.
 
-## Getting Started ##
+# Getting Started #
 
 ## Índice ##
 1. [Requisitos Mínimos](#1-requisitos-minimos)
@@ -15,7 +15,9 @@ Permite a utilização da ACBrPIXCD em projetos Android, facilitando a integraç
 5. [Configurações da Biblioteca](#5-configuracoes-da-biblioteca)
 6. [Permissões Necessárias](#6-permissoes-necessarias)
 7. [Fluxo de uso](#7-fluxo-de-uso)
-8. [Exemplo de uso](#8-exemplo-de-uso)
+8. [Informações adicionais](#8-informacoes-adicionais)
+9. [Exemplo de uso](#9-exemplo-de-uso)
+10. [Debug](#10-debug)
 
 
 <a id="1-requisitos-minimos"></a>
@@ -94,9 +96,58 @@ Link para documentação de configurações da biblioteca: https://acbr.sourcefo
 3. Utilização das funcionalidades da biblioteca
 4. Finalização da biblioteca (recomendada para liberação de recursos) (considere o ciclo de vida da sua aplicação para escolher o melhor momento para finalizar, ex: onDestroy de uma Activity ou Fragment')
 
+<a id="8-informacoes-adicionais"></a>
+### 8. Informações adicionais ###
 
-<a id="8-exemplo-de-uso"></a>
-### 8. Utilizando a biblioteca ACBrLibPIXCD ###
+#### Classe principal da biblioteca ACBrLibPIXCD ####
+[ACBrLibPIXCD](ACBrLibPIXCD/src/main/java/br/com/acbr/lib/pixcd/ACBrLibPIXCD.java)
+
+### Informações adicionais sobre configuração do PIXCD ###
+
+Com base nas seções de configurações gerais, configuração da biblioteca PIXCD e exemplo de INI, o conjunto essencial do exemplo é:
+- Sessão Principal: LogNivel e, quando necessário, LogPath.
+- Sessão PIXCD: PSP, NomeRecebedor, CidadeRecebedor e UFRecebedor.
+- Sessão do PSP escolhido: credenciais e chaves específicas do provedor.
+
+Exemplo prático de configuração mínima para PIXCD com Banco do Brasil:
+```java
+acbrlibpixcd.configGravarValor( "Principal", "LogNivel", "4" );
+acbrlibpixcd.configGravarValor( "PIXCD", "PSP", "2" ); // Banco do Brasil
+acbrlibpixcd.configGravarValor( "PIXCD", "NomeRecebedor", "Recebedor Exemplo" );
+acbrlibpixcd.configGravarValor( "PIXCD", "CidadeRecebedor", "SAO PAULO" );
+acbrlibpixcd.configGravarValor( "PIXCD", "UFRecebedor", "SP" );
+acbrlibpixcd.configGravarValor( "BANCOBRASIL", "ClientID", "SeuClientID" );
+acbrlibpixcd.configGravarValor( "BANCOBRASIL", "ClientSecret", "SeuClientSecret" );
+acbrlibpixcd.configGravarValor( "BANCOBRASIL", "DeveloperApplicationKey", "SuaAppKey" );
+acbrlibpixcd.configGravarValor( "BANCOBRASIL", "ChavePIX", "sua-chave-pix" );
+acbrlibpixcd.configGravarValor( "BANCOBRASIL", "BBAPIVersao", "1" );
+```
+
+No exemplo adotado aqui, o PSP é o Banco do Brasil, então as chaves essenciais são:
+- ClientID
+- ClientSecret
+- DeveloperApplicationKey
+- ChavePIX
+- BBAPIVersao
+
+A documentação da ACBrLibPIXCD também mostra outras chaves úteis na sessão PIXCD, como Ambiente, Timeout, TipoChave, ProxyHost, ProxyPort, ProxyUser e ProxyPass.
+
+Exemplo prático do fluxo básico de cobrança imediata:
+```java
+String txId = "TXID12345678901234567890123";
+String caminhoCobranca = getFilesDir().getAbsolutePath() + "/cobranca_imediata.ini";
+String respostaCobranca = acbrlibpixcd.CriarCobrancaImediata(caminhoCobranca, txId);
+String statusCobranca = acbrlibpixcd.ConsultarCobrancaImediata(txId, 0);
+```
+
+Para o fluxo de cobrança imediata usado no exemplo, o arquivo INI informado em CriarCobrancaImediata(...) deve conter os dados da cobrança no formato esperado pelo endpoint /Cob.
+A partir da documentação de exemplo de INI, os cenários mais comuns são: criar cobrança imediata, revisar cobrança imediata, criar cobrança com vencimento e solicitar devolução PIX.
+
+Se trocar o PSP, mantenha a sessão PIXCD com os dados do recebedor e substitua apenas a sessão específica do provedor pelas credenciais exigidas por ele.
+
+
+<a id="9-exemplo-de-uso"></a>
+### 9. Utilizando a biblioteca ACBrLibPIXCD ###
 Exemplo de código para utilização da biblioteca ACBrLibPIXCD:
 ```java
 import br.com.acbr.lib.pixcd.ACBrLibPIXCD;
@@ -182,5 +233,9 @@ public class MainActivity extends AppCompatActivity {
 ```
 
 
+<a id="10-Debug"></a>
+### 10. Debug ###
+
+Logs da biblioteca são mostrados no logcat, basta  procurar pela tag `ACBrLibPIXCD`. Para facilitar a identificação, é recomendado configurar o LogNivel para 4 (Debug) durante o desenvolvimento, e ajustar para um nível mais restritivo (ex: 2 - Erro) em produção.
 
 

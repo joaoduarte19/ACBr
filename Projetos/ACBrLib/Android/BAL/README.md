@@ -5,7 +5,7 @@ Biblioteca para uso de componente ACBrLibBAL em Android
 
 Permite a utilização da ACBrBAL em projetos Android, facilitando a integração de funcionalidades relacionadas ao controle de balanças.
 
-## Getting Started ##
+# Getting Started #
 
 ## Índice ##
 1. [Requisitos Mínimos](#1-requisitos-minimos)
@@ -15,7 +15,9 @@ Permite a utilização da ACBrBAL em projetos Android, facilitando a integraçã
 5. [Configurações da Biblioteca](#5-configuracoes-da-biblioteca)
 6. [Permissões Necessárias](#6-permissoes-necessarias)
 7. [Fluxo de uso](#7-fluxo-de-uso)
-8. [Exemplo de uso](#8-exemplo-de-uso)
+8. [Informações adicionais](#8-informacoes-adicionais)
+9. [Exemplo de uso](#9-exemplo-de-uso)
+10. [Debug](#10-debug)
 
 
 <a id="1-requisitos-minimos"></a>
@@ -94,9 +96,41 @@ Link para documentação de configurações da biblioteca: https://acbr.sourcefo
 3. Utilização das funcionalidades da biblioteca
 4. Finalização da biblioteca (recomendada para liberação de recursos) (considere o ciclo de vida da sua aplicação para escolher o melhor momento para finalizar, ex: onDestroy de uma Activity ou Fragment')
 
+<a id="8-informacoes-adicionais"></a>
+### 8. Informações adicionais ###
 
-<a id="8-exemplo-de-uso"></a>
-### 8. Utilizando a biblioteca ACBrLibBAL ###
+#### Classe principal da biblioteca ACBrLibBAL ####
+[ACBrLibBAL](ACBrLibBAL/src/main/java/br/com/acbr/lib/bal/ACBrLibBAL.java)
+
+### Informações adicionais sobre configuração da BAL ###
+
+Na ACBrLibBAL, a sessão BAL define a porta e o modelo da balança, mas os parâmetros mais sensíveis normalmente ficam em BAL_Device.
+
+Campos mais relevantes em BAL_Device:
+- Baud: velocidade da porta serial.
+- Data: quantidade de bits de dados.
+- Parity: paridade da comunicação.
+- Stop: bits de parada.
+- HandShake: controle de fluxo serial.
+- TimeOut: tempo máximo de espera na comunicação.
+
+Exemplo prático de configuração:
+```java
+acbrlibbal.configGravarValor( "BAL", "Modelo", "1" );
+acbrlibbal.configGravarValor( "BAL", "Porta", "/dev/ttyUSER0" );
+acbrlibbal.configGravarValor( "BAL_Device", "Baud", "9600" );
+acbrlibbal.configGravarValor( "BAL_Device", "Data", "8" );
+acbrlibbal.configGravarValor( "BAL_Device", "Parity", "0" );
+acbrlibbal.configGravarValor( "BAL_Device", "Stop", "0" );
+acbrlibbal.configGravarValor( "BAL_Device", "HandShake", "0" );
+acbrlibbal.configGravarValor( "BAL_Device", "TimeOut", "3" );
+```
+
+Esses valores devem ser ajustados conforme o protocolo da balança e o equipamento Android utilizado.
+
+
+<a id="9-exemplo-de-uso"></a>
+### 9. Utilizando a biblioteca ACBrLibBAL ###
 Exemplo de código para utilização da biblioteca ACBrLibBAL:
 ```java
 import br.com.acbr.lib.bal.ACBrLibBAL;
@@ -168,5 +202,9 @@ public class MainActivity extends AppCompatActivity {
 ```
 
 
+<a id="10-Debug"></a>
+### 10. Debug ###
+
+Logs da biblioteca são mostrados no logcat, basta  procurar pela tag `ACBrLibBAL`. Para facilitar a identificação, é recomendado configurar o LogNivel para 4 (Debug) durante o desenvolvimento, e ajustar para um nível mais restritivo (ex: 2 - Erro) em produção.
 
 
