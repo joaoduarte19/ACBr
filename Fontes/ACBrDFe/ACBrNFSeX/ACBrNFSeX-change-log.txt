@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/04/2026
+-- ACBrNFSeXServicos --
+[*] ACBr-9271 - O provedor DBSeller tem um WebService novo que recepciona o XML segundo o Padrão Nacional.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXProviderManager --
 -- DBSeller.GravarXml/DBSeller.LerXml/DBSeller.Provider --
 [+] ACBr-9271 - O provedor implementou um novo webservice que recepciona o XML segundo o Padrão Nacional.
