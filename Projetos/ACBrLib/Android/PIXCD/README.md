@@ -21,7 +21,8 @@ Permite a utilização da ACBrPIXCD em projetos Android, facilitando a integraç
 	2. [Recomendações por biblioteca](#72-recomendacoes-por-biblioteca)
 8. [Exemplo de uso](#8-exemplo-de-uso)
 9. [Debug](#9-debug)
-
+10. [Referências](#10-referencias)
+	1. [Configurações gerais](#101-configuracoes-gerais)
 
 <a id="1-requisitos-minimos"></a>
 # 1. Requisitos Mínimos
@@ -174,6 +175,8 @@ A partir da documentação de exemplo de INI, os cenários mais comuns são: cri
 ## 7.2.4 Observações de PSP
 Se trocar o PSP, mantenha a sessão PIXCD com os dados do recebedor e substitua apenas a sessão específica do provedor pelas credenciais exigidas por ele.
 
+Referência sobre credenciais e configuração de PSPs https://www.projetoacbr.com.br/forum/topic/68320-acbrpixcd-como-solicitar-credenciais-e-configurar-psps-no-componente/
+
 > **Armazenamento seguro:** credenciais do PSP (ClientID, ClientSecret, ChavePIX, DeveloperApplicationKey e equivalentes de outros provedores) nunca devem ser armazenadas em texto puro no código-fonte ou em arquivos não protegidos.
 > Utilize Android Keystore, EncryptedSharedPreferences ou variáveis injetadas em tempo de execução (ex.: via servidor seguro ou secrets manager).
 > Consulte: https://developer.android.com/training/data-storage?hl=pt-br
@@ -284,5 +287,14 @@ public class MainActivity extends AppCompatActivity {
 # 9. Debug
 
 Logs da biblioteca são mostrados no logcat, basta  procurar pela tag `ACBrLibPIXCD`. Para facilitar a identificação, é recomendado configurar o LogNivel para 4 (Debug) durante o desenvolvimento, e ajustar para um nível mais restritivo (ex: 2 - Erro) em produção.
+
+
+<a id="10-referencias"></a>
+# 10. Referências
+
+<a id="101-configuracoes-gerais"></a>
+## 10.1 Configurações gerais
+
+- Documentação geral da ACBrLib: https://acbr.sourceforge.io/ACBrLib/Geral.html
 
 

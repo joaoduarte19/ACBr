@@ -21,7 +21,8 @@ Permite a utilização da ACBrNFe em projetos Android, facilitando a integraçã
 	2. [Recomendações por biblioteca](#72-recomendacoes-por-biblioteca)
 8. [Exemplo de uso](#8-exemplo-de-uso)
 9. [Debug](#9-debug)
-
+10. [Referências](#10-referencias)
+	1. [Configurações gerais](#101-configuracoes-gerais)
 
 <a id="1-requisitos-minimos"></a>
 # 1. Requisitos Mínimos
@@ -134,6 +135,7 @@ Os comentários do exemplo deixam estes pontos como essenciais antes da emissão
 - Para emitir NFCe, os dados básicos continuam os mesmos da NFe, mudando o modelo e alguns grupos/campos que deixam de ser obrigatórios.
 - Para NFCe, ajuste o modelo do documento para NFCe e o TipoDANFE para 4 (tiNFCe).
 - Se for gerar PDF da DANFE, defina também o PathPDF na seção DANFe.
+- Documentação da seção DFe: https://acbr.sourceforge.io/ACBrLib/DFe.html
 
 > **Armazenamento seguro:** o caminho e a senha do certificado A1 (ArquivoPFX e Senha) nunca devem ser armazenados em texto puro no código-fonte.
 > Utilize Android Keystore, EncryptedSharedPreferences ou outro mecanismo seguro para guardar e recuperar essas informações em tempo de execução.
@@ -288,5 +290,14 @@ public class MainActivity extends AppCompatActivity {
 # 9. Debug
 
 Logs da biblioteca são mostrados no logcat, basta  procurar pela tag `ACBrLibNFe`. Para facilitar a identificação, é recomendado configurar o LogNivel para 4 (Debug) durante o desenvolvimento, e ajustar para um nível mais restritivo (ex: 2 - Erro) em produção.
+
+
+<a id="10-referencias"></a>
+# 10. Referências
+
+<a id="101-configuracoes-gerais"></a>
+## 10.1 Configurações gerais
+
+- Documentação geral da ACBrLib: https://acbr.sourceforge.io/ACBrLib/Geral.html
 
 
