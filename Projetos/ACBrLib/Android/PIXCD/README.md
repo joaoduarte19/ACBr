@@ -73,6 +73,7 @@ File -> Sync project with Gradle Files (Control + shift + O)
 
 <a id="5-configuracoes-da-biblioteca"></a>
 ### 5. Configurações da Biblioteca ### 
+
 Link para documentação de configurações da biblioteca: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html
 
 

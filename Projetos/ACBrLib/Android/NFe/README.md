@@ -73,6 +73,7 @@ File -> Sync project with Gradle Files (Control + shift + O)
 
 <a id="5-configuracoes-da-biblioteca"></a>
 ### 5. Configurações da Biblioteca ### 
+
 Link para documentação de configurações da biblioteca: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca16.html
 
 
@@ -133,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
 			try {
 				acbrlibnfe.inicializar();
 				
-				// NFe: para Linux, manter OpenSSL e LibXML2 conforme configuração abaixo.
 				// Fluxo de emissao NFe/NFCe: https://acbr.sourceforge.io/ACBrLib/ComoemitirumaNFeouNFCe.html
 				acbrlibnfe.configGravarValor( "Principal", "LogNivel", "4" );
 				acbrlibnfe.configGravarValor( "DFe", "SSLCryptLib", "1" );
@@ -146,6 +146,17 @@ public class MainActivity extends AppCompatActivity {
 				acbrlibnfe.configGravarValor( "NFe", "PathSalvar", getFilesDir().getAbsolutePath() + "/Notas" );
 				// Ambiente: 1 = homologacao (demo), ajuste para producao quando necessario.
 				acbrlibnfe.configGravarValor( "NFe", "Ambiente", "1" );
+
+				//Seçao DANFe
+				acbrlibnfe.configGravarValor( "DANFe", "PathPDF", getFilesDir().getAbsolutePath() + "/DANFe" );
+				//0 = tiSemGeracao
+				//1 = tiRetrato
+				//2 = tiPaisagem
+				//3 = tiSimplificado
+				//4 = tiNFCe
+				//5 = tiMsgEletronica
+
+				acbrlibnfe.configGravarValor( "DANFe", "TipoDANFE","0");
 				acbrlibnfe.configGravar();
 			}catch (Exception e) {
 				e.printStackTrace();
