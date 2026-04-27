@@ -134,6 +134,9 @@ Com base nas seções de configurações gerais, configuração da biblioteca PI
 - Sessão Principal: LogNivel e, quando necessário, LogPath.
 - Sessão PIXCD: PSP, NomeRecebedor, CidadeRecebedor e UFRecebedor.
 - Sessão do PSP escolhido: credenciais e chaves específicas do provedor.
+- Configurações gerais ACBrLib: https://acbr.sourceforge.io/ACBrLib/Geral.html
+- Configurações ACBrLibPIXCD: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html
+- Exemplo de INI PIXCD: https://acbr.sourceforge.io/ACBrLib/ExemplodeINI7.html
 
 <a id="722-exemplo-configuracao"></a>
 ## 7.2.2 Exemplo de configuração mínima
@@ -235,11 +238,7 @@ public class MainActivity extends AppCompatActivity {
 			try {
 				acbrlibpixcd.inicializar();
 				
-				//PIXCD: no demo o PSP usado e Banco do Brasil (valor 2).
-				//Configuracoes gerais ACBrLib: https://acbr.sourceforge.io/ACBrLib/Geral.html
-				//Configuracoes ACBrLibPIXCD: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca23.html
-				//Exemplo de INI PIXCD: https://acbr.sourceforge.io/ACBrLib/ExemplodeINI7.html
-
+				// PIXCD: no demo o PSP usado e Banco do Brasil (valor 2).
 				acbrlibpixcd.configGravarValor( "Principal", "LogNivel", "4" );
 				acbrlibpixcd.configGravarValor( "PIXCD", "PSP", "2" );
 				acbrlibpixcd.configGravarValor( "PIXCD", "NomeRecebedor", "Recebedor Exemplo" );

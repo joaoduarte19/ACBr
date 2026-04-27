@@ -135,6 +135,7 @@ Os comentários do exemplo deixam estes pontos como essenciais antes da emissão
 - Para emitir NFCe, os dados básicos continuam os mesmos da NFe, mudando o modelo e alguns grupos/campos que deixam de ser obrigatórios.
 - Para NFCe, ajuste o modelo do documento para NFCe e o TipoDANFE para 4 (tiNFCe).
 - Se for gerar PDF da DANFE, defina também o PathPDF na seção DANFe.
+- Fluxo de emissão NFe/NFCe: https://acbr.sourceforge.io/ACBrLib/ComoemitirumaNFeouNFCe.html
 - Documentação da seção DFe: https://acbr.sourceforge.io/ACBrLib/DFe.html
 
 > **Armazenamento seguro:** o caminho e a senha do certificado A1 (ArquivoPFX e Senha) nunca devem ser armazenados em texto puro no código-fonte.
@@ -238,7 +239,6 @@ public class MainActivity extends AppCompatActivity {
 			try {
 				acbrlibnfe.inicializar();
 				
-				// Fluxo de emissao NFe/NFCe: https://acbr.sourceforge.io/ACBrLib/ComoemitirumaNFeouNFCe.html
 				acbrlibnfe.configGravarValor( "Principal", "LogNivel", "4" );
 				acbrlibnfe.configGravarValor( "DFe", "SSLCryptLib", "1" );
 				acbrlibnfe.configGravarValor( "DFe", "SSLHttpLib", "3" );
