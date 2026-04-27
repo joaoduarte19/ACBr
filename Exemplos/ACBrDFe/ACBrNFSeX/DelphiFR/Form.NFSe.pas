@@ -31,12 +31,8 @@ type
     G: TGroupBox;
     ckVariosItens: TCheckBox;
     Button1: TButton;
-    gbLogomarca: TGroupBox;
-    ckLogomarcaPrefeitura: TCheckBox;
     ckHomologacao: TCheckBox;
     ACBrNFSeX1: TACBrNFSeX;
-    ckLogomarcaPrestador: TCheckBox;
-    ckQRCode: TCheckBox;
     rbProvedor: TRadioGroup;
     ACBrIBGE1: TACBrIBGE;
     ckOutrasInformacoes: TCheckBox;
@@ -118,19 +114,11 @@ begin
     FDANFSeXFR.FastFile := '..\Delphi\Report\DANFSEPadraoNacional.fr3';
     ACBrNFSeX1.DANFSE := FDANFSeXFR;
 
-    FDANFSeXFR.LogoNFSe := '.\LogoNFSe.png';
-    FDANFSeXFR.Logo := '.\Logo.png';
-
-    if ckLogomarcaPrestador.Checked then
-      FDANFSeXFR.Prestador.Logo := '..\logo.png'
-    else
-      FDANFSeXFR.Prestador.Logo := '';
-
-    FDANFSeXFR.Prefeitura := 'PREFEITURA DO MUNICIPIO DE ' +
-      UpperCase(NomeCidade);
-
-    //    danfse1.OutrasInformacaoesImp := 'PREFEITURA DO MUNICIPIO DE CERQUILHO SECRETARIA MUNICIPAL DE FINANÇAS 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789'+
-    //                          'NOTA FISCAL ELETRÔNICA DE SERVIÇOS - NFe 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789';
+    ACBrNFSeX1.DANFSE.LogoNFSe := ExtractFilePath(Application.ExeName) + 'LogoNFSe.png';
+    ACBrNFSeX1.DANFSE.Logo := ExtractFilePath(Application.ExeName) + 'LogoPrefeitura.png';
+    ACBrNFSeX1.DANFSE.Prestador.Logo := ExtractFilePath(Application.ExeName) + 'Logo.png';;
+    ACBrNFSeX1.DANFSE.ExpandeLogoMarca := False;
+    ACBrNFSeX1.DANFSE.Prefeitura := 'PREFEITURA DO MUNICIPIO DE XXXXXXXXX';
 
     ACBrNFSeX1.NotasFiscais.Imprimir;
 

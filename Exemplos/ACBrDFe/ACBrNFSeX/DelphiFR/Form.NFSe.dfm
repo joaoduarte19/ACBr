@@ -26,7 +26,7 @@ object FNFSe: TFNFSe
       Width = 129
       Height = 17
       Caption = 'For'#231'ar V'#225'rios Itens'
-      TabOrder = 2
+      TabOrder = 1
     end
     object Button1: TButton
       Left = 11
@@ -37,45 +37,13 @@ object FNFSe: TFNFSe
       TabOrder = 0
       OnClick = Button1Click
     end
-    object gbLogomarca: TGroupBox
-      Left = 151
-      Top = 56
-      Width = 174
-      Height = 103
-      Caption = 'Op'#231#245'es'
-      TabOrder = 1
-      object ckLogomarcaPrefeitura: TCheckBox
-        Left = 16
-        Top = 24
-        Width = 145
-        Height = 17
-        Caption = 'Logomarca Prefeitura'
-        TabOrder = 0
-      end
-      object ckLogomarcaPrestador: TCheckBox
-        Left = 16
-        Top = 47
-        Width = 137
-        Height = 17
-        Caption = 'Logomarca Prestador'
-        TabOrder = 1
-      end
-      object ckQRCode: TCheckBox
-        Left = 16
-        Top = 70
-        Width = 81
-        Height = 17
-        Caption = 'QR Code'
-        TabOrder = 2
-      end
-    end
     object ckHomologacao: TCheckBox
       Left = 151
       Top = 190
       Width = 145
       Height = 17
       Caption = 'For'#231'ar Homologa'#231#227'o'
-      TabOrder = 3
+      TabOrder = 2
     end
     object rbProvedor: TRadioGroup
       Left = 11
@@ -86,7 +54,7 @@ object FNFSe: TFNFSe
       ItemIndex = 0
       Items.Strings = (
         'Padr'#227'o Nacional')
-      TabOrder = 4
+      TabOrder = 3
     end
     object ckOutrasInformacoes: TCheckBox
       Left = 151
@@ -94,7 +62,7 @@ object FNFSe: TFNFSe
       Width = 161
       Height = 17
       Caption = 'For'#231'ar Outras Informa'#231#245'es'
-      TabOrder = 5
+      TabOrder = 4
     end
   end
   object ACBrNFSeX1: TACBrNFSeX
