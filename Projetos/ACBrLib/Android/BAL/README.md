@@ -10,32 +10,38 @@ Permite a utilização da ACBrBAL em projetos Android, facilitando a integraçã
 ## Índice ##
 1. [Requisitos Mínimos](#1-requisitos-minimos)
 2. [Alinhamento de páginas de memória de 16 KB](#2-alinhamento-16kb)
-3. [Importar no build.gradle](#3-importar-build-gradle)
-4. [Importar no build.gradle.kts](#4-importar-build-gradle-kts)
-5. [Configurações da Biblioteca](#5-configuracoes-da-biblioteca)
-6. [Permissões Necessárias](#6-permissoes-necessarias)
-7. [Fluxo de uso](#7-fluxo-de-uso)
-8. [Informações adicionais](#8-informacoes-adicionais)
-9. [Exemplo de uso](#9-exemplo-de-uso)
-10. [Debug](#10-debug)
+3. [Importar AAR](#3-importar-aar)
+	1. [Importar no build.gradle](#31-importar-build-gradle)
+	2. [Importar no build.gradle.kts](#32-importar-build-gradle-kts)
+4. [Configurações da Biblioteca](#4-configuracoes-da-biblioteca)
+5. [Permissões Necessárias](#5-permissoes-necessarias)
+6. [Fluxo de uso](#6-fluxo-de-uso)
+7. [Informações adicionais](#7-informacoes-adicionais)
+	1. [Classe da biblioteca](#71-classe-da-biblioteca)
+	2. [Recomendações por biblioteca](#72-recomendacoes-por-biblioteca)
+8. [Exemplo de uso](#8-exemplo-de-uso)
+9. [Debug](#9-debug)
 
 
 <a id="1-requisitos-minimos"></a>
-### 1. Requisitos Mínimos ###
+# 1. Requisitos Mínimos
 
 +	Android 24 ( Android 7.0 Nougat) ou superior
 +	Android Android Gradle Plugin 8.6.0 ou superior
 
 
 <a id="2-alinhamento-16kb"></a>
-### 2. Alinhamento de páginas de memória de 16 KB ###
+# 2. Alinhamento de páginas de memória de 16 KB
 
 Este aar foi compilado com alinhamento de páginas de memória de 16 KB, o que é necessário para garantir a compatibilidade com o Android 15. Para mais informações sobre essa mudança e suas implicações, consulte o tópico no fórum do Projeto ACBr:
 https://www.projetoacbr.com.br/forum/topic/86443-projeto-acbr-e-compatibiliza%C3%A7%C3%A3o-do-android-15/
 
 
-<a id="3-importar-build-gradle"></a>
-### 3. Importar no build.gradle ###
+<a id="3-importar-aar"></a>
+# 3. Importar AAR
+
+<a id="31-importar-build-gradle"></a>
+## 3.1 Importar no build.gradle
 
 Em seu projeto de aplicativo Android
 
@@ -47,10 +53,10 @@ implementation( files('./libs/ACBrLibBAL-release.aar'))
 implementation "net.java.dev.jna:jna:5.18.1@aar"
 ```
 
-3.Sincronize o gradle
+3. Sincronize o gradle
 
-<a id="4-importar-build-gradle-kts"></a>
-### 4. Import no build.gradle.kts ###
+<a id="32-importar-build-gradle-kts"></a>
+## 3.2 Importar no build.gradle.kts
 
 Em seu projeto de aplicativo Android
 
@@ -68,19 +74,21 @@ flatDir {
 }
 ```
 
-Sincronize o gradle
+3. Sincronize o gradle
+
+No Android Studio, acesse:
 
 File -> Sync project with Gradle Files (Control + shift + O)
 
 
-<a id="5-configuracoes-da-biblioteca"></a>
-### 5. Configurações da Biblioteca ### 
+<a id="4-configuracoes-da-biblioteca"></a>
+# 4. Configurações da Biblioteca
 
 Link para documentação de configurações da biblioteca: https://acbr.sourceforge.io/ACBrLib/ConfiguracoesdaBiblioteca3.html
 
 
-<a id="6-permissoes-necessarias"></a>
-### 6. Permissões Necessárias ###
+<a id="5-permissoes-necessarias"></a>
+# 5. Permissões Necessárias
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -89,32 +97,49 @@ Link para documentação de configurações da biblioteca: https://acbr.sourcefo
 		</manifest>
 ```
 
-<a id="7-fluxo-de-uso"></a>
-### 7. Fluxo de uso da ACBrLibBAL ###
+<a id="6-fluxo-de-uso"></a>
+# 6. Fluxo de uso da ACBrLibBAL
 1. Inicialização da biblioteca
 2. Aplicação das configurações necessárias
 3. Utilização das funcionalidades da biblioteca
 4. Finalização da biblioteca (recomendada para liberação de recursos) (considere o ciclo de vida da sua aplicação para escolher o melhor momento para finalizar, ex: onDestroy de uma Activity ou Fragment')
 
-<a id="8-informacoes-adicionais"></a>
-### 8. Informações adicionais ###
+<a id="7-informacoes-adicionais"></a>
+# 7. Informações adicionais
+
+<a id="71-classe-da-biblioteca"></a>
+## 7.1 Classe da biblioteca
 
 #### Classe principal da biblioteca ACBrLibBAL ####
-[ACBrLibBAL](ACBrLibBAL/src/main/java/br/com/acbr/lib/bal/ACBrLibBAL.java)
+Importar a classe: [ACBrLibBAL](ACBrLibBAL/src/main/java/br/com/acbr/lib/bal/ACBrLibBAL.java)
 
-### Informações adicionais sobre configuração da BAL ###
+```java
+import br.com.acbr.lib.bal.ACBrLibBAL;
+```
 
-Na ACBrLibBAL, a sessão BAL define a porta e o modelo da balança, mas os parâmetros mais sensíveis normalmente ficam em BAL_Device.
+<a id="72-recomendacoes-por-biblioteca"></a>
+## 7.2 Recomendações por biblioteca
+
+
+## Índice desta seção
+1. [Configuração essencial](#721-configuracao-essencial)
+2. [Exemplo prático](#722-exemplo-pratico)
+3. [Observações](#723-observacoes)
+
+<a id="721-configuracao-essencial"></a>
+## 7.2.1 Configuração essencial
+Na ACBrLibBAL, a sessão BAL define porta e modelo, mas os parâmetros mais sensíveis ficam em BAL_Device.
 
 Campos mais relevantes em BAL_Device:
-- Baud: velocidade da porta serial.
-- Data: quantidade de bits de dados.
-- Parity: paridade da comunicação.
-- Stop: bits de parada.
-- HandShake: controle de fluxo serial.
-- TimeOut: tempo máximo de espera na comunicação.
+- Baud: velocidade da porta serial
+- Data: quantidade de bits de dados
+- Parity: paridade da comunicação
+- Stop: bits de parada
+- HandShake: controle de fluxo serial
+- TimeOut: tempo máximo de espera na comunicação
 
-Exemplo prático de configuração:
+<a id="722-exemplo-pratico"></a>
+## 7.2.2 Exemplo prático
 ```java
 acbrlibbal.configGravarValor( "BAL", "Modelo", "1" );
 acbrlibbal.configGravarValor( "BAL", "Porta", "/dev/ttyUSER0" );
@@ -126,26 +151,42 @@ acbrlibbal.configGravarValor( "BAL_Device", "HandShake", "0" );
 acbrlibbal.configGravarValor( "BAL_Device", "TimeOut", "3" );
 ```
 
+<a id="723-observacoes"></a>
+## 7.2.3 Observações
 Esses valores devem ser ajustados conforme o protocolo da balança e o equipamento Android utilizado.
 
 
-<a id="9-exemplo-de-uso"></a>
-### 9. Utilizando a biblioteca ACBrLibBAL ###
+<a id="8-exemplo-de-uso"></a>
+# 8. Utilizando a biblioteca ACBrLibBAL
+
 Exemplo de código para utilização da biblioteca ACBrLibBAL:
+
 ```java
 import br.com.acbr.lib.bal.ACBrLibBAL;
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
 	private ACBrLibBAL acbrlibbal;
+	private File appDir;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		// dica: defina um appDir, como diretório base para arquivos de configuração, certificados, schemas, etc. Ajuste conforme a estrutura do seu app.
+		// em desenvolvimento, appDir pode ser getFilesDir() ou getExternalFilesDir(null). 
+		// Em produção, use sempre getFilesDir() para garantir acesso seguro e privado.
+
+
+		appDir = getFilesDir();
+		if (!appDir.exists()) {
+			appDir.mkdirs();
+		}
+
 		// Inicialize a biblioteca
-		String eArquivoConfig = getFilesDir().getAbsolutePath() + "/ACBrLib.ini";
+		String eArquivoConfig = appDir.getAbsolutePath() + "/ACBrLib.ini";
 		String chaveCrypt = "";
 		acbrlibbal = new ACBrLibBAL(eArquivoConfig, chaveCrypt);
 
@@ -202,8 +243,8 @@ public class MainActivity extends AppCompatActivity {
 ```
 
 
-<a id="10-Debug"></a>
-### 10. Debug ###
+<a id="9-debug"></a>
+# 9. Debug
 
 Logs da biblioteca são mostrados no logcat, basta  procurar pela tag `ACBrLibBAL`. Para facilitar a identificação, é recomendado configurar o LogNivel para 4 (Debug) durante o desenvolvimento, e ajustar para um nível mais restritivo (ex: 2 - Erro) em produção.
 
