@@ -49,7 +49,8 @@ uses
   ACBrNFSeXConsts,
   ACBrNFSeXConversao,
   ACBrNFSeXGravarXml_ABRASFv1,
-  ACBrNFSeXGravarXml_ABRASFv2;
+  ACBrNFSeXGravarXml_ABRASFv2,
+  PadraoNacional.GravarXml;
 
 type
   { TNFSeW_DBSeller }
@@ -80,6 +81,15 @@ type
     function GerarDadosFornecedor(const AIndex: Integer): TACBrXmlNode;
     function GerarDadosDeducao: TACBrXmlNodeArray;
     function GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode; override;
+  end;
+
+  { TNFSeW_DBSellerAPIPropria }
+
+  TNFSeW_DBSellerAPIPropria = class(TNFSeW_PadraoNacional)
+  protected
+
+  public
+    function GerarXml: Boolean; override;
   end;
 
 implementation
@@ -504,6 +514,25 @@ begin
                      NFSe.Servico.Valores.DescontoCondicionado, DSC_VDESCCOND));
 
   Result.AppendChild(AddNode(tcDe2, '#29', 'vReceb', 1, 15, 0, NFSe.Servico.Valores.ValorRecebido, ''));
+end;
+
+{ TNFSeW_DBSellerAPIPropria }
+
+function TNFSeW_DBSellerAPIPropria.GerarXml: Boolean;
+var
+  NFSeNode: TACBrXmlNode;
+begin
+  Configuracao;
+  LerParamsTabIni(True);
+
+  ListaDeAlertas.Clear;
+
+  FDocument.Clear();
+
+  NFSeNode := GerarXMLNFSe;
+  FDocument.Root := NFSeNode;
+
+  Result := True;
 end;
 
 end.

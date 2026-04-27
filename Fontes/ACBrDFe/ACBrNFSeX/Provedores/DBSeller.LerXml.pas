@@ -38,7 +38,9 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrNFSeXLerXml_ABRASFv1, ACBrNFSeXLerXml_ABRASFv2;
+  ACBrNFSeXLerXml_ABRASFv1,
+  ACBrNFSeXLerXml_ABRASFv2,
+  PadraoNacional.LerXml;
 
 type
   { TNFSeR_DBSeller }
@@ -53,6 +55,15 @@ type
   { TNFSeR_DBSeller204 }
 
   TNFSeR_DBSeller204 = class(TNFSeR_ABRASFv2)
+  protected
+
+  public
+
+  end;
+
+  { TNFSeR_DBSellerAPIPropria }
+
+  TNFSeR_DBSellerAPIPropria = class(TNFSeR_PadraoNacional)
   protected
 
   public

@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/04/2026
+-- ACBrNFSeXProviderManager --
+-- DBSeller.GravarXml/DBSeller.LerXml/DBSeller.Provider --
+[+] ACBr-9271 - O provedor implementou um novo webservice que recepciona o XML segundo o Padrão Nacional.
+    Liberado a geração, leitura do XML bem como o envio do mesmo para o WebService, se faz necessário
+    realizar testes com um prestador para obter o XML de retorno que não contenha mensagens de erros.
+   Por: Italo Giurizzato Junior
 -- Giss.LerXml --
 [-] A leitura do grupo tribFed estava zerando os campos: ValorInss, ValorIr e ValorCsll,
     quando o grupo de tributação federal não consta no XML.

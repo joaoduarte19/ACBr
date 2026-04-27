@@ -302,11 +302,16 @@ begin
 
       proDBSeller:
         begin
-          case Versao of
-            ve100: Result := TACBrNFSeProviderDBSeller.Create(ACBrNFSe);
-            ve204: Result := TACBrNFSeProviderDBSeller204.Create(ACBrNFSe);
+          if APIPropria then
+            Result := TACBrNFSeProviderDBSellerAPIPropria.Create(ACBrNFSe)
           else
-            Result := nil;
+          begin
+            case Versao of
+              ve100: Result := TACBrNFSeProviderDBSeller.Create(ACBrNFSe);
+              ve204: Result := TACBrNFSeProviderDBSeller204.Create(ACBrNFSe);
+            else
+              Result := nil;
+            end;
           end;
         end;
 
