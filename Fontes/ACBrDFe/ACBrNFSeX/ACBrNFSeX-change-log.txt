@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/04/2026
+-- SigISSWeb.GravarXml --
+[*] ACBr-9269 - Ajuste para só gerar as BC se o valor dos tributos forem diferentes de zero.
+   Por: NW Software
 -- eGoverneISS.GravarXml --
 [*] ACBR-9267 - Alteração para que possa ser utilizado um endereço de prestação para prestação de serviço diferente do tomador.
    Por: Valter Patrick

@@ -195,8 +195,11 @@ begin
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'valor_iss', 1, 15, 1,
                                             NFSe.Servico.Valores.ValorIss, ''));
 
-  NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'bc_pis', 1, 15, 1,
-                                         NFSe.Servico.Valores.BaseCalculo, ''));
+  if NFSe.Servico.Valores.ValorPis > 0 then
+    NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'bc_pis', 1, 15, 1,
+                                          NFSe.Servico.Valores.BaseCalculo, ''))
+  else
+    NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'bc_pis', 1, 15, 1, 0, ''));
 
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'aliq_pis', 1, 15, 1,
                                          NFSe.Servico.Valores.AliquotaPis, ''));
@@ -204,8 +207,11 @@ begin
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'valor_pis', 1, 15, 1,
                                             NFSe.Servico.Valores.ValorPis, ''));
 
-  NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'bc_cofins', 1, 15, 1,
-                                         NFSe.Servico.Valores.BaseCalculo, ''));
+  if NFSe.Servico.Valores.ValorCofins > 0 then
+    NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'bc_cofins', 1, 15, 1,
+                                          NFSe.Servico.Valores.BaseCalculo, ''))
+  else
+    NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'bc_cofins', 1, 15, 1, 0, ''));
 
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'aliq_cofins', 1, 15, 1,
                                       NFSe.Servico.Valores.AliquotaCofins, ''));
@@ -213,8 +219,11 @@ begin
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'valor_cofins', 1, 15, 1,
                                          NFSe.Servico.Valores.ValorCofins, ''));
 
-  NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'bc_csll', 1, 15, 1,
-                                         NFSe.Servico.Valores.BaseCalculo, ''));
+  if NFSe.Servico.Valores.ValorCsll > 0 then
+    NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'bc_csll', 1, 15, 1,
+                                          NFSe.Servico.Valores.BaseCalculo, ''))
+  else
+    NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'bc_csll', 1, 15, 1, 0, ''));
 
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'aliq_csll', 1, 15, 1,
                                         NFSe.Servico.Valores.AliquotaCsll, ''));
@@ -222,8 +231,11 @@ begin
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'valor_csll', 1, 15, 1,
                                            NFSe.Servico.Valores.ValorCsll, ''));
 
-  NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'bc_irrf', 1, 15, 1,
-                                         NFSe.Servico.Valores.BaseCalculo, ''));
+  if NFSe.Servico.Valores.ValorIr > 0 then
+    NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'bc_irrf', 1, 15, 1,
+                                          NFSe.Servico.Valores.BaseCalculo, ''))
+  else
+    NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'bc_irrf', 1, 15, 1, 0, ''));
 
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'aliq_irrf', 1, 15, 1,
                                           NFSe.Servico.Valores.AliquotaIr, ''));
@@ -231,8 +243,11 @@ begin
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'valor_irrf', 1, 15, 1,
                                              NFSe.Servico.Valores.ValorIr, ''));
 
-  NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'bc_inss', 1, 15, 1,
-                                         NFSe.Servico.Valores.BaseCalculo, ''));
+  if NFSe.Servico.Valores.ValorInss > 0 then
+    NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'bc_inss', 1, 15, 1,
+                                          NFSe.Servico.Valores.BaseCalculo, ''))
+  else
+    NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'bc_inss', 1, 15, 1, 0, ''));
 
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'aliq_inss', 1, 15, 1,
                                         NFSe.Servico.Valores.AliquotaInss, ''));
