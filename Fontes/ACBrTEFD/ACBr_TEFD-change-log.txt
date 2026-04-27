@@ -45,6 +45,25 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+24/04/2026
+-- ACBrTEFAPIComum --
+[+] Adicionado os métodos protegidos em "TACBrTEFAPIComum"
+    procedure DoQuandoFinalizarTransacao(ATEFResp: TACBrTEFResp; AStatus: TACBrTEFStatusTransacao);
+    procedure DoQuandoFinalizarOperacao(ATEFResp: TACBrTEFResp);
+    para organizar melhor o código
+[*] Chamadas a TEFResp.Conteudo.GravarArquivo, recebem o Parâmetro "Flush" para
+    garantir a escrita no Disco, mesmo com desligamento
+[*] Método 'TACBrTEFAPIComum.ResolverTransacaoPendente' modificado, para chamar
+    'DoQuandoFinalizarTransacao', após a atualização da Terceira Perna
+
+-- ACBrTEFAPICliSiTef --
+[+] Adicionado mecanismo para criar arquivo de Backup dentro do Loop de
+    'TACBrTEFAPIClassCliSiTef.ContinuarRequisicaoSiTef', para suportar teste
+    de Desligamento quando Cartão ainda está no PinPad
+[*] Método 'TACBrTEFAPIClassCliSiTef.CarregarRespostasPendentes', modificado para
+    dar preferencia as Transações de Backup, por elas possuirem mais informações
+    (por: DSA)
+
 16/04/2026
 -- ACBrTEFSmartTEFAPI --
 [+] [ACBR-9152] - Inclusão da propriedade JWT-Token-Loja

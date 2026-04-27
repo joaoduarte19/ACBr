@@ -122,8 +122,12 @@ type
     function DoPerguntarCampo(DefinicaoCampo: TACBrTEFAPIDefinicaoCampo): String;
     procedure DoExibirQRCode(const DadosQRCode: String);
 
+    function NomeArquivoBackupTemporario: String;
+    procedure GravarArquivoBackupTemporario;
   protected
     procedure InterpretarRespostaAPI; override;
+    procedure ProcessarRespostaOperacaoTEF; override;
+
     procedure CarregarRespostasPendentes(const AListaRespostasTEF: TACBrTEFAPIRespostas); override;
 
   public
@@ -587,6 +591,13 @@ begin
                 EhCarteiraDigital := True;
               110:  // Cancelamento, precisa confirmar
                 RespCliSiTef.Conteudo.GravaInformacao(899, CTEF_RESP_CONFIRMAR, 'True');
+
+              1,   // Dados de confirmação da transação.
+              133, // Contém o NSU do SiTef
+              952: // Número de autorização NFCE
+              begin
+                GravarArquivoBackupTemporario;
+              end;
             end;
           end;
 
@@ -1010,6 +1021,29 @@ begin
   end;
 end;
 
+function TACBrTEFAPIClassCliSiTef.NomeArquivoBackupTemporario: String;
+begin
+  Result := fpACBrTEFAPI.DiretorioTrabalho + CPREFIXO_ARQUIVO_TEF + '999' + CEXTENSAO_ARQUIVO_TEF
+end;
+
+procedure TACBrTEFAPIClassCliSiTef.GravarArquivoBackupTemporario;
+var
+  Salvar: Boolean;
+begin
+  InterpretarRespostaAPI;  // Mapeia valores da resposta
+  Salvar := (fpMetodoOperacao in [tefmtdPagamento, tefmtdCancelamento]) or
+            (max(fpACBrTEFAPI.UltimaRespostaTEF.ImagemComprovante1aVia.Count,
+                 fpACBrTEFAPI.UltimaRespostaTEF.ImagemComprovante2aVia.Count) > 0);
+
+  if Salvar then  // Apenas salva Transações que precisem de Confirmação (Terceira Perna)
+  begin
+    fpACBrTEFAPI.UltimaRespostaTEF.ArqBackup := NomeArquivoBackupTemporario;
+    fpACBrTEFAPI.UltimaRespostaTEF.CNFEnviado := False;
+    fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899, CTEF_RESP_FUNCAO, '999');
+    AtualizarHeader;  // Atualiza Header e Grava o Backup temporário
+  end;
+end;
+
 procedure TACBrTEFAPIClassCliSiTef.InterpretarRespostaAPI;
 begin
   fpACBrTEFAPI.GravarLog( 'TACBrTEFAPIClassCliSiTef.InterpretarRespostaAPI');
@@ -1019,29 +1053,67 @@ begin
   fpACBrTEFAPI.UltimaRespostaTEF.Sucesso := (fUltimoRetornoAPI = CRET_SUCESSO);
 
   fpACBrTEFAPI.UltimaRespostaTEF.ConteudoToProperty;
-  if (fUltimoRetornoAPI <> CRET_SUCESSO) then
+  if (fUltimoRetornoAPI <> CRET_SUCESSO) and (fUltimoRetornoAPI <> CRET_ITERATIVO_CONTINUA) then
     fpACBrTEFAPI.UltimaRespostaTEF.TextoEspecialOperador := ACBrStr(fTEFCliSiTefAPI.TraduzirErroTransacao(fUltimoRetornoAPI));
+end;
+
+procedure TACBrTEFAPIClassCliSiTef.ProcessarRespostaOperacaoTEF;
+var
+  ArqBkp: String;
+begin
+  // Apaga arquivo de Backup, criado dentro do Loop de 'ContinuarRequisicaoSiTef';
+  if (fpACBrTEFAPI.UltimaRespostaTEF.ArqBackup <> '') then
+  begin
+    ArqBkp := NomeArquivoBackupTemporario;
+    if (fpACBrTEFAPI.UltimaRespostaTEF.ArqBackup = ArqBkp) and FileExists(ArqBkp) then
+    begin
+      DeleteFile(ArqBkp);
+      fpACBrTEFAPI.UltimaRespostaTEF.ArqBackup := '';
+    end;
+  end;
+
+  inherited ProcessarRespostaOperacaoTEF;
 end;
 
 procedure TACBrTEFAPIClassCliSiTef.CarregarRespostasPendentes(
   const AListaRespostasTEF: TACBrTEFAPIRespostas);
 var
-  i, j: Integer;
+  i, j, k: Integer;
   CupomFiscal, NumIdent, DataFiscal, HoraFiscal: String;
   ValorTransacao: Double;
   RespTEFPendente: TACBrTEFResp;
   InfValor: TACBrInformacao;
+
+  function TransacaoJaExisteNaLista(const NumCupom: String; const DataHora: String): Boolean;
+  var
+    ii: Integer;
+    r: TACBrTEFResp;
+  begin
+    Result := False;
+    ii := 0;
+    while (not Result) and (ii < k) do
+    begin
+      with AListaRespostasTEF[ii] do
+      begin
+        Result := (Conteudo.LeInformacao(899, CTEF_RESP_DOCTO_VINCULADO).AsString = CupomFiscal) and
+                  (Conteudo.LeInformacao(899, CTEF_RESP_DATA_HORA).AsString = DataHora);
+      end;
+      Inc(ii);
+    end;
+  end;
+
 begin
   AListaRespostasTEF.CarregarRespostasDoDiretorioTrabalho;
   i := 0;
   while i < AListaRespostasTEF.Count do
   begin
-    RespTEFPendente := AListaRespostasTEF[i];
-    if not RespTEFPendente.CNFEnviado then   // Transações não confirmadas, serão carregadas abaixo, pelo comando 130
-      AListaRespostasTEF.ApagarRespostaTEF(i)
+    if (AListaRespostasTEF[i].Conteudo.LeInformacao(899, CTEF_RESP_CONFIRMADO).AsString = 'S') and
+       (AListaRespostasTEF[i].Conteudo.LeInformacao(899, CTEF_RESP_FUNCAO).AsString = '999') then
+      AListaRespostasTEF.ApagarRespostaTEF(i)  // Confirmadas e Backup Temporário podem ser removidas
     else
       Inc(i);
   end;
+  k := AListaRespostasTEF.Count;
 
   // Solicita do TEF respostas pendentes
   ExecutarTransacaoSiTef(CSITEF_OP_ConsultarTrasPendente, 0);
@@ -1061,29 +1133,32 @@ begin
       HoraFiscal := Trim(LeInformacao(164, i).AsString);
       ValorTransacao := LeInformacao(1319, i).AsFloat;
 
-      RespTEFPendente :=  TACBrTEFRespCliSiTef.Create;
-      InfValor := TACBrInformacao.Create;
-      try
-        RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_HEADER,'CRT');
-        RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_DOCTO_VINCULADO, CupomFiscal);
-        RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_ID_PAGAMENTO, NumIdent);
-        RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_DATA_HORA, DataFiscal + HoraFiscal);
-        RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_CONFIRMAR, 'True');
-        RespTEFPendente.Conteudo.GravaInformacao(105, 000, DataFiscal + HoraFiscal);
-        InfValor.AsFloat := ValorTransacao;
-        RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_VALOR_TRANSACAO, InfValor);
-        RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_FUNCAO, IntToStr(CSITEF_OP_ConsultarTrasPendente));
+      if not TransacaoJaExisteNaLista(CupomFiscal, DataFiscal + HoraFiscal) then
+      begin
+        RespTEFPendente :=  TACBrTEFRespCliSiTef.Create;
+        InfValor := TACBrInformacao.Create;
+        try
+          RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_HEADER,'CRT');
+          RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_DOCTO_VINCULADO, CupomFiscal);
+          RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_ID_PAGAMENTO, NumIdent);
+          RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_DATA_HORA, DataFiscal + HoraFiscal);
+          RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_CONFIRMAR, 'True');
+          RespTEFPendente.Conteudo.GravaInformacao(105, 000, DataFiscal + HoraFiscal);
+          InfValor.AsFloat := ValorTransacao;
+          RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_VALOR_TRANSACAO, InfValor);
+          RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_FUNCAO, IntToStr(CSITEF_OP_ConsultarTrasPendente));
 
-        RespTEFPendente.Finalizacao := CupomFiscal;
-        RespTEFPendente.DocumentoVinculado := CupomFiscal;
+          RespTEFPendente.Finalizacao := CupomFiscal;
+          RespTEFPendente.DocumentoVinculado := CupomFiscal;
 
-        j := AListaRespostasTEF.AdicionarRespostaTEF(RespTEFPendente); // Cria Clone interno
-        AListaRespostasTEF.Items[j].NSU := '';
-        AListaRespostasTEF.Items[j].CNFEnviado := False;
-        AListaRespostasTEF.Items[j].Confirmar := True;
-      finally
-        InfValor.Free;
-        RespTEFPendente.Free;
+          j := AListaRespostasTEF.AdicionarRespostaTEF(RespTEFPendente); // Cria Clone interno
+          AListaRespostasTEF.Items[j].NSU := '';
+          AListaRespostasTEF.Items[j].CNFEnviado := False;
+          AListaRespostasTEF.Items[j].Confirmar := True;
+        finally
+          InfValor.Free;
+          RespTEFPendente.Free;
+        end;
       end;
 
       inc(i);

@@ -357,6 +357,8 @@ type
     fpInicializando: Boolean;
 
     procedure CriarTEFResp;
+    procedure DoQuandoFinalizarTransacao(ATEFResp: TACBrTEFResp; AStatus: TACBrTEFStatusTransacao);
+    procedure DoQuandoFinalizarOperacao(ATEFResp: TACBrTEFResp);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -399,7 +401,7 @@ type
 
     procedure ProcessarTransacaoPendente(const MsgErro: String); virtual;
     procedure ResolverTransacaoPendente(
-      Status: TACBrTEFStatusTransacao = tefstsSucessoManual); virtual;
+      AStatus: TACBrTEFStatusTransacao = tefstsSucessoManual); virtual;
 
     //  function VerificarTEF: Boolean;
     procedure AbortarTransacaoEmAndamento;
@@ -782,7 +784,7 @@ end;
 procedure TACBrTEFAPIRespostas.GravarRespostaTEF(ATEFResp: TACBrTEFResp);
 begin
   if (ATEFResp.ArqBackup <> '') then
-    ATEFResp.Conteudo.GravarArquivo(ATEFResp.ArqBackup);
+    ATEFResp.Conteudo.GravarArquivo(ATEFResp.ArqBackup, True);
 end;
 
 procedure TACBrTEFAPIRespostas.SalvarRespostasTEF;
@@ -821,7 +823,7 @@ begin
   if Sobrescrever or (not FileExists(ArqResposta)) then
   begin
     ATEFResp.ArqBackup := ArqResposta;
-    ATEFResp.Conteudo.GravarArquivo(ArqResposta);
+    ATEFResp.Conteudo.GravarArquivo(ArqResposta, True);
   end;
 end;
 
@@ -1004,11 +1006,7 @@ begin
       end;
     end;
 
-    if Assigned(QuandoFinalizarOperacao) then
-    begin
-      GravarLog('  QuandoFinalizarOperacao');
-      QuandoFinalizarOperacao(UltimaRespostaTEF);
-    end;
+    DoQuandoFinalizarOperacao(UltimaRespostaTEF);
   end;
 end;
 
@@ -1058,7 +1056,7 @@ begin
     TACBrTEFRespHack(UltimaRespostaTEF).fpHeader := AHeader;
     UltimaRespostaTEF.Conteudo.GravaInformacao(899, CTEF_RESP_HEADER, AHeader);
     if (UltimaRespostaTEF.ArqBackup <> '') then
-      UltimaRespostaTEF.Conteudo.GravarArquivo(UltimaRespostaTEF.ArqBackup);
+      UltimaRespostaTEF.Conteudo.GravarArquivo(UltimaRespostaTEF.ArqBackup, True);
   end;
 end;
 
@@ -1120,6 +1118,25 @@ begin
     FreeAndNil(fUltimaRespostaTEF);
 
   fUltimaRespostaTEF := fpTEFAPIClass.TEFRespClass.Create;
+end;
+
+procedure TACBrTEFAPIComum.DoQuandoFinalizarTransacao(ATEFResp: TACBrTEFResp;
+  AStatus: TACBrTEFStatusTransacao);
+begin
+  if Assigned(fQuandoFinalizarTransacao) then
+  begin
+    GravarLog('      QuandoFinalizarTransacao');
+    fQuandoFinalizarTransacao(ATEFResp, AStatus);
+  end;
+end;
+
+procedure TACBrTEFAPIComum.DoQuandoFinalizarOperacao(ATEFResp: TACBrTEFResp);
+begin
+  if Assigned(QuandoFinalizarOperacao) then
+  begin
+    GravarLog('  QuandoFinalizarOperacao');
+    QuandoFinalizarOperacao(UltimaRespostaTEF);
+  end;
 end;
 
 destructor TACBrTEFAPIComum.Destroy;
@@ -1412,12 +1429,7 @@ begin
   begin
     ATEFResp := fRespostasTEF[i];
     fRespostasTEF.AtualizarTransacaoComTerceiraPerna(ATEFResp);
-
-    if Assigned(fQuandoFinalizarTransacao) then
-    begin
-      GravarLog('      QuandoFinalizarTransacao');
-      fQuandoFinalizarTransacao(ATEFResp, AStatus);
-    end;
+    DoQuandoFinalizarTransacao(ATEFResp, AStatus);
   end;
 end;
 
@@ -1467,13 +1479,14 @@ begin
 end;
 
 procedure TACBrTEFAPIComum.ResolverTransacaoPendente(
-  Status: TACBrTEFStatusTransacao);
+  AStatus: TACBrTEFStatusTransacao);
 begin
   GravarLog( 'ResolverOperacaoPendente( '+
-             GetEnumName(TypeInfo(TACBrTEFStatusTransacao), integer(Status))+' )');
+             GetEnumName(TypeInfo(TACBrTEFStatusTransacao), integer(AStatus))+' )');
 
-  fpTEFAPIClass.ResolverTransacaoPendente(Status);
+  fpTEFAPIClass.ResolverTransacaoPendente(AStatus);
   fRespostasTEF.AtualizarTransacaoComTerceiraPerna(UltimaRespostaTEF);
+  DoQuandoFinalizarTransacao(UltimaRespostaTEF, AStatus);
 end;
 
 procedure TACBrTEFAPIComum.AbortarTransacaoEmAndamento;
@@ -1505,7 +1518,7 @@ var
   i: Integer;
   MsgErro: String;
 begin
-  GravarLog('VerificarTransacoesPendentes');
+  GravarLog('VerificarTransacoesPendentes: '+IntToStr(RespostasTEF.Count));
   for i := 0 to RespostasTEF.Count-1 do
   begin
     UltimaRespostaTEF.Assign(RespostasTEF[i]);
