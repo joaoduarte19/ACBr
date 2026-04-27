@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/04/2026
+-- eGoverneISS.GravarXml --
+[*] ACBR-9267 - Alteração para que possa ser utilizado um endereço de prestação para prestação de serviço diferente do tomador.
+   Por: Valter Patrick
+   Veja: https://www.projetoacbr.com.br/forum/topic/91803-acbr-9267-nfs-e-egoverneiss-osasco-n%C3%A3o-consigo-informar-local-de-presta%C3%A7%C3%A3o-diferente-do-tomador/
 -- ISSDSF.Provider --
 [*] O provedor esta retornando o XML no formato ANSI em vez de UTF8
    Por: Italo Giurizzato Junior
