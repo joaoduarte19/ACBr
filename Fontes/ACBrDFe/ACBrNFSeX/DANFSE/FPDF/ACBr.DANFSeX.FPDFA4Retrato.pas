@@ -171,7 +171,7 @@ begin
 
     Stream := TBytesStream.Create(FLogoPrefeituraBytes);
     try
-      PDF.Image(x1, y1, w1, h1, Stream, 'C', 'C');
+      PDF.Image(x1 + 3, y1, w1, h1, Stream, 'C', 'C');
     finally
       Stream.Free;
     end;
@@ -605,7 +605,7 @@ begin
     //PDF.TextBox(x1, y1, w1, h1);
     Stream := TBytesStream.Create(LogoPrestadorBytes);
     try
-      PDF.Image(x1 + 2, y1 + 2, w1 - 4, h1 - 2, Stream, 'C', 'C');
+      PDF.Image(x1 + 4, y1 + 2, w1 - 4, h1 - 2, Stream, 'C', 'C');
     finally
       Stream.Free;
     end;
