@@ -2570,7 +2570,7 @@ begin
                 NFe.Det[i].Imposto.ICMS.pRedBC, DSC_PREDBC));
 
               xmlNode.AppendChild(AddNode(tcStr, 'N14a', 'cBenefRBC',
-                01, 01, 1, NFe.Det[i].Imposto.ICMS.cBenefRBC, DSC_CBENEFRBC));
+                01, 01, 0, NFe.Det[i].Imposto.ICMS.cBenefRBC, DSC_CBENEFRBC));
 
               xmlNode.AppendChild(AddNode(tcDe2, 'N16a', 'vICMSOp', 1, 15, NrOcorr,
                                    NFe.Det[i].Imposto.ICMS.vICMSOp, DSC_VICMS));

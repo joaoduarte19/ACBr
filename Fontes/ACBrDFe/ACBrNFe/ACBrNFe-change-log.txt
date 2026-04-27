@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/04/2026
+-- ACBrNFe.XmlWriter --
+[-] ACBR-9306 - Ajuste para que o campo cBenefRBC siga a cardinalidade do MOC.
+   Por: Valter Patrick
+
 20/04/2026
 -- ACBrNFe.XmlWriter --
 [*] Ajuste na geração do grupo de ICMS desonerado quando CST = 20.
