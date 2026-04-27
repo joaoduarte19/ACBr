@@ -433,12 +433,12 @@ begin
 
   case fpNFSe.OptanteSN of
     osnNaoOptante:
-      rllEmitenteSimplesNacional.Caption := 'Não Optante';
+      rllEmitenteSimplesNacional.Caption := ACBrStr('Não Optante');
     osnOptanteMEI:
-      rllEmitenteSimplesNacional.Caption := 'Optante - Microempreendedor Individual (MEI)';
+      rllEmitenteSimplesNacional.Caption := ACBrStr('Optante - Microempreendedor Individual (MEI)');
   else
     // osnOptanteMEEPP
-    rllEmitenteSimplesNacional.Caption := 'Optante - MicroEmpresa EPP';
+    rllEmitenteSimplesNacional.Caption := ACBrStr('Optante - MicroEmpresa EPP');
   end;
 
   if fpNFSe.infNFSe.emit.Identificacao.Nif <> '' then
@@ -455,12 +455,12 @@ begin
   begin
     case fpNFSe.RegimeApuracaoSN of
       raFederaisMunicipalpeloSN:
-        rllEmitenteRegimeApuracao.Caption := 'Federais e Municipal pelo SN';
+        rllEmitenteRegimeApuracao.Caption := ACBrStr('Federais e Municipal pelo SN');
       raFederaisSN:
-        rllEmitenteRegimeApuracao.Caption := 'Federais pelo SN';
+        rllEmitenteRegimeApuracao.Caption := ACBrStr('Federais pelo SN');
     else
       // raFederaisMunicipalforaSN
-      rllEmitenteRegimeApuracao.Caption := 'Federais e Municipal fora SN';
+      rllEmitenteRegimeApuracao.Caption := ACBrStr('Federais e Municipal fora SN');
     end;
   end
   else
@@ -600,29 +600,29 @@ begin
 
   case fpNFSe.Servico.Valores.tribMun.tribISSQN of
     tiOperacaoTributavel:
-      rllTribISSQN.Caption := 'Operação Tributável';
+      rllTribISSQN.Caption := ACBrStr('Operação Tributável');
     tiImunidade:
-      rllTribISSQN.Caption := 'Imunidade';
+      rllTribISSQN.Caption := ACBrStr('Imunidade');
     tiExportacao:
-      rllTribISSQN.Caption := 'Exportação';
+      rllTribISSQN.Caption := ACBrStr('Exportação');
   else
     // tiNaoIncidencia
-    rllTribISSQN.Caption := 'Não Incidência';
+    rllTribISSQN.Caption := ACBrStr('Não Incidência');
   end;
 
   case fpNFSe.Servico.Valores.tribMun.tpImunidade of
     timImunidade:
-      rllTipoImunidade.Caption := 'Imunidade';
+      rllTipoImunidade.Caption := ACBrStr('Imunidade');
     timPatrimonio:
-      rllTipoImunidade.Caption := 'Patrimonio';
+      rllTipoImunidade.Caption := ACBrStr('Patrimonio');
     timTemplos:
-      rllTipoImunidade.Caption := 'Templos';
+      rllTipoImunidade.Caption := ACBrStr('Templos');
     timPatrimonioPartidos:
-      rllTipoImunidade.Caption := 'Patrimonio Partidos';
+      rllTipoImunidade.Caption := ACBrStr('Patrimonio Partidos');
     timLivros:
-      rllTipoImunidade.Caption := 'Livros';
+      rllTipoImunidade.Caption := ACBrStr('Livros');
     timFonogramas:
-      rllTipoImunidade.Caption := 'Fonogramas';
+      rllTipoImunidade.Caption := ACBrStr('Fonogramas');
   else
     // timNenhum
     rllTipoImunidade.Caption := '-';
@@ -642,12 +642,12 @@ begin
 
   case fpNFSe.Servico.Valores.tribMun.tpSusp of
     tsDecisaoJudicial:
-      rllSuspensao.Caption := 'Decisão Judicial';
+      rllSuspensao.Caption := ACBrStr('Decisão Judicial');
     tsProcessoAdm:
-      rllSuspensao.Caption := 'Processo Administrativo';
+      rllSuspensao.Caption := ACBrStr('Processo Administrativo');
   else
     // tsNenhum
-    rllSuspensao.Caption := 'Não';
+    rllSuspensao.Caption := ACBrStr('Não');
   end;
 
   if fpNFSe.Servico.Valores.DescontoIncondicionado > 0 then
@@ -681,32 +681,32 @@ begin
 
   case fpNFSe.Servico.Valores.tribMun.tpRetISSQN of
     trRetidoPeloTomador:
-      rllRetencaoISSQN.Caption := 'Retido Pelo Tomador';
+      rllRetencaoISSQN.Caption := ACBrStr('Retido Pelo Tomador');
     trRetidoPeloIntermediario:
-      rllRetencaoISSQN.Caption := 'Retido Pelo Intermediário';
+      rllRetencaoISSQN.Caption := ACBrStr('Retido Pelo Intermediário');
   else
     // trNaoRetido
-    rllRetencaoISSQN.Caption := 'Não Retido';
+    rllRetencaoISSQN.Caption := ACBrStr('Não Retido');
   end;
 
   case fpNFSe.RegimeEspecialTributacao of
     retCooperativa:
-      rllRegimeEspecial.Caption := 'Cooperativa';
+      rllRegimeEspecial.Caption := ACBrStr('Cooperativa');
     retEstimativa:
-      rllRegimeEspecial.Caption := 'Estimativa';
+      rllRegimeEspecial.Caption := ACBrStr('Estimativa');
     retMicroempresaMunicipal:
-      rllRegimeEspecial.Caption := 'Microempresa Municipal';
+      rllRegimeEspecial.Caption := ACBrStr('Microempresa Municipal');
     retNotarioRegistrador:
-      rllRegimeEspecial.Caption := 'Notario Registrador';
+      rllRegimeEspecial.Caption := ACBrStr('Notario Registrador');
     retISSQNAutonomos:
-      rllRegimeEspecial.Caption := 'Autonomos';
+      rllRegimeEspecial.Caption := ACBrStr('Autonomos');
     retSociedadeProfissionais:
-      rllRegimeEspecial.Caption := 'Sociedade Profissionais';
+      rllRegimeEspecial.Caption := ACBrStr('Sociedade Profissionais');
     retOutros:
-      rllRegimeEspecial.Caption := 'Outros';
+      rllRegimeEspecial.Caption := ACBrStr('Outros');
   else
     // retNenhum
-    rllRegimeEspecial.Caption := 'Nenhum';
+    rllRegimeEspecial.Caption := ACBrStr('Nenhum');
   end;
 
   if fpNFSe.Servico.Valores.tribMun.nBM <> '' then
