@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/04/2026
+-- ISSDSF.Provider --
+[*] O provedor esta retornando o XML no formato ANSI em vez de UTF8
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] ACBr-9271 - O provedor DBSeller tem um WebService novo que recepciona o XML segundo o Padrão Nacional.
    Por: Italo Giurizzato Junior
