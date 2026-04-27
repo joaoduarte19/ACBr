@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/04/2026
+-- Giss.LerXml --
+[-] A leitura do grupo tribFed estava zerando os campos: ValorInss, ValorIr e ValorCsll,
+    quando o grupo de tributação federal não consta no XML.
+   Por: Italo Giurizzato Junior
 -- ACBr.DANFSeX.FPDFA4Retrato --
 [-] Ajuste visando evitar que os logotipos sobreponham a linha da caixa de texto.
    Por: Diego Folieni

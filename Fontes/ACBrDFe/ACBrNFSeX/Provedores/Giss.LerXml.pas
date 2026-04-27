@@ -262,9 +262,14 @@ begin
       vRetIRRF := ObterConteudo(AuxNode.Childrens.FindAnyNs('vRetIRRF'), tcDe2);
       vRetCSLL := ObterConteudo(AuxNode.Childrens.FindAnyNs('vRetCSLL'), tcDe2);
 
-      NFSe.Servico.Valores.ValorIr := vRetIRRF;
-      NFSe.Servico.Valores.ValorCsll := vRetCSLL;
-      NFSe.Servico.Valores.ValorInss := vRetCP;
+      if vRetIRRF > 0 then
+        NFSe.Servico.Valores.ValorIr := vRetIRRF;
+
+      if vRetCSLL > 0 then
+        NFSe.Servico.Valores.ValorCsll := vRetCSLL;
+
+      if vRetCP > 0 then
+        NFSe.Servico.Valores.ValorInss := vRetCP;
     end;
   end;
 end;
