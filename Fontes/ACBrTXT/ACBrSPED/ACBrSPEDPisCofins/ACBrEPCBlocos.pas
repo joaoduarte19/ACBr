@@ -1455,7 +1455,7 @@ begin
   if AValue = '01' then
     Result := codAjAcaoJudicial
   else if AValue = '02' then
-    Result :=  codAjAcaoJudicial
+    Result :=  codAjProAdministrativo
   else if AValue = '03' then
     Result := codAjLegTributaria
   else if AValue = '04' then
@@ -1479,7 +1479,7 @@ begin
   else if AValue = '25' then
     Result := codAjIcmsDestDFCompl
   else
-     raise Exception.Create(format('Valor informado [%s] deve estar entre (01,02,03,04,05 e 06)',[AValue]));
+     raise Exception.Create(format('Valor informado [%s] deve estar entre (01 a 12, ou 25)',[AValue]));
 end;
 
 function StrToIndAJ(const AValue: string):TACBrIndAJ;

@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+28/04/2026
+-- ACBrEPCBlocos --
+[*] Atualizados valores válidos na exceção da função StrToCodAj do EFDContribuições - https://www.projetoacbr.com.br/forum/topic/92042-c%C3%B3digos-ajuste-nt-012-2026-lei-complementar-n%C2%BA-224-de-2025-%E2%80%93-efd-contribui%C3%A7%C3%B5es
+    por: Hetosoft Sistemas
+
 15/04/2026
 -- ACBrEPCBloco_M_Class --
 [+] #ACBR-9216 - Novos itens no enumerado TACBrCodAj dos registro M510 e M620 do EFDContribuições
