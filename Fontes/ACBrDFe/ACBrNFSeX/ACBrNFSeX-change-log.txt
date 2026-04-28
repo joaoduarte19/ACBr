@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+28/04/2026
+-- ISSDSF.Provider --
+[*] ACBR-9302 - Alteração visando resolver o erro xmlParseEntityRef.
+   Por: Bremen Sistemas/Italo Giurizzato Junior
+
 27/04/2026
 -- SigISSWeb.GravarXml --
 [*] ACBr-9269 - Ajuste para só gerar as BC se o valor dos tributos forem diferentes de zero.

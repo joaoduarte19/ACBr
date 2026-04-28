@@ -127,6 +127,7 @@ type
     function SubstituirNFSe(const ACabecalho, AMSG: String): string; override;
 
     function TratarXmlRetornado(const aXML: string): string; override;
+    function LimparXML(const Texto: string): string;
   end;
 
   TACBrNFSeProviderISSDSF203 = class (TACBrNFSeProviderABRASFv2)
@@ -1989,13 +1990,41 @@ end;
 function TACBrNFSeXWebserviceISSDSF203.TratarXmlRetornado(
   const aXML: string): string;
 begin
-  Result := ConverteANSItoUTF8(aXml);
+  Result := LimparXML(aXml);
+  Result := ConverteANSItoUTF8(Result);
   Result := RemoverDeclaracaoXML(Result);
 
   Result := inherited TratarXmlRetornado(Result);
 
   Result := ParseText(Result);
   Result := RemoverPrefixosDesnecessarios(Result);
+end;
+
+function TACBrNFSeXWebserviceISSDSF203.LimparXML(const Texto: string): string;
+begin
+  Result := Texto;
+
+  // 1. Protege entidades XML já válidas substituindo por placeholders
+  Result := StringReplace(Result, '&amp;',  #1, [rfReplaceAll]);
+  Result := StringReplace(Result, '&lt;',   #2, [rfReplaceAll]);
+  Result := StringReplace(Result, '&gt;',   #3, [rfReplaceAll]);
+  Result := StringReplace(Result, '&apos;', #4, [rfReplaceAll]);
+  Result := StringReplace(Result, '&quot;', #5, [rfReplaceAll]);
+
+  // 2. Escapa apenas os & que sobraram (os soltos/inválidos)
+  Result := StringReplace(Result, '&', '&amp;', [rfReplaceAll]);
+
+  // 3. Restaura as entidades válidas
+  Result := StringReplace(Result, #1, '&amp;',  [rfReplaceAll]);
+  Result := StringReplace(Result, #2, '&lt;',   [rfReplaceAll]);
+  Result := StringReplace(Result, #3, '&gt;',   [rfReplaceAll]);
+  Result := StringReplace(Result, #4, '&apos;', [rfReplaceAll]);
+  Result := StringReplace(Result, #5, '&quot;', [rfReplaceAll]);
+
+  // 4. Remove caracteres de controle inválidos em XML
+  Result := StringReplace(Result, #0, '', [rfReplaceAll]);
+  Result := StringReplace(Result, #$0B, '', [rfReplaceAll]);
+  Result := StringReplace(Result, #$0C, '', [rfReplaceAll]);
 end;
 
 { TACBrNFSeProviderISSDSF203 }
