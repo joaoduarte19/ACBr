@@ -151,7 +151,13 @@ Private Declare Function NFSE_SubstituirNFSe _
                                       ByVal aCodigoVerificacao As String, _
                                       ByVal buffer As String, _
                                       ByRef bufferLen As Long) As Long
-                                      
+                                    
+Private Declare Function NFSE_ConsultarLinkNFSe _
+                Lib "ACBrNFSe32.dll" (ByVal libHandler As Long, _
+                ByVal aInfConsultaLinkNFSe As String, _
+                                      ByVal buffer As String, _
+                                      ByRef bufferLen As Long) As Long
+                                    
 Private Declare Function NFSE_LinkNFSe _
                 Lib "ACBrNFSe32.dll" (ByVal libHandler As Long, _
                                       ByVal aNumeroNFSe As String, _
@@ -396,6 +402,10 @@ Private Declare Function NFSE_ObterInformacoesProvedor _
                 Lib "ACBrNFSe32.dll" (ByVal libHandler As Long, _
                                       ByVal buffer As String, _
                                       ByRef bufferLen As Long) As Long
+                                      
+Private Declare Function NFSE_SetVersaoDF _
+                Lib "ACBrNFSe32.dll" (ByVal libHandler As Long, _
+                ByVal sVersao As String) As Long
                                      
 Public Sub InicializarLib(Optional ByVal eArqConfig As String = "", _
                           Optional ByVal eChaveCrypt As String = "")
@@ -659,6 +669,22 @@ Public Function SubstituirNFSe(ByVal aNumeroNFSe As String, ByVal aSerieNFSe As 
     
     SubstituirNFSe = processResult(buffer, bufferLen)
 
+End Function
+
+Public Function ConsultarLinkNFSe(ByVal aInfConsultaLinkNFSe As String) As String
+    
+    Dim retorno   As Long
+    Dim buffer    As String
+    Dim bufferLen As Long
+    
+    bufferLen = BUFFER_LENGTH
+    buffer = String$(bufferLen, " ")
+    
+    retorno = NFSE_ConsultarLinkNFSe(libHandler, aInfConsultaLinkNFSe, buffer, bufferLen)
+    CheckResult retorno
+    
+    ConsultarLinkNFSe = processResult(buffer, bufferLen)
+    
 End Function
 
 Public Function LinkNFSE(ByVal aNumeroNFSe As String, ByVal aCodigoVerificacao As String, ByVal aChaveAcesso As String, ByVal aValorServico As String) As String
@@ -1136,6 +1162,16 @@ Public Function ObterInformacoesProvedor() As String
     ObterInformacoesProvedor = processResult(buffer, bufferLen)
 
 End Function
+
+Public Sub SetVersaoDF(ByVal sVersao As String)
+'https://acbr.sourceforge.io/ACBrLib/NFSE_SetVersaoDF.html
+
+Dim retorno   As Long
+
+retorno = NFSE_SetVersaoDF(libHandler, StrConv(sVersao, vbFromUnicode))
+CheckResult retorno
+
+End Sub
 
 Public Function ObterUltimoRetorno() As String
 
