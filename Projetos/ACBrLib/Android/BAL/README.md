@@ -19,10 +19,11 @@ Permite a utilização da ACBrBAL em projetos Android, facilitando a integraçã
 7. [Informações adicionais](#7-informacoes-adicionais)
 	1. [Classe da biblioteca](#71-classe-da-biblioteca)
 	2. [Recomendações por biblioteca](#72-recomendacoes-por-biblioteca)
-8. [Exemplo de uso](#8-exemplo-de-uso)
-9. [Debug](#9-debug)
-10. [Referências](#10-referencias)
-	1. [Configurações gerais](#101-configuracoes-gerais)
+8. [Recomendaçoes de segurança para armazenamento de certificados e chaves](#8-recomendacoes-seguranca)
+9. [Exemplo de uso](#9-exemplo-de-uso)
+10. [Debug](#10-debug)
+11. [Referências](#11-referencias)
+	1. [Configurações gerais](#111-configuracoes-gerais)
 
 <a id="1-requisitos-minimos"></a>
 # 1. Requisitos Mínimos
@@ -34,9 +35,10 @@ Permite a utilização da ACBrBAL em projetos Android, facilitando a integraçã
 <a id="2-alinhamento-16kb"></a>
 # 2. Alinhamento de páginas de memória de 16 KB
 
-Este aar foi compilado com alinhamento de páginas de memória de 16 KB, o que é necessário para garantir a compatibilidade com o Android 15. Para mais informações sobre essa mudança e suas implicações, consulte o tópico no fórum do Projeto ACBr:
-https://www.projetoacbr.com.br/forum/topic/86443-projeto-acbr-e-compatibiliza%C3%A7%C3%A3o-do-android-15/
+Este aar foi compilado com alinhamento de páginas de memória de 16 KB, o que é necessário para garantir a compatibilidade com o Android 15.
 
+Para mais informações sobre essa mudança e suas implicações, consulte o tópico no fórum do Projeto ACBr:
+https://www.projetoacbr.com.br/forum/topic/86443-projeto-acbr-e-compatibiliza%C3%A7%C3%A3o-do-android-15/
 
 <a id="3-importar-aar"></a>
 # 3. Importar AAR
@@ -93,9 +95,9 @@ Link para documentação de configurações da biblioteca: https://acbr.sourcefo
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
-		<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-			<!-- Nenhuma permissao adicional necessaria para esta biblioteca -->
-		</manifest>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+	<!-- Nenhuma permissao adicional necessaria para esta biblioteca -->
+</manifest>
 ```
 
 <a id="6-fluxo-de-uso"></a>
@@ -153,14 +155,28 @@ acbrlibbal.configGravarValor( "BAL_Device", "TimeOut", "3" );
 ```
 
 <a id="723-observacoes"></a>
-## 7.2.3 Observações
+## 7.2.3 Porta de comunicação serial
 Esses valores devem ser ajustados conforme o protocolo da balança e o equipamento Android utilizado.
+A porta pode variar dependendo do dispositivo e da balança, por exemplo:  `/dev/ttyUSER0`, `/dev/ttyS0`, `/dev/ttyS1`, `/dev/ttyUSB0` , etc.
+Nem todos os equipamentos expõem as portas seriais da mesma forma, então é essencial consultar a documentação do fabricante do equipamento Android para identificar a porta correta a ser configurada.
 
 
-<a id="8-exemplo-de-uso"></a>
-# 8. Utilizando a biblioteca ACBrLibBAL
+<a id="8-recomendacoes-seguranca"></a>
+# 8. Recomendações de segurança para armazenamento de certificados e chaves
+
+Certificados digitais, chaves de API e outras credenciais sensíveis nunca devem ser armazenados em texto puro no código-fonte. Para garantir a segurança dessas informações, utilize mecanismos de armazenamento seguro fornecidos pelo Android, como Android Keystore ou EncryptedSharedPreferences.
+
+Consulte a documentação oficial do Android sobre armazenamento seguro: https://developer.android.com/training/data-storage?hl=pt-br
+
+Recomenda-se usar `getFilesDir()` para armazenar arquivos de configuração, certificados e outros dados sensíveis, garantindo que eles fiquem protegidos no armazenamento interno do aplicativo. Evite usar `getExternalFilesDir()` para esses fins, pois o armazenamento externo pode ser acessado por outros aplicativos e usuários.
+
+<a id="9-exemplo-de-uso"></a>
+# 9. Exemplo de uso
 
 Exemplo de código para utilização da biblioteca ACBrLibBAL:
+
+**Obs:** Este é um exemplo didático, alguns trechos de código foram omitidos ou simplificados para focar na estrutura de uso da biblioteca.
+Ajuste conforme as necessidades do seu projeto e as melhores práticas de desenvolvimento Android.
 
 ```java
 import br.com.acbr.lib.bal.ACBrLibBAL;
@@ -212,7 +228,8 @@ public class MainActivity extends AppCompatActivity {
 				
 				acbrlibbal.configGravarValor( "BAL", "Modelo", "1" );
 
-				//A porta pode ser diferente dependendo do dispositivo e da balanca, ajuste conforme necessario. Exemplo: /dev/ttyS0, /dev/ttyUSB0, /dev/ttyUSER0, etc.
+				//A porta pode ser diferente dependendo do dispositivo e da balanca, ajuste conforme necessario
+				//Exemplo: /dev/ttyS0, /dev/ttyUSB0, /dev/ttyUSER0, etc.
 				//Entre em contato com o fabricante do equipamento (Android) para obter informações sobre a porta correta.
 				acbrlibbal.configGravarValor( "BAL", "Porta", "/dev/ttyUSER0" );
 				// Configurações seriais comuns (ajuste conforme o manual da balança).
@@ -227,7 +244,8 @@ public class MainActivity extends AppCompatActivity {
 			}
 		}
 
-				//Exemplo de código para leitura de peso utilizando a ACBrLibBAL.
+		
+		//Exemplo de código para leitura de peso utilizando a ACBrLibBAL.
 		private void onClick(View view) {
 			
 			try {
@@ -244,17 +262,17 @@ public class MainActivity extends AppCompatActivity {
 ```
 
 
-<a id="9-debug"></a>
-# 9. Debug
+<a id="10-debug"></a>
+# 10. Debug
 
 Logs da biblioteca são mostrados no logcat, basta  procurar pela tag `ACBrLibBAL`. Para facilitar a identificação, é recomendado configurar o LogNivel para 4 (Debug) durante o desenvolvimento, e ajustar para um nível mais restritivo (ex: 2 - Erro) em produção.
 
 
-<a id="10-referencias"></a>
-# 10. Referências
+<a id="11-referencias"></a>
+# 11. Referências
 
-<a id="101-configuracoes-gerais"></a>
-## 10.1 Configurações gerais
+<a id="111-configuracoes-gerais"></a>
+## 11.1 Configurações gerais
 
 - Documentação geral da ACBrLib: https://acbr.sourceforge.io/ACBrLib/Geral.html
 

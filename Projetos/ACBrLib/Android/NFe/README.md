@@ -19,10 +19,11 @@ Permite a utilização da ACBrNFe em projetos Android, facilitando a integraçã
 7. [Informações adicionais](#7-informacoes-adicionais)
 	1. [Classe da biblioteca](#71-classe-da-biblioteca)
 	2. [Recomendações por biblioteca](#72-recomendacoes-por-biblioteca)
-8. [Exemplo de uso](#8-exemplo-de-uso)
-9. [Debug](#9-debug)
-10. [Referências](#10-referencias)
-	1. [Configurações gerais](#101-configuracoes-gerais)
+8. [Recomendaçoes de segurança para armazenamento de certificados e chaves](#8-recomendacoes-seguranca)
+9. [Exemplo de uso](#9-exemplo-de-uso)
+10. [Debug](#10-debug)
+11. [Referências](#11-referencias)
+	1. [Configurações gerais](#111-configuracoes-gerais)
 
 <a id="1-requisitos-minimos"></a>
 # 1. Requisitos Mínimos
@@ -34,9 +35,10 @@ Permite a utilização da ACBrNFe em projetos Android, facilitando a integraçã
 <a id="2-alinhamento-16kb"></a>
 # 2. Alinhamento de páginas de memória de 16 KB
 
-Este aar foi compilado com alinhamento de páginas de memória de 16 KB, o que é necessário para garantir a compatibilidade com o Android 15. Para mais informações sobre essa mudança e suas implicações, consulte o tópico no fórum do Projeto ACBr:
-https://www.projetoacbr.com.br/forum/topic/86443-projeto-acbr-e-compatibiliza%C3%A7%C3%A3o-do-android-15/
+Este aar foi compilado com alinhamento de páginas de memória de 16 KB, o que é necessário para garantir a compatibilidade com o Android 15.
 
+Para mais informações sobre essa mudança e suas implicações, consulte o tópico no fórum do Projeto ACBr:
+https://www.projetoacbr.com.br/forum/topic/86443-projeto-acbr-e-compatibiliza%C3%A7%C3%A3o-do-android-15/
 
 <a id="3-importar-aar"></a>
 # 3. Importar AAR
@@ -93,9 +95,9 @@ Link para documentação de configurações da biblioteca: https://acbr.sourcefo
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
-		<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-			<uses-permission android:name="android.permission.INTERNET" />
-		</manifest>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+	<uses-permission android:name="android.permission.INTERNET" />
+</manifest>
 ```
 
 <a id="6-fluxo-de-uso"></a>
@@ -137,10 +139,12 @@ Os comentários do exemplo deixam estes pontos como essenciais antes da emissão
 - Se for gerar PDF da DANFE, defina também o PathPDF na seção DANFe.
 - Fluxo de emissão NFe/NFCe: https://acbr.sourceforge.io/ACBrLib/ComoemitirumaNFeouNFCe.html
 - Documentação da seção DFe: https://acbr.sourceforge.io/ACBrLib/DFe.html
+- Modelos de INI de NFe/NFCe: https://acbr.sourceforge.io/ACBrLib/ExemplodeINI.html
 
-> **Armazenamento seguro:** o caminho e a senha do certificado A1 (ArquivoPFX e Senha) nunca devem ser armazenados em texto puro no código-fonte.
-> Utilize Android Keystore, EncryptedSharedPreferences ou outro mecanismo seguro para guardar e recuperar essas informações em tempo de execução.
-> Consulte: https://developer.android.com/training/data-storage?hl=pt-br
+**Armazenamento seguro:** o caminho e a senha do certificado A1 (ArquivoPFX e Senha) nunca devem ser armazenados em texto puro no código-fonte.<br/>
+Utilize Android Keystore, EncryptedSharedPreferences ou outro mecanismo seguro para guardar e recuperar essas informações em tempo de execução.
+
+Consulte: https://developer.android.com/training/data-storage?hl=pt-br
 
 <a id="722-exemplo-nfce"></a>
 ## 7.2.2 Exemplo de configuração NFCe
@@ -152,6 +156,7 @@ acbrlibnfe.configGravarValor( "NFe", "ModeloDF", "1" ); // NFCe
 acbrlibnfe.configGravarValor( "DANFe", "PathPDF", appDir.getAbsolutePath() + "/DANFe" );
 acbrlibnfe.configGravarValor( "DANFe", "TipoDANFE", "4" ); // tiNFCe
 ```
+**Obs:** Lembre-se de criar esses diretórios:  `Schemas/NFe`, `Notas` e `DANFe` dentro do armazenamento acessível do dispositivo (ajuste os paths conforme necessário).
 
 No XML/INI carregado da nota, o modelo também precisa estar ajustado para NFCe.
 Se estiver emitindo NFe comum, mantenha o TipoDANFE compatível com o layout desejado, por exemplo 0 (sem geração), 1 (retrato) ou 2 (paisagem).
@@ -186,10 +191,22 @@ Resumo dos valores de TipoDANFE usados no exemplo:
 - 5 = tiMsgEletronica
 
 
-<a id="8-exemplo-de-uso"></a>
-# 8. Utilizando a biblioteca ACBrLibNFe
+<a id="8-recomendacoes-seguranca"></a>
+# 8. Recomendações de segurança para armazenamento de certificados e chaves
+
+Certificados digitais, chaves de API e outras credenciais sensíveis nunca devem ser armazenados em texto puro no código-fonte. Para garantir a segurança dessas informações, utilize mecanismos de armazenamento seguro fornecidos pelo Android, como Android Keystore ou EncryptedSharedPreferences.
+
+Consulte a documentação oficial do Android sobre armazenamento seguro: https://developer.android.com/training/data-storage?hl=pt-br
+
+Recomenda-se usar `getFilesDir()` para armazenar arquivos de configuração, certificados e outros dados sensíveis, garantindo que eles fiquem protegidos no armazenamento interno do aplicativo. Evite usar `getExternalFilesDir()` para esses fins, pois o armazenamento externo pode ser acessado por outros aplicativos e usuários.
+
+<a id="9-exemplo-de-uso"></a>
+# 9. Exemplo de uso
 
 Exemplo de código para utilização da biblioteca ACBrLibNFe:
+
+**Obs:** Este é um exemplo didático, alguns trechos de código foram omitidos ou simplificados para focar na estrutura de uso da biblioteca.
+Ajuste conforme as necessidades do seu projeto e as melhores práticas de desenvolvimento Android.
 
 ```java
 import br.com.acbr.lib.nfe.ACBrLibNFe;
@@ -269,7 +286,8 @@ public class MainActivity extends AppCompatActivity {
 			}
 		}
 
-				//Exemplo de código para verificar o status do serviço da SEFAZ utilizando a ACBrLibNFe.
+		
+		//Exemplo de código para verificar o status do serviço da SEFAZ utilizando a ACBrLibNFe.
 		private void onClick(View view) {
 			
 			try {
@@ -286,17 +304,17 @@ public class MainActivity extends AppCompatActivity {
 ```
 
 
-<a id="9-debug"></a>
-# 9. Debug
+<a id="10-debug"></a>
+# 10. Debug
 
 Logs da biblioteca são mostrados no logcat, basta  procurar pela tag `ACBrLibNFe`. Para facilitar a identificação, é recomendado configurar o LogNivel para 4 (Debug) durante o desenvolvimento, e ajustar para um nível mais restritivo (ex: 2 - Erro) em produção.
 
 
-<a id="10-referencias"></a>
-# 10. Referências
+<a id="11-referencias"></a>
+# 11. Referências
 
-<a id="101-configuracoes-gerais"></a>
-## 10.1 Configurações gerais
+<a id="111-configuracoes-gerais"></a>
+## 11.1 Configurações gerais
 
 - Documentação geral da ACBrLib: https://acbr.sourceforge.io/ACBrLib/Geral.html
 
