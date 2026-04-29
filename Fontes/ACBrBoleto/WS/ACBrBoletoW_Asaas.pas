@@ -97,6 +97,7 @@ uses
   DateUtils,
   ACBrUtil.Strings,
   ACBrUtil.DateTime,
+  ACBrUtil.FilesIO,
   ACBrBoleto,
   ACBrBoletoWS.Rest.OAuth;
 
@@ -284,6 +285,8 @@ procedure TBoletoW_Asaas.RequisicaoIncluir;
   function Customer : String; //função para criar ou retornar o código do customer da API
     var
       LURL, LCustomerID : string;
+      LParametros: string;
+      LRetorno: string;
       LStream : TStringStream;
       LJSON: TACBrJSONObject;
   begin
@@ -302,13 +305,23 @@ procedure TBoletoW_Asaas.RequisicaoIncluir;
       httpsend.MimeType := FPContentType;
       httpsend.Headers.Text := FPKeyUser;
       httpsend.Document.Clear;
+
+      BoletoWS.DoLog('Comando Enviar: ' + ClassName, logSimples);
+      LParametros := Format('?cpfCnpj=%s', [ATitulo.Sacado.CNPJCPF]);
+      BoletoWS.DoLog('Comando Enviar: ' + LURL + LParametros, logSimples);
+
       //necessario consultar se já existe, pois o portal permite duplicação de cadastros
-      httpsend.HTTPMethod('GET', LURL + Format('?cpfCnpj=%s', [ATitulo.Sacado.CNPJCPF]));
+      httpsend.HTTPMethod('GET', LURL + LParametros);
       httpsend.Document.Position := 0;
       if (httpsend.ResultCode = 200) and (LStream.Size > 0) then
       begin
         LStream.Position := 0;
-        LJSON := TACBrJSONObject.Parse(ReadStrFromStream(LStream, LStream.Size));
+        LRetorno := ReadStrFromStream(LStream, LStream.Size);
+        LRetorno := UTF8ToNativeString(LRetorno);
+        
+        BoletoWS.DoLog('Retorno Envio: ' + LRetorno, logSimples);
+
+        LJSON := TACBrJSONObject.Parse(LRetorno);
         try
           if LJSON.AsJSONArray['data'].Count > 0 then
             LCustomerID := LJSON.AsJSONArray['data'].ItemAsJSONObject[0].AsString['id'];
@@ -343,7 +356,10 @@ procedure TBoletoW_Asaas.RequisicaoIncluir;
                      .AddPair('province', ATitulo.Sacado.Bairro)
                      .AddPair('postalCode', OnlyNumber(ATitulo.Sacado.CEP));
 
-          WriteStrToStream(httpsend.Document, NativeStringToUTF8(LJSON.ToJSON));
+          LRetorno := LJSON.ToJSON;
+          BoletoWS.DoLog('Comando Enviar: ' + LRetorno, logSimples);
+
+          WriteStrToStream(httpsend.Document, NativeStringToUTF8(LRetorno));
           httpsend.HTTPMethod('POST', LURL);
         finally
           LJSON.Free;
@@ -352,7 +368,10 @@ procedure TBoletoW_Asaas.RequisicaoIncluir;
         begin
           LStream.Position := 0;
           try
-            LJSON := TACBrJSONObject.Parse(ReadStrFromStream(LStream, LStream.Size));
+            LRetorno := ReadStrFromStream(LStream, LStream.Size);
+            BoletoWS.DoLog('Retorno Envio: ' + LRetorno, logSimples);
+
+            LJSON := TACBrJSONObject.Parse(LRetorno);
             LCustomerID := LJSON.AsString['id'];
           finally
             if Assigned(LJSON) then
