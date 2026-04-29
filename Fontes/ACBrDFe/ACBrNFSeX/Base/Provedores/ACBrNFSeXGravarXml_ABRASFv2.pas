@@ -151,6 +151,7 @@ type
     FGerarTagRps: Boolean;
     FNrOcorrDataPagamento: Integer;
     FNrOcorrInfAdicional: Integer;
+    FNrOcorrCidadeNome: Integer;
 
     FGerarAtividadeEventoAposConstrucaoCivil : Boolean;
     FGerarAtividadeEventoAposIncentivoFiscal : Boolean;
@@ -335,6 +336,7 @@ type
     property NrOcorrCodigoNBS: Integer read FNrOcorrCodigoNBS write FNrOcorrCodigoNBS;
     property NrOcorrDataPagamento: Integer read FNrOcorrDataPagamento write FNrOcorrDataPagamento;
     property NrOcorrInfAdicional: Integer read FNrOcorrInfAdicional write FNrOcorrInfAdicional;
+    property NrOcorrCidadeNome: Integer read FNrOcorrCidadeNome write FNrOcorrCidadeNome;
 
     property GerarTagServicos: Boolean read FGerarTagServicos write FGerarTagServicos;
     property GerarIDDeclaracao: Boolean read FGerarIDDeclaracao write FGerarIDDeclaracao;
@@ -470,6 +472,7 @@ begin
   FNrOcorrAliquotaCpp := -1;
   FNrOcorrRetidoCpp := -1;
   FNrOcorrInfAdicional := -1;
+  FNrOcorrCidadeNome := -1;
 
   FGerarTagServicos := True;
   FGerarIDDeclaracao := True;
@@ -1020,6 +1023,8 @@ begin
 end;
 
 function TNFSeW_ABRASFv2.GerarEnderecoTomador: TACBrXmlNode;
+var
+  lUf: String;
 begin
   Result := nil;
 
@@ -1052,6 +1057,9 @@ begin
 
     Result.AppendChild(AddNode(tcStr, '#43', 'CodigoMunicipio', 7, 7, 0,
                   OnlyNumber(NFSe.Tomador.Endereco.CodigoMunicipio), DSC_CMUN));
+
+    Result.AppendChild(AddNode(tcStr, '#46', 'CidadeNome', 1, 50, NrOcorrCidadeNome,
+                      ObterNomeMunicipioUF(StrToIntDef(NFSe.Tomador.Endereco.CodigoMunicipio, 0), lUF), ''));
 
     Result.AppendChild(AddNode(tcStr, '#44', 'Uf', 2, 2, NrOcorrUFTomador,
                                              NFSe.Tomador.Endereco.UF, DSC_UF));

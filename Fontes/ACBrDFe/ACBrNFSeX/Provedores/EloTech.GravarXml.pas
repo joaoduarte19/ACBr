@@ -92,7 +92,8 @@ begin
   NrOcorrCodTribMun_1 := -1;
   NrOcorrCodigoMunic_1 := -1;
   NrOcorrCodigoPaisServico := -1;
-  NrOcorrCodigoPaisTomador := 1;
+  NrOcorrCodigoPaisTomador := 0;
+  NrOcorrCidadeNome := 0;
 
   FormatoItemListaServico := filsNaoSeAplica;
   NrOcorrRespRetencao := -1;

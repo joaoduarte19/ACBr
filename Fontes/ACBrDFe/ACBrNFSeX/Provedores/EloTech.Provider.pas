@@ -137,6 +137,8 @@ begin
   SetXmlNameSpace('http://shad.elotech.com.br/schemas/iss/nfse_v2_03.xsd');
 
   SetNomeXSD('nfse_v2_03.xsd');
+
+  ConfigSchemas.Validar := False;
 end;
 
 function TACBrNFSeProviderEloTech203.CriarGeradorXml(

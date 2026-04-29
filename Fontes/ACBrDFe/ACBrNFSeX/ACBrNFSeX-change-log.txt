@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+29/04/2026
+-- ACBrNFSeXGravarXml_ABRASFv2/EloTech.Provider/EloTech.GravarXml --
+[-] ACBR-9319 - Ajustes visando a correta emissão junto ao provedor Elotech.
+   Por: Paulo Pattarelli / Diego Folieni
+
 28/04/2026
 -- Tinus.Provider --
 [*] ACBR-9256 - Ajustes para mostrar corretamente os serviços disponibilizados pelo provedor
