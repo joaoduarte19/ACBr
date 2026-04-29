@@ -657,7 +657,7 @@ begin
   TagTomador := 'TomadorServico';
 
   // Reforma Tributária
-  NrOcorrtpOper := -1;
+  NrOcorrtpOper := 0;
   NrOcorrindDest := -1;
   GerarDest := False;
   GerargReeRepRes := False;

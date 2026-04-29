@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 29/04/2026
+-- IPM.GravarXml --
+[-] Ajuste para que o campo tpOper seja gerado se informado valor.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/92019-campo-tpoper-n%C3%A3o-indo-para-o-xml-da-nfse/
 -- ACBrNFSeXGravarXml_ABRASFv2/EloTech.Provider/EloTech.GravarXml --
 [-] ACBR-9319 - Ajustes visando a correta emissão junto ao provedor Elotech.
    Por: Paulo Pattarelli / Diego Folieni
