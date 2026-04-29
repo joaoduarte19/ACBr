@@ -43,6 +43,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 29/04/2026
+-- ACBrNFSeXServicos.ini -- 
+[*] ACBr-9282 - Incluído os Params NomeTagAtividadeEconomica, NaoGerarTag e FormatarItemServicoNaoSeAplica para a cidade Novo Hamburgo/RS.
+   Por: Helius_ERP
+   Veja: https://www.projetoacbr.com.br/forum/topic/91856-acbr-9282-formata%C3%A7%C3%A3o-lista-de-servi%C3%A7o-ipm-novo-hamburgo/
+[*] ACBr-9226 - Incluído o provedor Tecnos para a cidade Lindolfo Collor/RS.
+   Por: Roberto Krug
+   Veja: https://www.projetoacbr.com.br/forum/topic/91624-acbr-9226-nota-de-servi%C3%A7o-de-lindolfo-collor-rs/#comment-597456
 -- IPM.GravarXml --
 [-] Ajuste para que o campo tpOper seja gerado se informado valor.
    Por: Diego Folieni
