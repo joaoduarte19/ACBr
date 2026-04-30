@@ -217,31 +217,11 @@ end;
 procedure TACBrNFSeProviderGiap.ProcessarMensagemErros(
   RootNode: TACBrXmlNode; Response: TNFSeWebserviceResponse;
   const AListTag, AMessageTag: string);
-
-  function ObterValor(ANode: TACBrXmlNode; const ATag: string): string;
-  var
-    Node: TACBrXmlNode;
-    Attr: TACBrXmlAttribute;
-  begin
-    Attr := ANode.Attributes.Items[ATag];
-    if Attr <> nil then
-      Result := ObterConteudoTag(Attr)
-    else
-    begin
-      Node := ANode.Childrens.FindAnyNs(ATag);
-      if Node <> nil then
-        Result := ObterConteudoTag(Node, tcStr)
-      else
-        Result := '';
-    end;
-  end;
-
 var
-  I: Integer;
-  ANode: TACBrXmlNode;
-  ANodeArray: TACBrXmlNodeArray;
+  ANode, MsgNode: TACBrXmlNode;
   AErro: TNFSeEventoCollectionItem;
-  Codigo, Descricao: string;
+  Status: Integer;
+  Descricao: string;
 begin
   ANode := RootNode.Document.Root.Childrens.FindAnyNs('notaFiscal');
 
@@ -249,25 +229,25 @@ begin
     ANode := RootNode.Document.Root;
 
   if not Assigned(ANode) then
-    exit;
+    Exit;
 
-  if ObterConteudoTag(ANode.Childrens.FindAnyNs('statusEmissao'), tcInt) <> 200 then
+  Status := ObterConteudoTag(ANode.Childrens.FindAnyNs('statusEmissao'), tcInt);
+
+  if Status <> 200 then
   begin
-    ANodeArray := ANode.Childrens.FindAllAnyNs('messages');
+    MsgNode := ANode.Childrens.FindAnyNs('messages');
 
-    for I := Low(ANodeArray) to High(ANodeArray) do
+    if Assigned(MsgNode) then
     begin
-      ANode := ANodeArray[I];
+      Descricao := ObterConteudoTag(MsgNode, tcStr);
 
-      Codigo := ObterValor(ANode, 'code');
-      Descricao := ObterValor(ANode, 'message');
-
-      if (Codigo = '') and (Descricao = '') then Continue;
-
-      AErro := Response.Erros.New;
-      AErro.Codigo := ObterValor(ANode, 'code');
-      AErro.Descricao := ObterValor(ANode, 'message');
-      AErro.Correcao := '';
+      if Descricao <> '' then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := IntToStr(Status);
+        AErro.Descricao := Descricao;
+        AErro.Correcao := '';
+      end;
     end;
   end;
 end;

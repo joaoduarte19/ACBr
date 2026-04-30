@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 30/04/2026
+-- Giap.Provider --
+[*] ACBr-9247 - Ajustes no ProcessarMensagemErros visando a leitura correta das
+    mensagens de erro.
+   Por: Store Brasil
 -- ACBrNFSeXServicos -- 
 [*] ACBr-9147 - A cidade Natal/RN mudou de provedor, agora é PadraoNacional.
    Por: André Faria
