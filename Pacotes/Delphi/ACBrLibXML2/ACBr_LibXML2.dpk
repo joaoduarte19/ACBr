@@ -1,0 +1,40 @@
+package ACBr_LibXML2;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS ON}
+{$RANGECHECKS ON}
+{$DEFINITIONINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$DESCRIPTION 'Units de Bind da LibXML2, e métodos básicos para Leitura e Escrita de XML'}
+{$RUNONLY}
+{$IMPLICITBUILD OFF}
+
+requires
+  rtl,
+  ACBr_Comum;
+
+contains
+  ACBrLibXml2Ext in '..\..\..\Fontes\ACBrLibXML2\ACBrLibXml2Ext.pas',
+  ACBrXmlDocument in '..\..\..\Fontes\ACBrLibXML2\ACBrXmlDocument.pas';
+
+end.
