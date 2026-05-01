@@ -43,6 +43,7 @@
 • ACBrDiversos → ACBrComum
 • PCNComum → ACBrDiversos
 • ACBrOpenSSL → ACBrComum
+• ACBrLibXML2 → ACBrComum
 • ACBrSerial → ACBrDiversos, ACBrOpenSSL
 • ACBrTXTComum → ACBrDiversos,
 • ACBrConvenio115 → ACBrTXTComum, ACBrOpenSSL
@@ -56,7 +57,7 @@
 • ACBr_Boleto → ACBrTCP
 • ACBr_BoletoFC_Fortes → ACBr_Boleto, fortes324laz
 • ACBr_BoletoFC_LazReport → ACBr_Boleto, lazreportpdfexport
-• ACBrDFeComum → ACBrOpenSSL, ACBrTCP, PCNComum
+• ACBrDFeComum → ACBrOpenSSL, ACBrLibXML2, ACBrTCP, PCNComum
 • ACBrNFe → ACBrDFeComum
 • ACBrCTe → ACBrDFeComum
 • ACBrGNRe → ACBrDFeComum
@@ -235,6 +236,7 @@ type
     Label45: TLabel;
     ACBr_FastReportComum_dpk: TCheckBox;
     Label46: TLabel;
+    ACBr_LibXML2_dpk: TCheckBox;
     procedure btnPacotesMarcarTodosClick(Sender: TObject);
     procedure btnPacotesDesmarcarTodosClick(Sender: TObject);
     procedure VerificarCheckboxes(Sender: TObject);
@@ -554,6 +556,7 @@ begin
         ACBr_Integrador_dpk.Checked := True;
         ACBr_PCNComum_dpk.Checked   := True;
         ACBr_OpenSSL_dpk.Checked    := True;
+        ACBr_LibXML2_dpk.Checked    := True;
         ACBr_TCP_dpk.Checked        := True;
       end;
 
@@ -571,6 +574,7 @@ begin
       begin
         ACBr_TXTComum_dpk.Checked := True;
         ACBr_OpenSSL_dpk.Checked  := True;
+        ACBr_LibXML2_dpk.Checked  := True;
       end;
 
       if ACBr_SPED_dpk.Checked or ACBr_Sintegra_dpk.Checked or
@@ -607,11 +611,13 @@ begin
       if ACBr_OpenDelivery_dpk.Checked then
       begin
         ACBr_OpenSSL_dpk.Checked  := True;
+        ACBr_LibXML2_dpk.Checked  := True;
       end;
 
       if ACBr_PIXCD_dpk.Checked then
       begin
         ACBr_OpenSSL_dpk.Checked  := True;
+        ACBr_LibXML2_dpk.Checked  := True;
       end;
 
       if ACBr_Boleto_dpk.Checked then
