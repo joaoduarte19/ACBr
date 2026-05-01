@@ -84,11 +84,6 @@ contains
   ACBrNFeNotasFiscais in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFeNotasFiscais.pas',
   ACBrNFeWebServices in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFeWebServices.pas',
 
-  pcnConversaoNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnConversaoNFe.pas',
-  pcnLayoutTXT in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnLayoutTXT.pas',
-  pcnNFeRTXT in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnNFeRTXT.pas',
-  pcnProcNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnProcNFe.pas',
-  
   ACBrNFe.Consts in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.Consts.pas',
   ACBrNFe.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.Classes.pas',
   ACBrNFe.Conversao in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.Conversao.pas',
@@ -104,6 +99,11 @@ contains
   {$ELSE}
   pcnNFeR in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnNFeR.pas',
   pcnNFeW in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnNFeW.pas',
+
+  pcnConversaoNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnConversaoNFe.pas',
+  pcnLayoutTXT in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnLayoutTXT.pas',
+  pcnNFeRTXT in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnNFeRTXT.pas',
+  pcnProcNFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnProcNFe.pas',
   {$ENDIF}
 
   ACBrNFe.AdmCSC in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\ACBrNFe.AdmCSC.pas',
