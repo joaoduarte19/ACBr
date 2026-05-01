@@ -9,13 +9,11 @@ interface
 
 uses
   ACBrDFeConfiguracoes, ACBrDFeWebService, ACBrDFeUtil, ACBrDFe, ACBrDFeSSL, 
-  ACBrDFeException, ACBrDFeRegUtil, ACBrDFeReport, ACBrLibXml2, ACBrXmlReader, 
-  ACBrXmlWriter, ACBrXmlBase, ACBrXmlDocument, ACBrDFeConsts, 
-  ACBrDFeComum.ConsCad, ACBrDFeComum.RetConsCad, ACBrDFeComum.ConsReciDFe, 
-  ACBrDFeComum.RetConsReciDFe, ACBrDFeComum.ConsStatServ, 
-  ACBrDFeComum.RetConsStatServ, ACBrDFeComum.Proc, ACBrDFeComum.DistDFeInt, 
-  ACBrDFeComum.RetDistDFeInt, ACBrDFeComum.SignatureClass, 
-  ACBrDFeComum.RetEnvio;
+  ACBrDFeException, ACBrDFeRegUtil, ACBrDFeReport, ACBrDFeConsts, ACBrXmlBase, 
+  ACBrXmlReader, ACBrXmlWriter, ACBrDFeComum.ConsCad, ACBrDFeComum.RetConsCad, 
+  ACBrDFeComum.ConsReciDFe, ACBrDFeComum.RetConsReciDFe, 
+  ACBrDFeComum.ConsStatServ, ACBrDFeComum.RetConsStatServ, ACBrDFeComum.Proc, 
+  ACBrDFeComum.DistDFeInt, ACBrDFeComum.RetDistDFeInt, ACBrDFeComum.RetEnvio;
 
 implementation
 

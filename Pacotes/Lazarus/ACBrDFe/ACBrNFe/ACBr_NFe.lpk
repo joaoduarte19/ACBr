@@ -20,7 +20,7 @@
     </CompilerOptions>
     <Description Value="ACBr - Nota Fiscal Eletrônica - (http://www.projetoacbr.com.br/)"/>
     <License Value="LGPL"/>
-    <Files Count="35">
+    <Files Count="29">
       <Item1>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFe.pas"/>
         <UnitName Value="ACBrNFe"/>
@@ -47,121 +47,97 @@
         <UnitName Value="ACBrNFeDANFEClass"/>
       </Item6>
       <Item7>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnLayoutTXT.pas"/>
-        <UnitName Value="pcnLayoutTXT"/>
-      </Item7>
-      <Item8>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnNFeR.pas"/>
-        <UnitName Value="pcnNFeR"/>
-      </Item8>
-      <Item9>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnNFeRTXT.pas"/>
-        <UnitName Value="pcnNFeRTXT"/>
-      </Item9>
-      <Item10>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnNFeW.pas"/>
-        <UnitName Value="pcnNFeW"/>
-      </Item10>
-      <Item11>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnProcNFe.pas"/>
-        <UnitName Value="pcnProcNFe"/>
-      </Item11>
-      <Item12>
-        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe\pcnConversaoNFe.pas"/>
-        <UnitName Value="pcnConversaoNFe"/>
-      </Item12>
-      <Item13>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.Classes.pas"/>
         <UnitName Value="ACBrNFe.Classes"/>
-      </Item13>
-      <Item14>
+      </Item7>
+      <Item8>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\ACBrDFeDANFeReport.pas"/>
         <UnitName Value="ACBrDFeDANFeReport"/>
-      </Item14>
-      <Item15>
+      </Item8>
+      <Item9>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\ACBrNFe.AdmCSC.pas"/>
         <UnitName Value="ACBrNFe.AdmCSC"/>
-      </Item15>
-      <Item16>
+      </Item9>
+      <Item10>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\ACBrNFe.ConsSit.pas"/>
         <UnitName Value="ACBrNFe.ConsSit"/>
-      </Item16>
-      <Item17>
+      </Item10>
+      <Item11>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\ACBrNFe.EnvEvento.pas"/>
         <UnitName Value="ACBrNFe.EnvEvento"/>
-      </Item17>
-      <Item18>
+      </Item11>
+      <Item12>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\ACBrNFe.EventoClass.pas"/>
         <UnitName Value="ACBrNFe.EventoClass"/>
-      </Item18>
-      <Item19>
+      </Item12>
+      <Item13>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\ACBrNFe.Inut.pas"/>
         <UnitName Value="ACBrNFe.Inut"/>
-      </Item19>
-      <Item20>
+      </Item13>
+      <Item14>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\ACBrNFe.RetAdmCSC.pas"/>
         <UnitName Value="ACBrNFe.RetAdmCSC"/>
-      </Item20>
-      <Item21>
+      </Item14>
+      <Item15>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\ACBrNFe.RetConsSit.pas"/>
         <UnitName Value="ACBrNFe.RetConsSit"/>
-      </Item21>
-      <Item22>
+      </Item15>
+      <Item16>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\ACBrNFe.RetEnvEvento.pas"/>
         <UnitName Value="ACBrNFe.RetEnvEvento"/>
-      </Item22>
-      <Item23>
+      </Item16>
+      <Item17>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\ACBrNFe.RetInut.pas"/>
         <UnitName Value="ACBrNFe.RetInut"/>
-      </Item23>
-      <Item24>
+      </Item17>
+      <Item18>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.XmlReader.pas"/>
         <UnitName Value="ACBrNFe.XmlReader"/>
-      </Item24>
-      <Item25>
+      </Item18>
+      <Item19>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.XmlWriter.pas"/>
         <UnitName Value="ACBrNFe.XmlWriter"/>
-      </Item25>
-      <Item26>
+      </Item19>
+      <Item20>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.Consts.pas"/>
         <UnitName Value="ACBrNFe.Consts"/>
-      </Item26>
-      <Item27>
+      </Item20>
+      <Item21>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.Conversao.pas"/>
         <UnitName Value="ACBrNFe.Conversao"/>
-      </Item27>
-      <Item28>
+      </Item21>
+      <Item22>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.IniReader.pas"/>
         <UnitName Value="ACBrNFe.IniReader"/>
-      </Item28>
-      <Item29>
+      </Item22>
+      <Item23>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.IniWriter.pas"/>
         <UnitName Value="ACBrNFe.IniWriter"/>
-      </Item29>
-      <Item30>
+      </Item23>
+      <Item24>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.JSONReader.pas"/>
         <UnitName Value="ACBrNFe.JSONReader"/>
-      </Item30>
-      <Item31>
+      </Item24>
+      <Item25>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.JSONWriter.pas"/>
         <UnitName Value="ACBrNFe.JSONWriter"/>
-      </Item31>
-      <Item32>
+      </Item25>
+      <Item26>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.ValidarRegrasdeNegocio.pas"/>
         <UnitName Value="ACBrNFe.ValidarRegrasdeNegocio"/>
-      </Item32>
-      <Item33>
+      </Item26>
+      <Item27>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDI\PCNDI\pcnDI.pas"/>
         <UnitName Value="pcnDI"/>
-      </Item33>
-      <Item34>
+      </Item27>
+      <Item28>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDI\PCNDI\pcnDIR.pas"/>
         <UnitName Value="pcnDIR"/>
-      </Item34>
-      <Item35>
+      </Item28>
+      <Item29>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDI\ACBrDIDeclaracaoImportacao.pas"/>
         <UnitName Value="ACBrDIDeclaracaoImportacao"/>
-      </Item35>
+      </Item29>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="1">
