@@ -38,7 +38,7 @@ interface
 
 uses
   Classes, SysUtils,
-  ACBrDFeSSL, ACBrLibXml2;
+  ACBrDFeSSL, ACBrLibXml2Ext;
 
 resourcestring
   cErrLibInit = 'Erro ao inicializar a Biblioteca LibXML2';

@@ -49,9 +49,7 @@ uses
   ACBrBase,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-//  ACBrDFeComum.SignatureClass,
   ACBrDFeComum.Proc,
-  pcnSignature,
   ACBrDCe.Conversao;
 
 type

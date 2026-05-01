@@ -38,13 +38,14 @@ interface
 
 uses
   SysUtils, Classes,
+  ACBrXmlBase,
+  {$IFNDEF USE_ACBr_XMLDOCUMENT}
+  pcnSignature,
+  {$ENDIF}
   pcnConversao,
   ACBrNFe.Consts,
   ACBrNFe.RetInut,
-  pcnSignature,
-//  ACBrDFeComum.SignatureClass,
-  ACBrDFe.Conversao,
-  ACBrXmlBase;
+  ACBrDFe.Conversao;
 
 type
 
@@ -181,9 +182,12 @@ begin
 
   if signature.URI <> '' then
   begin
-    signature.GerarXML;
-    Result := Result + signature.Gerador.ArquivoFormatoXML;
-//    Result := Result + signature.GerarXML;
+    {$IFNDEF USE_ACBr_XMLDOCUMENT}
+     signature.GerarXML;
+     Result := Result + signature.Gerador.ArquivoFormatoXML;
+    {$Else}
+     Result := Result + signature.GerarXML;
+    {$ENDIF}
   end;
 end;
 

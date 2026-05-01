@@ -48,8 +48,6 @@ uses
   ACBrDFe.Conversao,
   ACBrDFeConsts,
   ACBrBase,
-  pcnSignature,
-//  ACBrDFeComum.SignatureClass,
   ACBrNFComEventoClass,
   ACBrNFComConsts,
   ACBrXmlWriter,

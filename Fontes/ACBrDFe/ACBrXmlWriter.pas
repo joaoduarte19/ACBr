@@ -38,7 +38,6 @@ interface
 
 uses
   Classes, SysUtils,
-  pcnSignature,
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrXmlDocument;

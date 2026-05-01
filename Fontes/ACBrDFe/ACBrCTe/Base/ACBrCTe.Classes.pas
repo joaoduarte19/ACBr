@@ -49,8 +49,10 @@ uses
   ACBrBase,
   ACBrDFe.Conversao,
   pcnConversao,
-  pcnSignature,
-//  ACBrDFeComum.SignatureClass,
+  ACBrXmlBase,
+  {$IFNDEF USE_ACBr_XMLDOCUMENT}
+   pcnSignature,
+  {$ENDIF}
   pcteProcCTe,
   pcteConversaoCTe;
 

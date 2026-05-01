@@ -37,8 +37,7 @@ interface
 uses
   Classes, SysUtils,
   ACBrXmlDocument, ACBrXmlReader,
-  pcnSignature,
-  //ACBrDFeComum.SignatureClass,
+  ACBrXmlBase,
   ACBrCTe.Classes, pcnConversao, pcteProcCTe;
 
 type
@@ -894,7 +893,6 @@ implementation
 
 uses
   ACBrUtil.Base,
-  ACBrXmlBase,
   pcteConversaoCTe;
 
 { TCTeXmlReader }

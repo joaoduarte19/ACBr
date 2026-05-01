@@ -47,8 +47,6 @@ uses
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrDFeConsts,
-  pcnSignature,
-//  ACBrDFeComum.SignatureClass,
   ACBrDCe.Consts,
   ACBrDCe.EventoClass,
   ACBrBase,

@@ -44,8 +44,6 @@ uses
    System.Contnrs,
   {$IfEnd}
   pcnConversao,
-  pcnSignature,
-//  ACBrDFeComum.SignatureClass,
   ACBrCTe.EventoClass,
   ACBrBase,
   ACBrXmlBase,

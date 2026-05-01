@@ -50,8 +50,6 @@ uses
   ACBrDFe.Conversao,
   pcnConversao,
   ACBrBPeConversao,
-//  ACBrDFeComum.SignatureClass,
-  pcnSignature,
   ACBrDFeComum.Proc;
 
 type
