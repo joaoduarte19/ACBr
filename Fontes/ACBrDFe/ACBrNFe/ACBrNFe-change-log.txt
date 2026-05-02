@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+02/05/2026
+[*] Ajuste na ordem de geração das tags do XML quando CST do ICMS = 90, e ajuste para não gerar grupos de ICMS, ISSQN, IPI, PIS, COFINS quando tpOperGov = 2 (Recebimento do pagamento).
+    https://www.projetoacbr.com.br/forum/topic/91845-corre%C3%A7%C3%B5es-a-serem-feitas-nos-novos-campos-do-cst-90-nt-2022002-v-130a/
+  Por: silvania / BigWings
+
 27/04/2026
 -- ACBrNFe.XmlWriter --
 [-] ACBR-9306 - Ajuste para que o campo cBenefRBC siga a cardinalidade do MOC.
