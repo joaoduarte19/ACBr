@@ -140,6 +140,7 @@ uses
   ACBrXmlBase,
   ACBrUtil.Base,
   ACBrUtil.DateTime,
+  ACBrUtil.XMLHTML,
   ACBrDFe.Conversao,
   pcnConversao,
   pcnConversaoNFe;
@@ -406,8 +407,8 @@ begin
   if not Assigned(ANode) then Exit;
 
   NFe.Emit.CNPJCPF := ObterCNPJCPF(ANode);
-  NFe.Emit.xNome   := ObterConteudo(ANode.Childrens.Find('xNome'), tcStr);
-  NFe.Emit.xFant   := ObterConteudo(ANode.Childrens.Find('xFant'), tcStr);
+  NFe.Emit.xNome   := ParseText(ObterConteudo(ANode.Childrens.Find('xNome'), tcStr));
+  NFe.Emit.xFant   := ParseText(ObterConteudo(ANode.Childrens.Find('xFant'), tcStr));
   NFe.Emit.IE      := ObterConteudo(ANode.Childrens.Find('IE'), tcStr);
   NFe.Emit.IEST    := ObterConteudo(ANode.Childrens.Find('IEST'), tcStr);
   NFe.Emit.IM      := ObterConteudo(ANode.Childrens.Find('IM'), tcStr);
@@ -502,7 +503,7 @@ begin
   if NFe.infNFe.Versao >= 3 then
     NFe.Dest.idEstrangeiro := ObterConteudo(ANode.Childrens.Find('idEstrangeiro'), tcStr);
 
-  NFe.Dest.xNome := ObterConteudo(ANode.Childrens.Find('xNome'), tcStr);
+  NFe.Dest.xNome := ParseText(ObterConteudo(ANode.Childrens.Find('xNome'), tcStr));
 
   if NFe.infNFe.Versao >= 3 then
     NFe.Dest.indIEDest := StrToindIEDest(Ok, ObterConteudo(ANode.Childrens.Find('indIEDest'), tcStr));
@@ -548,7 +549,7 @@ begin
   if not Assigned(ANode) then Exit;
 
   NFe.Retirada.CNPJCPF := ObterCNPJCPF(ANode);
-  NFe.Retirada.xNome       := ObterConteudo(ANode.Childrens.Find('xNome'), tcStr);
+  NFe.Retirada.xNome        := ParseText(ObterConteudo(ANode.Childrens.Find('xNome'), tcStr));
   NFe.Retirada.xLgr         := ObterConteudo(ANode.Childrens.Find('xLgr'), tcStr);
   NFe.Retirada.nro          := ObterConteudo(ANode.Childrens.Find('nro'), tcStr);
   NFe.Retirada.xCpl         := ObterConteudo(ANode.Childrens.Find('xCpl'), tcStr);
@@ -569,7 +570,7 @@ begin
   if not Assigned(ANode) then Exit;
 
   NFe.Entrega.CNPJCPF := ObterCNPJCPF(ANode);
-  NFe.Entrega.xNome       := ObterConteudo(ANode.Childrens.Find('xNome'), tcStr);
+  NFe.Entrega.xNome        := ParseText(ObterConteudo(ANode.Childrens.Find('xNome'), tcStr));
   NFe.Entrega.xLgr         := ObterConteudo(ANode.Childrens.Find('xLgr'), tcStr);
   NFe.Entrega.nro          := ObterConteudo(ANode.Childrens.Find('nro'), tcStr);
   NFe.Entrega.xCpl         := ObterConteudo(ANode.Childrens.Find('xCpl'), tcStr);
@@ -1422,7 +1423,7 @@ begin
   if (AuxNode <> nil) then
   begin
     NFe.Transp.Transporta.CNPJCPF := ObterCNPJCPF(AuxNode);
-    NFe.Transp.Transporta.xNome       := ObterConteudo(AuxNode.Childrens.Find('xNome'), tcStr);
+    NFe.Transp.Transporta.xNome       := ParseText(ObterConteudo(AuxNode.Childrens.Find('xNome'), tcStr));
     NFe.Transp.Transporta.IE          := ObterConteudo(AuxNode.Childrens.Find('IE'), tcStr);
     NFe.Transp.Transporta.xEnder      := ObterConteudo(AuxNode.Childrens.Find('xEnder'), tcStr);
     NFe.Transp.Transporta.xMun        := ObterConteudo(AuxNode.Childrens.Find('xMun'), tcStr);

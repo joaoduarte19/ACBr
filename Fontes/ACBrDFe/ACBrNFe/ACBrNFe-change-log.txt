@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+04/05/2026
+-- ACBrNFeXmlReader --
+[-] ACBr-8858 Corrige erro de parse de nomes com elementos XML/XHTML
+[*] https://www.projetoacbr.com.br/forum/topic/89759-acbr-8858-corre%C3%A7%C3%A3o-de-visualiza%C3%A7%C3%A3o-no-danfe-entidades-htmlxml-em-nomes-xnome/#comment-583416
+  Por: Soma Soluções em TI 
+
 02/05/2026
 [*] Ajuste na ordem de geração das tags do XML quando CST do ICMS = 90, e ajuste para não gerar grupos de ICMS, ISSQN, IPI, PIS, COFINS quando tpOperGov = 2 (Recebimento do pagamento).
     https://www.projetoacbr.com.br/forum/topic/91845-corre%C3%A7%C3%B5es-a-serem-feitas-nos-novos-campos-do-cst-90-nt-2022002-v-130a/
