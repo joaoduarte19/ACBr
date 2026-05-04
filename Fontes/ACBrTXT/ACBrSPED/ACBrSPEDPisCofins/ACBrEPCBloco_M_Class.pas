@@ -1250,8 +1250,8 @@ begin
           Add( LFill('M515')                          +
                LFill( DET_VALOR_AJ, 0, 2 )            +
                LFill( CstCofinsToStr(CST_COFINS), 2,True ) +
-               LFill( DET_BC_CRED, 0, 3 )             +
-               LFill( DET_ALIQ, 8, 4 )                +
+               VDFill( DET_BC_CRED, 3 ) +
+               VDFill( DET_ALIQ, 4 ) +
                LFill( DT_OPER_AJ )                    +
                LFill( DESC_AJ )                       +
                LFill( COD_CTA)                    +
