@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 04/05/2026
+-- ACBrNFSeXConversao --
+[*] ACBr-9115 - Ajustes no tipo TCSTPis, esta faltando o CST 49.
+   Por: Bremen Sistemas
 -- ISSIntel.GravarXml/ISSIntel.LerXml --
 [*] ACBr-9113 - Ajustes para atender a reforma tributária e os novos campos incluídos
     pelo provedor.

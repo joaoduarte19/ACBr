@@ -539,11 +539,11 @@ const
 
 type
   TCSTPis = (cstPisVazio, cstPis00, cstPis01, cstPis02, cstPis03, cstPis04,
-             cstPis05, cstPis06, cstPis07, cstPis08, cstPis09);
+             cstPis05, cstPis06, cstPis07, cstPis08, cstPis09, cstPis49);
 
 const
   TCSTPisArrayStrings: array[TCSTPis] of string = ('', '00', '01', '02', '03',
-    '04', '05', '06', '07', '08', '09');
+    '04', '05', '06', '07', '08', '09', '49');
 
 type
   TtpRetPisCofins = (trpiscofinscsllNaoRetido, trpcRetido,
@@ -13644,17 +13644,17 @@ end;
 function CSTPisToStr(const t: TCSTPis): string;
 begin
   result := EnumeradoToStr(t,
-        ['', '00', '01', '02', '03', '04', '05', '06', '07', '08', '09'],
+        ['', '00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '49'],
         [cstPisVazio, cstPis00, cstPis01, cstPis02, cstPis03, cstPis04,
-         cstPis05, cstPis06, cstPis07, cstPis08, cstPis09]);
+         cstPis05, cstPis06, cstPis07, cstPis08, cstPis09, cstPis49]);
 end;
 
 function StrToCSTPis(out ok: Boolean; const s: string): TCSTPis;
 begin
   result := StrToEnumerado(ok, s,
-        ['', '00', '01', '02', '03', '04', '05', '06', '07', '08', '09'],
+        ['', '00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '49'],
         [cstPisVazio, cstPis00, cstPis01, cstPis02, cstPis03, cstPis04,
-         cstPis05, cstPis06, cstPis07, cstPis08, cstPis09]);
+         cstPis05, cstPis06, cstPis07, cstPis08, cstPis09, cstPis49]);
 end;
 
 function tpRetPisCofinsToStr(const t: TtpRetPisCofins): string;
