@@ -880,27 +880,60 @@ end;
 procedure TACBrNFSeProviderFiorilliAPIPropria.PreencherResponseEmitirComRetorno(const ARootNode: TACBrXMLNode;
   AResponse: TNFSeEmiteResponse);
 var
-  lNode: TACBrXMLNode;
+  ANode: TACBrXMLNode;
+  AErro: TNFSeEventoCollectionItem;
+  NFSeXml, CodVerif, NumNFSe, NumDps, SerieRps: string;
+  DataAut: TDateTime;
+  AResumo: TNFSeResumoCollectionItem;
+  ANota: TNotaFiscal;
 begin
-  lNode := ARootNode;
+  AResponse.Data := ObterConteudoTag(ARootNode.Childrens.FindAnyNs('DataRecebimento'), tcDatHor);
+  AResponse.Protocolo := ObterConteudoTag(ARootNode.Childrens.FindAnyNs('protocolo'), tcStr);
+  AResponse.Situacao := ObterConteudoTag(ARootNode.Childrens.FindAnyNs('Status'), tcStr);
 
-  AResponse.Data := ObterConteudoTag(lNode.Childrens.FindAnyNs('DataRecebimento'), tcDatHor);
-  AResponse.Protocolo := ObterConteudoTag(lNode.Childrens.FindAnyNs('protocolo'), tcStr);
-  AResponse.Situacao := ObterConteudoTag(lNode.Childrens.FindAnyNs('Status'), tcStr);
+  ANode := ARootNode.Childrens.FindAnyNs('NFSe');
 
-//      Implementar a leitura do elemento NFSe
-  {
-  AuxNode := lNode.Childrens.FindAnyNs('emissao');
-  if Assigned(AuxNode) then
+  if not Assigned(ANode) then
   begin
-    AResponse.idRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('idDps'), tcStr);
-    AResponse.idNota := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('chaveAcesso'), tcStr);
-    AResponse.NumeroRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('numeroDps'), tcStr);
-    AResponse.SerieRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('serieDps'), tcStr);
-    AResponse.NumeroNota := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('numeroNotaFiscal'), tcStr);
-    AResponse.Link := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('linkPdf'), tcStr);
+    AErro := AResponse.Erros.New;
+    AErro.Codigo := Cod203;
+    AErro.Descricao := ACBrStr(Desc203);
+    Exit;
   end;
-  }
+
+  NFSeXml := ANode.OuterXml;
+  ANode := ANode.Childrens.FindAnyNs('infNFSe');
+
+  CodVerif := OnlyNumber(ObterConteudoTag(ANode.Attributes.Items['Id']));
+  NumNFSe := ObterConteudoTag(ANode.Childrens.FindAnyNs('nNFSe'), tcStr);
+  DataAut := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhProc'), tcDatHor);
+
+  ANode := ANode.Childrens.FindAnyNs('DPS');
+  ANode := ANode.Childrens.FindAnyNs('infDPS');
+
+  NumDps := ObterConteudoTag(ANode.Childrens.FindAnyNs('nDPS'), tcStr);
+  SerieRps := ObterConteudoTag(ANode.Childrens.FindAnyNs('serie'), tcStr);
+
+  with AResponse do
+  begin
+    CodigoVerificacao := CodVerif;
+    NumeroNota := NumNFSe;
+    Data := DataAut;
+    XmlRetorno := NFSeXml;
+  end;
+
+  AResumo := AResponse.Resumos.New;
+  AResumo.NumeroNota := NumNFSe;
+  AResumo.CodigoVerificacao := CodVerif;
+  AResumo.NumeroRps := NumDps;
+  AResumo.SerieRps := SerieRps;
+
+  ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByRps(NumDps);
+
+  ANota := CarregarXmlNfse(ANota, NFSeXml);
+  SalvarXmlNfse(ANota);
+
+  AResumo.NomeArq := ANota.NomeArq;
 end;
 
 function TACBrNFSeProviderFiorilliAPIPropria.PrepararArquivoEnvio(

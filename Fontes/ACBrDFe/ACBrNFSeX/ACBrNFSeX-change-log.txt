@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 05/05/2026
+-- Fiorilli.Provider --
+[*] ACBr-9342 - Implementado o TratarRetornoEmitir
+   Por: Diego Reckziegel/Italo Giurizzato Junior
 -- ACBrNFSeX/ACBrNFSeXConfiguracoes/ACBrNFSeXProviderBase/ACBrNFSeXProviderManager --
 -- Fiorilli.GravarXml/Fiorilli.LerXml/Fiorilli.Provider --
 [*] ACBr-9289 - Diversas alterações visando atender as duas versões 1.00 e 1.01 do Layout do
