@@ -143,8 +143,6 @@ begin
   end;
 
   SetXmlNameSpace('http://www.centi.com.br/files/nfse.xsd');
-
-  ConfigSchemas.Validar := False;
 end;
 
 function TACBrNFSeProviderCenti202.CriarGeradorXml(

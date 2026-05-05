@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 05/05/2026
+-- Centi.GravarXml/Centi.Provider --
+[*] Possível solução para o erro: Xml inválido. Error: Object reference not set to an instance of an object.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [-] Corrige URL do Sao Valentim do Sul/Sao Valentim
    Por: doszapro

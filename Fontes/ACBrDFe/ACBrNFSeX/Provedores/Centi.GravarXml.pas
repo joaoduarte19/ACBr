@@ -91,6 +91,9 @@ begin
   NrOcorrIncentCultural := -1;
 
   NrOcorrInscEstTomador_2 := 0;
+
+  GerarIDDeclaracao := False;
+  GerarIDRps := True;
 end;
 
 function TNFSeW_Centi202.GerarServico: TACBrXmlNode;
