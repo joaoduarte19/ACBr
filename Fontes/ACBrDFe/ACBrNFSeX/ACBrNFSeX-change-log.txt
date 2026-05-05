@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+05/05/2026
+-- ACBrNFSeXServicos --
+[-] Corrige URL do Sao Valentim do Sul/Sao Valentim
+   Por: doszapro
+   
 04/05/2026
 -- ACBrNFSeXConversao --
 [*] ACBr-9115 - Ajustes no tipo TCSTPis, esta faltando o CST 49.
