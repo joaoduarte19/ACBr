@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 05/05/2026
+-- ACBrNFSeXServicos.ini -- 
+[*] ACBr-9342 - A cidade de Ji-Parana/RO passou a usar a versão 1.00 do Padrão Nacional - Fiorilli
+   Por: Diego Reckziegel
+[*] ACBr-9341 - A cidade de Assis/SP passou a usar a versão 1.00 do Padrão Nacional - Fiorilli
+   Por: Diego Reckziegel
 -- Fiorilli.Provider --
 [*] ACBr-9342 - Implementado o TratarRetornoEmitir
    Por: Diego Reckziegel/Italo Giurizzato Junior
