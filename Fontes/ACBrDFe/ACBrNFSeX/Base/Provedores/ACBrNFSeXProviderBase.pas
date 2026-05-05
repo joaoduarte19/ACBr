@@ -901,43 +901,50 @@ var
 
   procedure CarregarURLPadraoNacional;
   begin
-    if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ConsultarNFSeRPS') then
+    if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ConsultarNFSeRPS') and
+       not(ConfigGeral.Params.ParamTemValor('ServicosAPIPropria', 'ConsultarNFSeRPS')) then
     begin
       ConfigWebServices.LoadUrlProducaoAPIPadraoNacional(IniParams, 'ConsultarNFSeRPS');
       ConfigWebServices.LoadUrlHomologacaoAPIPadraoNacional(IniParams, 'ConsultarNFSeRPS');
     end;
 
-    if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ConsultarNFSePorChave') then
+    if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ConsultarNFSePorChave') and
+          not(ConfigGeral.Params.ParamTemValor('ServicosAPIPropria', 'ConsultarNFSePorChave')) then 
     begin
       ConfigWebServices.LoadUrlProducaoAPIPadraoNacional(IniParams, 'ConsultarNFSePorChave');
       ConfigWebServices.LoadUrlHomologacaoAPIPadraoNacional(IniParams, 'ConsultarNFSePorChave');
     end;
 
-    if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'EnviarEvento') then
+    if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'EnviarEvento') and
+       not(ConfigGeral.Params.ParamTemValor('ServicosAPIPropria', 'EnviarEvento')) then    
     begin
       ConfigWebServices.LoadUrlProducaoAPIPadraoNacional(IniParams, 'EnviarEvento');
       ConfigWebServices.LoadUrlHomologacaoAPIPadraoNacional(IniParams, 'EnviarEvento');
     end;
 
-    if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ConsultarEvento') then
+    if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ConsultarEvento') and
+       not(ConfigGeral.Params.ParamTemValor('ServicosAPIPropria', 'ConsultarEvento')) then    
     begin
       ConfigWebServices.LoadUrlProducaoAPIPadraoNacional(IniParams, 'ConsultarEvento');
       ConfigWebServices.LoadUrlHomologacaoAPIPadraoNacional(IniParams, 'ConsultarEvento');
     end;
 
-    if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ConsultarDFe') then
+    if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ConsultarDFe') and
+       not(ConfigGeral.Params.ParamTemValor('ServicosAPIPropria', 'ConsultarDFe')) then    
     begin
       ConfigWebServices.LoadUrlProducaoAPIPadraoNacional(IniParams, 'ConsultarDFe');
       ConfigWebServices.LoadUrlHomologacaoAPIPadraoNacional(IniParams, 'ConsultarDFe');
     end;
 
-    if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ConsultarParam') then
+    if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ConsultarParam') and
+       not(ConfigGeral.Params.ParamTemValor('ServicosAPIPropria', 'ConsultarParam')) then    
     begin
       ConfigWebServices.LoadUrlProducaoAPIPadraoNacional(IniParams, 'ConsultarParam');
       ConfigWebServices.LoadUrlHomologacaoAPIPadraoNacional(IniParams, 'ConsultarParam');
     end;
 
-    if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ObterDANFSE') then
+    if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ObterDANFSE') and
+       not(ConfigGeral.Params.ParamTemValor('ServicosAPIPropria', 'ObterDANFSE')) then    
     begin
       ConfigWebServices.LoadUrlProducaoAPIPadraoNacional(IniParams, 'ObterDANFSE');
       ConfigWebServices.LoadUrlHomologacaoAPIPadraoNacional(IniParams, 'ObterDANFSE');

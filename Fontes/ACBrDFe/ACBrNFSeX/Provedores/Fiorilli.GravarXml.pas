@@ -57,6 +57,9 @@ type
   TNFSeW_FiorilliAPIPropria = class(TNFSeW_PadraoNacional)
   private
     FpVersao: string;
+
+    function CriaElementoDPS: TACBrXmlNode; virtual;
+    procedure DefineAtributosInfDPS(AInfDPSNode: TACBrXMLNode); virtual;
   protected
     function GerarXMLInfDps: TACBrXmlNode; override;
 
@@ -80,6 +83,14 @@ type
     function GerarXMLIBSCBSEnderecoExteriorAdquirente(endExt: TendExt): TACBrXmlNode;
     function GerarXMLServico: TACBrXmlNode;  override;
     }
+  end;
+
+  { TNFSeW_FiorilliAPIPropria101 }
+
+  TNFSeW_FiorilliAPIPropria101 = class(TNFSeW_FiorilliAPIPropria)
+  private
+    function CriaElementoDPS: TACBrXmlNode; override;
+    procedure DefineAtributosInfDPS(AInfDPSNode: TACBrXMLNode); override;
   end;
 
 implementation
@@ -114,6 +125,25 @@ end;
 
 { TNFSeW_FiorilliAPIPropria }
 
+function TNFSeW_FiorilliAPIPropria.CriaElementoDPS: TACBrXmlNode;
+begin
+  FpVersao := VersaoNFSeToStr(VersaoNFSe);
+
+  Result := CreateElement('DPS');
+  Result.SetAttribute('versao', FpVersao);
+  Result.SetNamespace(FpAOwner.ConfigMsgDados.LoteRps.xmlns, Self.PrefixoPadrao);
+end;
+
+procedure TNFSeW_FiorilliAPIPropria.DefineAtributosInfDPS(
+  AInfDPSNode: TACBrXMLNode);
+begin
+  if (FpAOwner.ConfigGeral.Identificador <> '') then
+    AInfDPSNode.SetAttribute(FpAOwner.ConfigGeral.Identificador, NFSe.infID.ID);
+
+  if (FpAOwner.ConfigMsgDados.xmlRps.xmlns <> '') then
+    AInfDPSNode.SetNamespace(FpAOwner.ConfigMsgDados.xmlRps.xmlns, Self.PrefixoPadrao);
+end;
+
 function TNFSeW_FiorilliAPIPropria.GerarXml: Boolean;
 var
   NFSeNode, xmlNode: TACBrXmlNode;
@@ -140,9 +170,7 @@ begin
 
   NFSe.InfID.ID := 'DPS' + chave;
 
-  NFSeNode := CreateElement('DPS');
-  NFSeNode.SetAttribute('versao', FpVersao);
-  NFSeNode.SetNamespace(FpAOwner.ConfigMsgDados.LoteRps.xmlns, Self.PrefixoPadrao);
+  NFSeNode := CriaElementoDPS;
 
   FDocument.Root := NFSeNode;
 
@@ -156,11 +184,7 @@ function TNFSeW_FiorilliAPIPropria.GerarXMLInfDps: TACBrXmlNode;
 begin
   Result := CreateElement('infDPS');
 
-  if (FpAOwner.ConfigGeral.Identificador <> '') then
-    Result.SetAttribute(FpAOwner.ConfigGeral.Identificador, NFSe.infID.ID);
-
-  if (FpAOwner.ConfigMsgDados.xmlRps.xmlns <> '') then
-    Result.SetNamespace(FpAOwner.ConfigMsgDados.xmlRps.xmlns, Self.PrefixoPadrao);
+  DefineAtributosInfDPS(Result);
 
   Result.AppendChild(AddNode(tcStr, '#1', 'tpAmb', 1, 1, 1,
                                               TipoAmbienteToStr(Ambiente), ''));
@@ -218,6 +242,22 @@ begin
      (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
      (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
     Result.AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
+end;
+
+{ TNFSeW_FiorilliAPIPropria101 }
+
+function TNFSeW_FiorilliAPIPropria101.CriaElementoDPS: TACBrXmlNode;
+begin
+  Result := CreateElement('DPS');
+  Result.SetAttribute('versao', FpVersao);
+  Result.SetNamespace(FpAOwner.ConfigMsgDados.XmlRps.xmlns, Self.PrefixoPadrao);
+end;
+
+procedure TNFSeW_FiorilliAPIPropria101.DefineAtributosInfDPS(
+  AInfDPSNode: TACBrXMLNode);
+begin
+  if (FpAOwner.ConfigGeral.Identificador <> '') then
+    AInfDPSNode.SetAttribute(FpAOwner.ConfigGeral.Identificador, NFSe.infID.ID);
 end;
 
 end.

@@ -60,6 +60,15 @@ type
 
   end;
 
+  { TNFSeR_FiorilliAPIPropria101 }
+
+  TNFSeR_FiorilliAPIPropria101 = class(TNFSeR_FiorilliAPIPropria)
+  protected
+
+  public
+
+  end;
+
 implementation
 
 //==============================================================================

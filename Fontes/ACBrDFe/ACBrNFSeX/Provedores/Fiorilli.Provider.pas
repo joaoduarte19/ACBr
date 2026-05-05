@@ -108,6 +108,11 @@ type
   TACBrNFSeProviderFiorilliAPIPropria = class(TACBrNFSeProviderPadraoNacional)
   private
     FNaoAssinar: Boolean;
+
+    function QuantidadeDeNotasValida(const AResponse: TNFSeEmiteResponse): Boolean; virtual;
+    function DefineIdAttr: String; virtual;
+    function GerarListaDPS(const AResponse: TNFSeEmiteResponse; const AIdAttr: String): String; virtual;
+    procedure PreencherResponseEmitirComRetorno(const ARootNode: TACBrXMLNode; AResponse: TNFSeEmiteResponse);
   protected
     procedure Configuracao; override;
 
@@ -129,6 +134,7 @@ type
       Response: TNFSeConsultaLoteRpsResponse): Boolean;
 
     procedure PrepararEmitir(Response: TNFSeEmiteResponse); override;
+    procedure GerarMsgDadosEmitir(Response: TNFSeEmiteResponse; Params: TNFSeParamsResponse); override;
     procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
 
     procedure PrepararConsultaLoteRps(Response: TNFSeConsultaLoteRpsResponse); override;
@@ -137,7 +143,37 @@ type
     procedure PrepararEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
   public
     procedure EnviarEvento; override;
+  end;
 
+  TACBrNFSeXWebserviceFiorilliAPIPropria101 = class(TACBrNFSeXWebserviceFiorilliAPIPropria)
+  public
+    function ConsultarNFSePorRps(const ACabecalho, AMSG: string): string; override;
+    function ConsultarNFSePorChave(const ACabecalho, AMSG: string): string; override;
+  end;
+
+  TACBrNFSeProviderFiorilliAPIPropria101 = class(TACBrNFSeProviderFiorilliAPIPropria)
+  private
+    FNaoAssinar: Boolean;
+  protected
+    function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
+    function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
+    function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
+
+    function PreencherNotaRespostaConsultaNFSeporRps(Node, parentNode: TACBrXmlNode;
+      Response: TNFSeConsultaNFSeporRpsResponse): Boolean;
+
+    function PreencherNotaRespostaConsultaNFSeporChave(Node, parentNode: TACBrXmlNode;
+      Response: TNFSeConsultaNFSeResponse): Boolean;
+
+//  public
+    procedure PrepararEmitir(Response: TNFSeEmiteResponse); override;
+    procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
+
+    procedure PrepararConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
+    procedure TratarRetornoConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
+
+    procedure PrepararConsultaNFSeporChave(Response: TNFSeConsultaNFSeResponse); override;
+    procedure TratarRetornoConsultaNFSeporChave(Response: TNFSeConsultaNFSeResponse); override;
   end;
 
 implementation
@@ -551,6 +587,14 @@ begin
   end;
 end;
 
+function TACBrNFSeProviderFiorilliAPIPropria.DefineIdAttr: String;
+begin
+  if ConfigAssinar.IncluirURI then
+    Result := ConfigGeral.Identificador
+  else
+    Result := 'ID';
+end;
+
 procedure TACBrNFSeProviderFiorilliAPIPropria.EnviarEvento;
 begin
   inherited EnviarEvento;
@@ -560,6 +604,58 @@ begin
   ConfigGeral.FormatoArqEnvioSoap := tfaXml;
   ConfigGeral.FormatoArqRetornoSoap := tfaXml;
   ConfigWebServices.VersaoAtrib := '1.00';
+end;
+
+function TACBrNFSeProviderFiorilliAPIPropria.GerarListaDPS(const AResponse: TNFSeEmiteResponse; const AIdAttr: String): String;
+var
+  Nota: TNotaFiscal;
+  I: Integer;
+begin
+  for I := 0 to TACBrNFSeX(FAOwner).NotasFiscais.Count -1 do
+  begin
+    Nota := TACBrNFSeX(FAOwner).NotasFiscais.Items[I];
+
+    Nota.GerarXML;
+
+    Nota.XmlRps := ConverteXMLtoUTF8(Nota.XmlRps);
+    Nota.XmlRps := ChangeLineBreak(Nota.XmlRps, '');
+
+
+    if (not FNaoAssinar) and
+       ((ConfigAssinar.Rps and (AResponse.ModoEnvio in [meLoteAssincrono, meLoteSincrono])) or
+       (ConfigAssinar.RpsGerarNFSe and (AResponse.ModoEnvio in [meUnitario, meAutomatico]))) then
+    begin
+      Nota.XmlRps := FAOwner.SSL.Assinar(Nota.XmlRps,
+                         ConfigMsgDados.XmlRps.DocElemento,
+                         ConfigMsgDados.XmlRps.InfElemento, '', '', '', AIdAttr);
+    end;
+
+    SalvarXmlRps(Nota);
+
+    Result := Result + RemoverDeclaracaoXML(Nota.XmlRps);
+  end;
+end;
+
+procedure TACBrNFSeProviderFiorilliAPIPropria.GerarMsgDadosEmitir(
+  Response: TNFSeEmiteResponse; Params: TNFSeParamsResponse);
+var
+  Emitente: TEmitenteConfNFSe;
+begin
+  if Response.ModoEnvio <> meUnitario then
+  begin
+    Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
+
+    Response.ArquivoEnvio :=
+      '<nfse:LoteDps xmlns:nfse="http://www.fiorilli.com.br/nfse-nacional">' +
+        '<nfse:NumeroLote>' + Response.NumeroLote + '</nfse:NumeroLote>' +
+        '<nfse:CNPJ>' + Emitente.CNPJ + '</nfse:CNPJ>' +
+        '<nfse:IM>' + Emitente.InscMun + '</nfse:IM>' +
+        '<nfse:QuantidadeDps>' +
+           IntToStr(TACBrNFSeX(FAOwner).NotasFiscais.Count) +
+        '</nfse:QuantidadeDps>' +
+        '<nfse:ListaDps>' + Response.ArquivoEnvio + '</nfse:ListaDps>' +
+       '</nfse:LoteDps>';
+  end;
 end;
 
 function TACBrNFSeProviderFiorilliAPIPropria.VerificarAlerta(
@@ -676,6 +772,31 @@ begin
   end;
 end;
 
+function TACBrNFSeProviderFiorilliAPIPropria.QuantidadeDeNotasValida(const AResponse: TNFSeEmiteResponse): Boolean;
+var
+  AErro: TNFSeEventoCollectionItem;
+begin
+  Result := True;
+  if TACBrNFSeX(FAOwner).NotasFiscais.Count <= 0 then
+  begin
+    AErro := AResponse.Erros.New;
+    AErro.Codigo := Cod002;
+    AErro.Descricao := ACBrStr(Desc002);
+    Result := False;
+  end;
+
+  if TACBrNFSeX(FAOwner).NotasFiscais.Count > AResponse.MaxRps then
+  begin
+    AErro := AResponse.Erros.New;
+    AErro.Codigo := Cod003;
+    AErro.Descricao := ACBrStr('Conjunto de DPS transmitidos (máximo de ' +
+                       IntToStr(AResponse.MaxRps) + ' DPS)' +
+                       ' excedido. Quantidade atual: ' +
+                       IntToStr(TACBrNFSeX(FAOwner).NotasFiscais.Count));
+    Result := False;
+  end;
+end;
+
 function TACBrNFSeProviderFiorilliAPIPropria.PreencherNotaRespostaConsultaLoteRps(
   Node, parentNode: TACBrXmlNode;
   Response: TNFSeConsultaLoteRpsResponse): Boolean;
@@ -756,6 +877,32 @@ begin
   end;
 end;
 
+procedure TACBrNFSeProviderFiorilliAPIPropria.PreencherResponseEmitirComRetorno(const ARootNode: TACBrXMLNode;
+  AResponse: TNFSeEmiteResponse);
+var
+  lNode: TACBrXMLNode;
+begin
+  lNode := ARootNode;
+
+  AResponse.Data := ObterConteudoTag(lNode.Childrens.FindAnyNs('DataRecebimento'), tcDatHor);
+  AResponse.Protocolo := ObterConteudoTag(lNode.Childrens.FindAnyNs('protocolo'), tcStr);
+  AResponse.Situacao := ObterConteudoTag(lNode.Childrens.FindAnyNs('Status'), tcStr);
+
+//      Implementar a leitura do elemento NFSe
+  {
+  AuxNode := lNode.Childrens.FindAnyNs('emissao');
+  if Assigned(AuxNode) then
+  begin
+    AResponse.idRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('idDps'), tcStr);
+    AResponse.idNota := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('chaveAcesso'), tcStr);
+    AResponse.NumeroRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('numeroDps'), tcStr);
+    AResponse.SerieRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('serieDps'), tcStr);
+    AResponse.NumeroNota := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('numeroNotaFiscal'), tcStr);
+    AResponse.Link := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('linkPdf'), tcStr);
+  end;
+  }
+end;
+
 function TACBrNFSeProviderFiorilliAPIPropria.PrepararArquivoEnvio(
   const aXml: string; aMetodo: TMetodo): string;
 begin
@@ -772,6 +919,75 @@ begin
   end
   else
     Result := ChangeLineBreak(aXml, '');
+end;
+
+procedure TACBrNFSeProviderFiorilliAPIPropria.PrepararEmitir(
+  Response: TNFSeEmiteResponse);
+var
+  IdAttr, ListaDps: string;
+  lSSLC14NMode: TSSLC14NMode;
+  lParams: TNFSeParamsResponse;
+begin
+  if not(QuantidadeDeNotasValida(Response)) then Exit;
+
+  ListaDps := '';
+
+  IdAttr := DefineIdAttr;
+
+  lSSLC14NMode := FAOwner.SSL.SSLC14NMode;
+  try
+    FAOwner.SSL.SSLC14NMode := cmC14N_EXCLUSIVE;
+    ListaDps := GerarListaDPS(Response, IdAttr);
+  finally
+    FAOwner.SSL.SSLC14NMode := lSSLC14NMode;
+  end;
+
+  lParams := TNFSeParamsResponse.Create;
+  try
+    Response.ArquivoEnvio := ListaDps;
+    GerarMsgDadosEmitir(Response, lParams);
+  finally
+    lParams.Free;
+  end;
+
+  Path := '';
+  Method := 'POST';
+end;
+
+procedure TACBrNFSeProviderFiorilliAPIPropria.TratarRetornoEmitir(
+  Response: TNFSeEmiteResponse);
+var
+  Document: TACBrXmlDocument;
+  AErro: TNFSeEventoCollectionItem;
+  ANode: TACBrXmlNode;
+begin
+  Document := TACBrXmlDocument.Create;
+  try
+    try
+      if Response.ArquivoRetorno = '' then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod201;
+        AErro.Descricao := ACBrStr(Desc201);
+        Exit
+      end;
+
+      Document.LoadFromXml(Response.ArquivoRetorno);
+
+      ProcessarMensagemErros(Document.Root, Response);
+
+      PreencherResponseEmitirComRetorno(Document.Root, Response);
+    except
+      on E:Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(Document);
+  end;
 end;
 
 procedure TACBrNFSeProviderFiorilliAPIPropria.PrepararConsultaLoteRps(
@@ -808,109 +1024,6 @@ begin
   Method := 'POST';
 end;
 
-procedure TACBrNFSeProviderFiorilliAPIPropria.PrepararEmitir(
-  Response: TNFSeEmiteResponse);
-var
-  AErro: TNFSeEventoCollectionItem;
-  Nota: TNotaFiscal;
-  IdAttr, ListaDps: string;
-  I: Integer;
-  Emitente: TEmitenteConfNFSe;
-  lSSLC14NMode: TSSLC14NMode;
-begin
-  if TACBrNFSeX(FAOwner).NotasFiscais.Count <= 0 then
-  begin
-    AErro := Response.Erros.New;
-    AErro.Codigo := Cod002;
-    AErro.Descricao := ACBrStr(Desc002);
-  end;
-
-  if TACBrNFSeX(FAOwner).NotasFiscais.Count > Response.MaxRps then
-  begin
-    AErro := Response.Erros.New;
-    AErro.Codigo := Cod003;
-    AErro.Descricao := ACBrStr('Conjunto de DPS transmitidos (máximo de ' +
-                       IntToStr(Response.MaxRps) + ' DPS)' +
-                       ' excedido. Quantidade atual: ' +
-                       IntToStr(TACBrNFSeX(FAOwner).NotasFiscais.Count));
-  end;
-
-  if Response.Erros.Count > 0 then Exit;
-
-  ListaDps := '';
-
-  if ConfigAssinar.IncluirURI then
-    IdAttr := ConfigGeral.Identificador
-  else
-    IdAttr := 'ID';
-
-  lSSLC14NMode := FAOwner.SSL.SSLC14NMode;
-  try
-    FAOwner.SSL.SSLC14NMode := cmC14N_EXCLUSIVE;
-    for I := 0 to TACBrNFSeX(FAOwner).NotasFiscais.Count -1 do
-    begin
-      Nota := TACBrNFSeX(FAOwner).NotasFiscais.Items[I];
-
-      Nota.GerarXML;
-
-      Nota.XmlRps := ConverteXMLtoUTF8(Nota.XmlRps);
-      Nota.XmlRps := ChangeLineBreak(Nota.XmlRps, '');
-
-
-      if (not FNaoAssinar) and
-         ((ConfigAssinar.Rps and (Response.ModoEnvio in [meLoteAssincrono, meLoteSincrono])) or
-         (ConfigAssinar.RpsGerarNFSe and (Response.ModoEnvio in [meUnitario, meAutomatico]))) then
-      begin
-        Nota.XmlRps := FAOwner.SSL.Assinar(Nota.XmlRps,
-                           ConfigMsgDados.XmlRps.DocElemento,
-                           ConfigMsgDados.XmlRps.InfElemento, '', '', '', IdAttr);
-      end;
-
-      SalvarXmlRps(Nota);
-
-      ListaDps := ListaDps + RemoverDeclaracaoXML(Nota.XmlRps);
-    end;
-  finally
-    FAOwner.SSL.SSLC14NMode := lSSLC14NMode;
-  end;
-
-  if Response.ModoEnvio = meUnitario then
-  begin
-    Response.ArquivoEnvio := ListaDps;
-  end
-  else
-  begin
-    Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
-
-    Response.ArquivoEnvio :=
-      '<nfse:LoteDps xmlns:nfse="http://www.fiorilli.com.br/nfse-nacional">' +
-        '<nfse:NumeroLote>' + Response.NumeroLote + '</nfse:NumeroLote>' +
-        '<nfse:CNPJ>' + Emitente.CNPJ + '</nfse:CNPJ>' +
-        '<nfse:IM>' + Emitente.InscMun + '</nfse:IM>' +
-        '<nfse:QuantidadeDps>' +
-           IntToStr(TACBrNFSeX(FAOwner).NotasFiscais.Count) +
-        '</nfse:QuantidadeDps>' +
-        '<nfse:ListaDps>' + ListaDps + '</nfse:ListaDps>' +
-       '</nfse:LoteDps>';
-  end;
-
-  Path := '';
-  Method := 'POST';
-end;
-
-procedure TACBrNFSeProviderFiorilliAPIPropria.PrepararEnviarEvento(
-  Response: TNFSeEnviarEventoResponse);
-begin
-  ConfigGeral.FormatoArqEnvio := tfaJson;
-  ConfigGeral.FormatoArqRetorno := tfaJson;
-  ConfigGeral.FormatoArqEnvioSoap := tfaJson;
-  ConfigGeral.FormatoArqRetornoSoap := tfaJson;
-  ConfigMsgDados.EnviarEvento.xmlns := 'http://www.sped.fazenda.gov.br/nfse';
-  ConfigWebServices.VersaoAtrib := '1.01';
-
-  inherited PrepararEnviarEvento(Response);
-end;
-
 procedure TACBrNFSeProviderFiorilliAPIPropria.TratarRetornoConsultaLoteRps(
   Response: TNFSeConsultaLoteRpsResponse);
 var
@@ -941,6 +1054,7 @@ begin
       Response.Situacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('Situacao'), tcStr);
 
       Response.Sucesso := (Response.Erros.Count = 0);
+
       if Response.Sucesso then
       begin
         ANode := Document.Root.Childrens.FindAnyNs('ListaNfse');
@@ -1002,58 +1116,17 @@ begin
   end;
 end;
 
-procedure TACBrNFSeProviderFiorilliAPIPropria.TratarRetornoEmitir(
-  Response: TNFSeEmiteResponse);
-var
-  Document: TACBrXmlDocument;
-  AErro: TNFSeEventoCollectionItem;
-  ANode: TACBrXmlNode;
+procedure TACBrNFSeProviderFiorilliAPIPropria.PrepararEnviarEvento(
+  Response: TNFSeEnviarEventoResponse);
 begin
-  Document := TACBrXmlDocument.Create;
-  try
-    try
-      if Response.ArquivoRetorno = '' then
-      begin
-        AErro := Response.Erros.New;
-        AErro.Codigo := Cod201;
-        AErro.Descricao := ACBrStr(Desc201);
-        Exit
-      end;
+  ConfigGeral.FormatoArqEnvio := tfaJson;
+  ConfigGeral.FormatoArqRetorno := tfaJson;
+  ConfigGeral.FormatoArqEnvioSoap := tfaJson;
+  ConfigGeral.FormatoArqRetornoSoap := tfaJson;
+  ConfigMsgDados.EnviarEvento.xmlns := 'http://www.sped.fazenda.gov.br/nfse';
+  ConfigWebServices.VersaoAtrib := '1.01';
 
-      Document.LoadFromXml(Response.ArquivoRetorno);
-
-      ProcessarMensagemErros(Document.Root, Response);
-
-      ANode := Document.Root;
-
-      Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('DataRecebimento'), tcDatHor);
-      Response.Protocolo := ObterConteudoTag(ANode.Childrens.FindAnyNs('protocolo'), tcStr);
-      Response.Situacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('Status'), tcStr);
-
-//      Implementar a leitura do elemento NFSe
-      {
-      AuxNode := ANode.Childrens.FindAnyNs('emissao');
-      if Assigned(AuxNode) then
-      begin
-        Response.idRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('idDps'), tcStr);
-        Response.idNota := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('chaveAcesso'), tcStr);
-        Response.NumeroRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('numeroDps'), tcStr);
-        Response.SerieRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('serieDps'), tcStr);
-        Response.NumeroNota := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('numeroNotaFiscal'), tcStr);
-        Response.Link := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('linkPdf'), tcStr);
-      end;
-      }
-    except
-      on E:Exception do
-      begin
-        AErro := Response.Erros.New;
-        AErro.Codigo := Cod999;
-        AErro.Descricao := ACBrStr(Desc999 + E.Message);
-      end;
-    end;
-  finally
-    FreeAndNil(Document);
-  end;
+  inherited PrepararEnviarEvento(Response);
 end;
 
 { TACBrNFSeXWebserviceFiorilliAPIPropria }
@@ -1186,6 +1259,571 @@ begin
     Result := RemoverIdentacao(Result);
     Result := RemoverPrefixosDesnecessarios(Result);
   end;
+end;
+
+{ TACBrNFSeProviderFiorilliAPIPropria101 }
+
+function TACBrNFSeProviderFiorilliAPIPropria101.CriarGeradorXml(
+  const ANFSe: TNFSe): TNFSeWClass;
+begin
+  Result := TNFSeW_FiorilliAPIPropria101.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderFiorilliAPIPropria101.CriarLeitorXml(
+  const ANFSe: TNFSe): TNFSeRClass;
+begin
+  Result := TNFSeR_FiorilliAPIPropria101.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderFiorilliAPIPropria101.CriarServiceClient(
+  const AMetodo: TMetodo): TACBrNFSeXWebservice;
+var
+  URL, AMimeType: string;
+begin
+  URL := GetWebServiceURL(AMetodo);
+
+  if AMetodo in [tmGerar, tmRecepcionar, tmRecepcionarSincrono, tmConsultarLote,
+                 tmConsultarNFSePorRps, tmConsultarNFSePorChave] then
+    AMimeType := 'text/xml; charset=utf-8'
+  else
+    AMimeType := 'application/json';
+
+  if URL <> '' then
+  begin
+    URL := URL + Path;
+
+    Result := TACBrNFSeXWebserviceFiorilliAPIPropria101.Create(FAOwner, AMetodo, URL,
+      Method, AMimeType);
+  end
+  else
+  begin
+    if ConfigGeral.Ambiente = taProducao then
+      raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
+    else
+      raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
+end;
+
+function TACBrNFSeProviderFiorilliAPIPropria101.PreencherNotaRespostaConsultaNFSeporRps(
+  Node, parentNode: TACBrXmlNode;
+  Response: TNFSeConsultaNFSeporRpsResponse): Boolean;
+var
+  NumNFSe, CodVerif, NumRps, SerieRps: String;
+  DataAut: TDateTime;
+  ANota: TNotaFiscal;
+  AResumo: TNFSeResumoCollectionItem;
+  Node2: TACBrXmlNode;
+  NumeroRps: Integer;
+begin
+  Result := False;
+  NumeroRps := 0;
+
+  if Node <> nil then
+  begin
+    if not Assigned(Node) then Exit;
+
+    NumNFSe := ObterConteudoTag(Node.Childrens.FindAnyNs('nNFSe'), tcStr);
+    CodVerif := OnlyNumber(ObterConteudoTag(Node.Attributes.Items['Id']));
+    DataAut := ObterConteudoTag(Node.Childrens.FindAnyNs('dhProc'), tcDatHor);
+
+    Node2 := Node.Childrens.FindAnyNs('DeclaracaoPrestacaoServico');
+
+    // Tem provedor que mudou a tag de <DeclaracaoPrestacaoServico>
+    // para <Rps>
+    if Node2 = nil then
+      Node2 := Node.Childrens.FindAnyNs('Rps');
+
+    if not Assigned(Node2) then Exit;
+
+    Node := Node2.Childrens.FindAnyNs('InfDeclaracaoPrestacaoServico');
+    if not Assigned(Node) then Exit;
+
+    Node := Node.Childrens.FindAnyNs('Rps');
+
+    NumRps := '';
+    SerieRps := '';
+
+    if Node <> nil then
+    begin
+      Node := Node.Childrens.FindAnyNs('IdentificacaoRps');
+
+      if Node <> nil then
+      begin
+        NumRps := ObterConteudoTag(Node.Childrens.FindAnyNs('Numero'), tcStr);
+        NumeroRps := StrToIntDef(NumRps, 0);
+        SerieRps := ObterConteudoTag(Node.Childrens.FindAnyNs('Serie'), tcStr);
+      end;
+    end;
+
+    AResumo := Response.Resumos.New;
+    AResumo.NumeroNota := NumNFSe;
+    AResumo.Data := DataAut;
+    AResumo.CodigoVerificacao := CodVerif;
+    AResumo.NumeroRps := NumRps;
+    AResumo.SerieRps := SerieRps;
+
+    Response.NumeroNota := NumNFSe;
+    Response.CodigoVerificacao := CodVerif;
+    Response.NumeroRps := NumRps;
+    Response.SerieRps := SerieRps;
+
+    if NumeroRps > 0 then
+      ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByRps(NumRps)
+    else
+      ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByNFSe(NumNFSe);
+
+    ANota := CarregarXmlNfse(ANota, parentNode.OuterXml);
+    SalvarXmlNfse(ANota);
+
+    AResumo.NomeArq := ANota.NomeArq;
+    AResumo.Link := ANota.NFSe.Link;
+
+    Response.Link := ANota.NFSe.Link;
+
+    Result := True; // Processado com sucesso pois retornou a nota
+  end;
+end;
+
+function TACBrNFSeProviderFiorilliAPIPropria101.PreencherNotaRespostaConsultaNFSeporChave(
+  Node, parentNode: TACBrXmlNode; Response: TNFSeConsultaNFSeResponse): Boolean;
+var
+  NumNFSe, CodVerif, NumRps, SerieRps: String;
+  DataAut: TDateTime;
+  ANota: TNotaFiscal;
+  AResumo: TNFSeResumoCollectionItem;
+  Node2: TACBrXmlNode;
+  NumeroRps: Integer;
+begin
+  Result := False;
+  NumeroRps := 0;
+
+  if Node <> nil then
+  begin
+    if not Assigned(Node) then Exit;
+
+    NumNFSe := ObterConteudoTag(Node.Childrens.FindAnyNs('nNFSe'), tcStr);
+    CodVerif := OnlyNumber(ObterConteudoTag(Node.Attributes.Items['Id']));
+    DataAut := ObterConteudoTag(Node.Childrens.FindAnyNs('dhProc'), tcDatHor);
+
+    Node2 := Node.Childrens.FindAnyNs('DeclaracaoPrestacaoServico');
+
+    // Tem provedor que mudou a tag de <DeclaracaoPrestacaoServico>
+    // para <Rps>
+    if Node2 = nil then
+      Node2 := Node.Childrens.FindAnyNs('Rps');
+
+    if not Assigned(Node2) then Exit;
+
+    Node := Node2.Childrens.FindAnyNs('InfDeclaracaoPrestacaoServico');
+    if not Assigned(Node) then Exit;
+
+    Node := Node.Childrens.FindAnyNs('Rps');
+
+    NumRps := '';
+    SerieRps := '';
+
+    if Node <> nil then
+    begin
+      Node := Node.Childrens.FindAnyNs('IdentificacaoRps');
+
+      if Node <> nil then
+      begin
+        NumRps := ObterConteudoTag(Node.Childrens.FindAnyNs('Numero'), tcStr);
+        NumeroRps := StrToIntDef(NumRps, 0);
+        SerieRps := ObterConteudoTag(Node.Childrens.FindAnyNs('Serie'), tcStr);
+      end;
+    end;
+
+    AResumo := Response.Resumos.New;
+    AResumo.NumeroNota := NumNFSe;
+    AResumo.Data := DataAut;
+    AResumo.CodigoVerificacao := CodVerif;
+    AResumo.NumeroRps := NumRps;
+    AResumo.SerieRps := SerieRps;
+
+    Response.NumeroNota := NumNFSe;
+    Response.CodigoVerificacao := CodVerif;
+    Response.NumeroRps := NumRps;
+    Response.SerieRps := SerieRps;
+
+    if NumeroRps > 0 then
+      ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByRps(NumRps)
+    else
+      ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByNFSe(NumNFSe);
+
+    ANota := CarregarXmlNfse(ANota, parentNode.OuterXml);
+    SalvarXmlNfse(ANota);
+
+    AResumo.NomeArq := ANota.NomeArq;
+    AResumo.Link := ANota.NFSe.Link;
+
+    Response.Link := ANota.NFSe.Link;
+
+    Result := True; // Processado com sucesso pois retornou a nota
+  end;
+end;
+
+procedure TACBrNFSeProviderFiorilliAPIPropria101.PrepararEmitir(
+  Response: TNFSeEmiteResponse);
+var
+  Nota: TNotaFiscal;
+  IdAttr, ListaDps: string;
+  I: Integer;
+  lParams: TNFSeParamsResponse;
+begin
+  if not(QuantidadeDeNotasValida(Response)) then Exit;
+
+  ListaDps := '';
+
+  IdAttr := DefineIdAttr;
+
+  ListaDPS := GerarListaDPS(Response, IdAttr);
+
+  lParams := TNFSeParamsResponse.Create;
+  try
+    Response.ArquivoEnvio := ListaDps;
+    GerarMsgDadosEmitir(Response, lParams);
+  finally
+    lParams.Free;
+  end;
+
+  Path := '';
+  Method := 'POST';
+end;
+
+procedure TACBrNFSeProviderFiorilliAPIPropria101.TratarRetornoEmitir(
+  Response: TNFSeEmiteResponse);
+var
+  Document: TACBrXmlDocument;
+  AErro: TNFSeEventoCollectionItem;
+  ANode: TACBrXmlNode;
+begin
+  Document := TACBrXmlDocument.Create;
+  try
+    try
+      if Response.ArquivoRetorno = '' then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod201;
+        AErro.Descricao := ACBrStr(Desc201);
+        Exit
+      end;
+
+      Document.LoadFromXml(Response.ArquivoRetorno);
+
+      ProcessarMensagemErros(Document.Root, Response, 'ListaMensagens', 'mensagem');
+
+      PreencherResponseEmitirComRetorno(Document.Root, Response);
+    except
+      on E:Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(Document);
+  end;
+end;
+
+procedure TACBrNFSeProviderFiorilliAPIPropria101.PrepararConsultaNFSeporRps(
+  Response: TNFSeConsultaNFSeporRpsResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+  lNumeroDPS, lSerieDPS, lIdDps, lCNPJCPF, lIM: String;
+  lEmitenteConfig: TEmitenteConfNFSe;
+begin
+  if EstaVazio(Response.idRps) and EstaVazio(Response.NumeroRps) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod126;
+    AErro.Descricao := ACBrStr(Desc126);
+    Exit;
+  end
+  else if EstaVazio(Response.NumeroRps) and EstaVazio(Response.SerieRps) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod102;
+    AErro.Descricao := ACBrStr(Desc102);
+
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod103;
+    AErro.Descricao := ACBrStr(Desc103);
+    Exit;
+  end;
+
+  lEmitenteConfig := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
+
+  if Length(lEmitenteConfig.CNPJ) = 14 then
+    lCNPJCPF := '<fio:CNPJ>' + lEmitenteConfig.CNPJ + '</fio:CNPJ>'
+  else
+    lCNPJCPF := '<fio:CPF>' + lEmitenteConfig.CNPJ + '</fio:CPF>';
+
+  lIM := '<fio:IM>' + lEmitenteConfig.InscMun + '</fio:IM>';
+
+  if Response.NumeroRps <> '' then
+    lNumeroDPS := '<fio:NumeroDPS>' + Response.NumeroRps + '</fio:NumeroDPS>';
+
+  if Response.SerieRps <> '' then
+    lSerieDPS := '<fio:SerieDPS>' + Response.SerieRps + '</fio:SerieDPS>';
+
+  if Response.idRps <> '' then
+    lIdDPS := '<fio:IdDPS>' + Response.idRps + '</fio:IdDPS>';
+
+  if lIdDps <> '' then
+    Response.ArquivoEnvio := lIM + lIdDps
+  else
+    Response.ArquivoEnvio := lCNPJCPF + lIM + lNumeroDPS + lSerieDPS;
+
+  Response.ArquivoEnvio :=
+    '<fio:ConsultarNfseEnvio xmlns:fio="http://www.fiorilli.com.br/nfse-nacional">' +
+      Response.ArquivoEnvio +
+    '</fio:ConsultarNfseEnvio>';
+
+  Path := '';
+  Method := 'POST';
+end;
+
+procedure TACBrNFSeProviderFiorilliAPIPropria101.TratarRetornoConsultaNFSeporRps(
+  Response: TNFSeConsultaNFSeporRpsResponse);
+var
+  Document: TACBrXmlDocument;
+  AErro: TNFSeEventoCollectionItem;
+  ANode, AuxNode: TACBrXmlNode;
+  ANodeArray: TACBrXMLNodeArray;
+  I: Integer;
+begin
+  Document := TACBrXmlDocument.Create;
+  try
+    try
+      if Response.ArquivoRetorno = '' then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod201;
+        AErro.Descricao := ACBrStr(Desc201);
+        Exit
+      end;
+
+      Document.LoadFromXml(Response.ArquivoRetorno);
+
+      ProcessarMensagemErros(Document.Root, Response, 'ListaMensagens', 'mensagem');
+
+      Response.Sucesso := (Response.Erros.Count = 0);
+
+      if Response.Sucesso then
+      begin
+        ANode := Document.Root.Childrens.FindAnyNs('ListaNFSe');
+
+        if not Assigned(ANode) then
+        begin
+          AErro := Response.Erros.New;
+          AErro.Codigo := Cod202;
+          AErro.Descricao := ACBrStr(Desc202);
+          Exit;
+        end;
+
+        ANodeArray := ANode.Childrens.FindAllAnyNs('NFSe');
+
+        if not Assigned(ANodeArray) then
+        begin
+          AErro := Response.Erros.New;
+          AErro.Codigo := Cod203;
+          AErro.Descricao := ACBrStr(Desc203);
+          Exit;
+        end;
+
+        for I := Low(ANodeArray) to High(ANodeArray) do
+        begin
+          ANode := ANodeArray[I];
+          AuxNode := ANode.Childrens.FindAnyNs('infNFSe');
+
+          if AuxNode = nil then
+          begin
+            AErro := Response.Erros.New;
+            AErro.Codigo := Cod203;
+            AErro.Descricao := ACBrStr(Desc203);
+            Exit;
+          end
+          else
+          begin
+            if PreencherNotaRespostaConsultaNFSeporRps(AuxNode, ANode, Response) then
+              Response.Situacao := '4' // Processado com sucesso pois retornou a nota
+            else
+            begin
+              AErro := Response.Erros.New;
+              AErro.Codigo := Cod203;
+              AErro.Descricao := ACBrStr(Desc203);
+              Exit;
+            end;
+          end;
+        end;
+      end;
+    except
+      on E:Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(Document);
+  end;
+end;
+
+procedure TACBrNFSeProviderFiorilliAPIPropria101.PrepararConsultaNFSeporChave(
+  Response: TNFSeConsultaNFSeResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+  lChaveNFSe, lCNPJCPF, lIM: String;
+  lEmitenteConfig: TEmitenteConfNFSe;
+begin
+  if EstaVazio(Response.InfConsultaNFSe.ChaveNFSe) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod118;
+    AErro.Descricao := ACBrStr(Desc118);
+    Exit;
+  end;
+
+  lEmitenteConfig := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
+
+  if Length(lEmitenteConfig.CNPJ) = 14 then
+    lCNPJCPF := '<fio:CNPJ>' + lEmitenteConfig.CNPJ + '</fio:CNPJ>'
+  else
+    lCNPJCPF := '<fio:CPF>' + lEmitenteConfig.CNPJ + '</fio:CPF>';
+
+  lIM := '<fio:IM>' + lEmitenteConfig.InscMun + '</fio:IM>';
+
+  if Response.InfConsultaNFSe.ChaveNFSe <> '' then
+    lChaveNFSe := '<fio:ChaveNFSe>' + Response.InfConsultaNFSe.ChaveNFSe + '</fio:ChaveNFSe>';
+
+  Response.ArquivoEnvio :=
+    '<fio:ConsultarNfseEnvio xmlns:fio="http://www.fiorilli.com.br/nfse-nacional">'+
+      lIM +
+      lChaveNFSe +
+    '</fio:ConsultarNfseEnvio>';
+
+  Path := '';
+  Method := 'POST';
+end;
+
+procedure TACBrNFSeProviderFiorilliAPIPropria101.TratarRetornoConsultaNFSeporChave(
+  Response: TNFSeConsultaNFSeResponse);
+var
+  Document: TACBrXmlDocument;
+  AErro: TNFSeEventoCollectionItem;
+  ANode, AuxNode: TACBrXmlNode;
+  ANodeArray: TACBrXMLNodeArray;
+  I: Integer;
+begin
+  Document := TACBrXmlDocument.Create;
+  try
+    try
+      if Response.ArquivoRetorno = '' then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod201;
+        AErro.Descricao := ACBrStr(Desc201);
+        Exit
+      end;
+
+      Document.LoadFromXml(Response.ArquivoRetorno);
+
+      ProcessarMensagemErros(Document.Root, Response, 'ListaMensagens', 'mensagem');
+
+      Response.Sucesso := (Response.Erros.Count = 0);
+
+      if Response.Sucesso then
+      begin
+        ANode := Document.Root.Childrens.FindAnyNs('ListaNFSe');
+
+        if not Assigned(ANode) then
+        begin
+          AErro := Response.Erros.New;
+          AErro.Codigo := Cod202;
+          AErro.Descricao := ACBrStr(Desc202);
+          Exit;
+        end;
+
+        ANodeArray := ANode.Childrens.FindAllAnyNs('NFSe');
+
+        if not Assigned(ANodeArray) then
+        begin
+          AErro := Response.Erros.New;
+          AErro.Codigo := Cod203;
+          AErro.Descricao := ACBrStr(Desc203);
+          Exit;
+        end;
+
+        for I := Low(ANodeArray) to High(ANodeArray) do
+        begin
+          ANode := ANodeArray[I];
+          AuxNode := ANode.Childrens.FindAnyNs('infNFSe');
+
+          if AuxNode = nil then
+          begin
+            AErro := Response.Erros.New;
+            AErro.Codigo := Cod203;
+            AErro.Descricao := ACBrStr(Desc203);
+            Exit;
+          end
+          else
+          begin
+            if PreencherNotaRespostaConsultaNFSeporChave(AuxNode, ANode, Response) then
+              Response.Situacao := '4' // Processado com sucesso pois retornou a nota
+            else
+            begin
+              AErro := Response.Erros.New;
+              AErro.Codigo := Cod203;
+              AErro.Descricao := ACBrStr(Desc203);
+              Exit;
+            end;
+          end;
+        end;
+      end;
+    except
+      on E:Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(Document);
+  end;
+end;
+
+{ TACBrNFSeXWebserviceFiorilliAPIPropria101 }
+
+function TACBrNFSeXWebserviceFiorilliAPIPropria101.ConsultarNFSePorChave(
+  const ACabecalho, AMSG: string): string;
+var
+  Request: string;
+begin
+  FPMsgOrig := AMSG;
+
+  Request := RemoverDeclaracaoXML(AMSG);
+
+  Result := Executar('ConsultarNfseEnvio', Request, [],
+                    [{'xmlns:fio="http://www.fiorilli.com.br/nfse-nacional"'}]);
+end;
+
+function TACBrNFSeXWebserviceFiorilliAPIPropria101.ConsultarNFSePorRps(
+  const ACabecalho, AMSG: string): string;
+var
+  Request: string;
+begin
+  FPMsgOrig := AMSG;
+
+  Request := RemoverDeclaracaoXML(AMSG);
+
+  Result := Executar('ConsultarNfseEnvio', Request, [],
+                    [{'xmlns:fio="http://www.fiorilli.com.br/nfse-nacional"'}]);
 end;
 
 end.

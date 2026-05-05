@@ -660,6 +660,7 @@ begin
 
   FWebService.ConsultaNFSeporRps.Clear;
   FWebService.ConsultaNFSeporRps.NumeroRps := aChave;
+  FWebService.ConsultaNFSeporRps.idRps := aChave;
 
   FProvider.ConsultaNFSeporRps;
 end;

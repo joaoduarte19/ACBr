@@ -414,8 +414,12 @@ begin
       proFiorilli:
         begin
           if APIPropria then
-            Result := TACBrNFSeProviderFiorilliAPIPropria.Create(ACBrNFSe)
-          else
+          begin
+            case Versao of
+              ve100: Result := TACBrNFSeProviderFiorilliAPIPropria.Create(ACBrNFSe);
+              ve101: Result := TACBrNFSeProviderFiorilliAPIPropria101.Create(ACBrNFSe);
+            end;
+          end else
             Result := TACBrNFSeProviderFiorilli200.Create(ACBrNFSe);
         end;
 

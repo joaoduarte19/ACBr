@@ -43,6 +43,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 05/05/2026
+-- ACBrNFSeX/ACBrNFSeXConfiguracoes/ACBrNFSeXProviderBase/ACBrNFSeXProviderManager --
+-- Fiorilli.GravarXml/Fiorilli.LerXml/Fiorilli.Provider --
+[*] ACBr-9289 - Diversas alterações visando atender as duas versões 1.00 e 1.01 do Layout do
+    Padrão Nacional utilizadas pelo provedor Fiorilli.
+    Temos cidades que utilizam a versão 1.00 (sem os campos da RTC) e outras usando a versão 1.01
+    (com os campos da RTC).
+   Por: Diego Folieni/Italo Giurizzato Junior
 -- Centi.GravarXml/Centi.Provider --
 [*] Possível solução para o erro: Xml inválido. Error: Object reference not set to an instance of an object.
    Por: Italo Giurizzato Junior

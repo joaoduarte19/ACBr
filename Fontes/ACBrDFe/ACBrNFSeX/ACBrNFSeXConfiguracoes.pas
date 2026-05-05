@@ -612,8 +612,14 @@ begin
   }
   aValor := FPIniParams.ReadString(CodIBGE, 'Params', '');
 
+  //Se o Params tiver um * na seção do município eu ignoro ele e vou direto no provedor, do contrário eu concateno o conteúdo de ambos...
+  if aValor = '*' then
+    aValor := FPIniParams.ReadString(FxProvedor, 'Params', '')
+  else
+    aValor := aValor + FPIniParams.ReadString(FxProvedor, 'Params', '');
+
   if aValor = '' then
-    FAPIPropria := (Pos('APIPropria:', FPIniParams.ReadString(FxProvedor, 'Params', '')) > 0)
+    FAPIPropria := (Pos('APIPropria:', aValor) > 0)
   else
     FAPIPropria := (Pos('APIPropria:', aValor) > 0);
 
