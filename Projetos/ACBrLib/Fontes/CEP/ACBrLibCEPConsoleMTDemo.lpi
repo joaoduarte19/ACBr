@@ -43,7 +43,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum;..\..\..\..\Fontes\ACBrComum"/>
-            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;..\..\..\..\Fontes\Terceiros\synalist;..\..\..\..\Fontes\ACBrComum;..\..\..\..\Fontes\Terceiros\GZIPUtils;..\..\..\..\Fontes\Terceiros\FastStringReplace;..\..\..\..\Fontes\ACBrOpenSSL;..\..\..\..\Fontes\ACBrTCP"/>
+            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;..\..\..\..\Fontes\Terceiros\synalist;..\..\..\..\Fontes\ACBrComum;..\..\..\..\Fontes\Terceiros\GZIPUtils;..\..\..\..\Fontes\Terceiros\FastStringReplace;..\..\..\..\Fontes\ACBrOpenSSL;..\..\..\..\Fontes\ACBrTCP;$(ACBrDir)\Fontes\ACBrLibXML2"/>
             <UnitOutputDirectory Value="lib\CONSOLE-$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -83,7 +83,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum;..\..\..\..\Fontes\ACBrComum"/>
-            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;..\..\..\..\Fontes\Terceiros\synalist;..\..\..\..\Fontes\ACBrComum;..\..\..\..\Fontes\Terceiros\GZIPUtils;..\..\..\..\Fontes\Terceiros\FastStringReplace;..\..\..\..\Fontes\ACBrOpenSSL;..\..\..\..\Fontes\ACBrTCP"/>
+            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;..\..\..\..\Fontes\Terceiros\synalist;..\..\..\..\Fontes\ACBrComum;..\..\..\..\Fontes\Terceiros\GZIPUtils;..\..\..\..\Fontes\Terceiros\FastStringReplace;..\..\..\..\Fontes\ACBrOpenSSL;..\..\..\..\Fontes\ACBrTCP;$(ACBrDir)\Fontes\ACBrLibXML2"/>
             <UnitOutputDirectory Value="lib\CONSOLE-$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -124,7 +124,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum"/>
-            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace"/>
+            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\ACBrLibXML2"/>
             <UnitOutputDirectory Value="lib\CONSOLE-$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -165,7 +165,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum"/>
-            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace"/>
+            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\ACBrLibXML2"/>
             <UnitOutputDirectory Value="lib\CONSOLE-$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -283,7 +283,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum"/>
-      <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace"/>
+      <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\ACBrLibXML2"/>
       <UnitOutputDirectory Value="lib\CONSOLE-$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>

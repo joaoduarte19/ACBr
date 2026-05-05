@@ -47,7 +47,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum"/>
-            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrBoleto;$(ACBrDir)\Fontes\ACBrBoleto\WS;$(ACBrDir)\Fontes\ACBrBoleto\FC\FPDF;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\ACBrPIXCD;$(ACBrDir)\Fontes\ACBrDFe;$(ACBrDir)\Fontes\PCNComum;$(ACBrDir)\Fontes\ACBrIntegrador;$(ACBrDir)\Fontes\ACBrIntegrador\pcnVFPe;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\FPDF-Pascal;$(ACBrDir)\Fontes\Terceiros\DelphiZXingQRCode;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\Terceiros\CodeGear;$(ACBrDir)\Fontes\Terceiros\Ole;$(ACBrDir)\Fontes\Terceiros\json4delphi\src"/>
+            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrBoleto;$(ACBrDir)\Fontes\ACBrBoleto\WS;$(ACBrDir)\Fontes\ACBrBoleto\FC\FPDF;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\ACBrPIXCD;$(ACBrDir)\Fontes\ACBrDFe;$(ACBrDir)\Fontes\PCNComum;$(ACBrDir)\Fontes\ACBrIntegrador;$(ACBrDir)\Fontes\ACBrIntegrador\pcnVFPe;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\FPDF-Pascal;$(ACBrDir)\Fontes\Terceiros\DelphiZXingQRCode;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\Terceiros\CodeGear;$(ACBrDir)\Fontes\Terceiros\Ole;$(ACBrDir)\Fontes\Terceiros\json4delphi\src;$(ACBrDir)\Fontes\ACBrLibXML2"/>
             <UnitOutputDirectory Value="lib\CONSOLE-$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -86,7 +86,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum"/>
-            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrBoleto;$(ACBrDir)\Fontes\ACBrBoleto\WS;$(ACBrDir)\Fontes\ACBrBoleto\FC\FPDF;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\ACBrPIXCD;$(ACBrDir)\Fontes\ACBrDFe;$(ACBrDir)\Fontes\PCNComum;$(ACBrDir)\Fontes\ACBrIntegrador;$(ACBrDir)\Fontes\ACBrIntegrador\pcnVFPe;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\FPDF-Pascal;$(ACBrDir)\Fontes\Terceiros\DelphiZXingQRCode;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\Terceiros\CodeGear;$(ACBrDir)\Fontes\Terceiros\Ole;$(ACBrDir)\Fontes\Terceiros\json4delphi\src"/>
+            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrBoleto;$(ACBrDir)\Fontes\ACBrBoleto\WS;$(ACBrDir)\Fontes\ACBrBoleto\FC\FPDF;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\ACBrPIXCD;$(ACBrDir)\Fontes\ACBrDFe;$(ACBrDir)\Fontes\PCNComum;$(ACBrDir)\Fontes\ACBrIntegrador;$(ACBrDir)\Fontes\ACBrIntegrador\pcnVFPe;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\FPDF-Pascal;$(ACBrDir)\Fontes\Terceiros\DelphiZXingQRCode;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\Terceiros\CodeGear;$(ACBrDir)\Fontes\Terceiros\Ole;$(ACBrDir)\Fontes\Terceiros\json4delphi\src;$(ACBrDir)\Fontes\ACBrLibXML2"/>
             <UnitOutputDirectory Value="lib\CONSOLE-$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -125,7 +125,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum"/>
-            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrBoleto;$(ACBrDir)\Fontes\ACBrBoleto\WS;$(ACBrDir)\Fontes\ACBrBoleto\FC\FPDF;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\ACBrPIXCD;$(ACBrDir)\Fontes\ACBrDFe;$(ACBrDir)\Fontes\PCNComum;$(ACBrDir)\Fontes\ACBrIntegrador;$(ACBrDir)\Fontes\ACBrIntegrador\pcnVFPe;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\FPDF-Pascal;$(ACBrDir)\Fontes\Terceiros\DelphiZXingQRCode;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\Terceiros\CodeGear;$(ACBrDir)\Fontes\Terceiros\Ole;$(ACBrDir)\Fontes\Terceiros\json4delphi\src"/>
+            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrBoleto;$(ACBrDir)\Fontes\ACBrBoleto\WS;$(ACBrDir)\Fontes\ACBrBoleto\FC\FPDF;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\ACBrPIXCD;$(ACBrDir)\Fontes\ACBrDFe;$(ACBrDir)\Fontes\PCNComum;$(ACBrDir)\Fontes\ACBrIntegrador;$(ACBrDir)\Fontes\ACBrIntegrador\pcnVFPe;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\FPDF-Pascal;$(ACBrDir)\Fontes\Terceiros\DelphiZXingQRCode;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\Terceiros\CodeGear;$(ACBrDir)\Fontes\Terceiros\Ole;$(ACBrDir)\Fontes\Terceiros\json4delphi\src;$(ACBrDir)\Fontes\ACBrLibXML2"/>
             <UnitOutputDirectory Value="lib\CONSOLE-$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -164,7 +164,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum"/>
-            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrBoleto;$(ACBrDir)\Fontes\ACBrBoleto\WS;$(ACBrDir)\Fontes\ACBrBoleto\FC\FPDF;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\ACBrPIXCD;$(ACBrDir)\Fontes\ACBrDFe;$(ACBrDir)\Fontes\PCNComum;$(ACBrDir)\Fontes\ACBrIntegrador;$(ACBrDir)\Fontes\ACBrIntegrador\pcnVFPe;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\FPDF-Pascal;$(ACBrDir)\Fontes\Terceiros\DelphiZXingQRCode;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\Terceiros\CodeGear;$(ACBrDir)\Fontes\Terceiros\Ole;$(ACBrDir)\Fontes\Terceiros\json4delphi\src"/>
+            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrBoleto;$(ACBrDir)\Fontes\ACBrBoleto\WS;$(ACBrDir)\Fontes\ACBrBoleto\FC\FPDF;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\ACBrPIXCD;$(ACBrDir)\Fontes\ACBrDFe;$(ACBrDir)\Fontes\PCNComum;$(ACBrDir)\Fontes\ACBrIntegrador;$(ACBrDir)\Fontes\ACBrIntegrador\pcnVFPe;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\FPDF-Pascal;$(ACBrDir)\Fontes\Terceiros\DelphiZXingQRCode;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\Terceiros\CodeGear;$(ACBrDir)\Fontes\Terceiros\Ole;$(ACBrDir)\Fontes\Terceiros\json4delphi\src;$(ACBrDir)\Fontes\ACBrLibXML2"/>
             <UnitOutputDirectory Value="lib\CONSOLE-$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -255,7 +255,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum"/>
-      <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrBoleto;$(ACBrDir)\Fontes\ACBrBoleto\WS;$(ACBrDir)\Fontes\ACBrBoleto\FC\FPDF;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\ACBrPIXCD;$(ACBrDir)\Fontes\ACBrDFe;$(ACBrDir)\Fontes\PCNComum;$(ACBrDir)\Fontes\ACBrIntegrador;$(ACBrDir)\Fontes\ACBrIntegrador\pcnVFPe;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\FPDF-Pascal;$(ACBrDir)\Fontes\Terceiros\DelphiZXingQRCode;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\Terceiros\CodeGear;$(ACBrDir)\Fontes\Terceiros\Ole;$(ACBrDir)\Fontes\Terceiros\json4delphi\src"/>
+      <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrBoleto;$(ACBrDir)\Fontes\ACBrBoleto\WS;$(ACBrDir)\Fontes\ACBrBoleto\FC\FPDF;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\ACBrPIXCD;$(ACBrDir)\Fontes\ACBrDFe;$(ACBrDir)\Fontes\PCNComum;$(ACBrDir)\Fontes\ACBrIntegrador;$(ACBrDir)\Fontes\ACBrIntegrador\pcnVFPe;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\FPDF-Pascal;$(ACBrDir)\Fontes\Terceiros\DelphiZXingQRCode;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\Terceiros\CodeGear;$(ACBrDir)\Fontes\Terceiros\Ole;$(ACBrDir)\Fontes\Terceiros\json4delphi\src;$(ACBrDir)\Fontes\ACBrLibXML2"/>
       <UnitOutputDirectory Value="lib\CONSOLE-$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>
