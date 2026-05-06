@@ -3,12 +3,8 @@ using System.IO;
 using System.Windows.Forms;
 using ACBrLib;
 using ACBrLib.Core;
-using ACBrLib.Core.DFe;
-using ACBrLib.Core.Extensions;
-using ACBrLib.PIXCD;
-using ACBrLib.Core.Config;
-using System.Linq;
 using ACBrLib.Core.PIXCD;
+using ACBrLib.PIXCD;
 
 namespace ACBrLibPIXCD.Demo
 {

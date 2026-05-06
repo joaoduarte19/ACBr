@@ -1,6 +1,5 @@
 ﻿using ACBrLib.Core;
 using ACBrLib.Core.Config;
-using ACBrLib.Core.DFe;
 using ACBrLib.Core.PIXCD;
 
 namespace ACBrLib.PIXCD
@@ -38,8 +37,6 @@ namespace ACBrLib.PIXCD
             AppLess = new AppLessConfig(acbrlib);
             QQPag = new QQPagConfig(acbrlib);
         }
-        // ...existing code...
-
         /// <summary>
         /// Define o ambiente: 0 = ambTeste, 1 = ambProducao, 2 = ambPreProducao
         /// </summary>

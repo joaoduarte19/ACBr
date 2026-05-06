@@ -13,7 +13,7 @@ namespace ACBrLibNCM.Demo
     {
         #region Fields
 
-        private ACBrNCM ACBrNCM;
+        private IACBrLibNCM ACBrNCM;
 
         #endregion Fields
 

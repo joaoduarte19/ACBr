@@ -600,12 +600,11 @@ namespace ACBrLib.Boleto
         /// <inheritdoc/>
         protected void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (disposed) return;
+            
+            if (disposing)
             {
-                if (disposing)
-                {
-                    Finalizar();   // Libera recursos gerenciados
-                }
+                Finalizar();   // Libera recursos gerenciados
             }
 
             disposed = true;

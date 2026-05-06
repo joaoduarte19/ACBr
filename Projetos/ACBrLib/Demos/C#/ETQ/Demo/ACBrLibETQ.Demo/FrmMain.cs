@@ -15,7 +15,7 @@ namespace ACBrLibETQ.Demo
     {
         #region Fields
 
-        private ACBrETQ acbrEtq;
+        private IACBrLibETQ acbrEtq;
 
         #endregion Fields
 

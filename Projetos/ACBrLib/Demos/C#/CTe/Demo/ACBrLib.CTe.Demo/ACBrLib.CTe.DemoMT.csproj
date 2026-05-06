@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D1C86B1A-F07B-4A36-A077-729396AC5AD8}</ProjectGuid>
+    <ProjectGuid>{7F833A76-946A-2088-3872-CD3382906C92}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>ACBrLib.CTe.Demo</RootNamespace>
     <AssemblyName>ACBrLib.CTe.Demo</AssemblyName>

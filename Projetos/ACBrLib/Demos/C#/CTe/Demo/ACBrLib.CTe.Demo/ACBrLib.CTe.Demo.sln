@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACBrLib.CTe.Demo", "ACBrLib.CTe.Demo.csproj", "{A209FF34-0C7E-4E91-54AF-2D3F671C4EEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACBrLib.CTe.Demo", "ACBrLib.CTe.Demo.csproj", "{D1C86B1A-F07B-4A36-A077-729396AC5AD8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACBrLib.CTe.DemoMT", "ACBrLib.CTe.DemoMT.csproj", "{7F833A76-946A-2088-3872-CD3382906C92}"
 EndProject
@@ -12,10 +12,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A209FF34-0C7E-4E91-54AF-2D3F671C4EEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A209FF34-0C7E-4E91-54AF-2D3F671C4EEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A209FF34-0C7E-4E91-54AF-2D3F671C4EEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A209FF34-0C7E-4E91-54AF-2D3F671C4EEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1C86B1A-F07B-4A36-A077-729396AC5AD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1C86B1A-F07B-4A36-A077-729396AC5AD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1C86B1A-F07B-4A36-A077-729396AC5AD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1C86B1A-F07B-4A36-A077-729396AC5AD8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7F833A76-946A-2088-3872-CD3382906C92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7F833A76-946A-2088-3872-CD3382906C92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F833A76-946A-2088-3872-CD3382906C92}.Release|Any CPU.ActiveCfg = Release|Any CPU

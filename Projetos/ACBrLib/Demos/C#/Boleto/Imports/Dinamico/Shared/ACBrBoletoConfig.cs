@@ -62,7 +62,7 @@ namespace ACBrLib.Boleto
 
         /// <summary>
         /// Configurações da Sessão [Email]
-        /// </summar
+        /// </summary>
         public EmailConfig<IACBrLibBoleto> Email { get; }
 
         /// <summary>

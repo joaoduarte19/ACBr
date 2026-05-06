@@ -12,7 +12,7 @@ namespace ACBrLibIBGE.Demo
     {
         #region Fields
 
-        private ACBrIBGE ACBrIBGE;
+        private IACBrLibIBGE ACBrIBGE;
 
         #endregion Fields
 
@@ -88,7 +88,7 @@ namespace ACBrLibIBGE.Demo
             try
             {
                 
-                ACBrIBGE.Config.IgnorarCaixaEAcentos = chkBoxIgnorarCaixaseAcentos.Checked;
+                ACBrIBGE.Config.IgnorarCaixaEAcentos = chkBoxIgnorarCaixaseAcentos.Checked ? IgnorarCaixaEAcentos.Sim : IgnorarCaixaEAcentos.Nao;
 
                 ACBrIBGE.ConfigGravar();
 
@@ -112,7 +112,7 @@ namespace ACBrLibIBGE.Demo
         {
             ACBrIBGE.ConfigLer(file);
 
-            chkBoxIgnorarCaixaseAcentos.Checked = ACBrIBGE.Config.IgnorarCaixaEAcentos;
+            chkBoxIgnorarCaixaseAcentos.Checked = ACBrIBGE.Config.IgnorarCaixaEAcentos == IgnorarCaixaEAcentos.Sim;
 
         }
 
