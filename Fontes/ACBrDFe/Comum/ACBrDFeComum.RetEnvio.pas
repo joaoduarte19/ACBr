@@ -113,7 +113,6 @@ function TretEnvDFe.LerXml: Boolean;
 var
   Document: TACBrXmlDocument;
   ANode, AuxNode: TACBrXmlNode;
-  ok: Boolean;
 begin
   Document := TACBrXmlDocument.Create;
 

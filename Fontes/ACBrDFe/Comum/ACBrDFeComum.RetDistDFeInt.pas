@@ -636,6 +636,9 @@ begin
 
     if AuxNode = nil then
       AuxNode := ANode.Childrens.FindAnyNs(FptpDFe + 'OS');
+
+    if AuxNode = nil then
+      AuxNode := ANode.Childrens.FindAnyNs(FptpDFe + 'Simp');
   end
   else
     AuxNode := ANode.Childrens.FindAnyNs(FptpDFe);
@@ -990,6 +993,7 @@ begin
     schprocNFe,
     schprocCTe,
     schprocCTeOS,
+    schprocCTeSimp,
     schprocGTVe,
     schprocMDFe:
       Result := FOwner.Configuracoes.Arquivos.GetPathDownload(AItem.resDFe.xNome,
@@ -1019,6 +1023,7 @@ begin
 
     schprocCTe,
     schprocCTeOS,
+    schprocCTeSimp,
     schprocGTVe:
       Result := AItem.resDFe.chDFe + '-cte.xml';
 
