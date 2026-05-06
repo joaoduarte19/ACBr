@@ -10,7 +10,7 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, datetimectrls, uDemoBaaS, uPagamentos;
+  Forms, datetimectrls, uDemoBaaS, uPagamentos, uTransferencias;
 
 {$R *.res}
 
@@ -19,7 +19,6 @@ begin
   Application.Scaled := True;
   Application.Initialize;
   Application.CreateForm(TfrPagamentosAPITeste, frPagamentosAPITeste);
-  Application.CreateForm(TfrmPagamentos, frmPagamentos);
   Application.Run;
 end.
 

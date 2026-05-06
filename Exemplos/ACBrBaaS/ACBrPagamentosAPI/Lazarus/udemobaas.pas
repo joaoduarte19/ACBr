@@ -119,6 +119,7 @@ type
     sbVerSenhaProxy: TSpeedButton;
     seProxyPorta: TSpinEdit;
     seTimeout: TSpinEdit;
+    tbTransferencias: TTabSheet;
     tsPagamentos: TTabSheet;
     tsTestes: TTabSheet;
     tsConfig: TTabSheet;
@@ -174,7 +175,7 @@ var
 implementation
 
 uses
-  IniFiles, ACBrSocket, TypInfo, synacode, uPagamentos,
+  IniFiles, ACBrSocket, TypInfo, synacode, uPagamentos, uTransferencias,
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrUtil.FilesIO;
@@ -434,6 +435,7 @@ end;
 procedure TfrPagamentosAPITeste.InicializarActivePages;
 var
   frPagto: TfrmPagamentos;
+  frTransf: TfrmTransferencias;
 begin
   pgPrincipal.ActivePageIndex := 0;
   pgConfig.ActivePageIndex := 0;
@@ -441,6 +443,9 @@ begin
 
   frPagto := TfrmPagamentos.Create(Self);  // Destruído automaticamente ao fechar demo
   frPagto.pgPagamentos.Parent := tsPagamentos;
+
+  frTransf := TfrmTransferencias.Create(Self);  // Destruído automaticamente ao fechar demo
+  frTransf.pgTransferencias.Parent := tbTransferencias;
 end;
 
 procedure TfrPagamentosAPITeste.InicializarComponentesDefault;

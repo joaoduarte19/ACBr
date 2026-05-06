@@ -1,7 +1,7 @@
 object frmPagamentos: TfrmPagamentos
-  Left = 2231
+  Left = 723
   Height = 437
-  Top = 173
+  Top = 399
   Width = 900
   Caption = 'Pagamentos'
   ClientHeight = 437
@@ -232,7 +232,7 @@ object frmPagamentos: TfrmPagamentos
             Left = 30
             Height = 15
             Top = 10
-            Width = 23
+            Width = 24
             Caption = 'Tipo'
             ParentColor = False
           end
@@ -562,7 +562,7 @@ object frmPagamentos: TfrmPagamentos
                       Height = 15
                       Hint = 'Indica se o documento do pagador é um CPF ou um CNPJ'
                       Top = 104
-                      Width = 70
+                      Width = 71
                       Caption = 'Tipo Pagador'
                       ParentColor = False
                       ParentShowHint = False
@@ -589,7 +589,7 @@ object frmPagamentos: TfrmPagamentos
                       Height = 15
                       Hint = 'Indica se o documento do beneficiário é um CPF ou um CNPJ'
                       Top = 104
-                      Width = 73
+                      Width = 74
                       Caption = 'Tipo Benefic.*'
                       ParentColor = False
                       ParentShowHint = False
@@ -616,7 +616,7 @@ object frmPagamentos: TfrmPagamentos
                       Height = 15
                       Hint = 'Indica se o documento do avalista é um CPF ou um CNPJ'
                       Top = 104
-                      Width = 67
+                      Width = 68
                       Caption = 'Tipo Avalista'
                       ParentColor = False
                       ParentShowHint = False
@@ -1292,7 +1292,7 @@ object frmPagamentos: TfrmPagamentos
                       Height = 15
                       Hint = 'Código da Receita do Tributo Guia Da Previdência Social - GPS'
                       Top = 56
-                      Width = 149
+                      Width = 150
                       Caption = 'Código Receita Tributo GPS*'
                       ParentColor = False
                       ParentShowHint = False
@@ -1334,7 +1334,7 @@ object frmPagamentos: TfrmPagamentos
                       Height = 15
                       Hint = 'Código do tipo de contribuinte na Guia da Previdência Social'
                       Top = 56
-                      Width = 142
+                      Width = 143
                       Caption = 'Cod.Tipo Contribuinte GPS'
                       ParentColor = False
                       ParentShowHint = False
@@ -1397,7 +1397,7 @@ object frmPagamentos: TfrmPagamentos
                       Height = 15
                       Hint = 'Número de identificação na Previdência. Informar como string'
                       Top = 104
-                      Width = 178
+                      Width = 179
                       Caption = 'Código Identificador Tributo GPS*'
                       ParentColor = False
                       ParentShowHint = False
@@ -1619,7 +1619,7 @@ object frmPagamentos: TfrmPagamentos
                       Height = 15
                       Hint = 'Código da Receita do Tributo Guia Da Previdência Social - GPS'
                       Top = 56
-                      Width = 125
+                      Width = 126
                       Caption = 'Código Receita Tributo*'
                       ParentColor = False
                       ParentShowHint = False
@@ -1640,7 +1640,7 @@ object frmPagamentos: TfrmPagamentos
                       Height = 15
                       Hint = 'Código do tipo de contribuinte na Guia da Previdência Social'
                       Top = 56
-                      Width = 123
+                      Width = 124
                       Caption = 'Cod.Tipo Contribuinte*'
                       ParentColor = False
                       ParentShowHint = False
@@ -1703,7 +1703,7 @@ object frmPagamentos: TfrmPagamentos
                       Height = 15
                       Hint = 'Número de identificação na Previdência. Informar como string'
                       Top = 104
-                      Width = 154
+                      Width = 155
                       Caption = 'Código Identificador Tributo*'
                       ParentColor = False
                       ParentShowHint = False
@@ -1994,7 +1994,7 @@ object frmPagamentos: TfrmPagamentos
               Left = 30
               Height = 15
               Top = 10
-              Width = 23
+              Width = 24
               Caption = 'Tipo'
               ParentColor = False
             end
@@ -2076,7 +2076,7 @@ object frmPagamentos: TfrmPagamentos
               Left = 30
               Height = 15
               Top = 10
-              Width = 23
+              Width = 24
               Caption = 'Tipo'
               ParentColor = False
             end

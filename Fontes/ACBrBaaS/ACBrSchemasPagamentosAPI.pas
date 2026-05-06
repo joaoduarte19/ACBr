@@ -52,7 +52,7 @@ type
     ptlCodigoBarras,
     ptlTransferencias,
     ptlBoletos,
-    ptlTrasnferenciaPix,
+    ptlTransferenciaPix,
     ptlPix
   );
 

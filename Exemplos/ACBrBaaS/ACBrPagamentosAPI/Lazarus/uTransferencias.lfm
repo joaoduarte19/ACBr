@@ -1,0 +1,1202 @@
+object frmTransferencias: TfrmTransferencias
+  Left = 509
+  Height = 516
+  Top = 218
+  Width = 900
+  Caption = 'Transferências'
+  ClientHeight = 516
+  ClientWidth = 900
+  LCLVersion = '4.4.0.0'
+  OnCreate = FormCreate
+  object pgTransferencias: TPageControl
+    Left = 0
+    Height = 516
+    Top = 0
+    Width = 900
+    ActivePage = tsTransfConsultas
+    Align = alClient
+    Images = frPagamentosAPITeste.ImageList1
+    TabHeight = 25
+    TabIndex = 1
+    TabOrder = 0
+    TabWidth = 220
+    object tsLoteTransferencia: TTabSheet
+      Caption = 'Lote de Transferência'
+      ClientHeight = 483
+      ClientWidth = 892
+      ImageIndex = 33
+      object pnLote: TPanel
+        Left = 0
+        Height = 483
+        Top = 0
+        Width = 892
+        Align = alClient
+        BevelOuter = bvNone
+        ClientHeight = 483
+        ClientWidth = 892
+        TabOrder = 0
+        object pnLoteDados: TPanel
+          Left = 0
+          Height = 432
+          Top = 0
+          Width = 892
+          Align = alClient
+          BevelOuter = bvNone
+          ClientHeight = 432
+          ClientWidth = 892
+          TabOrder = 0
+          object lbLoteTipo: TLabel
+            Left = 30
+            Height = 15
+            Top = 10
+            Width = 24
+            Caption = 'Tipo'
+            ParentColor = False
+          end
+          object cbLoteTipo: TComboBox
+            Left = 30
+            Height = 23
+            Top = 25
+            Width = 200
+            ItemHeight = 15
+            ItemIndex = 0
+            Items.Strings = (
+              'Transferência bancária'
+              'Transferência PIX'
+            )
+            Style = csDropDownList
+            TabOrder = 0
+            Text = 'Transferência bancária'
+            OnSelect = cbLoteTipoSelect
+          end
+          object lbNumRequisicao: TLabel
+            Left = 30
+            Height = 15
+            Hint = 'Número da requisição para conferência posterior'
+            Top = 56
+            Width = 79
+            Caption = 'Nº Requisição*'
+            ParentColor = False
+            ParentShowHint = False
+            ShowHint = True
+          end
+          object edNumRequisicao: TEdit
+            Left = 30
+            Height = 23
+            Top = 71
+            Width = 130
+            NumbersOnly = True
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 1
+          end
+          object lbCodigoContrato: TLabel
+            Left = 170
+            Height = 15
+            Hint = 'Contrato (ou convênio) de pagamento entre o terceiro e o Banco'
+            Top = 56
+            Width = 94
+            Caption = 'Código Contrato*'
+            ParentColor = False
+            ParentShowHint = False
+            ShowHint = True
+          end
+          object edCodigoContrato: TEdit
+            Left = 170
+            Height = 23
+            Top = 71
+            Width = 130
+            NumbersOnly = True
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 2
+          end
+          object lbNumeroAgenciaDebito: TLabel
+            Left = 310
+            Height = 15
+            Hint = 'Agência da Conta Corrente onde será debitado o valor total do lote'
+            Top = 56
+            Width = 86
+            Caption = 'Agência Débito*'
+            ParentColor = False
+            ParentShowHint = False
+            ShowHint = True
+          end
+          object edNumeroAgenciaDebito: TEdit
+            Left = 310
+            Height = 23
+            Top = 71
+            Width = 100
+            NumbersOnly = True
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 3
+          end
+          object lbNumeroContaCorrenteDebito: TLabel
+            Left = 420
+            Height = 15
+            Hint = 'Conta Corrente onde será debitado o valor total do lote'
+            Top = 56
+            Width = 124
+            Caption = 'Conta Corrente Débito*'
+            ParentColor = False
+            ParentShowHint = False
+            ShowHint = True
+          end
+          object edNumeroContaCorrenteDebito: TEdit
+            Left = 420
+            Height = 23
+            Top = 71
+            Width = 130
+            NumbersOnly = True
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 4
+          end
+          object lbDigitoCCDebito: TLabel
+            Left = 560
+            Height = 15
+            Hint = 'Dígito verificador da Conta Corrente de débito'
+            Top = 56
+            Width = 56
+            Caption = 'Dígito CC*'
+            ParentColor = False
+            ParentShowHint = False
+            ShowHint = True
+          end
+          object edDigitoCCDebito: TEdit
+            Left = 560
+            Height = 23
+            Top = 71
+            Width = 61
+            MaxLength = 1
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 5
+          end
+          object lbTipoPagamento: TLabel
+            Left = 631
+            Height = 15
+            Hint = '126 - Pagamento a Fornecedores 127 - Pagamento de Salários 128 - Pagamentos Diversos'
+            Top = 56
+            Width = 93
+            Caption = 'Tipo Pagamento*'
+            ParentColor = False
+            ParentShowHint = False
+            ShowHint = True
+          end
+          object edTipoPagamento: TEdit
+            Left = 631
+            Height = 23
+            Hint = '126 - Pagamento a Fornecedores 127 - Pagamento de Salários 128 - Pagamentos Diversos'
+            Top = 71
+            Width = 97
+            NumbersOnly = True
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 6
+          end
+          object pnLancamentos: TPanel
+            Left = 30
+            Height = 243
+            Top = 103
+            Width = 840
+            BevelOuter = bvNone
+            ClientHeight = 243
+            ClientWidth = 840
+            TabOrder = 7
+            object pgLancamentos: TPageControl
+              Left = 0
+              Height = 243
+              Top = 0
+              Width = 840
+              ActivePage = tsTransfPixLancamento
+              Align = alClient
+              TabIndex = 1
+              TabOrder = 0
+              object tsTransfLancamento: TTabSheet
+                Caption = 'Transferência'
+                ClientHeight = 215
+                ClientWidth = 832
+                object pnTransfLancamentos: TPanel
+                  Left = 0
+                  Height = 215
+                  Top = 0
+                  Width = 832
+                  Align = alClient
+                  BevelOuter = bvNone
+                  ClientHeight = 215
+                  ClientWidth = 832
+                  TabOrder = 0
+                  object gbTransferenciaLancamento: TGroupBox
+                    Left = 0
+                    Height = 215
+                    Top = 0
+                    Width = 832
+                    Align = alClient
+                    Caption = 'Lançamento Transferência'
+                    ClientHeight = 195
+                    ClientWidth = 828
+                    TabOrder = 0
+                    object lbTransfNumeroCOMPE: TLabel
+                      Left = 15
+                      Height = 15
+                      Hint = 'Código da instituição financeira (COMPE)'
+                      Top = 8
+                      Width = 93
+                      Caption = 'Número COMPE*'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edTransfNumeroCOMPE: TEdit
+                      Left = 15
+                      Height = 23
+                      Top = 23
+                      Width = 180
+                      NumbersOnly = True
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 0
+                    end
+                    object lbTransfNumeroISPB: TLabel
+                      Left = 210
+                      Height = 15
+                      Hint = 'Número ISPB da instituição financeira de destino'
+                      Top = 8
+                      Width = 70
+                      Caption = 'Número ISPB'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edTransfNumeroISPB: TEdit
+                      Left = 210
+                      Height = 23
+                      Top = 23
+                      Width = 195
+                      NumbersOnly = True
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 1
+                    end
+                    object lbTransfAgenciaCredito: TLabel
+                      Left = 420
+                      Height = 15
+                      Hint = 'Agência da conta de crédito'
+                      Top = 8
+                      Width = 90
+                      Caption = 'Agência Crédito*'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edTransfAgenciaCredito: TEdit
+                      Left = 420
+                      Height = 23
+                      Top = 23
+                      Width = 195
+                      NumbersOnly = True
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 2
+                    end
+                    object lbTransfContaCorrenteCredito: TLabel
+                      Left = 630
+                      Height = 15
+                      Hint = 'Número da Conta Corrente a ser creditada'
+                      Top = 8
+                      Width = 128
+                      Caption = 'Conta Corrente Crédito*'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edTransfContaCorrenteCredito: TEdit
+                      Left = 630
+                      Height = 23
+                      Top = 23
+                      Width = 180
+                      NumbersOnly = True
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 3
+                    end
+                    object lbTransfDigitoVerificadorCC: TLabel
+                      Left = 15
+                      Height = 15
+                      Hint = 'Dígito verificador da Conta Corrente de crédito'
+                      Top = 55
+                      Width = 93
+                      Caption = 'Dígito CC Crédito'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edTransfDigitoVerificadorCC: TEdit
+                      Left = 15
+                      Height = 23
+                      Top = 70
+                      Width = 180
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 4
+                    end
+                    object lbTransfContaPagamentoCredito: TLabel
+                      Left = 210
+                      Height = 15
+                      Hint = 'Conta de pagamento (contas digitais) a ser creditada'
+                      Top = 55
+                      Width = 105
+                      Caption = 'Conta Pgto. Crédito'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edTransfContaPagamentoCredito: TEdit
+                      Left = 210
+                      Height = 23
+                      Top = 70
+                      Width = 195
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 5
+                    end
+                    object lbTransfCpfBeneficiario: TLabel
+                      Left = 420
+                      Height = 15
+                      Hint = 'CPF do Beneficiário (somente dígitos)'
+                      Top = 55
+                      Width = 86
+                      Caption = 'CPF Beneficiário'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edTransfCpfBeneficiario: TEdit
+                      Left = 420
+                      Height = 23
+                      Top = 70
+                      Width = 195
+                      NumbersOnly = True
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 6
+                    end
+                    object lbTransfCnpjBeneficiario: TLabel
+                      Left = 630
+                      Height = 15
+                      Hint = 'CNPJ do Beneficiário (somente dígitos)'
+                      Top = 55
+                      Width = 92
+                      Caption = 'CNPJ Beneficiário'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edTransfCnpjBeneficiario: TEdit
+                      Left = 630
+                      Height = 23
+                      Top = 70
+                      Width = 180
+                      NumbersOnly = True
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 7
+                    end
+                    object lbTransfDataTransferencia: TLabel
+                      Left = 15
+                      Height = 15
+                      Hint = 'Data da transferência'
+                      Top = 102
+                      Width = 102
+                      Caption = 'Data Transferência*'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object dtTransfDataTransferencia: TDateTimePicker
+                      Left = 15
+                      Height = 23
+                      Top = 117
+                      Width = 180
+                      CenturyFrom = 1941
+                      MaxDate = 2958465
+                      MinDate = -53780
+                      AutoSize = False
+                      TabOrder = 8
+                      TrailingSeparator = False
+                      TextForNullDate = ' '
+                      LeadingZeros = True
+                      Kind = dtkDate
+                      TimeFormat = tf24
+                      TimeDisplay = tdHMS
+                      DateMode = dmComboBox
+                      Date = 46134
+                      Time = 0.43372865740821
+                      UseDefaultSeparators = True
+                      HideDateTimeParts = []
+                      MonthNames = 'Long'
+                    end
+                    object lbTransfValorTransferencia: TLabel
+                      Left = 210
+                      Height = 15
+                      Hint = 'Valor da transferência'
+                      Top = 102
+                      Width = 104
+                      Caption = 'Valor Transferência*'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edTransfValorTransferencia: TEdit
+                      Left = 210
+                      Height = 23
+                      Top = 117
+                      Width = 195
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 9
+                    end
+                    object lbTransfDocumentoDebito: TLabel
+                      Left = 420
+                      Height = 15
+                      Hint = 'Número do documento de débito (controle do cliente)'
+                      Top = 102
+                      Width = 118
+                      Caption = 'Nº Documento Débito'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edTransfDocumentoDebito: TEdit
+                      Left = 420
+                      Height = 23
+                      Top = 117
+                      Width = 195
+                      NumbersOnly = True
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 10
+                    end
+                    object lbTransfDocumentoCredito: TLabel
+                      Left = 630
+                      Height = 15
+                      Hint = 'Número do documento de crédito (controle do cliente)'
+                      Top = 102
+                      Width = 122
+                      Caption = 'Nº Documento Crédito'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edTransfDocumentoCredito: TEdit
+                      Left = 630
+                      Height = 23
+                      Top = 117
+                      Width = 180
+                      NumbersOnly = True
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 11
+                    end
+                    object lbTransfCodigoFinalidadeDOC: TLabel
+                      Left = 15
+                      Height = 15
+                      Hint = 'Código da finalidade para DOC (quando aplicável)'
+                      Top = 150
+                      Width = 110
+                      Caption = 'Cód. Finalidade DOC'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edTransfCodigoFinalidadeDOC: TEdit
+                      Left = 15
+                      Height = 23
+                      Top = 165
+                      Width = 180
+                      NumbersOnly = True
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 12
+                    end
+                    object lbTransfCodigoFinalidadeTED: TLabel
+                      Left = 210
+                      Height = 15
+                      Hint = 'Código da finalidade para TED (quando aplicável)'
+                      Top = 150
+                      Width = 106
+                      Caption = 'Cód. Finalidade TED'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edTransfCodigoFinalidadeTED: TEdit
+                      Left = 210
+                      Height = 23
+                      Top = 165
+                      Width = 195
+                      NumbersOnly = True
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 13
+                    end
+                    object lbTransfNumeroDepositoJudicial: TLabel
+                      Left = 420
+                      Height = 15
+                      Hint = 'Número do Depósito Judicial (se houver)'
+                      Top = 150
+                      Width = 106
+                      Caption = 'Nº Depósito Judicial'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edTransfNumeroDepositoJudicial: TEdit
+                      Left = 420
+                      Height = 23
+                      Top = 165
+                      Width = 195
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 14
+                    end
+                    object lbTransfDescricaoTransferencia: TLabel
+                      Left = 630
+                      Height = 15
+                      Hint = 'Descrição livre para a transferência'
+                      Top = 150
+                      Width = 124
+                      Caption = 'Descrição Transferência'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edTransfDescricaoTransferencia: TEdit
+                      Left = 630
+                      Height = 23
+                      Top = 165
+                      Width = 180
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 15
+                    end
+                  end
+                end
+              end
+              object tsTransfPixLancamento: TTabSheet
+                Caption = 'PIX'
+                ClientHeight = 215
+                ClientWidth = 832
+                object pnTransPixLancamento: TPanel
+                  Left = 0
+                  Height = 215
+                  Top = 0
+                  Width = 832
+                  Align = alClient
+                  BevelOuter = bvNone
+                  ClientHeight = 215
+                  ClientWidth = 832
+                  TabOrder = 0
+                  object gbTransfPixLancamento: TGroupBox
+                    Left = 0
+                    Height = 215
+                    Top = 0
+                    Width = 832
+                    Align = alClient
+                    Caption = 'Lançamento PIX'
+                    ClientHeight = 195
+                    ClientWidth = 828
+                    TabOrder = 0
+                    object lbPixDataTransferencia: TLabel
+                      Left = 15
+                      Height = 15
+                      Hint = 'Data da transferência PIX'
+                      Top = 8
+                      Width = 102
+                      Caption = 'Data Transferência*'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object dtPixDataTransferencia: TDateTimePicker
+                      Left = 15
+                      Height = 23
+                      Top = 23
+                      Width = 180
+                      CenturyFrom = 1941
+                      MaxDate = 2958465
+                      MinDate = -53780
+                      AutoSize = False
+                      TabOrder = 0
+                      TrailingSeparator = False
+                      TextForNullDate = ' '
+                      LeadingZeros = True
+                      Kind = dtkDate
+                      TimeFormat = tf24
+                      TimeDisplay = tdHMS
+                      DateMode = dmComboBox
+                      Date = 46134
+                      Time = 0.433728668984259
+                      UseDefaultSeparators = True
+                      HideDateTimeParts = []
+                      MonthNames = 'Long'
+                    end
+                    object lbPixValorTransferencia: TLabel
+                      Left = 209
+                      Height = 15
+                      Hint = 'Valor do PIX'
+                      Top = 8
+                      Width = 104
+                      Caption = 'Valor Transferência*'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edPixValorTransferencia: TEdit
+                      Left = 209
+                      Height = 23
+                      Top = 23
+                      Width = 195
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 1
+                    end
+                    object lbPixDocumentoDebito: TLabel
+                      Left = 419
+                      Height = 15
+                      Hint = 'Número do documento de débito'
+                      Top = 8
+                      Width = 118
+                      Caption = 'Nº Documento Débito'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edPixDocumentoDebito: TEdit
+                      Left = 419
+                      Height = 23
+                      Top = 23
+                      Width = 195
+                      NumbersOnly = True
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 2
+                    end
+                    object lbPixDocumentoCredito: TLabel
+                      Left = 629
+                      Height = 15
+                      Hint = 'Número do documento de crédito'
+                      Top = 8
+                      Width = 122
+                      Caption = 'Nº Documento Crédito'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edPixDocumentoCredito: TEdit
+                      Left = 629
+                      Height = 23
+                      Top = 23
+                      Width = 180
+                      NumbersOnly = True
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 3
+                    end
+                    object lbPixFormaIdentificacao: TLabel
+                      Left = 15
+                      Height = 15
+                      Hint = '1-CPF, 2-CNPJ, 3-Telefone, 4-E-mail, 5-Chave Aleatória'
+                      Top = 55
+                      Width = 105
+                      Caption = 'Forma Identificação'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object cbPixFormaIdentificacao: TComboBox
+                      Left = 15
+                      Height = 23
+                      Top = 70
+                      Width = 180
+                      ItemHeight = 15
+                      Items.Strings = (
+                        'CPF'
+                        'CNPJ'
+                        'Telefone'
+                        'E-mail'
+                        'Chave Aleatória'
+                      )
+                      Style = csDropDownList
+                      TabOrder = 4
+                    end
+                    object lbPixChave: TLabel
+                      Left = 209
+                      Height = 15
+                      Top = 55
+                      Width = 53
+                      Caption = 'Chave PIX'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edPixChave: TEdit
+                      Left = 209
+                      Height = 23
+                      Top = 70
+                      Width = 195
+                      NumbersOnly = True
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 5
+                    end
+                    object lbPixTipoConta: TLabel
+                      Left = 419
+                      Height = 15
+                      Hint = 'Tipo da conta beneficiária (quando forma = dados bancários)'
+                      Top = 55
+                      Width = 59
+                      Caption = 'Tipo Conta'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object cbPixTipoConta: TComboBox
+                      Left = 417
+                      Height = 23
+                      Top = 70
+                      Width = 197
+                      ItemHeight = 15
+                      Items.Strings = (
+                        'Conta Corrente'
+                        'Poupança'
+                        'Pagamento'
+                      )
+                      Style = csDropDownList
+                      TabOrder = 6
+                    end
+                    object lbPixNumeroCOMPE: TLabel
+                      Left = 629
+                      Height = 15
+                      Hint = 'Código COMPE da instituição do beneficiário'
+                      Top = 55
+                      Width = 88
+                      Caption = 'Número COMPE'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edPixNumeroCOMPE: TEdit
+                      Left = 629
+                      Height = 23
+                      Top = 70
+                      Width = 180
+                      NumbersOnly = True
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 7
+                    end
+                    object lbPixNumeroISPB: TLabel
+                      Left = 15
+                      Height = 15
+                      Hint = 'Número ISPB da instituição do beneficiário'
+                      Top = 102
+                      Width = 70
+                      Caption = 'Número ISPB'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edPixNumeroISPB: TEdit
+                      Left = 15
+                      Height = 23
+                      Top = 117
+                      Width = 180
+                      NumbersOnly = True
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 8
+                    end
+                    object lbPixAgencia: TLabel
+                      Left = 209
+                      Height = 15
+                      Hint = 'Agência do beneficiário'
+                      Top = 102
+                      Width = 43
+                      Caption = 'Agência'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edPixAgencia: TEdit
+                      Left = 209
+                      Height = 23
+                      Top = 117
+                      Width = 195
+                      NumbersOnly = True
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 9
+                    end
+                    object lbPixConta: TLabel
+                      Left = 419
+                      Height = 15
+                      Hint = 'Conta do beneficiário'
+                      Top = 102
+                      Width = 32
+                      Caption = 'Conta'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edPixConta: TEdit
+                      Left = 419
+                      Height = 23
+                      Top = 117
+                      Width = 195
+                      NumbersOnly = True
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 10
+                    end
+                    object lbPixDigitoVerificadorConta: TLabel
+                      Left = 629
+                      Height = 15
+                      Hint = 'Dígito verificador da conta do beneficiário'
+                      Top = 102
+                      Width = 67
+                      Caption = 'Dígito Conta'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edPixDigitoVerificadorConta: TEdit
+                      Left = 629
+                      Height = 23
+                      Top = 117
+                      Width = 180
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 11
+                    end
+                    object lbPixContaPagamento: TLabel
+                      Left = 15
+                      Height = 15
+                      Hint = 'Conta de pagamento (contas digitais) do beneficiário'
+                      Top = 150
+                      Width = 96
+                      Caption = 'Conta Pagamento'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edPixContaPagamento: TEdit
+                      Left = 15
+                      Height = 23
+                      Top = 165
+                      Width = 180
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 12
+                    end
+                    object lbPixDescricaoPagamento: TLabel
+                      Left = 209
+                      Height = 15
+                      Hint = 'Descrição do pagamento (registro interno)'
+                      Top = 150
+                      Width = 115
+                      Caption = 'Descrição Pagamento'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edPixDescricaoPagamento: TEdit
+                      Left = 209
+                      Height = 23
+                      Top = 165
+                      Width = 405
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 13
+                    end
+                    object lbPixDescricaoPagamentoInstantaneo: TLabel
+                      Left = 629
+                      Height = 15
+                      Hint = 'Descrição exibida ao beneficiário (PIX)'
+                      Top = 150
+                      Width = 107
+                      Caption = 'Descrição Pgto. Inst.'
+                      ParentColor = False
+                      ParentShowHint = False
+                      ShowHint = True
+                    end
+                    object edPixDescricaoPagamentoInstantaneo: TEdit
+                      Left = 629
+                      Height = 23
+                      Top = 165
+                      Width = 180
+                      ParentShowHint = False
+                      ShowHint = True
+                      TabOrder = 14
+                    end
+                  end
+                end
+              end
+            end
+          end
+          object btPreencher: TBitBtn
+            Left = 30
+            Height = 28
+            Top = 356
+            Width = 180
+            Caption = 'Preencher Dados Fictícios'
+            Images = frPagamentosAPITeste.ImageList1
+            ImageIndex = 21
+            TabOrder = 8
+            OnClick = btPreencherClick
+          end
+          object btIncluirLancamento: TBitBtn
+            Left = 224
+            Height = 28
+            Top = 356
+            Width = 180
+            Caption = 'Incluir Lançamento'
+            Images = frPagamentosAPITeste.ImageList1
+            ImageIndex = 31
+            TabOrder = 9
+            OnClick = btIncluirLancamentoClick
+          end
+          object btLimparLancamentos: TBitBtn
+            Left = 419
+            Height = 28
+            Top = 356
+            Width = 180
+            Caption = 'Limpar Lançamentos'
+            Images = frPagamentosAPITeste.ImageList1
+            ImageIndex = 32
+            TabOrder = 10
+            OnClick = btLimparLancamentosClick
+          end
+          object lbLancamentos: TLabel
+            Left = 720
+            Height = 21
+            Top = 356
+            Width = 99
+            Caption = 'Lançamentos: '
+            Font.Height = -16
+            ParentColor = False
+            ParentFont = False
+          end
+          object lbLancamentosQtd: TLabel
+            Left = 819
+            Height = 21
+            Top = 356
+            Width = 51
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = '00'
+            Font.Color = clBlue
+            Font.Height = -16
+            Font.Style = [fsBold]
+            ParentColor = False
+            ParentFont = False
+          end
+        end
+        object pnLoteRodape: TPanel
+          Left = 0
+          Height = 51
+          Top = 432
+          Width = 892
+          Align = alBottom
+          BevelOuter = bvNone
+          ClientHeight = 51
+          ClientWidth = 892
+          TabOrder = 1
+          object btLoteEnviar: TBitBtn
+            Left = 19
+            Height = 28
+            Top = 9
+            Width = 139
+            Caption = 'Enviar Lote'
+            Images = frPagamentosAPITeste.ImageList1
+            ImageIndex = 11
+            TabOrder = 0
+            OnClick = btLoteEnviarClick
+          end
+        end
+      end
+    end
+    object tsTransfConsultas: TTabSheet
+      Caption = 'Consultas'
+      ClientHeight = 483
+      ClientWidth = 892
+      ImageIndex = 8
+      object pgTransferenciasConsultas: TPageControl
+        Left = 0
+        Height = 483
+        Top = 0
+        Width = 892
+        ActivePage = tsPagamentoConsultar
+        Align = alClient
+        TabHeight = 25
+        TabIndex = 1
+        TabOrder = 0
+        TabWidth = 200
+        object tsLoteConsultar: TTabSheet
+          Caption = 'Consultar Lote'
+          ClientHeight = 450
+          ClientWidth = 884
+          object pnLoteConsultar: TPanel
+            Left = 0
+            Height = 450
+            Top = 0
+            Width = 884
+            Align = alClient
+            BevelOuter = bvNone
+            ClientHeight = 450
+            ClientWidth = 884
+            TabOrder = 0
+            object lbConsultaLoteTipo: TLabel
+              Left = 30
+              Height = 15
+              Top = 10
+              Width = 24
+              Caption = 'Tipo'
+              ParentColor = False
+            end
+            object cbConsultaLoteTipo: TComboBox
+              Left = 30
+              Height = 23
+              Top = 25
+              Width = 200
+              ItemHeight = 15
+              ItemIndex = 0
+              Items.Strings = (
+                'Transferência bancária'
+                'Transferência PIX'
+              )
+              Style = csDropDownList
+              TabOrder = 0
+              Text = 'Transferência bancária'
+            end
+            object lbConsultaIdLote: TLabel
+              Left = 244
+              Height = 15
+              Top = 10
+              Width = 36
+              Caption = 'Id Lote'
+              ParentColor = False
+            end
+            object edConsultarIdLote: TEdit
+              Left = 244
+              Height = 23
+              Top = 25
+              Width = 180
+              NumbersOnly = True
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 1
+            end
+            object btConsultarLote: TBitBtn
+              Left = 436
+              Height = 25
+              Top = 23
+              Width = 120
+              Caption = 'Consultar'
+              Images = frPagamentosAPITeste.ImageList1
+              ImageIndex = 4
+              TabOrder = 2
+              OnClick = btConsultarLoteClick
+            end
+            object mmConsultaLog: TMemo
+              Left = 30
+              Height = 400
+              Top = 72
+              Width = 826
+              ScrollBars = ssAutoBoth
+              TabOrder = 3
+            end
+          end
+        end
+        object tsPagamentoConsultar: TTabSheet
+          Caption = 'Transferência Específica'
+          ClientHeight = 450
+          ClientWidth = 884
+          object pnPagamentoConsultar: TPanel
+            Left = 0
+            Height = 450
+            Top = 0
+            Width = 884
+            Align = alClient
+            BevelOuter = bvNone
+            ClientHeight = 450
+            ClientWidth = 884
+            TabOrder = 0
+            object lbConsultarIdPagamentoTipo: TLabel
+              Left = 30
+              Height = 15
+              Top = 10
+              Width = 24
+              Caption = 'Tipo'
+              ParentColor = False
+            end
+            object cbConsultarIdPagamentoTipo: TComboBox
+              Left = 30
+              Height = 23
+              Top = 25
+              Width = 200
+              ItemHeight = 15
+              ItemIndex = 0
+              Items.Strings = (
+                'Transferência bancária'
+                'Transferência PIX'
+              )
+              Style = csDropDownList
+              TabOrder = 0
+              Text = 'Transferência bancária'
+            end
+            object lbConsultarIdPagamento: TLabel
+              Left = 244
+              Height = 15
+              Top = 10
+              Width = 74
+              Caption = 'Id Pagamento'
+              ParentColor = False
+            end
+            object edConsultarIdPagamento: TEdit
+              Left = 244
+              Height = 23
+              Top = 25
+              Width = 180
+              NumbersOnly = True
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 1
+            end
+            object btConsultarIdPagamento: TBitBtn
+              Left = 436
+              Height = 25
+              Top = 23
+              Width = 120
+              Caption = 'Consultar'
+              Images = frPagamentosAPITeste.ImageList1
+              ImageIndex = 4
+              TabOrder = 2
+              OnClick = btConsultarIdPagamentoClick
+            end
+            object mmConsultarPagamentoLog: TMemo
+              Left = 30
+              Height = 400
+              Top = 72
+              Width = 826
+              ScrollBars = ssAutoBoth
+              TabOrder = 3
+            end
+          end
+        end
+      end
+    end
+  end
+end

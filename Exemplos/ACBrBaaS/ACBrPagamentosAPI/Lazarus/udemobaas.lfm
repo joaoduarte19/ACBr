@@ -1,7 +1,7 @@
 object frPagamentosAPITeste: TfrPagamentosAPITeste
-  Left = 2265
+  Left = 236
   Height = 547
-  Top = 166
+  Top = 324
   Width = 904
   Caption = 'ACBrBaaS - Pagamento em Lote'
   ClientHeight = 547
@@ -277,7 +277,7 @@ object frPagamentosAPITeste: TfrPagamentosAPITeste
                 Left = 416
                 Height = 15
                 Top = 3
-                Width = 44
+                Width = 45
                 Caption = 'Timeout'
                 ParentColor = False
               end
@@ -685,6 +685,10 @@ object frPagamentosAPITeste: TfrPagamentosAPITeste
         object tsPagamentos: TTabSheet
           Caption = 'Pagamentos'
           ImageIndex = 29
+        end
+        object tbTransferencias: TTabSheet
+          Caption = 'Transferencias'
+          ImageIndex = 33
         end
       end
     end
