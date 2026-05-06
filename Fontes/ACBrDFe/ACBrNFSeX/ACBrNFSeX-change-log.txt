@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 06/05/2026
+-- ISSDSF.Provider --
+[*] Possível solução para retornos cujo XML contem o caracter & dentro de um campo.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos.ini -- 
 [*] Município 3548807-São Caetano do Sul/SP mudou para Giss
    Por: Renato Rubinho

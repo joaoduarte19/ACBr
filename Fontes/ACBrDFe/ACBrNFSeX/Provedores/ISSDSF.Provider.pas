@@ -1997,6 +1997,7 @@ begin
   Result := inherited TratarXmlRetornado(Result);
 
   Result := ParseText(Result);
+  Result := StringReplace(Result, '&', '&amp;', [rfReplaceAll]);
   Result := RemoverPrefixosDesnecessarios(Result);
 end;
 
