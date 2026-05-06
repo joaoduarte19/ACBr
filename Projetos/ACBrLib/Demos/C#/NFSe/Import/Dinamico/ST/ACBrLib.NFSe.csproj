@@ -15,9 +15,9 @@
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<AssemblyVersion>1.0.15.0</AssemblyVersion>
-		<FileVersion>1.0.15.0</FileVersion>
-		<Version>1.0.15.0</Version>
+		<AssemblyVersion>1.0.16.0</AssemblyVersion>
+		<FileVersion>1.0.16.0</FileVersion>
+		<Version>1.0.16.0</Version>
 		<Platforms>AnyCPU;x86</Platforms>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
@@ -60,9 +60,19 @@
 		<Compile Include="..\Shared\IACBrLibNFSe.cs" Link="IACBrLibNFSe.cs" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\..\..\..\Shared\ACBrLib.Core\ACBrLib.Core.csproj" />
-	</ItemGroup>
+	 <Choose>
+		<When Condition=" '$(IsPacking)' == 'true' ">
+
+			<ItemGroup>
+				<PackageReference Include="ACBrLib.Core" Version="[1.2.48,)" />
+			</ItemGroup>
+		</When>
+		<Otherwise>
+			<ItemGroup>
+				<ProjectReference Include="..\..\..\..\Shared\ACBrLib.Core\ACBrLib.Core.csproj" />
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
 
 
 </Project>

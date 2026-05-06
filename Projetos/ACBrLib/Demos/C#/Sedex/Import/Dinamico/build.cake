@@ -113,7 +113,8 @@ Task("Restore")
         msBuildSettings
             .WithProperty("Version", newVersion)
             .WithProperty("AssemblyVersion", newVersion)
-            .WithProperty("FileVersion", newVersion);
+            .WithProperty("FileVersion", newVersion)
+            .WithProperty("IsPacking", "true");
 
         DotNetCoreRestore(project, new DotNetCoreRestoreSettings
         {

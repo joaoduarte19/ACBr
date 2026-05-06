@@ -15,9 +15,9 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <AssemblyVersion>1.0.7.0</AssemblyVersion>
-    <FileVersion>1.0.7.0</FileVersion>
-    <Version>1.0.7.0</Version>
+    <AssemblyVersion>1.0.8.0</AssemblyVersion>
+    <FileVersion>1.0.8.0</FileVersion>
+    <Version>1.0.8.0</Version>
     <Platforms>AnyCPU;x86;x64</Platforms>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
@@ -98,9 +98,19 @@
     <DocumentationFile>..\..\bin\Release\netstandard2.0\ACBrLib.PosPrinter.xml</DocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Shared\ACBrLib.Core\ACBrLib.Core.csproj" />
-  </ItemGroup>
+   <Choose>
+    <When Condition=" '$(IsPacking)' == 'true' ">
+
+      <ItemGroup>
+        <PackageReference Include="ACBrLib.Core" Version="[1.2.48,)" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <ProjectReference Include="..\..\..\..\Shared\ACBrLib.Core\ACBrLib.Core.csproj" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
   <ItemGroup>
     <Compile Include="..\Shared\IACBrLibIBGE.cs" Link="IACBrLibIBGE.cs" />

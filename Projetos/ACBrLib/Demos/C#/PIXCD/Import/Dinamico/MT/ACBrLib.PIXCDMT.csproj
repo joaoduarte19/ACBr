@@ -73,9 +73,19 @@
     <Compile Include="..\Shared\IACBrLibPIXCD.cs" Link="IACBrLibPIXCD.cs" />
 	</ItemGroup>
 	
-  <ItemGroup>
-	  <ProjectReference Include="..\..\..\..\Shared\ACBrLib.Core\ACBrLib.Core.csproj" />
-  </ItemGroup>
+   <Choose>
+    <When Condition=" '$(IsPacking)' == 'true' ">
+
+      <ItemGroup>
+        <PackageReference Include="ACBrLib.Core" Version="[1.2.48,)" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <ProjectReference Include="..\..\..\..\Shared\ACBrLib.Core\ACBrLib.Core.csproj" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 	
   
 </Project>
