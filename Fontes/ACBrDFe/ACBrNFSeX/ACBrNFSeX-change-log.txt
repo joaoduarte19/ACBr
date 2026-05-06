@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+06/05/2026
+-- ACBrNFSeXServicos.ini -- 
+[*] Município 3548807-São Caetano do Sul/SP mudou para Giss
+   Por: Renato Rubinho
+
 05/05/2026
 -- ACBrNFSeXServicos.ini -- 
 [*] ACBr-9342 - A cidade de Ji-Parana/RO passou a usar a versão 1.00 do Padrão Nacional - Fiorilli
