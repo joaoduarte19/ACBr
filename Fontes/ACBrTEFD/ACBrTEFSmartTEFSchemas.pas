@@ -155,6 +155,7 @@ type
     fvalue: Double;
     fpayment_type: TACBrSmartTEFPaymentType;
     finstallments: Integer;
+    fmin_installments: Integer;
     fcharge_id: String;
     forder_type: TACBrSmartTEFOrderType;
     fextras: TACBrSmartTEFOrderExtras;
@@ -176,6 +177,7 @@ type
     property value: Double read fvalue write fvalue;
     property payment_type: TACBrSmartTEFPaymentType read fpayment_type write fpayment_type;
     property installments: Integer read finstallments write finstallments;
+    property min_installments: Integer read fmin_installments write fmin_installments;
     property charge_id: String read fcharge_id write fcharge_id;
     property order_type: TACBrSmartTEFOrderType read forder_type write forder_type;
     property extras: TACBrSmartTEFOrderExtras read GetExtras;
