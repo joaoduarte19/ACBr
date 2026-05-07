@@ -518,7 +518,7 @@ begin
         AlteraAtribuiJuros(LJson);
       toRemessaAlterarMulta:
         AtribuirMulta(LJson);
-      toRemessaAlterarValorAbatimento, toRemessaCancelarAbatimento:
+      toRemessaAlterarValorAbatimento, toRemessaCancelarAbatimento, toRemessaConcederAbatimento:
         AtribuirAbatimento(LJson);
       ToRemessaPedidoNegativacao:
         FMetodoHTTP := HtPOST;
