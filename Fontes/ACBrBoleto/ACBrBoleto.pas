@@ -3715,10 +3715,13 @@ var
   LBoletoWSClass : TBoletoWSClass;
 begin
   LBoletoWS      := TBoletoWS.Create(Self);
-  LBoletoWSClass := TBoletoWSClass.Create(LBoletoWS);
-
   try
-    Result := LBoletoWS.NovoTokenAutenticacao(AToken, AValidadeToken);
+    LBoletoWSClass := TBoletoWSClass.Create(LBoletoWS);
+    try
+       Result := LBoletoWS.NovoTokenAutenticacao(AToken, AValidadeToken);
+    finally
+       LBoletoWSClass.Free;
+    end;
   finally
     LBoletoWS.Free;
   end;
