@@ -734,7 +734,7 @@ begin
                    xAutorEvento +
                    '<chNFSe>' + chNFSe + '</chNFSe>' +
                    '<' + tpEventoToStr(tpEvento) + '>' +
-                     '<xDesc>' + tpEventoToDesc(tpEvento) + '</xDesc>' +
+                     '<xDesc>' + ACBrStr(tpEventoToDesc(tpEvento)) + '</xDesc>' +
                      xCamposEvento +
                    '</' + tpEventoToStr(tpEvento) + '>' +
                  '</infPedReg>' +

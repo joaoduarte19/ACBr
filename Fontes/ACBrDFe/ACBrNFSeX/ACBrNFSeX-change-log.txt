@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 07/05/2026
+-- PadraoNacional.Provider --
+[*] ACBr-9347 - Ajuste para gerar a descrição do evento com vogais acentuadas no XML.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos.ini -- 
 [*] ACBr-9261 - A cidade de Alto Parnaiba/MA mudou a URL, o provedor continua o mesmo.
    Por: VEXCOM Sistemas - Valtair
