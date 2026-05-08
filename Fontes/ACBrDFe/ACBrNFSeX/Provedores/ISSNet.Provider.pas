@@ -2436,7 +2436,7 @@ begin
 
 //        LerSubstituicao(ANode, Response);
 
-        AuxNode := ANode.Childrens.FindAnyNs('Nfse');
+        AuxNode := ANode.Childrens.FindAnyNs('NFSe');
 
         if AuxNode = nil then
         begin
@@ -2616,7 +2616,7 @@ begin
 
 //      LerSubstituicao(ANode, Response);
 
-      AuxNode := ANode.Childrens.FindAnyNs('Nfse');
+      AuxNode := ANode.Childrens.FindAnyNs('NFSe');
 
       if AuxNode <> nil then
       begin
@@ -2838,7 +2838,7 @@ begin
 
 //        LerSubstituicao(ANode, Response);
 
-        AuxNode := ANode.Childrens.FindAnyNs('Nfse');
+        AuxNode := ANode.Childrens.FindAnyNs('NFSe');
         if not Assigned(AuxNode) then Exit;
 
         if not PreencherNotaRespostaConsultaNFSe(AuxNode, ANode, Response) then
@@ -3048,7 +3048,7 @@ begin
 
 //        LerSubstituicao(ANode, Response);
 
-        AuxNode := ANode.Childrens.FindAnyNs('Nfse');
+        AuxNode := ANode.Childrens.FindAnyNs('NFSe');
         if not Assigned(AuxNode) then Exit;
 
         if not PreencherNotaRespostaConsultaNFSe(AuxNode, ANode, Response) then
@@ -3264,7 +3264,7 @@ begin
 
 //        LerSubstituicao(ANode, Response);
 
-        AuxNode := ANode.Childrens.FindAnyNs('Nfse');
+        AuxNode := ANode.Childrens.FindAnyNs('NFSe');
         if not Assigned(AuxNode) then Exit;
 
         if not PreencherNotaRespostaConsultaNFSe(AuxNode, ANode, Response) then
