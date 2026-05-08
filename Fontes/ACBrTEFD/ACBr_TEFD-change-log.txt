@@ -46,6 +46,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 08/05/2026
+-- TACBrTEFScopeAPI --
+[-] Correção para exibir atualização de msgs do Operador e Cliente, no fluxo do TEF
+    https://www.projetoacbr.com.br/forum/index.php?showtopic=92002
+    (por: juniorguillen)
+
 -- ACBrTEFPayGoWebComum --
 [*] Não mais define variáveis de ambiente "PontoDeCaptura" e "CPFCNPJ" se tiver
     informado Propriedades "PontoCaptura" e "CNPJEstabelecimento"

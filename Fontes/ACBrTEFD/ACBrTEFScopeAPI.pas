@@ -3142,9 +3142,12 @@ var
   rColetaEx: TParam_Coleta_Ext;
   TipoCaptura: Word;
   Resposta, MsgCli, MsgOpe: String;
+  UltimaMsgOpe, UltimaMsgCli: String;
   Fluxo: TACBrTEFScopeEstadoOperacao;
   Cancelar: Boolean;
 begin
+  UltimaMsgOpe := '';
+  UltimaMsgCli := '';
   Result := -1;
   GravarLog('ExecutarTransacao');
 
@@ -3179,6 +3182,19 @@ begin
          (iStatus = TC_COLETA_EM_ANDAMENTO) or          // Outra operação no PinPad //
          (iStatus = TC_INFO_RET_FLUXO) then
       begin
+        ObterMsgUltimaTransacao(MsgCli, MsgOpe);
+        if (MsgCli <> '') and (MsgCli <> UltimaMsgCli) then
+        begin
+          ExibirMensagem(MsgCli, tmCliente);
+          UltimaMsgCli := MsgCli;
+        end;
+
+        if (MsgOpe <> '') and (MsgOpe <> UltimaMsgOpe) then
+        begin
+          ExibirMensagem(MsgOpe, tmOperador);
+          UltimaMsgOpe := MsgOpe;
+        end;
+
         // Chama evento, permitindo ao usuário cancelar
         Cancelar := False;
         ChamarEventoTransacaoEmAndamento(Fluxo, Cancelar);
@@ -3650,7 +3666,7 @@ procedure TACBrTEFScopeAPI.ObterMsgUltimaTransacao(out AMsgCliente: String; out
 var
   MsgColetada: TColeta_Msg;
   ret: LongInt;
-  s: String;
+  s, MsgOp1, MsgOp2, MsgCl1, MsgCl2: String;
 begin
   AMsgCliente := '';
   AMsgOperador := '';
@@ -3661,14 +3677,18 @@ begin
 
   if (ret = RCS_SUCESSO) then
   begin
+    MsgOp1 := ArrayOfCharToString(MsgColetada.Op1);
+    MsgOp2 := ArrayOfCharToString(MsgColetada.Op2);
+    MsgCl1 := ArrayOfCharToString(MsgColetada.Cl1);
+    MsgCl2 := ArrayOfCharToString(MsgColetada.Cl2);
     s := 'Coleta_Msg.' + sLineBreak +
-         '  Op1: '+ArrayOfCharToString(MsgColetada.Op1) + sLineBreak +
-         '  Op2: '+ArrayOfCharToString(MsgColetada.Op2) + sLineBreak +
-         '  Cl1: '+ArrayOfCharToString(MsgColetada.Cl1) + sLineBreak +
-         '  Cl2: '+ArrayOfCharToString(MsgColetada.Cl2);
+         '  Op1: '+ MsgOp1 + sLineBreak +
+         '  Op2: '+ MsgOp2 + sLineBreak +
+         '  Cl1: '+ MsgCl1 + sLineBreak +
+         '  Cl2: '+ MsgCl2;
     GravarLog(s);
-    AMsgCliente := Trim(ArrayOfCharToString(MsgColetada.Cl1) + sLineBreak + ArrayOfCharToString(MsgColetada.Cl2));
-    AMsgOperador := Trim(ArrayOfCharToString(MsgColetada.Op1) + sLineBreak + ArrayOfCharToString(MsgColetada.Op2));
+    AMsgCliente := Trim(MsgCl1 + sLineBreak + MsgCl2);
+    AMsgOperador := Trim(MsgOp1 + sLineBreak + MsgOp2);
   end;
 end;
 
