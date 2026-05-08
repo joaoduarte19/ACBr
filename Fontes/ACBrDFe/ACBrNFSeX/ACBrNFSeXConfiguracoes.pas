@@ -618,10 +618,13 @@ begin
   else
     aValor := aValor + FPIniParams.ReadString(FxProvedor, 'Params', '');
 
-  if aValor = '' then
-    FAPIPropria := (Pos('APIPropria:', aValor) > 0)
-  else
+//  if aValor = '' then
+//    FAPIPropria := (Pos('APIPropria:', aValor) > 0)
+//  else
     FAPIPropria := (Pos('APIPropria:', aValor) > 0);
+
+  if not (FVersao in [ve100, ve101]) and FAPIPropria then
+    FAPIPropria := False;
 
   {
     Verifica se o componente esta configurado com o layout PadraoNacionalv1 ou

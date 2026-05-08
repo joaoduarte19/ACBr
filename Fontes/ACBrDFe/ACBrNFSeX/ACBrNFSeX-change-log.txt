@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 08/05/2026
+-- ACBrNFSeXConfiguracoes.pas --
+[*] Alteração visando sanar o problema com o provedor Fiorilli.
+   Por: Italo Giurizzato Junior
 -- IPM.GravarXml --
 [*] Não estava gerando a tag valor_rps que contem o valor de outras retenções, agora ela
     vai ser gerada se o for informado o valor no campo: Servico.Valores.OutrasRetencoes.
