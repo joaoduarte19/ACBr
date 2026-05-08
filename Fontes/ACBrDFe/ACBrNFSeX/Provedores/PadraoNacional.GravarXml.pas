@@ -561,8 +561,8 @@ begin
   }
   Result.AppendChild(AddNode(tcInt, '#1', 'cStat', 1, 3, 1, '100', ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'tpAmb', 1, 1, NrOcorrtpAmb,
-                                              TipoAmbienteToStr(Ambiente), ''));
+//  Result.AppendChild(AddNode(tcStr, '#1', 'tpAmb', 1, 1, NrOcorrtpAmb,
+//                                              TipoAmbienteToStr(Ambiente), ''));
 
   if NFSe.infNFSe.dhProc > 0 then
     ldhProc := DateTimeTodh(NFSe.infNFSe.dhProc) + GetUTC(NFSe.Prestador.Endereco.UF, NFSe.infNFSe.dhProc)

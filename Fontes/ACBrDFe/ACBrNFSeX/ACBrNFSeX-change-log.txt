@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+08/05/2026
+-- PadraoNacional.GravarXml.pas --
+[*] Comentada as linhas que geram a tag tpAmb dentro do grupo infNFSe.
+   Por: Italo Giurizzato Junior
+
 07/05/2026
 -- PadraoNacional.Provider --
 [*] ACBr-9347 - Ajuste para gerar a descrição do evento com vogais acentuadas no XML.
