@@ -123,7 +123,7 @@ begin
         Endereco.CodigoMunicipio := ObterConteudo(NodeEndereco.Childrens.FindAnyNs('CodigoMunicipio'), tcStr);
         Endereco.Complemento := ObterConteudo(NodeEndereco.Childrens.FindAnyNs('Complemento'), tcStr);
         Endereco.Uf := ObterConteudo(NodeEndereco.Childrens.FindAnyNs('Uf'), tcStr);
-        Endereco.CodigoPais := ObterConteudo(NodeEndereco.Childrens.FindAnyNs('CodigoPais'), tcStr);
+        Endereco.CodigoPais := ObterConteudo(NodeEndereco.Childrens.FindAnyNs('CodigoPais'), tcInt);
       end;
       inscImobFisc := ObterConteudo(AuxNode.Childrens.FindAnyNs('Cib'), tcStr);
     end;
