@@ -45,6 +45,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+08/05/2026
+-- ACBrTEFPayGoWebComum --
+[*] Não mais define variáveis de ambiente "PontoDeCaptura" e "CPFCNPJ" se tiver
+    informado Propriedades "PontoCaptura" e "CNPJEstabelecimento"
+[*] Método 'TACBrTEFPGWebAPI.IniciarTransacao' modificado, para remover Imagens
+    em Exibição no PinPad, caso alguma esteja sendo exibida
+    (por: DSA)
+
 07/05/2026
 -- ACBrTEFSmartTEFSchemas --
 [*] Implementada nova propriedade 'min_installments' no ACBrSmartTef.

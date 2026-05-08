@@ -573,6 +573,7 @@ type
     fInicializada: Boolean;
     fCarregada: Boolean;
     fEmTransacao: Boolean;
+    fNomeImagemNoPinPad: String;
     fIsDebug: Boolean;
     fMensagemPinPad: String;
     fPerguntarCartaoDigitadoAposCancelarLeitura: Boolean;
@@ -1182,6 +1183,7 @@ begin
   fDiretorioTrabalho := '';
   fAtualizaPGWebLibAutomaticamente := True;
   fEmTransacao := False;
+  fNomeImagemNoPinPad := '';
   fUsouPinPad := False;
   fTempoTarefasAutomaticas := '';
   fUltimoQRCode := '';
@@ -1273,11 +1275,11 @@ begin
 
   SetPGWebLibPermiteAtualiza(False);
 
-  if (PontoCaptura <> '') then
-    ACBrUtil.FilesIO.SetGlobalEnvironment('PontoDeCaptura', PontoCaptura);
+  //if (PontoCaptura <> '') then
+  //  ACBrUtil.FilesIO.SetGlobalEnvironment('PontoDeCaptura', PontoCaptura);
 
-  if (CNPJEstabelecimento <> '') then
-    ACBrUtil.FilesIO.SetGlobalEnvironment('CPFCNPJ', CNPJEstabelecimento);
+  //if (CNPJEstabelecimento <> '') then
+  //  ACBrUtil.FilesIO.SetGlobalEnvironment('CPFCNPJ', CNPJEstabelecimento);
 
   LoadLibFunctions;
 
@@ -1539,6 +1541,17 @@ begin
   VerificarCarregada;
   if EmTransacao then
     DoException(ACBrStr(sErrPWRET_TRNINIT));
+
+  if (fNomeImagemNoPinPad <> '') then
+  begin
+    if Assigned(xPW_iPPEndDisplayImage) then
+    begin
+      GravarLog('PW_iPPEndDisplayImage');
+      iRet := xPW_iPPEndDisplayImage;
+      GravarLog('  '+PWRETToString(iRet));
+    end;
+    fNomeImagemNoPinPad := '';
+  end;
 
   GravarLog('PW_iNewTransac( '+PWOPERToString(iOPER)+' )');
   iRet := xPW_iNewTransac(iOPER);
@@ -2201,17 +2214,19 @@ var
   MsgError: String;
   ImageName: AnsiString;
 begin
-  GravarLog('TACBrTEFPGWebAPI.ExibirImagemPinPad( '+NomeImagem+', '+
+  ImageName := Trim(NomeImagem);
+  GravarLog('TACBrTEFPGWebAPI.ExibirImagemPinPad( '+ImageName+', '+
             IntToStr(TimeOutSec)+', '+BoolToStr(AguardaTecla, True)+' )');
 
   VerificarCarregada;
   if not Assigned(xPW_iPPDisplayLoadedImage) then
     DoException(Format(sErrBibliotecaNaoTemMetodo, ['PW_iPPDisplayLoadedImage']));
 
-  ImageName := Trim(NomeImagem);
   GravarLog('PW_iPPDisplayLoadedImage( '+ImageName+', '+IntToStr(TimeOutSec)+', '+BoolToStr(AguardaTecla, True)+' )');
   iRetPP := xPW_iPPDisplayLoadedImage( PAnsiChar(ImageName), TimeOutSec, AguardaTecla);
   GravarLog('  '+PWRETToString(iRetPP));
+
+  // TODO: Fazer e tratar loop, quando "AguardaTecla = True";
 
   MsgError := '';
   if (iRetPP <> PWRET_OK) then
@@ -2227,6 +2242,8 @@ begin
 
   if (MsgError <> '') then
     DoException(ACBrStr(MsgError));
+
+  fNomeImagemNoPinPad := ImageName;
 end;
 
 procedure TACBrTEFPGWebAPI.DefinirMensagemPinPad(const AMensagem,
@@ -2236,14 +2253,16 @@ var
   MsgError: String;
   IdleMesage, IdleImage: AnsiString;
 begin
-  GravarLog('TACBrTEFPGWebAPI.DefinirMensagemPinPad( '+AMensagem+', '+NomeImagem+' )');
+  IdleMesage := Trim(AMensagem);
+  IdleImage := Trim(NomeImagem);
+  if (IdleImage <> '') then
+    IdleImage := PadRight(IdleImage, 8);
+  GravarLog('TACBrTEFPGWebAPI.DefinirMensagemPinPad( '+IdleMesage+', '+IdleImage+' )');
 
   VerificarCarregada;
   if not Assigned(xPW_iPPSetIdleImage) then
     DoException(Format(sErrBibliotecaNaoTemMetodo, ['PW_iPPSetIdleImage']));
 
-  IdleMesage := Trim(AMensagem);
-  IdleImage := Trim(NomeImagem);
   GravarLog('PW_iPPSetIdleImage( '+IdleMesage+', '+IdleImage+' )');
   iRetPP := xPW_iPPSetIdleImage( PAnsiChar(IdleMesage), PAnsiChar(IdleImage) );
   GravarLog('  '+PWRETToString(iRetPP));
