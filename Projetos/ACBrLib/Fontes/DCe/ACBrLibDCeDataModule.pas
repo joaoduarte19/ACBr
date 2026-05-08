@@ -5,7 +5,7 @@
 {                                                                              }
 { Direitos Autorais Reservados (c) 2025 Daniel Simoes de Almeida               }
 {                                                                              }
-{ Colaboradores nesse arquivo: Antonio Carlos Junior                           }
+{ Colaboradores nesse arquivo: Antonio Carlos Junior, Renato Rubinho           }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -40,6 +40,7 @@ interface
 
 uses
   Classes, SysUtils, ACBrLibComum, ACBrLibDataModule,
+  ACBrDFe.Conversao,
   ACBrDCe.DACERLClass,
   ACBrDCe,
   ACBrMail;
@@ -50,6 +51,7 @@ type
 
   TLibDCeDM = class(TLibDataModule)
     ACBrDCe1: TACBrDCe;
+    ACBrDCeDACERL1: TACBrDCeDACERL;
     FDACeFortes: TACBrDCeDACERL;
     ACBrMail1: TACBrMail;
 
@@ -60,7 +62,7 @@ type
     procedure AplicarConfiguracoes; override;
     procedure AplicarConfigMail;
     procedure ConfigurarImpressao(NomeImpressora: String = ''; GerarPDF: Boolean = False;
-                                  MostrarPreview: String = '');
+      MostrarPreview: String = ''; AACBrDCe: TACBrDCe = nil);
     procedure FinalizarImpressao;
   end;
 
@@ -70,7 +72,7 @@ var
 implementation
 
 uses
-  pcnConversao, ACBrLibConfig, ACBrLibDCeConfig, ACBrUtil.Base, ACBrUtil.FilesIO;
+  ACBrLibConfig, ACBrLibDCeConfig, ACBrUtil.Base, ACBrUtil.FilesIO;
 
 {$R *.lfm}
 
@@ -79,7 +81,8 @@ uses
 procedure TLibDCeDM.FreeReports;
 begin
   ACBrDCe1.DACE := nil;
-  if Assigned(FDACeFortes) then FreeAndNil(FDACeFortes);
+  if Assigned(FDACeFortes) then
+    FreeAndNil(FDACeFortes);
 end;
 
 procedure TLibDCeDM.AplicarConfiguracoes;
@@ -101,39 +104,39 @@ end;
 
 procedure TLibDCeDM.AplicarConfigMail;
 begin
-  with ACBrMail1 do
-  begin
-    Attempts             := Lib.Config.Email.Tentativas;
-    SetTLS               := Lib.Config.Email.TLS;
-    DefaultCharset       := Lib.Config.Email.Codificacao;
-    From                 := Lib.Config.Email.Conta;
-    FromName             := Lib.Config.Email.Nome;
-    SetSSL               := Lib.Config.Email.SSL;
-    Host                 := Lib.Config.Email.Servidor;
-    IDECharset           := Lib.Config.Email.Codificacao;
-    IsHTML               := Lib.Config.Email.IsHTML;
-    Password             := Lib.Config.Email.Senha;
-    Port                 := IntToStr(Lib.Config.Email.Porta);
-    Priority             := Lib.Config.Email.Priority;
-    ReadingConfirmation  := Lib.Config.Email.Confirmacao;
-    DeliveryConfirmation := Lib.Config.Email.ConfirmacaoEntrega;
-    TimeOut              := Lib.Config.Email.TimeOut;
-    Username             := Lib.Config.Email.Usuario;
-    UseThread            := Lib.Config.Email.SegundoPlano;
-  end;
+  ACBrMail1.Attempts := Lib.Config.Email.Tentativas;
+  ACBrMail1.SetTLS := Lib.Config.Email.TLS;
+  ACBrMail1.DefaultCharset := Lib.Config.Email.Codificacao;
+  ACBrMail1.From := Lib.Config.Email.Conta;
+  ACBrMail1.FromName := Lib.Config.Email.Nome;
+  ACBrMail1.SetSSL := Lib.Config.Email.SSL;
+  ACBrMail1.Host := Lib.Config.Email.Servidor;
+  ACBrMail1.IDECharset := Lib.Config.Email.Codificacao;
+  ACBrMail1.IsHTML := Lib.Config.Email.IsHTML;
+  ACBrMail1.Password := Lib.Config.Email.Senha;
+  ACBrMail1.Port := IntToStr(Lib.Config.Email.Porta);
+  ACBrMail1.Priority := Lib.Config.Email.Priority;
+  ACBrMail1.ReadingConfirmation := Lib.Config.Email.Confirmacao;
+  ACBrMail1.DeliveryConfirmation := Lib.Config.Email.ConfirmacaoEntrega;
+  ACBrMail1.TimeOut := Lib.Config.Email.TimeOut;
+  ACBrMail1.Username := Lib.Config.Email.Usuario;
+  ACBrMail1.UseThread := Lib.Config.Email.SegundoPlano;
 end;
 
-procedure TLibDCeDM.ConfigurarImpressao(NomeImpressora: String;
-  GerarPDF: Boolean; MostrarPreview: String);
+procedure TLibDCeDM.ConfigurarImpressao(NomeImpressora: String; GerarPDF: Boolean;
+  MostrarPreview: String; AACBrDCe: TACBrDCe);
 var
   LibConfig: TLibDCeConfig;
 begin
+  if not Assigned(AACBrDCe) then
+    AACBrDCe := ACBrDCe1;
+
   LibConfig := TLibDCeConfig(Lib.Config);
 
   GravarLog('ConfigurarImpressao - Iniciado', logNormal);
 
   FDACeFortes := TACBrDCeDACERL.Create(Nil);
-  ACBrDCe1.DACE := FDACeFortes;
+  AACBrDCe.DACE := FDACeFortes;
 
   if GerarPDF then
   begin
@@ -141,6 +144,15 @@ begin
       if not DirectoryExists(PathWithDelim(LibConfig.DACeConfig.PathPDF))then
         ForceDirectories(PathWithDelim(LibConfig.DACeConfig.PathPDF));
   end;
+
+  if LibConfig.DACeConfig.MargemInferior = 0 then
+    LibConfig.DACeConfig.MargemInferior := 7;
+  if LibConfig.DACeConfig.MargemSuperior = 0 then
+    LibConfig.DACeConfig.MargemSuperior := 7;
+  if LibConfig.DACeConfig.MargemEsquerda = 0 then
+    LibConfig.DACeConfig.MargemEsquerda := 4;
+  if LibConfig.DACeConfig.MargemDireita = 0 then
+    LibConfig.DACeConfig.MargemDireita := 4;
 
   LibConfig.DACeConfig.Apply(FDACeFortes, Lib);
 

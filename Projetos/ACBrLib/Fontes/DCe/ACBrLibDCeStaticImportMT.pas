@@ -5,7 +5,7 @@
 {                                                                              }
 { Direitos Autorais Reservados (c) 2025 Daniel Simoes de Almeida               }
 {                                                                              }
-{ Colaboradores nesse arquivo: Antonio Carlos Junior                           }
+{ Colaboradores nesse arquivo: Antonio Carlos Junior, Renato Rubinho           }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -87,7 +87,6 @@ function DCE_ConfigImportar(const libHandle: TLibHandle; const eArqConfig: PAnsi
 
 function DCE_ConfigExportar(const libHandle: TLibHandle; const sMensagem: PAnsiChar; var esTamanho: Integer): Integer;
   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
-
 {%endregion}
 
 {%region Ler/Gravar Config }
@@ -104,8 +103,98 @@ function DCE_ConfigGravarValor(const libHandle: TLibHandle; const eSessao, eChav
   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
 {%endregion}
 
-{%region ACBrDCe}
+{%region DCe}
+function DCE_CarregarXML(const libHandle: TLibHandle; const eArquivoOuXML: PAnsiChar): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
 
+function DCE_CarregarINI(const libHandle: TLibHandle; const eArquivoOuINI: PAnsiChar): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_ObterXml(const libHandle: TLibHandle; AIndex: Integer; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_GravarXml(const libHandle: TLibHandle; AIndex: Integer; const eNomeArquivo, ePathArquivo: PAnsiChar): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_ObterIni(const libHandle: TLibHandle; AIndex: Integer; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_GravarIni(const libHandle: TLibHandle; AIndex: Integer; const eNomeArquivo, ePathArquivo: PAnsiChar): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_CarregarEventoXML(const libHandle: TLibHandle; const eArquivoOuXML: PAnsiChar): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_CarregarEventoINI(const libHandle: TLibHandle; const eArquivoOuINI: PAnsiChar): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_LimparLista(const libHandle: TLibHandle) : Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_LimparListaEventos(const libHandle: TLibHandle): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_Validar(const libHandle:Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_VerificarAssinatura(const libHandle: TLibHandle; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_GetPath(const libHandle: TLibHandle; ATipo: Integer; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_GetPathEvento(const libHandle: TLibHandle; ACodEvento: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_GerarChave(const libHandle: TLibHandle; ACodigoUF, ACodigoNumerico, AModelo, ASerie, ANumero,
+  ATpEmi: Integer; AEmissao, ACNPJCPF: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_ObterCertificados(const libHandle: TLibHandle; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_ValidarRegrasdeNegocios(const libHandle: TLibHandle; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_Enviar(const libHandle: TLibHandle; ALote: Integer; Imprimir, Zipado: Boolean;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_Assinar(const libHandle: TLibHandle): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_Cancelar(const libHandle: TLibHandle; const eChave, eJustificativa, eCNPJCPF: PAnsiChar; ALote, AEmitenteDCe: Integer;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+{%endregion}
+
+{%region Servicos}
+function DCE_StatusServico(const libHandle: TLibHandle; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_Consultar(const libHandle: TLibHandle; const eChaveOuDCe: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_ImprimirPDF(const libHandle: TLibHandle): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_SalvarPDF(const libHandle: TLibHandle; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_ImprimirEventoPDF(const libHandle: TLibHandle; const eArquivoXmlDCe, eArquivoXmlEvento: PAnsiChar): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_SalvarEventoPDF(const libHandle: TLibHandle; const eArquivoXmlDCe, eArquivoXmlEvento, sResposta: PAnsiChar;
+  var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_EnviarEmail(const libHandle: TLibHandle; const ePara, eChaveDCe: PAnsiChar; const AEnviaPDF: Boolean;
+  const eAssunto, eCC, eAnexos, eMensagem: PAnsiChar): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
+
+function DCE_EnviarEmailEvento(const libHandle: TLibHandle; const ePara, eXmlEvento, eXmlDCe: PAnsiChar;
+  const AEnviaPDF: Boolean; const eAssunto, eCC, eAnexos, eMensagem: PAnsiChar): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrDCeLIBName;
 {%endregion}
 
 implementation

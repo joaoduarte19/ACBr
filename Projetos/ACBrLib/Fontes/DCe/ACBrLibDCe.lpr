@@ -5,7 +5,7 @@
 {                                                                              }
 { Direitos Autorais Reservados (c) 2025 Daniel Simoes de Almeida               }
 {                                                                              }
-{ Colaboradores nesse arquivo: Antonio Carlos Junior                           }
+{ Colaboradores nesse arquivo: Antonio Carlos Junior, Renato Rubinho           }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -67,7 +67,39 @@ exports
   DCE_ConfigLer,
   DCE_ConfigGravar,
   DCE_ConfigLerValor,
-  DCE_ConfigGravarValor;
+  DCE_ConfigGravarValor,
+
+  //Arquivos
+  DCE_CarregarXML,
+  DCE_CarregarINI,
+  DCE_ObterXml,
+  DCE_GravarXml,
+  DCE_ObterIni,
+  DCE_GravarIni,
+  DCE_CarregarEventoXML,
+  DCE_CarregarEventoINI,
+  DCE_LimparLista,
+  DCE_LimparListaEventos,
+  DCE_GerarChave,
+  DCE_Assinar,
+  DCE_Validar,
+  DCE_ValidarRegrasdeNegocios,
+  DCE_VerificarAssinatura,
+  DCE_ObterCertificados,
+  DCE_GetPath,
+  DCE_GetPathEvento,
+
+  //Serviços
+  DCE_StatusServico,
+  DCE_Enviar,
+  DCE_Consultar,
+  DCE_Cancelar,
+  DCE_EnviarEmail,
+  DCE_EnviarEmailEvento,
+  DCE_ImprimirPDF,
+  DCE_SalvarPDF,
+  DCE_ImprimirEventoPDF,
+  DCE_SalvarEventoPDF;
 
 begin
   {$IFDEF DEBUG}

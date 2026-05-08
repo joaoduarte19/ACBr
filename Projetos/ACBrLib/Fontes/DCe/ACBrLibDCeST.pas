@@ -5,7 +5,7 @@
 {                                                                              }
 { Direitos Autorais Reservados (c) 2025 Daniel Simoes de Almeida               }
 {                                                                              }
-{ Colaboradores nesse arquivo: Antonio Carlos Junior                           }
+{ Colaboradores nesse arquivo: Antonio Carlos Junior, Renato Rubinho           }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -80,11 +80,100 @@ function DCE_ConfigLerValor (const eSessao, eChave: PAnsiChar; sValor: PAnsiChar
 
 function DCE_ConfigGravarValor (const eSessao, eChave, eValor: PAnsiChar): Integer;
   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
-
 {%endregion}
 
-{%region ACBrDCe}
+{%region DCe}
+function DCE_CarregarXML(const eArquivoOuXML: PAnsiChar): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 
+function DCE_CarregarINI(const eArquivoOuINI: PAnsiChar): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_ObterXml(AIndex: Integer; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_GravarXml(AIndex: Integer; const eNomeArquivo, ePathArquivo: PAnsiChar): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_ObterIni(AIndex: Integer; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_GravarIni(AIndex: Integer; const eNomeArquivo, ePathArquivo: PAnsiChar): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_CarregarEventoXML(const eArquivoOuXML: PAnsiChar): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_CarregarEventoINI(const eArquivoOuINI: PAnsiChar): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_LimparLista: Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_LimparListaEventos: Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_Validar: Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_VerificarAssinatura(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_GetPath(ATipo: Integer; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_GetPathEvento(ACodEvento: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_GerarChave(ACodigoUF, ACodigoNumerico, AModelo, ASerie, ANumero, ATpEmi: Integer;
+  AEmissao, ACNPJCPF: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_ObterCertificados(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_ValidarRegrasdeNegocios(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_Enviar(ALote: Integer; AImprimir, AZipado: Boolean;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_Assinar: Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_Cancelar(const eChave, eJustificativa, eCNPJCPF: PAnsiChar; ALote, AEmitenteDCe: Integer;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+{%endregion}
+
+{%region Servicos}
+function DCE_StatusServico(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_Consultar(const eChaveOuDCe: PAnsiChar; AExtrairEventos: Boolean;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_ImprimirPDF: Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_SalvarPDF(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_ImprimirEventoPDF(const eArquivoXmlDCe, eArquivoXmlEvento: PAnsiChar): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_SalvarEventoPDF(const eArquivoXmlDCe, eArquivoXmlEvento, sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_EnviarEmail(const ePara, eChaveDCe: PAnsiChar; const AEnviaPDF: Boolean;
+  const eAssunto, eCC, eAnexos, eMensagem: PAnsiChar): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function DCE_EnviarEmailEvento(const ePara, eXmlEvento, eXmlDCe: PAnsiChar;
+  const AEnviaPDF: Boolean; const eAssunto, eCC, eAnexos, eMensagem: PAnsiChar): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 {%endregion}
 
 {%endregion}
@@ -94,7 +183,7 @@ implementation
 Uses
   ACBrLibConsts, ACBrLibDCeBase;
 
-{%region ACBrDCe}
+{%region Declaração da funções}
 
 {%region Redeclarando Métodos de ACBrLibComum, com nome específico}
 
@@ -175,10 +264,438 @@ function DCE_ConfigGravarValor(const eSessao, eChave, eValor: PAnsiChar
 begin
   Result := LIB_ConfigGravarValor(pLib, eSessao, eChave, eValor);
 end;
-
 {%endregion}
 
-{%region ACBrDCe}
+{%region DCe}
+function DCE_CarregarXML(const eArquivoOuXML: PAnsiChar): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).CarregarXML(eArquivoOuXML);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_CarregarINI(const eArquivoOuINI: PAnsiChar): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).CarregarINI(eArquivoOuINI);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+{%endregion}
+
+function DCE_ObterXml(AIndex: Integer; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).ObterXml(AIndex, sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_GravarXml(AIndex: Integer; const eNomeArquivo, ePathArquivo: PAnsiChar): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).GravarXml(AIndex, eNomeArquivo, ePathArquivo);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_ObterIni(AIndex: Integer; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).ObterIni(AIndex, sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_GravarIni(AIndex: Integer; const eNomeArquivo, ePathArquivo: PAnsiChar): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).GravarIni(AIndex, eNomeArquivo, ePathArquivo);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_CarregarEventoXML(const eArquivoOuXML: PAnsiChar): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).CarregarEventoXML(eArquivoOuXML);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_CarregarEventoINI(const eArquivoOuINI: PAnsiChar): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).CarregarEventoINI(eArquivoOuINI);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_LimparLista: Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).LimparLista;
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_LimparListaEventos: Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).LimparListaEventos;
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_Validar: Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).Validar;
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_VerificarAssinatura(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).VerificarAssinatura(sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_GetPath(ATipo: Integer; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).GetPath(ATipo, sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_GetPathEvento(ACodEvento: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).GetPathEvento(ACodEvento, sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_GerarChave(ACodigoUF, ACodigoNumerico, AModelo, ASerie, ANumero, ATpEmi: Integer;
+  AEmissao, ACNPJCPF: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).GerarChave(ACodigoUF, ACodigoNumerico, AModelo, ASerie, ANumero, ATpEmi,
+                                                AEmissao, ACNPJCPF, sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_ObterCertificados(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).ObterCertificados(sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_ValidarRegrasdeNegocios(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).ValidarRegrasdeNegocios(sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_Enviar(ALote: Integer; AImprimir, AZipado: Boolean;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).Enviar(ALote, AImprimir, AZipado, sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_Assinar: Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).Assinar;
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_Cancelar(const eChave, eJustificativa, eCNPJCPF: PAnsiChar; ALote, AEmitenteDCe: Integer;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).Cancelar(eChave, eJustificativa, eCNPJCPF, ALote, AEmitenteDCe, sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+{%region Servicos}
+function DCE_StatusServico(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).StatusServico(sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_Consultar(const eChaveOuDCe: PAnsiChar; AExtrairEventos: Boolean;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).Consultar(eChaveOuDCe, AExtrairEventos, sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_ImprimirPDF: Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).ImprimirPDF;
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_SalvarPDF(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).SalvarPDF(sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_ImprimirEventoPDF(const eArquivoXmlDCe, eArquivoXmlEvento: PAnsiChar): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).ImprimirEventoPDF(eArquivoXmlDCe, eArquivoXmlEvento);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_SalvarEventoPDF(const eArquivoXmlDCe, eArquivoXmlEvento,
+  sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).SalvarEventoPDF(eArquivoXmlDCe, eArquivoXmlEvento, sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_EnviarEmail(const ePara, eChaveDCe: PAnsiChar; const AEnviaPDF: Boolean;
+  const eAssunto, eCC, eAnexos, eMensagem: PAnsiChar): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).EnviarEmail(ePara, eChaveDCe, AEnviaPDF, eAssunto, eCC, eAnexos, eMensagem);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function DCE_EnviarEmailEvento(const ePara, eXmlEvento, eXmlDCe: PAnsiChar;
+  const AEnviaPDF: Boolean; const eAssunto, eCC, eAnexos, eMensagem: PAnsiChar): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibDCe(pLib^.Lib).EnviarEmailEvento(ePara, eXmlEvento, eXmlDCe, AEnviaPDF, eAssunto, eCC, eAnexos, eMensagem);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
 
 {%endregion}
 

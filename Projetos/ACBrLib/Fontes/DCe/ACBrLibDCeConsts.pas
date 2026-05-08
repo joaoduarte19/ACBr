@@ -5,7 +5,7 @@
 {                                                                              }
 { Direitos Autorais Reservados (c) 2025 Daniel Simoes de Almeida               }
 {                                                                              }
-{ Colaboradores nesse arquivo: Antonio Carlos Junior                           }
+{ Colaboradores nesse arquivo: Antonio Carlos Junior, Renato Rubinho           }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -50,6 +50,23 @@ const
   CSessaoRespEvento = 'Evento';
 
   CSessaoDACe = 'DACe';
+
+  CErrValidacaoDCe = -11;
+  CErrChaveDCe = -12;
+  CErrAssinarDCe = -13;
+  CErrConsulta = -14;
+  CErrCNPJ = -15;
+  CErrRetorno = -16;
+  CErrEnvio = -17;
+  CErrEnvioEvento = -18;
+
+resourcestring
+  CInfDCeCarregados = '%d DCe(s) Carregado(s)';
+  CInfEventosCarregados = '%d Evento(s) Carregado(s)';
+
+  CErrChaveInvalida = 'Chave % inválida.';
+  CErrCNPJInvalido = 'CNPJ % inválido.';
+  CErrCNPJCPFInvalido = 'CNPJ/CPF % inválido.';
 
 implementation
 

@@ -14,6 +14,7 @@ inherited LibDCeDM: TLibDCeDM
     Configuracoes.WebServices.AguardarConsultaRet = 0
     Configuracoes.WebServices.QuebradeLinha = '|'
     Configuracoes.RespTec.IdCSRT = 0
+    DACE = ACBrDCeDACERL1
     Left = 65
     Top = 65
   end
@@ -36,6 +37,7 @@ inherited LibDCeDM: TLibDCeDM
     CasasDecimais.MaskvUnCom = ',0.00'
     CasasDecimais.Aliquota = 2
     CasasDecimais.MaskAliquota = ',0.00'
+    ACBrDCe = ACBrDCe1
     ImprimeHoraSaida = False
     TipoDACE = tiSemGeracao
     Cancelada = False
@@ -53,7 +55,7 @@ inherited LibDCeDM: TLibDCeDM
     Attempts = 3
     DefaultCharset = UTF_8
     IDECharset = UTF_8
-    Left = 79
+    Left = 65
     Top = 144
   end
 end

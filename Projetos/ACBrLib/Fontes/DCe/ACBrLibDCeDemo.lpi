@@ -12,7 +12,6 @@
       </Flags>
       <SessionStorage Value="InProjectDir"/>
       <Title Value="ACBrLibDCe"/>
-      <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
     </General>
@@ -30,7 +29,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Windows\ST\Cdecl\ACBrDCe64"/>
+            <Filename Value="bin\Demo\Windows\ST\Cdecl\ACBrDCe64"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum"/>
@@ -62,7 +61,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dNOGUI"/>
+            <CustomOptions Value="-dDemo -dNOGUI"/>
           </Other>
         </CompilerOptions>
       </Item2>
@@ -71,7 +70,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Windows\ST\StdCall\ACBrDCe32"/>
+            <Filename Value="bin\Demo\Windows\ST\StdCall\ACBrDCe32"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum"/>
@@ -103,7 +102,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dSTDCALL -dNOGUI"/>
+            <CustomOptions Value="-dDemo -dSTDCALL -dNOGUI"/>
           </Other>
         </CompilerOptions>
       </Item3>
@@ -112,7 +111,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Windows\ST\StdCall\ACBrDCe64"/>
+            <Filename Value="bin\Demo\Windows\ST\StdCall\ACBrDCe64"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum"/>
@@ -144,7 +143,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dSTDCALL -dNOGUI"/>
+            <CustomOptions Value="-dDemo -dSTDCALL -dNOGUI"/>
           </Other>
         </CompilerOptions>
       </Item4>
@@ -153,7 +152,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Linux\ST\acbrdce64"/>
+            <Filename Value="bin\Demo\Linux\ST\acbrdce64"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum"/>
@@ -185,7 +184,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dNOGUI"/>
+            <CustomOptions Value="-dDemo -dNOGUI"/>
           </Other>
         </CompilerOptions>
       </Item5>
@@ -194,7 +193,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Linux\ST\acbrdce32"/>
+            <Filename Value="bin\Demo\Linux\ST\acbrdce32"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum"/>
@@ -226,7 +225,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dNOGUI"/>
+            <CustomOptions Value="-dDemo -dNOGUI"/>
           </Other>
         </CompilerOptions>
       </Item6>
@@ -270,7 +269,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Windows\MT\Cdecl\ACBrDCe32"/>
+            <Filename Value="bin\Demo\Windows\MT\Cdecl\ACBrDCe32"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum"/>
@@ -302,7 +301,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dMT -dNOGUI"/>
+            <CustomOptions Value="-dDemo -dMT -dNOGUI"/>
           </Other>
         </CompilerOptions>
       </Item8>
@@ -311,7 +310,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Windows\MT\StdCall\ACBrDCe32"/>
+            <Filename Value="bin\Demo\Windows\MT\StdCall\ACBrDCe32"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum"/>
@@ -343,7 +342,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dMT -dSTDCALL -dNOGUI"/>
+            <CustomOptions Value="-dDemo -dMT -dSTDCALL -dNOGUI"/>
           </Other>
         </CompilerOptions>
       </Item9>
@@ -352,7 +351,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Windows\MT\Cdecl\ACBrDCe64"/>
+            <Filename Value="bin\Demo\Windows\MT\Cdecl\ACBrDCe64"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum"/>
@@ -384,7 +383,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dMT -dNOGUI"/>
+            <CustomOptions Value="-dDemo -dMT -dNOGUI"/>
           </Other>
         </CompilerOptions>
       </Item10>
@@ -393,7 +392,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Windows\MT\StdCall\ACBrDCe64"/>
+            <Filename Value="bin\Demo\Windows\MT\StdCall\ACBrDCe64"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum"/>
@@ -425,7 +424,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dMT -dSTDCALL -dNOGUI"/>
+            <CustomOptions Value="-dDemo -dMT -dSTDCALL -dNOGUI"/>
           </Other>
         </CompilerOptions>
       </Item11>
@@ -434,7 +433,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Linux\MT\acbrdce64"/>
+            <Filename Value="bin\Demo\Linux\MT\acbrdce64"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum"/>
@@ -466,7 +465,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dMT -dNOGUI"/>
+            <CustomOptions Value="-dDemo -dMT -dNOGUI"/>
           </Other>
         </CompilerOptions>
       </Item12>
@@ -475,7 +474,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Linux\MT\acbrdce32"/>
+            <Filename Value="bin\Demo\Linux\MT\acbrdce32"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum"/>
@@ -507,7 +506,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dMT -dNOGUI"/>
+            <CustomOptions Value="-dDemo -dMT -dNOGUI"/>
           </Other>
         </CompilerOptions>
       </Item13>
@@ -608,7 +607,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="bin\Windows\ST\Cdecl\ACBrDCe32"/>
+      <Filename Value="bin\Demo\Windows\ST\Cdecl\ACBrDCe32"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);..\Comum"/>
@@ -640,7 +639,7 @@
       </Options>
     </Linking>
     <Other>
-      <CustomOptions Value="-dNOGUI"/>
+      <CustomOptions Value="-dDemo -dNOGUI"/>
     </Other>
   </CompilerOptions>
   <Debugging>

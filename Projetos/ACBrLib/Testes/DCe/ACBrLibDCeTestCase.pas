@@ -5,7 +5,7 @@
 {                                                                              }
 { Direitos Autorais Reservados (c) 2025 Daniel Simoes de Almeida               }
 {                                                                              }
-{ Colaboradores nesse arquivo: Antonio Carlos Junior                           }
+{ Colaboradores nesse arquivo: Antonio Carlos Junior, Renato Rubinho           }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -61,7 +61,7 @@ type
     procedure Test_DCe_Versao;
     procedure Test_DCe_ConfigLerValor;
     procedure Test_DCe_ConfigGravarValor;
-end;
+  end;
 
 implementation
 
@@ -199,17 +199,19 @@ begin
   // Obtendo o Tamanho //
   AssertEquals(ErrOK, DCE_Inicializar(Handle,  '', ''));
 
-  Bufflen := 0;
-  AssertEquals(ErrOk, DCE_Versao(Handle,  Nil, Bufflen));
-  AssertEquals(Length(CLibDCeVersao), Bufflen);
+  try
+    Bufflen := 0;
+    AssertEquals(ErrOk, DCE_Versao(Handle, nil, Bufflen));
+    AssertEquals(Length(CLibDCeVersao), Bufflen);
 
-  // Lendo a resposta //
-  AStr := Space(Bufflen);
-  AssertEquals(ErrOk, DCE_Versao(Handle, PChar(AStr), Bufflen));
-  AssertEquals(Length(CLibDCeVersao), Bufflen);
-  AssertEquals(CLibDCeVersao, AStr);
-
-  AssertEquals(ErrOK, DCE_Finalizar(Handle));
+    // Lendo a resposta //
+    AStr := Space(Bufflen);
+    AssertEquals(ErrOk, DCE_Versao(Handle, PChar(AStr), Bufflen));
+    AssertEquals(Length(CLibDCeVersao), Bufflen);
+    AssertEquals(CLibDCeVersao, AStr);
+  finally
+    AssertEquals(ErrOK, DCE_Finalizar(Handle));
+  end;
 end;
 
 procedure TTestACBrDCeLib.Test_DCe_ConfigLerValor;

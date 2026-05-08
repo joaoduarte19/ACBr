@@ -5,7 +5,7 @@
 {                                                                              }
 { Direitos Autorais Reservados (c) 2025 Daniel Simoes de Almeida               }
 {                                                                              }
-{ Colaboradores nesse arquivo: Antonio Carlos Junior                           }
+{ Colaboradores nesse arquivo: Antonio Carlos Junior, Renato Rubinho           }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -43,8 +43,8 @@ uses
 
 type
 
-{ TDACeReportConfig }
-TDACeReportConfig = class(TDFeReportConfig<TACBrDFeReport>)
+  { TDACeReportConfig }
+  TDACeReportConfig = class(TDFeReportConfig<TACBrDFeReport>)
   private
     FMostraPreview: Boolean;
     FMargemInferior: Double;
@@ -67,10 +67,10 @@ TDACeReportConfig = class(TDFeReportConfig<TACBrDFeReport>)
     property MargemSuperior: Double read FMargemSuperior write FMargemSuperior;
     property MargemEsquerda: Double read FMargemEsquerda write FMargemEsquerda;
     property MargemDireita: Double read FMargemDireita write FMargemDireita;
-end;
+  end;
 
-{ TLibDCeConfig }
-TLibDCeConfig = class(TLibConfig)
+  { TLibDCeConfig }
+  TLibDCeConfig = class(TLibConfig)
   private
     FDCeConfig: TConfiguracoesDCe;
     FDACeConfig: TDACeReportConfig;
@@ -99,7 +99,6 @@ uses
   ACBrLibDCeBase, ACBrLibDCeConsts, ACBrLibConsts, ACBrUtil.FilesIO;
 
 { TDACeReportConfig }
-
 procedure TDACeReportConfig.LerIniChild(const AIni: TCustomIniFile);
 begin
   FMostraPreview := AIni.ReadBool(CSessaoDACe, CChaveMostraPreview, FMostraPreview);
@@ -154,7 +153,6 @@ begin
 end;
 
 { TLibDCeConfig }
-
 function TLibDCeConfig.AtualizarArquivoConfiguracao: Boolean;
 var
   Versao: String;
@@ -176,6 +174,8 @@ end;
 procedure TLibDCeConfig.ClasseParaINI;
 begin
   inherited ClasseParaINI;
+
+  Ini.WriteString(CSessaoVersao, CLibDCeNome, CLibDCeVersao);
 
   FDCeConfig.ChaveCryptINI := ChaveCrypt;
   FDCeConfig.GravarIni(Ini);
@@ -199,7 +199,7 @@ end;
 procedure TLibDCeConfig.Destravar;
 begin
   if Assigned(Owner) then
-  TACBrLibDCe(Owner).DCeDM.Destravar;
+    TACBrLibDCe(Owner).DCeDM.Destravar;
 end;
 
 constructor TLibDCeConfig.Create(AOwner: TObject; ANomeArquivo: String;

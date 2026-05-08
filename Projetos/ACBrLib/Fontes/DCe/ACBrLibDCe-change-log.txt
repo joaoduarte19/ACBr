@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+08/05/2026
+--- ACBrLibDCe, ACBrLibDCeDemo ---
+[+] ACBR-1679 - Implementação da ACBrLibDCe
+    Por: Renato Rubinho
+
 08/10/2025
 --- ACBrLibDCe ---
 [+] Inicio do projeto.
