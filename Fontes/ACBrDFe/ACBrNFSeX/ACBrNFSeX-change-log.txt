@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 08/05/2026
+-- IPM.GravarXml --
+[*] Não estava gerando a tag valor_rps que contem o valor de outras retenções, agora ela
+    vai ser gerada se o for informado o valor no campo: Servico.Valores.OutrasRetencoes.
+   Por: Italo Giurizzato Junior
 -- GeisWeb.GravarXml/GeisWeb.Provider --
 [*] Ajustes para contemplar a Reforma Tributária
    Por: Italo Giurizzato Junior
