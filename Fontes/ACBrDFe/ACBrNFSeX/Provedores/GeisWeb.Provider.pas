@@ -824,27 +824,37 @@ end;
 
 function TACBrNFSeXWebserviceGeisWeb.GetNameSpace: string;
 var
-  ambiente: string;
+  ambiente, URL: string;
 begin
+  URL :=  'cidadedofuturo';
+
+  if TACBrNFSeX(FPDFeOwner).Provider.ConfigGeral.Versao = ve100 then
+    URL :=  'gerenciadecidades';
+
   if TACBrNFSeX(FPDFeOwner).Configuracoes.WebServices.AmbienteCodigo = 1 then
     ambiente := 'producao/' + AliasCidade
   else
     ambiente := 'homologacao/modelo';
 
-  Result := 'xmlns:geis="urn:https://www.' + FpURL + '.com.br/' + ambiente +
+  Result := 'xmlns:geis="urn:https://www.' + URL + '.com.br/' + ambiente +
             '/webservice/GeisWebServiceImpl.php"';
 end;
 
 function TACBrNFSeXWebserviceGeisWeb.GetSoapAction: string;
 var
-  ambiente: string;
+  ambiente, URL: string;
 begin
+  URL :=  'cidadedofuturo';
+
+  if TACBrNFSeX(FPDFeOwner).Provider.ConfigGeral.Versao = ve100 then
+    URL :=  'gerenciadecidades';
+
   if TACBrNFSeX(FPDFeOwner).Configuracoes.WebServices.AmbienteCodigo = 1 then
     ambiente := 'producao/' + AliasCidade
   else
     ambiente := 'homologacao/modelo';
 
-  Result := 'urn:https://www.' + FpURL + '.com.br/' + ambiente +
+  Result := 'urn:https://www.' + URL + '.com.br/' + ambiente +
             '/webservice/GeisWebServiceImpl.php#';
 end;
 

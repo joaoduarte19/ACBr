@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 08/05/2026
+-- GeisWeb.GravarXml/GeisWeb.Provider --
+[*] Ajustes para contemplar a Reforma Tributária
+   Por: Italo Giurizzato Junior
 -- ISSNet.Provider --
 [*] ACBr-9208 - Ajuste para a correta leitura do XML de retorno quando este contem o XML da nota.
    Por: Italo Giurizzato Junior

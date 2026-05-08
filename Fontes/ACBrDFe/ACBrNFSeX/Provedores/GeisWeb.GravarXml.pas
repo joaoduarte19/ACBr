@@ -41,7 +41,8 @@ uses
   ACBrXmlBase,
   ACBrXmlDocument,
   ACBrNFSeXGravarXml,
-  ACBrNFSeXConversao;
+  ACBrNFSeXConversao,
+  ACBrNFSeXClass;
 
 type
   { TNFSeW_GeisWeb }
@@ -58,6 +59,10 @@ type
     function GerarEnderecoTomador: TACBrXmlNode;
     function GerarOrgaoGerador: TACBrXmlNode;
     function GerarOutrosImpostos: TACBrXmlNode;
+    function GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode; override;
+    function GerarXMLIBSCBSTribValores(valores: Tvalorestrib): TACBrXmlNode; override;
+    function GerarXMLgIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode; override;
+    function GerarXMLgTribRegular(gTribRegular: TgTribRegular): TACBrXmlNode; override;
   public
     function GerarXml: Boolean; override;
 
@@ -124,8 +129,8 @@ begin
   xmlNode := GerarOutrosImpostos;
   NFSeNode.AppendChild(xmlNode);
 
-  if VersaoNFSe = ve101 then
-  begin
+//  if VersaoNFSe = ve101 then
+//  begin
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'NCM', 1, 10, 0,
                                                    NFSe.Servico.CodigoNCM, ''));
 
@@ -138,9 +143,43 @@ begin
       xmlNode := GerarXmlIBSCBS(NFSe.IBSCBS);
       NFSeNode.AppendChild(xmlNode);
     end;
-  end;
+//  end;
 
   Result := True;
+end;
+
+function TNFSeW_GeisWeb.GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode;
+begin
+  Result := CreateElement(TagIBSCBS);
+
+  Result.AppendChild(GerarXMLIBSCBSTribValores(IBSCBS.valores));
+end;
+
+function TNFSeW_GeisWeb.GerarXMLIBSCBSTribValores(
+  valores: Tvalorestrib): TACBrXmlNode;
+begin
+  Result := CreateElement('valores');
+
+  Result.AppendChild(GerarXMLTributos(valores.trib));
+end;
+
+function TNFSeW_GeisWeb.GerarXMLgIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode;
+begin
+  Result := CreateElement('gIBSCBS');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'cClassTrib', 6, 6, 1,
+                                                       gIBSCBS.cClassTrib, ''));
+
+  Result.AppendChild(GerarXMLgTribRegular(gIBSCBS.gTribRegular));
+end;
+
+function TNFSeW_GeisWeb.GerarXMLgTribRegular(
+  gTribRegular: TgTribRegular): TACBrXmlNode;
+begin
+  Result := CreateElement('gTribRegular');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'cClassTribReg', 6, 6, 1,
+                                               gTribRegular.cClassTribReg, ''));
 end;
 
 function TNFSeW_GeisWeb.GerarEnderecoTomador: TACBrXmlNode;
