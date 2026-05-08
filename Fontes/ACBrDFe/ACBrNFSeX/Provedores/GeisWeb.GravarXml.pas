@@ -62,7 +62,7 @@ type
     function GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode; override;
     function GerarXMLIBSCBSTribValores(valores: Tvalorestrib): TACBrXmlNode; override;
     function GerarXMLgIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode; override;
-    function GerarXMLgTribRegular(gTribRegular: TgTribRegular): TACBrXmlNode; override;
+    function GerarXMLgTribRegular(gTribRegular: TgTribRegular): TACBrXmlNode; //override;
   public
     function GerarXml: Boolean; override;
 
