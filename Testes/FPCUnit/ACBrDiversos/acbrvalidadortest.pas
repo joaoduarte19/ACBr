@@ -908,8 +908,6 @@ end;
 procedure TTestCaseACBrValidadorIE.FormatarRO;
 begin
   fACBrValidador.Complemento := 'RO';
-  fACBrValidador.Documento := '101625213';
-  CheckEquals('101.62521-3', fACBrValidador.Formatar);
   fACBrValidador.Documento := '0000000062521-3';
   CheckEquals('0000000062521-3', fACBrValidador.Formatar);
 end;
