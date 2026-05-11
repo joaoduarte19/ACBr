@@ -458,8 +458,11 @@ begin
         WebServices.Enviar.Executar;
         Resposta := ''; //RespostaEnvio;
 
-        WebServices.Retorno.numeroRecibo := WebServices.Enviar.numero;
-        WebServices.Retorno.Executar;
+        if WebServices.Enviar.numero <> '' then
+        begin
+          WebServices.Retorno.numeroRecibo := WebServices.Enviar.numero;
+          WebServices.Retorno.Executar;
+        end;
 
         Resp.Processar(GNReDM.ACBrGNRe1);
 

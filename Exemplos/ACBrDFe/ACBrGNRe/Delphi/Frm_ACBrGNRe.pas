@@ -206,6 +206,9 @@ type
     btnConsultaConfigUF: TButton;
     btnConsultarRecibo: TButton;
     btnImprimirXML: TButton;
+    tsOutros: TTabSheet;
+    btnLerArqINI: TButton;
+    btnGerarArqINI: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnSalvarConfigClick(Sender: TObject);
     procedure sbPathGNREClick(Sender: TObject);
@@ -245,6 +248,8 @@ type
     procedure btnConsultaConfigUFClick(Sender: TObject);
     procedure btnConsultarReciboClick(Sender: TObject);
     procedure btnImprimirXMLClick(Sender: TObject);
+    procedure btnLerArqINIClick(Sender: TObject);
+    procedure btnGerarArqINIClick(Sender: TObject);
   private
     { Private declarations }
     procedure GravarConfiguracao;
@@ -469,6 +474,57 @@ begin
     //  ShowMessage('ERRO: '+Erro)
 
     pgRespostas.ActivePageIndex := 0;
+  end;
+end;
+
+procedure TfrmACBrGNRe.btnLerArqINIClick(Sender: TObject);
+begin
+  OpenDialog1.Title := 'Selecione o Arquivo INI';
+  OpenDialog1.DefaultExt := '*.ini';
+  OpenDialog1.Filter :=
+    'Arquivos INI (*.ini)|*.ini|Todos os Arquivos (*.*)|*.*';
+  OpenDialog1.InitialDir := ACBrGNRe1.Configuracoes.Arquivos.PathSalvar;
+
+  if OpenDialog1.Execute then
+  begin
+    ACBrGNRE1.Guias.Clear;
+    ACBrGNRE1.Guias.LoadFromIni(OpenDialog1.FileName);
+    ACBrGNRE1.Guias.Assinar;
+    ACBrGNRE1.Guias.GravarXML;
+
+    memoLog.Lines.Add('Arquivo gerado em: ' + ACBrGNRE1.Guias[0].NomeArq);
+    MemoDados.Lines.Add('Arquivo gerado em: '+ ACBrGNRE1.Guias.Items[0].NomeArq);
+    MemoResp.Lines.LoadFromFile(ACBrGNRE1.Guias.Items[0].NomeArq);
+    LoadXML(MemoResp.Lines.Text, WBResposta);
+    pgRespostas.ActivePageIndex := 1;
+  end;
+end;
+
+procedure TfrmACBrGNRe.btnGerarArqINIClick(Sender: TObject);
+var
+  SaveDlg: TSaveDialog;
+  ArqINI: TStringList;
+begin
+  ACBrGNRe1.Guias.Clear;
+  AlimentarComponente;
+  ACBrGNRe1.Guias.GerarGNRE;
+
+  ArqINI := TStringList.Create;
+  SaveDlg := TSaveDialog.Create(nil);
+  try
+    ArqINI.Text := ACBrGNRe1.Guias.GerarIni;
+
+    SaveDlg.Title := 'Escolha o local onde salvar o INI';
+    SaveDlg.DefaultExt := '*.INI';
+    SaveDlg.Filter := 'Arquivo INI(*.INI)|*.INI|Arquivo ini(*.ini)|*.ini|Todos os arquivos(*.*)|*.*';
+
+    if SaveDlg.Execute then
+      ArqINI.SaveToFile(SaveDlg.FileName);
+
+    memoLog.Lines.Add('Arquivo Salvo: ' + SaveDlg.FileName);
+  finally
+    SaveDlg.Free;
+    ArqINI.Free;
   end;
 end;
 
