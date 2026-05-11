@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/05/2026
+-- ACBrNFSeXProviderBase.pas --
+[*] Alteração visando sanar o problema "Erro Input is not proper UTF-8, indicate encoding"; (Lazarus, Monitor e Lib)
+   Por: Juliomar Marchetti, Italo Giurizzato Junior e Daniel de Morais
+
 08/05/2026
 -- ACBrNFSeXConfiguracoes.pas --
 [*] Alteração visando sanar o problema com o provedor Fiorilli.

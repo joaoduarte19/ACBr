@@ -1584,10 +1584,10 @@ begin
 
     Result := AWriter.GerarXml;
 
-    aXml := AWriter.ConteudoTxt;
+    aXml := ACBrStr(AWriter.ConteudoTxt);
 
     if aXml = '' then
-      aXml := AWriter.Document.Xml;
+      aXml := ACBrStr(AWriter.Document.Xml);
 
     aAlerts := ACBrStr(AWriter.ListaDeAlertas.Text);
   finally
