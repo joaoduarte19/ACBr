@@ -99,7 +99,6 @@ type
     FTamanhoLogoWidth: Integer;
     FRecuoEndereco: Integer;
     FRecuoEmpresa: Integer;
-    FLogoEmCima: Boolean;
     FRecuoLogo: Integer;
     FImprimeContinuacaoDadosAdicionaisPrimeiraPagina: Boolean;
   public
@@ -138,7 +137,6 @@ type
     property TamanhoLogoWidth: Integer read FTamanhoLogoWidth write FTamanhoLogoWidth default 0;
     property RecuoEndereco: Integer read FRecuoEndereco write FRecuoEndereco default 0;
     property RecuoEmpresa: Integer read FRecuoEmpresa write FRecuoEmpresa default 0;
-    property LogoemCima: Boolean read FLogoEmCima write FLogoEmCima default False;
     property RecuoLogo: Integer read FRecuoLogo write FRecuoLogo default 0;
     property ImprimeContinuacaoDadosAdicionaisPrimeiraPagina: Boolean read FImprimeContinuacaoDadosAdicionaisPrimeiraPagina write FImprimeContinuacaoDadosAdicionaisPrimeiraPagina default False;
   end;
@@ -199,7 +197,6 @@ begin
   FTamanhoLogoWidth     := 0;
   FRecuoEndereco        := 0;
   FRecuoEmpresa         := 0;
-  FLogoEmCima           := False;
   FRecuoLogo            := 0;
   FImprimeContinuacaoDadosAdicionaisPrimeiraPagina := False;
 end;

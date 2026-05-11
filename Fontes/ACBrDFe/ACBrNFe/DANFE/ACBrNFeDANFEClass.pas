@@ -99,6 +99,7 @@ type
     FEtiqueta: Boolean;
     FFormatarNumeroDocumento : Boolean;
     FExibeCampoDuplicata: Boolean;
+    FLogoEmCima: Boolean;
 
     procedure SetTributosPercentual(const AValue: TpcnPercentualTributos);
     procedure SetTributosPercentualPersonalizado(const AValue: Double);
@@ -148,6 +149,7 @@ type
     property Etiqueta: Boolean read FEtiqueta write FEtiqueta default False;
     property FormatarNumeroDocumento: Boolean read FFormatarNumeroDocumento write FFormatarNumeroDocumento default True;
     property ExibeCampoDuplicata: Boolean read FExibeCampoDuplicata write FExibeCampoDuplicata default True;
+    property LogoemCima: Boolean read FLogoEmCima write FLogoEmCima default False;
   end;
 
 
@@ -233,6 +235,7 @@ begin
   FEtiqueta                        := False;
   FFormatarNumeroDocumento         := True;
   FExibeCampoDuplicata             := True;
+  FLogoEmCima                      := False;
 end;
 
 procedure TACBrNFeDANFEClass.SetTributosPercentual(const AValue: TpcnPercentualTributos);

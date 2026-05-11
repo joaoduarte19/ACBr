@@ -295,7 +295,7 @@ type
   end;
 
 
-  type
+type
   TNFeDANFeEventoFPDF = class(TFPDFReport)
   private
     FNFe: TNFe;
@@ -2698,6 +2698,9 @@ begin
     end;
 
 
+    if FDANFEClassOwner.LogoemCima then
+       FLogoAlign := laCenter
+    else
     if FDANFEClassOwner.ExpandeLogoMarca then
       FLogoAlign := laFull
     else
