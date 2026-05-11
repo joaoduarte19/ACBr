@@ -674,7 +674,10 @@ begin
   for i := 0 to fpNFSe.Servico.Valores.DocDeducao.Count -1 do
     LvDedRed := LvDedRed + fpNFSe.Servico.Valores.DocDeducao[i].vDeducaoReducao;
 
-  if fpNFSe.Servico.Valores.DescontoIncondicionado > 0 then
+  if LvDedRed = 0 then
+    LvDedRed := fpNFSe.Servico.Valores.ValorDeducoes;
+
+  if LvDedRed > 0 then
     rllValorTotalDedRed.Caption := 'R$ ' + FormatFloatBr(LvDedRed)
   else
     rllValorTotalDedRed.Caption := '-';

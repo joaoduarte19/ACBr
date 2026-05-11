@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 11/05/2026
+-- ACBrNFSeXDANFSeRLPadraoNacional --
+[*] ACBr-9106 - Ajustes para a impressão correta do valor das deduções ou reduções.
+   Por: Armando Boza
 -- ACBrNFSeXClass/Agili.GravarXml/Agili.LerXml --
 [*] Criado os campos AliqIBS e AliqCBS dentro da lista ItemServico para atender a alteração feita pelo provedor
     quanto a Reforma Tributária.
