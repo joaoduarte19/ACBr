@@ -11,10 +11,8 @@ object frmPrincipal: TfrmPrincipal
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 96
   TextHeight = 13
   object imgLogo: TImage
     Left = 0
@@ -31,6 +29,8 @@ object frmPrincipal: TfrmPrincipal
     Height = 92
     Align = alBottom
     TabOrder = 0
+    ExplicitTop = 436
+    ExplicitWidth = 356
     object Image1: TImage
       Left = 172
       Top = 37
@@ -83,6 +83,8 @@ object frmPrincipal: TfrmPrincipal
     ActivePage = TabArquivos
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 356
+    ExplicitHeight = 287
     object TabArquivos: TTabSheet
       Caption = 'Arquivos *Fr3'
       object lstbxFR3: TListBox
@@ -93,6 +95,8 @@ object frmPrincipal: TfrmPrincipal
         Align = alClient
         ItemHeight = 13
         TabOrder = 0
+        ExplicitWidth = 348
+        ExplicitHeight = 259
       end
     end
     object TabCustomizacao: TTabSheet
@@ -444,6 +448,7 @@ object frmPrincipal: TfrmPrincipal
       'NFCe (ACBrNFeDANFCEFR)')
     TabOrder = 2
     OnClick = rgModeloClick
+    ExplicitWidth = 356
   end
   object OpenDialog1: TOpenDialog
     Filter = 'xml|*.xml'
@@ -452,7 +457,7 @@ object frmPrincipal: TfrmPrincipal
   end
   object frxReport1: TfrxReport
     Tag = 1
-    Version = '6.3.8'
+    Version = '2026.1.7'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
@@ -485,11 +490,14 @@ object frmPrincipal: TfrmPrincipal
     CasasDecimais.vUnCom = 2
     CasasDecimais.MaskqCom = ',0.00'
     CasasDecimais.MaskvUnCom = ',0.00'
+    CasasDecimais.Aliquota = 2
+    CasasDecimais.MaskAliquota = ',0.00'
     ACBrNFe = ACBrNFe1
     TipoDANFE = tiSemGeracao
     ExibeTotalTributosItem = True
     EspessuraBorda = 1
     BorderIcon = [biSystemMenu, biMinimize, biMaximize]
+    ThreadSafe = False
     Left = 48
     Top = 22
   end
@@ -511,17 +519,19 @@ object frmPrincipal: TfrmPrincipal
     CasasDecimais.vUnCom = 2
     CasasDecimais.MaskqCom = ',0.00'
     CasasDecimais.MaskvUnCom = ',0.00'
+    CasasDecimais.Aliquota = 2
+    CasasDecimais.MaskAliquota = ',0.00'
     BorderIcon = [biSystemMenu, biMinimize, biMaximize]
+    ThreadSafe = False
     Left = 52
     Top = 76
   end
   object ACBrNFe1: TACBrNFe
-    Configuracoes.Geral.SSLLib = libCapicomDelphiSoap
-    Configuracoes.Geral.SSLCryptLib = cryCapicom
-    Configuracoes.Geral.SSLHttpLib = httpIndy
-    Configuracoes.Geral.SSLXmlSignLib = xsMsXmlCapicom
+    Configuracoes.Geral.SSLLib = libNone
+    Configuracoes.Geral.SSLCryptLib = cryNone
+    Configuracoes.Geral.SSLHttpLib = httpNone
+    Configuracoes.Geral.SSLXmlSignLib = xsNone
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
-    Configuracoes.Geral.VersaoQRCode = veqr000
     Configuracoes.Arquivos.OrdenacaoPath = <>
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 0

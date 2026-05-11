@@ -20,6 +20,7 @@ object Form1: TForm1
     Height = 595
     Align = alLeft
     TabOrder = 0
+    ExplicitHeight = 587
     object lblColaborador: TLabel
       Left = 18
       Top = 511
@@ -1360,6 +1361,8 @@ object Form1: TForm1
     Height = 595
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 808
+    ExplicitHeight = 587
     object Panel3: TPanel
       Left = 1
       Top = 1
@@ -1367,6 +1370,7 @@ object Form1: TForm1
       Height = 300
       Align = alTop
       TabOrder = 0
+      ExplicitWidth = 806
       object PageControl3: TPageControl
         Left = 1
         Top = 1
@@ -1375,6 +1379,7 @@ object Form1: TForm1
         ActivePage = tsNFe
         Align = alClient
         TabOrder = 0
+        ExplicitWidth = 804
         object tsNFe: TTabSheet
           Caption = 'NF-e'
           object btnImprimir: TButton
@@ -2146,6 +2151,8 @@ object Form1: TForm1
       ActivePage = TabSheetCupomTef
       Align = alClient
       TabOrder = 1
+      ExplicitWidth = 806
+      ExplicitHeight = 285
       object TabSheet5: TTabSheet
         Caption = 'Respostas'
         object MemoResp: TMemo
@@ -2252,6 +2259,7 @@ object Form1: TForm1
           Align = alLeft
           ScrollBars = ssVertical
           TabOrder = 0
+          ExplicitHeight = 257
         end
         object pMensagem: TPanel
           Left = 428
@@ -2270,6 +2278,8 @@ object Form1: TForm1
           ParentFont = False
           TabOrder = 1
           Visible = False
+          ExplicitLeft = 426
+          ExplicitHeight = 257
           object pMensagemOperador: TPanel
             Left = 4
             Top = 4
@@ -2278,6 +2288,7 @@ object Form1: TForm1
             Align = alClient
             TabOrder = 0
             Visible = False
+            ExplicitHeight = 111
             object lMensagemOperador: TLabel
               Left = 1
               Top = 1
@@ -2290,6 +2301,8 @@ object Form1: TForm1
               ParentColor = False
               Layout = tlCenter
               WordWrap = True
+              ExplicitWidth = 168
+              ExplicitHeight = 19
             end
             object Label48: TLabel
               Left = 0
@@ -2315,6 +2328,7 @@ object Form1: TForm1
             Align = alBottom
             TabOrder = 1
             Visible = False
+            ExplicitTop = 115
             object Label49: TLabel
               Left = 0
               Top = 0
@@ -2342,6 +2356,8 @@ object Form1: TForm1
               ParentColor = False
               Layout = tlCenter
               WordWrap = True
+              ExplicitWidth = 150
+              ExplicitHeight = 19
             end
           end
         end
@@ -2363,6 +2379,8 @@ object Form1: TForm1
       item
         Width = 50
       end>
+    ExplicitTop = 587
+    ExplicitWidth = 1105
   end
   object OpenDialog1: TOpenDialog
     DefaultExt = '*-nfe.XML'

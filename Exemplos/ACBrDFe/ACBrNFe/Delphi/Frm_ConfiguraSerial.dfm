@@ -5,8 +5,8 @@ object frmConfiguraSerial: TfrmConfiguraSerial
   BorderIcons = [biSystemMenu]
   BorderStyle = bsToolWindow
   Caption = 'Porta Serial'
-  ClientHeight = 350
-  ClientWidth = 187
+  ClientHeight = 342
+  ClientWidth = 185
   Color = clBtnFace
   Constraints.MinHeight = 350
   Constraints.MinWidth = 180
@@ -16,12 +16,10 @@ object frmConfiguraSerial: TfrmConfiguraSerial
   Font.Name = 'MS Sans Serif'
   Font.Pitch = fpVariable
   Font.Style = []
-  OldCreateOrder = True
   Position = poOwnerFormCenter
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object Label5: TLabel
     Left = 8
@@ -88,7 +86,6 @@ object frmConfiguraSerial: TfrmConfiguraSerial
     Top = 70
     Width = 161
     Height = 21
-    ItemHeight = 13
     TabOrder = 1
     OnChange = cmbBaudRateChange
     Items.Strings = (
@@ -112,7 +109,6 @@ object frmConfiguraSerial: TfrmConfiguraSerial
     Width = 161
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
     ItemIndex = 3
     TabOrder = 2
     Text = '8'
@@ -129,7 +125,6 @@ object frmConfiguraSerial: TfrmConfiguraSerial
     Width = 161
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
     ItemIndex = 0
     TabOrder = 3
     Text = 'None'
@@ -147,7 +142,6 @@ object frmConfiguraSerial: TfrmConfiguraSerial
     Width = 161
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
     ItemIndex = 0
     TabOrder = 4
     Text = '1'
@@ -163,7 +157,6 @@ object frmConfiguraSerial: TfrmConfiguraSerial
     Width = 161
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
     ItemIndex = 0
     TabOrder = 5
     Text = 'Nenhum'
@@ -180,7 +173,6 @@ object frmConfiguraSerial: TfrmConfiguraSerial
     Width = 161
     Height = 21
     DropDownCount = 10
-    ItemHeight = 13
     ItemIndex = 0
     TabOrder = 0
     Text = 'COM1'
@@ -202,8 +194,9 @@ object frmConfiguraSerial: TfrmConfiguraSerial
     Width = 75
     Height = 25
     Caption = '&OK'
-    TabOrder = 6
     Kind = bkOK
+    NumGlyphs = 2
+    TabOrder = 6
   end
   object BitBtn2: TBitBtn
     Left = 94
@@ -211,8 +204,9 @@ object frmConfiguraSerial: TfrmConfiguraSerial
     Width = 75
     Height = 25
     Caption = 'Cancelar'
-    TabOrder = 7
     Kind = bkCancel
+    NumGlyphs = 2
+    TabOrder = 7
   end
   object chHardFlow: TCheckBox
     Left = 8

@@ -37,12 +37,30 @@ unit ufrmPrincipal;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, ExtCtrls,
-  ACBrUtil, ACBrBase, ACBrDFe, ACBrNFe,
-  ACBrDFeReport, ACBrDFeDANFeReport, ACBrNFeDANFEClass, ACBrNFeDANFEFR, ACBrNFeDANFEFRDM,
-  frxClass
-  ;
+  Windows,
+  Messages,
+  SysUtils,
+  Variants,
+  Classes,
+  Graphics,
+  Controls,
+  Forms,
+  Dialogs,
+  StdCtrls,
+  ComCtrls,
+  ExtCtrls,
+  ACBrUtil,
+  ACBrBase,
+  ACBrDFe,
+  ACBrNFe,
+  ACBrDFeReport,
+  ACBrDFeDANFeReport,
+  ACBrNFeDANFEClass,
+  ACBrNFeDANFEFRDM,
+  frxClass,
+  frxSmartMemo,
+  frCoreClasses,
+  ACBrNFeDANFEFR;
 
 type
   TfrmPrincipal = class(TForm)
@@ -114,7 +132,7 @@ type
   end;
 
 var
-  frmPrincipal: TfrmPrincipal;
+  frmPrincipal      : TfrmPrincipal;
 
 implementation
 
@@ -122,7 +140,8 @@ uses
 {$IFDEF DELPHIXE6_UP}
   System.IOUtils,
 {$ENDIF}
-  pcnConversao, pcnConversaoNFe;
+  pcnConversao,
+  pcnConversaoNFe;
 
 {$R *.dfm}
 
@@ -180,6 +199,7 @@ end;
 
 procedure TfrmPrincipal.btnCarregarEventoClick(Sender: TObject);
 begin
+
   ACBrNFe1.NotasFiscais.Clear;
   ACBrNFe1.EventoNFe.Evento.Clear;
   OpenDialog1.Execute();
@@ -196,17 +216,17 @@ end;
 
 procedure TfrmPrincipal.FormCreate(Sender: TObject);
 
-  procedure AdicionarArquivos(const Diretorio: String; const Extensao: String);
+  procedure AdicionarArquivos(const Diretorio: string; const Extensao: string);
   var
-    {$IFDEF DELPHIXE6_UP}
-    fsFiles: string;
-    fsDirectories: string;
-    {$ELSE}
-    SR: TSearchRec;
-    PathArq: string;
-    {$ENDIF}
+  {$IFDEF DELPHIXE6_UP}
+    fsFiles         : string;
+    fsDirectories   : string;
+  {$ELSE}
+    SR              : TSearchRec;
+    PathArq         : string;
+  {$ENDIF}
   begin
-    {$IFDEF DELPHIXE6_UP}
+{$IFDEF DELPHIXE6_UP}
     for fsFiles in TDirectory.GetFiles(Diretorio) do
       if Pos(Extensao, LowerCase(fsFiles)) > 0 then
         lstbxFR3.AddItem(fsFiles, nil);
@@ -215,23 +235,23 @@ procedure TfrmPrincipal.FormCreate(Sender: TObject);
       if (fsDirectories <> '.') and (fsDirectories <> '..') then
         AdicionarArquivos(fsDirectories, Extensao);
 
-    {$ELSE}
+{$ELSE}
     if FindFirst(Diretorio + '*.*', faDirectory or faArchive, SR) = 0 then
-    try
-      repeat
-        PathArq := Diretorio + SR.Name;
-        if ((SR.Attr and faDirectory) = 0) then
-        begin
-          if (ExtractFileExt(PathArq) = Extensao) then
-            lstbxFR3.AddItem(PathArq, nil);
-        end
-        else if (SR.Name <> '.') and (SR.Name <> '..') then
-          AdicionarArquivos(PathArq + '\', Extensao);
-      until FindNext(SR) <> 0;
-    finally
-      FindClose(SR);
-    end;
-    {$ENDIF}
+      try
+        repeat
+          PathArq := Diretorio + SR.Name;
+          if ((SR.Attr and faDirectory) = 0) then
+          begin
+            if (ExtractFileExt(PathArq) = Extensao) then
+              lstbxFR3.AddItem(PathArq, nil);
+          end
+          else if (SR.Name <> '.') and (SR.Name <> '..') then
+            AdicionarArquivos(PathArq + '\', Extensao);
+        until FindNext(SR) <> 0;
+      finally
+        FindClose(SR);
+      end;
+{$ENDIF}
   end;
 
 begin
@@ -248,7 +268,7 @@ begin
   end;
 
   // --- Configurações para NFe e NFCe ---
-  With ACBrNFe1.DANFE do
+  with ACBrNFe1.DANFE do
   begin
     // Imprime codigo cEan
     ImprimeCodigoEan := ckImprimeCodigoEan.Checked;
@@ -283,7 +303,7 @@ begin
   PageControl1.ActivePage := TabArquivos;
   rgModelo.ItemIndex := 0;
 
-  With ACBrNFeDANFEFR1 do
+  with ACBrNFeDANFEFR1 do
   begin
 
     EditMargemEsquerda.Text := FloatToString(MargemEsquerda);
@@ -309,12 +329,12 @@ begin
 
     ChkQuebraLinhaEmDetalhamentos.Checked := QuebraLinhaEmDetalhamentos;
 
-    cbPosCanhotoLayout.ItemIndex  := Integer(  PosCanhotoLayout );
+    cbPosCanhotoLayout.ItemIndex := Integer(PosCanhotoLayout);
   end;
 
   ckImprimeItens.Checked := ACBrNFeDANFCEFR1.ImprimeItens;
 
-  With frxReport1 do
+  with frxReport1 do
   begin
     ShowProgress := False;
     StoreInDFM := False;
@@ -323,7 +343,7 @@ begin
 end;
 
 procedure TfrmPrincipal.ConfiguraNfe;
-  // --- Configurações específicas para NFe ---
+// --- Configurações específicas para NFe ---
 begin
   // Mostra a posicao do canhoto
   ACBrNFeDANFEFR1.PosCanhoto := TPosRecibo(RbCanhoto.ItemIndex);
@@ -333,7 +353,7 @@ begin
   ACBrNFeDANFEFR1.ExibeDadosDocReferenciados := rbImprimirDadosDocReferenciados.Checked;
   // Mostra Quebra Linha Em Detalhamentos
   ACBrNFeDANFEFR1.QuebraLinhaEmDetalhamentos := ChkQuebraLinhaEmDetalhamentos.Checked;
-    // Mostra Layout do Canhoto
+  // Mostra Layout do Canhoto
   ACBrNFeDANFEFR1.PosCanhotoLayout := TPosReciboLayout(cbPosCanhotoLayout.ItemIndex);
   // informações de pagamentos
   ACBrNFeDANFEFR1.ExibeCampoDePagamento := TpcnInformacoesDePagamento(cbExibeCampoDePagamento.ItemIndex);
@@ -341,7 +361,7 @@ begin
 end;
 
 procedure TfrmPrincipal.ConfiguraNFCe;
-  // --- Configurações específicas para NFCe ---
+// --- Configurações específicas para NFCe ---
 begin
   // Mostra itens na NFCe, caso False emite a NFCe resumida
   ACBrNFeDANFCEFR1.ImprimeItens := ckImprimeItens.Checked;
@@ -360,3 +380,4 @@ begin
 end;
 
 end.
+

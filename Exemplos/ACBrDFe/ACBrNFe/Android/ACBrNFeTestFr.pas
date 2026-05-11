@@ -37,24 +37,58 @@ unit ACBrNFeTestFr;
 interface
 
 uses
-  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
-  System.ImageList, System.Actions, System.Generics.Collections,
-  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.TabControl,
-  FMX.StdCtrls, FMX.Controls.Presentation,
-  FMX.ImgList, FMX.Gestures, FMX.Objects, FMX.ScrollBox,
-  FMX.Memo, FMX.ListBox, FMX.EditBox, FMX.SpinBox, FMX.Edit, FMX.Layouts,
-  FMX.Ani, FMX.Effects, FMX.ActnList,
-  FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
-  FMX.ListView,  FMX.VirtualKeyboard,
+  System.SysUtils,
+  System.Types,
+  System.UITypes,
+  System.Classes,
+  System.Variants,
+  System.ImageList,
+  System.Actions,
+  System.Generics.Collections,
+  FMX.Types,
+  FMX.Controls,
+  FMX.Forms,
+  FMX.Graphics,
+  FMX.TabControl,
+  FMX.StdCtrls,
+  FMX.Controls.Presentation,
+  FMX.ImgList,
+  FMX.Gestures,
+  FMX.Objects,
+  FMX.ScrollBox,
+  FMX.Memo,
+  FMX.ListBox,
+  FMX.EditBox,
+  FMX.SpinBox,
+  FMX.Edit,
+  FMX.Layouts,
+  FMX.Ani,
+  FMX.Effects,
+  FMX.ActnList,
+  FMX.ListView.Types,
+  FMX.ListView.Appearances,
+  FMX.ListView.Adapters.Base,
+  FMX.ListView,
+  FMX.VirtualKeyboard,
   FileSelectFrame,
   ACBrPosPrinterElginE1Service,
-  {$IfDef ANDROID}
-   ACBrPosPrinterElginE1Lib,
-   ACBrPosPrinterGEDI,
-  {$EndIf}
-  ACBrIBGE, ACBrSocket, ACBrCEP,
-  ACBrDFeReport, ACBrDFeDANFeReport, ACBrNFeDANFEClass, ACBrNFeDANFeESCPOS,
-  ACBrPosPrinter, ACBrDFe, ACBrNFe, ACBrBase, ACBrMail, FMX.Memo.Types;
+{$IFDEF ANDROID}
+  ACBrPosPrinterElginE1Lib,
+  ACBrPosPrinterGEDI,
+{$ENDIF}
+  ACBrIBGE,
+  ACBrSocket,
+  ACBrCEP,
+  ACBrDFeReport,
+  ACBrDFeDANFeReport,
+  ACBrNFeDANFEClass,
+  ACBrNFeDANFeESCPOS,
+  ACBrPosPrinter,
+  ACBrDFe,
+  ACBrNFe,
+  ACBrBase,
+  ACBrMail,
+  FMX.Memo.Types;
 
 type
   TACBrNFCeTestOperacao = (opLivre, opErro, opGerando, opAssinando, opGravando, opTransmitindo, opImprimindo, opEmail);
@@ -505,23 +539,40 @@ var
 implementation
 
 uses
-  System.typinfo, System.IniFiles, System.StrUtils, System.Permissions, System.IOUtils,
+  System.typinfo,
+  System.IniFiles,
+  System.StrUtils,
+  System.Permissions,
+  System.IOUtils,
   System.DateUtils,
-  {$IfDef ANDROID}
-  Androidapi.Helpers, Androidapi.JNI.Os, Androidapi.JNI.JavaTypes, Androidapi.IOUtils,
-  Androidapi.JNI.Widget, FMX.Helpers.Android,
-  {$EndIf}
-  FMX.DialogService.Async, FMX.Platform, Xml.XMLDoc, System.Zip, System.Math,
+{$IFDEF ANDROID}
+  Androidapi.Helpers,
+  Androidapi.JNI.Os,
+  Androidapi.JNI.JavaTypes,
+  Androidapi.IOUtils,
+  Androidapi.JNI.Widget,
+  FMX.Helpers.Android,
+{$ENDIF}
+  FMX.DialogService.Async,
+  FMX.Platform,
+  Xml.XMLDoc,
+  System.Zip,
+  System.Math,
   FileSelectFr,
-  ssl_openssl_lib, blcksock, ACBrLibXml2,
-  pcnConversao, pcnConversaoNFe,
-  ACBrConsts, ACBrValidador,
+  ssl_openssl_lib,
+  blcksock,
+  pcnConversao,
+  pcnConversaoNFe,
+  ACBrConsts,
+  ACBrNFE.Classes,
+  ACBrValidador,
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrUtil.FilesIO,
   ACBrUtil.DateTime,
   ACBrUtil.Math,
-  ACBrDFeSSL, ACBrDFeUtil;
+  ACBrDFeSSL,
+  ACBrDFeUtil;
 
 {$R *.fmx}
 

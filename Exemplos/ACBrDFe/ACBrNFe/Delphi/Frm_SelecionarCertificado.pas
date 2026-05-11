@@ -1,4 +1,4 @@
-{******************************************************************************}
+﻿{******************************************************************************}
 { Projeto: Componentes ACBr                                                    }
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
@@ -51,8 +51,6 @@ type
     { public declarations }
   end;
 
-var
-  frmSelecionarCertificado: TfrmSelecionarCertificado;
 
 implementation
 

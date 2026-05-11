@@ -10,10 +10,9 @@ object frmACBrNFe: TfrmACBrNFe
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = True
   Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 96
+  OnDestroy = FormDestroy
   TextHeight = 13
   object pnlMenus: TPanel
     Left = 0
@@ -22,6 +21,7 @@ object frmACBrNFe: TfrmACBrNFe
     Height = 612
     Align = alLeft
     TabOrder = 0
+    ExplicitHeight = 604
     object PageControl1: TPageControl
       Left = 1
       Top = 1
@@ -1633,6 +1633,8 @@ object frmACBrNFe: TfrmACBrNFe
     Height = 612
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 567
+    ExplicitHeight = 604
     object pgcBotoes: TPageControl
       Left = 1
       Top = 41
@@ -1641,6 +1643,7 @@ object frmACBrNFe: TfrmACBrNFe
       ActivePage = tsEnvios
       Align = alTop
       TabOrder = 0
+      ExplicitWidth = 565
       object tsEnvios: TTabSheet
         Caption = 'Envios'
         ImageIndex = 2
@@ -2236,6 +2239,8 @@ object frmACBrNFe: TfrmACBrNFe
       ActivePage = Dados
       Align = alClient
       TabOrder = 1
+      ExplicitWidth = 565
+      ExplicitHeight = 365
       object TabSheet5: TTabSheet
         Caption = 'Respostas'
         object MemoResp: TMemo
@@ -2325,6 +2330,8 @@ object frmACBrNFe: TfrmACBrNFe
           ScrollBars = ssVertical
           TabOrder = 0
           WordWrap = False
+          ExplicitWidth = 557
+          ExplicitHeight = 337
         end
       end
     end
@@ -2349,6 +2356,7 @@ object frmACBrNFe: TfrmACBrNFe
         'N'#227'o')
       ParentFont = False
       TabOrder = 2
+      ExplicitWidth = 565
     end
   end
   object ACBrNFe1: TACBrNFe

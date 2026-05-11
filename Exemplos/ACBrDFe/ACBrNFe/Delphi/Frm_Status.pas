@@ -1,4 +1,4 @@
-{******************************************************************************}
+﻿{******************************************************************************}
 { Projeto: Componentes ACBr                                                    }
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
@@ -33,8 +33,17 @@ unit Frm_Status;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls;
+  Windows,
+  Messages,
+  SysUtils,
+  Variants,
+  Classes,
+  Graphics,
+  Controls,
+  Forms,
+  Dialogs,
+  StdCtrls,
+  ExtCtrls;
 
 type
   TfrmStatus = class(TForm)
@@ -47,11 +56,9 @@ type
     { Public declarations }
   end;
 
-var
-  frmStatus: TfrmStatus;
-
 implementation
 
 {$R *.dfm}
 
 end.
+

@@ -1,21 +1,19 @@
 object Form5: TForm5
   Left = 365
   Top = 160
-  Width = 525
-  Height = 202
   Caption = 'OnObtemCampo'
+  ClientHeight = 163
+  ClientWidth = 509
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -19
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  OldCreateOrder = True
   Position = poOwnerFormCenter
   DesignSize = (
     509
-    164)
-  PixelsPerInch = 96
+    163)
   TextHeight = 24
   object Edit1: TEdit
     Left = 32
@@ -24,6 +22,7 @@ object Form5: TForm5
     Height = 32
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 0
+    ExplicitWidth = 441
   end
   object BitBtn1: TBitBtn
     Left = 84
@@ -32,8 +31,9 @@ object Form5: TForm5
     Height = 35
     Anchors = [akTop]
     Caption = '&OK'
-    TabOrder = 1
     Kind = bkOK
+    NumGlyphs = 2
+    TabOrder = 1
   end
   object BitBtn2: TBitBtn
     Left = 187
@@ -41,8 +41,10 @@ object Form5: TForm5
     Width = 102
     Height = 35
     Anchors = [akTop]
-    TabOrder = 4
     Kind = bkCancel
+    NumGlyphs = 2
+    TabOrder = 4
+    ExplicitLeft = 186
   end
   object BitBtn3: TBitBtn
     Left = 323
@@ -50,8 +52,10 @@ object Form5: TForm5
     Width = 102
     Height = 35
     Anchors = [akTop]
-    TabOrder = 2
     Kind = bkRetry
+    NumGlyphs = 2
+    TabOrder = 2
+    ExplicitLeft = 322
   end
   object Panel1: TPanel
     Left = 0
@@ -61,5 +65,6 @@ object Form5: TForm5
     Align = alTop
     Caption = 'Panel1'
     TabOrder = 3
+    ExplicitWidth = 507
   end
 end

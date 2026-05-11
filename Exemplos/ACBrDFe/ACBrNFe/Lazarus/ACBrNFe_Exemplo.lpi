@@ -99,46 +99,49 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
-    <RequiredPackages Count="13">
+    <RequiredPackages Count="14">
       <Item1>
-        <PackageName Value="SynEditDsgn"/>
+        <PackageName Value="ACBr_NFe_DanfeFPDF"/>
       </Item1>
       <Item2>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="SynEditDsgn"/>
       </Item2>
       <Item3>
-        <PackageName Value="laz_synapse"/>
+        <PackageName Value="SynEdit"/>
       </Item3>
       <Item4>
-        <PackageName Value="PCNComum"/>
+        <PackageName Value="laz_synapse"/>
       </Item4>
       <Item5>
-        <PackageName Value="ACBrTCP"/>
+        <PackageName Value="PCNComum"/>
       </Item5>
       <Item6>
-        <PackageName Value="ACBrSerial"/>
+        <PackageName Value="ACBrTCP"/>
       </Item6>
       <Item7>
-        <PackageName Value="ACBr_NFe_DanfeESCPOS"/>
+        <PackageName Value="ACBrSerial"/>
       </Item7>
       <Item8>
-        <PackageName Value="ACBrDFeComum"/>
+        <PackageName Value="ACBr_NFe_DanfeESCPOS"/>
       </Item8>
       <Item9>
-        <PackageName Value="ACBr_NFe"/>
+        <PackageName Value="ACBrDFeComum"/>
       </Item9>
       <Item10>
-        <PackageName Value="ACBrComum"/>
+        <PackageName Value="ACBr_NFe"/>
       </Item10>
       <Item11>
-        <PackageName Value="ACBr_Integrador"/>
+        <PackageName Value="ACBrComum"/>
       </Item11>
       <Item12>
-        <PackageName Value="ACBr_NFe_DanfeRL"/>
+        <PackageName Value="ACBr_Integrador"/>
       </Item12>
       <Item13>
-        <PackageName Value="LCL"/>
+        <PackageName Value="ACBr_NFe_DanfeRL"/>
       </Item13>
+      <Item14>
+        <PackageName Value="LCL"/>
+      </Item14>
     </RequiredPackages>
     <Units Count="5">
       <Unit0>
@@ -162,12 +165,16 @@
       <Unit3>
         <Filename Value="Frm_ConfiguraSerial.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmConfiguraSerial"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit3>
       <Unit4>
         <Filename Value="Frm_Status.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmStatus"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit4>
     </Units>
   </ProjectOptions>

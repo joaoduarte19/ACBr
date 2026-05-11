@@ -12,9 +12,7 @@ object frmStatus: TfrmStatus
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   Position = poMainFormCenter
-  PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
@@ -54,6 +52,8 @@ object frmStatus: TfrmStatus
       Color = clGray
       ParentColor = False
       Layout = tlCenter
+      ExplicitWidth = 3
+      ExplicitHeight = 13
     end
   end
 end
