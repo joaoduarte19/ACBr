@@ -46,7 +46,8 @@ type
     procedure NumeroComZeros;
     procedure MenorQuatorzeDigitos;
     procedure MaiorQuatorzeDigitos;
-    procedure ComLetras;
+    procedure ComLetrasNoDVFalha;
+    procedure CNPJAlfanumericoPassa;
     procedure Formatar;
   end;
 
@@ -1168,12 +1169,34 @@ begin
   fACBrValidador.Documento := '123456789012345';
   fACBrValidador.AjustarTamanho := False;
   CheckFalse(fACBrValidador.Validar, MsgErroCNPJ);
+  fACBrValidador.Documento := '1234567890123456';
+  fACBrValidador.AjustarTamanho := False;
+  CheckFalse(fACBrValidador.Validar, MsgErroCNPJ);
 end;
 
-procedure TTestCaseACBrValidadorCNPJ.ComLetras;
+procedure TTestCaseACBrValidadorCNPJ.ComLetrasNoDVFalha;
 begin
-  fACBrValidador.Documento := '1234567890ABCD';
+  fACBrValidador.Documento := '123456789012AB';
   CheckFalse(fACBrValidador.Validar, MsgErroCNPJ);
+end;
+
+procedure TTestCaseACBrValidadorCNPJ.CNPJAlfanumericoPassa;
+begin
+  //CNPJs pegos no Simulador: https://servicos.receitafederal.gov.br/servico/cnpj-alfa/simular
+  //Matrix com 2 Filiais
+  fACBrValidador.Documento := '3DG61M35NZ2L02';
+  fACBrValidador.AjustarTamanho := False;
+  CheckTrue(fACBrValidador.Validar, MsgErroCNPJ);
+  fACBrValidador.Documento := '3DG61M35RK8S75';
+  fACBrValidador.AjustarTamanho := False;
+  CheckTrue(fACBrValidador.Validar, MsgErroCNPJ);
+  fACBrValidador.Documento := '3DG61M35000132';
+  fACBrValidador.AjustarTamanho := False;
+  CheckTrue(fACBrValidador.Validar, MsgErroCNPJ);
+  //Outro exemplo Formatado
+  fACBrValidador.Documento := 'MD.XAN.GL9/0001-46';
+  fACBrValidador.AjustarTamanho := False;
+  CheckTrue(fACBrValidador.Validar, MsgErroCNPJ);
 end;
 
 procedure TTestCaseACBrValidadorCNPJ.Formatar;
