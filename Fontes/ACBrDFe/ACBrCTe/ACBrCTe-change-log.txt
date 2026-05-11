@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/05/2026
+-- ACBrCTe.EnvEvento --
+[*] ACBr-9197: Remover os caracteres do UTF8-BOM do XML de evento antes da sua leitura.
+   Por: Italo Giurizzato Junior
+
 22/04/2026
 -- ACBrCTe.XmlReader --
 [-] A tag tpNav não é obrigatório no XML e estava causando problema de conversão.
