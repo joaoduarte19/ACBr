@@ -660,6 +660,34 @@ type
     FCodigoTributacaoNacional: string;
     FValorRecebido: Double;
     FAliqDeducoes: Double;
+    FxCodigoTributacaoMunicipio: string;
+    FIdentifNaoExigibilidade: string;
+    FTipoLancamento: TTipoLancamento;
+    FOperacao: TOperacao;
+    FTributacao: TTributacao;
+    FCFPS: string;
+    FFonteCargaTributaria: string;
+    FPercentualCargaTributaria: Double;
+    FValorCargaTributaria: Double;
+    FPrestadoEmViasPublicas: Boolean;
+    FLocalPrestacao: TLocalPrestacao;
+    FxFormaPagamento: string;
+    FcClassTrib: string;
+    FINDOP: string;
+    FIssRetido: TnfseSituacaoTributaria;
+    FOutrasRetencoes: Double;
+    FDescricaoOutrasRetencoes: string;
+    FOutrosDescontos: Double;
+    FValorRepasse: Double;
+    FAliquotaSN: Double;
+    FValorLiquidoNfse: Double;
+    FIrrfIndenizacao: Double;
+    FRetencoesFederais: Double;
+    FValorIPI: Double;
+    FValorFinalCobrado: Double;
+    FValorInicialCobrado: Double;
+    FAliqIBS: Double;
+    FAliqCBS: Double;
   public
     constructor Create;
     destructor Destroy; override;
@@ -747,6 +775,8 @@ type
 
     // Provedor Agili
     property DadosProfissionalParceiro: TDadosProfissionalParceiro read FDadosProfissionalParceiro write FDadosProfissionalParceiro;
+    property AliqIBS: Double read FAliqIBS write FAliqIBS;
+    property AliqCBS: Double read FAliqCBS write FAliqCBS;
 
     // Provedor SoftPlan
     property idCnae: string read FidCnae write FidCnae;
@@ -774,6 +804,35 @@ type
     property CodigoTributacaoNacional: string read FCodigoTributacaoNacional write FCodigoTributacaoNacional;
     // Provedor PadraoNacionl
     property ValorRecebido: Double read FValorRecebido write FValorRecebido;
+
+    // Campos que se encontram no grupo Servico e Valores de provedores
+    // que utilizam o layout da ABRASF ou próprio.
+    property xCodigoTributacaoMunicipio: string read FxCodigoTributacaoMunicipio write FxCodigoTributacaoMunicipio;
+    property IdentifNaoExigibilidade: string read FIdentifNaoExigibilidade write FIdentifNaoExigibilidade;
+    property TipoLancamento: TTipoLancamento read FTipoLancamento write FTipoLancamento;
+    property Operacao: TOperacao read FOperacao write FOperacao;
+    property Tributacao: TTributacao read FTributacao write FTributacao;
+    property CFPS: string read FCFPS write FCFPS;
+    property ValorCargaTributaria: Double read FValorCargaTributaria write FValorCargaTributaria;
+    property PercentualCargaTributaria: Double read FPercentualCargaTributaria write FPercentualCargaTributaria;
+    property FonteCargaTributaria: string read FFonteCargaTributaria write FFonteCargaTributaria;
+    property PrestadoEmViasPublicas: Boolean read FPrestadoEmViasPublicas write FPrestadoEmViasPublicas;
+    property LocalPrestacao: TLocalPrestacao read FLocalPrestacao write FLocalPrestacao;
+    property xFormaPagamento: string read FxFormaPagamento write FxFormaPagamento;
+    property cClassTrib: string read FcClassTrib write FcClassTrib;
+    property INDOP: string read FINDOP write FINDOP;
+    property IssRetido: TnfseSituacaoTributaria read FIssRetido write FIssRetido;
+    property OutrasRetencoes: Double read FOutrasRetencoes write FOutrasRetencoes;
+    property DescricaoOutrasRetencoes: string read FDescricaoOutrasRetencoes write FDescricaoOutrasRetencoes;
+    property OutrosDescontos: Double read FOutrosDescontos write FOutrosDescontos;
+    property ValorRepasse: Double read FValorRepasse write FValorRepasse;
+    property AliquotaSN: Double read FAliquotaSN write FAliquotaSN;
+    property ValorLiquidoNfse: Double read FValorLiquidoNfse write FValorLiquidoNfse;
+    property IrrfIndenizacao: Double read FIrrfIndenizacao write FIrrfIndenizacao;
+    property RetencoesFederais: Double read FRetencoesFederais write FRetencoesFederais;
+    property ValorIPI: Double read FValorIPI write FValorIPI;
+    property ValorInicialCobrado: Double read FValorInicialCobrado write FValorInicialCobrado;
+    property ValorFinalCobrado: Double read FValorFinalCobrado write FValorFinalCobrado;
   end;
 
   TItemServicoCollection = class(TACBrObjectList)
