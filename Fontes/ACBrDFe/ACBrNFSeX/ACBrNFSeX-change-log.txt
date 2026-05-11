@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 11/05/2026
+-- ACBrNFSeXLerXml --
+[*] ACBr-9361 - Incluído na leitura do arquivo INI o campo CodigoServicoNacional.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXProviderBase.pas --
 [*] Alteração visando sanar o problema "Erro Input is not proper UTF-8, indicate encoding"; (Lazarus, Monitor e Lib)
    Por: Juliomar Marchetti, Italo Giurizzato Junior e Daniel de Morais

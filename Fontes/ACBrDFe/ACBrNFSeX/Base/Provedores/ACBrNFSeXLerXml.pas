@@ -84,6 +84,7 @@ type
     procedure VerificarSeConteudoEhLista(const aDiscriminacao: string);
     procedure LerListaJson(const aDiscriminacao: string);
     procedure LerListaTabulada(const aDiscriminacao: string);
+    procedure AlimentarListaComDadosServicoValores;
 
     procedure LerParamsTabIni(ApenasSeNaoLido: Boolean);
     procedure LerParamsTab;
@@ -384,6 +385,8 @@ begin
       LerListaJson(LDiscriminacao)
     else
       LerListaTabulada(LDiscriminacao);
+
+//    AlimentarListaComDadosServicoValores;
   end;
 end;
 
@@ -526,6 +529,123 @@ begin
         ValorISS := BaseCalculo * Aliquota/100;
     end;
   end;
+end;
+
+procedure TNFSeRClass.AlimentarListaComDadosServicoValores;
+begin
+  // Servico
+  NFSe.Servico.ItemServico[0].CodigoMunicipio := StrToIntDef(NFSe.Servico.CodigoMunicipio, 0);
+  NFSe.Servico.ItemServico[0].CodigoPais := NFSe.Servico.CodigoPais;
+  NFSe.Servico.ItemServico[0].ItemListaServico := NFSe.Servico.ItemListaServico;
+  NFSe.Servico.ItemServico[0].xItemListaServico := NFSe.Servico.xItemListaServico;
+  NFSe.Servico.ItemServico[0].CodigoServicoNacional := NFSe.Servico.CodigoServicoNacional;
+  NFSe.Servico.ItemServico[0].CodigoTributacaoNacional := NFSe.Servico.CodigoTributacaoNacional;
+  NFSe.Servico.ItemServico[0].CodigoTributacaoMunicipio := NFSe.Servico.CodigoTributacaoMunicipio;
+  NFSe.Servico.ItemServico[0].xCodigoTributacaoMunicipio := NFSe.Servico.xCodigoTributacaoMunicipio;
+  NFSe.Servico.ItemServico[0].CodigoNBS := NFSe.Servico.CodigoNBS;
+  NFSe.Servico.ItemServico[0].xNBS := NFSe.infNFSe.xNBS;
+  NFSe.Servico.ItemServico[0].CodigoInterContr := NFSe.Servico.CodigoInterContr;
+  NFSe.Servico.ItemServico[0].CodigoCnae := NFSe.Servico.CodigoCnae;
+  NFSe.Servico.ItemServico[0].ExigibilidadeISS := NFSe.Servico.ExigibilidadeISS;
+  NFSe.Servico.ItemServico[0].IdentifNaoExigibilidade := NFSe.Servico.IdentifNaoExigibilidade;
+  NFSe.Servico.ItemServico[0].MunicipioIncidencia := NFSe.Servico.MunicipioIncidencia;
+  NFSe.Servico.ItemServico[0].xMunicipioIncidencia := NFSe.Servico.xMunicipioIncidencia;
+  NFSe.Servico.ItemServico[0].NumeroProcesso := NFSe.Servico.NumeroProcesso;
+  NFSe.Servico.ItemServico[0].ResponsavelRetencao := NFSe.Servico.ResponsavelRetencao;
+  NFSe.Servico.ItemServico[0].TipoLancamento := NFSe.Servico.TipoLancamento;
+
+  if NFSe.Servico.ValorTotalRecebido > 0 then
+  NFSe.Servico.ItemServico[0].ValorRecebido := NFSe.Servico.ValorTotalRecebido;
+
+  if NFSe.Servico.Valores.ValorRecebido > 0 then
+  NFSe.Servico.ItemServico[0].ValorRecebido := NFSe.Servico.Valores.ValorRecebido;
+
+  NFSe.Servico.ItemServico[0].PercentualCargaTributaria := 0;
+
+  if NFSe.PercentualCargaTributaria > 0 then
+    NFSe.Servico.ItemServico[0].PercentualCargaTributaria := NFSe.PercentualCargaTributaria;
+
+  if NFSe.Servico.PercentualCargaTributaria > 0 then
+    NFSe.Servico.ItemServico[0].PercentualCargaTributaria := NFSe.Servico.PercentualCargaTributaria;
+
+  NFSe.Servico.ItemServico[0].ValorCargaTributaria := 0;
+
+  if NFSe.ValorCargaTributaria > 0 then
+  NFSe.Servico.ItemServico[0].ValorCargaTributaria := NFSe.ValorCargaTributaria;
+
+  if NFSe.Servico.ValorCargaTributaria > 0 then
+  NFSe.Servico.ItemServico[0].ValorCargaTributaria := NFSe.Servico.ValorCargaTributaria;
+
+  NFSe.Servico.ItemServico[0].FonteCargaTributaria := NFSe.Servico.FonteCargaTributaria;
+
+  NFSe.Servico.ItemServico[0].Operacao := NFSe.Servico.Operacao;
+  NFSe.Servico.ItemServico[0].Tributacao := NFSe.Servico.Tributacao;
+  NFSe.Servico.ItemServico[0].CFPS := NFSe.Servico.CFPS;
+
+  NFSe.Servico.ItemServico[0].Endereco.Bairro := NFSe.Servico.Endereco.Bairro;
+  NFSe.Servico.ItemServico[0].Endereco.CEP := NFSe.Servico.Endereco.CEP;
+  NFSe.Servico.ItemServico[0].Endereco.xMunicipio := NFSe.Servico.Endereco.xMunicipio;
+  NFSe.Servico.ItemServico[0].Endereco.Complemento := NFSe.Servico.Endereco.Complemento;
+  NFSe.Servico.ItemServico[0].Endereco.Endereco := NFSe.Servico.Endereco.Endereco;
+  NFSe.Servico.ItemServico[0].Endereco.Numero := NFSe.Servico.Endereco.Numero;
+  NFSe.Servico.ItemServico[0].Endereco.xPais := NFSe.Servico.Endereco.xPais;
+  NFSe.Servico.ItemServico[0].Endereco.UF := NFSe.Servico.Endereco.UF;
+
+  NFSe.Servico.ItemServico[0].ResponsavelRetencao := NFSe.Servico.ResponsavelRetencao;
+  NFSe.Servico.ItemServico[0].LocalPrestacao := NFSe.Servico.LocalPrestacao;
+  NFSe.Servico.ItemServico[0].PrestadoEmViasPublicas := NFSe.Servico.PrestadoEmViasPublicas;
+
+  NFSe.Servico.ItemServico[0].InfAdicional := NFSe.Servico.InfAdicional;
+  NFSe.Servico.ItemServico[0].xFormaPagamento := NFSe.Servico.xFormaPagamento;
+  NFSe.Servico.ItemServico[0].cClassTrib := NFSe.Servico.cClassTrib;
+  NFSe.Servico.ItemServico[0].INDOP := NFSe.Servico.INDOP;
+
+  // Valores
+  NFSe.Servico.ItemServico[0].ValorTotal := NFSe.Servico.Valores.ValorServicos;
+  NFSe.Servico.ItemServico[0].Aliquota := NFSe.Servico.Valores.Aliquota;
+  NFSe.Servico.ItemServico[0].AliquotaSN := NFSe.Servico.Valores.AliquotaSN;
+  NFSe.Servico.ItemServico[0].AliqDeducoes := NFSe.Servico.Valores.AliquotaDeducoes;
+  NFSe.Servico.ItemServico[0].AliqRetPIS := NFSe.Servico.Valores.AliquotaPis;
+  NFSe.Servico.ItemServico[0].AliqRetCOFINS := NFSe.Servico.Valores.AliquotaCofins;
+  NFSe.Servico.ItemServico[0].AliqRetINSS := NFSe.Servico.Valores.AliquotaInss;
+  NFSe.Servico.ItemServico[0].AliqRetIRRF := NFSe.Servico.Valores.AliquotaIr;
+  NFSe.Servico.ItemServico[0].AliqRetCSLL := NFSe.Servico.Valores.AliquotaCsll;
+  NFSe.Servico.ItemServico[0].AliqRetCPP := NFSe.Servico.Valores.AliquotaCpp;
+
+  NFSe.Servico.ItemServico[0].RetidoCSLL := NFSe.Servico.Valores.RetidoCSLL;
+  NFSe.Servico.ItemServico[0].RetidoPIS := NFSe.Servico.Valores.RetidoPIS;
+  NFSe.Servico.ItemServico[0].RetidoCOFINS := NFSe.Servico.Valores.RetidoCOFINS;
+  NFSe.Servico.ItemServico[0].RetidoINSS := NFSe.Servico.Valores.RetidoINSS;
+  NFSe.Servico.ItemServico[0].RetidoIRRF := NFSe.Servico.Valores.RetidoIR;
+  NFSe.Servico.ItemServico[0].RetidoCPP := NFSe.Servico.Valores.RetidoCPP;
+
+  NFSe.Servico.ItemServico[0].ValorRecebido := NFSe.Servico.Valores.ValorRecebido;
+  NFSe.Servico.ItemServico[0].DescontoIncondicionado := NFSe.Servico.Valores.DescontoIncondicionado;
+  NFSe.Servico.ItemServico[0].DescontoCondicionado := NFSe.Servico.Valores.DescontoCondicionado;
+  NFSe.Servico.ItemServico[0].ValorDeducoes := NFSe.Servico.Valores.ValorDeducoes;
+  NFSe.Servico.ItemServico[0].xJustDeducao := NFSe.Servico.Valores.JustificativaDeducao;
+  NFSe.Servico.ItemServico[0].ValorBCPIS := NFSe.Servico.Valores.BaseCalculoPisCofins;
+  NFSe.Servico.ItemServico[0].ValorBCCOFINS := NFSe.Servico.Valores.BaseCalculoPisCofins;
+  NFSe.Servico.ItemServico[0].ValorPis := NFSe.Servico.Valores.ValorPis;
+  NFSe.Servico.ItemServico[0].ValorCofins := NFSe.Servico.Valores.ValorCofins;
+  NFSe.Servico.ItemServico[0].ValorInss := NFSe.Servico.Valores.ValorInss;
+  NFSe.Servico.ItemServico[0].ValorIRRF := NFSe.Servico.Valores.ValorIr;
+  NFSe.Servico.ItemServico[0].ValorCsll := NFSe.Servico.Valores.ValorCsll;
+  NFSe.Servico.ItemServico[0].ISSRetido := NFSe.Servico.Valores.ISSRetido;
+  NFSe.Servico.ItemServico[0].ValorCpp := NFSe.Servico.Valores.ValorCpp;
+  NFSe.Servico.ItemServico[0].OutrasRetencoes := NFSe.Servico.Valores.valorOutrasRetencoes;
+  NFSe.Servico.ItemServico[0].DescricaoOutrasRetencoes := NFSe.Servico.Valores.DescricaoOutrasRetencoes;
+  NFSe.Servico.ItemServico[0].OutrosDescontos := NFSe.Servico.Valores.OutrosDescontos;
+  NFSe.Servico.ItemServico[0].ValorRepasse := NFSe.Servico.Valores.ValorRepasse;
+  NFSe.Servico.ItemServico[0].ValorIssRetido := NFSe.Servico.Valores.ValorIssRetido;
+  NFSe.Servico.ItemServico[0].ValorLiquidoNfse := NFSe.Servico.Valores.ValorLiquidoNfse;
+  NFSe.Servico.ItemServico[0].ValorTributavel := NFSe.Servico.Valores.ValorTotalTributos;
+  NFSe.Servico.ItemServico[0].IrrfIndenizacao := NFSe.Servico.Valores.IrrfIndenizacao;
+  NFSe.Servico.ItemServico[0].RetencoesFederais := NFSe.Servico.Valores.RetencoesFederais;
+  NFSe.Servico.ItemServico[0].ValorIPI := NFSe.Servico.Valores.ValorIPI;
+  NFSe.Servico.ItemServico[0].ValorInicialCobrado := NFSe.Servico.Valores.ValorInicialCobrado;
+  NFSe.Servico.ItemServico[0].ValorFinalCobrado := NFSe.Servico.Valores.ValorFinalCobrado;
+  NFSe.Servico.ItemServico[0].totalAproxTribServ := NFSe.Servico.Valores.totalAproxTrib;
 end;
 
 procedure TNFSeRClass.LerParamsTab;
@@ -999,6 +1119,7 @@ begin
       Servico.ItemListaServico := AINIRec.ReadString(sSecao, 'ItemListaServico', '');
       Servico.xItemListaServico := AINIRec.ReadString(sSecao, 'xItemListaServico', '');
       Servico.CodigoCnae := AINIRec.ReadString(sSecao, 'CodigoCnae', '');
+      Servico.CodigoServicoNacional := AINIRec.ReadString(sSecao, 'CodigoServicoNacional', '');
       Servico.CodigoTributacaoMunicipio := AINIRec.ReadString(sSecao, 'CodigoTributacaoMunicipio', '');
       Servico.xCodigoTributacaoMunicipio := AINIRec.ReadString(sSecao, 'xCodigoTributacaoMunicipio', '');
       Servico.Discriminacao := AINIRec.ReadString(sSecao, 'Discriminacao', '');
