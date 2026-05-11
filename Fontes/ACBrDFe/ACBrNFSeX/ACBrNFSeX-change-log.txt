@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 11/05/2026
+-- eGoverneISS.GravarXml/eGoverneISS.Provider --
+[*] ACBr-9217 - Alterações visando a Reforma Tributária.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXDANFSeRLPadraoNacional --
 [*] ACBr-9106 - Ajustes para a impressão correta do valor das deduções ou reduções.
    Por: Armando Boza

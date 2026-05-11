@@ -245,7 +245,7 @@ begin
   begin
     if Response.ModoEnvio = meLoteAssincrono then
     begin
-      Xml := StringReplace(Xml, 'eis:NotaFiscal', 'eis1:NotaFiscalLoteDTO', [rfReplaceAll]);
+      Xml := StringReplace(Xml, 'eis:NotaFiscal', 'eis1:NotaFiscalLote_RTC_DTO', [rfReplaceAll]);
 
       Response.ArquivoEnvio := '<eis:Notas>' +
                                  '<eis1:ChaveAutenticacao>' +
@@ -260,7 +260,10 @@ begin
                                '</eis:Notas>';
     end
     else
+    begin
+      Xml := StringReplace(Xml, 'eis:NotaFiscal', 'eis:NotaFiscal_RTC', [rfReplaceAll]);
       Response.ArquivoEnvio := Xml;
+    end;
   end;
 end;
 
@@ -290,9 +293,9 @@ begin
       Document.LoadFromXml(Response.ArquivoRetorno);
 
       if Response.ModoEnvio = meLoteAssincrono then
-        AMessageTag := 'EmitirEmLoteResult'
+        AMessageTag := 'RTC_EmitirNFELoteResult'
       else
-        AMessageTag := 'EmitirResult';
+        AMessageTag := 'RTC_EmitirNFEResult ';
 
       ProcessarMensagemErros(Document.Root, Response, '', AMessageTag);
 
@@ -397,11 +400,11 @@ begin
 
       Document.LoadFromXml(Response.ArquivoRetorno);
 
-      ProcessarMensagemErros(Document.Root, Response, '', 'ConsultarLoteResult');
+      ProcessarMensagemErros(Document.Root, Response, '', 'RTC_ConsultarLoteResult');
 
       Response.Sucesso := (Response.Erros.Count = 0);
 
-      ANode := Document.Root.Childrens.FindAnyNs('ConsultarLoteResult');
+      ANode := Document.Root.Childrens.FindAnyNs('RTC_ConsultarLoteResult');
 
       if ANode <> nil then
       begin
@@ -506,11 +509,11 @@ begin
 
       Document.LoadFromXml(Response.ArquivoRetorno);
 
-      ProcessarMensagemErros(Document.Root, Response, '', 'ConsultarResult');
+      ProcessarMensagemErros(Document.Root, Response, '', 'RTC_ConsultarNFEResult ');
 
       Response.Sucesso := (Response.Erros.Count = 0);
 
-      ANode := Document.Root.Childrens.FindAnyNs('ConsultarResult');
+      ANode := Document.Root.Childrens.FindAnyNs('RTC_ConsultarNFEResult ');
 
       if ANode <> nil then
       begin
@@ -643,11 +646,11 @@ var
 begin
   FPMsgOrig := AMSG;
 
-  Request := '<tem:EmitirEmLote>';
+  Request := '<tem:RTC_EmitirNFELote>';
   Request := Request + '<tem:request>' + AMSG + '</tem:request>';
-  Request := Request + '</tem:EmitirEmLote>';
+  Request := Request + '</tem:RTC_EmitirNFELote>';
 
-  Result := Executar('http://tempuri.org/INotaFiscalEletronicaServico/EmitirEmLote', Request,
+  Result := Executar('http://tempuri.org/INotaFiscalEletronicaServico/RTC_EmitirNFELote', Request,
                      [],
                      ['xmlns:tem="http://tempuri.org/"',
                       'xmlns:eis="http://schemas.datacontract.org/2004/07/Eissnfe.Negocio.WebServices.Mensagem"',
@@ -662,11 +665,11 @@ var
 begin
   FPMsgOrig := AMSG;
 
-  Request := '<tem:Emitir>';
+  Request := '<tem:RTC_EmitirNFE>';
   Request := Request + '<tem:request>' + AMSG + '</tem:request>';
-  Request := Request + '</tem:Emitir>';
+  Request := Request + '</tem:RTC_EmitirNFE>';
 
-  Result := Executar('http://tempuri.org/INotaFiscalEletronicaServico/Emitir', Request,
+  Result := Executar('http://tempuri.org/INotaFiscalEletronicaServico/RTC_EmitirNFE', Request,
                      [],
                      ['xmlns:tem="http://tempuri.org/"',
                       'xmlns:eis="http://schemas.datacontract.org/2004/07/Eissnfe.Negocio.WebServices.Mensagem"',
@@ -681,11 +684,11 @@ var
 begin
   FPMsgOrig := AMSG;
 
-  Request := '<tem:ConsultarLote>';
+  Request := '<tem:RTC_ConsultarLote>';
   Request := Request + '<tem:request>' + AMSG + '</tem:request>';
-  Request := Request + '</tem:ConsultarLote>';
+  Request := Request + '</tem:RTC_ConsultarLote>';
 
-  Result := Executar('http://tempuri.org/INotaFiscalEletronicaServico/ConsultarLote', Request,
+  Result := Executar('http://tempuri.org/INotaFiscalEletronicaServico/RTC_ConsultarLote', Request,
                      [],
                      ['xmlns:tem="http://tempuri.org/"',
                       'xmlns:eis="http://schemas.datacontract.org/2004/07/Eissnfe.Negocio.WebServices.Mensagem"',
@@ -700,11 +703,11 @@ var
 begin
   FPMsgOrig := AMSG;
 
-  Request := '<tem:Consultar>';
+  Request := '<tem:RTC_ConsultarNFE>';
   Request := Request + '<tem:request>' + AMSG + '</tem:request>';
-  Request := Request + '</tem:Consultar>';
+  Request := Request + '</tem:RTC_ConsultarNFE>';
 
-  Result := Executar('http://tempuri.org/INotaFiscalEletronicaServico/Consultar', Request,
+  Result := Executar('http://tempuri.org/INotaFiscalEletronicaServico/RTC_ConsultarNFE', Request,
                      [],
                      ['xmlns:tem="http://tempuri.org/"',
                       'xmlns:eis="http://schemas.datacontract.org/2004/07/Eissnfe.Negocio.WebServices.Mensagem"',

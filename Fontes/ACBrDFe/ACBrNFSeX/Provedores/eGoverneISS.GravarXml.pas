@@ -261,6 +261,23 @@ begin
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ValorRepasse', 1, 15, 0,
                                         NFSe.Servico.Valores.ValorRepasse, ''));
 
+  {
+  <eis1:nrExercicioReferencia>?</eis1:nrExercicioReferencia>
+  <eis1:nrMesReferencia>?</eis1:nrMesReferencia>
+  }
+
+  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'ClassTrib', 1, 6, 0,
+                              NFSe.IBSCBS.valores.trib.gIBSCBS.cClassTrib, ''));
+
+  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CodigoNBS', 1, 6, 0,
+                                                   NFSe.Servico.CodigoNBS, ''));
+
+  NFSeNode.AppendChild(AddNode(tcInt, '#1', 'IdLocalIncidencia', 7, 7, 0,
+                                         NFSe.Servico.MunicipioIncidencia, ''));
+
+  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'IndOperacao', 6, 6, 1,
+                                                       NFSe.IBSCBS.cIndOp, ''));
+
   Result := True;
 end;
 
