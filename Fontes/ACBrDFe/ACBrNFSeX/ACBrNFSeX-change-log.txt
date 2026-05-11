@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 11/05/2026
+-- ACBrNFSeXServicos.ini -- 
+[*] ACBr-9217 - Alterado a URL de homologação da cidade de Osasco/SP, o provedor continua o mesmo.
+   Por: Italo Giurizzato Junior
 -- eGoverneISS.GravarXml/eGoverneISS.Provider --
 [*] ACBr-9217 - Alterações visando a Reforma Tributária.
    Por: Italo Giurizzato Junior
