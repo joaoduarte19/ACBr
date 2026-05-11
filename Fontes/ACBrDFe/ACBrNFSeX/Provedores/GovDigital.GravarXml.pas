@@ -106,7 +106,7 @@ begin
   Result.AppendChild(AddNode(tcInt, '#32', 'MunicipioPrestacao', 7, 7, NrOcorrMunPrest,
                                NFSe.Servico.CodigoMunicipioLocalPrestacao, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#41', 'PaisPrestacao', 4, 4, 0,
+  Result.AppendChild(AddNode(tcInt, '#41', 'PaisPrestacao', 4, 4, 0,
                                                   NFSe.Servico.CodigoPais, ''));
 
   Result.AppendChild(AddNode(tcStr, '#32', 'CodigoNBS', 1, 9, 0,
