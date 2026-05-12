@@ -152,6 +152,13 @@ end;
 
 procedure TBoletoWSREST.DefinirCertificado;
 begin
+  if not BoletoWS.UseCertificateHTTP then
+  begin
+    HTTPSend.Sock.SSL.PrivateKey      := '';
+    HTTPSend.Sock.SSL.CertificateFile := '';
+    HTTPSend.Sock.SSL.Certificate     := '';
+    Exit;
+  end;
   BoletoWS.Senha        := Boleto.Configuracoes.WebService.Senha;
   BoletoWS.DadosPFX     := Boleto.Configuracoes.WebService.DadosPFX;     //BLOB PFX
   BoletoWS.ChavePrivada := Boleto.Configuracoes.WebService.ChavePrivada; //BLOB KEY
@@ -346,7 +353,14 @@ begin
     else
       BoletoWS.RetornoBanco.CodRetorno := httpsend.ResultCode;
     try
-      BoletoWS.RetornoBanco.Msg            := Trim('HTTP_Code=' + IntToStr(httpsend.ResultCode) + ' ' + httpsend.ResultString + ' ' + FRetornoWS);
+      BoletoWS.RetornoBanco.Msg            := Trim('HTTP_Code=' +
+                                                    IntToStr(httpsend.ResultCode) + ' ' +
+                                                    httpsend.ResultString + ' ' +
+                                                    FRetornoWS);
+      BoletoWS.RetornoBanco.Msg            := BoletoWS.RetornoBanco.Msg + Trim('LastError=' +
+                                              IntToStr(httpsend.Sock.LastError) + ' ' +
+                                              httpsend.Sock.LastErrorDesc + ' ' +
+                                              FRetornoWS);
       BoletoWS.RetornoBanco.HTTPResultCode := httpsend.ResultCode;
     finally
       httpsend.OutputStream := nil;
