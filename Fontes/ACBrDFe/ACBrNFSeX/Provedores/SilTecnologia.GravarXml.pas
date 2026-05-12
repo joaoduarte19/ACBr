@@ -104,6 +104,9 @@ begin
   inherited Configuracao;
 
   GerarIBSCBSNFSe := True;
+
+  NrOcorrtpAmb := -1;
+  NrOcorrnNFSe := -1;
 end;
 
 function TNFSeW_SilTecnologiaAPIPropria.GerarXml: Boolean;
@@ -112,8 +115,6 @@ var
 begin
   Configuracao;
   LerParamsTabIni(True);
-
-  NrOcorrtpAmb := -1;
 
   ListaDeAlertas.Clear;
 

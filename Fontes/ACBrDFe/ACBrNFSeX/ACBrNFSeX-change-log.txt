@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 12/05/2026
+-- ACBrNFSeXGravarXml/PadraoNacional.GravarXml/SilTecnologia.GravarXml --
+[*] Alteração visando gerar a tag nNFSe com o valor zero e corrigido para 2000 a quantidade
+    máxima de caracteres no campo xOutInf que estava com apenas 15.
+   Por: Italo Giurizzato Junior
 -- Conam.LerXml --
 [*] Correção na leitura do campo OptanteSN do arquivo INI que estava fora do lugar.
    Por: Italo Giurizzato Junior

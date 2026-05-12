@@ -125,6 +125,7 @@ type
 
     FParamsTabW: TStrings;
     FIniParamsTabW: TMemIniFile;
+    FNrOcorrnNFSe: Integer;
 
     function GetOpcoes: TXmlWriterOptions;
     procedure SetOpcoes(AValue: TXmlWriterOptions);
@@ -274,6 +275,7 @@ type
     property NrOcorrfinNFSe: Integer read FNrOcorrfinNFSe write FNrOcorrfinNFSe;
     property NrOcorrindFinal: Integer read FNrOcorrindFinal write FNrOcorrindFinal;
     property NrOcorrcIndOp: Integer read FNrOcorrcIndOp write FNrOcorrcIndOp;
+    property NrOcorrnNFSe: Integer read FNrOcorrnNFSe write FNrOcorrnNFSe;
 
     property TagIBSCBS: string read FTagIBSCBS write FTagIBSCBS;
     property TagCST: string read FTagCST write FTagCST;
@@ -383,6 +385,7 @@ begin
   FNrOcorrcCredPres := 0;
   FNrOcorrCSTReg := 1;
   FNrOcorrtpAmb := 1;
+  FNrOcorrnNFSe := 1;
 
   FTagIBSCBS := 'IBSCBS';
   FTagCST := 'CST';
