@@ -2186,7 +2186,7 @@ var
 begin
   Titulo := 'WebServices Eventos: Cancelar Pagamento Vinculado';
 
-  if not(InputQuery(Titulo, 'Chave da BP-e', Chave)) then
+  if not(InputQuery(Titulo, 'Chave da CT-e', Chave)) then
      exit;
   Chave := Trim(OnlyNumber(Chave));
   idLote := '1';
@@ -2874,15 +2874,27 @@ begin
 
         schprocCTe:
           MemoDados.Lines.Add(IntToStr(i+1) + ' NSU: ' + docZip[i].NSU +
-            ' (CTe Completa) Chave: ' + docZip[i].resDFe.chDFe);
+            ' (CTe Completo) Chave: ' + docZip[i].resDFe.chDFe +
+            ' CNPJ: ' + docZip[i].resDFe.CNPJCPF +
+            ' Nome: ' + docZip[i].resDFe.xNome);
 
         schprocCTeOS:
           MemoDados.Lines.Add(IntToStr(i+1) + ' NSU: ' + docZip[i].NSU +
-            ' (CTeOS Completa) Chave: ' + docZip[i].resDFe.chDFe);
+            ' (CTeOS Completo) Chave: ' + docZip[i].resDFe.chDFe +
+            ' CNPJ: ' + docZip[i].resDFe.CNPJCPF +
+            ' Nome: ' + docZip[i].resDFe.xNome);
+
+        schprocCTeSimp:
+          MemoDados.Lines.Add(IntToStr(i+1) + ' NSU: ' + docZip[i].NSU +
+            ' (CTeSimp Completo) Chave: ' + docZip[i].resDFe.chDFe +
+            ' CNPJ: ' + docZip[i].resDFe.CNPJCPF +
+            ' Nome: ' + docZip[i].resDFe.xNome);
 
         schprocGTVe:
           MemoDados.Lines.Add(IntToStr(i+1) + ' NSU: ' + docZip[i].NSU +
-            ' (GTVe Completa) Chave: ' + docZip[i].resDFe.chDFe);
+            ' (GTVe Completa) Chave: ' + docZip[i].resDFe.chDFe +
+            ' CNPJ: ' + docZip[i].resDFe.CNPJCPF +
+            ' Nome: ' + docZip[i].resDFe.xNome);
 
         schresEvento:
           MemoDados.Lines.Add(IntToStr(i+1) + ' NSU: ' + docZip[i].NSU +
@@ -3632,7 +3644,7 @@ var
 begin
   Titulo := 'WebServices Eventos: Pagamento Vinculado';
   Chave := '';
-  if not(InputQuery(Titulo, 'Chave da BP-e', Chave)) then
+  if not(InputQuery(Titulo, 'Chave da CT-e', Chave)) then
      exit;
   Chave := Trim(OnlyNumber(Chave));
 
