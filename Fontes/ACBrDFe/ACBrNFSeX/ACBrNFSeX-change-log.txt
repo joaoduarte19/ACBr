@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 12/05/2026
+-- PadraoNacional.GravarXml/PadraoNacional.LerXml --
+[*] Alteração visando gerar a tag vLiq com o valor correto.
+   Por: Italo Giurizzato Junior
 -- eGoverneISS.GravarXml --
 [*] ACBr-9217 - Alterações visando gerar a tag CodigoCidadeIBGE do tomador.
    Por: Italo Giurizzato Junior

@@ -1866,12 +1866,23 @@ begin
     NFSe.infNFSe.valores.ValorLiquidoNfse := StringToFloatDef(AINIRec.ReadString(sSecao, 'vLiq', ''), 0);
     NFSe.OutrasInformacoes := AINIRec.ReadString(sSecao, 'xOutInf', '');
 
-    NFSe.Servico.Valores.BaseCalculo := NFSe.infNFSe.valores.BaseCalculo;
-    NFSe.Servico.Valores.Aliquota := NFSe.infNFSe.valores.Aliquota;
-    NFSe.Servico.Valores.ValorIss := NFSe.infNFSe.valores.ValorIss;
-    NFSe.Servico.Valores.ValorIssRetido := NFSe.infNFSe.valores.ValorIss;
-    NFSe.Servico.Valores.RetencoesFederais := NFSe.infNFSe.valores.vTotalRet;
-    NFSe.Servico.Valores.ValorLiquidoNfse := NFSe.infNFSe.valores.ValorLiquidoNfse;
+    if NFSe.Servico.Valores.BaseCalculo = 0 then
+      NFSe.Servico.Valores.BaseCalculo := NFSe.infNFSe.valores.BaseCalculo;
+
+    if NFSe.Servico.Valores.Aliquota = 0 then
+      NFSe.Servico.Valores.Aliquota := NFSe.infNFSe.valores.Aliquota;
+
+    if NFSe.Servico.Valores.ValorIss = 0 then
+      NFSe.Servico.Valores.ValorIss := NFSe.infNFSe.valores.ValorIss;
+
+    if NFSe.Servico.Valores.ValorIssRetido = 0 then
+      NFSe.Servico.Valores.ValorIssRetido := NFSe.infNFSe.valores.ValorIss;
+
+    if NFSe.Servico.Valores.RetencoesFederais = 0 then
+      NFSe.Servico.Valores.RetencoesFederais := NFSe.infNFSe.valores.vTotalRet;
+
+    if NFSe.Servico.Valores.ValorLiquidoNfse = 0 then
+      NFSe.Servico.Valores.ValorLiquidoNfse := NFSe.infNFSe.valores.ValorLiquidoNfse;
   end;
 end;
 

@@ -377,7 +377,7 @@ end;
 
 function TNFSeW_PadraoNacional.GerarXMLValoresNFSe: TACBrXmlNode;
 var
-  LvTotalRet: double;
+  LValor: double;
 begin
   Result := CreateElement('valores');
 
@@ -414,14 +414,18 @@ begin
                                             NFSe.Servico.Valores.ValorIss, ''));
 
   if NFSe.infNFSe.valores.vTotalRet > 0 then
-    LvTotalRet := NFSe.infNFSe.valores.vTotalRet
+    LValor := NFSe.infNFSe.valores.vTotalRet
   else
-    LvTotalRet := NFSe.Servico.Valores.ValorIssRetido;
+    LValor := NFSe.Servico.Valores.ValorIssRetido;
 
-  Result.AppendChild(AddNode(tcDe2, '#1', 'vTotalRet', 1, 15, 0, LvTotalRet, ''));
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vTotalRet', 1, 15, 0, LValor, ''));
 
-  Result.AppendChild(AddNode(tcDe2, '#1', 'vLiq', 1, 15, 1,
-                                    NFSe.Servico.Valores.ValorLiquidoNfse, ''));
+  if NFSe.infNFSe.valores.ValorLiquidoNfse > 0 then
+    LValor := NFSe.infNFSe.valores.ValorLiquidoNfse
+  else
+    LValor := NFSe.Servico.Valores.ValorLiquidoNfse;
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vLiq', 1, 15, 1, LValor, ''));
 
   if VersaoNFSe = ve100 then
     Result.AppendChild(AddNode(tcStr, '#1', 'xOutInf', 1, 2000, 0,
