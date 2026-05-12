@@ -85,7 +85,7 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="qItem" type="TDec_1104Neg">
+              <xs:element name="qItem" type="TDec_1104">
                 <xs:annotation>
                   <xs:documentation>Quantidade averbada do item na unidade tributária (campo uTrib)</xs:documentation>
                 </xs:annotation>
