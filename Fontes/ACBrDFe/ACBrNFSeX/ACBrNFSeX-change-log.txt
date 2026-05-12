@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 12/05/2026
+-- ACBrNFSeXProviderBase --
+[*] ACBr-9327 - Possível solução para a leitura correta dos Link que contem a URL para gerar
+    o QR-Code para acesso ao DANFSE ou verificação se a nota realmente foi emitida.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXGravarXml/PadraoNacional.GravarXml/SilTecnologia.GravarXml --
 [*] Alteração visando gerar a tag nNFSe com o valor zero e corrigido para 2000 a quantidade
     máxima de caracteres no campo xOutInf que estava com apenas 15.

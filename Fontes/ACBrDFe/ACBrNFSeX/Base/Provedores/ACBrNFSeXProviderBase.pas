@@ -989,8 +989,10 @@ begin
     // Verifica se na seção da cidade tem o campo Params
     ConfigGeral.LoadParams(IniParams, Sessao);
     ParamsCarregado := ConfigGeral.Params.AsString <> '';
+    {
     // Carrega as URLs dos Serviços do Padrão Nacional caso constam no Params
     CarregarURLPadraoNacional;
+    }
 
     // Depois verifica as URLs definidas para o provedor
     Sessao := TACBrNFSeX(FAOwner).Configuracoes.Geral.xProvedor;
@@ -1031,6 +1033,9 @@ begin
          (TACBrNFSeX(FAOwner).Configuracoes.Geral.Provedor = proPadraoNacional) then
         ConfigWebServices.LoadLinkUrlHomologacao(IniParams, Sessao);
     end;
+
+    // Carrega as URLs dos Serviços do Padrão Nacional caso constam no Params
+    CarregarURLPadraoNacional;
 
     if ConfigWebServices.Producao.XMLNameSpace = '' then
       ConfigWebServices.LoadXMLNameSpaceProducao(IniParams, Sessao);
