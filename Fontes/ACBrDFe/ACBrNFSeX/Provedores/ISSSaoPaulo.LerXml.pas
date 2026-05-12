@@ -351,7 +351,8 @@ begin
   LValor := ObterConteudo(ANode.Childrens.FindAnyNs('ISSRetido'), tcStr);
 
   NFSe.Servico.Valores.ValorServicos := ObterConteudo(ANode.Childrens.FindAnyNs('ValorServicos'), tcDe2);
-  NFSe.Servico.Valores.BaseCalculo := ObterConteudo(ANode.Childrens.FindAnyNs('ValorServicos'), tcDe2);
+  NFSe.Servico.Valores.ValorDeducoes := ObterConteudo(ANode.Childrens.FindAnyNs('ValorDeducoes'), tcDe2);
+//  NFSe.Servico.Valores.BaseCalculo := ObterConteudo(ANode.Childrens.FindAnyNs('ValorServicos'), tcDe2);
   NFSe.Servico.Valores.Aliquota := ObterConteudo(ANode.Childrens.FindAnyNs('AliquotaServicos'), tcDe2);
   NFSe.Servico.Valores.Aliquota := (NFSe.Servico.Valores.Aliquota * 100);
   NFSe.Servico.Valores.ValorIss := ObterConteudo(ANode.Childrens.FindAnyNs('ValorISS'), tcDe2);
@@ -383,10 +384,16 @@ begin
                           NFSe.Servico.Valores.DescontoCondicionado -
                           NFSe.Servico.Valores.DescontoIncondicionado;
 
-
   NFSe.ValoresNfse.ValorLiquidoNfse := NFSe.Servico.Valores.ValorLiquidoNfse;
-  NFSe.ValoresNfse.BaseCalculo := NFSe.Servico.Valores.BaseCalculo;
+
+  NFSe.ValoresNfse.BaseCalculo := NFSe.Servico.Valores.ValorServicos -
+                                  NFSe.Servico.Valores.ValorDeducoes -
+                                  NFSe.Servico.Valores.DescontoIncondicionado;
+
+  NFSe.Servico.Valores.BaseCalculo := NFSe.ValoresNfse.BaseCalculo;
+
   NFSe.ValoresNfse.Aliquota := NFSe.Servico.Valores.Aliquota;
+
   NFSe.ValoresNfse.ValorIss := NFSe.Servico.Valores.ValorIss;
 //    NFSe.ValoresNfse.Aliquota := (NFSe.ValoresNfse.Aliquota * 100);
 

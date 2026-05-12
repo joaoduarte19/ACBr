@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+12/05/2026
+-- ISSSaoPaulo.LerXml --
+[*] ACBr-9274 - Ajuste para ler a tag ValorDeducoes e calculo da Base de Calculo.
+   Por: Italo Giurizzato Junior
+
 11/05/2026
 -- ACBrNFSeXServicos.ini -- 
 [*] ACBr-9217 - Alterado a URL de homologação da cidade de Osasco/SP, o provedor continua o mesmo.
