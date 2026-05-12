@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 12/05/2026
+-- eGoverneISS.GravarXml --
+[*] ACBr-9217 - Alterações visando gerar a tag CodigoCidadeIBGE do tomador.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXProviderBase --
 [*] ACBr-9327 - Possível solução para a leitura correta dos Link que contem a URL para gerar
     o QR-Code para acesso ao DANFSE ou verificação se a nota realmente foi emitida.

@@ -160,7 +160,7 @@ begin
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CidadePrestacaoServico', 1, 36, 1,
       NFSe.Servico.Endereco.xMunicipio, ''));
 
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CodigoCidadeIBGEPrestacaoServico', 1, 36, 1,
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CodigoCidadeIBGEPrestacaoServico', 7, 7, 1,
       NFSe.Servico.Endereco.CodigoMunicipio, ''));
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'EnderecoPrestacaoServico', 1, 36, 1,
@@ -194,7 +194,7 @@ begin
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CidadePrestacaoServico', 1, 36, 1,
       NFSe.Tomador.Endereco.xMunicipio, ''));
 
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CodigoCidadeIBGEPrestacaoServico', 1, 36, 1,
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CodigoCidadeIBGEPrestacaoServico', 7, 7, 1,
       NFSe.Tomador.Endereco.CodigoMunicipio, ''));
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'EnderecoPrestacaoServico', 1, 36, 1,
@@ -293,6 +293,9 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#1', 'Cidade', 1, 50, 1,
                                          NFSe.Tomador.Endereco.xMunicipio, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'CodigoCidadeIBGE', 7, 7, 1,
+                                    NFSe.Tomador.Endereco.CodigoMunicipio, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'Complemento', 1, 30, 0,
                                         NFSe.Tomador.Endereco.Complemento, ''));
