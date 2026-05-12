@@ -89,7 +89,7 @@ procedure TACBrANeProviderProprio.PrepararEnviar(Response: TANeEnviarResponse);
 begin
   // Deve ser implementado para cada provedor que tem o seu próprio layout
   TACBrANe(FAOwner).SetStatus(stANeIdle);
-  raise EACBrDFeException.Create(ERR_NAO_IMP);
+  raise EACBrDFeException.Create(Format(ERR_NAO_IMP, ['Enviar']));
 end;
 
 procedure TACBrANeProviderProprio.GerarMsgDadosEnviar(
@@ -107,7 +107,7 @@ procedure TACBrANeProviderProprio.PrepararConsultar(Response: TANeConsultarRespo
 begin
   // Deve ser implementado para cada provedor que tem o seu próprio layout
   TACBrANe(FAOwner).SetStatus(stANeIdle);
-  raise EACBrDFeException.Create(ERR_NAO_IMP);
+  raise EACBrDFeException.Create(Format(ERR_NAO_IMP, ['Consultar']));
 end;
 
 procedure TACBrANeProviderProprio.GerarMsgDadosConsultar(

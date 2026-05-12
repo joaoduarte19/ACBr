@@ -748,13 +748,13 @@ end;
 function TACBrANeWebservice.Enviar(const ACabecalho, AMSG: string): string;
 begin
   Result := '';
-  raise EACBrDFeException.Create(ERR_NAO_IMP);
+  raise EACBrDFeException.Create(Format(ERR_NAO_IMP, ['Enviar']));
 end;
 
 function TACBrANeWebservice.Consultar(const ACabecalho, AMSG: string): string;
 begin
   Result := '';
-  raise EACBrDFeException.Create(ERR_NAO_IMP);
+  raise EACBrDFeException.Create(Format(ERR_NAO_IMP, ['Consultar']));
 end;
 
 function TACBrANeWebservice.RetornaHTMLNota(const Retorno: string): string;
