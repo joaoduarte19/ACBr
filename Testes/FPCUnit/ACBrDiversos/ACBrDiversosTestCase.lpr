@@ -1,15 +1,20 @@
 program ACBrDiversosTestCase;
 
-{$mode objfpc}{$H+}
+//mantenha a verificação abaixo como primeira linha.
+{$IFDEF NOGUI}
+{$APPTYPE CONSOLE}
+{$ENDIF}
+
+{$I ACBr.inc}
 
 uses
-  Interfaces, Forms, GuiTestRunner, ACBrValidadorTest, ACBrTests.Util;
+  ACBrTests.Util,
+  ACBrTests.Runner,
+  ACBrValidadorTest;
 
 {$R *.res}
 
 begin
-  Application.Initialize;
-  Application.CreateForm(TGuiTestRunner, TestRunner);
-  Application.Run;
+  ACBrRunTests();
 end.
 

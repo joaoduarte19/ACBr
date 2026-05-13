@@ -3,7 +3,7 @@
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
 {                                                                              }
-{ Direitos Autorais Reservados (c) 2022 Daniel Simoes de Almeida               }
+{ Direitos Autorais Reservados (c) 2026 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo: Elton Barbosa                                   }
 {                                                                              }
@@ -61,161 +61,26 @@ unit ACBrTests.Runner;
 interface
 
 uses
-{$IFDEF TESTINSIGHT}
-  TestInsight.Client,
-  {$IFDEF DUNITX}
-  TestInsight.DUnitX,
+  {$IFDEF FPC}
+  ACBrTests.RunnerLaz;
   {$ELSE}
-  TestInsight.DUnit,
+  ACBrTests.RunnerDelphi;
   {$ENDIF}
-{$ENDIF }
-
-{$IFNDEF NOGUI}
-  {$IFDEF FMX}
-  FMX.Forms,
-  {$ELSE}
-    {$IFDEF USE_NAMESPACES}
-  Vcl.Forms,
-    {$ELSE}
-  Forms,
-    {$ENDIF }
-  {$ENDIF }
-{$ENDIF }
-
-{$IFDEF DUNITX}
-  DUnitX.Loggers.Console,
-  DUnitX.Loggers.Xml.NUnit,
-  {$IFNDEF NOGUI}
-    {$IFDEF FMX}
-  DUnitX.Loggers.GUIX,
-    {$ELSE}
-  DUnitX.Loggers.GUI.VCL,
-    {$ENDIF}
-  {$ENDIF }
-  DUnitX.TestFramework,
-  DUnitX.DUnitCompatibility,
-{$ELSE}
-  TestFramework,
-  GUITestRunner,
-  TextTestRunner,
-{$ENDIF}
-  SysUtils;
 
   {Use para chamar a aplicação que executa os métodos de testes}
   procedure ACBrRunTests();
-
+type
+  {$IFDEF FPC}
+  TACBrRunner = ACBrTests.RunnerLaz.TACBrRunnerLaz;
+  {$ELSE}
+  TACBrRunner = ACBrTests.RunnerDelphi.TACBrRunnerDelphi;
+  {$ENDIF}
 
 implementation
 
-{$IFDEF TESTINSIGHT}
-  function IsTestInsightRunning: Boolean;
-  var
-    TestInsightClient: ITestInsightClient;
-  begin
-    TestInsightClient := TTestInsightRestClient.Create;
-    TestInsightClient.StartedTesting(0);
-    Result := not TestInsightClient.HasError;
-  end;
-{$ELSE}
-  {$IFDEF NOGUI}
-  procedure PausaSeNaoTiverCI;
-  begin
-    {$IFNDEF CI}
-    //We don't want this happening when running under CI.
-    System.Write('Pronto.. pressione <Enter> para sair.');
-    System.Readln;
-    {$ENDIF}
-  end;
-
-    {$IFDEF DUNITX}
-    procedure ConsoleDUnitX;
-    var
-      runner: ITestRunner;
-      results: IRunResults;
-      logger: ITestLogger;
-      nunitLogger : ITestLogger;
-    begin
-      try
-        //Check command line options, will exit if invalid
-        TDUnitX.CheckCommandLine;
-        //Create the test runner
-        runner := TDUnitX.CreateRunner;
-        //Tell the runner to use RTTI to find Fixtures
-        runner.UseRTTI := True;
-        //When true, Assertions must be made during tests;
-        runner.FailsOnNoAsserts := False;
-
-        //tell the runner how we will log things
-        //Log to the console window if desired
-        if TDUnitX.Options.ConsoleMode <> TDunitXConsoleMode.Off then
-        begin
-          logger := TDUnitXConsoleLogger.Create(TDUnitX.Options.ConsoleMode = TDunitXConsoleMode.Quiet);
-          runner.AddLogger(logger);
-        end;
-        //Generate an NUnit compatible XML File
-        nunitLogger := TDUnitXXMLNUnitFileLogger.Create(TDUnitX.Options.XMLOutputFile);
-        runner.AddLogger(nunitLogger);
-
-        //Run tests
-        results := runner.Execute;
-        if not results.AllPassed then
-          System.ExitCode := EXIT_ERRORS;
-
-        PausaSeNaoTiverCI;
-      except
-        on E: Exception do
-          System.Writeln(E.ClassName, ': ', E.Message);
-      end;
-    end;
-    {$ELSE}
-    procedure ConsoleDUnit;
-    begin
-      with TextTestRunner.RunRegisteredTests do
-        Free;
-      PausaSeNaoTiverCI
-    end;
-    {$ENDIF}
-  {$ENDIF}
-{$ENDIF}
-
 procedure ACBrRunTests();
 begin
-{$IFDEF TESTINSIGHT}
-  if IsTestInsightRunning then
-  {$IFDEF DUNITX}
-    TestInsight.DUnitX.RunRegisteredTests;
-  {$ELSE}
-    TestInsight.DUnit.RunRegisteredTests;
-  {$ENDIF}
-    Exit;
-{$ELSE}
-  {$IFDEF DUNITX}
-    {$IFDEF NOGUI}
-      ConsoleDUnitX;
-      Exit;
-    {$ELSE}
-      {$IFDEF FMX}
-//      TDUnitX.CheckCommandLine;
-
-      Application.Initialize;
-      Application.CreateForm(TGUIXTestRunner, GUIXTestRunner);
-      Application.Run;
-      {$ELSE}
-      DUnitX.Loggers.GUI.VCL.Run;
-      {$ENDIF}
-      Exit;
-    {$ENDIF}
-  {$ELSE}
-    {$IFDEF NOGUI}
-      ConsoleDUnit;
-      Exit;
-    {$ELSE}
-      Application.Initialize;
-      GUITestRunner.RunRegisteredTests;
-      Exit;
-    {$ENDIF}
-  {$ENDIF}
-{$ENDIF}
+  TACBrRunner.ACBrRunTests();
 end;
 
 end.
