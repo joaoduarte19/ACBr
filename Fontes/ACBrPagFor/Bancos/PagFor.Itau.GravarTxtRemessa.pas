@@ -103,7 +103,7 @@ begin
   GravarCampo(0, 4, tcInt);
   GravarCampo(0, 1, tcInt);
   GravarCampo(' ', 6, tcStr);
-  GravarCampo('081', 3, tcStr);
+  GravarCampo('080', 3, tcStr);
   GravarCampo(TpInscricaoToStr(PagFor.Registro0.Empresa.Inscricao.Tipo), 1, tcStr);
   GravarCampo(PagFor.Registro0.Empresa.Inscricao.Numero, 14, tcStrZero);
   GravarCampo(' ', 20, tcStr);
@@ -135,25 +135,51 @@ end;
 procedure TArquivoW_Itau.GeraRegistro1(I: Integer);
 var
   Versao: string;
+  Operacao: TTipoOperacao;
+  TipoServico: TTipoServico;
+  FormaLancamento: TFormaLancamento;
+  IsLoteTitulo: Boolean;
+  CodigoBancoTitulo: string;
 begin
   FpLinha := '';
   Inc(FQtdeRegistros);
   Inc(FQtdeLotes);
 
-  if PagFor.Lote.Items[I].Registro1.Servico.Operacao = toExtrato then
-    Inc(FQtdeContasConc);
-
   FQtdeRegistrosLote := 1;
   FSequencialDoRegistroNoLote := 0;
 
-  FpFormaLancamento := PagFor.Lote.Items[I].Registro1.Servico.FormaLancamento;
+  Operacao := PagFor.Lote.Items[I].Registro1.Servico.Operacao;
+  TipoServico := PagFor.Lote.Items[I].Registro1.Servico.TipoServico;
+  FormaLancamento := PagFor.Lote.Items[I].Registro1.Servico.FormaLancamento;
+  IsLoteTitulo := PagFor.Lote.Items[I].SegmentoJ.Count > 0;
+
+  if IsLoteTitulo then
+  begin
+    Operacao := toCredito;
+    TipoServico := tsPagamentoFornecedor;
+
+    if not (FormaLancamento in [flLiquidacaoTitulosProprioBanco, flLiquidacaoTitulosOutrosBancos, flPIXQRCode]) then
+    begin
+      CodigoBancoTitulo := Copy(PagFor.Lote.Items[I].SegmentoJ.Items[0].CodigoBarras, 1, 3);
+
+      if CodigoBancoTitulo = BancoToStr(PagFor.Geral.Banco) then
+        FormaLancamento := flLiquidacaoTitulosProprioBanco
+      else
+        FormaLancamento := flLiquidacaoTitulosOutrosBancos;
+    end;
+  end;
+
+  if Operacao = toExtrato then
+    Inc(FQtdeContasConc);
+
+  FpFormaLancamento := FormaLancamento;
 
   GravarCampo(BancoToStr(PagFor.Geral.Banco), 3, tcStr);
   GravarCampo(FQtdeLotes, 4, tcInt);
   GravarCampo(1, 1, tcInt);
-  GravarCampo(TpOperacaoToStr(PagFor.Lote.Items[I].Registro1.Servico.Operacao), 1, tcStr);
-  GravarCampo(TpServicoToStr(PagFor.Lote.Items[I].Registro1.Servico.TipoServico), 2, tcStr);
-  GravarCampo(FmLancamentoToStr(FpFormaLancamento), 2, tcStr);
+  GravarCampo(TpOperacaoToStr(Operacao), 1, tcStr);
+  GravarCampo(TpServicoToStr(TipoServico), 2, tcStr);
+  GravarCampo(FmLancamentoToStr(FormaLancamento), 2, tcStr);
 
   // Se for parte do Header (Pagamentos através de cheque, OP, DOC, TED e
   //   crédito em conta corrente)
