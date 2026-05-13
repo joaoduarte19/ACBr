@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 13/05/2026
+-- ACBrNFSeX.GravarIni/ACBrNFSeX.LerIni --
+[*] Atualização das Units de escrita e leitura do arquivo INI padronizado.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos.ini -- 
 [*] A cidade de Duartina/SP trocou de provedor, agora é PadraoNacional.
    Por: Italo Giurizzato Junior
