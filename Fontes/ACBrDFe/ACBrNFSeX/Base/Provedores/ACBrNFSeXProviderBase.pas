@@ -952,17 +952,11 @@ var
 
     if (ConfigWebServices.Producao.LinkURL = '') or
        (TACBrNFSeX(FAOwner).Configuracoes.Geral.Provedor = proPadraoNacional) then
-    begin
-      Sessao := 'PadraoNacional';
-      ConfigWebServices.LoadlinkUrlProducao(IniParams, Sessao);
-    end;
+      ConfigWebServices.LoadlinkUrlProducao(IniParams, 'PadraoNacional');
 
     if (ConfigWebServices.Homologacao.LinkURL = '') or
        (TACBrNFSeX(FAOwner).Configuracoes.Geral.Provedor = proPadraoNacional) then
-    begin
-      Sessao := 'PadraoNacional';
-      ConfigWebServices.LoadLinkUrlHomologacao(IniParams, Sessao);
-    end;
+      ConfigWebServices.LoadLinkUrlHomologacao(IniParams, 'PadraoNacional');
   end;
 begin
   IniParams := TMemIniFile.Create('');
@@ -996,6 +990,7 @@ begin
 
     // Depois verifica as URLs definidas para o provedor
     Sessao := TACBrNFSeX(FAOwner).Configuracoes.Geral.xProvedor;
+    ConfigGeral.LoadParams(IniParams, Sessao);
     // Verifica se na seção do provedor tem o Params: APIPropria
     APIPropria := (Pos('APIPropria:', IniParams.ReadString(Sessao, 'Params', '')) > 0);
 
@@ -1054,7 +1049,7 @@ begin
 
     if ConfigWebServices.Homologacao.SoapAction = '' then
       ConfigWebServices.LoadSoapActionHomologacao(IniParams, Sessao);
-
+{
     if not ParamsCarregado then
     begin
       // Verifica se na seção do Provedor tem o campo Params
@@ -1062,7 +1057,7 @@ begin
       // Carrega as URLs dos Serviços do Padrão Nacional caso constam no Params
       CarregarURLPadraoNacional;
     end;
-
+}
     {
       O campo Params só pode constar na seção da cidade ou do provedor.
     }

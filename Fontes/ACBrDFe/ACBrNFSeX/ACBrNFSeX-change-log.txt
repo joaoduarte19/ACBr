@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+13/05/2026
+-- ACBrNFSeXProviderBase --
+[-] Correção para pegar a URL correta do provedor.
+   Por: Italo Giurizzato Junior
+
 12/05/2026
 -- PadraoNacional.GravarXml/PadraoNacional.LerXml --
 [*] Alteração visando gerar a tag vLiq com o valor correto.
