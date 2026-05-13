@@ -363,14 +363,17 @@ end;
 
 procedure TfrmDADCeRLRetrato.rlbDadosDACEBeforePrint(Sender: TObject;
   var PrintIt: Boolean);
+var
+  lChave: string;
 begin
   with fpDCe.InfDCe, fpDCe.Ide do
   begin
-    rllChave.Caption := FormatarChaveAcesso(fpDCe.InfDCe.Id);
+    lChave := Copy(fpDCe.InfDCe.Id, 4, Length(fpDCe.InfDCe.Id));
+    rllChave.Caption := FormatarChaveAcesso(lChave);
     rllChave.AutoSize := True;
 
     rlbCodigoBarras.Visible := True;
-    rlbCodigoBarras.Caption := OnlyNumber(fpDCe.InfDCe.Id);
+    rlbCodigoBarras.Caption := lChave;
 
     rllNumero.Caption := ACBrStr('Nº ') + FormatarNumeroDocumentoFiscal(IntToStr(nDC));
     rllSerie.Caption := ACBrStr('SÉRIE ') + PadLeft(IntToStr(Serie), 3, '0');

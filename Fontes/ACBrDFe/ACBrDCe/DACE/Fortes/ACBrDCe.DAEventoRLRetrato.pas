@@ -239,6 +239,8 @@ end;
 
 procedure TfrmDCeDAEventoRLRetrato.rlb_02_DocumentoBeforePrint(Sender: TObject;
   var PrintIt: boolean);
+var
+  lChave: string;
 begin
   inherited;
 
@@ -247,13 +249,14 @@ begin
   if fpDCe <> nil then
   begin
     PrintIt := True;
+    lChave := Copy(fpDCe.InfDCe.Id, 4, Length(fpDCe.InfDCe.Id));
 
     rllModelo.Caption := IntToStr(fpDCe.ide.modelo);
     rllSerie.Caption := IntToStr(fpDCe.ide.serie);
     rllNumDCe.Caption := FormatFloat('000,000,000', fpDCe.Ide.nDC);
     rllEmissao.Caption := FormatDateTimeBr(fpDCe.Ide.dhEmi);
-    rliBarCode.Caption := OnlyNumber(fpDCe.InfDCe.Id);
-    rllChave.Caption := FormatarChaveAcesso(OnlyNumber(fpDCe.InfDCe.Id));
+    rliBarCode.Caption := lChave;
+    rllChave.Caption := FormatarChaveAcesso(lChave);
   end;
 end;
 

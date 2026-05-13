@@ -24,9 +24,9 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
     BeforePrint = RLDCeBeforePrint
     OnDataRecord = RLDCeDataRecord
     object rlbValorTotal: TRLBand
-      Left = 26
-      Top = 481
-      Width = 742
+      Left = 33
+      Top = 488
+      Width = 926
       Height = 41
       AutoSize = True
       BandType = btSummary
@@ -97,9 +97,9 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
       end
     end
     object rlbCabecalhoItens: TRLBand
-      Left = 26
-      Top = 427
-      Width = 742
+      Left = 33
+      Top = 434
+      Width = 926
       Height = 40
       AutoSize = True
       Background.Arrange = baDistributed
@@ -226,9 +226,9 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
       end
     end
     object rlbIdentificacaoRemDest: TRLBand
-      Left = 26
-      Top = 147
-      Width = 742
+      Left = 33
+      Top = 154
+      Width = 926
       Height = 182
       AutoExpand = False
       BandType = btHeader
@@ -569,9 +569,9 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
       end
     end
     object rlbDadosAdicionais: TRLBand
-      Left = 26
-      Top = 522
-      Width = 742
+      Left = 33
+      Top = 529
+      Width = 926
       Height = 287
       AlignToBottom = True
       AutoExpand = False
@@ -769,9 +769,9 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
       end
     end
     object rlbIdentificacaoFisco: TRLBand
-      Left = 26
-      Top = 329
-      Width = 742
+      Left = 33
+      Top = 336
+      Width = 926
       Height = 68
       BandType = btTitle
       BeforePrint = rlbIdentificacaoFiscoBeforePrint
@@ -874,9 +874,9 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
       end
     end
     object rlbCanceladaDenegada: TRLBand
-      Left = 26
-      Top = 397
-      Width = 742
+      Left = 33
+      Top = 404
+      Width = 926
       Height = 30
       BandType = btColumnHeader
       Visible = False
@@ -898,9 +898,9 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
       end
     end
     object subItens: TRLSubDetail
-      Left = 26
-      Top = 467
-      Width = 742
+      Left = 33
+      Top = 474
+      Width = 926
       Height = 14
       Borders.Sides = sdCustom
       Borders.DrawLeft = False
@@ -911,7 +911,7 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
       object rlbItens: TRLBand
         Left = 0
         Top = 0
-        Width = 742
+        Width = 926
         Height = 12
         Background.Height = 487
         Background.Width = 865
@@ -1050,9 +1050,9 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
       end
     end
     object rlbDadosDACE: TRLBand
-      Left = 26
-      Top = 26
-      Width = 742
+      Left = 33
+      Top = 33
+      Width = 926
       Height = 121
       BandType = btHeader
       Borders.Sides = sdCustom

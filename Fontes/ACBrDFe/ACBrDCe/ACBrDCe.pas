@@ -418,7 +418,7 @@ function TACBrDCe.GerarChaveContingencia(FDCe: TDCe): String;
   const
     PESO = '43298765432987654329876543298765432';
   begin
-    chave := OnlyNumber(chave);
+    chave := Copy(chave, 4, Length(chave));
     j := 0;
     Digito := 0;
     Result := True;

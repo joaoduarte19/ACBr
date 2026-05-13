@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+13/05/2026
+-- Diversos --
+[*] Alterações visando o CNPJ Alfa.
+   Por: Italo Giurizzato Junior
+
 15/04/2026
 -- ACBrDCe.XmlWriter --
 [*] Revertido a alteração, pois conforme consta no Schema o cPais do emitente, tem que ser
