@@ -664,7 +664,7 @@ end;
 
 function TACBrLibNFSe.GerarLote(const aLote: PAnsiChar; aQtdMaximaRps, aModoEnvio: Integer; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
 var
-  Resp: TGerarLoteResposta;
+  Resp:   TGerarLoteResposta;
   Resposta: Ansistring;
   ModoEnvio: TmodoEnvio;
 begin

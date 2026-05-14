@@ -42,6 +42,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+14/05/2026
+---  ACBrLibNFSeBase, ACBrLibNFSeRespostas --
+[-] Corrige retorno de geração de lote quando há erro de validação de Schemas
+[+] Refatora TLibNFSeServiceRespostas aplicando princípio do SOLID, adicionando métodos 'ListarErros','ListarAlertas' e'ListarRespostas'
+[*] Agora, quando houver falha na validação de schemas será propagado para a lib.
+  Por: doszapro
+  
 09/04/2026
 -- ACBrNFSeBase.php, ACBrNFSeMT.h, ACBrNFSeMT.php, ACBrNFSeServicosMT.php, ACBrNFSeServicosST.php, ACBrNFSeST.h, ACBrNFSeST.php --
 [+] ACBR-9244 - Adicionada combo VersaoDF no programa de exemplo em PHP para situações especiais em provedores com mais de uma versão ativa
