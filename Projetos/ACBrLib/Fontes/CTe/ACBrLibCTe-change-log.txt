@@ -42,6 +42,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+14/05/2026
+
+-- ACBrLibCTeConsoleMT, ACBrLibCTeConsoleMTDemo --
+[+] ACBR-9381 Adiciona modo de compilação Windows Console MT
+[*] Destinado a servidores windows sem interface gráfica
+ Por: doszapro
+ 
 20/02/2026
 -- ACBrLibCTe, ACBrLibCTeConfig, ACBrLibCTeConsoleMT, ACBrLibCTeConsoleMTDemo, ACBrLibCTeDataModule, ACBrLibCTeTest, ACBrLibCTeTestCase --
 [+] ACBR-8588: Implementados projetos ConsoleMT e ConsoleMTDemo
