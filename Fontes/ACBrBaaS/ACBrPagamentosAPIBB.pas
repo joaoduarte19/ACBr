@@ -126,7 +126,6 @@ type
     function ScopeToString(aScope: TACBrPagamentosBBScope): String;
     function ScopesToString(aScopes: TACBrPagamentosBBScopes): String;
   protected
-    constructor Create(AOwner: TComponent); override;
     function CalcularURL: String; override;
     function GetPagamentos: TACBrPagamentosAPIClass; override;
 
@@ -159,6 +158,8 @@ var
   Body: String;
 begin
   RegistrarLog('TransferenciaSolicitarLote');
+
+  BB.Scopes := [pscTransferenciasRequisicao];
 
   Body := Trim(LoteTransferenciasSolicitado.AsJSON);
   if EstaVazio(Body) then
@@ -198,6 +199,8 @@ function TACBrPagamentosAPIBBPagamentos.TransferenciaConsultarLote(const aId: St
 begin
   RegistrarLog('TransferenciaConsultarLote(' + aId + ')');
 
+  BB.Scopes := [pscLotesInfo];
+
   BB.PrepararHTTP;
   BB.HTTPSend.Headers.Insert(0, ChttpHeaderAuthorization + cHTTPAuthorizationBearer +' '+ Token);
   BB.URLPathParams.Add(aId);
@@ -229,6 +232,8 @@ end;
 function TACBrPagamentosAPIBBPagamentos.TransferenciaConsultar(const aId: String): Boolean;
 begin
   RegistrarLog('TransferenciaConsultar(' + aId + ')');
+
+  BB.Scopes := [pscPagamentosInfo];
 
   BB.PrepararHTTP;
   BB.HTTPSend.Headers.Insert(0, ChttpHeaderAuthorization + cHTTPAuthorizationBearer +' '+ Token);
@@ -263,6 +268,8 @@ var
   Body: String;
 begin
   RegistrarLog('TransferenciaPixSolicitarLote');
+
+  BB.Scopes := [pscTransferenciasPixRequisicao];
 
   Body := Trim(LoteTransferenciaPixSolicitado.AsJSON);
   if EstaVazio(Body) then
@@ -302,6 +309,8 @@ function TACBrPagamentosAPIBBPagamentos.TransferenciaPixConsultarLote(const aId:
 begin
   RegistrarLog('TransferenciaPixConsultarLote(' + aId + ')');
 
+  BB.Scopes := [pscTransferenciasPixInfo];
+
   BB.PrepararHTTP;
   BB.HTTPSend.Headers.Insert(0, ChttpHeaderAuthorization + cHTTPAuthorizationBearer +' '+ Token);
   BB.URLPathParams.Add(cPagamentoBBPathLotesPix);
@@ -334,6 +343,8 @@ end;
 function TACBrPagamentosAPIBBPagamentos.TransferenciaPixConsultar(const aId: String): Boolean;
 begin
   RegistrarLog('TransferenciaPixConsultar(' + aId + ')');
+
+  BB.Scopes := [pscPixInfo];
 
   BB.PrepararHTTP;
   BB.HTTPSend.Headers.Insert(0, ChttpHeaderAuthorization + cHTTPAuthorizationBearer +' '+ Token);
@@ -368,6 +379,8 @@ var
   Body: String;
 begin 
   RegistrarLog('BoletoSolicitarLotePagamentos');
+
+  BB.Scopes := [pscBoletosRequisicao];
 
   Body := Trim(LoteBoletosSolicitado.AsJSON);
   if EstaVazio(Body) then
@@ -408,6 +421,8 @@ function TACBrPagamentosAPIBBPagamentos.BoletoConsultarPagamentoEspecifico(
 begin
   RegistrarLog('BoletoConsultarPagamentoEspecifico(' + aId + ')');
 
+  BB.Scopes := [pscPagamentosInfo];
+
   BB.PrepararHTTP;
   BB.HTTPSend.Headers.Insert(0, ChttpHeaderAuthorization + cHTTPAuthorizationBearer +' '+ Token);
   BB.URLPathParams.Add(cPagamentoBBPathBoletos);
@@ -441,6 +456,8 @@ var
   Body: String;
 begin
   RegistrarLog('GuiaCodigoBarrasSolicitarLotePagamentos');
+
+  BB.Scopes := [pscGuiasCodigoBarrasRequisicao];
 
   Body := Trim(LoteGuiasCodigoBarrasSolicitado.AsJSON);
   if EstaVazio(Body) then
@@ -480,12 +497,15 @@ function TACBrPagamentosAPIBBPagamentos.GuiaCodigoBarrasConsultarLotePagamentos(
 begin
   RegistrarLog('GuiaCodigoBarrasConsultarLotePagamentos(' + aId + ')');
 
+  BB.Scopes := [pscGuiasCodigoBarrasInfo];
+
   BB.PrepararHTTP;
   BB.HTTPSend.Headers.Insert(0, ChttpHeaderAuthorization + cHTTPAuthorizationBearer +' '+ Token);
   BB.URLPathParams.Add(cPagamentoBBPathLotesGuias);
   BB.URLPathParams.Add(aId);
   BB.URLPathParams.Add(cPagamentoBBPathsolicitacao);
   BB.URLQueryParams.Values['gw-dev-app-key'] := BB.developerApplicationKey;
+
   try
     BB.HTTPMethod(cHTTPMethodGET, BB.CalcularURL);
   except
@@ -511,6 +531,8 @@ end;
 function TACBrPagamentosAPIBBPagamentos.GuiaCodigoBarrasConsultarPagamentoEspecifico(const aId: String): Boolean;
 begin
   RegistrarLog('GuiaCodigoBarrasConsultarPagamentoEspecifico(' + aId + ')');
+
+  BB.Scopes := [pscGuiasCodigoBarrasInfo];
 
   BB.PrepararHTTP;
   BB.HTTPSend.Headers.Insert(0, ChttpHeaderAuthorization + cHTTPAuthorizationBearer +' '+ Token);
@@ -545,6 +567,8 @@ var
   Body: String;
 begin
   RegistrarLog('GRUSolicitarPagamentos');
+
+  BB.Scopes := [pscLotesRequisicao];
 
   Body := Trim(LoteGRUSolicitado.AsJSON);
   if EstaVazio(Body) then
@@ -584,6 +608,8 @@ function TACBrPagamentosAPIBBPagamentos.GRUConsultarLotePagamentos(const aId: St
 begin
   RegistrarLog('GRUConsultarLotePagamentos(' + aId + ')');
 
+  BB.Scopes := [pscGuiasSemCodigoBarrasInfo];
+
   BB.PrepararHTTP;
   BB.HTTPSend.Headers.Insert(0, ChttpHeaderAuthorization + cHTTPAuthorizationBearer +' '+ Token);
   BB.URLPathParams.Add(cPagamentoBBPathLotesGRU);
@@ -616,6 +642,8 @@ end;
 function TACBrPagamentosAPIBBPagamentos.GRUConsultarPagamentoEspecifico(const aId: String): Boolean;
 begin
   RegistrarLog('GRUConsultarPagamentoEspecifico(' + aId + ')');
+
+  BB.Scopes := [pscPagamentosInfo];
 
   BB.PrepararHTTP;
   BB.HTTPSend.Headers.Insert(0, ChttpHeaderAuthorization + cHTTPAuthorizationBearer +' '+ Token);
@@ -650,6 +678,8 @@ var
   Body: String;
 begin
   RegistrarLog('DARFSolicitarPagamentos');
+
+  BB.Scopes := [pscGuiasSemCodigoBarrasRequisicao];
 
   Body := Trim(LoteDARFSolicitado.AsJSON);
   if EstaVazio(Body) then
@@ -689,6 +719,8 @@ function TACBrPagamentosAPIBBPagamentos.DARFConsultarLotePagamentos(const aId: S
 begin
   RegistrarLog('DARFConsultarLotePagamentos(' + aId + ')');
 
+  BB.Scopes := [pscGuiasSemCodigoBarrasInfo];
+
   BB.PrepararHTTP;
   BB.HTTPSend.Headers.Insert(0, ChttpHeaderAuthorization + cHTTPAuthorizationBearer +' '+ Token);
   BB.URLPathParams.Add(cPagamentoBBPathLotesDARFGET);
@@ -721,6 +753,8 @@ end;
 function TACBrPagamentosAPIBBPagamentos.DARFConsultarPagamentoEspecifico(const aId: String): Boolean;
 begin
   RegistrarLog('DARFConsultarPagamentoEspecifico(' + aId + ')');
+
+  BB.Scopes := [pscPagamentosInfo];
 
   BB.PrepararHTTP;
   BB.HTTPSend.Headers.Insert(0, ChttpHeaderAuthorization + cHTTPAuthorizationBearer +' '+ Token);
@@ -755,6 +789,8 @@ var
   Body: String;
 begin
   RegistrarLog('GPSSolicitarPagamentos');
+
+  BB.Scopes := [pscGuiasSemCodigoBarrasRequisicao];
 
   Body := Trim(LoteGPSSolicitado.AsJSON);
   if EstaVazio(Body) then
@@ -794,6 +830,8 @@ function TACBrPagamentosAPIBBPagamentos.GPSConsultarLotePagamentos(const aId: St
 begin
   RegistrarLog('GPSConsultarLotePagamentos(' + aId + ')');
 
+  BB.Scopes := [pscGuiasSemCodigoBarrasInfo];
+
   BB.PrepararHTTP;
   BB.HTTPSend.Headers.Insert(0, ChttpHeaderAuthorization + cHTTPAuthorizationBearer +' '+ Token);
   BB.URLPathParams.Add(cPagamentoBBPathLotesGPS);
@@ -825,6 +863,8 @@ end;
 function TACBrPagamentosAPIBBPagamentos.GPSConsultarPagamentoEspecifico(const aId: String): Boolean;
 begin
   RegistrarLog('GPSConsultarPagamentoEspecifico(' + aId + ')');
+
+  BB.Scopes := [pscPagamentosInfo];
 
   BB.PrepararHTTP;
   BB.HTTPSend.Headers.Insert(0, ChttpHeaderAuthorization + cHTTPAuthorizationBearer +' '+ Token);
@@ -858,6 +898,8 @@ function TACBrPagamentosAPIBBPagamentos.BoletoConsultarLotePagamentos(
   const aId: String): Boolean;
 begin
   RegistrarLog('BoletoConsultarLotePagamentos(' + aId + ')');
+
+  BB.Scopes := [pscBoletosInfo];
 
   BB.PrepararHTTP;
   BB.HTTPSend.Headers.Insert(0, ChttpHeaderAuthorization + cHTTPAuthorizationBearer +' '+ Token);
@@ -923,12 +965,6 @@ begin
   for i := Low(TACBrPagamentosBBScope) to High(TACBrPagamentosBBScope) do
     if i in aScopes then
       Result := Result + IfThen(NaoEstaVazio(Result), ' ') + ScopeToString(i);
-end;
-
-constructor TACBrPagamentosAPIBB.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  fScopes := [pscBoletosRequisicao, pscBoletosInfo];
 end;
 
 function TACBrPagamentosAPIBB.CalcularURL: String;
