@@ -44,7 +44,7 @@ Símbolo : Significado
 
 14/05/2026
 ---  ACBrLibNFSeBase, ACBrLibNFSeRespostas --
-[-] Corrige retorno de geração de lote quando há erro de validação de Schemas
+[-] ACBr-9255 Corrige retorno de geração de lote quando há erro de validação de Schemas
 [+] Refatora TLibNFSeServiceRespostas aplicando princípio do SOLID, adicionando métodos 'ListarErros','ListarAlertas' e'ListarRespostas'
 [*] Agora, quando houver falha na validação de schemas será propagado para a lib.
   Por: doszapro
