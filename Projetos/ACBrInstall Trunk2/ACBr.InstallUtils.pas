@@ -40,7 +40,7 @@ uses SysUtils, Windows, Messages, Classes, Forms;
   function PathSystem: String;
   procedure GetDriveLetters(AList: TStrings);
   function RegistrarActiveXServer(const AServerLocation: string; const ARegister: Boolean): Boolean;
-  procedure DesligarDefineACBrInc(const ArquivoACBrInc: TFileName; const ADefineName: String; const ADesligar: Boolean);
+  procedure DesligarDefineACBrInc(AACBrIncStringListFile: TStringList; const ADefineName: string; const ADesligar: Boolean);
   function FindDirPackage(const aDir: String; const sPacote: String): string;
 
   function VersionNumberToNome(const AVersionStr: string): string;
@@ -158,29 +158,21 @@ begin
   end;
 end;
 
-procedure DesligarDefineACBrInc(const ArquivoACBrInc: TFileName; const ADefineName: String; const ADesligar: Boolean);
+procedure DesligarDefineACBrInc(AACBrIncStringListFile: TStringList; const ADefineName: string; const ADesligar: Boolean);
 var
-  F: TStringList;
   I: Integer;
 begin
-  F := TStringList.Create;
-  try
-    F.LoadFromFile(ArquivoACBrInc);
-    for I := 0 to F.Count - 1 do
+  for I := 0 to AACBrIncStringListFile.Count - 1 do
+  begin
+    if Pos(ADefineName.ToUpper, AACBrIncStringListFile[I].ToUpper) > 0 then
     begin
-      if Pos(ADefineName.ToUpper, F[I].ToUpper) > 0 then
-      begin
-        if ADesligar then
-          F[I] := '{$DEFINE ' + ADefineName + '}'
-        else
-          F[I] := '{.$DEFINE ' + ADefineName + '}';
+      if ADesligar then
+        AACBrIncStringListFile[I] := '{$DEFINE ' + ADefineName + '}'
+      else
+        AACBrIncStringListFile[I] := '{.$DEFINE ' + ADefineName + '}';
 
-        Break;
-      end;
+      Break;
     end;
-    F.SaveToFile(ArquivoACBrInc);
-  finally
-    F.Free;
   end;
 end;
 

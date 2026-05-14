@@ -177,7 +177,7 @@ var
   Output: TStringList;
   Command, LastDate, Rev: string;
 begin
-  Result := '';
+  Result := 'Não foi possível obter informações SVN.';
   try
     Output := TStringList.Create;
     try
@@ -243,11 +243,11 @@ begin
   except
 //    on E: EOSError do
 //    begin
-//      Result := 'Não foi possível obter informações SVN:' + E.Message;
+//      Result := Result + ' Erro:' + E.Message;
 //    end;
     on E: Exception do
     begin
-      Result := 'Não foi possível obter informações SVN. Erro:' + E.Message;
+      Result := Result + ' Erro:' + E.Message;
     end;
   end;
 
@@ -489,6 +489,7 @@ begin
 
     FCountErros := 0;
 
+    InformaSituacao('-- Pré Instalação...');
     // limpar arquivos antigos somente ao iniciar o procedimento de instalação
     if (OpcoesInstall.LimparArquivosACBrAntigos) and (not FJaFezLimpezaArquivoACBrAntigos)  then
     begin
@@ -1383,16 +1384,25 @@ begin
 end;
 
 procedure TACBrCompilerOpcoes.DesligarDefines(const ArquivoACBrInc: TFileName);
+var
+  LTempFile: TStringList;
 begin
-  DesligarDefineACBrInc(ArquivoACBrInc, 'DFE_SEM_OPENSSL', not DeveInstalarOpenSSL);
-  DesligarDefineACBrInc(ArquivoACBrInc, 'DFE_SEM_CAPICOM', not DeveInstalarCapicom);
-  DesligarDefineACBrInc(ArquivoACBrInc, 'DFE_SEM_XMLSEC', not DeveInstalarXMLSec);
-  DesligarDefineACBrInc(ArquivoACBrInc, 'DFE_SEM_MSXML', not DeveInstalarMsXML);
-  DesligarDefineACBrInc(ArquivoACBrInc, 'USE_DELAYED', UsarCargaTardiaDLL);
-  DesligarDefineACBrInc(ArquivoACBrInc, 'REMOVE_CAST_WARN', RemoverStringCastWarnings);
-  DesligarDefineACBrInc(ArquivoACBrInc, 'USE_EXPORT_FR_SVG', UsarExportadorFRSVG);
-  DesligarDefineACBrInc(ArquivoACBrInc, 'USE_EXPORT_FR_PNG', UsarExportadorFRPNG);
-  DesligarDefineACBrInc(ArquivoACBrInc, 'USE_ACBr_XMLDOCUMENT', UsarACBrXmlDocument);
+  LTempFile := TStringList.Create;
+  try
+    LTempFile.LoadFromFile(ArquivoACBrInc);
+    DesligarDefineACBrInc(LTempFile, 'DFE_SEM_OPENSSL', not DeveInstalarOpenSSL);
+    DesligarDefineACBrInc(LTempFile, 'DFE_SEM_CAPICOM', not DeveInstalarCapicom);
+    DesligarDefineACBrInc(LTempFile, 'DFE_SEM_XMLSEC', not DeveInstalarXMLSec);
+    DesligarDefineACBrInc(LTempFile, 'DFE_SEM_MSXML', not DeveInstalarMsXML);
+    DesligarDefineACBrInc(LTempFile, 'USE_DELAYED', UsarCargaTardiaDLL);
+    DesligarDefineACBrInc(LTempFile, 'REMOVE_CAST_WARN', RemoverStringCastWarnings);
+    DesligarDefineACBrInc(LTempFile, 'USE_EXPORT_FR_SVG', UsarExportadorFRSVG);
+    DesligarDefineACBrInc(LTempFile, 'USE_EXPORT_FR_PNG', UsarExportadorFRPNG);
+    DesligarDefineACBrInc(LTempFile, 'USE_ACBr_XMLDOCUMENT', UsarACBrXmlDocument);
+    LTempFile.SaveToFile(ArquivoACBrInc);
+  finally
+    LTempFile.Free
+  end;
 end;
 
 procedure TACBrCompilerOpcoes.RedefinirValoresOpcoesParaPadrao;
