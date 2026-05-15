@@ -1880,7 +1880,7 @@
 					<xs:documentation>Indica se é uma emissão com exigibilidade suspensa.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="PagamentoParceladoAntecipado" type="tipos:tpNaoSim" minOccurs="1" maxOccurs="1">
+			<xs:element name="PagamentoParceladoAntecipado" type="tipos:tpNaoSim" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Indica de nota fiscal de pagamento parcelado antecipado (realizado antes do fornecimento).</xs:documentation>
 				</xs:annotation>
