@@ -96,26 +96,25 @@ type
     procedure LerSegmentoW(mSegmentoWList: TSegmentoWList; I: Integer); override;
 
     procedure LerSegmentoZ(mSegmentoZList: TSegmentoZList; I: Integer); override;
+    }
 
     function GetOcorrencia(aOcorrencia: TOcorrencia): string; override;
-    }
   end;
 
 implementation
 
 { TArquivoR_Sicoob }
 
-{
-Se as ocorrencias seguem o padrão FEBRABAN esse bloco pode ser excluido
-
 function TArquivoR_Sicoob.GetOcorrencia(aOcorrencia: TOcorrencia): string;
 begin
   case aOcorrencia of
-    to00: Result := 'Descrição da ocorrencia que é fora do padrão FEBRABAN';
+    toBF: Result := 'Transação Rejeitada';
+    toBS: Result := 'Transações que estão em análise de segurança';
+    toPB: Result := 'Transação Pendente de Assinatura';
   else
     Result := inherited GetOcorrencia(aOcorrencia);
   end;
 end;
-}
+
 end.
 

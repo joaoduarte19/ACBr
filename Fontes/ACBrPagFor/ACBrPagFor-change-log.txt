@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/05/2026
+-- PagFor.Sicoob.LerTxtRetorno --
+[+] ACBR-9214: Implementado o GetOcorrencia com a inclusão da ocorrência BS e 
+    sua descrição especifica utilizada pelo banco.
+  Por: Italo Giurizzato Junior
+
 03/12/2025
 -- ACBrPagForConversao.pas --
 [+] Adicionado codigo do banco Money Plus
