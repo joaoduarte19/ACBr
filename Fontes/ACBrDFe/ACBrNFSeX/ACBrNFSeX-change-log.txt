@@ -44,6 +44,11 @@ Símbolo : Significado
 
 
 15/05/2026
+-- ACBrNFSeXServicos.ini -- 
+[*] ACBr-9292 - Alteração na URL da cidade de Ubajara/CE que passa a usar a API Rest
+    do provedor SpeedGov que adotou o layout do Padrão Nacional.
+[*] A cidade de Alto Paraiso/PR na verdade usa o provedor Pronim e não Padrão Nacional.
+   Por: Italo Giurizzato Junior
 -- ISSSaoPaulo.GravarXml/ISSSaoPaulo.LerXml --
 [*] Alteração visando gerar a tag RetencaoPisCofins para indicar o tipo de 
     retenção do Pis/Cofins.
