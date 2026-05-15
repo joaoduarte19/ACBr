@@ -342,6 +342,9 @@ begin
   LNFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ValorTotalRecebido', 1, 15, 0,
                                           NFSe.Servico.ValorTotalRecebido, ''));
 
+  LNFSeNode.AppendChild(AddNode(tcStr, '#1', 'RetencaoPisCofins', 1, 1, 0,
+         tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins), ''));
+
   if VersaoNFSe = ve200 then
   begin
     if (NFSe.Servico.Valores.ValorInicialCobrado > 0) and (NFSe.Servico.Valores.ValorFinalCobrado = 0) then
@@ -369,7 +372,7 @@ begin
       LNFSeNode.AppendChild(AddNode(tcStr, '#1', 'ExigibilidadeSuspensa', 1, 1, 1,
                                                                       '0', ''));
 
-    LNFSeNode.AppendChild(AddNode(tcStr, '#1', 'PagamentoParceladoAntecipado', 1, 1, 1,
+    LNFSeNode.AppendChild(AddNode(tcStr, '#1', 'PagamentoParceladoAntecipado', 1, 1, 0,
                                                                       '0', ''));
   end;
 

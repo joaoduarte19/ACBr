@@ -42,6 +42,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+15/05/2026
+-- ISSSaoPaulo.GravarXml/ISSSaoPaulo.LerXml --
+[*] Alteração visando gerar a tag RetencaoPisCofins para indicar o tipo de 
+    retenção do Pis/Cofins.
+   Por: Italo Giurizzato Junior
+
 13/05/2026
 -- ACBrNFSeX.GravarIni/ACBrNFSeX.LerIni --
 [*] Atualização das Units de escrita e leitura do arquivo INI padronizado.

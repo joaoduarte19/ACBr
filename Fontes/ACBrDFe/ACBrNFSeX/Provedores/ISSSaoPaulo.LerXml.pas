@@ -432,7 +432,7 @@ begin
 
   NFSe.ConstrucaoCivil.nNumeroEncapsulamento := ObterConteudo(ANode.Childrens.FindAnyNs('NumeroEncapsulamento'), tcStr);
   NFSe.Servico.ValorTotalRecebido := ObterConteudo(ANode.Childrens.FindAnyNs('ValorTotalRecebido'), tcDe2);
-
+  NFSe.Servico.Valores.tribFed.tpRetPisCofins := StrTotpRetPisCofins(LOk, ObterConteudo(ANode.Childrens.FindAnyNs('RetencaoPisCofins'), tcStr));
   NFSe.Servico.CodigoNBS := ObterConteudo(ANode.Childrens.FindAnyNs('NBS'), tcStr);
   LerXMLIBSCBSDPS(ANode.Childrens.FindAnyNs('IBSCBS'), NFSE.IBSCBS);
   LerRetornoComplementarIBSCBS(ANode.Childrens.FindAnyNs('RetornoComplementarIBSCBS'));
