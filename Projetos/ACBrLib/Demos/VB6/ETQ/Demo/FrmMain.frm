@@ -421,7 +421,7 @@ Private Sub cmdBlocoDe_Click()
     
     etq.Ativar
     
-    If (cmbModelo.ListIndex = 1) Or (cmbModelo.ListIndex = 2) Then
+    If (cmbModelo.ListIndex = 1) Or (cmbModelo.ListIndex = 2) Or (cmbModelo.ListIndex = 6) Then
         etq.IniciarEtiqueta
         etq.ImprimirTexto ETQOrientacao.orNormal, 2, 2, 2, 3, 3, "BISCOITO MARILAN RECH 335G", 0, True
         etq.ImprimirTexto ETQOrientacao.orNormal, 2, 2, 1, 8, 3, "CHOC BRANCO"
@@ -500,7 +500,7 @@ Private Sub cmdEtiqueta3_Click()
     
     etq.Ativar
     
-    If (cmbModelo.ListIndex = 1) Or (cmbModelo.ListIndex = 2) Then
+    If (cmbModelo.ListIndex = 1) Or (cmbModelo.ListIndex = 2) Or (cmbModelo.ListIndex = 6) Then
         etq.ImprimirTexto ETQOrientacao.orNormal, 2, 1, 2, 2, 3, "BISCOITO REC 33G"
         etq.ImprimirTexto ETQOrientacao.orNormal, 2, 1, 1, 6, 3, "CHOC BRANCO"
         etq.ImprimirBarras ETQOrientacao.orNormal, TipoCodBarra.barEAN13, 2, 2, 8, 3, "7896003701685", 10
@@ -531,7 +531,7 @@ Private Sub cmdEtiquetaSimples_Click()
     
     etq.Ativar
     
-    If (cmbModelo.ListIndex = 1) Or (cmbModelo.ListIndex = 2) Then
+    If (cmbModelo.ListIndex = 1) Or (cmbModelo.ListIndex = 2) Or (cmbModelo.ListIndex = 6) Then
         etq.ImprimirTexto ETQOrientacao.orNormal, 2, 2, 2, 3, 3, "BISCOITO MARILAN RECH 335G", 0, True
         etq.ImprimirTexto ETQOrientacao.orNormal, 2, 2, 1, 8, 3, "CHOC BRANCO"
         etq.ImprimirBarras ETQOrientacao.orNormal, TipoCodBarra.barEAN13, 2, 2, 13, 5, "7896003701685", 10, ETQBarraExibeCodigo.becSIM
@@ -559,6 +559,8 @@ Private Sub Form_Load()
     cmbModelo.AddItem "etqPplb", ETQModelo.etqPplb
     cmbModelo.AddItem "etqZPLII", ETQModelo.etqZPLII
     cmbModelo.AddItem "etqEpl2", ETQModelo.etqEpl2
+    cmbModelo.AddItem "etqEscLabel", ETQModelo.etqEscLabel
+    cmbModelo.AddItem "etqTSPL", ETQModelo.etqTSPL
     cmbModelo.ListIndex = 0
     
     cmbPorta.AddItem "COM1"

@@ -160,6 +160,9 @@ Public Enum ETQModelo
     etqPplb = 2
     etqZPLII = 3
     etqEpl2 = 4
+    etqEscLabel = 5
+    etqTSPL = 6
+    
 End Enum
 
 Public Enum ETQPaginaCodigo
