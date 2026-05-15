@@ -4,6 +4,34 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema_v01.xsd" />
   <!-- Tipos Simples -->
+
+  <xs:simpleType name="TSTipoRetPISCofins">
+    <xs:annotation>
+      <xs:documentation>
+        Tipo de retencao do Pis/Cofins:
+        0 - PIS/COFINS/CSLL Não Retidos;
+        3 - PIS/COFINS/CSLL Retidos;
+        4 - PIS/COFINS Retidos, CSLL Não Retido;
+        5 - PIS Retido, COFINS/CSLL Não Retido;
+        6 - COFINS Retido, PIS/CSLL Não Retido;
+        7 - PIS Não Retido, COFINS/CSLL Retidos;
+        8 - PIS/COFINS Não Retidos, CSLL Retido;
+        9 - COFINS Não Retido, PIS/CSLL Retidos;
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:whiteSpace value="preserve"/>
+      <xs:enumeration value="0"/>
+      <xs:enumeration value="3"/>
+      <xs:enumeration value="4"/>
+      <xs:enumeration value="5"/>
+      <xs:enumeration value="6"/>
+      <xs:enumeration value="7"/>
+      <xs:enumeration value="8"/>
+      <xs:enumeration value="9"/>
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:simpleType name="tpAliquota">
     <xs:annotation>
       <xs:documentation>Tipo utilizado para valor de alíquota</xs:documentation>
@@ -968,6 +996,11 @@
       <xs:element name="ValorTotalRecebido" type="tipos:tpValor" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation>Informe o valor total recebido.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="RetencaoPisCofins" type="tipos:TSTipoRetPISCofins" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Tipo de Retenção do PIS/COFINS.</xs:documentation>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
