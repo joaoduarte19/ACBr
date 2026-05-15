@@ -373,7 +373,7 @@ begin
                                                                       '0', ''));
 
     LNFSeNode.AppendChild(AddNode(tcStr, '#1', 'PagamentoParceladoAntecipado', 1, 1, 0,
-                                                                      '0', ''));
+                                                                      '', ''));
   end;
 
   LNFSeNode.AppendChild(AddNode(tcStr, '#1', 'NCM', 1, 15, 0,
