@@ -1089,7 +1089,10 @@ end;
 
 function TACBrXMLNodeListEnumerator.GetCurrent: TACBrXmlNode;
 begin
-  Result := FList.FItems[FIndex];
+  if Assigned(FList) and Assigned(FList.FItems) then
+    Result := FList.FItems[FIndex]
+  else
+    Result := Nil;
 end;
 
 function TACBrXMLNodeListEnumerator.MoveNext: boolean;
