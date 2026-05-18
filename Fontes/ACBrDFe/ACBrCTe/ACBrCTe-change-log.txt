@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+18/05/2026
+-- ACBrCTe.EnvEvento --
+[*] ACBr-9197: Alterado a forma de carregar o arquivo de TStringList para TMemoryStream.
+   Por: Italo Giurizzato Junior
+
 11/05/2026
 -- ACBrCTe.EnvEvento --
 [*] ACBr-9197: Remover os caracteres do UTF8-BOM do XML de evento antes da sua leitura.

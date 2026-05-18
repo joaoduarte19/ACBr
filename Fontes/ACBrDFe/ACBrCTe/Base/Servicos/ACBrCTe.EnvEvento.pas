@@ -154,6 +154,7 @@ implementation
 
 uses
   IniFiles,
+  synautil,
   ACBrDFeUtil,
   ACBrUtil.Base,
   ACBrUtil.Strings,
@@ -850,15 +851,16 @@ end;
 
 function TEventoCTe.LerXML(const CaminhoArquivo: string): Boolean;
 var
-  ArqEvento: TStringList;
+  MS: TMemoryStream;
+  aXml: string;
 begin
-  ArqEvento := TStringList.Create;
-
+  MS := TMemoryStream.Create;
   try
-    ArqEvento.LoadFromFile(CaminhoArquivo);
-    Result := LerXMLFromString(ArqEvento.Text);
+    MS.LoadFromFile(CaminhoArquivo);
+    aXml := ReadStrFromStream(MS, MS.Size);
+    Result := LerXMLFromString(aXml);
   finally
-    ArqEvento.Free;
+    MS.Free;
   end;
 end;
 
