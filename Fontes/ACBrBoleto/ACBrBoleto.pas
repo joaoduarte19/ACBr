@@ -527,7 +527,8 @@ type
     toRetornoProtestoSustadoJudicialmente,
     toRetornoConfInstrucaoSustarProtesto,
     toRetornoConfInstrucaoAlteracaoDiasBaixaAutomatica,
-    toRetornoAlteracaoQuantidadeParcela
+    toRetornoAlteracaoQuantidadeParcela,
+    toRetornoConfirmacaoInstrucaoAnuencia
   );
 
   //Complemento de instrução para alterar outros dados
@@ -2088,7 +2089,8 @@ const
     'Retorno Protesto Sustado Judicialmente',
     'Retorno Confirmação Instrucao Sustar Protesto',
     'Retorno Confirmação Instrucao Alteracao Dias Baixa Automatica',
-    'Retorno Alteracao Quantidade Parcela'
+    'Retorno Alteracao Quantidade Parcela',
+    'Retorno Confirmação Instrução Anuência'
 );
 
 

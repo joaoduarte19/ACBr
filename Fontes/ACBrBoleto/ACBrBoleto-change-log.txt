@@ -48,7 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
-
+18/05/2026
+-- ACBrBoleto.pas, ACBrBancoAilos.pas --
+[*] Ajustados novos codigos de retorno CNAB240 ocorrencia, e criado um novo enumerado toRetornoConfirmacaoInstrucaoAnuencia na classe
+   [ACBR-8950] - https://www.projetoacbr.com.br/forum/topic/90209-acbr-8950-retorno-ocorr%C3%AAncia-boleto-ailos/
+   Por: Daniel de Morais InfoCotidiano
+   
 07/05/2026
 -- ACBrBoletoW_Sicoob_V3.pas --
 [*] Adicionado no comando de alteração a ocorrencia ToRemessaConcederAbatimento 
