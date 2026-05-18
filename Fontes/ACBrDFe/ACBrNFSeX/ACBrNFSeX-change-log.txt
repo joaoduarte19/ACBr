@@ -44,6 +44,11 @@ Símbolo : Significado
 
 
 18/05/2026
+-- ACBrNFSeXServicos.ini -- 
+[*] ACBr-9363 - Alteração na URL da cidade de Montividiu/GO que passa a usar o novo WS do provedor.
+-- Fiorilli.Provider --
+[-] ACBr-9363 - Corrigido a nomenclatura da tag de leitura do Protocolo.
+   Por: C4Dev
 -- Publica.GravarXml --
 [-] ACBr-9360 - Corrigido a nomenclatura da tag.
    Por: Store Brasil
