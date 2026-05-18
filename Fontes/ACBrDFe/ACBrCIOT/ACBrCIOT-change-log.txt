@@ -38,6 +38,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+18/05/2026
+-- pcnCIOT, pcnCIOTW_eFrete --
+[*] ACBR-9371 - eFrete v8 - MP 1.343/2026 - novas regras do CIOT e Piso Mínimo de Frete
+-- Frm_ACBrCIOT --
+[*] ACBR-9371 - Alimentados novas propriedades, corrigida consulta de município por Descrição e implementada geração do XML em disco para análise
+  Por: Renato Rubinho
+
 12/11/2020
 -- pcnCIOT/pcnCIOTW_Pamcard --
 [*] Mais alguns ajustes para funcionar o integrador Pamcard.

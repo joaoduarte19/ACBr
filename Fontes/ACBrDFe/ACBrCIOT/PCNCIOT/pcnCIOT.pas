@@ -221,6 +221,15 @@ type
     property PISPASEP: string read FPISPASEP write FPISPASEP;
   end;
 
+  TPessoaCollection = class(TACBrObjectList)
+  private
+    function GetItem(Index: Integer): TPessoa;
+    procedure SetItem(Index: Integer; Value: TPessoa);
+  public
+    function New: TPessoa;
+    property Items[Index: Integer]: TPessoa read GetItem write SetItem; default;
+  end;
+
   TMotorista = class(TPessoa)
   private
     FCNH: string;
@@ -242,8 +251,15 @@ type
     FTipoPagamento: TpTipoPagamento;
     FCategoria: TpTipoCategoriaPagamento;
     FDocumento: string;
+    FIndicadorPagamento: string;
+    FCpfCnpjCreditado: string;
+    FNumeroParcela: integer;
+    FCodigoPagamento: string;
     FInformacoesBancarias: TInformacoesBancarias;
     FInformacaoAdicional: string;
+    FTipoChavePix: string;
+    FValorChavePix: string;
+    FIdentificadorPix: string;
     FCnpjFilialAbastecimento: string;
   public
     constructor Create;
@@ -256,8 +272,15 @@ type
     property TipoPagamento: TpTipoPagamento read FTipoPagamento write FTipoPagamento;
     property Categoria: TpTipoCategoriaPagamento read FCategoria write FCategoria;
     property Documento: string read FDocumento write FDocumento;
+    property IndicadorPagamento: string read FIndicadorPagamento write FIndicadorPagamento;
+    property CpfCnpjCreditado: string read FCpfCnpjCreditado write FCpfCnpjCreditado;
+    property NumeroParcela: integer read FNumeroParcela write FNumeroParcela;
+    property CodigoPagamento: string read FCodigoPagamento write FCodigoPagamento;
     property InformacoesBancarias: TInformacoesBancarias read FInformacoesBancarias write FInformacoesBancarias;
     property InformacaoAdicional: string read FInformacaoAdicional write FInformacaoAdicional;
+    property TipoChavePix: string read FTipoChavePix write FTipoChavePix;
+    property ValorChavePix: string read FValorChavePix write FValorChavePix;
+    property IdentificadorPix: string read FIdentificadorPix write FIdentificadorPix;
     property CnpjFilialAbastecimento: string read FCnpjFilialAbastecimento write FCnpjFilialAbastecimento;
   end;
 
@@ -378,6 +401,7 @@ type
     FChaveAcesso: string;
     FNumero: string;
     FSerie: string;
+    FCnpjEmissor: string;
     FData: TDateTime;
     FValorTotal: Double;
     FValorDaMercadoriaPorUnidade: Double;
@@ -404,6 +428,7 @@ type
     property ChaveAcesso: string read FChaveAcesso write FChaveAcesso;
     property Numero: string read FNumero write FNumero;
     property Serie: string read FSerie write FSerie;
+    property CnpjEmissor: string read FCnpjEmissor write FCnpjEmissor;
     property Data: TDateTime read FData write FData;
     property ValorTotal: Double read FValorTotal write FValorTotal;
     property ValorDaMercadoriaPorUnidade: Double read FValorDaMercadoriaPorUnidade write FValorDaMercadoriaPorUnidade;
@@ -442,6 +467,10 @@ type
     FCepOrigem: string;
     FCepDestino: string;
     FDistanciaPercorrida: Integer;
+    FLatitudeOrigem: Double;
+    FLongitudeOrigem: Double;
+    FLatitudeDestino: Double;
+    FLongitudeDestino: Double;
     FValores: TValoresOT;
     FTipoPagamento: TpTipoPagamento;
     FInformacoesBancarias: TInformacoesBancarias;
@@ -458,6 +487,10 @@ type
     property CepOrigem: string read FCepOrigem write FCepOrigem;
     property CepDestino: string read FCepDestino write FCepDestino;
     property DistanciaPercorrida: Integer read FDistanciaPercorrida write FDistanciaPercorrida;
+    property LatitudeOrigem: Double read FLatitudeOrigem write FLatitudeOrigem;
+    property LongitudeOrigem: Double read FLongitudeOrigem write FLongitudeOrigem;
+    property LatitudeDestino: Double read FLatitudeDestino write FLatitudeDestino;
+    property LongitudeDestino: Double read FLongitudeDestino write FLongitudeDestino;
     property Valores: TValoresOT read FValores write FValores;
     property TipoPagamento: TpTipoPagamento read FTipoPagamento write FTipoPagamento;
     property InformacoesBancarias: TInformacoesBancarias read FInformacoesBancarias write FInformacoesBancarias;
@@ -909,6 +942,9 @@ type
     FCiotNumero: Integer;
 
     FAltoDesempenho: Boolean;
+    FContratantesCargaFracionada: TPessoaCollection;
+    FComposicaoVeicular: Boolean;
+    FRetornoVazio: Boolean;
     FDestinacaoComercial: Boolean;
     FFreteRetorno: Boolean;
     FCepRetorno: String;
@@ -980,6 +1016,9 @@ type
     property CiotNumero: Integer read FCiotNumero write FCiotNumero;
     property CodigoTipoCarga: tpTipoCarga read FCodigoTipoCarga write FCodigoTipoCarga;
     property AltoDesempenho: Boolean read FAltoDesempenho write FAltoDesempenho;
+    property ContratantesCargaFracionada: TPessoaCollection read FContratantesCargaFracionada write FContratantesCargaFracionada;
+    property ComposicaoVeicular: Boolean read FComposicaoVeicular write FComposicaoVeicular;
+    property RetornoVazio: Boolean read FRetornoVazio write FRetornoVazio;
     property DestinacaoComercial: Boolean read FDestinacaoComercial write FDestinacaoComercial;
     property FreteRetorno: Boolean read FFreteRetorno write FFreteRetorno;
     property CepRetorno: String read FCepRetorno write FCepRetorno;
@@ -1623,6 +1662,7 @@ begin
   FVeiculos := TVeiculoCollection.Create;
   FObservacoesAoCredenciado := TMensagemCollection.Create;
   FObservacoesAoTransportador := TMensagemCollection.Create;
+  FContratantesCargaFracionada := TPessoaCollection.Create;
   FRota := TRota.Create;
   FPedagio := TPedagio.Create;
   FPostos := TPostoCollection.Create;
@@ -1649,6 +1689,7 @@ begin
   FVeiculos.Free;
   FObservacoesAoCredenciado.Free;
   FObservacoesAoTransportador.Free;
+  FContratantesCargaFracionada.Free;
   FRota.Free;
   FPedagio.Free;
   FPostos.Free;
@@ -2613,6 +2654,24 @@ begin
   FPedagio.Free;
 
   inherited Destroy;
+end;
+
+{ TPessoaCollection }
+
+function TPessoaCollection.GetItem(Index: Integer): TPessoa;
+begin
+  Result := TPessoa(inherited Items[Index]);
+end;
+
+function TPessoaCollection.New: TPessoa;
+begin
+  Result := TPessoa.Create;
+  Self.Add(Result);
+end;
+
+procedure TPessoaCollection.SetItem(Index: Integer; Value: TPessoa);
+begin
+  inherited Items[Index] := Value;
 end;
 
 end.

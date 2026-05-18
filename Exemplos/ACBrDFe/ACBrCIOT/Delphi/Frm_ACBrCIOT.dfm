@@ -1389,7 +1389,7 @@ object frmACBrCIOT: TfrmACBrCIOT
           Height = 25
           Caption = 'Consultar por descri'#231#227'o'
           TabOrder = 3
-          OnClick = btnGerarCIOTClick
+          OnClick = Button1Click
         end
         object Button2: TButton
           Left = 9
