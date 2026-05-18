@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+18/05/2026
+-- Publica.GravarXml --
+[-] ACBr-9360 - Corrigido a nomenclatura da tag.
+   Por: Store Brasil
+
 15/05/2026
 -- ACBrNFSeXServicos.ini -- 
 [*] ACBr-9292 - Alteração na URL da cidade de Ubajara/CE que passa a usar a API Rest

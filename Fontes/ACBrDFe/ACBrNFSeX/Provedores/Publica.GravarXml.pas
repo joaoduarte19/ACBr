@@ -493,7 +493,7 @@ begin
   Result.AppendChild(AddNode(tcInt, '#1', 'CodigoMunicipioLocalPrestacao', 7, 7, 0,
                                NFSe.Servico.CodigoMunicipioLocalPrestacao, ''));
 
-  Result.AppendChild(AddNode(tcInt, '#1', 'CodigoPaisLocalPrestacao', 4, 4, 0,
+  Result.AppendChild(AddNode(tcInt, '#1', 'CodigoPais', 4, 4, 0,
                                NFSe.Prestador.Endereco.CodigoPais, DSC_CPAIS));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'cNBS', 1, 10, 0,
