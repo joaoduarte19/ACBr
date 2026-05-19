@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+19/05/2026
+-- ACBrBoletoW_Bradesco.pas --
+[*] Ajustadada nova propriedade qtdDecurPrz p/  boleto hibrido. nao consta no manual para boleto convencional.
+   [ACBR-9373] - https://www.projetoacbr.com.br/forum/topic/92279-acbr-9373-corre%C3%A7%C3%A3o-acbrboleto-bradesco-envio-do-campo-qtddecurprz/?_rid=16767
+   Por: isolopak 
+
 18/05/2026
 -- ACBrBoleto.pas, ACBrBancoAilos.pas --
 [*] Ajustados novos codigos de retorno CNAB240 ocorrencia, e criado um novo enumerado toRetornoConfirmacaoInstrucaoAnuencia na classe
