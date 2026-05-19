@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/05/2026
+-- ACBrLibBoletoConfig --
+[-] ACBr-9168 Corrige bug de ambiente invalido para Webservices
+[*] No ACBrBoleto Ambiente=2 é válido, pois é Sandbox
+  Por: doszapro
+
 05/02/2026
 -- ACBrLibBoleto.lpi, ACBrLibBoletoDemo.lpi --
 [-] ACBR-8629 Ajuste de configuração de escala LPI

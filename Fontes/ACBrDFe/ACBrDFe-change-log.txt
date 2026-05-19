@@ -39,6 +39,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/05/2026
+-- ACBrDFeConfiguracoes --
+[-] ACBr-9168 - Adiciona condição para validar AmbienteDFe
+  Por: doszapro
+
 17/04/2026
 -- ACBrLibXml2 --
 [+] Adicionado o Bind, para o método 'xmlNewText'

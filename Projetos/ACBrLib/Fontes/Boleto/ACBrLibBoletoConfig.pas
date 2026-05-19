@@ -442,7 +442,7 @@ begin
   FBoletoCedenteWS.LerIni(Ini);
   FBoletoConfigWS.LerIni(Ini);
   FBoletoDFeConfigWS.ChaveCryptINI:= ChaveCrypt;
-  FBoletoDFeConfigWS.LerIni(Ini);
+  FBoletoDFeConfigWS.LerIni(Ini,False);
 
 end;
 
