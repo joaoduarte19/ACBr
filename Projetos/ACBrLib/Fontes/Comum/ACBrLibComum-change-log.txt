@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/05/2026
+-- ACBrLibComum --
+[-] Corrige possível Access Violation em falha de inicialização.
+[*] Em caso de falha de inicialização pLibHandle apontava para uma região de memória inválida.
+  Por: doszapro
+  
 14/04/2026
 -- ACBrLibComum --
 [+] Adiciona o endereço de pLibHandle no log da lib em versões MT da lib.

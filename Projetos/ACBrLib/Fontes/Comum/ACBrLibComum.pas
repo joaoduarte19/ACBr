@@ -708,46 +708,52 @@ end;
 
 function LIB_Inicializar(var libHandle: PLibHandle; pLibClass: TACBrLibClass; const eArqConfig, eChaveCrypt: PAnsiChar): Integer;
 var
+  ltmpHandle: PLibHandle;
   ArqConfig, ChaveCrypt, infoAdicional: Ansistring;
 begin
+  ltmpHandle:= nil;
   try
     ArqConfig := Ansistring(eArqConfig);
     ChaveCrypt := Ansistring(eChaveCrypt);
 
-    New(libHandle);
-    libHandle^.Lib := Nil;
-    libHandle^.Lib := pLibClass.Create(ArqConfig, eChaveCrypt);
-    libHandle^.Lib.Inicializar;
-    libHandle^.Lib.GravarLog('LIB_Inicializar( ' + IfThen(libHandle^.Lib.Config.EhMemory, CLibMemory, libHandle^.Lib.Config.NomeArquivo) + ',  *** ) ', logSimples);
-    libHandle^.Lib.GravarLog('   ' + libHandle^.Lib.Nome + ' - ' + libHandle^.Lib.Versao + ' - ' + libHandle
+    New(ltmpHandle);
+    ltmpHandle^.Lib := Nil;
+    ltmpHandle^.Lib := pLibClass.Create(ArqConfig, eChaveCrypt);
+    ltmpHandle^.Lib.Inicializar;
+    ltmpHandle^.Lib.GravarLog('LIB_Inicializar( ' + IfThen(ltmpHandle^.Lib.Config.EhMemory, CLibMemory, ltmpHandle^.Lib.Config.NomeArquivo) + ',  *** ) ', logSimples);
+    ltmpHandle^.Lib.GravarLog('   ' + ltmpHandle^.Lib.Nome + ' - ' + ltmpHandle^.Lib.Versao + ' - ' + ltmpHandle
     ^.Lib.informacaoAdicional, logSimples);
 
-    with libHandle^.Lib.fpLibRetorno do
+    with ltmpHandle^.Lib.fpLibRetorno do
     begin
       Codigo := 0;
       Mensagem := '';
     end;
 
+    libHandle := ltmpHandle;
     Result := 0;
   except
 
     on E: EACBrLibException do
     begin
       Result := E.Erro;
-      LiberarLib(libHandle);
+      LiberarLib(ltmpHandle);
+      ltmpHandle:= nil;
     end;
 
 
     on E: EACBrConversaoEnumeradoException do
     begin
       Result:= ErrConfigLer;
-      LiberarLib(libHandle);
+      LiberarLib(ltmpHandle);
+      ltmpHandle:= nil;
     end;
 
     on E: Exception do
     begin
       Result := ErrLibNaoInicializada;
-      LiberarLib(libHandle);
+      LiberarLib(ltmpHandle);
+      ltmpHandle:= nil;
     end
   end;
 end;
