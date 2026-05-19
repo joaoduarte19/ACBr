@@ -5951,7 +5951,7 @@ begin
     cbCryptLib.ItemIndex   := Ini.ReadInteger('Certificado', 'CryptLib',   0);
     cbHttpLib.ItemIndex    := Ini.ReadInteger('Certificado', 'HttpLib',    0);
     cbXmlSignLib.ItemIndex := Ini.ReadInteger('Certificado', 'XmlSignLib', 0);
-    cbSSLLibChange(cbSSLLib);
+//    cbSSLLibChange(cbSSLLib);
     edtURLPFX.Text         := Ini.ReadString( 'Certificado', 'URL',        '');
     edtCaminho.Text        := Ini.ReadString( 'Certificado', 'Caminho',    '');
     edtSenha.Text          := Ini.ReadString( 'Certificado', 'Senha',      '');
