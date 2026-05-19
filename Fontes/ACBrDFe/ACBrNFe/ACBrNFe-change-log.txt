@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/05/2026
+-- ACBrNFeServicos --
+[-] Alteração nas URLs de produção e homologação referente ao QR-Code e consulta via portal da SEFAZ-RN
+   Por: Italo Giurizzato Junior
+
 04/05/2026
 -- ACBrNFeXmlReader --
 [-] ACBr-8858 Corrige erro de parse de nomes com elementos XML/XHTML
