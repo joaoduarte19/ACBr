@@ -2131,7 +2131,7 @@
 					<xs:documentation>1 - Sim.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="PagamentoParceladoAntecipado" type="tipos:tpNaoSim" minOccurs="1" maxOccurs="1">
+			<xs:element name="PagamentoParceladoAntecipado" type="tipos:tpNaoSim" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Informe a nota fiscal de pagamento parcelado antecipado (realizado antes do fornecimento).</xs:documentation>
 					<xs:documentation>0 - Não.</xs:documentation>
