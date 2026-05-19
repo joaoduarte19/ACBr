@@ -1,5 +1,4 @@
 program NomeProjetoExemplo;
-
 {
   Esse é um projeto de testes com a ajuda da ACBrTests.Runner.pas
   -------------------------
@@ -18,7 +17,6 @@ program NomeProjetoExemplo;
   ATENÇÃO: 1) OS defines PRECISAM estar nas opções do projeto. Não basta definir no arquivo de projeto.
 		   2) Faça um Build sempre que fizer alterações de Defines.
 Para mais informações veja o arquivo: ACBrTests.Runner.pas
-
 }
 //mantenha a verificação abaixo como primeira linha.
 {$IFDEF NOGUI}
