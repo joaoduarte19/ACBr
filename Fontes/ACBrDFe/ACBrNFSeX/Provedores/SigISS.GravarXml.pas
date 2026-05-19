@@ -236,6 +236,15 @@ begin
   Result.AppendChild(AddNode(tcDe4, '#1', 'retencao_iss', 1, 15, 1,
                                       NFSe.Servico.Valores.ValorIssRetido, ''));
 
+  Result.AppendChild(AddNode(tcStr, '#1', 'retencao_pis', 1, 1, 0,
+                             FpAOwner.SimNaoToStr(NFSe.Servico.Valores.RetidoPis), DSC_VPIS));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'retencao_cofins', 1, 1, 0,
+                             FpAOwner.SimNaoToStr(NFSe.Servico.Valores.RetidoCofins), DSC_VCOFINS));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'retencao_csll', 1, 1, 0,
+                             FpAOwner.SimNaoToStr(NFSe.Servico.Valores.RetidoCsll), DSC_VCSLL));
+
   Result.AppendChild(AddNode(tcDe4, '#1', 'pis', 1, 15, 1,
                                             NFSe.Servico.Valores.ValorPis, ''));
 
@@ -268,6 +277,30 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#1', 'dps_serv_cnbs', 9, 9, 0,
                                                    NFSe.Servico.CodigoNBS, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'dps_serv_mdprestacao', 1, 1, 0,
+                        mdPrestacaoToStr(NFSe.Servico.comExt.mdPrestacao), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'dps_serv_mecafcomexp', 2, 2, 0,
+                        mecAFComexPToStr(NFSe.Servico.comExt.mecAFComexP), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'dps_serv_mecafcomext', 2, 2, 0,
+                        mecAFComexTToStr(NFSe.Servico.comExt.mecAFComexT), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'dps_serv_vincprest', 1, 1, 0,
+                            vincPrestToStr(NFSe.Servico.comExt.vincPrest), ''));
+
+  Result.AppendChild(AddNode(tcINt, '#1', 'dps_serv_tpmoeda', 1, 1, 0,
+                                              NFSe.Servico.comExt.tpMoeda, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'dps_serv_vservmoeda', 1, 15, 0,
+                                           NFSe.Servico.comExt.vServMoeda, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'dps_serv_movtempbens', 1, 1, 0,
+                        MovTempBensToStr(NFSe.Servico.comExt.movTempBens), ''));
+
+  Result.AppendChild(AddNode(tcInt, '#1', 'dps_serv_mdic', 1, 1, 0,
+                                                 NFSe.Servico.comExt.mdic, ''));
 end;
 
 function TNFSeW_SigISS.GerarXml: Boolean;
@@ -360,6 +393,15 @@ begin
 
   Result.AppendChild(AddNode(tcDe4, '#1', 'retencao_iss', 1, 15, 0,
                                       NFSe.Servico.Valores.ValorIssRetido, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'retencao_pis', 1, 1, 0,
+                             FpAOwner.SimNaoToStr(NFSe.Servico.Valores.RetidoPis), DSC_VPIS));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'retencao_cofins', 1, 1, 0,
+                             FpAOwner.SimNaoToStr(NFSe.Servico.Valores.RetidoCofins), DSC_VCOFINS));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'retencao_csll', 1, 1, 0,
+                             FpAOwner.SimNaoToStr(NFSe.Servico.Valores.RetidoCsll), DSC_VCSLL));
 
 {
   Para a cidade de Londrina que no momento somente ela usa a versão 1.03 não
@@ -455,6 +497,30 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#1', 'dps_serv_cnbs', 9, 9, 0,
                                                    NFSe.Servico.CodigoNBS, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'dps_serv_mdprestacao', 1, 1, 0,
+                        mdPrestacaoToStr(NFSe.Servico.comExt.mdPrestacao), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'dps_serv_mecafcomexp', 2, 2, 0,
+                        mecAFComexPToStr(NFSe.Servico.comExt.mecAFComexP), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'dps_serv_mecafcomext', 2, 2, 0,
+                        mecAFComexTToStr(NFSe.Servico.comExt.mecAFComexT), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'dps_serv_vincprest', 1, 1, 0,
+                            vincPrestToStr(NFSe.Servico.comExt.vincPrest), ''));
+
+  Result.AppendChild(AddNode(tcINt, '#1', 'dps_serv_tpmoeda', 1, 1, 0,
+                                              NFSe.Servico.comExt.tpMoeda, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'dps_serv_vservmoeda', 1, 15, 0,
+                                           NFSe.Servico.comExt.vServMoeda, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'dps_serv_movtempbens', 1, 1, 0,
+                        MovTempBensToStr(NFSe.Servico.comExt.movTempBens), ''));
+
+  Result.AppendChild(AddNode(tcInt, '#1', 'dps_serv_mdic', 1, 1, 0,
+                                                 NFSe.Servico.comExt.mdic, ''));
 (*
 <xsd:element name="obra_alvara_numero" type="xsd:int" minOccurs="0" maxOccurs="1"/>
 <xsd:element name="obra_alvara_ano" type="xsd:int" minOccurs="0" maxOccurs="1"/>

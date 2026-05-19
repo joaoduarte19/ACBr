@@ -44,6 +44,12 @@ Símbolo : Significado
 
 
 19/05/2026
+-- SigCorp.GravarXml --
+[*] Alterações necessárias para a cidade de Bacabal/MA.
+   Por: Italo Giurizzato Junior
+-- SigISS.GravarXml --
+[*] ACBr-9305 - Alterações visando os novos campos referente a RTC.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] ACBr-9382 - Alteração nas URLs da cidade de Bacabal/MA, o provedor continua o mesmo.
    Por: Prime Software
