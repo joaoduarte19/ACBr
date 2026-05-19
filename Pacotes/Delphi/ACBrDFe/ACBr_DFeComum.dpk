@@ -96,6 +96,7 @@ contains
     {$EndIf}
   
     ACBRDFeWinCrypt in '..\..\..\Fontes\ACBrDFe\ACBRDFeWinCrypt.pas',
+    ACBrDFeWinSecCNG in '..\..\..\Fontes\ACBrDFe\ACBrDFeWinSecCNG.pas',
     ACBrDFeHttpWinApi in '..\..\..\Fontes\ACBrDFe\ACBrDFeHttpWinApi.pas',
     
     {$IfNDef DFE_SEM_MSXML}

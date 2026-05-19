@@ -60,7 +60,7 @@ Const
 type
 
   TSSLLib = (libNone, libOpenSSL, libCapicom, libCapicomDelphiSoap, libWinCrypt, libCustom);
-  TSSLCryptLib = (cryNone, cryOpenSSL, cryCapicom, cryWinCrypt);
+  TSSLCryptLib = (cryNone, cryOpenSSL, cryCapicom, cryWinCrypt, cryCNGCrypt);
   TSSLHttpLib = (httpNone, httpWinINet, httpWinHttp, httpOpenSSL, httpIndy);
   TSSLXmlSignLib = (xsNone, xsXmlSec, xsMsXml, xsMsXmlCapicom, xsLibXml2);
 
@@ -524,6 +524,7 @@ uses
   {$EndIf}
   {$IfDef MSWINDOWS}
    ,ACBrDFeWinCrypt, ACBrDFeHttpWinApi
+   ,ACBrDFeWinSecCNG
    {$IfNDef DFE_SEM_MSXML}
     ,ACBrDFeXsMsXml
    {$EndIf}
@@ -1875,6 +1876,16 @@ begin
       {$IfDef MSWINDOWS}
        FreeSSLCryptLib;
        FSSLCryptClass := TDFeWinCrypt.Create(Self);
+      {$Else}
+       raise EACBrDFeException.Create('Suporte a libWinCrypt disponível apenas em MSWINDOWS');
+      {$EndIf}
+    end;
+
+    cryCNGCrypt:
+    begin
+      {$IfDef MSWINDOWS}
+       FreeSSLCryptLib;
+       FSSLCryptClass := TDFeWinSecCNGCrypt.Create(Self);
       {$Else}
        raise EACBrDFeException.Create('Suporte a libWinCrypt disponível apenas em MSWINDOWS');
       {$EndIf}
