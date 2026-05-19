@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 19/05/2026
+-- EloTech.GravarXml --
+[*] Alterações necessárias para gerar o grupo IBSCBS dentro do grupo Serviço.
+   Por: Italo Giurizzato Junior
 -- SigCorp.GravarXml --
 [*] Alterações necessárias para a cidade de Bacabal/MA.
    Por: Italo Giurizzato Junior

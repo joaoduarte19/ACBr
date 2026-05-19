@@ -56,6 +56,7 @@ type
     function GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode; override;
     function GerarXMLDestinatario(Dest: TDadosdaPessoa): TACBrXmlNode; override;
     function GerarValores: TACBrXmlNode; override;
+    function GerarServico: TACBrXmlNode; override;
 
     procedure GerarINISecaoServicos(const AINIRec: TMemIniFile); override;
     procedure GerarINISecaoDadosDeducao(const AINIRec: TMemIniFile;
@@ -219,6 +220,13 @@ begin
       Result.AppendChild(nodeArray[i]);
     end;
   end;
+end;
+
+function TNFSeW_Elotech203.GerarServico: TACBrXmlNode;
+begin
+  Result := inherited GerarServico;
+
+  Result.AppendChild(GerarXMLIBSCBSNFSe);
 end;
 
 function TNFSeW_Elotech203.GerarValores: TACBrXmlNode;
