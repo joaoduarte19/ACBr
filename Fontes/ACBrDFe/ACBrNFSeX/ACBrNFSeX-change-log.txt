@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 19/05/2026
+-- ACBrNFSeXServicos --
+[*] ACBr-9382 - Alteração nas URLs da cidade de Bacabal/MA, o provedor continua o mesmo.
+   Por: Prime Software
 -- ACBrNFSeXProviderManager --
 -- SpeedGov.GravarXml/SpeedGov.LerXml/SpeedGov.Provider --
 [*] ACBr-9292 - Alterações nos fontes para atender a API Rest do provedor SpeedGov que 
