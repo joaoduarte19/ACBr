@@ -43,6 +43,15 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+19/05/2026
+-- ACBrNFSeXProviderManager --
+-- SpeedGov.GravarXml/SpeedGov.LerXml/SpeedGov.Provider --
+[*] ACBr-9292 - Alterações nos fontes para atender a API Rest do provedor SpeedGov que 
+    adotou o layout do Padrão Nacional.
+[*] ACBr-9386 - Alterações nos fontes para atender os novos campos do provedor SpeedGov que 
+    que alterou o layout da ABRASF visando a Reforma Tributária.
+   Por: Italo Giurizzato Junior
+
 18/05/2026
 -- ACBrNFSeXServicos.ini -- 
 [*] ACBr-9363 - Alteração na URL da cidade de Montividiu/GO que passa a usar o novo WS do provedor.

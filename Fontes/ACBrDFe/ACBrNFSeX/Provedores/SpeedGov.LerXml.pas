@@ -37,8 +37,15 @@ unit SpeedGov.LerXml;
 interface
 
 uses
-  SysUtils, Classes, StrUtils, IniFiles, ACBrNFSeXClass, ACBrNFSeXConversao, ACBrUtil.Base,
-  ACBrNFSeXLerXml_ABRASFv1, ACBrXmlDocument, ACBrDFe.Conversao, ACBrUtil.DateTime;
+  SysUtils, Classes, StrUtils, IniFiles,
+  ACBrNFSeXClass,
+  ACBrNFSeXConversao,
+  ACBrUtil.Base,
+  ACBrNFSeXLerXml_ABRASFv1,
+  ACBrXmlDocument,
+  ACBrDFe.Conversao,
+  ACBrUtil.DateTime,
+  PadraoNacional.LerXml;
 
 type
   { TNFSeR_SpeedGov }
@@ -54,6 +61,15 @@ type
     procedure LerINISecaoIdentificacaoNFSe(const AINIRec: TMemIniFile); override;
     procedure LerINISecaoValores(const AINIRec: TMemIniFile); override;
     procedure LerINIIBSCBSValores(AINIRec: TMemIniFile; Valores: Tvalorestrib); override;
+  public
+
+  end;
+
+  { TNFSeR_SpeedGovAPIPropria }
+
+  TNFSeR_SpeedGovAPIPropria = class(TNFSeR_PadraoNacional)
+  protected
+
   public
 
   end;

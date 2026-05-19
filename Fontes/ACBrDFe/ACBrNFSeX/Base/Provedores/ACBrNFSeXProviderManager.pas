@@ -763,7 +763,14 @@ begin
 
       proSmart4:   Result := TACBrNFSeProviderSmart4.Create(ACBrNFSe);
       proSoftPlan: Result := TACBrNFSeProviderSoftPlan.Create(ACBrNFSe);
-      proSpeedGov: Result := TACBrNFSeProviderSpeedGov.Create(ACBrNFSe);
+
+      proSpeedGov:
+        begin
+          if APIPropria then
+            Result := TACBrNFSeProviderSpeedGovAPIPropria.Create(ACBrNFSe)
+          else
+            Result := TACBrNFSeProviderSpeedGov.Create(ACBrNFSe);
+        end;
 
       proSSInformatica:
         Result := TACBrNFSeProviderSSInformatica203.Create(ACBrNFSe);

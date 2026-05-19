@@ -41,7 +41,8 @@ uses
   ACBrNFSeXClass,
   ACBrXmlDocument,
   ACBrDFe.Conversao,
-  ACBrNFSeXGravarXml_ABRASFv1;
+  ACBrNFSeXGravarXml_ABRASFv1,
+  PadraoNacional.GravarXml;
 
 type
   { TNFSeW_SpeedGov }
@@ -71,6 +72,13 @@ type
   public
     function GerarXml: Boolean; override;
 //    function GerarIni: string; override;
+  end;
+
+  { TNFSeW_SpeedGovAPIPropria }
+
+  TNFSeW_SpeedGovAPIPropria = class(TNFSeW_PadraoNacional)
+  protected
+
   end;
 
 implementation
@@ -152,41 +160,41 @@ function TNFSeW_SpeedGov.GerarDadosDPS: TACBrXmlNode;
 begin
   Result := CreateElement('DadosDPS');
 
-  Result.AppendChild(AddNode(tcStr, '#38', 'TpEmit', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#38', 'TpEmit', 1, 1, 0,
                                                  tpEmitToStr(NFSe.tpEmit), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#38', 'TpAmb', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#38', 'TpAmb', 1, 1, 0,
                                               TipoAmbienteToStr(Ambiente), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#38', 'DhEmi', 25, 25, 1,
+  Result.AppendChild(AddNode(tcStr, '#38', 'DhEmi', 25, 25, 0,
                DateTimeTodh(NFSe.DataEmissao) +
                GetUTC(NFSe.Prestador.Endereco.UF, NFSe.DataEmissao), DSC_DEMI));
 
-  Result.AppendChild(AddNode(tcStr, '#38', 'VerAplic', 1, 20, 1,
+  Result.AppendChild(AddNode(tcStr, '#38', 'VerAplic', 1, 20, 0,
                                                             NFSe.verAplic, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#38', 'CLocEmi', 1, 1, 1, NFSe.cLocEmi, ''));
+  Result.AppendChild(AddNode(tcStr, '#38', 'CLocEmi', 7, 7, 0, NFSe.cLocEmi, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#38', 'CLocPrestacao', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#38', 'CLocPrestacao', 7, 7, 0,
                                              NFSe.Servico.CodigoMunicipio, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#38', 'CTribNac', 6, 6, 1,
+  Result.AppendChild(AddNode(tcStr, '#38', 'CTribNac', 6, 6, 0,
                                             NFSe.Servico.CodigoServicoNacional, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#38', 'TribIssqn', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#38', 'TribIssqn', 1, 1, 0,
                    tribISSQNToStr(NFSe.Servico.Valores.tribMun.tribISSQN), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#38', 'TpRetIssqn', 2, 2, 1,
+  Result.AppendChild(AddNode(tcStr, '#38', 'TpRetIssqn', 2, 2, 0,
                  tpRetISSQNToStr(NFSe.Servico.Valores.tribMun.tpRetISSQN), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#38', 'OpSimpNac', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#38', 'OpSimpNac', 1, 1, 0,
                                   OptanteSNToStr(NFSe.OptanteSN), DSC_INDOPSN));
 
-//  Result.AppendChild(AddNode(tcStr, '#38', 'RegEspTrib', 1, 1, 1,
-//    FpAOwner.RegimeEspecialTributacaoToStr(NFSe.RegimeEspecialTributacao), DSC_REGISSQN));
+  Result.AppendChild(AddNode(tcStr, '#38', 'RegEspTrib', 1, 10, 0,
+    FpAOwner.RegimeEspecialTributacaoToStr(NFSe.RegimeEspecialTributacao), DSC_REGISSQN));
 
   if NFSe.OptanteSN = osnOptanteMEEPP then
-    Result.AppendChild(AddNode(tcStr, '#38', 'RegApTribSN', 1, 1, 1,
+    Result.AppendChild(AddNode(tcStr, '#38', 'RegApTribSN', 1, 1, 0,
                              RegimeApuracaoSNToStr(NFSe.RegimeApuracaoSN), ''));
 
   Result.AppendChild(AddNode(tcStr, '#38', 'serie', 1, 5, 0,
@@ -195,7 +203,7 @@ begin
   Result.AppendChild(AddNode(tcStr, '#38', 'nDPS', 1, 15, 0,
                                             NFSe.IdentificacaoRps.Numero, ''));
 
-  Result.AppendChild(AddNode(tcDat, '#1', 'dCompet', 10, 10, 1,
+  Result.AppendChild(AddNode(tcDat, '#1', 'dCompet', 10, 10, 0,
                                             NFSe.Competencia, ''));
 end;
 
@@ -257,8 +265,8 @@ function TNFSeW_SpeedGov.GerarIBSCBS: TACBrXmlNode;
 begin
   Result := CreateElement('IBSCBS');
 
-  Result.AppendChild(AddNode(tcDe2, '#24', 'IBSCBSBaseCalculo', 1, 15, NrOcorrBaseCalc,
-                                 NFSe.Servico.Valores.BaseCalculo, DSC_VBCISS));
+  Result.AppendChild(AddNode(tcDe2, '#24', 'IBSCBSBaseCalculo', 1, 15, 0,
+                                  NFSe.infNFSe.IBSCBS.valores.vBC, DSC_VBCISS));
 
   Result.AppendChild(AddNode(tcDe2, '#29', 'IBSUFAliquota', 1, 5, 0,
                                           NFSe.IBSCBS.valores.IbsEstadual, ''));
@@ -296,17 +304,52 @@ begin
   Result.AppendChild(AddNode(tcDe2, '#29', 'CBSAliquotaEfetiva', 1, 15, 0,
                              NFSe.infNFSe.IBSCBS.valores.fed.pAliqEfetCBS, ''));
 
+  Result.AppendChild(AddNode(tcDe2, '#1', 'IBSUFPercDiferimento', 1, 15, 0,
+                             NFSe.IBSCBS.valores.trib.gIBSCBS.gDif.pDifUF, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'IBSMunPercDiferimento', 1, 15, 0,
+                            NFSe.IBSCBS.valores.trib.gIBSCBS.gDif.pDifMun, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'CBSPercDiferimento', 1, 15, 0,
+                            NFSe.IBSCBS.valores.trib.gIBSCBS.gDif.pDifCBS, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'IBSUFValorDiferido', 1, 15, 0,
+                        NFSe.infNFSe.IBSCBS.totCIBS.gIBS.gIBSUFTot.vDifUF, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'IBSMunValorDiferido', 1, 15, 0,
+                      NFSe.infNFSe.IBSCBS.totCIBS.gIBS.gIBSMunTot.vDifMun, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'CBSValorDiferido', 1, 15, 0,
+                                 NFSe.infNFSe.IBSCBS.totCIBS.gCBS.vDifCBS, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'IBSCreditoPresumidoAliq', 1, 15, 0,
+               NFSe.infNFSe.IBSCBS.totCIBS.gIBS.gIBSCredPres.pCredPresIBS, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'IBSCreditoPresumidoValor', 1, 15, 0,
+               NFSe.infNFSe.IBSCBS.totCIBS.gIBS.gIBSCredPres.vCredPresIBS, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'CBSCreditoPresumidoAliq', 1, 15, 0,
+               NFSe.infNFSe.IBSCBS.totCIBS.gCBS.gCBSCredPres.pCredPresCBS, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'CBSCreditoPresumidoValor', 1, 15, 0,
+               NFSe.infNFSe.IBSCBS.totCIBS.gCBS.gCBSCredPres.vCredPresCBS, ''));
+
   Result.AppendChild(AddNode(tcDe2, '#29', 'IBSValorTotal', 1, 15, 0,
     NFSe.IBSCBS.valores.ValorIbsEstadual + NFSe.IBSCBS.valores.IbsMunicipal, ''));
 
   Result.AppendChild(AddNode(tcDe2, '#29', 'ValorTotalComTributos', 1, 15, 0,
                                 NFSe.Servico.Valores.ValorTotalNotaFiscal, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#29', 'LocalidadeIncidenciaCod', 1, 7, 1,
+// <xsd:element name="IBSValorReembolso" type="tsValor" minOccurs="0"/>
+
+  Result.AppendChild(AddNode(tcStr, '#29', 'LocalidadeIncidenciaCod', 1, 7, 0,
                                      NFSe.infNFSe.IBSCBS.cLocalidadeIncid, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#29', 'LocalidadeIncidenciaNome', 1, 100, 1,
+  Result.AppendChild(AddNode(tcStr, '#29', 'LocalidadeIncidenciaNome', 1, 100, 0,
                                      NFSe.infNFSe.IBSCBS.xLocalidadeIncid, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#29', 'PercRedutorCompraGov', 1, 15, 0,
+                                             NFSe.infNFSe.IBSCBS.pRedutor, ''));
 end;
 
 function TNFSeW_SpeedGov.GerarInfRps: TACBrXmlNode;
@@ -323,7 +366,7 @@ begin
 
   if NFSe.Competencia > 0 then
     Result.AppendChild(AddNode(tcDat, '#30', 'DataCompetencia', 1, 10, 0,
-                                   NFSe.Competencia, ''));
+                                                         NFSe.Competencia, ''));
 end;
 (*
 function TNFSeW_SpeedGov.GerarIni: string;
