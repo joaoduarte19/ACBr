@@ -43,7 +43,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
-
+20/04/2026
+-- ACBrMonitor.hnd--
+[*] Ajustes do manual com da lista de ocorrências OcorrenciaOriginal (Tipo de Ocorrência)
+   Por: Daniel de MOrais InfoCotidiano
+   
 15/04/2026
 -- DoACBrMDFeUnit/DoACBrCTeUnit/ACBrMonitor1 --
 [*] ACBR-8957 - Adiciona tags para substituição na mensagem de e-mail para CT-e, MDF-e e NFS-e.
