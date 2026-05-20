@@ -88,6 +88,7 @@ contains
   ACBrPIXSchemasRecParticipantes in '..\..\..\Fontes\ACBrPIXCD\ACBrPIXSchemasRecParticipantes.pas',
   ACBrPIXSchemasSolicRec in '..\..\..\Fontes\ACBrPIXCD\ACBrPIXSchemasSolicRec.pas',
   ACBrPIXSchemasCobR in '..\..\..\Fontes\ACBrPIXCD\ACBrPIXSchemasCobR.pas',
-  ACBrPIXSchemasWebhook in '..\..\..\Fontes\ACBrPIXCD\ACBrPIXSchemasWebhook.pas';
+  ACBrPIXSchemasWebhook in '..\..\..\Fontes\ACBrPIXCD\ACBrPIXSchemasWebhook.pas',
+  ACBrPIXPSPSicoob in '..\..\..\Fontes\ACBrPIXCD\ACBrPIXPSPSicoob.pas';
 
 end.
