@@ -1255,7 +1255,8 @@ begin
     FEnviar.GerarException( FEnviar.Msg );
 
   FRetorno.numeroRecibo := FEnviar.numero;
-
+  //TODO: Verificar se nesse if abaixo deveria validar o tamanho do numeroRecibo para evitar erros como no tópico abaixo?
+  //https://www.projetoacbr.com.br/forum/topic/71538-gnre-homologacao-197-erro-ao-recepcionar-o-lote/
   if (FRetorno.numeroRecibo <> '') and (not FRetorno.Executar) then
     FRetorno.GerarException(FRetorno.Msg);
 
