@@ -101,10 +101,12 @@ type
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
 
     function PrepararArquivoEnvio(const aXml: string; aMetodo: TMetodo): string; override;
+
+    procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
+
     procedure ProcessarMensagemDeErros(LJson: TACBrJSONObject;
                                      Response: TNFSeWebserviceResponse;
                                      const AListTag: string = 'Erros'); override;
-
   end;
 
 implementation
@@ -116,6 +118,7 @@ uses
   ACBrUtil.FilesIO,
   ACBrDFeException,
   ACBrNFSeX,
+  ACBrNFSeXConsts,
   ACBrNFSeXConfiguracoes,
   ACBrNFSeXNotasFiscais,
   ModernizacaoPublica.GravarXml,
@@ -423,8 +426,6 @@ begin
 
   if URL <> '' then
   begin
-//    URL := URL + Path;
-
     Result := TACBrNFSeXWebserviceModernizacaoPublicaAPIPropria.Create(FAOwner,
       AMetodo, URL, Method);
   end
@@ -446,26 +447,87 @@ begin
   begin
     Result := ChangeLineBreak(aXml, '');
 
-    case aMetodo of
-      tmGerar:
-        begin
-//          Result := '{"dpsXmlGZipB64":"' + Result + '"}';
-//          Path := '/nfse';
-        end;
+    Method := 'POST';
+  end;
+end;
 
-      tmEnviarEvento:
-        begin
-//          Result := '{"pedidoRegistroEventoXmlGZipB64":"' + Result + '"}';
-//          Path := '/nfse/' + Chave + '/eventos';
-        end;
-    else
+procedure TACBrNFSeProviderModernizacaoPublicaAPIPropria.TratarRetornoEmitir(
+  Response: TNFSeEmiteResponse);
+var
+  Document: TACBrJSONObject;
+  AErro: TNFSeEventoCollectionItem;
+  NFSeXml: string;
+  DocumentXml: TACBrXmlDocument;
+  ANode: TACBrXmlNode;
+  NumNFSe, NumDps, CodVerif: string;
+  DataAut: TDateTime;
+  ANota: TNotaFiscal;
+begin
+  if Response.ArquivoRetorno = '' then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod201;
+    AErro.Descricao := ACBrStr(Desc201);
+    Exit;
+  end;
+
+  Document := TACBrJsonObject.Parse(Response.ArquivoRetorno);
+  try
+    try
+      ProcessarMensagemDeErros(Document, Response);
+      Response.Sucesso := (Response.Erros.Count = 0);
+      Response.Data := Document.AsISODateTime['dataHoraProcessamento'];
+
+      Response.Link := Document.AsString['chave_acesso'];
+      if Response.Link = '' then
+        Response.Link := Document.AsString['chaveAcesso'];
+      Response.CodigoVerificacao := Response.Link;
+
+      NFSeXml := Document.AsString['xml'];
+      NFSeXml := TrocaEscapeporConchete(NFSeXml);
+
+      if NFSeXml <> '' then
       begin
-        Result := '';
-        Path := '';
+        try
+          DocumentXml := TACBrXmlDocument.Create;
+          try
+            DocumentXml.LoadFromXml(NFSeXml);
+
+            ANode := DocumentXml.Root.Childrens.FindAnyNs('infNFSe');
+
+            CodVerif := OnlyNumber(ObterConteudoTag(ANode.Attributes.Items['Id']));
+            NumNFSe := ObterConteudoTag(ANode.Childrens.FindAnyNs('nNFSe'), tcStr);
+            DataAut := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhProc'), tcDatHor);
+
+            ANode := ANode.Childrens.FindAnyNs('DPS');
+            ANode := ANode.Childrens.FindAnyNs('infDPS');
+            NumDps := ObterConteudoTag(ANode.Childrens.FindAnyNs('nDPS'), tcStr);
+
+            Response.NumeroNota := NumNFSe;
+            Response.Data := DataAut;
+            Response.XmlRetorno := NFSeXml;
+
+            ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByRps(NumDps);
+            ANota := CarregarXmlNfse(ANota, DocumentXml.Root.OuterXml);
+
+            SalvarXmlNfse(ANota);
+          finally
+            FreeAndNil(DocumentXml);
+          end;
+        except
+          // XML parse failed (encoding issue) - data already set via string ops
+        end;
+      end;
+    except
+      on E: Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
       end;
     end;
-
-    Method := 'POST';
+  finally
+    FreeAndNil(Document);
   end;
 end;
 

@@ -43,8 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/05/2026
+-- ModernizacaoPublica.Provider --
+[*] ACBr-9354 - Ajustes para o correto leitura do retorno do envio.
+   Por: C4Dev/Italo Giurizzato Junior
 -- BWSistemas.GravarXml/BWSistemas.Provider --
-[*] ACBr-9328 - Ajustes para o corrento envio e uma possível solução para o cancelamento.
+[*] ACBr-9328 - Ajustes para o correto envio e uma possível solução para o cancelamento.
    Por: Diego Folieni/Italo Giurizzato Junior
 -- Etherium.Provider --
 [*] ACBr-9323 - Alteração visando gerar a tag MotivoCancelamento no pedido de cancelamento de uma nota.
