@@ -42,6 +42,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/05/2026
+-- ACBrNFSeXServicos.ini --
+[*] ACBr-9398 - mudança de URL de produção  para o município de São Gabriel do Oeste/MS.
+  Por: Larissa Santos
+  Veja: https://www.projetoacbr.com.br/forum/topic/92372-mudan%C3%A7a-url-prefeitura-s%C3%A3o-gabriel-do-oeste/
+[*] ACBr-9397 - O município de Muzambinho/MG aderiu ao Padrão Nacional.
+  Por: Larissa Santos
+  Veja: https://www.projetoacbr.com.br/forum/topic/92363-muzambinho-mg-provedor-           nacional/
 
 19/05/2026
 -- EloTech.GravarXml --
