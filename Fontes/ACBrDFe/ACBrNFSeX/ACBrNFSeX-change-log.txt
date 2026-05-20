@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/05/2026
+-- Etherium.Provider --
+[*] ACBr-9323 - Alteração visando gerar a tag MotivoCancelamento no pedido de cancelamento de uma nota.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos.ini --
 [*] ACBr-9398 - mudança de URL de produção  para o município de São Gabriel do Oeste/MS.
   Por: Larissa Santos

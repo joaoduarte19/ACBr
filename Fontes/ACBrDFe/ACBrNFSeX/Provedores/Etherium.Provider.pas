@@ -528,6 +528,7 @@ begin
   with ConfigGeral do
   begin
     ConsultaPorFaixaPreencherNumNfseFinal := True;
+    CancPreencherMotivo := True;
   end;
 
   with ConfigAssinar do
@@ -550,9 +551,6 @@ begin
     GerarPrestadorLoteRps := True;
     DadosCabecalho := GetCabecalho('');
   end;
-
-  // Provedor não disponibilizou os novos Schemas.
-  ConfigSchemas.Validar := False;
 end;
 
 function TACBrNFSeProviderEtherium204.CriarGeradorXml(
