@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/05/2026
+-- ACBrLibBoletoConsoleMT, ACBrLiBoletoConsoleDemoMT --
+[+] Adiciona perfil de compilação para Console MT para Windows
+[*] Usa FPDF como motor de impressao padrão
+  Por: doszapro
+
 19/05/2026
 -- ACBrLibBoletoConfig --
 [-] ACBr-9168 Corrige bug de ambiente invalido para Webservices
