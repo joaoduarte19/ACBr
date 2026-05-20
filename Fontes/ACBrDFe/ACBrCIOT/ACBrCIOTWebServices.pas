@@ -549,7 +549,7 @@ begin
         end;
       end;
   else //ieFrete
-    URL_WSDL := 'http://schemas.ipc.adm.br/efrete/pef/';
+    URL_WSDL := 'http://schemas.ipc.adm.br/efrete/pefV2/';
     FPSoapEnvelopeAtributtes := 'xmlns:' + FPSoapVersion + '="http://schemas.xmlsoap.org/soap/envelope/" ';
 
     case FContratos.Items[0].CIOT.Integradora.Operacao of
@@ -595,11 +595,11 @@ begin
 
     else
       begin
-        Servico  := 'http://schemas.ipc.adm.br/efrete/pef/';
+        Servico  := 'http://schemas.ipc.adm.br/efrete/pefV2/';
 
         FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-                                    'xmlns:pef="http://schemas.ipc.adm.br/efrete/pef" ' +
-                                    'xmlns:obj="http://schemas.ipc.adm.br/efrete/pef/objects" ' +
+                                    'xmlns:pefV2="http://schemas.ipc.adm.br/efrete/pefV2" ' +
+                                    'xmlns:obj="http://schemas.ipc.adm.br/efrete/pefV2/objects" ' +
                                     'xmlns:obj1="http://schemas.ipc.adm.br/efrete/objects"';
       end;
     end;
@@ -663,7 +663,7 @@ begin
           Acao      := 'AdicionarOperacaoTransporte';
 
           FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-                ' xmlns:adic="http://schemas.ipc.adm.br/efrete/pef/' + Acao + '"';
+                ' xmlns:adic="http://schemas.ipc.adm.br/efrete/pefV2/' + Acao + '"';
         end;
 
       opRetificar:
@@ -673,7 +673,7 @@ begin
           Acao      := 'RetificarOperacaoTransporte';
 
           FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-                ' xmlns:ret="http://schemas.ipc.adm.br/efrete/pef/' + Acao + '"';
+                ' xmlns:ret="http://schemas.ipc.adm.br/efrete/pefV2/' + Acao + '"';
         end;
 
       opCancelar:
@@ -690,7 +690,7 @@ begin
           Acao      := 'AdicionarViagem';
 
           FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-                ' xmlns:adic="http://schemas.ipc.adm.br/efrete/pef/' + Acao + '"';
+                ' xmlns:adic="http://schemas.ipc.adm.br/efrete/pefV2/' + Acao + '"';
         end;
 
       opAdicionarPagamento:
@@ -700,7 +700,7 @@ begin
           Acao      := 'AdicionarPagamento';
 
           FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-                ' xmlns:adic="http://schemas.ipc.adm.br/efrete/pef/' + Acao + '"';
+                ' xmlns:adic="http://schemas.ipc.adm.br/efrete/pefV2/' + Acao + '"';
         end;
 
       opCancelarPagamento:
@@ -717,7 +717,7 @@ begin
           Acao      := 'EncerrarOperacaoTransporte';
 
           FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-                ' xmlns:enc="http://schemas.ipc.adm.br/efrete/pef/' + Acao + '"';
+                ' xmlns:enc="http://schemas.ipc.adm.br/efrete/pefV2/' + Acao + '"';
         end;
 
       opConsultarTipoCarga:
@@ -741,7 +741,7 @@ begin
           Acao      := 'RegistrarQuantidadeDaMercadoriaNoDesembarque';
 
           FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-                ' xmlns:reg="http://schemas.ipc.adm.br/efrete/pef/objects/' + Acao + '"';
+                ' xmlns:reg="http://schemas.ipc.adm.br/efrete/pefV2/objects/' + Acao + '"';
         end;
 
       opRegistrarPagamentoQuitacao:
@@ -751,7 +751,7 @@ begin
           Acao      := 'RegistrarPagamentoQuitacao';
 
           FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-                ' xmlns:reg="http://schemas.ipc.adm.br/efrete/pef/objects/' + Acao + '"';
+                ' xmlns:reg="http://schemas.ipc.adm.br/efrete/pefV2/objects/' + Acao + '"';
         end;
     end;
   end;

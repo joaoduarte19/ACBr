@@ -38,6 +38,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/05/2026
+-- ACBrCIOTWebServices, pcnCIOTW_eFrete, ACBrCIOTServicos.ini --
+[*] Alterações nas urls do eFrete na versão 8
+  Por: Pablo Cerbaro
+  
 18/05/2026
 -- pcnCIOT, pcnCIOTW_eFrete --
 [*] ACBR-9371 - eFrete v8 - MP 1.343/2026 - novas regras do CIOT e Piso Mínimo de Frete

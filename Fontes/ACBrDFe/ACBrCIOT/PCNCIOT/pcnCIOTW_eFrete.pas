@@ -1534,7 +1534,7 @@ begin
   Gerador.LayoutArquivoTXT.Clear;
   Gerador.ArquivoFormatoTXT := '';
 
-  Gerador.Prefixo := 'pef:';
+  Gerador.Prefixo := 'pefV2:';
 
   case CIOT.Integradora.Operacao of
     opLogin:
@@ -1590,8 +1590,9 @@ begin
         Gerador.Prefixo := 'obj:';
         Gerador.wGrupo('GravarRequest');
 
-        // No manual v8 consta como versão 4 para este endpoint, mas gera rejeição, mantida versão 3
-        GerarIdentificacao(3);
+        // No manual v8 consta como versão 4, mas funciona somente em produção
+        // em homologação funcionando na versão 3 - Aguardando retorno da integradora sobre sincronização dos ambientes
+        GerarIdentificacao(4);
         GerarGravarProprietario;
 
         Gerador.wGrupo('/GravarRequest');
@@ -1652,7 +1653,7 @@ begin
 
         Gerador.wGrupo('/ObterCodigoIdentificacaoOperacaoTransportePorIdOperacaoClienteRequest');
 
-        Gerador.Prefixo := 'pef:';
+        Gerador.Prefixo := 'pefV2:';
         Gerador.wGrupo('/ObterCodigoIdentificacaoOperacaoTransportePorIdOperacaoCliente');
       end;
 
@@ -1672,7 +1673,7 @@ begin
         end;
         Gerador.wGrupo('/ObterOperacaoTransportePdfRequest');
 
-        Gerador.Prefixo := 'pef:';
+        Gerador.Prefixo := 'pefV2:';
         Gerador.wGrupo('/ObterOperacaoTransportePdf');
       end;
 
@@ -1803,7 +1804,7 @@ begin
 
         Gerador.wGrupo('/AdicionarOperacaoTransporteRequest');
 
-        Gerador.Prefixo := 'pef:';
+        Gerador.Prefixo := 'pefV2:';
         Gerador.wGrupo('/AdicionarOperacaoTransporte');
       end;
 
@@ -1841,7 +1842,7 @@ begin
 
         Gerador.wGrupo('/RetificarOperacaoTransporteRequest');
 
-        Gerador.Prefixo := 'pef:';
+        Gerador.Prefixo := 'pefV2:';
         Gerador.wGrupo('/RetificarOperacaoTransporte');
       end;
 
@@ -1862,7 +1863,7 @@ begin
 
         Gerador.wGrupo('/CancelarOperacaoTransporteRequest');
 
-        Gerador.Prefixo := 'pef:';
+        Gerador.Prefixo := 'pefV2:';
         Gerador.wGrupo('/CancelarOperacaoTransporte');
       end;
 
@@ -1887,7 +1888,7 @@ begin
 
         Gerador.wGrupo('/AdicionarViagemRequest');
 
-        Gerador.Prefixo := 'pef:';
+        Gerador.Prefixo := 'pefV2:';
         Gerador.wGrupo('/AdicionarViagem');
       end;
 
@@ -1909,7 +1910,7 @@ begin
 
         Gerador.wGrupo('/AdicionarPagamentoRequest');
 
-        Gerador.Prefixo := 'pef:';
+        Gerador.Prefixo := 'pefV2:';
         Gerador.wGrupo('/AdicionarPagamento');
       end;
 
@@ -1931,7 +1932,7 @@ begin
 
         Gerador.wGrupo('/CancelarPagamentoRequest');
 
-        Gerador.Prefixo := 'pef:';
+        Gerador.Prefixo := 'pefV2:';
         Gerador.wGrupo('/CancelarPagamento');
       end;
 
@@ -1960,7 +1961,7 @@ begin
 
         Gerador.wGrupo('/EncerrarOperacaoTransporteRequest');
 
-        Gerador.Prefixo := 'pef:';
+        Gerador.Prefixo := 'pefV2:';
         Gerador.wGrupo('/EncerrarOperacaoTransporte');
       end;
 
@@ -1975,7 +1976,7 @@ begin
 
         Gerador.wGrupo('/ConsultarTipoCargaRequest');
 
-        Gerador.Prefixo := 'pef:';
+        Gerador.Prefixo := 'pefV2:';
         Gerador.wGrupo('/ConsultarTipoCarga');
       end;
 
@@ -1998,7 +1999,7 @@ begin
 
         Gerador.wGrupo('/EditarPagamentoRequest');
 
-        Gerador.Prefixo := 'pef:';
+        Gerador.Prefixo := 'pefV2:';
         Gerador.wGrupo('/AlterarDataLiberacaoPagamento');
       end;
 
@@ -2038,7 +2039,7 @@ begin
         Gerador.Prefixo := 'obj:';
         Gerador.wGrupo('/RegistrarQuantidadeDaMercadoriaNoDesembarqueRequest');
 
-        Gerador.Prefixo := 'pef:';
+        Gerador.Prefixo := 'pefV2:';
         Gerador.wGrupo('/RegistrarQuantidadeDaMercadoriaNoDesembarque');
       end;
 
@@ -2079,7 +2080,7 @@ begin
         Gerador.Prefixo := 'obj:';
         Gerador.wGrupo('/RegistrarPagamentoQuitacaoRequest');
 
-        Gerador.Prefixo := 'pef:';
+        Gerador.Prefixo := 'pefV2:';
         Gerador.wGrupo('/RegistrarPagamentoQuitacao');
       end;
 
