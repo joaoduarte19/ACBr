@@ -42,9 +42,11 @@ uses
   ACBrDFe.Conversao,
   ACBrNFSeXClass,
   ACBrNFSeXConversao,
+  ACBrNFSeXConfiguracoes,
   ACBrNFSeXGravarXml,
   ACBrNFSeXLerXml,
   ACBrNFSeXProviderABRASFv2,
+  ACBrNFSeXWebservicesResponse,
   ACBrNFSeXWebserviceBase;
 
 type
@@ -71,6 +73,14 @@ type
     function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
 
+    procedure GerarMsgDadosEmitir(Response: TNFSeEmiteResponse;
+      Params: TNFSeParamsResponse); override;
+
+    procedure GerarMsgDadosCancelaNFSe(Response: TNFSeCancelaNFSeResponse;
+      Params: TNFSeParamsResponse); override;
+  public
+    function RegimeEspecialTributacaoToStr(const t: TnfseRegimeEspecialTributacao): string; override;
+    function StrToRegimeEspecialTributacao(out ok: boolean; const s: string): TnfseRegimeEspecialTributacao; override;
   end;
 
 implementation
@@ -90,6 +100,11 @@ begin
 
   with ConfigGeral do
   begin
+    ServicosDisponibilizados.EnviarLoteAssincrono := False;
+    ServicosDisponibilizados.EnviarLoteSincrono := False;
+    ServicosDisponibilizados.EnviarUnitario := True;
+    ServicosDisponibilizados.ConsultarFaixaNfse := True;
+    ServicosDisponibilizados.ConsultarRps := True;
     {
     UseCertificateHTTP := True;
     UseAuthorizationHeader := False;
@@ -158,6 +173,80 @@ begin
   end;
 end;
 
+procedure TACBrNFSeProviderBWSistemas200.GerarMsgDadosEmitir(
+  Response: TNFSeEmiteResponse; Params: TNFSeParamsResponse);
+var
+  lEmitente: TEmitenteConfNFSe;
+begin
+  lEmitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
+
+  Response.ArquivoEnvio :=
+    '<' + Params.Prefixo + Params.TagEnvio + '>' +
+      '<Credenciais>' +
+        '<UserName>' + lEmitente.WSUser + '</UserName>' +
+        '<Password>' + lEmitente.WSSenha + '</Password>' +
+      '</Credenciais>' +
+       Params.Xml +
+    '</' + Params.Prefixo + Params.TagEnvio + '>';
+end;
+
+procedure TACBrNFSeProviderBWSistemas200.GerarMsgDadosCancelaNFSe(
+  Response: TNFSeCancelaNFSeResponse; Params: TNFSeParamsResponse);
+var
+  Emitente: TEmitenteConfNFSe;
+  InfoCanc: TInfCancelamento;
+begin
+  Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
+  InfoCanc := Response.InfCancelamento;
+
+  with Params do
+  begin
+    Response.ArquivoEnvio :=
+       '<' + Prefixo2 + 'Pedido>' +
+         '<' + Prefixo2 + 'InfPedidoCancelamento' + IdAttr + NameSpace2 + '>' +
+           '<' + Prefixo2 + 'IdentificacaoNfse>' +
+             '<' + Prefixo2 + 'Numero>' +
+                InfoCanc.NumeroNFSe +
+             '</' + Prefixo2 + 'Numero>' +
+             Serie +
+             '<' + Prefixo2 + 'CpfCnpj>' +
+                GetCpfCnpj(Emitente.CNPJ, Prefixo2) +
+             '</' + Prefixo2 + 'CpfCnpj>' +
+             GetInscMunic(Emitente.InscMun, Prefixo2) +
+             '<' + Prefixo2 + 'CodigoMunicipio>' +
+                IntToStr(InfoCanc.CodMunicipio) +
+             '</' + Prefixo2 + 'CodigoMunicipio>' +
+             CodigoVerificacao +
+           '</' + Prefixo2 + 'IdentificacaoNfse>' +
+           '<' + Prefixo2 + 'CodigoCancelamento>' +
+              InfoCanc.CodCancelamento +
+           '</' + Prefixo2 + 'CodigoCancelamento>' +
+           Motivo +
+         '</' + Prefixo2 + 'InfPedidoCancelamento>' +
+       '</' + Prefixo2 + 'Pedido>';
+  end;
+end;
+
+function TACBrNFSeProviderBWSistemas200.RegimeEspecialTributacaoToStr(
+  const t: TnfseRegimeEspecialTributacao): string;
+begin
+  Result := EnumeradoToStr(t,
+                         ['0', '1', '2', '3', '4', '5', '6'],
+                         [retNenhum, retMicroempresaMunicipal, retEstimativa,
+                         retSociedadeProfissionais, retCooperativa,
+                         retMicroempresarioIndividual, retMicroempresarioEmpresaPP]);
+end;
+
+function TACBrNFSeProviderBWSistemas200.StrToRegimeEspecialTributacao(
+  out ok: boolean; const s: string): TnfseRegimeEspecialTributacao;
+begin
+  Result := StrToEnumerado(ok, s,
+                        ['0', '1', '2', '3', '4', '5', '6'],
+                        [retNenhum, retMicroempresaMunicipal, retEstimativa,
+                         retSociedadeProfissionais, retCooperativa,
+                         retMicroempresarioIndividual, retMicroempresarioEmpresaPP]);
+end;
+
 { TACBrNFSeXWebserviceBWSistemas200 }
 
 function TACBrNFSeXWebserviceBWSistemas200.GetDadosUsuario: string;
@@ -178,12 +267,12 @@ var
 begin
   FPMsgOrig := AMSG;
 
-  Request := '<GerarNfseEnvio>' +
-               DadosUsuario +
-               AMSG +
-             '</GerarNfseEnvio>';
+//  Request := '<GerarNfseEnvio>' +
+//               DadosUsuario +
+//               AMSG +
+//             '</GerarNfseEnvio>';
 
-  Result := Executar('/GerarNfse', Request,
+  Result := Executar('/GerarNfse', AMSG,
                      ['GerarNfseResposta'],
                      ['xmlns:nfse="http://nfse.abrasf.org.br"']);
 end;

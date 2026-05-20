@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/05/2026
+-- BWSistemas.GravarXml/BWSistemas.Provider --
+[*] ACBr-9328 - Ajustes para o corrento envio e uma possível solução para o cancelamento.
+   Por: Diego Folieni/Italo Giurizzato Junior
 -- Etherium.Provider --
 [*] ACBr-9323 - Alteração visando gerar a tag MotivoCancelamento no pedido de cancelamento de uma nota.
    Por: Italo Giurizzato Junior

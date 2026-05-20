@@ -37,7 +37,14 @@ unit BWSistemas.GravarXml;
 interface
 
 uses
-  SysUtils, Classes, StrUtils,
+  SysUtils,
+  Classes,
+  StrUtils,
+  ACBrXMLDocument,
+  ACBrUtil.Strings,
+  ACBrDFe.Conversao,
+  ACBrNFSeXConsts,
+  ACBrNFSeXConversao,
   ACBrNFSeXGravarXml_ABRASFv2;
 
 type
@@ -46,7 +53,7 @@ type
   TNFSeW_BWSistemas200 = class(TNFSeW_ABRASFv2)
   protected
     procedure Configuracao; override;
-
+    function GerarServico: TACBrXmlNode; override;
   end;
 
 implementation
@@ -62,138 +69,74 @@ procedure TNFSeW_BWSistemas200.Configuracao;
 begin
   // Executa a Configuração Padrão
   inherited Configuracao;
-  (*
-  {
-     Todos os parâmetros de configuração estão com os seus valores padrões.
+  NrOcorrValorDeducoes := 1;
+  NrOcorrValorPis := 1;
+  NrOcorrValorCofins := 1;
+  NrOcorrValorInss := 1;
+  NrOcorrValorCsll := 1;
+  NrOcorrOutrasRet := 1;
+  NrOcorrValorIss := 1;
+  NrOcorrAliquota := 1;
+  NrOcorrDescIncond := 1;
+  NrOcorrDescCond := 1;
+  NrOcorrValorIr := 1;
+  NrOcorrRegimeEspecialTributacao := 1;
+end;
 
-     Se a configuração padrão atende o provedor ela pode ser excluida dessa
-     procedure.
+function TNFSeW_BWSistemas200.GerarServico: TACBrXmlNode;
+var
+  item: string;
+begin
+  Result := CreateElement('Servico');
 
-     Portanto deixe somente os parâmetros de configuração que foram alterados
-     para atender o provedor.
-  }
+  Result.AppendChild(GerarValores);
 
-  // Propriedades de Formatação de informações
-  // elas requerem que seja declarado em uses a unit: ACBrXmlBase
-  {
-  FormatoEmissao     := tcDat;
-  FormatoCompetencia := tcDat;
+  if GerarTagServicos then
+  begin
+    Result.AppendChild(AddNode(tcStr, '#39', 'CodSitTribPisCofins', 1, 2, 1,
+                                              CSTPisToStr(NFSe.Servico.Valores.CSTPis), ''));
+    Result.AppendChild(AddNode(tcStr, '#40', 'TipoRetPisCofins', 1, 1, 1,
+                                              tpRetPisCofinsToStr(NFSe.Servico.Valores.tpRetPisCofins), ''));
 
-  FormatoAliq := tcDe4;
-  }
+    Result.AppendChild(AddNode(tcStr, '#20', 'IssRetido', 1, 1, NrOcorrIssRetido,
+      FpAOwner.SituacaoTributariaToStr(NFSe.Servico.Valores.IssRetido), DSC_INDISSRET));
 
-  // elas requerem que seja declarado em uses a unit: ACBrNFSeXConversao
-  {
-  // filsComFormatacao, filsSemFormatacao, filsComFormatacaoSemZeroEsquerda
-  FormatoItemListaServico := filsComFormatacao;
-  }
+    Result.AppendChild(AddNode(tcStr, '#21', 'ResponsavelRetencao', 1, 1, NrOcorrRespRetencao,
+     FpAOwner.ResponsavelRetencaoToStr(NFSe.Servico.ResponsavelRetencao), DSC_INDRESPRET));
 
-  DivAliq100  := False;
+    item := FormatarItemServico(NFSe.Servico.ItemListaServico, FormatoItemListaServico);
 
-  NrMinExigISS := 1;
-  NrMaxExigISS := 1;
+    Result.AppendChild(AddNode(tcStr, '#29', 'ItemListaServico', 1, 8, NrOcorrItemListaServico,
+                                                          item, DSC_CLISTSERV));
 
-  GerarTagServicos := True;
+    Result.AppendChild(AddNode(tcStr, '#30', 'CodigoCnae', 1, 9, NrOcorrCodigoCNAE,
+                                OnlyNumber(NFSe.Servico.CodigoCnae), DSC_CNAE));
 
-  // Gera ou não o atributo ID no grupo <Rps> da versão 2 do layout da ABRASF.
-  GerarIDRps := False;
-  // Gera ou não o NameSpace no grupo <Rps> da versão 2 do layout da ABRASF.
-  GerarNSRps := True;
+    Result.AppendChild(AddNode(tcStr, '#31', 'CodigoTributacaoMunicipio', 1, 20, NrOcorrCodTribMun_1,
+                     NFSe.Servico.CodigoTributacaoMunicipio, DSC_CSERVTRIBMUN));
 
-  GerarIDDeclaracao := True;
-  GerarEnderecoExterior := True;
+    Result.AppendChild(AddNode(tcStr, '#32', 'CodigoNbs', 1, 9, NrOcorrCodigoNBS,
+                                             NFSe.Servico.CodigoNBS, DSC_CMUN));
 
-  TagTomador := 'Tomador';
-  TagIntermediario := 'Intermediario';
+    Result.AppendChild(AddNode(tcStr, '#33', 'Discriminacao', 1, 2000, NrOcorrDiscriminacao_1,
+      StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+               FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]), DSC_DISCR));
 
-  // Numero de Ocorrencias Minimas de uma tag
-  // se for  0 só gera a tag se o conteudo for diferente de vazio ou zero
-  // se for  1 sempre vai gerar a tag
-  // se for -1 nunca gera a tag
+    Result.AppendChild(AddNode(tcStr, '#34', 'CodigoMunicipio', 1, 7, NrOcorrCodigoMunic_1,
+                           OnlyNumber(NFSe.Servico.CodigoMunicipio), DSC_CMUN));
 
-  // Por padrão as tags abaixo são opcionais
-  NrOcorrRazaoSocialInterm := 0;
-  NrOcorrValorDeducoes := 0;
-  NrOcorrRegimeEspecialTributacao := 0;
-  NrOcorrValorISS := 0;
-  NrOcorrAliquota := 0;
-  NrOcorrDescIncond := 0;
-  NrOcorrDescCond := 0;
-  NrOcorrMunIncid := 0;
-  NrOcorrInscEstInter := 0;
-  NrOcorrOutrasRet := 0;
-  NrOcorrCodigoCNAE := 0;
-  NrOcorrEndereco := 0;
-  NrOcorrCodigoPaisTomador := 0;
-  NrOcorrUFTomador := 0;
-  NrOcorrCepTomador := 0;
-  NrOcorrCodTribMun_1 := 0;
-  NrOcorrNumProcesso := 0;
-  NrOcorrInscMunTomador := 0;
-  NrOcorrCodigoPaisServico := 0;
-  NrOcorrRespRetencao := 0;
+    Result.AppendChild(GerarCodigoPaisServico);
 
-  // Por padrão as tags abaixo são obrigatórias
-  NrOcorrIssRetido := 1;
-  NrOcorrOptanteSimplesNacional := 1;
-  NrOcorrIncentCultural := 1;
-  NrOcorrItemListaServico := 1;
-  NrOcorrCompetencia := 1;
-  NrOcorrSerieRPS := 1;
-  NrOcorrTipoRPS := 1;
-  NrOcorrDiscriminacao_1 := 1;
-  NrOcorrExigibilidadeISS := 1;
-  NrOcorrCodigoMunic_1 := 1;
+    Result.AppendChild(AddNode(tcInt, '#36', 'ExigibilidadeISS',
+                               NrMinExigISS, NrMaxExigISS, NrOcorrExigibilidadeISS,
+    StrToInt(FpAOwner.ExigibilidadeISSToStr(NFSe.Servico.ExigibilidadeISS)), DSC_INDISS));
 
-  // Por padrão as tags abaixo não devem ser geradas
-  NrOcorrCodTribMun_2 := -1;
-  NrOcorrDiscriminacao_2 := -1;
-  NrOcorrNaturezaOperacao := -1;
-  NrOcorrIdCidade := -1;
-  NrOcorrValorTotalRecebido := -1;
-  NrOcorrInscEstTomador_1 := -1;
-  NrOcorrInscEstTomador_2 := -1;
-  NrOcorrOutrasInformacoes := -1;
-  NrOcorrTipoNota := -1;
-  NrOcorrSiglaUF := -1;
-  NrOcorrEspDoc := -1;
-  NrOcorrSerieTal := -1;
-  NrOcorrFormaPag := -1;
-  NrOcorrNumParcelas := -1;
-  NrOcorrBaseCalcCRS := -1;
-  NrOcorrIrrfInd := -1;
-  NrOcorrRazaoSocialPrest := -1;
-  NrOcorrPercCargaTrib := -1;
-  NrOcorrValorCargaTrib := -1;
-  NrOcorrPercCargaTribMun := -1;
-  NrOcorrValorCargaTribMun := -1;
-  NrOcorrPercCargaTribEst := -1;
-  NrOcorrValorCargaTribEst := -1;
-  NrOcorrInformacoesComplemetares := -1;
-  NrOcorrValTotTrib := -1;
-  NrOcorrTipoLogradouro := -1;
-  NrOcorrLogradouro := -1;
-  NrOcorrDDD := -1;
-  NrOcorrTipoTelefone := -1;
-  NrOcorrProducao := -1;
-  NrOcorrAtualizaTomador := -1;
-  NrOcorrTomadorExterior := -1;
-  NrOcorrCodigoMunic_2 := -1;
-  NrOcorrID := -1;
-  NrOcorrToken := -1;
-  NrOcorrSenha := -1;
-  NrOcorrFraseSecreta := -1;
-  NrOcorrAliquotaPis := -1;
-  NrOcorrRetidoPis := -1;
-  NrOcorrAliquotaCofins := -1;
-  NrOcorrRetidoCofins := -1;
-  NrOcorrAliquotaInss := -1;
-  NrOcorrRetidoInss := -1;
-  NrOcorrAliquotaIr := -1;
-  NrOcorrRetidoIr := -1;
-  NrOcorrAliquotaCsll := -1;
-  NrOcorrRetidoCsll := -1;
-  *)
+    Result.AppendChild(AddNode(tcInt, '#37', 'MunicipioIncidencia', 7, 7, NrOcorrMunIncid,
+                                NFSe.Servico.MunicipioIncidencia, DSC_MUNINCI));
+
+    Result.AppendChild(AddNode(tcStr, '#38', 'NumeroProcesso', 1, 30, NrOcorrNumProcesso,
+                                   NFSe.Servico.NumeroProcesso, DSC_NPROCESSO));
+  end;
 end;
 
 end.
