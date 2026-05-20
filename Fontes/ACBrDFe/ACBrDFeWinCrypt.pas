@@ -310,7 +310,12 @@ begin
     Result := GetProviderOrKeyIsHardware(ProviderOrKeyHandle, dwKeySpec);
   finally
     if pfCallerFreeProv then
-      CryptReleaseContext(ProviderOrKeyHandle, 0);
+    begin
+      if dwKeySpec = CERT_NCRYPT_KEY_SPEC then
+        NCryptFreeObject(ProviderOrKeyHandle)
+      else
+        CryptReleaseContext(ProviderOrKeyHandle, 0);
+    end;
   end;
 end;
 
@@ -643,7 +648,12 @@ begin
     end;
 
     if pfCallerFreeProv and (ProviderOrKeyHandle <> 0) then
-      CryptReleaseContext(ProviderOrKeyHandle, 0);
+    begin
+      if dwKeySpec = CERT_NCRYPT_KEY_SPEC then
+        NCryptFreeObject(ProviderOrKeyHandle)
+      else
+        CryptReleaseContext(ProviderOrKeyHandle, 0);
+    end;
 
     if ACertContext = Nil then
       PFXCert := CertEnumCertificatesInStore(AStore, PCCERT_CONTEXT(PFXCert)^);
@@ -841,7 +851,12 @@ begin
     end;
   finally
     if pfCallerFreeProv then
-      CryptReleaseContext(ProviderOrKeyHandle, 0);
+    begin
+      if dwKeySpec = CERT_NCRYPT_KEY_SPEC then
+        NCryptFreeObject(ProviderOrKeyHandle)
+      else
+        CryptReleaseContext(ProviderOrKeyHandle, 0);
+    end;
   end;
 end;
 
