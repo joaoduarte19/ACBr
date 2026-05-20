@@ -6,8 +6,7 @@
 { Direitos Autorais Reservados (c) 2024 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
-{ - José Junior                                                                }
-{ - Antônio Júnior                                                             }
+{ - Elias Cesar                                                                }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -87,6 +86,8 @@ type
     fPagamentoGRUConsultado: TACBrPagamentoEspecificoGRUResposta;
     fPagamentoDARFConsultado: TACBrPagamentoEspecificoDARFResposta;
     fPagamentoGuiaCodigoBarrasConsultado: TACBrPagamentoEspecificoGuiaCodBarrasResposta;
+    fPagamentosCancelarResposta: TACBrPagamentosPagamentoCancelarRespostaLista;
+    fPagamentosCancelarSolicitado: TACBrPagamentosCancelarLotePagamentos;
     fTransferenciaConsultada: TACBrPagamentoEspecificoTransferenciaResposta;
     fTransferenciaPixConsultada: TACBrPagamentoEspecificoPixResposta;
     fRespostaErros: TACBrPagamentosAPIErros;
@@ -116,6 +117,8 @@ type
     function GetPagamentoGRUConsultado: TACBrPagamentoEspecificoGRUResposta;
     function GetPagamentoDARFConsultado: TACBrPagamentoEspecificoDARFResposta;
     function GetPagamentoGuiaCodigoBarrasConsultado: TACBrPagamentoEspecificoGuiaCodBarrasResposta;
+    function GetPagamentosCancelarResposta: TACBrPagamentosPagamentoCancelarRespostaLista;
+    function GetPagamentosCancelarSolicitado: TACBrPagamentosCancelarLotePagamentos;
     function GetTransferenciaConsultada: TACBrPagamentoEspecificoTransferenciaResposta;
     function GetTransferenciaPixConsultada: TACBrPagamentoEspecificoPixResposta;
     function GetRespostaErros: TACBrPagamentosAPIErros;
@@ -157,6 +160,8 @@ type
     function TransferenciaPixConsultarLote(const aId: String): Boolean; virtual;
     function TransferenciaPixConsultar(const aId: String): Boolean; virtual;
 
+    function PagamentosCancelar: Boolean; virtual;
+
     property LoteBoletosCriado: TACBrLoteBoletosResposta read GetLoteBoletosCriado write fLoteBoletosCriado;
     property LoteBoletosConsultado: TACBrLoteBoletosResposta read GetLoteBoletosConsultado write fLoteBoletosConsultado;
     property LoteBoletosSolicitado: TACBrLoteBoletosRequisicao read GetLoteBoletosSolicitado write fLoteBoletosSolicitado;
@@ -191,6 +196,9 @@ type
     property LoteTransferenciaPixConsultado: TACBrLoteTransferenciaPixResposta read GetLoteTransferenciaPixConsultado write fLoteTransferenciaPixConsultado;
     property LoteTransferenciaPixSolicitado: TACBrLoteTransferenciaPixRequisicao read GetLoteTransferenciaPixSolicitado write fLoteTransferenciaPixSolicitado;
     property TransferenciaPixConsultada: TACBrPagamentoEspecificoPixResposta read GetTransferenciaPixConsultada write fTransferenciaPixConsultada;
+
+    property PagamentosCancelarSolicitado: TACBrPagamentosCancelarLotePagamentos read GetPagamentosCancelarSolicitado write fPagamentosCancelarSolicitado;
+    property PagamentosCancelarResposta: TACBrPagamentosPagamentoCancelarRespostaLista read GetPagamentosCancelarResposta write fPagamentosCancelarResposta;
 
     property RespostaErros: TACBrPagamentosAPIErros read GetRespostaErros write fRespostaErros;
   end;
@@ -432,6 +440,20 @@ begin
   if (not Assigned(fPagamentoGuiaCodigoBarrasConsultado)) then
     fPagamentoGuiaCodigoBarrasConsultado := TACBrPagamentoEspecificoGuiaCodBarrasResposta.Create;
   Result := fPagamentoGuiaCodigoBarrasConsultado;
+end;
+
+function TACBrPagamentosAPIClass.GetPagamentosCancelarResposta: TACBrPagamentosPagamentoCancelarRespostaLista;
+begin
+  if (not Assigned(fPagamentosCancelarResposta)) then
+    fPagamentosCancelarResposta := TACBrPagamentosPagamentoCancelarRespostaLista.Create('pagamentos');
+  Result := fPagamentosCancelarResposta;
+end;
+
+function TACBrPagamentosAPIClass.GetPagamentosCancelarSolicitado: TACBrPagamentosCancelarLotePagamentos;
+begin
+  if (not Assigned(fPagamentosCancelarSolicitado)) then
+    fPagamentosCancelarSolicitado := TACBrPagamentosCancelarLotePagamentos.Create;
+  Result := fPagamentosCancelarSolicitado;
 end;
 
 function TACBrPagamentosAPIClass.GetTransferenciaConsultada: TACBrPagamentoEspecificoTransferenciaResposta;
@@ -736,6 +758,12 @@ begin
 end;
 
 function TACBrPagamentosAPIClass.TransferenciaPixConsultar(const aId: String): Boolean;
+begin
+  Result := False;
+  { abstract }
+end;
+
+function TACBrPagamentosAPIClass.PagamentosCancelar: Boolean;
 begin
   Result := False;
   { abstract }

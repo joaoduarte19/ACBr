@@ -73,6 +73,7 @@ const
   cPagamentoBBPathDARFPreto = 'darf-preto';
   cPagamentoBBPathBoletos = 'boletos';
   cPagamentoBBPathTransferencias = 'transferencias';
+  cPagamentoBBPathCancelarPagtos = 'cancelar-pagamentos';
   cPagamentoBBPathPix = 'pix';
 
 type
@@ -112,6 +113,8 @@ type
     function GPSSolicitarPagamentos: Boolean; override;
     function GPSConsultarLotePagamentos(const aId: String): Boolean; override;
     function GPSConsultarPagamentoEspecifico(const aId: String): Boolean; override;
+
+    function PagamentosCancelar: Boolean; override;
   end;
 
   { TACBrPagamentosAPIBB }
@@ -884,6 +887,48 @@ begin
   Result := (BB.HTTPResultCode = HTTP_OK);
   case BB.HTTPResultCode of
     HTTP_OK: PagamentoGPSConsultado.AsJSON := BB.HTTPResponse;
+    HTTP_UNAUTHORIZED: RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
+  else
+    begin
+      RespostaErros.AsJSON := BB.HTTPResponse;
+      if (RespostaErros.Count = 0) and (BB.HTTPResultCode >= 400) then
+        RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
+    end;
+  end;
+end;
+
+function TACBrPagamentosAPIBBPagamentos.PagamentosCancelar: Boolean;
+var
+  Body: String;
+begin
+  RegistrarLog('PagamentosCancelar');
+
+  BB.Scopes := [pscCancelarRequisicao];
+
+  Body := Trim(PagamentosCancelarSolicitado.AsJSON);
+  if EstaVazio(Body) then
+    raise EACBrPagamentosAPIException.CreateFmt(ACBrStr(sErroObjetoNaoPrenchido), ['PagamentosCancelarSolicitado']);
+
+  BB.PrepararHTTP;
+  WriteStrToStream(BB.HTTPSend.Document, Body);
+  BB.HTTPSend.MimeType := CContentTypeApplicationJSon;
+  BB.HTTPSend.Headers.Insert(0, ChttpHeaderAuthorization + cHTTPAuthorizationBearer +' '+ Token);
+  BB.URLQueryParams.Values['gw-dev-app-key'] := BB.developerApplicationKey;
+  BB.URLPathParams.Add(cPagamentoBBPathCancelarPagtos);
+  RegistrarLog('  Req.Body: ' + sLineBreak + Body, 3);
+
+  try
+    BB.HTTPMethod(cHTTPMethodPOST, BB.CalcularURL);
+  except
+    on e: Exception do
+    if not (e is EACBrHTTPError) then
+      raise e;
+  end;
+
+  RegistrarLog('  Response: ' + sLineBreak + BB.HTTPResponse, 3);
+  Result := (BB.HTTPResultCode = HTTP_OK);
+  case BB.HTTPResultCode of
+    HTTP_OK: PagamentosCancelarResposta.AsJSON := BB.HTTPResponse;
     HTTP_UNAUTHORIZED: RespostaErros.OAuthError.AsJSON := BB.HTTPResponse;
   else
     begin

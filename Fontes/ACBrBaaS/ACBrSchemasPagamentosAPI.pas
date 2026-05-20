@@ -1276,6 +1276,103 @@ type
     property textoDescricao;
   end;
 
+  { TACBrPagamentosPagamentoCancelarClass }
+
+  TACBrPagamentosPagamentoCancelarClass = class(TACBrAPISchema)
+  private
+    fcodigoPagamento: Int64;
+    festadoCancelamento: String;
+    festadoPagamento: String;
+    findicadorCancelamento: String;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJSon(aJSon: TACBrJSONObject); override;
+    procedure DoReadFromJSon(aJSon: TACBrJSONObject); override;
+
+    property codigoPagamento: Int64 read fcodigoPagamento write fcodigoPagamento;
+    property indicadorCancelamento: String read findicadorCancelamento write findicadorCancelamento;
+    property estadoPagamento: String read festadoPagamento write festadoPagamento;
+    property estadoCancelamento: String read festadoCancelamento write festadoCancelamento;
+  public
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(aSource: TACBrPagamentosPagamentoCancelarClass);
+  end;
+
+  { TACBrPagamentosPagamentoCancelar }
+
+  TACBrPagamentosPagamentoCancelar = class(TACBrPagamentosPagamentoCancelarClass)
+  public
+    property codigoPagamento;
+  end;
+
+  { TACBrPagamentosPagamentoCancelarLista }
+
+  TACBrPagamentosPagamentoCancelarLista = class(TACBrAPISchemaArray)
+  private
+    function GetItem(aIndex: Integer): TACBrPagamentosPagamentoCancelar;
+    procedure SetItem(aIndex: Integer; aValue: TACBrPagamentosPagamentoCancelar);
+  protected
+    function NewSchema: TACBrAPISchema; override;
+  public
+    function Add(aItem: TACBrPagamentosPagamentoCancelar): Integer;
+    procedure Insert(aIndex: Integer; aItem: TACBrPagamentosPagamentoCancelar);
+    function New: TACBrPagamentosPagamentoCancelar;
+    property Items[aIndex: Integer]: TACBrPagamentosPagamentoCancelar read GetItem write SetItem; default;
+  end;
+
+  { TACBrPagamentosPagamentoCancelarResposta }
+
+  TACBrPagamentosPagamentoCancelarResposta = class(TACBrPagamentosPagamentoCancelarClass)
+  public
+    property codigoPagamento;
+    property indicadorCancelamento;
+    property estadoPagamento;
+    property estadoCancelamento;
+  end;
+
+  { TACBrPagamentosPagamentoCancelarRespostaLista }
+
+  TACBrPagamentosPagamentoCancelarRespostaLista = class(TACBrAPISchemaArray)
+  private
+    function GetItem(aIndex: Integer): TACBrPagamentosPagamentoCancelarResposta;
+    procedure SetItem(aIndex: Integer; aValue: TACBrPagamentosPagamentoCancelarResposta);
+  protected
+    function NewSchema: TACBrAPISchema; override;
+  public
+    function Add(aItem: TACBrPagamentosPagamentoCancelarResposta): Integer;
+    procedure Insert(aIndex: Integer; aItem: TACBrPagamentosPagamentoCancelarResposta);
+    function New: TACBrPagamentosPagamentoCancelarResposta;
+    property Items[aIndex: Integer]: TACBrPagamentosPagamentoCancelarResposta read GetItem write SetItem; default;
+  end;
+
+  { TACBrPagamentosCancelarLotePagamentos }
+
+  TACBrPagamentosCancelarLotePagamentos = class(TACBrAPISchema)
+  private
+    fagenciaDebito: Int64;
+    fcontaCorrenteDebito: Int64;
+    fdigitoVerificadorContaCorrente: String;
+    flistaPagamentos: TACBrPagamentosPagamentoCancelarLista;
+    fnumeroContratoPagamento: Int64;
+    function GetlistaPagamentos: TACBrPagamentosPagamentoCancelarLista;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJSon(aJSon: TACBrJSONObject); override;
+    procedure DoReadFromJSon(aJSon: TACBrJSONObject); override;
+  public
+    destructor Destroy; override;
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(aSource: TACBrPagamentosCancelarLotePagamentos);
+
+    property agenciaDebito: Int64 read fagenciaDebito write fagenciaDebito;
+    property contaCorrenteDebito: Int64 read fcontaCorrenteDebito write fcontaCorrenteDebito;
+    property digitoVerificadorContaCorrente: String read fdigitoVerificadorContaCorrente write fdigitoVerificadorContaCorrente;
+    property numeroContratoPagamento: Int64 read fnumeroContratoPagamento write fnumeroContratoPagamento;
+    property listaPagamentos: TACBrPagamentosPagamentoCancelarLista read GetlistaPagamentos write flistaPagamentos;
+  end;
+
   { TACBrGPSLancamentoResposta }
 
   TACBrGPSLancamentoResposta = class(TACBrLancamentoClass)
@@ -2551,6 +2648,203 @@ function TACBrDARFLancamentosResposta.New: TACBrDARFLancamentoResposta;
 begin
   Result := TACBrDARFLancamentoResposta.Create;
   Self.Add(Result);
+end;
+
+{ TACBrPagamentosPagamentoCancelarClass }
+
+procedure TACBrPagamentosPagamentoCancelarClass.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if (aSource is TACBrPagamentosPagamentoCancelarClass) then
+    Assign(TACBrPagamentosPagamentoCancelarClass(ASource));
+end;
+
+procedure TACBrPagamentosPagamentoCancelarClass.DoWriteToJSon(aJSon: TACBrJSONObject);
+begin
+  aJSon
+    .AddPair('codigoPagamento', fcodigoPagamento)
+    .AddPair('indicadorCancelamento', findicadorCancelamento)
+    .AddPair('estadoPagamento', festadoPagamento)
+    .AddPair('estadoCancelamento', festadoCancelamento);
+end;
+
+procedure TACBrPagamentosPagamentoCancelarClass.DoReadFromJSon(aJSon: TACBrJSONObject);
+begin
+  aJSon
+    .Value('codigoPagamento', fcodigoPagamento)
+    .Value('indicadorCancelamento', findicadorCancelamento)
+    .Value('estadoPagamento', festadoPagamento)
+    .Value('estadoCancelamento', festadoCancelamento);
+end;
+
+procedure TACBrPagamentosPagamentoCancelarClass.Clear;
+begin
+  fcodigoPagamento := 0;
+  findicadorCancelamento := EmptyStr;
+  festadoPagamento := EmptyStr;
+  festadoCancelamento := EmptyStr;
+end;
+
+function TACBrPagamentosPagamentoCancelarClass.IsEmpty: Boolean;
+begin
+  Result :=
+    EstaZerado(fcodigoPagamento) and
+    EstaVazio(findicadorCancelamento) and
+    EstaVazio(festadoPagamento) and
+    EstaVazio(festadoCancelamento);
+end;
+
+procedure TACBrPagamentosPagamentoCancelarClass.Assign(aSource: TACBrPagamentosPagamentoCancelarClass);
+begin
+  fcodigoPagamento := ASource.codigoPagamento;
+  findicadorCancelamento := ASource.indicadorCancelamento;
+  festadoPagamento := ASource.estadoPagamento;
+  festadoCancelamento := ASource.estadoCancelamento;
+end;
+
+{ TACBrPagamentosPagamentoCancelarLista }
+
+function TACBrPagamentosPagamentoCancelarLista.GetItem(aIndex: Integer): TACBrPagamentosPagamentoCancelar;
+begin
+  Result := TACBrPagamentosPagamentoCancelar(inherited Items[aIndex]);
+end;
+
+procedure TACBrPagamentosPagamentoCancelarLista.SetItem(aIndex: Integer; aValue: TACBrPagamentosPagamentoCancelar);
+begin
+  inherited Items[aIndex] := aValue;
+end;
+
+function TACBrPagamentosPagamentoCancelarLista.NewSchema: TACBrAPISchema;
+begin
+  Result := New;
+end;
+
+function TACBrPagamentosPagamentoCancelarLista.Add(aItem: TACBrPagamentosPagamentoCancelar): Integer;
+begin
+  Result := inherited Add(aItem);
+end;
+
+procedure TACBrPagamentosPagamentoCancelarLista.Insert(aIndex: Integer;
+  aItem: TACBrPagamentosPagamentoCancelar);
+begin
+  inherited Insert(aIndex, aItem);
+end;
+
+function TACBrPagamentosPagamentoCancelarLista.New: TACBrPagamentosPagamentoCancelar;
+begin
+  Result := TACBrPagamentosPagamentoCancelar.Create;
+  Self.Add(Result);
+end;
+
+{ TACBrPagamentosPagamentoCancelarRespostaLista }
+
+function TACBrPagamentosPagamentoCancelarRespostaLista.GetItem(aIndex: Integer): TACBrPagamentosPagamentoCancelarResposta;
+begin
+  Result := TACBrPagamentosPagamentoCancelarResposta(inherited Items[aIndex]);
+end;
+
+procedure TACBrPagamentosPagamentoCancelarRespostaLista.SetItem(aIndex: Integer; aValue: TACBrPagamentosPagamentoCancelarResposta);
+begin
+  inherited Items[aIndex] := aValue;
+end;
+
+function TACBrPagamentosPagamentoCancelarRespostaLista.NewSchema: TACBrAPISchema;
+begin
+  Result := New;
+end;
+
+function TACBrPagamentosPagamentoCancelarRespostaLista.Add(aItem: TACBrPagamentosPagamentoCancelarResposta): Integer;
+begin
+  Result := inherited Add(aItem);
+end;
+
+procedure TACBrPagamentosPagamentoCancelarRespostaLista.Insert(aIndex: Integer;
+  aItem: TACBrPagamentosPagamentoCancelarResposta);
+begin
+  inherited Insert(aIndex, aItem);
+end;
+
+function TACBrPagamentosPagamentoCancelarRespostaLista.New: TACBrPagamentosPagamentoCancelarResposta;
+begin
+  Result := TACBrPagamentosPagamentoCancelarResposta.Create;
+  Self.Add(Result);
+end;
+
+{ TACBrPagamentosCancelarLotePagamentos }
+
+function TACBrPagamentosCancelarLotePagamentos.GetlistaPagamentos: TACBrPagamentosPagamentoCancelarLista;
+begin
+  if (not Assigned(flistaPagamentos)) then
+    flistaPagamentos := TACBrPagamentosPagamentoCancelarLista.Create('listaPagamentos');
+  Result := flistaPagamentos;
+end;
+
+procedure TACBrPagamentosCancelarLotePagamentos.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if (aSource is TACBrPagamentosCancelarLotePagamentos) then
+    Assign(TACBrPagamentosCancelarLotePagamentos(ASource));
+end;
+
+procedure TACBrPagamentosCancelarLotePagamentos.DoWriteToJSon(aJSon: TACBrJSONObject);
+begin
+  aJSon
+    .AddPair('agenciaDebito', fagenciaDebito)
+    .AddPair('contaCorrenteDebito', fcontaCorrenteDebito)
+    .AddPair('digitoVerificadorContaCorrente', fdigitoVerificadorContaCorrente)
+    .AddPair('numeroContratoPagamento', fnumeroContratoPagamento);
+
+  if Assigned(flistaPagamentos) then
+    flistaPagamentos.WriteToJSon(aJSon);
+end;
+
+procedure TACBrPagamentosCancelarLotePagamentos.DoReadFromJSon(aJSon: TACBrJSONObject);
+begin
+  aJSon
+    .Value('agenciaDebito', fagenciaDebito)
+    .Value('contaCorrenteDebito', fcontaCorrenteDebito)
+    .Value('digitoVerificadorContaCorrente', fdigitoVerificadorContaCorrente)
+    .Value('numeroContratoPagamento', fnumeroContratoPagamento);
+
+  if Assigned(flistaPagamentos) then
+    flistaPagamentos.ReadFromJSon(aJSon);
+end;
+
+destructor TACBrPagamentosCancelarLotePagamentos.Destroy;
+begin
+  if Assigned(flistaPagamentos) then
+    flistaPagamentos.Free;
+  inherited Destroy;
+end;
+
+procedure TACBrPagamentosCancelarLotePagamentos.Clear;
+begin
+  fagenciaDebito := 0;
+  fcontaCorrenteDebito := 0;
+  fdigitoVerificadorContaCorrente := EmptyStr;
+  fnumeroContratoPagamento := 0;
+
+  if Assigned(flistaPagamentos) then
+    flistaPagamentos.Clear;
+end;
+
+function TACBrPagamentosCancelarLotePagamentos.IsEmpty: Boolean;
+begin
+  Result :=
+    EstaZerado(fagenciaDebito) and
+    EstaZerado(fcontaCorrenteDebito) and
+    EstaVazio(fdigitoVerificadorContaCorrente) and
+    EstaZerado(fnumeroContratoPagamento) and
+    flistaPagamentos.IsEmpty;
+end;
+
+procedure TACBrPagamentosCancelarLotePagamentos.Assign(aSource: TACBrPagamentosCancelarLotePagamentos);
+begin
+  fagenciaDebito := ASource.agenciaDebito;
+  fcontaCorrenteDebito := ASource.contaCorrenteDebito;
+  fdigitoVerificadorContaCorrente := ASource.digitoVerificadorContaCorrente;
+  fnumeroContratoPagamento := ASource.numeroContratoPagamento;
+
+  if Assigned(flistaPagamentos) then
+    flistaPagamentos.Assign(ASource.listaPagamentos);
 end;
 
 { TACBrLoteDARFRespostaConsulta }
