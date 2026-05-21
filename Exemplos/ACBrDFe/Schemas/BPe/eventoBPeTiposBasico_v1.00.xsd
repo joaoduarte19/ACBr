@@ -171,7 +171,7 @@ Insira neste local o XML específico do tipo de evento (cancelamento, encerramen
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
 									<xs:whiteSpace value="preserve"/>
-									<xs:pattern value="[1-9][0-9]|0?[1-9]"/>
+									<xs:pattern value="[0-9]{1,3}"/>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:element>
