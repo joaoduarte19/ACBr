@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+21/05/2026
+-- Tinus.GravarXml --
+[*] ACBr-9374 - Inclusão de novos campos.
+   Por: Italo Giurizzato Junior
+
 20/05/2026
 -- ModernizacaoPublica.Provider --
 [*] ACBr-9354 - Ajustes para o correto leitura do retorno do envio.
