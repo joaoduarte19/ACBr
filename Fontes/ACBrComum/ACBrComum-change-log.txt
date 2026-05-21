@@ -37,6 +37,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+21/05/2026
+-- ACBrUtil.FilesIO --
+[*] Incluído a função StreamIsPDF e alterado a função CarregarArquivo para usar o
+    TMemoryStream em vez do TStringList, pois este costuma mudar o encoding do arquivo.
+  Por: Italo Giurizzato Junior
+
 23/02/2026
 -- ACBrUtil.XMLHTML --
 [*] Melhoria de performança e mitigação de A.V. em 'XmlEhUTF8BOM'

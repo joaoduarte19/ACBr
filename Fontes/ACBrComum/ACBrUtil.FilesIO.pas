@@ -156,6 +156,7 @@ function StringIsJSONArray(const AString: String): Boolean;
 function StringIsJSON(const AString: String): Boolean;
 function StrIsIP(const AValue: String): Boolean;
 function StringIsPDF(const AString: String): Boolean;
+function StreamIsPDF(const AStream: TStream): Boolean;
 
 procedure ParseNomeArquivo(const ANome: string; out APath, AName, AExt: string);
 
@@ -186,7 +187,12 @@ function GetFileVersion(const AFile: String): String;
 implementation
 
 uses
-  ACBrCompress, ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.DateTime, ACBrUtil.Math;
+  synautil,
+  ACBrCompress,
+  ACBrUtil.Base,
+  ACBrUtil.Strings,
+  ACBrUtil.DateTime,
+  ACBrUtil.Math;
 
 const
 {$IFDEF WIN64}
@@ -1486,6 +1492,25 @@ begin
   Result := (Pos('%PDF-', AString) <> 0);
 end;
 
+function StreamIsPDF(const AStream: TStream): Boolean;
+var
+  Sig: array[0..4] of Byte;
+begin
+  Result := False;
+  if (AStream = nil) or (AStream.Size < 5) then Exit;
+
+  AStream.Position := 0;
+  AStream.ReadBuffer(Sig, 5);
+  AStream.Position := 0;
+
+  Result :=
+    (Sig[0] = Ord('%')) and
+    (Sig[1] = Ord('P')) and
+    (Sig[2] = Ord('D')) and
+    (Sig[3] = Ord('F')) and
+    (Sig[4] = Ord('-'));
+end;
+
 procedure ParseNomeArquivo(const ANome: string; out APath, AName, AExt: string);
 begin
   APath := ExtractFilePath(ANome);
@@ -1668,28 +1693,19 @@ end;
 
 function CarregarArquivo(const APathNome: string): string;
 var
-  SL: TStringList;
-  sArq: string;
+  MS: TMemoryStream;
 begin
-  SL := TStringList.Create;
+  MS := TMemoryStream.Create;
   try
     if FileExists(APathNome) then
-      SL.LoadFromFile(APathNome)
+      MS.LoadFromFile(APathNome)
     else
       raise Exception.CreateFmt(ACBrStr('Arquivo: %s não encontrado.'), [APathNome] );
 
-    sArq := SL.Text;
+    Result := ReadStrFromStream(MS, MS.Size);
   finally
-    SL.Free;
+    MS.Free;
   end;
-
-  //remove o linebreak que fica no final da string por ter vindo do "TStringList.Text"
-  if Length(sArq) >= Length(sLineBreak) then
-  begin
-    sArq := Copy(sArq, 0, Length(sArq) - Length(sLineBreak));
-  end;
-
-  Result := sArq;
 end;
 
 initialization
