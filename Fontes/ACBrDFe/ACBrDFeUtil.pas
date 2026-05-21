@@ -119,6 +119,8 @@ function ExtrairReciboMsg(const AMsg: string): string;
 
 function ExecutarAjusteTagNro(Corrigir: boolean; Nro: string): string;
 
+function RemoverLiteralChave(const AChave: string): string;
+
 var
   ACBrIBGE1: TACBrIBGE;
 
@@ -210,7 +212,7 @@ begin
 
   vUF          := ACBrUtil.Strings.Poem_Zeros(AUF, 2);
   vDataEmissao := FormatDateTime('YYMM', AjustarDataHoraParaUf(ADataEmissao, AUF));
-  vCNPJ        := PadLeft(OnlyNumber(ACNPJ), 14, '0');
+  vCNPJ        := PadLeft(OnlyAlphaNum(ACNPJ), 14, '0');
   vModelo      := ACBrUtil.Strings.Poem_Zeros(AModelo, 2);
   vSerie       := ACBrUtil.Strings.Poem_Zeros(ASerie, 3);
   vNumero      := ACBrUtil.Strings.Poem_Zeros(ANumero, 9);
@@ -236,7 +238,7 @@ function FormatarChaveAcesso(AValue: String): String;
 var
   I: Integer;
 begin
-  AValue := OnlyNumber(AValue);
+  AValue := RemoverLiteralChave(AValue);
   I := 1;
   Result := '';
   while I < Length(AValue) do
@@ -358,8 +360,10 @@ begin
   //       LL Código da localidade da Unidade Administrativa da Suframa ( 01 = Manaus, 10 = Boa Vista e 30 = Porto Velho )
   //       D Dígito Verificador, Módulo 11, Pesos de 2 a 9
   AValue := OnlyNumber(AValue);
+
   if length(AValue) < 9 then
     AValue := '0' + AValue;
+
   if length(AValue) <> 9 then
     Result := False
   else
@@ -567,12 +571,12 @@ var
 begin
   Result := 0;
   LPath := IfEmptyThen(APathArqMun, ApplicationPath);
-  if(GetACBrIBGE(LPath)= Nil)then
+  if (GetACBrIBGE(LPath)= Nil) then
     Exit;
 
   Result := ACBrIBGE1.UFToCodUF(AUF);
 
-  if(Result < 0)then
+  if (Result < 0) then
     Result := 0;
 end;
 
@@ -654,7 +658,6 @@ begin
   end
   else
     Result := DT;
-
 end;
 
 function GerarDigito(out Digito: integer; chave: string): boolean;
@@ -664,7 +667,7 @@ const
   PESO = '4329876543298765432987654329876543298765432';
 begin
   // Manual Integracao Contribuinte v2.02a - Página: 70 //
-  chave := OnlyNumber(chave);
+  chave := RemoverLiteralChave(chave);
   j := 0;
   Digito := 0;
   result := True;
@@ -771,7 +774,7 @@ var
 begin
   result := false;
 
-  aChave := OnlyNumber(chave);
+  aChave := RemoverLiteralChave(chave);
 
   if length(aChave) <> 44 then
     exit;
@@ -1029,12 +1032,12 @@ end;
 
 function ExtrairModeloChaveAcesso(const AChave: string): string;
 begin
-  Result := Copy(AChave, 21, 2)
+  Result := Copy(RemoverLiteralChave(AChave), 21, 2)
 end;
 
 function ExtrairUFChaveAcesso(const AChave: string): Integer;
 begin
-  Result := StrToIntDef(Copy(OnlyNumber(AChave),1,2), 0);
+  Result := StrToIntDef(Copy(RemoverLiteralChave(AChave), 1, 2), 0);
 end;
 
 function ExtrairCNPJChaveAcesso(const AChave: string): string;
@@ -1044,24 +1047,25 @@ end;
 
 function ExtrairCNPJCPFChaveAcesso(const AChave: string): string;
 var
-  AModelo: string;
+  AModelo, VChave: string;
   ASerie: Integer;
   ATpEmis: Integer;
   AIndEmisNFF: Integer;
 begin
-  AModelo := ExtrairModeloChaveAcesso(AChave);
-  ASerie := ExtrairSerieChaveAcesso(AChave);
-  ATpEmis := ExtrairTipoEmissaoChaveAcesso(AChave);
-  AIndEmisNFF := StrToIntDef(Copy(AChave, 30, 1), 0); // Na NFF o 5o dígito do número identifica se o emissor é CPF ou CNPJ
+  VChave:= RemoverLiteralChave(AChave);
+  AModelo := ExtrairModeloChaveAcesso(VChave);
+  ASerie := ExtrairSerieChaveAcesso(VChave);
+  ATpEmis := ExtrairTipoEmissaoChaveAcesso(VChave);
+  AIndEmisNFF := StrToIntDef(Copy(VChave, 30, 1), 0); // Na NFF o 5o dígito do número identifica se o emissor é CPF ou CNPJ
   case StrToIntDef(AModelo, 0) of
     55, 65: begin  // NFe, NFCe
       case ATpEmis of
         3: begin // NFF
           case AindEmisNFF of
             2:  // 2-CPF
-              Result := Copy(AChave, 10, 11);
+              Result := Copy(VChave, 10, 11);
           else  // 1-CNPJ
-            Result := Copy(AChave, 7, 14);
+            Result := Copy(VChave, 7, 14);
           end;
         end;
       else
@@ -1069,35 +1073,35 @@ begin
           000..889, // Séries (000-889) reservadas para NF-e eCNPJ emitida por aplicativo da Empresa Emitente
           890..899, // Séries (890-899) reservadas para NFA-e eCNPJ da SEFAZ emitida no Site do Fisco
           900..909: // Séries (900-909) reservadas para NFA-e eCNPJ emitida no Site do Fisco
-            Result := Copy(AChave, 7, 14);
+            Result := Copy(VChave, 7, 14);
           910..919, // Séries (910-919) reservadas para NFA-e eCPF emitida no Site do Fisco
           920..969: // Séries (920-969) reservadas para NF-e eCPF emitida por aplicativo da Empresa Emitente
-            Result := Copy(AChave, 10, 11);
+            Result := Copy(VChave, 10, 11);
         else
           // Outras possíveis Séries futuras, assume CNPJ
-          Result := Copy(AChave, 7, 14);
+          Result := Copy(VChave, 7, 14);
         end;
       end;
     end;
     57: begin
       case ATpEmis of
         3: // NFF
-          Result := Copy(AChave, 10, 11);
+          Result := Copy(VChave, 10, 11);
       else
-        Result := Copy(AChave, 7, 14);
+        Result := Copy(VChave, 7, 14);
       end;
     end;
     58: begin // MDFe
       case ASerie of
         // Séries (920-969) reservadas para MDFe-e emitido por pessoa física com inscrição
-        920..969: Result := Copy(aChave, 10, 11);
+        920..969: Result := Copy(VChave, 10, 11);
       else
-        Result := Copy(aChave, 7, 14);
+        Result := Copy(VChave, 7, 14);
       end;
     end;
   else
     // 57-CTe, 5-SAT, 63-BPe, 66-NF3e, 67-CTeOS
-    Result := Copy(OnlyNumber(AChave), 7, 14);
+    Result := Copy(VChave, 7, 14);
   end;
 end;
 
@@ -1105,7 +1109,7 @@ function ExtrairSerieChaveAcesso(const AChave: string): Integer;
 var
  VChave: string;
 begin
-  VChave:= OnlyNumber(AChave);
+  VChave:= RemoverLiteralChave(AChave);
   if ExtrairModeloChaveAcesso(VChave) = '59' then  //SAT
     Result := StrToIntDef(Copy(VChave, 23, 9), 0)
   else
@@ -1116,7 +1120,7 @@ function ExtrairNumeroChaveAcesso(const AChave: string): Integer;
 var
  VChave: string;
 begin
-  VChave:= OnlyNumber(AChave);
+  VChave:= RemoverLiteralChave(AChave);
   if ExtrairModeloChaveAcesso(VChave) = '59' then  //SAT
     Result := StrToIntDef(Copy(VChave, 32, 6), 0)
   else
@@ -1128,7 +1132,7 @@ var
  VChave: string;
  Modelo: Integer;
 begin
-  VChave:= OnlyNumber(AChave);
+  VChave:= RemoverLiteralChave(AChave);
   Modelo := StrToInt(ExtrairModeloChaveAcesso(VChave));
 
   case Modelo of
@@ -1146,7 +1150,7 @@ function ExtrairTipoEmissaoChaveAcesso(const AChave: string): Integer;
 var
  VChave: string;
 begin
-  VChave:= OnlyNumber(AChave);
+  VChave:= RemoverLiteralChave(AChave);
   if ExtrairModeloChaveAcesso(VChave) = '59' then  //SAT
     Result := 0
   else
@@ -1157,8 +1161,8 @@ function ExtrairDigitoChaveAcesso(const AChave: string): Integer;
 var
  VChave: string;
 begin
-  VChave:= OnlyNumber(AChave);
-  Result := StrToIntDef(VChave[Length(VChave)], 0);
+  VChave:= RemoverLiteralChave(AChave);
+  Result := StrToIntDef(Copy(VChave, Length(VChave), 1), 0);
 end;
 
 function ExtrairChaveMsg(const AMsg: string): string;
@@ -1174,9 +1178,9 @@ begin
   repeat
     Inc(i);
 
-    if CharInSet(AMsg[i] , ['0'..'9']) then
+    if CharIsNum(AMsg[i]) then
     begin
-      xStr := OnlyNumber(Copy(AMsg, i, 44));
+      xStr := RemoverLiteralChave(Copy(AMsg, i, 44));
       Inc(i, Length(xStr) -1);
 
       if Length(xStr) = 44 then
@@ -1204,7 +1208,7 @@ begin
   repeat
     Inc(i);
 
-    if CharInSet(AMsg[i], ['0'..'9']) then
+    if CharIsNum(AMsg[i]) then
     begin
       xStr := OnlyNumber(Copy(AMsg, i, 15));
       Inc(i, Length(xStr) -1);
@@ -1234,7 +1238,7 @@ begin
   repeat
     Inc(i);
 
-    if CharInSet(AMsg[i] , ['0'..'9']) then
+    if CharIsNum(AMsg[i]) then
     begin
       xStr := OnlyNumber(Copy(AMsg, i, 15));
       Inc(i, Length(xStr) -1);
@@ -1261,6 +1265,24 @@ begin
     Result := '00' + Nro;
   if (ValidarNumeros(Nro)) and (length(Nro) = 2) then
     Result := '0' + Nro;
+end;
+
+function RemoverLiteralChave(const AChave: string): string;
+var
+  i: Integer;
+begin
+  Result := '';
+
+  for i := 1 to Length(AChave) do
+  begin
+    if (CharIsNum(AChave[i])) and
+       (i < Length(AChave)) and
+       (CharIsNum(AChave[i + 1])) then
+    begin
+      Result := Copy(AChave, i, Length(AChave));
+      break;
+    end;
+  end;
 end;
 
 initialization

@@ -39,6 +39,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+21/05/2026
+-- ACBrDFeSSL/ACBrDFeUtil --
+[*] Ajustes nas units para atender o CNPJ Alfa.
+  Por: Italo Giurizzato Junior
+
 19/05/2026
 -- ACBrDFeConfiguracoes --
 [-] ACBr-9168 - Adiciona condição para validar AmbienteDFe

@@ -653,7 +653,7 @@ begin
     P := PosEx(':', SubjectName, P);
     if P > 0 then
     begin
-      Result := OnlyNumber(copy(SubjectName, P+1, 14));
+      Result := OnlyAlphaNum(copy(SubjectName, P+1, 14));
       // Evita pegar CPF ou outro Documento, do SubjectName (comuns em EPP)
       if (ValidarCNPJ(Result) <> '') and (ValidarCPF(Result) <> '') then
         Result := '';
@@ -1080,7 +1080,6 @@ begin
                                          + sLineBreak + LastErrorDesc + sLineBreak + Result);
     end;
   end;
-
 end;
 
 procedure TDFeSSLHttpClass.HTTPMethod(const AMethod, AURL: String);
@@ -1676,12 +1675,12 @@ procedure TDFeSSL.ValidarCNPJCertificado(CNPJDocumento: String);
 var
   ErroCNPJ, CNPJCertificado: String;
 begin
-  CNPJDocumento := OnlyNumber(CNPJDocumento);
+  CNPJDocumento := OnlyAlphaNum(CNPJDocumento);
   if (CNPJDocumento = '') or              // Informou vazio
      (Length(CNPJDocumento) <> 14) then   // Não é CNPJ
     exit;
 
-  CNPJCertificado := OnlyNumber(CertCNPJ);  // Lendo CNPJ do Certificado...
+  CNPJCertificado := OnlyAlphaNum(CertCNPJ);  // Lendo CNPJ do Certificado...
   if (CNPJCertificado = '') or              // Não foi capaz de ler CNPJ do Certificado (Senha, NumSerie, Path... há algo errado na configuração)
      (Length(CNPJCertificado) <> 14) then   // Não é CNPJ (estranho.. pode ser um eCPF)
     exit;
