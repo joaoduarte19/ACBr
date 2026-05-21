@@ -43,6 +43,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 21/05/2026
+-- ACBrNFSeXServicos --
+[-] As cidades de Cotia/SP, Embu das Artes/SP e Carapicuíba/SP atualizaram suas URLs.
+   Por: Diego
+   Veja: https://www.projetoacbr.com.br/forum/topic/92428-altera%C3%A7%C3%A3o-nos-endere%C3%A7os-dos-webservices-do-provedor-giap/
+-- Giap.Provider --
+[-] Ajuste para que não ocorra erro de conversão quando não vier informação de data na consulta.
+   Por: Diego Folieni 
 -- SigCorp.GravarXml --
 [*] ACBr-9346 - Inclusão do campo CsllRetido ao gerar o XML.
    Por: ADMINFO

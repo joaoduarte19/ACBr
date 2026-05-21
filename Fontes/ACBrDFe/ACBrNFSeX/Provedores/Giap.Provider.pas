@@ -466,7 +466,8 @@ begin
         Response.Link := ObterConteudoTag(ANode.Childrens.FindAnyNs('wsLink'), tcStr);
 
         sData := ObterConteudoTag(ANode.Childrens.FindAnyNs('dataEmissao'), tcStr);
-        Response.Data := StrToDate(sData);
+        if Trim(sData) <> '' then
+          Response.Data := StrToDate(sData);
       end;
     except
       on E:Exception do
