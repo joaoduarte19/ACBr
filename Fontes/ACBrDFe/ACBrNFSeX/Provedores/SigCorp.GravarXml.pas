@@ -181,6 +181,9 @@ begin
   Result.AppendChild(AddNode(tcStr, '#15', 'CofinsRetido', 1, 1, 0,
             FpAOwner.SimNaoToStr(NFSe.Servico.Valores.RetidoCofins), DSC_VPIS));
 
+  Result.AppendChild(AddNode(tcStr, '#15', 'CsllRetido', 1, 1, 0,
+            FpAOwner.SimNaoToStr(NFSe.Servico.Valores.RetidoCsll), DSC_VPIS));
+
   Result.AppendChild(AddNode(tcStr, '#21', 'ResponsavelRetencao', 1, 1, 0,
      FpAOwner.ResponsavelRetencaoToStr(NFSe.Servico.ResponsavelRetencao), DSC_INDRESPRET));
 

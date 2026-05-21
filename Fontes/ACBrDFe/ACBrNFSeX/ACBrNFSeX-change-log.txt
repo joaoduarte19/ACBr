@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 21/05/2026
+-- SigCorp.GravarXml --
+[*] ACBr-9346 - Inclusão do campo CsllRetido ao gerar o XML.
+   Por: ADMINFO
 -- Tinus.GravarXml --
 [*] ACBr-9374 - Inclusão de novos campos.
    Por: Italo Giurizzato Junior
