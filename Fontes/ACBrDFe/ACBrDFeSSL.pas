@@ -1071,7 +1071,7 @@ begin
     // Verifica se o ResultCode é: 200 OK; 201 Created; 202 Accepted
     // https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
     if (not (FpHTTPResultCode in [200..202])) and AValidateReturnCode then
-      raise EACBrDFeException.Create('');
+      raise EACBrDFeException.Create('Retorno diferente de 200-202');
   except
     on E:Exception do
     begin

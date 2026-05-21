@@ -423,8 +423,7 @@ var
   Ret: SECURITY_STATUS;
 begin
   try
-    // NCRYPT_IMPL_TYPE_PROPERTY requer NCRYPT_PROV_HANDLE, não NCRYPT_KEY_HANDLE.
-    // Obtemos o provider handle a partir do key handle via NCRYPT_PROVIDER_HANDLE_PROPERTY.
+    // Primeiro obtemos o provider handle a partir do key handle via NCRYPT_PROVIDER_HANDLE_PROPERTY.
     hProvider := 0;
     pcbResult := 0;
     Ret := NCryptGetProperty(ACryptHandle, NCRYPT_PROVIDER_HANDLE_PROPERTY,
@@ -432,9 +431,11 @@ begin
     if Ret <> ERROR_SUCCESS then
       raise EACBrDFeException.Create('GetCNGProviderIsHardware: Erro ao obter Provider Handle: $'+IntToHex(Ret, 8));
 
+    // Para usar com NCRYPT_IMPL_TYPE_PROPERTY, que requer o NCRYPT_PROV_HANDLE e não NCRYPT_KEY_HANDLE.
     try
       ImpType := GetCNGProviderParamDWord(hProvider, NCRYPT_IMPL_TYPE_PROPERTY);
       Result := ((ImpType and NCRYPT_IMPL_HARDWARE_FLAG) = NCRYPT_IMPL_HARDWARE_FLAG);
+//      Result := Result or ((ImpType and NCRYPT_IMPL_HARDWARE_RNG_FLAG) = NCRYPT_IMPL_HARDWARE_RNG_FLAG);
     finally
       NCryptFreeObject(hProvider);
     end;
@@ -1131,11 +1132,14 @@ begin
   // Limpando objetos de criptografia //
   if Assigned(FpCertContext) then
   begin
+    // Chave foi importada de um arquivo PFX?
     if (FpDadosCertificado.Tipo = tpcA1) and
        (FpDFeSSL.NumeroSerie = '') and (FpDFeSSL.DadosPFX <> '') then
     begin
-      // Se a chave foi importada via PFX sem PKCS12_NO_PERSIST_KEY, ela fica
-      // persistida em disco. Precisamos remov?-la ao descarregar.
+      // Se a chave foi importada via PFX sem PKCS12_NO_PERSIST_KEY, ela foi
+      // persistida em disco. Precisamos removê-la ao descarregar.
+      // Veja: PKCS12_NO_PERSIST_KEY na documentação sobre PFXImportCertStore
+      // https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-pfximportcertstore
       ProviderOrKeyHandle := 0;
       dwKeySpec := 0;
       pfCallerFreeProv := False;
@@ -1256,7 +1260,7 @@ begin
       cbSignature := pcbResult;
       SetLength(Result, cbSignature);
 
-      // NCryptSignHash j? retorna em Big Endian (n?o precisa inverter) //
+      // NCryptSignHash já retorna em Big Endian (não precisa inverter) //
       Ret := NCryptSignHash( ProviderOrKeyHandle, @PaddingInfo,
                               PBYTE(@AHashValue[1]), Length(AHashValue),
                               PBYTE(@Result[1]), cbSignature, pcbResult,
@@ -1298,7 +1302,7 @@ begin
 
   CarregarCertificadoSeNecessario;
   if not Assigned(FpCertContext) then
-    raise EACBrDFeException.Create('Certificado n?o pode ser carregado pela MS CryptoAPI');
+    raise EACBrDFeException.Create('Certificado não pode ser carregado pela MS CryptoAPI');
 
   // aHashType aqui recebe dwKeySpec (AT_KEYEXCHANGE ou AT_SIGNATURE) //
   dwKeySpec := aHashType;
@@ -1372,7 +1376,7 @@ begin
       else if Length(AHashValue) = 32 then aCSPHashType := CALG_SHA_256
       else if Length(AHashValue) = 64 then aCSPHashType := CALG_SHA_512;
 
-      // Criando o hash e definindo o valor j? calculado //
+      // Criando o hash e definindo o valor já calculado //
       if not CryptCreateHash(mCryptProvider, aCSPHashType, 0, 0, mHash) then
         raise Exception.Create('CryptCreateHash');
 
@@ -1592,14 +1596,14 @@ begin
 
       if Assinado then
       begin
-        // Importando a chave p?blica do certificado via BCrypt //
+        // Importando a chave pública do certificado via BCrypt //
         if not CryptImportPublicKeyInfoEx2( X509_ASN_ENCODING,
                                             @FpCertContext.pCertInfo.SubjectPublicKeyInfo,
                                             0, nil, hKey) then
           raise Exception.Create('CryptImportPublicKeyInfoEx2: Erro $'+GetLastErrorAsHexaStr);
 
         try
-          // BCryptVerifySignature espera Big Endian (padr?o DFe) //
+          // BCryptVerifySignature espera Big Endian (padrão DFe) //
           PaddingInfo.pszAlgId := LPCWSTR(wsAlgId);
           Ret := BCryptVerifySignature( hKey, @PaddingInfo,
                                         PUCHAR(@HashValue[1]), Length(HashValue),

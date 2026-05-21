@@ -416,13 +416,29 @@ end;
 function GetCNGProviderIsHardware(ACryptHandle: NCRYPT_HANDLE): Boolean;
 var
   ImpType: DWORD;
+  hProvider: NCRYPT_PROV_HANDLE;
+  pcbResult: DWORD;
+  Ret: SECURITY_STATUS;
 begin
   try
-    ImpType := GetCNGProviderParamDWord(ACryptHandle, NCRYPT_IMPL_TYPE_PROPERTY);
-    Result := ((ImpType and NCRYPT_IMPL_HARDWARE_FLAG) = NCRYPT_IMPL_HARDWARE_FLAG);
+    // Primeiro obtemos o provider handle a partir do key handle via NCRYPT_PROVIDER_HANDLE_PROPERTY.
+    hProvider := 0;
+    pcbResult := 0;
+    Ret := NCryptGetProperty(ACryptHandle, NCRYPT_PROVIDER_HANDLE_PROPERTY,
+             @hProvider, SizeOf(hProvider), pcbResult, 0);
+    if Ret <> ERROR_SUCCESS then
+      raise EACBrDFeException.Create('GetCNGProviderIsHardware: Erro ao obter Provider Handle: $'+IntToHex(Ret, 8));
+
+    // Para usar com NCRYPT_IMPL_TYPE_PROPERTY, que requer o NCRYPT_PROV_HANDLE e não NCRYPT_KEY_HANDLE.
+    try
+      ImpType := GetCNGProviderParamDWord(hProvider, NCRYPT_IMPL_TYPE_PROPERTY);
+      Result := ((ImpType and NCRYPT_IMPL_HARDWARE_FLAG) = NCRYPT_IMPL_HARDWARE_FLAG);
+//      Result := Result or ((ImpType and NCRYPT_IMPL_HARDWARE_RNG_FLAG) = NCRYPT_IMPL_HARDWARE_RNG_FLAG);
+    finally
+      NCryptFreeObject(hProvider);
+    end;
   except
-    Result := True;  // TODO: Assumindo que todos certificados CNG são A3
-    // TODO: NCRYPT_IMPL_TYPE_PROPERTY não funciona com NCRYPT_KEY_HANDLE, espera NCRYPT_PROV_HANDLE
+    Result := True;
   end;
 end;
 
