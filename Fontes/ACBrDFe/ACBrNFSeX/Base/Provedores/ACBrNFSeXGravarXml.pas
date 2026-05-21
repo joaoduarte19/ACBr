@@ -629,7 +629,7 @@ begin
 
     filsComFormatacaoSemZeroEsquerda:
       if Copy(item, 1, 1) = '0' then
-        Result := Copy(item, 2, 4)
+        Result := Copy(item, 2, Length(item))
       else
         Result := item;
 
@@ -638,7 +638,7 @@ begin
         Result := OnlyNumber(item);
 
         if Copy(Result, 1, 1) = '0' then
-          Result := Copy(Result, 2, 4);
+          Result := Copy(Result, 2, Length(Result));
       end
   else
     Result := item;
@@ -692,17 +692,23 @@ var
   i: Integer;
   item: string;
 begin
-  if Length(Codigo) <= 5 then
-  begin
-    item := OnlyNumber(Codigo);
+  item := OnlyNumber(Codigo);
 
+  if Length(item) >= 5 then
+  begin
+    i := StrToIntDef(item, 0);
+    item := Poem_Zeros(i, 6);
+
+    Result := Copy(item, 1, 2) + '.' + Copy(item, 3, 2) + '.' + Copy(item, 5, 2);
+  end;
+
+  if Length(item) <= 4 then
+  begin
     i := StrToIntDef(item, 0);
     item := Poem_Zeros(i, 4);
 
     Result := Copy(item, 1, 2) + '.' + Copy(item, 3, 2);
-  end
-  else
-    Result := Codigo;
+  end;
 end;
 
 function TNFSeWClass.GetOpcoes: TXmlWriterOptions;
@@ -1659,6 +1665,9 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#1', 'xLocalidadeIncid', 1, 15, 1,
                                      NFSe.infNFSe.IBSCBS.xLocalidadeIncid, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pRedutor', 1, 15, 0,
+                                             NFSe.infNFSe.IBSCBS.pRedutor, ''));
 
   Result.AppendChild(GerarXMLIBSCBSValores(NFSe.infNFSe.IBSCBS.Valores));
   Result.AppendChild(GerarXMLIBSCBSTotCIBS(NFSe.infNFSe.IBSCBS.totCIBS));

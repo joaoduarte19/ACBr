@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 21/05/2026
+-- ACBrNFSeXGravarXml --
+[*] Ajustes para tratar o ItemListaServico com 6 dígitos.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [-] As cidades de Cotia/SP, Embu das Artes/SP e Carapicuíba/SP atualizaram suas URLs.
    Por: Diego
