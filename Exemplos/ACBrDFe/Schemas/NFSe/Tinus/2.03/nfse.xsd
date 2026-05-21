@@ -246,7 +246,7 @@
          <element minOccurs="0" name="RegimeEspecialTributacao" type="tns:tsRegimeEspecialTributacao"/>
          <element name="OptanteSimplesNacional" type="tns:tsSimNao"/>
          <element name="IncentivoFiscal" type="tns:tsSimNao"/>
-	     <element name="regApTribSN" type="tns:tsRegimeApuracaoSimpNac"/>
+         <element name="regApTribSN" type="tns:tsRegimeApuracaoSimpNac"/>
          <element minOccurs="0" name="IBSCBS" type="tns:TCRTCInfoIBSCBS"/>
       </sequence>
       <attribute name="Id" type="tns:tsIdTag"/>
@@ -295,6 +295,11 @@
          <element minOccurs="0" name="Aliquota" type="tns:tsAliquota"/>
          <element minOccurs="0" name="DescontoIncondicionado" type="tns:tsValor"/>
          <element minOccurs="0" name="DescontoCondicionado" type="tns:tsValor"/>
+         <element minOccurs="0" name="AliquotaPis" type="tns:tsAliquota"/>
+         <element minOccurs="0" name="AliquotaCofins" type="tns:tsAliquota"/>
+         <element minOccurs="0" name="ValorBaseCalculoPisCofins" type="tns:tsValor"/>
+         <element minOccurs="0" name="tpRetPisCofins" type="string"/>
+         <element minOccurs="0" name="CSTPisCofins" type="string"/>
       </sequence>
    </complexType>
 
