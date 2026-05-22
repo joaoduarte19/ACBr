@@ -193,6 +193,7 @@ end;
 
 function TNFSeW_ISSSaoPaulo.GerarXml: Boolean;
 var
+  Aliquota: Double;
   LNFSeNode, LNode: TACBrXmlNode;
   LTipoRPS, LSituacao, LAliquota, LISSRetido, LISSRetidoInter: String;
 begin
@@ -260,7 +261,9 @@ begin
 
   if NFSe.Servico.Valores.Aliquota > 0 then
   begin
-    LAliquota := FormatFloat('0.00##', NFSe.Servico.Valores.Aliquota / 100);
+    Aliquota := NormatizarAliquota(NFSe.Servico.Valores.Aliquota, True);
+
+    LAliquota := FormatFloat('0.00##', Aliquota);
 
     LAliquota := StringReplace(LAliquota, ',', '.', [rfReplaceAll]);
   end

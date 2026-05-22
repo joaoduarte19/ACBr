@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/05/2026
+-- ISSSaoPaulo.GravarXml --
+[*] Ajuste para normatizar a alíquota informada antes de gerar a tag AliquotaServico.
+   Por: Italo Giurizzato Junior
+-- Tinus.LerXml --
+[*] Implementado a leitura do arquivo INI.
+   Por: Daniel Morais/Italo Giurizzato Junior
 -- ACBrNFSeXClass/ACBrNFSeXConversao/ACBrNFSeX.GravarIni/ACBrNFSeX.LerIni --
 -- ACBrNFSeXLerXml/eGoverneISS.GravarXml --
 [*] ACBR-9375 - Implementado o campo enumerado IdLocalIncidencia para atender o provedor eGoverneISS.
