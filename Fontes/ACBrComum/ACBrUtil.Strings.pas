@@ -164,6 +164,7 @@ function CharIsBase64(const C: Char): Boolean;
 function OnlyNumber(const AValue: String): String;
 function OnlyAlpha(const AValue: String): String;
 function OnlyAlphaNum(const AValue: String): String;
+function OnlyCPFCNPJAlphaNum(const AValue: String): String;
 function OnlyCharsInSet(const AValue: String; SetOfChars: TSetOfChars): String;
 
 function TiraAcentos( const AString : String ) : String ;
@@ -1205,6 +1206,11 @@ begin
         Result := Result + AValue[I];
   end;
 end ;
+
+function OnlyCPFCNPJAlphaNum(const AValue: String): String;
+begin
+  Result := OnlyAlphaNum(AValue);
+end;
 
 function OnlyCharsInSet(const AValue: String; SetOfChars: TSetOfChars): String;
 Var
