@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/05/2026
+-- ACBrNFSeXServicos --
+[+] Adiciona a cidade de Horizonte/CE, provedor é o SpeedGov com APIPropria.
+   Por: Diego Folieni
+-- Fiorilli.GravarXml --
+[-] Adiciona parâmetro para que não seja formatado o ItemListaServico na versão 2.00
+   Por: Diego Folieni
 -- ACBrNFSeXLerXml --
 [*] Ajuste para ler todos os campos da seção ItensXXX.
    Por: Italo Giurizzato Junior

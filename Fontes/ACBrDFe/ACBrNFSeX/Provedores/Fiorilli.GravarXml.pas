@@ -113,6 +113,7 @@ begin
   inherited Configuracao;
 
   FormatoCompetencia := tcDat;
+  FormatoItemListaServico := filsNaoSeAplica;
 
   NrOcorrCodigoPaisTomador := 0;
   NrOcorrCodigoNbs := -1;
