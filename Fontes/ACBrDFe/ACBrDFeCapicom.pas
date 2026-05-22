@@ -38,7 +38,7 @@ interface
 
 uses
   Classes, SysUtils,
-  ACBrDFeSSL, ACBrDFeWinCrypt,
+  ACBrDFeSSL, ACBrDFeWinCrypt, ACBrDFeCry.WinUtils,
   ACBrCAPICOM_TLB,
   Windows, ActiveX, ComObj;
 

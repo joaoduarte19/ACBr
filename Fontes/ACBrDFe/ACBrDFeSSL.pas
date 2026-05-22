@@ -523,7 +523,7 @@ uses
    ,ACBrDFeHttpIndy
   {$EndIf}
   {$IfDef MSWINDOWS}
-   ,ACBrDFeWinCrypt, ACBrDFeHttpWinApi
+   ,ACBrDFeWinCrypt, ACBrDFeHttpWinApi, ACBrDFeCry.WinUtils
    ,ACBrDFeWinSecCNG
    {$IfNDef DFE_SEM_MSXML}
     ,ACBrDFeXsMsXml

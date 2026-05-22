@@ -72,7 +72,7 @@ uses
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrDFeUtil, ACBrDFeException,
-  ACBr_WinCrypt, ACBrDFeWinCrypt;
+  ACBr_WinCrypt, ACBrDFeWinCrypt, ACBrDFeCry.WinUtils;
 
 { TDFeSSLXmlSignMsXml }
 
