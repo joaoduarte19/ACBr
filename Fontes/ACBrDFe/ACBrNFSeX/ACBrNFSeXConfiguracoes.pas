@@ -596,32 +596,19 @@ begin
       FVersao := StrToVersaoNFSe(Ok, FPIniParams.ReadString(CodIBGE, 'Versao', '1.00'));
   end;
 
-//  if aValor <> '' then
-//    FVersao := StrToVersaoNFSe(Ok, aValor)
-//  else
-//  begin
-//    aValor := FPIniParams.ReadString(CodIBGE, 'Versao', '');
-//
-//    if aValor <> '***' then
-//      FVersao := StrToVersaoNFSe(Ok, FPIniParams.ReadString(CodIBGE, 'Versao', '1.00'));
-//  end;
-
   {
     Verifica se na seção do município consta o Params,
     caso contrario usa o Params da seção do Provedor.
   }
   aValor := FPIniParams.ReadString(CodIBGE, 'Params', '');
 
-  //Se o Params tiver um * na seção do município eu ignoro ele e vou direto no provedor, do contrário eu concateno o conteúdo de ambos...
+  //Se o Params tiver um * na seção do município eu ignoro a seção do provedor e o Params vai ser vazio do contrário concateno ambos
   if aValor = '*' then
-    aValor := FPIniParams.ReadString(FxProvedor, 'Params', '')
+    aValor := ''
   else
     aValor := aValor + FPIniParams.ReadString(FxProvedor, 'Params', '');
 
-//  if aValor = '' then
-//    FAPIPropria := (Pos('APIPropria:', aValor) > 0)
-//  else
-    FAPIPropria := (Pos('APIPropria:', aValor) > 0);
+  FAPIPropria := (Pos('APIPropria:', aValor) > 0);
 
   if not (FVersao in [ve100, ve101]) and FAPIPropria then
     FAPIPropria := False;

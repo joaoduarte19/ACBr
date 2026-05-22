@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+22/05/2026
+-- ACBrNFSeXConfiguracoes/ACBrNFSeXServicos --
+[-] ACBR-9402 - Ajustes visando permitir convivência do leiaute alterado e da API própria para o SpeedGov.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/92385-acbr-9402-nfse-juazeiro-do-norte-ce-speedgov-parou-de-funcionar/ 
+
 21/05/2026
 -- ACBrNFSeXGravarXml --
 [*] Ajustes para tratar o ItemListaServico com 6 dígitos.
