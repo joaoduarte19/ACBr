@@ -95,6 +95,7 @@ contains
       {$EndIf}
     {$EndIf}
   
+    ACBrDFeCry.WinUtils in '..\..\..\Fontes\ACBrDFe\ACBrDFeCry.WinUtils.pas',
     ACBRDFeWinCrypt in '..\..\..\Fontes\ACBrDFe\ACBRDFeWinCrypt.pas',
     ACBrDFeWinSecCNG in '..\..\..\Fontes\ACBrDFe\ACBrDFeWinSecCNG.pas',
     ACBrDFeHttpWinApi in '..\..\..\Fontes\ACBrDFe\ACBrDFeHttpWinApi.pas',

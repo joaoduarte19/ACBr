@@ -39,7 +39,6 @@ interface
 uses
   Classes, SysUtils,
   ACBrDFeSSL,
-  {$IfDef MSWINDOWS}ACBrDFeWinCrypt, ACBr_WinCrypt,{$EndIf}
   OpenSSLExt;
 
 resourcestring
@@ -100,6 +99,7 @@ implementation
 
 uses
   strutils, dateutils, typinfo, synautil, synacode,
+  {$IfDef MSWINDOWS}ACBrDFeWinCrypt, ACBr_WinCrypt, ACBrDFeCry.WinUtils,{$EndIf}
   ACBrOpenSSLUtils,
   ACBrUtil.FilesIO,
   ACBrDFeException;
