@@ -77,7 +77,9 @@ type
     procedure GerarINIDadosPrestador(AINIRec: TMemIniFile);
     procedure GerarINIDadosTomador(AINIRec: TMemIniFile);
     procedure GerarINIDadosIntermediario(AINIRec: TMemIniFile);
+
     procedure GerarINIServicoValores(AINIRec: TMemIniFile);
+
     procedure GerarINIComercioExterior(AINIRec: TMemIniFile);
     procedure GerarINILocacaoSubLocacao(AINIRec: TMemIniFile);
     procedure GerarINIConstrucaoCivil(AINIRec: TMemIniFile);
@@ -284,7 +286,10 @@ begin
      (NFSe.IBSCBS.imovel.ender.CEP <> '') or
      (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
      (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
+  begin
     GerarINIIBSCBS(AINIRec, NFSe.IBSCBS);
+    GerarINIIBSCBSNFSe(AINIRec, NFSe.infNFSe.IBSCBS);
+  end;
 
   GerarINIQuartos(AINIRec);
   GerarINIDespesas(AINIRec);
@@ -1605,6 +1610,18 @@ begin
   AINIRec.WriteString(LSecao, 'tpOper', tpOperGovNFSeToStr(IBSCBS.tpOper));
   AINIRec.WriteString(LSecao, 'tpEnteGov', tpEnteGovToStr(IBSCBS.tpEnteGov));
   AINIRec.WriteString(LSecao, 'indDest', indDestToStr(IBSCBS.indDest));
+
+  // Incluido para atender o provedor SigISSWeb
+  AINIRec.WriteString(LSecao, 'OperExterior', TIndicadorToStr(IBSCBS.OperExterior));
+  AINIRec.WriteString(LSecao, 'OperUF', IBSCBS.OperUF);
+  AINIRec.WriteString(LSecao, 'OperxCidade', IBSCBS.OperxCidade);
+  AINIRec.WriteString(LSecao, 'ConsumoPessoal', TIndicadorToStr(IBSCBS.ConsumoPessoal));
+
+  // Incluido para atender o provedor Conam
+  AINIRec.WriteString(LSecao, 'IndOpeOne', TIndicadorToStr(IBSCBS.IndOpeOne));
+
+  // Incluido para atender o provedor eGoverneISS
+  AINIRec.WriteString(LSecao, 'IdLocalIncidencia', IdLocalIncidenciaToStr(IBSCBS.IdLocalIncidencia));
 
   PularLinha(AINIRec, LSecao);
 

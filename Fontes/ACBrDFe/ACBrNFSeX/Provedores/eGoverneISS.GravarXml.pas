@@ -272,8 +272,8 @@ begin
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CodigoNBS', 1, 6, 0,
                                                    NFSe.Servico.CodigoNBS, ''));
 
-  NFSeNode.AppendChild(AddNode(tcInt, '#1', 'IdLocalIncidencia', 7, 7, 0,
-                                         NFSe.Servico.MunicipioIncidencia, ''));
+  NFSeNode.AppendChild(AddNode(tcInt, '#1', 'IdLocalIncidencia', 1, 1, 0,
+                    IdLocalIncidenciaToStr(NFSe.IBSCBS.IdLocalIncidencia), ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'IndOperacao', 6, 6, 1,
                                                        NFSe.IBSCBS.cIndOp, ''));

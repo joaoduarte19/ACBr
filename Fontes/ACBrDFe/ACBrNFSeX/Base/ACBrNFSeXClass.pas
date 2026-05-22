@@ -1778,7 +1778,6 @@ type
     property cLocalidadeIncid: Integer read FcLocalidadeIncid write FcLocalidadeIncid;
     property xLocalidadeIncid: string read FxLocalidadeIncid write FxLocalidadeIncid;
     property pRedutor: Double read FpRedutor write FpRedutor;
-
     property valores: TvaloresIBSCBS read Fvalores write Fvalores;
     property totCIBS: TtotCIBS read FtotCIBS write FtotCIBS;
   end;
@@ -2235,6 +2234,7 @@ type
     FConsumoPessoal: TIndicador;
     FIndOpeOne: TIndicador;
     FvlrReeRepRes: Double;
+    FIdLocalIncidencia: TIdLocalIncidencia;
 
     procedure SetgRefNFSe(const Value: TgRefNFSeCollection);
   public
@@ -2261,6 +2261,9 @@ type
     // Incluido para atender o provedor Conam
     property IndOpeOne: TIndicador read FIndOpeOne write FIndOpeOne;
     property vlrReeRepRes: Double read FvlrReeRepRes write FvlrReeRepRes;
+
+    // Incluido para atender o provedor eGoverneISS
+    property IdLocalIncidencia: TIdLocalIncidencia read FIdLocalIncidencia write FIdLocalIncidencia;
   end;
 
   TNFSe = class(TPersistent)

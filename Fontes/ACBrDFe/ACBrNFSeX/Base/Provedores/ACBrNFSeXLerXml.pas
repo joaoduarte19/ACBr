@@ -780,6 +780,7 @@ begin
     RIni.Free;
   end;
   }
+
   INIRec := TMemIniFile.Create('');
 
   try
@@ -2020,6 +2021,12 @@ begin
     IBSCBS.OperUF := AINIRec.ReadString(sSecao, 'OperUF', '');
     IBSCBS.OperxCidade := AINIRec.ReadString(sSecao, 'OperxCidade', '');
     IBSCBS.ConsumoPessoal := StrToTIndicador(AINIRec.ReadString(sSecao, 'ConsumoPessoal', '0'));
+
+    // Incluido para atender o provedor Conam
+    IBSCBS.IndOpeOne := StrToTIndicador(AINIRec.ReadString(sSecao, 'IndOpeOne', '0'));
+
+    // Incluido para atender o provedor eGoverneISS
+    IBSCBS.IdLocalIncidencia := StrToIdLocalIncidencia(AINIRec.ReadString(sSecao, 'IdLocalIncidencia', '0'));
 
     LerINIgRefNFSe(AINIRec, IBSCBS.gRefNFSe);
     LerINIDestinatario(AINIRec, IBSCBS.dest);

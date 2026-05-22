@@ -65,7 +65,9 @@ type
     procedure LerINIDadosTomador(AINIRec: TMemIniFile);
     procedure LerINIDadosIntermediario(AINIRec: TMemIniFile);
     procedure LerINIConstrucaoCivil(AINIRec: TMemIniFile);
+
     procedure LerINIDadosServico(AINIRec: TMemIniFile);
+
     procedure LerINIQuartos(AINIRec: TMemIniFile);
     procedure LerINIDespesas(AINIRec: TMemIniFile);
     procedure LerINIGenericos(AINIRec: TMemIniFile);
@@ -81,7 +83,9 @@ type
     procedure LerINIRodoviaria(AINIRec: TMemIniFile);
     procedure LerINIInformacoesComplementares(AINIRec: TMemIniFile);
     procedure LerINIInformacoesComplementaresgItemPed(AINIRec: TMemINIFile);
+
     procedure LerINIValores(AINIRec: TMemIniFile);
+
     procedure LerINIImpostos(AINIRec: TMemIniFile);
     procedure LerINIDocumentosDeducaoReducao(AINIRec: TMemIniFile);
     procedure LerINIFornecedor(AINIRec: TMemIniFile;
@@ -1739,6 +1743,12 @@ begin
     IBSCBS.OperUF := AINIRec.ReadString(sSecao, 'OperUF', '');
     IBSCBS.OperxCidade := AINIRec.ReadString(sSecao, 'OperxCidade', '');
     IBSCBS.ConsumoPessoal := StrToTIndicador(AINIRec.ReadString(sSecao, 'ConsumoPessoal', '0'));
+
+    // Incluido para atender o provedor Conam
+    IBSCBS.IndOpeOne := StrToTIndicador(AINIRec.ReadString(sSecao, 'IndOpeOne', '0'));
+
+    // Incluido para atender o provedor eGoverneISS
+    IBSCBS.IdLocalIncidencia := StrToIdLocalIncidencia(AINIRec.ReadString(sSecao, 'IdLocalIncidencia', '0'));
 
     LerINIgRefNFSe(AINIRec, IBSCBS.gRefNFSe);
     LerINIDestinatario(AINIRec, IBSCBS.dest);

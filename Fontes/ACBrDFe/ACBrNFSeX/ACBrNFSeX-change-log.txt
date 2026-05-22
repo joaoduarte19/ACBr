@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/05/2026
+-- ACBrNFSeXClass/ACBrNFSeXConversao/ACBrNFSeX.GravarIni/ACBrNFSeX.LerIni --
+-- ACBrNFSeXLerXml/eGoverneISS.GravarXml --
+[*] ACBR-9375 - Implementado o campo enumerado IdLocalIncidencia para atender o provedor eGoverneISS.
+   Por: Daniel Morais/Italo Giurizzato Junior
 -- ACBrNFSeXConfiguracoes/ACBrNFSeXServicos --
 [-] ACBR-9402 - Ajustes visando permitir convivência do leiaute alterado e da API própria para o SpeedGov.
    Por: Diego Folieni
