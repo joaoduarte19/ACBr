@@ -336,6 +336,7 @@ var
   ProviderOrKeyHandle: HCRYPTPROV_OR_NCRYPT_KEY_HANDLE;
   dwKeySpec: DWORD;
   pfCallerFreeProv: LongBool;
+  RetDeleteKey: SECURITY_STATUS;
 begin
   if (FpDadosCertificado.NumeroSerie <> '') and (Pos(FpDadosCertificado.NumeroSerie, CertificadosA3ComPin) > 0) then
   begin
@@ -372,8 +373,19 @@ begin
         try
           if dwKeySpec = CERT_NCRYPT_KEY_SPEC then
           begin
-            // Chave CNG: remover via NCryptDeleteKey (libera o handle automaticamente)
-            NCryptDeleteKey(ProviderOrKeyHandle, 0);
+            // Chave CNG: remover via NCryptDeleteKey também libera o handle automaticamente
+            RetDeleteKey := NCryptDeleteKey(ProviderOrKeyHandle, 0);
+            if RetDeleteKey <> ERROR_SUCCESS then
+            begin
+              //Note: The NCryptDeleteKey function deletes the key and frees the handle.
+              //Applications may use NCryptFreeObject function to free the handle if NCryptDeleteKey fails.
+              //https://learn.microsoft.com/en-us/windows/win32/api/ncrypt/nf-ncrypt-ncryptdeletekey
+              //TODO: Tratar Erros
+              //
+              //NTE_BAD_FLAGS
+              //NTE_INVALID_HANDLE
+            end;
+
             pfCallerFreeProv := False;
           end
           else
