@@ -56,6 +56,7 @@ type
     function GerarInfDeclaracaoPrestacaoServ: TACBrXmlNode;
     function GerarValores: TACBrXmlNode; override;
     function GerarConstrucaoCivil: TACBrXmlNode; override;
+    function GerarXMLComercioExterior: TACBrXmlNode;
 
     procedure Configuracao; override;
     procedure DefinirIDDeclaracao; override;
@@ -526,6 +527,10 @@ begin
   Result.AppendChild(AddNode(tcInt, '#34', 'CodigoPais', 4, 4, NrOcorrCodigoPaisServico,
                                            NFSe.Servico.CodigoPais, DSC_CPAIS));
 
+  if NFSe.Servico.CodigoPais <> 1058 then
+    Result.AppendChild(AddNode(tcInt, '#34', 'CodigoPaisPrestacao', 4, 4, 1,
+                                              NFSe.Servico.CodigoPais, DSC_CPAIS));
+
   Result.AppendChild(AddNode(tcStr, '#35', 'ExigibilidadeISS', 1, 01, 1,
     FpAOwner.ExigibilidadeISSToStr(NFSe.Servico.ExigibilidadeISS), DSC_INDISS));
 
@@ -546,6 +551,48 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#41', 'CodigoServicoNacional', 1, 30, 0,
                                        NFSe.Servico.CodigoServicoNacional, ''));
+
+  Result.AppendChild(GerarXMLComercioExterior);
+end;
+
+function TNFSeW_Tecnos201.GerarXMLComercioExterior: TACBrXmlNode;
+begin
+  Result := nil;
+
+  if NFSe.Servico.comExt.tpMoeda > 0 then
+  begin
+    Result := CreateElement('ComercioExterior');
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'ModoPrestacao', 1, 1, 1,
+                        mdPrestacaoToStr(NFSe.Servico.comExt.mdPrestacao), ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'VinculoPrestacao', 1, 1, 1,
+                            vincPrestToStr(NFSe.Servico.comExt.vincPrest), ''));
+
+    Result.AppendChild(AddNode(tcInt, '#1', 'TipoMoeda', 3, 3, 1,
+                                              NFSe.Servico.comExt.tpMoeda, ''));
+
+    Result.AppendChild(AddNode(tcDe2, '#1', 'ValorServicoMoeda', 1, 15, 1,
+                                           NFSe.Servico.comExt.vServMoeda, ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'MecanismoApoioPrestador', 2, 2, 1,
+                        mecAFComexPToStr(NFSe.Servico.comExt.mecAFComexP), ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'MecanismoApoioTomador', 2, 2, 1,
+                        mecAFComexTToStr(NFSe.Servico.comExt.mecAFComexT), ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'MovimentacaoTemporariaBens', 1, 1, 1,
+                        movTempBensToStr(NFSe.Servico.comExt.movTempBens), ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'NumeroDeclaracaoImportacao', 1, 12, 0,
+                                                  NFSe.Servico.comExt.nDI, ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'NumeroRegistroExportacao', 1, 12, 0,
+                                                  NFSe.Servico.comExt.nRE, ''));
+
+    Result.AppendChild(AddNode(tcInt, '#1', 'EnviarMdic', 1, 1, 1,
+                                                 NFSe.Servico.comExt.mdic, ''));
+  end;
 end;
 
 end.

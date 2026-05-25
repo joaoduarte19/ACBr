@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/05/2026
+-- Tecnos.GravarXml --
+[*] ACBR-9204 - Implementado a geração do grupo ComercioExterior.
+   Por: Italo Giurizzato Junior
 -- IPM.Provider --
 [*] ACBR-9192 - Sobrescrito o AssinarConsultarNFSe, pois para a consulta pelo código de verificação não
     exige a assinatura.
