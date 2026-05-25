@@ -197,6 +197,7 @@ type
                             tiRendimentosSemRetencao, //  9 - Rendimentos pagos sem retenção do IR na fonte - Lei 10.833/2003
                             tiJurosMoraRecebidos,     // 10 – Juros de mora recebidos, devidos pelo atraso no pagamento de remuneração por exercício de emprego, cargo ou função
                             tiResgatePrevidencia,     // 11 – Resgate de previdência complementar por portador de moléstia grave
+                            tiLucrosDividendos,       // 12 – Lucros e dividendos distribuídos nos termos do § 3º do art. 6º-A da Lei nº 9.250/1995
                             tiOutros                  // 99 - Outros (especificar)
                             );
 
@@ -952,13 +953,13 @@ end;
 function tpIsencaoToStr(const t: TtpIsencao): string;
 begin
   result := EnumeradoToStr2(t, ['1', '2', '3', '4', '5', '6', '7', '8', '9',
-                                '10', '11', '99']);
+                                '10', '11', '12', '99']);
 end;
 
 function StrTotpIsencao(var ok: boolean; const s: string): TtpIsencao;
 begin
   result := TtpIsencao(StrToEnumerado2(ok , s, ['1', '2', '3', '4', '5', '6',
-                                                 '7', '8', '9', '10', '11', '99']));
+                                                 '7', '8', '9', '10', '11', '12', '99']));
 end;
 
 function indPerReferenciaToStr(const t: TindPerReferencia): string;

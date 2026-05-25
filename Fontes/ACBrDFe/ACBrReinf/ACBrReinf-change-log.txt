@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/05/2026
+-- pcnConversaoReinf --
+[*] Novo item no enumerado tpIsencao do registro R-4010 - https://www.projetoacbr.com.br/forum/topic/92497-nota-t%C3%A9cnica-efd-reinf-022026
+  Por: Édipo Rauber
+
 16/06/2025
 -- pcnReinfR1000, evtInfoContribuinte-v2_01_02.xsd --
 [*] #TK-7221 - Incluído campo indPertIRRF no R1000 e atualizados schemas do registro - https://www.projetoacbr.com.br/forum/topic/83760-publicada-nota-t%C3%A9cnica-022025-trazendo-ajustes-nos-leiautes-da-vers%C3%A3o-212-do-reinf/
