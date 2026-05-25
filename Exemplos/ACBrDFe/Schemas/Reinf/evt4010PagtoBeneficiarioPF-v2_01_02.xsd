@@ -519,7 +519,8 @@
                                               </xs:annotation>
                                               <xs:simpleType>
                                                 <xs:restriction base="xs:unsignedByte">
-                                                  <xs:pattern value="1|2|3|4|5|6|7|8|10|11|99"/>
+                                                  <xs:minInclusive value="1"/>
+                                                  <xs:maxInclusive value="99"/>
                                                 </xs:restriction>
                                               </xs:simpleType>
                                             </xs:element>
