@@ -1209,7 +1209,7 @@ end ;
 
 function OnlyCPFCNPJAlphaNum(const AValue: String): String;
 begin
-  Result := OnlyAlphaNum(AValue);
+  Result := AnsiUpperCase(OnlyAlphaNum(AValue));
 end;
 
 function OnlyCharsInSet(const AValue: String; SetOfChars: TSetOfChars): String;

@@ -36,6 +36,10 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+25/05/2026
+-- ACBrUtil.Strings.pas --
+[*] Ajuste na função OnlyCPFCNPJAlphaNum para devolver sempre maiúsculo.
+  Por: Victor H. Gonzales Pandaaa
 
 21/05/2026
 -- ACBrUtil.FilesIO --
