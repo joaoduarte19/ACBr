@@ -36,7 +36,7 @@ Símbolo : Significado
 
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
-[-]     : Correção de Bug (assim esperamos)
+[-]     : Correção de Bug (assim esperamos) 
 
 20/03/2026
 -- ACBrETQTspl.pas --
