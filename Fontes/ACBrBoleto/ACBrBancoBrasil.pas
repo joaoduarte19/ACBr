@@ -328,7 +328,7 @@ begin
                '0'                                             + // 008 a 008 - Tipo de registro - Registro header de arquivo
                StringOfChar(' ', 9)                            + // 009 a 017 - Uso exclusivo FEBRABAN/CNAB
                ATipoInscricao                                  + // 018 a 018 - Tipo de inscrição do cedente
-               PadLeft(OnlyNumber(CNPJCPF), 14, '0')           + // 019 a 032 - Número de inscrição do cedente
+               PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 14, '0')           + // 019 a 032 - Número de inscrição do cedente
                PadLeft(Convenio, 9, '0')                       + // 033 a 041 - Código do convênio no banco [ Alterado conforme instruções da CSO Brasília ] 27-07-09
                '0014'                                          + // 042 a 045 - Informar 0014 Cedente
                ACBrBanco.ACBrBoleto.ListadeBoletos[0].Carteira + // 046 a 047 - Carteira
@@ -391,7 +391,7 @@ begin
                PadLeft(IntToStr(VersaoLote), 3, '0')              + // 014 a 016 - Número da versão do layout do lote
                ' '                                                + // 017 a 017 Uso exclusivo FEBRABAN/CNAB
                ATipoInscricao                                     + // 018 a 018 Tipo de inscrição do cedente
-               PadLeft(OnlyNumber(CNPJCPF), 15, '0')              + // 019 a 033 -Número de inscrição do cedente
+               PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 15, '0')              + // 019 a 033 -Número de inscrição do cedente
                PadLeft(Convenio, 9, '0')                          + // 034 a 042 Código do convênio no banco
                '0014'                                             + // 043 a 046 Informar 0014 para cobranca cedente
                ACBrBanco.ACBrBoleto.ListadeBoletos[0].Carteira    + // 047 a 048 Carteira cobranca
@@ -783,7 +783,7 @@ begin
               ' '                                                                      + // 15 - 15 Uso exclusivo FEBRABAN/CNAB: Branco
               ATipoOcorrencia                                                          + // 16 - 17 Tipo Ocorrencia
               IfThen(Sacado.Pessoa = pJuridica,'2','1')                                + // 18 - 18 Tipo inscricao
-              PadLeft(OnlyNumber(Sacado.CNPJCPF), 15, '0')                             + // 19 - 33 Número da inscrição
+              PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 15, '0')                             + // 19 - 33 Número da inscrição
               PadRight(Sacado.NomeSacado, 40, ' ')                                     + // 34 - 73 Nome
               PadRight(Sacado.Logradouro + ' ' + Sacado.Numero + ' '                   + // 74 - 113 Endereço
                        Sacado.Complemento , 40, ' ')                                   + // 114 - 128 Bairro
@@ -793,7 +793,7 @@ begin
               PadRight(Sacado.UF, 2, ' ')                                              + // 152 - 153 UF
               IfThen(Sacado.SacadoAvalista.Pessoa = pJuridica,'2',
                      IfThen(Sacado.SacadoAvalista.CNPJCPF <> '','1', '0'))             + // 154 - 154 Tipo de inscrição: Não informado
-              PadLeft(OnlyNumber(Sacado.SacadoAvalista.CNPJCPF), 15, '0')              + // 155 - 169 Número de inscrição
+              PadLeft(OnlyCPFCNPJAlphaNum(Sacado.SacadoAvalista.CNPJCPF), 15, '0')              + // 155 - 169 Número de inscrição
               PadRight(Sacado.SacadoAvalista.NomeAvalista, 40, ' ')                    + // 170 - 209 Nome do sacador/avalista
               PadRight('', 3, '0')                                                     + // 210 - 212 Uso exclusivo FEBRABAN/CNAB
               PadRight('',20, ' ')                                                     + // 213 - 232 Uso exclusivo FEBRABAN/CNAB
@@ -1194,7 +1194,7 @@ begin
 
        wLinha:= wLinha                                     + // ID Registro
                 ATipoCendente                              + // Tipo de inscrição da empresa
-                PadLeft(OnlyNumber(Cedente.CNPJCPF),14,'0')+ // Inscrição da empresa
+                PadLeft(OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF),14,'0')+ // Inscrição da empresa
                 aAgencia                                   + // Prefixo da agencia
                 PadRight( Cedente.AgenciaDigito, 1)        + // DV-prefixo da agencia
                 aConta                                     + // Código do cendete/nr. conta corrente da empresa
@@ -1243,7 +1243,7 @@ begin
                 IntToStrZero( round( ValorDesconto * 100), 13)          + // Valor do desconto
                 IntToStrZero( round( ValorIOF * 100 ), 13)              + // Valor do IOF
                 IntToStrZero( round( ValorAbatimento * 100 ), 13)       + // Valor do abatimento permitido
-                ATipoSacado + PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')+ // Tipo de inscricao do sacado + CNPJ ou CPF do sacado
+                ATipoSacado + PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF),14,'0')+ // Tipo de inscricao do sacado + CNPJ ou CPF do sacado
                 PadRight( Sacado.NomeSacado, 37) + '   '                + // Nome do sacado + Brancos
                 PadRight(trim(Sacado.Logradouro) + ', ' +
                          trim(Sacado.Numero) + ', '+
@@ -1326,9 +1326,9 @@ begin
 
    rCedente        := trim(copy(ARetorno[0], 73, 30));
    if copy(ARetorno[0], 18, 1) = '1' then
-      rCNPJCPF        := OnlyNumber((copy(ARetorno[0], 22, 11)))
+      rCNPJCPF        := OnlyCPFCNPJAlphaNum((copy(ARetorno[0], 22, 11)))
    else
-      rCNPJCPF        := OnlyNumber((copy(ARetorno[0], 19, 14)));
+      rCNPJCPF        := OnlyCPFCNPJAlphaNum((copy(ARetorno[0], 19, 14)));
    rConvenioCedente:= Trim(RemoveZerosEsquerda(Copy(ARetorno[0], 33, 9)));
 
    ValidarDadosRetorno('', '', rCNPJCPF);

@@ -48,6 +48,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+25/05/2026
+-- ACBrBancoBrasil.pas, ACBrBoleto.pas --
+[*][ACBR-9326] Ajustado para utilizar campo alfa CNPJ
+   Por: Daniel de Morais
+
 19/05/2026
 -- ACBrBoletoW_Bradesco.pas --
 [*] Ajustadada nova propriedade qtdDecurPrz p/  boleto hibrido. nao consta no manual para boleto convencional.
