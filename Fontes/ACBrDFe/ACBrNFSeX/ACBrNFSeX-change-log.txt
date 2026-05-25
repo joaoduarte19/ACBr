@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/05/2026
+-- IPM.Provider --
+[-] Ajuste visando correção de compilação no D7.
+   Por: Diego Folieni
 -- Tecnos.GravarXml --
 [*] ACBR-9204 - Implementado a geração do grupo ComercioExterior.
    Por: Italo Giurizzato Junior

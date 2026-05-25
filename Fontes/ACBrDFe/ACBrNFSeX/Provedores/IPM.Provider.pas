@@ -1267,7 +1267,7 @@ end;
 procedure TACBrNFSeProviderIPM.AssinarConsultaNFSe(
   Response: TNFSeConsultaNFSeResponse);
 begin
-  if (Response.InfConsultaNFSe.tpConsulta = TtpConsulta.tcPorCodigoVerificacao) then
+  if (Response.InfConsultaNFSe.tpConsulta = tcPorCodigoVerificacao) then
     Exit;
 
   inherited AssinarConsultaNFSe(Response);
