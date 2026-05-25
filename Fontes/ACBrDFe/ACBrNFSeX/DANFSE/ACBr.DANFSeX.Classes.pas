@@ -37,7 +37,9 @@ unit ACBr.DANFSeX.Classes;
 interface
 
 uses
-  Classes, SysUtils, ACBrBase;
+  Classes,
+  SysUtils,
+  ACBrBase;
 
 type
 
