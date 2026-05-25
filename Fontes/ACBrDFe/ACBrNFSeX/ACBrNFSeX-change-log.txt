@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/05/2026
+-- IPM.Provider --
+[*] ACBR-9192 - Sobrescrito o AssinarConsultarNFSe, pois para a consulta pelo código de verificação não
+    exige a assinatura.
+   Por: Pedro A. Araújo
+
 22/05/2026
 -- ACBrNFSeXServicos --
 [+] Adiciona a cidade de Horizonte/CE, provedor é o SpeedGov com APIPropria.

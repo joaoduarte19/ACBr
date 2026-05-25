@@ -94,6 +94,7 @@ type
 
     procedure PrepararConsultaNFSe(Response: TNFSeConsultaNFSeResponse); override;
     procedure TratarRetornoConsultaNFSe(Response: TNFSeConsultaNFSeResponse); override;
+    procedure AssinarConsultaNFSe(Response: TNFSeConsultaNFSeResponse); override;
 
     procedure PrepararCancelaNFSe(Response: TNFSeCancelaNFSeResponse); override;
     procedure TratarRetornoCancelaNFSe(Response: TNFSeCancelaNFSeResponse); override;
@@ -1261,6 +1262,15 @@ begin
   finally
     FreeAndNil(Document);
   end;
+end;
+
+procedure TACBrNFSeProviderIPM.AssinarConsultaNFSe(
+  Response: TNFSeConsultaNFSeResponse);
+begin
+  if (Response.InfConsultaNFSe.tpConsulta = TtpConsulta.tcPorCodigoVerificacao) then
+    Exit;
+
+  inherited AssinarConsultaNFSe(Response);
 end;
 
 procedure TACBrNFSeProviderIPM.PrepararCancelaNFSe(
