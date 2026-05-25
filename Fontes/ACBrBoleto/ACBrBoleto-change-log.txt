@@ -49,6 +49,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 25/05/2026
+-- ACBrBancoABCBrasil.pas, ACBrBancoAilos.pas, ACBrBancoAlfa.pas, ACBrBancoAmazonia.pas, ACBrBancoBradesco.pas --
+[*][ACBR-9326] Ajustado para utilizar campo alfa CNPJ
+   Por: Daniel de Morais
+
+25/05/2026
 -- ACBrBancoBrasil.pas, ACBrBoleto.pas --
 [*][ACBR-9326] Ajustado para utilizar campo alfa CNPJ
    Por: Daniel de Morais

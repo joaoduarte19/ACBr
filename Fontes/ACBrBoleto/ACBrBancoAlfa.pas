@@ -322,14 +322,14 @@ begin
        IntToStrZero( round( ValorIOF * 100 ), 13)              +  // 193 a 205 - Valor IOF
        IntToStrZero( round( ValorAbatimento * 100 ), 13)       +  // 206 a 218 - Valor Abatimento
        sTipoSacado                                             +  // 219 a 220 - Tipo Inscricao Sacado
-       PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')              +  // 221 a 234 - Número de Inscrição do Pagador
+       PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF),14,'0')              +  // 221 a 234 - Número de Inscrição do Pagador
        PadRight( Sacado.NomeSacado, 40, ' ')                   +  // 235 a 274 - Nome do Pagador
        PadRight( Sacado.Logradouro + ' '                       +
                  Sacado.Numero + ' '                           +
                  Sacado.Complemento, 40)                       +  // 275 a 314 - Endereço Completo Pagador
        StringOfChar(' ',12)                                    +  // 315 a 326 - Uso Banco
        PadRight( Sacado.CEP, 8 )                               +  // 327 a 334 - CEP
-       PadLeft(OnlyNumber(Sacado.SacadoAvalista.CNPJCPF),15,'0')+ // 235 a 394 - Sacado Avalista
+       PadLeft(OnlyCPFCNPJAlphaNum(Sacado.SacadoAvalista.CNPJCPF),15,'0')+ // 235 a 394 - Sacado Avalista
        StringOfChar(' ', 2)                                    +  // Branco
        PadRight(Sacado.SacadoAvalista.NomeAvalista, 43, ' ')   +  // Nome do sacador/avalista
        IntToStrZero(aRemessa.Count + 1, 6)                     ;  // Nº SEQÜENCIAL DO REGISTRO NO ARQUIVO

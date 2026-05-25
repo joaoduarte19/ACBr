@@ -313,7 +313,7 @@ begin
                '0' +                                                               // 8 - Tipo de registro - Registro header de arquivo
                PadRight('', 9, ' ') +                                              // 9 a 17 Uso exclusivo FEBRABAN/CNAB
                ATipoInscricao +                                                    // 18 - Tipo de inscrição do cedente
-               PadLeft(OnlyNumber(CNPJCPF), 14, '0') +                             // 19 a 32 -Número de inscrição do cedente
+               PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 14, '0') +                             // 19 a 32 -Número de inscrição do cedente
                PadRight(OnlyNumber(Convenio), 20, ' ') +                           // 33 a 52 - Código do convênio no banco
                PadLeft(OnlyNumber(Agencia), 5, '0') +                              // 53 a 57 - Código da agência do cedente
                PadRight(AgenciaDigito, 1, '0') +                                   // 58 - Dígito da agência do cedente
@@ -344,7 +344,7 @@ begin
                '047' +                                                             // 14 a 16 - Número da versão do layout do lote
                ' ' +                                                               // 17 - Uso exclusivo FEBRABAN/CNAB
                ATipoInscricao +                                                    // 18 - Tipo de inscrição do cedente
-               PadLeft(OnlyNumber(CNPJCPF), 15, '0') +                             // 19 a 33 -Número de inscrição do cedente
+               PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 15, '0') +                             // 19 a 33 -Número de inscrição do cedente
                PadRight(OnlyNumber(Convenio), 20, ' ') +                           // 34 a 53 - Código do convênio no banco
                PadLeft(OnlyNumber(Agencia), 5, '0') +                              // 54 a 58 - Código da agência do cedente
                PadRight(AgenciaDigito, 1, '0') +                                   // 59 - Dígito da agência do cedente
@@ -564,7 +564,7 @@ begin
                ' ' +                                                                                                         // 15 - Uso exclusivo FEBRABAN/CNAB: Branco
                ATipoOcorrencia +                                                                                             // 16 - 17 - Tipo Ocorrencia
                IfThen(Sacado.Pessoa = pJuridica, '2', '1') +                                                                 // 18 - Tipo inscricao
-               PadLeft(OnlyNumber(Sacado.CNPJCPF), 15, '0') +                                                                // 19 a 33 - Número de inscrição
+               PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 15, '0') +                                                                // 19 a 33 - Número de inscrição
                PadLeft(TiraAcentos(Sacado.NomeSacado), 40, ' ') +                                                            // 34 a 73 - Nome do Sacado
                PadLeft(TiraAcentos(Sacado.Logradouro + ' ' + Sacado.Numero + ' ' + Sacado.Complemento), 40, ' ') +           // 74 a 113 - Endereço do Sacado
                PadLeft(TiraAcentos(Sacado.Bairro), 15, ' ') +                                                                // 114 a 128 - Bairro do Sacado
@@ -681,12 +681,12 @@ begin
      ACBrBanco.ACBrBoleto.NumeroArquivo := StrToIntDef(Copy(ARetorno[0], 158, 6), 0);
 
      rCedente := Trim(Copy(ARetorno[0], 73, 30));
-     rCNPJCPF := OnlyNumber(Copy(ARetorno[0], 19, 14));
+     rCNPJCPF := OnlyCPFCNPJAlphaNum(Copy(ARetorno[0], 19, 14));
      rConvenioCedente := Trim(RemoveZerosEsquerda(Copy(ARetorno[0], 33, 20)));
 
      with ACBrBanco.ACBrBoleto do
      begin
-          if (not LeCedenteRetorno) and (rCNPJCPF <> OnlyNumber(Cedente.CNPJCPF)) then
+          if (not LeCedenteRetorno) and (rCNPJCPF <> OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF)) then
                raise Exception.create(ACBrStr('CNPJ\CPF do arquivo inválido'));
 
           if LeCedenteRetorno then
