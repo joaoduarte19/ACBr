@@ -268,7 +268,7 @@ begin
       begin
          wLinha:= '1'                                                     +  // ID Registro
                   TipoSacador                                             +  //Tipo da Empresa Sacadora
-                  PadLeft(OnlyNumber(Cedente.CNPJCPF),15,'0')             +  //CNPJ/CPF da Empresa
+                  PadLeft(OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF),15,'0')             +  //CNPJ/CPF da Empresa
                   Cedente.CodigoTransmissao                               +  // Código de Transmissão
                   space(9)                                                +  // Filler - 9 Brancos
                   space(25)                                               +  // Uso da Empresa
@@ -291,7 +291,7 @@ begin
                   IntToStrZero( round( ValorDesconto * 100 ), 13)         +
                   IntToStrZero( round( ValorIOF * 100 ), 13)              +
                   IntToStrZero( round( ValorAbatimento * 100 ), 13)       +
-                  TipoSacado + PadLeft(OnlyNumber(Sacado.CNPJCPF),15,'0') +
+                  TipoSacado + PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF),15,'0') +
                   PadRight( Sacado.NomeSacado, 40, ' ')                   +
                   PadRight( Sacado.Logradouro + Sacado.Numero, 40)        +
                   PadRight( Sacado.Bairro, 12 )                           +
@@ -311,7 +311,7 @@ begin
                   sLineBreak +
                   '2' +
                   TipoSacador                                             +  //Tipo da Empresa Sacadora
-                  PadLeft(OnlyNumber(Cedente.CNPJCPF),15,'0')                +  //CNPJ/CPF da Empresa
+                  PadLeft(OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF),15,'0')                +  //CNPJ/CPF da Empresa
                   Cedente.CodigoTransmissao                               +  // Código de Transmissão
                   space(9)                                                +  // Filler - 9 Brancos
                   space(25)                                               +  // Uso da Empresa

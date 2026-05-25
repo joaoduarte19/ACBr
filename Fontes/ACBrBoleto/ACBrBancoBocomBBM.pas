@@ -798,7 +798,7 @@ begin
    IntToStrZero( round( ACBrTitulo.ValorIOF * 100 ), 13)                        +  // 193 a 205 - Valor IOF
    IntToStrZero( round( ACBrTitulo.ValorAbatimento * 100 ), 13)                 +  // 206 a 218 - Valor Abatimento
    LTipoInscricao                                                               +  // 219 a 220 - Tipo de Inscrição do Pagador
-   PadLeft(OnlyNumber(ACBrTitulo.Sacado.CNPJCPF),14,'0')                        +  // 221 a 234 - CPF / CNPJ do Pagador (Antigo Sacado)
+   PadLeft(OnlyCPFCNPJAlphaNum(ACBrTitulo.Sacado.CNPJCPF),14,'0')                        +  // 221 a 234 - CPF / CNPJ do Pagador (Antigo Sacado)
    PadRight( ACBrTitulo.Sacado.NomeSacado, 40, ' ')                             +  // 235 a 274 - Nome do Pagador
    PadRight(ACBrTitulo.Sacado.Logradouro
            + Space(1)
@@ -809,7 +809,7 @@ begin
            + ACBrTitulo.Sacado.Bairro, 40)                                      +  // 275 a 314 - Endereço completo do pagador
    PadRight( ACBrTitulo.Sacado.Mensagem, 12, ' ')                               +  // 315 a 326 - 1ª Mensagem
    PadRight( ACBrTitulo.Sacado.CEP, 8 )                                         +  // 327 a 334 - CEP
-   PadLeft(OnlyNumber(ACBrTitulo.Sacado.SacadoAvalista.CNPJCPF), 15, '0')       +  // 335 a 349 - CNPJ do beneficiário final
+   PadLeft(OnlyCPFCNPJAlphaNum(ACBrTitulo.Sacado.SacadoAvalista.CNPJCPF), 15, '0')       +  // 335 a 349 - CNPJ do beneficiário final
    Space(2)                                                                     +  // 350 a 351 - Brancos
    PadRight(ACBrTitulo.Sacado.SacadoAvalista.NomeAvalista, 43)                  +  // 352 a 394 - Nome do beneficiário final
    IntToStrZero(aRemessa.Count + 1, 6)                                          +  // Nº SEQÜENCIAL DO REGISTRO NO ARQUIVO

@@ -442,7 +442,7 @@ begin
                       IntToStrZero(Round(ValorAbatimento*100), 13), Space(13))  + // Valor do abatimento
 
                TipoSacado                                                       + // Tipo do Sacado (01-CPF, 02-CNPJ, 03-Outros)
-               PadLeft(OnlyNumber(Sacado.CNPJCPF), 14, '0')                     + // Número da inscrição do Sacado (CPF, CNPJ)
+               PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 14, '0')                     + // Número da inscrição do Sacado (CPF, CNPJ)
                PadRight(Sacado.NomeSacado, 35)                                  + // Nome do Sacado
                space(5)                                                         + // Brancos
                PadRight(Sacado.Logradouro+' '+
@@ -505,7 +505,7 @@ begin
                '0' +                                              //   8 -   8   Registro header de arquivo
                Space(9) +                                         //   9 -  17   Uso exclusivo FEBRABAN/CNAB
                TipoInsc +                                         //  18 -  18   Tipo de inscrição
-               OnlyNumber(CNPJCPF) +                              //  19 -  32   Número de inscrição da empresa (Não considerado)
+               OnlyCPFCNPJAlphaNum(CNPJCPF) +                              //  19 -  32   Número de inscrição da empresa (Não considerado)
                PadLeft(OnlyNumber(Convenio), 13, '0') +           //  33 -  45   Código do convênio
                Space(7) +                                         //  46 -  52   Brancos
                '0'+                                               //  53 -  53   Zeros
@@ -537,7 +537,7 @@ begin
                PadLeft(IntToStr(fpLayoutVersaoLote), 3, '0') +    //  14 -  16   Número da versão do layout do lote
                Space(1) +                                         //  17 -  17   Uso exclusivo FEBRABAN/CNAB
                TipoInsc +                                         //  18 -  18   Tipo de inscrição da empresa
-               PadLeft(OnlyNumber(CNPJCPF), 15, '0') +            //  19 -  33   Número de inscrição da empresa
+               PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 15, '0') +            //  19 -  33   Número de inscrição da empresa
                PadLeft(OnlyNumber(Convenio), 13, '0') +           //  34 -  46   Código do convênio
                Space(7) +                                         //  47 -  53   Brancos
                PadLeft(OnlyNumber(Agencia), 5, '0') +             //  54 -  58   Agência
@@ -558,8 +558,8 @@ begin
                PadLeft(IntToStr(fpLayoutVersaoLote), 3, '0') +    //  14 -  16   Número da versão do layout do lote
                Space(1) +                                         //  17 -  17   Uso exclusivo FEBRABAN/CNAB
                TipoInsc +                                         //  18 -  18   Tipo de inscrição da empresa
-               PadLeft(OnlyNumber(CNPJCPF), 15, '0') +            //  19 -  33   Número de inscrição da empresa
-               PadLeft(OnlyNumber(Convenio), 13, '0') +           //  34 -  46   Código do convênio
+               PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 15, '0') +            //  19 -  33   Número de inscrição da empresa
+               PadLeft(OnlyCPFCNPJAlphaNum(Convenio), 13, '0') +           //  34 -  46   Código do convênio
                Space(7) +                                         //  47 -  53   Brancos
                PadLeft(OnlyNumber(Agencia), 5, '0') +             //  54 -  58   Agência
                PadLeft(AgenciaDigito, 1, ' ') +                   //  59 -  59   Dígito da agência
@@ -862,7 +862,7 @@ begin
                 'Q ' +
                 Ocorrencia +
                 TipoInscSacado +
-                PadLeft(OnlyNumber(Sacado.CNPJCPF), 15, '0') +
+                PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 15, '0') +
                 PadRight(Sacado.NomeSacado, 40) +
                 PadRight(Sacado.Logradouro+' '+
                     Sacado.Numero+' '+
@@ -1035,7 +1035,7 @@ begin
     ACBrBanco.ACBrBoleto.DataCreditoLanc := 0;
   end;
 
-  rCNPJCPF := OnlyNumber(copy(ARetorno[1], 20, 14));
+  rCNPJCPF := OnlyCPFCNPJAlphaNum(copy(ARetorno[1], 20, 14));
 
   try
     ValidarDadosRetorno(rAgencia, rConta, rCNPJCPF);

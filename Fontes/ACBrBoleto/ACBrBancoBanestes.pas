@@ -245,7 +245,7 @@ begin
       '0' +                                                  // Codigo do Registro Header
       Space(9) +                                             // Filler
       IfThen(TipoInscricao = pJuridica, '2', '1') +          // Tipo de Inscricao da Empresa
-      PadLeft(OnlyNumber(CNPJCPF), 14, '0') +                // Numero de Incscricao da Empresa
+      PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 14, '0') +                // Numero de Incscricao da Empresa
       Space(20) +                                            // Codigo do Convenio do Banco
       '00000' +                                              // Agencia mantenedora da Conta
       ' ' +                                                  // Digito verificador da agencia
@@ -278,7 +278,7 @@ begin
       PadLeft(IntToStr(fpLayoutVersaoLote), 3, '0') +        // Numero da versao do leiaute do lote
       ' ' +                                                  // Filler
       IfThen(TipoInscricao = pJuridica, '2', '1') +          // Tipo de inscricao da empresa
-      PadLeft(OnlyNumber(CNPJCPF), 15, '0') +                // Numero de inscricao da empresa
+      PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 15, '0') +                // Numero de inscricao da empresa
       Space(20) +                                            // Codigo do convenio com o banco
       '00000' +                                              // Agencia mantenedora da conta
       ' ' +                                                  // Digito verificador da agencia
@@ -519,7 +519,7 @@ begin
     ' ' +                                                                    // Filler
     TipoOcorrenciaToCodRemessa(ACBrTitulo.OcorrenciaOriginal.Tipo) +         // Identificacao da Ocorrencia remessa
     IfThen(ACBrTitulo.Sacado.Pessoa = pJuridica, '2', '1') +                 // Tipo de inscricao do sacado
-    PadLeft(OnlyNumber(ACBrTitulo.Sacado.CNPJCPF), 15, '0') +                // Numero de inscricao do sacado
+    PadLeft(OnlyCPFCNPJAlphaNum(ACBrTitulo.Sacado.CNPJCPF), 15, '0') +                // Numero de inscricao do sacado
     PadRight(ACBrTitulo.Sacado.NomeSacado, 40) +                             // Nome do sacado
     PadRight(ACBrTitulo.Sacado.Logradouro, 40) +                             // Endereco do sacado
     PadRight(ACBrTitulo.Sacado.Bairro, 15) +                                 // Bairro do sacado
@@ -527,7 +527,7 @@ begin
     PadRight(ACBrTitulo.Sacado.Cidade, 15) +                                 // Cidade do sacado
     PadRight(ACBrTitulo.Sacado.UF, 2) +                                      // Unidade de federacao do sacado
     SacadorAvalistaPessoaToCod(ACBrTitulo.Sacado.SacadoAvalista.Pessoa) +    // Tipo de inscricao sacador avalista
-    PadLeft(OnlyNumber(ACBrTitulo.Sacado.SacadoAvalista.CNPJCPF), 15, '0') + // Numero de inscricao sacador avalista
+    PadLeft(OnlyCPFCNPJAlphaNum(ACBrTitulo.Sacado.SacadoAvalista.CNPJCPF), 15, '0') + // Numero de inscricao sacador avalista
     PadRight(ACBrTitulo.Sacado.SacadoAvalista.NomeAvalista, 40) +            // Nome sacador avalista
     '000' +                                                                  // Codigo banco correspondente na compensacao
     Space(6) +                                                               // Identificacao do carne
@@ -673,7 +673,7 @@ begin
           MensagemCedente:= Mensagem[0];
         wLinha := '1'                                                         +  // ID Registro
                   ATipoInscricao                                              +  // TIPO INSCRICAO EMPRESA(CNPJ, CPF);
-                  PadRight(OnlyNumber(Cedente.CNPJCPF), 14, '0')              +
+                  PadRight(OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF), 14, '0')              +
                   PadLeft(OnlyNumber(Copy(Trim(Cedente.Conta),2,11)+trim(cedente.ContaDigito)), 11, '0')+ // Codigo da Empresa no Banco
                   Space(9)                                                    +
                   PadRight(SeuNumero,25)                                       +  // identificacao da operacao na empresa
@@ -685,7 +685,7 @@ begin
                   '00'                                                        +  // número da parcela do carnê
                   '00'                                                        +  // quantidade de parcelas no carnê
                   TipoAvalista                                                +  // tipo do sacador avalista
-                  PadLeft(OnlyNumber(Sacado.SacadoAvalista.CNPJCPF),14,'0')   +  // sacador avalista. não pode ser o proprio sacado
+                  PadLeft(OnlyCPFCNPJAlphaNum(Sacado.SacadoAvalista.CNPJCPF),14,'0')   +  // sacador avalista. não pode ser o proprio sacado
                   aCarteira                                                   +
                   Ocorrencia                                                  +
                   PadRight(NumeroDocumento, 10)                               +
@@ -706,7 +706,7 @@ begin
                   IntToStrZero(Round( ValorIOF * 100 ), 13)                   +
                   IntToStrZero(Round( ValorAbatimento * 100 ), 13)            +
                   TipoSacado                                                  +
-                  PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')                  +
+                  PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF),14,'0')                  +
                   PadRight(Sacado.NomeSacado, 40, ' ')                        +
                   PadRight(Sacado.Logradouro + Sacado.Numero, 40)             +
                   PadRight(Sacado.Bairro, 12)                                 +
@@ -795,7 +795,7 @@ begin
       if not ACBrBanco.ACBrBoleto.LeCedenteRetorno then
       begin
         if StrToFloatDef(Copy(ARetorno[I], 19, 14), 0) <>
-          StrToFloatDef(OnlyNumber(ACBrBanco.ACBrBoleto.Cedente.CNPJCPF), -1) then
+          StrToFloatDef(OnlyCPFCNPJAlphaNum(ACBrBanco.ACBrBoleto.Cedente.CNPJCPF), -1) then
            raise Exception.Create(ACBrStr('CNPJ\CPF do arquivo inválido.'));
 
         if StrToFloatDef(Copy(ARetorno[I], 59, 12), 0) <>
@@ -930,7 +930,7 @@ begin
 
    with ACBrBanco.ACBrBoleto do
    begin
-      if (not LeCedenteRetorno) and (rCNPJCPF <> OnlyNumber(Cedente.CNPJCPF)) then
+      if (not LeCedenteRetorno) and (rCNPJCPF <> OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF)) then
          raise Exception.Create(ACBrStr('CNPJ\CPF do arquivo inválido'));
 
       if (not LeCedenteRetorno) and

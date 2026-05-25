@@ -425,7 +425,7 @@ begin
           MensagemCedente:= Mensagem[0];
         wLinha := '1'                                                         +  // ID Registro
                   ATipoInscricao                                              +  // TIPO INSCRICAO EMPRESA(CNPJ, CPF);
-                  PadRight(OnlyNumber(Cedente.CNPJCPF), 14, '0')              +
+                  PadRight(OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF), 14, '0')              +
                   PadLeft(OnlyNumber(Copy(Trim(Cedente.Conta),1,11)), 11, '0')+ // Codigo da Empresa no Banco
                   Space(9)                                                    +
                   PadRight(SeuNumero,25)                                       +  // identificacao da operacao na empresa
@@ -437,7 +437,7 @@ begin
                   '00'                                                        +  // número da parcela do carnê
                   '00'                                                        +  // quantidade de parcelas no carnê
                   TipoAvalista                                                +  // tipo do sacador avalista
-                  PadLeft(OnlyNumber(Sacado.SacadoAvalista.CNPJCPF),14,'0')   +  // sacador avalista. não pode ser o proprio sacado
+                  PadLeft(OnlyCPFCNPJAlphaNum(Sacado.SacadoAvalista.CNPJCPF),14,'0')   +  // sacador avalista. não pode ser o proprio sacado
                   aCarteira                                                   +
                   Ocorrencia                                                  +
                   PadRight(NumeroDocumento, 10)                               +
@@ -458,7 +458,7 @@ begin
                   IntToStrZero(Round( ValorIOF * 100 ), 13)                   +
                   IntToStrZero(Round( ValorAbatimento * 100 ), 13)            +
                   TipoSacado                                                  +
-                  PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')                  +
+                  PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF),14,'0')                  +
                   PadRight(Sacado.NomeSacado, 40, ' ')                        +
                   PadRight(Sacado.Logradouro + Sacado.Numero, 40)             +
                   PadRight(Sacado.Bairro, 12)                                 +
@@ -503,7 +503,7 @@ begin
                '0'                                     + //8 - Tipo de registro - Registro header de arquivo '0' = Header de Arquivo
                PadRight('', 9, ' ')                    + //9 a 17 Uso exclusivo FEBRABAN/CNAB
                ATipoInscricao                          + //18 - Tipo de inscrição do cedente [ '1' = CPF '2' = CGC / CNPJ ]
-               PadLeft(OnlyNumber(CNPJCPF), 14, '0')   + //19 a 32 -Número de inscrição do cedente CPF ou CNPJ
+               PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 14, '0')   + //19 a 32 -Número de inscrição do cedente CPF ou CNPJ
                PadLeft(Convenio,20, '0')               + //33 a 52 - Código do convênio no banco
                PadLeft(OnlyNumber(Agencia), 5, '0')    + //53 a 57 - Código da agência do cedente
                PadLeft(AgenciaDigito, 1 , '0')         + //58 - Dígito da agência do cedente
@@ -534,7 +534,7 @@ begin
                '060'                                    + //14 a 16 - Número da versão do layout do lote
                Space(1)                                 + //17 - Uso exclusivo FEBRABAN/CNAB
                ATipoInscricao                           + //18 - Tipo de inscrição do cedente [ '1' = CPF '2' = CGC / CNPJ ]
-               PadLeft(OnlyNumber(CNPJCPF), 15, '0')    + //19 a 33 -Número de inscrição do cedente CPF OU CNPJ
+               PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 15, '0')    + //19 a 33 -Número de inscrição do cedente CPF OU CNPJ
                PadLeft(Convenio, 20, '0')               + //34 a 53 - Código do convênio no banco (código do Convenio)
                PadLeft(OnlyNumber(Agencia), 5 , '0')    + //54 a 58 - Agência do cedente
                PadLeft(AgenciaDigito, 1 , '0')          + //59 - Dígito da agência do cedente
@@ -785,7 +785,7 @@ begin
                ATipoOcorrencia                                                         + //16 a 17 - Código de movimento
                    {Dados do sacado}
                IfThen(Sacado.Pessoa = pJuridica,'2','1')                               + //18 - Tipo inscricao
-               PadLeft(OnlyNumber(Sacado.CNPJCPF), 15, '0')                            + //19 a 33 - Número de Inscrição
+               PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 15, '0')                            + //19 a 33 - Número de Inscrição
                PadLeft(Sacado.NomeSacado, 40, ' ')                                     + //34 a 73 - Nome sacado
                PadLeft(Sacado.Logradouro + ' ' + Sacado.Numero + ' ' +Sacado.Complemento , 40, ' ')  + //74 a 113 - Endereço
                PadLeft(Sacado.Bairro, 15, ' ')                                         + // 114 a 128 - bairro sacado
@@ -800,7 +800,7 @@ begin
                              '1'
                       )
                )                                                                       + // 154 a 157 - Tipo de Inscrição
-               PadLeft(OnlyNumber(Sacado.SacadoAvalista.CNPJCPF), 15, '0')             + // 155 a 169 - Número de inscrição
+               PadLeft(OnlyCPFCNPJAlphaNum(Sacado.SacadoAvalista.CNPJCPF), 15, '0')             + // 155 a 169 - Número de inscrição
                PadLeft(Sacado.SacadoAvalista.NomeAValista, 40, ' ')                    + // 170 a 209 - Nome do sacador/avalista
                IntToStrZero(0,3)                                                       + // 210 a 212 - Cód. Bco. Corresp. na Compensação
                IntToStrZero(0,20)                                                      + // 213 a 232 - Nosso Nº no Banco Correspondente
@@ -1142,7 +1142,7 @@ begin
 
    with ACBrBanco.ACBrBoleto do
    begin
-      if (not LeCedenteRetorno) and (rCNPJCPF <> OnlyNumber(Cedente.CNPJCPF)) then
+      if (not LeCedenteRetorno) and (rCNPJCPF <> OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF)) then
          raise Exception.Create(ACBrStr('CNPJ\CPF do arquivo inválido'));
 
       if (not LeCedenteRetorno) and
