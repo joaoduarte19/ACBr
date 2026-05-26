@@ -37,9 +37,9 @@ unit ACBrNFSeXDANFSeFPDFClass;
 interface
 
 uses
-  SysUtils, 
-  Classes, 
-  ACBrBase, 
+  SysUtils,
+  Classes,
+  ACBrBase,
   ACBrNFSeXClass,
   ACBrNFSeXDANFSeClass;
 
@@ -50,20 +50,12 @@ type
   TACBrNFSeXDANFSeFPDF = class(TACBrNFSeXDANFSeClass)
   private
     procedure ExecutaImpressaoPDFUmaNFSe(var UmaNFSe: TNFSe; AStream: TStream);
-  protected
-//    FPrintDialog: boolean;
-//	  FDetalharServico : Boolean;
-
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure ImprimirDANFSe(NFSe: TNFSe = nil); override;
     procedure ImprimirDANFSePDF(NFSe: TNFSe = nil); override;
     procedure ImprimirDANFSePDF(AStream: TStream; NFSe: TNFSe = nil); overload; override;
-  published
-//    property PrintDialog: boolean read FPrintDialog write FPrintDialog;
-//    property DetalharServico: Boolean read FDetalharServico write FDetalharServico default False;
-
   end;
 
 implementation
@@ -71,15 +63,17 @@ implementation
 uses
   ACBrUtil.Compatibilidade,
   ACBrUtil.FilesIO,
-  ACBrNFSeX, ACBrNFSeXConversao, ACBr.DANFSeX.Classes, ACBrNFSeXInterface,
-  ACBr.DANFSeX.FPDFA4Retrato;
+  ACBrNFSeX,
+  ACBrNFSeXConversao,
+  ACBr.DANFSeX.Classes,
+  ACBrNFSeXInterface,
+  ACBr.DANFSeX.FPDFA4Retrato,
+  ACBr.DANFSeX.FPDFPadraoNacional;
 
 constructor TACBrNFSeXDANFSeFPDF.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-//  FPrintDialog := True;
-//  FDetalharServico := False;
   MargemInferior := 0;
   MargemSuperior := 0;
   MargemEsquerda := 0;
@@ -92,35 +86,16 @@ begin
 end;
 
 procedure TACBrNFSeXDANFSeFPDF.ImprimirDANFSe(NFSe: TNFSe = nil);
-//var
-//  i: Integer;
-//  Notas: array of TNFSe;
 begin
   ImprimirDANFSePDF(NFSe);
-
-//  TfrlDANFSeRLRetrato.QuebradeLinha(TACBrNFSe(ACBrNFSe).Configuracoes.Geral.ConfigGeral.QuebradeLinha);
-//
-//  if (NFSe = nil) then
-//  begin
-//    SetLength(Notas, TACBrNFSe(ACBrNFSe).NotasFiscais.Count);
-//
-//    for i := 0 to (TACBrNFSe(ACBrNFSe).NotasFiscais.Count - 1) do
-//      Notas[i] := TACBrNFSe(ACBrNFSe).NotasFiscais.Items[i].NFSe;
-//  end
-//  else
-//  begin
-//    SetLength(Notas, 1);
-//    Notas[0] := NFSe;
-//  end;
-//
-//  TfrlDANFSeRLRetrato.Imprimir(Self, Notas);
 end;
 
 procedure TACBrNFSeXDANFSeFPDF.ExecutaImpressaoPDFUmaNFSe(var UmaNFSe: TNFSe; AStream: TStream);
 var
   FProvider: IACBrNFSeXProvider;
   DadosAux: TDadosNecessariosParaDANFSeX;
-  Report: TACBrDANFSeFPDFA4Retrato;
+  LA4Retrato: TACBrDANFSeFPDFA4Retrato;
+  LPadraoNacional : TACBrDANFSeFPDFPadraoNacional;
   BLogoPref: TBytes;
   BLogoPres: TBytes;
 begin
@@ -139,36 +114,73 @@ begin
     DadosAux.QuebradeLinha                 := FProvider.ConfigGeral.QuebradeLinha;
     DadosAux.Detalhar                      := FProvider.ConfigGeral.DetalharServico;
 
-    Report := TACBrDANFSeFPDFA4Retrato.Create(UmaNFSe);
-    try
-      Report.Cancelada := Cancelada;
-      Report.Homologacao := TACBrNFSeX(ACBrNFSe).Configuracoes.WebServices.AmbienteCodigo <> 1;
-      Report.LogoPrefeitura := Trim(Self.Logo) <> '';
-      Report.LogoPrestador  := Trim(Self.Prestador.Logo) <> '';
-      Report.QRCode := (Trim(UmaNFSe.Link) <> '');
+    if Self.TipoDANFSE = tpGeral then
+    begin
+      LA4Retrato := TACBrDANFSeFPDFA4Retrato.Create(UmaNFSe);
+      try
+        LA4Retrato.Cancelada := Cancelada;
+        LA4Retrato.Homologacao := TACBrNFSeX(ACBrNFSe).Configuracoes.WebServices.AmbienteCodigo <> 1;
+        LA4Retrato.LogoPrefeitura := Trim(Self.Logo) <> '';
+        LA4Retrato.LogoPrestador  := Trim(Self.Prestador.Logo) <> '';
+        LA4Retrato.QRCode := (Trim(UmaNFSe.Link) <> '');
 
-      if Report.LogoPrefeitura then
-      begin
-        ACBrUtil.FilesIO.FileToBytes(Self.Logo, BLogoPref);
-        Report.LogoPrefeituraBytes := BLogoPref;
+        if LA4Retrato.LogoPrefeitura then
+        begin
+          ACBrUtil.FilesIO.FileToBytes(Self.Logo, BLogoPref);
+          LA4Retrato.LogoPrefeituraBytes := BLogoPref;
+        end;
+
+        if LA4Retrato.LogoPrestador then
+        begin
+          ACBrUtil.FilesIO.FileToBytes(Self.Prestador.Logo, BLogoPres);
+          LA4Retrato.LogoPrestadorBytes := BLogoPres;
+        end;
+
+        LA4Retrato.CabecalhoLinha1 := Self.Prefeitura;
+        LA4Retrato.QuebraDeLinha   := DadosAux.QuebradeLinha;
+        LA4Retrato.MensagemRodape := Format('Impresso em %s||%s', [FormatDateTime('dd/mm/yyy HH:nn:ss', Now), Self.Sistema]);
+
+        if Assigned(AStream) then
+          LA4Retrato.SalvarPDF(DadosAux, AStream)
+        else
+          LA4Retrato.SalvarPDF(DadosAux, FPArquivoPDF);
+      finally
+        LA4Retrato.Free;
       end;
+    end
+    else
+    begin
+      LPadraoNacional := TACBrDANFSeFPDFPadraoNacional.Create(UmaNFSe);
+      try
+        LPadraoNacional.Cancelada := Cancelada;
+        LPadraoNacional.Homologacao := TACBrNFSeX(ACBrNFSe).Configuracoes.WebServices.AmbienteCodigo <> 1;
+        LPadraoNacional.LogoPrefeitura := Trim(Self.Logo) <> '';
+        LPadraoNacional.LogoNFSe  := Trim(Self.LogoNFSe) <> '';
+        LPadraoNacional.QRCode := (Trim(UmaNFSe.Link) <> '');
 
-      if Report.LogoPrestador then
-      begin
-        ACBrUtil.FilesIO.FileToBytes(Self.Prestador.Logo, BLogoPres);
-        Report.LogoPrestadorBytes := BLogoPres;
+        if LPadraoNacional.LogoPrefeitura then
+        begin
+          ACBrUtil.FilesIO.FileToBytes(Self.Logo, BLogoPref);
+          LPadraoNacional.LogoPrefeituraBytes := BLogoPref;
+        end;
+
+        if LPadraoNacional.LogoNFSe then
+        begin
+          ACBrUtil.FilesIO.FileToBytes(Self.LogoNFSe, BLogoPres);
+          LPadraoNacional.LogoNFSeBytes := BLogoPres;
+        end;
+
+        LPadraoNacional.CabecalhoLinha1 := Self.Prefeitura;
+        LPadraoNacional.QuebraDeLinha   := DadosAux.QuebradeLinha;
+        LPadraoNacional.MensagemRodape := Format('Impresso em %s||%s', [FormatDateTime('dd/mm/yyy HH:nn:ss', Now), Self.Sistema]);
+
+        if Assigned(AStream) then
+          LPadraoNacional.SalvarPDF(DadosAux, AStream)
+        else
+          LPadraoNacional.SalvarPDF(DadosAux, FPArquivoPDF);
+      finally
+        LPadraoNacional.Free;
       end;
-
-      Report.CabecalhoLinha1 := Self.Prefeitura;
-      Report.QuebraDeLinha   := DadosAux.QuebradeLinha;
-      Report.MensagemRodape := Format('Impresso em %s||%s', [FormatDateTime('dd/mm/yyy HH:nn:ss', Now), Self.Sistema]);
-
-      if Assigned(AStream) then
-        Report.SalvarPDF(DadosAux, AStream)
-      else
-        Report.SalvarPDF(DadosAux, FPArquivoPDF);
-    finally
-      Report.Free;
     end;
   finally
     DadosAux.Free;
