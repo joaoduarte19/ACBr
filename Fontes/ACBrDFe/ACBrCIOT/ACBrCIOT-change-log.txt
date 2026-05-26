@@ -38,6 +38,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/05/2026
+-- ACBrCIOTServicos.ini/ACBrCIOTConversao/pcnCIOTW_eFrete --
+[*] Alterações nas urls do eFrete para versão 8 e ajustes na geração do XML.
+  Por: Marcio Bar
+  
 20/05/2026
 -- ACBrCIOTWebServices, pcnCIOTW_eFrete, ACBrCIOTServicos.ini --
 [*] Alterações nas urls do eFrete na versão 8

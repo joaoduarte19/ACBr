@@ -1704,10 +1704,12 @@ begin
           begin
             Gerador.wCampo(tcInt, 'AP09', 'CodigoNCMNaturezaCarga', 01, 04, 1, CodigoNCMNaturezaCarga);
             Gerador.wCampo(tcDe5, 'AP10', 'PesoCarga             ', 01, 01, 1, PesoCarga);
-            Gerador.wCampo(tcStr, 'AP11', 'TipoEmbalagem         ', 01, 01, 1, TipoEmbalagemToStr(TipoEmbalagem));
+
+            if TipoViagem <> Fracionado then
+              Gerador.wCampo(tcStr, 'AP11', 'TipoEmbalagem         ', 01, 01, 1, TipoEmbalagemToStr(TipoEmbalagem));
           end;
 
-          if TipoViagem = Padrao then
+          if TipoViagem in [Padrao, Fracionado] then
             GerarViagem;
 
           if TipoViagem <> Frota then

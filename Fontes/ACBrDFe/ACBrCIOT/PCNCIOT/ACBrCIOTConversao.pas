@@ -120,11 +120,11 @@ const
     'Fardo', 'Tanque');
 
 type
-  TpTipoViagem = (Indefinido, Padrao, TAC_Agregado, Frota);
+  TpTipoViagem = (Indefinido, Padrao, TAC_Agregado, Frota, Fracionado);
 
 const
   TpTipoViagemArrayStrings: array[TpTipoViagem] of string = ('Indefinido',
-    'Padrao', 'TAC_Agregado', 'Frota');
+    'Padrao', 'TAC_Agregado', 'Frota', 'Fracionado');
 
 type
   TpUnidadeDeMedidaDaMercadoria = (umIndefinido, umTonelada, umKg);
