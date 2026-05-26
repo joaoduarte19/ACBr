@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/05/2026
+-- ACBr.DANFSeX.Classes/ACBrNFSeXDANFSeFPDFClass --
+[-] Revert visando evitar problema de compilação com o Delphi 7.
+  Por: Diego Folieni
+
 25/05/2026
 -- IPM.Provider --
 [-] Ajuste visando correção de compilação no D7.

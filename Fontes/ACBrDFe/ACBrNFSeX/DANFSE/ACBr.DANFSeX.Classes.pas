@@ -42,6 +42,8 @@ uses
   ACBrBase;
 
 type
+
+
   TDadosNecessariosParaDANFSeX = class(TObject)
   private
     FNaturezaOperacaoDescricao: string;     //FProvider.NaturezaOperacaoDescricao(NaturezaOperacao)
