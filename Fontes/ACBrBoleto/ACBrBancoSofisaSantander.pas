@@ -263,7 +263,7 @@ begin
 
       wLinha:= '1'                                                  +  // 1- ID Registro
         IfThen(Cedente.TipoInscricao = pJuridica,'02','01')         +  // 2 a 3
-        PadLeft(trim(OnlyNumber(Cedente.CNPJCPF)),14,'0')           +  // 4 a 17
+        PadLeft(trim(OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF)),14,'0')           +  // 4 a 17
         PadRight(trim(Cedente.CodigoTransmissao),20)                +  // 18 a 37
         PadRight( SeuNumero ,25,' ')                                +  // 38 a 62
         '00000000000'                                               +  // 63 a 73
@@ -290,7 +290,7 @@ begin
         IntToStrZero( round( ValorDesconto * 100), 13)              +  // 180 a 192
         IntToStrZero( round( ValorIOF * 100 ), 13)                  +  // 193 a 205
         IntToStrZero( round( ValorAbatimento * 100 ), 13)           +  // 206 a 218
-        TipoSacado + PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')     +  // 219 a 234
+        TipoSacado + PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF),14,'0')     +  // 219 a 234
         PadRight( Sacado.NomeSacado, 30, ' ')                       +  // 235 a 264
         Space(10)                                                   +  // 265 a 274
         PadRight( Sacado.Logradouro + ' '+ Sacado.Numero, 40, ' ')  +  // 275 a 314

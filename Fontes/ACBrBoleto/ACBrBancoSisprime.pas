@@ -354,7 +354,7 @@ begin
                   IntToStrZero( round( ValorDesconto * 100 ), 13)         +  // 180 a 192 - Valor Desconto
                   Space(13)                                               +  // 193 a 205 - BRANCOS
                   IntToStrZero( round( ValorAbatimento * 100 ), 13)       +  // 206 a 218 - Valor Abatimento
-                  TipoSacado + PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0') +  // 219 a 234 - Tipo de Inscrição + Número de Inscrição do Pagador
+                  TipoSacado + PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF),14,'0') +  // 219 a 234 - Tipo de Inscrição + Número de Inscrição do Pagador
                   PadRight( Sacado.NomeSacado, 40, ' ')                   +  // 235 a 274 - Nome do Pagador
                   PadRight(Sacado.Logradouro + ' ' + Sacado.Numero + ' '  +
                            Sacado.Complemento, 40)                        +  // 275 a 314 - Endereço Completo

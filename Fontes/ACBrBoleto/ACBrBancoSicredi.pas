@@ -225,7 +225,7 @@ begin
                '01'                                   + // Código do Tipo de Serviço
                PadRight( 'COBRANCA', 15 )             + // Descrição do tipo de serviço
                PadLeft( CodigoCedente, 5, '0')        + // Codigo da Empresa no Banco
-               PadLeft( OnlyNumber(CNPJCPF), 14, '0') + // CNPJ do Cedente
+               PadLeft( OnlyCPFCNPJAlphaNum(CNPJCPF), 14, '0') + // CNPJ do Cedente
                Space(31)                              + // Fillers - Branco
                '748'                                  + // Número do banco
                PadRight('SICREDI', 15)                + // Código e Nome do Banco(237 - Bradesco)
@@ -365,7 +365,7 @@ begin
       end;
 
       {Pegando Tipo de Sacado}
-      if Length(OnlyNumber(Sacado.CNPJCPF)) > 11 then
+      if Length(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF)) > 11 then
          TipoSacado:= '2'
       else
          TipoSacado:= '1';
@@ -506,7 +506,7 @@ begin
          wLinha:= wLinha +
                   TipoSacado                                                            +  // 219 a 219 - Tipo de pessoa do sacado: PF ou PJ = "1" Pessoa Física "2" Pessoa Jurídica
                   IfThen(wModalidade = 'A', '0', ' ')                                   +  // 220 a 220 - Filler - (Cob. Registrada = '0', Cob. Sem Registro = ' ')
-                  PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')                            +  // 221 a 234 - CIC/CGC do sacado
+                  PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF),14,'0')                            +  // 221 a 234 - CIC/CGC do sacado
                   PadRight( TiraAcentos(Sacado.NomeSacado), 40, ' ');                                   // 235 a 274 - Nome do sacado
 
          if wModalidade = 'A' then
@@ -520,7 +520,7 @@ begin
                      PadRight( OnlyNumber(Sacado.CEP), 8 )                              +  // 327 a 334 - CEP do sacado
                      PadRight('', 5, '0')                                               +  // 335 a 339 - Código do sacado junto ao cliente (zeros quando inexistente)
                      ifthen(NaoEstaVazio(Sacado.SacadoAvalista.CNPJCPF),
-                          PadLeft(OnlyNumber(Sacado.SacadoAvalista.CNPJCPF), 14, '0'),
+                          PadLeft(OnlyCPFCNPJAlphaNum(Sacado.SacadoAvalista.CNPJCPF), 14, '0'),
                           Space(14))                                                     +  // 340 a 353 - CIC/CGC do sacador avalista
                      PadRight(TiraAcentos(Sacado.Avalista), 41, ' ')                        // 354 a 394 - Nome do sacador avalista ---Anderson
          else
@@ -655,7 +655,7 @@ begin
                     PadLeft(wNossoNumeroCompleto,15,' ')                           + // 002 a 016 - Nosso número Sicredi
                     ANumeroDocumento                                               + // 017 a 026 - Seu número
                     PadRight('', 5, '0')                                           + // 027 a 031 - Código do pagador junto ao cliente
-                    PadLeft(OnlyNumber(Sacado.SacadoAvalista.CNPJCPF), 14, '0')    + // 032 a 045 - CPF/CNPJ do Sacador Avalista ( Obrigatório )
+                    PadLeft(OnlyCPFCNPJAlphaNum(Sacado.SacadoAvalista.CNPJCPF), 14, '0')    + // 032 a 045 - CPF/CNPJ do Sacador Avalista ( Obrigatório )
                     PadRight( TiraAcentos( Sacado.SacadoAvalista.NomeAvalista
                                           ), 41, ' ')                              + // 046 a 086 - Nome do Sacador Avalista ( Obrigatório )
                     PadRight( TiraAcentos( Sacado.SacadoAvalista.Logradouro  + ',' +
@@ -676,8 +676,8 @@ begin
           wLinha := '7'                                                            + // 001 a 001 - Identificação do registro detalhe (7)
                     PadLeft(wNossoNumeroCompleto, 15, ' ')                         + // 002 a 016 - Nosso número Sicredi
                     ANumeroDocumento                                               + // 017 a 026 - Seu número
-                    PadLeft(OnlyNumber(Sacado.CNPJCPF), 14, '0')                   + // 027 a 040 - CPF/CNPJ do pagador
-                    PadLeft(OnlyNumber(Sacado.SacadoAvalista.CNPJCPF), 14, '0')    + // 041 a 054 - CPF/CNPJ do Sacador Avalista
+                    PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 14, '0')                   + // 027 a 040 - CPF/CNPJ do pagador
+                    PadLeft(OnlyCPFCNPJAlphaNum(Sacado.SacadoAvalista.CNPJCPF), 14, '0')    + // 041 a 054 - CPF/CNPJ do Sacador Avalista
                     IfThen(DataDesconto2 < EncodeDate(2000, 01, 01), '000000',
                          FormatDateTime('ddmmyy', DataDesconto2))                  + // 055 a 060 - Data limite para desconto 2
                     IntToStrZero( Round( ValorDesconto2 * 100 ), 13)               + // 061 a 073 - Valor do desconto 2
@@ -1896,7 +1896,7 @@ begin
               '0'                                                           + // 008 a 008 - Tipo de registro = "0" HEADER ARQUIVO
               Space(9)                                                      + // 009 a 017 - Uso exclusivo FEBRABAN/CNAB
               TipoInsc                                                      + // 018 a 018 - Tipo de inscrição da empresa = "1" Pessoa Física "2" Pessoa Jurídica
-              PadLeft(OnlyNumber(CNPJCPF), 14, '0')                         + // 019 a 032 - Número de inscrição da empresa
+              PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 14, '0')                         + // 019 a 032 - Número de inscrição da empresa
               Space(20)                                                     + // 033 a 052 - Código do convênio no banco (O SICREDI não valida este campo; cfe Manual Agosto 2010 pág. 35)
               PadLeft(OnlyNumber(Agencia), 5, '0')                          + // 053 a 057 - Agência mantenedora da conta
               Space(1)                                                      + // 058 a 058 - Dígito verificador da agência
@@ -1927,7 +1927,7 @@ begin
               PadLeft(IntToStr(fpLayoutVersaoLote), 3, '0')                 + // 014 a 016 - Nº da versão do leiaute do lote = "040"
               Space(1)                                                      + // 017 a 017 - Uso exclusivo FEBRABAN/CNAB
               TipoInsc                                                      + // 018 a 018 - Tipo de inscrição da empresa = "1" Pessoa Física "2" Pessoa Jurídica
-              PadLeft(OnlyNumber(CNPJCPF), 15, '0')                         + // 019 a 033 - Número de inscrição da empresa
+              PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 15, '0')                         + // 019 a 033 - Número de inscrição da empresa
               Space(20)                                                     + // 034 a 053 - Código do convênio no banco (O SICREDI não valida este campo; cfe Manual Agosto 2010 pág. 35)
               PadLeft(OnlyNumber(Agencia), 5, '0')                          + // 054 a 058 - Agência mantenedora da conta
               Space(1)                                                      + // 059 a 059 - Dígito verificador da agência
@@ -2160,8 +2160,8 @@ begin
              Ocorrencia                                                     + // 016 a 017 - Código de movimento de remessa
              TipoSacado                                                     + // 018 a 018 - Tipo de inscrição
              ifthen(NaoEstaVazio(Sacado.CNPJCPF),
-                  PadLeft(OnlyNumber(Sacado.CNPJCPF), 15, '0'),
-                  Space(15))                                                + // 019 a 033 - Número de inscrição
+                  PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 15, '0'),
+                  Space(15))                                                               + // 019 a 033 - Número de inscrição
              PadRight(TiraAcentos(Sacado.NomeSacado), 40)                   + // 034 a 073 - Nome
              EndSacado                                                      + // 074 a 113 - Endereço
              PadRight(TiraAcentos(Sacado.Bairro), 15)                       + // 114 a 128 - Bairro
@@ -2171,7 +2171,7 @@ begin
              PadLeft(Sacado.UF, 2)                                          + // 152 a 153 - Unidade da Federação
              TipoAvalista                                                   + // 154 a 154 - Tipo de inscrição
              ifthen(NaoEstaVazio(Sacado.SacadoAvalista.CNPJCPF),
-                  PadLeft(OnlyNumber(Sacado.SacadoAvalista.CNPJCPF), 15, '0'),
+                  PadLeft(OnlyCPFCNPJAlphaNum(Sacado.SacadoAvalista.CNPJCPF), 15, '0'),
                   Space(15))                                                + // 155 a 169 - Número de inscrição
              PadRight(TiraAcentos(Sacado.SacadoAvalista.NomeAvalista),40,' ')            + // 170 a 209 - Nome do sacador/avalista
              PadRight('', 3, '0')                                           + // 210 a 212 - Cód. bco corresp. na compensação

@@ -298,7 +298,7 @@ begin
 
   wLinha := '1'                                                +  // 001 a 001 ID Registro
     IfThen(Boleto.Cedente.TipoInscricao = pJuridica,'02','01') +  // 002 a 003 Identificação do Tipo de Inscrição da empresa
-    PadLeft(Trim(OnlyNumber(Boleto.Cedente.CNPJCPF)),14,'0')   +  // 004 a 017 Número de Inscrição da Empresa
+    PadLeft(Trim(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF)),14,'0')   +  // 004 a 017 Número de Inscrição da Empresa
     PadRight(Trim(Boleto.Cedente.CodigoTransmissao),20)        +  // 018 a 037 Identificação da empresa no Banco
     PadRight(ACBrTitulo.SeuNumero, 25)                         +  // 038 a 062 Identificação do Título na empresa
     PadLeft(RightStr(ACBrTitulo.NossoNumero,10),10,'0') +
@@ -328,7 +328,7 @@ begin
     IntToStrZero(Round(ACBrTitulo.ValorIOF * 100), 13)         +  // 193 a 205 Valor do I.O.F. a ser recolhido pelo Banco no caso de Notas de Seguro
     IntToStrZero(Round(ACBrTitulo.ValorAbatimento * 100), 13)  +  // 206 a 218 Valor do abatimento a ser concedido
     TipoSacado                                                 +  // 219 a 220 Identificação do tipo de inscrição do sacado
-    PadLeft(OnlyNumber(ACBrTitulo.Sacado.CNPJCPF),14,'0')      +  // 221 a 234 Número de Inscrição do Sacado
+    PadLeft(OnlyCPFCNPJAlphaNum(ACBrTitulo.Sacado.CNPJCPF),14,'0')      +  // 221 a 234 Número de Inscrição do Sacado
     PadRight(ACBrTitulo.Sacado.NomeSacado, 30)                 +  // 235 a 264 Nome do Sacado
     Space(10)                                                  +  // 265 a 274 Complementação do Registro
     PadRight(Trim(ACBrTitulo.Sacado.Logradouro + ' ' +
