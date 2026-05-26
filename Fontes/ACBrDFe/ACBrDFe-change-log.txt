@@ -39,6 +39,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/05/2026
+-- ACBrDFe.Conversao --
+[+] ACBr-9316 - Incluido o enumerado: peProvedorAssinaturaAutorizacao no 
+    tipo: TACBrProcessoEmissao e ajustado as funções de conversão.
+   Por: Italo Giurizzato Junior
+
 21/05/2026
 -- ACBrDFeSSL/ACBrDFeUtil --
 [*] Ajustes nas units para atender o CNPJ Alfa.

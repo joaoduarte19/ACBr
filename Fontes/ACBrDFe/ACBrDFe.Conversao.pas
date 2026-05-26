@@ -79,11 +79,12 @@ const
 
 type
   TACBrProcessoEmissao = (peAplicativoContribuinte, peAvulsaFisco,
-                          peAvulsaContribuinte, peContribuinteAplicativoFisco);
+                          peAvulsaContribuinte, peContribuinteAplicativoFisco,
+                          peProvedorAssinaturaAutorizacao);
 
 const
   TACBrProcessoEmissaoArrayStrings: array[TACBrProcessoEmissao] of string = ('0',
-    '1', '2', '3');
+    '1', '2', '3', '4');
 
 type
   TACBrTipoEvento = (teNaoMapeado, teCCe, teCancelamento,
