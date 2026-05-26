@@ -310,7 +310,7 @@ begin
                   IntToStrZero( round( ValorDesconto * 100 ), 13)         +
                   IntToStrZero( round( ValorIOF * 100 ), 13)              +
                   IntToStrZero( round( ValorAbatimento * 100 ), 13)       +
-                  TipoSacado + PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0') +
+                  TipoSacado + PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF),14,'0') +
                   PadRight( Sacado.NomeSacado, 40, ' ')                       +
                   PadRight( Sacado.Logradouro + ' ' + Sacado.Numero, 40, ' ') +
                   PadRight( Sacado.Complemento, 12, ' ')                      +

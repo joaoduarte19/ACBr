@@ -202,7 +202,7 @@ begin
       '01' + // Código do Tipo de Serviço
       PadRight('COBRANCA', 15) + // Descrição do tipo de serviço
       PadRight(OnlyNumber(Agencia), 4) + // agencia origem
-      PadLeft(OnlyNumber(CNPJCPF), 15, '0') + // CNPJ/CPF CEDENTE
+      PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 15, '0') + // CNPJ/CPF CEDENTE
       ' ' + // BRANCO
       PadRight(Nome, 30) + // Nome da Empresa
       '389' + // ID BANCO
@@ -275,7 +275,7 @@ begin
         FormatDateTime('ddmmyy', Vencimento + 1) + // data Multa
         Space(5) + PadLeft(Cedente.CodigoCedente, 9, '0') + // numero do contrato ???
         PadLeft(SeuNumero, 25, '0') + // Numero de Controle do Participante
-        FormataNossoNumero(ACBrTitulo) + Space(5) + PadLeft(OnlyNumber(Cedente.CNPJCPF), 15, '0') + IntToStrZero(Round(ValorDocumento * 100), 10) + // qtde de moeda
+        FormataNossoNumero(ACBrTitulo) + Space(5) + PadLeft(OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF), 15, '0') + IntToStrZero(Round(ValorDocumento * 100), 10) + // qtde de moeda
         '1' + // Codigo Operação 1- Cobrança Simples
         Ocorrencia + PadRight(NumeroDocumento, 10) + // numero titulo atribuido pelo cliente
         FormatDateTime('ddmmyy', Vencimento) + IntToStrZero(Round(ValorDocumento * 100), 13) + // valor nominal do titulo
@@ -291,7 +291,7 @@ begin
         IntToStrZero(Round(ValorDesconto * 100), 13) + // valor desconto
         StringOfChar('0', 13) + // iof - caso seguro
         StringOfChar('0', 13) + // valor abatimento ?????
-        TipoSacado + PadLeft(OnlyNumber(Sacado.CNPJCPF), 14, '0') + PadRight(Sacado.NomeSacado, 40, ' ') + PadRight(Sacado.Logradouro + Sacado.Numero, 40) +
+        TipoSacado + PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 14, '0') + PadRight(Sacado.NomeSacado, 40, ' ') + PadRight(Sacado.Logradouro + Sacado.Numero, 40) +
         PadRight(Sacado.Bairro, 12) + PadRight(Sacado.CEP, 8, '0') + PadRight(Sacado.Cidade, 15) + PadRight(Sacado.UF, 2) + PadRight(Sacado.Avalista, 30) + // Avalista
         Space(12) + '1' + // codigo moeda
         IntToStrZero(aRemessa.Count + 1, 6);

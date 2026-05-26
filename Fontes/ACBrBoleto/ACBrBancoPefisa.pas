@@ -407,7 +407,7 @@ begin
     end;
   LLinha := '1' +                                                               // 001 a 001 - Tipo de Registro
     PadLeft(DefineTipoInscricao, 2, '0') +                                      // 002 a 003 - Tipo de Inscrição Empresa
-    PadLeft(OnlyNumber(Beneficiario.CNPJCPF), 14, '0') +                        // 004 a 017 - CNPJ Empresa
+    PadLeft(OnlyCPFCNPJAlphaNum(Beneficiario.CNPJCPF), 14, '0') +                        // 004 a 017 - CNPJ Empresa
     PadRight(Beneficiario.CodigoTransmissao, 12) +                              // 018 a 029 - Código da Empresa
     Space(8) +                                                                  // 030 a 037 - Uso do Banco Brancos
     PadRight(IfThen(LTitulo.SeuNumero = '',LTitulo.NumeroDocumento,LTitulo.SeuNumero), 25) +                                           // 038 a 062 - Uso da Empresa
@@ -438,7 +438,7 @@ begin
     Space(7) +                                                                  // 199 a 205 - Uso do Banco Brancos
     IntToStrZero(Round(LTitulo.ValorAbatimento * 100), 13) +                    // 206 a 218 - Valor Abatimento
     DefineTipoSacado(LTitulo) +                                                 // 219 a 220 - Tipo Sacado
-    PadLeft(OnlyNumber(Pagador.CNPJCPF), 14, '0') +                             // 221 a 234 - CNPJ/CPF Sacado
+    PadLeft(OnlyCPFCNPJAlphaNum(Pagador.CNPJCPF), 14, '0') +                             // 221 a 234 - CNPJ/CPF Sacado
     PadRight(Pagador.NomeSacado, 40) +                                          // 235 a 274 - Nome do Sacado
     PadRight(Pagador.Logradouro + 
         ' ' + 
@@ -462,7 +462,7 @@ begin
 
     // [401 a 710] - Campos opcionais
     PadLeft(DefineTipoInscricao, 2, '0') +                                      // 401 a 402 - Tipo Emitente
-    PadLeft(OnlyNumber(Beneficiario.CNPJCPF), 14, '0') +                        // 403 a 416 - CNPJ Emitente
+    PadLeft(OnlyCPFCNPJAlphaNum(Beneficiario.CNPJCPF), 14, '0') +                        // 403 a 416 - CNPJ Emitente
     PadRight(Beneficiario.Nome, 40) +                                           // 417 a 456 - Nome Emitente
     PadRight(Beneficiario.Logradouro + 
          ' ' + 

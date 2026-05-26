@@ -49,6 +49,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 26/05/2026
+-- ACBrBancoMercantil.pas, ACBrBancoNordeste.pas, ACBrBancoOriginal.pas, ACBrBancoPefisa.pas --
+[*][ACBR-9326] Ajustado para utilizar campo alfa CNPJ
+   Por: Larissa Santos
+
+26/05/2026
 -- ACBrBancoFibra.pas, ACBrBancoHSBC.pas,ACBrBancoIndustrialBrasil.pas,ACBrBancoInter.pas,ACBrBancoItau.pas --
 [*][ACBR-9326] Ajustado para utilizar campo alfa CNPJ
    Por: Larissa Santos

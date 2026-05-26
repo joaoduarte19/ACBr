@@ -250,7 +250,7 @@ begin
   try
     Linha.Add('1'); //                                                          001 a 001 Identificação do registro de transação
     Linha.Add(IfThen(Boleto.Cedente.TipoInscricao = pFisica, '01', '02')); //   002 a 003 Identificação do Tipo de Inscrição da empresa
-    Linha.Add(PadLeft(OnlyNumber(Boleto.Cedente.CNPJCPF), 14, '0')); //         004 a 017 Número de Inscrição da Empresa (CNPJ/CPF)
+    Linha.Add(PadLeft(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 14, '0')); //         004 a 017 Número de Inscrição da Empresa (CNPJ/CPF)
     Linha.Add(PadRight(MontarConvenio, 20, ' ')); //                            018 a 037 Identificação da empresa no Original
     Linha.Add(PadRight(ACBrTitulo.SeuNumero, 25, ' ')); //                      038 a 062 Identificação do Título na empresa
     Linha.Add(PadLeft(ACBrTitulo.NossoNumero, 10, '0')); //                     063 a 072 Identificação do Título no Banco
@@ -281,7 +281,7 @@ begin
     Linha.Add(IntToStrZero(0, 13)); //                                          193 a 205 Valor do I.O.F. a ser recolhido pelo Banco no caso de seguro
     Linha.Add(IntToStrZero(Round(ACBrTitulo.ValorAbatimento * 100), 13)); //    206 a 218 Valor do abatimento a ser concedido
     Linha.Add(IfThen(ACBrTitulo.Sacado.Pessoa = pFisica, '01', '02')); //       219 a 220 Identificação do tipo de inscrição do sacado
-    Linha.Add(PadLeft(OnlyNumber(ACBrTitulo.Sacado.CNPJCPF), 14, '0')); //      221 a 234 Número de Inscrição do Sacado
+    Linha.Add(PadLeft(OnlyCPFCNPJAlphaNum(ACBrTitulo.Sacado.CNPJCPF), 14, '0')); //      221 a 234 Número de Inscrição do Sacado
     Linha.Add(PadRight(TiraAcentos(ACBrTitulo.Sacado.NomeSacado), 30, ' ')); // 234 a 264 Nome do Sacado
     Linha.Add(Space(10)); //                                                    265 a 274 Complementação do Registro - Brancos
     Linha.Add(PadRight(TiraAcentos(ACBrTitulo.Sacado.Logradouro) + ' ' +
