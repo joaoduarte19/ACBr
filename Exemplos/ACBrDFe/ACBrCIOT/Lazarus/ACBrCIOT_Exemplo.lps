@@ -2,15 +2,15 @@
 <CONFIG>
   <ProjectSession>
     <PathDelim Value="\"/>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <BuildModes Active="Default"/>
-    <Units Count="7">
+    <Units Count="20">
       <Unit0>
         <Filename Value="ACBrCIOT_Exemplo.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
-        <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="40" Y="9"/>
+        <UsageCount Value="44"/>
       </Unit0>
       <Unit1>
         <Filename Value="Frm_ACBrCIOT.pas"/>
@@ -19,20 +19,18 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="238"/>
-        <CursorPos X="15" Y="254"/>
-        <UsageCount Value="20"/>
+        <TopLine Value="1706"/>
+        <CursorPos X="37" Y="1716"/>
+        <UsageCount Value="44"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
       <Unit2>
         <Filename Value="Frm_SelecionarCertificado.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="44"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
@@ -43,59 +41,260 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="21" Y="8"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="44"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
       <Unit4>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\ACBrCIOTContratos.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="39"/>
-        <CursorPos X="7" Y="52"/>
-        <UsageCount Value="10"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="467"/>
+        <CursorPos Y="23"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\ACBrCIOTWebServices.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="72"/>
-        <CursorPos X="27" Y="85"/>
-        <UsageCount Value="10"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="350"/>
+        <CursorPos X="50" Y="368"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\ACBrCIOT.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="26"/>
-        <CursorPos X="44" Y="39"/>
-        <UsageCount Value="10"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="107"/>
+        <CursorPos Y="107"/>
+        <UsageCount Value="23"/>
+        <Loaded Value="True"/>
       </Unit6>
+      <Unit7>
+        <Filename Value="..\..\..\..\Fontes\PCNComum\pcnConversao.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="8"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\ACBrCIOTConversao.pas"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="14"/>
+        <CursorPos X="6" Y="35"/>
+        <UsageCount Value="23"/>
+        <Loaded Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\ACBrCIOTConfiguracoes.pas"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="236"/>
+        <CursorPos X="3" Y="257"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\ACBrCIOTReg.pas"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="63"/>
+        <CursorPos X="3" Y="63"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOT.pas"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="1232"/>
+        <CursorPos X="14" Y="1240"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTR.pas"/>
+        <EditorIndex Value="8"/>
+        <TopLine Value="64"/>
+        <CursorPos X="3" Y="80"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW.pas"/>
+        <EditorIndex Value="9"/>
+        <TopLine Value="188"/>
+        <CursorPos X="3" Y="209"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <EditorIndex Value="10"/>
+        <TopLine Value="2041"/>
+        <CursorPos X="27" Y="2057"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_Pamcard.pas"/>
+        <EditorIndex Value="11"/>
+        <TopLine Value="1291"/>
+        <CursorPos X="12" Y="1304"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_REPOM.pas"/>
+        <EditorIndex Value="12"/>
+        <TopLine Value="178"/>
+        <CursorPos Y="199"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_WexFrete.pas"/>
+        <EditorIndex Value="13"/>
+        <TopLine Value="1956"/>
+        <CursorPos Y="1977"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnRetEnvCIOT.pas"/>
+        <EditorIndex Value="14"/>
+        <TopLine Value="1256"/>
+        <CursorPos X="7" Y="1274"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="C:\Users\juliomar\Downloads\pcnCIOTW_eFrete.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1692"/>
+        <CursorPos X="45" Y="1707"/>
+        <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit19>
     </Units>
-    <JumpHistory Count="6" HistoryIndex="5">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="Frm_ACBrCIOT.pas"/>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <Caret Line="67" Column="33" TopLine="49"/>
       </Position1>
       <Position2>
-        <Filename Value="Frm_ACBrCIOT.pas"/>
-        <Caret Line="244" TopLine="229"/>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <Caret Line="129" Column="43" TopLine="111"/>
       </Position2>
       <Position3>
-        <Filename Value="Frm_ACBrCIOT.pas"/>
-        <Caret Line="248" TopLine="233"/>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <Caret Line="1586" Column="52" TopLine="1578"/>
       </Position3>
       <Position4>
-        <Filename Value="Frm_ACBrCIOT.pas"/>
-        <Caret Line="615" Column="19" TopLine="602"/>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <Caret Line="1595" Column="27" TopLine="1578"/>
       </Position4>
       <Position5>
-        <Filename Value="Frm_ACBrCIOT.pas"/>
-        <Caret Line="719" Column="19" TopLine="707"/>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <Caret Line="1612" Column="27" TopLine="1595"/>
       </Position5>
       <Position6>
-        <Filename Value="Frm_ACBrCIOT.pas"/>
-        <Caret Line="254" Column="15" TopLine="238"/>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <Caret Line="1630" Column="27" TopLine="1613"/>
       </Position6>
+      <Position7>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <Caret Line="1646" Column="27" TopLine="1629"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <Caret Line="1667" Column="27" TopLine="1650"/>
+      </Position8>
+      <Position9>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <Caret Line="1687" Column="27" TopLine="1670"/>
+      </Position9>
+      <Position10>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <Caret Line="1822" Column="27" TopLine="1805"/>
+      </Position10>
+      <Position11>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <Caret Line="1860" Column="27" TopLine="1843"/>
+      </Position11>
+      <Position12>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <Caret Line="1881" Column="27" TopLine="1864"/>
+      </Position12>
+      <Position13>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <Caret Line="1906" Column="27" TopLine="1889"/>
+      </Position13>
+      <Position14>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <Caret Line="1928" Column="27" TopLine="1911"/>
+      </Position14>
+      <Position15>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <Caret Line="1951" Column="27" TopLine="1934"/>
+      </Position15>
+      <Position16>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <Caret Line="1979" Column="27" TopLine="1962"/>
+      </Position16>
+      <Position17>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <Caret Line="1994" Column="27" TopLine="1977"/>
+      </Position17>
+      <Position18>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_eFrete.pas"/>
+        <Caret Line="2017" Column="27" TopLine="2000"/>
+      </Position18>
+      <Position19>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOTW_Pamcard.pas"/>
+        <Caret Line="1304" Column="12" TopLine="1291"/>
+      </Position19>
+      <Position20>
+        <Filename Value="Frm_ACBrCIOT.pas"/>
+        <Caret Line="362" Column="36" TopLine="742"/>
+      </Position20>
+      <Position21>
+        <Filename Value="Frm_ACBrCIOT.pas"/>
+        <Caret Line="1147" Column="7" TopLine="1128"/>
+      </Position21>
+      <Position22>
+        <Filename Value="Frm_ACBrCIOT.pas"/>
+        <Caret Line="365" Column="26" TopLine="354"/>
+      </Position22>
+      <Position23>
+        <Filename Value="Frm_ACBrCIOT.pas"/>
+        <Caret Line="275" Column="17" TopLine="271"/>
+      </Position23>
+      <Position24>
+        <Filename Value="Frm_ACBrCIOT.pas"/>
+        <Caret Line="423" Column="33" TopLine="413"/>
+      </Position24>
+      <Position25>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\pcnCIOT.pas"/>
+        <Caret Line="1240" Column="14" TopLine="1232"/>
+      </Position25>
+      <Position26>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\ACBrCIOTConversao.pas"/>
+        <Caret Line="204" TopLine="194"/>
+      </Position26>
+      <Position27>
+        <Filename Value="Frm_ACBrCIOT.pas"/>
+        <Caret Line="423" Column="33" TopLine="413"/>
+      </Position27>
+      <Position28>
+        <Filename Value="Frm_ACBrCIOT.pas"/>
+        <Caret Line="60" Column="3" TopLine="41"/>
+      </Position28>
+      <Position29>
+        <Filename Value="Frm_ACBrCIOT.pas"/>
+        <Caret Line="424" Column="51" TopLine="414"/>
+      </Position29>
+      <Position30>
+        <Filename Value="Frm_ACBrCIOT.pas"/>
+        <Caret Line="1716" Column="41" TopLine="1706"/>
+      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
-      <Modes Count="0" ActiveMode=""/>
+      <Modes ActiveMode=""/>
     </RunParams>
   </ProjectSession>
 </CONFIG>

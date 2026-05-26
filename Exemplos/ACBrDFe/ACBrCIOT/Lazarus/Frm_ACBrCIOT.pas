@@ -4,7 +4,7 @@
 { mentos de Automação Comercial utilizados no Brasil                           }
 {                                                                              }
 { Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
-{																			   }
+{                                         }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
 {                                                                              }
@@ -35,11 +35,31 @@ unit Frm_ACBrCIOT;
 interface
 
 uses
-  IniFiles, LCLIntf, LCLType, SysUtils, Variants, Classes,
-  Graphics, Controls, Forms, Dialogs, ComCtrls, StdCtrls, Spin, Buttons, ExtCtrls,
-  SynEdit, SynHighlighterXML,
-  ACBrUtil, ACBrMail, ACBrDFe, ACBrDFeSSL,
-  ACBrCIOT;
+  ACBrCIOT,
+  ACBrDFe,
+  ACBrDFeSSL,
+  ACBrMail,
+  ACBrUtil,
+  Buttons,
+  Classes,
+  ComCtrls,
+  Controls,
+  Dialogs,
+  ExtCtrls,
+  Forms,
+  Graphics,
+  IniFiles,
+  LCLIntf,
+  LCLType,
+  Spin,
+  StdCtrls,
+  SynEdit,
+  SynHighlighterXML,
+  SysUtils,
+  Variants,
+
+  ACBrCIOTConversao;
+
 
 type
 
@@ -247,18 +267,19 @@ type
     procedure lblDoar2Click(Sender: TObject);
     procedure lblMouseEnter(Sender: TObject);
     procedure lblMouseLeave(Sender: TObject);
-    procedure ACBrCIOT1GerarLog(const ALogLine: string; var Tratado: Boolean);
+    procedure ACBrCIOT1GerarLog(const ALogLine: string; var Tratado: boolean);
     procedure ACBrCIOT1StatusChange(Sender: TObject);
     procedure btnGerarCIOTClick(Sender: TObject);
     procedure btnCriarEnviarClick(Sender: TObject);
     procedure btnEnviarCiotEmailClick(Sender: TObject);
   private
+  sToken:string;
     { Private declarations }
     procedure GravarConfiguracao;
     procedure LerConfiguracao;
     procedure ConfigurarComponente;
     procedure ConfigurarEmail;
-    Procedure AlimentarComponente;
+    procedure AlimentarComponente;
     procedure LoadXML(MyMemo: TMemo; SynEdit: TSynEdit);
     procedure AtualizarSSLLibsCombo;
   public
@@ -271,21 +292,28 @@ var
 implementation
 
 uses
-  strutils, math, TypInfo, DateUtils, blcksock, Grids,
+  ACBrDFeConfiguracoes,
+  ACBrDFeUtil,
+  blcksock,
+  DateUtils,
+  Frm_SelecionarCertificado,
+  Frm_Status,
+  Grids,
+  math,
+  pcnAuxiliar,
+  pcnConversao,
   Printers,
-  ACBrDFeConfiguracoes, ACBrDFeUtil,
-  pcnAuxiliar, pcnConversao, pcnConversaoCIOT,
-  Frm_Status, Frm_SelecionarCertificado;
+  strutils,
+  TypInfo;
 
 const
   SELDIRHELP = 1000;
 
-{$R *.lfm}
+  {$R *.lfm}
 
-{ TfrmACBrCIOT }
+  { TfrmACBrCIOT }
 
-procedure TfrmACBrCIOT.ACBrCIOT1GerarLog(const ALogLine: string;
-  var Tratado: Boolean);
+procedure TfrmACBrCIOT.ACBrCIOT1GerarLog(const ALogLine: string; var Tratado: boolean);
 begin
   memoLog.Lines.Add(ALogLine);
   Tratado := True;
@@ -295,37 +323,37 @@ procedure TfrmACBrCIOT.ACBrCIOT1StatusChange(Sender: TObject);
 begin
   case ACBrCIOT1.Status of
     stCIOTIdle:
-      begin
-        if frmStatus <> nil then
-          frmStatus.Hide;
-      end;
+    begin
+      if frmStatus <> nil then
+        frmStatus.Hide;
+    end;
     stCIOTEnviar:
-      begin
-        if frmStatus = nil then
-          frmStatus := TfrmStatus.Create(Application);
+    begin
+      if frmStatus = nil then
+        frmStatus := TfrmStatus.Create(Application);
 
-        frmStatus.lblStatus.Caption := 'Enviando dados do Contrato...';
-        frmStatus.Show;
-        frmStatus.BringToFront;
-      end;
+      frmStatus.lblStatus.Caption := 'Enviando dados do Contrato...';
+      frmStatus.Show;
+      frmStatus.BringToFront;
+    end;
     stCIOTRetEnviar:
-      begin
-        if frmStatus = nil then
-          frmStatus := TfrmStatus.Create(Application);
+    begin
+      if frmStatus = nil then
+        frmStatus := TfrmStatus.Create(Application);
 
-          frmStatus.lblStatus.Caption := 'Recebendo dados do CIOT...';
-          frmStatus.Show;
-          frmStatus.BringToFront;
-      end;
+      frmStatus.lblStatus.Caption := 'Recebendo dados do CIOT...';
+      frmStatus.Show;
+      frmStatus.BringToFront;
+    end;
     stCIOTEmail:
-      begin
-        if frmStatus = nil then
-          frmStatus := TfrmStatus.Create(Application);
+    begin
+      if frmStatus = nil then
+        frmStatus := TfrmStatus.Create(Application);
 
-        frmStatus.lblStatus.Caption := 'Enviando CIOT por e-mail...';
-        frmStatus.Show;
-        frmStatus.BringToFront;
-      end;
+      frmStatus.lblStatus.Caption := 'Enviando CIOT por e-mail...';
+      frmStatus.Show;
+      frmStatus.BringToFront;
+    end;
   end;
 
   Application.ProcessMessages;
@@ -335,299 +363,802 @@ procedure TfrmACBrCIOT.AlimentarComponente;
 begin
   with ACBrCIOT1.Contratos.Add.CIOT do
   begin
+    // Só é necessario se usar usuario e senha e não o certificado
+    Integradora.Token := sToken;
+
     case rgOperacao.ItemIndex of
-      0: Integradora.Operacao := opObterPdf; //Busca e retorna uma Operação de Transporte em PDF.
-      1: Integradora.Operacao := opAdicionar; //Adicionar uma operação de transporte
-      2: Integradora.Operacao := opRetificar; //Retificar uma operação de transporte.
-      3: Integradora.Operacao := opCancelar; //Cancelar uma operação de transporte
-      4: Integradora.Operacao := opAdicionarViagem; //Adicionar uma Viagem a uma Operação de Transporte existente, desde que a mesma não tenha ultrapassado o prazo do fim da viagem, esteja cancelada ou encerrada.
-      5: Integradora.Operacao := opAdicionarPagamento; //Adicionar um registro para Pagamentos em uma Operação de Transporte.
-      6: Integradora.Operacao := opCancelarPagamento; //Cancelar um pagamento programado para uma operação de transporte.
-      7: Integradora.Operacao := opEncerrar; //Encerrar uma operação de transporte existente que não esteja cancelada.
+      0: begin
+           // Login - Solicita Token
+           Integradora.Operacao := opLogin;
+         end;
+
+      1: begin
+           // Cadastrar Proprietário do Veículo
+           Integradora.Operacao := opGravarProprietario;
+
+           with GravarProprietario do
+           begin
+             CNPJ        := edtEmitCNPJ.Text;
+             TipoPessoa  := tpJuridica;
+             RazaoSocial := edtEmitRazao.Text;
+             RNTRC       := '123456789';
+
+             Endereco.Bairro          := edtEmitBairro.Text;
+             Endereco.Rua             := edtEmitLogradouro.Text;
+             Endereco.Numero          := edtEmitNumero.Text;
+             Endereco.Complemento     := edtEmitComp.Text;
+             Endereco.CEP             := edtEmitCEP.Text;
+             Endereco.CodigoMunicipio := StrToIntDef(edtEmitCodCidade.Text, 0);
+
+             Telefones.Celular.DDD := 11;
+             Telefones.Celular.Numero := StrToIntDef(edtEmitFone.Text, 0);
+
+             Telefones.Fixo.DDD := 0;
+             Telefones.Fixo.Numero := 0;
+
+             Telefones.Fax.DDD := 0;
+             Telefones.Fax.Numero := 0;
+           end;
+         end;
+
+      2: begin
+           // Cadastrar Veiculo
+           Integradora.Operacao := opGravarVeiculo;
+
+           with GravarVeiculo do
+           begin
+             Placa           := 'ABC-1234';
+             Renavam         := '123456789';
+             Chassi          := '123456789';
+             RNTRC           := '1234';
+             NumeroDeEixos   := 2;
+             CodigoMunicipio := 3512345;
+             Marca           := 'VW';
+             Modelo          := 'XYZ';
+             AnoFabricacao   := 2010;
+             AnoModelo       := 2010;
+             Cor             := 'Preto';
+             Tara            := 100;
+             CapacidadeKg    := 10000;
+             CapacidadeM3    := 10000;
+             TipoRodado      := ACBrCIOTConversao.trToco;
+             TipoCarroceria  := tcFechadaOuBau;
+           end;
+         end;
+
+      3: begin
+           // Cadastrar Motorista
+           Integradora.Operacao := opGravarMotorista;
+
+           with GravarMotorista do
+           begin
+             CPF                 := '12345678901';
+             Nome                := 'jose da silva';
+             CNH                 := '123456789';
+             DataNascimento      := StrToDate('10/10/1970');
+             NomeDeSolteiraDaMae := 'joana pereira';
+
+             Endereco.Bairro := 'teste';
+             Endereco.Rua := 'teste';
+             Endereco.Numero := '200';
+             Endereco.Complemento := 'teste';
+             Endereco.CEP := '89870000';
+             Endereco.CodigoMunicipio := 4212908;
+
+             Telefones.Celular.DDD := 0;
+             Telefones.Celular.Numero := 0;
+
+             Telefones.Fixo.DDD := 49;
+             Telefones.Fixo.Numero := 33661011;
+
+             Telefones.Fax.DDD := 0;
+             Telefones.Fax.Numero := 0;
+           end;
+         end;
+
+      4: begin
+           //Adicionar uma operação de transporte
+           Integradora.Operacao := opAdicionar;
+
+           with AdicionarOperacao do
+           begin
+             (****************  DADOS DO CONTRATO  **************)
+             TipoViagem := Padrao; // TAC_Agregado;
+             TipoPagamento := eFRETE;
+             EmissaoGratuita := (TipoPagamento = TransferenciaBancaria);
+             BloquearNaoEquiparado := False;
+             MatrizCNPJ := edtEmitCNPJ.text;
+             FilialCNPJ := edtEmitCNPJ.text;
+             //Id / Chave primária da Tabela do banco de dados do CIOT
+             IdOperacaoCliente := '1';
+             DataInicioViagem := Now;
+             DataFimViagem := Now;
+             CodigoNCMNaturezaCarga := 0;
+             PesoCarga := 10;
+             //utilizado somente para as viagens do tipo Padrão
+             TipoEmbalagem := tePallet;
+
+             //Somente para TipoViagem TAC_Agregado
+             with Viagens.New do
+             begin
+               DocumentoViagem := 'CTe';
+               CodigoMunicipioOrigem := 4212908; //Pinhalzinho SC
+               CodigoMunicipioDestino := 4217303; //Saudades SC
+               CepOrigem := '';
+               CepDestino := '';
+               DistanciaPercorrida := 100;
+               LatitudeOrigem := 0;
+               LongitudeOrigem := 0;
+               LatitudeDestino := 0;
+               LongitudeDestino := 0;
+
+               Valores.TotalOperacao := 50;
+               Valores.TotalViagem := 50;
+               Valores.TotalDeAdiantamento := 10;
+               Valores.TotalDeQuitacao := 10;
+               Valores.Combustivel := 20;
+               Valores.Pedagio := 10;
+               Valores.OutrosCreditos := 1;
+               Valores.JustificativaOutrosCreditos := 'Teste';
+               Valores.Seguro := 10;
+               Valores.OutrosDebitos := 1;
+               Valores.JustificativaOutrosDebitos := 'Teste outros Debitos';
+
+               TipoPagamento := TransferenciaBancaria;
+
+               with NotasFiscais.New do
+               begin
+                 Numero := '12345';
+                 Serie := '1';
+                 Data := Date;
+                 ValorTotal := 100;
+
+                 ValorDaMercadoriaPorUnidade := 100;
+                 CodigoNCMNaturezaCarga := 5501;
+                 DescricaoDaMercadoria := 'Produto Teste';
+                 UnidadeDeMedidaDaMercadoria := umKg;
+                 TipoDeCalculo := SemQuebra;
+                 ValorDoFretePorUnidadeDeMercadoria := 0; //Se tiver quebra deve ser informado
+                 QuantidadeDaMercadoriaNoEmbarque := 1;
+
+                 ToleranciaDePerdaDeMercadoria.Tipo := tpPorcentagem;
+                 ToleranciaDePerdaDeMercadoria.Valor := 2; //Valor da tolerância admitido.
+
+                 DiferencaDeFrete.Tipo := Integral;
+                 DiferencaDeFrete.Base := QuantidadeDesembarque;
+
+                 DiferencaDeFrete.Tolerancia.Tipo := tpPorcentagem;
+                 DiferencaDeFrete.Tolerancia.Valor := 5; //Valor da tolerância admitido(Nenhum: 0; Porcentagem: 0.00 – 100.00; Absoluto: Livre)
+
+                 DiferencaDeFrete.MargemGanho.Tipo := tpPorcentagem;
+                 DiferencaDeFrete.MargemGanho.Valor := 5;
+
+                 DiferencaDeFrete.MargemPerda.Tipo := tpPorcentagem;
+                 DiferencaDeFrete.MargemPerda.Valor := 5;
+               end;
+             end;
+
+             //Não esperado para TipoViagem Frota.
+             with Impostos do
+             begin
+               IRRF := 0;
+               SestSenat := 0;
+               INSS := 0;
+               ISSQN := 0;
+               OutrosImpostos := 0;
+               DescricaoOutrosImpostos := '';
+             end;
+
+             with Pagamentos.New do
+             begin
+               IdPagamentoCliente := '1';
+               DataDeLiberacao := Date;
+               Valor := 10;
+               TipoPagamento := TransferenciaBancaria; //TransferenciaBancaria(EmissaoGratuita = true); eFRETE (EmissaoGratuita = false)
+               Categoria := tcpSemCategoria;//Para os TipoViagem Frota e TAC_Agregado são suportadas as Categorias Frota e SemCategoria. Para o TipoViagem Padrão todas as categorias são suportadas.
+               Documento := ''; //Documento relacionado a viagem.
+               IndicadorPagamento := '';
+               CpfCnpjCreditado := '';
+               NumeroParcela := 0;
+               CodigoPagamento := '';
+
+               InformacoesBancarias.InstituicaoBancaria := '756'; //Bancoob
+               InformacoesBancarias.Agencia := '';
+               InformacoesBancarias.Conta := '';
+               InformacoesBancarias.TipoConta := tcContaCorrente;
+
+               InformacaoAdicional := '';
+               TipoChavePix := '';
+               ValorChavePix := '';
+               IdentificadorPix := '';
+
+               //CNPJ que deve ser gerada a Nota Fiscal do abastecimento,
+               //sendo da mesma raíz do CNPJ da matriz do contratante,
+               //apenas aplicável para Categoria Frota (Abastecimento)
+               CnpjFilialAbastecimento := AdicionarOperacao.MatrizCNPJ;
+             end;
+
+             //TAC ou seu equiparado, que efetuar o transporte rodoviário de cargas por
+             //conta de terceiros e mediante remuneração, indicado no cadastramento da Operação de Transporte.
+             //Para o TipoViagem Frota o Contratado será a própria empresa que está declarando a operação.
+             with Contratado do
+             begin
+               CpfOuCnpj := '12345678000195';
+               RNTRC := '12345678';
+             end;
+
+             with Motorista do
+             begin
+               CpfOuCnpj := '12345678000195';
+               CNH := '12345678000195';
+
+               Celular.DDD := 49;
+               Celular.Numero := 123456789;
+             end;
+
+             //Destinatário da carga.
+             //Na emissão com TipoViagem Padrão seu preenchimento é obrigatório.
+             //Na emissão com TipoViagem TAC_Agregado o campo não deve ser preenchido.
+             //Não esperado para TipoViagem Frota.
+             with Destinatario do
+             begin
+               NomeOuRazaoSocial := '';
+               CpfOuCnpj := '';
+
+               EMail := '';
+               ResponsavelPeloPagamento := False;
+
+               Endereco.Bairro := 'teste';
+               Endereco.Rua := '';
+               Endereco.Numero := '';
+               Endereco.Complemento := '';
+               Endereco.CEP := '';
+               Endereco.CodigoMunicipio := 0;
+
+               Telefones.Celular.DDD := 0;
+               Telefones.Celular.Numero := 0;
+
+               Telefones.Fixo.DDD := 0;
+               Telefones.Fixo.Numero := 0;
+
+               Telefones.Fax.DDD := 0;
+               Telefones.Fax.Numero := 0;
+             end;
+
+             with Contratante do
+             begin
+               NomeOuRazaoSocial := 'teste';
+               CpfOuCnpj := '12345678000195';
+
+               EMail := 'teste@teste.com.br';
+               ResponsavelPeloPagamento := False;
+               RNTRC := '12345678';
+
+               Endereco.Bairro := 'Bela Vista';
+               Endereco.Rua := 'Rua Vitória';
+               Endereco.Numero := '';
+               Endereco.Complemento := '';
+               Endereco.CEP := '89870000';
+               Endereco.CodigoMunicipio := 4212908;
+
+               Telefones.Celular.DDD := 0;
+               Telefones.Celular.Numero := 0;
+
+               Telefones.Fixo.DDD := 49;
+               Telefones.Fixo.Numero := 33661012;
+
+               Telefones.Fax.DDD := 0;
+               Telefones.Fax.Numero := 0;
+             end;
+
+             //É o transportador que contratar outro transportador para realização do
+             //transporte de cargas para o qual fora anteriormente contratado,
+             //indicado no cadastramento da Operação de Transporte.
+             //Não esperado para TipoViagem Frota.
+             with Subcontratante do
+             begin
+               NomeOuRazaoSocial := '';
+               CpfOuCnpj := '';
+
+               EMail := '';
+               ResponsavelPeloPagamento := False;
+
+               Endereco.Bairro := '';
+               Endereco.Rua := '';
+               Endereco.Numero := '';
+               Endereco.Complemento := '';
+               Endereco.CEP := '';
+               Endereco.CodigoMunicipio := 0;
+
+               Telefones.Celular.DDD := 0;
+               Telefones.Celular.Numero := 0;
+
+               Telefones.Fixo.DDD := 0;
+               Telefones.Fixo.Numero := 0;
+
+               Telefones.Fax.DDD := 0;
+               Telefones.Fax.Numero := 0;
+             end;
+
+             // Aquele que receberá as mercadorias transportadas em consignação,
+             //indicado no cadastramento da Operação de Transporte ou nos respectivos documentos fiscais.
+             //Não esperado para TipoViagem Frota
+             with Consignatario do
+             begin
+               NomeOuRazaoSocial := '';
+               CpfOuCnpj := '';
+
+               EMail := '';
+               ResponsavelPeloPagamento := False;
+
+               Endereco.Bairro := '';
+               Endereco.Rua := '';
+               Endereco.Numero := '';
+               Endereco.Complemento := '';
+               Endereco.CEP := '';
+               Endereco.CodigoMunicipio := 0;
+
+               Telefones.Celular.DDD := 0;
+               Telefones.Celular.Numero := 0;
+
+               Telefones.Fixo.DDD := 0;
+               Telefones.Fixo.Numero := 0;
+
+               Telefones.Fax.DDD := 0;
+               Telefones.Fax.Numero := 0;
+             end;
+
+             //Pessoa (física ou jurídica) que contratou o frete pela transportadora.
+             //Na emissão com TipoViagem Padrão seu preenchimento é obrigatório.
+             //Na emissão com TipoViagem TAC_Agregado o campo não deve ser preenchido.
+             with TomadorServico do
+             begin
+               NomeOuRazaoSocial := '';
+               CpfOuCnpj := '';
+
+               EMail := '';
+               ResponsavelPeloPagamento := False;
+
+               Endereco.Bairro := '';
+               Endereco.Rua := '';
+               Endereco.Numero := '';
+               Endereco.Complemento := '';
+               Endereco.CEP := '';
+               Endereco.CodigoMunicipio := 0;
+
+               Telefones.Celular.DDD := 0;
+               Telefones.Celular.Numero := 0;
+
+               Telefones.Fixo.DDD := 0;
+               Telefones.Fixo.Numero := 0;
+
+               Telefones.Fax.DDD := 0;
+               Telefones.Fax.Numero := 0;
+             end;
+
+             with Veiculos.New do
+             begin
+               Placa := 'AAA1234';
+             end;
+
+             //Informar um CIOT (se existente) que esteja relacionado à operação de transporte.
+             //Por exemplo: No caso da presença de um Subcontratante na operação de transporte
+             //informar o CIOT onde o Subcontratante foi o Contratado
+             CodigoIdentificacaoOperacaoPrincipal := '';
+
+             with ObservacoesAoTransportador.New do
+             begin
+               Mensagem := 'teste de obsevação ao transportador';
+             end;
+
+             with ObservacoesAoCredenciado.New do
+             begin
+               Mensagem := 'teste de obsevação ao Credenciado';
+             end;
+
+             EntregaDocumentacao := edRedeCredenciada; //Ver como funciona
+             QuantidadeSaques := 0; //Quantidade saques que serão realizados pelo Contratado na operação de transporte.
+             QuantidadeTransferencias := 0; //Quantidade de Transferências  Bancárias que serão solicitadas pelo Contratado na operação de transporte.
+             ValorSaques := 0;
+             ValorTransferencias := 0;
+
+             // se o tipo de viagem for padrão (TipoViagem := Padrao) devemos
+             // informar o valor tpNaoAplicavel ao campo CodigoTipoCarga
+             // valores permitidos para o campo:
+             // tpNaoAplicavel, tpGranelsolido, tpGranelLiquido, tpFrigorificada,
+             // tpConteinerizada, tpCargaGeral, tpNeogranel, tpPerigosaGranelSolido,
+             // tpPerigosaGranelLiquido, tpPerigosaCargaFrigorificada,
+             // tpPerigosaConteinerizada, tpPerigosaCargaGeral
+             CodigoTipoCarga := tpNaoAplicavel;
+             AltoDesempenho := True;
+             DestinacaoComercial := True;
+
+             with ContratantesCargaFracionada.New do
+             begin
+               CpfOuCnpj := '12345678000195';
+             end;
+
+             ComposicaoVeicular := False;
+             RetornoVazio := False;
+             FreteRetorno := False;
+             CepRetorno := '';
+             DistanciaRetorno := 100;
+           end;
+         end;
+
+      5: begin
+           //Adicionar uma Viagem a uma Operação de Transporte existente,
+           //desde que a mesma não tenha ultrapassado o prazo do fim da viagem,
+           //esteja cancelada ou encerrada.
+           Integradora.Operacao := opAdicionarViagem;
+
+           with AdicionarViagem do
+           begin
+             CodigoIdentificacaoOperacao := '123';
+
+             //Somente para TipoViagem TAC_Agregado
+             with Viagens.New do
+             begin
+               DocumentoViagem := 'CTe';
+               CodigoMunicipioOrigem := 4212908; //Pinhalzinho SC
+               CodigoMunicipioDestino := 4217303; //Saudades SC
+               CepOrigem := '';
+               CepDestino := '';
+               LatitudeOrigem := 0;
+               LongitudeOrigem := 0;
+               LatitudeDestino := 0;
+               LongitudeDestino := 0;
+               DistanciaPercorrida := 100;
+
+               Valores.TotalOperacao := 50;
+               Valores.TotalViagem := 50;
+               Valores.TotalDeAdiantamento := 10;
+               Valores.TotalDeQuitacao := 10;
+               Valores.Combustivel := 20;
+               Valores.Pedagio := 10;
+               Valores.OutrosCreditos := 1;
+               Valores.JustificativaOutrosCreditos := 'Teste';
+               Valores.Seguro := 10;
+               Valores.OutrosDebitos := 1;
+               Valores.JustificativaOutrosDebitos := 'Teste outros Debitos';
+
+               TipoPagamento := TransferenciaBancaria;
+
+               with NotasFiscais.New do
+               begin
+                 Numero := '12345';
+                 Serie := '1';
+                 Data := Date;
+                 ValorTotal := 100;
+
+                 ValorDaMercadoriaPorUnidade := 100;
+                 CodigoNCMNaturezaCarga := 5501;
+                 DescricaoDaMercadoria := 'Produto Teste';
+                 UnidadeDeMedidaDaMercadoria := umKg;
+                 TipoDeCalculo := SemQuebra;
+                 ValorDoFretePorUnidadeDeMercadoria := 0; //Se tiver quebra deve ser informado
+                 QuantidadeDaMercadoriaNoEmbarque := 1;
+
+                 ToleranciaDePerdaDeMercadoria.Tipo := tpPorcentagem;
+                 ToleranciaDePerdaDeMercadoria.Valor := 2; //Valor da tolerância admitido.
+
+                 DiferencaDeFrete.Tipo := Integral;
+                 DiferencaDeFrete.Base := QuantidadeDesembarque;
+
+                 DiferencaDeFrete.Tolerancia.Tipo := tpPorcentagem;
+                 DiferencaDeFrete.Tolerancia.Valor := 5; //Valor da tolerância admitido(Nenhum: 0; Porcentagem: 0.00 – 100.00; Absoluto: Livre)
+
+                 DiferencaDeFrete.MargemGanho.Tipo := tpPorcentagem;
+                 DiferencaDeFrete.MargemGanho.Valor := 5;
+
+                 DiferencaDeFrete.MargemPerda.Tipo := tpPorcentagem;
+                 DiferencaDeFrete.MargemPerda.Valor := 5;
+               end;
+             end;
+
+             with Pagamentos.New do
+             begin
+               IdPagamentoCliente := '1';
+               DataDeLiberacao := Date;
+               Valor := 10;
+               TipoPagamento := TransferenciaBancaria; //TransferenciaBancaria(EmissaoGratuita = true); eFRETE (EmissaoGratuita = false)
+               Categoria := tcpSemCategoria;//Para os TipoViagem Frota e TAC_Agregado são suportadas as Categorias Frota e SemCategoria. Para o TipoViagem Padrão todas as categorias são suportadas.
+               Documento := ''; //Documento relacionado a viagem.
+               IndicadorPagamento := '';
+               CpfCnpjCreditado := '';
+               NumeroParcela := 0;
+
+               InformacoesBancarias.InstituicaoBancaria := '756'; //Bancoob
+               InformacoesBancarias.Agencia := '';
+               InformacoesBancarias.Conta := '';
+               InformacoesBancarias.TipoConta := tcContaCorrente;
+
+               InformacaoAdicional := '';
+               TipoChavePix := '';
+               ValorChavePix := '';
+               IdentificadorPix := '';
+               //CNPJ que deve ser gerada a Nota Fiscal do abastecimento,
+               //sendo da mesma raíz do CNPJ da matriz do contratante,
+               //apenas aplicável para Categoria Frota (Abastecimento)
+               CnpjFilialAbastecimento := AdicionarOperacao.MatrizCNPJ;
+             end;
+
+             NaoAdicionarParcialmente := True;
+           end;
+         end;
+
+      6: begin
+           //Adicionar um registro para Pagamentos em uma Operação de Transporte.
+           Integradora.Operacao := opAdicionarPagamento;
+
+           with AdicionarPagamento do
+           begin
+             CodigoIdentificacaoOperacao := '123';
+
+             with Pagamentos.New do
+             begin
+               IdPagamentoCliente := '1';
+               DataDeLiberacao := Date;
+               Valor := 10;
+               TipoPagamento := TransferenciaBancaria; //TransferenciaBancaria(EmissaoGratuita = true); eFRETE (EmissaoGratuita = false)
+               Categoria := tcpSemCategoria;//Para os TipoViagem Frota e TAC_Agregado são suportadas as Categorias Frota e SemCategoria. Para o TipoViagem Padrão todas as categorias são suportadas.
+               Documento := ''; //Documento relacionado a viagem.
+               IndicadorPagamento := '';
+               CpfCnpjCreditado := '';
+               NumeroParcela := 0;
+
+               InformacoesBancarias.InstituicaoBancaria := '756'; //Bancoob
+               InformacoesBancarias.Agencia := '';
+               InformacoesBancarias.Conta := '';
+               InformacoesBancarias.TipoConta := tcContaCorrente;
+
+               InformacaoAdicional := '';
+               TipoChavePix := '';
+               ValorChavePix := '';
+               IdentificadorPix := '';
+               //CNPJ que deve ser gerada a Nota Fiscal do abastecimento,
+               //sendo da mesma raíz do CNPJ da matriz do contratante,
+               //apenas aplicável para Categoria Frota (Abastecimento)
+               CnpjFilialAbastecimento := AdicionarOperacao.MatrizCNPJ;
+             end;
+           end;
+         end;
+
+      7: begin
+           // Obter Código Identificação Operação Transp.
+           Integradora.Operacao := opObterCodigoIOT;
+
+           ObterCodigoOperacaoTransporte.MatrizCNPJ := edtEmitCNPJ.Text;
+           ObterCodigoOperacaoTransporte.IdOperacaoCliente := '501';
+         end;
+
+      8: begin
+           // Obter Pdf Operação Transporte
+           Integradora.Operacao := opObterPdf;
+
+           ObterOperacaoTransportePDF.CodigoIdentificacaoOperacao := '161000017511/1739';
+//           ObterOperacaoTransportePDF.DocumentoViagem := '456';
+         end;
+
+      9: begin
+           // Retificar uma operação de transporte.
+           Integradora.Operacao := opRetificar;
+
+           with RetificarOperacao do
+           begin
+             CodigoIdentificacaoOperacao := '123';
+             DataInicioViagem := Now;
+             DataFimViagem := Now;
+             CodigoNCMNaturezaCarga := 0;
+             PesoCarga := 10;
+             CodigoMunicipioOrigem := 4212908; //Pinhalzinho SC
+             CodigoMunicipioDestino := 4217303; //Saudades SC
+
+             with Veiculos.New do
+             begin
+               Placa := 'AAA1234';
+             end;
+
+             QuantidadeSaques := 0;
+             QuantidadeTransferencias := 0;
+             ValorSaques := 0;
+             ValorTransferencias := 0;
+             CodigoTipoCarga := tpCargaGeral;
+             CepOrigem := '4800000';
+             CepDestino := '4800000';
+             DistanciaPercorrida := 100;
+           end;
+         end;
+
+     10: begin
+           //Cancelar uma operação de transporte
+           Integradora.Operacao := opCancelar;
+
+           CancelarOperacao.CodigoIdentificacaoOperacao := '123';
+           CancelarOperacao.Motivo := 'Erro na digitacao';
+         end;
+
+     11: begin
+           //Cancelar um pagamento programado para uma operação de transporte.
+           Integradora.Operacao := opCancelarPagamento;
+
+           CancelarPagamento.CodigoIdentificacaoOperacao := '123';
+           CancelarPagamento.IdPagamentoCliente := '456';
+           CancelarPagamento.Motivo := 'Erro na digitacao';
+         end;
+
+     12: begin
+           //Encerrar uma operação de transporte existente que não esteja cancelada.
+           Integradora.Operacao := opEncerrar;
+
+           with EncerrarOperacao do
+           begin
+             CodigoIdentificacaoOperacao := '123';
+             PesoCarga := 100;
+
+             //Somente para TipoViagem TAC_Agregado
+             with Viagens.New do
+             begin
+               DocumentoViagem := 'CTe';
+               CodigoMunicipioOrigem := 4212908; //Pinhalzinho SC
+               CodigoMunicipioDestino := 4217303; //Saudades SC
+               CepOrigem := '';
+               CepDestino := '';
+               DistanciaPercorrida := 100;
+
+               Valores.TotalOperacao := 50;
+               Valores.TotalViagem := 50;
+               Valores.TotalDeAdiantamento := 10;
+               Valores.TotalDeQuitacao := 10;
+               Valores.Combustivel := 20;
+               Valores.Pedagio := 10;
+               Valores.OutrosCreditos := 1;
+               Valores.JustificativaOutrosCreditos := 'Teste';
+               Valores.Seguro := 10;
+               Valores.OutrosDebitos := 1;
+               Valores.JustificativaOutrosDebitos := 'Teste outros Debitos';
+
+               TipoPagamento := TransferenciaBancaria;
+
+               with NotasFiscais.New do
+               begin
+                 Numero := '12345';
+                 Serie := '1';
+                 Data := Date;
+                 ValorTotal := 100;
+
+                 ValorDaMercadoriaPorUnidade := 100;
+                 CodigoNCMNaturezaCarga := 5501;
+                 DescricaoDaMercadoria := 'Produto Teste';
+                 UnidadeDeMedidaDaMercadoria := umKg;
+                 TipoDeCalculo := SemQuebra;
+                 ValorDoFretePorUnidadeDeMercadoria := 0; //Se tiver quebra deve ser informado
+                 QuantidadeDaMercadoriaNoEmbarque := 1;
+
+                 ToleranciaDePerdaDeMercadoria.Tipo := tpPorcentagem;
+                 ToleranciaDePerdaDeMercadoria.Valor := 2; //Valor da tolerância admitido.
+
+                 DiferencaDeFrete.Tipo := Integral;
+                 DiferencaDeFrete.Base := QuantidadeDesembarque;
+
+                 DiferencaDeFrete.Tolerancia.Tipo := tpPorcentagem;
+                 DiferencaDeFrete.Tolerancia.Valor := 5; //Valor da tolerância admitido(Nenhum: 0; Porcentagem: 0.00 – 100.00; Absoluto: Livre)
+
+                 DiferencaDeFrete.MargemGanho.Tipo := tpPorcentagem;
+                 DiferencaDeFrete.MargemGanho.Valor := 5;
+
+                 DiferencaDeFrete.MargemPerda.Tipo := tpPorcentagem;
+                 DiferencaDeFrete.MargemPerda.Valor := 5;
+               end;
+             end;
+
+             with Pagamentos.New do
+             begin
+               IdPagamentoCliente := '1';
+               DataDeLiberacao := Date;
+               Valor := 10;
+               TipoPagamento := TransferenciaBancaria; //TransferenciaBancaria(EmissaoGratuita = true); eFRETE (EmissaoGratuita = false)
+               Categoria := tcpSemCategoria;//Para os TipoViagem Frota e TAC_Agregado são suportadas as Categorias Frota e SemCategoria. Para o TipoViagem Padrão todas as categorias são suportadas.
+               Documento := ''; //Documento relacionado a viagem.
+
+               InformacoesBancarias.InstituicaoBancaria := '756'; //Bancoob
+               InformacoesBancarias.Agencia := '';
+               InformacoesBancarias.Conta := '';
+               InformacoesBancarias.TipoConta := tcContaCorrente;
+
+               InformacaoAdicional := '';
+               //CNPJ que deve ser gerada a Nota Fiscal do abastecimento,
+               //sendo da mesma raíz do CNPJ da matriz do contratante,
+               //apenas aplicável para Categoria Frota (Abastecimento)
+               CnpjFilialAbastecimento := AdicionarOperacao.MatrizCNPJ;
+             end;
+
+             //Não esperado para TipoViagem Frota.
+             with Impostos do
+             begin
+               IRRF := 0;
+               SestSenat := 0;
+               INSS := 0;
+               ISSQN := 0;
+               OutrosImpostos := 0;
+               DescricaoOutrosImpostos := '';
+             end;
+
+             QuantidadeSaques := 0;
+             QuantidadeTransferencias := 0;
+             ValorSaques := 0;
+             ValorTransferencias := 0;
+           end;
+         end;
+
+     13: begin
+           // Logout - Encerra acesso ao Sistema
+           Integradora.Operacao := opLogout;
+         end;
+
+     14: begin
+           Integradora.Operacao := opConsultarTipoCarga;
+         end;
+
+     15: begin
+           Integradora.Operacao := opAlterarDataLiberacaoPagamento;
+
+           with AlterarDataLiberacaoPagamento do
+           begin
+             CodigoIdentificacaoOperacao := '123';
+             // Identificador do pagamento no sistema do Cliente.
+             IdPagamentoCliente := '456';
+             DataDeLiberacao := StrToDate('10/05/2020');
+             Motivo := 'Acordo entre as partes';
+           end;
+         end;
+
+     16: begin
+           Integradora.Operacao := opRegistrarQtdeMercadoriaDesembarque;
+
+           with RegistrarQuantidadeDaMercadoriaNoDesembarque do
+           begin
+             CodigoIdentificacaoOperacao := '123';
+
+             with NotasFiscais.New do
+             begin
+               Numero := '12345';
+               Serie := '1';
+               QuantidadeDaMercadoriaNoDesembarque := 1;
+             end;
+           end;
+         end;
+
+     17: begin
+           Integradora.Operacao := opRegistrarPagamentoQuitacao;
+
+           with RegistrarPagamentoQuitacao do
+           begin
+             CodigoIdentificacaoOperacao := '123';
+             TokenCompra := '123';
+
+             with NotasFiscais.New do
+             begin
+               Numero := '12345';
+               Serie := '1';
+               QuantidadeDaMercadoriaNoEmbarque := 1;
+             end;
+           end;
+         end;
     end;
-
-    (****************  DADOS DO CONTRATO  **************)
-    OperacaoTransporte.TipoViagem := TAC_Agregado;
-    OperacaoTransporte.Integrador := edtHashIntegrador.text;
-    OperacaoTransporte.EmissaoGratuita := True;
-    OperacaoTransporte.BloquearNaoEquiparado := False;
-    OperacaoTransporte.MatrizCNPJ := edtEmitCNPJ.text;
-    OperacaoTransporte.FilialCNPJ := '';
-    OperacaoTransporte.IdOperacaoCliente := '1'; //Id / Chave primária da Tabela do banco de dados do CIOT
-    OperacaoTransporte.DataInicioViagem := Now;
-    OperacaoTransporte.DataFimViagem := Now;
-    OperacaoTransporte.CodigoNCMNaturezaCarga := 0;
-    OperacaoTransporte.PesoCarga := 10;
-    OperacaoTransporte.TipoEmbalagem := Nenhum; //utilizado somente para as viagens do tipo Padrão
-
-    //Somente para TipoViagem TAC_Agregado
-    with OperacaoTransporte.Viagens.Add do
-    begin
-      DocumentoViagem := 'CTe';
-      CodigoMunicipioOrigem := 4212908; //Pinhalzinho SC
-      CodigoMunicipioDestino := 4217303; //Saudades SC
-
-      Valores.TotalOperacao := 50;
-      Valores.TotalViagem := 50;
-      Valores.TotalDeAdiantamento := 10;
-      Valores.TotalDeQuitacao := 10;
-      Valores.Combustivel := 20;
-      Valores.Pedagio := 10;
-      Valores.OutrosCreditos := 1;
-      Valores.JustificativaOutrosCreditos := 'Teste';
-      Valores.Seguro := 10;
-      Valores.OutrosDebitos := 1;
-      Valores.JustificativaOutrosDebitos := 'Teste outros Debitos';
-
-      TipoPagamento := TransferenciaBancaria;
-
-      with NotasFiscais.Add do
-      begin
-        Numero := '12345';
-        Serie := '1';
-        Data := Date;
-        ValorTotal := 100;
-
-        ValorDaMercadoriaPorUnidade := 100;
-        CodigoNCMNaturezaCarga := 5501;
-        DescricaoDaMercadoria := 'Produto Teste';
-        UnidadeDeMedidaDaMercadoria := umKg;
-        TipoDeCalculo := SemQuebra;
-        ValorDoFretePorUnidadeDeMercadoria := 0; //Se tiver quebra deve ser informado
-        QuantidadeDaMercadoriaNoEmbarque := 1;
-
-        ToleranciaDePerdaDeMercadoria.Tipo := tpPorcentagem;
-        ToleranciaDePerdaDeMercadoria.Valor := 2; //Valor da tolerância admitido.
-
-        DiferencaDeFrete.Tipo := Integral;
-        DiferencaDeFrete.Base := QuantidadeDesembarque;
-
-        DiferencaDeFrete.Tolerancia.Tipo := tpPorcentagem;
-        DiferencaDeFrete.Tolerancia.Valor := 5; //Valor da tolerância admitido(Nenhum: 0; Porcentagem: 0.00 – 100.00; Absoluto: Livre)
-
-        DiferencaDeFrete.MargemGanho.Tipo := tpPorcentagem;
-        DiferencaDeFrete.MargemGanho.Valor := 5;
-
-        DiferencaDeFrete.MargemPerda.Tipo := tpPorcentagem;
-        DiferencaDeFrete.MargemPerda.Valor := 5;
-      end;
-    end;
-
-    //Não esperado para TipoViagem Frota.
-    with OperacaoTransporte.Impostos do
-    begin
-      IRRF := 0;
-      SestSenat := 0;
-      INSS := 0;
-      ISSQN := 0;
-      OutrosImpostos := 0;
-      DescricaoOutrosImpostos := '';
-    end;
-
-    with OperacaoTransporte.Pagamentos.Add do
-    begin
-      IdPagamentoCliente := '1';
-      DataDeLiberacao := Date;
-      Valor := 10;
-      TipoPagamento := TransferenciaBancaria; //TransferenciaBancaria(EmissaoGratuita = true); eFRETE (EmissaoGratuita = false)
-      Categoria := tcpSemCategoria;//Para os TipoViagem Frota e TAC_Agregado são suportadas as Categorias Frota e SemCategoria. Para o TipoViagem Padrão todas as categorias são suportadas.
-      Documento := ''; //Documento relacionado a viagem.
-      InformacaoAdicional := '';
-      //CNPJ que deve ser gerada a Nota Fiscal do abastecimento,
-      //sendo da mesma raíz do CNPJ da matriz do contratante,
-      //apenas aplicável para Categoria Frota (Abastecimento)
-      CnpjFilialAbastecimento := OperacaoTransporte.MatrizCNPJ;
-
-      InformacoesBancarias.InstituicaoBancaria := '756'; //Bancoob
-      InformacoesBancarias.Agencia := '';
-      InformacoesBancarias.Conta := '';
-    end;
-
-    //TAC ou seu equiparado, que efetuar o transporte rodoviário de cargas por
-    //conta de terceiros e mediante remuneração, indicado no cadastramento da Operação de Transporte.
-    //Para o TipoViagem Frota o Contratado será a própria empresa que está declarando a operação.
-    with OperacaoTransporte.Contratado do
-    begin
-      CpfOuCnpj := '12345678910';
-      RNTRC := '12345678';
-    end;
-
-    with OperacaoTransporte.Motorista do
-    begin
-      CpfOuCnpj := '12345678910';
-      CNH := '12345678910';
-      Celular.DDD := 49;
-      Celular.Numero := 123456789;
-    end;
-
-    //Destinatário da carga.
-    //Na emissão com TipoViagem Padrão seu preenchimento é obrigatório.
-    //Na emissão com TipoViagem TAC_Agregado o campo não deve ser preenchido.
-    //Não esperado para TipoViagem Frota.
-    with OperacaoTransporte.Destinatario do
-    begin
-      NomeOuRazaoSocial := '';
-      CpfOuCnpj := '';
-
-      EMail := '';
-      ResponsavelPeloPagamento := False;
-
-      Endereco.Bairro := 'teste';
-      Endereco.Rua := '';
-      Endereco.Numero := '';
-      Endereco.Complemento := '';
-      Endereco.CEP := '';
-      Endereco.CodigoMunicipio := 0;
-
-      Telefones.Celular.DDD := 0;
-      Telefones.Celular.Numero := 0;
-
-      Telefones.Fixo.DDD := 0;
-      Telefones.Fixo.Numero := 0;
-
-      Telefones.Fax.DDD := 0;
-      Telefones.Fax.Numero := 0;
-    end;
-
-    with OperacaoTransporte.Contratante do
-    begin
-      RNTRC := '12345678';
-      NomeOuRazaoSocial := 'teste';
-      CpfOuCnpj := '12345678910';
-
-      EMail := 'teste@teste.com.br';
-      ResponsavelPeloPagamento := False;
-
-      Endereco.Bairro := 'Bela Vista';
-      Endereco.Rua := 'Rua Vitória';
-      Endereco.Numero := '';
-      Endereco.Complemento := '';
-      Endereco.CEP := '89870000';
-      Endereco.CodigoMunicipio := 4212908;
-
-      Telefones.Celular.DDD := 0;
-      Telefones.Celular.Numero := 0;
-
-      Telefones.Fixo.DDD := 49;
-      Telefones.Fixo.Numero := 33661011;
-
-      Telefones.Fax.DDD := 0;
-      Telefones.Fax.Numero := 0;
-    end;
-
-    //É o transportador que contratar outro transportador para realização do
-    //transporte de cargas para o qual fora anteriormente contratado,
-    //indicado no cadastramento da Operação de Transporte.
-    //Não esperado para TipoViagem Frota.
-    with OperacaoTransporte.Subcontratante do
-    begin
-      NomeOuRazaoSocial := '';
-      CpfOuCnpj := '';
-
-      EMail := '';
-      ResponsavelPeloPagamento := False;
-
-      Endereco.Bairro := '';
-      Endereco.Rua := '';
-      Endereco.Numero := '';
-      Endereco.Complemento := '';
-      Endereco.CEP := '';
-      Endereco.CodigoMunicipio := 0;
-
-      Telefones.Celular.DDD := 0;
-      Telefones.Celular.Numero := 0;
-
-      Telefones.Fixo.DDD := 0;
-      Telefones.Fixo.Numero := 0;
-
-      Telefones.Fax.DDD := 0;
-      Telefones.Fax.Numero := 0;
-    end;
-
-    // Aquele que receberá as mercadorias transportadas em consignação,
-    //indicado no cadastramento da Operação de Transporte ou nos respectivos documentos fiscais.
-    //Não esperado para TipoViagem Frota
-    with OperacaoTransporte.Consignatario do
-    begin
-      NomeOuRazaoSocial := '';
-      CpfOuCnpj := '';
-
-      EMail := '';
-      ResponsavelPeloPagamento := False;
-
-      Endereco.Bairro := '';
-      Endereco.Rua := '';
-      Endereco.Numero := '';
-      Endereco.Complemento := '';
-      Endereco.CEP := '';
-      Endereco.CodigoMunicipio := 0;
-
-      Telefones.Celular.DDD := 0;
-      Telefones.Celular.Numero := 0;
-
-      Telefones.Fixo.DDD := 0;
-      Telefones.Fixo.Numero := 0;
-
-      Telefones.Fax.DDD := 0;
-      Telefones.Fax.Numero := 0;
-    end;
-
-    //Pessoa (física ou jurídica) que contratou o frete pela transportadora.
-    //Na emissão com TipoViagem Padrão seu preenchimento é obrigatório.
-    //Na emissão com TipoViagem TAC_Agregado o campo não deve ser preenchido.
-    with OperacaoTransporte.TomadorServico do
-    begin
-      NomeOuRazaoSocial := '';
-      CpfOuCnpj := '';
-
-      EMail := '';
-      ResponsavelPeloPagamento := False;
-
-      Endereco.Bairro := '';
-      Endereco.Rua := '';
-      Endereco.Numero := '';
-      Endereco.Complemento := '';
-      Endereco.CEP := '';
-      Endereco.CodigoMunicipio := 0;
-
-      Telefones.Celular.DDD := 0;
-      Telefones.Celular.Numero := 0;
-
-      Telefones.Fixo.DDD := 0;
-      Telefones.Fixo.Numero := 0;
-
-      Telefones.Fax.DDD := 0;
-      Telefones.Fax.Numero := 0;
-    end;
-
-    with OperacaoTransporte.Veiculos.Add do
-    begin
-      Placa := 'AAA1234';
-    end;
-
-    //Informar um CIOT (se existente) que esteja relacionado à operação de transporte.
-    //Por exemplo: No caso da presença de um Subcontratante na operação de transporte
-    //informar o CIOT onde o Subcontratante foi o Contratado
-    OperacaoTransporte.CodigoIdentificacaoOperacaoPrincipal := '';
-
-    OperacaoTransporte.ObservacoesAoTransportador := 'teste de obsevação ao transportador';
-    OperacaoTransporte.ObservacoesAoCredenciado := 'teste de obsevação ao Credenciado';
-    OperacaoTransporte.EntregaDocumentacao := ''; //Ver como funciona
-    OperacaoTransporte.QuantidadeSaques := 0; //Quantidade saques que serão realizados pelo Contratado na operação de transporte.
-    OperacaoTransporte.QuantidadeTransferencias := 0; //Quantidade de Transferências  Bancárias que serão solicitadas pelo Contratado na operação de transporte.
   end;
-
-//  ACBrCIOT1.Contratos.GerarCIOT;
+  //  ACBrCIOT1.Contratos.GerarCIOT;
 end;
 
 procedure TfrmACBrCIOT.AtualizarSSLLibsCombo;
 begin
-  cbSSLLib.ItemIndex     := Integer(ACBrCIOT1.Configuracoes.Geral.SSLLib);
-  cbCryptLib.ItemIndex   := Integer(ACBrCIOT1.Configuracoes.Geral.SSLCryptLib);
-  cbHttpLib.ItemIndex    := Integer(ACBrCIOT1.Configuracoes.Geral.SSLHttpLib);
-  cbXmlSignLib.ItemIndex := Integer(ACBrCIOT1.Configuracoes.Geral.SSLXmlSignLib);
+  cbSSLLib.ItemIndex := integer(ACBrCIOT1.Configuracoes.Geral.SSLLib);
+  cbCryptLib.ItemIndex := integer(ACBrCIOT1.Configuracoes.Geral.SSLCryptLib);
+  cbHttpLib.ItemIndex := integer(ACBrCIOT1.Configuracoes.Geral.SSLHttpLib);
+  cbXmlSignLib.ItemIndex := integer(ACBrCIOT1.Configuracoes.Geral.SSLXmlSignLib);
 
-  cbSSLType.Enabled := (ACBrCIOT1.Configuracoes.Geral.SSLHttpLib in [httpWinHttp, httpOpenSSL]);
+  cbSSLType.Enabled := (ACBrCIOT1.Configuracoes.Geral.SSLHttpLib in
+    [httpWinHttp, httpOpenSSL]);
 end;
 
 procedure TfrmACBrCIOT.btnCNPJClick(Sender: TObject);
@@ -641,7 +1172,7 @@ begin
   AlimentarComponente;
   ACBrCIOT1.Enviar;
 
-  MemoResp.Lines.Text   := UTF8Encode(ACBrCIOT1.WebServices.CIOTEnviar.RetWS);
+  MemoResp.Lines.Text := UTF8Encode(ACBrCIOT1.WebServices.CIOTEnviar.RetWS);
   memoRespWS.Lines.Text := UTF8Encode(ACBrCIOT1.WebServices.CIOTEnviar.RetWS);
   LoadXML(MemoResp, WBResposta);
 
@@ -700,16 +1231,17 @@ end;
 
 procedure TfrmACBrCIOT.btnEnviarCiotEmailClick(Sender: TObject);
 var
-  Para: String;
-  CC: Tstrings;
+  Para: string;
+  CC: TStrings;
 begin
   Para := '';
-  if not(InputQuery('Enviar Email', 'Email de destino', Para)) then
+  if not (InputQuery('Enviar Email', 'Email de destino', Para)) then
     exit;
 
   OpenDialog1.Title := 'Selecione o CIOT';
   OpenDialog1.DefaultExt := '*-CIOT.xml';
-  OpenDialog1.Filter := 'Arquivos RegBol (*-CIOT.xml)|*-CIOT.xml|Arquivos XML (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*';
+  OpenDialog1.Filter :=
+    'Arquivos RegBol (*-CIOT.xml)|*-CIOT.xml|Arquivos XML (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*';
   OpenDialog1.InitialDir := ACBrCIOT1.Configuracoes.Arquivos.PathSalvar;
 
   if not OpenDialog1.Execute then
@@ -736,7 +1268,7 @@ end;
 
 procedure TfrmACBrCIOT.btnGerarCIOTClick(Sender: TObject);
 var
-  vAux : String;
+  vAux: string;
 begin
   vAux := '';
   if not (InputQuery('WebServices Enviar', 'ID do Contrato', vAux)) then
@@ -746,8 +1278,8 @@ begin
   AlimentarComponente;
   ACBrCIOT1.Contratos.Items[0].GravarXML('', '');
 
-  ShowMessage('Arquivo gerado em: '+ACBrCIOT1.Contratos.Items[0].NomeArq);
-  MemoDados.Lines.Add('Arquivo gerado em: '+ACBrCIOT1.Contratos.Items[0].NomeArq);
+  ShowMessage('Arquivo gerado em: ' + ACBrCIOT1.Contratos.Items[0].NomeArq);
+  MemoDados.Lines.Add('Arquivo gerado em: ' + ACBrCIOT1.Contratos.Items[0].NomeArq);
   MemoResp.Lines.LoadFromFile(ACBrCIOT1.Contratos.Items[0].NomeArq);
   LoadXML(MemoResp, WBResposta);
 
@@ -756,25 +1288,23 @@ end;
 
 procedure TfrmACBrCIOT.btnHTTPSClick(Sender: TObject);
 var
-  Acao: String;
-  OldUseCert: Boolean;
+  Acao: string;
+  OldUseCert: boolean;
 begin
   Acao := '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
-     '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' +
-     'xmlns:cli="http://cliente.bean.master.sigep.bsb.correios.com.br/"> ' +
-     ' <soapenv:Header/>' +
-     ' <soapenv:Body>' +
-     ' <cli:consultaCEP>' +
-     ' <cep>18270-170</cep>' +
-     ' </cli:consultaCEP>' +
-     ' </soapenv:Body>' +
-     ' </soapenv:Envelope>';
+    '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' +
+    'xmlns:cli="http://cliente.bean.master.sigep.bsb.correios.com.br/"> ' +
+    ' <soapenv:Header/>' + ' <soapenv:Body>' + ' <cli:consultaCEP>' +
+    ' <cep>18270-170</cep>' + ' </cli:consultaCEP>' + ' </soapenv:Body>' +
+    ' </soapenv:Envelope>';
 
   OldUseCert := ACBrCIOT1.SSL.UseCertificateHTTP;
   ACBrCIOT1.SSL.UseCertificateHTTP := False;
 
   try
-    MemoResp.Lines.Text := ACBrCIOT1.SSL.Enviar(Acao, 'https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl', '');
+    MemoResp.Lines.Text := ACBrCIOT1.SSL.Enviar(Acao,
+      'https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl',
+      '');
   finally
     ACBrCIOT1.SSL.UseCertificateHTTP := OldUseCert;
   end;
@@ -784,8 +1314,8 @@ end;
 
 procedure TfrmACBrCIOT.btnIssuerNameClick(Sender: TObject);
 begin
- ShowMessage(ACBrCIOT1.SSL.CertIssuerName + sLineBreak + sLineBreak +
-             'Certificadora: ' + ACBrCIOT1.SSL.CertCertificadora);
+  ShowMessage(ACBrCIOT1.SSL.CertIssuerName + sLineBreak + sLineBreak +
+    'Certificadora: ' + ACBrCIOT1.SSL.CertCertificadora);
 end;
 
 procedure TfrmACBrCIOT.btnLeituraX509Click(Sender: TObject);
@@ -794,12 +1324,12 @@ procedure TfrmACBrCIOT.btnLeituraX509Click(Sender: TObject);
 begin
   with ACBrCIOT1.SSL do
   begin
-     CarregarCertificadoPublico(MemoDados.Lines.Text);
-     MemoResp.Lines.Add(CertIssuerName);
-     MemoResp.Lines.Add(CertRazaoSocial);
-     MemoResp.Lines.Add(CertCNPJ);
-     MemoResp.Lines.Add(CertSubjectName);
-     MemoResp.Lines.Add(CertNumeroSerie);
+    CarregarCertificadoPublico(MemoDados.Lines.Text);
+    MemoResp.Lines.Add(CertIssuerName);
+    MemoResp.Lines.Add(CertRazaoSocial);
+    MemoResp.Lines.Add(CertCNPJ);
+    MemoResp.Lines.Add(CertSubjectName);
+    MemoResp.Lines.Add(CertNumeroSerie);
 
     //MemoDados.Lines.LoadFromFile('c:\temp\teste2.xml');
     //MemoResp.Lines.Text := Assinar(MemoDados.Lines.Text, 'Entrada', 'Parametros');
@@ -825,17 +1355,17 @@ end;
 
 procedure TfrmACBrCIOT.btnSha256Click(Sender: TObject);
 var
-  Ahash: AnsiString;
+  Ahash: ansistring;
 begin
   Ahash := ACBrCIOT1.SSL.CalcHash(Edit1.Text, dgstSHA256, outBase64, cbAssinar.Checked);
-  MemoResp.Lines.Add( Ahash );
+  MemoResp.Lines.Add(Ahash);
   pgRespostas.ActivePageIndex := 0;
 end;
 
 procedure TfrmACBrCIOT.btnSubNameClick(Sender: TObject);
 begin
   ShowMessage(ACBrCIOT1.SSL.CertSubjectName + sLineBreak + sLineBreak +
-              'Razão Social: ' + ACBrCIOT1.SSL.CertRazaoSocial);
+    'Razão Social: ' + ACBrCIOT1.SSL.CertRazaoSocial);
 end;
 
 procedure TfrmACBrCIOT.cbCryptLibChange(Sender: TObject);
@@ -871,14 +1401,15 @@ end;
 procedure TfrmACBrCIOT.cbSSLTypeChange(Sender: TObject);
 begin
   if cbSSLType.ItemIndex <> -1 then
-     ACBrCIOT1.SSL.SSLType := TSSLType(cbSSLType.ItemIndex);
+    ACBrCIOT1.SSL.SSLType := TSSLType(cbSSLType.ItemIndex);
 end;
 
 procedure TfrmACBrCIOT.cbXmlSignLibChange(Sender: TObject);
 begin
   try
     if cbXmlSignLib.ItemIndex <> -1 then
-      ACBrCIOT1.Configuracoes.Geral.SSLXmlSignLib := TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
+      ACBrCIOT1.Configuracoes.Geral.SSLXmlSignLib :=
+        TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
   finally
     AtualizarSSLLibsCombo;
   end;
@@ -896,37 +1427,37 @@ var
 begin
   cbSSLLib.Items.Clear;
   for T := Low(TSSLLib) to High(TSSLLib) do
-    cbSSLLib.Items.Add( GetEnumName(TypeInfo(TSSLLib), integer(T) ) );
+    cbSSLLib.Items.Add(GetEnumName(TypeInfo(TSSLLib), integer(T)));
   cbSSLLib.ItemIndex := 0;
 
   cbCryptLib.Items.Clear;
   for U := Low(TSSLCryptLib) to High(TSSLCryptLib) do
-    cbCryptLib.Items.Add( GetEnumName(TypeInfo(TSSLCryptLib), integer(U) ) );
+    cbCryptLib.Items.Add(GetEnumName(TypeInfo(TSSLCryptLib), integer(U)));
   cbCryptLib.ItemIndex := 0;
 
   cbHttpLib.Items.Clear;
   for V := Low(TSSLHttpLib) to High(TSSLHttpLib) do
-    cbHttpLib.Items.Add( GetEnumName(TypeInfo(TSSLHttpLib), integer(V) ) );
+    cbHttpLib.Items.Add(GetEnumName(TypeInfo(TSSLHttpLib), integer(V)));
   cbHttpLib.ItemIndex := 0;
 
   cbXmlSignLib.Items.Clear;
   for X := Low(TSSLXmlSignLib) to High(TSSLXmlSignLib) do
-    cbXmlSignLib.Items.Add( GetEnumName(TypeInfo(TSSLXmlSignLib), integer(X) ) );
+    cbXmlSignLib.Items.Add(GetEnumName(TypeInfo(TSSLXmlSignLib), integer(X)));
   cbXmlSignLib.ItemIndex := 0;
 
   cbSSLType.Items.Clear;
   for Y := Low(TSSLType) to High(TSSLType) do
-    cbSSLType.Items.Add( GetEnumName(TypeInfo(TSSLType), integer(Y) ) );
+    cbSSLType.Items.Add(GetEnumName(TypeInfo(TSSLType), integer(Y)));
   cbSSLType.ItemIndex := 0;
 
   cbFormaEmissao.Items.Clear;
   for I := Low(TpcnTipoEmissao) to High(TpcnTipoEmissao) do
-     cbFormaEmissao.Items.Add( GetEnumName(TypeInfo(TpcnTipoEmissao), integer(I) ) );
+    cbFormaEmissao.Items.Add(GetEnumName(TypeInfo(TpcnTipoEmissao), integer(I)));
   cbFormaEmissao.ItemIndex := 0;
 
   cbVersaoDF.Items.Clear;
   for K := Low(TVersaoCIOT) to High(TVersaoCIOT) do
-     cbVersaoDF.Items.Add( GetEnumName(TypeInfo(TVersaoCIOT), integer(K) ) );
+    cbVersaoDF.Items.Add(GetEnumName(TypeInfo(TVersaoCIOT), integer(K)));
   cbVersaoDF.ItemIndex := 0;
 
   LerConfiguracao;
@@ -935,7 +1466,7 @@ end;
 
 procedure TfrmACBrCIOT.GravarConfiguracao;
 var
-  IniFile: String;
+  IniFile: string;
   Ini: TIniFile;
   StreamMemo: TMemoryStream;
 begin
@@ -943,78 +1474,78 @@ begin
 
   Ini := TIniFile.Create(IniFile);
   try
-    Ini.WriteInteger('Certificado', 'SSLLib',     cbSSLLib.ItemIndex);
-    Ini.WriteInteger('Certificado', 'CryptLib',   cbCryptLib.ItemIndex);
-    Ini.WriteInteger('Certificado', 'HttpLib',    cbHttpLib.ItemIndex);
+    Ini.WriteInteger('Certificado', 'SSLLib', cbSSLLib.ItemIndex);
+    Ini.WriteInteger('Certificado', 'CryptLib', cbCryptLib.ItemIndex);
+    Ini.WriteInteger('Certificado', 'HttpLib', cbHttpLib.ItemIndex);
     Ini.WriteInteger('Certificado', 'XmlSignLib', cbXmlSignLib.ItemIndex);
-    Ini.WriteString( 'Certificado', 'Caminho',    edtCaminho.Text);
-    Ini.WriteString( 'Certificado', 'Senha',      edtSenha.Text);
-    Ini.WriteString( 'Certificado', 'NumSerie',   edtNumSerie.Text);
+    Ini.WriteString('Certificado', 'Caminho', edtCaminho.Text);
+    Ini.WriteString('Certificado', 'Senha', edtSenha.Text);
+    Ini.WriteString('Certificado', 'NumSerie', edtNumSerie.Text);
 
-    Ini.WriteBool(   'Geral', 'AtualizarXML',     cbxAtualizarXML.Checked);
-    Ini.WriteBool(   'Geral', 'ExibirErroSchema', cbxExibirErroSchema.Checked);
-    Ini.WriteString( 'Geral', 'FormatoAlerta',    edtFormatoAlerta.Text);
-    Ini.WriteInteger('Geral', 'FormaEmissao',     cbFormaEmissao.ItemIndex);
-    Ini.WriteInteger('Geral', 'VersaoDF',         cbVersaoDF.ItemIndex);
-    Ini.WriteBool(   'Geral', 'RetirarAcentos',   cbxRetirarAcentos.Checked);
-    Ini.WriteBool(   'Geral', 'Salvar',           ckSalvar.Checked);
-    Ini.WriteString( 'Geral', 'PathSalvar',       edtPathLogs.Text);
-    Ini.WriteString( 'Geral', 'PathSchemas',      edtPathSchemas.Text);
-    Ini.WriteInteger( 'Geral','Integradora',      cbbIntegradora.ItemIndex);
-    Ini.WriteString( 'Geral', 'UsuarioWebS',      edtUsuarioWebService.Text);
-    Ini.WriteString( 'Geral', 'SenhaWebS',        edtSenhaWebService.Text);
-    Ini.WriteString( 'Geral', 'HashIntegrador',   edtHashIntegrador.Text);
+    Ini.WriteBool('Geral', 'AtualizarXML', cbxAtualizarXML.Checked);
+    Ini.WriteBool('Geral', 'ExibirErroSchema', cbxExibirErroSchema.Checked);
+    Ini.WriteString('Geral', 'FormatoAlerta', edtFormatoAlerta.Text);
+    Ini.WriteInteger('Geral', 'FormaEmissao', cbFormaEmissao.ItemIndex);
+    Ini.WriteInteger('Geral', 'VersaoDF', cbVersaoDF.ItemIndex);
+    Ini.WriteBool('Geral', 'RetirarAcentos', cbxRetirarAcentos.Checked);
+    Ini.WriteBool('Geral', 'Salvar', ckSalvar.Checked);
+    Ini.WriteString('Geral', 'PathSalvar', edtPathLogs.Text);
+    Ini.WriteString('Geral', 'PathSchemas', edtPathSchemas.Text);
+    Ini.WriteInteger('Geral', 'Integradora', cbbIntegradora.ItemIndex);
+    Ini.WriteString('Geral', 'UsuarioWebS', edtUsuarioWebService.Text);
+    Ini.WriteString('Geral', 'SenhaWebS', edtSenhaWebService.Text);
+    Ini.WriteString('Geral', 'HashIntegrador', edtHashIntegrador.Text);
 
-    Ini.WriteString( 'WebService', 'UF',         cbUF.Text);
-    Ini.WriteInteger('WebService', 'Ambiente',   rgTipoAmb.ItemIndex);
-    Ini.WriteBool(   'WebService', 'Visualizar', cbxVisualizar.Checked);
-    Ini.WriteBool(   'WebService', 'SalvarSOAP', cbxSalvarSOAP.Checked);
-    Ini.WriteBool(   'WebService', 'AjustarAut', cbxAjustarAut.Checked);
-    Ini.WriteString( 'WebService', 'Aguardar',   edtAguardar.Text);
-    Ini.WriteString( 'WebService', 'Tentativas', edtTentativas.Text);
-    Ini.WriteString( 'WebService', 'Intervalo',  edtIntervalo.Text);
-    Ini.WriteInteger('WebService', 'TimeOut',    seTimeOut.Value);
-    Ini.WriteInteger('WebService', 'SSLType',    cbSSLType.ItemIndex);
+    Ini.WriteString('WebService', 'UF', cbUF.Text);
+    Ini.WriteInteger('WebService', 'Ambiente', rgTipoAmb.ItemIndex);
+    Ini.WriteBool('WebService', 'Visualizar', cbxVisualizar.Checked);
+    Ini.WriteBool('WebService', 'SalvarSOAP', cbxSalvarSOAP.Checked);
+    Ini.WriteBool('WebService', 'AjustarAut', cbxAjustarAut.Checked);
+    Ini.WriteString('WebService', 'Aguardar', edtAguardar.Text);
+    Ini.WriteString('WebService', 'Tentativas', edtTentativas.Text);
+    Ini.WriteString('WebService', 'Intervalo', edtIntervalo.Text);
+    Ini.WriteInteger('WebService', 'TimeOut', seTimeOut.Value);
+    Ini.WriteInteger('WebService', 'SSLType', cbSSLType.ItemIndex);
 
-    Ini.WriteString('Proxy', 'Host',  edtProxyHost.Text);
+    Ini.WriteString('Proxy', 'Host', edtProxyHost.Text);
     Ini.WriteString('Proxy', 'Porta', edtProxyPorta.Text);
-    Ini.WriteString('Proxy', 'User',  edtProxyUser.Text);
-    Ini.WriteString('Proxy', 'Pass',  edtProxySenha.Text);
+    Ini.WriteString('Proxy', 'User', edtProxyUser.Text);
+    Ini.WriteString('Proxy', 'Pass', edtProxySenha.Text);
 
-    Ini.WriteBool(  'Arquivos', 'Salvar',           cbxSalvarArqs.Checked);
-    Ini.WriteBool(  'Arquivos', 'PastaMensal',      cbxPastaMensal.Checked);
-    Ini.WriteBool(  'Arquivos', 'AddLiteral',       cbxAdicionaLiteral.Checked);
-    Ini.WriteBool(  'Arquivos', 'EmissaoPathCIOT',  cbxEmissaoPathCIOT.Checked);
-    Ini.WriteBool(  'Arquivos', 'SalvarPathEvento', cbxSalvaPathEvento.Checked);
-    Ini.WriteBool(  'Arquivos', 'SepararPorCNPJ',   cbxSepararPorCNPJ.Checked);
-    Ini.WriteBool(  'Arquivos', 'SepararPorModelo', cbxSepararPorModelo.Checked);
-    Ini.WriteString('Arquivos', 'PathCIOT',         edtPathCIOT.Text);
-    Ini.WriteString('Arquivos', 'PathEvento',       edtPathEvento.Text);
+    Ini.WriteBool('Arquivos', 'Salvar', cbxSalvarArqs.Checked);
+    Ini.WriteBool('Arquivos', 'PastaMensal', cbxPastaMensal.Checked);
+    Ini.WriteBool('Arquivos', 'AddLiteral', cbxAdicionaLiteral.Checked);
+    Ini.WriteBool('Arquivos', 'EmissaoPathCIOT', cbxEmissaoPathCIOT.Checked);
+    Ini.WriteBool('Arquivos', 'SalvarPathEvento', cbxSalvaPathEvento.Checked);
+    Ini.WriteBool('Arquivos', 'SepararPorCNPJ', cbxSepararPorCNPJ.Checked);
+    Ini.WriteBool('Arquivos', 'SepararPorModelo', cbxSepararPorModelo.Checked);
+    Ini.WriteString('Arquivos', 'PathCIOT', edtPathCIOT.Text);
+    Ini.WriteString('Arquivos', 'PathEvento', edtPathEvento.Text);
 
-    Ini.WriteString('Emitente', 'CNPJ',        edtEmitCNPJ.Text);
-    Ini.WriteString('Emitente', 'IE',          edtEmitIE.Text);
+    Ini.WriteString('Emitente', 'CNPJ', edtEmitCNPJ.Text);
+    Ini.WriteString('Emitente', 'IE', edtEmitIE.Text);
     Ini.WriteString('Emitente', 'RazaoSocial', edtEmitRazao.Text);
-    Ini.WriteString('Emitente', 'Fantasia',    edtEmitFantasia.Text);
-    Ini.WriteString('Emitente', 'Fone',        edtEmitFone.Text);
-    Ini.WriteString('Emitente', 'CEP',         edtEmitCEP.Text);
-    Ini.WriteString('Emitente', 'Logradouro',  edtEmitLogradouro.Text);
-    Ini.WriteString('Emitente', 'Numero',      edtEmitNumero.Text);
+    Ini.WriteString('Emitente', 'Fantasia', edtEmitFantasia.Text);
+    Ini.WriteString('Emitente', 'Fone', edtEmitFone.Text);
+    Ini.WriteString('Emitente', 'CEP', edtEmitCEP.Text);
+    Ini.WriteString('Emitente', 'Logradouro', edtEmitLogradouro.Text);
+    Ini.WriteString('Emitente', 'Numero', edtEmitNumero.Text);
     Ini.WriteString('Emitente', 'Complemento', edtEmitComp.Text);
-    Ini.WriteString('Emitente', 'Bairro',      edtEmitBairro.Text);
-    Ini.WriteString('Emitente', 'CodCidade',   edtEmitCodCidade.Text);
-    Ini.WriteString('Emitente', 'Cidade',      edtEmitCidade.Text);
-    Ini.WriteString('Emitente', 'UF',          edtEmitUF.Text);
+    Ini.WriteString('Emitente', 'Bairro', edtEmitBairro.Text);
+    Ini.WriteString('Emitente', 'CodCidade', edtEmitCodCidade.Text);
+    Ini.WriteString('Emitente', 'Cidade', edtEmitCidade.Text);
+    Ini.WriteString('Emitente', 'UF', edtEmitUF.Text);
 
-    Ini.WriteString('Email', 'Host',    edtSmtpHost.Text);
-    Ini.WriteString('Email', 'Port',    edtSmtpPort.Text);
-    Ini.WriteString('Email', 'User',    edtSmtpUser.Text);
-    Ini.WriteString('Email', 'Pass',    edtSmtpPass.Text);
+    Ini.WriteString('Email', 'Host', edtSmtpHost.Text);
+    Ini.WriteString('Email', 'Port', edtSmtpPort.Text);
+    Ini.WriteString('Email', 'User', edtSmtpUser.Text);
+    Ini.WriteString('Email', 'Pass', edtSmtpPass.Text);
     Ini.WriteString('Email', 'Assunto', edtEmailAssunto.Text);
-    Ini.WriteBool(  'Email', 'SSL',     cbEmailSSL.Checked );
+    Ini.WriteBool('Email', 'SSL', cbEmailSSL.Checked);
 
     StreamMemo := TMemoryStream.Create;
     mmEmailMsg.Lines.SaveToStream(StreamMemo);
-    StreamMemo.Seek(0,soFromBeginning);
+    StreamMemo.Seek(0, soFromBeginning);
 
     Ini.WriteBinaryStream('Email', 'Mensagem', StreamMemo);
 
@@ -1044,7 +1575,7 @@ end;
 
 procedure TfrmACBrCIOT.lblMouseEnter(Sender: TObject);
 begin
-  TLabel(Sender).Font.Style := [fsBold,fsUnderline];
+  TLabel(Sender).Font.Style := [fsBold, fsUnderline];
 end;
 
 procedure TfrmACBrCIOT.lblMouseLeave(Sender: TObject);
@@ -1059,7 +1590,7 @@ end;
 
 procedure TfrmACBrCIOT.LerConfiguracao;
 var
-  IniFile: String;
+  IniFile: string;
   Ini: TIniFile;
   StreamMemo: TMemoryStream;
 begin
@@ -1067,76 +1598,83 @@ begin
 
   Ini := TIniFile.Create(IniFile);
   try
-    cbSSLLib.ItemIndex     := Ini.ReadInteger('Certificado', 'SSLLib',     0);
-    cbCryptLib.ItemIndex   := Ini.ReadInteger('Certificado', 'CryptLib',   0);
-    cbHttpLib.ItemIndex    := Ini.ReadInteger('Certificado', 'HttpLib',    0);
+    cbSSLLib.ItemIndex := Ini.ReadInteger('Certificado', 'SSLLib', 0);
+    cbCryptLib.ItemIndex := Ini.ReadInteger('Certificado', 'CryptLib', 0);
+    cbHttpLib.ItemIndex := Ini.ReadInteger('Certificado', 'HttpLib', 0);
     cbXmlSignLib.ItemIndex := Ini.ReadInteger('Certificado', 'XmlSignLib', 0);
-    edtCaminho.Text        := Ini.ReadString( 'Certificado', 'Caminho',    '');
-    edtSenha.Text          := Ini.ReadString( 'Certificado', 'Senha',      '');
-    edtNumSerie.Text       := Ini.ReadString( 'Certificado', 'NumSerie',   '');
+    edtCaminho.Text := Ini.ReadString('Certificado', 'Caminho', '');
+    edtSenha.Text := Ini.ReadString('Certificado', 'Senha', '');
+    edtNumSerie.Text := Ini.ReadString('Certificado', 'NumSerie', '');
 
-    cbxAtualizarXML.Checked     := Ini.ReadBool(   'Geral', 'AtualizarXML',     True);
-    cbxExibirErroSchema.Checked := Ini.ReadBool(   'Geral', 'ExibirErroSchema', True);
-    edtFormatoAlerta.Text       := Ini.ReadString( 'Geral', 'FormatoAlerta',    'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.');
-    cbFormaEmissao.ItemIndex    := Ini.ReadInteger('Geral', 'FormaEmissao',     0);
+    cbxAtualizarXML.Checked := Ini.ReadBool('Geral', 'AtualizarXML', True);
+    cbxExibirErroSchema.Checked := Ini.ReadBool('Geral', 'ExibirErroSchema', True);
+    edtFormatoAlerta.Text :=
+      Ini.ReadString('Geral', 'FormatoAlerta',
+      'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.');
+    cbFormaEmissao.ItemIndex := Ini.ReadInteger('Geral', 'FormaEmissao', 0);
 
-    cbVersaoDF.ItemIndex      := Ini.ReadInteger('Geral', 'VersaoDF',       0);
-    ckSalvar.Checked          := Ini.ReadBool(   'Geral', 'Salvar',         True);
-    cbxRetirarAcentos.Checked := Ini.ReadBool(   'Geral', 'RetirarAcentos', True);
-    edtPathLogs.Text          := Ini.ReadString( 'Geral', 'PathSalvar',     PathWithDelim(ExtractFilePath(Application.ExeName))+'Logs');
-    edtPathSchemas.Text       := Ini.ReadString( 'Geral', 'PathSchemas',    PathWithDelim(ExtractFilePath(Application.ExeName))+'Schemas\'+GetEnumName(TypeInfo(TVersaoCIOT), integer(cbVersaoDF.ItemIndex) ));
-    cbbIntegradora.ItemIndex  := Ini.ReadInteger('Geral', 'Integradora',    1);
-    edtUsuarioWebService.Text := Ini.ReadString( 'Geral', 'UsuarioWebS',    '');
-    edtSenhaWebService.Text   := Ini.ReadString( 'Geral', 'SenhaWebS',      '');
-    edtHashIntegrador.Text    := Ini.ReadString( 'Geral', 'HashIntegrador', '');
+    cbVersaoDF.ItemIndex := Ini.ReadInteger('Geral', 'VersaoDF', 0);
+    ckSalvar.Checked := Ini.ReadBool('Geral', 'Salvar', True);
+    cbxRetirarAcentos.Checked := Ini.ReadBool('Geral', 'RetirarAcentos', True);
+    edtPathLogs.Text :=
+      Ini.ReadString('Geral', 'PathSalvar',
+      PathWithDelim(ExtractFilePath(Application.ExeName)) + 'Logs');
+    edtPathSchemas.Text :=
+      Ini.ReadString('Geral', 'PathSchemas',
+      PathWithDelim(ExtractFilePath(Application.ExeName)) + 'Schemas\' +
+      GetEnumName(TypeInfo(TVersaoCIOT), integer(cbVersaoDF.ItemIndex)));
+    cbbIntegradora.ItemIndex := Ini.ReadInteger('Geral', 'Integradora', 1);
+    edtUsuarioWebService.Text := Ini.ReadString('Geral', 'UsuarioWebS', '');
+    edtSenhaWebService.Text := Ini.ReadString('Geral', 'SenhaWebS', '');
+    edtHashIntegrador.Text := Ini.ReadString('Geral', 'HashIntegrador', '');
 
     cbUF.ItemIndex := cbUF.Items.IndexOf(Ini.ReadString('WebService', 'UF', 'SP'));
 
-    rgTipoAmb.ItemIndex   := Ini.ReadInteger('WebService', 'Ambiente',   0);
-    cbxVisualizar.Checked := Ini.ReadBool(   'WebService', 'Visualizar', False);
-    cbxSalvarSOAP.Checked := Ini.ReadBool(   'WebService', 'SalvarSOAP', False);
-    cbxAjustarAut.Checked := Ini.ReadBool(   'WebService', 'AjustarAut', False);
-    edtAguardar.Text      := Ini.ReadString( 'WebService', 'Aguardar',   '0');
-    edtTentativas.Text    := Ini.ReadString( 'WebService', 'Tentativas', '5');
-    edtIntervalo.Text     := Ini.ReadString( 'WebService', 'Intervalo',  '0');
-    seTimeOut.Value       := Ini.ReadInteger('WebService', 'TimeOut',    5000);
-    cbSSLType.ItemIndex   := Ini.ReadInteger('WebService', 'SSLType',    0);
+    rgTipoAmb.ItemIndex := Ini.ReadInteger('WebService', 'Ambiente', 0);
+    cbxVisualizar.Checked := Ini.ReadBool('WebService', 'Visualizar', False);
+    cbxSalvarSOAP.Checked := Ini.ReadBool('WebService', 'SalvarSOAP', False);
+    cbxAjustarAut.Checked := Ini.ReadBool('WebService', 'AjustarAut', False);
+    edtAguardar.Text := Ini.ReadString('WebService', 'Aguardar', '0');
+    edtTentativas.Text := Ini.ReadString('WebService', 'Tentativas', '5');
+    edtIntervalo.Text := Ini.ReadString('WebService', 'Intervalo', '0');
+    seTimeOut.Value := Ini.ReadInteger('WebService', 'TimeOut', 5000);
+    cbSSLType.ItemIndex := Ini.ReadInteger('WebService', 'SSLType', 0);
 
-    edtProxyHost.Text  := Ini.ReadString('Proxy', 'Host',  '');
+    edtProxyHost.Text := Ini.ReadString('Proxy', 'Host', '');
     edtProxyPorta.Text := Ini.ReadString('Proxy', 'Porta', '');
-    edtProxyUser.Text  := Ini.ReadString('Proxy', 'User',  '');
-    edtProxySenha.Text := Ini.ReadString('Proxy', 'Pass',  '');
+    edtProxyUser.Text := Ini.ReadString('Proxy', 'User', '');
+    edtProxySenha.Text := Ini.ReadString('Proxy', 'Pass', '');
 
-    cbxSalvarArqs.Checked       := Ini.ReadBool(  'Arquivos', 'Salvar',           false);
-    cbxPastaMensal.Checked      := Ini.ReadBool(  'Arquivos', 'PastaMensal',      false);
-    cbxAdicionaLiteral.Checked  := Ini.ReadBool(  'Arquivos', 'AddLiteral',       false);
-    cbxEmissaoPathCIOT.Checked  := Ini.ReadBool(  'Arquivos', 'EmissaoPathCIOT',  false);
-    cbxSalvaPathEvento.Checked  := Ini.ReadBool(  'Arquivos', 'SalvarPathEvento', false);
-    cbxSepararPorCNPJ.Checked   := Ini.ReadBool(  'Arquivos', 'SepararPorCNPJ',   false);
-    cbxSepararPorModelo.Checked := Ini.ReadBool(  'Arquivos', 'SepararPorModelo', false);
-    edtPathCIOT.Text            := Ini.ReadString('Arquivos', 'PathCIOT',         '');
-    edtPathEvento.Text          := Ini.ReadString('Arquivos', 'PathEvento',       '');
+    cbxSalvarArqs.Checked := Ini.ReadBool('Arquivos', 'Salvar', False);
+    cbxPastaMensal.Checked := Ini.ReadBool('Arquivos', 'PastaMensal', False);
+    cbxAdicionaLiteral.Checked := Ini.ReadBool('Arquivos', 'AddLiteral', False);
+    cbxEmissaoPathCIOT.Checked := Ini.ReadBool('Arquivos', 'EmissaoPathCIOT', False);
+    cbxSalvaPathEvento.Checked := Ini.ReadBool('Arquivos', 'SalvarPathEvento', False);
+    cbxSepararPorCNPJ.Checked := Ini.ReadBool('Arquivos', 'SepararPorCNPJ', False);
+    cbxSepararPorModelo.Checked := Ini.ReadBool('Arquivos', 'SepararPorModelo', False);
+    edtPathCIOT.Text := Ini.ReadString('Arquivos', 'PathCIOT', '');
+    edtPathEvento.Text := Ini.ReadString('Arquivos', 'PathEvento', '');
 
-    edtEmitCNPJ.Text       := Ini.ReadString('Emitente', 'CNPJ',        '');
-    edtEmitIE.Text         := Ini.ReadString('Emitente', 'IE',          '');
-    edtEmitRazao.Text      := Ini.ReadString('Emitente', 'RazaoSocial', '');
-    edtEmitFantasia.Text   := Ini.ReadString('Emitente', 'Fantasia',    '');
-    edtEmitFone.Text       := Ini.ReadString('Emitente', 'Fone',        '');
-    edtEmitCEP.Text        := Ini.ReadString('Emitente', 'CEP',         '');
-    edtEmitLogradouro.Text := Ini.ReadString('Emitente', 'Logradouro',  '');
-    edtEmitNumero.Text     := Ini.ReadString('Emitente', 'Numero',      '');
-    edtEmitComp.Text       := Ini.ReadString('Emitente', 'Complemento', '');
-    edtEmitBairro.Text     := Ini.ReadString('Emitente', 'Bairro',      '');
-    edtEmitCodCidade.Text  := Ini.ReadString('Emitente', 'CodCidade',   '');
-    edtEmitCidade.Text     := Ini.ReadString('Emitente', 'Cidade',      '');
-    edtEmitUF.Text         := Ini.ReadString('Emitente', 'UF',          '');
+    edtEmitCNPJ.Text := Ini.ReadString('Emitente', 'CNPJ', '');
+    edtEmitIE.Text := Ini.ReadString('Emitente', 'IE', '');
+    edtEmitRazao.Text := Ini.ReadString('Emitente', 'RazaoSocial', '');
+    edtEmitFantasia.Text := Ini.ReadString('Emitente', 'Fantasia', '');
+    edtEmitFone.Text := Ini.ReadString('Emitente', 'Fone', '');
+    edtEmitCEP.Text := Ini.ReadString('Emitente', 'CEP', '');
+    edtEmitLogradouro.Text := Ini.ReadString('Emitente', 'Logradouro', '');
+    edtEmitNumero.Text := Ini.ReadString('Emitente', 'Numero', '');
+    edtEmitComp.Text := Ini.ReadString('Emitente', 'Complemento', '');
+    edtEmitBairro.Text := Ini.ReadString('Emitente', 'Bairro', '');
+    edtEmitCodCidade.Text := Ini.ReadString('Emitente', 'CodCidade', '');
+    edtEmitCidade.Text := Ini.ReadString('Emitente', 'Cidade', '');
+    edtEmitUF.Text := Ini.ReadString('Emitente', 'UF', '');
 
-    edtSmtpHost.Text     := Ini.ReadString('Email', 'Host',    '');
-    edtSmtpPort.Text     := Ini.ReadString('Email', 'Port',    '');
-    edtSmtpUser.Text     := Ini.ReadString('Email', 'User',    '');
-    edtSmtpPass.Text     := Ini.ReadString('Email', 'Pass',    '');
+    edtSmtpHost.Text := Ini.ReadString('Email', 'Host', '');
+    edtSmtpPort.Text := Ini.ReadString('Email', 'Port', '');
+    edtSmtpUser.Text := Ini.ReadString('Email', 'User', '');
+    edtSmtpPass.Text := Ini.ReadString('Email', 'Pass', '');
     edtEmailAssunto.Text := Ini.ReadString('Email', 'Assunto', '');
-    cbEmailSSL.Checked   := Ini.ReadBool(  'Email', 'SSL',     False);
+    cbEmailSSL.Checked := Ini.ReadBool('Email', 'SSL', False);
 
     StreamMemo := TMemoryStream.Create;
     Ini.ReadBinaryStream('Email', 'Mensagem', StreamMemo);
@@ -1152,46 +1690,47 @@ end;
 
 procedure TfrmACBrCIOT.ConfigurarComponente;
 var
-  Ok: Boolean;
+  Ok: boolean;
 begin
-  ACBrCIOT1.Configuracoes.Certificados.ArquivoPFX  := edtCaminho.Text;
-  ACBrCIOT1.Configuracoes.Certificados.Senha       := edtSenha.Text;
+  ACBrCIOT1.Configuracoes.Certificados.ArquivoPFX := edtCaminho.Text;
+  ACBrCIOT1.Configuracoes.Certificados.Senha := edtSenha.Text;
   ACBrCIOT1.Configuracoes.Certificados.NumeroSerie := edtNumSerie.Text;
 
   ACBrCIOT1.SSL.DescarregarCertificado;
 
   with ACBrCIOT1.Configuracoes.Geral do
   begin
-    SSLLib        := TSSLLib(cbSSLLib.ItemIndex);
-    SSLCryptLib   := TSSLCryptLib(cbCryptLib.ItemIndex);
-    SSLHttpLib    := TSSLHttpLib(cbHttpLib.ItemIndex);
+    SSLLib := TSSLLib(cbSSLLib.ItemIndex);
+    SSLCryptLib := TSSLCryptLib(cbCryptLib.ItemIndex);
+    SSLHttpLib := TSSLHttpLib(cbHttpLib.ItemIndex);
     SSLXmlSignLib := TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
 
     AtualizarSSLLibsCombo;
 
-    Salvar           := ckSalvar.Checked;
+    Salvar := ckSalvar.Checked;
     ExibirErroSchema := cbxExibirErroSchema.Checked;
-    RetirarAcentos   := cbxRetirarAcentos.Checked;
-    FormatoAlerta    := edtFormatoAlerta.Text;
-    FormaEmissao     := TpcnTipoEmissao(cbFormaEmissao.ItemIndex);
-    VersaoDF         := TVersaoCIOT(cbVersaoDF.ItemIndex);
-    Integradora      := StrToEnumIntegradora(Ok, cbbIntegradora.text);
-    Usuario          := edtUsuarioWebService.Text;
-    Senha            := edtSenhaWebService.Text;
-    HashIntegrador   := edtHashIntegrador.Text;
+    RetirarAcentos := cbxRetirarAcentos.Checked;
+    FormatoAlerta := edtFormatoAlerta.Text;
+    FormaEmissao := TpcnTipoEmissao(cbFormaEmissao.ItemIndex);
+    VersaoDF := TVersaoCIOT(cbVersaoDF.ItemIndex);
+    Integradora := StrToIntegradora(cbbIntegradora.Text);
+    Usuario := edtUsuarioWebService.Text;
+    Senha := edtSenhaWebService.Text;
+    HashIntegrador := edtHashIntegrador.Text;
   end;
 
   with ACBrCIOT1.Configuracoes.WebServices do
   begin
-    UF         := cbUF.Text;
-    Ambiente   := StrToTpAmb(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
+    UF := cbUF.Text;
+    Ambiente := StrToTpAmb(Ok, IntToStr(rgTipoAmb.ItemIndex + 1));
     Visualizar := cbxVisualizar.Checked;
-    Salvar     := cbxSalvarSOAP.Checked;
+    Salvar := cbxSalvarSOAP.Checked;
 
     AjustaAguardaConsultaRet := cbxAjustarAut.Checked;
 
-    if NaoEstaVazio(edtAguardar.Text)then
-      AguardarConsultaRet := ifThen(StrToInt(edtAguardar.Text) < 1000, StrToInt(edtAguardar.Text) * 1000, StrToInt(edtAguardar.Text))
+    if NaoEstaVazio(edtAguardar.Text) then
+      AguardarConsultaRet := ifThen(StrToInt(edtAguardar.Text) < 1000,
+        StrToInt(edtAguardar.Text) * 1000, StrToInt(edtAguardar.Text))
     else
       edtAguardar.Text := IntToStr(AguardarConsultaRet);
 
@@ -1201,11 +1740,13 @@ begin
       edtTentativas.Text := IntToStr(Tentativas);
 
     if NaoEstaVazio(edtIntervalo.Text) then
-      IntervaloTentativas := ifThen(StrToInt(edtIntervalo.Text) < 1000, StrToInt(edtIntervalo.Text) * 1000, StrToInt(edtIntervalo.Text))
+      IntervaloTentativas := ifThen(StrToInt(edtIntervalo.Text) <
+        1000, StrToInt(edtIntervalo.Text) * 1000, StrToInt(edtIntervalo.Text))
     else
-      edtIntervalo.Text := IntToStr(ACBrCIOT1.Configuracoes.WebServices.IntervaloTentativas);
+      edtIntervalo.Text := IntToStr(
+        ACBrCIOT1.Configuracoes.WebServices.IntervaloTentativas);
 
-    TimeOut   := seTimeOut.Value;
+    TimeOut := seTimeOut.Value;
     ProxyHost := edtProxyHost.Text;
     ProxyPort := edtProxyPorta.Text;
     ProxyUser := edtProxyUser.Text;
@@ -1216,15 +1757,15 @@ begin
 
   with ACBrCIOT1.Configuracoes.Arquivos do
   begin
-    Salvar           := cbxSalvarArqs.Checked;
-    SepararPorMes    := cbxPastaMensal.Checked;
+    Salvar := cbxSalvarArqs.Checked;
+    SepararPorMes := cbxPastaMensal.Checked;
     AdicionarLiteral := cbxAdicionaLiteral.Checked;
-    EmissaoPathCIOT  := cbxEmissaoPathCIOT.Checked;
-    SepararPorCNPJ   := cbxSepararPorCNPJ.Checked;
+    EmissaoPathCIOT := cbxEmissaoPathCIOT.Checked;
+    SepararPorCNPJ := cbxSepararPorCNPJ.Checked;
     SepararPorModelo := cbxSepararPorModelo.Checked;
-    PathSalvar       := edtPathLogs.Text;
-    PathSchemas      := edtPathSchemas.Text;
-    PathCIOT         := edtPathCIOT.Text;
+    PathSalvar := edtPathLogs.Text;
+    PathSchemas := edtPathSchemas.Text;
+    PathCIOT := edtPathCIOT.Text;
   end;
 end;
 
@@ -1244,7 +1785,7 @@ end;
 
 procedure TfrmACBrCIOT.LoadXML(MyMemo: TMemo; SynEdit: TSynEdit);
 var
-  vText: String;
+  vText: string;
 begin
   vText := MyMemo.Text;
 
@@ -1252,7 +1793,7 @@ begin
   vText := StringReplace(vText, '>', '>' + LineEnding + '    ', [rfReplaceAll]);
   vText := StringReplace(vText, '<', LineEnding + '  <', [rfReplaceAll]);
   vText := StringReplace(vText, '>' + LineEnding + '    ' + LineEnding +
-           '  <', '>' + LineEnding + '  <', [rfReplaceAll]);
+    '  <', '>' + LineEnding + '  <', [rfReplaceAll]);
   vText := StringReplace(vText, '  </ret', '</ret', []);
 
   // exibe resposta
@@ -1264,11 +1805,11 @@ var
   Dir: string;
 begin
   if Length(TEdit(Sender).Text) <= 0 then
-     Dir := ExtractFileDir(application.ExeName)
+    Dir := ExtractFileDir(application.ExeName)
   else
-     Dir := TEdit(Sender).Text;
+    Dir := TEdit(Sender).Text;
 
-  if SelectDirectory(Dir, [sdAllowCreate, sdPerformCreate, sdPrompt],SELDIRHELP) then
+  if SelectDirectory(Dir, [sdAllowCreate, sdPerformCreate, sdPrompt], SELDIRHELP) then
     TEdit(Sender).Text := Dir;
 end;
 
@@ -1301,9 +1842,9 @@ end;
 
 procedure TfrmACBrCIOT.sbtnNumSerieClick(Sender: TObject);
 var
-  I: Integer;
-//  ASerie: String;
-  AddRow: Boolean;
+  I: integer;
+  //  ASerie: String;
+  AddRow: boolean;
 begin
   ACBrCIOT1.SSL.LerCertificadosStore;
   AddRow := False;
@@ -1323,11 +1864,11 @@ begin
     Cells[4, 0] := 'Certificadora';
   end;
 
-  for I := 0 to ACBrCIOT1.SSL.ListaCertificados.Count-1 do
+  for I := 0 to ACBrCIOT1.SSL.ListaCertificados.Count - 1 do
   begin
     with ACBrCIOT1.SSL.ListaCertificados[I] do
     begin
-//      ASerie := NumeroSerie;
+      //      ASerie := NumeroSerie;
 
       if (CNPJ <> '') then
       begin
@@ -1336,11 +1877,11 @@ begin
           if Addrow then
             RowCount := RowCount + 1;
 
-          Cells[0, RowCount-1] := NumeroSerie;
-          Cells[1, RowCount-1] := RazaoSocial;
-          Cells[2, RowCount-1] := CNPJ;
-          Cells[3, RowCount-1] := FormatDateBr(DataVenc);
-          Cells[4, RowCount-1] := Certificadora;
+          Cells[0, RowCount - 1] := NumeroSerie;
+          Cells[1, RowCount - 1] := RazaoSocial;
+          Cells[2, RowCount - 1] := CNPJ;
+          Cells[3, RowCount - 1] := FormatDateBr(DataVenc);
+          Cells[4, RowCount - 1] := Certificadora;
 
           AddRow := True;
         end;
@@ -1350,8 +1891,9 @@ begin
 
   frmSelecionarCertificado.ShowModal;
 
-  if frmSelecionarCertificado.ModalResult = mrOK then
-    edtNumSerie.Text := frmSelecionarCertificado.StringGrid1.Cells[0, frmSelecionarCertificado.StringGrid1.Row];
+  if frmSelecionarCertificado.ModalResult = mrOk then
+    edtNumSerie.Text := frmSelecionarCertificado.StringGrid1.Cells[0,
+      frmSelecionarCertificado.StringGrid1.Row];
 end;
 
 procedure TfrmACBrCIOT.sbtnPathSalvarClick(Sender: TObject);
