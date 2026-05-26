@@ -2872,6 +2872,23 @@ type
     property guiaTransito: TguiaTransito read FguiaTransito write FguiaTransito;
   end;
 
+  { TinfPAA }
+
+  TinfPAA = class(TObject)
+  private
+    FCNPJPAA: string;
+    FSignatureValue: string;
+    FModulus: string;
+    FExponent: string;
+  public
+    procedure Assign(Source: TinfPAA);
+
+    property CNPJPAA: string read FCNPJPAA write FCNPJPAA;
+    property SignatureValue: string read FSignatureValue write FSignatureValue;
+    property Modulus: string read FModulus write FModulus;
+    property Exponent: string read FExponent write FExponent;
+  end;
+
   { TNFe }
 
   TNFe = class(TObject)
@@ -2899,6 +2916,7 @@ type
     FinfNFeSupl: TinfNFeSupl;
     FinfRespTec: TinfRespTec;
     Fagropecuario: Tagropecuario;
+    FinfPAA: TinfPAA;
 
     procedure SetDet(Value: TDetCollection);
     procedure Setpag(Value: TpagCollection);
@@ -2932,6 +2950,7 @@ type
     property procNFe: TProcNFe read FProcNFe write FProcNFe;
     property infRespTec: TinfRespTec read FinfRespTec write FinfRespTec;
     property agropecuario: Tagropecuario read Fagropecuario write Fagropecuario;
+    property infPAA: TinfPAA read FinfPAA write FinfPAA;
   end;
 
 const
@@ -2971,6 +2990,7 @@ begin
   procNFe.Assign(Source.procNFe);
   infRespTec.Assign(Source.infRespTec);
   agropecuario.Assign(Source.agropecuario);
+  infPAA.Assign(Source.infPAA);
 end;
 
 constructor TNFe.Create;
@@ -2999,6 +3019,7 @@ begin
   FProcNFe := TProcNFe.create;
   FinfRespTec := TinfRespTec.create;
   Fagropecuario := Tagropecuario.Create;
+  FinfPAA := TinfPAA.Create;
 
   FinfNFe.Versao := 0;
 
@@ -3034,6 +3055,7 @@ begin
   FProcNFe.Free;
   FinfRespTec.Free;
   FAgropecuario.Free;
+  FinfPAA.Free;
 
   inherited Destroy;
 end;
@@ -5845,6 +5867,16 @@ begin
   FcompetApur := Source.competApur;
   FtpCredPresIBSZFM := Source.tpCredPresIBSZFM;
   FvCredPresIBSZFM := Source.vCredPresIBSZFM;
+end;
+
+{ TinfPAA }
+
+procedure TinfPAA.Assign(Source: TinfPAA);
+begin
+  CNPJPAA := Source.CNPJPAA;
+  SignatureValue := Source.SignatureValue;
+  Modulus := Source.Modulus;
+  Exponent := Source.Exponent;
 end;
 
 end.

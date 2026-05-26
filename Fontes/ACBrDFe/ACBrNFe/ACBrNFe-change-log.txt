@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/05/2026
+-- ACBrNFe.Classes/ACBrNFe.XmlReader --
+[+] ACBr-9316 - Implementado a leitura do grupo infPAA
+   Por: Italo Giurizzato Junior
+
 19/05/2026
 -- ACBrNFeServicos --
 [-] Alteração nas URLs de produção e homologação referente ao QR-Code e consulta via portal da SEFAZ-RN

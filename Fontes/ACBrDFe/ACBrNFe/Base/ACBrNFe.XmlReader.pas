@@ -79,6 +79,7 @@ type
     procedure LerInfRespTec(const ANode: TACBrXmlNode);
     procedure LerInfNFeSupl(const ANode: TACBrXmlNode);
     procedure LerAgropecuario(const ANode: TACBrXmlNode);
+    procedure LerInfPAA(const ANode: TACBrXmlNode; infPAA: TinfPAA);
 
     // Reforma Tributária
     procedure Ler_gCompraGov(gCompraGov: TgCompraGov; const ANode: TACBrXmlNode);
@@ -198,6 +199,8 @@ begin
 
     LerInfNFe(infNFeNode);
     LerInfNFeSupl(NFeNode.Childrens.Find('infNFeSupl'));
+    LerInfPAA(NFeNode.Childrens.Find('infPAA'), NFe.infPAA);
+
     LerSignature(NFeNode.Childrens.Find('Signature'), NFe.Signature);
   end;
 
@@ -1698,6 +1701,26 @@ begin
   NFe.infNFeSupl.qrCode := StringReplace(NFe.infNFeSupl.qrCode, '<![CDATA[', '', []);
   NFe.infNFeSupl.qrCode := StringReplace(NFe.infNFeSupl.qrCode, ']]>', '', []);
   NFe.infNFeSupl.urlChave := ObterConteudo(ANode.Childrens.Find('urlChave'), tcStr);
+end;
+
+procedure TNFeXmlReader.LerInfPAA(const ANode: TACBrXmlNode; infPAA: TinfPAA);
+var
+  AuxNode: TACBrXmlNode;
+begin
+  if not Assigned(ANode) then Exit;
+
+  infPAA.CNPJPAA := ObterConteudo(ANode.Childrens.Find('CNPJPAA'), tcStr);
+
+  AuxNode :=  ANode.Childrens.Find('PAASignature');
+  if not Assigned(AuxNode) then Exit;
+
+  infPAA.SignatureValue := ObterConteudo(AuxNode.Childrens.Find('SignatureValue'), tcStr);
+
+  AuxNode :=  AuxNode.Childrens.Find('RSAKeyValue');
+  if not Assigned(AuxNode) then Exit;
+
+  infPAA.Modulus := ObterConteudo(AuxNode.Childrens.Find('Modulus'), tcStr);
+  infPAA.Exponent := ObterConteudo(AuxNode.Childrens.Find('Exponent'), tcStr);
 end;
 
 // Reforma Tributária
