@@ -293,7 +293,7 @@ begin
 
                   wLinha:= '1'                                            +  // 001 a 001 - ID Registro
                   TipoSacado                                              +  // 002 a 003 Tipo de inscrição da empresa
-                  PadLeft(OnlyNumber(Cedente.CNPJCPF), 14, '0')           +  // 004 a 017 Número de inscrição
+                  PadLeft(OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF), 14, '0')           +  // 004 a 017 Número de inscrição
                   PadLeft(Cedente.CodigoCedente, 14, '0')                 +  // 018 a 031 Código da empresa no banco
                   Space(31)                                               +  // 032 a 062 Uso exclusivo da empresa
                   StringOfChar('0',11)                                    +  // 063 a 073 - Zeros
@@ -318,7 +318,7 @@ begin
                   IntToStrZero( round( ValorDesconto * 100 ), 13)         +  // 180 a 192 - Valor Desconto
                   IntToStrZero( round( ValorIOF * 100 ), 13)              +  // 193 a 205 - Valor IOF
                   IntToStrZero( round( ValorAbatimento * 100 ), 13)       +  // 206 a 218 - Valor Abatimento
-                  TipoSacado + PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0') +  // 219 a 234 - Tipo de Inscrição + Número de Inscrição do Pagador
+                  TipoSacado + PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF),14,'0') +  // 219 a 234 - Tipo de Inscrição + Número de Inscrição do Pagador
                   PadRight( Sacado.NomeSacado, 40, ' ')                   +  // 235 a 274 - Nome do Pagador
                   PadRight( Sacado.Logradouro + ' ' + Sacado.Numero + ' ' +
                     Sacado.Complemento, 40)                               +  // 275 a 314 - Complemento do sacado

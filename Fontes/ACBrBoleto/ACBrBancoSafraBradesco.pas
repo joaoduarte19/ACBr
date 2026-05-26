@@ -114,7 +114,7 @@ begin
     CodigoBarras :=
       IntToStr(Numero) + '9' + FatorVencimento +
       IntToStrZero(Round(ACBrTitulo.ValorDocumento * 100), 10) +
-      PadLeft(OnlyNumber(Cedente.Agencia), 4, '0') +
+      PadLeft(OnlyCPFCNPJAlphaNum(Cedente.Agencia), 4, '0') +
       ACBrTitulo.Carteira +
       FormatDateTime('YY', ACBrTitulo.DataDocumento) +
       ACBrTitulo.NossoNumero +
@@ -245,7 +245,7 @@ begin
       wLinha :=
         '1' +                                                        // {001-001} Código do registro: 1 - Transação
         TipoSacado +                                                 // {002-003} Tipo de inscrição da empresa: 01 = CPF; 02 = CNPJ
-        PadLeft(OnlyNumber(Cedente.CNPJCPF), 14, '0') +              // {004-017} Número de inscrição
+        PadLeft(OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF), 14, '0') +              // {004-017} Número de inscrição
         PadLeft(Cedente.CodigoCedente, 14, '0') +                    // {018-031} Código da empresa no banco
         Space(6) +                                                   // {032-037} Brancos
         Space(25) +                                                  // {038-062} Uso exclusivo da empresa
@@ -277,12 +277,12 @@ begin
         IntToStrZero(Round(PercentualMulta * 100), 4)        +       // {212-215} % Multa
         IntToStrZero(Round(ValorAbatimento * 100), 3)        +       // {216-218} Valor do abatimento concedido ou cancelado / multa
         TipoSacado +                                                 // {219-220} Tipo de inscrição do sacado
-        PadLeft(OnlyNumber(Sacado.CNPJCPF), 14, '0') +               // {221-234} Número de inscrição do sacado
+        PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 14, '0') +               // {221-234} Número de inscrição do sacado
         PadRight(Sacado.NomeSacado, 40, ' ') +                       // {235-274} Nome do sacado
         PadRight(Sacado.Logradouro + ' ' + Sacado.Numero, 40, ' ') + // {275-314} Endereço do sacado
         PadRight(Sacado.Bairro, 10, ' ') +                           // {315-324} Bairro do sacado
         Space(2) +                                                   // {325-326} Brancos
-        PadRight(OnlyNumber(Sacado.CEP), 8, '0') +                   // {327-334} CEP do sacado
+        PadRight(OnlyCPFCNPJAlphaNum(Sacado.CEP), 8, '0') +                   // {327-334} CEP do sacado
         PadRight(Sacado.Cidade, 15, ' ') +                           // {335-349} Cidade do sacado
         PadRight(Sacado.UF, 2, ' ') +                                // {350-351} UF do sacado
         PadRight(Sacado.SacadoAvalista.NomeAvalista,30) +            // {352-381} Nome do sacador avalista

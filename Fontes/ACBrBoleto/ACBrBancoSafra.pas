@@ -327,7 +327,7 @@ begin
               '0'                                               + // 008-008 / Tipo de Registro
               Space(9)                                          + // 009-017 / Campo sem Preenchimento
               IfThen(TipoInscricao = pFisica, '1', '2')         + // 018-018 / Tipo de Inscrição da Empresa
-              PadLeft(Trim(OnlyNumber(CNPJCPF)), 14, '0')       + // 019-032 / Número de Inscrição da Empresa
+              PadLeft(Trim(OnlyCPFCNPJAlphaNum(CNPJCPF)), 14, '0')       + // 019-032 / Número de Inscrição da Empresa
               Space(20) +
               //PadLeft(CodigoCedente, 20, ' ')                   + // 033-052 / Código do Convênio no Banco
               PadRight(Agencia, 5, '0')                         + // 053-057 / Agência Mantenedora da Conta
@@ -359,7 +359,7 @@ begin
                PadLeft(IntToStr(fpLayoutVersaoLote), 3, '0')                    + // 014-016 / Nº da versão do layout do Lote
                Space(1)                                                         + // 017-017 / Campo sem preenchimento
                IfThen(TipoInscricao = pFisica, '1', '2')                        + // 018-018 / Tipo de Inscrição da Empresa
-               PadLeft(Trim(OnlyNumber(CNPJCPF)), 15, '0')                      + // 019-033 / Número de Inscrição da Empresa
+               PadLeft(Trim(OnlyCPFCNPJAlphaNum(CNPJCPF)), 15, '0')                      + // 019-033 / Número de Inscrição da Empresa
                Space(20)+
                //PadLeft(CodigoCedente, 20, ' ')                                  + // 034-053 / Código do Convênio no Banco
                PadRight(Agencia, 5, '0')                                        + // 054-058 / Agência Mantenedora da Conta
@@ -822,7 +822,7 @@ begin
                    ' '                                                            + // 015-015 / Reservado (uso Banco)
                    sCodMovimento                                                  + // 016-017 / Código de movimento remessa
                    sTipoInscricao                                                 + // 018-018 / Tipo de inscrição do sacado
-                   PadLeft(trim(OnlyNumber(ACBrTitulo.Sacado.CNPJCPF)),15,'0')    + // 019-033 / Número de inscrição do sacado
+                   PadLeft(trim(OnlyCPFCNPJAlphaNum(ACBrTitulo.Sacado.CNPJCPF)),15,'0')    + // 019-033 / Número de inscrição do sacado
                    PadRight(Trim(ACBrTitulo.Sacado.NomeSacado), 40)               + // 034-073 / Nome sacado
                    sEndereco                                                      + // 074-113 / Endereço sacado
                    PadRight(Trim(ACBrTitulo.Sacado.Bairro), 15)                   + // 114-128 / Bairro sacado
@@ -967,7 +967,7 @@ begin
 
     wLinha := '1'                                                                            + //   1 a   1 - Identificação do Registro de Transação
               tipoInscricao                                                                  + //   2 a   3 - Tipo de Inscrição da Empresa
-              PadLeft(OnlyNumber(ACBrBoleto.Cedente.CNPJCPF), 14, '0')                       + //   4 a  17 - Número da Inscrição da Empresa
+              PadLeft(OnlyCPFCNPJAlphaNum(ACBrBoleto.Cedente.CNPJCPF), 14, '0')                       + //   4 a  17 - Número da Inscrição da Empresa
               aAgencia + aConta                                                              + //  18 a  31 - Identificação da Empresa no Banco
               Space(6)                                                                       + //  32 a  37 - "Brancos"
               PadRight(SeuNumero,25)                                                         + //  38 a  62 - Uso exclusivo da Empresa
@@ -1007,7 +1007,7 @@ begin
                 '000'),                                                                        // 216 a 218 zeros
                 IntToStrZero(round(ValorAbatimento * 100), 13)  )                            + // Valor Do Abatimento Concedido Ou Cancelado / Multa
               aTipoSacado                                                                    + // 219 a 220 - Código De Inscrição Do Sacado
-              PadLeft(OnlyNumber(Sacado.CNPJCPF), 14, '0')                                   + // 221 a 234 - Número de Inscrição do Sacado
+              PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 14, '0')                                   + // 221 a 234 - Número de Inscrição do Sacado
               PadRight(Sacado.NomeSacado, 40, ' ')                                           + // 235 a 274 - Nome Do Sacado
               PadRight(Sacado.Logradouro + ' ' + Sacado.Numero, 40, ' ')                     + // 275 a 314 - Endereço Do Sacado
               PadRight(Sacado.Bairro, 10, ' ')                                               + // 315 a 324 - Bairro Do Sacado
@@ -1050,7 +1050,7 @@ begin
    ACBrBanco.ACBrBoleto.NumeroArquivo := StrToIntDef(Copy(ARetorno[0],158,6),0);
 
    rCedente        := trim(copy(ARetorno[0], 73, 30));
-   rCNPJCPF        := OnlyNumber( copy(ARetorno[0], 19, 14) );
+   rCNPJCPF        := OnlyCPFCNPJAlphaNum( copy(ARetorno[0], 19, 14) );
    rConvenioCedente:= Trim(RemoveZerosEsquerda(Copy(ARetorno[0], 33, 9)));
 
    ValidarDadosRetorno('', '', rCNPJCPF);

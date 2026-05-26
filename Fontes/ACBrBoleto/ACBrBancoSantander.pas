@@ -495,7 +495,7 @@ begin
                   '0'                                        + // 008 - 008 / Tipo de registro
                   Space(8)                                   + // 009 - 016 / Reservado (uso Banco)
                   DefineTipoInscricao                        + // 017 - 017 / Tipo de inscrição da empresa
-                  PadLeft(trim(OnlyNumber(CNPJCPF)),15,'0')  + // 018 - 032 / Nº de inscrição da empresa
+                  PadLeft(trim(OnlyCPFCNPJAlphaNum(CNPJCPF)),15,'0')  + // 018 - 032 / Nº de inscrição da empresa
                   PadLeft(CodigoTransmissao, 15)             + // 033 - 047 / Código de Transmissão
                   Space(25)                                  + // 048 - 072 / Reservado (uso Banco)
                   PadRight(Nome, 30)                         + // 073 - 102 / Nome da Empresa
@@ -518,7 +518,7 @@ begin
                   PadLeft(IntToStr(fpLayoutVersaoLote), 3, '0') + // 014 - 016 / Nº da versão do layout do lote
                   Space(1)                                   + // 017 - 017 / Reservado (uso Banco)
                   DefineTipoInscricao                        + // 018 - 018 / Tipo de inscrição da empresa
-                  PadLeft(trim(OnlyNumber(CNPJCPF)),15,'0')  + // 019 - 033 / Nº de inscrição da empresa
+                  PadLeft(trim(OnlyCPFCNPJAlphaNum(CNPJCPF)),15,'0')  + // 019 - 033 / Nº de inscrição da empresa
                   Space(20)                                  + // 034 - 053 / Reservado (uso Banco)
                   PadLeft(CodigoTransmissao, 15)             + // 054 - 068 / Código de Transmissão
                   Space(5)                                   + // 069 - 073 / Reservado (uso Banco)
@@ -722,7 +722,7 @@ begin
                 Space(1)                                         + // 015 - 015 / Reservado (uso Banco)
                 sCodMovimento                                    + // 016 - 017 / Código de movimento remessa
                 sTipoInscricao                                   + // 018 - 018 / Tipo de inscrição do sacado
-                PadLeft(trim(OnlyNumber(Sacado.CNPJCPF)),15,'0')    + // 019 - 033 / Número de inscrição do sacado
+                PadLeft(trim(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF)),15,'0')    + // 019 - 033 / Número de inscrição do sacado
                 PadRight(Trim(Sacado.NomeSacado), 40)               + // 034 - 073 / Nome sacado
                 sEndereco                                           + // 074 - 113 / Endereço sacado
                 PadRight(Trim(Sacado.Bairro), 15)                   + // 114 - 128 / Bairro sacado
@@ -869,7 +869,7 @@ begin
     begin
        wLinha:= '1'                                                         +  // 1- ID Registro
                 IfThen(Cedente.TipoInscricao = pJuridica,'02','01')         +  // 2 a 3
-                PadLeft(trim(OnlyNumber(Cedente.CNPJCPF)),14,'0')           +  // 4 a 17
+                PadLeft(trim(OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF)),14,'0')           +  // 4 a 17
                 PadRight(trim(Cedente.CodigoTransmissao),20,'0')            +  // 18 a 37
                 PadRight( SeuNumero ,25,' ')                                +  // 38 a 62
                 PadLeft(RightStr(NossoNumero,7),7,'0') + DigitoNossoNumero  +  // 63 a 70
@@ -897,7 +897,7 @@ begin
                 IntToStrZero( round( ValorDesconto * 100), 13)              +  // 180 a 192
                 IntToStrZero( round( ValorIOF * 100 ), 13)                  +  // 193 a 205
                 IntToStrZero( round( ValorAbatimento * 100 ), 13)           +  // 206 a 218
-                TipoSacado + PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')     +  // 219 a 234
+                TipoSacado + PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF),14,'0')     +  // 219 a 234
                 PadRight( Sacado.NomeSacado, 40, ' ')                       +  // 235 a 274
                 PadRight( Sacado.Logradouro + ' '+ Sacado.Numero, 40, ' ')  +  // 275 a 314
                 PadRight( Sacado.Bairro,12,' ')                             +  // 315 a 326
