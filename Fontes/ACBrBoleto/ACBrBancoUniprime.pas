@@ -328,7 +328,7 @@ begin
                   IntToStrZero( round( ValorDesconto * 100 ), 13)         +  // 180 a 192 - Valor Desconto
                   IntToStrZero( round( ValorIOF * 100 ), 13)              +  // 193 a 205 - Valor IOF
                   IntToStrZero( round( ValorAbatimento * 100 ), 13)       +  // 206 a 218 - Valor Abatimento
-                  TipoSacado + PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0') +  // 219 a 234 - Tipo de Inscrição + Número de Inscrição do Pagador
+                  TipoSacado + PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF),14,'0') +  // 219 a 234 - Tipo de Inscrição + Número de Inscrição do Pagador
                   PadRight( Sacado.NomeSacado, 40, ' ')                   +  // 235 a 274 - Nome do Pagador
                   PadRight(Sacado.Logradouro + ' ' + Sacado.Numero + ' '      +
                     Sacado.Bairro + ' ' + Sacado.Cidade + ' '             +
@@ -1183,12 +1183,12 @@ begin
    ACBrBanco.ACBrBoleto.NumeroArquivo := StrToIntDef(Copy(ARetorno[0],158,6),0);
 
    rCedente         := trim(copy(ARetorno[0], 73, 30));
-   rCNPJCPF         := OnlyNumber( copy(ARetorno[0], 19, 14) );
+   rCNPJCPF         := OnlyCPFCNPJAlphaNum( copy(ARetorno[0], 19, 14) );
    rConvenioCedente := Trim(Copy(ARetorno[0], 33, 20));
 
    with ACBrBanco.ACBrBoleto do
    begin
-      if (not LeCedenteRetorno) and (rCNPJCPF <> OnlyNumber(Cedente.CNPJCPF)) then
+      if (not LeCedenteRetorno) and (rCNPJCPF <> OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF)) then
          raise Exception.create(ACBrStr('CNPJ\CPF do arquivo inválido'));
 
       if LeCedenteRetorno then

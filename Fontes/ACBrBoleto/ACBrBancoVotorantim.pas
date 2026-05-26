@@ -399,7 +399,7 @@ begin
 
     wLinha := '1'                                                                            + // 001 a  001 - Identificação do Registro de Transação
               tipoInscricao                                                                  + // 002 a  003 - Tipo de Inscrição da Empresa
-              PadLeft(OnlyNumber(ACBrBoleto.Cedente.CNPJCPF), 14, '0')                       + // 004 a  017 - Número da Inscrição da Empresa
+              PadLeft(OnlyCPFCNPJAlphaNum(ACBrBoleto.Cedente.CNPJCPF), 14, '0')                       + // 004 a  017 - Número da Inscrição da Empresa
               '00'                                                                           + // 018 a  019 - "Código Instrução/ Alegação a ser cancelada/ocorrencia 35"
               PadLeft(ACBrBoleto.Cedente.Convenio, 10, '0')                                  + // 020 a  029 - "Código do Convênio"
               Space(8)                                                                       + // 030 a  037 - "Brancos"
@@ -424,7 +424,7 @@ begin
               IntToStrZero(round(ValorIOF * 100), 13)                                        + // 170 a 182 - Valor De Iof Operações Deseguro
               IntToStrZero(round(ValorAbatimento * 100), 13)                                 + // 183 a 195 -Valor Do Abatimento Concedido Ou Cancelado / Multa
               aTipoSacado                                                                    + // 196 a 197 - Código De Inscrição Do Sacado
-              PadLeft(OnlyNumber(Sacado.CNPJCPF), 14, '0')                                   + // 198 a 211 - Número de Inscrição do Sacado
+              PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 14, '0')                                   + // 198 a 211 - Número de Inscrição do Sacado
               PadRight(Sacado.NomeSacado, 40, ' ')                                           + // 212 a 251 - Nome Do Sacado
               PadRight(trim(Sacado.Logradouro) + ' ' + trim(Sacado.Numero), 37, ' ')         + // 252 a 288 - Endereço Do Sacado
               Space(3)                                                                       + // 289 a 291 - Brancos
