@@ -350,7 +350,7 @@ begin
                   IntToStrZero( round( ValorIOF * 100 ), 13)              +  // 193 a 205 - Valor IOF
                   IntToStrZero( round( ValorAbatimento * 100 ), 13)       +  // 206 a 218 - Valor Abatimento
                   TipoSacado                                              +  // 219 a 220 - Tipo Inscricao
-                  PadLeft(OnlyNumber(Sacado.CNPJCPF), 14, '0')            +  // 221 a 234 - Tipo de Inscrição + Número de Inscrição do Pagador
+                  PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 14, '0')            +  // 221 a 234 - Tipo de Inscrição + Número de Inscrição do Pagador
                   PadRight( Sacado.NomeSacado, 40, ' ')                   +  // 235 a 274 - Nome do Pagador
                   PadRight(Sacado.Logradouro + ' ' + Sacado.Numero + ' '  +
                     Sacado.Bairro + ' ' + Sacado.Cidade + ' '             +

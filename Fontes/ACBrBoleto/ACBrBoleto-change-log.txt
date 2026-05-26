@@ -49,8 +49,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 26/05/2026
--- 
-ACBrBancoC6.pas,ACBrBancoCaixa.pas,ACBrBancoCaixaSICOB.pas,ACBrBancoCitiBank.pas,ACBrBancoCora.pas --
+-- ACBrBancoCredisan.pas, ACBrBancoCredisis.pas, ACBrBancoCresol.pas ,ACBrBancoCresolSCRS.pas ,ACBrBancoDaycoval.pas --
+[*][ACBR-9326] Ajustado para utilizar campo alfa CNPJ
+   Por: Daniel de Morais
+   
+26/05/2026
+-- ACBrBancoC6.pas,ACBrBancoCaixa.pas,ACBrBancoCaixaSICOB.pas,ACBrBancoCitiBank.pas,ACBrBancoCora.pas --
 [*][ACBR-9326] Ajustado para utilizar campo alfa CNPJ
    Por: Daniel de Morais
 

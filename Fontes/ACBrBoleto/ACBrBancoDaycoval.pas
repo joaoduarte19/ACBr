@@ -632,7 +632,7 @@ begin
     begin
       wLinha := '1' +                                                // 1 - Código do registro: 1 - Transação
         PadLeft(ATipoCedente,2,'0') +                                // 2 a 3 - Tipo de inscrição da empresa: 01 = CPF; 02 = CNPJ
-        PadLeft(OnlyNumber(Cedente.CNPJCPF), 14, '0') +              // 4 a 17 - Número de inscrição
+        PadLeft(OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF), 14, '0') +              // 4 a 17 - Número de inscrição
         PadRight(Cedente.CodigoCedente, 20) +                        // 18 a 37 - Código da empresa no banco
         PadRight(SeuNumero, 25) +                                    // 38 a 62 - Identificação do título na empresa
         Copy(PadLeft(NossoNumero,TamanhoMaximoNossoNum,'0'), 3, 8) + // 63 a 70 - Nosso número
@@ -660,7 +660,7 @@ begin
         PadLeft('', 13, '0') +                                       // 193 a 205 - ZEROS
         PadLeft('', 13, '0') +                                       // 206 a 218 - Para ocorrência 01: Manter zeros -Para ocorrência 04: Informar valor a ser concedido para abatimento.
         TipoSacado +                                                 // 219 a 220 - Tipo de inscrição do sacado: 01 – CPF; 02 – CGC
-        PadLeft(OnlyNumber(Sacado.CNPJCPF), 14, '0') +               // 221 a 234 - Número de inscrição do sacado
+        PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 14, '0') +               // 221 a 234 - Número de inscrição do sacado
         PadRight(Sacado.NomeSacado, 30, ' ') +                       // 235 a 264 - Nome do sacado
         Space(10) +                                                  // 265 a 274 - Brancos
         PadRight(Sacado.Logradouro + ' ' + Sacado.Numero + ' ' + Sacado.Complemento, 40, ' ') +     // 275 a 314 - Endereço do sacado

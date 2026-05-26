@@ -103,9 +103,9 @@ begin
 
   rCedente         := trim(copy(ARetorno[0], 73, 30));
   if (copy(ARetorno[0], 18, 1) = '2') then
-    rCNPJCPF         := OnlyNumber( copy(ARetorno[0], 19, 14) )
+    rCNPJCPF         := OnlyCPFCNPJAlphaNum( copy(ARetorno[0], 19, 14) )
   else
-    rCNPJCPF         := OnlyNumber( copy(ARetorno[0], 22, 11) );
+    rCNPJCPF         := OnlyCPFCNPJAlphaNum( copy(ARetorno[0], 22, 11) );
   rConvenioCedente := Trim(Copy(ARetorno[0], 33, 20));
 
   ValidarDadosRetorno('', '', rCNPJCPF);
@@ -298,7 +298,7 @@ begin
     end;
 
     {Pegando Tipo de Sacado}
-    if (Length(OnlyNumber(Sacado.CNPJCPF)) > 11) then
+    if (Length(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF)) > 11) then
       Sacado.Pessoa := pJuridica
     else
       Sacado.Pessoa := pFisica;
@@ -473,7 +473,7 @@ begin
               ' '                                                        + //15 - Uso exclusivo FEBRABAN/CNAB: Branco
               ATipoOcorrencia                                            + //16 a 17 - Código de movimento
               ATipoInscricao                                             + //18 a 18 - Tipo inscricao
-              PadLeft(OnlyNumber(Sacado.CNPJCPF), 15, '0')               + //19 a 33 - Número de Inscrição
+              PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 15, '0')               + //19 a 33 - Número de Inscrição
               PadRight(Sacado.NomeSacado, 40, ' ')                       + //34 a 73 - Nome
               PadRight(Sacado.Logradouro + ' ' + Sacado.Numero + ' '     +
                        Sacado.Complemento, 40, ' ')                      + //74 a 113 - Endereço

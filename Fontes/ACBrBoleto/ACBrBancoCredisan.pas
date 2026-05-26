@@ -334,7 +334,7 @@ begin
 
     LLinha := '1'                                                      + // 001 - 001 ID Registro
               LTipoCendente                                            + // 002 - 003 Tipo de inscrição da empresa
-              PadLeft(OnlyNumber(LBeneficiario.CNPJCPF), 14, '0')      + // 004 - 017 Inscrição da empresa
+              PadLeft(OnlyCPFCNPJAlphaNum(LBeneficiario.CNPJCPF), 14, '0')      + // 004 - 017 Inscrição da empresa
               LAgencia                                                 + // 018 - 021 Cooperativa
               PadRight(LBeneficiario.AgenciaDigito, 1)                 + // 022 - 022 DV Agencia
               LConta                                                   + // 023 - 030 conta corrente da empresa
@@ -375,7 +375,7 @@ begin
               IntToStrZero(Round(ACBrTitulo.ValorIOF * 100), 13)       + // 193 - 205 Valor do IOF
               IntToStrZero(Round(ACBrTitulo.ValorAbatimento * 100), 13)+ // 206 - 218 Valor do abatimento
               LTipoSacado                                              + // 219 - 220 Tipo Inscricao
-              PadLeft(OnlyNumber(ACBrTitulo.Sacado.CNPJCPF), 14, '0')  + // 221 - 234 CNPJ ou CPF do sacado
+              PadLeft(OnlyCPFCNPJAlphaNum(ACBrTitulo.Sacado.CNPJCPF), 14, '0')  + // 221 - 234 CNPJ ou CPF do sacado
               PadRight(ACBrTitulo.Sacado.NomeSacado, 40)               + // 235 - 274 Nome do sacado
               PadRight(Trim(ACBrTitulo.Sacado.Logradouro) +
                 ', ' +
