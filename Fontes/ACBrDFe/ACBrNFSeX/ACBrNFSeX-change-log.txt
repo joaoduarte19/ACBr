@@ -43,9 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 26/05/2026
+-- ACBr.DANFSeX.FPDFPadraoNacional --
+[-] Ajustes visando compatibilização com o Delphi 7.
+   Por: Diego Folieni
 -- ACBr.DANFSeX.Classes/ACBrNFSeXDANFSeFPDFClass --
 [-] Revert visando evitar problema de compilação com o Delphi 7.
-  Por: Diego Folieni
+   Por: Diego Folieni
 
 25/05/2026
 -- IPM.Provider --

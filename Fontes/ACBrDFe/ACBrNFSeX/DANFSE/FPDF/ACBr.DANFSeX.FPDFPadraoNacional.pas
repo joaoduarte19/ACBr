@@ -51,6 +51,7 @@ uses
   ACBrValidador,
   ACBrUtil.DateTime,
   ACBrUtil.Strings,
+  ACBrUtil.Compatibilidade,
   ACBrDFeUtil,
   StrUtilsEx,
 
@@ -313,22 +314,21 @@ end;
 
 function TACBrDANFSeFPDFPadraoNacional.FormatCNPJCPFNIF(const ID: TIdentificacao): string;
 begin
+  Result := '-';
   if ID = nil then
-    Exit('-');
+    Exit;
   if Trim(ID.CpfCnpj) <> '' then
     Result := FormatarCNPJouCPF(ID.CpfCnpj)
   else if Trim(ID.Nif) <> '' then
-    Result := 'NIF: ' + ID.Nif
-  else
-    Result := '-';
+    Result := 'NIF: ' + ID.Nif;
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.FormatTelefone(const Contato: TContato): string;
 begin
+  Result := '-';
   if Contato = nil then
-    Exit('-');
+    Exit;
   Result := Trim(Contato.DDD + ' ' + Contato.Telefone);
-  if Result = '' then Result := '-';
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.FormatCEPBR(const CEP: string): string;
@@ -344,20 +344,20 @@ end;
 
 function TACBrDANFSeFPDFPadraoNacional.FormatMunicipioUF(const End_: TEndereco): string;
 begin
-  if End_ = nil then Exit('-');
+  Result := '-';
+  if End_ = nil then Exit;
   // NT 008: "Municipio / UF" - usar xMunicipio quando preenchido
   if Trim(End_.xMunicipio) <> '' then
-    Result := Ellipsis(End_.xMunicipio.ToUpper + ' / ' + End_.UF, 37)
+    Result := Ellipsis(UpperCase(End_.xMunicipio) + ' / ' + End_.UF, 37)
   else if Trim(End_.CodigoMunicipio) <> '' then
-    Result := End_.CodigoMunicipio + ' / ' + End_.UF
-  else
-    Result := '-';
+    Result := End_.CodigoMunicipio + ' / ' + End_.UF;
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.FormatIBGE_CEP(const End_: TEndereco): string;
 begin
+  Result := '-';
   // NT 008: "nnnnnnn / nn.nnn-nnn"
-  if End_ = nil then Exit('-');
+  if End_ = nil then Exit;
   Result := NN(End_.CodigoMunicipio) + ' / ' + FormatCEPBR(End_.CEP);
 end;
 
@@ -365,7 +365,8 @@ function TACBrDANFSeFPDFPadraoNacional.FormatEnderecoCompleto(const End_: TEnder
 var
   S: string;
 begin
-  if End_ = nil then Exit('-');
+  Result := '-';
+  if End_ = nil then Exit;
   S := Trim(End_.Endereco);
   if Trim(End_.Numero) <> '' then
     S := S + ', ' + End_.Numero;
@@ -396,14 +397,13 @@ function TACBrDANFSeFPDFPadraoNacional.GetChaveAcesso: string;
 var
   S: string;
 begin
-  if FNFSe = nil then Exit('-');
+  Result := '-';
+  if FNFSe = nil then Exit;
   S := OnlyNumber(FNFSe.infNFSe.ID);
   if Length(S) = 50 then
     Result := S
   else if Trim(FNFSe.ChaveAcesso) <> '' then
-    Result := FNFSe.ChaveAcesso
-  else
-    Result := '-';
+    Result := FNFSe.ChaveAcesso;
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.GetSituacaoNFSeDescricao: string;
@@ -442,9 +442,10 @@ function TACBrDANFSeFPDFPadraoNacional.GetTextoDescricaoServico: string;
 var
   S: string;
 begin
-  if FNFSe = nil then Exit('-');
+  Result := '-';
+  if FNFSe = nil then Exit;
   S := Trim(FNFSe.Servico.Discriminacao);
-  if S = '' then Exit('-');
+  if S = '' then Exit;
 
   S := StringReplace(S, sLineBreak, #10, [rfReplaceAll]);
   S := StringReplace(S, #13, #10, [rfReplaceAll]);
@@ -486,7 +487,7 @@ begin
     S := Linhas.Text;
     S := StringReplace(S, sLineBreak, ' | ', [rfReplaceAll]);
     S := Trim(S);
-    if EndsStr(' |', S) then
+    if (Length(S) >= 2) and (Copy(S, Length(S) - 1, 2) = ' |') then
       Delete(S, Length(S) - 1, 2);
     Result := Ellipsis(S, 1997 + 200); // limite NT mais margem da linha fixa
   finally
