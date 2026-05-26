@@ -694,7 +694,7 @@ begin
                '0'                                                       + //   8 a   8 - Tipo de registro - Registro header de arquivo
                space(9)                                                  + //   9 a  17 - Uso exclusivo FEBRABAN/CNAB
                ATipoInscricao                                            + //  18 a  18 - Tipo de inscrição do cedente
-               PadRight(OnlyNumber(CNPJCPF), 14, '0')                        + //  19 a  32 - Número de inscrição do cedente
+               PadRight(OnlyCPFCNPJAlphaNum(CNPJCPF), 14, '0')                        + //  19 a  32 - Número de inscrição do cedente
                PadLeft(OnlyNumber(RightStr(Agencia, 4)), 4 , '0') +           //  33 a  48 - Código do convênio no banco - Cedente
                PadRight(CodigoCedente, 11, '0')+PadLeft(ACodCedenteDVAg,1,'0')  + //  33 a  48 - Código do convênio no banco - Cedente
                space(4)                                                  + //  49 a  52 - Uso Exclusivo CAIXA
@@ -726,7 +726,7 @@ begin
                '020'                                                     + //  14 a  16 - Número da versão do layout do lote
                Space(1)                                                  + //  17 a  17 - Uso exclusivo FEBRABAN/CNAB
                ATipoInscricao                                            + //  18 a  18 - Tipo de inscrição da Empresa
-               PadLeft(OnlyNumber(CNPJCPF), 15, '0')                        + //  19 a  33 - Número de inscrição da Empresa
+               PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 15, '0')                        + //  19 a  33 - Número de inscrição da Empresa
                //PadLeft(CodigoCedente,15, '0') +PadLeft(ACodCedenteDVAg,1,'0')  + //  34 a  49 - Código do convênio no banco (código do cedente)
                PadLeft(OnlyNumber(RightStr(Agencia, 4)), 4 , '0') +
                PadRight(CodigoCedente, 11, '0')+PadLeft(ACodCedenteDVAg,1,'0')  + //  34 a  49 - Código do convênio no banco (código do cedente)
@@ -970,7 +970,7 @@ begin
                ATipoOcorrencia                                                         + //  16 a  17 - Código de movimento
                {Dados do sacado}
                ATipoInscricao                                                          + //  18 a  18 - Tipo inscricao
-               PadLeft(OnlyNumber(Sacado.CNPJCPF), 15, '0')                            + //  19 a  33 - Número de Inscrição
+               PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 15, '0')                            + //  19 a  33 - Número de Inscrição
                PadRight(Sacado.NomeSacado, 40, ' ')                                    + //  34 a  73 - Nome sacado
                PadRight(Sacado.Logradouro + ' ' +
                         Sacado.Numero + ' ' +
@@ -981,7 +981,7 @@ begin
                PadRight(Sacado.UF, 2, ' ')                                             + // 152 a 153 - UF sacado
                {Dados do sacador/avalista}
                TipoInscricaoAvalista                                                   + // 154 a 154  - Tipo de inscrição: Não informado {campo obrigatorio segunto manual da caixa}
-               PadLeft(OnlyNumber(Sacado.SacadoAvalista.CNPJCPF), 15, '0')             + // 155 a 169 - Número de inscrição
+               PadLeft(OnlyCPFCNPJAlphaNum(Sacado.SacadoAvalista.CNPJCPF), 15, '0')             + // 155 a 169 - Número de inscrição
                PadRight(Sacado.SacadoAvalista.NomeAvalista,40,' ')                     + // 170 a 209 - Nome do sacador/avalista
                space(3)                                                                + // 210 a 212 - Uso exclusivo FEBRABAN/CNAB
                space(20)                                                               + // 213 a 232 - Uso exclusivo FEBRABAN/CNAB
@@ -1135,7 +1135,7 @@ begin
 
          wLinha:= wLinha                                                + // 1 até 1  -  ID Registro
                   ATipoCendente                                         + // 2 até 3   -  Tipo de inscrição da empresa 01-CPF / 02-CNPJ
-                  PadLeft(OnlyNumber(Cedente.CNPJCPF),14,'0')           + // 4  até 17 - Inscrição da empresa
+                  PadLeft(OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF),14,'0')           + // 4  até 17 - Inscrição da empresa
                   ACodCedente                                           + // 18 até 33 - Identificação da Empresa na CAIXA - Cedente
                   Space(2)                                              + // 34 até 35 - Branco
                   '00'                                                  + //36 até 37  - Default '00' - Acata Comissão por Dia (recomendável)
@@ -1161,7 +1161,7 @@ begin
                   IntToStrZero( round( ValorIOF * 100 ), 13)            + //193 até 205 Valor do IOF
                   IntToStrZero( round( ValorAbatimento * 100 ), 13)     + //206 até 218 Valor do abatimento permitido
                   ATipoSacado                                           + //219 até 220 "01" - CPF / "02"- CGC
-                  PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')            + // 221 até 234 CNPJ ou CPF do sacado
+                  PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF),14,'0')            + // 221 até 234 CNPJ ou CPF do sacado
                   PadRight( Sacado.NomeSacado, 40)                      + // 235 até 274 Nome do sacado
                   PadRight(trim(Sacado.Logradouro) + ', ' +
                            trim(Sacado.Numero) + ' ' +

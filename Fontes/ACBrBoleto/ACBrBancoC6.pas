@@ -282,7 +282,7 @@ begin
 
   LLinha:= '1'                                                                                                           +  // 001 a 001 - ID Registro
            '0' + DefineTipoInscricao                                                                                     +  // 002 a 003 - Tipo Inscrição Empresa
-           PadLeft(OnlyNumber(LBeneficiario.CNPJCPF), 14, '0')                                                           +  // 004 a 017 - CNPJ Empresa
+           PadLeft(OnlyCPFCNPJAlphaNum(LBeneficiario.CNPJCPF), 14, '0')                                                           +  // 004 a 017 - CNPJ Empresa
            LConta                                                                                                        +  // 018 a 029 - Código da Empresa
            Space(8)                                                                                                      +  // 030 a 037 - Uso do Banco
            PadRight(IfThen(LTitulo.SeuNumero = '',LTitulo.NumeroDocumento,LTitulo.SeuNumero), 25)                        +  // 038 a 062 - Uso da Empresa
@@ -311,7 +311,7 @@ begin
            Space(7)                                                                                                      +  // 199 a 205 - Uso do Banco
            IntToStrZero(Round(LTitulo.ValorAbatimento * 100 ), 13)                                                       +  // 206 a 218 - Valor Abatimento
            LTipoSacado                                                                                                   +  // 219 a 220 - Tipo Sacado
-           PadLeft(OnlyNumber(LPagador.CNPJCPF), 14, '0')                                                                +  // 221 a 234 - CNPJ/CPF Sacado
+           PadLeft(OnlyCPFCNPJAlphaNum(LPagador.CNPJCPF), 14, '0')                                                                +  // 221 a 234 - CNPJ/CPF Sacado
            PadRight(LPagador.NomeSacado, 40)                                                                             +  // 235 a 274 - Nome do Sacado
            PadRight(LPagador.Logradouro +
                     ' ' +
@@ -336,7 +336,7 @@ begin
            IntToStrZero(aRemessa.Count + 1, 6)                                                                           + // 395 a 400 - Seqüencial
 
            PadLeft(DefineTipoInscricao, 2, '0')                                                                          + // 401 a 402 - Tipo Emitente
-           PadLeft(OnlyNumber(LBeneficiario.CNPJCPF), 14, '0')                                                           + // 403 a 416 - CNPJ Emitente
+           PadLeft(OnlyCPFCNPJAlphaNum(LBeneficiario.CNPJCPF), 14, '0')                                                           + // 403 a 416 - CNPJ Emitente
            PadRight(LBeneficiario.Nome, 40)                                                                              + // 417 a 456 - Nome Emitente
            PadRight(LBeneficiario.Logradouro +
                     ' ' +

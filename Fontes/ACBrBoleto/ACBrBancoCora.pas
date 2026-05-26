@@ -87,7 +87,7 @@ end;
 
 function TACBrBancoCora.MontarCampoNossoNumero(const ACBrTitulo :TACBrTitulo): String;
 begin
-  Result := Copy(onlyNumber(ACBrTitulo.ACBrBoleto.Cedente.CNPJCPF), 1, 8)
+  Result := Copy(OnlyCPFCNPJAlphaNum(ACBrTitulo.ACBrBoleto.Cedente.CNPJCPF), 1, 8)
             + ACBrTitulo.NossoNumero;
 end;
 

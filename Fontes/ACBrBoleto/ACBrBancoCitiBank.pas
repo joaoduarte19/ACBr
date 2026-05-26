@@ -161,7 +161,7 @@ begin
              '0'                                     + //8 - Tipo de registro - Registro header de arquivo
              Space(9)                                + //9 a 17 Uso exclusivo FEBRABAN/CNAB
              ATipoInscricao                          + //18 - Tipo de inscrição do cedente
-             PadLeft(OnlyNumber(CNPJCPF), 14, '0')   + //19 a 32 -Número de inscrição do cedente
+             PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 14, '0')   + //19 a 32 -Número de inscrição do cedente
              PadRight(CodigoCedente, 20, ' ')        + //33 a 52 - Código do convênio no banco
              PadLeft('', 5, '0')                     + //53 a 57 - Código da agência mantenedora da conta (Zeros)
              ' '                                     + //58 - Dígito da agência (Branco)
@@ -193,7 +193,7 @@ begin
              '030'                                   + //14 a 16 - Número da versão do layout do lote
              ' '                                     + //17 - Uso exclusivo FEBRABAN/CNAB
              ATipoInscricao                          + //18 - Tipo de inscrição do cedente
-             PadLeft(OnlyNumber(CNPJCPF), 15, '0')   + //19 a 33 -Número de inscrição do cedente
+             PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 15, '0')   + //19 a 33 -Número de inscrição do cedente
              PadRight(CodigoCedente, 20, ' ')        + //34 a 53 - Código do convênio no banco
              PadLeft('', 5, '0')                     + //54 a 58 - Código da agência mantenedora da conta (Zeros)
              ' '                                     + //59 - Dígito da agência (Branco)
@@ -343,7 +343,7 @@ begin
              ' '                                                        + //15 - Uso exclusivo FEBRABAN/CNAB: Branco
              ATipoOcorrencia                                            + //16 a 17 - Código de movimento
              TipoSacado                                                 + //018 - Tipo de inscrição
-             PadLeft(OnlyNumber(Sacado.CNPJCPF), 15, '0')               + //19 a 33 - Número de Inscrição
+             PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 15, '0')               + //19 a 33 - Número de Inscrição
              PadRight(Sacado.NomeSacado, 40, ' ')                       + //34 a 73 - Nome sacado
              EndSacado                                                  + //74 a 113 - Endereço
              PadRight(Sacado.Bairro, 15, ' ')                           + //114 a 128 - bairro sacado
