@@ -187,7 +187,7 @@ begin
         '0'                                                               + // Tipo de Registro
         Space(9)                                                          + // Uso Exclusivo FEBRABAN / CNAB
         DefineTipoInscricao                                               + // Tipo de inscrição da empresa
-        PadLeft(Trim(OnlyNumber(CNPJCPF)), 14, '0')                       + // Número de inscrição da empresa
+        PadLeft(Trim(OnlyCPFCNPJAlphaNum(CNPJCPF)), 14, '0')                       + // Número de inscrição da empresa
         PadLeft(Convenio, 20, ' ')                                        + // Código do Convênio no Banco
         PadLeft(OnlyNumber(Agencia), 5, '0')                              + // Agência Mantenedora da Conta
         Space(1)                                                          + // Dígito Verificador da Agência: PadRight(AgenciaDigito, 1, ' ')
@@ -220,7 +220,7 @@ begin
         PadLeft(IntToStr(fpLayoutVersaoLote), 3, '0')                     + // Nº da versão do layout do lote
         Space(1)                                                          + // Uso Exclusivo FEBRABAN / CNAB
         DefineTipoInscricao                                               + // Tipo de inscrição da empresa
-        PadLeft(Trim(OnlyNumber(CNPJCPF)), 15, '0')                       + // Número de inscrição da empresa
+        PadLeft(Trim(OnlyCPFCNPJAlphaNum(CNPJCPF)), 15, '0')                       + // Número de inscrição da empresa
         PadLeft(Convenio, 20, ' ')                                        + // Código do Convênio no Banco
         PadLeft(OnlyNumber(Agencia), 5, '0')                              + // Agência Mantenedora da Conta
         Space(1)                                                          + // Dígito Verificador da Agência: PadRight(AgenciaDigito, 1, ' ')
@@ -418,7 +418,7 @@ begin
         Space(1)                                                                  + // Uso Exclusivo FEBRABAN/CNAB
         sCodMovimento                                                             + // Código de Movimento Remessa
         sTipoInscricao                                                            + // Tipo de inscrição
-        PadLeft(trim(OnlyNumber(Sacado.CNPJCPF)), 15, '0')                        + // Número de inscrição do sacado
+        PadLeft(trim(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF)), 15, '0')                        + // Número de inscrição do sacado
         PadRight(Trim(Sacado.NomeSacado), 40)                                     + // Nome sacado
         sEndereco                                                                 + // Endereço sacado
         PadRight(Trim(Sacado.Bairro), 15)                                         + // Bairro sacado
@@ -549,12 +549,12 @@ begin
   ACBrBanco.ACBrBoleto.NumeroArquivo := StrToIntDef(Copy(ARetorno[0], 158, 6), 0);
 
   rCedente := Trim(Copy(ARetorno[0], 73, 30));
-  rCNPJCPF := OnlyNumber(Copy(ARetorno[0], 19, 14));
+  rCNPJCPF := OnlyCPFCNPJAlphaNum(Copy(ARetorno[0], 19, 14));
   rConvenioCedente := Trim(Copy(ARetorno[0], 33, 20));
 
   with ACBrBanco.ACBrBoleto do
   begin
-    if (not LeCedenteRetorno) and (rCNPJCPF <> OnlyNumber(Cedente.CNPJCPF)) then
+    if (not LeCedenteRetorno) and (rCNPJCPF <> OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF)) then
        raise Exception.create(ACBrStr('CNPJ\CPF do arquivo inválido'));
 
     if LeCedenteRetorno then

@@ -199,7 +199,7 @@ begin
                        StringOfChar('0', 13),
                        IntToStrZero(Round(ValorAbatimento * 100), 13))        +{ 206 a 218  	Valor do Abatimento a ser concedido   	013 }
                 sTipoSacado                                                   +{ 219 a 220	  Tipo de inscrição do Pagador 01 – CPF 02 - CNPJ }
-                PadLeft(OnlyNumber(Sacado.CNPJCPF), 14, '0')                  +{ 221 a 234  	Nº Inscrição do Pagador  	014 }
+                PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 14, '0')                  +{ 221 a 234  	Nº Inscrição do Pagador  	014 }
                 PadRight(Sacado.NomeSacado, 40, ' ')                          +{ 235 a 274  	Nome/Razão Social do Pagador  	040   }
                 PadRight(Sacado.Logradouro + ' ' + Sacado.Numero, 40)         +{ 275 a 314  	Endereço do Pagador  	040 }
                 PadRight(Sacado.Bairro, 12, ' ')                              +{ 315 a 326  	Bairro do Pagador  	012 }
@@ -902,7 +902,7 @@ begin
                Space(1)                                                                 + // 15 - Uso exclusivo FEBRABAN/CNAB: Branco
                ATipoOcorrencia                                                          + // 16 a 17 - Codigo de movimento remessa
                IfThen(Sacado.Pessoa = pJuridica,'2','1')                                + // 18 - Tipo inscricao
-               PadLeft(OnlyNumber(Sacado.CNPJCPF), 15, '0')                             + // 19 a 33 - Número de Inscrição
+               PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 15, '0')                             + // 19 a 33 - Número de Inscrição
                PadRight(Sacado.NomeSacado, 40, ' ')                                     + // 34 a 73 - Nome sacado
                PadRight(Sacado.Logradouro + ' ' + Sacado.Numero + ' '+
                         Sacado.Complemento , 40, ' ')                                   + // 74 a 113 - Endereco sacado
@@ -912,7 +912,7 @@ begin
                PadRight(Sacado.UF, 2, ' ')                                              + // 152 a 153 - Unidade da Federação
                IfThen(Sacado.SacadoAvalista.Pessoa = pJuridica, '2',
                       IfThen(Sacado.SacadoAvalista.CNPJCPF <> '','1', '0'))             + // 154 - Tipo de inscrição: Sac./ Aval.
-               PadLeft(OnlyNumber(Sacado.SacadoAvalista.CNPJCPF), 15, '0')              + // 155 a 169 - Número de inscrição Sac./ Aval.
+               PadLeft(OnlyCPFCNPJAlphaNum(Sacado.SacadoAvalista.CNPJCPF), 15, '0')              + // 155 a 169 - Número de inscrição Sac./ Aval.
                PadRight(Sacado.SacadoAvalista.NomeAvalista, 40, ' ')                    + // 170 a 209 - Nome do sacador/avalista
                Space(23)                                                                + // 210 a 232 - Brancos
                Space(8)                                                              );   // 233 a 240 - Uso exclusivo FEBRABAN/CNAB
@@ -1126,7 +1126,7 @@ begin
       '0'                                              + //8 - Tipo de registro - Registro header de arquivo
       PadRight('', 9, ' ')                             + //9 a 17 Uso exclusivo FEBRABAN/CNAB
       DefineTipoInscricao                              + //18 - Tipo de inscrição do cedente
-      PadLeft(OnlyNumber(CNPJCPF), 14, '0')            + //19 a 32 -Número de inscrição do cedente
+      PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 14, '0')            + //19 a 32 -Número de inscrição do cedente
       PadRight('', 20, ' ')                            + //33 a 52 - Código do convênio no banco-Alfa
       PadLeft(OnlyNumber(Agencia), 5, '0')             + //53 a 57 - Código da agência do cedente-Numero
       DefineCampoDigitoAgencia                         + //58 - Dígito da agência do cedente -Alfa
@@ -1155,7 +1155,7 @@ begin
       PadLeft(IntToStr(LayoutLote), 3, '0')      + //14 a 16 - Número da versão do layout do lote
       ' '                                        + //17 - Uso exclusivo FEBRABAN/CNAB
       DefineTipoInscricao                        + //18 - Tipo de inscrição do cedente
-      PadLeft(OnlyNumber(CNPJCPF), 15, '0')      + //19 a 33 -Número de inscrição do cedente
+      PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 15, '0')      + //19 a 33 -Número de inscrição do cedente
       PadRight('', 20, ' ')                      + //34 a 53 - Código do convênio no banco-Alfa
       Padleft(Agencia, 5, '0')                   + //54 a 58 - Agência Mantenedora da Conta
       DefineCampoDigitoAgencia                   + //59 a 59 - Dígito Verificador da Ag/Conta

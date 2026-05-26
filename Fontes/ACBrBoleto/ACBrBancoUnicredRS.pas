@@ -293,7 +293,7 @@ begin
                Space(1)                                                                 + // 15 - Uso exclusivo FEBRABAN/CNAB: Branco
                ATipoOcorrencia                                                          + // 16 a 17 - Codigo de movimento remessa
                IfThen(Sacado.Pessoa = pJuridica,'2','1')                                + // 18 - Tipo inscricao
-               PadLeft(OnlyNumber(Sacado.CNPJCPF), 15, '0')                             + // 19 a 33 - Número de Inscrição
+               PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 15, '0')                             + // 19 a 33 - Número de Inscrição
                PadRight(Sacado.NomeSacado, 40, ' ')                                     + // 34 a 73 - Nome sacado
                PadRight(Sacado.Logradouro + ' ' + Sacado.Numero + ' '+
                         Sacado.Complemento , 40, ' ')                                   + // 74 a 113 - Endereco sacado
@@ -303,7 +303,7 @@ begin
                PadRight(Sacado.UF, 2, ' ')                                              + // 152 a 153 - Unidade da Federação
                IfThen(Sacado.SacadoAvalista.Pessoa = pJuridica, '2',
                       IfThen(Sacado.SacadoAvalista.CNPJCPF <> '','1', '0'))             + // 154 - Tipo de inscrição: Sac./ Aval.
-               PadLeft(OnlyNumber(Sacado.SacadoAvalista.CNPJCPF), 15, '0')              + // 155 a 169 - Número de inscrição Sac./ Aval.
+               PadLeft(OnlyCPFCNPJAlphaNum(Sacado.SacadoAvalista.CNPJCPF), 15, '0')              + // 155 a 169 - Número de inscrição Sac./ Aval.
                PadRight(Sacado.SacadoAvalista.NomeAvalista, 40, ' ')                    + // 170 a 209 - Nome do sacador/avalista
                Space(23)                                                                + // 210 a 232 - Brancos
                Space(8));                                                                  // 233 a 240 - Uso exclusivo FEBRABAN/CNAB
@@ -392,7 +392,7 @@ begin
                 sNossoNumero + sDigitoNossoNumero + '00'               +  { 193: Nosso Número na Unicred }
                 IntToStrZero(Round(ValorAbatimento * 100), 13)         +  { 206: Valor Abatimento }
                 sTipoSacado                                            +  { 219: Tipo Inscrição Sacado }
-                PadLeft(OnlyNumber(Sacado.CNPJCPF), 14, '0')           +  { 221: Núm. Incrição Sacado }
+                PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 14, '0')           +  { 221: Núm. Incrição Sacado }
                 PadRight(Sacado.NomeSacado, 40, ' ')                   +  { 235: Nome do Sacado }
                 PadRight(Sacado.Logradouro + ' ' + Sacado.Numero, 40)  +  { 275: Endereço do Sacado }
                 PadRight(Sacado.Bairro, 12, ' ')                       +  { 315: Bairro do Sacado }

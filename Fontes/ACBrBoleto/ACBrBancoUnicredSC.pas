@@ -187,7 +187,7 @@ begin
                 IntToStrZero( round( ValorIOF * 100 ), 13)              + {193-205: Valor IOF }
                 IntToStrZero(Round(ValorAbatimento * 100), 13)          + {206-218: Valor Abatimento }
                 sTipoSacado                                             + {219-220: Tipo Inscrição Sacado }
-                PadLeft(OnlyNumber(Sacado.CNPJCPF), 14, '0')            + {221-234: Núm. Incrição Sacado }
+                PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 14, '0')   + {221-234: Núm. Incrição Sacado }
                 PadRight(Sacado.NomeSacado, 40, ' ')                    + {235-274: Nome do Sacado }
                 PadRight(Sacado.Logradouro + ' ' + Sacado.Numero, 40)   + {275-314: Endereço do Sacado }
                 PadRight(sMensagemCedente, 12)                          + {315-326: 1ª Mensagem}
