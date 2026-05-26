@@ -169,6 +169,7 @@ const
   peAvulsaFisco = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrProcessoEmissao.{$ENDIF}peAvulsaFisco deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrProcessoEmissao da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   peAvulsaContribuinte = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrProcessoEmissao.{$ENDIF}peAvulsaContribuinte deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrProcessoEmissao da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   peContribuinteAplicativoFisco = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrProcessoEmissao.{$ENDIF}peContribuinteAplicativoFisco deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrProcessoEmissao da Unit ACBrDFe.Conversao.pas' {$ENDIF};
+  peProvedorAssinaturaAutorizacao = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrProcessoEmissao.{$ENDIF}peProvedorAssinaturaAutorizacao deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrProcessoEmissao da Unit ACBrDFe.Conversao.pas' {$ENDIF};
 
   // Enumerados do TACBrTipoEvento
 const
@@ -867,12 +868,16 @@ begin
   // 1 - emissão de NF-e avulsa pelo Fisco;
   // 2 - emissão de NF-e avulsa, pelo contribuinte com seu certificado digital, através do site do Fisco;
   // 3 - emissão NF-e pelo contribuinte com aplicativo fornecido pelo Fisco.
-  result := EnumeradoToStr(t, ['0', '1', '2', '3'], [peAplicativoContribuinte, peAvulsaFisco, peAvulsaContribuinte, peContribuinteAplicativoFisco]);
+  result := EnumeradoToStr(t, ['0', '1', '2', '3', '4'],
+    [peAplicativoContribuinte, peAvulsaFisco, peAvulsaContribuinte,
+     peContribuinteAplicativoFisco, peProvedorAssinaturaAutorizacao]);
 end;
 
 function StrToprocEmi(out ok: boolean; const s: string): TpcnProcessoEmissao;
 begin
-  result := StrToEnumerado(ok, s, ['0', '1', '2', '3'], [peAplicativoContribuinte, peAvulsaFisco, peAvulsaContribuinte, peContribuinteAplicativoFisco]);
+  result := StrToEnumerado(ok, s, ['0', '1', '2', '3', '4'],
+    [peAplicativoContribuinte, peAvulsaFisco, peAvulsaContribuinte,
+     peContribuinteAplicativoFisco, peProvedorAssinaturaAutorizacao]);
 end;
 
 // N11 - Origem da mercadoria **************************************************
