@@ -323,7 +323,7 @@ begin
             PadLeft(ADataDesconto, 6, '0')                                                                                                               + // 202 a 207 Data limite para concessão dodesconto 1
             IntToStrZero(Round(ACBrTitulo.ValorAbatimento * 100), 13)                                                                                    + // 208 a 220 Valor do abatimento a ser concedido
             ATipoSacado                                                                                                                                  + // 221 a 222 Identificação do tipo de inscrição do pagador
-            PadLeft(OnlyNumber(ACBrTitulo.Sacado.CNPJCPF), 14, '0')                                                                                      + // 223 a 236 Nº Inscrição do pagador
+            PadLeft(OnlyCPFCNPJAlphaNum(ACBrTitulo.Sacado.CNPJCPF), 14, '0')                                                                                      + // 223 a 236 Nº Inscrição do pagador
             PadRight(TiraAcentos(ACBrTitulo.Sacado.NomeSacado), 40, ' ')                                                                                 + // 237 a 276 Nome do pagador
             PadRight( RemoverEspacosDuplos( TiraAcentos(
                                                          ACBrTitulo.Sacado.Logradouro
@@ -356,7 +356,7 @@ begin
         begin
           wLinha := wLinha + Space(10)                                                                     + // 052 - 061 Campo em branco
             IfThen(ACBrTitulo.Sacado.SacadoAvalista.Pessoa=pFisica,'01','02')             + // 062 - 063 Tipo de documento Beneficiário Final
-            PadLeft(OnlyNumber(ACBrTitulo.Sacado.SacadoAvalista.CNPJCPF), 14, '0')        + // 064 - 077 CPF/CNPJ do Beneficiário Final
+            PadLeft(OnlyCPFCNPJAlphaNum(ACBrTitulo.Sacado.SacadoAvalista.CNPJCPF), 14, '0')        + // 064 - 077 CPF/CNPJ do Beneficiário Final
             PadLeft(TiraAcentos(ACBrTitulo.Sacado.SacadoAvalista.NomeAvalista), 60, ' ')  + // 078 - 137 Nome do Beneficiário Final
             PadRight(RemoverEspacosDuplos( TiraAcentos( ACBrTitulo.Sacado.SacadoAvalista.Logradouro
                                                         + ' '

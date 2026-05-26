@@ -181,11 +181,11 @@ begin
   if (BeneficiarioFinal.CNPJCPF <> '') then
   begin
     LTipoPessoa :=  ifThen(BeneficiarioFinal.Pessoa = pFisica, '03', '04');
-    LCPFCNPJ    :=  OnlyNumber(BeneficiarioFinal.CNPJCPF);
+    LCPFCNPJ    :=  OnlyCPFCNPJAlphaNum(BeneficiarioFinal.CNPJCPF);
   end else
   begin
     LTipoPessoa :=  IfThen(Beneficiario.TipoInscricao = pFisica, '01', '02');
-    LCPFCNPJ    :=  OnlyNumber(Beneficiario.CNPJCPF);
+    LCPFCNPJ    :=  OnlyCPFCNPJAlphaNum(Beneficiario.CNPJCPF);
   end;
   {Código da Multa 090-090}
   LCodigoMulta := '0'; //Sem Multa
@@ -281,7 +281,7 @@ begin
      Poem_Zeros(Round(ACBrTitulo.ValorIOF * 100), 13)                + // 193-205 Valor do I.O.F. a ser recolhido pelo Banco no caso de seguro
      Poem_Zeros(Round(ACBrTitulo.ValorAbatimento * 100), 13)         + // 206-218 Valor do abatimento a ser concedido
      IfThen(Pagador.Pessoa = pFisica, '01', '02')                    + // 219-220 Identificação do tipo de inscrição do sacado
-     PadLeft(OnlyNumber(Pagador.CNPJCPF), 14, '0')                   + // 221-234 Número de Inscrição do Sacado
+     PadLeft(OnlyCPFCNPJAlphaNum(Pagador.CNPJCPF), 14, '0')                   + // 221-234 Número de Inscrição do Sacado
      PadRight(TiraAcentos(Pagador.NomeSacado), 30, ' ')              + // 234-264 Nome do Sacado
      Space(10)                                                       + // 265-274 Complementação do Registro - Brancos
      PadRight(TiraAcentos(Pagador.Logradouro) + ' ' +
@@ -334,7 +334,7 @@ begin
     LLinha := '5'                                                           + // 001-001 Identificação registro
      Space(120)                                                             + // 002-121 Complementação do Registro - Brancos
      PadLeft(ifThen(BeneficiarioFinal.Pessoa = pFisica, '03', '04'),2,'0')  + // 122-123 Identificação de Inscrição do Sacador/Avalista
-     PadLeft(OnlyNumber(BeneficiarioFinal.CNPJCPF),14,'0')                  + // 124-137 Número de Inscrição do Sacador/Avalista
+     PadLeft(OnlyCPFCNPJAlphaNum(BeneficiarioFinal.CNPJCPF),14,'0')                  + // 124-137 Número de Inscrição do Sacador/Avalista
      PadRight(TiraAcentos(BeneficiarioFinal.Logradouro) + ' ' +
                           BeneficiarioFinal.Numero + ' ' +
                           BeneficiarioFinal.Complemento, 40, ' ')           + // 138-177 Rua, Número de complemento do Sacador/Avalista

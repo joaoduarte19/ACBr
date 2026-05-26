@@ -292,7 +292,7 @@ end;
 function TACBrBancoItau.DefineTipoBeneficiario(const ACBrTitulo: TACBrTitulo): String;
 var LTamanhoPagadorFinal : Byte;
 begin
-  LTamanhoPagadorFinal := Length(OnlyNumber(ACBrTitulo.Sacado.SacadoAvalista.CNPJCPF));
+  LTamanhoPagadorFinal := Length(OnlyCPFCNPJAlphaNum(ACBrTitulo.Sacado.SacadoAvalista.CNPJCPF));
   if (ACBrTitulo.ACBrBoleto.LayoutRemessa = c400) AND (LTamanhoPagadorFinal > 0) then
   begin
     case LTamanhoPagadorFinal of
@@ -606,7 +606,7 @@ begin
                 TipoOcorrenciaRemessa                                      + // 16 a 17
                          {Dados do sacado}
                 ATipoInscricao                                             + // 18 a 18 Tipo inscricao
-                PadLeft(OnlyNumber(Sacado.CNPJCPF), 15, '0')               + // 19 a 33
+                PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 15, '0')               + // 19 a 33
                 PadRight(Sacado.NomeSacado, 30, ' ')                       + // 34 a 63
                 space(10)                                                  + // 64 a 73
                 PadRight(Sacado.Logradouro +' '+ Sacado.Numero +' '+ Sacado.Complemento , 40, ' ') + // 74 a 113
@@ -745,7 +745,7 @@ begin
      ATipoCedente := DefineTipoBeneficiario(ACBrTitulo);
 
      if (StrToIntDef(ATipoCedente,0) in [3..4]) then
-       LCPFCNPJBeneciciario := OnlyNumber(ACBrTitulo.Sacado.SacadoAvalista.CNPJCPF)
+       LCPFCNPJBeneciciario := OnlyCPFCNPJAlphaNum(ACBrTitulo.Sacado.SacadoAvalista.CNPJCPF)
      else
        LCPFCNPJBeneciciario := ACBrBoleto.Cedente.CNPJCPF;
 
@@ -808,7 +808,7 @@ begin
                    FormatDateTime('ddmmyy', DataDocumento)                                        + // DATA DE EMISSÃO
                    {Dados do sacado}
                    PadLeft(ATipoSacado, 2, '0')                                                   + // IDENTIFICAÇÃO DO TIPO DE INSCRIÇÃO/SACADO
-                   PadLeft(OnlyNumber(Sacado.CNPJCPF), 15, '0')                                   + // Nº DE INSCRIÇÃO DO SACADO  (CPF/CGC)
+                   PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 15, '0')                                   + // Nº DE INSCRIÇÃO DO SACADO  (CPF/CGC)
                    PadRight(Sacado.NomeSacado, 30, ' ')                                           + // NOME DO SACADO
                    space(9)                                                                       + // BRANCOS(COMPLEMENTO DE REGISTRO)
                    PadRight(Sacado.Logradouro + ' ' + Sacado.Numero + ' ' +
@@ -840,7 +840,7 @@ begin
         begin
           wLinha:= '1'                                                                            + // 1 a 1 - IDENTIFICAÇÃO DO REGISTRO TRANSAÇÃO
                    PadLeft(ATipoCedente,2,'0')                                                    + // TIPO DE INSCRIÇÃO DA EMPRESA
-                   PadLeft(OnlyNumber(LCPFCNPJBeneciciario),14,'0')                               + // Nº DE INSCRIÇÃO DA EMPRESA (CPF/CGC)
+                   PadLeft(OnlyCPFCNPJAlphaNum(LCPFCNPJBeneciciario),14,'0')                               + // Nº DE INSCRIÇÃO DA EMPRESA (CPF/CGC)
                    PadLeft(OnlyNumber(Cedente.Agencia), 4, '0')                                   + // AGÊNCIA MANTENEDORA DA CONTA
                    '00'                                                                           + // COMPLEMENTO DE REGISTRO
                    PadLeft(OnlyNumber(Cedente.Conta), 5, '0')                                     + // NÚMERO DA CONTA CORRENTE DA EMPRESA
@@ -873,7 +873,7 @@ begin
 
                    {Dados do sacado}
                    PadLeft(ATipoSacado, 2, '0')                                                   + // IDENTIFICAÇÃO DO TIPO DE INSCRIÇÃO/SACADO
-                   PadLeft(OnlyNumber(Sacado.CNPJCPF), 14, '0')                                   + // Nº DE INSCRIÇÃO DO SACADO  (CPF/CGC)
+                   PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 14, '0')                                   + // Nº DE INSCRIÇÃO DO SACADO  (CPF/CGC)
                    PadRight(Sacado.NomeSacado, 30, ' ')                                           + // NOME DO SACADO
                    space(10)                                                                      + // BRANCOS(COMPLEMENTO DE REGISTRO)
                    PadRight(Sacado.Logradouro + ' '+ Sacado.Numero + ' ' +
@@ -927,7 +927,7 @@ begin
                      wLinhaMulta:= '5'                                                          + // 001 - 001 Tipo de registro - 5 IDENTIFICAÇÃO DO REGISTRO TRANSAÇÃO
                                    PadRight(Sacado.Email, 120, ' ')                             + // 002 - 121 ENDEREÇO DE E-MAIL ENDEREÇO DE E-MAIL DO PAGADOR
                                    PadLeft(ATipoSacadoAvalista, 2, '0')                         + // 122 - 123 CÓDIGO DE INSCRIÇÃO IDENT. DO TIPO DE INSCRIÇÃO DO SACADOR/AVALISTA
-                                   PadLeft(OnlyNumber(Sacado.SacadoAvalista.CNPJCPF), 14, '0')  + // 124 - 137 NÚMERO DE INSCRIÇÃO NÚMERO DE INSCRIÇÃO DO SACADOR AVALISTA
+                                   PadLeft(OnlyCPFCNPJAlphaNum(Sacado.SacadoAvalista.CNPJCPF), 14, '0')  + // 124 - 137 NÚMERO DE INSCRIÇÃO NÚMERO DE INSCRIÇÃO DO SACADOR AVALISTA
                                    PadRight(Sacado.SacadoAvalista.Logradouro + ' '              +
                                    Sacado.SacadoAvalista.Numero + ' '                           +
                                    Sacado.SacadoAvalista.Complemento , 40, ' ')                 + // 138 - 177 RUA, Nº E COMPLEMENTO DO SACADOR AVALISTA

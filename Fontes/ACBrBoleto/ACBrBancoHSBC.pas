@@ -369,7 +369,7 @@ begin
          wConta   := PadLeft(OnlyNumber(Cedente.Conta) + Cedente.ContaDigito, 7, '0');
          wLinha:= '1'                                                             + // ID Registro
                   '02'                                                            + //Código de Inscrição
-                  PadLeft(OnlyNumber(Cedente.CNPJCPF),14,'0')                     + //Número de inscrição do Cliente (CPF/CNPJ)
+                  PadLeft(OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF),14,'0')                     + //Número de inscrição do Cliente (CPF/CNPJ)
                   '0'                                                             + // Zero
                   wAgencia                                                        + // Agencia cedente
                  '55'                                                             + // Sub-Conta
@@ -402,7 +402,7 @@ begin
                   IntToStrZero( round( ValorIOF * 100 ), 13)                      + // Valor do  IOF
                   AbatimentoMulta                                                 + // valor do abatimento / multa
                   TipoSacado                                                      + // codigo de inscrição do sacado
-                  PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')                      + // numero de inscrição do sacado
+                  PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF),14,'0')                      + // numero de inscrição do sacado
                   PadRight(Sacado.NomeSacado, 40, ' ')                            + // nome sacado
                   PadRight(Sacado.Logradouro + Sacado.Numero +
                        Sacado.Complemento,38)                                     + // endereço sacado
@@ -475,7 +475,7 @@ Begin
     // alguns arquivos não estão vindo a informação
      if rCNPJCPF <> '' then
      begin
-        if (Not LeCedenteRetorno) And (rCNPJCPF <> OnlyNumber(Cedente.CNPJCPF)) then
+        if (Not LeCedenteRetorno) And (rCNPJCPF <> OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF)) then
            Raise Exception.Create(ACBrStr('CNPJ\CPF do arquivo inválido'));
      end;
 

@@ -320,7 +320,7 @@ begin
 
   LLinha := '1' +                                                               // 001 a 001 - Tipo de Registro
     PadLeft(DefineTipoInscricao, 2, '0') +                                      // 002 a 003 - Tipo de Inscrição Empresa
-    PadLeft(OnlyNumber(Beneficiario.CNPJCPF), 14, '0') +                        // 004 a 017 - CNPJ Empresa
+    PadLeft(OnlyCPFCNPJAlphaNum(Beneficiario.CNPJCPF), 14, '0') +                        // 004 a 017 - CNPJ Empresa
     PadRight(Beneficiario.CodigoCedente, 20) +                                  // 018 a 037 - Código da Empresa
     PadRight(LTitulo.NumeroDocumento, 25) +                                     // 038 a 062 - Uso da Empresa
     PadRight(LTitulo.NossoNumero+
@@ -353,7 +353,7 @@ begin
     IntToStrZero(round(LTitulo.ValorIOF*100),13) +                              // 193 a 205 - Valor IOF
     IntToStrZero(round(LTitulo.ValorAbatimento*100),13) +                       // 206 a 218 - Valor Abatimento
     DefineTipoSacado(LTitulo) +                                                 // 219 a 220 - Tipo Sacado
-    PadLeft(OnlyNumber(Pagador.CNPJCPF), 14, '0') +                             // 221 a 234 - CNPJ/CPF Sacado
+    PadLeft(OnlyCPFCNPJAlphaNum(Pagador.CNPJCPF), 14, '0') +                             // 221 a 234 - CNPJ/CPF Sacado
     PadRight(Pagador.NomeSacado, 30) +                                          // 235 a 264 - Nome do Sacado
     Space(10) +                                                                 // 265 a 274 - Complementação Registro Brancos
     PadRight(Pagador.Logradouro +
@@ -385,7 +385,7 @@ begin
    LLinha := '5' +                                                              // 001 - 001 Tipo de registro - 5 IDENTIFICAÇÃO DO REGISTRO TRANSAÇÃO
      Space(120) +                                                               // 002 - 121 Completo Registro Brancos
      PadLeft(DefineTipoSacadoAvalista(ACBrTitulo), 2, '0') +                    // 122 - 123 Código de Inscrição
-     PadLeft(OnlyNumber(Pagador.SacadoAvalista.CNPJCPF), 14, '0') +             // 124 - 137 Número de Inscrição
+     PadLeft(OnlyCPFCNPJAlphaNum(Pagador.SacadoAvalista.CNPJCPF), 14, '0') +             // 124 - 137 Número de Inscrição
      PadRight(Pagador.SacadoAvalista.Logradouro +
        ' ' +
        Pagador.SacadoAvalista.Numero +
