@@ -169,7 +169,7 @@ begin
             'REMESSA'                                           + // 003 a 009 Literal remessa
             '01'                                                + // 010 a 011 Código de serviço
             PadRight('COBRANCA', 15, ' ')                       + // 012 a 026 Literal serviço
-            PadRight(OnlyNumber(Beneficiario.CNPJCPF), 14, ' ') + // 027 a 040 CNPJ da empresa
+            PadRight(OnlyCPFCNPJAlphaNum(Beneficiario.CNPJCPF), 14, ' ') + // 027 a 040 CNPJ da empresa
             Space(6)                                            + // 041 a 046 Código da empresa
             PadRight(Beneficiario.Nome, 30, ' ')                + // 047 a 076 Nome da empresa
             IntToStrZero(ACBrBanco.Numero, 3)                   + // 077 a 079 Número do Bs2 na câmara de compensação
@@ -253,7 +253,7 @@ begin
             PadLeft('', 10, '0')                                                                   + // 002 a 011 Zeros
             Space(5)                                                                               + // 012 a 016 Branco
             ATipoSacadoAvalista                                                                    + // 017 a 017 Tipo de inscrição Sacador/Avalista
-            PadLeft(OnlyNumber(ACBrTitulo.Sacado.SacadoAvalista.CNPJCPF), 14, '0')                 + // 018 a 031 documento do sacado avalista
+            PadLeft(OnlyCPFCNPJAlphaNum(ACBrTitulo.Sacado.SacadoAvalista.CNPJCPF), 14, '0')                 + // 018 a 031 documento do sacado avalista
             Space(3)                                                                               + // 032 a 034 Branco
             PadRight(ACBrTitulo.SeuNumero, 25, ' ')                                                + // 035 a 059 Número de controle para uso da empresa.
             MontarCampoNossoNumero(ACBrTitulo)                                                     + // 060 a 070 Nosso numero
@@ -283,7 +283,7 @@ begin
             IfThen(LayoutVersaoArquivo > 1, IntToStrZero(round(ACBrTitulo.ValorAbatimento * 100), 13),
               FormatDateTime('ddmmyyyy', ACBrTitulo.DataLimitePagto) + PadLeft('', 5, '0') )       + // 206 a 213 Data limite pagamento + // 214 a 218 Zeros
             ATipoSacado                                                                            + // 219 a 220 Identificação do tipo de inscrição do pagador
-            PadLeft(OnlyNumber(ACBrTitulo.Sacado.CNPJCPF), 14, '0')                                + // 221 a 234 Nº Inscrição do pagador
+            PadLeft(OnlyCPFCNPJAlphaNum(ACBrTitulo.Sacado.CNPJCPF), 14, '0')                                + // 221 a 234 Nº Inscrição do pagador
             PadRight(TiraAcentos(ACBrTitulo.Sacado.NomeSacado), 40, ' ')                           + // 235 a 274 Nome do pagador
             PadRight(TiraAcentos(ACBrTitulo.Sacado.Logradouro), 40, ' ')                           + // 275 a 314 Endereco
             PadRight(TiraAcentos(ACBrTitulo.Sacado.Bairro), 12, ' ')                               + // 315 a 326 Bairro

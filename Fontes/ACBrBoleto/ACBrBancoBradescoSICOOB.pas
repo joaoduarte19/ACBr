@@ -333,7 +333,7 @@ begin
                   IntToStrZero( round( ValorDesconto * 100 ), 13)            + // Valor do Desconto
                   StringOfChar('0',13)                                       + // Zeros
                   IntToStrZero( round( ValorAbatimento * 100 ), 13)          + // Valor do Abatimento a ser concedido ou cancelado
-                  aTipoSacado + PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')   + // Tipo de inscrição do sacado + Número de inscrição do sacado
+                  aTipoSacado + PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF),14,'0')   + // Tipo de inscrição do sacado + Número de inscrição do sacado
                   PadRight( Sacado.NomeSacado, 40, ' ')                      + // Nome do Sacado
                   PadRight( Sacado.Logradouro + ' ' + Sacado.Numero + ' ' +
                             Sacado.Bairro + ' ' + Sacado.Cidade + ' '     +
@@ -341,7 +341,7 @@ begin
                   PadRight(aMensagemCedente, 12)                             + // 1ª Mensagem
                   PadRight( Sacado.CEP, 8 )                                  + // CEP
                   space(1)                                                   + // Branco
-                  PadLeft(OnlyNumber(Sacado.SacadoAvalista.CNPJCPF),14,'0')  + // Inscrição do Sacador / Avalista
+                  PadLeft(OnlyCPFCNPJAlphaNum(Sacado.SacadoAvalista.CNPJCPF),14,'0')  + // Inscrição do Sacador / Avalista
                   aTipoSacador                                               + // Tipo do Documento do Sacador / Avalista
                   PadRight( Sacado.SacadoAvalista.NomeAvalista , 43, ' ');     // Sacador / Avalista
 

@@ -580,7 +580,7 @@ begin
              ' '                                                           +  // 015       - Brancos
              ATipoOcorrencia                                               +  // 016 a 017 - Código da instrução (igual a o seg. P posição 016-017)
              ATipoInscricao                                                +  // 018 a 019 - Tipo de Incrição (01= física; 02=jurídica)
-             PadLeft(OnlyNumber(ACBrTitulo.Sacado.CNPJCPF),14,'0')         +  // 020 a 033 - Número da inscrição do pagador
+             PadLeft(OnlyCPFCNPJAlphaNum(ACBrTitulo.Sacado.CNPJCPF),14,'0')         +  // 020 a 033 - Número da inscrição do pagador
              PadLeft(ACBrTitulo.Sacado.NomeSacado, 40, ' ')                +  // 034 a 073 - Nome do Pagador
              PadLeft(AEndereco, 40, ' ')                                   +  // 074 a 113 - Endereço do Pagador
              PadLeft(ACBrTitulo.Sacado.Bairro, 15, ' ')                    +  // 114 a 128 - Bairro
@@ -614,7 +614,7 @@ begin
    ACBrBanco.ACBrBoleto.NumeroArquivo := StrToIntDef(Copy(ARetorno[0],158,6),0);
 
    rCedente := trim(copy(ARetorno[0], 71, 30));
-   rCNPJCPF := OnlyNumber( copy(ARetorno[1], 136, 14) );
+   rCNPJCPF := OnlyCPFCNPJAlphaNum( copy(ARetorno[1], 136, 14) );
 
    ValidarDadosRetorno('', '', rCNPJCPF);
    with ACBrBanco.ACBrBoleto do

@@ -561,7 +561,7 @@ begin
              '0'                                         + // 008 a 008 Tipo de registro - Registro header de arquivo
              Space(9)                                    + // 009 a 017 Uso exclusivo FEBRABAN/CNAB
              ATipoInscricao                              + // 018 a 018 Tipo de inscrição do cedente // fisica / jur
-             PadLeft(OnlyNumber(CNPJCPF), 14, '0')       + // 019 a 032 Número de inscrição do cedente
+             PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 14, '0')       + // 019 a 032 Número de inscrição do cedente
              PadRight(Convenio, 20, ' ')                 + // 033 a 052 Código do convênio no banco
              PadLeft(Agencia, 5, '0')                    + // 053 a 057 Código da agência mantenedora da conta
              PadRight(AgenciaDigito,1,' ')               + // 058 a 058 Dígito da agência (Branco)
@@ -594,7 +594,7 @@ begin
              PadLeft(IntToStr(LayoutVersaoLote),3,'0')   + // 014 a 016 Número da versão do layout do lote
              Space(1)                                    + // 017 a 017 Uso exclusivo FEBRABAN/CNAB
              ATipoInscricao                              + // 018 a 018 Tipo de inscrição do cedente
-             PadLeft(OnlyNumber(CNPJCPF), 15, '0')       + // 019 a 033 Número de inscrição do cedente
+             PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 15, '0')       + // 019 a 033 Número de inscrição do cedente
              PadRight(Convenio, 20, ' ')                 + // 034 a 053 Código do convênio no banco
              PadLeft(Agencia, 5, '0')                    + // 054 a 058 Código da agência mantenedora da conta (Zeros)
              PadLeft(AgenciaDigito, 1, ' ')              + // 059 a 059 Dígito da agência
@@ -860,7 +860,7 @@ begin
              ' '                                                                        + // 015 a 015 Uso exclusivo FEBRABAN/CNAB: Branco  {ok}
              ATipoOcorrencia                                                            + // 016 a 017 Código de movimento  {ok}
              TipoSacado                                                                 + // 018 a 018 Tipo de inscrição  {ok}
-             PadLeft(OnlyNumber(Sacado.CNPJCPF), 15, '0')                               + // 019 a 033 Número de Inscrição  {ok}
+             PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 15, '0')                               + // 019 a 033 Número de Inscrição  {ok}
              PadRight(Sacado.NomeSacado, 40, ' ')                                       + // 034 a 073 Nome sacado  {ok}
              PadRight(EndSacado, 40, ' ')                                               + // 074 a 113 Endereço  {ok}
              PadRight(Sacado.Bairro, 15, ' ')                                           + // 114 a 128 bairro sacado  {ok}

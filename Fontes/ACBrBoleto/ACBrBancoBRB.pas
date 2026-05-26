@@ -343,7 +343,7 @@ begin
         wLinha:= '01'                                                                   + // Identificação do registro
                  PadLeft(Cedente.Agencia, 3, '0')                                       + // Agência
                  PadLeft(Cedente.Conta, 6, '0') + PadLeft(Cedente.ContaDigito, 1, '0')  + // Conta
-                 PadRight(OnlyNumber(Sacado.CNPJCPF), 14, ' ')                          + // Código do Sacado
+                 PadRight(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 14, ' ')                          + // Código do Sacado
                  PadRight(Sacado.NomeSacado, 35)                                        + // Nome do Sacado
                  PadRight(Sacado.Logradouro + ', '                                      +
                       Sacado.Numero + ' '                                               +
