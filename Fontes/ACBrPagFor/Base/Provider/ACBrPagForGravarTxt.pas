@@ -139,6 +139,11 @@ begin
         xCampo := TBStrZero(Trim(VarToStr(Campo)), Tamanho);
       end;
 
+    tcStrCNPJ:
+      begin
+        xCampo := OnlyAlphaNum(TBStrZero(Trim(VarToStr(Campo)), Tamanho));
+      end;
+
     tcDat:
       begin
         xDataHora := VarToDateTime(Campo);

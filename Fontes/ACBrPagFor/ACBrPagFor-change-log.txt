@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/05/2026
+-- Diversos --
+[*] ACBR-9368: Alterações visando o CNPJ Alfa.
+  Por: Italo Giurizzato Junior
+
 15/05/2026
 -- PagFor.Sicoob.LerTxtRetorno --
 [+] ACBR-9214: Implementado o GetOcorrencia com a inclusão da ocorrência BS e 

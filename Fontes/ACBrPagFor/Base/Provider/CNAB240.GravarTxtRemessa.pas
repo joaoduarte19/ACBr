@@ -173,7 +173,7 @@ begin
   GravarCampo(0, 1, tcInt);
   GravarCampo(' ', 9, tcStr);
   GravarCampo(TpInscricaoToStr(PagFor.Registro0.Empresa.Inscricao.Tipo), 1, tcStr);
-  GravarCampo(PagFor.Registro0.Empresa.Inscricao.Numero, 14, tcStrZero);
+  GravarCampo(PagFor.Registro0.Empresa.Inscricao.Numero, 14, tcStrCNPJ);
   GravarCampo(PagFor.Registro0.Empresa.Convenio, 20, tcStr);
   GravarCampo(PagFor.Registro0.Empresa.ContaCorrente.Agencia.Codigo, 5, tcInt);
   GravarCampo(PagFor.Registro0.Empresa.ContaCorrente.Agencia.DV, 1, tcStr);
@@ -249,7 +249,7 @@ begin
   GravarCampo(Versao, 3, tcStr);
   GravarCampo(' ', 1, tcStr);
   GravarCampo(TpInscricaoToStr(PagFor.Lote.Items[I].Registro1.Empresa.Inscricao.Tipo), 1, tcStr);
-  GravarCampo(PagFor.Lote.Items[I].Registro1.Empresa.Inscricao.Numero, 14, tcStrZero);
+  GravarCampo(PagFor.Lote.Items[I].Registro1.Empresa.Inscricao.Numero, 14, tcStrCNPJ);
   GravarCampo(PagFor.Lote.Items[I].Registro1.Empresa.Convenio, 20, tcStr);
   GravarCampo(PagFor.Lote.Items[I].Registro1.Empresa.ContaCorrente.Agencia.Codigo, 5, tcInt);
   GravarCampo(PagFor.Lote.Items[I].Registro1.Empresa.ContaCorrente.Agencia.DV, 1, tcStr);
@@ -413,7 +413,7 @@ begin
       GravarCampo('B', 1, tcStr);
       GravarCampo(' ', 3, tcStr);
       GravarCampo(TpInscricaoToStr(Inscricao.Tipo), 1, tcStr);
-      GravarCampo(Inscricao.Numero, 14, tcStrZero);
+      GravarCampo(Inscricao.Numero, 14, tcStrCNPJ);
 
       case FpFormaLancamento of
         flDebitoContaCorrente:
@@ -563,16 +563,16 @@ begin
       GravarCampo(InMovimentoToStr(CodMovimento), 2, tcStr);
       GravarCampo('52', 2, tcStr);
       GravarCampo(TpInscricaoToStr(Pagador.Inscricao.Tipo), 1, tcStr);
-      GravarCampo(Pagador.Inscricao.Numero, 15, tcStrZero);
+      GravarCampo(Pagador.Inscricao.Numero, 15, tcStrCNPJ);
       GravarCampo(Pagador.Nome, 40, tcStr, True);
       GravarCampo(TpInscricaoToStr(Beneficiario.Inscricao.Tipo), 1, tcStr);
-      GravarCampo(Beneficiario.Inscricao.Numero, 15, tcStrZero);
+      GravarCampo(Beneficiario.Inscricao.Numero, 15, tcStrCNPJ);
       GravarCampo(Beneficiario.Nome, 40, tcStr, True);
 
       if Chave = '' then
       begin
         GravarCampo(TpInscricaoToStr(SacadorAvalista.Inscricao.Tipo), 1, tcStr);
-        GravarCampo(SacadorAvalista.Inscricao.Numero, 15, tcStrZero);
+        GravarCampo(SacadorAvalista.Inscricao.Numero, 15, tcStrCNPJ);
         GravarCampo(SacadorAvalista.Nome, 40, tcStr, True);
         GravarCampo(' ', 53, tcStr);
       end
@@ -612,10 +612,10 @@ begin
       GravarCampo(InMovimentoToStr(CodMovimento), 2, tcStr);
       GravarCampo('53', 2, tcStr);
       GravarCampo(TpInscricaoToStr(Pagador.Inscricao.Tipo), 1, tcStr);
-      GravarCampo(Pagador.Inscricao.Numero, 15, tcStrZero);
+      GravarCampo(Pagador.Inscricao.Numero, 15, tcStrCNPJ);
       GravarCampo(Pagador.Nome, 40, tcStr, True);
       GravarCampo(TpInscricaoToStr(Agregador.Inscricao.Tipo), 1, tcStr);
-      GravarCampo(Agregador.Inscricao.Numero, 15, tcStrZero);
+      GravarCampo(Agregador.Inscricao.Numero, 15, tcStrCNPJ);
       GravarCampo(Agregador.Nome, 40, tcStr, True);
       GravarCampo(' ', 55, tcStr);
       GravarCampo(' ', 54, tcStr);
@@ -665,7 +665,7 @@ begin
 
       GravarCampo(FormatFloat('0000', Receita), 6, tcStr);
       GravarCampo(InscricaoToStr_SegN(TipoContribuinte), 2, tcStrZero);
-      GravarCampo(idContribuinte, 14, tcStrZero);
+      GravarCampo(idContribuinte, 14, tcStrCNPJ);
       GravarCampo('17', 2, tcStr);
       GravarCampo(Competencia, 6, tcInt);
       GravarCampo(ValorTributo, 15, tcDe2);
@@ -700,7 +700,7 @@ begin
 
       GravarCampo(FormatFloat('0000', Receita), 6, tcStr);
       GravarCampo(InscricaoToStr_SegN(TipoContribuinte), 2, tcStrZero);
-      GravarCampo(idContribuinte, 14, tcStrZero);
+      GravarCampo(idContribuinte, 14, tcStrCNPJ);
       GravarCampo('16', 2, tcStr);
       GravarCampo(Periodo, 8, tcDat);
       GravarCampo(Referencia, 17, tcStrZero);
@@ -737,7 +737,7 @@ begin
 
       GravarCampo(FormatFloat('0000', Receita), 6, tcStr);
       GravarCampo(InscricaoToStr_SegN(TipoContribuinte), 2, tcStrZero);
-      GravarCampo(idContribuinte, 14, tcStrZero);
+      GravarCampo(idContribuinte, 14, tcStrCNPJ);
       GravarCampo('18', 2, tcStr);
       GravarCampo(Periodo, 8, tcDat);
       GravarCampo(ReceitaBruta, 15, tcDe2);
@@ -774,7 +774,7 @@ begin
 
       GravarCampo(FormatFloat('0000', Receita), 6, tcStr);
       GravarCampo(InscricaoToStr_SegN(TipoContribuinte), 2, tcStrZero);
-      GravarCampo(idContribuinte, 14, tcStrZero);
+      GravarCampo(idContribuinte, 14, tcStrCNPJ);
       GravarCampo(TpIndTributoToStr(PagFor.Geral.idTributo), 2, tcStr);
       GravarCampo(DataVencimento, 8, tcDat);
       GravarCampo(InscEst, 12, tcStrZero);
@@ -815,7 +815,7 @@ begin
 
       GravarCampo(FormatFloat('0000', Receita), 6, tcStr);
       GravarCampo(InscricaoToStr_SegN(TipoContribuinte), 2, tcStrZero);
-      GravarCampo(idContribuinte, 14, tcStrZero);
+      GravarCampo(idContribuinte, 14, tcStrCNPJ);
       GravarCampo(TpIndTributoToStr(PagFor.Geral.idTributo), 2, tcStr);
       GravarCampo(Exercicio, 4, tcInt);
       GravarCampo(Renavam, 9, tcStrZero);
@@ -881,7 +881,7 @@ begin
 
       GravarCampo(FormatFloat('0000', Receita), 6, tcStr);
       GravarCampo(InscricaoToStr_SegN(TipoContribuinte), 2, tcStrZero);
-      GravarCampo(idContribuinte, 14, tcStrZero);
+      GravarCampo(idContribuinte, 14, tcStrCNPJ);
       GravarCampo(InscEst, 8, tcStrZero);
       GravarCampo(Origem, 16, tcStrZero);
       GravarCampo(ValorPrincipal, 15, tcDe2);
@@ -1000,7 +1000,7 @@ begin
         GravarCampo('01', 2, tcStr);
         GravarCampo(FormatFloat('0000', StrToInt(CodReceita)), 6, tcStr);
         GravarCampo(TipoIdContribuinte, 2, tcStr);
-        GravarCampo(idContribuinte, 14, tcStrZero);
+        GravarCampo(idContribuinte, 14, tcStrCNPJ);
         GravarCampo(Identificador, 16, tcStr);
         GravarCampo(LacreConecSocial, 9, tcStr);
         GravarCampo(LacreDV, 2, tcStr);

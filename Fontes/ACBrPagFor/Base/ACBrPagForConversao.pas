@@ -195,7 +195,7 @@ type
   TTipoChavePix = (tcpNenhum, tcpTelefone, tcpEmail, tcpCPFCNPJ, tcpAleatoria, tcpDadosBancarios);
 
   TTipoCampo = (tcStr, tcStrZero, tcInt, tcInt64, tcDe2, tcDe5, tcDe8, tcDat,
-                tcHor, tcDatISO);
+                tcHor, tcDatISO, tcStrCNPJ);
 
   TOcorrencia = (toEsp,
                  to00, to01, to02, to03,
