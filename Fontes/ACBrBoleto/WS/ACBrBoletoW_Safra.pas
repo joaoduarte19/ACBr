@@ -386,8 +386,8 @@ begin
     begin
       LJsonDadosPagador := TACBrJSONObject.Create;
       LJsonDadosPagador.AddPair('nome', Copy(aTitulo.Sacado.NomeSacado, 1, 40));
-      LJsonDadosPagador.AddPair('tipoPessoa', IfThen(Length(OnlyNumber(aTitulo.Sacado.CNPJCPF)) = 11, 'F', 'J'));
-      LJsonDadosPagador.AddPair('numeroDocumento', OnlyNumber(aTitulo.Sacado.CNPJCPF));
+      LJsonDadosPagador.AddPair('tipoPessoa', IfThen(Length(OnlyCPFCNPJAlphaNum(aTitulo.Sacado.CNPJCPF)) = 11, 'F', 'J'));
+      LJsonDadosPagador.AddPair('numeroDocumento', OnlyCPFCNPJAlphaNum(aTitulo.Sacado.CNPJCPF));
       LJsonDadosPagador.AddPair('email',Copy(aTitulo.Sacado.Email, 1, 50));
       GerarEnderecoPagador(LJsonDadosPagador);
       AJson.AddPair('pagador',LJsonDadosPagador);
@@ -461,8 +461,8 @@ begin
     begin
       LJsonSacadorAvalista := TACBrJSONObject.Create;
       LJsonSacadorAvalista.AddPair('nome', aTitulo.Sacado.SacadoAvalista.NomeAvalista);
-      LJsonSacadorAvalista.AddPair('cpfCnpj', OnlyNumber(aTitulo.Sacado.SacadoAvalista.CNPJCPF));
-      LJsonSacadorAvalista.AddPair('tipoPessoa',IfThen(Length(OnlyNumber(aTitulo.Sacado.SacadoAvalista.CNPJCPF)) = 11, 'FISICA', 'JURIDICA'));
+      LJsonSacadorAvalista.AddPair('cpfCnpj', OnlyCPFCNPJAlphaNum(aTitulo.Sacado.SacadoAvalista.CNPJCPF));
+      LJsonSacadorAvalista.AddPair('tipoPessoa',IfThen(Length(OnlyCPFCNPJAlphaNum(aTitulo.Sacado.SacadoAvalista.CNPJCPF)) = 11, 'FISICA', 'JURIDICA'));
       LJsonSacadorAvalista.AddPair('cep', aTitulo.Sacado.SacadoAvalista.CEP);
       LJsonSacadorAvalista.AddPair('endereco', aTitulo.Sacado.SacadoAvalista.Logradouro);
       LJsonSacadorAvalista.AddPair('bairro', aTitulo.Sacado.SacadoAvalista.Bairro);

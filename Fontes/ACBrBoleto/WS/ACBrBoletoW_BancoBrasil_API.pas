@@ -262,7 +262,7 @@ begin
       if (Boleto.Cedente.Conta = EmptyStr) then
         raise EACBrBoletoWSException.Create(ClassName + ' Obrigatório informar o contaBeneficiario. ');
 
-      LDocumento := OnlyNumber(Boleto.Configuracoes.WebService.Filtro.cnpjCpfPagador);
+      LDocumento := OnlyCPFCNPJAlphaNum(Boleto.Configuracoes.WebService.Filtro.cnpjCpfPagador);
 
       LConsulta := TStringList.Create;
       try
@@ -604,8 +604,8 @@ begin
 
   LJsonPagadorObject := TACBrJSONObject.Create;
   try
-    LJsonPagadorObject.AddPair('tipoInscricao', StrToIntDef(IfThen(Length( OnlyNumber(ATitulo.Sacado.CNPJCPF)) = 11,'1','2'),0));
-    LJsonPagadorObject.AddPair('numeroInscricao', StrToInt64Def(OnlyNumber(ATitulo.Sacado.CNPJCPF),0));
+    LJsonPagadorObject.AddPair('tipoInscricao', StrToIntDef(IfThen(Length( OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF)) = 11,'1','2'),0));
+    LJsonPagadorObject.AddPair('numeroInscricao', StrToInt64Def(OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF),0));
     LJsonPagadorObject.AddPair('nome', ATitulo.Sacado.NomeSacado);
     LJsonPagadorObject.AddPair('endereco', ATitulo.Sacado.Logradouro + ' ' + ATitulo.Sacado.Numero);
     LJsonPagadorObject.AddPair('cep', StrToInt64Def(OnlyNumber(ATitulo.Sacado.CEP),0));
@@ -629,8 +629,8 @@ begin
 
   LJsonSacadorAvalista := TACBrJSONObject.Create;
   try
-    LJsonSacadorAvalista.AddPair('tipoInscricao', StrToInt(IfThen( Length( OnlyNumber(ATitulo.Sacado.SacadoAvalista.CNPJCPF)) = 11,'1','2')));
-    LJsonSacadorAvalista.AddPair('numeroInscricao', StrToInt64Def(OnlyNumber(ATitulo.Sacado.SacadoAvalista.CNPJCPF),0));
+    LJsonSacadorAvalista.AddPair('tipoInscricao', StrToInt(IfThen( Length( OnlyCPFCNPJAlphaNum(ATitulo.Sacado.SacadoAvalista.CNPJCPF)) = 11,'1','2')));
+    LJsonSacadorAvalista.AddPair('numeroInscricao', StrToInt64Def(OnlyCPFCNPJAlphaNum(ATitulo.Sacado.SacadoAvalista.CNPJCPF),0));
     LJsonSacadorAvalista.AddPair('nome', ATitulo.Sacado.SacadoAvalista.NomeAvalista);
   finally
     AJsonObject.AddPair('beneficiarioFinal', LJsonSacadorAvalista);

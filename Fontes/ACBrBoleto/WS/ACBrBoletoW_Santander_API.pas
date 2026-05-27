@@ -530,7 +530,7 @@ var
 begin
   if Assigned(ATitulo) and Assigned(AJson) then
   begin
-    LCnpjCpf := OnlyNumber(ATitulo.Sacado.CNPJCPF);
+    LCnpjCpf := OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF);
 
     LJsonObject := TACBrJSONObject.Create;
 
@@ -607,7 +607,7 @@ begin
   if Assigned(ATitulo) and Assigned(AJson) then
   begin
 
-    LCnpjCpf := OnlyNumber(ATitulo.Sacado.SacadoAvalista.CNPJCPF);
+    LCnpjCpf := OnlyCPFCNPJAlphaNum(ATitulo.Sacado.SacadoAvalista.CNPJCPF);
 
     if LCnpjCpf = EmptyStr then
       Exit;

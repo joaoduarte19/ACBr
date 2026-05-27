@@ -316,7 +316,7 @@ begin
     else
       Gerador.wCampo(tcStr, '#30', PrefixTag('codigoTipoInscricaoPagador'       ), 01, 01, 1, '2', DSC_NOME_SACADO);
 
-    Gerador.wCampo(tcStr, '#31', PrefixTag('numeroInscricaoPagador'             ), 00, 15, 1, ACBrUtil.Strings.OnlyNumber(Sacado.CNPJCPF), DSC_NOME_SACADO);
+    Gerador.wCampo(tcStr, '#31', PrefixTag('numeroInscricaoPagador'             ), 00, 15, 1, OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), DSC_NOME_SACADO);
     Gerador.wCampo(tcStr, '#32', PrefixTag('nomePagador'                        ), 00, 60, 1, Sacado.NomeSacado, DSC_NOME_SACADO);
     Gerador.wCampo(tcStr, '#33', PrefixTag('textoEnderecoPagador'               ), 00, 60, 1, Sacado.Logradouro, DSC_LOGRADOURO);
     Gerador.wCampo(tcStr, '#34', PrefixTag('numeroCepPagador'                   ), 00, 08, 1, Sacado.Cep, DSC_CEP);
@@ -334,7 +334,7 @@ begin
       else
         Gerador.wCampo(tcStr, '#39', PrefixTag('codigoTipoInscricaoAvalista'       ), 01, 01, 1, '2', DSC_NOME_AVALISTA);
 
-      Gerador.wCampo(tcStr, '#40', PrefixTag('numeroInscricaoAvalista'             ), 00, 15, 1, OnlyNumber( Sacado.SacadoAvalista.CNPJCPF ), DSC_NOME_AVALISTA);
+      Gerador.wCampo(tcStr, '#40', PrefixTag('numeroInscricaoAvalista'             ), 00, 15, 1, OnlyCPFCNPJAlphaNum( Sacado.SacadoAvalista.CNPJCPF ), DSC_NOME_AVALISTA);
       Gerador.wCampo(tcStr, '#41', PrefixTag('nomeAvalistaTitulo'                  ), 00, 60, 1, Sacado.SacadoAvalista.NomeAvalista, DSC_NOME_AVALISTA);
     end;
 

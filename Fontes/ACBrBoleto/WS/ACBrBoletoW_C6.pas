@@ -232,7 +232,7 @@ begin
       raise Exception.Create('Campo Carteira é inválido obrigatóriamente deve ser informado valor 15. Não previsto outra carteira na API!');
 
 
-    LCNPJCPFPayer := OnlyNumber(ATitulo.Sacado.CNPJCPF);
+    LCNPJCPFPayer := OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF);
 
     case Length(LCNPJCPFPayer) of
       11 : if ValidarCPF(LCNPJCPFPayer) <> '' then

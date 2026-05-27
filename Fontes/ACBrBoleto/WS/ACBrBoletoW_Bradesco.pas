@@ -396,7 +396,7 @@ begin
       AddHeaderParam('X-Brad-Timestamp', LTimestamp );
       AddHeaderParam('X-Brad-Algorithm', 'SHA256');
       AddHeaderParam('acess-token',Boleto.Cedente.CedenteWS.ClientID);
-      AddHeaderParam('cpf-cnpj',OnlyNumber(Boleto.Cedente.CNPJCPF) )
+      AddHeaderParam('cpf-cnpj',OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF) )
     end;
   end;
 end;
@@ -580,14 +580,14 @@ begin
   try
     if Boleto.Cedente.TipoInscricao = pJuridica then
     begin
-      LJsonCnpjCPF.AddPair('cpfCnpj', Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 8));
-      LJsonCnpjCPF.AddPair('filial', Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 9, 4));
-      LJsonCnpjCPF.AddPair('controle', Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 13, 2));
+      LJsonCnpjCPF.AddPair('cpfCnpj', Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 1, 8));
+      LJsonCnpjCPF.AddPair('filial', Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 9, 4));
+      LJsonCnpjCPF.AddPair('controle', Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 13, 2));
     end else
     begin
-      LJsonCnpjCPF.AddPair('cpfCnpj', Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 9));
+      LJsonCnpjCPF.AddPair('cpfCnpj', Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 1, 9));
       LJsonCnpjCPF.AddPair('filial', '0');
-      LJsonCnpjCPF.AddPair('controle', Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 10, 2));
+      LJsonCnpjCPF.AddPair('controle', Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 10, 2));
     end;
     LJsonObject.AddPair('cpfCnpj', LJsonCnpjCPF);
     LJsonObject.AddPair('produto', RemoveZerosEsquerda(ATitulo.Carteira));
@@ -618,14 +618,14 @@ begin
   try
     if Boleto.Cedente.TipoInscricao = pJuridica then
     begin
-      LJsonObject.AddPair('nuCPFCNPJ',    Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 8));
-      LJsonObject.AddPair('filialCPFCNPJ',Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 9, 4));
-      LJsonObject.AddPair('ctrlCPFCNPJ',  Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 13, 2));
+      LJsonObject.AddPair('nuCPFCNPJ',    Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 1, 8));
+      LJsonObject.AddPair('filialCPFCNPJ',Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 9, 4));
+      LJsonObject.AddPair('ctrlCPFCNPJ',  Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 13, 2));
     end else
     begin
-      LJsonObject.AddPair('nuCPFCNPJ',    Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 9));
+      LJsonObject.AddPair('nuCPFCNPJ',    Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 1, 9));
       LJsonObject.AddPair('filialCPFCNPJ', '0');
-      LJsonObject.AddPair('ctrlCPFCNPJ',  Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 10, 2));
+      LJsonObject.AddPair('ctrlCPFCNPJ',  Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 10, 2));
     end;
     LJsonObject.AddPair('idProduto', ATitulo.Carteira);
     LJsonObject.AddPair('nuNegociacao', AgenciaContaFormatada(18));
@@ -688,7 +688,7 @@ begin
     LJsonObject.AddPair('municipioPagador', Copy(TiraAcentos(ATitulo.Sacado.Cidade), 1, 30));
     LJsonObject.AddPair('ufPagador', Copy(TiraAcentos(ATitulo.Sacado.UF), 1, 2));
     LJsonObject.AddPair('cdIndCpfcnpjPagador', IfThen(ATitulo.Sacado.Pessoa = pJuridica, '2', '1'));
-    LJsonObject.AddPair('nuCpfcnpjPagador', OnlyNumber(ATitulo.Sacado.CNPJCPF));
+    LJsonObject.AddPair('nuCpfcnpjPagador', OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF));
 
     GerarBenificiarioFinalComum(LJsonObject);
 
@@ -711,14 +711,14 @@ begin
     LJsonObject.AddPair('codUsuario', 'APISERVIC');//FIXO.
     if Boleto.Cedente.TipoInscricao = pJuridica then
     begin
-      LJsonObject.AddPair('nroCpfCnpjBenef',    Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 8));
-      LJsonObject.AddPair('filCpfCnpjBenef',Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 9, 4));
-      LJsonObject.AddPair('digCpfCnpjBenef',  Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 13, 2));
+      LJsonObject.AddPair('nroCpfCnpjBenef',    Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 1, 8));
+      LJsonObject.AddPair('filCpfCnpjBenef',Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 9, 4));
+      LJsonObject.AddPair('digCpfCnpjBenef',  Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 13, 2));
     end else
     begin
-      LJsonObject.AddPair('nroCpfCnpjBenef',    Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 9));
+      LJsonObject.AddPair('nroCpfCnpjBenef',    Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 1, 9));
       LJsonObject.AddPair('filCpfCnpjBenef', '0');
-      LJsonObject.AddPair('digCpfCnpjBenef',  Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 10, 2));
+      LJsonObject.AddPair('digCpfCnpjBenef',  Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 10, 2));
     end;
 
     LJsonObject.AddPair('qtdDecurPrz', DaysBetween(ATitulo.Vencimento, ATitulo.DataLimitePagto));
@@ -812,7 +812,7 @@ begin
     LJsonObject.AddPair('imunSacdoTitlo', Copy(TiraAcentos(ATitulo.Sacado.Cidade), 1, 30));
     LJsonObject.AddPair('csglUfSacdo', Copy(TiraAcentos(ATitulo.Sacado.UF), 1, 2));
     LJsonObject.AddPair('indCpfCnpjSacdo', IfThen(ATitulo.Sacado.Pessoa = pJuridica, '2', '1'));
-    LJsonObject.AddPair('nroCpfCnpjSacdo', OnlyNumber(ATitulo.Sacado.CNPJCPF));
+    LJsonObject.AddPair('nroCpfCnpjSacdo', OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF));
     LJsonObject.AddPair('renderEletrSacdo', Copy(ATitulo.Sacado.Email, 1, 70));
     LJsonObject.AddPair('cdddFoneSacdo', Copy(OnlyNumber(ATitulo.Sacado.Fone), 1, 3));//NÃO Obrigatório;
     LJsonObject.AddPair('cfoneSacdoTitlo', Copy(OnlyNumber(ATitulo.Sacado.Fone), 1, 11));//NÃO Obrigatório;
@@ -933,14 +933,14 @@ begin
       LJsonObject.AddPair('contaProduto', AgenciaContaFormatada(11));
        if Boleto.Cedente.TipoInscricao = pJuridica then
       begin
-        LJsonObject.AddPair('controleCpfCnpjUsuario',  Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 13, 2));
-        LJsonObject.AddPair('cpfCnpjUsuario',    Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 8));
-        LJsonObject.AddPair('filialCnpjUsuario',Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 9, 4));
+        LJsonObject.AddPair('controleCpfCnpjUsuario',  Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 13, 2));
+        LJsonObject.AddPair('cpfCnpjUsuario',    Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 1, 8));
+        LJsonObject.AddPair('filialCnpjUsuario',Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 9, 4));
 
       end else
       begin
-        LJsonObject.AddPair('controleCpfCnpjUsuario',  Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 10, 2));
-        LJsonObject.AddPair('cpfCnpjUsuario',    Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 9));
+        LJsonObject.AddPair('controleCpfCnpjUsuario',  Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 10, 2));
+        LJsonObject.AddPair('cpfCnpjUsuario',    Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 1, 9));
         LJsonObject.AddPair('filialCnpjUsuario', '0');
       end;
       LJsonObject.AddPair('idProduto', RemoveZerosEsquerda(ATitulo.Carteira));
@@ -956,14 +956,14 @@ begin
 
       if Boleto.Cedente.TipoInscricao = pJuridica then
       begin
-        LJsonCpfCnpj.AddPair('cpfCnpj',    Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 8));
-        LJsonCpfCnpj.AddPair('filial',Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 9, 4));
-        LJsonCpfCnpj.AddPair('controle',  Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 13, 2));
+        LJsonCpfCnpj.AddPair('cpfCnpj',    Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 1, 8));
+        LJsonCpfCnpj.AddPair('filial',Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 9, 4));
+        LJsonCpfCnpj.AddPair('controle',  Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 13, 2));
       end else
       begin
-        LJsonCpfCnpj.AddPair('cpfCnpj',    Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 9));
+        LJsonCpfCnpj.AddPair('cpfCnpj',    Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 1, 9));
         LJsonCpfCnpj.AddPair('filial', '0');
-        LJsonCpfCnpj.AddPair('controle',  Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 10, 2));
+        LJsonCpfCnpj.AddPair('controle',  Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 10, 2));
       end;
       LJsonObject.AddPair('cpfCnpj', LJsonCpfCnpj);
 
@@ -992,14 +992,14 @@ begin
 
     if Boleto.Cedente.TipoInscricao = pJuridica then
     begin
-      LJsonCpfCnpj.AddPair('cpfCnpj',    Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 8));
-      LJsonCpfCnpj.AddPair('filial',Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 9, 4));
-      LJsonCpfCnpj.AddPair('controle',  Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 13, 2));
+      LJsonCpfCnpj.AddPair('cpfCnpj',    Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 1, 8));
+      LJsonCpfCnpj.AddPair('filial',Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 9, 4));
+      LJsonCpfCnpj.AddPair('controle',  Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 13, 2));
     end else
     begin
-      LJsonCpfCnpj.AddPair('cpfCnpj',    Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 9));
+      LJsonCpfCnpj.AddPair('cpfCnpj',    Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 1, 9));
       LJsonCpfCnpj.AddPair('filial', '0');
-      LJsonCpfCnpj.AddPair('controle',  Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 10, 2));
+      LJsonCpfCnpj.AddPair('controle',  Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 10, 2));
     end;
     LJsonObject.AddPair('cpfCnpj', LJsonCpfCnpj);
 
@@ -1032,7 +1032,7 @@ begin
   AJsonObject.AddPair('municipioSacadorAvalista', Copy(TiraAcentos(ATitulo.Sacado.SacadoAvalista.Cidade), 1, 40));
   AJsonObject.AddPair('ufSacadorAvalista', Copy(TiraAcentos(ATitulo.Sacado.SacadoAvalista.UF), 1, 2));
   AJsonObject.AddPair('cdIndCpfcnpjSacadorAvalista', IfThen(aTitulo.Sacado.SacadoAvalista.Pessoa = pJuridica, '2', '1'));
-  AJsonObject.AddPair('nuCpfcnpjSacadorAvalista', Copy(OnlyNumber(ATitulo.Sacado.SacadoAvalista.CNPJCPF), 1, 14));
+  AJsonObject.AddPair('nuCpfcnpjSacadorAvalista', Copy(OnlyCPFCNPJAlphaNum(ATitulo.Sacado.SacadoAvalista.CNPJCPF), 1, 14));
   AJsonObject.AddPair('endEletronicoSacadorAvalista', Copy(ATitulo.Sacado.SacadoAvalista.Email, 1, 70));
 end;
 
@@ -1051,7 +1051,7 @@ begin
   LCEPComplemento := Copy(aTitulo.Sacado.SacadoAvalista.CEP, 6, 8);
   LTelefoneDDD := Copy(OnlyNumber(aTitulo.Sacado.SacadoAvalista.Fone), 1, 3);
   LTelefone := Copy(OnlyNumber(aTitulo.Sacado.SacadoAvalista.Fone), 1, 11);
-  LDocumento := Copy(OnlyNumber(aTitulo.Sacado.SacadoAvalista.CNPJCPF), 1, 14);
+  LDocumento := Copy(OnlyCPFCNPJAlphaNum(aTitulo.Sacado.SacadoAvalista.CNPJCPF), 1, 14);
   LNumero := aTitulo.Sacado.SacadoAvalista.Numero;
   case ATitulo.Sacado.SacadoAvalista.Pessoa of
     pFisica   : LTipoPessoa := '1';

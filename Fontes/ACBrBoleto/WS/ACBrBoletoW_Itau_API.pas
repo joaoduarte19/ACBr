@@ -968,15 +968,15 @@ begin
   begin
     LJsonDados := TACBrJSONObject.Create;
 
-    if Length(OnlyNumber(ATitulo.Sacado.CNPJCPF)) < 12 then
+    if Length(OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF)) < 12 then
     begin
       LJsonDados.AddPair('codigo_tipo_pessoa', 'F');
-      LJsonDados.AddPair('numero_cadastro_pessoa_fisica', OnlyNumber(ATitulo.Sacado.CNPJCPF));
+      LJsonDados.AddPair('numero_cadastro_pessoa_fisica', OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF));
     end
     else
     begin
       LJsonDados.AddPair('codigo_tipo_pessoa','J');
-      LJsonDados.AddPair('numero_cadastro_nacional_pessoa_juridica', OnlyNumber(ATitulo.Sacado.CNPJCPF));
+      LJsonDados.AddPair('numero_cadastro_nacional_pessoa_juridica', OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF));
     end;
 
     AJson.AddPair('tipo_pessoa', LJsonDados);
@@ -1051,15 +1051,15 @@ begin
   begin
     LJsonDados := TACBrJSONObject.Create;
 
-    if Length(OnlyNumber(ATitulo.Sacado.SacadoAvalista.CNPJCPF)) < 12 then
+    if Length(OnlyCPFCNPJAlphaNum(ATitulo.Sacado.SacadoAvalista.CNPJCPF)) < 12 then
     begin
       LJsonDados.AddPair('codigo_tipo_pessoa', 'F');
-      LJsonDados.AddPair('numero_cadastro_pessoa_fisica', OnlyNumber(ATitulo.Sacado.SacadoAvalista.CNPJCPF));
+      LJsonDados.AddPair('numero_cadastro_pessoa_fisica', OnlyCPFCNPJAlphaNum(ATitulo.Sacado.SacadoAvalista.CNPJCPF));
     end
     else
     begin
       LJsonDados.AddPair('codigo_tipo_pessoa','J');
-      LJsonDados.AddPair('numero_cadastro_nacional_pessoa_juridica', OnlyNumber(ATitulo.Sacado.SacadoAvalista.CNPJCPF));
+      LJsonDados.AddPair('numero_cadastro_nacional_pessoa_juridica', OnlyCPFCNPJAlphaNum(ATitulo.Sacado.SacadoAvalista.CNPJCPF));
     end;
 
     AJson.AddPair('tipo_pessoa', LJsonDados);

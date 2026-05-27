@@ -464,7 +464,7 @@ begin
     Exit;
 
   LJsonDadosPagador := TACBrJSONObject.Create;
-  LJsonDadosPagador.AddPair('numeroCpfCnpj',OnlyNumber(aTitulo.Sacado.CNPJCPF));
+  LJsonDadosPagador.AddPair('numeroCpfCnpj',OnlyCPFCNPJAlphaNum(aTitulo.Sacado.CNPJCPF));
   LJsonDadosPagador.AddPair('nome',aTitulo.Sacado.NomeSacado);
   LJsonDadosPagador.AddPair('endereco',aTitulo.Sacado.Logradouro + ' ' + aTitulo.Sacado.Numero);
   LJsonDadosPagador.AddPair('bairro',aTitulo.Sacado.Bairro);
@@ -520,7 +520,7 @@ begin
 
   LJsonSacadorAvalista := TACBrJSONObject.Create;
   LJsonSacadorAvalista.AddPair('nome',aTitulo.Sacado.SacadoAvalista.NomeAvalista);
-  LJsonSacadorAvalista.AddPair('numeroCpfCnpj',OnlyNumber(aTitulo.Sacado.SacadoAvalista.CNPJCPF));
+  LJsonSacadorAvalista.AddPair('numeroCpfCnpj',OnlyCPFCNPJAlphaNum(aTitulo.Sacado.SacadoAvalista.CNPJCPF));
   AJson.AddPair('beneficiarioFinal', LJsonSacadorAvalista);
 end;
 

@@ -286,7 +286,7 @@ begin
       if (Boleto.Cedente.Conta = EmptyStr) then
         raise EACBrBoletoWSException.Create(ClassName + ' Obrigatório informar o contaBeneficiario. ');
 
-      Documento := OnlyNumber(Boleto.Configuracoes.WebService.Filtro.cnpjCpfPagador);
+      Documento := OnlyCPFCNPJAlphaNum(Boleto.Configuracoes.WebService.Filtro.cnpjCpfPagador);
 
       Consulta := TStringList.Create;
       Consulta.Delimiter := '&';
@@ -541,8 +541,8 @@ procedure TBoletoW_Sicredi_APIECOMM.GerarPagador(AJson: TACBrJSONObject);
 begin
   if Assigned(ATitulo) and Assigned(AJson) then
   begin
-    AJson.AddPair('tipoPessoa', StrToInt(IfThen(Length( OnlyNumber(ATitulo.Sacado.CNPJCPF)) = 11,'1','2')));
-    AJson.AddPair('cpfCnpj', OnlyNumber(ATitulo.Sacado.CNPJCPF));
+    AJson.AddPair('tipoPessoa', StrToInt(IfThen(Length( OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF)) = 11,'1','2')));
+    AJson.AddPair('cpfCnpj', OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF));
     AJson.AddPair('nome', ATitulo.Sacado.NomeSacado);
     AJson.AddPair('endereco', ATitulo.Sacado.Logradouro + ' ' + ATitulo.Sacado.Numero);
     AJson.AddPair('cep', OnlyNumber(ATitulo.Sacado.CEP));

@@ -234,7 +234,7 @@ begin
     if Boleto.Configuracoes.WebService.Filtro.indicadorSituacao = isbNenhum then
      raise EACBrBoletoWSException.Create(ClassName + ' Obrigatório informar o indicadorSituacao diferente de isbNenhum. ');
 
-    LDocumento := OnlyNumber(Boleto.Configuracoes.WebService.Filtro.cnpjCpfPagador);
+    LDocumento := OnlyCPFCNPJAlphaNum(Boleto.Configuracoes.WebService.Filtro.cnpjCpfPagador);
 
     LConsulta := TStringList.Create;
 
@@ -451,8 +451,8 @@ begin
   if Assigned(ATitulo) and Assigned(AJson) then
   begin
     LJsonPagadorObject := TACBrJSONObject.Create;
-    LJsonPagadorObject.AddPair('tipo_pessoa', IfThen(Length(OnlyNumber(ATitulo.Sacado.CNPJCPF)) = 11, 'F', 'J'));
-    LJsonPagadorObject.AddPair('cpf_cnpj',    OnlyNumber(ATitulo.Sacado.CNPJCPF));//StrToInt64(OnlyNumber(ATitulo.Sacado.CNPJCPF)));
+    LJsonPagadorObject.AddPair('tipo_pessoa', IfThen(Length(OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF)) = 11, 'F', 'J'));
+    LJsonPagadorObject.AddPair('cpf_cnpj',    OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF));//StrToInt64(OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF)));
     LJsonPagadorObject.AddPair('nome',        Copy(trim(ATitulo.Sacado.NomeSacado), 0, 40));
 
     LJsonPagadorObject.AddPair('endereco',    Copy(trim(ATitulo.Sacado.Logradouro + ',' +
@@ -524,10 +524,10 @@ begin
     LJsonSacadorAvalista := TACBrJSONObject.Create;
 
     LJsonSacadorAvalista.AddPair('tipoInscricao',
-                                  StrToInt(IfThen(Length(OnlyNumber(ATitulo.Sacado.SacadoAvalista.CNPJCPF)) = 11, '1', '2')));
+                                  StrToInt(IfThen(Length(OnlyCPFCNPJAlphaNum(ATitulo.Sacado.SacadoAvalista.CNPJCPF)) = 11, '1', '2')));
 
     LJsonSacadorAvalista.AddPair('numeroInscricao',
-                                  StrToInt64Def(OnlyNumber(ATitulo.Sacado.SacadoAvalista.CNPJCPF), 0));
+                                  StrToInt64Def(OnlyCPFCNPJAlphaNum(ATitulo.Sacado.SacadoAvalista.CNPJCPF), 0));
 
     LJsonSacadorAvalista.AddPair('nome',   ATitulo.Sacado.SacadoAvalista.NomeAvalista);
 

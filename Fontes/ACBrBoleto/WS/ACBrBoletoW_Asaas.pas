@@ -347,7 +347,7 @@ procedure TBoletoW_Asaas.RequisicaoIncluir;
         LJSON := TACBrJSONObject.Create;
         try
           LJSON.AddPair('name', ATitulo.Sacado.NomeSacado)
-                     .AddPair('cpfCnpj', OnlyNumber(ATitulo.Sacado.CNPJCPF))
+                     .AddPair('cpfCnpj', OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF))
                      .AddPair('email', ATitulo.Sacado.Email)
                      .AddPair('phone', ATitulo.Sacado.Fone)
                      .AddPair('address', ATitulo.Sacado.Logradouro)

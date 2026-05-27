@@ -361,7 +361,7 @@ begin
         if (OnlyNumber(ATitulo.NossoNumero) <> '00000000') and (OnlyNumber(ATitulo.NossoNumero) <> EmptyStr) then
           lConsulta.Add(Format('our_number=%s', [RemoveZerosEsquerda(OnlyNumber(ATitulo.NossoNumero))]));
 
-        if OnlyNumber(ATitulo.Sacado.CNPJCPF) <> EmptyStr then
+        if OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF) <> EmptyStr then
         begin
           lCNPJ_CPF := StringReplace(ATitulo.Sacado.CNPJCPF, '/', '%2F', [rfReplaceAll]);
           lConsulta.Add(Format('cnpj_cpf=%s', [lCNPJ_CPF]));

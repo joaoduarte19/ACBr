@@ -49,6 +49,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 26/05/2026
+-- ACBrBoletoW_Asaas.pas, ACBrBoletoW_BancoBrasil.pas, ACBrBoletoW_BancoBrasil_API.pas, ACBrBoletoW_Banrisul.pas, 
+ACBrBoletoW_Bradesco.pas, ACBrBoletoW_BTGPactual.pas,ACBrBoletoW_C6.pas, ACBrBoletoW_Itau_API.pas, ACBrBoletoW_Kobana.pas,
+ACBrBoletoW_PenseBank_API.pas, ACBrBoletoW_Safra.pas, ACBrBoletoW_Santander_API.pas, ACBrBoletoW_Sicoob.pas
+ACBrBoletoW_Sicoob_V3.pas,ACBrBoletoW_Sicredi_APIECOMM.pas --
+[*][ACBR-9326] Ajustado para utilizar campo alfa CNPJ
+   Por: Daniel de Morais
+
+26/05/2026
 -- ACBrBancoMercantil.pas, ACBrBancoNordeste.pas, ACBrBancoOriginal.pas, ACBrBancoPefisa.pas --
 [*][ACBR-9326] Ajustado para utilizar campo alfa CNPJ
    Por: Larissa Santos

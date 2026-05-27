@@ -338,7 +338,7 @@ begin
     LJsonObject := TACBrJSONObject.Create;
 
     LJsonObject.AddPair('name', Trim(ATitulo.Sacado.NomeSacado));
-    LJsonObject.AddPair('taxId', OnlyNumber(ATitulo.Sacado.CNPJCPF));
+    LJsonObject.AddPair('taxId', OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF));
 
     LCEP := ACBrUtil.Strings.PadLeft(OnlyNumber(ATitulo.Sacado.CEP), 8, '0');
     LJsonObject.AddPair('address', TACBrJSONObject.Create
