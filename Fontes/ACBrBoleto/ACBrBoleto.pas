@@ -4325,7 +4325,7 @@ begin
             NossoNumeroCorrespondente  := IniBoletos.ReadString(Sessao,'NossoNumeroCorrespondente','');            
             ValorDocumento      := IniBoletos.ReadFloat(Sessao,'ValorDocumento',ValorDocumento);
             Sacado.NomeSacado   := IniBoletos.ReadString(Sessao,'Sacado.NomeSacado','');
-            Sacado.CNPJCPF      := OnlyNumber(IniBoletos.ReadString(Sessao,'Sacado.CNPJCPF',''));
+            Sacado.CNPJCPF      := OnlyCPFCNPJAlphaNum(IniBoletos.ReadString(Sessao,'Sacado.CNPJCPF',''));
             Sacado.Logradouro   := IniBoletos.ReadString(Sessao,'Sacado.Logradouro','');
             Sacado.Numero       := IniBoletos.ReadString(Sessao,'Sacado.Numero','');
             Sacado.Bairro       := IniBoletos.ReadString(Sessao,'Sacado.Bairro','');
@@ -5904,7 +5904,7 @@ begin
     With ACBrBanco.ACBrBoleto do
     begin
       if NaoEstaVazio(ACNPJCPF) then
-        if (not LeCedenteRetorno) and (ACNPJCPF <> OnlyNumber(Cedente.CNPJCPF)) then
+        if (not LeCedenteRetorno) and (ACNPJCPF <> OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF)) then
           raise EACBrBoleto.CreateFmt(ACBrStr('CNPJ\CPF: %s do arquivo não corresponde aos dados do Cedente!'), [ACNPJCPF]);
 
       if NaoEstaVazio(AContaCedente) then

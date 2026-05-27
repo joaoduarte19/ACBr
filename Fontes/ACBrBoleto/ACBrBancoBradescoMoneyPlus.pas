@@ -480,7 +480,7 @@ begin
 
         {Dados do sacado}
         IfThen(Sacado.Pessoa = pJuridica,'2','1')           + //Tipo Tipo de Inscrição 18 18 1 - Num *G005
-        PadLeft(OnlyNumber(Sacado.CNPJCPF), 15, '0')        + //Número Número de Inscrição 19 33 15 - Num *G006
+        PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF), 15, '0')        + //Número Número de Inscrição 19 33 15 - Num *G006
         PadRight(Sacado.NomeSacado, 40, ' ')                + //Nome 34 73 40 - Alfa G013
         PadRight(Sacado.Logradouro + ' ' + Sacado.Numero +' ' + Sacado.Complemento , 40, ' ') + //Endereço 74 113 40 - Alfa G032
         PadRight(Sacado.Bairro, 15, ' ')                    + //Bairro 114 128 15 - Alfa G032
@@ -591,7 +591,7 @@ begin
         LDebitoAutomatico   := 'N';
         LInstrucoesProtesto := sProtesto;
         LMensagemCedente    := LTipoAvalista                                             + // 335 a 335 - Tipo de Inscrição 0 isento 1 cpf 2 cnpj 3 pis/pasep 9 outros
-                               PadLeft(OnlyNumber(Sacado.SacadoAvalista.CNPJCPF),14,'0') + // 336 a 350 - Número de Inscrição do Avalista
+                               PadLeft(OnlyCPFCNPJAlphaNum(Sacado.SacadoAvalista.CNPJCPF),14,'0') + // 336 a 350 - Número de Inscrição do Avalista
                                PadRight(Sacado.SacadoAvalista.NomeAvalista, 40, ' ');      // 351 a 394 - Nome do Avalista
       end;
 
@@ -647,7 +647,7 @@ begin
        IntToStrZero( round( ValorIOF * 100 ), 13)              +  // 193 a 205 - Valor IOF
        IntToStrZero( round( ValorAbatimento * 100 ), 13)       +  // 206 a 218 - Valor Abatimento
        sTipoSacado                                             +  // 219 a 220 - Tipo de Inscrição 01 cpf 02 cnpj
-       PadLeft(OnlyNumber(Sacado.CNPJCPF),14,'0')              +  // 221 a 234 - Número de Inscrição do Pagador
+       PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF),14,'0')              +  // 221 a 234 - Número de Inscrição do Pagador
        PadRight( Sacado.NomeSacado, 40, ' ')                   +  // 235 a 274 - Nome do Pagador
        PadRight(Sacado.Logradouro + ' ' + Sacado.Numero + ' '  +
          Sacado.Complemento, 40)                               +  // 275 a 314
