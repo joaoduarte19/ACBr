@@ -225,7 +225,7 @@ begin
         sAutenticacao := Format('%7.7d',[StrToInt(CodBenef)]) + sNossoNumero
             + FormatDateTime('ddmmyyyy', DataVenc )
             + Format('%15.15d', [StrToInt(OnlyNumber((FormatFloat('#0.00', Valor))))])
-            + FormatFloat(ACBrUtil.Strings.Poem_Zeros('',14),StrToFloat(OnlyNumber(CNPJCPFBenef)));
+            + FormatFloat(ACBrUtil.Strings.Poem_Zeros('',14),StrToFloat(OnlyCPFCNPJAlphaNum(CNPJCPFBenef)));
       end;
 
     tpBaixa, tpConsultaDetalhe:
@@ -233,7 +233,7 @@ begin
         sAutenticacao := Format('%7.7d',[StrToInt(CodBenef)]) + sNossoNumero
             + ACBrUtil.Strings.Poem_Zeros('',8)
             + ACBrUtil.Strings.Poem_Zeros('',15)
-            + FormatFloat(ACBrUtil.Strings.Poem_Zeros('',14),StrToFloat(OnlyNumber(CNPJCPFBenef)));
+            + FormatFloat(ACBrUtil.Strings.Poem_Zeros('',14),StrToFloat(OnlyCPFCNPJAlphaNum(CNPJCPFBenef)));
       end;
   end;
 

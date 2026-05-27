@@ -476,12 +476,12 @@ begin
     LJSONEndereco.AddPair('number', ATitulo.Sacado.Numero);
     LJSONEndereco.AddPair('complement', ATitulo.Sacado.Complemento);
     LJSONEndereco.AddPair('district', ATitulo.Sacado.Bairro);
-    LJSONEndereco.AddPair('zip_code', OnlyNumber(ATitulo.Sacado.CEP));
+    LJSONEndereco.AddPair('zip_code', OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CEP));
     LJSONEndereco.AddPair('city', ATitulo.Sacado.Cidade);
     LJSONEndereco.AddPair('state', ATitulo.Sacado.UF);
 
-    LJSONDocumento.AddPair('identity', OnlyNumber(ATitulo.Sacado.CNPJCPF));
-    LJSONDocumento.AddPair('type', IfThen(Length(OnlyNumber(ATitulo.Sacado.CNPJCPF)) = 11,'CPF', 'CNPJ'));
+    LJSONDocumento.AddPair('identity', OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF));
+    LJSONDocumento.AddPair('type', IfThen(Length(OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF)) = 11,'CPF', 'CNPJ'));
 
     LJSONPagador.AddPair('document',LJSONDocumento);
     LJSONPagador.AddPair('address',LJSONEndereco);
@@ -518,8 +518,8 @@ begin
     LJSON := TACBrJSONObject.Create;
 
     LJSON.AddPair('nome', ATitulo.Sacado.SacadoAvalista.NomeAvalista);
-    LJSON.AddPair('cpfCnpj', OnlyNumber(ATitulo.Sacado.SacadoAvalista.CNPJCPF));
-    LJSON.AddPair('tipoPessoa', IfThen(Length(OnlyNumber(ATitulo.Sacado.SacadoAvalista.CNPJCPF)) = 11,
+    LJSON.AddPair('cpfCnpj', OnlyCPFCNPJAlphaNum(ATitulo.Sacado.SacadoAvalista.CNPJCPF));
+    LJSON.AddPair('tipoPessoa', IfThen(Length(OnlyCPFCNPJAlphaNum(ATitulo.Sacado.SacadoAvalista.CNPJCPF)) = 11,
                                                'FISICA', 'JURIDICA'));
     LJSON.AddPair('cep', ATitulo.Sacado.SacadoAvalista.CEP);
     LJSON.AddPair('endereco', ATitulo.Sacado.SacadoAvalista.Logradouro);

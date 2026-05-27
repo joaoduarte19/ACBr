@@ -266,8 +266,8 @@ begin
       try
          LJson.AddPair('idEmissao', 2); // emissão pelo cliente
          LJson.AddPair('idEspecie' , StrToIntDef(ATitulo.EspecieDoc, 2));
-         LJson.AddPair('tipoPagador', IfThen(Length(OnlyNumber(aTitulo.Sacado.CNPJCPF)) = 11, '0', '1'));
-         LJson.AddPair('docPagador',  OnlyNumber(aTitulo.Sacado.CNPJCPF));
+         LJson.AddPair('tipoPagador', IfThen(Length(OnlyCPFCNPJAlphaNum(aTitulo.Sacado.CNPJCPF)) = 11, '0', '1'));
+         LJson.AddPair('docPagador',  OnlyCPFCNPJAlphaNum(aTitulo.Sacado.CNPJCPF));
          LJson.AddPair('pagadorNome', Copy(aTitulo.Sacado.NomeSacado, 1, 50));
          LJson.AddPair('pagadorEndereco', aTitulo.Sacado.Logradouro);
          LJson.AddPair('pagadorEnderecoNumero', aTitulo.Sacado.Numero);
