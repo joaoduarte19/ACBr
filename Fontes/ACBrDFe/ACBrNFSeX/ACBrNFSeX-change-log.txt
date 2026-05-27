@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/05/2026
+-- ACBrNFSeXProviderABRASFv2/SigCorp.LerXml --
+[*] ACBR-9390 - Alterações visando a leitura da Chave de Acesso do Padrão Nacional
+    retornada no XML da NFS-e.
+   Por: Italo Giurizzato Junior
+
 26/05/2026
 -- ACBr.DANFSeX.FPDFPadraoNacional --
 [-] Ajustes visando compatibilização com o Delphi 7.

@@ -644,7 +644,7 @@ end;
 
 procedure TACBrNFSeProviderABRASFv2.TratarRetornoEmitir(Response: TNFSeEmiteResponse);
 var
-  NumNFSe, CodVerif, NumRps, SerieRps: string;
+  NumNFSe, CodVerif, NumRps, SerieRps, Chave: string;
   DataAut: TDateTime;
   Document: TACBrXmlDocument;
   AErro: TNFSeEventoCollectionItem;
@@ -714,12 +714,14 @@ begin
 
           if not Assigned(AuxNode) then Exit;
 
+          Chave := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('ChaveAcesso'), tcStr);
           NumNFSe := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('Numero'), tcStr);
           CodVerif := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('CodigoVerificacao'), tcStr);
           DataAut := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('DataEmissao'), FpFormatoDataEmissao);
 
           with Response do
           begin
+            ChaveNotaNacional := Chave;
             NumeroNota := NumNFSe;
             CodigoVerificacao := CodVerif;
             Data := DataAut;
@@ -757,6 +759,7 @@ begin
           AResumo.CodigoVerificacao := CodVerif;
           AResumo.NumeroRps := NumRps;
           AResumo.SerieRps := SerieRps;
+          AResumo.ChaveDFe := Chave;
 
           ANota := CarregarXmlNfse(ANota, ANode.OuterXml);
           SalvarXmlNfse(ANota);

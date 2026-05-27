@@ -60,6 +60,7 @@ type
   TNFSeR_SigCorp204 = class(TNFSeR_ABRASFv2)
   protected
 
+    procedure LerInfNfse(const ANode: TACBrXmlNode); override;
     procedure LerServico(const ANode: TACBrXmlNode); override;
     procedure LerInfDeclaracaoPrestacaoServico(const ANode: TACBrXmlNode); override;
     procedure LerConstrucaoCivil(const ANode: TACBrXmlNode); override;
@@ -239,6 +240,13 @@ begin
   inherited LerInfDeclaracaoPrestacaoServico(ANode);
 
   LerXMLIBSCBSNFSe(ANode, NFSe.infNFSe.IBSCBS);
+end;
+
+procedure TNFSeR_SigCorp204.LerInfNfse(const ANode: TACBrXmlNode);
+begin
+  inherited LerInfNfse(ANode);
+
+  NFSe.ChaveAcesso := ObterConteudo(ANode.Childrens.FindAnyNs('ChaveAcesso'), tcStr);
 end;
 
 procedure TNFSeR_SigCorp204.LerConstrucaoCivil(const ANode: TACBrXmlNode);
