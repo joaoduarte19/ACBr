@@ -403,8 +403,8 @@ begin
     contaCorrenteCredito := StrToInt64Def(edTransfContaCorrenteCredito.Text, 0);
     digitoVerificadorContaCorrente := edTransfDigitoVerificadorCC.Text;
     contaPagamentoCredito := edTransfContaPagamentoCredito.Text;
-    cpfBeneficiario := StrToInt64Def(edTransfCpfBeneficiario.Text, 0);
-    cnpjBeneficiario := StrToInt64Def(edTransfCnpjBeneficiario.Text, 0);
+    cpfBeneficiario := edTransfCpfBeneficiario.Text;
+    cnpjBeneficiario := edTransfCnpjBeneficiario.Text;
     dataTransferencia := dtTransfDataTransferencia.DateTime;
     valorTransferencia := StrToFloatDef(edTransfValorTransferencia.Text, 0);
     documentoDebito := StrToInt64Def(edTransfDocumentoDebito.Text, 0);
@@ -434,13 +434,13 @@ begin
       0:
         begin
           formaIdentificacao := tfiCpfCnpj;
-          cpf := StrToInt64Def(chavePix, 0);
+          cpf := chavePix;
         end;
 
       1:
         begin
           formaIdentificacao := tfiCpfCnpj;
-          cnpj := StrToInt64Def(chavePix, 0);
+          cnpj := chavePix;
         end;
 
       2:

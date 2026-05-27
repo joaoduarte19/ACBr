@@ -21,7 +21,6 @@ object frmPagamentos: TfrmPagamentos
     Height = 437
     ActivePage = tsLotePagamento
     Align = alClient
-    Images = frPagamentosAPITeste.ImageList1
     TabHeight = 25
     TabOrder = 0
     TabWidth = 200

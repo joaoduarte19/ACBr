@@ -174,12 +174,12 @@ type
   TACBrTransferenciaBBBase = class(TACBrAPISchema)
   private
     fagenciaCredito: Int64;
-    fcnpjBeneficiario: Int64;
+    fcnpjBeneficiario: String;
     fcodigoFinalidadeDOC: String;
     fcodigoFinalidadeTED: String;
     fcontaCorrenteCredito: Int64;
     fcontaPagamentoCredito: String;
-    fcpfBeneficiario: Int64;
+    fcpfBeneficiario: String;
     fdataTransferencia: TDateTime;
     fdescricaoTransferencia: String;
     fdigitoVerificadorContaCorrente: String;
@@ -204,8 +204,8 @@ type
     property contaCorrenteCredito: Int64 read fcontaCorrenteCredito write fcontaCorrenteCredito;
     property digitoVerificadorContaCorrente: String read fdigitoVerificadorContaCorrente write fdigitoVerificadorContaCorrente;
     property contaPagamentoCredito: String read fcontaPagamentoCredito write fcontaPagamentoCredito;
-    property cpfBeneficiario: Int64 read fcpfBeneficiario write fcpfBeneficiario;
-    property cnpjBeneficiario: Int64 read fcnpjBeneficiario write fcnpjBeneficiario;
+    property cpfBeneficiario: String read fcpfBeneficiario write fcpfBeneficiario;
+    property cnpjBeneficiario: String read fcnpjBeneficiario write fcnpjBeneficiario;
     property dataTransferencia: TDateTime read fdataTransferencia write fdataTransferencia;
     property valorTransferencia: Double read fvalorTransferencia write fvalorTransferencia;
     property documentoDebito: Int64 read fdocumentoDebito write fdocumentoDebito;
@@ -338,12 +338,12 @@ type
   TACBrPagamentoLoteBBConsulta = class(TACBrAPISchema)
   private
     fagenciaCredito: Int64;
-    fcnpjBeneficiario: Int64;
+    fcnpjBeneficiario: String;
     fcodigoFinalidadeDOC: String;
     fcodigoFinalidadeTED: String;
     fcontaCorrenteCredito: Int64;
     fcontaPagamentoCredito: String;
-    fcpfBeneficiario: Int64;
+    fcpfBeneficiario: String;
     fdataPagamento: TDateTime;
     fdescricaoPagamento: String;
     fdigitoVerificadorContaCorrente: String;
@@ -375,8 +375,8 @@ type
     property contaCorrenteCredito: Int64 read fcontaCorrenteCredito write fcontaCorrenteCredito;
     property digitoVerificadorContaCorrente: String read fdigitoVerificadorContaCorrente write fdigitoVerificadorContaCorrente;
     property contaPagamentoCredito: String read fcontaPagamentoCredito write fcontaPagamentoCredito;
-    property cpfBeneficiario: Int64 read fcpfBeneficiario write fcpfBeneficiario;
-    property cnpjBeneficiario: Int64 read fcnpjBeneficiario write fcnpjBeneficiario;
+    property cpfBeneficiario: String read fcpfBeneficiario write fcpfBeneficiario;
+    property cnpjBeneficiario: String read fcnpjBeneficiario write fcnpjBeneficiario;
     property dataPagamento: TDateTime read fdataPagamento write fdataPagamento;
     property valorPagamento: Double read fvalorPagamento write fvalorPagamento;
     property documentoDebito: Int64 read fdocumentoDebito write fdocumentoDebito;
@@ -421,7 +421,7 @@ type
   private
     fagenciaCredito: Int64;
     fcontaCorrenteCredito: Int64;
-    fcpfCnpjBeneficiario: Int64;
+    fcpfCnpjBeneficiario: String;
     fdigitoVerificadorContaCorrente: String;
     fdocumentoCredito: Int64;
     fnomeBeneficiario: String;
@@ -446,7 +446,7 @@ type
     property digitoVerificadorContaCorrente: String read fdigitoVerificadorContaCorrente write fdigitoVerificadorContaCorrente;
     property numeroContaCredito: String read fnumeroContaCredito write fnumeroContaCredito;
     property tipoBeneficiario: Integer read ftipoBeneficiario write ftipoBeneficiario;
-    property cpfCnpjBeneficiario: Int64 read fcpfCnpjBeneficiario write fcpfCnpjBeneficiario;
+    property cpfCnpjBeneficiario: String read fcpfCnpjBeneficiario write fcpfCnpjBeneficiario;
     property nomeBeneficiario: String read fnomeBeneficiario write fnomeBeneficiario;
     property documentoCredito: Int64 read fdocumentoCredito write fdocumentoCredito;
     property texto: String read ftexto write ftexto;
@@ -505,10 +505,10 @@ type
   TACBrTransferenciaPixBase = class(TACBrAPISchema)
   private
     fagencia: Int64;
-    fcnpj: Int64;
+    fcnpj: String;
     fconta: Int64;
     fcontaPagamento: String;
-    fcpf: Int64;
+    fcpf: String;
     fdataTransferencia: TDateTime;
     fdddTelefone: Integer;
     fdescricaoPagamento: String;
@@ -543,8 +543,8 @@ type
     property dddTelefone: Integer read fdddTelefone write fdddTelefone;
     property telefone: Int64 read ftelefone write ftelefone;
     property email: String read femail write femail;
-    property cpf: Int64 read fcpf write fcpf;
-    property cnpj: Int64 read fcnpj write fcnpj;
+    property cpf: String read fcpf write fcpf;
+    property cnpj: String read fcnpj write fcnpj;
     property identificacaoAleatoria: String read fidentificacaoAleatoria write fidentificacaoAleatoria;
     property numeroCOMPE: Int64 read fnumeroCOMPE write fnumeroCOMPE;
     property numeroISPB: Int64 read fnumeroISPB write fnumeroISPB;
@@ -641,7 +641,7 @@ type
   private
     fagenciaCredito: Int64;
     fcontaCorrenteCredito: Int64;
-    fcpfCnpjBeneficiario: Int64;
+    fcpfCnpjBeneficiario: String;
     fdddTelefone: Integer;
     fdescricaoPagamentoInstantaneo: String;
     fdigitoVerificadorContaCorrente: String;
@@ -673,7 +673,7 @@ type
     property digitoVerificadorContaCorrente: String read fdigitoVerificadorContaCorrente write fdigitoVerificadorContaCorrente;
     property numeroContaPagamentoCredito: String read fnumeroContaPagamentoCredito write fnumeroContaPagamentoCredito;
     property tipoBeneficiario: Integer read ftipoBeneficiario write ftipoBeneficiario;
-    property cpfCnpjBeneficiario: Int64 read fcpfCnpjBeneficiario write fcpfCnpjBeneficiario;
+    property cpfCnpjBeneficiario: String read fcpfCnpjBeneficiario write fcpfCnpjBeneficiario;
     property nomeBeneficiario: String read fnomeBeneficiario write fnomeBeneficiario;
     property documentoCredito: Int64 read fdocumentoCredito write fdocumentoCredito;
     property descricaoPagamentoInstantaneo: String read fdescricaoPagamentoInstantaneo write fdescricaoPagamentoInstantaneo;
@@ -931,8 +931,8 @@ begin
   fcontaCorrenteCredito := 0;
   fdigitoVerificadorContaCorrente := EmptyStr;
   fcontaPagamentoCredito := EmptyStr;
-  fcpfBeneficiario := 0;
-  fcnpjBeneficiario := 0;
+  fcpfBeneficiario := EmptyStr;
+  fcnpjBeneficiario := EmptyStr;
   fdataTransferencia := 0;
   fvalorTransferencia := 0;
   fdocumentoDebito := 0;
@@ -952,8 +952,8 @@ begin
     EstaZerado(fcontaCorrenteCredito) and
     EstaVazio(fdigitoVerificadorContaCorrente) and
     EstaVazio(fcontaPagamentoCredito) and
-    EstaZerado(fcpfBeneficiario) and
-    EstaZerado(fcnpjBeneficiario) and
+    EstaVazio(fcpfBeneficiario) and
+    EstaVazio(fcnpjBeneficiario) and
     EstaZerado(fdataTransferencia) and
     EstaZerado(fvalorTransferencia) and
     EstaZerado(fdocumentoDebito) and
@@ -1401,8 +1401,8 @@ begin
   fcontaCorrenteCredito := 0;
   fdigitoVerificadorContaCorrente := EmptyStr;
   fcontaPagamentoCredito := EmptyStr;
-  fcpfBeneficiario := 0;
-  fcnpjBeneficiario := 0;
+  fcpfBeneficiario := EmptyStr;
+  fcnpjBeneficiario := EmptyStr;
   fdataPagamento := 0;
   fvalorPagamento := 0;
   fdocumentoDebito := 0;
@@ -1427,8 +1427,8 @@ begin
     EstaZerado(fcontaCorrenteCredito) and
     EstaVazio(fdigitoVerificadorContaCorrente) and
     EstaVazio(fcontaPagamentoCredito) and
-    EstaZerado(fcpfBeneficiario) and
-    EstaZerado(fcnpjBeneficiario) and
+    EstaVazio(fcpfBeneficiario) and
+    EstaVazio(fcnpjBeneficiario) and
     EstaZerado(fdataPagamento) and
     EstaZerado(fvalorPagamento) and
     EstaZerado(fdocumentoDebito) and
@@ -1598,7 +1598,7 @@ begin
   fdigitoVerificadorContaCorrente := EmptyStr;
   fnumeroContaCredito := EmptyStr;
   ftipoBeneficiario := 0;
-  fcpfCnpjBeneficiario := 0;
+  fcpfCnpjBeneficiario := EmptyStr;
   fnomeBeneficiario := EmptyStr;
   fdocumentoCredito := 0;
   ftexto := EmptyStr;
@@ -1614,7 +1614,7 @@ begin
     EstaVazio(fdigitoVerificadorContaCorrente) and
     EstaVazio(fnumeroContaCredito) and
     EstaZerado(ftipoBeneficiario) and
-    EstaZerado(fcpfCnpjBeneficiario) and
+    EstaVazio(fcpfCnpjBeneficiario) and
     EstaVazio(fnomeBeneficiario) and
     EstaZerado(fdocumentoCredito) and
     EstaVazio(ftexto);
@@ -1864,8 +1864,8 @@ begin
   fdddTelefone := 0;
   ftelefone := 0;
   femail := EmptyStr;
-  fcpf := 0;
-  fcnpj := 0;
+  fcpf := EmptyStr;
+  fcnpj := EmptyStr;
   fidentificacaoAleatoria := EmptyStr;
   fnumeroCOMPE := 0;
   fnumeroISPB := 0;
@@ -1889,8 +1889,8 @@ begin
     EstaZerado(fdddTelefone) and
     EstaZerado(ftelefone) and
     EstaVazio(femail) and
-    EstaZerado(fcpf) and
-    EstaZerado(fcnpj) and
+    EstaVazio(fcpf) and
+    EstaVazio(fcnpj) and
     EstaVazio(fidentificacaoAleatoria) and
     EstaZerado(fnumeroCOMPE) and
     EstaZerado(fnumeroISPB) and
@@ -2234,7 +2234,7 @@ begin
   fdigitoVerificadorContaCorrente := EmptyStr;
   fnumeroContaPagamentoCredito := EmptyStr;
   ftipoBeneficiario := 0;
-  fcpfCnpjBeneficiario := 0;
+  fcpfCnpjBeneficiario := EmptyStr;
   fnomeBeneficiario := EmptyStr;
   fdocumentoCredito := 0;
   fdescricaoPagamentoInstantaneo := EmptyStr;
@@ -2257,7 +2257,7 @@ begin
     EstaVazio(fdigitoVerificadorContaCorrente) and
     EstaVazio(fnumeroContaPagamentoCredito) and
     EstaZerado(ftipoBeneficiario) and
-    EstaZerado(fcpfCnpjBeneficiario) and
+    EstaVazio(fcpfCnpjBeneficiario) and
     EstaVazio(fnomeBeneficiario) and
     EstaZerado(fdocumentoCredito) and
     EstaVazio(fdescricaoPagamentoInstantaneo) and

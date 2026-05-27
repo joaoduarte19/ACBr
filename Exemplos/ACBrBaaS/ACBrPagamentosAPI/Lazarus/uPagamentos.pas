@@ -588,7 +588,7 @@ begin
     numeroDocumentoDebito := StrToIntDef(edGRUDocumentoDebito.Text, 0);
     numeroReferencia := Trim(edGRUNumeroReferencia.Text);
     mesAnoCompetencia := StrToIntDef(edGRUMesAnoCompetencia.Text, 0);
-    idContribuinte := StrToIntDef(edGRUidContribuinte.Text, 0);
+    idContribuinte := edGRUidContribuinte.Text;
   end;
 end;
 
@@ -603,7 +603,7 @@ begin
     textoDescricaoPagamento := edDARFDescricaoPagamento.Text;
     codigoReceitaTributo := StrToIntDef(edDARFCodReceita.Text, 0);
     codigoTipoContribuinte := TACBrTipoContribuinte(cbDARFTipoContribuinte.ItemIndex);
-    numeroIdentificacaoContribuinte := StrToIntDef(edDARFIDContribuinte.Text, 0);
+    numeroIdentificacaoContribuinte := edDARFIDContribuinte.Text;
     codigoIdentificadorTributo := edDARFIdTributo.Text;
     valorPrincipal := StrToFloatDef(edDARFValorPrincipal.Text, 0);
     valorMulta := StrToFloatDef(edDARFValorMulta.Text, 0);
@@ -626,7 +626,7 @@ begin
     codigoReceitaTributoGuiaPrevidenciaSocial := StrToIntDef(edGPSCodReceita.Text, 0);
     mesAnoCompetenciaGuiaPrevidenciaSocial := StrToIntDef(edGPSMesAnoCompetencia.Text, 0);
     codigoTipoContribuinteGuiaPrevidenciaSocial := TACBrTipoContribuinte(cbGPSTipoContribuinte.ItemIndex);
-    numeroIdentificacaoContribuinteGuiaPrevidenciaSocial := StrToIntDef(edGPSIDContribuinte.Text, 0);
+    numeroIdentificacaoContribuinteGuiaPrevidenciaSocial := edGPSIDContribuinte.Text;
     codigoIdentificadorTributoGuiaPrevidenciaSocial := edGPSIdTributo.Text;
     valorPrevistoInstNacSeguridadeSocialGuiaPrevidenciaSocial := StrToFloatDef(edGPSValorDevido.Text, 0);
     valorOutroEntradaGuiaPrevidenciaSocial := StrToFloatDef(edGPSOutrasEntradas.Text, 0);

@@ -37,6 +37,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/05/2026
+-- ACBrSchemasPagamentosAPI, ACBrSchemasTransferenciasAPIBB, uPagamentos, uTransferencias --
+[*] Alteração dos tipos de campos de CPF/CNPJ para string nos PagamentosAPI
+    por: Renato Rubinho
+
 14/05/2026
 -- ACBrPagamentosAPIBB --
 [*] Preenchimento dos scopes específicos por requisição de PagamentosAPI do Banco do Brasil

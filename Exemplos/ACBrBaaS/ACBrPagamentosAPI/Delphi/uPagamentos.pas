@@ -333,6 +333,8 @@ begin
     2: ok := EnviarLoteGRU;
     3: ok := EnviarLoteDARF;
     4: ok := EnviarLoteGPS;
+  else
+    ok := False;
   end;
 
   if ok then
@@ -529,6 +531,8 @@ begin
     2: qtd := ACBrPagamentosAPI.Banco.Pagamentos.LoteGRUSolicitado.listaRequisicao.Count;
     3: qtd := ACBrPagamentosAPI.Banco.Pagamentos.LoteDARFSolicitado.lancamentos.Count;
     4: qtd := ACBrPagamentosAPI.Banco.Pagamentos.LoteGPSSolicitado.lancamentos.Count;
+  else
+    qtd := 0;
   end;
 
   lbLancamentosQtd.Caption := IntToStrZero(qtd, 2);
@@ -588,7 +592,7 @@ begin
     numeroDocumentoDebito := StrToIntDef(edGRUDocumentoDebito.Text, 0);
     numeroReferencia := Trim(edGRUNumeroReferencia.Text);
     mesAnoCompetencia := StrToIntDef(edGRUMesAnoCompetencia.Text, 0);
-    idContribuinte := StrToIntDef(edGRUidContribuinte.Text, 0);
+    idContribuinte := edGRUidContribuinte.Text;
   end;
 end;
 
@@ -603,7 +607,7 @@ begin
     textoDescricaoPagamento := edDARFDescricaoPagamento.Text;
     codigoReceitaTributo := StrToIntDef(edDARFCodReceita.Text, 0);
     codigoTipoContribuinte := TACBrTipoContribuinte(cbDARFTipoContribuinte.ItemIndex);
-    numeroIdentificacaoContribuinte := StrToIntDef(edDARFIDContribuinte.Text, 0);
+    numeroIdentificacaoContribuinte := edDARFIDContribuinte.Text;
     codigoIdentificadorTributo := edDARFIdTributo.Text;
     valorPrincipal := StrToFloatDef(edDARFValorPrincipal.Text, 0);
     valorMulta := StrToFloatDef(edDARFValorMulta.Text, 0);
@@ -626,7 +630,7 @@ begin
     codigoReceitaTributoGuiaPrevidenciaSocial := StrToIntDef(edGPSCodReceita.Text, 0);
     mesAnoCompetenciaGuiaPrevidenciaSocial := StrToIntDef(edGPSMesAnoCompetencia.Text, 0);
     codigoTipoContribuinteGuiaPrevidenciaSocial := TACBrTipoContribuinte(cbGPSTipoContribuinte.ItemIndex);
-    numeroIdentificacaoContribuinteGuiaPrevidenciaSocial := StrToIntDef(edGPSIDContribuinte.Text, 0);
+    numeroIdentificacaoContribuinteGuiaPrevidenciaSocial := edGPSIDContribuinte.Text;
     codigoIdentificadorTributoGuiaPrevidenciaSocial := edGPSIdTributo.Text;
     valorPrevistoInstNacSeguridadeSocialGuiaPrevidenciaSocial := StrToFloatDef(edGPSValorDevido.Text, 0);
     valorOutroEntradaGuiaPrevidenciaSocial := StrToFloatDef(edGPSOutrasEntradas.Text, 0);

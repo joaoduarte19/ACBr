@@ -553,7 +553,7 @@ type
     fcodigoTipoContribuinte: TACBrTipoContribuinte;
     fcodigoTipoContribuinteGuiaPrevidenciaSocial: TACBrTipoContribuinte;
     fcontaCorrenteDebito: Integer;
-    fcpfCnpjContribuinte: Int64;
+    fcpfCnpjContribuinte: String;
     fdata: TDateTime;
     fdataAgendamento: TDateTime;
     fdataApuracao: TDateTime;
@@ -566,8 +566,8 @@ type
     festadoPagamento: TACBrEstadoPagamento;
     ffimCartaoCredito: Integer;
     fid: Int64;
-    fidContribuinte: Int64;
-    fidentificacaoContribuinte: Int64;
+    fidContribuinte: String;
+    fidentificacaoContribuinte: String;
     fidPagamento: Int64;
     findicadorAceite: String;
     findicadorMovimentoAceito: String;
@@ -588,8 +588,8 @@ type
     fnumeroDocumentoDebito: Int64;
     fnumeroCodigoBarras: String;
     fdataPagamento: TDateTime;
-    fnumeroIdentificacaoContribuinte: Integer;
-    fnumeroIdentificacaoContribuinteGuiaPrevidenciaSocial: Integer;
+    fnumeroIdentificacaoContribuinte: String;
+    fnumeroIdentificacaoContribuinteGuiaPrevidenciaSocial: String;
     fnumeroReferencia: String;
     fseuDocumento: String;
     fseuNumero: String;
@@ -691,7 +691,7 @@ type
     property numeroReferencia: String read fnumeroReferencia write fnumeroReferencia;
     property textoDescricao: String read ftextoDescricao write ftextoDescricao;
     property mesAnoCompetencia: Integer read fmesAnoCompetencia write fmesAnoCompetencia;
-    property idContribuinte: Int64 read fidContribuinte write fidContribuinte;
+    property idContribuinte: String read fidContribuinte write fidContribuinte;
     property valor: Double read fvalor write fvalor;
     property valorPrincipal: Double read fvalorPrincipal write fvalorPrincipal;
     property valorOutraDeducao: Double read fvalorOutraDeducao write fvalorOutraDeducao;
@@ -701,13 +701,13 @@ type
     property valorJuroEncargo: Double read fvalorJuroEncargo write fvalorJuroEncargo;
     property valorOutroAcrescimo: Double read fvalorOutroAcrescimo write fvalorOutroAcrescimo;
     property valorOutrosAcrescimos: Double read fvalorOutrosAcrescimos write fvalorOutrosAcrescimos;
-    property cpfCnpjContribuinte: Int64 read fcpfCnpjContribuinte write fcpfCnpjContribuinte;
+    property cpfCnpjContribuinte: String read fcpfCnpjContribuinte write fcpfCnpjContribuinte;
     property indicadorMovimentoAceito: String read findicadorMovimentoAceito write findicadorMovimentoAceito;
 
     // DARF
     property codigoReceitaTributo: Integer read fcodigoReceitaTributo write fcodigoReceitaTributo;
     property codigoTipoContribuinte: TACBrTipoContribuinte read fcodigoTipoContribuinte write fcodigoTipoContribuinte;
-    property numeroIdentificacaoContribuinte: Integer read fnumeroIdentificacaoContribuinte write fnumeroIdentificacaoContribuinte;
+    property numeroIdentificacaoContribuinte: String read fnumeroIdentificacaoContribuinte write fnumeroIdentificacaoContribuinte;
     property codigoIdentificadorTributo: String read fcodigoIdentificadorTributo write fcodigoIdentificadorTributo;
     property dataApuracao: TDateTime read fdataApuracao write fdataApuracao;
 
@@ -716,7 +716,7 @@ type
     property nomeConvenente: String read fnomeConvenente write fnomeConvenente;
     property codigoReceitaTributoGuiaPrevidenciaSocial: Integer read fcodigoReceitaTributoGuiaPrevidenciaSocial write fcodigoReceitaTributoGuiaPrevidenciaSocial;
     property codigoTipoContribuinteGuiaPrevidenciaSocial: TACBrTipoContribuinte read fcodigoTipoContribuinteGuiaPrevidenciaSocial write fcodigoTipoContribuinteGuiaPrevidenciaSocial;
-    property numeroIdentificacaoContribuinteGuiaPrevidenciaSocial: Integer read fnumeroIdentificacaoContribuinteGuiaPrevidenciaSocial write fnumeroIdentificacaoContribuinteGuiaPrevidenciaSocial;
+    property numeroIdentificacaoContribuinteGuiaPrevidenciaSocial: String read fnumeroIdentificacaoContribuinteGuiaPrevidenciaSocial write fnumeroIdentificacaoContribuinteGuiaPrevidenciaSocial;
     property codigoIdentificadorTributoGuiaPrevidenciaSocial: String read fcodigoIdentificadorTributoGuiaPrevidenciaSocial write fcodigoIdentificadorTributoGuiaPrevidenciaSocial;
     property mesAnoCompetenciaGuiaPrevidenciaSocial: Integer read fmesAnoCompetenciaGuiaPrevidenciaSocial write fmesAnoCompetenciaGuiaPrevidenciaSocial;
     property valorPrevistoInstNacSeguridadeSocialGuiaPrevidenciaSocial: Double read fvalorPrevistoInstNacSeguridadeSocialGuiaPrevidenciaSocial write fvalorPrevistoInstNacSeguridadeSocialGuiaPrevidenciaSocial;
@@ -736,7 +736,7 @@ type
     property inicioCartaoCredito: Integer read finicioCartaoCredito write finicioCartaoCredito;
     property fimCartaoCredito: Integer read ffimCartaoCredito write ffimCartaoCredito;
     property codigoAutenticacaoPagamento: String read fcodigoAutenticacaoPagamento write fcodigoAutenticacaoPagamento;
-    property identificacaoContribuinte: Int64 read fidentificacaoContribuinte write fidentificacaoContribuinte;
+    property identificacaoContribuinte: String read fidentificacaoContribuinte write fidentificacaoContribuinte;
     property tipoPessoaBeneficiario: Integer read ftipoPessoaBeneficiario write ftipoPessoaBeneficiario;
     property tipoPessoaPagador: Integer read ftipoPessoaPagador write ftipoPessoaPagador;
     property tipoPessoaAvalista: Integer read ftipoPessoaAvalista write ftipoPessoaAvalista;
@@ -4897,14 +4897,14 @@ begin
   fdataAgendamento := 0;
   fdata := 0;
   fvalor := 0;
-  fcpfCnpjContribuinte := 0;
+  fcpfCnpjContribuinte := EmptyStr;
   fnumeroReferencia := EmptyStr;
   fidPagamento := 0;
   fnomeConvenente := EmptyStr;
   fnomeRecebedor := EmptyStr;
   findicadorMovimentoAceito := EmptyStr;
   fmesAnoCompetencia := 0;
-  fidContribuinte := 0;
+  fidContribuinte := EmptyStr;
   fvalorPrincipal := 0;
   fvalorOutraDeducao := 0;
   fvalorOutroDeducao := 0;
@@ -4916,7 +4916,7 @@ begin
   ftextoDescricaoPagamento := EmptyStr;
   fcodigoReceitaTributoGuiaPrevidenciaSocial := 0;
   fcodigoTipoContribuinteGuiaPrevidenciaSocial := tctNenhum;
-  fnumeroIdentificacaoContribuinteGuiaPrevidenciaSocial := 0;
+  fnumeroIdentificacaoContribuinteGuiaPrevidenciaSocial := EmptyStr;
   fcodigoIdentificadorTributoGuiaPrevidenciaSocial := EmptyStr;
   fmesAnoCompetenciaGuiaPrevidenciaSocial := 0;
   fvalorPrevistoInstNacSeguridadeSocialGuiaPrevidenciaSocial := 0;
@@ -4934,7 +4934,7 @@ begin
   finicioCartaoCredito := 0;
   ffimCartaoCredito := 0;
   ftipoPessoaAvalista := 0;
-  fidentificacaoContribuinte := 0;
+  fidentificacaoContribuinte := EmptyStr;
   ftipoContribuinte := 0;
   fidentificacaoGPS := EmptyStr;
   fvalorINSS := 0;
@@ -4944,7 +4944,7 @@ begin
   fcodigoAutenticacaoPagamento := EmptyStr;
   fcodigoReceitaTributo := 0;
   fcodigoTipoContribuinte := tctNenhum;
-  fnumeroIdentificacaoContribuinte := 0;
+  fnumeroIdentificacaoContribuinte := EmptyStr;
   fcodigoIdentificadorTributo := EmptyStr;
   fdataApuracao := 0;
 
@@ -5004,7 +5004,7 @@ begin
     EstaZerado(fdataVencimento) and
     EstaVazio(fnumeroReferencia) and
     EstaZerado(fmesAnoCompetencia) and
-    EstaZerado(fidContribuinte) and
+    EstaVazio(fidContribuinte) and
     EstaZerado(fvalorPrincipal) and
     EstaZerado(fvalorOutraDeducao) and
     EstaZerado(fvalorOutroDeducao) and
@@ -5017,18 +5017,18 @@ begin
     EstaZerado(fidPagamento) and
     EstaZerado(fdata) and
     EstaZerado(fvalor) and
-    EstaZerado(fcpfCnpjContribuinte) and
+    EstaVazio(fcpfCnpjContribuinte) and
     EstaVazio(fnomeConvenente) and
     EstaVazio(fnomeRecebedor) and
     EstaZerado(fcodigoReceitaTributo) and
     (fcodigoTipoContribuinte = tctNenhum) and
-    EstaZerado(fnumeroIdentificacaoContribuinte) and
+    EstaVazio(fnumeroIdentificacaoContribuinte) and
     EstaVazio(fcodigoIdentificadorTributo) and
     EstaZerado(fdataApuracao) and
     EstaVazio(findicadorMovimentoAceito) and
     EstaZerado(fcodigoReceitaTributoGuiaPrevidenciaSocial) and
     (fcodigoTipoContribuinteGuiaPrevidenciaSocial = tctNenhum) and
-    EstaZerado(fnumeroIdentificacaoContribuinteGuiaPrevidenciaSocial) and
+    EstaVazio(fnumeroIdentificacaoContribuinteGuiaPrevidenciaSocial) and
     EstaVazio(fcodigoIdentificadorTributoGuiaPrevidenciaSocial) and
     EstaZerado(fmesAnoCompetenciaGuiaPrevidenciaSocial) and
     EstaZerado(fvalorPrevistoInstNacSeguridadeSocialGuiaPrevidenciaSocial) and
@@ -5046,7 +5046,7 @@ begin
     EstaZerado(finicioCartaoCredito) and
     EstaZerado(ffimCartaoCredito) and
     EstaZerado(ftipoPessoaAvalista) and
-    EstaZerado(fidentificacaoContribuinte) and
+    EstaVazio(fidentificacaoContribuinte) and
     EstaZerado(ftipoContribuinte) and
     EstaVazio(fidentificacaoGPS) and
     EstaZerado(fvalorINSS) and
