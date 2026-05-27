@@ -5031,9 +5031,9 @@ begin
    if (Length(edtBOLCNPJ.Text) > 2) and (cbxBOLF_J.ItemIndex <> 2) then
   begin
     if cbxBOLF_J.ItemIndex = 0 then
-      edtBOLCNPJ.Text := ACBrValidador.FormatarMascaraDinamica( OnlyNumber(edtBOLCNPJ.Text), '***.***.***-**')
+      edtBOLCNPJ.Text := ACBrValidador.FormatarMascaraDinamica( OnlyCPFCNPJAlphaNum(edtBOLCNPJ.Text), '***.***.***-**')
     else
-      edtBOLCNPJ.Text := ACBrValidador.FormatarMascaraDinamica( OnlyNumber(edtBOLCNPJ.Text), '**.***.***/****-**');
+      edtBOLCNPJ.Text := ACBrValidador.FormatarMascaraDinamica( OnlyCPFCNPJAlphaNum(edtBOLCNPJ.Text), '**.***.***/****-**');
     edtBOLCNPJ.SelStart := Length(edtBOLCNPJ.Text);
 
     imgErrCNPJBoleto.Visible := (Length(edtBOLCNPJ.Text) < 14) or
@@ -7893,7 +7893,7 @@ procedure TFrmACBrMonitor.SalvarConfBoletos;
 var
   TrimedCNPJ, TrimedCEP: string;
 begin
-   TrimedCNPJ := OnlyNumber(edtBOLCNPJ.Text);
+   TrimedCNPJ := OnlyCPFCNPJAlphaNum(edtBOLCNPJ.Text);
    TrimedCEP := OnlyNumber(edtBOLCEP.Text);
    if pConfig.Visible and (TrimedCNPJ <> '') then
    begin
