@@ -2272,6 +2272,15 @@ object frmACBrNFSe: TfrmACBrNFSe
               TabOrder = 5
               OnClick = btnGerarEnviarSincronoPNClick
             end
+            object btnLinkNFSePN: TButton
+              Left = 186
+              Top = 40
+              Width = 177
+              Height = 25
+              Caption = 'Link NFSe'
+              TabOrder = 6
+              OnClick = btnLinkNFSePNClick
+            end
           end
           object tsEventos1: TTabSheet
             Caption = 'Eventos'
@@ -2614,6 +2623,8 @@ object frmACBrNFSe: TfrmACBrNFSe
     Configuracoes.Geral.Provedor = proNenhum
     Configuracoes.Geral.Versao = ve100
     Configuracoes.Geral.Emitente.DadosEmitente.Email = 'contato@provedor.com.br'
+    Configuracoes.Geral.GerarTodasSecoes = False
+    Configuracoes.Geral.Documentar = False
     Configuracoes.Arquivos.OrdenacaoPath = <>
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 0
