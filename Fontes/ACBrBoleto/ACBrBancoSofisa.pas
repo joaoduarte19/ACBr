@@ -337,7 +337,9 @@ begin
     PadRight(OnlyNumber(ACBrTitulo.Sacado.CEP), 8)             +  // 327 a 334 Código de Endereçamento Postal do Sacado
     PadRight(ACBrTitulo.Sacado.Cidade, 15)                     +  // 335 a 349 Cidade do Sacado
     PadRight(ACBrTitulo.Sacado.UF, 2)                          +  // 350 a 351 Estado (UF - Unidade da Federação ) do Sacado
-    PadRight(ACBrTitulo.Sacado.NomeSacado, 30)                 +  // 352 a 381 Nome do Sacador ou Avalista
+    PadRight( IfThen(Sacado.SacadoAvalista.NomeAvalista <>'',
+                     Sacado.SacadoAvalista.NomeAvalista,
+                     Cedente.Nome), 30, ' ')                   +  // 352 a 381 Nome do Sacador ou Avalista
     Space(4)                                                   +  // 382 a 385 Complementação do Registro
     Space(6)                                                   +  // 386 a 391 Brancos
     Protesto                                                   +  // 392 a 393 Quantidade de dias para início da Ação de Protesto
