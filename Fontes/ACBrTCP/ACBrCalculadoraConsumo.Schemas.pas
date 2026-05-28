@@ -4972,7 +4972,7 @@ begin
   aJSon
     .AddPair('id', fid)
     .AddPair('versao', fversao)
-    .AddPair('dataHoraEmissao', DateTimeToIso8601(fdataHoraEmissao, EmptyStr, False))
+    .AddPair('dataHoraEmissao', DateTimeToIso8601(fdataHoraEmissao, GetUTCSistema, False))
     .AddPair('municipio', fmunicipio)
     .AddPair('uf', fuf);
 
