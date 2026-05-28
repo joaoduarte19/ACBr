@@ -545,7 +545,7 @@ end;
 
 procedure TGeralConfNFSe.LerParamsMunicipio;
 var
-  Ok: Boolean;
+  Ok, lIgnoraParamsProvedor: Boolean;
   CodIBGE, aValor, lVersaoNoProvedor, lVersaoNoMunicipio: string;
   ACBrNFSeXLocal: TACBrNFSeX;
 begin
@@ -603,9 +603,8 @@ begin
   aValor := FPIniParams.ReadString(CodIBGE, 'Params', '');
 
   //Se o Params tiver um * na seção do município eu ignoro a seção do provedor e o Params vai ser vazio do contrário concateno ambos
-  if aValor = '*' then
-    aValor := ''
-  else
+  lIgnoraParamsProvedor := (POS('*:', aValor) > 0) or (POS('*|', aValor) > 0) or (POS('*', aValor) > 0) or (aValor = '*');
+  if not (lIgnoraParamsProvedor) then
     aValor := aValor + FPIniParams.ReadString(FxProvedor, 'Params', '');
 
   FAPIPropria := (Pos('APIPropria:', aValor) > 0);
