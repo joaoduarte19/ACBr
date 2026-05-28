@@ -1592,7 +1592,12 @@ begin
 
         // No manual v8 consta como versão 4, mas funciona somente em produção
         // em homologação funcionando na versão 3 - Aguardando retorno da integradora sobre sincronização dos ambientes
-        GerarIdentificacao(4);
+
+        if Ambiente = 1 then
+          GerarIdentificacao(4)
+        else
+          GerarIdentificacao(3);
+
         GerarGravarProprietario;
 
         Gerador.wGrupo('/GravarRequest');
@@ -1876,7 +1881,13 @@ begin
         Gerador.Prefixo := 'obj:';
         Gerador.wGrupo('AdicionarViagemRequest');
 
-        GerarIdentificacao(3);
+        // No manual v8 consta como versão 4, mas funciona somente em produção
+        // em homologação funcionando na versão 3 - Aguardando retorno da integradora sobre sincronização dos ambientes
+
+        if Ambiente = 1 then
+          GerarIdentificacao(4)
+        else
+          GerarIdentificacao(3);
 
         with CIOT.AdicionarViagem do
         begin
@@ -1945,7 +1956,8 @@ begin
         Gerador.Prefixo := 'obj:';
         Gerador.wGrupo('EncerrarOperacaoTransporteRequest');
 
-        // No manual v8 consta como versão 3 para este endpoint, mas gera rejeição em ambas as versões, mantida versão 2
+        // No manual v8 consta como versão 3 para este endpoint,
+        // mas gera rejeição em ambas as versões, mantida versão 2
         GerarIdentificacao(2);
 
         with CIOT.EncerrarOperacao do

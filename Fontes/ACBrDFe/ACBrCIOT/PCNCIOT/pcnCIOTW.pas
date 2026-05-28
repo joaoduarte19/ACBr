@@ -50,6 +50,7 @@ type
 
   TCIOTWClass = class
   private
+    FAmbiente: Integer;
   protected
     FpCIOTW: TCIOTW;
 
@@ -67,6 +68,7 @@ type
     property Gerador: TGerador      read FGerador   write FGerador;
     property Opcoes: TGeradorOpcoes read FOpcoes    write FOpcoes;
     property CIOT: TCIOT  read FCIOT write FCIOT;
+    property Ambiente: Integer read FAmbiente write FAmbiente;
   end;
 
 
@@ -77,6 +79,7 @@ type
     FIntegradora: TCIOTIntegradora;
     FCIOTWClass: TCIOTWClass;
     FCIOT: TCIOT;
+    FAmbiente: Integer;
 
     procedure SetIntegradora(AIntegradora: TCIOTIntegradora);
   public
@@ -89,6 +92,7 @@ type
     property Integradora: TCIOTIntegradora read FIntegradora write SetIntegradora;
     property CIOTWClass: TCIOTWClass read FCIOTWClass;
     property CIOT: TCIOT read FCIOT write FCIOT;
+    property Ambiente: Integer read FAmbiente write FAmbiente;
   end;
 
   TGeradorOpcoes = class(TPersistent)

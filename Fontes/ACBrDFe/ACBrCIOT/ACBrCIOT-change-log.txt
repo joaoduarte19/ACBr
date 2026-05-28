@@ -38,6 +38,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+28/05/2026
+-- ACBrCIOTContratos/pcnCIOTW/pcnCIOTW_eFrete --
+[*] ACBR-9425 - Possível solução para o problema de versão invalida.
+  Por: Italo Giurizzato Junior
+
 25/05/2026
 -- ACBrCIOTServicos.ini/ACBrCIOTConversao/pcnCIOTW_eFrete --
 [*] Alterações nas urls do eFrete para versão 8 e ajustes na geração do XML.

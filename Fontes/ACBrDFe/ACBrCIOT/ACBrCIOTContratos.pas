@@ -288,6 +288,7 @@ begin
     FCIOTW.CIOTWClass.Gerador.Opcoes.RetirarEspacos := Configuracoes.Geral.RetirarEspacos;
     FCIOTW.CIOTWClass.Gerador.Opcoes.IdentarXML     := Configuracoes.Geral.IdentarXML;
 
+    FCIOTW.CIOTWClass.Ambiente := Configuracoes.WebServices.AmbienteCodigo;
     FCIOTW.Integradora := Configuracoes.Geral.Integradora;
 
     TimeZoneConf.Assign( Configuracoes.WebServices.TimeZoneConf );
