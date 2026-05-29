@@ -1686,8 +1686,9 @@ begin
       begin
         Gerador.wGrupo('AdicionarOperacaoTransporte', '');
 
-        Gerador.Prefixo := 'obj:';
+        Gerador.Prefixo := 'adic:';
         Gerador.wGrupo('AdicionarOperacaoTransporteRequest', 'AP01');
+        Gerador.Prefixo := 'obj:';
 
         GerarIdentificacao(8);
 
@@ -1695,7 +1696,8 @@ begin
         begin
           Gerador.wCampo(tcStr, 'AP01', 'TipoViagem            ', 01, 01, 1, TipoViagemCIOTToStr(TipoViagem));
           Gerador.wCampo(tcStr, 'AP02', 'TipoPagamento         ', 01, 20, 1, TpPagamentoToStr(TipoPagamento));
-          Gerador.wCampo(tcStr, 'AP03', 'BloquearNaoEquiparado ', 01, 01, 1, LowerCase(BoolToStr(BloquearNaoEquiparado, True)));
+          Gerador.Prefixo := 'adic:';
+          // Gerador.wCampo(tcStr, 'AP03', 'BloquearNaoEquiparado ', 01, 01, 1, LowerCase(BoolToStr(BloquearNaoEquiparado, True)));
           Gerador.wCampo(tcStr, 'AP04', 'MatrizCNPJ            ', 14, 14, 1, MatrizCNPJ);
           Gerador.wCampo(tcStr, 'AP05', 'FilialCNPJ            ', 14, 14, 0, FilialCNPJ);
           Gerador.wCampo(tcStr, 'AP06', 'IdOperacaoCliente     ', 01, 01, 0, IdOperacaoCliente, 'Id / Chave primária da operação de transporte no sistema do Cliente.');
