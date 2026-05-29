@@ -1133,14 +1133,30 @@ Mecanismo de apoio/fomento ao Comércio Exterior utilizado pelo tomador do servi
     <xsd:annotation>
       <xsd:documentation>
         Tipo de retencao do Pis/Cofins:
-        1 - Retido;
-        2 - Não Retido;
+        0 - PIS/COFINS/CSLL Não Retidos;
+        1 - PIS/COFINS Retidos;
+        2 - PIS/COFINS Não Retidos;
+        3 - PIS/COFINS/CSLL Retidos;
+        4 - PIS/COFINS Retidos, CSLL Não Retido;
+        5 - PIS Retido, COFINS/CSLL Não Retido;
+        6 - COFINS Retido, PIS/CSLL Não Retido;
+        7 - PIS Não Retido, COFINS/CSLL Retidos;
+        8 - PIS/COFINS Não Retidos, CSLL Retido;
+        9 - COFINS Não Retido, PIS/CSLL Retidos;
       </xsd:documentation>
     </xsd:annotation>
     <xsd:restriction base="xsd:string">
       <xsd:whiteSpace value="preserve"/>
+      <xsd:enumeration value="0"/>
       <xsd:enumeration value="1"/>
       <xsd:enumeration value="2"/>
+      <xsd:enumeration value="3"/>
+      <xsd:enumeration value="4"/>
+      <xsd:enumeration value="5"/>
+      <xsd:enumeration value="6"/>
+      <xsd:enumeration value="7"/>
+      <xsd:enumeration value="8"/>
+      <xsd:enumeration value="9"/>
     </xsd:restriction>
   </xsd:simpleType>
   <xsd:simpleType name="TSTipoIndTotTrib">
@@ -2286,18 +2302,26 @@ O identificador do pedido de registro do evento é formado conforme a concatena�
         <xsd:annotation>
           <xsd:documentation>Valor monetário do COFINS (R$).</xsd:documentation>
         </xsd:annotation>
-      </xsd:element>
+      </xsd:element>	  
       <xsd:element name="tpRetPisCofins" type="TSTipoRetPISCofins" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
-            Tipo de retencao do Pis/Cofins:
-            1 - Retido;
-            2 - Não Retido;
+             Tipo de retenção do PIS/COFINS:
+             0 - PIS/COFINS/CSLL Não Retidos;
+             1 - PIS/COFINS Retidos;
+             2 - PIS/COFINS Não Retidos;
+             3 - PIS/COFINS/CSLL Retidos;
+             4 - PIS/COFINS Retidos, CSLL Não Retido;
+             5 - PIS Retido, COFINS/CSLL Não Retido;
+             6 - COFINS Retido, PIS/CSLL Não Retido;
+             7 - PIS Não Retido, COFINS/CSLL Retidos;
+             8 - PIS/COFINS Não Retidos, CSLL Retido;
+             9 - COFINS Não Retido, PIS/CSLL Retidos;
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
     </xsd:sequence>
-  </xsd:complexType>
+  </xsd:complexType>  
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE TRIBUTAÇÃO ESPECÍFICA PARA OUTROS TRIBUTOS-->
   <xsd:complexType name="TCTribFederal">
     <xsd:sequence>
