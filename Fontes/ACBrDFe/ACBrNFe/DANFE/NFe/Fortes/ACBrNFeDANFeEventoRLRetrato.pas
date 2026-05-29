@@ -263,7 +263,7 @@ begin
 
     rllDataHoraEvento.Caption := FormatDateTimeBr(InfEvento.dhEvento);
     rllEvento.Caption := InfEvento.TipoEvento;
-    rllDescrEvento.Caption := ACBrStr(InfEvento.DescEvento);
+    rllDescrEvento.Caption := InfEvento.DescEvento;
     rllSeqEvento.Caption := IntToStr(InfEvento.nSeqEvento);
     rllVersaoEvento.Caption := InfEvento.versaoEvento;
     rllStatusEvento.Caption := IntToStr(RetInfEvento.cStat) + ' - ' + RetInfEvento.xMotivo;
