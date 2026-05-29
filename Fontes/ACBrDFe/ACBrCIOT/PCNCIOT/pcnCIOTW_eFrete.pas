@@ -1963,7 +1963,7 @@ begin
         with CIOT.EncerrarOperacao do
         begin
           Gerador.wCampo(tcStr, 'QP02', 'CodigoIdentificacaoOperacao', 01, 01, 1, CodigoIdentificacaoOperacao);
-          Gerador.wCampo(tcDe5, 'QP03', 'PesoCarga                  ', 01, 01, 0, PesoCarga);
+          Gerador.wCampo(tcDe2, 'QP03', 'PesoCarga                  ', 01, 01, 0, PesoCarga);
 
           GerarViagemEncerramento;
           GerarPagamentosEncerramento;
