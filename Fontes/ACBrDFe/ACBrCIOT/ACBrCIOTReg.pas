@@ -37,9 +37,14 @@ unit ACBrCIOTReg;
 interface
 
 uses
-  SysUtils, Classes, ACBrCIOT,
+  SysUtils,
+  Classes,
+  ACBrCIOT,
   {$IFDEF FPC}
-     LResources, LazarusPackageIntf, PropEdits, componenteditors
+     LResources,
+     LazarusPackageIntf,
+     PropEdits,
+     componenteditors
   {$ELSE}
      {$IFNDEF COMPILER6_UP}
         DsgnIntf
@@ -54,7 +59,10 @@ procedure Register;
 implementation
 
 uses
-  ACBrReg, ACBrDFeRegUtil, ACBrDFeConfiguracoes, ACBrCIOTConfiguracoes;
+  ACBrReg,
+  ACBrDFeRegUtil,
+  ACBrDFeConfiguracoes,
+  ACBrCIOTConfiguracoes;
 
 {$IFNDEF FPC}
    {$R ACBrCIOT.dcr}

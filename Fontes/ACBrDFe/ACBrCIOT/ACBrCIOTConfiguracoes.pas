@@ -37,7 +37,9 @@ unit ACBrCIOTConfiguracoes;
 interface
 
 uses
-  Classes, SysUtils, IniFiles,
+  Classes,
+  SysUtils,
+  IniFiles,
   ACBrDFeConfiguracoes,
   ACBrCIOTConversao;
 
@@ -115,7 +117,8 @@ type
 implementation
 
 uses
-  ACBrUtil.Strings, DateUtils;
+  ACBrUtil.Strings,
+  DateUtils;
 
 { TConfiguracoesCIOT }
 

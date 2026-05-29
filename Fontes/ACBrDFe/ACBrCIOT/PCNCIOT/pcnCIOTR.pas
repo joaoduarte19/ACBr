@@ -42,7 +42,9 @@ uses
   Variants,
 {$ENDIF}
   ACBrUtil.Strings,
-  pcnLeitor, ACBrCIOTConversao, pcnCIOT;
+  pcnLeitor,
+  ACBrCIOTConversao,
+  pcnCIOT;
 
 type
 

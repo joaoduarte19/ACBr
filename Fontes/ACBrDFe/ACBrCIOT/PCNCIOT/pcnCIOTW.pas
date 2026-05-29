@@ -37,9 +37,12 @@ unit pcnCIOTW;
 interface
 
 uses
-  SysUtils, Classes,
+  SysUtils,
+  Classes,
   ACBrUtil.Strings,
-  pcnGerador, ACBrCIOTConversao, pcnCIOT;
+  pcnGerador,
+  ACBrCIOTConversao,
+  pcnCIOT;
 
 type
 
@@ -112,7 +115,9 @@ implementation
 
 uses
   ACBrDFeException,
-  pcnCIOTW_eFrete, pcnCIOTW_REPOM, pcnCIOTW_Pamcard;
+  pcnCIOTW_eFrete,
+  pcnCIOTW_REPOM,
+  pcnCIOTW_Pamcard;
 
 
 { TCIOTWClass }
