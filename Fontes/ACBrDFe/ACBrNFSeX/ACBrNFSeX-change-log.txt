@@ -42,6 +42,20 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+01/06/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9201 - A cidade de Cataguases/MG trocou de provedor, agora é o IPM na versão 2.04
+   Por: André Cravo
+   Veja: https://www.projetoacbr.com.br/forum/topic/91418-acbr-9201-atualiza%C3%A7%C3%A3o-provedor-cidade-cataguases-mg/
+[*] ACBR-9352 - A cidade de Rio Claro/SP trocou de provedor, agora é o Giss na versão 2.04
+   Por: Gabriel Herdt
+   Veja: https://www.projetoacbr.com.br/forum/topic/92349-acbr-9352-ginfes-para-gissonline-rio-claro-sp-0106/
+[*] ACBR-9406 - A cidade  Jaraguá do Sul/SC trocou de provedor, agora é o Padrão Nacional
+   Por: Ademar Scariot
+[*] ACBR-9429 - Atualiza as URLs da cidade de Santa Helena de Goiás/GO
+   Por: Prime Software
+   Veja: https://www.projetoacbr.com.br/forum/topic/91298-acbr-9429acbr-9186-santa-helena-de-goias-go-provedor-centi/#comment-604085
+
 29/05/2026
 -- PadraoNacional.Provider --
 [-] Altera a mensagem devolvida quando não informa o chNFSe ao enviar evento de "Nenhum evento adicionado" para "Chave da NFSe não informada".
