@@ -1813,8 +1813,7 @@ begin
           if TipoViagem <> Frota then
             GerarImpostos;
 
-          if TipoViagem <> TAC_Agregado then
-            GerarPagamentos;
+          GerarPagamentos;
 
           GerarContratado;
           GerarMotorista;

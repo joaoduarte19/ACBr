@@ -630,6 +630,15 @@ begin
                                       'xmlns:obj1="http://schemas.ipc.adm.br/efrete/objects"';
 
         end;
+      opObterPdf:
+        begin
+          Servico := 'http://schemas.ipc.adm.br/efrete/pefV2/';
+
+          FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
+                                      'xmlns:pef="http://schemas.ipc.adm.br/efrete/pefV2" ' +
+                                      'xmlns:obj="http://schemas.ipc.adm.br/efrete/pef/objects" ' +
+                                      'xmlns:obj1="http://schemas.ipc.adm.br/efrete/objects"';
+        end;
     else
       begin
         Servico  := 'http://schemas.ipc.adm.br/efrete/pefV2/';
