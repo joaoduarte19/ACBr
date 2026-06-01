@@ -766,7 +766,6 @@ end;
 procedure TBPeIniReader.Ler_IBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBS; Idx1, Idx2: Integer);
 var
   sSecao: string;
-  ok: Boolean;
 begin
   if Idx1 = -1 then
     sSecao := 'IBSCBS'

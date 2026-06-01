@@ -387,7 +387,6 @@ begin
   FPosPrinter.Buffer.Add(' ');
   FPosPrinter.Buffer.Add('</ce><c><n>Consulte pela Chave de Acesso em</n>');
   FPosPrinter.Buffer.Add('</ce><c>'+TACBrBPe(ACBrBPe).GetURLConsultaBPe(FpBPe.ide.cUF, FpBPe.ide.tpAmb));
-  {confirmar com italo}
   FPosPrinter.Buffer.Add('</ce><c>' + FormatarChaveAcesso(RemoverLiteralChave(FpBPe.infBPe.ID)));
 end;
 
@@ -590,7 +589,6 @@ begin
   FPosPrinter.Buffer.Add(ACBrStr('Emissão: ' + DateTimeToStr(FpBPe.ide.dhEmi)) + '</n>');
   FPosPrinter.Buffer.Add(' ');
   FPosPrinter.Buffer.Add('<c>CHAVE ACESSO');
-  {confirmar com o italo}
   FPosPrinter.Buffer.Add(FormatarChaveAcesso(RemoverLiteralChave(FpBPe.infBPe.ID)));
   FPosPrinter.Buffer.Add('</linha_simples>');
 

@@ -253,7 +253,7 @@ end;
 
 function TBPeXmlWriter.ObterNomeArquivo: string;
 begin
-  Result :=  RemoverLiteralChave(FBPe.infBPe.ID) + '-BPe.xml';
+  Result := RemoverLiteralChave(FBPe.infBPe.ID) + '-BPe.xml';
 end;
 
 function TBPeXmlWriter.GerarXml: boolean;

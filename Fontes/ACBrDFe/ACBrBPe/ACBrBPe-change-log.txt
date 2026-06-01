@@ -44,7 +44,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
 01/06/2026
+-- ACBrBPe/ACBrBPeConfiguracoes/ACBrBPeWebServices/ACBrBPeIniReader --
+-- ACBrBPeXmlWriter/ACBrBPeEnvEvento/ACBrBPeDABPeESCPOS --
+[*] ACBr-9369 - Mais alguns ajustes para as chaves.
+   Por: Italo Giurizzato Junior
 -- ACBrBPe.pas, ACBrBPeBilhetes.pas, ACBrBPeIniReader.pas, ACBrBPeXmlWriter.pas,
    ACBrBPeConsSit.pas, ACBrBPeEnvEvento.pas, ACBrBPeDABPeESCPOS.pas,ACBrBPeDABPEFR.pas --
 [*] ACBr-9369 - Ajustado CNPJ para alfanumericos

@@ -377,7 +377,7 @@ end;
 function TACBrBPe.GetURLConsultaBPe(const CUF: Integer;
   const TipoAmbiente: TACBrTipoAmbiente): String;
 begin
-  Result := LerURLDeParams('BPe', CUFtoUF(CUF), TpcnTipoAmbiente(TipoAmbiente),
+  Result := LerURLDeParams('BPe', CodigoUFparaUF(CUF), TpcnTipoAmbiente(TipoAmbiente),
     'URL-ConsultaBPe', 0);
 end;
 
@@ -385,7 +385,7 @@ function TACBrBPe.GetURLQRCode(FBPe: TBPe): String;
 var
   Passo1, Passo2, urlUF, idBPe, tpEmis, sign: String;
 begin
-  urlUF := LerURLDeParams('BPe', CUFtoUF(FBPe.Ide.cUF),
+  urlUF := LerURLDeParams('BPe', CodigoUFparaUF(FBPe.Ide.cUF),
      TpcnTipoAmbiente(FBPe.Ide.tpAmb), 'URL-QRCode', 0);
   idBPe := RemoverLiteralChave(FBPe.infBPe.ID);
   tpEmis := Copy(idBPe, 35, 1);
@@ -446,7 +446,7 @@ begin
     with EventoBPe.Evento.New do
     begin
       infEvento.CNPJ := Bilhetes.Items[i].BPe.Emit.CNPJ;
-      infEvento.cOrgao := StrToIntDef(copy(OnlyNumber(WebServices.Consulta.BPeChave), 1, 2), 0);
+      infEvento.cOrgao := ExtrairUFChaveAcesso(WebServices.Consulta.BPeChave);
       infEvento.dhEvento := now;
       infEvento.tpEvento := teCancelamento;
       infEvento.chBPe := WebServices.Consulta.BPeChave;
@@ -547,7 +547,7 @@ begin
 
     if Bilhetes.Count > 0 then
     begin
-      chBPe := OnlyNumber(EventoBPe.Evento.Items[i].infEvento.chBPe);
+      chBPe := RemoverLiteralChave(EventoBPe.Evento.Items[i].infEvento.chBPe);
 
       // Se tem a chave da BPe no Evento, procure por ela nos bilhetes carregados //
       if NaoEstaVazio(chBPe) then
@@ -684,7 +684,7 @@ begin
     ImprimirEventoPDF;
     AnexosEmail.Add(DABPE.ArquivoPDF);
 
-    NomeArq := OnlyNumber(EventoBPe.Evento[0].InfEvento.Id);
+    NomeArq := RemoverLiteralChave(EventoBPe.Evento[0].InfEvento.Id);
     EnviarEmail(sPara, sAssunto, sMensagem, sCC, AnexosEmail, StreamBPe,
 	    NomeArq + '-procEventoBPe.xml', sReplyTo);
   finally

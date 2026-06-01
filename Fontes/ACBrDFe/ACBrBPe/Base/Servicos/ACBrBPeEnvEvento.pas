@@ -214,7 +214,6 @@ var
 begin
   Evento[AIdx].InfEvento.id := 'ID'+
                                Evento[AIdx].InfEvento.TipoEvento +
-                               {confirmar com o italo}
                                RemoverLiteralChave(Evento[AIdx].InfEvento.chBPe) +
                                Format('%.2d', [Evento[AIdx].InfEvento.nSeqEvento]);
 

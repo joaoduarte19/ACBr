@@ -38,7 +38,9 @@ interface
 
 uses
   Classes, SysUtils, IniFiles,
-  ACBrDFeConfiguracoes, pcnConversao, ACBrBPeConversao;
+  ACBrDFeConfiguracoes,
+  ACBrDFe.Conversao,
+  ACBrBPeConversao;
 
 type
 
@@ -84,7 +86,7 @@ type
 
     function GetPathBPe(Data: TDateTime = 0; const CNPJ: String = '';
       const AIE: String = ''; Modelo: TModeloBPe = moBPe): String;
-    function GetPathEvento(tipoEvento: TpcnTpEvento; const CNPJ: String = '';
+    function GetPathEvento(tipoEvento: TACBrTipoEvento; const CNPJ: String = '';
       const AIE: String = ''; Data: TDateTime = 0): String;
   published
     property EmissaoPathBPe: Boolean read FEmissaoPathBPe
@@ -248,7 +250,7 @@ begin
   FPathArquivoMunicipios      := DeArquivosConfBPe.PathArquivoMunicipios;
 end;
 
-function TArquivosConfBPe.GetPathEvento(tipoEvento: TpcnTpEvento; const CNPJ: String = '';
+function TArquivosConfBPe.GetPathEvento(tipoEvento: TACBrTipoEvento; const CNPJ: String = '';
   const AIE: String = ''; Data: TDateTime = 0): String;
 var
   Dir: String;
