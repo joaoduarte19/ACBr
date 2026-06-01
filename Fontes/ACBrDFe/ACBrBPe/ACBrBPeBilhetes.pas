@@ -456,12 +456,12 @@ begin
     for I:=0 to BPe.autXML.Count-1 do
     begin
       GravaLog('Validar: 325-' + IntToStr(I) + '-CPF download');
-      if (Length(Trim(OnlyNumber(BPe.autXML[I].CNPJCPF))) <= 11) and
+      if (Length(Trim(OnlyCPFCNPJAlphaNum(BPe.autXML[I].CNPJCPF))) <= 11) and
         not ValidarCPF(BPe.autXML[I].CNPJCPF) then
         AdicionaErro('325-Rejeição: CPF autorizado para download inválido');
 
       GravaLog('Validar: 323-' + IntToStr(I) + '-CNPJ download');
-      if (Length(Trim(OnlyNumber(BPe.autXML[I].CNPJCPF))) > 11) and
+      if (Length(Trim(OnlyCPFCNPJAlphaNum(BPe.autXML[I].CNPJCPF))) > 11) and
         not ValidarCNPJ(BPe.autXML[I].CNPJCPF) then
         AdicionaErro('323-Rejeição: CNPJ autorizado para download inválido');
     end;
@@ -675,7 +675,7 @@ end;
 //    ((Copy(chaveBPe, 4, 2) <> IntToStrZero(BPe.Ide.cUF, 2)) or
 //    (Copy(chaveBPe, 6, 2)  <> Copy(FormatFloat('0000', wAno), 3, 2)) or
 //    (Copy(chaveBPe, 8, 2)  <> FormatFloat('00', wMes)) or
-//    (Copy(chaveBPe, 10, 14)<> PadLeft(OnlyNumber(BPe.Emit.CNPJ), 14, '0')) or
+//    (Copy(chaveBPe, 10, 14)<> PadLeft(OnlyCPFCNPJAlphaNum(BPe.Emit.CNPJ), 14, '0')) or
 //    (Copy(chaveBPe, 24, 2) <> IntToStrZero(BPe.Ide.modelo, 2)) or
 //    (Copy(chaveBPe, 26, 3) <> IntToStrZero(BPe.Ide.serie, 3)) or
 //    (Copy(chaveBPe, 29, 9) <> IntToStrZero(BPe.Ide.nBP, 9)) or
@@ -714,7 +714,7 @@ end;
 
 function TBilhete.GetNumID: String;
 begin
-  Result := OnlyNumber(BPe.infBPe.ID);
+  Result := RemoverLiteralChave(BPe.infBPe.ID);
 end;
 
 function TBilhete.GetXMLAssinado: String;
@@ -935,16 +935,9 @@ function TBilhetes.LoadFromFile(const CaminhoArquivo: String;
 var
   XMLUTF8: AnsiString;
   i, l: integer;
-  MS: TMemoryStream;
 begin
-  MS := TMemoryStream.Create;
-  try
-    MS.LoadFromFile(CaminhoArquivo);
-    XMLUTF8 := ReadStrFromStream(MS, MS.Size);
-    XMLUTF8 := RemoverUTF8Bom(XMLUTF8);
-  finally
-    MS.Free;
-  end;
+  XMLUTF8 := CarregarArquivo(CaminhoArquivo);
+  XMLUTF8 := RemoverUTF8Bom(XMLUTF8);
 
   l := Self.Count; // Indice da última Bilhete já existente
   Result := LoadFromString(String(XMLUTF8), AGerarBPe);

@@ -198,7 +198,7 @@ begin
     exit;
   end;
 
-  CNPJ := OnlyAlphaNum(Trim(CNPJ));
+  CNPJ := OnlyCPFCNPJAlphaNum(Trim(CNPJ));
 
   if obrigatorio then
     Result := AddNode(tcEsp, ID, 'CNPJ', 14, 14, 1, CNPJ, DSC_CNPJ)

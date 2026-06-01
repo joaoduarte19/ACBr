@@ -45,7 +45,7 @@ uses
   ACBrBPeConfiguracoes, ACBrBPeWebServices, ACBrBPeBilhetes, ACBrBPeDABPEClass,
   ACBrBPeClass,
   pcnConversao,
-  ACBrBPeConversao, ACBrBPeEnvEvento;
+  ACBrBPeConversao, ACBrBPeEnvEvento, ACBrDFeUtil;
 
 const
   ACBRBPE_NAMESPACE = 'http://www.portalfiscal.inf.br/bpe';
@@ -387,7 +387,7 @@ var
 begin
   urlUF := LerURLDeParams('BPe', CUFtoUF(FBPe.Ide.cUF),
      TpcnTipoAmbiente(FBPe.Ide.tpAmb), 'URL-QRCode', 0);
-  idBPe := OnlyNumber(FBPe.infBPe.ID);
+  idBPe := RemoverLiteralChave(FBPe.infBPe.ID);
   tpEmis := Copy(idBPe, 35, 1);
 
   Passo1 := urlUF;

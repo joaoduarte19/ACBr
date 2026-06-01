@@ -67,7 +67,7 @@ uses
 
 function TConsSitBPe.ObterNomeArquivo: string;
 begin
-  Result := OnlyNumber(FchBPe) + '-ped-sit.xml';
+  Result := OnlyCPFCNPJAlphaNum(FchBPe) + '-ped-sit.xml';
 end;
 
 function TConsSitBPe.GerarXML: string;

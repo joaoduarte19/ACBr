@@ -1327,11 +1327,11 @@ begin
     case FOrdenacaoPath[i].Item of
       opCNPJ:
         begin
-          CNPJ_temp := OnlyNumber(CNPJ);
+          CNPJ_temp := OnlyCPFCNPJAlphaNum(CNPJ);
 
           if EstaVazio(CNPJ_temp) then
             if Assigned(fpConfiguracoes.Owner) then
-              CNPJ_temp := OnlyNumber(TACBrDFe(fpConfiguracoes.Owner).SSL.CertCNPJ);
+              CNPJ_temp := OnlyCPFCNPJAlphaNum(TACBrDFe(fpConfiguracoes.Owner).SSL.CertCNPJ);
 
           if NaoEstaVazio(CNPJ_temp) then
             Dir := PathWithDelim(Dir) + CNPJ_temp;

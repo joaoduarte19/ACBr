@@ -38,6 +38,10 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+01/06/2026
+-- ACBrDFeConfiguracoes.pas, ACBrXmlWriter.pas -- 
+[*] ACBr-9369 - Ajustado CNPJ para alfanumericos
+   Por: Daniel de Morais
 
 26/05/2026
 -- ACBrDFe.Conversao --

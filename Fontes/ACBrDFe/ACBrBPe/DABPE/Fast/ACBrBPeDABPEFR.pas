@@ -325,7 +325,7 @@ begin
         with FBPe.infBPe do
         begin
             FieldByName('ID').AsString := ID;
-            FieldByName('ChaveBPe').AsString := OnlyNumber(ID);
+            FieldByName('ChaveBPe').AsString := RemoverLiteralChave(ID);
         end;
         Post;
     end;
@@ -1002,7 +1002,7 @@ begin
 
     try
       frxPDFExport.ShowDialog := False;
-      frxPDFExport.FileName   := IncludeTrailingPathDelimiter(PathPDF) + OnlyNumber(FBPe.infBPe.ID) + '-bpe.pdf';
+      frxPDFExport.FileName   := IncludeTrailingPathDelimiter(PathPDF) + RemoverLiteralChave(FBPe.infBPe.ID) + '-bpe.pdf';
 
       if not DirectoryExists(ExtractFileDir(frxPDFExport.FileName)) then
          ForceDirectories(ExtractFileDir(frxPDFExport.FileName));

@@ -152,6 +152,7 @@ uses
   ACBrUtil.Strings,
   ACBrUtil.FilesIO,
   ACBrUtil.DateTime,
+  ACBrUtil.XMLHTML,
   ACBrBPeRetEnvEvento,
   ACBrBPeConversao;
 
@@ -213,7 +214,8 @@ var
 begin
   Evento[AIdx].InfEvento.id := 'ID'+
                                Evento[AIdx].InfEvento.TipoEvento +
-                               OnlyNumber(Evento[AIdx].InfEvento.chBPe) +
+                               {confirmar com o italo}
+                               RemoverLiteralChave(Evento[AIdx].InfEvento.chBPe) +
                                Format('%.2d', [Evento[AIdx].InfEvento.nSeqEvento]);
 
   Result := CreateElement('infEvento');
@@ -225,7 +227,7 @@ begin
   Result.AppendChild(AddNode(tcStr, 'P06', 'tpAmb', 1, 1, 1,
                    TipoAmbienteToStr(Evento[AIdx].InfEvento.tpAmb), DSC_TPAMB));
 
-  sDoc := OnlyNumber(Evento[AIdx].InfEvento.CNPJ);
+  sDoc := OnlyCPFCNPJAlphaNum(Evento[AIdx].InfEvento.CNPJ);
 
   if EstaVazio(sDoc) then
     sDoc := ExtrairCNPJCPFChaveAcesso(Evento[AIdx].InfEvento.chBPe);
@@ -455,15 +457,10 @@ end;
 
 function TEventoBPe.LerXML(const ACaminhoArquivo: string): Boolean;
 var
-  ArqEvento: TStringList;
+  LXML: string;
 begin
-  ArqEvento := TStringList.Create;
-  try
-    ArqEvento.LoadFromFile(ACaminhoArquivo);
-    Result := LerXMLFromString(ArqEvento.Text);
-  finally
-    ArqEvento.Free;
-  end;
+  LXML := CarregarArquivo(ACaminhoArquivo);
+  Result := LerXMLFromString(LXML);
 end;
 
 function TEventoBPe.LerXMLFromString(const AXML: string): Boolean;
@@ -472,7 +469,7 @@ var
 begin
   RetEventoBPe := TRetEventoBPe.Create;
   try
-    RetEventoBPe.XmlRetorno := AXML;
+    RetEventoBPe.XmlRetorno := RemoverUTF8Bom(AXML);
     Result := RetEventoBPe.LerXml;
 
     with FEvento.New do

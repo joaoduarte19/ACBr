@@ -44,6 +44,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+01/06/2026
+-- ACBrBPe.pas, ACBrBPeBilhetes.pas, ACBrBPeIniReader.pas, ACBrBPeXmlWriter.pas,
+   ACBrBPeConsSit.pas, ACBrBPeEnvEvento.pas, ACBrBPeDABPeESCPOS.pas,ACBrBPeDABPEFR.pas --
+[*] ACBr-9369 - Ajustado CNPJ para alfanumericos
+   Por: Daniel de Morais
 
 17/04/2026
 -- ACBrBPeXmlWriter --
