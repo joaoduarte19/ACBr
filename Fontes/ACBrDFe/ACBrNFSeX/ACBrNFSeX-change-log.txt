@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 01/06/2026
+-- SimplISS.Provider --
+[*] ACBR-9445 - Possível solução para o envio do evento de cancelamento.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] ACBR-9201 - A cidade de Cataguases/MG trocou de provedor, agora é o IPM na versão 2.04
    Por: André Cravo
