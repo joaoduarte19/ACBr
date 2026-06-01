@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+01/06/2026
+-- pcnConversaoNFe --
+[+] ACBr-9415 - Incluído o enumerado tcRetornoRecusaParcial para o campo tpNFCredito.
+   Por: Italo Giurizzato Junior
+
 26/05/2026
 -- ACBrNFe.Classes/ACBrNFe.XmlReader --
 [+] ACBr-9316 - Implementado a leitura do grupo infPAA
