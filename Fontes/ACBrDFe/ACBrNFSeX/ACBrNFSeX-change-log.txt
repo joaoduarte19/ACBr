@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 01/06/2026
+-- ACBrNFSeXServicos --
+[*] Incluída a cidade de Carpina/PE, O provedor é HM2
+   Por: Italo Giurizzato Junior
 -- SimplISS.Provider --
 [*] ACBR-9445 - Possível solução para o envio do evento de cancelamento.
    Por: Italo Giurizzato Junior
