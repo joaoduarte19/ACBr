@@ -1023,7 +1023,7 @@ begin
   Chave := '';
   if not(InputQuery('WebServices Eventos: Alteração de Poltrona', 'Chave da BP-e', Chave)) then
      exit;
-  Chave := Trim(OnlyNumber(Chave));
+  Chave := Trim(RemoverLiteralChave(Chave));
   idLote := '1';
   if not(InputQuery('WebServices Eventos: Alteração de Poltrona', 'Identificador de controle do Lote de envio do Evento', idLote)) then
      exit;
@@ -1094,7 +1094,7 @@ begin
   Chave := '';
   if not(InputQuery('WebServices Eventos: Cancelamento', 'Chave da BP-e', Chave)) then
      exit;
-  Chave := Trim(OnlyNumber(Chave));
+  Chave := Trim(RemoverLiteralChave(Chave));
   idLote := '1';
   if not(InputQuery('WebServices Eventos: Cancelamento', 'Identificador de controle do Lote de envio do Evento', idLote)) then
      exit;
@@ -1607,7 +1607,7 @@ begin
   Chave := '';
   if not(InputQuery('WebServices Eventos: Não Embarque', 'Chave da BP-e', Chave)) then
      exit;
-  Chave := Trim(OnlyNumber(Chave));
+  Chave := Trim(RemoverLiteralChave(Chave));
   idLote := '1';
   if not(InputQuery('WebServices Eventos: Não Embarque', 'Identificador de controle do Lote de envio do Evento', idLote)) then
      exit;
