@@ -44,6 +44,9 @@ Símbolo : Significado
 
 02/06/2026
 -- ACBrNFSeXServicos --
+[*] ACBR-9234 - O município de Santa Maria de Jetiba/ES mudou de provedor padrão nacional para o provedor EL
+   Por: Larissa Santos
+   Veja: https://www.projetoacbr.com.br/forum/topic/91667-acbr-9234-acbrnfsexservicosini-santa-maria-de-jetibaes-ibge-n%C2%BA-3204559/#comment-605446
 [*] Ajuste nas URLs e versão das cidades atendidas pelo provedor GeisWeb.
    Por: Italo Giurizzato Junior
 -- GeisWeb.GravarXml/GeisWeb.Provider --
