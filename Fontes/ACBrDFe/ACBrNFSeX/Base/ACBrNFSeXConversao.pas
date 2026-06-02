@@ -133,7 +133,7 @@ type
                    proeReceita, proEtherium, proFacundo, proFGMaiss, profintelISS,
                    proFiorilli, proFisco, proFISSLex, proFuturize, proGeisWeb,
                    progeNFe, proGestaoISS, proGiap, proGinfes, proGiss, proGovBR,
-                   proGovDigital, proGoverna, proHM2, proHorus, proiiBrasil, proInfisc,
+                   proGovDigital, proGoverna, proHorus, proiiBrasil, proInfisc,
                    proIntertec, proIPM, proIsaneto, proISSBarueri, proISSCamacari,
                    proISSCambe, proISSCampinas, proISSCuritiba, proISSDigital,
                    proISSDSF, proISSe, proISSFortaleza, proISSGoiania, proISSIntel,
@@ -681,8 +681,6 @@ type
 
 const
   TfinNFSeArrayStrings: array[TfinNFSe] of string = ('0', '1', '2');
-  TfinNFSeDescricaoArrayStrings: array[TfinNFSe] of string = ('Regular',
-    'Crédito', 'Débito');
 
 type
   TindFinal = (ifSim, ifNao);
@@ -884,7 +882,6 @@ function StrToindTotTrib(out ok: Boolean; const s: string): TindTotTrib;
 
 function ambGerToStr(const t: TambGer): string;
 function StrToambGer(out ok: Boolean; const s: string): TambGer;
-function ambGerToStrText(const t: TambGer): string;
 
 function tpEmisToStr(const t: TtpEmis): string;
 function StrTotpEmis(out ok: Boolean; const s: string): TtpEmis;
@@ -933,11 +930,8 @@ function IdLocalIncidenciaToStr(t: TIdLocalIncidencia): string;
 function StrToIdLocalIncidencia(const s: string): TIdLocalIncidencia;
 
 // Reforma Tributária
-function cStatToStr(const t: Integer): string;
-
 function finNFSeToStr(const t: TfinNFSe): string;
 function StrTofinNFSe(const s: string): TfinNFSe;
-function finNFSeToStrText(const t: TfinNFSe): string;
 
 function indFinalToStr(const t: TindFinal): string;
 function StrToindFinal(const s: string): TindFinal;
@@ -13751,13 +13745,6 @@ begin
                            [agPrefeitura, agSistemaNacional]);
 end;
 
-function ambGerToStrText(const t: TambGer): string;
-begin
-  result := EnumeradoToStr(t,
-                           ['Prefeitura', 'Sistema Nacional'],
-                           [agPrefeitura, agSistemaNacional]);
-end;
-
 function tpEmisToStr(const t: TtpEmis): string;
 begin
   result := EnumeradoToStr(t,
@@ -14121,18 +14108,6 @@ end;
 
 
 // Reforma Tributária
-function cStatToStr(const t: Integer): string;
-begin
-  case t of
-    100: Result := 'NFS-e Gerada';
-    101: Result := 'NFS-e de Substituição Gerada';
-    102: Result := 'NFS-e de Decisão Judicial';
-    103: Result := 'NFS-e Avulsa';
-  else
-    Result := IntToStr(t);
-  end;
-end;
-
 function finNFSeToStr(const t: TfinNFSe): string;
 begin
   Result := TfinNFSeArrayStrings[t];
@@ -14151,11 +14126,6 @@ begin
     end;
   end;
   raise EACBrException.CreateFmt('Valor string inválido para TfinNFSe: %s', [s]);
-end;
-
-function finNFSeToStrText(const t: TfinNFSe): string;
-begin
-  Result := TfinNFSeDescricaoArrayStrings[t];
 end;
 
 function indFinalToStr(const t: TindFinal): string;

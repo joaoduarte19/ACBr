@@ -127,8 +127,18 @@ begin
   Result.AppendChild(AddNode(tcStr, '#33', 'CodigoMunicipio', 1, 7, NrOcorrCodigoMunic_1,
                            OnlyNumber(NFSe.Servico.CodigoMunicipio), DSC_CMUN));
 
+  Result.AppendChild(AddNode(tcStr, '#31', 'CodigoTributacaoMunicipio', 1, 20, NrOcorrCodTribMun_2,
+                     NFSe.Servico.CodigoTributacaoMunicipio, DSC_CSERVTRIBMUN));
+
   Result.AppendChild(AddNode(tcStr, '#31', 'CodigoServicoNacional', 1, 20, 0,
                                        NFSe.Servico.CodigoServicoNacional, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#33', 'Discriminacao', 1, 2000, NrOcorrDiscriminacao_2,
+      StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+               FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]), DSC_DISCR));
+
+  Result.AppendChild(AddNode(tcStr, '#34', 'CodigoMunicipio', 1, 7, NrOcorrCodigoMunic_2,
+                           OnlyNumber(NFSe.Servico.CodigoMunicipio), DSC_CMUN));
 
   Result.AppendChild(GerarCodigoPaisServico);
 
@@ -136,11 +146,18 @@ begin
                                NrMinExigISS, NrMaxExigISS, NrOcorrExigibilidadeISS,
     StrToInt(FpAOwner.ExigibilidadeISSToStr(NFSe.Servico.ExigibilidadeISS)), DSC_INDISS));
 
+  Result.AppendChild(AddNode(tcStr, '#9', 'OutrasInformacoes', 0, 255, NrOcorrOutrasInformacoes_2,
+      StringReplace(NFSe.OutrasInformacoes, Opcoes.QuebraLinha,
+           FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]), DSC_OUTRASINF));
+
   Result.AppendChild(AddNode(tcInt, '#37', 'MunicipioIncidencia', 7, 7, NrOcorrMunIncid,
                                 NFSe.Servico.MunicipioIncidencia, DSC_MUNINCI));
 
   Result.AppendChild(AddNode(tcStr, '#38', 'NumeroProcesso', 1, 30, NrOcorrNumProcesso,
                                    NFSe.Servico.NumeroProcesso, DSC_NPROCESSO));
+
+  Result.AppendChild(AddNode(tcStr, '#39', 'InfAdicional', 1, 255, NrOcorrInfAdicional,
+                                  NFSe.Servico.InfAdicional, DSC_INFADICIONAL));
 
   Result.AppendChild(AddNode(tcStr, '#32', 'cNBS', 1, 9, 0,
                                                    NFSe.Servico.CodigoNBS, ''));
@@ -153,23 +170,6 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#39', 'cIndOp', 1, 1, 0,
                                                        NFSe.IBSCBS.cIndOp, ''));
-  {
-						<ExigibilidadeISS>1</ExigibilidadeISS>
-						<MunicipioIncidencia>3300000</MunicipioIncidencia>
-            <CST>000</CST>
-						<cClassTrib>000000</cClassTrib>
-						<cNBS>000000000</cNBS>
-						<cIndOp>000000</cIndOp>
-  }
-
-{
-<ExigibilidadeISS>1</ExigibilidadeISS>
-<cNBS>120013110</cNBS>
-<CST>000</CST>
-<cClassTrib>000001</cClassTrib>
-<cIndOp>050101</cIndOp>
-<MunicipioIncidencia>2931350</MunicipioIncidencia>
-}
 end;
 
 end.

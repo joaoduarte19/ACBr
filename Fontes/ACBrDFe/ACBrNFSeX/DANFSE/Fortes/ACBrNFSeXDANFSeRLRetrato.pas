@@ -229,10 +229,6 @@ type
     rbCodServico: TRLBand;
     rlmCodServico: TRLMemo;
     rllMsgTeste: TRLLabel;
-    RLLabel8: TRLLabel;
-    RLLabel16: TRLLabel;
-    rllValorIBS: TRLLabel;
-    rllValorCBS: TRLLabel;
 
     procedure rlbCabecalhoBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure rlbItensServicoBeforePrint(Sender: TObject; var PrintIt: Boolean);
@@ -582,10 +578,6 @@ begin
     rllRetencoesFederais.Caption := FormatFloat(',0.00', Servico.Valores.RetencoesFederais);
     rllOutrasRetencoes.Caption := FormatFloat(',0.00', Servico.Valores.OutrasRetencoes);
     rllValorIssRetido.Caption := FormatFloat(',0.00', Servico.Valores.ValorIssRetido);
-
-    rllValorIBS.Caption := FormatFloat(',0.00', infNFSe.IBSCBS.totCIBS.gIBS.vIBSTot);
-    rllValorCBS.Caption := FormatFloat(',0.00', infNFSe.IBSCBS.totCIBS.gCBS.vCBS);
-
     rllValorLiquido.Caption := FormatFloat(',0.00', Servico.Valores.ValorLiquidoNfse);
     rllValorServicos2.Caption := FormatFloat(',0.00', Servico.Valores.ValorServicos);
     rllValorDeducoes.Caption := FormatFloat(',0.00', Servico.Valores.ValorDeducoes);

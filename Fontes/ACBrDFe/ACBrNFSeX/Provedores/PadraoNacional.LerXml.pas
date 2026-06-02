@@ -145,7 +145,7 @@ type
     procedure LerIniNfse(AINIRec: TMemIniFile);
   public
     function LerXml: Boolean; override;
-//    function LerIni: Boolean; override;
+    function LerIni: Boolean; override;
   end;
 
 implementation
@@ -866,7 +866,6 @@ procedure TNFSeR_PadraoNacional.LerXMLinfNFSe(const ANode: TACBrXmlNode);
 var
   AuxNode: TACBrXmlNode;
   Ok: Boolean;
-  xUF: string;
 begin
   AuxNode := ANode.Childrens.FindAnyNs('Nfse');
 
@@ -991,18 +990,6 @@ begin
       NFSe.InfNFSe.IBSCBS.cLocalidadeIncid := NFSe.InfNFSe.cLocIncid;
       NFSe.InfNFSe.IBSCBS.xLocalidadeIncid := NFSe.infNFSe.xLocIncid;
     end;
-
-    if NFSe.infNFSe.xLocEmi = NFSe.Emitente.Endereco.xMunicipio then
-      NFSe.infNFSe.UFLocEmi := NFSe.Emitente.Endereco.UF;
-
-    if NFSe.infNFSe.xLocEmi = NFSe.Prestador.Endereco.xMunicipio then
-      NFSe.infNFSe.UFLocEmi := NFSe.Prestador.Endereco.UF;
-
-    if NFSe.infNFSe.xLocEmi = NFSe.Tomador.Endereco.xMunicipio then
-      NFSe.infNFSe.UFLocEmi := NFSe.Tomador.Endereco.UF;
-
-    if NFSe.infNFSe.xLocEmi = NFSe.Intermediario.Endereco.xMunicipio then
-      NFSe.infNFSe.UFLocEmi := NFSe.Intermediario.Endereco.UF;
   end;
 end;
 
@@ -1596,7 +1583,7 @@ begin
 
   LerXMLinfDPS(ANode);
 end;
-{
+
 function TNFSeR_PadraoNacional.LerIni: Boolean;
 var
   INIRec: TMemIniFile;
@@ -1621,7 +1608,7 @@ begin
 
   Result := True;
 end;
-}
+
 procedure TNFSeR_PadraoNacional.LerIniRps(AINIRec: TMemIniFile);
 begin
   NFSe.tpXML := txmlRPS;
