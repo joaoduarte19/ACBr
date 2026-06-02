@@ -2528,6 +2528,7 @@ begin
   FinfPrazo := TInfPrazoCollection.Create;
   FinfBanc  := TinfBanc.Create;
   FindAntecipaAdiant := tiNao;
+  FindAltoDesemp := tiNao;
 end;
 
 destructor TinfPagCollectionItem.Destroy;
