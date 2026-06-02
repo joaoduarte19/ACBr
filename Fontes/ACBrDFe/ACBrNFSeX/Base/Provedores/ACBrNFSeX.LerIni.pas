@@ -895,8 +895,6 @@ begin
 
     sCampo := AINIRec.ReadString(sSecao, 'CodigoCnae', AINIRec.ReadString(sSecao, 'idCnae', ''));
     Item.CodigoCnae := sCampo;
-    // Provedor SoftPlan
-    Item.idCnae := sCampo;
 
     Item.TipoUnidade := StrToUnidade(Ok, AINIRec.ReadString(sSecao, 'TipoUnidade', '2'));
     Item.Unidade := AINIRec.ReadString(sSecao, 'Unidade', '');

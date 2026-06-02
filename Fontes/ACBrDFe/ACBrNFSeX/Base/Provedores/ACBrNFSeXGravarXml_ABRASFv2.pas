@@ -528,8 +528,10 @@ begin
 
   FDocument.Root := NFSeNode;
 
+  ConsolidarVariosItensServicosEmUmSo;
+
   if FormatoDiscriminacao <> fdNenhum then
-    ConsolidarVariosItensServicosEmUmSo;
+    CampoDiscriminacaoFormatado;
 
   xmlNode := GerarInfDeclaracaoPrestacaoServico;
   NFSeNode.AppendChild(xmlNode);

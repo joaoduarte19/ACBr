@@ -534,53 +534,50 @@ end;
 procedure TNFSeRClass.AlimentarListaComDadosServicoValores;
 begin
   // Servico
-  NFSe.Servico.ItemServico[0].CodigoMunicipio := StrToIntDef(NFSe.Servico.CodigoMunicipio, 0);
-  NFSe.Servico.ItemServico[0].CodigoPais := NFSe.Servico.CodigoPais;
-  NFSe.Servico.ItemServico[0].ItemListaServico := NFSe.Servico.ItemListaServico;
-  NFSe.Servico.ItemServico[0].xItemListaServico := NFSe.Servico.xItemListaServico;
-  NFSe.Servico.ItemServico[0].CodigoServicoNacional := NFSe.Servico.CodigoServicoNacional;
-  NFSe.Servico.ItemServico[0].CodigoTributacaoNacional := NFSe.Servico.CodigoTributacaoNacional;
-  NFSe.Servico.ItemServico[0].CodigoTributacaoMunicipio := NFSe.Servico.CodigoTributacaoMunicipio;
-  NFSe.Servico.ItemServico[0].xCodigoTributacaoMunicipio := NFSe.Servico.xCodigoTributacaoMunicipio;
-  NFSe.Servico.ItemServico[0].CodigoNBS := NFSe.Servico.CodigoNBS;
+//  NFSe.Servico.ItemServico[0].CodigoMunicipio := StrToIntDef(NFSe.Servico.CodigoMunicipio, 0);
+//  NFSe.Servico.ItemServico[0].CodigoPais := NFSe.Servico.CodigoPais;
+//  NFSe.Servico.ItemServico[0].ItemListaServico := NFSe.Servico.ItemListaServico;
+//  NFSe.Servico.ItemServico[0].xItemListaServico := NFSe.Servico.xItemListaServico;
+//  NFSe.Servico.ItemServico[0].CodigoServicoNacional := NFSe.Servico.CodigoServicoNacional;
+//  NFSe.Servico.ItemServico[0].CodigoTributacaoNacional := NFSe.Servico.CodigoTributacaoNacional;
+//  NFSe.Servico.ItemServico[0].CodigoTributacaoMunicipio := NFSe.Servico.CodigoTributacaoMunicipio;
+//  NFSe.Servico.ItemServico[0].xCodigoTributacaoMunicipio := NFSe.Servico.xCodigoTributacaoMunicipio;
+//  NFSe.Servico.ItemServico[0].CodigoNBS := NFSe.Servico.CodigoNBS;
   NFSe.Servico.ItemServico[0].xNBS := NFSe.infNFSe.xNBS;
-  NFSe.Servico.ItemServico[0].CodigoInterContr := NFSe.Servico.CodigoInterContr;
-  NFSe.Servico.ItemServico[0].CodigoCnae := NFSe.Servico.CodigoCnae;
-  NFSe.Servico.ItemServico[0].ExigibilidadeISS := NFSe.Servico.ExigibilidadeISS;
-  NFSe.Servico.ItemServico[0].IdentifNaoExigibilidade := NFSe.Servico.IdentifNaoExigibilidade;
-  NFSe.Servico.ItemServico[0].MunicipioIncidencia := NFSe.Servico.MunicipioIncidencia;
-  NFSe.Servico.ItemServico[0].xMunicipioIncidencia := NFSe.Servico.xMunicipioIncidencia;
-  NFSe.Servico.ItemServico[0].NumeroProcesso := NFSe.Servico.NumeroProcesso;
-  NFSe.Servico.ItemServico[0].ResponsavelRetencao := NFSe.Servico.ResponsavelRetencao;
-  NFSe.Servico.ItemServico[0].TipoLancamento := NFSe.Servico.TipoLancamento;
+//  NFSe.Servico.ItemServico[0].CodigoInterContr := NFSe.Servico.CodigoInterContr;
+//  NFSe.Servico.ItemServico[0].CodigoCnae := NFSe.Servico.CodigoCnae;
+//  NFSe.Servico.ItemServico[0].ExigibilidadeISS := NFSe.Servico.ExigibilidadeISS;
+//  NFSe.Servico.ItemServico[0].IdentifNaoExigibilidade := NFSe.Servico.IdentifNaoExigibilidade;
+//  NFSe.Servico.ItemServico[0].MunicipioIncidencia := NFSe.Servico.MunicipioIncidencia;
+//  NFSe.Servico.ItemServico[0].xMunicipioIncidencia := NFSe.Servico.xMunicipioIncidencia;
+//  NFSe.Servico.ItemServico[0].NumeroProcesso := NFSe.Servico.NumeroProcesso;
+//  NFSe.Servico.ItemServico[0].ResponsavelRetencao := NFSe.Servico.ResponsavelRetencao;
+//  NFSe.Servico.ItemServico[0].TipoLancamento := NFSe.Servico.TipoLancamento;
 
-  if NFSe.Servico.ValorTotalRecebido > 0 then
-  NFSe.Servico.ItemServico[0].ValorRecebido := NFSe.Servico.ValorTotalRecebido;
+//  if NFSe.Servico.ValorTotalRecebido > 0 then
+//    NFSe.Servico.ItemServico[0].ValorRecebido := NFSe.Servico.ValorTotalRecebido;
 
-  if NFSe.Servico.Valores.ValorRecebido > 0 then
-  NFSe.Servico.ItemServico[0].ValorRecebido := NFSe.Servico.Valores.ValorRecebido;
-
-  NFSe.Servico.ItemServico[0].PercentualCargaTributaria := 0;
+//  NFSe.Servico.ItemServico[0].PercentualCargaTributaria := 0;
 
   if NFSe.PercentualCargaTributaria > 0 then
     NFSe.Servico.ItemServico[0].PercentualCargaTributaria := NFSe.PercentualCargaTributaria;
 
-  if NFSe.Servico.PercentualCargaTributaria > 0 then
-    NFSe.Servico.ItemServico[0].PercentualCargaTributaria := NFSe.Servico.PercentualCargaTributaria;
+//  if NFSe.Servico.PercentualCargaTributaria > 0 then
+//    NFSe.Servico.ItemServico[0].PercentualCargaTributaria := NFSe.Servico.PercentualCargaTributaria;
 
-  NFSe.Servico.ItemServico[0].ValorCargaTributaria := 0;
+//  NFSe.Servico.ItemServico[0].ValorCargaTributaria := 0;
 
   if NFSe.ValorCargaTributaria > 0 then
-  NFSe.Servico.ItemServico[0].ValorCargaTributaria := NFSe.ValorCargaTributaria;
+    NFSe.Servico.ItemServico[0].ValorCargaTributaria := NFSe.ValorCargaTributaria;
 
-  if NFSe.Servico.ValorCargaTributaria > 0 then
-  NFSe.Servico.ItemServico[0].ValorCargaTributaria := NFSe.Servico.ValorCargaTributaria;
+//  if NFSe.Servico.ValorCargaTributaria > 0 then
+//    NFSe.Servico.ItemServico[0].ValorCargaTributaria := NFSe.Servico.ValorCargaTributaria;
 
-  NFSe.Servico.ItemServico[0].FonteCargaTributaria := NFSe.Servico.FonteCargaTributaria;
+//  NFSe.Servico.ItemServico[0].FonteCargaTributaria := NFSe.Servico.FonteCargaTributaria;
 
-  NFSe.Servico.ItemServico[0].Operacao := NFSe.Servico.Operacao;
-  NFSe.Servico.ItemServico[0].Tributacao := NFSe.Servico.Tributacao;
-  NFSe.Servico.ItemServico[0].CFPS := NFSe.Servico.CFPS;
+//  NFSe.Servico.ItemServico[0].Operacao := NFSe.Servico.Operacao;
+//  NFSe.Servico.ItemServico[0].Tributacao := NFSe.Servico.Tributacao;
+//  NFSe.Servico.ItemServico[0].CFPS := NFSe.Servico.CFPS;
 
   NFSe.Servico.ItemServico[0].Endereco.Bairro := NFSe.Servico.Endereco.Bairro;
   NFSe.Servico.ItemServico[0].Endereco.CEP := NFSe.Servico.Endereco.CEP;
@@ -591,16 +588,18 @@ begin
   NFSe.Servico.ItemServico[0].Endereco.xPais := NFSe.Servico.Endereco.xPais;
   NFSe.Servico.ItemServico[0].Endereco.UF := NFSe.Servico.Endereco.UF;
 
-  NFSe.Servico.ItemServico[0].ResponsavelRetencao := NFSe.Servico.ResponsavelRetencao;
-  NFSe.Servico.ItemServico[0].LocalPrestacao := NFSe.Servico.LocalPrestacao;
-  NFSe.Servico.ItemServico[0].PrestadoEmViasPublicas := NFSe.Servico.PrestadoEmViasPublicas;
+//  NFSe.Servico.ItemServico[0].LocalPrestacao := NFSe.Servico.LocalPrestacao;
+//  NFSe.Servico.ItemServico[0].PrestadoEmViasPublicas := NFSe.Servico.PrestadoEmViasPublicas;
 
-  NFSe.Servico.ItemServico[0].InfAdicional := NFSe.Servico.InfAdicional;
-  NFSe.Servico.ItemServico[0].xFormaPagamento := NFSe.Servico.xFormaPagamento;
-  NFSe.Servico.ItemServico[0].cClassTrib := NFSe.Servico.cClassTrib;
-  NFSe.Servico.ItemServico[0].INDOP := NFSe.Servico.INDOP;
+//  NFSe.Servico.ItemServico[0].InfAdicional := NFSe.Servico.InfAdicional;
+//  NFSe.Servico.ItemServico[0].xFormaPagamento := NFSe.Servico.xFormaPagamento;
+//  NFSe.Servico.ItemServico[0].cClassTrib := NFSe.Servico.cClassTrib;
+//  NFSe.Servico.ItemServico[0].INDOP := NFSe.Servico.INDOP;
 
   // Valores
+  if NFSe.Servico.Valores.ValorRecebido > 0 then
+    NFSe.Servico.ItemServico[0].ValorRecebido := NFSe.Servico.Valores.ValorRecebido;
+
   NFSe.Servico.ItemServico[0].ValorTotal := NFSe.Servico.Valores.ValorServicos;
   NFSe.Servico.ItemServico[0].Aliquota := NFSe.Servico.Valores.Aliquota;
   NFSe.Servico.ItemServico[0].AliquotaSN := NFSe.Servico.Valores.AliquotaSN;
@@ -1920,11 +1919,15 @@ end;
 
 procedure TNFSeRClass.LerXMLIBSCBSNFSe(const ANode: TACBrXmlNode;
   IBSCBS: TIBSCBSNfse);
+var
+  xUF: string;
 begin
   if not Assigned(ANode) then Exit;
 
   IBSCBS.cLocalidadeIncid := ObterConteudo(ANode.Childrens.FindAnyNs('cLocalidadeIncid'), tcInt);
   IBSCBS.xLocalidadeIncid := ObterConteudo(ANode.Childrens.FindAnyNs('xLocalidadeIncid'), tcStr);
+  ObterNomeMunicipioUF(IBSCBS.cLocalidadeIncid, xUF);
+  IBSCBS.UFLocalidadeIncid := xUF;
   IBSCBS.pRedutor := ObterConteudo(ANode.Childrens.FindAnyNs('pRedutor'), tcDe2);
 
   LerXMLValoresIBSCBSNFSe(ANode.Childrens.FindAnyNs('valores'), IBSCBS.valores);

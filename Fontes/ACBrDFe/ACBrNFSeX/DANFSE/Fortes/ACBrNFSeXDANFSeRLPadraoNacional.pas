@@ -48,6 +48,7 @@ uses
   RLPDFFilter,
   RLReport,
   ACBrDelphiZXingQRCode,
+  ACBrDFe.Conversao,
   ACBrNFSeXConversao,
   ACBrNFSeXDANFSeRL;
 
@@ -80,35 +81,34 @@ type
     rllTomaMunicipio: TRLLabel;
     rllTomaEmail: TRLLabel;
     rllTomaTelefone: TRLLabel;
-    rlbBanda06_ServicoPrestado: TRLBand;
+    rlbBanda07_ServicoPrestado: TRLBand;
     RLLabel14: TRLLabel;
-    rlbBanda13_InformacoesComplementares: TRLBand;
+    rlbBanda14_InformacoesComplementares: TRLBand;
     rlmDadosAdicionais: TRLMemo;
     RLLabel6: TRLLabel;
-    rlbBanda07_ItensDetalhado: TRLBand;
+    rlbBanda08_ItensDetalhado: TRLBand;
     RLLabel65: TRLLabel;
     RLLabel66: TRLLabel;
     RLLabel67: TRLLabel;
     RLLabel68: TRLLabel;
-    rlbBanda08_SubItens: TRLSubDetail;
+    rlbBanda09_SubItens: TRLSubDetail;
     rlbBanda08_ItensServico: TRLBand;
     txtServicoQtde: TRLLabel;
     rlmServicoDescricao: TRLMemo;
     txtServicoUnitario: TRLLabel;
     txtServicoTotal: TRLLabel;
-    rlbBanda14_Sistema: TRLBand;
+    rlbBanda16_Sistema: TRLBand;
     rllDataHoraImpressao: TRLLabel;
     rllSistema: TRLLabel;
     RLLabel5: TRLLabel;
     RLLabel9: TRLLabel;
     txtBaseCalculo: TRLLabel;
     txtISS: TRLLabel;
-    rlbBanda09_TributacaoMunicipal: TRLBand;
+    rlbBanda10_TributacaoMunicipal: TRLBand;
     rlbBanda01_Logos: TRLBand;
     RLLabel74: TRLLabel;
     RLLabel8: TRLLabel;
     rliLogoNFSe: TRLImage;
-    rliLogoPref: TRLImage;
     rlmPrefeitura: TRLMemo;
     rllCodigoChave: TRLLabel;
     rllChaveAcesso: TRLLabel;
@@ -117,7 +117,6 @@ type
     RLLabel22: TRLLabel;
     rllEmissaoDPS: TRLLabel;
     RLMemo1: TRLMemo;
-    RLLabel23: TRLLabel;
     RLLabel2: TRLLabel;
     rllEmitenteTelefone: TRLLabel;
     RLLabel24: TRLLabel;
@@ -132,7 +131,6 @@ type
     rllEmitenteSimplesNacional: TRLLabel;
     RLLabel69: TRLLabel;
     rllEmitenteRegimeApuracao: TRLLabel;
-    rllEmitente: TRLLabel;
     RLLabel4: TRLLabel;
     RLLabel70: TRLLabel;
     RLLabel71: TRLLabel;
@@ -143,7 +141,7 @@ type
     RLLabel77: TRLLabel;
     RLLabel78: TRLLabel;
     rllTomaCEP: TRLLabel;
-    rlbBanda05_Intermediario: TRLBand;
+    rlbBanda06_Intermediario: TRLBand;
     rllInterCNPJ: TRLLabel;
     rllInterInscMunicipal: TRLLabel;
     rllInterNome: TRLLabel;
@@ -163,27 +161,21 @@ type
     rllInterCEP: TRLLabel;
     rllIntermediarioNaoIdentificado: TRLLabel;
     RLLabel61: TRLLabel;
-    RLLabel80: TRLLabel;
     RLLabel92: TRLLabel;
     rllLocalPrestacao: TRLLabel;
     RLLabel94: TRLLabel;
-    rllPaisPrestacao: TRLLabel;
+    rllCodigoNBS: TRLLabel;
     RLLabel96: TRLLabel;
     rlmDescServico: TRLMemo;
     rlmCodTribNac: TRLMemo;
-    rlmCodTribMun: TRLMemo;
     rllMsgTeste: TRLLabel;
     RLLabel10: TRLLabel;
     RLLabel11: TRLLabel;
     rllTribISSQN: TRLLabel;
     RLLabel17: TRLLabel;
     rllTipoImunidade: TRLLabel;
-    RLLabel20: TRLLabel;
-    rllValorServico: TRLLabel;
     RLLabel25: TRLLabel;
     rllValorBCISSQN: TRLLabel;
-    RLLabel64: TRLLabel;
-    rllPaisResult: TRLLabel;
     RLLabel90: TRLLabel;
     rllSuspensao: TRLLabel;
     RLLabel93: TRLLabel;
@@ -198,15 +190,11 @@ type
     rllValorTotalDedRed: TRLLabel;
     RLLabel105: TRLLabel;
     rllRetencaoISSQN: TRLLabel;
-    RLLabel107: TRLLabel;
-    rllRegimeEspecial: TRLLabel;
-    RLLabel109: TRLLabel;
-    rllBeneficioMunic: TRLLabel;
     RLLabel111: TRLLabel;
     rllCalculoBM: TRLLabel;
     RLLabel113: TRLLabel;
     rllValorISSQNApurado: TRLLabel;
-    rlbBanda10_TributacaoFederal: TRLBand;
+    rlbBanda11_TributacaoFederal: TRLBand;
     RLLabel115: TRLLabel;
     RLLabel116: TRLLabel;
     rllValorIRRF: TRLLabel;
@@ -220,31 +208,92 @@ type
     rllValorCSLL: TRLLabel;
     RLLabel134: TRLLabel;
     rllDescCSLL: TRLLabel;
-    rlbBanda11_ValorTotaNFSe: TRLBand;
+    rlbBanda13_ValorTotaNFSe: TRLBand;
     RLLabel3: TRLLabel;
     RLLabel26: TRLLabel;
     rllValorTotalServico: TRLLabel;
     RLLabel35: TRLLabel;
     rllValorTotalDescCond: TRLLabel;
     RLLabel37: TRLLabel;
-    rllValorTotalPISCOFINSRet: TRLLabel;
+    rllValorTotalIBSCBS: TRLLabel;
     RLLabel39: TRLLabel;
     rllValorTotalDescIncond: TRLLabel;
     RLLabel41: TRLLabel;
     rllValorTotalISSQNRetido: TRLLabel;
     RLLabel43: TRLLabel;
     rllValorTotalLiq: TRLLabel;
-    rlbBanda12_TotaisAproximados: TRLBand;
-    RLLabel45: TRLLabel;
-    RLLabel46: TRLLabel;
-    rllTotaisAproxTribFed: TRLLabel;
-    RLLabel50: TRLLabel;
-    rllTotaisAproxTribEst: TRLLabel;
-    RLLabel54: TRLLabel;
-    rllTotaisAproxTribMun: TRLLabel;
-    RLLabel145: TRLLabel;
-    rllValorTotalTribFed: TRLLabel;
     rlbHomologacao: TRLLabel;
+    RLLabel23: TRLLabel;
+    rllEmitente: TRLLabel;
+    RLLabel15: TRLLabel;
+    RLLabel19: TRLLabel;
+    rllSituacao: TRLLabel;
+    rllFinalidade: TRLLabel;
+    RLLabel21: TRLLabel;
+    rlbBanda05_Destinatario: TRLBand;
+    rllDestCNPJ: TRLLabel;
+    rllDestInscMunicipal: TRLLabel;
+    rllDestNome: TRLLabel;
+    rllDestEndereco: TRLLabel;
+    rllDestMunicipio: TRLLabel;
+    rllDestEmail: TRLLabel;
+    rllDestTelefone: TRLLabel;
+    RLLabel42: TRLLabel;
+    RLLabel44: TRLLabel;
+    RLLabel47: TRLLabel;
+    RLLabel48: TRLLabel;
+    RLLabel49: TRLLabel;
+    RLLabel51: TRLLabel;
+    RLLabel52: TRLLabel;
+    RLLabel53: TRLLabel;
+    RLLabel56: TRLLabel;
+    rllDestCEP: TRLLabel;
+    rllDestinatarioNaoIdentificado: TRLLabel;
+    RLLabel20: TRLLabel;
+    rllValorLiqIBSCBS: TRLLabel;
+    rlbBanda12_TributacaoFederalIBSCBS: TRLBand;
+    RLLabel27: TRLLabel;
+    RLLabel28: TRLLabel;
+    rllCST: TRLLabel;
+    RLLabel34: TRLLabel;
+    rllExcRedBC: TRLLabel;
+    RLLabel38: TRLLabel;
+    rllcIndOp: TRLLabel;
+    RLLabel57: TRLLabel;
+    rllValorBC: TRLLabel;
+    RLLabel59: TRLLabel;
+    rllAliqEfetIBSUF: TRLLabel;
+    RLLabel63: TRLLabel;
+    rllRedAliquota: TRLLabel;
+    RLLabel79: TRLLabel;
+    rllAliqEfetIBSMun: TRLLabel;
+    RLLabel91: TRLLabel;
+    rllValorApurIBS: TRLLabel;
+    RLLabel98: TRLLabel;
+    rllValorApurIBSMun: TRLLabel;
+    RLLabel102: TRLLabel;
+    rllAliquotaCBS: TRLLabel;
+    RLLabel106: TRLLabel;
+    rllAliqEfetCBS: TRLLabel;
+    RLLabel110: TRLLabel;
+    rllAliquotaIBS: TRLLabel;
+    RLLabel114: TRLLabel;
+    rllValorApurIBSUF: TRLLabel;
+    RLLabel119: TRLLabel;
+    rllValorApurCBS: TRLLabel;
+    RLLabel109: TRLLabel;
+    rllBeneficioMunic: TRLLabel;
+    RLLabel107: TRLLabel;
+    rllRegimeEspecial: TRLLabel;
+    rlbCanhoto: TRLBand;
+    RLDraw7: TRLDraw;
+    rllNumChave: TRLLabel;
+    RLLabel50: TRLLabel;
+    RLLabel54: TRLLabel;
+    RLDraw5: TRLDraw;
+    RLLabel121: TRLLabel;
+    RLLabel122: TRLLabel;
+    rllNumNFSe: TRLLabel;
 
     procedure RLNFSeBeforePrint(Sender: TObject; var PrintIt: Boolean);
 
@@ -256,27 +305,30 @@ type
       var PrintIt: Boolean);
     procedure rlbBanda04_TomadorBeforePrint(Sender: TObject;
       var PrintIt: Boolean);
-    procedure rlbBanda05_IntermediarioBeforePrint(Sender: TObject;
+    procedure rlbBanda06_IntermediarioBeforePrint(Sender: TObject;
       var PrintIt: Boolean);
-    procedure rlbBanda06_ServicoPrestadoBeforePrint(Sender: TObject;
+    procedure rlbBanda07_ServicoPrestadoBeforePrint(Sender: TObject;
       var PrintIt: Boolean);
 
     procedure rlbBanda08_ItensServicoBeforePrint(Sender: TObject;
       var PrintIt: Boolean);
-    procedure rlbBanda08_SubItensDataRecord(Sender: TObject; RecNo: Integer;
+    procedure rlbBanda09_SubItensDataRecord(Sender: TObject; RecNo: Integer;
       CopyNo: Integer; var Eof: Boolean; var RecordAction: TRLRecordAction);
 
-    procedure rlbBanda09_TributacaoMunicipalBeforePrint(Sender: TObject;
+    procedure rlbBanda10_TributacaoMunicipalBeforePrint(Sender: TObject;
       var PrintIt: Boolean);
-    procedure rlbBanda10_TributacaoFederalBeforePrint(Sender: TObject;
+    procedure rlbBanda11_TributacaoFederalBeforePrint(Sender: TObject;
       var PrintIt: Boolean);
-    procedure rlbBanda11_ValorTotaNFSeBeforePrint(Sender: TObject;
+    procedure rlbBanda13_ValorTotaNFSeBeforePrint(Sender: TObject;
       var PrintIt: Boolean);
-    procedure rlbBanda12_TotaisAproximadosBeforePrint(Sender: TObject;
+    procedure rlbBanda14_InformacoesComplementaresBeforePrint(Sender: TObject;
       var PrintIt: Boolean);
-    procedure rlbBanda13_InformacoesComplementaresBeforePrint(Sender: TObject;
+    procedure rlbBanda16_SistemaBeforePrint(Sender: TObject;
       var PrintIt: Boolean);
-    procedure rlbBanda14_SistemaBeforePrint(Sender: TObject;
+    procedure rlbBanda05_DestinatarioBeforePrint(Sender: TObject;
+      var PrintIt: Boolean);
+    procedure rlbCanhotoBeforePrint(Sender: TObject; var PrintIt: Boolean);
+    procedure rlbBanda12_TributacaoFederalIBSCBSBeforePrint(Sender: TObject;
       var PrintIt: Boolean);
   private
     { Private declarations }
@@ -301,6 +353,7 @@ uses
   ACBrNFSeX,
   ACBrNFSeXClass,
   ACBrNFSeXInterface,
+  ACBrNFSeXLerXml,
   ACBrValidador,
   ACBrDFeReportFortes;
 
@@ -322,36 +375,25 @@ end;
 
 procedure TfrlXDANFSeRLPadraoNacional.rlbBanda01_LogosBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
+var
+  Ambiente: string;
 begin
   inherited;
 
   TDFeReportFortes.CarregarLogo(rliLogoNFSe, fpDANFSe.LogoNFSe);
-  TDFeReportFortes.CarregarLogo(rliLogoPref, fpDANFSe.Logo);
 
   rlbHomologacao.Visible := (fpNFSe.Producao = snNao);
 
-  if (fpDANFSe.TamanhoLogoHeight = 0) and (fpDANFSe.TamanhoLogoWidth = 0) then
-  begin
-    // Expande a logomarca
-    if fpDANFSe.ExpandeLogoMarca then
-    begin
-      rlmPrefeitura.Visible := False;
-
-      with rliLogoPref do
-      begin
-        Height := 130;
-        Width := 580;
-        Top := 9;
-        Left := 9;
-
-        TDFeReportFortes.AjustarLogo(rliLogoPref, fpDANFSe.ExpandeLogoMarcaConfig);
-      end;
-    end;
-  end;
+  if fpNFSe.Producao = snNao then
+    Ambiente := 'Homologação'
+  else
+    Ambiente := 'Produção';
 
   rlmPrefeitura.Lines.Clear;
-  rlmPrefeitura.Lines.Add(StringReplace(fpDANFSe.Prefeitura,
-                                       FQuebradeLinha, #13#10, [rfReplaceAll]));
+  rlmPrefeitura.Lines.Add('Município: ' + fpNFSe.infNFSe.xLocEmi + '/' +
+                                          fpNFSe.infNFSe.UFLocEmi);
+  rlmPrefeitura.Lines.Add('Ambiente Gerador: ' + ambGerToStrText(fpNFSe.infNFSe.ambGer));
+  rlmPrefeitura.Lines.Add('Tipo Ambiente: ' + Ambiente);
 end;
 
 procedure TfrlXDANFSeRLPadraoNacional.rlbBanda02_Ide_NFSeBeforePrint(
@@ -368,10 +410,22 @@ begin
   rllChaveAcesso.Caption := ACBrStr(fpNFSe.CodigoVerificacao);
   rllNumNF0.Caption := fpNFSe.Numero;
   rllNumeroDPS.Caption := fpNFSe.IdentificacaoRps.Numero;
+
+  case fpNFSe.tpEmit of
+    tePrestador: rllEmitente.Caption := ACBrStr('Prestador do Serviço');
+    teTomador: rllEmitente.Caption := ACBrStr('Tomador do Serviço');
+  else
+    // teIntermediario
+    rllEmitente.Caption := ACBrStr('Intermediário do Serviço');
+  end;
+
   rllCompetencia.Caption := IfThen(fpNFSe.Competencia > 0, FormatDateTime('dd/mm/yyyy', fpNFSe.Competencia), '');
   rllSerieDPS.Caption := fpNFSe.IdentificacaoRps.Serie;
+  rllSituacao.Caption := cStatToStr(fpNFSe.infNFSe.cStat);
+
   rllEmissaoNFSe.Caption := FormatDateTime('dd/mm/yyyy hh:nn:ss', fpNFSe.DataEmissao);
   rllEmissaoDPS.Caption := FormatDateTime('dd/mm/yyyy hh:nn:ss', fpNFSe.DataEmissaoRPS);
+  rllFinalidade.Caption := finNFSeToStrText(fpNFSe.IBSCBS.finNFSe);
 
   if fpNFSe.Link <> '' then
   begin
@@ -380,7 +434,7 @@ begin
     rlImgQrCode.Stretch := True;
     rlImgQrCode.AutoSize := False;
     rlImgQrCode.Center := True;
-    rlImgQrCode.SetBounds(648, 3, 90, 90);
+    rlImgQrCode.SetBounds(748, 3, 90, 90);
     rlImgQrCode.BringToFront;
 
     QRCodeData := fpNFSe.Link;
@@ -418,14 +472,6 @@ procedure TfrlXDANFSeRLPadraoNacional.rlbBanda03_EmitenteBeforePrint(
 begin
   inherited;
 
-  case fpNFSe.tpEmit of
-    tePrestador: rllEmitente.Caption := ACBrStr('Prestador do Serviço');
-    teTomador: rllEmitente.Caption := ACBrStr('Tomador do Serviço');
-  else
-    // teIntermediario
-    rllEmitente.Caption := ACBrStr('Intermediário do Serviço');
-  end;
-
   rllEmitenteNome.Caption := fpNFSe.infNFSe.emit.RazaoSocial;
   rllEmitenteEndereco.Caption := fpNFSe.infNFSe.emit.Endereco.Endereco + ', ' +
                                  fpNFSe.infNFSe.emit.Endereco.Numero + ', ' +
@@ -448,7 +494,7 @@ begin
 
   rllEmitenteInscMunicipal.Caption := fpNFSe.infNFSe.emit.Identificacao.InscricaoMunicipal;
   rllEmitenteEmail.Caption := fpNFSe.infNFSe.emit.Contato.Email;
-  rllEmitenteMunicipio.Caption := fpNFSe.infNFSe.emit.Endereco.xMunicipio + ' - ' +
+  rllEmitenteMunicipio.Caption := fpNFSe.infNFSe.emit.Endereco.xMunicipio + '/' +
                                   fpNFSe.infNFSe.emit.Endereco.UF;
 
   if fpNFSe.OptanteSN = osnOptanteMEEPP then
@@ -467,7 +513,8 @@ begin
     rllEmitenteRegimeApuracao.Caption := '-';
 
   rllEmitenteTelefone.Caption := FormatarFone(fpNFSe.infNFSe.emit.Contato.Telefone);
-  rllEmitenteCEP.Caption := fpNFSe.infNFSe.emit.Endereco.CEP;
+  rllEmitenteCEP.Caption := fpNFSe.Prestador.Endereco.CodigoMunicipio + ' / ' +
+                            FormatarCEP(fpNFSe.infNFSe.emit.Endereco.CEP);
 end;
 
 procedure TfrlXDANFSeRLPadraoNacional.rlbBanda04_TomadorBeforePrint(
@@ -487,19 +534,70 @@ begin
 
   rllTomaInscMunicipal.Caption := fpNFSe.Tomador.IdentificacaoTomador.InscricaoMunicipal;
   rllTomaEmail.Caption := fpNFSe.Tomador.Contato.Email;
-  rllTomaMunicipio.Caption := fpNFSe.Tomador.Endereco.xMunicipio + ' - ' +
+  rllTomaMunicipio.Caption := fpNFSe.Tomador.Endereco.xMunicipio + '/' +
                                   fpNFSe.Tomador.Endereco.UF;
   rllTomaTelefone.Caption := FormatarFone(fpNFSe.Tomador.Contato.Telefone);
-  rllTomaCEP.Caption := fpNFSe.Tomador.Endereco.CEP;
+  rllTomaCEP.Caption := fpNFSe.Tomador.Endereco.CodigoMunicipio + ' / ' +
+                            FormatarCEP(fpNFSe.Tomador.Endereco.CEP);
 end;
 
-procedure TfrlXDANFSeRLPadraoNacional.rlbBanda05_IntermediarioBeforePrint(
+procedure TfrlXDANFSeRLPadraoNacional.rlbBanda05_DestinatarioBeforePrint(
+  Sender: TObject; var PrintIt: Boolean);
+begin
+  inherited;
+
+  rllDestinatarioNaoIdentificado.Visible := True;
+  rlbBanda05_Destinatario.Height := 20;
+  RLLabel42.Visible := False;
+//  RLLabel84.Visible := False;
+//  RLLabel85.Visible := False;
+  RLLabel53.Visible := False;
+
+  rllDestNome.Caption := '';
+  rllDestEndereco.Caption := '';
+  rllDestCNPJ.Caption := '';
+  rllDestInscMunicipal.Caption := '';
+  rllDestEmail.Caption := '';
+  rllDestMunicipio.Caption := '';
+  rllDestTelefone.Caption := '';
+  rllDestCEP.Caption := '';
+
+  if fpNFSe.IBSCBS.dest.xNome <> '' then
+  begin
+    rllDestinatarioNaoIdentificado.Visible := False;
+    rlbBanda05_Destinatario.Height := 120;
+    RLLabel81.Visible := True;
+    RLLabel84.Visible := True;
+    RLLabel85.Visible := True;
+    RLLabel88.Visible := True;
+
+    rllDestNome.Caption := fpNFSe.IBSCBS.dest.xNome;
+    rllDestEndereco.Caption := fpNFSe.IBSCBS.dest.ender.xLgr + ', ' +
+                                   fpNFSe.IBSCBS.dest.ender.nro + ', ' +
+                                   fpNFSe.IBSCBS.dest.ender.xBairro;
+
+    if fpNFSe.infNFSe.emit.Identificacao.Nif <> '' then
+      rllDestCNPJ.Caption := fpNFSe.IBSCBS.dest.Nif
+    else
+      rllDestCNPJ.Caption := FormatarCNPJouCPF(fpNFSe.IBSCBS.dest.CNPJCPF);
+
+    rllDestInscMunicipal.Caption := fpNFSe.IBSCBS.dest.IM;
+    rllDestEmail.Caption := fpNFSe.IBSCBS.dest.Email;
+    rllInterMunicipio.Caption := IntToStr(fpNFSe.IBSCBS.dest.ender.endNac.cMun) + '/' +
+                                 fpNFSe.IBSCBS.dest.ender.endNac.UF;
+    rllDestTelefone.Caption := FormatarFone(fpNFSe.IBSCBS.dest.fone);
+    rllDestCEP.Caption := IntToStr(fpNFSe.IBSCBS.dest.ender.endNac.cMun) + ' / ' +
+                          FormatarCEP(fpNFSe.IBSCBS.dest.ender.endNac.CEP);
+  end;
+end;
+
+procedure TfrlXDANFSeRLPadraoNacional.rlbBanda06_IntermediarioBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
 begin
   inherited;
 
   rllIntermediarioNaoIdentificado.Visible := True;
-  rlbBanda05_Intermediario.Height := 20;
+  rlbBanda06_Intermediario.Height := 20;
   RLLabel81.Visible := False;
   RLLabel84.Visible := False;
   RLLabel85.Visible := False;
@@ -517,7 +615,7 @@ begin
   if fpNFSe.Intermediario.RazaoSocial <> '' then
   begin
     rllIntermediarioNaoIdentificado.Visible := False;
-    rlbBanda05_Intermediario.Height := 120;
+    rlbBanda06_Intermediario.Height := 120;
     RLLabel81.Visible := True;
     RLLabel84.Visible := True;
     RLLabel85.Visible := True;
@@ -535,36 +633,45 @@ begin
 
     rllInterInscMunicipal.Caption := fpNFSe.Intermediario.Identificacao.InscricaoMunicipal;
     rllInterEmail.Caption := fpNFSe.Intermediario.Contato.Email;
-    rllInterMunicipio.Caption := fpNFSe.Intermediario.Endereco.xMunicipio + ' - ' +
+    rllInterMunicipio.Caption := fpNFSe.Intermediario.Endereco.xMunicipio + '/' +
                                     fpNFSe.Intermediario.Endereco.UF;
     rllInterTelefone.Caption := FormatarFone(fpNFSe.Intermediario.Contato.Telefone);
-    rllInterCEP.Caption := fpNFSe.Intermediario.Endereco.CEP;
+    rllInterCEP.Caption := fpNFSe.Intermediario.Endereco.xMunicipio + ' / ' +
+                          FormatarCEP(fpNFSe.Intermediario.Endereco.CEP);
   end;
 end;
-procedure TfrlXDANFSeRLPadraoNacional.rlbBanda06_ServicoPrestadoBeforePrint(
+
+procedure TfrlXDANFSeRLPadraoNacional.rlbBanda07_ServicoPrestadoBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
+var
+  Desc: string;
 begin
   inherited;
 
+  If fpNFSe.infNFSe.xTribMun <> '' then
+    Desc := fpNFSe.infNFSe.xTribMun
+  else
+    Desc := fpNFSe.infNFSe.xTribNac;
+
   rlmCodTribNac.Lines.Clear;
-  rlmCodTribNac.Lines.Add(fpNFSe.Servico.ItemListaServico + ' - ' +
-                          fpNFSe.Servico.xItemListaServico);
+  rlmCodTribNac.Lines.Add(fpNFSe.Servico.ItemListaServico + ' - ' + Desc);
+
+//  rlmCodTribNac.Lines.Clear;
+//  rlmCodTribNac.Lines.Add(fpNFSe.Servico.ItemListaServico + ' - ' +
+//                          fpNFSe.Servico.xItemListaServico);
+
+  rllCodigoNBS.Caption := fpNFSe.Servico.CodigoNBS;
+  rllLocalPrestacao.Caption := fpNFSe.Servico.MunicipioPrestacaoServico + ' / ' +
+                              CodIBGEPaisToSiglaISO2(fpNFSe.Servico.CodigoPais);
 
   rlmDescServico.Lines.Clear;
   rlmDescServico.Lines.Add(fpNFSe.Servico.Discriminacao);
 
-  rlmCodTribMun.Lines.Clear;
-  rlmCodTribMun.Lines.Add(fpNFSe.Servico.CodigoTributacaoMunicipio + ' - ' +
-                          fpNFSe.infNFSe.xTribMun);
-
-  rllLocalPrestacao.Caption := fpNFSe.Servico.MunicipioPrestacaoServico;
-  rllPaisPrestacao.Caption := CodIBGEPaisToDescricao(fpNFSe.Servico.CodigoPais);
-
   if Detalhar then
-    rlbBanda06_ServicoPrestado.Height := 76;
+    rlbBanda07_ServicoPrestado.Height := 76;
 end;
 
-procedure TfrlXDANFSeRLPadraoNacional.rlbBanda08_SubItensDataRecord(Sender: TObject;
+procedure TfrlXDANFSeRLPadraoNacional.rlbBanda09_SubItensDataRecord(Sender: TObject;
   RecNo: Integer; CopyNo: Integer; var Eof: Boolean;
   var RecordAction: TRLRecordAction);
 begin
@@ -590,7 +697,7 @@ begin
   end;
 end;
 
-procedure TfrlXDANFSeRLPadraoNacional.rlbBanda09_TributacaoMunicipalBeforePrint(
+procedure TfrlXDANFSeRLPadraoNacional.rlbBanda10_TributacaoMunicipalBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
 var
   LvDedRed: Double;
@@ -628,17 +735,12 @@ begin
     rllTipoImunidade.Caption := '-';
   end;
 
-  rllValorServico.Caption := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.ValorServicos);
+  rllValorTotalServico.Caption := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.ValorServicos);
 
   if fpNFSe.infNFSe.Valores.BaseCalculo > 0 then
     rllValorBCISSQN.Caption := 'R$ ' + FormatFloatBr(fpNFSe.infNFSe.Valores.BaseCalculo)
   else
     rllValorBCISSQN.Caption := '-';
-
-  if fpNFSe.Servico.Valores.tribMun.cPaisResult > 0 then
-    rllPaisResult.Caption := CodIBGEPaisToSiglaISO2(fpNFSe.Servico.Valores.tribMun.cPaisResult)
-  else
-    rllPaisResult.Caption := '-';
 
   case fpNFSe.Servico.Valores.tribMun.tpSusp of
     tsDecisaoJudicial:
@@ -661,7 +763,13 @@ begin
     rllAliquotaAplicada.Caption := '-';
 
   if fpNFSe.infNFSe.xLocIncid <> '' then
-    rllMunicipioIncidencia.Caption := fpNFSe.infNFSe.xLocIncid
+  begin
+    rllMunicipioIncidencia.Caption := fpNFSe.infNFSe.xLocIncid;
+
+    if fpNFSe.Servico.Valores.tribMun.cPaisResult > 0 then
+      rllMunicipioIncidencia.Caption := rllMunicipioIncidencia.Caption + ' / ' +
+        CodIBGEPaisToSiglaISO2(fpNFSe.Servico.Valores.tribMun.cPaisResult);
+  end
   else
     rllMunicipioIncidencia.Caption := 'Nenhum';
 
@@ -728,8 +836,7 @@ begin
     rllValorISSQNApurado.Caption := '-';
 end;
 
-
-procedure TfrlXDANFSeRLPadraoNacional.rlbBanda10_TributacaoFederalBeforePrint(
+procedure TfrlXDANFSeRLPadraoNacional.rlbBanda11_TributacaoFederalBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
 begin
   inherited;
@@ -762,7 +869,125 @@ begin
   rllDescCSLL.Caption := tpRetPisCofinsDescricao(fpNFSe.Servico.Valores.tribFed.tpRetPisCofins);
 end;
 
-procedure TfrlXDANFSeRLPadraoNacional.rlbBanda11_ValorTotaNFSeBeforePrint(
+procedure TfrlXDANFSeRLPadraoNacional.rlbBanda12_TributacaoFederalIBSCBSBeforePrint(
+  Sender: TObject; var PrintIt: Boolean);
+var
+  aValor: Double;
+begin
+  inherited;
+
+  if fpNFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum then
+    rllCST.Caption := CSTIBSCBSToStr(fpNFSe.IBSCBS.valores.trib.gIBSCBS.CST) + ' / ' +
+                      fpNFSe.IBSCBS.valores.trib.gIBSCBS.cClassTrib
+  else
+    rllCST.Caption := '-';
+
+  if fpNFSe.IBSCBS.cIndOp <> '' then
+  begin
+    rllcIndOp.Caption := fpNFSe.IBSCBS.cIndOp + ' / ' +
+                     IntToStr(fpNFSe.infNFSe.IBSCBS.cLocalidadeIncid) + ' / ' +
+                     fpNFSe.infNFSe.IBSCBS.xLocalidadeIncid + '/' +
+                     fpNFSe.infNFSe.IBSCBS.UFLocalidadeIncid;
+  end
+  else
+    rllcIndOp.Caption := '-';
+
+  aValor := fpNFSe.Servico.Valores.DescontoIncondicionado +
+            fpNFSe.infNFSe.IBSCBS.valores.vCalcReeRepRes +
+            fpNFSe.infNFSe.valores.ValorIss +
+            fpNFSe.Servico.Valores.tribFed.vPis +
+            fpNFSe.Servico.Valores.tribFed.vCofins;
+
+  if aValor > 0 then
+    rllExcRedBC.Caption := 'R$ ' + FormatFloatBr(aValor)
+  else
+    rllExcRedBC.Caption := '-';
+
+  aValor := fpNFSe.infNFSe.IBSCBS.valores.vBC;
+
+  if aValor > 0 then
+    rllValorBC.Caption := 'R$ ' + FormatFloatBr(aValor)
+  else
+    rllValorBC.Caption := '-';
+
+  aValor := fpNFSe.infNFSe.IBSCBS.valores.uf.pRedAliqUF +
+            fpNFSe.infNFSe.IBSCBS.valores.mun.pRedAliqMun +
+            fpNFSe.infNFSe.IBSCBS.valores.fed.pRedAliqCBS;
+
+  if aValor > 0 then
+    rllRedAliquota.Caption := FormatFloatBr(fpNFSe.infNFSe.IBSCBS.valores.uf.pRedAliqUF) + '% ' +
+        FormatFloatBr(fpNFSe.infNFSe.IBSCBS.valores.mun.pRedAliqMun) + '% ' +
+        FormatFloatBr(fpNFSe.infNFSe.IBSCBS.valores.fed.pRedAliqCBS) + '%'
+  else
+    rllRedAliquota.Caption := '-';
+
+  aValor := fpNFSe.infNFSe.IBSCBS.valores.uf.pIBSUF +
+            fpNFSe.infNFSe.IBSCBS.valores.mun.pIBSMun;
+
+  if aValor > 0 then
+    rllAliquotaIBS.Caption := FormatFloatBr(fpNFSe.infNFSe.IBSCBS.valores.uf.pIBSUF) + '% ' +
+        FormatFloatBr(fpNFSe.infNFSe.IBSCBS.valores.mun.pIBSMun) + '%'
+  else
+    rllAliquotaIBS.Caption := '-';
+
+  aValor := fpNFSe.infNFSe.IBSCBS.valores.mun.pAliqEfetMun;
+
+  if aValor > 0 then
+    rllAliqEfetIBSMun.Caption := FormatFloatBr(aValor) + '%'
+  else
+    rllAliqEfetIBSMun.Caption := '-';
+
+  aValor := fpNFSe.infNFSe.IBSCBS.totCIBS.gIBS.gIBSMunTot.vIBSMun;
+
+  if aValor > 0 then
+    rllValorApurIBSMun.Caption := 'R$ ' + FormatFloatBr(aValor)
+  else
+    rllValorApurIBSMun.Caption := '-';
+
+  aValor := fpNFSe.infNFSe.IBSCBS.valores.uf.pAliqEfetUF;
+
+  if aValor > 0 then
+    rllAliqEfetIBSUF.Caption := FormatFloatBr(aValor) + '%'
+  else
+    rllAliqEfetIBSUF.Caption := '-';
+
+  aValor := fpNFSe.infNFSe.IBSCBS.totCIBS.gIBS.gIBSUFTot.vIBSUF;
+
+  if aValor > 0 then
+    rllValorApurIBSUF.Caption := 'R$ ' + FormatFloatBr(aValor)
+  else
+    rllValorApurIBSUF.Caption := '-';
+
+  aValor := fpNFSe.infNFSe.IBSCBS.totCIBS.gIBS.vIBSTot;
+
+  if aValor > 0 then
+    rllValorApurIBS.Caption := 'R$ ' + FormatFloatBr(aValor)
+  else
+    rllValorApurIBS.Caption := '-';
+
+  aValor := fpNFSe.infNFSe.IBSCBS.valores.fed.pCBS;
+
+  if aValor > 0 then
+    rllAliquotaCBS.Caption := FormatFloatBr(fpNFSe.infNFSe.IBSCBS.valores.uf.pIBSUF) + '%'
+  else
+    rllAliquotaCBS.Caption := '-';
+
+  aValor := fpNFSe.infNFSe.IBSCBS.valores.fed.pAliqEfetCBS;
+
+  if aValor > 0 then
+    rllAliqEfetCBS.Caption := FormatFloatBr(aValor) + '%'
+  else
+    rllAliqEfetCBS.Caption := '-';
+
+  aValor := fpNFSe.infNFSe.IBSCBS.totCIBS.gCBS.vCBS;
+
+  if aValor > 0 then
+    rllValorApurCBS.Caption := 'R$ ' + FormatFloatBr(aValor)
+  else
+    rllValorApurCBS.Caption := '-';
+end;
+
+procedure TfrlXDANFSeRLPadraoNacional.rlbBanda13_ValorTotaNFSeBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
 var
   LValor: Double;
@@ -774,65 +999,46 @@ begin
   else
     rllValorTotalServico.Caption := '-';
 
-  if fpNFSe.Servico.Valores.RetencoesFederais > 0 then
-    rllValorTotalTribFed.Caption := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.RetencoesFederais)
+  if fpNFSe.Servico.Valores.DescontoIncondicionado > 0 then
+    rllValorTotalDescIncond.Caption := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.DescontoIncondicionado)
   else
-    rllValorTotalTribFed.Caption := '-';
+    rllValorTotalDescIncond.Caption := '-';
 
   if fpNFSe.Servico.Valores.DescontoCondicionado > 0 then
     rllValorTotalDescCond.Caption := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.DescontoCondicionado)
   else
     rllValorTotalDescCond.Caption := '-';
 
-  if fpNFSe.Servico.Valores.tribFed.tpRetPisCofins = trpcNaoRetido then
-    LValor := 0
-  else
-    LValor := fpNFSe.Servico.Valores.tribFed.vPis +
-              fpNFSe.Servico.Valores.tribFed.vCofins;
+  LValor := fpNFSe.infNFSe.valores.vTotalRet;
 
   if LValor > 0 then
-    rllValorTotalPISCOFINSRet.Caption := 'R$ ' + FormatFloatBr(LValor)
-  else
-    rllValorTotalPISCOFINSRet.Caption := '-';
-
-  if fpNFSe.Servico.Valores.DescontoIncondicionado > 0 then
-    rllValorTotalDescIncond.Caption := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.DescontoIncondicionado)
-  else
-    rllValorTotalDescIncond.Caption := '-';
-
-  if fpNFSe.Servico.Valores.ValorIssRetido > 0 then
-    rllValorTotalISSQNRetido.Caption := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.ValorIssRetido)
+    rllValorTotalISSQNRetido.Caption := 'R$ ' + FormatFloatBr(LValor)
   else
     rllValorTotalISSQNRetido.Caption := '-';
 
-  if fpNFSe.infNFSe.valores.ValorLiquidoNfse > 0 then
-    rllValorTotalLiq.Caption := 'R$ ' + FormatFloatBr(fpNFSe.infNFSe.valores.ValorLiquidoNfse)
+  LValor := fpNFSe.infNFSe.valores.ValorLiquidoNfse;
+
+  if LValor > 0 then
+    rllValorTotalLiq.Caption := 'R$ ' + FormatFloatBr(LValor)
   else
     rllValorTotalLiq.Caption := '-';
+
+  LValor := fpNFSe.infNFSe.IBSCBS.totCIBS.gIBS.vIBSTot +
+            fpNFSe.infNFSe.IBSCBS.totCIBS.gCBS.vCBS;
+
+  if LValor > 0 then
+    rllValorTotalIBSCBS.Caption := 'R$ ' + FormatFloatBr(LValor)
+  else
+    rllValorTotalIBSCBS.Caption := '-';
+
+  LValor := fpNFSe.Servico.Valores.ValorServicos +
+            fpNFSe.infNFSe.IBSCBS.totCIBS.gIBS.vIBSTot +
+            fpNFSe.infNFSe.IBSCBS.totCIBS.gCBS.vCBS;
+
+  rllValorLiqIBSCBS.Caption := 'R$ ' + FormatFloatBr(LValor);
 end;
 
-procedure TfrlXDANFSeRLPadraoNacional.rlbBanda12_TotaisAproximadosBeforePrint(
-  Sender: TObject; var PrintIt: Boolean);
-begin
-  inherited;
-
-  if fpNFSe.Servico.Valores.totTrib.vTotTribFed > 0 then
-    rllTotaisAproxTribFed.Caption := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.totTrib.vTotTribFed)
-  else
-    rllTotaisAproxTribFed.Caption := '-';
-
-  if fpNFSe.Servico.Valores.totTrib.vTotTribEst > 0 then
-    rllTotaisAproxTribEst.Caption := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.totTrib.vTotTribEst)
-  else
-    rllTotaisAproxTribEst.Caption := '-';
-
-  if fpNFSe.Servico.Valores.totTrib.vTotTribMun > 0 then
-    rllTotaisAproxTribMun.Caption := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.totTrib.vTotTribMun)
-  else
-    rllTotaisAproxTribMun.Caption := '-';
-end;
-
-procedure TfrlXDANFSeRLPadraoNacional.rlbBanda13_InformacoesComplementaresBeforePrint(
+procedure TfrlXDANFSeRLPadraoNacional.rlbBanda14_InformacoesComplementaresBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
 begin
   inherited;
@@ -855,6 +1061,19 @@ begin
     rlmDadosAdicionais.Lines.Add(StringReplace(fpNFSe.InformacoesComplementares,
                                        FQuebradeLinha, #13#10, [rfReplaceAll]));
 
+  if (fpNFSe.Servico.Valores.totTrib.vTotTribFed > 0) or
+     (fpNFSe.Servico.Valores.totTrib.vTotTribEst > 0) or
+     (fpNFSe.Servico.Valores.totTrib.vTotTribMun > 0) then
+    rlmDadosAdicionais.Lines.Add(ACBrStr('Totais Aproximados dos Tributos cfe. Lei n. 12.741/2012:') +
+      ' Federais: R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.totTrib.vTotTribFed) +
+      ' Estaduais: R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.totTrib.vTotTribEst) +
+      ' Municipais: R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.totTrib.vTotTribMun));
+
+//  if fpNFSe.Servico.Valores.RetencoesFederais > 0 then
+//    rllValorTotalTribFed.Caption := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.RetencoesFederais)
+//  else
+//    rllValorTotalTribFed.Caption := '-';
+
   rlmDadosAdicionais.Lines.EndUpdate;
 
   rllMsgTeste.Visible := (fpDANFSe.Producao = snNao);
@@ -874,7 +1093,7 @@ begin
 //  rlbCanhoto.Visible := fpDANFSe.ImprimeCanhoto;
 end;
 
-procedure TfrlXDANFSeRLPadraoNacional.rlbBanda14_SistemaBeforePrint(
+procedure TfrlXDANFSeRLPadraoNacional.rlbBanda16_SistemaBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
 begin
   inherited;
@@ -887,6 +1106,15 @@ begin
   rllSistema.Caption := Format('Desenvolvido por %s', [fpDANFSe.Sistema]);
 end;
 
+procedure TfrlXDANFSeRLPadraoNacional.rlbCanhotoBeforePrint(Sender: TObject;
+  var PrintIt: Boolean);
+begin
+  inherited;
+
+  rllNumNFSe.Caption := fpNFSe.Numero;
+  rllNumChave.Caption := fpNFSe.CodigoVerificacao;
+end;
+
 procedure TfrlXDANFSeRLPadraoNacional.RLNFSeBeforePrint(Sender: TObject;
   var PrintIt: Boolean);
 begin
@@ -897,8 +1125,8 @@ begin
   RLNFSe.Title := 'NFS-e: ' + fpNFSe.Numero;
   TDFeReportFortes.AjustarMargem(RLNFSe, fpDANFSe);
   rlmDescServico.Visible := not Detalhar;
-  rlbBanda07_ItensDetalhado.Visible := Detalhar;
-  rlbBanda08_SubItens.Visible := Detalhar;
+  rlbBanda08_ItensDetalhado.Visible := Detalhar;
+  rlbBanda09_SubItens.Visible := Detalhar;
 end;
 
 end.

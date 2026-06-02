@@ -553,8 +553,8 @@ begin
      (NFSe.Servico.Valores.AliquotaPis > 0) or
      (NFSe.Servico.Valores.AliquotaCofins > 0) then
   begin
-    Result.AppendChild(AddNode(tcStr, '#28', 'CSTPisCofins', 1, 10, 0,
-                       NFSe.Servico.Valores.CSTPis, ''));
+    Result.AppendChild(AddNode(tcStr, '#28', 'CSTPisCofins', 2, 2, 0,
+                               CSTToStr(NFSe.Servico.Valores.tribFed.CST), ''));
 
     if (NFSe.Servico.Valores.BaseCalculoPisCofins > 0) and
        (NFSe.Servico.Valores.BaseCalculo <> NFSe.Servico.Valores.BaseCalculoPisCofins) then

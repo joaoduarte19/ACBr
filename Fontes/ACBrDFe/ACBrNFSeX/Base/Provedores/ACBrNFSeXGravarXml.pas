@@ -144,6 +144,11 @@ type
     procedure DefinirIDRps; virtual;
     procedure DefinirIDDeclaracao; virtual;
     procedure ConsolidarVariosItensServicosEmUmSo;
+    procedure CampoDiscriminacaoFormatado;
+
+    function AlimentarCamposServico(CampoServico, CampoItemLista: string): string; overload;
+    function AlimentarCamposServico(CampoServico, CampoItemLista: Integer): Integer; overload;
+    function AlimentarCamposServico(CampoServico, CampoItemLista: Double): Double; overload;
 
     function GerarTabulado(const xDescricao: string; const xCodigoItem: string;
       aQuantidade, aValorUnitario, aValorServico, aBaseCalculo,
@@ -193,7 +198,7 @@ type
 
     function GerarXMLTributos(trib: Ttrib): TACBrXmlNode;
     function GerarXMLgIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode; virtual;
-    function GerarXMLgTribRegular(gTribRegular: TgTribRegular): TACBrXmlNode;
+    function GerarXMLgTribRegular(gTribRegular: TgTribRegular): TACBrXmlNode; virtual;
     function GerarXMLgDif(gDif: TgDif): TACBrXmlNode;
     // Reforma Tributária DPS
     procedure GerarINIIBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBSDPS); virtual;
@@ -405,12 +410,11 @@ end;
 
 procedure TNFSeWClass.ConsolidarVariosItensServicosEmUmSo;
 var
-  i, UltimoItem: Integer;
   xDiscriminacao: string;
-  vQtdeDiaria, vValorTaxaTurismo, vValorRecebido,
-  vValorDeducoes, vValorServicos, vDescontoCondicionado,
-  vBaseCalculo, vDescontoIncondicionado, vValorPis, vValorCofins, vValorInss, vValorIr,
-  vValorCsll, vValorIss,
+  i: Integer;
+  vQtdeDiaria, vValorTaxaTurismo, vValorRecebido, vValorDeducoes, vValorServicos,
+  vDescontoCondicionado, vBaseCalculo, vDescontoIncondicionado, vValorPis,
+  vValorCofins, vValorInss, vValorIr, vValorCsll, vValorIss,
   vValorIssRetido: Double;
 begin
   if NFSe.Servico.ItemServico.Count > 0 then
@@ -438,6 +442,12 @@ begin
     begin
       for i := 0 to ItemServico.Count -1 do
       begin
+        if xDiscriminacao = '' then
+          xDiscriminacao := ItemServico[i].Descricao
+        else
+          xDiscriminacao := xDiscriminacao +
+                  FpAOwner.ConfigGeral.QuebradeLinha + ItemServico[i].Descricao;
+
         vQtdeDiaria := vQtdeDiaria + ItemServico[i].QtdeDiaria;
         vValorTaxaTurismo := vValorTaxaTurismo + ItemServico[i].ValorTaxaTurismo;
         vValorDeducoes := vValorDeducoes + ItemServico[i].ValorDeducoes;
@@ -453,7 +463,141 @@ begin
         vValorCsll := vValorCsll + ItemServico[i].ValorCsll;
         vValorIss := vValorIss + ItemServico[i].ValorIss;
         vValorIssRetido := vValorIssRetido + ItemServico[i].ValorIssRetido;
+      end;
+    end;
 
+    NFSe.Servico.Discriminacao := AlimentarCamposServico(NFSe.Servico.Discriminacao,
+                                             xDiscriminacao);
+
+    // Leva em consideração a informação do primeiro item da lista.
+    NFSe.infNFSe.xNBS := AlimentarCamposServico(NFSe.infNFSe.xNBS,
+                                             FNFSe.Servico.ItemServico[0].xNBS);
+    NFSe.PercentualCargaTributaria := AlimentarCamposServico(NFSe.PercentualCargaTributaria,
+                        FNFSe.Servico.ItemServico[0].PercentualCargaTributaria);
+    NFSe.ValorCargaTributaria := AlimentarCamposServico(NFSe.ValorCargaTributaria,
+                             FNFSe.Servico.ItemServico[0].ValorCargaTributaria);
+
+    NFSe.Servico.Valores.Aliquota := AlimentarCamposServico(NFSe.Servico.Valores.Aliquota,
+                                         FNFSe.Servico.ItemServico[0].Aliquota);
+    NFSe.Servico.Valores.AliquotaDeducoes := AlimentarCamposServico(NFSe.Servico.Valores.AliquotaDeducoes,
+                                         FNFSe.Servico.ItemServico[0].AliqDeducoes);
+    NFSe.Servico.Valores.AliquotaPis := AlimentarCamposServico(NFSe.Servico.Valores.AliquotaPis,
+                                         FNFSe.Servico.ItemServico[0].AliqRetPIS);
+    NFSe.Servico.Valores.AliquotaCofins := AlimentarCamposServico(NFSe.Servico.Valores.AliquotaCofins,
+                                         FNFSe.Servico.ItemServico[0].AliqRetCOFINS);
+    NFSe.Servico.Valores.AliquotaInss := AlimentarCamposServico(NFSe.Servico.Valores.AliquotaInss,
+                                         FNFSe.Servico.ItemServico[0].AliqRetINSS);
+    NFSe.Servico.Valores.AliquotaIr := AlimentarCamposServico(NFSe.Servico.Valores.AliquotaIr,
+                                         FNFSe.Servico.ItemServico[0].AliqRetIRRF);
+    NFSe.Servico.Valores.AliquotaCsll := AlimentarCamposServico(NFSe.Servico.Valores.AliquotaCsll,
+                                         FNFSe.Servico.ItemServico[0].AliqRetCSLL);
+    NFSe.Servico.Valores.ValorTotalRecebido := AlimentarCamposServico(NFSe.Servico.Valores.ValorTotalRecebido,
+                                         FNFSe.Servico.ItemServico[0].ValorRecebido);
+    NFSe.Servico.Valores.OutrasRetencoes := AlimentarCamposServico(NFSe.Servico.Valores.OutrasRetencoes,
+                                         FNFSe.Servico.ItemServico[0].OutrasRetencoes);
+    NFSe.Servico.Valores.DescricaoOutrasRetencoes := AlimentarCamposServico(NFSe.Servico.Valores.DescricaoOutrasRetencoes,
+                                         FNFSe.Servico.ItemServico[0].DescricaoOutrasRetencoes);
+    NFSe.Servico.Valores.OutrosDescontos := AlimentarCamposServico(NFSe.Servico.Valores.OutrosDescontos,
+                                         FNFSe.Servico.ItemServico[0].OutrosDescontos);
+    NFSe.Servico.Valores.ValorRepasse := AlimentarCamposServico(NFSe.Servico.Valores.ValorRepasse,
+                                         FNFSe.Servico.ItemServico[0].ValorRepasse);
+    NFSe.Servico.Valores.AliquotaSN := AlimentarCamposServico(NFSe.Servico.Valores.AliquotaSN,
+                                         FNFSe.Servico.ItemServico[0].AliquotaSN);
+    NFSe.Servico.Valores.ValorLiquidoNfse := AlimentarCamposServico(NFSe.Servico.Valores.ValorLiquidoNfse,
+                                         FNFSe.Servico.ItemServico[0].ValorLiquidoNfse);
+    NFSe.Servico.Valores.IrrfIndenizacao := AlimentarCamposServico(NFSe.Servico.Valores.IrrfIndenizacao,
+                                         FNFSe.Servico.ItemServico[0].IrrfIndenizacao);
+    NFSe.Servico.Valores.RetencoesFederais := AlimentarCamposServico(NFSe.Servico.Valores.RetencoesFederais,
+                                         FNFSe.Servico.ItemServico[0].RetencoesFederais);
+    NFSe.Servico.Valores.ValorIPI := AlimentarCamposServico(NFSe.Servico.Valores.ValorIPI,
+                                         FNFSe.Servico.ItemServico[0].ValorIPI);
+    NFSe.Servico.Valores.ValorInicialCobrado := AlimentarCamposServico(NFSe.Servico.Valores.ValorInicialCobrado,
+                                         FNFSe.Servico.ItemServico[0].ValorInicialCobrado);
+    NFSe.Servico.Valores.ValorFinalCobrado := AlimentarCamposServico(NFSe.Servico.Valores.ValorFinalCobrado,
+                                         FNFSe.Servico.ItemServico[0].ValorFinalCobrado);
+
+    NFSe.Servico.Valores.RetidoCSLL := FNFSe.Servico.ItemServico[0].RetidoCSLL;
+    NFSe.Servico.Valores.RetidoPIS := FNFSe.Servico.ItemServico[0].RetidoPIS;
+    NFSe.Servico.Valores.RetidoCOFINS := FNFSe.Servico.ItemServico[0].RetidoCOFINS;
+    NFSe.Servico.Valores.RetidoINSS := FNFSe.Servico.ItemServico[0].RetidoINSS;
+    NFSe.Servico.Valores.RetidoIR := FNFSe.Servico.ItemServico[0].RetidoIRRF;
+    NFSe.Servico.Valores.RetidoCPP := FNFSe.Servico.ItemServico[0].RetidoCPP;
+    NFSe.Servico.Valores.ISSRetido := FNFSe.Servico.ItemServico[0].ISSRetido;
+
+    // Realiza a totalização dos valores
+    NFSe.Servico.Valores.QtdeDiaria := AlimentarCamposServico(NFSe.Servico.Valores.QtdeDiaria,
+                                         vQtdeDiaria);
+    NFSe.Servico.Valores.ValorTaxaTurismo := AlimentarCamposServico(NFSe.Servico.Valores.ValorTaxaTurismo,
+                                         vValorTaxaTurismo);
+    NFSe.Servico.Valores.ValorDeducoes := AlimentarCamposServico(NFSe.Servico.Valores.ValorDeducoes,
+                                         vValorDeducoes);
+    NFSe.Servico.Valores.ValorRecebido := AlimentarCamposServico(NFSe.Servico.Valores.ValorRecebido,
+                                         vValorRecebido);
+    NFSe.Servico.Valores.ValorServicos := AlimentarCamposServico(NFSe.Servico.Valores.ValorServicos,
+                                         vValorServicos);
+    NFSe.Servico.Valores.DescontoCondicionado := AlimentarCamposServico(NFSe.Servico.Valores.DescontoCondicionado,
+                                         vDescontoCondicionado);
+    NFSe.Servico.Valores.DescontoIncondicionado := AlimentarCamposServico(NFSe.Servico.Valores.DescontoIncondicionado,
+                                         vDescontoIncondicionado);
+    NFSe.Servico.Valores.BaseCalculo := AlimentarCamposServico(NFSe.Servico.Valores.BaseCalculo,
+                                         vBaseCalculo);
+    NFSe.Servico.Valores.ValorPis := AlimentarCamposServico(NFSe.Servico.Valores.ValorPis,
+                                         vValorPis);
+    NFSe.Servico.Valores.ValorCofins := AlimentarCamposServico(NFSe.Servico.Valores.ValorCofins,
+                                         vValorCofins);
+    NFSe.Servico.Valores.ValorInss := AlimentarCamposServico(NFSe.Servico.Valores.ValorInss,
+                                         vValorInss);
+    NFSe.Servico.Valores.ValorIr := AlimentarCamposServico(NFSe.Servico.Valores.ValorIr,
+                                         vValorIr);
+    NFSe.Servico.Valores.ValorCsll := AlimentarCamposServico(NFSe.Servico.Valores.ValorCsll,
+                                         vValorCsll);
+    NFSe.Servico.Valores.ValorIss := AlimentarCamposServico(NFSe.Servico.Valores.ValorIss,
+                                         vValorIss);
+    NFSe.Servico.Valores.ValorIssRetido := AlimentarCamposServico(NFSe.Servico.Valores.ValorIssRetido,
+                                         vValorIssRetido);
+  end;
+end;
+
+function TNFSeWClass.AlimentarCamposServico(CampoServico,
+  CampoItemLista: string): string;
+begin
+  Result := CampoServico;
+
+  if (CampoServico = '') and (CampoItemLista <> '') then
+    Result := CampoItemLista;
+end;
+
+function TNFSeWClass.AlimentarCamposServico(CampoServico,
+  CampoItemLista: Integer): Integer;
+begin
+  Result := CampoServico;
+
+  if (CampoServico = 0) and (CampoItemLista <> 0) then
+    Result := CampoItemLista;
+end;
+
+function TNFSeWClass.AlimentarCamposServico(CampoServico,
+  CampoItemLista: Double): Double;
+begin
+  Result := CampoServico;
+
+  if (CampoServico = 0) and (CampoItemLista <> 0) then
+    Result := CampoItemLista;
+end;
+
+procedure TNFSeWClass.CampoDiscriminacaoFormatado;
+var
+  xDiscriminacao: string;
+  i: Integer;
+begin
+  if NFSe.Servico.ItemServico.Count > 0 then
+  begin
+    xDiscriminacao := '';
+
+    with FNFSe.Servico do
+    begin
+      for i := 0 to ItemServico.Count -1 do
+      begin
         case FormatoDiscriminacao of
           fdTabulado:
             xDiscriminacao := xDiscriminacao +
@@ -497,72 +641,6 @@ begin
     else
       NFSe.Servico.Discriminacao := xDiscriminacao;
     end;
-
-    // Leva em consideração a informação do ultimo item da lista.
-    UltimoItem := FNFSe.Servico.ItemServico.Count -1;
-    NFSe.Servico.CodigoMunicipio := IntToStr(FNFSe.Servico.ItemServico[UltimoItem].CodigoMunicipio);
-    NFSe.Servico.CodigoPais := FNFSe.Servico.ItemServico[UltimoItem].CodigoPais;
-    NFSe.Servico.ItemListaServico := FNFSe.Servico.ItemServico[UltimoItem].ItemListaServico;
-    NFSe.Servico.xItemListaServico := FNFSe.Servico.ItemServico[UltimoItem].xItemListaServico;
-    NFSe.Servico.CodigoTributacaoMunicipio := FNFSe.Servico.ItemServico[UltimoItem].CodigoTributacaoMunicipio;
-    NFSe.Servico.CodigoNBS := FNFSe.Servico.ItemServico[UltimoItem].CodigoNBS;
-    NFSe.infNFSe.xNBS := FNFSe.Servico.ItemServico[UltimoItem].xNBS;
-    NFSe.Servico.CodigoInterContr := FNFSe.Servico.ItemServico[UltimoItem].CodigoInterContr;
-    NFSe.Servico.CodigoCnae := FNFSe.Servico.ItemServico[UltimoItem].CodigoCnae;
-    NFSe.Servico.ResponsavelRetencao := FNFSe.Servico.ItemServico[UltimoItem].ResponsavelRetencao;
-    NFSe.Servico.ExigibilidadeISS := FNFSe.Servico.ItemServico[UltimoItem].ExigibilidadeISS;
-    NFSe.Servico.MunicipioIncidencia := FNFSe.Servico.ItemServico[UltimoItem].MunicipioIncidencia;
-    NFSe.Servico.xMunicipioIncidencia := FNFSe.Servico.ItemServico[UltimoItem].xMunicipioIncidencia;
-    NFSe.Servico.NumeroProcesso := FNFSe.Servico.ItemServico[UltimoItem].NumeroProcesso;
-    NFSe.Servico.InfAdicional := FNFSe.Servico.ItemServico[UltimoItem].InfAdicional;
-    NFSe.Servico.CodigoServicoNacional := FNFSe.Servico.ItemServico[UltimoItem].CodigoServicoNacional;
-    NFSe.Servico.CodigoTributacaoNacional := FNFSe.Servico.ItemServico[UltimoItem].CodigoTributacaoNacional;
-
-    NFSe.Servico.Valores.Aliquota := FNFSe.Servico.ItemServico[UltimoItem].Aliquota;
-    NFSe.Servico.Valores.AliquotaDeducoes := FNFSe.Servico.ItemServico[UltimoItem].AliqDeducoes;
-    NFSe.Servico.Valores.AliquotaPis := FNFSe.Servico.ItemServico[UltimoItem].AliqRetPIS;
-    NFSe.Servico.Valores.AliquotaCofins := FNFSe.Servico.ItemServico[UltimoItem].AliqRetCOFINS;
-    NFSe.Servico.Valores.AliquotaInss := FNFSe.Servico.ItemServico[UltimoItem].AliqRetINSS;
-    NFSe.Servico.Valores.AliquotaIr := FNFSe.Servico.ItemServico[UltimoItem].AliqRetIRRF;
-    NFSe.Servico.Valores.AliquotaCsll := FNFSe.Servico.ItemServico[UltimoItem].AliqRetCSLL;
-    NFSe.Servico.Valores.RetidoCSLL := FNFSe.Servico.ItemServico[UltimoItem].RetidoCSLL;
-    NFSe.Servico.Valores.RetidoPIS := FNFSe.Servico.ItemServico[UltimoItem].RetidoPIS;
-    NFSe.Servico.Valores.RetidoCOFINS := FNFSe.Servico.ItemServico[UltimoItem].RetidoCOFINS;
-    NFSe.Servico.Valores.RetidoINSS := FNFSe.Servico.ItemServico[UltimoItem].RetidoINSS;
-    NFSe.Servico.Valores.RetidoIR := FNFSe.Servico.ItemServico[UltimoItem].RetidoIRRF;
-    NFSe.Servico.Valores.RetidoCPP := FNFSe.Servico.ItemServico[UltimoItem].RetidoCPP;
-
-    // Realiza a totalização dos valores
-    if NFSe.Servico.Valores.QtdeDiaria = 0 then
-      NFSe.Servico.Valores.QtdeDiaria := vQtdeDiaria;
-    if NFSe.Servico.Valores.ValorTaxaTurismo = 0 then
-      NFSe.Servico.Valores.ValorTaxaTurismo := vValorTaxaTurismo;
-    if NFSe.Servico.Valores.ValorDeducoes = 0 then
-      NFSe.Servico.Valores.ValorDeducoes := vValorDeducoes;
-    if NFSe.Servico.Valores.ValorRecebido = 0 then
-      NFSe.Servico.Valores.ValorRecebido := vValorRecebido;
-    if NFSe.Servico.Valores.ValorServicos = 0 then
-      NFSe.Servico.Valores.ValorServicos := vValorServicos;
-    if NFSe.Servico.Valores.DescontoCondicionado = 0 then
-      NFSe.Servico.Valores.DescontoCondicionado := vDescontoCondicionado;
-    if NFSe.Servico.Valores.DescontoIncondicionado = 0 then
-      NFSe.Servico.Valores.DescontoIncondicionado := vDescontoIncondicionado;
-    if NFSe.Servico.Valores.BaseCalculo = 0 then
-      NFSe.Servico.Valores.BaseCalculo := vBaseCalculo;
-    if NFSe.Servico.Valores.ValorPis = 0 then
-      NFSe.Servico.Valores.ValorPis := vValorPis;
-    if NFSe.Servico.Valores.ValorCofins = 0 then
-      NFSe.Servico.Valores.ValorCofins := vValorCofins;
-    if NFSe.Servico.Valores.ValorInss = 0 then
-      NFSe.Servico.Valores.ValorInss := vValorInss;
-    if NFSe.Servico.Valores.ValorIr = 0 then
-      NFSe.Servico.Valores.ValorIr := vValorIr;
-    if NFSe.Servico.Valores.ValorCsll = 0 then
-      NFSe.Servico.Valores.ValorCsll := vValorCsll;
-    if NFSe.Servico.Valores.ValorIss = 0 then
-      NFSe.Servico.Valores.ValorIss := vValorIss;
-    if NFSe.Servico.Valores.ValorIssRetido = 0 then
-      NFSe.Servico.Valores.ValorIssRetido := vValorIssRetido;
   end;
 end;
 

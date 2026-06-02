@@ -110,6 +110,9 @@ begin
   if FpAOwner.ConfigGeral.Params.TemParametro('NaoDividir100') then
     DivAliq100 := False;
 
+  NrOcorrCodigoNBS := -1;
+  NrOcorrCodigoPaisServico := -1;
+
   TagTomador := 'Tomador';
 end;
 

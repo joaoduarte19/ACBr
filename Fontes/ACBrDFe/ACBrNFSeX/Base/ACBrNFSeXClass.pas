@@ -632,7 +632,6 @@ type
     FValorTributavel: Double;
 
     FDadosProfissionalParceiro: TDadosProfissionalParceiro;
-    FidCnae: string;
     FtotalAproxTribServ: Double;
     FCodigoMunicipio: Integer;
     FCodigoPais: Integer;
@@ -779,7 +778,7 @@ type
     property AliqCBS: Double read FAliqCBS write FAliqCBS;
 
     // Provedor SoftPlan
-    property idCnae: string read FidCnae write FidCnae;
+    property idCnae: string read FCodigoCnae write FCodigoCnae;
 
     // Provedor Infisc
     property totalAproxTribServ: Double read FtotalAproxTribServ write FtotalAproxTribServ;
@@ -1079,59 +1078,121 @@ type
     procedure SetItemServico(Value: TItemServicoCollection);
     procedure SetDeducao(const Value: TDeducaoCollection);
     procedure SetImposto(const Value: TImpostoCollection);
+    function GetCodigoCnae: string;
+    procedure SetCodigoCnae(const Value: string);
+    function GetCodigoMunicipio: string;
+    procedure SetCodigoMunicipio(const Value: string);
+    function GetItemListaServico: string;
+    procedure SetItemListaServico(const Value: string);
+    function GetxItemListaServico: string;
+    procedure SetxItemListaServico(const Value: string);
+    function GetCodigoTributacaoMunicipio: string;
+    procedure SetCodigoTributacaoMunicipio(const Value: string);
+    function GetCodigoNBS: string;
+    procedure SetCodigoNBS(const Value: string);
+    function GetCodigoInterContr: string;
+    procedure SetCodigoInterContr(const Value: string);
+    function GetxMunicipioIncidencia: string;
+    procedure SetxMunicipioIncidencia(const Value: string);
+    function GetNumeroProcesso: string;
+    procedure SetNumeroProcesso(const Value: string);
+    function GetInfAdicional: string;
+    procedure SetInfAdicional(const Value: string);
+    function GetCodigoServicoNacional: string;
+    procedure SetCodigoServicoNacional(const Value: string);
+    function GetCodigoTributacaoNacional: string;
+    procedure SetCodigoTributacaoNacional(const Value: string);
+    function GetxCodigoTributacaoMunicipio: string;
+    procedure SetxCodigoTributacaoMunicipio(const Value: string);
+    function GetIdentifNaoExigibilidade: string;
+    procedure SetIdentifNaoExigibilidade(const Value: string);
+    function GetCFPS: string;
+    procedure SetCFPS(const Value: string);
+    function GetFonteCargaTributaria: string;
+    procedure SetFonteCargaTributaria(const Value: string);
+    function GetxFormaPagamento: string;
+    procedure SetxFormaPagamento(const Value: string);
+    function GetcClassTrib: string;
+    procedure SetcClassTrib(const Value: string);
+    function GetINDOP: string;
+    procedure SetINDOP(const Value: string);
+    function GetCodigoPais: Integer;
+    procedure SetCodigoPais(const Value: Integer);
+    function GetMunicipioIncidencia: Integer;
+    procedure SetMunicipioIncidencia(const Value: Integer);
+    function GetPercentualCargaTributaria: Double;
+    procedure SetPercentualCargaTributaria(const Value: Double);
+    function GetValorCargaTributaria: Double;
+    procedure SetValorCargaTributaria(const Value: Double);
+    function GetResponsavelRetencao: TnfseResponsavelRetencao;
+    procedure SetResponsavelRetencao(const Value: TnfseResponsavelRetencao);
+    function GetExigibilidadeISS: TnfseExigibilidadeISS;
+    procedure SetExigibilidadeISS(const Value: TnfseExigibilidadeISS);
+    function GetTipoLancamento: TTipoLancamento;
+    procedure SetTipoLancamento(const Value: TTipoLancamento);
+    function GetOperacao: TOperacao;
+    procedure SetOperacao(const Value: TOperacao);
+    function GetTributacao: TTributacao;
+    procedure SetTributacao(const Value: TTributacao);
+    function GetLocalPrestacao: TLocalPrestacao;
+    procedure SetLocalPrestacao(const Value: TLocalPrestacao);
+    function GetPrestadoEmViasPublicas: Boolean;
+    procedure SetPrestadoEmViasPublicas(const Value: Boolean);
+    function GetValorTotalRecebido: Double;
+    procedure SetValorTotalRecebido(const Value: Double);
   public
     constructor Create;
     destructor Destroy; override;
 
-    property Valores: TValores read FValores write FValores;
-    property ItemListaServico: string read FItemListaServico write FItemListaServico;
-    property CodigoCnae: string read FCodigoCnae write FCodigoCnae;
-    property CodigoTributacaoMunicipio: string read FCodigoTributacaoMunicipio write FCodigoTributacaoMunicipio;
-    property xCodigoTributacaoMunicipio: string read FxCodigoTributacaoMunicipio write FxCodigoTributacaoMunicipio;
     property Discriminacao: string read FDiscriminacao write FDiscriminacao;
-    property CodigoMunicipio: string read FCodigoMunicipio write FCodigoMunicipio;
     property MunicipioPrestacaoServico: string read FMunicipioPrestacaoServico write FMunicipioPrestacaoServico;
-    property CodigoPais: Integer read FCodigoPais write FCodigoPais;
     property xPais: string read FxPais write FxPais;
-    property ExigibilidadeISS: TnfseExigibilidadeISS read FExigibilidadeISS write FExigibilidadeISS;
-    property IdentifNaoExigibilidade: string read FIdentifNaoExigibilidade write FIdentifNaoExigibilidade;
-    property MunicipioIncidencia: Integer read FMunicipioIncidencia write FMunicipioIncidencia;
-    property NumeroProcesso: string read FNumeroProcesso write FNumeroProcesso;
-    property xItemListaServico: string read FxItemListaServico write FxItemListaServico;
-    property ItemServico: TItemServicoCollection read FItemServico write SetItemServico;
-    property ResponsavelRetencao: TnfseResponsavelRetencao read FResponsavelRetencao write FResponsavelRetencao;
-
     { Descricao ser trocado pelo xItemListaServico no provedor SpeedGov}
     { Descricao usado no provedor CTAConsult para informar a descrição da atividade}
     property Descricao: string read FDescricao write FDescricao;
-    property xMunicipioIncidencia: string read FxMunicipioIncidencia write FxMunicipioIncidencia;
-
-    // Provedor IssDsf
-    property Deducao: TDeducaoCollection read FDeducao write SetDeducao;
-    property Operacao: TOperacao read FOperacao write FOperacao;
-    property Tributacao: TTributacao read FTributacao write FTributacao;
-
     // Provedor Governa
     { UFPrestacao ser trocado pela UF da classe TEndereco}
     property UFPrestacao: string read FUFPrestacao write FUFPrestacao;
 
+    property Valores: TValores read FValores write FValores;
+    property ItemServico: TItemServicoCollection read FItemServico write SetItemServico;
+
+    property ItemListaServico: string read GetItemListaServico write SetItemListaServico;
+    property CodigoCnae: string read GetCodigoCnae write SetCodigoCnae;
+    property CodigoTributacaoMunicipio: string read GetCodigoTributacaoMunicipio write SetCodigoTributacaoMunicipio;
+    property xCodigoTributacaoMunicipio: string read GetxCodigoTributacaoMunicipio write SetxCodigoTributacaoMunicipio;
+    property CodigoMunicipio: string read GetCodigoMunicipio write SetCodigoMunicipio;
+    property CodigoPais: Integer read GetCodigoPais write SetCodigoPais;
+    property ExigibilidadeISS: TnfseExigibilidadeISS read GetExigibilidadeISS write SetExigibilidadeISS;
+    property IdentifNaoExigibilidade: string read GetIdentifNaoExigibilidade write SetIdentifNaoExigibilidade;
+    property MunicipioIncidencia: Integer read GetMunicipioIncidencia write SetMunicipioIncidencia;
+    property NumeroProcesso: string read GetNumeroProcesso write SetNumeroProcesso;
+    property xItemListaServico: string read GetxItemListaServico write SetxItemListaServico;
+    property ResponsavelRetencao: TnfseResponsavelRetencao read GetResponsavelRetencao write SetResponsavelRetencao;
+    property xMunicipioIncidencia: string read GetxMunicipioIncidencia write SetxMunicipioIncidencia;
+
+    // Provedor IssDsf
+    property Deducao: TDeducaoCollection read FDeducao write SetDeducao;
+    property Operacao: TOperacao read GetOperacao write SetOperacao;
+    property Tributacao: TTributacao read GetTributacao write SetTributacao;
+
     // Provedor ISSSaoPaulo
-    property ValorCargaTributaria: Double read FValorCargaTributaria write FValorCargaTributaria;
-    property PercentualCargaTributaria: Double read FPercentualCargaTributaria write FPercentualCargaTributaria;
-    property FonteCargaTributaria: string read FFonteCargaTributaria write FFonteCargaTributaria;
-    property ValorTotalRecebido: Double read FValorTotalRecebido write FValorTotalRecebido;
+    property ValorCargaTributaria: Double read GetValorCargaTributaria write SetValorCargaTributaria;
+    property PercentualCargaTributaria: Double read GetPercentualCargaTributaria write SetPercentualCargaTributaria;
+    property FonteCargaTributaria: string read GetFonteCargaTributaria write SetFonteCargaTributaria;
+    property ValorTotalRecebido: Double read GetValorTotalRecebido write SetValorTotalRecebido;
     property CodigoNCM: string read FCodigoNCM write FCodigoNCM;
 
     // Provedor ISSBarueri
-    property PrestadoEmViasPublicas: Boolean read FPrestadoEmViasPublicas write FPrestadoEmViasPublicas;
-    property LocalPrestacao: TLocalPrestacao read FLocalPrestacao write FLocalPrestacao;
+    property PrestadoEmViasPublicas: Boolean read GetPrestadoEmViasPublicas write SetPrestadoEmViasPublicas;
+    property LocalPrestacao: TLocalPrestacao read GetLocalPrestacao write SetLocalPrestacao;
 
     // Provedor GeisWeb
-    property TipoLancamento: TTipoLancamento read FTipoLancamento write FTipoLancamento;
+    property TipoLancamento: TTipoLancamento read GetTipoLancamento write SetTipoLancamento;
 
     // Provedor PadraoNacional
-    property CodigoNBS: string read FCodigoNBS write FCodigoNBS;
-    property CodigoInterContr: string read FCodigoInterContr write FCodigoInterContr;
+    property CodigoNBS: string read GetCodigoNBS write SetCodigoNBS;
+    property CodigoInterContr: string read GetCodigoInterContr write SetCodigoInterContr;
     property comExt: TComExterior read FcomExt write FcomExt;
     property Locacao: TLocacao read FLocacao write FLocacao;
     property Evento: TEvento read FEvento write FEvento;
@@ -1142,21 +1203,21 @@ type
     property Imposto: TImpostoCollection read FImposto write SetImposto;
 
     // Provedor SoftPlan
-    property CFPS: string read FCFPS write FCFPS;
+    property CFPS: string read GetCFPS write SetCFPS;
 
     // Provedor Giap
     property Endereco: TEndereco read FEndereco write FEndereco;
 
     // Provedor Megasoft
-    property InfAdicional: string read FInfAdicional write FInfAdicional;
-    property xFormaPagamento: string read FxFormaPagamento write FxFormaPagamento;
+    property InfAdicional: string read GetInfAdicional write SetInfAdicional;
+    property xFormaPagamento: string read GetxFormaPagamento write SetxFormaPagamento;
 
     // Provedor ISSSalvador
-    property cClassTrib: string read FcClassTrib write FcClassTrib;
-    property INDOP: string read FINDOP write FINDOP;
+    property cClassTrib: string read GetcClassTrib write SetcClassTrib;
+    property INDOP: string read GetINDOP write SetINDOP;
 
     { CodigoServicoNacional ser trocado por ItemListaServico}
-    property CodigoServicoNacional: string read FCodigoServicoNacional write FCodigoServicoNacional;
+    property CodigoServicoNacional: string read GetCodigoServicoNacional write SetCodigoServicoNacional;
 
     // Provedor Publica
     { CodigoMunicipioLocalPrestacao ser trocado pela CodigoMunicipio da classe TEndereco}
@@ -1170,7 +1231,7 @@ type
     property CodigoAnexoCnae: string read FCodigoAnexoCnae write FCodigoAnexoCnae;
 
     // Provedor iiBrasil
-    property CodigoTributacaoNacional: string read FCodigoTributacaoNacional write FCodigoTributacaoNacional;
+    property CodigoTributacaoNacional: string read GetCodigoTributacaoNacional write SetCodigoTributacaoNacional;
   end;
 
   TDadosPessoa = class(TObject)
@@ -1771,6 +1832,7 @@ type
 
     Fvalores: TvaloresIBSCBS;
     FtotCIBS: TtotCIBS;
+    FUFLocalidadeIncid: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1780,6 +1842,7 @@ type
     property pRedutor: Double read FpRedutor write FpRedutor;
     property valores: TvaloresIBSCBS read Fvalores write Fvalores;
     property totCIBS: TtotCIBS read FtotCIBS write FtotCIBS;
+    property UFLocalidadeIncid: string read FUFLocalidadeIncid write FUFLocalidadeIncid;
   end;
 
   { TinfNFSe }
@@ -1806,6 +1869,7 @@ type
     Fvalores: TValoresNfse;
     // Reforma Tributaria
     FIBSCBS: TIBSCBSNfse;
+    FUFLocEmi: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1828,6 +1892,7 @@ type
     property nDFSe: string read FnDFSe write FnDFSe;
     property emit: TDadosPessoa read Femit write Femit;
     property valores: TValoresNfse read Fvalores write Fvalores;
+    property UFLocEmi: string read FUFLocEmi write FUFLocEmi;
     // Reforma Tributaria
     property IBSCBS: TIBSCBSNfse read FIBSCBS write FIBSCBS;
   end;
@@ -2631,9 +2696,405 @@ begin
   inherited Destroy;
 end;
 
+function TDadosServico.GetcClassTrib: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].cClassTrib
+  else
+    Result := '';
+end;
+
+function TDadosServico.GetCFPS: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].CFPS
+  else
+    Result := '';
+end;
+
+function TDadosServico.GetCodigoCnae: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].CodigoCnae
+  else
+    Result := '';
+end;
+
+function TDadosServico.GetCodigoInterContr: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].CodigoInterContr
+  else
+    Result := '';
+end;
+
+function TDadosServico.GetCodigoMunicipio: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := IntToStr(ItemServico[0].CodigoMunicipio)
+  else
+    Result := '';
+end;
+
+function TDadosServico.GetCodigoNBS: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].CodigoNBS
+  else
+    Result := '';
+end;
+
+function TDadosServico.GetCodigoPais: Integer;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].CodigoPais
+  else
+    Result := 0;
+end;
+
+function TDadosServico.GetCodigoServicoNacional: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].CodigoServicoNacional
+  else
+    Result := '';
+end;
+
+function TDadosServico.GetCodigoTributacaoMunicipio: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].CodigoTributacaoMunicipio
+  else
+    Result := '';
+end;
+
+function TDadosServico.GetCodigoTributacaoNacional: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].CodigoTributacaoNacional
+  else
+    Result := '';
+end;
+
+function TDadosServico.GetExigibilidadeISS: TnfseExigibilidadeISS;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].ExigibilidadeISS
+  else
+    Result := exiExigivel;
+end;
+
+function TDadosServico.GetFonteCargaTributaria: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].FonteCargaTributaria
+  else
+    Result := '';
+end;
+
+function TDadosServico.GetIdentifNaoExigibilidade: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].IdentifNaoExigibilidade
+  else
+    Result := '';
+end;
+
+function TDadosServico.GetINDOP: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].INDOP
+  else
+    Result := '';
+end;
+
+function TDadosServico.GetInfAdicional: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].InfAdicional
+  else
+    Result := '';
+end;
+
+function TDadosServico.GetItemListaServico: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].ItemListaServico
+  else
+    Result := '';
+end;
+
+function TDadosServico.GetLocalPrestacao: TLocalPrestacao;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].LocalPrestacao
+  else
+    Result := lpMunicipio;
+end;
+
+function TDadosServico.GetMunicipioIncidencia: Integer;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].MunicipioIncidencia
+  else
+    Result := 0;
+end;
+
+function TDadosServico.GetNumeroProcesso: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].NumeroProcesso
+  else
+    Result := '';
+end;
+
+function TDadosServico.GetOperacao: TOperacao;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].Operacao
+  else
+    Result := toSemDeducao;
+end;
+
+function TDadosServico.GetPercentualCargaTributaria: Double;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].PercentualCargaTributaria
+  else
+    Result := 0;
+end;
+
+function TDadosServico.GetPrestadoEmViasPublicas: Boolean;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].PrestadoEmViasPublicas
+  else
+    Result := False;
+end;
+
+function TDadosServico.GetResponsavelRetencao: TnfseResponsavelRetencao;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].ResponsavelRetencao
+  else
+    Result := rtTomador;
+end;
+
+function TDadosServico.GetTipoLancamento: TTipoLancamento;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].TipoLancamento
+  else
+    Result := tlDevidoNoMunicPrestador;
+end;
+
+function TDadosServico.GetTributacao: TTributacao;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].Tributacao
+  else
+    Result := ttIsentaISS;
+end;
+
+function TDadosServico.GetValorCargaTributaria: Double;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].ValorCargaTributaria
+  else
+    Result := 0;
+end;
+
+function TDadosServico.GetValorTotalRecebido: Double;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].ValorRecebido
+  else
+    Result := 0;
+end;
+
+function TDadosServico.GetxCodigoTributacaoMunicipio: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].xCodigoTributacaoMunicipio
+  else
+    Result := '';
+end;
+
+function TDadosServico.GetxFormaPagamento: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].xFormaPagamento
+  else
+    Result := '';
+end;
+
+function TDadosServico.GetxItemListaServico: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].xItemListaServico
+  else
+    Result := '';
+end;
+
+function TDadosServico.GetxMunicipioIncidencia: string;
+begin
+  if ItemServico.Count > 0 then
+//  if assigned(ItemServico[0]) then
+    Result := ItemServico[0].xMunicipioIncidencia
+  else
+    Result := '';
+end;
+
+procedure TDadosServico.SetcClassTrib(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].cClassTrib := Value;
+end;
+
+procedure TDadosServico.SetCFPS(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].CFPS := Value;
+end;
+
+procedure TDadosServico.SetCodigoCnae(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].CodigoCnae := Value;
+end;
+
+procedure TDadosServico.SetCodigoInterContr(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].CodigoInterContr := Value;
+end;
+
+procedure TDadosServico.SetCodigoMunicipio(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].CodigoMunicipio := StrToIntDef(Value, 0);
+end;
+
+procedure TDadosServico.SetCodigoNBS(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].CodigoNBS := Value;
+end;
+
+procedure TDadosServico.SetCodigoPais(const Value: Integer);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].CodigoPais := Value;
+end;
+
+procedure TDadosServico.SetCodigoServicoNacional(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].CodigoServicoNacional := Value;
+end;
+
+procedure TDadosServico.SetCodigoTributacaoMunicipio(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].CodigoTributacaoMunicipio := Value;
+end;
+
+procedure TDadosServico.SetCodigoTributacaoNacional(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].CodigoTributacaoNacional := Value;
+end;
+
 procedure TDadosServico.SetDeducao(const Value: TDeducaoCollection);
 begin
   FDeducao := Value;
+end;
+
+procedure TDadosServico.SetExigibilidadeISS(const Value: TnfseExigibilidadeISS);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].ExigibilidadeISS := Value;
+end;
+
+procedure TDadosServico.SetFonteCargaTributaria(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].FonteCargaTributaria := Value;
+end;
+
+procedure TDadosServico.SetIdentifNaoExigibilidade(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].IdentifNaoExigibilidade := Value;
 end;
 
 procedure TDadosServico.SetImposto(const Value: TImpostoCollection);
@@ -2641,9 +3102,172 @@ begin
   FImposto := Value;
 end;
 
+procedure TDadosServico.SetINDOP(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].INDOP := Value;
+end;
+
+procedure TDadosServico.SetInfAdicional(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].InfAdicional := Value;
+end;
+
+procedure TDadosServico.SetItemListaServico(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].ItemListaServico := Value;
+end;
+
 procedure TDadosServico.SetItemServico(Value: TItemServicoCollection);
 begin
   FItemServico.Assign(Value);
+end;
+
+procedure TDadosServico.SetLocalPrestacao(const Value: TLocalPrestacao);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].LocalPrestacao := Value;
+end;
+
+procedure TDadosServico.SetMunicipioIncidencia(const Value: Integer);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico) then
+    ItemServico.New;
+
+  ItemServico[0].MunicipioIncidencia := Value;
+end;
+
+procedure TDadosServico.SetNumeroProcesso(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].NumeroProcesso := Value;
+end;
+
+procedure TDadosServico.SetOperacao(const Value: TOperacao);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].Operacao := Value;
+end;
+
+procedure TDadosServico.SetPercentualCargaTributaria(const Value: Double);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].PercentualCargaTributaria := Value;
+end;
+
+procedure TDadosServico.SetPrestadoEmViasPublicas(const Value: Boolean);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].PrestadoEmViasPublicas := Value;
+end;
+
+procedure TDadosServico.SetResponsavelRetencao(
+  const Value: TnfseResponsavelRetencao);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].ResponsavelRetencao := Value;
+end;
+
+procedure TDadosServico.SetTipoLancamento(const Value: TTipoLancamento);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].TipoLancamento := Value;
+end;
+
+procedure TDadosServico.SetTributacao(const Value: TTributacao);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].Tributacao := Value;
+end;
+
+procedure TDadosServico.SetValorCargaTributaria(const Value: Double);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].ValorCargaTributaria := Value;
+end;
+
+procedure TDadosServico.SetValorTotalRecebido(const Value: Double);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].ValorRecebido := Value;
+end;
+
+procedure TDadosServico.SetxCodigoTributacaoMunicipio(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].xCodigoTributacaoMunicipio := Value;
+end;
+
+procedure TDadosServico.SetxFormaPagamento(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].xFormaPagamento := Value;
+end;
+
+procedure TDadosServico.SetxItemListaServico(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].xItemListaServico := Value;
+end;
+
+procedure TDadosServico.SetxMunicipioIncidencia(const Value: string);
+begin
+  if ItemServico.Count = 0 then
+//  if not assigned(ItemServico[0]) then
+    ItemServico.New;
+
+  ItemServico[0].xMunicipioIncidencia := Value;
 end;
 
 { TDadosPrestador }

@@ -43,6 +43,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 02/06/2026
+-- HM2.GravarXml/HM2.LerXml/HM2.Provider --
+[+] ACBR-9105 - Implementação do provedor HM2 para a cidade de Carpina/PE, não esta 100%.
+   Por: Italo Giurizzato Junior
+-- ACBrNFSeXNotasFiscais --
+[+] Implementado os métodos: LoadFromLoteNfseStream e LoadFromLoteNfseString para a carga de um 
+    XML que contem um lote de NFS-e. 
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] ACBR-9234 - O município de Santa Maria de Jetiba/ES mudou de provedor padrão nacional para o provedor EL
    Por: Larissa Santos

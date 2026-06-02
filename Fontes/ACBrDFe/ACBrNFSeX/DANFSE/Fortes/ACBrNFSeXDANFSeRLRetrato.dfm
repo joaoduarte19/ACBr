@@ -3,6 +3,7 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
   Top = 76
   Caption = 'frlXDANFSeRLRetrato'
   ClientHeight = 988
+  StyleElements = [seFont, seClient, seBorder]
   TextHeight = 13
   inherited RLNFSe: TRLReport
     Left = 32
@@ -900,7 +901,7 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
       Left = 28
       Top = 601
       Width = 940
-      Height = 259
+      Height = 265
       BandType = btSummary
       Borders.Sides = sdCustom
       Borders.DrawLeft = True
@@ -1529,8 +1530,8 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
         Transparent = False
       end
       object RLLabel53: TRLLabel
-        Left = 11
-        Top = 214
+        Left = 12
+        Top = 243
         Width = 145
         Height = 15
         AutoSize = False
@@ -1729,14 +1730,14 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
       end
       object rllValorLiquido: TRLLabel
         Left = 163
-        Top = 210
+        Top = 243
         Width = 121
-        Height = 20
+        Height = 13
         Alignment = taRightJustify
         AutoSize = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
-        Font.Height = -16
+        Font.Height = -11
         Font.Name = 'Arial'
         Font.Style = [fsBold]
         ParentFont = False
@@ -1841,10 +1842,70 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
         ParentFont = False
         Transparent = False
       end
+      object RLLabel8: TRLLabel
+        Left = 9
+        Top = 206
+        Width = 146
+        Height = 15
+        AutoSize = False
+        Caption = '(-) IBS'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+      end
+      object RLLabel16: TRLLabel
+        Left = 9
+        Top = 222
+        Width = 146
+        Height = 15
+        AutoSize = False
+        Caption = '(-) CBS'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+      end
+      object rllValorIBS: TRLLabel
+        Left = 160
+        Top = 206
+        Width = 129
+        Height = 15
+        Alignment = taRightJustify
+        AutoSize = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+      end
+      object rllValorCBS: TRLLabel
+        Left = 160
+        Top = 222
+        Width = 129
+        Height = 15
+        Alignment = taRightJustify
+        AutoSize = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+      end
     end
     object rbOutrasInformacoes: TRLBand
       Left = 28
-      Top = 860
+      Top = 866
       Width = 940
       Height = 40
       BandType = btSummary
@@ -1887,7 +1948,7 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
     end
     object rlbCanhoto: TRLBand
       Left = 28
-      Top = 918
+      Top = 924
       Width = 940
       Height = 73
       BandType = btSummary
@@ -2256,7 +2317,7 @@ inherited frlXDANFSeRLRetrato: TfrlXDANFSeRLRetrato
     end
     object RLBand1: TRLBand
       Left = 28
-      Top = 900
+      Top = 906
       Width = 940
       Height = 18
       BandType = btSummary
