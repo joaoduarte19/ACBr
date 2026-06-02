@@ -129,13 +129,16 @@ begin
   xmlNode := GerarOutrosImpostos;
   NFSeNode.AppendChild(xmlNode);
 
-//  if VersaoNFSe = ve101 then
-//  begin
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'NCM', 1, 10, 0,
+  if VersaoNFSe = ve101 then
+  begin
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'NCM', 1, 10, 1,
                                                    NFSe.Servico.CodigoNCM, ''));
 
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'NBS', 1, 10, 0,
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'NBS', 1, 10, 1,
                                                    NFSe.Servico.CodigoNBS, ''));
+
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CodigoNacional', 6, 6, 1,
+                                       NFSe.Servico.CodigoServicoNacional, ''));
 
     // Reforma Tributária
     if NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum then
@@ -143,7 +146,7 @@ begin
       xmlNode := GerarXmlIBSCBS(NFSe.IBSCBS);
       NFSeNode.AppendChild(xmlNode);
     end;
-//  end;
+  end;
 
   Result := True;
 end;
@@ -169,6 +172,12 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#1', 'cClassTrib', 6, 6, 1,
                                                        gIBSCBS.cClassTrib, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'Ibs', 1, 15, 1,
+                                 NFSe.infNFSe.IBSCBS.totCIBS.gIBS.vIBSTot, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'Cbs', 1, 15, 1,
+                                    NFSe.infNFSe.IBSCBS.totCIBS.gCBS.vCBS, ''));
 
   Result.AppendChild(GerarXMLgTribRegular(gIBSCBS.gTribRegular));
 end;

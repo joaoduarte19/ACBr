@@ -44,6 +44,12 @@ Símbolo : Significado
 
 02/06/2026
 -- ACBrNFSeXServicos --
+[*] Ajuste nas URLs e versão das cidades atendidas pelo provedor GeisWeb.
+   Por: Italo Giurizzato Junior
+-- GeisWeb.GravarXml/GeisWeb.Provider --
+[*] Ajustes para atender tanto a versão 1.00 quanto a 1.01 que gera os campos da RTC.
+   Por: Italo Giurizzato Junior
+-- ACBrNFSeXServicos --
 [*] Ajuste nas URLs da cidade de Itapeva/MG.
    Por: Italo Giurizzato Junior
 -- Fiorilli.Provider --

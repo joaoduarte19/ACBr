@@ -126,7 +126,7 @@ begin
     Identificador := '';
     ModoEnvio := meLoteSincrono;
 
-    ServicosDisponibilizados.EnviarLoteAssincrono := True;
+    ServicosDisponibilizados.EnviarLoteSincrono := True;
     ServicosDisponibilizados.ConsultarLote := True;
     ServicosDisponibilizados.ConsultarNfse := True;
     ServicosDisponibilizados.ConsultarLinkNfse := True;
@@ -135,12 +135,17 @@ begin
 
   ConfigAssinar.Rps := True;
 
-  FpURL :=  'cidadedofuturo';
+//  FpURL :=  'cidadedofuturo';
 
-  if ConfigGeral.Versao = ve100 then
-    FpURL :=  'gerenciadecidades';
+//  if ConfigGeral.Versao = ve101 then
+//    FpURL :=  'gerenciadecidades';
 
-  SetXmlNameSpace('http://www.' + FpURL + '.com.br/xsd/envio_lote_rps.xsd');
+  FpURL :=  'gerenciadecidades';
+
+  if ConfigGeral.Versao = ve101 then
+    SetXmlNameSpace('http://www.' + FpURL + '.com.br/xsd/envio_lote_rps_reforma.xsd')
+  else
+    SetXmlNameSpace('http://www.' + FpURL + '.com.br/xsd/envio_lote_rps.xsd');
 
   with ConfigMsgDados do
   begin
@@ -154,7 +159,11 @@ begin
 
   with ConfigSchemas do
   begin
-    RecepcionarSincrono := 'envio_lote_rps.xsd';
+    if ConfigGeral.Versao = ve101 then
+      RecepcionarSincrono := 'envio_lote_rps_reforma.xsd'
+    else
+      RecepcionarSincrono := 'envio_lote_rps.xsd';
+
     ConsultarLote := 'consulta_lote_rps.xsd';
     ConsultarNFSe := 'consulta_nfse.xsd';
     CancelarNFSe := 'cancela_nfse.xsd';
@@ -252,7 +261,11 @@ end;
 function TACBrNFSeProviderGeisWeb.PrepararRpsParaLote(
   const aXml: string): string;
 begin
-  Result := '<Rps xmlns="http://www.' + FpURL + '.com.br/xsd/envio_lote_rps.xsd">' +
+  if ConfigGeral.Versao = ve101 then
+    Result := '<Rps xmlns="http://www.' + FpURL + '.com.br/xsd/envio_lote_rps_reforma.xsd">' +
+            SeparaDados(aXml, 'Rps') + '</Rps>'
+  else
+    Result := '<Rps xmlns="http://www.' + FpURL + '.com.br/xsd/envio_lote_rps.xsd">' +
             SeparaDados(aXml, 'Rps') + '</Rps>';
 end;
 
@@ -824,17 +837,22 @@ end;
 
 function TACBrNFSeXWebserviceGeisWeb.GetNameSpace: string;
 var
-  ambiente, URL: string;
+  ambiente, URL, reforma: string;
 begin
-  URL :=  'cidadedofuturo';
+//  URL := 'cidadedofuturo';
+  URL := 'gerenciadecidades';
+  reforma := '';
 
   if TACBrNFSeX(FPDFeOwner).Provider.ConfigGeral.Versao = ve100 then
-    URL :=  'gerenciadecidades';
+  begin
+    URL := 'gerenciadecidades';
+    reforma := 'reforma/';
+  end;
 
   if TACBrNFSeX(FPDFeOwner).Configuracoes.WebServices.AmbienteCodigo = 1 then
-    ambiente := 'producao/' + AliasCidade
+    ambiente := 'producao/' + reforma + AliasCidade
   else
-    ambiente := 'homologacao/modelo';
+    ambiente := 'homologacao/' + reforma + 'modelo';
 
   Result := 'xmlns:geis="urn:https://www.' + URL + '.com.br/' + ambiente +
             '/webservice/GeisWebServiceImpl.php"';
@@ -842,17 +860,22 @@ end;
 
 function TACBrNFSeXWebserviceGeisWeb.GetSoapAction: string;
 var
-  ambiente, URL: string;
+  ambiente, URL, reforma: string;
 begin
-  URL :=  'cidadedofuturo';
+//  URL := 'cidadedofuturo';
+  URL := 'gerenciadecidades';
+  reforma := '';
 
   if TACBrNFSeX(FPDFeOwner).Provider.ConfigGeral.Versao = ve100 then
-    URL :=  'gerenciadecidades';
+  begin
+    URL := 'gerenciadecidades';
+    reforma := 'reforma/';
+  end;
 
   if TACBrNFSeX(FPDFeOwner).Configuracoes.WebServices.AmbienteCodigo = 1 then
-    ambiente := 'producao/' + AliasCidade
+    ambiente := 'producao/' + reforma + AliasCidade
   else
-    ambiente := 'homologacao/modelo';
+    ambiente := 'homologacao/' + reforma + 'modelo';
 
   Result := 'urn:https://www.' + URL + '.com.br/' + ambiente +
             '/webservice/GeisWebServiceImpl.php#';
@@ -865,17 +888,17 @@ var
 begin
   FPMsgOrig := AMSG;
 
-  Request := '<geis:EnviaLoteRps soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">';
-  Request := Request + '<EnviaLoteRps xsi:type="xsd:string">' +
+  Request := '<geis:EnviaLoteRps ' + NameSpace + '>';
+  Request := Request + '<EnviaLoteRps>' +
                           XmlToStr(AMSG) +
                        '</EnviaLoteRps>';
   Request := Request + '</geis:EnviaLoteRps>';
 
   Result := Executar(SoapAction + 'EnviaLoteRps', Request,
                      ['EnviaLoteRpsResposta', 'EnviaLoteRpsResposta'],
-                     ['xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
-                      'xmlns:xsd="http://www.w3.org/2001/XMLSchema"',
-                      NameSpace]);
+                     ['soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"',
+                      'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
+                      'xmlns:xsd="http://www.w3.org/2001/XMLSchema"']);
 end;
 
 function TACBrNFSeXWebserviceGeisWeb.ConsultarLote(const ACabecalho,
@@ -885,17 +908,17 @@ var
 begin
   FPMsgOrig := AMSG;
 
-  Request := '<geis:ConsultaLoteRps soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">';
-  Request := Request + '<ConsultaLoteRps xsi:type="xsd:string">' +
+  Request := '<geis:ConsultaLoteRpsRequest ' + NameSpace + '>';
+  Request := Request + '<ConsultaLoteRps>' +
                           XmlToStr(AMSG) +
                        '</ConsultaLoteRps>';
-  Request := Request + '</geis:ConsultaLoteRps>';
+  Request := Request + '</geis:ConsultaLoteRpsRequest>';
 
   Result := Executar(SoapAction + 'ConsultaLoteRps', Request,
                      ['ConsultaLoteRpsResposta', 'ConsultaLoteRpsResposta'],
-                     ['xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
-                      'xmlns:xsd="http://www.w3.org/2001/XMLSchema"',
-                      NameSpace]);
+                     ['soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"',
+                      'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
+                      'xmlns:xsd="http://www.w3.org/2001/XMLSchema"']);
 end;
 
 function TACBrNFSeXWebserviceGeisWeb.ConsultarNFSe(const ACabecalho, AMSG: String): string;
@@ -904,17 +927,17 @@ var
 begin
   FPMsgOrig := AMSG;
 
-  Request := '<geis:ConsultaNfse soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">';
-  Request := Request + '<ConsultaNfse xsi:type="xsd:string">' +
+  Request := '<geis:ConsultaNfseRequest ' + NameSpace + '>';
+  Request := Request + '<ConsultaNfse>' +
                           XmlToStr(AMSG) +
                        '</ConsultaNfse>';
-  Request := Request + '</geis:ConsultaNfse>';
+  Request := Request + '</geis:ConsultaNfseRequest>';
 
   Result := Executar(SoapAction + 'ConsultaNfse', Request,
                      ['ConsultaNfseResposta', 'ConsultaNfseResposta'],
-                     ['xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
-                      'xmlns:xsd="http://www.w3.org/2001/XMLSchema"',
-                      NameSpace]);
+                     ['soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"',
+                      'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
+                      'xmlns:xsd="http://www.w3.org/2001/XMLSchema"']);
 end;
 
 function TACBrNFSeXWebserviceGeisWeb.ConsultarLinkNFSe(const ACabecalho,
@@ -924,17 +947,17 @@ var
 begin
   FPMsgOrig := AMSG;
 
-  Request := '<geis:GeraPDFNFSe soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">';
-  Request := Request + '<GeraPDFNFSe xsi:type="xsd:string">' +
+  Request := '<geis:GeraPDFNFSeRequest ' + NameSpace + '>';
+  Request := Request + '<GeraPDFNFSe>' +
                           XmlToStr(AMSG) +
                        '</GeraPDFNFSe>';
-  Request := Request + '</geis:GeraPDFNFSe>';
+  Request := Request + '</geis:GeraPDFNFSeRequest>';
 
   Result := Executar(SoapAction + 'GeraPDFNFSe', Request,
                      ['GeraPDFNFSeResposta', 'GeraPDFNFSeResposta'],
-                     ['xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
-                      'xmlns:xsd="http://www.w3.org/2001/XMLSchema"',
-                      NameSpace]);
+                     ['soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"',
+                      'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
+                      'xmlns:xsd="http://www.w3.org/2001/XMLSchema"']);
 end;
 
 function TACBrNFSeXWebserviceGeisWeb.Cancelar(const ACabecalho, AMSG: String): string;
@@ -943,17 +966,17 @@ var
 begin
   FPMsgOrig := AMSG;
 
-  Request := '<geis:CancelaNfse soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">';
-  Request := Request + '<CancelaNfse xsi:type="xsd:string">' +
+  Request := '<geis:CancelaNfseRequest ' + NameSpace + '>';
+  Request := Request + '<CancelaNfse>' +
                           XmlToStr(AMSG) +
                        '</CancelaNfse>';
-  Request := Request + '</geis:CancelaNfse>';
+  Request := Request + '</geis:CancelaNfseRequest>';
 
   Result := Executar(SoapAction + 'CancelaNfse', Request,
                      ['CancelaNfseResposta', 'CancelaNfseResposta'],
-                     ['xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
-                      'xmlns:xsd="http://www.w3.org/2001/XMLSchema"',
-                      NameSpace]);
+                     ['soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"',
+                      'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
+                      'xmlns:xsd="http://www.w3.org/2001/XMLSchema"']);
 end;
 
 function TACBrNFSeXWebserviceGeisWeb.TratarXmlRetornado(
