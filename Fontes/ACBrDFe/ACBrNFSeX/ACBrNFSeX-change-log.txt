@@ -42,6 +42,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+02/06/2026
+-- ACBrNFSeXServicos --
+[*] Ajuste nas URLs da cidade de Itapeva/MG.
+   Por: Italo Giurizzato Junior
+-- Fiorilli.Provider --
+[-] Correção no SoapAction das consultas da versão 1.01
+   Por: Italo Giurizzato Junior
+
 01/06/2026
 -- ACBrNFSeXServicos --
 [*] Incluída a cidade de Carpina/PE, O provedor é HM2
