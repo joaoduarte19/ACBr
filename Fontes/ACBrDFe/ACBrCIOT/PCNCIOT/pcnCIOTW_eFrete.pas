@@ -1680,10 +1680,7 @@ begin
         // No manual v8 consta como versão 4, mas funciona somente em produção
         // em homologação funcionando na versão 3 - Aguardando retorno da integradora sobre sincronização dos ambientes
 
-        if Ambiente = 1 then
-          GerarIdentificacao(4)
-        else
-          GerarIdentificacao(3);
+        GerarIdentificacao(4);
 
         GerarGravarProprietario;
 
