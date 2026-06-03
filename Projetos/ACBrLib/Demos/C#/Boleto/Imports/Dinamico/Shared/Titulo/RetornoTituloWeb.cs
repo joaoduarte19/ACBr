@@ -96,6 +96,10 @@ namespace ACBrLib.Boleto
 
         public decimal ValorOutrosCreditos { get; set; }
 
+        public string CodigoEstadoTituloCobranca { get; set; }
+
+        public string EstadoTituloCobranca { get; set; }
+
         public decimal ValorRecebido { get; set; }
 
         public string CodigoMora { get; set; }
