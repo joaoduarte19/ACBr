@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/06/2026
+-- ACBrNFSeXClass/ACBrNFSeXLerXml/PadraoNacional.LerXml/ACBrNFSeXDANFSeRLPadraoNacional --
+[*] Alterações visando atender a versão 2.00 do DANFSE - Padrão Nacional em Fortes Report.
+   Por: Italo Giurizzato Junior
+
 02/06/2026
 -- ACBrNFSeXConversao/ACBrNFSeXProviderManager --
 [+] ACBR-9105 - Criado o enumerado para o provedor HM2 (proHM2).

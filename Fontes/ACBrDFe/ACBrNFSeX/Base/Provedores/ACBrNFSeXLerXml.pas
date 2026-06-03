@@ -1920,11 +1920,15 @@ end;
 
 procedure TNFSeRClass.LerXMLIBSCBSNFSe(const ANode: TACBrXmlNode;
   IBSCBS: TIBSCBSNfse);
+var
+  xUF: string;
 begin
   if not Assigned(ANode) then Exit;
 
   IBSCBS.cLocalidadeIncid := ObterConteudo(ANode.Childrens.FindAnyNs('cLocalidadeIncid'), tcInt);
   IBSCBS.xLocalidadeIncid := ObterConteudo(ANode.Childrens.FindAnyNs('xLocalidadeIncid'), tcStr);
+  ObterNomeMunicipioUF(IBSCBS.cLocalidadeIncid, xUF);
+  IBSCBS.UFLocalidadeIncid := xUF;
   IBSCBS.pRedutor := ObterConteudo(ANode.Childrens.FindAnyNs('pRedutor'), tcDe2);
 
   LerXMLValoresIBSCBSNFSe(ANode.Childrens.FindAnyNs('valores'), IBSCBS.valores);

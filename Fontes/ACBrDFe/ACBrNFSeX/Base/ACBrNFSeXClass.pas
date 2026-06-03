@@ -1771,6 +1771,7 @@ type
 
     Fvalores: TvaloresIBSCBS;
     FtotCIBS: TtotCIBS;
+    FUFLocalidadeIncid: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1780,6 +1781,7 @@ type
     property pRedutor: Double read FpRedutor write FpRedutor;
     property valores: TvaloresIBSCBS read Fvalores write Fvalores;
     property totCIBS: TtotCIBS read FtotCIBS write FtotCIBS;
+    property UFLocalidadeIncid: string read FUFLocalidadeIncid write FUFLocalidadeIncid;
   end;
 
   { TinfNFSe }
@@ -1806,6 +1808,7 @@ type
     Fvalores: TValoresNfse;
     // Reforma Tributaria
     FIBSCBS: TIBSCBSNfse;
+    FUFLocEmi: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1828,6 +1831,7 @@ type
     property nDFSe: string read FnDFSe write FnDFSe;
     property emit: TDadosPessoa read Femit write Femit;
     property valores: TValoresNfse read Fvalores write Fvalores;
+    property UFLocEmi: string read FUFLocEmi write FUFLocEmi;
     // Reforma Tributaria
     property IBSCBS: TIBSCBSNfse read FIBSCBS write FIBSCBS;
   end;
