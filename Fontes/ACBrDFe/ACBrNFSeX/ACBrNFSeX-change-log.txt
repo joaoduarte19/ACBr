@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 03/06/2026
+-- HM2.Provider --
+[+] ACBR-9105 - Implementado o Método Emitir, falta os demais.
+   Por: Italo Giurizzato Junior
 -- Tinus.Provider --
 [*] Removida a linha que desativava a validação do XML antes do seu envio para o WebService do provedor.
    Por: Italo Giurizzato Junior
