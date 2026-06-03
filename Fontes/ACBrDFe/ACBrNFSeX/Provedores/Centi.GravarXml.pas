@@ -117,11 +117,8 @@ begin
     Result.AppendChild(AddNode(tcStr, '#29', 'ItemListaServico', 1, 8, NrOcorrItemListaServico,
                                                           item, DSC_CLISTSERV));
 
-    Result.AppendChild(AddNode(tcStr, '#32', 'CodigoNbs', 1, 12, NrOcorrCodigoNBS,
-                                             PadLeft(NFSe.Servico.CodigoNBS, 12, '0'), DSC_CMUN));
-
-    Result.AppendChild(AddNode(tcStr, '#30', 'CodigoCnae', 1, 9, NrOcorrCodigoCNAE,
-                                OnlyNumber(NFSe.Servico.CodigoCnae), DSC_CNAE));
+    Result.AppendChild(AddNode(tcStr, '#32', 'CodigoNbs', 1, 9, NrOcorrCodigoNBS,
+                               PadLeft(NFSe.Servico.CodigoNBS, 9, '0'), DSC_CMUN));
 
     Result.AppendChild(AddNode(tcStr, '#31', 'CodigoTributacaoMunicipio', 1, 20, NrOcorrCodTribMun_1,
                      NFSe.Servico.CodigoTributacaoMunicipio, DSC_CSERVTRIBMUN));
