@@ -1,9 +1,10 @@
-<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+<?xml version="1.0"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
         xmlns:tns="http://www.abrasf.org.br/nfse.xsd" 
         xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
         targetNamespace="http://www.abrasf.org.br/nfse.xsd" 
+		attributeFormDefault="unqualified"
         elementFormDefault="qualified">
-
    <import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig.xsd"/>
 
    <element name="CancelarNfseEnvio">
@@ -1224,9 +1225,9 @@
    </simpleType>
    <simpleType name="TSMotivo">
       <restriction base="string">
-         <pattern value="[!-%uFFFD]{1}[ -%uFFFD]{0,}[!-%uFFFD]{1}|[!-%uFFFD]{1}"/>
          <maxLength value="255"/>
          <minLength value="15"/>
+         <whiteSpace value="collapse"/>
       </restriction>
    </simpleType>
    <simpleType name="TSRTCFinNFSe">
@@ -1277,9 +1278,9 @@
    </simpleType>
    <simpleType name="TSDesc150">
       <restriction base="string">
-         <pattern value="[!-%uFFFD]{1}[ -%uFFFD]{0,}[!-%uFFFD]{1}|[!-%uFFFD]{1}"/>
          <maxLength value="150"/>
          <minLength value="1"/>
+         <whiteSpace value="collapse"/>
       </restriction>
    </simpleType>
    <simpleType name="TSCodPaisISO">
@@ -1307,9 +1308,9 @@
    </simpleType>
    <simpleType name="TSLogradouro">
       <restriction base="string">
-         <pattern value="[!-%uFFFD]{1}[ -%uFFFD]{0,}[!-%uFFFD]{1}|[!-%uFFFD]{1}"/>
          <maxLength value="255"/>
          <minLength value="1"/>
+         <whiteSpace value="collapse"/>
       </restriction>
    </simpleType>
    <simpleType name="TSInscImobFisc">
@@ -1334,9 +1335,9 @@
    </simpleType>
    <simpleType name="TSDesc255">
       <restriction base="string">
-         <pattern value="[!-%uFFFD]{1}[ -%uFFFD]{0,}[!-%uFFFD]{1}|[!-%uFFFD]{1}"/>
          <maxLength value="255"/>
          <minLength value="1"/>
+         <whiteSpace value="collapse"/>
       </restriction>
    </simpleType>
    <simpleType name="TSRTCChaveDFe">
@@ -1377,9 +1378,9 @@
    </simpleType>
    <simpleType name="TSDesc600">
       <restriction base="string">
-         <pattern value="[!-%uFFFD]{1}[ -%uFFFD]{0,}[!-%uFFFD]{1}|[!-%uFFFD]{1}"/>
          <maxLength value="600"/>
          <minLength value="1"/>
+         <whiteSpace value="collapse"/>
       </restriction>
    </simpleType>
    <simpleType name="TSDec2V2">
