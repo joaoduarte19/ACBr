@@ -13,7 +13,7 @@
         <UnitOutputDirectory Value="..\..\..\..\Lib\Lazarus\ACBrDFe\ACBrNFSeX\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
     </CompilerOptions>
-    <Files Count="449">
+    <Files Count="452">
       <Item1>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\ACBrNFSeXReg.pas"/>
         <HasRegisterProc Value="True"/>
@@ -1811,6 +1811,18 @@
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\BWSistemas.Provider.pas"/>
         <UnitName Value="BWSistemas.Provider"/>
       </Item449>
+      <Item450>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\HM2.GravarXml.pas"/>
+        <UnitName Value="HM2.GravarXml"/>
+      </Item450>
+      <Item451>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\HM2.LerXml.pas"/>
+        <UnitName Value="HM2.LerXml"/>
+      </Item451>
+      <Item452>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\HM2.Provider.pas"/>
+        <UnitName Value="HM2.Provider"/>
+      </Item452>
    </Files>
     <RequiredPkgs Count="2">
       <Item1>

@@ -129,7 +129,8 @@ uses
   ISSMap.LerXml, ISSMap.Provider, Aspec.GravarJson, Aspec.LerJson, 
   Aspec.Provider, Smart4.GravarXml, Smart4.LerXml, Smart4.Provider, 
   ACBrNFSeX.LerIni, ACBrNFSeX.GravarIni, BWSistemas.GravarXml, 
-  BWSistemas.LerXml, BWSistemas.Provider, LazarusPackageIntf;
+  BWSistemas.LerXml, BWSistemas.Provider, HM2.GravarXml, 
+  HM2.LerXml, HM2.Provider, LazarusPackageIntf;
 
 implementation
 
