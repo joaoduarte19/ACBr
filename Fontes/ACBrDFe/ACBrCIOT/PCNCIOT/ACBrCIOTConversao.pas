@@ -38,8 +38,9 @@ interface
 
 uses
   SysUtils,
-  StrUtils,
-  Classes;
+  StrUtils, 
+  Classes,
+  pcnConversao;
 
 const
   NAME_SPACE_CIOT  = '';
@@ -279,13 +280,18 @@ function LayOutToSchema(const t: TLayOutCIOT): TSchemaCIOT;
 
 function LayOutToServico(const t: TLayOutCIOT): string;
 function ServicoToLayOut(const s: string): TLayOutCIOT;
+function TLayOutCIOTToEnumStr(const t: TLayOutCIOT): string;
+function EnumStrToTLayOutCIOT(out ok: boolean; const s: string): TLayOutCIOT;
 
 function SchemaCIOTToStr(const t: TSchemaCIOT): string;
 function StrToSchemaCIOT(const s: string): TSchemaCIOT;
+function TSchemaCIOTToEnumStr(const t: TSchemaCIOT): string;
+function EnumStrToTSchemaCIOT(out ok: boolean; const s: string): TSchemaCIOT;
 
 function VersaoCIOTToStr(const t: TVersaoCIOT): string;
 function StrToVersaoCIOT(const s: string): TVersaoCIOT;
-
+function TVersaoCIOTToEnumStr(const t: TVersaoCIOT): string;
+function EnumStrToTVersaoCIOT(out ok: boolean; const s: string): TVersaoCIOT;
 function VersaoCIOTToInt(const t: TVersaoCIOT): Integer;
 function VersaoCIOTToDbl(const t: TVersaoCIOT): Double;
 function DblToVersaoCIOT(const d: Double): TVersaoCIOT;
@@ -294,69 +300,117 @@ function TipoContaToStr(const t: tpTipoConta): string;
 function StrToTipoConta(const s: string): tpTipoConta;
 function TipoContaToIndex(const t: tpTipoConta): Integer;
 function IndexToTipoConta(const s: Integer): tpTipoConta;
+function tpTipoContaToEnumStr(const t: tpTipoConta): string;
+function EnumStrTotpTipoConta(out ok: boolean; const s: string): tpTipoConta;
 
 function TipoEmbalagemToStr(const t: tpTipoEmbalagem): string;
 function StrToTipoEmbalagem(const s: string): tpTipoEmbalagem;
+function tpTipoEmbalagemToEnumStr(const t: tpTipoEmbalagem): string;
+function EnumStrTotpTipoEmbalagem(out ok: boolean; const s: string): tpTipoEmbalagem;
 
 function TipoViagemCIOTToStr(const t: TpTipoViagem): string;
 function StrToTipoViagemCIOT(const s: string): TpTipoViagem;
+function TpTipoViagemToEnumStr(const t: TpTipoViagem): string;
+function EnumStrToTpTipoViagem(out ok: boolean; const s: string): TpTipoViagem;
 
 function TpPagamentoToStr(const t: TpTipoPagamento): string;
 function StrToTpPagamento(const s: string): TpTipoPagamento;
+function TpTipoPagamentoToEnumStr(const t: TpTipoPagamento): string;
+function EnumStrToTpTipoPagamento(out ok: boolean; const s: string): TpTipoPagamento;
 
 function TpUnMedMercToStr(const t: TpUnidadeDeMedidaDaMercadoria): string;
 function StrToTpUnMedMerc(const s: string): TpUnidadeDeMedidaDaMercadoria;
+function TpUnidDeMedMercToEnumStr(const t: TpUnidadeDeMedidaDaMercadoria): string;
+function EnumStrToTpUnidDeMedMerc(out ok: boolean; const s: string): TpUnidadeDeMedidaDaMercadoria;
 
 function TpVgTipoCalculoToStr(const t: TpViagemTipoDeCalculo): string;
 function StrToTpVgTipoCalculo(const s: string): TpViagemTipoDeCalculo;
+function TpViagemTipoDeCalculoToEnumStr(const t: TpViagemTipoDeCalculo): string;
+function EnumStrToTpViagemTipoDeCalculo(out ok: boolean; const s: string): TpViagemTipoDeCalculo;
 
 function TpProporcaoToStr(const t: TpTipoProporcao): string;
 function StrToTpProporcao(const s: string): TpTipoProporcao;
+function TpTipoProporcaoToEnumStr(const t: TpTipoProporcao): string;
+function EnumStrToTpTipoProporcao(out ok: boolean; const s: string): TpTipoProporcao;
 
 function TpToleraciaToStr(const t: TpTipoTolerancia): string;
 function StrToTpTolerancia(const s: string): TpTipoTolerancia;
+function TpTipoToleranciaToEnumStr(const t: TpTipoTolerancia): string;
+function EnumStrToTpTipoTolerancia(out ok: boolean; const s: string): TpTipoTolerancia;
 
 function TpAbonoToStr(const t: TpTipoAbono): string;
 function StrToTpAbono(const s: string): TpTipoAbono;
+function TpTipoAbonoToEnumStr(const t: TpTipoAbono): string;
+function EnumStrToTpTipoAbono(out ok: boolean; const s: string): TpTipoAbono;
 
 function TpDifFreteToStr(const t: TpDiferencaFrete): string;
 function StrToTpDifFrete(const s: string): TpDiferencaFrete;
+function TpDiferencaFreteToEnumStr(const t: TpDiferencaFrete): string;
+function EnumStrToTpDiferencaFrete(out ok: boolean; const s: string): TpDiferencaFrete;
 
 function TpDiferencaFreteBCToStr(const t: TpDiferencaFreteBaseCalculo): string;
 function StrToTpDiferencaFreteBC(const s: string): TpDiferencaFreteBaseCalculo;
+function TpDiferencaFreteBaseCalculoToEnumStr(const t: TpDiferencaFreteBaseCalculo): string;
+function EnumStrToTpDiferencaFreteBaseCalculo(out ok: boolean; const s: string): TpDiferencaFreteBaseCalculo;
 
 function TpCatPagToStr(const t: TpTipoCategoriaPagamento): string;
 function StrToTpCatPag(const s: string): TpTipoCategoriaPagamento;
+function TpTipoCategoriaPagamentoToEnumStr(const t: TpTipoCategoriaPagamento): string;
+function EnumStrToTpTipoCategoriaPagamento(out ok: boolean; const s: string): TpTipoCategoriaPagamento;
 
 function TpOperacaoToStr(const t: TpOperacao): string;
 function StrToTpOperacao(const s: string): TpOperacao;
+function TpOperacaoToEnumStr(const t: TpOperacao): string;
+function EnumStrToTpOperacao(out ok: boolean; const s: string): TpOperacao;
+
+function TpOperacaoToInt(const t: TpOperacao): Integer;
+function IntToTpOperacao(const i: Integer): TpOperacao;
+function TpOperacaoToNome(const t: TpOperacao): string;
 
 function EntregaDocumentacaoToStr(const t: TpEntregaDocumentacao): string;
 function StrToEntregaDocumentacao(const s: string): TpEntregaDocumentacao;
+function TpEntregaDocumentacaoToEnumStr(const t: TpEntregaDocumentacao): string;
+function EnumStrToTpEntregaDocumentacao(out ok: boolean; const s: string): TpEntregaDocumentacao;
 
 function TipoRodadoToStr(const t: TpTipoRodado): string;
 function StrToTipoRodado(const s: string): TpTipoRodado;
+function TpTipoRodadoToEnumStr(const t: TpTipoRodado): string;
+function EnumStrToTpTipoRodado(out ok: boolean; const s: string): TpTipoRodado;
 
 function TipoCarroceriaToStr(const t: TpTipoCarroceria): string;
 function StrToTipoCarroceria(const s: string): TpTipoCarroceria;
+function TpTipoCarroceriaToEnumStr(const t: TpTipoCarroceria): string;
+function EnumStrToTpTipoCarroceria(out ok: boolean; const s: string): TpTipoCarroceria;
 
 function TipoPessoaToStr(const t: tpTipoPessoa): string;
 function StrToTipoPessoa(const s: string): tpTipoPessoa;
+function tpTipoPessoaToEnumStr(const t: tpTipoPessoa): string;
+function EnumStrTotpTipoPessoa(out ok: boolean; const s: string): tpTipoPessoa;
 
 function TipoProprietarioToStr(const t: TpTipoProprietario): string;
 function StrToTipoProprietario(const s: string): TpTipoProprietario;
+function TpTipoProprietarioToEnumStr(const t: TpTipoProprietario): string;
+function EnumStrToTpTipoProprietario(out ok: boolean; const s: string): TpTipoProprietario;
 
 function EstadoCIOTToStr(const t: TpEstadoCIOT): string;
 function StrToEstadoCIOT(const s: string): TpEstadoCIOT;
+function TpEstadoCIOTToEnumStr(const t: TpEstadoCIOT): string;
+function EnumStrToTpEstadoCIOT(out ok: boolean; const s: string): TpEstadoCIOT;
 
 function TipoCargaToStr(const t: tpTipoCarga): string;
 function StrToTipoCarga(const s: string): tpTipoCarga;
+function tpTipoCargaToEnumStr(const t: tpTipoCarga): string;
+function EnumStrTotpTipoCarga(out ok: boolean; const s: string): tpTipoCarga;
 
 function IntegradoraToStr(const t: TCIOTIntegradora): string;
 function StrToIntegradora(const s: string): TCIOTIntegradora;
+function TCIOTIntegradoraToEnumStr(const t: TCIOTIntegradora): string;
+function EnumStrToTCIOTIntegradora(out ok: boolean; const s: string): TCIOTIntegradora;
 
 function TipoDocumentoPamcardToStr(const t: tpTipoDocumentoPamcard): string;
 function StrToTipoDocumentoPamcard(const s: string): tpTipoDocumentoPamcard;
+function tpTipoDocumentoPamcardToEnumStr(const t: tpTipoDocumentoPamcard): string;
+function EnumStrTotpTipoDocumentoPamcard(out ok: boolean; const s: string): tpTipoDocumentoPamcard;
 
 implementation
 
@@ -378,6 +432,30 @@ begin
   else
     Result := schErro;
   end;
+end;
+
+function TLayOutCIOTToEnumStr(const t: TLayOutCIOT): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['1', '2', '3',
+                            '4', '5',
+                            '6',
+                            '7'],
+                           [LayeFreteLogon, layeFreteProprietarios, LayeFreteVeiculos,
+                            LayeFreteMotoristas, LayeFreteOperacaoTransporte,
+                            LayeFreteFaturamentoTransportadora,
+                            LayPamcard]);
+end;
+
+function EnumStrToTLayOutCIOT(out ok: boolean; const s: string): TLayOutCIOT;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['1', '2', '3',
+                            '4', '5',
+                            '6', '7'],
+                           [LayeFreteLogon, layeFreteProprietarios, LayeFreteVeiculos,
+                            LayeFreteMotoristas, LayeFreteOperacaoTransporte,
+                            LayeFreteFaturamentoTransportadora, LayPamcard]);
 end;
 
 function LayOutToServico(const t: TLayOutCIOT): string;
@@ -424,6 +502,20 @@ begin
   Result := TSchemaCIOT(GetEnumValue(TypeInfo(TSchemaCIOT), SchemaStr));
 end;
 
+function TSchemaCIOTToEnumStr(const t: TSchemaCIOT): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['1', '2'],
+                           [schErro, schEnviar]);
+end;
+
+function EnumStrToTSchemaCIOT(out ok: boolean; const s: string): TSchemaCIOT;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['1', '2'],
+                           [schErro, schEnviar]);
+end;
+
 function VersaoCIOTToStr(const t: TVersaoCIOT): string;
 begin
   result := TVersaoCIOTArrayStrings[t];
@@ -443,6 +535,20 @@ begin
   end;
 
   raise EACBrException.CreateFmt('Valor string inválido para TVersaoCIOT: %s', [s]);
+end;
+
+function TVersaoCIOTToEnumStr(const t: TVersaoCIOT): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['ve500'],
+                           [ve500]);
+end;
+
+function EnumStrToTVersaoCIOT(out ok: boolean; const s: string): TVersaoCIOT;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['ve500'],
+                           [ve500]);
 end;
 
 function VersaoCIOTToInt(const t: TVersaoCIOT): Integer;
@@ -518,6 +624,20 @@ begin
   raise EACBrException.CreateFmt('Valor string inválido para tpTipoConta: %s', [s]);
 end;
 
+function tpTipoContaToEnumStr(const t: tpTipoConta): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['0', '1', '2', '3'],
+                           [tcIndefinido, tcContaCorrente, tcContaPoupanca, tcContaPagamentos]);
+end;
+
+function EnumStrTotpTipoConta(out ok: boolean; const s: string): tpTipoConta;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['0', '1', '2', '3'],
+                           [tcIndefinido, tcContaCorrente, tcContaPoupanca, tcContaPagamentos]);
+end;
+
 function TipoEmbalagemToStr(const t: tpTipoEmbalagem): string;
 begin
   result := tpTipoEmbalagemArrayStrings[t];
@@ -537,6 +657,24 @@ begin
   end;
 
   raise EACBrException.CreateFmt('Valor string inválido para tpTipoEmbalagem: %s', [s]);
+end;
+
+function tpTipoEmbalagemToEnumStr(const t: tpTipoEmbalagem): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['0', '1', '2', '3', '4',
+                            '5', '6', '7', '8', '9'],
+                           [teIndefinido, teBigbag, tePallet, teGranel, teContainer,
+                            teSaco, teCaixa, teUnitario, teFardo, teTanque]);
+end;
+
+function EnumStrTotpTipoEmbalagem(out ok: boolean; const s: string): tpTipoEmbalagem;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['0', '1', '2', '3', '4',
+                            '5', '6', '7', '8', '9'],
+                           [teIndefinido, teBigbag, tePallet, teGranel, teContainer,
+                            teSaco, teCaixa, teUnitario, teFardo, teTanque]);
 end;
 
 function TipoViagemCIOTToStr(const t: TpTipoViagem): string;
@@ -560,6 +698,20 @@ begin
   raise EACBrException.CreateFmt('Valor string inválido para TpTipoViagem: %s', [s]);
 end;
 
+function TpTipoViagemToEnumStr(const t: TpTipoViagem): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['0', '1', '2', '3'],
+                           [Indefinido, Padrao, TAC_Agregado, Frota]);
+end;
+
+function EnumStrToTpTipoViagem(out ok: boolean; const s: string): TpTipoViagem;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['0', '1', '2', '3'],
+                           [Indefinido, Padrao, TAC_Agregado, Frota]);
+end;
+
 function TpPagamentoToStr(const t: TpTipoPagamento): string;
 begin
   result := TpTipoPagamentoArrayStrings[t];
@@ -579,6 +731,22 @@ begin
   end;
 
   raise EACBrException.CreateFmt('Valor string inválido para TpTipoPagamento: %s', [s]);
+end;
+
+function TpTipoPagamentoToEnumStr(const t: TpTipoPagamento): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['1', '2', '3', '4', '5'],
+                           [TransferenciaBancaria, eFRETE, Parceiro, Outros,
+                            DepositoAgendado]);
+end;
+
+function EnumStrToTpTipoPagamento(out ok: boolean; const s: string): TpTipoPagamento;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['1', '2', '3', '4', '5'],
+                           [TransferenciaBancaria, eFRETE, Parceiro, Outros,
+                            DepositoAgendado]);
 end;
 
 function TpUnMedMercToStr(const t: TpUnidadeDeMedidaDaMercadoria): string;
@@ -602,6 +770,20 @@ begin
   raise EACBrException.CreateFmt('Valor string inválido para TpUnidadeDeMedidaDaMercadoria: %s', [s]);
 end;
 
+function TpUnidDeMedMercToEnumStr(const t: TpUnidadeDeMedidaDaMercadoria): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['0', '1', '2'],
+                           [umIndefinido, umTonelada, umKg]);
+end;
+
+function EnumStrToTpUnidDeMedMerc(out ok: boolean; const s: string): TpUnidadeDeMedidaDaMercadoria;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['0', '1', '2'],
+                           [umIndefinido, umTonelada, umKg]);
+end;
+
 function TpVgTipoCalculoToStr(const t: TpViagemTipoDeCalculo): string;
 begin
   result := TpViagemTipoDeCalculoArrayStrings[t];
@@ -621,6 +803,20 @@ begin
   end;
 
   raise EACBrException.CreateFmt('Valor string inválido para TpViagemTipoDeCalculo: %s', [s]);
+end;
+
+function TpViagemTipoDeCalculoToEnumStr(const t: TpViagemTipoDeCalculo): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['1', '2', '3'],
+                           [SemQuebra, QuebraSomenteUltrapassado, QuebraIntegral]);
+end;
+
+function EnumStrToTpViagemTipoDeCalculo(out ok: boolean; const s: string): TpViagemTipoDeCalculo;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['1', '2', '3'],
+                           [SemQuebra, QuebraSomenteUltrapassado, QuebraIntegral]);
 end;
 
 function TpProporcaoToStr(const t: TpTipoProporcao): string;
@@ -644,6 +840,20 @@ begin
   raise EACBrException.CreateFmt('Valor string inválido para TpTipoProporcao: %s', [s]);
 end;
 
+function TpTipoProporcaoToEnumStr(const t: TpTipoProporcao): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['0', '1', '2'],
+                           [tpNenhum, tpPorcentagem, tpValorAbsoluto]);
+end;
+
+function EnumStrToTpTipoProporcao(out ok: boolean; const s: string): TpTipoProporcao;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['0', '1', '2'],
+                           [tpNenhum, tpPorcentagem, tpValorAbsoluto]);
+end;
+
 function TpToleraciaToStr(const t: TpTipoTolerancia): string;
 begin
   result := TpTipoToleranciaArrayStrings[t];
@@ -663,6 +873,20 @@ begin
   end;
 
   raise EACBrException.CreateFmt('Valor string inválido para TpTipoTolerancia: %s', [s]);
+end;
+
+function TpTipoToleranciaToEnumStr(const t: TpTipoTolerancia): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['0', '1', '2'],
+                           [ttNenhum, ttPorcentagem, ttValorAbsoluto]);
+end;
+
+function EnumStrToTpTipoTolerancia(out ok: boolean; const s: string): TpTipoTolerancia;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['0', '1', '2'],
+                           [ttNenhum, ttPorcentagem, ttValorAbsoluto]);
 end;
 
 function TpAbonoToStr(const t: TpTipoAbono): string;
@@ -686,6 +910,20 @@ begin
   raise EACBrException.CreateFmt('Valor string inválido para TpTipoAbono: %s', [s]);
 end;
 
+function TpTipoAbonoToEnumStr(const t: TpTipoAbono): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['0', '1', '2', '3'],
+                           [taNenhum, taPorcentagem, taValorAbsoluto, taPeso]);
+end;
+
+function EnumStrToTpTipoAbono(out ok: boolean; const s: string): TpTipoAbono;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['0', '1', '2', '3'],
+                           [taNenhum, taPorcentagem, taValorAbsoluto, taPeso]);
+end;
+
 function TpDifFreteToStr(const t: TpDiferencaFrete): string;
 begin
   result := TpDiferencaFreteArrayStrings[t];
@@ -705,6 +943,20 @@ begin
   end;
 
   raise EACBrException.CreateFmt('Valor string inválido para TpDiferencaFrete: %s', [s]);
+end;
+
+function TpDiferencaFreteToEnumStr(const t: TpDiferencaFrete): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['1', '2', '3'],
+                           [SemDiferenca, SomenteUltrapassado, Integral]);
+end;
+
+function EnumStrToTpDiferencaFrete(out ok: boolean; const s: string): TpDiferencaFrete;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['1', '2', '3'],
+                           [SemDiferenca, SomenteUltrapassado, Integral]);
 end;
 
 function TpDiferencaFreteBCToStr(const t: TpDiferencaFreteBaseCalculo): string;
@@ -728,6 +980,20 @@ begin
   raise EACBrException.CreateFmt('Valor string inválido para TpDiferencaFreteBaseCalculo: %s', [s]);
 end;
 
+function TpDiferencaFreteBaseCalculoToEnumStr(const t: TpDiferencaFreteBaseCalculo): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['1', '2'],
+                           [QuantidadeDesembarque, QuantidadeMenor]);
+end;
+
+function EnumStrToTpDiferencaFreteBaseCalculo(out ok: boolean; const s: string): TpDiferencaFreteBaseCalculo;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['1', '2'],
+                           [QuantidadeDesembarque, QuantidadeMenor]);
+end;
+
 function TpCatPagToStr(const t: TpTipoCategoriaPagamento): string;
 begin
   result := TpTipoCategoriaPagamentoArrayStrings[t];
@@ -747,6 +1013,22 @@ begin
   end;
 
   raise EACBrException.CreateFmt('Valor string inválido para TpTipoCategoriaPagamento: %s', [s]);
+end;
+
+function TpTipoCategoriaPagamentoToEnumStr(const t: TpTipoCategoriaPagamento): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['1', '2', '3', '4', '5'],
+                           [tcpAdiantamento, tcpEstadia, tcpQuitacao,
+                            tcpSemCategoria, tcpFrota]);
+end;
+
+function EnumStrToTpTipoCategoriaPagamento(out ok: boolean; const s: string): TpTipoCategoriaPagamento;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['1', '2', '3', '4', '5'],
+                           [tcpAdiantamento, tcpEstadia, tcpQuitacao,
+                            tcpSemCategoria, tcpFrota]);
 end;
 
 function TpOperacaoToStr(const t: TpOperacao): string;
@@ -770,6 +1052,84 @@ begin
   raise EACBrException.CreateFmt('Valor string inválido para TpOperacao: %s', [s]);
 end;
 
+function TpOperacaoToEnumStr(const t: TpOperacao): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['1', '2',
+                            '3', '4', '5',
+                            '6', '7', '8',
+                            '9', '10', '11', '12',
+                            '13', '14', '15',
+                            '16',
+                            '17',
+                            '18',
+                            '19', '20', '21',
+                            '22', '23', '24',
+                            '25', '26', '27',
+                            '28', '29', '30'],
+                           [opLogin, opLogout,
+                            opGravarProprietario, opGravarVeiculo, opGravarMotorista,
+                            opAdicionar, opAdicionarViagem, opAdicionarPagamento,
+                            opObterCodigoIOT, opObterPdf, opRetificar, opCancelar,
+                            opCancelarPagamento, opEncerrar, opConsultarTipoCarga,
+                            opAlterarDataLiberacaoPagamento,
+                            opRegistrarQtdeMercadoriaDesembarque,
+                            opRegistrarPagamentoQuitacao,
+                            opIncluirRota, opRoteirizar, opIncluirCartaoPortador,
+                            opConsultaViagem, opConsultaParcela, opConsultarCartao,
+                            opConsultarConta, opConsultarFavorecido, opConsultarFrota,
+                            opConsultarRNTRC, opConsultarTAG, opPagamentoPedagio]);
+end;
+
+function EnumStrToTpOperacao(out ok: boolean; const s: string): TpOperacao;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['1', '2',
+                            '3', '4', '5',
+                            '6', '7', '8',
+                            '9', '10', '11', '12',
+                            '13', '14', '15',
+                            '16',
+                            '17',
+                            '18',
+                            '19', '20', '21',
+                            '22', '23', '24',
+                            '25', '26', '27',
+                            '28', '29', '30'],
+                           [opLogin, opLogout,
+                            opGravarProprietario, opGravarVeiculo, opGravarMotorista,
+                            opAdicionar, opAdicionarViagem, opAdicionarPagamento,
+                            opObterCodigoIOT, opObterPdf, opRetificar, opCancelar,
+                            opCancelarPagamento, opEncerrar, opConsultarTipoCarga,
+                            opAlterarDataLiberacaoPagamento,
+                            opRegistrarQtdeMercadoriaDesembarque,
+                            opRegistrarPagamentoQuitacao,
+                            opIncluirRota, opRoteirizar, opIncluirCartaoPortador,
+                            opConsultaViagem, opConsultaParcela, opConsultarCartao,
+                            opConsultarConta, opConsultarFavorecido, opConsultarFrota,
+                            opConsultarRNTRC, opConsultarTAG, opPagamentoPedagio]);
+end;
+
+function TpOperacaoToInt(const t: TpOperacao): Integer;
+begin
+  Result := Integer(t);
+end;
+
+function IntToTpOperacao(const i: Integer): TpOperacao;
+begin
+  if (i < Integer(Low(TpOperacaoArrayStrings))) or
+     (i > Integer(High(TpOperacaoArrayStrings))) then
+    raise EACBrException.CreateFmt('Valor inteiro inválido para TpOperacao: %d', [i]);
+
+  Result := TpOperacao(i);
+end;
+
+function TpOperacaoToNome(const t: TpOperacao): string;
+begin
+  Result := GetEnumName(TypeInfo(TpOperacao), Integer(t));
+  Result := Copy(Result, 3, Length(Result));
+end;
+
 function EntregaDocumentacaoToStr(const t: TpEntregaDocumentacao): string;
 begin
   result := TpEntregaDocumentacaoArrayStrings[t];
@@ -789,6 +1149,20 @@ begin
   end;
 
   raise EACBrException.CreateFmt('Valor string inválido para TpEntregaDocumentacao: %s', [s]);
+end;
+
+function TpEntregaDocumentacaoToEnumStr(const t: TpEntregaDocumentacao): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['0', '1', '2'],
+                           [edNenhum, edRedeCredenciada, edCliente]);
+end;
+
+function EnumStrToTpEntregaDocumentacao(out ok: boolean; const s: string): TpEntregaDocumentacao;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['0', '1', '2'],
+                           [edNenhum, edRedeCredenciada, edCliente]);
 end;
 
 function TipoRodadoToStr(const t: TpTipoRodado): string;
@@ -812,6 +1186,20 @@ begin
   raise EACBrException.CreateFmt('Valor string inválido para TpTipoRodado: %s', [s]);
 end;
 
+function TpTipoRodadoToEnumStr(const t: TpTipoRodado): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['0', '1', '2', '3'],
+                           [trNaoAplicavel, trTruck, trToco, trCavalo]);
+end;
+
+function EnumStrToTpTipoRodado(out ok: boolean; const s: string): TpTipoRodado;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['0', '1', '2', '3'],
+                           [trNaoAplicavel, trTruck, trToco, trCavalo]);
+end;
+
 function TipoCarroceriaToStr(const t: TpTipoCarroceria): string;
 begin
   result := TpTipoCarroceriaArrayStrings[t];
@@ -831,6 +1219,22 @@ begin
   end;
 
   raise EACBrException.CreateFmt('Valor string inválido para TpTipoCarroceria: %s', [s]);
+end;
+
+function TpTipoCarroceriaToEnumStr(const t: TpTipoCarroceria): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['0', '1', '2', '3', '4', '5'],
+                           [tcNaoAplicavel, tcAberta, tcFechadaOuBau, tcGranelera,
+                            tcPortaContainer, tcSider]);
+end;
+
+function EnumStrToTpTipoCarroceria(out ok: boolean; const s: string): TpTipoCarroceria;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['0', '1', '2', '3', '4', '5'],
+                           [tcNaoAplicavel, tcAberta, tcFechadaOuBau, tcGranelera,
+                            tcPortaContainer, tcSider]);
 end;
 
 function TipoPessoaToStr(const t: tpTipoPessoa): string;
@@ -854,6 +1258,20 @@ begin
   raise EACBrException.CreateFmt('Valor string inválido para tpTipoPessoa: %s', [s]);
 end;
 
+function tpTipoPessoaToEnumStr(const t: tpTipoPessoa): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['0', '1', '2'],
+                           [tpIndefinido, tpFisica, tpJuridica]);
+end;
+
+function EnumStrTotpTipoPessoa(out ok: boolean; const s: string): tpTipoPessoa;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['0', '1', '2'],
+                           [tpIndefinido, tpFisica, tpJuridica]);
+end;
+
 function TipoProprietarioToStr(const t: TpTipoProprietario): string;
 begin
   result := TpTipoProprietarioArrayStrings[t];
@@ -873,6 +1291,20 @@ begin
   end;
 
   raise EACBrException.CreateFmt('Valor string inválido para TpTipoProprietario: %s', [s]);
+end;
+
+function TpTipoProprietarioToEnumStr(const t: TpTipoProprietario): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['1', '2', '3'],
+                           [tpTAC, tpETC, tpCTC]);
+end;
+
+function EnumStrToTpTipoProprietario(out ok: boolean; const s: string): TpTipoProprietario;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['1', '2', '3'],
+                           [tpTAC, tpETC, tpCTC]);
 end;
 
 function EstadoCIOTToStr(const t: TpEstadoCIOT): string;
@@ -896,6 +1328,20 @@ begin
   raise EACBrException.CreateFmt('Valor string inválido para TpEstadoCIOT: %s', [s]);
 end;
 
+function TpEstadoCIOTToEnumStr(const t: TpEstadoCIOT): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['1', '2', '3'],
+                           [ecEmViagem, ecEncerrado, ecCancelado]);
+end;
+
+function EnumStrToTpEstadoCIOT(out ok: boolean; const s: string): TpEstadoCIOT;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['1', '2', '3'],
+                           [ecEmViagem, ecEncerrado, ecCancelado]);
+end;
+
 function TipoCargaToStr(const t: tpTipoCarga): string;
 begin
   result := tpTipoCargaArrayStrings[t];
@@ -915,6 +1361,32 @@ begin
   end;
 
   raise EACBrException.CreateFmt('Valor string inválido para tpTipoCarga: %s', [s]);
+end;
+
+function tpTipoCargaToEnumStr(const t: tpTipoCarga): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['0', '1', '2', '3',
+                            '4', '5', '6', '7',
+                            '8', '9',
+                            '10', '11', '12'],
+                           [tpNaoAplicavel, tpGranelsolido, tpGranelLiquido, tpFrigorificada,
+                            tpConteinerizada, tpCargaGeral, tpNeogranel, tpPerigosaGranelSolido,
+                            tpPerigosaGranelLiquido, tpPerigosaCargaFrigorificada,
+                            tpPerigosaConteinerizada, tpPerigosaCargaGeral, tpGranelPressurizada]);
+end;
+
+function EnumStrTotpTipoCarga(out ok: boolean; const s: string): tpTipoCarga;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['0', '1', '2', '3',
+                            '4', '5', '6', '7',
+                            '8', '9',
+                            '10', '11', '12'],
+                           [tpNaoAplicavel, tpGranelsolido, tpGranelLiquido, tpFrigorificada,
+                            tpConteinerizada, tpCargaGeral, tpNeogranel, tpPerigosaGranelSolido,
+                            tpPerigosaGranelLiquido, tpPerigosaCargaFrigorificada,
+                            tpPerigosaConteinerizada, tpPerigosaCargaGeral, tpGranelPressurizada]);
 end;
 
 function IntegradoraToStr(const t: TCIOTIntegradora): string;
@@ -938,6 +1410,20 @@ begin
   raise EACBrException.CreateFmt('Valor string inválido para TCIOTIntegradora: %s', [s]);
 end;
 
+function TCIOTIntegradoraToEnumStr(const t: TCIOTIntegradora): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['0', '1', '2', '3'],
+                           [iNone, ieFrete, iRepom, iPamcard]);
+end;
+
+function EnumStrToTCIOTIntegradora(out ok: boolean; const s: string): TCIOTIntegradora;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['0', '1', '2', '3'],
+                           [iNone, ieFrete, iRepom, iPamcard]);
+end;
+
 function TipoDocumentoPamcardToStr(const t: tpTipoDocumentoPamcard): string;
 begin
   result := tpTipoDocumentoPamcardArrayStrings[t];
@@ -957,6 +1443,28 @@ begin
   end;
 
   raise EACBrException.CreateFmt('Valor string inválido para tpTipoDocumentoPamcard: %s', [s]);
+end;
+
+function tpTipoDocumentoPamcardToEnumStr(const t: tpTipoDocumentoPamcard): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['0', '1', '2', '3', '4', '5',
+                            '6', '7', '8', '9', '10',
+                            '11', '12', '13'],
+                           [tdpNaoAplicavel, tdpManifesto, tdpRomaneio, tdpPlanoViagem, tdpAWB, tdpConhecimento,
+                            tdpNotaFiscal, tdpDocumentoProprioCliente, tdpNumeroPedido, tdpOrdemVenda, tdpNumeroLoad,
+                            tdpOrdemColeta, tdpAutorizacaoCarregamento, tdpAutorizacaoSaida]);
+end;
+
+function EnumStrTotpTipoDocumentoPamcard(out ok: boolean; const s: string): tpTipoDocumentoPamcard;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['0', '1', '2', '3', '4', '5',
+                            '6', '7', '8', '9', '10',
+                            '11', '12', '13'],
+                           [tdpNaoAplicavel, tdpManifesto, tdpRomaneio, tdpPlanoViagem, tdpAWB, tdpConhecimento,
+                            tdpNotaFiscal, tdpDocumentoProprioCliente, tdpNumeroPedido, tdpOrdemVenda, tdpNumeroLoad,
+                            tdpOrdemColeta, tdpAutorizacaoCarregamento, tdpAutorizacaoSaida]);
 end;
 
 end.

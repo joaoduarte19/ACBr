@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
     <PathDelim Value="\"/>
@@ -9,13 +9,13 @@
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <OtherUnitFiles Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT;..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT"/>
+        <OtherUnitFiles Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT;..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT;..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\Base"/>
         <UnitOutputDirectory Value="..\..\..\..\Lib\Lazarus\ACBrDFe\ACBrCIOT\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
     </CompilerOptions>
     <Description Value="ACBr - CIOT - (http://www.projetoacbr.com.br/)"/>
     <License Value="LGPL"/>
-    <Files Count="12">
+    <Files Count="14">
       <Item1>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\ACBrCIOTWebServices.pas"/>
         <Type Value="Include"/>
@@ -65,6 +65,14 @@
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\PCNCIOT\ACBrCIOTConversao.pas"/>
         <UnitName Value="ACBrCIOTConversao"/>
       </Item12>
+      <Item13>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\Base\ACBrCIOTIniReader.pas"/>
+        <UnitName Value="ACBrCIOTIniReader"/>
+      </Item13>
+      <Item14>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrCIOT\Base\ACBrCIOTIniWriter.pas"/>
+        <UnitName Value="ACBrCIOTIniWriter"/>
+      </Item14>
     </Files>
     <RequiredPkgs Count="1">
       <Item1>

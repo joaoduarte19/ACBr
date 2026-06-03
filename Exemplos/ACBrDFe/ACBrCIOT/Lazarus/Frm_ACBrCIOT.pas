@@ -66,12 +66,15 @@ type
   { TfrmACBrCIOT }
 
   TfrmACBrCIOT = class(TForm)
+    btnGerarArqINI: TButton;
+    btnLerArqINI: TButton;
     pnlMenus: TPanel;
     pnlCentral: TPanel;
     PageControl1: TPageControl;
     SynXMLSyn1: TSynXMLSyn;
     TabSheet1: TTabSheet;
     PageControl4: TPageControl;
+    tsOutros: TTabSheet;
     TabSheet3: TTabSheet;
     lSSLLib: TLabel;
     lCryptLib: TLabel;
@@ -238,6 +241,8 @@ type
     btnEnviarCiotEmail: TButton;
     tsOperacao: TTabSheet;
     rgOperacao: TRadioGroup;
+    procedure btnGerarArqINIClick(Sender: TObject);
+    procedure btnLerArqINIClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnSalvarConfigClick(Sender: TObject);
     procedure sbPathCIOTClick(Sender: TObject);
@@ -1424,6 +1429,7 @@ var
   V: TSSLHttpLib;
   X: TSSLXmlSignLib;
   Y: TSSLType;
+  Z: Integer;
 begin
   cbSSLLib.Items.Clear;
   for T := Low(TSSLLib) to High(TSSLLib) do
@@ -1460,8 +1466,72 @@ begin
     cbVersaoDF.Items.Add(GetEnumName(TypeInfo(TVersaoCIOT), integer(K)));
   cbVersaoDF.ItemIndex := 0;
 
+  cbbIntegradora.Items.Clear;
+  for Z := Integer(Low(TCIOTIntegradora)) to Integer(High(TCIOTIntegradora)) do
+    cbbIntegradora.Items.Add(GetEnumName(TypeInfo(TCIOTIntegradora), Z ));
+  cbbIntegradora.ItemIndex := 0;
+
   LerConfiguracao;
   pgRespostas.ActivePageIndex := 2;
+end;
+
+procedure TfrmACBrCIOT.btnLerArqINIClick(Sender: TObject);
+begin
+  OpenDialog1.Title := 'Selecione o Arquivo INI';
+  OpenDialog1.DefaultExt := '*.ini';
+  OpenDialog1.Filter :=
+    'Arquivos INI (*.ini)|*.ini|Todos os Arquivos (*.*)|*.*';
+  OpenDialog1.InitialDir := ACBrCIOT1.Configuracoes.Arquivos.PathSalvar;
+
+  if OpenDialog1.Execute then
+  begin
+    ACBrCIOT1.Contratos.Clear;
+    ACBrCIOT1.Contratos.LoadFromIni(OpenDialog1.FileName);
+    ACBrCIOT1.Contratos.Assinar;
+    ACBrCIOT1.Contratos.GravarXML();
+
+    memoLog.Lines.Add('Arquivo gerado em: ' + ACBrCIOT1.Contratos[0].NomeArq);
+
+    try
+      if ACBrCIOT1.Contratos[0].Alertas <> '' then
+        memoLog.Lines.Add('Alertas: '+ ACBrCIOT1.Contratos[0].Alertas);
+
+      ShowMessage('CIOT Valido');
+    except
+      on E: Exception do
+      begin
+        memoLog.Lines.Add('Exception: ' + E.Message);
+      end;
+    end;
+  end;
+end;
+
+procedure TfrmACBrCIOT.btnGerarArqINIClick(Sender: TObject);
+var
+  SaveDlg: TSaveDialog;
+  ArqINI: TStringList;
+begin
+  ACBrCIOT1.Contratos.Clear;
+  AlimentarComponente;
+  ACBrCIOT1.Contratos.GerarCIOT;
+
+  ArqINI := TStringList.Create;
+  SaveDlg := TSaveDialog.Create(nil);
+  try
+    ArqINI.Text := ACBrCIOT1.Contratos.GerarIni;
+
+    SaveDlg.Title := 'Escolha o local onde salvar o INI';
+    SaveDlg.DefaultExt := '*.ini';
+    SaveDlg.Filter := 'Arquivo INI(*.INI)|*.INI|Arquivo ini(*.ini)|*.ini|Todos os arquivos(*.*)|*.*';
+
+    if SaveDlg.Execute then
+      ArqINI.SaveToFile(SaveDlg.FileName);
+
+    memoLog.Lines.Add('Arquivo Salvo: ' + SaveDlg.FileName);
+  finally
+    SaveDlg.Free;
+    ArqINI.Free;
+  end;
 end;
 
 procedure TfrmACBrCIOT.GravarConfiguracao;

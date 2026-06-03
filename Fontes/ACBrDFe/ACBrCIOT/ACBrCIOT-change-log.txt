@@ -38,6 +38,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/06/2026
+-- ACBrCIOTContratos, ACBrCIOTIniReader, ACBrCIOTIniWriter, ACBrCIOTConversao, ACBr_CIOT.dpk, ACBr_CIOT.lpk --
+[+] ACBR-9356 - Implementada leitura e escrita de inis dos métodos.
+-- Frm_ACBrCIOT, Frm_ACBrCIOT --
+[+] ACBR-9356 - Nova aba outros nos programas de exemplo em Delphi e Lazarus com opções para gravar e ler ini.
+  Por: Renato Rubinho
+
 28/05/2026
 -- ACBrCIOTContratos/pcnCIOTW/pcnCIOTW_eFrete --
 [*] ACBR-9425 - Possível solução para o problema de versão invalida.

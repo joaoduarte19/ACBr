@@ -41,6 +41,8 @@ uses
   SysUtils,
   ACBrBase,
   ACBrCIOTConfiguracoes, 
+  ACBrCIOTIniWriter,
+  ACBrCIOTIniReader,
   ACBrDFeUtil,
   pcnCIOT, 
   pcnCIOTR, 
@@ -56,6 +58,10 @@ type
     FCIOT: TCIOT;
     FCIOTW: TCIOTW;
     FCIOTR: TCIOTR;
+    // Ini
+    FCIOTIniR: TCIOTIniReader;
+    FCIOTIniW: TCIOTIniWriter;
+    FConfiguracoes: TConfiguracoesCIOT;
 
     FXMLAssinado: String;
     FXMLOriginal: String;
@@ -81,6 +87,8 @@ type
     procedure Assinar;
 
     function LerXML(const AXML: AnsiString): Boolean;
+    function LerArqIni(const AIniString: string): Boolean;
+    function GerarCIOTIni: string;
     function GerarXML: String;
     function GravarXML(const NomeArquivo: String = ''; const PathArquivo: String = ''): Boolean;
     function GravarStream(AStream: TStream): Boolean;
@@ -131,6 +139,9 @@ type
     function LoadFromFile(const CaminhoArquivo: String; AGerarCIOT: Boolean = True): Boolean;
     function LoadFromStream(AStream: TStringStream; AGerarCIOT: Boolean = True): Boolean;
     function LoadFromString(AXMLString: String; AGerarCIOT: Boolean = True): Boolean;
+    function LoadFromIni(const AIniString: string): Boolean;
+
+    function GerarIni: string;
     function GravarXML(const PathNomeArquivo: String = ''): Boolean;
 
     property ACBrCIOT: TComponent read FACBrCIOT;
@@ -156,6 +167,12 @@ begin
   FCIOTW := TCIOTW.Create(FCIOT);
   FCIOTR := TCIOTR.Create(FCIOT);
 
+   // Ini
+  FCIOTIniR := TCIOTIniReader.Create(FCIOT);
+  FCIOTIniW := TCIOTIniWriter.Create(FCIOT);
+
+  FConfiguracoes := TACBrCIOT(TContratos(Collection).ACBrCIOT).Configuracoes;
+
   with TACBrCIOT(TContratos(Collection).ACBrCIOT) do
   begin
     FCIOTW.Integradora := Configuracoes.Geral.Integradora;
@@ -168,6 +185,10 @@ end;
 
 destructor TContrato.Destroy;
 begin
+  // Ini
+  FCIOTIniR.Free;
+  FCIOTIniW.Free;
+
   FCIOT.Free;
   FCIOTW.Free;
   FCIOTR.Free;
@@ -200,6 +221,19 @@ begin
         Gravar(CalcularNomeArquivoCompleto(), FXMLOriginal);
     end;
   end;
+end;
+
+function TContrato.LerArqIni(const AIniString: string): Boolean;
+begin
+  FCIOTIniR.VersaoDF := FConfiguracoes.Geral.VersaoDF;
+  FCIOTIniR.Ambiente := Integer(FConfiguracoes.WebServices.Ambiente);
+  FCIOTIniR.tpEmis := FConfiguracoes.Geral.FormaEmissaoCodigo;
+
+  FCIOTIniR.LerIni(AIniString);
+
+  GerarXML;
+
+  Result := True;
 end;
 
 function TContrato.LerXML(const AXML: AnsiString): Boolean;
@@ -277,6 +311,11 @@ begin
     AnexosEmail.Free;
     StreamCIOT.Free;
   end;
+end;
+
+function TContrato.GerarCIOTIni: string;
+begin
+  Result := FCIOTIniW.GravarIni;
 end;
 
 function TContrato.GerarXML: String;
@@ -426,12 +465,20 @@ begin
     Self.Items[i].Assinar;
 end;
 
-procedure TCOntratos.GerarCIOT;
+procedure TContratos.GerarCIOT;
 var
   i: integer;
 begin
   for i := 0 to Self.Count - 1 do
     Self.Items[i].GerarXML;
+end;
+
+function TContratos.GerarIni: string;
+begin
+  Result := '';
+
+  if (Self.Count > 0) then
+    Result := Self.Items[0].GerarCIOTIni;
 end;
 
 function TContratos.GetItem(Index: integer): TContrato;
@@ -478,6 +525,14 @@ begin
     for i := l to Self.Count - 1 do
       Self.Items[i].NomeArq := CaminhoArquivo;
   end;
+end;
+
+function TContratos.LoadFromIni(const AIniString: string): Boolean;
+begin
+  with Self.Add do
+    LerArqIni(AIniString);
+
+  Result := Self.Count > 0;
 end;
 
 function TContratos.LoadFromStream(AStream: TStringStream;

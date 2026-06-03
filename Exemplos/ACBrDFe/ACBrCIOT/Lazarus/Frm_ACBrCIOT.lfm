@@ -1456,19 +1456,30 @@ object frmACBrCIOT: TfrmACBrCIOT
           ChildSizing.ShrinkHorizontal = crsScaleChilds
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
-          ChildSizing.ControlsPerLine = 1
+          ChildSizing.ControlsPerLine = 2
           ClientHeight = 242
           ClientWidth = 677
-          ItemIndex = 1
+          Columns = 2
+          ItemIndex = 0
           Items.Strings = (
-            'Obter Pdf Operação Transporte'
+            'Login (Necessário se usado sem Cert.)'
+            'Cadastrar Proprietário do Veículo'
+            'Cadastrar Veículo'
+            'Cadastrar Motorista'
             'Adicionar Operação de Transporte'
+            'Adicionar Viagem a uma Operação de Transporte'
+            'Adicionar Pagamento a uma Operação de Trans.'
+            'Obter Código Identificação Operação Transp.'
+            'Obter Pdf Operação Transporte'
             'Retificar Operação de Transporte'
             'Cancelar Operação de Transporte'
-            'Adicionar Viagem a uma Operação de Transporte'
-            'Adicionar Pagamento a uma operação de transporte'
-            'Cancelar Pagamento Programado para uma Operação de Transporte'
+            'Cancelar Pag. Progr. para uma Oper. de Trans.'
             'Encerrar uma Operação de Transporte'
+            'Logout (Necessário se usado sem Cert.)'
+            'Consultar Tipos de Carga'
+            'Alterar Data de Liberação de Pagamento'
+            'Registrar Qtde da Mercadoria no Desembarque'
+            'Registrar Pagamento Quitação'
           )
           ParentBackground = False
           TabOrder = 0
@@ -1505,6 +1516,29 @@ object frmACBrCIOT: TfrmACBrCIOT
           Caption = 'Enviar Ciot Email'
           TabOrder = 2
           OnClick = btnEnviarCiotEmailClick
+        end
+      end
+      object tsOutros: TTabSheet
+        Caption = 'Outros'
+        ClientHeight = 222
+        ClientWidth = 559
+        object btnLerArqINI: TButton
+          Left = 6
+          Height = 40
+          Top = 5
+          Width = 200
+          Caption = 'Ler Arquivo INI/Gerar XML'
+          TabOrder = 0
+          OnClick = btnLerArqINIClick
+        end
+        object btnGerarArqINI: TButton
+          Left = 220
+          Height = 40
+          Top = 5
+          Width = 200
+          Caption = 'Gerar Arquivo INI'
+          TabOrder = 1
+          OnClick = btnGerarArqINIClick
         end
       end
     end

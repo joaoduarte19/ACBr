@@ -10,7 +10,7 @@ interface
 uses
   ACBrCIOT, ACBrCIOTConfiguracoes, ACBrCIOTContratos, ACBrCIOTReg, 
   pcnRetEnvCIOT, pcnCIOT, pcnCIOTR, pcnCIOTW, pcnCIOTW_eFrete, pcnCIOTW_REPOM, 
-  ACBrCIOTConversao, LazarusPackageIntf;
+  ACBrCIOTConversao, ACBrCIOTIniReader, ACBrCIOTIniWriter, LazarusPackageIntf;
 
 implementation
 

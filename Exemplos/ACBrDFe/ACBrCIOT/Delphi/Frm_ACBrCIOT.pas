@@ -212,6 +212,9 @@ type
     rgOperacao: TRadioGroup;
     Button1: TButton;
     Button2: TButton;
+    tsOutros: TTabSheet;
+    btnLerArqINI: TButton;
+    btnGerarArqINI: TButton;
 
     procedure FormCreate(Sender: TObject);
     procedure btnSalvarConfigClick(Sender: TObject);
@@ -248,6 +251,8 @@ type
     procedure btnEnviarCiotEmailClick(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure btnLerArqINIClick(Sender: TObject);
+    procedure btnGerarArqINIClick(Sender: TObject);
   private
     { Private declarations }
     sToken: string;
@@ -1285,6 +1290,34 @@ begin
   ShowMessage('Codigo: ' + IntToStr(Codigo));
 end;
 
+procedure TfrmACBrCIOT.btnGerarArqINIClick(Sender: TObject);
+var
+  SaveDlg: TSaveDialog;
+  ArqINI: TStringList;
+begin
+  ACBrCIOT1.Contratos.Clear;
+  AlimentarComponente;
+  ACBrCIOT1.Contratos.GerarCIOT;
+
+  ArqINI := TStringList.Create;
+  SaveDlg := TSaveDialog.Create(nil);
+  try
+    ArqINI.Text := ACBrCIOT1.Contratos.GerarIni;
+
+    SaveDlg.Title := 'Escolha o local onde salvar o INI';
+    SaveDlg.DefaultExt := '*.ini';
+    SaveDlg.Filter := 'Arquivo INI(*.INI)|*.INI|Arquivo ini(*.ini)|*.ini|Todos os arquivos(*.*)|*.*';
+
+    if SaveDlg.Execute then
+      ArqINI.SaveToFile(SaveDlg.FileName);
+
+    memoLog.Lines.Add('Arquivo Salvo: ' + SaveDlg.FileName);
+  finally
+    SaveDlg.Free;
+    ArqINI.Free;
+  end;
+end;
+
 procedure TfrmACBrCIOT.btnGerarCIOTClick(Sender: TObject);
 var
   i: Integer;
@@ -1329,6 +1362,37 @@ begin
     //  ShowMessage('ERRO: '+Erro)
 
     pgRespostas.ActivePageIndex := 0;
+  end;
+end;
+
+procedure TfrmACBrCIOT.btnLerArqINIClick(Sender: TObject);
+begin
+  OpenDialog1.Title := 'Selecione o Arquivo INI';
+  OpenDialog1.DefaultExt := '*.ini';
+  OpenDialog1.Filter :=
+    'Arquivos INI (*.ini)|*.ini|Todos os Arquivos (*.*)|*.*';
+  OpenDialog1.InitialDir := ACBrCIOT1.Configuracoes.Arquivos.PathSalvar;
+
+  if OpenDialog1.Execute then
+  begin
+    ACBrCIOT1.Contratos.Clear;
+    ACBrCIOT1.Contratos.LoadFromIni(OpenDialog1.FileName);
+    ACBrCIOT1.Contratos.Assinar;
+    ACBrCIOT1.Contratos.GravarXML();
+
+    memoLog.Lines.Add('Arquivo gerado em: ' + ACBrCIOT1.Contratos[0].NomeArq);
+
+    try
+      if ACBrCIOT1.Contratos[0].Alertas <> '' then
+        memoLog.Lines.Add('Alertas: '+ ACBrCIOT1.Contratos[0].Alertas);
+
+      ShowMessage('CIOT Valido');
+    except
+      on E: Exception do
+      begin
+        memoLog.Lines.Add('Exception: ' + E.Message);
+      end;
+    end;
   end;
 end;
 
