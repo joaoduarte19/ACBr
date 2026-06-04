@@ -308,16 +308,10 @@ end;
 
 function TEventoDCe.LerXML(const CaminhoArquivo: string): Boolean;
 var
-  ArqEvento: TStringList;
+  aXml: string;
 begin
-  ArqEvento := TStringList.Create;
-
-  try
-    ArqEvento.LoadFromFile(CaminhoArquivo);
-    Result := LerXMLFromString(ArqEvento.Text);
-  finally
-    ArqEvento.Free;
-  end;
+  aXml := CarregarArquivo(CaminhoArquivo);
+  Result := LerXMLFromString(aXml);
 end;
 
 function TEventoDCe.LerXMLFromString(const AXML: string): Boolean;

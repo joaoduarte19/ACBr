@@ -851,16 +851,8 @@ function TDeclaracoes.LoadFromFile(const CaminhoArquivo: String;
 var
   XMLUTF8: AnsiString;
   i, l: integer;
-  MS: TMemoryStream;
 begin
-  MS := TMemoryStream.Create;
-  try
-    MS.LoadFromFile(CaminhoArquivo);
-    XMLUTF8 := ReadStrFromStream(MS, MS.Size);
-    XMLUTF8 := RemoverUTF8Bom(XMLUTF8);
-  finally
-    MS.Free;
-  end;
+  XMLUTF8 := CarregarArquivo(CaminhoArquivo);
 
   l := Self.Count; // Indice do último Declaracao já existente
   Result := LoadFromString(String(XMLUTF8), AGerarDCe);
