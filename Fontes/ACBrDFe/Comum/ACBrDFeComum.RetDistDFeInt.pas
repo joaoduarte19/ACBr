@@ -368,8 +368,11 @@ implementation
 uses 
   synacode,
   StrUtils,
+  ACBrDFeUtil,
   ACBrDFeException,
-  ACBrUtil.Strings, ACBrUtil.XMLHTML, ACBrUtil.FilesIO;
+  ACBrUtil.Strings,
+  ACBrUtil.XMLHTML,
+  ACBrUtil.FilesIO;
 
 { TitensAverbadosCollection }
 
@@ -1019,7 +1022,7 @@ begin
       Result := AItem.resDFe.chDFe + '-nfe.xml';
 
     schprocEventoNFe:
-      Result := OnlyNumber(AItem.procEvento.Id) + '-procEventoNFe.xml';
+      Result := RemoverLiteralChave(AItem.procEvento.Id) + '-procEventoNFe.xml';
 
     schprocCTe,
     schprocCTeOS,
@@ -1028,13 +1031,13 @@ begin
       Result := AItem.resDFe.chDFe + '-cte.xml';
 
     schprocEventoCTe:
-      Result := OnlyNumber(AItem.procEvento.Id) + '-procEventoCTe.xml';
+      Result := RemoverLiteralChave(AItem.procEvento.Id) + '-procEventoCTe.xml';
 
     schprocMDFe:
       Result := AItem.resDFe.chDFe + '-mdfe.xml';
 
     schprocEventoMDFe:
-      Result := OnlyNumber(AItem.procEvento.Id) + '-procEventoMDFe.xml';
+      Result := RemoverLiteralChave(AItem.procEvento.Id) + '-procEventoMDFe.xml';
   end;
 end;
 

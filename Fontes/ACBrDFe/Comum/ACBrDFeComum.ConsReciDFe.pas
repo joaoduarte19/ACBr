@@ -39,13 +39,13 @@ interface
 uses
   SysUtils, Classes,
   ACBrXmlBase,
-  ACBrDFe.Conversao,
-  pcnConversao;
+//  pcnConversao,
+  ACBrDFe.Conversao;
 
 type
   TConsReciDFe = class
   private
-    FtpAmb: TpcnTipoAmbiente;
+    FtpAmb: TACBrTipoAmbiente;
     FnRec: string;
     FVersao: string;
     FNameSpace: string;
@@ -57,7 +57,7 @@ type
     function GerarXML: string;
     function ObterNomeArquivo: string;
 
-    property tpAmb: TpcnTipoAmbiente read FtpAmb write FtpAmb;
+    property tpAmb: TACBrTipoAmbiente read FtpAmb write FtpAmb;
     property nRec: string read FnRec write FnRec;
   end;
 
@@ -91,7 +91,7 @@ end;
 function TConsReciDFe.GerarXML: string;
 begin
   Result := '<consReci' + FtagGrupoMsg + ' ' + FNameSpace + ' versao="' + Fversao + '">' +
-              '<tpAmb>' + TpAmbToStr(tpAmb) + '</tpAmb>' +
+              '<tpAmb>' + TipoAmbienteToStr(tpAmb) + '</tpAmb>' +
               '<nRec>' + FnRec + '</nRec>' +
             '</consReci' + FtagGrupoMsg + '>';
 end;

@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+04/06/2026
+-- ACBrDFeComum.ConsReciDFe/ACBrDFeComum.RetDistDFeInt --
+[*] Melhorias e ajuste para atender o CNPJ Alfa.
+   Por: Italo Giurizzato Junior
+
 06/05/2026
 -- ACBrDFeComum.RetDistDFeInt --
 [*] Ajuste para realizar a leitura correta de um XML de CTe Simplificado.
