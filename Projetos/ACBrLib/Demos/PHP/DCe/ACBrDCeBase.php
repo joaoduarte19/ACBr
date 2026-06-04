@@ -43,9 +43,9 @@
         if (isset($_GET['modo']))
             $titleModo = $_GET['modo'];
         else
-            $titleModo = 'ST';
+            $titleModo = 'MT';
 
-        if ($titleModo == 'ST') {
+        if ($titleModo == 'MT') {
             $title .= ' - MultiThread';
         } else {
             $title .= ' - SingleThread';
