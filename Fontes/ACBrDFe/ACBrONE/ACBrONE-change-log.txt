@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+04/06/2026
+-- ACBrONEWebServices --
+[*] Alteração visando o CNPJ Alfa.
+  Por: Italo Giurizzato Junior
+
 27/09/2025
 -- Diversos --
 [*] Inclusão da unit ACBrDFe.Conversao em diversas units.
