@@ -851,17 +851,10 @@ end;
 
 function TEventoCTe.LerXML(const CaminhoArquivo: string): Boolean;
 var
-  MS: TMemoryStream;
   aXml: string;
 begin
-  MS := TMemoryStream.Create;
-  try
-    MS.LoadFromFile(CaminhoArquivo);
-    aXml := ReadStrFromStream(MS, MS.Size);
-    Result := LerXMLFromString(aXml);
-  finally
-    MS.Free;
-  end;
+  aXml := CarregarArquivo(CaminhoArquivo);
+  Result := LerXMLFromString(aXml);
 end;
 
 function TEventoCTe.LerXMLFromString(const AXML: string): Boolean;

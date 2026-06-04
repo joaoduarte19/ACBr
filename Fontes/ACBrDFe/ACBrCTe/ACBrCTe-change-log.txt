@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+04/06/2026
+-- ACBrCTe.IniReader/ACBrCTe.EnvEvento --
+[*] Melhorias no código e utilização da função CarregarArquivo para ler um XML do disco.
+   Por: Italo Giurizzato Junior
+
 18/05/2026
 -- ACBrCTe.EnvEvento --
 [*] ACBr-9197: Alterado a forma de carregar o arquivo de TStringList para TMemoryStream.
