@@ -80,7 +80,9 @@ implementation
 
 uses
   synautil,
-  ACBrUtil.Base;
+  ACBrUtil.Base,
+  ACBrUtil.Strings,
+  ACBrUtil.DateTime;
 
 //==============================================================================
 // Essa unit tem por finalidade exclusiva ler o XML do provedor:
@@ -260,8 +262,8 @@ begin
     Numero := ObterConteudo(AuxNode.Childrens.FindAnyNs('nota'), tcStr);
 
     aValor := ObterConteudo(AuxNode.Childrens.FindAnyNs('dt_conversao'), tcStr);
-    aValor := Copy(aValor, 1, 11);
-    DataEmissao := DecodeRfcDateTime(aValor);
+    aValor := OnlyNumber(aValor);
+    DataEmissao := SToD(aValor);
 
     aValor := ObterConteudo(AuxNode.Childrens.FindAnyNs('emissao_rps'), tcStr);
     aValor := Copy(aValor, 1, 11);

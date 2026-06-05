@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 05/06/2026
+-- SigISS.LerXml --
+[-] ACBR-9395 - Alteração visando a correta leitura da informação da tag dt_conversao
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/92351-acbr-9395-problema-na-impress%C3%A3o-da-nfs-e-data-e-hora-de-emiss%C3%A3o-fixa-no-provedor-sigiss/
 -- ACBrNFSeXDANFSeRLPadraoNacional --
 [*] Ajuste na posição do QR-Code
    Por: Italo Giurizzato Junior
