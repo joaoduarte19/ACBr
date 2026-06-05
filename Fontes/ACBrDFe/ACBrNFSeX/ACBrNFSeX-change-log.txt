@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+05/06/2026
+-- Diversos --
+[*] Eliminação de Hits
+   Por: Italo Giurizzato Junior
+
 03/06/2026
 -- HM2.Provider --
 [+] ACBR-9105 - Implementado o Método Emitir, falta os demais.

@@ -71,7 +71,6 @@ procedure TNFSeR_ISSIntel.LerServico(const ANode: TACBrXmlNode);
 var
   AuxNode: TACBrXmlNode;
   CodigoItemServico, xUF: string;
-  Ok: Boolean;
 begin
   if not Assigned(ANode) then
     Exit;

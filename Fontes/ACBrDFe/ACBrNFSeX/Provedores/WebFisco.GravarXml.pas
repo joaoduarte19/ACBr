@@ -785,7 +785,6 @@ var
   NFSeNode: TACBrXmlNode;
   cSimples: Boolean;
   xAtrib, strAux, locEstab, nifInf, paisTomador, lLoc: string;
-  i: Integer;
   valAux: Double;
 begin
   Configuracao;
@@ -1141,14 +1140,12 @@ begin
   else
     NFSeNode.AppendChild(AddNode(tcStr, '#', 'inss', 1, 12, 1,
                                                          '', '', True, xAtrib));
-  valAux := 0;
   valAux := NFSe.Servico.Valores.DescontoIncondicionado;
   if valAux > 0 then
     NFSeNode.AppendChild(AddNode(tcDe2, '#', 'desci', 1, 12, 1, valAux, '', True, xAtrib))
   else
     NFSeNode.AppendChild(AddNode(tcStr, '#', 'desci', 1, 12, 1, '', '', True, xAtrib));
 
-  valAux := 0;
   valAux := NFSe.Servico.Valores.DescontoCondicionado;
   if valAux > 0 then
     NFSeNode.AppendChild(AddNode(tcDe2, '#', 'desco', 1, 12, 1, valAux, '', True, xAtrib))
@@ -1180,7 +1177,6 @@ begin
   NFSeNode.AppendChild(AddNode(tcDe2, '#', 'iss', 1, 12, 1,
                               NFSe.Servico.Valores.ValorIss, '', True, xAtrib));
 
-  valAux := 0;
   valAux := NFSe.Servico.Valores.ValorIssRetido;
   if valAux > 0 then
     NFSeNode.AppendChild(AddNode(tcDe2, '#', 'issret', 1, 12, 1, valAux, '', True, xAtrib))

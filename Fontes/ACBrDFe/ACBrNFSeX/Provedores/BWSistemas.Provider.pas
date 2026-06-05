@@ -262,8 +262,8 @@ end;
 
 function TACBrNFSeXWebserviceBWSistemas200.GerarNFSe(const ACabecalho,
   AMSG: String): string;
-var
-  Request: string;
+//var
+//  Request: string;
 begin
   FPMsgOrig := AMSG;
 

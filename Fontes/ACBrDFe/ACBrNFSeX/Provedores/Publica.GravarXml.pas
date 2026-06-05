@@ -352,9 +352,6 @@ begin
 end;
 
 function TNFSeW_Publica.GerarEnderecoTomador: TACBrXmlNode;
-var
-  nodeArray: TACBrXmlNodeArray;
-  i: Integer;
 begin
   // Em conformidade com a versão 1 do layout da ABRASF não deve ser alterado
   Result := nil;

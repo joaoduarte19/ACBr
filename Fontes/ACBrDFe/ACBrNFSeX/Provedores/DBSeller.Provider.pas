@@ -1144,13 +1144,15 @@ procedure TACBrNFSeProviderDBSellerAPIPropria.TratarRetornoEmitir(
   Response: TNFSeEmiteResponse);
 var
   Document: TACBrXmlDocument;
+  AErro: TNFSeEventoCollectionItem;
+  {
   DocJson, JSon: TACBrJSONObject;
   JSonLista: TACBrJSONArray;
-  AErro: TNFSeEventoCollectionItem;
   ANode, AuxNode: TACBrXmlNode;
   ANota: TNotaFiscal;
   resposta: string;
   i: Integer;
+  }
 begin
   Document := TACBrXmlDocument.Create;
   try

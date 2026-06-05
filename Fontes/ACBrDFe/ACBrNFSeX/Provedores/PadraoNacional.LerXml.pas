@@ -866,7 +866,6 @@ procedure TNFSeR_PadraoNacional.LerXMLinfNFSe(const ANode: TACBrXmlNode);
 var
   AuxNode: TACBrXmlNode;
   Ok: Boolean;
-  xUF: string;
 begin
   AuxNode := ANode.Childrens.FindAnyNs('Nfse');
 

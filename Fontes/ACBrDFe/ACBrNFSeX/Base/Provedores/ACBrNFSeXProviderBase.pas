@@ -897,7 +897,7 @@ procedure TACBrNFSeXProvider.CarregarURL;
 var
   IniParams: TMemIniFile;
   Sessao: String;
-  APIPropria, ParamsCarregado: Boolean;
+  APIPropria{, ParamsCarregado}: Boolean;
 
   procedure CarregarURLPadraoNacional;
   begin
@@ -982,7 +982,7 @@ begin
     ConfigWebServices.LoadSoapActionHomologacao(IniParams, Sessao);
     // Verifica se na seção da cidade tem o campo Params
     ConfigGeral.LoadParams(IniParams, Sessao);
-    ParamsCarregado := ConfigGeral.Params.AsString <> '';
+//    ParamsCarregado := ConfigGeral.Params.AsString <> '';
     {
     // Carrega as URLs dos Serviços do Padrão Nacional caso constam no Params
     CarregarURLPadraoNacional;

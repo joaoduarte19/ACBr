@@ -786,7 +786,7 @@ function TNotasFiscais.LoadFromLoteNfse(const CaminhoArquivo: string): Boolean;
 var
   XMLUTF8: AnsiString;
   i, l: Integer;
-  IsFile: Boolean;
+//  IsFile: Boolean;
 begin
   XMLUTF8 := CarregarArquivo(CaminhoArquivo);
   XMLUTF8 := RemoverUTF8Bom(XMLUTF8);
@@ -804,9 +804,9 @@ begin
         Self.Items[i].NomeArqRps := CaminhoArquivo
       else
       begin
-        if IsFile then
-          Self.Items[i].NomeArq := CaminhoArquivo
-        else
+//        if IsFile then
+//          Self.Items[i].NomeArq := CaminhoArquivo
+//        else
           Self.Items[i].NomeArq := TACBrNFSeX(FACBrNFSe).GetNumID(Items[i].NFSe) + '-nfse.xml';
       end;
     end;
@@ -827,12 +827,12 @@ function TNotasFiscais.LoadFromLoteNfseString(
   const AXMLString: string): Boolean;
 var
   XMLStr: string;
-  i: integer;
+//  i: integer;
   P, N, TamTag, j: Integer;
   aXml, aXmlLote: string;
   TagF: Array[1..17] of string;
-  SL: TStringStream;
-  IsFile: Boolean;
+//  SL: TStringStream;
+//  IsFile: Boolean;
 
   function PrimeiraNFSe: Integer;
   begin

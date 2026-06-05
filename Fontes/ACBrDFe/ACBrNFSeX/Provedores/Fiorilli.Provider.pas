@@ -152,8 +152,6 @@ type
   end;
 
   TACBrNFSeProviderFiorilliAPIPropria101 = class(TACBrNFSeProviderFiorilliAPIPropria)
-  private
-    FNaoAssinar: Boolean;
   protected
     function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
     function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
@@ -995,7 +993,6 @@ procedure TACBrNFSeProviderFiorilliAPIPropria.TratarRetornoEmitir(
 var
   Document: TACBrXmlDocument;
   AErro: TNFSeEventoCollectionItem;
-  ANode: TACBrXmlNode;
 begin
   Document := TACBrXmlDocument.Create;
   try
@@ -1504,9 +1501,7 @@ end;
 procedure TACBrNFSeProviderFiorilliAPIPropria101.PrepararEmitir(
   Response: TNFSeEmiteResponse);
 var
-  Nota: TNotaFiscal;
   IdAttr, ListaDps: string;
-  I: Integer;
   lParams: TNFSeParamsResponse;
 begin
   if not(QuantidadeDeNotasValida(Response)) then Exit;
@@ -1534,7 +1529,6 @@ procedure TACBrNFSeProviderFiorilliAPIPropria101.TratarRetornoEmitir(
 var
   Document: TACBrXmlDocument;
   AErro: TNFSeEventoCollectionItem;
-  ANode: TACBrXmlNode;
 begin
   Document := TACBrXmlDocument.Create;
   try
