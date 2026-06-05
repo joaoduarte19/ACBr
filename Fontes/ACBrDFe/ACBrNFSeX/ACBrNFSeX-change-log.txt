@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 05/06/2026
+-- ACBrNFSeXDANFSeRLPadraoNacional --
+[*] Ajuste na posição do QR-Code
+   Por: Italo Giurizzato Junior
 -- HM2.GravarXml/HM2.LerXml/HM2.Provider --
 [+] ACBR-9105 - Implementado os Métodos de consultas e de cancelamento.
    Por: Italo Giurizzato Junior

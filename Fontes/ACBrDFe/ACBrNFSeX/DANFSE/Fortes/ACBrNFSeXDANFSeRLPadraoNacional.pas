@@ -434,7 +434,7 @@ begin
     rlImgQrCode.Stretch := True;
     rlImgQrCode.AutoSize := False;
     rlImgQrCode.Center := True;
-    rlImgQrCode.SetBounds(748, 3, 90, 90);
+    rlImgQrCode.SetBounds(648, 3, 90, 90);
     rlImgQrCode.BringToFront;
 
     QRCodeData := fpNFSe.Link;
