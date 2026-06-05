@@ -38,7 +38,8 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrNFSeXLerXml_ABRASFv2;
+  ACBrNFSeXLerXml_ABRASFv2,
+  ACBrXmlDocument;
 
 type
   { TNFSeR_HM2203 }
@@ -46,15 +47,42 @@ type
   TNFSeR_HM2203 = class(TNFSeR_ABRASFv2)
   protected
 
+    procedure LerServico(const ANode: TACBrXmlNode); override;
   public
 
   end;
 
 implementation
 
+uses
+  ACBrDFe.Conversao,
+  ACBrNFSeXConversao;
+
 //==============================================================================
 // Essa unit tem por finalidade exclusiva ler o XML do provedor:
 //     HM2
 //==============================================================================
+
+{ TNFSeR_HM2203 }
+
+procedure TNFSeR_HM2203.LerServico(const ANode: TACBrXmlNode);
+var
+  AuxNode: TACBrXmlNode;
+  Ok: Boolean;
+begin
+  inherited LerServico(ANode);
+
+  if not Assigned(ANode) then Exit;
+
+  AuxNode := ANode.Childrens.FindAnyNs('Servico');
+
+  if AuxNode <> nil then
+  begin
+    NFSe.Servico.CodigoTributacaoNacional := ObterConteudo(AuxNode.Childrens.FindAnyNs('cTribNac'), tcStr);
+    NFSe.Servico.CodigoNBS := ObterConteudo(AuxNode.Childrens.FindAnyNs('cNBS'), tcStr);
+    NFSe.Servico.Valores.tribMun.tribISSQN := StrTotribISSQN(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tribISSQN'), tcStr));
+    NFSe.Servico.Valores.tribMun.tpImunidade := StrTotpImunidade(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpImunidade'), tcStr));
+  end;
+end;
 
 end.
