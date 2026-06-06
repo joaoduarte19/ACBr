@@ -558,7 +558,8 @@ begin
                                      NFSe.Servico.Valores.OutrasRetencoes, ''));
 
   aBC := NFSe.Servico.Valores.ValorServicos - NFSe.Servico.Valores.ValorIss -
-         NFSe.Servico.Valores.ValorPis - NFSe.Servico.Valores.ValorCofins;
+    NFSe.Servico.Valores.DescontoIncondicionado - NFSe.Servico.Valores.ValorPis -
+    NFSe.Servico.Valores.ValorCofins;
 
   aValor := aBC * NFSe.Servico.ItemServico[0].AliqIBS/100;
 
