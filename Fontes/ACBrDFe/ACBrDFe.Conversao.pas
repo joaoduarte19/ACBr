@@ -553,7 +553,7 @@ const
   // Reforma Tributária
 type
   TtpEnteGov = (tcgNenhum, tcgUniao, tcgEstados, tcgDistritoFederal,
-                tcgMunicipios, tcConsorcioPublico, tcComiteGestorIBS);
+                tcgMunicipios, tcgConsorcioPublico, tcgComiteGestorIBS);
 
 const
   TtpEnteGovArrayStrings: array[TtpEnteGov] of string = ('', '1', '2', '3', '4',
