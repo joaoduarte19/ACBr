@@ -89,6 +89,9 @@ type
 
     procedure GerarMsgDadosCancelaNFSe(Response: TNFSeCancelaNFSeResponse;
       Params: TNFSeParamsResponse); override;
+  public
+    function RegimeEspecialTributacaoToStr(const t: TnfseRegimeEspecialTributacao): string; override;
+    function StrToRegimeEspecialTributacao(out ok: boolean; const s: string): TnfseRegimeEspecialTributacao; override;
   end;
 
   TACBrNFSeXWebserviceSpeedGovAPIPropria = class(TACBrNFSeXWebservicePadraoNacional)
@@ -605,6 +608,26 @@ begin
   finally
     aParams.Free;
   end;
+end;
+
+function TACBrNFSeProviderSpeedGov.RegimeEspecialTributacaoToStr(
+  const t: TnfseRegimeEspecialTributacao): string;
+begin
+  Result := EnumeradoToStr(t,
+                         ['0', '1', '2', '3', '4', '5', '6'],
+                         [retNenhum, retMicroempresaMunicipal, retEstimativa,
+                         retSociedadeProfissionais, retCooperativa,
+                         retMicroempresarioIndividual, retMicroempresarioEmpresaPP]);
+end;
+
+function TACBrNFSeProviderSpeedGov.StrToRegimeEspecialTributacao(
+  out ok: boolean; const s: string): TnfseRegimeEspecialTributacao;
+begin
+  Result := StrToEnumerado(ok, s,
+                        ['0', '1', '2', '3', '4', '5', '6'],
+                        [retNenhum, retMicroempresaMunicipal, retEstimativa,
+                         retSociedadeProfissionais, retCooperativa,
+                         retMicroempresarioIndividual, retMicroempresarioEmpresaPP]);
 end;
 
 { TACBrNFSeXWebserviceSpeedGovAPIPropria }

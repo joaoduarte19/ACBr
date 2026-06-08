@@ -42,6 +42,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+08/06/2026
+-- SpeedGov.Provider --
+[*] Transcreve as rotinas de conversão da informação do RegEspTrib visando maior compatibilidade com os valores válidos para o provedor.
+   Por: Diego Folieni
 05/06/2026
 -- SigISS.LerXml --
 [-] ACBR-9395 - Alteração visando a correta leitura da informação da tag dt_conversao
