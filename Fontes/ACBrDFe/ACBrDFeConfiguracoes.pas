@@ -863,7 +863,7 @@ begin
 
     if ValidarAmbiente then begin
       if ( ( i < 0 ) or ( i > 1) ) then
-         raise EACBrConversaoEnumeradoException.Create(IntToStr(i) + ' não é valor válido para Ambiente');
+         raise EACBrConversaoEnumeradoException.Create(IntToStr(i) + ' ' +  ACBrStr('não é valor válido para TACBrTipoAmbiente'));
     end;
 
     Ambiente := TpcnTipoAmbiente( i );
