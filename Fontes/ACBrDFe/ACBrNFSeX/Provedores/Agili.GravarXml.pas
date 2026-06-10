@@ -557,9 +557,17 @@ begin
   Result.AppendChild(AddNode(tcDe2, '#1', 'ValorOutrasRetencoes', 1, 15, 1,
                                      NFSe.Servico.Valores.OutrasRetencoes, ''));
 
-  aBC := NFSe.Servico.Valores.ValorServicos - NFSe.Servico.Valores.ValorIss -
-    NFSe.Servico.Valores.DescontoIncondicionado - NFSe.Servico.Valores.ValorPis -
-    NFSe.Servico.Valores.ValorCofins;
+
+  if (NFSe.OptanteSimplesNacional = snNao) and (NFSe.OptanteMEISimei = snNao) then
+  begin
+    aBC := NFSe.Servico.Valores.ValorServicos - NFSe.Servico.Valores.ValorIss -
+      NFSe.Servico.Valores.DescontoIncondicionado - NFSe.Servico.Valores.ValorPis -
+      NFSe.Servico.Valores.ValorCofins;
+  end
+  else
+  begin
+    aBC := 0;
+  end;
 
   aValor := aBC * NFSe.Servico.ItemServico[0].AliqIBS/100;
 
