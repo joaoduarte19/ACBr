@@ -620,8 +620,11 @@ begin
   cdsServicos.FieldDefs.Add('pAliqCofins', ftCurrency);
   cdsServicos.FieldDefs.Add('tpRetPisCofins', ftString, 1);
   cdsServicos.FieldDefs.Add('DescRetPisCofins', ftString, 40);
+  cdsServicos.FieldDefs.Add('pTotTribFed', ftCurrency);
   cdsServicos.FieldDefs.Add('vTotTribFed', ftCurrency);
+  cdsServicos.FieldDefs.Add('pTotTribEst', ftCurrency);
   cdsServicos.FieldDefs.Add('vTotTribEst', ftCurrency);
+  cdsServicos.FieldDefs.Add('pTotTribMun', ftCurrency);
   cdsServicos.FieldDefs.Add('vTotTribMun', ftCurrency);
 
   cdsServicos.CreateDataSet;
@@ -704,7 +707,22 @@ begin
   cdsIntermediario.Close;
 
   cdsIntermediario.FieldDefs.Clear;
+  cdsIntermediario.FieldDefs.Add('CpfCnpj', ftString, 18);
+  cdsIntermediario.FieldDefs.Add('InscricaoMunicipal', ftString, 15);
+  cdsIntermediario.FieldDefs.Add('InscricaoEstadual', ftString, 20);
   cdsIntermediario.FieldDefs.Add('RazaoSocial', ftString, 150);
+  cdsIntermediario.FieldDefs.Add('NomeFantasia', ftString, 60);
+  cdsIntermediario.FieldDefs.Add('Endereco', ftString, 60);
+  cdsIntermediario.FieldDefs.Add('Numero', ftString, 60);
+  cdsIntermediario.FieldDefs.Add('Complemento', ftString, 60);
+  cdsIntermediario.FieldDefs.Add('Bairro', ftString, 60);
+  cdsIntermediario.FieldDefs.Add('CodigoMunicipio', ftString, 7);
+  cdsIntermediario.FieldDefs.Add('UF', ftString, 2);
+  cdsIntermediario.FieldDefs.Add('CEP', ftString, 9);
+  cdsIntermediario.FieldDefs.Add('xMunicipio', ftString, 60);
+  cdsIntermediario.FieldDefs.Add('CodigoPais', ftString, 4);
+  cdsIntermediario.FieldDefs.Add('Telefone', ftString, 15);
+  cdsIntermediario.FieldDefs.Add('Email', ftString, 60);
 
   cdsIntermediario.CreateDataSet;
 {$IFNDEF FPC}
@@ -901,7 +919,22 @@ begin
   frxIntermediario.OpenDataSource := false;
 
   frxIntermediario.FieldAliases.Clear;
+  frxIntermediario.FieldAliases.Add('CpfCnpj=CpfCnpj');
+  frxIntermediario.FieldAliases.Add('InscricaoMunicipal=InscricaoMunicipal');
+  frxIntermediario.FieldAliases.Add('InscricaoEstadual=InscricaoEstadual');
   frxIntermediario.FieldAliases.Add('RazaoSocial=RazaoSocial');
+  frxIntermediario.FieldAliases.Add('NomeFantasia=NomeFantasia');
+  frxIntermediario.FieldAliases.Add('Endereco=Endereco');
+  frxIntermediario.FieldAliases.Add('Numero=Numero');
+  frxIntermediario.FieldAliases.Add('Complemento=Complemento');
+  frxIntermediario.FieldAliases.Add('Bairro=Bairro');
+  frxIntermediario.FieldAliases.Add('CodigoMunicipio=CodigoMunicipio');
+  frxIntermediario.FieldAliases.Add('UF=UF');
+  frxIntermediario.FieldAliases.Add('CEP=CEP');
+  frxIntermediario.FieldAliases.Add('xMunicipio=xMunicipio');
+  frxIntermediario.FieldAliases.Add('CodigoPais=CodigoPais');
+  frxIntermediario.FieldAliases.Add('Telefone=Telefone');
+  frxIntermediario.FieldAliases.Add('Email=Email');
 
   frxIntermediario.DataSet := cdsIntermediario;
   frxIntermediario.BCDToCurrency := false;
@@ -985,8 +1018,11 @@ begin
   frxServicos.FieldAliases.Add('pAliqCofins=pAliqCofins');
   frxServicos.FieldAliases.Add('tpRetPisCofins=tpRetPisCofins');
   frxServicos.FieldAliases.Add('DescRetPisCofins=DescRetPisCofins');
+  frxServicos.FieldAliases.Add('pTotTribFed=pTotTribFed');
   frxServicos.FieldAliases.Add('vTotTribFed=vTotTribFed');
+  frxServicos.FieldAliases.Add('pTotTribEst=pTotTribEst');
   frxServicos.FieldAliases.Add('vTotTribEst=vTotTribEst');
+  frxServicos.FieldAliases.Add('pTotTribMun=pTotTribMun');
   frxServicos.FieldAliases.Add('vTotTribMun=vTotTribMun');
 
   frxServicos.DataSet := cdsServicos;
@@ -1220,15 +1256,35 @@ end;
 procedure TACBrNFSeXDANFSeFR.CarregaItermediario(ANFSe: TNFSe);
 var
   LCDS              : TACBrFRDataSet;
-  LIntermediario    : TDadosIntermediario;
+  LEndereco: TEndereco;
+  LContato : TContato;
+  LIntermediario : TDadosIntermediario;
 begin
-  LIntermediario := ANFSe.Intermediario;
+  LIntermediario  := ANFSe.Intermediario;
+  LEndereco := LIntermediario.Endereco;
+  LContato  := LIntermediario.Contato;
 
   LCDS := cdsIntermediario;
   LCDS.EmptyDataSet;
   LCDS.Append;
 
-  LCDS.FieldByName('RazaoSocial').AsString := LIntermediario.RazaoSocial;
+  LCDS.FieldByName('RazaoSocial').AsString        := LIntermediario.RazaoSocial;
+  LCDS.FieldByName('CpfCnpj').AsString            := ManterDocumento(LIntermediario.Identificacao.CpfCnpj);
+  LCDS.FieldByName('InscricaoMunicipal').AsString := LIntermediario.Identificacao.InscricaoMunicipal;
+  LCDS.FieldByName('InscricaoEstadual').AsString  := LIntermediario.Identificacao.InscricaoEstadual;
+
+  LCDS.FieldByName('Endereco').AsString        := LEndereco.Endereco;
+  LCDS.FieldByName('Numero').AsString          := LEndereco.Numero;
+  LCDS.FieldByName('Complemento').AsString     := LEndereco.Complemento;
+  LCDS.FieldByName('Bairro').AsString          := LEndereco.Bairro;
+  LCDS.FieldByName('CodigoMunicipio').AsString := LEndereco.CodigoMunicipio;
+  LCDS.FieldByName('UF').AsString              := LEndereco.UF;
+  LCDS.FieldByName('CEP').AsString             := FormatarCEP(LEndereco.CEP);
+  LCDS.FieldByName('xMunicipio').AsString      := LEndereco.xMunicipio;
+  LCDS.FieldByName('CodigoPais').AsString      := IntToStr(LEndereco.CodigoPais);
+
+  LCDS.FieldByName('Telefone').AsString := FormatarFone(LContato.Telefone);
+  LCDS.FieldByName('Email').AsString    := LContato.Email;
 
   LCDS.Post;
 end;
@@ -1608,8 +1664,11 @@ begin
     tpRetPisCofinsToStr(LValores.tribFed.tpRetPisCofins);
   LCDS.FieldByName('DescRetPisCofins').AsString :=
     tpRetPisCofinsDescricao(LValores.tribFed.tpRetPisCofins);
+  LCDS.FieldByName('pTotTribFed').AsCurrency := LValores.totTrib.pTotTribFed;
   LCDS.FieldByName('vTotTribFed').AsCurrency := LValores.totTrib.vTotTribFed;
+  LCDS.FieldByName('pTotTribEst').AsCurrency := LValores.totTrib.pTotTribEst;
   LCDS.FieldByName('vTotTribEst').AsCurrency := LValores.totTrib.vTotTribEst;
+  LCDS.FieldByName('pTotTribMun').AsCurrency := LValores.totTrib.pTotTribMun;
   LCDS.FieldByName('vTotTribMun').AsCurrency := LValores.totTrib.vTotTribMun;
 
   LCDS.Post;
