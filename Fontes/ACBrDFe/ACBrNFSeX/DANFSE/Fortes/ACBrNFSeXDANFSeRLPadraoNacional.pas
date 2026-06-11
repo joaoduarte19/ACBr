@@ -1040,6 +1040,8 @@ end;
 
 procedure TfrlXDANFSeRLPadraoNacional.rlbBanda14_InformacoesComplementaresBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
+var
+  LTributosFederais, LTributosEstaduais, LTributosMunicipais: string;
 begin
   inherited;
 
@@ -1063,11 +1065,37 @@ begin
 
   if (fpNFSe.Servico.Valores.totTrib.vTotTribFed > 0) or
      (fpNFSe.Servico.Valores.totTrib.vTotTribEst > 0) or
-     (fpNFSe.Servico.Valores.totTrib.vTotTribMun > 0) then
+     (fpNFSe.Servico.Valores.totTrib.vTotTribMun > 0) or
+     (fpNFSe.Servico.Valores.totTrib.pTotTribFed > 0) or
+     (fpNFSe.Servico.Valores.totTrib.pTotTribEst > 0) or
+     (fpNFSe.Servico.Valores.totTrib.pTotTribMun > 0) then
+  begin
+    if fpNFSe.Servico.Valores.totTrib.vTotTribFed > 0 then
+      LTributosFederais := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.totTrib.vTotTribFed)
+    else if fpNFSe.Servico.Valores.totTrib.pTotTribFed > 0 then
+      LTributosFederais := FormatFloatBr(fpNFSe.Servico.Valores.totTrib.pTotTribFed) + ' %'
+    else
+      LTributosFederais := 'R$ ' + FormatFloatBr(0);
+
+    if fpNFSe.Servico.Valores.totTrib.vTotTribEst > 0 then
+      LTributosEstaduais := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.totTrib.vTotTribEst)
+    else if fpNFSe.Servico.Valores.totTrib.pTotTribEst > 0 then
+      LTributosEstaduais := FormatFloatBr(fpNFSe.Servico.Valores.totTrib.pTotTribEst) + ' %'
+    else
+      LTributosEstaduais := 'R$ ' + FormatFloatBr(0);
+
+    if fpNFSe.Servico.Valores.totTrib.vTotTribMun > 0 then
+      LTributosMunicipais := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.totTrib.vTotTribMun)
+    else if fpNFSe.Servico.Valores.totTrib.pTotTribMun > 0 then
+      LTributosMunicipais := FormatFloatBr(fpNFSe.Servico.Valores.totTrib.pTotTribMun) + ' %'
+    else
+      LTributosMunicipais := 'R$ ' + FormatFloatBr(0);
+
     rlmDadosAdicionais.Lines.Add(ACBrStr('Totais Aproximados dos Tributos cfe. Lei n. 12.741/2012:') +
-      ' Federais: R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.totTrib.vTotTribFed) +
-      ' Estaduais: R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.totTrib.vTotTribEst) +
-      ' Municipais: R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.totTrib.vTotTribMun));
+      ' Federais: ' + LTributosFederais +
+      ' Estaduais: ' + LTributosEstaduais +
+      ' Municipais: ' + LTributosMunicipais);
+  end;
 
 //  if fpNFSe.Servico.Valores.RetencoesFederais > 0 then
 //    rllValorTotalTribFed.Caption := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.RetencoesFederais)
