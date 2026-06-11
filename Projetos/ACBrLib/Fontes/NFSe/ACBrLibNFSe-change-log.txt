@@ -42,6 +42,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/06/2026
+-- ACBrLibNFSeConsoleMT.lpi, ACBrLibConsoleMTDemo.lpi --
+[+] Adiciona modo de compilação para Win64/MT
+[*] Relacionado a tarefa ACBr-9381
+[*] Para ser usada em ambiente Windows sem interface gráfica.
+    Por: doszapro 
+
 14/05/2026
 ---  ACBrLibNFSeBase, ACBrLibNFSeRespostas --
 [-] ACBr-9255 Corrige retorno de geração de lote quando há erro de validação de Schemas
