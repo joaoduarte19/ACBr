@@ -416,11 +416,11 @@ const
 
 type
   TtpNFCredito = (tcNenhum, tcMultaJuros, tcApropriacaoCreditoPresumido, tcRetorno,
-                  tcReducaoValores, tcTransferenciaCreditoSucessao);
+                  tcReducaoValores, tcTransferenciaCreditoSucessao, tcRetornoRecusaParcial);
 
 const
   TtpNFCreditoArrayStrings: array[TtpNFCredito] of string = ('', '01', '02', '03',
-    '04', '05');
+    '04', '05', '06');
 
 type
   TCSTIS = (cstisNenhum,
