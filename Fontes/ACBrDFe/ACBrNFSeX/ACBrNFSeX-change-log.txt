@@ -48,6 +48,9 @@ Símbolo : Significado
    Por: Valter Patrick
    Veja: https://www.projetoacbr.com.br/forum/topic/92705-acbr-9474-nfse-tag-incentivadorcultural-retornando-valor-zero-no-xml/
 -- ACBrNFSeXServicos --
+[-] Adiciona versão e Params que ficaram faltando para Aracati/CE
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/92804-solicita%C3%A7%C3%A3o-de-inclus%C3%A3o-do-munic%C3%ADpio-de-aracatice-no-acbrx/
 [*] ACBR-9020 - Atualiza a cidade de Promissão/SP para a versão 1.01 com API Propria do Fiorilli.
    Por: Diego Folieni
 [*] Atualiza a cidade de Chapadao do Sul/MS para a versão 1.01 com API Propria do Fiorilli.
