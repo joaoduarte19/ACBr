@@ -605,7 +605,7 @@ begin
   LJsonPagadorObject := TACBrJSONObject.Create;
   try
     LJsonPagadorObject.AddPair('tipoInscricao', StrToIntDef(IfThen(Length( OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF)) = 11,'1','2'),0));
-    LJsonPagadorObject.AddPair('numeroInscricao', StrToInt64Def(OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF),0));
+    LJsonPagadorObject.AddPair('numeroInscricao', OnlyCPFCNPJAlphaNum(ATitulo.Sacado.CNPJCPF));
     LJsonPagadorObject.AddPair('nome', ATitulo.Sacado.NomeSacado);
     LJsonPagadorObject.AddPair('endereco', ATitulo.Sacado.Logradouro + ' ' + ATitulo.Sacado.Numero);
     LJsonPagadorObject.AddPair('cep', StrToInt64Def(OnlyNumber(ATitulo.Sacado.CEP),0));
@@ -630,7 +630,7 @@ begin
   LJsonSacadorAvalista := TACBrJSONObject.Create;
   try
     LJsonSacadorAvalista.AddPair('tipoInscricao', StrToInt(IfThen( Length( OnlyCPFCNPJAlphaNum(ATitulo.Sacado.SacadoAvalista.CNPJCPF)) = 11,'1','2')));
-    LJsonSacadorAvalista.AddPair('numeroInscricao', StrToInt64Def(OnlyCPFCNPJAlphaNum(ATitulo.Sacado.SacadoAvalista.CNPJCPF),0));
+    LJsonSacadorAvalista.AddPair('numeroInscricao', OnlyCPFCNPJAlphaNum(ATitulo.Sacado.SacadoAvalista.CNPJCPF));
     LJsonSacadorAvalista.AddPair('nome', ATitulo.Sacado.SacadoAvalista.NomeAvalista);
   finally
     AJsonObject.AddPair('beneficiarioFinal', LJsonSacadorAvalista);
