@@ -75,6 +75,8 @@ type
     procedure PrepararCancelaNFSe(Response: TNFSeCancelaNFSeResponse); override;
     procedure GerarMsgDadosCancelaNFSe(Response: TNFSeCancelaNFSeResponse;
       Params: TNFSeParamsResponse); override;
+  public
+    function StrToSimNao(out ok: boolean; const s: string): TnfseSimNao; override;
 
   end;
 
@@ -201,6 +203,14 @@ begin
     Prefixo := 'ns3';
     PrefixoTS := 'ns4';
   end;
+end;
+
+function TACBrNFSeProviderGinfes.StrToSimNao(out ok: boolean;
+  const s: string): TnfseSimNao;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['1', '2', '', '0'],
+                           [snSim, snNao, snNao, snNao]);
 end;
 
 procedure TACBrNFSeProviderGinfes.GerarMsgDadosCancelaNFSe(

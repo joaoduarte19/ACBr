@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 12/06/2026
+-- Ginfes.Provider --
+[*] ACBR-9474 - Sobrescreve a rotina StrToSimNao para considerar zero como Não caso o provedor devolva assim na tag.
+   Por: Valter Patrick
+   Veja: https://www.projetoacbr.com.br/forum/topic/92705-acbr-9474-nfse-tag-incentivadorcultural-retornando-valor-zero-no-xml/
 -- ACBrNFSeXServicos --
 [*] ACBR-9020 - Atualiza a cidade de Promissão/SP para a versão 1.01 com API Propria do Fiorilli.
    Por: Diego Folieni
