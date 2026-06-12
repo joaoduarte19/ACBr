@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+12/06/2026
+-- ACBrLibPIXCDDataModule --
+[-] Correção na aplicação das configurações do AppLess e QQPag
+  Por: doszapro
+  
 20/04/2026
 -- ACBrLibPIXCDConfig, ACBrLibPIXCDConsts, ACBrLibPIXCDDataModule --
 [+] Inclusão PSP QQPag (Quero Quero - VerdeCard)
