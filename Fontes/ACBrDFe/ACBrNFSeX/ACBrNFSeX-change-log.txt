@@ -42,6 +42,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+12/06/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9020 - Atualiza a cidade de Promissão/SP para a versão 1.01 com API Propria do Fiorilli.
+   Por: Diego Folieni
+[*] Atualiza a cidade de Chapadao do Sul/MS para a versão 1.01 com API Propria do Fiorilli.
+   Por: Diego Folieni
+
 11/06/2026
 -- ACBrNFSeXSErvicos.ini --
 [*] ACBR-9437 - Munícipio de Nova Serrana/MG mudou para o Padrão Nacional
