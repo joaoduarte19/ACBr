@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 12/06/2026
+-- ACBrNFSeXServicos --
+[*] A cidade de Bataguassu/MS mudou para o provedor Fiorilli - Padrão Nacional versão 1.01
+   Por: Italo Giurizzato Junior
 -- Ginfes.Provider --
 [*] ACBR-9474 - Sobrescreve a rotina StrToSimNao para considerar zero como Não caso o provedor devolva assim na tag.
    Por: Valter Patrick
