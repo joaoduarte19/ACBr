@@ -14,6 +14,7 @@ const logPath = path.resolve(__dirname, 'logs')
 
 const pathCobrancaImediadatIni = path.resolve(__dirname, "data", "exemploCobrancaImediata.ini")
 
+let exemploCobrancaComVencimentoIni = path.resolve(__dirname, "data", "exemploCobrancaV.ini")
 
 /**
  * Configurações de sessão principal da ACBrLib
@@ -62,7 +63,8 @@ function inicializaPastasDoApp() {
 
 function configuraSessaoPIXCD(pixcd) {
     let psp = "BANCOBRASIL"
-    pixcd.configGravarValor("PIXCD", "PSP", PSP.BANCO_DO_BRASIL.toString())
+    let currentPSP = PSP.QQPAG;
+    pixcd.configGravarValor("PIXCD", "PSP", currentPSP.toString())
     pixcd.configGravarValor("PIXCD", "CidadeRecebedor", process.env.CIDADE_RECEBEDOR)
     pixcd.configGravarValor("PIXCD", "UFRecebedor", process.env.UF_RECEBEDOR)
     pixcd.configGravarValor("PIXCD", "NomeRecebedor", process.env.NOME_RECEBEDOR)
@@ -118,46 +120,82 @@ function gerarTxId(tamanho = 26) {
  * Exemplo de criação de cobrança imediata
  */
 
-function exemploCobrancaImediata() {
+async function exemploCobrancaImediata() {
+    await new Promise(resolve => {
+        let token = ''
+        let txId = ''
+        let result = ''
+        let pixcd = new ACBrLibPixCDMT(acbrLibPath, acbrlibIni, '')
+
+        console.log('Iniciando exemplo de cobrança imediata PIXCD')
+        try {
+            pixcd.inicializar()
+            aplicarConfiguracoes(pixcd)
+
+            // agora é possivel gerar token e informar token manualente (opcional)
+            // lembrar de guardar em local seguro o token e a data de expiração
+            //token = pixcd.gerarToken()
+
+            //use o metodo abaixo para informar um token já existente
+            //lembre-se de carregar seu token de um local seguro 
+            //token = pixcd.informarToken(process.env.TOKEN, new Date()),// pixcd.gerarToken() 
+            txId = gerarTxId(26)
+
+            result = pixcd.criarCobrancaImediata(pathCobrancaImediadatIni, txId)
+
+            console.log('Token Gerado: ', token)
+            console.log('Resultado Criação Cobranca: ', result)
+            console.log('txId Gerado: ', txId)
+
+            // consultar o status da cobrança
+            result = pixcd.consultarCobrancaImediata(txId, 0)
+            console.log('Status da Cobranca: ', result)
+
+        } catch (err) {
+            console.error('Erro : ', err)
+        } finally {
+            //  ao finalizar o uso do pixcd, chamar o método finalizar
+            // para liberar os recursos alocados pela biblioteca
+            // alternativamente pode chamar pixcd[Symbol.dispose]()
+            // typescript permite declarar com using (dispose automatico)
+
+            if (pixcd) pixcd.finalizar()
+        }
+    })
+}
+
+
+async function CriarCobrancaComVencimento(){
+    
+    new Promise(resolve => {
     let token = ''
-    let txId = ''
-    let result = ''
-    let pixcd = new ACBrLibPixCDMT(acbrLibPath, acbrlibIni, '')
+        let txId = ''
+        let result = ''
+        let pixcd = new ACBrLibPixCDMT(acbrLibPath, acbrlibIni, '')
+        
 
-    console.log('Iniciando exemplo de cobrança imediata PIXCD')
-    try {
-        pixcd.inicializar()
-        aplicarConfiguracoes(pixcd)
+        console.log('Iniciando exemplo de cobrança com vencimento  PIXCD')
+        try {
+            pixcd.inicializar()
+            aplicarConfiguracoes(pixcd)
 
-        // agora é possivel gerar token e informar token manualente (opcional)
-        // lembrar de guardar em local seguro o token e a data de expiração
-        //token = pixcd.gerarToken()
+            // agora é possivel gerar token e informar token manualente (opcional)
+            // lembrar de guardar em local seguro o token e a data de expiração
+            //token = pixcd.gerarToken()
 
-        //use o metodo abaixo para informar um token já existente
-        //lembre-se de carregar seu token de um local seguro 
-        //token = pixcd.informarToken(process.env.TOKEN, new Date()),// pixcd.gerarToken() 
-        txId = gerarTxId(26)
-
-        result = pixcd.criarCobrancaImediata(pathCobrancaImediadatIni, txId)
-
-        console.log('Token Gerado: ', token)
-        console.log('Resultado Criação Cobranca: ', result)
-        console.log('txId Gerado: ', txId)
-
-        // consultar o status da cobrança
-        result = pixcd.consultarCobrancaImediata(txId, 0)
-        console.log('Status da Cobranca: ', result)
-
-    } catch (err) {
-        console.error('Erro : ', err)
-    } finally {
-        //  ao finalizar o uso do pixcd, chamar o método finalizar
-        // para liberar os recursos alocados pela biblioteca
-        // alternativamente pode chamar pixcd[Symbol.dispose]()
-        // typescript permite declarar com using (dispose automatico)
-
-        if (pixcd) pixcd.finalizar()
-    }
+            //use o metodo abaixo para informar um token já existente
+            //lembre-se de carregar seu token de um local seguro 
+            //token = pixcd.informarToken(process.env.TOKEN, new Date()),// pixcd.gerarToken() 
+            txId = gerarTxId(26)
+            result = pixcd.criarCobranca(exemploCobrancaComVencimentoIni, txId)
+            console.log('resultado criação cobrança com vencimento: ', result)
+        }catch (err) {
+            console.error('Erro : ', err)
+        }
+        finally {
+            pixcd.finalizar()
+        }
+    })
 }
 
 
@@ -169,4 +207,5 @@ function exemploCobrancaImediata() {
 dotenv.config({ path: path.resolve(__dirname, '.env') })
 
 inicializaPastasDoApp()
-exemploCobrancaImediata()
+//exemploCobrancaImediata()
+CriarCobrancaComVencimento()
