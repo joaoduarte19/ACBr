@@ -298,6 +298,19 @@ para tpEmis diferente de 1</xs:documentation>
 											<xs:documentation>Endereço do emitente</xs:documentation>
 										</xs:annotation>
 									</xs:element>
+									<xs:element name="ISUFEmit" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Inscrição do emitente da Suframa</xs:documentation>
+											<xs:documentation>Informar o número do Cadastro do emitente na Suframa. Campo obrigatório nas operações que se beneficiam de incentivos fiscais existentes nas áreas sob controle da SUFRAMA com alíquota zero da CBS referente aos arts. 451 e 466 da LC 214/25 </xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="8"/>
+												<xs:maxLength value="9"/>
+												<xs:whiteSpace value="preserve"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
@@ -1405,6 +1418,19 @@ para tpEmis diferente de 1</xs:documentation>
 											</xs:restriction>
 										</xs:simpleType>
 									</xs:element>
+									<xs:element name="ISUFEmit" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Inscrição do emitente da Suframa</xs:documentation>
+											<xs:documentation>Informar o número do Cadastro do emitente na Suframa. Campo obrigatório nas operações que se beneficiam de incentivos fiscais existentes nas áreas sob controle da SUFRAMA com alíquota zero da CBS referente aos arts. 451 e 466 da LC 214/25 </xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="8"/>
+												<xs:maxLength value="9"/>
+												<xs:whiteSpace value="preserve"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
@@ -2061,6 +2087,19 @@ para tpEmis diferente de 1</xs:documentation>
 												<xs:whiteSpace value="preserve"/>
 												<xs:minLength value="1"/>
 												<xs:maxLength value="20"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="ISUFEmit" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Inscrição do emitente da Suframa</xs:documentation>
+											<xs:documentation>Informar o número do Cadastro do emitente na Suframa. Campo obrigatório nas operações que se beneficiam de incentivos fiscais existentes nas áreas sob controle da SUFRAMA com alíquota zero da CBS referente aos arts. 451 e 466 da LC 214/25 </xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="8"/>
+												<xs:maxLength value="9"/>
+												<xs:whiteSpace value="preserve"/>
 											</xs:restriction>
 										</xs:simpleType>
 									</xs:element>
