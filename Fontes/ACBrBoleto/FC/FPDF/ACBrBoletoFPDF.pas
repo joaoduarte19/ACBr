@@ -662,7 +662,10 @@ begin
     FPDF.Ln(AEspacoAntes);
 
   if FileExists(LArquivoLogo) then
-    FPDF.Image(LArquivoLogo, FPDF.GetX, FPDF.GetY - 5, 40, 10);
+    IF ALinhaDigitavel then
+      FPDF.Image(LArquivoLogo, FPDF.GetX, FPDF.GetY - 3, 40, 10)
+    else
+      FPDF.Image(LArquivoLogo, FPDF.GetX, FPDF.GetY - 5, 40, 10);
     
   FPDF.SetFont('Arial', 'B', 6);
 
@@ -670,21 +673,19 @@ begin
     FPDF.Cell(190, 2, COMPROVANTE_ENTREGA, '', 1, 'R');
 
   FPDF.SetFont('Arial', '', 9);
-  FPDF.Cell(50, 3, '', 'B', 0, 'L');
-  
+  FPDF.Cell(50, 6, '', 'B', 0, 'L');
 
   FPDF.SetFont('Arial', 'B', 14);
-  FPDF.Cell(20, 3, FBanco, 'LBR', 0, 'C');
+  FPDF.Cell(20, 6, FBanco, 'LBR', 0, 'C');
   FPDF.SetFont('Arial', 'B', 10);
 
   if ALinhaDigitavel then
-   FPDF.Cell(120, 3, FLinhaDigitavel, 'B', 1, 'R')
+   FPDF.Cell(120, 6, FLinhaDigitavel, 'B', 1, 'R')
   else
-   FPDF.Cell(120, 3, COMPROVANTE_ENTREGA, 'B', 1, 'R');
+   FPDF.Cell(120, 6, COMPROVANTE_ENTREGA, 'B', 1, 'R');
 
   FPDF.SetFont('Arial', '', 6);
   FPDF.Cell(149, 3, NOME_BENEFICIARIO, 'LR', 0, 'L');
-
 
   FPDF.SetFont('Arial', 'B', 5);
   FPDF.Cell(41, 3, MOTIVO_NAO_ENTREGA, 'R', 1, 'L');

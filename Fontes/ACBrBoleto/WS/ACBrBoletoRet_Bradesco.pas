@@ -98,7 +98,7 @@ var
 begin
   if ACBrBoleto.Configuracoes.WebService.UseCertificateHTTP then
   begin //portal developers
-    LData := OnlyNumber(AValue); //remover pontuação, pois não tem um padrao ponto barras ou sem
+    LData := PadLeft(OnlyNumber(AValue), 8, '0'); //remover pontuação, pois não tem um padrao ponto barras ou sem
     LAno := Copy(LData, 5, 4);
     LMes := Copy(LData, 3, 2);
     LDia := Copy(LData, 1, 2);
