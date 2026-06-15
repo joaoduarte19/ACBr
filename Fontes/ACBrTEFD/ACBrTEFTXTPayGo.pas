@@ -47,7 +47,11 @@ const
   CACBRTEFTXTPayGo_DIRREQ = 'C:\PAYGO\Req\';
   CACBRTEFTXTPayGo_DIRRESP = 'C:\PAYGO\Resp\';
 
-  CACBRTEFTXT_CMD_CDP = 'CDP';
+  CACBRTEFTXT_CMD_CDP = 'CDP';  // Solicita CPF ou CNPJ no PinPad
+  CACBRTEFTXT_CMD_QRP = 'QRP';  // Exibe QRCode no PinPad
+  CACBRTEFTXT_CMD_FQR = 'FQR';  // Fim da Exibição de Imagem QRCode no PinPad
+  CACBRTEFTXT_CMD_MNU = 'MNU';  // Menu no PinPad
+
   CPayGoVersaoInterface = 225;
 
 type
@@ -105,6 +109,9 @@ type
       ): Boolean; override;
 
     function CPD(TipoPessoa: Char = 'F'): String;
+    function QRP(const ConteudoQRCode: String): Boolean;
+    function FQR: Boolean;
+    function MNU(const Titulo: String; Opcoes: TStrings): Integer;
 
     property SuportaTroco: Boolean read fSuportaTroco write fSuportaTroco default True;
     property SuportaDesconto: Boolean read fSuportaDesconto write fSuportaDesconto default True;
@@ -443,6 +450,40 @@ begin
   EnviarRequisicao;
   if RespostaTransacaoComSucesso then
     Result := Resp.Campo[7,0].AsString;
+end;
+
+function TACBrTEFTXTPayGo.QRP(const ConteudoQRCode: String): Boolean;
+begin
+  PrepararRequisicao(CACBRTEFTXT_CMD_QRP);
+  Req.Campo[764,0].AsString := ConteudoQRCode;
+  EnviarRequisicao;
+  Result := RespostaTransacaoComSucesso;
+end;
+
+function TACBrTEFTXTPayGo.FQR: Boolean;
+begin
+  PrepararRequisicao(CACBRTEFTXT_CMD_FQR);
+  EnviarRequisicao;
+  Result := RespostaTransacaoComSucesso;
+end;
+
+function TACBrTEFTXTPayGo.MNU(const Titulo: String; Opcoes: TStrings): Integer;
+var
+  i: Integer;
+begin
+  Result := -1;
+  if (Opcoes.Count < 1) then
+    Exit;
+
+  PrepararRequisicao(CACBRTEFTXT_CMD_MNU);
+  Req.Campo[760,0].AsString := Titulo;
+  Req.Campo[761,0].AsInteger := Opcoes.Count;
+  for i := 0 to Opcoes.Count-1 do
+    Req.Campo[762,i+1].AsString := Opcoes[i];
+
+  EnviarRequisicao;
+  if RespostaTransacaoComSucesso then
+    Result := Resp.Campo[763,0].AsInteger + 1;
 end;
 
 function TACBrTEFTXTPayGo.CalcularCapacidadesAutomacao: Integer;

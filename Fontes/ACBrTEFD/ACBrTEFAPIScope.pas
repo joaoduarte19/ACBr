@@ -921,7 +921,7 @@ var
 begin
   VerificarIdentificadorVendaInformado;
   if (ValorPagto <= 0) then
-    fpACBrTEFAPI.DoException(sACBrTEFAPIValorPagamentoInvalidoException);
+    fpACBrTEFAPI.DoException(ACBrStr(sACBrTEFAPIValorPagamentoInvalidoException));
 
   Param1 := IntToStr(Trunc(RoundTo(ValorPagto * 100,-2)));
   Param2 := '000';

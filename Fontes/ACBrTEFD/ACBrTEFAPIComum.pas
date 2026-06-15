@@ -171,6 +171,7 @@ type
     fOperador: String;
     fParamComunicacao: String;
     fPortaPinPad: String;
+    fSenha: String;
   public
     constructor Create;
     procedure Clear;
@@ -182,6 +183,7 @@ type
     property CodFilial: String read fCodFilial write fCodFilial;
     property CodTerminal: String read fCodTerminal write fCodTerminal;
     property Operador: String read fOperador write fOperador;
+    property Senha: String read fSenha write fSenha;
     property PortaPinPad: String read fPortaPinPad write fPortaPinPad;
     property ParamComunicacao: String read fParamComunicacao write fParamComunicacao;
     property Ambiente: TACBrTEFAPIAmbiente read fAmbiente write fAmbiente;
@@ -588,6 +590,7 @@ begin
   fCodFilial := '';
   fCodTerminal := '';
   fOperador := '';
+  fSenha := '';
   fPortaPinPad := '';
   fEnderecoServidor := '';
   fParamComunicacao := '';
@@ -607,6 +610,7 @@ begin
     fCodFilial := DadosTerminal.CodFilial;
     fCodTerminal := DadosTerminal.CodTerminal;
     fOperador := DadosTerminal.Operador;
+    fSenha := DadosTerminal.Senha;
     fPortaPinPad := DadosTerminal.PortaPinPad;
     fEnderecoServidor := DadosTerminal.EnderecoServidor;
     fParamComunicacao := DadosTerminal.ParamComunicacao;
@@ -1069,7 +1073,7 @@ end ;
 procedure TACBrTEFAPIComumClass.VerificarIdentificadorVendaInformado;
 begin
   if (Trim(fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao) = '') then
-    fpACBrTEFAPI.DoException(sACBrTEFAPIIdentificadorVendaVazioException);
+    fpACBrTEFAPI.DoException( ACBrStr(sACBrTEFAPIIdentificadorVendaVazioException) );
 end;
 
 { TACBrTEFAPIComum }

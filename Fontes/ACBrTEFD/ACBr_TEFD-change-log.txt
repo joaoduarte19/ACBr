@@ -45,8 +45,27 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/06/2026
+-- ACBrTEFAPIComum --
+[+] Adicionada a propriedade "TACBrTEFAPIDadosTerminal.Senha: String"
+[-] Correção de exibição de acentuação em Exibição de Erro em
+    "VerificarIdentificadorVendaInformado"
+
+-- ACBrTEFAPIScope --
+[-] Correção de exibição de acentuação em Exibição de Erro em "EfetuarPagamento"
+
+-- ACBrTEFAPITXT --
+[+] Adicionado suporte ao método "MenuPinPad"
+
+-- ACBrTEFTXTPayGo --
+[+] Adicionado os métodos:
+    function QRP(const ConteudoQRCode: String): Boolean;  // Exibe QRCode
+    function FQR: Boolean;                                // Remove QRCode
+    function MNU(const Titulo: String; Opcoes: TStrings): Integer;  // Exibe Menu
+ (por: DSA)
+
 08/05/2026
--- TACBrTEFScopeAPI --
+-- ACBrTEFScopeAPI --
 [-] Correção para exibir atualização de msgs do Operador e Cliente, no fluxo do TEF
     https://www.projetoacbr.com.br/forum/index.php?showtopic=92002
     (por: juniorguillen)
