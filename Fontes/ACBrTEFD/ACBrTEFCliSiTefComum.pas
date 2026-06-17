@@ -369,6 +369,12 @@ begin
         136: BIN := LinStr;
         139: ValorEntradaCDC := Linha.Informacao.AsFloat;
         140: DataEntradaCDC := Linha.Informacao.AsDate;
+        146:
+        begin
+          ValorOriginal := Linha.Informacao.AsFloat;
+          if (ValorTotal = 0) then
+            ValorTotal := ValorOriginal;
+        end;
         156: Rede := LinStr;
         157: Estabelecimento := LinStr;
         158: CodigoRedeAutorizada := LinStr; 
