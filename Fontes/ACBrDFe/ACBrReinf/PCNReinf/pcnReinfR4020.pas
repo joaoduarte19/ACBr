@@ -317,6 +317,7 @@ type
     FnrProc: string;
     FindOrigRec: TindOrigemRecursos;
     FcnpjOrigRecurso: string;
+    FcpfOrigRecurso: string;
     Fdesc: string;
     FdespProcJud: TdespProcJud;
   public
@@ -326,6 +327,7 @@ type
     property nrProc: string read FnrProc write FnrProc;
     property indOrigRec: TindOrigemRecursos read FindOrigRec write FindOrigRec;
     property cnpjOrigRecurso: string read FcnpjOrigRecurso write FcnpjOrigRecurso;
+    property cpfOrigRecurso: string read FcpfOrigRecurso write FcpfOrigRecurso;
     property desc: string read Fdesc write Fdesc;
     property despProcJud: TdespProcJud read FdespProcJud write FdespProcJud;
   end;
@@ -663,6 +665,7 @@ begin
     Gerador.wCampo(tcStr, '', 'nrProc',            1,  21,  1, item.nrProc);
     Gerador.wCampo(tcStr, '', 'indOrigRec',        1,   1,  1, indOrigemRecursosToStr(item.indOrigRec));
     Gerador.wCampo(tcStr, '', 'cnpjOrigRecurso',  14,  14,  0, item.cnpjOrigRecurso);
+    Gerador.wCampo(tcStr, '', 'cpfOrigRecurso',   11,  11,  0, item.cpfOrigRecurso);
     Gerador.wCampo(tcStr, '', 'desc',              1,  50,  0, item.desc);
 
     GerardespProcJud(item.despProcJud);
@@ -914,6 +917,7 @@ begin
                   nrProc          := INIRec.ReadString(sSecao, 'nrProc', '');
                   indOrigRec      := StrToindOrigemRecursos(Ok, INIRec.ReadString(sSecao, 'indOrigRec', ''));
                   cnpjOrigRecurso := INIRec.ReadString(sSecao, 'cnpjOrigRecurso', '');
+                  cpfOrigRecurso  := INIRec.ReadString(sSecao, 'cpfOrigRecurso', '');
                   desc            := INIRec.ReadString(sSecao, 'desc', '');
 
                   sSecao := 'despProcJud' + IntToStrZero(I, 3) +

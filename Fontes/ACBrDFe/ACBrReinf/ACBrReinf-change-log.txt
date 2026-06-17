@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/06/2026
+-- pcnReinfR4010, pcnReinfR4020 --
+[*] Implementações e schemas referentes à NT 03/2026
+  Por: Renato Rubinho
+
 25/05/2026
 -- pcnConversaoReinf --
 [*] Novo item no enumerado tpIsencao do registro R-4010 - https://www.projetoacbr.com.br/forum/topic/92497-nota-t%C3%A9cnica-efd-reinf-022026

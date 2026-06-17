@@ -483,6 +483,7 @@ type
     FdescRRA: string;
     FqtdMesesRRA: double;
     FcnpjOrigRecurso: string;
+    FcpfOrigRecurso: string;
     FdespProcJud: TdespProcJud;
   public
     constructor Create;
@@ -494,6 +495,7 @@ type
     property descRRA: string read FdescRRA write FdescRRA;
     property qtdMesesRRA: double read FqtdMesesRRA write FqtdMesesRRA;
     property cnpjOrigRecurso: string read FcnpjOrigRecurso write FcnpjOrigRecurso;
+    property cpfOrigRecurso: string read FcpfOrigRecurso write FcpfOrigRecurso;
     property despProcJud: TdespProcJud read FdespProcJud write FdespProcJud;
   end;
 
@@ -542,6 +544,7 @@ type
     FnrProc: string;
     FindOrigRec: TindOrigemRecursos;
     FcnpjOrigRecurso: string;
+    FcpfOrigRecurso: string;
     Fdesc: string;
     FdespProcJud: TdespProcJud;
   public
@@ -551,6 +554,7 @@ type
     property nrProc: string read FnrProc write FnrProc;
     property indOrigRec: TindOrigemRecursos read FindOrigRec write FindOrigRec;
     property cnpjOrigRecurso: string read FcnpjOrigRecurso write FcnpjOrigRecurso;
+    property cpfOrigRecurso: string read FcpfOrigRecurso write FcpfOrigRecurso;
     property desc: string read Fdesc write Fdesc;
     property despProcJud: TdespProcJud read FdespProcJud write FdespProcJud;
   end;
@@ -1076,6 +1080,7 @@ begin
     Gerador.wCampo(tcStr, '', 'descRRA',          1,  50,  0, item.descRRA);
     Gerador.wCampo(tcDe1, '', 'qtdMesesRRA',      1,   4,  1, item.qtdMesesRRA);
     Gerador.wCampo(tcStr, '', 'cnpjOrigRecurso', 14,  14,  0, item.cnpjOrigRecurso);
+    Gerador.wCampo(tcStr, '', 'cpfOrigRecurso',  11,  11,  0, item.cpfOrigRecurso);
 
     GerardespProcJud(item.despProcJud);
 
@@ -1125,6 +1130,7 @@ begin
     Gerador.wCampo(tcStr, '', 'nrProc',            1,  21,  1, item.nrProc);
     Gerador.wCampo(tcStr, '', 'indOrigRec',        1,   1,  1, indOrigemRecursosToStr(item.indOrigRec));
     Gerador.wCampo(tcStr, '', 'cnpjOrigRecurso',  14,  14,  0, item.cnpjOrigRecurso);
+    Gerador.wCampo(tcStr, '', 'cpfOrigRecurso',   11,  11,  0, item.cpfOrigRecurso);
     Gerador.wCampo(tcStr, '', 'desc',              1,  50,  0, item.desc);
 
     GerardespProcJud(item.despProcJud);
@@ -1571,6 +1577,7 @@ begin
                   descRRA         := INIRec.ReadString(sSecao, 'descRRA', '');
                   qtdMesesRRA     := StringToFloatDef(INIRec.ReadString(sSecao, 'qtdMesesRRA', ''), 0);
                   cnpjOrigRecurso := INIRec.ReadString(sSecao, 'cnpjOrigRecurso', '');
+                  cpfOrigRecurso  := INIRec.ReadString(sSecao, 'cpfOrigRecurso', '');
 
                   sSecao := 'infoRRA.despProcJud' + IntToStrZero(I, 3) +
                                                     IntToStrZero(I2, 3);
@@ -1613,6 +1620,7 @@ begin
                   nrProc          := INIRec.ReadString(sSecao, 'nrProc', '');
                   indOrigRec      := StrToindOrigemRecursos(Ok, INIRec.ReadString(sSecao, 'indOrigRec', ''));
                   cnpjOrigRecurso := INIRec.ReadString(sSecao, 'cnpjOrigRecurso', '');
+                  cpfOrigRecurso  := INIRec.ReadString(sSecao, 'cpfOrigRecurso', '');
                   desc            := INIRec.ReadString(sSecao, 'desc', '');
 
                   sSecao := 'infoProcJud.despProcJud' + IntToStrZero(I, 3) +

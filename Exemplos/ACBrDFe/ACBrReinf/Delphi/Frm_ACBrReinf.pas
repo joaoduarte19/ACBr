@@ -2933,6 +2933,7 @@ begin
                 descRRA         := 'Descrição';
                 qtdMesesRRA     := 1.0;
                 cnpjOrigRecurso := edSoftCNPJ.Text; // Apenas para teste, utilizado o CNPJ preenchido para a SH
+                cpfOrigRecurso  := '';
 
                 with despProcJud do
                 begin
@@ -2953,6 +2954,7 @@ begin
                 nrProc          := '123456789012345678901';
                 indOrigRec      := iorProprios;
                 cnpjOrigRecurso := edSoftCNPJ.Text; // Apenas para teste, utilizado o CNPJ preenchido para a SH
+                cpfOrigRecurso  := '';
                 desc            := 'Descrição';
 
                 with despProcJud do
@@ -3130,6 +3132,7 @@ begin
                 nrProc          := '123456789012345678901';
                 indOrigRec      := iorProprios;
                 cnpjOrigRecurso := edSoftCNPJ.Text; // Apenas para teste, utilizado o CNPJ preenchido para a SH
+                cpfOrigRecurso  := '';
                 desc            := 'Descrição';
 
                 with despProcJud do

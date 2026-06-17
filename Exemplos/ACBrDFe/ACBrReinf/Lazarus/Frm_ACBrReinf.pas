@@ -2843,6 +2843,7 @@ begin
                 descRRA         := 'Descrição';
                 qtdMesesRRA     := 1.0;
                 cnpjOrigRecurso := '12345678000123';
+                cpfOrigRecurso  := '';
 
                 with despProcJud do
                 begin
@@ -2863,6 +2864,7 @@ begin
                 nrProc          := '123456789012345678901';
                 indOrigRec      := iorProprios;
                 cnpjOrigRecurso := '12345678000123';
+                cpfOrigRecurso  := '';
                 desc            := 'Descrição';
 
                 with despProcJud do
@@ -3040,6 +3042,7 @@ begin
                 nrProc          := '123456789012345678901';
                 indOrigRec      := iorProprios;
                 cnpjOrigRecurso := '12345678000123';
+                cpfOrigRecurso  := '';
                 desc            := 'Descrição';
 
                 with despProcJud do
