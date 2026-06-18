@@ -115,7 +115,7 @@ implementation
 
 uses
   ACBrConsts,
-  ACBrUtil.Base, ACBrUtil.Strings;
+  ACBrUtil.Base, ACBrUtil.Strings, ACBrDFeUtil;
 
 { TCTeR }
 
@@ -148,7 +148,7 @@ begin
 
   CTe.infCTe.Id := Leitor.rAtributo('Id=', 'infCte');
 
-  if OnlyNumber(CTe.infCTe.Id) = '' then
+  if RemoverLiteralChave(CTe.infCTe.Id) = '' then
     raise Exception.Create('Não encontrei o atributo: Id');
 
   CTe.infCTe.versao := StringToFloatDef(Leitor.rAtributo('versao=', 'infCte'), -1);

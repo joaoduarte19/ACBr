@@ -1247,7 +1247,7 @@ begin
   rllModal.Caption := ACBrStr(TpModalToStrText(fpCTe.Ide.modal));
   rllModelo.Caption := IntToStr(fpCTe.Ide.modelo);
   rllEmissao.Caption := FormatDateTimeBr(fpCTe.Ide.dhEmi);
-  rllChave.Caption := FormatarChaveAcesso(OnlyNumber(fpCTe.InfCTe.Id));
+  rllChave.Caption := FormatarChaveAcesso(RemoverLiteralChave(fpCTe.InfCTe.Id));
 
   rllTipoCte.Caption := ACBrStr(tpCTToStrText(fpCTe.Ide.tpCTe));
   rllTipoServico.Caption := ACBrStr(TpServToStrText(fpCTe.Ide.tpServ));
@@ -2971,7 +2971,7 @@ begin
 
   rllSerie.Caption := IntToStr(fpCTe.Ide.serie);
   rllNumCte.Caption := FormatFloat('000,000,000', fpCTe.Ide.nCT);
-  rlbCodigoBarras.Caption := OnlyNumber(fpCTe.InfCTe.Id);
+  rlbCodigoBarras.Caption := RemoverLiteralChave(fpCTe.InfCTe.Id);
 
   posicionaCanhoto;
 end;

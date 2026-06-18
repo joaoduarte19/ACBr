@@ -2152,8 +2152,8 @@ begin
   Item.idTransacao := ObterConteudoTag(ANode.Attributes.Items['idTransacao']);
 
   Item.tpMeioPgto := ObterConteudo(ANode.Childrens.Find('tpMeioPgto'), tcStr);
-  Item.CNPJReceb := ObterConteudo(ANode.Childrens.Find('CNPJReceb'), tcStr);
-  Item.CNPJBasePSP := ObterConteudo(ANode.Childrens.Find('CNPJBasePSP'), tcDe2);
+  Item.CNPJReceb :=  ObterConteudo(ANode.Childrens.Find('CNPJReceb'), tcStr);
+  Item.CNPJBasePSP := ObterConteudo(ANode.Childrens.Find('CNPJBasePSP'), tcStr);
 end;
 
 // Reforma Tributária

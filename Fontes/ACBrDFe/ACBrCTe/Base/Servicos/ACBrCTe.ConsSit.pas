@@ -63,6 +63,7 @@ implementation
 
 uses
   ACBrCTe.Consts,
+  ACBrDFeUtil,
   ACBrUtil.Strings;
 
 { TConsSitCTe }
@@ -81,7 +82,7 @@ end;
 
 function TConsSitCTe.ObterNomeArquivo: string;
 begin
-  Result := OnlyNumber(FchCTe) + '-ped-sit.xml';
+  Result := RemoverLiteralChave(FchCTe) + '-ped-sit.xml';
 end;
 
 function TConsSitCTe.GerarXML: string;

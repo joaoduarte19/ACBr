@@ -321,7 +321,7 @@ begin
   if Pos('?', urlUF) <= 0 then
     urlUF := urlUF + '?';
 
-  idCTe := OnlyNumber(AChaveCTe);
+  idCTe := RemoverLiteralChave(AChaveCTe);
 
   // Passo 1
   sEntrada := 'chCTe=' + idCTe + '&tpAmb=' + TipoAmbienteToStr(TipoAmbiente);
@@ -353,7 +353,7 @@ begin
   if Pos('?', urlUF) <= 0 then
     urlUF := urlUF + '?';
 
-  idCTe := OnlyNumber(FCTe.infCTe.ID);
+  idCTe := RemoverLiteralChave(FCTe.infCTe.ID);
 
   // Passo 1
   sEntrada := 'chCTe=' + idCTe + '&tpAmb=' + TipoAmbienteToStr(FCTe.Ide.tpAmb);
@@ -593,13 +593,14 @@ function TACBrCTe.GerarChaveContingencia(FCTe:TCTe): String;
   const
     PESO = '43298765432987654329876543298765432';
   begin
-    chave  := OnlyNumber(chave);
+    chave  := RemoverLiteralChave(chave);
     j      := 0;
     Digito := 0;
     result := True;
     try
       for i := 1 to 35 do
-        j := j + StrToInt(copy(chave, i, 1)) * StrToInt(copy(PESO, i, 1));
+        j := j + (Ord(UpCase(chave[i])) - 48) * StrToInt(copy(PESO, i, 1));
+
       Digito := 11 - (j mod 11);
       if (j mod 11) < 2 then
         Digito := 0;
@@ -830,7 +831,7 @@ begin
     with EventoCTe.Evento.New do
     begin
       infEvento.CNPJ := Conhecimentos.Items[i].CTe.Emit.CNPJ;
-      infEvento.cOrgao := StrToIntDef(copy(OnlyNumber(WebServices.Consulta.CTeChave), 1, 2), 0);
+      infEvento.cOrgao := StrToIntDef(copy(RemoverLiteralChave(WebServices.Consulta.CTeChave), 1, 2), 0);
       infEvento.dhEvento := now;
       infEvento.tpEvento := teCancelamento;
       infEvento.chCTe := WebServices.Consulta.CTeChave;
@@ -872,7 +873,7 @@ begin
 
     if Conhecimentos.Count > 0 then
     begin
-      chCTe := OnlyNumber(EventoCTe.Evento.Items[i].InfEvento.chCTe);
+      chCTe := RemoverLiteralChave(EventoCTe.Evento.Items[i].InfEvento.chCTe);
 
       // Se tem a chave do CTe no Evento, procure por ela nos conhecimentos carregados //
       if NaoEstaVazio(chCTe) then
@@ -1014,7 +1015,7 @@ begin
     ImprimirEventoPDF;
     AnexosEmail.Add(DACTE.ArquivoPDF);
 
-    NomeArq := OnlyNumber(EventoCTe.Evento[0].InfEvento.Id);
+    NomeArq := RemoverLiteralChave(EventoCTe.Evento[0].InfEvento.Id);
     EnviarEmail(sPara, sAssunto, sMensagem, sCC, AnexosEmail, StreamCTe,
   	  NomeArq + '-procEventoCTe.xml', sReplyTo);
   finally

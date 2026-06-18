@@ -298,8 +298,8 @@ begin
     rllSerie.Caption := IntToStr(fpCTe.ide.serie);
     rllNumCTe.Caption := FormatFloat('000,000,000', fpCTe.Ide.nCT);
     rllEmissao.Caption := FormatDateTimeBr(fpCTe.Ide.dhEmi);
-    rliBarCode.Caption := OnlyNumber(fpCTe.InfCTe.Id);
-    rllChave.Caption := FormatarChaveAcesso(OnlyNumber(fpCTe.InfCTe.Id));
+    rliBarCode.Caption := RemoverLiteralChave(fpCTe.InfCTe.Id);
+    rllChave.Caption := FormatarChaveAcesso(RemoverLiteralChave(fpCTe.InfCTe.Id));
   end;
 end;
 

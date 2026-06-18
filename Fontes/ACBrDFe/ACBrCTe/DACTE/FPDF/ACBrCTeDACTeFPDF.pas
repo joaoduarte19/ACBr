@@ -600,7 +600,7 @@ begin
       try
         Engine.Compressed := True;
 
-        LPath := DefinirNomeArquivo(TACBrCTe(ACBrCTe).DACTE.PathPDF, OnlyNumber(LCTe.infCTe.ID) + '-cte.pdf', TACBrCTe(ACBrCTe).DACTE.NomeDocumento);
+        LPath := DefinirNomeArquivo(TACBrCTe(ACBrCTe).DACTE.PathPDF, RemoverLiteralChave(LCTe.infCTe.ID) + '-cte.pdf', TACBrCTe(ACBrCTe).DACTE.NomeDocumento);
 
         ForceDirectories(ExtractFilePath(LPath));
 
@@ -1194,11 +1194,11 @@ begin
   x1 := 86;
   y1 := -60;
   LPDF.QRCode(x1 + 89, y1, 29, LCTE.infCTeSupl.qrCodCTe);
-  LPDF.Code128(OnlyNumber(LCTE.infCTe.Id), x1, y1, 8, 86);
+  LPDF.Code128(RemoverLiteralChave(LCTE.infCTe.Id), x1, y1, 8, 86);
   LPDF.SetFont(7, 'B');
   LPDF.TextBox(x1 - 2, y1 + 10, 88, 7, 'Chave de acesso', 'T', 'L', False);
   LPDF.SetFont(7, '');
-  LPDF.TextBox(x1, y1 + 13, 88, 4, FormatarChaveAcesso(OnlyNumber(LCTE.infCTe.Id)), 'T', 'C', False);
+  LPDF.TextBox(x1, y1 + 13, 88, 4, FormatarChaveAcesso(RemoverLiteralChave(LCTE.infCTe.Id)), 'T', 'C', False);
   //LPDF.TextBox(x1, y1 + 2, 86, 18, LTexto, 'C', 'C', False);
   //codigo de barras
   y1 := -65;

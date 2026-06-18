@@ -42,6 +42,10 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+18/06/2026
+-- ACBrCTeDACTeFR --
+[*] Ajustado remover literal chave devido campo alfanumerico.
+  Por: Daniel Morais InfoCotidiano
 
 
 28/11/2024

@@ -827,7 +827,7 @@ begin
      ((Copy(CTe.infCTe.ID,  4,  2) <> IntToStrZero(CTe.ide.cUF, 2)) or
      (Copy(CTe.infCTe.ID,  6,  2) <> Copy(FormatFloat('0000', wAno), 3, 2)) or
      (Copy(CTe.infCTe.ID,  8,  2) <> FormatFloat('00', wMes)) or
-     (Copy(CTe.infCTe.ID, 10, 14) <> copy(OnlyNumber(CTe.Emit.CNPJ) + '00000000000000', 1, 14)) or
+     (Copy(CTe.infCTe.ID, 10, 14) <> copy(OnlyCPFCNPJAlphaNum(CTe.Emit.CNPJ) + '00000000000000', 1, 14)) or
      (Copy(CTe.infCTe.ID, 24,  2) <> IntToStr(CTe.ide.modelo)) or
      (Copy(CTe.infCTe.ID, 26,  3) <> IntToStrZero(CTe.ide.serie, 3)) or
      (Copy(CTe.infCTe.ID, 29,  9) <> IntToStrZero(CTe.ide.nCT, 9)) or
@@ -865,7 +865,7 @@ end;
 
 function Conhecimento.GetNumID: String;
 begin
-  Result := Trim(OnlyNumber(CTe.infCTe.ID));
+  Result := Trim(RemoverLiteralChave(CTe.infCTe.ID));
 end;
 
 function Conhecimento.GetXMLAssinado: String;

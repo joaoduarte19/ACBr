@@ -44,7 +44,10 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
-
+18/06/2026
+-- ACBrCTeDACTeRLClass, ACBrCTeDACTeRLRetrato, ACBrCTeDACTeRLRetratoA5, ACBrCTeDAEventoRLRetrato --
+[*] Ajustado campos cnpj alfanumericos/ removendo literal chaves; 
+  Por: Daniel Morais InfoCotidiano.
 
 12/11/2025
 -- ACBrCTeDACTeRLRetrato --

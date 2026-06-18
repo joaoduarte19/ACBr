@@ -42,7 +42,8 @@ uses
   ACBrCTe.Classes,
   pcteProcCTe,
   pcnConversao,
-  pcteConversaoCTe;
+  pcteConversaoCTe,
+  ACBrUtil.Strings;
 
 type
   { TCTeIniWriter }
@@ -1889,8 +1890,8 @@ begin
     AINIRec.WriteInteger(sSecao, 'nPag', pgto[I].nPag);
     AINIRec.WriteString(sSecao, 'idTransacao', pgto[I].idTransacao);
     AINIRec.WriteString(sSecao, 'tpMeioPgto', pgto[I].tpMeioPgto);
-    AINIRec.WriteString(sSecao, 'CNPJReceb', pgto[I].CNPJReceb);
-    AINIRec.WriteString(sSecao, 'CNPJBasePSP', pgto[I].CNPJBasePSP);
+    AINIRec.WriteString(sSecao, 'CNPJReceb', OnlyCPFCNPJAlphaNum(pgto[I].CNPJReceb));
+    AINIRec.WriteString(sSecao, 'CNPJBasePSP', OnlyCPFCNPJAlphaNum(pgto[I].CNPJBasePSP));
   end;
 end;
 

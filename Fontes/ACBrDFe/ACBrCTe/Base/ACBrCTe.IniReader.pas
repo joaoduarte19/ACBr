@@ -1909,7 +1909,7 @@ begin
   while true do
   begin
     sSecao := 'autXML' + IntToStrZero(I,2) ;
-    sFim   := OnlyNumber(AINIRec.ReadString(sSecao, 'CNPJCPF', 'FIM'));
+    sFim   := OnlyCPFCNPJAlphaNum(AINIRec.ReadString(sSecao, 'CNPJCPF', 'FIM'));
     if (sFim = 'FIM') or (Length(sFim) <= 0) then
       break ;
 
@@ -2386,8 +2386,8 @@ begin
     ItemPag.nPag := StrToIntDef(sFim, 0);
     ItemPag.idTransacao := AINIRec.ReadString(sSecao, 'idTransacao', '');
     ItemPag.tpMeioPgto := AINIRec.ReadString(sSecao, 'tpMeioPgto', '');
-    ItemPag.CNPJReceb := AINIRec.ReadString(sSecao, 'CNPJReceb', '');
-    ItemPag.CNPJBasePSP := AINIRec.ReadString(sSecao, 'CNPJBasePSP', '');
+    ItemPag.CNPJReceb := OnlyCPFCNPJAlphaNum(AINIRec.ReadString(sSecao, 'CNPJReceb', ''));
+    ItemPag.CNPJBasePSP := OnlyCPFCNPJAlphaNum(AINIRec.ReadString(sSecao, 'CNPJBasePSP', ''));
 
     Inc(I);
   end;

@@ -1201,7 +1201,7 @@ begin
             begin
               with TACBrCTe(FPDFeOwner).Conhecimentos.Items[I] do
               begin
-                if OnlyNumber(chCTe) = NumID then
+                if RemoverLiteralChave(chCTe) = NumID then
                 begin
                   if (FPConfiguracoesCTe.Geral.ValidarDigest) and
                      (FCTeRetornoSincrono.protCTe.digVal <> '') and
@@ -1354,7 +1354,7 @@ begin
         begin
           with TACBrCTe(FPDFeOwner).Conhecimentos.Items[I] do
           begin
-            if OnlyNumber(chCTe) = NumID then
+            if RemoverLiteralChave(chCTe) = NumID then
             begin
               if (FPConfiguracoesCTe.Geral.ValidarDigest) and
                  (FCTeRetornoSincrono.protCTe.digVal <> '') and
@@ -1561,7 +1561,7 @@ begin
     begin
       for j := 0 to FConhecimentos.Count - 1 do
       begin
-        if OnlyNumber(FCTeRetorno.ProtDFe.Items[i].chDFe) = FConhecimentos.Items[J].NumID then
+        if RemoverLiteralChave(FCTeRetorno.ProtDFe.Items[i].chDFe) = FConhecimentos.Items[J].NumID then
         begin
           FConhecimentos.Items[j].CTe.procCTe.verAplic := '';
           FConhecimentos.Items[j].CTe.procCTe.chCTe    := '';
@@ -1741,7 +1741,7 @@ begin
   begin
     for J := 0 to FConhecimentos.Count - 1 do
     begin
-      if OnlyNumber(AInfProt.Items[I].chDFe) = FConhecimentos.Items[J].NumID then
+      if RemoverLiteralChave(AInfProt.Items[I].chDFe) = FConhecimentos.Items[J].NumID then
       begin
         if (TACBrCTe(FPDFeOwner).Configuracoes.Geral.ValidarDigest) and
           (FConhecimentos.Items[J].CTe.signature.DigestValue <>
@@ -2109,7 +2109,7 @@ var
   NumChave: String;
 begin
   if FCTeChave = AValue then Exit;
-  NumChave := OnlyNumber(AValue);
+  NumChave := RemoverLiteralChave(AValue);
 
   if not ValidarChave(NumChave) then
      raise EACBrCTeException.Create('Chave "'+AValue+'" inválida.');
@@ -2434,7 +2434,7 @@ begin
           begin
             // Se verdadeiro significa que o componente esta carregado com todos os
             // dados do CT-e
-            if (OnlyNumber(FCTeChave) = NumID) then
+            if (RemoverLiteralChave(FCTeChave) = NumID) then
             begin
               Atualiza := (NaoEstaVazio(CTeRetorno.XMLprotCTe));
 
@@ -2761,7 +2761,7 @@ end;
 
 function TCTeInutilizacao.GerarPrefixoArquivo: String;
 begin
-  Result := Trim(OnlyNumber(FID));
+  Result := Trim(RemoverLiteralChave(FID));
 end;
 
 { TCTeConsultaCadastro }
@@ -3288,8 +3288,8 @@ begin
             infEvento.detEvento.pgto.nPag := FEvento.Evento[I].infEvento.detEvento.pgto.nPag;
             infEvento.detEvento.pgto.idTransacao := FEvento.Evento[I].infEvento.detEvento.pgto.idTransacao;
             infEvento.detEvento.pgto.tpMeioPgto := FEvento.Evento[I].infEvento.detEvento.pgto.tpMeioPgto;
-            infEvento.detEvento.pgto.CNPJReceb := FEvento.Evento[I].infEvento.detEvento.pgto.CNPJReceb;
-            infEvento.detEvento.pgto.CNPJBasePSP := FEvento.Evento[I].infEvento.detEvento.pgto.CNPJBasePSP;
+            infEvento.detEvento.pgto.CNPJReceb := OnlyCPFCNPJAlphaNum(FEvento.Evento[I].infEvento.detEvento.pgto.CNPJReceb);
+            infEvento.detEvento.pgto.CNPJBasePSP := OnlyCPFCNPJAlphaNum(FEvento.Evento[I].infEvento.detEvento.pgto.CNPJBasePSP);
           end;
 
           teCancVinculoPgto:
@@ -3572,7 +3572,7 @@ begin
 
             if FPConfiguracoesCTe.Arquivos.SalvarEvento then
             begin
-              NomeArq := OnlyNumber(FEvento.Evento.Items[I].InfEvento.Id) + '-procEventoCTe.xml';
+              NomeArq := RemoverLiteralChave(FEvento.Evento.Items[I].InfEvento.Id) + '-procEventoCTe.xml';
               PathArq := PathWithDelim(GerarPathEvento(FEvento.Evento.Items[I].InfEvento.CNPJ, FEvento.Evento.Items[I].InfEvento.detEvento.IE));
 
               FPDFeOwner.Gravar(NomeArq, Texto, PathArq);
@@ -3768,7 +3768,7 @@ begin
           FNomeArq := FretDistDFeInt.docZip.Items[I].resDFe.chDFe + '-cte.xml';
 
         schprocEventoCTe:
-          FNomeArq := OnlyNumber(FretDistDFeInt.docZip.Items[I].procEvento.Id) +
+          FNomeArq := RemoverLiteralChave(FretDistDFeInt.docZip.Items[I].procEvento.Id) +
                      '-procEventoCTe.xml';
       end;
 
@@ -4012,7 +4012,7 @@ procedure TWebServices.Inutiliza(const CNPJ, AJustificativa: String;
 var
   CNPJ_temp: string;
 begin
-  CNPJ_temp := OnlyNumber(CNPJ);
+  CNPJ_temp := OnlyCPFCNPJAlphaNum(CNPJ);
 
   if not ValidarCNPJ(CNPJ_temp) then
     raise EACBrCTeException.Create('CNPJ: ' + CNPJ_temp + ', inválido.');

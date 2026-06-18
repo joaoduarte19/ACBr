@@ -1296,7 +1296,7 @@ begin
       frxPDFExport.ShowDialog := False;
       NomeArq := Trim(DACTEClassOwner.NomeDocumento);
       if EstaVazio(NomeArq) then
-        NomeArq := OnlyNumber(CTE.infCTe.Id) + '-cte.pdf';
+        NomeArq := RemoverLiteralChave(CTE.infCTe.Id) + '-cte.pdf';
       frxPDFExport.FileName := PathWithDelim(DACTEClassOwner.PathPDF) + NomeArq;
 
       if not DirectoryExists(ExtractFileDir(frxPDFExport.FileName)) then
@@ -1368,7 +1368,7 @@ begin
       frxPDFExport.ShowDialog := False;
       NomeArq := Trim(DACTEClassOwner.NomeDocumento);
       if EstaVazio(NomeArq) then
-        NomeArq := OnlyNumber(TACBrCTe(ACBrCTe).EventoCTe.Evento.Items[0].InfEvento.Id) + '-procEventoCTe.pdf';
+        NomeArq := RemoverLiteralChave(TACBrCTe(ACBrCTe).EventoCTe.Evento.Items[0].InfEvento.Id) + '-procEventoCTe.pdf';
       frxPDFExport.FileName := PathWithDelim(DACTEClassOwner.PathPDF) + NomeArq;
 
       if not DirectoryExists(ExtractFileDir(frxPDFExport.FileName)) then
@@ -1414,7 +1414,7 @@ begin
       frxPDFExport.ShowDialog := False;
       NomeArq := Trim(DACTEClassOwner.NomeDocumento);
       if EstaVazio(NomeArq) then
-        NomeArq := OnlyNumber(TACBrCTe(ACBrCTe).InutCTe.RetInutCTe.Id) + '-procInutCTe.pdf';
+        NomeArq := RemoverLiteralChave(TACBrCTe(ACBrCTe).InutCTe.RetInutCTe.Id) + '-procInutCTe.pdf';
       frxPDFExport.FileName := PathWithDelim(DACTEClassOwner.PathPDF) + NomeArq;
 
 
@@ -2179,7 +2179,7 @@ begin
 
       with FInutilizacao do
       begin
-         FieldByName('ID').AsString         := OnlyNumber(ID);
+         FieldByName('ID').AsString         := RemoverLiteralChave(ID);
          FieldByName('CNPJ').AsString       := FormatarCNPJ(CNPJ);
          FieldByName('nProt').AsString      := nProt;
          FieldByName('Modelo').AsInteger    := Modelo;
@@ -2499,7 +2499,7 @@ begin
     Append;
     with FCTe.infCTe do
     begin
-      FieldByName('Id').AsString    := OnlyNumber(Id);
+      FieldByName('Id').AsString    := RemoverLiteralChave(Id);
       FieldByName('Chave').AsString := FormatarChaveAcesso(Id);
     end;
 
