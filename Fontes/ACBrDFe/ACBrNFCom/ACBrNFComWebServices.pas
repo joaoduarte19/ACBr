@@ -792,7 +792,7 @@ begin
     begin
       with TACBrNFCom(FPDFeOwner).NotasFiscais.Items[I] do
       begin
-        if OnlyNumber(chNFCom) = NumID then
+        if RemoverLiteralChave(chNFCom) = NumID then
         begin
           if (FPConfiguracoesNFCom.Geral.ValidarDigest) and
              (FNFComRetornoSincrono.protNFCom.digVal <> '') and
@@ -948,7 +948,7 @@ begin
     begin
       for j := 0 to FNotasFiscais.Count - 1 do
       begin
-        if OnlyNumber(FNFComRetorno.ProtDFe.Items[i].chDFe) = FNotasFiscais.Items[J].NumID then
+        if RemoverLiteralChave(FNFComRetorno.ProtDFe.Items[i].chDFe) = FNotasFiscais.Items[J].NumID then
         begin
           FNotasFiscais.Items[j].NFCom.procNFCom.verAplic := '';
           FNotasFiscais.Items[j].NFCom.procNFCom.chNFCom    := '';
@@ -1124,7 +1124,7 @@ begin
   begin
     for J := 0 to FNotasFiscais.Count - 1 do
     begin
-      if OnlyNumber(AInfProt.Items[I].chDFe) = FNotasFiscais.Items[J].NumID then
+      if RemoverLiteralChave(AInfProt.Items[I].chDFe) = FNotasFiscais.Items[J].NumID then
       begin
         if (FPConfiguracoesNFCom.Geral.ValidarDigest) and
            (AInfProt.Items[I].digVal <> '') and
@@ -1317,8 +1317,7 @@ var
   NumChave: string;
 begin
   if FNFComChave = AValue then Exit;
-  NumChave := OnlyNumber(AValue);
-
+  NumChave := RemoverLiteralChave(AValue);
   if not ValidarChave(NumChave) then
      raise EACBrNFComException.Create('Chave "' + AValue + '" inválida.');
 
@@ -1621,7 +1620,7 @@ begin
         begin
           with TACBrNFCom(FPDFeOwner).NotasFiscais.Items[i] do
           begin
-            if (OnlyNumber(FNFComChave) = NumID) then
+            if (RemoverLiteralChave(FNFComChave) = NumID) then
             begin
               Atualiza := (NaoEstaVazio(NFComRetorno.XMLprotNFCom));
               if Atualiza and
@@ -2070,7 +2069,7 @@ begin
 
           if FPConfiguracoesNFCom.Arquivos.Salvar then
           begin
-            NomeArq := OnlyNumber(FEvento.Evento.Items[i].InfEvento.Id) + '-procEventoNFCom.xml';
+            NomeArq := RemoverLiteralChave(FEvento.Evento.Items[i].InfEvento.Id) + '-procEventoNFCom.xml';
             PathArq := PathWithDelim(GerarPathEvento(FEvento.Evento.Items[I].InfEvento.CNPJ));
 
             FPDFeOwner.Gravar(NomeArq, Texto, PathArq);

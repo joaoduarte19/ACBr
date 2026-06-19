@@ -499,7 +499,7 @@ end;
 
 procedure TfrlDANFComRLRetrato.RLNFComBeforePrint(Sender: TObject; var PrintIt: Boolean);
 begin
-  RLNFCom.Title := OnlyNumber(fpNFCom.InfNFCom.Id);
+  RLNFCom.Title := RemoverLiteralChave(fpNFCom.InfNFCom.Id);
 end;
 
 procedure TfrlDANFComRLRetrato.RLNFComDataRecord(Sender: TObject;

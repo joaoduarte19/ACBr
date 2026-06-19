@@ -259,7 +259,7 @@ end;
 
 function TNFComXmlWriter.ObterNomeArquivo: string;
 begin
-  Result := OnlyNumber(FNFCom.infNFCom.ID) + '-NFCom.xml';
+  Result := RemoverLiteralChave(FNFCom.infNFCom.ID) + '-NFCom.xml';
 end;
 
 function TNFComXmlWriter.GerarXml: boolean;

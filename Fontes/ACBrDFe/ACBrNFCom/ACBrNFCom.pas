@@ -139,7 +139,7 @@ implementation
 uses
   dateutils, math,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.FilesIO,
-  ACBrDFeSSL;
+  ACBrDFeSSL, ACBrDFeUtil;
 
 {$R ACBrNFComServicos.res}
 
@@ -393,7 +393,7 @@ begin
   if Pos('?', urlUF) <= 0 then
     urlUF := urlUF + '?';
 
-  idNFCom := OnlyNumber(FNFCom.infNFCom.ID);
+  idNFCom := RemoverLiteralChave(FNFCom.infNFCom.ID);
 
   // Passo 1
   sEntrada := 'chNFCom=' + idNFCom + '&tpAmb=' + TipoAmbienteToStr(FNFCom.Ide.tpAmb);
@@ -451,7 +451,7 @@ begin
     with EventoNFCom.Evento.New do
     begin
       infEvento.CNPJ     := NotasFiscais.Items[i].NFCom.Emit.CNPJ;
-      infEvento.cOrgao   := StrToIntDef(copy(OnlyNumber(WebServices.Consulta.NFComChave), 1, 2), 0);
+      infEvento.cOrgao   := StrToIntDef(copy(RemoverLiteralChave(WebServices.Consulta.NFComChave), 1, 2), 0);
       infEvento.dhEvento := now;
       infEvento.tpEvento := teCancelamento;
       infEvento.chNFCom  := WebServices.Consulta.NFComChave;
@@ -551,7 +551,7 @@ begin
 
     if NotasFiscais.Count > 0 then
     begin
-      chNFCom := OnlyNumber(EventoNFCom.Evento.Items[i].InfEvento.chNFCom);
+      chNFCom := RemoverLiteralChave(EventoNFCom.Evento.Items[i].InfEvento.chNFCom);
 
       // Se tem a chave da NFCom no Evento, procure por ela nas notas carregadas //
       if NaoEstaVazio(chNFCom) then
@@ -646,7 +646,7 @@ begin
     ImprimirEventoPDF;
     AnexosEmail.Add(DANFCom.ArquivoPDF);
 
-    NomeArq := OnlyNumber(EventoNFCom.Evento[0].InfEvento.Id);
+    NomeArq := RemoverLiteralChave(EventoNFCom.Evento[0].InfEvento.Id);
 
     EnviarEmail(sPara, sAssunto, sMensagem, sCC, AnexosEmail, StreamNFCom,
             	  NomeArq + '-procEventoNFCom.xml', sReplyTo);

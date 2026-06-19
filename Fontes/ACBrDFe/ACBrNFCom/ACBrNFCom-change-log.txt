@@ -41,6 +41,10 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+19/06/2026
+-- Diversos --
+[*] ACBr-9369: Ajustes para CNPJ Alfanuméricos
+   Por: Larissa Santos / Daniel de Morais InfoCotidiano
 
 16/04/2026
 -- Diversos --

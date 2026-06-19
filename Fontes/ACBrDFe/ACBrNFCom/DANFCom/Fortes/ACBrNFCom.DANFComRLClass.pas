@@ -73,7 +73,8 @@ type
 implementation
 
 uses
-  StrUtils,   
+  StrUtils,
+  ACBrDFeUtil,
   ACBrUtil.Base, 
   ACBrUtil.Strings, 
   ACBrUtil.FilesIO,
@@ -122,7 +123,7 @@ var
   function ImprimirDANFComPDFTipo(ANFCom: TNFCom): String;
   begin
     Result := DefinirNomeArquivo(Self.PathPDF,
-                                 OnlyNumber(ANFCom.infNFCom.ID) + '-NFCom.pdf',
+                                 RemoverLiteralChave(ANFCom.infNFCom.ID) + '-NFCom.pdf',
                                  Self.NomeDocumento);
 
     TfrlDANFComRLRetrato.SalvarPDF(Self, ANFCom, Result);
@@ -181,7 +182,7 @@ begin
 
       for j := 0 to (TACBrNFCom(ACBrNFCom).NotasFiscais.Count - 1) do
       begin
-        if OnlyNumber(TACBrNFCom(ACBrNFCom).NotasFiscais.Items[j].NFCom.infNFCom.Id) = TACBrNFCom(ACBrNFCom).EventoNFCom.Evento.Items[i].InfEvento.chNFCom then
+        if RemoverLiteralChave(TACBrNFCom(ACBrNFCom).NotasFiscais.Items[j].NFCom.infNFCom.Id) = TACBrNFCom(ACBrNFCom).EventoNFCom.Evento.Items[i].InfEvento.chNFCom then
         begin
           TfrmNFComDAEventoRLRetrato.Imprimir(Self, TACBrNFCom(ACBrNFCom).EventoNFCom.Evento.Items[i],
             TACBrNFCom(ACBrNFCom).NotasFiscais.Items[j].NFCom);
@@ -214,7 +215,7 @@ var
   function ImprimirEVENTOPDFTipo(EventoNFeItem: TInfEventoCollectionItem; ANFCom: TNFCom): String;
   begin
     Result := DefinirNomeArquivo(Self.PathPDF,
-                                 OnlyNumber(EventoNFeItem.InfEvento.id) + '-procEventoNFCom.pdf',
+                                 RemoverLiteralChave(EventoNFeItem.InfEvento.id) + '-procEventoNFCom.pdf',
                                  Self.NomeDocumento);
 
     TfrmNFComDAEventoRLRetrato.SalvarPDF(Self, EventoNFeItem, Result, ANFCom);
@@ -234,8 +235,8 @@ begin
 
         for j := 0 to (NotasFiscais.Count - 1) do
         begin
-          NumID := OnlyNumber(NotasFiscais.Items[j].NFCom.infNFCom.ID);
-          if (NumID = OnlyNumber(EventoNFCom.Evento.Items[i].InfEvento.chNFCom)) then
+          NumID := RemoverLiteralChave(NotasFiscais.Items[j].NFCom.infNFCom.ID);
+          if (NumID = RemoverLiteralChave(EventoNFCom.Evento.Items[i].InfEvento.chNFCom)) then
           begin
             ArqPDF := ImprimirEVENTOPDFTipo(EventoNFCom.Evento.Items[i], NotasFiscais.Items[j].NFCom);
             Impresso := True;
@@ -282,9 +283,9 @@ begin
 
         for j := 0 to (NotasFiscais.Count - 1) do
         begin
-          NumID := OnlyNumber(NotasFiscais.Items[j].NFCom.infNFCom.ID);
+          NumID := RemoverLiteralChave(NotasFiscais.Items[j].NFCom.infNFCom.ID);
 
-          if (NumID = OnlyNumber(EventoNFCom.Evento.Items[i].InfEvento.chNFCom)) then
+          if (NumID = RemoverLiteralChave(EventoNFCom.Evento.Items[i].InfEvento.chNFCom)) then
           begin
             TfrmNFComDAEventoRLRetrato.SalvarPDF(Self, EventoNFCom.Evento.Items[i], AStream, NotasFiscais.Items[j].NFCom);
             Impresso := True;
@@ -298,12 +299,12 @@ begin
     end
     else
     begin
-      NumID := OnlyNumber(ANFCom.infNFCom.ID);
+      NumID := RemoverLiteralChave(ANFCom.infNFCom.ID);
       Impresso := False;
 
       for i := 0 to (EventoNFCom.Evento.Count - 1) do
       begin
-        if (NumID = OnlyNumber(EventoNFCom.Evento.Items[i].InfEvento.chNFCom)) then
+        if (NumID = RemoverLiteralChave(EventoNFCom.Evento.Items[i].InfEvento.chNFCom)) then
         begin
           TfrmNFComDAEventoRLRetrato.SalvarPDF(Self, EventoNFCom.Evento.Items[i], AStream, ANFCom);
           Impresso := True;

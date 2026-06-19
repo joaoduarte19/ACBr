@@ -662,13 +662,13 @@ var
 begin
   DecodeDate(NFCom.ide.dhEmi, wAno, wMes, wDia);
 
-  chaveNFCom := OnlyNumber(NFCom.infNFCom.ID);
+  chaveNFCom := RemoverLiteralChave(NFCom.infNFCom.ID);
   {(*}
   Result := not
     ((Copy(chaveNFCom, 1, 2) <> IntToStrZero(NFCom.Ide.cUF, 2)) or
     (Copy(chaveNFCom, 3, 2)  <> Copy(FormatFloat('0000', wAno), 3, 2)) or
     (Copy(chaveNFCom, 5, 2)  <> FormatFloat('00', wMes)) or
-    (Copy(chaveNFCom, 7, 14)<> PadLeft(OnlyNumber(NFCom.Emit.CNPJ), 14, '0')) or
+    (Copy(chaveNFCom, 7, 14)<> PadLeft(OnlyCPFCNPJAlphaNum(NFCom.Emit.CNPJ), 14, '0')) or
     (Copy(chaveNFCom, 21, 2) <> IntToStrZero(NFCom.Ide.modelo, 2)) or
     (Copy(chaveNFCom, 23, 3) <> IntToStrZero(NFCom.Ide.serie, 3)) or
     (Copy(chaveNFCom, 26, 9) <> IntToStrZero(NFCom.Ide.nNF, 9)) or
@@ -708,7 +708,7 @@ end;
 
 function TNotaFiscal.GetNumID: string;
 begin
-  Result := OnlyNumber(NFCom.infNFCom.ID);
+  Result := RemoverLiteralChave(NFCom.infNFCom.ID);
 end;
 
 function TNotaFiscal.GetXMLAssinado: string;
