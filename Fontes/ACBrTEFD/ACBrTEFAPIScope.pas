@@ -844,6 +844,9 @@ begin
   if CodOperacaoAdm = tefopAdministrativo then
     CodOperacaoAdm := PerguntarMenuAdmScope;
 
+  if CodOperacaoAdm = tefopNenhuma then 
+    Exit;
+    
   OpScope := scoNone;
   Result := True;
   Param1 := '';

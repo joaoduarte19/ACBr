@@ -45,6 +45,16 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/06/2026
+-- ACBrTEFScopeAPI --
+[+] Adicionada a propriedade InterfacePinPad: Integer default 2
+    https://www.projetoacbr.com.br/forum/index.php?showtopic=92903
+    (por: C4Dev)
+
+-- ACBrTEFAPIScope --
+[*] Correçao de Fluxo de Menu em TACBrTEFAPIClassScope.EfetuarAdministrativa quando
+    nada é selecionado
+
 15/06/2026
 -- ACBrTEFAPIComum --
 [+] Adicionada a propriedade "TACBrTEFAPIDadosTerminal.Senha: String"

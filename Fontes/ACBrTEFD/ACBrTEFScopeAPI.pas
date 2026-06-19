@@ -1414,6 +1414,7 @@ type
     fSessaoAberta: Boolean;
     fVersaoAutomacao: String;
     fInformacoesPinPad: String;
+    fInterfacePinPad: Integer;
 
     // Funcoes originais do SCOPE
     xScopeOpen: function(Modo, Empresa, Filial, Pdv: PAnsiChar): LongInt;
@@ -1651,6 +1652,9 @@ type
     property UsarScopeClientConnector: Boolean read fUsarScopeClientConnector
       write fUsarScopeClientConnector default False;
 
+    property InterfacePinPad: Integer read fInterfacePinPad
+      write fInterfacePinPad default PP_INTERFACE_LIB_COMPARTILHADA;
+
     property Carregada: Boolean read fCarregada;
     property Inicializada: Boolean read fInicializada write SetInicializada;
     property Conectado: Boolean read fConectado;
@@ -1749,6 +1753,7 @@ begin
   fOnExibeQRCode := Nil;
   fDadosDaTransacao := TStringList.Create;
   fRespostasPorEstados := TStringList.Create;
+  fInterfacePinPad := PP_INTERFACE_LIB_COMPARTILHADA;
 end;
 
 destructor TACBrTEFScopeAPI.Destroy;
@@ -4141,8 +4146,8 @@ begin
   FecharComunicacaoScope;
   GravarLog('AbrirPinPad');
 
-  GravarLog('ScopeValidaInterfacePP( '+IntToStr(PP_INTERFACE_LIB_COMPARTILHADA)+' )');
-  ret := xScopeValidaInterfacePP( PP_INTERFACE_LIB_COMPARTILHADA );
+  GravarLog('ScopeValidaInterfacePP( '+IntToStr(InterfacePinPad)+' )');
+  ret := xScopeValidaInterfacePP( InterfacePinPad );
   GravarLog('  ret: '+IntToStr(ret));
   if (ret <> PC_OK) then
     TratarErroPinPadScope(ret);
@@ -4204,6 +4209,9 @@ var
   ret: LongInt;
   s: AnsiString;
 begin
+  if InterfacePinPad = PP_NAO_UTILIZA then
+    Exit;
+
   s := AnsiString(FormatarMsgPinPad(fMsgPinPad));
   GravarLog('ScopePPClose( '+s+' )');
   ret := xScopePPClose(PAnsiChar(s));
