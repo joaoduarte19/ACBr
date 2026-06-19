@@ -373,7 +373,10 @@ begin
         begin
           ValorOriginal := Linha.Informacao.AsFloat;
           if (ValorTotal = 0) then
+          begin
             ValorTotal := ValorOriginal;
+            Conteudo.GravaInformacao(899, CTEF_RESP_VALOR_TRANSACAO, '0');
+          end;
         end;
         156: Rede := LinStr;
         157: Estabelecimento := LinStr;

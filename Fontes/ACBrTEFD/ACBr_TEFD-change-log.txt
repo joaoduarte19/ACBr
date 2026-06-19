@@ -51,6 +51,12 @@ Símbolo : Significado
     https://www.projetoacbr.com.br/forum/index.php?showtopic=92968
     (por: DSA)
 
+-- ACBrTEFCliSiTefComum --
+[-] Correção em 'ConteudoToPropertyCliSiTef', para não somar o valor da transação
+    de uso interno, quando ler o valor do retornado pelo Log do TEF (146)
+    https://www.projetoacbr.com.br/forum/index.php?showtopic=92869
+    (por: DSA)
+
 -- ACBrTEFScopeAPI --
 [+] Adicionada a propriedade InterfacePinPad: Integer default 2
     https://www.projetoacbr.com.br/forum/index.php?showtopic=92903
