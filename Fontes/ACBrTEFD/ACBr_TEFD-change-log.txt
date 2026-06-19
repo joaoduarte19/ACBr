@@ -46,6 +46,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 19/06/2026
+-- ACBrTEFAPICliSiTef --
+[*] Ajuste para perguntar Campo 500-Supervior, com informações de Mascara e validação
+    https://www.projetoacbr.com.br/forum/index.php?showtopic=92968
+    (por: DSA)
+
 -- ACBrTEFScopeAPI --
 [+] Adicionada a propriedade InterfacePinPad: Integer default 2
     https://www.projetoacbr.com.br/forum/index.php?showtopic=92903
