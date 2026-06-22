@@ -202,6 +202,11 @@ namespace ACBrLib.MDFe
         void ImprimirPDF();
 
         /// <summary>
+        /// Gera um string em base64 do PDF da MDFe
+        /// </summary>
+        /// <returns>Retorna uma string com base64 da MDFe</returns>
+        string SalvarPDF();
+        /// <summary>
         /// Gera o PDF do MDF-e em um stream.
         /// </summary>
         void ImprimirPDF(Stream aStream);

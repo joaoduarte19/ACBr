@@ -316,6 +316,13 @@ namespace ACBrLib.NFe
 
 
     /// <summary>
+    /// Gera o base64 do PDF da NFe/NFCe
+    /// </summary>
+    string SalvarPDF();
+
+
+    
+    /// <summary>
     /// Gera o PDF da NFe em um stream.
     /// </summary>
     /// <param name="aStream">Stream de saída para o PDF.</param>

@@ -17,8 +17,16 @@ namespace ACBrLib.NFe
     {
 
 
-        private readonly ACBrNFeHandle nfeBridge;
-        private IntPtr libHandle = IntPtr.Zero;
+        /// <summary>
+        /// Field que representa a biblioteca nativa ACBrLibNFe
+        /// </summary>
+        protected readonly ACBrNFeHandle nfeBridge;
+
+        /// <summary>
+        /// Field que representa o ponteiro handle do componente NFe
+        /// </summary>
+        protected IntPtr libHandle = IntPtr.Zero;
+        
         private bool disposed = false;
         #region Constructors
 
@@ -550,19 +558,11 @@ namespace ACBrLib.NFe
         }
 
         /// <inheritdoc/>
-        public void ImprimirPDF(Stream aStream)
+        public async void ImprimirPDF(Stream aStream)
         {
             if (aStream == null) throw new ArgumentNullException(nameof(aStream));
 
-            var bufferLen = BUFFER_LEN;
-            var buffer = new StringBuilder(bufferLen);
-
-            var method = nfeBridge.GetMethod<ACBrNFeHandle.NFE_SalvarPDF>();
-            var ret = nfeBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
-
-            CheckResult(ret);
-
-            var pdf = CheckBuffer(buffer, bufferLen);
+            string pdf = SalvarPDF();
             Base64ToStream(pdf, aStream);
         }
 
@@ -728,6 +728,20 @@ namespace ACBrLib.NFe
             var buffer = new StringBuilder(bufferLen);
             var ret = nfeBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
             CheckResult(ret);
+            return CheckBuffer(buffer, bufferLen);
+        }
+
+        /// <inheritdoc/>
+        public string SalvarPDF()
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = nfeBridge.GetMethod<ACBrNFeHandle.NFE_SalvarPDF>();
+            var ret = nfeBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+
+            CheckResult(ret);
+
             return CheckBuffer(buffer, bufferLen);
         }
 

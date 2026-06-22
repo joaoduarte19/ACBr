@@ -475,10 +475,8 @@ namespace ACBrLib.NFSe
         }
 
         /// <inheritdoc/>
-        public async void ImprimirPDF(Stream aStream)
+        public string SalvarPDF()
         {
-            if (aStream == null) throw new ArgumentNullException(nameof(aStream));
-
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
@@ -487,7 +485,14 @@ namespace ACBrLib.NFSe
 
             CheckResult(ret);
 
-            var pdf = ProcessResult(buffer, bufferLen);
+            return ProcessResult(buffer, bufferLen);
+        }
+        /// <inheritdoc/>
+        public async void ImprimirPDF(Stream aStream)
+        {
+            if (aStream == null) throw new ArgumentNullException(nameof(aStream));
+
+            var pdf = SalvarPDF();
             Base64ToStream(pdf, aStream);
         }
 

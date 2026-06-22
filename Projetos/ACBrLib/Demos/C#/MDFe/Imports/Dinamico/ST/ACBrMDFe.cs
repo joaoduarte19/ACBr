@@ -521,10 +521,10 @@ namespace ACBrLib.MDFe
             CheckResult(ret);
         }
 
-        public async void ImprimirPDF(Stream aStream)
-        {
-            if (aStream == null) throw new ArgumentNullException(nameof(aStream));
 
+        /// <inheritdoc/>
+        public string SalvarPDF()
+        {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
@@ -533,7 +533,13 @@ namespace ACBrLib.MDFe
 
             CheckResult(ret);
 
-            var pdf = ProcessResult(buffer, bufferLen);
+            return ProcessResult(buffer, bufferLen);
+        }
+        public async void ImprimirPDF(Stream aStream)
+        {
+            if (aStream == null) throw new ArgumentNullException(nameof(aStream));
+
+            string pdf = SalvarPDF();
             Base64ToStream(pdf, aStream);
         }
 

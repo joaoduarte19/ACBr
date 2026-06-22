@@ -286,9 +286,19 @@ namespace ACBrLib.NFSe
         /// </param>
         void Imprimir(string cImpressora = "", int nNumCopias = 1, bool? bGerarPDF = null, bool? bMostrarPreview = null, string cCancelada = "");
 
+
+        /// <summary>
+        /// Gera o PDF em base64 da NFSe
+        /// </summary>
+        /// <returns> Uma string com </returns>
+    
+        string SalvarPDF();
+
+
         /// <summary>
         /// Gera o PDF da NFSe e grava em arquivo, conforme configuração de diretório e nome definido na biblioteca.
         /// </summary>
+        /// 
         void ImprimirPDF();
 
         /// <summary>

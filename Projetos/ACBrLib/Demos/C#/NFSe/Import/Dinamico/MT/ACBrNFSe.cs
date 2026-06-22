@@ -451,19 +451,24 @@ namespace ACBrLib.NFSe
         }
 
         /// <inheritdoc/>
-        public void ImprimirPDF(Stream aStream)
+        public string SalvarPDF()
         {
-            if (aStream == null) throw new ArgumentNullException(nameof(aStream));
-
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
             var method = acbrNFseBridge.GetMethod<ACBrNFSeHandle.NFSE_SalvarPDF>();
             var ret = acbrNFseBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
-
             CheckResult(ret);
+            return CheckBuffer(buffer, bufferLen);
+        }
 
-            var pdf = CheckBuffer(buffer, bufferLen);
+        /// <inheritdoc/>
+        public async void ImprimirPDF(Stream aStream)
+        {
+            if (aStream == null) throw new ArgumentNullException(nameof(aStream));
+
+            string pdf = SalvarPDF();
+           
             Base64ToStream(pdf, aStream);
         }
 

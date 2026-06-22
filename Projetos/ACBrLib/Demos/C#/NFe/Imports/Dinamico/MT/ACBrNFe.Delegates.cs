@@ -4,7 +4,12 @@ using System.Text;
 using ACBrLib.Core;
 namespace ACBrLib.NFe
 {
-    internal sealed class ACBrNFeHandle : ACBrLibHandleBase
+
+    /// <summary>
+    /// ACBrNFeHandle é bridge que acessa a biblioteca nativa
+    /// Acesso de baixo nível da lib.
+    /// </summary>
+    public sealed class ACBrNFeHandle : ACBrLibHandleBase
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int NFE_Inicializar(ref IntPtr handle, string eArqConfig, string eChaveCrypt);
