@@ -446,7 +446,7 @@ begin
 
     TDFeReportFortes.DiminuirFonteSeNecessario(lURLConsulta, 5);
 
-    lChaveDeAcesso.Lines.Text := FormatarChaveAcesso(OnlyNumber(infNFe.ID));
+    lChaveDeAcesso.Lines.Text := FormatarChaveAcesso(RemoverLiteralChave(infNFe.ID));
 
     if (Ide.tpEmis = teNormal ) and (procNFe.cStat = 0) then
     begin
@@ -621,7 +621,7 @@ begin
 
     TDFeReportFortes.DiminuirFonteSeNecessario(lTitConsulteChaveCanc, 5);
 
-    lChaveDeAcessoCanc.Caption := FormatarChaveAcesso(OnlyNumber(infNFe.ID));
+    lChaveDeAcessoCanc.Caption := FormatarChaveAcesso(RemoverLiteralChave(infNFe.ID));
 
     if procNFe.cStat = 0 then
     begin
@@ -1442,7 +1442,7 @@ begin
 
       RLLayout.JobTitle := NomeDocumento;
       if (RLLayout.JobTitle = '') then
-        RLLayout.JobTitle := OnlyNumber(FpNFe.infNFe.ID) + IfThen(Cancelado, '-cancelado', '')+'-nfe.xml';
+        RLLayout.JobTitle := RemoverLiteralChave(FpNFe.infNFe.ID) + IfThen(Cancelado, '-cancelado', '')+'-nfe.xml';
 
       // Largura e Margens do Relatório //
       RLLayout.Width := LarguraBobina;
@@ -1489,7 +1489,7 @@ begin
           begin
             //RLFiltro.FileName := PathWithDelim(ACBrNFeDANFCeFortes.PathPDF) + ChangeFileExt( RLLayout.JobTitle, '.pdf');
             RLFiltro.FileName := DefinirNomeArquivo(ACBrNFeDANFCeFortes.PathPDF,
-                                                    OnlyNumber(FpNFe.infNFe.ID) + '-nfe.pdf',
+                                                    RemoverLiteralChave(FpNFe.infNFe.ID) + '-nfe.pdf',
                                                     ACBrNFeDANFCeFortes.NomeDocumento);
             RLFiltro.FilterPages( RLLayout.Pages );
             ACBrNFeDANFCeFortes.FPArquivoPDF := RLFiltro.FileName;

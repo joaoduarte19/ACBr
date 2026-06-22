@@ -198,8 +198,8 @@ begin
 //        AdicionaErro('719-Rejeição: NF-e sem a identificação do destinatário');
 
     GravaLog('Validar: 237-CPF destinatário ');
-    if (Trim(OnlyNumber(NFe.Dest.CNPJCPF)) <> EmptyStr) and
-      (Length(Trim(OnlyNumber(NFe.Dest.CNPJCPF))) <= 11) and
+    if (Trim(OnlyCPFCNPJAlphaNum(NFe.Dest.CNPJCPF)) <> EmptyStr) and
+      (Length(Trim(OnlyCPFCNPJAlphaNum(NFe.Dest.CNPJCPF))) <= 11) and
       not ValidarCPF(NFe.Dest.CNPJCPF) then
       AdicionaErro('237-Rejeição: CPF do destinatário inválido');
 
@@ -591,7 +591,7 @@ begin
     AdicionaErro('209-Rejeição: IE do emitente inválida ');
 
   GravaLog('Validar: 208-CNPJ destinatário');
-  if (Length(Trim(OnlyNumber(NFe.Dest.CNPJCPF))) >= 14) and
+  if (Length(Trim(OnlyCPFCNPJAlphaNum(NFe.Dest.CNPJCPF))) >= 14) and
     not ValidarCNPJ(NFe.Dest.CNPJCPF) then
     AdicionaErro('208-Rejeição: CNPJ do destinatário inválido');
 
@@ -643,13 +643,13 @@ begin
 
   GravaLog('Validar: 542-CNPJ Transportador');
   if NaoEstaVazio(Trim(NFe.Transp.Transporta.CNPJCPF)) and
-     (Length(Trim(OnlyNumber(NFe.Transp.Transporta.CNPJCPF))) >= 14) and
+     (Length(Trim(OnlyCPFCNPJAlphaNum(NFe.Transp.Transporta.CNPJCPF))) >= 14) and
      not ValidarCNPJ(NFe.Transp.Transporta.CNPJCPF) then
     AdicionaErro('542-Rejeição: CNPJ do Transportador inválido');
 
   GravaLog('Validar: 543-CPF Transportador');
   if NaoEstaVazio(Trim(NFe.Transp.Transporta.CNPJCPF)) and
-     (Length(Trim(OnlyNumber(NFe.Transp.Transporta.CNPJCPF))) <= 11) and
+     (Length(Trim(OnlyCPFCNPJAlphaNum(NFe.Transp.Transporta.CNPJCPF))) <= 11) and
      not ValidarCPF(NFe.Transp.Transporta.CNPJCPF) then
     AdicionaErro('543-Rejeição: CPF do Transportador inválido');
 
@@ -666,12 +666,12 @@ begin
   for I:=0 to NFe.autXML.Count-1 do
   begin
     GravaLog('Validar: 325-'+IntToStr(I)+'-CPF download');
-    if (Length(Trim(OnlyNumber(NFe.autXML[I].CNPJCPF))) <= 11) and
+    if (Length(Trim(OnlyCPFCNPJAlphaNum(NFe.autXML[I].CNPJCPF))) <= 11) and
       not ValidarCPF(NFe.autXML[I].CNPJCPF) then
       AdicionaErro('325-Rejeição: CPF autorizado para download inválido');
 
     GravaLog('Validar: 323-'+IntToStr(I)+'-CNPJ download');
-    if (Length(Trim(OnlyNumber(NFe.autXML[I].CNPJCPF))) > 11) and
+    if (Length(Trim(OnlyCPFCNPJAlphaNum(NFe.autXML[I].CNPJCPF))) > 11) and
       not ValidarCNPJ(NFe.autXML[I].CNPJCPF) then
       AdicionaErro('323-Rejeição: CNPJ autorizado para download inválido');
   end;

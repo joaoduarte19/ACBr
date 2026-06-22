@@ -250,7 +250,7 @@ end;
 
 function TNFeW.ObterNomeArquivo: String;
 begin
-  Result := OnlyNumber(NFe.infNFe.ID) + '-nfe.xml';
+  Result := RemoverLiteralChave(NFe.infNFe.ID) + '-nfe.xml';
 end;
 
 function TNFeW.GerarXml: Boolean;
@@ -344,7 +344,7 @@ begin
       Gerar := ((NFe.signature.DigestValue = '') and (NFe.signature.SignatureValue = '') and (NFe.signature.X509Certificate = ''));
     if Gerar then
     begin
-      FNFe.signature.URI := '#NFe' + OnlyNumber(NFe.infNFe.ID);
+      FNFe.signature.URI := '#NFe' + RemoverLiteralChave(NFe.infNFe.ID);
       FNFe.signature.Gerador.Opcoes.IdentarXML := Gerador.Opcoes.IdentarXML;
       FNFe.signature.GerarXML;
       Gerador.ArquivoFormatoXML := Gerador.ArquivoFormatoXML + FNFe.signature.Gerador.ArquivoFormatoXML;
@@ -527,13 +527,13 @@ procedure TNFeW.GerarIdeNFrerefNFe(const i: Integer);
 begin
   if NFe.ide.NFref[i].refNFe <> '' then
   begin
-    Gerador.wCampo(tcEsp, 'B13', 'refNFe', 44, 44, 1, OnlyNumber(NFe.ide.NFref[i].refNFe), DSC_REFNFE);
+    Gerador.wCampo(tcEsp, 'B13', 'refNFe', 44, 44, 1, RemoverLiteralChave(NFe.ide.NFref[i].refNFe), DSC_REFNFE);
 
     if not ValidarChave(NFe.ide.NFref[i].refNFe) then
       Gerador.wAlerta('B13', 'refNFe', DSC_REFNFE, ERR_MSG_INVALIDO);
   end
   else
-    Gerador.wCampo(tcEsp, 'B13', 'refNFeSig', 44, 44, 1, OnlyNumber(NFe.ide.NFref[i].refNFeSig), DSC_REFNFE);
+    Gerador.wCampo(tcEsp, 'B13', 'refNFeSig', 44, 44, 1, RemoverLiteralChave(NFe.ide.NFref[i].refNFeSig), DSC_REFNFE);
 end;
 
 procedure TNFeW.GerarIdeNFrefRefNF(const i: Integer);
@@ -568,7 +568,7 @@ end;
 
 procedure TNFeW.GerarIdeNFrerefCTe(const i: Integer);
 begin
-  Gerador.wCampo(tcEsp, 'B20i', 'refCTe', 44, 44, 1, OnlyNumber(NFe.ide.NFref[i].refCTe), DSC_REFCTE);
+  Gerador.wCampo(tcEsp, 'B20i', 'refCTe', 44, 44, 1, RemoverLiteralChave(NFe.ide.NFref[i].refCTe), DSC_REFCTE);
   if not ValidarChave(NFe.ide.NFref[i].refCTe) then Gerador.wAlerta('B20i', 'refCTe',DSC_REFCTE, ERR_MSG_INVALIDO);
 end;
 
@@ -1139,7 +1139,7 @@ begin
       Gerador.wCampo(tcStr, 'I53', 'nRE    ', 00, 12, 1, NFe.Det[i].Prod.detExport[j].nRE, DSC_NRE);
       if not ValidaRE(NFe.Det[i].Prod.detExport[j].nRE) then
         Gerador.wAlerta('I53', 'nRE', DSC_NRE, ERR_MSG_INVALIDO);
-      Gerador.wCampo(tcEsp, 'I54', 'chNFe  ', 44, 44, 1, OnlyNumber(NFe.Det[i].Prod.detExport[j].chNFe), DSC_REFNFE);
+      Gerador.wCampo(tcEsp, 'I54', 'chNFe  ', 44, 44, 1, RemoverLiteralChave(NFe.Det[i].Prod.detExport[j].chNFe), DSC_REFNFE);
       if not ValidarChave(NFe.Det[i].Prod.detExport[j].chNFe) then
         Gerador.wAlerta('I54', 'chNFe', DSC_REFNFE, ERR_MSG_INVALIDO);
       Gerador.wCampo(tcDe4, 'I55', 'qExport', 00, 15, 1, NFe.Det[i].Prod.detExport[j].qExport, DSC_QEXPORT);

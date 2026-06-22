@@ -692,7 +692,7 @@ begin
     with FdmDanfe do
     begin
 
-      FPArquivoPDF := PathWithDelim(Self.PathPDF) + OnlyNumber(NFe.infNFe.ID) + '-nfe.pdf';
+      FPArquivoPDF := PathWithDelim(Self.PathPDF) + RemoverLiteralChave(NFe.infNFe.ID) + '-nfe.pdf';
 
       if not DirectoryExists(ExtractFileDir(FPArquivoPDF)) then
         ForceDirectories(ExtractFileDir(FPArquivoPDF));
@@ -849,7 +849,7 @@ procedure TACBrNFeDANFeLazReport.ImprimirINUTILIZACAOPDF(NFE: TNFe);
 begin
   if PrepareReportInutilizacao then
   begin
-    FPArquivoPDF := OnlyNumber(TACBrNFe(ACBrNFe).InutNFe.RetInutNFe.Id);
+    FPArquivoPDF := RemoverLiteralChave(TACBrNFe(ACBrNFe).InutNFe.RetInutNFe.Id);
     FPArquivoPDF := PathWithDelim(Self.PathPDF) + FPArquivoPDF + '-procInutNFe.pdf';
 
     if not DirectoryExists(ExtractFileDir(FPArquivoPDF)) then
@@ -1884,7 +1884,7 @@ begin
     CreateDataSet;
     Append;
 
-    FieldByName('Id').AsString := OnlyNumber(FNFe.infNFe.Id);
+    FieldByName('Id').AsString := RemoverLiteralChave(FNFe.infNFe.Id);
     FieldByName('Chave').AsString := FormatarChaveAcesso(FNFe.infNFe.Id);
     FieldByName('CUF').AsString := IntToStr(FNFe.Ide.CUF);
     FieldByName('CNF').AsString := IntToStr(FNFe.Ide.CNF);
@@ -2496,7 +2496,7 @@ begin
 
     with FInutilizacao do
     begin
-      FieldByName('ID').AsString := OnlyNumber(ID);
+      FieldByName('ID').AsString := RemoverLiteralChave(ID);
       FieldByName('CNPJ').AsString := FormatarCNPJ(CNPJ);
       FieldByName('nProt').AsString := nProt;
       FieldByName('Modelo').AsInteger := Modelo;

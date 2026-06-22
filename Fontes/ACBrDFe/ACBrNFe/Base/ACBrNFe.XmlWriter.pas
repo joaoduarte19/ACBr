@@ -310,7 +310,7 @@ end;
 
 function TNFeXmlWriter.ObterNomeArquivo: string;
 begin
-  Result := OnlyNumber(FNFe.infNFe.ID) + '-nfe.xml';
+  Result := RemoverLiteralChave(FNFe.infNFe.ID) + '-nfe.xml';
 end;
 
 function TNFeXmlWriter.GerarXml: boolean;
@@ -408,7 +408,7 @@ begin
 
   if Gerar then
   begin
-    FNFe.signature.URI := '#NFe' + OnlyNumber(NFe.infNFe.ID);
+    FNFe.signature.URI := '#NFe' + RemoverLiteralChave(NFe.infNFe.ID);
     xmlNode := GerarSignature(FNFe.signature);
     nfeNode.AppendChild(xmlNode);
   end;
@@ -667,14 +667,14 @@ begin
   if NFe.ide.NFref[i].refNFe <> '' then
   begin
     Result := AddNode(tcEsp, 'B13', 'refNFe', 44, 44, 1,
-      OnlyNumber(NFe.ide.NFref[i].refNFe), DSC_REFNFE);
+      RemoverLiteralChave(NFe.ide.NFref[i].refNFe), DSC_REFNFE);
 
     if not ValidarChave(NFe.ide.NFref[i].refNFe) then
       wAlerta('B13', 'refNFe', DSC_REFNFE, ERR_MSG_INVALIDO);
   end
   else
     Result := AddNode(tcEsp, 'B13', 'refNFeSig', 44, 44, 1,
-      OnlyNumber(NFe.ide.NFref[i].refNFeSig), DSC_REFNFE);
+      RemoverLiteralChave(NFe.ide.NFref[i].refNFeSig), DSC_REFNFE);
 end;
 
 function TNFeXmlWriter.GerarIdeNFrefRefNF(const i: integer): TACBrXmlNode;
@@ -734,7 +734,7 @@ end;
 function TNFeXmlWriter.GerarIdeNFrerefCTe(const i: integer): TACBrXmlNode;
 begin
   Result := AddNode(tcEsp, 'B20i', 'refCTe', 44, 44, 1,
-    OnlyNumber(NFe.ide.NFref[i].refCTe), DSC_REFCTE);
+    RemoverLiteralChave(NFe.ide.NFref[i].refCTe), DSC_REFCTE);
   if not ValidarChave(NFe.ide.NFref[i].refCTe) then
     wAlerta('B20i', 'refCTe', DSC_REFCTE, ERR_MSG_INVALIDO);
 end;
@@ -1501,7 +1501,7 @@ begin
       if not ValidaRE(NFe.Det[i].Prod.detExport[j].nRE) then
         wAlerta('I53', 'nRE', DSC_NRE, ERR_MSG_INVALIDO);
       xmlNode.AppendChild(AddNode(tcEsp, 'I54', 'chNFe', 44, 44,
-        1, OnlyNumber(NFe.Det[i].Prod.detExport[j].chNFe), DSC_REFNFE));
+        1, RemoverLiteralChave(NFe.Det[i].Prod.detExport[j].chNFe), DSC_REFNFE));
       if not ValidarChave(NFe.Det[i].Prod.detExport[j].chNFe) then
         wAlerta('I54', 'chNFe', DSC_REFNFE, ERR_MSG_INVALIDO);
       xmlNode.AppendChild(AddNode(tcDe4, 'I55', 'qExport', 00, 15,

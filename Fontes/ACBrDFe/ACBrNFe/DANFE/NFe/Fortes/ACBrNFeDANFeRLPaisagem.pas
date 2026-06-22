@@ -663,7 +663,7 @@ procedure TfrlDANFeRLPaisagem.RLNFeBeforePrint(Sender: TObject; var PrintIt: Boo
 begin
   InicializarDados;
 
-  RLNFe.Title := OnlyNumber(fpNFe.InfNFe.Id);
+  RLNFe.Title := RemoverLiteralChave(fpNFe.InfNFe.Id);
 end;
 
 procedure TfrlDANFeRLPaisagem.rlbEmitenteBeforePrint(Sender: TObject; var PrintIt: Boolean);
@@ -1037,7 +1037,7 @@ begin
       rllChave.Font.Size := rllChave.Font.Size - 1;  //para nao truncar a chave vai diminuir o fonte
 
     rlbCodigoBarras.Visible := True;
-    rlbCodigoBarras.Caption := OnlyNumber(fpNFe.InfNFe.Id);
+    rlbCodigoBarras.Caption := RemoverLiteralChave(fpNFe.InfNFe.Id);
     if fpDANFe.FormatarNumeroDocumento then
       rllNumNF0.Caption := ACBrStr('Nº ') + FormatarNumeroDocumentoFiscal(IntToStr(nNF))
     else

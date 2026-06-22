@@ -45,7 +45,7 @@ uses
   ACBrBase, 
   ACBrNFe.Classes, 
   ACBrNFeDANFEClass, 
-  pcnConversao;
+  pcnConversao, ACBrDFeUtil;
 
 type
   TNomeFonte = (nfTimesNewRoman, nfCourierNew, nfArial);
@@ -269,7 +269,7 @@ var
   function ImprimirDANFEPDFTipo(ANFe: TNFe): String;
   begin
     Result := DefinirNomeArquivo(Self.PathPDF,
-                                 OnlyNumber(ANFe.infNFe.ID) + '-nfe.pdf',
+                                 RemoverLiteralChave(ANFe.infNFe.ID) + '-nfe.pdf',
                                  Self.NomeDocumento);
 
     case Self.TipoDANFE of
@@ -357,8 +357,8 @@ begin
         Impresso := False;
         for j := 0 to (NotasFiscais.Count - 1) do
         begin
-          NumID := OnlyNumber(NotasFiscais.Items[j].NFe.infNFe.ID);
-          if (NumID = OnlyNumber(EventoNFe.Evento.Items[i].InfEvento.chNFe)) then
+          NumID := RemoverLiteralChave(NotasFiscais.Items[j].NFe.infNFe.ID);
+          if (NumID = RemoverLiteralChave(EventoNFe.Evento.Items[i].InfEvento.chNFe)) then
           begin
             TfrlDANFeEventoRLRetrato.Imprimir(Self, EventoNFe.Evento.Items[i], NotasFiscais.Items[j].NFe);
             Impresso := True;
@@ -387,7 +387,7 @@ var
   function ImprimirEVENTOPDFTipo(EventoNFeItem: TInfEventoCollectionItem; ANFe: TNFe): String;
   begin
     Result := DefinirNomeArquivo(Self.PathPDF,
-                                 OnlyNumber(EventoNFeItem.InfEvento.id) + '-procEventoNFe.pdf',
+                                 RemoverLiteralChave(EventoNFeItem.InfEvento.id) + '-procEventoNFe.pdf',
                                  Self.NomeDocumento);
 
     // TipoDANFE ainda não está sendo utilizado no momento
@@ -407,8 +407,8 @@ begin
         ArqPDF := '';
         for j := 0 to (NotasFiscais.Count - 1) do
         begin
-          NumID := OnlyNumber(NotasFiscais.Items[j].NFe.infNFe.ID);
-          if (NumID = OnlyNumber(EventoNFe.Evento.Items[i].InfEvento.chNFe)) then
+          NumID := RemoverLiteralChave(NotasFiscais.Items[j].NFe.infNFe.ID);
+          if (NumID = RemoverLiteralChave(EventoNFe.Evento.Items[i].InfEvento.chNFe)) then
           begin
             ArqPDF := ImprimirEVENTOPDFTipo(EventoNFe.Evento.Items[i], NotasFiscais.Items[j].NFe);
             Impresso := True;
@@ -452,8 +452,8 @@ begin
         Impresso := False;
         for j := 0 to (NotasFiscais.Count - 1) do
         begin
-          NumID := OnlyNumber(NotasFiscais.Items[j].NFe.infNFe.ID);
-          if (NumID = OnlyNumber(EventoNFe.Evento.Items[i].InfEvento.chNFe)) then
+          NumID := RemoverLiteralChave(NotasFiscais.Items[j].NFe.infNFe.ID);
+          if (NumID = RemoverLiteralChave(EventoNFe.Evento.Items[i].InfEvento.chNFe)) then
           begin
             TfrlDANFeEventoRLRetrato.SalvarPDF(Self, EventoNFe.Evento.Items[i], AStream, NotasFiscais.Items[j].NFe);
             Impresso := True;
@@ -467,12 +467,12 @@ begin
     end
     else
     begin
-      NumID := OnlyNumber(ANFe.infNFe.ID);
+      NumID := RemoverLiteralChave(ANFe.infNFe.ID);
       Impresso := False;
 
       for i := 0 to (EventoNFe.Evento.Count - 1) do
       begin
-        if (NumID = OnlyNumber(EventoNFe.Evento.Items[i].InfEvento.chNFe)) then
+        if (NumID = RemoverLiteralChave(EventoNFe.Evento.Items[i].InfEvento.chNFe)) then
         begin
           TfrlDANFeEventoRLRetrato.SalvarPDF(Self, EventoNFe.Evento.Items[i], AStream, ANFe);
           Impresso := True;
@@ -494,7 +494,7 @@ end;
 procedure TACBrNFeDANFeRL.ImprimirINUTILIZACAOPDF(ANFe: TNFe);
 begin
   FPArquivoPDF := DefinirNomeArquivo(Self.PathPDF,
-                                     OnlyNumber(TACBrNFe(ACBrNFe).InutNFe.ID) + '-procInutNFe.pdf',
+                                     RemoverLiteralChave(TACBrNFe(ACBrNFe).InutNFe.ID) + '-procInutNFe.pdf',
                                      Self.NomeDocumento);
 
   TfrmNFeDAInutRLRetrato.SalvarPDF(Self, TACBrNFe(ACBrNFe).InutNFe, FPArquivoPDF, ANFe);

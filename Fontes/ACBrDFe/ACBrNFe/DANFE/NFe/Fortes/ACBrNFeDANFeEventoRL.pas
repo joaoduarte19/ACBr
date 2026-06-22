@@ -49,7 +49,7 @@ uses
   ACBrNFe.EnvEvento,
   ACBrNFe.Classes,
   ACBrNFeDANFeRLClass, ACBrDFeReportFortes,
-  RLReport, RLPDFFilter, RLFilters;
+  RLReport, RLPDFFilter, RLFilters, ACBrDFeUtil;
 
 type
 
@@ -108,7 +108,7 @@ begin
         SelectedFilter := DANFeReport.RLPDFFilter1;
       if Assigned(DANFeReport.fpNFe) then
       begin
-        DANFeReport.RLEvento.Title := OnlyNumber(DANFeReport.fpNFe.InfNFe.Id);
+        DANFeReport.RLEvento.Title := RemoverLiteralChave(DANFeReport.fpNFe.InfNFe.Id);
       end;
       DANFeReport.RLEvento.PreviewModal
     end

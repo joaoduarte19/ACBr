@@ -38,7 +38,7 @@ interface
 
 uses
   SysUtils, Classes,
-  pcnConversao;
+  pcnConversao, ACBrDFeUtil;
 
 type
 
@@ -81,7 +81,7 @@ end;
 
 function TConsSitNFe.ObterNomeArquivo: string;
 begin
-  Result := OnlyNumber(FchNFe) + '-ped-sit.xml';
+  Result := RemoverLiteralChave(FchNFe) + '-ped-sit.xml';
 end;
 
 function TConsSitNFe.GerarXML: string;

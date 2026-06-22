@@ -413,7 +413,7 @@ function TACBrNFe.GerarChaveContingencia(FNFe: TNFe): String;
     PESO = '43298765432987654329876543298765432';
   begin
     // Manual Integracao Contribuinte v2.02a - Página: 70 //
-    chave := OnlyNumber(chave);
+    chave := RemoverLiteralChave(chave);
     j := 0;
     Digito := 0;
     Result := True;
@@ -560,7 +560,7 @@ begin
   VersaoQrCode := AjustarVersaoQRCode(Configuracoes.Geral.VersaoQRCode, VersaoDFe);
 
   urlUF := LerURLDeParams('NFCe', CUFtoUF(CUF), TipoAmbiente, 'URL-QRCode', VersaoQrCodeToDbl(VersaoQrCode));
-  idNFe := OnlyNumber(AChaveNFe);
+  idNFe := RemoverLiteralChave(AChaveNFe);
   cDest := Trim(Destinatario);
 
   // Passo 1
@@ -651,9 +651,9 @@ var
   sEntrada, cHashQRCode, urlUF, cDest: String;
 begin
   urlUF := LerURLDeParams('NFCe', CUFtoUF(FNFe.Ide.cUF), FNFe.Ide.tpAmb, 'URL-QRCode', 1);
-  idNFe := OnlyNumber(FNFe.infNFe.ID);
+  idNFe := RemoverLiteralChave(FNFe.infNFe.ID);
   cDest := trim(IfThen(FNFe.Dest.idEstrangeiro <> '',
-                       FNFe.Dest.idEstrangeiro, OnlyNumber(FNFe.Dest.CNPJCPF)));
+                       FNFe.Dest.idEstrangeiro, OnlyCPFCNPJAlphaNum(FNFe.Dest.CNPJCPF)));
 
   // Passo 1
   sdhEmi_HEX := AsciiToHex(DateTimeTodh(FNFe.Ide.dEmi) +
@@ -699,7 +699,7 @@ var
   idNFe, sdigVal_HEX, sNF, cIdCSC, cCSC, sCSC, sEntrada, cHashQRCode, urlUF: string;
 begin
   urlUF := LerURLDeParams('NFCe', CUFtoUF(FNFe.Ide.cUF), FNFe.Ide.tpAmb, 'URL-QRCode', 2);
-  idNFe := OnlyNumber(FNFe.infNFe.ID);
+  idNFe := RemoverLiteralChave(FNFe.infNFe.ID);
 
   // Passo 1
   sdigVal_HEX := AsciiToHex(FNFe.signature.DigestValue);
@@ -740,7 +740,7 @@ function TACBrNFe.GetURLQRCodeV3(FNFe: TNFe): string;
 var
   idNFe, sNF, sEntrada, urlUF, cDest, TipoDest: string;
 begin
-  idNFe := OnlyNumber(FNFe.infNFe.ID);
+  idNFe := RemoverLiteralChave(FNFe.infNFe.ID);
 
   sEntrada := idNFe + '|3|' + TpAmbToStr(FNFe.Ide.tpAmb);
 
@@ -751,14 +751,14 @@ begin
     if FNFe.Dest.idEstrangeiro <> '' then
       TipoDest := '3';
 
-    if Length(OnlyNumber(FNFe.Dest.CNPJCPF)) = 11 then
+    if Length(OnlyCPFCNPJAlphaNum(FNFe.Dest.CNPJCPF)) = 11 then
       TipoDest := '2';
 
-    if Length(OnlyNumber(FNFe.Dest.CNPJCPF)) = 14 then
+    if Length(OnlyCPFCNPJAlphaNum(FNFe.Dest.CNPJCPF)) = 14 then
       TipoDest := '1';
 
     cDest := trim(IfThen(FNFe.Dest.idEstrangeiro <> '',
-                       FNFe.Dest.idEstrangeiro, OnlyNumber(FNFe.Dest.CNPJCPF)));
+                       FNFe.Dest.idEstrangeiro, OnlyCPFCNPJAlphaNum(FNFe.Dest.CNPJCPF)));
     sNF := FloatToString(FNFe.Total.ICMSTot.vNF, '.', FloatMask(2, False));
 
     sEntrada := sEntrada + '|' + Format('%.2d',[DayOf(FNFe.Ide.dEmi)]) + '|' +
@@ -812,7 +812,7 @@ begin
     with EventoNFe.Evento.New do
     begin
       infEvento.CNPJ:= NotasFiscais.Items[i].NFe.Emit.CNPJCPF;
-      infEvento.cOrgao := StrToIntDef(copy(OnlyNumber(WebServices.Consulta.NFeChave), 1, 2), 0);
+      infEvento.cOrgao := StrToIntDef(copy(RemoverLiteralChave(WebServices.Consulta.NFeChave), 1, 2), 0);
       infEvento.dhEvento := now;
       infEvento.tpEvento := teCancelamento;
       infEvento.chNFe := WebServices.Consulta.NFeChave;
@@ -949,7 +949,7 @@ begin
 
     if NotasFiscais.Count > 0 then
     begin
-      chNfe := OnlyNumber(EventoNFe.Evento.Items[i].InfEvento.chNfe);
+      chNfe := RemoverLiteralChave(EventoNFe.Evento.Items[i].InfEvento.chNfe);
 
       // Se tem a chave da NFe no Evento, procure por ela nas notas carregadas //
       if NaoEstaVazio(chNfe) then
@@ -1125,7 +1125,7 @@ begin
     ImprimirEventoPDF;
     AnexosEmail.Add(DANFE.ArquivoPDF);
 
-    NomeArq := OnlyNumber(EventoNFe.Evento[0].InfEvento.Id);
+    NomeArq := RemoverLiteralChave(EventoNFe.Evento[0].InfEvento.Id);
     EnviarEmail(sPara, sAssunto, sMensagem, sCC, AnexosEmail, StreamNFe,
 	    NomeArq + '-procEventoNFe.xml', sReplyTo);
   finally

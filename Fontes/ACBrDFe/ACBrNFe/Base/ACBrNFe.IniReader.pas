@@ -506,11 +506,11 @@ begin
   while true do
   begin
     sSecao := 'autXML'+IntToStrZero(I,3);
-    sFim     := OnlyNumber(AINIRec.ReadString( sSecao ,'CNPJ',AINIRec.ReadString(  sSecao,'CPF',AINIRec.ReadString(  sSecao,'CNPJCPF','FIM'))));
+    sFim     := OnlyCPFCNPJAlphaNum(AINIRec.ReadString( sSecao ,'CNPJ',AINIRec.ReadString(  sSecao,'CPF',AINIRec.ReadString(  sSecao,'CNPJCPF','FIM'))));
     if (sFim = 'FIM') or (Length(sFim) <= 0) then
     begin
       sSecao := 'autXML'+IntToStrZero(I,2);
-      sFim     := OnlyNumber(AINIRec.ReadString( sSecao ,'CNPJ',AINIRec.ReadString(  sSecao,'CPF',AINIRec.ReadString(  sSecao,'CNPJCPF','FIM'))));
+      sFim     := OnlyCPFCNPJAlphaNum(AINIRec.ReadString( sSecao ,'CNPJ',AINIRec.ReadString(  sSecao,'CPF',AINIRec.ReadString(  sSecao,'CNPJCPF','FIM'))));
     end;
     if (sFim = 'FIM') or (Length(sFim) <= 0) then
       break;

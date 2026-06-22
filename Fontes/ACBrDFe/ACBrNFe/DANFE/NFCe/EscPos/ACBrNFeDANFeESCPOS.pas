@@ -506,7 +506,7 @@ begin
     UrlChave := FpNFe.infNFeSupl.urlChave;
 
   FPosPrinter.Buffer.Add('</ce>'+TagLigaCondensado + QuebraLinhas(UrlChave, ColunasCondensado) );
-  FPosPrinter.Buffer.Add('</ce>'+TagLigaCondensado + QuebraLinhas(FormatarChaveAcesso(OnlyNumber(FpNFe.infNFe.ID)), ColunasCondensado) );
+  FPosPrinter.Buffer.Add('</ce>'+TagLigaCondensado + QuebraLinhas(FormatarChaveAcesso(RemoverLiteralChave(FpNFe.infNFe.ID)), ColunasCondensado) );
 end;
 
 procedure TACBrNFeDANFeESCPOS.GerarTotalTributos;
@@ -542,7 +542,7 @@ var
   TextoLateral: TStringList;
   AlturaMax, EsquerdaQRCode: Integer;
 begin
-  FPosPrinter.Buffer.Add('<n>' + OnlyNumber(FpNFe.infNFe.ID) + '</n>');
+  FPosPrinter.Buffer.Add('<n>' + RemoverLiteralChave(FpNFe.infNFe.ID) + '</n>');
   FPosPrinter.Buffer.Add(' ');
 
   TextoLateral := TStringList.Create;
@@ -982,7 +982,7 @@ begin
 
   FPosPrinter.Buffer.Add(' ');
   FPosPrinter.Buffer.Add(TagLigaCondensado+'CHAVE ACESSO');
-  FPosPrinter.Buffer.Add(FormatarChaveAcesso(OnlyNumber(FpNFe.infNFe.ID)));
+  FPosPrinter.Buffer.Add(FormatarChaveAcesso(RemoverLiteralChave(FpNFe.infNFe.ID)));
   FPosPrinter.Buffer.Add('</linha_simples>');
 
   // dados do evento

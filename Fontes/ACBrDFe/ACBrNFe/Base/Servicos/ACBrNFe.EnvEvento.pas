@@ -283,7 +283,7 @@ begin
   for i := 0 to Evento.Count - 1 do
   begin
     Evento[i].InfEvento.id := 'ID' + Evento[i].InfEvento.TipoEvento +
-                               OnlyNumber(Evento[i].InfEvento.chNFe) +
+                               RemoverLiteralChave(Evento[i].InfEvento.chNFe) +
                                Format('%.2d', [Evento[i].InfEvento.nSeqEvento]);
 
     if Length(Evento[i].InfEvento.id) < 54 then
@@ -342,7 +342,7 @@ begin
     if (EventoItem.InfEvento.detEvento.dest.idEstrangeiro = '') and
        (EventoItem.InfEvento.detEvento.dest.UF <> 'EX') then
     begin
-      sDoc := OnlyNumber( EventoItem.InfEvento.detEvento.dest.CNPJCPF );
+      sDoc := OnlyCPFCNPJAlphaNum( EventoItem.InfEvento.detEvento.dest.CNPJCPF );
 
       if Length(sDoc) = 14 then
       begin
@@ -382,7 +382,7 @@ begin
   if (EventoItem.InfEvento.detEvento.dest.idEstrangeiro = '') and
      (EventoItem.InfEvento.detEvento.dest.UF <> 'EX') then
   begin
-    sDoc := OnlyNumber( EventoItem.InfEvento.detEvento.dest.CNPJCPF );
+    sDoc := OnlyCPFCNPJAlphaNum( EventoItem.InfEvento.detEvento.dest.CNPJCPF );
 
     if Length(sDoc) = 14 then
     begin
@@ -618,7 +618,7 @@ function TEventoNFe.Gerar_Evento_EPEC(Idx: Integer): TACBrXmlNode;
 var
   sModelo: string;
 begin
-  sModelo := Copy(OnlyNumber(Evento[Idx].InfEvento.chNFe), 21, 2);
+  sModelo := Copy(RemoverLiteralChave(Evento[Idx].InfEvento.chNFe), 21, 2);
 
   Result := CreateElement('detEvento');
   Result.SetAttribute('versao', Versao);
@@ -964,7 +964,7 @@ begin
   Result.AppendChild(AddNode(tcStr, 'HP09', 'tpAmb', 1, 1, 1,
                            TpAmbToStr(Evento[Idx].InfEvento.tpAmb), DSC_TPAMB));
 
-  sDoc := OnlyNumber(Evento[Idx].InfEvento.CNPJ);
+  sDoc := OnlyCPFCNPJAlphaNum(Evento[Idx].InfEvento.CNPJ);
 
   if EstaVazio(sDoc) then
     sDoc := ExtrairCNPJCPFChaveAcesso(Evento[Idx].InfEvento.chNFe);
@@ -1549,7 +1549,7 @@ begin
               while true do
               begin
                 sSecao := 'autXML' + IntToStrZero(J, 2);
-                sFim := OnlyNumber(INIRec.ReadString(sSecao,'CNPJCPF', 'FIM'));
+                sFim := OnlyCPFCNPJAlphaNum(INIRec.ReadString(sSecao,'CNPJCPF', 'FIM'));
 
                 if (sFim = 'FIM') or (Length(sFim) <= 0) then
                   break;

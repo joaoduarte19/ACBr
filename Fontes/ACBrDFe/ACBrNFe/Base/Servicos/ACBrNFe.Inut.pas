@@ -45,7 +45,8 @@ uses
   pcnConversao,
   ACBrNFe.Consts,
   ACBrNFe.RetInut,
-  ACBrDFe.Conversao;
+  ACBrDFe.Conversao,
+  ACBrDFeUtil;
 
 type
 
@@ -120,14 +121,14 @@ end;
 
 function TinutNFe.ObterNomeArquivo: string;
 begin
-  Result := OnlyNumber(FIDInutilizacao) + '-ped-inu.xml';
+  Result := RemoverLiteralChave(FIDInutilizacao) + '-ped-inu.xml';
 end;
 
 function TinutNFe.GerarXML: string;
 var
   xCNPJ, ACNPJ: string;
 begin
-  ACNPJ := OnlyNumber(FCNPJ);
+  ACNPJ := OnlyCPFCNPJAlphaNum(FCNPJ);
 
   if (cUF in [51]) and (Length(ACNPJ) = 11) then
     ACNPJ := '000' + ACNPJ;
@@ -145,7 +146,7 @@ begin
   if ano > 2000 then
     ano := ano - 2000;
 
-  ACNPJ := OnlyNumber(FCNPJ);
+  ACNPJ := OnlyCPFCNPJAlphaNum(FCNPJ);
 
   if cUF in [51] then
   begin

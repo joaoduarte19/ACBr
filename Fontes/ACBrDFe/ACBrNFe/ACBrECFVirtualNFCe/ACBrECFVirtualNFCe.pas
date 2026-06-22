@@ -39,7 +39,7 @@ interface
 uses Classes, SysUtils,
 {$IFDEF FPC}LResources, {$ENDIF}
   ACBrECFVirtual, ACBrECFVirtualPrinter, ACBrNFe, ACBrECF, ACBrDevice, ACBrBase,
-  ACBrNFe.Classes, pcnConversao, pcnConversaoNFe;
+  ACBrNFe.Classes, pcnConversao, pcnConversaoNFe, ACBrDFeUtil;
 
 const
   ACBrECFVirtualNFCe_VERSAO = '0.1.0a';
@@ -471,7 +471,7 @@ begin
     EventoNFe.Evento.Clear;
     with EventoNFe.Evento.New do
     begin
-      ChaveNFe := OnlyNumber(WebServices.Consulta.NFeChave);
+      ChaveNFe := RemoverLiteralChave(WebServices.Consulta.NFeChave);
       infEvento.CNPJ := copy(ChaveNFe, 7, 14);
       infEvento.cOrgao := StrToIntDef(copy(ChaveNFe, 1, 2), 0);
       infEvento.dhEvento := now;
@@ -552,7 +552,7 @@ end;
 
 procedure TACBrECFVirtualNFCeClass.EnviaConsumidorVirtual;
 begin
-  fsDestCNPJ := OnlyNumber(Consumidor.Documento);
+  fsDestCNPJ := OnlyCPFCNPJAlphaNum(Consumidor.Documento);
   fsDestNome := Consumidor.Nome;
 
   Consumidor.Enviado := True;
@@ -960,10 +960,10 @@ begin
       CancelarNFCe
     else
     begin
-      NomeNFCe := PathWithDelim(Configuracoes.Arquivos.GetPathNFe(Now, CNPJ, IE, StrToInt(ModeloDFToStr(moNFCe))))+OnlyNumber(ChaveCupom)+'-nfe.xml';
+      NomeNFCe := PathWithDelim(Configuracoes.Arquivos.GetPathNFe(Now, CNPJ, IE, StrToInt(ModeloDFToStr(moNFCe))))+RemoverLiteralChave(ChaveCupom)+'-nfe.xml';
 
       if not FileExists(NomeNFCe) then
-        NomeNFCe := PathWithDelim(Configuracoes.Arquivos.GetPathNFe(Now-1, CNPJ, IE, StrToInt(ModeloDFToStr(moNFCe))))+OnlyNumber(ChaveCupom)+'-nfe.xml';
+        NomeNFCe := PathWithDelim(Configuracoes.Arquivos.GetPathNFe(Now-1, CNPJ, IE, StrToInt(ModeloDFToStr(moNFCe))))+RemoverLiteralChave(ChaveCupom)+'-nfe.xml';
 
       if FileExists(NomeNFCe) then
       begin

@@ -2527,12 +2527,12 @@ begin
 
         if Assigned(FStream) then
         begin
-          FPArquivoPDF := OnlyNumber(LNFe.infNFe.ID) + '-nfe.pdf';
+          FPArquivoPDF := RemoverLiteralChave(LNFe.infNFe.ID) + '-nfe.pdf';
           Engine.SaveToStream(FStream);
         end else
         begin
           LPath := DefinirNomeArquivo(TACBrNFe(ACBrNFe).DANFE.PathPDF,
-                 OnlyNumber(LNFe.infNFe.ID) + '-nfe.pdf',
+                 RemoverLiteralChave(LNFe.infNFe.ID) + '-nfe.pdf',
                  TACBrNFe(ACBrNFe).DANFE.NomeDocumento);
 
           Engine.SaveToFile(LPath);
@@ -2586,7 +2586,7 @@ begin
         LEngine.Compressed := True;
         if Assigned(FStream) then
         begin
-          FPArquivoPDF := OnlyNumber(LNFe.infNFe.ID) + '-nfe.pdf';
+          FPArquivoPDF := RemoverLiteralChave(LNFe.infNFe.ID) + '-nfe.pdf';
           LEngine.SaveToStream(FStream);
         end else
         begin
@@ -2595,7 +2595,7 @@ begin
 
           LPath := DefinirNomeArquivo(TACBrNFe(ACBrNFe).DANFE.PathPDF,
                       TpEventoToStr(TACBrNFe(ACBrNFe).EventoNFe.Evento[I].InfEvento.tpEvento)
-                        + OnlyNumber(LNFe.infNFe.ID)
+                        + RemoverLiteralChave(LNFe.infNFe.ID)
                         + '-nfe.pdf',
                     TACBrNFe(ACBrNFe).DANFE.NomeDocumento);
 
@@ -2881,7 +2881,7 @@ begin
   h := PDF.GetStringHeight(Texto, Args.Band.Width);
   y := y + PDF.TextBox(0, y, Args.Band.Width, h, Texto, 'T', 'C', False);
   y := y + 0.5;
-  Texto := FormatarChaveAcesso(OnlyNumber(FNFe.infNFe.ID));
+  Texto := FormatarChaveAcesso(RemoverLiteralChave(FNFe.infNFe.ID));
   PDF.SetFont(FontSize2, '');
   h := PDF.GetStringHeight(Texto, Args.Band.Width);
   y := y + PDF.TextBox(0, y, Args.Band.Width, h, Texto, 'T', 'C', False);

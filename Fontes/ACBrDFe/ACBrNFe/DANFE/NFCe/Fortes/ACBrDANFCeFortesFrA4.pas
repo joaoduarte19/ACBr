@@ -696,7 +696,7 @@ end;
 procedure TfrmACBrDANFCeFortesFrA4.RLLabel37BeforePrint(Sender: TObject;
   var Text: string; var PrintIt: Boolean);
 begin
-  Text := FormatarChaveAcesso(OnlyNumber(self.FACBrNFeDANFCeFortesA4.FpNFe.infNFe.ID));
+  Text := FormatarChaveAcesso(RemoverLiteralChave(self.FACBrNFeDANFCeFortesA4.FpNFe.infNFe.ID));
 
   if (FACBrNFeDANFCeFortesA4.FpNFe.Ide.tpEmis = teNormal) and (FACBrNFeDANFCeFortesA4.FpNFe.procNFe.cStat = 0) then
   begin
@@ -1054,7 +1054,7 @@ begin
 
           RLLayout.JobTitle := NomeDocumento;
           if (RLLayout.JobTitle = '') then
-            RLLayout.JobTitle := OnlyNumber(FpNFe.infNFe.ID) + IfThen(Cancelada, '-cancelado', '')+'-nfe.xml';
+            RLLayout.JobTitle := RemoverLiteralChave(FpNFe.infNFe.ID) + IfThen(Cancelada, '-cancelado', '')+'-nfe.xml';
 
           RLFiltro.ShowProgress := FACBrNFeDANFCeFortesA4.MostraStatus;
 

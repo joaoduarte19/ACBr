@@ -1133,7 +1133,7 @@ begin
   begin
     //Atualmente não é possível enviar em LOTE com o Integrador
     FPDFeOwner.Integrador.Parametros.Values['versaoDados']        :=  StringReplace(FormatFloat('0.00',FNotasFiscais.Items[0].NFe.infNFe.Versao),',','.',[rfReplaceAll]);
-    FPDFeOwner.Integrador.Parametros.Values['NumeroNFCe']         := OnlyNumber(FNotasFiscais.Items[0].NFe.infNFe.ID);
+    FPDFeOwner.Integrador.Parametros.Values['NumeroNFCe']         := RemoverLiteralChave(FNotasFiscais.Items[0].NFe.infNFe.ID);
     FPDFeOwner.Integrador.Parametros.Values['DataHoraNFCeGerado'] := FormatDateTime('yyyymmddhhnnss', FNotasFiscais.Items[0].NFe.Ide.dEmi);
     FPDFeOwner.Integrador.Parametros.Values['ValorNFCe']          := StringReplace(FormatFloat('0.00',FNotasFiscais.Items[0].NFe.Total.ICMSTot.vNF),',','.',[rfReplaceAll]);
     FPDFeOwner.Integrador.SetNomeMetodo('NfeAutorizacaoLote12', (FPConfiguracoesNFe.WebServices.AmbienteCodigo = 2) );
@@ -1241,7 +1241,7 @@ begin
       begin
         with TACBrNFe(FPDFeOwner).NotasFiscais.Items[I] do
         begin
-          if OnlyNumber(chNFe) = NumID then
+          if RemoverLiteralChave(chNFe) = NumID then
           begin
             if (FPConfiguracoesNFe.Geral.ValidarDigest) and
                (FNFeRetornoSincrono.protNFe.digVal <> '') and
@@ -1454,7 +1454,7 @@ begin
     begin
       for j := 0 to FNotasFiscais.Count - 1 do
       begin
-        if OnlyNumber(FNFeRetorno.ProtDFe.Items[i].chDFe) = FNotasFiscais.Items[J].NumID then
+        if RemoverLiteralChave(FNFeRetorno.ProtDFe.Items[i].chDFe) = FNotasFiscais.Items[J].NumID then
         begin
           FNotasFiscais.Items[j].NFe.procNFe.verAplic := '';
           FNotasFiscais.Items[j].NFe.procNFe.chNFe    := '';
@@ -1661,7 +1661,7 @@ begin
   begin
     for J := 0 to FNotasFiscais.Count - 1 do
     begin
-      if OnlyNumber(AInfProt.Items[I].chDFe) = FNotasFiscais.Items[J].NumID then
+      if RemoverLiteralChave(AInfProt.Items[I].chDFe) = FNotasFiscais.Items[J].NumID then
       begin
         if (FPConfiguracoesNFe.Geral.ValidarDigest) and
            (AInfProt.Items[I].digVal <> '') and
@@ -2075,7 +2075,7 @@ var
   NumChave: String;
 begin
   if FNFeChave = AValue then Exit;
-  NumChave := OnlyNumber(AValue);
+  NumChave := RemoverLiteralChave(AValue);
 
   if not ValidarChave(NumChave) then
      raise EACBrNFeException.Create('Chave "'+AValue+'" inválida.');
@@ -2418,7 +2418,7 @@ begin
         begin
           with TACBrNFe(FPDFeOwner).NotasFiscais.Items[i] do
           begin
-            if (OnlyNumber(FNFeChave) = NumID) then
+            if (RemoverLiteralChave(FNFeChave) = NumID) then
             begin
               Atualiza := (NaoEstaVazio(NFeRetorno.XMLprotNFe));
               if Atualiza and
@@ -2830,7 +2830,7 @@ end;
 
 function TNFeInutilizacao.GerarPrefixoArquivo: String;
 begin
-  Result := Trim(OnlyNumber(FID));
+  Result := Trim(RemoverLiteralChave(FID));
 end;
 
 { TNFeConsultaCadastro }
@@ -3204,7 +3204,7 @@ begin
        (TACBrNFe(FPDFeOwner).NotasFiscais.Count > 0) then
     begin
       FPDFeOwner.Integrador.Parametros.Values['versaoDados'] :=  StringReplace(FormatFloat('0.00',TACBrNFe(FPDFeOwner).NotasFiscais.Items[0].NFe.infNFe.Versao),',','.',[rfReplaceAll]);
-      FPDFeOwner.Integrador.Parametros.Values['NumeroNFCe'] := OnlyNumber(TACBrNFe(FPDFeOwner).NotasFiscais.Items[0].NFe.infNFe.ID);
+      FPDFeOwner.Integrador.Parametros.Values['NumeroNFCe'] := RemoverLiteralChave(TACBrNFe(FPDFeOwner).NotasFiscais.Items[0].NFe.infNFe.ID);
       FPDFeOwner.Integrador.Parametros.Values['DataHoraNFCeGerado'] := FormatDateTime('yyyymmddhhnnss', TACBrNFe(FPDFeOwner).NotasFiscais.Items[0].NFe.Ide.dEmi);
       FPDFeOwner.Integrador.Parametros.Values['ValorNFCe'] := StringReplace(FormatFloat('0.00',TACBrNFe(FPDFeOwner).NotasFiscais.Items[0].NFe.Total.ICMSTot.vNF),',','.',[rfReplaceAll]);
     end;
@@ -3808,7 +3808,7 @@ begin
 
             if FPConfiguracoesNFe.Arquivos.SalvarEvento then
             begin
-              NomeArq := OnlyNumber(FEvento.Evento.Items[i].InfEvento.Id) + '-procEventoNFe.xml';
+              NomeArq := RemoverLiteralChave(FEvento.Evento.Items[i].InfEvento.Id) + '-procEventoNFe.xml';
               PathArq := PathWithDelim(GerarPathEvento(FEvento.Evento.Items[I].InfEvento.CNPJ, FEvento.Evento.Items[I].InfEvento.detEvento.IE));
 
               FPDFeOwner.Gravar(NomeArq, Texto, PathArq);
@@ -4092,8 +4092,8 @@ begin
           FNomeArq := FretDistDFeInt.docZip.Items[I].resDFe.chDFe + '-resNFe.xml';
 
         schresEvento:
-          FNomeArq := OnlyNumber(TpEventoToStr(FretDistDFeInt.docZip.Items[I].resEvento.tpEvento) +
-                      FretDistDFeInt.docZip.Items[I].resEvento.chDFe +
+          FNomeArq := OnlyAlphaNum(TpEventoToStr(FretDistDFeInt.docZip.Items[I].resEvento.tpEvento) +
+                      RemoverLiteralChave(FretDistDFeInt.docZip.Items[I].resEvento.chDFe) +
                       Format('%.2d', [FretDistDFeInt.docZip.Items[I].resEvento.nSeqEvento])) +
                       '-resEventoNFe.xml';
 
@@ -4101,7 +4101,7 @@ begin
           FNomeArq := FretDistDFeInt.docZip.Items[I].resDFe.chDFe + '-nfe.xml';
 
         schprocEventoNFe:
-          FNomeArq := OnlyNumber(FretDistDFeInt.docZip.Items[I].procEvento.Id) +
+          FNomeArq := RemoverLiteralChave(FretDistDFeInt.docZip.Items[I].procEvento.Id) +
                       '-procEventoNFe.xml';
       end;
 

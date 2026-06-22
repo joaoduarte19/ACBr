@@ -1370,7 +1370,7 @@ begin
     CreateDataSet;
     Append;
 
-    FieldByName('Id').AsString      := OnlyNumber(FNFe.infNFe.Id);
+    FieldByName('Id').AsString      := RemoverLiteralChave(FNFe.infNFe.Id);
     FieldByName('Versao').AsFloat   := FNFe.infNFe.versao;
     FieldByName('Chave').AsString   := FormatarChaveAcesso(FNFe.infNFe.Id);
     FieldByName('CUF').AsString     := IntToStr(FNFe.Ide.CUF);
@@ -2020,7 +2020,7 @@ begin
 
       with FInutilizacao do
       begin
-         FieldByName('ID').AsString         := OnlyNumber(ID);
+         FieldByName('ID').AsString         := RemoverLiteralChave(ID);
          FieldByName('CNPJ').AsString       := FormatarCNPJ(CNPJ);
          FieldByName('nProt').AsString      := nProt;
          FieldByName('Modelo').AsInteger    := Modelo;
@@ -2210,7 +2210,8 @@ begin
     else
     begin
       for J := 0 to TACBrNFe(DANFEClassOwner.ACBrNFe).NotasFiscais.Count -1 do
-      if SameText(Copy(OnlyNumber(Evento.Evento[DANFEClassOwner.FIndexImpressaoEventosIndividual -1].InfEvento.id),7,44), OnlyNumber(TACBrNFe(DANFEClassOwner.ACBrNFe).NotasFiscais[J].NFe.infNFe.ID)) then
+      if SameText(Copy(RemoverLiteralChave(Evento.Evento[DANFEClassOwner.FIndexImpressaoEventosIndividual -1].InfEvento.id),7,44),
+                    RemoverLiteralChave(TACBrNFe(DANFEClassOwner.ACBrNFe).NotasFiscais[J].NFe.infNFe.ID)) then
       begin
         NFe := TACBrNFe(DANFEClassOwner.ACBrNFe).NotasFiscais[J].NFe;
         DANFEClassOwner.FIndexImpressaoIndividual := J + 1;
@@ -2445,7 +2446,7 @@ begin
     try
       frxPDFExport.ShowDialog := False;
       frxPDFExport.FileName := DefinirNomeArquivo(DANFEClassOwner.PathPDF,
-                               OnlyNumber(NFE.infNFe.ID) + '-nfe.pdf',
+                               RemoverLiteralChave(NFE.infNFe.ID) + '-nfe.pdf',
                                DANFEClassOwner.NomeDocumento);
 
       if not DirectoryExists(ExtractFileDir(frxPDFExport.FileName)) then
@@ -2513,7 +2514,7 @@ begin
       frxPDFExport.ShowDialog := False;
 
       frxPDFExport.FileName := DefinirNomeArquivo(DANFEClassOwner.PathPDF,
-                                 OnlyNumber(Evento.Evento[DANFEClassOwner.FIndexImpressaoEventosIndividual-1].InfEvento.id) + '-procEventoNFe.pdf',
+                                 RemoverLiteralChave(Evento.Evento[DANFEClassOwner.FIndexImpressaoEventosIndividual-1].InfEvento.id) + '-procEventoNFe.pdf',
                                  DANFEClassOwner.NomeDocumento);
 
       if not DirectoryExists(ExtractFileDir(frxPDFExport.FileName)) then
@@ -2568,7 +2569,7 @@ begin
 
 
       frxPDFExport.FileName := DefinirNomeArquivo(DANFEClassOwner.PathPDF,
-                                   OnlyNumber(TACBrNFe(DANFEClassOwner.ACBrNFe).InutNFe.Id) + '-procInutNFe.pdf',
+                                   RemoverLiteralChave(TACBrNFe(DANFEClassOwner.ACBrNFe).InutNFe.Id) + '-procInutNFe.pdf',
                                    DANFEClassOwner.NomeDocumento);
 
       if not DirectoryExists(ExtractFileDir(frxPDFExport.FileName)) then
