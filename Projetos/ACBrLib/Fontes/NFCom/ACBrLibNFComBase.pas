@@ -929,7 +929,7 @@ begin
       begin
         InfEvento.CNPJ := ACNPJCPF;
         if Trim(Infevento.CNPJ) = '' then
-          InfEvento.CNPJ := Copy(OnlyNumber(NFComDM.ACBrNFCom1.WebServices.Consulta.NFComChave), 7, 14)
+          InfEvento.CNPJ := Copy(RemoverLiteralChave(NFComDM.ACBrNFCom1.WebServices.Consulta.NFComChave), 7, 14)
         else
         begin
           if not ValidarCNPJouCPF(ACNPJCPF) then
@@ -938,7 +938,7 @@ begin
 
         InfEvento.nSeqEvento := 1;
         InfEvento.tpAmb := TACBrTipoAmbiente(NFComDM.ACBrNFCom1.Configuracoes.WebServices.Ambiente);
-        InfEvento.cOrgao := StrToIntDef(Copy(OnlyNumber(NFComDM.ACBrNFCom1.WebServices.Consulta.NFComChave), 1, 2), 0);
+        InfEvento.cOrgao := StrToIntDef(Copy(RemoverLiteralChave(NFComDM.ACBrNFCom1.WebServices.Consulta.NFComChave), 1, 2), 0);
         InfEvento.dhEvento := Now;
         InfEvento.tpEvento := teCancelamento;
         InfEvento.chNFCom := NFComDM.ACBrNFCom1.WebServices.Consulta.NFComChave;
@@ -1011,7 +1011,7 @@ begin
 
           if NotasFiscais.Count > 0 then
           begin
-           chNFCom := OnlyNumber(EventoNFCom.Evento.Items[i].InfEvento.chNFCom);
+           chNFCom := RemoverLiteralChave(EventoNFCom.Evento.Items[i].InfEvento.chNFCom);
 
            // Se tem a chave da NFCom no Evento, procure por ela nas notas carregadas //
             if NaoEstaVazio(chNFCom) then
@@ -1252,7 +1252,7 @@ begin
                 NFComDM.ConfigurarImpressao('', True);
                 ImprimirEventoPDF;
 
-                ArqPDF := OnlyNumber(EventoNFCom.Evento[0].InfEvento.id);
+                ArqPDF := RemoverLiteralChave(EventoNFCom.Evento[0].InfEvento.id);
                 ArqPDF := PathWithDelim(DANFCom.PathPDF) + ArqPDF + '-procEventoNFCom.pdf';
               except
                 raise EACBrLibException.Create(ErrRetorno, 'Erro ao criar o arquivo PDF');
