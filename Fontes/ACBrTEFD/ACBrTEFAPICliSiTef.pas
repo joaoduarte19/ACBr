@@ -670,6 +670,7 @@ begin
             if (RespBuffer = '') then
             begin
               DefinicaoCampo.OcultarDadosDigitados := False;
+              DefinicaoCampo.ValidacaoDado := valdNenhuma;
               DefinicaoCampo.TipoCampo := TipoCampo;
               DefinicaoCampo.TituloPergunta := ACBrStr(Mensagem);
               DefinicaoCampo.TamanhoMaximo := TamanhoMaximo;
