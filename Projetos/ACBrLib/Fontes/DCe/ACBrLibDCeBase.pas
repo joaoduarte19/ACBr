@@ -952,7 +952,7 @@ begin
       begin
         InfEvento.CNPJCPF := ACNPJCPF;
         if Trim(Infevento.CNPJCPF) = '' then
-          InfEvento.CNPJCPF := Copy(OnlyNumber(DCeDM.ACBrDCe1.WebServices.Consulta.DCeChave), 7, 14)
+          InfEvento.CNPJCPF := Copy(RemoverLiteralChave(DCeDM.ACBrDCe1.WebServices.Consulta.DCeChave), 7, 14)
         else
         begin
           if not ValidarCNPJouCPF(ACNPJCPF) then
@@ -963,7 +963,7 @@ begin
         infEvento.tpEmit := StrToEmitenteDCe(IntToStr(AEmitenteDCe));
         InfEvento.nSeqEvento := 1;
         InfEvento.tpAmb := TACBrTipoAmbiente(DCeDM.ACBrDCe1.Configuracoes.WebServices.Ambiente);
-        InfEvento.cOrgao := StrToIntDef(Copy(OnlyNumber(DCeDM.ACBrDCe1.WebServices.Consulta.DCeChave), 1, 2), 0);
+        InfEvento.cOrgao := StrToIntDef(Copy(RemoverLiteralChave(DCeDM.ACBrDCe1.WebServices.Consulta.DCeChave), 1, 2), 0);
         InfEvento.dhEvento := Now;
         InfEvento.tpEvento := teCancelamento;
         InfEvento.chDCe := DCeDM.ACBrDCe1.WebServices.Consulta.DCeChave;
@@ -1404,7 +1404,7 @@ begin
             LStream := TMemoryStream.Create;
 
             try
-              LNomeArq := OnlyNumber(EventoDCe.Evento[0].Infevento.id) + '-procEventoDCe';
+              LNomeArq := RemoverLiteralChave(EventoDCe.Evento[0].Infevento.id) + '-procEventoDCe';
 
               if AEnviaPDF then
               begin
