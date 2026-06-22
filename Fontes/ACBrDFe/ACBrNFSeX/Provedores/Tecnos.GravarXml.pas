@@ -352,6 +352,12 @@ begin
 
   Result.AppendChild(AddNode(tcInt, '#9', 'NumeroParcelas', 1, 3, NrOcorrNumParcelas,
                                                       NFSe.NumeroParcelas, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#10', 'CodigoSituacaoTributariaPisCofins', 2, 2, 0,
+                                            CSTToStr(NFSe.Servico.Valores.tribFed.CST), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#11', 'TipoRetencaoPisCofins', 1, 1, 1,
+                                            tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins), ''));
 end;
 
 function TNFSeW_Tecnos201.GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode;
