@@ -64,7 +64,7 @@ uses
   ACBrBoletoFPDF, FormConsultaCNPJ, ACBrMonitorMenu, ACBrDFeReport, ACBrNFSeX,
   ACBrNFSeXDANFSeRLClass, DoACBrNFSeUnit, ACBrGTIN, DoACBrGTINUnit, ACBrPIXBase,
   ACBrLibConfig, ACBrExtratoAPI, ACBrExtratoAPIBB, ACBrExtratoAPIInter,
-  ACBrExtratoAPISicoob, DoACBrExtratoAPIUnit;
+  ACBrExtratoAPISicoob, DoACBrExtratoAPIUnit, ACBrDFeUtil;
 
 const
   CEstados: array[TACBrECFEstado] of string =
@@ -3370,7 +3370,7 @@ var
   ACNPJ: String;
   AResult: String;
 begin
-  ACNPJ := OnlyNumber(edtEmitCNPJ.Text);
+  ACNPJ := OnlyCPFCNPJAlphaNum(edtEmitCNPJ.Text);
   if ACNPJ = '' then
     raise Exception.Create('CNPJ inválido. Configure a aba "Dados Emitente"');
 
@@ -4147,8 +4147,8 @@ begin
         mbYesNoCancel, 0) <> mrYes then
         exit;
 
-  cnpjSwh:= OnlyNumber(edtSwHCNPJ.text);
-  cnpjEmit:= OnlyNumber(edtEmitCNPJ.Text);
+  cnpjSwh:= OnlyCPFCNPJAlphaNum(edtSwHCNPJ.text);
+  cnpjEmit:= OnlyCPFCNPJAlphaNum(edtEmitCNPJ.Text);
 
   S:= 'SAT.'+CMetodoGerarAssinaturaSAT+'("'+cnpjSwh+'","'+cnpjEmit+'")' ;
   fsProcessar.Add(S);
@@ -5058,7 +5058,7 @@ procedure TFrmACBrMonitor.edtCNPJContadorChange(Sender: TObject);
 begin
   if (Length(edtCNPJContador.Text) > 2) then
   begin
-    edtCNPJContador.Text := ACBrValidador.FormatarMascaraDinamica( OnlyNumber(edtCNPJContador.Text), '**.***.***/****-**');
+    edtCNPJContador.Text := ACBrValidador.FormatarMascaraDinamica( OnlyCPFCNPJAlphaNum(edtCNPJContador.Text), '**.***.***/****-**');
     edtCNPJContador.SelStart := Length(edtCNPJContador.Text);
   end;
 
@@ -5085,7 +5085,7 @@ procedure TFrmACBrMonitor.edtEmitCNPJChange(Sender: TObject);
 begin
   if (Length(edtEmitCNPJ.Text) > 2) then
   begin
-    edtEmitCNPJ.Text := ACBrValidador.FormatarMascaraDinamica( OnlyNumber(edtEmitCNPJ.Text), '**.***.***/****-**');
+    edtEmitCNPJ.Text := ACBrValidador.FormatarMascaraDinamica( OnlyCPFCNPJAlphaNum(edtEmitCNPJ.Text), '**.***.***/****-**');
     edtEmitCNPJ.SelStart := Length(edtEmitCNPJ.Text);
   end;
   ValidarConfigSAT;
@@ -5145,7 +5145,7 @@ procedure TFrmACBrMonitor.edtSwHCNPJChange(Sender: TObject);
 begin
   if (Length(edtSwHCNPJ.Text) > 2) then
   begin
-    edtSwHCNPJ.Text := ACBrValidador.FormatarMascaraDinamica( OnlyNumber(edtSwHCNPJ.Text), '**.***.***/****-**');
+    edtSwHCNPJ.Text := ACBrValidador.FormatarMascaraDinamica( OnlyCPFCNPJAlphaNum(edtSwHCNPJ.Text), '**.***.***/****-**');
     edtSwHCNPJ.SelStart := Length(edtSwHCNPJ.Text);
   end;
   ValidarConfigSAT;
@@ -12728,7 +12728,7 @@ begin
         TextoStr := StringReplace(TextoStr,'[TomaIM]', Tomador.IdentificacaoTomador.InscricaoMunicipal, [rfReplaceAll, rfIgnoreCase]);
 
         TextoStr := StringReplace(TextoStr,'[CodigoVerificacao]', CodigoVerificacao, [rfReplaceAll, rfIgnoreCase]);
-        TextoStr := StringReplace(TextoStr,'[ChaveAcesso]', OnlyNumber(infNFSe.ID), [rfReplaceAll, rfIgnoreCase]);
+        TextoStr := StringReplace(TextoStr,'[ChaveAcesso]', RemoverLiteralChave(infNFSe.ID), [rfReplaceAll, rfIgnoreCase]);
         TextoStr := StringReplace(TextoStr,'[NumeroNFSe]', Numero, [rfReplaceAll, rfIgnoreCase]);
         TextoStr := StringReplace(TextoStr,'[NumeroRPS]', IdentificacaoRps.Numero, [rfReplaceAll, rfIgnoreCase]);
         TextoStr := StringReplace(TextoStr,'[SerieRPS]', IdentificacaoRps.Serie, [rfReplaceAll, rfIgnoreCase]);

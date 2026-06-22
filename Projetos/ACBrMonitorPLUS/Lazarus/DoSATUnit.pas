@@ -567,7 +567,7 @@ begin
 
     ConfiguraDFe;
 
-    cCodigoVinculacao := Onlynumber(cCNPJShw) + Onlynumber(cCNPJEmitente);
+    cCodigoVinculacao := OnlyCPFCNPJAlphaNum(cCNPJShw) + OnlyCPFCNPJAlphaNum(cCNPJEmitente);
     fpCmd.Resposta := fACBrSAT.SSL.CalcHash(cCodigoVinculacao, dgstSHA256, outBase64, True);
 
   end;
@@ -1257,7 +1257,7 @@ begin
     if (EstaVazio(Trim(cCNPJ)) and
           EstaVazio(Trim(cUF))) then
         with MonitorConfig.SAT do
-          fpCmd.Resposta := ACBrSAT.AtivarSAT(1, OnlyNumber(SATImpressao.SATEmit.CNPJ), StrToInt(CodigoUF))
+          fpCmd.Resposta := ACBrSAT.AtivarSAT(1, OnlyCPFCNPJAlphaNum(SATImpressao.SATEmit.CNPJ), StrToInt(CodigoUF))
       else
       begin
         if (ACBrSAT.Config.ide_tpAmb <> taHomologacao) and

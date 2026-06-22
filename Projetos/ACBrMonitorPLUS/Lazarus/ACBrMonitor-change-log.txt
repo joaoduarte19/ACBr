@@ -43,6 +43,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+18/06/2026
+-- Diversas units  --
+[*] Ajuste das chaves chaves e cnpj alfanumérico.
+   ACBr-9369
+   Por: Larissa Santos 
+   
 27/05/2026
 -- ACBrMonitor1.pas --
 [*][ACBR-9326] Ajustado para utilizar campo alfa CNPJ nos Boletos (componentes já foram ajustados)

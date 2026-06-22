@@ -498,7 +498,7 @@ begin
           if pPDF then
           begin
             Bilhetes.Items[I].ImprimirPDF;
-            ArqPDF := OnlyNumber(ACBrBPe.Bilhetes.Items[I].BPe.infBPe.ID)+'-bpe.pdf';
+            ArqPDF := RemoverLiteralChave(ACBrBPe.Bilhetes.Items[I].BPe.infBPe.ID)+'-bpe.pdf';
 
             fpCmd.Resposta :=  fpCmd.Resposta + sLineBreak +
               'PDF='+ PathWithDelim(ACBrBPe.DABPe.PathPDF) + ArqPDF;
@@ -1198,7 +1198,7 @@ begin
       end
       else
         ACBrBPe.WebServices.Consulta.BPeChave :=
-          OnlyNumber(ACBrBPe.Bilhetes.Items[0].BPe.infBPe.ID);
+          RemoverLiteralChave(ACBrBPe.Bilhetes.Items[0].BPe.infBPe.ID);
 
 
       ACBrBPe.WebServices.Consulta.Executar;
@@ -1309,7 +1309,7 @@ begin
       try
         DoConfiguraDABPe(False, '');
         ACBrBPe.ImprimirEventoPDF;
-        ArqPDF := OnlyNumber(ACBrBPe.EventoBPe.Evento[0].Infevento.Id);
+        ArqPDF := RemoverLiteralChave(ACBrBPe.EventoBPe.Evento[0].Infevento.Id);
         ArqPDF := PathWithDelim(ACBrBPe.DABPe.PathPDF) + ArqPDF + '-procEventoBPe.pdf';
 
         fpCmd.Resposta := 'Arquivo criado em: ' + ArqPDF;
@@ -1398,7 +1398,7 @@ begin
 
       try
         ACBrBPe.Bilhetes.ImprimirPDF;
-        ArqPDF := OnlyNumber(ACBrBPe.Bilhetes.Items[0].BPe.infBPe.ID) + '-bpe.pdf';
+        ArqPDF := RemoverLiteralChave(ACBrBPe.Bilhetes.Items[0].BPe.infBPe.ID) + '-bpe.pdf';
         ArqPDF := PathWithDelim(ACBrBPe.DABPe.PathPDF) + ArqPDF;
         fpCmd.Resposta := 'Arquivo criado em: ' + ArqPDF;
       except
@@ -1456,7 +1456,7 @@ begin
     ACBrBPe.Bilhetes.Validar;
 
     ArqBPe := PathWithDelim(ACBrBPe.Configuracoes.Arquivos.PathSalvar) +
-      OnlyNumber(ACBrBPe.Bilhetes.Items[0].BPe.infBPe.ID) + '-bpe.xml';
+      RemoverLiteralChave(ACBrBPe.Bilhetes.Items[0].BPe.infBPe.ID) + '-bpe.xml';
     ACBrBPe.Bilhetes.GravarXML(ArqBPe);
 
     if not FileExists(ArqBPe) then
@@ -1572,7 +1572,7 @@ begin
     end;
 
     ArqBPe := PathWithDelim(ACBrBPe.Configuracoes.Arquivos.PathSalvar) +
-      OnlyNumber(ACBrBPe.Bilhetes.Items[0].BPe.infBPe.ID) + '-bpe.xml';
+      RemoverLiteralChave(ACBrBPe.Bilhetes.Items[0].BPe.infBPe.ID) + '-bpe.xml';
     ACBrBPe.Bilhetes.GravarXML(ArqBPe);
 
     if not FileExists(ArqBPe) then
@@ -1679,7 +1679,7 @@ begin
     begin
       Infevento.CNPJ := ACNPJ;
       if Trim(Infevento.CNPJ) = '' then
-        Infevento.CNPJ := copy(OnlyNumber(ACBrBPe.WebServices.Consulta.BPeChave), 7, 14)
+        Infevento.CNPJ := copy(RemoverLiteralChave(ACBrBPe.WebServices.Consulta.BPeChave), 7, 14)
       else
       begin
         if not ValidarCNPJouCPF(ACNPJ) then
@@ -1687,7 +1687,7 @@ begin
       end;
 
       Infevento.cOrgao := StrToIntDef(
-        copy(OnlyNumber(ACBrBPe.WebServices.Consulta.BPeChave), 1, 2), 0);
+        copy(RemoverLiteralChave(ACBrBPe.WebServices.Consulta.BPeChave), 1, 2), 0);
       Infevento.dhEvento := now;
       Infevento.tpEvento := teCancelamento;
       Infevento.chBPe := ACBrBPe.WebServices.Consulta.BPeChave;
@@ -1980,7 +1980,7 @@ begin
           try
             ACBrBPe.ImprimirEventoPDF;
 
-            ArqPDF := OnlyNumber(ACBrBPe.EventoBPe.Evento[0].Infevento.id);
+            ArqPDF := RemoverLiteralChave(ACBrBPe.EventoBPe.Evento[0].Infevento.id);
             ArqPDF := PathWithDelim(ACBrBPe.DABPe.PathPDF)+ArqPDF+'-procEventoBPe.pdf';
           except
             on E: Exception do

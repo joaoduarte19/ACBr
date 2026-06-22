@@ -612,7 +612,7 @@ begin
           if (Conhecimentos.Items[I].Confirmado) and  (pPDF) then
           begin
             Conhecimentos.Items[I].ImprimirPDF;
-            ArqPDF := OnlyNumber(ACBrCTe.Conhecimentos.Items[I].CTe.infCTe.ID)+'-cte.pdf';
+            ArqPDF := RemoverLiteralChave(ACBrCTe.Conhecimentos.Items[I].CTe.infCTe.ID)+'-cte.pdf';
 
             fpCmd.Resposta :=  fpCmd.Resposta + sLineBreak +
               'PDF='+ PathWithDelim(ACBrCTe.DACTE.PathPDF) + ArqPDF + sLineBreak;
@@ -658,7 +658,7 @@ begin
       if pPDF then
       begin
         Conhecimentos.Items[0].ImprimirPDF;
-        ArqPDF := OnlyNumber(ACBrCTe.Conhecimentos.Items[0].CTe.infCTe.ID)+'-cte.pdf';
+        ArqPDF := RemoverLiteralChave(ACBrCTe.Conhecimentos.Items[0].CTe.infCTe.ID)+'-cte.pdf';
 
         fpCmd.Resposta :=  fpCmd.Resposta + sLineBreak +
                 'PDF='+ PathWithDelim(ACBrCTe.DACTE.PathPDF) + ArqPDF + sLineBreak ;
@@ -1231,7 +1231,7 @@ begin
       end
       else
         ACBrCTe.WebServices.Consulta.CTeChave :=
-          OnlyNumber(ACBrCTe.Conhecimentos.Items[0].CTe.infCTe.ID);
+          RemoverLiteralChave(ACBrCTe.Conhecimentos.Items[0].CTe.infCTe.ID);
 
 
       ACBrCTe.WebServices.Consulta.Executar;
@@ -1364,7 +1364,7 @@ begin
       try
         DoConfiguraDACTe(False, '');
         ACBrCTe.ImprimirEventoPDF;
-        ArqPDF := OnlyNumber(ACBrCTe.EventoCTe.Evento[0].Infevento.Id);
+        ArqPDF := RemoverLiteralChave(ACBrCTe.EventoCTe.Evento[0].Infevento.Id);
         ArqPDF := PathWithDelim(ACBrCTe.DACTe.PathPDF) + ArqPDF + '-procEventoCTe.pdf';
 
         fpCmd.Resposta := 'Arquivo criado em: ' + ArqPDF;
@@ -1460,7 +1460,7 @@ begin
 
       try
         ACBrCTe.Conhecimentos.ImprimirPDF;
-        ArqPDF := OnlyNumber(ACBrCTe.Conhecimentos.Items[0].CTe.infCTe.ID) + '-cte.pdf';
+        ArqPDF := RemoverLiteralChave(ACBrCTe.Conhecimentos.Items[0].CTe.infCTe.ID) + '-cte.pdf';
         ArqPDF := PathWithDelim(ACBrCTe.DACTe.PathPDF) + ArqPDF;
         fpCmd.Resposta := 'Arquivo criado em: ' + ArqPDF;
       except
@@ -1563,7 +1563,7 @@ begin
       ACTeObject.DoConfiguraDACTe(True, BoolToStr(FPreview, '1', ''));
 
       ACTe.Conhecimentos[i].ImprimirPDF;
-      ArqPDF := OnlyNumber(ACTe.Conhecimentos[i].CTe.infCTe.Id)+'-cte.pdf';
+      ArqPDF := RemoverLiteralChave(ACTe.Conhecimentos[i].CTe.infCTe.Id)+'-cte.pdf';
 
       fpCmd.Resposta := fpCmd.Resposta + sLineBreak +
                         'PDF='+ PathWithDelim(ACTe.DACTe.PathPDF) + ArqPDF + sLineBreak;
@@ -1618,7 +1618,7 @@ begin
   LCTe.Conhecimentos.Assinar;
   LCTe.Conhecimentos.Validar;
 
-  LArqCTe := PathWithDelim(LCTe.Configuracoes.Arquivos.PathSalvar) + OnlyNumber(LCTe.Conhecimentos[0].CTe.infCTe.ID) + '-cte.xml';
+  LArqCTe := PathWithDelim(LCTe.Configuracoes.Arquivos.PathSalvar) + RemoverLiteralChave(LCTe.Conhecimentos[0].CTe.infCTe.ID) + '-cte.xml';
   LCTe.Conhecimentos.GravarXML(LArqCTe);
 
   if not FileExists(LArqCTe) then
@@ -1683,7 +1683,7 @@ begin
     ACBrCTe.Conhecimentos.Validar;
 
     ArqCTe := PathWithDelim(PathWithDelim(ExtractFilePath(Application.ExeName)) +
-      'Lotes' + PathDelim + 'Lote' + trim(ANumeroLote)) + OnlyNumber(
+      'Lotes' + PathDelim + 'Lote' + trim(ANumeroLote)) + RemoverLiteralChave(
       ACBrCTe.Conhecimentos.Items[0].CTe.infCTe.ID) + '-cte.xml';
     ACBrCTe.Conhecimentos.GravarXML(ExtractFilePath(ArqCTe));
 
@@ -1961,7 +1961,7 @@ begin
     ACBrCTe.Conhecimentos.Validar;
 
     ArqCTe := PathWithDelim(ACBrCTe.Configuracoes.Arquivos.PathSalvar) +
-      OnlyNumber(ACBrCTe.Conhecimentos.Items[0].CTe.infCTe.ID) + '-cte.xml';
+      RemoverLiteralChave(ACBrCTe.Conhecimentos.Items[0].CTe.infCTe.ID) + '-cte.xml';
     ACBrCTe.Conhecimentos.GravarXML(ArqCTe);
 
     if not FileExists(ArqCTe) then
@@ -2077,7 +2077,7 @@ begin
     begin
       Infevento.CNPJ := ACNPJ;
       if Trim(Infevento.CNPJ) = '' then
-        Infevento.CNPJ := copy(OnlyNumber(ACBrCTe.WebServices.Consulta.CTeChave), 7, 14)
+        Infevento.CNPJ := copy(RemoverLiteralChave(ACBrCTe.WebServices.Consulta.CTeChave), 7, 14)
       else
       begin
         if not ValidarCNPJouCPF(ACNPJ) then
@@ -2085,7 +2085,7 @@ begin
       end;
 
       Infevento.cOrgao := StrToIntDef(
-        copy(OnlyNumber(ACBrCTe.WebServices.Consulta.CTeChave), 1, 2), 0);
+        copy(RemoverLiteralChave(ACBrCTe.WebServices.Consulta.CTeChave), 1, 2), 0);
       Infevento.dhEvento := now;
       Infevento.tpEvento := teCancelamento;
       Infevento.chCTe := ACBrCTe.WebServices.Consulta.CTeChave;
@@ -2204,7 +2204,7 @@ begin
       DoConfiguraDACTe(False, '');
       try
         ACBrCTe.ImprimirInutilizacaoPDF;
-        ArqPDF := OnlyNumber(ACBrCTe.InutCTe.ID);
+        ArqPDF := RemoverLiteralChave(ACBrCTe.InutCTe.ID);
         ArqPDF := PathWithDelim(ACBrCTe.DACTe.PathPDF) + ArqPDF + '-procInutCTe.pdf';
 
         fpCmd.Resposta := 'Arquivo criado em: ' + ArqPDF;
@@ -2597,7 +2597,7 @@ begin
           try
             ACBrCTe.ImprimirEventoPDF;
 
-            ArqPDF := OnlyNumber(ACBrCTe.EventoCTe.Evento[0].Infevento.id);
+            ArqPDF := RemoverLiteralChave(ACBrCTe.EventoCTe.Evento[0].Infevento.id);
             ArqPDF := PathWithDelim(ACBrCTe.DACTe.PathPDF)+ArqPDF+'-procEventoCTe.pdf';
           except
             on E: Exception do
@@ -2719,7 +2719,7 @@ begin
           try
             ACBrCTe.ImprimirInutilizacaoPDF;
 
-            ArqPDF := OnlyNumber(ACBrCTe.InutCTe.ID);
+            ArqPDF := RemoverLiteralChave(ACBrCTe.InutCTe.ID);
             ArqPDF := PathWithDelim(ACBrCTe.DACTe.PathPDF)+ArqPDF+'-procInutCTe.pdf';
           except
             on E: Exception do

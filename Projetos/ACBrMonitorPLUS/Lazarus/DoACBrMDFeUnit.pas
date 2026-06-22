@@ -636,7 +636,7 @@ begin
           if (Manifestos.Items[I].Confirmado) and  (pPDF) then
           begin
             Manifestos.Items[I].ImprimirPDF;
-            ArqPDF := OnlyNumber(ACBrMDFe.Manifestos.Items[I].MDFe.infMDFe.Id)+'-mdfe.pdf';
+            ArqPDF := RemoverLiteralChave(ACBrMDFe.Manifestos.Items[I].MDFe.infMDFe.Id)+'-mdfe.pdf';
 
             fpCmd.Resposta :=  fpCmd.Resposta + sLineBreak +
               'PDF='+ PathWithDelim(ACBrMDFe.DAMDFE.PathPDF) + ArqPDF + sLineBreak;
@@ -816,7 +816,7 @@ begin
       if pPDF then
       begin
         Manifestos.Items[0].ImprimirPDF;
-        ArqPDF := OnlyNumber(ACBrMDFe.Manifestos.Items[0].MDFe.infMDFe.ID)+'-mdfe.pdf';
+        ArqPDF := RemoverLiteralChave(ACBrMDFe.Manifestos.Items[0].MDFe.infMDFe.ID)+'-mdfe.pdf';
 
         fpCmd.Resposta :=  fpCmd.Resposta + sLineBreak +
                 'PDF='+ PathWithDelim(ACBrMDFe.DAMDFE.PathPDF) + ArqPDF + sLineBreak ;
@@ -1566,7 +1566,7 @@ begin
       CargaDFe := TACBrCarregarMDFe.Create(ACBrMDFe, AXML);
       try
         if (ACBrMDFe.Manifestos.Count > 0) then
-          Chave := OnlyNumber(ACBrMDFe.Manifestos.Items[0].MDFe.infMDFe.ID)
+          Chave := RemoverLiteralChave(ACBrMDFe.Manifestos.Items[0].MDFe.infMDFe.ID)
         else
           raise Exception.Create('Arquivo MDFe inválido: ' + AXML);
       finally
@@ -1590,7 +1590,7 @@ begin
           raise Exception.Create('CNPJ/CPF ' + ACNPJ + ' inválido.');
       end;
 
-      infEvento.cOrgao := StrToIntDef(copy(OnlyNumber(chave), 1, 2), 0);
+      infEvento.cOrgao := StrToIntDef(copy(RemoverLiteralChave(chave), 1, 2), 0);
       infEvento.dhEvento := now;
       infEvento.tpEvento := teEncerramento;
       infEvento.chMDFe := Chave;
@@ -1666,7 +1666,7 @@ begin
       end
       else
         ACBrMDFe.WebServices.Consulta.MDFeChave :=
-          OnlyNumber(ACBrMDFe.Manifestos.Items[0].MDFe.infMDFe.ID);
+          RemoverLiteralChave(ACBrMDFe.Manifestos.Items[0].MDFe.infMDFe.ID);
 
       ACBrMDFe.WebServices.Consulta.Executar;
       RespostaConsulta;
@@ -1779,7 +1779,7 @@ begin
     try
       try
         ACBrMDFe.ImprimirEventoPDF;
-        ArqPDF := OnlyNumber(ACBrMDFe.EventoMDFe.Evento[0].InfEvento.Id);
+        ArqPDF := RemoverLiteralChave(ACBrMDFe.EventoMDFe.Evento[0].InfEvento.Id);
         ArqPDF := PathWithDelim(ACBrMDFe.DAMDFe.PathPDF) + ArqPDF + '-procEventoMDFe.pdf';
 
         fpCmd.Resposta := 'Arquivo criado em: ' + ArqPDF;
@@ -1875,7 +1875,7 @@ begin
 
       try
         ACBrMDFe.Manifestos.ImprimirPDF;
-        ArqPDF := OnlyNumber(ACBrMDFe.Manifestos.Items[0].MDFe.infMDFe.ID) + '-mdfe.pdf';
+        ArqPDF := RemoverLiteralChave(ACBrMDFe.Manifestos.Items[0].MDFe.infMDFe.ID) + '-mdfe.pdf';
         ArqPDF := PathWithDelim(ACBrMDFe.DAMDFe.PathPDF) + ArqPDF;
         fpCmd.Resposta := 'Arquivo criado em: ' + ArqPDF;
       except
@@ -1948,7 +1948,7 @@ begin
   LMDFe.Manifestos.Validar;
 
   ArqMDFe := PathWithDelim(LMDFe.Configuracoes.Arquivos.PathSalvar) +
-    OnlyNumber(LMDFe.Manifestos.Items[0].MDFe.infMDFe.ID) + '-mdfe.xml';
+    RemoverLiteralChave(LMDFe.Manifestos.Items[0].MDFe.infMDFe.ID) + '-mdfe.xml';
   LMDFe.Manifestos.GravarXML(ArqMDFe);
 
   if not FileExists(ArqMDFe) then
@@ -2016,7 +2016,7 @@ begin
     ACBrMDFe.Manifestos.Validar;
 
     ArqMDFe := PathWithDelim(PathWithDelim(ExtractFilePath(Application.ExeName)) +
-      'Lotes' + PathDelim + 'Lote' + trim(ANumeroLote)) + OnlyNumber(
+      'Lotes' + PathDelim + 'Lote' + trim(ANumeroLote)) + RemoverLiteralChave(
       ACBrMDFe.Manifestos.Items[0].MDFe.infMDFe.ID) + '-mdfe.xml';
     ACBrMDFe.Manifestos.GravarXML(ExtractFilePath(ArqMDFe));
 
@@ -2217,7 +2217,7 @@ begin
     ACBrMDFe.Manifestos.Validar;
 
     ArqMDFe := PathWithDelim(ACBrMDFe.Configuracoes.Arquivos.PathSalvar) +
-      OnlyNumber(ACBrMDFe.Manifestos.Items[0].MDFe.infMDFe.ID) + '-mdfe.xml';
+      RemoverLiteralChave(ACBrMDFe.Manifestos.Items[0].MDFe.infMDFe.ID) + '-mdfe.xml';
     ACBrMDFe.Manifestos.GravarXML(ArqMDFe);
 
     if not FileExists(ArqMDFe) then
@@ -2333,7 +2333,7 @@ begin
     begin
       infEvento.CNPJCPF := ACNPJ;
       if Trim(infEvento.CNPJCPF) = '' then
-        infEvento.CNPJCPF := copy(OnlyNumber(ACBrMDFe.WebServices.Consulta.MDFeChave), 7, 14)
+        infEvento.CNPJCPF := copy(RemoverLiteralChave(ACBrMDFe.WebServices.Consulta.MDFeChave), 7, 14)
       else
       begin
         if not ValidarCNPJouCPF(ACNPJ) then
@@ -2341,7 +2341,7 @@ begin
       end;
 
       infEvento.cOrgao := StrToIntDef(
-        copy(OnlyNumber(ACBrMDFe.WebServices.Consulta.MDFeChave), 1, 2), 0);
+        copy(RemoverLiteralChave(ACBrMDFe.WebServices.Consulta.MDFeChave), 1, 2), 0);
       infEvento.dhEvento := now;
       infEvento.tpEvento := teCancelamento;
       infEvento.chMDFe := ACBrMDFe.WebServices.Consulta.MDFeChave;
