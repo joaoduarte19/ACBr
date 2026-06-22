@@ -39,7 +39,7 @@ interface
 uses
   SysUtils, Classes, contnrs,
   {pcteRetEnvEventoCTe,} ACBrCTe.EventoClass,
-  ACBrLibConsReciDFe, ACBrLibResposta, ACBrLibConfig, ACBrCTe;
+  ACBrLibConsReciDFe, ACBrLibResposta, ACBrLibConfig, ACBrCTe, ACBrDFeUtil;
 
 type
 
@@ -357,7 +357,7 @@ procedure TEnvioResposta.Processar(const ACBrCTe: TACBrCTe);
   begin
     Result := Trim(AChave);
     if Result = '' then
-      Result := OnlyNumber(ACBrCTe.Conhecimentos[0].Cte.infCTe.Id);
+      Result := RemoverLiteralChave(ACBrCTe.Conhecimentos[0].Cte.infCTe.Id);
   end;
 
 begin

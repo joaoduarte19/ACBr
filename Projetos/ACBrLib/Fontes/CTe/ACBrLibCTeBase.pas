@@ -842,7 +842,7 @@ begin
     else
       GravarLog('CTE_Inutilizar', logNormal);
 
-    CNPJ := OnlyNumber(CNPJ);
+    CNPJ := OnlyCPFCNPJAlphaNum(CNPJ);
 
     if not ValidarCNPJ(CNPJ) then
       raise EACBrLibException.Create(ErrCNPJ, Format(SErrCNPJInvalido, [ACNPJ]));
@@ -1081,7 +1081,7 @@ begin
       begin
         Infevento.CNPJ := ACNPJ;
         if Trim(Infevento.CNPJ) = '' then
-          Infevento.CNPJ := copy(OnlyNumber(CTeDM.ACBrCTe1.WebServices.Consulta.CTeChave), 7, 14)
+          Infevento.CNPJ := copy(RemoverLiteralChave(CTeDM.ACBrCTe1.WebServices.Consulta.CTeChave), 7, 14)
         else
         begin
           if not ValidarCNPJouCPF(ACNPJ) then
@@ -1090,7 +1090,7 @@ begin
 
         Infevento.nSeqEvento := 1;
         InfEvento.tpAmb := CTeDM.ACBrCTe1.Configuracoes.WebServices.Ambiente;
-        Infevento.cOrgao := StrToIntDef(copy(OnlyNumber(CTeDM.ACBrCTe1.WebServices.Consulta.CTeChave), 1, 2), 0);
+        Infevento.cOrgao := StrToIntDef(copy(RemoverLiteralChave(CTeDM.ACBrCTe1.WebServices.Consulta.CTeChave), 1, 2), 0);
         Infevento.dhEvento := now;
         Infevento.tpEvento := teCancelamento;
         Infevento.chCTe := CTeDM.ACBrCTe1.WebServices.Consulta.CTeChave;
@@ -1160,7 +1160,7 @@ begin
 
           if Conhecimentos.Count > 0 then
           begin
-            chCTe := OnlyNumber(EventoCTe.Evento.Items[i].InfEvento.chCTe);
+            chCTe := RemoverLiteralChave(EventoCTe.Evento.Items[i].InfEvento.chCTe);
 
             // Se tem a chave do CTe no Evento, procure por ela nos conhecimentos carregados //
             if NaoEstaVazio(chCTe) then
@@ -1681,7 +1681,7 @@ begin
                 CTeDM.ConfigurarImpressao('', True);
                 ImprimirEventoPDF;
 
-                ArqPDF := OnlyNumber(EventoCTe.Evento[0].Infevento.id);
+                ArqPDF := RemoverLiteralChave(EventoCTe.Evento[0].Infevento.id);
                 ArqPDF := PathWithDelim(DACTe.PathPDF)+ArqPDF+'-procEventoCTe.pdf';
               except
                 raise EACBrLibException.Create(ErrRetorno, 'Erro ao criar o arquivo PDF');

@@ -41,9 +41,13 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
-
+22/06/2026
+-- ACBrLibCTeBase, ACBrLibCTeRespostas --
+[*] Ajuste das chaves chaves e cnpj alfanumérico.
+   ACBr-9369
+   Por: Larissa Santos 
+   
 14/05/2026
-
 -- ACBrLibCTeConsoleMT, ACBrLibCTeConsoleMTDemo --
 [+] ACBR-9381 Adiciona modo de compilação Windows Console MT
 [*] Destinado a servidores windows sem interface gráfica
