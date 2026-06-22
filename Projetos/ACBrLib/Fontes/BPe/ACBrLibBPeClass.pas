@@ -1060,7 +1060,7 @@ begin
         begin
           Infevento.CNPJ := ACNPJ;
           if Trim(Infevento.CNPJ) = '' then
-            Infevento.CNPJ := copy(OnlyNumber(BPeDM.ACBrBPe1.WebServices.Consulta.BPeChave), 7, 14)
+            Infevento.CNPJ := copy(RemoverLiteralChave(BPeDM.ACBrBPe1.WebServices.Consulta.BPeChave), 7, 14)
           else
           begin
             if not ValidarCNPJ(ACNPJ) then
@@ -1068,7 +1068,7 @@ begin
           end;
 
           Infevento.cOrgao := StrToIntDef(
-            copy(OnlyNumber(BPeDM.ACBrBPe1.WebServices.Consulta.BPeChave), 1, 2), 0);
+            copy(RemoverLiteralChave(BPeDM.ACBrBPe1.WebServices.Consulta.BPeChave), 1, 2), 0);
           Infevento.dhEvento := now;
           Infevento.tpEvento := teCancelamento;
           Infevento.chBPe := BPeDM.ACBrBPe1.WebServices.Consulta.BPeChave;
@@ -1513,7 +1513,7 @@ begin
             try
               ImprimirEventoPDF;
 
-              ArqPDF := OnlyNumber(EventoBPe.Evento[0].Infevento.id);
+              ArqPDF := RemoverLiteralChave(EventoBPe.Evento[0].Infevento.id);
               ArqPDF := PathWithDelim(DABPe.PathPDF)+ArqPDF+'-procEventoBPe.pdf';
             except
               on E: Exception do
