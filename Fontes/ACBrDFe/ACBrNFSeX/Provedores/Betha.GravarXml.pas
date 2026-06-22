@@ -80,12 +80,13 @@ type
 
   TNFSeW_BethaAPIPropria = class(TNFSeW_PadraoNacional)
   private
-    function DevoGerarXMLObra: Boolean;
+//    function DevoGerarXMLObra: Boolean;
   protected
     procedure Configuracao; override;
 
     // Reescrito a geração do grupo IBSCBS do DPS pelo fato do provedor ainda
     // estar usando o layout definido na NT 003 versão 1.2
+    {
     function GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode; override;
     function GerarXMLTributacaoMunicipal: TACBrXmlNode; override;
     function GerarXMLPrestador: TACBrXmlNode; override;
@@ -98,6 +99,7 @@ type
     function GerarXMLIBSCBSEnderecoNacionalAdquirente(endNac: TendNac): TACBrXmlNode;
     function GerarXMLIBSCBSEnderecoExteriorAdquirente(endExt: TendExt): TACBrXmlNode;
     function GerarXMLServico: TACBrXmlNode;  override;
+    }
   end;
 
 implementation
@@ -253,9 +255,9 @@ begin
   inherited Configuracao;
 
   PrefixoPadrao := 'dps';
-  GerargReeRepRes := false;
+//  GerargReeRepRes := false;
 end;
-
+(*
 function TNFSeW_BethaAPIPropria.GerarXMLIBSCBSAdquirente: TACBrXmlNode;
 begin
   Result := CreateElement('adq');
@@ -553,5 +555,5 @@ begin
             (NFSE.ConstrucaoCivil.Cib > 0) or
             (NFSe.ConstrucaoCivil.Endereco.CEP <> '');
 end;
-
+*)
 end.

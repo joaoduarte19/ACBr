@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+22/06/2026
+-- Betha.GravarXml/Betha.LerXml --
+[*] ACBR-9537 - O que tudo indica que agora o provedor esta trabalhando com o layout atualizado e não mais com 
+    o que foi publicado na NT 003 versão 1.2, alteração visando usar o layout atualizado.
+   Por: Italo Giurizzato Junior
+
 12/06/2026
 -- ACBrNFSeXServicos --
 [*] A cidade de Bataguassu/MS mudou para o provedor Fiorilli - Padrão Nacional versão 1.01
