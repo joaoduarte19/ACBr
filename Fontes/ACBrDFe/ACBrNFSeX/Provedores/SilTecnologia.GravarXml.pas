@@ -39,6 +39,7 @@ interface
 uses
   SysUtils, Classes, StrUtils,
   ACBrXmlBase,
+  ACBrXmlDocument,
   ACBrNFSeXGravarXml_ABRASFv1,
   ACBrNFSeXGravarXml_ABRASFv2,
   PadraoNacional.GravarXml;
@@ -62,8 +63,11 @@ type
   { TNFSeW_SilTecnologiaAPIPropria }
 
   TNFSeW_SilTecnologiaAPIPropria = class(TNFSeW_PadraoNacional)
+  private
+    FNrOcorrcPaisTomador: Integer;
   protected
     procedure Configuracao; override;
+    function GerarXMLEnderecoNacionalTomador: TACBrXmlNode; override;
   public
     function GerarXml: Boolean; override;
   end;
@@ -71,8 +75,8 @@ type
 implementation
 
 uses
-  ACBrXmlDocument,
-  ACBrDFe.Conversao;
+  ACBrDFe.Conversao,
+  ACBrNFSeXConversao;
 
 //==============================================================================
 // Essa unit tem por finalidade exclusiva gerar o XML do RPS do provedor:
@@ -107,6 +111,11 @@ begin
 
   NrOcorrtpAmb := -1;
   NrOcorrnNFSe := -1;
+
+  FNrOcorrcPaisTomador := -1;
+
+  if FpAOwner.ConfigGeral.Params.ParamTemValor('GerarTag', 'cPais') then
+    FNrOcorrcPaisTomador := 1;
 end;
 
 function TNFSeW_SilTecnologiaAPIPropria.GerarXml: Boolean;
@@ -124,6 +133,20 @@ begin
   FDocument.Root := NFSeNode;
 
   Result := True;
+end;
+
+function TNFSeW_SilTecnologiaAPIPropria.GerarXMLEnderecoNacionalTomador: TACBrXmlNode;
+begin
+  Result := CreateElement('endNac');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'cPais', 2, 2, FNrOcorrcPaisTomador,
+                 CodIBGEPaisToSiglaISO2(NFSe.Tomador.Endereco.CodigoPais), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'cMun', 7, 7, 1,
+                                    NFSe.Tomador.Endereco.CodigoMunicipio, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'CEP', 8, 8, 1,
+                                                NFSe.Tomador.Endereco.CEP, ''));
 end;
 
 end.

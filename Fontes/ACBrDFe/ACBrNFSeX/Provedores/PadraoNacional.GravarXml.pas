@@ -78,7 +78,7 @@ type
 
     function GerarXMLTomador: TACBrXmlNode;
     function GerarXMLEnderecoTomador: TACBrXmlNode;
-    function GerarXMLEnderecoNacionalTomador: TACBrXmlNode;
+    function GerarXMLEnderecoNacionalTomador: TACBrXmlNode; virtual;
     function GerarXMLEnderecoExteriorTomador: TACBrXmlNode;
 
     function GerarXMLIntermediario: TACBrXmlNode;

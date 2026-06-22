@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/06/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9481 - Adiciona param para gerar a tag cPais no grupo endNac do tomador.
+   Por: Diego Folieni
+-- PadraoNacional.GravarXml/SilTecnologia.GravarXml --
+[*] ACBR-9481 - Adiciona a tag cPais no grupo endNac do tomador
+   Por: Diego Folieni
 -- Tecnos.GravarXml --
 [*] ACBR-9514 - Adiciona as tags CodigoSituacaoTributariaPisCofins e TipoRetencaoPisCofins na geração do XML.
    Por: Daniel Ostoic / Diego Folieni
