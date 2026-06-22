@@ -894,7 +894,7 @@ begin
     else
       GravarLog('NFE_InutilizarNFe', logNormal);
 
-    CNPJCPF := OnlyNumber(CNPJCPF);
+    CNPJCPF := OnlyCPFCNPJAlphaNum(CNPJCPF);
 
     if not ValidarCNPJouCPF(CNPJCPF) then
       raise EACBrLibException.Create(ErrCNPJ, Format(SErrCNPJCPFInvalido, [CNPJCPF]));
@@ -1160,7 +1160,7 @@ begin
       begin
         Infevento.CNPJ := ACNPJCPF;
         if Trim(Infevento.CNPJ) = '' then
-          Infevento.CNPJ := copy(OnlyNumber(NFeDM.ACBrNFe1.WebServices.Consulta.NFeChave), 7, 14)
+          Infevento.CNPJ := copy(RemoverLiteralChave(NFeDM.ACBrNFe1.WebServices.Consulta.NFeChave), 7, 14)
         else
         begin
           if not ValidarCNPJouCPF(ACNPJCPF) then
@@ -1169,7 +1169,7 @@ begin
 
         Infevento.nSeqEvento := 1;
         InfEvento.tpAmb := NFeDM.ACBrNFe1.Configuracoes.WebServices.Ambiente;
-        Infevento.cOrgao := StrToIntDef(copy(OnlyNumber(NFeDM.ACBrNFe1.WebServices.Consulta.NFeChave), 1, 2), 0);
+        Infevento.cOrgao := StrToIntDef(copy(RemoverLiteralChave(NFeDM.ACBrNFe1.WebServices.Consulta.NFeChave), 1, 2), 0);
         Infevento.dhEvento := now;
         Infevento.tpEvento := teCancelamento;
         Infevento.chNFe := NFeDM.ACBrNFe1.WebServices.Consulta.NFeChave;
@@ -1241,7 +1241,7 @@ begin
 
           if NotasFiscais.Count > 0 then
           begin
-            chNfe := OnlyNumber(EventoNFe.Evento.Items[i].InfEvento.chNfe);
+            chNfe := RemoverLiteralChave(EventoNFe.Evento.Items[i].InfEvento.chNfe);
 
             // Se tem a chave da NFe no Evento, procure por ela nas notas carregadas //
             if NaoEstaVazio(chNfe) then
@@ -1778,7 +1778,7 @@ begin
                 NFeDM.ConfigurarImpressao('', True);
                 ImprimirEventoPDF;
 
-                ArqPDF := OnlyNumber(EventoNFe.Evento[0].Infevento.id);
+                ArqPDF := RemoverLiteralChave(EventoNFe.Evento[0].Infevento.id);
                 ArqPDF := PathWithDelim(DANFe.PathPDF) + ArqPDF + '-procEventoNFe.pdf';
               except
                 raise EACBrLibException.Create(ErrRetorno, 'Erro ao criar o arquivo PDF');
