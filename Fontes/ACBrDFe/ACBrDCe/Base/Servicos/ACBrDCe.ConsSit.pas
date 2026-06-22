@@ -39,7 +39,8 @@ interface
 uses
   SysUtils, Classes,
   ACBrXmlBase,
-  ACBrDFe.Conversao;
+  ACBrDFe.Conversao,
+  ACBrDFeUtil;
 
 type
 
@@ -67,7 +68,7 @@ uses
 
 function TConsSitDCe.ObterNomeArquivo: string;
 begin
-  Result := OnlyNumber(FchDCe) + '-ped-sit.xml';
+  Result := RemoverLiteralChave(FchDCe) + '-ped-sit.xml';
 end;
 
 function TConsSitDCe.GerarXML: string;

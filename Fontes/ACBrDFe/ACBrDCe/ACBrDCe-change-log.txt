@@ -41,6 +41,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+22/06/2026
+-- Diversas units ACBrDCe  --
+[*] Ajuste das chaves chaves e cnpj alfanumérico.
+   ACBr-9369
+   Por: Daniel Morais InfoCotidiano
 
 04/06/2026
 -- ACBrDCeDeclaracoes/ACBrDCe.EnvEvento --

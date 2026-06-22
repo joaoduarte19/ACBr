@@ -206,7 +206,7 @@ procedure TfrmDADCeRLRetrato.RLDCeBeforePrint(Sender: TObject; var PrintIt: Bool
 begin
   InicializarDados;
 
-  RLDCe.Title := OnlyNumber(fpDCe.InfDCe.Id);
+  RLDCe.Title := RemoverLiteralChave(fpDCe.InfDCe.Id);
 end;
 
 procedure TfrmDADCeRLRetrato.RLDCeDataRecord(Sender: TObject; RecNo, CopyNo: Integer; var EOF: Boolean; var RecordAction: TRLRecordAction);

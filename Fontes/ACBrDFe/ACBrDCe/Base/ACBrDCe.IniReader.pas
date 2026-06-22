@@ -250,7 +250,7 @@ begin
   while true do
   begin
     sSecao := 'autXML' + IntToStrZero(I,2) ;
-    sFim   := OnlyNumber(AINIRec.ReadString(sSecao, 'CNPJCPF', 'FIM'));
+    sFim   := OnlyCPFCNPJAlphaNum(AINIRec.ReadString(sSecao, 'CNPJCPF', 'FIM'));
     if (sFim = 'FIM') or (Length(sFim) <= 0) then
       break ;
 

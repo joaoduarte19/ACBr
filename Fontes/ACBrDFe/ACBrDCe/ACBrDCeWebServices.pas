@@ -690,7 +690,7 @@ begin
     begin
       with TACBrDCe(FPDFeOwner).Declaracoes.Items[I] do
       begin
-        if OnlyNumber(chDCe) = NumID then
+        if RemoverLiteralChave(chDCe) = NumID then
         begin
 
           if (FPConfiguracoesDCe.Geral.ValidarDigest) and
@@ -1484,7 +1484,7 @@ begin
 
       if FPConfiguracoesDCe.Arquivos.SalvarEvento then
       begin
-        NomeArq := OnlyNumber(FEvento.Evento[0].InfEvento.Id) + '-procEventoDCe.xml';
+        NomeArq := RemoverLiteralChave(FEvento.Evento[0].InfEvento.Id) + '-procEventoDCe.xml';
         PathArq := PathWithDelim(GerarPathEvento(FEvento.Evento[0].InfEvento.CNPJCPF));
 
         FPDFeOwner.Gravar(NomeArq, Texto, PathArq);

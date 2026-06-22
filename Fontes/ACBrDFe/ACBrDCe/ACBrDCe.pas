@@ -44,7 +44,7 @@ uses
   ACBrDCeConfiguracoes, ACBrDCeWebServices, ACBrDCeDeclaracoes,
   ACBrDCe.DACEClass, ACBrDCe.Classes, pcnConversao, ACBrDCe.Conversao,
   ACBrDCe.EventoClass,
-  ACBrDCe.EnvEvento;
+  ACBrDCe.EnvEvento, ACBrDFeUtil;
 
 const
   ACBRDCE_NAMESPACE = 'http://www.portalfiscal.inf.br/dce';
@@ -198,7 +198,7 @@ begin
     ImprimirEventoPDF;
     AnexosEmail.Add(DACE.ArquivoPDF);
 
-    NomeArq := OnlyNumber(EventoDCe.Evento[0].InfEvento.Id);
+    NomeArq := RemoverLiteralChave(EventoDCe.Evento[0].InfEvento.Id);
     EnviarEmail(sPara, sAssunto, sMensagem, sCC, AnexosEmail, StreamDCe,
 	    NomeArq + '-procEventoDCe.xml', sReplyTo);
   finally
@@ -278,7 +278,7 @@ begin
   if Pos('?', urlUF) <= 0 then
     urlUF := urlUF + '?';
 
-  idDCe := OnlyNumber(FDCe.infDCe.ID);
+  idDCe := RemoverLiteralChave(FDCe.infDCe.ID);
 
   // Passo 1
   sEntrada := 'chDCe=' + idDCe + '&tpAmb=' + TipoAmbienteToStr(FDCe.Ide.tpAmb);
@@ -511,7 +511,7 @@ begin
     with EventoDCe.Evento.New do
     begin
       infEvento.CNPJCPF := Declaracoes.Items[i].DCe.Emit.CNPJCPF;
-      infEvento.cOrgao := StrToIntDef(copy(OnlyNumber(WebServices.Consulta.DCeChave), 1, 2), 0);
+      infEvento.cOrgao := StrToIntDef(copy(RemoverLiteralChave(WebServices.Consulta.DCeChave), 1, 2), 0);
       infEvento.dhEvento := now;
       infEvento.tpEvento := teCancelamento;
       infEvento.chDCe := WebServices.Consulta.DCeChave;
@@ -610,7 +610,7 @@ begin
 
     if Declaracoes.Count > 0 then
     begin
-      chDCe := OnlyNumber(EventoDCe.Evento.Items[i].InfEvento.chDCe);
+      chDCe := RemoverLiteralChave(EventoDCe.Evento.Items[i].InfEvento.chDCe);
 
       // Se tem a chave do DCe no Evento, procure por ela nos Declaracoes carregados //
       if NaoEstaVazio(chDCe) then

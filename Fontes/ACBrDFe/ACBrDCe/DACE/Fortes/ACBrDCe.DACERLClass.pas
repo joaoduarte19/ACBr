@@ -45,7 +45,7 @@ uses
   pcnConversao, 
   ACBrDCe.Classes,
   ACBrDCe.DACEClass,
-  RLTypes;
+  RLTypes, ACBrDFeUtil;
 
 type
 
@@ -122,7 +122,7 @@ var
   function ImprimirDACEPDFTipo(ADCe: TDCe): String;
   begin
     Result := DefinirNomeArquivo(Self.PathPDF,
-                                 OnlyNumber(ADCe.infDCe.ID) + '-DCe.pdf',
+                                 RemoverLiteralChave(ADCe.infDCe.ID) + '-DCe.pdf',
                                  Self.NomeDocumento);
 
     TfrmDADCeRLRetrato.SalvarPDF(Self, ADCe, Result);
@@ -180,7 +180,7 @@ begin
       Impresso := False;
       for j := 0 to (TACBrDCe(ACBrDCe).Declaracoes.Count - 1) do
       begin
-        if OnlyNumber(TACBrDCe(ACBrDCe).Declaracoes[j].DCe.infDCe.Id) = TACBrDCe(ACBrDCe).EventoDCe.Evento[i].InfEvento.chDCe then
+        if RemoverLiteralChave(TACBrDCe(ACBrDCe).Declaracoes[j].DCe.infDCe.Id) = TACBrDCe(ACBrDCe).EventoDCe.Evento[i].InfEvento.chDCe then
         begin
           TfrmDCeDAEventoRLRetrato.Imprimir(Self, TACBrDCe(ACBrDCe).EventoDCe.Evento[i],
             TACBrDCe(ACBrDCe).Declaracoes[j].DCe);
@@ -213,7 +213,7 @@ var
   function ImprimirEVENTOPDFTipo(EventoNFeItem: TInfEventoCollectionItem; ADCe: TDCe): String;
   begin
     Result := DefinirNomeArquivo(Self.PathPDF,
-                                 OnlyNumber(EventoNFeItem.InfEvento.id) + '-procEventoDCe.pdf',
+                                 RemoverLiteralChave(EventoNFeItem.InfEvento.id) + '-procEventoDCe.pdf',
                                  Self.NomeDocumento);
 
     TfrmDCeDAEventoRLRetrato.SalvarPDF(Self, EventoNFeItem, Result, ADCe);
@@ -232,8 +232,8 @@ begin
         ArqPDF := '';
         for j := 0 to (Declaracoes.Count - 1) do
         begin
-          NumID := OnlyNumber(Declaracoes[j].DCe.infDCe.ID);
-          if (NumID = OnlyNumber(EventoDCe.Evento[i].InfEvento.chDCe)) then
+          NumID := RemoverLiteralChave(Declaracoes[j].DCe.infDCe.ID);
+          if (NumID = RemoverLiteralChave(EventoDCe.Evento[i].InfEvento.chDCe)) then
           begin
             ArqPDF := ImprimirEVENTOPDFTipo(EventoDCe.Evento[i], Declaracoes[j].DCe);
             Impresso := True;
@@ -277,8 +277,8 @@ begin
         Impresso := False;
         for j := 0 to (Declaracoes.Count - 1) do
         begin
-          NumID := OnlyNumber(Declaracoes[j].DCe.infDCe.ID);
-          if (NumID = OnlyNumber(EventoDCe.Evento[i].InfEvento.chDCe)) then
+          NumID := RemoverLiteralChave(Declaracoes[j].DCe.infDCe.ID);
+          if (NumID = RemoverLiteralChave(EventoDCe.Evento[i].InfEvento.chDCe)) then
           begin
             TfrmDCeDAEventoRLRetrato.SalvarPDF(Self, EventoDCe.Evento[i], AStream, Declaracoes[j].DCe);
             Impresso := True;
@@ -292,12 +292,12 @@ begin
     end
     else
     begin
-      NumID := OnlyNumber(ADCe.infDCe.ID);
+      NumID := RemoverLiteralChave(ADCe.infDCe.ID);
       Impresso := False;
 
       for i := 0 to (EventoDCe.Evento.Count - 1) do
       begin
-        if (NumID = OnlyNumber(EventoDCe.Evento[i].InfEvento.chDCe)) then
+        if (NumID = RemoverLiteralChave(EventoDCe.Evento[i].InfEvento.chDCe)) then
         begin
           TfrmDCeDAEventoRLRetrato.SalvarPDF(Self, EventoDCe.Evento[i], AStream, ADCe);
           Impresso := True;

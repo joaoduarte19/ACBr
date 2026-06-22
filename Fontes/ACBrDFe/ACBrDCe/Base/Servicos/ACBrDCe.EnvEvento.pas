@@ -214,7 +214,7 @@ var
   sDoc: string;
 begin
   Evento[Idx].InfEvento.id := 'ID' + Evento[Idx].InfEvento.TipoEvento +
-                             OnlyNumber(Evento[Idx].InfEvento.chDCe) +
+                             RemoverLiteralChave(Evento[Idx].InfEvento.chDCe) +
                              Format('%.3d', [Evento[Idx].InfEvento.nSeqEvento]);
 
   if Length(Evento[Idx].InfEvento.id) < 54 then
@@ -244,7 +244,7 @@ begin
   if not ValidarCNPJ(sDoc) then
     wAlerta('HP10', 'CNPJAutor', DSC_CNPJ, ERR_MSG_INVALIDO);
 
-  sDoc := OnlyNumber(Evento[Idx].InfEvento.IdOutrosEmit);
+  sDoc := Evento[Idx].InfEvento.IdOutrosEmit;
 
   if EstaVazio(sDoc) then
   begin
