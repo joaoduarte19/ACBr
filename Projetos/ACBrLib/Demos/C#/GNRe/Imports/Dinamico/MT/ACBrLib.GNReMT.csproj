@@ -27,22 +27,26 @@
     <DefineConstants>NET45;NETFULL</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net452|AnyCPU'">
+  <PropertyGroup
+    Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net452|AnyCPU'">
     <OutputPath>..\..\bin\Debug\</OutputPath>
     <DocumentationFile>..\..\bin\Debug\net452\ACBrLib.GNRe.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net452|AnyCPU'">
+  <PropertyGroup
+    Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net452|AnyCPU'">
     <OutputPath>..\..\bin\Release\</OutputPath>
     <DocumentationFile>..\..\bin\Release\net452\ACBrLib.GNRe.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+  <PropertyGroup
+    Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
     <OutputPath>..\..\bin\Debug\</OutputPath>
     <DocumentationFile>..\..\bin\Debug\netstandard2.0\ACBrLib.GNRe.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+  <PropertyGroup
+    Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
     <OutputPath>..\..\bin\Release\</OutputPath>
     <DocumentationFile>..\..\bin\Release\netstandard2.0\ACBrLib.GNRe.xml</DocumentationFile>
   </PropertyGroup>
@@ -50,20 +54,22 @@
   <ItemGroup>
     <Compile Include="..\Shared\GNReConfig.cs" Link="GNReConfig.cs" />
     <Compile Include="..\Shared\GuiaConfig.cs" Link="GuiaConfig.cs" />
-	<Compile Include="..\Shared\GerarGuia\GerarGuia.cs" Link="GerarGuia\GerarGuia.cs" />
-	<Compile Include="..\Shared\GerarGuia\EmitenteGNRe.cs" Link="GerarGuia\EmitenteGNRe.cs" />
-	<Compile Include="..\Shared\GerarGuia\ComplementoGNRe.cs" Link="GerarGuia\ComplementoGNRe.cs" />
-	<Compile Include="..\Shared\GerarGuia\ReferenciaGNRe.cs" Link="GerarGuia\ReferenciaGNRe.cs" />
-	<Compile Include="..\Shared\GerarGuia\DestinatarioGNRe.cs" Link="GerarGuia\DestinatarioGNRe.cs" />
-	<Compile Include="..\Shared\GerarGuia\CampoExtraGNRe.cs" Link="GerarGuia\CampoExtraGNRe.cs" />
-	<Compile Include="..\Shared\Respostas\ConsultaGNReResposta.cs" Link="Respostas\ConsultaGNReResposta.cs" />
+    <Compile Include="..\Shared\GerarGuia\GerarGuia.cs" Link="GerarGuia\GerarGuia.cs" />
+    <Compile Include="..\Shared\GerarGuia\EmitenteGNRe.cs" Link="GerarGuia\EmitenteGNRe.cs" />
+    <Compile Include="..\Shared\GerarGuia\ComplementoGNRe.cs" Link="GerarGuia\ComplementoGNRe.cs" />
+    <Compile Include="..\Shared\GerarGuia\ReferenciaGNRe.cs" Link="GerarGuia\ReferenciaGNRe.cs" />
+    <Compile Include="..\Shared\GerarGuia\DestinatarioGNRe.cs" Link="GerarGuia\DestinatarioGNRe.cs" />
+    <Compile Include="..\Shared\GerarGuia\CampoExtraGNRe.cs" Link="GerarGuia\CampoExtraGNRe.cs" />
+    <Compile Include="..\Shared\Respostas\ConsultaGNReResposta.cs"
+      Link="Respostas\ConsultaGNReResposta.cs" />
+    <Compile Include="..\Shared\IACBrLibGNRe.cs" Link="IACBrLibGNRe.cs" />
   </ItemGroup>
 
-   <Choose>
+  <Choose>
     <When Condition=" '$(IsPacking)' == 'true' ">
 
       <ItemGroup>
-        <PackageReference Include="ACBrLib.Core" Version="[1.2.48,)" />
+        <PackageReference Include="ACBrLib.Core" Version="[1.2.49,)" />
       </ItemGroup>
     </When>
     <Otherwise>

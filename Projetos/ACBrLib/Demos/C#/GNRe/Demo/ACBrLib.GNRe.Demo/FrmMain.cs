@@ -13,7 +13,7 @@ namespace ACBrLib.GNRe.Demo
     {
         #region Fields
 
-        private ACBrGNRe gnre;
+        private IACBrLibGNRe gnre;
 
         #endregion Fields
 

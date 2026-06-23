@@ -4,10 +4,11 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using ACBrLib.Core;
 
 namespace ACBrLib.GNRe
 {
-    public sealed partial class ACBrGNRe
+    public sealed class ACBrGNReHandle : ACBrLibHandleBase
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int GNRE_Inicializar(ref IntPtr handle, string eArqConfig, string eChaveCrypt);
@@ -124,5 +125,18 @@ namespace ACBrLib.GNRe
             AddMethod<GNRE_ImprimirPDF>("GNRE_ImprimirPDF");
             AddMethod<GNRE_OpenSSLInfo>("GNRE_OpenSSLInfo");
         }
+
+        protected override string GetLibraryName()
+        {
+            var arch = Environment.Is64BitProcess ? "64" : "32";
+            if (PlatformID.Unix == Environment.OSVersion.Platform)
+                return $"libacbrgnre{arch}.so";
+
+            return $"ACBrGNRe{arch}.dll";
+        }
+
+
+        private static readonly Lazy<ACBrGNReHandle> instance = new Lazy<ACBrGNReHandle>(() => new ACBrGNReHandle());
+        public static ACBrGNReHandle Instance => instance.Value;
     }
 }

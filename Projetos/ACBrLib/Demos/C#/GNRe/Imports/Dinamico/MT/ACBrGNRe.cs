@@ -6,21 +6,41 @@ using ACBrLib.Core.DFe;
 
 namespace ACBrLib.GNRe
 {
-    public sealed partial class ACBrGNRe : ACBrLibHandle
+    /// <summary>
+    /// Implementação dinâmica da ACBrLib GNRe.
+    /// </summary>
+    public class ACBrGNRe : ACBrLibBase, IACBrLibGNRe
     {
+        /// <summary>
+        /// Handle nativo da instância da biblioteca.
+        /// </summary>
+        protected IntPtr libHandle = IntPtr.Zero;
+
+        private bool disposed = false;
+
+        /// <summary>
+        /// Ponte para os delegates nativos da ACBrLib GNRe.
+        /// </summary>
+        protected ACBrGNReHandle acbrGNReBridge;
         #region Constructors
 
-        public ACBrGNRe(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBrGNRe64.dll" : "libacbrgnre64.so",
-                                                                                IsWindows ? "ACBrGNRe32.dll" : "libacbrgnre32.so")
+        /// <summary>
+        /// Inicializa uma nova instância da biblioteca ACBrLib GNRe.
+        /// </summary>
+        /// <param name="eArqConfig">Arquivo de configuração da biblioteca.</param>
+        /// <param name="eChaveCrypt">Chave de criptografia utilizada na configuração.</param>
+        public ACBrGNRe(string eArqConfig = "", string eChaveCrypt = "") : base(eArqConfig, eChaveCrypt)
         {
+            acbrGNReBridge = ACBrGNReHandle.Instance;
             Inicializar(eArqConfig, eChaveCrypt);
             Config = new GNReConfig(this);
         }
 
+        /// <inheritdoc/>
         public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
         {
-            var inicializarLib = GetMethod<GNRE_Inicializar>();
-            var ret = ExecuteMethod<int>(() => inicializarLib(ref libHandle,ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            var inicializarLib = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_Inicializar>();
+            var ret = acbrGNReBridge.ExecuteMethod<int>(() => inicializarLib(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
             CheckResult(ret);
         }
 
@@ -28,39 +48,44 @@ namespace ACBrLib.GNRe
 
         #region Properties
 
-        public string Nome
+        /// <inheritdoc/>
+        public override string Nome()
         {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
 
-                var method = GetMethod<GNRE_Nome>();
-                var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
-                CheckResult(ret);
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
 
-                return ProcessResult(buffer, bufferLen);
-            }
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_Nome>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return CheckBuffer(buffer, bufferLen);
+
         }
 
-        public string Versao
+        /// <inheritdoc/>
+        public override string Versao()
         {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
 
-                var method = GetMethod<GNRE_Versao>();
-                var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
-                CheckResult(ret);
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
 
-                return ProcessResult(buffer, bufferLen);
-            }
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_Versao>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return CheckBuffer(buffer, bufferLen);
+
         }
 
+        /// <inheritdoc/>
         public GNReConfig Config { get; }
+
+  
 
         #endregion Properties
 
@@ -68,265 +93,316 @@ namespace ACBrLib.GNRe
 
         #region Ini
 
+        /// <inheritdoc/>
         public override void ConfigGravar(string eArqConfig = "")
         {
-            var gravarIni = GetMethod<GNRE_ConfigGravar>();
-            var ret = ExecuteMethod(() => gravarIni(libHandle, ToUTF8(eArqConfig)));
+            var gravarIni = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_ConfigGravar>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => gravarIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override void ConfigLer(string eArqConfig = "")
         {
-            var lerIni = GetMethod<GNRE_ConfigLer>();
-            var ret = ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
+            var lerIni = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_ConfigLer>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
-        public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
+        /// <inheritdoc/>
+        public override string ConfigLerValor(string eSessao, string eChave)
         {
-            var method = GetMethod<GNRE_ConfigLerValor>();
-
             var bufferLen = BUFFER_LEN;
-            var pValue = new StringBuilder(bufferLen);
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), pValue, ref bufferLen));
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_ConfigLerValor>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao), ToUTF8(eChave), buffer, ref bufferLen));
+
             CheckResult(ret);
 
-            var value = ProcessResult(pValue, bufferLen);
-            return ConvertValue<T>(value);
+            return CheckBuffer(buffer, bufferLen);
         }
 
-        public override void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value)
+        /// <inheritdoc/>
+        public override void ConfigGravarValor(string eSessao, string eChave, string valor)
         {
-            if (value == null) return;
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_ConfigGravarValor>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao), ToUTF8(eChave), ToUTF8(valor)));
 
-            var method = GetMethod<GNRE_ConfigGravarValor>();
-            var propValue = ConvertValue(value);
-
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), ToUTF8(propValue)));
             CheckResult(ret);
         }
 
+
+        /// <inheritdoc/>
         public override void ImportarConfig(string eArqConfig = "")
         {
-            var importarConfig = GetMethod<GNRE_ConfigImportar>();
-            var ret = ExecuteMethod(() => importarConfig(libHandle, ToUTF8(eArqConfig)));
+            var importarConfig = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_ConfigImportar>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => importarConfig(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override string ExportarConfig()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<GNRE_ConfigExportar>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_ConfigExportar>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         #endregion Ini
 
+        /// <inheritdoc/>
         public void CarregarXML(string eArquivoOuXml)
         {
-            var method = GetMethod<GNRE_CarregarXML>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eArquivoOuXml)));
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_CarregarXML>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eArquivoOuXml)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void CarregarINI(string eArquivoOuIni)
         {
-            var method = GetMethod<GNRE_CarregarINI>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eArquivoOuIni)));
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_CarregarINI>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eArquivoOuIni)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public string ObterXml(int aIndex)
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<GNRE_ObterXml>();
-            var ret = ExecuteMethod(() => method(libHandle, aIndex, buffer, ref bufferLen));
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_ObterXml>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle, aIndex, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public void GravarXml(int aIndex, string eNomeArquivo = "", string ePathArquivo = "")
         {
-            var method = GetMethod<GNRE_GravarXml>();
-            var ret = ExecuteMethod(() => method(libHandle, aIndex, ToUTF8(eNomeArquivo), ToUTF8(ePathArquivo)));
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_GravarXml>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle, aIndex, ToUTF8(eNomeArquivo), ToUTF8(ePathArquivo)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void CarregarGuiaRetorno(string eArquivoOuXml)
         {
-            var method = GetMethod<GNRE_CarregarGuiaRetorno>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eArquivoOuXml)));
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_CarregarGuiaRetorno>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eArquivoOuXml)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void LimparLista()
         {
-            var method = GetMethod<GNRE_LimparLista>();
-            var ret = ExecuteMethod(() => method(libHandle));
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_LimparLista>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void LimparListaGuiaRetorno()
         {
-            var method = GetMethod<GNRE_LimparListaGuiaRetorno>();
-            var ret = ExecuteMethod(() => method(libHandle));
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_LimparListaGuiaRetorno>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void Assinar()
         {
-            var method = GetMethod<GNRE_Assinar>();
-            var ret = ExecuteMethod(() => method(libHandle));
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_Assinar>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void Validar()
         {
-            var method = GetMethod<GNRE_Validar>();
-            var ret = ExecuteMethod(() => method(libHandle));
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_Validar>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public string VerificarAssinatura()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<GNRE_VerificarAssinatura>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_VerificarAssinatura>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public InfoCertificado[] ObterCertificados()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<GNRE_ObterCertificados>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_ObterCertificados>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            var certificados = ProcessResult(buffer, bufferLen).Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            var certificados = CheckBuffer(buffer, bufferLen).Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             return certificados.Length == 0 ? new InfoCertificado[0] : certificados.Select(x => new InfoCertificado(x)).ToArray();
         }
 
+        /// <inheritdoc/>
         public string Enviar()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<GNRE_Enviar>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_Enviar>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string Consultar(string uf, int receita)
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<GNRE_Consultar>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(uf), receita, buffer, ref bufferLen));
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_Consultar>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle, ToUTF8(uf), receita, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public void EnviarEmail(string ePara, string eChaveNFe, bool aEnviaPDF, string eAssunto, string eMensagem, string[] eCc = null, string[] eAnexos = null)
         {
-            var method = GetMethod<GNRE_EnviarEmail>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(ePara), ToUTF8(eChaveNFe), aEnviaPDF, ToUTF8(eAssunto), ToUTF8(eCc == null ? "" : string.Join(";", eCc)),
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_EnviarEmail>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle, ToUTF8(ePara), ToUTF8(eChaveNFe), aEnviaPDF, ToUTF8(eAssunto), ToUTF8(eCc == null ? "" : string.Join(";", eCc)),
                 ToUTF8(eAnexos == null ? "" : string.Join(";", eAnexos)), ToUTF8(eMensagem.Replace(Environment.NewLine, ";"))));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void Imprimir(string impressora = "", bool? MostrarPreview = null)
         {
             var mostrarPreview = MostrarPreview.HasValue ? $"{Convert.ToInt32(MostrarPreview.Value)}" : string.Empty;
 
-            var method = GetMethod<GNRE_Imprimir>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(impressora), ToUTF8(mostrarPreview)));
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_Imprimir>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle, ToUTF8(impressora), ToUTF8(mostrarPreview)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void ImprimirPDF()
         {
-            var method = GetMethod<GNRE_ImprimirPDF>();
-            var ret = ExecuteMethod(() => method(libHandle));
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_ImprimirPDF>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle));
 
             CheckResult(ret);
+        }
+
+
+        /// <summary>
+        /// Libera recursos gerenciados e nativos da instância.
+        /// </summary>
+        /// <param name="disposing">Indica se o descarte foi iniciado de forma determinística.</param>
+        protected void Dispose(bool disposing)
+        {
+            if (disposed) return;
+
+            if (disposing)
+            {
+                Finalizar();
+                disposed = true;
+            }
+
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            if (disposed) return;
+            this.Dispose(true);
+
         }
 
         #region Private Methods
 
+        /// <inheritdoc/>
         public override void Finalizar()
         {
-            var finalizarLib = GetMethod<GNRE_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizarLib(libHandle));
+            var finalizarLib = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_Finalizar>();
+            var codRet = acbrGNReBridge.ExecuteMethod(() => finalizarLib(libHandle));
+ 
             CheckResult(codRet);
+            libHandle = IntPtr.Zero;
         }
 
+        /// <inheritdoc/>
         protected override string GetUltimoRetorno(int iniBufferLen = 0)
         {
             var bufferLen = iniBufferLen < 1 ? BUFFER_LEN : iniBufferLen;
             var buffer = new StringBuilder(bufferLen);
-            var ultimoRetorno = GetMethod<GNRE_UltimoRetorno>();
+            var ultimoRetorno = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_UltimoRetorno>();
 
             if (iniBufferLen < 1)
             {
-                ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
+                acbrGNReBridge.ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
                 if (bufferLen <= BUFFER_LEN) return FromUTF8(buffer);
 
                 buffer.Capacity = bufferLen;
             }
 
-            ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
+            acbrGNReBridge.ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
             return FromUTF8(buffer);
         }
 
+        /// <inheritdoc/>
         public override string OpenSSLInfo()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<GNRE_OpenSSLInfo>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbrGNReBridge.GetMethod<ACBrGNReHandle.GNRE_OpenSSLInfo>();
+            var ret = acbrGNReBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
+
 
         #endregion Private Methods
 

@@ -4,11 +4,11 @@ using ACBrLib.Core.DFe;
 
 namespace ACBrLib.GNRe
 {
-    public sealed class GuiaConfig : ACBrLibConfigBase<ACBrGNRe>
+    public sealed class GuiaConfig : ACBrLibConfigBase<IACBrLibGNRe>
     {
         #region Constructors
 
-        public GuiaConfig(ACBrGNRe acbrlib) : base(acbrlib, ACBrSessao.Guia)
+        public GuiaConfig(IACBrLibGNRe acbrlib) : base(acbrlib, ACBrSessao.Guia)
         {
         }
 
