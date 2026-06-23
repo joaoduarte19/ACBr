@@ -52,7 +52,7 @@ interface
 uses
   SysUtils, Classes, synautil,
   pcesConversaoeSocial,
-  pcesS1000, pcesS1005;
+  pcesS1000, pcesS1005, ACBrDFeUtil;
 
 type
 
@@ -165,7 +165,7 @@ begin
 
   for I := 0 to Self.S1000.Count - 1 do
   begin
-    PathName := Path + OnlyNumber(Self.S1000.Items[i].evtInfoEmpregador.Id) + '-' +
+    PathName := Path + RemoverLiteralChave(Self.S1000.Items[i].evtInfoEmpregador.Id) + '-' +
      TipoEventoToStr(Self.S1000.Items[i].TipoEvento)+'-'+IntToStr(i);
 
     Self.S1000.Items[i].evtInfoEmpregador.SaveToFile(PathName);
@@ -174,14 +174,14 @@ begin
     begin
       TipoEvento := teS1000;
       PathNome := PathName;
-      idEvento := OnlyNumber(Self.S1000.Items[i].evtInfoEmpregador.Id);
+      idEvento := RemoverLiteralChave(Self.S1000.Items[i].evtInfoEmpregador.Id);
       XML := Self.S1000.Items[i].evtInfoEmpregador.XML;
     end;
   end;
 
   for I := 0 to Self.S1005.Count - 1 do
   begin
-    PathName := Path + OnlyNumber(Self.S1005.Items[i].evtTabEstab.Id) + '-' +
+    PathName := Path + RemoverLiteralChave(Self.S1005.Items[i].evtTabEstab.Id) + '-' +
      TipoEventoToStr(Self.S1005.Items[i].TipoEvento)+'-'+IntToStr(i);
 
     Self.S1005.Items[i].evtTabEstab.SaveToFile(PathName);
@@ -190,7 +190,7 @@ begin
     begin
       TipoEvento := teS1005;
       PathNome := PathName;
-      idEvento := OnlyNumber(Self.S1005.Items[i].evtTabEstab.Id);
+      idEvento := RemoverLiteralChave(Self.S1005.Items[i].evtTabEstab.Id);
       XML := Self.S1005.Items[i].evtTabEstab.XML;
     end;
   end;
