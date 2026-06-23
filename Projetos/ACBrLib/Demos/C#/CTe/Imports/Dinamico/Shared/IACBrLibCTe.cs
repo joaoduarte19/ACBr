@@ -294,6 +294,11 @@ namespace ACBrLib.CTe
         /// </summary>
         void ImprimirPDF();
 
+         /// <summary>
+        /// Gera o PDF do CTe e retorna o conteúdo em base64.
+        /// </summary>
+        /// <returns>Conteúdo do PDF em base64.</returns>
+        string SalvarPDF();
         /// <summary>
         /// Gera o PDF do CTe e grava em um stream.
         /// </summary>

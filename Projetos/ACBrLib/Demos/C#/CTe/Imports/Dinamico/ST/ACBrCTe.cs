@@ -561,11 +561,10 @@ namespace ACBrLib.CTe
             CheckResult(ret);
         }
 
-        /// <inheritdoc/>
-        public async void ImprimirPDF(Stream aStream)
-        {
-            if (aStream == null) throw new ArgumentNullException(nameof(aStream));
 
+        /// <inheritdoc/>
+        public string SalvarPDF()
+        {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
@@ -574,7 +573,14 @@ namespace ACBrLib.CTe
 
             CheckResult(ret);
 
-            var pdf = ProcessResult(buffer, bufferLen);
+            return ProcessResult(buffer, bufferLen);
+        }
+        /// <inheritdoc/>
+        public async void ImprimirPDF(Stream aStream)
+        {
+            if (aStream == null) throw new ArgumentNullException(nameof(aStream));   
+
+            var pdf = SalvarPDF();
             Base64ToStream(pdf, aStream);
         }
 

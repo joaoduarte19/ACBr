@@ -15,7 +15,7 @@
 	<EmbedUntrackedSources>true</EmbedUntrackedSources>
 	<IncludeSymbols>true</IncludeSymbols>
 	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-	<Version>1.0.11.0</Version>
+	<Version>1.0.14.0</Version>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -151,7 +151,7 @@
 		<When Condition=" '$(IsPacking)' == 'true' ">
 
 			<ItemGroup>
-				<PackageReference Include="ACBrLib.Core" Version="[1.2.48,)" />
+				<PackageReference Include="ACBrLib.Core" Version="[1.2.49,)" />
 			</ItemGroup>
 		</When>
 		<Otherwise>
