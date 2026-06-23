@@ -42,30 +42,30 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 	
-	<xs:simpleType name="TSCodTribNac">
-    <xs:annotation>
-      <xs:documentation>
-        Código de tributação nacional do ISSQN:
-        Regra de formação - 6 dígitos numéricos sendo: 2 para Item (LC 116/2003), 2 para Subitem (LC 116/2003) e 2 para Desdobro Nacional
-      </xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:whiteSpace value="preserve"/>
-      <xs:pattern value="[0-9]{6}"/>
-    </xs:restriction>
-  </xs:simpleType>
+	<xsd:simpleType name="TSCodTribNac">
+    <xsd:annotation>
+      <xsd:documentation>
+        CÃ³digo de tributaÃ§Ã£o nacional do ISSQN:
+        Regra de formaÃ§Ã£o - 6 dÃ­gitos numÃ©ricos sendo: 2 para Item (LC 116/2003), 2 para Subitem (LC 116/2003) e 2 para Desdobro Nacional
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="preserve"/>
+      <xsd:pattern value="[0-9]{6}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
   
-  <xs:simpleType name="TSCodNBS">
-    <xs:annotation>
-      <xs:documentation>
-        Código da lista de Nomenclatura Brasileira de Serviços (NBS)
-      </xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:whiteSpace value="preserve"/>
-      <xs:pattern value="[0-9]{9}"/>
-    </xs:restriction>
-  </xs:simpleType>
+  <xsd:simpleType name="TSCodNBS">
+    <xsd:annotation>
+      <xsd:documentation>
+        CÃ³digo da lista de Nomenclatura Brasileira de ServiÃ§os (NBS)
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="preserve"/>
+      <xsd:pattern value="[0-9]{9}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
 	
 	<xsd:simpleType name="tsRegimeEspecialTributacao">
 		<xsd:restriction base="xsd:byte">
