@@ -86,9 +86,9 @@ type
 
     // Reescrito a geração do grupo IBSCBS do DPS pelo fato do provedor ainda
     // estar usando o layout definido na NT 003 versão 1.2
+    function GerarXMLTributacaoMunicipal: TACBrXmlNode; override;
     {
     function GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode; override;
-    function GerarXMLTributacaoMunicipal: TACBrXmlNode; override;
     function GerarXMLPrestador: TACBrXmlNode; override;
     function GerarXMLgIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode; override;
     function GerarXMLObra: TACBrXmlNode; override;
@@ -501,7 +501,7 @@ begin
 
   Result.AppendChild(GerarXMLRegimeTributacaoPrestador);
 end;
-
+*)
 function TNFSeW_BethaAPIPropria.GerarXMLTributacaoMunicipal: TACBrXmlNode;
 begin
   // No Betha: dentro de TTributacaoMunicipal, aparece antes de tpRetISSQN.
@@ -530,7 +530,7 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'tpRetISSQN', 2, 2, 1,
                  tpRetISSQNToStr(NFSe.Servico.Valores.tribMun.tpRetISSQN), ''));
 end;
-
+(*
 function TNFSeW_BethaAPIPropria.GerarXMLServico: TACBrXmlNode;
 begin
   Result := CreateElement('serv');
