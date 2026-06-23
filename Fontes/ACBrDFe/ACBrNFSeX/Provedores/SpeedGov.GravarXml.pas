@@ -157,6 +157,8 @@ begin
 end;
 
 function TNFSeW_SpeedGov.GerarDadosDPS: TACBrXmlNode;
+var
+  lRegEspTrib: String;
 begin
   Result := CreateElement('DadosDPS');
 
@@ -190,8 +192,15 @@ begin
   Result.AppendChild(AddNode(tcStr, '#38', 'OpSimpNac', 1, 1, 0,
                                   OptanteSNToStr(NFSe.OptanteSN), DSC_INDOPSN));
 
-  Result.AppendChild(AddNode(tcStr, '#38', 'RegEspTrib', 1, 10, 0,
-    FpAOwner.RegimeEspecialTributacaoToStr(NFSe.RegimeEspecialTributacao), DSC_REGISSQN));
+  lRegEspTrib := '';
+  //E390 - Se Simples Nacional (opSimpNac=2 ou 3) com apuração pelo Simples (regApTribSN=1), então regEspTrib DEVE ser 0 (Nenhum)
+  if ((NFSE.OptanteSN = osnOptanteMEI) or (NFSe.OptanteSN = osnOptanteMEEPP)) and
+     (NFSe.RegimeApuracaoSN = raFederaisMunicipalpeloSN) then
+    lRegEspTrib := '0'
+  else
+    lRegEspTrib := FpAOwner.RegimeEspecialTributacaoToStr(NFSe.RegimeEspecialTributacao);
+
+  Result.AppendChild(AddNode(tcStr, '#38', 'RegEspTrib', 1, 10, 0, lRegEspTrib, DSC_REGISSQN));
 
   if NFSe.OptanteSN = osnOptanteMEEPP then
     Result.AppendChild(AddNode(tcStr, '#38', 'RegApTribSN', 1, 1, 0,
