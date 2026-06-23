@@ -85,7 +85,7 @@ uses
 constructor TACBrBancoVortx.Create(AOwner: TACBrBanco);
 begin
   inherited Create(AOwner);
-  fpDigito := 0;
+  fpDigito := 7;
   fpNome := 'VORTX';
   fpNumero := 310;
   fpTamanhoMaximoNossoNum := 11;
@@ -713,6 +713,8 @@ end;
 function TACBrBancoVortx.CalcularDigitoCodigoBarras(const CodigoBarras: String): String;
 begin
   Result := CalcularDV(CodigoBarras);
+  if Result = '0' then
+    Result := '1';
 end;
 
 function TACBrBancoVortx.CalcularDigitoVerificador(const ACBrTitulo: TACBrTitulo): String;
