@@ -38,7 +38,7 @@ interface
 
 uses
   Forms, SysUtils, Classes,
-  ACBrBase, ACBrMDFeDAMDFeClass, ACBrMDFe.Classes;
+  ACBrBase, ACBrMDFeDAMDFeClass, ACBrMDFe.Classes, ACBrDFeUtil;
 
 type
   {$IFDEF RTL230_UP}
@@ -119,7 +119,7 @@ var
   function ImprimirDAMDFEPDFTipo(AMDFe: TMDFe): String;
   begin
     Result := DefinirNomeArquivo(Self.PathPDF,
-                                 OnlyNumber(AMDFe.infMDFe.ID) + '-mdfe.pdf',
+                                 RemoverLiteralChave(AMDFe.infMDFe.ID) + '-mdfe.pdf',
                                  Self.NomeDocumento);
 
     TfrlDAMDFeRLRetrato.SalvarPDF(Self, AMDFe, Result);
@@ -179,7 +179,7 @@ begin
       Impresso := False;
       for j := 0 to (TACBrMDFe(ACBrMDFe).Manifestos.Count - 1) do
       begin
-        if OnlyNumber(TACBrMDFe(ACBrMDFe).Manifestos.Items[j].MDFe.infMDFe.ID) =
+        if RemoverLiteralChave(TACBrMDFe(ACBrMDFe).Manifestos.Items[j].MDFe.infMDFe.ID) =
             TACBrMDFe(ACBrMDFe).EventoMDFe.Evento.Items[i].InfEvento.chMDFe then
         begin
           TfrmMDFeDAEventoRLRetrato.Imprimir(Self,
@@ -214,7 +214,7 @@ var
   function ImprimirEVENTOPDFTipo(EventoMDFeItem: TInfEventoCollectionItem; AMDFe: TMDFe): String;
   begin
     Result := DefinirNomeArquivo(Self.PathPDF,
-                                 OnlyNumber(EventoMDFeItem.InfEvento.id) + '-procEventoMDFe.pdf',
+                                 RemoverLiteralChave(EventoMDFeItem.InfEvento.id) + '-procEventoMDFe.pdf',
                                  Self.NomeDocumento);
 
     // TipoDAMDFE ainda não está sendo utilizado no momento
@@ -234,8 +234,8 @@ begin
         ArqPDF := '';
         for j := 0 to (Manifestos.Count - 1) do
         begin
-          NumID := OnlyNumber(Manifestos.Items[j].MDFe.infMDFe.ID);
-          if (NumID = OnlyNumber(EventoMDFe.Evento.Items[i].InfEvento.chMDFe)) then
+          NumID := RemoverLiteralChave(Manifestos.Items[j].MDFe.infMDFe.ID);
+          if (NumID = RemoverLiteralChave(EventoMDFe.Evento.Items[i].InfEvento.chMDFe)) then
           begin
             ArqPDF := ImprimirEVENTOPDFTipo(EventoMDFe.Evento.Items[i], Manifestos.Items[j].MDFe);
             Impresso := True;
@@ -282,8 +282,8 @@ begin
         Impresso := False;
         for j := 0 to (Manifestos.Count - 1) do
         begin
-          NumID := OnlyNumber(Manifestos.Items[j].MDFe.infMDFe.ID);
-          if (NumID = OnlyNumber(EventoMDFe.Evento.Items[i].InfEvento.chMDFe)) then
+          NumID := RemoverLiteralChave(Manifestos.Items[j].MDFe.infMDFe.ID);
+          if (NumID = RemoverLiteralChave(EventoMDFe.Evento.Items[i].InfEvento.chMDFe)) then
           begin
             TfrmMDFeDAEventoRLRetrato.SalvarPDF(Self, EventoMDFe.Evento.Items[i],
               AStream, Manifestos.Items[j].MDFe);
@@ -299,12 +299,12 @@ begin
     end
     else
     begin
-      NumID := OnlyNumber(AMDFe.infMDFe.Id);
+      NumID := RemoverLiteralChave(AMDFe.infMDFe.Id);
       Impresso := False;
 
       for i := 0 to (EventoMDFe.Evento.Count - 1) do
       begin
-        if (NumID = OnlyNumber(EventoMDFe.Evento.Items[i].InfEvento.chMDFe)) then
+        if (NumID = RemoverLiteralChave(EventoMDFe.Evento.Items[i].InfEvento.chMDFe)) then
         begin
           TfrmMDFeDAEventoRLRetrato.SalvarPDF(Self, EventoMDFe.Evento.Items[i], AStream, AMDFe);
           Impresso := True;

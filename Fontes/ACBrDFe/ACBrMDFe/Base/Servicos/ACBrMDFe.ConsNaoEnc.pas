@@ -69,7 +69,7 @@ function TConsMDFeNaoEnc.GerarXML: string;
 var
   nDoc, xTagDoc: string;
 begin
-  nDoc := OnlyNumber(FCNPJCPF);
+  nDoc := OnlyCPFCNPJAlphaNum(FCNPJCPF);
 
   if Length(nDoc) = 14 then
     xTagDoc := '<CNPJ>' + nDoc + '</CNPJ>'

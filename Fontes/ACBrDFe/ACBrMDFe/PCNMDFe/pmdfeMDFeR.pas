@@ -46,7 +46,8 @@ uses
   pcnConversao, pcnLeitor,
   pmdfeConversaoMDFe, ACBrMDFe.Classes,
   ACBrUtil.Strings,
-  ACBrUtil.Base;
+  ACBrUtil.Base,
+  ACBrDFeUtil;
 
 type
 
@@ -94,7 +95,7 @@ begin
 
   MDFe.infMDFe.ID := Leitor.rAtributo('Id=', 'infMDFe');
 
-  if OnlyNumber(MDFe.infMDFe.ID) = '' then
+  if RemoverLiteralChave(MDFe.infMDFe.ID) = '' then
     raise Exception.Create('Não encontrei o atributo: Id');
 
   MDFe.infMDFe.versao := StringToFloatDef(Leitor.rAtributo('versao=', 'infMDFe'), -1);

@@ -40,6 +40,7 @@ uses
   SysUtils, Classes,
   pcnConversao,
   ACBrXmlBase,
+  ACBrDFeUtil,
   ACBrDFe.Conversao;
 
 type
@@ -83,7 +84,7 @@ end;
 
 function TConsSitMDFe.ObterNomeArquivo: string;
 begin
-  Result := OnlyNumber(FchMDFe) + '-ped-sit.xml';
+  Result := RemoverLiteralChave(FchMDFe) + '-ped-sit.xml';
 end;
 
 function TConsSitMDFe.GerarXML: string;

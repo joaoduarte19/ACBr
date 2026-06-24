@@ -41,6 +41,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+24/06/2026
+-- Diversas units ACBrMDFe  --
+[*] Ajuste das chaves chaves e cnpj alfanumérico.
+   ACBr-9369
+   Por: Larissa Santos
 
 27/03/2026
 -- ACBrMDFeDAMDFeFPDF --

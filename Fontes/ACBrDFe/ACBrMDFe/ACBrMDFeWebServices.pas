@@ -926,7 +926,7 @@ begin
       begin
         with TACBrMDFe(FPDFeOwner).Manifestos.Items[I] do
         begin
-          if OnlyNumber(chMDFe) = NumID then
+          if RemoverLiteralChave(chMDFe) = NumID then
           begin
             if (FPConfiguracoesMDFe.Geral.ValidarDigest) and
                (FMDFeRetornoSincrono.protMDFe.digVal <> '') and
@@ -1123,7 +1123,7 @@ begin
     begin
       for j := 0 to FManifestos.Count - 1 do
       begin
-        if OnlyNumber(FMDFeRetorno.ProtDFe.Items[i].chDFe) = FManifestos.Items[J].NumID then
+        if RemoverLiteralChave(FMDFeRetorno.ProtDFe.Items[i].chDFe) = FManifestos.Items[J].NumID then
         begin
           FManifestos.Items[j].MDFe.procMDFe.verAplic := '';
           FManifestos.Items[j].MDFe.procMDFe.chDFe   := '';
@@ -1283,7 +1283,7 @@ begin
   begin
     for J := 0 to FManifestos.Count - 1 do
     begin
-      if OnlyNumber(AInfProt.Items[I].chDFe) = FManifestos.Items[J].NumID then
+      if RemoverLiteralChave(AInfProt.Items[I].chDFe) = FManifestos.Items[J].NumID then
       begin
         if (TACBrMDFe(FPDFeOwner).Configuracoes.Geral.ValidarDigest) and
           (FManifestos.Items[J].MDFe.signature.DigestValue <>
@@ -1629,7 +1629,7 @@ var
   NumChave: String;
 begin
   if FMDFeChave = AValue then Exit;
-    NumChave := OnlyNumber(AValue);
+    NumChave := RemoverLiteralChave(AValue);
 
   if not ValidarChave(NumChave) then
     raise EACBrMDFeException.Create(Format('Chave "%s" inválida.',[AValue]));
@@ -1920,7 +1920,7 @@ begin
         begin
           with TACBrMDFe(FPDFeOwner).Manifestos.Items[i] do
           begin
-            if (OnlyNumber(FMDFeChave) = NumID) then
+            if (RemoverLiteralChave(FMDFeChave) = NumID) then
             begin
               Atualiza := (NaoEstaVazio(MDFeRetorno.XMLprotMDFe));
 
@@ -2497,7 +2497,7 @@ begin
 
           if FPConfiguracoesMDFe.Arquivos.SalvarEvento then
           begin
-            NomeArq := OnlyNumber(FEvento.Evento.Items[I].InfEvento.Id) + '-procEventoMDFe.xml';
+            NomeArq := RemoverLiteralChave(FEvento.Evento.Items[I].InfEvento.Id) + '-procEventoMDFe.xml';
             PathArq := PathWithDelim(GerarPathEvento(FEvento.Evento.Items[I].InfEvento.CNPJCPF));
 
             FPDFeOwner.Gravar(NomeArq, Texto, PathArq);
@@ -2605,7 +2605,7 @@ begin
   ConsMDFeNaoEnc := TConsMDFeNaoEnc.create;
   try
     ConsMDFeNaoEnc.TpAmb   := FPConfiguracoesMDFe.WebServices.Ambiente;
-    ConsMDFeNaoEnc.CNPJCPF := OnlyNumber( FCNPJCPF );
+    ConsMDFeNaoEnc.CNPJCPF := OnlyCPFCNPJAlphaNum( FCNPJCPF );
     ConsMDFeNaoEnc.Versao  := FPVersaoServico;
 
 //    AjustarOpcoes( ConsMDFeNaoEnc.Gerador.Opcoes );
@@ -2768,7 +2768,7 @@ begin
           FNomeArq := FretDistDFeInt.docZip.Items[I].resMDFe.chMDFe + '-resMDFe.xml';
 
         schresEvento:
-          FNomeArq := OnlyNumber(TpEventoToStr(FretDistDFeInt.docZip.Items[I].resEvento.tpEvento) +
+          FNomeArq := RemoverLiteralChave(TpEventoToStr(FretDistDFeInt.docZip.Items[I].resEvento.tpEvento) +
                      FretDistDFeInt.docZip.Items[I].resEvento.chMDFe +
                      Format('%.2d', [FretDistDFeInt.docZip.Items[I].resEvento.nSeqEvento])) +
                      '-resEventoMDFe.xml';
@@ -2777,7 +2777,7 @@ begin
           FNomeArq := FretDistDFeInt.docZip.Items[I].resDFe.chDFe + '-mdfe.xml';
 
         schprocEventoMDFe:
-          FNomeArq := OnlyNumber(FretDistDFeInt.docZip.Items[I].procEvento.Id) +
+          FNomeArq := RemoverLiteralChave(FretDistDFeInt.docZip.Items[I].procEvento.Id) +
                      '-procEventoMDFe.xml';
       end;
 

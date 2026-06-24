@@ -228,7 +228,7 @@ var
   Serie: Integer;
 begin
   Evento[Idx].InfEvento.id := 'ID' + Evento[Idx].InfEvento.TipoEvento +
-                             OnlyNumber(Evento[Idx].InfEvento.chMDFe) +
+                             RemoverLiteralChave(Evento[Idx].InfEvento.chMDFe) +
                              Format('%.2d', [Evento[Idx].InfEvento.nSeqEvento]);
 
   if Length(Evento[Idx].InfEvento.id) < 54 then
@@ -243,7 +243,7 @@ begin
   Result.AppendChild(AddNode(tcStr, 'HP09', 'tpAmb', 1, 1, 1,
                     TipoAmbienteToStr(Evento[Idx].InfEvento.tpAmb), DSC_TPAMB));
 
-  sDoc := OnlyNumber(Evento[Idx].InfEvento.CNPJCPF);
+  sDoc := OnlyCPFCNPJAlphaNum(Evento[Idx].InfEvento.CNPJCPF);
 
   if EstaVazio(sDoc) then
     sDoc := ExtrairCNPJCPFChaveAcesso(Evento[Idx].InfEvento.chMDFe);

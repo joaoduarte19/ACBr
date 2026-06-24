@@ -574,12 +574,12 @@ begin
         Engine.Compressed := True;
         if Assigned(FStream) then
         begin
-          FPArquivoPDF := OnlyNumber(LMDFe.infMDFe.Id) + '-mdfe.pdf';
+          FPArquivoPDF := RemoverLiteralChave(LMDFe.infMDFe.Id) + '-mdfe.pdf';
           Engine.SaveToStream(FStream);
         end else
         begin
           LPath := DefinirNomeArquivo(TACBrMDFe(ACBrMDFe).DAMDFE.PathPDF,
-                 OnlyNumber(LMDFe.infMDFe.Id) + '-mdfe.pdf',
+                 RemoverLiteralChave(LMDFe.infMDFe.Id) + '-mdfe.pdf',
                  TACBrMDFe(ACBrMDFe).DAMDFE.NomeDocumento);
 
           ForceDirectories(ExtractFilePath(LPath));
@@ -877,7 +877,7 @@ begin
   bW := 100;
   bH := 18;
   //codigo de barras
-  LPDF.Code128(OnlyNumber(LMDFE.infMDFe.Id), x1 , y1, bH, bW);
+  LPDF.Code128(RemoverLiteralChave(LMDFE.infMDFe.Id), x1 , y1, bH, bW);
   //linhas divisorias
   LPDF.SetFont(6, '');
 
@@ -968,7 +968,7 @@ begin
   bW := 100;
   bH := 18;
   //codigo de barras
-  LPDF.Code128(OnlyNumber(LMDFE.infMDFe.Id), x1 , y1, bH, bW);
+  LPDF.Code128(RemoverLiteralChave(LMDFE.infMDFe.Id), x1 , y1, bH, bW);
   //linhas divisorias
   LPDF.SetFont(6, '');
 
@@ -1072,7 +1072,7 @@ begin
   bW := 100;
   bH := 18;
   //codigo de barras
-  LPDF.Code128(OnlyNumber(LMDFE.infMDFe.Id), x1 , y1, bH, bW);
+  LPDF.Code128(RemoverLiteralChave(LMDFE.infMDFe.Id), x1 , y1, bH, bW);
   //linhas divisorias
   LPDF.SetFont(6, '');
 
@@ -1241,7 +1241,7 @@ begin
   bW := 100;
   bH := 18;
   //codigo de barras
-  LPDF.Code128(OnlyNumber(LMDFE.infMDFe.Id), x1 , y1, bH, bW);
+  LPDF.Code128(RemoverLiteralChave(LMDFE.infMDFe.Id), x1 , y1, bH, bW);
   //linhas divisorias
   LPDF.SetFont(6, '');
 

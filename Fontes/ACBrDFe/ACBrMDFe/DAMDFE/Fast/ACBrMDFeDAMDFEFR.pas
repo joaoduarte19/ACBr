@@ -844,7 +844,7 @@ begin
         frxPDFExport.ShowDialog := False;
 	      NomeArq := Trim(DAMDFEClassOwner.NomeDocumento);
 	      if EstaVazio(NomeArq) then
-	        NomeArq := OnlyNumber(TACBrMDFe(ACBrMDFe).Manifestos.Items[i].MDFe.infMDFe.ID) + '-mdfe.pdf';
+	        NomeArq := RemoverLiteralChave(TACBrMDFe(ACBrMDFe).Manifestos.Items[i].MDFe.infMDFe.ID) + '-mdfe.pdf';
 	      frxPDFExport.FileName := PathWithDelim(DAMDFEClassOwner.PathPDF) + NomeArq;
 
         if not DirectoryExists(ExtractFileDir(frxPDFExport.FileName)) then
@@ -924,7 +924,7 @@ begin
       frxPDFExport.ShowDialog := False;
       NomeArq := Trim(DAMDFEClassOwner.NomeDocumento);
       if EstaVazio(NomeArq) then
-        NomeArq := OnlyNumber(TACBrMDFe(ACBrMDFe).EventoMDFe.Evento.Items[0].InfEvento.Id) + '-procEventoMDFe.pdf';
+        NomeArq := RemoverLiteralChave(TACBrMDFe(ACBrMDFe).EventoMDFe.Evento.Items[0].InfEvento.Id) + '-procEventoMDFe.pdf';
       frxPDFExport.FileName := PathWithDelim(DAMDFEClassOwner.PathPDF) + NomeArq;
 
       if not DirectoryExists(ExtractFileDir(frxPDFExport.FileName)) then
@@ -1279,7 +1279,7 @@ begin
   begin
     Append;
 
-    FieldByName('Id').AsString    := OnlyNumber(FMDFe.infMDFe.Id);
+    FieldByName('Id').AsString    := RemoverLiteralChave(FMDFe.infMDFe.Id);
     FieldByName('Chave').AsString := FormatarChaveAcesso(FMDFe.infMDFe.Id);
 
     FieldByName('tpAmb').AsInteger  := StrToIntDef(TpAmbToStr(FMDFe.Ide.tpAmb), 0);
