@@ -76,7 +76,6 @@ implementation
 
 uses
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.FilesIO,
-  ACBrDFeException,
   ACBrPagFor, ACBrPagForConfiguracoes;
 
 { TACBrPagForProvider }
@@ -117,7 +116,7 @@ begin
 
   FAOwner := AOwner;
   if not Assigned(FAOwner) then
-    raise EACBrDFeException.Create('Componente ACBrPagFor não informado');
+    raise EACBrPagForException.Create('Componente ACBrPagFor não informado');
 
   FConfigGeral := TConfigGeral.Create;
 

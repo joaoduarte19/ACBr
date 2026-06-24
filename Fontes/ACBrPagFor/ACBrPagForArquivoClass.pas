@@ -37,7 +37,7 @@ unit ACBrPagForArquivoClass;
 interface
 
 uses
-  Forms, SysUtils, Classes,
+  SysUtils, Classes,
   ACBrPagForClass, ACBrPagForConversao;
 
 type

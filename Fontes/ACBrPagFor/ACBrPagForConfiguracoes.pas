@@ -37,7 +37,7 @@ unit ACBrPagForConfiguracoes;
 interface
 
 uses
-  Classes, Forms, SysUtils,
+  Classes, SysUtils,
   ACBrPagForConversao;
 
 type
@@ -334,7 +334,7 @@ end;
 function TArquivosConf.GetPathSalvar: String;
 begin
   if FPathSalvar = '' then
-    FPathSalvar := ExtractFilePath(Application.ExeName);
+    FPathSalvar := ExtractFilePath(ParamStr(0));
 
   FPathSalvar := PathWithDelim(Trim(FPathSalvar));
   Result := FPathSalvar;

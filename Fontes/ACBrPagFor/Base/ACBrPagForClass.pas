@@ -40,7 +40,7 @@ uses
 {$IFNDEF VER130}
   Variants,
 {$ENDIF}
-  Controls, SysUtils, Classes, Contnrs,
+  SysUtils, Classes, Contnrs,
   ACBrPagForConversao;
 
 type

@@ -69,7 +69,7 @@ implementation
 
 uses
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.DateTime,
-  ACBrDFeException;
+  ACBrPagFor;
 
 { TArquivoRClass }
 
@@ -174,7 +174,7 @@ end;
 function TArquivoRClass.LerTxt: Boolean;
 begin
   Result := False;
-  raise EACBrDFeException.Create(ClassName + '.LerTxt, não implementado');
+  raise EACBrPagForException.Create(ClassName + '.LerTxt, não implementado');
 end;
 
 end.

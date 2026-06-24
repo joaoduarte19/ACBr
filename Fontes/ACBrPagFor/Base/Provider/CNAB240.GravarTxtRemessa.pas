@@ -994,6 +994,7 @@ begin
       GravarCampo(Informacoes1ou2, 1, tcStr);
       GravarCampo(Informacoes1, 80, tcStr, True);
       GravarCampo(Informacoes2, 80, tcStr, True);
+      GravarCampo(Identificador, 2, tcStr, True);
 
       if PagFGTS then // Se True Pagamento de FGTS
       begin
