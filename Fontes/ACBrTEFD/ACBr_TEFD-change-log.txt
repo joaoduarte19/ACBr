@@ -45,6 +45,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+24/06/2026
+-- ACBrTEFAPITXT --
+[*] Adicionada Sobrecarga ao método 'VerificarPresencaPinPad', para chamar 'ATV'
+
+-- ACBrTEFTXTPayGo --
+[*] Aplicado workaround no método 'MNU', para ler a resposta do campo 763 ou 762
+    (por: DSA)
+
 19/06/2026
 -- ACBrTEFAPICliSiTef --
 [*] Ajuste para perguntar Campo 500-Supervior, com informações de Mascara e validação

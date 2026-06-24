@@ -470,6 +470,7 @@ end;
 function TACBrTEFTXTPayGo.MNU(const Titulo: String; Opcoes: TStrings): Integer;
 var
   i: Integer;
+  item: String;
 begin
   Result := -1;
   if (Opcoes.Count < 1) then
@@ -483,7 +484,15 @@ begin
 
   EnviarRequisicao;
   if RespostaTransacaoComSucesso then
-    Result := Resp.Campo[763,0].AsInteger + 1;
+  begin
+    item := Resp.Campo[763,0].AsString;
+    if (item = '') then
+      item := Resp.Campo[762,0].AsString;
+
+    Result := Opcoes.IndexOf(item);
+    if (Result >= 0) then
+      Inc(Result);
+  end;
 end;
 
 function TACBrTEFTXTPayGo.CalcularCapacidadesAutomacao: Integer;

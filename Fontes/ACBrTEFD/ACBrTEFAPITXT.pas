@@ -106,6 +106,7 @@ type
       MinLen: SmallInt = 0; MaxLen: SmallInt = 0): String; override;
     function MenuPinPad(const Titulo: String; Opcoes: TStrings; TimeOut: Integer = 30000):
       Integer; override;
+    function VerificarPresencaPinPad: Byte; override;
 
     function VersaoAPI: String; override;
 
@@ -447,6 +448,12 @@ begin
 
   if not lCmdExiste then
     fpACBrTEFAPI.DoException(Format(ACBrStr(CErroComandoNaoExisteEmTEF), ['CPD', fTEFTXT.ModeloTEF]));
+end;
+
+function TACBrTEFAPIClassTXT.VerificarPresencaPinPad: Byte;
+begin
+  fTEFTXT.ATV;
+  Result := 0;
 end;
 
 procedure TACBrTEFAPIClassTXT.ResolverTransacaoPendente(
