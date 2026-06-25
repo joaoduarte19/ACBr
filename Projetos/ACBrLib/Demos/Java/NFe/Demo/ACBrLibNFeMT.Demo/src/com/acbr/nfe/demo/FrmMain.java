@@ -203,7 +203,6 @@ public class FrmMain extends javax.swing.JFrame {
         lblModelo = new javax.swing.JLabel();
         lblPagCodigo = new javax.swing.JLabel();
         lblPorta = new javax.swing.JLabel();
-        cmbPorta = new javax.swing.JComboBox<>();
         nudColunas = new javax.swing.JSpinner();
         lblColunas = new javax.swing.JLabel();
         lblEspacos = new javax.swing.JLabel();
@@ -216,6 +215,7 @@ public class FrmMain extends javax.swing.JFrame {
         cbxCortarPapel = new javax.swing.JCheckBox();
         cbxTraduzirTags = new javax.swing.JCheckBox();
         cbxIgnorarTags = new javax.swing.JCheckBox();
+        jPosPrinterPorta = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
@@ -401,7 +401,7 @@ public class FrmMain extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel14Layout.createSequentialGroup()
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(btnSalvarPDFStream, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAssinar, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE))
+                            .addComponent(btnAssinar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel14Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -487,10 +487,10 @@ public class FrmMain extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(btnConsultarRecibo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnStatusServ, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE))
+                    .addComponent(btnStatusServ, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnConsultaXml, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                    .addComponent(btnConsultaXml, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnConsultarCadastro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnConsultaChave)
@@ -1494,9 +1494,6 @@ public class FrmMain extends javax.swing.JFrame {
 
         lblPorta.setText("Porta");
 
-        cmbPorta.setEditable(true);
-        cmbPorta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "COM1", "COM2", "LPT1", "LPT2", "\\\\localhost\\Epson", "c:\\temp\\ecf.txt", "TCP:192.168.0.31:9100" }));
-
         nudColunas.setModel(new javax.swing.SpinnerNumberModel(5000, 1, null, 1));
 
         lblColunas.setText("Colunas");
@@ -1528,17 +1525,15 @@ public class FrmMain extends javax.swing.JFrame {
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel13Layout.createSequentialGroup()
-                            .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(cmbModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblModelo))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblPagCodigo)
-                                .addComponent(cmbPagCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(lblPorta, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(cmbPorta, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cmbModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblModelo))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblPagCodigo)
+                            .addComponent(cmbPagCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(lblPorta)
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addComponent(lblColunas)
                         .addGap(18, 18, 18)
@@ -1563,8 +1558,9 @@ public class FrmMain extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(cbxIgnorarTags)
-                                .addComponent(cbxTraduzirTags)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(cbxTraduzirTags))))
+                    .addComponent(jPosPrinterPorta, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1580,8 +1576,8 @@ public class FrmMain extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblPorta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmbPorta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPosPrinterPorta, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblColunas)
                     .addComponent(lblEspacos)
@@ -1645,7 +1641,7 @@ public class FrmMain extends javax.swing.JFrame {
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(59, 59, 59)
@@ -1792,7 +1788,7 @@ public class FrmMain extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane1)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCarregarConfiguracoes)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1834,8 +1830,7 @@ public class FrmMain extends javax.swing.JFrame {
             if (!Files.isDirectory(pathLog)) {
                 pathLog.toFile().mkdirs();
             }
-
-            acbrNFe.configGravarValor(ACBrSessao.PosPrinter, "Porta", 0);
+            
             acbrNFe.configGravarValor(ACBrSessao.Proxy, "Porta", 0);
             
             acbrNFe.configGravarValor(ACBrSessao.Principal, "LogNivel", 4);
@@ -2859,7 +2854,7 @@ public class FrmMain extends javax.swing.JFrame {
             rdbFortesA4.setSelected("2".equals(TipoRelatorioBobina));
             
             cmbModelo.setSelectedIndex(Integer.parseInt(acbrNFe.configLerValor(ACBrSessao.PosPrinter, "Modelo")));
-            cmbPorta.setSelectedIndex(Integer.parseInt(acbrNFe.configLerValor(ACBrSessao.PosPrinter, "Porta")));
+            jPosPrinterPorta.setText(acbrNFe.configLerValor(ACBrSessao.PosPrinter, "Porta"));
             cmbPagCodigo.setSelectedIndex(Integer.parseInt(acbrNFe.configLerValor(ACBrSessao.PosPrinter, "PaginaDeCodigo")));
             
             Value = acbrNFe.configLerValor(ACBrSessao.PosPrinter, "ColunasFonteNormal");
@@ -2963,7 +2958,7 @@ public class FrmMain extends javax.swing.JFrame {
             acbrNFe.configGravarValor(ACBrSessao.DANFE, "TipoDANFE", rdbRetrato.isSelected() ? "1" : "2");
             acbrNFe.configGravarValor(ACBrSessao.DANFENFCe, "TipoRelatorioBobina", rdbFortes.isSelected() ? "0" : (rdbEscPos.isSelected() ? "1" : "2"));
             acbrNFe.configGravarValor(ACBrSessao.PosPrinter, "Modelo", cmbModelo.getSelectedIndex());
-            acbrNFe.configGravarValor(ACBrSessao.PosPrinter, "Porta", cmbPorta.getSelectedIndex());
+            acbrNFe.configGravarValor(ACBrSessao.PosPrinter, "Porta", jPosPrinterPorta.getText());
             acbrNFe.configGravarValor(ACBrSessao.PosPrinter, "ColunasFonteNormal", nudColunas.getValue().toString());
             acbrNFe.configGravarValor(ACBrSessao.PosPrinter, "EspacoEntreLinhas", nudEspacos.getValue().toString());
             acbrNFe.configGravarValor(ACBrSessao.PosPrinter, "LinhasBuffer", nudBuffer.getValue().toString());
@@ -3064,7 +3059,6 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbModelo;
     private javax.swing.JComboBox<String> cmbModeloDocumento;
     private javax.swing.JComboBox<String> cmbPagCodigo;
-    private javax.swing.JComboBox<String> cmbPorta;
     private javax.swing.JComboBox<String> cmbSSlType;
     private javax.swing.JComboBox<String> cmbUfDestino;
     private javax.swing.JComboBox<String> cmbVersaoDF;
@@ -3128,6 +3122,7 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JTextField jPosPrinterPorta;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
