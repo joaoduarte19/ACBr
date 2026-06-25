@@ -41,6 +41,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+25/06/2026
+-- ACBrMDFe.XmlWriter  --
+[*] Ajuste ao escrever XML das chaves chaves alfanumérico.
+   ACBr-9369
+   Por: Alexandre de Paula, Diego Folieni e Daniel Morais
+
 24/06/2026
 -- Diversas units ACBrMDFe  --
 [*] Ajuste das chaves chaves e cnpj alfanumérico.

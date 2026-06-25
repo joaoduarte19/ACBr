@@ -1647,7 +1647,7 @@ begin
   begin
     Result[i] := FDocument.CreateElement('infCTe');
 
-    Result[i].AppendChild(AddNode(tcEsp, '#049', 'chCTe', 44, 44, 1,
+    Result[i].AppendChild(AddNode(tcStr, '#049', 'chCTe', 44, 44, 1,
         RemoverLiteralChave(MDFe.infDoc.infMunDescarga[Idx].infCTe[i].chCTe), DSC_REFCTE));
 
     if RemoverLiteralChave(MDFe.infDoc.infMunDescarga[Idx].infCTe[i].chCTe) <> '' then
@@ -2041,7 +2041,7 @@ begin
   begin
     Result[i] := FDocument.CreateElement('infNFe');
 
-    Result[i].AppendChild(AddNode(tcEsp, '#049', 'chNFe', 44, 44, 1,
+    Result[i].AppendChild(AddNode(tcStr, '#049', 'chNFe', 44, 44, 1,
         RemoverLiteralChave(MDFe.infDoc.infMunDescarga[Idx].infNFe[i].chNFe), DSC_REFNFE));
 
     if RemoverLiteralChave(MDFe.infDoc.infMunDescarga[Idx].infNFe[i].chNFe) <> '' then
@@ -2392,7 +2392,7 @@ begin
   begin
     Result[i] := FDocument.CreateElement('infMDFeTransp');
 
-    Result[i].AppendChild(AddNode(tcEsp, '#049', 'chMDFe', 44, 44, 1,
+    Result[i].AppendChild(AddNode(tcStr, '#049', 'chMDFe', 44, 44, 1,
         RemoverLiteralChave(MDFe.infDoc.infMunDescarga[Idx].infMDFeTransp[i].chMDFe), DSC_REFNFE));
 
     if RemoverLiteralChave(MDFe.infDoc.infMunDescarga[Idx].infMDFeTransp[i].chMDFe) <> '' then
