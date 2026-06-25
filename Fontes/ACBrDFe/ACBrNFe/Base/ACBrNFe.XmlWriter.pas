@@ -666,14 +666,14 @@ function TNFeXmlWriter.GerarIdeNFrerefNFe(const i: integer): TACBrXmlNode;
 begin
   if NFe.ide.NFref[i].refNFe <> '' then
   begin
-    Result := AddNode(tcEsp, 'B13', 'refNFe', 44, 44, 1,
+    Result := AddNode(tcStr, 'B13', 'refNFe', 44, 44, 1,
       RemoverLiteralChave(NFe.ide.NFref[i].refNFe), DSC_REFNFE);
 
     if not ValidarChave(NFe.ide.NFref[i].refNFe) then
       wAlerta('B13', 'refNFe', DSC_REFNFE, ERR_MSG_INVALIDO);
   end
   else
-    Result := AddNode(tcEsp, 'B13', 'refNFeSig', 44, 44, 1,
+    Result := AddNode(tcStr, 'B13', 'refNFeSig', 44, 44, 1,
       RemoverLiteralChave(NFe.ide.NFref[i].refNFeSig), DSC_REFNFE);
 end;
 
@@ -733,7 +733,7 @@ end;
 
 function TNFeXmlWriter.GerarIdeNFrerefCTe(const i: integer): TACBrXmlNode;
 begin
-  Result := AddNode(tcEsp, 'B20i', 'refCTe', 44, 44, 1,
+  Result := AddNode(tcStr, 'B20i', 'refCTe', 44, 44, 1,
     RemoverLiteralChave(NFe.ide.NFref[i].refCTe), DSC_REFCTE);
   if not ValidarChave(NFe.ide.NFref[i].refCTe) then
     wAlerta('B20i', 'refCTe', DSC_REFCTE, ERR_MSG_INVALIDO);
@@ -1500,7 +1500,7 @@ begin
         1, NFe.Det[i].Prod.detExport[j].nRE, DSC_NRE));
       if not ValidaRE(NFe.Det[i].Prod.detExport[j].nRE) then
         wAlerta('I53', 'nRE', DSC_NRE, ERR_MSG_INVALIDO);
-      xmlNode.AppendChild(AddNode(tcEsp, 'I54', 'chNFe', 44, 44,
+      xmlNode.AppendChild(AddNode(tcStr, 'I54', 'chNFe', 44, 44,
         1, RemoverLiteralChave(NFe.Det[i].Prod.detExport[j].chNFe), DSC_REFNFE));
       if not ValidarChave(NFe.Det[i].Prod.detExport[j].chNFe) then
         wAlerta('I54', 'chNFe', DSC_REFNFE, ERR_MSG_INVALIDO);

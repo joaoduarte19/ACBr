@@ -43,6 +43,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+25/06/2026
+-- ACBrNFe.XmlReader, ACBrNFe.XmlWriter  --
+[*] Ajuste na leitura e gravação XML do alfanumericos
+   ACBr-9369
+   Por: Daniel Morais InfoCotidiano
+
 22/06/2026
 -- Diversas units ACBrNFe  --
 [*] Ajuste das chaves chaves e cnpj alfanumérico

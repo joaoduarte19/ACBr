@@ -366,15 +366,15 @@ begin
 
   NFe.Ide.NFref.New;
   i := NFe.Ide.NFref.Count - 1;
-  NFe.ide.NFref[i].refNFe := ObterConteudo(ANode.Childrens.Find('refNFe'), tcEsp);
-  NFe.ide.NFref[i].refNFeSig := ObterConteudo(ANode.Childrens.Find('refNFeSig'), tcEsp);
+  NFe.ide.NFref[i].refNFe := ObterConteudo(ANode.Childrens.Find('refNFe'), tcStr);
+  NFe.ide.NFref[i].refNFeSig := ObterConteudo(ANode.Childrens.Find('refNFeSig'), tcStr);
 
   refNode := ANode.Childrens.Find('refNF');
   if refNode <> nil then
   begin
     NFe.Ide.NFref[i].RefNF.cUF    := ObterConteudo(refNode.Childrens.Find('cUF'), tcInt);
     NFe.Ide.NFref[i].RefNF.AAMM   := ObterConteudo(refNode.Childrens.Find('AAMM'), tcEsp);
-    NFe.Ide.NFref[i].RefNF.CNPJ   := ObterConteudo(refNode.Childrens.Find('CNPJ'), tcEsp);
+    NFe.Ide.NFref[i].RefNF.CNPJ   := ObterConteudo(refNode.Childrens.Find('CNPJ'), tcStr);
     NFe.Ide.NFref[i].RefNF.Modelo := StrToIntDef(ObterConteudo(refNode.Childrens.Find('mod'), tcInt),55);
     NFe.ide.NFref[i].RefNF.serie  := ObterConteudo(refNode.Childrens.Find('serie'), tcInt);
     NFe.Ide.NFref[i].RefNF.nNF    := ObterConteudo(refNode.Childrens.Find('nNF'), tcInt);
@@ -392,7 +392,7 @@ begin
     NFe.Ide.NFref[i].RefNFP.nNF     := ObterConteudo(refNode.Childrens.Find('nNF'), tcInt);
   end;
 
-  NFe.ide.NFref[i].refCTe := ObterConteudo(ANode.Childrens.Find('refCTe'), tcEsp);
+  NFe.ide.NFref[i].refCTe := ObterConteudo(ANode.Childrens.Find('refCTe'), tcStr);
 
   refNode := ANode.Childrens.Find('refECF');
   if refNode <> nil then
