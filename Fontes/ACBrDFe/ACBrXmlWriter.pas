@@ -201,9 +201,9 @@ begin
   CNPJ := OnlyCPFCNPJAlphaNum(Trim(CNPJ));
 
   if obrigatorio then
-    Result := AddNode(tcEsp, ID, 'CNPJ', 14, 14, 1, CNPJ, DSC_CNPJ)
+    Result := AddNode(tcStr, ID, 'CNPJ', 14, 14, 1, CNPJ, DSC_CNPJ)
   else
-    Result := AddNode(tcEsp, ID, 'CNPJ', 14, 14, 0, CNPJ, DSC_CNPJ);
+    Result := AddNode(tcStr, ID, 'CNPJ', 14, 14, 0, CNPJ, DSC_CNPJ);
 
   if ValidarCNPJ(CNPJ) <> '' then
     wAlerta(ID, 'CNPJ', DSC_CNPJ, ERR_MSG_INVALIDO);
