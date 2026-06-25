@@ -205,7 +205,8 @@ begin
 
   { Nas emissões para o Ambiente de Homologação, gerar a Chave do DPS
     com o Código do Município de Campo Grande - MS (Nota Control) }
-  CodigoMun := IfThen(FpAOwner.ConfigGeral.Ambiente = taProducao, IntToStr(CodMunEmit), '5002704');
+//  CodigoMun := IfThen(FpAOwner.ConfigGeral.Ambiente = taProducao, IntToStr(CodMunEmit), '5002704');
+  CodigoMun := IntToStr(CodMunEmit);
   CNPJ := CNPJEmitente;
 
   if CNPJ = '' then
