@@ -833,7 +833,7 @@ begin
 
   xmlNode.AddChild('verAplic').Content := DCe.procDCe.verAplic;
 
-  xmlNode.AddChild('chBPe').Content := DCe.procDCe.chDFe;
+  xmlNode.AddChild('chDCe').Content := DCe.procDCe.chDFe;
 
   xmlNode.AddChild('dhRecbto').Content :=
     FormatDateTime('yyyy-mm-dd"T"hh:nn:ss', DCe.procDCe.dhRecbto) +
