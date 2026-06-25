@@ -1015,7 +1015,7 @@ begin
       begin
         Infevento.CNPJCPF := ACNPJCPF;
         if Trim(Infevento.CNPJCPF) = '' then
-          Infevento.CNPJCPF := copy(OnlyNumber(MDFeDM.ACBrMDFe1.WebServices.Consulta.MDFeChave), 7, 14)
+          Infevento.CNPJCPF := copy(RemoverLiteralChave(MDFeDM.ACBrMDFe1.WebServices.Consulta.MDFeChave), 7, 14)
         else
         begin
           if not ValidarCNPJouCPF(ACNPJCPF) then
@@ -1024,7 +1024,7 @@ begin
 
         Infevento.nSeqEvento := 1;
         InfEvento.tpAmb := TACBrTipoAmbiente(MDFeDM.ACBrMDFe1.Configuracoes.WebServices.Ambiente);
-        Infevento.cOrgao := StrToIntDef(copy(OnlyNumber(MDFeDM.ACBrMDFe1.WebServices.Consulta.MDFeChave), 1, 2), 0);
+        Infevento.cOrgao := StrToIntDef(copy(RemoverLiteralChave(MDFeDM.ACBrMDFe1.WebServices.Consulta.MDFeChave), 1, 2), 0);
         Infevento.dhEvento := now;
         Infevento.tpEvento := teCancelamento;
         Infevento.chMDFe := MDFeDM.ACBrMDFe1.WebServices.Consulta.MDFeChave;
@@ -1093,7 +1093,7 @@ begin
 
           if Manifestos.Count > 0 then
           begin
-            chMDFe := OnlyNumber(EventoMDFe.Evento.Items[i].InfEvento.chMDFe);
+            chMDFe := RemoverLiteralChave(EventoMDFe.Evento.Items[i].InfEvento.chMDFe);
 
             // Se tem a chave da NFe no Evento, procure por ela nas notas carregadas //
             if NaoEstaVazio(chMDFe) then
@@ -1194,7 +1194,7 @@ begin
         begin
           Manifestos.LoadFromFile(ChaveOuMDFe);
           if (Manifestos.Count > 0) then
-            ChaveOuMDFe := OnlyNumber(Manifestos.Items[0].MDFe.infMDFe.ID)
+            ChaveOuMDFe := RemoverLiteralChave(Manifestos.Items[0].MDFe.infMDFe.ID)
           else
             raise EACBrLibException.Create(ErrArquivoNaoExiste, 'Arquivo MDFe inválido: ' + ChaveOuMDFe);
         end
@@ -1214,7 +1214,7 @@ begin
 
           infEvento.CNPJCPF := CNPJ;
           infEvento.nSeqEvento := 1;
-          infEvento.cOrgao := StrToIntDef(copy(OnlyNumber(ChaveOuMDFe), 1, 2), 0);
+          infEvento.cOrgao := StrToIntDef(copy(RemoverLiteralChave(ChaveOuMDFe), 1, 2), 0);
           infEvento.tpAmb := TACBrTipoAmbiente(Configuracoes.WebServices.Ambiente);
           infEvento.dhEvento := now;
           infEvento.tpEvento := teEncerramento;
@@ -1659,7 +1659,7 @@ begin
                 MDFeDM.ConfigurarImpressao('', True);
                 ImprimirEventoPDF;
 
-                ArqPDF := OnlyNumber(EventoMDFe.Evento[0].Infevento.id);
+                ArqPDF := RemoverLiteralChave(EventoMDFe.Evento[0].Infevento.id);
                 ArqPDF := PathWithDelim(DAMDFe.PathPDF)+ArqPDF+'-procEventoMDFe.pdf';
               except
                 raise EACBrLibException.Create(ErrRetorno, 'Erro ao criar o arquivo PDF');

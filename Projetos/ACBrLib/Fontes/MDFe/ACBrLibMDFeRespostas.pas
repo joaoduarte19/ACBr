@@ -40,7 +40,7 @@ uses
   SysUtils, Classes, contnrs,
   ACBrMDFe.RetConsNaoEnc,
   ACBrMDFe.EventoClass,
-  ACBrMDFe, ACBrLibResposta, ACBrLibConfig, ACBrLibConsReciDFe;
+  ACBrMDFe, ACBrLibResposta, ACBrLibConfig, ACBrLibConsReciDFe, ACBrDFeUtil;
 
 type
 
@@ -410,7 +410,7 @@ procedure TEnvioResposta.Processar(const ACBrMDFe: TACBrMDFe);
   begin
     Result := Trim(AChave);
     if Result = '' then
-      Result := OnlyNumber(ACBrMDFe.Manifestos[0].MDFe.infMDFe.Id);
+      Result := RemoverLiteralChave(ACBrMDFe.Manifestos[0].MDFe.infMDFe.Id);
   end;
 
 begin
