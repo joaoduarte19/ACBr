@@ -43,6 +43,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/06/2026
+-- ACBrNFSeXServicos --
+[*] ACBr-9527 - O municipio de Guaraquecaba/PR trocou de provedor para Elotech
+	Por: Light System Software
+	Veja: https://www.projetoacbr.com.br/forum/topic/92960-acbr-9527-erro-na-emissao-para-o-municipio-de-guaraquecaba-pr/
+[-] ACBr-9472 - Mudança de layout e URL para o município de Macae/RJ para a nova API do Padrão Nacional
+	Por: Larissa Santos
+	Veja: https://www.projetoacbr.com.br/forum/topic/92723-acbr-9472-rejei%C3%A7%C3%A3o-l9999-ao-tentar-emitir-uma-nfs-e-para-o-exterior/
 -- ISSNet.GravarXml --
 [*] O que tudo indica o provedor liberou todas as cidades para realizar testes em ambiente de homologação
     do seu novo WS que recepciona o XML segundo o layout do Padrão Nacional.
