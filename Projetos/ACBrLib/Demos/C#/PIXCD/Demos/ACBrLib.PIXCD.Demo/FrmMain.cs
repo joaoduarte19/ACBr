@@ -245,6 +245,7 @@ namespace ACBrLibPIXCD.Demo
                 acbr_pixcd.Config.QQPag.ChavePIX = txtChavePIXQQPag.Text;
                 acbr_pixcd.Config.QQPag.ClientID = txtClientIDQQPag.Text;
                 acbr_pixcd.Config.QQPag.ClientSecret = txtClientSecretQQPag.Text;
+                acbr_pixcd.Config.QQPag.Scopes = txtScopesQQPag.Text;
 
                 acbr_pixcd.ConfigGravar();
 
@@ -418,6 +419,7 @@ namespace ACBrLibPIXCD.Demo
             txtChavePIXQQPag.Text = acbr_pixcd.Config.QQPag.ChavePIX;
             txtClientIDQQPag.Text = acbr_pixcd.Config.QQPag.ClientID;
             txtClientSecretQQPag.Text = acbr_pixcd.Config.QQPag.ClientSecret;
+            txtScopesQQPag.Text = acbr_pixcd.Config.QQPag.Scopes;
         }
 
         private void btnCertificadoBradesco_Click(object sender, EventArgs e)

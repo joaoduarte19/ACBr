@@ -307,6 +307,13 @@
             this.label144 = new System.Windows.Forms.Label();
             this.txtClientIDAppLess = new System.Windows.Forms.TextBox();
             this.label145 = new System.Windows.Forms.Label();
+            this.tabPage36 = new System.Windows.Forms.TabPage();
+            this.txtClientSecretQQPag = new System.Windows.Forms.TextBox();
+            this.label148 = new System.Windows.Forms.Label();
+            this.txtClientIDQQPag = new System.Windows.Forms.TextBox();
+            this.label149 = new System.Windows.Forms.Label();
+            this.txtChavePIXQQPag = new System.Windows.Forms.TextBox();
+            this.label150 = new System.Windows.Forms.Label();
             this.btnCarregarConfiguracoes = new System.Windows.Forms.Button();
             this.btnSalvarConfiguracoes = new System.Windows.Forms.Button();
             this.tabControl4 = new System.Windows.Forms.TabControl();
@@ -434,13 +441,8 @@
             this.label138 = new System.Windows.Forms.Label();
             this.btnCancelarCobranca = new System.Windows.Forms.Button();
             this.btnLimparRespostas = new System.Windows.Forms.Button();
-            this.tabPage36 = new System.Windows.Forms.TabPage();
-            this.txtClientSecretQQPag = new System.Windows.Forms.TextBox();
-            this.label148 = new System.Windows.Forms.Label();
-            this.txtClientIDQQPag = new System.Windows.Forms.TextBox();
-            this.label149 = new System.Windows.Forms.Label();
-            this.txtChavePIXQQPag = new System.Windows.Forms.TextBox();
-            this.label150 = new System.Windows.Forms.Label();
+            this.txtScopesQQPag = new System.Windows.Forms.TextBox();
+            this.label151 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tbpConfiguracoes.SuspendLayout();
@@ -470,6 +472,7 @@
             this.tabPage16.SuspendLayout();
             this.tabPage17.SuspendLayout();
             this.tabPage35.SuspendLayout();
+            this.tabPage36.SuspendLayout();
             this.tabControl4.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabControl3.SuspendLayout();
@@ -506,7 +509,6 @@
             this.tabPage33.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.tabPage34.SuspendLayout();
-            this.tabPage36.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox2
@@ -542,7 +544,7 @@
             this.tbpConfiguracoes.Controls.Add(this.tabControl2);
             this.tbpConfiguracoes.Location = new System.Drawing.Point(4, 22);
             this.tbpConfiguracoes.Name = "tbpConfiguracoes";
-            this.tbpConfiguracoes.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tbpConfiguracoes.Padding = new System.Windows.Forms.Padding(3);
             this.tbpConfiguracoes.Size = new System.Drawing.Size(429, 504);
             this.tbpConfiguracoes.TabIndex = 2;
             this.tbpConfiguracoes.Text = "Configurações";
@@ -567,7 +569,7 @@
             this.tbpPIX.Controls.Add(this.groupBox3);
             this.tbpPIX.Location = new System.Drawing.Point(4, 22);
             this.tbpPIX.Name = "tbpPIX";
-            this.tbpPIX.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tbpPIX.Padding = new System.Windows.Forms.Padding(3);
             this.tbpPIX.Size = new System.Drawing.Size(415, 472);
             this.tbpPIX.TabIndex = 0;
             this.tbpPIX.Text = "Configurações PIX";
@@ -591,7 +593,7 @@
             // btnOpenSSLInfo
             // 
             this.btnOpenSSLInfo.Location = new System.Drawing.Point(12, 106);
-            this.btnOpenSSLInfo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnOpenSSLInfo.Margin = new System.Windows.Forms.Padding(2);
             this.btnOpenSSLInfo.Name = "btnOpenSSLInfo";
             this.btnOpenSSLInfo.Size = new System.Drawing.Size(161, 22);
             this.btnOpenSSLInfo.TabIndex = 36;
@@ -935,7 +937,7 @@
             this.tabPage2.Controls.Add(this.tabControl5);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(415, 472);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Configurações PSP";
@@ -992,7 +994,7 @@
             this.tabPage3.Controls.Add(this.label9);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage3.Size = new System.Drawing.Size(401, 440);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Bradesco";
@@ -1208,8 +1210,8 @@
             this.tabPage4.Controls.Add(this.label21);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage4.Size = new System.Drawing.Size(405, 446);
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(401, 440);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Sicredi";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1360,8 +1362,8 @@
             this.tabPage5.Controls.Add(this.label28);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage5.Size = new System.Drawing.Size(405, 446);
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(401, 440);
             this.tabPage5.TabIndex = 2;
             this.tabPage5.Text = "Sicoob";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -1506,8 +1508,8 @@
             this.tabPage6.Controls.Add(this.label33);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage6.Size = new System.Drawing.Size(405, 446);
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(401, 440);
             this.tabPage6.TabIndex = 3;
             this.tabPage6.Text = "Shipay";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -1601,8 +1603,8 @@
             this.tabPage7.Controls.Add(this.label39);
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage7.Size = new System.Drawing.Size(405, 446);
+            this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage7.Size = new System.Drawing.Size(401, 440);
             this.tabPage7.TabIndex = 4;
             this.tabPage7.Text = "Santander";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -1739,8 +1741,8 @@
             this.tabPage8.Controls.Add(this.label43);
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage8.Size = new System.Drawing.Size(405, 446);
+            this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage8.Size = new System.Drawing.Size(401, 440);
             this.tabPage8.TabIndex = 5;
             this.tabPage8.Text = "PixPDV";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -1854,8 +1856,8 @@
             this.tabPage9.Controls.Add(this.label48);
             this.tabPage9.Location = new System.Drawing.Point(4, 22);
             this.tabPage9.Name = "tabPage9";
-            this.tabPage9.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage9.Size = new System.Drawing.Size(405, 446);
+            this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage9.Size = new System.Drawing.Size(401, 440);
             this.tabPage9.TabIndex = 6;
             this.tabPage9.Text = "PagSeguro";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -2006,8 +2008,8 @@
             this.tabPage10.Controls.Add(this.label54);
             this.tabPage10.Location = new System.Drawing.Point(4, 22);
             this.tabPage10.Name = "tabPage10";
-            this.tabPage10.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage10.Size = new System.Drawing.Size(405, 446);
+            this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage10.Size = new System.Drawing.Size(401, 440);
             this.tabPage10.TabIndex = 7;
             this.tabPage10.Text = "Itau";
             this.tabPage10.UseVisualStyleBackColor = true;
@@ -2158,8 +2160,8 @@
             this.tabPage11.Controls.Add(this.label60);
             this.tabPage11.Location = new System.Drawing.Point(4, 22);
             this.tabPage11.Name = "tabPage11";
-            this.tabPage11.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage11.Size = new System.Drawing.Size(405, 446);
+            this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage11.Size = new System.Drawing.Size(401, 440);
             this.tabPage11.TabIndex = 8;
             this.tabPage11.Text = "Inter";
             this.tabPage11.UseVisualStyleBackColor = true;
@@ -2307,8 +2309,8 @@
             this.tabPage12.Controls.Add(this.label65);
             this.tabPage12.Location = new System.Drawing.Point(4, 22);
             this.tabPage12.Name = "tabPage12";
-            this.tabPage12.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage12.Size = new System.Drawing.Size(405, 446);
+            this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage12.Size = new System.Drawing.Size(401, 440);
             this.tabPage12.TabIndex = 9;
             this.tabPage12.Text = "GerenciaNet";
             this.tabPage12.UseVisualStyleBackColor = true;
@@ -2440,8 +2442,8 @@
             this.tabPage13.Controls.Add(this.label69);
             this.tabPage13.Location = new System.Drawing.Point(4, 22);
             this.tabPage13.Name = "tabPage13";
-            this.tabPage13.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage13.Size = new System.Drawing.Size(405, 446);
+            this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage13.Size = new System.Drawing.Size(401, 440);
             this.tabPage13.TabIndex = 10;
             this.tabPage13.Text = "BancoBrasil";
             this.tabPage13.UseVisualStyleBackColor = true;
@@ -2678,8 +2680,8 @@
             this.tabPage14.Controls.Add(this.label81);
             this.tabPage14.Location = new System.Drawing.Point(4, 22);
             this.tabPage14.Name = "tabPage14";
-            this.tabPage14.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage14.Size = new System.Drawing.Size(405, 446);
+            this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage14.Size = new System.Drawing.Size(401, 440);
             this.tabPage14.TabIndex = 11;
             this.tabPage14.Text = "Ailos";
             this.tabPage14.UseVisualStyleBackColor = true;
@@ -2864,7 +2866,7 @@
             this.tabPage15.Controls.Add(this.label86);
             this.tabPage15.Location = new System.Drawing.Point(4, 22);
             this.tabPage15.Name = "tabPage15";
-            this.tabPage15.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage15.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage15.Size = new System.Drawing.Size(401, 440);
             this.tabPage15.TabIndex = 12;
             this.tabPage15.Text = "Matera";
@@ -3070,7 +3072,7 @@
             this.tabPage16.Controls.Add(this.label94);
             this.tabPage16.Location = new System.Drawing.Point(4, 22);
             this.tabPage16.Name = "tabPage16";
-            this.tabPage16.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage16.Size = new System.Drawing.Size(401, 440);
             this.tabPage16.TabIndex = 13;
             this.tabPage16.Text = "Cielo";
@@ -3214,7 +3216,7 @@
             this.tabPage17.Controls.Add(this.label96);
             this.tabPage17.Location = new System.Drawing.Point(4, 22);
             this.tabPage17.Name = "tabPage17";
-            this.tabPage17.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage17.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage17.Size = new System.Drawing.Size(401, 440);
             this.tabPage17.TabIndex = 14;
             this.tabPage17.Text = "MercadoPago";
@@ -3285,9 +3287,9 @@
             this.tabPage35.Controls.Add(this.txtClientIDAppLess);
             this.tabPage35.Controls.Add(this.label145);
             this.tabPage35.Location = new System.Drawing.Point(4, 22);
-            this.tabPage35.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage35.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage35.Name = "tabPage35";
-            this.tabPage35.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage35.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage35.Size = new System.Drawing.Size(401, 440);
             this.tabPage35.TabIndex = 15;
             this.tabPage35.Text = "AppLess";
@@ -3365,6 +3367,78 @@
             this.label145.TabIndex = 132;
             this.label145.Text = "Client ID";
             // 
+            // tabPage36
+            // 
+            this.tabPage36.Controls.Add(this.txtScopesQQPag);
+            this.tabPage36.Controls.Add(this.label151);
+            this.tabPage36.Controls.Add(this.txtClientSecretQQPag);
+            this.tabPage36.Controls.Add(this.label148);
+            this.tabPage36.Controls.Add(this.txtClientIDQQPag);
+            this.tabPage36.Controls.Add(this.label149);
+            this.tabPage36.Controls.Add(this.txtChavePIXQQPag);
+            this.tabPage36.Controls.Add(this.label150);
+            this.tabPage36.Location = new System.Drawing.Point(4, 22);
+            this.tabPage36.Name = "tabPage36";
+            this.tabPage36.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage36.Size = new System.Drawing.Size(401, 440);
+            this.tabPage36.TabIndex = 16;
+            this.tabPage36.Text = "Quero Quero Pag";
+            this.tabPage36.UseVisualStyleBackColor = true;
+            // 
+            // txtClientSecretQQPag
+            // 
+            this.txtClientSecretQQPag.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtClientSecretQQPag.Location = new System.Drawing.Point(6, 117);
+            this.txtClientSecretQQPag.Name = "txtClientSecretQQPag";
+            this.txtClientSecretQQPag.Size = new System.Drawing.Size(389, 20);
+            this.txtClientSecretQQPag.TabIndex = 121;
+            // 
+            // label148
+            // 
+            this.label148.AutoSize = true;
+            this.label148.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label148.Location = new System.Drawing.Point(3, 101);
+            this.label148.Name = "label148";
+            this.label148.Size = new System.Drawing.Size(80, 13);
+            this.label148.TabIndex = 120;
+            this.label148.Text = "Client Secret";
+            // 
+            // txtClientIDQQPag
+            // 
+            this.txtClientIDQQPag.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtClientIDQQPag.Location = new System.Drawing.Point(6, 69);
+            this.txtClientIDQQPag.Name = "txtClientIDQQPag";
+            this.txtClientIDQQPag.Size = new System.Drawing.Size(389, 20);
+            this.txtClientIDQQPag.TabIndex = 119;
+            // 
+            // label149
+            // 
+            this.label149.AutoSize = true;
+            this.label149.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label149.Location = new System.Drawing.Point(3, 53);
+            this.label149.Name = "label149";
+            this.label149.Size = new System.Drawing.Size(56, 13);
+            this.label149.TabIndex = 118;
+            this.label149.Text = "Client ID";
+            // 
+            // txtChavePIXQQPag
+            // 
+            this.txtChavePIXQQPag.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtChavePIXQQPag.Location = new System.Drawing.Point(6, 24);
+            this.txtChavePIXQQPag.Name = "txtChavePIXQQPag";
+            this.txtChavePIXQQPag.Size = new System.Drawing.Size(389, 20);
+            this.txtChavePIXQQPag.TabIndex = 117;
+            // 
+            // label150
+            // 
+            this.label150.AutoSize = true;
+            this.label150.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label150.Location = new System.Drawing.Point(3, 8);
+            this.label150.Name = "label150";
+            this.label150.Size = new System.Drawing.Size(67, 13);
+            this.label150.TabIndex = 116;
+            this.label150.Text = "Chave PIX";
+            // 
             // btnCarregarConfiguracoes
             // 
             this.btnCarregarConfiguracoes.Location = new System.Drawing.Point(16, 548);
@@ -3399,7 +3473,7 @@
             this.tabPage1.Controls.Add(this.tabControl3);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(532, 549);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "EndPoints";
@@ -3512,7 +3586,7 @@
             this.tabPage18.Controls.Add(this.tabControl6);
             this.tabPage18.Location = new System.Drawing.Point(4, 22);
             this.tabPage18.Name = "tabPage18";
-            this.tabPage18.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage18.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage18.Size = new System.Drawing.Size(515, 511);
             this.tabPage18.TabIndex = 5;
             this.tabPage18.Text = "/Pix";
@@ -3537,7 +3611,7 @@
             this.tabPage21.Controls.Add(this.btnConsultarPix);
             this.tabPage21.Location = new System.Drawing.Point(4, 22);
             this.tabPage21.Name = "tabPage21";
-            this.tabPage21.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage21.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage21.Size = new System.Drawing.Size(495, 476);
             this.tabPage21.TabIndex = 0;
             this.tabPage21.Text = "Consultar PIX";
@@ -3589,7 +3663,7 @@
             this.tabPage22.Controls.Add(this.btnConsultarPixRecebidos);
             this.tabPage22.Location = new System.Drawing.Point(4, 22);
             this.tabPage22.Name = "tabPage22";
-            this.tabPage22.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage22.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage22.Size = new System.Drawing.Size(495, 476);
             this.tabPage22.TabIndex = 1;
             this.tabPage22.Text = "Consultar PIX Recebidos";
@@ -3755,7 +3829,7 @@
             this.tabPage23.Controls.Add(this.btnSolicitarDevolucaoPix);
             this.tabPage23.Location = new System.Drawing.Point(4, 22);
             this.tabPage23.Name = "tabPage23";
-            this.tabPage23.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage23.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage23.Size = new System.Drawing.Size(495, 476);
             this.tabPage23.TabIndex = 2;
             this.tabPage23.Text = "Solicitar Devolução PIX";
@@ -3835,7 +3909,7 @@
             this.tabPage24.Controls.Add(this.btnConsultarDevolucaoPix);
             this.tabPage24.Location = new System.Drawing.Point(4, 22);
             this.tabPage24.Name = "tabPage24";
-            this.tabPage24.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage24.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage24.Size = new System.Drawing.Size(495, 476);
             this.tabPage24.TabIndex = 3;
             this.tabPage24.Text = "Consultar Devolução PIX";
@@ -3892,7 +3966,7 @@
             this.tabPage19.Controls.Add(this.tabControl7);
             this.tabPage19.Location = new System.Drawing.Point(4, 22);
             this.tabPage19.Name = "tabPage19";
-            this.tabPage19.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage19.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage19.Size = new System.Drawing.Size(515, 511);
             this.tabPage19.TabIndex = 6;
             this.tabPage19.Text = "/Cob";
@@ -3919,7 +3993,7 @@
             this.tabPage25.Controls.Add(this.btnCriarCobrancaImediata);
             this.tabPage25.Location = new System.Drawing.Point(4, 22);
             this.tabPage25.Name = "tabPage25";
-            this.tabPage25.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage25.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage25.Size = new System.Drawing.Size(492, 473);
             this.tabPage25.TabIndex = 0;
             this.tabPage25.Text = "Criar Cobrança Imediata";
@@ -3981,7 +4055,7 @@
             this.tabPage26.Controls.Add(this.btnConsultarCobrancaImediata);
             this.tabPage26.Location = new System.Drawing.Point(4, 22);
             this.tabPage26.Name = "tabPage26";
-            this.tabPage26.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage26.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage26.Size = new System.Drawing.Size(492, 473);
             this.tabPage26.TabIndex = 1;
             this.tabPage26.Text = "Consultar Cobrança Imediata";
@@ -4051,7 +4125,7 @@
             this.tabPage27.Controls.Add(this.btnConsultarCobrancasCob);
             this.tabPage27.Location = new System.Drawing.Point(4, 22);
             this.tabPage27.Name = "tabPage27";
-            this.tabPage27.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage27.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage27.Size = new System.Drawing.Size(492, 473);
             this.tabPage27.TabIndex = 2;
             this.tabPage27.Text = "Consultar Cobrancas Cob";
@@ -4231,7 +4305,7 @@
             this.tabPage28.Controls.Add(this.btnRevisarCobrancaImediata);
             this.tabPage28.Location = new System.Drawing.Point(4, 22);
             this.tabPage28.Name = "tabPage28";
-            this.tabPage28.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage28.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage28.Size = new System.Drawing.Size(492, 473);
             this.tabPage28.TabIndex = 3;
             this.tabPage28.Text = "Revisar Cobrança Imediata";
@@ -4291,7 +4365,7 @@
             this.tabPage29.Controls.Add(this.btnCancelarCobrancaImediata);
             this.tabPage29.Location = new System.Drawing.Point(4, 22);
             this.tabPage29.Name = "tabPage29";
-            this.tabPage29.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage29.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage29.Size = new System.Drawing.Size(492, 473);
             this.tabPage29.TabIndex = 4;
             this.tabPage29.Text = "Cancelar Cobrança Imediata";
@@ -4330,7 +4404,7 @@
             this.tabPage20.Controls.Add(this.tabControl8);
             this.tabPage20.Location = new System.Drawing.Point(4, 22);
             this.tabPage20.Name = "tabPage20";
-            this.tabPage20.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage20.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage20.Size = new System.Drawing.Size(515, 511);
             this.tabPage20.TabIndex = 7;
             this.tabPage20.Text = "/CobV";
@@ -4357,7 +4431,7 @@
             this.tabPage30.Controls.Add(this.btnCriarCobranca);
             this.tabPage30.Location = new System.Drawing.Point(4, 22);
             this.tabPage30.Name = "tabPage30";
-            this.tabPage30.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage30.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage30.Size = new System.Drawing.Size(492, 473);
             this.tabPage30.TabIndex = 0;
             this.tabPage30.Text = "Criar Cobrança";
@@ -4419,7 +4493,7 @@
             this.tabPage31.Controls.Add(this.btnConsultarCobranca);
             this.tabPage31.Location = new System.Drawing.Point(4, 22);
             this.tabPage31.Name = "tabPage31";
-            this.tabPage31.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage31.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage31.Size = new System.Drawing.Size(492, 473);
             this.tabPage31.TabIndex = 1;
             this.tabPage31.Text = "Consultar Cobrança";
@@ -4489,7 +4563,7 @@
             this.tabPage32.Controls.Add(this.btnConsultarCobrancasCobV);
             this.tabPage32.Location = new System.Drawing.Point(4, 22);
             this.tabPage32.Name = "tabPage32";
-            this.tabPage32.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage32.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage32.Size = new System.Drawing.Size(492, 473);
             this.tabPage32.TabIndex = 2;
             this.tabPage32.Text = "Consultar Cobrancas CobV";
@@ -4669,7 +4743,7 @@
             this.tabPage33.Controls.Add(this.btnRevisarCobranca);
             this.tabPage33.Location = new System.Drawing.Point(4, 22);
             this.tabPage33.Name = "tabPage33";
-            this.tabPage33.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage33.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage33.Size = new System.Drawing.Size(492, 473);
             this.tabPage33.TabIndex = 3;
             this.tabPage33.Text = "Revisar Cobrança";
@@ -4729,7 +4803,7 @@
             this.tabPage34.Controls.Add(this.btnCancelarCobranca);
             this.tabPage34.Location = new System.Drawing.Point(4, 22);
             this.tabPage34.Name = "tabPage34";
-            this.tabPage34.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage34.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage34.Size = new System.Drawing.Size(492, 473);
             this.tabPage34.TabIndex = 4;
             this.tabPage34.Text = "Cancelar Cobrança";
@@ -4773,75 +4847,23 @@
             this.btnLimparRespostas.UseVisualStyleBackColor = true;
             this.btnLimparRespostas.Click += new System.EventHandler(this.btnLimparRespostas_Click);
             // 
-            // tabPage36
+            // txtScopesQQPag
             // 
-            this.tabPage36.Controls.Add(this.txtClientSecretQQPag);
-            this.tabPage36.Controls.Add(this.label148);
-            this.tabPage36.Controls.Add(this.txtClientIDQQPag);
-            this.tabPage36.Controls.Add(this.label149);
-            this.tabPage36.Controls.Add(this.txtChavePIXQQPag);
-            this.tabPage36.Controls.Add(this.label150);
-            this.tabPage36.Location = new System.Drawing.Point(4, 22);
-            this.tabPage36.Name = "tabPage36";
-            this.tabPage36.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage36.Size = new System.Drawing.Size(401, 440);
-            this.tabPage36.TabIndex = 16;
-            this.tabPage36.Text = "Quero Quero Pag";
-            this.tabPage36.UseVisualStyleBackColor = true;
+            this.txtScopesQQPag.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtScopesQQPag.Location = new System.Drawing.Point(6, 169);
+            this.txtScopesQQPag.Name = "txtScopesQQPag";
+            this.txtScopesQQPag.Size = new System.Drawing.Size(389, 20);
+            this.txtScopesQQPag.TabIndex = 139;
             // 
-            // txtClientSecretQQPag
+            // label151
             // 
-            this.txtClientSecretQQPag.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtClientSecretQQPag.Location = new System.Drawing.Point(6, 117);
-            this.txtClientSecretQQPag.Name = "txtClientSecretQQPag";
-            this.txtClientSecretQQPag.Size = new System.Drawing.Size(389, 20);
-            this.txtClientSecretQQPag.TabIndex = 121;
-            // 
-            // label148
-            // 
-            this.label148.AutoSize = true;
-            this.label148.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label148.Location = new System.Drawing.Point(3, 101);
-            this.label148.Name = "label148";
-            this.label148.Size = new System.Drawing.Size(80, 13);
-            this.label148.TabIndex = 120;
-            this.label148.Text = "Client Secret";
-            // 
-            // txtClientIDQQPag
-            // 
-            this.txtClientIDQQPag.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtClientIDQQPag.Location = new System.Drawing.Point(6, 69);
-            this.txtClientIDQQPag.Name = "txtClientIDQQPag";
-            this.txtClientIDQQPag.Size = new System.Drawing.Size(389, 20);
-            this.txtClientIDQQPag.TabIndex = 119;
-            // 
-            // label149
-            // 
-            this.label149.AutoSize = true;
-            this.label149.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label149.Location = new System.Drawing.Point(3, 53);
-            this.label149.Name = "label149";
-            this.label149.Size = new System.Drawing.Size(56, 13);
-            this.label149.TabIndex = 118;
-            this.label149.Text = "Client ID";
-            // 
-            // txtChavePIXQQPag
-            // 
-            this.txtChavePIXQQPag.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtChavePIXQQPag.Location = new System.Drawing.Point(6, 24);
-            this.txtChavePIXQQPag.Name = "txtChavePIXQQPag";
-            this.txtChavePIXQQPag.Size = new System.Drawing.Size(389, 20);
-            this.txtChavePIXQQPag.TabIndex = 117;
-            // 
-            // label150
-            // 
-            this.label150.AutoSize = true;
-            this.label150.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label150.Location = new System.Drawing.Point(3, 8);
-            this.label150.Name = "label150";
-            this.label150.Size = new System.Drawing.Size(67, 13);
-            this.label150.TabIndex = 116;
-            this.label150.Text = "Chave PIX";
+            this.label151.AutoSize = true;
+            this.label151.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label151.Location = new System.Drawing.Point(4, 152);
+            this.label151.Name = "label151";
+            this.label151.Size = new System.Drawing.Size(49, 13);
+            this.label151.TabIndex = 138;
+            this.label151.Text = "Scopes";
             // 
             // FrmMain
             // 
@@ -4911,6 +4933,8 @@
             this.tabPage17.PerformLayout();
             this.tabPage35.ResumeLayout(false);
             this.tabPage35.PerformLayout();
+            this.tabPage36.ResumeLayout(false);
+            this.tabPage36.PerformLayout();
             this.tabControl4.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabControl3.ResumeLayout(false);
@@ -4962,8 +4986,6 @@
             this.groupBox10.ResumeLayout(false);
             this.tabPage34.ResumeLayout(false);
             this.tabPage34.PerformLayout();
-            this.tabPage36.ResumeLayout(false);
-            this.tabPage36.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -5382,6 +5404,8 @@
         private System.Windows.Forms.Label label149;
         private System.Windows.Forms.TextBox txtChavePIXQQPag;
         private System.Windows.Forms.Label label150;
+        private System.Windows.Forms.TextBox txtScopesQQPag;
+        private System.Windows.Forms.Label label151;
     }
 }
 
