@@ -334,12 +334,12 @@ begin
 
             ListaRetorno.DadosRet.TituloRet.SeuNumero   := LJSONObject.AsString['externalReference'];
             ListaRetorno.DadosRet.TituloRet.Vencimento     := StrDatetoTDateTime(LJSONObject.AsString['dueDate']);
-            ListaRetorno.DadosRet.TituloRet.ValorDocumento := LJSON.AsFloat['originalValue'];
+            ListaRetorno.DadosRet.TituloRet.ValorDocumento := LJSONObject.AsFloat['originalValue'];
             if ListaRetorno.DadosRet.TituloRet.ValorDocumento = 0 then
-              ListaRetorno.DadosRet.TituloRet.ValorDocumento := LJSON.AsFloat['value'];
-            ListaRetorno.DadosRet.TituloRet.ValorAtual     := LJSON.AsFloat['value'];
-            ListaRetorno.DadosRet.TituloRet.ValorPago      := LJSON.AsFloat['value'];
-            ListaRetorno.DadosRet.TituloRet.ValorRecebido  := LJSON.AsFloat['netValue'];
+              ListaRetorno.DadosRet.TituloRet.ValorDocumento := LJSONObject.AsFloat['value'];
+            ListaRetorno.DadosRet.TituloRet.ValorAtual     := LJSONObject.AsFloat['value'];
+            ListaRetorno.DadosRet.TituloRet.ValorPago      := LJSONObject.AsFloat['value'];
+            ListaRetorno.DadosRet.TituloRet.ValorRecebido  := LJSONObject.AsFloat['netValue'];
 
             if LJSONObject.AsJSONObject['fine'].AsFloat['value'] > 0 then
             begin
