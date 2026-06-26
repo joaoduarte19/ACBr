@@ -689,7 +689,7 @@ begin
              if (LTipoMoraJuros = 2) then
                if ValorMoraJuros > 99.99 then
                   raise Exception.Create('Percentual ValorMoraJuros não pode ser maior que 99,99% !');
-             Juros := IntToStr(LTipoMoraJuros) + FormatDateTime('ddmmyyyy', DataMoraJuros) + PadLeft(StringReplace(FormatFloat('#####0.00', ValorMoraJuros), ',', '', []), 15, '0')
+             Juros := IntToStr(LTipoMoraJuros) + IfThen(DataMoraJuros = 0, '00000000', FormatDateTime('ddmmyyyy', DataMoraJuros)) + PadLeft(StringReplace(FormatFloat('#####0.00', ValorMoraJuros), ',', '', []), 15, '0')
            end
           else
              Juros := '3'+DupeString('0', 23)
@@ -895,7 +895,7 @@ begin
                  DupeString('0', 8)  +                                                                                                              //  43-50  DATA DESCONTO 3
                  DupeString('0', 15) +                                                                                                              //  51-65  VALOR DESCONTO 3
                  ifthen(MultaValorFixo, '1', '2') +                                                                                                 //  66-66  CODIGO DA MULTA
-                 FormatDateTime('ddmmyyyy', DataMulta) +                                                                                                   //  67-74  DATA DA MULTA
+                 IfThen(DataMulta = 0, '00000000', FormatDateTime('ddmmyyyy', DataMulta)) +                                                             //  67-74  DATA DA MULTA
 
                  PadLeft(OnlyNumber(IfThen(MultaValorFixo,FloatToIntStr(PercentualMulta,2),
                                                           FloatToIntStr(PercentualMulta,1) + '0') )
