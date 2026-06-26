@@ -345,7 +345,7 @@ end;
 function TNFSeW_IPM.GerarLista: TACBrXmlNodeArray;
 var
   i: integer;
-  xDescr: string;
+  xDescr, lCodNBS: string;
 begin
   Result := nil;
   SetLength(Result, NFSe.Servico.ItemServico.Count);
@@ -372,8 +372,12 @@ begin
     Result[i].AppendChild(AddNode(tcStr, '#', 'codigo_item_lista_servico', 1, 9, 1,
                  OnlyNumber(NFSe.Servico.ItemServico[I].ItemListaServico), ''));
 
+    lCodNBS := NFSe.Servico.ItemServico[I].CodigoNBS;
+    if Trim(lCodNBS) = '' then
+      lCodNBS := NFSe.Servico.CodigoNBS;
+
     Result[i].AppendChild(AddNode(tcStr, '#', 'codigo_nbs', 1, 9, 0,
-                                       OnlyNumber(NFSe.Servico.CodigoNBS), ''));
+                                       OnlyNumber(lCodNBS), ''));
 
     Result[i].AppendChild(AddNode(tcStr, '#', 'codigo_atividade', 1, 9, FpNrOcorrCodigoAtividade,
                        OnlyNumber(NFSe.Servico.ItemServico[I].CodigoCnae), ''));

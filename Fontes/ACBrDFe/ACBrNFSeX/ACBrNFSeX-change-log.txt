@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 26/06/2026
+-- IPM.GravarXML --
+[*] ACBR-9525 - Adiciona fallback para o valor CodigoNBS pegar priorizar o valor da Lista de Itens.
+   Por: Valter Patrick
+   Veja: https://www.projetoacbr.com.br/forum/topic/92957-acbr-9525-erro-de-nfsex-municipio-de-de-rio-do-sul-provedor-pr%C3%B3prio-ipm/
 -- ACBrNFSeXConversao/IPM.GravarXml --
 [*] ACBr-9303 - Acrescentados novos valores de CST usados pelo provedor IPM.
    Por: Italo Giurizzato Junior
