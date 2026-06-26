@@ -539,11 +539,17 @@ const
 
 type
   TCSTPis = (cstPisVazio, cstPis00, cstPis01, cstPis02, cstPis03, cstPis04,
-             cstPis05, cstPis06, cstPis07, cstPis08, cstPis09, cstPis49);
+             cstPis05, cstPis06, cstPis07, cstPis08, cstPis09, cstPis49,
+             cstPis50, cstPis51, cstPis52, cstPis53, cstPis54, cstPis55, cstPis56,
+             cstPis60, cstPis61, cstPis62, cstPis63, cstPis64, cstPis65, cstPis66,
+             cstPis67, cstPis70, cstPis71, cstPis72, cstPis73, cstPis74, cstPis75,
+             cstPis98, cstPis99);
 
 const
   TCSTPisArrayStrings: array[TCSTPis] of string = ('', '00', '01', '02', '03',
-    '04', '05', '06', '07', '08', '09', '49');
+    '04', '05', '06', '07', '08', '09', '49', '50', '51', '52', '53', '54', '55',
+    '56', '60', '61', '62', '63', '64', '65', '66', '67', '70', '71', '72', '73',
+    '74', '75', '98', '99');
 
 type
   TtpRetPisCofins = (trpiscofinscsllNaoRetido, trpcRetido,
@@ -13670,17 +13676,31 @@ end;
 function CSTPisToStr(const t: TCSTPis): string;
 begin
   result := EnumeradoToStr(t,
-        ['', '00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '49'],
+        ['', '00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '49',
+         '50', '51', '52', '53', '54', '55', '56', '60', '61', '62',
+         '63', '64', '65', '66', '67', '70', '71', '72', '73', '74', '75',
+         '98', '99'],
         [cstPisVazio, cstPis00, cstPis01, cstPis02, cstPis03, cstPis04,
-         cstPis05, cstPis06, cstPis07, cstPis08, cstPis09, cstPis49]);
+         cstPis05, cstPis06, cstPis07, cstPis08, cstPis09, cstPis49,
+         cstPis50, cstPis51, cstPis52, cstPis53, cstPis54, cstPis55, cstPis56,
+         cstPis60, cstPis61, cstPis62, cstPis63, cstPis64, cstPis65, cstPis66,
+         cstPis67, cstPis70, cstPis71, cstPis72, cstPis73, cstPis74, cstPis75,
+         cstPis98, cstPis99]);
 end;
 
 function StrToCSTPis(out ok: Boolean; const s: string): TCSTPis;
 begin
   result := StrToEnumerado(ok, s,
-        ['', '00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '49'],
+        ['', '00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '49',
+         '50', '51', '52', '53', '54', '55', '56', '60', '61', '62',
+         '63', '64', '65', '66', '67', '70', '71', '72', '73', '74', '75',
+         '98', '99'],
         [cstPisVazio, cstPis00, cstPis01, cstPis02, cstPis03, cstPis04,
-         cstPis05, cstPis06, cstPis07, cstPis08, cstPis09, cstPis49]);
+         cstPis05, cstPis06, cstPis07, cstPis08, cstPis09, cstPis49,
+         cstPis50, cstPis51, cstPis52, cstPis53, cstPis54, cstPis55, cstPis56,
+         cstPis60, cstPis61, cstPis62, cstPis63, cstPis64, cstPis65, cstPis66,
+         cstPis67, cstPis70, cstPis71, cstPis72, cstPis73, cstPis74, cstPis75,
+         cstPis98, cstPis99]);
 end;
 
 function tpRetPisCofinsToStr(const t: TtpRetPisCofins): string;

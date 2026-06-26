@@ -162,7 +162,9 @@ begin
 
   FDocument.Root := NFSeNode;
 
-  ConsolidarVariosItensServicosEmUmSo;
+  if FormatoDiscriminacao <> fdNenhum then
+    ConsolidarVariosItensServicosEmUmSo;
+//    CampoDiscriminacaoFormatado;
 
   if (VersaoNFSe in [ve100, ve101]) and (Ambiente = taHomologacao) then
   begin
@@ -567,8 +569,8 @@ function TNFSeW_IPM.GerarPisCofinsNaoRetido: TACBrXmlNode;
 begin
   result := CreateElement('pis_cofins');
 
-  result.AppendChild(AddNode(tcStr,'#','cst', 1, 2, 1,
-                                  CSTPISToStr(NFSe.Servico.Valores.CSTPis),''));
+  result.AppendChild(AddNode(tcInt,'#','cst', 1, 2, 1,
+                  StrToIntDef(CSTPISToStr(NFSe.Servico.Valores.CSTPis), 1),''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'tipo_retencao', 1, 1, 1,
          tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins), ''));
@@ -910,6 +912,7 @@ begin
 
   if FormatoDiscriminacao <> fdNenhum then
     ConsolidarVariosItensServicosEmUmSo;
+//    CampoDiscriminacaoFormatado;
 
   xmlNode := GerarInfDeclaracaoPrestacaoServico;
   NFSeNode.AppendChild(xmlNode);

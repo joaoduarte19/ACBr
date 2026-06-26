@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 26/06/2026
+-- ACBrNFSeXConversao/IPM.GravarXml --
+[*] ACBr-9303 - Acrescentados novos valores de CST usados pelo provedor IPM.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] Alterado para o WS novo do provedor Fiorilli versão 1.01 a cidade de Motuca/SP
    Por: Italo Giurizzato Junior
