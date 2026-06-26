@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/06/2026
+-- ACBrNFSeXServicos --
+[*] Todas as cidades atendidas pelo provedor VersaTecnologia mudaram para a versão 2.04
+   Por: Italo Giurizzato Junior
+
 25/06/2026
 -- ACBrNFSeXServicos --
 [*] ACBr-9527 - O municipio de Guaraquecaba/PR trocou de provedor para Elotech
