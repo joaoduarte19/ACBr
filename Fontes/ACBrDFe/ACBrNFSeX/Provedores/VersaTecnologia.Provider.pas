@@ -38,14 +38,20 @@ interface
 
 uses
   SysUtils, Classes,
-  ACBrBase, ACBrXmlBase, ACBrXmlDocument, ACBrNFSeXClass, ACBrNFSeXConversao,
-  ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
-  ACBrNFSeXProviderABRASFv2, ACBrNFSeXWebserviceBase, ACBrNFSeXWebservicesResponse;
+  ACBrBase,
+  ACBrXmlBase,
+  ACBrXmlDocument,
+  ACBrNFSeXClass,
+  ACBrNFSeXConversao,
+  ACBrNFSeXGravarXml,
+  ACBrNFSeXLerXml,
+  ACBrNFSeXProviderABRASFv2,
+  ACBrNFSeXWebserviceBase,
+  ACBrNFSeXWebservicesResponse;
 
 type
   TACBrNFSeXWebserviceVersaTecnologia200 = class(TACBrNFSeXWebserviceSoap11)
   private
-    function GetURL: string;
     function GetNameSpace: string;
     function GetSoapAction: string;
   public
@@ -62,7 +68,6 @@ type
 
     function TratarXmlRetornado(const aXML: string): string; override;
 
-    property URL: string read GetURL;
     property NameSpace: string read GetNameSpace;
     property SoapAction: string read GetSoapAction;
   end;
@@ -74,8 +79,6 @@ type
     function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
     function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
-
-    procedure ValidarSchema(Response: TNFSeWebserviceResponse; aMetodo: TMetodo); override;
   public
     function ResponsavelRetencaoToStr(const t: TnfseResponsavelRetencao): string; override;
     function StrToResponsavelRetencao(out ok: boolean; const s: string): TnfseResponsavelRetencao; override;
@@ -125,9 +128,12 @@ uses
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML,
   ACBrUtil.FilesIO,
-  ACBrDFeException, ACBrNFSeX, ACBrNFSeXConfiguracoes,
+  ACBrDFeException,
+  ACBrNFSeX,
+  ACBrNFSeXConfiguracoes,
   ACBrNFSeXNotasFiscais,
-  VersaTecnologia.GravarXml, VersaTecnologia.LerXml;
+  VersaTecnologia.GravarXml,
+  VersaTecnologia.LerXml;
 
 { TACBrNFSeProviderVersaTecnologia200 }
 
@@ -205,153 +211,24 @@ begin
                            [rtTomador, rtPrestador, rtNenhum]);
 end;
 
-procedure TACBrNFSeProviderVersaTecnologia200.ValidarSchema(
-  Response: TNFSeWebserviceResponse; aMetodo: TMetodo);
-var
-  xXml, xNameSpace1, xNameSpace2: string;
-begin
-  inherited ValidarSchema(Response, aMetodo);
-
-  xXml := Response.ArquivoEnvio;
-
-  xNameSpace1 := 'xmlns="' + ConfigWebServices.Producao.XMLNameSpace + '"';
-
-  if FAOwner.Configuracoes.WebServices.AmbienteCodigo = 1 then
-    xNameSpace2 := 'xmlns="' + ConfigWebServices.Producao.NameSpace + '"'
-  else
-    xNameSpace2 := 'xmlns="' + ConfigWebServices.Homologacao.NameSpace + '"';
-
-  if ConfigWebServices.VersaoDados = '2.01' then
-    xNameSpace2 := StringReplace(xNameSpace2, '/webservice', '', []);
-
-  case aMetodo of
-    tmRecepcionar:
-      begin
-        xXml := RetornarConteudoEntre(xXml,
-          '<EnviarLoteRpsEnvio ' + xNameSpace1 + '>',
-          '</EnviarLoteRpsEnvio>', False);
-
-        xXml := '<EnviarLoteRpsEnvio ' + xNameSpace2 + '>' + xXml + '</EnviarLoteRpsEnvio>';
-      end;
-
-    tmConsultarLote:
-      begin
-        xXml := RetornarConteudoEntre(xXml,
-          '<ConsultarLoteRpsEnvio ' + xNameSpace1 + '>',
-          '</ConsultarLoteRpsEnvio>', False);
-
-        xXml := '<ConsultarLoteRpsEnvio ' + xNameSpace2 + '>' + xXml + '</ConsultarLoteRpsEnvio>';
-      end;
-
-    tmConsultarNFSePorRps:
-      begin
-        xXml := RetornarConteudoEntre(xXml,
-          '<ConsultarNfseRpsEnvio ' + xNameSpace1 + '>',
-          '</ConsultarNfseRpsEnvio>', False);
-
-        xXml := '<ConsultarNfseRpsEnvio ' + xNameSpace2 + '>' + xXml + '</ConsultarNfseRpsEnvio>';
-      end;
-
-    tmConsultarNFSePorFaixa:
-      begin
-        xXml := RetornarConteudoEntre(xXml,
-          '<ConsultarNfseFaixaEnvio ' + xNameSpace1 + '>',
-          '</ConsultarNfseFaixaEnvio>', False);
-
-        xXml := '<ConsultarNfseFaixaEnvio ' + xNameSpace2 + '>' + xXml + '</ConsultarNfseFaixaEnvio>';
-      end;
-
-    tmConsultarNFSeServicoPrestado:
-      begin
-        xXml := RetornarConteudoEntre(xXml,
-          '<ConsultarNfseServicoPrestadoEnvio ' + xNameSpace1 + '>',
-          '</ConsultarNfseServicoPrestadoEnvio>', False);
-
-        xXml := '<ConsultarNfseServicoPrestadoEnvio ' + xNameSpace2 + '>' + xXml + '</ConsultarNfseServicoPrestadoEnvio>';
-      end;
-
-    tmConsultarNFSeServicoTomado:
-      begin
-        xXml := RetornarConteudoEntre(xXml,
-          '<ConsultarNfseServicoTomadoEnvio ' + xNameSpace1 + '>',
-          '</ConsultarNfseServicoTomadoEnvio>', False);
-
-        xXml := '<ConsultarNfseServicoTomadoEnvio ' + xNameSpace2 + '>' + xXml + '</ConsultarNfseServicoTomadoEnvio>';
-      end;
-
-    tmCancelarNFSe:
-      begin
-        xXml := RetornarConteudoEntre(xXml,
-          '<CancelarNfseEnvio ' + xNameSpace1 + '>',
-          '</CancelarNfseEnvio>', False);
-
-        xXml := '<CancelarNfseEnvio ' + xNameSpace2 + '>' + xXml + '</CancelarNfseEnvio>';
-      end;
-
-    tmGerar:
-      begin
-        xXml := RetornarConteudoEntre(xXml,
-          '<GerarNfseEnvio ' + xNameSpace1 + '>',
-          '</GerarNfseEnvio>', False);
-
-        xXml := '<GerarNfseEnvio '+ xNameSpace2 + '>' + xXml + '</GerarNfseEnvio>';
-      end;
-
-     tmRecepcionarSincrono:
-      begin
-        xXml := RetornarConteudoEntre(xXml,
-          '<EnviarLoteRpsSincronoEnvio ' + xNameSpace1 + '>',
-          '</EnviarLoteRpsSincronoEnvio>', False);
-
-        xXml := '<EnviarLoteRpsSincronoEnvio ' + xNameSpace2 + '>' + xXml + '</EnviarLoteRpsSincronoEnvio>';
-      end;
-
-    tmSubstituirNFSe:
-      begin
-        xXml := RetornarConteudoEntre(xXml,
-          '<SubstituirNfseEnvio ' + xNameSpace1 + '>',
-          '</SubstituirNfseEnvio>', False);
-
-        xXml := '<SubstituirNfseEnvio ' + xNameSpace2 + '>' + xXml + '</SubstituirNfseEnvio>';
-      end;
-  else
-    Response.ArquivoEnvio := xXml;
-  end;
-
-  Response.ArquivoEnvio := xXml;
-end;
-
 { TACBrNFSeXWebserviceVersaTecnologia200 }
-
-function TACBrNFSeXWebserviceVersaTecnologia200.GetURL: string;
-var
-  xURL: string;
-begin
-  if TACBrNFSeX(FPDFeOwner).Configuracoes.WebServices.AmbienteCodigo = 1 then
-    xURL := TACBrNFSeX(FPDFeOwner).Provider.ConfigGeral.Params.ValorParametro('URLProducao')
-  else
-    xURL := TACBrNFSeX(FPDFeOwner).Provider.ConfigGeral.Params.ValorParametro('URLHomologacao');
-
-  case TACBrNFSeX(FPDFeOwner).Configuracoes.Geral.Versao of
-    ve201: xURL := xURL + '/webservice';
-    ve202: xURL := xURL + '/webservices/2.02';
-    ve204: xURL := xURL + '/webservices/2.04';
-  end;
-
-  Result := xURL;
-end;
 
 function TACBrNFSeXWebserviceVersaTecnologia200.GetNameSpace: string;
 begin
-  Result := 'xmlns:ns1="http://' + URL + '/nfse.wsdl"';
+  if FPConfiguracoes.WebServices.AmbienteCodigo = 2 then
+    Result := TACBrNFSeX(FPDFeOwner).Provider.ConfigWebServices.Homologacao.NameSpace
+  else
+    Result := TACBrNFSeX(FPDFeOwner).Provider.ConfigWebServices.Producao.NameSpace;
+
+  Result := 'xmlns:ns1="' + Result + '"';
 end;
 
 function TACBrNFSeXWebserviceVersaTecnologia200.GetSoapAction: string;
 begin
-  if TACBrNFSeX(FPDFeOwner).Configuracoes.Geral.Versao = ve204 then
-    Result := 'http://' + URL + '/nfse.wsdl/'
+  if FPConfiguracoes.WebServices.AmbienteCodigo = 2 then
+    Result := TACBrNFSeX(FPDFeOwner).Provider.ConfigWebServices.Homologacao.SoapAction
   else
-    Result := 'http://' + URL + '/servicos#';
+    Result := TACBrNFSeX(FPDFeOwner).Provider.ConfigWebServices.Producao.SoapAction;
 end;
 
 function TACBrNFSeXWebserviceVersaTecnologia200.Recepcionar(const ACabecalho,
@@ -686,9 +563,9 @@ begin
   else
   begin
     if FAOwner.Configuracoes.WebServices.AmbienteCodigo = 1 then
-      FpURL := ConfigWebServices.Producao.NameSpace
+      FpURL := ConfigWebServices.Producao.XMLNameSpace
     else
-      FpURL := ConfigWebServices.Homologacao.NameSpace;
+      FpURL := ConfigWebServices.Homologacao.XMLNameSpace;
   end;
 
   ConfigMsgDados.DadosCabecalho := GetCabecalho(FpURL);
