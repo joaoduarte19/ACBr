@@ -1,9 +1,9 @@
-﻿<?xml version="1.0"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://nfse.cataguases.mg.gov.br/webservices/2.04/nfse_v204.xsd" xmlns="http://nfse.cataguases.mg.gov.br/webservices/2.04/nfse_v204.xsd"
+<?xml version="1.0"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="https://nfe.iapu.mg.gov.br/webservices/2.04/nfse_v204.xsd" xmlns="https://nfe.iapu.mg.gov.br/webservices/2.04/nfse_v204.xsd"
 	xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" attributeFormDefault="unqualified"
 	elementFormDefault="qualified">
 	<xsd:import namespace="http://www.w3.org/2000/09/xmldsig#"
-		schemaLocation="http://nfse.cataguases.mg.gov.br/webservices/2.04/xmldsig-core-schema20020212.xsd" />
+      	schemaLocation="xmldsig-core-schema20020212.xsd" />
 
 	<!-- definition of simple elements -->
 	<xsd:simpleType name="tsNumeroNfse">
@@ -233,6 +233,7 @@
 			<xsd:enumeration value="06.03"/>
 			<xsd:enumeration value="06.04"/>
 			<xsd:enumeration value="06.05"/>
+			<xsd:enumeration value="06.06"/>
 			<xsd:enumeration value="07.01"/>
 			<xsd:enumeration value="07.02"/>
 			<xsd:enumeration value="07.03"/>
@@ -272,6 +273,7 @@
 			<xsd:enumeration value="11.02"/>
 			<xsd:enumeration value="11.03"/>
 			<xsd:enumeration value="11.04"/>
+			<xsd:enumeration value="11.05"/>
 			<xsd:enumeration value="12.01"/>
 			<xsd:enumeration value="12.02"/>
 			<xsd:enumeration value="12.03"/>
@@ -306,6 +308,7 @@
 			<xsd:enumeration value="14.11"/>
 			<xsd:enumeration value="14.12"/>
 			<xsd:enumeration value="14.13"/>
+			<xsd:enumeration value="14.14"/>
 			<xsd:enumeration value="15.01"/>
 			<xsd:enumeration value="15.02"/>
 			<xsd:enumeration value="15.03"/>
@@ -325,6 +328,7 @@
 			<xsd:enumeration value="15.17"/>
 			<xsd:enumeration value="15.18"/>
 			<xsd:enumeration value="16.01"/>
+			<xsd:enumeration value="16.02"/>
 			<xsd:enumeration value="17.01"/>
 			<xsd:enumeration value="17.02"/>
 			<xsd:enumeration value="17.03"/>
@@ -348,6 +352,7 @@
 			<xsd:enumeration value="17.22"/>
 			<xsd:enumeration value="17.23"/>
 			<xsd:enumeration value="17.24"/>
+			<xsd:enumeration value="17.25"/>
 			<xsd:enumeration value="18.01"/>
 			<xsd:enumeration value="19.01"/>
 			<xsd:enumeration value="20.01"/>
@@ -361,6 +366,7 @@
 			<xsd:enumeration value="25.02"/>
 			<xsd:enumeration value="25.03"/>
 			<xsd:enumeration value="25.04"/>
+			<xsd:enumeration value="25.05"/>
 			<xsd:enumeration value="26.01"/>
 			<xsd:enumeration value="27.01"/>
 			<xsd:enumeration value="28.01"/>
@@ -786,20 +792,41 @@
 			<xsd:enumeration value="07"/>
 			<xsd:enumeration value="08"/>
 			<xsd:enumeration value="09"/>
+			<xsd:enumeration value="49"/>
+			<xsd:enumeration value="50"/>
+			<xsd:enumeration value="51"/>
+			<xsd:enumeration value="52"/>
+			<xsd:enumeration value="53"/>
+			<xsd:enumeration value="54"/>
+			<xsd:enumeration value="55"/>
+			<xsd:enumeration value="56"/>
+			<xsd:enumeration value="60"/>
+			<xsd:enumeration value="61"/>
+			<xsd:enumeration value="62"/>
+			<xsd:enumeration value="63"/>
+			<xsd:enumeration value="64"/>
+			<xsd:enumeration value="65"/>
+			<xsd:enumeration value="66"/>
+			<xsd:enumeration value="67"/>
+			<xsd:enumeration value="70"/>
+			<xsd:enumeration value="71"/>
+			<xsd:enumeration value="72"/>
+			<xsd:enumeration value="73"/>
+			<xsd:enumeration value="74"/>
+			<xsd:enumeration value="75"/>
+			<xsd:enumeration value="98"/>
+			<xsd:enumeration value="99"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 
 	<xsd:simpleType name="tsTpRetPisCofins">
 		<xsd:annotation>
-			<xsd:documentation>Tipo de Retenção PIS/COFINS (
-				1 - Quando PIS e COFINS for Retido
-				2 - Quando PIS e COFINS Não Retido
-				3 - Quando PIS Retido e COFINS Não Retido
-				4 - Quando PIS Não Retido e COFINS Retido;)
-			</xsd:documentation>
+			<xsd:documentation>Tipo de Retenção PIS/COFINS</xsd:documentation>
 		</xsd:annotation>
-		<xsd:restriction base="xsd:byte">
-			<xsd:pattern value="1|2|3|4" />
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="1" />
+			<xsd:whiteSpace value="preserve"/>
+			<xsd:pattern value="[0-8]{1}"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 
@@ -1933,7 +1960,8 @@
             <xsd:sequence>
                 <xsd:element name="Prestador" type="tcIdentificacaoPessoaEmpresa"
                     minOccurs="1" maxOccurs="1" />
-                
+                <xsd:element name="NotaTomada" type="tsSimNao"
+                    minOccurs="0" maxOccurs="1" />
                 <xsd:element name="ListaNotas" minOccurs="1" maxOccurs="1">
                     <xsd:complexType>
                         <xsd:sequence>
