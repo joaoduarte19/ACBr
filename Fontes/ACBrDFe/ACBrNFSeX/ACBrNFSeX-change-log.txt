@@ -47,6 +47,11 @@ Símbolo : Significado
 [*] ACBr-9303 - Acrescentados novos valores de CST usados pelo provedor IPM.
    Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
+[*] ACBR-9503 - A cidade de Bertioga/SP trocou de provedor, agora é o GISS na versão 2.04
+   Por: Destak
+   Veja: https://www.projetoacbr.com.br/forum/topic/92890-acbr-9503cidade-de-bertiogasp-mudou-de-ginfes-para-giss/
+[*] ACBR-9503 - A cidade de Carmo do Cajuru/MG trocou de provedor, agora é o Padrão Nacional.
+   Por: MS
 [*] Alterado para o WS novo do provedor Fiorilli versão 1.01 a cidade de Motuca/SP
    Por: Italo Giurizzato Junior
 -- VersaTecnologia.Provider --
