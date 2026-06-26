@@ -151,18 +151,48 @@ uses
 
 procedure TACBrTEFRespPayKit.ConteudoToProperty;
 var
-  json, cupom, s: String;
+  json, cupom, s, lin, PrimeiraLinha: String;
   jso, jsLog: TACBrJSONObject;
   dh: TDateTime;
+  i: Integer;
+  FimCupom1: Boolean;
 begin
   fpCNFEnviado := (UpperCase(Conteudo.LeInformacao(899, CTEF_RESP_CONFIRMADO).AsString) = 'S');
   fpHeader := Conteudo.LeInformacao(899, CTEF_RESP_HEADER).AsString;
 
   cupom := StringToBinaryString(Conteudo.LeInformacao(899, CTEF_RESP_TEXTO_CUPOM).AsString);
+  // Cupom lido pode conter 2 vias.. tentando separar //
+  PrimeiraLinha := '';
+  FimCupom1 := False;
   ImagemComprovante1aVia.Text := cupom;
-  ImagemComprovante2aVia.Text := cupom;
-  Confirmar := (cupom <> '');
+  ImagemComprovante2aVia.Clear;
+  i := 0;
+  while i < ImagemComprovante1aVia.Count do
+  begin
+    lin := ImagemComprovante1aVia[i];
+    if (i = 0) then
+      PrimeiraLinha := lin
+    else if (lin = PrimeiraLinha) then  // Se repetir a 1a linha, deve estar no Cupom2
+      FimCupom1 := True;
 
+    if not FimCupom1 then
+      inc(i)
+    else
+    begin
+      ImagemComprovante1aVia.Delete(i);
+      ImagemComprovante2aVia.Add(lin);
+    end;
+  end;
+
+  // Apaga linhas em branco no final de Cupom1
+  while (ImagemComprovante1aVia.Count > 0) and (ImagemComprovante1aVia[ImagemComprovante1aVia.Count-1] = '') do
+    ImagemComprovante1aVia.Delete(ImagemComprovante1aVia.Count-1);
+
+  // Se não achou texto do Cupom2, usa mesmo texto do Cupom1 no Cupom2
+  if (ImagemComprovante2aVia.Count = 0) then
+    ImagemComprovante2aVia.Text := ImagemComprovante1aVia.Text;
+
+  Confirmar := (cupom <> '');
   json := Trim(Conteudo.LeInformacao(899, CTEF_RESP_JSON).AsString);
   jso := TACBrJSONObject.Parse(json);
   try
