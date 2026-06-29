@@ -250,6 +250,7 @@ type
       property txId: String read fTxId;
       property pixCopiaECola: String read fpixCopiaECola write fpixCopiaECola;
       property valor: TLibPixCDValorVInfo read fvalor;
+      property Pix: TACBrObjectList read FPix write fPix;
   end;
 
   { TLibPIXCDCobResposta }
