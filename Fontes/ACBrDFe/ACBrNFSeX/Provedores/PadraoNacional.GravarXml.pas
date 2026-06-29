@@ -1627,11 +1627,12 @@ begin
   Result.AppendChild(GerarXMLExigibilidadeSuspensa);
   Result.AppendChild(GerarXMLBeneficioMunicipal);
 
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pAliq', 1, 3, 0,
+                                       NFSe.Servico.Valores.tribMun.pAliq, ''));
+
   Result.AppendChild(AddNode(tcStr, '#1', 'tpRetISSQN', 2, 2, 1,
                  tpRetISSQNToStr(NFSe.Servico.Valores.tribMun.tpRetISSQN), ''));
 
-  Result.AppendChild(AddNode(tcDe2, '#1', 'pAliq', 1, 3, 0,
-                                       NFSe.Servico.Valores.tribMun.pAliq, ''));
 end;
 
 function TNFSeW_PadraoNacional.GerarXMLBeneficioMunicipal: TACBrXmlNode;
