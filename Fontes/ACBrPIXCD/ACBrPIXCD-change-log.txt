@@ -46,6 +46,10 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+29/06/2026
+-- Unis diversas -- 
+[*][ACBR-9326] Ajustado para utilizar campo alfa CNPJ
+   Por: Daniel de Morais InfoCotidianos
 
 16/04/2026
 -- ACBrPSPQQPag -- 

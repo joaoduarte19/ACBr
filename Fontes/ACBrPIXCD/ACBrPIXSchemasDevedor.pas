@@ -204,7 +204,7 @@ begin
   if fcnpj = AValue then
     Exit;
 
-  s := OnlyNumber(AValue);
+  s := OnlyCPFCNPJAlphaNum(AValue);
   if (s <> '') then
   begin
     e := ValidarCNPJ(s);
@@ -222,7 +222,7 @@ begin
   if fcpf = AValue then
     Exit;
 
-  s := OnlyNumber(AValue);
+  s := OnlyCPFCNPJAlphaNum(AValue);
   if (s <> '') then
   begin
     e := ValidarCPF(s);
@@ -240,7 +240,7 @@ begin
   if fcep = AValue then
     Exit;
 
-  s := OnlyNumber(AValue);
+  s := OnlyCPFCNPJAlphaNum(AValue);
   if (s <> '') then
     s := PadLeft(s, 8, '0') ;
 

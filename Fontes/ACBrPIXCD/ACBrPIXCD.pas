@@ -1071,7 +1071,7 @@ begin
     Values['inicio'] := DateTimeToIso8601(aInicio);
     Values['fim'] := DateTimeToIso8601(aFim);
 
-    s := OnlyNumber(aCpfCnpj);
+    s := OnlyCPFCNPJAlphaNum(aCpfCnpj);
     if NaoEstaVazio(s) then
     begin
       e := ValidarCNPJouCPF(s);
@@ -1283,7 +1283,7 @@ begin
     Values['inicio'] := DateTimeToIso8601(aInicio);
     Values['fim'] := DateTimeToIso8601(aFim);
 
-    s := OnlyNumber(aCpfCnpj);
+    s := OnlyCPFCNPJAlphaNum(aCpfCnpj);
     if NaoEstaVazio(s) then
     begin
       e := ValidarCNPJouCPF(s);
@@ -1827,7 +1827,7 @@ begin
     if NaoEstaVazio(idRec) then
       Values['idRec'] := idRec;
 
-    s := OnlyNumber(aCpfCnpj);
+    s := OnlyCPFCNPJAlphaNum(aCpfCnpj);
     if NaoEstaVazio(s) then
     begin
       e := ValidarCNPJouCPF(s);
@@ -2486,7 +2486,7 @@ begin
       Values['txIdPresente'] := 'true';
     end;
 
-    s := OnlyNumber(CpfCnpj);
+    s := OnlyCPFCNPJAlphaNum(CpfCnpj);
     if (s <> '') then
     begin
       e := ValidarCNPJouCPF(s);
@@ -2757,7 +2757,7 @@ begin
     Values['inicio'] := DateTimeToIso8601(Inicio);
     Values['fim'] := DateTimeToIso8601(Fim);
 
-    s := OnlyNumber(CpfCnpj);
+    s := OnlyCPFCNPJAlphaNum(CpfCnpj);
     if (s <> '') then
     begin
       e := ValidarCNPJouCPF(s);

@@ -968,7 +968,7 @@ begin
   if fcpf_cnpj = AValue then
     Exit;
 
-  s := OnlyNumber(AValue);
+  s := OnlyCPFCNPJAlphaNum(AValue);
   if (s <> '') then
   begin
     e := ValidarCNPJouCPF(s);
