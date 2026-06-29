@@ -387,13 +387,13 @@ begin
           Result := Result + 'Registro ANVISA ' + med.Items[i].cProdANVISA + sQuebraLinha
         else
         begin
-          if (dm_nLote in FDetMedicamentos) then
+          if (dm_nLote in FDetMedicamentos)and (NaoEstaVazio(med.Items[i].nLote)) then
             Result := Result + 'LOTE: ' + med.Items[i].nLote + sQuebraLinha;
-          if (dm_qLote in FDetMedicamentos) then
+          if (dm_qLote in FDetMedicamentos) and (NaoEstaZerado(med.Items[i].qLote))then
             Result := Result + 'QTD: ' + FormatFloatBr(med.Items[i].qLote, FloatMask(3)) + sQuebraLinha;
-          if (dm_dFab in FDetMedicamentos) then
+          if (dm_dFab in FDetMedicamentos)and (NaoEstaZerado(med.Items[i].dFab)) then
             Result := Result + 'FAB: ' + DateToStr(med.Items[i].dFab) + sQuebraLinha;
-          if (dm_dVal in FDetMedicamentos) then
+          if (dm_dVal in FDetMedicamentos)and (NaoEstaZerado(med.Items[i].dVal)) then
             Result := Result + 'VAL: ' + DateToStr(med.Items[i].dVal) + sQuebraLinha;
         end;
 
@@ -511,16 +511,16 @@ begin
 
       for i := 0 to Rastro.Count - 1 do
       begin
-        if (dr_nLote in FDetRastros) then
+        if (dr_nLote in FDetRastros)and (NaoEstaVazio(rastro.Items[i].nLote)) then
           Result := Result + 'LOTE: ' + rastro.Items[i].nLote + sQuebraLinha;
 
-        if (dr_qLote in FDetRastros) then
+        if (dr_qLote in FDetRastros)  and (NaoEstaZerado(rastro.Items[i].qLote))then
           Result := Result + 'QTD: ' + FormatFloatBr(rastro.Items[i].qLote, FloatMask(3)) + sQuebraLinha;
 
-        if (dr_dFab in FDetRastros) then
+        if (dr_dFab in FDetRastros) and (NaoEstaZerado(rastro.Items[i].dFab)) then
           Result := Result + 'FAB: ' + FormatDateBr(rastro.Items[i].dFab) + sQuebraLinha;
 
-        if (dr_dVal in FDetRastros) then
+        if (dr_dVal in FDetRastros) and (NaoEstaZerado(rastro.Items[i].dVal)) then
           Result := Result + 'VAL: ' + FormatDateBr(rastro.Items[i].dVal) + sQuebraLinha;
 
         if (dr_cAgreg in FDetRastros) and NaoEstaVazio(rastro.Items[i].cAgreg) then
