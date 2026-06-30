@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 30/06/2026
+-- Fiorilli.Provider --
+[*] ACBR-9538 - Possível solução para extrai corretamente o XML da NFS-e do retorno
+    da consulta.
+   Por: Italo Giurizzato Junior
 -- ISSFortaleza.GravarXml/ISSFortaleza.Provider --
 [*] ACBR-9435 - Ajustes para atender os novos Schemas do provedor.
    Por: Italo Giurizzato Junior

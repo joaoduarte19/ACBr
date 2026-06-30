@@ -1361,33 +1361,21 @@ begin
     CodVerif := OnlyNumber(ObterConteudoTag(Node.Attributes.Items['Id']));
     DataAut := ObterConteudoTag(Node.Childrens.FindAnyNs('dhProc'), tcDatHor);
 
-    Node2 := Node.Childrens.FindAnyNs('DeclaracaoPrestacaoServico');
-
-    // Tem provedor que mudou a tag de <DeclaracaoPrestacaoServico>
-    // para <Rps>
-    if Node2 = nil then
-      Node2 := Node.Childrens.FindAnyNs('Rps');
+    Node2 := Node.Childrens.FindAnyNs('DPS');
 
     if not Assigned(Node2) then Exit;
 
-    Node := Node2.Childrens.FindAnyNs('InfDeclaracaoPrestacaoServico');
+    Node := Node2.Childrens.FindAnyNs('infDPS');
     if not Assigned(Node) then Exit;
-
-    Node := Node.Childrens.FindAnyNs('Rps');
 
     NumRps := '';
     SerieRps := '';
 
     if Node <> nil then
     begin
-      Node := Node.Childrens.FindAnyNs('IdentificacaoRps');
-
-      if Node <> nil then
-      begin
-        NumRps := ObterConteudoTag(Node.Childrens.FindAnyNs('Numero'), tcStr);
-        NumeroRps := StrToIntDef(NumRps, 0);
-        SerieRps := ObterConteudoTag(Node.Childrens.FindAnyNs('Serie'), tcStr);
-      end;
+      NumRps := ObterConteudoTag(Node.Childrens.FindAnyNs('nDPS'), tcStr);
+      NumeroRps := StrToIntDef(NumRps, 0);
+      SerieRps := ObterConteudoTag(Node.Childrens.FindAnyNs('serie'), tcStr);
     end;
 
     AResumo := Response.Resumos.New;
@@ -1440,33 +1428,21 @@ begin
     CodVerif := OnlyNumber(ObterConteudoTag(Node.Attributes.Items['Id']));
     DataAut := ObterConteudoTag(Node.Childrens.FindAnyNs('dhProc'), tcDatHor);
 
-    Node2 := Node.Childrens.FindAnyNs('DeclaracaoPrestacaoServico');
-
-    // Tem provedor que mudou a tag de <DeclaracaoPrestacaoServico>
-    // para <Rps>
-    if Node2 = nil then
-      Node2 := Node.Childrens.FindAnyNs('Rps');
+    Node2 := Node.Childrens.FindAnyNs('DPS');
 
     if not Assigned(Node2) then Exit;
 
-    Node := Node2.Childrens.FindAnyNs('InfDeclaracaoPrestacaoServico');
+    Node := Node2.Childrens.FindAnyNs('infDPS');
     if not Assigned(Node) then Exit;
-
-    Node := Node.Childrens.FindAnyNs('Rps');
 
     NumRps := '';
     SerieRps := '';
 
     if Node <> nil then
     begin
-      Node := Node.Childrens.FindAnyNs('IdentificacaoRps');
-
-      if Node <> nil then
-      begin
-        NumRps := ObterConteudoTag(Node.Childrens.FindAnyNs('Numero'), tcStr);
-        NumeroRps := StrToIntDef(NumRps, 0);
-        SerieRps := ObterConteudoTag(Node.Childrens.FindAnyNs('Serie'), tcStr);
-      end;
+      NumRps := ObterConteudoTag(Node.Childrens.FindAnyNs('nDPS'), tcStr);
+      NumeroRps := StrToIntDef(NumRps, 0);
+      SerieRps := ObterConteudoTag(Node.Childrens.FindAnyNs('serie'), tcStr);
     end;
 
     AResumo := Response.Resumos.New;
