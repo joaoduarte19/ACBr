@@ -43,6 +43,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+30/06/2026
+-- Diversas units ACBrCTe  --
+[*] Ajuste nas FormatarChaveAcesso que ja trata remover literal 
+   ACBr-9369
+   Por: Daniel Morais InfoCotidiano
+
 18/06/2026
 -- Diversas units ACBrCTe  --
 [*] Ajuste das chaves chaves e cnpj alfanumérico.

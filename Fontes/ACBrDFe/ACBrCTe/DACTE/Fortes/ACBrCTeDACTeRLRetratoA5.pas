@@ -826,7 +826,7 @@ begin
     format('%2.2d', [fpTotalPages]);
   rllEmissao.Caption := FormatDateTimeBr(fpCTe.Ide.dhEmi);
   rliBarCode.Caption := RemoverLiteralChave(fpCTe.InfCTe.Id);
-  rllChave.Caption := FormatarChaveAcesso(RemoverLiteralChave(fpCTe.InfCTe.Id));
+  rllChave.Caption := FormatarChaveAcesso(OnlyAlphaNum(fpCTe.InfCTe.Id));
 
   if not fpDACTe.ExpandeLogoMarca then
   begin

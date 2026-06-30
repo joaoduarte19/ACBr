@@ -1247,7 +1247,7 @@ begin
   rllModal.Caption := ACBrStr(TpModalToStrText(fpCTe.Ide.modal));
   rllModelo.Caption := IntToStr(fpCTe.Ide.modelo);
   rllEmissao.Caption := FormatDateTimeBr(fpCTe.Ide.dhEmi);
-  rllChave.Caption := FormatarChaveAcesso(RemoverLiteralChave(fpCTe.InfCTe.Id));
+  rllChave.Caption := FormatarChaveAcesso(OnlyAlphaNum(fpCTe.InfCTe.Id));
 
   rllTipoCte.Caption := ACBrStr(tpCTToStrText(fpCTe.Ide.tpCTe));
   rllTipoServico.Caption := ACBrStr(TpServToStrText(fpCTe.Ide.tpServ));

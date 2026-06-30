@@ -1198,7 +1198,7 @@ begin
   LPDF.SetFont(7, 'B');
   LPDF.TextBox(x1 - 2, y1 + 10, 88, 7, 'Chave de acesso', 'T', 'L', False);
   LPDF.SetFont(7, '');
-  LPDF.TextBox(x1, y1 + 13, 88, 4, FormatarChaveAcesso(RemoverLiteralChave(LCTE.infCTe.Id)), 'T', 'C', False);
+  LPDF.TextBox(x1, y1 + 13, 88, 4, FormatarChaveAcesso(OnlyAlphaNum(LCTE.infCTe.Id)), 'T', 'C', False);
   //LPDF.TextBox(x1, y1 + 2, 86, 18, LTexto, 'C', 'C', False);
   //codigo de barras
   y1 := -65;
