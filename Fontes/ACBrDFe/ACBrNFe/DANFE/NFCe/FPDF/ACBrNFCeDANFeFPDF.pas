@@ -2881,7 +2881,7 @@ begin
   h := PDF.GetStringHeight(Texto, Args.Band.Width);
   y := y + PDF.TextBox(0, y, Args.Band.Width, h, Texto, 'T', 'C', False);
   y := y + 0.5;
-  Texto := FormatarChaveAcesso(RemoverLiteralChave(FNFe.infNFe.ID));
+  Texto := FormatarChaveAcesso(OnlyAlphaNum(FNFe.infNFe.ID));
   PDF.SetFont(FontSize2, '');
   h := PDF.GetStringHeight(Texto, Args.Band.Width);
   y := y + PDF.TextBox(0, y, Args.Band.Width, h, Texto, 'T', 'C', False);

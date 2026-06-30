@@ -43,6 +43,10 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+30/06/2026
+-- Diversos --
+[*] ACBr-9369: Ajustes para CNPJ Alfanuméricos FormatarChaveAcesso
+   Por: Daniel de Morais InfoCotidiano
 
 30/06/2026
 -- ACBrNFe.JSONWriter --

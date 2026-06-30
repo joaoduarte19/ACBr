@@ -3199,7 +3199,7 @@ begin
   texto := 'CHAVE DE ACESSO';
   SetFontBoxHeader(PDF);
   PDF.TextBox(x, y, w, h, texto, 'T', 'L', 1, '');
-  texto := FormatarChaveAcesso(RemoverLiteralChave(NFe.infNFe.ID));
+  texto := FormatarChaveAcesso(OnlyAlphaNum(NFe.infNFe.ID));
   SetFontBoxContentBold(PDF);
   PDF.TextBox(x, y, w, h, texto, 'B', 'C', 0, '');
 end;
