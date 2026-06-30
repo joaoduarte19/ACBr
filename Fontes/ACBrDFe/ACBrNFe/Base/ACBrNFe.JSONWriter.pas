@@ -37,7 +37,12 @@ unit ACBrNFe.JSONWriter;
 interface
 
 uses
-  Classes, SysUtils, ACBrJSON, ACBrNFe.Classes, pcnConversao, pcnConversaoNFe;
+  Classes, SysUtils,
+  ACBrJSON,
+  ACBrNFe.Classes,
+  ACBrDFe.Conversao,
+  pcnConversao,
+  pcnConversaoNFe;
 
 type
   TNFeJSONWriter = class
@@ -157,8 +162,7 @@ type
 implementation
 
 uses
-  ACBrUtil.Base,
-  ACBrDFe.Conversao;
+  ACBrUtil.Base;
 
 { TNFeJSONWriter }
 
@@ -2590,9 +2594,9 @@ begin
       if (NFe.Ide.modelo = 55) then
         Gerar_IBSCBS_gTransfCred(AIBSCBS.gTransfCred, lIBSCBSJSONObj);
 
-    cst810:
-      if (NFe.Ide.modelo = 55) and (AIBSCBS.gCredPresIBSZFM.tpCredPresIBSZFM <> tcpNenhum) then
-        Gerar_IBSCBS_gCredPresIBSZFM(AIBSCBS.gCredPresIBSZFM, lIBSCBSJSONObj);
+//    cst810:
+//      if (NFe.Ide.modelo = 55) and (AIBSCBS.gCredPresIBSZFM.tpCredPresIBSZFM <> tcpNenhum) then
+//        Gerar_IBSCBS_gCredPresIBSZFM(AIBSCBS.gCredPresIBSZFM, lIBSCBSJSONObj);
   end;
 
   AJSONObject.AddPair('IBSCBS', lIBSCBSJSONObj);
@@ -2754,8 +2758,8 @@ begin
     exit;
 
   lGCredPresIBSZFMJSONObj := TACBrJSONObject.Create;
-  lGCredPresIBSZFMJSONObj.AddPair('tpCredPresIBSZFM', tpCredPresIBSZFMToStr(AGCredPresIBSZFM.tpCredPresIBSZFM));
-  lGCredPresIBSZFMJSONObj.AddPair('vCredPresIBSZFM', AGCredPresIBSZFM.vCredPresIBSZFM);
+//  lGCredPresIBSZFMJSONObj.AddPair('tpCredPresIBSZFM', tpCredPresIBSZFMToStr(AGCredPresIBSZFM.tpCredPresIBSZFM));
+//  lGCredPresIBSZFMJSONObj.AddPair('vCredPresIBSZFM', AGCredPresIBSZFM.vCredPresIBSZFM);
 
   AJSONObject.AddPair('gCredPresIBSZFM', lGCredPresIBSZFMJSONObj);
 end;

@@ -43,6 +43,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+30/06/2026
+-- ACBrNFe.JSONWriter --
+[-] Correção para a quebra de compilação.
+   Por: Italo Giurizzato Junior
+
 25/06/2026
 -- ACBrNFe.XmlReader, ACBrNFe.XmlWriter  --
 [*] Ajuste na leitura e gravação XML do alfanumericos
