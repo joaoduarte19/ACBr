@@ -44,7 +44,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
-
+30/06/2026
+-- ACBrBPeDABPeESCPOS --
+[*] ACBr-9369 - Ajuste no FormatarChaveAcesso, que ele ja remove o literal
+   Por: Daniel de Morais
+   
 01/06/2026
 -- ACBrBPe/ACBrBPeConfiguracoes/ACBrBPeWebServices/ACBrBPeIniReader --
 -- ACBrBPeXmlWriter/ACBrBPeEnvEvento/ACBrBPeDABPeESCPOS --
