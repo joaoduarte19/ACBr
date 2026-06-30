@@ -43,11 +43,14 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
 30/06/2026
+-- ACBrNFe.XmlWriter --
+[-] Correção para gerar o grupo gPagAntecipado somente se a lista de chaves for maior que zero.
+   Por: Italo Giurizzato Junior
 -- Diversos --
 [*] ACBr-9369: Ajustes para CNPJ Alfanuméricos FormatarChaveAcesso
    Por: Daniel de Morais InfoCotidiano
-
 30/06/2026
 -- ACBrNFe.JSONWriter --
 [-] Correção para a quebra de compilação.

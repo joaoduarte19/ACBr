@@ -4226,7 +4226,7 @@ var
 begin
   Result := nil;
 
-  if Assigned(NFe.Ide.gPagAntecipado) then
+  if NFe.Ide.gPagAntecipado.refNFe.Count > 0 then
   begin
     Result := FDocument.CreateElement('gPagAntecipado');
 
