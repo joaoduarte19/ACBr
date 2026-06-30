@@ -128,22 +128,18 @@ begin
     ConsultarNFSe := True;
     CancelarNFSe := True;
   end;
-  {
+
   SetNomeXSD('***');
 
   with ConfigSchemas do
   begin
-    Recepcionar := 'servico_enviar_lote_rps_envio_v03.xsd';
+    Recepcionar := 'servico_enviar_lote_rps_envio_v04.xsd';
     ConsultarSituacao := 'servico_consultar_situacao_lote_rps_envio_v03.xsd';
     ConsultarLote := 'servico_consultar_lote_rps_envio_v03.xsd';
     ConsultarNFSeRps := 'servico_consultar_nfse_rps_envio_v03.xsd';
     ConsultarNFSe := 'servico_consultar_nfse_envio_v03.xsd';
     CancelarNFSe := 'servico_cancelar_nfse_envio_v02.xsd';
   end;
-  }
-  SetNomeXSD('nfse.xsd');
-
-  ConfigSchemas.Validar := False;
 end;
 
 function TACBrNFSeProviderISSFortaleza.CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass;

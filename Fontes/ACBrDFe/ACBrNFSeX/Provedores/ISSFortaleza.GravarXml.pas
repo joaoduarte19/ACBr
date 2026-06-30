@@ -360,10 +360,10 @@ begin
     if NFSe.IBSCBS.valores.gReeRepRes.documentos[i].fornec.xNome <> '' then
       Result[i].AppendChild(GerarXMLfornec(NFSe.IBSCBS.valores.gReeRepRes.documentos[i].fornec));
 
-    Result[i].AppendChild(AddNode(tcDat, '#1', 'DataEmissaoDocumento', 10, 10, 1,
+    Result[i].AppendChild(AddNode(tcDatHor, '#1', 'DataEmissaoDocumento', 10, 20, 1,
                     NFSe.IBSCBS.valores.gReeRepRes.documentos[i].dtEmiDoc, ''));
 
-    Result[i].AppendChild(AddNode(tcDat, '#1', 'DataCompetenciaDocumento', 10, 10, 1,
+    Result[i].AppendChild(AddNode(tcDatHor, '#1', 'DataCompetenciaDocumento', 10, 20, 1,
                    NFSe.IBSCBS.valores.gReeRepRes.documentos[i].dtCompDoc, ''));
 
     Result[i].AppendChild(AddNode(tcStr, '#1', 'TipoReeRepRes', 2, 2, 1,
