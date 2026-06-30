@@ -159,6 +159,7 @@ resourcestring
   DSC_PDIF = 'Percentual de diferimento';
   DSC_VDIF = 'Valor do Diferimento';
   DSC_VCBSOP = 'Valor da CBS Bruto na operação';
+  DSC_PDEVTRIB = 'Percentual de devolução do IBS';
   DSC_VDEVTRIB = 'Valor do tributo devolvido';
   DSC_PREDALIQ = 'Percentual da redução de alíquota';
   DSC_PALIQEFET = 'Aliquota Efetiva do IBS de competência das UF que será aplicada a Base de Cálculo';
@@ -228,6 +229,11 @@ resourcestring
   DSC_VCBSMONORETEN = 'Valor total da CBS monofásica sujeita a retenção';
   DSC_VIBSMONORET = 'Valor do IBS monofásico retido anteriormente';
   DSC_VCBSMONORET = 'Valor da CBS monofásica retida anteriormente';
+
+  DSC_TPALCZFMCBS = 'Tipo de aplicação da alíquota zero da CBS';
+  DSC_NPROCSUFRAMA = 'Número do processo na Suframa para o item comercializado';
+  DSC_PALIQEFETREGCBS = 'Percentual efetivo sem a redução';
+  DSC_VTRIBREGCBS = 'Valor efetivo sem a redução';
 
 implementation
 

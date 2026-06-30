@@ -120,9 +120,8 @@ type
                   teRegistroPassagemMDFe, teCancGenerico, tePagIntegLibCredPresAdq,
                   teImporALCZFM, tePerecPerdaRouboFurtoTranspContratFornec,
                   teFornecNaoRealizPagAntec, teSolicApropCredPres,
-                  teDestItemConsPessoal, tePerecPerdaRouboFurtoTranspContratAqu,
-                  teAceiteDebitoApuracaoNotaCredito, teImobilizacaoItem,
-                  teSolicApropCredCombustivel, teSolicApropCredBensServicos,
+                  tePerecPerdaRouboFurtoTranspContratAqu, teAceiteDebitoApuracaoNotaCredito,
+                  teImobilizacaoItem, teSolicApropCredCombustivel, teSolicApropCredBensServicos,
                   teManifPedTransfCredIBSSucessao, teManifPedTransfCredCBSSucessao,
                   teAtualizacaoDataPrevisaoEntrega, teVinculoPgto, teCancVinculoPgto);
 
@@ -139,9 +138,9 @@ const
     '240140', '240150', '240170', '110116', '110117', '310112', '110130',
     '110131', '110150', '610130', '610131', '110117', '110118', '610111',
     '110190', '110191', '110192', '110193', '110750', '110751', '510630',
-    '110001', '112110', '112120', '112130', '112140', '211110', '211120',
-    '211124', '211128', '211130', '211140', '211150', '212110', '212120',
-    '112150', '110300', '110301');
+    '110001', '112110', '112120', '112130', '112140', '211110', '211124',
+    '211128', '211130', '211140', '211150', '212110', '212120', '112150',
+    '110300', '110301');
 
   TACBrTipoEventoDescricaoArrayStrings: array[TACBrTipoEvento] of string = ('NaoMapeado',
     'CCe', 'Cancelamento', 'ManifDestConfirmacao', 'ManifDestCiencia',
@@ -168,10 +167,9 @@ const
     'AlteracaoPagtoServMDFe', 'CancPrestDesacordo',
     'InsucessoEntregaCTe', 'CancInsucessoEntregaCTe', 'InsucessoEntregaNFe',
     'CancInsucessoEntregaNFe', 'ConcFinanceira', 'CancConcFinanceira',
-  	'RegistroPassagemMDFe', 'CancGenerico', 'PagIntegLibCredPresAdq',
+    'RegistroPassagemMDFe', 'CancGenerico', 'PagIntegLibCredPresAdq',
     'ImporALCZFM', 'PerecPerdaRouboFurtoTranspContratFornec',
-    'FornecNaoRealizPagAntec', 'SolicApropCredPres', 'DestItemConsPessoal',
-    'PerecPerdaRouboFurtoTranspContratAqu',
+    'FornecNaoRealizPagAntec', 'SolicApropCredPres', 'PerecPerdaRouboFurtoTranspContratAqu',
     'AceiteDebitoApuracaoNotaCredito', 'ImobilizacaoItem',
     'SolicApropCredCombustivel', 'SolicApropCredBensServicos',
     'ManifPedTransfCredIBSSucessao', 'ManifPedTransfCredCBSSucessao',
@@ -626,6 +624,11 @@ type
 const
   TtpPagAntArrayStrings: array[TtpPagAnt] of string = ('', '1', '2', '3');
 
+type
+  TtpALCZFMCBS = (tpALCZFMCBSnOpInd, tpALCZFMCBSOpInd);
+
+const
+  TtpALCZFMCBSArrayStrings: array[TtpALCZFMCBS] of string = ('0', '1');
 {
   Declaração das funções de conversão
 }
@@ -804,6 +807,10 @@ function StrToTpCredPresIBSZFM(const s: string): TTpCredPresIBSZFM;
 
 function tpPagAntToStr(const t: TtpPagAnt): string;
 function StrTotpPagAnt(const s: string): TtpPagAnt;
+
+function tpALCZFMCBSToStr(const t: TtpALCZFMCBS): string;
+function TryStrTotpALCZFMCBS(const s: string; out Value: TtpALCZFMCBS): Boolean;
+function StrTotpALCZFMCBS(const s: string): TtpALCZFMCBS;
 
 var
   StrToTpEventoDFeList: array of TStrToTpEventoDFe;
@@ -1938,6 +1945,8 @@ begin
     raise EACBrException.CreateFmt('Valor string inválido para TIndAceitacao: %s', [s]);
 end;
 
+
+
 function TpCredPresIBSZFMToStr(const t: TTpCredPresIBSZFM): string;
 begin
   Result := TTpCredPresIBSZFMArrayStrings[t];
@@ -1976,6 +1985,31 @@ begin
     end;
   end;
   raise EACBrException.CreateFmt('Valor string inválido para TtpPagAnt: %s', [s]);
+end;
+
+function tpALCZFMCBSToStr(const t: TtpALCZFMCBS): string;
+begin
+  Result := TtpALCZFMCBSArrayStrings[t];
+end;
+
+function TryStrTotpALCZFMCBS(const s: string; out Value: TtpALCZFMCBS): Boolean;
+var
+  idx: TtpALCZFMCBS;
+begin
+  Result := False;
+  for idx := Low(TtpALCZFMCBSArrayStrings) to High(TtpALCZFMCBSArrayStrings) do
+    if TtpALCZFMCBSArrayStrings[idx] = s then
+    begin
+      Value := idx;
+      Result:= True;
+      Exit;
+    end;
+end;
+
+function StrTotpALCZFMCBS(const s: string): TtpALCZFMCBS;
+begin
+  if not TryStrTotpALCZFMCBS(s, Result) then
+     raise EACBrException.CreateFmt('Valor string inválido para TtpALCZFMCBS: %s', [s]);
 end;
 
 end.

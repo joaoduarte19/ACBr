@@ -59,7 +59,7 @@ type
     function CarregarArquivo(const CaminhoArquivo: string): boolean; overload;
     function CarregarArquivo(const Stream: TStream): boolean; overload;
     function ObterCNPJCPF(const ANode: TACBrXmlNode): string;
-    function ObterConteudo(const ANode: TACBrXmlNode; const Tipo: TACBrTipoCampo): variant;
+    function ObterConteudo(const ANode: TACBrXmlNode; const Tipo: TACBrTipoCampo): variant; virtual;
 
     property Document: TACBrXmlDocument read FDocument;
     property Arquivo: String read FArquivo write FArquivo;

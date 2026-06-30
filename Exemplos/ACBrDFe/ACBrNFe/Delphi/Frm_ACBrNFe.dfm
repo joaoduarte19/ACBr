@@ -21,7 +21,6 @@ object frmACBrNFe: TfrmACBrNFe
     Height = 612
     Align = alLeft
     TabOrder = 0
-    ExplicitHeight = 604
     object PageControl1: TPageControl
       Left = 1
       Top = 1
@@ -600,8 +599,8 @@ object frmACBrNFe: TfrmACBrNFe
               object Label6: TLabel
                 Left = 8
                 Top = 16
-                Width = 126
-                Height = 13
+                Width = 124
+                Height = 14
                 Caption = 'Selecione UF do Emitente:'
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clWindowText
@@ -952,7 +951,7 @@ object frmACBrNFe: TfrmACBrNFe
               Left = 8
               Top = 289
               Width = 83
-              Height = 13
+              Height = 14
               Caption = 'Tipo de Empresa:'
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
@@ -1633,8 +1632,6 @@ object frmACBrNFe: TfrmACBrNFe
     Height = 612
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 567
-    ExplicitHeight = 604
     object pgcBotoes: TPageControl
       Left = 1
       Top = 41
@@ -1643,7 +1640,6 @@ object frmACBrNFe: TfrmACBrNFe
       ActivePage = tsEnvios
       Align = alTop
       TabOrder = 0
-      ExplicitWidth = 565
       object tsEnvios: TTabSheet
         Caption = 'Envios'
         ImageIndex = 2
@@ -1959,9 +1955,9 @@ object frmACBrNFe: TfrmACBrNFe
               object tsTodos: TTabSheet
                 Caption = 'Todos'
                 object btnCancelarEventoRT: TButton
-                  Left = 5
-                  Top = 41
-                  Width = 177
+                  Left = 3
+                  Top = 39
+                  Width = 206
                   Height = 25
                   Caption = 'Cancelamento de Evento'
                   TabOrder = 0
@@ -1970,9 +1966,9 @@ object frmACBrNFe: TfrmACBrNFe
                 object btnDestItemConsumoPessoal: TButton
                   Left = 5
                   Top = 8
-                  Width = 177
+                  Width = 204
                   Height = 25
-                  Caption = 'Dest. Item consumo pessoal'
+                  Caption = ' Dest. Item consumo pessoal (removido)'
                   TabOrder = 1
                   OnClick = btnDestItemConsumoPessoalClick
                 end
@@ -2229,6 +2225,15 @@ object frmACBrNFe: TfrmACBrNFe
           TabOrder = 3
           OnClick = btnLerArqJSONEnviarEventoClick
         end
+        object btnGerarArqJSON: TButton
+          Left = 369
+          Top = 1
+          Width = 177
+          Height = 25
+          Caption = 'Gerar Arquivo JSON'
+          TabOrder = 4
+          OnClick = btnGerarArqJSONClick
+        end
       end
     end
     object pgRespostas: TPageControl
@@ -2239,8 +2244,6 @@ object frmACBrNFe: TfrmACBrNFe
       ActivePage = Dados
       Align = alClient
       TabOrder = 1
-      ExplicitWidth = 565
-      ExplicitHeight = 365
       object TabSheet5: TTabSheet
         Caption = 'Respostas'
         object MemoResp: TMemo
@@ -2263,8 +2266,10 @@ object frmACBrNFe: TfrmACBrNFe
           Height = 345
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 447
+          ExplicitHeight = 276
           ControlData = {
-            4C000000382E0000871C00000000000000000000000000000000000000000000
+            4C000000C6390000A82300000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
             2B2E126200000000000000004C0000000114020000000000C000000000000046
             8000000000000000000000000000000000000000000000000000000000000000
@@ -2330,8 +2335,6 @@ object frmACBrNFe: TfrmACBrNFe
           ScrollBars = ssVertical
           TabOrder = 0
           WordWrap = False
-          ExplicitWidth = 557
-          ExplicitHeight = 337
         end
       end
     end
@@ -2356,7 +2359,6 @@ object frmACBrNFe: TfrmACBrNFe
         'N'#227'o')
       ParentFont = False
       TabOrder = 2
-      ExplicitWidth = 565
     end
   end
   object ACBrNFe1: TACBrNFe
@@ -2405,9 +2407,9 @@ object frmACBrNFe: TfrmACBrNFe
     CasasDecimais.MaskAliquota = ',0.00'
     ACBrNFe = ACBrNFe1
     ExibeInforAdicProduto = infNenhum
-    ImprimeDetalhamentoEspecifico = False
     ExibeResumoCanhoto = False
     ExibeCampoFatura = False
+    DetCombustiveis = [dc_cProdANP]
     Left = 427
     Top = 279
   end

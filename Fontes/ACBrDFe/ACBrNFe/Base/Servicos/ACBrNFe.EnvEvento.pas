@@ -128,8 +128,8 @@ type
     function Gerar_Evento_SolicApropCredPres(Idx: Integer): TACBrXmlNode;
     function Gerar_Evento_SolicApropCredBensServicos(Idx: Integer): TACBrXmlNode;
     function Gerar_gCredPres(Idx: Integer): TACBrXmlNodeArray;
-    function Gerar_gIBS(gIBS: TgIBSgCBS): TACBrXmlNode;
-    function Gerar_gCBS(gCBS: TgIBSgCBS): TACBrXmlNode;
+    function Gerar_gIBSCredPres(gIBSCredPres: TgIBSgCBS_CredPres): TACBrXmlNode;
+    function Gerar_gCBSCredPres(gCBSCredPres: TgIBSgCBS_CredPres): TACBrXmlNode;
     function Gerar_Evento_DestItemConsPessoal(Idx: Integer): TACBrXmlNode;
     function Gerar_gConsumo(Idx: Integer): TACBrXmlNodeArray;
     function Gerar_gControleEstoque(gControleEstoque: TgControleEstoque): TACBrXmlNode; overload;
@@ -948,8 +948,8 @@ var
     Result := AtpEvento in [teAtorInteressadoNFe, teCancConcFinanceira,
        tePagIntegLibCredPresAdq, teImporALCZFM,
        tePerecPerdaRouboFurtoTranspContratFornec, teFornecNaoRealizPagAntec,
-       teSolicApropCredPres, teDestItemConsPessoal,
-       tePerecPerdaRouboFurtoTranspContratAqu, teAceiteDebitoApuracaoNotaCredito,
+       teSolicApropCredPres, tePerecPerdaRouboFurtoTranspContratAqu,
+       teAceiteDebitoApuracaoNotaCredito,
        teImobilizacaoItem, teSolicApropCredCombustivel,
        teSolicApropCredBensServicos, teAtualizacaoDataPrevisaoEntrega,
        teManifPedTransfCredIBSSucessao, teManifPedTransfCredCBSSucessao];
@@ -1070,8 +1070,6 @@ begin
     teAtualizacaoDataPrevisaoEntrega: Result.AppendChild(Gerar_Evento_AtualizacaoDataPrevisaoEntrega(Idx));
 
     teSolicApropCredPres: Result.AppendChild(Gerar_Evento_SolicApropCredPres(Idx));
-
-    teDestItemConsPessoal: Result.AppendChild(Gerar_Evento_DestItemConsPessoal(Idx));
 
     tePerecPerdaRouboFurtoTranspContratAqu: Result.AppendChild(Gerar_Evento_PerecPerdaRouboTranspContrAdq(Idx));
 
@@ -1306,28 +1304,11 @@ begin
             begin
               infEvento.detEvento.gCredPres.New;
               infEvento.detEvento.gCredPres[i].nItem := RetEventoNFe.InfEvento.detEvento.gCredPres[i].nItem;
-              infEvento.detEvento.gCredPres[i].vBC := RetEventoNFe.infEvento.detEvento.gCredPres[i].vBC;
-              infEvento.detEvento.gCredPres[i].gIBS.cCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gIBS.cCredPres;
-              infEvento.detEvento.gCredPres[i].gIBS.pCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gIBS.pCredPres;
-              infEvento.detEvento.gCredPres[i].gIBS.vCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gIBS.vCredPres;
-              infEvento.detEvento.gCredPres[i].gCBS.cCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gCBS.cCredPres;
-              infEvento.detEvento.gCredPres[i].gCBS.pCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gCBS.pCredPres;
-              infEvento.detEvento.gCredPres[i].gCBS.vCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gCBS.vCredPres;
-            end;
-          end;
-
-        teDestItemConsPessoal:
-          begin
-            for i := 0 to RetEventoNFe.InfEvento.detEvento.gConsumo.Count - 1 do
-            begin
-              infEvento.detEvento.gConsumo.New;
-              infEvento.detEvento.gConsumo[i].nItem := RetEventoNFe.infEvento.detEvento.gConsumo[i].nItem;
-              infEvento.detEvento.gConsumo[i].vIBS := RetEventoNFe.infEvento.detEvento.gConsumo[i].vIBS;
-              infEvento.detEvento.gConsumo[i].vCBS := RetEventoNFe.infEvento.detEvento.gConsumo[i].vCBS;
-              infEvento.detEvento.gConsumo[i].gControleEstoque.qConsumo := RetEventoNFe.infEvento.detEvento.gConsumo[i].gControleEstoque.qConsumo;
-              infEvento.detEvento.gConsumo[i].gControleEstoque.uConsumo := RetEventoNFe.infEvento.detEvento.gConsumo[i].gControleEstoque.uConsumo;
-              infEvento.detEvento.gConsumo[i].DFeReferenciado.nItem := RetEventoNFe.infEvento.detEvento.gConsumo[i].DFeReferenciado.nItem;
-              infEvento.detEvento.gConsumo[i].DFeReferenciado.chaveAcesso := RetEventoNFe.infEvento.detEvento.gConsumo[i].DFeReferenciado.chaveAcesso;
+              infEvento.detEvento.gCredPres[i].vBCCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].vBCCredPres;
+              infEvento.detEvento.gCredPres[i].gIBSCredPres.pCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gIBSCredPres.pCredPres;
+              infEvento.detEvento.gCredPres[i].gIBSCredPres.vCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gIBSCredPres.vCredPres;
+              infEvento.detEvento.gCredPres[i].gCBSCredPres.pCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gCBSCredPres.pCredPres;
+              infEvento.detEvento.gCredPres[i].gCBSCredPres.vCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gCBSCredPres.vCredPres;
             end;
           end;
 
@@ -1714,60 +1695,32 @@ begin
               J := 0;
               while (True) do
               begin
-                sSecao := 'gCredPres' + IntToStrZero(J+1, 3);
+                sSecao := 'gCredPresOper' + IntToStrZero(J+1, 3);
                 sFim := INIRec.ReadString(sSecao, 'nItem', 'FIM');
                 if (sFim='FIM') or (Length(sFim) <= 0) then
                   break;
 
                 infEvento.detEvento.gCredPres.New;
                 infEvento.detEvento.gCredPres[J].nItem := StrToIntDef(sFim, 0);
-                infEvento.detEvento.gCredPres[J].vBC := INIRec.ReadFloat(sSecao, 'vBC', 0);
+                infEvento.detEvento.gCredPres[J].vBCCredPres := INIRec.ReadFloat(sSecao, 'vBCCredPres', 0);
 
-                sSecao := 'gIBS' + IntToStrZero(J+1, 3);
+                sSecao := 'gIBSCredPres' + IntToStrZero(J+1, 3);
                 if INIRec.SectionExists(sSecao) then
                 begin
-                  infEvento.detEvento.gCredPres[J].gIBS.cCredPres := StrTocCredPres(INIRec.ReadString(sSecao, 'cCredPres', ''));
-                  infEvento.detEvento.gCredPres[J].gIBS.pCredPres := INIRec.ReadFloat(sSecao, 'pCredPres', 0);
-                  infEvento.detEvento.gCredPres[J].gIBS.vCredPres := INIRec.ReadFloat(sSecao, 'vCredPres', 0);
+                  infEvento.detEvento.gCredPres[J].gIBSCredPres.pCredPres := INIRec.ReadFloat(sSecao, 'pCredPres', 0);
+                  infEvento.detEvento.gCredPres[J].gIBSCredPres.vCredPres := INIRec.ReadFloat(sSecao, 'vCredPres', 0);
                 end;
-                sSecao := 'gCBS' + IntToStrZero(J+1, 3);
+                sSecao := 'gCBSCredPres' + IntToStrZero(J+1, 3);
                 if INIRec.SectionExists(sSecao) then
                 begin
-                  infEvento.detEvento.gCredPres[J].gCBS.cCredPres := StrTocCredPres(INIRec.ReadString(sSecao, 'cCredPres', ''));
-                  infEvento.detEvento.gCredPres[J].gCBS.pCredPres := INIRec.ReadFloat(sSecao, 'pCredPres', 0);
-                  infEvento.detEvento.gCredPres[J].gCBS.vCredPres := INIRec.ReadFloat(sSecao, 'vCredPres', 0);
+                  infEvento.detEvento.gCredPres[J].gCBSCredPres.pCredPres := INIRec.ReadFloat(sSecao, 'pCredPres', 0);
+                  infEvento.detEvento.gCredPres[J].gCBSCredPres.vCredPres := INIRec.ReadFloat(sSecao, 'vCredPres', 0);
                 end;
 
                 Inc(J);
               end;
             end;
-          teDestItemConsPessoal:
-            begin
-              infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
-              J := 0;
-              while (True) do
-              begin
-                sSecao := 'gConsumo' + IntToStrZero(J+1, 3);
-                sFim := INIRec.ReadString(sSecao, 'nItem', 'FIM');
-                if (sFim='FIM') or (Length(sFim) <= 0) then
-                  break;
 
-                infEvento.detEvento.gConsumo.New;
-                infEvento.detEvento.gConsumo[J].nItem := StrToIntDef(sFim, 0);
-                infEvento.detEvento.gConsumo[J].vIBS := INIRec.ReadFloat(sSecao, 'vIBS', 0);
-                infEvento.detEvento.gConsumo[J].vCBS := INIRec.ReadFloat(sSecao, 'vCBS', 0);
-
-                sSecao := 'gControleEstoque' + IntToStrZero(J+1, 3);
-                infEvento.detEvento.gConsumo[J].gControleEstoque.qConsumo := INIRec.ReadFloat(sSecao, 'qConsumo', 0);
-                infEvento.detEvento.gConsumo[J].gControleEstoque.uConsumo := INIRec.ReadString(sSecao, 'uConsumo', '');
-
-                sSecao := 'DFeReferenciado' + IntToStrZero(J+1, 3);
-                infEvento.detEvento.gConsumo[J].DFeReferenciado.nItem := INIRec.ReadInteger(sSecao, 'nItem', 0);
-                infEvento.detEvento.gConsumo[J].DFeReferenciado.chaveAcesso := INIRec.ReadString(sSecao, 'chaveAcesso', '');
-
-                Inc(J);
-              end;
-            end;
           tePerecPerdaRouboFurtoTranspContratAqu:
             begin
               infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
@@ -2206,7 +2159,7 @@ begin
             Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
             Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
 
-            lAuxJSONArray := lDetEventoJSONObj.AsJSONArray['gCredPres'];
+            lAuxJSONArray := lDetEventoJSONObj.AsJSONArray['gCredPresOper'];
             if not Assigned(lAuxJSONArray) then
               continue;
             for j := 0 to lAuxJSONArray.Count-1 do
@@ -2216,60 +2169,24 @@ begin
                 continue;
               Evento[i].InfEvento.detEvento.gCredPres.New;
               Evento[i].InfEvento.detEvento.gCredPres[j].nItem := lAuxJSONObj.AsInteger['nItem'];
-              Evento[i].InfEvento.detEvento.gCredPres[j].vBC := lAuxJSONObj.AsFloat['vBC'];
+              Evento[i].InfEvento.detEvento.gCredPres[j].vBCCredPres := lAuxJSONObj.AsFloat['vBCCredPres'];
 
-              lAuxJSONObj02 := lAuxJSONObj.AsJSONObject['gIBS'];
+              lAuxJSONObj02 := lAuxJSONObj.AsJSONObject['gIBSCredPres'];
               if Assigned(lAuxJSONObj02) then
               begin
-                Evento[i].InfEvento.detEvento.gCredPres[j].gIBS.cCredPres := StrTocCredPres(lAuxJSONObj02.AsString['cCredPres']);
-                Evento[i].InfEvento.detEvento.gCredPres[j].gIBS.pCredPres := lAuxJSONObj02.AsFloat['pCredPres'];
-                Evento[i].InfEvento.detEvento.gCredPres[j].gIBS.vCredPres := lAuxJSONObj02.AsFloat['vCredPres'];
+                Evento[i].InfEvento.detEvento.gCredPres[j].gIBSCredPres.pCredPres := lAuxJSONObj02.AsFloat['pCredPres'];
+                Evento[i].InfEvento.detEvento.gCredPres[j].gIBSCredPres.vCredPres := lAuxJSONObj02.AsFloat['vCredPres'];
               end;
 
-              lAuxJSONObj02 := lAuxJSONObj.AsJSONObject['gCBS'];
+              lAuxJSONObj02 := lAuxJSONObj.AsJSONObject['gCBSCredPres'];
               if Assigned(lAuxJSONObj02) then
               begin
-                Evento[i].InfEvento.detEvento.gCredPres[j].gCBS.cCredPres := StrTocCredPres(lAuxJSONObj02.AsString['cCredPres']);
-                Evento[i].InfEvento.detEvento.gCredPres[j].gCBS.pCredPres := lAuxJSONObj02.AsFloat['pCredPres'];
-                Evento[i].InfEvento.detEvento.gCredPres[j].gCBS.vCredPres := lAuxJSONObj02.AsFloat['vCredPres'];
+                Evento[i].InfEvento.detEvento.gCredPres[j].gCBSCredPres.pCredPres := lAuxJSONObj02.AsFloat['pCredPres'];
+                Evento[i].InfEvento.detEvento.gCredPres[j].gCBSCredPres.vCredPres := lAuxJSONObj02.AsFloat['vCredPres'];
               end;
             end;
           end;
-        teDestItemConsPessoal:
-          begin
-            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
-            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
-            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
 
-            lAuxJSONArray := lDetEventoJSONObj.AsJSONArray['gConsumo'];
-            if not Assigned(lAuxJSONArray) then
-              continue;
-            for j := 0 to lAuxJSONArray.Count-1 do
-            begin
-              lAuxJSONObj := lAuxJSONArray.ItemAsJSONObject[j];
-              if not Assigned(lAuxJSONObj) then
-                continue;
-
-              Evento[i].InfEvento.detEvento.gConsumo.New;
-              Evento[i].InfEvento.detEvento.gConsumo[j].nItem := lAuxJSONObj.AsInteger['nItem'];
-              Evento[i].InfEvento.detEvento.gConsumo[j].vIBS := lAuxJSONObj.AsFloat['vIBS'];
-              Evento[i].InfEvento.detEvento.gConsumo[j].vCBS := lAuxJSONObj.AsFloat['vCBS'];
-
-              lAuxJSONObj02 := lAuxJSONObj.AsJSONObject['gControleEstoque'];
-              if not Assigned(lAuxJSONObj02) then
-                continue;
-
-              Evento[i].InfEvento.detEvento.gConsumo[j].gControleEstoque.qConsumo := lAuxJSONObj02.AsFloat['qConsumo'];
-              Evento[i].InfEvento.detEvento.gConsumo[j].gControleEstoque.uConsumo := lAuxJSONObj02.AsString['uConsumo'];
-
-              lAuxJSONObj02 := lAuxJSONObj.AsJSONObject['DFeReferenciado'];
-              if not Assigned(lAuxJSONObj02) then
-                continue;
-
-              Evento[i].InfEvento.detEvento.gConsumo[j].DFeReferenciado.nItem := lAuxJSONObj02.AsInteger['nItem'];
-              Evento[i].InfEvento.detEvento.gConsumo[j].DFeReferenciado.chaveAcesso := lAuxJSONObj02.AsString['chaveAcesso'];
-            end;
-          end;
         tePerecPerdaRouboFurtoTranspContratAqu:
           begin
             Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
@@ -2549,50 +2466,42 @@ begin
 
   for i := 0 to Evento[Idx].FInfEvento.detEvento.gCredPres.Count - 1 do
   begin
-    Result[i] := CreateElement('gCredPres');
+    Result[i] := CreateElement('gCredPresOper');
     Result[i].SetAttribute('nItem',
      intToStr(Evento[Idx].InfEvento.detEvento.gCredPres[i].nItem));
 
-    Result[i].AppendChild(AddNode(tcDe2, 'HP22', 'vBC', 1, 15, 1,
-                             Evento[Idx].InfEvento.detEvento.gCredPres[i].vBC));
+    Result[i].AppendChild(AddNode(tcDe2, 'HP22', 'vBCCredPres', 1, 15, 1,
+                             Evento[Idx].InfEvento.detEvento.gCredPres[i].vBCCredPres));
 
-    if Evento[Idx].InfEvento.detEvento.gCredPres[i].gIBS.cCredPres <> cpNenhum then
-      Result[i].AppendChild(Gerar_gIBS(Evento[Idx].InfEvento.detEvento.gCredPres[i].gIBS));
+    Result[i].AppendChild(Gerar_gIBSCredPres(Evento[Idx].InfEvento.detEvento.gCredPres[i].gIBSCredPres));
 
-    if Evento[Idx].InfEvento.detEvento.gCredPres[i].gCBS.cCredPres <> cpNenhum then
-      Result[i].AppendChild(Gerar_gCBS(Evento[Idx].InfEvento.detEvento.gCredPres[i].gCBS));
+    Result[i].AppendChild(Gerar_gCBSCredPres(Evento[Idx].InfEvento.detEvento.gCredPres[i].gCBSCredPres));
   end;
 
   if Evento[Idx].FInfEvento.detEvento.gCredPres.Count > 990 then
     wAlerta('#1', 'gCredPres', '', ERR_MSG_MAIOR_MAXIMO + '990');
 end;
 
-function TEventoNFe.Gerar_gIBS(gIBS: TgIBSgCBS): TACBrXmlNode;
+function TEventoNFe.Gerar_gIBSCredPres(gIBSCredPres: TgIBSgCBS_CredPres): TACBrXmlNode;
 begin
-  Result := CreateElement('gIBS');
-
-  Result.AppendChild(AddNode(tcStr, 'HP27', 'cCredPres', 2, 2, 1,
-                                cCredPresToStr(gIBS.cCredPres), DSC_CCREDPRES));
+  Result := CreateElement('gIBSCredPres');
 
   Result.AppendChild(AddNode(tcDe2, 'HP28', 'pCredPres', 1, 7, 1,
-                                                               gIBS.pCredPres));
+                                                               gIBSCredPres.pCredPres));
 
   Result.AppendChild(AddNode(tcDe2, 'HP29', 'vCredPres', 1, 15, 1,
-                                                               gIBS.vCredPres));
+                                                               gIBSCredPres.vCredPres));
 end;
 
-function TEventoNFe.Gerar_gCBS(gCBS: TgIBSgCBS): TACBrXmlNode;
+function TEventoNFe.Gerar_gCBSCredPres(gCBSCredPres: TgIBSgCBS_CredPres): TACBrXmlNode;
 begin
-  Result := CreateElement('gCBS');
-
-  Result.AppendChild(AddNode(tcStr, 'HP27', 'cCredPres', 2, 2, 1,
-                                cCredPresToStr(gCBS.cCredPres), DSC_CCREDPRES));
+  Result := CreateElement('gCBSCredPres');
 
   Result.AppendChild(AddNode(tcDe2, 'HP28', 'pCredPres', 1, 7, 1,
-                                                               gCBS.pCredPres));
+                                                               gCBSCredPres.pCredPres));
 
   Result.AppendChild(AddNode(tcDe2, 'HP29', 'vCredPres', 1, 15, 1,
-                                                               gCBS.vCredPres));
+                                                               gCBSCredPres.vCredPres));
 end;
 
 function TEventoNFe.Gerar_Evento_DestItemConsPessoal(

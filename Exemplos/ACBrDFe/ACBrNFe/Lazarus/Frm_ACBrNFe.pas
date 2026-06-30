@@ -75,6 +75,7 @@ type
     ACBrNFeDANFCeFortes1: TACBrNFeDANFCeFortes;
     ACBrNFeDANFeFPDF1: TACBrNFeDANFeFPDF;
     ACBrNFeDANFeRL1: TACBrNFeDANFeRL;
+    btnGerarArqJSON: TButton;
     pnlMenus: TPanel;
     pnlCentral: TPanel;
     PageControl1: TPageControl;
@@ -348,6 +349,7 @@ type
     tsDestinatario: TTabSheet;
     Sucessora: TTabSheet;
 
+    procedure btnGerarArqJSONClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnSalvarConfigClick(Sender: TObject);
     procedure sbPathNFeClick(Sender: TObject);
@@ -429,7 +431,7 @@ type
     procedure btnManifestacaoPedidoTransfCredSucessaoClick(Sender: TObject);
     procedure btnPagIntegLibCredPresAqClick(Sender: TObject);
     procedure btnSolicApropriacaoCredPresClick(Sender: TObject);
-    procedure btnDestItemConsumoPessoalClick(Sender: TObject);
+    //procedure btnDestItemConsumoPessoalClick(Sender: TObject);
     procedure btnPerecPerdaContrAdiquClick(Sender: TObject);
     procedure btnAceiteDebApuracaoNotaCreditoClick(Sender: TObject);
     procedure btnImobilizacaoItemClick(Sender: TObject);
@@ -690,6 +692,13 @@ begin
     begin
       Ide.cMunFGIBS := StrToInt(edtEmitCodCidade.Text);
 
+      // Preenchimento obrigatório em caso de:
+      // - Leilão judicial ou licitação promovida pelo poder público (cIndOp=010104)
+      // - Constatação de irregularidade pela falta de documentação fiscal ou pelo
+      //   acobertamento por documentação inidônea (cIndOp=010105);
+      // Observação: Consultar tabela "Código Indicador do Local da Operação"
+      Ide.cIndOp := '010105';
+
       Ide.tpNFDebito := tdNenhum;
       Ide.tpNFCredito := tcNenhum;
 
@@ -697,14 +706,21 @@ begin
       Ide.gCompraGov.pRedutor := 5;
       Ide.gCompraGov.tpOperGov := togFornecimento;
 
+      // gCompraGov pode conter chave(s) de acesso do documento anterior.
+      Ide.gCompraGov.refDFeAnt.New;
+      Ide.gCompraGov.refDFeAnt[0].refDFEChave := '12345678901234567890123456789012345678901234';
+
+      Ide.gCompraGov.refDFeAnt.New;
+      Ide.gCompraGov.refDFeAnt[1].refDFEChave := '12345678901234567890123456789012345678904567';
+
 //    Informado para abater as parcelas de antecipação de pagamento, conforme Art. 10. § 4º
 //    refNFe: Referência uma NF-e (modelo 55) emitida anteriormente, referente a pagamento antecipado
 
-      with Ide.gPagAntecipado.New do
-        refNFe := '12345678901234567890123456789012345678901234';
+      with Ide.gPagAntecipado.refNFe.New do
+        refDFEChave := '12345678901234567890123456789012345678901234';
 
-      with Ide.gPagAntecipado.New do
-        refNFe := '12345678901234567890123456789012345678904567';
+      with Ide.gPagAntecipado.refNfe.New do
+        refDFEChave := '12345678901234567890123456789012345678904567';
     end;
 
     Emit.CNPJCPF           := edtEmitCNPJ.Text;
@@ -729,6 +745,12 @@ begin
     // passar os valores 1, 2 ou 3
     // (1-crtSimplesNacional, 2-crtSimplesExcessoReceita, 3-crtRegimeNormal)
     Emit.CRT  := StrToCRT(Ok, IntToStr(cbTipoEmpresa.ItemIndex + 1));
+
+    // Informar o número do cadastro do emitente na Suframa. Campo obrrigatório
+    // nas operações que se beneficiam de incentivos fiscais existentes nas áreas
+    // sob controle da SUFRAMA com alíquota zero da CBS ref. aos artigos 451 e 466
+    // da LC 214/25
+    Emit.ISUFEmit := '01302603'; // Informar o numero de cadastro do emitente na Suframa.
 
     // Na NFC-e o Destinatário é opcional
     {
@@ -1039,7 +1061,7 @@ begin
 
           ISel.vBCIS := 100;
           ISel.pIS := 5;
-          ISel.pISEspec := 5;
+          ISel.adRemIS := 5;
           ISel.uTrib := 'UNIDAD';
           ISel.qTrib := 10;
           ISel.vIS := 100;
@@ -1065,6 +1087,7 @@ begin
           IBSCBS.gIBSCBS.gIBSUF.gDif.vDif := 100;
 
           IBSCBS.gIBSCBS.gIBSUF.gDevTrib.vDevTrib := 100;
+          IBSCBS.gIBSCBS.gIBSUF.gDevTrib.pDevTrib := 1;
 
           IBSCBS.gIBSCBS.gIBSUF.gRed.pRedAliq := 5;
           IBSCBS.gIBSCBS.gIBSUF.gRed.pAliqEfet := 5;
@@ -1076,6 +1099,7 @@ begin
           IBSCBS.gIBSCBS.gIBSMun.gDif.vDif := 100;
 
           IBSCBS.gIBSCBS.gIBSMun.gDevTrib.vDevTrib := 100;
+          IBSCBS.gIBSCBS.gIBSMun.gDevTrib.pDevTrib := 1;
 
           IBSCBS.gIBSCBS.gIBSMun.gRed.pRedAliq := 5;
           IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet := 5;
@@ -1090,6 +1114,7 @@ begin
           IBSCBS.gIBSCBS.gCBS.gDif.vDif := 100;
 
           IBSCBS.gIBSCBS.gCBS.gDevTrib.vDevTrib := 100;
+          IBSCBS.gIBSCBS.gCBS.gDevTrib.pDevTrib := 1;
 
           IBSCBS.gIBSCBS.gCBS.gRed.pRedAliq := 5;
           IBSCBS.gIBSCBS.gCBS.gRed.pAliqEfet := 5;
@@ -1165,6 +1190,26 @@ begin
           IBSCBS.gCredPresIBSZFM.competApur := Date;
           IBSCBS.gCredPresIBSZFM.tpCredPresIBSZFM := tcpBensInformaticaOutros;
           IBSCBS.gCredPresIBSZFM.vCredPresIBSZFM := 100;
+
+          // Grupo de Operações em áreas incentivadas (ALC/ZFM) - CBS(alíquota zero)
+          with IBSCBS.gIBSCBS.gCBS.gALCZFMCBS do
+          begin
+            // Para operação não indicada = 0
+            // Para operação indicada = 1
+            // TtpALCZFMCBS = (tpALCZFMCBSnOpInd = 0, tpALCZFMCBSOpInd = 1);
+            tpALCZFMCBS := tpALCZFMCBSOpInd;
+
+            // 1 - quando o forn. e dest. estiverem localizados em áreas incentivadas
+            //     e operação amparada por alíq. zero da CBS e não se tratar de
+            //     operação industrial com processo apovado na Suframa para o item
+            // 2 - quando forn. e dest. em estiverem localizados em áreas incentivadas
+            //     e operação amparada por aliq. zero da CBS e SE TRATAR DE
+            //     operação industrial com processo aprovado na Suframa para o item
+                    nProcSuframa:= '12345678';
+            // Alíquota efetiva de ref. da CBS
+            pAliqEfetRegCBS := 1; // Percentual efetivo sem redução
+            vTribRegCBS     := 100; // Valor efetivo sem redução
+          end;
         end;
       end;
     end;
@@ -1356,6 +1401,13 @@ begin
   begin
     NotaF.NFe.Ide.cMunFGIBS := StrToInt(edtEmitCodCidade.Text);
 
+    // Preenchimento obrigatório em caso de:
+    // - Leilão judicial ou licitação promovida pelo poder público (cIndOp=010104)
+    // - Constatação de irregularidade pela falta de documentação fiscal ou pelo
+    //   acobertamento por documentação inidônea (cIndOp=010105);
+    // Observação: Consultar tabela "Código Indicador do Local da Operação"
+    NotaF.NFe.Ide.cIndOp := '010105';
+
     NotaF.NFe.Ide.tpNFDebito := tdNenhum;
     NotaF.NFe.Ide.tpNFCredito := tcNenhum;
 
@@ -1363,14 +1415,21 @@ begin
     NotaF.NFe.Ide.gCompraGov.pRedutor := 5;
     NotaF.NFe.Ide.gCompraGov.tpOperGov := togFornecimento;
 
+    // gCompraGov pode conter chave(s) de acesso do documento anterior.
+    NotaF.NFe.Ide.gCompraGov.refDFeAnt.New;
+    NotaF.NFe.Ide.gCompraGov.refDFeAnt[0].refDFEChave := '12345678901234567890123456789012345678901234';
+
+    NotaF.NFe.Ide.gCompraGov.refDFeAnt.New;
+    NotaF.NFe.Ide.gCompraGov.refDFeAnt[1].refDFEChave := '12345678901234567890123456789012345678904567';
+
 //    Informado para abater as parcelas de antecipação de pagamento, conforme Art. 10. § 4º
 //    refNFe: Referência uma NF-e (modelo 55) emitida anteriormente, referente a pagamento antecipado
 
-    with NotaF.NFe.Ide.gPagAntecipado.New do
-      refNFe := '12345678901234567890123456789012345678901234';
+    with NotaF.NFe.Ide.gPagAntecipado.refNfe.New do
+      refDFEChave := '12345678901234567890123456789012345678901234';
 
-    with NotaF.NFe.Ide.gPagAntecipado.New do
-      refNFe := '12345678901234567890123456789012345678904567';
+    with NotaF.NFe.Ide.gPagAntecipado.refNFe.New do
+      refDFEChave := '12345678901234567890123456789012345678904567';
   end;
 
   //Para NFe referenciada use os campos abaixo
@@ -1419,10 +1478,17 @@ begin
   NotaF.NFe.Emit.CNAE              := '6201500'; // Verifique na cidade do emissor da NFe se é permitido
                                                  // a inclusão de serviços na NFe
 
-    // esta sendo somando 1 uma vez que o ItemIndex inicia do zero e devemos
-    // passar os valores 1, 2 ou 3
-    // (1-crtSimplesNacional, 2-crtSimplesExcessoReceita, 3-crtRegimeNormal)
+  // esta sendo somando 1 uma vez que o ItemIndex inicia do zero e devemos
+  // passar os valores 1, 2 ou 3
+  // (1-crtSimplesNacional, 2-crtSimplesExcessoReceita, 3-crtRegimeNormal)
   NotaF.NFe.Emit.CRT  := StrToCRT(Ok, IntToStr(cbTipoEmpresa.ItemIndex + 1));
+
+  // Informar o número do cadastro do emitente na Suframa. Campo obrrigatório
+  // nas operações que se beneficiam de incentivos fiscais existentes nas áreas
+  // sob controle da SUFRAMA com alíquota zero da CBS ref. aos artigos 451 e 466
+  // da LC 214/25
+  NotaF.NFe.Emit.ISUFEmit := '01302603'; // Informar o numero de cadastro do emitente na Suframa.
+
 
 //Para NFe Avulsa preencha os campos abaixo
 
@@ -1922,7 +1988,7 @@ begin
 
       ISel.vBCIS := 100;
       ISel.pIS := 5;
-      ISel.pISEspec := 5;
+      ISel.adRemIS := 5;
       ISel.uTrib := 'UNIDAD';
       ISel.qTrib := 10;
       ISel.vIS := 100;
@@ -1940,7 +2006,7 @@ begin
       }
 
       //  Informações do tributo: IBS / CBS
-      IBSCBS.CST := cst811;
+      IBSCBS.CST := cst200;
       IBSCBS.cClassTrib := '000001';
       IBSCBS.indDoacao := tieSim;
 
@@ -1953,6 +2019,7 @@ begin
       IBSCBS.gIBSCBS.gIBSUF.gDif.vDif := 100;
 
       IBSCBS.gIBSCBS.gIBSUF.gDevTrib.vDevTrib := 100;
+      IBSCBS.gIBSCBS.gIBSUF.gDevTrib.pDevTrib := 1;
 
       IBSCBS.gIBSCBS.gIBSUF.gRed.pRedAliq := 5;
       IBSCBS.gIBSCBS.gIBSUF.gRed.pAliqEfet := 5;
@@ -1964,6 +2031,7 @@ begin
       IBSCBS.gIBSCBS.gIBSMun.gDif.vDif := 100;
 
       IBSCBS.gIBSCBS.gIBSMun.gDevTrib.vDevTrib := 100;
+      IBSCBS.gIBSCBS.gIBSMun.gDevTrib.pDevTrib := 1;
 
       IBSCBS.gIBSCBS.gIBSMun.gRed.pRedAliq := 5;
       IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet := 5;
@@ -1978,6 +2046,7 @@ begin
       IBSCBS.gIBSCBS.gCBS.gDif.vDif := 100;
 
       IBSCBS.gIBSCBS.gCBS.gDevTrib.vDevTrib := 100;
+      IBSCBS.gIBSCBS.gCBS.gDevTrib.pDevTrib := 1;
 
       IBSCBS.gIBSCBS.gCBS.gRed.pRedAliq := 5;
       IBSCBS.gIBSCBS.gCBS.gRed.pAliqEfet := 5;
@@ -2053,6 +2122,26 @@ begin
       IBSCBS.gCredPresIBSZFM.competApur := Date;
       IBSCBS.gCredPresIBSZFM.tpCredPresIBSZFM := tcpBensInformaticaOutros;
       IBSCBS.gCredPresIBSZFM.vCredPresIBSZFM := 100;
+
+      // Grupo de Operações em áreas incentivadas (ALC/ZFM) - CBS(alíquota zero)
+      with IBSCBS.gIBSCBS.gCBS.gALCZFMCBS do
+      begin
+        // Para operação não indicada = 0
+        // Para operação indicada = 1
+        // TtpALCZFMCBS = (tpALCZFMCBSnOpInd = 0, tpALCZFMCBSOpInd = 1);
+        tpALCZFMCBS := tpALCZFMCBSOpInd;
+
+        // 1 - quando o forn. e dest. estiverem localizados em áreas incentivadas
+        //     e operação amparada por alíq. zero da CBS e não se tratar de
+        //     operação industrial com processo apovado na Suframa para o item
+        // 2 - quando forn. e dest. em estiverem localizados em áreas incentivadas
+        //     e operação amparada por aliq. zero da CBS e SE TRATAR DE
+        //     operação industrial com processo aprovado na Suframa para o item
+        nProcSuframa:= '12345678';
+        // Alíquota efetiva de ref. da CBS
+        pAliqEfetRegCBS := 1; // Percentual efetivo sem redução
+        vTribRegCBS     := 100; // Valor efetivo sem redução
+      end;
     end;
   end;
 
@@ -3373,120 +3462,120 @@ procedure TfrmACBrNFe.btnDataValidadeClick(Sender: TObject);
 begin
   ShowMessage(FormatDateTimeBr(ACBrNFe1.SSL.CertDataVenc));
 end;
-
-procedure TfrmACBrNFe.btnDestItemConsumoPessoalClick(Sender: TObject);
-var
-  lidLote, lAux, lnItem, lvIBS, lvCBS, lqConsumo, luConsumo, lVerAplic, lUF, lnSeqEvento,
-  lchaveAcesso, ltpAutor: String;
-  OK: Boolean;
-  lEvento: TInfEventoCollectionItem;
-  lgConsumo: TgConsumoCollectionItem;
-begin
-  OpenDialog1.Title := 'Selecione a NFe';
-  OpenDialog1.DefaultExt := '*-nfe.XML';
-  OpenDialog1.Filter := 'Arquivos NFe (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
-
-  if OpenDialog1.Execute then
-  begin
-    ACBrNFe1.NotasFiscais.Clear;
-    ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
-
-    lidLote := '1';
-    if not(InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Identificador de controle do Lote de envio do Evento', lidLote)) then
-       exit;
-
-    lnSeqEvento := '1';
-    if not(InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Numero sequencial do evento', lnSeqEvento)) then
-       exit;
-
-    lVerAplic := '1.00';
-    if not(InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Versão do Aplicativo do emitente', lVerAplic)) then
-       exit;
-
-    lUF := 'SP';
-    if not(InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'UF do emitente do Evento', lUF)) then
-       exit;
-    ltpAutor := '1';
-    if not(InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Autor do Evento', ltpAutor)) then
-       exit;
-
-    ACBrNFe1.EventoNFe.Evento.Clear;
-    lEvento := ACBrNFe1.EventoNFe.Evento.New;
-
-    lEvento.InfEvento.tpEvento := teDestItemConsPessoal;
-    lEvento.InfEvento.dhEvento := Now;
-    lEvento.InfEvento.chNFe := OnlyNumber(ACBrNFe1.NotasFiscais[0].NFe.infNFe.ID);
-    lEvento.InfEvento.nSeqEvento := StrToIntDef(lnSeqEvento, 1);
-    lEvento.InfEvento.detEvento.verAplic := lVerAplic;
-    lEvento.InfEvento.detEvento.cOrgaoAutor := UFtoCUF(lUF);
-    lEvento.InfEvento.detEvento.tpAutor := StrToTipoAutor(OK, ltpAutor);
-
-    lAux := 'S';
-    repeat
-      lnItem := '1';
-      if not InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Informe nItem', lnItem) then
-        break;
-
-      lvIBS := '1';
-      if not InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Informe vIBS', lvIBS) then
-        break;
-
-      lvCBS := '1';
-      if not InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Informe vCBS', lvCBS) then
-        break;
-
-      lqConsumo := '1';
-      if not InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Informe qConsumo', lqConsumo) then
-        break;
-
-      luConsumo := 'UNIDAD';
-      if not InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Informe uConsumo', luConsumo) then
-        break;
-
-      lchaveAcesso := '35251118760540000139550010000000011445690173';
-      if not InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Informe chaveAcesso', lchaveAcesso) then
-        break;
-
-      lgConsumo := lEvento.InfEvento.detEvento.gConsumo.New;
-      lgConsumo.nItem := StrToIntDef(lnItem, 1);
-      lgConsumo.vIBS := StrToFloatDef(lvIBS, 1);
-      lgConsumo.vCBS := StrToFloatDef(lvCBS, 1);
-      lgConsumo.gControleEstoque.qConsumo := StrToFloatDef(lqConsumo, 1);
-      lgConsumo.gControleEstoque.uConsumo := luConsumo;
-      lgConsumo.DFeReferenciado.nItem := StrToIntDef(lnItem, 1);
-      lgConsumo.DFeReferenciado.chaveAcesso := lchaveAcesso;
-
-      InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Adicionar gConsumo? (S/N)', lAux);
-    until (UpperCase(lAux) <> 'S');
-
-    ACBrNFe1.EnviarEvento(StrToIntDef(lidLote, 1));
-
-    MemoResp.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetWS;
-    memoRespWS.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetornoWS;
-
-    LoadXML(MemoResp, WBResposta);
-
-    MemoDados.Lines.Add('');
-    MemoDados.Lines.Add('Retorno do Evento');
-    MemoDados.Lines.Add('');
-    MemoDados.Lines.Add('Id.........: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.Id);
-    MemoDados.Lines.Add('tpAmb......: ' + TpAmbToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.TpAmb));
-    MemoDados.Lines.Add('verAplic...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.verAplic);
-    MemoDados.Lines.Add('cOrgao.....: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cOrgao));
-    MemoDados.Lines.Add('cStat......: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cStat));
-    MemoDados.Lines.Add('xMotivo....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xMotivo);
-    MemoDados.Lines.Add('chNFe......: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.chNFe);
-    MemoDados.Lines.Add('tpEvento...: ' + TpEventoToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.tpEvento));
-    MemoDados.Lines.Add('xEvento....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xEvento);
-    MemoDados.Lines.Add('nSeqEvento.: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nSeqEvento));
-    MemoDados.Lines.Add('CNPJDest...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.CNPJDest);
-    MemoDados.Lines.Add('emailDest..: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.emailDest);
-    MemoDados.Lines.Add('dhRegEvento: ' + DateTimeToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.dhRegEvento));
-    MemoDados.Lines.Add('Protocolo..: '+ ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nProt);
-  end;
-end;
+//
+//procedure TfrmACBrNFe.btnDestItemConsumoPessoalClick(Sender: TObject);
+//var
+//  lidLote, lAux, lnItem, lvIBS, lvCBS, lqConsumo, luConsumo, lVerAplic, lUF, lnSeqEvento,
+//  lchaveAcesso, ltpAutor: String;
+//  OK: Boolean;
+//  lEvento: TInfEventoCollectionItem;
+//  lgConsumo: TgConsumoCollectionItem;
+//begin
+//  OpenDialog1.Title := 'Selecione a NFe';
+//  OpenDialog1.DefaultExt := '*-nfe.XML';
+//  OpenDialog1.Filter := 'Arquivos NFe (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
+//
+//  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
+//
+//  if OpenDialog1.Execute then
+//  begin
+//    ACBrNFe1.NotasFiscais.Clear;
+//    ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
+//
+//    lidLote := '1';
+//    if not(InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Identificador de controle do Lote de envio do Evento', lidLote)) then
+//       exit;
+//
+//    lnSeqEvento := '1';
+//    if not(InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Numero sequencial do evento', lnSeqEvento)) then
+//       exit;
+//
+//    lVerAplic := '1.00';
+//    if not(InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Versão do Aplicativo do emitente', lVerAplic)) then
+//       exit;
+//
+//    lUF := 'SP';
+//    if not(InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'UF do emitente do Evento', lUF)) then
+//       exit;
+//    ltpAutor := '1';
+//    if not(InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Autor do Evento', ltpAutor)) then
+//       exit;
+//
+//    ACBrNFe1.EventoNFe.Evento.Clear;
+//    lEvento := ACBrNFe1.EventoNFe.Evento.New;
+//
+//    lEvento.InfEvento.tpEvento := teDestItemConsPessoal;
+//    lEvento.InfEvento.dhEvento := Now;
+//    lEvento.InfEvento.chNFe := OnlyNumber(ACBrNFe1.NotasFiscais[0].NFe.infNFe.ID);
+//    lEvento.InfEvento.nSeqEvento := StrToIntDef(lnSeqEvento, 1);
+//    lEvento.InfEvento.detEvento.verAplic := lVerAplic;
+//    lEvento.InfEvento.detEvento.cOrgaoAutor := UFtoCUF(lUF);
+//    lEvento.InfEvento.detEvento.tpAutor := StrToTipoAutor(OK, ltpAutor);
+//
+//    lAux := 'S';
+//    repeat
+//      lnItem := '1';
+//      if not InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Informe nItem', lnItem) then
+//        break;
+//
+//      lvIBS := '1';
+//      if not InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Informe vIBS', lvIBS) then
+//        break;
+//
+//      lvCBS := '1';
+//      if not InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Informe vCBS', lvCBS) then
+//        break;
+//
+//      lqConsumo := '1';
+//      if not InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Informe qConsumo', lqConsumo) then
+//        break;
+//
+//      luConsumo := 'UNIDAD';
+//      if not InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Informe uConsumo', luConsumo) then
+//        break;
+//
+//      lchaveAcesso := '35251118760540000139550010000000011445690173';
+//      if not InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Informe chaveAcesso', lchaveAcesso) then
+//        break;
+//
+//      lgConsumo := lEvento.InfEvento.detEvento.gConsumo.New;
+//      lgConsumo.nItem := StrToIntDef(lnItem, 1);
+//      lgConsumo.vIBS := StrToFloatDef(lvIBS, 1);
+//      lgConsumo.vCBS := StrToFloatDef(lvCBS, 1);
+//      lgConsumo.gControleEstoque.qConsumo := StrToFloatDef(lqConsumo, 1);
+//      lgConsumo.gControleEstoque.uConsumo := luConsumo;
+//      lgConsumo.DFeReferenciado.nItem := StrToIntDef(lnItem, 1);
+//      lgConsumo.DFeReferenciado.chaveAcesso := lchaveAcesso;
+//
+//      InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Adicionar gConsumo? (S/N)', lAux);
+//    until (UpperCase(lAux) <> 'S');
+//
+//    ACBrNFe1.EnviarEvento(StrToIntDef(lidLote, 1));
+//
+//    MemoResp.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetWS;
+//    memoRespWS.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetornoWS;
+//
+//    LoadXML(MemoResp, WBResposta);
+//
+//    MemoDados.Lines.Add('');
+//    MemoDados.Lines.Add('Retorno do Evento');
+//    MemoDados.Lines.Add('');
+//    MemoDados.Lines.Add('Id.........: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.Id);
+//    MemoDados.Lines.Add('tpAmb......: ' + TpAmbToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.TpAmb));
+//    MemoDados.Lines.Add('verAplic...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.verAplic);
+//    MemoDados.Lines.Add('cOrgao.....: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cOrgao));
+//    MemoDados.Lines.Add('cStat......: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cStat));
+//    MemoDados.Lines.Add('xMotivo....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xMotivo);
+//    MemoDados.Lines.Add('chNFe......: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.chNFe);
+//    MemoDados.Lines.Add('tpEvento...: ' + TpEventoToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.tpEvento));
+//    MemoDados.Lines.Add('xEvento....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xEvento);
+//    MemoDados.Lines.Add('nSeqEvento.: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nSeqEvento));
+//    MemoDados.Lines.Add('CNPJDest...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.CNPJDest);
+//    MemoDados.Lines.Add('emailDest..: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.emailDest);
+//    MemoDados.Lines.Add('dhRegEvento: ' + DateTimeToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.dhRegEvento));
+//    MemoDados.Lines.Add('Protocolo..: '+ ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nProt);
+//  end;
+//end;
 
 procedure TfrmACBrNFe.btnDistrDFePorChaveClick(Sender: TObject);
 var
@@ -4479,7 +4568,7 @@ begin
   begin
     ACBrNFe1.NotasFiscais.Clear;
     ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
-    ACBrNFe1.NotasFiscais.Imprimir;
+    ACBrNFe1.NotasFiscais.ImprimirPDF;
   end;
 end;
 
@@ -4647,6 +4736,7 @@ end;
 
 procedure TfrmACBrNFe.btnLerArqINIClick(Sender: TObject);
 begin
+  OpenDialog1.Options := OpenDialog1.Options + [ofNoNetworkButton, ofOldStyleDialog];
   OpenDialog1.Title := 'Selecione o Arquivo INI';
   OpenDialog1.DefaultExt := '*.ini';
   OpenDialog1.Filter :=
@@ -4657,8 +4747,8 @@ begin
   begin
     ACBrNFe1.NotasFiscais.Clear;
     ACBrNFe1.NotasFiscais.LoadFromIni(OpenDialog1.FileName);
-    ACBrNFe1.NotasFiscais.Assinar;
-//    ACBrNFe1.NotasFiscais.GravarXML();
+    //ACBrNFe1.NotasFiscais.Assinar;
+    ACBrNFe1.NotasFiscais.GravarXML();
 
     memoLog.Lines.Add('Arquivo gerado em: ' + ACBrNFe1.NotasFiscais[0].NomeArq);
 
@@ -5228,7 +5318,7 @@ end;
 
 procedure TfrmACBrNFe.btnSolicApropriacaoCredPresClick(Sender: TObject);
 var
-  lidLote, lAux, lnItem, lvBC, lIBScCredPres, lIBSvCredPres, lIBSpCredPres,
+  lidLote, lAux, lnItem, lvBCCredPres, lIBScCredPres, lIBSvCredPres, lIBSpCredPres,
   lCBScCredPres, lCBSvCredPres, lCBSpCredPres, lVerAplic, lUF, lnSeqEvento: String;
   lEvento: TInfEventoCollectionItem;
   lgCredPres: TgCredPresCollectionItem;
@@ -5276,20 +5366,14 @@ begin
       lnItem := '1';
       InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Informe nItem', lnItem);
 
-      lvBC := '1';
-      InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Informe vBC', lvBC);
-
-      lIBScCredPres := '01';
-      InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Informe cCredPres do IBS', lIBScCredPres);
+      lvBCCredPres := '1';
+      InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Informe vBCCredPres', lvBCCredPres);
 
       lIBSpCredPres := '1';
       InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Informe pCredPres do IBS', lIBSpCredPres);
 
       lIBSvCredPres := '1';
       InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Informe vCredPres do IBS', lIBSvCredPres);
-
-      lCBScCredPres := '01';
-      InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Informe cCredPres da CBS', lCBScCredPres);
 
       lCBSpCredPres := '1';
       InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Informe pCredPres da CBS', lCBSpCredPres);
@@ -5299,15 +5383,13 @@ begin
 
       lgCredPres := lEvento.InfEvento.detEvento.gCredPres.New;
       lgCredPres.nItem := StrToIntDef(lnItem, 1);
-      lgCredPres.vBC := StrToFloatDef(lvBC, 0);
+      lgCredPres.vBCCredPres := StrToFloatDef(lvBCCredPres, 0);
 
-      lgCredPres.gIBS.cCredPres := StrTocCredPres(lIBScCredPres);
-      lgCredPres.gIBS.pCredPres := StrToFloatDef(lIBSpCredPres, 0);
-      lgCredPres.gIBS.vCredPres := StrToFloatDef(lIBSvCredPres, 0);
+      lgCredPres.gIBSCredPres.pCredPres := StrToFloatDef(lIBSpCredPres, 0);
+      lgCredPres.gIBSCredPres.vCredPres := StrToFloatDef(lIBSvCredPres, 0);
 
-      lgCredPres.gCBS.cCredPres := StrTocCredPres(lCBScCredPres);
-      lgCredPres.gCBS.pCredPres := StrToFloatDef(lCBSpCredPres, 0);
-      lgCredPres.gCBS.vCredPres := StrToFloatDef(lCBSvCredPres, 0);
+      lgCredPres.gCBSCredPres.pCredPres := StrToFloatDef(lCBSpCredPres, 0);
+      lgCredPres.gCBSCredPres.vCredPres := StrToFloatDef(lCBSvCredPres, 0);
 
 
       InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Adicionar gCredPres? (S/N)', lAux);
@@ -5810,6 +5892,39 @@ begin
   pgRespostas.ActivePageIndex := 0;
   PageControl1.ActivePageIndex := 0;
   PageControl4.ActivePageIndex := 3;
+end;
+
+procedure TfrmACBrNFe.btnGerarArqJSONClick(Sender: TObject);
+var
+  vAux: string;
+  SaveDlg: TSaveDialog;
+  ArqJSON: TStringList;
+begin
+  vAux := '1';
+  if not(InputQuery('Gerar Arquivo JSON', 'Numero da Nota', vAux)) then
+    exit;
+
+  ACBrNFe1.NotasFiscais.Clear;
+  AlimentarComponente(vAux);
+  ACBrNFe1.NotasFiscais.GerarNFe;
+
+  ArqJSON := TStringList.Create;
+  SaveDlg := TSaveDialog.Create(nil);
+  try
+    ArqJSON.Text := ACBrNFe1.NotasFiscais.GerarJSON;
+
+    SaveDlg.Title := 'Escolha o local onde salvar o JSON';
+    SaveDlg.DefaultExt := '*.JSON';
+    SaveDlg.Filter := 'Arquivo JSON(*.JSON)|*.JSON|Arquivo JSON(*.JSON)|*.JSON|Todos os arquivos(*.*)|*.*';
+
+    if SaveDlg.Execute then
+      ArqJSON.SaveToFile(SaveDlg.FileName);
+
+    memoLog.Lines.Add('Arquivo Salvo: ' + SaveDlg.FileName);
+  finally
+    SaveDlg.Free;
+    ArqJSON.Free;
+  end;
 end;
 
 procedure TfrmACBrNFe.GravarConfiguracao;

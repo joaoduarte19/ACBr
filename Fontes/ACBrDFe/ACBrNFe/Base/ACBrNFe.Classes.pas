@@ -163,6 +163,28 @@ type
     property Items[Index: Integer]: TNFrefCollectionItem read GetItem write SetItem; default;
   end;
 
+  { TDFErefCollectionItem }
+
+  TDFErefCollectionItem = class(TObject)
+  private
+    FrefDFEChave: string;
+  public
+    procedure Assign(Source: TDFErefCollectionItem);
+    property refDFEChave: string read FrefDFEChave write FrefDFeChave;
+  end;
+
+  { TDFErefCollection }
+
+  TDFErefCollection = class(TACBrObjectList)
+  private
+    function GetItem(Index: Integer): TDFErefCollectionItem;
+    procedure SetItem(Index: Integer; Value: TDFErefCollectionItem);
+  public
+    procedure Assign(Source: TDFErefCollection); reintroduce;
+    function New: TDFErefCollectionItem;
+    property Items[Index: Integer]: TDFErefCollectionItem read GetItem write SetItem; default;
+  end;
+
   // Reforma Tributária
   { TgCompraGov }
 
@@ -171,36 +193,30 @@ type
     FtpEnteGov: TtpEnteGov;
     FpRedutor: Double;
     FtpOperGov: TtpOperGov;
+    FrefDFeAnt: TDFErefCollection;
   public
+    constructor create;
+    destructor Destroy; override;
+
     procedure Assign(Source: TgCompraGov);
 
     property tpEnteGov: TtpEnteGov read FtpEnteGov write FtpEnteGov;
     property pRedutor: Double read FpRedutor write FpRedutor;
     property tpOperGov: TtpOperGov read FtpOperGov write FtpOperGov;
+    property refDFeAnt: TDFErefCollection read FrefDFeAnt write FrefDFeAnt;
   end;
 
-  { TgPagAntecipadoCollectionItem }
+  { TgPagAntecipado }
 
-  TgPagAntecipadoCollectionItem = class(TObject)
+  TgPagAntecipado = class(TObject)
   private
-    FrefNFe: string;
+    FrefNFe: TDFErefCollection;
   public
-    procedure Assign(Source: TgPagAntecipadoCollectionItem);
+    constructor create;
+    destructor Destroy; override;
 
-    property refNFe: string read FrefNFe write FrefNFe;
-  end;
-
-  { TgPagAntecipadoCollection }
-
-  TgPagAntecipadoCollection = class(TACBrObjectList)
-  private
-    function GetItem(Index: Integer): TgPagAntecipadoCollectionItem;
-    procedure SetItem(Index: Integer; Value: TgPagAntecipadoCollectionItem);
-  public
-    procedure Assign(Source: TgPagAntecipadoCollection); reintroduce;
-    function Add: TgPagAntecipadoCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
-    function New: TgPagAntecipadoCollectionItem;
-    property Items[Index: Integer]: TgPagAntecipadoCollectionItem read GetItem write SetItem; default;
+    procedure Assign(Source: TgPagAntecipado);
+    property refNFe: TDFErefCollection read FrefNFe write FrefNFe;
   end;
 
   { TIde }
@@ -237,11 +253,13 @@ type
     FtpNFDebito: TtpNFDebito;
     FtpNFCredito: TtpNFCredito;
     FgCompraGov: TgCompraGov;
-    FgPagAntecipado: TgPagAntecipadoCollection;
+    FgPagAntecipado: TgPagAntecipado;
     FdPrevEntrega: TDateTime;
+    FcIndOp: string;
 
     procedure SetNFref(Value: TNFrefCollection);
-    procedure SetgPagAntecipado(const Value: TgPagAntecipadoCollection);
+    procedure SetgPagAntecipado(const Value: TgPagAntecipado);
+
   public
     constructor Create();
     destructor Destroy; override;
@@ -270,6 +288,7 @@ type
     property indFinal: TpcnConsumidorFinal read FindFinal write FindFinal;
     property indPres: TpcnPresencaComprador read FindPres write FindPres;
     property indIntermed: TindIntermed read FindIntermed write FindIntermed;
+    property cIndOp: string read FcIndOp write FcIndOp;
     property procEmi: TpcnProcessoEmissao read FprocEmi write FprocEmi default peAplicativoContribuinte;
     property verProc: string read FverProc write FverProc;
     property dhCont: TDateTime read FdhCont write FdhCont;
@@ -279,8 +298,9 @@ type
     property cMunFGIBS: Integer read FcMunFGIBS write FcMunFGIBS;
     property tpNFDebito: TtpNFDebito read FtpNFDebito write FtpNFDebito;
     property tpNFCredito: TtpNFCredito read FtpNFCredito write FtpNFCredito;
+
     property gCompraGov: TgCompraGov read FgCompraGov write FgCompraGov;
-    property gPagAntecipado: TgPagAntecipadoCollection read FgPagAntecipado write SetgPagAntecipado;
+    property gPagAntecipado: TgPagAntecipado read FgPagAntecipado write SetgPagAntecipado;
   end;
 
   { TenderEmit }
@@ -326,6 +346,7 @@ type
     FIM: string;
     FCNAE: string;
     FCRT: TpcnCRT;
+    FISUFEmit: string;
   public
     constructor Create();
     destructor Destroy; override;
@@ -340,6 +361,7 @@ type
     property IM: string read FIM write FIM;
     property CNAE: string read FCNAE write FCNAE;
     property CRT: TpcnCRT read FCRT write FCRT;
+    property ISUFEmit: string read FISUFEmit write FISUFEmit;
   end;
 
   { TAvulsa }
@@ -1425,7 +1447,7 @@ type
     FcClassTribIS: string;
     FvBCIS: Double;
     FpIS: Double;
-    FpISEspec: Double;
+    FadRemIS: Double;
     FuTrib: string;
     FqTrib: Double;
     FvIS: Double;
@@ -1437,7 +1459,7 @@ type
     property cClassTribIS: string read FcClassTribIS write FcClassTribIS;
     property vBCIS: Double read FvBCIS write FvBCIS;
     property pIS: Double read FpIS write FpIS;
-    property pISEspec: Double read FpISEspec write FpISEspec;
+    property adRemIS: Double read FadRemIS write FadRemIS;
     property uTrib: string read FuTrib write FuTrib;
     property qTrib: Double read FqTrib write FqTrib;
     property vIS: Double read FvIS write FvIS;
@@ -1459,9 +1481,11 @@ type
 
   TgDevTrib = class(TObject)
   private
+    FpDevTrib: Double;
     FvDevTrib: Double;
   public
     procedure Assign(Source: TgDevTrib);
+    property pDevTrib: Double read FpDevTrib write FpDevTrib;
     property vDevTrib: Double read FvDevTrib write FvDevTrib;
   end;
 
@@ -1475,6 +1499,22 @@ type
     procedure Assign(Source: TgRed);
     property pRedAliq: Double read FpRedAliq write FpRedAliq;
     property pAliqEfet: Double read FpAliqEfet write FpAliqEfet;
+  end;
+
+  { TgALCZFMCBS }
+
+  TgALCZFMCBS = class(TObject)
+  private
+    FnProcSuframa: String;
+    FpAliqEfetRegCBS: Double;
+    FtpALCZFMCBS: TtpALCZFMCBS;
+    FvTribRegCBS: Double;
+  public
+    procedure Assign(Source: TgALCZFMCBS);
+    property tpALCZFMCBS: TtpALCZFMCBS read FtpALCZFMCBS write FtpALCZFMCBS;
+    property nProcSuframa: String read FnProcSuframa write FnProcSuframa;
+    property pAliqEfetRegCBS: Double read FpAliqEfetRegCBS write FpAliqEfetRegCBS;
+    property vTribRegCBS: Double read FvTribRegCBS write FvTribRegCBS;
   end;
 
   { TgIBSUF }
@@ -1525,6 +1565,7 @@ type
 
   TgCBS = class(TObject)
   private
+    FgALCZFMCBS: TgALCZFMCBS;
     FpCBS: Double;
     FgDif: TgDif;
     FgDevTrib: TgDevTrib;
@@ -1541,6 +1582,7 @@ type
     property gDevTrib: TgDevTrib read FgDevTrib write FgDevTrib;
     property gRed: TgRed read FgRed write FgRed;
     property vCBS: Double read FvCBS write FvCBS;
+    property gALCZFMCBS: TgALCZFMCBS read FgALCZFMCBS write FgALCZFMCBS;
   end;
 
   { TgTribRegular }
@@ -1600,6 +1642,7 @@ type
     FgCBS: TgCBS;
     FgTribRegular: TgTribRegular;
     FgTribCompraGov: TgTribCompraGov;
+
   public
     constructor Create;
     destructor Destroy; override;
@@ -1613,6 +1656,7 @@ type
     property gCBS: TgCBS read FgCBS write FgCBS;
     property gTribRegular: TgTribRegular read FgTribRegular write FgTribRegular;
     property gTribCompraGov: TgTribCompraGov read FgTribCompraGov write FgTribCompraGov;
+
   end;
 
   { TgMonoPadrao }
@@ -3172,6 +3216,7 @@ begin
   indFinal := Source.indFinal;
   indPres  := Source.indPres;
   indIntermed := Source.indIntermed;
+  cIndOp      := Source.cIndOp;
   procEmi  := Source.procEmi;
   verProc  := Source.verProc;
   dhCont   := Source.dhCont;
@@ -3189,7 +3234,7 @@ begin
 
   FNFref := TNFrefCollection.Create();
   FgCompraGov := TgCompraGov.Create;
-  FgPagAntecipado := TgPagAntecipadoCollection.Create();
+  FgPagAntecipado := TgPagAntecipado.Create();
 end;
 
 destructor TIde.Destroy;
@@ -3201,7 +3246,7 @@ begin
   inherited;
 end;
 
-procedure TIde.SetgPagAntecipado(const Value: TgPagAntecipadoCollection);
+procedure TIde.SetgPagAntecipado(const Value: TgPagAntecipado);
 begin
   FgPagAntecipado := Value;
 end;
@@ -3243,6 +3288,39 @@ begin
   Self.Add(Result);
 end;
 
+{ TDFErefCollectionItem }
+
+procedure TDFErefCollectionItem.Assign(Source: TDFErefCollectionItem);
+begin
+  refDFEChave := Source.refDFEChave;
+end;
+
+function TDFErefCollection.GetItem(Index: Integer): TDFErefCollectionItem;
+begin
+  Result := TDFErefCollectionItem(inherited Items[Index]);
+end;
+
+procedure TDFErefCollection.SetItem(Index: Integer; Value: TDFErefCollectionItem
+  );
+begin
+  inherited Items[Index] := Value;
+end;
+
+procedure TDFErefCollection.Assign(Source: TDFErefCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
+end;
+
+function TDFErefCollection.New: TDFErefCollectionItem;
+begin
+  Result := TDFErefCollectionItem.Create;
+  Self.Add(Result);
+end;
+
 { TNFrefCollectionItem }
 
 procedure TNFrefCollectionItem.Assign(Source: TNFrefCollectionItem);
@@ -3264,7 +3342,7 @@ begin
 end;
 
 
-destructor TNFrefCollectionItem.destroy;
+destructor TNFrefCollectionItem.Destroy;
 begin
   FreeAndNil(FRefNF);
   FreeAndNil(FRefNFP);
@@ -3285,6 +3363,7 @@ begin
   IM      := Source.IM;
   CNAE    := Source.CNAE;
   CRT     := Source.CRT;
+  ISUFEmit:= Source.ISUFEmit;
 end;
 
 constructor TEmit.Create();
@@ -5335,11 +5414,43 @@ end;
 
 { TgCompraGov }
 
+constructor TgCompraGov.create;
+begin
+  inherited create;
+  FrefDFeAnt := TDFErefCollection.Create;
+end;
+
+destructor TgCompraGov.Destroy;
+begin
+  FrefDFeAnt.Free;
+  inherited Destroy;
+end;
+
 procedure TgCompraGov.Assign(Source: TgCompraGov);
 begin
   tpEnteGov := Source.tpEnteGov;
   pRedutor := Source.pRedutor;
   tpOperGov := Source.tpOperGov;
+  refDFeAnt := Source.refDFeAnt
+end;
+
+{ TgPagAntecipado }
+
+constructor TgPagAntecipado.create;
+begin
+  inherited Create;
+  FrefNFe := TDFErefCollection.Create;
+end;
+
+destructor TgPagAntecipado.Destroy;
+begin
+  FrefNFe.Free;
+  inherited Destroy;
+end;
+
+procedure TgPagAntecipado.Assign(Source: TgPagAntecipado);
+begin
+  refNFe := Source.refNFe;
 end;
 
 { TIBSCBS }
@@ -5391,7 +5502,7 @@ begin
   cClassTribIS := Source.cClassTribIS;
   vBCIS := Source.vBCIS;
   pIS := Source.pIS;
-  pISEspec := Source.pISEspec;
+  adRemIS := Source.adRemIS;
   uTrib := Source.uTrib;
   qTrib := Source.qTrib;
   vIS := Source.vIS;
@@ -5499,6 +5610,7 @@ begin
   gDevTrib.Assign(Source.gDevTrib);
   gRed.Assign(Source.gRed);
   vCBS := Source.vCBS;
+  gALCZFMCBS.Assign(Source.gALCZFMCBS);
 end;
 
 constructor TgCBS.Create;
@@ -5508,6 +5620,7 @@ begin
   FgDif := TgDif.Create;
   FgDevTrib := TgDevTrib.Create;
   FgRed := TgRed.Create;
+  FgALCZFMCBS := TgALCZFMCBS.Create;
 end;
 
 destructor TgCBS.Destroy;
@@ -5515,6 +5628,7 @@ begin
   FgDif.Free;
   FgDevTrib.Free;
   FgRed.Free;
+  FgALCZFMCBS.Free;
 
   inherited;
 end;
@@ -5668,48 +5782,6 @@ begin
   vCBS := Source.vCBS;
 end;
 
-{ TgPagAntecipadoCollectionItem }
-
-procedure TgPagAntecipadoCollectionItem.Assign(
-  Source: TgPagAntecipadoCollectionItem);
-begin
-  refNFe := Source.refNFe;
-end;
-
-{ TgPagAntecipadoCollection }
-
-function TgPagAntecipadoCollection.Add: TgPagAntecipadoCollectionItem;
-begin
-  Result := Self.New;
-end;
-
-procedure TgPagAntecipadoCollection.Assign(Source: TgPagAntecipadoCollection);
-var
-  I: Integer;
-begin
-  Self.Clear;
-  for I := 0 to Source.Count - 1 do
-    Self.New.Assign(Source.Items[I]);
-end;
-
-function TgPagAntecipadoCollection.GetItem(
-  Index: Integer): TgPagAntecipadoCollectionItem;
-begin
-  Result := TgPagAntecipadoCollectionItem(inherited Items[Index]);
-end;
-
-function TgPagAntecipadoCollection.New: TgPagAntecipadoCollectionItem;
-begin
-  Result := TgPagAntecipadoCollectionItem.Create;
-  Self.Add(Result);
-end;
-
-procedure TgPagAntecipadoCollection.SetItem(Index: Integer;
-  Value: TgPagAntecipadoCollectionItem);
-begin
-  inherited Items[Index] := Value;
-end;
-
 { TgDif }
 
 procedure TgDif.Assign(Source: TgDif);
@@ -5722,7 +5794,8 @@ end;
 
 procedure TgDevTrib.Assign(Source: TgDevTrib);
 begin
-  FvDevTrib := Source.vDevTrib; 
+  FpDevTrib := Source.FpDevTrib;
+  FvDevTrib := Source.vDevTrib;
 end;
 
 { TgRed }
@@ -5731,6 +5804,16 @@ procedure TgRed.Assign(Source: TgRed);
 begin
   FpRedAliq := Source.pRedAliq;
   FpAliqEfet := Source.pAliqEfet;
+end;
+
+{ TgALCZFMCBS }
+
+procedure TgALCZFMCBS.Assign(Source: TgALCZFMCBS);
+begin
+  nProcSuframa := Source.nProcSuframa;
+  pAliqEfetRegCBS := Source.pAliqEfetRegCBS;
+  tpALCZFMCBS := Source.tpALCZFMCBS;
+  vTribRegCBS := Source.vTribRegCBS;
 end;
 
 { TgTribRegular }

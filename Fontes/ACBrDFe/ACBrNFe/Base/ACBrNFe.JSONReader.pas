@@ -118,7 +118,7 @@ type
 
     // Reforma Tributria
     procedure Ler_gCompraGov(const AJSONObject: TACBrJSONObject; AgCompraGov: TgCompraGov);
-    procedure Ler_gPagAntecipado(const AJSONArray: TACBrJSONArray; AgPagAntecipado: TgPagAntecipadoCollection);
+    procedure Ler_gPagAntecipado(const AJSONArray: TACBrJSONArray; AgPagAntecipado: TgPagAntecipado);
     procedure Ler_ISel(const AJSONObject: TACBrJSONObject; AISel: TgIS);
     procedure Ler_IBSCBS(const AJSONObject: TACBrJSONObject; AIBSCBS: TIBSCBS);
     procedure Ler_IBSCBS_gIBSCBS(const AJSONObject: TACBrJSONObject; AGIBSCBS: TgIBSCBS);
@@ -138,6 +138,7 @@ type
     procedure Ler_IBSCBS_gIBSCBS_gTribRegular(const AJSONObject: TACBrJSONObject; AGTribRegular: TgTribRegular);
     procedure Ler_IBSCBS_gIBSCBS_gIBSCBSCredPres(const AJSONObject: TACBrJSONObject; AGIBSCredPres: TgIBSCBSCredPres);
     procedure Ler_IBSCBS_gIBSCBS_gTribCompraGov(const AJSONObject: TACBrJSONObject; AGTribCompraGov: TgTribCompraGov);
+    procedure Ler_IBSCBS_gIBSCBS_gALCZFMCBS(const AJSONObject: TACBrJSONObject; AgALCZFMCBS: TgALCZFMCBS);
     procedure Ler_Det_DFeReferenciado(const AJSONObject: TACBrJSONObject; ADFeReferenciado: TDFeReferenciado);
     procedure Ler_ISTot(const AJSONObject: TACBrJSONObject; AISTot: TISTot);
     procedure Ler_IBSCBSTot(const AJSONObject: TACBrJSONObject; AIBSCBSTot: TIBSCBSTot);
@@ -270,19 +271,23 @@ begin
   AIde.indFinal := StrToConsumidorFinal(ok, AJSONObject.AsString['indFinal']);
   AIde.indPres := StrToPresencaComprador(ok, AJSONObject.AsString['indPres']);
   AIde.indIntermed := StrToIndIntermed(ok, AJSONObject.AsString['indIntermed']);
+  AIde.cIndOp:= AJSONObject.AsString['cIndOp'];
   AIde.procEmi := StrToProcEmi(ok, AJSONObject.AsString['procEmi']);
   AIde.verProc := AJSONObject.AsString['verProc'];
   AIde.dhCont := AJSONObject.AsISODateTime['dhCont'];
   AIde.xJust := AJSONObject.AsString['xJust'];
+  AIde.cIndOp := AJSONObject.AsString['cIndOp'];
 
   LerIdeNFref(AJSONObject.AsJSONArray['NFref'], AIde.NFref);
   Ler_gCompraGov(AJSONOBject.AsJSONObject['gCompraGov'], AIde.gCompraGov);
   Ler_gPagAntecipado(AJSONObject.AsJSONArray['gPagAntecipado'], AIde.gPagAntecipado);
 end;
 
-procedure TNFeJSONReader.Ler_gPagAntecipado(const AJSONArray: TACBrJSONArray; AgPagAntecipado: TgPagAntecipadoCollection);
+procedure TNFeJSONReader.Ler_gPagAntecipado(const AJSONArray: TACBrJSONArray;
+  AgPagAntecipado: TgPagAntecipado);
 var
-  Item: TgPagAntecipadoCollectionItem;
+  AJSONItem: TACBrJSONObject;
+  Item: TgPagAntecipado;
   i: Integer;
 begin
   if not Assigned(AJSONArray) then
@@ -290,8 +295,9 @@ begin
 
   for i := 0 to AJSONArray.Count - 1 do
   begin
-    Item := AgPagAntecipado.New;
-    Item.refNFe := AJSONArray.Items[i];
+    AJSONItem := AJSONArray.ItemAsJSONObject[i];
+    AgPagAntecipado.refNFe.New;
+    AgPagAntecipado.refNFe[i].refDFEChave := AJSONItem.AsString['refNFe'];
   end;
 end;
 
@@ -379,6 +385,7 @@ begin
   AEmit.IM := AJSONObject.AsString['IM'];
   AEmit.CNAE := AJSONObject.AsString['CNAE'];
   AEmit.CRT := StrToCRT(ok, AJSONObject.AsString['CRT']);
+  AEmit.ISUFEmit := AJSONObject.AsString['ISUFEmit'];
 
   LerEmitEnderEmit(AJSONObject.AsJSONObject['enderEmit'], AEmit.enderEmit);
 end;
@@ -1777,6 +1784,10 @@ begin
 end;
 
 procedure TNFeJSONReader.Ler_gCompraGov(const AJSONObject: TACBrJSONObject; AgCompraGov: TgCompraGov);
+var
+  aRefDFeAnt: TACBrJSONArray;
+  aRefDFeAntObject: TACBrJSONObject;
+  i: Integer;
 begin
   if not Assigned(AJSONObject) then
     Exit;
@@ -1784,6 +1795,15 @@ begin
   AgCompraGov.tpEnteGov := StrTotpEnteGov(AJSONObject.AsString['tpEnteGov']);
   AgCompraGov.pRedutor := AJSONObject.AsFloat['pRedutor'];
   AgCompraGov.tpOperGov := StrTotpOperGov(AJSONObject.AsString['tpOperGov']);
+
+  aRefDFeAnt := AJSONObject.AsJSONArray['refDFeAnt'];
+  if Assigned(aRefDFeAnt) then
+    for i := 0 to aRefDFeAnt.Count - 1 do
+    begin
+      aRefDFeAntObject := aRefDFeAnt.ItemAsJSONObject[i];
+      AgCompraGov.refDFeAnt.New;
+      AgCompraGov.refDFeAnt[i].refDFEChave := aRefDFeAntObject.AsString['refDFeAnt'];
+    end;
 end;
 
 procedure TNFeJSONReader.Ler_ISel(const AJSONObject: TACBrJSONObject; AISel: TgIS);
@@ -1797,7 +1817,7 @@ begin
   AISel.cClassTribIS := AJSONObject.AsString['cClassTribIS'];
   AISel.vBCIS := AJSONObject.AsFloat['vBCIS'];
   AISel.pIS := AJSONObject.AsFloat['pIS'];
-  AISel.pISEspec := AJSONObject.AsFloat['pISEspec'];
+  AISel.adRemIS := AJSONObject.AsFloat['adRemIS'];
   AISel.uTrib := AJSONObject.AsString['uTrib'];
   AISel.qTrib := AJSONObject.AsFloat['qTrib'];
   AISel.vIS := AJSONObject.AsFloat['vIS'];
@@ -1942,6 +1962,7 @@ begin
     Exit;
 
   AGDevTrib.vDevTrib := AJSONObject.AsFloat['vDevTrib'];
+  AGDevTrib.pDevTrib := AJSONObject.AsFloat['pDevTrib'];
 end;
 
 procedure TNFeJSONReader.Ler_IBSCBS_gIBSCBS_gIBSCBSUFMun_gRed(const AJSONObject: TACBrJSONObject; AGRed: TgRed);
@@ -1977,6 +1998,7 @@ begin
   Ler_IBSCBS_gIBSCBS__gDif(AJSONObject.AsJSONObject['gDif'], AGCBS.gDif);
   Ler_IBSCBS_gIBSCBS_gIBSCBSUFMun_gDevTrib(AJSONObject.AsJSONObject['gDevTrib'], AGCBS.gDevTrib);
   Ler_IBSCBS_gIBSCBS_gIBSCBSUFMun_gRed(AJSONObject.AsJSONObject['gRed'], AGCBS.gRed);
+  Ler_IBSCBS_gIBSCBS_gALCZFMCBS(AJSONObject.AsJSONObject['gRed'], AGCBS.gALCZFMCBS);
 
   AGCBS.vCBS := AJSONObject.AsFloat['vCBS'];
 end;
@@ -2018,6 +2040,18 @@ begin
   AGTribCompraGov.vTribIBSMun := AJSONObject.AsFloat['vTribIBSMun'];
   AGTribCompraGov.pAliqCBS := AJSONObject.AsFloat['pAliqCBS'];
   AGTribCompraGov.vTribCBS := AJSONObject.AsFloat['vTribCBS'];
+end;
+
+procedure TNFeJSONReader.Ler_IBSCBS_gIBSCBS_gALCZFMCBS(
+  const AJSONObject: TACBrJSONObject; AgALCZFMCBS: TgALCZFMCBS);
+begin
+  if not Assigned(AJSONObject) then
+    Exit;
+
+  AgALCZFMCBS.tpALCZFMCBS := StrTotpALCZFMCBS(AJSONObject.AsString['tpALCZFMCBS']);
+  AgALCZFMCBS.nProcSuframa := AJSONObject.AsString['nProcSuframa'];
+  AgALCZFMCBS.pAliqEfetRegCBS := AJSONObject.AsFloat['pAliqEfetRegCBS'];
+  AgALCZFMCBS.vTribRegCBS := AJSONObject.AsFloat['vTribRegCBS'];
 end;
 
 procedure TNFeJSONReader.Ler_Det_DFeReferenciado(const AJSONObject: TACBrJSONObject; ADFeReferenciado: TDFeReferenciado);
