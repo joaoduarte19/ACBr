@@ -38,6 +38,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+30/06/2026
+-- ACBrDFe.Conversao/ACBrDFeConsts/ACBrXmlWriter --
+[*] Melhorias para atender a Reforma Tibutária.
+   Por: Italo Giurizzato Junior
+
 25/06/2026
 -- ACBrXmlWriter --
 [*] Ajuste da função AddNodeCNPJ com cnpj alfanumerico.

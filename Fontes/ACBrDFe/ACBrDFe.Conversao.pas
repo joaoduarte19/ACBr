@@ -41,6 +41,9 @@ uses
 
 type
   // Tipos que não tem funções de conversão
+  TModelosDFe = (mdfBPe, mdfBPeTM, mdfBPeTA, mdfCTe, mdfCTeOS, mdfCTeSimp,
+                 mdfGTVe, mdfNF3e, mdfNFAg, mdfNFCom, mdfNFe, mdfNFCe, mdfNFGas);
+
   TACBrTipoCampo = (tcStr, tcInt, tcInt64, tcDat, tcDatHor, tcEsp, tcDe1, tcDe2,
                     tcDe3, tcDe4, tcDe5, tcDe6, tcDe7, tcDe8, tcDe10, tcHor, tcDatCFe,
                     tcHorCFe, tcDatVcto, tcDatHorCFe, tcBool, tcStrOrig,
@@ -57,11 +60,11 @@ type
 
   // Tipos que tem funções de conversão
   TACBrTipoImpressao = (tiSemGeracao, tiRetrato, tiPaisagem, tiSimplificado,
-                        tiNFCe, tiMsgEletronica);
+                        tiNFCe, tiMsgEletronica, tiSimplificado2);
 
 const
   TACBrTipoImpressaoArrayStrings: array[TACBrTipoImpressao] of string = ('0', '1',
-    '2', '3', '4', '5');
+    '2', '3', '4', '5', '6');
 
 type
   TACBrTipoAmbiente = (taProducao, taHomologacao);
@@ -552,6 +555,16 @@ const
 
   // Reforma Tributária
 type
+  TtpNFDebito = (tdNenhum, tdTransferenciaCreditoCooperativa, tdAnulacao,
+                 tdDebitosNaoProcessadas, tdMultaJuros,
+                 tdTransferenciaCreditoSucessao, tdPagamentoAntecipado,
+                 tdPerdaEmEstoque, tdDesenquadramentodoSN);
+
+const
+  TtpNFDebitoArrayStrings: array[TtpNFDebito] of string = ('', '01', '02', '03',
+    '04', '05', '06', '07', '08');
+
+type
   TtpEnteGov = (tcgNenhum, tcgUniao, tcgEstados, tcgDistritoFederal,
                 tcgMunicipios, tcgConsorcioPublico, tcgComiteGestorIBS);
 
@@ -597,6 +610,21 @@ type
 
 const
   TIndAceitacaoArrayStrings: array[TIndAceitacao] of string = ('0', '1');
+
+type
+  TTpCredPresIBSZFM = (tcpNenhum, tcpSemCredito, tcpBensConsumoFinal, tcpBensCapital,
+                       tcpBensIntermediarios, tcpBensInformaticaOutros);
+
+const
+  TTpCredPresIBSZFMArrayStrings: array[TTpCredPresIBSZFM] of string = ('', '0',
+    '1', '2', '3', '4');
+
+type
+  TtpPagAnt = (tpaNenhum, tpaPagServicoNaoContinuado, tpaPagServicoContinuado,
+               tpaFornecimentoComPagRealizadoAnteriormente);
+
+const
+  TtpPagAntArrayStrings: array[TtpPagAnt] of string = ('', '1', '2', '3');
 
 {
   Declaração das funções de conversão
@@ -748,6 +776,9 @@ function StrToCodigoMP(const s: string): TCodigoMP;
 function CodigoMPToDescricao(const t: TCodigoMP): string;
 
 // Reforma Tributária
+function tpNFDebitoToStr(const t: TtpNFDebito): string;
+function StrTotpNFDebito(const s: string): TtpNFDebito;
+
 function tpEnteGovToStr(const t: TtpEnteGov): string;
 function TryStrTotpEnteGov(const s: string; out Value: TtpEnteGov): Boolean;
 function StrTotpEnteGov(const s: string): TtpEnteGov;
@@ -767,6 +798,12 @@ function StrTocCredPres(const s: string): TcCredPres;
 function indAceitacaoToStr(const t: TIndAceitacao): string;
 function TryStrToIndAceitacao(const s: string; out Value: TIndAceitacao): Boolean;
 function StrToIndAceitacao(const s: string): TIndAceitacao;
+
+function TpCredPresIBSZFMToStr(const t: TTpCredPresIBSZFM): string;
+function StrToTpCredPresIBSZFM(const s: string): TTpCredPresIBSZFM;
+
+function tpPagAntToStr(const t: TtpPagAnt): string;
+function StrTotpPagAnt(const s: string): TtpPagAnt;
 
 var
   StrToTpEventoDFeList: array of TStrToTpEventoDFe;
@@ -1746,6 +1783,26 @@ begin
   Result := TCodigoMPDescricaoArrayStrings[t];
 end;
 
+function tpNFDebitoToStr(const t: TtpNFDebito): string;
+begin
+  Result := TtpNFDebitoArrayStrings[t];
+end;
+
+function StrTotpNFDebito(const s: string): TtpNFDebito;
+var
+  idx: TtpNFDebito;
+begin
+  for idx:= Low(TtpNFDebitoArrayStrings) to High(TtpNFDebitoArrayStrings)do
+  begin
+    if(TtpNFDebitoArrayStrings[idx] = s)then
+    begin
+      Result := idx;
+      exit;
+    end;
+  end;
+  raise EACBrException.CreateFmt('Valor string inválido para TtpNFDebito: %s', [s]);
+end;
+
 function tpEnteGovToStr(const t: TtpEnteGov): string;
 begin
   Result := TtpEnteGovArrayStrings[t];
@@ -1879,6 +1936,46 @@ function StrToIndAceitacao(const s: string): TIndAceitacao;
 begin
   if not TryStrToIndAceitacao(s, Result) then
     raise EACBrException.CreateFmt('Valor string inválido para TIndAceitacao: %s', [s]);
+end;
+
+function TpCredPresIBSZFMToStr(const t: TTpCredPresIBSZFM): string;
+begin
+  Result := TTpCredPresIBSZFMArrayStrings[t];
+end;
+
+function StrToTpCredPresIBSZFM(const s: string): TTpCredPresIBSZFM;
+var
+  idx: TTpCredPresIBSZFM;
+begin
+  for idx:= Low(TTpCredPresIBSZFMArrayStrings) to High(TTpCredPresIBSZFMArrayStrings) do
+  begin
+    if(TTpCredPresIBSZFMArrayStrings[idx] = s)then
+    begin
+      Result := idx;
+      exit;
+    end;
+  end;
+  raise EACBrException.CreateFmt('Valor string inválido para TTpCredPresIBSZFM: %s', [s]);
+end;
+
+function tpPagAntToStr(const t: TtpPagAnt): string;
+begin
+  Result := TtpPagAntArrayStrings[t];
+end;
+
+function StrTotpPagAnt(const s: string): TtpPagAnt;
+var
+  idx: TtpPagAnt;
+begin
+  for idx:= Low(TtpPagAntArrayStrings) to High(TtpPagAntArrayStrings) do
+  begin
+    if(TtpPagAntArrayStrings[idx] = s)then
+    begin
+      Result := idx;
+      exit;
+    end;
+  end;
+  raise EACBrException.CreateFmt('Valor string inválido para TtpPagAnt: %s', [s]);
 end;
 
 end.

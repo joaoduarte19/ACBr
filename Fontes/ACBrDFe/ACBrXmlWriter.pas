@@ -144,9 +144,11 @@ end;
 
 destructor TACBrXmlWriter.Destroy;
 begin
-  FOpcoes.Free;
+  if Assigned(FOpcoes) then
+    FOpcoes.Free;
   FListaDeAlertas.Free;
-  if FDocument <> nil then FDocument.Free;
+  if FDocument <> nil then
+    FDocument.Free;
   inherited Destroy;
 end;
 
