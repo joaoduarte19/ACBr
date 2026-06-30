@@ -253,7 +253,7 @@ begin
     rllNumNFCom.Caption := FormatFloat('000,000,000', fpNFCom.Ide.nNF);
     rllEmissao.Caption := FormatDateTimeBr(fpNFCom.Ide.dhEmi);
     rliBarCode.Caption := RemoverLiteralChave(fpNFCom.InfNFCom.Id);
-    rllChave.Caption := FormatarChaveAcesso(RemoverLiteralChave(fpNFCom.InfNFCom.Id));
+    rllChave.Caption  := FormatarChaveAcesso(OnlyAlphaNum(fpNFCom.InfNFCom.Id));
   end;
 end;
 
