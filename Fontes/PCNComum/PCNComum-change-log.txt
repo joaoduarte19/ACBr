@@ -38,6 +38,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+30/06/2026
+-- pcnConversao --
+[+] Incluído o enumerado: tiSimplificado2 no 
+    tipo: TACBrTipoImpressao e ajustado as funções de conversão.
+   Por: Italo Giurizzato Junior
+
 26/05/2026
 -- pcnConversao --
 [+] ACBr-9316 - Incluido o enumerado: peProvedorAssinaturaAutorizacao no 
