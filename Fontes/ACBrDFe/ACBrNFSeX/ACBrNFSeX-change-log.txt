@@ -42,6 +42,24 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+01/07/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9449 - O município de Itajaí/SC aderiu ao Padrão Nacional
+	Por: Larissa Santos
+	Veja: https://www.projetoacbr.com.br/forum/topic/92570-mudan%C3%A7a-prefeitura-de-itaja%C3%AD-01072026/
+[*] ACBR-9484 - O município de Guapore/RS aderiu ao Padrão Nacional
+	Por: Larissa Santos
+	Veja: https://discord.com/channels/798697718800318484/800042186783588364/1514605893390569652
+[*] ACBR-9484 - Os municípios de Sao Marcos/RS e Flores da Cunha/RS aderiram ao Padrão Nacional
+	Por: Larissa Santos
+	Veja: https://www.projetoacbr.com.br/forum/topic/92880-acbr-9505-troca-de-provedor-2-cidades-para-provedor-padr%C3%A3o-nacional/
+[*] ACBR-9521 - O município de Capanema/PR aderiu ao Padrão Nacional
+	Por: Larissa Santos
+	Veja: https://www.projetoacbr.com.br/forum/topic/92958-acbr-9521-alteracao-provedor-capanema-pr/
+[*] ACBR-9573 - O município de Saltinho/SP aderiu ao Padrão Nacional
+	Por: Larissa Santos
+	Veja: https://www.projetoacbr.com.br/forum/topic/93158-alterar-provedor-saltinho-sp-e-itaja%C3%ADsc/
+
 30/06/2026
 -- Fiorilli.Provider --
 [*] ACBR-9538 - Possível solução para extrai corretamente o XML da NFS-e do retorno
