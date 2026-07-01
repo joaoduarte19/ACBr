@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 01/07/2026
+-- Citta.Provider --
+[*] ACBR-9301 - Possível solução para o Consultar DPS por Chave.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] ACBR-9449 - O município de Itajaí/SC aderiu ao Padrão Nacional
 	Por: Larissa Santos

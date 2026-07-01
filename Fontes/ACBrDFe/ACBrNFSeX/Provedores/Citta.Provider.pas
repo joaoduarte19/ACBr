@@ -86,6 +86,7 @@ type
 
   public
 
+    function TratarXmlRetornado(const aXML: string): string; override;
   end;
 
   TACBrNFSeProviderCittaAPIPropria = class(TACBrNFSeProviderPadraoNacional)
@@ -457,7 +458,11 @@ begin
   URL := GetWebServiceURL(AMetodo);
 
   if URL <> '' then
-    Result := TACBrNFSeXWebserviceCittaAPIPropria.Create(FAOwner, AMetodo, URL, Method)
+  begin
+    URL := URL + Path;
+
+    Result := TACBrNFSeXWebserviceCittaAPIPropria.Create(FAOwner, AMetodo, URL, Method);
+  end
   else
   begin
     if ConfigGeral.Ambiente = taProducao then
@@ -861,6 +866,60 @@ begin
 
     Method := 'POST';
   end;
+end;
+
+{ TACBrNFSeXWebserviceCittaAPIPropria }
+
+function TACBrNFSeXWebserviceCittaAPIPropria.TratarXmlRetornado(
+  const aXML: string): string;
+var
+  lJSON, lErroJSON: TACBrJSONObject;
+  lJSONArray: TACBrJSONArray;
+  lMsg: string;
+  i, j: Integer;
+begin
+  Result := inherited TratarXmlRetornado(aXML);
+
+  if Pos('"code":404', Result) > 0 then
+  begin
+    i := Pos('"message":', Result) + 11;
+    lMsg := Copy(Result, i, MaxInt);
+    j := Pos('","', lMsg) -1;
+    lMsg := Copy(lMsg, 1, j);
+
+    lJSON := TACBrJSONObject.Create;
+    try
+      lJSONArray := TACBrJSONArray.Create;
+      try
+        lErroJSON := TACBrJSONObject.Create;
+        try
+          lJSON.AddPair('tipoAmbiente', EmptyStr);
+          lJSON.AddPair('versaoAplicativo', EmptyStr);
+          lJSON.AddPair('dataHoraProcessamento', EmptyStr);
+          lJSON.AddPair('idDps', EmptyStr);
+          lJSON.AddPair('chaveAcesso', EmptyStr);
+          lJSON.AddPair('nfseXmlGZipB64', EmptyStr);
+
+          lErroJSON.AddPair('mensagem', EmptyStr);
+          lErroJSON.AddPair('codigo', 'E9999');
+          lErroJSON.AddPair('descricao', lMsg);
+          lErroJSON.AddPair('complemento', EmptyStr);
+
+          lJSONArray.AddElementJSON(lErroJSON);
+          lJSON.AddPair('erros', lJSONArray, False);
+
+          Result := lJSON.ToJSON;
+        finally
+          //lErroJSON.Free;
+        end;
+      finally
+        //lJSONArray.Free;
+      end;
+    finally
+      lJSON.Free;
+    end;
+  end
+
 end;
 
 end.
