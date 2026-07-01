@@ -131,7 +131,7 @@ begin
 	LParameters:= TStringList.Create;
   try
   	LParameters.Values['page'] := IntToStr(Trunc( Boleto.Configuracoes.WebService.Filtro.indiceContinuidade));
-    LParameters.Values['size'] := '10';
+    LParameters.Values['size'] := '50';
 
     //BAIXADO_MANUALMENTE,
     //BAIXADO_PROTESTADO,
