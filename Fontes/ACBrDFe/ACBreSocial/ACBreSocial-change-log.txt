@@ -52,6 +52,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 01/07/2026
+-- ACBreSocialLoteEventos --
+[*] Ajuste GetIDEvento para chave 36 posicoes
+   ACBr-9369
+   Por: Daniel Morais InfoCotidiano
+
+01/07/2026
 -- Diversas units ACBreSocial --
 [*] Ajuste do metodo RemoverLiteralIDChave
    ACBr-9369
