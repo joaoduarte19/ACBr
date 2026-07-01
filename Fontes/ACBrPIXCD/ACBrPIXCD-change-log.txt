@@ -46,6 +46,17 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+01/07/2026
+-- ACBrPIXBRCode --
+[*] Expor as propriedades e métodos do EMV.
+
+-- ACBrPIXCD --
+[+] Validacao de seguranca do "Copia e Cola" retornado pelo PSP, defendendo de fraudes.
+    Confere: CRC16, coerencia estatico/dinamico, chave do recebedor, dominio da location, txid e valor.
+[+] Nova flag TACBrPSP.ValidarCopiaECola permite desligar a validacao por PSP caso haja efeito colateral.
+    por: Elias Cesar
+
 29/06/2026
 -- Unis diversas -- 
 [*][ACBR-9326] Ajustado para utilizar campo alfa CNPJ

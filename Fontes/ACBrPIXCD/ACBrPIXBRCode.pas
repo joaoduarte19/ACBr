@@ -187,19 +187,22 @@ type
 
     function GetAsString: String; override;
     procedure SetAsString(const AValue: String); override;
-  protected
-    function ComputeCRC: String;
+
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure Clear; override;
+    procedure AddDefaultValues; virtual;
+    procedure Assign(Source: TACBrBRCode); reintroduce;
     procedure ValidateCRC;
     procedure ValidateTxID(const aTxID: String); virtual;
+    function ComputeCRC: String;
 
-    property MerchantAccountInformation: TACBrEMVList  // 26
-      read fMerchantAccountInformation;
-    property MerchantAccountOtherInformation: TACBrEMVList  // 27
-      read fMerchantAccountOtherInformation;
-    property AdditionalDataField: TACBrEMVList  // 62
-      read fAdditionalDataField;
-    property UnreservedTemplates: TACBrEMVList  // 80
-      read fUnreservedTemplates;
+    property MerchantAccountInformation: TACBrEMVList read fMerchantAccountInformation; // 26
+    property MerchantAccountOtherInformation: TACBrEMVList read fMerchantAccountOtherInformation; // 27
+    property AdditionalDataField: TACBrEMVList read fAdditionalDataField; // 62
+    property UnreservedTemplates: TACBrEMVList read fUnreservedTemplates; // 80
 
     property PixKey: String read GetPixKey write SetPixKey;
     property PixKeyType: TACBrPIXTipoChave read GetPixKeyType;  // 26-01
@@ -210,14 +213,6 @@ type
 
     property ArbitraryInformation: String read GetArbitraryInformation
       write SetArbitraryInformation;  // 80-01
-
-  public
-    constructor Create;
-    destructor Destroy; override;
-
-    procedure Clear; override;
-    procedure AddDefaultValues; virtual;
-    procedure Assign(Source: TACBrBRCode); reintroduce;
 
     property IgnoreErrors: Boolean read fIgnoreErrors write fIgnoreErrors;
 
@@ -246,9 +241,8 @@ type
   TACBrPIXQRCodeEstatico = class(TACBrBRCode)
   private
     function GetAsString: String; override;
-  protected
-    procedure ValidateTxID(const aTxID: String); override;
   public
+    procedure ValidateTxID(const aTxID: String); override;
     procedure AddDefaultValues; override;
     property PixKey;
     property PixKeyType;
@@ -261,9 +255,8 @@ type
   TACBrPIXQRCodeDinamico = class(TACBrBRCode)
   private
     function GetAsString: String; override;
-  protected
-    procedure ValidateTxID(const aTxID: String); override;
   public
+    procedure ValidateTxID(const aTxID: String); override;
     procedure AddDefaultValues; override;
     property URL;
   end;
