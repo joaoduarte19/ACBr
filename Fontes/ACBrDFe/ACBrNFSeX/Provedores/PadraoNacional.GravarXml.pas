@@ -88,13 +88,13 @@ type
 
     function GerarXMLServico: TACBrXmlNode; virtual;
     function GerarXMLLocalPrestacao: TACBrXmlNode;
-    function GerarXMLCodigoServico: TACBrXmlNode;
+    function GerarXMLCodigoServico: TACBrXmlNode; virtual;
     function GerarXMLComercioExterior: TACBrXmlNode;
     function GerarXMLLocacaoSubLocacao: TACBrXmlNode;
     function GerarXMLObra: TACBrXmlNode; virtual;
     function GerarXMLEnderecoObra: TACBrXmlNode;
     function GerarXMLEnderecoExteriorObra: TACBrXmlNode; virtual;
-    function GerarXMLAtividadeEvento: TACBrXmlNode;
+    function GerarXMLAtividadeEvento: TACBrXmlNode; virtual;
     function GerarXMLEnderecoEvento: TACBrXmlNode;
     function GerarXMLEnderecoExteriorEvento: TACBrXmlNode;
     function GerarXMLExploracaoRodoviaria: TACBrXmlNode;

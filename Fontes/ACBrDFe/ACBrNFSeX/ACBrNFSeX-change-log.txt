@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 01/07/2026
+-- ACBrNFSeXGravarXml/GeisWeb.GravarXml/ISSFortaleza.GravarXml/ISSIntel.LerXml/ISSNet.GravarXml --
+-- ISSSaoPaulo.GravarXml/PadraoNacional.GravarXml/Publica.GravarXml --
+[*] ACBR-9489 - Sobrecarga de algumas procedures para atender o provedor ISSNet, com isso essas
+    procedures tiveram que ser alteradas para virtual e consequentemente afetando outros provedores.
+   Por: Italo Giurizzato Junior
 -- Citta.Provider --
 [*] ACBR-9301 - Possível solução para o Consultar DPS por Chave.
    Por: Italo Giurizzato Junior

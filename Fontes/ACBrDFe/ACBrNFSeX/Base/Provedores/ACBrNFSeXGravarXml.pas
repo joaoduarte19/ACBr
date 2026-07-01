@@ -179,7 +179,7 @@ type
     function GerarXMLEnderecoNacionalDestinatario(endNac: TendNac): TACBrXmlNode;
     function GerarXMLEnderecoExteriorDestinatario(endExt: TendExt): TACBrXmlNode;
 
-    function GerarXMLImovel(Imovel: TDadosimovel): TACBrXmlNode;
+    function GerarXMLImovel(Imovel: TDadosimovel): TACBrXmlNode; virtual;
     function GerarXMLEnderecoNacionalImovel(ender: TenderImovel): TACBrXmlNode;
     function GerarXMLEnderecoExteriorImovel(endExt: TendExt): TACBrXmlNode;
 
@@ -193,7 +193,7 @@ type
 
     function GerarXMLTributos(trib: Ttrib): TACBrXmlNode;
     function GerarXMLgIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode; virtual;
-    function GerarXMLgTribRegular(gTribRegular: TgTribRegular): TACBrXmlNode;
+    function GerarXMLgTribRegular(gTribRegular: TgTribRegular): TACBrXmlNode; virtual;
     function GerarXMLgDif(gDif: TgDif): TACBrXmlNode;
     // Reforma Tributária DPS
     procedure GerarINIIBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBSDPS); virtual;
@@ -1198,6 +1198,7 @@ begin
       INIRec.WriteString(sSecao, 'ItemListaServico', Servico.ItemListaServico);
       INIRec.WriteString(sSecao, 'xItemListaServico', Servico.xItemListaServico);
       INIRec.WriteString(sSecao, 'CodigoCnae', Servico.CodigoCnae);
+      INIRec.WriteString(sSecao, 'xCnae', Servico.xCNAE);
       INIRec.WriteString(sSecao, 'CodigoTributacaoMunicipio', Servico.CodigoTributacaoMunicipio);
       INIRec.WriteString(sSecao, 'xCodigoTributacaoMunicipio', Servico.xCodigoTributacaoMunicipio);
       INIRec.WriteString(sSecao, 'Discriminacao', ChangeLineBreak(Servico.Discriminacao, FpAOwner.ConfigGeral.QuebradeLinha));

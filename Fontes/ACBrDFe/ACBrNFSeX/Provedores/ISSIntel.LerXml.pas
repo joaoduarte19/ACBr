@@ -46,8 +46,8 @@ type
 
   TNFSeR_ISSIntel = class(TNFSeR_ABRASFv1)
   protected
-    procedure LerServico(const ANode: TACBrXmlNode);
-    procedure LerValores(const ANode: TACBrXmlNode);
+    procedure LerServico(const ANode: TACBrXmlNode); override;
+    procedure LerValores(const ANode: TACBrXmlNode); override;
 //    procedure LerINISecaoServico(const AINIRec: TMemIniFile);
 //    procedure LerINISecaoValores(const AINIRec: TMemIniFile);
   public

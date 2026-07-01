@@ -63,7 +63,7 @@ type
     function GerarServico: TACBrXmlNode; override;
     function GerarConstrucaoCivil: TACBrXmlNode; override;
     function GerarEnderecoTomador : TACBrXmlNode; override;
-    function GerarComercioExterior: TACBrXmlNode;
+    function GerarComercioExterior: TACBrXmlNode; override;
 
     procedure GerarINISecaoParcelas(const AINIRec: TMemIniFile); override;
   end;

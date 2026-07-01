@@ -40,6 +40,7 @@ uses
   SysUtils, Classes, StrUtils,
   ACBrXmlBase,
   ACBrXmlDocument,
+  ACBrNFSeXClass,
   ACBrNFSeXGravarXml_ABRASFv1,
   ACBrNFSeXGravarXml_ABRASFv2,
   PadraoNacional.GravarXml;
@@ -71,6 +72,10 @@ type
   TNFSeW_ISSNetAPIPropria = class(TNFSeW_PadraoNacional)
   protected
     function GerarXMLPrestador: TACBrXmlNode; override;
+    function GerarXMLObra: TACBrXmlNode; override;
+    function GerarXMLAtividadeEvento: TACBrXmlNode; override;
+    function GerarXMLImovel(Imovel: TDadosimovel): TACBrXmlNode; override;
+    function GerarXMLCodigoServico: TACBrXmlNode; override;
 
   public
     function GerarXml: Boolean; override;
@@ -229,6 +234,74 @@ begin
   NFSeNode.AppendChild(xmlNode);
 
   Result := True;
+end;
+
+function TNFSeW_ISSNetAPIPropria.GerarXMLAtividadeEvento: TACBrXmlNode;
+begin
+  Result := nil;
+
+  if NFSe.Servico.Evento.xNome <> '' then
+  begin
+    Result := CreateElement('atvEvento');
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'xNome', 1, 255, 1,
+                                                NFSe.Servico.Evento.xNome, ''));
+
+    Result.AppendChild(AddNode(tcDat, '#1', 'dtIni', 10, 10, 1,
+                                                NFSe.Servico.Evento.dtIni, ''));
+
+    Result.AppendChild(AddNode(tcDat, '#1', 'dtFim', 10, 10, 1,
+                                                NFSe.Servico.Evento.dtFim, ''));
+
+    Result.AppendChild(GerarXMLEnderecoEvento);
+  end;
+end;
+
+function TNFSeW_ISSNetAPIPropria.GerarXMLCodigoServico: TACBrXmlNode;
+begin
+  Result := CreateElement('cServ');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'cTribNac', 6, 6, 1,
+                                            NFSe.Servico.ItemListaServico, ''));
+
+  Result.AppendChild(AddNode(tcInt, '#1', 'cTribMun', 1, 10, 1,
+                   StrToIntDef(NFSe.Servico.CodigoTributacaoMunicipio, 0), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'xDescServ', 1, 2000, 1,
+    StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+                          FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll])));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'cNBS', 9, 9, 0,
+                                                   NFSe.Servico.CodigoNBS, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'cIntContrib', 1, 20, 0,
+                                            NFSe.Servico.CodigoInterContr, ''));
+end;
+
+function TNFSeW_ISSNetAPIPropria.GerarXMLImovel(
+  Imovel: TDadosimovel): TACBrXmlNode;
+begin
+  Result := nil;
+
+  if (Imovel.ender.CEP <> '') or (Imovel.ender.endExt.cEndPost <> '') then
+  begin
+    Result := CreateElement('imovel');
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'inscImobFisc', 1, 30, 0,
+                                                      Imovel.inscImobFisc, ''));
+
+    Result.AppendChild(GerarXMLEnderecoNacionalImovel(Imovel.ender));
+  end;
+end;
+
+function TNFSeW_ISSNetAPIPropria.GerarXMLObra: TACBrXmlNode;
+begin
+  Result := CreateElement('obra');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'inscImobFisc', 1, 30, 0,
+                                      NFSe.ConstrucaoCivil.inscImobFisc, ''));
+
+  Result.AppendChild(GerarXMLEnderecoObra);
 end;
 
 function TNFSeW_ISSNetAPIPropria.GerarXMLPrestador: TACBrXmlNode;

@@ -55,7 +55,7 @@ type
     function GerarXMLDestinatario(Dest: TDadosdaPessoa): TACBrXmlNode; override;
     function GerarXMLEnderecoDestinatario(ender: Tender): TACBrXmlNode;
     function GerarXMLContatoDestinatario(Dest: TDadosdaPessoa): TACBrXmlNode;
-    function GerarXMLImovel(Imovel: TDadosimovel): TACBrXmlNode;
+    function GerarXMLImovel(Imovel: TDadosimovel): TACBrXmlNode; override;
     function GerarXMLEnderecoNacionalImovel(ender: TenderImovel): TACBrXmlNode;
     function GerarXMLIBSCBSTribValores(valores: Tvalorestrib): TACBrXmlNode; override;
     function GerarXMLgReeRepRes(gReeRepRes: TgReeRepRes): TACBrXmlNode;
@@ -67,7 +67,7 @@ type
 
     function GerarXMLTributos(trib: Ttrib): TACBrXmlNode;
     function GerarXMLgIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode; override;
-    function GerarXMLgTribRegular(gTribRegular: TgTribRegular): TACBrXmlNode;
+    function GerarXMLgTribRegular(gTribRegular: TgTribRegular): TACBrXmlNode; override;
     function GerarXMLgDif(gDif: TgDif): TACBrXmlNode;
 
     function GerarConstrucaoCivil: TACBrXmlNode; override;
