@@ -1784,7 +1784,7 @@ begin
           FieldByName('Nome').AsString        := fCTe.det[i].comp[j].xNome;
           FieldByName('Valor').AsFloat        := fCTe.det[i].comp[j].vComp;
           FieldByName('TotalServico').AsFloat := fCTe.total.vTPrest;
-          FieldByName('TotalReceber').AsFloat := 0;
+          FieldByName('TotalReceber').AsFloat := fCTe.total.vTRec;
           Post;
         end;
       end;
