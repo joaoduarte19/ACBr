@@ -629,7 +629,7 @@ begin
 
   for I := 0 to Self.S2190.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2190.Items[i].EvtAdmPrelim.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2190.Items[i].EvtAdmPrelim.Id) + '-' +
      TipoEventoToStr(Self.S2190.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2190.Items[i].EvtAdmPrelim.SaveToFile(PathName);
@@ -638,14 +638,14 @@ begin
     begin
       TipoEvento := teS2190;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2190.Items[i].EvtAdmPrelim.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2190.Items[i].EvtAdmPrelim.Id);
       XML := Self.S2190.Items[i].EvtAdmPrelim.XML;
     end;
   end;
 
   for I := 0 to Self.S2200.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2200.Items[i].EvtAdmissao.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2200.Items[i].EvtAdmissao.Id) + '-' +
      TipoEventoToStr(Self.S2200.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2200.Items[i].EvtAdmissao.SaveToFile(PathName);
@@ -654,14 +654,14 @@ begin
     begin
       TipoEvento := teS2200;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2200.Items[i].EvtAdmissao.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2200.Items[i].EvtAdmissao.Id);
       XML := Self.S2200.Items[i].EvtAdmissao.XML;
     end;
   end;
 
   for I := 0 to Self.S2205.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2205.Items[i].EvtAltCadastral.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2205.Items[i].EvtAltCadastral.Id) + '-' +
      TipoEventoToStr(Self.S2205.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2205.Items[i].EvtAltCadastral.SaveToFile(PathName);
@@ -670,14 +670,14 @@ begin
     begin
       TipoEvento := teS2205;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2205.Items[i].EvtAltCadastral.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2205.Items[i].EvtAltCadastral.Id);
       XML := Self.S2205.Items[i].EvtAltCadastral.XML;
     end;
   end;
 
   for I := 0 to Self.S2206.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2206.Items[i].EvtAltContratual.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2206.Items[i].EvtAltContratual.Id) + '-' +
      TipoEventoToStr(Self.S2206.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2206.Items[i].EvtAltContratual.SaveToFile(PathName);
@@ -686,14 +686,14 @@ begin
     begin
       TipoEvento := teS2206;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2206.Items[i].EvtAltContratual.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2206.Items[i].EvtAltContratual.Id);
       XML := Self.S2206.Items[i].EvtAltContratual.XML;
     end;
   end;
 
   for I := 0 to Self.S2210.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2210.Items[i].EvtCAT.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2210.Items[i].EvtCAT.Id) + '-' +
      TipoEventoToStr(Self.S2210.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2210.Items[i].EvtCAT.SaveToFile(PathName);
@@ -702,14 +702,14 @@ begin
     begin
       TipoEvento := teS2210;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2210.Items[i].EvtCAT.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2210.Items[i].EvtCAT.Id);
       XML := Self.S2210.Items[i].EvtCAT.XML;
     end;
   end;
 
   for I := 0 to Self.S2220.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2220.Items[i].evtMonit.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2220.Items[i].evtMonit.Id) + '-' +
      TipoEventoToStr(Self.S2220.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2220.Items[i].evtMonit.SaveToFile(PathName);
@@ -718,14 +718,14 @@ begin
     begin
       TipoEvento := teS2220;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2220.Items[i].evtMonit.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2220.Items[i].evtMonit.Id);
       XML := Self.S2220.Items[i].evtMonit.XML;
     end;
   end;
 
   for I := 0 to Self.S2221.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2221.Items[i].evtToxic.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2221.Items[i].evtToxic.Id) + '-' +
      TipoEventoToStr(Self.S2221.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2221.Items[i].evtToxic.SaveToFile(PathName);
@@ -734,14 +734,14 @@ begin
     begin
       TipoEvento := teS2221;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2221.Items[i].evtToxic.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2221.Items[i].evtToxic.Id);
       XML := Self.S2221.Items[i].evtToxic.XML;
     end;
   end;
 
   for I := 0 to Self.S2230.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2230.Items[i].EvtAfastTemp.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2230.Items[i].EvtAfastTemp.Id) + '-' +
      TipoEventoToStr(Self.S2230.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2230.Items[i].EvtAfastTemp.SaveToFile(PathName);
@@ -750,14 +750,14 @@ begin
     begin
       TipoEvento := teS2230;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2230.Items[i].EvtAfastTemp.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2230.Items[i].EvtAfastTemp.Id);
       XML := Self.S2230.Items[i].EvtAfastTemp.XML;
     end;
   end;
 
   for I := 0 to Self.S2231.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2231.Items[i].EvtCessao.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2231.Items[i].EvtCessao.Id) + '-' +
      TipoEventoToStr(Self.S2231.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2231.Items[i].EvtCessao.SaveToFile(PathName);
@@ -766,14 +766,14 @@ begin
     begin
       TipoEvento := teS2231;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2231.Items[i].EvtCessao.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2231.Items[i].EvtCessao.Id);
       XML := Self.S2231.Items[i].EvtCessao.XML;
     end;
   end;
 
   for I := 0 to Self.S2240.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2240.Items[i].EvtExpRisco.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2240.Items[i].EvtExpRisco.Id) + '-' +
      TipoEventoToStr(Self.S2240.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2240.Items[i].EvtExpRisco.SaveToFile(PathName);
@@ -782,14 +782,14 @@ begin
     begin
       TipoEvento := teS2240;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2240.Items[i].EvtExpRisco.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2240.Items[i].EvtExpRisco.Id);
       XML := Self.S2240.Items[i].EvtExpRisco.XML;
     end;
   end;
 
   for I := 0 to Self.S2245.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2245.Items[i].EvtTreiCap.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2245.Items[i].EvtTreiCap.Id) + '-' +
      TipoEventoToStr(Self.S2245.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2245.Items[i].EvtTreiCap.SaveToFile(PathName);
@@ -798,14 +798,14 @@ begin
     begin
       TipoEvento := teS2245;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2245.Items[i].EvtTreiCap.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2245.Items[i].EvtTreiCap.Id);
       XML := Self.S2245.Items[i].EvtTreiCap.XML;
     end;
   end;
 
   for I := 0 to Self.S2250.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2250.Items[i].EvtAvPrevio.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2250.Items[i].EvtAvPrevio.Id) + '-' +
      TipoEventoToStr(Self.S2250.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2250.Items[i].EvtAvPrevio.SaveToFile(PathName);
@@ -814,14 +814,14 @@ begin
     begin
       TipoEvento := teS2250;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2250.Items[i].EvtAvPrevio.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2250.Items[i].EvtAvPrevio.Id);
       XML := Self.S2250.Items[i].EvtAvPrevio.XML;
     end;
   end;
 
   for I := 0 to Self.S2260.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2260.Items[i].EvtConvInterm.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2260.Items[i].EvtConvInterm.Id) + '-' +
      TipoEventoToStr(Self.S2260.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2260.Items[i].EvtConvInterm.SaveToFile(PathName);
@@ -830,14 +830,14 @@ begin
     begin
       TipoEvento := teS2260;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2260.Items[i].EvtConvInterm.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2260.Items[i].EvtConvInterm.Id);
       XML := Self.S2260.Items[i].EvtConvInterm.XML;
     end;
   end;
 
   for I := 0 to Self.S2298.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2298.Items[i].EvtReintegr.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2298.Items[i].EvtReintegr.Id) + '-' +
      TipoEventoToStr(Self.S2298.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2298.Items[i].EvtReintegr.SaveToFile(PathName);
@@ -846,14 +846,14 @@ begin
     begin
       TipoEvento := teS2298;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2298.Items[i].EvtReintegr.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2298.Items[i].EvtReintegr.Id);
       XML := Self.S2298.Items[i].EvtReintegr.XML;
     end;
   end;
 
   for I := 0 to Self.S2299.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2299.Items[i].EvtDeslig.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2299.Items[i].EvtDeslig.Id) + '-' +
      TipoEventoToStr(Self.S2299.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2299.Items[i].EvtDeslig.SaveToFile(PathName);
@@ -862,14 +862,14 @@ begin
     begin
       TipoEvento := teS2299;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2299.Items[i].EvtDeslig.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2299.Items[i].EvtDeslig.Id);
       XML := Self.S2299.Items[i].EvtDeslig.XML;
     end;
   end;
 
   for I := 0 to Self.S2300.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2300.Items[i].EvtTSVInicio.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2300.Items[i].EvtTSVInicio.Id) + '-' +
      TipoEventoToStr(Self.S2300.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2300.Items[i].EvtTSVInicio.SaveToFile(PathName);
@@ -878,14 +878,14 @@ begin
     begin
       TipoEvento := teS2300;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2300.Items[i].EvtTSVInicio.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2300.Items[i].EvtTSVInicio.Id);
       XML := Self.S2300.Items[i].EvtTSVInicio.XML;
     end;
   end;
 
   for I := 0 to Self.S2306.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2306.Items[i].EvtTSVAltContr.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2306.Items[i].EvtTSVAltContr.Id) + '-' +
      TipoEventoToStr(Self.S2306.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2306.Items[i].EvtTSVAltContr.SaveToFile(PathName);
@@ -894,14 +894,14 @@ begin
     begin
       TipoEvento := teS2306;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2306.Items[i].EvtTSVAltContr.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2306.Items[i].EvtTSVAltContr.Id);
       XML := Self.S2306.Items[i].EvtTSVAltContr.XML;
     end;
   end;
 
   for I := 0 to Self.S2399.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2399.Items[i].EvtTSVTermino.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2399.Items[i].EvtTSVTermino.Id) + '-' +
      TipoEventoToStr(Self.S2399.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2399.Items[i].EvtTSVTermino.SaveToFile(PathName);
@@ -910,14 +910,14 @@ begin
     begin
       TipoEvento := teS2399;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2399.Items[i].EvtTSVTermino.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2399.Items[i].EvtTSVTermino.Id);
       XML := Self.S2399.Items[i].EvtTSVTermino.XML;
     end;
   end;
 
   for I := 0 to Self.S2400.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2400.Items[i].EvtCdBenefIn.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2400.Items[i].EvtCdBenefIn.Id) + '-' +
      TipoEventoToStr(Self.S2400.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2400.Items[i].EvtCdBenefIn.SaveToFile(PathName);
@@ -926,14 +926,14 @@ begin
     begin
       TipoEvento := teS2400;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2400.Items[i].EvtCdBenefIn.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2400.Items[i].EvtCdBenefIn.Id);
       XML := Self.S2400.Items[i].EvtCdBenefIn.XML;
     end;
   end;
 
   for I := 0 to Self.S2405.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2405.Items[i].EvtCdBenefAlt.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2405.Items[i].EvtCdBenefAlt.Id) + '-' +
      TipoEventoToStr(Self.S2405.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2405.Items[i].EvtCdBenefAlt.SaveToFile(PathName);
@@ -942,14 +942,14 @@ begin
     begin
       TipoEvento := teS2405;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2405.Items[i].EvtCdBenefAlt.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2405.Items[i].EvtCdBenefAlt.Id);
       XML := Self.S2405.Items[i].EvtCdBenefAlt.XML;
     end;
   end;
 
   for I := 0 to Self.S2410.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2410.Items[i].EvtCdBenIn.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2410.Items[i].EvtCdBenIn.Id) + '-' +
      TipoEventoToStr(Self.S2410.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2410.Items[i].EvtCdBenIn.SaveToFile(PathName);
@@ -958,14 +958,14 @@ begin
     begin
       TipoEvento := teS2410;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2410.Items[i].EvtCdBenIn.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2410.Items[i].EvtCdBenIn.Id);
       XML := Self.S2410.Items[i].EvtCdBenIn.XML;
     end;
   end;
 
   for I := 0 to Self.S2416.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2416.Items[i].EvtCdBenAlt.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2416.Items[i].EvtCdBenAlt.Id) + '-' +
      TipoEventoToStr(Self.S2416.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2416.Items[i].EvtCdBenAlt.SaveToFile(PathName);
@@ -974,14 +974,14 @@ begin
     begin
       TipoEvento := teS2416;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2416.Items[i].EvtCdBenAlt.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2416.Items[i].EvtCdBenAlt.Id);
       XML := Self.S2416.Items[i].EvtCdBenAlt.XML;
     end;
   end;
 
   for I := 0 to Self.S2418.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2418.Items[i].EvtReativBen.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2418.Items[i].EvtReativBen.Id) + '-' +
      TipoEventoToStr(Self.S2418.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2418.Items[i].EvtReativBen.SaveToFile(PathName);
@@ -990,14 +990,14 @@ begin
     begin
       TipoEvento := teS2418;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2418.Items[i].EvtReativBen.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2418.Items[i].EvtReativBen.Id);
       XML := Self.S2418.Items[i].EvtReativBen.XML;
     end;
   end;
 
   for I := 0 to Self.S2420.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2420.Items[i].EvtCdBenTerm.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2420.Items[i].EvtCdBenTerm.Id) + '-' +
      TipoEventoToStr(Self.S2420.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2420.Items[i].EvtCdBenTerm.SaveToFile(PathName);
@@ -1006,14 +1006,14 @@ begin
     begin
       TipoEvento := teS2420;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2420.Items[i].EvtCdBenTerm.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2420.Items[i].EvtCdBenTerm.Id);
       XML := Self.S2420.Items[i].EvtCdBenTerm.XML;
     end;
   end;
 
   for I := 0 to Self.S2500.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2500.Items[i].EvtProcTrab.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2500.Items[i].EvtProcTrab.Id) + '-' +
      TipoEventoToStr(Self.S2500.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2500.Items[i].EvtProcTrab.SaveToFile(PathName);
@@ -1022,14 +1022,14 @@ begin
     begin
       TipoEvento := teS2500;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2500.Items[i].EvtProcTrab.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2500.Items[i].EvtProcTrab.Id);
       XML := Self.S2500.Items[i].EvtProcTrab.XML;
     end;
   end;
 
   for I := 0 to Self.S2501.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2501.Items[i].EvtContProc.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2501.Items[i].EvtContProc.Id) + '-' +
      TipoEventoToStr(Self.S2501.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2501.Items[i].EvtContProc.SaveToFile(PathName);
@@ -1038,14 +1038,14 @@ begin
     begin
       TipoEvento := teS2501;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2501.Items[i].EvtContProc.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2501.Items[i].EvtContProc.Id);
       XML := Self.S2501.Items[i].EvtContProc.XML;
     end;
   end;
 
   for I := 0 to Self.S2555.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S2555.Items[i].EvtConsolidContProc.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S2555.Items[i].EvtConsolidContProc.Id) + '-' +
      TipoEventoToStr(Self.S2555.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S2555.Items[i].EvtConsolidContProc.SaveToFile(PathName);
@@ -1054,14 +1054,14 @@ begin
     begin
       TipoEvento := teS2555;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S2555.Items[i].EvtConsolidContProc.Id);
+      idEvento := RemoverLiteralIDChave(Self.S2555.Items[i].EvtConsolidContProc.Id);
       XML := Self.S2555.Items[i].EvtConsolidContProc.XML;
     end;
   end;
 
   for I := 0 to Self.S3000.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S3000.Items[i].EvtExclusao.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S3000.Items[i].EvtExclusao.Id) + '-' +
      TipoEventoToStr(Self.S3000.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S3000.Items[i].EvtExclusao.SaveToFile(PathName);
@@ -1070,14 +1070,14 @@ begin
     begin
       TipoEvento := teS3000;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S3000.Items[i].EvtExclusao.Id);
+      idEvento := RemoverLiteralIDChave(Self.S3000.Items[i].EvtExclusao.Id);
       XML := Self.S3000.Items[i].EvtExclusao.XML;
     end;
   end;
 
   for I := 0 to Self.S3500.Count - 1 do
   begin
-    PathName := Path + RemoverLiteralChave(Self.S3500.Items[i].EvtExcProcTrab.Id) + '-' +
+    PathName := Path + RemoverLiteralIDChave(Self.S3500.Items[i].EvtExcProcTrab.Id) + '-' +
      TipoEventoToStr(Self.S3500.Items[i].TipoEvento) + '-' + IntToStr(i);
 
     Self.S3500.Items[i].EvtExcProcTrab.SaveToFile(PathName);
@@ -1086,7 +1086,7 @@ begin
     begin
       TipoEvento := teS3500;
       PathNome := PathName;
-      idEvento := RemoverLiteralChave(Self.S3500.Items[i].EvtExcProcTrab.Id);
+      idEvento := RemoverLiteralIDChave(Self.S3500.Items[i].EvtExcProcTrab.Id);
       XML := Self.S3500.Items[i].EvtExcProcTrab.XML;
     end;
   end;

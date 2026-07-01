@@ -489,7 +489,7 @@ begin
   Result := EmptyStr;
   Ini := pos('Id=', XML);
   if ini > 0 then
-    Result := 'ID' + RemoverLiteralChave(Copy(XML, Ini + 4, 38));
+    Result := 'ID' + RemoverLiteralIDChave(Copy(XML, Ini + 4, 38));
 end;
 
 procedure TItemLoteEventos.SetXML(const Value: AnsiString);
