@@ -120,6 +120,8 @@ function ExtrairReciboMsg(const AMsg: string): string;
 function ExecutarAjusteTagNro(Corrigir: boolean; Nro: string): string;
 
 function RemoverLiteralChave(const AChave: string): string;
+function RemoverLiteralIDChave(const AChave: string): string;
+
 
 var
   ACBrIBGE1: TACBrIBGE;
@@ -1266,6 +1268,13 @@ begin
     Result := '00' + Nro;
   if (ValidarNumeros(Nro)) and (length(Nro) = 2) then
     Result := '0' + Nro;
+end;
+
+function RemoverLiteralIDChave(const AChave: string): string;
+begin
+  Result := AChave;
+  if AnsiUpperCase(Copy(AChave, 1, 2)) = 'ID' then
+    Result := Copy(AChave, 3, MaxInt);
 end;
 
 function RemoverLiteralChave(const AChave: string): string;
