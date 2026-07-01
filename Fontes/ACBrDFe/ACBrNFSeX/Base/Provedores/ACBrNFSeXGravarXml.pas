@@ -1198,7 +1198,6 @@ begin
       INIRec.WriteString(sSecao, 'ItemListaServico', Servico.ItemListaServico);
       INIRec.WriteString(sSecao, 'xItemListaServico', Servico.xItemListaServico);
       INIRec.WriteString(sSecao, 'CodigoCnae', Servico.CodigoCnae);
-      INIRec.WriteString(sSecao, 'xCnae', Servico.xCNAE);
       INIRec.WriteString(sSecao, 'CodigoTributacaoMunicipio', Servico.CodigoTributacaoMunicipio);
       INIRec.WriteString(sSecao, 'xCodigoTributacaoMunicipio', Servico.xCodigoTributacaoMunicipio);
       INIRec.WriteString(sSecao, 'Discriminacao', ChangeLineBreak(Servico.Discriminacao, FpAOwner.ConfigGeral.QuebradeLinha));
