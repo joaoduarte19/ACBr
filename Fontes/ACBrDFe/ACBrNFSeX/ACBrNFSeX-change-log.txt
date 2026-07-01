@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 01/07/2026
+-- ACBrNFSeXClass --
+[-] Ajustes para resolver quebra de compilação.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXGravarXml/GeisWeb.GravarXml/ISSFortaleza.GravarXml/ISSIntel.LerXml/ISSNet.GravarXml --
 -- ISSSaoPaulo.GravarXml/PadraoNacional.GravarXml/Publica.GravarXml --
 [*] ACBR-9489 - Sobrecarga de algumas procedures para atender o provedor ISSNet, com isso essas

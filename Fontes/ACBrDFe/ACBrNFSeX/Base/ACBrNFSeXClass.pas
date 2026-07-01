@@ -688,6 +688,10 @@ type
     FValorInicialCobrado: Double;
     FAliqIBS: Double;
     FAliqCBS: Double;
+    FxMunPrestacao: string;
+    FValorTotalNotaFiscal: Double;
+    FxCNAE: string;
+    FCodigoNCM: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -769,6 +773,7 @@ type
     // Provedor IPM
     property TribMunPrestador: TnfseSimNao read FTribMunPrestador write FTribMunPrestador;
     property CodMunPrestacao: string read FCodMunPrestacao write FCodMunPrestacao;
+    property xMunPrestacao: string read FxMunPrestacao write FxMunPrestacao;
     property SituacaoTributaria: Integer read FSituacaoTributaria write FSituacaoTributaria;
     property CodCNO: string read FCodCNO write FCodCNO;
     property ValorTributavel: Double read FValorTributavel write FValorTributavel;
@@ -827,12 +832,16 @@ type
     property OutrosDescontos: Double read FOutrosDescontos write FOutrosDescontos;
     property ValorRepasse: Double read FValorRepasse write FValorRepasse;
     property AliquotaSN: Double read FAliquotaSN write FAliquotaSN;
+    property ValorTotalNotaFiscal: Double read FValorTotalNotaFiscal write FValorTotalNotaFiscal;
     property ValorLiquidoNfse: Double read FValorLiquidoNfse write FValorLiquidoNfse;
     property IrrfIndenizacao: Double read FIrrfIndenizacao write FIrrfIndenizacao;
     property RetencoesFederais: Double read FRetencoesFederais write FRetencoesFederais;
     property ValorIPI: Double read FValorIPI write FValorIPI;
     property ValorInicialCobrado: Double read FValorInicialCobrado write FValorInicialCobrado;
     property ValorFinalCobrado: Double read FValorFinalCobrado write FValorFinalCobrado;
+
+    property xCNAE: string read FxCNAE write FxCNAE;
+    property CodigoNCM: string read FCodigoNCM write FCodigoNCM;
   end;
 
   TItemServicoCollection = class(TACBrObjectList)
