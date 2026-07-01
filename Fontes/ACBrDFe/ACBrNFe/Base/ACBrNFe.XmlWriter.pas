@@ -4420,7 +4420,8 @@ begin
      ((NFe.Ide.gCompraGov.tpEnteGov <> tcgNenhum) and (NFe.Ide.gCompraGov.tpOperGov <> togNenhum)) then
     Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gRed(CBS.gRed));
 
-  Result.AppendChild(Gerar_IBSCBS_gALCZFMCBS(CBS.gALCZFMCBS));
+  if (CBS.gALCZFMCBS.pAliqEfetRegCBS > 0) or (CBS.gALCZFMCBS.vTribRegCBS > 0) then
+    Result.AppendChild(Gerar_IBSCBS_gALCZFMCBS(CBS.gALCZFMCBS));
 
   Result.AppendChild(AddNode(tcDe2, 'UB83', 'vCBS', 1, 15, 1,
                                                            CBS.vCBS, DSC_VCBS));

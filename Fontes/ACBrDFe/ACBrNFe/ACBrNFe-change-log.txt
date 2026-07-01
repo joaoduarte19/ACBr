@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+01/07/2026
+-- ACBrNFe.XmlWriter --
+[*] Alteração visando deixar o grupo gALCZFMCBS como opcional.
+   Por: Italo Giurizzato Junior
+
 30/06/2026
 -- ACBrNFe.XmlWriter --
 [-] Correção para gerar o grupo gPagAntecipado somente se a lista de chaves for maior que zero.
