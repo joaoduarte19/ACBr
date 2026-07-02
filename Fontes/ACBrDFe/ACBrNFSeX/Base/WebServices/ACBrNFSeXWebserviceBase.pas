@@ -52,6 +52,10 @@ uses
   ACBrBase,
   ACBrDFe.Conversao,
   ACBrDFe, ACBrDFeConfiguracoes, ACBrDFeSSL,
+  {$IFDEF ACBR_API}
+  Xml.XMLIntf,
+  Xml.XMLDoc,
+  {$ENDIF}
   ACBrXmlDocument, ACBrNFSeXConversao;
 
 resourcestring
@@ -84,6 +88,17 @@ type
     FPEnvio: string;
     FPRetorno: string;
     FUseOuterXml: Boolean;
+
+    {$IFDEF ACBR_API}
+    FReqHeaders: string;
+    FRespHeaders: string;
+    FRespStatusCode: Integer;
+    FReqContentLength: Int64;
+    FRespContentLength: Int64;
+    FReqContent: TBytes;
+    FRespContent: TBytes;
+    FRespTime: Integer;
+    {$ENDIF}
 
     FPArqEnv: string;
     FPArqResp: string;
@@ -127,6 +142,14 @@ type
                       responseTag, namespace: array of string): string; overload;
     function Executar(const SoapAction, Message, SoapHeader: string;
                       responseTag, namespace: array of string): string; overload;
+
+    {$IFDEF ACBR_API}
+    // Novos métodos para leitura do XML
+    function UsarNovaLeituraXML: Boolean; virtual;
+    function ExtrairRetorno2(const ATags: array of string; const AXml: TBytes; AEncoding: TEncoding): string; virtual;
+    function ExtrairXml(const ATags: array of string; const AXml: string): string;
+    function FindTag(Node: IXMLNode; const NodeLocalName: string): IXMLNode;
+    {$ENDIF}
   public
     constructor Create(AOwner: TACBrDFe; AMetodo: TMetodo; const AURL: string;
       const AMethod: string = 'POST');
@@ -166,6 +189,16 @@ type
     property Path: string read FPath write FPath;
     property HtmlRetorno: string read FHtmlRetorno;
 
+    {$IFDEF ACBR_API}
+    property ReqHeaders: string read FReqHeaders write FReqHeaders;
+    property RespHeaders: string read FRespHeaders write FRespHeaders;
+    property RespStatusCode: Integer read FRespStatusCode write FRespStatusCode;
+    property ReqContentLength: Int64 read FReqContentLength write FReqContentLength;
+    property RespContentLength: Int64 read FRespContentLength write FRespContentLength;
+    property ReqContent: TBytes read FReqContent write FReqContent;
+    property RespContent: TBytes read FRespContent write FRespContent;
+    property RespTime: Integer read FRespTime write FRespTime;
+    {$ENDIF}
   end;
 
   TACBrNFSeXWebserviceSoap11 = class(TACBrNFSeXWebservice)
@@ -490,6 +523,7 @@ implementation
 
 uses
   IniFiles, StrUtils, synautil, synacode,
+  {$IFDEF ACBR_API}System.Diagnostics,{$ENDIF}
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.XMLHTML, ACBrUtil.DateTime,
   ACBrUtil.FilesIO,
   ACBrConsts, ACBrDFeException, ACBrXmlBase,
@@ -1073,6 +1107,104 @@ begin
     Document.Free;
   end;
 end;
+{$IFDEF ACBR_API}
+function TACBrNFSeXWebservice.ExtrairRetorno2(const ATags: array of string;
+  const AXml: TBytes; AEncoding: TEncoding): string;
+var
+  Document: TACBrXmlDocument;
+  ANode: TACBrXmlNode;
+  I: Integer;
+  xRetorno: string;
+begin
+  Result := '';
+
+  xRetorno := AEncoding.GetString(AXml);
+
+  xRetorno := TratarXmlRetornado(xRetorno);
+
+  if xRetorno = '' then
+    Exit;
+
+  if not StringIsXML(xRetorno) then
+  begin
+    Result := xRetorno;
+    Exit;
+  end;
+
+  if (Length(ATags) = 0) then
+  begin
+    Result := xRetorno;
+    Exit;
+  end;
+
+  Document := TACBrXmlDocument.Create;
+  try
+    Document.LoadFromXml(xRetorno);
+
+    VerificarErroNoRetorno(Document);
+    ANode := Document.Root;
+
+    if ANode.Name = 'a' then
+    begin
+      if ANode <> nil then
+      begin
+        if FUseOuterXml then
+          Result := ANode.OuterXml
+        else
+          Result := ANode.Content;
+        Exit;
+      end;
+    end;
+  finally
+    Document.Free;
+  end;
+
+  Result := ExtrairXml(ATags, xRetorno);
+end;
+
+function TACBrNFSeXWebservice.ExtrairXml(const ATags: array of string;
+  const AXml: string): string;
+var
+  Document: IXMLDocument;
+  ParentNode, Node: IXMLNode;
+  LocalTags: array of string;
+begin
+  Document := TXMLDocument.Create(nil);
+  Document.LoadFromXml(AXml);
+
+  Node := Document.DocumentElement;
+  if Node = nil then
+    Exit('');
+  var Offset := 0;
+  if Node.LocalName = ATags[0] then
+    Inc(Offset);
+  for var I := Offset to Length(ATags) - 1 do
+  begin
+    ParentNode := Node;
+    Node := FindTag(Node, ATags[I]);
+    if Node = nil then
+    begin
+      if ParentNode.ChildNodes.Count = 1 then
+      begin
+        Node := ParentNode.ChildNodes[0];
+        if Node.NodeType in [ntText, ntCData] then
+        begin
+          SetLength(LocalTags, Length(ATags) - I);
+          for var J := I to Length(ATags) - 1 do
+            LocalTags[J - I] := ATags[J];
+          Exit(ExtrairXml(LocalTags, Node.Text));
+        end;
+      end;
+      Exit('');
+    end;
+  end;
+
+  if (Node.ChildNodes.Count = 1) and (Node.ChildNodes[0].NodeType in [ntText, ntCData]) then
+    Result := Node.Text
+  else
+    Result := Node.XML;
+end;
+{$ENDIF}
 
 function TACBrNFSeXWebservice.TratarXmlRetornado(const aXML: string): string;
 begin
@@ -1099,6 +1231,13 @@ begin
                                             FormatDateBr(FPDFeOwner.SSL.CertDataVenc));
   end;
 end;
+
+{$IFDEF ACBR_API}
+function TACBrNFSeXWebservice.UsarNovaLeituraXML: Boolean;
+begin
+  Result := False;
+end;
+{$ENDIF}
 
 function TACBrNFSeXWebservice.Executar(const SoapAction, Message, responseTag: string): string;
 begin
@@ -1177,13 +1316,26 @@ begin
 end;
 
 procedure TACBrNFSeXWebservice.EnvioInterno(var CodigoErro, CodigoInterno: Integer);
+{$IFDEF ACBR_API}
+const
+  UTF_8 = #$C3;
+var
+  Stopwatch: TStopwatch;
+  Len: Int64;
+{$ENDIF}
 begin
   ConfigurarHttpClient;
 
   try
+    {$IFDEF ACBR_API}
+    Stopwatch := TStopwatch.StartNew;
+    {$ENDIF}
     try
       FPHttpClient.Execute;
     finally
+      {$IFDEF ACBR_API}
+      Stopwatch.Stop;
+      {$ENDIF}
       CodigoErro := FPHttpClient.HTTPResultCode;
       CodigoInterno := FPHttpClient.InternalErrorCode;
     end;
@@ -1193,8 +1345,45 @@ begin
     FPRetorno := ReadStrFromStream(FPHttpClient.DataResp, FPHttpClient.DataResp.Size);
 //    FPRetorno := RemoverUTF8BOM(FPRetorno);
 
+    {$IFDEF ACBR_API}
+    FReqHeaders := FPHttpClient.HeaderReq.Text;
+    FRespHeaders := FPHttpClient.HeaderResp.Text;
+    FRespStatusCode := FPHttpClient.HTTPResultCode;
+    FReqContentLength := FPHttpClient.DataReq.Size;
+    FRespContentLength := FPHttpClient.DataResp.Size;
+    FRespTime := Stopwatch.ElapsedMilliseconds;
+
+    FPHttpClient.DataReq.Position := 0;
+    SetLength(FReqContent, FReqContentLength);
+    Len := FPHttpClient.DataReq.Read(FReqContent, FReqContentLength);
+    if Len < FReqContentLength then
+      SetLength(FReqContent, Len);
+
+    FPHttpClient.DataResp.Position := 0;
+    SetLength(FRespContent, FRespContentLength);
+    Len := FPHttpClient.DataResp.Read(FRespContent, FRespContentLength);
+    if Len < FRespContentLength then
+      SetLength(FRespContent, Len);
+    {$ENDIF}
+
     if FPRetorno = '' then
       raise EACBrDFeException.Create('WebService retornou um XML vazio.');
+
+    {$IFDEF ACBR_API}
+    if ((Pos('iso-8859-1', LowerCase(FPRetorno)) > 0) or
+       (Pos('encoding', LowerCase(FPRetorno)) = 0)) and
+       StringIsXML(FPRetorno) then
+    begin
+      if Pos(UTF_8, FPRetorno) = 0 then
+      begin
+        FPRetorno := RemoverDeclaracaoXML(FPRetorno);
+        FPRetorno := AnsiToNativeString(FPRetorno);
+        FPRetorno := NativeStringToUTF8(FPRetorno);
+      end;
+
+      FPRetorno := '<?xml version="1.0" encoding="UTF-8"?>' + FPRetorno;
+    end;
+    {$ENDIF}
 
     if StringIsXML(FPRetorno) then
       LevantarExcecaoHttp;
@@ -1220,8 +1409,13 @@ begin
   SalvarRetornoWebService(FPRetorno);
 
   FHtmlRetorno := RetornaHTMLNota(FPRetorno);
+  {$IFDEF ACBR_API}
+  if UsarNovaLeituraXML then
+    Result := ExtrairRetorno2(responseTag, FRespContent, TEncoding.Default)
+  else
+  {$ENDIF}
+    Result := ExtrairRetorno(FPRetorno, responseTag);
 
-  Result := ExtrairRetorno(FPRetorno, responseTag);
   SalvarRetornoDadosMsg(Result);
 end;
 
@@ -1383,6 +1577,36 @@ begin
   Result := '';
   raise EACBrDFeException.Create(Format(ERR_NAO_IMP, ['Fechar Sessão']));
 end;
+
+{$IFDEF ACBR_API}
+function TACBrNFSeXWebservice.FindTag(Node: IXMLNode;
+  const NodeLocalName: string): IXMLNode;
+begin
+  Result := nil;
+  if Node = nil then
+    Exit;
+  for var I := 0 to Node.ChildNodes.Count - 1 do
+  begin
+    var LocalNode := Node.ChildNodes[I];
+    if LocalNode.LocalName = NodeLocalName then
+    begin
+      Result := LocalNode;
+      Break;
+    end;
+  end;
+  if Result <> nil then
+    Exit;
+  for var I := 0 to Node.ChildNodes.Count - 1 do
+  begin
+    var LocalNode := FindTag(Node.ChildNodes[I], NodeLocalName);
+    if LocalNode <> nil then
+    begin
+      Result := LocalNode;
+      Break;
+    end;
+  end;
+end;
+{$ENDIF}
 
 function TACBrNFSeXWebservice.TesteEnvio(const ACabecalho, AMSG: string): string;
 begin

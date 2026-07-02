@@ -54,6 +54,10 @@ type
     FConfigSchemas: TConfigSchemas;
     FDefaultNameSpaceURI: string;
 
+    {$IFDEF ACBR_API}
+    procedure FillHttpInfo(AResponse: TNFSeWebserviceResponse; AService: TACBrNFSeXWebservice);
+    {$ENDIF}
+
     function GetConfigGeral: TConfigGeral;
     function GetConfigWebServices: TConfigWebServices;
     function GetConfigMsgDados: TConfigMsgDados;
@@ -1865,6 +1869,27 @@ begin
                             exiSuspensaProcessoAdministrativo, exiISSFixo]);
 end;
 
+{$IFDEF ACBR_API}
+procedure TACBrNFSeXProvider.FillHttpInfo(AResponse: TNFSeWebserviceResponse;
+  AService: TACBrNFSeXWebservice);
+begin
+  AResponse.ReqUrl := AService.URL;
+  AResponse.ReqMethod := AService.Method;
+  AResponse.ReqContentType := AService.MimeType;
+  AResponse.ReqHeaders := AService.ReqHeaders;
+  AResponse.ReqContentLength := AService.ReqContentLength;
+  AResponse.ReqContent := AService.ReqContent;
+  AResponse.RespHeaders := AService.RespHeaders;
+  AResponse.RespStatusCode := AService.RespStatusCode;
+  AResponse.RespContentLength := AService.RespContentLength;
+  AResponse.RespContent := AService.RespContent;
+  AResponse.RespTime := AService.RespTime;
+
+  AResponse.EnvelopeEnvio := AService.Envio;
+  AResponse.EnvelopeRetorno := AService.Retorno;
+end;
+{$ENDIF}
+
 function TACBrNFSeXProvider.StrToExigibilidadeISS(out ok: boolean;
   const s: string): TnfseExigibilidadeISS;
 begin
@@ -2280,6 +2305,10 @@ begin
       EmiteResponse.Sucesso := True;
       EmiteResponse.EnvelopeEnvio := AService.Envio;
       EmiteResponse.EnvelopeRetorno := AService.Retorno;
+
+      {$IFDEF ACBR_API}
+      FillHttpInfo(EmiteResponse, AService);
+      {$ENDIF}
     except
       on E:Exception do
       begin
@@ -2287,6 +2316,10 @@ begin
         begin
           EmiteResponse.EnvelopeEnvio := AService.Envio;
           EmiteResponse.EnvelopeRetorno := AService.Retorno;
+
+          {$IFDEF ACBR_API}
+          FillHttpInfo(EmiteResponse, AService);
+          {$ENDIF}
         end;
 
         AErro := EmiteResponse.Erros.New;
@@ -2357,6 +2390,10 @@ begin
       ConsultaSituacaoResponse.Sucesso := True;
       ConsultaSituacaoResponse.EnvelopeEnvio := AService.Envio;
       ConsultaSituacaoResponse.EnvelopeRetorno := AService.Retorno;
+
+      {$IFDEF ACBR_API}
+      FillHttpInfo(ConsultaSituacaoResponse, AService);
+      {$ENDIF}
     except
       on E:Exception do
       begin
@@ -2364,6 +2401,10 @@ begin
         begin
           ConsultaSituacaoResponse.EnvelopeEnvio := AService.Envio;
           ConsultaSituacaoResponse.EnvelopeRetorno := AService.Retorno;
+
+          {$IFDEF ACBR_API}
+          FillHttpInfo(ConsultaSituacaoResponse, AService);
+          {$ENDIF}
         end;
 
         AErro := ConsultaSituacaoResponse.Erros.New;
@@ -2433,6 +2474,10 @@ begin
       ConsultaLoteRpsResponse.Sucesso := True;
       ConsultaLoteRpsResponse.EnvelopeEnvio := AService.Envio;
       ConsultaLoteRpsResponse.EnvelopeRetorno := AService.Retorno;
+
+      {$IFDEF ACBR_API}
+      FillHttpInfo(ConsultaLoteRpsResponse, AService);
+      {$ENDIF}
     except
       on E:Exception do
       begin
@@ -2440,6 +2485,10 @@ begin
         begin
           ConsultaLoteRpsResponse.EnvelopeEnvio := AService.Envio;
           ConsultaLoteRpsResponse.EnvelopeRetorno := AService.Retorno;
+
+          {$IFDEF ACBR_API}
+          FillHttpInfo(ConsultaLoteRpsResponse, AService);
+          {$ENDIF}
         end;
 
         AErro := ConsultaLoteRpsResponse.Erros.New;
@@ -2510,6 +2559,10 @@ begin
       ConsultaNFSeporRpsResponse.Sucesso := True;
       ConsultaNFSeporRpsResponse.EnvelopeEnvio := AService.Envio;
       ConsultaNFSeporRpsResponse.EnvelopeRetorno := AService.Retorno;
+
+      {$IFDEF ACBR_API}
+      FillHttpInfo(ConsultaNFSeporRpsResponse, AService);
+      {$ENDIF}
     except
       on E:Exception do
       begin
@@ -2517,6 +2570,10 @@ begin
         begin
           ConsultaNFSeporRpsResponse.EnvelopeEnvio := AService.Envio;
           ConsultaNFSeporRpsResponse.EnvelopeRetorno := AService.Retorno;
+
+          {$IFDEF ACBR_API}
+          FillHttpInfo(ConsultaNFSeporRpsResponse, AService);
+          {$ENDIF}
         end;
 
         AErro := ConsultaNFSeporRpsResponse.Erros.New;
@@ -2587,6 +2644,10 @@ begin
       ConsultarEventoResponse.Sucesso := True;
       ConsultarEventoResponse.EnvelopeEnvio := AService.Envio;
       ConsultarEventoResponse.EnvelopeRetorno := AService.Retorno;
+
+      {$IFDEF ACBR_API}
+      FillHttpInfo(ConsultarEventoResponse, AService);
+      {$ENDIF}
     except
       on E:Exception do
       begin
@@ -2594,6 +2655,10 @@ begin
         begin
           ConsultarEventoResponse.EnvelopeEnvio := AService.Envio;
           ConsultarEventoResponse.EnvelopeRetorno := AService.Retorno;
+
+          {$IFDEF ACBR_API}
+          FillHttpInfo(ConsultarEventoResponse, AService);
+          {$ENDIF}
         end;
 
         AErro := ConsultarEventoResponse.Erros.New;
@@ -2665,6 +2730,10 @@ begin
       ConsultarParamResponse.Sucesso := True;
       ConsultarParamResponse.EnvelopeEnvio := AService.Envio;
       ConsultarParamResponse.EnvelopeRetorno := AService.Retorno;
+
+      {$IFDEF ACBR_API}
+      FillHttpInfo(ConsultarParamResponse, AService);
+      {$ENDIF}
     except
       on E:Exception do
       begin
@@ -2672,6 +2741,10 @@ begin
         begin
           ConsultarParamResponse.EnvelopeEnvio := AService.Envio;
           ConsultarParamResponse.EnvelopeRetorno := AService.Retorno;
+
+          {$IFDEF ACBR_API}
+          FillHttpInfo(ConsultarParamResponse, AService);
+          {$ENDIF}
         end;
 
         AErro := ConsultarParamResponse.Erros.New;
@@ -2742,6 +2815,10 @@ begin
       ConsultarDFeResponse.Sucesso := True;
       ConsultarDFeResponse.EnvelopeEnvio := AService.Envio;
       ConsultarDFeResponse.EnvelopeRetorno := AService.Retorno;
+
+      {$IFDEF ACBR_API}
+      FillHttpInfo(ConsultarDFeResponse, AService);
+      {$ENDIF}
     except
       on E:Exception do
       begin
@@ -2749,6 +2826,10 @@ begin
         begin
           ConsultarDFeResponse.EnvelopeEnvio := AService.Envio;
           ConsultarDFeResponse.EnvelopeRetorno := AService.Retorno;
+
+          {$IFDEF ACBR_API}
+          FillHttpInfo(ConsultarDFeResponse, AService);
+          {$ENDIF}
         end;
 
         AErro := ConsultarDFeResponse.Erros.New;
@@ -2860,6 +2941,10 @@ begin
       ConsultaNFSeResponse.EnvelopeEnvio := AService.Envio;
       ConsultaNFSeResponse.EnvelopeRetorno := AService.Retorno;
       ConsultaNFSeResponse.HtmlRetorno := AService.HtmlRetorno;
+
+      {$IFDEF ACBR_API}
+      FillHttpInfo(ConsultaNFSeResponse, AService);
+      {$ENDIF}
     except
       on E:Exception do
       begin
@@ -2867,6 +2952,10 @@ begin
         begin
           ConsultaNFSeResponse.EnvelopeEnvio := AService.Envio;
           ConsultaNFSeResponse.EnvelopeRetorno := AService.Retorno;
+
+          {$IFDEF ACBR_API}
+          FillHttpInfo(ConsultaNFSeResponse, AService);
+          {$ENDIF}
         end;
 
         AErro := ConsultaNFSeResponse.Erros.New;
@@ -2936,6 +3025,10 @@ begin
       ConsultaLinkNFSeResponse.Sucesso := True;
       ConsultaLinkNFSeResponse.EnvelopeEnvio := AService.Envio;
       ConsultaLinkNFSeResponse.EnvelopeRetorno := AService.Retorno;
+
+      {$IFDEF ACBR_API}
+      FillHttpInfo(ConsultaLinkNFSeResponse, AService);
+      {$ENDIF}
     except
       on E:Exception do
       begin
@@ -2943,6 +3036,10 @@ begin
         begin
           ConsultaLinkNFSeResponse.EnvelopeEnvio := AService.Envio;
           ConsultaLinkNFSeResponse.EnvelopeRetorno := AService.Retorno;
+
+          {$IFDEF ACBR_API}
+          FillHttpInfo(ConsultaLinkNFSeResponse, AService);
+          {$ENDIF}
         end;
 
         AErro := ConsultaLinkNFSeResponse.Erros.New;
@@ -3023,6 +3120,10 @@ begin
       CancelaNFSeResponse.Sucesso := True;
       CancelaNFSeResponse.EnvelopeEnvio := AService.Envio;
       CancelaNFSeResponse.EnvelopeRetorno := AService.Retorno;
+
+      {$IFDEF ACBR_API}
+      FillHttpInfo(CancelaNFSeResponse, AService);
+      {$ENDIF}
     except
       on E:Exception do
       begin
@@ -3030,6 +3131,10 @@ begin
         begin
           CancelaNFSeResponse.EnvelopeEnvio := AService.Envio;
           CancelaNFSeResponse.EnvelopeRetorno := AService.Retorno;
+
+          {$IFDEF ACBR_API}
+          FillHttpInfo(CancelaNFSeResponse, AService);
+          {$ENDIF}
         end;
 
         AErro := CancelaNFSeResponse.Erros.New;
@@ -3157,6 +3262,10 @@ begin
       SubstituiNFSeResponse.Sucesso := True;
       SubstituiNFSeResponse.EnvelopeEnvio := AService.Envio;
       SubstituiNFSeResponse.EnvelopeRetorno := AService.Retorno;
+
+      {$IFDEF ACBR_API}
+      FillHttpInfo(SubstituiNFSeResponse, AService);
+      {$ENDIF}
     except
       on E:Exception do
       begin
@@ -3164,6 +3273,10 @@ begin
         begin
           SubstituiNFSeResponse.EnvelopeEnvio := AService.Envio;
           SubstituiNFSeResponse.EnvelopeRetorno := AService.Retorno;
+
+          {$IFDEF ACBR_API}
+          FillHttpInfo(SubstituiNFSeResponse, AService);
+          {$ENDIF}
         end;
 
         AErro := SubstituiNFSeResponse.Erros.New;
@@ -3233,6 +3346,10 @@ begin
       GerarTokenResponse.Sucesso := True;
       GerarTokenResponse.EnvelopeEnvio := AService.Envio;
       GerarTokenResponse.EnvelopeRetorno := AService.Retorno;
+
+      {$IFDEF ACBR_API}
+      FillHttpInfo(GerarTokenResponse, AService);
+      {$ENDIF}
     except
       on E:Exception do
       begin
@@ -3240,6 +3357,10 @@ begin
         begin
           GerarTokenResponse.EnvelopeEnvio := AService.Envio;
           GerarTokenResponse.EnvelopeRetorno := AService.Retorno;
+
+          {$IFDEF ACBR_API}
+          FillHttpInfo(GerarTokenResponse, AService);
+          {$ENDIF}
         end;
 
         AErro := GerarTokenResponse.Erros.New;
@@ -3318,6 +3439,10 @@ begin
       EnviarEventoResponse.Sucesso := True;
       EnviarEventoResponse.EnvelopeEnvio := AService.Envio;
       EnviarEventoResponse.EnvelopeRetorno := AService.Retorno;
+
+      {$IFDEF ACBR_API}
+      FillHttpInfo(EnviarEventoResponse, AService);
+      {$ENDIF}
     except
       on E:Exception do
       begin
@@ -3325,6 +3450,10 @@ begin
         begin
           EnviarEventoResponse.EnvelopeEnvio := AService.Envio;
           EnviarEventoResponse.EnvelopeRetorno := AService.Retorno;
+
+          {$IFDEF ACBR_API}
+          FillHttpInfo(EnviarEventoResponse, AService);
+          {$ENDIF}
         end;
 
         AErro := EnviarEventoResponse.Erros.New;
@@ -3394,6 +3523,10 @@ begin
       ConsultarSeqRpsResponse.Sucesso := True;
       ConsultarSeqRpsResponse.EnvelopeEnvio := AService.Envio;
       ConsultarSeqRpsResponse.EnvelopeRetorno := AService.Retorno;
+
+      {$IFDEF ACBR_API}
+      FillHttpInfo(ConsultarSeqRpsResponse, AService);
+      {$ENDIF}
     except
       on E:Exception do
       begin
@@ -3401,6 +3534,10 @@ begin
         begin
           ConsultarSeqRpsResponse.EnvelopeEnvio := AService.Envio;
           ConsultarSeqRpsResponse.EnvelopeRetorno := AService.Retorno;
+
+          {$IFDEF ACBR_API}
+          FillHttpInfo(ConsultarSeqRpsResponse, AService);
+          {$ENDIF}
         end;
 
         AErro := ConsultarSeqRpsResponse.Erros.New;

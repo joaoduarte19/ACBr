@@ -91,6 +91,7 @@ type
    FWSFraseSecr: String;
    FWSChaveAcesso: String;
    FWSChaveAutoriz: String;
+   {$IFDEF ACBR_API}FWSToken: String;{$ENDIF}
    FDadosEmitente: TDadosEmitente;
 
  public
@@ -108,6 +109,9 @@ type
    property WSFraseSecr: String       read FWSFraseSecr       write FWSFraseSecr;
    property WSChaveAcesso: String     read FWSChaveAcesso     write FWSChaveAcesso;
    property WSChaveAutoriz: String    read FWSChaveAutoriz    write FWSChaveAutoriz;
+   {$IFDEF ACBR_API}
+   property WSToken: String           read FWSToken           write FWSToken;
+   {$ENDIF}
 
    property DadosEmitente: TDadosEmitente read FDadosEmitente write FDadosEmitente;
  end;

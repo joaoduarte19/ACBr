@@ -45,7 +45,10 @@ uses
    System.Contnrs,
   {$IFEND}
   ACBrBase,
-  ACBrNFSeXClass, ACBrNFSeXConversao, ACBrNFSeXWebserviceBase;
+  ACBrNFSeXClass,
+  ACBrNFSeXConversao,
+  ACBrNFSeXWebserviceBase,
+  SysUtils;
 
 type
   TNFSeEventoCollectionItem = class
@@ -246,6 +249,17 @@ type
     FArquivoRetorno: string;
     FHtmlRetorno: string;
 
+    FReqUrl: string;
+    FReqMethod: string;
+    FReqHeaders: string;
+    FReqContentType: string;
+    FReqContentLength: Int64;
+    FReqContent: TBytes;
+    FRespHeaders: string;
+    FRespStatusCode: Integer;
+    FRespContentLength: Int64;
+    FRespContent: TBytes;
+    FRespTime: Integer;
     function GetXmlEnvio: string;
     procedure SetXmlEnvio(const Value: string);
     function GetXmlRetorno: string;
@@ -292,6 +306,18 @@ type
     property EnvelopeRetorno: string read FEnvelopeRetorno write FEnvelopeRetorno;
     property ArquivoEnvio: string read FArquivoEnvio write FArquivoEnvio;
     property ArquivoRetorno: string read FArquivoRetorno write FArquivoRetorno;
+
+    property ReqUrl: string read FReqUrl write FReqUrl;
+    property ReqMethod: string read FReqMethod write FReqMethod;
+    property ReqHeaders: string read FReqHeaders write FReqHeaders;
+    property ReqContentType: string read FReqContentType write FReqContentType;
+    property ReqContentLength: Int64 read FReqContentLength write FReqContentLength;
+    property ReqContent: TBytes read FReqContent write FReqContent;
+    property RespHeaders: string read FRespHeaders write FRespHeaders;
+    property RespStatusCode: Integer read FRespStatusCode write FRespStatusCode;
+    property RespContentLength: Int64 read FRespContentLength write FRespContentLength;
+    property RespContent: TBytes read FRespContent write FRespContent;
+    property RespTime: Integer read FRespTime write FRespTime;
   end;
 
   TNFSeEmiteResponse = class(TNFSeWebserviceResponse)
@@ -571,9 +597,6 @@ type
 
 
 implementation
-
-uses
-  SysUtils;
 
 { TNFSeEventoCollection }
 
