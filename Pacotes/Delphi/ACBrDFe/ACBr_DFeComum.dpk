@@ -41,6 +41,12 @@ contains
 // movida para ACBr_Comum  ACBrDFe.Conversao in '..\..\..\Fontes\ACBrDFe\ACBrDFe.Conversao.pas',
   ACBrDFeConsts in '..\..\..\Fontes\ACBrDFe\ACBrDFeConsts.pas',
 
+  ACBrDFe.RTC.Classes in '..\..\..\Fontes\ACBrDFe\ACBrDFe.RTC.Classes.pas',
+  ACBrDFe.RTC.IniReader in '..\..\..\Fontes\ACBrDFe\ACBrDFe.RTC.IniReader.pas',
+  ACBrDFe.RTC.IniWriter in '..\..\..\Fontes\ACBrDFe\ACBrDFe.RTC.IniWriter.pas',
+  ACBrDFe.RTC.XmlReader in '..\..\..\Fontes\ACBrDFe\ACBrDFe.RTC.XmlReader.pas',
+  ACBrDFe.RTC.XmlWriter in '..\..\..\Fontes\ACBrDFe\ACBrDFe.RTC.XmlWriter.pas',
+  
   ACBrXmlBase in '..\..\..\Fontes\ACBrDFe\ACBrXmlBase.pas',
   ACBrXmlReader in '..\..\..\Fontes\ACBrDFe\ACBrXmlReader.pas',
   ACBrXmlWriter in '..\..\..\Fontes\ACBrDFe\ACBrXmlWriter.pas',

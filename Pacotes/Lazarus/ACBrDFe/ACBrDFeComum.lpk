@@ -23,7 +23,7 @@
       </Other>
     </CompilerOptions>
     <Description Value="ACBr - Biblioteca com Métodos e Classes em comum a todos Documentos Fiscais Eletrônicos"/>
-    <Files Count="22">
+    <Files Count="27">
       <Item1>
         <Filename Value="..\..\..\Fontes\ACBrDFe\ACBrDFeConfiguracoes.pas"/>
         <UnitName Value="ACBrDFeConfiguracoes"/>
@@ -112,6 +112,26 @@
         <Filename Value="..\..\..\Fontes\ACBrDFe\Comum\ACBrDFeComum.RetEnvio.pas"/>
         <UnitName Value="ACBrDFeComum.RetEnvio"/>
       </Item22>
+	  <Item23>
+        <Filename Value="..\..\..\Fontes\ACBrDFe\ACBrDFe.RTC.Classes.pas"/>
+        <UnitName Value="ACBrDFe.RTC.Classes"/>
+      </Item23>
+	  <Item24>
+        <Filename Value="..\..\..\Fontes\ACBrDFe\ACBrDFe.RTC.IniReader.pas"/>
+        <UnitName Value="ACBrDFe.RTC.IniReader"/>
+      </Item24>
+	  <Item25>
+        <Filename Value="..\..\..\Fontes\ACBrDFe\ACBrDFe.RTC.IniWriter.pas"/>
+        <UnitName Value="ACBrDFe.RTC.IniWriter"/>
+      </Item25>
+	  <Item26>
+        <Filename Value="..\..\..\Fontes\ACBrDFe\ACBrDFe.RTC.XmlReader.pas"/>
+        <UnitName Value="ACBrDFe.RTC.XmlReader"/>
+      </Item26>
+	  <Item27>
+        <Filename Value="..\..\..\Fontes\ACBrDFe\ACBrDFe.RTC.XmlWriter.pas"/>
+        <UnitName Value="ACBrDFe.RTC.XmlWriter"/>
+      </Item27>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="4">
