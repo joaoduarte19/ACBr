@@ -52,11 +52,9 @@ uses
   ACBrBase,
   ACBrDFe.Conversao,
   ACBrDFe, ACBrDFeConfiguracoes, ACBrDFeSSL,
-  {$IFDEF ACBR_API}
-  Xml.XMLIntf,
-  Xml.XMLDoc,
-  {$ENDIF}
-  ACBrXmlDocument, ACBrNFSeXConversao;
+  ACBrXmlDocument,
+  ACBrNFSeXConversao{$IFDEF ACBR_API}, Xml.XMLIntf, Xml.XMLDoc{$ENDIF};
+
 
 resourcestring
   ERR_NAO_IMP = 'Serviço %s não implementado para este provedor.';
