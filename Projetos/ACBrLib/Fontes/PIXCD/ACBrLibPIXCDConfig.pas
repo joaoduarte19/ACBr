@@ -484,6 +484,7 @@ type
     FQuandoGravarLog: TACBrGravarLog;
     FRecebedor: TACBrPixRecebedor;
     FTimeOut: Integer;
+    FValidarCopiaECola: Boolean;
 
     public
     constructor Create;
@@ -502,6 +503,7 @@ type
     property QuandoGravarLog: TACBrGravarLog read FQuandoGravarLog write FQuandoGravarLog;
     property Recebedor: TACBrPixRecebedor read FRecebedor write FRecebedor;
     property TimeOut: Integer read FTimeOut write FTimeOut;
+    property ValidarCopiaECola: Boolean read FValidarCopiaECola write FValidarCopiaECola;
   end;
 
   { TLibPIXCDConfig }
@@ -732,6 +734,7 @@ begin
   FQuandoGravarLog := Nil;
   FRecebedor := TACBrPixRecebedor.Create;
   FTimeOut := ChttpTimeOutDef;
+  FValidarCopiaECola := True;
 end;
 
 destructor TPIXCDConfig.Destroy;
@@ -751,6 +754,7 @@ begin
   TipoChave:= TACBrPIXTipoChave(AIni.ReadInteger(CSessaoPixCDConfig, CChaveTipoChave, Integer(TipoChave)));
   PSP := TACBrPIXPSP(AIni.ReadInteger(CSessaoPixCDConfig, CChavePSP, Integer(PSP)));
   TimeOut:= AIni.ReadInteger(CSessaoPixCDConfig, CChaveTimeOut, TimeOut);
+  ValidarCopiaECola := AIni.ReadBool(CSessaoPixCDConfig, CChaveValidarCopiaECola, ValidarCopiaECola);
 
   with DadosAutomacao do
   begin
@@ -786,6 +790,7 @@ begin
   AIni.WriteInteger(CSessaoPixCDConfig, CChaveTipoChave, Integer(TipoChave));
   AIni.WriteInteger(CSessaoPixCDConfig, CChavePSP, Integer(PSP));
   AIni.WriteInteger(CSessaoPixCDConfig, CChaveTimeOut, TimeOut);
+  AIni.WriteBool(CSessaoPixCDConfig, CChaveValidarCopiaECola, ValidarCopiaECola);
 
   with DadosAutomacao do
   begin

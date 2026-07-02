@@ -190,6 +190,7 @@ const
   CChavePSP = 'PSP';
   CChaveTipoChave = 'TipoChave';
   CChaveTimeOut = 'TimeOut';
+  CChaveValidarCopiaECola = 'ValidarCopiaECola';
   CChaveNivelLog = 'NivelLog';
   CChaveArqLogPixCD = 'ArqLog';
   CChaveCNPJSoftwareHouse = 'CNPJSoftwareHouse';

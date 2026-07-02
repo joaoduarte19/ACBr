@@ -287,6 +287,7 @@ begin
       ArqLOG   := pLibPIXCDConfig.PIXCDConfig.ArqLog;
       NivelLog := pLibPIXCDConfig.PIXCDConfig.NivelLog;
       TimeOut  := pLibPIXCDConfig.PIXCDConfig.TimeOut;
+      ValidarCopiaECola := pLibPIXCDConfig.PIXCDConfig.ValidarCopiaECola;
     end;
 
     with ACBrPixCD1.PSP do
