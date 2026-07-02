@@ -44,6 +44,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+02/07/2026
+-- Diversos --
+[*] ACBr-9485 - Ajustes para atender a NT 2026/002 - versão 1.00 da Reforma Tributária.
+   Por: Italo Giurizzato Junior
+
 30/06/2026
 -- ACBrBPeDABPeESCPOS --
 [*] ACBr-9369 - Ajuste no FormatarChaveAcesso, que ele ja remove o literal
