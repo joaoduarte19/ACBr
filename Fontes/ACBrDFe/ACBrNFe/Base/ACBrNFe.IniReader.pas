@@ -162,7 +162,6 @@ type
     procedure Ler_IBSCBSTot_gCBS(AINIRec: TMemIniFile; gCBS: TgCBSTot);
     procedure Ler_IBSCBSTot_gMono(AINIRec: TMemIniFile; gMono: TgMono);
     procedure Ler_IBSCBSTot_gEstornoCred(AINIRec: TMemIniFile; gEstornoCred: TgEstornoCred);
-    procedure Ler_IBSCBS_gALCZFMCBS(AINIRec: TMemIniFile; gALCZFMCBS: TgALCZFMCBS);
   public
     constructor Create(AOwner: TNFe); reintroduce;
 
@@ -2122,19 +2121,21 @@ end;
 procedure TNFeIniReader.Ler_IBSCBS_gIBSCBS_gALCZFMCBS(AINIRec: TMemIniFile;
   gALCZFMCBS: TgALCZFMCBS; Idx: Integer);
 var
-  sSecao: string;
+  sSecao, lValor: string;
 begin
   sSecao := 'gALCZFMCBS' + IntToStrZero(Idx, 3);
 
-  with AINIRec do
-    if SectionExists(sSecao) then
-      with gALCZFMCBS do
-      begin
-        nProcSuframa    := ReadString(sSecao, 'nProcSuframa', '');
-        pAliqEfetRegCBS := ReadFloat(sSecao, 'pAliqEfetRegCBS', 0);
-        tpALCZFMCBS     := StrTotpALCZFMCBS( ReadString(sSecao, 'tpALCZFMCBS', '') );
-        vTribRegCBS     := ReadFloat(sSecao, 'vTribRegCBS', 0);
-      end;
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    gALCZFMCBS.nProcSuframa := AINIRec.ReadString(sSecao, 'nProcSuframa', '');
+    gALCZFMCBS.pAliqEfetRegCBS := AINIRec.ReadFloat(sSecao, 'pAliqEfetRegCBS', 0);
+
+    lValor := AINIRec.ReadString(sSecao, 'tpALCZFMCBS', '');
+    if lValor <> '' then
+      gALCZFMCBS.tpALCZFMCBS := StrTotpALCZFMCBS(lValor);
+
+    gALCZFMCBS.vTribRegCBS := AINIRec.ReadFloat(sSecao, 'vTribRegCBS', 0);
+  end;
 end;
 
 procedure TNFeIniReader.Ler_IBSCBS_gIBSCBSMono(AINIRec: TMemIniFile;
@@ -2388,12 +2389,6 @@ begin
     gEstornoCred.vIBSEstCred := StringToFloatDef(AINIRec.ReadString(sSecao,'vIBSEstCred',''), 0);
     gEstornoCred.vCBSEstCred := StringToFloatDef(AINIRec.ReadString(sSecao,'vCBSEstCred',''), 0);
   end;
-end;
-
-procedure TNFeIniReader.Ler_IBSCBS_gALCZFMCBS(AINIRec: TMemIniFile;
-  gALCZFMCBS: TgALCZFMCBS);
-begin
-
 end;
 
 end.

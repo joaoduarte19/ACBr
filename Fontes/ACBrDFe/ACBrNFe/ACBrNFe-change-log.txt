@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+02/07/2026
+-- Diversos --
+[*] Ajustes para atender a NT 2026/002 - versão 1.00 da Reforma Tributária.
+   Por: Italo Giurizzato Junior
+
 01/07/2026
 -- ACBrNFe.XmlWriter --
 [*] Alteração visando deixar o grupo gALCZFMCBS como opcional.
