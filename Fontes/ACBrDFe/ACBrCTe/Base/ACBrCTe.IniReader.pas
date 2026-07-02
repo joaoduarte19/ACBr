@@ -137,6 +137,7 @@ type
     procedure Ler_gTribReg(AINIRec: TMemIniFile; gTribRegular: TgTribRegular);
     procedure Ler_gTribCompraGov(AINIRec: TMemIniFile; gTribCompraGov: TgTribCompraGov);
     procedure Ler_gEstornoCred(AINIRec: TMemIniFile; gEstornoCred: TgEstornoCred);
+    procedure Ler_IBSCBS_gIBSCBS_gALCZFMCBS(AINIRec: TMemIniFile; gALCZFMCBS: TgALCZFMCBS);
   public
     constructor Create(AOwner: TCTe); reintroduce;
 
@@ -568,6 +569,7 @@ begin
   Emit.xNome := AINIRec.ReadString('emit','xNome','');
   Emit.xFant := AINIRec.ReadString('emit','xFant','');
   Emit.CRT   := StrToCRTCTe(ok, AINIRec.ReadString('emit','CRT', ''));
+  Emit.ISUFEmit := AINIRec.ReadString('emit','ISUFEmit', '');
 
   Emit.enderEmit.xLgr    := AINIRec.ReadString('emit','xLgr','');
   Emit.enderEmit.nro     := AINIRec.ReadString('emit','nro','');
@@ -2426,6 +2428,7 @@ begin
     Ler_gIBSUF(AINIRec, gIBSCBS.gIBSUF);
     Ler_gIBSMun(AINIRec, gIBSCBS.gIBSMun);
     Ler_gCBS(AINIRec, gIBSCBS.gCBS);
+    Ler_IBSCBS_gIBSCBS_gALCZFMCBS(AINIRec, gIBSCBS.gCBS.gALCZFMCBS);
     Ler_gTribReg(AINIRec, gIBSCBS.gTribRegular);
     Ler_gTribCompraGov(AINIRec, gIBSCBS.gTribCompraGov);
   end;
@@ -2445,6 +2448,7 @@ begin
     gIBSUF.gDif.pDif := StringToFloatDef(AINIRec.ReadString(sSecao,'pDif','') ,0);
     gIBSUF.gDif.vDif := StringToFloatDef(AINIRec.ReadString(sSecao,'vDif','') ,0);
 
+    gIBSUF.gDevTrib.pDevTrib := StringToFloatDef(AINIRec.ReadString(sSecao, 'pDevTrib', ''), 0);
     gIBSUF.gDevTrib.vDevTrib := StringToFloatDef(AINIRec.ReadString(sSecao,'vDevTrib','') ,0);
 
     gIBSUF.gRed.pRedAliq := StringToFloatDef(AINIRec.ReadString(sSecao,'pRedAliq','') ,0);
@@ -2543,6 +2547,26 @@ begin
   begin
     gEstornoCred.vIBSEstCred := StringToFloatDef(AINIRec.ReadString(sSecao,'vIBSEstCred','') ,0);
     gEstornoCred.vCBSEstCred := StringToFloatDef(AINIRec.ReadString(sSecao,'vCBSEstCred','') ,0);
+  end;
+end;
+
+procedure TCTeIniReader.Ler_IBSCBS_gIBSCBS_gALCZFMCBS(AINIRec: TMemIniFile;
+  gALCZFMCBS: TgALCZFMCBS);
+var
+  sSecao, lValor: string;
+begin
+  sSecao := 'gALCZFMCBS';
+
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    gALCZFMCBS.nProcSuframa := AINIRec.ReadString(sSecao, 'nProcSuframa', '');
+    gALCZFMCBS.pAliqEfetRegCBS := AINIRec.ReadFloat(sSecao, 'pAliqEfetRegCBS', 0);
+
+    lValor := AINIRec.ReadString(sSecao, 'tpALCZFMCBS', '');
+    if lValor <> '' then
+      gALCZFMCBS.tpALCZFMCBS := StrTotpALCZFMCBS(lValor);
+
+    gALCZFMCBS.vTribRegCBS := AINIRec.ReadFloat(sSecao, 'vTribRegCBS', 0);
   end;
 end;
 

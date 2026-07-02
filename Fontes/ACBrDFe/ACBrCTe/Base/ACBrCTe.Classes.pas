@@ -58,6 +58,21 @@ uses
 
 type
   {======== Inicio das Classes da Reforma Tributária }
+  { TgALCZFMCBS }
+
+  TgALCZFMCBS = class(TObject)
+  private
+    FnProcSuframa: String;
+    FpAliqEfetRegCBS: Double;
+    FtpALCZFMCBS: TtpALCZFMCBS;
+    FvTribRegCBS: Double;
+  public
+    property tpALCZFMCBS: TtpALCZFMCBS read FtpALCZFMCBS write FtpALCZFMCBS;
+    property nProcSuframa: String read FnProcSuframa write FnProcSuframa;
+    property pAliqEfetRegCBS: Double read FpAliqEfetRegCBS write FpAliqEfetRegCBS;
+    property vTribRegCBS: Double read FvTribRegCBS write FvTribRegCBS;
+  end;
+
   { TgDif }
 
   TgDif = class(TObject)
@@ -74,7 +89,9 @@ type
   TgDevTrib = class(TObject)
   private
     FvDevTrib: Double;
+    FpDevTrib: Double;
   public
+    property pDevTrib: Double read FpDevTrib write FpDevTrib;
     property vDevTrib: Double read FvDevTrib write FvDevTrib;
   end;
 
@@ -161,6 +178,7 @@ type
     FgDevTrib: TgDevTrib;
     FgRed: TgRed;
     FvCBS: Double;
+    FgALCZFMCBS: TgALCZFMCBS;
   public
     constructor Create;
     destructor Destroy; override;
@@ -170,6 +188,7 @@ type
     property gDevTrib: TgDevTrib read FgDevTrib write FgDevTrib;
     property gRed: TgRed read FgRed write FgRed;
     property vCBS: Double read FvCBS write FvCBS;
+    property gALCZFMCBS: TgALCZFMCBS read FgALCZFMCBS write FgALCZFMCBS;
   end;
 
   { TgTribCompraGov }
@@ -666,6 +685,7 @@ type
     FxFant: string;
     FEnderEmit: TEnderEmit;
     FCRT: TCRT;
+    FISUFEmit: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -677,6 +697,7 @@ type
     property xFant: string         read FxFant     write FxFant;
     property enderEmit: TEnderEmit read FEnderEmit write FEnderEmit;
     property CRT: TCRT             read FCRT       write FCRT;
+    property ISUFEmit: string      read FISUFEmit  write FISUFEmit;
   end;
 
   TToma = class(TObject)
@@ -5099,6 +5120,7 @@ begin
   FgDif := TgDif.Create;
   FgDevTrib := TgDevTrib.Create;
   FgRed := TgRed.Create;
+  FgALCZFMCBS := TgALCZFMCBS.Create;
 end;
 
 destructor TgCBSValores.Destroy;
@@ -5106,6 +5128,7 @@ begin
   FgDif.Free;
   FgDevTrib.Free;
   FgRed.Free;
+  FgALCZFMCBS.Free;
 
   inherited Destroy;
 end;

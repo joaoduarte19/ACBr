@@ -136,6 +136,8 @@ type
     procedure Gerar_IBSCBS_gIBSCBS_gTribReg(AINIRec: TMemIniFile; gTribRegular: TgTribRegular);
     procedure Gerar_IBSCBS_gIBSCBS_gTribCompraGov(AINIRec: TMemIniFile; gTribCompraGov: TgTribCompraGov);
     procedure Gerar_IBSCBS_gEstornoCred(AINIRec: TMemIniFile; gEstornoCred: TgEstornoCred);
+
+    procedure Gerar_IBSCBS_gALCZFMCBS(AINIRec: TMemIniFile; gALCZFMCBS: TgALCZFMCBS);
   public
     constructor Create(AOwner: TCTe); reintroduce;
 
@@ -533,6 +535,7 @@ begin
   AINIRec.WriteString('emit', 'xNome', Emit.xNome);
   AINIRec.WriteString('emit', 'xFant', Emit.xFant);
   AINIRec.WriteString('emit', 'CRT', CRTCTeToStr(Emit.CRT));
+  AINIRec.WriteString('emit', 'ISUFEmit', Emit.ISUFEmit);
 
   AINIRec.WriteString('emit', 'xLgr', Emit.enderEmit.xLgr);
   AINIRec.WriteString('emit', 'nro', Emit.enderEmit.nro);
@@ -1932,6 +1935,7 @@ begin
   Gerar_IBSCBS_gIBSCBS_gIBSUF(AINIRec, gIBSCBS.gIBSUF);
   Gerar_IBSCBS_gIBSCBS_gIBSMun(AINIRec, gIBSCBS.gIBSMun);
   Gerar_IBSCBS_gIBSCBS_gCBS(AINIRec, gIBSCBS.gCBS);
+  Gerar_IBSCBS_gALCZFMCBS(AINIRec, gIBSCBS.gCBS.gALCZFMCBS);
 
   if gIBSCBS.gTribRegular.pAliqEfetRegIBSUF > 0 then
     Gerar_IBSCBS_gIBSCBS_gTribReg(AINIRec, gIBSCBS.gTribRegular);
@@ -1953,6 +1957,7 @@ begin
   AINIRec.WriteFloat(sSecao, 'pDif', gIBSUF.gDif.pDif);
   AINIRec.WriteFloat(sSecao, 'vDif', gIBSUF.gDif.vDif);
 
+  AINIRec.WriteFloat(sSecao, 'pDevTrib', gIBSUF.gDevTrib.pDevTrib);
   AINIRec.WriteFloat(sSecao, 'vDevTrib', gIBSUF.gDevTrib.vDevTrib);
 
   AINIRec.WriteFloat(sSecao, 'pRedAliq', gIBSUF.gRed.pRedAliq);
@@ -2038,6 +2043,19 @@ begin
 
   AINIRec.WriteFloat(sSecao, 'vIBSEstCred', gEstornoCred.vIBSEstCred);
   AINIRec.WriteFloat(sSecao, 'vCBSEstCred', gEstornoCred.vCBSEstCred);
+end;
+
+procedure TCTeIniWriter.Gerar_IBSCBS_gALCZFMCBS(AINIRec: TMemIniFile;
+  gALCZFMCBS: TgALCZFMCBS);
+var
+  sSecao: String;
+begin
+  sSecao := 'gALCZFMCBS';
+
+  AINIRec.WriteString(sSecao, 'tpALCZFMCBS', tpALCZFMCBSToStr(gALCZFMCBS.tpALCZFMCBS) );
+  AINIRec.WriteString(sSecao, 'nProcSuframa', gALCZFMCBS.nProcSuframa);
+  AINIRec.WriteFloat( sSecao, 'pAliqEfetRegCBS', gALCZFMCBS.pAliqEfetRegCBS);
+  AINIRec.WriteFloat( sSecao, 'vTribRegCBS', gALCZFMCBS.vTribRegCBS);
 end;
 
 end.
