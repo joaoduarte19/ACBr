@@ -111,6 +111,9 @@ type
     procedure Gerar_IBSCBS_gEstornoCred(AINIRec: TMemIniFile; gEstornoCred: TgEstornoCred;
       Idx1, Idx2: Integer);
 
+    procedure Gerar_IBSCBS_gALCZFMCBS(AINIRec: TMemIniFile; gALCZFMCBS: TgALCZFMCBS;
+      Idx1, Idx2: Integer);
+
     procedure Gerar_IBSCBSTot(AINIRec: TMemIniFile; IBSCBSTot: TIBSCBSTot);
     procedure Gerar_IBSCBSTot_gIBS(AINIRec: TMemIniFile; gIBS: TgIBS);
     procedure Gerar_IBSCBSTot_gIBS_gIBSUFTot(AINIRec: TMemIniFile; gIBSUFTot: TgIBSUFTot);
@@ -249,6 +252,7 @@ begin
   AINIRec.WriteString(sSecao, 'IE', Emit.IE);
   AINIRec.WriteString(sSecao, 'xNome', Emit.xNome);
   AINIRec.WriteString(sSecao, 'xFant', Emit.xFant);
+  AINIRec.WriteString(sSecao, 'ISUFEmit', Emit.ISUFEmit);
   // Endereço do Emitente
   AINIRec.WriteString(sSecao, 'xLgr', Emit.EnderEmit.xLgr);
   AINIRec.WriteString(sSecao, 'nro', Emit.EnderEmit.nro);
@@ -1055,6 +1059,7 @@ begin
   Gerar_gIBSUF(AINIRec, gIBSCBS.gIBSUF, Idx1, Idx2);
   Gerar_gIBSMun(AINIRec, gIBSCBS.gIBSMun, Idx1, Idx2);
   Gerar_gCBS(AINIRec, gIBSCBS.gCBS, Idx1, Idx2);
+  Gerar_IBSCBS_gALCZFMCBS(AINIRec, gIBSCBS.gCBS.gALCZFMCBS, Idx1, Idx2);
 
   if gIBSCBS.gTribRegular.pAliqEfetRegIBSUF > 0 then
     Gerar_IBSCBS_gIBSCBS_gTribReg(AINIRec, gIBSCBS.gTribRegular, Idx1, Idx2);
@@ -1076,6 +1081,7 @@ begin
   AINIRec.WriteFloat(sSecao, 'pDif', gIBSUF.gDif.pDif);
   AINIRec.WriteFloat(sSecao, 'vDif', gIBSUF.gDif.vDif);
 
+  AINIRec.WriteFloat(sSecao, 'pDevTrib', gIBSUF.gDevTrib.pDevTrib);
   AINIRec.WriteFloat(sSecao, 'vDevTrib', gIBSUF.gDevTrib.vDevTrib);
 
   AINIRec.WriteFloat(sSecao, 'pRedAliq', gIBSUF.gRed.pRedAliq);
@@ -1163,6 +1169,22 @@ begin
 
   AINIRec.WriteFloat(sSecao, 'vIBSEstCred', gEstornoCred.vIBSEstCred);
   AINIRec.WriteFloat(sSecao, 'vCBSEstCred', gEstornoCred.vCBSEstCred);
+end;
+
+procedure TNF3eIniWriter.Gerar_IBSCBS_gALCZFMCBS(AINIRec: TMemIniFile;
+  gALCZFMCBS: TgALCZFMCBS; Idx1, Idx2: Integer);
+var
+  sSecao: String;
+begin
+  if Idx1 = -1 then
+    sSecao := 'gALCZFMCBS'
+  else
+    sSecao := 'gALCZFMCBS' + IntToStrZero(Idx1, 2) + IntToStrZero(Idx2, 3);
+
+  AINIRec.WriteString(sSecao, 'tpALCZFMCBS', tpALCZFMCBSToStr(gALCZFMCBS.tpALCZFMCBS) );
+  AINIRec.WriteString(sSecao, 'nProcSuframa', gALCZFMCBS.nProcSuframa);
+  AINIRec.WriteFloat( sSecao, 'pAliqEfetRegCBS', gALCZFMCBS.pAliqEfetRegCBS);
+  AINIRec.WriteFloat( sSecao, 'vTribRegCBS', gALCZFMCBS.vTribRegCBS);
 end;
 
 procedure TNF3eIniWriter.Gerar_IBSCBSTot(AINIRec: TMemIniFile;

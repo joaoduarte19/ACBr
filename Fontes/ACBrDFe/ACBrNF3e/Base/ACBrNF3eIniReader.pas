@@ -116,6 +116,7 @@ type
     procedure Ler_IBSCBSTot_gIBS_gIBSMunTot(AINIRec: TMemIniFile; gIBSMunTot: TgIBSMunTot);
     procedure Ler_IBSCBSTot_gCBS(AINIRec: TMemIniFile; gCBS: TgCBS);
     procedure Ler_gEstornoCredTot(AINIRec: TMemIniFile; gEstornoCred: TgEstornoCred);
+    procedure Ler_IBSCBS_gIBSCBS_gALCZFMCBS(AINIRec: TMemIniFile; gALCZFMCBS: TgALCZFMCBS; Idx1, Idx2: Integer);
   public
     constructor Create(AOwner: TNF3e); reintroduce;
 
@@ -251,6 +252,7 @@ begin
   Emit.IE := AINIRec.ReadString(sSecao, 'IE', '');
   Emit.xNome := AINIRec.ReadString(sSecao, 'xNome', '');
   Emit.xFant := AINIRec.ReadString(sSecao, 'xFant', '');
+  Emit.ISUFEmit := AINIRec.ReadString('emit','ISUFEmit', '');
   // Endereço do Emitente
   Emit.EnderEmit.xLgr := AINIRec.ReadString(sSecao, 'xLgr', '');
   Emit.EnderEmit.nro := AINIRec.ReadString(sSecao, 'nro', '');
@@ -1208,6 +1210,7 @@ begin
     Ler_gIBSUF(AINIRec, gIBSCBS.gIBSUF, Idx1, Idx2);
     Ler_gIBSMun(AINIRec, gIBSCBS.gIBSMun, Idx1, Idx2);
     Ler_gCBS(AINIRec, gIBSCBS.gCBS, Idx1, Idx2);
+    Ler_IBSCBS_gIBSCBS_gALCZFMCBS(AINIRec, gIBSCBS.gCBS.gALCZFMCBS, Idx1, Idx2);
     Ler_gTribReg(AINIRec, gIBSCBS.gTribRegular, Idx1, Idx2);
     Ler_gTribCompraGov(AINIRec, gIBSCBS.gTribCompraGov, Idx1, Idx2);
   end;
@@ -1228,6 +1231,7 @@ begin
     gIBSUF.gDif.pDif := StringToFloatDef( AINIRec.ReadString(sSecao,'pDif','') ,0);
     gIBSUF.gDif.vDif := StringToFloatDef( AINIRec.ReadString(sSecao,'vDif','') ,0);
 
+    gIBSUF.gDevTrib.pDevTrib := StringToFloatDef(AINIRec.ReadString(sSecao, 'pDevTrib', ''), 0);
     gIBSUF.gDevTrib.vDevTrib := StringToFloatDef( AINIRec.ReadString(sSecao,'vDevTrib','') ,0);
 
     gIBSUF.gRed.pRedAliq := StringToFloatDef( AINIRec.ReadString(sSecao,'pRedAliq','') ,0);
@@ -1422,6 +1426,29 @@ begin
   begin
     gEstornoCred.vIBSEstCred := StringToFloatDef(AINIRec.ReadString(sSecao,'vIBSEstCred','') ,0);
     gEstornoCred.vCBSEstCred := StringToFloatDef(AINIRec.ReadString(sSecao,'vCBSEstCred','') ,0);
+  end;
+end;
+
+procedure TNF3eIniReader.Ler_IBSCBS_gIBSCBS_gALCZFMCBS(AINIRec: TMemIniFile;
+  gALCZFMCBS: TgALCZFMCBS; Idx1, Idx2: Integer);
+var
+  sSecao, lValor: string;
+begin
+  if Idx1 = -1 then
+    sSecao := 'gALCZFMCBS'
+  else
+    sSecao := 'gALCZFMCBS' + IntToStrZero(Idx1, 2) + IntToStrZero(Idx2, 3);
+
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    gALCZFMCBS.nProcSuframa := AINIRec.ReadString(sSecao, 'nProcSuframa', '');
+    gALCZFMCBS.pAliqEfetRegCBS := AINIRec.ReadFloat(sSecao, 'pAliqEfetRegCBS', 0);
+
+    lValor := AINIRec.ReadString(sSecao, 'tpALCZFMCBS', '');
+    if lValor <> '' then
+      gALCZFMCBS.tpALCZFMCBS := StrTotpALCZFMCBS(lValor);
+
+    gALCZFMCBS.vTribRegCBS := AINIRec.ReadFloat(sSecao, 'vTribRegCBS', 0);
   end;
 end;
 

@@ -169,6 +169,8 @@ type
     function Gerar_gTribCompraGov(gTribCompraGov: TgTribCompraGov): TACBrXmlNode;
     function Gerar_gEstornoCred(gEstornoCred: TgEstornoCred): TACBrXmlNode;
 
+    function Gerar_IBSCBS_gALCZFMCBS(gALCZFMCBS: TgALCZFMCBS): TACBrXmlNode;
+
     function Gerar_IBSCBSTot(IBSCBSTot: TIBSCBSTot): TACBrXmlNode;
     function Gerar_IBSCBSTot_gIBS(gIBS: TgIBS): TACBrXmlNode;
     function Gerar_IBSCBSTot_gIBS_gIBSUFTot(gIBSUFTot: TgIBSUFTot): TACBrXmlNode;
@@ -502,6 +504,9 @@ begin
     NF3e.Emit.xFant, DSC_XFANT));
 
   Result.AppendChild(Gerar_EmitEnderEmit);
+
+  Result.AppendChild(AddNode(tcStr, '#104', 'ISUFEmit', 8, 9, 0,
+                                             NF3e.Emit.ISUFEmit, DSC_ISUFEMIT));
 end;
 
 function TNF3eXmlWriter.Gerar_EmitEnderEmit: TACBrXmlNode;
@@ -2422,6 +2427,9 @@ function TNF3eXmlWriter.Gerar_IBSCBS_gIBSCBS_gIBSUFMunCBS_gDevTrib(
 begin
   Result := FDocument.CreateElement('gDevTrib');
 
+  Result.AppendChild(AddNode(tcDe2, '#12', 'pDevTrib', 1, 15, 0,
+                                               DevTrib.pDevTrib, DSC_PDEVTRIB));
+
   Result.AppendChild(AddNode(tcDe2, '#13', 'vDevTrib', 1, 15, 1,
                                                DevTrib.vDevTrib, DSC_VDEVTRIB));
 end;
@@ -2489,6 +2497,9 @@ begin
   if (gCBS.gRed.pRedAliq > 0) or (gCBS.gRed.pAliqEfet > 0) or
      (NF3e.Ide.gCompraGov.pRedutor > 0) then
     Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSUFMunCBS_gRed(gCBS.gRed));
+
+  if (gCBS.gALCZFMCBS.pAliqEfetRegCBS > 0) or (gCBS.gALCZFMCBS.vTribRegCBS > 0) then
+    Result.AppendChild(Gerar_IBSCBS_gALCZFMCBS(gCBS.gALCZFMCBS));
 
   Result.AppendChild(AddNode(tcDe2, '#61', 'vCBS', 1, 15, 1,
                                                           gCBS.vCBS, DSC_VCBS));
@@ -2570,6 +2581,24 @@ begin
 
   Result.AppendChild(AddNode(tcDe2, '#1', 'vCBSEstCred', 1, 15, 1,
                                     gEstornoCred.vCBSEstCred, DSC_VCBSESTCRED));
+end;
+
+function TNF3eXmlWriter.Gerar_IBSCBS_gALCZFMCBS(
+  gALCZFMCBS: TgALCZFMCBS): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gALCZFMCBS');
+
+  Result.AppendChild(AddNode(tcStr, 'UB66b', 'tpALCZFMCBS', 1, 1, 1,
+                    tpALCZFMCBSToStr(gALCZFMCBS.tpALCZFMCBS), DSC_TPALCZFMCBS));
+
+  Result.AppendChild(AddNode(tcStr, 'UB66c', 'nProcSuframa', 8, 12, 0,
+                                    gALCZFMCBS.nProcSuframa, DSC_NPROCSUFRAMA));
+
+  Result.AppendChild(AddNode(tcDe4, 'UB66d', 'pAliqEfetRegCBS', 1, 7, 1,
+                              gALCZFMCBS.pAliqEfetRegCBS, DSC_PALIQEFETREGCBS));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB66e', 'vTribRegCBS', 1, 15, 1,
+                                      gALCZFMCBS.vTribRegCBS, DSC_VTRIBREGCBS));
 end;
 
 function TNF3eXmlWriter.Gerar_IBSCBSTot(IBSCBSTot: TIBSCBSTot): TACBrXmlNode;

@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+02/07/2026
+-- Diversos --
+[*] ACBr-9485 - Ajustes para atender a NT 2026/002 - versão 1.00 da Reforma Tributária.
+   Por: Italo Giurizzato Junior
+
 15/04/2026
 -- Diversos --
 [*] ACBr-9136: Implementação dos novos campos constantes nas NT de 2025 e 2026 bem como 

@@ -108,6 +108,8 @@ type
     procedure Ler_gTribCompraGov(const ANode: TACBrXmlNode; gTribCompraGov: TgTribCompraGov);
     procedure Ler_gEstornoCred(const ANode: TACBrXmlNode; gEstornoCred: TgEstornoCred);
 
+    procedure Ler_IBSCBS_gALCZFMCBS(const ANode: TACBrXmlNode; gALCZFMCBS: TgALCZFMCBS);
+
     procedure Ler_IBSCBSTot(const ANode: TACBrXmlNode; IBSCBSTot: TIBSCBSTot);
     procedure Ler_IBSCBSTot_gIBS(const ANode: TACBrXmlNode; gIBS: TgIBS);
     procedure Ler_IBSCBSTot_gIBS_gIBSUFTot(const ANode: TACBrXmlNode; gIBSUFTot: TgIBSUFTot);
@@ -209,6 +211,7 @@ begin
   NF3e.Emit.IE := ObterConteudo(ANode.Childrens.Find('IE'), tcStr);
   NF3e.Emit.xNome := ObterConteudo(ANode.Childrens.Find('xNome'), tcStr);
   NF3e.Emit.xFant := ObterConteudo(ANode.Childrens.Find('xFant'), tcStr);
+  NF3e.Emit.ISUFEmit:= ObterConteudo(ANode.Childrens.Find('ISUFEmit'), tcStr);
 
   Ler_EmitEnderEmit(ANode.Childrens.Find('enderEmit'));
 end;
@@ -1230,6 +1233,7 @@ procedure TNF3eXmlReader.Ler_gIBSUF_gDevTrib(const ANode: TACBrXmlNode; gDevTrib
 begin
   if not Assigned(ANode) then Exit;
 
+  gDevTrib.pDevTrib := ObterConteudo(ANode.Childrens.Find('pDevTrib'), tcDe4);
   gDevTrib.vDevTrib := ObterConteudo(ANode.Childrens.Find('vDevTrib'), tcDe2);
 end;
 
@@ -1287,6 +1291,7 @@ begin
   Ler_gCBS_gDif(ANode.Childrens.Find('gDif'), gCBS.gDif);
   Ler_gCBS_gDevTrib(ANode.Childrens.Find('gDevTrib'), gCBS.gDevTrib);
   Ler_gCBS_gRed(ANode.Childrens.Find('gRed'), gCBS.gRed);
+  Ler_IBSCBS_gALCZFMCBS(ANode.Childrens.Find('gALCZFMCBS'), gCBS.gALCZFMCBS);
 
   gCBS.vCBS := ObterConteudo(ANode.Childrens.Find('vCBS'), tcDe2);
 end;
@@ -1349,6 +1354,17 @@ begin
 
   gEstornoCred.vIBSEstCred := ObterConteudo(ANode.Childrens.Find('vIBSEstCred'), tcDe2);
   gEstornoCred.vCBSEstCred := ObterConteudo(ANode.Childrens.Find('vCBSEstCred'), tcDe2);
+end;
+
+procedure TNF3eXmlReader.Ler_IBSCBS_gALCZFMCBS(const ANode: TACBrXmlNode;
+  gALCZFMCBS: TgALCZFMCBS);
+begin
+  if not Assigned(ANode) then Exit;
+
+  gALCZFMCBS.tpALCZFMCBS := StrTotpALCZFMCBS(ObterConteudo(ANode.Childrens.Find('tpALCZFMCBS'), tcStr));
+  gALCZFMCBS.nProcSuframa := ObterConteudo(ANode.Childrens.Find('nProcSuframa'), tcStr);
+  gALCZFMCBS.pAliqEfetRegCBS := ObterConteudo(ANode.Childrens.Find('pAliqEfetRegCBS'), tcDe4);
+  gALCZFMCBS.vTribRegCBS := ObterConteudo(ANode.Childrens.Find('vTribRegCBS'), tcDe2);
 end;
 
 procedure TNF3eXmlReader.Ler_IBSCBSTot(const ANode: TACBrXmlNode;
