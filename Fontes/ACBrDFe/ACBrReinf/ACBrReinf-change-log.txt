@@ -41,6 +41,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+02/07/2026
+-- Diversas units Reinf  --
+[*] Ajuste diversos para CNPJ Alfanuméricos
+   ACBr-9369
+   Por: Larissa Santos
 
 17/06/2026
 -- pcnReinfR4010, pcnReinfR4020 --

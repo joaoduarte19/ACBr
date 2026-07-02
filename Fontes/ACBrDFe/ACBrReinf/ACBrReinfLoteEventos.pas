@@ -55,7 +55,8 @@ uses
   pcnGerador,
   ACBrReinfConfiguracoes, 
   ACBrReinfEventos, 
-  pcnCommonReinf, 
+  pcnCommonReinf,
+  ACBrDFeUtil,
   pcnConversaoReinf;
 
 type
@@ -416,7 +417,7 @@ begin
   Result := EmptyStr;
   Ini := pos('id=', XML);
   if ini > 0 then
-    Result := 'ID' + OnlyNumber(Copy(XML, Ini + 4, 38));
+    Result := Copy(XML, Ini + 4, 36)
 end;
 
 procedure TItemLoteEventos.SetXML(const Value: String);

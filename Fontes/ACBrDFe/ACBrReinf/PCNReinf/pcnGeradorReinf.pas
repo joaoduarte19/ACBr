@@ -341,9 +341,9 @@ begin
   Result := Result + TpInscricaoToStr(TpInsc);
 
   if TACBrReinf(FACBrReinf).Configuracoes.Geral.TipoContribuinte in [tcOrgaoPublico, tcPessoaFisica] then
-    Result := Result + copy(OnlyNumber(CNPJF) + '00000000000000', 1, 14)
+    Result := Result + copy(OnlyCPFCNPJAlphaNum(CNPJF) + '00000000000000', 1, 14)
   else
-    Result := Result + copy(OnlyNumber(Copy(CNPJF, 1, 8)) + '00000000000000', 1, 14);
+    Result := Result + copy(OnlyCPFCNPJAlphaNum(Copy(CNPJF, 1, 8)) + '00000000000000', 1, 14);
 
   Result := Result + IntToStrZero(nAno, 4);
   Result := Result + IntToStrZero(nMes, 2);
