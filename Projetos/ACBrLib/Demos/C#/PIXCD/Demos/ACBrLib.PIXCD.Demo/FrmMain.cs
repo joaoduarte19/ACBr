@@ -102,6 +102,7 @@ namespace ACBrLibPIXCD.Demo
                 acbr_pixcd.Config.TipoChave = cmbTipoChave.GetSelectedValue<TipoChave>();
                 acbr_pixcd.Config.PSP = cmbPSP.GetSelectedValue<PSP>();
                 acbr_pixcd.Config.Timeout = (int)nudPSPTimeout.Value;
+                acbr_pixcd.Config.ValidarCopiaECola = ckbValidarCopiaECola.Checked;
                 acbr_pixcd.Config.ProxyHost = txtProxyServidor.Text;
                 acbr_pixcd.Config.ProxyPass = txtProxySenha.Text;
                 acbr_pixcd.Config.ProxyPort = (int)nudProxyPorta.Value;
@@ -276,6 +277,7 @@ namespace ACBrLibPIXCD.Demo
             cmbTipoChave.SetSelectedValue(acbr_pixcd.Config.TipoChave);
             cmbPSP.SetSelectedValue(acbr_pixcd.Config.PSP);
             nudPSPTimeout.Value = acbr_pixcd.Config.Timeout;
+            ckbValidarCopiaECola.Checked = acbr_pixcd.Config.ValidarCopiaECola;
             txtProxyServidor.Text = acbr_pixcd.Config.ProxyHost;
             txtProxySenha.Text = acbr_pixcd.Config.ProxyPass;
             nudProxyPorta.Value = acbr_pixcd.Config.ProxyPort;

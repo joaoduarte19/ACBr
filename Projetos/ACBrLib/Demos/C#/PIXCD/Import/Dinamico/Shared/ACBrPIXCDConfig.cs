@@ -92,6 +92,15 @@ namespace ACBrLib.PIXCD
         }
 
         /// <summary>
+        /// ValidarCopiaECola (verifica a integridade e a coerência do `pixCopiaECola` devolvido pelo PSP antes que o código chegue ao PDV ou seja exibido ao cliente).
+        /// </summary>
+        public bool ValidarCopiaECola
+        {
+            get => GetProperty<bool>();
+            set => SetProperty(value);
+        }
+
+        /// <summary>
         /// CNPJ da Software House.
         /// </summary>
         public string CNPJSoftwareHouse

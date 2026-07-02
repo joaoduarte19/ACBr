@@ -308,6 +308,8 @@
             this.txtClientIDAppLess = new System.Windows.Forms.TextBox();
             this.label145 = new System.Windows.Forms.Label();
             this.tabPage36 = new System.Windows.Forms.TabPage();
+            this.txtScopesQQPag = new System.Windows.Forms.TextBox();
+            this.label151 = new System.Windows.Forms.Label();
             this.txtClientSecretQQPag = new System.Windows.Forms.TextBox();
             this.label148 = new System.Windows.Forms.Label();
             this.txtClientIDQQPag = new System.Windows.Forms.TextBox();
@@ -441,8 +443,7 @@
             this.label138 = new System.Windows.Forms.Label();
             this.btnCancelarCobranca = new System.Windows.Forms.Button();
             this.btnLimparRespostas = new System.Windows.Forms.Button();
-            this.txtScopesQQPag = new System.Windows.Forms.TextBox();
-            this.label151 = new System.Windows.Forms.Label();
+            this.ckbValidarCopiaECola = new System.Windows.Forms.CheckBox();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tbpConfiguracoes.SuspendLayout();
@@ -583,7 +584,7 @@
             this.groupBox4.Controls.Add(this.txtArqLogPSP);
             this.groupBox4.Controls.Add(this.label10);
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox4.Location = new System.Drawing.Point(228, 266);
+            this.groupBox4.Location = new System.Drawing.Point(228, 299);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(181, 141);
             this.groupBox4.TabIndex = 35;
@@ -649,7 +650,7 @@
             this.groupBox5.Controls.Add(this.txtProxyServidor);
             this.groupBox5.Controls.Add(this.label13);
             this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox5.Location = new System.Drawing.Point(6, 266);
+            this.groupBox5.Location = new System.Drawing.Point(6, 299);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(210, 141);
             this.groupBox5.TabIndex = 34;
@@ -826,6 +827,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.ckbValidarCopiaECola);
             this.groupBox3.Controls.Add(this.cmbTipoChave);
             this.groupBox3.Controls.Add(this.label22);
             this.groupBox3.Controls.Add(this.label14);
@@ -837,7 +839,7 @@
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(6, 126);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(403, 134);
+            this.groupBox3.Size = new System.Drawing.Size(403, 167);
             this.groupBox3.TabIndex = 21;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "PSP";
@@ -3385,6 +3387,24 @@
             this.tabPage36.Text = "Quero Quero Pag";
             this.tabPage36.UseVisualStyleBackColor = true;
             // 
+            // txtScopesQQPag
+            // 
+            this.txtScopesQQPag.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtScopesQQPag.Location = new System.Drawing.Point(6, 169);
+            this.txtScopesQQPag.Name = "txtScopesQQPag";
+            this.txtScopesQQPag.Size = new System.Drawing.Size(389, 20);
+            this.txtScopesQQPag.TabIndex = 139;
+            // 
+            // label151
+            // 
+            this.label151.AutoSize = true;
+            this.label151.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label151.Location = new System.Drawing.Point(4, 152);
+            this.label151.Name = "label151";
+            this.label151.Size = new System.Drawing.Size(49, 13);
+            this.label151.TabIndex = 138;
+            this.label151.Text = "Scopes";
+            // 
             // txtClientSecretQQPag
             // 
             this.txtClientSecretQQPag.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -4847,23 +4867,15 @@
             this.btnLimparRespostas.UseVisualStyleBackColor = true;
             this.btnLimparRespostas.Click += new System.EventHandler(this.btnLimparRespostas_Click);
             // 
-            // txtScopesQQPag
+            // ckbValidarCopiaECola
             // 
-            this.txtScopesQQPag.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtScopesQQPag.Location = new System.Drawing.Point(6, 169);
-            this.txtScopesQQPag.Name = "txtScopesQQPag";
-            this.txtScopesQQPag.Size = new System.Drawing.Size(389, 20);
-            this.txtScopesQQPag.TabIndex = 139;
-            // 
-            // label151
-            // 
-            this.label151.AutoSize = true;
-            this.label151.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label151.Location = new System.Drawing.Point(4, 152);
-            this.label151.Name = "label151";
-            this.label151.Size = new System.Drawing.Size(49, 13);
-            this.label151.TabIndex = 138;
-            this.label151.Text = "Scopes";
+            this.ckbValidarCopiaECola.AutoSize = true;
+            this.ckbValidarCopiaECola.Location = new System.Drawing.Point(9, 130);
+            this.ckbValidarCopiaECola.Name = "ckbValidarCopiaECola";
+            this.ckbValidarCopiaECola.Size = new System.Drawing.Size(134, 17);
+            this.ckbValidarCopiaECola.TabIndex = 40;
+            this.ckbValidarCopiaECola.Text = "Validar CopiaECola";
+            this.ckbValidarCopiaECola.UseVisualStyleBackColor = true;
             // 
             // FrmMain
             // 
@@ -5406,6 +5418,7 @@
         private System.Windows.Forms.Label label150;
         private System.Windows.Forms.TextBox txtScopesQQPag;
         private System.Windows.Forms.Label label151;
+        private System.Windows.Forms.CheckBox ckbValidarCopiaECola;
     }
 }
 
