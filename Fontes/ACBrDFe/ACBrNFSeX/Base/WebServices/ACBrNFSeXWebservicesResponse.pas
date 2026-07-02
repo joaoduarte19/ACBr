@@ -48,6 +48,7 @@ uses
   ACBrNFSeXClass,
   ACBrNFSeXConversao,
   ACBrNFSeXWebserviceBase,
+  ACBrUtil.Compatibilidade,
   SysUtils;
 
 type
