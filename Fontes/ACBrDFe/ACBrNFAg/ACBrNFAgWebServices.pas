@@ -37,16 +37,14 @@ unit ACBrNFAgWebServices;
 interface
 
 uses
-  Classes, SysUtils, dateutils,
+  Classes, SysUtils, DateUtils,
   blcksock, synacode,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  pcnConversao,
   ACBrDFe, ACBrDFeWebService,
   ACBrDFeComum.RetConsReciDFe,
   ACBrDFeComum.Proc,
   ACBrDFeComum.RetEnvio,
-  ACBrDFeComum.DistDFeInt, ACBrDFeComum.RetDistDFeInt,
   ACBrNFAgNotasFiscais, ACBrNFAgConfiguracoes,
   ACBrNFAg.Classes, ACBrNFAg.Conversao,
   ACBrNFAg.EnvEvento, ACBrNFAg.RetEnvEvento,
@@ -59,7 +57,7 @@ type
   TNFAgWebService = class(TDFeWebService)
   private
     FOldSSLType: TSSLType;
-    FOldHeaderElement: String;
+    FOldHeaderElement: string;
   protected
     FPStatus: TStatusNFAg;
     FPLayout: TLayOut;
@@ -68,8 +66,7 @@ type
   protected
     procedure InicializarServico; override;
     procedure DefinirURL; override;
-    function GerarVersaoDadosSoap: String; override;
-    procedure EnviarDados; override;
+    function GerarVersaoDadosSoap: string; override;
     procedure FinalizarServico; override;
     procedure RemoverNameSpace;
 
@@ -85,62 +82,64 @@ type
 
   TNFAgStatusServico = class(TNFAgWebService)
   private
-    Fversao: String;
-    FtpAmb: TpcnTipoAmbiente;
-    FverAplic: String;
-    FcStat: integer;
-    FxMotivo: String;
-    FcUF: integer;
+    Fversao: string;
+    FtpAmb: TACBrTipoAmbiente;
+    FverAplic: string;
+    FcStat: Integer;
+    FxMotivo: string;
+    FcUF: Integer;
     FdhRecbto: TDateTime;
-    FTMed: integer;
+    FTMed: Integer;
     FdhRetorno: TDateTime;
-    FxObs: String;
+    FxObs: string;
   protected
     procedure DefinirServicoEAction; override;
     procedure DefinirDadosMsg; override;
     function TratarResposta: Boolean; override;
 
-    function GerarMsgLog: String; override;
-    function GerarMsgErro(E: Exception): String; override;
+    function GerarMsgLog: string; override;
+    function GerarMsgErro(E: Exception): string; override;
   public
     procedure Clear; override;
 
-    property versao: String read Fversao;
-    property tpAmb: TpcnTipoAmbiente read FtpAmb;
-    property verAplic: String read FverAplic;
-    property cStat: integer read FcStat;
-    property xMotivo: String read FxMotivo;
-    property cUF: integer read FcUF;
+    property versao: string read Fversao;
+    property tpAmb: TACBrTipoAmbiente read FtpAmb;
+    property verAplic: string read FverAplic;
+    property cStat: Integer read FcStat;
+    property xMotivo: string read FxMotivo;
+    property cUF: Integer read FcUF;
     property dhRecbto: TDateTime read FdhRecbto;
-    property TMed: integer read FTMed;
+    property TMed: Integer read FTMed;
     property dhRetorno: TDateTime read FdhRetorno;
-    property xObs: String read FxObs;
+    property xObs: string read FxObs;
   end;
 
   { TNFAgRecepcao }
 
   TNFAgRecepcao = class(TNFAgWebService)
   private
-    FLote: String;
-    FRecibo: String;
+    FLote: string;
     FNotasFiscais: TNotasFiscais;
-    Fversao: String;
-    FTpAmb: TpcnTipoAmbiente;
-    FverAplic: String;
-    FcStat: integer;
-    FcUF: integer;
-    FxMotivo: String;
+    Fversao: string;
+    FTpAmb: TACBrTipoAmbiente;
+    FverAplic: string;
+    FcStat: Integer;
+    FcUF: Integer;
+    FxMotivo: string;
     FdhRecbto: TDateTime;
-    FTMed: integer;
-//    FSincrono: Boolean;
+    FTMed: Integer;
     FVersaoDF: TVersaoNFAg;
 
     FNFAgRetornoSincrono: TRetConsSitNFAg;
     FNFAgRetorno: TretEnvDFe;
-    FMsgUnZip: String;
+    FMsgUnZip: string;
 
-    function GetLote: String;
-    function GetRecibo: String;
+    FNProt: string;
+    FChNFAg: string;
+    FXMLRetorno: string;
+    FProtocolo: string;
+
+    function GetLote: string;
   protected
     procedure InicializarServico; override;
     procedure DefinirURL; override;
@@ -148,127 +147,30 @@ type
     procedure DefinirDadosMsg; override;
     function TratarResposta: Boolean; override;
 
-    function GerarMsgLog: String; override;
-    function GerarPrefixoArquivo: String; override;
+    function GerarMsgLog: string; override;
+    function GerarPrefixoArquivo: string; override;
   public
     constructor Create(AOwner: TACBrDFe; ANotasFiscais: TNotasFiscais);
       reintroduce; overload;
     destructor Destroy; override;
     procedure Clear; override;
 
-    property Recibo: String read GetRecibo;
-    property versao: String read Fversao;
-    property TpAmb: TpcnTipoAmbiente read FTpAmb;
-    property verAplic: String read FverAplic;
-    property cStat: integer read FcStat;
-    property cUF: integer read FcUF;
-    property xMotivo: String read FxMotivo;
-    property dhRecbto: TDateTime read FdhRecbto;
-    property TMed: integer read FTMed;
-    property Lote: String read GetLote write FLote;
-//    property Sincrono: Boolean read FSincrono write FSincrono;
-    property MsgUnZip: String read FMsgUnZip write FMsgUnZip;
-
-    property NFAgRetornoSincrono: TRetConsSitNFAg read FNFAgRetornoSincrono;
-  end;
-
-  { TNFAgRetRecepcao }
-
-  TNFAgRetRecepcao = class(TNFAgWebService)
-  private
-    FRecibo: String;
-    FProtocolo: String;
-    FChaveNFAg: String;
-    FNotasFiscais: TNotasFiscais;
-    Fversao: String;
-    FTpAmb: TACBrTipoAmbiente;
-    FverAplic: String;
-    FcStat: integer;
-    FcUF: integer;
-    FxMotivo: String;
-    FcMsg: integer;
-    FxMsg: String;
-    FVersaoDF: TVersaoNFAg;
-
-    FNFAgRetorno: TRetConsReciDFe;
-
-    function GetRecibo: String;
-    function TratarRespostaFinal: Boolean;
-  protected
-    procedure InicializarServico; override;
-    procedure DefinirURL; override;
-    procedure DefinirServicoEAction; override;
-    procedure DefinirDadosMsg; override;
-    function TratarResposta: Boolean; override;
-    procedure FinalizarServico; override;
-
-    function GerarMsgLog: String; override;
-    function GerarPrefixoArquivo: String; override;
-  public
-    constructor Create(AOwner: TACBrDFe; ANotasFiscais: TNotasFiscais);
-      reintroduce; overload;
-    destructor Destroy; override;
-    procedure Clear; override;
-
-    function Executar: Boolean; override;
-
-    property versao: String read Fversao;
+    property versao: string read Fversao;
     property TpAmb: TACBrTipoAmbiente read FTpAmb;
-    property verAplic: String read FverAplic;
-    property cStat: integer read FcStat;
-    property cUF: integer read FcUF;
-    property xMotivo: String read FxMotivo;
-    property cMsg: integer read FcMsg;
-    property xMsg: String read FxMsg;
-    property Recibo: String read GetRecibo write FRecibo;
-    property Protocolo: String read FProtocolo write FProtocolo;
-    property ChaveNFAg: String read FChaveNFAg write FChaveNFAg;
+    property verAplic: string read FverAplic;
+    property cStat: Integer read FcStat;
+    property cUF: Integer read FcUF;
+    property xMotivo: string read FxMotivo;
+    property dhRecbto: TDateTime read FdhRecbto;
+    property TMed: Integer read FTMed;
+    property Lote: string read GetLote write FLote;
+    property MsgUnZip: string read FMsgUnZip write FMsgUnZip;
+    property NFAgRetornoSincrono: TRetConsSitNFAg read FNFAgRetornoSincrono;
 
-    property NFAgRetorno: TRetConsReciDFe read FNFAgRetorno;
-  end;
-
-  { TNFAgRecibo }
-
-  TNFAgRecibo = class(TNFAgWebService)
-  private
-    FNotasFiscais: TNotasFiscais;
-    FRecibo: String;
-    Fversao: String;
-    FTpAmb: TpcnTipoAmbiente;
-    FverAplic: String;
-    FcStat: integer;
-    FxMotivo: String;
-    FcUF: integer;
-    FxMsg: String;
-    FcMsg: integer;
-    FVersaoDF: TVersaoNFAg;
-
-    FNFAgRetorno: TRetConsReciDFe;
-  protected
-    procedure InicializarServico; override;
-    procedure DefinirServicoEAction; override;
-    procedure DefinirURL; override;
-    procedure DefinirDadosMsg; override;
-    function TratarResposta: Boolean; override;
-
-    function GerarMsgLog: String; override;
-  public
-    constructor Create(AOwner: TACBrDFe; ANotasFiscais: TNotasFiscais);
-      reintroduce; overload;
-    destructor Destroy; override;
-    procedure Clear; override;
-
-    property versao: String read Fversao;
-    property TpAmb: TpcnTipoAmbiente read FTpAmb;
-    property verAplic: String read FverAplic;
-    property cStat: integer read FcStat;
-    property xMotivo: String read FxMotivo;
-    property cUF: integer read FcUF;
-    property xMsg: String read FxMsg;
-    property cMsg: integer read FcMsg;
-    property Recibo: String read FRecibo write FRecibo;
-
-    property NFAgRetorno: TRetConsReciDFe read FNFAgRetorno;
+    property Protocolo: string read FProtocolo;
+    property NProt: string read FNProt;
+    property ChNFAg: string read FChNFAg;
+    property XMLRetorno: string read FXMLRetorno;
   end;
 
   { TNFAgConsulta }
@@ -276,49 +178,51 @@ type
   TNFAgConsulta = class(TNFAgWebService)
   private
     FOwner: TACBrDFe;
-    FNFAgChave: String;
+    FNFAgChave: string;
     FExtrairEventos: Boolean;
     FNotasFiscais: TNotasFiscais;
-    FProtocolo: String;
+    FProtocolo: string;
     FDhRecbto: TDateTime;
-    FXMotivo: String;
-    Fversao: String;
-    FTpAmb: TpcnTipoAmbiente;
-    FverAplic: String;
-    FcStat: integer;
-    FcUF: integer;
-    FRetNFAgDFe: String;
+    FXMotivo: string;
+    Fversao: string;
+    FTpAmb: TACBrTipoAmbiente;
+    FverAplic: string;
+    FcStat: Integer;
+    FcUF: Integer;
+    FRetNFAgDFe: string;
 
     FprotNFAg: TProcDFe;
     FprocEventoNFAg: TRetEventoNFAgCollection;
+    FNFAgRetorno: TRetConsSitNFAg;
 
-    procedure SetNFAgChave(const AValue: String);
+    procedure SetNFAgChave(const AValue: string);
   protected
     procedure DefinirURL; override;
     procedure DefinirServicoEAction; override;
     procedure DefinirDadosMsg; override;
-    function GerarUFSoap: String; override;
+    function GerarUFSoap: string; override;
     function TratarResposta: Boolean; override;
 
-    function GerarMsgLog: String; override;
-    function GerarPrefixoArquivo: String; override;
+    function GerarMsgLog: string; override;
+    function GerarPrefixoArquivo: string; override;
   public
     constructor Create(AOwner: TACBrDFe; ANotasFiscais: TNotasFiscais);
       reintroduce; overload;
     destructor Destroy; override;
+
     procedure Clear; override;
 
-    property NFAgChave: String read FNFAgChave write SetNFAgChave;
+    property NFAgChave: string read FNFAgChave write SetNFAgChave;
     property ExtrairEventos: Boolean read FExtrairEventos write FExtrairEventos;
-    property Protocolo: String read FProtocolo;
+    property Protocolo: string read FProtocolo;
     property DhRecbto: TDateTime read FDhRecbto;
-    property XMotivo: String read FXMotivo;
-    property versao: String read Fversao;
-    property TpAmb: TpcnTipoAmbiente read FTpAmb;
-    property verAplic: String read FverAplic;
-    property cStat: integer read FcStat;
-    property cUF: integer read FcUF;
-    property RetNFAgDFe: String read FRetNFAgDFe;
+    property XMotivo: string read FXMotivo;
+    property versao: string read Fversao;
+    property TpAmb: TACBrTipoAmbiente read FTpAmb;
+    property verAplic: string read FverAplic;
+    property cStat: Integer read FcStat;
+    property cUF: Integer read FcUF;
+    property RetNFAgDFe: string read FRetNFAgDFe;
 
     property protNFAg: TProcDFe read FprotNFAg;
     property procEventoNFAg: TRetEventoNFAgCollection read FprocEventoNFAg;
@@ -328,94 +232,52 @@ type
 
   TNFAgEnvEvento = class(TNFAgWebService)
   private
-    FidLote: Int64;
+    FIdLote: Int64;
     FEvento: TEventoNFAg;
-    FcStat: integer;
-    FxMotivo: String;
+    FcStat: Integer;
+    FxMotivo: string;
     FTpAmb: TACBrTipoAmbiente;
-    FCNPJ: String;
+    FCNPJ: string;
 
     FEventoRetorno: TRetEventoNFAg;
 
-    function GerarPathEvento(const ACNPJ: String = ''; const AIE: String = ''): String;
+    function GerarPathEvento(const ACNPJ: string = ''; const AIE: string = ''): string;
   protected
     procedure DefinirURL; override;
     procedure DefinirServicoEAction; override;
     procedure DefinirDadosMsg; override;
     function TratarResposta: Boolean; override;
 
-    function GerarMsgLog: String; override;
-    function GerarPrefixoArquivo: String; override;
+    function GerarMsgLog: string; override;
+    function GerarPrefixoArquivo: string; override;
   public
     constructor Create(AOwner: TACBrDFe; AEvento: TEventoNFAg); reintroduce; overload;
     destructor Destroy; override;
     procedure Clear; override;
 
-    property idLote: Int64 read FidLote write FidLote;
-    property cStat: integer read FcStat;
-    property xMotivo: String read FxMotivo;
+    property IdLote: Int64 read FIdLote write FIdLote;
+    property cStat: Integer read FcStat;
+    property xMotivo: string read FxMotivo;
     property TpAmb: TACBrTipoAmbiente read FTpAmb;
-
     property EventoRetorno: TRetEventoNFAg read FEventoRetorno;
-  end;
-
-  { TDistribuicaoDFe }
-
-  TDistribuicaoDFe = class(TNFAgWebService)
-  private
-    FOwner: TACBrDFe;
-    FcUFAutor: integer;
-    FCNPJCPF: String;
-    FultNSU: String;
-    FNSU: String;
-    FchNFAg: String;
-    FNomeArq: String;
-    FlistaArqs: TStringList;
-
-    FretDistDFeInt: TretDistDFeInt;
-
-    function GerarPathDistribuicao(AItem :TdocZipCollectionItem): String;
-  protected
-    procedure DefinirURL; override;
-    procedure DefinirServicoEAction; override;
-    procedure DefinirDadosMsg; override;
-    function TratarResposta: Boolean; override;
-
-    function GerarMsgLog: String; override;
-    function GerarMsgErro(E: Exception): String; override;
-  public
-//    constructor Create(AOwner: TACBrDFe); override;
-    constructor Create(AOwner: TACBrDFe); reintroduce; overload;
-    destructor Destroy; override;
-    procedure Clear; override;
-
-    property cUFAutor: integer read FcUFAutor write FcUFAutor;
-    property CNPJCPF: String read FCNPJCPF write FCNPJCPF;
-    property ultNSU: String read FultNSU write FultNSU;
-    property NSU: String read FNSU write FNSU;
-    property chNFAg: String read FchNFAg write FchNFAg;
-    property NomeArq: String read FNomeArq;
-    property ListaArqs: TStringList read FlistaArqs;
-
-    property retDistDFeInt: TretDistDFeInt read FretDistDFeInt;
   end;
 
   { TNFAgEnvioWebService }
 
   TNFAgEnvioWebService = class(TNFAgWebService)
   private
-    FXMLEnvio: String;
-    FPURLEnvio: String;
-    FVersao: String;
-    FSoapActionEnvio: String;
+    FXMLEnvio: string;
+    FPURLEnvio: string;
+    FVersao: string;
+    FSoapActionEnvio: string;
   protected
     procedure DefinirURL; override;
     procedure DefinirServicoEAction; override;
     procedure DefinirDadosMsg; override;
     function TratarResposta: Boolean; override;
 
-    function GerarMsgErro(E: Exception): String; override;
-    function GerarVersaoDadosSoap: String; override;
+    function GerarMsgErro(E: Exception): string; override;
+    function GerarVersaoDadosSoap: string; override;
   public
     constructor Create(AOwner: TACBrDFe); override;
     destructor Destroy; override;
@@ -423,10 +285,10 @@ type
 
     function Executar: Boolean; override;
 
-    property Versao: String read FVersao;
-    property XMLEnvio: String read FXMLEnvio write FXMLEnvio;
-    property URLEnvio: String read FPURLEnvio write FPURLEnvio;
-    property SoapActionEnvio: String read FSoapActionEnvio write FSoapActionEnvio;
+    property Versao: string read FVersao;
+    property XMLEnvio: string read FXMLEnvio write FXMLEnvio;
+    property URLEnvio: string read FPURLEnvio write FPURLEnvio;
+    property SoapActionEnvio: string read FSoapActionEnvio write FSoapActionEnvio;
   end;
 
   { TWebServices }
@@ -436,45 +298,37 @@ type
     FACBrNFAg: TACBrDFe;
     FStatusServico: TNFAgStatusServico;
     FEnviar: TNFAgRecepcao;
-    FRetorno: TNFAgRetRecepcao;
-    FRecibo: TNFAgRecibo;
     FConsulta: TNFAgConsulta;
     FEnvEvento: TNFAgEnvEvento;
-    FDistribuicaoDFe: TDistribuicaoDFe;
     FEnvioWebService: TNFAgEnvioWebService;
   public
     constructor Create(AOwner: TACBrDFe); overload;
     destructor Destroy; override;
 
-    function Envia(ALote: Int64; const ASincrono: Boolean = False): Boolean;
-      overload;
-    function Envia(const ALote: String; const ASincrono: Boolean = False): Boolean;
-      overload;
+    function Envia(const ALote: string): Boolean;
 
     property ACBrNFAg: TACBrDFe read FACBrNFAg write FACBrNFAg;
     property StatusServico: TNFAgStatusServico read FStatusServico write FStatusServico;
     property Enviar: TNFAgRecepcao read FEnviar write FEnviar;
-    property Retorno: TNFAgRetRecepcao read FRetorno write FRetorno;
-    property Recibo: TNFAgRecibo read FRecibo write FRecibo;
     property Consulta: TNFAgConsulta read FConsulta write FConsulta;
     property EnvEvento: TNFAgEnvEvento read FEnvEvento write FEnvEvento;
-    property DistribuicaoDFe: TDistribuicaoDFe
-      read FDistribuicaoDFe write FDistribuicaoDFe;
-    property EnvioWebService: TNFAgEnvioWebService
-      read FEnvioWebService write FEnvioWebService;
+    property EnvioWebService: TNFAgEnvioWebService read FEnvioWebService write FEnvioWebService;
   end;
 
 implementation
 
 uses
   StrUtils, Math,
-  ACBrUtil.Base, ACBrUtil.XMLHTML, ACBrUtil.Strings, ACBrUtil.DateTime,
+  ACBrUtil.Base,
+  ACBrUtil.XMLHTML,
+  ACBrUtil.Strings,
+  ACBrUtil.DateTime,
   ACBrUtil.FilesIO,
-  ACBrCompress, ACBrIntegrador,
   ACBrDFeConsts,
   ACBrDFeUtil,
-  ACBrDFeComum.ConsStatServ, ACBrDFeComum.RetConsStatServ,
-  ACBrDFeComum.ConsReciDFe,
+  ACBrDFeComum.ConsStatServ,
+  ACBrDFeComum.RetConsStatServ,
+  ACBrCompress,
   ACBrNFAg,
   ACBrNFAg.Consts,
   ACBrNFAg.ConsSit;
@@ -488,8 +342,8 @@ begin
   FPConfiguracoesNFAg := TConfiguracoesNFAg(FPConfiguracoes);
   FPLayout := LayNFAgStatusServico;
 
-  FPHeaderElement := ''; //'NFAgCabecMsg';
-  FPBodyElement := 'NFAgDadosMsg';
+  FPHeaderElement := '';
+  FPBodyElement := 'nfagDadosMsg';
 end;
 
 procedure TNFAgWebService.Clear;
@@ -538,7 +392,7 @@ begin
   FPVersaoServico := FloatToString(Versao, '.', '0.00');
 end;
 
-function TNFAgWebService.GerarVersaoDadosSoap: String;
+function TNFAgWebService.GerarVersaoDadosSoap: string;
 begin
   { Sobrescrever apenas se necessário }
 
@@ -546,23 +400,6 @@ begin
     FPVersaoServico := TACBrNFAg(FPDFeOwner).LerVersaoDeParams(FPLayout);
 
   Result := '<versaoDados>' + FPVersaoServico + '</versaoDados>';
-end;
-
-procedure TNFAgWebService.EnviarDados;
-var
-//  UsaIntegrador: Boolean;
-  Integrador: TACBrIntegrador;
-begin
-//  UsaIntegrador := Assigned(FPDFeOwner.Integrador);
-
-  Integrador := Nil;
-
-  try
-    inherited EnviarDados;
-  finally
-    if Assigned(Integrador) then
-      FPDFeOwner.Integrador := Integrador;
-  end;
 end;
 
 procedure TNFAgWebService.FinalizarServico;
@@ -588,9 +425,11 @@ begin
   FPArqResp := 'sta';
 
   Fversao := '';
+  FTpAmb := taHomologacao;
   FverAplic := '';
   FcStat := 0;
   FxMotivo := '';
+  FcUF := 0;
   FdhRecbto := 0;
   FTMed := 0;
   FdhRetorno := 0;
@@ -606,7 +445,7 @@ end;
 procedure TNFAgStatusServico.DefinirServicoEAction;
 begin
   FPServico := GetUrlWsd + 'NFAgStatusServico';
-  FPSoapAction := FPServico + '/NFAgStatusServicoNF';
+  FPSoapAction := FPServico + '/nfagStatusServicoNF';
 end;
 
 procedure TNFAgStatusServico.DefinirDadosMsg;
@@ -630,6 +469,9 @@ var
 begin
   FPRetWS := SeparaDadosArray(['NFAgResultMsg'],FPRetornoWS );
 
+  if EstaVazio(FPRetWS) then
+    FPRetWS := SeparaDados(FPRetornoWS, 'soap:Body');
+
   VerificarSemResposta;
 
   RemoverNameSpace;
@@ -640,7 +482,7 @@ begin
     NFAgRetorno.LerXml;
 
     Fversao := NFAgRetorno.versao;
-    FtpAmb := TpcnTipoAmbiente(NFAgRetorno.tpAmb);
+    FtpAmb := NFAgRetorno.tpAmb;
     FverAplic := NFAgRetorno.verAplic;
     FcStat := NFAgRetorno.cStat;
     FxMotivo := NFAgRetorno.xMotivo;
@@ -649,17 +491,17 @@ begin
     { WebService do RS retorna horário de verão mesmo pros estados que não
       adotam esse horário, ao utilizar esta hora para basear a emissão da nota
       acontece o erro. }
-    if (pos('svrs.rs.gov.br', FPURL) > 0) and
+    if (Pos('svrs.rs.gov.br', FPURL) > 0) and
        (MinutesBetween(NFAgRetorno.dhRecbto, Now) > 50) and
        (not IsHorarioDeVerao(CodigoUFparaUF(FcUF), NFAgRetorno.dhRecbto)) then
-      FdhRecbto:= IncHour(NFAgRetorno.dhRecbto,-1)
+      FdhRecbto := IncHour(NFAgRetorno.dhRecbto,-1)
     else
       FdhRecbto := NFAgRetorno.dhRecbto;
 
     FTMed := NFAgRetorno.TMed;
     FdhRetorno := NFAgRetorno.dhRetorno;
     FxObs := NFAgRetorno.xObs;
-    FPMsg := FxMotivo + LineBreak + FxObs;
+    FPMsg := FxMotivo + sLineBreak + FxObs;
 
     if Assigned(FPConfiguracoesNFAg) and
        Assigned(FPConfiguracoesNFAg.WebServices) and
@@ -673,20 +515,20 @@ begin
   end;
 end;
 
-function TNFAgStatusServico.GerarMsgLog: String;
+function TNFAgStatusServico.GerarMsgLog: string;
 begin
   {(*}
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Ambiente: %s' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Status Código: %s' + LineBreak +
-                           'Status Descrição: %s' + LineBreak +
-                           'UF: %s' + LineBreak +
-                           'Recebimento: %s' + LineBreak +
-                           'Tempo Médio: %s' + LineBreak +
-                           'Retorno: %s' + LineBreak +
-                           'Observação: %s' + LineBreak),
-                   [Fversao, TpAmbToStr(FtpAmb), FverAplic, IntToStr(FcStat),
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Ambiente: %s' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Status Código: %s' + sLineBreak +
+                           'Status Descrição: %s' + sLineBreak +
+                           'UF: %s' + sLineBreak +
+                           'Recebimento: %s' + sLineBreak +
+                           'Tempo Médio: %s' + sLineBreak +
+                           'Retorno: %s' + sLineBreak +
+                           'Observação: %s' + sLineBreak),
+                   [Fversao, TipoAmbienteToStr(FtpAmb), FverAplic, IntToStr(FcStat),
                     FxMotivo, CodigoUFparaUF(FcUF),
                     IfThen(FdhRecbto = 0, '', FormatDateTimeBr(FdhRecbto)),
                     IntToStr(FTMed),
@@ -695,9 +537,9 @@ begin
   {*)}
 end;
 
-function TNFAgStatusServico.GerarMsgErro(E: Exception): String;
+function TNFAgStatusServico.GerarMsgErro(E: Exception): string;
 begin
-  Result := ACBrStr('WebService Consulta Status serviço:' + LineBreak +
+  Result := ACBrStr('WebService Consulta Status serviço:' + sLineBreak +
                     '- Inativo ou Inoperante tente novamente.');
 end;
 
@@ -724,17 +566,20 @@ begin
 
   FPStatus := stNFAgRecepcao;
   FPLayout := LayNFAgRecepcao;
-  FPArqEnv := 'env-lot';
+  FPArqEnv := 'env';
   FPArqResp := 'rec';
 
+  FNProt := '';
+  FChNFAg := '';
+  FXMLRetorno := '';
+  FMsgUnZip := '';
   Fversao := '';
   FTMed := 0;
   FverAplic := '';
-  FcStat    := 0;
-  FxMotivo  := '';
-  FRecibo   := '';
+  FcStat := 0;
+  FxMotivo := '';
   FdhRecbto := 0;
-  FMsgUnZip := '';
+  FTMed := 0;
 
   if Assigned(FPConfiguracoesNFAg) then
   begin
@@ -752,20 +597,13 @@ begin
   FNFAgRetorno := TretEnvDFe.Create;
 end;
 
-function TNFAgRecepcao.GetLote: String;
+function TNFAgRecepcao.GetLote: string;
 begin
   Result := Trim(FLote);
 end;
 
-function TNFAgRecepcao.GetRecibo: String;
-begin
-  Result := Trim(FRecibo);
-end;
-
 procedure TNFAgRecepcao.InicializarServico;
 begin
-//  Sincrono := True;
-
   if FNotasFiscais.Count > 0 then    // Tem NFAg ? Se SIM, use as informações do XML
     FVersaoDF := DblToVersaoNFAg(FNotasFiscais.Items[0].NFAg.infNFAg.Versao)
   else
@@ -778,16 +616,16 @@ end;
 
 procedure TNFAgRecepcao.DefinirURL;
 var
-  xUF: String;
+  xUF: string;
   VerServ: Double;
-//  ok: Boolean;
 begin
   if FNotasFiscais.Count > 0 then    // Tem NFAg ? Se SIM, use as informações do XML
   begin
     FcUF := FNotasFiscais.Items[0].NFAg.Ide.cUF;
 
-    if Integer(FPConfiguracoesNFAg.WebServices.Ambiente) <> Integer(FNotasFiscais.Items[0].NFAg.Ide.tpAmb) then
-      raise EACBrNFAgException.Create( ACBrNFAg_CErroAmbienteDiferente );
+    if Integer(FPConfiguracoesNFAg.WebServices.Ambiente) <>
+       Integer(FNotasFiscais.Items[0].NFAg.Ide.tpAmb) then
+      raise EACBrNFAgException.Create(ACBrNFAg_CErroAmbienteDiferente);
   end
   else
   begin // Se não tem NFAg, use as configurações do componente
@@ -795,17 +633,12 @@ begin
   end;
 
   VerServ := VersaoNFAgToDbl(FVersaoDF);
-  FTpAmb  := FPConfiguracoesNFAg.WebServices.Ambiente;
+  FTpAmb := FPConfiguracoesNFAg.WebServices.Ambiente;
   FPVersaoServico := '';
   FPURL := '';
 
-  FPLayout := LayNFAgRecepcaoSinc;
-{
-  if FSincrono then
-    FPLayout := LayNFAgRecepcaoSinc
-  else
-    FPLayout := LayNFAgRecepcao;
-}
+  FPLayout := LayNFAgRecepcao;
+
   // Configuração correta ao enviar para o SVC
   case FPConfiguracoesNFAg.Geral.FormaEmissao of
     teSVCAN: xUF := 'SVC-AN';
@@ -829,848 +662,168 @@ end;
 
 procedure TNFAgRecepcao.DefinirServicoEAction;
 begin
-  if EstaVazio(FPServico) then
-    FPServico := GetUrlWsd + 'NFAgRecepcaoSinc';
-  if EstaVazio(FPSoapAction) then
-    FPSoapAction := FPServico + '/NFAgRecepcao';
-  {
-  if FSincrono then
-  begin
-    if EstaVazio(FPServico) then
-      FPServico := GetUrlWsd + 'NFAgRecepcaoSinc';
-    if EstaVazio(FPSoapAction) then
-      FPSoapAction := FPServico + '/NFAgRecepcao';
-  end
-  else
-  begin
-    FPServico := GetUrlWsd + 'NFAgRecepcao';
-    FPSoapAction := FPServico + '/NFAgRecepcaoLote';
-  end;
-  }
+  FPServico := GetUrlWsd + 'NFAgRecepcao';
+  FPSoapAction := FPServico + '/nfagRecepcao';
 end;
 
 procedure TNFAgRecepcao.DefinirDadosMsg;
-//var
-//  I: integer;
-//  vNotas: String;
 begin
-  // No envio só podemos ter apena UM NF3-e, pois o seu processamento é síncrono
+  // No envio só podemos ter apena UM NFAg, pois o seu processamento é síncrono
   if FNotasFiscais.Count > 1 then
-    GerarException(ACBrStr('ERRO: Conjunto de NF3-e transmitidos (máximo de 1 NF3-e)' +
+    GerarException(ACBrStr('ERRO: Conjunto de NFAg transmitidos (máximo de 1 NFAg)' +
            ' excedido. Quantidade atual: ' + IntToStr(FNotasFiscais.Count)));
 
   if FNotasFiscais.Count > 0 then
     FPDadosMsg := '<NFAg' +
       RetornarConteudoEntre(FNotasFiscais.Items[0].XMLAssinado, '<NFAg', '</NFAg>') +
       '</NFAg>';
-  {
-  if Sincrono then
-  begin
-    // No envio só podemos ter apena UM NF3-e, pois o seu processamento é síncrono
-    if FNotasFiscais.Count > 1 then
-      GerarException(ACBrStr('ERRO: Conjunto de NF3-e transmitidos (máximo de 1 NF3-e)' +
-             ' excedido. Quantidade atual: ' + IntToStr(FNotasFiscais.Count)));
 
-    if FNotasFiscais.Count > 0 then
-      FPDadosMsg := '<NFAg' +
-        RetornarConteudoEntre(FNotasFiscais.Items[0].XMLAssinado, '<NFAg', '</NFAg>') +
-        '</NFAg>';
-  end
-  else
-  begin
-    vNotas := '';
-
-    for I := 0 to FNotasFiscais.Count - 1 do
-      vNotas := vNotas + '<NFAg' + RetornarConteudoEntre(
-        FNotasFiscais.Items[I].XMLAssinado, '<NFAg', '</NFAg>') + '</NFAg>';
-
-    FPDadosMsg := '<enviNFAg xmlns="'+ACBRNFAg_NAMESPACE+'" versao="' +
-      FPVersaoServico + '">' + '<idLote>' + FLote + '</idLote>' +
-      vNotas + '</enviNFAg>';
-  end;
-  }
   FMsgUnZip := FPDadosMsg;
-
   FPDadosMsg := EncodeBase64(GZipCompress(FPDadosMsg));
 
   // Lote tem mais de 1 Mb ? //
   if Length(FPDadosMsg) > (1024 * 1024) then
     GerarException(ACBrStr('Tamanho do XML de Dados superior a 1 Mbytes. Tamanho atual: ' +
       IntToStr(trunc(Length(FPDadosMsg) / 1024)) + ' Kbytes'));
-
-  FRecibo := '';
 end;
 
 function TNFAgRecepcao.TratarResposta: Boolean;
 var
-  I: integer;
-  chNFAg, AXML, NomeXMLSalvo: String;
+  I: Integer;
+  chNFAg, AXML, NomeXMLSalvo: string;
   AProcNFAg: TProcDFe;
   SalvarXML: Boolean;
 begin
   FPRetWS := SeparaDadosArray(['NFAgResultMsg'], FPRetornoWS );
 
-  VerificarSemResposta;
+  if pos('retNFAg', FPRetWS) > 0 then
+    AXML := StringReplace(FPRetWS, 'retNFAg', 'retConsSitNFAg',
+                                   [rfReplaceAll, rfIgnoreCase])
+  else if pos('retConsReciNFAg', FPRetWS) > 0 then
+    AXML := StringReplace(FPRetWS, 'retConsReciNFAg', 'retConsSitNFAg',
+                                   [rfReplaceAll, rfIgnoreCase])
+  else
+    AXML := FPRetWS;
 
-  RemoverNameSpace;
+  FNFAgRetornoSincrono.XmlRetorno := ParseText(AXML);
+  FNFAgRetornoSincrono.LerXml;
 
-//  if FSincrono then
-//  begin
-    if pos('retNFAg', FPRetWS) > 0 then
-      AXML := StringReplace(FPRetWS, 'retNFAg', 'retConsSitNFAg',
-                                     [rfReplaceAll, rfIgnoreCase])
-    else if pos('retConsReciNFAg', FPRetWS) > 0 then
-      AXML := StringReplace(FPRetWS, 'retConsReciNFAg', 'retConsSitNFAg',
-                                     [rfReplaceAll, rfIgnoreCase])
-    else
-      AXML := FPRetWS;
+  Fversao := FNFAgRetornoSincrono.versao;
+  FTpAmb := FNFAgRetornoSincrono.TpAmb;
+  FverAplic := FNFAgRetornoSincrono.verAplic;
 
-    FNFAgRetornoSincrono.XmlRetorno := ParseText(AXML);
-    FNFAgRetornoSincrono.LerXml;
+  FcUF := FNFAgRetornoSincrono.cUF;
+  chNFAg := FNFAgRetornoSincrono.ProtNFAg.chDFe;
 
-    Fversao := FNFAgRetornoSincrono.versao;
-    FTpAmb := TpcnTipoAmbiente(FNFAgRetornoSincrono.TpAmb);
-    FverAplic := FNFAgRetornoSincrono.verAplic;
+  if (FNFAgRetornoSincrono.protNFAg.cStat > 0) then
+    FcStat := FNFAgRetornoSincrono.protNFAg.cStat
+  else
+    FcStat := FNFAgRetornoSincrono.cStat;
 
-    // Consta no Retorno da NFC-e
-    FRecibo := FNFAgRetornoSincrono.nRec;
-    FcUF := FNFAgRetornoSincrono.cUF;
-    chNFAg := FNFAgRetornoSincrono.ProtNFAg.chDFe;
+  if (FNFAgRetornoSincrono.protNFAg.xMotivo <> '') then
+  begin
+    FPMsg := FNFAgRetornoSincrono.protNFAg.xMotivo;
+    FxMotivo := FNFAgRetornoSincrono.protNFAg.xMotivo;
+  end
+  else
+  begin
+    FPMsg := FNFAgRetornoSincrono.xMotivo;
+    FxMotivo := FNFAgRetornoSincrono.xMotivo;
+  end;
 
-    if (FNFAgRetornoSincrono.protNFAg.cStat > 0) then
-      FcStat := FNFAgRetornoSincrono.protNFAg.cStat
-    else
-      FcStat := FNFAgRetornoSincrono.cStat;
+  // Verificar se a NFAg foi autorizada com sucesso
+  Result := (FNFAgRetornoSincrono.cStat = 104) and
+    (TACBrNFAg(FPDFeOwner).CstatProcessado(FNFAgRetornoSincrono.protNFAg.cStat));
 
-    if (FNFAgRetornoSincrono.protNFAg.xMotivo <> '') then
+  if Result then
+  begin
+    // Pega o numero do protocolo
+    FProtocolo := FNFAgRetornoSincrono.ProtNFAg.nProt;
+
+    for I := 0 to TACBrNFAg(FPDFeOwner).NotasFiscais.Count - 1 do
     begin
-      FPMsg := FNFAgRetornoSincrono.protNFAg.xMotivo;
-      FxMotivo := FNFAgRetornoSincrono.protNFAg.xMotivo;
-    end
-    else
-    begin
-      FPMsg := FNFAgRetornoSincrono.xMotivo;
-      FxMotivo := FNFAgRetornoSincrono.xMotivo;
-    end;
-
-    // Verificar se a NF3-e foi autorizada com sucesso
-    Result := (FNFAgRetornoSincrono.cStat = 104) and
-      (TACBrNFAg(FPDFeOwner).CstatProcessado(FNFAgRetornoSincrono.protNFAg.cStat));
-
-    if Result then
-    begin
-      for I := 0 to TACBrNFAg(FPDFeOwner).NotasFiscais.Count - 1 do
+      with TACBrNFAg(FPDFeOwner).NotasFiscais.Items[I] do
       begin
-        with TACBrNFAg(FPDFeOwner).NotasFiscais.Items[I] do
+        if RemoverLiteralChave(chNFAg) = NumID then
         begin
-          if OnlyNumber(chNFAg) = NumID then
+          if (FPConfiguracoesNFAg.Geral.ValidarDigest) and
+             (FNFAgRetornoSincrono.protNFAg.digVal <> '') and
+             (NFAg.signature.DigestValue <> FNFAgRetornoSincrono.protNFAg.digVal) then
           begin
-            if (FPConfiguracoesNFAg.Geral.ValidarDigest) and
-               (FNFAgRetornoSincrono.protNFAg.digVal <> '') and
-               (NFAg.signature.DigestValue <> FNFAgRetornoSincrono.protNFAg.digVal) then
-            begin
-              raise EACBrNFAgException.Create('DigestValue do documento ' + NumID + ' não coNFAgre.');
-            end;
-
-            NFAg.procNFAg.cStat := FNFAgRetornoSincrono.protNFAg.cStat;
-            NFAg.procNFAg.tpAmb := FNFAgRetornoSincrono.tpAmb;
-            NFAg.procNFAg.verAplic := FNFAgRetornoSincrono.verAplic;
-            NFAg.procNFAg.chDFe := FNFAgRetornoSincrono.ProtNFAg.chDFe;
-            NFAg.procNFAg.dhRecbto := FNFAgRetornoSincrono.protNFAg.dhRecbto;
-            NFAg.procNFAg.nProt := FNFAgRetornoSincrono.ProtNFAg.nProt;
-            NFAg.procNFAg.digVal := FNFAgRetornoSincrono.protNFAg.digVal;
-            NFAg.procNFAg.xMotivo := FNFAgRetornoSincrono.protNFAg.xMotivo;
-
-            AProcNFAg := TProcDFe.Create(FPVersaoServico, NAME_SPACE_NFAg, 'NFAgProc', 'NFAg');
-            try
-              // Processando em UTF8, para poder gravar arquivo corretamente //
-              AProcNFAg.XML_DFe := RemoverDeclaracaoXML(XMLAssinado);
-              AProcNFAg.XML_Prot := FNFAgRetornoSincrono.XMLprotNFAg;
-              XMLOriginal := AProcNFAg.GerarXML;
-
-              if FPConfiguracoesNFAg.Arquivos.Salvar then
-              begin
-                SalvarXML := Processada;
-
-                // Salva o XML da NF3-e assinado e protocolado
-                if SalvarXML then
-                begin
-                  NomeXMLSalvo := '';
-                  if NaoEstaVazio(NomeArq) and FileExists(NomeArq) then
-                  begin
-                    FPDFeOwner.Gravar( NomeArq, XMLOriginal ); // Atualiza o XML carregado
-                    NomeXMLSalvo := NomeArq;
-                  end;
-
-                  if (NomeXMLSalvo <> CalcularNomeArquivoCompleto()) then
-                    GravarXML; // Salva na pasta baseado nas configurações do PathNFAg
-                end;
-              end ;
-            finally
-              AProcNFAg.Free;
-            end;
-            Break;
+            raise EACBrNFAgException.Create('DigestValue do documento ' + NumID + ' não confere.');
           end;
-        end;
-      end;
-    end;
-  {
-  end
-  else
-  begin
-    FNFAgRetorno.XmlRetorno := ParseText(FPRetWS);
-    FNFAgRetorno.LerXml;
 
-    Fversao := FNFAgRetorno.versao;
-    FTpAmb := TpcnTipoAmbiente(FNFAgRetorno.TpAmb);
-    FverAplic := FNFAgRetorno.verAplic;
-    FcStat := FNFAgRetorno.cStat;
-    FxMotivo := FNFAgRetorno.xMotivo;
-    FdhRecbto := FNFAgRetorno.infRec.dhRecbto;
-    FTMed := FNFAgRetorno.infRec.tMed;
-    FcUF := FNFAgRetorno.cUF;
-    FPMsg := FNFAgRetorno.xMotivo;
-    FRecibo := FNFAgRetorno.infRec.nRec;
+          NFAg.procNFAg.cStat := FNFAgRetornoSincrono.protNFAg.cStat;
+          NFAg.procNFAg.tpAmb := FNFAgRetornoSincrono.tpAmb;
+          NFAg.procNFAg.verAplic := FNFAgRetornoSincrono.verAplic;
+          NFAg.procNFAg.chDFe := FNFAgRetornoSincrono.ProtNFAg.chDFe;
+          NFAg.procNFAg.dhRecbto := FNFAgRetornoSincrono.protNFAg.dhRecbto;
+          NFAg.procNFAg.nProt := FNFAgRetornoSincrono.ProtNFAg.nProt;
+          NFAg.procNFAg.digVal := FNFAgRetornoSincrono.protNFAg.digVal;
+          NFAg.procNFAg.xMotivo := FNFAgRetornoSincrono.protNFAg.xMotivo;
 
-    Result := (FNFAgRetorno.CStat = 103);
-  end;
-  }
-end;
-
-function TNFAgRecepcao.GerarMsgLog: String;
-begin
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                         'Ambiente: %s ' + LineBreak +
-                         'Versão Aplicativo: %s ' + LineBreak +
-                         'Status Código: %s ' + LineBreak +
-                         'Status Descrição: %s ' + LineBreak +
-                         'UF: %s ' + sLineBreak +
-                         'dhRecbto: %s ' + sLineBreak +
-                         'chNFAg: %s ' + LineBreak),
-                   [FNFAgRetornoSincrono.versao,
-                    TipoAmbienteToStr(FNFAgRetornoSincrono.TpAmb),
-                    FNFAgRetornoSincrono.verAplic,
-                    IntToStr(FNFAgRetornoSincrono.protNFAg.cStat),
-                    FNFAgRetornoSincrono.protNFAg.xMotivo,
-                    CodigoUFparaUF(FNFAgRetornoSincrono.cUF),
-                    FormatDateTimeBr(FNFAgRetornoSincrono.dhRecbto),
-                    FNFAgRetornoSincrono.chNFAg]);
-  {
-  if FSincrono then
-    Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Ambiente: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'UF: %s ' + sLineBreak +
-                           'dhRecbto: %s ' + sLineBreak +
-                           'chNFAg: %s ' + LineBreak),
-                     [FNFAgRetornoSincrono.versao,
-                      TipoAmbienteToStr(FNFAgRetornoSincrono.TpAmb),
-                      FNFAgRetornoSincrono.verAplic,
-                      IntToStr(FNFAgRetornoSincrono.protNFAg.cStat),
-                      FNFAgRetornoSincrono.protNFAg.xMotivo,
-                      CodigoUFparaUF(FNFAgRetornoSincrono.cUF),
-                      FormatDateTimeBr(FNFAgRetornoSincrono.dhRecbto),
-                      FNFAgRetornoSincrono.chNFAg])
-  else
-    Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                             'Ambiente: %s ' + LineBreak +
-                             'Versão Aplicativo: %s ' + LineBreak +
-                             'Status Código: %s ' + LineBreak +
-                             'Status Descrição: %s ' + LineBreak +
-                             'UF: %s ' + sLineBreak +
-                             'Recibo: %s ' + LineBreak +
-                             'Recebimento: %s ' + LineBreak +
-                             'Tempo Médio: %s ' + LineBreak),
-                     [FNFAgRetorno.versao,
-                      TipoAmbienteToStr(FNFAgRetorno.TpAmb),
-                      FNFAgRetorno.verAplic,
-                      IntToStr(FNFAgRetorno.cStat),
-                      FNFAgRetorno.xMotivo,
-                      CodigoUFparaUF(FNFAgRetorno.cUF),
-                      FNFAgRetorno.infRec.nRec,
-                      IfThen(FNFAgRetorno.InfRec.dhRecbto = 0, '',
-                             FormatDateTimeBr(FNFAgRetorno.InfRec.dhRecbto)),
-                      IntToStr(FNFAgRetorno.InfRec.TMed)]);
-  }
-end;
-
-function TNFAgRecepcao.GerarPrefixoArquivo: String;
-begin
-  if FRecibo <> '' then
-  begin
-    Result := Recibo;
-    FPArqResp := 'pro-rec';
-  end
-  else
-  begin
-    Result := Lote;
-    FPArqResp := 'pro-lot';
-  end;
-  {
-  if FSincrono then  // Esta procesando nome do Retorno Sincrono ?
-  begin
-    if FRecibo <> '' then
-    begin
-      Result := Recibo;
-      FPArqResp := 'pro-rec';
-    end
-    else
-    begin
-      Result := Lote;
-      FPArqResp := 'pro-lot';
-    end;
-  end
-  else
-    Result := Lote;
-  }
-end;
-
-{ TNFAgRetRecepcao }
-
-constructor TNFAgRetRecepcao.Create(AOwner: TACBrDFe; ANotasFiscais: TNotasFiscais);
-begin
-  inherited Create(AOwner);
-
-  FNotasFiscais := ANotasFiscais;
-end;
-
-destructor TNFAgRetRecepcao.Destroy;
-begin
-  FNFAgRetorno.Free;
-
-  inherited Destroy;
-end;
-
-function TNFAgRetRecepcao.GetRecibo: String;
-begin
-  Result := Trim(FRecibo);
-end;
-
-procedure TNFAgRetRecepcao.InicializarServico;
-begin
-  if FNotasFiscais.Count > 0 then    // Tem NFAg ? Se SIM, use as informações do XML
-    FVersaoDF := DblToVersaoNFAg(FNotasFiscais.Items[0].NFAg.infNFAg.Versao)
-  else
-    FVersaoDF := FPConfiguracoesNFAg.Geral.VersaoDF;
-
-  inherited InicializarServico;
-
-  FPHeaderElement := '';
-end;
-
-procedure TNFAgRetRecepcao.Clear;
-var
-  i, j: Integer;
-begin
-  inherited Clear;
-
-  FPStatus := stNFAgRetRecepcao;
-  FPLayout := LayNFAgRetRecepcao;
-  FPArqEnv := 'ped-rec';
-  FPArqResp := 'pro-rec';
-
-  FverAplic := '';
-  FcStat := 0;
-  FxMotivo := '';
-  Fversao := '';
-  FxMsg := '';
-  FcMsg := 0;
-
-  if Assigned(FPConfiguracoesNFAg) then
-  begin
-    FtpAmb := TACBrTipoAmbiente(FPConfiguracoesNFAg.WebServices.Ambiente);
-    FcUF := FPConfiguracoesNFAg.WebServices.UFCodigo;
-  end;
-
-  if Assigned(FNFAgRetorno) and Assigned(FNotasFiscais)
-		and Assigned(FNFAgRetorno.ProtDFe) then
-  begin
-    // Limpa Dados dos retornos das notas Fiscais;
-    for i := 0 to FNFAgRetorno.ProtDFe.Count - 1 do
-    begin
-      for j := 0 to FNotasFiscais.Count - 1 do
-      begin
-        if OnlyNumber(FNFAgRetorno.ProtDFe.Items[i].chDFe) = FNotasFiscais.Items[J].NumID then
-        begin
-          FNotasFiscais.Items[j].NFAg.procNFAg.verAplic := '';
-          FNotasFiscais.Items[j].NFAg.procNFAg.chDFe    := '';
-          FNotasFiscais.Items[j].NFAg.procNFAg.dhRecbto := 0;
-          FNotasFiscais.Items[j].NFAg.procNFAg.nProt    := '';
-          FNotasFiscais.Items[j].NFAg.procNFAg.digVal   := '';
-          FNotasFiscais.Items[j].NFAg.procNFAg.cStat    := 0;
-          FNotasFiscais.Items[j].NFAg.procNFAg.xMotivo  := '';
-        end;
-      end;
-    end;
-  end;
-
-  if Assigned( FNFAgRetorno ) then
-    FreeAndNil(FNFAgRetorno);
-
-  FNFAgRetorno := TRetConsReciDFe.Create('NFAg');
-end;
-
-function TNFAgRetRecepcao.Executar: Boolean;
-var
-  IntervaloTentativas, Tentativas: integer;
-begin
-  Result := False;
-
-  TACBrNFAg(FPDFeOwner).SetStatus(stNFAgRetRecepcao);
-  try
-    Sleep(FPConfiguracoesNFAg.WebServices.AguardarConsultaRet);
-
-    Tentativas := 0;
-    IntervaloTentativas := max(FPConfiguracoesNFAg.WebServices.IntervaloTentativas, 1000);
-
-    while (inherited Executar) and
-      (Tentativas < FPConfiguracoesNFAg.WebServices.Tentativas) do
-    begin
-      Inc(Tentativas);
-      sleep(IntervaloTentativas);
-    end;
-  finally
-    TACBrNFAg(FPDFeOwner).SetStatus(stIdle);
-  end;
-
-  if FNFAgRetorno.CStat = 104 then  // Lote processado ?
-    Result := TratarRespostaFinal;
-end;
-
-procedure TNFAgRetRecepcao.DefinirURL;
-var
-  xUF: String;
-  VerServ: Double;
-//  ok: Boolean;
-begin
-  if FNotasFiscais.Count > 0 then    // Tem NFAg ? Se SIM, use as informações do XML
-  begin
-    FcUF := FNotasFiscais.Items[0].NFAg.Ide.cUF;
-
-    if Integer(FPConfiguracoesNFAg.WebServices.Ambiente) <> Integer(FNotasFiscais.Items[0].NFAg.Ide.tpAmb) then
-      raise EACBrNFAgException.Create( ACBrNFAg_CErroAmbienteDiferente );
-  end
-  else
-  begin                              // Se não tem NFAg, use as configurações do componente
-    FcUF := FPConfiguracoesNFAg.WebServices.UFCodigo;
-  end;
-
-  VerServ := VersaoNFAgToDbl(FVersaoDF);
-  FTpAmb := TACBrTipoAmbiente(FPConfiguracoesNFAg.WebServices.Ambiente);
-  FPVersaoServico := '';
-  FPURL := '';
-
-  FPLayout := LayNFAgRetRecepcao;
-
-  // Configuração correta ao enviar para o SVC
-  case FPConfiguracoesNFAg.Geral.FormaEmissao of
-    teSVCAN: xUF := 'SVC-AN';
-    teSVCRS: xUF := 'SVC-RS';
-  else
-    xUF := CodigoUFparaUF(FcUF);
-  end;
-
-  TACBrNFAg(FPDFeOwner).LerServicoDeParams(
-    'NFAg',
-    xUF,
-    TpcnTipoAmbiente(FTpAmb),
-    LayOutToServico(FPLayout),
-    VerServ,
-    FPURL,
-    FPServico,
-    FPSoapAction);
-
-  FPVersaoServico := FloatToString(VerServ, '.', '0.00');
-end;
-
-procedure TNFAgRetRecepcao.DefinirServicoEAction;
-begin
-//  if FPLayout = LayNFAgRetAutorizacao then
-//  begin
-//    if EstaVazio(FPServico) then
-//      FPServico := GetUrlWsd + 'NFAgRetAutorizacao4';
-//    if EstaVazio(FPSoapAction) then
-//      FPSoapAction := FPServico +'/NFAgRetAutorizacaoLote';
-//  end
-//  else
-//  begin
-    FPServico := GetUrlWsd + 'NFAgRetRecepcao';
-    FPSoapAction := FPServico + '/NFAgRetRecepcao';
-//  end;
-end;
-
-procedure TNFAgRetRecepcao.DefinirDadosMsg;
-var
-  ConsReciNFAg: TConsReciDFe;
-begin
-  ConsReciNFAg := TConsReciDFe.Create(FPVersaoServico, NAME_SPACE_NFAg, 'NFAg');
-  try
-    ConsReciNFAg.tpAmb := TpcnTipoAmbiente(FTpAmb);
-    ConsReciNFAg.nRec := FRecibo;
-
-//    AjustarOpcoes( ConsReciNFAg.Gerador.Opcoes );
-    FPDadosMsg := ConsReciNFAg.GerarXML;
-  finally
-    ConsReciNFAg.Free;
-  end;
-end;
-
-function TNFAgRetRecepcao.TratarResposta: Boolean;
-begin
-  FPRetWS := SeparaDadosArray(['NFAgResultMsg'],FPRetornoWS );
-
-  VerificarSemResposta;
-
-  RemoverNameSpace;
-
-  FNFAgRetorno.XmlRetorno := ParseText(FPRetWS);
-  FNFAgRetorno.LerXML;
-
-  Fversao := FNFAgRetorno.versao;
-  FTpAmb := FNFAgRetorno.TpAmb;
-  FverAplic := FNFAgRetorno.verAplic;
-  FcStat := FNFAgRetorno.cStat;
-  FcUF := FNFAgRetorno.cUF;
-  FPMsg := FNFAgRetorno.xMotivo;
-  FxMotivo := FNFAgRetorno.xMotivo;
-  FcMsg := FNFAgRetorno.cMsg;
-  FxMsg := FNFAgRetorno.xMsg;
-
-  Result := (FNFAgRetorno.CStat = 105); // Lote em Processamento
-end;
-
-function TNFAgRetRecepcao.TratarRespostaFinal: Boolean;
-var
-  I, J: integer;
-  AProcNFAg: TProcDFe;
-  AInfProt: TProtDFeCollection;
-  SalvarXML: Boolean;
-  NomeXMLSalvo: String;
-begin
-  Result := False;
-
-  AInfProt := FNFAgRetorno.ProtDFe;
-
-  if (AInfProt.Count > 0) then
-  begin
-    FPMsg := FNFAgRetorno.ProtDFe.Items[0].xMotivo;
-    FxMotivo := FNFAgRetorno.ProtDFe.Items[0].xMotivo;
-  end;
-
-  //Setando os retornos das notas fiscais;
-  for I := 0 to AInfProt.Count - 1 do
-  begin
-    for J := 0 to FNotasFiscais.Count - 1 do
-    begin
-      if OnlyNumber(AInfProt.Items[I].chDFe) = FNotasFiscais.Items[J].NumID then
-      begin
-        if (FPConfiguracoesNFAg.Geral.ValidarDigest) and
-           (AInfProt.Items[I].digVal <> '') and
-           (FNotasFiscais.Items[J].NFAg.signature.DigestValue <> AInfProt.Items[I].digVal) then
-        begin
-          raise EACBrNFAgException.Create('DigestValue do documento ' +
-            FNotasFiscais.Items[J].NumID + ' não coNFAgre.');
-        end;
-
-        with FNotasFiscais.Items[J] do
-        begin
-          NFAg.procNFAg.tpAmb := TACBrTipoAmbiente(AInfProt.Items[I].tpAmb);
-          NFAg.procNFAg.verAplic := AInfProt.Items[I].verAplic;
-          NFAg.procNFAg.chDFe := AInfProt.Items[I].chDFe;
-          NFAg.procNFAg.dhRecbto := AInfProt.Items[I].dhRecbto;
-          NFAg.procNFAg.nProt := AInfProt.Items[I].nProt;
-          NFAg.procNFAg.digVal := AInfProt.Items[I].digVal;
-          NFAg.procNFAg.cStat := AInfProt.Items[I].cStat;
-          NFAg.procNFAg.xMotivo := AInfProt.Items[I].xMotivo;
-        end;
-
-        // Monta o XML da NF3-e assinado e com o protocolo de Autorização
-        if (AInfProt.Items[I].cStat = 100) or (AInfProt.Items[I].cStat = 150) then
-        begin
           AProcNFAg := TProcDFe.Create(FPVersaoServico, NAME_SPACE_NFAg, 'NFAgProc', 'NFAg');
           try
-            AProcNFAg.XML_DFe := RemoverDeclaracaoXML(FNotasFiscais.Items[J].XMLAssinado);
-            AProcNFAg.XML_Prot := AInfProt.Items[I].XMLprotDFe;
+            // Processando em UTF8, para poder gravar arquivo corretamente //
+            AProcNFAg.XML_DFe := RemoverDeclaracaoXML(XMLAssinado);
+            AProcNFAg.XML_Prot := FNFAgRetornoSincrono.XMLprotNFAg;
+            XMLOriginal := AProcNFAg.GerarXML;
 
-            with FNotasFiscais.Items[J] do
+            if FPConfiguracoesNFAg.Arquivos.Salvar then
             begin
-              XMLOriginal := AProcNFAg.GerarXML;
+              SalvarXML := Processada;
 
-              if FPConfiguracoesNFAg.Arquivos.Salvar then
+              // Salva o XML da NFAg assinado e protocolado
+              if SalvarXML then
               begin
-                SalvarXML := Processada;
-
-                // Salva o XML da NF3-e assinado e protocolado
-                if SalvarXML then
+                NomeXMLSalvo := '';
+                if NaoEstaVazio(NomeArq) and FileExists(NomeArq) then
                 begin
-                  NomeXMLSalvo := '';
-                  if NaoEstaVazio(NomeArq) and FileExists(NomeArq) then
-                  begin
-                    FPDFeOwner.Gravar( NomeArq, XMLOriginal );  // Atualiza o XML carregado
-                    NomeXMLSalvo := NomeArq;
-                  end;
-
-                  if (NomeXMLSalvo <> CalcularNomeArquivoCompleto()) then
-                    GravarXML; // Salva na pasta baseado nas configurações do PathNFAg
+                  FPDFeOwner.Gravar( NomeArq, XMLOriginal ); // Atualiza o XML carregado
+                  NomeXMLSalvo := NomeArq;
                 end;
+
+                if (NomeXMLSalvo <> CalcularNomeArquivoCompleto()) then
+                  GravarXML; // Salva na pasta baseado nas configurações do PathNFAg
               end;
-            end;
+            end ;
           finally
             AProcNFAg.Free;
           end;
-        end;
 
-        break;
+          Break;
+        end;
       end;
     end;
   end;
-
-  //Verificando se existe alguma nota confirmada
-  for I := 0 to FNotasFiscais.Count - 1 do
-  begin
-    if FNotasFiscais.Items[I].Confirmada then
-    begin
-      Result := True;
-      break;
-    end;
-  end;
-
-  //Verificando se existe alguma nota nao confirmada
-  for I := 0 to FNotasFiscais.Count - 1 do
-  begin
-    if not FNotasFiscais.Items[I].Confirmada then
-    begin
-      FPMsg := ACBrStr('Nota(s) não confirmadas:') + LineBreak;
-      break;
-    end;
-  end;
-
-  //Montando a mensagem de retorno para as notas nao confirmadas
-  for I := 0 to FNotasFiscais.Count - 1 do
-  begin
-    if not FNotasFiscais.Items[I].Confirmada then
-      FPMsg := FPMsg + IntToStr(FNotasFiscais.Items[I].NFAg.Ide.nNF) +
-        '->' + IntToStr(FNotasFiscais.Items[I].cStat)+'-'+ FNotasFiscais.Items[I].Msg + LineBreak;
-  end;
-
-  if AInfProt.Count > 0 then
-  begin
-    FChaveNFAg := AInfProt.Items[0].chDFe;
-    FProtocolo := AInfProt.Items[0].nProt;
-    FcStat := AInfProt.Items[0].cStat;
-  end;
 end;
 
-procedure TNFAgRetRecepcao.FinalizarServico;
+function TNFAgRecepcao.GerarMsgLog: string;
 begin
-  // Sobrescrito, para não liberar para stIdle... não ainda...;
-
-  // Retornar configurações anteriores
-  FPDFeOwner.SSL.SSLType := FOldSSLType;
-  FPHeaderElement := FOldHeaderElement;
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                         'Ambiente: %s ' + sLineBreak +
+                         'Versão Aplicativo: %s ' + sLineBreak +
+                         'Status Código: %s ' + sLineBreak +
+                         'Status Descrição: %s ' + sLineBreak +
+                         'UF: %s ' + sLineBreak +
+                         'dhRecbto: %s ' + sLineBreak +
+                         'Protocolo: %s ' + sLineBreak +
+                         'chNFAg: %s ' + sLineBreak),
+                   [versao,
+                    TipoAmbienteToStr(TpAmb),
+                    verAplic,
+                    IntToStr(cStat),
+                    xMotivo,
+                    CodigoUFparaUF(cUF),
+                    IfThen(FdhRecbto = 0, '', FormatDateTimeBr(FdhRecbto)),
+                    FNProt,
+                    chNFAg]);
 end;
 
-function TNFAgRetRecepcao.GerarMsgLog: String;
+function TNFAgRecepcao.GerarPrefixoArquivo: string;
 begin
-  {(*}
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Ambiente: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Recibo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'UF: %s ' + LineBreak +
-                           'cMsg: %s ' + LineBreak +
-                           'xMsg: %s ' + LineBreak),
-                   [FNFAgRetorno.versao, TipoAmbienteToStr(FNFAgRetorno.tpAmb),
-                    FNFAgRetorno.verAplic, FNFAgRetorno.nRec,
-                    IntToStr(FNFAgRetorno.cStat), FNFAgRetorno.xMotivo,
-                    CodigoUFparaUF(FNFAgRetorno.cUF), IntToStr(FNFAgRetorno.cMsg),
-                    FNFAgRetorno.xMsg]);
-  {*)}
-end;
-
-function TNFAgRetRecepcao.GerarPrefixoArquivo: String;
-begin
-  Result := Recibo;
-end;
-
-{ TNFAgRecibo }
-
-constructor TNFAgRecibo.Create(AOwner: TACBrDFe; ANotasFiscais: TNotasFiscais);
-begin
-  inherited Create(AOwner);
-
-  FNotasFiscais := ANotasFiscais;
-end;
-
-destructor TNFAgRecibo.Destroy;
-begin
-  FNFAgRetorno.Free;
-
-  inherited Destroy;
-end;
-
-procedure TNFAgRecibo.Clear;
-begin
-  inherited Clear;
-
-  FPStatus := stNFAgRecibo;
-  FPLayout := LayNFAgRetRecepcao;
-  FPArqEnv := 'ped-rec';
-  FPArqResp := 'pro-rec';
-
-  Fversao := '';
-  FxMsg := '';
-  FcMsg := 0;
-  FverAplic := '';
-  FcStat    := 0;
-  FxMotivo  := '';
-
-  if Assigned(FPConfiguracoesNFAg) then
-  begin
-    FtpAmb := FPConfiguracoesNFAg.WebServices.Ambiente;
-    FcUF := FPConfiguracoesNFAg.WebServices.UFCodigo;
-  end;
-
-  if Assigned(FNFAgRetorno) then
-    FNFAgRetorno.Free;
-
-  FNFAgRetorno := TRetConsReciDFe.Create('NFAg');
-end;
-
-procedure TNFAgRecibo.InicializarServico;
-begin
-  if FNotasFiscais.Count > 0 then    // Tem NFAg ? Se SIM, use as informações do XML
-    FVersaoDF := DblToVersaoNFAg(FNotasFiscais.Items[0].NFAg.infNFAg.Versao)
-  else
-    FVersaoDF := FPConfiguracoesNFAg.Geral.VersaoDF;
-
-  inherited InicializarServico;
-
-  FPHeaderElement := '';
-end;
-
-procedure TNFAgRecibo.DefinirServicoEAction;
-begin
-//  if FPLayout = LayNFAgRetAutorizacao then
-//  begin
-//    if EstaVazio(FPServico) then
-//      FPServico := GetUrlWsd + 'NFAgRetAutorizacao4';
-//    if EstaVazio(FPSoapAction) then
-//      FPSoapAction := FPServico +'/NFAgRetAutorizacaoLote';
-//  end
-//  else
-//  begin
-    FPServico := GetUrlWsd + 'NFAgRetRecepcao';
-    FPSoapAction := FPServico + '/NFAgRetRecepcao';
-//  end;
-end;
-
-procedure TNFAgRecibo.DefinirURL;
-var
-  xUF: String;
-  VerServ: Double;
-//  ok: Boolean;
-begin
-  if FNotasFiscais.Count > 0 then    // Tem NFAg ? Se SIM, use as informações do XML
-  begin
-    FcUF := FNotasFiscais.Items[0].NFAg.Ide.cUF;
-
-    if Integer(FPConfiguracoesNFAg.WebServices.Ambiente) <> Integer(FNotasFiscais.Items[0].NFAg.Ide.tpAmb) then
-      raise EACBrNFAgException.Create( ACBrNFAg_CErroAmbienteDiferente );
-  end
-  else
-  begin // Se não tem NFAg, use as configurações do componente
-    FcUF := FPConfiguracoesNFAg.WebServices.UFCodigo;
-  end;
-
-  VerServ := VersaoNFAgToDbl(FVersaoDF);
-  FTpAmb := FPConfiguracoesNFAg.WebServices.Ambiente;
-  FPVersaoServico := '';
-  FPURL := '';
-
-  FPLayout := LayNFAgRetRecepcao;
-
-  // Configuração correta ao enviar para o SVC
-  case FPConfiguracoesNFAg.Geral.FormaEmissao of
-    teSVCAN: xUF := 'SVC-AN';
-    teSVCRS: xUF := 'SVC-RS';
-  else
-    xUF := CodigoUFparaUF(FcUF);
-  end;
-
-  TACBrNFAg(FPDFeOwner).LerServicoDeParams(
-    'NFAg',
-    xUF,
-    FTpAmb,
-    LayOutToServico(FPLayout),
-    VerServ,
-    FPURL,
-    FPServico,
-    FPSoapAction);
-
-  FPVersaoServico := FloatToString(VerServ, '.', '0.00');
-end;
-
-procedure TNFAgRecibo.DefinirDadosMsg;
-var
-  ConsReciNFAg: TConsReciDFe;
-begin
-  ConsReciNFAg := TConsReciDFe.Create(FPVersaoServico, NAME_SPACE_NFAg, 'NFAg');
-  try
-    ConsReciNFAg.tpAmb := FTpAmb;
-    ConsReciNFAg.nRec  := FRecibo;
-
-//    AjustarOpcoes( ConsReciNFAg.Gerador.Opcoes );
-    FPDadosMsg := ConsReciNFAg.GerarXML;
-  finally
-    ConsReciNFAg.Free;
-  end;
-end;
-
-function TNFAgRecibo.TratarResposta: Boolean;
-begin
-  FPRetWS := SeparaDadosArray(['NFAgResultMsg'],FPRetornoWS );
-
-  VerificarSemResposta;
-
-  RemoverNameSpace;
-
-  FNFAgRetorno.XmlRetorno := ParseText(FPRetWS);
-  FNFAgRetorno.LerXML;
-
-  Fversao := FNFAgRetorno.versao;
-  FTpAmb := TpcnTipoAmbiente(FNFAgRetorno.TpAmb);
-  FverAplic := FNFAgRetorno.verAplic;
-  FcStat := FNFAgRetorno.cStat;
-  FxMotivo := FNFAgRetorno.xMotivo;
-  FcUF := FNFAgRetorno.cUF;
-  FxMsg := FNFAgRetorno.xMsg;
-  FcMsg := FNFAgRetorno.cMsg;
-  FPMsg := FxMotivo;
-
-  Result := (FNFAgRetorno.CStat = 104);
-end;
-
-function TNFAgRecibo.GerarMsgLog: String;
-begin
-  {(*}
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Ambiente: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Recibo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'UF: %s ' + LineBreak),
-                   [FNFAgRetorno.versao, TipoAmbienteToStr(FNFAgRetorno.TpAmb),
-                   FNFAgRetorno.verAplic, FNFAgRetorno.nRec,
-                   IntToStr(FNFAgRetorno.cStat),
-                   FNFAgRetorno.xMotivo,
-                   CodigoUFparaUF(FNFAgRetorno.cUF)]);
-  {*)}
+  Result := Lote;
+  FPArqResp := 'pro-lot';
 end;
 
 { TNFAgConsulta }
@@ -1681,6 +834,9 @@ begin
 
   FOwner := AOwner;
   FNotasFiscais := ANotasFiscais;
+
+  if Assigned(FNFAgRetorno) then
+    FNFAgRetorno.Free;
 end;
 
 destructor TNFAgConsulta.Destroy;
@@ -1720,19 +876,20 @@ begin
   if Assigned(FprocEventoNFAg) then
     FprocEventoNFAg.Free;
 
-  FprotNFAg := TProcDFe.Create(FPVersaoServico, NAME_SPACE_NFAg, 'NFAgProc', 'NFAg');
+  FprotNFAg := TProcDFe.Create(FPVersaoServico, NAME_SPACE_NFAG, 'NFAgProc', 'NFAg');
   FprocEventoNFAg := TRetEventoNFAgCollection.Create;
 end;
 
-procedure TNFAgConsulta.SetNFAgChave(const AValue: String);
+procedure TNFAgConsulta.SetNFAgChave(const AValue: string);
 var
-  NumChave: String;
+  NumChave: string;
 begin
   if FNFAgChave = AValue then Exit;
-  NumChave := OnlyNumber(AValue);
+
+  NumChave := RemoverLiteralChave(AValue);
 
   if not ValidarChave(NumChave) then
-     raise EACBrNFAgException.Create('Chave "'+AValue+'" inválida.');
+    raise EACBrNFAgException.Create('Chave "' + AValue + '" inválida.');
 
   FNFAgChave := NumChave;
 end;
@@ -1740,17 +897,16 @@ end;
 procedure TNFAgConsulta.DefinirURL;
 var
   VerServ: Double;
-  xUF: String;
-//  ok: Boolean;
+  xUF: string;
 begin
   FPVersaoServico := '';
+  FPURL := '';
 
-  FPURL   := '';
-  FcUF    := ExtrairUFChaveAcesso(FNFAgChave);
+  FcUF := ExtrairUFChaveAcesso(FNFAgChave);
   VerServ := VersaoNFAgToDbl(FPConfiguracoesNFAg.Geral.VersaoDF);
 
   if FNotasFiscais.Count > 0 then
-    FTpAmb := TpcnTipoAmbiente(FNotasFiscais.Items[0].NFAg.Ide.tpAmb)
+    FTpAmb := FNotasFiscais.Items[0].NFAg.Ide.tpAmb
   else
     FTpAmb := FPConfiguracoesNFAg.WebServices.Ambiente;
 
@@ -1778,11 +934,8 @@ end;
 
 procedure TNFAgConsulta.DefinirServicoEAction;
 begin
-  if EstaVazio(FPServico) then
-    FPServico := GetUrlWsd + 'NFAgConsulta';
-
-  if EstaVazio(FPSoapAction) then
-    FPSoapAction := FPServico + '/NFAgConsultaNF';
+  FPServico := GetUrlWsd + 'NFAgConsulta';
+  FPSoapAction := FPServico + '/nfagConsultaNF';
 end;
 
 procedure TNFAgConsulta.DefinirDadosMsg;
@@ -1794,13 +947,14 @@ begin
     ConsSitNFAg.TpAmb := TACBrTipoAmbiente(FTpAmb);
     ConsSitNFAg.chNFAg := FNFAgChave;
     ConsSitNFAg.Versao := FPVersaoServico;
+
     FPDadosMsg := ConsSitNFAg.GerarXML;
   finally
     ConsSitNFAg.Free;
   end;
 end;
 
-function TNFAgConsulta.GerarUFSoap: String;
+function TNFAgConsulta.GerarUFSoap: string;
 begin
   Result := '<cUF>' + IntToStr(FcUF) + '</cUF>';
 end;
@@ -1812,7 +966,7 @@ var
   aEvento, aProcEvento, aIDEvento, sPathEvento, sCNPJCPF: string;
   DhEvt: TDateTime;
   Inicio, Fim: Integer;
-  TipoEvento: TpcnTpEvento;
+  TipoEvento: TACBrTipoEvento;
   Ok: Boolean;
 begin
   while Retorno <> '' do
@@ -1851,84 +1005,78 @@ begin
 end;
 
 var
-  NFAgRetorno: TRetConsSitNFAg;
   SalvarXML, NFCancelada, Atualiza: Boolean;
-  aEventos, sPathNFAg, NomeXMLSalvo: String;
+  aEventos, sPathNFAg, NomeXMLSalvo: string;
   AProcNFAg: TProcDFe;
-  I, Inicio, Fim: integer;
+  I, Inicio, Fim: Integer;
   dhEmissao: TDateTime;
 begin
-  NFAgRetorno := TRetConsSitNFAg.Create;
+  FNFAgRetorno := TRetConsSitNFAg.Create;
 
   try
     FPRetWS := SeparaDadosArray(['NFAgResultMsg'],FPRetornoWS );
 
-    VerificarSemResposta;
-
-    RemoverNameSpace;
-
-    NFAgRetorno.XmlRetorno := ParseText(FPRetWS);
-    NFAgRetorno.LerXML;
+    FNFAgRetorno.XmlRetorno := ParseText(FPRetWS);
+    FNFAgRetorno.LerXML;
 
     NFCancelada := False;
     aEventos := '';
 
-    // <retConsSitNFAg> - Retorno da consulta da situação da NF3-e
-    // Este é o status oficial da NF3-e
-    Fversao := NFAgRetorno.versao;
-    FTpAmb := TpcnTipoAmbiente(NFAgRetorno.tpAmb);
-    FverAplic := NFAgRetorno.verAplic;
-    FcStat := NFAgRetorno.cStat;
-    FXMotivo := NFAgRetorno.xMotivo;
-    FcUF := NFAgRetorno.cUF;
-//    FNFAgChave := NFAgRetorno.chNFAg;
+    // <retConsSitNFAg> - Retorno da consulta da situação da NFAg
+    // Este é o status oficial da NFAg
+    Fversao := FNFAgRetorno.versao;
+    FTpAmb := FNFAgRetorno.tpAmb;
+    FverAplic := FNFAgRetorno.verAplic;
+    FcStat := FNFAgRetorno.cStat;
+    FXMotivo := FNFAgRetorno.xMotivo;
+    FcUF := FNFAgRetorno.cUF;
+    FNFAgChave := FNFAgRetorno.chNFAg;
     FPMsg := FXMotivo;
 
-    // <protNFAg> - Retorno dos dados do ENVIO da NF3-e
+    // <protNFAg> - Retorno dos dados do ENVIO da NFAg
     // Considerá-los apenas se não existir nenhum evento de cancelamento (110111)
-    FprotNFAg.PathDFe := NFAgRetorno.protNFAg.PathDFe;
-    FprotNFAg.PathRetConsReciDFe := NFAgRetorno.protNFAg.PathRetConsReciDFe;
-    FprotNFAg.PathRetConsSitDFe := NFAgRetorno.protNFAg.PathRetConsSitDFe;
-    FprotNFAg.tpAmb := NFAgRetorno.protNFAg.tpAmb;
-    FprotNFAg.verAplic := NFAgRetorno.protNFAg.verAplic;
-    FprotNFAg.chDFe := NFAgRetorno.protNFAg.chDFe;
-    FprotNFAg.dhRecbto := NFAgRetorno.protNFAg.dhRecbto;
-    FprotNFAg.nProt := NFAgRetorno.protNFAg.nProt;
-    FprotNFAg.digVal := NFAgRetorno.protNFAg.digVal;
-    FprotNFAg.cStat := NFAgRetorno.protNFAg.cStat;
-    FprotNFAg.xMotivo := NFAgRetorno.protNFAg.xMotivo;
+    FprotNFAg.PathDFe := FNFAgRetorno.protNFAg.PathDFe;
+    FprotNFAg.PathRetConsReciDFe := FNFAgRetorno.protNFAg.PathRetConsReciDFe;
+    FprotNFAg.PathRetConsSitDFe := FNFAgRetorno.protNFAg.PathRetConsSitDFe;
+    FprotNFAg.tpAmb := FNFAgRetorno.protNFAg.tpAmb;
+    FprotNFAg.verAplic := FNFAgRetorno.protNFAg.verAplic;
+    FprotNFAg.chDFe := FNFAgRetorno.protNFAg.chDFe;
+    FprotNFAg.dhRecbto := FNFAgRetorno.protNFAg.dhRecbto;
+    FprotNFAg.nProt := FNFAgRetorno.protNFAg.nProt;
+    FprotNFAg.digVal := FNFAgRetorno.protNFAg.digVal;
+    FprotNFAg.cStat := FNFAgRetorno.protNFAg.cStat;
+    FprotNFAg.xMotivo := FNFAgRetorno.protNFAg.xMotivo;
 
-    {(*}
-    if Assigned(NFAgRetorno.procEventoNFAg) and (NFAgRetorno.procEventoNFAg.Count > 0) then
+    if Assigned(FNFAgRetorno.procEventoNFAg) and (FNFAgRetorno.procEventoNFAg.Count > 0) then
     begin
       aEventos := '=====================================================' +
-        LineBreak + '================== Eventos da NF3-e ==================' +
-        LineBreak + '=====================================================' +
-        LineBreak + '' + LineBreak + 'Quantidade total de eventos: ' +
-        IntToStr(NFAgRetorno.procEventoNFAg.Count);
+        sLineBreak + '================== Eventos da NFAg ==================' +
+        sLineBreak + '=====================================================' +
+        sLineBreak + '' + sLineBreak + 'Quantidade total de eventos: ' +
+        IntToStr(FNFAgRetorno.procEventoNFAg.Count);
 
       FprocEventoNFAg.Clear;
-      for I := 0 to NFAgRetorno.procEventoNFAg.Count - 1 do
+      for I := 0 to FNFAgRetorno.procEventoNFAg.Count - 1 do
       begin
         with FprocEventoNFAg.New.RetEventoNFAg.retInfEvento do
         begin
-//          idLote := NFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.idLote;
-          tpAmb := NFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.tpAmb;
-          verAplic := NFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.verAplic;
-          cOrgao := NFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.cOrgao;
-          cStat := NFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.cStat;
-          xMotivo := NFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.xMotivo;
-          XML := NFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.XML;
+//          idLote := FNFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.idLote;
+          tpAmb := FNFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.tpAmb;
+          verAplic := FNFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.verAplic;
+          cOrgao := FNFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.cOrgao;
+          cStat := FNFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.cStat;
+          xMotivo := FNFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.xMotivo;
+          XML := FNFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.XML;
 
-          ID := NFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.ID;
-          tpAmb := NFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.tpAmb;
-//          CNPJ := NFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.CNPJ;
-          chNFAg := NFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.chNFAg;
-//          dhEvento := NFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.dhEvento;
-          TpEvento := NFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.TpEvento;
-          nSeqEvento := NFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.nSeqEvento;
-          nProt := NFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.nProt;
-//          xJust := NFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.xJust;
+          ID := FNFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.ID;
+          tpAmb := FNFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.tpAmb;
+//          CNPJ := FNFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.CNPJ;
+          chNFAg := FNFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.chNFAg;
+//          dhEvento := FNFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.dhEvento;
+          TpEvento := FNFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.TpEvento;
+          nSeqEvento := FNFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.nSeqEvento;
+          nProt := FNFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.nProt;
+//          xJust := FNFAgRetorno.procEventoNFAg.Items[I].RetEventoNFAg.retInfEvento.xJust;
 
           {
           retEvento.Clear;
@@ -1977,7 +1125,7 @@ begin
                       retEvento.Items[J].RetInfEvento.nProt,
                       FormatDateTimeBr(retEvento.Items[J].RetInfEvento.dhRegEvento)]);
 
-            if retEvento.Items[J].RetInfEvento.tpEvento in [teCancelamento, teCancSubst] then
+            if retEvento.Items[J].RetInfEvento.tpEvento = teCancelamento then
             begin
               NFCancelada := True;
               FProtocolo := retEvento.Items[J].RetInfEvento.nProt;
@@ -1989,13 +1137,12 @@ begin
         }
       end;
     end;
-    {*)}
 
-    if (not NFCancelada) and (NaoEstaVazio(NFAgRetorno.protNFAg.nProt))  then
+    if (not NFCancelada) and (NaoEstaVazio(FNFAgRetorno.protNFAg.nProt))  then
     begin
-      FProtocolo := NFAgRetorno.protNFAg.nProt;
-      FDhRecbto := NFAgRetorno.protNFAg.dhRecbto;
-      FPMsg := NFAgRetorno.protNFAg.xMotivo;
+      FProtocolo := FNFAgRetorno.protNFAg.nProt;
+      FDhRecbto := FNFAgRetorno.protNFAg.dhRecbto;
+      FPMsg := FNFAgRetorno.protNFAg.xMotivo;
     end;
 
     if not Assigned(FPDFeOwner) then //evita AV caso não atribua o Owner
@@ -2006,8 +1153,8 @@ begin
 
     with TACBrNFAg(FPDFeOwner) do
     begin
-      Result := CstatProcessado(NFAgRetorno.CStat) or
-                CstatCancelada(NFAgRetorno.CStat);
+      Result := CstatProcessado(FNFAgRetorno.CStat) or
+                CstatCancelada(FNFAgRetorno.CStat);
     end;
 
     if Result then
@@ -2018,60 +1165,61 @@ begin
         begin
           with TACBrNFAg(FPDFeOwner).NotasFiscais.Items[i] do
           begin
-            if (OnlyNumber(FNFAgChave) = NumID) then
+            if (RemoverLiteralChave(FNFAgChave) = NumID) then
             begin
-              Atualiza := (NaoEstaVazio(NFAgRetorno.XMLprotNFAg));
+              Atualiza := (NaoEstaVazio(FNFAgRetorno.XMLprotNFAg));
+
               if Atualiza and
-                 TACBrNFAg(FPDFeOwner).CstatCancelada(NFAgRetorno.CStat) then
+                 TACBrNFAg(FPDFeOwner).CstatCancelada(FNFAgRetorno.CStat) then
                 Atualiza := False;
 
               // No retorno pode constar que a nota esta cancelada, mas traz o grupo
               // <protNFAg> com as informações da sua autorização
-              if not Atualiza and TACBrNFAg(FPDFeOwner).cstatProcessado(NFAgRetorno.protNFAg.cStat) then
+              if not Atualiza and TACBrNFAg(FPDFeOwner).cstatProcessado(FNFAgRetorno.protNFAg.cStat) then
                 Atualiza := True;
 
               if (FPConfiguracoesNFAg.Geral.ValidarDigest) and
-                (NFAgRetorno.protNFAg.digVal <> '') and (NFAg.signature.DigestValue <> '') and
-                (UpperCase(NFAg.signature.DigestValue) <> UpperCase(NFAgRetorno.protNFAg.digVal)) then
+                (FNFAgRetorno.protNFAg.digVal <> '') and (NFAg.signature.DigestValue <> '') and
+                (UpperCase(NFAg.signature.DigestValue) <> UpperCase(FNFAgRetorno.protNFAg.digVal)) then
               begin
                 raise EACBrNFAgException.Create('DigestValue do documento ' +
                   NumID + ' não confere.');
               end;
 
               // Atualiza o Status da NFAg interna //
-              NFAg.procNFAg.cStat := NFAgRetorno.cStat;
+              NFAg.procNFAg.cStat := FNFAgRetorno.cStat;
 
               if Atualiza then
               begin
-                if TACBrNFAg(FPDFeOwner).CstatCancelada(NFAgRetorno.CStat) then
+                if TACBrNFAg(FPDFeOwner).CstatCancelada(FNFAgRetorno.CStat) then
                 begin
-                  NFAg.procNFAg.tpAmb := NFAgRetorno.tpAmb;
-                  NFAg.procNFAg.verAplic := NFAgRetorno.verAplic;
-                  NFAg.procNFAg.chDFe := NFAgRetorno.chNFAg;
+                  NFAg.procNFAg.tpAmb := FNFAgRetorno.tpAmb;
+                  NFAg.procNFAg.verAplic := FNFAgRetorno.verAplic;
+                  NFAg.procNFAg.chDFe := FNFAgRetorno.chNFAg;
                   NFAg.procNFAg.dhRecbto := FDhRecbto;
                   NFAg.procNFAg.nProt := FProtocolo;
-                  NFAg.procNFAg.digVal := NFAgRetorno.protNFAg.digVal;
-                  NFAg.procNFAg.cStat := NFAgRetorno.cStat;
-                  NFAg.procNFAg.xMotivo := NFAgRetorno.xMotivo;
+                  NFAg.procNFAg.digVal := FNFAgRetorno.protNFAg.digVal;
+                  NFAg.procNFAg.cStat := FNFAgRetorno.cStat;
+                  NFAg.procNFAg.xMotivo := FNFAgRetorno.xMotivo;
    
                   GerarXML;
                 end
                 else
                 begin
-                  NFAg.procNFAg.tpAmb := NFAgRetorno.protNFAg.tpAmb;
-                  NFAg.procNFAg.verAplic := NFAgRetorno.protNFAg.verAplic;
-                  NFAg.procNFAg.chDFe := NFAgRetorno.protNFAg.chDFe;
-                  NFAg.procNFAg.dhRecbto := NFAgRetorno.protNFAg.dhRecbto;
-                  NFAg.procNFAg.nProt := NFAgRetorno.protNFAg.nProt;
-                  NFAg.procNFAg.digVal := NFAgRetorno.protNFAg.digVal;
-                  NFAg.procNFAg.cStat := NFAgRetorno.protNFAg.cStat;
-                  NFAg.procNFAg.xMotivo := NFAgRetorno.protNFAg.xMotivo;
+                  NFAg.procNFAg.tpAmb := FNFAgRetorno.protNFAg.tpAmb;
+                  NFAg.procNFAg.verAplic := FNFAgRetorno.protNFAg.verAplic;
+                  NFAg.procNFAg.chDFe := FNFAgRetorno.protNFAg.chDFe;
+                  NFAg.procNFAg.dhRecbto := FNFAgRetorno.protNFAg.dhRecbto;
+                  NFAg.procNFAg.nProt := FNFAgRetorno.protNFAg.nProt;
+                  NFAg.procNFAg.digVal := FNFAgRetorno.protNFAg.digVal;
+                  NFAg.procNFAg.cStat := FNFAgRetorno.protNFAg.cStat;
+                  NFAg.procNFAg.xMotivo := FNFAgRetorno.protNFAg.xMotivo;
 
                   // O código abaixo é bem mais rápido que "GerarXML" (acima)...
                   AProcNFAg := TProcDFe.Create(FPVersaoServico, NAME_SPACE_NFAg, 'NFAgProc', 'NFAg');
                   try
                     AProcNFAg.XML_DFe := RemoverDeclaracaoXML(XMLOriginal);
-                    AProcNFAg.XML_Prot := NFAgRetorno.XMLprotNFAg;
+                    AProcNFAg.XML_Prot := FNFAgRetorno.XMLprotNFAg;
 
                     XMLOriginal := AProcNFAg.GerarXML;
                   finally
@@ -2109,7 +1257,7 @@ begin
 
               if SalvarXML then
               begin
-                // Salva o XML da NF3-e assinado, protocolado e com os eventos
+                // Salva o XML da NFAg assinado, protocolado e com os eventos
                 if FPConfiguracoesNFAg.Arquivos.EmissaoPathNFAg then
                   dhEmissao := NFAg.Ide.dhEmi
                 else
@@ -2122,7 +1270,7 @@ begin
 
                 if Atualiza then
                 begin
-                  // Salva o XML da NF3-e assinado e protocolado
+                  // Salva o XML da NFAg assinado e protocolado
                   NomeXMLSalvo := '';
                   if NaoEstaVazio(NomeArq) and FileExists(NomeArq) then
                   begin
@@ -2134,7 +1282,7 @@ begin
                   if (NomeXMLSalvo <> CalcularNomeArquivoCompleto()) then
                     GravarXML;
 
-                  // Salva o XML de eventos retornados ao consultar um NF3-e
+                  // Salva o XML de eventos retornados ao consultar um NFAg
                   if ExtrairEventos then
                     SalvarEventos(aEventos);
                 end;
@@ -2155,37 +1303,38 @@ begin
 
           aEventos := Copy(FPRetWS, Inicio, Fim - Inicio + 1);
 
-          // Salva o XML de eventos retornados ao consultar um NF3-e
+          // Salva o XML de eventos retornados ao consultar um NFAg
           SalvarEventos(aEventos);
         end;
       end;
     end;
   finally
-    NFAgRetorno.Free;
+    Result := True;
+    FNFAgRetorno.Free;
   end;
 end;
 
-function TNFAgConsulta.GerarMsgLog: String;
+function TNFAgConsulta.GerarMsgLog: string;
 begin
   {(*}
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Identificador: %s ' + LineBreak +
-                           'Ambiente: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'UF: %s ' + LineBreak +
-                           'Chave Acesso: %s ' + LineBreak +
-                           'Recebimento: %s ' + LineBreak +
-                           'Protocolo: %s ' + LineBreak +
-                           'Digest Value: %s ' + LineBreak),
-                   [Fversao, FNFAgChave, TpAmbToStr(FTpAmb), FverAplic,
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Identificador: %s ' + sLineBreak +
+                           'Ambiente: %s ' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Status Código: %s ' + sLineBreak +
+                           'Status Descrição: %s ' + sLineBreak +
+                           'UF: %s ' + sLineBreak +
+                           'Chave Acesso: %s ' + sLineBreak +
+                           'Recebimento: %s ' + sLineBreak +
+                           'Protocolo: %s ' + sLineBreak +
+                           'Digest Value: %s ' + sLineBreak),
+                   [Fversao, FNFAgChave, TipoAmbienteToStr(FTpAmb), FverAplic,
                     IntToStr(FcStat), FXMotivo, CodigoUFparaUF(FcUF), FNFAgChave,
                     FormatDateTimeBr(FDhRecbto), FProtocolo, FprotNFAg.digVal]);
   {*)}
 end;
 
-function TNFAgConsulta.GerarPrefixoArquivo: String;
+function TNFAgConsulta.GerarPrefixoArquivo: string;
 begin
   Result := Trim(FNFAgChave);
 end;
@@ -2216,12 +1365,12 @@ begin
   FPArqEnv := 'ped-eve';
   FPArqResp := 'eve';
 
-  FcStat   := 0;
+  FcStat := 0;
   FxMotivo := '';
   FCNPJ := '';
 
   if Assigned(FPConfiguracoesNFAg) then
-    FtpAmb := TACBrTipoAmbiente(FPConfiguracoesNFAg.WebServices.Ambiente);
+    FtpAmb := FPConfiguracoesNFAg.WebServices.Ambiente;
 
   if Assigned(FEventoRetorno) then
     FEventoRetorno.Free;
@@ -2229,7 +1378,7 @@ begin
   FEventoRetorno := TRetEventoNFAg.Create;
 end;
 
-function TNFAgEnvEvento.GerarPathEvento(const ACNPJ: String; const AIE: String): String;
+function TNFAgEnvEvento.GerarPathEvento(const ACNPJ: string; const AIE: string): string;
 begin
   with FEvento.Evento.Items[0].InfEvento do
   begin
@@ -2239,13 +1388,9 @@ end;
 
 procedure TNFAgEnvEvento.DefinirURL;
 var
-  UF: String;
+  UF: string;
   VerServ: Double;
-//  ok: Boolean;
 begin
-  { Verificação necessária pois somente os eventos de Cancelamento e CCe serão tratados pela SEFAZ do estado
-    os outros eventos como manifestacao de destinatários serão tratados diretamente pela RFB }
-
   FPLayout := LayNFAgEvento;
   VerServ  := VersaoNFAgToDbl(FPConfiguracoesNFAg.Geral.VersaoDF);
   FCNPJ    := FEvento.Evento.Items[0].InfEvento.CNPJ;
@@ -2258,25 +1403,13 @@ begin
   else
     UF := CodigoUFparaUF(ExtrairUFChaveAcesso(FEvento.Evento.Items[0].InfEvento.chNFAg));
   end;
-  {
-  if (FEvento.Evento.Items[0].InfEvento.tpEvento = teEPECNFe) then
-  begin
-    FPLayout := LayNFCeEPEC;
-  end
-  else if not (FEvento.Evento.Items[0].InfEvento.tpEvento in [teCCe,
-         teCancelamento, teCancSubst, tePedProrrog1, tePedProrrog2,
-         teCanPedProrrog1, teCanPedProrrog2]) then
-  begin
-    FPLayout := LayNFAgEventoAN;
-    UF       := 'AN';
-  end;
-  }
+
   FPURL := '';
 
   TACBrNFAg(FPDFeOwner).LerServicoDeParams(
     'NFAg',
     UF,
-    TpcnTipoAmbiente(FTpAmb),
+    FTpAmb,
     LayOutToServico(FPLayout),
     VerServ,
     FPURL,
@@ -2288,18 +1421,15 @@ end;
 
 procedure TNFAgEnvEvento.DefinirServicoEAction;
 begin
-  if EstaVazio(FPServico) then
-    FPServico := GetUrlWsd + 'NFAgRecepcaoEvento';
-
-  if EstaVazio(FPSoapAction) then
-    FPSoapAction := FPServico + '/NFAgRecepcaoEvento';
+  FPServico := GetUrlWsd + 'NFAgRecepcaoEvento';
+  FPSoapAction := FPServico + '/nfagRecepcaoEvento';
 end;
 
 procedure TNFAgEnvEvento.DefinirDadosMsg;
 var
   EventoNFAg: TEventoNFAg;
-  I: integer;
-  AXMLEvento: AnsiString;
+  I, F: Integer;
+  Evento, Eventos, EventosAssinados, AXMLEvento: AnsiString;
   FErroValidacao: string;
   EventoEhValido: Boolean;
   SchemaEventoNFAg: TSchemaNFAg;
@@ -2308,12 +1438,12 @@ begin
   try
     EventoNFAg.idLote := FidLote;
     SchemaEventoNFAg  := schErro;
-    {(*}
+
     for I := 0 to FEvento.Evento.Count - 1 do
     begin
       with EventoNFAg.Evento.New do
       begin
-        InfEvento.tpAmb := TACBrTipoAmbiente(FTpAmb);
+        InfEvento.tpAmb := FTpAmb;
         infEvento.CNPJ := FEvento.Evento[I].InfEvento.CNPJ;
         infEvento.cOrgao := FEvento.Evento[I].InfEvento.cOrgao;
         infEvento.chNFAg := FEvento.Evento[I].InfEvento.chNFAg;
@@ -2331,14 +1461,30 @@ begin
         end;
       end;
     end;
-    {*)}
 
     EventoNFAg.Versao := FPVersaoServico;
     AjustarOpcoes(EventoNFAg.Opcoes);
     EventoNFAg.GerarXML;
 
-    AssinarXML(EventoNFAg.XmlEnvio, 'eventoNFAg', 'infEvento',
-                                         'Falha ao assinar o Envio de Evento ');
+    Eventos := NativeStringToUTF8(EventoNFAg.XmlEnvio);
+    EventosAssinados := '';
+
+    // Realiza a assinatura para cada evento
+    while Eventos <> '' do
+    begin
+      F := Pos('</eventoNFAg>', Eventos);
+
+      if F > 0 then
+      begin
+        Evento := Copy(Eventos, 1, F + 12);
+        Eventos := Copy(Eventos, F + 13, length(Eventos));
+
+        AssinarXML(Evento, 'eventoNFAg', 'infEvento', 'Falha ao assinar o Envio de Evento ');
+        EventosAssinados := EventosAssinados + FPDadosMsg;
+      end
+      else
+        Break;
+    end;
 
     // Separa o XML especifico do Evento para ser Validado.
     AXMLEvento := SeparaDados(FPDadosMsg, 'detEvento');
@@ -2347,7 +1493,6 @@ begin
       schCancNFAg:
         begin
           AXMLEvento := '<evCancNFAg xmlns="' + ACBRNFAg_NAMESPACE + '">' +
-//                          AXMLEvento +
                           Trim(RetornarConteudoEntre(AXMLEvento, '<evCancNFAg>', '</evCancNFAg>')) +
                         '</evCancNFAg>';
         end;
@@ -2386,8 +1531,8 @@ end;
 
 function TNFAgEnvEvento.TratarResposta: Boolean;
 var
-  I, J: integer;
-  NomeArq, PathArq, VersaoEvento, Texto: String;
+  I, J: Integer;
+  NomeArq, PathArq, VersaoEvento, Texto: string;
 begin
   FEvento.idLote := idLote;
 
@@ -2447,7 +1592,7 @@ begin
 
             if FPConfiguracoesNFAg.Arquivos.SalvarEvento then
             begin
-              NomeArq := OnlyNumber(FEvento.Evento.Items[i].InfEvento.Id) + '-procEventoNFAg.xml';
+              NomeArq := RemoverLiteralChave(FEvento.Evento.Items[i].InfEvento.Id) + '-procEventoNFAg.xml';
               PathArq := PathWithDelim(GerarPathEvento(FEvento.Evento.Items[I].InfEvento.CNPJ));
 
               FPDFeOwner.Gravar(NomeArq, Texto, PathArq);
@@ -2455,7 +1600,7 @@ begin
               FEvento.Evento.Items[I].RetInfEvento.NomeArquivo := PathArq + NomeArq;
             end;
 
-            { Converte de UTF8 para a String nativa e Decodificar caracteres HTML Entity }
+            { Converte de UTF8 para a string nativa e Decodificar caracteres HTML Entity }
             Texto := ParseText(Texto);
           end;
 
@@ -2470,251 +1615,26 @@ begin
   end;
 end;
 
-function TNFAgEnvEvento.GerarMsgLog: String;
+function TNFAgEnvEvento.GerarMsgLog: string;
 var
-  aMsg: String;
+  aMsg: string;
 begin
   {(*}
-  aMsg := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                         'Ambiente: %s ' + LineBreak +
-                         'Versão Aplicativo: %s ' + LineBreak +
-                         'Status Código: %s ' + LineBreak +
-                         'Status Descrição: %s ' + LineBreak),
+  aMsg := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                         'Ambiente: %s ' + sLineBreak +
+                         'Versão Aplicativo: %s ' + sLineBreak +
+                         'Status Código: %s ' + sLineBreak +
+                         'Status Descrição: %s ' + sLineBreak),
                  [FEventoRetorno.versao, TipoAmbienteToStr(FEventoRetorno.retInfEvento.tpAmb),
                   FEventoRetorno.retInfEvento.verAplic, IntToStr(FEventoRetorno.retInfEvento.cStat),
                   FEventoRetorno.retInfEvento.xMotivo]);
-  {
-  if FEventoRetorno.retEvento.Count > 0 then
-    aMsg := aMsg + Format(ACBrStr('Recebimento: %s ' + LineBreak),
-       [IfThen(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento = 0, '',
-               FormatDateTimeBr(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento))]);
-  }
   Result := aMsg;
   {*)}
 end;
 
-function TNFAgEnvEvento.GerarPrefixoArquivo: String;
+function TNFAgEnvEvento.GerarPrefixoArquivo: string;
 begin
-//  Result := IntToStr(FEvento.idLote);
   Result := IntToStr(FidLote);
-end;
-
-{ TDistribuicaoDFe }
-
-constructor TDistribuicaoDFe.Create(AOwner: TACBrDFe);
-begin
-  inherited Create(AOwner);
-
-  FOwner := AOwner;
-end;
-
-destructor TDistribuicaoDFe.Destroy;
-begin
-  FretDistDFeInt.Free;
-  FlistaArqs.Free;
-
-  inherited Destroy;
-end;
-
-procedure TDistribuicaoDFe.Clear;
-begin
-  inherited Clear;
-
-  FPStatus := stDistDFeInt;
-  FPLayout := LayNFAgDistDFeInt;
-  FPArqEnv := 'con-dist-dfe';
-  FPArqResp := 'dist-dfe';
-  FPBodyElement := 'NFAgDistDFeInteresse';
-  FPHeaderElement := '';
-
-  if Assigned(FretDistDFeInt) then
-    FretDistDFeInt.Free;
-
-  FretDistDFeInt := TRetDistDFeInt.Create(FOwner, 'NFAg');
-
-  if Assigned(FlistaArqs) then
-    FlistaArqs.Free;
-
-  FlistaArqs := TStringList.Create;
-end;
-
-procedure TDistribuicaoDFe.DefinirURL;
-var
-  UF : String;
-  Versao: Double;
-begin
-  { Esse método é tratado diretamente pela RFB }
-
-  UF := 'AN';
-
-  Versao := 0;
-  FPVersaoServico := '';
-  FPURL := '';
-  Versao := VersaoNFAgToDbl(FPConfiguracoesNFAg.Geral.VersaoDF);
-
-  TACBrNFAg(FPDFeOwner).LerServicoDeParams(
-    TACBrNFAg(FPDFeOwner).GetNomeModeloDFe,
-    UF ,
-    FPConfiguracoesNFAg.WebServices.Ambiente,
-    LayOutToServico(FPLayout),
-    Versao,
-    FPURL, FPServico,
-    FPSoapAction);
-
-  FPVersaoServico := FloatToString(Versao, '.', '0.00');
-end;
-
-procedure TDistribuicaoDFe.DefinirServicoEAction;
-begin
-  FPServico := GetUrlWsd + 'NFAgDistribuicaoDFe';
-  FPSoapAction := FPServico + '/NFAgDistDFeInteresse';
-end;
-
-procedure TDistribuicaoDFe.DefinirDadosMsg;
-var
-  DistDFeInt: TDistDFeInt;
-begin
-  DistDFeInt := TDistDFeInt.Create(FPVersaoServico, NAME_SPACE_NFAg,
-                                     'NFAgDadosMsg', 'consChNFAg', 'chNFAg', True);
-  try
-    DistDFeInt.TpAmb := FPConfiguracoesNFAg.WebServices.Ambiente;
-    DistDFeInt.cUFAutor := FcUFAutor;
-    DistDFeInt.CNPJCPF := FCNPJCPF;
-    DistDFeInt.ultNSU := trim(FultNSU);
-    DistDFeInt.NSU := trim(FNSU);
-    DistDFeInt.Chave := trim(FchNFAg);
-
-    FPDadosMsg := DistDFeInt.GerarXML;
-  finally
-    DistDFeInt.Free;
-  end;
-end;
-
-function TDistribuicaoDFe.TratarResposta: Boolean;
-var
-  I: integer;
-  AXML, aPath: String;
-begin
-  FPRetWS := SeparaDadosArray(['NFAgDistDFeInteresseResult',
-                               'NFAgResultMsg'],FPRetornoWS );
-
-  VerificarSemResposta;
-
-  RemoverNameSpace;
-
-  // Processando em UTF8, para poder gravar arquivo corretamente //
-  FretDistDFeInt.XmlRetorno := ParseText(FPRetWS);
-  FretDistDFeInt.LerXml;
-
-  FPMsg := FretDistDFeInt.xMotivo;
-  Result := (FretDistDFeInt.CStat = 137) or (FretDistDFeInt.CStat = 138);
-
-  for I := 0 to FretDistDFeInt.docZip.Count - 1 do
-  begin
-    AXML := FretDistDFeInt.docZip.Items[I].XML;
-    FNomeArq := '';
-    if (AXML <> '') then
-    begin
-      case FretDistDFeInt.docZip.Items[I].schema of
-        schresNFe:
-          FNomeArq := FretDistDFeInt.docZip.Items[I].resDFe.chDFe + '-resNFAg.xml';
-
-        schresEvento:
-          FNomeArq := OnlyNumber(TpEventoToStr(FretDistDFeInt.docZip.Items[I].resEvento.tpEvento) +
-                      FretDistDFeInt.docZip.Items[I].resEvento.chDFe +
-                      Format('%.2d', [FretDistDFeInt.docZip.Items[I].resEvento.nSeqEvento])) +
-                      '-resEventoNFAg.xml';
-
-        schprocNFe:
-          FNomeArq := FretDistDFeInt.docZip.Items[I].resDFe.chDFe + '-NFAg.xml';
-
-        schprocEventoNFe:
-          FNomeArq := OnlyNumber(FretDistDFeInt.docZip.Items[I].procEvento.Id) +
-                      '-procEventoNFAg.xml';
-      end;
-
-      if NaoEstaVazio(NomeArq) then
-        FlistaArqs.Add( FNomeArq );
-
-      aPath := GerarPathDistribuicao(FretDistDFeInt.docZip.Items[I]);
-      FretDistDFeInt.docZip.Items[I].NomeArq := aPath + FNomeArq;
-
-      if (FPConfiguracoesNFAg.Arquivos.Salvar) and NaoEstaVazio(NomeArq) then
-      begin
-        if FPConfiguracoesNFAg.Arquivos.SalvarEvento then
-          if (FretDistDFeInt.docZip.Items[I].schema in [schresEvento, schprocEventoNFe]) then
-            FPDFeOwner.Gravar(NomeArq, AXML, aPath);
-
-        if (FretDistDFeInt.docZip.Items[I].schema in [schresNFe, schprocNFe]) then
-          FPDFeOwner.Gravar(NomeArq, AXML, aPath);
-      end;
-    end;
-  end;
-end;
-
-function TDistribuicaoDFe.GerarMsgLog: String;
-begin
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Ambiente: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'Resposta: %s ' + LineBreak +
-                           'Último NSU: %s ' + LineBreak +
-                           'Máximo NSU: %s ' + LineBreak),
-                   [FretDistDFeInt.versao, TpAmbToStr(FretDistDFeInt.tpAmb),
-                    FretDistDFeInt.verAplic, IntToStr(FretDistDFeInt.cStat),
-                    FretDistDFeInt.xMotivo,
-                    IfThen(FretDistDFeInt.dhResp = 0, '',
-                           FormatDateTimeBr(RetDistDFeInt.dhResp)),
-                    FretDistDFeInt.ultNSU, FretDistDFeInt.maxNSU]);
-end;
-
-function TDistribuicaoDFe.GerarMsgErro(E: Exception): String;
-begin
-  Result := ACBrStr('WebService Distribuição de DFe:' + LineBreak +
-                    '- Inativo ou Inoperante tente novamente.');
-end;
-
-function TDistribuicaoDFe.GerarPathDistribuicao(AItem: TdocZipCollectionItem): String;
-var
-  Data: TDateTime;
-begin
-  if FPConfiguracoesNFAg.Arquivos.EmissaoPathNFAg then
-  begin
-    Data := AItem.resDFe.dhEmi;
-    if Data = 0 then
-    begin
-      Data := AItem.resEvento.dhEvento;
-      if Data = 0 then
-        Data := AItem.procEvento.dhEvento;
-    end;
-  end
-  else
-    Data := Now;
-
-  case AItem.schema of
-    schresEvento:
-      Result := FPConfiguracoesNFAg.Arquivos.GetPathDownloadEvento(AItem.resEvento.tpEvento,
-                                                          AItem.resDFe.xNome,
-                                                          AItem.resEvento.CNPJCPF,
-                                                          AItem.resDFe.IE,
-                                                          Data);
-
-    schprocEventoNFe:
-      Result := FPConfiguracoesNFAg.Arquivos.GetPathDownloadEvento(AItem.procEvento.tpEvento,
-                                                          AItem.resDFe.xNome,
-                                                          AItem.procEvento.CNPJ,
-                                                          AItem.resDFe.IE,
-                                                          Data);
-
-    schresNFe,
-    schprocNFe:
-      Result := FPConfiguracoesNFAg.Arquivos.GetPathDownload(AItem.resDFe.xNome,
-                                                        AItem.resDFe.CNPJCPF,
-                                                        AItem.resDFe.IE,
-                                                        Data);
-  end;
 end;
 
 { TNFAgEnvioWebService }
@@ -2781,13 +1701,13 @@ begin
   Result := True;
 end;
 
-function TNFAgEnvioWebService.GerarMsgErro(E: Exception): String;
+function TNFAgEnvioWebService.GerarMsgErro(E: Exception): string;
 begin
-  Result := ACBrStr('WebService: '+FPServico + LineBreak +
+  Result := ACBrStr('WebService: '+FPServico + sLineBreak +
                     '- Inativo ou Inoperante tente novamente.');
 end;
 
-function TNFAgEnvioWebService.GerarVersaoDadosSoap: String;
+function TNFAgEnvioWebService.GerarVersaoDadosSoap: string;
 begin
   Result := '<versaoDados>' + FVersao + '</versaoDados>';
 end;
@@ -2800,11 +1720,8 @@ begin
 
   FStatusServico := TNFAgStatusServico.Create(FACBrNFAg);
   FEnviar := TNFAgRecepcao.Create(FACBrNFAg, TACBrNFAg(FACBrNFAg).NotasFiscais);
-  FRetorno := TNFAgRetRecepcao.Create(FACBrNFAg, TACBrNFAg(FACBrNFAg).NotasFiscais);
-  FRecibo := TNFAgRecibo.Create(FACBrNFAg, TACBrNFAg(FACBrNFAg).NotasFiscais);
   FConsulta := TNFAgConsulta.Create(FACBrNFAg, TACBrNFAg(FACBrNFAg).NotasFiscais);
   FEnvEvento := TNFAgEnvEvento.Create(FACBrNFAg, TACBrNFAg(FACBrNFAg).EventoNFAg);
-  FDistribuicaoDFe := TDistribuicaoDFe.Create(FACBrNFAg);
   FEnvioWebService := TNFAgEnvioWebService.Create(FACBrNFAg);
 end;
 
@@ -2812,31 +1729,21 @@ destructor TWebServices.Destroy;
 begin
   FStatusServico.Free;
   FEnviar.Free;
-  FRetorno.Free;
-  FRecibo.Free;
   FConsulta.Free;
   FEnvEvento.Free;
-  FDistribuicaoDFe.Free;
   FEnvioWebService.Free;
 
   inherited Destroy;
 end;
 
-function TWebServices.Envia(ALote: Int64; const ASincrono: Boolean): Boolean;
-begin
-  Result := Envia(IntToStr(ALote), ASincrono);
-end;
-
-function TWebServices.Envia(const ALote: String; const ASincrono: Boolean): Boolean;
+function TWebServices.Envia(const ALote: string): Boolean;
 begin
   FEnviar.Clear;
-  FRetorno.Clear;
 
   FEnviar.Lote := ALote;
-//  FEnviar.Sincrono := ASincrono;
 
   if not Enviar.Executar then
-    Enviar.GerarException( Enviar.Msg );
+    Enviar.GerarException(Enviar.Msg);
 
   Result := True;
 end;

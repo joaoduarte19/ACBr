@@ -43,7 +43,6 @@ uses
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$IFEND}
-  pcnConversao,
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrDFeConsts,
@@ -109,7 +108,7 @@ type
 
     function LerXML(const ACaminhoArquivo: string): Boolean;
     function LerXMLFromString(const AXML: string): Boolean;
-    function ObterNomeArquivo(tpEvento: TpcnTpEvento): string;
+    function ObterNomeArquivo(tpEvento: TACBrTipoEvento): string;
     function LerFromIni(const AIniString: string): Boolean;
 
     property idLote: Int64 read FidLote write FidLote;
@@ -152,7 +151,7 @@ begin
   Result := TACBrXmlWriterOptions.Create();
 end;
 
-function TEventoNFAg.ObterNomeArquivo(tpEvento: TpcnTpEvento): string;
+function TEventoNFAg.ObterNomeArquivo(tpEvento: TACBrTipoEvento): string;
 begin
   case tpEvento of
     teCancelamento: Result := IntToStr(Self.idLote) + '-can-eve.xml';
@@ -169,7 +168,7 @@ begin
 
   FDocument.Clear();
   EventoNode := CreateElement('eventoNFAg');
-  EventoNode.SetNamespace('http://www.portalfiscal.inf.br/NFAg');
+  EventoNode.SetNamespace('http://www.portalfiscal.inf.br/nfag');
   EventoNode.SetAttribute('versao', Versao);
 
   FDocument.Root := EventoNode;
@@ -189,7 +188,7 @@ var
 begin
   Evento[AIdx].InfEvento.id := 'ID'+
                                Evento[AIdx].InfEvento.TipoEvento +
-                               OnlyNumber(Evento[AIdx].InfEvento.chNFAg) +
+                               RemoverLiteralChave(Evento[AIdx].InfEvento.chNFAg) +
                                Format('%.2d', [Evento[AIdx].InfEvento.nSeqEvento]);
 
   Result := CreateElement('infEvento');
@@ -201,7 +200,7 @@ begin
   Result.AppendChild(AddNode(tcStr, 'P06', 'tpAmb', 1, 1, 1,
                    TipoAmbienteToStr(Evento[AIdx].InfEvento.tpAmb), DSC_TPAMB));
 
-  sDoc := OnlyNumber(Evento[AIdx].InfEvento.CNPJ);
+  sDoc := OnlyAlphaNum(Evento[AIdx].InfEvento.CNPJ);
 
   if EstaVazio(sDoc) then
     sDoc := ExtrairCNPJCPFChaveAcesso(Evento[AIdx].InfEvento.chNFAg);

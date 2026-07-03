@@ -46,7 +46,6 @@ uses
   ACBrBase,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  pcnConversao,
   ACBrNFAg.Conversao;
 
 type
@@ -77,7 +76,7 @@ type
     FcOrgao: Integer;
     FChave: String;
     FDataEvento: TDateTime;
-    FTpEvento: TpcnTpEvento;
+    FTpEvento: TACBrTipoEvento;
     FnSeqEvento: Integer;
     FDetEvento: TDetEvento;
 
@@ -88,7 +87,7 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    function DescricaoTipoEvento(TipoEvento:TpcnTpEvento): String;
+    function DescricaoTipoEvento(TipoEvento:TACBrTipoEvento): String;
 
     property id: String               read FID             write FID;
     property cOrgao: Integer          read getcOrgao       write FcOrgao;
@@ -96,7 +95,7 @@ type
     property CNPJ: String             read FCNPJ           write FCNPJ;
     property chNFAg: String           read FChave          write FChave;
     property dhEvento: TDateTime      read FDataEvento     write FDataEvento;
-    property tpEvento: TpcnTpEvento   read FTpEvento       write FTpEvento;
+    property tpEvento: TACBrTipoEvento read FTpEvento       write FTpEvento;
     property nSeqEvento: Integer      read FnSeqEvento     write FnSeqEvento;
     property detEvento: TDetEvento    read FDetEvento      write FDetEvento;
     property DescEvento: String       read getDescEvento;
@@ -115,7 +114,7 @@ type
     FcStat: Integer;
     FxMotivo: String;
     FchNFAg: String;
-    FtpEvento: TpcnTpEvento;
+    FtpEvento: TACBrTipoEvento;
     FxEvento: String;
     FnSeqEvento: Integer;
     FCNPJDest: String;
@@ -132,7 +131,7 @@ type
     property cStat: Integer           read FcStat       write FcStat;
     property xMotivo: String          read FxMotivo     write FxMotivo;
     property chNFAg: String           read FchNFAg      write FchNFAg;
-    property tpEvento: TpcnTpEvento   read FtpEvento    write FtpEvento;
+    property tpEvento: TACBrTipoEvento read FtpEvento    write FtpEvento;
     property xEvento: String          read FxEvento     write FxEvento;
     property nSeqEvento: Integer      read FnSeqEvento  write FnSeqEvento;
     property CNPJDest: String         read FCNPJDest    write FCNPJDest;
@@ -190,7 +189,7 @@ begin
   end;
 end;
 
-function TInfEvento.DescricaoTipoEvento(TipoEvento: TpcnTpEvento): String;
+function TInfEvento.DescricaoTipoEvento(TipoEvento: TACBrTipoEvento): String;
 begin
   case TipoEvento of
     teCancelamento: Result := 'CANCELAMENTO DE NF3-e';

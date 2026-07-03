@@ -43,7 +43,6 @@ uses
   ACBrDFe.Conversao,
   ACBrNFAgConfiguracoes, ACBrNFAgWebServices, ACBrNFAgNotasFiscais,
   ACBrNFAgDANFAgClass,
-  pcnConversao,
   ACBrNFAg.Classes, ACBrNFAg.Conversao, ACBrNFAg.EnvEvento;
 
 const
@@ -67,8 +66,6 @@ type
     FWebServices: TWebServices;
 
     function GetConfiguracoes: TConfiguracoesNFAg;
-    function Distribuicao(AcUFAutor: integer; const ACNPJCPF, AultNSU, ANSU,
-      chNFAg: String): Boolean;
 
     procedure SetConfiguracoes(AValue: TConfiguracoesNFAg);
     procedure SetDANFAg(const Value: TACBrNFAgDANFAgClass);
@@ -76,45 +73,42 @@ type
     function CreateConfiguracoes: TConfiguracoes; override;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
 
-    function NomeServicoToNomeSchema(const NomeServico: String): String; override;
+    function NomeServicoToNomeSchema(const NomeServico: string): string; override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
-    procedure EnviarEmail(const sPara, sAssunto: String;
+    procedure EnviarEmail(const sPara, sAssunto: string;
       sMensagem: TStrings = nil; sCC: TStrings = nil; Anexos: TStrings = nil;
-      StreamNFAg: TStream = nil; const NomeArq: String = '';
+      StreamNFAg: TStream = nil; const NomeArq: string = '';
 	  sReplyTo: TStrings = nil; sBCC: TStrings = nil); override;
 
-    function GetNomeModeloDFe: String; override;
-    function GetNameSpaceURI: String; override;
+    function GetNomeModeloDFe: string; override;
+    function GetNameSpaceURI: string; override;
 
     function CstatConfirmada(AValue: integer): Boolean;
     function CstatProcessado(AValue: integer): Boolean;
     function CstatCancelada(AValue: integer): Boolean;
 
-    function Enviar(ALote: Int64; Imprimir: Boolean = True;
-      Sincrono: Boolean = False): Boolean; overload;
-    function Enviar(const ALote: String; Imprimir: Boolean = True;
-      Sincrono: Boolean = False): Boolean; overload;
-    function Cancelamento(const AJustificativa: String; ALote: Int64 = 0): Boolean;
-    function Consultar(const AChave: String = ''; AExtrairEventos: Boolean = False): Boolean;
+    function Enviar(const ALote: string; Imprimir: Boolean = True): Boolean;
+    function Cancelamento(const AJustificativa: string; ALote: Int64 = 0): Boolean;
+    function Consultar(const AChave: string = ''; AExtrairEventos: Boolean = False): Boolean;
     function EnviarEvento(idLote: Int64): Boolean;
 
     procedure LerServicoDeParams(LayOutServico: TLayOut; var Versao: Double;
-      var URL: String; var Servico: String; var SoapAction: String); reintroduce; overload;
-    function LerVersaoDeParams(LayOutServico: TLayOut): String; reintroduce; overload;
+      var URL: string; var Servico: string; var SoapAction: string); reintroduce; overload;
+    function LerVersaoDeParams(LayOutServico: TLayOut): string; reintroduce; overload;
 
     function AjustarVersaoQRCode( AVersaoQRCode: TVersaoQrCode;
       AVersaoXML: TVersaoNFAg): TVersaoQrCode;
     function GetURLConsultaNFAg(const CUF: integer;
       const TipoAmbiente: TACBrTipoAmbiente;
-      const Versao: Double): String;
-    function GetURLQRCode(FNFAg: TNFAg): String;
+      const Versao: Double): string;
+    function GetURLQRCode(FNFAg: TNFAg): string;
 
-    function IdentificaSchema(const AXML: String): TSchemaNFAg;
-    function GerarNomeArqSchema(const ALayOut: TLayOut; VersaoServico: Double): String;
-    function GerarNomeArqSchemaEvento(ASchemaEventoNFAg: TSchemaNFAg; VersaoServico: Double): String;
+    function IdentificaSchema(const AXML: string): TSchemaNFAg;
+    function GerarNomeArqSchema(const ALayOut: TLayOut; VersaoServico: Double): string;
+    function GerarNomeArqSchemaEvento(ASchemaEventoNFAg: TSchemaNFAg; VersaoServico: Double): string;
 
     property WebServices: TWebServices read FWebServices write FWebServices;
     property NotasFiscais: TNotasFiscais read FNotasFiscais write FNotasFiscais;
@@ -125,16 +119,9 @@ type
     procedure ImprimirEvento;
     procedure ImprimirEventoPDF;
 
-    function DistribuicaoDFePorUltNSU(AcUFAutor: integer; const ACNPJCPF,
-      AultNSU: String): Boolean;
-    function DistribuicaoDFePorNSU(AcUFAutor: integer; const ACNPJCPF,
-      ANSU: String): Boolean;
-    function DistribuicaoDFePorChaveNFAg(AcUFAutor: integer; const ACNPJCPF,
-      AchNFAg: String): Boolean;
-
     function GravarStream(AStream: TStream): Boolean;
 
-    procedure EnviarEmailEvento(const sPara, sAssunto: String;
+    procedure EnviarEmailEvento(const sPara, sAssunto: string;
       sMensagem: TStrings = nil; sCC: TStrings = nil; Anexos: TStrings = nil;
       sReplyTo: TStrings = nil);
 
@@ -148,7 +135,10 @@ implementation
 
 uses
   dateutils, math,
-  ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.FilesIO,
+  ACBrDFeUtil,
+  ACBrUtil.Base,
+  ACBrUtil.Strings,
+  ACBrUtil.FilesIO,
   ACBrDFeSSL;
 
 {$R ACBrNFAgServicos.res}
@@ -173,8 +163,8 @@ begin
   inherited;
 end;
 
-procedure TACBrNFAg.EnviarEmail(const sPara, sAssunto: String; sMensagem: TStrings;
-  sCC: TStrings; Anexos: TStrings; StreamNFAg: TStream; const NomeArq: String;
+procedure TACBrNFAg.EnviarEmail(const sPara, sAssunto: string; sMensagem: TStrings;
+  sCC: TStrings; Anexos: TStrings; StreamNFAg: TStream; const NomeArq: string;
   sReplyTo: TStrings; sBCC: TStrings);
 begin
   SetStatus( stNFAgEmail );
@@ -225,12 +215,12 @@ begin
   end;
 end;
 
-function TACBrNFAg.GetNomeModeloDFe: String;
+function TACBrNFAg.GetNomeModeloDFe: string;
 begin
   Result := 'NFAg';
 end;
 
-function TACBrNFAg.GetNameSpaceURI: String;
+function TACBrNFAg.GetNameSpaceURI: string;
 begin
   Result := ACBRNFAg_NAMESPACE;
 end;
@@ -262,39 +252,32 @@ begin
   end;
 end;
 
-function TACBrNFAg.IdentificaSchema(const AXML: String): TSchemaNFAg;
+function TACBrNFAg.IdentificaSchema(const AXML: string): TSchemaNFAg;
 var
-  lTipoEvento: String;
+  lTipoEvento: string;
   I: integer;
 begin
   Result := schNFAg;
-  I := pos('<infNFAg', AXML);
+  I := pos('<infNFGas', AXML);
 
   if I = 0 then
   begin
-    I := pos('<infInut', AXML);
+    I := Pos('<infEvento', AXML);
 
     if I > 0 then
-      Result := schInutNFAg
-    else
     begin
-      I := Pos('<infEvento', AXML);
+      lTipoEvento := Trim(RetornarConteudoEntre(AXML, '<tpEvento>', '</tpEvento>'));
 
-      if I > 0 then
-      begin
-        lTipoEvento := Trim(RetornarConteudoEntre(AXML, '<tpEvento>', '</tpEvento>'));
-
-        if lTipoEvento = '110111' then
-          Result := schCancNFAg; // Cancelamento
-      end;
+      if lTipoEvento = '110111' then
+        Result := schCancNFAg; // Cancelamento
     end;
   end;
 end;
 
 function TACBrNFAg.GerarNomeArqSchema(const ALayOut: TLayOut;
-  VersaoServico: Double): String;
+  VersaoServico: Double): string;
 var
-  NomeServico, NomeSchema, ArqSchema: String;
+  NomeServico, NomeSchema, ArqSchema: string;
   Versao: Double;
 begin
   // Procura por Versão na pasta de Schemas //
@@ -305,14 +288,14 @@ begin
   if NaoEstaVazio(NomeSchema) then
   begin
     Versao := VersaoServico;
-    AchaArquivoSchema( NomeSchema, Versao, ArqSchema );
+    AchaArquivoSchema(NomeSchema, Versao, ArqSchema);
   end;
 
   Result := ArqSchema;
 end;
 
 function TACBrNFAg.GerarNomeArqSchemaEvento(ASchemaEventoNFAg: TSchemaNFAg;
-  VersaoServico: Double): String;
+  VersaoServico: Double): string;
 var
   xComplemento: string;
 begin
@@ -322,7 +305,7 @@ begin
   begin
     xComplemento := '';
 
-    Result := PathWithDelim( Configuracoes.Arquivos.PathSchemas ) +
+    Result := PathWithDelim(Configuracoes.Arquivos.PathSchemas) +
               SchemaEventoToStr(ASchemaEventoNFAg) + xComplemento + '_v' +
               FloatToString(VersaoServico, '.', '0.00') + '.xsd';
   end;
@@ -338,7 +321,7 @@ begin
   FPConfiguracoes := AValue;
 end;
 
-function TACBrNFAg.LerVersaoDeParams(LayOutServico: TLayOut): String;
+function TACBrNFAg.LerVersaoDeParams(LayOutServico: TLayOut): string;
 var
   Versao: Double;
 begin
@@ -359,10 +342,10 @@ begin
 end;
 
 procedure TACBrNFAg.LerServicoDeParams(LayOutServico: TLayOut;
-  var Versao: Double; var URL: String; var Servico: String;
-  var SoapAction: String);
+  var Versao: Double; var URL: string; var Servico: string;
+  var SoapAction: string);
 var
-  AUF: String;
+  AUF: string;
 begin
   case Configuracoes.Geral.FormaEmissao of
     teNormal: AUF := Configuracoes.WebServices.UF;
@@ -383,7 +366,7 @@ begin
 end;
 
 function TACBrNFAg.GetURLConsultaNFAg(const CUF: integer;
-  const TipoAmbiente: TACBrTipoAmbiente; const Versao: Double): String;
+  const TipoAmbiente: TACBrTipoAmbiente; const Versao: Double): string;
 var
   VersaoDFe: TVersaoNFAg;
   VersaoQrCode: TVersaoQrCode;
@@ -391,20 +374,20 @@ begin
   VersaoDFe := DblToVersaoNFAg(Versao);
   VersaoQrCode := AjustarVersaoQRCode(Configuracoes.Geral.VersaoQRCode, VersaoDFe);
 
-  Result := LerURLDeParams('NFAg', CUFtoUF(CUF), TpcnTipoAmbiente(TipoAmbiente),
+  Result := LerURLDeParams('NFAg', CodigoUFparaUF(CUF), TipoAmbiente,
     'URL-ConsultaNFAg', VersaoQrCodeToDbl(VersaoQrCode));
 end;
 
-function TACBrNFAg.GetURLQRCode(FNFAg: TNFAg): String;
+function TACBrNFAg.GetURLQRCode(FNFAg: TNFAg): string;
 var
-  idNFAg, sEntrada, urlUF, Passo2, sign: String;
+  idNFAg, sEntrada, urlUF, Passo2, sign: string;
   VersaoDFe: TVersaoNFAg;
   VersaoQrCode: TVersaoQrCode;
 begin
   VersaoDFe := DblToVersaoNFAg(FNFAg.infNFAg.Versao);
   VersaoQrCode := AjustarVersaoQRCode(Configuracoes.Geral.VersaoQRCode, VersaoDFe);
 
-  urlUF := LerURLDeParams('NFAg', CUFtoUF(FNFAg.Ide.cUF), TpcnTipoAmbiente(FNFAg.Ide.tpAmb),
+  urlUF := LerURLDeParams('NFAg', CodigoUFparaUF(FNFAg.Ide.cUF), FNFAg.Ide.tpAmb,
     'URL-QRCode', VersaoQrCodeToDbl(VersaoQrCode));
 
   if Pos('?', urlUF) <= 0 then
@@ -416,7 +399,7 @@ begin
   sEntrada := 'chNFAg=' + idNFAg + '&tpAmb=' + TipoAmbienteToStr(FNFAg.Ide.tpAmb);
 
   // Passo 2 calcular o SHA-1 da string idCTe se o Tipo de Emissão for EPEC ou FSDA
-  if TpcnTipoEmissao(FNFAg.Ide.tpEmis) = teOffLine then
+  if FNFAg.Ide.tpEmis = teOffLine then
   begin
     // Tipo de Emissão em Contingência
     SSL.CarregarCertificadoSeNecessario;
@@ -450,12 +433,12 @@ begin
   end;
 end;
 
-function TACBrNFAg.Cancelamento(const AJustificativa: String; ALote: Int64 = 0): Boolean;
+function TACBrNFAg.Cancelamento(const AJustificativa: string; ALote: Int64 = 0): Boolean;
 var
   i: integer;
 begin
   if NotasFiscais.Count = 0 then
-    GerarException(ACBrStr('ERRO: Nenhuma NF3-e Informada!'));
+    GerarException(ACBrStr('ERRO: Nenhuma NFAg Informada!'));
 
   for i := 0 to NotasFiscais.Count - 1 do
   begin
@@ -468,7 +451,7 @@ begin
     with EventoNFAg.Evento.New do
     begin
       infEvento.CNPJ     := NotasFiscais.Items[i].NFAg.Emit.CNPJ;
-      infEvento.cOrgao   := StrToIntDef(copy(OnlyNumber(WebServices.Consulta.NFAgChave), 1, 2), 0);
+      infEvento.cOrgao   := ExtrairUFChaveAcesso(WebServices.Consulta.NFAgChave);
       infEvento.dhEvento := now;
       infEvento.tpEvento := teCancelamento;
       infEvento.chNFAg   := WebServices.Consulta.NFAgChave;
@@ -487,12 +470,12 @@ begin
   Result := True;
 end;
 
-function TACBrNFAg.Consultar(const AChave: String; AExtrairEventos: Boolean): Boolean;
+function TACBrNFAg.Consultar(const AChave: string; AExtrairEventos: Boolean): Boolean;
 var
   i: integer;
 begin
   if (NotasFiscais.Count = 0) and EstaVazio(AChave) then
-    GerarException(ACBrStr('ERRO: Nenhuma NF3-e ou Chave Informada!'));
+    GerarException(ACBrStr('ERRO: Nenhuma NFAg ou Chave Informada!'));
 
   if NaoEstaVazio(AChave) then
   begin
@@ -514,38 +497,30 @@ begin
   Result := True;
 end;
 
-function TACBrNFAg.Enviar(ALote: Int64; Imprimir: Boolean = True;
-  Sincrono: Boolean = False): Boolean;
-begin
-  Result := Enviar(IntToStr(ALote), Imprimir, Sincrono);
-end;
-
-function TACBrNFAg.Enviar(const ALote: String; Imprimir: Boolean;
-  Sincrono: Boolean): Boolean;
+function TACBrNFAg.Enviar(const ALote: string; Imprimir: Boolean): Boolean;
 var
   i: integer;
 begin
   WebServices.Enviar.Clear;
-  WebServices.Retorno.Clear;
 
   if NotasFiscais.Count <= 0 then
-    GerarException(ACBrStr('ERRO: Nenhuma NF3-e adicionada ao Lote'));
+    GerarException(ACBrStr('ERRO: Nenhuma NFAg adicionada ao Lote'));
 
   if NotasFiscais.Count > 1 then
-    GerarException(ACBrStr('ERRO: Conjunto de NF3-e transmitidos (máximo de 1 NF3-e)' +
+    GerarException(ACBrStr('ERRO: Conjunto de NFAg transmitidos (máximo de 1 NFAg)' +
       ' excedido. Quantidade atual: ' + IntToStr(NotasFiscais.Count)));
 
   NotasFiscais.Assinar;
   NotasFiscais.Validar;
 
-  Result := WebServices.Envia(ALote, Sincrono);
+  Result := WebServices.Envia(ALote);
 
   if DANFAg <> nil then
   begin
     for i := 0 to NotasFiscais.Count - 1 do
     begin
-      if NotasFiscais.Items[i].Confirmada and Imprimir then
-        NotasFiscais.Items[i].Imprimir;
+      if NotasFiscais[i].Confirmada and Imprimir then
+        NotasFiscais[i].Imprimir;
     end;
   end;
 
@@ -554,7 +529,7 @@ end;
 function TACBrNFAg.EnviarEvento(idLote: Int64): Boolean;
 var
   i, j: integer;
-  chNFAg: String;
+  chNFAg: string;
 begin
   if EventoNFAg.Evento.Count <= 0 then
     GerarException(ACBrStr('ERRO: Nenhum Evento adicionado ao Lote'));
@@ -571,11 +546,11 @@ begin
     if EventoNFAg.Evento.Items[i].infEvento.nSeqEvento = 0 then
       EventoNFAg.Evento.Items[i].infEvento.nSeqEvento := 1;
 
-    FEventoNFAg.Evento.Items[i].InfEvento.tpAmb := TACBrTipoAmbiente(Configuracoes.WebServices.Ambiente);
+    FEventoNFAg.Evento.Items[i].InfEvento.tpAmb := Configuracoes.WebServices.Ambiente;
 
     if NotasFiscais.Count > 0 then
     begin
-      chNFAg := OnlyNumber(EventoNFAg.Evento.Items[i].InfEvento.chNFAg);
+      chNFAg := RemoverLiteralChave(EventoNFAg.Evento.Items[i].InfEvento.chNFAg);
 
       // Se tem a chave da NFAg no Evento, procure por ela nas notas carregadas //
       if NaoEstaVazio(chNFAg) then
@@ -624,7 +599,7 @@ begin
     GerarException( WebServices.EnvEvento.Msg );
 end;
 
-function TACBrNFAg.NomeServicoToNomeSchema(const NomeServico: String): String;
+function TACBrNFAg.NomeServicoToNomeSchema(const NomeServico: string): string;
 var
   ALayout: TLayOut;
 begin
@@ -649,44 +624,11 @@ begin
     DANFAg.ImprimirEVENTOPDF(nil);
 end;
 
-function TACBrNFAg.Distribuicao(AcUFAutor: integer; const ACNPJCPF, AultNSU, ANSU,
-  chNFAg: String): Boolean;
-begin
-  WebServices.DistribuicaoDFe.cUFAutor := AcUFAutor;
-  WebServices.DistribuicaoDFe.CNPJCPF  := ACNPJCPF;
-  WebServices.DistribuicaoDFe.ultNSU   := AultNSU;
-  WebServices.DistribuicaoDFe.NSU      := ANSU;
-  WebServices.DistribuicaoDFe.chNFAg   := chNFAg;
-
-  Result := WebServices.DistribuicaoDFe.Executar;
-
-  if not Result then
-    GerarException( WebServices.DistribuicaoDFe.Msg );
-end;
-
-function TACBrNFAg.DistribuicaoDFePorUltNSU(AcUFAutor: integer; const ACNPJCPF,
-  AultNSU: String): Boolean;
-begin
-  Result := Distribuicao(AcUFAutor, ACNPJCPF, AultNSU, '', '');
-end;
-
-function TACBrNFAg.DistribuicaoDFePorNSU(AcUFAutor: integer; const ACNPJCPF,
-  ANSU: String): Boolean;
-begin
-  Result := Distribuicao(AcUFAutor, ACNPJCPF, '', ANSU, '');
-end;
-
-function TACBrNFAg.DistribuicaoDFePorChaveNFAg(AcUFAutor: integer; const ACNPJCPF,
-  AchNFAg: String): Boolean;
-begin
-  Result := Distribuicao(AcUFAutor, ACNPJCPF, '', '', AchNFAg);
-end;
-
-procedure TACBrNFAg.EnviarEmailEvento(const sPara, sAssunto: String;
+procedure TACBrNFAg.EnviarEmailEvento(const sPara, sAssunto: string;
   sMensagem: TStrings; sCC: TStrings; Anexos: TStrings;
   sReplyTo: TStrings);
 var
-  NomeArq: String;
+  NomeArq: string;
   AnexosEmail: TStrings;
   StreamNFAg : TMemoryStream;
 begin
@@ -703,7 +645,7 @@ begin
     ImprimirEventoPDF;
     AnexosEmail.Add(DANFAg.ArquivoPDF);
 
-    NomeArq := OnlyNumber(EventoNFAg.Evento[0].InfEvento.Id);
+    NomeArq := RemoverLiteralChave(EventoNFAg.Evento[0].InfEvento.Id);
     EnviarEmail(sPara, sAssunto, sMensagem, sCC, AnexosEmail, StreamNFAg,
   	  NomeArq + '-procEventoNFAg.xml', sReplyTo);
   finally

@@ -38,7 +38,9 @@ interface
 
 uses
   Classes, SysUtils, IniFiles,
-  ACBrDFeConfiguracoes, pcnConversao, ACBrNFAg.Conversao;
+  ACBrDFeConfiguracoes,
+  ACBrDFe.Conversao,
+  ACBrNFAg.Conversao;
 
 type
 
@@ -47,13 +49,13 @@ type
   TGeralConfNFAg = class(TGeralConf)
   private
     FVersaoDF: TVersaoNFAg;
-    FIdCSC: String;
-    FCSC: String;
+    FIdCSC: string;
+    FCSC: string;
     FVersaoQRCode: TVersaoQrCode;
 
     procedure SetVersaoDF(const Value: TVersaoNFAg);
-    procedure SetIdCSC(const AValue: String);
-    procedure SetCSC(const AValue: String);
+    procedure SetIdCSC(const AValue: string);
+    procedure SetCSC(const AValue: string);
   public
     constructor Create(AOwner: TConfiguracoes); override;
     procedure Assign(DeGeralConfNFAg: TGeralConfNFAg); reintroduce;
@@ -62,8 +64,8 @@ type
 
   published
     property VersaoDF: TVersaoNFAg read FVersaoDF write SetVersaoDF default ve100;
-    property IdCSC: String read FIdCSC write SetIdCSC;
-    property CSC: String read FCSC write SetCSC;
+    property IdCSC: string read FIdCSC write SetIdCSC;
+    property CSC: string read FCSC write SetCSC;
     property VersaoQRCode: TVersaoQrCode read FVersaoQRCode write FVersaoQRCode default veqr100;
   end;
 
@@ -74,9 +76,9 @@ type
     FEmissaoPathNFAg: boolean;
     FSalvarEvento: boolean;
     FNormatizarMunicipios: Boolean;
-    FPathNFAg: String;
-    FPathEvento: String;
-    FPathArquivoMunicipios: String;
+    FPathNFAg: string;
+    FPathEvento: string;
+    FPathArquivoMunicipios: string;
   public
     constructor Create(AOwner: TConfiguracoes); override;
     destructor Destroy; override;
@@ -84,8 +86,8 @@ type
     procedure GravarIni(const AIni: TCustomIniFile); override;
     procedure LerIni(const AIni: TCustomIniFile); override;
 
-    function GetPathNFAg(Data: TDateTime = 0; const CNPJ: String = ''; const IE: String = ''): String;
-    function GetPathEvento(tipoEvento: TpcnTpEvento; const CNPJ: String = ''; const IE: String = ''; Data: TDateTime = 0): String;
+    function GetPathNFAg(Data: TDateTime = 0; const CNPJ: string = ''; const IE: string = ''): string;
+    function GetPathEvento(tipoEvento: TACBrTipoEvento; const CNPJ: string = ''; const IE: string = ''; Data: TDateTime = 0): string;
   published
     property EmissaoPathNFAg: boolean read FEmissaoPathNFAg
       write FEmissaoPathNFAg default False;
@@ -93,9 +95,9 @@ type
       write FSalvarEvento default False;
     property NormatizarMunicipios: boolean
       read FNormatizarMunicipios write FNormatizarMunicipios default False;
-    property PathNFAg: String read FPathNFAg write FPathNFAg;
-    property PathEvento: String read FPathEvento write FPathEvento;
-    property PathArquivoMunicipios: String read FPathArquivoMunicipios write FPathArquivoMunicipios;
+    property PathNFAg: string read FPathNFAg write FPathNFAg;
+    property PathEvento: string read FPathEvento write FPathEvento;
+    property PathArquivoMunicipios: string read FPathArquivoMunicipios write FPathArquivoMunicipios;
   end;
 
   { TConfiguracoesNFAg }
@@ -123,8 +125,8 @@ type
 implementation
 
 uses
-  ACBrUtil.Base, ACBrUtil.FilesIO,
-  DateUtils;
+  ACBrUtil.Base,
+  ACBrUtil.FilesIO;
 
 { TConfiguracoesNFAg }
 
@@ -207,7 +209,7 @@ begin
   VersaoQRCode := TVersaoQrCode(AIni.ReadInteger(fpConfiguracoes.SessaoIni, 'VersaoQRCode', Integer(VersaoQRCode)));
 end;
 
-procedure TGeralConfNFAg.SetIdCSC(const AValue: String);
+procedure TGeralConfNFAg.SetIdCSC(const AValue: string);
 begin
   if FIdCSC = AValue then
     Exit;
@@ -215,7 +217,7 @@ begin
   FIdCSC := IntToStrZero(StrToIntDef(AValue,0),6);
 end;
 
-procedure TGeralConfNFAg.SetCSC(const AValue: String);
+procedure TGeralConfNFAg.SetCSC(const AValue: string);
 begin
   if FCSC = AValue then
     Exit;
@@ -284,10 +286,10 @@ begin
   PathArquivoMunicipios := AIni.ReadString(fpConfiguracoes.SessaoIni, 'PathArquivoMunicipios', PathArquivoMunicipios);
 end;
 
-function TArquivosConfNFAg.GetPathEvento(tipoEvento: TpcnTpEvento; const CNPJ: String;
-  const IE: String; Data: TDateTime): String;
+function TArquivosConfNFAg.GetPathEvento(tipoEvento: TACBrTipoEvento; const CNPJ: string;
+  const IE: string; Data: TDateTime): string;
 var
-  Dir: String;
+  Dir: string;
 begin
   Dir := GetPath(FPathEvento, 'Evento', CNPJ, IE, Data);
 
@@ -300,7 +302,7 @@ begin
   Result := Dir;
 end;
 
-function TArquivosConfNFAg.GetPathNFAg(Data: TDateTime = 0; const CNPJ: String = ''; const IE: String = ''): String;
+function TArquivosConfNFAg.GetPathNFAg(Data: TDateTime = 0; const CNPJ: string = ''; const IE: string = ''): string;
 begin
   Result := GetPath(FPathNFAg, 'NFAg', CNPJ, IE, Data, 'NFAg');
 end;

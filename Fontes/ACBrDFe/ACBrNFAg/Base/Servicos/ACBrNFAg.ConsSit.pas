@@ -61,13 +61,14 @@ type
 implementation
 
 uses
+  ACBrDFeUtil,
   ACBrUtil.Strings;
 
 { TConsSitNFAg }
 
 function TConsSitNFAg.ObterNomeArquivo: String;
 begin
-  Result := OnlyNumber(FchNFAg) + '-ped-sit.xml';
+  Result := RemoverLiteralChave(FchNFAg) + '-ped-sit.xml';
 end;
 
 function TConsSitNFAg.GerarXML: String;

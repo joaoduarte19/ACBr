@@ -172,7 +172,6 @@ var
   Document: TACBrXmlDocument;
   ANode, ANodeAux: TACBrXmlNode;
   ANodeArray: TACBrXmlNodeArray;
-  ok: Boolean;
   i: Integer;
 begin
   Document := TACBrXmlDocument.Create;

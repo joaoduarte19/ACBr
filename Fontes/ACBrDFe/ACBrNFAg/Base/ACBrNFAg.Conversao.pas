@@ -38,12 +38,11 @@ interface
 
 uses
   SysUtils, StrUtils, Classes,
-  pcnConversao;
+  ACBrDFe.Conversao;
 
 type
   TStatusNFAg = (stIdle, stNFAgStatusServico, stNFAgRecepcao,
-                 stNFAgRetRecepcao, stNFAgRecibo, stNFAgConsulta,
-                 stNFAgInutilizacao, stNFAgEvento, stDistDFeInt,
+                 stNFAgRetRecepcao, stNFAgConsulta, stNFAgEvento,
                  stEnvioWebService, stNFAgEmail);
 
 type
@@ -54,23 +53,21 @@ const
   TVersaoArrayDouble: array[TVersaoNFAg] of Double = (1.00);
 
 type
-  TSchemaNFAg = (schErro, schconsStatServNFAg, schNFAg, schconsReciNFAg,
-                 schconsSitNFAg, schInutNFAg, schEventoNFAg,
-                 schCancNFAg);
+  TSchemaNFAg = (schErro, schconsStatServNFAg, schNFAg,
+                 schconsSitNFAg, schEventoNFAg, schCancNFAg);
 
 const
-  TSchemaArrayStrings: array[TSchemaNFAg] of string = ('', '', '', '',  '', '',
-    '', 'evCancNFAg');
+  TSchemaArrayStrings: array[TSchemaNFAg] of string = ('', '', '', '',  '',
+    'evCancNFAg');
 
 type
-  TLayOut = (LayNFAgStatusServico, LayNFAgRecepcao, LayNFAgRecepcaoSinc,
-             LayNFAgRetRecepcao, LayNFAgConsulta, LayNFAgEvento,
-             LayNFAgQRCode, LayNFAgURLConsulta, LayNFAgDistDFeInt);
+  TLayOut = (LayNFAgStatusServico, LayNFAgRecepcao, LayNFAgRetRecepcao,
+             LayNFAgConsulta, LayNFAgEvento, LayNFAgQRCode, LayNFAgURLConsulta);
 
 const
   TLayOutArrayStrings: array[TLayOut] of string = ('NFAgStatusServico',
-    'NFAgRecepcao', 'NFAgRecepcaoSinc', 'NFAgRetRecepcao', 'NFAgConsulta',
-    'NFAgRecepcaoEvento', 'URL-QRCode', 'URL-ConsultaNFAg', 'NFAgDistDFeInt');
+    'NFAgRecepcao', 'NFAgRetRecepcao', 'NFAgConsulta',
+    'NFAgRecepcaoEvento', 'URL-QRCode', 'URL-ConsultaNFAg');
 
 type
   TVersaoQrCode = (veqr000, veqr100, veqr200);
@@ -189,7 +186,7 @@ const
 {
   Declaração das funções de conversão
 }
-function StrToTpEventoNFAg(out ok: boolean; const s: string): TpcnTpEvento;
+function StrToTpEventoNFAg(out ok: boolean; const s: string): TACBrTipoEvento;
 
 function LayOutToServico(const t: TLayOut): string;
 function ServicoToLayOut(const s: string): TLayOut;
@@ -262,7 +259,7 @@ uses
   typinfo,
   ACBrBase;
 
-function StrToTpEventoNFAg(out ok: boolean; const s: string): TpcnTpEvento;
+function StrToTpEventoNFAg(out ok: boolean; const s: string): TACBrTipoEvento;
 begin
   Result := StrToEnumerado(ok, s,
             ['-99999', '110111', '240140', '240150', '240170'],
@@ -295,9 +292,7 @@ function LayOutToSchema(const t: TLayOut): TSchemaNFAg;
 begin
   case t of
     LayNFAgStatusServico: Result := schconsStatServNFAg;
-    LayNFAgRecepcao,
-    LayNFAgRecepcaoSinc:  Result := schNFAg;
-    LayNFAgRetRecepcao:   Result := schconsReciNFAg;
+    LayNFAgRecepcao:      Result := schNFAg;
     LayNFAgConsulta:      Result := schconsSitNFAg;
     LayNFAgEvento:        Result := schEventoNFAg;
   else

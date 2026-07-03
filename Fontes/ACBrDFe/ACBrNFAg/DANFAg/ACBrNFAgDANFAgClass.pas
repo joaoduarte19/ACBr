@@ -38,7 +38,9 @@ interface
 
 uses
   SysUtils, Classes, ACBrBase,
-  ACBrNFAg.Classes, pcnConversao, ACBrDFeReport;
+  ACBrNFAg.Classes,
+  ACBrDFe.Conversao,
+  ACBrDFeReport;
 
 type
 
@@ -56,7 +58,7 @@ type
 
   protected
     FACBrNFAg: TComponent;
-    FTipoDANFAg: TpcnTipoImpressao;
+    FTipoDANFAg: TACBrTipoImpressao;
     FProtocolo: String;
     FCancelada: Boolean;
     FViaConsumidor: Boolean;
@@ -79,7 +81,7 @@ type
 
   published
     property ACBrNFAg: TComponent          read FACBrNFAg            write SetACBrNFAg;
-    property TipoDANFAg: TpcnTipoImpressao read FTipoDANFAg          write FTipoDANFAg;
+    property TipoDANFAg: TACBrTipoImpressao read FTipoDANFAg          write FTipoDANFAg;
     property Protocolo: String             read FProtocolo           write FProtocolo;
     property Cancelada: Boolean            read FCancelada           write FCancelada;
     property ViaConsumidor: Boolean        read FViaConsumidor       write FViaConsumidor;

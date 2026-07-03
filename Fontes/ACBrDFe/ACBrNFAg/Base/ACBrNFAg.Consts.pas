@@ -169,7 +169,7 @@ const
   DSC_VST = 'Valor TOTAL Icms substituição Tributária';
   DSC_DVENC = 'Data de vencimento';
   DSC_NFAT = 'Número da fatura';
-  DSC_QTDE = 'Quantidade';
+  DSC_QTDE = 'Quantidade de Dias';
   DSC_VBCSTRET = 'Valor da BC do ICMS ST Retido';
   DSC_PICMSSTRET = 'Alíquota do ICMS Substituição Tributaria Retido';
   DSC_VICMSSTRET = 'Valor do ICMS Substituição Tributaria Retido';

@@ -59,30 +59,31 @@ type
     FNFAgIniR: TNFAgIniReader;
     FNFAgIniW: TNFAgIniWriter;
     FConfiguracoes: TConfiguracoesNFAg;
-    FXMLAssinado: String;
-    FXMLOriginal: String;
-    FAlertas: String;
-    FErroValidacao: String;
-    FErroValidacaoCompleto: String;
-    FErroRegrasdeNegocios: String;
-    FNomeArq: String;
+    FXMLAssinado: string;
+    FXMLOriginal: string;
+    FAlertas: string;
+    FErroValidacao: string;
+    FErroValidacaoCompleto: string;
+    FErroRegrasdeNegocios: string;
+    FNomeArq: string;
 
     function GetConfirmada: Boolean;
     function GetcStat: Integer;
     function GetProcessada: Boolean;
     function GetCancelada: Boolean;
 
-    function GetMsg: String;
-    function GetNumID: String;
-    function GetXMLAssinado: String;
-    procedure SetXML(const AValue: String);
-    procedure SetXMLOriginal(const AValue: String);
+    function GetMsg: string;
+    function GetNumID: string;
+    function GetXMLAssinado: string;
+    procedure SetXML(const AValue: string);
+    procedure SetXMLOriginal(const AValue: string);
     function ValidarConcatChave: Boolean;
-    function CalcularNomeArquivo: String;
-    function CalcularPathArquivo: String;
+    function CalcularNomeArquivo: string;
+    function CalcularPathArquivo: string;
   public
     constructor Create(Collection2: TCollection); override;
     destructor Destroy; override;
+
     procedure Imprimir;
     procedure ImprimirPDF;
 
@@ -91,43 +92,42 @@ type
     function VerificarAssinatura: Boolean;
     function ValidarRegrasdeNegocios: Boolean;
 
-    function LerXML(const AXML: String): Boolean;
-    function LerArqIni(const AIniString: String): Boolean;
-    function GerarNFAgIni: String;
+    function LerXML(const AXML: string): Boolean;
+    function LerArqIni(const AIniString: string): Boolean;
+    function GerarNFAgIni: string;
 
-    function GerarXML: String;
-    function GravarXML(const NomeArquivo: String = ''; const PathArquivo: String = ''): Boolean;
+    function GerarXML: string;
+    function GravarXML(const NomeArquivo: string = ''; const PathArquivo: string = ''): Boolean;
 
     function GravarStream(AStream: TStream): Boolean;
 
-    procedure EnviarEmail(const sPara, sAssunto: String; sMensagem: TStrings = nil;
+    procedure EnviarEmail(const sPara, sAssunto: string; sMensagem: TStrings = nil;
       EnviaPDF: Boolean = True; sCC: TStrings = nil; Anexos: TStrings = nil;
       sReplyTo: TStrings = nil; ManterPDFSalvo: Boolean = True;
       sBCC: Tstrings = nil);
 
-    property NomeArq: String read FNomeArq write FNomeArq;
-    function CalcularNomeArquivoCompleto(NomeArquivo: String = '';
-      PathArquivo: String = ''): String;
+    function CalcularNomeArquivoCompleto(NomeArquivo: string = '';
+      PathArquivo: string = ''): string;
 
+    property NomeArq: string read FNomeArq write FNomeArq;
     property NFAg: TNFAg read FNFAg;
 
     // Atribuir a "XML", faz o componente transferir os dados lido para as propriedades internas e "XMLAssinado"
-    property XML: String         read FXMLOriginal   write SetXML;
+    property XML: string read FXMLOriginal   write SetXML;
     // Atribuir a "XMLOriginal", reflete em XMLAssinado, se existir a tag de assinatura
-    property XMLOriginal: String read FXMLOriginal   write SetXMLOriginal;    // Sempre deve estar em UTF8
-    property XMLAssinado: String read GetXMLAssinado write FXMLAssinado;      // Sempre deve estar em UTF8
+    property XMLOriginal: string read FXMLOriginal write SetXMLOriginal;      // Sempre deve estar em UTF8
+    property XMLAssinado: string read GetXMLAssinado write FXMLAssinado;      // Sempre deve estar em UTF8
     property Confirmada: Boolean read GetConfirmada;
     property Processada: Boolean read GetProcessada;
     property Cancelada: Boolean read GetCancelada;
     property cStat: Integer read GetcStat;
-    property Msg: String read GetMsg;
-    property NumID: String read GetNumID;
+    property Msg: string read GetMsg;
+    property NumID: string read GetNumID;
 
-    property Alertas: String read FAlertas;
-    property ErroValidacao: String read FErroValidacao;
-    property ErroValidacaoCompleto: String read FErroValidacaoCompleto;
-    property ErroRegrasdeNegocios: String read FErroRegrasdeNegocios;
-
+    property Alertas: string read FAlertas;
+    property ErroValidacao: string read FErroValidacao;
+    property ErroValidacaoCompleto: string read FErroValidacaoCompleto;
+    property ErroRegrasdeNegocios: string read FErroRegrasdeNegocios;
   end;
 
   { TNotasFiscais }
@@ -137,40 +137,41 @@ type
     FACBrNFAg: TComponent;
     FConfiguracoes: TConfiguracoesNFAg;
 
-    function GetItem(Index: integer): TNotaFiscal;
-    procedure SetItem(Index: integer; const Value: TNotaFiscal);
+    function GetItem(Index: Integer): TNotaFiscal;
+    procedure SetItem(Index: Integer; const Value: TNotaFiscal);
 
     procedure VerificarDANFAg;
   public
     constructor Create(AOwner: TPersistent; ItemClass: TCollectionItemClass);
 
+    function Add: TNotaFiscal;
+    function Insert(Index: Integer): TNotaFiscal;
+
     procedure GerarNFAg;
     procedure Assinar;
     procedure Validar;
-    function VerificarAssinatura(out Erros: String): Boolean;
-    function ValidarRegrasdeNegocios(out Erros: String): Boolean;
+    function VerificarAssinatura(out Erros: string): Boolean;
+    function ValidarRegrasdeNegocios(out Erros: string): Boolean;
     procedure Imprimir;
     procedure ImprimirCancelado;
     procedure ImprimirResumido;
     procedure ImprimirPDF;
     procedure ImprimirResumidoPDF;
-    function Add: TNotaFiscal;
-    function Insert(Index: integer): TNotaFiscal;
 
-    property Items[Index: integer]: TNotaFiscal read GetItem write SetItem; default;
-
-    function GetNamePath: String; override;
     // Incluido o Parametro AGerarNFAg que determina se após carregar os dados da NFAg
     // para o componente, será gerado ou não novamente o XML da NFAg.
-    function LoadFromFile(const CaminhoArquivo: String; AGerarNFAg: Boolean = False): Boolean;
+    function LoadFromFile(const CaminhoArquivo: string; AGerarNFAg: Boolean = False): Boolean;
     function LoadFromStream(AStream: TStringStream; AGerarNFAg: Boolean = False): Boolean;
-    function LoadFromString(const AXMLString: String; AGerarNFAg: Boolean = False): Boolean;
-    function LoadFromIni(const AIniString: String): Boolean;
+    function LoadFromString(const AXMLString: string; AGerarNFAg: Boolean = False): Boolean;
+    function LoadFromIni(const AIniString: string): Boolean;
 
-    function GerarIni: String;
-    function GravarXML(const APathNomeArquivo: String = ''): Boolean;
+    function GerarIni: string;
+    function GravarXML(const APathNomeArquivo: string = ''): Boolean;
+
+    function GetNamePath: string; override;
 
     property ACBrNFAg: TComponent read FACBrNFAg;
+    property Items[Index: Integer]: TNotaFiscal read GetItem write SetItem; default;
   end;
 
 implementation
@@ -178,13 +179,18 @@ implementation
 uses
   dateutils, IniFiles,
   synautil,
-  ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.XMLHTML, ACBrUtil.FilesIO,
+  ACBrUtil.Base,
+  ACBrUtil.Strings,
+  ACBrUtil.XMLHTML,
+  ACBrUtil.FilesIO,
   ACBrUtil.DateTime,
   ACBrDFeUtil,
-  ACBrNFAg, ACBrNFAg.Conversao,
+  ACBrNFAg,
+  ACBrNFAg.Conversao,
+  ACBrNFAg.ValidarRegrasdeNegocio,
   ACBrXmlDocument;
 
-{ NotaFiscal }
+{ TNotaFiscal }
 
 constructor TNotaFiscal.Create(Collection2: TCollection);
 begin
@@ -249,7 +255,7 @@ end;
 
 procedure TNotaFiscal.Assinar;
 var
-  XMLStr: String;
+  XMLStr: string;
   XMLUTF8: AnsiString;
   Document: TACBrXmlDocument;
   ANode, SignatureNode, ReferenceNode, X509DataNode: TACBrXmlNode;
@@ -280,26 +286,33 @@ begin
       if ANode <> nil then
       begin
         SignatureNode := ANode.Childrens.FindAnyNs('Signature');
-        ReferenceNode := SignatureNode.Childrens.FindAnyNs('SignedInfo')
-                                      .Childrens.FindAnyNs('Reference');
-        X509DataNode :=  SignatureNode.Childrens.FindAnyNs('KeyInfo')
-                                      .Childrens.FindAnyNs('X509Data');
 
-        NFAg.signature.URI := ObterConteudoTag(ReferenceNode.Attributes.Items['URI']);
-        NFAg.signature.DigestValue := ObterConteudoTag(ReferenceNode.Childrens.FindAnyNs('DigestValue'), tcStr);
-        NFAg.signature.SignatureValue := ObterConteudoTag(SignatureNode.Childrens.FindAnyNs('SignatureValue'), tcStr);
-        NFAg.signature.X509Certificate := ObterConteudoTag(X509DataNode.Childrens.FindAnyNs('X509Certificate'), tcStr);
+        if Assigned(SignatureNode) then
+        begin
+          ReferenceNode := SignatureNode.Childrens.FindAnyNs('SignedInfo')
+                                        .Childrens.FindAnyNs('Reference');
+
+          X509DataNode := SignatureNode.Childrens.FindAnyNs('KeyInfo')
+                                       .Childrens.FindAnyNs('X509Data');
+
+          NFAg.Signature.URI := ObterConteudoTag(ReferenceNode.Attributes.Items['URI']);
+
+          NFAg.Signature.DigestValue :=
+            ObterConteudoTag(ReferenceNode.Childrens.FindAnyNs('DigestValue'), tcStr);
+
+          NFAg.Signature.SignatureValue :=
+            ObterConteudoTag(SignatureNode.Childrens.FindAnyNs('SignatureValue'), tcStr);
+
+          NFAg.Signature.X509Certificate :=
+            ObterConteudoTag(X509DataNode.Childrens.FindAnyNs('X509Certificate'), tcStr);
+        end;
       end;
     finally
       FreeAndNil(Document);
     end;
 
-//    with TACBrNFAg(TNotasFiscais(Collection).ACBrNFAg) do
-//    begin
-      NFAg.infNFAgSupl.qrCodNFAg := GetURLQRCode(NFAg);
-
-      GerarXML;
-//    end;
+    NFAg.infNFAgSupl.qrCodNFAg := GetURLQRCode(NFAg);
+    GerarXML;
 
     if Configuracoes.Arquivos.Salvar then
     begin
@@ -316,11 +329,10 @@ end;
 
 procedure TNotaFiscal.Validar;
 var
-  Erro, AXML: String;
+  Erro, AXML: string;
   NotaEhValida{, ok}: Boolean;
   ALayout: TLayOut;
   VerServ: Real;
-//  cUF: Integer;
 begin
   AXML := FXMLAssinado;
   if AXML = '' then
@@ -329,15 +341,10 @@ begin
   with TACBrNFAg(TNotasFiscais(Collection).ACBrNFAg) do
   begin
     VerServ := FNFAg.infNFAg.Versao;
-//    cUF     := FNFAg.Ide.cUF;
-
-//    if EhAutorizacao( DblToVersaoNFAg(ok, VerServ), Modelo, cUF) then
-//      ALayout := LayNFAgAutorizacao
-//    else
-      ALayout := LayNFAgRecepcao;
+    ALayout := LayNFAgRecepcao;
 
     // Extraindo apenas os dados da NFAg (sem NFAgProc)
-    AXML := ObterDFeXML(AXML, 'NFAg', ACBRNFAg_NAMESPACE);
+    AXML := ObterDFeXML(AXML, 'NFAg', ACBRNFAG_NAMESPACE);
 
     if EstaVazio(AXML) then
     begin
@@ -350,19 +357,19 @@ begin
     if not NotaEhValida then
     begin
       FErroValidacao := ACBrStr('Falha na validação dos dados da nota: ') +
-        IntToStr(NFAg.Ide.nNF) + sLineBreak + FAlertas ;
+        IntToStr(NFAg.Ide.nNF) + sLineBreak + FAlertas;
       FErroValidacaoCompleto := FErroValidacao + sLineBreak + Erro;
 
       raise EACBrNFAgException.CreateDef(
         IfThen(Configuracoes.Geral.ExibirErroSchema, ErroValidacaoCompleto,
-        ErroValidacao));
+          ErroValidacao));
     end;
   end;
 end;
 
 function TNotaFiscal.VerificarAssinatura: Boolean;
 var
-  Erro, AXML: String;
+  Erro, AXML: string;
   AssEhValida: Boolean;
 begin
   AXML := FXMLAssinado;
@@ -372,7 +379,7 @@ begin
   with TACBrNFAg(TNotasFiscais(Collection).ACBrNFAg) do
   begin
     // Extraindo apenas os dados da NFAg (sem NFAgProc)
-    AXML := ObterDFeXML(AXML, 'NFAg', ACBRNFAg_NAMESPACE);
+    AXML := ObterDFeXML(AXML, 'NFAg', ACBRNFAG_NAMESPACE);
 
     if EstaVazio(AXML) then
     begin
@@ -393,55 +400,31 @@ begin
 end;
 
 function TNotaFiscal.ValidarRegrasdeNegocios: Boolean;
-const
-  SEM_GTIN = 'SEM GTIN';
 var
-  Erros: String;
-  Inicio, Agora: TDateTime;
-
-  procedure GravaLog(AString: String);
-  begin
-    //DEBUG
-    //Log := Log + FormatDateTime('hh:nn:ss:zzz',Now) + ' - ' + AString + sLineBreak;
-  end;
-
-  procedure AdicionaErro(const Erro: String);
-  begin
-    Erros := Erros + Erro + sLineBreak;
-  end;
-
+  Agora: TDateTime;
+  FValidarRegras: TNFAgValidarRegras;
 begin
-  Inicio := Now;
-  Agora := IncMinute(Now, 5);  //Aceita uma tolerância de até 5 minutos, devido ao sincronismo de horário do servidor da Empresa e o servidor da SEFAZ.
-  GravaLog('Inicio da Validação');
+  // Converte o DateTime do Sistema para o TimeZone configurado, para evitar
+  // divergência de Fuso Horário.
+  Agora := DataHoraTimeZoneModoDeteccao(TACBrNFAg(TNotasFiscais(Collection).ACBrNFAg));
+
+  FValidarRegras := TNFAgValidarRegras.Create(FNFAg);
 
   with TACBrNFAg(TNotasFiscais(Collection).ACBrNFAg) do
   begin
-    Erros := '';
-    {
-      Incluir as regras aqui
-    }
+    FValidarRegras.VersaoDF := Configuracoes.Geral.VersaoDF;
+    FValidarRegras.Ambiente := Configuracoes.WebServices.Ambiente;
+    FValidarRegras.tpEmis := Configuracoes.Geral.FormaEmissaoCodigo;
+    FValidarRegras.CodigoUF := Configuracoes.WebServices.UFCodigo;
+    FValidarRegras.UF := Configuracoes.WebServices.UF;
   end;
 
-  Result := EstaVazio(Erros);
+  Result := FValidarRegras.Validar(Agora);
 
-  if not Result then
-  begin
-    Erros := ACBrStr('Erro(s) nas Regras de negócios da nota: '+
-                     IntToStr(NFAg.Ide.nNF) + sLineBreak +
-                     Erros);
-  end;
-
-  GravaLog('Fim da Validação. Tempo: '+FormatDateTime('hh:nn:ss:zzz', Now - Inicio)+sLineBreak+
-           'Erros:' + Erros);
-
-  //DEBUG
-  //WriteToTXT('c:\temp\Notafiscal.txt', Log);
-
-  FErroRegrasdeNegocios := Erros;
+  FErroRegrasdeNegocios := FValidarRegras.Erros;
 end;
 
-function TNotaFiscal.LerXML(const AXML: String): Boolean;
+function TNotaFiscal.LerXML(const AXML: string): Boolean;
 begin
   XMLOriginal := AXML;
 
@@ -450,7 +433,7 @@ begin
   Result := True;
 end;
 
-function TNotaFiscal.LerArqIni(const AIniString: String): Boolean;
+function TNotaFiscal.LerArqIni(const AIniString: string): Boolean;
 begin
   FNFAgIniR.VersaoDF := FConfiguracoes.Geral.VersaoDF;
   FNFAgIniR.Ambiente := Integer(FConfiguracoes.WebServices.Ambiente);
@@ -463,12 +446,12 @@ begin
   Result := True;
 end;
 
-function TNotaFiscal.GerarNFAgIni: String;
+function TNotaFiscal.GerarNFAgIni: string;
 begin
   Result := FNFAgIniW.GravarIni;
 end;
 
-function TNotaFiscal.GravarXML(const NomeArquivo: String; const PathArquivo: String): Boolean;
+function TNotaFiscal.GravarXML(const NomeArquivo: string; const PathArquivo: string): Boolean;
 begin
   if EstaVazio(FXMLOriginal) then
     GerarXML;
@@ -489,7 +472,7 @@ begin
   Result := True;
 end;
 
-procedure TNotaFiscal.EnviarEmail(const sPara, sAssunto: String; sMensagem: TStrings;
+procedure TNotaFiscal.EnviarEmail(const sPara, sAssunto: string; sMensagem: TStrings;
   EnviaPDF: Boolean; sCC: TStrings; Anexos: TStrings; sReplyTo: TStrings;
   ManterPDFSalvo: Boolean; sBCC: Tstrings);
 var
@@ -534,9 +517,9 @@ begin
   end;
 end;
 
-function TNotaFiscal.GerarXML: String;
+function TNotaFiscal.GerarXML: string;
 var
-  IdAnterior : String;
+  IdAnterior : string;
 begin
   with TACBrNFAg(TNotasFiscais(Collection).ACBrNFAg) do
   begin
@@ -573,30 +556,27 @@ begin
 
   { XML gerado pode ter nova Chave e ID, então devemos calcular novamente o
     nome do arquivo, mantendo o PATH do arquivo carregado }
+  FAlertas := ACBrStr( FNFAgW.ListaDeAlertas.Text );
+
   if (NaoEstaVazio(FNomeArq) and (IdAnterior <> FNFAg.infNFAg.ID)) then
     FNomeArq := CalcularNomeArquivoCompleto('', ExtractFilePath(FNomeArq));
-
-  FAlertas := ACBrStr( FNFAgW.ListaDeAlertas.Text );
 
   Result := FXMLOriginal;
 end;
 
-function TNotaFiscal.CalcularNomeArquivo: String;
+function TNotaFiscal.CalcularNomeArquivo: string;
 var
-  xID: String;
-  NomeXML: String;
+  xID: string;
 begin
   xID := Self.NumID;
 
   if EstaVazio(xID) then
     raise EACBrNFAgException.Create('ID Inválido. Impossível Salvar XML');
 
-  NomeXML := '-NFAg.xml';
-
-  Result := xID + NomeXML;
+  Result := xID + '-NFAg.xml';
 end;
 
-function TNotaFiscal.CalcularPathArquivo: String;
+function TNotaFiscal.CalcularPathArquivo: string;
 var
   Data: TDateTime;
 begin
@@ -611,10 +591,10 @@ begin
   end;
 end;
 
-function TNotaFiscal.CalcularNomeArquivoCompleto(NomeArquivo: String;
-  PathArquivo: String): String;
+function TNotaFiscal.CalcularNomeArquivoCompleto(NomeArquivo: string;
+  PathArquivo: string): string;
 var
-  PathNoArquivo: String;
+  PathNoArquivo: string;
 begin
   if EstaVazio(NomeArquivo) then
     NomeArquivo := CalcularNomeArquivo;
@@ -637,17 +617,17 @@ end;
 function TNotaFiscal.ValidarConcatChave: Boolean;
 var
   wAno, wMes, wDia: word;
-  chaveNFAg : String;
+  chaveNFAg : string;
 begin
   DecodeDate(NFAg.ide.dhEmi, wAno, wMes, wDia);
 
-  chaveNFAg := OnlyNumber(NFAg.infNFAg.ID);
+  chaveNFAg := RemoverLiteralChave(NFAg.infNFAg.ID);
   {(*}
   Result := not
     ((Copy(chaveNFAg, 1, 2) <> IntToStrZero(NFAg.Ide.cUF, 2)) or
     (Copy(chaveNFAg, 3, 2)  <> Copy(FormatFloat('0000', wAno), 3, 2)) or
     (Copy(chaveNFAg, 5, 2)  <> FormatFloat('00', wMes)) or
-    (Copy(chaveNFAg, 7, 14)<> PadLeft(OnlyNumber(NFAg.Emit.CNPJ), 14, '0')) or
+    (Copy(chaveNFAg, 7, 14)<> PadLeft(OnlyAlphaNum(NFAg.Emit.CNPJ), 14, '0')) or
     (Copy(chaveNFAg, 21, 2) <> IntToStrZero(NFAg.Ide.modelo, 2)) or
     (Copy(chaveNFAg, 23, 3) <> IntToStrZero(NFAg.Ide.serie, 3)) or
     (Copy(chaveNFAg, 26, 9) <> IntToStrZero(NFAg.Ide.nNF, 9)) or
@@ -680,17 +660,17 @@ begin
     FNFAg.procNFAg.cStat);
 end;
 
-function TNotaFiscal.GetMsg: String;
+function TNotaFiscal.GetMsg: string;
 begin
   Result := FNFAg.procNFAg.xMotivo;
 end;
 
-function TNotaFiscal.GetNumID: String;
+function TNotaFiscal.GetNumID: string;
 begin
-  Result := OnlyNumber(NFAg.infNFAg.ID);
+  Result := RemoverLiteralChave(NFAg.infNFAg.ID);
 end;
 
-function TNotaFiscal.GetXMLAssinado: String;
+function TNotaFiscal.GetXMLAssinado: string;
 begin
   if EstaVazio(FXMLAssinado) then
     Assinar;
@@ -698,14 +678,14 @@ begin
   Result := FXMLAssinado;
 end;
 
-procedure TNotaFiscal.SetXML(const AValue: String);
+procedure TNotaFiscal.SetXML(const AValue: string);
 begin
   LerXML(AValue);
 end;
 
-procedure TNotaFiscal.SetXMLOriginal(const AValue: String);
+procedure TNotaFiscal.SetXMLOriginal(const AValue: string);
 var
-  XMLUTF8: String;
+  XMLUTF8: string;
 begin
   { Garante que o XML informado está em UTF8, se ele realmente estiver, nada
     será modificado por "ConverteXMLtoUTF8"  (mantendo-o "original") }
@@ -739,7 +719,7 @@ end;
 
 procedure TNotasFiscais.Assinar;
 var
-  i: integer;
+  i: Integer;
 begin
   for i := 0 to Self.Count - 1 do
     Self.Items[i].Assinar;
@@ -747,18 +727,18 @@ end;
 
 procedure TNotasFiscais.GerarNFAg;
 var
-  i: integer;
+  i: Integer;
 begin
   for i := 0 to Self.Count - 1 do
     Self.Items[i].GerarXML;
 end;
 
-function TNotasFiscais.GetItem(Index: integer): TNotaFiscal;
+function TNotasFiscais.GetItem(Index: Integer): TNotaFiscal;
 begin
   Result := TNotaFiscal(inherited Items[Index]);
 end;
 
-function TNotasFiscais.GetNamePath: String;
+function TNotasFiscais.GetNamePath: string;
 begin
   Result := 'NotaFiscal';
 end;
@@ -799,27 +779,27 @@ begin
   TACBrNFAg(FACBrNFAg).DANFAg.ImprimirDANFAgResumidoPDF(nil);
 end;
 
-function TNotasFiscais.Insert(Index: integer): TNotaFiscal;
+function TNotasFiscais.Insert(Index: Integer): TNotaFiscal;
 begin
   Result := TNotaFiscal(inherited Insert(Index));
 end;
 
-procedure TNotasFiscais.SetItem(Index: integer; const Value: TNotaFiscal);
+procedure TNotasFiscais.SetItem(Index: Integer; const Value: TNotaFiscal);
 begin
   Items[Index].Assign(Value);
 end;
 
 procedure TNotasFiscais.Validar;
 var
-  i: integer;
+  I: Integer;
 begin
-  for i := 0 to Self.Count - 1 do
-    Self.Items[i].Validar;   // Dispara exception em caso de erro
+  for I := 0 to Self.Count - 1 do
+    Self.Items[I].Validar;   // Dispara exception em caso de erro
 end;
 
-function TNotasFiscais.VerificarAssinatura(out Erros: String): Boolean;
+function TNotasFiscais.VerificarAssinatura(out Erros: string): Boolean;
 var
-  i: integer;
+  i: Integer;
 begin
   Result := True;
   Erros := '';
@@ -841,9 +821,9 @@ begin
   end;
 end;
 
-function TNotasFiscais.ValidarRegrasdeNegocios(out Erros: String): Boolean;
+function TNotasFiscais.ValidarRegrasdeNegocios(out Erros: string): Boolean;
 var
-  i: integer;
+  i: Integer;
 begin
   Result := True;
   Erros := '';
@@ -858,21 +838,13 @@ begin
   end;
 end;
 
-function TNotasFiscais.LoadFromFile(const CaminhoArquivo: String;
+function TNotasFiscais.LoadFromFile(const CaminhoArquivo: string;
   AGerarNFAg: Boolean): Boolean;
 var
   XMLUTF8: AnsiString;
-  i, l: integer;
-  MS: TMemoryStream;
+  i, l: Integer;
 begin
-  MS := TMemoryStream.Create;
-  try
-    MS.LoadFromFile(CaminhoArquivo);
-    XMLUTF8 := ReadStrFromStream(MS, MS.Size);
-    XMLUTF8 := RemoverUTF8Bom(XMLUTF8);
-  finally
-    MS.Free;
-  end;
+  XMLUTF8 := CarregarArquivo(CaminhoArquivo);
 
   l := Self.Count; // Indice da última nota já existente
   Result := LoadFromString(String(XMLUTF8), AGerarNFAg);
@@ -896,19 +868,19 @@ begin
   Result := Self.LoadFromString(String(AXML), AGerarNFAg);
 end;
 
-function TNotasFiscais.LoadFromString(const AXMLString: String;
+function TNotasFiscais.LoadFromString(const AXMLString: string;
   AGerarNFAg: Boolean): Boolean;
 var
   ANFAgXML, XMLStr: AnsiString;
-  P, N: integer;
+  P, N: Integer;
 
-  function PosNFAg: integer;
+  function PosNFAg: Integer;
   begin
-    Result := pos('</NFAg>', XMLStr);
+    Result := Pos('</NFAg>', XMLStr);
   end;
 
 begin
-  // Verifica se precisa Converter de UTF8 para a String nativa da IDE //
+  // Verifica se precisa Converter de UTF8 para a string nativa da IDE //
   XMLStr := RemoverUTF8Bom(AXMLString);
   XMLStr := ConverteXMLtoNativeString(XMLStr);
   XMLStr := RemoverDeclaracaoXML(XMLStr);
@@ -916,20 +888,20 @@ begin
   N := PosNFAg;
   while N > 0 do
   begin
-    P := pos('</NFAgProc>', XMLStr);
+    P := Pos('</NFAgProc>', XMLStr);
 
     if P <= 0 then
-      P := pos('</procNFAg>', XMLStr);  // NFAg obtida pelo Portal da Receita
+      P := Pos('</procNFAg>', XMLStr);  // NFAg obtida pelo Portal da Receita
 
     if P > 0 then
     begin
-      ANFAgXML := copy(XMLStr, 1, P + 10);
-      XMLStr := Trim(copy(XMLStr, P + 10, length(XMLStr)));
+      ANFAgXML := Copy(XMLStr, 1, P + 10);
+      XMLStr := Trim(Copy(XMLStr, P + 10, length(XMLStr)));
     end
     else
     begin
-      ANFAgXML := copy(XMLStr, 1, N + 6);
-      XMLStr := Trim(copy(XMLStr, N + 6, length(XMLStr)));
+      ANFAgXML := Copy(XMLStr, 1, N + 6);
+      XMLStr := Trim(Copy(XMLStr, N + 6, length(XMLStr)));
     end;
 
     with Self.Add do
@@ -946,7 +918,7 @@ begin
   Result := Self.Count > 0;
 end;
 
-function TNotasFiscais.LoadFromIni(const AIniString: String): Boolean;
+function TNotasFiscais.LoadFromIni(const AIniString: string): Boolean;
 begin
   with Self.Add do
     LerArqIni(AIniString);
@@ -954,18 +926,18 @@ begin
   Result := Self.Count > 0;
 end;
 
-function TNotasFiscais.GerarIni: String;
+function TNotasFiscais.GerarIni: string;
 begin
   Result := '';
 
-  if (Self.Count > 0) then
+  if Self.Count > 0 then
     Result := Self.Items[0].GerarNFAgIni;
 end;
 
-function TNotasFiscais.GravarXML(const APathNomeArquivo: String): Boolean;
+function TNotasFiscais.GravarXML(const APathNomeArquivo: string): Boolean;
 var
-  i: integer;
-  NomeArq, PathArq : String;
+  i: Integer;
+  NomeArq, PathArq: string;
 begin
   Result := True;
   i := 0;
