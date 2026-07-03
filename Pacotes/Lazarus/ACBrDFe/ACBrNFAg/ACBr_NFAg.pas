@@ -12,8 +12,8 @@ uses
   ACBrNFAgWebServices, ACBrNFAgDANFAgClass, ACBrNFAg.ConsSit, 
   ACBrNFAg.EnvEvento, ACBrNFAg.EventoClass, ACBrNFAg.Classes, ACBrNFAg.XmlReader, 
   ACBrNFAg.XmlWriter, ACBrNFAg.RetConsSit, ACBrNFAg.RetEnvEvento, 
-  ACBrNFAg.Conversao, ACBrNFAg.Consts, ACBrNFAg.IniReader, ACBrNFAg.IniWriter, 
-  LazarusPackageIntf;
+  ACBrNFAg.Conversao, ACBrNFAg.Consts, ACBrNFAg.IniReader, ACBrNFAg.IniWriter,
+  ACBrNFAg.ValidarRegrasdeNegocio, LazarusPackageIntf;
 
 implementation
 
