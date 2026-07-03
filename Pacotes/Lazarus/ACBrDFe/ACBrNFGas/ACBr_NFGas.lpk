@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="ACBr_NFGas"/>
+    <Type Value="RunAndDesignTime"/>
+    <Author Value="Juliomar Marchetti - Daniel Simões de Almeida"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas;..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\DANFGas;..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\Base;..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\Base\Servicos"/>
+        <UnitOutputDirectory Value="..\..\..\..\Lib\Lazarus\ACBrDFe\ACBrNFGas\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Other>
+        <CompilerMessages>
+          <IgnoredMessages idx5024="True"/>
+        </CompilerMessages>
+      </Other>
+    </CompilerOptions>
+    <Description Value="ACBr - Nota Fiscal de Gás Eletrônica - (http://www.projetoacbr.com.br/)"/>
+    <License Value="LGPL"/>
+    <Files Count="19">
+      <Item1>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\ACBrNFGas.pas"/>
+        <UnitName Value="ACBrNFGas"/>
+      </Item1>
+      <Item2>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\ACBrNFGasReg.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ACBrNFGasReg"/>
+      </Item2>
+      <Item3>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\ACBrNFGasNotasFiscais.pas"/>
+        <UnitName Value="ACBrNFGasNotasFiscais"/>
+      </Item3>
+      <Item4>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\ACBrNFGasConfiguracoes.pas"/>
+        <UnitName Value="ACBrNFGasConfiguracoes"/>
+      </Item4>
+      <Item5>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\ACBrNFGasWebServices.pas"/>
+        <UnitName Value="ACBrNFGasWebServices"/>
+      </Item5>
+      <Item6>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\DANFGas\ACBrNFGasDANFGasClass.pas"/>
+        <UnitName Value="ACBrNFGasDANFGasClass"/>
+      </Item6>
+      <Item7>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\Base\Servicos\ACBrNFGas.ConsSit.pas"/>
+        <UnitName Value="ACBrNFGas.ConsSit"/>
+      </Item7>
+      <Item8>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\Base\Servicos\ACBrNFGas.EnvEvento.pas"/>
+        <UnitName Value="ACBrNFGas.EnvEvento"/>
+      </Item8>
+      <Item9>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\Base\Servicos\ACBrNFGas.EventoClass.pas"/>
+        <UnitName Value="ACBrNFGas.EventoClass"/>
+      </Item9>
+      <Item10>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\Base\ACBrNFGas.Classes.pas"/>
+        <UnitName Value="ACBrNFGas.Classes"/>
+      </Item10>
+      <Item11>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\Base\ACBrNFGas.XmlReader.pas"/>
+        <UnitName Value="ACBrNFGas.XmlReader"/>
+      </Item11>
+      <Item12>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\Base\ACBrNFGas.XmlWriter.pas"/>
+        <UnitName Value="ACBrNFGas.XmlWriter"/>
+      </Item12>
+      <Item13>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\Base\Servicos\ACBrNFGas.RetConsSit.pas"/>
+        <UnitName Value="ACBrNFGas.RetConsSit"/>
+      </Item13>
+      <Item14>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\Base\Servicos\ACBrNFGas.RetEnvEvento.pas"/>
+        <UnitName Value="ACBrNFGas.RetEnvEvento"/>
+      </Item14>
+      <Item15>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\Base\ACBrNFGas.Conversao.pas"/>
+        <UnitName Value="ACBrNFGas.Conversao"/>
+      </Item15>
+      <Item16>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\Base\ACBrNFGas.Consts.pas"/>
+        <UnitName Value="ACBrNFGas.Consts"/>
+      </Item16>
+      <Item17>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\Base\ACBrNFGas.IniReader.pas"/>
+        <UnitName Value="ACBrNFGas.IniReader"/>
+      </Item17>
+      <Item18>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\Base\ACBrNFGas.IniWriter.pas"/>
+        <UnitName Value="ACBrNFGas.IniWriter"/>
+      </Item18>
+      <Item19>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFGas\Base\ACBrNFGas.ValidarRegrasdeNegocio.pas"/>
+        <UnitName Value="ACBrNFGas.ValidarRegrasdeNegocio"/>
+      </Item19>
+    </Files>
+    <RequiredPkgs Count="1">
+      <Item1>
+        <PackageName Value="ACBrDFeComum"/>
+      </Item1>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>
