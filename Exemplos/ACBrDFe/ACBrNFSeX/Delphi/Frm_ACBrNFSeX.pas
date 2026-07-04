@@ -7360,12 +7360,13 @@ begin
 
     LayoutNFSe := TLayoutNFSe(cbLayoutNFSe.ItemIndex);
 
-    try
-      CodigoMunicipio := StrToIntDef(edtCodCidade.Text, -1);
-    except
-      on E: Exception do
-        ShowMessage('Erro ao configurar o componente: ' + E.Message);
-    end;
+    if edtCodCidade.Text = EmptyStr then
+      begin
+        edtCodCidade.Text := '3554003';
+        CodigoMunicipio := 3554003;
+        ShowMessage('Selecione uma Cidade.');
+      end;
+
   end;
 
   lblSchemas.Caption := ACBrNFSeX1.Configuracoes.Geral.xProvedor;
