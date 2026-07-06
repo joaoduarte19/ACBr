@@ -44,6 +44,9 @@ Símbolo : Significado
 
 06/07/2026
 -- ACBrNFSeXServicos --
+[*] ACBR-9505 - O municipio de Sao Marcos/SP continua usando o provedor Tecnos e não aderiu ao Padrão Nacional
+	Por: dna.automacao
+	Veja: https://www.projetoacbr.com.br/forum/topic/92880-acbr-9505-troca-de-provedor-2-cidades-para-provedor-padr%C3%A3o-nacional/?&_rid=153416#findComment-609272
 [*] ACBr-9587 - Mudança de URL de produção para o municipio de Cubatão/SP
 	Por: Calmeida79
 	Veja: https://www.projetoacbr.com.br/forum/topic/93252-acbr-9587-nfs-e-altera%C3%A7%C3%A3o-no-ws-cubat%C3%A3o-sp/#comment-609684
