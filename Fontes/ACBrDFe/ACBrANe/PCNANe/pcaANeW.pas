@@ -162,7 +162,7 @@ begin
 
   Gerador.wCampo(tcStr, '#1', 'tem:Length  ', 01, 10, 1, Length(ANe.xmlDFe), DSC_TAMANHO);
   Gerador.wCampo(tcStr, '#2', 'tem:FileName', 01, 44, 1, ANe.NomeArq, DSC_NOMEARQ);
-  Gerador.wCampo(tcStr, '#3', 'tem:CNPJ    ', 14, 14, 1, OnlyNumber(ANe.CNPJ), DSC_CNPJ);
+  Gerador.wCampo(tcStr, '#3', 'tem:CNPJ    ', 14, 14, 1, OnlyCPFCNPJAlphaNum(ANe.CNPJ), DSC_CNPJ);
 
   Gerador.ArquivoFormatoXML := Gerador.ArquivoFormatoXML;
 
