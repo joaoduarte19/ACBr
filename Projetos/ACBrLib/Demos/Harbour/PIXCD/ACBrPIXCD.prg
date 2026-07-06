@@ -1,5 +1,4 @@
-#include 'C:\ProjetoACBr\ACBr\Projetos\ACBrLib\Demos\Harbour\Comum\acbrlib.ch'
-
+#include '../Comum/ACBrLib.ch'
 #ifdef __PLATFORM__WINDOWS
 #define ACBrLIB 'ACBrPIXCD32.dll'
 #else
@@ -23,11 +22,13 @@ CREATE CLASS ACBrPIXCD
 
     METHOD Nome()
     METHOD Versao()
+    METHOD OpenSSLInfo()
 
     METHOD ConfigLer(eArqConfig)
     METHOD ConfigGravar(eArqConfig)
     METHOD ConfigLerValor(eSessao, eChave)
     METHOD ConfigGravarValor(eSessao, eChave, eValor)
+
 
     METHOD GerarQRCodeEstatico(AValor, AinfoAdicional, ATxID)
 
@@ -146,3 +147,11 @@ METHOD CriarCobrancaImediata(AInfCobSolicitada, ATxId)
     hResult := DllCall(::hHandle, DLL_OSAPI, "PIXCD_CriarCobrancaImediata", AInfCobSolicitada, ATxId, @buffer, @bufferLen)
     ::CheckResult(hResult)
 RETURN val(StrTran(AllTrim(::ProcessResult(buffer, bufferLen)),",","."))
+
+METHOD OpenSSLInfo() CLASS ACBrPIXCD
+    local hResult, buffer, bufferLen
+    bufferLen := STR_LEN
+    buffer := Space(bufferLen)   
+    hResult := DllCall(::hHandle, DLL_OSAPI, "PIXCD_OpenSSLInfo", @buffer, @bufferLen)
+    ::CheckResult(hResult)
+    RETURN ::ProcessResult(buffer, bufferLen)
