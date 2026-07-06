@@ -38,6 +38,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+06/07/2026
+-- pcnCIOTW_Pamcard.pas --
+[*] ACBr-9369 - Ajustado CNPJ para alfanumericos
+   Por: Larissa Santos
+
 03/06/2026
 -- ACBrCIOTContratos, ACBrCIOTIniReader, ACBrCIOTIniWriter, ACBrCIOTConversao, ACBr_CIOT.dpk, ACBr_CIOT.lpk --
 [+] ACBR-9356 - Implementada leitura e escrita de inis dos métodos.
