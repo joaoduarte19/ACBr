@@ -42,6 +42,21 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+06/07/2026
+-- ACBrNFSeXServicos --
+[*] ACBr-9587 - Mudança de URL de produção para o municipio de Cubatão/SP
+	Por: Calmeida79
+	Veja: https://www.projetoacbr.com.br/forum/topic/93252-acbr-9587-nfs-e-altera%C3%A7%C3%A3o-no-ws-cubat%C3%A3o-sp/#comment-609684
+[*] ACBR-9507 - O municipio de Hortolandia/SP mudou de Provedor Ginfes para GissOnline
+	Por: Destak
+	Veja: https://www.projetoacbr.com.br/forum/topic/92902-cidade-de-hortolandiasp-mudou-de-ginfes-para-giss/
+[*] ACBR-9583 - O município de Laranjal Paulista/SP aderiu ao Padrão Nacional
+	Por: VEXCOM Sistemas - Valtair
+	Veja: https://www.projetoacbr.com.br/forum/topic/93266-acbr-9583-alterar-provedor-laranjal-paulista/
+[*] ACBR-9482 - O municipio de Assis/SP aderiu ao Padrão Nacional
+	Por: Innovae Brasil Engenharia
+	Veja: https://www.projetoacbr.com.br/forum/topic/92800-acbr-9482-nfs-e-assissp-migra%C3%A7%C3%A3o-para-padr%C3%A3o-nacional-a-partir-de-01072026/
+
 01/07/2026
 -- ACBrNFSeXClass --
 [-] Ajustes para resolver quebra de compilação.
