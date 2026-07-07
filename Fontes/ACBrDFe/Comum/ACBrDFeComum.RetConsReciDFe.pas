@@ -171,7 +171,6 @@ function TRetConsReciDFe.LerXML: Boolean;
 var
   Document: TACBrXmlDocument;
   ANode: TACBrXmlNode;
-  ok: Boolean;
 begin
   Document := TACBrXmlDocument.Create;
 
@@ -212,7 +211,6 @@ var
   ANodes: TACBrXmlNodeArray;
   AuxNode: TACBrXmlNode;
   i: Integer;
-  ok: Boolean;
 begin
   ANodes := ANode.Childrens.FindAllAnyNs('prot' + FtagGrupoMsg);
 
