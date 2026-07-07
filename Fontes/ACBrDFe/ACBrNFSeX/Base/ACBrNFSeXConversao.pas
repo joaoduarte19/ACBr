@@ -150,9 +150,10 @@ type
                    proSigISS, proSigISSWeb, proSilTecnologia, proSimple,
                    proSimplISS, proSintese, proSisPMJP, proSistemas4R,
                    proSmarAPD, proSmart4, proSoftPlan, proSpeedGov, proSSInformatica,
-                   proSudoeste, proSysISS, proSystemPro, proTcheInfo, proTecnos,
-                   proThema, proTinus, proTiplan, proTributus, proVersaTecnologia,
-                   proVirtual, proWebFisco, proWebISS, proXTRTecnologia);
+                   proSudoeste, proSysISS, proSystemPro, proTaxTecnologia,
+                   proTcheInfo, proTecnos, proThema, proTinus, proTiplan,
+                   proTributus, proVersaTecnologia, proVirtual, proWebFisco,
+                   proWebISS, proXTRTecnologia);
 
   TnfseSituacaoTributaria = (stRetencao, stNormal, stSubstituicao, stNenhum,
                              stRetidoForaMunicipio, stDevidoForaMunicipioNaoRetido);

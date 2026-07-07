@@ -147,6 +147,7 @@ uses
   Sudoeste.Provider,
   SystemPro.Provider,
   SysISS.Provider,
+  TaxTecnologia.Provider,
   TcheInfo.Provider,
   Tecnos.Provider,
   Tributus.Provider,
@@ -789,6 +790,10 @@ begin
 
       proSystemPro: Result := TACBrNFSeProviderSystemPro201.Create(ACBrNFSe);
       proSysISS:    Result := TACBrNFSeProviderSysISS202.Create(ACBrNFSe);
+
+      proTaxTecnologia:
+        Result := TACBrNFSeProviderTaxTecnologia204.Create(ACBrNFSe);
+
       proTcheInfo:  Result := TACBrNFSeProviderTcheInfo204.Create(ACBrNFSe);
       proTecnos:    Result := TACBrNFSeProviderTecnos201.Create(ACBrNFSe);
       proThema:     Result := TACBrNFSeProviderThema.Create(ACBrNFSe);
