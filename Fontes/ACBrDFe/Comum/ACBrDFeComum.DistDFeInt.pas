@@ -130,7 +130,7 @@ begin
   if FpGerarcUFAutor and (cUFAutor > 0) then
     xUFAutor := '<cUFAutor>' + IntToStr(cUFAutor) + '</cUFAutor>';
 
-  CNPJCPF := OnlyAlphaNum(trim(CNPJCPF));
+  CNPJCPF := OnlyCPFCNPJAlphaNum(trim(CNPJCPF));
   Tamanho := length(CNPJCPF);
 
   if (Tamanho > 0) and (Tamanho <= 11) then
