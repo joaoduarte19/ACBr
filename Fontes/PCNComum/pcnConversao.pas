@@ -145,7 +145,7 @@ const
   tiSimplificado = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoImpressao.{$ENDIF}tiSimplificado deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoImpressao da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   tiNFCe = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoImpressao.{$ENDIF}tiNFCe deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoImpressao da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   tiMsgEletronica = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoImpressao.{$ENDIF}tiMsgEletronica deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoImpressao da Unit ACBrDFe.Conversao.pas' {$ENDIF};
-  tiSimplificado2 = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoImpressao.{$ENDIF}tiSimplificado2 deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoImpressao da Unit ACBrDFe.Conversao.pas' {$ENDIF};
+  tiSimplificadoTipo2 = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoImpressao.{$ENDIF}tiSimplificadoTipo2 deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoImpressao da Unit ACBrDFe.Conversao.pas' {$ENDIF};
 
   // Enumerados do TACBrTipoEmissao
 const
@@ -827,14 +827,14 @@ function TpImpToStr(const t: TpcnTipoImpressao): string;
 begin
   result := EnumeradoToStr(t, ['0', '1', '2', '3', '4', '5', '6'],
                               [tiSemGeracao, tiRetrato, tiPaisagem, tiSimplificado,
-                               tiNFCe, tiMsgEletronica, tiSimplificado2]);
+                               tiNFCe, tiMsgEletronica, tiSimplificadoTipo2]);
 end;
 
 function StrToTpImp(out ok: boolean; const s: string): TpcnTipoImpressao;
 begin
   result := StrToEnumerado(ok, s, ['0', '1', '2', '3', '4', '5', '6'],
                                   [tiSemGeracao, tiRetrato, tiPaisagem, tiSimplificado,
-                                   tiNFCe, tiMsgEletronica, tiSimplificado2]);
+                                   tiNFCe, tiMsgEletronica, tiSimplificadoTipo2]);
 end;
 
 // B22 - Forma de Emissão da NF-e **********************************************
