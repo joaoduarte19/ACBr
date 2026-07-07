@@ -200,7 +200,7 @@ begin
   Result.AppendChild(AddNode(tcStr, 'P06', 'tpAmb', 1, 1, 1,
                    TipoAmbienteToStr(Evento[AIdx].InfEvento.tpAmb), DSC_TPAMB));
 
-  sDoc := OnlyAlphaNum(Evento[AIdx].InfEvento.CNPJ);
+  sDoc := OnlyCPFCNPJAlphaNum(Evento[AIdx].InfEvento.CNPJ);
 
   if EstaVazio(sDoc) then
     sDoc := ExtrairCNPJCPFChaveAcesso(Evento[AIdx].InfEvento.chNFAg);

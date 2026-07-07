@@ -244,7 +244,7 @@ begin
     ((Copy(chaveNFAg, 1, 2) <> IntToStrZero(NFAg.Ide.cUF, 2)) or
     (Copy(chaveNFAg, 3, 2)  <> Copy(FormatFloat('0000', wAno), 3, 2)) or
     (Copy(chaveNFAg, 5, 2)  <> FormatFloat('00', wMes)) or
-    (Copy(chaveNFAg, 7, 14) <> PadLeft(OnlyAlphaNum(NFAg.Emit.CNPJ), 14, '0')) or
+    (Copy(chaveNFAg, 7, 14) <> PadLeft(OnlyCPFCNPJAlphaNum(NFAg.Emit.CNPJ), 14, '0')) or
     (Copy(chaveNFAg, 21, 2) <> IntToStrZero(NFAg.Ide.modelo, 2)) or
     (Copy(chaveNFAg, 23, 3) <> IntToStrZero(NFAg.Ide.serie, 3)) or
     (Copy(chaveNFAg, 26, 9) <> IntToStrZero(NFAg.Ide.nNF, 9)) or
