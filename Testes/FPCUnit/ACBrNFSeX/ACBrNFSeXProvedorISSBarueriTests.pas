@@ -117,7 +117,7 @@ begin
   CheckEquals(EncodeDataHora('2023-01-02T00:00:00'), FACBrNFSeX1.NotasFiscais[0].NFSe.Competencia, 'NFSe.Competencia valor incorreto');
 
   CheckEquals('140114213', FACBrNFSeX1.NotasFiscais[0].NFSe.Servico.CodigoMunicipio, 'NFSe.Servico.CodigoMunicipio valor incorreto') ;
-  CheckEquals('MANUTENÇÃO', FACBrNFSeX1.NotasFiscais[0].NFSe.Servico.Descricao, 'NFSe.Servico.Descricao valor incorreto') ;
+  CheckEquals('MANUTENÇÃO', FACBrNFSeX1.NotasFiscais[0].NFSe.Servico.Discriminacao, 'NFSe.Servico.Descricao valor incorreto') ;
   CheckEquals('SERVICO DE MAO DE OBRA', FACBrNFSeX1.NotasFiscais[0].NFSe.Servico.Discriminacao, 'NFSe.Servico.Discriminacao valor incorreto') ;
   CheckEquals('ISSQN devido a: BARUERI-SP', FACBrNFSeX1.NotasFiscais[0].NFSe.InformacoesComplementares, 'NFSe.InformacoesComplementares valor incorreto') ;
 

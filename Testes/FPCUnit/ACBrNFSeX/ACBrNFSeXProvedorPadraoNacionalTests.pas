@@ -103,7 +103,7 @@ begin
   CheckEquals('Testes_0.1.0', FACBrNFSeX1.NotasFiscais[0].NFSe.infNFSe.verAplic, 'NFSe.infNFSe.verAplic valor incorreto') ;
   CheckEquals('2', ambGerToStr(FACBrNFSeX1.NotasFiscais[0].NFSe.infNFSe.ambGer), 'NFSe.infNFSe.ambGer valor incorreto') ;
   CheckEquals('1', tpEmisToStr(FACBrNFSeX1.NotasFiscais[0].NFSe.infNFSe.tpEmis), 'NFSe.infNFSe.tpEmis valor incorreto') ;
-  CheckEquals('1', procEmiToStr(FACBrNFSeX1.NotasFiscais[0].NFSe.infNFSe.procEmi), 'NFSe.infNFSe.procEmi valor incorreto') ;
+  CheckEquals('1', procEmisToStr(FACBrNFSeX1.NotasFiscais[0].NFSe.infNFSe.procEmi), 'NFSe.infNFSe.procEmi valor incorreto') ;
   CheckEquals(100, FACBrNFSeX1.NotasFiscais[0].NFSe.infNFSe.cStat, 'NFSe.infNFSe.cStat valor incorreto') ;
   CheckEquals(EncodeDataHora('2022-09-23T10:20:19-03:00'), FACBrNFSeX1.NotasFiscais[0].NFSe.infNFSe.dhProc, 'NFSe.infNFSe.dhProc valor incorreto') ;
   CheckEquals('345', FACBrNFSeX1.NotasFiscais[0].NFSe.infNFSe.nDFSe, 'NFSe.infNFSe.nDFSe valor incorreto') ;

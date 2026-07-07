@@ -137,7 +137,7 @@ begin
 
   // DeclaracaoPrestacaoServico.InfDeclaracaoPrestacaoServico.Rps
   CheckEquals(EncodeDataHora('2022-10-19'), FACBrNFSeX1.NotasFiscais[0].NFSe.DataEmissaoRps, 'NFSe.DataEmissaoRps valor incorreto');
-  CheckEquals('1', StatusRPSToStr(FACBrNFSeX1.NotasFiscais[0].NFSe.StatusRps), 'NFSe.DataEmissaoRps valor incorreto');
+  CheckEquals('1', FACBrNFSeX1.Provider.StatusRPSToStr(FACBrNFSeX1.NotasFiscais[0].NFSe.StatusRps), 'NFSe.DataEmissaoRps valor incorreto');
 
   // DeclaracaoPrestacaoServico.InfDeclaracaoPrestacaoServico.Rps.RpsSubstituido
   CheckEquals('4', FACBrNFSeX1.NotasFiscais[0].NFSe.RpsSubstituido.Numero, 'NFSe.RpsSubstituido.Numero valor incorreto') ;
