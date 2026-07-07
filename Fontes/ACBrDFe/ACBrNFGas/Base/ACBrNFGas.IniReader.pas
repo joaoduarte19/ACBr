@@ -811,7 +811,7 @@ begin
   while True do
   begin
     Secao := 'autXML' + IntToStrZero(Index, 2);
-    CNPJCPF := OnlyAlphaNum(AINIRec.ReadString(Secao, 'CNPJCPF', ''));
+    CNPJCPF := OnlyCPFCNPJAlphaNum(AINIRec.ReadString(Secao, 'CNPJCPF', ''));
 
     if CNPJCPF = '' then
       Break;

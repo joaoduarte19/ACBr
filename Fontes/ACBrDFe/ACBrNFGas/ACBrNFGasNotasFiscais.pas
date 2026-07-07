@@ -627,7 +627,7 @@ begin
     ((Copy(chaveNFGas, 1, 2) <> IntToStrZero(NFGas.Ide.cUF, 2)) or
     (Copy(chaveNFGas, 3, 2)  <> Copy(FormatFloat('0000', wAno), 3, 2)) or
     (Copy(chaveNFGas, 5, 2)  <> FormatFloat('00', wMes)) or
-    (Copy(chaveNFGas, 7, 14) <> PadLeft(OnlyAlphaNum(NFGas.Emit.CNPJ), 14, '0')) or
+    (Copy(chaveNFGas, 7, 14) <> PadLeft(OnlyCPFCNPJAlphaNum(NFGas.Emit.CNPJ), 14, '0')) or
     (Copy(chaveNFGas, 21, 2) <> IntToStrZero(NFGas.Ide.modelo, 2)) or
     (Copy(chaveNFGas, 23, 3) <> IntToStrZero(NFGas.Ide.serie, 3)) or
     (Copy(chaveNFGas, 26, 9) <> IntToStrZero(NFGas.Ide.nNF, 9)) or
