@@ -68,6 +68,7 @@ type
     procedure ValidarRegra701;
     procedure ValidarRegra703;
     procedure ValidarRegra789;
+    procedure ValidarRegra794;
     procedure ValidarRegra897;
 
     procedure RegrasValidasParaAmbosModelos;
@@ -188,9 +189,7 @@ begin
     then  //B25-60 - Facultativo
       AdicionaErro('678-Rejeição: NF referenciada com UF diferente da NF-e complementar');
 
-    GravaLog('Validar: 794-NFe e domicício NFCe');
-    if (NFe.Ide.indPres = pcEntregaDomicilio) then //B25b-10
-      AdicionaErro('794-Rejeição: NF-e com indicativo de NFC-e com entrega a domicílio');
+  ValidarRegra794;
 
 //      GravaLog('Validar: 719-NFe sem ident. destinatário');
 //      if (NFe.Dest.CNPJCPF = '') and
@@ -1293,6 +1292,13 @@ begin
   GravaLog('Validar: 789-NFCe e destinatário');
   if (NFe.Dest.indIEDest <> inNaoContribuinte) then
     AdicionaErro('789-Rejeição: NFC-e para destinatário contribuinte de ICMS');
+end;
+
+procedure TNFeValidarRegras.ValidarRegra794;
+begin
+  GravaLog('Validar: 794-NFe e domicício NFCe');
+  if (NFe.Ide.indPres = pcEntregaDomicilio) and (NFe.Ide.tpImp <> tiSimplificadoTipo2) then //B25b-10
+    AdicionaErro('794-Rejeição: NF-e com indicativo de NFC-e com entrega a domicílio');
 end;
 
 procedure TNFeValidarRegras.ValidarRegra897;

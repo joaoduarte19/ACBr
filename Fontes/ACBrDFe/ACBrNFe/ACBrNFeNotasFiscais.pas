@@ -362,7 +362,8 @@ begin
     // Homologação: 01/10/2015
     // Produção: 03/11/2015
 
-    if (NFe.Ide.modelo = 65) then
+    if (NFe.Ide.modelo = 65) or
+       ((NFe.Ide.modelo = 55) and (NFe.Ide.tpImp = tiSimplificadoTipo2)) then
     begin
       with TACBrNFe(TNotasFiscais(Collection).ACBrNFe) do
       begin
