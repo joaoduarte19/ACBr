@@ -900,11 +900,14 @@ end;
 procedure TACBrNFSeXProvider.CarregarURL;
 var
   IniParams: TMemIniFile;
-  Sessao: String;
-  APIPropria{, ParamsCarregado}: Boolean;
+  Sessao, lValorParams: String;
+  APIPropria{, ParamsCarregado}, lIgnoraParamsProvedor: Boolean;
 
-  procedure CarregarURLPadraoNacional;
+  procedure CarregarURLPadraoNacional(const AIgnorarParamsProvedor: Boolean);
   begin
+    if AIgnorarParamsProvedor then
+      exit;
+
     if ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'ConsultarNFSeRPS') and
        not(ConfigGeral.Params.ParamTemValor('ServicosAPIPropria', 'ConsultarNFSeRPS')) then
     begin
@@ -954,12 +957,12 @@ var
       ConfigWebServices.LoadUrlHomologacaoAPIPadraoNacional(IniParams, 'ObterDANFSE');
     end;
 
-    if (ConfigWebServices.Producao.LinkURL = '') or
-       (TACBrNFSeX(FAOwner).Configuracoes.Geral.Provedor = proPadraoNacional) then
+    if (ConfigWebServices.Producao.LinkURL = '') and
+       (ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'LinkNFSe')) then
       ConfigWebServices.LoadlinkUrlProducao(IniParams, 'PadraoNacional');
 
-    if (ConfigWebServices.Homologacao.LinkURL = '') or
-       (TACBrNFSeX(FAOwner).Configuracoes.Geral.Provedor = proPadraoNacional) then
+    if (ConfigWebServices.Homologacao.LinkURL = '') and
+       (ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'LinkNFSe')) then
       ConfigWebServices.LoadLinkUrlHomologacao(IniParams, 'PadraoNacional');
   end;
 begin
@@ -986,6 +989,12 @@ begin
     ConfigWebServices.LoadSoapActionHomologacao(IniParams, Sessao);
     // Verifica se na seção da cidade tem o campo Params
     ConfigGeral.LoadParams(IniParams, Sessao);
+    lValorParams := IniParams.ReadString(Sessao, 'Params', '');
+    lIgnoraParamsProvedor := False;
+    lIgnoraParamsProvedor := (POS('*:', lValorParams) > 0) or
+                             (POS('*|', lValorParams) > 0) or
+                             (POS('*', lValorParams) > 0) or
+                             (lValorParams = '*');
 //    ParamsCarregado := ConfigGeral.Params.AsString <> '';
     {
     // Carrega as URLs dos Serviços do Padrão Nacional caso constam no Params
@@ -995,8 +1004,11 @@ begin
     // Depois verifica as URLs definidas para o provedor
     Sessao := TACBrNFSeX(FAOwner).Configuracoes.Geral.xProvedor;
     ConfigGeral.LoadParams(IniParams, Sessao);
+
+    if(not(lIgnoraParamsProvedor))then
+      lValorParams := lValorParams + IniParams.ReadString(Sessao, 'Params', '');
     // Verifica se na seção do provedor tem o Params: APIPropria
-    APIPropria := (Pos('APIPropria:', IniParams.ReadString(Sessao, 'Params', '')) > 0);
+    APIPropria := (Pos('APIPropria:', lValorParams) > 0);
 
     if not APIPropria then
     begin
@@ -1034,7 +1046,7 @@ begin
     end;
 
     // Carrega as URLs dos Serviços do Padrão Nacional caso constam no Params
-    CarregarURLPadraoNacional;
+    CarregarURLPadraoNacional(lIgnoraParamsProvedor);
 
     if ConfigWebServices.Producao.XMLNameSpace = '' then
       ConfigWebServices.LoadXMLNameSpaceProducao(IniParams, Sessao);

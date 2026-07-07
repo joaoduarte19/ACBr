@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 07/07/2026
+-- ACBrNFSeXProviderBase --
+[-] ACBR-9534 - Ajustes visando a correta definição e leitura das URLS e do parâmetro API Própria.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/93047-acbr-9534acbr-9541-nfse-juazeiro-do-norte-ce-speedgov-parou-de-funcionar/?&_rid=124795#findComment-608247
 -- Diversos --
 [+] Implementado o provedor TaxTecnologia que no momento atende a cidade Santa Izabel do Para/PA
    Por: Italo Giurizzato Junior
