@@ -237,6 +237,8 @@ type
     ACBr_FastReportComum_dpk: TCheckBox;
     Label46: TLabel;
     ACBr_LibXML2_dpk: TCheckBox;
+    ACBr_NFGas_dpk: TCheckBox;
+    ACBr_NFAg_dpk: TCheckBox;
     procedure btnPacotesMarcarTodosClick(Sender: TObject);
     procedure btnPacotesDesmarcarTodosClick(Sender: TObject);
     procedure VerificarCheckboxes(Sender: TObject);
