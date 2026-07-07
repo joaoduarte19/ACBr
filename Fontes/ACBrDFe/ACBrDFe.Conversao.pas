@@ -60,7 +60,7 @@ type
 
   // Tipos que tem funções de conversão
   TACBrTipoImpressao = (tiSemGeracao, tiRetrato, tiPaisagem, tiSimplificado,
-                        tiNFCe, tiMsgEletronica, tiSimplificado2);
+                        tiNFCe, tiMsgEletronica, tiSimplificadoTipo2);
 
 const
   TACBrTipoImpressaoArrayStrings: array[TACBrTipoImpressao] of string = ('0', '1',

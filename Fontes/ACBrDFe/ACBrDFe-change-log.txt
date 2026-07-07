@@ -39,6 +39,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+07/07/2026
+-- ACBrDFe.Conversao --
+[*] Renomeado o enumerado tiSimplificado2 para tiSimplificadoTipo2 visando deixar mais claro a sua utilidade.
+   Por: Italo Giurizzato Junior
+
 02/07/2026
 -- ACBrDFe.RTC.Classes/ACBrDFe.RTC.IniReader/ACBrDFe.RTC.IniWriter/ACBrDFe.RTC.XmlReader/ACBrDFe.RTC.XmlWriter --
 [*] Implementado as units: de classes, leitura e escrita do arquivo INI e leitura e escrita do XML.
