@@ -130,7 +130,8 @@ uses
   Aspec.Provider, Smart4.GravarXml, Smart4.LerXml, Smart4.Provider, 
   ACBrNFSeX.LerIni, ACBrNFSeX.GravarIni, BWSistemas.GravarXml, 
   BWSistemas.LerXml, BWSistemas.Provider, HM2.GravarXml, 
-  HM2.LerXml, HM2.Provider, LazarusPackageIntf;
+  HM2.LerXml, HM2.Provider, TaxTecnologia.GravarXml, TaxTecnologia.LerXml,
+  TaxTecnologia.Provider, LazarusPackageIntf;
 
 implementation
 

@@ -13,7 +13,7 @@
         <UnitOutputDirectory Value="..\..\..\..\Lib\Lazarus\ACBrDFe\ACBrNFSeX\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
     </CompilerOptions>
-    <Files Count="452">
+    <Files Count="455">
       <Item1>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\ACBrNFSeXReg.pas"/>
         <HasRegisterProc Value="True"/>
@@ -1823,6 +1823,18 @@
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\HM2.Provider.pas"/>
         <UnitName Value="HM2.Provider"/>
       </Item452>
+      <Item453>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\TaxTecnologia.GravarXml.pas"/>
+        <UnitName Value="TaxTecnologia.GravarXml"/>
+      </Item453>
+      <Item454>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\TaxTecnologia.LerXml.pas"/>
+        <UnitName Value="TaxTecnologia.LerXml"/>
+      </Item454>
+      <Item455>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\TaxTecnologia.Provider.pas"/>
+        <UnitName Value="TaxTecnologia.Provider"/>
+      </Item455>
    </Files>
     <RequiredPkgs Count="2">
       <Item1>
