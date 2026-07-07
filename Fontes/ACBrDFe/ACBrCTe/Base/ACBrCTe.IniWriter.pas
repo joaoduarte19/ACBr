@@ -1505,6 +1505,12 @@ end;
 
 procedure TCTeIniWriter.Gerar_Tomador(AINIRec: TMemIniFile; toma: TToma);
 begin
+  if FCTe.ide.tpCTe in [tcCTeSimp, tcSubstCTeSimpl] then
+  begin
+    AINIRec.WriteString('toma', 'toma', TpTomadorToStr(toma.toma));
+    AINIRec.WriteString('toma', 'indIEToma', indIEDestToStr(toma.indIEToma));
+  end;
+
   AINIRec.WriteString('toma', 'CNPJCPF', toma.CNPJCPF);
   AINIRec.WriteString('toma', 'IE', toma.IE);
   AINIRec.WriteString('toma', 'xNome', toma.xNome);

@@ -1784,6 +1784,7 @@ end;
 procedure TCTeXmlReader.Ler_Toma(ANode: TACBrXmlNode);
 var
   lAux: String;
+  Ok: Boolean;
 begin
   if not Assigned(ANode) then exit;
 
@@ -1793,6 +1794,10 @@ begin
   FCTe.toma.xFant := ObterConteudo(ANode.Childrens.FindAnyNs('xFant'), tcStr);
   FCTe.toma.fone := ObterConteudo(ANode.Childrens.FindAnyNs('fone'), tcStr);
   FCTe.toma.email := ObterConteudo(ANode.Childrens.FindAnyNs('email'), tcStr);
+
+  lAux := ObterConteudo(ANode.Childrens.FindAnyNs('toma'), tcStr);
+  if lAux <> '' then
+    FCte.toma.toma := StrToTpTomador(Ok, lAux);
 
   lAux := ObterConteudo(ANode.Childrens.FindAnyNs('indIEToma'), tcStr);
   if lAux <> '' then
