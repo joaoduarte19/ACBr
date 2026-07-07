@@ -45,6 +45,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 07/07/2026
+-- ACBrNFe.XmlWriter --
+[*] Ajustes para evitar a rejeição 1001 da regra B25-80.
+   Por: Maxuel Santana
 -- Diversos --
 [*] Ajustes para atender a NT 2026/002 - versão 1.00 DANFE Simplificado Tipo 2.
    Por: Italo Giurizzato Junior

@@ -1888,8 +1888,24 @@ begin
   Result.AppendChild(AddNode(tcDe2, 'M02', 'vTotTrib', 01, 15, 0,
     NFe.Det[i].Imposto.vTotTrib, DSC_VTOTTRIB));
 
-  if (((not (nfe.Ide.finNFe in [fnCredito, fnDebito])) or (nfe.ide.tpNFCredito = tcRetorno)) and
-   (nfe.Ide.gCompraGov.tpOperGov <> togRecebimentoPag)) then
+  { NT 2025.002 v1.40 - Validação B25-80 / Rejeição 1001:
+    "NF-e com finalidade de débito ou crédito somente para IBS/CBS"
+
+    Regra: se finNFe = crédito/débito OU tpOperGov = 2-Recebimento do
+    pagamento, NÃO informar ICMS/ISSQN/IPI/II/PIS/PISST/COFINS/COFINSST/
+    ICMSUFDest/impostoDevol no item - EXCETO quando:
+      tpNFCredito = 03-Retorno por Recusa Total/Não Localização do Destinatário
+      tpNFCredito = 04-Redução de valores
+      tpNFCredito = 06-Retorno por recusa parcial na entrega
+      tpNFDebito  = 07-Perda em estoque
+    A versão anterior desta condição só tratava tpNFCredito=03 (tcRetorno)
+    e não considerava tpNFDebito nenhuma exceção, causando XML inconsistente
+    (ICMSTot mantém os totais, mas o item perde o detalhamento de ICMS/PIS/
+    COFINS) para notas de débito por perda em estoque. }
+  if ((not (nfe.Ide.finNFe in [fnCredito, fnDebito]) and
+       (nfe.Ide.gCompraGov.tpOperGov <> togRecebimentoPag))
+      or (nfe.Ide.tpNFCredito in [tcRetorno, tcReducaoValores, tcRetornoRecusaParcial])
+      or (nfe.Ide.tpNFDebito = tdPerdaEmEstoque)) then
   begin
     if ((NFe.Det[i].Imposto.ISSQN.cSitTrib <> ISSQNcSitTribVazio) or
       ((NFe.infNFe.Versao > 3) and (NFe.Det[i].Imposto.ISSQN.cListServ <> ''))) then
