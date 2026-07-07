@@ -49,7 +49,9 @@ uses
   ACBrNFSeXProvedorSigISSWebTests in '..\..\FPCUnit\ACBrNFSeX\ACBrNFSeXProvedorSigISSWebTests.pas',
   ACBrNFSeXProvedorSoftPlanTests in '..\..\FPCUnit\ACBrNFSeX\ACBrNFSeXProvedorSoftPlanTests.pas',
   ACBrNFSeXProvedorWebFiscoTests in '..\..\FPCUnit\ACBrNFSeX\ACBrNFSeXProvedorWebFiscoTests.pas',
-  ACBrNFSeXRetornoSoapTests in '..\..\FPCUnit\ACBrNFSeX\ACBrNFSeXRetornoSoapTests.pas';
+  ACBrNFSeXRetornoSoapTests in '..\..\FPCUnit\ACBrNFSeX\ACBrNFSeXRetornoSoapTests.pas',
+  ACBrTests.RunnerDelphi in '..\..\ACBrTests.RunnerDelphi.pas',
+  ACBrNFSeXProviderBaseTests in '..\..\FPCUnit\ACBrNFSeX\ACBrNFSeXProviderBaseTests.pas';
 
 begin
   ACBrRunTests;
