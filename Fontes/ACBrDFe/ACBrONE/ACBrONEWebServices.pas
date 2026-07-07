@@ -690,7 +690,7 @@ var
 begin
   vUF    := Poem_Zeros(FEnvManutencaoEQP.cUF, 2);
   vData  := FormatDateTime('YYMM', FEnvManutencaoEQP.dhReg);
-  vCNPJ  := PadLeft(OnlyAlphaNum(FEnvManutencaoEQP.CNPJOper), 14, '0');
+  vCNPJ  := PadLeft(OnlyCPFCNPJAlphaNum(FEnvManutencaoEQP.CNPJOper), 14, '0');
   vtpMan := Poem_Zeros(tpManToStr(FEnvManutencaoEQP.tpMan), 1);
   vcEQP  := Poem_Zeros(FEnvManutencaoEQP.cEQP, 15);
 
@@ -857,7 +857,7 @@ var
 begin
   vUF     := Poem_Zeros(FEnvRecepcaoLeitura.infLeitura.cUF, 2);
   vData   := FormatDateTime('YYMM', FEnvRecepcaoLeitura.dhTransm);
-  vCNPJ   := PadLeft(OnlyAlphaNum(FEnvRecepcaoLeitura.infLeitura.CNPJOper), 14, '0');
+  vCNPJ   := PadLeft(OnlyCPFCNPJAlphaNum(FEnvRecepcaoLeitura.infLeitura.CNPJOper), 14, '0');
   vtpTra  := Poem_Zeros(tpTransmToStr(FEnvRecepcaoLeitura.tpTransm), 1);
   vcEQP   := Poem_Zeros(FEnvRecepcaoLeitura.infLeitura.cEQP, 15);
   vdhPass := FormatDateTime('YYYYMMDDHHNNSS', FEnvRecepcaoLeitura.infLeitura.dhPass);
@@ -980,7 +980,7 @@ begin
   begin
     vUF     := Poem_Zeros(cUF, 2);
     vData   := FormatDateTime('YYMM', dhTransm);
-    vCNPJ   := PadLeft(OnlyAlphaNum(CNPJOper), 14, '0');
+    vCNPJ   := PadLeft(OnlyCPFCNPJAlphaNum(CNPJOper), 14, '0');
     vtpTra  := Poem_Zeros(tpTransmToStr(tpTransm), 1);
     vcEQP   := Poem_Zeros(cEQP, 15);
     vdhPass := FormatDateTime('YYYYMMDDHHNNSS', infLeitura.dhPass);
