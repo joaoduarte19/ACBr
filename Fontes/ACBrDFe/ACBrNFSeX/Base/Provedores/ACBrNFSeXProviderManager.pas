@@ -89,6 +89,7 @@ uses
   Adm.Provider,
   ADPM.Provider,
   AEG.Provider,
+  Agape.Provider,
   Asten.Provider,
   BWSistemas.Provider,
   Centi.Provider,
@@ -249,6 +250,7 @@ begin
       proAdm:   Result := TACBrNFSeProviderAdm201.Create(ACBrNFSe);
       proADPM:  Result := TACBrNFSeProviderADPM203.Create(ACBrNFSe);
       proAEG:   Result := TACBrNFSeProviderAEG202.Create(ACBrNFSe);
+      proAgape: Result := TACBrNFSeProviderAgape200.Create(ACBrNFSe);
       proAgili: Result := TACBrNFSeProviderAgili.Create(ACBrNFSe);
       proAspec: Result := TACBrNFSeProviderAspec.Create(ACBrNFSe);
 

@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 08/07/2026
+-- Diversos --
+[+] Implementado o provedor Agape que no momento atende a cidade Boquim/SE
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [+] ACBR-9502 - Incluída a cidade Gentil/RS, o provedor é Citta
    Por: C4Dev
