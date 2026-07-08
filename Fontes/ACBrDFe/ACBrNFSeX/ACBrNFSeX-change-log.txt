@@ -42,6 +42,15 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+08/07/2026
+-- ACBrNFSeXServicos --
+[+] ACBR-9502 - Incluída a cidade Gentil/RS, o provedor é Citta
+   Por: C4Dev
+-- Citta.Provider --
+[*] ACBR-9502 - Alteração visando setar com o valor True no campo SucessoCanc quanto a nota
+    for cancelada com sucesso.
+   Por: C4Dev
+
 07/07/2026
 -- ACBrNFSeXLerXml/GovDigital.GravarXml --
 [*] ACBR-9469 - Ajustes para gerar corretamente os campos CST e TpRetPisCofins.

@@ -42,6 +42,7 @@ uses
   ACBrXmlDocument,
   ACBrNFSeX,
   ACBrNFSeXClass,
+  ACBrDFe.Conversao,
   ACBrNFSeXConversao,
   ACBrNFSeXConfiguracoes,
   ACBrNFSeXGravarXml,
@@ -118,7 +119,6 @@ uses
   ACBrJSON,
   ACBrCompress,
   ACBrDFeException,
-  ACBrDFe.Conversao,
   ACBrNFSeXNotasFiscais,
   ACBrNFSeXConsts,
   ACBrUtil.Base,
@@ -830,7 +830,8 @@ begin
 
         ProcessarMensagemDeErros(JSon, Response);
         Response.Sucesso := (Response.Erros.Count = 0);
-
+        Response.SucessoCanc := Response.Sucesso and
+                    (Response.InfEvento.pedRegEvento.tpEvento = teCancelamento);
       end;
     end;
   finally
