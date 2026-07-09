@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+09/07/2026
+-- ACBrNFSeXServicos --
+[*] A cidade de Registro/SP mudou de provedor, agora é o Giss na versão 2.04
+   Por: EasySoft Sistemas
+   Veja: https://www.projetoacbr.com.br/forum/topic/93256-nfs-e-problema-ao-emitir-nfse-cidade-de-registro/?&_rid=124795#findComment-610343
+
 08/07/2026
 -- Diversos --
 [+] Implementado o provedor Agape que no momento atende a cidade Boquim/SE
