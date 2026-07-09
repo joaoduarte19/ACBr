@@ -3033,6 +3033,14 @@ end;
 procedure TACBrPSP.ConferirCopiaECola(const aCopiaECola, aLocationEsperada,
   aTxIdEsperado: String);
 
+  function ValidarCRC(const ACopiaECola, ACRC: String): Boolean;
+  var
+    CRCCalculado: String;
+  begin
+    CRCCalculado := Crc16BRCode(copy(ACopiaECola, 1, Length(ACopiaECola)-4));
+    Result := (ACRC = CRCCalculado);
+  end;
+
   function Normalizar(const s: String): String;
   begin
     Result := UpperCase(Trim(TiraAcentos(s)));
@@ -3143,11 +3151,8 @@ begin
   try
     // 1) Integridade: CRC16 do payload (campo 63)
     EMV.AsString := aCopiaECola;
-    try
-      EMV.ValidateCRC;
-    except
+    if not ValidarCRC(aCopiaECola, EMV.CRC16) then
       raise EACBrPixException.Create('Falha de seguranca: CRC16 CopiaECola invalido. A resposta do PSP pode ter sido adulterada');
-    end;
 
     ChaveEMV    := EMV.PixKey;
     LocationEMV := EMV.URL;
