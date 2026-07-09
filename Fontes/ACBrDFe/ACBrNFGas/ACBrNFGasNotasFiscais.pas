@@ -903,8 +903,8 @@ begin
     end
     else
     begin
-      ANFGasXML := Copy(XMLStr, 1, P + 7);
-      XMLStr := Trim(Copy(XMLStr, P + 8, Length(XMLStr)));
+      ANFGasXML := Copy(XMLStr, 1, N + 7);
+      XMLStr := Trim(Copy(XMLStr, N + 8, Length(XMLStr)));
     end;
 
     with Self.Add do
