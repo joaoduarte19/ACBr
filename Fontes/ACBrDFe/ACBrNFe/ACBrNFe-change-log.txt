@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+09/07/2026
+-- ACBrNFeWebServices/ACBrNFe.Conversao/ACBrNFe.EnvEvento/ACBrNFe.EventoClass/ACBrNFe.RetEnvEvento --
+[*] ACBR-9624 - Revert das modificações relacionadas a NT 2025/002 em sua versão 1.40 no que diz respeito aos eventos
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/93444-acbr-9624evento-211110-da-nfe-grupo-gcredpresoper/#comment-610686
+
 07/07/2026
 -- ACBrNFe.XmlWriter --
 [*] Ajustes para evitar a rejeição 1001 da regra B25-80.

@@ -3150,7 +3150,7 @@ begin
 
       teCancGenerico, tePagIntegLibCredPresAdq, teImporALCZFM,
         tePerecPerdaRouboFurtoTranspContratFornec, teFornecNaoRealizPagAntec,
-        teSolicApropCredPres, tePerecPerdaRouboFurtoTranspContratAqu,
+        teSolicApropCredPres, teDestItemConsPessoal, tePerecPerdaRouboFurtoTranspContratAqu,
         teAceiteDebitoApuracaoNotaCredito, teImobilizacaoItem, teSolicApropCredCombustivel,
         teSolicApropCredBensServicos, teManifPedTransfCredIBSSucessao, teManifPedTransfCredCBSSucessao,
         teAtualizacaoDataPrevisaoEntrega:
@@ -3506,16 +3506,39 @@ begin
               with infEvento.detEvento.gCredPres.New do
               begin
                 nItem := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].nItem;
-                vBCCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].vBCCredPres;
+                vBC := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].vBC;
 
-                gIBSCredPres.pCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gIBSCredPres.pCredPres;
-                gIBSCredPres.vCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gIBSCredPres.vCredPres;
+                gIBS.cCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gIBS.cCredPres;
+                gIBS.pCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gIBS.pCredPres;
+                gIBS.vCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gIBS.vCredPres;
 
-                gCBSCredPres.pCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gCBSCredPres.pCredPres;
-                gCBSCredPres.vCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gCBSCredPres.vCredPres;
+                gCBS.cCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gCBS.cCredPres;
+                gCBS.pCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gCBS.pCredPres;
+                gCBS.vCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gCBS.vCredPres;
               end;
             end;
 
+          end;
+
+          teDestItemConsPessoal:
+          begin
+            SchemaEventoNFe := schDestItemConsPessoal;
+
+            for j := 0 to FEvento.Evento[I].InfEvento.detEvento.gConsumo.count - 1 do
+            begin
+              with infEvento.detEvento.gConsumo.New do
+              begin
+                nItem := FEvento.Evento[I].InfEvento.detEvento.gConsumo.Items[j].nItem;
+                vIBS := FEvento.Evento[I].InfEvento.detEvento.gConsumo.Items[j].vIBS;
+                vCBS := FEvento.Evento[I].InfEvento.detEvento.gConsumo.Items[j].vCBS;
+
+                gControleEstoque.qConsumo := FEvento.Evento[I].InfEvento.detEvento.gConsumo.Items[j].gControleEstoque.qConsumo;
+                gControleEstoque.uConsumo := FEvento.Evento[I].InfEvento.detEvento.gConsumo.Items[j].gControleEstoque.uConsumo;
+
+                DFeReferenciado.chaveAcesso := FEvento.Evento[I].InfEvento.detEvento.gConsumo.Items[j].DFeReferenciado.chaveAcesso;
+                DFeReferenciado.nItem := FEvento.Evento[I].InfEvento.detEvento.gConsumo.Items[j].DFeReferenciado.nItem;
+              end;
+            end;
           end;
 
           tePerecPerdaRouboFurtoTranspContratAqu:

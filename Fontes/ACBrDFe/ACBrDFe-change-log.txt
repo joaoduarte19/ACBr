@@ -39,6 +39,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+09/07/2026
+-- ACBrDFeConversao --
+[*] ACBR-9624 - Revert da alteração que remove o enumerado do evento 211120
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/93444-acbr-9624evento-211110-da-nfe-grupo-gcredpresoper/#comment-610686
+
 07/07/2026
 -- ACBrDFeSSL --
 [*] Ajustado para o padrão OnlyCPFCNPJAlphaNum definido em topico interno 

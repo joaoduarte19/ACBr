@@ -120,8 +120,9 @@ type
                   teRegistroPassagemMDFe, teCancGenerico, tePagIntegLibCredPresAdq,
                   teImporALCZFM, tePerecPerdaRouboFurtoTranspContratFornec,
                   teFornecNaoRealizPagAntec, teSolicApropCredPres,
-                  tePerecPerdaRouboFurtoTranspContratAqu, teAceiteDebitoApuracaoNotaCredito,
-                  teImobilizacaoItem, teSolicApropCredCombustivel, teSolicApropCredBensServicos,
+                  teDestItemConsPessoal, tePerecPerdaRouboFurtoTranspContratAqu,
+                  teAceiteDebitoApuracaoNotaCredito, teImobilizacaoItem,
+                  teSolicApropCredCombustivel, teSolicApropCredBensServicos,
                   teManifPedTransfCredIBSSucessao, teManifPedTransfCredCBSSucessao,
                   teAtualizacaoDataPrevisaoEntrega, teVinculoPgto, teCancVinculoPgto);
 
@@ -138,9 +139,9 @@ const
     '240140', '240150', '240170', '110116', '110117', '310112', '110130',
     '110131', '110150', '610130', '610131', '110117', '110118', '610111',
     '110190', '110191', '110192', '110193', '110750', '110751', '510630',
-    '110001', '112110', '112120', '112130', '112140', '211110', '211124',
-    '211128', '211130', '211140', '211150', '212110', '212120', '112150',
-    '110300', '110301');
+    '110001', '112110', '112120', '112130', '112140', '211110', '211120',
+    '211124', '211128', '211130', '211140', '211150', '212110', '212120',
+    '112150', '110300', '110301');
 
   TACBrTipoEventoDescricaoArrayStrings: array[TACBrTipoEvento] of string = ('NaoMapeado',
     'CCe', 'Cancelamento', 'ManifDestConfirmacao', 'ManifDestCiencia',
@@ -167,9 +168,10 @@ const
     'AlteracaoPagtoServMDFe', 'CancPrestDesacordo',
     'InsucessoEntregaCTe', 'CancInsucessoEntregaCTe', 'InsucessoEntregaNFe',
     'CancInsucessoEntregaNFe', 'ConcFinanceira', 'CancConcFinanceira',
-    'RegistroPassagemMDFe', 'CancGenerico', 'PagIntegLibCredPresAdq',
+  	'RegistroPassagemMDFe', 'CancGenerico', 'PagIntegLibCredPresAdq',
     'ImporALCZFM', 'PerecPerdaRouboFurtoTranspContratFornec',
-    'FornecNaoRealizPagAntec', 'SolicApropCredPres', 'PerecPerdaRouboFurtoTranspContratAqu',
+    'FornecNaoRealizPagAntec', 'SolicApropCredPres', 'DestItemConsPessoal',
+    'PerecPerdaRouboFurtoTranspContratAqu',
     'AceiteDebitoApuracaoNotaCredito', 'ImobilizacaoItem',
     'SolicApropCredCombustivel', 'SolicApropCredBensServicos',
     'ManifPedTransfCredIBSSucessao', 'ManifPedTransfCredCBSSucessao',

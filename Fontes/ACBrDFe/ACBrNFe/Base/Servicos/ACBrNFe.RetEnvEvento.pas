@@ -339,19 +339,21 @@ begin
     exit;
   lItem := infEvento.detEvento.gCredPres.New;
   lItem.nItem := AIndice;
-  lItem.vBCCredPres := ObterConteudoTag(ANode.Childrens.FindAnyNs('vBCCredPres'), tcDe2);
+  lItem.vBC := ObterConteudoTag(ANode.Childrens.FindAnyNs('vBC'), tcDe2);
 
-  lAuxNode := ANode.Childrens.FindAnyNs('gIBSCredPres');
+  lAuxNode := ANode.Childrens.FindAnyNs('gIBS');
   if Assigned(lAuxNode) then
   begin
-    lItem.gIBSCredPres.pCredPres := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('pCredPres'), tcDe2);
-    lItem.gIBSCredPres.vCredPres := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('vCredPres'), tcDe2);
+    lItem.gIBS.cCredPres := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('cCredPres'), tcStr);
+    lItem.gIBS.pCredPres := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('pCredPres'), tcDe2);
+    lItem.gIBS.vCredPres := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('vCredPres'), tcDe2);
   end;
-  lAuxNode := ANode.Childrens.FindAnyNs('gCBSCredPres');
+  lAuxNode := ANode.Childrens.FindAnyNs('gCBS');
   if Assigned(lAuxNode) then
   begin
-    lItem.gCBSCredPres.pCredPres := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('pCredPres'), tcDe2);
-    lItem.gCBSCredPres.vCredPres := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('vCredPres'), tcDe2);
+    lItem.gCBS.cCredPres := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('cCredPres'), tcStr);
+    lItem.gCBS.pCredPres := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('pCredPres'), tcDe2);
+    lItem.gCBS.vCredPres := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('vCredPres'), tcDe2);
   end;
 end;
 
@@ -544,9 +546,16 @@ begin
 
     teSolicApropCredPres:
       begin
-        ANodes := ANode.Childrens.FindAll('gCredPresOper');
+        ANodes := ANode.Childrens.FindAll('gCredPres');
         for i := 0 to Length(ANodes) - 1 do
           Ler_gCredPres(ANodes[i], i+1);
+      end;
+
+    teDestItemConsPessoal:
+      begin
+        ANodes := ANode.Childrens.FindAll('gConsumo');
+        for i := 0 to Length(ANodes) - 1 do
+          Ler_gConsumo(ANodes[i], i+1);
       end;
 
     tePerecPerdaRouboFurtoTranspContratAqu:

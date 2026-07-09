@@ -261,6 +261,7 @@ const
   tePerecPerdaRouboFurtoTranspContratFornec = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoEvento.{$ENDIF}tePerecPerdaRouboFurtoTranspContratFornec deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoEvento da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   teFornecNaoRealizPagAntec = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoEvento.{$ENDIF}teFornecNaoRealizPagAntec deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoEvento da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   teSolicApropCredPres = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoEvento.{$ENDIF}teSolicApropCredPres deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoEvento da Unit ACBrDFe.Conversao.pas' {$ENDIF};
+  teDestItemConsPessoal = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoEvento.{$ENDIF}teDestItemConsPessoal deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoEvento da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   tePerecPerdaRouboFurtoTranspContratAqu = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoEvento.{$ENDIF}tePerecPerdaRouboFurtoTranspContratAqu deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoEvento da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   teAceiteDebitoApuracaoNotaCredito = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoEvento.{$ENDIF}teAceiteDebitoApuracaoNotaCredito deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoEvento da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   teImobilizacaoItem = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoEvento.{$ENDIF}teImobilizacaoItem deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoEvento da Unit ACBrDFe.Conversao.pas' {$ENDIF};
@@ -1229,7 +1230,8 @@ begin
               'ConcFinanceira', 'CancConcFinanceira', 'RegistroPassagemMDFe',
               'CancGenerico', 'PagIntegLibCredPresAdq', 'ImporALCZFM',
               'PerecPerdaRouboFurtoTranspContratFornec', 'FornecNaoRealizPagAntec',
-              'SolicApropCredPres', 'PerecPerdaRouboFurtoTranspContratAqu',
+              'SolicApropCredPres', 'DestItemConsPessoal',
+              'PerecPerdaRouboFurtoTranspContratAqu',
               'AceiteDebitoApuracaoNotaCredito', 'ImobilizacaoItem',
               'SolicApropCredCombustivel', 'SolicApropCredBensServicos',
               'ManifPedTransfCredIBSSucessao', 'ManifPedTransfCredCBSSucessao',
@@ -1259,8 +1261,9 @@ begin
               teRegistroPassagemMDFe, teCancGenerico, tePagIntegLibCredPresAdq,
               teImporALCZFM, tePerecPerdaRouboFurtoTranspContratFornec,
               teFornecNaoRealizPagAntec, teSolicApropCredPres,
-              tePerecPerdaRouboFurtoTranspContratAqu, teAceiteDebitoApuracaoNotaCredito,
-              teImobilizacaoItem, teSolicApropCredCombustivel, teSolicApropCredBensServicos,
+              teDestItemConsPessoal, tePerecPerdaRouboFurtoTranspContratAqu,
+              teAceiteDebitoApuracaoNotaCredito, teImobilizacaoItem,
+              teSolicApropCredCombustivel, teSolicApropCredBensServicos,
               teManifPedTransfCredIBSSucessao, teManifPedTransfCredCBSSucessao,
               teAtualizacaoDataPrevisaoEntrega, teVinculoPgto, teCancVinculoPgto]);
 end;

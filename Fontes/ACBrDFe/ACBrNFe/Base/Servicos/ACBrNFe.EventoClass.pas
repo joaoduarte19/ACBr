@@ -144,11 +144,13 @@ type
     property Items[Index: Integer]: TdetPagCollectionItem read GetItem write SetItem; default;
   end;
 
-  TgIBSgCBS_CredPres = class
+  TgIBSgCBS = class
   private
+    FcCredPres: TcCredPres;
     FpCredPres: Double;
     FvCredPres: Double;
   public
+    property cCredPres: TcCredPres read FcCredPres write FcCredPres;
     property pCredPres: Double read FpCredPres write FpCredPres;
     property vCredPres: Double read FvCredPres write FvCredPres;
   end;
@@ -156,17 +158,17 @@ type
   TgCredPresCollectionItem = class
   private
     FnItem: Integer;
-    FvBCCredPres : Double;
-    FgIBSCredPres: TgIBSgCBS_CredPres;
-    FgCBSCredPres: TgIBSgCBS_CredPres;
+    FvBC: Double;
+    FgIBS: TgIBSgCBS;
+    FgCBS: TgIBSgCBS;
   public
     constructor Create;
     destructor Destroy; override;
 
-    property nItem       : Integer   read FnItem        write FnItem;
-    property vBCCredPres : Double    read FvBCCredPres  write FvBCCredPres;
-    property gIBSCredPres: TgIBSgCBS_CredPres read FgIBSCredPres write FgIBSCredPres;
-    property gCBSCredPres: TgIBSgCBS_CredPres read FgCBSCredPres write FgCBSCredPres;
+    property nItem: Integer read FnItem write FnItem;
+    property vBC: Double read FvBC write FvBC;
+    property gIBS: TgIBSgCBS read FgIBS write FgIBS;
+    property gCBS: TgIBSgCBS read FgCBS write FgCBS;
   end;
 
   TgCredPresCollection = class(TACBrObjectList)
@@ -762,6 +764,7 @@ begin
     tePerecPerdaRouboFurtoTranspContratFornec : Result := ACBrStr('Perecimento, perda, roubo ou furto durante o transporte contratado pelo fornecedor');
     teFornecNaoRealizPagAntec  : Result := ACBrStr('Fornecimento não realizado com pagamento antecipado');
     teSolicApropCredPres       : Result := ACBrStr('Solicitação de Apropriação de crédito presumido');
+    teDestItemConsPessoal      : Result := ACBrStr('Destinação de item para consumo pessoal');
     tePerecPerdaRouboFurtoTranspContratAqu : Result := ACBrStr('Perecimento, perda, roubo ou furto durante o transporte contratado pelo adquirente');
     teAceiteDebitoApuracaoNotaCredito : Result := ACBrStr('Aceite de débito na apuração por emissão de nota de crédito');
     teImobilizacaoItem       : Result := ACBrStr('Imobilização de Item');
@@ -837,6 +840,7 @@ begin
     tePerecPerdaRouboFurtoTranspContratFornec : Result := 'Perecimento, perda, roubo ou furto durante o transporte contratado pelo fornecedor';
     teFornecNaoRealizPagAntec  : Result := 'Fornecimento não realizado com pagamento antecipado';
     teSolicApropCredPres       : Result := 'Solicitação de Apropriação de crédito presumido';
+    teDestItemConsPessoal      : Result := 'Destinação de item para consumo pessoal';
     tePerecPerdaRouboFurtoTranspContratAqu : Result := 'Perecimento, perda, roubo ou furto durante o transporte contratado pelo adquirente';
     teAceiteDebitoApuracaoNotaCredito : Result := 'Aceite de débito na apuração por emissão de nota de crédito';
     teImobilizacaoItem       : Result := 'Imobilização de Item';
@@ -1107,14 +1111,14 @@ constructor TgCredPresCollectionItem.Create;
 begin
   inherited Create;
 
-  FgIBSCredPres := TgIBSgCBS_CredPres.Create;
-  FgCBSCredPres := TgIBSgCBS_CredPres.Create;
+  FgIBS := TgIBSgCBS.Create;
+  FgCBS := TgIBSgCBS.Create;
 end;
 
 destructor TgCredPresCollectionItem.Destroy;
 begin
-  FgIBSCredPres.Free;
-  FgCBSCredPres.Free;
+  FgIBS.Free;
+  FgCBS.Free;
 
   inherited;
 end;
