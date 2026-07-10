@@ -98,7 +98,9 @@ var
 begin
   if ACBrBoleto.Configuracoes.WebService.UseCertificateHTTP then
   begin //portal developers
-    LData := PadLeft(OnlyNumber(AValue), 8, '0'); //remover pontuação, pois não tem um padrao ponto barras ou sem
+    LData := OnlyNumber(AValue); 
+    if Length(LData)<8 then       //a dt de pagto vem com erro, vem 6042026 em vez de 06042026
+      LData := Poem_Zeros(LData,8);
     LAno := Copy(LData, 5, 4);
     LMes := Copy(LData, 3, 2);
     LDia := Copy(LData, 1, 2);
