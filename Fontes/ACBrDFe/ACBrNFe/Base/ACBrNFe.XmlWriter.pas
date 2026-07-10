@@ -1508,7 +1508,7 @@ begin
       (NFe.Det[i].Prod.detExport[j].chNFe <> '') then
     begin
       xmlNode := Result[j].AddChild('exportInd');
-      xmlNode.AppendChild(AddNode(tcStr, 'I53', 'nRE', 12, 12,
+      xmlNode.AppendChild(AddNode(tcStr, 'I53', 'nRE', 00, 12,
         1, NFe.Det[i].Prod.detExport[j].nRE, DSC_NRE));
       if not ValidaRE(NFe.Det[i].Prod.detExport[j].nRE) then
         wAlerta('I53', 'nRE', DSC_NRE, ERR_MSG_INVALIDO);
