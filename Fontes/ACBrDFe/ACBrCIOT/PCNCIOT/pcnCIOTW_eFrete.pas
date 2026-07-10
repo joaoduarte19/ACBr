@@ -147,7 +147,7 @@ begin
   with CIOT.GravarProprietario do
   begin
     Gerador.wCampo(tcStr, 'AP06', 'CNPJ       ', 01, 01, 1, CNPJ);
-    Gerador.wCampo(tcStr, 'AP07', 'TipoPessoa ', 01, 01, 1, TipoPessoaToStr(TipoPessoa));
+//    Gerador.wCampo(tcStr, 'AP07', 'TipoPessoa ', 01, 01, 1, TipoPessoaToStr(TipoPessoa));
     Gerador.wCampo(tcStr, 'AP08', 'RazaoSocial', 01, 01, 0, RazaoSocial);
     Gerador.wCampo(tcStr, 'AP09', 'RNTRC      ', 01, 01, 1, RNTRC);
 

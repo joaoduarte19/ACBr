@@ -171,10 +171,10 @@ begin
           begin
             Proprietario.CNPJ := leitor.rCampo(tcStr, 'CNPJ');
 
-            sAux := leitor.rCampo(tcStr, 'TipoPessoa');
-            Proprietario.TipoPessoa := tpIndefinido;
-            if sAux <> '' then
-              Proprietario.TipoPessoa := StrToTipoPessoa(sAux);
+            //sAux := leitor.rCampo(tcStr, 'TipoPessoa');
+            //Proprietario.TipoPessoa := tpIndefinido;
+            //if sAux <> '' then
+            //  Proprietario.TipoPessoa := StrToTipoPessoa(sAux);
 
             Proprietario.RazaoSocial       := leitor.rCampo(tcStr, 'RazaoSocial');
             Proprietario.RNTRC             := leitor.rCampo(tcStr, 'RNTRC');
