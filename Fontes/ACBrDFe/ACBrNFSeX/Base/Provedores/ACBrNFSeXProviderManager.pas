@@ -334,12 +334,17 @@ begin
 
       proDSF:
         begin
-          case Versao of
-            ve100: Result := TACBrNFSeProviderDSF.Create(ACBrNFSe);
-            ve200: Result := TACBrNFSeProviderDSF200.Create(ACBrNFSe);
-            ve203: Result := TACBrNFSeProviderDSF203.Create(ACBrNFSe);
+          if APIPropria then
+            Result := TACBrNFSeProviderDSFAPIPropria.Create(ACBrNFSe)
           else
-            Result := nil;
+          begin
+            case Versao of
+              ve100: Result := TACBrNFSeProviderDSF.Create(ACBrNFSe);
+              ve200: Result := TACBrNFSeProviderDSF200.Create(ACBrNFSe);
+              ve203: Result := TACBrNFSeProviderDSF203.Create(ACBrNFSe);
+            else
+              Result := nil;
+            end;
           end;
         end;
 

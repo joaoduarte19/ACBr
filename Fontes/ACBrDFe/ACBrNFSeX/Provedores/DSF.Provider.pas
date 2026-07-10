@@ -38,10 +38,17 @@ interface
 
 uses
   SysUtils, Classes,
-  ACBrXmlBase, ACBrNFSeXClass, ACBrNFSeXConversao,
-  ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
-  ACBrNFSeXProviderABRASFv1, ACBrNFSeXProviderABRASFv2,
-  ACBrNFSeXWebserviceBase, ACBrNFSeXWebservicesResponse;
+  ACBrJSON,
+  ACBrXmlBase,
+  ACBrNFSeXClass,
+  ACBrNFSeXConversao,
+  ACBrNFSeXGravarXml,
+  ACBrNFSeXLerXml,
+  ACBrNFSeXProviderABRASFv1,
+  ACBrNFSeXProviderABRASFv2,
+  ACBrNFSeXWebserviceBase,
+  ACBrNFSeXWebservicesResponse,
+  PadraoNacional.Provider;
 
 type
   TACBrNFSeXWebserviceDSF = class(TACBrNFSeXWebserviceSoap11)
@@ -104,6 +111,26 @@ type
     procedure Configuracao; override;
 
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
+  end;
+
+  TACBrNFSeXWebserviceDSFAPIPropria = class(TACBrNFSeXWebservicePadraoNacional)
+  protected
+
+  public
+
+  end;
+
+  TACBrNFSeProviderDSFAPIPropria = class(TACBrNFSeProviderPadraoNacional)
+  private
+
+  protected
+    function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
+    function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
+    function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
+
+    procedure ProcessarMensagemDeErros(LJson: TACBrJSONObject;
+                                     Response: TNFSeWebserviceResponse;
+                                     const AListTag: string = 'Erros'); override;
   end;
 
 implementation
@@ -569,6 +596,122 @@ begin
 //  Result := StringReplace(Result, '&', '&amp;', [rfReplaceAll]);
 //  Result := RemoverIdentacao(Result);
 //  Result := RemoverCaracteresDesnecessarios(Result);
+end;
+
+{ TACBrNFSeProviderDSFAPIPropria }
+
+function TACBrNFSeProviderDSFAPIPropria.CriarGeradorXml(
+  const ANFSe: TNFSe): TNFSeWClass;
+begin
+  Result := TNFSeW_DSFAPIPropria.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderDSFAPIPropria.CriarLeitorXml(
+  const ANFSe: TNFSe): TNFSeRClass;
+begin
+  Result := TNFSeR_DSFAPIPropria.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderDSFAPIPropria.CriarServiceClient(
+  const AMetodo: TMetodo): TACBrNFSeXWebservice;
+var
+  URL: string;
+begin
+  URL := GetWebServiceURL(AMetodo);
+
+  if URL <> '' then
+  begin
+//    URL := URL + Path;
+
+    Result := TACBrNFSeXWebserviceDSFAPIPropria.Create(FAOwner, AMetodo, URL, Method);
+  end
+  else
+  begin
+    if ConfigGeral.Ambiente = taProducao then
+      raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
+    else
+      raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
+end;
+
+procedure TACBrNFSeProviderDSFAPIPropria.ProcessarMensagemDeErros(
+  LJson: TACBrJSONObject; Response: TNFSeWebserviceResponse;
+  const AListTag: string);
+var
+  JSonLista: TACBrJSONArray;
+  JSon: TACBrJSONObject;
+
+  procedure AdicionaCollectionItem(JSonItem: TACBrJSONObject; Collection: TNFSeEventoCollection);
+  var
+    AItem: TNFSeEventoCollectionItem;
+    Codigo: string;
+  begin
+    Codigo := JSonItem.AsString['Codigo'];
+
+    if Codigo <> '' then
+    begin
+      AItem := Collection.New;
+      AItem.Codigo := Codigo;
+      AItem.Descricao := JSonItem.AsString['Descricao'];
+      AItem.Correcao := JSonItem.AsString['Complemento'];
+    end
+    else
+    begin
+      Codigo := JSonItem.AsString['codigo'];
+
+      if Codigo <> '' then
+      begin
+        AItem := Collection.New;
+        AItem.Codigo := Codigo;
+        AItem.Descricao := JSonItem.AsString['mensagem'];
+        AItem.Correcao := JSonItem.AsString['complemento'];
+      end;
+    end;
+  end;
+
+  procedure LerListaErrosAlertas(jsLista: TACBrJSONArray; Collection: TNFSeEventoCollection);
+  var
+    i: Integer;
+  begin
+    for i := 0 to jsLista.Count-1 do
+    begin
+      JSon := jsLista.ItemAsJSONObject[i];
+
+      AdicionaCollectionItem(JSon, Collection);
+    end;
+  end;
+
+  procedure VerificaSeObjetoOuArray(aNome: string; Collection: TNFSeEventoCollection);
+  begin
+    // Verifica se no retorno contem um objeto ou array
+    if LJson.IsJSONArray(aNome) then
+    begin
+      JSonLista := LJson.AsJSONArray[aNome];
+
+      if JSonLista.Count > 0 then
+        LerListaErrosAlertas(JSonLista, Collection);
+    end
+    else
+    begin
+      JSon := LJson.AsJSONObject[aNome];
+
+      if JSon <> nil then
+        AdicionaCollectionItem(JSon, Collection);
+    end;
+  end;
+begin
+  // Verifica se no retorno contem a lista de Erros
+  VerificaSeObjetoOuArray(AListTag, Response.Erros);
+  // Verifica se no retorno contem a lista de erros
+  VerificaSeObjetoOuArray('erros', Response.Erros);
+  // Verifica se no retorno contem a lista de erro
+  VerificaSeObjetoOuArray('erro', Response.Erros);
+  // Verifica se no retorno contem a lista de Alertas
+  VerificaSeObjetoOuArray('Alertas', Response.Alertas);
+  // Verifica se no retorno contem a lista de Alertas
+  VerificaSeObjetoOuArray('alertas', Response.Alertas);
 end;
 
 end.

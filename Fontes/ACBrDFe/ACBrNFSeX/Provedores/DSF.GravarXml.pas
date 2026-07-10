@@ -39,7 +39,9 @@ interface
 uses
   SysUtils, Classes, StrUtils,
   ACBrXmlBase,
-  ACBrNFSeXGravarXml_ABRASFv1, ACBrNFSeXGravarXml_ABRASFv2;
+  ACBrNFSeXGravarXml_ABRASFv1,
+  ACBrNFSeXGravarXml_ABRASFv2,
+  PadraoNacional.GravarXml;
 
 type
   { TNFSeW_DSF }
@@ -60,6 +62,12 @@ type
 
   end;
 
+  { TNFSeW_DSFAPIPropria }
+
+  TNFSeW_DSFAPIPropria = class(TNFSeW_PadraoNacional)
+  protected
+
+  end;
 implementation
 
 uses

@@ -38,7 +38,9 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrNFSeXLerXml_ABRASFv1, ACBrNFSeXLerXml_ABRASFv2;
+  ACBrNFSeXLerXml_ABRASFv1,
+  ACBrNFSeXLerXml_ABRASFv2,
+  PadraoNacional.LerXml;
 
 type
   { TNFSeR_DSF }
@@ -53,6 +55,15 @@ type
   { TNFSeR_DSF200 }
 
   TNFSeR_DSF200 = class(TNFSeR_ABRASFv2)
+  protected
+
+  public
+
+  end;
+
+  { TNFSeR_DSFAPIPropria }
+
+  TNFSeR_DSFAPIPropria = class(TNFSeR_PadraoNacional)
   protected
 
   public
