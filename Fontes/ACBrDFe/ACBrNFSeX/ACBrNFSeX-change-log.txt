@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 10/07/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9622/9621 - O Provedor DSF implementou uma API Rest para recepcionar o XML 
+    segundo o layout do padrão Nacional e vai usar essa API para as cidades de 
+    João Pessoa/PB e Campinas/SP é bem provável que vai usar nas demais cidades que 
+    usam o provedor DSF e ISSDSF.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXDANFSeRLPadraoNacional --
 [*] Incluído o numerador de páginas e agora o Canhoto só é impresso se a propriedade
     de configuração: ImprimeCanhoto receber o valor True.
