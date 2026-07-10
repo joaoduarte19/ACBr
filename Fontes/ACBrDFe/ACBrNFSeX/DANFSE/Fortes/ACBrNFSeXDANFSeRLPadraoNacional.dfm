@@ -5,7 +5,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
   ClientHeight = 988
   TextHeight = 13
   inherited RLNFSe: TRLReport
-    Left = 48
+    Left = 64
     Top = 0
     Margins.LeftMargin = 6.000000000000000000
     Margins.TopMargin = 8.000000000000000000
@@ -1779,6 +1779,61 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         ParentFont = False
         Transparent = False
       end
+      object RLLabel33: TRLLabel
+        Left = 462
+        Top = 54
+        Width = 42
+        Height = 14
+        Caption = 'P'#225'gina:'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object RLSystemInfo1: TRLSystemInfo
+        Left = 507
+        Top = 54
+        Width = 72
+        Height = 14
+        Alignment = taRightJustify
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = []
+        Info = itPageNumber
+        ParentFont = False
+        Text = ''
+      end
+      object RLLabel62: TRLLabel
+        Left = 581
+        Top = 53
+        Width = 7
+        Height = 15
+        Caption = '/'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+      end
+      object RLSystemInfo2: TRLSystemInfo
+        Left = 591
+        Top = 54
+        Width = 50
+        Height = 14
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = []
+        Info = itLastPageNumber
+        ParentFont = False
+        Text = ''
+      end
     end
     object rlbBanda06_Intermediario: TRLBand
       Left = 28
@@ -2811,9 +2866,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       object RLLabel57: TRLLabel
         Left = 186
         Top = 35
-        Width = 174
+        Width = 175
         Height = 14
-        Caption = 'BC ap'#243's Exclus'#245'es e REdu'#231#245'es'
+        Caption = 'BC ap'#243's Exclus'#245'es e Redu'#231#245'es'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Height = -11

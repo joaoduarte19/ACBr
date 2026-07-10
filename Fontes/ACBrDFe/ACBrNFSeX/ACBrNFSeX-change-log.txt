@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+10/07/2026
+-- ACBrNFSeXDANFSeRLPadraoNacional --
+[*] Incluído o numerador de páginas e agora o Canhoto só é impresso se a propriedade
+    de configuração: ImprimeCanhoto receber o valor True.
+   Por: Italo Giurizzato Junior
+
 09/07/2026
 -- ACBrNFSeXServicos --
 [*] A cidade de Registro/SP mudou de provedor, agora é o Giss na versão 2.04

@@ -3,7 +3,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
   Top = 76
   Caption = 'frlXDANFSeRLPadraoNacional'
   inherited RLNFSe: TRLReport
-    Left = 48
+    Left = 64
     Height = 1403
     Top = 0
     Width = 992
@@ -1599,6 +1599,56 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         ParentFont = False
         Transparent = False
       end
+      object RLLabel33: TRLLabel
+        Left = 462
+        Height = 14
+        Top = 54
+        Width = 42
+        Caption = 'Página:'
+        Font.CharSet = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object RLSystemInfo1: TRLSystemInfo
+        Left = 507
+        Height = 14
+        Top = 54
+        Width = 72
+        Alignment = taRightJustify
+        Font.CharSet = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Info = itPageNumber
+        ParentFont = False
+      end
+      object RLLabel62: TRLLabel
+        Left = 581
+        Height = 15
+        Top = 53
+        Width = 7
+        Caption = '/'
+        Font.CharSet = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Arial'
+        ParentFont = False
+      end
+      object RLSystemInfo2: TRLSystemInfo
+        Left = 591
+        Height = 14
+        Top = 54
+        Width = 50
+        Font.CharSet = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Info = itLastPageNumber
+        ParentFont = False
+      end
     end
     object rlbBanda06_Intermediario: TRLBand[10]
       Left = 28
@@ -2527,8 +2577,8 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Left = 186
         Height = 14
         Top = 35
-        Width = 174
-        Caption = 'BC após Exclusões e REduções'
+        Width = 175
+        Caption = 'BC após Exclusões e Reduções'
         Font.Color = clBlack
         Font.Height = -11
         Font.Name = 'Arial'

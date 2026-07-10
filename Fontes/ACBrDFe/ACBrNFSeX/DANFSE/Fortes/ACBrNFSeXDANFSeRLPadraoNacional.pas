@@ -294,6 +294,10 @@ type
     RLLabel121: TRLLabel;
     RLLabel122: TRLLabel;
     rllNumNFSe: TRLLabel;
+    RLLabel33: TRLLabel;
+    RLSystemInfo1: TRLSystemInfo;
+    RLLabel62: TRLLabel;
+    RLSystemInfo2: TRLSystemInfo;
 
     procedure RLNFSeBeforePrint(Sender: TObject; var PrintIt: Boolean);
 
@@ -411,6 +415,9 @@ begin
   rllNumNF0.Caption := fpNFSe.Numero;
   rllNumeroDPS.Caption := fpNFSe.IdentificacaoRps.Numero;
 
+  // Exibe canhoto
+  rlbCanhoto.Visible := fpDANFSe.ImprimeCanhoto;
+
   case fpNFSe.tpEmit of
     tePrestador: rllEmitente.Caption := ACBrStr('Prestador do Serviço');
     teTomador: rllEmitente.Caption := ACBrStr('Tomador do Serviço');
@@ -434,7 +441,7 @@ begin
     rlImgQrCode.Stretch := True;
     rlImgQrCode.AutoSize := False;
     rlImgQrCode.Center := True;
-    rlImgQrCode.SetBounds(620, 3, 77, 77);
+    rlImgQrCode.SetBounds(720, 3, 77, 77);
     rlImgQrCode.BringToFront;
 
     QRCodeData := fpNFSe.Link;
@@ -644,9 +651,17 @@ end;
 procedure TfrlXDANFSeRLPadraoNacional.rlbBanda07_ServicoPrestadoBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
 var
-  Desc: string;
+  Codigo, Desc: string;
 begin
   inherited;
+
+  Codigo := fpNFSe.Servico.ItemListaServico;
+
+  Codigo := Copy(Codigo, 1, 2) + '.' + Copy(Codigo, 3, 2) + '.' +
+            Copy(Codigo, 5, 2);
+
+  if fpNFSe.Servico.CodigoTributacaoMunicipio <> '' then
+    Codigo := Codigo + '/' + fpNFSe.Servico.CodigoTributacaoMunicipio;
 
   If fpNFSe.infNFSe.xTribMun <> '' then
     Desc := fpNFSe.infNFSe.xTribMun
@@ -654,11 +669,7 @@ begin
     Desc := fpNFSe.infNFSe.xTribNac;
 
   rlmCodTribNac.Lines.Clear;
-  rlmCodTribNac.Lines.Add(fpNFSe.Servico.ItemListaServico + ' - ' + Desc);
-
-//  rlmCodTribNac.Lines.Clear;
-//  rlmCodTribNac.Lines.Add(fpNFSe.Servico.ItemListaServico + ' - ' +
-//                          fpNFSe.Servico.xItemListaServico);
+  rlmCodTribNac.Lines.Add(Codigo + ' - ' + Desc);
 
   rllCodigoNBS.Caption := fpNFSe.Servico.CodigoNBS;
   rllLocalPrestacao.Caption := fpNFSe.Servico.MunicipioPrestacaoServico + ' / ' +
