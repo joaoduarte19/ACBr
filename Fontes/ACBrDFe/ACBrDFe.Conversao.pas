@@ -630,7 +630,7 @@ type
   TtpALCZFMCBS = (tpALCZFMCBSnOpInd, tpALCZFMCBSOpInd);
 
 const
-  TtpALCZFMCBSArrayStrings: array[TtpALCZFMCBS] of string = ('0', '1');
+  TtpALCZFMCBSArrayStrings: array[TtpALCZFMCBS] of string = ('1', '2');
 {
   Declaração das funções de conversão
 }

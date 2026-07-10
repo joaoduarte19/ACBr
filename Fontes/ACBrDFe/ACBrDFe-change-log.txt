@@ -40,6 +40,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 10/07/2026
+-- ACBrDFe.Conversao --
+[-] ACBR-9625 - Correção nos valores do tipo TtpALCZFMCBS, o correto é 1 e 2 em vez de 0 e 1.
+   Por: Maxuel Santana
 -- ACBrDFe.RTC.Classes/ACBrDFe.RTC.IniReader/ACBrDFe.RTC.IniWriter --
 -- ACBrDFe.RTC.XmlReader/ACBrDFe.RTC.XmlWriter --
 [*] Alterações visando deixar as units prontas para a NT 2025/002 versão 1.50 da NF-e.
