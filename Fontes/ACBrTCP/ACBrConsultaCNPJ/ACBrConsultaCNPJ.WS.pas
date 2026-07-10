@@ -46,6 +46,18 @@ type
     record  prName,PrValue:string;
   end;
   EACBrConsultaCNPJWSException = class ( Exception );
+
+  TQSA = record
+    Codigo: string;
+    Nome: string;
+    Qualificacao: string;
+    CodigoRepresentante: string;
+    Representante: string;
+    QualificacaoRepresentante: string;
+  end;
+
+  TListQSA = array of TQSA;
+
   TACBrConsultaCNPJWSResposta = class (TObject)
     NaturezaJuridica     : string ;
     EmpresaTipo          : string;
@@ -80,6 +92,7 @@ type
     Mei                  : Boolean;
     DataOpcaoMei         : TDateTime;
     DataExclusaoMei      : TDateTime;
+    QSA                  : TListQSA;
     ResultString         : string;
     ResultCode           : integer;
   end;

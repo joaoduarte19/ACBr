@@ -112,7 +112,7 @@ begin
       FResposta.EndEletronico  := LJsonObject.AsString['email'];
       FResposta.Telefone       := LJsonObject.AsString['ddd1'] + LJsonObject.AsString['telefone1'];
       FResposta.Situacao       := LJsonObject.AsString['situacao_cadastral'];
-      FResposta.DataSituacao   := StringToDateTimeDef(LJsonObject.AsString['data_situacao'],0,'yyyy/mm/dd');
+      FResposta.DataSituacao   := StringToDateTimeDef(LJsonObject.AsString['data_situacao_cadastral'],0,'yyyy/mm/dd');
       FResposta.EmpresaTipo    := LJsonObject.AsString['tipo'];
       FResposta.SituacaoEspecial     := LJsonObject.AsString['situacao_especial'];
       FResposta.DataSituacaoEspecial := StringToDateTimeDef(LJsonObject.AsString['data_situacao_especial'],0,'yyyy/mm/dd');
@@ -147,6 +147,18 @@ begin
       LJsonObject := LJson.AsJSONObject['motivo_situacao_cadastral'];
       if LJson.IsJSONObject('motivo_situacao_cadastral' ) then
          FResposta.MotivoSituacaoCad := LJsonObject.AsString['id'] + ' ' + LJsonObject.AsString['descricao'];
+
+      LJsonArray := LJson.AsJSONArray['socios'];
+      SetLength(FResposta.QSA,LJsonArray.Count);
+      for I := 0 to Pred(LJsonArray.Count) do
+      begin
+        FResposta.QSA[I].Codigo                    := TACBrJSONObject(LJsonArray.ItemAsJSONObject[I].AsJSONObject['qualificacao_socio']).AsString['id'];
+        FResposta.QSA[I].Nome                      := LJsonArray.ItemAsJSONObject[I].AsString['nome'];
+        FResposta.QSA[I].Qualificacao              := TACBrJSONObject(LJsonArray.ItemAsJSONObject[I].AsJSONObject['qualificacao_socio']).AsString['descricao'];
+        FResposta.QSA[I].Representante             := LJsonArray.ItemAsJSONObject[I].AsString['nome_representante'];
+        FResposta.QSA[I].CodigoRepresentante       := TACBrJSONObject(LJsonArray.ItemAsJSONObject[I].AsJSONObject['qualificacao_representante']).AsString['id'];
+        FResposta.QSA[I].QualificacaoRepresentante := TACBrJSONObject(LJsonArray.ItemAsJSONObject[I].AsJSONObject['qualificacao_representante']).AsString['descricao'];
+      end;
 
       Result := true;
     end else

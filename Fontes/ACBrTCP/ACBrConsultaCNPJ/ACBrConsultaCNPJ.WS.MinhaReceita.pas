@@ -96,6 +96,18 @@ begin
         for Z := 0 to Pred(LJsonArray.Count) do
           FResposta.CNAE2.Add(IntToStr(LJsonArray.ItemAsJSONObject[Z].AsInteger['codigo']) + ' ' + LJsonArray.ItemAsJSONObject[Z].AsString['descricao']);
 
+        LJsonArray := LJsonObject.AsJSONArray['qsa'];
+        SetLength(FResposta.QSA,LJsonArray.Count);
+        for Z := 0 to Pred(LJsonArray.Count) do
+        begin
+          FResposta.QSA[Z].Codigo                    := LJsonArray.ItemAsJSONObject[Z].AsString['identificador_de_socio'];
+          FResposta.QSA[Z].Nome                      := LJsonArray.ItemAsJSONObject[Z].AsString['nome_socio'];
+          FResposta.QSA[Z].Qualificacao              := LJsonArray.ItemAsJSONObject[Z].AsString['qualificacao_socio'];
+          FResposta.QSA[Z].CodigoRepresentante       := LJsonArray.ItemAsJSONObject[Z].AsString['codigo_qualificacao_representante_legal'];
+          FResposta.QSA[Z].Representante             := LJsonArray.ItemAsJSONObject[Z].AsString['nome_representante_legal'];
+          FResposta.QSA[Z].QualificacaoRepresentante := LJsonArray.ItemAsJSONObject[Z].AsString['qualificacao_representante_legal'];
+        end;
+
         FResposta.EmpresaTipo          := LJsonObject.AsString['descricao_identificador_matriz_filial'];
         FResposta.Endereco             := Trim(LJsonObject.AsString['descricao_tipo_de_logradouro'] + ' ' + LJsonObject.AsString['logradouro']);
         FResposta.Numero               := LJsonObject.AsString['numero'];

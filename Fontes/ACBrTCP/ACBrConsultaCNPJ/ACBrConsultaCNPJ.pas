@@ -104,6 +104,7 @@ type
     FProxyUser : string;
     FProxyPass : string;
     FCapitalSocial : Double;
+    FQSA: TListQSA;
     FHTTPResponse : string;
     FHTTPResultCode : Integer;
     function GetIBGE_UF : String ;
@@ -162,6 +163,7 @@ type
     property ProxyUser: string read FProxyUser write FProxyUser;
     property ProxyPass: string read FProxyPass write FProxyPass;
     property CapitalSocial: Double read FCapitalSocial write FCapitalSocial;
+    property QSA: TListQSA read FQSA write FQSA;
     property HTTPResponse : String read FHTTPResponse;
     property HTTPResultCode : Integer read FHTTPResultCode;
   end;
@@ -222,6 +224,7 @@ begin
   FDataOpcaoSimples     := AACBrConsultaCNPJWSResposta.DataOpcaoSimples;
   FDataExclusaoSimples  := AACBrConsultaCNPJWSResposta.DataExclusaoSimples;
   FCapitalSocial        := AACBrConsultaCNPJWSResposta.CapitalSocial;
+  FQSA                  := AACBrConsultaCNPJWSResposta.QSA;
 
   FHTTPResponse         := AACBrConsultaCNPJWSResposta.ResultString;
   FHTTPResultCode       := AACBrConsultaCNPJWSResposta.ResultCode;

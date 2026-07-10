@@ -102,6 +102,18 @@ begin
         for Z := 0 to Pred(LJsonArray.Count) do
           FResposta.CNAE2.Add(LJsonArray.ItemAsJSONObject[Z].AsString['code'] + ' ' + LJsonArray.ItemAsJSONObject[Z].AsString['text']);
 
+        LJsonArray := LJsonObject.AsJSONArray['qsa'];
+        SetLength(FResposta.QSA,LJsonArray.Count);
+        for Z := 0 to Pred(LJsonArray.Count) do
+        begin
+          FResposta.QSA[Z].Codigo                    := ''; //JSON não possui campo
+          FResposta.QSA[Z].Nome                      := LJsonArray.ItemAsJSONObject[Z].AsString['nome'];
+          FResposta.QSA[Z].Qualificacao              := LJsonArray.ItemAsJSONObject[Z].AsString['qual'];
+          FResposta.QSA[Z].CodigoRepresentante       := ''; //JSON não possui campo
+          FResposta.QSA[Z].Representante             := ''; //JSON não possui campo
+          FResposta.QSA[Z].QualificacaoRepresentante := ''; //JSON não possui campo
+        end;
+
         FResposta.EmpresaTipo          := LJsonObject.AsString['tipo'];
         FResposta.Endereco             := LJsonObject.AsString['logradouro'];
         FResposta.Numero               := LJsonObject.AsString['numero'];
