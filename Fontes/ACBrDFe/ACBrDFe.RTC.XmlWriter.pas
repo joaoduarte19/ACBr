@@ -101,11 +101,27 @@ type
 
     function Gerar_ISel(ISel: TgIS): TACBrXmlNode;
 
-    function Gerar_gIBSCBSMono(IBSCBSMono: TgIBSCBSMono): TACBrXmlNode;
-    function Gerar_gMonoPadrao(gMonoPadrao: TgMonoPadrao): TACBrXmlNode;
-    function Gerar_gMonoReten(gMonoReten: TgMonoReten): TACBrXmlNode;
-    function Gerar_gMonoRet(gMonoRet: TgMonoRet): TACBrXmlNode;
-    function Gerar_gMonoDif(gMonoDif: TgMonoDif): TACBrXmlNode;
+    function Gerar_gIBSCBSMono(gIBSCBSMono: TgIBSCBSMono): TACBrXmlNode;
+
+    function Gerar_gIBSMonoAdRem(gIBSMonoAdRem: TgIBSMonoAdRem): TACBrXmlNode;
+    function Gerar_gMonoPadraoIBSQtde(gMonoPadrao: TgMonoPadraoIBSQtde): TACBrXmlNode;
+    function Gerar_gMonoRetenIBSQtde(gMonoReten: TgMonoRetenIBSQtde): TACBrXmlNode;
+    function Gerar_gMonoRetIBS(gMonoRet: TgMonoRetIBS): TACBrXmlNode;
+    function Gerar_gpBioDiferencaIBS(gpBioDiferenca: TgpBioDiferencaIBS): TACBrXmlNode;
+
+    function Gerar_gIBSMonoAdValorem(gIBSMonoAdValorem: TgIBSMonoAdValorem): TACBrXmlNode;
+    function Gerar_gMonoPadraoIBSAliq(gMonoPadrao: TgMonoPadraoIBSAliq): TACBrXmlNode;
+    function Gerar_gMonoRetenIBSAliq(gMonoReten: TgMonoRetenIBSAliq): TACBrXmlNode;
+
+    function Gerar_gCBSMonoAdRem(gCBSMonoAdRem: TgCBSMonoAdRem): TACBrXmlNode;
+    function Gerar_gMonoPadraoCBSQtde(gMonoPadrao: TgMonoPadraoCBSQtde): TACBrXmlNode;
+    function Gerar_gMonoRetenCBSQtde(gMonoReten: TgMonoRetenCBSQtde): TACBrXmlNode;
+    function Gerar_gMonoRetCBS(gMonoRet: TgMonoRetCBS): TACBrXmlNode;
+    function Gerar_gpBioDiferencaCBS(gpBioDiferenca: TgpBioDiferencaCBS): TACBrXmlNode;
+
+    function Gerar_gCBSMonoAdValorem(gCBSMonoAdValorem: TgCBSMonoAdValorem): TACBrXmlNode;
+    function Gerar_gMonoPadraoCBSAliq(gMonoPadrao: TgMonoPadraoCBSAliq): TACBrXmlNode;
+    function Gerar_gMonoRetenCBSAliq(gMonoReten: TgMonoRetenCBSAliq): TACBrXmlNode;
 
     function Gerar_gTransfCred(gTransfCred: TgTransfCred): TACBrXmlNode;
     function Gerar_gCredPresIBSZFM(gCredPresIBSZFM: TCredPresIBSZFM): TACBrXmlNode;
@@ -229,6 +245,7 @@ end;
 function TDFeRTCXmlWriter.Gerar_IBSCBSBPe(IBSCBS: TIBSCBS): TACBrXmlNode;
 begin
   Result := nil;
+
   case ModelosDFe of
     mdfBPe:
       if IBSCBS.CST in [cst000, cst200, cst222] then
@@ -247,6 +264,7 @@ end;
 function TDFeRTCXmlWriter.Gerar_IBSCBSCTe(IBSCBS: TIBSCBS): TACBrXmlNode;
 begin
   Result := nil;
+
   case ModelosDFe of
     mdfCTe:
       if IBSCBS.CST in [cst000, cst200] then
@@ -265,6 +283,7 @@ end;
 function TDFeRTCXmlWriter.Gerar_IBSCBSNF3e(IBSCBS: TIBSCBS): TACBrXmlNode;
 begin
   Result := nil;
+
   if IBSCBS.CST in [cst000, cst200, cst510, cst830] then
     Result := Gerar_gIBSCBS(IBSCBS.gIBSCBS);
 end;
@@ -272,6 +291,7 @@ end;
 function TDFeRTCXmlWriter.Gerar_IBSCBSNFAg(IBSCBS: TIBSCBS): TACBrXmlNode;
 begin
   Result := nil;
+
   if IBSCBS.CST = cst000 then
     Result := Gerar_gIBSCBS(IBSCBS.gIBSCBS);
 end;
@@ -279,6 +299,7 @@ end;
 function TDFeRTCXmlWriter.Gerar_IBSCBSNFCom(IBSCBS: TIBSCBS): TACBrXmlNode;
 begin
   Result := nil;
+
   if IBSCBS.CST in [cst000, cst200] then
     Result := Gerar_gIBSCBS(IBSCBS.gIBSCBS);
 end;
@@ -286,6 +307,7 @@ end;
 function TDFeRTCXmlWriter.Gerar_IBSCBSNFe(IBSCBS: TIBSCBS): TACBrXmlNode;
 begin
   Result := nil;
+
   case ModelosDFe of
     mdfNFe:
       begin
@@ -320,6 +342,7 @@ end;
 function TDFeRTCXmlWriter.Gerar_IBSCBSNFGas(IBSCBS: TIBSCBS): TACBrXmlNode;
 begin
   Result := nil;
+
   if IBSCBS.CST = cst000 then
     Result := Gerar_gIBSCBS(IBSCBS.gIBSCBS);
 end;
@@ -770,43 +793,54 @@ begin
 end;
 
 function TDFeRTCXmlWriter.Gerar_gIBSCBSMono(
-  IBSCBSMono: TgIBSCBSMono): TACBrXmlNode;
+  gIBSCBSMono: TgIBSCBSMono): TACBrXmlNode;
 begin
   Result := FDocument.CreateElement('gIBSCBSMono');
 
-  if (IBSCBSMono.gMonoPadrao.adRemIBS > 0) or (IBSCBSMono.gMonoPadrao.adRemCBS > 0) or
-     (IBSCBSMono.gMonoPadrao.vIBSMono > 0) or (IBSCBSMono.gMonoPadrao.vCBSMono > 0) then
-  begin
-    Result.AppendChild(Gerar_gMonoPadrao(IBSCBSMono.gMonoPadrao));
-  end;
+  if (gIBSCBSMono.gIBSMonoAdRem.gMonoPadrao.qBCMono > 0) or
+     (gIBSCBSMono.gIBSMonoAdRem.gMonoReten.qBCMonoReten > 0) or
+     (gIBSCBSMono.gIBSMonoAdRem.gMonoRet.vIBSMonoRet > 0) then
+    Result.AppendChild(Gerar_gIBSMonoAdRem(gIBSCBSMono.gIBSMonoAdRem));
 
-  if (IBSCBSMono.gMonoReten.adRemIBSReten > 0) or (IBSCBSMono.gMonoReten.vIBSMonoReten > 0) or
-     (IBSCBSMono.gMonoReten.adRemCBSReten > 0) or (IBSCBSMono.gMonoReten.vCBSMonoReten > 0) then
-  begin
-    Result.AppendChild(Gerar_gMonoReten(IBSCBSMono.gMonoReten));
-  end;
+  if (gIBSCBSMono.gIBSMonoAdValorem.gMonoPadrao.vBCMono > 0) or
+     (gIBSCBSMono.gIBSMonoAdValorem.gMonoReten.vBCMonoReten > 0) or
+     (gIBSCBSMono.gIBSMonoAdValorem.gMonoRet.vIBSMonoRet > 0) then
+    Result.AppendChild(Gerar_gIBSMonoAdValorem(gIBSCBSMono.gIBSMonoAdValorem));
 
-  if (IBSCBSMono.gMonoRet.adRemIBSRet > 0) or (IBSCBSMono.gMonoRet.vIBSMonoRet > 0) or
-     (IBSCBSMono.gMonoRet.adRemCBSRet > 0) or (IBSCBSMono.gMonoRet.vCBSMonoRet > 0) then
-  begin
-    Result.AppendChild(Gerar_gMonoRet(IBSCBSMono.gMonoRet));
-  end;
+  if (gIBSCBSMono.gCBSMonoAdRem.gMonoPadrao.qBCMono > 0) or
+     (gIBSCBSMono.gCBSMonoAdRem.gMonoReten.qBCMonoReten > 0) or
+     (gIBSCBSMono.gCBSMonoAdRem.gMonoRet.vCBSMonoRet > 0) then
+    Result.AppendChild(Gerar_gCBSMonoAdRem(gIBSCBSMono.gCBSMonoAdRem));
 
-  if (IBSCBSMono.gMonoDif.pDifIBS > 0) or (IBSCBSMono.gMonoDif.vIBSMonoDif > 0) or
-     (IBSCBSMono.gMonoDif.pDifCBS > 0) or (IBSCBSMono.gMonoDif.vCBSMonoDif > 0) then
-  begin
-    Result.AppendChild(Gerar_gMonoDif(IBSCBSMono.gMonoDif));
-  end;
+  if (gIBSCBSMono.gCBSMonoAdValorem.gMonoPadrao.vBCMono > 0) or
+     (gIBSCBSMono.gCBSMonoAdValorem.gMonoReten.vBCMonoReten > 0) or
+     (gIBSCBSMono.gCBSMonoAdValorem.gMonoRet.vCBSMonoRet > 0) then
+    Result.AppendChild(Gerar_gCBSMonoAdValorem(gIBSCBSMono.gCBSMonoAdValorem));
 
   Result.AppendChild(AddNode(tcDe2, 'UB104', 'vTotIBSMonoItem', 1, 15, 1,
-                                  IBSCBSMono.vTotIBSMonoItem, DSC_VTOTIBSMONO));
+                                 gIBSCBSMono.vTotIBSMonoItem, DSC_VTOTIBSMONO));
 
   Result.AppendChild(AddNode(tcDe2, 'UB105', 'vTotCBSMonoItem', 1, 15, 1,
-                                  IBSCBSMono.vTotCBSMonoItem, DSC_VTOTCBSMONO));
+                                 gIBSCBSMono.vTotCBSMonoItem, DSC_VTOTCBSMONO));
 end;
 
-function TDFeRTCXmlWriter.Gerar_gMonoPadrao(
-  gMonoPadrao: TgMonoPadrao): TACBrXmlNode;
+function TDFeRTCXmlWriter.Gerar_gIBSMonoAdRem(
+  gIBSMonoAdRem: TgIBSMonoAdRem): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gIBSMonoAdRem');
+
+  if gIBSMonoAdRem.gMonoPadrao.qBCMono > 0 then
+    Result.AppendChild(Gerar_gMonoPadraoIBSQtde(gIBSMonoAdRem.gMonoPadrao));
+
+  if gIBSMonoAdRem.gMonoReten.qBCMonoReten > 0 then
+    Result.AppendChild(Gerar_gMonoRetenIBSQtde(gIBSMonoAdRem.gMonoReten));
+
+  if gIBSMonoAdRem.gMonoRet.vIBSMonoRet > 0 then
+    Result.AppendChild(Gerar_gMonoRetIBS(gIBSMonoAdRem.gMonoRet));
+end;
+
+function TDFeRTCXmlWriter.Gerar_gMonoPadraoIBSQtde(
+  gMonoPadrao: TgMonoPadraoIBSQtde): TACBrXmlNode;
 begin
   Result := FDocument.CreateElement('gMonoPadrao');
 
@@ -816,17 +850,12 @@ begin
   Result.AppendChild(AddNode(tcDe4, 'UB86', 'adRemIBS', 1, 7, 1,
                                            gMonoPadrao.adRemIBS, DSC_ADREMIBS));
 
-  Result.AppendChild(AddNode(tcDe4, 'UB87', 'adRemCBS', 1, 7, 1,
-                                           gMonoPadrao.adRemCBS, DSC_ADREMCBS));
-
   Result.AppendChild(AddNode(tcDe2, 'UB88', 'vIBSMono', 1, 15, 1,
                                            gMonoPadrao.vIBSMono, DSC_VIBSMONO));
-
-  Result.AppendChild(AddNode(tcDe2, 'UB89', 'vCBSMono', 1, 15, 1,
-                                           gMonoPadrao.vCBSMono, DSC_VCBSMONO));
 end;
 
-function TDFeRTCXmlWriter.Gerar_gMonoReten(gMonoReten: TgMonoReten): TACBrXmlNode;
+function TDFeRTCXmlWriter.Gerar_gMonoRetenIBSQtde(
+  gMonoReten: TgMonoRetenIBSQtde): TACBrXmlNode;
 begin
   Result := FDocument.CreateElement('gMonoReten');
 
@@ -838,49 +867,198 @@ begin
 
   Result.AppendChild(AddNode(tcDe2, 'UB93', 'vIBSMonoReten', 1, 15, 1,
                                   gMonoReten.vIBSMonoReten, DSC_VIBSMONORETEN));
-
-  Result.AppendChild(AddNode(tcDe4, 'UB92', 'adRemCBSReten', 1, 7, 1,
-                                  gMonoReten.adRemCBSReten, DSC_ADREMIBSRETEN));
-
-  Result.AppendChild(AddNode(tcDe2, 'UB93', 'vCBSMonoReten', 1, 15, 1,
-                                  gMonoReten.vCBSMonoReten, DSC_VIBSMONORETEN));
 end;
 
-function TDFeRTCXmlWriter.Gerar_gMonoRet(gMonoRet: TgMonoRet): TACBrXmlNode;
+function TDFeRTCXmlWriter.Gerar_gMonoRetIBS(
+  gMonoRet: TgMonoRetIBS): TACBrXmlNode;
 begin
   Result := FDocument.CreateElement('gMonoRet');
 
-  Result.AppendChild(AddNode(tcDe4, 'UB91', 'qBCMonoRet', 1, 15, 0,
-                                        gMonoRet.qBCMonoRet, DSC_QBCMONORETEN));
-
-  Result.AppendChild(AddNode(tcDe4, 'UB92', 'adRemIBSRet', 1, 7, 1,
-                                      gMonoRet.adRemIBSRet, DSC_ADREMIBSRETEN));
-
   Result.AppendChild(AddNode(tcDe2, 'UB93', 'vIBSMonoRet', 1, 15, 1,
-                                      gMonoRet.vIBSMonoRet, DSC_VIBSMONORETEN));
+                                        gMonoRet.vIBSMonoRet, DSC_VIBSMONORET));
 
-  Result.AppendChild(AddNode(tcDe4, 'UB92', 'adRemCBSRet', 1, 7, 1,
-                                      gMonoRet.adRemCBSRet, DSC_ADREMIBSRETEN));
-
-  Result.AppendChild(AddNode(tcDe2, 'UB93', 'vCBSMonoRet', 1, 15, 1,
-                                      gMonoRet.vCBSMonoRet, DSC_VIBSMONORETEN));
+  if gMonoRet.gpBioDiferenca.qBCBioComb > 0 then
+    Result.AppendChild(Gerar_gpBioDiferencaIBS(gMonoRet.gpBioDiferenca));
 end;
 
-function TDFeRTCXmlWriter.Gerar_gMonoDif(gMonoDif: TgMonoDif): TACBrXmlNode;
+function TDFeRTCXmlWriter.Gerar_gpBioDiferencaIBS(
+  gpBioDiferenca: TgpBioDiferencaIBS): TACBrXmlNode;
 begin
-  Result := FDocument.CreateElement('gMonoDif');
+  Result := FDocument.CreateElement('gpBioDiferenca');
 
-  Result.AppendChild(AddNode(tcDe4, 'UB100', 'pDifIBS', 1, 7, 1,
-                                                gMonoDif.pDifIBS, DSC_PDIFIBS));
+  Result.AppendChild(AddNode(tcDe2, 'UB93', 'qBCBioComb', 1, 15, 1,
+                                    gpBioDiferenca.qBCBioComb, DSC_QBCBIOCOMB));
 
-  Result.AppendChild(AddNode(tcDe2, 'UB101', 'vIBSMonoDif', 1, 15, 1,
-                                        gMonoDif.vIBSMonoDif, DSC_VIBSMONODIF));
+  Result.AppendChild(AddNode(tcDe2, 'UB93', 'vIBSDiferenca', 1, 15, 1,
+                              gpBioDiferenca.vIBSDiferenca, DSC_VIBSDIFERENCA));
+end;
 
-  Result.AppendChild(AddNode(tcDe4, 'UB102', 'pDifCBS', 1, 7, 1,
-                                                gMonoDif.pDifCBS, DSC_PDIFCBS));
+function TDFeRTCXmlWriter.Gerar_gIBSMonoAdValorem(
+  gIBSMonoAdValorem: TgIBSMonoAdValorem): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gIBSMonoAdValorem');
 
-  Result.AppendChild(AddNode(tcDe2, 'UB103', 'vCBSMonoDif', 1, 15, 1,
-                                        gMonoDif.vCBSMonoDif, DSC_VCBSMONODIF));
+  if gIBSMonoAdValorem.gMonoPadrao.vBCMono > 0 then
+    Result.AppendChild(Gerar_gMonoPadraoIBSAliq(gIBSMonoAdValorem.gMonoPadrao));
+
+  if gIBSMonoAdValorem.gMonoReten.vBCMonoReten > 0 then
+    Result.AppendChild(Gerar_gMonoRetenIBSAliq(gIBSMonoAdValorem.gMonoReten));
+
+  if gIBSMonoAdValorem.gMonoRet.vIBSMonoRet > 0 then
+    Result.AppendChild(Gerar_gMonoRetIBS(gIBSMonoAdValorem.gMonoRet));
+end;
+
+function TDFeRTCXmlWriter.Gerar_gMonoPadraoIBSAliq(
+  gMonoPadrao: TgMonoPadraoIBSAliq): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gMonoPadrao');
+
+  Result.AppendChild(AddNode(tcDe2, 'UB85', 'vBCMono', 1, 15, 0,
+                                             gMonoPadrao.vBCMono, DSC_VBCMONO));
+
+  Result.AppendChild(AddNode(tcDe4, 'UB86', 'pAliqMonoUF', 1, 7, 1,
+                                     gMonoPadrao.pAliqMonoUF, DSC_PALIQMONOUF));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB88', 'vIBSMonoUF', 1, 15, 1,
+                                       gMonoPadrao.vIBSMonoUF, DSC_VIBSMONOUF));
+
+  Result.AppendChild(AddNode(tcDe4, 'UB88', 'pAliqMonoMun', 1, 15, 1,
+                                   gMonoPadrao.pAliqMonoMun, DSC_PALIQMONOMUN));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB88', 'vIBSMonoMun', 1, 15, 1,
+                                     gMonoPadrao.vIBSMonoMun, DSC_VIBSMONOMUN));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB88', 'vIBSMono', 1, 15, 1,
+                                           gMonoPadrao.vIBSMono, DSC_VIBSMONO));
+end;
+
+function TDFeRTCXmlWriter.Gerar_gMonoRetenIBSAliq(
+  gMonoReten: TgMonoRetenIBSAliq): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gMonoReten');
+
+  Result.AppendChild(AddNode(tcDe4, 'UB91', 'vBCMonoReten', 1, 15, 0,
+                                    gMonoReten.vBCMonoReten, DSC_VBCMONORETEN));
+
+  Result.AppendChild(AddNode(tcDe4, 'UB92', 'pAliqMonoReten', 1, 7, 1,
+                                gMonoReten.pAliqMonoReten, DSC_PALIQMONORETEN));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB93', 'vIBSMonoReten', 1, 15, 1,
+                                  gMonoReten.vIBSMonoReten, DSC_VIBSMONORETEN));
+end;
+
+function TDFeRTCXmlWriter.Gerar_gCBSMonoAdRem(
+  gCBSMonoAdRem: TgCBSMonoAdRem): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gCBSMonoAdRem');
+
+  if gCBSMonoAdRem.gMonoPadrao.qBCMono > 0 then
+    Result.AppendChild(Gerar_gMonoPadraoCBSQtde(gCBSMonoAdRem.gMonoPadrao));
+
+  if gCBSMonoAdRem.gMonoReten.qBCMonoReten > 0 then
+    Result.AppendChild(Gerar_gMonoRetenCBSQtde(gCBSMonoAdRem.gMonoReten));
+
+  if gCBSMonoAdRem.gMonoRet.vCBSMonoRet > 0 then
+    Result.AppendChild(Gerar_gMonoRetCBS(gCBSMonoAdRem.gMonoRet));
+end;
+
+function TDFeRTCXmlWriter.Gerar_gMonoPadraoCBSQtde(
+  gMonoPadrao: TgMonoPadraoCBSQtde): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gMonoPadrao');
+
+  Result.AppendChild(AddNode(tcDe4, 'UB85', 'qBCMono', 1, 15, 0,
+                                             gMonoPadrao.qBCMono, DSC_QBCMONO));
+
+  Result.AppendChild(AddNode(tcDe4, 'UB86', 'adRemCBS', 1, 7, 1,
+                                           gMonoPadrao.adRemCBS, DSC_ADREMCBS));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB88', 'vCBSMono', 1, 15, 1,
+                                           gMonoPadrao.vCBSMono, DSC_VCBSMONO));
+end;
+
+function TDFeRTCXmlWriter.Gerar_gMonoRetenCBSQtde(
+  gMonoReten: TgMonoRetenCBSQtde): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gMonoReten');
+
+  Result.AppendChild(AddNode(tcDe4, 'UB91', 'qBCMonoReten', 1, 15, 0,
+                                    gMonoReten.qBCMonoReten, DSC_QBCMONORETEN));
+
+  Result.AppendChild(AddNode(tcDe4, 'UB92', 'adRemCBSReten', 1, 7, 1,
+                                  gMonoReten.adRemCBSReten, DSC_ADREMCBSRETEN));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB93', 'vCBSMonoReten', 1, 15, 1,
+                                  gMonoReten.vCBSMonoReten, DSC_VCBSMONORETEN));
+end;
+
+function TDFeRTCXmlWriter.Gerar_gMonoRetCBS(
+  gMonoRet: TgMonoRetCBS): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gMonoRet');
+
+  Result.AppendChild(AddNode(tcDe2, 'UB93', 'vCBSMonoRet', 1, 15, 1,
+                                        gMonoRet.vCBSMonoRet, DSC_VCBSMONORET));
+
+  if gMonoRet.gpBioDiferenca.qBCBioComb > 0 then
+    Result.AppendChild(Gerar_gpBioDiferencaCBS(gMonoRet.gpBioDiferenca));
+end;
+
+function TDFeRTCXmlWriter.Gerar_gpBioDiferencaCBS(
+  gpBioDiferenca: TgpBioDiferencaCBS): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gpBioDiferenca');
+
+  Result.AppendChild(AddNode(tcDe2, 'UB93', 'qBCBioComb', 1, 15, 1,
+                                    gpBioDiferenca.qBCBioComb, DSC_QBCBIOCOMB));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB93', 'vCBSDiferenca', 1, 15, 1,
+                              gpBioDiferenca.vCBSDiferenca, DSC_VCBSDIFERENCA));
+end;
+
+function TDFeRTCXmlWriter.Gerar_gCBSMonoAdValorem(
+  gCBSMonoAdValorem: TgCBSMonoAdValorem): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gCBSMonoAdValorem');
+
+  if gCBSMonoAdValorem.gMonoPadrao.vBCMono > 0 then
+    Result.AppendChild(Gerar_gMonoPadraoCBSAliq(gCBSMonoAdValorem.gMonoPadrao));
+
+  if gCBSMonoAdValorem.gMonoReten.vBCMonoReten > 0 then
+    Result.AppendChild(Gerar_gMonoRetenCBSAliq(gCBSMonoAdValorem.gMonoReten));
+
+  if gCBSMonoAdValorem.gMonoRet.vCBSMonoRet > 0 then
+    Result.AppendChild(Gerar_gMonoRetCBS(gCBSMonoAdValorem.gMonoRet));
+end;
+
+function TDFeRTCXmlWriter.Gerar_gMonoPadraoCBSAliq(
+  gMonoPadrao: TgMonoPadraoCBSAliq): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gMonoPadrao');
+
+  Result.AppendChild(AddNode(tcDe2, 'UB85', 'vBCMono', 1, 15, 0,
+                                             gMonoPadrao.vBCMono, DSC_VBCMONO));
+
+  Result.AppendChild(AddNode(tcDe4, 'UB86', 'pAliqMonoCBS', 1, 7, 1,
+                                   gMonoPadrao.pAliqMonoCBS, DSC_PALIQMONOCBS));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB88', 'vCBSMono', 1, 15, 1,
+                                           gMonoPadrao.vCBSMono, DSC_VCBSMONO));
+end;
+
+function TDFeRTCXmlWriter.Gerar_gMonoRetenCBSAliq(
+  gMonoReten: TgMonoRetenCBSAliq): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gMonoReten');
+
+  Result.AppendChild(AddNode(tcDe4, 'UB91', 'vBCMonoReten', 1, 15, 0,
+                                    gMonoReten.vBCMonoReten, DSC_VBCMONORETEN));
+
+  Result.AppendChild(AddNode(tcDe4, 'UB92', 'pAliqMonoReten', 1, 7, 1,
+                                gMonoReten.pAliqMonoReten, DSC_PALIQMONORETEN));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB93', 'vCBSMonoReten', 1, 15, 1,
+                                  gMonoReten.vCBSMonoReten, DSC_VCBSMONORETEN));
 end;
 
 function TDFeRTCXmlWriter.Gerar_gTransfCred(

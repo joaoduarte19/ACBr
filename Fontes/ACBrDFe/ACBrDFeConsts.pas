@@ -229,6 +229,18 @@ resourcestring
   DSC_VCBSMONORETEN = 'Valor total da CBS monofásica sujeita a retenção';
   DSC_VIBSMONORET = 'Valor do IBS monofásico retido anteriormente';
   DSC_VCBSMONORET = 'Valor da CBS monofásica retida anteriormente';
+  DSC_QBCBIOCOMB = 'Quantidade de Biocombustível (EAC) a recolher ou a ressarcir';
+  DSC_VIBSDIFERENCA = 'Valor do IBS correspondente a diferença em relação ao pBioObrigatorio';
+  DSC_VBCMONO = 'Valor tributado na monofasia';
+  DSC_PALIQMONOUF = 'Alíquota ad valorem do IBS Estadual';
+  DSC_VIBSMONOUF = 'Valor do IBS monofásico Estadual';
+  DSC_PALIQMONOMUN = 'Alíquota ad valorem do IBS Municipal';
+  DSC_VIBSMONOMUN = 'Valor do IBS monofásico do Municipal';
+  DSC_VBCMONORETEN = 'Valor tributado sujeito à retenção na monofasia';
+  DSC_PALIQMONORETEN = 'Alíquota ad valorem do IBS sujeito à retenção';
+  DSC_ADREMCBSRETEN = 'Alíquota ad rem da CBS sujeita à retenção';
+  DSC_VCBSDIFERENCA = 'Valor da CBS correspondente a diferença em relação ao pBioObrigatorio';
+  DSC_PALIQMONOCBS = 'Alíquota ad valorem da CBS';
 
   DSC_TPALCZFMCBS = 'Tipo de aplicação da alíquota zero da CBS';
   DSC_NPROCSUFRAMA = 'Número do processo na Suframa para o item comercializado';

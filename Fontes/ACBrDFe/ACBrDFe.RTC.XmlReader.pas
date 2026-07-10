@@ -87,10 +87,26 @@ type
     procedure Ler_ISel(const ANode: TACBrXmlNode; ISel: TgIS);
 
     procedure Ler_gIBSCBSMono(const ANode: TACBrXmlNode; IBSCBSMono: TgIBSCBSMono);
-    procedure Ler_gMonoPadrao(const ANode: TACBrXmlNode; gMonoPadrao: TgMonoPadrao);
-    procedure Ler_gMonoReten(const ANode: TACBrXmlNode; gMonoReten: TgMonoReten);
-    procedure Ler_gMonoRet(const ANode: TACBrXmlNode; gMonoRet: TgMonoRet);
-    procedure Ler_gMonoDif(const ANode: TACBrXmlNode; gMonoDif: TgMonoDif);
+
+    procedure Ler_gIBSMonoAdRem(const ANode: TACBrXmlNode; gIBSMonoAdRem: TgIBSMonoAdRem);
+    procedure Ler_gMonoPadraoIBSQtde(const ANode: TACBrXmlNode; gMonoPadrao: TgMonoPadraoIBSQtde);
+    procedure Ler_gMonoRetenIBSQtde(const ANode: TACBrXmlNode; gMonoReten: TgMonoRetenIBSQtde);
+    procedure Ler_gMonoRetIBS(const ANode: TACBrXmlNode; gMonoRet: TgMonoRetIBS);
+    procedure Ler_gpBioDiferencaIBS(const ANode: TACBrXmlNode; gpBioDiferenca: TgpBioDiferencaIBS);
+
+    procedure Ler_gIBSMonoAdValorem(const ANode: TACBrXmlNode; gIBSMonoAdValorem: TgIBSMonoAdValorem);
+    procedure Ler_gMonoPadraoIBSAliq(const ANode: TACBrXmlNode; gMonoPadrao: TgMonoPadraoIBSAliq);
+    procedure Ler_gMonoRetenIBSAliq(const ANode: TACBrXmlNode; gMonoReten: TgMonoRetenIBSAliq);
+
+    procedure Ler_gCBSMonoAdRem(const ANode: TACBrXmlNode; gCBSMonoAdRem: TgCBSMonoAdRem);
+    procedure Ler_gMonoPadraoCBSQtde(const ANode: TACBrXmlNode; gMonoPadrao: TgMonoPadraoCBSQtde);
+    procedure Ler_gMonoRetenCBSQtde(const ANode: TACBrXmlNode; gMonoReten: TgMonoRetenCBSQtde);
+    procedure Ler_gMonoRetCBS(const ANode: TACBrXmlNode; gMonoRet: TgMonoRetCBS);
+    procedure Ler_gpBioDiferencaCBS(const ANode: TACBrXmlNode; gpBioDiferenca: TgpBioDiferencaCBS);
+
+    procedure Ler_gCBSMonoAdValorem(const ANode: TACBrXmlNode; gCBSMonoAdValorem: TgCBSMonoAdValorem);
+    procedure Ler_gMonoPadraoCBSAliq(const ANode: TACBrXmlNode; gMonoPadrao: TgMonoPadraoCBSAliq);
+    procedure Ler_gMonoRetenCBSAliq(const ANode: TACBrXmlNode; gMonoReten: TgMonoRetenCBSAliq);
 
     procedure Ler_gTransfCred(const ANode: TACBrXmlNode; gTransfCred: TgTransfCred);
     procedure Ler_gCredPresIBSZFM(const ANode: TACBrXmlNode; gCredPresIBSZFM: TCredPresIBSZFM);
@@ -415,56 +431,174 @@ procedure TDFeRTCXmlReader.Ler_gIBSCBSMono(const ANode: TACBrXmlNode; IBSCBSMono
 begin
   if not Assigned(ANode) then Exit;
 
-  Ler_gMonoPadrao(ANode.Childrens.Find('gMonoPadrao'), IBSCBSMono.gMonoPadrao);
-  Ler_gMonoReten(ANode.Childrens.Find('gMonoReten'), IBSCBSMono.gMonoReten);
-  Ler_gMonoRet(ANode.Childrens.Find('gMonoRet'), IBSCBSMono.gMonoRet);
-  Ler_gMonoDif(ANode.Childrens.Find('gMonoDif'), IBSCBSMono.gMonoDif);
+  Ler_gIBSMonoAdRem(ANode.Childrens.Find('gIBSMonoAdRem'), IBSCBSMono.gIBSMonoAdRem);
+  Ler_gIBSMonoAdValorem(ANode.Childrens.Find('gIBSMonoAdValorem'), IBSCBSMono.gIBSMonoAdValorem);
+  Ler_gCBSMonoAdRem(ANode.Childrens.Find('gCBSMonoAdRem'), IBSCBSMono.gCBSMonoAdRem);
+  Ler_gCBSMonoAdValorem(ANode.Childrens.Find('gCBSMonoAdValorem'), IBSCBSMono.gCBSMonoAdValorem);
 
   IBSCBSMono.vTotIBSMonoItem := ObterConteudo(ANode.Childrens.Find('vTotIBSMonoItem'), tcDe2);
   IBSCBSMono.vTotCBSMonoItem := ObterConteudo(ANode.Childrens.Find('vTotCBSMonoItem'), tcDe2);
 end;
 
-procedure TDFeRTCXmlReader.Ler_gMonoPadrao(const ANode: TACBrXmlNode; gMonoPadrao: TgMonoPadrao);
+procedure TDFeRTCXmlReader.Ler_gIBSMonoAdRem(const ANode: TACBrXmlNode;
+  gIBSMonoAdRem: TgIBSMonoAdRem);
+begin
+  if not Assigned(ANode) then Exit;
+
+  Ler_gMonoPadraoIBSQtde(ANode.Childrens.Find('gMonoPadrao'), gIBSMonoAdRem.gMonoPadrao);
+  Ler_gMonoRetenIBSQtde(ANode.Childrens.Find('gMonoReten'), gIBSMonoAdRem.gMonoReten);
+  Ler_gMonoRetIBS(ANode.Childrens.Find('gMonoRet'), gIBSMonoAdRem.gMonoRet);
+end;
+
+procedure TDFeRTCXmlReader.Ler_gMonoPadraoIBSQtde(const ANode: TACBrXmlNode;
+  gMonoPadrao: TgMonoPadraoIBSQtde);
 begin
   if not Assigned(ANode) then Exit;
 
   gMonoPadrao.qBCMono := ObterConteudo(ANode.Childrens.Find('qBCMono'), tcDe4);
   gMonoPadrao.adRemIBS := ObterConteudo(ANode.Childrens.Find('adRemIBS'), tcDe4);
-  gMonoPadrao.adRemCBS := ObterConteudo(ANode.Childrens.Find('adRemCBS'), tcDe4);
   gMonoPadrao.vIBSMono := ObterConteudo(ANode.Childrens.Find('vIBSMono'), tcDe2);
-  gMonoPadrao.vCBSMono := ObterConteudo(ANode.Childrens.Find('vCBSMono'), tcDe2);
 end;
 
-procedure TDFeRTCXmlReader.Ler_gMonoReten(const ANode: TACBrXmlNode; gMonoReten: TgMonoReten);
+procedure TDFeRTCXmlReader.Ler_gMonoRetenIBSQtde(const ANode: TACBrXmlNode;
+  gMonoReten: TgMonoRetenIBSQtde);
 begin
   if not Assigned(ANode) then Exit;
 
   gMonoReten.qBCMonoReten := ObterConteudo(ANode.Childrens.Find('qBCMonoReten'), tcDe4);
   gMonoReten.adRemIBSReten := ObterConteudo(ANode.Childrens.Find('adRemIBSReten'), tcDe4);
   gMonoReten.vIBSMonoReten := ObterConteudo(ANode.Childrens.Find('vIBSMonoReten'), tcDe2);
+end;
+
+procedure TDFeRTCXmlReader.Ler_gMonoRetIBS(const ANode: TACBrXmlNode;
+  gMonoRet: TgMonoRetIBS);
+begin
+  if not Assigned(ANode) then Exit;
+
+  gMonoRet.vIBSMonoRet := ObterConteudo(ANode.Childrens.Find('vIBSMonoRet'), tcDe4);
+
+  Ler_gpBioDiferencaIBS(ANode.Childrens.Find('gpBioDiferenca'), gMonoRet.gpBioDiferenca);
+end;
+
+procedure TDFeRTCXmlReader.Ler_gpBioDiferencaIBS(const ANode: TACBrXmlNode;
+  gpBioDiferenca: TgpBioDiferencaIBS);
+begin
+  if not Assigned(ANode) then Exit;
+
+  gpBioDiferenca.qBCBioComb := ObterConteudo(ANode.Childrens.Find('qBCBioComb'), tcDe4);
+  gpBioDiferenca.vIBSDiferenca := ObterConteudo(ANode.Childrens.Find('vIBSDiferenca'), tcDe4);
+end;
+
+procedure TDFeRTCXmlReader.Ler_gIBSMonoAdValorem(const ANode: TACBrXmlNode;
+  gIBSMonoAdValorem: TgIBSMonoAdValorem);
+begin
+  if not Assigned(ANode) then Exit;
+
+  Ler_gMonoPadraoIBSAliq(ANode.Childrens.Find('gMonoPadrao'), gIBSMonoAdValorem.gMonoPadrao);
+  Ler_gMonoRetenIBSAliq(ANode.Childrens.Find('gMonoReten'), gIBSMonoAdValorem.gMonoReten);
+  Ler_gMonoRetIBS(ANode.Childrens.Find('gMonoRet'), gIBSMonoAdValorem.gMonoRet);
+end;
+
+procedure TDFeRTCXmlReader.Ler_gMonoPadraoIBSAliq(const ANode: TACBrXmlNode;
+  gMonoPadrao: TgMonoPadraoIBSAliq);
+begin
+  if not Assigned(ANode) then Exit;
+
+  gMonoPadrao.vBCMono := ObterConteudo(ANode.Childrens.Find('vBCMono'), tcDe4);
+  gMonoPadrao.pAliqMonoUF := ObterConteudo(ANode.Childrens.Find('pAliqMonoUF'), tcDe4);
+  gMonoPadrao.vIBSMonoUF := ObterConteudo(ANode.Childrens.Find('vIBSMonoUF'), tcDe4);
+  gMonoPadrao.pAliqMonoMun := ObterConteudo(ANode.Childrens.Find('pAliqMonoMun'), tcDe4);
+  gMonoPadrao.vIBSMonoMun := ObterConteudo(ANode.Childrens.Find('vIBSMonoMun'), tcDe4);
+  gMonoPadrao.vIBSMono := ObterConteudo(ANode.Childrens.Find('vIBSMono'), tcDe2);
+end;
+
+procedure TDFeRTCXmlReader.Ler_gMonoRetenIBSAliq(const ANode: TACBrXmlNode;
+  gMonoReten: TgMonoRetenIBSAliq);
+begin
+  if not Assigned(ANode) then Exit;
+
+  gMonoReten.vBCMonoReten := ObterConteudo(ANode.Childrens.Find('vBCMonoReten'), tcDe4);
+  gMonoReten.pAliqMonoReten := ObterConteudo(ANode.Childrens.Find('pAliqMonoReten'), tcDe4);
+  gMonoReten.vIBSMonoReten := ObterConteudo(ANode.Childrens.Find('vIBSMonoReten'), tcDe2);
+end;
+
+procedure TDFeRTCXmlReader.Ler_gCBSMonoAdRem(const ANode: TACBrXmlNode;
+  gCBSMonoAdRem: TgCBSMonoAdRem);
+begin
+  if not Assigned(ANode) then Exit;
+
+  Ler_gMonoPadraoCBSQtde(ANode.Childrens.Find('gMonoPadrao'), gCBSMonoAdRem.gMonoPadrao);
+  Ler_gMonoRetenCBSQtde(ANode.Childrens.Find('gMonoReten'), gCBSMonoAdRem.gMonoReten);
+  Ler_gMonoRetCBS(ANode.Childrens.Find('gMonoRet'), gCBSMonoAdRem.gMonoRet);
+end;
+
+procedure TDFeRTCXmlReader.Ler_gMonoPadraoCBSQtde(const ANode: TACBrXmlNode;
+  gMonoPadrao: TgMonoPadraoCBSQtde);
+begin
+  if not Assigned(ANode) then Exit;
+
+  gMonoPadrao.qBCMono := ObterConteudo(ANode.Childrens.Find('qBCMono'), tcDe4);
+  gMonoPadrao.adRemCBS := ObterConteudo(ANode.Childrens.Find('adRemCBS'), tcDe4);
+  gMonoPadrao.vCBSMono := ObterConteudo(ANode.Childrens.Find('vCBSMono'), tcDe2);
+end;
+
+procedure TDFeRTCXmlReader.Ler_gMonoRetenCBSQtde(const ANode: TACBrXmlNode;
+  gMonoReten: TgMonoRetenCBSQtde);
+begin
+  if not Assigned(ANode) then Exit;
+
+  gMonoReten.qBCMonoReten := ObterConteudo(ANode.Childrens.Find('qBCMonoReten'), tcDe4);
   gMonoReten.adRemCBSReten := ObterConteudo(ANode.Childrens.Find('adRemCBSReten'), tcDe4);
   gMonoReten.vCBSMonoReten := ObterConteudo(ANode.Childrens.Find('vCBSMonoReten'), tcDe2);
 end;
 
-procedure TDFeRTCXmlReader.Ler_gMonoRet(const ANode: TACBrXmlNode; gMonoRet: TgMonoRet);
+procedure TDFeRTCXmlReader.Ler_gMonoRetCBS(const ANode: TACBrXmlNode;
+  gMonoRet: TgMonoRetCBS);
 begin
   if not Assigned(ANode) then Exit;
 
-  gMonoRet.qBCMonoRet := ObterConteudo(ANode.Childrens.Find('qBCMonoRet'), tcDe4);
-  gMonoRet.adRemIBSRet := ObterConteudo(ANode.Childrens.Find('adRemIBSRet'), tcDe4);
-  gMonoRet.vIBSMonoRet := ObterConteudo(ANode.Childrens.Find('vIBSMonoRet'), tcDe2);
-  gMonoRet.adRemCBSRet := ObterConteudo(ANode.Childrens.Find('adRemCBSRet'), tcDe4);
-  gMonoRet.vCBSMonoRet := ObterConteudo(ANode.Childrens.Find('vCBSMonoRet'), tcDe2);
+  gMonoRet.vCBSMonoRet := ObterConteudo(ANode.Childrens.Find('vCBSMonoRet'), tcDe4);
+
+  Ler_gpBioDiferencaCBS(ANode.Childrens.Find('gpBioDiferenca'), gMonoRet.gpBioDiferenca);
 end;
 
-procedure TDFeRTCXmlReader.Ler_gMonoDif(const ANode: TACBrXmlNode; gMonoDif: TgMonoDif);
+procedure TDFeRTCXmlReader.Ler_gpBioDiferencaCBS(const ANode: TACBrXmlNode;
+  gpBioDiferenca: TgpBioDiferencaCBS);
 begin
   if not Assigned(ANode) then Exit;
 
-  gMonoDif.pDifIBS := ObterConteudo(ANode.Childrens.Find('pDifIBS'), tcDe4);
-  gMonoDif.vIBSMonoDif := ObterConteudo(ANode.Childrens.Find('vIBSMonoDif'), tcDe2);
-  gMonoDif.pDifCBS := ObterConteudo(ANode.Childrens.Find('pDifCBS'), tcDe4);
-  gMonoDif.vCBSMonoDif := ObterConteudo(ANode.Childrens.Find('vCBSMonoDif'), tcDe2);
+  gpBioDiferenca.qBCBioComb := ObterConteudo(ANode.Childrens.Find('qBCBioComb'), tcDe4);
+  gpBioDiferenca.vCBSDiferenca := ObterConteudo(ANode.Childrens.Find('vCBSDiferenca'), tcDe4);
+end;
+
+procedure TDFeRTCXmlReader.Ler_gCBSMonoAdValorem(const ANode: TACBrXmlNode;
+  gCBSMonoAdValorem: TgCBSMonoAdValorem);
+begin
+  if not Assigned(ANode) then Exit;
+
+  Ler_gMonoPadraoCBSAliq(ANode.Childrens.Find('gMonoPadrao'), gCBSMonoAdValorem.gMonoPadrao);
+  Ler_gMonoRetenCBSAliq(ANode.Childrens.Find('gMonoReten'), gCBSMonoAdValorem.gMonoReten);
+  Ler_gMonoRetCBS(ANode.Childrens.Find('gMonoRet'), gCBSMonoAdValorem.gMonoRet);
+end;
+
+procedure TDFeRTCXmlReader.Ler_gMonoPadraoCBSAliq(const ANode: TACBrXmlNode;
+  gMonoPadrao: TgMonoPadraoCBSAliq);
+begin
+  if not Assigned(ANode) then Exit;
+
+  gMonoPadrao.vBCMono := ObterConteudo(ANode.Childrens.Find('vBCMono'), tcDe4);
+  gMonoPadrao.pAliqMonoCBS := ObterConteudo(ANode.Childrens.Find('pAliqMonoCBS'), tcDe4);
+  gMonoPadrao.vCBSMono := ObterConteudo(ANode.Childrens.Find('vCBSMono'), tcDe2);
+end;
+
+procedure TDFeRTCXmlReader.Ler_gMonoRetenCBSAliq(const ANode: TACBrXmlNode;
+  gMonoReten: TgMonoRetenCBSAliq);
+begin
+  if not Assigned(ANode) then Exit;
+
+  gMonoReten.vBCMonoReten := ObterConteudo(ANode.Childrens.Find('vBCMonoReten'), tcDe4);
+  gMonoReten.pAliqMonoReten := ObterConteudo(ANode.Childrens.Find('pAliqMonoReten'), tcDe4);
+  gMonoReten.vCBSMonoReten := ObterConteudo(ANode.Childrens.Find('vCBSMonoReten'), tcDe2);
 end;
 
 procedure TDFeRTCXmlReader.Ler_gTransfCred(const ANode: TACBrXmlNode; gTransfCred: TgTransfCred);
