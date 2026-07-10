@@ -816,6 +816,7 @@ begin
 
   try
     Response.Data := Document.AsISODateTime['dataHoraProcessamento'];
+    Response.Protocolo := Document.AsString['protocolo'];
 
     JSonLote := Document.AsJSONArray['lote'];
 
@@ -831,6 +832,7 @@ begin
         AResumo := Response.Resumos.New;
         AResumo.idNota := JSon.AsString['id'];
         AResumo.Link := JSon.AsString['chaveAcesso'];
+        AResumo.CodigoVerificacao := JSon.AsString['codAutenticidade'];
 
         NFSeXml := JSon.AsString['xmlGZipB64'];
 
@@ -1120,6 +1122,8 @@ begin
 
           AResumo := Response.Resumos.New;
           AResumo.Link := JSon.AsString['chave'];
+          AResumo.Situacao := JSon.AsString['situacao'];
+          AResumo.CodigoVerificacao := JSon.AsString['codAutenticidade'];
 
           NFSeXml := JSon.AsString['xmlGZipB64'];
 
