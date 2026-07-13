@@ -43,6 +43,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 13/07/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9532 - Incluída a cidade Varjota/CE, o provedor é SSInformatica.
+   Por: fpereirasilv
+[*] ACBR-9626 - A cidade Rodeio Bonito/RS esta configurado errado o provedor correto é Digifred.
+   Por: Quality Automação
+[*] ACBR-9362 - A cidade Ituverava/SP passou a usar a versão 1.01 do provedor Primax.
+   Por: C4Dev
 -- Giap.Provider --
 [*] ACBR-9364 - O webservice do provedor não trabalha em UTF-8 e sim Windows 1252
     Ajustes para contornar esse problema.
