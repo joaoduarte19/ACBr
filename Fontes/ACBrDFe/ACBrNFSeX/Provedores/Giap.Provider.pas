@@ -51,6 +51,8 @@ type
   TACBrNFSeXWebserviceGiap = class(TACBrNFSeXWebserviceNoSoap)
   protected
     procedure SetHeaders(aHeaderReq: THTTPHeader); override;
+    function DefinirMsgEnvio(const Message, SoapAction, SoapHeader: string;
+                                  namespace: array of string): string; override;
   public
     function Recepcionar(const ACabecalho, AMSG: String): string; override;
     function ConsultarNFSePorRps(const ACabecalho, AMSG: String): string; override;
@@ -597,6 +599,22 @@ begin
   aHeaderReq.AddHeader('postman-token', Token);
 end;
 
+function TACBrNFSeXWebserviceGiap.DefinirMsgEnvio(const Message, SoapAction,
+  SoapHeader: string; namespace: array of string): string;
+begin
+  // O servidor da Giap (ORDS Oracle) interpreta o corpo da requisição como
+  // Windows-1252, não UTF-8. Por isso não aplicamos o
+  // 'string(NativeStringToUTF8(Result))' usado pela classe base, que
+  // produzia bytes UTF-8 e fazia o servidor renderizar acentos como mojibake
+  // (ex: "MÃO" virava "MÃ.O" no PDF).
+  Result := Message;
+
+  FPHttpClient := FPDFeOwner.SSL.SSLHttpClass;
+
+  FPHttpClient.Clear;
+  FPHttpClient.HeaderReq.AddHeader('SOAPAction', SoapAction);
+end;
+
 function TACBrNFSeXWebserviceGiap.TratarXmlRetornado(
   const aXML: string): string;
 begin
@@ -604,7 +622,6 @@ begin
   begin
     Result := inherited TratarXmlRetornado(aXML);
 
-//    Result := String(NativeStringToUTF8(Result));
     Result := ParseText(Result);
     Result := RemoverDeclaracaoXML(Result);
     Result := RemoverIdentacao(Result);
@@ -624,7 +641,6 @@ begin
               '</nfeReposta>';
 
     Result := ParseText(Result);
-//    Result := String(NativeStringToUTF8(Result));
   end;
 end;
 

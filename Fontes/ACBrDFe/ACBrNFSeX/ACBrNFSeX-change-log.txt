@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+13/07/2026
+-- Giap.Provider --
+[*] ACBR-9364 - O webservice do provedor não trabalha em UTF-8 e sim Windows 1252
+    Ajustes para contornar esse problema.
+   Por: Store Brasil
+
 10/07/2026
 -- ACBrNFSeXProviderManager/DSF.GravarXml/DSF.LerXml/DSF.Provider --
 [*] ACBR-9622/9621 - Alterações visando consumir a nova API Rest do provedor DSF.
