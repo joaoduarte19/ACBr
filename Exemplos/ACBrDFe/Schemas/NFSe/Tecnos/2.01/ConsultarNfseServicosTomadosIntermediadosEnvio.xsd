@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.abrasf.org.br/nfse.xsd">
-  <xsd:element name="ConsultarNfseServicoPrestadoEnvio">
+  <xsd:element name="ConsultarNfseServicosTomadosIntermediadosEnvio">
     <xsd:complexType>
       <xsd:sequence>
-        <xsd:element name="Prestador">
+        <xsd:element name="Consulente">
           <xsd:complexType>
             <xsd:sequence>
               <xsd:element name="CpfCnpj">
@@ -19,6 +19,20 @@
           </xsd:complexType>
         </xsd:element>
         <xsd:element name="NumeroNfse" type="xsd:unsignedShort" />
+        <xsd:element name="Prestador" minOccurs="0" maxOccurs="1">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="CpfCnpj">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="Cpf" type="xsd:unsignedLong" />
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="InscricaoMunicipal" type="xsd:unsignedInt" />
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
         <xsd:element name="Tomador" minOccurs="0" maxOccurs="1">
           <xsd:complexType>
             <xsd:sequence>
