@@ -458,7 +458,7 @@ begin
 
   FPosPrinter.Buffer.Add('</ce><c><n>Consulte pela Chave de Acesso em</n>');
   FPosPrinter.Buffer.Add('</ce><c>'+TACBrNF3e(ACBrNF3e).GetURLConsultaNF3e(FpNF3e.ide.cUF, FpNF3e.ide.tpAmb, 1.0));
-  FPosPrinter.Buffer.Add('</ce><c>' + FormatarChaveAcesso(OnlyNumber(FpNF3e.infNF3e.ID)));
+  FPosPrinter.Buffer.Add('</ce><c>' + FormatarChaveAcesso(RemoverLiteralChave(FpNF3e.infNF3e.ID)));
 
   FPosPrinter.Buffer.Add('</linha_simples>');
 end;
@@ -613,7 +613,7 @@ begin
   FPosPrinter.Buffer.Add(ACBrStr('Emissão: ' + DateTimeToStr(FpNF3e.ide.dhEmi)) + '</n>');
   FPosPrinter.Buffer.Add(' ');
   FPosPrinter.Buffer.Add('<c>CHAVE ACESSO');
-  FPosPrinter.Buffer.Add(FormatarChaveAcesso(OnlyNumber(FpNF3e.infNF3e.ID)));
+  FPosPrinter.Buffer.Add(FormatarChaveAcesso(RemoverLiteralChave(FpNF3e.infNF3e.ID)));
   FPosPrinter.Buffer.Add('</linha_simples>');
 
   // dados do evento

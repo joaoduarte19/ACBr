@@ -641,13 +641,13 @@ var
 begin
   DecodeDate(NF3e.ide.dhEmi, wAno, wMes, wDia);
 
-  chaveNF3e := OnlyNumber(NF3e.infNF3e.ID);
+  chaveNF3e := RemoverLiteralChave(NF3e.infNF3e.ID);
   {(*}
   Result := not
     ((Copy(chaveNF3e, 1, 2) <> IntToStrZero(NF3e.Ide.cUF, 2)) or
     (Copy(chaveNF3e, 3, 2)  <> Copy(FormatFloat('0000', wAno), 3, 2)) or
     (Copy(chaveNF3e, 5, 2)  <> FormatFloat('00', wMes)) or
-    (Copy(chaveNF3e, 7, 14)<> PadLeft(OnlyNumber(NF3e.Emit.CNPJ), 14, '0')) or
+    (Copy(chaveNF3e, 7, 14) <> PadLeft(OnlyCPFCNPJAlphaNum(NF3e.Emit.CNPJ), 14, '0')) or
     (Copy(chaveNF3e, 21, 2) <> IntToStrZero(NF3e.Ide.modelo, 2)) or
     (Copy(chaveNF3e, 23, 3) <> IntToStrZero(NF3e.Ide.serie, 3)) or
     (Copy(chaveNF3e, 26, 9) <> IntToStrZero(NF3e.Ide.nNF, 9)) or
@@ -687,7 +687,7 @@ end;
 
 function TNotaFiscal.GetNumID: String;
 begin
-  Result := OnlyNumber(NF3e.infNF3e.ID);
+  Result := RemoverLiteralChave(NF3e.infNF3e.ID);
 end;
 
 function TNotaFiscal.GetXMLAssinado: String;

@@ -45,6 +45,7 @@ uses
   pcnConversao, 
   ACBrNF3eClass,
   ACBrNF3eDANF3eClass,
+  ACBrDFeUtil,
   RLTypes;
 
 type
@@ -122,7 +123,7 @@ var
   function ImprimirDANF3ePDFTipo(ANF3e: TNF3e): String;
   begin
     Result := DefinirNomeArquivo(Self.PathPDF,
-                                 OnlyNumber(ANF3e.infNF3e.ID) + '-NF3e.pdf',
+                                 RemoverLiteralChave(ANF3e.infNF3e.ID) + '-NF3e.pdf',
                                  Self.NomeDocumento);
 
     TfrmDANF3eRLRetrato.SalvarPDF(Self, ANF3e, Result);
@@ -180,7 +181,7 @@ begin
       Impresso := False;
       for j := 0 to (TACBrNF3e(ACBrNF3e).NotasFiscais.Count - 1) do
       begin
-        if OnlyNumber(TACBrNF3e(ACBrNF3e).NotasFiscais.Items[j].NF3e.infNF3e.Id) = TACBrNF3e(ACBrNF3e).EventoNF3e.Evento.Items[i].InfEvento.chNF3e then
+        if RemoverLiteralChave(TACBrNF3e(ACBrNF3e).NotasFiscais.Items[j].NF3e.infNF3e.Id) = TACBrNF3e(ACBrNF3e).EventoNF3e.Evento.Items[i].InfEvento.chNF3e then
         begin
           TfrmNF3eDAEventoRLRetrato.Imprimir(Self, TACBrNF3e(ACBrNF3e).EventoNF3e.Evento.Items[i],
             TACBrNF3e(ACBrNF3e).NotasFiscais.Items[j].NF3e);
@@ -214,7 +215,7 @@ var
   function ImprimirEVENTOPDFTipo(EventoNFeItem: TInfEventoCollectionItem; ANF3e: TNF3e): String;
   begin
     Result := DefinirNomeArquivo(Self.PathPDF,
-                                 OnlyNumber(EventoNFeItem.InfEvento.id) + '-procEventoNF3e.pdf',
+                                 RemoverLiteralChave(EventoNFeItem.InfEvento.id) + '-procEventoNF3e.pdf',
                                  Self.NomeDocumento);
 
     TfrmNF3eDAEventoRLRetrato.SalvarPDF(Self, EventoNFeItem, Result, ANF3e);
@@ -233,8 +234,8 @@ begin
         ArqPDF := '';
         for j := 0 to (NotasFiscais.Count - 1) do
         begin
-          NumID := OnlyNumber(NotasFiscais.Items[j].NF3e.infNF3e.ID);
-          if (NumID = OnlyNumber(EventoNF3e.Evento.Items[i].InfEvento.chNF3e)) then
+          NumID := RemoverLiteralChave(NotasFiscais.Items[j].NF3e.infNF3e.ID);
+          if (NumID = RemoverLiteralChave(EventoNF3e.Evento.Items[i].InfEvento.chNF3e)) then
           begin
             ArqPDF := ImprimirEVENTOPDFTipo(EventoNF3e.Evento.Items[i], NotasFiscais.Items[j].NF3e);
             Impresso := True;

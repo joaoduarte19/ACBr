@@ -251,8 +251,8 @@ begin
     rllSerie.Caption := IntToStr(fpNF3e.ide.serie);
     rllNumNFCom.Caption := FormatFloat('000,000,000', fpNF3e.Ide.nNF);
     rllEmissao.Caption := FormatDateTimeBr(fpNF3e.Ide.dhEmi);
-    rliBarCode.Caption := OnlyNumber(fpNF3e.infNF3e.Id);
-    rllChave.Caption := FormatarChaveAcesso(OnlyNumber(fpNF3e.infNF3e.Id));
+    rliBarCode.Caption := RemoverLiteralChave(fpNF3e.infNF3e.Id);
+    rllChave.Caption := FormatarChaveAcesso(RemoverLiteralChave(fpNF3e.infNF3e.Id));
   end;
 end;
 

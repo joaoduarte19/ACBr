@@ -192,7 +192,7 @@ var
 begin
   Evento[AIdx].InfEvento.id := 'ID'+
                                Evento[AIdx].InfEvento.TipoEvento +
-                               OnlyNumber(Evento[AIdx].InfEvento.chNF3e) +
+                               RemoverLiteralChave(Evento[AIdx].InfEvento.chNF3e) +
                                Format('%.2d', [Evento[AIdx].InfEvento.nSeqEvento]);
 
   Result := CreateElement('infEvento');
@@ -204,7 +204,7 @@ begin
   Result.AppendChild(AddNode(tcStr, 'P06', 'tpAmb', 1, 1, 1,
                    TipoAmbienteToStr(Evento[AIdx].InfEvento.tpAmb), DSC_TPAMB));
 
-  sDoc := OnlyNumber(Evento[AIdx].InfEvento.CNPJ);
+  sDoc := OnlyCPFCNPJAlphaNum(Evento[AIdx].InfEvento.CNPJ);
 
   if EstaVazio(sDoc) then
     sDoc := ExtrairCNPJCPFChaveAcesso(Evento[AIdx].InfEvento.chNF3e);

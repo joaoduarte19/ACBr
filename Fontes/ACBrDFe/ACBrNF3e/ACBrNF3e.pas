@@ -43,7 +43,7 @@ uses
   ACBrDFe.Conversao,
   ACBrNF3eConfiguracoes, ACBrNF3eWebServices, ACBrNF3eNotasFiscais,
   ACBrNF3eDANF3eClass,
-  ACBrNF3eClass, ACBrNF3eConversao, ACBrNF3eEnvEvento;
+  ACBrNF3eClass, ACBrNF3eConversao, ACBrNF3eEnvEvento, ACBrDFeUtil;
 
 const
   ACBRNF3e_NAMESPACE = 'http://www.portalfiscal.inf.br/nf3e';
@@ -467,7 +467,7 @@ begin
     with EventoNF3e.Evento.New do
     begin
       infEvento.CNPJ     := NotasFiscais.Items[i].NF3e.Emit.CNPJ;
-      infEvento.cOrgao   := StrToIntDef(copy(OnlyNumber(WebServices.Consulta.NF3eChave), 1, 2), 0);
+      infEvento.cOrgao   := StrToIntDef(copy(RemoverLiteralChave(WebServices.Consulta.NF3eChave), 1, 2), 0);
       infEvento.dhEvento := now;
       infEvento.tpEvento := teCancelamento;
       infEvento.chNF3e   := WebServices.Consulta.NF3eChave;
@@ -574,7 +574,7 @@ begin
 
     if NotasFiscais.Count > 0 then
     begin
-      chNF3e := OnlyNumber(EventoNF3e.Evento.Items[i].InfEvento.chNF3e);
+      chNF3e := RemoverLiteralChave(EventoNF3e.Evento.Items[i].InfEvento.chNF3e);
 
       // Se tem a chave da NF3e no Evento, procure por ela nas notas carregadas //
       if NaoEstaVazio(chNF3e) then
@@ -702,7 +702,7 @@ begin
     ImprimirEventoPDF;
     AnexosEmail.Add(DANF3E.ArquivoPDF);
 
-    NomeArq := OnlyNumber(EventoNF3e.Evento[0].InfEvento.Id);
+    NomeArq := RemoverLiteralChave(EventoNF3e.Evento[0].InfEvento.Id);
     EnviarEmail(sPara, sAssunto, sMensagem, sCC, AnexosEmail, StreamNF3e,
   	  NomeArq + '-procEventoNF3e.xml', sReplyTo);
   finally

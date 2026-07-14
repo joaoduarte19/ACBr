@@ -40,7 +40,8 @@ uses
   SysUtils, Classes,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  ACBrNF3eConsts;
+  ACBrNF3eConsts,
+  ACBrDFeUtil;
 
 type
 
@@ -67,7 +68,7 @@ uses
 
 function TConsSitNF3e.ObterNomeArquivo: String;
 begin
-  Result := OnlyNumber(FchNF3e) + '-ped-sit.xml';
+  Result := RemoverLiteralChave(FchNF3e) + '-ped-sit.xml';
 end;
 
 function TConsSitNF3e.GerarXML: String;

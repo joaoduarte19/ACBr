@@ -962,7 +962,7 @@ begin
       begin
         with TACBrNF3e(FPDFeOwner).NotasFiscais.Items[I] do
         begin
-          if OnlyNumber(chNF3e) = NumID then
+          if RemoverLiteralChave(chNF3e) = NumID then
           begin
             if (FPConfiguracoesNF3e.Geral.ValidarDigest) and
                (FNF3eRetornoSincrono.protNF3e.digVal <> '') and
@@ -1191,7 +1191,7 @@ begin
     begin
       for j := 0 to FNotasFiscais.Count - 1 do
       begin
-        if OnlyNumber(FNF3eRetorno.ProtDFe.Items[i].chDFe) = FNotasFiscais.Items[J].NumID then
+        if RemoverLiteralChave(FNF3eRetorno.ProtDFe.Items[i].chDFe) = FNotasFiscais.Items[J].NumID then
         begin
           FNotasFiscais.Items[j].NF3e.procNF3e.verAplic := '';
           FNotasFiscais.Items[j].NF3e.procNF3e.chDFe    := '';
@@ -1363,7 +1363,7 @@ begin
   begin
     for J := 0 to FNotasFiscais.Count - 1 do
     begin
-      if OnlyNumber(AInfProt.Items[I].chDFe) = FNotasFiscais.Items[J].NumID then
+      if RemoverLiteralChave(AInfProt.Items[I].chDFe) = FNotasFiscais.Items[J].NumID then
       begin
         if (FPConfiguracoesNF3e.Geral.ValidarDigest) and
            (AInfProt.Items[I].digVal <> '') and
@@ -1728,7 +1728,7 @@ var
   NumChave: String;
 begin
   if FNF3eChave = AValue then Exit;
-  NumChave := OnlyNumber(AValue);
+  NumChave := RemoverLiteralChave(AValue);
 
   if not ValidarChave(NumChave) then
      raise EACBrNF3eException.Create('Chave "'+AValue+'" inválida.');
@@ -2017,7 +2017,7 @@ begin
         begin
           with TACBrNF3e(FPDFeOwner).NotasFiscais.Items[i] do
           begin
-            if (OnlyNumber(FNF3eChave) = NumID) then
+            if (RemoverLiteralChave(FNF3eChave) = NumID) then
             begin
               Atualiza := (NaoEstaVazio(NF3eRetorno.XMLprotNF3e));
               if Atualiza and
@@ -2476,7 +2476,7 @@ begin
 
             if FPConfiguracoesNF3e.Arquivos.SalvarEvento then
             begin
-              NomeArq := OnlyNumber(FEvento.Evento.Items[i].InfEvento.Id) + '-procEventoNF3e.xml';
+              NomeArq := RemoverLiteralChave(FEvento.Evento.Items[i].InfEvento.Id) + '-procEventoNF3e.xml';
               PathArq := PathWithDelim(GerarPathEvento(FEvento.Evento.Items[I].InfEvento.CNPJ));
 
               FPDFeOwner.Gravar(NomeArq, Texto, PathArq);
@@ -2658,7 +2658,7 @@ begin
           FNomeArq := FretDistDFeInt.docZip.Items[I].resDFe.chDFe + '-NF3e.xml';
 
         schprocEventoNFe:
-          FNomeArq := OnlyNumber(FretDistDFeInt.docZip.Items[I].procEvento.Id) +
+          FNomeArq := RemoverLiteralChave(FretDistDFeInt.docZip.Items[I].procEvento.Id) +
                       '-procEventoNF3e.xml';
       end;
 

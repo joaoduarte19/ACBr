@@ -39,6 +39,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+14/07/2026
+-- ACBrNF3e --
+[*] ACBR-9369 - Implementação CNPJ Alfanumérico para a NF3e
+   Por: Larissa Santos / Rev.: Alexandre de Paula
+   
 10/07/2026
 -- ACBrDFe.Conversao --
 [-] ACBR-9625 - Correção nos valores do tipo TtpALCZFMCBS, o correto é 1 e 2 em vez de 0 e 1.
