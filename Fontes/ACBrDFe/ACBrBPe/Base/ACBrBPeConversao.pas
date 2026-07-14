@@ -38,7 +38,7 @@ interface
 
 uses
   SysUtils, StrUtils, Classes,
-  pcnConversao;
+  ACBrDFe.Conversao;
 
 type
   TStatusACBrBPe = (stBPeIdle, stBPeRecepcao, stBPeRetRecepcao, stBPeConsulta,
@@ -213,12 +213,6 @@ const
     'Outro');
 
 type
-  TTipoEmissao = (teNormal, teOffLine);
-
-const
-  TTipoEmissaoArrayStrings: array[TTipoEmissao] of string = ('1', '2');
-
-type
   // Futuramente deve ir para a unit ACBrDFeConversao
   TCRT = (crtSimplesNacional, crtSimplesExcessoReceita, crtRegimeNormal);
 
@@ -250,7 +244,7 @@ const
 {
   Declaração das funções de conversão
 }
-function StrToTpEventoBPe(out ok: boolean; const s: string): TpcnTpEvento;
+function StrToTpEventoBPe(out ok: boolean; const s: string): TACBrTipoEvento;
 
 function StrToVersaoBPe(out ok: Boolean; const s: String): TVersaoBPe;
 function VersaoBPeToStr(const t: TVersaoBPe): String;
@@ -318,8 +312,8 @@ function ModeloBPeToStr(const t: TModeloBPe): String;
 function StrToModeloBPe(out ok: Boolean; const s: String): TModeloBPe;
 function ModeloBPeToPrefixo(const t: TModeloBPe): String;
 
-function TpEmisBPeToStr(const t: TTipoEmissao): string;
-function StrToTpEmisBPe(out ok: boolean; const s: string): TTipoEmissao;
+function TpEmisBPeToStr(const t: TACBrTipoEmissao): string;
+function StrToTpEmisBPe(out ok: boolean; const s: string): TACBrTipoEmissao;
 
 function CRTToStr(const t: TCRT): string;
 function StrToCRT(out ok: boolean; const s: string): TCRT;
@@ -339,7 +333,7 @@ uses
   typinfo,
   ACBrBase;
 
-function StrToTpEventoBPe(out ok: boolean; const s: string): TpcnTpEvento;
+function StrToTpEventoBPe(out ok: boolean; const s: string): TACBrTipoEvento;
 begin
   Result := StrToEnumerado(ok, s,
             ['-99999', '110111', '110115', '110116', '110117'],
@@ -772,13 +766,14 @@ begin
   end;
 end;
 
-function TpEmisBPeToStr(const t: TTipoEmissao): string;
+// Mudar para o tipo TACBrTipoEmissao
+function TpEmisBPeToStr(const t: TACBrTipoEmissao): string;
 begin
   result := EnumeradoToStr(t, ['1', '2'],
                               [teNormal, teOffLine]);
 end;
 
-function StrToTpEmisBPe(out ok: boolean; const s: string): TTipoEmissao;
+function StrToTpEmisBPe(out ok: boolean; const s: string): TACBrTipoEmissao;
 begin
   result := StrToEnumerado(ok, s, ['1', '2'],
                                   [teNormal, teOffLine]);

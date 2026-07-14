@@ -39,7 +39,6 @@ interface
 uses
   Classes, SysUtils, StrUtils,
   ACBrBase,
-  pcnConversao,
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrBPeConfiguracoes,
@@ -216,7 +215,7 @@ begin
     FBPe.Ide.modelo := StrToInt(ModeloBPeToStr(Configuracoes.Geral.ModeloDF));
     FBPe.infBPe.Versao := VersaoBPeToDbl(Configuracoes.Geral.VersaoDF);
     FBPe.Ide.tpAmb := TACBrTipoAmbiente(Configuracoes.WebServices.Ambiente);
-    FBPe.Ide.tpEmis := TTipoEmissao(Configuracoes.Geral.FormaEmissao);
+    FBPe.Ide.tpEmis := Configuracoes.Geral.FormaEmissao;
   end;
 end;
 
@@ -577,15 +576,10 @@ begin
 
     TimeZoneConf.Assign( Configuracoes.WebServices.TimeZoneConf );
 
-    {
-      Ao gerar o XML as tags e atributos tem que ser exatamente os da configuração
-    }
-    {
     FBPeW.VersaoDF := Configuracoes.Geral.VersaoDF;
-    FBPeW.ModeloDF := Configuracoes.Geral.ModeloDF;
     FBPeW.tpAmb := TACBrTipoAmbiente(Configuracoes.WebServices.Ambiente);
     FBPeW.tpEmis := TACBrTipoEmissao(Configuracoes.Geral.FormaEmissao);
-    }
+    FBPeW.ModeloDF := Configuracoes.Geral.ModeloDF;
     FBPeW.idCSRT := Configuracoes.RespTec.IdCSRT;
     FBPeW.CSRT   := Configuracoes.RespTec.CSRT;
   end;
@@ -607,6 +601,7 @@ end;
 
 function TBilhete.GerarBPeIni: String;
 begin
+  FBPeIniW.ModeloDF := TACBrBPe(TBilhetes(Collection).ACBrBPe).Configuracoes.Geral.ModeloDF;
   Result := FBPeIniW.GravarIni;
 end;
 

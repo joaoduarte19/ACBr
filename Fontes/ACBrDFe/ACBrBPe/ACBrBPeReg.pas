@@ -37,7 +37,8 @@ unit ACBrBPeReg;
 interface
 
 uses
-  SysUtils, Classes, ACBrBPe, pcnConversao,
+  SysUtils, Classes,
+  ACBrBPe, //, ACBrDFe.Conversao,
   {$IFDEF FPC}
      LResources, LazarusPackageIntf, PropEdits, componenteditors
   {$ELSE}
@@ -54,7 +55,10 @@ procedure Register;
 implementation
 
 uses
-  ACBrReg, ACBrDFeRegUtil, ACBrDFeConfiguracoes, ACBrBPeConfiguracoes;
+  ACBrReg,
+  ACBrDFeRegUtil,
+  ACBrDFeConfiguracoes,
+  ACBrBPeConfiguracoes;
 
 {$IFNDEF FPC}
    {$R ACBrBPe.dcr}

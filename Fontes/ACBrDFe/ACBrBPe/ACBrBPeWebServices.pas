@@ -41,7 +41,6 @@ uses
   ACBrDFe, ACBrDFeUtil, ACBrDFeWebService,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  pcnConversao,
   ACBrBPeClass, ACBrBPeConversao,
   ACBrDFeComum.Proc,
   ACBrBPeEnvEvento, ACBrBPeRetEnvEvento, ACBrBPeRetConsSit,
@@ -470,7 +469,7 @@ begin
     FTMed := BPeRetorno.TMed;
     FdhRetorno := BPeRetorno.dhRetorno;
     FxObs := BPeRetorno.xObs;
-    FPMsg := FxMotivo + LineBreak + FxObs;
+    FPMsg := FxMotivo + sLineBreak + FxObs;
 
     if FPConfiguracoesBPe.WebServices.AjustaAguardaConsultaRet then
       FPConfiguracoesBPe.WebServices.AguardarConsultaRet := FTMed * 1000;
@@ -484,16 +483,16 @@ end;
 function TBPeStatusServico.GerarMsgLog: String;
 begin
   {(*}
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Ambiente: %s' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Status Código: %s' + LineBreak +
-                           'Status Descrição: %s' + LineBreak +
-                           'UF: %s' + LineBreak +
-                           'Recebimento: %s' + LineBreak +
-                           'Tempo Médio: %s' + LineBreak +
-                           'Retorno: %s' + LineBreak +
-                           'Observação: %s' + LineBreak),
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Ambiente: %s' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Status Código: %s' + sLineBreak +
+                           'Status Descrição: %s' + sLineBreak +
+                           'UF: %s' + sLineBreak +
+                           'Recebimento: %s' + sLineBreak +
+                           'Tempo Médio: %s' + sLineBreak +
+                           'Retorno: %s' + sLineBreak +
+                           'Observação: %s' + sLineBreak),
                    [Fversao, TipoAmbienteToStr(FtpAmb), FverAplic, IntToStr(FcStat),
                     FxMotivo, CodigoUFparaUF(FcUF),
                     IfThen(FdhRecbto = 0, '', FormatDateTimeBr(FdhRecbto)),
@@ -505,7 +504,7 @@ end;
 
 function TBPeStatusServico.GerarMsgErro(E: Exception): String;
 begin
-  Result := ACBrStr('WebService Consulta Status serviço:' + LineBreak +
+  Result := ACBrStr('WebService Consulta Status serviço:' + sLineBreak +
                     '- Inativo ou Inoperante tente novamente.');
 end;
 
@@ -591,7 +590,7 @@ begin
 
     FcUF := FBilhetes.Items[0].BPe.Ide.cUF;
 
-    if Integer(FPConfiguracoesBPe.WebServices.Ambiente) <> Integer(FBilhetes.Items[0].BPe.Ide.tpAmb) then
+    if FPConfiguracoesBPe.WebServices.Ambiente <> FBilhetes.Items[0].BPe.Ide.tpAmb then
       raise EACBrBPeException.Create( ACBRBPE_CErroAmbienteDiferente );
   end
   else
@@ -601,7 +600,7 @@ begin
   end;
 
   VerServ := VersaoBPeToDbl(FVersaoDF);
-  FTpAmb  := TACBrTipoAmbiente(FPConfiguracoesBPe.WebServices.Ambiente);
+  FTpAmb  := FPConfiguracoesBPe.WebServices.Ambiente;
   FPVersaoServico := '';
   FPURL := '';
 
@@ -616,7 +615,7 @@ begin
   TACBrBPe(FPDFeOwner).LerServicoDeParams(
     ModeloBPeToPrefixo(Modelo),
     xUF,
-    TpcnTipoAmbiente(FTpAmb),
+    FTpAmb,
     LayOutBPeToServico(FPLayout),
     VerServ,
     FPURL
@@ -807,11 +806,11 @@ end;
 function TBPeRecepcao.GerarMsgLog: String;
 begin
   {(*}
-    Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                             'Ambiente: %s ' + LineBreak +
-                             'Versão Aplicativo: %s ' + LineBreak +
-                             'Status Código: %s ' + LineBreak +
-                             'Status Descrição: %s ' + LineBreak +
+    Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                             'Ambiente: %s ' + sLineBreak +
+                             'Versão Aplicativo: %s ' + sLineBreak +
+                             'Status Código: %s ' + sLineBreak +
+                             'Status Descrição: %s ' + sLineBreak +
                              'UF: %s '),
                      [FBPeRetorno.versao,
                       TipoAmbienteToStr(FBPeRetorno.TpAmb),
@@ -912,7 +911,7 @@ begin
   else
   begin
     Modelo := FPConfiguracoesBPe.Geral.ModeloDF;
-    FTpAmb := TACBrTipoAmbiente(FPConfiguracoesBPe.WebServices.Ambiente);
+    FTpAmb := FPConfiguracoesBPe.WebServices.Ambiente;
   end;
 
   FcUF    := ExtrairUFChaveAcesso(FBPeChave);
@@ -930,7 +929,7 @@ begin
   TACBrBPe(FPDFeOwner).LerServicoDeParams(
     ModeloBPeToPrefixo(Modelo),
     xUF,
-    TpcnTipoAmbiente(FTpAmb),
+    FTpAmb,
     LayOutBPeToServico(FPLayout),
     VerServ,
     FPURL
@@ -973,7 +972,7 @@ var
   aEvento, aProcEvento, aIDEvento, sPathEvento, sCNPJCPF: string;
   DhEvt: TDateTime;
   Inicio, Fim: Integer;
-  TipoEvento: TpcnTpEvento;
+  TipoEvento: TACBrTipoEvento;
   Ok: Boolean;
 begin
   while Retorno <> '' do
@@ -1058,9 +1057,9 @@ begin
     if Assigned(BPeRetorno.procEventoBPe) and (BPeRetorno.procEventoBPe.Count > 0) then
     begin
       aEventos := '=====================================================' +
-        LineBreak + '================== Eventos do BP-e ==================' +
-        LineBreak + '=====================================================' +
-        LineBreak + '' + LineBreak + 'Quantidade total de eventos: ' +
+        sLineBreak + '================== Eventos do BP-e ==================' +
+        sLineBreak + '=====================================================' +
+        sLineBreak + '' + sLineBreak + 'Quantidade total de eventos: ' +
         IntToStr(BPeRetorno.procEventoBPe.Count);
 
       FprocEventoBPe.Clear;
@@ -1297,17 +1296,17 @@ end;
 function TBPeConsulta.GerarMsgLog: String;
 begin
   {(*}
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Identificador: %s ' + LineBreak +
-                           'Ambiente: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'UF: %s ' + LineBreak +
-                           'Chave Acesso: %s ' + LineBreak +
-                           'Recebimento: %s ' + LineBreak +
-                           'Protocolo: %s ' + LineBreak +
-                           'Digest Value: %s ' + LineBreak),
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Identificador: %s ' + sLineBreak +
+                           'Ambiente: %s ' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Status Código: %s ' + sLineBreak +
+                           'Status Descrição: %s ' + sLineBreak +
+                           'UF: %s ' + sLineBreak +
+                           'Chave Acesso: %s ' + sLineBreak +
+                           'Recebimento: %s ' + sLineBreak +
+                           'Protocolo: %s ' + sLineBreak +
+                           'Digest Value: %s ' + sLineBreak),
                    [Fversao, FBPeChave, TipoAmbienteToStr(FTpAmb), FverAplic,
                     IntToStr(FcStat), FXMotivo, CodigoUFparaUF(FcUF), FBPeChave,
                     FormatDateTimeBr(FDhRecbto), FProtocolo, FprotBPe.digVal]);
@@ -1384,7 +1383,7 @@ begin
     teSVCAN: UF := 'SVC-AN';
     teSVCRS: UF := 'SVC-RS';
   else
-    UF := CUFtoUF(ExtrairUFChaveAcesso(FEvento.Evento.Items[0].infEvento.chBPe));
+    UF := CodigoUFparaUF(ExtrairUFChaveAcesso(FEvento.Evento.Items[0].infEvento.chBPe));
   end;
 
   if not (FEvento.Evento.Items[0].infEvento.tpEvento in
@@ -1400,7 +1399,7 @@ begin
   TACBrBPe(FPDFeOwner).LerServicoDeParams(
     TACBrBPe(FPDFeOwner).GetNomeModeloDFe,
     UF,
-    TpcnTipoAmbiente(FTpAmb),
+    FTpAmb,
     LayOutBPeToServico(FPLayout),
     VerServ,
     FPURL
@@ -1653,16 +1652,16 @@ var
   aMsg: String;
 begin
   {(*}
-  aMsg := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                         'Ambiente: %s ' + LineBreak +
-                         'Versão Aplicativo: %s ' + LineBreak +
-                         'Status Código: %s ' + LineBreak +
-                         'Status Descrição: %s ' + LineBreak),
+  aMsg := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                         'Ambiente: %s ' + sLineBreak +
+                         'Versão Aplicativo: %s ' + sLineBreak +
+                         'Status Código: %s ' + sLineBreak +
+                         'Status Descrição: %s ' + sLineBreak),
                  [FEventoRetorno.versao, TipoAmbienteToStr(FEventoRetorno.tpAmb),
                   FEventoRetorno.verAplic, IntToStr(FEventoRetorno.cStat),
                   FEventoRetorno.xMotivo]);
 
-  aMsg := aMsg + Format(ACBrStr('Recebimento: %s ' + LineBreak),
+  aMsg := aMsg + Format(ACBrStr('Recebimento: %s ' + sLineBreak),
      [IfThen(FEventoRetorno.RetinfEvento.dhRegEvento = 0, '',
              FormatDateTimeBr(FEventoRetorno.RetinfEvento.dhRegEvento))]);
 
@@ -1736,7 +1735,7 @@ end;
 
 function TBPeEnvioWebService.GerarMsgErro(E: Exception): String;
 begin
-  Result := ACBrStr('WebService: ' + FPServico + LineBreak +
+  Result := ACBrStr('WebService: ' + FPServico + sLineBreak +
                     '- Inativo ou Inoperante tente novamente.');
 end;
 

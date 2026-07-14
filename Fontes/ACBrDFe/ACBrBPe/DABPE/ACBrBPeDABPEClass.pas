@@ -40,7 +40,7 @@ uses
   SysUtils, Classes,
   ACBrBase,
   ACBrBPeClass,
-  pcnConversao,
+  ACBrDFe.Conversao,
   ACBrDFeReport;
 
 type
@@ -59,7 +59,7 @@ type
 
   protected
     FACBrBPe: TComponent;
-    FTipoDABPE: TpcnTipoImpressao;
+    FTipoDABPE: TACBrTipoImpressao;
     FProtocolo: String;
     FCancelada: Boolean;
     FViaConsumidor: Boolean;
@@ -82,7 +82,7 @@ type
 
   published
     property ACBrBPe: TComponent                     read FACBrBPe                        write SetBPe;
-    property TipoDABPE: TpcnTipoImpressao            read FTipoDABPE                      write FTipoDABPE;
+    property TipoDABPE: TACBrTipoImpressao           read FTipoDABPE                      write FTipoDABPE;
     property Protocolo: String                       read FProtocolo                      write FProtocolo;
     property Cancelada: Boolean                      read FCancelada                      write FCancelada;
     property ViaConsumidor: Boolean                  read FViaConsumidor                  write FViaConsumidor;
