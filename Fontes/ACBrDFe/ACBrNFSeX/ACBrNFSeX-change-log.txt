@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 14/07/2026
+-- ACBrNFSeXGravarXml --
+[*] ACBR-9626 - As tags pRedAliqUF, pRedAliqMun pRedAliqCBS, estavam como obrigatórias
+    sendo que são opcionais.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXConversao --
 [*] ACBR-9486 - Alteração visando utilizar as funções StrToEnumerado e EnumeradoToStr
     definidas na unit ACBrDFe.Conversao

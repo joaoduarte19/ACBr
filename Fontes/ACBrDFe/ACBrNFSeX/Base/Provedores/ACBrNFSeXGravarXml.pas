@@ -1693,7 +1693,7 @@ begin
   Result.AppendChild(AddNode(tcDe2, '#1', 'pIBSUF', 1, 7, 1,
                                                          ValoresUF.pIBSUF, ''));
 
-  Result.AppendChild(AddNode(tcDe2, '#1', 'pRedAliqUF', 1, 7, 1,
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pRedAliqUF', 1, 7, 0,
                                                      ValoresUF.pRedAliqUF, ''));
 
   Result.AppendChild(AddNode(tcDe2, '#1', 'pAliqEfetUF', 1, 7, 1,
@@ -1708,7 +1708,7 @@ begin
   Result.AppendChild(AddNode(tcDe2, '#1', 'pIBSMun', 1, 7, 1,
                                                        ValoresMun.pIBSMun, ''));
 
-  Result.AppendChild(AddNode(tcDe2, '#1', 'pRedAliqMun', 1, 7, 1,
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pRedAliqMun', 1, 7, 0,
                                                    ValoresMun.pRedAliqMun, ''));
 
   Result.AppendChild(AddNode(tcDe2, '#1', 'pAliqEfetMun', 1, 7, 1,
@@ -1723,7 +1723,7 @@ begin
   Result.AppendChild(AddNode(tcDe2, '#1', 'pCBS', 1, 7, 1,
                                                           ValoresFed.pCBS, ''));
 
-  Result.AppendChild(AddNode(tcDe2, '#1', 'pRedAliqCBS', 1, 7, 1,
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pRedAliqCBS', 1, 7, 0,
                                                    ValoresFed.pRedAliqCBS, ''));
 
   Result.AppendChild(AddNode(tcDe2, '#1', 'pAliqEfetCBS', 1, 7, 1,
