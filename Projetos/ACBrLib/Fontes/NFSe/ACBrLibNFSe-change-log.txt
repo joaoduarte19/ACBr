@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+14/07/2026
+-- ACBrLibNFSeConfig --
+[*] Declara ACBrDFe.Conversao no uses para usar EnumeradoToStr/StrToEnumerado dela.
+   Por: Diego Folieni
+
 11/06/2026
 -- ACBrLibNFSeConsoleMT.lpi, ACBrLibConsoleMTDemo.lpi --
 [+] Adiciona modo de compilação para Win64/MT

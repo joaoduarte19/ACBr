@@ -42,7 +42,8 @@ uses
   ACBrNFSeXDANFSeRLClass,
   {$EndIf}
   ACBrNFSeXDANFSeFPDFClass,
-  ACBrNFSeXConversao, ACBrNFSeXConfiguracoes, ACBrXmlBase, ACBrDFeReport;
+  ACBrNFSeXConversao, ACBrNFSeXConfiguracoes, ACBrXmlBase, ACBrDFeReport,
+  ACBrDFe.Conversao;
 
 type
   { TDANFSeReportConfig }
