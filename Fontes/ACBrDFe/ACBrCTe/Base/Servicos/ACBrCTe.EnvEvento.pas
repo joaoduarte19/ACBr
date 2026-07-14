@@ -756,7 +756,7 @@ begin
   Result.AppendChild(AddNode(tcStr, 'HP09', 'tpAmb', 1, 1, 1,
                            TpAmbToStr(Evento[Idx].InfEvento.tpAmb), DSC_TPAMB));
 
-  sDoc := RemoverLiteralChave(Evento[Idx].InfEvento.CNPJ);
+  sDoc := OnlyCPFCNPJAlphaNum(Evento[Idx].InfEvento.CNPJ);
 
   if EstaVazio(sDoc) then
     sDoc := ExtrairCNPJCPFChaveAcesso(Evento[Idx].InfEvento.chCTe);
