@@ -242,12 +242,11 @@ namespace ACBrLib.Boleto
             var ret = ExecuteMethod(() => method());
             CheckResult(ret);
         }
+        
 
-        /// <inheritdoc/>
-        public void GerarPDF(Stream aStream)
+          /// <inheritdoc/>
+        public string SalvarPDF()
         {
-            if (aStream == null) throw new ArgumentNullException(nameof(aStream));
-
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
@@ -255,9 +254,28 @@ namespace ACBrLib.Boleto
             var ret = ExecuteMethod(() => method(buffer, ref bufferLen));
 
             CheckResult(ret);
+            return ProcessResult(buffer, bufferLen);
+            
+        }
+        /// <inheritdoc/>
+        public void GerarPDF(Stream aStream)
+        {
+            if (aStream == null) throw new ArgumentNullException(nameof(aStream));
 
-            var pdf = ProcessResult(buffer, bufferLen);
+            var pdf = SalvarPDF();
             Base64ToStream(pdf, aStream);
+        }
+
+        /// <inheritdoc/>
+
+        public string SalvarPDF(int indice)
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+            var method = GetMethod<Boleto_SalvarPDFBoleto>();
+            var ret = ExecuteMethod(() => method(indice, buffer, ref bufferLen));
+            CheckResult(ret);
+            return ProcessResult(buffer, bufferLen);
         }
 
         /// <inheritdoc/>
@@ -273,15 +291,7 @@ namespace ACBrLib.Boleto
         {
             if (aStream == null) throw new ArgumentNullException(nameof(aStream));
 
-            var bufferLen = BUFFER_LEN;
-            var buffer = new StringBuilder(bufferLen);
-
-            var method = GetMethod<Boleto_SalvarPDFBoleto>();
-            var ret = ExecuteMethod(() => method(indice, buffer, ref bufferLen));
-
-            CheckResult(ret);
-
-            var pdf = ProcessResult(buffer, bufferLen);
+            string pdf = SalvarPDF(indice);
             Base64ToStream(pdf, aStream);
         }
 

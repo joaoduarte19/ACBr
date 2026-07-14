@@ -185,11 +185,10 @@ namespace ACBrLib.Boleto
             var ret = acbrBoletoBridge.ExecuteMethod(() => method(libHandle));
             CheckResult(ret);
         }
-        /// <inheritdoc/>
-        public void GerarPDF(Stream aStream)
-        {
-            if (aStream == null) throw new ArgumentNullException(nameof(aStream));
 
+        /// <inheritdoc/>
+        public string SalvarPDF()
+        {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
@@ -198,7 +197,15 @@ namespace ACBrLib.Boleto
 
             CheckResult(ret);
 
-            var pdf = CheckBuffer(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
+
+        }
+        /// <inheritdoc/>
+        public void GerarPDF(Stream aStream)
+        {
+            if (aStream == null) throw new ArgumentNullException(nameof(aStream));
+
+            var pdf = SalvarPDF();
             Base64ToStream(pdf, aStream);
         }
         /// <inheritdoc/>
@@ -232,11 +239,11 @@ namespace ACBrLib.Boleto
             return ret.ToString();
 
         }
-        /// <inheritdoc/>
-        public void GerarPDF(int indice, Stream aStream)
-        {
-            if (aStream == null) throw new ArgumentNullException(nameof(aStream));
 
+        /// <inheritdoc/>
+        
+        public string SalvarPDF(int indice)
+        {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
@@ -245,7 +252,15 @@ namespace ACBrLib.Boleto
 
             CheckResult(ret);
 
-            var pdf = CheckBuffer(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
+
+        }
+        /// <inheritdoc/>
+        public void GerarPDF(int indice, Stream aStream)
+        {
+            if (aStream == null) throw new ArgumentNullException(nameof(aStream));
+
+            var pdf = SalvarPDF(indice);
             Base64ToStream(pdf, aStream);
         }
 

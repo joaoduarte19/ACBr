@@ -2,6 +2,7 @@ using ACBrLib.Core;
 using ACBrLib.Core.Boleto;
 using System;
 using System.IO;
+using System.Numerics;
 namespace ACBrLib.Boleto
 {
     /// <summary>
@@ -62,19 +63,40 @@ namespace ACBrLib.Boleto
         /// <param name="indice">Índice do boleto.</param>
         /// <param name="eNomeImpressora">Nome da impressora (opcional).</param>
         void Imprimir(int indice, string eNomeImpressora = "");
+
+        /// <summary>
+        /// Método para geração de PDF dos Boletos em formato Base64.
+        /// </summary>
+        /// <returns> Retorna uma string do PDF dos Boletos em formato Base64.</returns>
+        string SalvarPDF();
+
+
+
         /// <summary>
         /// Gera PDF de todos os boletos.
         /// </summary>
         void GerarPDF();
+
+        /// <summary>
+        /// Gera PDF do boleto do índice especificado.
+        /// </summary>
+        /// <param name="indice">Índice do boleto.</param>
+        /// <returns>string com o conteudo do PDF do boleto gerado</returns>
+        
+        string SalvarPDF(int indice);
         /// <summary>
         /// Gera PDF de todos os boletos e grava em um Stream.
         /// </summary>
         /// <param name="aStream">Stream de saída.</param>
+
+
         void GerarPDF(Stream aStream);
         /// <summary>
         /// Gera PDF do boleto do índice especificado.
         /// </summary>
         /// <param name="indice">Índice do boleto.</param>
+        
+        
         void GerarPDF(int indice);
         /// <summary>
         /// Gera um token para autenticação de operações.
