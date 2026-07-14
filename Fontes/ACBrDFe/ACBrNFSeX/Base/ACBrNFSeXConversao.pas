@@ -1478,19 +1478,19 @@ const
     7820, 7838, 7889, 7919, 7951, 8001, 8052, 8109, 8150, 8206, 8230, 8249,
     8273, 8281, 8311, 8338, 8451, 8478, 8486, 8508, 8583, 8630, 8664, 8753,
     8702, 8885, 8907);
-
+{
 function StrToEnumerado(out ok: boolean; const s: string; const AString: array of string;
   const AEnumerados: array of variant): variant;
 function EnumeradoToStr(const t: variant; const AString:
   array of string; const AEnumerados: array of variant): variant;
-
+}
 implementation
 
 uses
   ACBrUtil.Strings, ACBrUtil.XMLHTML, ACBrUtil.FilesIO,
   ACBrXmlBase,
   ACBrDFe.Conversao;
-
+{
 function StrToEnumerado(out ok: boolean; const s: string; const AString:
   array of string; const AEnumerados: array of variant): variant;
 var
@@ -1515,7 +1515,7 @@ begin
     if t = AEnumerados[i] then
       result := AString[i];
 end;
-
+}
 function CodIBGEToCodTOM(const ACodigo: Integer): string;
 var
  CodTOM: string;

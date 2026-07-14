@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+14/07/2026
+-- ACBrNFSeXConversao --
+[*] ACBR-9486 - Alteração visando utilizar as funções StrToEnumerado e EnumeradoToStr
+    definidas na unit ACBrDFe.Conversao
+   Por: Italo Giurizzato Junior
+
 13/07/2026
 -- ACBrNFSeXServicos --
 [*] ACBR-9532 - Incluída a cidade Varjota/CE, o provedor é SSInformatica.
