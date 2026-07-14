@@ -38,9 +38,15 @@ interface
 
 uses
   SysUtils, Classes,
-  ACBrXmlBase, ACBrXmlDocument, ACBrNFSeXClass, ACBrNFSeXConversao,
-  ACBrNFSeXGravarXml, ACBrNFSeXLerXml, ACBrNFSeXProviderABRASFv2,
-  ACBrNFSeXWebserviceBase, ACBrNFSeXWebservicesResponse;
+  ACBrXmlBase,
+  ACBrXmlDocument,
+  ACBrNFSeXClass,
+  ACBrNFSeXConversao,
+  ACBrNFSeXGravarXml,
+  ACBrNFSeXLerXml,
+  ACBrNFSeXProviderABRASFv2,
+  ACBrNFSeXWebserviceBase,
+  ACBrNFSeXWebservicesResponse;
 
 type
   TACBrNFSeXWebserviceTecnos201 = class(TACBrNFSeXWebserviceSoap11)
@@ -71,6 +77,9 @@ type
 
     procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
 
+    procedure GerarMsgDadosConsultaNFSeServicoTomado(Response: TNFSeConsultaNFSeResponse;
+      Params: TNFSeParamsResponse); override;
+
     procedure GerarMsgDadosCancelaNFSe(Response: TNFSeCancelaNFSeResponse;
       Params: TNFSeParamsResponse); override;
 
@@ -99,8 +108,13 @@ uses
   ACBrDFe.Conversao,
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML,
-  ACBrDFeException, ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXConsts,
-  ACBrNFSeXNotasFiscais, Tecnos.GravarXml, Tecnos.LerXml;
+  ACBrDFeException,
+  ACBrNFSeX,
+  ACBrNFSeXConfiguracoes,
+  ACBrNFSeXConsts,
+  ACBrNFSeXNotasFiscais,
+  Tecnos.GravarXml,
+  Tecnos.LerXml;
 
 { TACBrNFSeProviderTecnos201 }
 
@@ -182,6 +196,8 @@ begin
     LoteRps.InfElemento := 'InfDeclaracaoPrestacaoServico';
     LoteRps.DocElemento := 'tcDeclaracaoPrestacaoServico';
 
+    ConsultarNFSeServicoTomado.DocElemento := 'ConsultarNfseServicosTomadosIntermediadosEnvio';
+
     DadosCabecalho := GetCabecalho('http://www.nfse-tecnos.com.br');
   end;
 
@@ -193,6 +209,7 @@ begin
     ConsultarNFSeRps := 'ConsultarNfseRpsEnvio.xsd';
     ConsultarNFSePorFaixa := 'ConsultarNfseFaixaEnvio.xsd';
     ConsultarNFSeServicoPrestado := 'ConsultarNfseServicoPrestadoEnvio.xsd';
+    ConsultarNFSeServicoTomado := 'ConsultarNfseServicosTomadosIntermediadosEnvio.xsd';
     CancelarNFSe := 'CancelarNfseEnvio.xsd';
     GerarNFSe := 'GeracaoNFSe.xsd';
     RecepcionarSincrono := 'EnviarLoteRpsSincronoEnvio.xsd';
@@ -385,6 +402,34 @@ begin
   end;
 end;
 
+procedure TACBrNFSeProviderTecnos201.GerarMsgDadosConsultaNFSeServicoTomado(
+  Response: TNFSeConsultaNFSeResponse; Params: TNFSeParamsResponse);
+var
+  Emitente: TEmitenteConfNFSe;
+  Consulente: string;
+begin
+  Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
+
+  with Params do
+  begin
+    Consulente :='<' + Prefixo + 'Consulente>' +
+                   '<' + Prefixo2 + 'CpfCnpj>' +
+                     GetCpfCnpj(Emitente.CNPJ, Prefixo2) +
+                   '</' + Prefixo2 + 'CpfCnpj>' +
+                   GetInscMunic(Emitente.InscMun, Prefixo2) +
+                 '</' + Prefixo + 'Consulente>';
+
+    Response.ArquivoEnvio :=
+       '<' + Prefixo + 'ConsultarNfseServicosTomadosIntermediadosEnvio' + NameSpace + '>' +
+         Consulente +
+         Xml +
+         '<' + Prefixo + 'Pagina>' +
+            IntToStr(Response.InfConsultaNFSe.Pagina) +
+         '</' + Prefixo + 'Pagina>' +
+       '</' + Prefixo + 'ConsultarNfseServicosTomadosIntermediadosEnvio>';
+  end;
+end;
+
 procedure TACBrNFSeProviderTecnos201.GerarMsgDadosCancelaNFSe(
   Response: TNFSeCancelaNFSeResponse; Params: TNFSeParamsResponse);
 var
@@ -396,30 +441,31 @@ begin
 
   with Params do
   begin
-    Response.ArquivoEnvio := '<' + Prefixo + 'CancelarNfseEnvio' + NameSpace + '>' +
-                           '<' + Prefixo2 + 'Pedido>' +
-                             '<' + Prefixo2 + 'InfPedidoCancelamento' + IdAttr + '>' +
-                               '<' + Prefixo2 + 'IdentificacaoNfse>' +
-                                 '<' + Prefixo2 + 'Numero>' +
-                                    InfoCanc.NumeroNFSe +
-                                 '</' + Prefixo2 + 'Numero>' +
-                                 Serie +
-                                 '<' + Prefixo2 + 'CpfCnpj>' +
-                                   GetCpfCnpj(Emitente.CNPJ, Prefixo2) +
-                                 '</' + Prefixo2 + 'CpfCnpj>' +
-                                 GetInscMunic(Emitente.InscMun, Prefixo2) +
-                                 '<' + Prefixo2 + 'CodigoMunicipio>' +
-                                    IntToStr(TACBrNFSeX(FAOwner).Configuracoes.Geral.CodigoMunicipio) +
-                                 '</' + Prefixo2 + 'CodigoMunicipio>' +
-                                 CodigoVerificacao +
-                               '</' + Prefixo2 + 'IdentificacaoNfse>' +
-                               '<' + Prefixo2 + 'CodigoCancelamento>' +
-                                  InfoCanc.CodCancelamento +
-                               '</' + Prefixo2 + 'CodigoCancelamento>' +
-                               Motivo +
-                             '</' + Prefixo2 + 'InfPedidoCancelamento>' +
-                           '</' + Prefixo2 + 'Pedido>' +
-                         '</' + Prefixo + 'CancelarNfseEnvio>';
+    Response.ArquivoEnvio :=
+       '<' + Prefixo + 'CancelarNfseEnvio' + NameSpace + '>' +
+         '<' + Prefixo2 + 'Pedido>' +
+           '<' + Prefixo2 + 'InfPedidoCancelamento' + IdAttr + '>' +
+             '<' + Prefixo2 + 'IdentificacaoNfse>' +
+               '<' + Prefixo2 + 'Numero>' +
+                  InfoCanc.NumeroNFSe +
+               '</' + Prefixo2 + 'Numero>' +
+               Serie +
+               '<' + Prefixo2 + 'CpfCnpj>' +
+                 GetCpfCnpj(Emitente.CNPJ, Prefixo2) +
+               '</' + Prefixo2 + 'CpfCnpj>' +
+               GetInscMunic(Emitente.InscMun, Prefixo2) +
+               '<' + Prefixo2 + 'CodigoMunicipio>' +
+                  IntToStr(TACBrNFSeX(FAOwner).Configuracoes.Geral.CodigoMunicipio) +
+               '</' + Prefixo2 + 'CodigoMunicipio>' +
+               CodigoVerificacao +
+             '</' + Prefixo2 + 'IdentificacaoNfse>' +
+             '<' + Prefixo2 + 'CodigoCancelamento>' +
+                InfoCanc.CodCancelamento +
+             '</' + Prefixo2 + 'CodigoCancelamento>' +
+             Motivo +
+           '</' + Prefixo2 + 'InfPedidoCancelamento>' +
+         '</' + Prefixo2 + 'Pedido>' +
+       '</' + Prefixo + 'CancelarNfseEnvio>';
   end;
 end;
 

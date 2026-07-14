@@ -154,7 +154,7 @@ begin
     Result := CreateElement('ConstrucaoCivil');
 
     Result.AppendChild(AddNode(tcStr, '#54', 'LocalConstrucao', 1,  50, 1,
-                                            NFSe.ConstrucaoCivil.LocalConstrucao, DSC_LOCAL_CONSTRUCAO));
+                   NFSe.ConstrucaoCivil.LocalConstrucao, DSC_LOCAL_CONSTRUCAO));
 
     Result.AppendChild(AddNode(tcStr, '#51', 'CodigoObra', 1, 15, 1,
                                    NFSe.ConstrucaoCivil.CodigoObra, DSC_COBRA));
@@ -163,31 +163,31 @@ begin
                                             NFSe.ConstrucaoCivil.Art, DSC_ART));
 
     Result.AppendChild(AddNode(tcInt, '#53', 'ReformaCivil', 1, 15, 1,
-                                            FpAOwner.SimNaoToStr(NFSe.ConstrucaoCivil.ReformaCivil), DSC_ART));
+             FpAOwner.SimNaoToStr(NFSe.ConstrucaoCivil.ReformaCivil), DSC_ART));
 
     Result.AppendChild(AddNode(tcInt, '#55', 'Cib', 1, 50, 0,
                                             NFSe.ConstrucaoCivil.Cib, DSC_CIB));
 
     Result.AppendChild(AddNode(tcStr, '#56', 'EstadoObra', 1, 2, 1,
-                                            NFSe.ConstrucaoCivil.Endereco.UF, DSC_UFOBRA));
+                                 NFSe.ConstrucaoCivil.Endereco.UF, DSC_UFOBRA));
 
     Result.AppendChild(AddNode(tcStr, '#56', 'CidadeObra', 1, 2, 1,
-                                            NFSe.ConstrucaoCivil.Endereco.CodigoMunicipio, DSC_CODMUNOBRA));
+                NFSe.ConstrucaoCivil.Endereco.CodigoMunicipio, DSC_CODMUNOBRA));
 
     Result.AppendChild(AddNode(tcStr, '#56', 'EnderecoObra', 1, 2, 0,
-                                            NFSe.ConstrucaoCivil.Endereco.Endereco, DSC_EOBRA));
+                            NFSe.ConstrucaoCivil.Endereco.Endereco, DSC_EOBRA));
 
     Result.AppendChild(AddNode(tcInt, '#56', 'NumeroObra', 1, 2, 1,
-                                            NFSe.ConstrucaoCivil.Endereco.Numero, DSC_NEOBRA));
+                             NFSe.ConstrucaoCivil.Endereco.Numero, DSC_NEOBRA));
 
     Result.AppendChild(AddNode(tcStr, '#56', 'BairroObra', 1, 2, 1,
-                                            NFSe.ConstrucaoCivil.Endereco.Bairro, DSC_BEOBRA));
+                             NFSe.ConstrucaoCivil.Endereco.Bairro, DSC_BEOBRA));
 
     Result.AppendChild(AddNode(tcInt, '#56', 'CepObra', 1, 2, 1,
-                                            NFSe.ConstrucaoCivil.Endereco.CEP, DSC_CEPOBRA));
+                               NFSe.ConstrucaoCivil.Endereco.CEP, DSC_CEPOBRA));
 
     Result.AppendChild(AddNode(tcStr, '#56', 'ComplementoObra', 1, 2, 1,
-                                            NFSe.ConstrucaoCivil.Endereco.Complemento, DSC_CEOBRA));
+                        NFSe.ConstrucaoCivil.Endereco.Complemento, DSC_CEOBRA));
   end;
 end;
 
@@ -354,10 +354,10 @@ begin
                                                       NFSe.NumeroParcelas, ''));
 
   Result.AppendChild(AddNode(tcStr, '#10', 'CodigoSituacaoTributariaPisCofins', 2, 2, 0,
-                                            CSTToStr(NFSe.Servico.Valores.tribFed.CST), ''));
+                               CSTToStr(NFSe.Servico.Valores.tribFed.CST), ''));
 
   Result.AppendChild(AddNode(tcStr, '#11', 'TipoRetencaoPisCofins', 1, 1, 1,
-                                            tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins), ''));
+         tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins), ''));
 end;
 
 function TNFSeW_Tecnos201.GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode;
@@ -535,7 +535,7 @@ begin
 
   if NFSe.Servico.CodigoPais <> 1058 then
     Result.AppendChild(AddNode(tcInt, '#34', 'CodigoPaisPrestacao', 4, 4, 1,
-                                              NFSe.Servico.CodigoPais, DSC_CPAIS));
+                                           NFSe.Servico.CodigoPais, DSC_CPAIS));
 
   Result.AppendChild(AddNode(tcStr, '#35', 'ExigibilidadeISS', 1, 01, 1,
     FpAOwner.ExigibilidadeISSToStr(NFSe.Servico.ExigibilidadeISS), DSC_INDISS));
@@ -547,10 +547,10 @@ begin
                                    NFSe.Servico.NumeroProcesso, DSC_NPROCESSO));
 
   Result.AppendChild(AddNode(tcStr, '#38', 'xPed', 1, 999, 0,
-                                                   NFSe.Servico.xPed, ''));
+                                                        NFSe.Servico.xPed, ''));
 
   Result.AppendChild(AddNode(tcStr, '#39', 'nItemPed', 1, 999, 0,
-                                                   NFSe.Servico.nItemPed, ''));
+                                                    NFSe.Servico.nItemPed, ''));
 
   Result.AppendChild(AddNode(tcStr, '#40', 'CodigoNBS', 1, 30, 0,
                                                    NFSe.Servico.CodigoNBS, ''));

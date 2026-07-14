@@ -37,9 +37,10 @@ unit Tecnos.LerXml;
 interface
 
 uses
-  SysUtils, Classes, StrUtils,
-  ACBrXmlDocument, IniFiles,
-  ACBrDFe.Conversao, ACBrNFSeXClass,
+  SysUtils, Classes, StrUtils, IniFiles,
+  ACBrXmlDocument,
+  ACBrDFe.Conversao,
+  ACBrNFSeXClass,
   ACBrNFSeXLerXml_ABRASFv2;
 
 type
