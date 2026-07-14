@@ -9199,7 +9199,7 @@ object ACBRBoletoFCFortesFr: TACBRBoletoFCFortesFr
       Left = 19
       Top = 8
       Width = 756
-      Height = 370
+      Height = 362
       AutoExpand = False
       BeforePrint = RLBand3BeforePrint
       object txtNomeSacadoCarne: TRLMemo

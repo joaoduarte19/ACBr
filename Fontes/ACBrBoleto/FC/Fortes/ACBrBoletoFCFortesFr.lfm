@@ -8274,7 +8274,7 @@ object ACBRBoletoFCFortesFr: TACBRBoletoFCFortesFr
     OnDataRecord = BoletoCarneDataRecord
     object RLBand3: TRLBand
       Left = 19
-      Height = 370
+      Height = 362
       Top = 8
       Width = 756
       AutoExpand = False
