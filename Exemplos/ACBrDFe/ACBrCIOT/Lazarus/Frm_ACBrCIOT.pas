@@ -398,8 +398,8 @@ begin
              Telefones.Celular.DDD := 11;
              Telefones.Celular.Numero := StrToIntDef(edtEmitFone.Text, 0);
 
-             Telefones.Fixo.DDD := 0;
-             Telefones.Fixo.Numero := 0;
+             Telefones.Fixo.DDD := 11;
+             Telefones.Fixo.Numero := StrToIntDef(edtEmitFone.Text, 0);
 
              Telefones.Fax.DDD := 0;
              Telefones.Fax.Numero := 0;
@@ -437,9 +437,9 @@ begin
 
            with GravarMotorista do
            begin
-             CPF                 := '12345678901';
+             CPF                 := '14944626649';
              Nome                := 'jose da silva';
-             CNH                 := '123456789';
+             CNH                 := '122333444';
              DataNascimento      := StrToDate('10/10/1970');
              NomeDeSolteiraDaMae := 'joana pereira';
 
@@ -450,11 +450,11 @@ begin
              Endereco.CEP := '89870000';
              Endereco.CodigoMunicipio := 4212908;
 
-             Telefones.Celular.DDD := 0;
-             Telefones.Celular.Numero := 0;
+             Telefones.Celular.DDD := 11;
+             Telefones.Celular.Numero := 987654321;
 
-             Telefones.Fixo.DDD := 49;
-             Telefones.Fixo.Numero := 33661011;
+             Telefones.Fixo.DDD := 11;
+             Telefones.Fixo.Numero := 987654321;
 
              Telefones.Fax.DDD := 0;
              Telefones.Fax.Numero := 0;
@@ -469,16 +469,17 @@ begin
            begin
              (****************  DADOS DO CONTRATO  **************)
              TipoViagem := Padrao; // TAC_Agregado;
-             TipoPagamento := eFRETE;
+             TipoPagamento := TransferenciaBancaria;
              EmissaoGratuita := (TipoPagamento = TransferenciaBancaria);
              BloquearNaoEquiparado := False;
+             // Em homologação, preencher o CNPJ cadastrado no ambiente dev em Matriz e Filial
              MatrizCNPJ := edtEmitCNPJ.text;
              FilialCNPJ := edtEmitCNPJ.text;
              //Id / Chave primária da Tabela do banco de dados do CIOT
              IdOperacaoCliente := '1';
              DataInicioViagem := Now;
              DataFimViagem := Now;
-             CodigoNCMNaturezaCarga := 0;
+             CodigoNCMNaturezaCarga := 5501;
              PesoCarga := 10;
              //utilizado somente para as viagens do tipo Padrão
              TipoEmbalagem := tePallet;
@@ -497,16 +498,16 @@ begin
                LatitudeDestino := 0;
                LongitudeDestino := 0;
 
-               Valores.TotalOperacao := 50;
-               Valores.TotalViagem := 50;
-               Valores.TotalDeAdiantamento := 10;
-               Valores.TotalDeQuitacao := 10;
-               Valores.Combustivel := 20;
-               Valores.Pedagio := 10;
-               Valores.OutrosCreditos := 1;
+               Valores.TotalOperacao := 9000;
+               Valores.TotalViagem := 10000;
+               Valores.TotalDeAdiantamento := 0;
+               Valores.TotalDeQuitacao := 0;
+               Valores.Combustivel := 500;
+               Valores.Pedagio := 400;
+               Valores.OutrosCreditos := 0;
                Valores.JustificativaOutrosCreditos := 'Teste';
-               Valores.Seguro := 10;
-               Valores.OutrosDebitos := 1;
+               Valores.Seguro := 100;
+               Valores.OutrosDebitos := 0;
                Valores.JustificativaOutrosDebitos := 'Teste outros Debitos';
 
                TipoPagamento := TransferenciaBancaria;
@@ -558,18 +559,18 @@ begin
              begin
                IdPagamentoCliente := '1';
                DataDeLiberacao := Date;
-               Valor := 10;
+               Valor := 10000;
                TipoPagamento := TransferenciaBancaria; //TransferenciaBancaria(EmissaoGratuita = true); eFRETE (EmissaoGratuita = false)
                Categoria := tcpSemCategoria;//Para os TipoViagem Frota e TAC_Agregado são suportadas as Categorias Frota e SemCategoria. Para o TipoViagem Padrão todas as categorias são suportadas.
                Documento := ''; //Documento relacionado a viagem.
-               IndicadorPagamento := '';
+               IndicadorPagamento := 'AVista';
                CpfCnpjCreditado := '';
                NumeroParcela := 0;
                CodigoPagamento := '';
 
                InformacoesBancarias.InstituicaoBancaria := '756'; //Bancoob
-               InformacoesBancarias.Agencia := '';
-               InformacoesBancarias.Conta := '';
+               InformacoesBancarias.Agencia := '1357';
+               InformacoesBancarias.Conta := '13579';
                InformacoesBancarias.TipoConta := tcContaCorrente;
 
                InformacaoAdicional := '';
@@ -607,18 +608,18 @@ begin
              //Não esperado para TipoViagem Frota.
              with Destinatario do
              begin
-               NomeOuRazaoSocial := '';
-               CpfOuCnpj := '';
+               NomeOuRazaoSocial := 'NOME DESTINATARIO';
+               CpfOuCnpj := '12345678000195';
 
                EMail := '';
                ResponsavelPeloPagamento := False;
 
-               Endereco.Bairro := 'teste';
-               Endereco.Rua := '';
-               Endereco.Numero := '';
-               Endereco.Complemento := '';
-               Endereco.CEP := '';
-               Endereco.CodigoMunicipio := 0;
+               Endereco.Bairro := edtEmitBairro.Text;
+               Endereco.Rua := edtEmitLogradouro.Text;
+               Endereco.Numero := edtEmitNumero.Text;
+               Endereco.Complemento := edtEmitComp.Text;
+               Endereco.CEP := edtEmitCEP.Text;
+               Endereco.CodigoMunicipio := StrToIntDef(edtEmitCodCidade.Text,0);
 
                Telefones.Celular.DDD := 0;
                Telefones.Celular.Numero := 0;
@@ -636,12 +637,12 @@ begin
                CpfOuCnpj := '12345678000195';
 
                EMail := 'teste@teste.com.br';
-               ResponsavelPeloPagamento := False;
+               ResponsavelPeloPagamento := True;
                RNTRC := '12345678';
 
                Endereco.Bairro := 'Bela Vista';
                Endereco.Rua := 'Rua Vitória';
-               Endereco.Numero := '';
+               Endereco.Numero := '123';
                Endereco.Complemento := '';
                Endereco.CEP := '89870000';
                Endereco.CodigoMunicipio := 4212908;
@@ -774,7 +775,7 @@ begin
              // tpConteinerizada, tpCargaGeral, tpNeogranel, tpPerigosaGranelSolido,
              // tpPerigosaGranelLiquido, tpPerigosaCargaFrigorificada,
              // tpPerigosaConteinerizada, tpPerigosaCargaGeral
-             CodigoTipoCarga := tpNaoAplicavel;
+             CodigoTipoCarga := tpCargaGeral;
              AltoDesempenho := True;
              DestinacaoComercial := True;
 
@@ -874,8 +875,8 @@ begin
                NumeroParcela := 0;
 
                InformacoesBancarias.InstituicaoBancaria := '756'; //Bancoob
-               InformacoesBancarias.Agencia := '';
-               InformacoesBancarias.Conta := '';
+               InformacoesBancarias.Agencia := '1357';
+               InformacoesBancarias.Conta := '13579';
                InformacoesBancarias.TipoConta := tcContaCorrente;
 
                InformacaoAdicional := '';
@@ -913,8 +914,8 @@ begin
                NumeroParcela := 0;
 
                InformacoesBancarias.InstituicaoBancaria := '756'; //Bancoob
-               InformacoesBancarias.Agencia := '';
-               InformacoesBancarias.Conta := '';
+               InformacoesBancarias.Agencia := '1357';
+               InformacoesBancarias.Conta := '13579';
                InformacoesBancarias.TipoConta := tcContaCorrente;
 
                InformacaoAdicional := '';
@@ -1067,8 +1068,8 @@ begin
                Documento := ''; //Documento relacionado a viagem.
 
                InformacoesBancarias.InstituicaoBancaria := '756'; //Bancoob
-               InformacoesBancarias.Agencia := '';
-               InformacoesBancarias.Conta := '';
+               InformacoesBancarias.Agencia := '1357';
+               InformacoesBancarias.Conta := '13579';
                InformacoesBancarias.TipoConta := tcContaCorrente;
 
                InformacaoAdicional := '';
@@ -1254,6 +1255,13 @@ begin
 
   ACBrCIOT1.Contratos.Clear;
   ACBrCIOT1.Contratos.LoadFromFile(OpenDialog1.FileName);
+
+  if ACBrCIOT1.Contratos.Count = 0 then
+  begin
+    ShowMessage('Não foram carregados registros');
+    exit;
+  end;
+
   CC := TStringList.Create;
   try
     //CC.Add('email_1@provedor.com'); //especifique um email válido

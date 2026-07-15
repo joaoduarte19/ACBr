@@ -38,6 +38,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/07/2026
+-- Frm_ACBrCIOT --
+[*] ACBR-9243: Ajustes no programa de exemplo com valores válidos na emissão de CIOT
+  Por: Renato Rubinho
+
 06/07/2026
 -- pcnCIOTW_Pamcard.pas --
 [*] ACBr-9369 - Ajustado CNPJ para alfanumericos
