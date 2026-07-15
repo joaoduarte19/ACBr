@@ -14,7 +14,7 @@ object frmStatus: TfrmStatus
   Font.Height = -14
   Font.Name = 'Tahoma'
   Position = poMainFormCenter
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '4.0.0.4'
   object Panel1: TPanel
     Left = 0
     Height = 45
@@ -26,12 +26,13 @@ object frmStatus: TfrmStatus
     ClientHeight = 45
     ClientWidth = 481
     Color = clBlack
+    ParentBackground = False
     ParentColor = False
     TabOrder = 0
     object lbl1: TLabel
-      Left = 0
+      Left = 2
       Height = 21
-      Top = 0
+      Top = 2
       Width = 477
       Align = alTop
       AutoSize = False
@@ -46,15 +47,14 @@ object frmStatus: TfrmStatus
       Transparent = False
     end
     object lblStatus: TLabel
-      Left = 0
+      Left = 2
       Height = 24
-      Top = 17
+      Top = 19
       Width = 477
       Align = alClient
       Color = clGray
       Layout = tlCenter
       ParentColor = False
-      Transparent = False
     end
   end
 end

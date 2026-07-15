@@ -13,7 +13,7 @@ object frmSelecionarCertificado: TfrmSelecionarCertificado
   Font.Height = -14
   Font.Name = 'MS Sans Serif'
   Position = poOwnerFormCenter
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '4.0.0.4'
   object StringGrid1: TStringGrid
     Left = 0
     Height = 192
@@ -33,11 +33,12 @@ object frmSelecionarCertificado: TfrmSelecionarCertificado
     Align = alBottom
     ClientHeight = 56
     ClientWidth = 658
+    ParentBackground = False
     TabOrder = 1
     object BitBtn1: TBitBtn
-      Left = 378
+      Left = 380
       Height = 38
-      Top = 4
+      Top = 6
       Width = 110
       Anchors = [akTop, akRight]
       Kind = bkCancel
@@ -45,13 +46,12 @@ object frmSelecionarCertificado: TfrmSelecionarCertificado
       TabOrder = 0
     end
     object BitBtn2: TBitBtn
-      Left = 518
+      Left = 520
       Height = 38
-      Top = 4
+      Top = 6
       Width = 110
       Anchors = [akTop, akRight]
       Kind = bkOK
-      ModalResult = 1
       NumGlyphs = 2
       TabOrder = 1
     end

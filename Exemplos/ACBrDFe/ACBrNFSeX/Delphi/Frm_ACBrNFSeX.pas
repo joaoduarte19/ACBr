@@ -733,7 +733,7 @@ begin
       Servico.Valores.tribMun.tpImunidade := timNenhum;
       Servico.Valores.tribMun.tpRetISSQN := trNaoRetido;
 
-      Servico.Valores.tribMun.pAliq := 3;
+      Servico.Valores.tribMun.pAliq := 0;
 
       Servico.Valores.totTrib.indTotTrib := indNao;
       Servico.Valores.totTrib.vTotTribFed := 0;
@@ -1114,9 +1114,6 @@ begin
            proSimple, proSmarAPD, proWebFisco, proBauhaus, proeISS, proISSCampinas,
            proSmart4, proSoftPlan, proXTRTecnologia] then
       begin
-        Servico.Valores.Aliquota := 4.54;
-        Servico.Valores.ValorServicos := 0;
-
         // Provedor Infisc
         Servico.Valores.totalAproxTrib := 0;
 
@@ -2576,6 +2573,10 @@ begin
         proElotech:
           // código padrão ABRASF acrescido de um sub-item
           Servico.ItemListaServico := '09.01.01';
+
+        proFuturize:
+          Servico.ItemListaServico := '090101';
+
         proISSNatal:
           Servico.ItemListaServico := '090101';
       else
@@ -2855,7 +2856,7 @@ begin
           }
 
           dtEmiDoc := Date;
-          dtCompDoc := Date;
+          dtCompDoc := Now;
           // trrr01, trrr02, trrr03, trrr04, trrr99
           tpReeRepRes := trrr99;
           // Informar a descrição se o tipo for trrr99.
@@ -5054,8 +5055,8 @@ begin
   if sAlimentar = '1' then
   begin
     ACBrNFSeX1.NotasFiscais.Clear;
-//    Alimentar_Componente(vNumRPS, vNumLote);
-    Alimentar_Componente_layout_Unico(vNumRPS, vNumLote);
+    Alimentar_Componente(vNumRPS, vNumLote);
+//    Alimentar_Componente_layout_Unico(vNumRPS, vNumLote);
   end;
 
   ArqINI := TStringList.Create;
@@ -6683,6 +6684,7 @@ begin
                 memoLog.Lines.Add('Situação Lote : ' + Situacao);
                 memoLog.Lines.Add('ID Nota       : ' + idNota);
                 memoLog.Lines.Add('ID Rps        : ' + idRps);
+                memoLog.Lines.Add('Código Verif. : ' + CodigoVerificacao);
                 memoLog.Lines.Add('Sucesso       : ' + BoolToStr(Sucesso, True));
 
                 ListaDeResumos(Resumos, tmConsultarLote);
@@ -7174,7 +7176,7 @@ begin
     if ACBrNFSeX1.NotasFiscais.Items[i].NomeArq <> '' then
     begin
       memoLog.Lines.Add('Nome do arquivo.: ' + ACBrNFSeX1.Configuracoes.Arquivos.GetPathNFSe() + '\' +
-                                               ACBrNFSeX1.NotasFiscais.Items[i].NomeArq);
+                                               ExtractFileName(ACBrNFSeX1.NotasFiscais.Items[i].NomeArq));
       if ACBrNFSeX1.Configuracoes.Arquivos.Salvar then
         memoLog.Lines.Add('==> Xml da nota salvo na pasta e com o nome informado acima.')
       else
