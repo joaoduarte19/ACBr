@@ -47,6 +47,7 @@ uses
   RLFilters,
   RLPDFFilter,
   RLReport,
+  jpeg,
   ACBrDelphiZXingQRCode,
   ACBrDFe.Conversao,
   ACBrNFSeXConversao,
@@ -298,6 +299,7 @@ type
     RLSystemInfo1: TRLSystemInfo;
     RLLabel62: TRLLabel;
     RLSystemInfo2: TRLSystemInfo;
+    imgQRCode: TRLImage;
 
     procedure RLNFSeBeforePrint(Sender: TObject; var PrintIt: Boolean);
 
@@ -359,6 +361,7 @@ uses
   ACBrNFSeXInterface,
   ACBrNFSeXLerXml,
   ACBrValidador,
+  ACBrImage,
   ACBrDFeReportFortes;
 
 {$IFNDEF FPC}
@@ -415,9 +418,6 @@ begin
   rllNumNF0.Caption := fpNFSe.Numero;
   rllNumeroDPS.Caption := fpNFSe.IdentificacaoRps.Numero;
 
-  // Exibe canhoto
-  rlbCanhoto.Visible := fpDANFSe.ImprimeCanhoto;
-
   case fpNFSe.tpEmit of
     tePrestador: rllEmitente.Caption := ACBrStr('Prestador do Serviço');
     teTomador: rllEmitente.Caption := ACBrStr('Tomador do Serviço');
@@ -435,43 +435,7 @@ begin
   rllFinalidade.Caption := finNFSeToStrText(fpNFSe.IBSCBS.finNFSe);
 
   if fpNFSe.Link <> '' then
-  begin
-    rlImgQrCode := TRLImage.Create(rlbBanda02_Ide_NFSe);
-    rlImgQrCode.Parent := rlbBanda02_Ide_NFSe;
-    rlImgQrCode.Stretch := True;
-    rlImgQrCode.AutoSize := False;
-    rlImgQrCode.Center := True;
-    rlImgQrCode.SetBounds(720, 3, 77, 77);
-    rlImgQrCode.BringToFront;
-
-    QRCodeData := fpNFSe.Link;
-    QrCode := TDelphiZXingQRCode.Create;
-    QrCodeBitmap := TBitmap.Create;
-    try
-      QrCode.Encoding := qrUTF8NoBOM;
-      QrCode.QuietZone := 1;
-      QrCode.Data := WideString(QRCodeData);
-
-      QrCodeBitmap.Width := QrCode.Columns;
-      QrCodeBitmap.Height := QrCode.Rows;
-
-      for Row := 0 to QrCode.Rows - 1 do
-      begin
-        for Column := 0 to QrCode.Columns - 1 do
-        begin
-          if (QrCode.IsBlack[Row, Column]) then
-            QrCodeBitmap.Canvas.Pixels[Column, Row] := clBlack
-          else
-            QrCodeBitmap.Canvas.Pixels[Column, Row] := clWhite;
-        end;
-      end;
-
-      rlImgQrCode.Picture.Bitmap.Assign(QrCodeBitmap);
-    finally
-      QrCode.Free;
-      QrCodeBitmap.Free;
-    end;
-  end;
+    PintarQRCode(fpNFSe.Link, imgQRCode.Picture.Bitmap, qrUTF8NoBOM);
 end;
 
 procedure TfrlXDANFSeRLPadraoNacional.rlbBanda03_EmitenteBeforePrint(
@@ -1150,6 +1114,7 @@ procedure TfrlXDANFSeRLPadraoNacional.rlbCanhotoBeforePrint(Sender: TObject;
 begin
   inherited;
 
+  PrintIt := fpDANFSe.ImprimeCanhoto;
   rllNumNFSe.Caption := fpNFSe.Numero;
   rllNumChave.Caption := fpNFSe.CodigoVerificacao;
 end;
