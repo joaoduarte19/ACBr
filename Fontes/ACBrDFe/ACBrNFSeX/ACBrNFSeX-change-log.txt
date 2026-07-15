@@ -44,6 +44,9 @@ Símbolo : Significado
 
 15/07/2026
 -- ACBrNFSeXDANFSeRLPadraoNacional --
+[-] Corrigido o calculo do Valor Liquido mais o IBS/CBS.
+   Por: Innovae Brasil Engenharia
+-- ACBrNFSeXDANFSeRLPadraoNacional --
 [*] Ajustes no quadro de informações complementares visando imprimir dados sobre
     a obra, imóvel, evento caso venha ter essas informações no XML.
    Por: Italo Giurizzato Junior
