@@ -813,6 +813,8 @@ end;
 
 procedure TfrlXDANFSeRLPadraoNacional.rlbBanda11_TributacaoFederalBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
+var
+  lValor: Double;
 begin
   inherited;
 
@@ -821,23 +823,47 @@ begin
   else
     rllValorIRRF.Caption := '-';
 
-  if fpNFSe.Servico.Valores.tribFed.vPis > 0 then
-    rllValorPIS.Caption := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.tribFed.vPis)
-  else
-    rllValorPIS.Caption := '-';
-
   if fpNFSe.Servico.Valores.tribFed.vRetCP > 0 then
     rllValorCP.Caption := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.tribFed.vRetCP)
   else
     rllValorCP.Caption := '-';
 
-  if fpNFSe.Servico.Valores.tribFed.vCofins > 0 then
-    rllValorCOFINS.Caption := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.tribFed.vCofins)
+  { Quando tpRetPisCofins = 1 (PIS/COFINS Retido), este campo retornará 0,00 (zero).
+    Nos demais casos, o campo retornará o valor informado em vPis. }
+  if fpNFSe.Servico.Valores.tribFed.tpRetPisCofins = trpcRetido then
+    lValor := 0
+  else
+    lValor := fpNFSe.Servico.Valores.tribFed.vPis;
+
+  if lValor > 0 then
+    rllValorPIS.Caption := 'R$ ' + FormatFloatBr(lValor)
+  else
+    rllValorPIS.Caption := '-';
+
+  { Quando tpRetPisCofins = 1 (PIS/COFINS Retido), este campo retornará 0,00 (zero).
+    Nos demais casos, o campo retornará o valor informado em vCofins. }
+  if fpNFSe.Servico.Valores.tribFed.tpRetPisCofins = trpcRetido then
+    lValor := 0
+  else
+    lValor := fpNFSe.Servico.Valores.tribFed.vCofins;
+
+  if lValor > 0 then
+    rllValorCOFINS.Caption := 'R$ ' + FormatFloatBr(lValor)
   else
     rllValorCOFINS.Caption := '-';
 
-  if fpNFSe.Servico.Valores.tribFed.vRetCSLL > 0 then
-    rllValorCSLL.Caption := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.tribFed.vRetCSLL)
+  { Quando tpRetPisCofins = 1 (PIS/COFINS Retido), este campo retornará o somatório dos valores
+    informados nos campos vRetCSLL, vPis e vCofins. Nos demais casos, o campo retornará o
+    valor informado em vRetCSLL. }
+  if fpNFSe.Servico.Valores.tribFed.tpRetPisCofins = trpcRetido then
+    lValor := fpNFSe.Servico.Valores.tribFed.vRetCSLL +
+              fpNFSe.Servico.Valores.tribFed.vPis +
+              fpNFSe.Servico.Valores.tribFed.vCofins
+  else
+    lValor := fpNFSe.Servico.Valores.tribFed.vRetCSLL;
+
+  if lValor > 0 then
+    rllValorCSLL.Caption := 'R$ ' + FormatFloatBr(lValor)
   else
     rllValorCSLL.Caption := '-';
 
@@ -1016,66 +1042,81 @@ end;
 procedure TfrlXDANFSeRLPadraoNacional.rlbBanda14_InformacoesComplementaresBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
 var
-  LTributosFederais, LTributosEstaduais, LTributosMunicipais: string;
+  LInform, LTributosFederais, LTributosEstaduais, LTributosMunicipais: string;
 begin
   inherited;
 
   rlmDadosAdicionais.Lines.BeginUpdate;
   rlmDadosAdicionais.Lines.Clear;
 
+  // ********** NBS
   if fpNFSe.Servico.CodigoNBS <> '' then
     rlmDadosAdicionais.Lines.Add(ACBrStr('NBS: ') + fpNFSe.Servico.CodigoNBS);
 
-  if fpDANFSe.OutrasInformacaoesImp <> '' then
-    rlmDadosAdicionais.Lines.Add(StringReplace(fpDANFSe.OutrasInformacaoesImp,
-                                       FQuebradeLinha, #13#10, [rfReplaceAll]));
-
-  if fpNFSe.OutrasInformacoes <> '' then
-    rlmDadosAdicionais.Lines.Add(StringReplace(fpNFSe.OutrasInformacoes,
-                                       FQuebradeLinha, #13#10, [rfReplaceAll]));
-
-  if fpNFSe.InformacoesComplementares <> '' then
-    rlmDadosAdicionais.Lines.Add(StringReplace(fpNFSe.InformacoesComplementares,
-                                       FQuebradeLinha, #13#10, [rfReplaceAll]));
-
-  if (fpNFSe.Servico.Valores.totTrib.vTotTribFed > 0) or
-     (fpNFSe.Servico.Valores.totTrib.vTotTribEst > 0) or
-     (fpNFSe.Servico.Valores.totTrib.vTotTribMun > 0) or
-     (fpNFSe.Servico.Valores.totTrib.pTotTribFed > 0) or
-     (fpNFSe.Servico.Valores.totTrib.pTotTribEst > 0) or
-     (fpNFSe.Servico.Valores.totTrib.pTotTribMun > 0) then
+  // ********** Imovel
+  if (fpNFSe.IBSCBS.imovel.cCIB <> '') or (fpNFSe.IBSCBS.imovel.inscImobFisc <> '') then
   begin
-    if fpNFSe.Servico.Valores.totTrib.vTotTribFed > 0 then
-      LTributosFederais := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.totTrib.vTotTribFed)
-    else if fpNFSe.Servico.Valores.totTrib.pTotTribFed > 0 then
-      LTributosFederais := FormatFloatBr(fpNFSe.Servico.Valores.totTrib.pTotTribFed) + ' %'
-    else
-      LTributosFederais := 'R$ ' + FormatFloatBr(0);
-
-    if fpNFSe.Servico.Valores.totTrib.vTotTribEst > 0 then
-      LTributosEstaduais := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.totTrib.vTotTribEst)
-    else if fpNFSe.Servico.Valores.totTrib.pTotTribEst > 0 then
-      LTributosEstaduais := FormatFloatBr(fpNFSe.Servico.Valores.totTrib.pTotTribEst) + ' %'
-    else
-      LTributosEstaduais := 'R$ ' + FormatFloatBr(0);
-
-    if fpNFSe.Servico.Valores.totTrib.vTotTribMun > 0 then
-      LTributosMunicipais := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.totTrib.vTotTribMun)
-    else if fpNFSe.Servico.Valores.totTrib.pTotTribMun > 0 then
-      LTributosMunicipais := FormatFloatBr(fpNFSe.Servico.Valores.totTrib.pTotTribMun) + ' %'
-    else
-      LTributosMunicipais := 'R$ ' + FormatFloatBr(0);
-
-    rlmDadosAdicionais.Lines.Add(ACBrStr('Totais Aproximados dos Tributos cfe. Lei n. 12.741/2012:') +
-      ' Federais: ' + LTributosFederais +
-      ' Estaduais: ' + LTributosEstaduais +
-      ' Municipais: ' + LTributosMunicipais);
+    LInform := 'Cod. CIB: ' + fpNFSe.IBSCBS.imovel.cCIB + FQuebradeLinha +
+               'Insc. Imob.: ' + fpNFSe.IBSCBS.imovel.inscImobFisc;
+    rlmDadosAdicionais.Lines.Add(StringReplace(LInform,
+                                       FQuebradeLinha, #13#10, [rfReplaceAll]));
   end;
 
-//  if fpNFSe.Servico.Valores.RetencoesFederais > 0 then
-//    rllValorTotalTribFed.Caption := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.RetencoesFederais)
-//  else
-//    rllValorTotalTribFed.Caption := '-';
+  // ********** Obra
+  if (fpNFSe.ConstrucaoCivil.CodigoObra <> '') or (fpNFSe.ConstrucaoCivil.inscImobFisc <> '') then
+  begin
+    LInform := 'Cod. Obra: ' + fpNFSe.ConstrucaoCivil.CodigoObra + FQuebradeLinha +
+               'Insc. Imob.: ' + fpNFSe.ConstrucaoCivil.inscImobFisc;
+    rlmDadosAdicionais.Lines.Add(StringReplace(LInform,
+                                       FQuebradeLinha, #13#10, [rfReplaceAll]));
+  end;
+
+  // ********** Atividade de Evento
+  if fpNFSe.Servico.Evento.idAtvEvt <> '' then
+  begin
+    LInform := 'Cod. Evt.: ' + fpNFSe.Servico.Evento.idAtvEvt;
+    rlmDadosAdicionais.Lines.Add(LInform);
+  end;
+
+  // ********** Informações Complementares
+
+  if (fpDANFSe.OutrasInformacaoesImp <> '') or (fpNFSe.OutrasInformacoes <> '') or
+     (fpNFSe.InformacoesComplementares <> '') then
+  begin
+    LInform := ACBrStr(fpDANFSe.OutrasInformacaoesImp + FQuebradeLinha +
+               fpNFSe.OutrasInformacoes + FQuebradeLinha +
+               fpNFSe.InformacoesComplementares);
+    LInform := 'Inf. Compl.: ' + LInform;
+    rlmDadosAdicionais.Lines.Add(StringReplace(LInform,
+                                       FQuebradeLinha, #13#10, [rfReplaceAll]));
+  end;
+
+  // ********** Totais Aproximados dos Tributos (Obrigatório)
+  if fpNFSe.Servico.Valores.totTrib.vTotTribFed > 0 then
+    LTributosFederais := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.totTrib.vTotTribFed)
+  else if fpNFSe.Servico.Valores.totTrib.pTotTribFed > 0 then
+    LTributosFederais := FormatFloatBr(fpNFSe.Servico.Valores.totTrib.pTotTribFed) + ' %'
+  else
+    LTributosFederais := 'R$ ' + FormatFloatBr(0);
+
+  if fpNFSe.Servico.Valores.totTrib.vTotTribEst > 0 then
+    LTributosEstaduais := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.totTrib.vTotTribEst)
+  else if fpNFSe.Servico.Valores.totTrib.pTotTribEst > 0 then
+    LTributosEstaduais := FormatFloatBr(fpNFSe.Servico.Valores.totTrib.pTotTribEst) + ' %'
+  else
+    LTributosEstaduais := 'R$ ' + FormatFloatBr(0);
+
+  if fpNFSe.Servico.Valores.totTrib.vTotTribMun > 0 then
+    LTributosMunicipais := 'R$ ' + FormatFloatBr(fpNFSe.Servico.Valores.totTrib.vTotTribMun)
+  else if fpNFSe.Servico.Valores.totTrib.pTotTribMun > 0 then
+    LTributosMunicipais := FormatFloatBr(fpNFSe.Servico.Valores.totTrib.pTotTribMun) + ' %'
+  else
+    LTributosMunicipais := 'R$ ' + FormatFloatBr(0);
+
+  rlmDadosAdicionais.Lines.Add(ACBrStr('Totais Aproximados dos Tributos cfe. Lei n. 12.741/2012:') +
+    ' Federais: ' + LTributosFederais +
+    ' Estaduais: ' + LTributosEstaduais +
+    ' Municipais: ' + LTributosMunicipais);
 
   rlmDadosAdicionais.Lines.EndUpdate;
 
@@ -1090,10 +1131,14 @@ begin
     rllMsgTeste.Enabled := True;
   end;
 
-  rllMsgTeste.Repaint;
+  if fpNFSe.subst.chSubstda <> '' then
+  begin
+    rllMsgTeste.Caption := ACBrStr('NFS-e SUBSTITUÍDA');
+    rllMsgTeste.Visible := True;
+    rllMsgTeste.Enabled := True;
+  end;
 
-  // Exibe canhoto
-//  rlbCanhoto.Visible := fpDANFSe.ImprimeCanhoto;
+  rllMsgTeste.Repaint;
 end;
 
 procedure TfrlXDANFSeRLPadraoNacional.rlbBanda16_SistemaBeforePrint(

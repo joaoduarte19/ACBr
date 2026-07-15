@@ -44,6 +44,10 @@ Símbolo : Significado
 
 15/07/2026
 -- ACBrNFSeXDANFSeRLPadraoNacional --
+[*] Ajustes no quadro de informações complementares visando imprimir dados sobre
+    a obra, imóvel, evento caso venha ter essas informações no XML.
+   Por: Italo Giurizzato Junior
+-- ACBrNFSeXDANFSeRLPadraoNacional --
 [*] Ajustes nos tamanhos e fontes para deixar em conformidade com a NT 008.
    Por: Helius_ERP
 [*] Alterado a forma de gerar o QR-Code no DANFSE, visando deixar ele na
