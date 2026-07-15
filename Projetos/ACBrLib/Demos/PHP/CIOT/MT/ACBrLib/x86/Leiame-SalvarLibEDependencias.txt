@@ -1,0 +1,1 @@
+Salve nesta pasta a ACBrCIOT32.dll MT e as dependências para x86.

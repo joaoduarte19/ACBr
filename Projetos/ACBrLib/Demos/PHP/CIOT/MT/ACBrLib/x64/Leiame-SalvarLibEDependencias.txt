@@ -1,0 +1,1 @@
+Salve nesta pasta a ACBrCIOT64.dll MT e as dependências para x64.
