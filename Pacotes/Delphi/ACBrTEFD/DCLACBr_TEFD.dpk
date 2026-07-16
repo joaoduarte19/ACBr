@@ -37,8 +37,7 @@ requires
   vclimg,
   {$ENDIF}
   ACBr_TEFD,
-  designide,
-  ACBr_TCP;
+  designide;
 
 contains
   ACBrTEFDReg in '..\..\..\Fontes\ACBrTEFD\ACBrTEFDReg.pas';

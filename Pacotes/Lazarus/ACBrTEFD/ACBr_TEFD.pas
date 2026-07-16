@@ -21,7 +21,7 @@ uses
   ACBrTEFDirectPinAPI, ACBrTEFSmartTEFAPI, ACBrTEFSmartTEFInterface, 
   ACBrTEFSmartTEFSchemas, ACBrTEFTXTComum, ACBrTEFTXTGerenciadorPadrao, 
   ACBrTEFAPITXT, ACBrTEFTXTPayGo, ACBrTEFAPIElgin, ACBrTEFAPIElginComum, 
-  LazarusPackageIntf;
+  ACBrTEFAPIAuttar, ACBrTEFAuttarAPI, LazarusPackageIntf;
 
 implementation
 

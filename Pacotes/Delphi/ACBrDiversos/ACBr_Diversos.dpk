@@ -34,7 +34,8 @@ requires
   rtl,
   vcl,
   ACBr_Comum,
-  ACBr_OpenSSL;
+  ACBr_OpenSSL,
+  ACBr_LibXML2;
 
 contains
   ACBrExtenso in '..\..\..\Fontes\ACBrDiversos\ACBrExtenso.pas',
