@@ -39,6 +39,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/07/2026
+-- ACBrDFe.RTC.Classes/ACBrDFe.RTC.IniReader/ACBrDFe.RTC.IniWriter --
+-- ACBrDFe.RTC.XmlReader/ACBrDFe.RTC.XmlWriter --
+[*] Ajustes para a NFe e NFGas referente ao Pagamento Antecipado.
+   Por: Italo Giurizzato Junior
+
 14/07/2026
 -- ACBrNF3e --
 [*] ACBR-9369 - Implementação CNPJ Alfanumérico para a NF3e

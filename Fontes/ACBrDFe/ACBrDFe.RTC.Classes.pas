@@ -49,28 +49,40 @@ uses
 
 type
 
-  { TgPagAntecipadoCollectionItem }
+  { TrefDFePagAntCollectionItem }
 
-  TgPagAntecipadoCollectionItem = class(TObject)
+  TrefDFePagAntCollectionItem = class(TObject)
   private
-    FrefNFe: string;
+    FrefDFEChave: string;
   public
-    procedure Assign(Source: TgPagAntecipadoCollectionItem);
+    procedure Assign(Source: TrefDFePagAntCollectionItem);
 
-    property refNFe: string read FrefNFe write FrefNFe;
+    property refDFEChave: string read FrefDFEChave write FrefDFeChave;
   end;
 
-  { TgPagAntecipadoCollection }
+  { TrefDFePagAntCollection }
 
-  TgPagAntecipadoCollection = class(TACBrObjectList)
+  TrefDFePagAntCollection = class(TACBrObjectList)
   private
-    function GetItem(Index: Integer): TgPagAntecipadoCollectionItem;
-    procedure SetItem(Index: Integer; Value: TgPagAntecipadoCollectionItem);
+    function GetItem(Index: Integer): TrefDFePagAntCollectionItem;
+    procedure SetItem(Index: Integer; Value: TrefDFePagAntCollectionItem);
   public
-    procedure Assign(Source: TgPagAntecipadoCollection); reintroduce;
-    function Add: TgPagAntecipadoCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
-    function New: TgPagAntecipadoCollectionItem;
-    property Items[Index: Integer]: TgPagAntecipadoCollectionItem read GetItem write SetItem; default;
+    function New: TrefDFePagAntCollectionItem;
+    property Items[Index: Integer]: TrefDFePagAntCollectionItem read GetItem write SetItem; default;
+  end;
+
+  { TgPagAntecipado }
+
+  TgPagAntecipado = class(TObject)
+  private
+    FrefNFe: TrefDFePagAntCollection;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure Assign(Source: TgPagAntecipado);
+
+    property refNFe: TrefDFePagAntCollection read FrefNFe write FrefNFe;
   end;
 
   { TrefDFeCollectionItem }
@@ -913,48 +925,6 @@ type
 
 implementation
 
-{ TgPagAntecipadoCollectionItem }
-
-procedure TgPagAntecipadoCollectionItem.Assign(
-  Source: TgPagAntecipadoCollectionItem);
-begin
-  refNFe := Source.refNFe;
-end;
-
-{ TgPagAntecipadoCollection }
-
-function TgPagAntecipadoCollection.Add: TgPagAntecipadoCollectionItem;
-begin
-  Result := Self.New;
-end;
-
-procedure TgPagAntecipadoCollection.Assign(Source: TgPagAntecipadoCollection);
-var
-  I: Integer;
-begin
-  Self.Clear;
-  for I := 0 to Source.Count - 1 do
-    Self.New.Assign(Source.Items[I]);
-end;
-
-function TgPagAntecipadoCollection.GetItem(
-  Index: Integer): TgPagAntecipadoCollectionItem;
-begin
-  Result := TgPagAntecipadoCollectionItem(inherited Items[Index]);
-end;
-
-function TgPagAntecipadoCollection.New: TgPagAntecipadoCollectionItem;
-begin
-  Result := TgPagAntecipadoCollectionItem.Create;
-  Self.Add(Result);
-end;
-
-procedure TgPagAntecipadoCollection.SetItem(Index: Integer;
-  Value: TgPagAntecipadoCollectionItem);
-begin
-  inherited Items[Index] := Value;
-end;
-
 { TgCompraGovReduzido }
 
 procedure TgCompraGovReduzido.Assign(Source: TgCompraGovReduzido);
@@ -1603,6 +1573,55 @@ begin
   vBCMonoReten := Source.vBCMonoReten;
   pAliqMonoReten := Source.pAliqMonoReten;
   vCBSMonoReten := Source.vCBSMonoReten;
+end;
+
+{ TgPagAntecipado }
+
+procedure TgPagAntecipado.Assign(Source: TgPagAntecipado);
+begin
+  refNFe.Assign(Source.refNFe);
+end;
+
+constructor TgPagAntecipado.Create;
+begin
+  inherited Create;
+
+  FrefNFe := TrefDFePagAntCollection.Create;
+end;
+
+destructor TgPagAntecipado.Destroy;
+begin
+  FrefNFe.Free;
+
+  inherited Destroy;
+end;
+
+{ TrefDFePagAntCollection }
+
+function TrefDFePagAntCollection.GetItem(
+  Index: Integer): TrefDFePagAntCollectionItem;
+begin
+  Result := TrefDFePagAntCollectionItem(inherited Items[Index]);
+end;
+
+function TrefDFePagAntCollection.New: TrefDFePagAntCollectionItem;
+begin
+  Result := TrefDFePagAntCollectionItem.Create;
+  Self.Add(Result);
+end;
+
+procedure TrefDFePagAntCollection.SetItem(Index: Integer;
+  Value: TrefDFePagAntCollectionItem);
+begin
+  inherited Items[Index] := Value;
+end;
+
+{ TrefDFePagAntCollectionItem }
+
+procedure TrefDFePagAntCollectionItem.Assign(
+  Source: TrefDFePagAntCollectionItem);
+begin
+  refDFEChave := Source.refDFEChave;
 end;
 
 end.

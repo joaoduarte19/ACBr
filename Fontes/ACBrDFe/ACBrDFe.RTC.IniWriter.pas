@@ -93,7 +93,7 @@ type
 
     // Usado pela NF-e
     procedure Gerar_gCompraGov(AINIRec: TMemIniFile; gCompraGov: TgCompraGov);
-    procedure Gerar_gPagAntecipado(AINIRec: TMemIniFile; gPagAntecipado: TgPagAntecipadoCollection);
+    procedure Gerar_gPagAntecipado(AINIRec: TMemIniFile; gPagAntecipado: TgPagAntecipado);
 
     procedure Gerar_ISel(AINIRec: TMemIniFile; ISel: TgIS; Idx: Integer);
 
@@ -638,18 +638,15 @@ begin
 end;
 
 procedure TDFeRTCIniWriter.Gerar_gPagAntecipado(AINIRec: TMemIniFile;
-  gPagAntecipado: TgPagAntecipadoCollection);
+  gPagAntecipado: TgPagAntecipado);
 var
   I: Integer;
   sSecao: string;
 begin
-  for I := 0 to gPagAntecipado.Count - 1 do
+  for I := 0 to gPagAntecipado.refNFe.Count - 1 do
   begin
-    with gPagAntecipado[I] do
-    begin
-      sSecao := 'gPagAntecipado' + IntToStrZero(I + 1, 2);
-      AINIRec.WriteString(sSecao, 'refNFe', refNFe);
-    end;
+    sSecao := 'gPagAntecipado' + IntToStrZero(I + 1, 2);
+    AINIRec.WriteString(sSecao, 'refNFe', gPagAntecipado.refNFe[I].refDFEChave);
   end;
 end;
 

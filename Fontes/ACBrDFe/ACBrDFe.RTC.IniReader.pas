@@ -78,7 +78,7 @@ type
 
     // Usado pela NF-e
     procedure Ler_gCompraGov(AINIRec: TMemIniFile; gCompraGov: TgCompraGov);
-    procedure Ler_gPagAntecipado(AINIRec: TMemIniFile; gPagAntecipado: TgPagAntecipadoCollection);
+    procedure Ler_gPagAntecipado(AINIRec: TMemIniFile; gPagAntecipado: TgPagAntecipado);
 
     procedure Ler_ISel(AINIRec: TMemIniFile; ISel: TgIS; Idx: Integer);
 
@@ -542,10 +542,11 @@ begin
   gCompraGov.tpOperGov := StrTotpOperGov(AINIRec.ReadString('gCompraGov', 'tpOperGov', ''));
 end;
 
-procedure TDFeRTCIniReader.Ler_gPagAntecipado(AINIRec: TMemIniFile; gPagAntecipado: TgPagAntecipadoCollection);
+procedure TDFeRTCIniReader.Ler_gPagAntecipado(AINIRec: TMemIniFile; gPagAntecipado: TgPagAntecipado);
 var
   I: Integer;
   sSecao, sFim: string;
+  Item: TrefDFePagAntCollectionItem;
 begin
   I := 1;
   while true do
@@ -555,10 +556,9 @@ begin
     if (sFim = 'FIM') or (Length(sFim) <= 0) then
       break;
 
-    with gPagAntecipado.New do
-    begin
-      refNFe := sFim;
-    end;
+    Item := gPagAntecipado.refNFe.New;
+
+    Item.refDFEChave := sFim;
 
     Inc(I);
   end;
