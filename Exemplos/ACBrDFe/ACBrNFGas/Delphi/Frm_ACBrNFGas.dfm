@@ -94,7 +94,7 @@ object frmACBrNFGas: TfrmACBrNFGas
           Top = 0
           Width = 287
           Height = 476
-          ActivePage = TabSheet4
+          ActivePage = TabSheet12
           Align = alClient
           MultiLine = True
           TabOrder = 0
