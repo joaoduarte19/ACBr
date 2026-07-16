@@ -890,6 +890,8 @@ begin
         SubCampos.Clear;
         SubCampos.ValueInfo[SC_ES_IDENTIFICADOR_CONSULTA] := NsuCTF;
         ExecutarTransacaoCTF(Operacao, ValorPagto,  NumDocto, DataFiscal, NumTransacao, DadosAdicionais);
+
+        ExibirQRCodeCTF('');  // Limpa o QRCode
       end;
     end;
   end;

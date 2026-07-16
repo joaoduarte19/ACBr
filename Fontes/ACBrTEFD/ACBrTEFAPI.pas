@@ -68,8 +68,8 @@ type
                       tefTPag,
                       tefEquals,
                       tefDirectPin,
-                      tefTXT{,
-                      tefAuttar} );
+                      tefTXT,
+                      tefAuttar );
 
   TACBrTEFAPIExibicaoQRCode = ( qrapiNaoSuportado,
                                 qrapiAuto,
@@ -304,8 +304,8 @@ uses
   ACBrTEFAPITPag,
   ACBrTEFAPIPayKit,
   ACBrTEFAPIDirectPin,
-  ACBrTEFAPITXT{,
-  ACBrTEFAPIAuttar};
+  ACBrTEFAPITXT,
+  ACBrTEFAPIAuttar;
 
 { TACBrTEFAPIClass }
 
@@ -685,7 +685,7 @@ begin
     tefEquals      : fpTEFAPIClass := TACBrTEFAPIClassPayKit.Create( Self );
     tefDirectPin   : fpTEFAPIClass := TACBrTEFAPIDirectPin.Create( Self );
     tefTXT         : fpTEFAPIClass := TACBrTEFAPIClassTXT.Create( Self );
-    //tefAuttar      : fpTEFAPIClass := TACBrTEFAPIClassAuttar.Create( Self );
+    tefAuttar      : fpTEFAPIClass := TACBrTEFAPIClassAuttar.Create( Self );
   else
     fpTEFAPIClass := TACBrTEFAPIClass.Create( Self );
   end;
