@@ -76,7 +76,7 @@ type
     procedure Ler_Prod(const ANode: TACBrXmlNode; Prod: TProd);
     procedure Ler_gMedicao(const ANode: TACBrXmlNode; gMedicao: TgMedicao);
     procedure Ler_gMedida(const ANode: TACBrXmlNode; gMedida: TgMedida);
-    procedure Ler_gPagAntecipado(const ANode: TACBrXmlNode; gPagAntecipado: TgPagAntecipado);
+    procedure Ler_gPagAntecipado(const ANode: TACBrXmlNode; gPagAntecipado: TgPagAntecipadoNFGas);
 
     procedure Ler_Imposto(const ANode: TACBrXmlNode; Imposto: TImposto);
     procedure Ler_ICMS(const ANode: TACBrXmlNode; ICMS: TICMS);
@@ -572,7 +572,7 @@ begin
 end;
 
 procedure TNFGasXmlReader.Ler_gPagAntecipado(const ANode: TACBrXmlNode;
-  gPagAntecipado: TgPagAntecipado);
+  gPagAntecipado: TgPagAntecipadoNFGas);
 begin
   if not Assigned(ANode) then
     Exit;

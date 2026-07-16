@@ -65,7 +65,7 @@ type
 
     procedure Gerar_Det(AINIRec: TMemIniFile; Det: TDetCollection);
     procedure Gerar_gMedicao(AINIRec: TMemIniFile; gMedicao: TgMedicao; DetIndex: Integer);
-    procedure Gerar_gPagAntecipado(AINIRec: TMemIniFile; gPagAntecipado: TgPagAntecipado; DetIndex: Integer);
+    procedure Gerar_gPagAntecipado(AINIRec: TMemIniFile; gPagAntecipado: TgPagAntecipadoNFGas; DetIndex: Integer);
     procedure Gerar_gTarif(AINIRec: TMemIniFile; gTarif: TgTarifCollection; DetIndex: Integer);
     procedure Gerar_gAgregadora(AINIRec: TMemIniFile; gAgregadora: TgAgregadora; DetIndex: Integer);
 
@@ -399,7 +399,7 @@ begin
 end;
 
 procedure TNFGasIniWriter.Gerar_gPagAntecipado(AINIRec: TMemIniFile;
-  gPagAntecipado: TgPagAntecipado; DetIndex: Integer);
+  gPagAntecipado: TgPagAntecipadoNFGas; DetIndex: Integer);
 var
   Secao: string;
 begin

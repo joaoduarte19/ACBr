@@ -397,14 +397,14 @@ type
     property xMotNaoLeitura: string read FxMotNaoLeitura write FxMotNaoLeitura;
   end;
 
-  { TgMedicao }
+  { TgPagAntecipadoNFGas }
 
-  TgPagAntecipado = class(TObject)
+  TgPagAntecipadoNFGas = class(TObject)
   private
     FchDFePagAnt: string;
     FnItemPagAnt: Integer;
   public
-    procedure Assign(Source: TgPagAntecipado);
+    procedure Assign(Source: TgPagAntecipadoNFGas);
 
     property chDFePagAnt: string read FchDFePagAnt write FchDFePagAnt;
     property nItemPagAnt: Integer read FnItemPagAnt write FnItemPagAnt;
@@ -429,7 +429,7 @@ type
     FfatorT: Double;
     FvProd: Double;
     FindDevolucao: TIndicador;
-    FgPagAntecipado: TgPagAntecipado;
+    FgPagAntecipado: TgPagAntecipadoNFGas;
   public
     constructor Create;
     destructor Destroy; override;
@@ -451,7 +451,7 @@ type
     property fatorT: Double read FfatorT write FfatorT;
     property vProd: Double read FvProd write FvProd;
     property indDevolucao: TIndicador read FindDevolucao write FindDevolucao;
-    property gPagAntecipado: TgPagAntecipado read FgPagAntecipado write FgPagAntecipado;
+    property gPagAntecipado: TgPagAntecipadoNFGas read FgPagAntecipado write FgPagAntecipado;
   end;
 
   { TICMS }
@@ -1513,7 +1513,7 @@ begin
   inherited Create;
 
   FgMedicao := TgMedicao.Create;
-  FgPagAntecipado := TgPagAntecipado.Create;
+  FgPagAntecipado := TgPagAntecipadoNFGas.Create;
 end;
 
 destructor TProd.Destroy;
@@ -1985,9 +1985,9 @@ begin
   vMed := Source.vMed;
 end;
 
-{ TgPagAntecipado }
+{ TgPagAntecipadoNFGas }
 
-procedure TgPagAntecipado.Assign(Source: TgPagAntecipado);
+procedure TgPagAntecipadoNFGas.Assign(Source: TgPagAntecipadoNFGas);
 begin
   chDFePagAnt := Source.chDFePagAnt;
   nItemPagAnt := Source.nItemPagAnt;

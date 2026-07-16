@@ -71,7 +71,7 @@ type
     procedure Ler_gTarif(AINIRec: TMemIniFile; gTarif: TgTarifCollection; DetIndex: Integer);
     procedure Ler_gAgregadora(AINIRec: TMemIniFile; gAgregadora: TgAgregadora; DetIndex: Integer);
     procedure Ler_gMedicao(AINIRec: TMemIniFile; gMedicao: TgMedicao; DetIndex: Integer);
-    procedure Ler_gPagAntecipado(AINIRec: TMemIniFile; gPagAntecipado: TgPagAntecipado; DetIndex: Integer);
+    procedure Ler_gPagAntecipado(AINIRec: TMemIniFile; gPagAntecipado: TgPagAntecipadoNFGas; DetIndex: Integer);
 
     procedure Ler_gProcRef(AINIRec: TMemIniFile; gProcRef: TgProcRef; DetIndex: Integer);
     procedure Ler_gProc(AINIRec: TMemIniFile; gProc: TgProcCollection; DetIndex: Integer);
@@ -425,7 +425,7 @@ begin
 end;
 
 procedure TNFGasIniReader.Ler_gPagAntecipado(AINIRec: TMemIniFile;
-  gPagAntecipado: TgPagAntecipado; DetIndex: Integer);
+  gPagAntecipado: TgPagAntecipadoNFGas; DetIndex: Integer);
 var
   Secao: string;
 begin
