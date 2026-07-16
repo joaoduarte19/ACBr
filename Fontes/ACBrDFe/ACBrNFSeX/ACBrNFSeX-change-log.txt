@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/07/2026
+-- ACBrNFSeXDANFSeRLPadraoNacional --
+[*] Alteração visando pegar do campo vTotNF o valor do Valor Liquido mais o IBS/CBS.
+   Por: Italo Giurizzato Junior
+
 15/07/2026
 -- ACBrNFSeXDANFSeRLPadraoNacional --
 [-] Corrigido o calculo do Valor Liquido mais o IBS/CBS.

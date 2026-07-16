@@ -1032,9 +1032,10 @@ begin
   else
     rllValorTotalIBSCBS.Caption := '-';
 
-  LValor := fpNFSe.Servico.Valores.ValorLiquidoNfse +
-            fpNFSe.infNFSe.IBSCBS.totCIBS.gIBS.vIBSTot +
-            fpNFSe.infNFSe.IBSCBS.totCIBS.gCBS.vCBS;
+  LValor := fpNFSe.infNFSe.IBSCBS.totCIBS.vTotNF;
+
+  if LValor = 0 then
+    LValor := fpNFSe.Servico.Valores.ValorLiquidoNfse;
 
   rllValorLiqIBSCBS.Caption := 'R$ ' + FormatFloatBr(LValor);
 end;
