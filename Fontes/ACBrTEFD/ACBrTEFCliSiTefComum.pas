@@ -460,7 +460,7 @@ begin
                    (LowerCase(LeInformacao(899, CTEF_RESP_CONFIRMAR).AsString) <> 'false') );
 
 
-    Sucesso := (NSU_TEF <> '') or Confirmar;
+    Sucesso := (NSU_TEF <> '') or Confirmar or (QtdLinhasComprovante > 0);
 
     // leitura de parcelas conforme nova documentação
     // 141 e 142 foram removidos em Setembro de 2014
