@@ -56,6 +56,11 @@ Símbolo : Significado
 [-] Correção na exibição do Num.Cupom, na Msg de Resolução de Pendencia
     (por: Antonio)
 
+-- ACBrTEFCliSiTefComum --
+[-] Correção para não tentar confirmar Transação administrativa de Reimpressão
+    https://www.projetoacbr.com.br/forum/index.php?showtopic=93526
+    (por: DSA)
+
 26/06/2026
 -- ACBrTEFAPIPayKit --
 [-] Ajuste em 'TACBrTEFRespPayKit.ConteudoToProperty', para considerar que imagem

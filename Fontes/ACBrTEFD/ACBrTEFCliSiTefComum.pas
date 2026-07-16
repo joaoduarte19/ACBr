@@ -455,8 +455,10 @@ begin
     end;
 
     QtdLinhasComprovante := max(ImagemComprovante1aVia.Count, ImagemComprovante2aVia.Count);
-    Confirmar := (QtdLinhasComprovante > 0) or
-                 (LeInformacao(899, CTEF_RESP_FUNCAO).AsInteger = CSITEF_OP_ConsultarTrasPendente);
+    Confirmar := (LeInformacao(899, CTEF_RESP_FUNCAO).AsInteger = CSITEF_OP_ConsultarTrasPendente) or
+                 ( (QtdLinhasComprovante > 0) and
+                   (LowerCase(LeInformacao(899, CTEF_RESP_CONFIRMAR).AsString) <> 'false') );
+
 
     Sucesso := (NSU_TEF <> '') or Confirmar;
 
