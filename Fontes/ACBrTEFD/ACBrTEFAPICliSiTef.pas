@@ -1047,6 +1047,9 @@ begin
     fpACBrTEFAPI.UltimaRespostaTEF.ArqBackup := NomeArquivoBackupTemporario;
     fpACBrTEFAPI.UltimaRespostaTEF.CNFEnviado := False;
     fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899, CTEF_RESP_FUNCAO, '999');
+    fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899, CTEF_RESP_CONFIRMAR,
+      IfThen(OperacaoEmAndamento in [tefmtdPagamento, tefmtdCancelamento], 'True', 'False') );
+
     AtualizarHeader;  // Atualiza Header e Grava o Backup temporário
   end;
 end;
@@ -1429,6 +1432,7 @@ procedure TACBrTEFAPIClassCliSiTef.ResolverTransacaoPendente(
   AStatus: TACBrTEFStatusTransacao);
 var
   AMsg: String;
+  NumCupomExibir: String;
 begin
   FinalizarTransacao( fpACBrTEFAPI.UltimaRespostaTEF.Rede,
                       fpACBrTEFAPI.UltimaRespostaTEF.NSU,
@@ -1436,8 +1440,13 @@ begin
                       AStatus );
 
   if (AStatus in [tefstsSucessoAutomatico, tefstsSucessoManual]) then
-    AMsg := Format( CACBrTEFCliSiTef_TransacaoEfetuadaReImprimir,
-                    [fpACBrTEFAPI.UltimaRespostaTEF.Finalizacao] )
+  begin
+    NumCupomExibir := Trim(fpACBrTEFAPI.UltimaRespostaTEF.DocumentoVinculado);
+    if (NumCupomExibir = '') then
+      NumCupomExibir := fpACBrTEFAPI.UltimaRespostaTEF.Finalizacao;
+
+    AMsg := Format( CACBrTEFCliSiTef_TransacaoEfetuadaReImprimir, [NumCupomExibir] )
+  end
   else
     AMsg := CACBrTEFCliSiTef_TransacaoNaoEfetuada;
 
