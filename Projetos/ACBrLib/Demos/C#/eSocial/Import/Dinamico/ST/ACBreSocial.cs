@@ -11,7 +11,7 @@ using ACBrLib.eSocial;
 namespace ACBrLib.eSocial
 {
     /// <inheritdoc />
-    public sealed partial class ACBreSocial : ACBrLibHandle
+    public sealed partial class ACBreSocial : ACBrLibHandle, IACBrLibeSocial
     {
         #region Constructors
 
@@ -214,12 +214,17 @@ namespace ACBrLib.eSocial
             CheckResult(ret);
         }
 
-        public void TipoEmpregador(int aTipoEmpregador)
+        public void SetTipoEmpregador(int aTipoEmpregador)
         {
             var method = GetMethod<eSocial_SetTipoEmpregador>();
             var ret = ExecuteMethod(() => method(aTipoEmpregador));
 
             CheckResult(ret);
+        }
+
+        public void TipoEmpregador(int aTipoEmpregador)
+        {
+            SetTipoEmpregador(aTipoEmpregador);
         }
 
         public void SetVersao(string sVersao)

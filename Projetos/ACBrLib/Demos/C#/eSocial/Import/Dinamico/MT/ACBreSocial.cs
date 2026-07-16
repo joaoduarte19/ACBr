@@ -1,31 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using ACBrLib.Core;
 using ACBrLib.Core.DFe;
-using ACBrLib.eSocial;
 
 namespace ACBrLib.eSocial
 {
     /// <inheritdoc />
-    public sealed partial class ACBreSocial : ACBrLibHandle
+    public class ACBreSocial : ACBrLibBase, IACBrLibeSocial
     {
+        /// <summary>
+        /// Handle nativo da instância da ACBrLib eSocial.
+        /// </summary>
+        protected IntPtr libHandle = IntPtr.Zero;
+
+        /// <summary>
+        /// Ponte para os delegates nativos da ACBrLib eSocial.
+        /// </summary>
+        protected readonly ACBreSocialHandle acbreSocialBridge;
+        protected bool disposed = false;
+
         #region Constructors
 
-        public ACBreSocial(string eArqConfig = "", string eChaveCrypt = "") : base(IsWindows ? "ACBreSocial64.dll" : "libacbresocial64.so",
-                                                                                      IsWindows ? "ACBreSocial32.dll" : "libacbresocial32.so")
+        /// <inheritdoc/>
+        public ACBreSocial(string eArqConfig = "", string eChaveCrypt = "") : base(eArqConfig, eChaveCrypt)
         {
+            acbreSocialBridge = ACBreSocialHandle.Instance;
             Inicializar(eArqConfig, eChaveCrypt);
             Config = new ACBreSocialConfig(this);
         }
 
+        /// <inheritdoc/>
         public override void Inicializar(string eArqConfig = "", string eChaveCrypt = "")
         {
-            var inicializarLib = GetMethod<eSocial_Inicializar>();
-            var ret = ExecuteMethod<int>(() => inicializarLib(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
+            var inicializarLib = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_Inicializar>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => inicializarLib(ref libHandle, ToUTF8(eArqConfig), ToUTF8(eChaveCrypt)));
             CheckResult(ret);
         }
 
@@ -33,104 +42,104 @@ namespace ACBrLib.eSocial
 
         #region Properties
 
-        public string Nome
+        /// <inheritdoc/>
+        public override string Nome()
         {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
 
-                var method = GetMethod<eSocial_Nome>();
-                var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_Nome>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
-                CheckResult(ret);
+            CheckResult(ret);
 
-                return ProcessResult(buffer, bufferLen);
-            }
+            return CheckBuffer(buffer, bufferLen);
         }
 
-        public string Versao
+        /// <inheritdoc/>
+        public override string Versao()
         {
-            get
-            {
-                var bufferLen = BUFFER_LEN;
-                var buffer = new StringBuilder(bufferLen);
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
 
-                var method = GetMethod<eSocial_Versao>();
-                var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_Versao>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
-                CheckResult(ret);
+            CheckResult(ret);
 
-                return ProcessResult(buffer, bufferLen);
-            }
+            return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public ACBreSocialConfig Config { get; }
 
         #endregion Properties
 
-        #region Metodos
+        #region Methods
 
         #region Ini
 
+        /// <inheritdoc/>
         public override void ConfigGravar(string eArqConfig = "")
         {
-            var gravarIni = GetMethod<eSocial_ConfigGravar>();
-            var ret = ExecuteMethod(() => gravarIni(libHandle, ToUTF8(eArqConfig)));
+            var gravarIni = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_ConfigGravar>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => gravarIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override void ImportarConfig(string eArqConfig)
         {
-            var lerIni = GetMethod<eSocial_ConfigImportar>();
-            var ret = ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
+            var lerIni = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_ConfigImportar>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public override string ExportarConfig()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<eSocial_ConfigExportar>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_ConfigExportar>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public override void ConfigLer(string eArqConfig = "")
         {
-            var lerIni = GetMethod<eSocial_ConfigLer>();
-            var ret = ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
+            var lerIni = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_ConfigLer>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => lerIni(libHandle, ToUTF8(eArqConfig)));
 
             CheckResult(ret);
         }
 
-        public override T ConfigLerValor<T>(ACBrSessao eSessao, string eChave)
+        /// <inheritdoc/>
+        public override string ConfigLerValor(string eSessao, string eChave)
         {
-            var method = GetMethod<eSocial_ConfigLerValor>();
-
             var bufferLen = BUFFER_LEN;
-            var pValue = new StringBuilder(bufferLen);
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), pValue, ref bufferLen));
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_ConfigLerValor>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao), ToUTF8(eChave), buffer, ref bufferLen));
+
             CheckResult(ret);
 
-            var value = ProcessResult(pValue, bufferLen);
-            return ConvertValue<T>(value);
+            return CheckBuffer(buffer, bufferLen);
         }
 
-        public override void ConfigGravarValor(ACBrSessao eSessao, string eChave, object value)
+        /// <inheritdoc/>
+        public override void ConfigGravarValor(string eSessao, string eChave, string eValor)
         {
-            if (value == null) return;
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_ConfigGravarValor>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eSessao), ToUTF8(eChave), ToUTF8(eValor)));
 
-            var method = GetMethod<eSocial_ConfigGravarValor>();
-            var propValue = ConvertValue(value);
-
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eSessao.ToString()), ToUTF8(eChave), ToUTF8(propValue)));
             CheckResult(ret);
         }
 
@@ -138,208 +147,253 @@ namespace ACBrLib.eSocial
 
         #region Diversos
 
-        public void CriarEventoeSocial (string eArqIni)
+        /// <inheritdoc/>
+        public void CriarEventoeSocial(string eArqIni)
         {
-            var method = GetMethod<eSocial_CriarEventoeSocial>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eArqIni)));
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_CriarEventoeSocial>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eArqIni)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public string EnviareSocial(int aGrupo)
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<eSocial_EnviareSocial>();
-            var ret = ExecuteMethod(() => method(libHandle, aGrupo, buffer, ref bufferLen));
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_EnviareSocial>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, aGrupo, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultareSocial(string eProtocolo)
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<eSocial_ConsultareSocial>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eProtocolo), buffer, ref bufferLen));
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_ConsultareSocial>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eProtocolo), buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string CriarEnviareSocial(string eArqIni, int aGrupo)
         {
-            var method = GetMethod<eSocial_CriarEnviareSocial>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eArqIni), aGrupo));
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_CriarEnviareSocial>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eArqIni), aGrupo));
 
             CheckResult(ret);
+
             return GetUltimoRetorno(ret);
         }
 
+        /// <inheritdoc/>
         public void LimpareSocial()
         {
-            var method = GetMethod<eSocial_LimpareSocial>();
-            var ret = ExecuteMethod(() => method(libHandle));
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_LimpareSocial>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void CarregarXMLEventoeSocial(string eArquivoOuXML)
         {
-            var method = GetMethod<eSocial_CarregarXMLEventoeSocial>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(eArquivoOuXML)));
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_CarregarXMLEventoeSocial>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, ToUTF8(eArquivoOuXML)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void SetIDEmpregador(string aIdEmpregador)
         {
-            var method = GetMethod<eSocial_SetIDEmpregador>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(aIdEmpregador)));
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_SetIDEmpregador>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, ToUTF8(aIdEmpregador)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public void SetIDTransmissor(string aIdTransmissor)
         {
-            var method = GetMethod<eSocial_SetIDTransmissor>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(aIdTransmissor)));
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_SetIDTransmissor>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, ToUTF8(aIdTransmissor)));
+
+            CheckResult(ret);
+        }
+
+        /// <inheritdoc/>
+        public void SetTipoEmpregador(int aTipoEmpregador)
+        {
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_SetTipoEmpregador>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, aTipoEmpregador));
 
             CheckResult(ret);
         }
 
         public void TipoEmpregador(int aTipoEmpregador)
         {
-            var method = GetMethod<eSocial_SetTipoEmpregador>();
-            var ret = ExecuteMethod(() => method(libHandle, aTipoEmpregador));
-
-            CheckResult(ret);
+            SetTipoEmpregador(aTipoEmpregador);
         }
 
+        /// <inheritdoc/>
         public void SetVersao(string sVersao)
         {
-            var method = GetMethod<eSocial_SetVersaoDF>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(sVersao)));
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_SetVersaoDF>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, ToUTF8(sVersao)));
 
             CheckResult(ret);
         }
 
+        /// <inheritdoc/>
         public string ConsultaIdentificadoresEventosEmpregador(string aIdEmpregador, int aTipoEvento, DateTime aPeriodoApuracao)
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<eSocial_ConsultaIdentificadoresEventosEmpregador>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(aIdEmpregador), aTipoEvento, aPeriodoApuracao, buffer, ref bufferLen));
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_ConsultaIdentificadoresEventosEmpregador>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, ToUTF8(aIdEmpregador), aTipoEvento, aPeriodoApuracao, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultaIdentificadoresEventosTabela(string aIdEmpregador, int aTipoEvento, string aChave, DateTime aDataInicial, DateTime aDataFinal)
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<eSocial_ConsultaIdentificadoresEventosTabela>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(aIdEmpregador), aTipoEvento, aChave, aDataInicial, aDataFinal, buffer, ref bufferLen));
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_ConsultaIdentificadoresEventosTabela>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, ToUTF8(aIdEmpregador), aTipoEvento, aChave, aDataInicial, aDataFinal, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string ConsultaIdentificadoresEventosTrabalhador(string aIdEmpregador, string aCPFTrabalhador, DateTime aDataInicial, DateTime aDataFinal)
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<eSocial_ConsultaIdentificadoresEventosTrabalhador>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(aIdEmpregador), aCPFTrabalhador, aDataInicial, aDataFinal, buffer, ref bufferLen));
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_ConsultaIdentificadoresEventosTrabalhador>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, ToUTF8(aIdEmpregador), aCPFTrabalhador, aDataInicial, aDataFinal, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public string DownloadEventos(string aIdEmpregador, string aCPFTrabalhador, DateTime aDataInicial, DateTime aDataFinal)
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<eSocial_DownloadEventos>();
-            var ret = ExecuteMethod(() => method(libHandle, ToUTF8(aIdEmpregador), aCPFTrabalhador, aDataInicial, aDataFinal, buffer, ref bufferLen));
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_DownloadEventos>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, ToUTF8(aIdEmpregador), aCPFTrabalhador, aDataInicial, aDataFinal, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
+        /// <inheritdoc/>
         public InfoCertificado[] ObterCertificados()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<eSocial_ObterCertificados>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_ObterCertificados>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            var certificados = ProcessResult(buffer, bufferLen).Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            var certificados = CheckBuffer(buffer, bufferLen).Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             return certificados.Length == 0 ? new InfoCertificado[0] : certificados.Select(x => new InfoCertificado(x)).ToArray();
         }
 
+        /// <inheritdoc/>
+        protected void Dispose(bool disposing)
+        {
+            if (disposed) return;
+
+            if (disposing)
+            {
+                Finalizar();
+                disposed = true;
+            }
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            if (disposed) return;
+            Dispose(true);
+        }
+
+        /// <inheritdoc/>
         public override string OpenSSLInfo()
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
-            var method = GetMethod<eSocial_OpenSSLInfo>();
-            var ret = ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
+            var method = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_OpenSSLInfo>();
+            var ret = acbreSocialBridge.ExecuteMethod(() => method(libHandle, buffer, ref bufferLen));
 
             CheckResult(ret);
 
-            return ProcessResult(buffer, bufferLen);
+            return CheckBuffer(buffer, bufferLen);
         }
 
         #endregion Diversos
 
         #region Private Methods
 
+        /// <inheritdoc/>
         public override void Finalizar()
         {
-            var finalizarLib = GetMethod<eSocial_Finalizar>();
-            var codRet = ExecuteMethod(() => finalizarLib(libHandle));
+            if (libHandle == IntPtr.Zero) return;
+
+            var finalizarLib = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_Finalizar>();
+            var codRet = acbreSocialBridge.ExecuteMethod(() => finalizarLib(libHandle));
             CheckResult(codRet);
             libHandle = IntPtr.Zero;
         }
 
+        /// <inheritdoc/>
         protected override string GetUltimoRetorno(int iniBufferLen = 0)
         {
             var bufferLen = iniBufferLen < 1 ? BUFFER_LEN : iniBufferLen;
             var buffer = new StringBuilder(bufferLen);
-            var ultimoRetorno = GetMethod<eSocial_UltimoRetorno>();
+            var ultimoRetorno = acbreSocialBridge.GetMethod<ACBreSocialHandle.eSocial_UltimoRetorno>();
 
             if (iniBufferLen < 1)
             {
-                ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
+                acbreSocialBridge.ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
                 if (bufferLen <= BUFFER_LEN) return FromUTF8(buffer);
 
                 buffer.Capacity = bufferLen;
             }
 
-            ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
+            acbreSocialBridge.ExecuteMethod(() => ultimoRetorno(libHandle, buffer, ref bufferLen));
             return FromUTF8(buffer);
         }
 
         #endregion Private Methods
 
-        #endregion Metodos
+        #endregion Methods
     }
 }

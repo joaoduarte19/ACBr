@@ -14,7 +14,7 @@ namespace ACBrLibeSocial.Demo
     {
         #region Fields
 
-        private ACBreSocial ACBreSocial;
+        private IACBrLibeSocial ACBreSocial;
 
         #endregion Fields
 
@@ -349,7 +349,7 @@ namespace ACBrLibeSocial.Demo
         {
             try
             {
-                ACBreSocial.TipoEmpregador(cmbTipoEmpregador.SelectedIndex);
+                ACBreSocial.SetTipoEmpregador(cmbTipoEmpregador.SelectedIndex);
             }
             catch (Exception ex)
             {

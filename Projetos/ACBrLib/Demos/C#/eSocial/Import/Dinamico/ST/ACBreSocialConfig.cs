@@ -5,11 +5,11 @@ using ACBrLib.Core.DFe;
 
 namespace ACBrLib.eSocial
 {
-    public sealed class ACBreSocialConfig : ACBrLibDFeConfig<ACBreSocial>
+    public sealed class ACBreSocialConfig : ACBrLibDFeConfig<IACBrLibeSocial>
     {
         #region Constructors
 
-        public ACBreSocialConfig(ACBreSocial acbrlib) : base(acbrlib, ACBrSessao.eSocial)
+        public ACBreSocialConfig(IACBrLibeSocial acbrlib) : base(acbrlib, ACBrSessao.eSocial)
         {
 
         }

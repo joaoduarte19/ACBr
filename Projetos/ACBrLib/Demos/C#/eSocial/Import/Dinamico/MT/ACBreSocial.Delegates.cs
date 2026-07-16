@@ -4,10 +4,11 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using ACBrLib.Core;
 
 namespace ACBrLib.eSocial
 {
-    public sealed partial class ACBreSocial
+    public sealed class ACBreSocialHandle : ACBrLibHandleBase
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int eSocial_Inicializar(ref IntPtr handle, string eArqConfig, string eChaveCrypt);
@@ -121,5 +122,17 @@ namespace ACBrLib.eSocial
             AddMethod<eSocial_ObterCertificados>("eSocial_ObterCertificados");
 
         }
+
+        protected override string GetLibraryName()
+        {
+            var arch = Environment.Is64BitProcess ? "64" : "32";
+            if (PlatformID.Unix == Environment.OSVersion.Platform)
+                return $"libacbresocial{arch}.so";   
+
+            return $"ACBreSocial{arch}.dll"; 
+        }
+
+        private static readonly Lazy<ACBreSocialHandle> instance = new Lazy<ACBreSocialHandle>(() => new ACBreSocialHandle());
+        public static ACBreSocialHandle Instance => instance.Value;
     }
 }
