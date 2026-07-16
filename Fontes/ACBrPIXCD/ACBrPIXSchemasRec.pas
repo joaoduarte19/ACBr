@@ -124,12 +124,12 @@ type
 
   TACBrPIXRecSolicitadaBase = class(TACBrPIXRecBase)
   private
-    fLoc: Integer;
+    fLoc: Int64;
   protected
     procedure DoWriteToJSon(AJSon: TACBrJSONObject); override;
     procedure DoReadFromJSon(AJSon: TACBrJSONObject); override;
 
-    property loc: Integer read fLoc write fLoc;
+    property loc: Int64 read fLoc write fLoc;
   public
     procedure Clear; override;
     function IsEmpty: Boolean; override;
