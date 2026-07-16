@@ -2429,7 +2429,6 @@ end;
 
 procedure TfrmACBrBPe.ConfigurarComponente;
 var
-  Ok: Boolean;
   PathMensal: string;
 begin
   ACBrBPe1.Configuracoes.Certificados.ArquivoPFX  := edtCaminho.Text;
