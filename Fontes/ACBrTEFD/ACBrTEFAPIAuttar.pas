@@ -943,7 +943,20 @@ end;
 
 procedure TACBrTEFAPIClassAuttar.FinalizarTransacao(const Rede, NSU,
   CodigoFinalizacao: String; AStatus: TACBrTEFStatusTransacao);
+var
+  Confirma: Boolean;
+  NumTransacao: Integer;
+  DataFiscal: TDateTime;
 begin
+  Confirma := (AStatus in [tefstsSucessoAutomatico, tefstsSucessoManual]);
+  NumTransacao := max(fpACBrTEFAPI.RespostasTEF.AcharTransacao(Rede, NSU, CodigoFinalizacao), 0);
+  if (NumTransacao >= 0) then
+    DataFiscal := fpACBrTEFAPI.RespostasTEF[NumTransacao].DataHoraTransacaoLocal;
+
+  with GetTEFAuttar do
+  begin
+    FinalizarTransacaoCTF(Confirma, NumTransacao, DataFiscal);
+  end;
 end;
 
 procedure TACBrTEFAPIClassAuttar.ResolverTransacaoPendente(AStatus: TACBrTEFStatusTransacao);
