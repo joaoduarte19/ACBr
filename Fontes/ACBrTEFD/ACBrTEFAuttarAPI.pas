@@ -1234,7 +1234,8 @@ begin
   Inicializar;
   ret := FinalizaTransacaoCTF(Confirmar, NumTransacao, DataFiscal, Dados);
   fEmTransacao := False;
-  TratarErroCTF(ret);
+  if (ret <> 0) and (ret <> 18)  then  // 18 - Não há transação para ser confirmada.
+    TratarErroCTF(ret);
 end;
 
 procedure TACBrTEFAuttarAPI.ContinuarRequisicaoCTF;

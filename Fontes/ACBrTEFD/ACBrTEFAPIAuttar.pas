@@ -52,6 +52,7 @@ type
   TACBrTEFRespAuttar = class( TACBrTEFResp )
   public
     procedure ConteudoToProperty; override;
+    procedure ProcessarTipoInterno(ALinha: TACBrTEFLinha); override;
   end;
 
 
@@ -196,7 +197,7 @@ begin
       end;
 
       SC_S_CODIGO_RESPOSTA:
-        Finalizacao := LinStr;
+        StatusTransacao := LinStr;
 
       SC_E_NUMERO_DOCTO_FISCAL:
         DocumentoVinculado := LinStr;
@@ -217,7 +218,7 @@ begin
         DocumentoPessoa := LinStr;
 
       SC_S_DADOS_RETORNADOS:
-        StatusTransacao := LinStr;
+        Trailer := LinStr;
 
       SC_S_NSU_TEF:
         NSU_TEF := LinStr;
@@ -268,10 +269,13 @@ begin
         ValorOriginal := Info.AsFloat;
 
       SC_S_ERRO_AUTORIZADORA:
-        Autenticacao := LinStr;
+      begin
+        if (Autenticacao = '') then
+          Autenticacao := LinStr;
+      end;
 
       SC_S_CODIGO_ERRO:
-        Trailer := LinStr;
+        Autenticacao := LinStr;
 
       SC_S_DESCRICAO_TRANSACAO:
         ModalidadePagtoDescrita := LinStr;
@@ -352,7 +356,10 @@ begin
       end;
 
       SC_S_NOME_REDE_ADQUIRENTE:
+      begin
         NomeAdministradora := LinStr;
+        Rede := LinStr;
+      end;
 
       SC_S_CODIGO_VAN:
       begin
@@ -386,6 +393,14 @@ begin
 
   QtdLinhasComprovante := max(ImagemComprovante1aVia.Count, ImagemComprovante2aVia.Count);
   Confirmar := (CodigoAutorizacaoTransacao <> '') or (QtdLinhasComprovante > 0);
+end;
+
+procedure TACBrTEFRespAuttar.ProcessarTipoInterno(ALinha: TACBrTEFLinha);
+begin
+  inherited ProcessarTipoInterno(ALinha);
+
+  if (ALinha.Identificacao = 899) and (ALinha.Sequencia = CTEF_RESP_ORDEM_PAGTO) then
+    Finalizacao := ALinha.Informacao.AsString;
 end;
 
 
@@ -489,6 +504,7 @@ begin
     end;
   end;
 
+  fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899, CTEF_RESP_ORDEM_PAGTO, IntToStr(fpACBrTEFAPI.RespostasTEF.Count+1) );
   fpACBrTEFAPI.UltimaRespostaTEF.ConteudoToProperty;
 end;
 
@@ -802,6 +818,7 @@ function TACBrTEFAPIClassAuttar.CancelarTransacao(const NSU,
   CodigoAutorizacaoTransacao: string; DataHoraTransacao: TDateTime;
   Valor: Double; const CodigoFinalizacao: string; const Rede: string): Boolean;
 begin
+  // TODO
 end;
 
 function TACBrTEFAPIClassAuttar.EfetuarPagamento(ValorPagto: Currency;
@@ -821,12 +838,14 @@ begin
   begin
     SubCampos.Clear;
     DadosAdicionaisToStringList(DadosAdicionais, SubCampos);
-    DadosAdicionais := '';
 
     Operacao := StrToIntDef(Trim(SubCampos.ValueInfo[SC_S_CODIGO_TRANSACAO_CTF]), OP_TRANSACAO_GENERICA);
     NumDocto := Trim(fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao);
     DataFiscal := fpACBrTEFAPI.RespostasTEF.DataHoraIdentificador;
-    NumTransacao := fpACBrTEFAPI.RespostasTEF.Count+1;
+    if fpACBrTEFAPI.ConfirmarTransacaoAutomaticamente then
+      NumTransacao := 1
+    else
+      NumTransacao := fpACBrTEFAPI.RespostasTEF.Count+1;
 
     case Modalidade of
       tefmpCartao:
@@ -876,7 +895,7 @@ begin
     if (DataPreDatado <> 0) then
       SubCampos.ValueInfo[SC_E_DATA_PRE_DATADA] := FormatDateTime('DDMMYYYY', DataPreDatado);
 
-    ExecutarTransacaoCTF(Operacao, ValorPagto,  NumDocto, DataFiscal, NumTransacao, DadosAdicionais);
+    ExecutarTransacaoCTF(Operacao, ValorPagto,  NumDocto, DataFiscal, NumTransacao);
     Result := True;
 
     if (TACBrTEFAPI(fpACBrTEFAPI).ExibicaoQRCode = qrapiExibirAplicacao) then
@@ -889,7 +908,7 @@ begin
 
         SubCampos.Clear;
         SubCampos.ValueInfo[SC_ES_IDENTIFICADOR_CONSULTA] := NsuCTF;
-        ExecutarTransacaoCTF(Operacao, ValorPagto,  NumDocto, DataFiscal, NumTransacao, DadosAdicionais);
+        ExecutarTransacaoCTF(Operacao, ValorPagto,  NumDocto, DataFiscal, NumTransacao);
 
         ExibirQRCodeCTF('');  // Limpa o QRCode
       end;
@@ -949,13 +968,20 @@ var
   DataFiscal: TDateTime;
 begin
   Confirma := (AStatus in [tefstsSucessoAutomatico, tefstsSucessoManual]);
-  NumTransacao := max(fpACBrTEFAPI.RespostasTEF.AcharTransacao(Rede, NSU, CodigoFinalizacao), 0);
-  if (NumTransacao >= 0) then
+  NumTransacao := 0;
+  if not fpACBrTEFAPI.ConfirmarTransacaoAutomaticamente then
+  begin
+    NumTransacao := fpACBrTEFAPI.RespostasTEF.AcharTransacao(Rede, NSU, CodigoFinalizacao);
+    if (NumTransacao < 0) then
+      NumTransacao := 0;
+  end;
+
+  if (NumTransacao < fpACBrTEFAPI.RespostasTEF.Count) then
     DataFiscal := fpACBrTEFAPI.RespostasTEF[NumTransacao].DataHoraTransacaoLocal;
 
   with GetTEFAuttar do
   begin
-    FinalizarTransacaoCTF(Confirma, NumTransacao, DataFiscal);
+    FinalizarTransacaoCTF(Confirma, NumTransacao+1, DataFiscal);
   end;
 end;
 
