@@ -1856,7 +1856,6 @@ end;
 
 procedure TfrmACBrNFAg.ConfigurarComponente;
 var
-  Ok: Boolean;
   PathMensal: string;
 begin
   ACBrNFAg1.Configuracoes.Certificados.ArquivoPFX  := edtCaminho.Text;
