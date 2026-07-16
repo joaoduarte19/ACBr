@@ -169,12 +169,12 @@ namespace ACBrLib.Core
         protected virtual void CheckResult(int ret)
         {
             if (ret >= 0) return;
-            var message = $"Erro: {ret}: {GetUltimoRetorno()}";
+            var message = $"{GetUltimoRetorno()}";
 
             switch (ret)
             {
                 case -1:
-                    throw new Exception($"Erro: {ret} Biblioteca não inicializada");
+                    throw new Exception($"Biblioteca não inicializada");
 
                 case -6:
                     throw new DirectoryNotFoundException(message);
