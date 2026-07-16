@@ -50,7 +50,7 @@ uses
   Buttons,
   ComCtrls,
   SynEdit,
-  SynHighlighterXML,
+  SynHighlighterXML, SynGutterBase,
   ACBrMail,
   ACBrPosPrinter,
   ACBrNFeDANFeESCPOS,
@@ -700,11 +700,11 @@ begin
 //    Informado para abater as parcelas de antecipação de pagamento, conforme Art. 10. § 4º
 //    refNFe: Referência uma NF-e (modelo 55) emitida anteriormente, referente a pagamento antecipado
 
-      with Ide.gPagAntecipado.New do
-        refNFe := '12345678901234567890123456789012345678901234';
+      with Ide.gPagAntecipado.refNFe.New do
+        refDFEChave := '12345678901234567890123456789012345678901234';
 
-      with Ide.gPagAntecipado.New do
-        refNFe := '12345678901234567890123456789012345678904567';
+      with Ide.gPagAntecipado.refNFe.New do
+        refDFEChave := '12345678901234567890123456789012345678904567';
     end;
 
     Emit.CNPJCPF           := edtEmitCNPJ.Text;
@@ -1366,11 +1366,11 @@ begin
 //    Informado para abater as parcelas de antecipação de pagamento, conforme Art. 10. § 4º
 //    refNFe: Referência uma NF-e (modelo 55) emitida anteriormente, referente a pagamento antecipado
 
-    with NotaF.NFe.Ide.gPagAntecipado.New do
-      refNFe := '12345678901234567890123456789012345678901234';
+    with NotaF.NFe.Ide.gPagAntecipado.refNFe.New do
+      refDFEChave := '12345678901234567890123456789012345678901234';
 
-    with NotaF.NFe.Ide.gPagAntecipado.New do
-      refNFe := '12345678901234567890123456789012345678904567';
+    with NotaF.NFe.Ide.gPagAntecipado.refNFe.New do
+      refDFEChave := '12345678901234567890123456789012345678904567';
   end;
 
   //Para NFe referenciada use os campos abaixo

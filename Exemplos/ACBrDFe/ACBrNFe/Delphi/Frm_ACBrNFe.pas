@@ -702,11 +702,11 @@ begin
 //    Informado para abater as parcelas de antecipação de pagamento, conforme Art. 10. § 4º
 //    refNFe: Referência uma NF-e (modelo 55) emitida anteriormente, referente a pagamento antecipado
 
-      with Ide.gPagAntecipado.New do
-        refNFe := '12345678901234567890123456789012345678901234';
+      with Ide.gPagAntecipado.refNFe.New do
+        refDFEChave := '12345678901234567890123456789012345678901234';
 
-      with Ide.gPagAntecipado.New do
-        refNFe := '12345678901234567890123456789012345678904567';
+      with Ide.gPagAntecipado.refNFe.New do
+        refDFEChave := '12345678901234567890123456789012345678904567';
     end;
 
     Emit.CNPJCPF           := edtEmitCNPJ.Text;
@@ -733,8 +733,8 @@ begin
     Emit.CRT  := StrToCRT(Ok, IntToStr(cbTipoEmpresa.ItemIndex + 1));
 
     // Na NFC-e o Destinatário é opcional
+    Dest.CNPJCPF           := 'PC3D315K000193';
     {
-    Dest.CNPJCPF           := 'informar o CPF do destinatário';
     Dest.ISUF              := '';
     Dest.xNome             := 'nome do destinatário';
 
@@ -1385,11 +1385,11 @@ begin
 //    Informado para abater as parcelas de antecipação de pagamento, conforme Art. 10. § 4º
 //    refNFe: Referência uma NF-e (modelo 55) emitida anteriormente, referente a pagamento antecipado
 
-    with NotaF.NFe.Ide.gPagAntecipado.New do
-      refNFe := '12345678901234567890123456789012345678901234';
+    with NotaF.NFe.Ide.gPagAntecipado.refNFe.New do
+      refDFEChave := '12345678901234567890123456789012345678901234';
 
-    with NotaF.NFe.Ide.gPagAntecipado.New do
-      refNFe := '12345678901234567890123456789012345678904567';
+    with NotaF.NFe.Ide.gPagAntecipado.refNFe.New do
+      refDFEChave := '12345678901234567890123456789012345678904567';
   end;
 
   //Para NFe referenciada use os campos abaixo

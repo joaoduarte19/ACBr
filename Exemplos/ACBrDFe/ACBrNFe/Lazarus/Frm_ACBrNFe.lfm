@@ -12,7 +12,7 @@ object frmACBrNFe: TfrmACBrNFe
   Font.Height = -14
   Font.Name = 'Tahoma'
   Position = poScreenCenter
-  LCLVersion = '4.6.0.0'
+  LCLVersion = '4.0.0.4'
   OnCreate = FormCreate
   object pnlMenus: TPanel
     Left = 0
@@ -2387,7 +2387,7 @@ object frmACBrNFe: TfrmACBrNFe
           ParentColor = False
           ParentFont = False
           TabOrder = 0
-          Gutter.Width = 68
+          Gutter.Width = 0
           Gutter.MouseActions = <>
           RightGutter.Width = 0
           RightGutter.MouseActions = <>
@@ -2835,47 +2835,6 @@ object frmACBrNFe: TfrmACBrNFe
           LineHighlightColor.Background = clNone
           LineHighlightColor.Foreground = clNone
           inline SynLeftGutterPartList1: TSynGutterPartList
-            object SynGutterMarks1: TSynGutterMarks
-              Width = 30
-              MouseActions = <>
-              MaxExtraMarksColums = 0
-              Options = [sgmoDeDuplicateMarksOnOverflow]
-              MarkupInfo.Background = clBtnFace
-              MarkupInfo.Foreground = clNone
-            end
-            object SynGutterLineNumber1: TSynGutterLineNumber
-              Width = 17
-              MouseActions = <>
-              MarkupInfo.Background = clBtnFace
-              MarkupInfo.Foreground = clNone
-              DigitCount = 2
-              ShowOnlyLineNumbersMultiplesOf = 1
-              ZeroStart = False
-              LeadingZeros = False
-            end
-            object SynGutterChanges1: TSynGutterChanges
-              Width = 5
-              MouseActions = <>
-              ModifiedColor = 59900
-              SavedColor = clGreen
-              MarkupInfo.Background = clNone
-              MarkupInfo.Foreground = clGreen
-              MarkupInfo.FrameColor = 59900
-            end
-            object SynGutterSeparator1: TSynGutterSeparator
-              Width = 3
-              MouseActions = <>
-              MarkupInfo.Background = clWhite
-              MarkupInfo.Foreground = clGray
-            end
-            object SynGutterCodeFolding1: TSynGutterCodeFolding
-              Width = 13
-              MouseActions = <>
-              MarkupInfo.Background = clNone
-              MarkupInfo.Foreground = clGray
-              MouseActionsExpanded = <>
-              MouseActionsCollapsed = <>
-            end
           end
         end
       end
