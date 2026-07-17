@@ -1287,7 +1287,7 @@ begin
   if not StringIsPDF(Result) then
   begin
     Result := RemoverCaracteresDesnecessarios(Result);
-    Result := ParseText(Result);
+    Result := ParseTextEx(Result);
     Result := RemoverDeclaracaoXML(Result);
     Result := RemoverIdentacao(Result);
     Result := RemoverPrefixosDesnecessarios(Result);

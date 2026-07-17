@@ -42,6 +42,16 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/07/2026
+-- ACBrNFSeXWebserviceBase --
+[+] Implementado a função ParseTextEx que após trocar o &amp; por & desfaz a troca,
+    os demais escapes trocados permanecem trocados.
+   Por: Italo Giurizzato Junior
+-- Fiorilli.Provider --
+[*] O ParseText foi substituído por ParseTextEx na função TratarXmlRetornado visando
+    sanar o problema de leitura de nomes de empresas que tem o &.
+   Por: Italo Giurizzato Junior
+
 16/07/2026
 -- ACBrNFSeXDANFSeRLPadraoNacional --
 [*] Alteração visando pegar do campo vTotNF o valor do Valor Liquido mais o IBS/CBS.
