@@ -129,7 +129,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Android\jniLibs\armeabi-v7a\libACBrLibCIOT"/>
+            <Filename Value="bin\Demo\Android\jniLibs\armeabi-v7a\libACBrLibCIOT"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum"/>
@@ -176,7 +176,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Android\jniLibs\arm64-v8a\libACBrLibCIOT"/>
+            <Filename Value="bin\Demo\Android\jniLibs\arm64-v8a\libACBrLibCIOT"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum"/>
