@@ -43,6 +43,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 17/07/2026
+-- Diversos --
+[+] Implementado a leitura do Logo da NFS-e Padrão Nacional de um resource.
+    É possível escolher entre o Logo Horizontal e o Vertical configurando o 
+    componente da seguinte forma:
+    // Utilize uma das 2 string: ACBrNFSeXLogoH; ACBrNFSeXLogoV
+    ACBrNFSeX1.DANFSE.LogoNFSe := 'ACBrNFSeXLogoH';
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXWebserviceBase --
 [+] Implementado a função ParseTextEx que após trocar o &amp; por & desfaz a troca,
     os demais escapes trocados permanecem trocados.

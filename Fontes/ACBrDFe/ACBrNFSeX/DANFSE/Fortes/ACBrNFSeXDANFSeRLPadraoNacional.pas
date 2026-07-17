@@ -47,7 +47,6 @@ uses
   RLFilters,
   RLPDFFilter,
   RLReport,
-  jpeg,
   ACBrDelphiZXingQRCode,
   ACBrDFe.Conversao,
   ACBrNFSeXConversao,
@@ -287,7 +286,6 @@ type
     RLLabel107: TRLLabel;
     rllRegimeEspecial: TRLLabel;
     rlbCanhoto: TRLBand;
-    RLDraw7: TRLDraw;
     rllNumChave: TRLLabel;
     RLLabel50: TRLLabel;
     RLLabel54: TRLLabel;
@@ -351,7 +349,7 @@ var
 implementation
 
 uses
-  StrUtils, DateUtils,
+  StrUtils, DateUtils, Types,
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrUtil.DateTime,
@@ -370,6 +368,8 @@ uses
 {$R *.lfm}
 {$ENDIF}
 
+{$R ..\ACBrNFSeXLogo.RES}
+
 var
   FQuebradeLinha: String;
 
@@ -383,11 +383,30 @@ end;
 procedure TfrlXDANFSeRLPadraoNacional.rlbBanda01_LogosBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
 var
-  Ambiente: string;
+  Ambiente, Logo, TipoLogo: string;
+  Res: TResourceStream;
+  LogoStream: TStringStream;
 begin
   inherited;
 
-  TDFeReportFortes.CarregarLogo(rliLogoNFSe, fpDANFSe.LogoNFSe);
+  TipoLogo := UpperCase(Trim(fpDANFSe.LogoNFSe));
+
+  if (TipoLogo = '') or
+     ((TipoLogo <> 'ACBRNFSEXLOGOH') and (TipoLogo <> 'ACBRNFSEXLOGOV'))  then
+    TipoLogo := 'ACBRNFSEXLOGOH';
+
+  Res := TResourceStream.Create(HInstance, TipoLogo, RT_RCDATA);
+  try
+    LogoStream := TStringStream.Create('');
+    try
+      Res.SaveToStream(LogoStream);
+      TDFeReportFortes.CarregarLogo(rliLogoNFSe, LogoStream.DataString);
+    finally
+      LogoStream.Free;
+    end;
+  finally
+    Res.Free;
+  end;
 
   rlbHomologacao.Visible := (fpNFSe.Producao = snNao);
 
