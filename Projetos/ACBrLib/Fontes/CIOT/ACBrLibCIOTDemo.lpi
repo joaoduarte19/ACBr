@@ -17,13 +17,10 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <AutoIncrementBuild Value="False"/>
+      <MajorVersionNr Value="1"/>
       <BuildNr Value="1"/>
       <Language Value="0416"/>
       <StringTable Comments="Projeto ACBr" CompanyName="Projeto ACBr" FileDescription="ACBrCIOT - Biblioteca para uso do CIOT" InternalName="ACBrLibCIOT" LegalCopyright="Projeto ACBr" LegalTrademarks="ProjetoACBr" ProductName="CIOT" ProductVersion="0.0.0.0"/>
-      <MajorVersionNr Value="1"/>
-      <MinorVersionNr Value="0"/>
-      <RevisionNr Value="0"/>
     </VersionInfo>
     <BuildModes Count="13">
       <Item1 Name="Win32-i386-CDECL" Default="True"/>
@@ -155,7 +152,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Demo\Linux\ST\acbrCIOT64"/>
+            <Filename Value="bin\Demo\Linux\ST\acbrciot64"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum"/>
@@ -196,7 +193,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Demo\Linux\ST\acbrCIOT32"/>
+            <Filename Value="bin\Demo\Linux\ST\acbrciot32"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum"/>
@@ -436,7 +433,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Demo\Linux\MT\acbrCIOT64"/>
+            <Filename Value="bin\Demo\Linux\MT\acbrciot64"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum"/>
@@ -477,7 +474,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Demo\Linux\MT\acbrCIOT32"/>
+            <Filename Value="bin\Demo\Linux\MT\acbrciot32"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum"/>

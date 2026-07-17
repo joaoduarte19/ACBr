@@ -39,7 +39,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Demo\Linux\CONSOLE-MT\acbrCIOT64"/>
+            <Filename Value="bin\Demo\Linux\CONSOLE-MT\acbrciot64"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum"/>
@@ -84,7 +84,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\Demo\Linux\CONSOLE-MT\acbrCIOT32"/>
+            <Filename Value="bin\Demo\Linux\CONSOLE-MT\acbrciot32"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum"/>
