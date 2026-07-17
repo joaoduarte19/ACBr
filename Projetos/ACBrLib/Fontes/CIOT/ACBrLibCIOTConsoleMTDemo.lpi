@@ -19,10 +19,13 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <AutoIncrementBuild Value="True"/>
+      <AutoIncrementBuild Value="False"/>
       <BuildNr Value="1"/>
       <Language Value="0416"/>
       <StringTable Comments="Projeto ACBr" CompanyName="Projeto ACBr" FileDescription="ACBrCIOT - Biblioteca para uso do CIOT" InternalName="ACBrLibCIOT" LegalCopyright="Projeto ACBr" LegalTrademarks="ProjetoACBr" ProductName="CIOT" ProductVersion="0.0.0.0"/>
+      <MajorVersionNr Value="1"/>
+      <MinorVersionNr Value="0"/>
+      <RevisionNr Value="0"/>
     </VersionInfo>
     <MacroValues Count="2">
       <Macro1 Name="ACBrDir" Value="$Env(ACBR_HOME)"/>
@@ -155,15 +158,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dDemo
--dANDROID
--dNOGUI
--dNOREPORT
--dMT
--Xd
--CfVFPv3
--CpARMV7A
--XParm-linux-androideabi-"/>
+            <CustomOptions Value="-dDemo  -dANDROID  -dNOGUI  -dNOREPORT  -dMT  -Xd  -CfVFPv3  -CpARMV7A  -XParm-linux-androideabi-"/>
           </Other>
         </CompilerOptions>
       </Item4>
@@ -202,13 +197,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dDemo
--dANDROID
--dNOGUI
--dNOREPORT
--dMT
--Xd
--XPaarch64-linux-android-"/>
+            <CustomOptions Value="-dDemo  -dANDROID  -dNOGUI  -dNOREPORT  -dMT  -Xd  -XPaarch64-linux-android-"/>
           </Other>
         </CompilerOptions>
       </Item5>
