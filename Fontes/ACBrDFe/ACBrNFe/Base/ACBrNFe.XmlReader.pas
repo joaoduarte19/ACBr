@@ -134,7 +134,6 @@ type
     constructor Create(AOwner: TNFe); reintroduce;
 
     function LerXml: Boolean; override;
-    function ObterConteudo(const ANode: TACBrXmlNode; const Tipo: TACBrTipoCampo): variant; override;
 
     property NFe: TNFe read FNFe write FNFe;
   end;
@@ -209,15 +208,6 @@ begin
   end;
 
   Result := True;
-end;
-
-function TNFeXmlReader.ObterConteudo(const ANode: TACBrXmlNode;
-  const Tipo: TACBrTipoCampo): variant;
-begin
-  Result := inherited ObterConteudo(ANode, Tipo);
-
-  if Tipo in [tcStr, tcEsp, tcStrOrig] then
-    Result := ParseText(Result, False);
 end;
 
 procedure TNFeXmlReader.LerProtNFe(const ANode: TACBrXmlNode);
