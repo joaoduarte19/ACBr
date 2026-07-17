@@ -33,6 +33,9 @@ uses
   ACBrNFSeXDANFSeRLClass;
 
 type
+
+  { TfrmACBrNFSe }
+
   TfrmACBrNFSe = class(TForm)
     pnlMenus: TPanel;
     pnlCentral: TPanel;
@@ -154,7 +157,9 @@ type
     pgRespostas: TPageControl;
     TabSheet5: TTabSheet;
     TabSheet6: TTabSheet;
-    WBXmlRetorno: TWebBrowser;
+    WBXmlEnvio: TSynEdit;
+    WBXmlRetorno: TSynEdit;
+    WBXmlNotas: TSynEdit;
     TabSheet8: TTabSheet;
     memoLog: TMemo;
     TabSheet9: TTabSheet;
@@ -194,8 +199,6 @@ type
     Label44: TLabel;
     edtChaveAcessoWeb: TEdit;
     edtChaveAutorizWeb: TEdit;
-    WBXmlEnvio: TWebBrowser;
-    WBXmlNotas: TWebBrowser;
     chkMontarPathSchemas: TCheckBox;
     Label46: TLabel;
     edtPathPDF: TEdit;
@@ -482,7 +485,7 @@ type
 
     procedure Alimentar_Componente_layout_Unico(NumDFe, NumLote: String);
 
-    procedure LoadXML(RetWS: String; MyWebBrowser: TWebBrowser;
+    procedure LoadXML(RetWS: String; SynEdit: TSynEdit;
       NomeArq: string = 'temp.xml'; aTempo: Integer = 0);
     procedure AtualizarSSLLibsCombo;
     procedure AtualizarCidades;
@@ -509,7 +512,7 @@ uses
 const
   SELDIRHELP = 1000;
 
-{$R *.dfm}
+{$R *.lfm}
 
 { TfrmACBrNFSe }
 
@@ -7332,7 +7335,10 @@ begin
       ACBrNFSeX1.DANFSE.TipoDANFSE := tpPadraoNacional;
 
     ACBrNFSeX1.DANFSE.Logo       := edtLogoMarca.Text;
-    ACBrNFSeX1.DANFSE.LogoNFSe   := 'C:\ACBr\trunk2\Exemplos\ACBrDFe\ACBrNFSeX\Delphi\LogoNFSe.jpg';
+
+    // Utilize uma das 2 string: ACBrNFSeXLogoH; ACBrNFSeXLogoV
+    ACBrNFSeX1.DANFSE.LogoNFSe   := 'ACBrNFSeXLogoH';
+
     ACBrNFSeX1.DANFSE.Prefeitura := edtPrefeitura.Text;
     ACBrNFSeX1.DANFSE.PathPDF    := edtPathPDF.Text;
 
@@ -7408,16 +7414,27 @@ begin
   end
 end;
 
-procedure TfrmACBrNFSe.LoadXML(RetWS: String; MyWebBrowser: TWebBrowser;
+procedure TfrmACBrNFSe.LoadXML(RetWS: String; SynEdit: TSynEdit;
   NomeArq: string; aTempo: Integer);
+var
+  vText: String;
 begin
+  vText := RetWS;
+
+  // formata resposta
+  vText := StringReplace(vText, '>', '>' + LineEnding + '    ', [rfReplaceAll]);
+  vText := StringReplace(vText, '<', LineEnding + '  <', [rfReplaceAll]);
+  vText := StringReplace(vText, '>' + LineEnding + '    ' + LineEnding +
+           '  <', '>' + LineEnding + '  <', [rfReplaceAll]);
+  vText := StringReplace(vText, '  </ret', '</ret', []);
+
+  // exibe resposta
+  SynEdit.Text := Trim(vText);
+
   if RetWS <> '' then
   begin
     WriteToTXT(PathWithDelim(ExtractFileDir(application.ExeName)) + NomeArq,
-                        RetWS, False, False);
-
-    MyWebBrowser.Navigate(PathWithDelim(ExtractFileDir(application.ExeName)) + NomeArq);
-
+                        AnsiString(RetWS), False, False);
     sleep(aTempo);
   end;
 end;

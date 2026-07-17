@@ -7318,7 +7318,10 @@ begin
       ACBrNFSeX1.DANFSE.TipoDANFSE := tpPadraoNacional;
 
     ACBrNFSeX1.DANFSE.Logo       := edtLogoMarca.Text;
-    ACBrNFSeX1.DANFSE.LogoNFSe   := 'C:\ACBr\trunk2\Exemplos\ACBrDFe\ACBrNFSeX\Delphi\LogoNFSe.jpg';
+
+    // Utilize uma das 2 string: ACBrNFSeXLogoH; ACBrNFSeXLogoV
+    ACBrNFSeX1.DANFSE.LogoNFSe   := 'ACBrNFSeXLogoH';
+
     ACBrNFSeX1.DANFSE.Prefeitura := edtPrefeitura.Text;
     ACBrNFSeX1.DANFSE.PathPDF    := edtPathPDF.Text;
 
