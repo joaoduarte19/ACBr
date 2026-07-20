@@ -806,15 +806,14 @@ end;
 
 function TNFSeWClass.GerarCNPJ(const CNPJ: string): TACBrXmlNode;
 begin
-  Result := AddNode(tcStr, '#34', 'Cnpj', 14, 14, 1, OnlyNumber(CNPJ), DSC_CNPJ);
+  Result := AddNode(tcStr, '#34', 'Cnpj', 14, 14, 1, OnlyCPFCNPJAlphaNum(CNPJ), DSC_CNPJ);
 end;
 
 function TNFSeWClass.GerarCPFCNPJ(const CPFCNPJ: string): TACBrXmlNode;
 var
   aDoc: string;
 begin
-  // Em conformidade com a versão 1 do layout da ABRASF não deve ser alterado
-  aDoc := OnlyNumber(CPFCNPJ);
+  aDoc := OnlyAlphaNum(CPFCNPJ);
 
   Result := CreateElement('CpfCnpj');
 
