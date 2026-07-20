@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/07/2026
+-- ACBrNFSeX --
+[*] Alterado a assinatura da procedure SetProvedor, agora tem um terceiro parâmetro
+    onde podemos passar o valor True ou False para setar se o provedor tem uma 
+    APIPropria ou não.
+   Por: Italo Giurizzato Junior
 -- ACBrNFseXServicos --
 [*] ACBR-9646 - O município de Lebon Regis/SC aderiu ao Padrão Nacional
    Por: Metasis Sistemas

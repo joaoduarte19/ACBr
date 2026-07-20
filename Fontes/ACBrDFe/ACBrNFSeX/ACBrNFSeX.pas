@@ -76,7 +76,7 @@ type
     destructor Destroy; override;
 
     procedure SetProvedor(aProvedor: TnfseProvedor = proNenhum;
-      aVersao: TVersaoNFSe = ve100);
+      aVersao: TVersaoNFSe = ve100; aAPIPadrao: Boolean = False);
     procedure SetProvider;
 
     function GetNumID(ANFSe: TNFSe): String;
@@ -306,10 +306,12 @@ begin
   end;
 end;
 
-procedure TACBrNFSeX.SetProvedor(aProvedor: TnfseProvedor; aVersao: TVersaoNFSe);
+procedure TACBrNFSeX.SetProvedor(aProvedor: TnfseProvedor; aVersao: TVersaoNFSe;
+  aAPIPadrao: Boolean);
 begin
   Configuracoes.Geral.Provedor := aProvedor;
   Configuracoes.Geral.Versao := aVersao;
+  Configuracoes.Geral.SetAPIPropria(aAPIPadrao);
 
   if aProvedor <> proNenhum then
     SetProvider;
