@@ -368,7 +368,7 @@ uses
 {$R *.lfm}
 {$ENDIF}
 
-{$R ..\ACBrNFSeXLogo.RES}
+{$R ACBrNFSeXLogo.res}
 
 var
   FQuebradeLinha: String;
