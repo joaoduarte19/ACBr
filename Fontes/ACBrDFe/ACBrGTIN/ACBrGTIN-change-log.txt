@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/07/2026
+-- ACBrGTINConfiguracoes/ACBrGTINReg/ACBrGTINWebServices --
+[*] Removido as units do PCN.
+  Por: Italo Giurizzato Junior
+
 27/09/2025
 -- ACBrGTINConversao --
 [*] Comentado as funções referente ao Tipo de Ambiente.

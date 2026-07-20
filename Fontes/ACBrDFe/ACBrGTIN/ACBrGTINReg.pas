@@ -55,7 +55,7 @@ implementation
 
 uses
   ACBrReg, ACBrDFeConfiguracoes, ACBrGTINConfiguracoes, ACBrDFeRegUtil,
-  ACBrMail, ACBrIntegrador;
+  ACBrMail;
 
 {$IFNDEF FPC}
    {$R ACBrGTIN.dcr}
@@ -98,7 +98,6 @@ begin
     RegisterPropertyEditor(TypeInfo(integer),  TWebServicesConf, 'Tentativas',                THiddenPropertyEditor);
 
     RegisterPropertyEditor(TypeInfo(TRespTecConf),     TConfiguracoesGTIN, 'RespTec',         THiddenPropertyEditor);
-    RegisterPropertyEditor(TypeInfo(TACBrIntegrador),  TACBrGTIN,          'Integrador',      THiddenPropertyEditor);
     RegisterPropertyEditor(TypeInfo(TACBrMail),        TACBrGTIN,          'MAIL',            THiddenPropertyEditor);
   {$ELSE}
     UnlistPublishedProperty(TGeralConfGTIN,   'RetirarAcentos');
@@ -122,7 +121,6 @@ begin
 
     UnlistPublishedProperty(TConfiguracoesGTIN,'RespTec');
 
-    UnlistPublishedProperty(TACBrGTIN,         'Integrador');
     UnlistPublishedProperty(TACBrGTIN,         'MAIL');
   {$ENDIF}
 

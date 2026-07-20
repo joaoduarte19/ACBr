@@ -39,7 +39,7 @@ interface
 uses
   Classes, SysUtils, synacode,
   ACBrDFeConsts,
-  pcnConversao,
+  ACBrDFe.Conversao,
   ACBrDFe, ACBrDFeWebService,
   ACBrGTINConversao, ACBrGTINConfiguracoes;
 
@@ -74,7 +74,7 @@ type
   private
     FOwner: TACBrDFe;
     FGTIN: String;
-    FTpAmb: TpcnTipoAmbiente;
+    FTpAmb: TACBrTipoAmbiente;
     FUF: string;
 
     Fversao: String;
@@ -102,7 +102,7 @@ type
     procedure Clear; override;
 
     property GTIN: String read FGTIN write SetGTIN;
-    property TpAmb: TpcnTipoAmbiente read FTpAmb;
+    property TpAmb: TACBrTipoAmbiente read FTpAmb;
     property UF: string read FUF;
 
     property versao: String    read Fversao   write Fversao;
@@ -166,8 +166,7 @@ implementation
 uses
   StrUtils, Math,
   ACBrUtil.Strings, ACBrUtil.DateTime, ACBrUtil.XMLHTML, ACBrUtil.Base,
-  ACBrGTIN, ACBrGTINConsts, ACBrGTINConsultar, ACBrGTINRetConsultar,
-  pcnLeitor;
+  ACBrGTIN, ACBrGTINConsts, ACBrGTINConsultar, ACBrGTINRetConsultar;
 
 { TGTINWebService }
 
@@ -300,7 +299,7 @@ procedure TGTINConsulta.DefinirURL;
 var
   VerServ: Double;
   Modelo: String;
-  Ambiente: Integer;
+  Ambiente: TACBrTipoAmbiente;
 begin
   FPVersaoServico := '';
   FPURL   := '';
@@ -308,12 +307,12 @@ begin
   FUF    := FPConfiguracoesGTIN.WebServices.UF;
   VerServ := VersaoGTINToDbl(FPConfiguracoesGTIN.Geral.VersaoDF);
 
-  Ambiente := Integer(FPConfiguracoesGTIN.WebServices.Ambiente);
+  Ambiente := FPConfiguracoesGTIN.WebServices.Ambiente;
 
   TACBrGTIN(FPDFeOwner).LerServicoDeParams(
     Modelo,
     FUF,
-    TpcnTipoAmbiente(Ambiente),
+    Ambiente,
     LayOutToServico(FPLayout),
     VerServ,
     FPURL
@@ -375,16 +374,16 @@ end;
 
 function TGTINConsulta.GerarMsgLog: String;
 begin
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'GTIN: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'Resposta: %s ' + LineBreak +
-                           'Tipo GTIN: %s ' + LineBreak +
-                           'Produto: %s ' + LineBreak +
-                           'NCM: %s ' + LineBreak +
-                           'CEST: %s ' + LineBreak),
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'GTIN: %s ' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Status Código: %s ' + sLineBreak +
+                           'Status Descrição: %s ' + sLineBreak +
+                           'Resposta: %s ' + sLineBreak +
+                           'Tipo GTIN: %s ' + sLineBreak +
+                           'Produto: %s ' + sLineBreak +
+                           'NCM: %s ' + sLineBreak +
+                           'CEST: %s ' + sLineBreak),
                    [Fversao, FGTIN, FverAplic, IntToStr(FcStat), FXMotivo,
                     FormatDateTimeBr(FdhResp), IntToStr(FtpGTIN), FxProd,
                     FNCM, FCEST]);
@@ -432,9 +431,10 @@ begin
 end;
 
 procedure TGTINEnvioWebService.DefinirDadosMsg;
-var
-  LeitorXML: TLeitor;
+//var
+//  LeitorXML: TLeitor;
 begin
+{
   LeitorXML := TLeitor.Create;
   try
     LeitorXML.Arquivo := FXMLEnvio;
@@ -443,7 +443,7 @@ begin
   finally
     LeitorXML.Free;
   end;
-
+}
   FPDadosMsg := FXMLEnvio;
 end;
 
@@ -455,7 +455,7 @@ end;
 
 function TGTINEnvioWebService.GerarMsgErro(E: Exception): String;
 begin
-  Result := ACBrStr('WebService: '+FPServico + LineBreak +
+  Result := ACBrStr('WebService: '+FPServico + sLineBreak +
                     '- Inativo ou Inoperante tente novamente.');
 end;
 

@@ -39,7 +39,7 @@ interface
 uses
   Classes, SysUtils, IniFiles,
   ACBrDFeConfiguracoes,
-  pcnConversao,
+  ACBrDFe.Conversao,
   ACBrGTINConversao;
 
 type
