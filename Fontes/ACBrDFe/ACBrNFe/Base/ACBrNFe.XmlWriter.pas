@@ -1219,9 +1219,13 @@ begin
   Result.AppendChild(AddNode(tcStr, 'I03a', 'cBarra', 3, 30, 0,
     NFe.Det[i].Prod.cBarra, DSC_CBARRA));
 
-  if (NFe.Det[i].Prod.nItem = 1) and (NFe.Ide.tpAmb = pcnConversao.taHomologacao) and (NFe.ide.modelo = 65) then
+  if (NFe.Det[i].Prod.nItem = 1) and (NFe.Ide.tpAmb = pcnConversao.taHomologacao) and
+     ((NFe.ide.modelo = 65) or
+     ((NFe.ide.modelo = 55) and (NFe.Ide.tpImp = tiSimplificadoTipo2))) then
     NFe.Det[i].Prod.xProd := HOM_XPROD;
-  Result.AppendChild(AddNode(tcStr, 'I04', 'xProd', 1, 120, 1,NFe.Det[i].Prod.xProd, DSC_XPROD));
+
+  Result.AppendChild(AddNode(tcStr, 'I04', 'xProd', 1, 120, 1,
+                                             NFe.Det[i].Prod.xProd, DSC_XPROD));
 
   Result.AppendChild(AddNode(tcStr, 'I05', 'NCM', 02, 08,
     IfThen(NFe.infNFe.Versao >= 2, 1, 0), NFe.Det[i].Prod.NCM, DSC_NCM));

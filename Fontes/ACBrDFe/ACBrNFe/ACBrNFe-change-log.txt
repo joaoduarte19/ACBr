@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/07/2026
+-- ACBrNFe.ValidarRegrasdeNegocio --
+[*] ACBR-9651 Ajuste na regra 711.
+   Por: Italo Giurizzato Junior
+
 09/07/2026
 -- ACBrNFeWebServices/ACBrNFe.Conversao/ACBrNFe.EnvEvento/ACBrNFe.EventoClass/ACBrNFe.RetEnvEvento --
 [*] ACBR-9624 - Revert das modificações relacionadas a NT 2025/002 em sua versão 1.40 no que diz respeito aos eventos
