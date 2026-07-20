@@ -231,6 +231,7 @@ type
     procedure GravarIni(const AIni: TCustomIniFile); override;
     procedure LerIni(const AIni: TCustomIniFile); override;
     procedure LerParamsMunicipio;
+    procedure SetAPIPropria(aValor: Boolean);
 
   published
     property CodigoMunicipio: Integer read FCodigoMunicipio write SetCodigoMunicipio;
@@ -675,6 +676,11 @@ begin
   //Deve ser a última configuração para que não sobrescreva configurações importantes.
   //Daniel Morais, Panda, Antonio Carlos Junior, Italo Giurizzato Junior, Diego Folieni
   CodigoMunicipio := DeGeralConfNFSe.CodigoMunicipio;
+end;
+
+procedure TGeralConfNFSe.SetAPIPropria(aValor: Boolean);
+begin
+  FAPIPropria := aValor;
 end;
 
 procedure TGeralConfNFSe.SetCodigoMunicipio(const Value: Integer);
