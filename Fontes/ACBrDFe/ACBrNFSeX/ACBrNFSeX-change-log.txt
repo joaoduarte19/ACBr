@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/07/2026
+-- ACBrNFSeXDANFSeRLPadraoNacional --
+[*] Ao imprimir o pCBS estava pegando o pIBSUF, foi corrigido.
+   Por: Ao3 Tech
 -- ABase.Provider --
 [*] ACBR-9654 - Correção na geração do Headers.
    Por: cr@cr.inf.br
