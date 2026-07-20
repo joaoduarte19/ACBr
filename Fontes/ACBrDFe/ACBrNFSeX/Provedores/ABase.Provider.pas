@@ -1,33 +1,33 @@
 {******************************************************************************}
 { Projeto: Componentes ACBr                                                    }
-{  Biblioteca multiplataforma de componentes Delphi para interaÁ„o com equipa- }
-{ mentos de AutomaÁ„o Comercial utilizados no Brasil                           }
+{  Biblioteca multiplataforma de componentes Delphi para intera√ß√£o com equipa- }
+{ mentos de Automa√ß√£o Comercial utilizados no Brasil                           }
 {                                                                              }
 { Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo: Italo Giurizzato Junior                         }
 {                                                                              }
-{  VocÍ pode obter a ˙ltima vers„o desse arquivo na pagina do  Projeto ACBr    }
+{  Voc√™ pode obter a √∫ltima vers√£o desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
 {                                                                              }
-{  Esta biblioteca È software livre; vocÍ pode redistribuÌ-la e/ou modific·-la }
-{ sob os termos da LicenÁa P˙blica Geral Menor do GNU conforme publicada pela  }
-{ Free Software Foundation; tanto a vers„o 2.1 da LicenÁa, ou (a seu critÈrio) }
-{ qualquer vers„o posterior.                                                   }
+{  Esta biblioteca √© software livre; voc√™ pode redistribu√≠-la e/ou modific√°-la }
+{ sob os termos da Licen√ßa P√∫blica Geral Menor do GNU conforme publicada pela  }
+{ Free Software Foundation; tanto a vers√£o 2.1 da Licen√ßa, ou (a seu crit√©rio) }
+{ qualquer vers√£o posterior.                                                   }
 {                                                                              }
-{  Esta biblioteca È distribuÌda na expectativa de que seja ˙til, porÈm, SEM   }
-{ NENHUMA GARANTIA; nem mesmo a garantia implÌcita de COMERCIABILIDADE OU      }
-{ ADEQUA«√O A UMA FINALIDADE ESPECÕFICA. Consulte a LicenÁa P˙blica Geral Menor}
-{ do GNU para mais detalhes. (Arquivo LICEN«A.TXT ou LICENSE.TXT)              }
+{  Esta biblioteca √© distribu√≠da na expectativa de que seja √∫til, por√©m, SEM   }
+{ NENHUMA GARANTIA; nem mesmo a garantia impl√≠cita de COMERCIABILIDADE OU      }
+{ ADEQUA√á√ÉO A UMA FINALIDADE ESPEC√çFICA. Consulte a Licen√ßa P√∫blica Geral Menor}
+{ do GNU para mais detalhes. (Arquivo LICEN√áA.TXT ou LICENSE.TXT)              }
 {                                                                              }
-{  VocÍ deve ter recebido uma cÛpia da LicenÁa P˙blica Geral Menor do GNU junto}
-{ com esta biblioteca; se n„o, escreva para a Free Software Foundation, Inc.,  }
-{ no endereÁo 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
-{ VocÍ tambÈm pode obter uma copia da licenÁa em:                              }
+{  Voc√™ deve ter recebido uma c√≥pia da Licen√ßa P√∫blica Geral Menor do GNU junto}
+{ com esta biblioteca; se n√£o, escreva para a Free Software Foundation, Inc.,  }
+{ no endere√ßo 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
+{ Voc√™ tamb√©m pode obter uma copia da licen√ßa em:                              }
 { http://www.opensource.org/licenses/lgpl-license.php                          }
 {                                                                              }
-{ Daniel Simıes de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
-{       Rua Coronel Aureliano de Camargo, 963 - TatuÌ - SP - 18270-170         }
+{ Daniel Sim√µes de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
+{       Rua Coronel Aureliano de Camargo, 963 - Tatu√≠ - SP - 18270-170         }
 {******************************************************************************}
 
 {$I ACBr.inc}
@@ -801,10 +801,10 @@ procedure TACBrNFSeProviderABaseAPIPropria.PrepararEnviarEvento(
   Response: TNFSeEnviarEventoResponse);
 begin
   inherited;
-  // Utiliza a lÛgica padr„o de montagem do XML pedRegEvento definida na classe base
+  // Utiliza a l√≥gica padr√£o de montagem do XML pedRegEvento definida na classe base
   inherited PrepararEnviarEvento(Response);
 
-  // Define o Path especÌfico para o cancelamento conforme solicitado
+  // Define o Path espec√≠fico para o cancelamento conforme solicitado
   Path := '/CancelarNfse';
   Method := 'POST';
 end;
@@ -817,7 +817,7 @@ var
   AErro: TNFSeEventoCollectionItem;
   i: Integer;
 begin
-  // Verifica se o retorno È o XML especÌfico de Cancelamento da ABase (Customizado)
+  // Verifica se o retorno √© o XML espec√≠fico de Cancelamento da ABase (Customizado)
   if Pos('<CancelarNfseResponse>', Response.ArquivoRetorno) > 0 then
   begin
     Document := TACBrXmlDocument.Create;
@@ -848,11 +848,11 @@ begin
           end;
         end;
 
-        // Define sucesso: Se n„o tiver erros na lista e o status n„o for PROCESSADO_COM_ERROS
+        // Define sucesso: Se n√£o tiver erros na lista e o status n√£o for PROCESSADO_COM_ERROS
         Response.Sucesso := (Response.Erros.Count = 0);
 
         // Se desejar preencher o protocolo ou ID, verifique se existem outras tags no XML,
-        // mas para erros, o cÛdigo acima È suficiente.
+        // mas para erros, o c√≥digo acima √© suficiente.
 
       except
         on E: Exception do
@@ -868,8 +868,8 @@ begin
   end
   else
   begin
-    // Se n„o for o XML especÌfico de cancelamento, chama o tratamento padr„o
-    // (⁄til caso eles retornem JSON ou o XML padr„o nacional em outros cen·rios)
+    // Se n√£o for o XML espec√≠fico de cancelamento, chama o tratamento padr√£o
+    // (√ötil caso eles retornem JSON ou o XML padr√£o nacional em outros cen√°rios)
     inherited TratarRetornoEnviarEvento(Response);
   end;
 end;
@@ -894,13 +894,8 @@ end;
 
 procedure TACBrNFSeXWebserviceABaseAPIPropria.SetHeaders(
   aHeaderReq: THTTPHeader);
-var
-  Auth: string;
 begin
-  Auth := 'Bearer ' +
-               TConfiguracoesNFSe(FPConfiguracoes).Geral.Emitente.WSChaveAcesso;
-
-  aHeaderReq.AddHeader('Authorization', Auth);
+  aHeaderReq.AddHeader('ApiKey', TConfiguracoesNFSe(FPConfiguracoes).Geral.Emitente.WSChaveAcesso);
 end;
 
 function TACBrNFSeXWebserviceABaseAPIPropria.TratarXmlRetornado(

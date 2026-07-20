@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/07/2026
+-- ABase.Provider --
+[*] ACBR-9654 - Correção na geração do Headers.
+   Por: cr@cr.inf.br
+   Veja: https://www.projetoacbr.com.br/forum/topic/93331-acbr-9564-nfsex-rolante-rs-erro-404-ao-transmitir-nfs-e/#comment-611830
 -- ACBrNFSeX --
 [*] Alterado a assinatura da procedure SetProvedor, agora tem um terceiro parâmetro
     onde podemos passar o valor True ou False para setar se o provedor tem uma 
