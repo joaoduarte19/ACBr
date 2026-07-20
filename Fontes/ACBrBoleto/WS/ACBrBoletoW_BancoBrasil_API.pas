@@ -109,8 +109,8 @@ const
   C_URL_SANDBOX    = 'https://api.sandbox.bb.com.br/cobrancas/v2';
 
   C_URL_OAUTH_PROD    = 'https://oauth.bb.com.br/oauth/token';
+  C_URL_OAUTH_HOM     = 'https://oauth.hm.bb.com.br/oauth/token';
   C_URL_OAUTH_SANDBOX = 'https://oauth.sandbox.bb.com.br/oauth/token';
-  C_URL_OAUTH_HOM     = C_URL_OAUTH_SANDBOX;
 
 
   C_ACCEPT         = 'application/json';
