@@ -42,6 +42,15 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/07/2026
+-- ACBrNFseXServicos --
+[*] ACBR-9646 - O município de Lebon Regis/SC aderiu ao Padrão Nacional
+   Por: Metasis Sistemas
+   Veja: https://www.projetoacbr.com.br/forum/topic/93536-acbr-9646-altera%C3%A7%C3%A3o-para-provedor-nacional-lebon-regis-sc/
+[*] ACBR-9609 - O município de Arroio Trinta/SC aderiu ao Padrão Nacional
+   Por: Metasis Sistemas
+   Veja: https://www.projetoacbr.com.br/forum/topic/93377-acbr-9609-altera%C3%A7%C3%A3o-para-provedor-nacional-arroio-trinta-sc/ 
+
 17/07/2026
 -- Diversos --
 [+] Implementado a leitura do Logo da NFS-e Padrão Nacional de um resource.
