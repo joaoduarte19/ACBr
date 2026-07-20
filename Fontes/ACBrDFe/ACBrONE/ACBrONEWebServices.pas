@@ -40,7 +40,6 @@ uses
   Classes, SysUtils, dateutils,
   blcksock,
   ACBrBase, ACBrDFe, ACBrDFeUtil, ACBrDFeWebService,
-  pcnConversao,
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrONE.Conversao,
@@ -121,7 +120,7 @@ type
     FRetManutencaoEQP: TRetManutencaoEQP;
 
     Fversao: string;
-    FtpAmb: TpcnTipoAmbiente;
+    FtpAmb: TACBrTipoAmbiente;
     FverAplic: string;
     FcStat: Integer;
     FxMotivo: string;
@@ -143,7 +142,7 @@ type
     procedure Clear; override;
 
     property versao: string read Fversao;
-    property tpAmb: TpcnTipoAmbiente read FtpAmb;
+    property tpAmb: TACBrTipoAmbiente read FtpAmb;
     property verAplic: string read FverAplic;
     property cStat: Integer read FcStat;
     property xMotivo: string read FxMotivo;
@@ -164,7 +163,7 @@ type
     FRetRecepcaoLeitura: TRetRecepcaoLeitura;
 
     Fversao: string;
-    FtpAmb: TpcnTipoAmbiente;
+    FtpAmb: TACBrTipoAmbiente;
     FverAplic: string;
     FcStat: Integer;
     FxMotivo: string;
@@ -186,7 +185,7 @@ type
     procedure Clear; override;
 
     property versao: string read Fversao;
-    property tpAmb: TpcnTipoAmbiente read FtpAmb;
+    property tpAmb: TACBrTipoAmbiente read FtpAmb;
     property verAplic: string read FverAplic;
     property cStat: Integer read FcStat;
     property xMotivo: string read FxMotivo;
@@ -246,7 +245,7 @@ type
 
   TONEConsultaFoto = class(TONEWebService)
   private
-    FtpAmb: TpcnTipoAmbiente;
+    FtpAmb: TACBrTipoAmbiente;
     Fversao: string;
     FverAplic: string;
     FcStat: integer;
@@ -268,7 +267,7 @@ type
     destructor Destroy; override;
     procedure Clear; override;
 
-    property tpAmb: TpcnTipoAmbiente read FtpAmb;
+    property tpAmb: TACBrTipoAmbiente read FtpAmb;
     property versao: string read Fversao;
     property cStat: integer read FcStat;
     property xMotivo: string read FxMotivo;
@@ -284,7 +283,7 @@ type
 
   TONEConsultaPlaca = class(TONEWebService)
   private
-    FtpAmb: TpcnTipoAmbiente;
+    FtpAmb: TACBrTipoAmbiente;
     Fversao: string;
     FverAplic: string;
     FcStat: integer;
@@ -307,7 +306,7 @@ type
     destructor Destroy; override;
     procedure Clear; override;
 
-    property tpAmb: TpcnTipoAmbiente read FtpAmb;
+    property tpAmb: TACBrTipoAmbiente read FtpAmb;
     property versao: string read Fversao;
     property cStat: integer read FcStat;
     property xMotivo: string read FxMotivo;
@@ -354,8 +353,7 @@ implementation
 uses
   StrUtils, Math,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.XMLHTML, ACBrUtil.DateTime,
-  ACBrONE,
-  pcnGerador, pcnLeitor;
+  ACBrONE;
 
 { TONEWebService }
 
@@ -523,9 +521,10 @@ begin
 end;
 
 procedure TONEEnvioWebService.DefinirDadosMsg;
-var
-  LeitorXML: TLeitor;
+//var
+//  LeitorXML: TLeitor;
 begin
+{
   LeitorXML := TLeitor.Create;
   try
     LeitorXML.Arquivo := FXMLEnvio;
@@ -534,7 +533,7 @@ begin
   finally
     LeitorXML.Free;
   end;
-
+}
   FPDadosMsg := FXMLEnvio;
 end;
 
@@ -546,7 +545,7 @@ end;
 
 function TONEEnvioWebService.GerarMsgErro(E: Exception): string;
 begin
-  Result := ACBrStr('WebService: '+FPServico + LineBreak +
+  Result := ACBrStr('WebService: '+FPServico + sLineBreak +
                     '- Inativo ou Inoperante tente novamente.');
 end;
 
@@ -667,13 +666,13 @@ var
   aMsg: string;
 begin
   {(*}
-  aMsg := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                         'Ambiente: %s ' + LineBreak +
-                         'Versão Aplicativo: %s ' + LineBreak +
-                         'Status Código: %s ' + LineBreak +
-                         'Status Descrição: %s ' + LineBreak +
-                         'Resposta: %s ' + LineBreak +
-                         'NSU do Movimento: %s ' + LineBreak),
+  aMsg := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                         'Ambiente: %s ' + sLineBreak +
+                         'Versão Aplicativo: %s ' + sLineBreak +
+                         'Status Código: %s ' + sLineBreak +
+                         'Status Descrição: %s ' + sLineBreak +
+                         'Resposta: %s ' + sLineBreak +
+                         'NSU do Movimento: %s ' + sLineBreak),
                  [FRetManutencaoEQP.versao, TipoAmbienteToStr(FRetManutencaoEQP.tpAmb),
                   FRetManutencaoEQP.verAplic, IntToStr(FRetManutencaoEQP.cStat),
                   FRetManutencaoEQP.xMotivo,
@@ -705,7 +704,7 @@ begin
   FRetManutencaoEQP.LerXml;
 
   Fversao   := FRetManutencaoEQP.versao;
-  FtpAmb    := TpcnTipoAmbiente(FRetManutencaoEQP.tpAmb);
+  FtpAmb    := FRetManutencaoEQP.tpAmb;
   FverAplic := FRetManutencaoEQP.verAplic;
   FcStat    := FRetManutencaoEQP.cStat;
   FxMotivo  := FRetManutencaoEQP.xMotivo;
@@ -834,13 +833,13 @@ var
   aMsg: string;
 begin
   {(*}
-  aMsg := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                         'Ambiente: %s ' + LineBreak +
-                         'Versão Aplicativo: %s ' + LineBreak +
-                         'Status Código: %s ' + LineBreak +
-                         'Status Descrição: %s ' + LineBreak +
-                         'Resposta: %s ' + LineBreak +
-                         'NSU: %s ' + LineBreak),
+  aMsg := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                         'Ambiente: %s ' + sLineBreak +
+                         'Versão Aplicativo: %s ' + sLineBreak +
+                         'Status Código: %s ' + sLineBreak +
+                         'Status Descrição: %s ' + sLineBreak +
+                         'Resposta: %s ' + sLineBreak +
+                         'NSU: %s ' + sLineBreak),
                  [FRetRecepcaoLeitura.versao, TipoAmbienteToStr(FRetRecepcaoLeitura.tpAmb),
                   FRetRecepcaoLeitura.verAplic, IntToStr(FRetRecepcaoLeitura.cStat),
                   FRetRecepcaoLeitura.xMotivo,
@@ -873,7 +872,7 @@ begin
   FRetRecepcaoLeitura.LerXml;
 
   Fversao   := FRetRecepcaoLeitura.versao;
-  FtpAmb    := TpcnTipoAmbiente(FRetRecepcaoLeitura.tpAmb);
+  FtpAmb    := FRetRecepcaoLeitura.tpAmb;
   FverAplic := FRetRecepcaoLeitura.verAplic;
   FcStat    := FRetRecepcaoLeitura.cStat;
   FxMotivo  := FRetRecepcaoLeitura.xMotivo;
@@ -1027,14 +1026,14 @@ end;
 
 function TDistLeituras.GerarMsgLog: string;
 begin
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Ambiente: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'Resposta: %s ' + LineBreak +
-                           'Último NSU: %s ' + LineBreak +
-                           'Último NSU ONE: %s ' + LineBreak),
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Ambiente: %s ' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Status Código: %s ' + sLineBreak +
+                           'Status Descrição: %s ' + sLineBreak +
+                           'Resposta: %s ' + sLineBreak +
+                           'Último NSU: %s ' + sLineBreak +
+                           'Último NSU ONE: %s ' + sLineBreak),
                    [FRetDistLeitura.versao, TipoAmbienteToStr(FRetDistLeitura.tpAmb),
                     FRetDistLeitura.verAplic, IntToStr(FRetDistLeitura.cStat),
                     FRetDistLeitura.xMotivo,
@@ -1045,7 +1044,7 @@ end;
 
 function TDistLeituras.GerarMsgErro(E: Exception): string;
 begin
-  Result := ACBrStr('WebService Distribuição de DFe:' + LineBreak +
+  Result := ACBrStr('WebService Distribuição de DFe:' + sLineBreak +
                     '- Inativo ou Inoperante tente novamente.');
 end;
 
@@ -1121,12 +1120,12 @@ end;
 
 function TONEConsultaFoto.GerarMsgLog: string;
 begin
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Ambiente: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'Resposta: %s ' + LineBreak),
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Ambiente: %s ' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Status Código: %s ' + sLineBreak +
+                           'Status Descrição: %s ' + sLineBreak +
+                           'Resposta: %s ' + sLineBreak),
                    [FRetConsFoto.versao,
                     TipoAmbienteToStr(FRetConsFoto.TpAmb),
                     FRetConsFoto.verAplic,
@@ -1144,7 +1143,7 @@ begin
   FRetConsFoto.LerXml;
 
   Fversao   := FRetConsFoto.versao;
-  FtpAmb    := TpcnTipoAmbiente(FRetConsFoto.tpAmb);
+  FtpAmb    := FRetConsFoto.tpAmb;
   FverAplic := FRetConsFoto.verAplic;
   FcStat    := FRetConsFoto.cStat;
   FxMotivo  := FRetConsFoto.xMotivo;
@@ -1220,12 +1219,12 @@ end;
 
 function TONEConsultaPlaca.GerarMsgLog: string;
 begin
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Ambiente: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'Resposta: %s ' + LineBreak),
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Ambiente: %s ' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Status Código: %s ' + sLineBreak +
+                           'Status Descrição: %s ' + sLineBreak +
+                           'Resposta: %s ' + sLineBreak),
                    [FRetConsPlaca.versao,
                     TipoAmbienteToStr(FRetConsPlaca.TpAmb),
                     FRetConsPlaca.verAplic,
@@ -1243,7 +1242,7 @@ begin
   FRetConsPlaca.LerXml;
 
   Fversao   := FRetConsPlaca.versao;
-  FtpAmb    := TpcnTipoAmbiente(FRetConsPlaca.tpAmb);
+  FtpAmb    := FRetConsPlaca.tpAmb;
   FverAplic := FRetConsPlaca.verAplic;
   FcStat    := FRetConsPlaca.cStat;
   FxMotivo  := FRetConsPlaca.xMotivo;

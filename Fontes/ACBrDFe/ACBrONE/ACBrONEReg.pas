@@ -37,7 +37,7 @@ unit ACBrONEReg;
 interface
 
 uses
-  SysUtils, Classes, ACBrONE, pcnConversao,
+  SysUtils, Classes, ACBrONE,
   {$IFDEF FPC}
      LResources, LazarusPackageIntf, PropEdits, componenteditors
   {$ELSE}

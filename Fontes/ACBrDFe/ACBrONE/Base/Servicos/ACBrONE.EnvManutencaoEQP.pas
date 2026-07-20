@@ -44,7 +44,7 @@ uses
    System.Contnrs,
   {$IFEND}
   ACBrBase,
-  pcnConversao,
+  ACBrDFe.Conversao,
   ACBrONE.Conversao;
 
 type
@@ -53,7 +53,7 @@ type
   TManutencaoEQP = class(TObject)
   private
     FVersao: string;
-    FtpAmb: TpcnTipoAmbiente;
+    FtpAmb: TACBrTipoAmbiente;
     FverAplic: string;
     FtpMan: TtpMan;
     FdhReg: TDateTime;
@@ -77,7 +77,7 @@ type
     function ObterNomeArquivo: string;
 
     property Versao: string          read FVersao    write FVersao;
-    property tpAmb: TpcnTipoAmbiente read FtpAmb     write FtpAmb;
+    property tpAmb: TACBrTipoAmbiente read FtpAmb     write FtpAmb;
     property verAplic: string        read FverAplic  write FverAplic;
     property tpMan: TtpMan           read FtpMan     write FtpMan;
     property dhReg: TDateTime        read FdhReg     write FdhReg;
@@ -115,7 +115,7 @@ begin
   xLon := StringReplace(xLon, ',', '.', [rfReplaceAll]);
 
   Result := '<oneManEQP ' + NAME_SPACE_ONE + ' versao="' + Versao + '">' +
-              '<tpAmb>' + tpAmbToStr(tpAmb) + '</tpAmb>' +
+              '<tpAmb>' + TipoAmbienteToStr(tpAmb) + '</tpAmb>' +
               '<verAplic>' + verAplic + '</verAplic>' +
               '<tpMan>' + TpManToStr(FtpMan) + '</tpMan>' +
               '<dhReg>' +

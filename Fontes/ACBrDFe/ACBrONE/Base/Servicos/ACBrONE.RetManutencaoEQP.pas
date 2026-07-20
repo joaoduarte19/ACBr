@@ -87,7 +87,6 @@ function TRetManutencaoEQP.LerXml: Boolean;
 var
   Document: TACBrXmlDocument;
   ANode: TACBrXmlNode;
-  ok: Boolean;
 begin
   Document := TACBrXmlDocument.Create;
 

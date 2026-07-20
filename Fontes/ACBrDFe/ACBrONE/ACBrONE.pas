@@ -40,7 +40,7 @@ uses
   Classes, SysUtils, ACBrBase,
   ACBrUtil.Base, ACBrDFe, ACBrDFeException, ACBrDFeConfiguracoes,
   ACBrONEConfiguracoes, ACBrONEWebServices,
-  pcnConversao,
+  ACBrDFe.Conversao,
   ACBrONE.Conversao;
 
 const

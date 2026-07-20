@@ -126,7 +126,6 @@ function TRetConsPlaca.LerXml: boolean;
 var
   Document: TACBrXmlDocument;
   ANode: TACBrXmlNode;
-  ok: Boolean;
 begin
   Document := TACBrXmlDocument.Create;
 

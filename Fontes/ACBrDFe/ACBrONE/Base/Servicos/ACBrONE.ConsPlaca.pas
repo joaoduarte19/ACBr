@@ -38,13 +38,13 @@ interface
 
 uses
   SysUtils, Classes,
-  pcnConversao;
+  ACBrDFe.Conversao;
 
 type
 
   TConsPlaca = class
   private
-    FtpAmb: TpcnTipoAmbiente;
+    FtpAmb: TACBrTipoAmbiente;
     FverAplic: string;
     FPlaca: string;
     FVersao: string;
@@ -52,7 +52,7 @@ type
   public
     function GerarXML: string;
 
-    property tpAmb: TpcnTipoAmbiente read FtpAmb      write FtpAmb;
+    property tpAmb: TACBrTipoAmbiente read FtpAmb      write FtpAmb;
     property verAplic: string        read FverAplic   write FverAplic;
     property Placa: string           read FPlaca      write FPlaca;
     property Versao: string          read FVersao     write FVersao;
@@ -69,7 +69,7 @@ uses
 function TConsPlaca.GerarXML: string;
 begin
   Result := '<oneConsPorPlaca ' + NAME_SPACE_ONE + ' versao="' + Versao + '">' +
-              '<tpAmb>' + tpAmbToStr(tpAmb) + '</tpAmb>' +
+              '<tpAmb>' + TipoAmbienteToStr(tpAmb) + '</tpAmb>' +
               '<verAplic>' + verAplic + '</verAplic>' +
               '<placa>' + Placa + '</placa>' +
               '<dtRef>' + FormatDateTime('yyyy-mm-dd', FdtRef) + '</dtRef>' +

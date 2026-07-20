@@ -48,7 +48,6 @@ uses
   ACBrONE.EnvRecepcaoLeitura,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  pcnConversao,
   ACBrXmlDocument;
 
 type
@@ -333,7 +332,6 @@ end;
 procedure TRetDistLeitura.Ler_oneRecepLeitura(ANode: TACBrXmlNode; Idx: Integer);
 var
   AuxNode: TACBrXmlNode;
-  ok: Boolean;
   sAux: string;
 begin
   if not Assigned(ANode) then Exit;
@@ -524,7 +522,6 @@ function TRetDistLeitura.LerXml: boolean;
 var
   Document: TACBrXmlDocument;
   ANode: TACBrXmlNode;
-  ok: Boolean;
 begin
   Document := TACBrXmlDocument.Create;
 

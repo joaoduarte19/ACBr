@@ -86,7 +86,6 @@ function TRetConsFoto.LerXml: boolean;
 var
   Document: TACBrXmlDocument;
   ANode: TACBrXmlNode;
-  ok: Boolean;
   auxStr: AnsiString;
 begin
   Document := TACBrXmlDocument.Create;

@@ -38,20 +38,20 @@ interface
 
 uses
   SysUtils, Classes,
-  pcnConversao;
+  ACBrDFe.Conversao;
 
 type
 
   TConsFoto = class
   private
-    FtpAmb: TpcnTipoAmbiente;
+    FtpAmb: TACBrTipoAmbiente;
     FverAplic: string;
     FNSULeitura: string;
     FVersao: string;
   public
     function GerarXML: string;
 
-    property tpAmb: TpcnTipoAmbiente read FtpAmb      write FtpAmb;
+    property tpAmb: TACBrTipoAmbiente read FtpAmb      write FtpAmb;
     property verAplic: string        read FverAplic   write FverAplic;
     property NSULeitura: string      read FNSULeitura write FNSULeitura;
     property Versao: string          read FVersao     write FVersao;
@@ -73,7 +73,7 @@ begin
   sNSULei := IntToStrZero(StrToInt64Def(NSULeitura, 0), 15);
 
   Result := '<oneConsFoto ' + NAME_SPACE_ONE + ' versao="' + Versao + '">' +
-              '<tpAmb>' + tpAmbToStr(tpAmb) + '</tpAmb>' +
+              '<tpAmb>' + TipoAmbienteToStr(tpAmb) + '</tpAmb>' +
               '<verAplic>' + verAplic + '</verAplic>' +
               '<NSULeitura>' + sNSULei + '</NSULeitura>' +
             '</oneConsFoto>';
