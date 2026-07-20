@@ -61,13 +61,14 @@ type
 implementation
 
 uses
+  ACBrDFeUtil,
   ACBrUtil.Strings;
 
 { TConsSitBPe }
 
 function TConsSitBPe.ObterNomeArquivo: string;
 begin
-  Result := OnlyCPFCNPJAlphaNum(FchBPe) + '-ped-sit.xml';
+  Result := RemoverLiteralChave(FchBPe) + '-ped-sit.xml';
 end;
 
 function TConsSitBPe.GerarXML: string;

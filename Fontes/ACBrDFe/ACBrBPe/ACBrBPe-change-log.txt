@@ -45,6 +45,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/07/2026
+-- ACBrBPeConsSit/ACBrBPeDABPeESCPOS --
+[-] Troca da função OnlyCPFCNPJAlphaNum por RemoverLiteralChave ao ler campos
+    que contem a chave do BPe.
+   Por: Italo Giurizzato Junior
+
 14/07/2026
 -- Diversos --
 [*] ACBr-9630 - Remoção da dependência das units PCN e alterações visando a utilização

@@ -387,7 +387,7 @@ begin
   FPosPrinter.Buffer.Add(' ');
   FPosPrinter.Buffer.Add('</ce><c><n>Consulte pela Chave de Acesso em</n>');
   FPosPrinter.Buffer.Add('</ce><c>'+TACBrBPe(ACBrBPe).GetURLConsultaBPe(FpBPe.ide.cUF, FpBPe.ide.tpAmb));
-  FPosPrinter.Buffer.Add('</ce><c>' + FormatarChaveAcesso(OnlyAlphaNum(FpBPe.infBPe.ID)));
+  FPosPrinter.Buffer.Add('</ce><c>' + FormatarChaveAcesso(RemoverLiteralChave(FpBPe.infBPe.ID)));
 end;
 
 procedure TACBrBPeDABPeESCPOS.GerarInformacoesPassageiro;
@@ -589,7 +589,7 @@ begin
   FPosPrinter.Buffer.Add(ACBrStr('Emissão: ' + DateTimeToStr(FpBPe.ide.dhEmi)) + '</n>');
   FPosPrinter.Buffer.Add(' ');
   FPosPrinter.Buffer.Add('<c>CHAVE ACESSO');
-  FPosPrinter.Buffer.Add(FormatarChaveAcesso(OnlyAlphaNum(FpBPe.infBPe.ID)));
+  FPosPrinter.Buffer.Add(FormatarChaveAcesso(RemoverLiteralChave(FpBPe.infBPe.ID)));
   FPosPrinter.Buffer.Add('</linha_simples>');
 
   // dados do evento
