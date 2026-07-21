@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 21/07/2026
+-- Fiorilli.Provider --
+[*] ACBR-9523 - Implementado o cancelamento para o novo webservice do provedor.
+    Por não ter um retorno completo ficou faltando implementar a leitura do retorno
+    quando o pedido de cancelamento é processado com sucesso.
+   Por: Italo Giurizzato Junior
 -- PadraoNacional.GravarXml --
 [*] Alteração visando obter o código do município de emissão não for configurado.
    Por: Italo Giurizzato Junior

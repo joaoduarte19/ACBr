@@ -96,7 +96,7 @@ type
     function ConsultarNFSePorRps(const ACabecalho, AMSG: string): string; override;
     function ConsultarNFSePorChave(const ACabecalho, AMSG: string): string; override;
     //Confirmado que o envio de evento não deve ser feito pelo padrão nacional
-    //function EnviarEvento(const ACabecalho, AMSG: string): string; override;
+    function EnviarEvento(const ACabecalho, AMSG: string): string; override;
     function ConsultarEvento(const ACabecalho, AMSG: string): string; override;
     function ConsultarDFe(const ACabecalho, AMSG: string): string; override;
     function ConsultarParam(const ACabecalho, AMSG: string): string; override;
@@ -141,8 +141,9 @@ type
     procedure TratarRetornoConsultaLoteRps(Response: TNFSeConsultaLoteRpsResponse); override;
 
     procedure PrepararEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
-  public
-    procedure EnviarEvento; override;
+    procedure TratarRetornoEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
+//  public
+//    procedure EnviarEvento; override;
   end;
 
   TACBrNFSeXWebserviceFiorilliAPIPropria101 = class(TACBrNFSeXWebserviceFiorilliAPIPropria)
@@ -564,7 +565,8 @@ var
 begin
   URL := GetWebServiceURL(AMetodo);
 
-  if AMetodo in [tmGerar, tmRecepcionar, tmRecepcionarSincrono, tmConsultarLote] then
+  if AMetodo in [tmGerar, tmRecepcionar, tmRecepcionarSincrono, tmConsultarLote,
+                 tmEnviarEvento] then
     AMimeType := 'text/xml; charset=utf-8'
   else
     AMimeType := 'application/json';
@@ -592,7 +594,7 @@ begin
   else
     Result := 'ID';
 end;
-
+{
 procedure TACBrNFSeProviderFiorilliAPIPropria.EnviarEvento;
 begin
   inherited EnviarEvento;
@@ -603,7 +605,7 @@ begin
   ConfigGeral.FormatoArqRetornoSoap := tfaXml;
   ConfigWebServices.VersaoAtrib := '1.00';
 end;
-
+}
 function TACBrNFSeProviderFiorilliAPIPropria.GerarListaDPS(const AResponse: TNFSeEmiteResponse; const AIdAttr: String): String;
 var
   Nota: TNotaFiscal;
@@ -708,6 +710,9 @@ begin
   if Assigned(ANode) then
   begin
     ANodeArray := ANode.Childrens.FindAllAnyNs(AMessageTag);
+
+    if not Assigned(ANodeArray) then
+      ANodeArray := ANode.Childrens.FindAllAnyNs('mensagem');
 
     if Assigned(ANodeArray) then
     begin
@@ -941,7 +946,8 @@ function TACBrNFSeProviderFiorilliAPIPropria.PrepararArquivoEnvio(
   const aXml: string; aMetodo: TMetodo): string;
 begin
   Result := aXml;
-
+  Method := 'POST';
+  (*
   if aMetodo in [tmEnviarEvento] then
   begin
     Result := ChangeLineBreak(aXml, '');
@@ -951,7 +957,7 @@ begin
     Path := '/nfse/' + Chave + '/eventos';
     Method := 'POST';
   end
-  else
+  else *)
     Result := ChangeLineBreak(aXml, '');
 end;
 
@@ -1152,14 +1158,96 @@ end;
 procedure TACBrNFSeProviderFiorilliAPIPropria.PrepararEnviarEvento(
   Response: TNFSeEnviarEventoResponse);
 begin
-  ConfigGeral.FormatoArqEnvio := tfaJson;
-  ConfigGeral.FormatoArqRetorno := tfaJson;
-  ConfigGeral.FormatoArqEnvioSoap := tfaJson;
-  ConfigGeral.FormatoArqRetornoSoap := tfaJson;
   ConfigMsgDados.EnviarEvento.xmlns := 'http://www.sped.fazenda.gov.br/nfse';
   ConfigWebServices.VersaoAtrib := '1.01';
 
   inherited PrepararEnviarEvento(Response);
+end;
+
+procedure TACBrNFSeProviderFiorilliAPIPropria.TratarRetornoEnviarEvento(
+  Response: TNFSeEnviarEventoResponse);
+var
+  Document: TACBrXmlDocument;
+  AErro: TNFSeEventoCollectionItem;
+  ANode, AuxNode: TACBrXmlNode;
+  ANodeArray: TACBrXMLNodeArray;
+  I: Integer;
+begin
+  Document := TACBrXmlDocument.Create;
+
+  try
+    try
+      if Response.ArquivoRetorno = '' then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod201;
+        AErro.Descricao := ACBrStr(Desc201);
+        Exit;
+      end;
+
+      Document.LoadFromXml(Response.ArquivoRetorno);
+
+      ANode := Document.Root;
+
+      ProcessarMensagemErros(ANode, Response);
+
+      Response.Sucesso := (Response.Erros.Count = 0);
+
+      if Response.Sucesso then
+      begin
+        // Precisamos de um XML de retorno do provedor cujo evento de canelamento
+        // foi processado com sucesso para finalizar a implementação.
+        (*
+        ANode := Document.Root.Childrens.FindAnyNs('ListaNfse');
+
+        if not Assigned(ANode) then
+        begin
+          AErro := Response.Erros.New;
+          AErro.Codigo := Cod202;
+          AErro.Descricao := ACBrStr(Desc202);
+          Exit;
+        end;
+
+        ANodeArray := ANode.Childrens.FindAllAnyNs('NFSe');
+
+        if not Assigned(ANodeArray) then
+        begin
+          AErro := Response.Erros.New;
+          AErro.Codigo := Cod203;
+          AErro.Descricao := ACBrStr(Desc203);
+          Exit;
+        end;
+
+        for I := Low(ANodeArray) to High(ANodeArray) do
+        begin
+          ANode := ANodeArray[I];
+          AuxNode := ANode.Childrens.FindAnyNs('infNFSe');
+
+          if AuxNode = nil then
+          begin
+            AErro := Response.Erros.New;
+            AErro.Codigo := Cod203;
+            AErro.Descricao := ACBrStr(Desc203);
+            Exit;
+          end
+          else
+          begin
+            // Implementar
+          end;
+        end;
+        *)
+      end;
+    except
+      on E: Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(Document);
+  end;
 end;
 
 { TACBrNFSeXWebserviceFiorilliAPIPropria }
@@ -1230,14 +1318,6 @@ begin
   Result := Executar('', FPMsgOrig, [], []);
 end;
 
-//function TACBrNFSeXWebserviceFiorilliAPIPropria.EnviarEvento(const ACabecalho,
-//  AMSG: string): string;
-//begin
-//  FPMsgOrig := AMSG;
-//
-//  Result := Executar('', FPMsgOrig, [], []);
-//end;
-
 function TACBrNFSeXWebserviceFiorilliAPIPropria.ConsultarNFSePorRps(
   const ACabecalho, AMSG: string): string;
 begin
@@ -1269,6 +1349,27 @@ begin
 
   Result := Executar('recepcionarDPS',
     Request, [], ['xmlns:fio="http://www.fiorilli.com.br/nfse-nacional"']);
+end;
+
+function TACBrNFSeXWebserviceFiorilliAPIPropria.EnviarEvento(const ACabecalho,
+  AMSG: string): string;
+var
+  Emitente: TEmitenteConfNFSe;
+  Request: string;
+begin
+  Emitente := TConfiguracoesNFSe(FPConfiguracoes).Geral.Emitente;
+
+  FPMsgOrig := AMSG;
+
+  Request := RemoverDeclaracaoXML(AMSG);
+  Request := '<IM>' + Emitente.InscMun + '</IM>' + Request;
+
+  Request := '<CancelarNFSeEnvio xmlns="http://www.fiorilli.com.br/nfse-nacional">' +
+                Request +
+             '</CancelarNFSeEnvio>';
+
+  Result := Executar('cancelarNFSe',
+    Request, [], []);
 end;
 
 function TACBrNFSeXWebserviceFiorilliAPIPropria.ObterDANFSE(const ACabecalho,
