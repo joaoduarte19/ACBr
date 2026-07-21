@@ -4341,6 +4341,8 @@ begin
             Instrucao1          := IniBoletos.ReadString(Sessao,'Instrucao1',Instrucao1);
             Instrucao2          := IniBoletos.ReadString(Sessao,'Instrucao2',Instrucao2);
             Instrucao3          := IniBoletos.ReadString(Sessao,'Instrucao3',Instrucao3);
+            Instrucao4          := IniBoletos.ReadString(Sessao,'Instrucao4',Instrucao4);
+            Instrucao5          := IniBoletos.ReadString(Sessao,'Instrucao5',Instrucao5);
             TotalParcelas       := IniBoletos.ReadInteger(Sessao,'TotalParcelas',TotalParcelas);
             Parcela             := IniBoletos.ReadInteger(Sessao,'Parcela',Parcela);
             ValorAbatimento     := IniBoletos.ReadFloat(Sessao,'ValorAbatimento',ValorAbatimento);
