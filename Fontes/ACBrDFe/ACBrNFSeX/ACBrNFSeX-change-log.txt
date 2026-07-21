@@ -42,6 +42,21 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+21/07/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9601 - O município de Santo André/SP mudou de Ginfes para Giss
+	Por: Dercide Alvarez
+	Veja: https://www.projetoacbr.com.br/forum/topic/93245-acbr-9601-santo-andre-sp-agora-%C3%A9-giss/ 
+[*] ACBR-9598 - O município de Lagoa da Confusão/TO permanece utilizando o provedor Megasoft
+	Por: maxdatasistema
+	Veja: https://www.projetoacbr.com.br/forum/topic/93327-acbr-9598-munic%C3%ADpio-lagoa-da-confus%C3%A3o-to-provedor-megasoft/
+[*] ACBR-9643 - Inclusão do município Quedas do Iguaçu/PR que utiliza o Provedor Equiplano
+	Por: Larissa Santos
+	Veja: https://www.projetoacbr.com.br/forum/topic/93520-acbr-9643-cidade-de-quedas-do-igua%C3%A7u-provedor-n%C3%A3o-dispon%C3%ADvel-para-emiss%C3%A3o-de-nfse/
+[*] ACBR-9588 - Inclusão do município Quitandinha/PR que utiliza o Provedor Equiplano
+	Por: Larissa Santos
+	Veja: https://www.projetoacbr.com.br/forum/topic/93273-acbr-9588-munic%C3%ADpio-quitandinhapr-ibge-4121208-sem-provedor-na-base-%E2%80%94-deveria-ser-equiplano/ 
+
 20/07/2026
 -- ACBrNFseXServicos --
 [*] ACBR-9655 - O município de Holambra/SP trocou de provedor agora é o Giap.
