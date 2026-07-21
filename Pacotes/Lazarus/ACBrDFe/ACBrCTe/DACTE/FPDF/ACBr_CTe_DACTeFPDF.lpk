@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="5">
+    <PathDelim Value="\"/>
+    <Name Value="ACBr_CTe_DACTeFPDF"/>
+    <Type Value="RunAndDesignTime"/>
+    <Author Value="Juliomar Marchetti"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\..\..\..\..\..\Fontes\ACBrDFe\ACBrCTe\DACTe\FPDF"/>
+        <UnitOutputDirectory Value="..\..\..\..\..\..\Lib\Lazarus\ACBrDFe\ACBrCTe\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+    </CompilerOptions>
+    <Description Value="ACBr - DACTe em FDPF - (http://www.projetoacbr.com.br/)"/>
+    <License Value="LGPL"/>
+    <Files Count="3">
+      <Item1>
+        <Filename Value="..\..\..\..\..\..\Fontes\ACBrDFe\ACBrCTe\DACTE\FPDF\ACBrCTeDACTeFPDF.pas"/>
+        <AddToUsesPkgSection Value="False"/>
+        <UnitName Value="ACBrCTeDACTeFPDF"/>
+      </Item1>
+      <Item2>
+        <Filename Value="..\..\..\..\..\..\Fontes\ACBrDFe\ACBrCTe\DACTE\FPDF\ACBrCTeDACTeFPDFReg.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ACBrCTeDACTeFPDFReg"/>
+      </Item2>
+      <Item3>
+        <Filename Value="..\..\..\..\..\..\Fontes\ACBrDFe\ACBrCTe\DACTE\FPDF\ACBrCTeUtilsFPDF.pas"/>
+        <AddToUsesPkgSection Value="False"/>
+        <UnitName Value="ACBrCTeUtilsFPDF"/>
+      </Item3>
+    </Files>
+    <CompatibilityMode Value="True"/>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="ACBr_CTe"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="FCL"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

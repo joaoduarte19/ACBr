@@ -38,11 +38,31 @@ unit ACBrCTeDACTeFPDF;
 interface
 
 uses
-  Classes, SysUtils, StrUtils, DateUtils, Math, ACBr_fpdf, ACBr_fpdf_ext,
-  ACBr_fpdf_report, ACBrCTe.Classes, ACBrDFe.Conversao, pcteConversaoCTe,
-  ACBrValidador, ACBrUtil.DateTime, ACBrUtil.Strings, ACBrUtil.FilesIO,
-  ACBrDFeUtil, ACBrUtil.Compatibilidade, ACBrCTe, ACBrBase, ACBrCTeUtilsFPDF,
-  ACBrCTeDACTEClass, ACBrImage
+  Classes, 
+  SysUtils, 
+  StrUtils, 
+  DateUtils, 
+  Math, 
+  ACBr_fpdf, 
+  ACBr_fpdf_ext,
+  ACBr_fpdf_report, 
+  ACBrCTe.Classes, 
+  ACBrCTe.EnvEvento, 
+  ACBrCTe.EventoClass,
+  ACBrDFe.Conversao, 
+  pcnConversao, 
+  pcteConversaoCTe,
+  ACBrValidador, 
+  ACBrUtil.DateTime, 
+  ACBrUtil.Strings, 
+  ACBrUtil.FilesIO,
+  ACBrDFeUtil, 
+  ACBrUtil.Compatibilidade, 
+  ACBrCTe, 
+  ACBrBase, 
+  ACBrCTeUtilsFPDF,
+  ACBrCTeDACTEClass, 
+  ACBrImage
 {$IFDEF FPC}
   ,BufDataset
 {$ELSE}
@@ -91,6 +111,7 @@ type
   TACBrCTeDACTeFPDF = class(TACBrCTeDACTEClass)
   private
     FFPDFReport: TCTeDACTeFPDF;
+    FStream: TStream;
 
   public
     constructor Create(AOwner: TComponent); override;
@@ -99,6 +120,10 @@ type
     procedure ImprimirDACTE(CTE: TCTe = nil); override;
     procedure ImprimirDACTEPDF(CTE: TCTe = nil); override;
     procedure ImprimirDACTEPDF(AStream: TStream; ACTe: TCTe = nil); override;
+
+    procedure ImprimirEVENTO(ACTE: TCTe = nil); override;
+    procedure ImprimirEVENTOPDF(ACTE: TCTe = nil); override;
+    procedure ImprimirEVENTOPDF(AStream: TStream; ACTe: TCTe = nil); override;
 
   published
   end;
@@ -159,6 +184,175 @@ type
   public
     constructor Create(ACTeUtils: TCTeUtilsFPDF); reintroduce;
   end;
+
+  { TBlocoRodapeSistemaCTe }
+  TBlocoRodapeSistemaCTe = class(TFPDFBand)
+  private
+    FMensagem: string;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(const AMensagem: string); reintroduce;
+  end;
+
+  { TBlocoAvisoHomologacaoCTe }
+  TBlocoAvisoHomologacaoCTe = class(TFPDFBand)
+  private
+    FCTeUtils: TCTeUtilsFPDF;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(ACTeUtils: TCTeUtilsFPDF); reintroduce;
+  end;
+
+  { TBlocoDocumentosOriginariosCTe }
+  TBlocoDocumentosOriginariosCTe = class(TFPDFBand)
+  private
+    FCTeUtils: TCTeUtilsFPDF;
+    FDocumentos: TStringList;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(ACTeUtils: TCTeUtilsFPDF); reintroduce;
+    destructor Destroy; override;
+  end;
+
+  { TBlocoDocumentosOriginariosContinuacaoCTe }
+  TBlocoDocumentosOriginariosContinuacaoCTe = class(TFPDFBand)
+  private
+    FCTeUtils: TCTeUtilsFPDF;
+    FDocumentos: TStringList;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(ACTeUtils: TCTeUtilsFPDF); reintroduce;
+    destructor Destroy; override;
+  end;
+
+  { TBlocoFluxoCargaCTe }
+  TBlocoFluxoCargaCTe = class(TFPDFBand)
+  private
+    FCTeUtils: TCTeUtilsFPDF;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(ACTeUtils: TCTeUtilsFPDF); reintroduce;
+  end;
+
+  { TBlocoObservacoesGeraisCTe }
+  TBlocoObservacoesGeraisCTe = class(TFPDFBand)
+  private
+    FCTeUtils: TCTeUtilsFPDF;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(ACTeUtils: TCTeUtilsFPDF); reintroduce;
+  end;
+
+  { TBlocoCabecalhoEventoCTe }
+  TBlocoCabecalhoEventoCTe = class(TFPDFBand)
+  private
+    FProcEvento: TInfEventoCollectionItem;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(AProcEvento: TInfEventoCollectionItem); reintroduce;
+  end;
+
+  { TBlocoDadosCTeEvento }
+  TBlocoDadosCTeEvento = class(TFPDFBand)
+  private
+    FCTe: TCTe;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(ACTe: TCTe); reintroduce;
+  end;
+
+  { TBlocoDadosEventoCTe }
+  TBlocoDadosEventoCTe = class(TFPDFBand)
+  private
+    FProcEvento: TInfEventoCollectionItem;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(AProcEvento: TInfEventoCollectionItem); reintroduce;
+  end;
+
+  { TBlocoJustificativaCTe }
+  TBlocoJustificativaCTe = class(TFPDFBand)
+  private
+    FProcEvento: TInfEventoCollectionItem;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(AProcEvento: TInfEventoCollectionItem); reintroduce;
+  end;
+
+  { TBlocoCorrecaoCTe }
+  TBlocoCorrecaoCTe = class(TFPDFBand)
+  private
+    FProcEvento: TInfEventoCollectionItem;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(AProcEvento: TInfEventoCollectionItem); reintroduce;
+  end;
+
+  { TBlocoEPECCTe }
+  TBlocoEPECCTe = class(TFPDFBand)
+  private
+    FProcEvento: TInfEventoCollectionItem;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(AProcEvento: TInfEventoCollectionItem); reintroduce;
+  end;
+
+  { TBlocoMensagemEventoCTe }
+  TBlocoMensagemEventoCTe = class(TFPDFBand)
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  end;
+
+  { TBlocoRodapeEventoCTe }
+  TBlocoRodapeEventoCTe = class(TFPDFBand)
+  private
+    FMensagem: string;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(const AMensagem: string); reintroduce;
+  end;
+
+  { TCTeDACTeEventoFPDF }
+  TCTeDACTeEventoFPDF = class(TFPDFReport)
+  private
+    FCTe: TCTe;
+    FProcEvento: TInfEventoCollectionItem;
+    FMensagemRodape: string;
+    FInitialized: boolean;
+  protected
+    procedure OnStartReport(Args: TFPDFReportEventArgs); override;
+  public
+    constructor Create(ACTe: TCTe; AProcEvento: TInfEventoCollectionItem); reintroduce;
+    property MensagemRodape: string read FMensagemRodape write FMensagemRodape;
+  end;
+
   { TBlocoInformacoesRemDestExpRecebCTe }
 
   TBlocoInformacoesRemDestExpRecebCTe = class(TFPDFBand)
@@ -438,7 +632,7 @@ procedure TBlocoCanhoto.OnInit(Args: TFPDFBandInitArgs);
 begin
   case FAlign of
     prCabecalho, prRodape:
-      Height := 33;
+      Height := 29;
     prEsquerda:
       Width := 33;
   else
@@ -509,6 +703,11 @@ begin
 
     AddBand(TBlocoInformacoesCTe.Create(FCTeUtils));
 
+    AddBand(TBlocoDocumentosOriginariosCTe.Create(FCTeUtils));
+    AddBand(TBlocoFluxoCargaCTe.Create(FCTeUtils));
+
+    AddBand(TBlocoObservacoesGeraisCTe.Create(FCTeUtils));
+
     case FCTe.ide.modal of
       mdRodoviario:
         begin
@@ -521,7 +720,12 @@ begin
       mdAquaviario: AddBand(TBlocoModalAquaviarioCTe.Create(FCTeUtils));
       mdFerroviario: AddBand(TBlocoModalFerroviarioCTe.Create(FCTeUtils));
     end;
+
+    AddBand(TBlocoDocumentosOriginariosContinuacaoCTe.Create(FCTeUtils));
+
+    AddBand(TBlocoAvisoHomologacaoCTe.Create(FCTeUtils));
     AddBand(TBlocoRodape.Create(FCTeUtils));
+    AddBand(TBlocoRodapeSistemaCTe.Create(FMensagemRodape));
     FInitialized := True;
   end;
 
@@ -615,6 +819,70 @@ begin
   end;
 end;
 
+procedure TACBrCTeDACTeFPDF.ImprimirEVENTO(ACTE: TCTe);
+begin
+  inherited;
+end;
+
+procedure TACBrCTeDACTeFPDF.ImprimirEVENTOPDF(ACTE: TCTe);
+var
+  Report: TFPDFReport;
+  Engine: TFPDFEngine;
+  I: Integer;
+  LCTe: TCTe;
+  LEvento: TInfEventoCollectionItem;
+  LPath: string;
+begin
+  for I := 0 to TACBrCTe(ACBrCTe).EventoCTe.Evento.Count - 1 do
+  begin
+    LCTe    := TACBrCTe(ACBrCTe).Conhecimentos[I].CTE;
+    LEvento := TACBrCTe(ACBrCTe).EventoCTe.Evento[I];
+
+    Report := TCTeDACTeEventoFPDF.Create(LCTe, LEvento);
+
+    FIndexImpressaoIndividual := I;
+
+    TCTeDACTeEventoFPDF(Report).MensagemRodape := Self.Sistema;
+
+    try
+      Engine := TFPDFEngine.Create(Report, False);
+      try
+        Engine.Compressed := True;
+        if Assigned(FStream) then
+        begin
+          FPArquivoPDF := RemoverLiteralChave(LCTe.infCTe.ID) + '-evento.pdf';
+          Engine.SaveToStream(FStream);
+        end else
+        begin
+          LPath := DefinirNomeArquivo(TACBrCTe(ACBrCTe).DACTE.PathPDF,
+                 TpEventoToStr(LEvento.InfEvento.tpEvento) + '-' +
+                 RemoverLiteralChave(LCTe.infCTe.ID) + '-evento.pdf',
+                 TACBrCTe(ACBrCTe).DACTE.NomeDocumento);
+
+          ForceDirectories(ExtractFilePath(LPath));
+
+          Engine.SaveToFile(LPath);
+          FPArquivoPDF := LPath;
+        end;
+      finally
+        Engine.Free;
+      end;
+    finally
+      Report.Free;
+    end;
+  end;
+end;
+
+procedure TACBrCTeDACTeFPDF.ImprimirEVENTOPDF(AStream: TStream; ACTe: TCTe);
+begin
+  FStream := AStream;
+
+  if not Assigned(FStream) then
+    raise Exception.Create('Stream not initialized');
+
+  ImprimirEVENTOPDF(ACTe);
+end;
+
 { TBlocoRodape }
 
 constructor TBlocoRodape.Create(ACTeUtils: TCTeUtilsFPDF);
@@ -655,7 +923,7 @@ begin
   else
     LTexto := '';
   LPDF.SetFont(7, '');
-  LPDF.TextBox(x, y + 4, 140, 37, LTexto, 'T', 'L', true);
+  LPDF.TextBox(x, y + 4, 140, 29, LTexto, 'T', 'L', true);
 
   //coluna 2
   LPDF.SetFont(7, 'B');
@@ -664,20 +932,1000 @@ begin
   y := y + 4;
   LPDF.SetFont(7, '');
   LTexto := LCTe.Imp.infAdFisco;
-  LPDF.TextBox(140, y, 64, 37, LTexto, 'T', 'L', true);
+  LPDF.TextBox(140, y, 64, 29, LTexto, 'T', 'L', true);
   y := y + 35;
 end;
 
 procedure TBlocoRodape.OnInit(Args: TFPDFBandInitArgs);
 begin
-  Height := 38;
+  Height := 33;
+end;
+
+{ TBlocoRodapeSistemaCTe }
+
+constructor TBlocoRodapeSistemaCTe.Create(const AMensagem: string);
+begin
+  inherited Create(btPageFooter);
+  FMensagem := AMensagem;
+end;
+
+procedure TBlocoRodapeSistemaCTe.OnInit(Args: TFPDFBandInitArgs);
+begin
+  Height := 5;
+end;
+
+procedure TBlocoRodapeSistemaCTe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  x, y, w, h: double;
+  Mensagens: TStringArray;
+begin
+  LPDF := Args.PDF;
+  if FMensagem = '' then
+    Exit;
+  Mensagens := ACBr_fpdf.Split(FMensagem, '|');
+
+  x := 0;
+  y := 0;
+  w := Width;
+  h := Height;
+
+  LPDF.SetFont(6, 'I');
+  if Length(Mensagens) >= 1 then
+    LPDF.TextBox(x, y, w, h, Mensagens[0], 'T', 'L', 0);
+  if Length(Mensagens) >= 2 then
+    LPDF.TextBox(x, y, w, h, Mensagens[1], 'T', 'C', 0);
+  if Length(Mensagens) >= 3 then
+    LPDF.TextBox(x, y, w, h, Mensagens[2], 'T', 'R', 0);
+end;
+
+{ TBlocoAvisoHomologacaoCTe }
+
+constructor TBlocoAvisoHomologacaoCTe.Create(ACTeUtils: TCTeUtilsFPDF);
+begin
+  inherited Create(btPageFooter);
+  FCTeUtils := ACTeUtils;
+end;
+
+procedure TBlocoAvisoHomologacaoCTe.OnInit(Args: TFPDFBandInitArgs);
+begin
+  if FCTeUtils.CTe.Ide.tpAmb = taHomologacao then
+    Height := 6
+  else
+    Height := 0.01;
+end;
+
+procedure TBlocoAvisoHomologacaoCTe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+begin
+  if FCTeUtils.CTe.Ide.tpAmb <> taHomologacao then
+    Exit;
+
+  LPDF := Args.PDF;
+  LPDF.SetFont('Arial', 'B', 10);
+  LPDF.TextBox(0, 0, Width, Height,
+    'EMITIDO EM AMBIENTE DE HOMOLOGAÇÃO - SEM VALOR FISCAL', 'C', 'C', 0, '');
+end;
+
+function AlturaRealModalCTe(const ACTe: TCTe): Double;
+begin
+  case ACTe.ide.modal of
+    mdRodoviario:
+      if ACTe.ide.modelo = 67 then
+        Result := 45  // TBlocoModalCTeOSCTe
+      else
+        Result := 13; // TBlocoModalRodoviarioCTe
+    mdAereo: Result := 48;      // TBlocoModalAereoCTe
+    mdAquaviario: Result := 43; // TBlocoModalAquaviarioCTe
+    mdFerroviario: Result := 52;// TBlocoModalFerroviarioCTe
+  else
+    Result := 40;
+  end;
+end;
+
+function LimiteDocumentosOriginariosInline(const ACTe: TCTe): Integer;
+begin
+  // 14 e o maximo que ainda deixa Observacoes Gerais e o RNTRC do modal
+  // Rodoviario garantidos na mesma pagina (confirmado empiricamente).
+  if (ACTe.ide.modal = mdRodoviario) and (ACTe.ide.modelo <> 67) then
+    Result := 14
+  else
+    Result := 0;
+end;
+
+// Chave de acesso (NF-e/CT-e/DC-e) tem 44 digitos, layout fixo:
+// cUF(2) AAMM(4) CNPJ(14) mod(2) serie(3) nNF(9) tpEmis(1) cNF(8) cDV(1) -
+// serie/numero do documento ja estao codificados nela, nao precisa vir de
+// outro campo.
+function SerieNumeroDaChaveCTe(const AChave: string): string;
+var
+  LChave: string;
+begin
+  LChave := OnlyAlphaNum(AChave);
+  if Length(LChave) <> 44 then
+    Exit('');
+  // Mantem os zeros a esquerda (3 digitos da serie, 9 do numero), sem
+  // converter pra inteiro.
+  Result := Copy(LChave, 23, 3) + '/' + Copy(LChave, 26, 9);
+end;
+
+procedure PopularDocumentosOriginariosCTe(const ACTe: TCTe; ALista: TStringList);
+var
+  i, ii, iii: integer;
+  LChave: string;
+begin
+  ALista.Clear;
+
+  for i := 0 to ACTe.infCTeNorm.infDoc.infNF.Count - 1 do
+    ALista.Add('NF|' + FormatarCNPJouCPF(ACTe.rem.CNPJCPF) + '|' +
+      ACTe.infCTeNorm.infDoc.infNF[i].serie + '/' + ACTe.infCTeNorm.infDoc.infNF[i].nDoc);
+
+  for i := 0 to ACTe.infCTeNorm.infDoc.infNFe.Count - 1 do
+    ALista.Add('NF-e|' + OnlyAlphaNum(ACTe.infCTeNorm.infDoc.infNFe[i].chave) + '|' +
+      SerieNumeroDaChaveCTe(ACTe.infCTeNorm.infDoc.infNFe[i].chave));
+
+  for i := 0 to ACTe.infCTeNorm.infDoc.infOutros.Count - 1 do
+    ALista.Add('OUTROS|' + ACTe.infCTeNorm.infDoc.infOutros[i].descOutros + '|' +
+      ACTe.infCTeNorm.infDoc.infOutros[i].nDoc);
+
+  for i := 0 to ACTe.infCTeNorm.infDoc.infDCe.Count - 1 do
+    ALista.Add('DC-e|' + OnlyAlphaNum(ACTe.infCTeNorm.infDoc.infDCe[i].chave) + '|' +
+      SerieNumeroDaChaveCTe(ACTe.infCTeNorm.infDoc.infDCe[i].chave));
+
+  for i := 0 to ACTe.infCTeNorm.docAnt.emiDocAnt.Count - 1 do
+    for ii := 0 to Pred(ACTe.infCTeNorm.docAnt.emiDocAnt[i].idDocAnt.Count) do
+    begin
+      for iii := 0 to Pred(ACTe.infCTeNorm.docAnt.emiDocAnt[i].idDocAnt[ii].idDocAntPap.Count) do
+        ALista.Add(TTipoDocumentoAnteriorArrayStrings[ACTe.infCTeNorm.docAnt.emiDocAnt[i].idDocAnt[ii].idDocAntPap[iii].tpDoc] + '|' +
+          FormatarCNPJouCPF(ACTe.infCTeNorm.docAnt.emiDocAnt[i].CNPJCPF) + '|' +
+          ACTe.infCTeNorm.docAnt.emiDocAnt[i].idDocAnt[ii].idDocAntPap[iii].serie + '/' +
+          ACTe.infCTeNorm.docAnt.emiDocAnt[i].idDocAnt[ii].idDocAntPap[iii].nDoc);
+
+      for iii := 0 to Pred(ACTe.infCTeNorm.docAnt.emiDocAnt[i].idDocAnt[ii].idDocAntEle.Count) do
+      begin
+        with ACTe.infCTeNorm.docAnt.emiDocAnt[i].idDocAnt[ii].idDocAntEle[iii] do
+        begin
+          if ACTe.infCTe.versao >= 3 then
+            LChave := chCTe
+          else
+            LChave := chave;
+        end;
+        ALista.Add('CT-e|' + OnlyAlphaNum(LChave) + '|' + SerieNumeroDaChaveCTe(LChave));
+      end;
+    end;
+end;
+
+{ TBlocoDocumentosOriginariosCTe }
+
+constructor TBlocoDocumentosOriginariosCTe.Create(ACTeUtils: TCTeUtilsFPDF);
+begin
+  inherited Create(btData);
+  FCTeUtils := ACTeUtils;
+  FDocumentos := TStringList.Create;
+end;
+
+destructor TBlocoDocumentosOriginariosCTe.Destroy;
+begin
+  FDocumentos.Free;
+  inherited;
+end;
+
+procedure TBlocoDocumentosOriginariosCTe.OnInit(Args: TFPDFBandInitArgs);
+var
+  LLimite: integer;
+begin
+  // Altura fixa (baseada no limite, nao na quantidade real) - o espaco
+  // reservado nao muda se o CT-e tiver 1 ou 14 documentos.
+  PopularDocumentosOriginariosCTe(FCTeUtils.CTe, FDocumentos);
+  LLimite := LimiteDocumentosOriginariosInline(FCTeUtils.CTe);
+  if LLimite = 0 then
+    Height := 0.01
+  else
+    // -9.5 compensa o "y := -9.5" do OnDraw (ver comentario la).
+    Height := 6 + (Ceil(LLimite / 2) * 4) - 9.5 + 2;
+end;
+
+procedure TBlocoDocumentosOriginariosCTe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  halfW, w1, w2, w3, h, x, y: double;
+  i, LLimite: integer;
+  LPartes: TStringArray;
+
+  procedure DesenharColuna(AX: double; const ALinha: string);
+  begin
+    LPartes := ACBr_fpdf.Split(ALinha, '|');
+    LPDF.TextBox(AX, y, w1, h, LPartes[0], 'T', 'C', 1, '');
+    LPDF.TextBox(AX + w1, y, w2, h, LPartes[1], 'T', 'L', 1, '');
+    LPDF.TextBox(AX + w1 + w2, y, w3, h, LPartes[2], 'T', 'C', 1, '');
+  end;
+
+begin
+  LLimite := LimiteDocumentosOriginariosInline(FCTeUtils.CTe);
+  if (FDocumentos.Count = 0) or (LLimite = 0) then
+    Exit;
+
+  LPDF := Args.PDF;
+  halfW := Width / 2;
+  h := 4;
+  x := 0;
+  // Cola esta banda em "Informacoes Relativas ao Imposto" (Height da
+  // banda anterior nao controla essa distancia - so este deslocamento).
+  y := -9.5;
+
+  LPDF.SetFont('Arial', 'B', 7);
+  LPDF.TextBox(x, y, Width, 3, 'DOCUMENTOS ORIGINÁRIOS', 'T', 'C', 0, '');
+  y := y + 3;
+
+  w1 := RoundTo(halfW * 0.14, 0);
+  w3 := RoundTo(halfW * 0.24, 0);
+  w2 := halfW - w1 - w3;
+
+  LPDF.SetFont('Arial', 'B', 6);
+  LPDF.TextBox(x, y, w1, 3, 'TP DOC.', 'T', 'C', 1, '');
+  LPDF.TextBox(x + w1, y, w2, 3, 'CNPJ/CHAVE/OBS', 'T', 'C', 1, '');
+  LPDF.TextBox(x + w1 + w2, y, w3, 3, 'SÉRIE/N DOCUMENTO', 'T', 'C', 1, '');
+  LPDF.TextBox(x + halfW, y, w1, 3, 'TP DOC.', 'T', 'C', 1, '');
+  LPDF.TextBox(x + halfW + w1, y, w2, 3, 'CNPJ/CHAVE/OBS', 'T', 'C', 1, '');
+  LPDF.TextBox(x + halfW + w1 + w2, y, w3, 3, 'SÉRIE/N DOCUMENTO', 'T', 'C', 1, '');
+  y := y + 3;
+
+  LPDF.SetFont('Arial', '', 7);
+  i := 0;
+  while i < Min(FDocumentos.Count, LLimite) do
+  begin
+    DesenharColuna(x, FDocumentos[i]);
+    if (i + 1) < Min(FDocumentos.Count, LLimite) then
+      DesenharColuna(x + halfW, FDocumentos[i + 1]);
+    Inc(i, 2);
+    y := y + h;
+  end;
+end;
+
+{ TBlocoDocumentosOriginariosContinuacaoCTe }
+
+constructor TBlocoDocumentosOriginariosContinuacaoCTe.Create(ACTeUtils: TCTeUtilsFPDF);
+begin
+  inherited Create(btData);
+  FCTeUtils := ACTeUtils;
+  FDocumentos := TStringList.Create;
+end;
+
+destructor TBlocoDocumentosOriginariosContinuacaoCTe.Destroy;
+begin
+  FDocumentos.Free;
+  inherited;
+end;
+
+procedure TBlocoDocumentosOriginariosContinuacaoCTe.OnInit(Args: TFPDFBandInitArgs);
+var
+  LLimite, LRestante: integer;
+begin
+  PopularDocumentosOriginariosCTe(FCTeUtils.CTe, FDocumentos);
+  LLimite := LimiteDocumentosOriginariosInline(FCTeUtils.CTe);
+  LRestante := FDocumentos.Count - LLimite;
+  if LRestante <= 0 then
+    Height := 0.01
+  else
+    Height := 6 + (Ceil(LRestante / 2) * 4);
+end;
+
+procedure TBlocoDocumentosOriginariosContinuacaoCTe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  halfW, w1, w2, w3, h, x, y: double;
+  i, LLimite, LRestante: integer;
+  LPartes: TStringArray;
+
+  procedure DesenharColuna(AX: double; const ALinha: string);
+  begin
+    LPartes := ACBr_fpdf.Split(ALinha, '|');
+    LPDF.TextBox(AX, y, w1, h, LPartes[0], 'T', 'C', 1, '');
+    LPDF.TextBox(AX + w1, y, w2, h, LPartes[1], 'T', 'L', 1, '');
+    LPDF.TextBox(AX + w1 + w2, y, w3, h, LPartes[2], 'T', 'C', 1, '');
+  end;
+
+begin
+  LLimite := LimiteDocumentosOriginariosInline(FCTeUtils.CTe);
+  LRestante := FDocumentos.Count - LLimite;
+  if LRestante <= 0 then
+    Exit;
+
+  LPDF := Args.PDF;
+  halfW := Width / 2;
+  h := 4;
+  x := 0;
+  // Cola esta banda no cabecalho da pagina (DadosCTe/DocAuxiliar).
+  y := -78;
+
+  LPDF.SetFont('Arial', 'B', 7);
+  LPDF.TextBox(x, y, Width, 3, 'DOCUMENTOS ORIGINÁRIOS (CONTINUAÇÃO)', 'T', 'C', 0, '');
+  y := y + 3;
+
+  w1 := RoundTo(halfW * 0.14, 0);
+  w3 := RoundTo(halfW * 0.24, 0);
+  w2 := halfW - w1 - w3;
+
+  LPDF.SetFont('Arial', 'B', 6);
+  LPDF.TextBox(x, y, w1, 3, 'TP DOC.', 'T', 'C', 1, '');
+  LPDF.TextBox(x + w1, y, w2, 3, 'CNPJ/CHAVE/OBS', 'T', 'C', 1, '');
+  LPDF.TextBox(x + w1 + w2, y, w3, 3, 'SÉRIE/N DOCUMENTO', 'T', 'C', 1, '');
+  LPDF.TextBox(x + halfW, y, w1, 3, 'TP DOC.', 'T', 'C', 1, '');
+  LPDF.TextBox(x + halfW + w1, y, w2, 3, 'CNPJ/CHAVE/OBS', 'T', 'C', 1, '');
+  LPDF.TextBox(x + halfW + w1 + w2, y, w3, 3, 'SÉRIE/N DOCUMENTO', 'T', 'C', 1, '');
+  y := y + 3;
+
+  LPDF.SetFont('Arial', '', 7);
+  i := LLimite;
+  while i < FDocumentos.Count do
+  begin
+    DesenharColuna(x, FDocumentos[i]);
+    if (i + 1) < FDocumentos.Count then
+      DesenharColuna(x + halfW, FDocumentos[i + 1]);
+    Inc(i, 2);
+    y := y + h;
+  end;
+end;
+
+{ TBlocoFluxoCargaCTe }
+
+constructor TBlocoFluxoCargaCTe.Create(ACTeUtils: TCTeUtilsFPDF);
+begin
+  inherited Create(btData);
+  FCTeUtils := ACTeUtils;
+end;
+
+procedure TBlocoFluxoCargaCTe.OnInit(Args: TFPDFBandInitArgs);
+begin
+  // Previsao do Fluxo da Carga e generico do CT-e, mas nao se aplica ao
+  // modal Rodoviario (usado sobretudo em modais com pontos de passagem
+  // intermediarios).
+  if FCTeUtils.CTe.ide.modal = mdRodoviario then
+    Height := 0.01
+  else
+    Height := 14;
+end;
+
+procedure TBlocoFluxoCargaCTe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  LCTE: TCTe;
+  w1, w2, w3, h, x, y: double;
+  LTexto: string;
+begin
+  if FCTeUtils.CTe.ide.modal = mdRodoviario then
+    Exit;
+
+  LPDF := Args.PDF;
+  LCTE := FCTeUtils.CTe;
+  x := 0;
+  y := 1;
+  h := 4;
+
+  LPDF.SetFont('Arial', 'B', 7);
+  LPDF.TextBox(x, y, Width, h, 'PREVISÃO DO FLUXO DA CARGA', 'T', 'C', 0, '');
+  y := y + h;
+
+  w1 := RoundTo(Width * 0.33, 0);
+  w3 := RoundTo(Width * 0.31, 0);
+  w2 := Width - w1 - w3;
+
+  LTexto := 'SIGLA OU CÓD INT. DA FILIAL, PORTO, ESTAÇÃO OU AEROPORTO DE ORIGEM';
+  LPDF.TextBox(x, y, w1, 7, LTexto, 'T', 'C', 1, '');
+  LTexto := 'SIGLA OU CÓD INT. DA FILIAL, PORTO, ESTAÇÃO OU AEROPORTO DE PASSAGEM';
+  LPDF.TextBox(x + w1, y, w2, 7, LTexto, 'T', 'C', 1, '');
+  LTexto := 'SIGLA OU CÓD INT. DA FILIAL, PORTO, ESTAÇÃO OU AEROPORTO DE DESTINO';
+  LPDF.TextBox(x + w1 + w2, y, w3, 7, LTexto, 'T', 'C', 1, '');
+  y := y + 7;
+
+  LPDF.SetFont('Arial', '', 7);
+  LPDF.TextBox(x, y, w1, h, LCTE.compl.fluxo.xOrig, 'T', 'L', 1, '');
+  LPDF.TextBox(x + w1, y, w2, h, LCTE.compl.fluxo.xOrig, 'T', 'L', 1, '');
+  LPDF.TextBox(x + w1 + w2, y, w3, h, LCTE.compl.fluxo.xDest, 'T', 'L', 1, '');
+end;
+
+{ TBlocoObservacoesGeraisCTe }
+
+constructor TBlocoObservacoesGeraisCTe.Create(ACTeUtils: TCTeUtilsFPDF);
+begin
+  inherited Create(btData);
+  FCTeUtils := ACTeUtils;
+end;
+
+procedure TBlocoObservacoesGeraisCTe.OnInit(Args: TFPDFBandInitArgs);
+begin
+  Height := 21;
+end;
+
+procedure TBlocoObservacoesGeraisCTe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  x, y: double;
+  LTexto: string;
+begin
+  LPDF := Args.PDF;
+  x := 0;
+  y := 0;
+
+  LPDF.SetFont('Arial', 'B', 7);
+  LTexto := 'OBSERVAÇÕES GERAIS';
+  LPDF.TextBox(x, y, Width, 3, LTexto, 'T', 'C', 0, '');
+  y := y + 3;
+
+  // Fonte fixa, sem auto-reducao - texto excedente e cortado.
+  LPDF.SetFont('Arial', '', 7);
+  LTexto := FCTeUtils.CTe.compl.xObs;
+  LPDF.TextBox(x, y, Width, 18, LTexto, 'T', 'L', True);
+end;
+
+{ TBlocoCabecalhoEventoCTe }
+
+constructor TBlocoCabecalhoEventoCTe.Create(AProcEvento: TInfEventoCollectionItem);
+begin
+  inherited Create(btData);
+  FProcEvento := AProcEvento;
+end;
+
+procedure TBlocoCabecalhoEventoCTe.OnInit(Args: TFPDFBandInitArgs);
+begin
+  Height := 18;
+end;
+
+procedure TBlocoCabecalhoEventoCTe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  w, y: double;
+  Texto: string;
+begin
+  LPDF := Args.PDF;
+  w := Width;
+  y := 0;
+
+  LPDF.SetFont(12, 'B');
+  Texto := FProcEvento.InfEvento.DescEvento;
+  y := y + 2;
+  y := y + LPDF.TextBox(0, y, w, 5, Texto, 'T', 'C', 0, '');
+  y := y + 1;
+
+  LPDF.SetFont(10, '');
+  Texto := 'Não possui valor fiscal, simples representação do fato indicado abaixo.';
+  y := y + LPDF.TextBox(0, y, w, 5, Texto, 'T', 'C', 0, '');
+  y := y + 1;
+
+  LPDF.SetFont(10, '');
+  Texto := 'CONSULTE A AUTENTICIDADE NO SITE DA SEFAZ AUTORIZADORA.';
+  LPDF.TextBox(0, y, w, 5, Texto, 'T', 'C', 0, '');
+end;
+
+{ TBlocoDadosCTeEvento }
+
+constructor TBlocoDadosCTeEvento.Create(ACTe: TCTe);
+begin
+  inherited Create(btData);
+  FCTe := ACTe;
+end;
+
+procedure TBlocoDadosCTeEvento.OnInit(Args: TFPDFBandInitArgs);
+begin
+  Height := 20;
+end;
+
+procedure TBlocoDadosCTeEvento.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  maxW, w, h, w1, w2, w3, w4, bW, bH: double;
+  x, y: double;
+  Texto: string;
+begin
+  LPDF := Args.PDF;
+  x := 0;
+  y := 1;
+  maxW := Width;
+  h := 8;
+
+  LPDF.SetFont(7, 'B');
+  LPDF.TextBox(x, y, maxW, h, 'CONHECIMENTO DE TRANSPORTE ELETRÔNICO', 'T', 'L', 0, '');
+  y := y + 3;
+
+  w1 := RoundTo(maxW * 0.10, 0);
+  w := w1;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'MODELO', 'T', 'C', 1, '');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, IntToStr(FCTe.Ide.modelo), 'B', 'C', 0, '');
+
+  x := x + w;
+  w2 := RoundTo(maxW * 0.10, 0);
+  w := w2;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'SÉRIE', 'T', 'C', 1, '');
+  Texto := FormatFloat('000', FCTe.Ide.serie);
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := x + w;
+  w3 := RoundTo(maxW * 0.15, 0);
+  w := w3;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'NÚMERO', 'T', 'C', 1, '');
+  Texto := FormatFloat('000000000', FCTe.Ide.nCT);
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := x + w;
+  w4 := RoundTo(maxW * 0.15, 0);
+  w := w4;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'DATA/HORA DE EMISSÃO', 'T', 'L', 1, '');
+  Texto := FormatDateTimeBr(FCTe.Ide.dhEmi, 'dd/mm/yyyy hh:nn:ss');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := x + w;
+  w := maxW - w1 - w2 - w3 - w4;
+  LPDF.TextBox(x, y, w, 2 * h);
+  LPDF.SetFillColor(0, 0, 0);
+  bW := 75;
+  bH := 12;
+  LPDF.Code128(RemoverLiteralChave(FCTe.infCTe.ID), x + ((w - bW) / 2), y + 2, bH, bW);
+
+  x := 0;
+  y := y + h;
+  w := w1 + w2 + w3 + w4;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'CHAVE DE ACESSO', 'T', 'L', 1, '');
+  Texto := FormatarChaveAcesso(OnlyAlphaNum(FCTe.infCTe.ID));
+  LPDF.SetFont(10, 'B');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+end;
+
+{ TBlocoDadosEventoCTe }
+
+constructor TBlocoDadosEventoCTe.Create(AProcEvento: TInfEventoCollectionItem);
+begin
+  inherited Create(btData);
+  FProcEvento := AProcEvento;
+end;
+
+procedure TBlocoDadosEventoCTe.OnInit(Args: TFPDFBandInitArgs);
+begin
+  Height := 25;
+end;
+
+procedure TBlocoDadosEventoCTe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  maxW, w, h, w1, w2, w3: double;
+  x, y: double;
+  Texto: string;
+begin
+  LPDF := Args.PDF;
+  x := 0;
+  y := 1;
+  maxW := Width;
+  h := 7;
+
+  LPDF.SetFont(7, 'B');
+  LPDF.TextBox(x, y, maxW, h, 'DADOS DO EVENTO', 'T', 'L', 0, '');
+  y := y + 3;
+
+  w1 := RoundTo(maxW * 0.10, 0);
+  w := w1;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'ÓRGÃO', 'T', 'C', 1, '');
+  Texto := CUFtoUF(FProcEvento.InfEvento.cOrgao);
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := x + w;
+  w2 := maxW - RoundTo(maxW * 0.30, 0);
+  w := w2;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'AMBIENTE', 'T', 'L', 1, '');
+  if FProcEvento.InfEvento.tpAmb = taProducao then
+    Texto := '1 - PRODUÇÃO'
+  else
+    Texto := '2 - HOMOLOGAÇÃO (SEM VALOR FISCAL)';
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'L', 0, '');
+
+  x := x + w;
+  w3 := maxW - w1 - w2;
+  w := w3;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'DATA/HORA DO EVENTO', 'T', 'L', 1, '');
+  Texto := FormatDateTimeBr(FProcEvento.InfEvento.dhEvento, 'dd/mm/yyyy hh:nn:ss');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := 0;
+  y := y + h;
+  w1 := RoundTo(maxW * 0.10, 0);
+  w := w1;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'EVENTO', 'T', 'L', 1, '');
+  Texto := TpEventoToStr(FProcEvento.InfEvento.tpEvento);
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := x + w;
+  w2 := RoundTo(maxW * 0.55, 0);
+  w := w2;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'DESCRIÇÃO DO EVENTO', 'T', 'L', 1, '');
+  Texto := FProcEvento.InfEvento.detEvento.descEvento;
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'L', 0, '');
+
+  x := x + w;
+  w3 := (maxW - w1 - w2) / 2;
+  w := w3;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'SEQUENCIAL', 'T', 'L', 1, '');
+  Texto := IntToStr(FProcEvento.InfEvento.nSeqEvento);
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := x + w;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'VERSÃO', 'T', 'L', 1, '');
+  Texto := FProcEvento.InfEvento.versaoEvento;
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := 0;
+  y := y + h;
+  w1 := RoundTo(maxW * 0.50, 0);
+  w := w1;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'STATUS', 'T', 'L', 1, '');
+  Texto := Format('%d - %s', [FProcEvento.RetInfEvento.cStat, FProcEvento.RetInfEvento.xMotivo]);
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'L', 0, '');
+
+  x := x + w;
+  w2 := (maxW - w1) / 2;
+  w := w2;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'PROTOCOLO DE REGISTRO', 'T', 'L', 1, '');
+  Texto := FProcEvento.RetInfEvento.nProt;
+  LPDF.SetFont(10, 'B');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := x + w;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'DATA/HORA DO REGISTRO', 'T', 'L', 1, '');
+  Texto := FormatDateTimeBr(FProcEvento.RetInfEvento.dhRegEvento, 'dd/mm/yyyy hh:nn:ss');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+end;
+
+{ TBlocoJustificativaCTe }
+
+constructor TBlocoJustificativaCTe.Create(AProcEvento: TInfEventoCollectionItem);
+begin
+  inherited Create(btData);
+  FProcEvento := AProcEvento;
+end;
+
+procedure TBlocoJustificativaCTe.OnInit(Args: TFPDFBandInitArgs);
+begin
+  Height := 30;
+end;
+
+procedure TBlocoJustificativaCTe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  maxW, y: double;
+  Texto: string;
+begin
+  LPDF := Args.PDF;
+  maxW := Width;
+  y := 1;
+
+  LPDF.SetFont(7, 'B');
+  LPDF.TextBox(0, y, maxW, 5, 'JUSTIFICATIVA DO CANCELAMENTO', 'T', 'L', 0, '');
+  y := y + 3;
+
+  LPDF.Rect(0, y, maxW, Height - y);
+
+  Texto := FProcEvento.InfEvento.detEvento.xJust;
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(2, y + 2, maxW - 4, Height - y - 2, Texto, 'T', 'L', 0, '', False);
+end;
+
+{ TBlocoCorrecaoCTe }
+
+constructor TBlocoCorrecaoCTe.Create(AProcEvento: TInfEventoCollectionItem);
+begin
+  inherited Create(btData);
+  FProcEvento := AProcEvento;
+end;
+
+procedure TBlocoCorrecaoCTe.OnInit(Args: TFPDFBandInitArgs);
+begin
+  Height := 20 + (FProcEvento.InfEvento.detEvento.infCorrecao.Count * 5);
+end;
+
+procedure TBlocoCorrecaoCTe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  DetEvento: TDetEvento;
+  maxW, w, h, w1, w2, w3: double;
+  x, y: double;
+  i: integer;
+  Texto: string;
+begin
+  LPDF := Args.PDF;
+  DetEvento := FProcEvento.InfEvento.detEvento;
+  x := 0;
+  y := 1;
+  maxW := Width;
+  h := 5;
+
+  LPDF.SetFont(7, 'B');
+  LPDF.TextBox(x, y, maxW, h, 'CORREÇÕES SOLICITADAS', 'T', 'L', 0, '');
+  y := y + 3;
+
+  w1 := RoundTo(maxW * 0.30, 0);
+  w2 := RoundTo(maxW * 0.30, 0);
+  w3 := RoundTo(maxW * 0.10, 0);
+
+  x := 0;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w1, h, 'GRUPO ALTERADO', 'T', 'L', 1, '');
+  x := x + w1;
+  LPDF.TextBox(x, y, w2, h, 'CAMPO ALTERADO', 'T', 'L', 1, '');
+  x := x + w2;
+  LPDF.TextBox(x, y, w3, h, 'ITEM', 'T', 'L', 1, '');
+  x := x + w3;
+  LPDF.TextBox(x, y, maxW - w1 - w2 - w3, h, 'VALOR ALTERADO', 'T', 'L', 1, '');
+  y := y + h;
+
+  LPDF.SetFont(8, '');
+  for i := 0 to DetEvento.infCorrecao.Count - 1 do
+  begin
+    x := 0;
+    LPDF.TextBox(x, y, w1, h, DetEvento.infCorrecao.Items[i].grupoAlterado, 'T', 'L', 0, '');
+    x := x + w1;
+    LPDF.TextBox(x, y, w2, h, DetEvento.infCorrecao.Items[i].campoAlterado, 'T', 'L', 0, '');
+    x := x + w2;
+    if DetEvento.infCorrecao.Items[i].nroItemAlterado > 0 then
+      Texto := IntToStr(DetEvento.infCorrecao.Items[i].nroItemAlterado)
+    else
+      Texto := '';
+    LPDF.TextBox(x, y, w3, h, Texto, 'T', 'L', 0, '');
+    x := x + w3;
+    LPDF.TextBox(x, y, maxW - w1 - w2 - w3, h, DetEvento.infCorrecao.Items[i].valorAlterado, 'T', 'L', 0, '');
+    y := y + h;
+  end;
+
+  if Trim(DetEvento.xCondUso) <> '' then
+  begin
+    LPDF.SetFont(7, 'B');
+    LPDF.TextBox(0, y, maxW, h, 'CONDIÇÕES DE USO', 'T', 'L', 0, '');
+    y := y + h;
+    LPDF.SetFont(8, '');
+    LPDF.TextBox(0, y, maxW, Height - y, DetEvento.xCondUso, 'T', 'L', 0, '', False);
+  end;
+end;
+
+{ TBlocoEPECCTe }
+
+constructor TBlocoEPECCTe.Create(AProcEvento: TInfEventoCollectionItem);
+begin
+  inherited Create(btData);
+  FProcEvento := AProcEvento;
+end;
+
+procedure TBlocoEPECCTe.OnInit(Args: TFPDFBandInitArgs);
+begin
+  Height := 25;
+end;
+
+procedure TBlocoEPECCTe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  DetEvento: TDetEvento;
+  maxW, w, h, w1, w2, w3, w4: double;
+  x, y: double;
+  Texto: string;
+begin
+  LPDF := Args.PDF;
+  DetEvento := FProcEvento.InfEvento.detEvento;
+  x := 0;
+  y := 1;
+  maxW := Width;
+  h := 7;
+
+  LPDF.SetFont(7, 'B');
+  LPDF.TextBox(x, y, maxW, h, 'DADOS DO CT-E EMITIDO EM CONTINGÊNCIA (EPEC)', 'T', 'L', 0, '');
+  y := y + 3;
+
+  w1 := RoundTo(maxW * 0.25, 0);
+  w := w1;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'CNPJ/CPF EMITENTE', 'T', 'L', 1, '');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, DetEvento.CNPJCPF, 'B', 'L', 0, '');
+
+  x := x + w;
+  w2 := RoundTo(maxW * 0.15, 0);
+  w := w2;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'IE', 'T', 'L', 1, '');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, DetEvento.IE, 'B', 'L', 0, '');
+
+  x := x + w;
+  w3 := RoundTo(maxW * 0.10, 0);
+  w := w3;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'UF', 'T', 'L', 1, '');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, DetEvento.UF, 'B', 'C', 0, '');
+
+  x := x + w;
+  w4 := RoundTo(maxW * 0.15, 0);
+  w := w4;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'MODAL', 'T', 'L', 1, '');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, TpModalToStrText(DetEvento.modal), 'B', 'L', 0, '');
+
+  x := x + w;
+  w := maxW - w1 - w2 - w3 - w4;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'DATA/HORA DE EMISSÃO', 'T', 'L', 1, '');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, FormatDateTimeBr(DetEvento.dhEmi, 'dd/mm/yyyy hh:nn:ss'), 'B', 'C', 0, '');
+
+  x := 0;
+  y := y + h;
+  w1 := RoundTo(maxW * 0.20, 0);
+  w := w1;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'UF INÍCIO', 'T', 'L', 1, '');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, DetEvento.UFIni, 'B', 'C', 0, '');
+
+  x := x + w;
+  w2 := RoundTo(maxW * 0.20, 0);
+  w := w2;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'UF FIM', 'T', 'L', 1, '');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, DetEvento.UFFim, 'B', 'C', 0, '');
+
+  x := x + w;
+  w3 := RoundTo(maxW * 0.20, 0);
+  w := w3;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'TOMADOR', 'T', 'L', 1, '');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, TpTomadorToStrText(DetEvento.toma), 'B', 'L', 0, '');
+
+  x := x + w;
+  w := maxW - w1 - w2 - w3;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'VALOR TOTAL DA PRESTAÇÃO / CARGA', 'T', 'L', 1, '');
+  Texto := FormatFloat('#,0.00', DetEvento.vTPrest) + ' / ' + FormatFloat('#,0.00', DetEvento.vCarga);
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+end;
+
+{ TBlocoMensagemEventoCTe }
+
+procedure TBlocoMensagemEventoCTe.OnInit(Args: TFPDFBandInitArgs);
+begin
+  Height := 15;
+end;
+
+procedure TBlocoMensagemEventoCTe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  Texto: string;
+begin
+  LPDF := Args.PDF;
+  Texto := 'Este documento é uma representação gráfica de um evento do CT-e e ' +
+           'foi impresso apenas para sua informação, não possui validade fiscal. ' +
+           'O evento deve ser recebido e mantido em arquivo eletrônico XML e pode ' +
+           'ser consultado através do Portal do CT-e ou do site da SEFAZ autorizadora.';
+  LPDF.SetFont(9, 'I');
+  LPDF.TextBox(0, 0, Width, Height, Texto, 'C', 'C', 0, '', False);
+end;
+
+{ TBlocoRodapeEventoCTe }
+
+constructor TBlocoRodapeEventoCTe.Create(const AMensagem: string);
+begin
+  inherited Create(btPageFooter);
+  FMensagem := AMensagem;
+end;
+
+procedure TBlocoRodapeEventoCTe.OnInit(Args: TFPDFBandInitArgs);
+begin
+  Height := 5;
+end;
+
+procedure TBlocoRodapeEventoCTe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  x, y, w, h: double;
+  Mensagens: TStringArray;
+begin
+  LPDF := Args.PDF;
+  if FMensagem = '' then
+    Exit;
+  Mensagens := ACBr_fpdf.Split(FMensagem, '|');
+
+  x := 0;
+  y := 0;
+  w := Width;
+  h := Height;
+
+  LPDF.SetFont(6, 'I');
+  if Length(Mensagens) >= 1 then
+    LPDF.TextBox(x, y, w, h, Mensagens[0], 'T', 'L', 0);
+  if Length(Mensagens) >= 2 then
+    LPDF.TextBox(x, y, w, h, Mensagens[1], 'T', 'C', 0);
+  if Length(Mensagens) >= 3 then
+    LPDF.TextBox(x, y, w, h, Mensagens[2], 'T', 'R', 0);
+end;
+
+{ TCTeDACTeEventoFPDF }
+
+constructor TCTeDACTeEventoFPDF.Create(ACTe: TCTe; AProcEvento: TInfEventoCollectionItem);
+begin
+  inherited Create;
+  FCTe := ACTe;
+  FProcEvento := AProcEvento;
+
+  SetFont('Times');
+  SetUTF8(false);
+  SetMargins(4, 4);
+end;
+
+procedure TCTeDACTeEventoFPDF.OnStartReport(Args: TFPDFReportEventArgs);
+begin
+  if not FInitialized then
+  begin
+    if FCTe = nil then
+      raise Exception.Create('FCTe not initialized');
+    if FProcEvento = nil then
+      raise Exception.Create('FProcEvento not initialized');
+
+    AddPage;
+
+    AddBand(TBlocoCabecalhoEventoCTe.Create(FProcEvento));
+    AddBand(TBlocoDadosCTeEvento.Create(FCTe));
+    AddBand(TBlocoDadosEventoCTe.Create(FProcEvento));
+
+    case FProcEvento.InfEvento.tpEvento of
+      teCancelamento:
+        AddBand(TBlocoJustificativaCTe.Create(FProcEvento));
+      teCCe:
+        AddBand(TBlocoCorrecaoCTe.Create(FProcEvento));
+      teEPEC:
+        AddBand(TBlocoEPECCTe.Create(FProcEvento));
+    end;
+
+    AddBand(TBlocoMensagemEventoCTe.Create(btPageFooter));
+    AddBand(TBlocoRodapeEventoCTe.Create(FMensagemRodape));
+
+    FInitialized := True;
+  end;
 end;
 
 { TBlocoDadosCTe }
 
 constructor TBlocoDadosCTe.Create(ACTeUtils: TCTeUtilsFPDF; ALogo: TBytes; ALogoStretched: Boolean; ALogoAlign: TLogoAlign);
 begin
-  inherited Create(btData);
+  // btPageHeader: repete em todas as paginas (mesmo padrao do DANFE de NFe,
+  // TBlocoDadosNFe) - necessario agora que o DACTE pode gerar mais de uma
+  // pagina (excedente de Documentos Originarios).
+  inherited Create(btPageHeader);
   FCTeUtils := ACTeUtils;
   FLogo := ALogo;
   FLogoStretched := ALogoStretched;
@@ -894,7 +2142,9 @@ end;
 
 constructor TBlocoDocAuxiliarCTe.Create(ACTeUtils: TCTeUtilsFPDF);
 begin
-  inherited Create(btData);
+  // btPageHeader: repete em todas as paginas - ja tem o indicador "FOLHA
+  // X/Y" (usa LPDF.CurrentPage/Args.TotalPages), so precisava repetir.
+  inherited Create(btPageHeader);
   FCTeUtils := ACTeUtils;
 end;
 
@@ -930,17 +2180,17 @@ begin
   LTexto := 'DACTE';
   LPDF.TextBox(x1, y1, 15, 4, LTexto, 'T', 'C', False);
 
-  LPDF.SetFont('Arial', 'B', 8);
+  LPDF.SetFont('Arial', 'B', 7);
   x1 := x + 84;
   y1 := y - 77;
   LTexto := 'Documento Auxiliar do Conhecimento';
-  LPDF.TextBox(x1, y1, 50, 4, LTexto, 'T', 'C', False);
+  LPDF.TextBox(x1, y1, 52, 4, LTexto, 'T', 'C', False, False);
 
-  LPDF.SetFont('Arial', 'B', 8);
-  x1 := x + 95;
+  LPDF.SetFont('Arial', 'B', 7);
+  x1 := x + 84;
   y1 := y - 74;
   LTexto := 'de Transporte Eletrônico';
-  LPDF.TextBox(x1, y1, 35, 4, LTexto, 'T', 'C', False);
+  LPDF.TextBox(x1, y1, 52, 4, LTexto, 'T', 'C', False, False);
 
   //Modal
   //Borda Modal
@@ -1239,11 +2489,12 @@ var
   x, y, w: double;
   x1, y1: double;
   aliquota, baseCalculo, vICMS, RedBC: double;
-  i, ii, iii: integer;
+  i: integer;
   LTexto: string;
   PosicoesX: array[0..3] of Integer;
-  LCNPJ, LXNome, LXFant, LIE, LXlgr, LNro, LXCpl, LXBairro, LCMun, LXMun, LUF, LCEP, LCPais, LXPais, LFone, LEmail, LNDoc, LTpDocAnt, LCNPJDocAnt, LSerieNumDocAnt: string;
-  cdsDocAnt: TACBrDataSet;
+  LCNPJ, LXNome, LXFant, LIE, LXlgr, LNro, LXCpl, LXBairro, LCMun, LXMun, LUF, LCEP, LCPais, LXPais, LFone, LEmail: string;
+  LPesoBruto, LPesoBaseCalculo, LPesoAferido, LCubagem, LQtdVolumes, LTpMed: string;
+  LQCarga: Currency;
 begin
   inherited OnDraw(Args);
   LPDF := Args.PDF;
@@ -1533,28 +2784,47 @@ begin
   LPDF.SetFont(7, '');
   x1 := x;
   y1 := y - 125;
-  LTexto := 'QTD:';
-  LPDF.TextBox(x1, y1, 5, 4, LTexto, 'T', 'L', False);
-  LPDF.SetFont(7, 'B');
-  for i := 0 to LCTE.infCTeNorm.infCarga.infQ.Count - 1 do
-  begin
-    LTexto := FormatFloat('#,0', LCTE.infCTeNorm.infCarga.infQ[i].qCarga);
-  end;
+  LTexto := 'QTD.';
+  LPDF.TextBox(x1, y1, 20, 4, LTexto, 'T', 'L', False);
+
   x1 := x;
   y1 := y - 122;
-  LPDF.TextBox(x1, y1, 9, 4, LTexto, 'T', 'L', False);
+  LTexto := 'CARGA';
+  LPDF.TextBox(x1, y1, 20, 4, LTexto, 'T', 'L', False);
 
-  //Carga
-  LPDF.SetFont(7, 'B');
-  x1 := x + 10;
-  y1 := y - 125;
-  LTexto := 'CARGA:';
-  LPDF.TextBox(x1, y1, 10, 4, LTexto, 'T', 'L', False);
-  LPDF.SetFont(7, '');
-  LTexto := LCTE.infCTeNorm.infCarga.proPred;
-  x1 := x + 10;
-  y1 := y - 122;
-  LPDF.TextBox(x1, y1, 10, 4, LTexto, 'T', 'L', False);
+  // Classifica cada item de infCarga.infQ pelo cUnid/tpMed, mesmo criterio
+  // usado no DACTE FastReport (ACBrCTeDACTeRLRetrato.pas): peso bruto/base
+  // de calculo/aferido sao distinguidos pelo texto de tpMed (o cUnid so
+  // diferencia KG de tonelada, que e convertida para KG multiplicando por
+  // 1000); cubagem usa cUnid=M3; demais unidades (unidade/litros/mmbtu)
+  // vao para quantidade de volumes.
+  LPesoBruto := '';
+  LPesoBaseCalculo := '';
+  LPesoAferido := '';
+  LCubagem := '';
+  LQtdVolumes := '';
+  for i := 0 to LCTE.infCTeNorm.infCarga.infQ.Count - 1 do
+  begin
+    LQCarga := LCTE.infCTeNorm.infCarga.infQ[i].qCarga;
+    case LCTE.infCTeNorm.infCarga.infQ[i].cUnid of
+      uM3:
+        LCubagem := Trim(LCubagem + ' ' + FormatFloat('#,0.000', LQCarga));
+      uKG, uTON:
+        begin
+          if LCTE.infCTeNorm.infCarga.infQ[i].cUnid = uTON then
+            LQCarga := LQCarga * 1000;
+          LTpMed := UpperCase(Trim(LCTE.infCTeNorm.infCarga.infQ[i].tpMed));
+          if LTpMed = 'PESO BRUTO' then
+            LPesoBruto := Trim(LPesoBruto + ' ' + FormatFloat('#,0.000', LQCarga))
+          else if (LTpMed = 'PESO BASE DE CALCULO') or (LTpMed = 'PESO BC') then
+            LPesoBaseCalculo := Trim(LPesoBaseCalculo + ' ' + FormatFloat('#,0.000', LQCarga))
+          else
+            LPesoAferido := Trim(LPesoAferido + ' ' + FormatFloat('#,0.000', LQCarga));
+        end;
+      uUNIDADE, uLITROS, uMMBTU:
+        LQtdVolumes := Trim(LQtdVolumes + ' ' + FormatFloat('#,0.000', LQCarga));
+    end;
+  end;
 
   //Peso Bruto KG
   LPDF.SetFont(7, 'B');
@@ -1563,13 +2833,9 @@ begin
   LTexto := 'PESO BRUTO (KG):';
   LPDF.TextBox(x1, y1, 30, 4, LTexto, 'T', 'L', False);
   LPDF.SetFont(7, '');
-  for i := 0 to LCTE.infCTeNorm.infCarga.infQ.Count - 1 do
-  begin
-    LTexto := FormatFloat('#,0.000', LCTE.infCTeNorm.infCarga.infQ[i].qCarga);
-  end;
   x1 := x + 21;
   y1 := y - 122;
-  LPDF.TextBox(x1, y1, 36, 4, LTexto, 'T', 'L', False);
+  LPDF.TextBox(x1, y1, 36, 4, LPesoBruto, 'T', 'L', False);
 
   //Peso Base Cálculo KG
   LPDF.SetFont(7, 'B');
@@ -1578,13 +2844,9 @@ begin
   LTexto := 'PESO BASE CÁLCULO (KG):';
   LPDF.TextBox(x1, y1, 30, 4, LTexto, 'T', 'L', False);
   LPDF.SetFont(7, '');
-  for i := 0 to LCTE.infCTeNorm.infCarga.infQ.Count - 1 do
-  begin
-    LTexto := FormatFloat('#,0.000', LCTE.infCTeNorm.infCarga.infQ[i].qCarga);
-  end;
   x1 := x + 59;
   y1 := y - 122;
-  LPDF.TextBox(x1, y1, 36, 4, LTexto, 'T', 'L', False);
+  LPDF.TextBox(x1, y1, 36, 4, LPesoBaseCalculo, 'T', 'L', False);
 
   //Peso Aferido KG
   LPDF.SetFont(7, 'B');
@@ -1593,13 +2855,9 @@ begin
   LTexto := 'PESO AFERIDO (KG):';
   LPDF.TextBox(x1, y1, 30, 4, LTexto, 'T', 'L', False);
   LPDF.SetFont(7, '');
-  for i := 0 to LCTE.infCTeNorm.infCarga.infQ.Count - 1 do
-  begin
-    LTexto := FormatFloat('#,0.000', LCTE.infCTeNorm.infCarga.infQ[i].qCarga);
-  end;
   x1 := x + 97;
   y1 := y - 122;
-  LPDF.TextBox(x1, y1, 36, 4, LTexto, 'T', 'L', False);
+  LPDF.TextBox(x1, y1, 36, 4, LPesoAferido, 'T', 'L', False);
 
   //Cubagem M3
   LPDF.SetFont(7, 'B');
@@ -1608,28 +2866,20 @@ begin
   LTexto := 'CUBAGEM (M3):';
   LPDF.TextBox(x1, y1, 30, 4, LTexto, 'T', 'L', False);
   LPDF.SetFont(7, '');
-  for i := 0 to LCTE.infCTeNorm.infCarga.infQ.Count - 1 do
-  begin
-    LTexto := UniMedToStr(TpUniMed(LCTE.infCTeNorm.infCarga.infQ[i].cUnid));
-  end;
   x1 := x + 135;
   y1 := y - 122;
-  LPDF.TextBox(x1, y1, 36, 4, LTexto, 'T', 'L', False);
+  LPDF.TextBox(x1, y1, 36, 4, LCubagem, 'T', 'L', False);
 
   //Quantidade de Volumes (UND)
   LPDF.SetFont(7, 'B');
   x1 := x + 173;
   y1 := y - 125;
-  LTexto := 'QUANTIDADE DE VOLUMES (UND):';
+  LTexto := 'QTDE(VOL):';
   LPDF.TextBox(x1, y1, 30, 4, LTexto, 'T', 'L', False);
   LPDF.SetFont(7, '');
-  for i := 0 to LCTE.infCTeNorm.infCarga.infQ.Count - 1 do
-  begin
-    LTexto := CurrToStr(LCTE.infCTeNorm.infCarga.infQ[i].qCarga);
-  end;
   x1 := x + 173;
   y1 := y - 122;
-  LPDF.TextBox(x1, y1, 36, 4, LTexto, 'T', 'L', False);
+  LPDF.TextBox(x1, y1, 36, 4, LQtdVolumes, 'T', 'L', False);
 
   //Componentes do Valor da Prestação de Serviço
   LPDF.SetFont(7, 'B');
@@ -1652,24 +2902,24 @@ begin
     LTexto := 'NOME';
     LPDF.TextBox(x1, y1, 35, 15, LTexto, 'T', 'L', True);
 
-    x1 := x + PosicoesX[i] + 24;
+    x1 := x + PosicoesX[i] + 15;
     LTexto := 'VALOR';
-    LPDF.TextBox(x1, y1, 10, 4, LTexto, 'C', 'C', False);
+    LPDF.TextBox(x1, y1, 20, 4, LTexto, 'C', 'C', False);
   end;
   LPDF.SetFont(7, '');
-  // Valores reais de Nome e Valor
-  for i := 0 to Min(3, LCTE.vPrest.Comp.Count - 1) do
+  // Ate 8 componentes (2 linhas x 4 colunas), usando o espaco que ja
+  // existia dentro da celula com borda (35x15mm) mas ficava em branco.
+  for i := 0 to Min(7, LCTE.vPrest.Comp.Count - 1) do
   begin
-    // Nome
-    x1 := x + PosicoesX[i];
-    y1 := y - 113;
-    LTexto := LCTE.vPrest.Comp[i].xNome;
-    LPDF.TextBox(x1, y1, 10, 13, LTexto, 'T', 'L', False);
+    y1 := y - 113 - ((i div 4) * 4);
 
-    // Valor
-    x1 := x + PosicoesX[i] + 24;
+    x1 := x + PosicoesX[i mod 4];
+    LTexto := LCTE.vPrest.Comp[i].xNome;
+    LPDF.TextBox(x1, y1, 15, 4, LTexto, 'T', 'L', False, False);
+
+    x1 := x + PosicoesX[i mod 4] + 15;
     LTexto := FormatFloat('#,0.00', LCTE.vPrest.Comp[i].vComp);
-    LPDF.TextBox(x1, y1, 10, 13, LTexto, 'T', 'L', False);
+    LPDF.TextBox(x1, y1, 20, 4, LTexto, 'T', 'L', False, False);
   end;
 
   //Valor Total da Prestação do Serviço
@@ -1806,208 +3056,11 @@ begin
   y1 := y - 94;
   LPDF.TextBox(x1, y1, 24, 4, LTexto, 'T', 'L', False);
 
-  //Documentos Originários
-  LPDF.SetFont(7, 'B');
-  x1 := x + 1;
-  y1 := y - 90;
-  LTexto := 'DOCUMENTOS ORIGINÁRIOS';
-  LPDF.TextBox(x1, y1, 208, 4, LTexto, 'T', 'C', False);
-
-  //TP DOC
-  //Borda
-  LPDF.SetFont(7, 'B');
-  x1 := x;
-  y1 := y - 87;
-  LTexto := EmptyStr;
-  LPDF.TextBox(x1, y1, 102, 7, LTexto, 'T', 'C', True);
-  //----
-
-  LPDF.SetFont(7, 'B');
-  x1 := x;
-  y1 := y - 87;
-  LTexto := 'TP DOC.';
-  LPDF.TextBox(x1, y1, 11, 4, LTexto, 'T', 'C', False);
-
-  //CNPJ/CPF EMITENTE
-  x1 := x + 11;
-  y1 := y - 87;
-  LTexto := 'CNPJ/CPF EMITENTE';
-  LPDF.TextBox(x1, y1, 20, 4, LTexto, 'T', 'C', False);
-
-  //SÉRIE/N DOCUMENTO
-  x1 := x + 71;
-  y1 := y - 87;
-  LTexto := 'SÉRIE/N DOCUMENTO';
-  LPDF.TextBox(x1, y1, 33, 4, LTexto, 'T', 'C', False);
-
-  x1 := x + 102;
-  y1 := y - 87;
-  LTexto := 'TP DOC.';
-  LPDF.TextBox(x1, y1, 33, 4, LTexto, 'T', 'C', False);
-
-  x1 := x + 135;
-  y1 := y - 87;
-  LTexto := 'CNPJ/CPF EMITENTE';
-  LPDF.TextBox(x1, y1, 33, 4, LTexto, 'T', 'C', False);
-
-  x1 := x + 168;
-  y1 := y - 87;
-  LTexto := 'SÉRIE/N DOCUMENTO';
-  LPDF.TextBox(x1, y1, 33, 4, LTexto, 'T', 'C', False);
-
-  //TP DOC
-  //Borda
-  LPDF.SetFont(7, 'B');
-  x1 := x + 102;
-  y1 := y - 87;
-  LTexto := EmptyStr;
-  LPDF.TextBox(x1, y1, 102, 7, LTexto, 'T', 'C', True);
-
-  LPDF.SetFont(7, '');
-
-  cdsDocAnt := TACBrDataSet.Create(nil);
-  try
-    cdsDocAnt.FieldDefs.Clear;
-    cdsDocAnt.FieldDefs.Add('TipoDoc', ftString, 20);
-    cdsDocAnt.FieldDefs.Add('CNPJCPF', ftString, 14);
-    cdsDocAnt.FieldDefs.Add('Serie', ftString, 10);
-    cdsDocAnt.FieldDefs.Add('Numero', ftString, 15);
-    cdsDocAnt.FieldDefs.Add('Chave', ftString, 44);
-    cdsDocAnt.FieldDefs.Add('DataEmissao', ftDate);
-    cdsDocAnt.CreateDataSet;
-    for i := 0 to LCTE.infCTeNorm.docAnt.emiDocAnt.Count - 1 do
-      for ii := 0 to Pred(LCTE.infCTeNorm.docAnt.emiDocAnt[i].idDocAnt.Count) do
-        for iii := 0 to Pred(LCTE.infCTeNorm.docAnt.emiDocAnt[i].idDocAnt[ii].idDocAntPap.Count) do
-        begin
-          cdsDocAnt.Append;
-
-          cdsDocAnt.FieldByName('TipoDoc').AsString := TTipoDocumentoAnteriorArrayStrings[LCTE.infCTeNorm.docAnt.emiDocAnt[i].idDocAnt[ii].idDocAntPap[iii].tpDoc];
-          cdsDocAnt.FieldByName('Serie').AsString := LCTE.infCTeNorm.docAnt.emiDocAnt[i].idDocAnt[ii].idDocAntPap[iii].serie;
-          cdsDocAnt.FieldByName('Numero').AsString := LCTE.infCTeNorm.docAnt.emiDocAnt[i].idDocAnt[ii].idDocAntPap[iii].nDoc;
-          cdsDocAnt.FieldByName('DataEmissao').AsDateTime := LCTE.infCTeNorm.docAnt.emiDocAnt[i].idDocAnt[ii].idDocAntPap[iii].dEmi;
-
-          cdsDocAnt.Post;
-        end;
-    for i := 0 to LCTE.infCTeNorm.docAnt.emiDocAnt.Count - 1 do
-      for ii := 0 to Pred(LCTE.infCTeNorm.docAnt.emiDocAnt[i].idDocAnt.Count) do
-        for iii := 0 to Pred(LCTE.infCTeNorm.docAnt.emiDocAnt[i].idDocAnt[ii].idDocAntEle.Count) do
-        begin
-          with LCTE.infCTeNorm.docAnt.emiDocAnt[i].idDocAnt[ii].idDocAntEle[iii] do
-          begin
-            cdsDocAnt.Append;
-            cdsDocAnt.FieldByName('TipoDoc').AsString := 'CT-e';
-            cdsDocAnt.FieldByName('CNPJCPF').AsString := LCTE.infCTeNorm.docAnt.emiDocAnt[i].CNPJCPF;
-
-            if LCTE.infCTe.versao >= 3 then
-              cdsDocAnt.FieldByName('Chave').AsString := LCTE.infCTeNorm.docAnt.emiDocAnt[i].idDocAnt[ii].idDocAntEle[iii].chCTe
-            else
-              cdsDocAnt.FieldByName('Chave').AsString := LCTE.infCTeNorm.docAnt.emiDocAnt[i].idDocAnt[ii].idDocAntEle[iii].chave;
-
-            cdsDocAnt.FieldByName('Serie').AsString := Copy(cdsDocAnt.FieldByName('Chave').AsString, 23, 3);
-            cdsDocAnt.FieldByName('Numero').AsString := Copy(cdsDocAnt.FieldByName('Chave').AsString, 26, 9);
-            cdsDocAnt.FieldByName('DataEmissao').AsDateTime := EncodeDate(StrToInt(Copy(cdsDocAnt.FieldByName('Chave').AsString, 3, 2)), StrToInt(Copy(cdsDocAnt.FieldByName('Chave').AsString, 5, 2)), 1);
-
-            cdsDocAnt.Post;
-          end;
-        end;
-    cdsDocAnt.First;
-    LPDF.SetFont(7, '');
-    while not cdsDocAnt.Eof do
-    begin
-      //esquerda
-      x1 := x;
-      y1 := y - 87;
-      LPDF.TextBox(x1, y1, 11, 4, cdsDocAnt.FieldByName('TipoDoc').AsString, 'T', 'C', False);
-
-      x1 := x + 36;
-      y1 := y - 84;
-      LPDF.TextBox(x1, y1, 33, 4, cdsDocAnt.FieldByName('CNPJCPF').AsString, 'T', 'C', False);
-
-      x1 := x + 102;
-      y1 := y - 84;
-      LPDF.TextBox(x1, y1, 33, 4, cdsDocAnt.FieldByName('Chave').AsString, 'T', 'C', False);
-
-      //direita
-      x1 := x + 71;
-      y1 := y - 84;
-      LPDF.TextBox(x1, y1, 33, 4, cdsDocAnt.FieldByName('TipoDoc').AsString, 'T', 'C', False);
-
-      x1 := x + 135;
-      y1 := y - 84;
-      LPDF.TextBox(x1, y1, 33, 4, cdsDocAnt.FieldByName('CNPJCPF').AsString, 'T', 'C', False);
-
-      LTexto := '';
-      x1 := x + 168;
-      y1 := y - 84;
-      LPDF.TextBox(x1, y1, 33, 4, cdsDocAnt.FieldByName('Chave').AsString, 'T', 'C', False);
-
-      cdsDocAnt.Next;
-    end;
-
-  finally
-    cdsDocAnt.Free;
-  end;
-
-
-  //Previsão do Fluxo da Carga
-  LPDF.SetFont(7, 'B');
-  x1 := x;
-  y1 := y - 80;
-  LTexto := 'PREVISÃO DO FLUXO DA CARGA';
-  LPDF.TextBox(x1, y1, 210, 4, LTexto, 'T', 'C', False);
-
-  //Sigla ou código interno da Filial/Porto/Estação/ Aeroporto de Origem
-  LPDF.SetFont(7, 'B');
-  x1 := x;
-  y1 := y - 77;
-  LTexto := 'SIGLA OU CÓD INT. DA FILIAL, PORTO ,ESTAÇÃO';
-  LPDF.TextBox(x1, y1, 69, 7, LTexto, 'T', 'C', True);
-  LPDF.SetFont(7, 'B');
-  LTexto := LCTE.compl.fluxo.xOrig;
-  x1 := x;
-  y1 := y - 74;
-  LPDF.TextBox(x1, y1, 69, 4, LTexto, 'T', 'L', False);
-
-  //Sigla ou código interno da Filial/Porto/Estação/Aeroporto de Passagem
-  LPDF.SetFont(7, 'B');
-  x1 := x + 69;
-  y1 := y - 77;
-  LTexto := 'SIGLA OU CÓD INT. DA FILIAL, PORTO ,ESTAÇÃO';
-  LPDF.TextBox(x1, y1, 69, 7, LTexto, 'T', 'C', True);
-  LPDF.SetFont(7, 'B');
-  LTexto := LCTE.compl.fluxo.xOrig;
-  x1 := x + 69;
-  y1 := y - 74;
-  LPDF.TextBox(x1, y1, 68, 4, LTexto, 'T', 'L', False);
-
-  //Sigla ou código interno da Filial/Porto/Estação/Aeroporto de Destino
-  LPDF.SetFont(7, 'B');
-  x1 := x + 138;
-  y1 := y - 77;
-  LTexto := 'SIGLA OU CÓD INT. DA FILIAL, PORTO ,ESTAÇÃO';
-  LPDF.TextBox(x1, y1, 66, 7, LTexto, 'T', 'C', True);
-  LPDF.SetFont(7, 'B');
-  LTexto := LCTE.compl.fluxo.xDest;
-  x1 := x + 138;
-  y1 := y - 74;
-  LPDF.TextBox(x1, y1, 66, 4, LTexto, 'T', 'L', False);
-
-  //Observações Gerais
-  LPDF.SetFont(7, 'B');
-  x1 := x;
-  y1 := y - 69;
-  LTexto := 'OBSERVAÇÕES GERAIS';
-  LPDF.TextBox(x1, y1, 204, 3, LTexto, 'T', 'C', False);
-  LPDF.SetFont(7, '');
-  LTexto := LCTE.compl.xObs;
-  x1 := x;
-  y1 := y - 66;
-  LPDF.TextBox(x1, y1, 204, 10, LTexto, 'T', 'L', True);
 end;
 
 procedure TBlocoInformacoesCTe.OnInit(Args: TFPDFBandInitArgs);
 begin
-  Height := 1;
+  Height := 0.01;
 end;
 
 { TBlocoInformacoesRemDestExpRecebCTe }
@@ -2042,7 +3095,7 @@ begin
   LTexto := 'INICIO DA PRESTAÇÃO';
   LPDF.TextBox(x1, y1, 104, 6, LTexto, 'T', 'L', True);
   LPDF.SetFont(7, '');
-  LTexto := LCTE.ide.xMunIni;
+  LTexto := LCTE.ide.xMunIni + '/' + LCTE.ide.UFIni;
   x1 := x;
   y1 := y - 177;
   LPDF.TextBox(x1, y1, 100, 4, LTexto, 'T', 'L', False);
@@ -2054,7 +3107,7 @@ begin
   LTexto := 'TÉRMINO DA PRESTAÇÃO';
   LPDF.TextBox(x1, y1, 100, 6, LTexto, 'T', 'L', True);
   LPDF.SetFont(7, '');
-  LTexto := LCTE.ide.xMunFim;
+  LTexto := LCTE.ide.xMunFim + '/' + LCTE.ide.UFFim;
   x1 := x + 104;
   y1 := y - 177;
   LPDF.TextBox(x1, y1, 100, 4, LTexto, 'T', 'L', False);
@@ -2567,24 +3620,26 @@ begin
   //Informações Específicas do modal Rodoviário
   LPDF.SetFont(8, 'B');
   x1 := x;
-  y1 := y + 24;
+  y1 := y;
   LTexto := 'INFORMAÇÕES ESPECÍFICAS DO MODAL RODOVIÁRIO';
   LPDF.TextBox(x1, y1, 208, 4, LTexto, 'C', 'C', False);
   LTexto := 'RNTRC DA EMPRESA';//LCTE.infCTeNorm.rodo.RNTRC;
   x1 := x;
-  y1 := y + 28;
+  y1 := y + 4;
   LPDF.TextBox(x1, y1, 50, 8, LTexto, 'T', 'L', True);
   LPDF.TextBox(x1 + 50, y1, 154, 8, '', 'T', 'L', True);
   LPDF.SetFont(8, '');
   LTexto := LCTE.infCTeNorm.rodo.RNTRC;
   x1 := x;
-  y1 := y + 32;
+  y1 := y + 8;
   LPDF.TextBox(x1, y1, 50, 4, LTexto, 'T', 'L', False);
 end;
 
 procedure TBlocoModalRodoviarioCTe.OnInit(Args: TFPDFBandInitArgs);
 begin
-  Height := 1;
+  // Altura real - ver AlturaRealModalCTe e o comentario em
+  // TBlocoModalRodoviarioCTe.Create (btPageFooter).
+  Height := AlturaRealModalCTe(FCTeUtils.CTe);
 end;
 
 { TBlocoModalCTeOSCTe }
@@ -2610,7 +3665,7 @@ begin
   LCTE := FCTeUtils.CTe;
   //Posição Inicial
   x := 0;
-  y := 65;
+  y := 42;
 
     //Seguro da Viagem
   LPDF.SetFont(8, 'B');
@@ -2739,7 +3794,9 @@ end;
 
 procedure TBlocoModalCTeOSCTe.OnInit(Args: TFPDFBandInitArgs);
 begin
-  Height := 1;
+  // Altura real - ver AlturaRealModalCTe e o comentario em
+  // TBlocoModalRodoviarioCTe.Create (btPageFooter).
+  Height := AlturaRealModalCTe(FCTeUtils.CTe);
 end;
 
 { TBlocoModalAquaviarioCTe }
@@ -2756,8 +3813,8 @@ var
   LCTE: TCTe;
   x, y: double;
   x1, y1: double;
-  i: integer;
-  LTexto: string;
+  i, j: integer;
+  LTexto, LLacres: string;
 begin
   inherited OnDraw(Args);
 
@@ -2766,7 +3823,7 @@ begin
 
   //Posição Inicial
   x := 0;
-  y := 56;
+  y := 32;
 
   //Informações Específicas do modal Aquaviário(II)
   LPDF.SetFont(8, 'B');
@@ -2797,7 +3854,9 @@ begin
   LPDF.SetFont(8, '');
   for i := 0 to LCTE.infCTeNorm.aquav.balsa.Count - 1 do
   begin
-    LTexto := LCTE.infCTeNorm.aquav.balsa.Items[i].xBalsa;
+    if LTexto <> '' then
+      LTexto := LTexto + ', ';
+    LTexto := LTexto + LCTE.infCTeNorm.aquav.balsa.Items[i].xBalsa;
   end;
   x1 := x + 71;
   y1 := y - 25;
@@ -2815,11 +3874,40 @@ begin
   y1 := y - 25;
   LPDF.TextBox(x1, y1, 65, 4, LTexto, 'T', 'L', False);
 
+  //Lacre / Identificação do Container
+  LPDF.SetFont(8, 'B');
+  x1 := x;
+  y1 := y - 20;
+  LTexto := 'LACRE / IDENTIFICAÇÃO DO CONTAINER';
+  LPDF.TextBox(x1, y1, 204, 8, LTexto, 'T', 'L', True);
+  LPDF.SetFont(8, '');
+  LTexto := '';
+  for i := 0 to LCTE.infCTeNorm.aquav.detCont.Count - 1 do
+  begin
+    LLacres := '';
+    for j := 0 to LCTE.infCTeNorm.aquav.detCont.Items[i].Lacre.Count - 1 do
+    begin
+      if LLacres <> '' then
+        LLacres := LLacres + ', ';
+      LLacres := LLacres + LCTE.infCTeNorm.aquav.detCont.Items[i].Lacre.Items[j].nLacre;
+    end;
+    if LTexto <> '' then
+      LTexto := LTexto + '; ';
+    LTexto := LTexto + LCTE.infCTeNorm.aquav.detCont.Items[i].nCont;
+    if LLacres <> '' then
+      LTexto := LTexto + ' (Lacre: ' + LLacres + ')';
+  end;
+  x1 := x + 1;
+  y1 := y - 17;
+  LPDF.TextBox(x1, y1, 204, 4, LTexto, 'T', 'L', False);
+
 end;
 
 procedure TBlocoModalAquaviarioCTe.OnInit(Args: TFPDFBandInitArgs);
 begin
-  Height := 1;
+  // Altura real - ver AlturaRealModalCTe e o comentario em
+  // TBlocoModalRodoviarioCTe.Create (btPageFooter).
+  Height := AlturaRealModalCTe(FCTeUtils.CTe);
 end;
 
 { TBlocoModalAereoCTe }
@@ -2846,7 +3934,7 @@ begin
 
   //Posição Inicial
   x := 0;
-  y := 69;
+  y := 46;
 //Informações Específicas do modal Aéreo
   LPDF.SetFont(8, 'B');
   x1 := x;
@@ -2921,7 +4009,7 @@ begin
   LTexto := 'RETIRA';
   LPDF.TextBox(x1, y1, 30, 7, LTexto, 'T', 'L', True);
   LPDF.SetFont(8, '');
-  LTexto := ifthen(LCTE.ide.indGlobalizado = tiSim, 'X', '');
+  LTexto := ifthen(LCTE.ide.retira = rtSim, 'X', '');
   x1 := x + 75;
   y1 := y - 32;
   LPDF.TextBox(x1, y1, 5, 4, LTexto, 'T', 'L', True);
@@ -2929,7 +4017,7 @@ begin
   x1 := x + 81;
   y1 := y - 32;
   LPDF.TextBox(x1, y1, 8, 4, LTexto, 'T', 'L', False);
-  LTexto := ifthen(LCTE.ide.indGlobalizado = tiNao, 'X', '');
+  LTexto := ifthen(LCTE.ide.retira = rtNao, 'X', '');
   x1 := x + 89;
   y1 := y - 32;
   LPDF.TextBox(x1, y1, 5, 4, LTexto, 'T', 'L', True);
@@ -2945,7 +4033,7 @@ begin
   LTexto := 'DADOS RELATIVOS A RETIRADA DA CARGA';
   LPDF.TextBox(x1, y1, 99, 7, LTexto, 'T', 'L', True);
   LPDF.SetFont(8, '');
-  LTexto := '';
+  LTexto := LCTE.ide.xDetRetira;
   x1 := x + 105;
   y1 := y - 32;
   LPDF.TextBox(x1, y1, 99, 4, LTexto, 'T', 'L', False);
@@ -2957,7 +4045,7 @@ begin
   LTexto := 'CARAC. ADICIONAL DO SERVIÇO';
   LPDF.TextBox(x1, y1, 53, 7, LTexto, 'T', 'L', True);
   LPDF.SetFont(8, '');
-  LTexto := '';
+  LTexto := LCTE.compl.xCaracSer;
   x1 := x + 1;
   y1 := y - 25;
   LPDF.TextBox(x1, y1, 53, 4, LTexto, 'T', 'L', False);
@@ -3007,7 +4095,9 @@ begin
   LTexto := '';
   for i := 0 to Pred(LCTE.infCTeNorm.aereo.natCarga.cinfManu.Count) do
   begin
-    LTexto := TpInfManuToStr(LCTE.infCTeNorm.aereo.natCarga.cinfManu[i].nInfManu);
+    if LTexto <> '' then
+      LTexto := LTexto + ', ';
+    LTexto := LTexto + TpInfManuToStr(LCTE.infCTeNorm.aereo.natCarga.cinfManu[i].nInfManu);
   end;
   x1 := x + 160;
   y1 := y - 25;
@@ -3016,7 +4106,9 @@ end;
 
 procedure TBlocoModalAereoCTe.OnInit(Args: TFPDFBandInitArgs);
 begin
-  Height := 1;
+  // Altura real - ver AlturaRealModalCTe e o comentario em
+  // TBlocoModalRodoviarioCTe.Create (btPageFooter).
+  Height := AlturaRealModalCTe(FCTeUtils.CTe);
 end;
 
 { TBlocoModalFerroviarioCTe }
@@ -3044,7 +4136,7 @@ begin
 
   //Posição Inicial
   x := 0;
-  y := 69;
+  y := 46;
 
   //Informações Específicas do modal Ferroviário
   LPDF.SetFont(8, 'B');
@@ -3133,7 +4225,7 @@ begin
     LPDF.SetFont(8, '');
     LTexto := '';
     if (I = 1) and (LCTE.infCTeNorm.ferrov.ferroEnv.Count > 1) then
-      LTexto := LCTE.infCTeNorm.ferrov.ferroEnv.Items[1].cInt
+      LTexto := LCTE.infCTeNorm.ferrov.ferroEnv.Items[1].CNPJ
     else
     if (I = 0) and (LCTE.infCTeNorm.ferrov.ferroEnv.Count > 0) then
       LTexto := LCTE.infCTeNorm.ferrov.ferroEnv.Items[0].CNPJ;
@@ -3150,7 +4242,7 @@ begin
     LPDF.SetFont(8, '');
     LTexto := '';
     if (I = 1) and (LCTE.infCTeNorm.ferrov.ferroEnv.Count > 1) then
-      LTexto := LCTE.infCTeNorm.ferrov.ferroEnv.Items[1].cInt
+      LTexto := LCTE.infCTeNorm.ferrov.ferroEnv.Items[1].IE
     else
     if (I = 0) and (LCTE.infCTeNorm.ferrov.ferroEnv.Count > 0) then
       LTexto := LCTE.infCTeNorm.ferrov.ferroEnv.Items[0].IE;
@@ -3185,7 +4277,7 @@ begin
     LPDF.SetFont(8, '');
     LTexto := '';
     if (I = 1) and (LCTE.infCTeNorm.ferrov.ferroEnv.Count > 1) then
-      LTexto := LCTE.infCTeNorm.ferrov.ferroEnv.Items[1].cInt
+      LTexto := LCTE.infCTeNorm.ferrov.ferroEnv.Items[1].xNome
     else
     if (I = 0) and (LCTE.infCTeNorm.ferrov.ferroEnv.Count > 0) then
       LTexto := LCTE.infCTeNorm.ferrov.ferroEnv.Items[0].xNome;
@@ -3198,7 +4290,9 @@ end;
 
 procedure TBlocoModalFerroviarioCTe.OnInit(Args: TFPDFBandInitArgs);
 begin
-  Height := 1;
+  // Altura real - ver AlturaRealModalCTe e o comentario em
+  // TBlocoModalRodoviarioCTe.Create (btPageFooter).
+  Height := AlturaRealModalCTe(FCTeUtils.CTe);
 end;
 
 {$IFDEF FPC}
