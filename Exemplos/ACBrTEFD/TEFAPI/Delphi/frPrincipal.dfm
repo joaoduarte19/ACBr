@@ -270,7 +270,7 @@ object FormPrincipal: TFormPrincipal
                     ParentColor = False
                   end
                   object Label21: TLabel
-                    Left = 300
+                    Left = 284
                     Top = 12
                     Width = 27
                     Height = 13
@@ -282,16 +282,16 @@ object FormPrincipal: TFormPrincipal
                   object edRazaoSocialEstabelecimento: TEdit
                     Left = 13
                     Top = 27
-                    Width = 274
+                    Width = 260
                     Height = 21
                     Anchors = [akLeft, akTop, akRight]
                     TabOrder = 0
                     Text = 'PROJETO ACBR'
                   end
                   object edCNPJEstabelecimento: TEdit
-                    Left = 300
+                    Left = 284
                     Top = 27
-                    Width = 87
+                    Width = 101
                     Height = 21
                     Anchors = [akTop, akRight]
                     TabOrder = 1
@@ -1104,7 +1104,7 @@ object FormPrincipal: TFormPrincipal
               Left = 620
               Top = 4
               Width = 43
-              Height = 13
+              Height = 28
               Align = alRight
               Caption = '000000'
               Color = clBtnFace
@@ -1573,6 +1573,15 @@ object FormPrincipal: TFormPrincipal
                   TabOrder = 5
                   OnClick = btVersaoTEFClick
                 end
+                object btExibirImagemPinPad1: TButton
+                  Left = 479
+                  Top = 55
+                  Width = 101
+                  Height = 21
+                  Caption = 'Enviar QRCode'
+                  TabOrder = 6
+                  OnClick = btExibirImagemPinPad1Click
+                end
               end
             end
           end
@@ -1617,7 +1626,7 @@ object FormPrincipal: TFormPrincipal
     TabOrder = 0
     object lSaidaImpressao: TLabel
       Left = 0
-      Top = 108
+      Top = 153
       Width = 300
       Height = 22
       Align = alTop
@@ -1657,9 +1666,9 @@ object FormPrincipal: TFormPrincipal
     end
     object mImpressao: TMemo
       Left = 0
-      Top = 130
+      Top = 175
       Width = 300
-      Height = 332
+      Height = 287
       Align = alClient
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
@@ -1699,7 +1708,7 @@ object FormPrincipal: TFormPrincipal
       Left = 0
       Top = 13
       Width = 300
-      Height = 95
+      Height = 140
       Align = alTop
       Anchors = []
       BevelInner = bvLowered
@@ -1717,7 +1726,7 @@ object FormPrincipal: TFormPrincipal
         Left = 4
         Top = 4
         Width = 288
-        Height = 35
+        Height = 61
         Align = alTop
         TabOrder = 0
         Visible = False
@@ -1741,7 +1750,7 @@ object FormPrincipal: TFormPrincipal
           Left = 1
           Top = 14
           Width = 286
-          Height = 20
+          Height = 46
           Align = alClient
           Alignment = taCenter
           Caption = 'lMensagemOperador'
@@ -1753,9 +1762,9 @@ object FormPrincipal: TFormPrincipal
       end
       object pMensagemCliente: TPanel
         Left = 4
-        Top = 39
+        Top = 65
         Width = 288
-        Height = 48
+        Height = 67
         Align = alClient
         TabOrder = 1
         Visible = False
@@ -1779,7 +1788,7 @@ object FormPrincipal: TFormPrincipal
           Left = 1
           Top = 14
           Width = 286
-          Height = 33
+          Height = 52
           Align = alClient
           Alignment = taCenter
           Caption = 'lMensagemCliente'

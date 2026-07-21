@@ -1556,6 +1556,15 @@ object FormPrincipal: TFormPrincipal
                   TabOrder = 5
                   OnClick = btVersaoTEFClick
                 end
+                object btExibirImagemPinPad1: TButton
+                  Left = 408
+                  Height = 28
+                  Top = 48
+                  Width = 113
+                  Caption = 'Enviar QRCode'
+                  TabOrder = 6
+                  OnClick = btExibirImagemPinPad1Click
+                end
               end
               object gbAdmOutrasFuncoes: TGroupBox
                 Left = 0

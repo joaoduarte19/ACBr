@@ -231,6 +231,7 @@ type
     cbxMoeda: TComboBox;
     Label47: TLabel;
     edParamAplic: TEdit;
+    btExibirImagemPinPad1: TButton;
     procedure ACBrTEFAPI1QuandoDetectarTransacaoPendente(
       RespostaTEF: TACBrTEFResp; const MsgErro: String);
     procedure ACBrTEFAPI1QuandoExibirMensagem(const Mensagem: String;
@@ -289,6 +290,7 @@ type
     procedure sbDirRespClick(Sender: TObject);
     procedure cbxGPChange(Sender: TObject);
     procedure btVersaoTEFClick(Sender: TObject);
+    procedure btExibirImagemPinPad1Click(Sender: TObject);
   private
     FVenda: TVenda;
     FTipoBotaoOperacao: TTipoBotaoOperacao;
@@ -370,7 +372,7 @@ uses
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.DateTime, ACBrUtil.FilesIO,
   ACBrTEFPayGoComum,
   ACBrTEFAPIPayGoWeb, ACBrTEFAPIScope, ACBrTEFAPICliSiTef, ACBrTEFAPIPayKit,
-  ACBrTEFAPITXT;
+  ACBrTEFAPITXT, ACBrTEFAPIAuttar, ACBrTEFTXTPayGo;
 
 {$R *.dfm}
 
@@ -663,6 +665,29 @@ begin
   StatusVenda := stsEmPagamento;
 end;
 
+procedure TFormPrincipal.btExibirImagemPinPad1Click(Sender: TObject);
+var
+  QRCodePIX: String;
+  Enviado: Boolean;
+begin
+  Enviado := False;
+  QRCodePIX := '00020101021226870014br.gov.bcb.pix2565qrcode-h.qqpag.com.br/pix/v2/'+
+               '77a4e430-bcda-498c-bfea-b73bfa748e515204000053039865802BR'+
+               '5920LOJAS QUERO-QUERO SA6012CACHOEIRINHA61089491000362070503***63044135';
+  if ACBrTEFAPI1.TEF is TACBrTEFAPIClassTXT then
+  begin
+    if TACBrTEFAPIClassTXT(ACBrTEFAPI1.TEF).TEFTXT is TACBrTEFTXTPayGo then
+    begin
+      //QRCodePIX := 'https://www.projetoacbr.com.br';
+      TACBrTEFTXTPayGo(TACBrTEFAPIClassTXT(ACBrTEFAPI1.TEF).TEFTXT).QRP(QRCodePIX);
+      Enviado := True;
+    end;
+  end;
+
+  if not Enviado then
+    ACBrTEFAPI1.ExibirQRCodePinPad(QRCodePIX, 'QRCODE01');
+end;
+
 procedure TFormPrincipal.btIncluirPagamentosClick(Sender: TObject);
 var
   FormIncluirPagamento: TFormIncluirPagamento;
@@ -882,6 +907,7 @@ var
   QRCode: TDelphiZXingQRCode;
   QRCodeBitmap: TBitmap;
   Row, Column: Integer;
+  EhArquivo: Boolean;
 begin
   if not (StatusVenda in [stsAguardandoTEF, stsOperacaoTEF]) then
     StatusVenda := stsAguardandoTEF;
@@ -905,31 +931,37 @@ begin
     Exit;
   end;
 
-  QRCode := TDelphiZXingQRCode.Create;
-  QRCodeBitmap := TBitmap.Create;
-  try
-    QRCode.Encoding  := qrUTF8BOM;
-    QRCode.QuietZone := 2;
-    QRCode.Data      := widestring(DadosQRCode);
+  EhArquivo := (ExtractFileName(DadosQRCode) <> '') and FileExists(DadosQRCode);
+  if EhArquivo then
+     imgQRCode.Picture.LoadFromFile(DadosQRCode)
+  else
+  begin
+    QRCode := TDelphiZXingQRCode.Create;
+    QRCodeBitmap := TBitmap.Create;
+    try
+      QRCode.Encoding  := qrUTF8BOM;
+      QRCode.QuietZone := 2;
+      QRCode.Data      := widestring(DadosQRCode);
 
-    QRCodeBitmap.Width  := QRCode.Columns;
-    QRCodeBitmap.Height := QRCode.Rows;
+      QRCodeBitmap.Width  := QRCode.Columns;
+      QRCodeBitmap.Height := QRCode.Rows;
 
-    for Row := 0 to QRCode.Rows - 1 do
-    begin
-      for Column := 0 to QRCode.Columns - 1 do
+      for Row := 0 to QRCode.Rows - 1 do
       begin
-        if (QRCode.IsBlack[Row, Column]) then
-          QRCodeBitmap.Canvas.Pixels[Column, Row] := clBlack
-        else
-          QRCodeBitmap.Canvas.Pixels[Column, Row] := clWhite;
+        for Column := 0 to QRCode.Columns - 1 do
+        begin
+          if (QRCode.IsBlack[Row, Column]) then
+            QRCodeBitmap.Canvas.Pixels[Column, Row] := clBlack
+          else
+            QRCodeBitmap.Canvas.Pixels[Column, Row] := clWhite;
+        end;
       end;
-    end;
 
-    imgQRCode.Picture.Bitmap.Assign(QRCodeBitmap);
-  finally
-    QRCode.Free;
-    QRCodeBitmap.Free;
+      imgQRCode.Picture.Bitmap.Assign(QRCodeBitmap);
+    finally
+      QRCode.Free;
+      QRCodeBitmap.Free;
+    end;
   end;
 end;
 
