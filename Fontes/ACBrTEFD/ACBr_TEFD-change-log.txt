@@ -45,6 +45,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+21/07/2026
+-- ACBrTEFAPIAuttar --
+[-] Correção em Administrativo Consultar e Devoluçao PIX
+[*] Melhorias nos Logs
+[*] Melhorias de mascaras em 'QuandoPerguntarCampoAPI'
+(por: DSA)
+
 16/07/2026
 -- ACBrTEFAPIAuttar, ACBrTEFAuttarAPI --
 [+] Adicionado suporte a novo TEF Auttar
