@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 21/07/2026
+-- PadraoNacional.GravarXml --
+[*] Alteração visando obter o código do município de emissão não for configurado.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXLerXml_ABRASFv2 --
 [*] ACBR-9322 - Possível solução para a leitura da tag DataFatoGerador do provedor Tecnos.
    Por: Italo Giurizzato Junior
