@@ -6,6 +6,7 @@
 { Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo: Juliomar Marchetti                              }
+{                              Leonardo Gregianin                              }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -53,6 +54,7 @@ uses
   ACBrUtil.Strings,
   ACBrUtil.Compatibilidade,
   ACBrDFeUtil,
+  ACBrDFe.Conversao,
   StrUtilsEx,
 
   TypInfo,
@@ -84,6 +86,8 @@ const
   cnFMarcaDagua         = 50.0;
   cnFSemValidade        = 9.0;
 
+  cAlturaLinhaVazia     = 4.5;
+
   // NT 008, item 2.4.5 - Cabecalho
   cnCabH                = 11.6;
   cnLogoX               = 4.9;
@@ -97,12 +101,12 @@ const
 
   // NT 008, item 2.4.3 - QR Code
   cnQRX                 = 174.8;
-  cnQRY                 = 10.7;
+  cnQRY                 = 7.0;
   cnQRSize              = 15.2;
-  cnQRComplX            = 158.0;
-  cnQRComplY            = 23.6;
-  cnQRComplW            = 47.2;
-  cnQRComplH            = 6.8;
+  cnQRComplX            = 150.0;
+  cnQRComplY            = 22.6;
+  cnQRComplW            = 54.0;
+  cnQRComplH            = 12.0;
   cURLConsultaPublica   = 'https://www.nfse.gov.br/ConsultaPublica/?tpc=1&chave=';
   cTextoQRComplemento   = 'A autenticidade desta NFS-e pode ser verificada '+ #13+
                           'pela leitura deste codigo QR ou pela consulta da'+ #13+
@@ -120,14 +124,14 @@ const
   cCorVermelhoB         = 36;
 
   // Mensagens fixas - NT 008, item 2.3 e 2.5
-  cMsgTomadorVazio      = 'TOMADOR/ADQUIRENTE DA OPERACAO NAO IDENTIFICADO NA NFS-e';
-  cMsgDestVazio         = 'DESTINATARIO DA OPERACAO NAO IDENTIFICADO NA NFS-e';
-  cMsgDestIgualTomador  = 'O DESTINATARIO E O PROPRIO TOMADOR/ADQUIRENTE DA OPERACAO';
-  cMsgIntermVazio       = 'INTERMEDIARIO DA OPERACAO NAO IDENTIFICADO NA NFS-e';
-  cMsgISSQNVazio        = 'TRIBUTACAO MUNICIPAL (ISSQN) - OPERACAO NAO SUJEITA AO ISSQN';
-  cMsgSemValidade       = 'NFS-e SEM VALIDADE JURIDICA';
+  cMsgTomadorVazio      = 'TOMADOR/ADQUIRENTE DA OPERAÇÃO NÃO IDENTIFICADO NA NFS-e';
+  cMsgDestVazio         = 'DESTINATÁRIO DA OPERAÇÃO NÃO IDENTIFICADO NA NFS-e';
+  cMsgDestIgualTomador  = 'O DESTINATÁRIO É O PROPRIO TOMADOR/ADQUIRENTE DA OPERACAO';
+  cMsgIntermVazio       = 'INTERMEDIÁRIO DA OPERAÇÃO NÃO IDENTIFICADO NA NFS-e';
+  cMsgISSQNVazio        = 'TRIBUTAÇÃO MUNICIPAL (ISSQN) - OPERAÇÃO NÃO SUJEITA AO ISSQN';
+  cMsgSemValidade       = 'NFS-e SEM VALIDADE JURÍDICA';
   cMsgCancelada         = 'CANCELADA';
-  cMsgSubstituida       = 'SUBSTITUIDA';
+  cMsgSubstituida       = 'SUBSTITUÍDA';
 
   // Fontes - mapeamento NT 008 -> nucleos FPDF
   // NT 008 exige Arial (labels) e Microsoft Sans Serif (conteudos). Como sao
@@ -148,10 +152,7 @@ type
     FSubstituida: Boolean;
     FHomologacao: Boolean;
     FQRCode: Boolean;
-    FLogoPrefeitura: Boolean;
-    FLogoNFSe: Boolean;
-    FLogoPrefeituraBytes: TBytes;
-    FLogoNFSeBytes: TBytes;
+    FLogoNFSe: string;
     FCabecalhoLinha1: string;
     FCabecalhoLinha2: string;
     FQuebraDeLinha: string;
@@ -159,6 +160,7 @@ type
     FFormatSettings: TFormatSettings;
     FInitialized: Boolean;
     FPage: TFPDFPage;
+    FDadosAux: TDadosNecessariosParaDANFSeX;
   private
     procedure InicializaValoresPadraoObjeto;
 
@@ -167,11 +169,17 @@ type
     function FormatVlr(V: Double): string;
     function FormatPerc(V: Double): string;
     function FormatCNPJCPFNIF(const ID: TIdentificacao): string;
+    function FormatCNPJCPFNIFPessoa(const P: TDadosdaPessoa): string;
     function FormatTelefone(const Contato: TContato): string;
     function FormatCEPBR(const CEP: string): string;
-    function FormatMunicipioUF(const End_: TEndereco): string;
+    function FormatMunicipioUF(const End_: TEndereco;
+      const NomeResolvidoXML: string = ''): string;
+    function ObterUFPorCodigoMunicipio(const ACodigoMunicipio: string): string;
     function FormatIBGE_CEP(const End_: TEndereco): string;
     function FormatEnderecoCompleto(const End_: TEndereco): string;
+    function FormatMunicipioUFTender(const End_: Tender): string;
+    function FormatIBGE_CEPTender(const End_: Tender): string;
+    function FormatEnderecoCompletoTender(const End_: Tender): string;
     function FormatDataNT(D: TDateTime): string;
     function FormatDataHoraNT(D: TDateTime): string;
 
@@ -179,9 +187,12 @@ type
     function GetSituacaoNFSeDescricao: string;
     function GetFinalidadeDescricao: string;
     function GetEmitenteDescricao: string;
+    function GetAmbienteGeradorDescricao: string;
+    function GetRegimeApuracaoSNDescricao: string;
     function GetTextoDescricaoServico: string;
     function GetTextoInformacoesComplementares: string;
     function GetTextoTotaisAproximados: string;
+    function CarregarLogoNFSeBytes: TBytes;
 
     function PossuiTomador: Boolean;
     function PossuiDestinatario: Boolean;
@@ -190,11 +201,13 @@ type
     function PossuiISSQN: Boolean;
 
     procedure DesenharBordaPagina(PDF: IFPDF);
-    procedure DesenharRetangulo(PDF: IFPDF; X, Y, W, H: Double);
     procedure DesenharRetanguloSombreado(PDF: IFPDF; X, Y, W, H: Double);
+    procedure DesenharLinhaSeparadora(PDF: IFPDF; W: Double);
     procedure DesenharTituloBloco(PDF: IFPDF; X, Y, W: Double; const Titulo: string);
+    procedure DesenharTituloBlocoInline(PDF: IFPDF; X, Y, W, H: Double; const Titulo: string);
     procedure DesenharCampo(PDF: IFPDF; X, Y, W, H: Double;
-      const Labl, Valor: string; Sombreado: Boolean = False);
+      const Labl, Valor: string; Sombreado: Boolean = False;
+      PermitirVazio: Boolean = False);
     procedure DesenharLinhaVazia(PDF: IFPDF; X, Y, W: Double; const Mensagem: string);
 
     procedure BandaCabecalho(Args: TFPDFBandDrawArgs);
@@ -237,10 +250,7 @@ type
     property Cancelada: Boolean read FCancelada write FCancelada;
     property Substituida: Boolean read FSubstituida write FSubstituida;
     property Homologacao: Boolean read FHomologacao write FHomologacao;
-    property LogoPrefeitura: Boolean read FLogoPrefeitura write FLogoPrefeitura;
-    property LogoNFSe: Boolean read FLogoNFSe write FLogoNFSe;
-    property LogoPrefeituraBytes: TBytes read FLogoPrefeituraBytes write FLogoPrefeituraBytes;
-    property LogoNFSeBytes: TBytes read FLogoNFSeBytes write FLogoNFSeBytes;
+    property LogoNFSe: string read FLogoNFSe write FLogoNFSe;
     property QRCode: Boolean read FQRCode write FQRCode;
     property CabecalhoLinha1: string read FCabecalhoLinha1 write FCabecalhoLinha1;
     property CabecalhoLinha2: string read FCabecalhoLinha2 write FCabecalhoLinha2;
@@ -252,6 +262,7 @@ type
 implementation
 
 uses
+  ACBrUtil.FilesIO,
   ACBrNFSeXConversao;
 
 { TACBrDANFSeFPDFPadraoNacional }
@@ -323,6 +334,17 @@ begin
     Result := 'NIF: ' + ID.Nif;
 end;
 
+function TACBrDANFSeFPDFPadraoNacional.FormatCNPJCPFNIFPessoa(const P: TDadosdaPessoa): string;
+begin
+  Result := '-';
+  if P = nil then
+    Exit;
+  if Trim(P.CNPJCPF) <> '' then
+    Result := FormatarCNPJouCPF(P.CNPJCPF)
+  else if Trim(P.NIF) <> '' then
+    Result := 'NIF: ' + P.NIF;
+end;
+
 function TACBrDANFSeFPDFPadraoNacional.FormatTelefone(const Contato: TContato): string;
 begin
   Result := '-';
@@ -342,15 +364,42 @@ begin
     Result := NN(CEP);
 end;
 
-function TACBrDANFSeFPDFPadraoNacional.FormatMunicipioUF(const End_: TEndereco): string;
+function TACBrDANFSeFPDFPadraoNacional.FormatMunicipioUF(const End_: TEndereco;
+  const NomeResolvidoXML: string): string;
+var
+  NomeMun, UFMun: string;
 begin
   Result := '-';
   if End_ = nil then Exit;
-  // NT 008: "Municipio / UF" - usar xMunicipio quando preenchido
-  if Trim(End_.xMunicipio) <> '' then
-    Result := Ellipsis(UpperCase(End_.xMunicipio) + ' / ' + End_.UF, 37)
+  if Trim(NomeResolvidoXML) <> '' then
+    Result := Ellipsis(AnsiUpperCase(NomeResolvidoXML) + ' / ' + End_.UF, 37)
+  else if Trim(End_.xMunicipio) <> '' then
+    Result := Ellipsis(AnsiUpperCase(End_.xMunicipio) + ' / ' + End_.UF, 37)
   else if Trim(End_.CodigoMunicipio) <> '' then
-    Result := End_.CodigoMunicipio + ' / ' + End_.UF;
+  begin
+    NomeMun := ObterNomeMunicipio(StrToIntDef(End_.CodigoMunicipio, 0), UFMun, '', False);
+    if NomeMun <> '' then
+      Result := Ellipsis(AnsiUpperCase(NomeMun) + ' / ' + IfThen(End_.UF <> '', End_.UF, UFMun), 37)
+    else
+      Result := End_.CodigoMunicipio + ' / ' + End_.UF;
+  end;
+end;
+
+function TACBrDANFSeFPDFPadraoNacional.ObterUFPorCodigoMunicipio(
+  const ACodigoMunicipio: string): string;
+begin
+  Result := '';
+  if Trim(ACodigoMunicipio) = '' then Exit;
+
+  if Assigned(FNFSe.Prestador) and Assigned(FNFSe.Prestador.Endereco) and
+     (Trim(FNFSe.Prestador.Endereco.CodigoMunicipio) = Trim(ACodigoMunicipio)) then
+    Result := Trim(FNFSe.Prestador.Endereco.UF)
+  else if PossuiTomador and Assigned(FNFSe.Tomador.Endereco) and
+     (Trim(FNFSe.Tomador.Endereco.CodigoMunicipio) = Trim(ACodigoMunicipio)) then
+    Result := Trim(FNFSe.Tomador.Endereco.UF)
+  else if PossuiIntermediario and Assigned(FNFSe.Intermediario.Endereco) and
+     (Trim(FNFSe.Intermediario.Endereco.CodigoMunicipio) = Trim(ACodigoMunicipio)) then
+    Result := Trim(FNFSe.Intermediario.Endereco.UF);
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.FormatIBGE_CEP(const End_: TEndereco): string;
@@ -374,6 +423,55 @@ begin
     S := S + ', ' + End_.Complemento;
   if Trim(End_.Bairro) <> '' then
     S := S + ', ' + End_.Bairro;
+  Result := Ellipsis(NN(S), 77);
+end;
+
+function TACBrDANFSeFPDFPadraoNacional.FormatMunicipioUFTender(const End_: Tender): string;
+var
+  NomeMun, UFMun: string;
+begin
+  Result := '-';
+  if End_ = nil then Exit;
+  // NT 008: "Municipio / UF" - dest (IBSCBS) so traz cMun/UF resolvidos
+  // quando o provedor preenche; senao busca na tabela nacional de
+  // municipios do IBGE (ObterNomeMunicipio) antes de exibir so o codigo cru.
+  if Trim(End_.DescricaoMunicipio) <> '' then
+    Result := Ellipsis(AnsiUpperCase(End_.DescricaoMunicipio) + ' / ' + End_.UF, 37)
+  else if Assigned(End_.endNac) and (End_.endNac.cMun <> 0) then
+  begin
+    NomeMun := ObterNomeMunicipio(End_.endNac.cMun, UFMun, '', False);
+    if NomeMun <> '' then
+      Result := Ellipsis(AnsiUpperCase(NomeMun) + ' / ' + IfThen(End_.endNac.UF <> '', End_.endNac.UF, UFMun), 37)
+    else
+      Result := IntToStr(End_.endNac.cMun) + ' / ' + End_.endNac.UF;
+  end
+  else if Assigned(End_.endExt) then
+    Result := Ellipsis(End_.endExt.xCidade + ' / ' + End_.endExt.xEstProvReg, 37);
+end;
+
+function TACBrDANFSeFPDFPadraoNacional.FormatIBGE_CEPTender(const End_: Tender): string;
+begin
+  Result := '-';
+  if End_ = nil then Exit;
+  if Assigned(End_.endNac) and (End_.endNac.cMun <> 0) then
+    Result := IntToStr(End_.endNac.cMun) + ' / ' + FormatCEPBR(End_.endNac.CEP)
+  else if Assigned(End_.endExt) then
+    Result := NN(End_.endExt.cEndPost);
+end;
+
+function TACBrDANFSeFPDFPadraoNacional.FormatEnderecoCompletoTender(const End_: Tender): string;
+var
+  S: string;
+begin
+  Result := '-';
+  if End_ = nil then Exit;
+  S := Trim(End_.xLgr);
+  if Trim(End_.nro) <> '' then
+    S := S + ', ' + End_.nro;
+  if Trim(End_.xCpl) <> '' then
+    S := S + ', ' + End_.xCpl;
+  if Trim(End_.xBairro) <> '' then
+    S := S + ', ' + End_.xBairro;
   Result := Ellipsis(NN(S), 77);
 end;
 
@@ -435,6 +533,33 @@ begin
     1: Result := 'Prestador';
     2: Result := 'Tomador';
     3: Result := 'Intermediario';
+  end;
+end;
+
+function TACBrDANFSeFPDFPadraoNacional.GetAmbienteGeradorDescricao: string;
+begin
+  // NT 008: "Ambiente Gerador" e' o sistema que gerou a NFS-e (tag ambGer),
+  // nao o tipo de ambiente (producao/homologacao)
+  case FNFSe.infNFSe.ambGer of
+    agSistemaNacional: Result := 'Sefin Nacional NFS-e';
+    agPrefeitura:      Result := 'Prefeitura Municipal';
+  else
+    Result := '-';
+  end;
+end;
+
+function TACBrDANFSeFPDFPadraoNacional.GetRegimeApuracaoSNDescricao: string;
+begin
+  // NT 008: "Regime de Apuracao Tributaria pelo SN" - leiaute preve 3 opcoes
+  case FNFSe.RegimeApuracaoSN of
+    raFederaisMunicipalpeloSN:
+      Result := 'Regime de apuracao dos tributos federais e municipal pelo Simples Nacional';
+    raFederaisSN:
+      Result := 'Regime de apuracao dos tributos federais pelo Simples Nacional';
+    raFederaisMunicipalforaSN:
+      Result := 'Regime de apuracao dos tributos federais pelo Simples Nacional e municipal fora do Simples Nacional';
+  else
+    Result := '-';
   end;
 end;
 
@@ -516,6 +641,28 @@ begin
   Result := 'Totais Aproximados dos Tributos cfe. Lei no. 12.741/2012: ' + Sufixo;
 end;
 
+function TACBrDANFSeFPDFPadraoNacional.CarregarLogoNFSeBytes: TBytes;
+var
+  LStream: TStringStream;
+begin
+  SetLength(Result, 0);
+  if Trim(FLogoNFSe) = '' then
+    Exit;
+
+  if FileExists(FLogoNFSe) then
+    ACBrUtil.FilesIO.FileToBytes(FLogoNFSe, Result)
+  else
+  begin
+    LStream := TStringStream.Create(FLogoNFSe);
+    try
+      Result := LStream.Bytes;
+      SetLength(Result, LStream.Size);
+    finally
+      LStream.Free;
+    end;
+  end;
+end;
+
 function TACBrDANFSeFPDFPadraoNacional.PossuiTomador: Boolean;
 begin
   Result := (FNFSe <> nil) and (FNFSe.Tomador <> nil) and
@@ -527,15 +674,19 @@ end;
 
 function TACBrDANFSeFPDFPadraoNacional.PossuiDestinatario: Boolean;
 begin
-  // Destinatario vem do bloco IBSCBS na NT 008. Sem mapeamento legado:
-  // suprimido por padrao.
-  Result := False;
+  // NT 008: Destinatario da Operacao vem de infDPS/IBSCBS/dest
+  Result := (FNFSe <> nil) and (FNFSe.IBSCBS <> nil) and (FNFSe.IBSCBS.dest <> nil) and
+            (Trim(FNFSe.IBSCBS.dest.CNPJCPF + FNFSe.IBSCBS.dest.NIF +
+                  FNFSe.IBSCBS.dest.xNome) <> '');
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.DestinatarioEhTomador: Boolean;
 begin
-  // Quando destinatario == tomador (sem dados especificos), simplifica.
-  Result := PossuiTomador and (not PossuiDestinatario);
+  // NT 008, item 2.3.2 - indDest = idTomadorAdquirenteDestinatarioIguais
+  // indica que o destinatario e o proprio tomador/adquirente.
+  Result := PossuiTomador and (not PossuiDestinatario) and
+            ((FNFSe.IBSCBS = nil) or
+             (FNFSe.IBSCBS.indDest = idTomadorAdquirenteDestinatarioIguais));
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.PossuiIntermediario: Boolean;
@@ -563,16 +714,18 @@ begin
   PDF.SetLineWidth(cnPt2Mm * cnEspLinha);   // restaura padrao 0,5 pt
 end;
 
-procedure TACBrDANFSeFPDFPadraoNacional.DesenharRetangulo(PDF: IFPDF; X, Y, W, H: Double);
-begin
-  PDF.Rect(X, Y, W, H);
-end;
-
 procedure TACBrDANFSeFPDFPadraoNacional.DesenharRetanguloSombreado(PDF: IFPDF; X, Y, W, H: Double);
 begin
   PDF.SetFillColor(cCorCinzaClaroR, cCorCinzaClaroG, cCorCinzaClaroB);
-  PDF.Rect(X, Y, W, H, 'DF');
+  PDF.Rect(X, Y, W, H, 'F');
   PDF.SetFillColor(255, 255, 255);
+end;
+
+procedure TACBrDANFSeFPDFPadraoNacional.DesenharLinhaSeparadora(PDF: IFPDF; W: Double);
+begin
+  PDF.SetLineWidth(cnPt2Mm * cnEspLinha);
+  PDF.SetDrawColor(0);
+  PDF.Line(0, 0, W, 0);
 end;
 
 procedure TACBrDANFSeFPDFPadraoNacional.DesenharTituloBloco(PDF: IFPDF; X, Y, W: Double;
@@ -588,13 +741,21 @@ begin
   PDF.TextBox(X, Y, W, cHTitulo, UpperCase(Titulo), 'C', 'C', False, False, True);
 end;
 
+procedure TACBrDANFSeFPDFPadraoNacional.DesenharTituloBlocoInline(PDF: IFPDF;
+  X, Y, W, H: Double; const Titulo: string);
+begin
+  DesenharRetanguloSombreado(PDF, X, Y, W, H);
+  PDF.SetFont(cFontLabel);
+  PDF.SetFont(cnFTituloBloco, 'B');
+  PDF.SetTextColor(0);
+  PDF.TextBox(X + 0.5, Y, W - 1.0, H, UpperCase(Titulo), 'C', 'L', False, False, True);
+end;
+
 procedure TACBrDANFSeFPDFPadraoNacional.DesenharCampo(PDF: IFPDF; X, Y, W, H: Double;
-  const Labl, Valor: string; Sombreado: Boolean);
+  const Labl, Valor: string; Sombreado: Boolean; PermitirVazio: Boolean);
 begin
   if Sombreado then
-    DesenharRetanguloSombreado(PDF, X, Y, W, H)
-  else
-    DesenharRetangulo(PDF, X, Y, W, H);
+    DesenharRetanguloSombreado(PDF, X, Y, W, H);
 
   // Label - 6 pt negrito, alinhado ao topo
   PDF.SetFont(cFontLabel);
@@ -604,69 +765,84 @@ begin
   // Valor - 7 pt normal, alinhado abaixo do label
   PDF.SetFont(cFontConteudo);
   PDF.SetFont(cnFConteudo, '');
-  PDF.TextBox(X + 0.5, Y + 2.3, W - 1.0, H - 2.3,
-              NN(Valor), 'T', 'L', False, False, True);
+  if PermitirVazio then
+    PDF.TextBox(X + 0.5, Y + 2.3, W - 1.0, H - 2.3,
+                Valor, 'T', 'L', False, False, True)
+  else
+    PDF.TextBox(X + 0.5, Y + 2.3, W - 1.0, H - 2.3,
+                NN(Valor), 'T', 'L', False, False, True);
 end;
 
 procedure TACBrDANFSeFPDFPadraoNacional.DesenharLinhaVazia(PDF: IFPDF; X, Y, W: Double;
   const Mensagem: string);
-const
-  cHMin = 3.2;   // NT 008, Notas 2/3/4 - altura minima 0,32 cm
 begin
-  DesenharRetangulo(PDF, X, Y, W, cHMin);
   PDF.SetFont(cFontLabel);
   PDF.SetFont(cnFConteudo, 'B');
-  PDF.TextBox(X, Y, W, cHMin, Mensagem, 'C', 'C', False, False, True);
+  PDF.TextBox(X, Y, W, cAlturaLinhaVazia, Mensagem, 'C', 'C', False, False, True);
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.CalcAlturaPrestador: Double;
 begin
-  // NT 008: Prestador - 6 linhas de 6,3 mm + titulo 3,5 + folga
-  Result := 3.5 + 6 * 6.3 + 1.0;
+  Result := 4 * 6.3;
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.CalcAlturaTomador: Double;
 begin
   if not PossuiTomador then
-    Result := 3.5 + 3.2 + 0.5
+    Result := cAlturaLinhaVazia
   else
-    Result := 3.5 + 5 * 6.3 + 1.0;
+    Result := 3 * 6.3;
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.CalcAlturaDestinatario: Double;
 begin
   if not PossuiDestinatario then
-    Result := 3.5 + 3.2 + 0.5
+    Result := cAlturaLinhaVazia
   else
-    Result := 3.5 + 4 * 6.3 + 1.0;
+    Result := 3 * 6.3;
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.CalcAlturaIntermediario: Double;
 begin
   if not PossuiIntermediario then
-    Result := 3.5 + 3.2 + 0.5
+    Result := cAlturaLinhaVazia
   else
-    Result := 3.5 + 5 * 6.3 + 1.0;
+    Result := 3 * 6.3;
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.CalcAlturaServicoPrestado: Double;
+var
+  PageSize: TFPDFPageSize;
+  PDF: TFPDFExt;
+  W, H: Double;
 begin
-  // Titulo + 4 linhas de cabeca (6,3 cada) + corpo da descricao (variavel,
-  // minimo 14 mm).
-  Result := 3.5 + 4 * 6.3 + 14.0;
+  Result := 2 * 6.3 + 14.0;
+
+  PageSize.w := FPage.PageWidth;
+  PageSize.h := FPage.PageHeight;
+  PDF := TFPDFExt.Create(FPage.Orientation, FPage.PageUnit, PageSize);
+  try
+    W := cnLargUtil - 2.0;
+    PDF.SetFont(cFontConteudo, '', cnFConteudo);
+    H := PDF.GetStringHeight(GetTextoDescricaoServico, W);
+    if H + 2 * 6.3 + 3.0 > Result then
+      Result := H + 2 * 6.3 + 3.0;
+  finally
+    PDF.Free;
+  end;
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.CalcAlturaTributacaoMunicipal: Double;
 begin
   if not PossuiISSQN then
-    Result := 3.5 + 3.2 + 0.5
+    Result := cAlturaLinhaVazia
   else
-    Result := 3.5 + 6 * 6.3 + 1.0;
+    Result := 4 * 6.3;
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.CalcAlturaTributacaoIBSCBS: Double;
 begin
-  Result := 3.5 + 4 * 6.3 + 1.0;   // 4 linhas para o grid IBS/CBS
+  Result := 4 * 6.3;   // titulo inline na 1a linha + 4 linhas de grid (ver Anexo I)
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.CalcAlturaInformacoesComplementares: Double;
@@ -675,7 +851,7 @@ var
   PDF: TFPDFExt;
   W, H: Double;
 begin
-  Result := 16.0;
+  Result := 10.0;
   PageSize.w := FPage.PageWidth;
   PageSize.h := FPage.PageHeight;
   PDF := TFPDFExt.Create(FPage.Orientation, FPage.PageUnit, PageSize);
@@ -696,6 +872,7 @@ var
   X, Y, W: Double;
   Stream: TBytesStream;
   Municipio: string;
+  LLogoBytes: TBytes;
 begin
   PDF := Args.PDF;
   X := 0; Y := 0;
@@ -704,25 +881,19 @@ begin
   // Borda externa do bloco - cinza claro
   DesenharRetanguloSombreado(PDF, X, Y, W, cnCabH);
 
-  // Logomarca NFS-e (canto esquerdo) - usa LogoNFSeBytes como container
-  // do PNG oficial da NFS-e (publicado em gov.br/nfse)
-  if FLogoNFSe and (Length(FLogoNFSeBytes) > 0) then
+  // Logomarca NFS-e (canto esquerdo) - NT 008, item 2.4.3. Sem valor padrao
+  // no componente (ver CarregarLogoNFSeBytes) - se a aplicacao chamadora
+  // nao informar LogoNFSe, o espaco fica em branco.
+  LLogoBytes := CarregarLogoNFSeBytes;
+  if Length(LLogoBytes) > 0 then
   begin
-    Stream := TBytesStream.Create(FLogoNFSeBytes);
+    Stream := TBytesStream.Create(LLogoBytes);
     try
       PDF.Image(cnLogoX - cnMargem, cnLogoY - cnMargem,
                 cnLogoW, cnLogoH, Stream, 'L', 'C');
     finally
       Stream.Free;
     end;
-  end
-  else
-  begin
-    // Placeholder textual da logomarca
-    PDF.SetFont(cFontLabel);
-    PDF.SetFont(11, 'B');
-    PDF.TextBox(cnLogoX - cnMargem, cnLogoY - cnMargem + 2, cnLogoW, 5,
-                'NFS-e', 'T', 'L', False, False, True);
   end;
 
   // Centro - DANFSe v2.0 + Documento Auxiliar da NFS-e
@@ -748,19 +919,33 @@ begin
   // Coluna direita - Municipio / Ambiente Gerador / Tipo de Ambiente
   Municipio := Trim(FCabecalhoLinha1);
   if Municipio = '' then
-    Municipio := Trim(FNFSe.cLocEmi);
+  begin
+    Municipio := Trim(FNFSe.infNFSe.xLocEmi);
+    if (Municipio = '') and Assigned(FNFSe.Prestador) and Assigned(FNFSe.Prestador.Endereco) then
+      Municipio := Trim(FNFSe.Prestador.Endereco.xMunicipio);
+
+    if Municipio <> '' then
+    begin
+      if Assigned(FNFSe.Prestador) and Assigned(FNFSe.Prestador.Endereco) and
+         (Trim(FNFSe.Prestador.Endereco.UF) <> '') then
+        Municipio := Municipio + ' / ' + Trim(FNFSe.Prestador.Endereco.UF)
+      else if (Trim(FNFSe.infNFSe.UFLocEmi) <> '') then
+        Municipio := Municipio + ' / ' + Trim(FNFSe.infNFSe.UFLocEmi);
+    end;
+  end;
 
   PDF.SetFont(cFontConteudo);
   PDF.SetFont(cnFMunicipio, '');
   PDF.TextBox(cnIdentMunX - cnMargem, Y + 1.0, cnIdentMunW, 4.0,
-              Ellipsis(Municipio, 37), 'T', 'C', False, False, True);
+              'Municipio: ' + Ellipsis(NN(Municipio), 37), 'T', 'C', False, False, True);
 
   PDF.SetFont(cnFAmbiente, '');
   PDF.TextBox(cnIdentMunX - cnMargem, Y + 5.0, cnIdentMunW, 3.0,
-              'Ambiente Gerador: ' + IfThen(FHomologacao, 'Homologacao', 'Producao'),
+              'Ambiente Gerador: ' + GetAmbienteGeradorDescricao,
               'T', 'C', False, False, True);
   PDF.TextBox(cnIdentMunX - cnMargem, Y + 8.0, cnIdentMunW, 3.0,
-              'Tipo de Ambiente: ' + IfThen(FHomologacao, '2 - Homologacao', '1 - Producao'),
+              'Tipo de Ambiente: ' + IfThen(FHomologacao,
+                'Homologação', 'Produção'),
               'T', 'C', False, False, True);
 end;
 
@@ -776,16 +961,14 @@ begin
   ColW := W / 4;
 
   // ---- Chave de Acesso ----
-  // NT 008, item 2.1.1 - bloco unico
   Chave := GetChaveAcesso;
-  DesenharRetangulo(PDF, X, Y, W, 6.7);
   PDF.SetFont(cFontLabel);
   PDF.SetFont(cnFLabelIdentNFSe, 'B');
   PDF.TextBox(X + 0.5, Y + 0.4, W - 1.0, 3.0, 'CHAVE DE ACESSO DA NFS-e',
               'T', 'L', False, False, True);
   PDF.SetFont(cFontConteudo);
-  PDF.SetFont(cnFConteudo + 1, 'B');
-  PDF.TextBox(X, Y + 3.0, W, 3.5, Chave, 'T', 'C', False, False, True);
+  PDF.SetFont(cnFConteudo + 1, '');
+  PDF.TextBox(X + 0.5, Y + 3.0, W - 1.0, 3.5, Chave, 'T', 'L', False, False, True);
 
   Y := Y + 6.7;
 
@@ -817,7 +1000,7 @@ begin
                 GetFinalidadeDescricao);
 
   // ---- QR Code (posicao absoluta em relacao a pagina) ----
-  if FQRCode and (Trim(FNFSe.Link) <> '') then
+  if FQRCode and (Trim(Chave) <> '') then
   begin
     PDF.SetFillColor(0, 0, 0);
     PDF.QRCode(cnQRX - cnMargem, cnQRY - cnMargem, cnQRSize,
@@ -831,6 +1014,7 @@ begin
                 cnQRComplW, cnQRComplH,
                 cTextoQRComplemento, 'T', 'C', False, True, True);
   end;
+  DesenharLinhaSeparadora(PDF, W);
 end;
 
 procedure TACBrDANFSeFPDFPadraoNacional.BandaPrestador(Args: TFPDFBandDrawArgs);
@@ -845,11 +1029,10 @@ begin
   ColW := W / 4;
   LineH := 6.3;
 
-
   P := FNFSe.Prestador;
 
-  // Linha 1: CNPJ/CPF/NIF | IM | Telefone | (vazio reservado)
-  DesenharTituloBloco(PDF, X + 0 * ColW, Y, ColW,  'Prestador / Fornecedor');
+  // Linha 1: Titulo do bloco (1a celula) | CNPJ/CPF/NIF | Indicador Municipal | Telefone
+  DesenharTituloBlocoInline(PDF, X, Y, ColW, LineH, 'Prestador / Fornecedor');
   DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH, 'CNPJ/CPF/NIF',
                 FormatCNPJCPFNIF(P.IdentificacaoPrestador));
   DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH, 'Indicador Municipal (Inscricao)',
@@ -858,37 +1041,34 @@ begin
 
   Y := Y + LineH;
 
-  // Linha 2: Nome / Razao Social (largura cheia)
-  DesenharCampo(PDF, X, Y, W, LineH, 'Nome / Nome Empresarial',
+  // Linha 2: Nome / Razao Social (2 colunas) | Municipio/UF | IBGE/CEP
+  DesenharCampo(PDF, X, Y, 2 * ColW, LineH, 'Nome / Nome Empresarial',
                 Ellipsis(NN(P.RazaoSocial), 167));
-  // Linha 2: Municipio/UF | IBGE/CEP
-  DesenharCampo(PDF, X + 0 * ColW, Y, 2 * ColW, LineH, 'Municipio / Sigla UF',
-                FormatMunicipioUF(P.Endereco));
-  DesenharCampo(PDF, X + 2 * ColW, Y, 2 * ColW, LineH, 'Codigo IBGE / CEP',
+  DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH, 'Municipio / Sigla UF',
+                FormatMunicipioUF(P.Endereco, FNFSe.infNFSe.xLocEmi));
+  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH, 'Codigo IBGE / CEP',
                 FormatIBGE_CEP(P.Endereco));
 
   Y := Y + LineH;
-  // Linha 4: Endereco (largura cheia)
-  DesenharCampo(PDF, X, Y, W, LineH, 'Endereco', FormatEnderecoCompleto(P.Endereco));
 
-  // Linha 5: E-mail (supressivel - Nota 1)
-  if Trim(P.Contato.Email) <> '' then
-  begin
-    DesenharCampo(PDF, X, Y, W, LineH, 'E-mail',
-                  Ellipsis(LowerCase(P.Contato.Email), 77));
-  end;
+  // Linha 3: Endereco (2 colunas) | E-mail (2 colunas)
+  DesenharCampo(PDF, X, Y, 2 * ColW, LineH, 'Endereco', FormatEnderecoCompleto(P.Endereco));
+  DesenharCampo(PDF, X + 2 * ColW, Y, 2 * ColW, LineH, 'E-mail',
+                Ellipsis(LowerCase(NN(P.Contato.Email)), 77));
+
   Y := Y + LineH;
 
-
-
-  // Linha 6: Simples Nacional / Regime de Apuracao SN
-  DesenharCampo(PDF, X + 0 * ColW, Y, ColW, LineH,
+  // Linha 4: Simples Nacional (2 colunas) | Regime de Apuracao SN (2 colunas)
+  DesenharCampo(PDF, X, Y, 2 * ColW, LineH,
                 'Simples Nacional na Data de Competencia',
-                IfThen(FNFSe.OptanteSimplesNacional = snSim, 'Optante', 'Nao Optante'));
-  DesenharCampo(PDF, X + 1 * ColW, Y, 3 * ColW, LineH,
+                IfThen(Assigned(FDadosAux) and (FDadosAux.OptanteSimplesDescricao <> ''),
+                       FDadosAux.OptanteSimplesDescricao,
+                       IfThen(FNFSe.OptanteSimplesNacional = snSim, 'Optante', 'Nao Optante')));
+  DesenharCampo(PDF, X + 2 * ColW, Y, 2 * ColW, LineH,
                 'Regime de Apuracao Tributaria pelo SN',
-                Ellipsis(GetEnumName(TypeInfo(TRegimeApuracaoSN),
-                                     Ord(FNFSe.RegimeApuracaoSN)), 37));
+                Ellipsis(GetRegimeApuracaoSNDescricao, 37));
+
+  DesenharLinhaSeparadora(PDF, W);
 end;
 
 procedure TACBrDANFSeFPDFPadraoNacional.BandaTomador(Args: TFPDFBandDrawArgs);
@@ -903,59 +1083,90 @@ begin
   ColW := W / 4;
   LineH := 6.3;
 
-  DesenharTituloBloco(PDF, X, Y, W, 'Tomador / Adquirente da Operacao');
-  Y := Y + 3.5;
-
   if not PossuiTomador then
   begin
     DesenharLinhaVazia(PDF, X, Y, W, cMsgTomadorVazio);
+    DesenharLinhaSeparadora(PDF, W);
     Exit;
   end;
 
   T := FNFSe.Tomador;
 
-  DesenharCampo(PDF, X + 0 * ColW, Y, ColW, LineH, 'CNPJ/CPF/NIF',
+  DesenharTituloBlocoInline(PDF, X, Y, ColW, LineH, 'Tomador / Adquirente');
+  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH, 'CNPJ/CPF/NIF',
                 FormatCNPJCPFNIF(T.IdentificacaoTomador));
-  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH, 'Indicador Municipal (Inscricao)',
+  DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH, 'Indicador Municipal (Inscricao)',
                 NN(T.IdentificacaoTomador.InscricaoMunicipal));
-  DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH, 'Telefone', FormatTelefone(T.Contato));
-  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH, '', '');
+  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH, 'Telefone', FormatTelefone(T.Contato));
 
   Y := Y + LineH;
-  DesenharCampo(PDF, X, Y, W, LineH, 'Nome / Nome Empresarial',
+
+  // Linha 2: Nome (2 colunas) | Municipio/UF | IBGE/CEP
+  DesenharCampo(PDF, X, Y, 2 * ColW, LineH, 'Nome / Nome Empresarial',
                 Ellipsis(NN(T.RazaoSocial), 167));
-
-  Y := Y + LineH;
-  DesenharCampo(PDF, X + 0 * ColW, Y, 2 * ColW, LineH, 'Municipio / Sigla UF',
+  DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH, 'Municipio / Sigla UF',
                 FormatMunicipioUF(T.Endereco));
-  DesenharCampo(PDF, X + 2 * ColW, Y, 2 * ColW, LineH, 'Codigo IBGE / CEP',
+  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH, 'Codigo IBGE / CEP',
                 FormatIBGE_CEP(T.Endereco));
 
   Y := Y + LineH;
-  DesenharCampo(PDF, X, Y, W, LineH, 'Endereco', FormatEnderecoCompleto(T.Endereco));
 
-  Y := Y + LineH;
-  if Trim(T.Contato.Email) <> '' then
-    DesenharCampo(PDF, X, Y, W, LineH, 'E-mail',
-                  Ellipsis(LowerCase(T.Contato.Email), 77));
+  // Linha 3: Endereco (2 colunas) | E-mail (2 colunas)
+  DesenharCampo(PDF, X, Y, 2 * ColW, LineH, 'Endereco', FormatEnderecoCompleto(T.Endereco));
+  DesenharCampo(PDF, X + 2 * ColW, Y, 2 * ColW, LineH, 'E-mail',
+                Ellipsis(LowerCase(NN(T.Contato.Email)), 77));
+
+  DesenharLinhaSeparadora(PDF, W);
 end;
 
 procedure TACBrDANFSeFPDFPadraoNacional.BandaDestinatario(Args: TFPDFBandDrawArgs);
 var
   PDF: IFPDF;
-  X, Y, W: Double;
+  X, Y, W, ColW, LineH: Double;
+  D: TDadosdaPessoa;
 begin
   PDF := Args.PDF;
   X := 0; Y := 0;
   W := Args.Band.Width;
+  ColW := W / 4;
+  LineH := 6.3;
 
-  DesenharTituloBloco(PDF, X, Y, W, 'Destinatario da Operacao');
-  Y := Y + 3.5;
+  if not PossuiDestinatario then
+  begin
+    if DestinatarioEhTomador then
+      DesenharLinhaVazia(PDF, X, Y, W, cMsgDestIgualTomador)
+    else
+      DesenharLinhaVazia(PDF, X, Y, W, cMsgDestVazio);
+    DesenharLinhaSeparadora(PDF, W);
+    Exit;
+  end;
 
-  if DestinatarioEhTomador then
-    DesenharLinhaVazia(PDF, X, Y, W, cMsgDestIgualTomador)
-  else
-    DesenharLinhaVazia(PDF, X, Y, W, cMsgDestVazio);
+  D := FNFSe.IBSCBS.dest;
+
+  // Linha 1: Titulo do bloco (1a celula) | CNPJ/CPF/NIF | Telefone
+  DesenharTituloBlocoInline(PDF, X, Y, ColW, LineH, 'Destinatario da Operacao');
+  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH, 'CNPJ/CPF/NIF',
+                FormatCNPJCPFNIFPessoa(D));
+  DesenharCampo(PDF, X + 2 * ColW, Y, 2 * ColW, LineH, 'Telefone', NN(D.fone));
+
+  Y := Y + LineH;
+
+  // Linha 2: Nome (2 colunas) | Municipio/UF | IBGE/CEP
+  DesenharCampo(PDF, X, Y, 2 * ColW, LineH, 'Nome / Nome Empresarial',
+                Ellipsis(NN(D.xNome), 167));
+  DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH, 'Municipio / Sigla UF',
+                FormatMunicipioUFTender(D.ender));
+  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH, 'Codigo IBGE / CEP',
+                FormatIBGE_CEPTender(D.ender));
+
+  Y := Y + LineH;
+
+  // Linha 3: Endereco (2 colunas) | E-mail (2 colunas)
+  DesenharCampo(PDF, X, Y, 2 * ColW, LineH, 'Endereco', FormatEnderecoCompletoTender(D.ender));
+  DesenharCampo(PDF, X + 2 * ColW, Y, 2 * ColW, LineH, 'E-mail',
+                Ellipsis(LowerCase(NN(D.email)), 77));
+
+  DesenharLinhaSeparadora(PDF, W);
 end;
 
 procedure TACBrDANFSeFPDFPadraoNacional.BandaIntermediario(Args: TFPDFBandDrawArgs);
@@ -970,41 +1181,41 @@ begin
   ColW := W / 4;
   LineH := 6.3;
 
-  DesenharTituloBloco(PDF, X, Y, W, 'Intermediario da Operacao');
-  Y := Y + 3.5;
-
   if not PossuiIntermediario then
   begin
     DesenharLinhaVazia(PDF, X, Y, W, cMsgIntermVazio);
+    DesenharLinhaSeparadora(PDF, W);
     Exit;
   end;
 
   I := FNFSe.Intermediario;
 
-  DesenharCampo(PDF, X + 0 * ColW, Y, ColW, LineH, 'CNPJ/CPF/NIF',
+  // Linha 1: Titulo do bloco (1a celula) | CNPJ/CPF/NIF | Indicador Municipal | Telefone
+  DesenharTituloBlocoInline(PDF, X, Y, ColW, LineH, 'Intermediario da Operacao');
+  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH, 'CNPJ/CPF/NIF',
                 FormatCNPJCPFNIF(I.Identificacao));
-  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH, 'Indicador Municipal (Inscricao)',
+  DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH, 'Indicador Municipal (Inscricao)',
                 NN(I.Identificacao.InscricaoMunicipal));
-  DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH, 'Telefone', FormatTelefone(I.Contato));
-  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH, '', '');
+  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH, 'Telefone', FormatTelefone(I.Contato));
 
   Y := Y + LineH;
-  DesenharCampo(PDF, X, Y, W, LineH, 'Nome / Nome Empresarial',
+
+  // Linha 2: Nome (2 colunas) | Municipio/UF | IBGE/CEP
+  DesenharCampo(PDF, X, Y, 2 * ColW, LineH, 'Nome / Nome Empresarial',
                 Ellipsis(NN(I.RazaoSocial), 167));
-
-  Y := Y + LineH;
-  DesenharCampo(PDF, X + 0 * ColW, Y, 2 * ColW, LineH, 'Municipio / Sigla UF',
+  DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH, 'Municipio / Sigla UF',
                 FormatMunicipioUF(I.Endereco));
-  DesenharCampo(PDF, X + 2 * ColW, Y, 2 * ColW, LineH, 'Codigo IBGE / CEP',
+  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH, 'Codigo IBGE / CEP',
                 FormatIBGE_CEP(I.Endereco));
 
   Y := Y + LineH;
-  DesenharCampo(PDF, X, Y, W, LineH, 'Endereco', FormatEnderecoCompleto(I.Endereco));
 
-  Y := Y + LineH;
-  if Trim(I.Contato.Email) <> '' then
-    DesenharCampo(PDF, X, Y, W, LineH, 'E-mail',
-                  Ellipsis(LowerCase(I.Contato.Email), 77));
+  // Linha 3: Endereco (2 colunas) | E-mail (2 colunas)
+  DesenharCampo(PDF, X, Y, 2 * ColW, LineH, 'Endereco', FormatEnderecoCompleto(I.Endereco));
+  DesenharCampo(PDF, X + 2 * ColW, Y, 2 * ColW, LineH, 'E-mail',
+                Ellipsis(LowerCase(NN(I.Contato.Email)), 77));
+
+  DesenharLinhaSeparadora(PDF, W);
 end;
 
 procedure TACBrDANFSeFPDFPadraoNacional.BandaServicoPrestado(Args: TFPDFBandDrawArgs);
@@ -1012,44 +1223,64 @@ var
   PDF: IFPDF;
   X, Y, W, ColW, LineH: Double;
   S: TDadosServico;
-  PaisISO: string;
+  PaisISO, NomeMunPrestacao, UFMunPrestacao: string;
 begin
   PDF := Args.PDF;
   X := 0; Y := 0;
   W := Args.Band.Width;
-  ColW := W / 2;
+  ColW := W / 4;
   LineH := 6.3;
   S := FNFSe.Servico;
 
-  DesenharTituloBloco(PDF, X, Y, W, 'Servico Prestado');
-  Y := Y + 3.5;
+  Args.Band.Height := CalcAlturaServicoPrestado;
 
-  // Linha 1: Codigo Tributacao Nacional / Municipal | NBS
-  DesenharCampo(PDF, X, Y, ColW, LineH, 'Codigo de Tributacao Nacional / Municipal',
+  // Linha 1: Titulo do bloco (1a celula) | Cod. Tributacao Nac./Mun. | Cod. NBS | Local Prestacao/UF/Pais
+  DesenharTituloBlocoInline(PDF, X, Y, ColW, LineH, 'Servico Prestado');
+  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH,
+                'Codigo de Tributacao Nacional / Municipal',
                 NN(S.ItemListaServico) + ' / ' + NN(S.CodigoTributacaoMunicipio));
-  DesenharCampo(PDF, X + ColW, Y, ColW, LineH, 'Codigo da NBS',
+  DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH, 'Codigo da NBS',
                 NN(S.CodigoNbs));
 
-  Y := Y + LineH;
+  NomeMunPrestacao := Trim(FNFSe.infNFSe.xLocPrestacao);
+  if NomeMunPrestacao = '' then
+    NomeMunPrestacao := Trim(S.MunicipioPrestacaoServico);
 
-  // Linha 2: Local da Prestacao / UF / Pais
-  PaisISO := IfThen(Trim(S.MunicipioPrestacaoServico) <> '',
-                    S.MunicipioPrestacaoServico + ' / ' + S.UFPrestacao + ' / BR',
-                    '-');
-  DesenharCampo(PDF, X, Y, W, LineH,
+  UFMunPrestacao := ObterUFPorCodigoMunicipio(S.CodigoMunicipio);
+
+  if (NomeMunPrestacao <> '') and (NomeMunPrestacao <> '/') then
+  begin
+    if UFMunPrestacao <> '' then
+      PaisISO := AnsiUpperCase(StringReplace(NomeMunPrestacao, '/', '', [rfReplaceAll])) +
+                 ' / ' + UFMunPrestacao + ' / BR'
+    else
+      PaisISO := AnsiUpperCase(StringReplace(NomeMunPrestacao, '/', ' / ', [])) + ' / BR';
+  end
+  else if Trim(S.CodigoMunicipio) <> '' then
+  begin
+    NomeMunPrestacao := ObterNomeMunicipio(StrToIntDef(S.CodigoMunicipio, 0), UFMunPrestacao, '', False);
+    if NomeMunPrestacao <> '' then
+      PaisISO := AnsiUpperCase(NomeMunPrestacao) + ' / ' + UFMunPrestacao + ' / BR'
+    else
+      PaisISO := '-';
+  end
+  else
+    PaisISO := '-';
+  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH,
                 'Local da Prestacao / Sigla UF / Pais', PaisISO);
 
   Y := Y + LineH;
 
-  // Linha 3: Descricao do Codigo de Tributacao
-  DesenharCampo(PDF, X, Y, W, LineH,
-                'Descricao do Codigo de Tributacao Nacional / Municipal',
-                Ellipsis(NN(S.xItemListaServico), 167));
+  // Linha 2: Descricao do Codigo de Tributacao (sem label - NT 008 nao preve
+  // titulo para este campo)
+  PDF.SetFont(cFontConteudo);
+  PDF.SetFont(cnFConteudo, '');
+  PDF.TextBox(X + 0.5, Y + 0.4, W - 1.0, LineH - 0.4,
+              Ellipsis(NN(S.xItemListaServico), 167), 'T', 'L', False, False, True);
 
   Y := Y + LineH;
 
-  // Linha 4 ate o final: Descricao do Servico (texto livre, multi-linha)
-  DesenharRetangulo(PDF, X, Y, W, Args.Band.Height - Y);
+  // Linha 3 ate o final: Descricao do Servico (texto livre, multi-linha)
   PDF.SetFont(cFontLabel);
   PDF.SetFont(cnFLabelCampo, 'B');
   PDF.TextBox(X + 0.5, Y + 0.4, W - 1.0, 4.0,
@@ -1057,8 +1288,12 @@ begin
 
   PDF.SetFont(cFontConteudo);
   PDF.SetFont(cnFConteudo, '');
+  // AScale=False: mesmo motivo de BandaInformacoesComplementares - tamanho
+  // de fonte fixo, sem encolher sozinho.
   PDF.TextBox(X + 0.5, Y + 2.5, W - 1.0, Args.Band.Height - Y - 3.0,
-              GetTextoDescricaoServico, 'T', 'L', False, False, True);
+              GetTextoDescricaoServico, 'T', 'L', False, True, False);
+
+  DesenharLinhaSeparadora(PDF, W);
 end;
 
 procedure TACBrDANFSeFPDFPadraoNacional.BandaTributacaoMunicipal(Args: TFPDFBandDrawArgs);
@@ -1074,33 +1309,36 @@ begin
   LineH := 6.3;
   V := FNFSe.Servico.Valores;
 
-  DesenharTituloBloco(PDF, X, Y, W, 'Tributacao Municipal (ISSQN)');
-  Y := Y + 3.5;
-
   if not PossuiISSQN then
   begin
     DesenharLinhaVazia(PDF, X, Y, W, cMsgISSQNVazio);
+    DesenharLinhaSeparadora(PDF, W);
     Exit;
   end;
 
-
-  // Linha 1: Tipo Tributacao | Local Incidencia | Regime Especial
-  DesenharCampo(PDF, X + 0 * ColW, Y, ColW, LineH,
-                'Tipo de Tributacao do ISSQN', 'NN(SituacaoTributariaToStr(V.IssRetido))');
-  DesenharCampo(PDF, X + 1 * ColW, Y, 2 * ColW, LineH,
-                'Municipio / UF / Pais da Incidencia',
-                FNFSe.infNFSe.xLocIncid + ' / BR');
-  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH,
-                'Regime Especial de Tributacao do ISSQN',
-                Ellipsis(GetEnumName(TypeInfo(TnfseRegimeEspecialTributacao),
-                                     Ord(FNFSe.RegimeEspecialTributacao)), 37));
+  // Linha 1: Titulo do bloco (1a celula) | Tipo Tributacao | Municipio/UF/Pais Incidencia (2 col)
+  DesenharTituloBlocoInline(PDF, X, Y, ColW, LineH, 'Tributacao Municipal (ISSQN)');
+  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH,
+                'Tipo de Tributacao do ISSQN',
+                IfThen(Assigned(FDadosAux) and (FDadosAux.NaturezaOperacaoDescricao <> ''),
+                       Ellipsis(FDadosAux.NaturezaOperacaoDescricao, 37),
+                       IfThen(V.IssRetido = stRetencao, 'Operacao Tributavel (Retido)', 'Operacao Tributavel')));
+  DesenharCampo(PDF, X + 2 * ColW, Y, 2 * ColW, LineH,
+                'Municipio / Sigla UF / Pais da Incidencia',
+                NN(FNFSe.infNFSe.xLocIncid) + ' / BR');
 
   Y := Y + LineH;
 
-  // Linha 2: Imunidade | Suspensao | nProcesso
-  DesenharCampo(PDF, X + 0 * ColW, Y, ColW, LineH, 'Tipo de Imunidade do ISSQN', '-');
-  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH, 'Suspensao da Exigibilidade', '-');
-  DesenharCampo(PDF, X + 2 * ColW, Y, 2 * ColW, LineH, 'Numero do Processo de Suspensao', '-');
+  // Linha 2: Regime Especial | Imunidade | Suspensao | nProcesso
+  DesenharCampo(PDF, X + 0 * ColW, Y, ColW, LineH,
+                'Regime Especial de Tributacao do ISSQN',
+                IfThen(Assigned(FDadosAux) and (FDadosAux.RegimeEspecialDescricao <> ''),
+                       Ellipsis(FDadosAux.RegimeEspecialDescricao, 37),
+                       Ellipsis(GetEnumName(TypeInfo(TnfseRegimeEspecialTributacao),
+                                            Ord(FNFSe.RegimeEspecialTributacao)), 37)));
+  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH, 'Tipo de Imunidade do ISSQN', '-');
+  DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH, 'Suspensao da Exigibilidade do ISSQN', '-');
+  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH, 'Numero Processo Suspensao', '-');
 
   Y := Y + LineH;
 
@@ -1124,6 +1362,8 @@ begin
                 IfThen(V.IssRetido = stRetencao, 'Retido', 'Nao Retido'));
   DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH, 'ISSQN Apurado',
                 FormatVlr(V.ValorIss));
+
+  DesenharLinhaSeparadora(PDF, W);
 end;
 
 procedure TACBrDANFSeFPDFPadraoNacional.BandaTributacaoFederal(Args: TFPDFBandDrawArgs);
@@ -1135,36 +1375,41 @@ begin
   PDF := Args.PDF;
   X := 0; Y := 0;
   W := Args.Band.Width;
-  ColW := W / 3;
+  ColW := W / 4;
   LineH := 6.3;
   V := FNFSe.Servico.Valores;
 
-  DesenharTituloBloco(PDF, X, Y, W, 'Tributacao Federal (Exceto CBS)');
-  Y := Y + 3.5;
-
-  // Linha 1: IRRF | Contrib. Previdenciaria | Contrib. Sociais
-  DesenharCampo(PDF, X + 0 * ColW, Y, ColW, LineH, 'IRRF', FormatVlr(V.ValorIr));
-  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH,
-                'Contribuicao Previdenciaria Retida', FormatVlr(V.ValorInss));
+  // Linha 1: Titulo do bloco (1a celula) | IRRF | Contrib. Previdenciaria | Contrib. Sociais
+  DesenharTituloBlocoInline(PDF, X, Y, ColW, LineH, 'Tributacao Federal (Exceto CBS)');
+  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH, 'IRRF', FormatVlr(V.ValorIr));
   DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH,
+                'Contribuicao Previdenciaria Retida', FormatVlr(V.ValorInss));
+  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH,
                 'Contribuicoes Sociais Retidas', FormatVlr(V.ValorCsll));
 
   Y := Y + LineH;
 
-  // Linha 2: PIS | COFINS | Descricao Contrib. Sociais
+  // Linha 2: (1a celula vazia) | PIS | COFINS | Descricao Contrib. Sociais
   // NT 008 Nota 6: linha so para NFS-e com competencia ate fim de 2026
-  DesenharCampo(PDF, X + 0 * ColW, Y, ColW, LineH,
-                'PIS - Debito de Apuracao Propria', FormatVlr(V.ValorPis));
+  DesenharCampo(PDF, X + 0 * ColW, Y, ColW, LineH, '', '');
   DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH,
-                'COFINS - Debito de Apuracao Propria', FormatVlr(V.ValorCofins));
+                'PIS - Debito de Apuracao Propria', FormatVlr(V.ValorPis));
   DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH,
+                'COFINS - Debito de Apuracao Propria', FormatVlr(V.ValorCofins));
+  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH,
                 'Descricao das Contribuicoes Sociais Retidas', '-');
+
+  DesenharLinhaSeparadora(PDF, W);
 end;
 
 procedure TACBrDANFSeFPDFPadraoNacional.BandaTributacaoIBSCBS(Args: TFPDFBandDrawArgs);
 var
   PDF: IFPDF;
   X, Y, W, ColW, LineH: Double;
+  IBSCBSNfse: TIBSCBSNfse;
+  ValoresDPS: Tvalorestrib;
+  gIBSCBS: TgIBSCBS;
+  CSTcClassTrib, IndOpMunUF, UFIncidencia: string;
 begin
   PDF := Args.PDF;
   X := 0; Y := 0;
@@ -1172,47 +1417,75 @@ begin
   ColW := W / 4;
   LineH := 6.3;
 
-  DesenharTituloBloco(PDF, X, Y, W, 'Tributacao IBS / CBS');
-  Y := Y + 3.5;
+  IBSCBSNfse := FNFSe.infNFSe.IBSCBS;
+  ValoresDPS := FNFSe.IBSCBS.valores;
+  gIBSCBS := ValoresDPS.trib.gIBSCBS;
 
-  // Linha 1: CST/cClassTrib | Indicador Op./IBGE/Mun./UF
-  DesenharCampo(PDF, X + 0 * ColW, Y, ColW, LineH, 'CST / cClassTrib', '-');
-  DesenharCampo(PDF, X + 1 * ColW, Y, 3 * ColW, LineH,
-                'Indicador de Operacao / IBGE / Municipio / UF', '-');
+  // Linha 1: Titulo do bloco (1a celula) | CST/cClassTrib | Indicador Op./IBGE/Mun./UF (2 col)
+  DesenharTituloBlocoInline(PDF, X, Y, ColW, LineH, 'Tributacao IBS / CBS');
 
-  Y := Y + LineH;
+  CSTcClassTrib := NN(CSTIBSCBSToStr(gIBSCBS.CST)) + ' / ' + NN(gIBSCBS.cClassTrib);
+  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH, 'CST / cClassTrib', CSTcClassTrib);
 
-  // Linha 2: Exclusoes | BC apos exclusoes | Red. Aliq. IBS | Red. Aliq. CBS
-  DesenharCampo(PDF, X + 0 * ColW, Y, ColW, LineH,
-                'Exclusoes e Reducoes da Base de Calculo', FormatVlr(0));
-  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH,
-                'Base de Calculo apos Exclusoes e Reducoes', FormatVlr(0));
-  DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH,
-                'Reducao da Aliquota do IBS', FormatPerc(0));
-  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH,
-                'Reducao da Aliquota da CBS', FormatPerc(0));
+  UFIncidencia := IBSCBSNfse.UFLocalidadeIncid;
+  if Trim(UFIncidencia) = '' then
+  begin
+    UFIncidencia := ObterUFPorCodigoMunicipio(IntToStr(IBSCBSNfse.cLocalidadeIncid));
+    if (UFIncidencia = '') and (IBSCBSNfse.cLocalidadeIncid <> 0) then
+      ObterNomeMunicipio(IBSCBSNfse.cLocalidadeIncid, UFIncidencia, '', False);
+  end;
 
-  Y := Y + LineH;
-
-  // Linha 3: Aliq IBS UF | Aliq Efetiva UF | Valor Apurado UF | Total IBS
-  DesenharCampo(PDF, X + 0 * ColW, Y, ColW, LineH,
-                'Aliquota IBS UF / Mun', FormatPerc(0));
-  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH,
-                'Aliquota Efetiva Municipal IBS', FormatPerc(0));
-  DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH,
-                'Valor Apurado IBS', FormatVlr(0));
-  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH,
-                'Valor Total Apurado IBS', FormatVlr(0));
-
-  Y := Y + LineH;
-
-  // Linha 4: Aliq CBS | Aliq Efetiva CBS | Valor Apurado CBS
-  DesenharCampo(PDF, X + 0 * ColW, Y, ColW, LineH,
-                'Aliquota CBS', FormatPerc(0));
-  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH,
-                'Aliquota Efetiva CBS', FormatPerc(0));
+  IndOpMunUF := NN(FNFSe.IBSCBS.cIndOp) + ' / ' + NN(IntToStr(IBSCBSNfse.cLocalidadeIncid)) +
+    ' / ' + NN(IBSCBSNfse.xLocalidadeIncid) + ' / ' + NN(UFIncidencia);
   DesenharCampo(PDF, X + 2 * ColW, Y, 2 * ColW, LineH,
-                'Valor Total Apurado CBS', FormatVlr(0));
+                'Indicador de Operacao / Codigo IBGE Incidencia / Municipio Incidencia / Sigla UF',
+                Ellipsis(IndOpMunUF, 80));
+
+  Y := Y + LineH;
+
+  // Linha 2: Exclusoes/Reducoes BC | BC Apos Exclusoes | Red.Aliq.IBS/CBS | Aliquota IBS UF/Mun
+  DesenharCampo(PDF, X + 0 * ColW, Y, ColW, LineH,
+                'Exclusoes e Reducoes da Base de Calculo',
+                FormatVlr(IBSCBSNfse.valores.vCalcReeRepRes));
+  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH,
+                'Base de Calculo Apos Exclusoes e Reducoes',
+                FormatVlr(IBSCBSNfse.valores.vBC));
+  DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH,
+                'Red. Aliquota IBS / Red. Aliquota CBS',
+                FormatPerc(IBSCBSNfse.valores.uf.pRedAliqUF) + ' / ' +
+                FormatPerc(IBSCBSNfse.valores.fed.pRedAliqCBS));
+  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH,
+                'Aliquota - IBS UF / IBS Mun',
+                FormatPerc(IBSCBSNfse.valores.uf.pIBSUF) + ' / ' +
+                FormatPerc(IBSCBSNfse.valores.mun.pIBSMun));
+
+  Y := Y + LineH;
+
+  // Linha 3: Aliq.Efet.Mun IBS | Valor Apurado Mun IBS | Aliq.Efet.Estadual IBS | Valor Apurado Estadual IBS
+  DesenharCampo(PDF, X + 0 * ColW, Y, ColW, LineH,
+                'Aliq. Efetiva Municipal - IBS', FormatPerc(IBSCBSNfse.valores.mun.pAliqEfetMun));
+  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH,
+                'Valor Apurado Municipal - IBS',
+                FormatVlr(IBSCBSNfse.totCIBS.gIBS.gIBSMunTot.vIBSMun));
+  DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH,
+                'Aliq. Efetiva Estadual - IBS', FormatPerc(IBSCBSNfse.valores.uf.pAliqEfetUF));
+  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH,
+                'Valor Apurado Estadual - IBS',
+                FormatVlr(IBSCBSNfse.totCIBS.gIBS.gIBSUFTot.vIBSUF));
+
+  Y := Y + LineH;
+
+  // Linha 4: Valor Total Apurado IBS | Aliquota CBS | Aliquota Efetiva CBS | Valor Total Apurado CBS
+  DesenharCampo(PDF, X + 0 * ColW, Y, ColW, LineH,
+                'Valor Total Apurado - IBS', FormatVlr(IBSCBSNfse.totCIBS.gIBS.vIBSTot));
+  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH,
+                'Aliquota - CBS', FormatPerc(IBSCBSNfse.valores.fed.pCBS));
+  DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH,
+                'Aliquota Efetiva - CBS', FormatPerc(IBSCBSNfse.valores.fed.pAliqEfetCBS));
+  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH,
+                'Valor Total Apurado - CBS', FormatVlr(IBSCBSNfse.totCIBS.gCBS.vCBS));
+
+  DesenharLinhaSeparadora(PDF, W);
 end;
 
 procedure TACBrDANFSeFPDFPadraoNacional.BandaValorTotalNFSe(Args: TFPDFBandDrawArgs);
@@ -1229,43 +1502,39 @@ begin
   LineH := 6.7;
   V := FNFSe.Servico.Valores;
 
-  DesenharTituloBloco(PDF, X, Y, W, 'Valor Total da NFS-e');
-  Y := Y + 3.5;
+  // Linha 1: Titulo do bloco (1a celula, sombreado) | V.Operacao | Desc.Incond | Desc.Cond
+  DesenharTituloBlocoInline(PDF, X, Y, ColW, LineH, 'Valor Total da NFS-e');
+  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH,
+                'Valor da Operacao / Servico', FormatVlr(V.ValorServicos));
+  DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH,
+                'Desconto Incondicionado', FormatVlr(V.DescontoIncondicionado));
+  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH,
+                'Desconto Condicionado', FormatVlr(V.DescontoCondicionado));
 
-  // Linha 1: V.Operacao | Desc.Incond | Desc.Cond | Total Retencoes
+  Y := Y + LineH;
+
+  // Linha 2: Total Retencoes | V.Liquido NFS-e | Total IBS/CBS | V.Liquido+IBS/CBS (sombreado)
   vRetencoes := V.ValorIssRetido + V.ValorIr + V.ValorInss +
                 V.ValorCsll + V.ValorPis + V.ValorCofins;
 
+  // NT 008: quando a NFS-e nao traz o bloco IBSCBS (municipio ainda sem
+  // reforma tributaria aplicada), vTotNF fica zerado - usa-se o liquido normal.
+  vTotalNFSe := FNFSe.infNFSe.IBSCBS.totCIBS.vTotNF;
+  if vTotalNFSe = 0 then
+    vTotalNFSe := V.ValorLiquidoNfse;
+
   DesenharCampo(PDF, X + 0 * ColW, Y, ColW, LineH,
-                'Valor da Operacao / Servico', FormatVlr(V.ValorServicos));
-  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH,
-                'Desconto Incondicionado', FormatVlr(V.DescontoIncondicionado));
-  DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH,
-                'Desconto Condicionado', FormatVlr(V.DescontoCondicionado));
-  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH,
                 'Total das Retencoes (ISSQN / Federais)', FormatVlr(vRetencoes));
-
-  Y := Y + LineH;
-
-  // Linha 2: V.Liquido NFS-e | Total IBS/CBS
-  DesenharCampo(PDF, X + 0 * ColW, Y, 2 * ColW, LineH,
+  DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH,
                 'Valor Liquido da NFS-e', FormatVlr(V.ValorLiquidoNfse));
-  DesenharCampo(PDF, X + 2 * ColW, Y, 2 * ColW, LineH,
-                'Total do IBS / CBS', FormatVlr(0));
+  DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH,
+                'Total do IBS / CBS',
+                FormatVlr(FNFSe.infNFSe.IBSCBS.totCIBS.gIBS.vIBSTot +
+                          FNFSe.infNFSe.IBSCBS.totCIBS.gCBS.vCBS));
+  DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH,
+                'Valor Liquido da NFS-e + IBS/CBS', FormatVlr(vTotalNFSe), True);
 
-  Y := Y + LineH;
-
-  // Linha 3: VALOR LIQUIDO NFS-e + IBS/CBS (destacado, sombreado)
-  vTotalNFSe := V.ValorLiquidoNfse;  // + IBS/CBS quando disponivel
-  DesenharRetanguloSombreado(PDF, X, Y, W, LineH);
-  PDF.SetFont(cFontLabel);
-  PDF.SetFont(cnFLabelIdentNFSe, 'B');
-  PDF.TextBox(X + 0.5, Y + 0.4, W - 1.0, 3.0,
-              'VALOR LIQUIDO DA NFS-e + IBS/CBS (R$)', 'T', 'L', False, False, True);
-  PDF.SetFont(cFontConteudo);
-  PDF.SetFont(cnFConteudo + 2, 'B');
-  PDF.TextBox(X, Y + 1.8, W - 2.0, LineH - 1.8, FormatVlr(vTotalNFSe),
-              'T', 'R', False, False, True);
+  DesenharLinhaSeparadora(PDF, W);
 end;
 
 procedure TACBrDANFSeFPDFPadraoNacional.BandaInformacoesComplementares(Args: TFPDFBandDrawArgs);
@@ -1277,18 +1546,22 @@ begin
   PDF := Args.PDF;
   X := 0; Y := 0;
   W := Args.Band.Width;
-  H := Args.Band.Height;
 
-  DesenharTituloBloco(PDF, X, Y, W, 'Informacoes Complementares');
+  H := Args.FreeSpace - Args.ReservedSpace;
+  if H < CalcAlturaInformacoesComplementares then
+    H := CalcAlturaInformacoesComplementares;
+  Args.Band.Height := H;
+
+  DesenharTituloBloco(PDF, X, Y, W, 'INFORMAÇÕES COMPLEMENTARES');
   Y := Y + 3.5;
 
-  DesenharRetangulo(PDF, X, Y, W, H - 3.5);
+  DesenharLinhaSeparadora(PDF, W);
 
   Texto := GetTextoInformacoesComplementares;
   PDF.SetFont(cFontConteudo);
   PDF.SetFont(cnFConteudo, '');
   PDF.TextBox(X + 0.8, Y + 0.6, W - 1.6, H - 4.5,
-              Texto, 'T', 'L', False, False, True);
+              Texto, 'T', 'L', False, True, False);
 end;
 
 procedure TACBrDANFSeFPDFPadraoNacional.BandaCanhoto(Args: TFPDFBandDrawArgs);
@@ -1305,8 +1578,18 @@ begin
   DesenharTituloBloco(PDF, X, Y, W, 'Canhoto');
   Y := Y + 3.5;
 
-  DesenharCampo(PDF, X, Y, ColW, LineH, 'Data Cientificacao', '');
-  DesenharCampo(PDF, X + ColW, Y, 2 * ColW, LineH, 'Identificacao e Assinatura', '');
+  DesenharLinhaSeparadora(PDF, W);
+
+  PDF.SetLineWidth(cnPt2Mm * cnEspLinha);
+  PDF.SetDrawColor(0);
+  PDF.Rect(X, Y, W, LineH);
+  PDF.Line(X + ColW, Y, X + ColW, Y + LineH);
+  PDF.Line(X + 3 * ColW, Y, X + 3 * ColW, Y + LineH);
+
+  // Data Cientificacao e Identificacao/Assinatura sao linhas em branco pra
+  // preenchimento manual (canhoto fisico).
+  DesenharCampo(PDF, X, Y, ColW, LineH, 'Data Cientificação', '', False, True);
+  DesenharCampo(PDF, X + ColW, Y, 2 * ColW, LineH, 'Identificação e Assinatura', '', False, True);
   DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH,
                 'N. NFS-e / Chave NFS-e',
                 NN(FNFSe.Numero) + sLineBreak + GetChaveAcesso);
@@ -1317,6 +1600,9 @@ var
   PDF: IFPDF;
   Texto, PrevColor: string;
 begin
+  // NT 008, item 2.2.3: borda da pagina, 1 pt de espessura
+  DesenharBordaPagina(Args.PDF);
+
   // NT 008, item 2.5: marca d'agua diagonal, Arial >= 50 pt, cinza K35
   Texto := '';
   if FCancelada then
@@ -1357,16 +1643,15 @@ begin
   AddBand(btPageHeader, CalcAlturaDestinatario,       BandaDestinatario);
   AddBand(btPageHeader, CalcAlturaIntermediario,      BandaIntermediario);
 
-  // Descricao do servico ocupa o espaco livre entre header e footer
-  AddBand(btData,       1,                            BandaServicoPrestado);
+  AddBand(btPageHeader, CalcAlturaServicoPrestado,     BandaServicoPrestado);
+  AddBand(btPageHeader, CalcAlturaTributacaoMunicipal, BandaTributacaoMunicipal);
+  AddBand(btPageHeader, 2 * 6.3,                       BandaTributacaoFederal);
+  AddBand(btPageHeader, CalcAlturaTributacaoIBSCBS,    BandaTributacaoIBSCBS);
+  AddBand(btPageHeader, 2 * 6.7,                       BandaValorTotalNFSe);
 
-  AddBand(btPageFooter, CalcAlturaTributacaoMunicipal,BandaTributacaoMunicipal);
-  AddBand(btPageFooter, 3.5 + 2 * 6.3 + 1.0,          BandaTributacaoFederal);
-  AddBand(btPageFooter, CalcAlturaTributacaoIBSCBS,   BandaTributacaoIBSCBS);
-  AddBand(btPageFooter, 3.5 + 3 * 6.7 + 0.5,          BandaValorTotalNFSe);
-  AddBand(btPageFooter, CalcAlturaInformacoesComplementares,
-                                                      BandaInformacoesComplementares);
-  AddBand(btPageFooter, 3.5 + 6.7 + 0.5,              BandaCanhoto);
+  AddBand(btData,       CalcAlturaInformacoesComplementares,
+                                                       BandaInformacoesComplementares);
+  AddBand(btPageFooter, 3.5 + 6.7 + 0.5,               BandaCanhoto);
 
   AddBand(btOverlay, cnPaginaAltura,                  BandaMarcaDagua);
 
@@ -1378,6 +1663,7 @@ procedure TACBrDANFSeFPDFPadraoNacional.SalvarPDF(
 var
   Engine: TFPDFEngine;
 begin
+  FDadosAux := DadosAuxDANFSe;
   Engine := TFPDFEngine.Create(Self, False);
   try
     Engine.Compressed := True;
@@ -1393,6 +1679,7 @@ procedure TACBrDANFSeFPDFPadraoNacional.SalvarPDF(
 var
   Engine: TFPDFEngine;
 begin
+  FDadosAux := DadosAuxDANFSe;
   Engine := TFPDFEngine.Create(Self, False);
   try
     Engine.Compressed := True;

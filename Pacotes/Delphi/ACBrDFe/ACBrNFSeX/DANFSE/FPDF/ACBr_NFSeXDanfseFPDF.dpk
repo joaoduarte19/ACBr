@@ -68,6 +68,7 @@ requires
 
 contains
   ACBr.DANFSeX.FPDFA4Retrato in '..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\DANFSE\FPDF\ACBr.DANFSeX.FPDFA4Retrato.pas',
+  ACBr.DANFSeX.FPDFPadraoNacional in '..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\DANFSE\FPDF\ACBr.DANFSeX.FPDFPadraoNacional.pas',
   ACBrNFSeXDANFSeFPDFClass in '..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\DANFSE\FPDF\ACBrNFSeXDANFSeFPDFClass.pas';
   
 end.

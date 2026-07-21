@@ -9,7 +9,8 @@ interface
 
 uses
   ACBr.DANFSeX.FPDFA4Retrato, ACBrNFSeXDANFSeFPDFClass, 
-  ACBrNFSeXDANFSeFPDFReg, LazarusPackageIntf;
+  ACBrNFSeXDANFSeFPDFReg, ACBr.DANFSeX.FPDF.Utils, 
+  ACBr.DANFSeX.FPDFPadraoNacional, LazarusPackageIntf;
 
 implementation
 

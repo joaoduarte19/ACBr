@@ -6,6 +6,7 @@
 { Direitos Autorais Reservados (c) 2023 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo: Elton Barbosa                                   }
+{                              Leonardo Gregianin                              }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -71,15 +72,17 @@ implementation
 uses
   ACBrUtil.Compatibilidade,
   ACBrUtil.FilesIO,
-  ACBrNFSeX, ACBrNFSeXConversao, ACBr.DANFSeX.Classes, ACBrNFSeXInterface,
-  ACBr.DANFSeX.FPDFA4Retrato;
+  ACBrNFSeX, 
+  ACBrNFSeXConversao, 
+  ACBr.DANFSeX.Classes, 
+  ACBrNFSeXInterface,
+  ACBr.DANFSeX.FPDFA4Retrato,
+  ACBr.DANFSeX.FPDFPadraoNacional;
 
 constructor TACBrNFSeXDANFSeFPDF.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-//  FPrintDialog := True;
-//  FDetalharServico := False;
   MargemInferior := 0;
   MargemSuperior := 0;
   MargemEsquerda := 0;
@@ -92,28 +95,8 @@ begin
 end;
 
 procedure TACBrNFSeXDANFSeFPDF.ImprimirDANFSe(NFSe: TNFSe = nil);
-//var
-//  i: Integer;
-//  Notas: array of TNFSe;
 begin
   ImprimirDANFSePDF(NFSe);
-
-//  TfrlDANFSeRLRetrato.QuebradeLinha(TACBrNFSe(ACBrNFSe).Configuracoes.Geral.ConfigGeral.QuebradeLinha);
-//
-//  if (NFSe = nil) then
-//  begin
-//    SetLength(Notas, TACBrNFSe(ACBrNFSe).NotasFiscais.Count);
-//
-//    for i := 0 to (TACBrNFSe(ACBrNFSe).NotasFiscais.Count - 1) do
-//      Notas[i] := TACBrNFSe(ACBrNFSe).NotasFiscais.Items[i].NFSe;
-//  end
-//  else
-//  begin
-//    SetLength(Notas, 1);
-//    Notas[0] := NFSe;
-//  end;
-//
-//  TfrlDANFSeRLRetrato.Imprimir(Self, Notas);
 end;
 
 procedure TACBrNFSeXDANFSeFPDF.ExecutaImpressaoPDFUmaNFSe(var UmaNFSe: TNFSe; AStream: TStream);
@@ -121,6 +104,7 @@ var
   FProvider: IACBrNFSeXProvider;
   DadosAux: TDadosNecessariosParaDANFSeX;
   Report: TACBrDANFSeFPDFA4Retrato;
+  ReportPN: TACBrDANFSeFPDFPadraoNacional;
   BLogoPref: TBytes;
   BLogoPres: TBytes;
 begin
@@ -139,36 +123,63 @@ begin
     DadosAux.QuebradeLinha                 := FProvider.ConfigGeral.QuebradeLinha;
     DadosAux.Detalhar                      := FProvider.ConfigGeral.DetalharServico;
 
-    Report := TACBrDANFSeFPDFA4Retrato.Create(UmaNFSe);
-    try
-      Report.Cancelada := Cancelada;
-      Report.Homologacao := TACBrNFSeX(ACBrNFSe).Configuracoes.WebServices.AmbienteCodigo <> 1;
-      Report.LogoPrefeitura := Trim(Self.Logo) <> '';
-      Report.LogoPrestador  := Trim(Self.Prestador.Logo) <> '';
-      Report.QRCode := (Trim(UmaNFSe.Link) <> '');
+    // NT 008 (DANFSe v2.0): layout proprio, obrigatorio para o Padrao Nacional.
+    // Os demais provedores (leiaute municipal/ABRASF) continuam no layout antigo.
+    if TACBrNFSeX(ACBrNFSe).Configuracoes.Geral.Provedor = proPadraoNacional then
+    begin
+      ReportPN := TACBrDANFSeFPDFPadraoNacional.Create(UmaNFSe);
+      try
+        ReportPN.Cancelada := Cancelada;
+        ReportPN.Substituida := (UmaNFSe.SituacaoNfse = snSubstituido);
+        ReportPN.Homologacao := UmaNFSe.Producao <> snSim;
+        ReportPN.LogoNFSe := Self.LogoNFSe;
+        ReportPN.QRCode := (Trim(UmaNFSe.infNFSe.ID) <> '') or (Trim(UmaNFSe.ChaveAcesso) <> '');
 
-      if Report.LogoPrefeitura then
-      begin
-        ACBrUtil.FilesIO.FileToBytes(Self.Logo, BLogoPref);
-        Report.LogoPrefeituraBytes := BLogoPref;
+        ReportPN.CabecalhoLinha1 := Self.Prefeitura;
+        ReportPN.QuebraDeLinha   := DadosAux.QuebradeLinha;
+        ReportPN.MensagemRodape := Format('Impresso em %s||%s', [FormatDateTime('dd/mm/yyy HH:nn:ss', Now), Self.Sistema]);
+
+        if Assigned(AStream) then
+          ReportPN.SalvarPDF(DadosAux, AStream)
+        else
+          ReportPN.SalvarPDF(DadosAux, FPArquivoPDF);
+      finally
+        ReportPN.Free;
       end;
+    end
+    else
+    begin
+      Report := TACBrDANFSeFPDFA4Retrato.Create(UmaNFSe);
+      try
+        Report.Cancelada := Cancelada;
+        Report.Homologacao := TACBrNFSeX(ACBrNFSe).Configuracoes.WebServices.AmbienteCodigo <> 1;
+        Report.LogoPrefeitura := Trim(Self.Logo) <> '';
+        Report.LogoPrestador  := Trim(Self.Prestador.Logo) <> '';
+        Report.QRCode := (Trim(UmaNFSe.Link) <> '');
 
-      if Report.LogoPrestador then
-      begin
-        ACBrUtil.FilesIO.FileToBytes(Self.Prestador.Logo, BLogoPres);
-        Report.LogoPrestadorBytes := BLogoPres;
+        if Report.LogoPrefeitura then
+        begin
+          ACBrUtil.FilesIO.FileToBytes(Self.Logo, BLogoPref);
+          Report.LogoPrefeituraBytes := BLogoPref;
+        end;
+
+        if Report.LogoPrestador then
+        begin
+          ACBrUtil.FilesIO.FileToBytes(Self.Prestador.Logo, BLogoPres);
+          Report.LogoPrestadorBytes := BLogoPres;
+        end;
+
+        Report.CabecalhoLinha1 := Self.Prefeitura;
+        Report.QuebraDeLinha   := DadosAux.QuebradeLinha;
+        Report.MensagemRodape := Format('Impresso em %s||%s', [FormatDateTime('dd/mm/yyy HH:nn:ss', Now), Self.Sistema]);
+
+        if Assigned(AStream) then
+          Report.SalvarPDF(DadosAux, AStream)
+        else
+          Report.SalvarPDF(DadosAux, FPArquivoPDF);
+      finally
+        Report.Free;
       end;
-
-      Report.CabecalhoLinha1 := Self.Prefeitura;
-      Report.QuebraDeLinha   := DadosAux.QuebradeLinha;
-      Report.MensagemRodape := Format('Impresso em %s||%s', [FormatDateTime('dd/mm/yyy HH:nn:ss', Now), Self.Sistema]);
-
-      if Assigned(AStream) then
-        Report.SalvarPDF(DadosAux, AStream)
-      else
-        Report.SalvarPDF(DadosAux, FPArquivoPDF);
-    finally
-      Report.Free;
     end;
   finally
     DadosAux.Free;
@@ -201,3 +212,4 @@ begin
 end;
 
 end.
+

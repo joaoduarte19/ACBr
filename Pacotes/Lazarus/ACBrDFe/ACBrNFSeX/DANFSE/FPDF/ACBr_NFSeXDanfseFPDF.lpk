@@ -15,7 +15,7 @@
       </SearchPaths>
     </CompilerOptions>
     <Description Value="ACBr - DANFSe em FPDF Report - (http://www.projetoacbr.com.br/)"/>
-    <Files Count="3">
+    <Files Count="5">
       <Item1>
         <Filename Value="..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\DANFSE\FPDF\ACBr.DANFSeX.FPDFA4Retrato.pas"/>
         <UnitName Value="ACBr.DANFSeX.FPDFA4Retrato"/>
@@ -29,6 +29,14 @@
         <HasRegisterProc Value="True"/>
         <UnitName Value="ACBrNFSeXDANFSeFPDFReg"/>
       </Item3>
+      <Item4>
+        <Filename Value="..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\DANFSE\FPDF\ACBr.DANFSeX.FPDF.Utils.pas"/>
+        <UnitName Value="ACBr.DANFSeX.FPDF.Utils"/>
+      </Item4>
+      <Item5>
+        <Filename Value="..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\DANFSE\FPDF\ACBr.DANFSeX.FPDFPadraoNacional.pas"/>
+        <UnitName Value="ACBr.DANFSeX.FPDFPadraoNacional"/>
+      </Item5>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="2">
