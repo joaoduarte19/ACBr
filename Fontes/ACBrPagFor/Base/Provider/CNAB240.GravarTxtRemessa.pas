@@ -1008,7 +1008,7 @@ begin
         GravarCampo(' ', 1, tcStr);
       end
       else
-        GravarCampo(' ', 50, tcStr);
+        GravarCampo(Informacoes3, 50, tcStr);
 
       GravarCampo(' ', 2, tcStr);
       GravarCampo(' ', 10, tcStr);
