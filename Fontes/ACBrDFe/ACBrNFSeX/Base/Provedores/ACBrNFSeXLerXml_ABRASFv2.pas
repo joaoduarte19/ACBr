@@ -567,7 +567,7 @@ procedure TNFSeR_ABRASFv2.LerInfDeclaracaoPrestacaoServico(
 var
   AuxNode: TACBrXmlNode;
   Ok: Boolean;
-  sNatureza: string;
+  sNatureza, sData: string;
 begin
   if not Assigned(ANode) then Exit;
 
@@ -588,7 +588,12 @@ begin
     LerPrestador(AuxNode);
     LerTomadorServico(AuxNode);
 
-    NFSe.DataFatoGerador := ObterConteudo(AuxNode.Childrens.FindAnyNs('DataFatoGerador'), tcDat);
+    sData := ObterConteudo(AuxNode.Childrens.FindAnyNs('DataFatoGerador'), tcStr);
+
+    if StrToIntDef(Copy(sData, 1, 4), 0) < 2000 then
+      NFSe.DataFatoGerador := 0
+    else
+      NFSe.DataFatoGerador := ObterConteudo(AuxNode.Childrens.FindAnyNs('DataFatoGerador'), tcDat);
 
     LerIntermediarioServico(AuxNode);
     LerConstrucaoCivil(AuxNode);

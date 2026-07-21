@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 21/07/2026
+-- ACBrNFSeXLerXml_ABRASFv2 --
+[*] ACBR-9322 - Possível solução para a leitura da tag DataFatoGerador do provedor Tecnos.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] ACBR-9601 - O município de Santo André/SP mudou de Ginfes para Giss
 	Por: Dercide Alvarez
