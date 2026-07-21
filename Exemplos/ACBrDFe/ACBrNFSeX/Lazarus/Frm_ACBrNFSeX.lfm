@@ -12,6 +12,7 @@ object frmACBrNFSe: TfrmACBrNFSe
   Font.Height = -14
   Font.Name = 'Tahoma'
   Position = poScreenCenter
+  LCLVersion = '4.0.0.4'
   OnCreate = FormCreate
   object pnlMenus: TPanel
     Left = 0
