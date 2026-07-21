@@ -6,7 +6,7 @@
 {                                                                              }
 { Colaboradores nesse arquivo: Victor H. Gonzales - Pandaaa                    }
 {                              Antonio Carlos Junior                           }
-{                                                                              }
+{                              Leonardo Gregianin                              }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -47,6 +47,8 @@ uses
   ACBr_fpdf_ext,
   ACBr_fpdf_report,
   ACBrMDFe.Classes,
+  ACBrMDFe.EnvEvento,
+  ACBrMDFe.EventoClass,
   ACBrDFe.Conversao,
   pcnConversao,
   pmdfeConversaoMDFe,
@@ -114,6 +116,9 @@ type
       procedure ImprimirDAMDFe(MDFE: TMDFe = nil); override;
       procedure ImprimirDAMDFePDF(MDFE: TMDFe = nil); override;
       procedure ImprimirDAMDFePDF(AStream: TStream; MDFE: TMDFe = nil); override;
+      procedure ImprimirEVENTO(AMDFe: TMDFe = nil); override;
+      procedure ImprimirEVENTOPDF(AMDFe: TMDFe = nil); override;
+      procedure ImprimirEVENTOPDF(AStream: TStream; AMDFe: TMDFe = nil); override;
 
     published
       // Declare propriedades publicamente acessíveis aqui
@@ -326,6 +331,104 @@ TBlocoObservacoesMDFe = class(TFPDFBand)
     constructor Create(AMDFeUtils: TMDFeUtilsFPDF); reintroduce;
 end;
 
+{ TBlocoRodapeMDFe }
+TBlocoRodapeMDFe = class(TFPDFBand)
+  private
+    FMensagem: string;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(const AMensagem: string); reintroduce;
+end;
+
+{ TBlocoCabecalhoEventoMDFe }
+TBlocoCabecalhoEventoMDFe = class(TFPDFBand)
+  private
+    FProcEvento: TInfEventoCollectionItem;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(AProcEvento: TInfEventoCollectionItem); reintroduce;
+end;
+
+{ TBlocoDadosMDFeEvento }
+TBlocoDadosMDFeEvento = class(TFPDFBand)
+  private
+    FMDFe: TMDFe;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(AMDFe: TMDFe); reintroduce;
+end;
+
+{ TBlocoDadosEventoMDFe }
+TBlocoDadosEventoMDFe = class(TFPDFBand)
+  private
+    FProcEvento: TInfEventoCollectionItem;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(AProcEvento: TInfEventoCollectionItem); reintroduce;
+end;
+
+{ TBlocoJustificativaMDFe }
+TBlocoJustificativaMDFe = class(TFPDFBand)
+  private
+    FProcEvento: TInfEventoCollectionItem;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(AProcEvento: TInfEventoCollectionItem); reintroduce;
+end;
+
+{ TBlocoEncerramentoMDFe }
+TBlocoEncerramentoMDFe = class(TFPDFBand)
+  private
+    FProcEvento: TInfEventoCollectionItem;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(AProcEvento: TInfEventoCollectionItem); reintroduce;
+end;
+
+{ TBlocoCondutorMDFe }
+TBlocoCondutorMDFe = class(TFPDFBand)
+  private
+    FProcEvento: TInfEventoCollectionItem;
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+  public
+    constructor Create(AProcEvento: TInfEventoCollectionItem); reintroduce;
+end;
+
+{ TBlocoMensagemEventoMDFe }
+TBlocoMensagemEventoMDFe = class(TFPDFBand)
+  protected
+    procedure OnInit(Args: TFPDFBandInitArgs); override;
+    procedure OnDraw(Args: TFPDFBandDrawArgs); override;
+end;
+
+{ TMDFeDAMDFeEventoFPDF }
+TMDFeDAMDFeEventoFPDF = class(TFPDFReport)
+  private
+    FMDFe: TMDFe;
+    FProcEvento: TInfEventoCollectionItem;
+    FMensagemRodape: string;
+    FInitialized: boolean;
+  protected
+    procedure OnStartReport(Args: TFPDFReportEventArgs); override;
+  public
+    constructor Create(AMDFe: TMDFe; AProcEvento: TInfEventoCollectionItem); reintroduce;
+    property MensagemRodape: string read FMensagemRodape write FMensagemRodape;
+end;
+
 { TBlocoCanhoto }
 
 const
@@ -467,40 +570,48 @@ begin
     AddBand(TBlocoDadosMDFe.Create(FMDFeUtils, FLogo, FLogoStretched, FLogoAlign));
     AddBand(TBlocoDocAuxiliarMDFe.Create(FMDFeUtils));
 
+    // "Informações da Composição da Carga" só consta no leiaute do manual
+    // (Anexo II do MOC) nos modelos de emissão em contingência - na emissão
+    // normal esse bloco não aparece em nenhum dos 4 modais.
     case FMDFe.Ide.modal of
       moRodoviario:
         begin
           //Modal Carga Rodoviario
           AddBand(TBlocoModalCargaRodoviarioMDFe.Create(FMDFeUtils));
           AddBand(TBlocoTabelaInformacoesModalRodoviarioMDFe.Create(FMDFeUtils));
-          AddBand(TBlocoTabelaInformacoesComposicaoCargaRodoviarioMDFe.Create(FMDFeUtils));
+          if FMDFe.Ide.tpEmis <> teNormal then
+            AddBand(TBlocoTabelaInformacoesComposicaoCargaRodoviarioMDFe.Create(FMDFeUtils));
         end;
       moAereo:
         begin
           //Modal Carga Aereo
           AddBand(TBlocoModalCargaAereoMDFe.Create(FMDFeUtils));
           AddBand(TBlocoTabelaInformacoesModalAereoMDFe.Create(FMDFeUtils));
-          AddBand(TBlocoTabelaInformacoesComposicaoCargaAereoMDFe.Create(FMDFeUtils));
+          if FMDFe.Ide.tpEmis <> teNormal then
+            AddBand(TBlocoTabelaInformacoesComposicaoCargaAereoMDFe.Create(FMDFeUtils));
         end;
       moAquaviario:
         begin
           //Modal Carga Aquaviario
           AddBand(TBlocoModalCargaAquaviarioMDFe.Create(FMDFeUtils));
           AddBand(TBlocoTabelaInformacoesModalAquaviarioMDFe.Create(FMDFeUtils));
-          AddBand(TBlocoTabelaInformacoesComposicaoCargaAquaviarioMDFe.Create(FMDFeUtils));
+          if FMDFe.Ide.tpEmis <> teNormal then
+            AddBand(TBlocoTabelaInformacoesComposicaoCargaAquaviarioMDFe.Create(FMDFeUtils));
         end;
       moFerroviario:
         begin
           //Modal Carga Ferroviario
           AddBand(TBlocoModalCargaFerroviarioMDFe.Create(FMDFeUtils));
           AddBand(TBlocoTabelaInformacoesModalFerroviarioMDFe.Create(FMDFeUtils));
-          AddBand(TBlocoTabelaInformacoesComposicaoCargaFerroviarioMDFe.Create(FMDFeUtils));
+          if FMDFe.Ide.tpEmis <> teNormal then
+            AddBand(TBlocoTabelaInformacoesComposicaoCargaFerroviarioMDFe.Create(FMDFeUtils));
         end;
     end;
     //Protocolo de Autorização
     AddBand(TBlocoProtocoloAutorizacaoMDFe.Create(FMDFeUtils));
 
     AddBand(TBlocoObservacoesMDFe.Create(FMDFeUtils));
+    AddBand(TBlocoRodapeMDFe.Create(FMensagemRodape));
     FInitialized := True;
   end;
 end;
@@ -606,6 +717,70 @@ begin
   ImprimirDAMDFEPDF(MDFE);
 end;
 
+procedure TACBrMDFeDAMDFeFPDF.ImprimirEVENTO(AMDFe: TMDFe);
+begin
+  inherited;
+end;
+
+procedure TACBrMDFeDAMDFeFPDF.ImprimirEVENTOPDF(AMDFe: TMDFe);
+var
+  Report: TFPDFReport;
+  Engine: TFPDFEngine;
+  I: Integer;
+  LMDFe: TMDFe;
+  LEvento: TInfEventoCollectionItem;
+  LPath: String;
+begin
+  for I := 0 to TACBrMDFe(ACBrMDFe).EventoMDFe.Evento.Count - 1 do
+  begin
+    LMDFe   := TACBrMDFe(ACBrMDFe).Manifestos[I].MDFe;
+    LEvento := TACBrMDFe(ACBrMDFe).EventoMDFe.Evento[I];
+
+    Report := TMDFeDAMDFeEventoFPDF.Create(LMDFe, LEvento);
+
+    FIndexImpressaoIndividual := I;
+
+    TMDFeDAMDFeEventoFPDF(Report).MensagemRodape := Self.Sistema;
+
+    try
+      Engine := TFPDFEngine.Create(Report, False);
+      try
+        Engine.Compressed := True;
+        if Assigned(FStream) then
+        begin
+          FPArquivoPDF := RemoverLiteralChave(LMDFe.infMDFe.Id) + '-evento.pdf';
+          Engine.SaveToStream(FStream);
+        end else
+        begin
+          LPath := DefinirNomeArquivo(TACBrMDFe(ACBrMDFe).DAMDFE.PathPDF,
+                 TpEventoToStr(LEvento.InfEvento.tpEvento) + '-' +
+                 RemoverLiteralChave(LMDFe.infMDFe.Id) + '-evento.pdf',
+                 TACBrMDFe(ACBrMDFe).DAMDFE.NomeDocumento);
+
+          ForceDirectories(ExtractFilePath(LPath));
+
+          Engine.SaveToFile(LPath);
+          FPArquivoPDF := LPath;
+        end;
+      finally
+        Engine.Free;
+      end;
+    finally
+      Report.Free;
+    end;
+  end;
+end;
+
+procedure TACBrMDFeDAMDFeFPDF.ImprimirEVENTOPDF(AStream: TStream; AMDFe: TMDFe);
+begin
+  FStream := AStream;
+
+  if not Assigned(FStream) then
+    raise Exception.Create('Stream not initialized');
+
+  ImprimirEVENTOPDF(AMDFe);
+end;
+
 { TBlocoDadosMDFe }
 
 procedure TBlocoDadosMDFe.OnInit(Args: TFPDFBandInitArgs);
@@ -638,7 +813,7 @@ begin
     Stream := TMemoryStream.Create;
     try
       Stream.Write(FLogo[0], Length(FLogo));
-      LPDF.Image(x, y, 40, 30, Stream);
+      LPDF.Image(x, y + 2, 24, 18, Stream);
     finally
       Stream.Free;
     end;
@@ -646,8 +821,8 @@ begin
   else
   begin
     LPDF.SetFont('Arial', 'B', 10);
-    LPDF.Rect(x, y, 40, 30);
-    LPDF.Text(x + 2, y + 15, '');
+    LPDF.Rect(x, y + 2, 24, 18);
+    LPDF.Text(x + 2, y + 11, '');
   end;
 
   // Cabeçalho - Emitente
@@ -660,18 +835,16 @@ begin
   LPDF.SetFont('Arial', '', 9);
   x1 := x + 45;
   y1 := y + 7;
-  LTexto := LMDFE.emit.enderEmit.xLgr + ' ' + LMDFE.emit.enderEmit.nro + ' ' + LMDFE.emit.enderEmit.xCpl;
-  LPDF.TextBox(x1, y1, 80, 5, LTexto, 'T', 'L', 0, '');
+  LTexto := LMDFE.emit.enderEmit.xLgr + ', nº ' + LMDFE.emit.enderEmit.nro;
+  if LMDFE.emit.enderEmit.xCpl <> '' then
+    LTexto := LTexto + ', ' + LMDFE.emit.enderEmit.xCpl;
+  LPDF.TextBox(x1, y1, 130, 5, LTexto, 'T', 'L', 0, '');
 
   x1 := x + 45;
   y1 := y + 11;
-  LTexto := LMDFE.emit.enderEmit.xMun + ' - ' + LMDFE.emit.enderEmit.UF;
-  LPDF.TextBox(x1, y1, 80, 5, LTexto, 'T', 'L', 0, '');
-
-  x1 := x + 75;
-  y1 := y + 11;
-  LTexto := 'CEP: ' + FormatarCEP(LMDFE.emit.enderEmit.CEP);
-  LPDF.TextBox(x1, y1, 80, 5, LTexto, 'T', 'L', 0, '');
+  LTexto := LMDFE.emit.enderEmit.xMun + ' - ' + LMDFE.emit.enderEmit.UF +
+            '     CEP: ' + FormatarCEP(LMDFE.emit.enderEmit.CEP);
+  LPDF.TextBox(x1, y1, 130, 5, LTexto, 'T', 'L', 0, '');
 
   x1 := x + 45;
   y1 := y + 15;
@@ -685,13 +858,16 @@ begin
 
   x1 := x + 112;
   y1 := y + 15;
-  LTexto := 'RNTRC: ' + LMDFE.rodo.RNTRC;
+  if LMDFE.rodo.RNTRC <> '' then
+    LTexto := 'RNTRC: ' + LMDFE.rodo.RNTRC
+  else
+    LTexto := 'RNTRC: ' + LMDFE.rodo.infANTT.RNTRC;
   LPDF.TextBox(x1, y1, 80, 5, LTexto, 'T', 'L', 0, '');
 
   //QRCode.
   LPDF.SetFont(6, 'B');
   x1 := x + 150;
-  y1 := y + 10;
+  y1 := y + 2;
   DadosQRCode := LMDFE.infMDFeSupl.qrCodMDFe;
   LPDF.QRCode(x1, y1, 38, DadosQRCode);
 
@@ -739,7 +915,7 @@ begin
   LPDF.SetFont('Arial', 'B', 10);
   x1 := x;
   y1 := y - 65;
-  LTexto := 'DAMDFe - Documento Auxiliar do Manifesto Eletrônico de Documentos Fiscais';
+  LTexto := 'DAMDFE - Documento Auxiliar de Manifesto Eletrônico de Documentos Fiscais';
   LPDF.TextBox(x1, y1, 150, 5, LTexto, 'T', 'L', 0, '');
 
   // Campos fixos
@@ -764,7 +940,7 @@ begin
   x1 := x + 14;
   y1 := y - 51;
   LPDF.SetFont('Arial', '', 9);
-  LTexto := FormatFloat('000', LMDFE.Ide.serie, FMDFeUtils.FormatSettings);
+  LTexto := IntToStr(LMDFE.Ide.serie);
   LPDF.TextBox(x1, y1, 14, 5, LTexto, 'T', 'L', 0, '');
 
   x1 := x + 28;
@@ -915,7 +1091,7 @@ begin
   x1 := x + 44;
   y1 := y - 107;
   LPDF.SetFont('Arial', 'B', 9);
-  LTexto := FormatFloat('#,0.0000', LMDFE.tot.qCarga);
+  LTexto := FormatFloat('#,0.00', LMDFE.tot.qCarga, FMDFeUtils.FormatSettings);
   LPDF.TextBox(x1, y1, 30, 5, LTexto, 'T', 'L', 0, '');
 
 end;
@@ -1006,7 +1182,7 @@ begin
   x1 := x + 44;
   y1 := y - 107;
   LPDF.SetFont('Arial', 'B', 9);
-  LTexto := FormatFloat('#,0.0000', LMDFE.tot.qCarga);
+  LTexto := FormatFloat('#,0.00', LMDFE.tot.qCarga, FMDFeUtils.FormatSettings);
   LPDF.TextBox(x1, y1, 30, 5, LTexto, 'T', 'L', 0, '');
 end;
 
@@ -1049,7 +1225,7 @@ begin
   x1 := x;
   y1 := y - 121;
   LPDF.SetFont('Arial', '', 10);
-  LTexto := '0123456789 - Informação sobre a embarcação';
+  LTexto := LMDFE.aquav.cEmbar + ' - ' + LMDFE.aquav.xEmbar;
   LPDF.TextBox(x1, y1, 136, 5, LTexto, 'T', 'L', 0, '');
 
   // Título da carga
@@ -1076,7 +1252,7 @@ begin
   //linhas divisorias
   LPDF.SetFont(6, '');
 
-  // Quantidade e Peso
+  // Quantidade (Qtd. CTe / Qtd. NFe / Qtd. MDFe Ref.)
   x1 := x;
   y1 := y - 106;
   LPDF.SetFont('Arial', '', 9);
@@ -1089,40 +1265,41 @@ begin
   LTexto := IntToStr(LMDFE.tot.qCTe);
   LPDF.TextBox(x1, y1, 20, 5, LTexto, 'T', 'L', 0, '');
 
-  x1 := x + 18;
+  x1 := x + 22;
   y1 := y - 106;
   LPDF.SetFont('Arial', '', 9);
   LTexto := 'Qtd. NFe';
   LPDF.TextBox(x1, y1, 20, 5, LTexto, 'T', 'L', 0, '');
 
-  x1 := x + 18;
+  x1 := x + 22;
   y1 := y - 102;
   LPDF.SetFont('Arial', 'B', 9);
   LTexto := IntToStr(LMDFE.tot.qNFe);
   LPDF.TextBox(x1, y1, 20, 5, LTexto, 'T', 'L', 0, '');
 
-  x1 := x + 36;
+  x1 := x + 44;
   y1 := y - 106;
   LPDF.SetFont('Arial', '', 9);
   LTexto := 'Qtd. MDFe Ref.';
   LPDF.TextBox(x1, y1, 30, 5, LTexto, 'T', 'L', 0, '');
 
-  x1 := x + 36;
+  x1 := x + 44;
   y1 := y - 102;
   LPDF.SetFont('Arial', 'B', 9);
   LTexto := IntToStr(LMDFE.tot.qMDFe);
   LPDF.TextBox(x1, y1, 30, 5, LTexto, 'T', 'L', 0, '');
 
-  x1 := x + 62;
-  y1 := y - 106;
+  // Peso total (Kg) - linha própria, abaixo das quantidades
+  x1 := x;
+  y1 := y - 96;
   LPDF.SetFont('Arial', '', 9);
   LTexto := 'Peso total (Kg)';
   LPDF.TextBox(x1, y1, 30, 5, LTexto, 'T', 'L', 0, '');
 
-  x1 := x + 62;
-  y1 := y - 102;
+  x1 := x;
+  y1 := y - 92;
   LPDF.SetFont('Arial', 'B', 9);
-  LTexto := FormatFloat('#,0.0000', LMDFE.tot.qCarga);
+  LTexto := FormatFloat('#,0.00', LMDFE.tot.qCarga, FMDFeUtils.FormatSettings);
   LPDF.TextBox(x1, y1, 30, 5, LTexto, 'T', 'L', 0, '');
 end;
 
@@ -1167,34 +1344,16 @@ begin
   LTexto := 'Prefixo do trem';
   LPDF.TextBox(x1, y1, 25, 5, LTexto, 'T', 'L', 0, '');
 
-  x1 := x;
-  y1 := y - 119;
-  LPDF.SetFont('Arial', '', 10);
-  LTexto := '12345';
-  LPDF.TextBox(x1, y1, 25, 5, LTexto, 'T', 'L', 0, '');
-
   x1 := x + 26;
   y1 := y - 123;
   LPDF.SetFont('Arial', '', 10);
   LTexto := 'Data e hora';
   LPDF.TextBox(x1, y1, 25, 5, LTexto, 'T', 'L', 0, '');
 
-  x1 := x + 26;
-  y1 := y - 119;
-  LPDF.SetFont('Arial', '', 10);
-  LTexto := DateTimeToStr(LMDFE.Ide.dhEmi);
-  LPDF.TextBox(x1, y1, 35, 5, LTexto, 'T', 'L', 0, '');
-
   x1 := x + 63;
   y1 := y - 123;
   LPDF.SetFont('Arial', '', 10);
   LTexto := 'Origem do trem';
-  LPDF.TextBox(x1, y1, 25, 5, LTexto, 'T', 'L', 0, '');
-
-  x1 := x + 63;
-  y1 := y - 119;
-  LPDF.SetFont('Arial', '', 10);
-  LTexto := 'SP';
   LPDF.TextBox(x1, y1, 25, 5, LTexto, 'T', 'L', 0, '');
 
   x1 := x + 89;
@@ -1203,33 +1362,53 @@ begin
   LTexto := 'Dest. do trem';
   LPDF.TextBox(x1, y1, 25, 5, LTexto, 'T', 'L', 0, '');
 
-  x1 := x + 89;
-  y1 := y - 119;
-  LPDF.SetFont('Arial', '', 10);
-  LTexto := 'RJ';
-  LPDF.TextBox(x1, y1, 25, 5, LTexto, 'T', 'L', 0, '');
-
   x1 := x + 115;
   y1 := y - 123;
   LPDF.SetFont('Arial', '', 10);
   LTexto := 'Qtd. de vagões carregados';
   LPDF.TextBox(x1, y1, 45, 5, LTexto, 'T', 'L', 0, '');
 
-  x1 := x + 115;
-  y1 := y - 119;
+  LPDF.Line(x, y - 118, x + 160, y - 118);
+
+  x1 := x;
+  y1 := y - 114;
   LPDF.SetFont('Arial', '', 10);
-  LTexto := '6';
+  LTexto := LMDFE.ferrov.xPref;
+  LPDF.TextBox(x1, y1, 25, 5, LTexto, 'T', 'L', 0, '');
+
+  x1 := x + 26;
+  y1 := y - 114;
+  LPDF.SetFont('Arial', '', 10);
+  LTexto := DateTimeToStr(LMDFE.ferrov.dhTrem);
+  LPDF.TextBox(x1, y1, 35, 5, LTexto, 'T', 'L', 0, '');
+
+  x1 := x + 63;
+  y1 := y - 114;
+  LPDF.SetFont('Arial', '', 10);
+  LTexto := LMDFE.ferrov.xOri;
+  LPDF.TextBox(x1, y1, 25, 5, LTexto, 'T', 'L', 0, '');
+
+  x1 := x + 89;
+  y1 := y - 114;
+  LPDF.SetFont('Arial', '', 10);
+  LTexto := LMDFE.ferrov.xDest;
+  LPDF.TextBox(x1, y1, 25, 5, LTexto, 'T', 'L', 0, '');
+
+  x1 := x + 115;
+  y1 := y - 114;
+  LPDF.SetFont('Arial', '', 10);
+  LTexto := IntToStr(LMDFE.ferrov.qVag);
   LPDF.TextBox(x1, y1, 25, 5, LTexto, 'T', 'L', 0, '');
 
   // Título da carga
   x1 := x;
-  y1 := y - 112;
+  y1 := y - 107;
   LPDF.SetFont('Arial', 'B', 12);
   LTexto := 'Modelo Ferroviário de Carga';
   LPDF.TextBox(x1, y1, 55, 5, LTexto, 'T', 'L', 0, '');
 
   x1 := x + 92;
-  y1 := y - 112;
+  y1 := y - 107;
   LPDF.SetFont('Arial', '', 8);
   LTexto := 'CONTROLE DO FISCO';
   LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
@@ -1237,7 +1416,7 @@ begin
   //Codigo de Barras.
   LPDF.SetFont(6, 'B');
   x1 := x + 92;
-  y1 := y - 106;
+  y1 := y - 101;
   bW := 100;
   bH := 18;
   //codigo de barras
@@ -1247,39 +1426,39 @@ begin
 
   // Quantidade e Peso
   x1 := x;
-  y1 := y - 106;
+  y1 := y - 101;
   LPDF.SetFont('Arial', '', 9);
   LTexto := 'Qtd. CTe';
   LPDF.TextBox(x1, y1, 20, 5, LTexto, 'T', 'L', 0, '');
 
   x1 := x;
-  y1 := y - 102;
+  y1 := y - 97;
   LPDF.SetFont('Arial', 'B', 9);
   LTexto := IntToStr(LMDFE.tot.qCTe);
   LPDF.TextBox(x1, y1, 20, 5, LTexto, 'T', 'L', 0, '');
 
   x1 := x + 22;
-  y1 := y - 106;
+  y1 := y - 101;
   LPDF.SetFont('Arial', '', 9);
   LTexto := 'Qtd. NFe';
   LPDF.TextBox(x1, y1, 20, 5, LTexto, 'T', 'L', 0, '');
 
   x1 := x + 22;
-  y1 := y - 102;
+  y1 := y - 97;
   LPDF.SetFont('Arial', 'B', 9);
   LTexto := IntToStr(LMDFE.tot.qNFe);
   LPDF.TextBox(x1, y1, 20, 5, LTexto, 'T', 'L', 0, '');
 
   x1 := x + 44;
-  y1 := y - 106;
+  y1 := y - 101;
   LPDF.SetFont('Arial', '', 9);
   LTexto := 'Peso total (Kg)';
   LPDF.TextBox(x1, y1, 30, 5, LTexto, 'T', 'L', 0, '');
 
   x1 := x + 44;
-  y1 := y - 102;
+  y1 := y - 97;
   LPDF.SetFont('Arial', 'B', 9);
-  LTexto := FormatFloat('#,0.0000', LMDFE.tot.qCarga);
+  LTexto := FormatFloat('#,0.00', LMDFE.tot.qCarga, FMDFeUtils.FormatSettings);
   LPDF.TextBox(x1, y1, 30, 5, LTexto, 'T', 'L', 0, '');
 end;
 
@@ -1324,23 +1503,23 @@ begin
   LTexto := LMDFE.procMDFe.nProt +' - '+ DateTimeToStr(LMDFE.procMDFe.dhRecbto);
   LPDF.TextBox(x1, y1, 90, 5, LTexto, 'T', 'L', 0, '');
 
-  //chave de acesso
+  //chave de acesso (mesma altura do bloco "Protocolo de autorização")
   x1 := x + 92;
-  y1 := y - 167;
+  y1 := y - 175;
   LPDF.SetFont('Arial', 'B', 9);
   LTexto := 'Chave de Acesso';
   LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
 
   x1 := x + 92;
-  y1 := y - 163;
+  y1 := y - 171;
   LPDF.SetFont('Arial', 'B', 9);
   LTexto := FormatarChaveAcesso(LMDFE.infMDFe.Id);
   LPDF.TextBox(x1, y1, 90, 5, LTexto, 'T', 'L', 0, '');
 
   x1 := x + 92;
-  y1 := y - 157;
+  y1 := y - 167;
   LPDF.SetFont('Arial', 'B', 9);
-  LTexto := 'Consulte em: https://dfe-portal.sefazvirtual.rs.gov.br/MDFe/consulta';
+  LTexto := 'Consulte em https://dfe-portal.sefazvirtual.rs.gov.br/MDFe/consulta';
   LPDF.TextBox(x1, y1, 90, 5, LTexto, 'T', 'L', 0, '');
 end;
 
@@ -1387,7 +1566,7 @@ begin
   LPDF.TextBox(x1, y1, 20, 5, LTexto, 'T', 'L', 0, '');
 
   x1 := x;
-  y1 := y - 136;
+  y1 := y - 131;
   LPDF.SetFont('Arial', 'B', 9);
   LTexto := LMDFE.rodo.veicTracao.placa;
   LPDF.TextBox(x1, y1, 20, 5, LTexto, 'T', 'L', 0, '');
@@ -1399,7 +1578,7 @@ begin
   LPDF.TextBox(x1, y1, 20, 5, LTexto, 'T', 'L', 0, '');
 
   x1 := x + 40;
-  y1 := y - 136;
+  y1 := y - 131;
   LPDF.SetFont('Arial', 'B', 9);
   LTexto := LMDFE.rodo.infANTT.RNTRC;
   LPDF.TextBox(x1, y1, 20, 5, LTexto, 'T', 'L', 0, '');
@@ -1417,29 +1596,26 @@ begin
   LTexto := 'CPF';
   LPDF.TextBox(x1, y1, 20, 5, LTexto, 'T', 'L', 0, '');
 
-  x1 := x + 92;
-  y1 := y - 136;
-  LPDF.SetFont('Arial', 'B', 9);
-  for i := 0 to LMDFE.rodo.veicTracao.condutor.Count - 1 do
-    begin
-      LTexto := FormatarCPF(LMDFE.rodo.veicTracao.condutor.Items[i].CPF);
-    end;
-  LPDF.TextBox(x1, y1, 20, 5, Trim(LTexto), 'T', 'L', 0, '');
-
   x1 := x + 132;
   y1 := y - 140;
   LPDF.SetFont('Arial', '', 10);
   LTexto := 'Nome';
   LPDF.TextBox(x1, y1, 20, 5, LTexto, 'T', 'L', 0, '');
 
-  x1 := x + 132;
-  y1 := y - 136;
+  LPDF.Line(x, y - 135, x + 90, y - 135);
+  LPDF.Line(x + 92, y - 135, x + 182, y - 135);
+
+  y1 := y - 131;
   LPDF.SetFont('Arial', 'B', 9);
   for i := 0 to LMDFE.rodo.veicTracao.condutor.Count - 1 do
-    begin
-      LTexto := LMDFE.rodo.veicTracao.condutor.Items[i].xNome;
-    end;
-  LPDF.TextBox(x1, y1, 50, 5, Trim(LTexto), 'T', 'L', 0, '');
+  begin
+    if y1 > y - 120 then
+      Break;
+
+    LPDF.TextBox(x + 92, y1, 20, 5, FormatarCPF(LMDFE.rodo.veicTracao.condutor.Items[i].CPF), 'T', 'L', 0, '');
+    LPDF.TextBox(x + 132, y1, 50, 5, LMDFE.rodo.veicTracao.condutor.Items[i].xNome, 'T', 'L', 0, '');
+    y1 := y1 + 4;
+  end;
 
   //Vale Pedágio
   x1 := x;
@@ -1454,47 +1630,32 @@ begin
   LTexto := 'Responsável CNPJ';
   LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
 
-  x1 := x;
-  y1 := y - 106;
-  LPDF.SetFont('Arial', '', 9);
-  LTexto := '';
-  for i := 0 to LMDFE.seg.Count - 1 do
-    begin
-      LTexto := FormatarCNPJ(LMDFE.seg.Items[i].CNPJ);
-    end;
-  LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
-
   x1 := x + 34;
   y1 := y - 110;
   LPDF.SetFont('Arial', 'B', 10);
   LTexto := 'Fornecedor CNPJ';
   LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
 
-  x1 := x + 34;
-  y1 := y - 106;
-  LPDF.SetFont('Arial', '', 9);
-  LTexto := '';
-  for i := 0 to LMDFE.rodo.infANTT.infCIOT.Count - 1 do
-    begin
-      LTexto := FormatarCNPJouCPF(LMDFE.rodo.infANTT.infCIOT[i].CNPJCPF);
-    end;
-  LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
-
   x1 := x + 70;
   y1 := y - 110;
   LPDF.SetFont('Arial', 'B', 10);
-  LTexto := 'N° Comprovante';
+  LTexto := 'Nº Comprovante';
   LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
 
-  x1 := x + 70;
-  y1 := y - 106;
+  LPDF.Line(x, y - 105, x + 110, y - 105);
+
+  y1 := y - 101;
   LPDF.SetFont('Arial', '', 9);
-  LTexto := '';
-  for i := 0 to LMDFE.seg.Count - 1 do
-    begin
-      LTexto := LMDFE.seg.Items[i].nApol;
-    end;
-  LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
+  for i := 0 to LMDFE.rodo.infANTT.valePed.disp.Count - 1 do
+  begin
+    if y1 > y - 90 then
+      Break;
+
+    LPDF.TextBox(x, y1, 34, 5, FormatarCNPJouCPF(LMDFE.rodo.infANTT.valePed.disp.Items[i].CNPJPg), 'T', 'L', 0, '');
+    LPDF.TextBox(x + 34, y1, 36, 5, FormatarCNPJouCPF(LMDFE.rodo.infANTT.valePed.disp.Items[i].CNPJForn), 'T', 'L', 0, '');
+    LPDF.TextBox(x + 70, y1, 40, 5, LMDFE.rodo.infANTT.valePed.disp.Items[i].nCompra, 'T', 'L', 0, '');
+    y1 := y1 + 4;
+  end;
 end;
 
 procedure TBlocoTabelaInformacoesModalRodoviarioMDFe.OnInit(Args: TFPDFBandInitArgs);
@@ -1538,23 +1699,11 @@ begin
   LTexto := 'Marca de Nacionalidade';
   LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
 
-  x1 := x;
-  y1 := y - 136;
-  LPDF.SetFont('Arial', 'B', 9);
-  LTexto := LMDFE.aereo.nac;
-  LPDF.TextBox(x1, y1, 20, 5, LTexto, 'T', 'L', 0, '');
-
   x1 := x + 40;
   y1 := y - 140;
   LPDF.SetFont('Arial', '', 10);
-  LTexto := 'Marca da Matricula';
+  LTexto := 'Marca de Matrícula';
   LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
-
-  x1 := x + 40;
-  y1 := y - 136;
-  LPDF.SetFont('Arial', 'B', 9);
-  LTexto := LMDFE.aereo.matr;
-  LPDF.TextBox(x1, y1, 20, 5, LTexto, 'T', 'L', 0, '');
 
   // Tabela de Voo
   x1 := x + 92;
@@ -1569,20 +1718,35 @@ begin
   LTexto := 'Número';
   LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
 
-  x1 := x + 92;
-  y1 := y - 136;
-  LPDF.SetFont('Arial', 'B', 9);
-  LTexto := LMDFE.aereo.nVoo;
-  LPDF.TextBox(x1, y1, 20, 5, Trim(LTexto), 'T', 'L', 0, '');
-
   x1 := x + 132;
   y1 := y - 140;
   LPDF.SetFont('Arial', '', 10);
   LTexto := 'Data';
   LPDF.TextBox(x1, y1, 20, 5, LTexto, 'T', 'L', 0, '');
 
+  LPDF.Line(x, y - 135, x + 90, y - 135);
+  LPDF.Line(x + 92, y - 135, x + 182, y - 135);
+
+  x1 := x;
+  y1 := y - 131;
+  LPDF.SetFont('Arial', 'B', 9);
+  LTexto := LMDFE.aereo.nac;
+  LPDF.TextBox(x1, y1, 20, 5, LTexto, 'T', 'L', 0, '');
+
+  x1 := x + 40;
+  y1 := y - 131;
+  LPDF.SetFont('Arial', 'B', 9);
+  LTexto := LMDFE.aereo.matr;
+  LPDF.TextBox(x1, y1, 20, 5, LTexto, 'T', 'L', 0, '');
+
+  x1 := x + 92;
+  y1 := y - 131;
+  LPDF.SetFont('Arial', 'B', 9);
+  LTexto := LMDFE.aereo.nVoo;
+  LPDF.TextBox(x1, y1, 20, 5, Trim(LTexto), 'T', 'L', 0, '');
+
   x1 := x + 132;
-  y1 := y - 136;
+  y1 := y - 131;
   LPDF.SetFont('Arial', 'B', 9);
   LTexto := DateTimeToStr(LMDFE.aereo.dVoo);
   LPDF.TextBox(x1, y1, 40, 5, Trim(LTexto), 'T', 'L', 0, '');
@@ -1600,20 +1764,23 @@ begin
   LTexto := 'Embarque';
   LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
 
-  x1 := x;
-  y1 := y - 106;
-  LPDF.SetFont('Arial', '', 9);
-  LTexto := LMDFE.aereo.cAerEmb;
-  LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
-
   x1 := x + 92;
   y1 := y - 110;
   LPDF.SetFont('Arial', 'B', 10);
   LTexto := 'Destino';
   LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
 
+  LPDF.Line(x, y - 105, x + 90, y - 105);
+  LPDF.Line(x + 92, y - 105, x + 182, y - 105);
+
+  x1 := x;
+  y1 := y - 101;
+  LPDF.SetFont('Arial', '', 9);
+  LTexto := LMDFE.aereo.cAerEmb;
+  LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
+
   x1 := x + 92;
-  y1 := y - 106;
+  y1 := y - 101;
   LPDF.SetFont('Arial', '', 9);
   LTexto := LMDFE.aereo.cAerDes;
   LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
@@ -1635,11 +1802,14 @@ end;
 procedure TBlocoTabelaInformacoesModalAquaviarioMDFe.OnDraw(Args: TFPDFBandDrawArgs);
 var
   LPDF: IFPDF;
+  LMDFE: TMDFe;
   x, y: double;
   x1, y1: double;
+  i: Integer;
   LTexto: string;
 begin
   LPDF := Args.PDF;
+  LMDFE := FMDFeUtils.MDFe;
 
   //Posição Inicial
   x := 10;
@@ -1658,39 +1828,38 @@ begin
   LTexto := 'Carregamento';
   LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
 
-  //Código Carregamento
-  x1 := x;
-  y1 := y - 136;
-  LPDF.SetFont('Arial', 'B', 9);
-  LTexto := '99999999';
-  LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
-
-  //Descrição Carregamento
-  x1 := x + 30;
-  y1 := y - 136;
-  LPDF.SetFont('Arial', 'B', 9);
-  LTexto := 'Descrição sobre Carregamento';
-  LPDF.TextBox(x1, y1, 60, 5, LTexto, 'T', 'L', 0, '');
-
   x1 := x + 92;
   y1 := y - 140;
   LPDF.SetFont('Arial', '', 10);
   LTexto := 'Descarregamento';
   LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
 
-  //Código Descarregamento
-  x1 := x + 92;
-  y1 := y - 136;
-  LPDF.SetFont('Arial', 'B', 9);
-  LTexto := '99999999';
-  LPDF.TextBox(x1, y1, 40, 5, Trim(LTexto), 'T', 'L', 0, '');
+  LPDF.Line(x, y - 135, x + 90, y - 135);
+  LPDF.Line(x + 92, y - 135, x + 182, y - 135);
 
-  //Descrição Carregamento
-  x1 := x + 130;
-  y1 := y - 136;
+  y1 := y - 131;
   LPDF.SetFont('Arial', 'B', 9);
-  LTexto := 'Descrição sobre Descarregamento';
-  LPDF.TextBox(x1, y1, 60, 5, Trim(LTexto), 'T', 'L', 0, '');
+  for i := 0 to LMDFE.aquav.infTermCarreg.Count - 1 do
+  begin
+    if y1 > y - 90 then
+      Break;
+
+    LPDF.TextBox(x, y1, 28, 5, LMDFE.aquav.infTermCarreg.Items[i].cTermCarreg, 'T', 'L', 0, '');
+    LPDF.TextBox(x + 30, y1, 60, 5, LMDFE.aquav.infTermCarreg.Items[i].xTermCarreg, 'T', 'L', 0, '');
+    y1 := y1 + 4;
+  end;
+
+  y1 := y - 131;
+  LPDF.SetFont('Arial', 'B', 9);
+  for i := 0 to LMDFE.aquav.infTermDescarreg.Count - 1 do
+  begin
+    if y1 > y - 90 then
+      Break;
+
+    LPDF.TextBox(x + 92, y1, 28, 5, LMDFE.aquav.infTermDescarreg.Items[i].cTermDescarreg, 'T', 'L', 0, '');
+    LPDF.TextBox(x + 122, y1, 60, 5, LMDFE.aquav.infTermDescarreg.Items[i].xTermDescarreg, 'T', 'L', 0, '');
+    y1 := y1 + 4;
+  end;
 end;
 
 procedure TBlocoTabelaInformacoesModalAquaviarioMDFe.OnInit(Args: TFPDFBandInitArgs);
@@ -1707,13 +1876,18 @@ begin
 end;
 
 procedure TBlocoTabelaInformacoesModalFerroviarioMDFe.OnDraw(Args: TFPDFBandDrawArgs);
+const
+  cMaxLinhasPorColuna = 9;
 var
   LPDF: IFPDF;
+  LMDFE: TMDFe;
   x, y: double;
   x1, y1: double;
+  i, iColuna, iLinha: Integer;
   LTexto: string;
 begin
   LPDF := Args.PDF;
+  LMDFE := FMDFeUtils.MDFe;
 
   //Posição Inicial
   x := 10;
@@ -1726,57 +1900,35 @@ begin
   LTexto := 'Informações dos vagões';
   LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
 
-  //Série de Identificação
-  x1 := x;
-  y1 := y - 140;
   LPDF.SetFont('Arial', '', 10);
-  LTexto := 'Série de ident.';
-  LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
+  for iColuna := 0 to 1 do
+  begin
+    x1 := x + (iColuna * 100);
+    y1 := y - 140;
+    LPDF.TextBox(x1,      y1, 26, 5, 'Série de ident.', 'T', 'L', 0, '');
+    LPDF.TextBox(x1 + 28, y1, 26, 5, 'Núm. ident.', 'T', 'L', 0, '');
+    LPDF.TextBox(x1 + 52, y1, 16, 5, 'Seq.', 'T', 'L', 0, '');
+    LPDF.TextBox(x1 + 68, y1, 26, 5, 'Ton. Útil.', 'T', 'L', 0, '');
 
-  x1 := x;
-  y1 := y - 135;
-  LPDF.SetFont('Arial', '', 10);
-  LTexto := 'X99';
-  LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
+    LPDF.Line(x1, y - 136, x1 + 90, y - 136);
+  end;
 
-  //Número de Identificação
-  x1 := x + 28;
-  y1 := y - 140;
   LPDF.SetFont('Arial', '', 10);
-  LTexto := 'Núm. ident.';
-  LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
+  for i := 0 to LMDFE.ferrov.vag.Count - 1 do
+  begin
+    iColuna := i div cMaxLinhasPorColuna;
+    if iColuna > 1 then
+      Break;
 
-  x1 := x + 28;
-  y1 := y - 135;
-  LPDF.SetFont('Arial', '', 10);
-  LTexto := '999878958';
-  LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
+    iLinha := i mod cMaxLinhasPorColuna;
+    x1 := x + (iColuna * 100);
+    y1 := y - 132 + (iLinha * 5);
 
-  //Sequencia
-  x1 := x + 52;
-  y1 := y - 140;
-  LPDF.SetFont('Arial', '', 10);
-  LTexto := 'Seq.';
-  LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
-
-  x1 := x + 52;
-  y1 := y - 135;
-  LPDF.SetFont('Arial', '', 10);
-  LTexto := '999';
-  LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
-
-  //Ton. Útil
-  x1 := x + 68;
-  y1 := y - 140;
-  LPDF.SetFont('Arial', '', 10);
-  LTexto := 'Ton. Útil.';
-  LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
-
-  x1 := x + 68;
-  y1 := y - 135;
-  LPDF.SetFont('Arial', '', 10);
-  LTexto := '999,999';
-  LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
+    LPDF.TextBox(x1,      y1, 26, 5, LMDFE.ferrov.vag.Items[i].serie, 'T', 'L', 0, '');
+    LPDF.TextBox(x1 + 28, y1, 26, 5, IntToStr(LMDFE.ferrov.vag.Items[i].nVag), 'T', 'L', 0, '');
+    LPDF.TextBox(x1 + 52, y1, 16, 5, IntToStr(LMDFE.ferrov.vag.Items[i].nSeq), 'T', 'L', 0, '');
+    LPDF.TextBox(x1 + 68, y1, 26, 5, FormatFloat('#,0.000', LMDFE.ferrov.vag.Items[i].TU, FMDFeUtils.FormatSettings), 'T', 'L', 0, '');
+  end;
 end;
 
 procedure TBlocoTabelaInformacoesModalFerroviarioMDFe.OnInit(Args: TFPDFBandInitArgs);
@@ -1912,8 +2064,20 @@ var
   LMDFE: TMDFe;
   x, y: double;
   x1, y1: double;
-  i: Integer;
+  j, k: Integer;
   LTexto: string;
+
+  function AdicionarChave(ATexto: string): boolean;
+  begin
+    Result := (y1 <= -40);
+
+    if not Result then
+      exit;
+
+    LPDF.TextBox(x1, y1, 90, 5, Trim(ATexto), 'T', 'L', 0, '');
+    y1 := y1 + 4;
+  end;
+
 begin
   LPDF := Args.PDF;
   LMDFE := FMDFeUtils.MDFe;
@@ -1938,11 +2102,16 @@ begin
   x1 := x;
   y1 := y - 80;
   LPDF.SetFont('Arial', '', 9);
-  for i := 0 to LMDFE.rodo.veicTracao.condutor.Count - 1 do
-    begin
-      LTexto := 'CTe - ' + FormatarChaveAcesso(LMDFE.infMDFe.Id);
-    end;
-  LPDF.TextBox(x1, y1, 90, 5, Trim(LTexto), 'T', 'L', 0, '');
+  for j := 0 to LMDFE.infDoc.infMunDescarga.Count - 1 do
+  begin
+    for k := 0 to LMDFE.infDoc.infMunDescarga.Items[j].infNFe.Count - 1 do
+      if not AdicionarChave('NFe - ' + FormatarChaveAcesso(LMDFE.infDoc.infMunDescarga.Items[j].infNFe.Items[k].chNFe)) then
+        Break;
+
+    for k := 0 to LMDFE.infDoc.infMunDescarga.Items[j].infCTe.Count - 1 do
+      if not AdicionarChave('CTe - ' + FormatarChaveAcesso(LMDFE.infDoc.infMunDescarga.Items[j].infCTe.Items[k].chCTe)) then
+        Break;
+  end;
 
   x1 := x + 90;
   y1 := y - 84;
@@ -1953,11 +2122,8 @@ begin
   x1 := x + 90;
   y1 := y - 80;
   LPDF.SetFont('Arial', '', 9);
-  for i := 0 to LMDFE.rodo.veicTracao.condutor.Count - 1 do
-    begin
-      LTexto := 'Aeronave';
-    end;
-  LPDF.TextBox(x1, y1, 55, 5, Trim(LTexto), 'T', 'L', 0, '');
+  LTexto := 'Aeronave';
+  LPDF.TextBox(x1, y1, 55, 5, LTexto, 'T', 'L', 0, '');
 
   x1 := x + 145;
   y1 := y - 84;
@@ -1968,11 +2134,8 @@ begin
   x1 := x + 145;
   y1 := y - 80;
   LPDF.SetFont('Arial', '', 9);
-  for i := 0 to LMDFE.rodo.veicTracao.condutor.Count - 1 do
-    begin
-      LTexto := 'Outros';
-    end;
-  LPDF.TextBox(x1, y1, 55, 5, Trim(LTexto), 'T', 'L', 0, '');
+  LTexto := 'Outros';
+  LPDF.TextBox(x1, y1, 55, 5, LTexto, 'T', 'L', 0, '');
 end;
 
 procedure TBlocoTabelaInformacoesComposicaoCargaAereoMDFe.OnInit(
@@ -1997,8 +2160,20 @@ var
   LMDFE: TMDFe;
   x, y: double;
   x1, y1: double;
-  i: Integer;
+  j, k: Integer;
   LTexto: string;
+
+  function AdicionarChave(ATexto: string): boolean;
+  begin
+    Result := (y1 <= -40);
+
+    if not Result then
+      exit;
+
+    LPDF.TextBox(x1, y1, 90, 5, Trim(ATexto), 'T', 'L', 0, '');
+    y1 := y1 + 4;
+  end;
+
 begin
   LPDF := Args.PDF;
   LMDFE := FMDFeUtils.MDFe;
@@ -2023,11 +2198,16 @@ begin
   x1 := x;
   y1 := y - 80;
   LPDF.SetFont('Arial', '', 9);
-  for i := 0 to LMDFE.rodo.veicTracao.condutor.Count - 1 do
-    begin
-      LTexto := 'CTe - ' + FormatarChaveAcesso(LMDFE.infMDFe.Id);
-    end;
-  LPDF.TextBox(x1, y1, 90, 5, Trim(LTexto), 'T', 'L', 0, '');
+  for j := 0 to LMDFE.infDoc.infMunDescarga.Count - 1 do
+  begin
+    for k := 0 to LMDFE.infDoc.infMunDescarga.Items[j].infNFe.Count - 1 do
+      if not AdicionarChave('NFe - ' + FormatarChaveAcesso(LMDFE.infDoc.infMunDescarga.Items[j].infNFe.Items[k].chNFe)) then
+        Break;
+
+    for k := 0 to LMDFE.infDoc.infMunDescarga.Items[j].infCTe.Count - 1 do
+      if not AdicionarChave('CTe - ' + FormatarChaveAcesso(LMDFE.infDoc.infMunDescarga.Items[j].infCTe.Items[k].chCTe)) then
+        Break;
+  end;
 
   x1 := x + 90;
   y1 := y - 84;
@@ -2038,11 +2218,8 @@ begin
   x1 := x + 90;
   y1 := y - 80;
   LPDF.SetFont('Arial', '', 9);
-  for i := 0 to LMDFE.rodo.veicTracao.condutor.Count - 1 do
-    begin
-      LTexto := 'Navio';
-    end;
-  LPDF.TextBox(x1, y1, 55, 5, Trim(LTexto), 'T', 'L', 0, '');
+  LTexto := 'Navio';
+  LPDF.TextBox(x1, y1, 55, 5, LTexto, 'T', 'L', 0, '');
 
   x1 := x + 145;
   y1 := y - 84;
@@ -2053,11 +2230,8 @@ begin
   x1 := x + 145;
   y1 := y - 80;
   LPDF.SetFont('Arial', '', 9);
-  for i := 0 to LMDFE.rodo.veicTracao.condutor.Count - 1 do
-    begin
-      LTexto := 'Outros';
-    end;
-  LPDF.TextBox(x1, y1, 55, 5, Trim(LTexto), 'T', 'L', 0, '');
+  LTexto := 'Outros';
+  LPDF.TextBox(x1, y1, 55, 5, LTexto, 'T', 'L', 0, '');
 end;
 
 procedure TBlocoTabelaInformacoesComposicaoCargaAquaviarioMDFe.OnInit(
@@ -2082,8 +2256,20 @@ var
   LMDFE: TMDFe;
   x, y: double;
   x1, y1: double;
-  i: Integer;
+  j, k: Integer;
   LTexto: string;
+
+  function AdicionarChave(ATexto: string): boolean;
+  begin
+    Result := (y1 <= -40);
+
+    if not Result then
+      exit;
+
+    LPDF.TextBox(x1, y1, 90, 5, Trim(ATexto), 'T', 'L', 0, '');
+    y1 := y1 + 4;
+  end;
+
 begin
   LPDF := Args.PDF;
   LMDFE := FMDFeUtils.MDFe;
@@ -2108,11 +2294,16 @@ begin
   x1 := x;
   y1 := y - 80;
   LPDF.SetFont('Arial', '', 9);
-  for i := 0 to LMDFE.rodo.veicTracao.condutor.Count - 1 do
-    begin
-      LTexto := 'CTe - ' + FormatarChaveAcesso(LMDFE.infMDFe.Id);
-    end;
-  LPDF.TextBox(x1, y1, 90, 5, Trim(LTexto), 'T', 'L', 0, '');
+  for j := 0 to LMDFE.infDoc.infMunDescarga.Count - 1 do
+  begin
+    for k := 0 to LMDFE.infDoc.infMunDescarga.Items[j].infNFe.Count - 1 do
+      if not AdicionarChave('NFe - ' + FormatarChaveAcesso(LMDFE.infDoc.infMunDescarga.Items[j].infNFe.Items[k].chNFe)) then
+        Break;
+
+    for k := 0 to LMDFE.infDoc.infMunDescarga.Items[j].infCTe.Count - 1 do
+      if not AdicionarChave('CTe - ' + FormatarChaveAcesso(LMDFE.infDoc.infMunDescarga.Items[j].infCTe.Items[k].chCTe)) then
+        Break;
+  end;
 
   x1 := x + 90;
   y1 := y - 84;
@@ -2123,11 +2314,8 @@ begin
   x1 := x + 90;
   y1 := y - 80;
   LPDF.SetFont('Arial', '', 9);
-  for i := 0 to LMDFE.rodo.veicTracao.condutor.Count - 1 do
-    begin
-      LTexto := 'Navio';
-    end;
-  LPDF.TextBox(x1, y1, 55, 5, Trim(LTexto), 'T', 'L', 0, '');
+  LTexto := 'Ferroviário';
+  LPDF.TextBox(x1, y1, 55, 5, LTexto, 'T', 'L', 0, '');
 
   x1 := x + 145;
   y1 := y - 84;
@@ -2138,11 +2326,8 @@ begin
   x1 := x + 145;
   y1 := y - 80;
   LPDF.SetFont('Arial', '', 9);
-  for i := 0 to LMDFE.rodo.veicTracao.condutor.Count - 1 do
-    begin
-      LTexto := 'Outros';
-    end;
-  LPDF.TextBox(x1, y1, 55, 5, Trim(LTexto), 'T', 'L', 0, '');
+  LTexto := 'Outros';
+  LPDF.TextBox(x1, y1, 55, 5, LTexto, 'T', 'L', 0, '');
 end;
 
 procedure TBlocoTabelaInformacoesComposicaoCargaFerroviarioMDFe.OnInit(
@@ -2175,22 +2360,527 @@ begin
   y := 0;
 
   //Observações
+  // "Informações da Composição da Carga" só aparece em emissão de
+  // contingência (reserva até y-40) - na emissão normal esse espaço fica
+  // vazio, então as Observações sobem pra ficar logo depois do bloco do
+  // modal, sem vão em branco entre os dois.
   x1 := x;
-  y1 := y - 39;
+  if LMDFE.Ide.tpEmis = teNormal then
+    y1 := y - 88
+  else
+    y1 := y - 39;
+
   LPDF.SetFont('Arial', 'B', 10);
   LTexto := 'Observações';
   LPDF.TextBox(x1, y1, 40, 5, LTexto, 'T', 'L', 0, '');
 
+  LPDF.Line(x1, y1 + 5, x1 + 190, y1 + 5);
+
   LPDF.SetFont('Arial', '', 9);
   LTexto := LMDFE.infAdic.infCpl;
   x1 := x;
-  y1 := y - 33;
-  LPDF.TextBox(x1, y1, 190, 50, LTexto, 'T', 'L', 1, '');
+  y1 := y1 + 7;
+  LPDF.TextBox(x1, y1, 190, 150, LTexto, 'T', 'L', 0, '', False);
 end;
 
 procedure TBlocoObservacoesMDFe.OnInit(Args: TFPDFBandInitArgs);
 begin
   Height := 1;
+end;
+
+{ TBlocoRodapeMDFe }
+
+constructor TBlocoRodapeMDFe.Create(const AMensagem: string);
+begin
+  inherited Create(btPageFooter);
+  FMensagem := AMensagem;
+end;
+
+procedure TBlocoRodapeMDFe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  x, y, w, h: double;
+  Mensagens: TStringArray;
+begin
+  LPDF := Args.PDF;
+  if FMensagem = '' then
+    Exit;
+  Mensagens := ACBr_fpdf.Split(FMensagem, '|');
+
+  x := 0;
+  y := 0;
+  w := Width;
+  h := Height;
+
+  LPDF.SetFont(6, 'I');
+  if Length(Mensagens) >= 1 then
+    LPDF.TextBox(x, y, w, h, Mensagens[0], 'T', 'L', 0);
+  if Length(Mensagens) >= 2 then
+    LPDF.TextBox(x, y, w, h, Mensagens[1], 'T', 'C', 0);
+  if Length(Mensagens) >= 3 then
+    LPDF.TextBox(x, y, w, h, Mensagens[2], 'T', 'R', 0);
+end;
+
+procedure TBlocoRodapeMDFe.OnInit(Args: TFPDFBandInitArgs);
+begin
+  Height := 5;
+end;
+
+{ TBlocoCabecalhoEventoMDFe }
+
+constructor TBlocoCabecalhoEventoMDFe.Create(AProcEvento: TInfEventoCollectionItem);
+begin
+  inherited Create(btData);
+  FProcEvento := AProcEvento;
+end;
+
+procedure TBlocoCabecalhoEventoMDFe.OnInit(Args: TFPDFBandInitArgs);
+begin
+  Height := 18;
+end;
+
+procedure TBlocoCabecalhoEventoMDFe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  w, y: double;
+  Texto: string;
+begin
+  LPDF := Args.PDF;
+  w := Width;
+  y := 0;
+
+  LPDF.SetFont(12, 'B');
+  Texto := FProcEvento.InfEvento.DescEvento;
+  y := y + 2;
+  y := y + LPDF.TextBox(0, y, w, 5, Texto, 'T', 'C', 0, '');
+  y := y + 1;
+
+  LPDF.SetFont(10, '');
+  Texto := 'Nao possui valor fiscal, simples representacao do fato indicado abaixo.';
+  y := y + LPDF.TextBox(0, y, w, 5, Texto, 'T', 'C', 0, '');
+  y := y + 1;
+
+  LPDF.SetFont(10, '');
+  Texto := 'CONSULTE A AUTENTICIDADE NO SITE DA SEFAZ AUTORIZADORA.';
+  LPDF.TextBox(0, y, w, 5, Texto, 'T', 'C', 0, '');
+end;
+
+{ TBlocoDadosMDFeEvento }
+
+constructor TBlocoDadosMDFeEvento.Create(AMDFe: TMDFe);
+begin
+  inherited Create(btData);
+  FMDFe := AMDFe;
+end;
+
+procedure TBlocoDadosMDFeEvento.OnInit(Args: TFPDFBandInitArgs);
+begin
+  Height := 20;
+end;
+
+procedure TBlocoDadosMDFeEvento.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  maxW, w, h, w1, w2, w3, w4, bW, bH: double;
+  x, y: double;
+  Texto: string;
+begin
+  LPDF := Args.PDF;
+  x := 0;
+  y := 1;
+  maxW := Width;
+  h := 8;
+
+  LPDF.SetFont(7, 'B');
+  LPDF.TextBox(x, y, maxW, h, 'MANIFESTO ELETRONICO DE DOCUMENTOS FISCAIS', 'T', 'L', 0, '');
+  y := y + 3;
+
+  w1 := RoundTo(maxW * 0.10, 0);
+  w := w1;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'MODELO', 'T', 'C', 1, '');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, FMDFe.Ide.modelo, 'B', 'C', 0, '');
+
+  x := x + w;
+  w2 := RoundTo(maxW * 0.10, 0);
+  w := w2;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'SERIE', 'T', 'C', 1, '');
+  Texto := FormatFloat('000', FMDFe.Ide.serie);
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := x + w;
+  w3 := RoundTo(maxW * 0.15, 0);
+  w := w3;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'NUMERO', 'T', 'C', 1, '');
+  Texto := FormatFloat('000000000', FMDFe.Ide.nMDF);
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := x + w;
+  w4 := RoundTo(maxW * 0.15, 0);
+  w := w4;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'DATA/HORA DE EMISSAO', 'T', 'L', 1, '');
+  Texto := FormatDateTimeBr(FMDFe.Ide.dhEmi, 'dd/mm/yyyy hh:nn:ss');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := x + w;
+  w := maxW - w1 - w2 - w3 - w4;
+  LPDF.TextBox(x, y, w, 2 * h);
+  LPDF.SetFillColor(0, 0, 0);
+  bW := 75;
+  bH := 12;
+  LPDF.Code128(RemoverLiteralChave(FMDFe.infMDFe.Id), x + ((w - bW) / 2), y + 2, bH, bW);
+
+  x := 0;
+  y := y + h;
+  w := w1 + w2 + w3 + w4;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'CHAVE DE ACESSO', 'T', 'L', 1, '');
+  Texto := FormatarChaveAcesso(OnlyAlphaNum(FMDFe.infMDFe.Id));
+  LPDF.SetFont(10, 'B');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+end;
+
+{ TBlocoDadosEventoMDFe }
+
+constructor TBlocoDadosEventoMDFe.Create(AProcEvento: TInfEventoCollectionItem);
+begin
+  inherited Create(btData);
+  FProcEvento := AProcEvento;
+end;
+
+procedure TBlocoDadosEventoMDFe.OnInit(Args: TFPDFBandInitArgs);
+begin
+  Height := 25;
+end;
+
+procedure TBlocoDadosEventoMDFe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  maxW, w, h, w1, w2, w3: double;
+  x, y: double;
+  Texto: string;
+begin
+  LPDF := Args.PDF;
+  x := 0;
+  y := 1;
+  maxW := Width;
+  h := 7;
+
+  LPDF.SetFont(7, 'B');
+  LPDF.TextBox(x, y, maxW, h, 'DADOS DO EVENTO', 'T', 'L', 0, '');
+  y := y + 3;
+
+  w1 := RoundTo(maxW * 0.10, 0);
+  w := w1;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'ORGAO', 'T', 'C', 1, '');
+  Texto := CUFtoUF(FProcEvento.InfEvento.cOrgao);
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := x + w;
+  w2 := maxW - RoundTo(maxW * 0.30, 0);
+  w := w2;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'AMBIENTE', 'T', 'L', 1, '');
+  if FProcEvento.InfEvento.tpAmb = taProducao then
+    Texto := '1 - PRODUCAO'
+  else
+    Texto := '2 - HOMOLOGACAO (SEM VALOR FISCAL)';
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'L', 0, '');
+
+  x := x + w;
+  w3 := maxW - w1 - w2;
+  w := w3;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'DATA/HORA DO EVENTO', 'T', 'L', 1, '');
+  Texto := FormatDateTimeBr(FProcEvento.InfEvento.dhEvento, 'dd/mm/yyyy hh:nn:ss');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := 0;
+  y := y + h;
+  w1 := RoundTo(maxW * 0.10, 0);
+  w := w1;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'EVENTO', 'T', 'L', 1, '');
+  Texto := TpEventoToStr(FProcEvento.InfEvento.tpEvento);
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := x + w;
+  w2 := RoundTo(maxW * 0.55, 0);
+  w := w2;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'DESCRICAO DO EVENTO', 'T', 'L', 1, '');
+  Texto := FProcEvento.InfEvento.detEvento.descEvento;
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'L', 0, '');
+
+  x := x + w;
+  w3 := (maxW - w1 - w2) / 2;
+  w := w3;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'SEQUENCIAL', 'T', 'L', 1, '');
+  Texto := IntToStr(FProcEvento.InfEvento.nSeqEvento);
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := x + w;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'VERSAO', 'T', 'L', 1, '');
+  Texto := FProcEvento.InfEvento.versaoEvento;
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := 0;
+  y := y + h;
+  w1 := RoundTo(maxW * 0.50, 0);
+  w := w1;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'STATUS', 'T', 'L', 1, '');
+  Texto := Format('%d - %s', [FProcEvento.RetInfEvento.cStat, FProcEvento.RetInfEvento.xMotivo]);
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'L', 0, '');
+
+  x := x + w;
+  w2 := (maxW - w1) / 2;
+  w := w2;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'PROTOCOLO DE REGISTRO', 'T', 'L', 1, '');
+  Texto := FProcEvento.RetInfEvento.nProt;
+  LPDF.SetFont(10, 'B');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := x + w;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'DATA/HORA DO REGISTRO', 'T', 'L', 1, '');
+  Texto := FormatDateTimeBr(FProcEvento.RetInfEvento.dhRegEvento, 'dd/mm/yyyy hh:nn:ss');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+end;
+
+{ TBlocoJustificativaMDFe }
+
+constructor TBlocoJustificativaMDFe.Create(AProcEvento: TInfEventoCollectionItem);
+begin
+  inherited Create(btData);
+  FProcEvento := AProcEvento;
+end;
+
+procedure TBlocoJustificativaMDFe.OnInit(Args: TFPDFBandInitArgs);
+begin
+  Height := 30;
+end;
+
+procedure TBlocoJustificativaMDFe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  maxW, y: double;
+  Texto: string;
+begin
+  LPDF := Args.PDF;
+  maxW := Width;
+  y := 1;
+
+  LPDF.SetFont(7, 'B');
+  LPDF.TextBox(0, y, maxW, 5, 'JUSTIFICATIVA DO CANCELAMENTO', 'T', 'L', 0, '');
+  y := y + 3;
+
+  LPDF.Rect(0, y, maxW, Height - y);
+
+  Texto := FProcEvento.InfEvento.detEvento.xJust;
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(2, y + 2, maxW - 4, Height - y - 2, Texto, 'T', 'L', 0, '', False);
+end;
+
+{ TBlocoEncerramentoMDFe }
+
+constructor TBlocoEncerramentoMDFe.Create(AProcEvento: TInfEventoCollectionItem);
+begin
+  inherited Create(btData);
+  FProcEvento := AProcEvento;
+end;
+
+procedure TBlocoEncerramentoMDFe.OnInit(Args: TFPDFBandInitArgs);
+begin
+  Height := 20;
+end;
+
+procedure TBlocoEncerramentoMDFe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  DetEvento: TDetEvento;
+  maxW, w, h, w1, w2, w3: double;
+  x, y: double;
+  Texto: string;
+begin
+  LPDF := Args.PDF;
+  DetEvento := FProcEvento.InfEvento.detEvento;
+  x := 0;
+  y := 1;
+  maxW := Width;
+  h := 7;
+
+  LPDF.SetFont(7, 'B');
+  LPDF.TextBox(x, y, maxW, h, 'DADOS DO ENCERRAMENTO', 'T', 'L', 0, '');
+  y := y + 3;
+
+  w1 := RoundTo(maxW * 0.25, 0);
+  w := w1;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'DATA DO ENCERRAMENTO', 'T', 'L', 1, '');
+  Texto := FormatDateTimeBr(DetEvento.dtEnc, 'dd/mm/yyyy');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := x + w;
+  w2 := RoundTo(maxW * 0.15, 0);
+  w := w2;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'UF', 'T', 'L', 1, '');
+  Texto := CUFtoUF(DetEvento.cUF);
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := x + w;
+  w3 := RoundTo(maxW * 0.30, 0);
+  w := w3;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'MUNICIPIO (COD. IBGE)', 'T', 'L', 1, '');
+  Texto := IntToStr(DetEvento.cMun);
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+
+  x := x + w;
+  w := maxW - w1 - w2 - w3;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'ENCERRADO POR TERCEIRO', 'T', 'L', 1, '');
+  if DetEvento.indEncPorTerceiro = tiSim then
+    Texto := 'SIM'
+  else
+    Texto := 'NAO';
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
+end;
+
+{ TBlocoCondutorMDFe }
+
+constructor TBlocoCondutorMDFe.Create(AProcEvento: TInfEventoCollectionItem);
+begin
+  inherited Create(btData);
+  FProcEvento := AProcEvento;
+end;
+
+procedure TBlocoCondutorMDFe.OnInit(Args: TFPDFBandInitArgs);
+begin
+  Height := 15;
+end;
+
+procedure TBlocoCondutorMDFe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  DetEvento: TDetEvento;
+  maxW, w, h, w1: double;
+  x, y: double;
+begin
+  LPDF := Args.PDF;
+  DetEvento := FProcEvento.InfEvento.detEvento;
+  x := 0;
+  y := 1;
+  maxW := Width;
+  h := 7;
+
+  LPDF.SetFont(7, 'B');
+  LPDF.TextBox(x, y, maxW, h, 'CONDUTOR INCLUIDO', 'T', 'L', 0, '');
+  y := y + 3;
+
+  w1 := RoundTo(maxW * 0.70, 0);
+  w := w1;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'NOME', 'T', 'L', 1, '');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, DetEvento.xNome, 'B', 'L', 0, '');
+
+  x := x + w;
+  w := maxW - w1;
+  LPDF.SetFont(6, '');
+  LPDF.TextBox(x, y, w, h, 'CPF', 'T', 'L', 1, '');
+  LPDF.SetFont(10, '');
+  LPDF.TextBox(x, y, w, h, FormatarCPF(DetEvento.CPF), 'B', 'C', 0, '');
+end;
+
+{ TBlocoMensagemEventoMDFe }
+
+procedure TBlocoMensagemEventoMDFe.OnInit(Args: TFPDFBandInitArgs);
+begin
+  Height := 15;
+end;
+
+procedure TBlocoMensagemEventoMDFe.OnDraw(Args: TFPDFBandDrawArgs);
+var
+  LPDF: IFPDF;
+  Texto: string;
+begin
+  LPDF := Args.PDF;
+  Texto := 'Este documento e uma representacao grafica de um evento do MDF-e e ' +
+           'foi impresso apenas para sua informacao, nao possui validade fiscal. ' +
+           'O evento deve ser recebido e mantido em arquivo eletronico XML e pode ' +
+           'ser consultado atraves do Portal do MDF-e ou do site da SEFAZ autorizadora.';
+  LPDF.SetFont(9, 'I');
+  LPDF.TextBox(0, 0, Width, Height, Texto, 'C', 'C', 0, '', False);
+end;
+
+{ TMDFeDAMDFeEventoFPDF }
+
+constructor TMDFeDAMDFeEventoFPDF.Create(AMDFe: TMDFe; AProcEvento: TInfEventoCollectionItem);
+begin
+  inherited Create;
+  FMDFe := AMDFe;
+  FProcEvento := AProcEvento;
+
+  SetFont('Times');
+  SetUTF8(false);
+  SetMargins(4, 4);
+end;
+
+procedure TMDFeDAMDFeEventoFPDF.OnStartReport(Args: TFPDFReportEventArgs);
+begin
+  if not FInitialized then
+  begin
+    if FMDFe = nil then
+      raise Exception.Create('FMDFe not initialized');
+    if FProcEvento = nil then
+      raise Exception.Create('FProcEvento not initialized');
+
+    AddPage;
+
+    AddBand(TBlocoCabecalhoEventoMDFe.Create(FProcEvento));
+    AddBand(TBlocoDadosMDFeEvento.Create(FMDFe));
+    AddBand(TBlocoDadosEventoMDFe.Create(FProcEvento));
+
+    case FProcEvento.InfEvento.tpEvento of
+      teCancelamento:
+        AddBand(TBlocoJustificativaMDFe.Create(FProcEvento));
+      teEncerramento, teEncerramentoFisco:
+        AddBand(TBlocoEncerramentoMDFe.Create(FProcEvento));
+      teInclusaoCondutor:
+        AddBand(TBlocoCondutorMDFe.Create(FProcEvento));
+    end;
+
+    AddBand(TBlocoMensagemEventoMDFe.Create(btPageFooter));
+    AddBand(TBlocoRodapeMDFe.Create(FMensagemRodape));
+
+    FInitialized := True;
+  end;
 end;
 
 end.
