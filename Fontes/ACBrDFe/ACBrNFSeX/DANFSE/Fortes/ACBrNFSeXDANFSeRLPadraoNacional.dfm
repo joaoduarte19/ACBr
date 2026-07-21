@@ -1,9 +1,8 @@
 inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
   Left = 273
   Top = 132
-  Height = 1019
   Caption = 'frlXDANFSeRLPadraoNacional'
-  PixelsPerInch = 96
+  ClientHeight = 815
   TextHeight = 13
   inherited RLNFSe: TRLReport
     Left = 10
@@ -14,9 +13,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
     Margins.BottomMargin = 5.000000000000000000
     BeforePrint = RLNFSeBeforePrint
     object rlbBanda02_Ide_NFSe: TRLBand
-      Left = 23
-      Top = 88
-      Width = 752
+      Left = 28
+      Top = 93
+      Width = 940
       Height = 120
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -325,9 +324,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
     end
     object rlbBanda03_Emitente: TRLBand
-      Left = 23
-      Top = 208
-      Width = 752
+      Left = 28
+      Top = 213
+      Width = 940
       Height = 110
       BandType = btTitle
       Borders.Sides = sdCustom
@@ -623,9 +622,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
     end
     object rlbBanda04_Tomador: TRLBand
-      Left = 23
-      Top = 318
-      Width = 752
+      Left = 28
+      Top = 323
+      Width = 940
       Height = 84
       BandType = btTitle
       Borders.Sides = sdCustom
@@ -864,9 +863,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
     end
     object rlbBanda07_ServicoPrestado: TRLBand
-      Left = 23
-      Top = 572
-      Width = 752
+      Left = 28
+      Top = 577
+      Width = 940
       Height = 84
       BandType = btTitle
       Borders.Sides = sdCustom
@@ -1006,9 +1005,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
     end
     object rlbBanda14_InformacoesComplementares: TRLBand
-      Left = 23
-      Top = 1045
-      Width = 752
+      Left = 28
+      Top = 1050
+      Width = 940
       Height = 59
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -1062,9 +1061,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
     end
     object rlbBanda08_ItensDetalhado: TRLBand
-      Left = 23
-      Top = 656
-      Width = 752
+      Left = 28
+      Top = 661
+      Width = 940
       Height = 20
       BandType = btColumnHeader
       Borders.Sides = sdCustom
@@ -1160,9 +1159,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
     end
     object rlbBanda09_SubItens: TRLSubDetail
-      Left = 23
-      Top = 676
-      Width = 752
+      Left = 28
+      Top = 681
+      Width = 940
       Height = 19
       Borders.Sides = sdCustom
       Borders.DrawLeft = True
@@ -1173,7 +1172,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       object rlbBanda08_ItensServico: TRLBand
         Left = 1
         Top = 0
-        Width = 750
+        Width = 938
         Height = 16
         BeforePrint = rlbBanda08_ItensServicoBeforePrint
         object txtServicoQtde: TRLLabel
@@ -1268,9 +1267,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
     end
     object rlbBanda16_Sistema: TRLBand
-      Left = 23
-      Top = 1104
-      Width = 752
+      Left = 28
+      Top = 1109
+      Width = 940
       Height = 18
       BandType = btSummary
       BeforePrint = rlbBanda16_SistemaBeforePrint
@@ -1304,9 +1303,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
     end
     object rlbBanda10_TributacaoMunicipal: TRLBand
-      Left = 23
-      Top = 695
-      Width = 752
+      Left = 28
+      Top = 700
+      Width = 940
       Height = 115
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -1709,9 +1708,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
     end
     object rlbBanda01_Logos: TRLBand
-      Left = 23
-      Top = 19
-      Width = 752
+      Left = 28
+      Top = 24
+      Width = 940
       Height = 69
       AutoSize = True
       BandType = btHeader
@@ -1757,7 +1756,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Width = 251
         Height = 63
         Center = True
-        Stretch = True
+        Scaled = True
       end
       object rlmPrefeitura: TRLMemo
         Left = 540
@@ -1814,6 +1813,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Font.Style = []
         Info = itPageNumber
         ParentFont = False
+        Text = ''
       end
       object RLLabel62: TRLLabel
         Left = 659
@@ -1840,12 +1840,13 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Font.Style = []
         Info = itLastPageNumber
         ParentFont = False
+        Text = ''
       end
     end
     object rlbBanda06_Intermediario: TRLBand
-      Left = 23
-      Top = 485
-      Width = 752
+      Left = 28
+      Top = 490
+      Width = 940
       Height = 87
       BandType = btTitle
       Borders.Sides = sdCustom
@@ -2083,7 +2084,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         ParentFont = False
       end
       object rllIntermediarioNaoIdentificado: TRLLabel
-        Left = 185
+        Left = 279
         Top = 0
         Width = 382
         Height = 16
@@ -2100,9 +2101,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
     end
     object rlbBanda11_TributacaoFederal: TRLBand
-      Left = 23
-      Top = 810
-      Width = 752
+      Left = 28
+      Top = 815
+      Width = 940
       Height = 60
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -2289,9 +2290,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
     end
     object rlbBanda13_ValorTotaNFSe: TRLBand
-      Left = 23
-      Top = 982
-      Width = 752
+      Left = 28
+      Top = 987
+      Width = 940
       Height = 63
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -2505,9 +2506,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
     end
     object rlbBanda05_Destinatario: TRLBand
-      Left = 23
-      Top = 402
-      Width = 752
+      Left = 28
+      Top = 407
+      Width = 940
       Height = 83
       BandType = btTitle
       Borders.Sides = sdCustom
@@ -2745,7 +2746,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         ParentFont = False
       end
       object rllDestinatarioNaoIdentificado: TRLLabel
-        Left = 188
+        Left = 282
         Top = 0
         Width = 376
         Height = 16
@@ -2762,9 +2763,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
     end
     object rlbBanda12_TributacaoFederalIBSCBS: TRLBand
-      Left = 23
-      Top = 870
-      Width = 752
+      Left = 28
+      Top = 875
+      Width = 940
       Height = 112
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -3169,9 +3170,9 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
       end
     end
     object rlbCanhoto: TRLBand
-      Left = 23
-      Top = 1122
-      Width = 752
+      Left = 28
+      Top = 1127
+      Width = 940
       Height = 55
       BandType = btSummary
       Borders.Sides = sdCustom

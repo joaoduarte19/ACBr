@@ -368,8 +368,6 @@ uses
 {$R *.lfm}
 {$ENDIF}
 
-{$R ACBrNFSeXLogo.res}
-
 var
   FQuebradeLinha: String;
 
@@ -389,24 +387,7 @@ var
 begin
   inherited;
 
-  TipoLogo := UpperCase(Trim(fpDANFSe.LogoNFSe));
-
-  if (TipoLogo = '') or
-     ((TipoLogo <> 'ACBRNFSEXLOGOH') and (TipoLogo <> 'ACBRNFSEXLOGOV'))  then
-    TipoLogo := 'ACBRNFSEXLOGOH';
-
-  Res := TResourceStream.Create(HInstance, TipoLogo, RT_RCDATA);
-  try
-    LogoStream := TStringStream.Create('');
-    try
-      Res.SaveToStream(LogoStream);
-      TDFeReportFortes.CarregarLogo(rliLogoNFSe, LogoStream.DataString);
-    finally
-      LogoStream.Free;
-    end;
-  finally
-    Res.Free;
-  end;
+  TDFeReportFortes.CarregarLogo(rliLogoNFSe, fpDANFSe.LogoNFSe);
 
   rlbHomologacao.Visible := (fpNFSe.Producao = snNao);
 

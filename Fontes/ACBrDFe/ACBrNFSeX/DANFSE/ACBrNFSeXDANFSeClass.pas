@@ -122,7 +122,7 @@ type
   TACBrNFSeXDANFSeClass = class(TACBrDFeReport)
   private
     FProducao: TnfseSimNao;
-    FLogoNFSe: String;
+    FLogoNFSe: string;
 
     procedure SetACBrNFSe(const Value: TComponent);
     procedure ErroAbstract( const NomeProcedure: String );
@@ -170,7 +170,7 @@ type
     property Provedor: TNFSeProvedor read FProvedor write FProvedor;
     property Producao: TnfseSimNao read FProducao write FProducao;
     property DataCompetenciaCompleta: Boolean read FDataCompetenciaCompleta write FDataCompetenciaCompleta default False;
-    property LogoNFSe: String read FLogoNFSe write FLogoNFSe;
+    property LogoNFSe: string read FLogoNFSe write FLogoNFSe;
   end;
 
 implementation
