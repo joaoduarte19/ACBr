@@ -53,6 +53,7 @@ type
     function ObtemCodigoMoraJuros(const ACBrTitulo: TACBrTitulo): String;
     function ConverterJurosDiario(const ACBrTitulo: TACBrTitulo): Double;
     function ConverterMultaPercentual(const ACBrTitulo: TACBrTitulo): Double;
+    function ConverterMultaValor(const ACBrTitulo: TACBrTitulo): Double;
   protected
     function GetLocalPagamento: String; override;
   public
@@ -86,8 +87,8 @@ type
     function CompOcorrenciaOutrosDadosToDescricao(const CompOcorrencia: TACBrComplementoOcorrenciaOutrosDados): String; override;
     function CompOcorrenciaOutrosDadosToCodigo(const CompOcorrencia: TACBrComplementoOcorrenciaOutrosDados): String; override;
 
-
     function CodOcorrenciaToTipoRemessa(const CodOcorrencia:Integer): TACBrTipoOcorrencia; override;
+    function DefineTipoMulta(const ATitulo: TACBrTitulo): String;
   end;
 
 implementation
@@ -109,7 +110,7 @@ begin
    fpTamanhoAgencia        := 4;
    fpTamanhoConta          := 5;
    fpTamanhoCarteira       := 1;
-   fpCodigosMoraAceitos    := 'AB0123';
+   fpCodigosMoraAceitos    := 'ABC0123';
    fpCodigosGeracaoAceitos := '023456789';
    fpLayoutVersaoArquivo   := 81;
    fpLayoutVersaoLote      := 40;
@@ -257,7 +258,8 @@ begin
     else
     begin
       case CodigoMoraJuros of
-        cjTaxaMensal,cjTaxaDiaria: Result := 'B';
+        cjTaxaDiaria: Result := 'B';
+        cjTaxaMensal: Result := 'C';
       else
         Result := 'A';
       end;
@@ -278,6 +280,18 @@ begin
   end;
 end;
 
+function TACBrBancoSicredi.ConverterMultaValor(
+  const ACBrTitulo: TACBrTitulo): Double;
+begin
+  with ACBrTitulo do
+  begin
+    if MultaValorFixo then
+      Result := PercentualMulta
+    else
+      Result := ValorDocumento * (PercentualMulta / 100);
+  end;
+end;
+
 function TACBrBancoSicredi.ConverterMultaPercentual(
   const ACBrTitulo: TACBrTitulo): Double;
 begin
@@ -294,16 +308,25 @@ begin
 end;
 
 
+function TACBrBancoSicredi.DefineTipoMulta(const ATitulo: TACBrTitulo): String;
+begin
+  Result := 'B';
+  if ATitulo.PercentualMulta > 0 then
+    if ATitulo.MultaValorFixo then
+      Result := 'A'
+    else
+      Result := 'B';
+end;
 
 procedure TACBrBancoSicredi.GerarRegistroTransacao400(ACBrTitulo :TACBrTitulo; aRemessa: TStringList);
 var
   wNossoNumeroCompleto, CodProtesto, DiasProtesto, CodNegativacao, DiasNegativacao: String;
-  TipoSacado, AceiteStr, wLinha, Ocorrencia, TpDesconto, CompOcorrenciaOutrosDados : String;
+  TipoSacado, AceiteStr, wLinha, Ocorrencia, TpDesconto, CompOcorrenciaOutrosDados, LTipoMulta : String;
   TipoBoleto, wModalidade: Char;
   TextoRegInfo: String;
   ANumeroDocumento: String;
   LHibrido : string;
-  LValorMoraJuros, LPercentualMulta : Double;
+  LValorMoraJuros, LPercentualMulta, LValorMulta : Double;
 begin
 
    with ACBrTitulo do
@@ -405,22 +428,23 @@ begin
       if StrToIntDef(ACBrBoleto.Cedente.Modalidade,1) = 1 then
          wModalidade := 'A'
       else
-         wModalidade := 'C'; 
-
-      //if (CodigoMora <> 'A') and (CodigoMora <> 'B') then
-      //  CodigoMora := 'A';
+         wModalidade := 'C';
 
       CodigoMora := ObtemCodigoMoraJuros(ACBrTitulo);
 
       { Converte valor em moeda para valor diário, pois o arquivo só permite juros em R$/% diário }
       LValorMoraJuros := ConverterJurosDiario(ACBrTitulo);
 
-      { Converte valor em moeda para %, pois o arquivo só permite multa em %}
+      { Converte valor em moeda para %}
       LPercentualMulta := ConverterMultaPercentual(ACBrTitulo);
+      { Converte % em moeda}
+      LValorMulta := ConverterMultaValor(ACBrTitulo);
 
-     TpDesconto := TipoDescontoToString(TipoDesconto);
+      TpDesconto := TipoDescontoToString(TipoDesconto);
 
-     LHibrido := IfThen(NaoEstaVazio(ACBrBoleto.Cedente.PIX.Chave),'H',' ');
+      LTipoMulta := DefineTipoMulta(ACBrTitulo);
+
+      LHibrido := IfThen(NaoEstaVazio(ACBrBoleto.Cedente.PIX.Chave),'H',' ');
 
       with ACBrBoleto do
       begin
@@ -433,8 +457,11 @@ begin
                   Space(10)                                                             +  // 007 a 016 - Filler - Brancos
                   'A'                                                                   +  // 017 a 017 - Tipo de moeda = "A" Real
                   TpDesconto                                                            +  // 018 a 018 - Tipo de desconto: "A" Valor "B" percentual
-                  trim(CodigoMora)                                                      +  // 019 a 019 - Tipo de juro: "A" Valor "B" percentual
-                  Space(28)                                                             +  // 020 a 047 - Filler - Brancos
+                  trim(CodigoMora)                                                      +  // 019 a 019 - Tipo de juro: "A" Valor "B" percentual diário "C" percentual mensal
+                  LTipoMulta                                                            +  // 020 a 020 - Tipo de Multa : "A" Valor "B" percentual
+                  FormatDateTime('yyyymmdd', DataMoraJuros)                             +  // 021 a 028 - Data Inicio Cobrança dos Juros. Padrão: "Vencimento + 1", se "Vecinmento + 2", boleto sem QR CODE.
+                  FormatDateTime('yyyymmdd', DataMulta)                                 +  // 029 a 036 - Data Inicio Cobrança da Multa. Padrão: "Vencimento + 1", se "Vecinmento + 2", boleto sem QR CODE.
+                  Space(11)                                                             +  // 037 a 047 - Filler - Brancos
                   PadLeft(wNossoNumeroCompleto,9,'0');                                     // 048 a 056 - Nosso número sem edição YYXNNNNND - YY=Ano, X-Emissao, NNNNN-Sequência, D-Dígito
 
          if wModalidade = 'A' then
@@ -464,8 +491,8 @@ begin
          wLinha:= wLinha +
                   Space(4)                                                              +  // 079 a 082 - Filler - Brancos
                   IntToStrZero(round(ValorDescontoAntDia * 100), 10)                    +  // 083 a 092 - Valor de desconto por dia de antecipação
-                  IntToStrZero( round( LPercentualMulta * 100 ), 4)                      +  // 093 a 096 - % multa por pagamento em atraso
-                  Space(12)                                                             +  // 097 a 108 - Filler - Brancos
+                  IntToStrZero(round(LPercentualMulta * 100 ), 4)                       +  // 093 a 096 - % multa por pagamento em atraso
+                  IntToStrZero(round(LValorMulta * 100), 12)                            +  // 097 a 108 - valor multa por pagamento em atraso
                   Ocorrencia                                                            +  // 109 a 110 - Instrução = "01" Cadastro de título ... ---Anderson
                   ANumeroDocumento                                                      +  // 111 a 120 - Seu número
                   FormatDateTime( 'ddmmyy', Vencimento)                                 +  // 121 a 126 - Data de vencimento

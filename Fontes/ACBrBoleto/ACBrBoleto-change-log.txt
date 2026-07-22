@@ -49,6 +49,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+22/07/2026
+-- ACBrBancoSicredi --
+[*] ACBR-9585 - Atualizações visando compatibilização com a versão 3.1 do manual do CNAB400
+   Por: Valter Patrick
+   Veja: https://www.projetoacbr.com.br/forum/topic/93240-acbr-9585-boleto-sicredi-informar-juros-mensais/#comment-609566
+
 21/07/2026
 -- ACBrBoleto --
 [*] Adiciona Instrucao4 e Instrucao5 na rotina de leitura do arquivo INI.
