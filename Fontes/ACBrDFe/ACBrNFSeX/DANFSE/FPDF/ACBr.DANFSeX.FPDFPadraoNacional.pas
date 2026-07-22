@@ -52,7 +52,7 @@ uses
   ACBrValidador,
   ACBrUtil.DateTime,
   ACBrUtil.Strings,
-  ACBrUtil.Compatibilidade,
+
   ACBrDFeUtil,
   ACBrDFe.Conversao,
   StrUtilsEx,
@@ -60,7 +60,8 @@ uses
   TypInfo,
 
   ACBr.DANFSeX.Classes,
-  ACBr.DANFSeX.FPDF.Utils;
+  ACBr.DANFSeX.FPDF.Utils,
+  ACBrUtil.Compatibilidade;
 
 const
   // NT 008, item 2.2 - Pagina A4 retrato (mm)
@@ -644,6 +645,7 @@ end;
 function TACBrDANFSeFPDFPadraoNacional.CarregarLogoNFSeBytes: TBytes;
 var
   LStream: TStringStream;
+  StrLen: Integer;
 begin
   SetLength(Result, 0);
   if Trim(FLogoNFSe) = '' then
@@ -655,8 +657,14 @@ begin
   begin
     LStream := TStringStream.Create(FLogoNFSe);
     try
-      Result := LStream.Bytes;
-      SetLength(Result, LStream.Size);
+      StrLen := Length(LStream.DataString);
+      SetLength(Result, StrLen);
+  
+      if StrLen > 0 then       
+        Move(LStream.DataString[1], Result[0], StrLen);
+
+      //Result := LStream.Bytes;
+      ///SetLength(Result, LStream.Size);
     finally
       LStream.Free;
     end;

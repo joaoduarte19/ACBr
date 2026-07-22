@@ -1044,7 +1044,10 @@ var
 begin
   LChave := OnlyAlphaNum(AChave);
   if Length(LChave) <> 44 then
-    Exit('');
+  begin
+    Result := '';
+    Exit;
+  end;
   // Mantem os zeros a esquerda (3 digitos da serie, 9 do numero), sem
   // converter pra inteiro.
   Result := Copy(LChave, 23, 3) + '/' + Copy(LChave, 26, 9);
@@ -4307,4 +4310,3 @@ begin
 end;
 {$ENDIF}
 end.
-
