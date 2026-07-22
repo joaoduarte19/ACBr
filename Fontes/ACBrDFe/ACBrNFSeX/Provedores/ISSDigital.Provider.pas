@@ -421,7 +421,7 @@ begin
                '</xml>' +
              '</ws:RecepcionarDps>';
 
-  Result := Executar('', Request, ['return', 'retornoNFSe'],
+  Result := Executar('', Request, ['return', 'retornoRTC', 'infRetorno'],
     ['xmlns:ws="http://ws.supernova.com.br/"']);
 end;
 
@@ -459,7 +459,7 @@ begin
                '</xml>' +
              '</ws:ConsultarDps>';
 
-  Result := Executar('', Request, ['return', 'retornoRTC'],
+  Result := Executar('', Request, ['return', 'ConsultarDpsResposta'],
     ['xmlns:ws="http://ws.supernova.com.br/"']);
 end;
 
@@ -534,7 +534,7 @@ begin
     Layout := loPadraoNacional;
     Identificador := 'Id';
     QuebradeLinha := '|';
-    ConsultaLote := False;
+    ConsultaLote := True;
     FormatoArqEnvio := tfaXml;
     FormatoArqRetorno := tfaXml;
     FormatoArqEnvioSoap := tfaXml;
@@ -566,12 +566,18 @@ begin
 
   with ConfigMsgDados do
   begin
-    UsarNumLoteConsLote := False;
+    UsarNumLoteConsLote := True;
 
     DadosCabecalho := GetCabecalho('');
 
     XmlRps.InfElemento := 'infDPS';
     XmlRps.DocElemento := 'DPS';
+
+    ConsultarSituacao.DocElemento := 'ConsultarStatusDps';
+    ConsultarSituacao.InfElemento := '';
+
+    ConsultarLote.DocElemento := 'ConsultarDps';
+    ConsultarLote.InfElemento := '';
 
     EnviarEvento.InfElemento := 'infPedReg';
     EnviarEvento.DocElemento := 'pedRegEvento';
@@ -722,6 +728,12 @@ end;
 
 begin
   ANode := RootNode.Childrens.FindAnyNs(AListTag);
+  if ANode = nil then
+  begin
+    ANode := RootNode.Childrens.FindAnyNs('retornoNFSe');
+    if ANode <> nil then
+      ANode := ANode.Childrens.FindAnyNs('erros');
+  end;
 
   ProcessarErros;
 
@@ -863,7 +875,6 @@ var
   ANode, AuxNode: TACBrXmlNode;
 begin
   Document := TACBrXmlDocument.Create;
-
   try
     try
       if Response.ArquivoRetorno = '' then
@@ -888,6 +899,7 @@ begin
       if Assigned(AuxNode) then
       begin
         Response.idRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('idDps'), tcStr);
+        Response.NumeroLote := Response.idRps;
         Response.idNota := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('chaveAcesso'), tcStr);
         Response.NumeroRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('numeroDps'), tcStr);
         Response.SerieRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('serieDps'), tcStr);
@@ -973,7 +985,11 @@ begin
       AuxNode := ANode.Childrens.FindAnyNs('infRetorno');
 
       if Assigned(AuxNode) then
+      begin
         Response.Situacao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('status'), tcStr);
+        Response.Protocolo := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('protocolo'), tcStr);
+        Response.Data := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('dhStatus'), tcDatHor);
+      end;
 
       Response.Sucesso := (Response.Erros.Count = 0);
     except
@@ -1032,9 +1048,13 @@ var
   Document: TACBrXmlDocument;
   AErro: TNFSeEventoCollectionItem;
   ANode, AuxNode: TACBrXmlNode;
+  AMsgErro: string;
+  DocumentXml: TACBrXmlDocument;
+  NFSeXml: string;
+  NumDps: string;
+  ANota: TNotaFiscal;
 begin
   Document := TACBrXmlDocument.Create;
-
   try
     try
       if Response.ArquivoRetorno = '' then
@@ -1045,16 +1065,59 @@ begin
         Exit;
       end;
 
+      Response.ArquivoRetorno := RemoverPrefixos(Response.ArquivoRetorno, ['dps:']);
+
       Document.LoadFromXml(Response.ArquivoRetorno);
 
       ANode := Document.Root;
 
-      ProcessarMensagemErros(ANode, Response, 'infRetorno');
+      Response.Protocolo := ObterConteudoTag(ANode.Childrens.FindAnyNs('protocolo'), tcStr);
+      Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhRecebimento'), tcDatHor);
+      Response.Situacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('status'), tcStr);
 
-      AuxNode := ANode.Childrens.FindAnyNs('infRetorno');
+      AMsgErro := ObterConteudoTag(ANode.Childrens.FindAnyNs('mensagemErro'), tcStr);
+      if AMsgErro <> '' then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := '';
+        AErro.Descricao := AMsgErro;
+        Exit;
+      end;
 
-      if Assigned(AuxNode) then
-        Response.Situacao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('status'), tcStr);
+      Response.idRps := ObterConteudoTag(ANode.Childrens.FindAnyNs('idDps'), tcStr);
+      NFSeXml := ObterConteudoTag(ANode.Childrens.FindAnyNs('xmlNfseNacional'), tcStr);
+      if NFSeXml <> '' then
+      begin
+        DocumentXml := TACBrXmlDocument.Create;
+        try
+          try
+            DocumentXml.LoadFromXml(NFSeXml);
+            Response.XmlRetorno := NFSeXml;
+            AuxNode := DocumentXml.Root.Childrens.FindAnyNs('infNFSe');
+
+            AuxNode := AuxNode.Childrens.FindAnyNs('DPS');
+            AuxNode := AuxNode.Childrens.FindAnyNs('infDPS');
+            NumDps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('nDPS'), tcStr);
+
+            ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByRps(NumDps);
+
+            ANota := CarregarXmlNfse(ANota, DocumentXml.Root.OuterXml);
+
+            Response.idNota := ANota.NFSe.CodigoVerificacao;
+
+            SalvarXmlNfse(ANota);
+          except
+            on E:Exception do
+            begin
+              AErro := Response.Erros.New;
+              AErro.Codigo := Cod999;
+              AErro.Descricao := ACBrStr(Desc999 + E.Message);
+            end;
+          end;
+        finally
+          FreeAndNil(DocumentXml);
+        end;
+      end;
 
       Response.Sucesso := (Response.Erros.Count = 0);
     except
