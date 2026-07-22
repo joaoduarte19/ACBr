@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+22/07/2026
+-- ACBrNFe.XmlReader --
+[-] Substituição de chamadas a 'ParseText' para 'DecodeHTMLEntities', para evitar erros de Conversão em Encoding de String
+    (por: DSA)
+
 20/07/2026
 -- ACBrNFe.ValidarRegrasdeNegocio --
 [*] ACBR-9651 Ajuste na regra 711.

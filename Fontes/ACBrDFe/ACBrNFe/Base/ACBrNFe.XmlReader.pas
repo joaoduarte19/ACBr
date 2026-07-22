@@ -503,7 +503,7 @@ begin
   if NFe.infNFe.Versao >= 3 then
     NFe.Dest.idEstrangeiro := ObterConteudo(ANode.Childrens.Find('idEstrangeiro'), tcStr);
 
-  NFe.Dest.xNome := ParseText(ObterConteudo(ANode.Childrens.Find('xNome'), tcStr));
+  NFe.Dest.xNome := DecodeHTMLEntities(ObterConteudo(ANode.Childrens.Find('xNome'), tcStr));
 
   if NFe.infNFe.Versao >= 3 then
     NFe.Dest.indIEDest := StrToindIEDest(Ok, ObterConteudo(ANode.Childrens.Find('indIEDest'), tcStr));
@@ -549,7 +549,7 @@ begin
   if not Assigned(ANode) then Exit;
 
   NFe.Retirada.CNPJCPF := ObterCNPJCPF(ANode);
-  NFe.Retirada.xNome        := ParseText(ObterConteudo(ANode.Childrens.Find('xNome'), tcStr));
+  NFe.Retirada.xNome        := DecodeHTMLEntities(ObterConteudo(ANode.Childrens.Find('xNome'), tcStr));
   NFe.Retirada.xLgr         := ObterConteudo(ANode.Childrens.Find('xLgr'), tcStr);
   NFe.Retirada.nro          := ObterConteudo(ANode.Childrens.Find('nro'), tcStr);
   NFe.Retirada.xCpl         := ObterConteudo(ANode.Childrens.Find('xCpl'), tcStr);
@@ -570,7 +570,7 @@ begin
   if not Assigned(ANode) then Exit;
 
   NFe.Entrega.CNPJCPF := ObterCNPJCPF(ANode);
-  NFe.Entrega.xNome        := ParseText(ObterConteudo(ANode.Childrens.Find('xNome'), tcStr));
+  NFe.Entrega.xNome        := DecodeHTMLEntities(ObterConteudo(ANode.Childrens.Find('xNome'), tcStr));
   NFe.Entrega.xLgr         := ObterConteudo(ANode.Childrens.Find('xLgr'), tcStr);
   NFe.Entrega.nro          := ObterConteudo(ANode.Childrens.Find('nro'), tcStr);
   NFe.Entrega.xCpl         := ObterConteudo(ANode.Childrens.Find('xCpl'), tcStr);
@@ -1423,7 +1423,7 @@ begin
   if (AuxNode <> nil) then
   begin
     NFe.Transp.Transporta.CNPJCPF := ObterCNPJCPF(AuxNode);
-    NFe.Transp.Transporta.xNome       := ParseText(ObterConteudo(AuxNode.Childrens.Find('xNome'), tcStr));
+    NFe.Transp.Transporta.xNome       := DecodeHTMLEntities(ObterConteudo(AuxNode.Childrens.Find('xNome'), tcStr));
     NFe.Transp.Transporta.IE          := ObterConteudo(AuxNode.Childrens.Find('IE'), tcStr);
     NFe.Transp.Transporta.xEnder      := ObterConteudo(AuxNode.Childrens.Find('xEnder'), tcStr);
     NFe.Transp.Transporta.xMun        := ObterConteudo(AuxNode.Childrens.Find('xMun'), tcStr);
