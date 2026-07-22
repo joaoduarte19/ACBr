@@ -328,6 +328,9 @@ var
   LConsulta: TStringList;
   LDataInicio, LTipoMovto : string;
 begin
+  LNossoNumero := '';
+  LCarteira :=  '';
+
   if Assigned(ATitulo) then
     LNossoNumero := ATitulo.NossoNumero;
 
