@@ -43,6 +43,8 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 21/07/2026
+[*] O Município de São Sebastião do Passé/BA continua utilizando o provedor Saatri.
+	Por: Larissa Santos
 -- Diversos --
 [*] A ideia de usar um resource para o logo da NFS-e Padrão Nacional foi deixado de 
     lado pelo simples fato do Delphi não suportar imagens no formato PNG ou JPG.
