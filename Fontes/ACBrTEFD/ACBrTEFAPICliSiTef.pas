@@ -1036,6 +1036,7 @@ end;
 procedure TACBrTEFAPIClassCliSiTef.GravarArquivoBackupTemporario;
 var
   Salvar: Boolean;
+  s: string;
 begin
   InterpretarRespostaAPI;  // Mapeia valores da resposta
   Salvar := (fpMetodoOperacao in [tefmtdPagamento, tefmtdCancelamento]) or
@@ -1047,8 +1048,11 @@ begin
     fpACBrTEFAPI.UltimaRespostaTEF.ArqBackup := NomeArquivoBackupTemporario;
     fpACBrTEFAPI.UltimaRespostaTEF.CNFEnviado := False;
     fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899, CTEF_RESP_FUNCAO, '999');
-    fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899, CTEF_RESP_CONFIRMAR,
-      IfThen(OperacaoEmAndamento in [tefmtdPagamento, tefmtdCancelamento], 'True', 'False') );
+
+    s := Trim(fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.LeInformacao(899, CTEF_RESP_CONFIRMAR).AsString);
+    if (s = '') then
+      fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899, CTEF_RESP_CONFIRMAR,
+        IfThen(OperacaoEmAndamento in [tefmtdPagamento, tefmtdCancelamento], 'True', 'False') );
 
     AtualizarHeader;  // Atualiza Header e Grava o Backup temporário
   end;
