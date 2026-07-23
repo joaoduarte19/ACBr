@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/07/2026
+-- SpeedGov.LerXml --
+[-] ACBR-9605 - A leitura dos campos CodMunicipio e CodPais estava errado, esses campos são
+    Integer e não String.
+   Por: Diego Folieni/Italo Giurizzato Junior
 -- ISSMap.GravarXml --
 [*] ACBR-9639 - Alterações visando gerar o XML do RPS conforme o exemplo fornecido pelo
     provedor.

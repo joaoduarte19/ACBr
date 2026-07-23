@@ -148,8 +148,8 @@ begin
   NFSe.IBSCBS.dest.ender.DescricaoMunicipio := ObterConteudo(ANode.Childrens.FindAnyNs('Cidade'), tcStr);
   NFSe.IBSCBS.dest.ender.UF := ObterConteudo(ANode.Childrens.FindAnyNs('UF'), tcStr);
   NFSe.IBSCBS.dest.ender.endNac.CEP := ObterConteudo(ANode.Childrens.FindAnyNs('CEP'), tcStr);
-  NFSe.IBSCBS.dest.ender.endNac.cMun := ObterConteudo(ANode.Childrens.FindAnyNs('CodMunicipio'), tcStr);
-  NFSe.IBSCBS.dest.ender.endExt.cPais := ObterConteudo(ANode.Childrens.FindAnyNs('CodPais'), tcStr);
+  NFSe.IBSCBS.dest.ender.endNac.cMun := ObterConteudo(ANode.Childrens.FindAnyNs('CodMunicipio'), tcInt);
+  NFSe.IBSCBS.dest.ender.endExt.cPais := ObterConteudo(ANode.Childrens.FindAnyNs('CodPais'), tcInt);
   NFSe.IBSCBS.dest.Email := ObterConteudo(ANode.Childrens.FindAnyNs('Email'), tcStr);
   NFSe.IBSCBS.dest.fone := ObterConteudo(ANode.Childrens.FindAnyNs('Telefone'), tcStr);
 end;
