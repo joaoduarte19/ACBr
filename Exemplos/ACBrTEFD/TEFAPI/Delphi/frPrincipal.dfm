@@ -2415,8 +2415,6 @@ object FormPrincipal: TFormPrincipal
     ConfigQRCode.Tipo = 2
     ConfigQRCode.LarguraModulo = 4
     ConfigQRCode.ErrorLevel = 0
-    ConfigImagem.ModoLegado = True
-    ConfigImagem.AddLF = True
     LinhasEntreCupons = 0
     Left = 813
     Top = 176
