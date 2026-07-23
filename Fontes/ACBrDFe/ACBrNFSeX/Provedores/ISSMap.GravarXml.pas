@@ -123,8 +123,14 @@ begin
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'aliquota', 1, 5, 1,
                                cryptAESDe2(NFSe.Servico.Valores.Aliquota), ''));
 
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'status', 1, 10, 1,
-                                                       cryptAES('normal'), ''));
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'aliquotaEstadual', 1, 15, 1,
+                 cryptAESDe2(NFSe.infNFSe.IBSCBS.valores.uf.pIBSUF, True), ''));
+
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'aliquotaFederal', 1, 15, 1,
+                  cryptAESDe2(NFSe.infNFSe.IBSCBS.valores.fed.pCBS, True), ''));
+
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'aliquotaMunicipal', 1, 15, 1,
+               cryptAESDe2(NFSe.infNFSe.IBSCBS.valores.mun.pIBSMun, True), ''));
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'cepPrestador', 1, 8, 1,
                                     cryptAES(NFSe.Prestador.Endereco.CEP), ''));
@@ -147,8 +153,8 @@ begin
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'cpfCnpjTomador', 1, 14, 1,
                       cryptAES(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
 
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'numeroNfse', 1, 15, 1,
-                                                    cryptAES(NFSe.Numero), ''));
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'cst', 3, 3, 1,
+           cryptAES(CSTIBSCBSToStr(NFSe.IBSCBS.valores.trib.gIBSCBS.CST)), ''));
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'dataHoraEmissao', 1, 19, 1,
                                          cryptAESDat(NFSe.DataEmissaoRps), ''));
@@ -205,78 +211,11 @@ begin
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'numeroRPS', 1, 19, 1,
                                    cryptAES(NFSe.IdentificacaoRps.Numero), ''));
 
-    if NFSe.Servico.Valores.IssRetido = stRetencao then
-      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'retidoNaFonte', 1, 1, 1,
-                                                             cryptAES('S'), ''))
-    else
-      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'retidoNaFonte', 1, 1, 1,
-                                                            cryptAES('N'), ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'servicoPrestado', 1, 1000, 0,
-                                 cryptAES(NFSe.Servico.xItemListaServico), ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'valorBaseCalculo', 1, 15, 1,
-                            cryptAESDe2(NFSe.Servico.Valores.BaseCalculo), ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'valorDeducoes', 1, 15, 1,
-                    cryptAESDe2(NFSe.Servico.Valores.ValorDeducoes, True), ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'valorIss', 1, 15, 1,
-                               cryptAESDe2(NFSe.Servico.Valores.ValorIss), ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'valorNota', 1, 15, 1,
-                       cryptAESDe2(NFSe.Servico.Valores.ValorLiquidoNfse), ''));
-
-    // codigoVerifica - Opcional
-    // tipoTributacao - Opcional
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'naturezaOperacao', 1, 100, 1,
-                   cryptAES(NaturezaOperacaoToStr(NFSe.NaturezaOperacao)), ''));
-
-    // tipoMovimento - Opcional
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'valorCredito', 1, 15, 1,
-                                     cryptAESDe2(NFSe.ValorCredito, True), ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'numeroNFSE', 1, 19, 1,
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'numeroNfse', 1, 15, 1,
                                                     cryptAES(NFSe.Numero), ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'dataHoraEmissaoRPS', 1, 19, 1,
-                                         cryptAESDat(NFSe.DataEmissaoRps), ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'resposta', 1, 3, 1,
-                                                cryptAES(NFSe.NumeroLote), ''));
-
-
-
-    (*
-<codigoVerifica>u79BxiYQYnPCtMysOB4lNwjvV0JvFlrgrxwbkLrXlSs=</codigoVerifica>
-<numero>hlqPEjVOvSEokzLEU+QqDQ==</numero>
-<pass>H2aamvBtbCkzvpDDLfqA+g==</pass>
-<porcentagemCOFINS>8RdZqq07PewGuVD1OqX57NrZfR+0PKDOzDSZReQEYbI=</porcentagemCOFINS>
-<porcentagemCSLL>hQhFMqGNQtC2QgYY8Gv94Oc9Nfzz5wseMmHNstS1kzI=</porcentagemCSLL>
-<porcentagemINSS>XUe2RVAZOo5X+NwKuTVJn/EkIr7FJXrrppHXwtTaROY=</porcentagemINSS>
-<porcentagemIRRF>Q7xwjLIdU9DRKOTH+PpAY4fbaa86KUtu23ICjcoAc8c=</porcentagemIRRF>
-<porcentagemOutros>z9PEPr3tlYX2JpC146ETSjBOs2cHrRmq/XGoWlt4K8g=</porcentagemOutros>
-<porcentagemPIS>V8V3Ck1T+ixSgQBhVuM7ac7vKw7ZzZOh1bpDF3xRu/s=</porcentagemPIS>
-<retencaoObrigatoriaTomador>In7MRJupfqlh4SrfxjrMUzQUHOyWvTuNUbDJITDNMyYCAd3wSqJ3WK8T/KbLed/j</retencaoObrigatoriaTomador>
-<status>5RvbyLpsQTHfw6pqM0GoCw==</status>
-<valorCOFINS>4cfmYBqp9PcxksaSf9vZ24kBU0D68dkhmBJ6YhtCQwk=</valorCOFINS>
-<valorCSLL>cZC3YcqGJiCo0izfH2Tzyw==</valorCSLL>
-<valorINSS>aXdOGktSU6BayPr8uIkWsw==</valorINSS>
-<valorIRRF>9sAicID1YOm29LWE6CK9bg==</valorIRRF>
-<valorOutros>Mg7y5/6wFWgtMuxVitpo7okBU0D68dkhmBJ6YhtCQwk=</valorOutros>
-<valorPIS>ULtUsqpaF+Fl0o2gyBOxRQ==</valorPIS>
-
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'Pass', 1, 100, 1,
                                                           cryptAES(Senha), ''));
-
-//    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'cancelada', 1, 10, 0,
-//                                                       cryptAES('normal'), ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'porcentagemPIS', 1, 15, 0,
-                            cryptAESDe2(NFSe.Servico.Valores.AliquotaPis), ''));
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'porcentagemCOFINS', 1, 15, 0,
                          cryptAESDe2(NFSe.Servico.Valores.AliquotaCofins), ''));
@@ -284,20 +223,40 @@ begin
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'porcentagemCSLL', 1, 15, 0,
                            cryptAESDe2(NFSe.Servico.Valores.AliquotaCsll), ''));
 
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'porcentagemIRRF', 1, 15, 0,
-                             cryptAESDe2(NFSe.Servico.Valores.AliquotaIr), ''));
-
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'porcentagemINSS', 1, 15, 0,
                            cryptAESDe2(NFSe.Servico.Valores.AliquotaInss), ''));
 
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'porcentagemOutros', 1, 15, 0,
-                       cryptAESDe2(NFSe.Servico.Valores.AliquotaDeducoes), ''));
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'porcentagemIRRF', 1, 15, 0,
+                             cryptAESDe2(NFSe.Servico.Valores.AliquotaIr), ''));
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'porcentagemOutros', 1, 15, 0,
                        cryptAESDe2(NFSe.Servico.Valores.AliquotaDeducoes), ''));
 
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'valorPIS', 1, 15, 0,
-                               cryptAESDe2(NFSe.Servico.Valores.ValorPis), ''));
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'porcentagemPIS', 1, 15, 0,
+                            cryptAESDe2(NFSe.Servico.Valores.AliquotaPis), ''));
+
+// <retencaoObrigatoriaTomador>Etk64FQ2g2+doGn1g1WSpwp704TMtPrUIKxZSB/YsbICAd3wSqJ3WK8T/KbLed/j</retencaoObrigatoriaTomador>
+
+    if NFSe.Servico.Valores.IssRetido = stRetencao then
+      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'retidoNaFonte', 1, 1, 1,
+                                                             cryptAES('S'), ''))
+    else
+      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'retidoNaFonte', 1, 1, 1,
+                                                            cryptAES('N'), ''));
+
+// <serie>Nddpny/82U2IelweijOR4Q==</serie>
+
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'servicoPrestado', 1, 1000, 0,
+                                 cryptAES(NFSe.Servico.xItemListaServico), ''));
+
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'status', 1, 10, 1,
+                                                       cryptAES('normal'), ''));
+
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'tpRetPisCofins', 1, 1, 1,
+      cryptAES(tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins)), ''));
+
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'valorBaseCalculo', 1, 15, 1,
+                            cryptAESDe2(NFSe.Servico.Valores.BaseCalculo), ''));
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'valorCOFINS', 1, 15, 0,
                             cryptAESDe2(NFSe.Servico.Valores.ValorCofins), ''));
@@ -305,21 +264,37 @@ begin
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'valorCSLL', 1, 15, 0,
                               cryptAESDe2(NFSe.Servico.Valores.ValorCsll), ''));
 
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'valorCSLL', 1, 15, 0,
-                              cryptAESDe2(NFSe.Servico.Valores.ValorCsll), ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'valorIRRF', 1, 15, 0,
-                              cryptAESDe2(NFSe.Servico.Valores.ValorIr), ''));
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'valorDeducoes', 1, 15, 1,
+                    cryptAESDe2(NFSe.Servico.Valores.ValorDeducoes, True), ''));
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'valorINSS', 1, 15, 0,
                               cryptAESDe2(NFSe.Servico.Valores.ValorInss), ''));
 
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'valorIRRF', 1, 15, 0,
+                              cryptAESDe2(NFSe.Servico.Valores.ValorIr), ''));
+
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'valorIss', 1, 15, 1,
+                               cryptAESDe2(NFSe.Servico.Valores.ValorIss), ''));
+
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'valorNota', 1, 15, 1,
+                       cryptAESDe2(NFSe.Servico.Valores.ValorLiquidoNfse), ''));
+
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'valorOutros', 1, 15, 0,
                    cryptAESDe2(NFSe.Servico.Valores.valorOutrasRetencoes), ''));
 
-    // retencaoObrigatoriaTomador (opcional) true ou false
-    *)
-    Result := True;
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'valorPIS', 1, 15, 0,
+                               cryptAESDe2(NFSe.Servico.Valores.ValorPis), ''));
+
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'cClassTrib', 6, 6, 1,
+                    cryptAES(NFSe.IBSCBS.valores.trib.gIBSCBS.cClassTrib), ''));
+
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'cIndOp', 6, 6, NrOcorrcIndOp,
+                                             cryptAES(NFSe.IBSCBS.cIndOp), ''));
+
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'cNBS', 1, 15, 1,
+                                         cryptAES(NFSe.Servico.CodigoNBS), ''));
+
+   Result := True;
   finally
     aes.free;
   end;

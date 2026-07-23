@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/07/2026
+-- ISSMap.GravarXml --
+[*] ACBR-9639 - Alterações visando gerar o XML do RPS conforme o exemplo fornecido pelo
+    provedor.
+   Por: Italo Giurizzato Junior
 -- Elotech.GravarXml --
 [*] Ajuste visando a correta geração da tag CodigoPais no elemento Endereco do Tomador.
    Por: Diego Folieni
