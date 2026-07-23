@@ -42,7 +42,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/07/2026
+-- Elotech.GravarXml --
+[*] Ajuste visando a correta geração da tag CodigoPais no elemento Endereco do Tomador.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/91514-erro-1871-problema-valida%C3%A7%C3%A3o-xsd-nfse-elotech-pitanga-pr/
+
 21/07/2026
+-- ACBrNFSeXServicos --
 [*] O Município de São Sebastião do Passé/BA continua utilizando o provedor Saatri.
 	Por: Larissa Santos
 -- Diversos --
