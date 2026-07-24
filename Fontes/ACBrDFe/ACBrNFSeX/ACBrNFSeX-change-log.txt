@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 24/07/2026
+-- ACBrNFSeXServicos --
+[*] Atualiza a URL da cidade de Piraí/RJ, o provedor continua o Tiplan na versão 2.03 do leiaute ABRASF
+   Por: Ian Miranda
+[-] Adiciona parâmetro para Grajau/MA não considerar APIPropria do SpeedGov
+   Por: Diego Folieni
 -- Betha.GravarXml --
 [*] ACBR-9645 - Alteração visando não gerar a tag indFinal pois a mesma foi removida,
     no Schema ainda consta como opcional.
