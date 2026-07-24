@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 24/07/2026
+-- Saatri.GravarXml --
+[*] ACBR-9629 - Alterações visando gerar os novos campos referente a RTC.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXConversao --
 [-] ACBR-9593 - Incluído o enumerario trVazio ao tipo TtpRetPisCofins uma vez que a 
     a tag é opcional.
