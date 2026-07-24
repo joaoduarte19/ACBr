@@ -1724,10 +1724,10 @@ begin
 
     Result.AppendChild(AddNode(tcDe2, '#1', 'vCofins', 1, 15, 1,
                                      NFSe.Servico.Valores.tribFed.vCofins, ''));
-
-    Result.AppendChild(AddNode(tcStr, '#1', 'tpRetPisCofins', 1, 1, 1,
-         tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins), ''));
   end;
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'tpRetPisCofins', 1, 1, 0,
+         tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins), ''));
 end;
 
 function TNFSeW_PadraoNacional.GerarXMLTotalTributos: TACBrXmlNode;
@@ -1846,10 +1846,11 @@ begin
 
   FDocument.Root := NFSeNode;
 
+{ Comentado para finalizar os ajustes que estão sendo realizados nas classes
   if FormatoDiscriminacao <> fdNenhum then
-    ConsolidarVariosItensServicosEmUmSo;
-//    CampoDiscriminacaoFormatado;
-
+//    ConsolidarVariosItensServicosEmUmSo;
+    CampoDiscriminacaoFormatado;
+}
   xmlNode := GerarXMLInfDps;
   NFSeNode.AppendChild(xmlNode);
 

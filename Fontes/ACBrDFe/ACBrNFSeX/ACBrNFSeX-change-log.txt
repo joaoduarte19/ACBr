@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 24/07/2026
+-- PadraoNacional.GravarXml --
+[*] ACBR-9637 - Alteração visando gerar a tag tpRetPisCofins mesmo que as tags de
+    tributação federal não sejam geradas.
+   Por: RP INFO Sistemas
 -- ACBrNFSeXServicos --
 [*] Atualização da URL da cidade de Belford Roxo/RJ, o provedor continua o mesmo.
    Por: Italo Giurizzato Junior
