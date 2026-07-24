@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+24/07/2026
+-- ACBrNFSeXConversao --
+[-] ACBR-9593 - Incluído o enumerario trVazio ao tipo TtpRetPisCofins uma vez que a 
+    a tag é opcional.
+   Por: Valter Patrick/Italo Giurizzato Junior
+
 23/07/2026
 -- SpeedGov.LerXml --
 [-] ACBR-9605 - A leitura dos campos CodMunicipio e CodPais estava errado, esses campos são
