@@ -255,6 +255,7 @@ begin
   inherited Configuracao;
 
   PrefixoPadrao := 'dps';
+  NrOcorrindFinal := -1;
 //  GerargReeRepRes := false;
 end;
 (*

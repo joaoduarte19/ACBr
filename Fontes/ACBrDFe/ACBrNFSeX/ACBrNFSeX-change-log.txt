@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 24/07/2026
+-- Betha.GravarXml --
+[*] ACBR-9645 - Alteração visando não gerar a tag indFinal pois a mesma foi removida,
+    no Schema ainda consta como opcional.
+   Por: Italo Giurizzato Junior
 -- Saatri.GravarXml --
 [*] ACBR-9629 - Alterações visando gerar os novos campos referente a RTC.
    Por: Italo Giurizzato Junior
