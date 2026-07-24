@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 24/07/2026
+-- ACBrNFSeXServicos --
+[*] Atualização da URL da cidade de Belford Roxo/RJ, o provedor continua o mesmo.
+   Por: Italo Giurizzato Junior
 -- Agili.Provider --
 [*] ACBR-9555 - Alteração visando não realizar a conversão para UTF8 duas vezes.
    Por: Lucas Batista - Alfameta
