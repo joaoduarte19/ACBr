@@ -57,6 +57,8 @@ type
     function Cancelar(const ACabecalho, AMSG: String): string; override;
     function SubstituirNFSe(const ACabecalho, AMSG: String): string; override;
 
+    function DefinirMsgEnvio(const Message, SoapAction, SoapHeader: string;
+      namespace: array of string): string; override;
   end;
 
   TACBrNFSeProviderAgili = class (TACBrNFSeProviderProprio)
@@ -809,6 +811,7 @@ begin
                          '</NumeroNfseFinal>' +
                          '<Versao>1.00</Versao>' +
                        '</ConsultarNfseFaixaEnvio>';
+  Response.ArquivoEnvio := ConverteXMLtoUTF8(Response.ArquivoEnvio);
 end;
 
 procedure TACBrNFSeProviderAgili.TratarRetornoConsultaNFSeporFaixa(
@@ -964,6 +967,7 @@ begin
                            '<Versao>1.00</Versao>' +
                          '</PedidoCancelamento>' +
                        '</CancelarNfseEnvio>';
+  Response.ArquivoEnvio := ConverteXMLtoUTF8(Response.ArquivoEnvio);
 end;
 
 procedure TACBrNFSeProviderAgili.TratarRetornoCancelaNFSe(
@@ -1023,6 +1027,7 @@ begin
                            Response.PedCanc +
                            Xml +
                          '</SubstituirNfseEnvio>';
+    Response.ArquivoEnvio := ConverteXMLtoUTF8(Response.ArquivoEnvio);
   end;
 end;
 
@@ -1175,6 +1180,16 @@ begin
   FPMsgOrig := AMSG;
 
   Result := Executar('', AMSG, [], []);
+end;
+
+function TACBrNFSeXWebserviceAgili.DefinirMsgEnvio(const Message, SoapAction,
+  SoapHeader: string; namespace: array of string): string;
+begin
+  Result := Message;
+
+  FPHttpClient := FPDFeOwner.SSL.SSLHttpClass;
+  FPHttpClient.Clear;
+  FPHttpClient.HeaderReq.AddHeader('SOAPAction', SoapAction);
 end;
 
 end.

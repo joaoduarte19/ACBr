@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 24/07/2026
+-- Agili.Provider --
+[*] ACBR-9555 - Alteração visando não realizar a conversão para UTF8 duas vezes.
+   Por: Lucas Batista - Alfameta
 -- ACBrNFSeXServicos --
 [*] Atualiza a URL da cidade de Piraí/RJ, o provedor continua o Tiplan na versão 2.03 do leiaute ABRASF
    Por: Ian Miranda
