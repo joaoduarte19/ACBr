@@ -67,7 +67,7 @@ type
   private
     procedure QuandoReceberRespostaEndPoint(const aEndPoint, aURL, aMethod: String; var aResultCode: Integer; var aRespostaHttp: AnsiString);
   protected
-    function ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String; override;
+    function ObterURLAmbientePadrao(const aAmbiente: TACBrPixCDAmbiente): String; override;
   public
     constructor Create(AOwner: TComponent); override;
     procedure Autenticar; override;
@@ -89,7 +89,7 @@ begin
     AResultCode := HTTP_CREATED;
 end;
 
-function TACBrPSPC6Bank.ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String;
+function TACBrPSPC6Bank.ObterURLAmbientePadrao(const aAmbiente: TACBrPixCDAmbiente): String;
 begin
   if (aAmbiente = ambProducao) then
     Result := cC6URLProducao + cC6PathAPIPix

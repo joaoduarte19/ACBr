@@ -82,7 +82,7 @@ type
       var aResultCode: Integer; var aRespostaHttp: AnsiString);
     procedure QuandoAcessarEndPoint(const aEndPoint: String; var aURL: String; var aMethod: String);
   protected
-    function ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String; override;
+    function ObterURLAmbientePadrao(const aAmbiente: TACBrPixCDAmbiente): String; override;
     procedure ConfigurarQueryParameters(const Method, EndPoint: String); override;
     function VerificarSeIncluiPFX(const Method, AURL: String): Boolean; override;
   public
@@ -282,7 +282,7 @@ begin
   end;
 end;
 
-function TACBrPSPSantander.ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String;
+function TACBrPSPSantander.ObterURLAmbientePadrao(const aAmbiente: TACBrPixCDAmbiente): String;
 begin
   case aAmbiente of
     ambProducao: Result := cSantanderURLProducao;

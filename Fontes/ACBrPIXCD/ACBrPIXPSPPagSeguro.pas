@@ -80,7 +80,7 @@ type
   protected
     procedure ConfigurarHeaders(const aMethod, aURL: String); override;
     procedure ConfigurarAutenticacao(const aMethod, aEndPoint: String); override;
-    function ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String; override;
+    function ObterURLAmbientePadrao(const aAmbiente: TACBrPixCDAmbiente): String; override;
     function ObterURLAmbienteNoAuth(const aAmbiente: TACBrPixCDAmbiente): String;
   public
     constructor Create(AOwner: TComponent); override;
@@ -143,7 +143,7 @@ begin
     Http.Headers.Insert(0, ChttpHeaderAuthorization + ChttpAuthorizationBearer+' '+fpToken);
 end;
 
-function TACBrPSPPagSeguro.ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String;
+function TACBrPSPPagSeguro.ObterURLAmbientePadrao(const aAmbiente: TACBrPixCDAmbiente): String;
 begin
   if (aAmbiente = ambProducao) then
     Result := cPagSeguroURLProducao + cPagSeguroPathAPIPix

@@ -82,7 +82,7 @@ type
     function CobStatusParaTransactionStatus(aCobStatus: TACBrPIXStatusCobranca): TGate2AllTransactionStatus;
     function TransactionStatusParaCosStatus(aTransactionStatus: TGate2AllTransactionStatus): TACBrPIXStatusCobranca;
   protected
-    function ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String; override;
+    function ObterURLAmbientePadrao(const aAmbiente: TACBrPixCDAmbiente): String; override;
     function CalcularEndPointPath(const Method, EndPoint: String): String; override;
     procedure ConfigurarBody(const Method, EndPoint: String; var aBody: String); override;
     procedure ConfigurarPathParameters(const aMethod, aEndPoint: String); override;
@@ -286,7 +286,7 @@ begin
   end;
 end;
 
-function TACBrPSPGate2All.ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String;
+function TACBrPSPGate2All.ObterURLAmbientePadrao(const aAmbiente: TACBrPixCDAmbiente): String;
 begin
   if (aAmbiente = ambProducao) then
     Result := cGate2AllURLProducao

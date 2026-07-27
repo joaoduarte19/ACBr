@@ -144,7 +144,7 @@ type
     procedure DoQuandoAcessarEndPoint(const aEndPoint: String; var aURL: String; var aMethod: String);
     procedure DoQuandoReceberRespostaEndPoint(const aEndPoint, aURL, aMethod: String; var aResultCode: Integer; var aRespostaHttp: AnsiString);
   protected
-    function ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String; override;
+    function ObterURLAmbientePadrao(const aAmbiente: TACBrPixCDAmbiente): String; override;
     function CalcularEndPointPath(const aMethod, aEndPoint: String): String; override;
 
     procedure ConfigurarHeaders(const aMethod, aURL: String); override;
@@ -1488,7 +1488,7 @@ begin
   end;
 end;
 
-function TACBrPSPMatera.ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String;
+function TACBrPSPMatera.ObterURLAmbientePadrao(const aAmbiente: TACBrPixCDAmbiente): String;
 begin
   if (aAmbiente = ambProducao) then
     Result := cMateraURLProducao

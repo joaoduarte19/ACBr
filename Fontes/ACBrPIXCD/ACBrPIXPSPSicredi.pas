@@ -76,7 +76,7 @@ type
     procedure QuandoReceberRespostaEndPoint(const aEndPoint, aURL, aMethod: String;
       var aResultCode: Integer; var aRespostaHttp: AnsiString);
   protected
-    function ObterURLAmbiente(const Ambiente: TACBrPixCDAmbiente): String; override;
+    function ObterURLAmbientePadrao(const Ambiente: TACBrPixCDAmbiente): String; override;
     procedure ConfigurarQueryParameters(const Method, EndPoint: String); override;
   public
     constructor Create(AOwner: TComponent); override;
@@ -175,7 +175,7 @@ begin
     AResultCode := HTTP_CREATED;
 end;
 
-function TACBrPSPSicredi.ObterURLAmbiente(const Ambiente: TACBrPixCDAmbiente): String;
+function TACBrPSPSicredi.ObterURLAmbientePadrao(const Ambiente: TACBrPixCDAmbiente): String;
 begin
   if (Ambiente = ambProducao) then
     Result := cSicrediURLProducao

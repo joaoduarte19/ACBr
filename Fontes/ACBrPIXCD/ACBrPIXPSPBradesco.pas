@@ -71,7 +71,7 @@ type
     function ObterURLAuth: String;
 
     function ObterURL(const aMethod, aEndPoint: String): String;
-    function ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String; override;
+    function ObterURLAmbientePadrao(const aAmbiente: TACBrPixCDAmbiente): String; override;
     function ObterURLAmbienteREC(const aAmbiente: TACBrPixCDAmbiente): String;
 
     function CalcularURLEndPoint(const Method, EndPoint: String): String; override;
@@ -128,7 +128,7 @@ begin
   Result := URLSemDelimitador(Result);
 end;
 
-function TACBrPSPBradesco.ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String;
+function TACBrPSPBradesco.ObterURLAmbientePadrao(const aAmbiente: TACBrPixCDAmbiente): String;
 begin
   if (aAmbiente = ambProducao) then
     Result := cBradescoURLProducao + cBradescoPathAPIPix

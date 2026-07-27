@@ -64,7 +64,7 @@ type
   {$ENDIF RTL230_UP}
   TACBrPSPCielo = class(TACBrPSPCertificate)
   protected
-    function ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String; override;
+    function ObterURLAmbientePadrao(const aAmbiente: TACBrPixCDAmbiente): String; override;
   public
     procedure Autenticar; override;
   end;
@@ -77,7 +77,7 @@ uses
 
 { TACBrPSPCielo }
 
-function TACBrPSPCielo.ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String;
+function TACBrPSPCielo.ObterURLAmbientePadrao(const aAmbiente: TACBrPixCDAmbiente): String;
 begin
   if (aAmbiente = ambProducao) then
     Result := cCieloURLProducao + cCieloPathAPIPix

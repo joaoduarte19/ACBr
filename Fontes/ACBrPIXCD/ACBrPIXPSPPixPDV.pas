@@ -95,7 +95,7 @@ type
     fRetirada: TPixPDVRetirada;
     fExtrato: TPixPDVExtrato;
   protected
-    function ObterURLAmbiente(const Ambiente: TACBrPixCDAmbiente): String; override;
+    function ObterURLAmbientePadrao(const Ambiente: TACBrPixCDAmbiente): String; override;
     procedure ConfigurarAutenticacao(const Method, EndPoint: string); override;
     procedure ConfigurarHeaders(const Method, AURL: string); override;
   public
@@ -579,7 +579,7 @@ begin
   end;
 end;
 
-function TACBrPSPPixPDV.ObterURLAmbiente(const Ambiente: TACBrPixCDAmbiente): String;
+function TACBrPSPPixPDV.ObterURLAmbientePadrao(const Ambiente: TACBrPixCDAmbiente): String;
 begin
   if (fAPIVersao = apiVersao1) then
   begin

@@ -89,7 +89,7 @@ type
     procedure ConfigurarHeaders(const Method, AURL: String); override;
 
     function ObterURL(const aMethod, aEndPoint: String): String;
-    function ObterURLAmbiente(const Ambiente: TACBrPixCDAmbiente): String; override;
+    function ObterURLAmbientePadrao(const Ambiente: TACBrPixCDAmbiente): String; override;
     function ObterURLAmbienteRec(const Ambiente: TACBrPixCDAmbiente): String;
   public
     constructor Create(AOwner: TComponent); override;
@@ -308,7 +308,7 @@ begin
     (ACBrPixCD.Ambiente = ambProducao) and (Pos(cItauPathCertificadoSolicitacao, AURL) <= 0);
 end;
 
-function TACBrPSPItau.ObterURLAmbiente(const Ambiente: TACBrPixCDAmbiente): String;
+function TACBrPSPItau.ObterURLAmbientePadrao(const Ambiente: TACBrPixCDAmbiente): String;
 begin
   if (Ambiente = ambProducao) then
     Result := cItauURLProducao + cItauPathAPIPix

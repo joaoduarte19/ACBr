@@ -123,7 +123,7 @@ type
     function ShiPayStatusToDevStatus(AShipayStatus: TShipayOrderStatus): TACBrPIXStatusDevolucao;
   protected
     function CalcularEndPointPath(const aMethod, aEndPoint: String): String; override;
-    function ObterURLAmbiente(const Ambiente: TACBrPixCDAmbiente): String; override;
+    function ObterURLAmbientePadrao(const Ambiente: TACBrPixCDAmbiente): String; override;
     
     procedure ConfigurarBody(const aMethod, aEndPoint: String; var aBody: String); override;
     procedure ConfigurarPathParameters(const aMethod, aEndPoint: String); override;
@@ -1190,7 +1190,7 @@ begin
   end;
 end;
 
-function TACBrPSPShipay.ObterURLAmbiente(const Ambiente: TACBrPixCDAmbiente): String;
+function TACBrPSPShipay.ObterURLAmbientePadrao(const Ambiente: TACBrPixCDAmbiente): String;
 begin
   if (Ambiente = ambProducao) then
     Result := URLProducao

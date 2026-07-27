@@ -78,7 +78,7 @@ type
     procedure QuandoReceberRespostaEndPoint(const AEndPoint, AURL, AMethod: String;
       var AResultCode: Integer; var RespostaHttp: AnsiString);
   protected
-    function ObterURLAmbiente(const Ambiente: TACBrPixCDAmbiente): String; override;
+    function ObterURLAmbientePadrao(const Ambiente: TACBrPixCDAmbiente): String; override;
     procedure ConfigurarQueryParameters(const Method, EndPoint: String); override;
     procedure ConfigurarHeaders(const Method, AURL: String); override;
   public
@@ -192,7 +192,7 @@ begin
     RespostaHttp := StringReplace(RespostaHttp, 'brcode', 'pixCopiaECola', [rfReplaceAll]);
 end;
 
-function TACBrPSPSicoob.ObterURLAmbiente(const Ambiente: TACBrPixCDAmbiente): String;
+function TACBrPSPSicoob.ObterURLAmbientePadrao(const Ambiente: TACBrPixCDAmbiente): String;
 begin
   if (Ambiente = ambProducao) then
     Result := cSicoobURLProducao

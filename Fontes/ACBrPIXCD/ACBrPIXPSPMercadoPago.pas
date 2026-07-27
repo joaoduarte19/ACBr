@@ -83,7 +83,7 @@ type
     function PaymentStatusToCobStatus(aStatus: TMercadoPagoPaymentStatus): TACBrPIXStatusCobranca;
     function RefundStatusToDevolucaoStatus(aStatus: TMercadoPagoRefundStatus): TACBrPIXStatusDevolucao;
   protected
-    function ObterURLAmbiente(const Ambiente: TACBrPixCDAmbiente): string; override;
+    function ObterURLAmbientePadrao(const Ambiente: TACBrPixCDAmbiente): string; override;
     function CalcularEndPointPath(const {%H-}aMethod, aEndPoint: string): string; override;
     procedure ConfigurarBody(const aMethod, aEndPoint: string; var aBody: string); override;
     procedure ConfigurarHeaders(const Method, AURL: String); override;
@@ -483,7 +483,7 @@ begin
   end;
 end;
 
-function TACBrPSPMercadoPago.ObterURLAmbiente(const Ambiente: TACBrPixCDAmbiente): string;
+function TACBrPSPMercadoPago.ObterURLAmbientePadrao(const Ambiente: TACBrPixCDAmbiente): string;
 begin
   Result := cMercadoPagoURLProducao
 end;

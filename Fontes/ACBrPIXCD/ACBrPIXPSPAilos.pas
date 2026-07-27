@@ -66,7 +66,7 @@ type
     procedure QuandoReceberRespostaEndPoint(const AEndPoint, AURL, AMethod: String;
       var AResultCode: Integer; var RespostaHttp: AnsiString);
   protected
-    function ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String; override;
+    function ObterURLAmbientePadrao(const aAmbiente: TACBrPixCDAmbiente): String; override;
     procedure ConfigurarHeaders(const Method, AURL: String); override;
   public
     constructor Create(AOwner: TComponent); override;
@@ -150,7 +150,7 @@ begin
   fRootCrt := '';
 end;
 
-function TACBrPSPAilos.ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String;
+function TACBrPSPAilos.ObterURLAmbientePadrao(const aAmbiente: TACBrPixCDAmbiente): String;
 begin
   if (aAmbiente = ambProducao) then
     Result := cAilosURLProducao

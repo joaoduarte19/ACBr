@@ -531,6 +531,8 @@ type
     fClientSecret: AnsiString;
     fk1, fk2: String;
     fTipoChave: TACBrPIXTipoChave;
+    fURLProducao: String;
+    fURLSandbox: String;
 
     fepPix: TACBrPixEndPointPix;
     fepRec: TACBrPixEndPointRec;
@@ -574,6 +576,7 @@ type
     property NivelLog: Byte read GetNivelLog;
 
     function ObterURLAmbiente(const Ambiente: TACBrPixCDAmbiente): String; virtual;
+    function ObterURLAmbientePadrao(const Ambiente: TACBrPixCDAmbiente): String; virtual;
     procedure ConfigurarHTTP; virtual;
     procedure ConfigurarProxy; virtual;
     procedure ConfigurarTimeOut; virtual;
@@ -648,6 +651,9 @@ type
     property ChavePIX: String read fChavePIX write SetChavePIX;
     property TipoChave: TACBrPIXTipoChave read fTipoChave write SetTipoChave stored false;
     property Scopes: TACBrPSPScopes read fScopes write fScopes;
+
+    property URLProducao: String read fURLProducao write fURLProducao;
+    property URLSandbox: String read fURLSandbox write fURLSandbox;
 
     property QuandoTransmitirHttp: TACBrQuandoTransmitirHttp read fQuandoTransmitirHttp write fQuandoTransmitirHttp;
     property QuandoReceberRespostaHttp: TACBrQuandoReceberRespostaHttp read fQuandoReceberRespostaHttp write fQuandoReceberRespostaHttp;
@@ -3209,9 +3215,25 @@ end;
 
 function TACBrPSP.ObterURLAmbiente(const Ambiente: TACBrPixCDAmbiente): String;
 begin
+  if (Ambiente = ambProducao) and NaoEstaVazio(Trim(fURLProducao)) then
+  begin
+    Result := fURLProducao;
+    RegistrarLog('ObterURLAmbiente: usando URLProducao customizada -> ' + Result, 2);
+  end
+  else if (Ambiente <> ambProducao) and NaoEstaVazio(Trim(fURLSandbox)) then
+  begin
+    Result := fURLSandbox;
+    RegistrarLog('ObterURLAmbiente: usando URLSandbox customizada -> ' + Result, 2);
+  end
+  else
+    Result := ObterURLAmbientePadrao(Ambiente);
+end;
+
+function TACBrPSP.ObterURLAmbientePadrao(const Ambiente: TACBrPixCDAmbiente): String;
+begin
   Result := '';
   raise EACBrPixHttpException.Create(
-    ACBrStr(Format(sErroMetodoNaoImplementado,['ObterURLAmbiente',ClassName])));
+    ACBrStr(Format(sErroMetodoNaoImplementado,['ObterURLAmbientePadrao',ClassName])));
 end;
 
 procedure TACBrPSP.ConfigurarHTTP;
