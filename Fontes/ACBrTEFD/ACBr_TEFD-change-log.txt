@@ -45,6 +45,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/07/2026
+-- ACBrTEFAPIAuttar --
+[*] Melhorias nos Logs
+
+-- ACBrTEFAPITPag, ACBrTEFTPagAPI --
+[*] Compatibilização com versão 0.0.3 do SDK
+    (por: DSA)
+
 22/07/2026
 -- ACBrTEFAPICliSiTef --
 [-] Correção para confirmação de Cancelamento PIX

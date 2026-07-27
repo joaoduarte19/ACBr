@@ -44,7 +44,7 @@ uses
 
 resourcestring
   sMsgComunicacaoCTF = 'Comunicação com %s, %s';
-  sMsgInformeNSU = 'Informe o NSU da Transação PIX';
+  sMsgInformeNSU = 'Informe o NSU da Transação';
   sMsgDataTransacao = 'Data da Transação';
   sMsgValorTransacao = 'Valor da Transação';
   sErrDataInvalida = 'Data Inválida';
@@ -673,6 +673,7 @@ begin
   i := 0;
   TACBrTEFAPI(fpACBrTEFAPI).QuandoPerguntarMenu( Titulo, Opcoes, i);
   ItemSelecionado := i;
+  GravarLog('  Ret:'+IntToStr(ItemSelecionado));
 end;
 
 procedure TACBrTEFAPIClassAuttar.QuandoPerguntarCampoAPI(const Titulo: String;
@@ -818,7 +819,9 @@ begin
   TACBrTEFAPI(fpACBrTEFAPI).QuandoPerguntarCampo(def, Resposta, Validado, Cancelar);
 
   if (def.TipoDeEntrada = tedNumerico) and (pos(',', def.MascaraDeCaptura) > 0) then
-    Resposta := OnlyNumber(Resposta) ;
+    Resposta := OnlyNumber(Resposta);
+
+  GravarLog('  Ret:'+Resposta+', Validado: '+BoolToStr(Validado, True)+', Cancelar:'+BoolToStr(Cancelar, True));
 end;
 
 procedure TACBrTEFAPIClassAuttar.QuandoTransacaoEmAndamentoAPI(out Cancelar: Boolean);

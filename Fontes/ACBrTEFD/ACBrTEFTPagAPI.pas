@@ -143,26 +143,32 @@ type
     MAX_INSTALLMENT_AMOUNT = 1020,
     MIN_INSTALLMENT_AMOUNT = 1021,
     MAX_INSTALLMENT = 1022,
-    MIN_INSTALLMENT = 1023);
+    MIN_INSTALLMENT = 1023,
+    PIX_FAILED_TO_GENERATE = 1025,
+    PIX_DEVOLUTION_FAILED = 1026,
+    PIX_NOT_AVAILABLE = 1027 );
+
+  TPagSuccessNotificationType = (
+    SUCCESS_NOTIFY_DEVICE_CONNECTED,
+    SUCCESS_NOTIFY_LOGON,
+    SUCCESS_NOTIFY_PARAMS,
+    SUCCESS_NOTIFY_CARD_TRANSACTION,
+    SUCCESS_NOTIFY_CARD_CANCELLATION,
+    SUCCESS_NOTIFY_PIX_TRANSACTION,
+    SUCCESS_NOTIFY_PIX_CANCELLATION,
+    SUCCESS_NOTIFY_CARD_UNDONE );
 
   TPagMenuOptions = (
     MENU_OPTIONS_APPLICATIONS,
-    MENU_OPTIONS_PRODUCTS ) ;
+    MENU_OPTIONS_PRODUCTS,
+    MENU_OPTIONS_CVV_TYPE );
 
   TPagRequestOptions = (
     REQUEST_OPTIONS_LAST_DIGITS,
-    REQUEST_OPTIONS_CVV_TYPE,
     REQUEST_OPTIONS_CVV,
     REQUEST_OPTIONS_INSTALLMENTS,
     REQUEST_OPTIONS_MONTH,
     REQUEST_OPTIONS_YEAR );
-
-  TPagRequestData = record
-    title: PAnsiChar;
-    data: PAnsiChar;
-    extra: PAnsiChar;
-  end;
-  PPagRequestData = ^TPagRequestData;
 
   TPagCvvType = (
     CVV_TYPE_NO_EXISTS = 1,
@@ -188,8 +194,10 @@ type
     TRANSACTION_TYPE_DEBIT,
     TRANSACTION_TYPE_CREDIT,
     TRANSACTION_TYPE_VOUCHER,
-    TRANSACTION_TYPE_NONE );
+    TRANSACTION_TYPE_NONE,
+    TRANSACTION_TYPE_PIX );
 
+  // Usando Cardinal, para ficar compatível com chamada em C
   TPagTransactionParams = record
     amount: Int64;
     creditType: Cardinal;      // TPagCreditType
@@ -208,7 +216,8 @@ type
     READ_CARD_TYPE_TIB,
     READ_CARD_TYPE_CONTACTLESS_STRIPE,
     READ_CARD_TYPE_CONTACTLESS_EMV,
-    READ_CARD_TYPE_TYPED);
+    READ_CARD_TYPE_TYPED,
+    READ_CARD_TYPE_PIX );
   TPagReadCardTypeSet = set of TPagReadCardType;
 
   TPagTransactionStatus = (
@@ -219,13 +228,77 @@ type
     TRANSACTION_STATUS_UNDO,
     TRANSACTION_STATUS_PENDING_UNDO,
     TRANSACTION_STATUS_REJECTED,
-    TRANSACTION_STATUS_CANCELLED);
+    TRANSACTION_STATUS_CANCELLED );
   TPagTransactionStatusSet = set of TPagTransactionStatus;
 
   TPagReasonUndo = (
     REASON_UNDO_TIME_OUT,
     REASON_UNDO_DENIED_BY_CARD,
     REASON_UNDO_REMOVED_CARD );
+
+  TPagInputMode = (
+    INPUT_MODE_NUMERIC,
+    INPUT_MODE_ALPHANUMERIC );
+
+  TPagLengthConfig = record
+    minLength: LongInt;
+    maxLength: LongInt;
+  end;
+
+  TPagRangeConfig = record
+    minValue: LongInt;
+    maxValue: LongInt;
+  end;
+
+  TPagLastDigitsConfig = record
+    length: TPagLengthConfig;   // ex: 4-4
+  end;
+
+  TPagCVVConfig = record
+    length: TPagLengthConfig;   // normalmente 3-4
+    maskInput: LongInt;      // 1 = mostra ****, 0 = mostra número
+  end;
+
+  TPagInstallmentsConfig = record
+    length: TPagLengthConfig;   // ex: 1-2
+    range: TPagRangeConfig;     // ex: 1-12 parcelas
+    allowZero: LongInt;      // se precisar
+  end;
+
+  TPagMonthConfig = record
+    length: TPagLengthConfig;   // ex: 2-2 ("01".."12")
+    range: TPagRangeConfig;     // 1..12
+  end;
+
+  TPagYearConfig = record
+    length: TPagLengthConfig;   // ex: 2 ou 4
+    range: TPagRangeConfig;     // ex: 24..35 (anos relativos)
+  end;
+
+  TPagInputModeConfig = record
+    minLength: LongInt;
+    maxLength: LongInt;
+    minValue: LongInt;
+    maxValue: LongInt;
+    allowZero: Boolean;
+    maskInput: Boolean;
+  end;
+
+  TPagRequestData = record
+    option: Cardinal;           // TPagRequestOptions;
+    title: PAnsiChar;
+    message: PAnsiChar;
+    inputMode: Cardinal;        // TPagInputMode;
+
+    case Cardinal of            // option, TPagRequestOptions;
+      0: (lastDigits: TPagLastDigitsConfig);
+      1: (cvv: TPagCVVConfig);
+      2: (installments: TPagInstallmentsConfig);
+      3: (month: TPagMonthConfig);
+      4: (year: TPagYearConfig);
+      // se amanhã criar outro tipo, adiciona aqui
+  end;
+  PPagRequestData = ^TPagRequestData;
 
   TPagTransactionFilter = record
     startDate: Int64;
@@ -239,13 +312,12 @@ type
   TPagTransactionPartial = record
     nsuRequest: PAnsiChar;
     amount: Int64;
-    typeTransaction: PAnsiChar;
+    transactionType: Cardinal;        // TPagTRANSACTION_TYPE;
     installments: LongInt;
     transactionStatus: Cardinal;      // TPagTransactionStatus
     date: Int64; //UNIX time
     nsuResponse: PAnsiChar;
     reasonUndo: Cardinal;             // TPagReasonUndo
-    transactionReceipt: PAnsiChar;
     brand: PAnsiChar;
     authentication: LongInt;
     entryMode: Cardinal;              // TPagReadCardType
@@ -254,25 +326,37 @@ type
     authAcquirer: PAnsiChar;
     printReceipt: Boolean;
     panMasked: PAnsiChar;
+    establishmentReceipt: PAnsiChar;
+    customerReceipt: PAnsiChar;
   end;
   PPagTransactionPartial = ^TPagTransactionPartial;
 
-  TPagCallBackMessageProcess = procedure(code: Cardinal; process: PAnsiChar); cdecl;
-  TPagCallBackMessageError = procedure(code: Cardinal; error: PAnsiChar); cdecl;
-  TPagCallBackMessageSuccess = procedure(success: PAnsiChar); cdecl;
-  TPagCallBackAbortProcess = function: LongInt; cdecl;
-  TPagCallBackMenuProcess = function(option: Cardinal; items: PPAnsiChar; itemSize: LongInt): LongInt; cdecl;
-  TPagCallBackRequestProcess = function(options: Cardinal; RequestData: PPagRequestData): LongInt; cdecl;
+  TPagCallBackMessageProcess = procedure(code: Cardinal; process: PAnsiChar); cdecl; // TPagNotificationType
+  TPagCallBackMessageError = procedure(code: Cardinal; error: PAnsiChar); cdecl;     // TPagReturnCodes
+  TPagCallBackMessageSuccess = procedure(code: Cardinal; success: PAnsiChar); cdecl; // TPagSuccessNotificationType
+  //TPagCallBackAbortProcess = function: LongInt; cdecl;
+  TPagCallBackMenuProcess = function(option: Cardinal; items: PPAnsiChar;
+    itemSize: LongInt): LongInt; cdecl;  // TPagMenuOptions
+  TPagCallBackRequestProcess = function(
+    request: PPagRequestData;
+    outValue: PAnsiChar;     // buffer alocado pelo SDK
+    outValueSize: NativeUInt // tamanho do buffer
+  ): Integer; cdecl;
 
   TPagCallbackDmSDK = record
     messageProcess: TPagCallBackMessageProcess;
     messageError: TPagCallBackMessageError;
     messageSuccess: TPagCallBackMessageSuccess;
-    AbortProcess: TPagCallBackAbortProcess;
+    //AbortProcess: TPagCallBackAbortProcess;
     menuProcess: TPagCallBackMenuProcess;
     requestProcess: TPagCallBackRequestProcess;
   end;
   PPagCallbackDmSDK = ^TPagCallbackDmSDK;
+
+  TPagTerminalInfo = record
+    isInitialized: Boolean;
+  end;
+  PPagTerminalInfo = ^TPagTerminalInfo;
 
   TPagPOSConfig = record
     posHasStripeReader: Boolean;
@@ -285,17 +369,17 @@ type
 
   TPagExibeMensagem = procedure( const Mensagem: String) of object;
 
-  TPagEstadoOperacao = (
-    tpagEstFluxoAPI,
-    tpagEstAguardaUsuario,
-    tpagEstPinPad,
-    tpagEstPinPadLerCartao,
-    tpagEstPinPadDigitacao,
-    tpagEstRemoveCartao,
-    tpagEstLeituraQRCode );
-
-  TPagTransacaoEmAndamento = procedure(
-    EstadoOperacao: TPagEstadoOperacao; out Cancelar: Boolean) of object;
+  //TPagEstadoOperacao = (
+  //  tpagEstFluxoAPI,
+  //  tpagEstAguardaUsuario,
+  //  tpagEstPinPad,
+  //  tpagEstPinPadLerCartao,
+  //  tpagEstPinPadDigitacao,
+  //  tpagEstRemoveCartao,
+  //  tpagEstLeituraQRCode );
+  //
+  //TPagTransacaoEmAndamento = procedure(
+  //  EstadoOperacao: TPagEstadoOperacao; out Cancelar: Boolean) of object;
 
   TPagQuandoPerguntarMenu = procedure(
     const Titulo: String;
@@ -303,6 +387,13 @@ type
     var ItemSelecionado: LongInt) of object;  // Retorna o Item Selecionado, iniciando com 0
                                               // -2 - Volta no Fluxo
                                               // -1 - Cancela o Fluxo
+  TPagQuandoPerguntarCampo = procedure(
+    const Titulo: String; const Mensagem: String;
+    RequestOption: TPagRequestOptions;
+    InputMode: TPagInputMode;
+    InputConfig: TPagInputModeConfig;
+    out Resposta: String; out Cancelar: Boolean) of object;
+
   { TPagAPI }
 
   TPagAPI = Class
@@ -316,7 +407,7 @@ type
     fOnGravarLog: TPagGravarLog;
     fOnExibeMensagem: TPagExibeMensagem;
     fDadosDaTransacao: TStringList;
-    fOnTransacaoEmAndamento: TPagTransacaoEmAndamento;
+    //fOnTransacaoEmAndamento: TPagTransacaoEmAndamento;
 
   private
     xTPagConfiguration: function(
@@ -345,9 +436,18 @@ type
     xTPagLastReceipt: function(isCustomer, isCancellation, isReprint: Boolean;
       var errorCode: LongInt): PAnsiChar; cdecl;
 
+    xTPagFreeReceipt: procedure(receipt: PAnsiChar); cdecl;
+
+    xTPagTerminalInfo: function(): PPagTerminalInfo; cdecl;
+
+    xTPagFreeTerminalInfo: procedure(info: PPagTerminalInfo); cdecl;
+
+    xTPagAbortTerminal: procedure(); cdecl;
+
   private
     CallbackDmSDK: TPagCallbackDmSDK;
     fQuandoPerguntarMenu: TPagQuandoPerguntarMenu;
+    fQuandoPerguntarCampo: TPagQuandoPerguntarCampo;
 
     function GetUltimoErro: String;
     procedure SetIdentification(AValue: String);
@@ -395,6 +495,8 @@ type
     function ObterTransacao(TransactionList: PPagTransactionPartial; index: Integer): TPagTransactionPartial;
     procedure LiberarListaTransacoes(TransactionList: PPagTransactionPartial; num: LongInt);
     procedure ObterUltimaTransacao(LastTransactionType: TPagLastTransactionType; var errorCode: LongInt);
+    function ObterInformacaoTerminal: PPagTerminalInfo;
+    procedure LiberarInformacaoTerminal(info: PPagTerminalInfo);
 
     procedure TransacaoToStr(ATransaction: TPagTransactionPartial; sl: TStringList);
 
@@ -403,14 +505,19 @@ type
 
     property OnExibeMensagem: TPagExibeMensagem read fOnExibeMensagem
       write fOnExibeMensagem;
-    property OnTransacaoEmAndamento: TPagTransacaoEmAndamento read fOnTransacaoEmAndamento
-      write fOnTransacaoEmAndamento;
+    //property OnTransacaoEmAndamento: TPagTransacaoEmAndamento read fOnTransacaoEmAndamento
+    //  write fOnTransacaoEmAndamento;
     property QuandoPerguntarMenu: TPagQuandoPerguntarMenu read fQuandoPerguntarMenu
       write fQuandoPerguntarMenu;
+    property QuandoPerguntarCampo: TPagQuandoPerguntarCampo read fQuandoPerguntarCampo
+      write fQuandoPerguntarCampo;
 
     procedure GravarLog(const AString: AnsiString; Traduz: Boolean = False);
     procedure ExibirMensagem(const AMsg: String);
     procedure PerguntarMenu(const Titulo: String; Opcoes: TStringList; var ItemSelecionado: LongInt);
+    procedure PerguntarCampo(const Titulo: String; const Mensagem: String;
+      RequestOption: TPagRequestOptions; InputMode: TPagInputMode; InputConfig: TPagInputModeConfig;
+      out Resposta: String; out Cancelar: Boolean);
 
     procedure TratarErroTPag(AErrorCode: LongInt); overload;
     procedure TratarErroTPag(AErrorCode: TPagReturnCodes); overload;
@@ -421,11 +528,11 @@ function ReturnCodesToStr(ReturnCode: TPagReturnCodes): String;
 
 procedure CallBackMessageProcess(code: Cardinal; process: PAnsiChar); cdecl;
 procedure CallBackMessageError(code: Cardinal; error: PAnsiChar); cdecl;
-procedure CallBackMessageSuccess(success: PAnsiChar); cdecl;
-function CallBackAbortProcess: LongInt; cdecl;
+procedure CallBackMessageSuccess(code: Cardinal; success: PAnsiChar); cdecl;
+//function CallBackAbortProcess: LongInt; cdecl;
 function CallBackMenuProcess(option: Cardinal; items: PPAnsiChar; itemSize: LongInt): LongInt; cdecl;
-function CallBackRequestProcess(options: Cardinal; RequestData: PPagRequestData): LongInt; cdecl;
-
+function CallBackRequestProcess(request: PPagRequestData;
+      outValue: PAnsiChar; outValueSize: NativeUInt): LongInt; cdecl;
 
 var
  vTEFTPagAPI : TPagAPI;
@@ -507,6 +614,9 @@ begin
     MIN_INSTALLMENT_AMOUNT         : Result := 'MIN_INSTALLMENT_AMOUNT';
     MAX_INSTALLMENT                : Result := 'MAX_INSTALLMENT';
     MIN_INSTALLMENT                : Result := 'MIN_INSTALLMENT';
+    PIX_FAILED_TO_GENERATE         : Result := 'PIX_FAILED_TO_GENERATE';
+    PIX_DEVOLUTION_FAILED          : Result := 'PIX_DEVOLUTION_FAILED';
+    PIX_NOT_AVAILABLE              : Result := 'PIX_NOT_AVAILABLE';
   else
     Result := 'ReturnCode: '+IntToStr(Integer(ReturnCode));
   end;
@@ -545,7 +655,7 @@ begin
   end;
 end;
 
-procedure CallBackMessageSuccess(success: PAnsiChar); cdecl;
+procedure CallBackMessageSuccess(code: Cardinal; success: PAnsiChar); cdecl;
 var
   s: String;
 begin
@@ -562,27 +672,27 @@ begin
   end;
 end;
 
-function CallBackAbortProcess: LongInt; cdecl;
-var
-  estado: TPagEstadoOperacao;
-  Cancelar: Boolean;
-begin
-  Result:= 0;  // Continuar..
-
-  with GetTEFTPagAPI do
-  begin
-    if Assigned(OnTransacaoEmAndamento) then
-    begin
-      estado := tpagEstPinPad;
-      Cancelar := False;
-      GravarLog('  OnTransacaoEmAndamento( '+GetEnumName(TypeInfo(TPagEstadoOperacao), integer(estado))+' )');
-      OnTransacaoEmAndamento(estado, Cancelar);
-      GravarLog('    Cancelar: '+BoolToStr(Cancelar, True) );
-      if Cancelar then
-        Result := 1;  // Abortar
-    end;
-  end;
-end;
+//function CallBackAbortProcess: LongInt; cdecl;
+//var
+//  estado: TPagEstadoOperacao;
+//  Cancelar: Boolean;
+//begin
+//  Result:= 0;  // Continuar..
+//
+//  with GetTEFTPagAPI do
+//  begin
+//    if Assigned(OnTransacaoEmAndamento) then
+//    begin
+//      estado := tpagEstPinPad;
+//      Cancelar := False;
+//      GravarLog('  OnTransacaoEmAndamento( '+GetEnumName(TypeInfo(TPagEstadoOperacao), integer(estado))+' )');
+//      OnTransacaoEmAndamento(estado, Cancelar);
+//      GravarLog('    Cancelar: '+BoolToStr(Cancelar, True) );
+//      if Cancelar then
+//        Result := 1;  // Abortar
+//    end;
+//  end;
+//end;
 
 function CallBackMenuProcess(option: Cardinal; items: PPAnsiChar;
   itemSize: LongInt): LongInt; cdecl;
@@ -616,21 +726,96 @@ begin
     finally
       sl.Free;
     end;
+
+    GravarLog('    ret: '+IntToStr(iOpcaoSelecionada));
   end;
 
   Result:= iOpcaoSelecionada;
 end;
 
-function CallBackRequestProcess(options: Cardinal; RequestData: PPagRequestData
-  ): LongInt; cdecl;
+function CallBackRequestProcess(request: PPagRequestData; outValue: PAnsiChar;
+  outValueSize: NativeUInt): LongInt; cdecl;
+var
+  title, message, Resposta: String;
+  option: TPagRequestOptions;
+  inputMode: TPagInputMode;
+  config: TPagInputModeConfig;
+  Cancelar: Boolean;
 begin
   Result:= 0;  // Continuar..
 
   with GetTEFTPagAPI do
   begin
+    option := TPagRequestOptions(request.option);
+    title := Trim(String(request.title));
+    message := Trim(String(request.message));
+    inputMode := TPagInputMode(request.inputMode);
+
+    config.minLength := 0; config.maxLength := 0;
+    config.minValue := 0;  config.maxValue := 0;
+    config.allowZero := True;
+    config.maskInput := False;
+    case option of
+      REQUEST_OPTIONS_LAST_DIGITS:
+      begin
+        config.maxLength := request.lastDigits.length.maxLength;
+        config.minLength := request.lastDigits.length.minLength;
+      end;
+
+      REQUEST_OPTIONS_CVV:
+      begin
+        config.maxLength := request.cvv.length.maxLength;
+        config.minLength := request.cvv.length.minLength;
+        config.maskInput := (request.cvv.maskInput <> 0);
+      end;
+
+      REQUEST_OPTIONS_INSTALLMENTS:
+      begin
+        config.maxLength := request.installments.length.maxLength;
+        config.minLength := request.installments.length.minLength;
+        config.maxValue := request.installments.range.maxValue;
+        config.minValue := request.installments.range.minValue;
+        config.allowZero := (request.installments.allowZero <> 0);
+      end;
+
+      REQUEST_OPTIONS_MONTH:
+      begin
+        config.maxLength := request.month.length.maxLength;
+        config.minLength := request.month.length.minLength;
+        config.maxValue := request.month.range.maxValue;
+        config.minValue := request.month.range.minValue;
+      end;
+
+      REQUEST_OPTIONS_YEAR:
+      begin
+        config.maxLength := request.year.length.maxLength;
+        config.minLength := request.year.length.minLength;
+        config.maxValue := request.year.range.maxValue;
+        config.minValue := request.year.range.minValue;
+      end;
+    end;
+
     GravarLog('  CallBackRequestProcess');
-    GravarLog('  '+Format('options: %d, title: %s data: %s extra: %s',
-                          [options, RequestData.title, RequestData.data, RequestData.extra]));
+    GravarLog('  '+Format('option: %s, title: %s message: %s inputMode: %s',
+                          [GetEnumName(TypeInfo(TPagRequestOptions), integer(option)),
+                          title, message,
+                          GetEnumName(TypeInfo(TPagInputMode), integer(inputMode))]));
+    GravarLog('  '+Format('config - minLength: %d, maxLength: %d, minValue: %d, maxValue: %d, allowZero: %s, maskInput: %s',
+                          [config.minLength, config.maxLength,
+                           config.minValue, config.maxValue,
+                           BoolToStr(config.allowZero, True),
+                           BoolToStr(config.maskInput, True)]));
+
+    Resposta := '';
+    Cancelar := False;
+    PerguntarCampo(title, message, option, inputMode, config, Resposta, Cancelar );
+    if Cancelar then
+      Resposta := '';
+
+    outValue := PAnsiChar(AnsiString(Resposta));
+    outValueSize := Length(Resposta);
+
+    GravarLog('    ret: ('+IntToStr(outValueSize)+') bytes ['+Resposta+']');
   end;
 end;
 
@@ -642,8 +827,9 @@ begin
 
   fOnGravarLog := Nil;
   fOnExibeMensagem := Nil;
-  fOnTransacaoEmAndamento := Nil;
+  //fOnTransacaoEmAndamento := Nil;
   fQuandoPerguntarMenu := Nil;
+  fQuandoPerguntarCampo := Nil;
 
   fCarregada := False;
   fInicializada := False;
@@ -660,7 +846,7 @@ begin
   CallbackDmSDK.messageProcess := CallBackMessageProcess;
   CallbackDmSDK.messageError := CallBackMessageError;
   CallbackDmSDK.messageSuccess := CallBackMessageSuccess;
-  CallbackDmSDK.AbortProcess := CallBackAbortProcess;
+  //CallbackDmSDK.AbortProcess := CallBackAbortProcess;
   CallbackDmSDK.menuProcess := CallBackMenuProcess;
   CallbackDmSDK.requestProcess := CallBackRequestProcess;
 end;
@@ -670,8 +856,9 @@ begin
   fDadosDaTransacao.Free;
   fOnGravarLog := Nil;
   fOnExibeMensagem := Nil;
-  fOnTransacaoEmAndamento := Nil;
+  //fOnTransacaoEmAndamento := Nil;
   fQuandoPerguntarMenu := Nil;
+  fQuandoPerguntarCampo := Nil;
   inherited Destroy;
 end;
 
@@ -690,12 +877,14 @@ begin
   if (fIdentification = '') then
     DoException(ACBrStr(sErrCNPJNaoInformado));
 
-  if not Assigned(fOnTransacaoEmAndamento) then
-    DoException(Format(ACBrStr(sErrEventoNaoAtribuido), ['OnTransacaoEmAndamento']));
+  //if not Assigned(fOnTransacaoEmAndamento) then
+  //  DoException(Format(ACBrStr(sErrEventoNaoAtribuido), ['OnTransacaoEmAndamento']));
   if not Assigned(fOnExibeMensagem) then
     DoException(Format(ACBrStr(sErrEventoNaoAtribuido), ['OnExibeMensagem']));
   if not Assigned(fQuandoPerguntarMenu) then
     DoException(Format(ACBrStr(sErrEventoNaoAtribuido), ['QuandoPerguntarMenu']));
+  if not Assigned(fQuandoPerguntarCampo) then
+    DoException(Format(ACBrStr(sErrEventoNaoAtribuido), ['QuandoPerguntarCampo']));
 
   LoadLibFunctions;
   GravarLog('  call - Configuration');
@@ -755,6 +944,8 @@ end;
 
 procedure TPagAPI.AbortarTransacao;
 begin
+  GravarLog('  call - AbortTerminal');
+  xTPagAbortTerminal;
   fEmTransacao := False;
 end;
 
@@ -819,6 +1010,9 @@ begin
   else
     Result := '';
 
+  GravarLog('  call - FreeReceipt');
+  xTPagFreeReceipt(p);
+
   GravarLog('   LastReceipt:' + sLineBreak + Result);
 end;
 
@@ -870,6 +1064,18 @@ begin
   end;
 end;
 
+function TPagAPI.ObterInformacaoTerminal: PPagTerminalInfo;
+begin
+  GravarLog('  call - TerminalInfo');
+  Result := xTPagTerminalInfo();
+end;
+
+procedure TPagAPI.LiberarInformacaoTerminal(info: PPagTerminalInfo);
+begin
+  GravarLog('  call - FreeTerminalInfo');
+  xTPagFreeTerminalInfo(info);
+end;
+
 procedure TPagAPI.TransacaoToStr(
   ATransaction: TPagTransactionPartial; sl: TStringList);
 var
@@ -879,7 +1085,7 @@ begin
   sl.Clear;
   sl.Values['nsuRequest'] := Trim(String(ATransaction.nsuRequest));
   sl.Values['amount'] := IntToStr(ATransaction.amount);
-  sl.Values['typeTransaction'] := Trim(String(ATransaction.typeTransaction));
+  sl.Values['transactionType'] := IntToStr(ATransaction.transactionType);
   sl.Values['installments'] := IntToStr(ATransaction.installments);
   sl.Values['transactionStatus'] := IntToStr(ATransaction.transactionStatus);
   d := UnixMillisecondsToDateTime(ATransaction.date, False);
@@ -887,7 +1093,6 @@ begin
   sl.Values['date'] := s;
   sl.Values['nsuResponse'] := Trim(String(ATransaction.nsuResponse));
   sl.Values['reasonUndo'] := IntToStr(ATransaction.reasonUndo);
-  sl.Values['transactionReceipt'] := TrimRight(String(ATransaction.transactionReceipt));
   sl.Values['brand'] := TrimRight(String(ATransaction.brand));
   sl.Values['authentication'] := IntToStr(ATransaction.authentication);
   sl.Values['entryMode'] := IntToStr(ATransaction.entryMode);
@@ -896,6 +1101,8 @@ begin
   sl.Values['authAcquirer'] := Trim(String(ATransaction.authAcquirer));
   sl.Values['printReceipt'] := IfThen(ATransaction.printReceipt,'1','0');
   sl.Values['panMasked'] := Trim(String(ATransaction.panMasked));
+  sl.Values['establishmentReceipt'] := TrimRight(String(ATransaction.establishmentReceipt));
+  sl.Values['customerReceipt'] := TrimRight(String(ATransaction.customerReceipt));
 end;
 
 procedure TPagAPI.GravarLog(const AString: AnsiString; Traduz: Boolean);
@@ -929,6 +1136,19 @@ begin
     fQuandoPerguntarMenu(Titulo, Opcoes, ItemSelecionado);
 end;
 
+procedure TPagAPI.PerguntarCampo(const Titulo: String; const Mensagem: String;
+  RequestOption: TPagRequestOptions; InputMode: TPagInputMode;
+  InputConfig: TPagInputModeConfig; out Resposta: String; out Cancelar: Boolean);
+begin
+  GravarLog('TPagAPI.PerguntarCampo( '+Titulo+' )');
+  if Assigned(fQuandoPerguntarCampo) then
+  begin
+    Resposta := '';
+    Cancelar := False;
+    fQuandoPerguntarCampo(Titulo, Mensagem, RequestOption, InputMode, InputConfig, Resposta, Cancelar);
+  end;
+end;
+
 procedure TPagAPI.SetInicializada(AValue: Boolean);
 begin
   if fInicializada = AValue then
@@ -944,7 +1164,7 @@ end;
 
 procedure TPagAPI.SetIdentification(AValue: String);
 begin
-  fIdentification := OnlyNumber(AValue);
+  fIdentification := OnlyAlphaNum(AValue);
 end;
 
 function TPagAPI.GetUltimoErro: String;
@@ -1014,6 +1234,10 @@ begin
   TPagFunctionDetect(sLibName, 'freeTransactionPartialList', @xTPagFreeTransactionPartialList);
   TPagFunctionDetect(sLibName, 'resetTerminal', @xTPagResetTerminal);
   TPagFunctionDetect(sLibName, 'lastReceipt', @xTPagLastReceipt);
+  TPagFunctionDetect(sLibName, 'freeReceipt', @xTPagFreeReceipt);
+  TPagFunctionDetect(sLibName, 'terminalInfo', @xTPagTerminalInfo);
+  TPagFunctionDetect(sLibName, 'freeTerminalInfo', @xTPagFreeTerminalInfo);
+  TPagFunctionDetect(sLibName, 'abortTerminal', @xTPagAbortTerminal);
 
   fCarregada := True;
 end;
@@ -1045,6 +1269,10 @@ begin
   xTPagFreeTransactionPartialList := Nil;
   xTPagResetTerminal := Nil;
   xTPagLastReceipt := Nil;
+  xTPagFreeReceipt := Nil;
+  xTPagTerminalInfo := Nil;
+  xTPagFreeTerminalInfo := Nil;
+  xTPagAbortTerminal := Nil;
 end;
 
 procedure TPagAPI.DoException(const AErrorMsg: String);

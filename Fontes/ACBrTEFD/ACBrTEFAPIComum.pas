@@ -73,7 +73,7 @@ resourcestring
   sACBrTEFAPIPNGNaoSuportado = 'PNG não suportado nesse compilador';
   sACBrTEFAPILibJaInicializada = 'Biblioteca %s já foi inicializada';
   sACBrTEFAPILibNaoInicializada = 'Biblioteca %s ainda NÃO foi carregada';
-  sACBrTEFAPIErroAoCarregarMetodoDeLib = 'Erro ao carregar método: %s da biblioteca: %s';
+  sACBrTEFAPIErroAoCarregarMetodoDeLib = 'Erro ao carregar método "%s" da biblioteca: %s';
   sACBrTEFAPIMetodoNaoRequeridoNaoEncontrado = 'Método não obrigatório: %s não encontrado na biblioteca: %s';
 
 const

@@ -41,6 +41,9 @@ uses
   ACBrBase,
   ACBrTEFComum, ACBrTEFAPI, ACBrTEFAPIComum, ACBrTEFTPagAPI;
 
+resourcestring
+  sMsgInformeNSU = 'Informe o NSU da Transação';
+
 type
 
   { TACBrTEFRespTPag }
@@ -58,14 +61,21 @@ type
   private
     function GetTEFTPagAPI: TPagAPI;
     procedure QuandoGravarLogAPI(const ALogLine: String; var Tratado: Boolean);
-    procedure QuandoTransacaoEmAndamentoAPI( EstadoOperacao: TPagEstadoOperacao; out Cancelar: Boolean);
+    //procedure QuandoTransacaoEmAndamentoAPI( EstadoOperacao: TPagEstadoOperacao; out Cancelar: Boolean);
     procedure QuandoExibirMensagemAPI(const Mensagem: String);
     procedure QuandoPerguntarMenuAPI(const Titulo: String; Opcoes: TStringList;
       var ItemSelecionado: LongInt);
+    procedure QuandoPerguntarCampoAPI(
+      const Titulo: String; const Mensagem: String;
+      RequestOption: TPagRequestOptions;
+      InputMode: TPagInputMode;
+      InputConfig: TPagInputModeConfig;
+      out Resposta: String; out Cancelar: Boolean);
     procedure DoException(const AErrorMsg: String);
 
   protected
     procedure InterpretarRespostaAPI; override;
+    procedure GravarLog(const ALogLine: AnsiString);
 
   public
     constructor Create(AACBrTEFAPI: TACBrTEFAPIComum);
@@ -95,6 +105,7 @@ type
       Valor: Double;
       const CodigoFinalizacao: string = '';
       const Rede: string = ''): Boolean; override;
+    function CancelarTransacaoTPag(): Boolean;
 
     procedure FinalizarTransacao(
       const Rede, NSU, CodigoFinalizacao: String;
@@ -125,7 +136,7 @@ procedure TACBrTEFRespTPag.ConteudoToProperty;
 var
   LinChave, s: String;
   Linha: TACBrTEFLinha;
-  i, st: Integer;
+  i, v: Integer;
 begin
   ImagemComprovante1aVia.Clear;
   ImagemComprovante2aVia.Clear;
@@ -152,23 +163,24 @@ begin
       Trailer := Linha.Informacao.AsString
     else if (LinChave = 'amount') then
       ValorTotal := Linha.Informacao.AsInt64/100
-    else if (LinChave = 'typeTransaction') then
+    else if (LinChave = 'transactionType') then
     begin
-      ModalidadePagto := UpperCase(Linha.Informacao.AsString);
-      if (ModalidadePagto = 'CREDIT') then
-        Credito := True
-      else if (ModalidadePagto = 'DEBIT') then
-        Debito := True
-      else if (ModalidadePagto = 'VOUCHER') then
-        Voucher := True;
+      ModalidadePagto := Linha.Informacao.AsString;
+      v := StrToIntDef(ModalidadePagto, -1);
+      ModalidadePagtoDescrita := GetEnumName(TypeInfo(TPagTRANSACTION_TYPE), v);
+      case TPagTRANSACTION_TYPE(v) of
+        TRANSACTION_TYPE_DEBIT:   Debito := True;
+        TRANSACTION_TYPE_CREDIT:  Credito := True;
+        TRANSACTION_TYPE_VOUCHER: Voucher := True;
+      end;
     end
     else if (LinChave = 'installments') then
       QtdParcelas := Linha.Informacao.AsInteger
     else if (LinChave = 'transactionStatus') then
     begin
       StatusTransacao := Linha.Informacao.AsString;
-      st := StrToIntDef(StatusTransacao, -1);
-      Sucesso := (st = Integer(TRANSACTION_STATUS_CONFIRMED)) or (st = Integer(TRANSACTION_STATUS_CANCELLED));
+      v := StrToIntDef(StatusTransacao, -1);
+      Sucesso := (v = Integer(TRANSACTION_STATUS_CONFIRMED)) or (v = Integer(TRANSACTION_STATUS_CANCELLED));
     end
     else if (LinChave = 'date') then
       DataHoraTransacaoHost := Linha.Informacao.AsTimeStampSQL
@@ -179,16 +191,18 @@ begin
     end
     //else if (LinChave = 'reasonUndo') then
     //  ModalidadePagtoDescrita := Linha.Informacao.AsString;
-    else if (LinChave = 'transactionReceipt') then
+    else if (LinChave = 'customerReceipt') then
     begin
       s := StringReplace(Linha.Informacao.AsString, '@', sLineBreak, [rfReplaceAll]);
       if (copy(s,1,11) = 'REIMPRESSAO') then
         ImagemComprovante1aVia.Text := s
       else
-      begin
         ImagemComprovante1aVia.Text := 'VIA CLIENTE' + sLineBreak + s;
-        ImagemComprovante2aVia.Text := 'VIA ESTABELECIMENTO' + sLineBreak + s;
-      end;
+    end
+    else if (LinChave = 'establishmentReceipt') then
+    begin
+      s := StringReplace(Linha.Informacao.AsString, '@', sLineBreak, [rfReplaceAll]);
+      ImagemComprovante2aVia.Text := 'VIA ESTABELECIMENTO' + sLineBreak + s;
     end
     else if (LinChave = 'brand') then
       Rede := Linha.Informacao.AsString
@@ -242,8 +256,9 @@ begin
   begin
     OnGravarLog := QuandoGravarLogAPI;
     OnExibeMensagem := QuandoExibirMensagemAPI;
-    OnTransacaoEmAndamento := QuandoTransacaoEmAndamentoAPI;
+    //OnTransacaoEmAndamento := QuandoTransacaoEmAndamentoAPI;
     QuandoPerguntarMenu := QuandoPerguntarMenuAPI;
+    QuandoPerguntarCampo := QuandoPerguntarCampoAPI;
   end;
 end;
 
@@ -291,15 +306,15 @@ begin
   Tratado := True;
 end;
 
-procedure TACBrTEFAPIClassTPag.QuandoTransacaoEmAndamentoAPI(
-  EstadoOperacao: TPagEstadoOperacao; out Cancelar: Boolean);
-var
-  i: Integer;
-begin
-  i := Integer(EstadoOperacao);
-  Cancelar := False;
-  TACBrTEFAPI(fpACBrTEFAPI).QuandoEsperarOperacao(TACBrTEFAPIOperacaoAPI(i), Cancelar);
-end;
+//procedure TACBrTEFAPIClassTPag.QuandoTransacaoEmAndamentoAPI(
+//  EstadoOperacao: TPagEstadoOperacao; out Cancelar: Boolean);
+//var
+//  i: Integer;
+//begin
+//  i := Integer(EstadoOperacao);
+//  Cancelar := False;
+//  TACBrTEFAPI(fpACBrTEFAPI).QuandoEsperarOperacao(TACBrTEFAPIOperacaoAPI(i), Cancelar);
+//end;
 
 procedure TACBrTEFAPIClassTPag.QuandoExibirMensagemAPI(const Mensagem: String);
 begin
@@ -316,6 +331,53 @@ begin
   ItemSelecionado := i;
 end;
 
+procedure TACBrTEFAPIClassTPag.QuandoPerguntarCampoAPI(const Titulo: String;
+  const Mensagem: String; RequestOption: TPagRequestOptions;
+  InputMode: TPagInputMode; InputConfig: TPagInputModeConfig; out
+  Resposta: String; out Cancelar: Boolean);
+var
+  def: TACBrTEFAPIDefinicaoCampo;
+  Validado: Boolean;
+begin
+  if (Mensagem <> '') then
+    def.TituloPergunta := Titulo + sLineBreak + Mensagem
+  else
+    def.TituloPergunta := Titulo;
+
+  def.TipoCampo := Integer(RequestOption);
+  def.TamanhoMinimo := InputConfig.minLength;
+  def.TamanhoMaximo := InputConfig.maxLength;
+  def.ValorMinimo := InputConfig.minValue;
+  def.ValorMaximo := InputConfig.maxValue;
+  def.MsgErroDeValidacao := '';
+  def.MsgErroDadoMaior := '';
+  def.MsgErroDadoMenor := '';
+  def.MsgConfirmacaoDuplaDigitacao := '';
+  def.ValorInicial := '';
+  def.MascaraDeCaptura := '';
+  def.OcultarDadosDigitados := InputConfig.maskInput;
+
+  def.TipoEntradaCodigoBarras := tbQualquer;
+  case InputMode of
+    INPUT_MODE_NUMERIC: def.TipoDeEntrada := tedNumerico;
+    INPUT_MODE_ALPHANUMERIC: def.TipoDeEntrada := tedAlfaNum;
+  else
+    def.TipoDeEntrada := tedTodos;
+  end;
+
+  if (RequestOption = REQUEST_OPTIONS_INSTALLMENTS) then
+    def.ValidacaoDado := valdQuantidadeParcelas
+  else if not InputConfig.allowZero then
+    def.ValidacaoDado := valdNaoVazio
+  else
+    def.ValidacaoDado := valdNenhuma;
+
+  Validado := True;
+  Cancelar := False;
+  Resposta := '';
+  TACBrTEFAPI(fpACBrTEFAPI).QuandoPerguntarCampo(def, Resposta, Validado, Cancelar);
+end;
+
 procedure TACBrTEFAPIClassTPag.DoException(const AErrorMsg: String);
 begin
   fpACBrTEFAPI.DoException(AErrorMsg);
@@ -324,6 +386,11 @@ end;
 procedure TACBrTEFAPIClassTPag.InterpretarRespostaAPI;
 begin
   TACBrTEFRespTPag( fpACBrTEFAPI.UltimaRespostaTEF ).SetStrings(GetTEFTPagAPI.DadosDaTransacao);
+end;
+
+procedure TACBrTEFAPIClassTPag.GravarLog(const ALogLine: AnsiString);
+begin
+  fpACBrTEFAPI.GravarLog(ALogLine);
 end;
 
 function TACBrTEFAPIClassTPag.EfetuarPagamento(ValorPagto: Currency;
@@ -335,20 +402,25 @@ var
   ret: LongInt;
 begin
   Params.amount := Trunc(ValorPagto * 100);
-  if not (Modalidade in [tefmpNaoDefinido, tefmpCartao]) then
+  if not (Modalidade in [tefmpNaoDefinido, tefmpCartao, tefmpCarteiraVirtual]) then
     fpACBrTEFAPI.DoException(Format(ACBrStr(sACBrTEFAPICapturaNaoSuportada),
       [GetEnumName(TypeInfo(TACBrTEFModalidadePagamento), integer(Modalidade) ), ClassName] ));
 
   Params.cardType := Cardinal(CARD_TYPE_NONE);
 
-  if (teftcCredito in CartoesAceitos) then
-    Params.transactionType := Cardinal(TRANSACTION_TYPE_CREDIT)
-  else if (teftcDebito in CartoesAceitos) then
-    Params.transactionType := Cardinal(TRANSACTION_TYPE_DEBIT)
-  else if (teftcVoucher in CartoesAceitos) then
-    Params.transactionType := Cardinal(TRANSACTION_TYPE_VOUCHER)
+  if Modalidade = tefmpCarteiraVirtual then
+    Params.transactionType := Cardinal(TRANSACTION_TYPE_PIX)
   else
-    Params.transactionType := Cardinal(TRANSACTION_TYPE_NONE);
+  begin
+    if (teftcCredito in CartoesAceitos) then
+      Params.transactionType := Cardinal(TRANSACTION_TYPE_CREDIT)
+    else if (teftcDebito in CartoesAceitos) then
+      Params.transactionType := Cardinal(TRANSACTION_TYPE_DEBIT)
+    else if (teftcVoucher in CartoesAceitos) then
+      Params.transactionType := Cardinal(TRANSACTION_TYPE_VOUCHER)
+    else
+      Params.transactionType := Cardinal(TRANSACTION_TYPE_NONE);
+  end;
 
   if (Financiamento > tefmfAVista) then
     Params.creditType := Cardinal(CREDIT_TYPE_INSTALLMENT)
@@ -387,8 +459,8 @@ begin
         sl := TStringList.Create;
         try
           sl.Add(ACBrStr('Reimpressão'));
-          sl.Add(ACBrStr('Atualizar Tabelas'));
           sl.Add(ACBrStr('Cancelar última Transação'));
+          sl.Add(ACBrStr('Atualizar Tabelas'));
           sl.Add(ACBrStr('Manutenção (Reset)'));
           TACBrTEFAPI(fpACBrTEFAPI).QuandoPerguntarMenu( 'Menu Administrativo', sl, ItemSel );
         finally
@@ -414,17 +486,15 @@ begin
         end;
       end;
 
-    1:  // Atualizar Tabelas
+    1:
+      Result := CancelarTransacaoTPag();
+
+    2:  // Atualizar Tabelas
       begin
         ret := GetTEFTPagAPI.AtualizarTabelas;
         Result := (ret = 0);
       end;
 
-    2:
-      Result := CancelarTransacao( fpACBrTEFAPI.UltimaRespostaTEF.NSU,
-                                   fpACBrTEFAPI.UltimaRespostaTEF.CodigoAutorizacaoTransacao,
-                                   fpACBrTEFAPI.UltimaRespostaTEF.DataHoraTransacaoHost,
-                                   fpACBrTEFAPI.UltimaRespostaTEF.ValorTotal );
     3:  // Manutenção
       begin
         ret := GetTEFTPagAPI.ReiniciarTerminal;
@@ -481,6 +551,31 @@ begin
     GetTEFTPagAPI.ObterUltimaTransacao(LAST_TRANSACTION_TYPE_CANCELLATION, ret);
 
   Result := (ret = 0);
+end;
+
+function TACBrTEFAPIClassTPag.CancelarTransacaoTPag: Boolean;
+var
+  NsuTEF: String;
+  Cancelar: Boolean;
+  ic: TPagInputModeConfig;
+begin
+  Result := False;
+  NsuTEF := '';
+  Cancelar := False;
+  ic.minLength := 0; ic.maxLength := 0;
+  ic.minValue := 0; ic.maxValue := 0;
+  ic.allowZero := False; ic.maskInput := False;
+  QuandoPerguntarCampoAPI(ACBrStr(sMsgInformeNSU), '',
+    TPagRequestOptions(-1),
+    INPUT_MODE_ALPHANUMERIC,
+    ic, NsuTEF, Cancelar);
+  if Cancelar then
+    Exit;
+
+  with GetTEFTPagAPI do
+  begin
+    Result := CancelarTransacao(NsuTEF, '', 0, 0);
+  end;
 end;
 
 procedure TACBrTEFAPIClassTPag.FinalizarTransacao(const Rede, NSU,
