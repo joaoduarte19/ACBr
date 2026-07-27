@@ -47,6 +47,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/07/2026
+-- ACBrPIXPSPItau --
+[*] Correção da URL de criação das cobranças recorrentes.
+    por: Real Club
+
 24/07/2026
 -- ACBrPIXCD --
 [+] Inclusão das propriedades published URLProducao e URLSandbox.
