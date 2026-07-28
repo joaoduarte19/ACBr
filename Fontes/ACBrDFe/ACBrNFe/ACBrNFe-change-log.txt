@@ -44,6 +44,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+28/07/2026
+-- ACBrNFeWebServices/ACBrNFe.EnvEvento/ACBrNFe.EventoClass/ACBrNFe.RetEnvEvento --
+[*] ACBR-9624 - Reintroduz alterações da Rev-46981 feitas por Celso Junior.
+   Reintroduz a mudança de leiaute do 211110 e desfaz a remoção do 211120
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/93461-nf-e-revert-das-altera%C3%A7%C3%B5es-da-nt-2025002-reforma-tribut%C3%A1ria-eventos-211110-e-211120/ 
+
 22/07/2026
 -- ACBrNFe.XmlReader --
 [-] Substituição de chamadas a 'ParseText' para 'DecodeHTMLEntities', para evitar erros de Conversão em Encoding de String

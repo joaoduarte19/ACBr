@@ -144,13 +144,11 @@ type
     property Items[Index: Integer]: TdetPagCollectionItem read GetItem write SetItem; default;
   end;
 
-  TgIBSgCBS = class
+  TgIBSgCBS_CredPres = class
   private
-    FcCredPres: TcCredPres;
     FpCredPres: Double;
     FvCredPres: Double;
   public
-    property cCredPres: TcCredPres read FcCredPres write FcCredPres;
     property pCredPres: Double read FpCredPres write FpCredPres;
     property vCredPres: Double read FvCredPres write FvCredPres;
   end;
@@ -158,17 +156,19 @@ type
   TgCredPresCollectionItem = class
   private
     FnItem: Integer;
-    FvBC: Double;
-    FgIBS: TgIBSgCBS;
-    FgCBS: TgIBSgCBS;
+    FvBCCredPres : Double;
+    FgIBSCredPres: TgIBSgCBS_CredPres;
+    FgCBSCredPres: TgIBSgCBS_CredPres;
+    FcCredPres: TcCredPres;
   public
     constructor Create;
     destructor Destroy; override;
 
-    property nItem: Integer read FnItem write FnItem;
-    property vBC: Double read FvBC write FvBC;
-    property gIBS: TgIBSgCBS read FgIBS write FgIBS;
-    property gCBS: TgIBSgCBS read FgCBS write FgCBS;
+    property nItem       : Integer   read FnItem        write FnItem;
+    property vBCCredPres : Double    read FvBCCredPres  write FvBCCredPres;
+    property cCredPres   : TcCredPres read FcCredPres write FcCredPres;
+    property gIBSCredPres: TgIBSgCBS_CredPres read FgIBSCredPres write FgIBSCredPres;
+    property gCBSCredPres: TgIBSgCBS_CredPres read FgCBSCredPres write FgCBSCredPres;
   end;
 
   TgCredPresCollection = class(TACBrObjectList)
@@ -1111,14 +1111,14 @@ constructor TgCredPresCollectionItem.Create;
 begin
   inherited Create;
 
-  FgIBS := TgIBSgCBS.Create;
-  FgCBS := TgIBSgCBS.Create;
+  FgIBSCredPres := TgIBSgCBS_CredPres.Create;
+  FgCBSCredPres := TgIBSgCBS_CredPres.Create;
 end;
 
 destructor TgCredPresCollectionItem.Destroy;
 begin
-  FgIBS.Free;
-  FgCBS.Free;
+  FgIBSCredPres.Free;
+  FgCBSCredPres.Free;
 
   inherited;
 end;

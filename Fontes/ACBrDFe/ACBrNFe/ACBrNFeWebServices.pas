@@ -3506,15 +3506,14 @@ begin
               with infEvento.detEvento.gCredPres.New do
               begin
                 nItem := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].nItem;
-                vBC := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].vBC;
+                vBCCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].vBCCredPres;
+                cCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].cCredPres;
 
-                gIBS.cCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gIBS.cCredPres;
-                gIBS.pCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gIBS.pCredPres;
-                gIBS.vCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gIBS.vCredPres;
+                gIBSCredPres.pCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gIBSCredPres.pCredPres;
+                gIBSCredPres.vCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gIBSCredPres.vCredPres;
 
-                gCBS.cCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gCBS.cCredPres;
-                gCBS.pCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gCBS.pCredPres;
-                gCBS.vCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gCBS.vCredPres;
+                gCBSCredPres.pCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gCBSCredPres.pCredPres;
+                gCBSCredPres.vCredPres := FEvento.Evento[I].InfEvento.detEvento.gCredPres.Items[j].gCBSCredPres.vCredPres;
               end;
             end;
 
