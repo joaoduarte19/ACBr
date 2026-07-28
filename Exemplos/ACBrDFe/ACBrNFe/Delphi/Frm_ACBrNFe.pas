@@ -334,7 +334,6 @@ type
     btnAtualizacaoPrevisaoEntrega: TButton;
     btnManifestacaoPedidoTransfCredSucessao: TButton;
     btnPagIntegLibCredPresAq: TButton;
-    btnSolicApropriacaoCredPres: TButton;
     btnDestItemConsumoPessoal: TButton;
     btnPerecPerdaContrAdiqu: TButton;
     btnAceiteDebApuracaoNotaCredito: TButton;
@@ -346,6 +345,7 @@ type
     tsEmitente: TTabSheet;
     tsDestinatario: TTabSheet;
     Sucessora: TTabSheet;
+    btnSolicApropriacaoCredPres: TButton;
 
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -692,12 +692,26 @@ begin
     begin
       Ide.cMunFGIBS := StrToInt(edtEmitCodCidade.Text);
 
+      // Preenchimento obrigatório em caso de:
+      // - Leilão judicial ou licitação promovida pelo poder público (cIndOp=010104)
+      // - Constatação de irregularidade pela falta de documentação fiscal ou pelo
+      //   acobertamento por documentação inidônea (cIndOp=010105);
+      // Observação: Consultar tabela "Código Indicador do Local da Operação"
+      Ide.cIndOp := '010105';
+
       Ide.tpNFDebito := tdNenhum;
       Ide.tpNFCredito := tcNenhum;
 
       Ide.gCompraGov.tpEnteGov := tcgEstados;
       Ide.gCompraGov.pRedutor := 5;
       Ide.gCompraGov.tpOperGov := togFornecimento;
+
+      // gCompraGov pode conter chave(s) de acesso do documento anterior.
+      Ide.gCompraGov.refDFeAnt.New;
+      Ide.gCompraGov.refDFeAnt[0].refDFEChave := '12345678901234567890123456789012345678901234';
+
+      Ide.gCompraGov.refDFeAnt.New;
+      Ide.gCompraGov.refDFeAnt[1].refDFEChave := '12345678901234567890123456789012345678904567';
 
 //    Informado para abater as parcelas de antecipação de pagamento, conforme Art. 10. § 4º
 //    refNFe: Referência uma NF-e (modelo 55) emitida anteriormente, referente a pagamento antecipado
@@ -732,9 +746,15 @@ begin
     // (1-crtSimplesNacional, 2-crtSimplesExcessoReceita, 3-crtRegimeNormal)
     Emit.CRT  := StrToCRT(Ok, IntToStr(cbTipoEmpresa.ItemIndex + 1));
 
+    // Informar o número do cadastro do emitente na Suframa. Campo obrrigatório
+    // nas operações que se beneficiam de incentivos fiscais existentes nas áreas
+    // sob controle da SUFRAMA com alíquota zero da CBS ref. aos artigos 451 e 466
+    // da LC 214/25
+    Emit.ISUFEmit := '123456789';
+
     // Na NFC-e o Destinatário é opcional
-    Dest.CNPJCPF           := 'PC3D315K000193';
     {
+    Dest.CNPJCPF           := 'informar o CPF do destinatário';
     Dest.ISUF              := '';
     Dest.xNome             := 'nome do destinatário';
 
@@ -1067,6 +1087,7 @@ begin
           IBSCBS.gIBSCBS.gIBSUF.gDif.vDif := 100;
 
           IBSCBS.gIBSCBS.gIBSUF.gDevTrib.vDevTrib := 100;
+          IBSCBS.gIBSCBS.gIBSUF.gDevTrib.pDevTrib := 1;
 
           IBSCBS.gIBSCBS.gIBSUF.gRed.pRedAliq := 5;
           IBSCBS.gIBSCBS.gIBSUF.gRed.pAliqEfet := 5;
@@ -1078,6 +1099,7 @@ begin
           IBSCBS.gIBSCBS.gIBSMun.gDif.vDif := 100;
 
           IBSCBS.gIBSCBS.gIBSMun.gDevTrib.vDevTrib := 100;
+          IBSCBS.gIBSCBS.gIBSMun.gDevTrib.pDevTrib := 1;
 
           IBSCBS.gIBSCBS.gIBSMun.gRed.pRedAliq := 5;
           IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet := 5;
@@ -1092,6 +1114,7 @@ begin
           IBSCBS.gIBSCBS.gCBS.gDif.vDif := 100;
 
           IBSCBS.gIBSCBS.gCBS.gDevTrib.vDevTrib := 100;
+          IBSCBS.gIBSCBS.gCBS.gDevTrib.pDevTrib := 1;
 
           IBSCBS.gIBSCBS.gCBS.gRed.pRedAliq := 5;
           IBSCBS.gIBSCBS.gCBS.gRed.pAliqEfet := 5;
@@ -1167,6 +1190,24 @@ begin
           IBSCBS.gCredPresIBSZFM.competApur := Date;
           IBSCBS.gCredPresIBSZFM.tpCredPresIBSZFM := tcpBensInformaticaOutros;
           IBSCBS.gCredPresIBSZFM.vCredPresIBSZFM := 100;
+
+          // Grupo de Operações em áreas incentivadas (ALC/ZFM) - CBS(alíquota zero)
+          // Para operação não indicada = 0
+          // Para operação indicada = 1
+          // TtpALCZFMCBS = (tpALCZFMCBSnOpInd = 0, tpALCZFMCBSOpInd = 1);
+          IBSCBS.gIBSCBS.gCBS.gALCZFMCBS.tpALCZFMCBS := tpALCZFMCBSOpInd;
+
+          // 1 - quando o forn. e dest. estiverem localizados em áreas incentivadas
+          //     e operação amparada por alíq. zero da CBS e não se tratar de
+          //     operação industrial com processo apovado na Suframa para o item
+          // 2 - quando forn. e dest. em estiverem localizados em áreas incentivadas
+          //     e operação amparada por aliq. zero da CBS e SE TRATAR DE
+          //     operação industrial com processo aprovado na Suframa para o item
+          IBSCBS.gIBSCBS.gCBS.gALCZFMCBS.nProcSuframa:= '123456789';
+
+          // Alíquota efetiva de ref. da CBS
+          IBSCBS.gIBSCBS.gCBS.gALCZFMCBS.pAliqEfetRegCBS := 1; // Percentual efetivo sem redução
+          IBSCBS.gIBSCBS.gCBS.gALCZFMCBS.vTribRegCBS     := 1; // Valor efetivo sem redução
         end;
       end;
     end;
@@ -1375,6 +1416,13 @@ begin
   begin
     NotaF.NFe.Ide.cMunFGIBS := StrToInt(edtEmitCodCidade.Text);
 
+    // Preenchimento obrigatório em caso de:
+    // - Leilão judicial ou licitação promovida pelo poder público (cIndOp=010104)
+    // - Constatação de irregularidade pela falta de documentação fiscal ou pelo
+    //   acobertamento por documentação inidônea (cIndOp=010105);
+    // Observação: Consultar tabela "Código Indicador do Local da Operação"
+    NotaF.NFe.Ide.cIndOp := '010105';
+
     NotaF.NFe.Ide.tpNFDebito := tdNenhum;
     NotaF.NFe.Ide.tpNFCredito := tcNenhum;
 
@@ -1382,8 +1430,15 @@ begin
     NotaF.NFe.Ide.gCompraGov.pRedutor := 5;
     NotaF.NFe.Ide.gCompraGov.tpOperGov := togFornecimento;
 
-//    Informado para abater as parcelas de antecipação de pagamento, conforme Art. 10. § 4º
-//    refNFe: Referência uma NF-e (modelo 55) emitida anteriormente, referente a pagamento antecipado
+    // gCompraGov pode conter chave(s) de acesso do documento anterior.
+    NotaF.NFe.Ide.gCompraGov.refDFeAnt.New;
+    NotaF.NFe.Ide.gCompraGov.refDFeAnt[0].refDFEChave := '12345678901234567890123456789012345678901234';
+
+    NotaF.NFe.Ide.gCompraGov.refDFeAnt.New;
+    NotaF.NFe.Ide.gCompraGov.refDFeAnt[1].refDFEChave := '12345678901234567890123456789012345678904567';
+
+    // Informado para abater as parcelas de antecipação de pagamento, conforme Art. 10. § 4º
+    // refNFe: Referência uma NF-e (modelo 55) emitida anteriormente, referente a pagamento antecipado
 
     with NotaF.NFe.Ide.gPagAntecipado.refNFe.New do
       refDFEChave := '12345678901234567890123456789012345678901234';
@@ -1442,6 +1497,12 @@ begin
     // passar os valores 1, 2 ou 3
     // (1-crtSimplesNacional, 2-crtSimplesExcessoReceita, 3-crtRegimeNormal)
   NotaF.NFe.Emit.CRT  := StrToCRT(Ok, IntToStr(cbTipoEmpresa.ItemIndex + 1));
+
+  // Informar o número do cadastro do emitente na Suframa. Campo obrrigatório
+  // nas operações que se beneficiam de incentivos fiscais existentes nas áreas
+  // sob controle da SUFRAMA com alíquota zero da CBS ref. aos artigos 451 e 466
+  // da LC 214/25
+  NotaF.NFe.Emit.ISUFEmit := '123456789';
 
 //Para NFe Avulsa preencha os campos abaixo
 
@@ -2056,6 +2117,24 @@ begin
       IBSCBS.gCredPresIBSZFM.competApur := Date;
       IBSCBS.gCredPresIBSZFM.tpCredPresIBSZFM := tcpBensInformaticaOutros;
       IBSCBS.gCredPresIBSZFM.vCredPresIBSZFM := 100;
+
+      // Grupo de Operações em áreas incentivadas (ALC/ZFM) - CBS(alíquota zero)
+      // Para operação não indicada = 0
+      // Para operação indicada = 1
+      // TtpALCZFMCBS = (tpALCZFMCBSnOpInd = 0, tpALCZFMCBSOpInd = 1);
+      IBSCBS.gIBSCBS.gCBS.gALCZFMCBS.tpALCZFMCBS := tpALCZFMCBSOpInd;
+
+      // 1 - quando o forn. e dest. estiverem localizados em áreas incentivadas
+      //     e operação amparada por alíq. zero da CBS e não se tratar de
+      //     operação industrial com processo apovado na Suframa para o item
+      // 2 - quando forn. e dest. em estiverem localizados em áreas incentivadas
+      //     e operação amparada por aliq. zero da CBS e SE TRATAR DE
+      //     operação industrial com processo aprovado na Suframa para o item
+      IBSCBS.gIBSCBS.gCBS.gALCZFMCBS.nProcSuframa:= '123456789';
+
+      // Alíquota efetiva de ref. da CBS
+      IBSCBS.gIBSCBS.gCBS.gALCZFMCBS.pAliqEfetRegCBS := 1; // Percentual efetivo sem redução
+      IBSCBS.gIBSCBS.gCBS.gALCZFMCBS.vTribRegCBS     := 1; // Valor efetivo sem redução
     end;
   end;
 
@@ -5318,15 +5397,14 @@ begin
 
       lgCredPres := lEvento.InfEvento.detEvento.gCredPres.New;
       lgCredPres.nItem := StrToIntDef(lnItem, 1);
-      lgCredPres.vBC := StrToFloatDef(lvBC, 0);
+      lgCredPres.vBCCredPres := StrToFloatDef(lvBC, 0);
+      lgCredPres.cCredPres := StrTocCredPres(lIBScCredPres);
 
-      lgCredPres.gIBS.cCredPres := StrTocCredPres(lIBScCredPres);
-      lgCredPres.gIBS.pCredPres := StrToFloatDef(lIBSpCredPres, 0);
-      lgCredPres.gIBS.vCredPres := StrToFloatDef(lIBSvCredPres, 0);
+      lgCredPres.gIBSCredPres.pCredPres := StrToFloatDef(lIBSpCredPres, 0);
+      lgCredPres.gIBSCredPres.vCredPres := StrToFloatDef(lIBSvCredPres, 0);
 
-      lgCredPres.gCBS.cCredPres := StrTocCredPres(lCBScCredPres);
-      lgCredPres.gCBS.pCredPres := StrToFloatDef(lCBSpCredPres, 0);
-      lgCredPres.gCBS.vCredPres := StrToFloatDef(lCBSvCredPres, 0);
+      lgCredPres.gCBSCredPres.pCredPres := StrToFloatDef(lCBSpCredPres, 0);
+      lgCredPres.gCBSCredPres.vCredPres := StrToFloatDef(lCBSvCredPres, 0);
 
 
       InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Adicionar gCredPres? (S/N)', lAux);
