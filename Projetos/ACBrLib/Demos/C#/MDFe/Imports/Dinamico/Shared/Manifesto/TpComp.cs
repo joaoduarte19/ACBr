@@ -13,6 +13,9 @@ namespace ACBrLib.MDFe
         [EnumValue("03")]
         tcDespesas,
 
+        [EnumValue("04")]
+        tcFrete,
+
         [EnumValue("99")]
         tcOutros
     }
