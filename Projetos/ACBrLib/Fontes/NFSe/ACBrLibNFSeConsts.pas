@@ -92,6 +92,7 @@ const
   CChaveAtividade = 'Atividade';
   CChaveFmtNroNFSe = 'FormatarNumeroDocumentoNFSe';
   CChaveNFSeCancelada = 'Cancelada';
+  CChaveImprimeCanhoto = 'ImprimeCanhoto';
   CChaveDetalharServico = 'DetalharServico';
   CChaveProducao = 'Producao';
   CChaveDataCompetenciaCompleta = 'DataCompetenciaCompleta';

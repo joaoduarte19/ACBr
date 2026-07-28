@@ -397,10 +397,10 @@ begin
     Ambiente := 'Produção';
 
   rlmPrefeitura.Lines.Clear;
-  rlmPrefeitura.Lines.Add('Município: ' + fpNFSe.infNFSe.xLocEmi + '/' +
-                                          fpNFSe.infNFSe.UFLocEmi);
-  rlmPrefeitura.Lines.Add('Ambiente Gerador: ' + ambGerToStrText(fpNFSe.infNFSe.ambGer));
-  rlmPrefeitura.Lines.Add('Tipo Ambiente: ' + Ambiente);
+  rlmPrefeitura.Lines.Add(ACBrStr('Município: ' + fpNFSe.infNFSe.xLocEmi + '/' +
+                                          fpNFSe.infNFSe.UFLocEmi));
+  rlmPrefeitura.Lines.Add(ACBrStr('Ambiente Gerador: ' + ambGerToStrText(fpNFSe.infNFSe.ambGer)));
+  rlmPrefeitura.Lines.Add(ACBrStr('Tipo Ambiente: ' + Ambiente));
 end;
 
 procedure TfrlXDANFSeRLPadraoNacional.rlbBanda02_Ide_NFSeBeforePrint(
