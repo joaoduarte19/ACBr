@@ -335,7 +335,8 @@ begin
 
   if (NFSe.TipoTributacaoRPS <> ttTribnoMun) and
      (NFSe.TipoTributacaoRPS <> ttTribnoMunIsento) and
-     (NFSe.TipoTributacaoRPS <> ttTribnoMunImune) then
+     (NFSe.TipoTributacaoRPS <> ttTribnoMunImune) and
+     (NFSe.TipoTributacaoRPS <> ttTribnoMunSuspensa) then
     LNFSeNode.AppendChild(AddNode(tcStr, '#1', 'MunicipioPrestacao', 1, 7, 0,
                                              NFSe.Servico.CodigoMunicipio, ''));
 
