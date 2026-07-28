@@ -75,6 +75,7 @@ type
     ACBrNFeDANFCeFortes1: TACBrNFeDANFCeFortes;
     ACBrNFeDANFeFPDF1: TACBrNFeDANFeFPDF;
     ACBrNFeDANFeRL1: TACBrNFeDANFeRL;
+    btnSolicApropriacaoCredPres: TButton;
     pnlMenus: TPanel;
     pnlCentral: TPanel;
     PageControl1: TPageControl;
@@ -335,7 +336,6 @@ type
     btnAtualizacaoPrevisaoEntrega: TButton;
     btnManifestacaoPedidoTransfCredSucessao: TButton;
     btnPagIntegLibCredPresAq: TButton;
-    btnSolicApropriacaoCredPres: TButton;
     btnDestItemConsumoPessoal: TButton;
     btnPerecPerdaContrAdiqu: TButton;
     btnAceiteDebApuracaoNotaCredito: TButton;
@@ -5299,15 +5299,14 @@ begin
 
       lgCredPres := lEvento.InfEvento.detEvento.gCredPres.New;
       lgCredPres.nItem := StrToIntDef(lnItem, 1);
-      lgCredPres.vBC := StrToFloatDef(lvBC, 0);
+      lgCredPres.vBCCredPres := StrToFloatDef(lvBC, 0);
+      lgCredPres.cCredPres := StrTocCredPres(lIBScCredPres);;
 
-      lgCredPres.gIBS.cCredPres := StrTocCredPres(lIBScCredPres);
-      lgCredPres.gIBS.pCredPres := StrToFloatDef(lIBSpCredPres, 0);
-      lgCredPres.gIBS.vCredPres := StrToFloatDef(lIBSvCredPres, 0);
+      lgCredPres.gIBSCredPres.pCredPres := StrToFloatDef(lIBSpCredPres, 0);
+      lgCredPres.gIBSCredPres.vCredPres := StrToFloatDef(lIBSvCredPres, 0);
 
-      lgCredPres.gCBS.cCredPres := StrTocCredPres(lCBScCredPres);
-      lgCredPres.gCBS.pCredPres := StrToFloatDef(lCBSpCredPres, 0);
-      lgCredPres.gCBS.vCredPres := StrToFloatDef(lCBSvCredPres, 0);
+      lgCredPres.gCBSCredPres.pCredPres := StrToFloatDef(lCBSpCredPres, 0);
+      lgCredPres.gCBSCredPres.vCredPres := StrToFloatDef(lCBSvCredPres, 0);
 
 
       InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Adicionar gCredPres? (S/N)', lAux);
