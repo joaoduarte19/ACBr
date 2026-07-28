@@ -450,12 +450,15 @@ begin
         FPDFeOwner.OnTransmitError( HTTPResultCode, InternalErrorCode,
                                     FPURL, FPEnvelopeSoap, FPSoapAction,
                                     Tentar, Tratado) ;
-
-      if InternalErrorCode = 10060 {WSAETIMEDOUT} then
-        raise EACBrDFeExceptionTimeOut.Create('Connection Time Out');
-
+      // Se não tiver sido tratado no evento...
       if not (Tentar or Tratado) then
-        raise;
+      begin
+        //... fazemos tratamento de exceptions especiais para o ACBr.
+        if InternalErrorCode = 10060 {WSAETIMEDOUT} then
+          raise EACBrDFeExceptionTimeOut.Create('Connection Time Out')
+        else
+          raise;
+      end;
     end;
   end;
 end;
