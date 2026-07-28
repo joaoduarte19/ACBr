@@ -1522,8 +1522,9 @@ begin
   Y := Y + LineH;
 
   // Linha 2: Total Retencoes | V.Liquido NFS-e | Total IBS/CBS | V.Liquido+IBS/CBS (sombreado)
-  vRetencoes := V.ValorIssRetido + V.ValorIr + V.ValorInss +
-                V.ValorCsll + V.ValorPis + V.ValorCofins;
+  //vRetencoes := V.ValorIssRetido + V.ValorIr + V.ValorInss +
+                //V.ValorCsll + V.ValorPis + V.ValorCofins;
+  vRetencoes := FNFSe.infNFSe.valores.vTotalRet;
 
   // NT 008: quando a NFS-e nao traz o bloco IBSCBS (municipio ainda sem
   // reforma tributaria aplicada), vTotNF fica zerado - usa-se o liquido normal.
