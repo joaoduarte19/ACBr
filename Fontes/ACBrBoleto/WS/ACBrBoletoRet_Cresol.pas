@@ -273,6 +273,7 @@ begin
   Result := True;
   ListaRetorno := ACBrBoleto.CriarRetornoWebNaLista;
   ListaRetorno.HTTPResultCode := HTTPResultCode;
+  ListaRetorno.JSON := RetWS;   
   if RetWS <> '' then
   begin
     try
