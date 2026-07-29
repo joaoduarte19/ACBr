@@ -143,6 +143,8 @@ begin
   end;
 
   SetXmlNameSpace('http://www.centi.com.br/files/nfse.xsd');
+
+  ConfigSchemas.Validar := False;
 end;
 
 function TACBrNFSeProviderCenti202.CriarGeradorXml(
@@ -319,6 +321,7 @@ begin
           begin
             NumeroNota := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('Numero'), tcStr);
             CodigoVerificacao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('CodigoVerificacao'), tcStr);
+            idNota := AuxNode.Attributes.Items['Id'].Content;
           end;
 
           NumRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('IdentificacaoRps'), tcStr);
@@ -400,7 +403,7 @@ begin
 
       Status := ObterConteudoTag(ANode.Childrens.FindAnyNs('Status'), tcStr);
 
-      if Status <> '3' then
+      if not MatchText(Status, ['2', '3']) then
       begin
         AErro := Response.Erros.New;
         AErro.Codigo := Cod204;
