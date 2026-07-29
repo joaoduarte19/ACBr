@@ -279,7 +279,9 @@ begin
       LJsonDocumento := TACBrJSONObject.Create;
       LJsonDocumento.AddPair('numero', Copy(OnlyNumber(aTitulo.ACBrBoleto.Banco.MontarCampoNossoNumero(aTitulo)), 1, 15));
       LJsonDocumento.AddPair('numeroCliente', Copy(aTitulo.SeuNumero, 1, 10));
-      LJsonDocumento.AddPair('diasDevolucao', 90);
+
+      if Boleto.Cedente.CaracTitulo <> tcVinculada then
+         LJsonDocumento.AddPair('diasDevolucao', 90);
       LJsonDocumento.AddPair('especie', EPC_DUPLICATA_MERCANTIL);
       LJsonDocumento.AddPair('dataVencimento', DateTimeToDateInter(aTitulo.Vencimento));
       LJsonDocumento.AddPair('valor', aTitulo.ValorDocumento);
