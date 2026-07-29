@@ -2,7 +2,7 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
   Left = 487
   Top = 95
   Caption = 'DANFe - Simplificado'
-  ClientHeight = 856
+  ClientHeight = 881
   ClientWidth = 1098
   Font.Height = -8
   Font.Name = 'Arial'
@@ -10,7 +10,7 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
   inherited RLNFe: TRLReport
     Tag = 1
     Left = 10
-    Top = 10
+    Top = 8
     Width = 340
     Height = 1890
     AllowedBands = [btHeader, btDetail, btSummary, btFooter]
@@ -40,8 +40,8 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
       ParentFont = False
       BeforePrint = rlb01_ChaveBeforePrint
       object RLLabel17: TRLLabel
-        Left = 55
-        Top = 3
+        Left = 56
+        Top = 0
         Width = 160
         Height = 15
         Alignment = taCenter
@@ -56,9 +56,9 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
         ParentFont = False
       end
       object RLLabel9: TRLLabel
-        Left = 75
-        Top = 58
-        Width = 120
+        Left = 71
+        Top = 16
+        Width = 131
         Height = 15
         Alignment = taCenter
         Caption = 'CHAVE DE ACESSO'
@@ -72,12 +72,11 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
         ParentFont = False
       end
       object rllChave: TRLLabel
-        Left = 0
-        Top = 76
-        Width = 258
-        Height = 16
+        Left = 90
+        Top = 32
+        Width = 93
+        Height = 12
         Alignment = taCenter
-        AutoSize = False
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -123,14 +122,14 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
         ParentFont = False
       end
       object RLBarcode1: TRLBarcode
-        Left = 0
-        Top = 23
-        Width = 260
-        Height = 34
+        Left = 90
+        Top = 45
+        Width = 100
+        Height = 38
         Margins.LeftMargin = 1.000000000000000000
         Margins.RightMargin = 1.000000000000000000
         Alignment = taCenter
-        AutoSize = False
+		Align = faCenter
         BarcodeType = bcCode128C
       end
     end
