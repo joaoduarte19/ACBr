@@ -42,6 +42,20 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+29/07/2026
+-- ACBrNFSeXServicos --
+[*] Inclusão de URLs para alguns municípios que utilizam ISSNet
+	Por: Larissa Santos
+[*] ACBR-9680 - Inclusão do Provedor EL para o município de Medeiros Neto/BA
+	Por: Windel Sistemas
+	Veja: https://www.projetoacbr.com.br/forum/topic/93743-acbr-9680-provedor-el-sistemas/ 
+[*] ACBR-9675 - Atualização de URL de produção para o município de Ribeirão Preto/SP
+	Por: Leandro Coelho
+	Veja: https://www.projetoacbr.com.br/forum/topic/92901-acbr-9675-acbrnfsex-emiss%C3%A3o-em-ribeir%C3%A3o-pretosp-issnet/?_rid=153416#findComment-612386 
+[*] ACBR-9223 - O município de São José do Rio Pardo/SP trocou de provedor agora é o IPM.
+	Por: hcn
+	Veja: https://www.projetoacbr.com.br/forum/topic/91595-acbr-9223-mudan%C3%A7a-de-padr%C3%A3o-ipm-s%C3%A3o-jos%C3%A9-do-rio-pardo-sp/ 
+
 24/07/2026
 -- PadraoNacional.GravarXml --
 [*] ACBR-9637 - Alteração visando gerar a tag tpRetPisCofins mesmo que as tags de
