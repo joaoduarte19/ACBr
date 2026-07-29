@@ -2501,7 +2501,7 @@ end;
 
 constructor TBlocoMarcaDagua.Create(ANFeUtils: TNFeUtilsFPDF; ACancelada: boolean);
 begin
-  inherited Create(btOverlay);
+  inherited Create(btWatermark);
   FNFeUtils := ANFeUtils;
   FCancelada := ACancelada;
 end;
@@ -2588,18 +2588,15 @@ end;
 
 function TBlocoMarcaDagua.Watermark(Args: TFPDFBandDrawArgs; x, y, w, h: double; const ATexto,
   AFontFamily: string; AFontSize: Double; const AFontStyle: string): double;
-var
-  PreviousTextColor: string;
 begin
-  //PreviousTextColor := Args.PDF.TextColor; //TODO:
-  try
-    Args.PDF.SetTextColor(200, 200, 200);
-    Args.PDF.SetFont(AFontFamily, AFontStyle, AFontSize);
-    Args.PDF.TextBox(x, y, w, h, ATexto, 'C', 'C', False, False, True);
-    Result := y;
-  finally
-    //Args.PDF.TextColor := PreviousTextColor; //TODO:
-  end;
+  Args.PDF.SetTextColor(230, 230, 230);
+  Args.PDF.SetFont(AFontFamily, AFontStyle, AFontSize);
+
+  Args.PDF.TextBox(x, y, w, h, ATexto, 'C', 'C', False, False, True);
+
+  Args.PDF.SetTextColor(0, 0, 0);
+
+  Result := y;
 end;
 
 { TNFeDANFeFPDF }
@@ -2707,6 +2704,9 @@ begin
       FLogoAlign := laRight;
 
     AddPage(LOrientation);
+
+    AddBand(TBlocoMarcaDagua.Create(FNFeUtils, FDANFEClassOwner.Cancelada));
+
     AddBand(TBlocoCanhoto.Create(PosCanhoto, FNFeUtils));
     AddBand(TBlocoDadosNFe.Create(FNFeUtils, FLogo, FLogoStretched, FLogoAlign));
     AddBand(TBlocoDestinatarioRemetente.Create(FNFeUtils));
@@ -2721,7 +2721,6 @@ begin
     AddBand(TBlocoCalculoISSQN.Create(FNFeUtils));
     AddBand(TBlocoDadosAdicionais.Create(FNFeUtils));
     AddBand(TBlocoRodape.Create(FMensagemRodape));
-    AddBand(TBlocoMarcaDagua.Create(FNFeUtils, FDANFEClassOwner.Cancelada));
 
     FInitialized := True;
   end;
