@@ -499,7 +499,7 @@ begin
     Exit;
   end;
 
-  Path := '/dps/' + Response.NumeroRps;
+  Path := '/dps/' + Response.idRps;
   Response.ArquivoEnvio := Path;
   Method := 'GET';
 end;
