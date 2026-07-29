@@ -97,9 +97,12 @@ end;
 function TRetornoEnvio_Sicredi_APIECOMM.LerRetorno(const ARetornoWS: TACBrBoletoRetornoWS): Boolean;
 var
   LJsonObject: TACBrJsonObject;
+  LJsonItem: TACBrJsonObject;
   LRejeicao: TACBrBoletoRejeicao;
   LJsonBoletos: TACBrJsonArray;
-  LTipoOperacao : TOperacao;
+  LTipoOperacao: TOperacao;
+  JsonStr: string;
+  Ini, Fim: Integer;
 begin
   Result := True;
   LTipoOperacao := ACBrBoleto.Configuracoes.WebService.Operacao;
@@ -108,87 +111,117 @@ begin
   ARetornoWS.Header.Operacao := LTipoOperacao;
   if RetWS <> '' then
   begin
-    //Retorno := ACBrBoleto.CriarRetornoWebNaLista;
-    LJsonObject :=  TACBrJSONObject.Parse(RetWS);
+    JsonStr := RetWS;
+
+    if Pos('[', JsonStr) > 0 then
+      JsonStr := Copy(JsonStr, Pos('[', JsonStr), MaxInt);
+
+    if (Length(JsonStr) > 0) and (JsonStr[1] = '[') then
+    begin
+      Ini := Pos('{', JsonStr);
+      Fim := LastDelimiter('}', JsonStr);
+
+      if (Ini > 0) and (Fim > Ini) then
+        JsonStr := Copy(JsonStr, Ini, Fim - Ini + 1);
+    end;
+
+    LJsonObject := TACBrJSONObject.Parse(JsonStr);
     try
       try
         ARetornoWS.JSON := LJsonObject.ToJSON;
 
         case HttpResultCode of
-          400, 404 : begin
-            if( LJsonObject.ValueExists('codigo') ) then
+          400, 404:
+          begin
+            if LJsonObject.ValueExists('codigo') then
             begin
-              LRejeicao            := ARetornoWS.CriarRejeicaoLista;
-              LRejeicao.Codigo     := LJsonObject.AsString['codigo'];
-              LRejeicao.Versao     := LJsonObject.AsString['parametro'];
-              LRejeicao.Mensagem   := LJsonObject.AsString['mensagem'];
+              LRejeicao := ARetornoWS.CriarRejeicaoLista;
+              LRejeicao.Codigo   := LJsonObject.AsString['codigo'];
+              LRejeicao.Versao   := LJsonObject.AsString['parametro'];
+              LRejeicao.Mensagem := LJsonObject.AsString['mensagem'];
             end;
           end;
         end;
-        //retorna quando tiver sucesso
+
         if (ARetornoWS.ListaRejeicao.Count = 0) then
         begin
           if (LTipoOperacao = tpInclui) then
           begin
+            ARetornoWS.DadosRet.IDBoleto.CodBarras :=
+              LJsonObject.AsString['codigoBarra'];
+            ARetornoWS.DadosRet.IDBoleto.LinhaDig :=
+              LJsonObject.AsString['linhaDigitavel'];
+            ARetornoWS.DadosRet.IDBoleto.NossoNum :=
+              LJsonObject.AsString['nossoNumero'];
 
-            ARetornoWS.DadosRet.IDBoleto.CodBarras      := LJsonObject.AsString['codigoBarra'];
-            ARetornoWS.DadosRet.IDBoleto.LinhaDig       := LJsonObject.AsString['linhaDigitavel'];
-            ARetornoWS.DadosRet.IDBoleto.NossoNum       := LJsonObject.AsString['nossoNumero'];
-
-            ARetornoWS.DadosRet.TituloRet.CodBarras     := ARetornoWS.DadosRet.IDBoleto.CodBarras;
-            ARetornoWS.DadosRet.TituloRet.LinhaDig      := ARetornoWS.DadosRet.IDBoleto.LinhaDig;
-            ARetornoWS.DadosRet.TituloRet.NossoNumero   := ARetornoWS.DadosRet.IDBoleto.NossoNum;
-
-          end else
-          if (LTipoOperacao in [tpConsultaDetalhe,tpConsulta]) then
+            ARetornoWS.DadosRet.TituloRet.CodBarras :=
+              ARetornoWS.DadosRet.IDBoleto.CodBarras;
+            ARetornoWS.DadosRet.TituloRet.LinhaDig :=
+              ARetornoWS.DadosRet.IDBoleto.LinhaDig;
+            ARetornoWS.DadosRet.TituloRet.NossoNumero :=
+              ARetornoWS.DadosRet.IDBoleto.NossoNum;
+          end
+          else if (LTipoOperacao in [tpConsultaDetalhe, tpConsulta]) then
           begin
-            LJsonBoletos := TACBrJSONArray.Parse( LJsonObject.ToJSON );
+            JsonStr := LJsonObject.ToJSON;
+
+            if (Length(JsonStr) > 0) and (JsonStr[1] <> '[') then
+              JsonStr := '[' + JsonStr + ']';
+
+            LJsonBoletos := TACBrJSONArray.Parse(JsonStr);
             try
-              if (LJsonBoletos.Count > 0) then
+              if (Assigned(LJsonBoletos)) and (LJsonBoletos.Count > 0) then
               begin
-                LJsonObject  := LJsonBoletos.ItemAsJSONObject[0];
+                LJsonItem := LJsonBoletos.ItemAsJSONObject[0];
 
-                ARetornoWS.DadosRet.IDBoleto.CodBarras       := '';
-                ARetornoWS.DadosRet.IDBoleto.LinhaDig        := '';
-                ARetornoWS.DadosRet.IDBoleto.NossoNum        := LJsonObject.AsString['nossoNumero'];
-                ARetornoWS.indicadorContinuidade             := false;
-                ARetornoWS.DadosRet.TituloRet.CodBarras      := ARetornoWS.DadosRet.IDBoleto.CodBarras;
-                ARetornoWS.DadosRet.TituloRet.LinhaDig       := ARetornoWS.DadosRet.IDBoleto.LinhaDig;
+                ARetornoWS.DadosRet.IDBoleto.CodBarras := '';
+                ARetornoWS.DadosRet.IDBoleto.LinhaDig := '';
+                ARetornoWS.DadosRet.IDBoleto.NossoNum :=
+                  LJsonItem.AsString['nossoNumero'];
 
-                ARetornoWS.DadosRet.TituloRet.NossoNumero                := ARetornoWS.DadosRet.IDBoleto.NossoNum;
-                ARetornoWS.DadosRet.TituloRet.Vencimento                 := DateSicrediToDateTime(LJsonObject.AsString['dataVencimento']);
-                ARetornoWS.DadosRet.TituloRet.ValorDocumento             := LJsonObject.AsFloat['valor'];
-                ARetornoWS.DadosRet.TituloRet.ValorAtual                 := LJsonObject.AsFloat['valor'];
-                ARetornoWS.DadosRet.TituloRet.EstadoTituloCobranca       := LJsonObject.AsString['situacao'];
-                ARetornoWS.DadosRet.TituloRet.SeuNumero                  := LJsonObject.AsString['seuNumero'];
+                ARetornoWS.indicadorContinuidade := False;
 
-                if( LJsonObject.AsString['situacao'] = C_LIQUIDADO ) or
-                   ( LJsonObject.AsString['situacao'] = C_BAIXADO_POS_SOLICITACAO ) then
+                ARetornoWS.DadosRet.TituloRet.CodBarras :=
+                  ARetornoWS.DadosRet.IDBoleto.CodBarras;
+                ARetornoWS.DadosRet.TituloRet.LinhaDig :=
+                  ARetornoWS.DadosRet.IDBoleto.LinhaDig;
+
+                ARetornoWS.DadosRet.TituloRet.NossoNumero :=
+                  ARetornoWS.DadosRet.IDBoleto.NossoNum;
+                ARetornoWS.DadosRet.TituloRet.Vencimento :=
+                  DateSicrediToDateTime(LJsonItem.AsString['dataVencimento']);
+                ARetornoWS.DadosRet.TituloRet.ValorDocumento :=
+                  LJsonItem.AsFloat['valor'];
+                ARetornoWS.DadosRet.TituloRet.ValorAtual :=
+                  LJsonItem.AsFloat['valor'];
+                ARetornoWS.DadosRet.TituloRet.EstadoTituloCobranca :=
+                  LJsonItem.AsString['situacao'];
+                ARetornoWS.DadosRet.TituloRet.SeuNumero :=
+                  LJsonItem.AsString['seuNumero'];
+
+                if (LJsonItem.AsString['situacao'] = C_LIQUIDADO) or
+                   (LJsonItem.AsString['situacao'] = C_BAIXADO_POS_SOLICITACAO) then
                 begin
-                  ARetornoWS.DadosRet.TituloRet.ValorPago                := LJsonObject.AsFloat['valorLiquidado'];
-                  ARetornoWS.DadosRet.TituloRet.DataCredito              := DateSicrediToDateTime(LJsonObject.AsString['dataliquidacao']);
+                  ARetornoWS.DadosRet.TituloRet.ValorPago :=
+                    LJsonItem.AsFloat['valorLiquidado'];
+                  ARetornoWS.DadosRet.TituloRet.DataCredito :=
+                    DateSicrediToDateTime(
+                      LJsonItem.AsString['dataliquidacao']);
                 end;
-
               end;
             finally
-              LJsonBoletos.Free;
+              if Assigned(LJsonBoletos) then
+                FreeAndNil(LJsonBoletos);
             end;
-          end else
-          if (LTipoOperacao = tpBaixa) then
-          begin
-            // não possui dados de retorno..
-          end else
-          if (LTipoOperacao = tpAltera) then
-          begin
-            // não possui dados de retorno..
           end;
         end;
       except
         Result := False;
       end;
     finally
-      LJsonObject.Free;
-    end
+      if Assigned(LJsonObject) then
+        FreeAndNil(LJsonObject);
+    end;
   end;
 end;
 
