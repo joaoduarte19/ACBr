@@ -211,7 +211,7 @@ begin
       NFSe.NaturezaOperacao := no1;
 
     Servico.Valores.Aliquota := ObterConteudo(ANode.Childrens.FindAnyNs('aliq_iss'), tcDe2);
-    Servico.Valores.ValorIss := StringDecimalToFloat(OnlyNumber(ObterConteudo(ANode.Childrens.FindAnyNs('valor_iss'), tcStr)));
+    Servico.Valores.ValorIss := ObterConteudo(ANode.Childrens.FindAnyNs('valor_iss'), tcDe2);
     Servico.Valores.ValorIssRetido := 0;
 
     if Servico.Valores.IssRetido = stRetencao then
