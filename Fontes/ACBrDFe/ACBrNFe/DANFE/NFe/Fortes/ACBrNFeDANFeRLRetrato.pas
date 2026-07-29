@@ -1218,8 +1218,11 @@ begin
         sTemp := sTemp + ' - CEP:' + FormatarCEP(CEP) + ' - ' + XMun + ' - ' + UF;
         rlmEndereco.Lines.add(sTemp);
 
-        sTemp := 'TEL: ' + FormatarFone(Fone);
-        rlmEndereco.Lines.add(sTemp);
+        if Trim(Fone) <> '' then
+        begin
+           sTemp := 'TEL: ' + FormatarFone(Fone);
+           rlmEndereco.Lines.add(sTemp);
+        end;
       end;
     end;
 
@@ -1343,8 +1346,11 @@ begin
         sTemp := sTemp + ' - CEP:' + FormatarCEP(CEP) + ' - ' + XMun + ' - ' + UF;
         rlmEndereco.Lines.add(sTemp);
 
-        sTemp := 'TEL: ' + FormatarFone(Fone);
-        rlmEndereco.Lines.add(sTemp);
+        if Trim(Fone) <> '' then
+        begin
+           sTemp := 'TEL: ' + FormatarFone(Fone);
+           rlmEndereco.Lines.add(sTemp);
+        end;
       end;
     end;
 
