@@ -146,6 +146,9 @@ type
     procedure IniciaGeracao;
     procedure LimpaRegistros;
 
+	procedure CancelaGeracao;
+
+
     procedure WriteBloco_0;
     procedure WriteBloco_1;
     procedure WriteBloco_9;
@@ -2464,7 +2467,11 @@ begin
   Bloco_9.WriteRegistro9999;
 end;
 
-
+procedure TACBrSPEDPisCofins.CancelaGeracao;
+begin
+  LimpaRegistros;
+  FInicializado := False;
+end;
 {$ifdef FPC}
 initialization
    {$I ACBrSpedPisCofins.lrs}
