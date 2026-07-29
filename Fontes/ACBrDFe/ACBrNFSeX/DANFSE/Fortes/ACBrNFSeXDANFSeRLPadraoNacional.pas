@@ -1084,13 +1084,30 @@ begin
   if (fpDANFSe.OutrasInformacaoesImp <> '') or (fpNFSe.OutrasInformacoes <> '') or
      (fpNFSe.InformacoesComplementares <> '') then
   begin
-    LInform := ACBrStr(fpDANFSe.OutrasInformacaoesImp + FQuebradeLinha +
-               fpNFSe.OutrasInformacoes + FQuebradeLinha +
-               fpNFSe.InformacoesComplementares);
-    LInform := 'Inf. Compl.: ' + LInform;
+    LInform := '';
+
+    if fpDANFSe.OutrasInformacaoesImp <> '' then
+      LInform := fpDANFSe.OutrasInformacaoesImp;
+
+    if fpNFSe.OutrasInformacoes <> '' then
+    begin
+      if LInform <> '' then
+        LInform := LInform + FQuebradeLinha;
+      LInform := LInform + fpNFSe.OutrasInformacoes;
+    end;
+
+    if fpNFSe.InformacoesComplementares <> '' then
+    begin
+      if LInform <> '' then
+        LInform := LInform + FQuebradeLinha;
+      LInform := LInform + fpNFSe.InformacoesComplementares;
+    end;
+
+    LInform := 'Inf. Compl.: ' + ACBrStr(LInform);
     rlmDadosAdicionais.Lines.Add(StringReplace(LInform,
                                        FQuebradeLinha, #13#10, [rfReplaceAll]));
   end;
+
 
   // ********** Totais Aproximados dos Tributos (Obrigatório)
   if fpNFSe.Servico.Valores.totTrib.vTotTribFed > 0 then
