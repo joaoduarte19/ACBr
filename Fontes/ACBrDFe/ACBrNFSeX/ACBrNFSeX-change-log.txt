@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 29/07/2026
+-- Tecnos.GravarXml --
+[*] ACBR-9692 - Alteração visando gerar as tags da Reforma Tributária que o provedor
+    incluíu recentemente.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] Inclusão de URLs para alguns municípios que utilizam ISSNet
 	Por: Larissa Santos
