@@ -149,6 +149,13 @@ begin
         //retorna quando tiver sucesso
         if (LListaRetorno.ListaRejeicao.Count = 0) then
         begin
+        // Identificação de Paginação
+          LItemObject  := LJsonObject.AsJSONObject['paginacao'];
+          LListaRetorno.proximoIndice         := 0;
+          LListaRetorno.indicadorContinuidade := LItemObject.AsString['pagina_atual'] <> LItemObject.AsString['quantidade_de_paginas'];
+          if LListaRetorno.indicadorContinuidade then
+             LListaRetorno.proximoIndice      := LItemObject.AsInteger['pagina_atual'] + 1;
+
           LJsonArray := LJsonObject.AsJSONArray['boletos'];
           for I := 0 to Pred(LJsonArray.Count) do
           begin
