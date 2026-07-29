@@ -1189,6 +1189,7 @@ begin
   SepararPorModelo := DeArquivosConf.SepararPorModelo;
   SepararPorMes    := DeArquivosConf.SepararPorMes;
   SepararPorDia    := DeArquivosConf.SepararPorDia;
+  SepararPorAno    := DeArquivosConf.SepararPorAno;
 
   DownloadDFe.Assign(DeArquivosConf.DownloadDFe);
 
