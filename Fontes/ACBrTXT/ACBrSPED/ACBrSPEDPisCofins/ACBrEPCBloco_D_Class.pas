@@ -744,6 +744,10 @@ begin
           case COD_SIT of
             sdfRegular         : strCOD_SIT := '00';
             sdfExtRegular      : strCOD_SIT := '01';
+            sdfCancelado       : strCOD_SIT := '02';
+            sdfExtCancelado    : strCOD_SIT := '03';
+            sdfDenegado        : strCOD_SIT := '04';
+            sdfInutilizado     : strCOD_SIT := '05';
             sdfComplementar    : strCOD_SIT := '06';
             sdfExtComplementar : strCOD_SIT := '07';
             sdfEspecial        : strCOD_SIT := '08';
