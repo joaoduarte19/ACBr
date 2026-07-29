@@ -75,6 +75,7 @@ type
     function GerarResponsavelISSQN: TACBrXmlNode;
     function GerarExigibilidadeISSQN: TACBrXmlNode;
     function GerarMunicipioIncidencia: TACBrXmlNode;
+    function GerarMunicipioPrestacaoServico: TACBrXmlNode;
     function GerarListaServico: TACBrXmlNode;
     function GerarDadosServico: TACBrXmlNodeArray;
     function GerarIdentificacaoRps: TACBrXmlNode;
@@ -390,7 +391,7 @@ begin
   Result := CreateElement('IdentificacaoPrestador');
 
   Result.AppendChild(AddNode(tcStr, '#1', 'ChaveDigital', 32, 32, 1,
-                                                              ChaveAcesso, ''));
+                                                              NFSe.ChaveAcesso, ''));
 
   xmlNode := GerarCPFCNPJ(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj);
   Result.AppendChild(xmlNode);
@@ -529,6 +530,9 @@ begin
                                               NFSe.Servico.NumeroProcesso, ''));
   if (NFSe.OptanteMEISimei = snNao) and (NFSe.Servico.ExigibilidadeISS <> exiIsencao) then
   begin
+    xmlNode := GerarMunicipioPrestacaoServico;
+    Result.AppendChild(xmlNode);
+
     xmlNode := GerarMunicipioIncidencia;
     Result.AppendChild(xmlNode);
   end;
@@ -666,9 +670,25 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'CodigoMunicipioIBGE', 7, 7, 1,
                                          NFSe.Servico.MunicipioIncidencia, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'Descricao', 1, 30, 0, '', ''));
+  Result.AppendChild(AddNode(tcStr, '#1', 'Descricao', 1, 30, 0,
+                                         NFSe.Servico.MunicipioPrestacaoServico, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'Uf', 2, 2, 0, '', ''));
+  Result.AppendChild(AddNode(tcStr, '#1', 'Uf', 2, 2, 0,
+                                         NFSe.Servico.UFPrestacao, ''));
+end;
+
+function TNFSeW_Agili.GerarMunicipioPrestacaoServico: TACBrXmlNode;
+begin
+  Result := CreateElement('MunicipioPrestacaoServico');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'CodigoMunicipioIBGE', 7, 7, 1,
+                                         NFSe.Servico.MunicipioIncidencia, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'Descricao', 1, 30, 0,
+                                         NFSe.Servico.MunicipioPrestacaoServico, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'Uf', 2, 2, 0,
+                                         NFSe.Servico.UFPrestacao, ''));
 end;
 
 function TNFSeW_Agili.GerarPais: TACBrXmlNode;

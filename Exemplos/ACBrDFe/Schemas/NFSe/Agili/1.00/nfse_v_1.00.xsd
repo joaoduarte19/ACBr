@@ -509,7 +509,8 @@
 			<xsd:element name="CodigoNBS" type="tsCodigoNBS" minOccurs="0" maxOccurs="1" />
 			<xsd:element name="ExigibilidadeISSQN" type="tcExigibilidadeISSQN" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="BeneficioProcesso" type="tsBeneficioProcesso" minOccurs="0" maxOccurs="1" />
-			<xsd:element name="MunicipioIncidencia" type="tcIdentificacaoMunicipioIncidencia" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="MunicipioPrestacaoServico" type="tcIdentificacaoMunicipioPrestacaoServico" minOccurs="0" maxOccurs="1" />						
+			<xsd:element name="MunicipioIncidencia" type="tcIdentificacaoMunicipioIncidencia" minOccurs="0" maxOccurs="1" />		
 			<xsd:element name="ValorServicos" type="tsValor" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="ValorDescontos" type="tsValor" minOccurs="0" maxOccurs="1" />
 			<xsd:element name="ValorPis" type="tsValor" minOccurs="0" maxOccurs="1" />
@@ -585,8 +586,17 @@
 			<xsd:element name="Uf" type="tsUf" minOccurs="0" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
+	<xsd:complexType name="tcIdentificacaoMunicipioPrestacaoServico">
+		<xsd:sequence>
+			<xsd:element name="MunicipioPrestacaoServico" type="tsDescricao" minOccurs="0" maxOccurs="1" />		
+			<xsd:element name="CodigoMunicipioIBGE" type="tsCodigoMunicipioIbge" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Descricao" type="tsDescricao" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="Uf" type="tsUf" minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>		
 	<xsd:complexType name="tcIdentificacaoMunicipioIncidencia">
 		<xsd:sequence>
+			<xsd:element name="MunicipioIncidencia" type="tsDescricao" minOccurs="0" maxOccurs="1" />		
 			<xsd:element name="CodigoMunicipioIBGE" type="tsCodigoMunicipioIbge" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="Descricao" type="tsDescricao" minOccurs="0" maxOccurs="1" />
 			<xsd:element name="Uf" type="tsUf" minOccurs="0" maxOccurs="1" />
