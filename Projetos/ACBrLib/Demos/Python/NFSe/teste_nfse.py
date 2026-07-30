@@ -5,7 +5,7 @@ import platform
 from acbrlib_nfse import ACBrNFSeMT
 
 # funcao auxiliar para configurar a secao DFe
-def configurarSecaoNFSe(nfse):
+def configurarSecaoNFSe(nfse :'ACBrNFSeMT'):
 
     emitenteUser =  os.getenv('EMITENTE_USER', '')
     emitentePassword = os.getenv('EMITENTE_PASSWORD', '')
@@ -33,7 +33,7 @@ def configurarSecaoNFSe(nfse):
 
 
 # funcao auxiliar para configurar a secao DFe
-def configuraSecaoDFe(nfse):
+def configuraSecaoDFe(nfse:'ACBrNFSeMT'):
     senha = os.getenv('PFX_PASSWORD', '')
     dadosPFX = os.getenv('PFX_DATA', '')
     #nfse.configGravarValor("DFe", "ArquivoPFX", pathCert);
@@ -45,29 +45,51 @@ def configuraSecaoDFe(nfse):
 
 # funcao auxiliar para aplicar as configuracoes
 
-def aplicarConfiguracoes(nfse):
+#função auxiliar para configurar a secao principal
+def configuraSecaoPrincipal(nfse:'ACBrNFSeMT'):
+    nfse.configGravarValor("Principal", "LogPath",logPath)
+    nfse.configGravarValor("Principal", "LogNivel", "4")
+
+
+def aplicarConfiguracoes(nfse:'ACBrNFSeMT'):
     if nfse is None:
         raise Exception("ACBrLibNFSe não inicializado")
    
     nfse.inicializar()
+    configuraSecaoPrincipal(nfse)
     configurarSecaoNFSe(nfse)
     configuraSecaoDFe(nfse)
     nfse.configGravar();
 
+# funcao auxiliar para normalizar os nomes da arquitetura
+# Windows/Linux podem retornar diferentes 
+def getArch():
+    arch = platform.machine().lower()
+    if (  ( arch == "amd64" ) or (arch == "x86_64")):
+        return "x86_64"
+    elif ( arch == "arm64" or arch == "aarch64"):
+        return "arm64"
+    return arch
+
 # funcao auxiliar para obter o caminho da biblioteca ACBrLibNFSe
 def getLibraryPath():
 
-    arch = platform.machine().lower()
+    arch = getArch()
+    libPath = ""
     if os.name == 'nt':
-        return os.path.join(os.path.dirname(__file__),'lib', arch, "ACBrNFSe64.dll")
+        libPath = os.path.join(os.path.dirname(__file__),'lib', arch, "ACBrNFSe64.dll")
     else:
-        return os.path.join(os.path.dirname(__file__), 'lib',arch, "libacbrnfse64.so")
+        libPath = os.path.join(os.path.dirname(__file__), 'lib',arch, "libacbrnfse64.so")
+
+    if not ( os.path.isfile(libPath)) :
+        raise Exception( libPath +  "nao existe")
+    return libPath
 
 
 load_dotenv()  # Carrega as variáveis de ambiente do arquivo .env
 
 pathACBrLibNFSe = getLibraryPath()
-eArqConfig = os.path.join(os.path.dirname(__file__), "data", "config", "acbrlib.ini")
+eArqConfig = "[Memory]"
 logPath = os.path.join(os.path.dirname(__file__), "data", "log")
 eChaveCrypt = ""
 #pathCert = os.path.join(os.path.dirname(__file__), "data", "cert", "cert.pfx")
@@ -88,17 +110,11 @@ strResult = ""
 try:
     nfse.inicializar()
     aplicarConfiguracoes(nfse)
-    #configExportado = nfse.configExportar()
-    #'nfse.emitir("./nfse.xml")
     nfse.carregarINI(pathExemploIniDPS)
     strResult = nfse.emitir("1",0,False)
     #print(configExportado)
-    # print(nfse.nome() + " - " + nfse.versao())
     print("Resultado da emissão: " + strResult)
 except Exception as e:
     print("Erro: " + str(e))
 finally:
     nfse.finalizar() 
-
-
-    
