@@ -184,9 +184,9 @@ class ACBrNFSeMT:
             raise Exception(f"Erro ao inicializar: {result}")
 
     def finalizar(self):
-        if self._plibHandle is not None:
+        if self._plibHandle.value is not None:
             result = self._lib.NFSE_Finalizar(self._plibHandle)
-            self._plibHandle = None
+            self._plibHandle = ctypes.c_void_p() # Reinicia o ponteiro para None
             return result
 
     def configExportar(self):
@@ -243,7 +243,7 @@ class ACBrNFSeMT:
         return buffer.value.decode('utf-8')
 
     def _checkResult(self, result):
-        if result != 0:
+        if result < 0:
             erroMessage = self.ultimoRetorno()
             raise Exception(f"Erro: {result} - {erroMessage}")
         
