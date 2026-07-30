@@ -174,6 +174,9 @@ class ACBrNFSeMT:
         self.chaveCrypt = chaveCrypt
         self._lib = carregar_acbrlib_nfe(libraryPath)
         self._plibHandle = ctypes.c_void_p()
+
+    def _isHandleInitialized(self):
+        return self._plibHandle.value is not None
     
     def __del__(self):
         self.finalizar()
@@ -184,9 +187,9 @@ class ACBrNFSeMT:
             raise Exception(f"Erro ao inicializar: {result}")
 
     def finalizar(self):
-        if self._plibHandle.value is not None:
+        if self._isHandleInitialized():
             result = self._lib.NFSE_Finalizar(self._plibHandle)
-            self._plibHandle = ctypes.c_void_p() # Reinicia o ponteiro para None
+            self._plibHandle.value = None# Reinicia o ponteiro para None
             return result
 
     def configExportar(self):
