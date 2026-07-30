@@ -465,7 +465,7 @@ begin
       Response.Link := Document.AsString['chaveAcesso'];
       NFSeXml := Document.AsString['nfseXmlGZipB64'];
 
-      if NFSeXml <> '' then
+      if (NFSeXml <> '') and (Pos('<', NFSeXml) = 0) then
       begin
         NFSeXml := DeCompress(DecodeBase64(NFSeXml));
 
@@ -595,7 +595,7 @@ begin
         { acrescenta a função DecodeToString visando o tratamento correto de
           vogais acentuadas e cedilha.
         }
-        if NFSeXml <> '' then
+        if (NFSeXml <> '') and (Pos('<', NFSeXml) = 0) then
           NFSeXml := DeCompress(DecodeBase64(NFSeXml));
 
         NFSeXml := TrocaEscapeporConchete(NFSeXml);
@@ -781,7 +781,7 @@ begin
 
       EventoXml := Document.AsString['eventoXmlGZipB64'];
 
-      if EventoXml <> '' then
+      if (EventoXml <> '') and (Pos('<', EventoXml) = 0) then
       begin
         EventoXml := DeCompress(DecodeBase64(EventoXml));
 
