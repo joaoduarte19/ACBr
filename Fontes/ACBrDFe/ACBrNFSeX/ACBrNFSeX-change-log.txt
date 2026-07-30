@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+30/07/2026
+-- ISSNet.Provider --
+[-] Remove o elemento nPegRegEvento que estava acarretando erro de validação de schema no envio de evento da APIPropria.
+   Por: Diego Folieni
+
 29/07/2026
 -- Tecnos.GravarXml --
 [*] ACBR-9692 - Alteração visando gerar as tags da Reforma Tributária que o provedor
