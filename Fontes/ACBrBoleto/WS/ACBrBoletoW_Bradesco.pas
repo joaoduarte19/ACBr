@@ -1012,7 +1012,7 @@ begin
     LJsonObject.AddPair('origemPagamento', 0);
     LJsonObject.AddPair('valorTituloDe', 0);
     LJsonObject.AddPair('valorTituloAte', 0);
-    LJsonObject.AddPair('paginaAnterior', 0);
+    LJsonObject.AddPair('paginaAnterior', Boleto.Configuracoes.WebService.Filtro.indiceContinuidade);
 
     FPDadosMsg := LJsonObject.ToJSON;
   finally

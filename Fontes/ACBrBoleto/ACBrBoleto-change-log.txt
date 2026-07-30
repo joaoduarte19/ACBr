@@ -48,6 +48,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+30/07/2026
+-- ACBrBoletoW_Bradesco --
+[*] ACBR-9661 - Implementado o indice de continuidade
+   Por: Valter Patrick
+   Veja: https://www.projetoacbr.com.br/forum/topic/93562-acbr-9661-pagina%C3%A7%C3%A3o-consulta-titulos-api-bradesco/
 
 22/07/2026
 -- ACBrBancoSicredi --
