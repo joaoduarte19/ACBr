@@ -419,7 +419,7 @@ function TACBrNFe.GerarChaveContingencia(FNFe: TNFe): String;
     Result := True;
     try
       for i := 1 to 35 do
-        j := j + StrToInt(copy(chave, i, 1)) * StrToInt(copy(PESO, i, 1));
+        j := j + (Ord(UpCase(chave[i])) - 48) * StrToInt(copy(PESO, i, 1));
       Digito := 11 - (j mod 11);
       if (j mod 11) < 2 then
         Digito := 0;
