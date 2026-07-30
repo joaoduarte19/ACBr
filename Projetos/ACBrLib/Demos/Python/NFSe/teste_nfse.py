@@ -79,6 +79,7 @@ pathIniServicos = os.path.join(os.path.dirname(__file__), "data", "config", "ACB
 codigoMunicipio = "3554003" # Tatui/sp
 ambienteDeEmissao = 1 #0 produção 1 homologação
 layoutNFSe = 0 
+pathExemploIniDPS = os.path.join(os.path.dirname(__file__), "data", "notas", "ini-dps-funcional.ini")
 
 
 # cria uma instancia da classe ACBrNFSe
@@ -89,7 +90,7 @@ try:
     aplicarConfiguracoes(nfse)
     #configExportado = nfse.configExportar()
     #'nfse.emitir("./nfse.xml")
-    nfse.carregarINI("/tmp/ini-dps-funcional.ini")
+    nfse.carregarINI(pathExemploIniDPS)
     strResult = nfse.emitir("1",0,False)
     #print(configExportado)
     # print(nfse.nome() + " - " + nfse.versao())

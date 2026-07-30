@@ -22,7 +22,7 @@ source .venv/bin/activate        # Linux/macOS
 .venv\Scripts\activate           # Windows
 
 # Instalar as dependências
-pip install python-dotenv
+pip install -r requirements.txt
 ```
 
 Para desativar o ambiente virtual, use `deactivate`.
