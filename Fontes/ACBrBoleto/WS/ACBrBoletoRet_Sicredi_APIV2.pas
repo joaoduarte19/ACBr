@@ -102,9 +102,11 @@ var
   LTipoOperacao : TOperacao;
   LMensagemRejeicao: TACBrBoletoRejeicao;
   I : Integer;
+  EhRotaFrancesinha: Boolean;
 begin
   Result := True;
   LTipoOperacao := ACBrBoleto.Configuracoes.WebService.Operacao;
+  EhRotaFrancesinha := (ACBrBoleto.Configuracoes.WebService.VersaoDF = 'V1');
 
   ARetornoWs.JSONEnvio       := EnvWs;
   ARetornoWS.HTTPResultCode  := HTTPResultCode;
@@ -165,8 +167,19 @@ begin
               //Datas
               ARetornoWS.DadosRet.TituloRet.DataRegistro           := DateSicreditoDateTime( LJsonObject.AsString['dataEmissao'] );
               ARetornoWS.DadosRet.TituloRet.Vencimento             := DateSicreditoDateTime( LJsonObject.AsString['dataVencimento'] );
-              ARetornoWS.DadosRet.TituloRet.DataBaixa              := DateSicreditoDateTime(LJsonObject.AsString['dataPagamento']);
-              ARetornoWS.DadosRet.TituloRet.HoraBaixa              := timeSicreditoDateTime(LJsonObject.AsString['dataPagamento']);
+
+              if EhRotaFrancesinha then
+              begin
+                ARetornoWS.DadosRet.TituloRet.DataBaixa           := DateSicreditoDateTime(LJsonObject.AsString['dataMovimento']);
+                ARetornoWS.DadosRet.TituloRet.HoraBaixa           := timeSicreditoDateTime(LJsonObject.AsString['dataMovimento']);
+                ARetornoWS.DadosRet.TituloRet.DataCredito         := DateSicreditoDateTime(LJsonObject.AsString['dataMovimento']);
+              end
+              else
+              begin
+                ARetornoWS.DadosRet.TituloRet.DataBaixa           := DateSicreditoDateTime(LJsonObject.AsString['dataPagamento']);
+                ARetornoWS.DadosRet.TituloRet.HoraBaixa           := timeSicreditoDateTime(LJsonObject.AsString['dataPagamento']);
+              end;
+
               //Valores
               ARetornoWS.DadosRet.TituloRet.ValorDocumento         := LJsonObject.AsFloat['valorNominal'];
               //Situação/Código da situação.
@@ -299,8 +312,11 @@ var
   LMensagemRejeicao: TACBrBoletoRejeicao;
   LTipoLiquidacao : string;
   I: Integer;
+  EhRotaFrancesinha: Boolean;
 begin
   Result := True;
+
+  EhRotaFrancesinha := (ACBrBoleto.Configuracoes.WebService.VersaoDF = 'V1');
 
   LListaRetorno := ACBrBoleto.CriarRetornoWebNaLista;
   LListaRetorno.HTTPResultCode := HTTPResultCode;
@@ -338,44 +354,99 @@ begin
         //retorna quando tiver sucesso
         if (LListaRetorno.ListaRejeicao.Count = 0) then
         begin
-          LJsonArray := LJsonObject.AsJSONArray['items'];
-          LListaRetorno.indicadorContinuidade := LJsonObject.AsBoolean['hasNext'];
-          for I := 0 to Pred(LJsonArray.Count) do
+          if EhRotaFrancesinha then
           begin
-            if I > 0 then
-              LListaRetorno := ACBrBoleto.CriarRetornoWebNaLista;
+            if LJsonObject.IsJSONArray('resultado') then
+            begin
+              LJsonArray := LJsonObject.AsJSONArray['resultado'];
 
-            LItemObject  := LJsonArray.ItemAsJSONObject[I];
+              if LJsonObject.AsInteger['totalPaginas'] > (LJsonObject.AsInteger['pagina'] + 1) then
+                LListaRetorno.indicadorContinuidade := True
+              else
+                LListaRetorno.indicadorContinuidade := False;
 
-            LListaRetorno.DadosRet.IDBoleto.CodBarras      := '';
-            LListaRetorno.DadosRet.IDBoleto.LinhaDig       := '';
-            LListaRetorno.DadosRet.IDBoleto.NossoNum       := LItemObject.AsString['nossoNumero'];
+              for I := 0 to Pred(LJsonArray.Count) do
+              begin
+                if I > 0 then
+                  LListaRetorno := ACBrBoleto.CriarRetornoWebNaLista;
 
-            LListaRetorno.DadosRet.TituloRet.CodBarras      := LListaRetorno.DadosRet.IDBoleto.CodBarras;
-            LListaRetorno.DadosRet.TituloRet.LinhaDig       := LListaRetorno.DadosRet.IDBoleto.LinhaDig;
+                LItemObject  := LJsonArray.ItemAsJSONObject[I];
+
+                LListaRetorno.DadosRet.IDBoleto.CodBarras       := '';
+                LListaRetorno.DadosRet.IDBoleto.LinhaDig        := '';
+                LListaRetorno.DadosRet.IDBoleto.NossoNum        := LItemObject.AsString['nossoNumero'];
+
+                LListaRetorno.DadosRet.TituloRet.CodBarras       := LListaRetorno.DadosRet.IDBoleto.CodBarras;
+                LListaRetorno.DadosRet.TituloRet.LinhaDig        := LListaRetorno.DadosRet.IDBoleto.LinhaDig;
+
+                LListaRetorno.DadosRet.TituloRet.NossoNumero             := LListaRetorno.DadosRet.IDBoleto.NossoNum;
+                LListaRetorno.DadosRet.TituloRet.NossoNumeroCorrespondente  := TrataNossoNumero(LListaRetorno.DadosRet.TituloRet.NossoNumero);
+
+                LListaRetorno.DadosRet.TituloRet.SeuNumero              := LItemObject.AsString['seuNumero'];
+
+                LListaRetorno.DadosRet.TituloRet.DataCredito            := DateSicreditoDateTime(LItemObject.AsString['dataMovimento']);
+
+                if LItemObject.AsString['dataLancamento'] <> '' then
+                   LListaRetorno.DadosRet.TituloRet.DataBaixa           := DateSicreditoDateTime(LItemObject.AsString['dataLancamento'])
+                else
+                   LListaRetorno.DadosRet.TituloRet.DataBaixa           := DateSicreditoDateTime(LItemObject.AsString['dataMovimento']);
+
+                LListaRetorno.DadosRet.TituloRet.ValorRecebido          := LItemObject.AsFloat['valorMovimento'];
+                LListaRetorno.DadosRet.TituloRet.ValorPago              := LItemObject.AsFloat['valorMovimento'];
+                LListaRetorno.DadosRet.TituloRet.ValorDocumento         := LItemObject.AsFloat['valorNominal'];
+                LListaRetorno.DadosRet.TituloRet.ValorMoraJuros         := LItemObject.AsFloat['valorJuros'];
+                LListaRetorno.DadosRet.TituloRet.ValorDesconto          := LItemObject.AsFloat['valorDesconto'];
+                LListaRetorno.DadosRet.TituloRet.ValorAbatimento        := LItemObject.AsFloat['valorAbatimento'];
+                LListaRetorno.DadosRet.TituloRet.ValorOutrosCreditos    := LItemObject.AsFloat['valorMulta'];
+
+                LListaRetorno.DadosRet.TituloRet.Mensagem.Text          := LItemObject.AsString['tipoMovimento'];
+                LListaRetorno.DadosRet.TituloRet.EstadoTituloCobranca   := 'LIQUIDADO';
+                LListaRetorno.DadosRet.TituloRet.CodigoEstadoTituloCobranca := '6';
+
+              end;
+            end;
+          end
+          else
+          begin
+            LJsonArray := LJsonObject.AsJSONArray['items'];
+            LListaRetorno.indicadorContinuidade := LJsonObject.AsBoolean['hasNext'];
+            for I := 0 to Pred(LJsonArray.Count) do
+            begin
+              if I > 0 then
+                LListaRetorno := ACBrBoleto.CriarRetornoWebNaLista;
+
+              LItemObject  := LJsonArray.ItemAsJSONObject[I];
+
+              LListaRetorno.DadosRet.IDBoleto.CodBarras      := '';
+              LListaRetorno.DadosRet.IDBoleto.LinhaDig       := '';
+              LListaRetorno.DadosRet.IDBoleto.NossoNum       := LItemObject.AsString['nossoNumero'];
+
+              LListaRetorno.DadosRet.TituloRet.CodBarras      := LListaRetorno.DadosRet.IDBoleto.CodBarras;
+              LListaRetorno.DadosRet.TituloRet.LinhaDig       := LListaRetorno.DadosRet.IDBoleto.LinhaDig;
 
 
-            LListaRetorno.DadosRet.TituloRet.NossoNumero                := LListaRetorno.DadosRet.IDBoleto.NossoNum;
-            LListaRetorno.DadosRet.TituloRet.NossoNumeroCorrespondente  := TrataNossoNumero(LListaRetorno.DadosRet.TituloRet.NossoNumero);
+              LListaRetorno.DadosRet.TituloRet.NossoNumero                := LListaRetorno.DadosRet.IDBoleto.NossoNum;
+              LListaRetorno.DadosRet.TituloRet.NossoNumeroCorrespondente  := TrataNossoNumero(LListaRetorno.DadosRet.TituloRet.NossoNumero);
 
-            LListaRetorno.DadosRet.TituloRet.DataBaixa                  := DateSicreditoDateTime(LItemObject.AsString['dataPagamento']);
-            LListaRetorno.DadosRet.TituloRet.HoraBaixa                  := TimeSicreditoDateTime(LItemObject.AsString['dataPagamento']);
-            LListaRetorno.DadosRet.TituloRet.SeuNumero                  := LItemObject.AsString['seuNumero'];
-            LListaRetorno.DadosRet.TituloRet.valorAtual                 := LItemObject.AsFloat['valor'];
-            LListaRetorno.DadosRet.TituloRet.ValorDocumento             := LItemObject.AsFloat['valor'];
-            LListaRetorno.DadosRet.TituloRet.ValorRecebido              := LItemObject.AsFloat['valorLiquidado'];
-            LListaRetorno.DadosRet.TituloRet.ValorPago                  := LItemObject.AsFloat['valorLiquidado'];
-            LListaRetorno.DadosRet.TituloRet.ValorRecebido              := LItemObject.AsFloat['valorLiquidado'];
-            LListaRetorno.DadosRet.TituloRet.ValorMoraJuros             := LItemObject.AsFloat['jurosLiquido'];
-            LListaRetorno.DadosRet.TituloRet.ValorDesconto              := LItemObject.AsFloat['descontoLiquido'];
-            LListaRetorno.DadosRet.TituloRet.ValorOutrosCreditos        := LItemObject.AsFloat['multaLiquida'];
-            LListaRetorno.DadosRet.TituloRet.ValorAbatimento            := LItemObject.AsFloat['abatimentoLiquido'];
-            LListaRetorno.DadosRet.TituloRet.Mensagem.Text              := LItemObject.AsString['tipoLiquidacao'];
-            LTipoLiquidacao := AnsiUpperCase(LItemObject.AsString['tipoLiquidacao']);
-            LListaRetorno.DadosRet.TituloRet.EstadoTituloCobranca       := RetornaDescricaoStatusTitulo(LTipoLiquidacao);
-            LListaRetorno.DadosRet.TituloRet.CodigoEstadoTituloCobranca := RetornaCodigoOcorrencia(LTipoLiquidacao);
+              LListaRetorno.DadosRet.TituloRet.DataBaixa                  := DateSicreditoDateTime(LItemObject.AsString['dataPagamento']);
+              LListaRetorno.DadosRet.TituloRet.HoraBaixa                  := TimeSicreditoDateTime(LItemObject.AsString['dataPagamento']);
+              LListaRetorno.DadosRet.TituloRet.SeuNumero                  := LItemObject.AsString['seuNumero'];
+              LListaRetorno.DadosRet.TituloRet.valorAtual                 := LItemObject.AsFloat['valor'];
+              LListaRetorno.DadosRet.TituloRet.ValorDocumento             := LItemObject.AsFloat['valor'];
+              LListaRetorno.DadosRet.TituloRet.ValorRecebido              := LItemObject.AsFloat['valorLiquidado'];
+              LListaRetorno.DadosRet.TituloRet.ValorPago                  := LItemObject.AsFloat['valorLiquidado'];
+              LListaRetorno.DadosRet.TituloRet.ValorRecebido              := LItemObject.AsFloat['valorLiquidado'];
+              LListaRetorno.DadosRet.TituloRet.ValorMoraJuros             := LItemObject.AsFloat['jurosLiquido'];
+              LListaRetorno.DadosRet.TituloRet.ValorDesconto              := LItemObject.AsFloat['descontoLiquido'];
+              LListaRetorno.DadosRet.TituloRet.ValorOutrosCreditos        := LItemObject.AsFloat['multaLiquida'];
+              LListaRetorno.DadosRet.TituloRet.ValorAbatimento            := LItemObject.AsFloat['abatimentoLiquido'];
+              LListaRetorno.DadosRet.TituloRet.Mensagem.Text              := LItemObject.AsString['tipoLiquidacao'];
+              LTipoLiquidacao := AnsiUpperCase(LItemObject.AsString['tipoLiquidacao']);
+              LListaRetorno.DadosRet.TituloRet.EstadoTituloCobranca       := RetornaDescricaoStatusTitulo(LTipoLiquidacao);
+              LListaRetorno.DadosRet.TituloRet.CodigoEstadoTituloCobranca := RetornaCodigoOcorrencia(LTipoLiquidacao);
 
-            LListaRetorno.DadosRet.TituloRet.DataCredito                := DateSicreditoDateTime(LItemObject.AsString['dataPagamento']);
+              LListaRetorno.DadosRet.TituloRet.DataCredito                := DateSicreditoDateTime(LItemObject.AsString['dataPagamento']);
+            end;
           end;
         end;
       finally
