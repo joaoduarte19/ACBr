@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from dotenv import load_dotenv
 import os
+import platform
 from acbrlib_nfse import ACBrNFSeMT
 
 # funcao auxiliar para configurar a secao DFe
@@ -55,10 +56,12 @@ def aplicarConfiguracoes(nfse):
 
 # funcao auxiliar para obter o caminho da biblioteca ACBrLibNFSe
 def getLibraryPath():
+
+    arch = platform.machine().lower()
     if os.name == 'nt':
-        return os.path.join(os.path.dirname(__file__), "ACBrNFSe64.dll")
+        return os.path.join(os.path.dirname(__file__),'lib', arch, "ACBrNFSe64.dll")
     else:
-        return os.path.join(os.path.dirname(__file__), "libacbrnfse64.so")
+        return os.path.join(os.path.dirname(__file__), 'lib',arch, "libacbrnfse64.so")
 
 
 load_dotenv()  # Carrega as variáveis de ambiente do arquivo .env
