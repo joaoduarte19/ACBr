@@ -449,17 +449,27 @@ begin
 end;
 
 procedure TNFeIniWriter.Gerar_Entrega(AINIRec: TMemIniFile; Entrega: TEntrega);
+var
+  lSecao: String;
 begin
   if Entrega.CNPJCPF <> '' then
   begin
-    AINIRec.WriteString('Entrega', 'CNPJCPF', Entrega.CNPJCPF);
-    AINIRec.WriteString('Entrega', 'xLgr', Entrega.xLgr);
-    AINIRec.WriteString('Entrega', 'nro', Entrega.nro);
-    AINIRec.WriteString('Entrega', 'xCpl', Entrega.xCpl);
-    AINIRec.WriteString('Entrega', 'xBairro', Entrega.xBairro);
-    AINIRec.WriteInteger('Entrega', 'cMun', Entrega.cMun);
-    AINIRec.WriteString('Entrega', 'xMun', Entrega.xMun);
-    AINIRec.WriteString('Entrega', 'UF', Entrega.UF);
+    lSecao := 'Entrega';
+    AINIRec.WriteString(lSecao, 'CNPJCPF', Entrega.CNPJCPF);
+    AINIRec.WriteString(lSecao, 'xNome', Entrega.xNome);
+    AINIRec.WriteString(lSecao, 'xLgr', Entrega.xLgr);
+    AINIRec.WriteString(lSecao, 'nro', Entrega.nro);
+    AINIRec.WriteString(lSecao, 'xCpl', Entrega.xCpl);
+    AINIRec.WriteString(lSecao, 'xBairro', Entrega.xBairro);
+    AINIRec.WriteInteger(lSecao, 'cMun', Entrega.cMun);
+    AINIRec.WriteString(lSecao, 'xMun', Entrega.xMun);
+    AINIRec.WriteString(lSecao, 'UF', Entrega.UF);
+    AINIRec.WriteString(lSecao, 'CEP', IntToStr(Entrega.CEP));
+    AINIRec.WriteInteger(lSecao, 'cPais', Entrega.cPais);
+    AINIRec.WriteString(lSecao, 'xPais', Entrega.xPais);
+    AINIRec.WriteString(lSecao, 'fone', Entrega.fone);
+    AINIRec.WriteString(lSecao, 'email', Entrega.Email);
+    AINIRec.WriteString(lSecao, 'IE', Entrega.IE);
   end;
 end;
 

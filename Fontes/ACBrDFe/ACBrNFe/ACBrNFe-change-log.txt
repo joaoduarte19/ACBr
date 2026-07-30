@@ -45,6 +45,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 30/07/2026
+-- ACBrNFe.IniWriter --
+[*] Adiciona informações faltantes na geração da seção Entrega
+   Por: Diego Folieni
 -- ACBrNFe.pas --
 	Ajuste na função GerarDigito_Contigencia() para chaves alfanumericas.
 [*] Por Italo Giurizzato Junior, Diego Folieni e  Daniel de Morais InfoCotidiano
