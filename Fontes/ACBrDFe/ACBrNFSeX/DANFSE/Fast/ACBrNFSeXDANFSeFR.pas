@@ -1549,7 +1549,7 @@ begin
 
   if FDANFSeXClassOwner.Cancelada
     or (ANFSe.NfseCancelamento.DataHora <> 0)
-    or (ANFSe.SituacaoNfse = snCancelado)
+    or (ANFSe.SituacaoNfse = ACBrNFSeXConversao.snCancelado)
     or (ANFSe.StatusRps = srCancelado) then
   begin
     LCDS.FieldByName('Mensagem0').AsString := 'CANCELADA';
