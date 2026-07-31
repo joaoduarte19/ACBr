@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 31/07/2026
+-- ISSSaoPaulo.GravarXml --
+[*] Adiciona fallback para que em arquivos INI onde só tenha sido informado ValorServicos, use esse valor para a tag ValorFinalCobrado quando ela não for encontrada.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/93879-o-campo-valortotalservicos-est%C3%A1-zero/ 
 -- ACBrNFSeXServicos --
 [*] Nova URL de produção para Brasilia/DF
 	Por: Nenel
