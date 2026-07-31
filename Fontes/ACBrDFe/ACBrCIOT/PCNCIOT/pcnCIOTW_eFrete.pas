@@ -238,7 +238,7 @@ begin
     Gerador.wCampo(tcStr, 'AP06', 'CPF                ', 01, 01, 1, CPF);
     Gerador.wCampo(tcStr, 'AP07', 'Nome               ', 01, 01, 0, Nome);
     Gerador.wCampo(tcStr, 'AP08', 'CNH                ', 01, 01, 1, CNH);
-    Gerador.wCampo(tcDat, 'AP09', 'DataNascimento     ', 01, 01, 1, DataNascimento);
+    Gerador.wCampo(tcDatHor, 'AP09', 'DataNascimento     ', 01, 01, 1, DataNascimento);
     Gerador.wCampo(tcStr, 'AP10', 'NomeDeSolteiraDaMae', 01, 01, 0, NomeDeSolteiraDaMae);
 
     if Endereco.CodigoMunicipio > 0 then
@@ -358,7 +358,7 @@ begin
           Gerador.wCampo(tcStr, 'AP38', 'Numero                            ', 01, 01, 1, Item.Numero);
           Gerador.wCampo(tcStr, 'AP39', 'Serie                             ', 01, 01, 1, Item.Serie);
           Gerador.wCampo(tcStr, 'AP39', 'CnpjEmissor',                        01, 14, 0, Item.CnpjEmissor);
-          Gerador.wCampo(tcDat, 'AP40', 'Data                              ', 01, 01, 0, Item.Data);
+          Gerador.wCampo(tcDatHor, 'AP40', 'Data                              ', 01, 01, 0, Item.Data);
           Gerador.wCampo(tcDe2, 'AP41', 'ValorTotal                        ', 01, 01, 1, Item.ValorTotal);
           Gerador.wCampo(tcDe4, 'AP42', 'ValorDaMercadoriaPorUnidade       ', 01, 01, 1, Item.ValorDaMercadoriaPorUnidade);
           Gerador.wCampo(tcInt, 'AP43', 'CodigoNCMNaturezaCarga            ', 01, 04, 1, Item.CodigoNCMNaturezaCarga);
@@ -462,7 +462,7 @@ begin
     begin
       Gerador.wGrupo('Pagamentos', 'AP71');
       Gerador.wCampo(tcStr, 'AP72', 'IdPagamentoCliente', 01, 01, 1, IdPagamentoCliente, 'Identificador do pagamento no sistema do Cliente.');
-      Gerador.wCampo(tcDat, 'AP73', 'DataDeLiberacao   ', 01, 01, 1, DataDeLiberacao, 'Data em que o pagamento será liberado para saque.');
+      Gerador.wCampo(tcDatHor, 'AP73', 'DataDeLiberacao   ', 01, 01, 1, DataDeLiberacao, 'Data em que o pagamento será liberado para saque.');
       Gerador.wCampo(tcDe2, 'AP74', 'Valor             ', 01, 01, 1, Valor, 'Valor do pagamento.');
 
       Gerador.Prefixo := 'obj2:';
@@ -1249,7 +1249,7 @@ begin
           Gerador.wGrupo('NotasFiscais', 'AP38');
           Gerador.wCampo(tcStr, 'AP39', 'Numero                            ', 01, 01, 0, Item.Numero);
           Gerador.wCampo(tcStr, 'AP40', 'Serie                             ', 01, 01, 0, Item.Serie);
-          Gerador.wCampo(tcDat, 'AP41', 'Data                              ', 01, 01, 1, Item.Data);
+          Gerador.wCampo(tcDatHor, 'AP41', 'Data                              ', 01, 01, 1, Item.Data);
           Gerador.wCampo(tcDe2, 'AP42', 'ValorTotal                        ', 01, 01, 1, Item.ValorTotal);
           Gerador.wCampo(tcDe4, 'AP43', 'ValorDaMercadoriaPorUnidade       ', 01, 01, 1, Item.ValorDaMercadoriaPorUnidade);
           Gerador.wCampo(tcInt, 'AP44', 'CodigoNCMNaturezaCarga            ', 01, 04, 1, Item.CodigoNCMNaturezaCarga);
@@ -1306,7 +1306,7 @@ begin
     begin
       Gerador.wGrupo('Pagamento', 'AP68');
       Gerador.wCampo(tcStr, 'AP69', 'IdPagamentoCliente', 01, 01, 0, IdPagamentoCliente, 'Identificador do pagamento no sistema do Cliente.');
-      Gerador.wCampo(tcDat, 'AP70', 'DataDeLiberacao   ', 01, 01, 1, DataDeLiberacao, 'Data em que o pagamento será liberado para saque.');
+      Gerador.wCampo(tcDatHor, 'AP70', 'DataDeLiberacao   ', 01, 01, 1, DataDeLiberacao, 'Data em que o pagamento será liberado para saque.');
       Gerador.wCampo(tcDe2, 'AP71', 'Valor             ', 01, 01, 1, Valor, 'Valor do pagamento.');
 
       Gerador.Prefixo := 'obj:';
@@ -1378,7 +1378,7 @@ begin
     begin
       Gerador.wGrupo('Pagamento', 'AP68');
       Gerador.wCampo(tcStr, 'AP69', 'IdPagamentoCliente', 01, 01, 0, IdPagamentoCliente, 'Identificador do pagamento no sistema do Cliente.');
-      Gerador.wCampo(tcDat, 'AP70', 'DataDeLiberacao   ', 01, 01, 1, DataDeLiberacao, 'Data em que o pagamento será liberado para saque.');
+      Gerador.wCampo(tcDatHor, 'AP70', 'DataDeLiberacao   ', 01, 01, 1, DataDeLiberacao, 'Data em que o pagamento será liberado para saque.');
       Gerador.wCampo(tcDe2, 'AP71', 'Valor             ', 01, 01, 1, Valor, 'Valor do pagamento.');
 
       Gerador.Prefixo := 'obj:';
@@ -1497,7 +1497,7 @@ begin
             Gerador.wGrupo('NotaFiscal', 'AP38');
             Gerador.wCampo(tcStr, 'AP39', 'Numero                             ', 01, 01, 0, Item.Numero);
             Gerador.wCampo(tcStr, 'AP40', 'Serie                              ', 01, 01, 0, Item.Serie);
-            Gerador.wCampo(tcDat, 'AP41', 'Data                               ', 01, 01, 1, Item.Data);
+            Gerador.wCampo(tcDatHor, 'AP41', 'Data                               ', 01, 01, 1, Item.Data);
             Gerador.wCampo(tcDe2, 'AP42', 'ValorTotal                         ', 01, 01, 1, Item.ValorTotal);
             Gerador.wCampo(tcDe4, 'AP43', 'ValorDaMercadoriaPorUnidade        ', 01, 01, 1, Item.ValorDaMercadoriaPorUnidade);
             Gerador.wCampo(tcInt, 'AP44', 'CodigoNCMNaturezaCarga             ', 01, 04, 1, Item.CodigoNCMNaturezaCarga);
@@ -1557,7 +1557,7 @@ begin
       begin
         Gerador.wGrupo('Pagamento', 'AP68');
         Gerador.wCampo(tcStr, 'AP69', 'IdPagamentoCliente', 01, 01, 0, IdPagamentoCliente, 'Identificador do pagamento no sistema do Cliente.');
-        Gerador.wCampo(tcDat, 'AP70', 'DataDeLiberacao   ', 01, 01, 1, DataDeLiberacao, 'Data em que o pagamento será liberado para saque.');
+        Gerador.wCampo(tcDatHor, 'AP70', 'DataDeLiberacao   ', 01, 01, 1, DataDeLiberacao, 'Data em que o pagamento será liberado para saque.');
         Gerador.wCampo(tcDe2, 'AP71', 'Valor             ', 01, 01, 1, Valor, 'Valor do pagamento.');
         Gerador.wCampo(tcStr, 'AP72', 'TipoPagamento     ', 01, 01, 1, TpPagamentoToStr(TipoPagamento), 'Tipo de pagamento que será usado pelo contratante. Restrito aos itens da enum: -TransferenciaBancaria -eFRETE');
 
@@ -1791,9 +1791,9 @@ begin
           Gerador.wCampo(tcStr, 'AP06', 'IdOperacaoCliente     ', 01, 01, 0, IdOperacaoCliente, 'Id / Chave primária da operação de transporte no sistema do Cliente.');
 
           if TipoViagem <> TAC_Agregado then
-            Gerador.wCampo(tcDat, 'AP07', 'DataInicioViagem      ', 10, 10, 1, DataInicioViagem);
+            Gerador.wCampo(tcDatHor, 'AP07', 'DataInicioViagem      ', 10, 10, 1, DataInicioViagem);
 
-          Gerador.wCampo(tcDat, 'AP08', 'DataFimViagem         ', 10, 10, 1, DataFimViagem, 'Data prevista para o fim de viagem.');
+          Gerador.wCampo(tcDatHor, 'AP08', 'DataFimViagem         ', 10, 10, 1, DataFimViagem, 'Data prevista para o fim de viagem.');
 
           if TipoViagem <> TAC_Agregado then
           begin
@@ -2097,7 +2097,7 @@ begin
         begin
           Gerador.wCampo(tcStr, 'KP02', 'CodigoIdentificacaoOperacao', 01, 01, 0, CodigoIdentificacaoOperacao);
           Gerador.wCampo(tcStr, 'AP69', 'IdPagamentoCliente         ', 01, 01, 0, IdPagamentoCliente, 'Identificador do pagamento no sistema do Cliente.');
-          Gerador.wCampo(tcDat, 'KP02', 'DataLiberacao              ', 01, 01, 0, DataDeLiberacao);
+          Gerador.wCampo(tcDatHor, 'KP02', 'DataLiberacao              ', 01, 01, 0, DataDeLiberacao);
           Gerador.wCampo(tcStr, 'KP02', 'Motivo                     ', 01, 01, 0, Motivo);
         end;
 
