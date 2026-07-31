@@ -136,7 +136,7 @@ begin
    Result := FpAOwner.ConfigWebServices.Producao.GerarNFSe;
    if Result = '' then
       raise Exception.Create('URL base do webservice Aspec não configurada.');
-   if EndsText('/emitir', Result) then
+   if AnsiEndsText('/emitir', Result) then
       Result := Copy(Result, 1, Length(Result) - Length('/emitir'));
 end;
 
