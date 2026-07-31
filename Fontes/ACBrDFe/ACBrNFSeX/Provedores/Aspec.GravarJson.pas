@@ -37,23 +37,43 @@ unit Aspec.GravarJson;
 interface
 
 uses
-  SysUtils, Classes, Variants, StrUtils,
-  iniFiles,
+  SysUtils,
+  Classes,
+  Variants,
+  StrUtils,
+  IniFiles,
   ACBrJSON,
   ACBrNFSeXGravarXml,
-  ACBrNFSeXConversao;
+  ACBrNFSeXConversao,
+  ACBrSocket;
 
 type
   { TNFSeW_Aspec }
 
   TNFSeW_Aspec = class(TNFSeWClass)
+  private
+    FIdNBS: Integer;
+    FIdIndOp: Integer;
   protected
     procedure Configuracao; override;
 
     function GerarPaisLocalPrestacaoServico: TACBrJSONObject;
     function GerarLocalPrestacaoServico: TACBrJSONObject;
     function GerarServicos: TACBrJSONObject;
+    function GerarNBS: TACBrJSONObject;
+    function GerarSitTribPisCofins: TACBrJSONObject;
+    function GerarTipoRetencao: TACBrJSONObject;
     function GerarDadosNota: String;
+    function GerarIndOp: TACBrJSONObject;
+    function GerarClassTrib: TACBrJSONObject;
+
+    function MontarURLBase: string;
+    function NormalizarCodigo(const ACodigo: string): string;
+    function ObterIdPorCodigo(const AURL, ACampoCodigo, ACampoId, ACodigoBusca: string): Integer;
+    function ObterIdSubitemServico(const AIdItem: Integer; const ACodigoSubitem: string): Integer;
+    function ObterIdNBS: Integer;
+    function ObterIdIndOp: Integer;
+    function ObterIdClassTrib: Integer;
 
     // Gerar o arquivo INI
     procedure GerarINIIdentificacaoNFSe(AINIRec: TMemIniFile);
@@ -70,7 +90,7 @@ type
   public
     function GerarXml: Boolean; override;
 
-//    function GerarIni: string; override;
+    function GerarIni: string; override;
   end;
 
 implementation
@@ -78,11 +98,6 @@ implementation
 uses
   ACBrUtil.Strings,
   ACBrConsts;
-
-//==============================================================================
-// Essa unit tem por finalidade exclusiva gerar o Json do RPS do provedor:
-//     Aspec
-//==============================================================================
 
 { TNFSeW_Aspec }
 
@@ -116,59 +131,184 @@ begin
   Result := True;
 end;
 
+function TNFSeW_Aspec.MontarURLBase: string;
+begin
+   Result := FpAOwner.ConfigWebServices.Producao.GerarNFSe;
+   if Result = '' then
+      raise Exception.Create('URL base do webservice Aspec não configurada.');
+   if EndsText('/emitir', Result) then
+      Result := Copy(Result, 1, Length(Result) - Length('/emitir'));
+end;
+
+function TNFSeW_Aspec.NormalizarCodigo(const ACodigo: string): string;
+begin
+  Result := StringReplace(Trim(ACodigo), '.', '', [rfReplaceAll]);
+end;
+
+function TNFSeW_Aspec.ObterIdPorCodigo(const AURL, ACampoCodigo, ACampoId, ACodigoBusca: string): Integer;
+var
+  AHttp: TACBrHTTP;
+  AResposta, ACodBusca, ACodAtual: string;
+  AArray: TACBrJSONArray;
+  AObj: TACBrJSONObject;
+  i, AQtdEncontrados: Integer;
+begin
+  Result := 0;
+  AQtdEncontrados := 0;
+
+  if Trim(ACodigoBusca) = '' then
+    raise Exception.Create('Codigo nao informado para consulta.');
+
+  ACodBusca := NormalizarCodigo(ACodigoBusca);
+
+  AHttp := TACBrHTTP.Create(nil);
+  try
+    AHttp.HTTPGet(AURL);
+    AResposta := AHttp.HTTPResponse;
+  finally
+    AHttp.Free;
+  end;
+
+  if Trim(AResposta) = '' then
+    raise Exception.CreateFmt('Resposta vazia ao consultar. URL=%s', [AURL]);
+
+  AArray := TACBrJSONArray.Parse(AResposta);
+  try
+    for i := 0 to AArray.Count - 1 do
+    begin
+      AObj := AArray.ItemAsJSONObject[i];
+      ACodAtual := NormalizarCodigo(AObj.AsString[ACampoCodigo]);
+
+      if ACodAtual = ACodBusca then
+      begin
+        if AQtdEncontrados = 0 then
+          Result := AObj.AsInteger[ACampoId];
+        Inc(AQtdEncontrados);
+      end;
+    end;
+  finally
+    AArray.Free;
+  end;
+
+  if Result = 0 then
+    raise Exception.CreateFmt('Codigo nao encontrado na consulta. Codigo=%s, URL=%s',
+      [ACodigoBusca, AURL]);
+end;
+
+function TNFSeW_Aspec.ObterIdSubitemServico(const AIdItem: Integer; const ACodigoSubitem: string): Integer;
+begin
+  if AIdItem <= 0 then
+    raise Exception.Create('ID do item de servico nao informado.');
+
+  Result := ObterIdPorCodigo(
+    MontarURLBase + '/consultarSubitensServico?ise=' + IntToStr(AIdItem),
+    'cnt', 'id', ACodigoSubitem);
+end;
+
+function TNFSeW_Aspec.ObterIdNBS: Integer;
+var
+  AURL: string;
+begin
+  if FIdNBS = 0 then
+  begin
+    AURL := MontarURLBase + '/consultarNBS';
+    FIdNBS := ObterIdPorCodigo(AURL, 'codigo', 'id', NFSe.Servico.CodigoNBS);
+  end;
+
+  Result := FIdNBS;
+end;
+
+function TNFSeW_Aspec.ObterIdIndOp: Integer;
+begin
+  if FIdIndOp = 0 then
+    FIdIndOp := ObterIdPorCodigo(
+      MontarURLBase + '/consultarINDOP?nbsId=' + IntToStr(ObterIdNBS),
+      'codigo', 'id', NFSe.IBSCBS.cIndOp);
+
+  Result := FIdIndOp;
+end;
+
+function TNFSeW_Aspec.ObterIdClassTrib: Integer;
+begin
+  Result := ObterIdPorCodigo(
+    MontarURLBase + '/consultarClassTrib?nbsId=' + IntToStr(ObterIdNBS) +
+    '&indopId=' + IntToStr(ObterIdIndOp),
+    'codigo', 'id', NFSe.IBSCBS.valores.trib.gIBSCBS.cClassTrib);
+end;
+
+function TNFSeW_Aspec.GerarClassTrib: TACBrJSONObject;
+begin
+   Result := TACBrJSONObject.Create
+            .AddPair('id', ObterIdClassTrib);
+end;
+
 function TNFSeW_Aspec.GerarDadosNota: String;
 var
   AJSon: TACBrJSONObject;
 begin
+  FIdNBS := 0;
+  FIdIndOp := 0;
+
   AJSon := TACBrJsonObject.Create;
   try
     AJSon
-       //Prestador
+
       .AddPair(IfThen(Length(OnlyNumber(NFSe.Prestador.IdentificacaoPrestador.Cnpj)) = 11, 'cpfPessoaPrestador', 'cnpjPessoaPrestador'), NFSe.Prestador.IdentificacaoPrestador.Cnpj)
-      //Tomador
-//      .AddPair('tomador', Property)//Obtido em consulta prévia, caso o tomador já esteja cadastrado, exemplo abaixo.
-//        "tomador": {
-//         "id": number
-//         },
-      .AddPair(IfThen(Length(OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj)) = 11, 'cpfPessoaTomador', 'cnpjPessoaTomador'), NFSe.Tomador.IdentificacaoTomador.CpfCnpj)
-      .AddPair('nomePessoaTomador', Trim(NFSe.Tomador.RazaoSocial))
-      .AddPair('razaoSocialPessoaTomador', Trim(NFSe.Tomador.RazaoSocial))
-      .AddPair('nomeFantasiaTomador', Trim(NFSe.Tomador.NomeFantasia))
-//      .AddPair('paisTomador', NFSe.Tomador.Endereco.CodigoPais)//Obrigatório informar se for do exterior, exemplo abaixo.
-//        "paisTomador": {
-//         "codigoBacen": number
-//         },
-      .AddPair('bairroId', NFSe.Tomador.Endereco.CodigoMunicipio)  //IDMunicipio ou IDBairro ou Código IBGE
-      .AddPair('logradouroId', NFSe.Tomador.Endereco.CodigoMunicipio)     //IDMunicipio ou IDBairro ou Código IBGE
-      .AddPair('bairroEnderecoTomador', Trim(NFSe.Tomador.Endereco.Bairro))
-      .AddPair('logradouroEnderecoTomador', Trim(NFSe.Tomador.Endereco.Endereco))
-      .AddPair('numeroEnderecoTomador', NFSe.Tomador.Endereco.Numero)
-      .AddPair('complementoEnderecoTomador', Trim(NFSe.Tomador.Endereco.Complemento))
-      .AddPair('inscricaoEstadualTomador', NFSe.Tomador.IdentificacaoTomador.InscricaoEstadual)
-      .AddPair('inscricaoMunicipalTomador', NFSe.Tomador.IdentificacaoTomador.InscricaoMunicipal)
-      .AddPair('dddFixoTomador', Copy(NFSe.Tomador.Contato.Telefone, 1, 3))
-      .AddPair('telefoneFixoTomador', Copy(NFSe.Tomador.Contato.Telefone,3,11))
-      .AddPair('emailTomador', Trim(NFSe.Tomador.Contato.Email))
-      .AddPair('paisLocalPrestacaoServico', GerarPaisLocalPrestacaoServico)  //Pode usar o id ou o código Bacen
-      .AddPair('localPrestacaoServico', GerarLocalPrestacaoServico) //Pode usar o id ou o código IBGE  - Lista
-      .AddPair('servico', GerarServicos) //Pode usar o id ou o código do serviço
-      .AddPair('aliquota', NFSe.Servico.Valores.Aliquota)
-      .AddPair('issRetidoPeloTomador', IfThen(NFSe.Servico.Valores.IssRetido = stRetencao, 'SIM', 'NAO'))
-      .AddPair('discriminacaoServico', NFSe.Servico.Discriminacao)
-      .AddPair('valorTotal', NFSe.Servico.Valores.ValorServicos)
-      .AddPair('valorDeducoes', NFSe.Servico.Valores.ValorDeducoes)
-      .AddPair('descontoCondicionado', NFSe.Servico.Valores.DescontoCondicionado)
-      .AddPair('descontoIncondicionado', NFSe.Servico.Valores.DescontoIncondicionado)
-      .AddPair('valorBaseCalculo', NFSe.Servico.Valores.BaseCalculo)
-      .AddPair('cofins', NFSe.Servico.Valores.ValorCofins)
-      .AddPair('csll', NFSe.Servico.Valores.ValorCsll)
-      .AddPair('inss', NFSe.Servico.Valores.ValorInss)
-      .AddPair('irrf', NFSe.Servico.Valores.ValorIr)
-      .AddPair('pisPasep', NFSe.Servico.Valores.ValorPis)
-      .AddPair('rpsDataEmissaoStr', FormatDateTime('dd/mm/yyyy', NFSe.DataEmissaoRps))
-      .AddPair('rpsSerie', NFSe.IdentificacaoRps.Serie)
-      .AddPair('rpsNumero', StrToInt(NFSe.IdentificacaoRps.Numero))
-      .AddPair('tokenRPS', ChaveAcesso);
+
+      .AddPair(IfThen(Length(OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj)) = 11, 'cpfPessoaTomador', 'cnpjPessoaTomador'), NFSe.Tomador.IdentificacaoTomador.CpfCnpj);
+      if NFSe.Tomador.IdentificacaoTomador.Tipo = tpPF then
+         AJSon.AddPair('nomePessoaTomador', Trim(NFSe.Tomador.RazaoSocial))
+      else
+         AJSon.AddPair('razaoSocialPessoaTomador', Trim(NFSe.Tomador.RazaoSocial))
+              .AddPair('nomeFantasiaTomador', Trim(NFSe.Tomador.NomeFantasia));
+      AJSon.AddPair('cepEnderecoTomador', Trim(NFSe.Tomador.Endereco.CEP))
+         .AddPair('ufTomador', Trim(NFSe.Tomador.Endereco.UF))
+         .AddPair('municipioTomadorIbge', Trim(NFSe.Tomador.Endereco.CodigoMunicipio))
+         .AddPair('bairroEnderecoTomador', Trim(NFSe.Tomador.Endereco.Bairro))
+         .AddPair('logradouroEnderecoTomador', Trim(NFSe.Tomador.Endereco.Endereco))
+         .AddPair('tipoLogradouroEnderecoTomador', 'AVENIDA')
+         .AddPair('numeroEnderecoTomador', NFSe.Tomador.Endereco.Numero)
+         .AddPair('complementoEnderecoTomador', Trim(NFSe.Tomador.Endereco.Complemento))
+         .AddPair('inscricaoEstadualTomador', NFSe.Tomador.IdentificacaoTomador.InscricaoEstadual)
+         .AddPair('inscricaoMunicipalTomador', NFSe.Tomador.IdentificacaoTomador.InscricaoMunicipal)
+         .AddPair('dddFixoTomador', Copy(NFSe.Tomador.Contato.Telefone, 1, 3))
+         .AddPair('telefoneFixoTomador', Copy(NFSe.Tomador.Contato.Telefone,3,11))
+         .AddPair('emailTomador', Trim(NFSe.Tomador.Contato.Email));
+         if NFSe.NaturezaOperacao = no1 then
+            AJson.AddPair('naturezaOperacao', 'TRIBUTAVEL')
+         else if NFSe.NaturezaOperacao = no4 then
+            AJson.AddPair('naturezaOperacao', 'IMUNIDADE')
+         else
+            AJson.AddPair('naturezaOperacao', 'NAO_INCIDENCIA');
+      AJson.AddPair('paisLocalPrestacaoServico', GerarPaisLocalPrestacaoServico)
+         .AddPair('localPrestacaoServico', GerarLocalPrestacaoServico)
+         .AddPair('servico', GerarServicos)
+         .AddPair('nbs', GerarNBS)
+         .AddPair('indop', GerarIndOp)
+         .AddPair('classTrib', GerarClassTrib)
+         .AddPair('aliquota', NFSe.Servico.Valores.Aliquota)
+         .AddPair('issRetidoPeloTomador', IfThen(NFSe.Servico.Valores.IssRetido = stRetencao, 'RETIDO_TOMADOR', 'NAO_RETIDO'))
+         .AddPair('discriminacaoServico', NFSe.Servico.Discriminacao)
+         .AddPair('valorTotal', NFSe.Servico.Valores.ValorServicos)
+         .AddPair('valorDeducoes', NFSe.Servico.Valores.ValorDeducoes)
+         .AddPair('descontoCondicionado', NFSe.Servico.Valores.DescontoCondicionado)
+         .AddPair('descontoIncondicionado', NFSe.Servico.Valores.DescontoIncondicionado)
+         .AddPair('valorBaseCalculo', NFSe.Servico.Valores.BaseCalculo);
+      if (NFSe.Servico.Valores.ValorPis > 0) then
+         AJson.AddPair('pisPasep', NFSe.Servico.Valores.ValorPis);
+      if (NFSe.Servico.Valores.ValorCofins > 0) then
+         AJson.AddPair('cofins', NFSe.Servico.Valores.ValorCofins);
+      if (NFSe.Servico.Valores.ValorCsll > 0) then
+         AJson.AddPair('csll', NFSe.Servico.Valores.ValorCsll);
+      if (NFSe.Servico.Valores.ValorPis > 0) or (NFSe.Servico.Valores.ValorCofins > 0) or (NFSe.Servico.Valores.ValorCsll > 0) then
+         AJson.AddPair('situacaoTributariaPisCofins', GerarSitTribPisCofins)
+              .AddPair('tipoRetencao', GerarTipoRetencao);
+      AJson.AddPair('inss', NFSe.Servico.Valores.ValorInss)
+         .AddPair('irrf', NFSe.Servico.Valores.ValorIr)
+         .AddPair('rpsDataEmissaoStr', FormatDateTime('dd/mm/yyyy', NFSe.DataEmissaoRps))
+         .AddPair('rpsSerie', NFSe.IdentificacaoRps.Serie)
+         .AddPair('rpsNumero', StrToInt(NFSe.IdentificacaoRps.Numero))
+         .AddPair('tokenRPS', NFSe.ChaveAcesso);
     Result := AJSon.ToJSON;
   finally
     AJSon.Free;
@@ -191,19 +331,46 @@ begin
                  .AddPair('codIBGE', StrToInt(NFSe.Tomador.Endereco.CodigoMunicipio))
 end;
 
-function TNFSeW_Aspec.GerarServicos: TACBrJSONObject;
+function TNFSeW_Aspec.GerarNBS: TACBrJSONObject;
 begin
-  Result := TACBrJSONObject.Create
-              .AddPair('codigo', NFSe.Servico.ItemListaServico);
+   Result := TACBrJSONObject.Create
+              .AddPair('id', ObterIdNBS);
 end;
-(*
+
+function TNFSeW_Aspec.GerarServicos: TACBrJSONObject;
+var
+   IdSubitem :    Integer;
+begin
+  IdSubitem := ObterIdSubitemServico(StrToIntDef(Copy(NFSe.Servico.ItemListaServico, 0, 2), 0),
+                                         NFSe.Servico.ItemListaServico);
+  Result := TACBrJSONObject.Create
+              .AddPair('id', IdSubitem);
+end;
+
+function TNFSeW_Aspec.GerarSitTribPisCofins: TACBrJSONObject;
+begin
+   Result := TACBrJSONObject.Create
+             .AddPair('id', CSTToStr(NFSe.Servico.Valores.tribFed.CST));
+end;
+
+function TNFSeW_Aspec.GerarTipoRetencao: TACBrJSONObject;
+begin
+   Result := TACBrJSONObject.Create
+             .AddPair('id', tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins));
+end;
+
+function TNFSeW_Aspec.GerarIndOp: TACBrJSONObject;
+begin
+   Result := TACBrJSONObject.Create
+            .AddPair('id', ObterIdIndOp);
+end;
+
 function TNFSeW_Aspec.GerarIni: string;
 var
   INIRec: TMemIniFile;
   IniNFSe: TStringList;
 begin
   Result:= '';
-// Usar FpAOwner no lugar de FProvider
 
   INIRec := TMemIniFile.Create('');
   try
@@ -223,7 +390,7 @@ begin
     end;
   end;
 end;
-*)
+
 procedure TNFSeW_Aspec.GerarIniNfse(AINIRec: TMemIniFile);
 begin
   GerarINIIdentificacaoNFSe(AINIRec);
