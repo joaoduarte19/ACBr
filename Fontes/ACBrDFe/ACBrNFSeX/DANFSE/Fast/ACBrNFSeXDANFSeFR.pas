@@ -1298,7 +1298,7 @@ begin
   LCDS.FieldByName('CodigoVerificacao').AsString := ANFSe.CodigoVerificacao;
   LCDS.FieldByName('LinkNFSe').AsString          := ANFSe.Link;
 
-  if (ANFSe.Producao = TnfseSimNao.snSim) then
+  if (ANFSe.Producao = snSim) then
   begin
     LCDS.FieldByName('tpAmb').AsString  := '1';
     LCDS.FieldByName('xtpAmb').AsString := 'Produção';
@@ -1311,11 +1311,11 @@ begin
 
   LCDS.FieldByName('tpEmit').AsString := IntToStr(Ord(ANFSe.tpEmit));
   case ANFSe.tpEmit of
-    TtpEmit.tePrestador:
+    tePrestador:
       LCDS.FieldByName('xtpEmit').AsString := 'Prestador do Serviço';
-    TtpEmit.teTomador:
+    teTomador:
       LCDS.FieldByName('xtpEmit').AsString := 'Tomador do Serviço';
-    TtpEmit.teIntermediario:
+    teIntermediario:
       LCDS.FieldByName('xtpEmit').AsString := 'Intermediário do Serviço';
   end;
 
@@ -1334,19 +1334,19 @@ begin
   LCDS.FieldByName('xsitNFSe').AsString := SuprimeTexto(LCDS.FieldByName('xsitNFSe').AsString, 40);
 
   case ANFSe.IBSCBS.finNFSe of
-    TfinNFSe.fnfsRegular:
+    fnfsRegular:
       LCDS.FieldByName('xfinNFSe').AsString := 'NFS-e regular';
-    TfinNFSe.fnfsCredito:
+    fnfsCredito:
       LCDS.FieldByName('xfinNFSe').AsString := 'NFS-e crédito';
-    TfinNFSe.fnfsDebito:
+    fnfsDebito:
       LCDS.FieldByName('xfinNFSe').AsString := 'NFS-e débito';
   end;
   LCDS.FieldByName('xfinNFSe').AsString := SuprimeTexto(LCDS.FieldByName('xfinNFSe').AsString, 40);
 
   case ANFSe.infNFSe.ambGer of
-    TambGer.agPrefeitura:
+    agPrefeitura:
       LCDS.FieldByName('xambGer').AsString := 'Emissor da Prefeitura';
-    TambGer.agSistemaNacional:
+    agSistemaNacional:
       LCDS.FieldByName('xambGer').AsString := 'Emissor Nacional da NFS-e';
   end;
 
@@ -1381,7 +1381,7 @@ begin
   LCDS.FieldByName('Telefone').AsString := FormatarFone(LDestinatario.fone);
   LCDS.FieldByName('Email').AsString    := LDestinatario.email;
 
-  if (ANFSe.IBSCBS.OperExterior = TIndicador.tiSim) then
+  if (ANFSe.IBSCBS.OperExterior = tiSim) then
   begin
     LCDS.FieldByName('CEP').AsString             := LEndereco.endExt.cEndPost;
     LCDS.FieldByName('UF').AsString              := LEndereco.endExt.xEstProvReg;
@@ -1549,14 +1549,14 @@ begin
 
   if FDANFSeXClassOwner.Cancelada
     or (ANFSe.NfseCancelamento.DataHora <> 0)
-    or (ANFSe.SituacaoNfse = TStatusNFSe.snCancelado)
-    or (ANFSe.StatusRps = TStatusRps.srCancelado) then
+    or (ANFSe.SituacaoNfse = snCancelado)
+    or (ANFSe.StatusRps = srCancelado) then
   begin
     LCDS.FieldByName('Mensagem0').AsString := 'CANCELADA';
   end;
 
   if (ANFSe.NfseSubstituidora <> '')
-    or (ANFSe.SituacaoNfse = TStatusNFSe.snSubstituido) then
+    or (ANFSe.SituacaoNfse = snSubstituido) then
   begin
     LCDS.FieldByName('Mensagem0').AsString := 'SUBSTITUÍDA';
   end;
@@ -1687,15 +1687,15 @@ begin
   LCDS.FieldByName('NumeroProcesso').AsString := LServico.NumeroProcesso;
 
   case LServico.Valores.tribMun.tpBM of
-    TtpBM.tbIsencao:
+    tbIsencao:
       LCDS.FieldByName('xtpBM').AsString := 'Isenção';
-    TtpBM.tbReducaoBCperc:
+    tbReducaoBCperc:
       LCDS.FieldByName('xtpBM').AsString := 'Redução da Base de Cálculo (em porcentagem)';
-    TtpBM.tbReducaoBCvalor:
+    tbReducaoBCvalor:
       LCDS.FieldByName('xtpBM').AsString := 'Redução da Base de Cálculo (em valor)';
-    TtpBM.tbAliquota:
+    tbAliquota:
       LCDS.FieldByName('xtpBM').AsString := 'Alíquota Diferenciada';
-    TtpBM.tbNenhum:
+    tbNenhum:
       LCDS.FieldByName('xtpBM').AsString := '-';
   end;
   SuprimeTexto(LCDS.FieldByName('xtpBM').AsString, 40);
@@ -1780,17 +1780,17 @@ begin
       begin
         LCDS.FieldByName('tribISSQN').AsString := 'Imunidade';
         case ANFSe.Servico.Valores.tribMun.tpImunidade of
-          TtpImunidade.timPatrimonio:
+          timPatrimonio:
             LCDS.FieldByName('xtpImunidade').AsString := 'Patrimônio, renda ou serviços, uns dos outros (CF/88, art. 150, VI, a)';
-          TtpImunidade.timTemplos:
+          timTemplos:
             LCDS.FieldByName('xtpImunidade').AsString := 'Templos de qualquer culto (CF/88, art. 150, VI, b)';
-          TtpImunidade.timPatrimonioPartidos:
+          timPatrimonioPartidos:
             LCDS.FieldByName('xtpImunidade').AsString := 'Partidos políticos, entidades sindicais, instituições de educação e '
               + 'assistência social sem fins lucrativos (CF/88, art. 150, VI, c';
-          TtpImunidade.timLivros:
+          timLivros:
             LCDS.FieldByName('xtpImunidade').AsString := 'Livros, jornais, periódicos e o papel destinado à sua '
               + 'impressão (CF/88, art. 150, VI, d)';
-          TtpImunidade.timFonogramas:
+          timFonogramas:
             LCDS.FieldByName('xtpImunidade').AsString := 'Fonogramas e videofonogramas musicais produzidos no Brasil '
               + '(CF/88, art. 150, VI, e)';
         end;
@@ -1804,11 +1804,11 @@ begin
   SuprimeTexto(LCDS.FieldByName('xtpImunidade').AsString, 40);
 
   case LValores.tribMun.tpRetISSQN of
-    TtpRetISSQN.trNaoRetido:
+    trNaoRetido:
       LCDS.FieldByName('tpRetISSQN').AsString := 'Não Retido';
-    TtpRetISSQN.trRetidoPeloTomador:
+    trRetidoPeloTomador:
       LCDS.FieldByName('tpRetISSQN').AsString := 'Retido pelo Tomador';
-    TtpRetISSQN.trRetidoPeloIntermediario:
+    trRetidoPeloIntermediario:
       LCDS.FieldByName('tpRetISSQN').AsString := 'Retido pelo Intermediário';
   else
     LCDS.FieldByName('tpRetISSQN').AsString := '-';
@@ -2078,9 +2078,9 @@ begin
     frxReport.FindObject('FilhaComDestinatario').Visible   := False;
     frxReport.FindObject('FilhaSemDestinatario').Visible   := False;
 
-    if (LNFSe.IBSCBS.indDest = TindDest.idTomadorAdquirenteDestinatarioIguais) then
+    if (LNFSe.IBSCBS.indDest = idTomadorAdquirenteDestinatarioIguais) then
       frxReport.FindObject('FilhaDestinarioTomador').Visible := True
-    else if (LNFSe.IBSCBS.indDest <> TindDest.idTomadorAdquirenteDestinatarioIguais)
+    else if (LNFSe.IBSCBS.indDest <> idTomadorAdquirenteDestinatarioIguais)
       and (LNFSe.IBSCBS.dest.CNPJCPF = '') then
       frxReport.FindObject('FilhaSemDestinatario').Visible := True
     else
