@@ -42,6 +42,20 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/08/2026
+[*] ACBR-9448 - O município de Estreiro/MA trocou de provedor, agora é o TaxTecnologia na versão 2.04
+    Por: PrimeSoftware
+    Veja: https://www.projetoacbr.com.br/forum/topic/92656-acbr-9448-nova-url-municipio-de-estreito-ma/ 
+[*] ACBR-9702 - O município de Abelardo Luz/SC aderiu ao Padrão Nacional
+    Por: ADMINFO
+    Veja: https://www.projetoacbr.com.br/forum/topic/93841-acbr-9702-impress%C3%A3o-xml-nfs-e-abelardo-luz-sc/#comment-614322
+[*] ACBR-9652 - O município de Cabo Frio/RJ aderiu ao Padrão Nacional
+    Por: PrimeSoftware
+    Veja: https://www.projetoacbr.com.br/forum/topic/93459-cabo-friorj-poss%C3%ADvel-altera%C3%A7%C3%A3o-nos-schemas-do-provedor-modernizacaopublica/
+[*] ACBR-9562 - O município de Blumenau/SC aderiu ao Padrão Nacional
+    Por: Paulo Alexandre Hostert
+    Veja: https://www.projetoacbr.com.br/forum/topic/93125-acbr-9562-emiss%C3%A3o-nfs-e-ambiente-nacional/
+
 31/07/2026
 -- ISSSaoPaulo.GravarXml --
 [*] Adiciona fallback para que em arquivos INI onde só tenha sido informado ValorServicos, use esse valor para a tag ValorFinalCobrado quando ela não for encontrada.
