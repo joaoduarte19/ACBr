@@ -46,6 +46,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/08/2026
+-- Ajustes diversos NFE DANFe Fortes --
+[*] #ACBR-9471 - Ajustes para chaves e cnpj alfanumericos.
+  Por: Daniel de Morais InfoCotidiano
+
 23/12/2025
 -- ACBrNFeDANFeEventoRLRetrato --
 [-] #ACBR-8532 - Altera a forma como é preenchida a informação da descrição do evento no impresso para correta exibição dos novos eventos

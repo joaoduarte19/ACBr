@@ -1,6 +1,6 @@
 inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
-  Left = 226
-  Top = 117
+  Left = 234
+  Top = 0
   Caption = 'frlDANFeRLRetrato'
   Font.Height = -18
   inherited RLNFe: TRLReport
@@ -31,7 +31,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
     object rlbContinuacaoInformacoesComplementares: TRLBand[1]
       Left = 26
       Height = 41
-      Top = 1401
+      Top = 1407
       Width = 742
       AutoSize = True
       BandType = btSummary
@@ -100,7 +100,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
     object rlbCabecalhoItens: TRLBand[2]
       Left = 26
       Height = 31
-      Top = 1320
+      Top = 1326
       Width = 742
       AutoSize = True
       Background.Arrange = baDistributed
@@ -624,7 +624,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
     end
     object rlbEmitente: TRLBand[3]
       Left = 26
-      Height = 182
+      Height = 188
       Top = 187
       Width = 742
       AutoExpand = False
@@ -634,7 +634,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
         Left = 0
         Height = 117
         Top = 0
-        Width = 273
+        Width = 262
       end
       object RLDraw6: TRLDraw
         Left = 0
@@ -643,10 +643,10 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
         Width = 740
       end
       object rliChave: TRLDraw
-        Left = 429
+        Left = 357
         Height = 117
         Top = 0
-        Width = 311
+        Width = 383
       end
       object RLDraw8: TRLDraw
         Left = 0
@@ -684,145 +684,144 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
         HoldStyle = hsVertically
       end
       object rllDANFE: TRLLabel
-        Left = 276
-        Height = 20
+        Left = 263
+        Height = 14
         Top = 6
-        Width = 150
+        Width = 92
         Alignment = taCenter
         AutoSize = False
         Caption = 'DANFE'
         Font.Color = clBlack
-        Font.Height = -19
+        Font.Height = -13
         Font.Name = 'Arial'
         Font.Style = [fsBold]
         ParentFont = False
       end
       object rllDocumento1: TRLLabel
-        Left = 276
+        Left = 263
         Height = 12
-        Top = 28
-        Width = 150
+        Top = 22
+        Width = 92
         Alignment = taCenter
         AutoSize = False
-        Caption = 'DOCUMENTO AUXILIAR DA'
+        Caption = 'DOCUMENTO AUXILIAR'
         Font.Color = clBlack
-        Font.Height = -9
+        Font.Height = -7
         Font.Name = 'Arial'
         Font.Style = [fsBold]
         ParentFont = False
       end
       object rllDocumento2: TRLLabel
-        Left = 276
+        Left = 263
         Height = 12
-        Top = 40
-        Width = 150
+        Top = 32
+        Width = 92
         Alignment = taCenter
         AutoSize = False
-        Caption = 'NOTA FISCAL ELETRÔNICA'
+        Caption = 'DA NOTA FISCAL'
+        Font.Color = clBlack
+        Font.Height = -7
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object rllTipoEntrada: TRLLabel
+        Left = 263
+        Height = 10
+        Top = 53
+        Width = 51
+        Caption = '0 - ENTRADA'
+        Font.Color = clBlack
+        Font.Height = -8
+        Font.Name = 'Arial'
+        ParentFont = False
+      end
+      object rllTipoSaida: TRLLabel
+        Left = 263
+        Height = 10
+        Top = 63
+        Width = 36
+        Caption = '1 - SAÍDA'
+        Font.Color = clBlack
+        Font.Height = -8
+        Font.Name = 'Arial'
+        ParentFont = False
+      end
+      object rliTipoEntrada: TRLDraw
+        Left = 329
+        Height = 25
+        Top = 55
+        Width = 25
+      end
+      object rllEntradaSaida: TRLLabel
+        Left = 332
+        Height = 20
+        Top = 58
+        Width = 20
+        Alignment = taCenter
+        AutoSize = False
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object rllNumNF1: TRLLabel
+        Left = 263
+        Height = 11
+        Top = 75
+        Width = 61
+        Caption = 'Nº 999999999'
         Font.Color = clBlack
         Font.Height = -9
         Font.Name = 'Arial'
         Font.Style = [fsBold]
         ParentFont = False
       end
-      object rllTipoEntrada: TRLLabel
-        Left = 292
-        Height = 14
-        Top = 55
-        Width = 68
-        Caption = '0 - ENTRADA'
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'Arial'
-        ParentFont = False
-      end
-      object rllTipoSaida: TRLLabel
-        Left = 292
-        Height = 14
-        Top = 67
-        Width = 51
-        Caption = '1 - SAÍDA'
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'Arial'
-        ParentFont = False
-      end
-      object rliTipoEntrada: TRLDraw
-        Left = 378
-        Height = 25
-        Top = 54
-        Width = 25
-      end
-      object rllEntradaSaida: TRLLabel
-        Left = 381
-        Height = 20
-        Top = 57
-        Width = 20
-        Alignment = taCenter
-        AutoSize = False
-        Font.Color = clBlack
-        Font.Height = -16
-        Font.Name = 'Arial'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object rllNumNF1: TRLLabel
-        Left = 276
-        Height = 16
-        Top = 82
-        Width = 85
-        Caption = 'Nº 999999999'
-        Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'Arial'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
       object rllSERIE1: TRLLabel
-        Left = 318
-        Height = 16
-        Top = 98
-        Width = 68
+        Left = 263
+        Height = 10
+        Top = 87
+        Width = 40
         Alignment = taCenter
         Caption = 'SÉRIE 000'
         Font.Color = clBlack
-        Font.Height = -13
+        Font.Height = -8
         Font.Name = 'Arial'
         ParentFont = False
       end
       object rliChave2: TRLDraw
-        Left = 429
+        Left = 359
         Height = 1
         Top = 48
-        Width = 311
+        Width = 381
         DrawKind = dkLine
         HoldStyle = hsHorizontally
       end
       object rliChave3: TRLDraw
-        Left = 429
+        Left = 358
         Height = 1
         Top = 78
-        Width = 311
+        Width = 382
         DrawKind = dkLine
         HoldStyle = hsHorizontally
       end
       object rlbCodigoBarras: TRLBarcode
-        Left = 435
+        Left = 420
         Height = 40
-        Top = 5
-        Width = 298
+        Top = 6
+        Width = 254
         Alignment = taCenter
         Anchors = [fkLeft, fkTop]
-        AutoSize = False
-        BarcodeType = bcCode128C
+        BarcodeType = bcCode128
         Margins.LeftMargin = 1
         Margins.RightMargin = 1
       end
       object rllChaveAcesso: TRLLabel
         Tag = 10
-        Left = 432
+        Left = 361
         Height = 7
-        Top = 51
+        Top = 52
         Width = 71
         Caption = 'CHAVE DE ACESSO'
         Font.Color = clBlack
@@ -931,7 +930,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
         Left = 8
         Height = 32
         Top = 18
-        Width = 258
+        Width = 248
         Alignment = taCenter
         AutoSize = False
         Behavior = [beSiteExpander]
@@ -946,7 +945,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
         Left = 81
         Height = 33
         Top = 43
-        Width = 185
+        Width = 175
         AutoSize = False
         Behavior = [beSiteExpander]
         Font.Color = clBlack
@@ -1032,10 +1031,10 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
       end
       object rllChave: TRLLabel
         Tag = 703
-        Left = 436
+        Left = 360
         Height = 14
         Top = 61
-        Width = 300
+        Width = 376
         Alignment = taCenter
         AutoSize = False
         Font.Color = clBlack
@@ -1058,9 +1057,9 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
         ParentFont = False
       end
       object rllXmotivo: TRLLabel
-        Left = 535
+        Left = 482
         Height = 22
-        Top = 14
+        Top = 13
         Width = 100
         Alignment = taCenter
         Font.Color = clRed
@@ -1085,55 +1084,68 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
         ParentFont = False
       end
       object rlbCodigoBarrasFS: TRLBarcode
-        Left = 512
+        Left = 405
         Height = 33
         Top = 81
-        Width = 144
+        Width = 286
         Alignment = taCenter
-        BarcodeType = bcCode128C
+        BarcodeType = bcCode128
         Margins.LeftMargin = 1
         Margins.RightMargin = 1
       end
       object rllPageNumber: TRLSystemInfo
-        Left = 368
-        Height = 16
-        Top = 82
-        Width = 34
-        Alignment = taRightJustify
+        Left = 263
+        Height = 13
+        Top = 97
+        Width = 37
         AutoSize = False
         Font.Color = clBlack
-        Font.Height = -15
+        Font.Height = -9
         Font.Name = 'Arial'
         Info = itPageNumber
         ParentFont = False
         Text = 'fl. '
       end
       object rllLastPage: TRLSystemInfo
-        Left = 402
-        Height = 16
-        Top = 82
+        Left = 309
+        Height = 13
+        Top = 97
         Width = 24
         AutoSize = False
         Font.Color = clBlack
-        Font.Height = -15
+        Font.Height = -9
         Font.Name = 'Arial'
         Info = itLastPageNumber
         ParentFont = False
         Text = '/'
       end
       object RLDraw4: TRLDraw
-        Left = 272
+        Left = 261
         Height = 1
         Top = 0
-        Width = 158
+        Width = 480
         DrawKind = dkLine
         HoldStyle = hsHorizontally
+      end
+      object rllDocumento3: TRLLabel
+        Left = 263
+        Height = 12
+        Top = 40
+        Width = 92
+        Alignment = taCenter
+        AutoSize = False
+        Caption = 'ELETRÔNICA'
+        Font.Color = clBlack
+        Font.Height = -7
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
       end
     end
     object rlbDadosAdicionais: TRLBand[4]
       Left = 26
       Height = 169
-      Top = 1494
+      Top = 1500
       Width = 742
       AlignToBottom = True
       AutoExpand = False
@@ -1266,7 +1278,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
     object rlbDestinatario: TRLBand[5]
       Left = 26
       Height = 108
-      Top = 369
+      Top = 375
       Width = 742
       BandType = btTitle
       object RLDraw15: TRLDraw
@@ -1687,7 +1699,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
     object rlbFatura: TRLBand[6]
       Left = 26
       Height = 230
-      Top = 747
+      Top = 753
       Width = 742
       BandType = btTitle
       object rliFatura: TRLDraw
@@ -4196,7 +4208,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
     object rlbImposto: TRLBand[7]
       Left = 26
       Height = 79
-      Top = 1065
+      Top = 1071
       Width = 742
       BandType = btTitle
       object RLDraw29: TRLDraw
@@ -4657,7 +4669,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
     object rlbTransp: TRLBand[8]
       Left = 26
       Height = 110
-      Top = 1144
+      Top = 1150
       Width = 742
       BandType = btTitle
       object rliTransp: TRLDraw
@@ -5212,7 +5224,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
     object rlbISSQN: TRLBand[9]
       Left = 26
       Height = 52
-      Top = 1442
+      Top = 1448
       Width = 742
       BandType = btFooter
       object RLDraw52: TRLDraw
@@ -5375,7 +5387,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
     object rlbAvisoContingencia: TRLBand[10]
       Left = 26
       Height = 36
-      Top = 1284
+      Top = 1290
       Width = 742
       BandType = btColumnHeader
       object rllContingencia: TRLLabel
@@ -5574,7 +5586,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
     object rlbFaturaReal: TRLBand[12]
       Left = 26
       Height = 46
-      Top = 701
+      Top = 707
       Width = 742
       BandType = btTitle
       Borders.Sides = sdCustom
@@ -5763,7 +5775,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
     object rlbCanceladaDenegada: TRLBand[13]
       Left = 26
       Height = 30
-      Top = 1254
+      Top = 1260
       Width = 742
       BandType = btColumnHeader
       Visible = False
@@ -5786,7 +5798,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
     object subItens: TRLSubDetail[14]
       Left = 26
       Height = 50
-      Top = 1351
+      Top = 1357
       Width = 742
       Borders.Sides = sdCustom
       Borders.DrawLeft = False
@@ -6258,7 +6270,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
     object rlbEntrega: TRLBand[15]
       Left = 26
       Height = 112
-      Top = 589
+      Top = 595
       Width = 742
       BandType = btTitle
       Borders.Sides = sdCustom
@@ -6577,7 +6589,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
     object rlbRetirada: TRLBand[16]
       Left = 26
       Height = 112
-      Top = 477
+      Top = 483
       Width = 742
       BandType = btTitle
       Borders.Sides = sdCustom
@@ -7054,7 +7066,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
     object rlbPagamentoReal: TRLBand[19]
       Left = 26
       Height = 88
-      Top = 977
+      Top = 983
       Width = 742
       BandType = btTitle
       Borders.Sides = sdCustom
@@ -7656,7 +7668,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
     end
   end
   inherited RLPDFFilter1: TRLPDFFilter
-    Left = 680
-    Top = 120
+    Left = 688
+    Top = 114
   end
 end

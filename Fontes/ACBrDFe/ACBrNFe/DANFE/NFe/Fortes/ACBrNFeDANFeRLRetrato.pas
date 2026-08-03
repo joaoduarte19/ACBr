@@ -695,6 +695,7 @@ type
     rliPagamentoReal1: TRLDraw;
     rliPagamentoReal2: TRLDraw;
     rliPagamentoReal3: TRLDraw;
+    rllDocumento3: TRLLabel;
 
     procedure rlbContinuacaoInformacoesComplementaresBeforePrint(
       Sender: TObject; var PrintIt: Boolean);
@@ -771,9 +772,9 @@ begin
     if fpDANFe.LogoemCima then
     begin
       rliLogo.Top := 16;
-      rliLogo.Left := 8;
-      rliLogo.Height := 42;
-      rliLogo.Width := 258;
+      rliLogo.Left := 4;
+      rliLogo.Height := 41;
+      rliLogo.Width := 252;
 
       rlmEmitente.Top := 58;
       rlmEmitente.Left := 8;
@@ -1041,8 +1042,8 @@ begin
 
       with rliLogo do
       begin
-        Height := 101;
-        Width := 268;
+        Height := 96;
+        Width := 257;
         Top := 14;
         Left := 2;
 

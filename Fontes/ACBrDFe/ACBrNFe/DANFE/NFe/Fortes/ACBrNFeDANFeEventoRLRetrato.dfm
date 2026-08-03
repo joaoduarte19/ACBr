@@ -105,7 +105,7 @@ inherited frlDANFeEventoRLRetrato: TfrlDANFeEventoRLRetrato
         Tag = 70
         Left = 104
         Top = 33
-        Width = 57
+        Width = 47
         Height = 14
         AutoSize = False
         Font.Charset = DEFAULT_CHARSET
@@ -117,7 +117,7 @@ inherited frlDANFeEventoRLRetrato: TfrlDANFeEventoRLRetrato
       end
       object RLLabel46: TRLLabel
         Tag = 10
-        Left = 303
+        Left = 242
         Top = 23
         Width = 92
         Height = 10
@@ -132,9 +132,9 @@ inherited frlDANFeEventoRLRetrato: TfrlDANFeEventoRLRetrato
       end
       object rllMesAnoEmissaoNF: TRLLabel
         Tag = 70
-        Left = 306
+        Left = 242
         Top = 33
-        Width = 119
+        Width = 94
         Height = 14
         AutoSize = False
         Font.Charset = DEFAULT_CHARSET
@@ -147,7 +147,7 @@ inherited frlDANFeEventoRLRetrato: TfrlDANFeEventoRLRetrato
       object RLDraw30: TRLDraw
         Left = 0
         Top = 50
-        Width = 431
+        Width = 361
         Height = 1
         DrawKind = dkLine
         Holder = RLDraw29
@@ -163,7 +163,7 @@ inherited frlDANFeEventoRLRetrato: TfrlDANFeEventoRLRetrato
         HoldStyle = hsRelatively
       end
       object RLDraw31: TRLDraw
-        Left = 300
+        Left = 239
         Top = 20
         Width = 1
         Height = 31
@@ -172,7 +172,7 @@ inherited frlDANFeEventoRLRetrato: TfrlDANFeEventoRLRetrato
         HoldStyle = hsRelatively
       end
       object RLDraw37: TRLDraw
-        Left = 430
+        Left = 360
         Top = 20
         Width = 1
         Height = 61
@@ -181,20 +181,21 @@ inherited frlDANFeEventoRLRetrato: TfrlDANFeEventoRLRetrato
         HoldStyle = hsRelatively
       end
       object rlbCodigoBarras: TRLBarcode
-        Left = 519
+        Left = 365
         Top = 29
-        Width = 132
+        Width = 374
         Height = 44
         Margins.LeftMargin = 1.000000000000000000
         Margins.RightMargin = 1.000000000000000000
         Alignment = taCenter
-        BarcodeType = bcCode128C
+        BarcodeType = bcCode128
+        Caption = '352607ZXSG815ZYMRY45550010000000122402743072'
       end
       object rllChaveNFe: TRLLabel
         Tag = 70
         Left = 6
         Top = 63
-        Width = 419
+        Width = 350
         Height = 14
         AutoSize = False
         Font.Charset = DEFAULT_CHARSET
@@ -222,7 +223,7 @@ inherited frlDANFeEventoRLRetrato: TfrlDANFeEventoRLRetrato
       end
       object RLLabel1: TRLLabel
         Tag = 10
-        Left = 173
+        Left = 159
         Top = 23
         Width = 38
         Height = 10
@@ -236,7 +237,7 @@ inherited frlDANFeEventoRLRetrato: TfrlDANFeEventoRLRetrato
         ParentFont = False
       end
       object RLDraw8: TRLDraw
-        Left = 170
+        Left = 154
         Top = 20
         Width = 1
         Height = 31
@@ -246,9 +247,9 @@ inherited frlDANFeEventoRLRetrato: TfrlDANFeEventoRLRetrato
       end
       object rllNumNF: TRLLabel
         Tag = 70
-        Left = 176
+        Left = 161
         Top = 33
-        Width = 113
+        Width = 73
         Height = 14
         AutoSize = False
         Font.Charset = DEFAULT_CHARSET
