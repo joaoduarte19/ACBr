@@ -16,15 +16,17 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <AutoIncrementBuild Value="False"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
       <BuildNr Value="200"/>
       <Language Value="0416"/>
       <StringTable Comments="Projeto ACBr" CompanyName="ACBrGTIN - Biblioteca para consulta GTIN" FileDescription="ACBrLibGTIN" InternalName="ACBrLibGTIN" LegalCopyright="Projeto ACBr" LegalTrademarks="Projeto ACBr" ProductName="GTIN" ProductVersion="0.0.0.4"/>
-      <MinorVersionNr Value="0"/>
     </VersionInfo>
-    <BuildModes Count="5">
+    <MacroValues Count="2">
+      <Macro1 Name="ACBrDir" Value="$Env(ACBR_HOME)"/>
+      <Macro2 Name="LCLWidgetType" Value="nogui"/>
+    </MacroValues>
+    <BuildModes Count="6">
       <Item1 Name="Win32-i386-CDECL-DEBUG" Default="True"/>
       <Item2 Name="Linux-x86_64-MT">
         <MacroValues Count="2">
@@ -185,9 +187,48 @@
           </Other>
         </CompilerOptions>
       </Item5>
+      <Item6 Name="Win64-x86_64-MT">
+        <MacroValues Count="2">
+          <Macro1 Name="ACBrDir" Value="$Env(ACBR_HOME)"/>
+          <Macro2 Name="LCLWidgetType" Value="nogui"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="bin\Windows\CONSOLE-MT\ACBrGTIN64"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum;..\..\..\..\Fontes\ACBrComum"/>
+            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrDFe;$(ACBrDir)\Fontes\ACBrDFe\Comum;$(ACBrDir)\Fontes\ACBrDFe\ACBrGTIN;$(ACBrDir)\Fontes\ACBrDFe\ACBrGTIN\Base;$(ACBrDir)\Fontes\ACBrDFe\ACBrGTIN\Base\Servicos;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\ACBrIntegrador;$(ACBrDir)\Fontes\ACBrIntegrador\pcnVFPe;$(ACBrDir)\Fontes\PCNComum;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\ACBrLibXML2;..\..\..\..\Fontes\Terceiros\CodeGear"/>
+            <UnitOutputDirectory Value="lib\CONSOLE-$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="win64"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <StripSymbols Value="True"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <ExecutableType Value="Library"/>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dMT -dNOGUI"/>
+          </Other>
+        </CompilerOptions>
+      </Item6>
       <SharedMatrixOptions Count="2">
-        <Item1 ID="287765030927" Modes="Linux-x86_64-MT,android-armeabi-v7a,android-arm64-v8a,Linux-i386-MT" Type="IDEMacro" MacroName="ACBrDir" Value="$Env(ACBR_HOME)"/>
-        <Item2 ID="337760017682" Modes="Linux-x86_64-MT,android-armeabi-v7a,android-arm64-v8a,Linux-i386-MT" Type="IDEMacro" MacroName="LCLWidgetType" Value="nogui"/>
+        <Item1 ID="287765030927" Modes="Linux-x86_64-MT,android-armeabi-v7a,android-arm64-v8a,Linux-i386-MT,Win64-x86_64-MT,Win32-i386-CDECL-DEBUG" Type="IDEMacro" MacroName="ACBrDir" Value="$Env(ACBR_HOME)"/>
+        <Item2 ID="337760017682" Modes="Linux-x86_64-MT,android-armeabi-v7a,android-arm64-v8a,Linux-i386-MT,Win64-x86_64-MT,Win32-i386-CDECL-DEBUG" Type="IDEMacro" MacroName="LCLWidgetType" Value="nogui"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
@@ -205,7 +246,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="13">
+    <Units Count="16">
       <Unit0>
         <Filename Value="ACBrLibGTIN.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -261,6 +302,18 @@
         <Filename Value="ACBrLibGTINStaticImportMT.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit12>
+      <Unit13>
+        <Filename Value="..\..\..\..\Fontes\Terceiros\CodeGear\ACBr_BCrypt.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="..\..\..\..\Fontes\Terceiros\CodeGear\ACBr_NCrypt.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="..\..\..\..\Fontes\Terceiros\CodeGear\ACBr_WinCrypt.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit15>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -271,7 +324,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum;..\..\..\..\Fontes\ACBrComum"/>
-      <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrDFe;$(ACBrDir)\Fontes\ACBrDFe\Comum;$(ACBrDir)\Fontes\ACBrDFe\ACBrGTIN;$(ACBrDir)\Fontes\ACBrDFe\ACBrGTIN\Base;$(ACBrDir)\Fontes\ACBrDFe\ACBrGTIN\Base\Servicos;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\ACBrIntegrador;$(ACBrDir)\Fontes\ACBrIntegrador\pcnVFPe;$(ACBrDir)\Fontes\PCNComum;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\ACBrLibXML2"/>
+      <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrDFe;$(ACBrDir)\Fontes\ACBrDFe\Comum;$(ACBrDir)\Fontes\ACBrDFe\ACBrGTIN;$(ACBrDir)\Fontes\ACBrDFe\ACBrGTIN\Base;$(ACBrDir)\Fontes\ACBrDFe\ACBrGTIN\Base\Servicos;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\ACBrIntegrador;$(ACBrDir)\Fontes\ACBrIntegrador\pcnVFPe;$(ACBrDir)\Fontes\PCNComum;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\ACBrLibXML2;..\..\..\..\Fontes\Terceiros\CodeGear"/>
       <UnitOutputDirectory Value="lib\CONSOLE-$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
