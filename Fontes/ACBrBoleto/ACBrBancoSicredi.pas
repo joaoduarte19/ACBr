@@ -54,6 +54,7 @@ type
     function ConverterJurosDiario(const ACBrTitulo: TACBrTitulo): Double;
     function ConverterMultaPercentual(const ACBrTitulo: TACBrTitulo): Double;
     function ConverterMultaValor(const ACBrTitulo: TACBrTitulo): Double;
+    function DefineCodigoMoraJuros(const ACBrTitulo: TACBrTitulo): String;
   protected
     function GetLocalPagamento: String; override;
   public
@@ -253,7 +254,7 @@ begin
     else
       codMora := CodigoMora;
 
-    if (Pos(codMora,'AB') > 0) then
+    if (Pos(codMora,'ABC') > 0) then
       Result := codMora
     else
     begin
@@ -263,6 +264,36 @@ begin
       else
         Result := 'A';
       end;
+    end
+  end;
+end;
+
+function TACBrBancoSicredi.DefineCodigoMoraJuros(const ACBrTitulo: TACBrTitulo): String;
+begin
+  with ACBrTitulo do
+  begin
+    if (CodigoMora <> '') then
+    begin
+      if CodigoMora = 'A' then
+        Result := '1'
+      else if (Pos(CodigoMora,'BC') > 0) then
+        Result := '2'
+      else
+        Result := CodigoMora
+    end
+    else
+    begin
+      if (ValorMoraJuros > 0) then
+      begin
+        case CodigoMoraJuros of
+          cjTaxaMensal, cjValorMensal   :
+            Result := '2';
+        else
+          Result := '1';
+        end;
+      end
+      else
+        Result := '3';
     end
   end;
 end;

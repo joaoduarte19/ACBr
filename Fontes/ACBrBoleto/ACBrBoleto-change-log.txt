@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+04/08/2026
+-- ACBrBancoSicredi, ACBrBoleto ,ACBrBoletoW_Sicredi_APIV2  --
+[*] ACBR-9585 - Ajustes referente ao codigo mora; 
+   Por: Valter Patrick, (Victor H. Gonzales Pandaaa apoiou ACBrBoleto)
+   Veja: https://www.projetoacbr.com.br/forum/topic/93240-acbr-9585-boleto-sicredi-informar-juros-mensais/#comment-609566
+
 30/07/2026
 -- ACBrBoletoW_Bradesco --
 [*] ACBR-9661 - Implementado o indice de continuidade

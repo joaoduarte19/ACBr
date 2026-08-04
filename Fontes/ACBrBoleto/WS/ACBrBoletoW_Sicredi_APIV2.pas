@@ -50,7 +50,7 @@ type
   private
     function CodigoTipoTitulo(AEspecieDoc:String): String;
     function TipoDescontoToString(const AValue: TACBrTipoDesconto): String;
-    function TipoJuros(const AValue: String): String;
+    function TipoJuros(const ACBrTitulo: TACBrTitulo): String;
   protected
     function GerarTokenAutenticacao: string; override;
     function DefinirParametros: String;
@@ -434,7 +434,7 @@ begin
         LJsonObject.AddPair('descontoAtencipado', ATitulo.ValorDescontoAntDia);
       if ATitulo.ValorMoraJuros > 0 then
       begin
-        LJsonObject.AddPair('tipoJuros', Self.TipoJuros(ATitulo.CodigoMora) );
+        LJsonObject.AddPair('tipoJuros', Self.TipoJuros(ATitulo));
         LJsonObject.AddPair('juros', ATitulo.ValorMoraJuros);
       end;
       if ATitulo.PercentualMulta > 0 then
@@ -811,15 +811,38 @@ begin
   end;
 end;
 
-
-function TBoletoW_Sicredi_APIV2.TipoJuros(const AValue: String): String;
+function TBoletoW_Sicredi_APIV2.TipoJuros(const ACBrTitulo: TACBrTitulo): String;
 begin
-  if (AValue = 'A') then
-    Result := 'VALOR'
-  else   if (AValue = 'B') then
-    Result := 'PERCENTUAL'
-  else
-    Result := 'VALOR'
+  with ACBrTitulo do
+  begin
+    if (CodigoMora <> '') then
+    begin
+      if (CodigoMora = 'A') then
+        Result := 'VALOR'
+      else if (CodigoMora = 'B') then
+        Result := 'PERCENTUAL'
+      else if (CodigoMora = 'C') then
+        raise Exception.Create('Tipo de juros C não é previsto até o manual Versão 3.9.1 ')
+      else
+        Result := 'VALOR'
+    end
+    else
+    begin
+      if (ValorMoraJuros > 0) then
+      begin
+        case CodigoMoraJuros of
+          cjValorMensal, cjValorDia   :
+            Result := 'VALOR';
+          cjTaxaMensal, cjTaxaDiaria   :
+            Result := 'PERCENTUAL';
+        else
+          raise Exception.Create('Tipo de CodigoMoraJuros não permitido')
+        end;
+      end
+      else
+        Result := '';
+    end;
+  end;
 end;
 
 end.

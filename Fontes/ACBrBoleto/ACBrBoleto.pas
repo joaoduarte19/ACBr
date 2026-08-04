@@ -3441,13 +3441,16 @@ var LTipoJuros, LJurosQuando : String;
 begin
   if (ATitulo.CodigoMora <> '') and
      (ATitulo.CodigoMoraJuros = cjIsento) and
-     (ATitulo.ValorMoraJuros > 0) and
-     (not (ATitulo.CodigoMoraJuros in [cjValorMensal,cjValorDia])) then
+     (ATitulo.ValorMoraJuros > 0) then
   begin
-    if (ATitulo.CodigoMora = '2') or (ATitulo.CodigoMora = 'B')  then
+    if (ATitulo.CodigoMora = '1') or (ATitulo.CodigoMora = 'A') then
+      ATitulo.CodigoMoraJuros := cjValorDia
+
+    else if (ATitulo.CodigoMora = 'B')  then
+      ATitulo.CodigoMoraJuros := cjTaxaDiaria
+
+    else if (ATitulo.CodigoMora = '2') or (ATitulo.CodigoMora = 'C')  then
       ATitulo.CodigoMoraJuros := cjTaxaMensal;
-    if ATitulo.CodigoMora = '1' then
-      ATitulo.CodigoMoraJuros := cjValorDia;
   end;
 
   case ATitulo.CodigoMoraJuros of
