@@ -180,6 +180,7 @@ type
     rllValorTotalNotaFiscal: TRLLabel;
     RLBand1: TRLBand;
     rlmDadosAdicionais: TRLMemo;
+    RLBarcode2: TRLBarcode;
     procedure RLb02_EmitenteBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure RLb03_DadosGeraisBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure RLb04_DestinatarioBeforePrint(Sender: TObject; var PrintIt: Boolean);
@@ -577,11 +578,35 @@ begin
 end;
 
 procedure TfrlDANFeRLSimplificado.rlb01_ChaveBeforePrint(Sender: TObject; var PrintBand: Boolean);
+Var
+  LEspacoFinal, LDescricaoTop, LProtocoloTop : integer;
 begin
   inherited;
 
   PrintBand := (RLNFe.PageNumber = 1);
-  RLBarcode1.Caption := RemoverLiteralChave(fpNFe.InfNFe.Id);
+  RLBarcode2.Visible := false;
+  LEspacoFinal := rlb01_Chave.Height - RLBarcode2.Height;
+  if StrIsNumber(RemoverLiteralChave(fpNFe.InfNFe.Id)) then
+    begin
+       rlb01_Chave.AutoSize := false;
+       rlb01_Chave.Height := LEspacoFinal;
+       RLBarcode1.Caption := RemoverLiteralChave(fpNFe.InfNFe.Id);
+       LDescricaoTop := RLBarcode1.Top + RLBarcode1.Height + 4;
+       LProtocoloTop := LDescricaoTop + rllDescricao.Height + 2;
+    end
+  else
+     begin
+      rlb01_Chave.AutoSize := true;
+      RLBarcode2.Visible := true;
+      RLBarcode1.Caption := copy(RemoverLiteralChave(fpNFe.InfNFe.Id), 1,22);
+      RLBarcode2.Caption := copy(RemoverLiteralChave(fpNFe.InfNFe.Id),23,22);
+      LDescricaoTop := RLBarcode2.Top + RLBarcode2.Height + 4;
+      LProtocoloTop := LDescricaoTop + rllDescricao.Height + 2;
+     end;
+
+  rllDescricao.Top := LDescricaoTop;
+  rllProtocolo.Top := LProtocoloTop;
+
   rllChave.Caption := FormatarChaveAcesso(fpNFe.InfNFe.Id);
 
   // Normal **************************************************************

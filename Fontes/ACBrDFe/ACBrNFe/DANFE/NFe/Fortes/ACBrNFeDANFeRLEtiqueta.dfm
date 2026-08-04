@@ -6,7 +6,7 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
   ClientWidth = 1098
   Font.Height = -8
   Font.Name = 'Arial'
-  Font.Style = [fsBold]  
+  Font.Style = [fsBold]
   inherited RLNFe: TRLReport
     Tag = 1
     Left = 176
@@ -27,7 +27,7 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
       Left = 38
       Top = 197
       Width = 340
-      Height = 116
+      Height = 162
       AutoSize = True
       BandType = btTitle
       Color = clWhite
@@ -40,9 +40,9 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
       ParentFont = False
       BeforePrint = rlb01_ChaveBeforePrint
       object rllChave: TRLLabel
-        Left = 3
+        Left = 8
         Top = 21
-        Width = 339
+        Width = 322
         Height = 16
         Alignment = taCenter
         AutoSize = False
@@ -58,7 +58,7 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
       end
       object rllDescricao: TRLLabel
         Left = 45
-        Top = 81
+        Top = 127
         Width = 256
         Height = 16
         Alignment = taCenter
@@ -76,7 +76,7 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
       end
       object rllProtocolo: TRLLabel
         Left = 45
-        Top = 100
+        Top = 146
         Width = 256
         Height = 16
         Alignment = taCenter
@@ -91,15 +91,15 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
         ParentFont = False
       end
       object RLBarcode1: TRLBarcode
-        Left = 4
-        Top = 42
+        Left = 3
+        Top = 43
         Width = 334
-        Height = 36
+        Height = 35
         Margins.LeftMargin = 1.000000000000000000
         Margins.RightMargin = 1.000000000000000000
         Alignment = taCenter
         AutoSize = False
-        BarcodeType = bcCode128C
+        BarcodeType = bcCode128
       end
       object RLLabel12: TRLLabel
         Left = 0
@@ -119,6 +119,17 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
         ParentColor = False
         ParentFont = False
         Transparent = False
+      end
+      object RLBarcode2: TRLBarcode
+        Left = 3
+        Top = 85
+        Width = 334
+        Height = 36
+        Margins.LeftMargin = 1.000000000000000000
+        Margins.RightMargin = 1.000000000000000000
+        Alignment = taCenter
+        AutoSize = False
+        BarcodeType = bcCode128
       end
     end
     object rlb02_Emitente: TRLBand
@@ -632,7 +643,7 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
     end
     object rlb05c_Lin_Itens: TRLBand
       Left = 38
-      Top = 414
+      Top = 460
       Width = 340
       Height = 1
       BandType = btFooter
@@ -647,7 +658,7 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
     end
     object rlb04_Destinatario: TRLBand
       Left = 38
-      Top = 313
+      Top = 359
       Width = 340
       Height = 50
       AutoSize = True
@@ -714,7 +725,7 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
     end
     object RLBand1: TRLBand
       Left = 38
-      Top = 363
+      Top = 409
       Width = 340
       Height = 51
       AutoSize = True

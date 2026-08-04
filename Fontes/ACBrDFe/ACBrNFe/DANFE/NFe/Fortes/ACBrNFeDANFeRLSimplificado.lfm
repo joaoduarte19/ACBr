@@ -1,9 +1,7 @@
 inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
-  Left = 2651
-  Height = 1019
-  Top = 19
+  Left = 487
+  Top = 95
   Caption = 'DANFe - Simplificado'
-  ClientHeight = 881
   Font.Height = -8
   Font.Name = 'Arial'
   Font.Style = [fsBold]
@@ -17,6 +15,8 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
     Background.Arrange = baCenter
     Font.Height = -8
     Font.Name = 'Courier New'
+    Margins.LeftMargin = 5
+    Margins.RightMargin = 5
     PageSetup.PaperSize = fpCustom
     PageSetup.PaperWidth = 90
     PageSetup.PaperHeight = 500
@@ -24,10 +24,10 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
     BeforePrint = RLNFeBeforePrint
     OnDataRecord = RLNFeDataRecord
     object rlb01_Chave: TRLBand[0]
-      Left = 38
-      Height = 128
+      Left = 19
+      Height = 181
       Top = 38
-      Width = 264
+      Width = 302
       AutoSize = True
       BandType = btTitle
       Color = clWhite
@@ -82,9 +82,9 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
         Transparent = False
       end
       object rllDescricao: TRLLabel
-        Left = 2
+        Left = 3
         Height = 16
-        Top = 94
+        Top = 143
         Width = 256
         Alignment = taCenter
         AutoSize = False
@@ -98,9 +98,9 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
         Transparent = False
       end
       object rllProtocolo: TRLLabel
-        Left = 5
+        Left = 3
         Height = 16
-        Top = 112
+        Top = 165
         Width = 256
         Alignment = taCenter
         AutoSize = False
@@ -112,22 +112,31 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
         ParentFont = False
       end
       object RLBarcode1: TRLBarcode
-        Left = 90
-        Height = 38
-        Top = 45
-        Width = 100
+        Left = 64
+        Height = 36
+        Top = 53
+        Width = 166
         Alignment = taCenter
-        BarcodeType = bcCode128C
+        BarcodeType = bcCode128
+        Margins.LeftMargin = 1
+        Margins.RightMargin = 1
+      end
+      object RLBarcode2: TRLBarcode
+        Left = 64
+        Height = 36
+        Top = 101
+        Width = 166
+        Alignment = taCenter
+        BarcodeType = bcCode128
         Margins.LeftMargin = 1
         Margins.RightMargin = 1
       end
     end
     object rlb02_Emitente: TRLBand[1]
-      Left = 38
-      Height = 78
-      Top = 166
-      Width = 264
-      AutoSize = True
+      Left = 19
+      Height = 145
+      Top = 219
+      Width = 302
       BandType = btTitle
       Borders.Sides = sdCustom
       Borders.DrawLeft = False
@@ -501,10 +510,11 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
         Stretch = True
       end
       object rlmEmitente: TRLMemo
-        Left = 3
-        Height = 13
-        Top = 65
+        Left = 2
+        Height = 76
+        Top = 69
         Width = 255
+        AutoSize = False
         Behavior = [beSiteExpander]
         Color = clWhite
         Font.Color = clWindowText
@@ -516,10 +526,10 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
       end
     end
     object rlb05c_Lin_Itens: TRLBand[2]
-      Left = 38
+      Left = 19
       Height = 1
-      Top = 894
-      Width = 264
+      Top = 1173
+      Width = 302
       BandType = btFooter
       Color = clWhite
       ParentColor = False
@@ -531,10 +541,10 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
       end
     end
     object rlb03_DadosGerais: TRLBand[3]
-      Left = 38
+      Left = 19
       Height = 86
-      Top = 244
-      Width = 264
+      Top = 364
+      Width = 302
       AutoSize = True
       BandType = btColumnHeader
       Borders.Sides = sdCustom
@@ -625,10 +635,10 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
       end
     end
     object rlb04_Destinatario: TRLBand[4]
-      Left = 38
-      Height = 61
-      Top = 330
-      Width = 264
+      Left = 19
+      Height = 124
+      Top = 450
+      Width = 302
       AutoSize = True
       BandType = btColumnHeader
       Borders.Sides = sdCustom
@@ -656,9 +666,10 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
       end
       object rlmDestinatario: TRLMemo
         Left = 3
-        Height = 13
+        Height = 76
         Top = 48
         Width = 255
+        AutoSize = False
         Behavior = [beSiteExpander]
         Color = clWhite
         Font.Color = clWindowText
@@ -683,10 +694,10 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
       end
     end
     object subItens: TRLSubDetail[5]
-      Left = 38
+      Left = 19
       Height = 50
-      Top = 425
-      Width = 264
+      Top = 608
+      Width = 302
       Borders.Sides = sdCustom
       Borders.DrawLeft = False
       Borders.DrawTop = False
@@ -697,7 +708,7 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
         Left = 0
         Height = 18
         Top = 0
-        Width = 264
+        Width = 302
         AutoSize = True
         Borders.Sides = sdCustom
         Borders.DrawLeft = False
@@ -754,7 +765,7 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
         Left = 0
         Height = 16
         Top = 18
-        Width = 264
+        Width = 302
         Borders.Sides = sdCustom
         Borders.DrawLeft = False
         Borders.DrawTop = False
@@ -845,10 +856,10 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
       end
     end
     object rlb05a_Cab_Itens: TRLBand[6]
-      Left = 38
+      Left = 19
       Height = 34
-      Top = 391
-      Width = 264
+      Top = 574
+      Width = 302
       AutoSize = True
       BandType = btColumnHeader
       Borders.Sides = sdCustom
@@ -991,10 +1002,10 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
       end
     end
     object rlb06a_Totais: TRLBand[7]
-      Left = 38
+      Left = 19
       Height = 65
-      Top = 475
-      Width = 264
+      Top = 658
+      Width = 302
       AutoSize = True
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -1040,10 +1051,10 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
       end
     end
     object rlb06b_Tributos: TRLBand[8]
-      Left = 38
+      Left = 19
       Height = 40
-      Top = 799
-      Width = 264
+      Top = 982
+      Width = 302
       BandType = btSummary
       Borders.Sides = sdCustom
       Borders.DrawLeft = False
@@ -1067,10 +1078,10 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
       end
     end
     object rlbFaturaReal: TRLBand[9]
-      Left = 38
+      Left = 19
       Height = 37
-      Top = 540
-      Width = 264
+      Top = 723
+      Width = 302
       BandType = btSummary
       Borders.Sides = sdCustom
       Borders.DrawLeft = False
@@ -1222,10 +1233,10 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
       end
     end
     object rlbFatura: TRLBand[10]
-      Left = 38
+      Left = 19
       Height = 222
-      Top = 577
-      Width = 264
+      Top = 760
+      Width = 302
       BandType = btSummary
       Borders.Sides = sdCustom
       Borders.DrawLeft = False
@@ -1865,10 +1876,10 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
       end
     end
     object rlb06a_Totais_Etiqueta: TRLBand[11]
-      Left = 38
+      Left = 19
       Height = 39
-      Top = 839
-      Width = 264
+      Top = 1022
+      Width = 302
       AutoSize = True
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -1909,10 +1920,10 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
       end
     end
     object RLBand1: TRLBand[12]
-      Left = 38
-      Height = 16
-      Top = 878
-      Width = 264
+      Left = 19
+      Height = 112
+      Top = 1061
+      Width = 302
       AutoSize = True
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -1925,9 +1936,11 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
       BeforePrint = RLBand1BeforePrint
       object rlmDadosAdicionais: TRLMemo
         Left = 0
-        Height = 15
+        Height = 111
         Top = 1
         Width = 265
+        Align = faLeft
+        AutoSize = False
         Behavior = [beSiteExpander]
         Color = clWhite
         Font.Color = clWindowText
