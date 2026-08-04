@@ -448,6 +448,7 @@ begin
   fQuandoPerguntarCampo := Nil;
   fQuandoExibirQRCode := Nil;
 
+  fpTEFAPIClass := TACBrTEFAPIClass.Create( Self );
   fTEFModelo := tefApiNenhum;
   fExibicaoQRCode := qrapiAuto;
 end;

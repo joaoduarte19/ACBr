@@ -45,6 +45,15 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+04/08/2026
+-- ACBrTEFAPI --
+[-] Correção de A.V. em algumas situações onde o Modelo do TEF ainda não estava
+    instanciado
+
+-- ACBrTEFTPagAPI, ACBrTEFAPITPag --
+[*] Compatibilização com versão 0.0.3 do SDK
+    (por: DSA)
+
 29/07/2026
 -- ACBrTEFAPICliSiTef --
 [-] Correção na forma de montagem dos parâmatros na Inicialização da Biblioteca

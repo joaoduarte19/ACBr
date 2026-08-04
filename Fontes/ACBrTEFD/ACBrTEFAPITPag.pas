@@ -3,7 +3,7 @@
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
 {                                                                              }
-{ Direitos Autorais Reservados (c) 2024 Daniel Simoes de Almeida               }
+{ Direitos Autorais Reservados (c) 2026 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
 {                                                                              }
@@ -60,8 +60,8 @@ type
   TACBrTEFAPIClassTPag = class(TACBrTEFAPIClass)
   private
     function GetTEFTPagAPI: TPagAPI;
-    procedure QuandoGravarLogAPI(const ALogLine: String; var Tratado: Boolean);
-    //procedure QuandoTransacaoEmAndamentoAPI( EstadoOperacao: TPagEstadoOperacao; out Cancelar: Boolean);
+    procedure QuandoGravarLogAPI(const ALogLine: String);
+    procedure QuandoTransacaoEmAndamentoAPI(out Cancelar: Boolean);
     procedure QuandoExibirMensagemAPI(const Mensagem: String);
     procedure QuandoPerguntarMenuAPI(const Titulo: String; Opcoes: TStringList;
       var ItemSelecionado: LongInt);
@@ -75,7 +75,6 @@ type
 
   protected
     procedure InterpretarRespostaAPI; override;
-    procedure GravarLog(const ALogLine: AnsiString);
 
   public
     constructor Create(AACBrTEFAPI: TACBrTEFAPIComum);
@@ -256,7 +255,7 @@ begin
   begin
     OnGravarLog := QuandoGravarLogAPI;
     OnExibeMensagem := QuandoExibirMensagemAPI;
-    //OnTransacaoEmAndamento := QuandoTransacaoEmAndamentoAPI;
+    OnTransacaoEmAndamento := QuandoTransacaoEmAndamentoAPI;
     QuandoPerguntarMenu := QuandoPerguntarMenuAPI;
     QuandoPerguntarCampo := QuandoPerguntarCampoAPI;
   end;
@@ -299,22 +298,17 @@ begin
   GetTEFTPagAPI.Conectar;
 end;
 
-procedure TACBrTEFAPIClassTPag.QuandoGravarLogAPI(const ALogLine: String;
-  var Tratado: Boolean);
+procedure TACBrTEFAPIClassTPag.QuandoGravarLogAPI(const ALogLine: String);
 begin
   fpACBrTEFAPI.GravarLog(ALogLine);
-  Tratado := True;
 end;
 
-//procedure TACBrTEFAPIClassTPag.QuandoTransacaoEmAndamentoAPI(
-//  EstadoOperacao: TPagEstadoOperacao; out Cancelar: Boolean);
-//var
-//  i: Integer;
-//begin
-//  i := Integer(EstadoOperacao);
-//  Cancelar := False;
-//  TACBrTEFAPI(fpACBrTEFAPI).QuandoEsperarOperacao(TACBrTEFAPIOperacaoAPI(i), Cancelar);
-//end;
+procedure TACBrTEFAPIClassTPag.QuandoTransacaoEmAndamentoAPI(out
+  Cancelar: Boolean);
+begin
+  Cancelar := False;
+  TACBrTEFAPI(fpACBrTEFAPI).QuandoEsperarOperacao(opapiPinPad, Cancelar);
+end;
 
 procedure TACBrTEFAPIClassTPag.QuandoExibirMensagemAPI(const Mensagem: String);
 begin
@@ -388,11 +382,6 @@ begin
   TACBrTEFRespTPag( fpACBrTEFAPI.UltimaRespostaTEF ).SetStrings(GetTEFTPagAPI.DadosDaTransacao);
 end;
 
-procedure TACBrTEFAPIClassTPag.GravarLog(const ALogLine: AnsiString);
-begin
-  fpACBrTEFAPI.GravarLog(ALogLine);
-end;
-
 function TACBrTEFAPIClassTPag.EfetuarPagamento(ValorPagto: Currency;
   Modalidade: TACBrTEFModalidadePagamento; CartoesAceitos: TACBrTEFTiposCartao;
   Financiamento: TACBrTEFModalidadeFinanciamento; Parcelas: Byte;
@@ -459,7 +448,7 @@ begin
         sl := TStringList.Create;
         try
           sl.Add(ACBrStr('Reimpressão'));
-          sl.Add(ACBrStr('Cancelar última Transação'));
+          sl.Add(ACBrStr('Cancelar Transação'));
           sl.Add(ACBrStr('Atualizar Tabelas'));
           sl.Add(ACBrStr('Manutenção (Reset)'));
           TACBrTEFAPI(fpACBrTEFAPI).QuandoPerguntarMenu( 'Menu Administrativo', sl, ItemSel );
