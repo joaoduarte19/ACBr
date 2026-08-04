@@ -183,7 +183,15 @@ end;
 
 procedure TDFeWinCrypt.CarregarCertificadoDeDadosPFX;
 begin
-  OpenSystemStore;
+  { Se o handle da Store já estiver aberta, precisamos fechar.
+    Isso é necessário porque PFXDataToCertContextWinApi vai ignorar o valor do parâmetro `AStore`
+    e abrir um novo handle.}
+  if Assigned(FpStore) then
+  begin
+    CertCloseStore(FpStore, CERT_CLOSE_STORE_CHECK_FLAG);
+    FpStore := Nil;
+  end;
+
   PFXDataToCertContextWinApi( FpDFeSSL.DadosPFX,
                               FpDFeSSL.Senha,
                               FpStore,
