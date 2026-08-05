@@ -142,6 +142,9 @@ const
   cFontConteudo         = 'Arial';  // -> "Microsoft Sans Serif"
 
 type
+
+  { TACBrDANFSeFPDFPadraoNacional }
+
   TACBrDANFSeFPDFPadraoNacional = class(TFPDFReport)
   {$IFDEF SUPPORTS_STRICT}
     strict private
@@ -186,6 +189,7 @@ type
 
     function GetChaveAcesso: string;
     function GetSituacaoNFSeDescricao: string;
+    function GetSimplesNacionalDataCompetencia:string;
     function GetFinalidadeDescricao: string;
     function GetEmitenteDescricao: string;
     function GetAmbienteGeradorDescricao: string;
@@ -303,7 +307,7 @@ begin
   if Trim(S) = '' then
     Result := '-'
   else
-    Result := S;
+    Result := NativeStringToAnsi(S);
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.Ellipsis(const S: string; MaxLen: Integer): string;
@@ -507,23 +511,25 @@ end;
 
 function TACBrDANFSeFPDFPadraoNacional.GetSituacaoNFSeDescricao: string;
 begin
-  // NT 008: Situacao da NFS-e - usar descricao da opcao prevista no leiaute
-  case FNFSe.SituacaoNfse of
-    snNormal:           Result := 'NFS-e regular';
-    snCancelado:        Result := 'NFS-e cancelada';
-    snSubstituido:      Result := 'NFS-e substituida';
-  else
-    Result := 'NFS-e regular';
-  end;
+  Result := cStatToStr(FNFSe.infNFSe.cStat);
+end;
+
+function TACBrDANFSeFPDFPadraoNacional.GetSimplesNacionalDataCompetencia: string;
+begin
+  case FNFSe.OptanteSN of
+      osnNaoOptante:
+        Result := ACBrStr('Não Optante');
+      osnOptanteMEI:
+        Result := ACBrStr('Optante - Microempreendedor Individual (MEI)');
+    else
+      // osnOptanteMEEPP
+      Result := ACBrStr('Optante - MicroEmpresa EPP');
+    end;
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.GetFinalidadeDescricao: string;
 begin
-  // NT 008: leiaute preve 3 opcoes (1=Normal, 2=Substituicao, 3=Decisao Judicial/Adm).
-  if Substituida or (Trim(FNFSe.NfseSubstituidora) <> '') then
-    Result := 'NFS-e de Substituicao'
-  else
-    Result := 'NFS-e regular';
+  finNFSeToStrText(FNFSe.IBSCBS.finNFSe);
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.GetEmitenteDescricao: string;
@@ -551,17 +557,20 @@ end;
 
 function TACBrDANFSeFPDFPadraoNacional.GetRegimeApuracaoSNDescricao: string;
 begin
-  // NT 008: "Regime de Apuracao Tributaria pelo SN" - leiaute preve 3 opcoes
-  case FNFSe.RegimeApuracaoSN of
-    raFederaisMunicipalpeloSN:
-      Result := 'Regime de apuracao dos tributos federais e municipal pelo Simples Nacional';
-    raFederaisSN:
-      Result := 'Regime de apuracao dos tributos federais pelo Simples Nacional';
-    raFederaisMunicipalforaSN:
-      Result := 'Regime de apuracao dos tributos federais pelo Simples Nacional e municipal fora do Simples Nacional';
+  if fNFSe.OptanteSN = osnOptanteMEEPP then
+  begin
+    case fNFSe.RegimeApuracaoSN of
+      raFederaisMunicipalpeloSN:
+        Result := ACBrStr('Federais e Municipal pelo SN');
+      raFederaisSN:
+        Result := ACBrStr('Federais pelo SN');
+    else
+      // raFederaisMunicipalforaSN
+      Result := ACBrStr('Federais e Municipal fora SN');
+    end;
+  end
   else
-    Result := '-';
-  end;
+      Result := '-';
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.GetTextoDescricaoServico: string;
@@ -596,7 +605,7 @@ begin
   // NT 008: ordem fixa, separadores '|', encerrando com Totais Aproximados.
   Linhas := TStringList.Create;
   try
-    AddIfDef('Inf. Cont.:', FNFSe.OutrasInformacoes);
+    AddIfDef('Inf. Cont.:', NativeStringToAnsi(FNFSe.OutrasInformacoes));
     AddIfDef('NFS-e Subst.:', FNFSe.NfseSubstituida);
     AddIfDef('Doc. Ref.:', FNFSe.refNF);
 
@@ -605,7 +614,7 @@ begin
     // AddIfDef('Insc. Imob.:', FNFSe.ConstrucaoCivil.InscricaoImobiliaria);
     // AddIfDef('Cod. Evt.:',   ... );
 
-    AddIfDef('Inf. A. T. Mun.:', FNFSe.InformacoesComplementares);
+    AddIfDef('Inf. A. T. Mun.:', NativeStringToAnsi(FNFSe.InformacoesComplementares));
 
     // Totais Aproximados dos Tributos - linha fixa (NT 008, Nota 10)
     Linhas.Add(GetTextoTotaisAproximados);
@@ -1069,9 +1078,7 @@ begin
   // Linha 4: Simples Nacional (2 colunas) | Regime de Apuracao SN (2 colunas)
   DesenharCampo(PDF, X, Y, 2 * ColW, LineH,
                 'Simples Nacional na Data de Competencia',
-                IfThen(Assigned(FDadosAux) and (FDadosAux.OptanteSimplesDescricao <> ''),
-                       FDadosAux.OptanteSimplesDescricao,
-                       IfThen(FNFSe.OptanteSimplesNacional = snSim, 'Optante', 'Nao Optante')));
+                GetSimplesNacionalDataCompetencia);
   DesenharCampo(PDF, X + 2 * ColW, Y, 2 * ColW, LineH,
                 'Regime de Apuracao Tributaria pelo SN',
                 Ellipsis(GetRegimeApuracaoSNDescricao, 37));
