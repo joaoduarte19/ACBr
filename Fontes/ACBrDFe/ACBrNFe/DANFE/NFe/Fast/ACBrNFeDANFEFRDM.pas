@@ -416,7 +416,12 @@ begin
         FieldDefs.Add('ValorDescontos'  , ftString, 18);
         FieldDefs.Add('xPed'            , ftString, 15);
         FieldDefs.Add('nItemPed'        , ftString, 6);
-
+        
+        FieldDefs.Add('VTribChave' , ftString, 30);
+        FieldDefs.Add('VTribFed'   , ftFloat);
+        FieldDefs.Add('VTribEst'   , ftFloat);
+        FieldDefs.Add('VTribMun'   , ftFloat);
+        
         CreateDataSet;
      end;
    end;
@@ -540,6 +545,12 @@ begin
         FieldDefs.Add('VFCPST'      , ftFloat);
         FieldDefs.Add('VFCPSTRet'   , ftFloat);
         FieldDefs.Add('VIPIDevol'   , ftFloat);
+
+        FieldDefs.Add('VTribChave' , ftString, 30);
+        FieldDefs.Add('VTribFed'   , ftFloat);
+        FieldDefs.Add('VTribEst'   , ftFloat);
+        FieldDefs.Add('VTribMun'   , ftFloat);
+
         CreateDataSet;
      end;
    end;
@@ -955,6 +966,12 @@ begin
 
       if NaoEstaVazio(FDANFEClassOwner.FonteTributos) then
         FieldByName('VTribFonte').AsString := '(Fonte: '+FDANFEClassOwner.FonteTributos+')';
+
+      if NaoEstaVazio(FDANFEClassOwner.ChaveTributos) then
+        FieldByName('VTribChave').AsString := '(Chave: '+FDANFEClassOwner.ChaveTributos+')';
+      FieldByName('VTribFed').AsFloat := FDANFEClassOwner.vTribFed;
+      FieldByName('VTribEst').AsFloat := FDANFEClassOwner.vTribEst;
+      FieldByName('VTribMun').AsFloat := FDANFEClassOwner.vTribMun;
 
       lvTroco := FNFe.pag.vTroco;
       if (lvTroco = 0) and (FDANFEClassOwner is TACBrNFeDANFCEClass) then
