@@ -59,6 +59,8 @@ type
   public
     // Usado pela maioria dos DF-e
     function Gerar_gCompraGovReduzido(gCompraGov: TgCompraGovReduzido): TACBrXmlNode;
+    function Gerar_gPagAntecipadoProd(gPagAntecipado: TgPagAntecipadoProd): TACBrXmlNode;
+    function Gerar_gPagAntecipadoIde(gPagAntecipado: TgPagAntecipado): TACBrXmlNode;
 
     function Gerar_IBSCBS(IBSCBS: TIBSCBS): TACBrXmlNode;
     function Gerar_IBSCBSBPe(IBSCBS: TIBSCBS): TACBrXmlNode;
@@ -182,6 +184,40 @@ begin
                                     gCompraGov.refDFe[i].refDFeAnt, DSC_CHAVE));
     end;
   end;
+end;
+
+function TDFeRTCXmlWriter.Gerar_gPagAntecipadoProd(
+  gPagAntecipado: TgPagAntecipadoProd): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gPagAntecipado');
+
+  Result.AppendChild(AddNode(tcStr, '#171', 'chDFePagAnt', 44, 44, 1,
+                                  gPagAntecipado.chDFePagAnt, DSC_CHDFEPAGANT));
+
+  Result.AppendChild(AddNode(tcInt, '#172', 'nItemPagAnt', 1, 3, 0,
+                                  gPagAntecipado.nItemPagAnt, DSC_NITEMPAGANT));
+end;
+
+function TDFeRTCXmlWriter.Gerar_gPagAntecipadoIde(
+  gPagAntecipado: TgPagAntecipado): TACBrXmlNode;
+var
+  i: Integer;
+begin
+  Result := nil;
+
+  if gPagAntecipado.refNFe.Count > 0 then
+  begin
+    Result := FDocument.CreateElement('gPagAntecipado');
+
+    for i := 0 to gPagAntecipado.refNFe.Count - 1 do
+    begin
+      Result.AppendChild(AddNode(tcStr,'BC02','chDFePagAnt', 44, 44, 1,
+                             gPagAntecipado.refNFe[i].refDFEChave, DSC_REFNFE));
+    end;
+  end;
+
+  if gPagAntecipado.refNFe.Count > 99 then
+    wAlerta('BB02', 'chDFePagAnt', DSC_REFNFE, ERR_MSG_MAIOR_MAXIMO + '99');
 end;
 
 function TDFeRTCXmlWriter.Gerar_IBSCBS(IBSCBS: TIBSCBS): TACBrXmlNode;

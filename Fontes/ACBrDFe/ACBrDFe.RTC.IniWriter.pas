@@ -54,6 +54,9 @@ type
   public
     // Usado pela maioria dos DF-e
     procedure Gerar_gCompraGovReduzido(AINIRec: TMemIniFile; gCompraGov: TgCompraGovReduzido);
+    procedure Gerar_gPagAntecipadoProd(AINIRec: TMemIniFile; gPagAntecipado: TgPagAntecipadoProd; Idx1, Idx2: Integer);
+    procedure Gerar_gPagAntecipadoIde(AINIRec: TMemIniFile; gPagAntecipado: TgPagAntecipado);
+
     procedure Gerar_refDFe(AINIRec: TMemIniFile; refDFe: TrefDFeCollection);
 
     procedure Gerar_IBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBS; Idx1, Idx2: Integer);
@@ -158,6 +161,38 @@ begin
     AINIRec.WriteString(sSecao, 'tpOperGov', tpOperGovToStr(gCompraGov.tpOperGov));
 
     Gerar_refDFe(AINIRec, gCompraGov.refDFe);
+  end;
+end;
+
+procedure TDFeRTCIniWriter.Gerar_gPagAntecipadoProd(AINIRec: TMemIniFile;
+  gPagAntecipado: TgPagAntecipadoProd; Idx1, Idx2: Integer);
+var
+  sSecao: string;
+begin
+  if Idx1 = -1 then
+    sSecao := 'gPagAntecipado'
+  else
+  begin
+    if Idx2 = -1 then
+      sSecao := 'gPagAntecipado' + IntToStrZero(Idx1, 3)
+    else
+      sSecao := 'gPagAntecipado' + IntToStrZero(Idx1, 2) + IntToStrZero(Idx2, 3);
+  end;
+
+  AINIRec.WriteString(sSecao, 'chDFePagAnt', gPagAntecipado.chDFePagAnt);
+  AINIRec.WriteInteger(sSecao, 'nItemPagAnt', gPagAntecipado.nItemPagAnt);
+end;
+
+procedure TDFeRTCIniWriter.Gerar_gPagAntecipadoIde(AINIRec: TMemIniFile;
+  gPagAntecipado: TgPagAntecipado);
+var
+  I: Integer;
+  sSecao: string;
+begin
+  for I := 0 to gPagAntecipado.refNFe.Count - 1 do
+  begin
+    sSecao := 'gPagAntecipado' + IntToStrZero(I + 1, 2);
+    AINIRec.WriteString(sSecao, 'chDFePagAnt', gPagAntecipado.refNFe[I].refDFEChave);
   end;
 end;
 

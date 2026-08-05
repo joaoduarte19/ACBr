@@ -246,6 +246,8 @@ resourcestring
   DSC_NPROCSUFRAMA = 'Número do processo na Suframa para o item comercializado';
   DSC_PALIQEFETREGCBS = 'Percentual efetivo sem a redução';
   DSC_VTRIBREGCBS = 'Valor efetivo sem a redução';
+  DSC_CHDFEPAGANT = 'Chave de acesso do DF-e de antecipação de pagamento';
+  DSC_NITEMPAGANT = 'Nùmero do item do DF-e de antecipação para refência direta a um item';
 
 implementation
 

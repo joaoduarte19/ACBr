@@ -49,6 +49,19 @@ uses
 
 type
 
+  { TgPagAntecipadoProd }
+
+  TgPagAntecipadoProd = class(TObject)
+  private
+    FchDFePagAnt: string;
+    FnItemPagAnt: Integer;
+  public
+    procedure Assign(Source: TgPagAntecipadoProd);
+
+    property chDFePagAnt: string read FchDFePagAnt write FchDFePagAnt;
+    property nItemPagAnt: Integer read FnItemPagAnt write FnItemPagAnt;
+  end;
+
   { TrefDFePagAntCollectionItem }
 
   TrefDFePagAntCollectionItem = class(TObject)
@@ -1622,6 +1635,14 @@ procedure TrefDFePagAntCollectionItem.Assign(
   Source: TrefDFePagAntCollectionItem);
 begin
   refDFEChave := Source.refDFEChave;
+end;
+
+{ TgPagAntecipadoProd }
+
+procedure TgPagAntecipadoProd.Assign(Source: TgPagAntecipadoProd);
+begin
+  chDFePagAnt := Source.chDFePagAnt;
+  nItemPagAnt := Source.nItemPagAnt;
 end;
 
 end.

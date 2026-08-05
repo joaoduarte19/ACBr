@@ -52,6 +52,9 @@ type
   public
     // Usado pela maioria dos DF-e
     procedure Ler_gCompraGovReduzido(AINIRec: TMemIniFile; gCompraGov: TgCompraGovReduzido);
+    procedure Ler_gPagAntecipadoProd(AINIRec: TMemIniFile; gPagAntecipado: TgPagAntecipadoProd; Idx1, Idx2: Integer);
+    procedure Ler_gPagAntecipadoIde(AINIRec: TMemIniFile; gPagAntecipado: TgPagAntecipado);
+
     procedure Ler_refDFe(AINIRec: TMemIniFile; refDFe: TrefDFeCollection);
 
     procedure Ler_IBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBS; Idx1, Idx2: Integer);
@@ -134,6 +137,51 @@ begin
   gCompraGov.tpOperGov := StrTotpOperGov(AINIRec.ReadString('gCompraGov', 'tpOperGov', ''));
 
   Ler_refDFe(AINIRec, gCompraGov.refDFe);
+end;
+
+procedure TDFeRTCIniReader.Ler_gPagAntecipadoProd(AINIRec: TMemIniFile;
+  gPagAntecipado: TgPagAntecipadoProd; Idx1, Idx2: Integer);
+var
+  sSecao, sFim: string;
+begin
+  if Idx1 = -1 then
+    sSecao := 'gPagAntecipado'
+  else
+  begin
+    if Idx2 = -1 then
+      sSecao := 'gPagAntecipado' + IntToStrZero(Idx1, 3)
+    else
+      sSecao := 'gPagAntecipado' + IntToStrZero(Idx1, 2) + IntToStrZero(Idx2, 3);
+  end;
+
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    gPagAntecipado.chDFePagAnt := sFim;
+    gPagAntecipado.nItemPagAnt := AINIRec.ReadInteger(sSecao,'nItemPagAnt', 0);
+  end;
+end;
+
+procedure TDFeRTCIniReader.Ler_gPagAntecipadoIde(AINIRec: TMemIniFile;
+  gPagAntecipado: TgPagAntecipado);
+var
+  I: Integer;
+  sSecao, sFim: string;
+  Item: TrefDFePagAntCollectionItem;
+begin
+  I := 1;
+  while true do
+  begin
+    sSecao   := 'gPagAntecipado' + IntToStrZero(I, 2);
+    sFim := AINIRec.ReadString(sSecao, 'chDFePagAnt', 'FIM');
+    if (sFim = 'FIM') or (Length(sFim) <= 0) then
+      break;
+
+    Item := gPagAntecipado.refNFe.New;
+
+    Item.refDFEChave := sFim;
+
+    Inc(I);
+  end;
 end;
 
 procedure TDFeRTCIniReader.Ler_refDFe(AINIRec: TMemIniFile;

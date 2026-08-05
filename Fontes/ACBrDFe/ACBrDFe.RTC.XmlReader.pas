@@ -52,6 +52,8 @@ type
   public
     // Usado pela maioria dos DF-e
     procedure Ler_gCompraGovReduzido(const ANode: TACBrXmlNode; gCompraGov: TgCompraGovReduzido);
+    procedure Ler_gPagAntecipadoProd(const ANode: TACBrXmlNode; gPagAntecipado: TgPagAntecipadoProd);
+    procedure Ler_gPagAntecipadoIde(const ANode: TACBrXmlNode; gPagAntecipado: TgPagAntecipado);
 
     procedure Ler_IBSCBS(const ANode: TACBrXmlNode; IBSCBS: TIBSCBS);
     procedure Ler_gIBSCBS(const ANode: TACBrXmlNode; gIBSCBS: TgIBSCBS);
@@ -148,6 +150,31 @@ begin
   begin
     gCompraGov.refDFe.New;
     gCompraGov.refDFe[i].refDFeAnt := ObterConteudo(ANodes[i], tcStr);
+  end;
+end;
+
+procedure TDFeRTCXmlReader.Ler_gPagAntecipadoProd(const ANode: TACBrXmlNode;
+  gPagAntecipado: TgPagAntecipadoProd);
+begin
+  if not Assigned(ANode) then Exit;
+
+  gPagAntecipado.chDFePagAnt := ObterConteudo(ANode.Childrens.FindAnyNs('chDFePagAnt'), tcStr);
+  gPagAntecipado.nItemPagAnt := ObterConteudo(ANode.Childrens.FindAnyNs('nItemPagAnt'), tcInt);
+end;
+
+procedure TDFeRTCXmlReader.Ler_gPagAntecipadoIde(const ANode: TACBrXmlNode;
+  gPagAntecipado: TgPagAntecipado);
+var
+  ANodes: TACBrXmlNodeArray;
+  i: Integer;
+begin
+  if not Assigned(ANode) then Exit;
+
+  ANodes := ANode.Childrens.FindAll('chDFePagAnt');
+  for i := 0 to Length(ANodes) - 1 do
+  begin
+    gPagAntecipado.refNFe.New;
+    gPagAntecipado.refNFe[i].refDFEChave := ObterConteudo(ANodes[i], tcStr);
   end;
 end;
 
