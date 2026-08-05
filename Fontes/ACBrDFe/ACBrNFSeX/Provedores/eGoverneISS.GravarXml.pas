@@ -78,6 +78,7 @@ end;
 function TNFSeW_eGoverneISS.GerarXml: Boolean;
 var
   NFSeNode, xmlNode: TACBrXmlNode;
+  xBairro, xCEP, xCidade, xIBGE, xEndereco, xUF, xNumero, xPais, xComplemento: string;
 begin
   Configuracao;
 
@@ -95,24 +96,71 @@ begin
 
   PrefixoPadrao := 'eis1';
 
+  if Trim(NFSe.Servico.Endereco.Endereco) <> '' then
+  begin
+    xBairro      := NFSe.Servico.Endereco.Bairro;
+    xCEP         := NFSe.Servico.Endereco.CEP;
+    xCidade      := NFSe.Servico.Endereco.xMunicipio;
+    xIBGE        := NFSe.Servico.Endereco.CodigoMunicipio;
+    xComplemento := NFSe.Servico.Endereco.Complemento;
+    xEndereco    := NFSe.Servico.Endereco.Endereco;
+    xUF          := NFSe.Servico.Endereco.UF;
+    xNumero      := NFSe.Servico.Endereco.Numero;
+    xPais        := NFSe.Servico.Endereco.xPais;
+  end
+  else
+  begin
+    xBairro      := NFSe.Tomador.Endereco.Bairro;
+    xCEP         := NFSe.Tomador.Endereco.CEP;
+    xCidade      := NFSe.Tomador.Endereco.xMunicipio;
+    xIBGE        := NFSe.Tomador.Endereco.CodigoMunicipio;
+    xComplemento := NFSe.Tomador.Endereco.Complemento;
+    xEndereco    := NFSe.Tomador.Endereco.Endereco;
+    xUF          := NFSe.Tomador.Endereco.UF;
+    xNumero      := NFSe.Tomador.Endereco.Numero;
+    xPais        := NFSe.Tomador.Endereco.xPais;
+  end;
+
   NFSeNode.AppendChild(AddNode(tcDe4, '#1', 'Aliquota', 1, 15, 1,
                                             NFSe.Servico.Valores.Aliquota, ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'Atividade', 1, 9, 1,
                                    NFSe.Servico.ItemListaServico, ''));
 
+  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'BairroPrestacaoServico', 1, 60, 1,
+                                                               xBairro, ''));
+
+  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CEPPrestacaoServico', 8, 8, 1,
+                                                    OnlyNumber(xCEP), ''));
+
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'ChaveAutenticacao', 1, 36, 1,
                                                               ChaveAcesso, ''));
 
+  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CidadePrestacaoServico', 1, 100, 1,
+                                                               xCidade, ''));
+
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CodObra', 1, 15, 0,
                                           NFSe.ConstrucaoCivil.CodigoObra, ''));
+
+  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CodigoCidadeIBGEPrestacaoServico', 7, 7, 1,
+                                                                 xIBGE, ''));
+
+  if Trim(xComplemento) <> '' then
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'ComplementoPrestacaoServico', 1, 100, 0,
+                                                          xComplemento, ''));
 
   if NFSe.IdentificacaoRps.Numero <> '' then
     NFSeNode.AppendChild(AddNode(tcDat, '#1', 'DataRecibo', 1, 10, 0,
                                                       NFSe.DataEmissaoRps, ''));
 
+  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'EnderecoPrestacaoServico', 1, 200, 1,
+                                                             xEndereco, ''));
+
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'EqptoRecibo', 1, 5, 0,
                                                          NFSe.EqptoRecibo, ''));
+
+  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'EstadoPrestacaoServico', 2, 2, 1,
+                                                                   xUF, ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'Homologacao', 4, 5, 1,
                            ifThen(NFSe.Producao = snSim, 'false', 'true'), ''));
@@ -132,8 +180,21 @@ begin
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'NumeroCei', 1, 15, 0,
                                                 NFSe.ConstrucaoCivil.nCei, ''));
 
+  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'NumeroPrestacaoServico', 1, 10, 1,
+                                                               xNumero, ''));
+
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'NumeroRecibo', 1, 15, 0,
                                              NFSe.IdentificacaoRps.Numero, ''));
+
+  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'PaisPrestacaoServico', 1, 100, 1,
+                                                                  xPais, ''));
+
+  if (Trim(xPais) <> '') and (xPais <> 'BRASIL') then
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'SemIncidenciaISS', 4, 5, 1,
+                                                                    'true', ''))
+  else
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'SemIncidenciaISS', 4, 5, 1,
+                                                                  'false', ''));
 
   if NFSe.OptanteSimplesNacional = snSim then
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'SimplesNacional', 4, 5, 1,
@@ -148,75 +209,6 @@ begin
   else
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'SubstituicaoTributaria', 5, 5, 1,
                                                                   'false', ''));
-
-  if Trim(NFSe.Servico.Endereco.Endereco) <> '' then
-  begin
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'BairroPrestacaoServico', 1, 36, 1,
-      NFSe.Servico.Endereco.Bairro, ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CEPPrestacaoServico', 1, 36, 1,
-      NFSe.Servico.Endereco.CEP, ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CidadePrestacaoServico', 1, 36, 1,
-      NFSe.Servico.Endereco.xMunicipio, ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CodigoCidadeIBGEPrestacaoServico', 7, 7, 1,
-      NFSe.Servico.Endereco.CodigoMunicipio, ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'EnderecoPrestacaoServico', 1, 36, 1,
-      NFSe.Servico.Endereco.Endereco, ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'EstadoPrestacaoServico', 2, 2, 1,
-      NFSe.Servico.Endereco.UF, ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'NumeroPrestacaoServico', 1, 36, 1,
-      NFSe.Servico.Endereco.Numero, ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'PaisPrestacaoServico', 1, 36, 0,
-      NFSe.Servico.Endereco.xPais, ''));
-
-    if (Trim(NFSe.Servico.Endereco.xPais) <> '') and
-      (NFSe.Servico.Endereco.xPais <> 'BRASIL') then
-      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'SemIncidenciaISS', 4, 5, 1,
-        'true', ''))
-    else
-      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'SemIncidenciaISS', 4, 5, 1,
-        'false', ''));
-  end
-  else
-  begin
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'BairroPrestacaoServico', 1, 36, 1,
-      NFSe.Tomador.Endereco.Bairro, ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CEPPrestacaoServico', 1, 36, 1,
-      NFSe.Tomador.Endereco.CEP, ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CidadePrestacaoServico', 1, 36, 1,
-      NFSe.Tomador.Endereco.xMunicipio, ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CodigoCidadeIBGEPrestacaoServico', 7, 7, 1,
-      NFSe.Tomador.Endereco.CodigoMunicipio, ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'EnderecoPrestacaoServico', 1, 36, 1,
-      NFSe.Tomador.Endereco.Endereco, ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'EstadoPrestacaoServico', 2, 2, 1,
-      NFSe.Tomador.Endereco.UF, ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'NumeroPrestacaoServico', 1, 36, 1,
-      NFSe.Tomador.Endereco.Numero, ''));
-
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'PaisPrestacaoServico', 1, 36, 0,
-      NFSe.Tomador.Endereco.xPais, ''));
-
-    if (Trim(NFSe.Tomador.Endereco.xPais) <> '') and
-      (NFSe.Tomador.Endereco.xPais <> 'BRASIL') then
-      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'SemIncidenciaISS', 4, 5, 1,
-        'true', ''))
-    else
-      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'SemIncidenciaISS', 4, 5, 1,
-        'false', ''));
-  end;
 
   if NFSe.Tomador.IdentificacaoTomador.CpfCnpj <> '' then
   begin
@@ -261,15 +253,10 @@ begin
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ValorRepasse', 1, 15, 0,
                                         NFSe.Servico.Valores.ValorRepasse, ''));
 
-  {
-  <eis1:nrExercicioReferencia>?</eis1:nrExercicioReferencia>
-  <eis1:nrMesReferencia>?</eis1:nrMesReferencia>
-  }
-
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'ClassTrib', 1, 6, 0,
                               NFSe.IBSCBS.valores.trib.gIBSCBS.cClassTrib, ''));
 
-  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CodigoNBS', 1, 6, 0,
+  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CodigoNBS', 1, 14, 0,
                                                    NFSe.Servico.CodigoNBS, ''));
 
   NFSeNode.AppendChild(AddNode(tcInt, '#1', 'IdLocalIncidencia', 1, 1, 0,
