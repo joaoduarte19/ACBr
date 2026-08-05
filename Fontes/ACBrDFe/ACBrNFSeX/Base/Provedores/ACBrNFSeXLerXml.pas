@@ -2182,10 +2182,12 @@ begin
     Imovel.ender.nro := AINIRec.ReadString(sSecao, 'Numero', '');
     Imovel.ender.xCpl := AINIRec.ReadString(sSecao, 'Complemento', '');
     Imovel.ender.xBairro := AINIRec.ReadString(sSecao, 'Bairro', '');
+    Imovel.ender.CodigoMunicipio := StrToIntDef(AINIRec.ReadString(sSecao, 'CodigoMunicipio', ''), 0);
 
     Imovel.ender.endExt.cEndPost := AINIRec.ReadString(sSecao, 'cEndPost', '');
     Imovel.ender.endExt.xCidade := AINIRec.ReadString(sSecao, 'xCidade', '');
     Imovel.ender.endExt.xEstProvReg := AINIRec.ReadString(sSecao, 'xEstProvReg', '');
+    Imovel.ender.endExt.cPais := AINIRec.ReadInteger(sSecao, 'cPais', 0);
   end;
 end;
 

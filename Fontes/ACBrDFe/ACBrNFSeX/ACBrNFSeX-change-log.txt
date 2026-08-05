@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 05/08/2026
+-- ACBrNFSeXLerXML/ACBrNFSeX.LerIni --
+[-] Adiciona leitura de CódigoPais e CodigoMunicipio do endereço do imóvel.
+   Por: Diego Folieni
 -- ACBrNFSeXGravarXML/ISSNet.GravarXML --
 [-] Ajustes visando a correta geração do grupo endereço no imóvel.
    Por: Diego Folieni
