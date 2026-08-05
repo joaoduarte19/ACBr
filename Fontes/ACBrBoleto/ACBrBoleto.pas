@@ -3454,8 +3454,8 @@ begin
   end;
 
   case ATitulo.CodigoMoraJuros of
-    cjTaxaMensal : LTipoJuros := FormatFloatBr(ATitulo.ValorMoraJuros, ' #,##0.00% ao mês';
-    cjTaxaDiaria : LTipoJuros := FormatFloatBr(ATitulo.ValorMoraJuros, ' #,##0.00% ao dia';
+    cjTaxaMensal : LTipoJuros := FormatFloatBr(ATitulo.ValorMoraJuros, ' #,##0.00% ao mês');
+    cjTaxaDiaria : LTipoJuros := FormatFloatBr(ATitulo.ValorMoraJuros, ' #,##0.00% ao dia');
     cjValorMensal: LTipoJuros := FormatFloatBr(ATitulo.ValorMoraJuros, 'R$ #,##0.00 por mês');
     cjValorDia   : LTipoJuros := FormatFloatBr(ATitulo.ValorMoraJuros, 'R$ #,##0.00 por dia');
   end;
