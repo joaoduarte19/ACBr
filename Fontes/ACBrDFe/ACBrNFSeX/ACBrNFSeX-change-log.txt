@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 05/08/2026
+-- PadraoNacional.GravarXML/ACBrNFSeXGravarXml --
+[-] Comenta trecho de rotina que ainda está em construção e remove comentário que impedia a consolidação da Discriminacao.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/93869-altera%C3%A7%C3%A3o-na-nfse-nacional/ 
 -- ACBrNFSeXLerXML/ACBrNFSeX.LerIni --
 [-] Adiciona leitura de CódigoPais e CodigoMunicipio do endereço do imóvel.
    Por: Diego Folieni

@@ -1846,11 +1846,10 @@ begin
 
   FDocument.Root := NFSeNode;
 
-{ Comentado para finalizar os ajustes que estão sendo realizados nas classes
   if FormatoDiscriminacao <> fdNenhum then
-//    ConsolidarVariosItensServicosEmUmSo;
-    CampoDiscriminacaoFormatado;
-}
+    ConsolidarVariosItensServicosEmUmSo;
+//    CampoDiscriminacaoFormatado;
+
   xmlNode := GerarXMLInfDps;
   NFSeNode.AppendChild(xmlNode);
 

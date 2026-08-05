@@ -497,7 +497,7 @@ begin
     else
       NFSe.Servico.Discriminacao := xDiscriminacao;
     end;
-
+    {Comentado para finalizar os ajustes que estão sendo realizados nas classes
     // Leva em consideração a informação do ultimo item da lista.
     UltimoItem := FNFSe.Servico.ItemServico.Count -1;
     NFSe.Servico.CodigoMunicipio := IntToStr(FNFSe.Servico.ItemServico[UltimoItem].CodigoMunicipio);
@@ -563,6 +563,7 @@ begin
       NFSe.Servico.Valores.ValorIss := vValorIss;
     if NFSe.Servico.Valores.ValorIssRetido = 0 then
       NFSe.Servico.Valores.ValorIssRetido := vValorIssRetido;
+      }
   end;
 end;
 
