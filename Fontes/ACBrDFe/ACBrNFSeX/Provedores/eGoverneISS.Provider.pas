@@ -295,7 +295,7 @@ begin
       if Response.ModoEnvio = meLoteAssincrono then
         AMessageTag := 'RTC_EmitirNFELoteResult'
       else
-        AMessageTag := 'RTC_EmitirNFEResult ';
+        AMessageTag := 'RTC_EmitirNFEResult';
 
       ProcessarMensagemErros(Document.Root, Response, '', AMessageTag);
 
