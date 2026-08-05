@@ -716,7 +716,6 @@ var
   Document: TACBrXmlDocument;
   AErro: TNFSeEventoCollectionItem;
   ANode: TACBrXmlNode;
-  aXML: string;
   DocumentXml: TACBrXmlDocument;
   NFSeXml, NumNFSe, NumDps, CodVerif: string;
   DataAut: TDateTime;
@@ -742,14 +741,14 @@ begin
       Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('DataHoraRecebimento'), tcDatHor);
       Response.Situacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('StatusProcessamento'), tcStr);
       Response.idNota := ObterConteudoTag(ANode.Childrens.FindAnyNs('ChaveAcesso'), tcStr);
-      aXML := SepararDados(ANode.OuterXml, 'NFSe', True);
+      NFSeXml := SepararDados(ANode.OuterXml, 'NFSe', True);
 
-      if aXml <> '' then
+      if NFSeXml <> '' then
       begin
         try
           DocumentXml := TACBrXmlDocument.Create;
           try
-            DocumentXml.LoadFromXml(aXml);
+            DocumentXml.LoadFromXml(NFSeXml);
 
             ANode := DocumentXml.Root.Childrens.FindAnyNs('infNFSe');
 
