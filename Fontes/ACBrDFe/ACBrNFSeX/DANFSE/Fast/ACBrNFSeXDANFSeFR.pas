@@ -2017,6 +2017,7 @@ var
   LOutrasInformacoesLength   : Integer;
   LDiscriminacao, LNomeArqFr3: string;
   LNFSe                      : TNFSe;
+  LValor: Double;
 begin
   if Provedor <> proEL then
   begin
@@ -2086,6 +2087,179 @@ begin
     else
       frxReport.FindObject('FilhaComDestinatario').Visible := True;
   end;
+
+  //TRIBUTAÇÃO IBS/CBS
+
+  if (frxReport.FindObject('Memo268') <> nil) then
+  begin
+    if LNFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum then
+      (frxReport.FindObject('Memo268') as TfrxMemoView).Text :=
+        CSTIBSCBSToStr(LNFSe.IBSCBS.valores.trib.gIBSCBS.CST) + ' / ' +
+        LNFSe.IBSCBS.valores.trib.gIBSCBS.cClassTrib
+    else
+      (frxReport.FindObject('Memo268') as TfrxMemoView).Text := '-';
+  end;
+
+  if (frxReport.FindObject('Memo270') <> nil) then
+  begin
+    if LNFSe.IBSCBS.cIndOp <> '' then
+    begin
+      (frxReport.FindObject('Memo270') as TfrxMemoView).Text :=
+        LNFSe.IBSCBS.cIndOp + ' / ' +
+        IntToStr(LNFSe.infNFSe.IBSCBS.cLocalidadeIncid) + ' / ' +
+        LNFSe.infNFSe.IBSCBS.xLocalidadeIncid + '/' +
+        LNFSe.infNFSe.IBSCBS.UFLocalidadeIncid;
+    end
+    else
+      (frxReport.FindObject('Memo270') as TfrxMemoView).Text := '-';
+  end;
+
+  if (frxReport.FindObject('Memo254') <> nil) then
+  begin
+    LValor := LNFSe.Servico.Valores.DescontoIncondicionado +
+              LNFSe.infNFSe.IBSCBS.valores.vCalcReeRepRes +
+              LNFSe.infNFSe.valores.ValorIss +
+              LNFSe.Servico.Valores.tribFed.vPis +
+              LNFSe.Servico.Valores.tribFed.vCofins;
+
+    if LValor > 0 then
+      (frxReport.FindObject('Memo254') as TfrxMemoView).Text := 'R$ ' + FormatFloatBr(LValor)
+    else
+      (frxReport.FindObject('Memo254') as TfrxMemoView).Text := '-';
+  end;
+
+  if (frxReport.FindObject('Memo266') <> nil) then
+  begin
+    LValor := LNFSe.infNFSe.IBSCBS.valores.vBC;
+
+    if LValor > 0 then
+      (frxReport.FindObject('Memo266') as TfrxMemoView).Text := 'R$ ' + FormatFloatBr(LValor)
+    else
+      (frxReport.FindObject('Memo266') as TfrxMemoView).Text := '-';
+  end;
+
+  if (frxReport.FindObject('Memo261') <> nil) then
+  begin
+    LValor := LNFSe.infNFSe.IBSCBS.valores.uf.pRedAliqUF +
+              LNFSe.infNFSe.IBSCBS.valores.mun.pRedAliqMun +
+              LNFSe.infNFSe.IBSCBS.valores.fed.pRedAliqCBS;
+
+    if LValor > 0 then
+      (frxReport.FindObject('Memo261') as TfrxMemoView).Text :=
+        FormatFloatBr(LNFSe.infNFSe.IBSCBS.valores.uf.pRedAliqUF) + '% ' +
+        FormatFloatBr(LNFSe.infNFSe.IBSCBS.valores.mun.pRedAliqMun) + '% ' +
+        FormatFloatBr(LNFSe.infNFSe.IBSCBS.valores.fed.pRedAliqCBS) + '%'
+    else
+      (frxReport.FindObject('Memo261') as TfrxMemoView).Text := '-';
+  end;
+
+  if (frxReport.FindObject('Memo263') <> nil) then
+  begin
+    LValor := LNFSe.infNFSe.IBSCBS.valores.uf.pIBSUF +
+              LNFSe.infNFSe.IBSCBS.valores.mun.pIBSMun;
+
+    if LValor > 0 then
+      (frxReport.FindObject('Memo263') as TfrxMemoView).Text :=
+        FormatFloatBr(LNFSe.infNFSe.IBSCBS.valores.uf.pIBSUF) + '% ' +
+        FormatFloatBr(LNFSe.infNFSe.IBSCBS.valores.mun.pIBSMun) + '%'
+    else
+      (frxReport.FindObject('Memo263') as TfrxMemoView).Text := '-';
+  end;
+
+  if (frxReport.FindObject('Memo256') <> nil) then
+  begin
+    LValor := LNFSe.infNFSe.IBSCBS.valores.mun.pAliqEfetMun;
+
+    if LValor > 0 then
+      (frxReport.FindObject('Memo256') as TfrxMemoView).Text :=
+        FormatFloatBr(LValor) + '%'
+    else
+      (frxReport.FindObject('Memo256') as TfrxMemoView).Text := '-';
+  end;
+
+  if (frxReport.FindObject('Memo259') <> nil) then
+  begin
+    LValor := LNFSe.infNFSe.IBSCBS.totCIBS.gIBS.gIBSMunTot.vIBSMun;
+
+    if LValor > 0 then
+      (frxReport.FindObject('Memo259') as TfrxMemoView).Text := 'R$ ' + FormatFloatBr(LValor)
+    else
+      (frxReport.FindObject('Memo259') as TfrxMemoView).Text := '-';
+  end;
+
+  if (frxReport.FindObject('Memo272') <> nil) then
+  begin
+    LValor := LNFSe.infNFSe.IBSCBS.valores.uf.pAliqEfetUF;
+
+    if LValor > 0 then
+      (frxReport.FindObject('Memo272') as TfrxMemoView).Text := FormatFloatBr(LValor) + '%'
+    else
+      (frxReport.FindObject('Memo272') as TfrxMemoView).Text := '-';
+  end;
+
+  if (frxReport.FindObject('Memo265') <> nil) then
+  begin
+    LValor := LNFSe.infNFSe.IBSCBS.totCIBS.gIBS.gIBSUFTot.vIBSUF;
+
+    if LValor > 0 then
+      (frxReport.FindObject('Memo265') as TfrxMemoView).Text:= 'R$ ' + FormatFloatBr(LValor)
+    else
+      (frxReport.FindObject('Memo265') as TfrxMemoView).Text := '-';
+  end;
+
+  if (frxReport.FindObject('Memo274') <> nil) then
+  begin
+    LValor := LNFSe.infNFSe.IBSCBS.totCIBS.gIBS.vIBSTot;
+
+    if LValor > 0 then
+      (frxReport.FindObject('Memo274') as TfrxMemoView).Text := 'R$ ' + FormatFloatBr(LValor)
+    else
+      (frxReport.FindObject('Memo274') as TfrxMemoView).Text := '-';
+  end;
+
+  if (frxReport.FindObject('Memo276') <> nil) then
+  begin
+    LValor := LNFSe.infNFSe.IBSCBS.valores.fed.pCBS;
+
+    if LValor > 0 then
+      (frxReport.FindObject('Memo276') as TfrxMemoView).Text := FormatFloatBr(LValor) + '%'
+    else
+      (frxReport.FindObject('Memo276') as TfrxMemoView).Text := '-';
+  end;
+
+  if (frxReport.FindObject('Memo280') <> nil) then
+  begin
+    LValor := LNFSe.infNFSe.IBSCBS.valores.fed.pAliqEfetCBS;
+
+    if LValor > 0 then
+      (frxReport.FindObject('Memo280') as TfrxMemoView).Text := FormatFloatBr(LValor) + '%'
+    else
+      (frxReport.FindObject('Memo280') as TfrxMemoView).Text := '-';
+  end;
+
+  if (frxReport.FindObject('Memo278') <> nil) then
+  begin
+    LValor := LNFSe.infNFSe.IBSCBS.totCIBS.gCBS.vCBS;
+
+    if LValor > 0 then
+      (frxReport.FindObject('Memo278') as TfrxMemoView).Text := 'R$ ' + FormatFloatBr(LValor)
+    else
+      (frxReport.FindObject('Memo278') as TfrxMemoView).Text := '-';
+  end;
+
+  //Total do IBS/CBS
+
+  if (frxReport.FindObject('Memo204') <> nil) then
+  begin
+    LValor := LNFSe.infNFSe.IBSCBS.totCIBS.gIBS.vIBSTot +
+              LNFSe.infNFSe.IBSCBS.totCIBS.gCBS.vCBS;
+
+    if LValor > 0 then
+      (frxReport.FindObject('Memo204') as TfrxMemoView).Text := 'R$ ' + FormatFloatBr(LValor)
+    else
+      (frxReport.FindObject('Memo204') as TfrxMemoView).Text := '-';
+  end;
+
 end;
 
 
