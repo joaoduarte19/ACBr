@@ -45,6 +45,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+05/08/2026
+-- ACBrTEFAPITPag --
+[*] Correção para Perguntar a Parcela, quando não for informado, em transação Parcelada
+    (por: DSA)
+
 04/08/2026
 -- ACBrTEFAPI --
 [-] Correção de A.V. em algumas situações onde o Modelo do TEF ainda não estava

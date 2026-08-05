@@ -43,6 +43,8 @@ uses
 
 resourcestring
   sMsgInformeNSU = 'Informe o NSU da Transação';
+  sMsgInfoParcelas = 'Número de Parcelas';
+  sMsgErroMinMax = 'Valor Mínimo: %d, Máximo: %d';
 
 type
 
@@ -75,6 +77,7 @@ type
 
   protected
     procedure InterpretarRespostaAPI; override;
+    function PerguntarParcelas: Byte;
 
   public
     constructor Create(AACBrTEFAPI: TACBrTEFAPIComum);
@@ -332,6 +335,7 @@ procedure TACBrTEFAPIClassTPag.QuandoPerguntarCampoAPI(const Titulo: String;
 var
   def: TACBrTEFAPIDefinicaoCampo;
   Validado: Boolean;
+  i: Integer;
 begin
   if (Mensagem <> '') then
     def.TituloPergunta := Titulo + sLineBreak + Mensagem
@@ -366,10 +370,26 @@ begin
   else
     def.ValidacaoDado := valdNenhuma;
 
-  Validado := True;
-  Cancelar := False;
-  Resposta := '';
-  TACBrTEFAPI(fpACBrTEFAPI).QuandoPerguntarCampo(def, Resposta, Validado, Cancelar);
+  repeat
+    Validado := False;
+    Cancelar := False;
+    Resposta := '';
+    TACBrTEFAPI(fpACBrTEFAPI).QuandoPerguntarCampo(def, Resposta, Validado, Cancelar);
+
+    if (not Validado) and (not Cancelar) then
+    begin
+      if (InputMode = INPUT_MODE_NUMERIC) then
+      begin
+        i := StrToIntDef(Resposta, -1);
+        Validado := (i >= def.ValorMinimo) and ((def.ValorMaximo = 0) or (i <= def.ValorMaximo));
+        if not Validado then
+           TACBrTEFAPI(fpACBrTEFAPI).QuandoExibirMensagem(Format(ACBrStr(sMsgErroMinMax), [def.ValorMinimo, def.ValorMaximo]), telaTodas, 5000);
+      end
+      else
+        Validado := True;
+    end;
+  until Validado or Cancelar;
+
 end;
 
 procedure TACBrTEFAPIClassTPag.DoException(const AErrorMsg: String);
@@ -380,6 +400,29 @@ end;
 procedure TACBrTEFAPIClassTPag.InterpretarRespostaAPI;
 begin
   TACBrTEFRespTPag( fpACBrTEFAPI.UltimaRespostaTEF ).SetStrings(GetTEFTPagAPI.DadosDaTransacao);
+end;
+
+function TACBrTEFAPIClassTPag.PerguntarParcelas: Byte;
+var
+  Resp: String;
+  Cancelar: Boolean;
+  ic: TPagInputModeConfig;
+begin
+  Resp := '';
+  Cancelar := False;
+  ic.minLength := 1; ic.maxLength := 2;
+  ic.minValue := 2; ic.maxValue := 99;
+  ic.allowZero := False; ic.maskInput := False;
+
+  QuandoPerguntarCampoAPI(ACBrStr(sMsgInfoParcelas), '',
+    TPagRequestOptions(-1),
+    INPUT_MODE_NUMERIC,
+    ic, Resp, Cancelar);
+
+  if Cancelar then
+    Result := 0
+  else
+    Result := StrToIntDef(Resp, 0);
 end;
 
 function TACBrTEFAPIClassTPag.EfetuarPagamento(ValorPagto: Currency;
@@ -412,7 +455,16 @@ begin
   end;
 
   if (Financiamento > tefmfAVista) then
-    Params.creditType := Cardinal(CREDIT_TYPE_INSTALLMENT)
+  begin
+    Params.creditType := Cardinal(CREDIT_TYPE_INSTALLMENT);
+
+    if (Parcelas <= 1) then
+    begin
+      Parcelas := PerguntarParcelas;
+      if (Parcelas = 0) then
+        Exit;
+    end;
+  end
   else
     Params.creditType := Cardinal(CREDIT_TYPE_NO_INSTALLMENT);
 
