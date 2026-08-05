@@ -180,8 +180,8 @@ type
     function GerarXMLEnderecoExteriorDestinatario(endExt: TendExt): TACBrXmlNode;
 
     function GerarXMLImovel(Imovel: TDadosimovel): TACBrXmlNode; virtual;
-    function GerarXMLEnderecoNacionalImovel(ender: TenderImovel): TACBrXmlNode;
-    function GerarXMLEnderecoExteriorImovel(endExt: TendExt): TACBrXmlNode;
+    function GerarXMLEnderecoNacionalImovel(ender: TenderImovel): TACBrXmlNode; virtual;
+    function GerarXMLEnderecoExteriorImovel(endExt: TendExt): TACBrXmlNode; virtual;
 
     function GerarXMLIBSCBSTribValores(valores: Tvalorestrib): TACBrXmlNode; virtual;
     function GerarXMLgReeRepRes(gReeRepRes: TgReeRepRes): TACBrXmlNode;

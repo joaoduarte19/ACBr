@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 05/08/2026
+-- ACBrNFSeXGravarXML/ISSNet.GravarXML --
+[-] Ajustes visando a correta geração do grupo endereço no imóvel.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/92901-acbr-9675-acbrnfsex-emiss%C3%A3o-em-ribeir%C3%A3o-pretosp-issnet/page/5/ 
 -- ISSDigital.Provider --
 [-] Corrige a constante da mensagem usada na validação quando não informado número de lote.
    Por: Diego Folieni
