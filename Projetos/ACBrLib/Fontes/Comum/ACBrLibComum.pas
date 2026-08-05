@@ -188,12 +188,14 @@ function StringEhArquivo(AString: String): Boolean;
 function ConverterStringEntradaParaNativa(AData: AnsiString; CodificacaoEntrada: TACBrLibCodificacao): AnsiString;
 function ConverterStringNativaParaSaida(AData: AnsiString; CodificacaoSaida: TACBrLibCodificacao): AnsiString;
 
+// Métodos de diagnóstico da lib
 // funções para obter informacoes da lib independente de TACBrLIB
 // as informações retornadas por essas funções são baseadas nas diretivas de compilação!
 function ObterArquiteturaProcessador(): string;
 function ObterConvencaoDeChamada(): string;
 function ObterInformacoesSistemaOperacional(): string;
 function ObterInformacoesDeThreads(): string;
+function ObterInformacoesDeAmbienteGrafico(): string;
 {%endregion}
 
 {$IFNDEF MT}
@@ -296,6 +298,7 @@ begin
   result:=
     ObterInformacoesSistemaOperacional()  + '/' +
     ObterArquiteturaProcessador() +  ' - '+
+    ObterInformacoesDeAmbienteGrafico() + ' ' +
     ObterInformacoesDeThreads()  + ' '  +
     ObterConvencaoDeChamada();
 end;
@@ -1118,6 +1121,17 @@ begin
   {$ELSE}
   result:= 'MT';
   {$ENDIF}
+end;
+
+function ObterInformacoesDeAmbienteGrafico(): string;
+begin
+  result:=
+  {$IFDEF NOREPORT}
+  'Console'
+  {$Else}
+  'GUI'
+  {$endif}
+  ;
 end;
 
 finalization

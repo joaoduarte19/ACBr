@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+05/08/2026
+-- ACBrLibComum --
+[+] Adiciona informações sobre o Ambiente gráfico (Console ou GUI) usado no log da lib.
+[*] [ACBr-9705] Objetivo: diferenciar libs Console MT de GUI MT
+ Por: doszapro
+
 19/05/2026
 -- ACBrLibComum --
 [-] Corrige possível Access Violation em falha de inicialização.
