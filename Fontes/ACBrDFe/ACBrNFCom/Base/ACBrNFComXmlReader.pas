@@ -291,6 +291,7 @@ begin
 
   NFCom.Ide.dhCont := ObterConteudo(ANode.Childrens.FindAnyNs('dhCont'), tcDatHor);
   NFCom.Ide.xJust := ObterConteudo(ANode.Childrens.FindAnyNs('xJust'), tcStr);
+  NFCom.Ide.tpPagAnt := StrTotpPagAnt(ObterConteudo(ANode.Childrens.FindAnyNs('tpPagAnt'), tcStr));
 
   // Reforma Tritutária
   Ler_gCompraGov(NFCom.Ide.gCompraGov, ANode.Childrens.Find('gCompraGov'));
@@ -507,6 +508,12 @@ begin
   Item.Prod.indDevolucao := tiNao;
   if sAux = '1' then
     Item.Prod.indDevolucao := tiSim;
+
+  //RT
+  Item.Prod.gPagAntecipado.chDFePagAnt := ObterConteudo(ANode.Childrens.FindAnyNs('chDFePagAnt'), tcStr);
+  Item.Prod.gPagAntecipado.nItemPagAnt := ObterConteudo(ANode.Childrens.FindAnyNs('nItemPagAnt'), tcInt);
+
+
 end;
 
 procedure TNFComXmlReader.Ler_DetImposto(const Item: TDetCollectionItem;

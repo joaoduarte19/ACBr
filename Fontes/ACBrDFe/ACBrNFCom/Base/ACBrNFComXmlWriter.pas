@@ -464,6 +464,10 @@ begin
     Result.AppendChild(AddNode(tcStr, '#22', 'xJust', 15, 256, 1,
                                                NFCom.ide.xJust, DSC_XJUSTCONT));
   end;
+  if NFCom.Ide.tpPagAnt <> tpaNenhum then
+    Result.AppendChild(AddNode(tcStr, '#20a', 'tpPagAnt', 1, 1, 1,
+                       tpPagAntToStr(NFCom.Ide.tpPagAnt),
+                       'Tipo de Pagamento Antecipado'));
 
   // Reforma Tributária
   Result.AppendChild(Gerar_Ide_CompraGov(NFCom.Ide.gCompraGov));
@@ -824,6 +828,8 @@ begin
 end;
 
 function TNFComXmlWriter.Gerar_det_prod(adet: Integer): TACBrXmlNode;
+var
+  NodePagAnt: TACBrXmlNode;
 begin
   Result := FDocument.CreateElement('prod');
 
@@ -871,6 +877,29 @@ begin
 
   if NFCom.Det[aDet].Prod.indDevolucao = tiSim then
     Result.AppendChild(AddNode(tcStr, '#170', 'indDevolucao', 1, 1, 1, '1', ''));
+
+  //RT- Reforma tributária
+  if NFCom.Ide.tpPagAnt <> tpaNenhum then
+  begin
+    if NFCom.Det[aDet].Prod.gPagAntecipado.chDFePagAnt <> '' then
+      begin
+        NodePagAnt := FDocument.CreateElement('gPagAntecipado');
+
+        NodePagAnt.AppendChild(
+          AddNode(tcStr, '#171', 'chDFePagAnt', 44, 44, 1,
+            NFCom.Det[aDet].Prod.gPagAntecipado.chDFePagAnt,
+            DSC_CHDFEPAGANT));
+
+        if NFCom.Det[aDet].Prod.gPagAntecipado.nItemPagAnt > 0 then
+          NodePagAnt.AppendChild(
+            AddNode(tcInt, '#172', 'nItemPagAnt', 1, 3, 0,
+              NFCom.Det[aDet].Prod.gPagAntecipado.nItemPagAnt,
+              DSC_NITEMPAGANT));
+
+        Result.AppendChild(NodePagAnt);
+      end;
+  end;
+
 end;
 
 function TNFComXmlWriter.Gerar_det_imposto(adet: Integer): TACBrXmlNode;

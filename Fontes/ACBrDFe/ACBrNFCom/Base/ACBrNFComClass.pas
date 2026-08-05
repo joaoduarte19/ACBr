@@ -416,6 +416,7 @@ type
     FdhCont: TDateTime;
     FxJust: string;
     FgCompraGov: TgCompraGovReduzido;
+    FtpPagAnt: TtpPagAnt;
   public
     constructor Create;
     destructor Destroy; override;
@@ -442,6 +443,7 @@ type
     property dhCont: TDateTime read FdhCont write FdhCont;
     property xJust: string read FxJust write FxJust;
     property gCompraGov: TgCompraGovReduzido read FgCompraGov write FgCompraGov;
+    property tpPagAnt: TtpPagAnt read FtpPagAnt write FtpPagAnt default tpaNenhum;
   end;
 
   { TEndereco }
@@ -642,6 +644,17 @@ type
     property gNF: TgNF read FgNF write FgNF;
   end;
 
+  { TgPagAntecipado }
+
+  TgPagAntecipado = class(TObject)
+  private
+    FchDFePagAnt: String;
+    FnItemPagAnt: Integer;
+  public
+    property chDFePagAnt: String read FchDFePagAnt write FchDFePagAnt;
+    property nItemPagAnt: Integer read FnItemPagAnt write FnItemPagAnt;
+  end;
+
   { TProd }
 
   TProd = class(TObject)
@@ -659,7 +672,11 @@ type
     FvProd: Double;
     FdExpiracao: TDateTime;
     FindDevolucao: TIndicador;
+    FgPagAntecipado: TgPagAntecipado;
   public
+    constructor Create;
+    destructor Destroy; override;
+
     procedure Assign(Source: TProd);
 
     property cProd: string read FcProd write FcProd;
@@ -675,6 +692,7 @@ type
     property vProd: Double read FvProd write FvProd;
     property dExpiracao: TDateTime read FdExpiracao write FdExpiracao;
     property indDevolucao: TIndicador read FindDevolucao write FindDevolucao;
+    property gPagAntecipado: TgPagAntecipado read FgPagAntecipado;
   end;
 
   { TICMS }
@@ -1396,6 +1414,17 @@ begin
   indDevolucao := Source.indDevolucao;
 end;
 
+constructor TProd.Create;
+begin
+  FgPagAntecipado:= TgPagAntecipado.Create;
+end;
+
+destructor TProd.Destroy;
+begin
+  FgPagAntecipado.Free;
+  inherited;
+end;
+
 { TDetCollectionItem }
 
 procedure TDetCollectionItem.Assign(Source: TDetCollectionItem);
@@ -1632,6 +1661,7 @@ begin
   dhCont := Source.dhCont;
   xJust := Source.xJust;
   nSiteAutoriz := Source.nSiteAutoriz;
+  tpPagAnt := Source.tpPagAnt;
 end;
 
 constructor TIde.Create;
@@ -1639,6 +1669,7 @@ begin
   inherited Create;
 
   FgCompraGov := TgCompraGovReduzido.Create;
+  FtpPagAnt:= tpaNenhum;
 end;
 
 destructor TIde.Destroy;
