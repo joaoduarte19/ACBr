@@ -747,7 +747,9 @@ begin
   FCTe.Ide.cDV := ObterConteudo(ANode.Childrens.FindAnyNs('cDV'), tcInt);
   FCTe.Ide.tpAmb := StrToTipoAmbiente(ObterConteudo(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
   FCTe.Ide.tpCTe := StrTotpCTe(Ok, ObterConteudo(ANode.Childrens.FindAnyNs('tpCTe'), tcStr));
-  FCTe.Ide.procEmi := StrToprocEmi(ObterConteudo(ANode.Childrens.FindAnyNs('procEmi'), tcStr));
+  sAux := ObterConteudo(ANode.Childrens.FindAnyNs('procEmi'), tcStr);
+  if sAux <> '' then //GTVe não tem procEmi
+    FCTe.Ide.procEmi := StrToprocEmi(sAux);
   FCTe.Ide.verProc := ObterConteudo(ANode.Childrens.FindAnyNs('verProc'), tcStr);
 
   if ObterConteudo(ANode.Childrens.FindAnyNs('indGlobalizado'), tcStr) = '1' then

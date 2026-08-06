@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+06/08/2026
+-- ACBrCTe.XmlReader --
+[-] Ajuste visando a correta leitura do campo procEmi quando GTVe.
+   Por: Diego Folieni
+
 07/07/2026
 -- Diversos --
 [*] Ajustes para realizar a correta leitura do grupo <toma> do CT-e Simplificado.
