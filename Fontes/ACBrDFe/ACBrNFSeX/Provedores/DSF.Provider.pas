@@ -131,15 +131,21 @@ type
     procedure ProcessarMensagemDeErros(LJson: TACBrJSONObject;
                                      Response: TNFSeWebserviceResponse;
                                      const AListTag: string = 'Erros'); override;
+
+    function PrepararArquivoEnvio(const aXml: string; aMetodo: TMetodo): string; override;
   end;
 
 implementation
 
 uses
+  synacode,
+  ACBrCompress,
   ACBrDFe.Conversao,
-  ACBrUtil.Strings, ACBrUtil.XMLHTML,
+  ACBrUtil.Strings,
+  ACBrUtil.XMLHTML,
   ACBrDFeException,
-  DSF.GravarXml, DSF.LerXml;
+  DSF.GravarXml,
+  DSF.LerXml;
 
 { TACBrNFSeXWebserviceDSF }
 
@@ -623,7 +629,7 @@ begin
 
   if URL <> '' then
   begin
-//    URL := URL + Path;
+    URL := URL + Path;
 
     Result := TACBrNFSeXWebserviceDSFAPIPropria.Create(FAOwner, AMetodo, URL, Method);
   end
@@ -633,6 +639,39 @@ begin
       raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
     else
       raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
+end;
+
+function TACBrNFSeProviderDSFAPIPropria.PrepararArquivoEnvio(const aXml: string;
+  aMetodo: TMetodo): string;
+begin
+  Result := aXml;
+
+  if aMetodo in [tmGerar, tmEnviarEvento] then
+  begin
+    Result := ChangeLineBreak(aXml, '');
+    Result := EncodeBase64(GZipCompress(Result));
+
+    case aMetodo of
+      tmGerar:
+        begin
+          Result := '{"dpsXmlGZipB64":"' + Result + '"}';
+          Path := '/dps';
+        end;
+
+      tmEnviarEvento:
+        begin
+          Result := '{"pedidoRegistroEventoXmlGZipB64":"' + Result + '"}';
+          Path := '/nfse/' + Chave + '/eventos';
+        end;
+    else
+      begin
+        Result := '';
+        Path := '';
+      end;
+    end;
+
+    Method := 'POST';
   end;
 end;
 
