@@ -162,6 +162,10 @@ begin
     Result.AppendChild(AddNode(tcStr, '#32', 'CodigoNbs', 1, 9, NrOcorrCodigoNBS,
                                PadLeft(NFSe.Servico.CodigoNBS, 9, '0'), DSC_CMUN));
 
+    Result.AppendChild(AddNode(tcStr, '#1', 'CodigoINDOP', 6, 6, 0, NFSe.Servico.INDOP));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'CodigoClassTrib', 6, 6, 0, NFSe.Servico.cClassTrib));
+
     Result.AppendChild(AddNode(tcStr, '#31', 'CodigoTributacaoMunicipio', 1, 20, NrOcorrCodTribMun_1,
                      NFSe.Servico.CodigoTributacaoMunicipio, DSC_CSERVTRIBMUN));
 

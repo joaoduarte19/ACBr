@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+06/08/2026
+-- Centi.GravarXml --
+[*] ACBR-9717 - Alteração visando gerar os campos: CodigoINDOP e CodigoClassTrib.
+    Por: Diego Reckziegel
+
 05/08/2026
 -- PadraoNacional.GravarXML/ACBrNFSeXGravarXml --
 [-] Comenta trecho de rotina que ainda está em construção e remove comentário que impedia a consolidação da Discriminacao.
