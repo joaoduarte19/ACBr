@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 06/08/2026
+-- ACBrNFSeXServicos --
+[*] Correção nas URLs de Homologação do novo WebService do provedor DSF.
+   Por: Italo Giurizzato Junior
 -- Giap.GravarXml --
 [-] ACBR-9716 - Altera a ordem da geração das tags nbs e código visando espelhar o exemplo do XML
    Por: Diego Folieni
