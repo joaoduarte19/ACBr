@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 06/08/2026
+-- ACBrNFSeXLerXml --
+[-] ACBR-9681 - Correção na leitura do campo: DataOptanteSimplesNacional 
+   Por: Italo Giurizzato Junior
 -- DSF.Provider --
 [*] Ajustes por conta da correção das URLs de homologação.
    Por: Italo Giurizzato Junior
