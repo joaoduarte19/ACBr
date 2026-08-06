@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 06/08/2026
+-- IPM.Provider --
+[*] ACBR-9667 - Implementa a consulta de NFSe por período para o IPM.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/93572-acbr-9667-erro-ao-recuperar-dados-da-nfse/page/2/
 -- ACBrNFSeXServicos --
 [*] ACBR-9720 - O município de Luziânia/GO aderiu ao Padrão Nacional
 	Por: Andryel Blanco
