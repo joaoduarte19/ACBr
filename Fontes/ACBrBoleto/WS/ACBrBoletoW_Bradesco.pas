@@ -720,8 +720,8 @@ begin
       LJsonObject.AddPair('filCpfCnpjBenef', '0');
       LJsonObject.AddPair('digCpfCnpjBenef',  Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 10, 2));
     end;
-
-    LJsonObject.AddPair('qtdDecurPrz', DaysBetween(ATitulo.Vencimento, ATitulo.DataLimitePagto));
+    if ATitulo.DataLimitePagto > 0 then
+       LJsonObject.AddPair('qtdDecurPrz', DaysBetween(ATitulo.Vencimento, ATitulo.DataLimitePagto));
     LJsonObject.AddPair('tipoAcesso', 2);//FIXO.
     LJsonObject.AddPair('cpssoaJuridContr', 0);//FIXO.
     LJsonObject.AddPair('ctpoContrNegoc', 0);//FIXO.

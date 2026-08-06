@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+06/08/2026
+-- ACBrBoletoW_Bradesco.pas  --
+[-] Ajustes referente a alimentação DataLimitePagto, quando nao informado estava alimentando a propriedade qtdDecurPrz de forma incorreta. 
+   Relatado no canal Corp-ProCel o mesmo validou a minha unit com sucesso
+   Por: Daniel de Morais InfoCotidiano.
+
 04/08/2026
 -- ACBrBancoSicredi, ACBrBoleto ,ACBrBoletoW_Sicredi_APIV2  --
 [*] ACBR-9585 - Ajustes referente ao codigo mora; 
