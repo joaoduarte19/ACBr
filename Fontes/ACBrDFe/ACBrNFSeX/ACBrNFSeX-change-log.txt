@@ -43,6 +43,24 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 06/08/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9720 - O município de Luziânia/GO aderiu ao Padrão Nacional
+	Por: Andryel Blanco
+	Veja: https://www.projetoacbr.com.br/forum/topic/94043-acbr-9720-erro-502-bad-gateway-ao-tentar-emitir-uma-nfse-no-munic%C3%ADpio-de-luzi%C3%A2nia/
+[*] ACBR-9719 - O município de Andirá/PR aderiu ao Padrão Nacional
+	Por: armando.boza
+	Veja: https://www.projetoacbr.com.br/forum/topic/94038-acbr-9719-nfse-andir%C3%A1-pr-mudou-de-elotech-para-padr%C3%A3o-nacional/
+[*] ACBR-9713 - O município de Sales Oliveira/SP aderiu ao Padrão Nacional
+	Por: Larissa Santos
+[*] ACBR-9707 - O município de Pinhais/PR aderiu ao Padrão Nacional
+	Por: Programador Infocase
+	Veja: https://discord.com/channels/798697718800318484/800042186783588364/1534257347705311324
+[*] ACBR-9703 - Alteração de layout e URLs do Provedor EL para o município de Barreiras/BA-3204559/#comment-605446
+	Por: dreamsoft_PR
+	Veja: https://www.projetoacbr.com.br/forum/topic/93929-api-acbr-nfse/
+[*] ACBR-9684 - Provedor Sintese alterou a URL de Homologação
+	Por: mlgoncalves
+	Veja: https://www.projetoacbr.com.br/forum/topic/93750-provedor-sintese-da-cidade-de-s%C3%A3o-br%C3%A1s-do-sua%C3%A7u%C3%AD-nova-url-de-homologa%C3%A7%C3%A3o/
 -- ACBrNFSeXLerXml --
 [-] ACBR-9681 - Correção na leitura do campo: DataOptanteSimplesNacional 
    Por: Italo Giurizzato Junior
