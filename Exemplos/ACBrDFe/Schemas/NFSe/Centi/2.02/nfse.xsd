@@ -114,6 +114,20 @@
 			<xsd:whiteSpace value="collapse" />
 		</xsd:restriction>
 	</xsd:simpleType>
+	<xsd:simpleType name="tsCodigoINDOP">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="6" />
+			<xsd:minLength value="6" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsCodigoClassTrib">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="6" />
+			<xsd:minLength value="6" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
 	<xsd:simpleType name="tsCodigoCnae">
 		<xsd:restriction base="xsd:int">
 			<xsd:totalDigits value="7" />
@@ -452,14 +466,14 @@
 
 	<xsd:complexType name="tcDadosObra">
 		<xsd:sequence>
-			<xsd:element name="cnoFild"				type="tsEndereco"				minOccurs="0" maxOccurs="1"/>
-			<xsd:element name="cepObraFild"			type="tsCep"					minOccurs="0" maxOccurs="1"/>
-			<xsd:element name="logradouroObraFild"	type="tsEndereco"				minOccurs="0" maxOccurs="1"/>
-			<xsd:element name="numeroObraFild"		type="tsNumeroEndereco"			minOccurs="0" maxOccurs="1"/>
-			<xsd:element name="bairroObraFild"		type="tsBairro"					minOccurs="0" maxOccurs="1"/>
-			<xsd:element name="complementoObraFild"	type="tsComplementoEndereco"	minOccurs="0" maxOccurs="1"/>
-			<xsd:element name="quadraObraFild"		type="tsNumeroEndereco"			minOccurs="0" maxOccurs="1"/>
-			<xsd:element name="loteObraFild"		type="tsNumeroLote"				minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="Cno"				type="tsEndereco"				minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="CepObra"			type="tsCep"					minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="LogradouroObra"	type="tsEndereco"				minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="NumeroObra"		type="tsNumeroEndereco"			minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="BairroObra"		type="tsBairro"					minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="ComplementoObra"	type="tsComplementoEndereco"	minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="QuadraObra"		type="tsNumeroEndereco"			minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="LoteObra"		type="tsNumeroLote"				minOccurs="0" maxOccurs="1"/>
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -508,6 +522,8 @@
 			<xsd:element name="ResponsavelRetencao"       type="tsResponsavelRetencao"      minOccurs="0" maxOccurs="1" />
 			<xsd:element name="ItemListaServico"          type="tsItemListaServico"			minOccurs="0" maxOccurs="1" />
 			<xsd:element name="CodigoNbs"				  type="tsCodigoNbs"				minOccurs="0" maxOccurs="1" />
+			<xsd:element name="CodigoINDOP"				  type="tsCodigoINDOP"				minOccurs="0" maxOccurs="1" />
+			<xsd:element name="CodigoClassTrib"			  type="tsCodigoClassTrib"			minOccurs="0" maxOccurs="1" />
 			<xsd:element name="CodigoCnae"                type="tsCodigoCnae"			    minOccurs="0" maxOccurs="1" />
 			<xsd:element name="CodigoTributacaoMunicipio" type="tsCodigoTributacao"			minOccurs="0" maxOccurs="1" />
 			<xsd:element name="Discriminacao"             type="tsDiscriminacao"			minOccurs="1" maxOccurs="1" />
