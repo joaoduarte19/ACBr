@@ -288,11 +288,11 @@ begin
   Result.AppendChild(AddNode(tcInt, '#1', 'cnae', 1, 8, 0,
                                       OnlyNumber(NFSe.Servico.CodigoCnae), ''));
 
-  Result.AppendChild(AddNode(tcInt, '#1', 'nbs', 1, 9, 0,
-                                       OnlyNumber(NFSe.Servico.CodigoNBS), ''));
-
   Result.AppendChild(AddNode(tcInt, '#1', 'codigo', 1, 4, 1,
                                 OnlyNumber(NFSe.Servico.ItemListaServico), ''));
+
+  Result.AppendChild(AddNode(tcInt, '#1', 'nbs', 1, 9, 0,
+                                       OnlyNumber(NFSe.Servico.CodigoNBS), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'descricao', 1, 4000, 1,
     StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
