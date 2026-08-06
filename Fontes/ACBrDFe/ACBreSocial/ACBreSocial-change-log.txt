@@ -51,6 +51,13 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+06/08/2026
+-- pcesS1299 --
+[-] Ajuste visando a correta geração da tag naoValid no arquivo XML.
+   Por: Daniel Alves Barreto
+   Veja: https://www.projetoacbr.com.br/forum/topic/94041-t%C3%ADtulo-poss%C3%ADvel-regress%C3%A3o-no-s-1299-%E2%80%94-campo-infofechnaovalid-no-leiaute-s-13/ 
+
 01/07/2026
 -- ACBreSocialLoteEventos --
 [*] Ajuste GetIDEvento para chave 36 posicoes

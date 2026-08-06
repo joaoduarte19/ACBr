@@ -214,7 +214,7 @@ begin
   if Self.infoFech.transDCTFWeb = snfSim then
     Gerador.wCampo(tcStr, '', 'transDCTFWeb', 1, 1, 1, eSSimNaoFacultativoToStr(self.infoFech.transDCTFWeb));
 
-  if Self.infoFech.naoValid = snfSim then
+  if Self.infoFech.naoValid <> snfNada then
     Gerador.wCampo(tcStr, '', 'naoValid', 1, 1, 0, eSSimNaoFacultativoToStr(self.infoFech.naoValid));
 
   Gerador.wGrupo('/infoFech');
@@ -309,7 +309,7 @@ begin
       infoFech.compSemMovto    := INIRec.ReadString(sSecao, 'compSemMovto', '');
       infoFech.indExcApur1250  := eSStrToSimNaoFacultativo(Ok, INIRec.ReadString(sSecao, 'indExcApur1250', 'S'));
       infoFech.transDCTFWeb    := eSStrToSimNaoFacultativo(Ok, INIRec.ReadString(sSecao, 'transDCTFWeb', 'N'));
-      infoFech.naoValid        := eSStrToSimNaoFacultativo(Ok, INIRec.ReadString(sSecao, 'naoValid', 'S'));
+      infoFech.naoValid        := eSStrToSimNaoFacultativo(Ok, INIRec.ReadString(sSecao, 'naoValid', ''));
     end;
 
     GerarXML;
