@@ -558,43 +558,69 @@ begin
 end;
 
 procedure TBoletoW_Caixa.GerarDescontos;
+
+  function TipoDescToStr(TipoDesc: TACBrTipoDesconto): String;
+  begin
+    if TipoDesc = tdCancelamentoDesconto then
+      Result := 'ISENTO'
+    else if TipoDesc = tdValorFixoAteDataInformada then
+      Result := 'VALOR_FIXO_ATE_DATA'
+    else if TipoDesc = tdPercentualAteDataInformada then
+      Result := 'PERCENTUAL_ATE_DATA'
+    else if TipoDesc = tdValorAntecipacaoDiaCorrido then
+      Result := 'VALOR_ANTECIPACAO_DIA_CORRIDO'
+    else if TipoDesc = tdValorAntecipacaoDiaUtil then
+      Result := 'VALOR_ANTECIPACAO_DIA_UTIL'
+    else if TipoDesc = tdPercentualSobreValorNominalDiaCorrido then
+      Result := 'PERCENTUAL_ANTECIPACAO_DIA_CORRIDO'
+    else if TipoDesc = tdPercentualSobreValorNominalDiaUtil then
+      Result := 'PERCENTUAL_ANTECIPACAO_DIA_UTIL'
+    else
+      Result := '';
+  end;
+
+  procedure GrupoDesconto(TipoDesc: TACBrTipoDesconto; ValorDesc: Currency; DataDesc: TDateTime);
+  begin
+    if (TipoDesc = tdNaoConcederDesconto) then
+      Exit;
+
+    Gerador.wGrupo('DESCONTO');
+    if (TipoDesc = tdCancelamentoDesconto) then
+    begin
+      Gerador.wCampo(tcDe2, '#34', 'VALOR', 01, 15, 1, 0, DSC_VALOR_DESCONTO);
+      Gerador.wCampo(tcStr, '#', 'TIPO', 01, 6, 1, 'ISENTO', DSC_TIPO_DESCONTO);
+    end
+    else
+    begin
+      Gerador.wCampo(tcDat, '#33', 'DATA', 10, 10, 1, DataDesc, DSC_DATA_DESCONTO);
+      Gerador.wCampo(tcStr, '#', 'TIPO', 01, 6, 1, TipoDescToStr(TipoDesc), DSC_TIPO_DESCONTO);
+      if (Integer(TipoDesc) = 1) then
+        Gerador.wCampo(tcDe2, '#34', 'VALOR     ', 01, 15, 1, ValorDesc, DSC_VALOR_DESCONTO)
+      else
+        Gerador.wCampo(tcDe4, '#35', 'PERCENTUAL', 01, 15, 1, ValorDesc, DSC_VALOR_DESCONTO);
+    end;
+    Gerador.wGrupo('/DESCONTO');
+  end;
+
 begin
   if Assigned(ATitulo) then
     with ATitulo do
     begin
-      if (ValorDesconto > 0) then
+      if (ValorDesconto > 0) or (ValorDesconto2 > 0) or (ValorDesconto3 > 0) or
+        (TipoDesconto = tdCancelamentoDesconto) or (TipoDesconto2 = tdCancelamentoDesconto) or (TipoDesconto3 = tdCancelamentoDesconto) then
       begin
         Gerador.wGrupo('DESCONTOS');
 
-          Gerador.wGrupo('DESCONTO');
-          Gerador.wCampo(tcDat, '#33', 'DATA', 10, 10, 1, DataDesconto, DSC_DATA_DESCONTO);
-
-          if ( Integer(TipoDesconto) = 1) then
-            Gerador.wCampo(tcDe2, '#34', 'VALOR     ', 01, 15, 1, ValorDesconto, DSC_VALOR_DESCONTO)
-          else
-            Gerador.wCampo(tcDe4, '#35', 'PERCENTUAL', 01, 15, 1, ValorDesconto, DSC_VALOR_DESCONTO);
-
-          Gerador.wGrupo('/DESCONTO');
-
-        if ((ValorDesconto2 > 0) and (not Boleto.Cedente.CedenteWS.IndicadorPix)) then
-        begin
-           Gerador.wGrupo('DESCONTO');
-          Gerador.wCampo(tcDat, '#33', 'DATA', 10, 10, 1, DataDesconto2, DSC_DATA_DESCONTO2);
-
-          if ( Integer(TipoDesconto2) = 1) then
-            Gerador.wCampo(tcDe2, '#34', 'VALOR     ', 01, 15, 1, ValorDesconto2, DSC_VALOR_DESCONTO2)
-          else
-            Gerador.wCampo(tcDe4, '#35', 'PERCENTUAL', 01, 15, 1, ValorDesconto2, DSC_VALOR_DESCONTO2);
-
-          Gerador.wGrupo('/DESCONTO');
-
-        end;
+        if ((ValorDesconto > 0) or (TipoDesconto = tdCancelamentoDesconto)) then
+          GrupoDesconto(TipoDesconto, ValorDesconto, DataDesconto);
+        if (ValorDesconto2 > 0) or (TipoDesconto2 = tdCancelamentoDesconto) then
+          GrupoDesconto(TipoDesconto2, ValorDesconto2, DataDesconto2);
+        if (ValorDesconto3 > 0) or (TipoDesconto3 = tdCancelamentoDesconto) then
+          GrupoDesconto(TipoDesconto3, ValorDesconto3, DataDesconto3);
 
         Gerador.wGrupo('/DESCONTOS');
-
       end;
     end;
-
 end;
 
 procedure TBoletoW_Caixa.GerarFicha_Compensacao;
