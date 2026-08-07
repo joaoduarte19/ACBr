@@ -184,7 +184,7 @@ type
 
     procedure ProcessarMensagemErros(RootNode: TACBrXmlNode;
                                      Response: TNFSeWebserviceResponse;
-                                     const AListTag: string = 'ListaMensagemRetorno';
+                                     const AListTag: string = 'ListaMensagemRetornoLote';
                                      const AMessageTag: string = 'MensagemRetorno'); override;
 
     function PrepararArquivoEnvio(const aXml: string; aMetodo: TMetodo): string; override;
@@ -363,7 +363,7 @@ begin
                                  InfoCanc.NumeroNFSe +
                                '</' + Prefixo2 + 'Numero>' +
                                '<' + Prefixo2 + 'Cnpj>' +
-                                 OnlyNumber(Emitente.CNPJ) +
+                                 OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                '</' + Prefixo2 + 'Cnpj>' +
                                GetInscMunic(Emitente.InscMun, Prefixo2) +
                                '<' + Prefixo2 + 'CodigoMunicipio>' +
@@ -1516,6 +1516,7 @@ begin
 
     ServicosDisponibilizados.EnviarUnitario := True;
     ServicosDisponibilizados.EnviarLoteSincrono := True;
+    ServicosDisponibilizados.EnviarLoteAssincrono := True;
     {
     ServicosDisponibilizados.ConsultarNfseChave := True;
     ServicosDisponibilizados.ConsultarRps := True;
@@ -1545,7 +1546,10 @@ begin
     DadosCabecalho := GetCabecalho('');
 
     LoteRpsSincrono.DocElemento := 'EnviarLoteDpsSincronoEnvio';
+    LoteRpsSincrono.InfElemento := 'LoteDps';
+
     LoteRps.DocElemento := 'EnviarLoteDpsEnvio';
+    LoteRps.InfElemento := 'LoteDps';
 
     ConsultarLote.DocElemento := 'ConsultarLoteDpsEnvio';
     ConsultarNFSeRps.DocElemento := 'ConsultarNfseDpsEnvio';
@@ -1560,6 +1564,7 @@ begin
   with ConfigAssinar do
   begin
     Rps := True;
+    LoteRps := True;
     RpsGerarNFSe := True;
     EnviarEvento := True;
   end;
@@ -1573,7 +1578,7 @@ var
   xCpfCnpj: string;
 begin
   Result := '';
-  xCpfCnpj := OnlyNumber(CpfCnpj);
+  xCpfCnpj := OnlyCPFCNPJAlphaNum(CpfCnpj);
 
   if xCpfCnpj <> '' then
   begin
@@ -1850,9 +1855,14 @@ end;
 begin
   ANode := RootNode.Childrens.FindAnyNs(AListTag);
 
+  if not Assigned(ANode) then
+  begin
+    ANode := RootNode.Childrens.FindAnyNs('ListaMensagemRetorno');
+  end;
+
   ProcessarErros;
 
-  ANode := RootNode.Childrens.FindAnyNs('ListaMensagemAlertaRetorno');
+  ANode := RootNode.Childrens.FindAnyNs('ListaMensagemAlertaRetornoLote');
 
   if Assigned(ANode) then
   begin
@@ -3534,7 +3544,7 @@ begin
 
     xUF := TACBrNFSeX(FAOwner).Configuracoes.WebServices.UF;
 
-    CnpjCpf := OnlyAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
+    CnpjCpf := OnlyCPFCNPJAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
     if Length(CnpjCpf) < 14 then
     begin
       xAutorEvento := '<CPFAutor>' +

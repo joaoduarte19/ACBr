@@ -42,6 +42,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+07/08/2026
+-- IPM.Provider --
+[*] Removido variáveis não utilizadas.
+   Por: Italo Gurizzato Junior
+-- ISSNet.Provider --
+[*] ACBR-9693 - Alterações visando o envio em lote.
+   Por: FI_Sistemas
+
 06/08/2026
 -- IPM.Provider --
 [*] ACBR-9667 - Implementa a consulta de NFSe por período para o IPM.
