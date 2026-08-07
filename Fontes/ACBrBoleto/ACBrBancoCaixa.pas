@@ -37,21 +37,25 @@ unit ACBrBancoCaixa;
 interface
 
 uses
-  Classes, SysUtils, Contnrs, ACBrBoleto, ACBrBoletoConversao;
+  Classes,
+  SysUtils,
+  Contnrs,
+  ACBrBoleto,
+  ACBrBoletoConversao;
 
 type
 
   { TACBrCaixaEconomica}
 
   TACBrCaixaEconomica = class(TACBrBancoClass)
-   protected
+  protected
     function GetLocalPagamento: String; override;
     function DefineAceiteImpressao(const ACBrTitulo: TACBrTitulo): String; override;
     procedure EhObrigatorioAgenciaDV; override;
     function MontaInstrucoes1CNAB240(const ACBrTitulo: TACBrTitulo): String;
     function MontaInstrucoes2CNAB240(const ACBrTitulo: TACBrTitulo): String;
 
-   private
+  private
     fValorTotalDocs:Double;
     fQtRegLote: Integer;
     function RetornaModalidade(const ACBrTitulo :TACBrTitulo): String;
@@ -59,7 +63,7 @@ type
     function RetornaCodCarteira(const Carteira: string; const ACBrTitulo : TACBrTitulo): integer;
     function DefineCodigoCedente(const ACBrCedente :TACBrCedente): String;
     function ConverteModalidadeEmCodCarteira(const Modalidade: Integer): String;
-   public
+  public
     Constructor create(AOwner: TACBrBanco);
     function CalcularDigitoVerificador(const ACBrTitulo: TACBrTitulo ): String; override;
     function CalcularDVCedente(const ACBrTitulo: TACBrTitulo ): String;
@@ -81,13 +85,19 @@ type
     function CodigoLiquidacao_Descricao( CodLiquidacao : Integer) : String;
     function CodOcorrenciaToTipoRemessa(const CodOcorrencia: Integer): TACBrTipoOcorrencia; override;
     function TipoOcorrenciaToCodRemessa(const TipoOcorrencia: TACBrTipoOcorrencia): string; override;
-   end;
+  end;
 
 implementation
 
-uses StrUtils, Variants,
-  {$IFDEF COMPILER6_UP} DateUtils {$ELSE} ACBrD5, FileCtrl {$ENDIF},
-  ACBrUtil.Base, ACBrUtil.FilesIO, ACBrUtil.Strings, ACBrUtil.DateTime;
+uses
+  StrUtils,
+  Variants,
+  {$IFDEF COMPILER6_UP} DateUtils
+  {$ELSE} ACBrD5, FileCtrl {$ENDIF},
+  ACBrUtil.Base,
+  ACBrUtil.FilesIO,
+  ACBrUtil.Strings,
+  ACBrUtil.DateTime;
 
 constructor TACBrCaixaEconomica.create(AOwner: TACBrBanco);
 begin
@@ -1173,6 +1183,21 @@ begin
          wLinha := wLinha + DoMontaInstrucoes1;
          aRemessa.Text := aRemessa.Text + UpperCase(wLinha);
 
+
+         if sacado.Email <>'' then
+         begin
+           wLinha := '3'                                                      + //001 - 001 Identificação do Registro Transação Tipo 3
+                     '02'                                                     + //002 - 003 Tipo de Inscrição empresa
+                     ACBrTitulo.Sacado.CNPJCPF                                + //004 - 017 Número de Inscrição da Empresa
+                     RightStr(OnlyNumber(ACBrBoleto.Cedente.Agencia), 4 )     + // 18 até 21  - Código da Agência
+                     PadRight(ACodCedente, 7, '0')                            + // 22 - 28  - Código do Cedente
+                     Space(25)                                                + //29 - 53  Brancos
+                     PadRight(ACBrTitulo.Sacado.Email, 50)                    + // 54 - 103   Email
+                     Space(291)                                               + //104 - 394 Brancos
+                     IntToStrZero( aRemessa.Count + 1, 6 );
+
+           aRemessa.Add(UpperCase(wLinha));
+         end;
       end;
    end;
 end;
