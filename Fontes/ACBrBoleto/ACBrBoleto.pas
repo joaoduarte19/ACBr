@@ -151,7 +151,9 @@ type
     cobBancoCredisan,
     cobBancoSofisa,
     cobBancoVortx,
-    cobBancoAsaas
+    cobBancoAsaas,
+    cobBancoMultiplicaBradesco,
+    cobBancoPetraBradesco
     );
 
   TACBrTitulo = class;
@@ -2168,7 +2170,9 @@ Uses {$IFNDEF NOGUI}Forms,{$ENDIF}
      ACBrBancoCredisan,
      ACBrBancoSofisa,
      ACBrBancoVortx,
-     ACBrBancoAsaas;
+     ACBrBancoAsaas,
+     ACBrBancoMultiplicaBradesco,
+     ACBrBancoPetraBradesco;
 
 {$IFNDEF FPC}
    {$R ACBrBoleto.dcr}
@@ -4989,6 +4993,8 @@ begin
      cobBancoSofisa          : fBancoClass := TACBRBancoSofisa.create(self);            {637}
      cobBancoVortx           : fBancoClass := TACBRBancoVortx.create(self);             {310}
      cobBancoAsaas           : fBancoClass := TACBrBancoAsaas.Create(Self);             {461}
+     cobBancoMultiplicaBradesco : fBancoClass := TACBrBancoMultiplicaBradesco.Create(Self);    {237} //Lucas 19-01-2026
+     cobBancoPetraBradesco : fBancoClass := TACBrBancoPetraBradesco.Create(Self);    {237}
    else
      fBancoClass := TACBrBancoClass.create(Self);
    end;

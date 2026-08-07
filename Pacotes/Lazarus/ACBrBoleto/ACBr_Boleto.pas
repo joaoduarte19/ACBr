@@ -39,8 +39,9 @@ uses
   ACBrBoletoRet_Cresol, ACBrBoletoW_Cresol, ACBrBancoCora, ACBrBoletoW_Cora, 
   ACBrBoletoRet_Cora, ACBrBoletoW_Kobana, ACBrBoletoRet_Kobana, 
   ACBrBoletoKobana.Classes, ACBrBancoSulcredi, ACBrBoletoW_BTGPactual, 
-  ACBrBoletoRet_BTGPactual, ACBrBancoSofisa, ACBrBancoVortx, ACBrBoletoW_Asaas,
-  ACBrBoletoRet_Asaas, ACBrBancoAsaas, LazarusPackageIntf;
+  ACBrBoletoRet_BTGPactual, ACBrBancoSofisa, ACBrBancoVortx, 
+  ACBrBoletoW_Asaas, ACBrBoletoRet_Asaas, ACBrBancoAsaas, 
+  ACBrBancoMultiplicaBradesco, ACBrBancoPetraBradesco, LazarusPackageIntf;
 
 implementation
 

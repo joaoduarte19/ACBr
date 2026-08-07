@@ -21,7 +21,7 @@
     <Description Value="ACBr - Boleto - (http://www.projetoacbr.com.br/)"/>
     <License Value="LGPL"/>
     <Version Minor="1"/>
-    <Files Count="104">
+    <Files Count="106">
       <Item1>
         <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBoleto.pas"/>
         <UnitName Value="ACBrBoleto"/>
@@ -303,7 +303,7 @@
         <Filename Value="..\..\..\Fontes\ACBrBoleto\WS\ACBrBoletoW_Inter_API.pas"/>
         <UnitName Value="ACBrBoletoW_Inter_API"/>
       </Item70>
-	  <Item71>
+      <Item71>
         <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBoletoWS.URL.pas"/>
         <UnitName Value="ACBrBoletoWS.URL"/>
       </Item71>
@@ -411,11 +411,11 @@
         <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoSulcredi.pas"/>
         <UnitName Value="ACBrBancoSulcredi"/>
       </Item97>
-	  <Item98>
+      <Item98>
         <Filename Value="..\..\..\Fontes\ACBrBoleto\WS\ACBrBoletoW_BTGPactual.pas"/>
         <UnitName Value="ACBrBoletoW_BTGPactual"/>
       </Item98>
-	  <Item99>
+      <Item99>
         <Filename Value="..\..\..\Fontes\ACBrBoleto\WS\ACBrBoletoRet_BTGPactual.pas"/>
         <UnitName Value="ACBrBoletoRet_BTGPactual"/>
       </Item99>
@@ -439,6 +439,14 @@
         <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoAsaas.pas"/>
         <UnitName Value="ACBrBancoAsaas"/>
       </Item104>
+      <Item105>
+        <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoMultiplicaBradesco.pas"/>
+        <UnitName Value="ACBrBancoMultiplicaBradesco"/>
+      </Item105>
+      <Item106>
+        <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoPetraBradesco.pas"/>
+        <UnitName Value="ACBrBancoPetraBradesco"/>
+      </Item106>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="2">
