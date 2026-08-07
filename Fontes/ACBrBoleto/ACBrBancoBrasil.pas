@@ -1288,6 +1288,20 @@ begin
 
          aRemessa.Add(UpperCase(wLinha));
        end;
+
+       if sacado.Email <>'' then
+       begin
+         wLinha := '5'                                          + //001 - 001 Identificação do Registro Transação Tipo 5
+                   '01'                                         + //002 - 003 Tipo de Serviço 01
+                   PadRight(ACBrTitulo.Sacado.Email, 136)       + // 004 - 139  Email
+                   Space(255)                                   + //140 - 400 Brancos
+
+                   IntToStrZero( aRemessa.Count + 1, 6 );
+
+         aRemessa.Add(UpperCase(wLinha));
+       end;
+
+
      end;
    end;
 end;
