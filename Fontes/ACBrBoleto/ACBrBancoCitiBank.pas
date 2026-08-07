@@ -37,7 +37,11 @@ unit ACBrBancoCitiBank;
 interface
 
 uses
-  Classes, SysUtils, Contnrs, ACBrBoleto, ACBrBoletoConversao;
+  Classes,
+  SysUtils,
+  Contnrs,
+  ACBrBoleto,
+  ACBrBoletoConversao;
 
 type
 
@@ -45,9 +49,14 @@ type
   TACBrBancoCitiBank = class(TACBrBancoClass)
   private
     fValorTotalDocs: Double;
+    function ConverterMultaPercentual(const ACBrTitulo: TACBrTitulo): Double;
+    function ConverterJurosValorDiario(const ACBrTitulo: TACBrTitulo): Double;
   protected
     procedure EhObrigatorioContaDV; override;
     procedure EhObrigatorioAgenciaDV; override;
+    function MontaInstrucoesCNAB400(const ACBrTitulo :TACBrTitulo; const nRegistro: Integer ): String; override;
+    function GerarLinhaRegistroTransacao400(ACBrTitulo : TACBrTitulo; aRemessa: TStringList): String;
+    procedure LerRetorno400(ARetorno:TStringList); override;
   public
     constructor Create(AOwner: TACBrBanco);
     function CalcularDigitoVerificador(const ACBrTitulo: TACBrTitulo): String; override;
@@ -57,14 +66,27 @@ type
     function GerarRegistroHeader240(NumeroRemessa: Integer): String; override;
     function GerarRegistroTransacao240(ACBrTitulo: TACBrTitulo): String; override;
     function GerarRegistroTrailler240(ARemessa: TStringList): String; override;
+    Procedure LerRetorno400Transacao4(ACBrTitulo :TACBrTitulo; ALinha:String); override;
+    procedure GerarRegistroTransacao400(ACBrTitulo : TACBrTitulo; aRemessa: TStringList); override;
+    procedure GerarRegistroHeader400(NumeroRemessa : Integer; aRemessa: TStringList); override;
 
+    // Codigos extraidos do "CITIBANK Manual CNAB-400 Standard v2.8",
+    // pos 109/110 do registro detalhe (Codigo de Ocorrencia).
+    function CodOcorrenciaToTipo(const ACodOcorrencia: Integer): TACBrTipoOcorrencia; override;
+    function TipoOcorrenciaToCod(const ATipoOcorrencia: TACBrTipoOcorrencia): String; override;
+    function TipoOcorrenciaToDescricao(const ATipoOcorrencia: TACBrTipoOcorrencia): String; override;
   end;
 
 implementation
 
-uses StrUtils, Variants,
-  {$IFDEF COMPILER6_UP} DateUtils {$ELSE} ACBrD5, FileCtrl {$ENDIF},
-  ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.DateTime;
+uses
+  StrUtils,
+  Variants,
+  {$IFDEF COMPILER6_UP} DateUtils
+  {$ELSE} ACBrD5, FileCtrl {$ENDIF},
+  ACBrUtil.Base,
+  ACBrUtil.Strings,
+  ACBrUtil.DateTime;
 
 constructor TACBrBancoCitiBank.Create(AOwner: TACBrBanco);
 begin
@@ -190,7 +212,7 @@ begin
              'R'                                     + //9 - Tipo de operação: R (Remessa) ou T (Retorno)
              '01'                                    + //10 a 11 - Tipo de serviço: 01 (Cobrança)
              Space(2)                                + //012 a 013 - Uso exclusivo FEBRABAN/CNAB
-             '030'                                   + //14 a 16 - Número da versão do layout do lote
+             '041'                                   + //14 a 16 - Número da versão do layout do lote    
              ' '                                     + //17 - Uso exclusivo FEBRABAN/CNAB
              ATipoInscricao                          + //18 - Tipo de inscrição do cedente
              PadLeft(OnlyCPFCNPJAlphaNum(CNPJCPF), 15, '0')   + //19 a 33 -Número de inscrição do cedente
@@ -396,5 +418,374 @@ begin
            PadRight('',205,' ');                                        //Uso exclusivo FEBRABAN/CNAB}
 end;
 
+procedure TACBrBancoCitiBank.GerarRegistroHeader400(NumeroRemessa : Integer; aRemessa: TStringList);
+var
+  wLinha: String;
+begin
+   with ACBrBanco.ACBrBoleto.Cedente do
+   begin
+      wLinha:= '0'                                        + // ID do Registro
+               '1'                                        + // ID do Arquivo( 1 - Remessa)
+               'REMESSA'                                  + // Literal de Remessa
+               '01'                                       + // Código do Tipo de serviço
+               PadRight( 'COBRANCA', 15 )                 + // Descrição do tipo de serviço
+               PadLeft( Convenio, 20, '0')                + // Codigo da Empresa no Banco
+               PadRight( Nome, 30)                        + // Nome da Empresa
+               IntToStrZero(fpNumero, 3)                  + // Codigo
+               PadRight('CITIBANK', 15)                  + // Nome do Banco(745 - CitiBank)
+               FormatDateTime('ddmmyy',Now)               + // Data de geração do arquivo + brancos
+               '01600'                                    + //101-105 = Densidade de gravação
+               'BPI'                                      + //106-104 = Unidade de densidade de gravação
+               Space(286)                                   +  { brancos }
+               IntToStrZero(1,6);                           // Nr. Sequencial de Remessa + brancos + Contador
+
+      ARemessa.Add(UpperCase(wLinha));
+   end;
+end;
+
+function TACBrBancoCitiBank.MontaInstrucoesCNAB400( const ACBrTitulo: TACBrTitulo; const nRegistro: Integer): String;
+var 
+  LNossoNumero,LDigitoNossoNumero : String;
+begin
+  Result := '';
+
+  ValidaNossoNumeroResponsavel(LNossoNumero, LDigitoNossoNumero, ACBrTitulo);
+
+  With ACBrTitulo, ACBrBoleto do begin
+    Mensagem.Text := TiraAcentos(AnsiUpperCase(Mensagem.Text));
+    {Primeira instrução vai no registro 1}
+    if Mensagem.Count <= 1 then begin
+       Result := '';
+       Exit;
+    end;
+
+    Result := '2'               +                                                                          // 001-001 Identificação DO LAYOUT PARA O REGISTRO
+              Copy(PadRight(Mensagem[1], 80, ' '), 1, 80);                                                 // 002-081 CONTEÚDO DA 1ª LINHA DE IMPRESSÃO DA ÁREA "INSTRUÇÕES" DO BOLETO
+
+    if Mensagem.Count >= 3 then
+      Result := Result +
+                Copy(PadRight(Mensagem[2], 80, ' '), 1, 80)                                                // 082-161 CONTEÚDO DA 2ª LINHA DE IMPRESSÃO DA ÁREA "INSTRUÇÕES" DO BOLETO
+    else
+      Result := Result + PadRight('', 80, ' ');                                                            // 082-161 CONTEÚDO DO RESTANTE DAS LINHAS
+
+    if Mensagem.Count >= 4 then
+      Result := Result +
+                Copy(PadRight(Mensagem[3], 80, ' '), 1, 80)                                                // 162-241 CONTEÚDO DA 3ª LINHA DE IMPRESSÃO DA ÁREA "INSTRUÇÕES" DO BOLETO
+    else
+      Result := Result + PadRight('', 80, ' ');                                                            // 162-241 CONTEÚDO DO RESTANTE DAS LINHAS
+
+    if Mensagem.Count >= 5 then
+      Result := Result +
+                Copy(PadRight(Mensagem[4], 80, ' '), 1, 80)                                                // 242-321 CONTEÚDO DA 4ª LINHA DE IMPRESSÃO DA ÁREA "INSTRUÇÕES" DO BOLETO
+    else
+      Result := Result + PadRight('', 80, ' ');                                                            // 242-321 CONTEÚDO DO RESTANTE DAS LINHAS
+
+
+    Result := Result
+              + IfThen(DataDesconto2 > 0,FormatDateTime( 'ddmmyy', DataDesconto2),PadLeft('', 6, '0'))     // 322-327 Data limite para concessão de Desconto 2
+              + IntToStrZero( round( ValorDesconto2 * 100 ), 13)                                           // 328-340 Valor do Desconto 2
+              + IfThen(DataDesconto3 > 0, FormatDateTime( 'ddmmyy', DataDesconto3) ,PadLeft('', 6, '0'))   // 341-346 Data limite para concessão de Desconto 3
+              + IntToStrZero( round( ValorDesconto3 * 100 ), 13)                                           // 347-359 Valor do Desconto 3
+              + space(7)                                                                                   // 360-366 Filler
+              + IntToStrZero(StrToIntDef(trim(Carteira), 0), 3)                                            // 367-369 Num. da Carteira
+              + IntToStrZero(StrToIntDef(OnlyNumber(ACBrBoleto.Cedente.Agencia), 0), 5)                    // 370-374 Código da agência Beneficiário
+              + IntToStrZero(StrToIntDef(OnlyNumber(ACBrBoleto.Cedente.Conta)  , 0), 7)                    // 375-381 Num. da Conta-Corrente
+              + Cedente.ContaDigito                                                                        // 382-382 DAC C/C
+              + LNossoNumero                                                                               // 383-393 Nosso Número
+              + LDigitoNossoNumero                                                                         // 394-394 DAC Nosso Número
+              + IntToStrZero( nRegistro + 1, 6);                                                           // 395-400 Num. Sequencial do Registro
+  end;
+end;
+
+function TACBrBancoCitiBank.GerarLinhaRegistroTransacao400(ACBrTitulo :TACBrTitulo; aRemessa: TStringList): String;
+var
+  LOcorrencia, LEspecie, LAgencia: String;
+  LProtesto, LTipoSacado, LMensagemCedente, LConta, LDigitoConta: String;
+  LCarteira, wLinha, LNossoNumero, LDigitoNossoNumero, LTipoBoleto: String;
+  LPercMulta, LValorMoraJuros: Double;
+  LChaveNFE : String;
+  LEspecieDoc : String;
+  LCartInt : Integer;
+begin
+   Result := '';
+   with ACBrTitulo do
+   begin
+     ValidaNossoNumeroResponsavel(LNossoNumero, LDigitoNossoNumero, ACBrTitulo);
+
+     LAgencia := IntToStrZero(StrToIntDef(OnlyNumber(ACBrBoleto.Cedente.Agencia),0),5);
+     LConta   := IntToStrZero(StrToIntDef(OnlyNumber(ACBrBoleto.Cedente.Conta),0),7);
+     LCarteira:= IntToStrZero(StrToIntDef(trim(Carteira),0), 3);
+     LDigitoConta := PadLeft(trim(ACBrBoleto.Cedente.ContaDigito),1,'0');
+
+     LCartInt := StrToInt(LCarteira);
+
+     {Código da Ocorrencia}
+     LOcorrencia:= TipoOcorrenciaToCodRemessa(OcorrenciaOriginal.Tipo);
+
+     {Tipo de Boleto}
+     LTipoBoleto:= DefineTipoBoleto(ACBrTitulo);
+
+     {Especie}
+     LEspecie:= DefineEspecieDoc(ACBrTitulo);
+
+     {Intruções}
+     LProtesto:= InstrucoesProtesto(ACBrTitulo);
+
+     {Tipo de Sacado}
+     LTipoSacado := DefineTipoSacado(ACBrTitulo);
+
+     { Converte valor em moeda para percentual, pois o arquivo só permite % }
+     LPercMulta := ConverterMultaPercentual(ACBrTitulo);
+
+     { Converte valor em moeda para valor diário, pois o arquivo só permite juros em R$ diário }
+     LValorMoraJuros := ConverterJurosValorDiario(ACBrTitulo);
+
+     {Chave da NFe}
+     if ACBrTitulo.ListaDadosNFe.Count>0 then
+       LChaveNFe := ACBrTitulo.ListaDadosNFe[0].ChaveNFe
+     else
+       LChaveNFe := '';
+
+     LMensagemCedente := '';
+
+      {Espécie}
+     if AnsiSameText(EspecieDoc, 'DM') then
+       LEspecieDoc := '02'
+     else if AnsiSameText(EspecieDoc, 'DMI') then
+       LEspecieDoc := '00'
+     else
+       LEspecieDoc := '99';
+
+     with ACBrBoleto do
+     begin
+       if Sacado.SacadoAvalista.CNPJCPF <> '' then
+       begin
+         LMensagemCedente := PadLeft(OnlyCPFCNPJAlphaNum(Sacado.SacadoAvalista.CNPJCPF), 15, '0') +  // 335 a 349 - CNPJ do beneficiário final
+         '  ' +                                                                            // 350 a 351 - Brancos
+         PadRight(Sacado.SacadoAvalista.NomeAvalista, 43);                                 // 352 a 394 - Nome do beneficiário final
+       end
+       else if Mensagem.Text <> '' then
+          LMensagemCedente := Mensagem[0];
+
+       wLinha:= '1'                                             +  // 001 a 001 - ID Registro
+       '0' + DefineTipoInscricao                                +  // 002 a 003 -  Tipo de inscrição da Empresa
+       PadLeft(OnlyCPFCNPJAlphaNum(Cedente.CNPJCPF), 14, '0')            + // 004 a 017 - Número de inscrição do cedente
+       PadLeft( Cedente.Convenio, 20, '0')                      + // 018 a 037 - Identificação da empresa no Citibank / Codigo da Empresa no Banco
+       PadLeft(SeuNumero, 25, '0')                              +  // 038 a 062 - Numero de Controle do Participante           //0001000091158850000000000
+       LEspecieDoc                                              + // 063 A 064 - Identificação da espécie do título // 02 = DM
+       PadLeft(SeuNumero, 12, '0')                              + // 065 a 076 - Número Bancário  (Nosso Número)
+       Space(5)                                                 + // 077 a 081 - Brancos
+       '0'                                                      + // 082 Tipo de Código de Barras
+       IfThen(DataDesconto2 > 0,FormatDateTime( 'ddmmyy', DataDesconto2),PadLeft('', 6, '0')) + // 083 a 088 - Data do segundo desconto
+       IntToStrZero( round( ValorDesconto2 * 100 ), 13)         + // 089 a 101 Valor do Desconto 2
+       Space(6)                                                 + // 102 a 107  - Brancos
+       IntToStr(LCartInt)                                       + // 108 a 108 - Código da Carteira
+       LOcorrencia                                              + // 109 a 110 - Código ocorrencia
+       PadLeft(NumeroDocumento, 10, '0')                        +  // 111 a 120 - Numero Documento
+       FormatDateTime( 'ddmmyy', Vencimento)                    +  // 121 a 126 - Data Vencimento
+       IntToStrZero( Round( ValorDocumento * 100 ), 13)         +  // 127 a 139 - Valo Titulo
+       '745'                                                    + // 140 a 142 - Número do Citibank na Compensação
+       '00000'                                                  + // 143 a 147 - zeros a pedido do banco em 21-08-2025
+       '01'                                                     + // 148 a 149 - Tipo de Emissão
+       'N'                                                      + // 150 a 150 - Aceite
+       FormatDateTime( 'ddmmyy', DataDocumento )                +  // 151 a 156 - Data de Emissão
+       LProtesto                                                +  // 157 a 160 - Intruções de Protesto
+       IntToStrZero( round(LValorMoraJuros * 100 ), 13)          +  // 161 a 173 - Valor a ser cobrado por dia de atraso
+       IfThen(DataDesconto < EncodeDate(2000,01,01),'000000',
+              FormatDateTime( 'ddmmyy', DataDesconto))          + // 174 a 179 - Data limite para concessão desconto
+       IntToStrZero( round( ValorDesconto * 100 ), 13)          + // 180 a 192 - Valor Desconto
+       Space(4)                                                 + // 193 a 196
+       IntToStrZero( round( ValorIOF * 100 ), 9)                + // 197 a 205 - Valor IOF
+       IntToStrZero( round( ValorAbatimento * 100 ), 13)        + // 206 a 218 - Valor Abatimento
+       LTipoSacado + PadLeft(OnlyCPFCNPJAlphaNum(Sacado.CNPJCPF),14,'0') + // 219 a 234 - Tipo de inscrição + Número de inscrição do Pagador
+       PadRight( Sacado.NomeSacado, 40, ' ')                    + // 235 a 274 - Nome do Pagador
+       PadRight(Sacado.Logradouro + ' ' + Sacado.Numero + ' '   +
+         Sacado.Complemento + ' ' , 40)                         + // 275 a 314 - Endereço completo do pagador
+       PadRight( Sacado.Bairro, 12, ' ')                        + // 315 a 326 -  Bairro do endereço do sacado
+       PadRight( Sacado.CEP, 8, ' ')                            + // 327 a 334 - CEP
+       PadRight( Sacado.Cidade, 15, ' ')                        + // 335 a 349 - Nome da cidade
+       PadRight( Sacado.UF, 2, ' ')                             + // 350 a 351 - UF sacado
+       PadRight( LMensagemCedente, 42 )                          + // 352 a 393 - Beneficiário final ou 2ª Mensagem
+       '9'                                                      + // 394 - Código de Moeda
+       IntToStrZero(aRemessa.Count + 1, 6)                      ; // 395 a 400 - NÓ sequencial DO REGISTRO NO ARQUIVO
+
+       Result := UpperCase(wLinha);
+
+      end;
+   end;
+
+end;
+
+procedure TACBrBancoCitiBank.GerarRegistroTransacao400(ACBrTitulo :TACBrTitulo; ARemessa: TStringList);
+var
+  LLinha, LNossoNumero, LDigitoNossoNumero : String;
+begin
+  ARemessa.Add(UpperCase(GerarLinhaRegistroTransacao400(ACBrTitulo, ARemessa)));
+  LLinha := MontaInstrucoesCNAB400(ACBrTitulo, ARemessa.Count );
+
+  if not(LLinha = EmptyStr) then
+    aRemessa.Add(UpperCase(LLinha));
+
+  if (ACBrTitulo.Sacado.SacadoAvalista.NomeAvalista <> '') then
+  begin
+    ValidaNossoNumeroResponsavel(LNossoNumero, LDigitoNossoNumero, ACBrTitulo);
+    LLinha := '7'                                                                + // 001 a 001 - Identificação do registro detalhe (7)
+    PadRight(Trim(ACBrTitulo.Sacado.SacadoAvalista.Logradouro + ' ' +
+                  ACBrTitulo.Sacado.SacadoAvalista.Numero     + ' ' +
+                  ACBrTitulo.Sacado.SacadoAvalista.Bairro)  , 45, ' ')           + // 002 a 046 - Endereço Beneficiario Final
+    PadRight(OnlyNumber(ACBrTitulo.Sacado.SacadoAvalista.CEP), 8, '0' )          + // 047 a 054 - CEP + Sufixo do CEP
+    PadRight(ACBrTitulo.Sacado.SacadoAvalista.Cidade, 20, ' ')                   + // 055 a 074 - Cidade
+    PadRight(ACBrTitulo.Sacado.SacadoAvalista.UF, 2, ' ')                        + // 075 a 076 - UF
+    PadRight('', 290, ' ')                                                       + // 077 a 366 - Reserva Filer
+    PadLeft(ACBrTitulo.Carteira, 3, '0')                                         + // 367 a 369 - Carteira
+    PadLeft(OnlyNumber(ACBrTitulo.ACBrBoleto.Cedente.Agencia), 5, '0')           + // 370 a 374 - agência mantenedora da conta
+    PadLeft(ACBrTitulo.ACBrBoleto.Cedente.Conta, 7, '0')                         + // 375 a 381 - Número da Conta Corrente
+    Padleft(ACBrTitulo.ACBrBoleto.Cedente.ContaDigito, 1 , ' ')                  + // 382 a 382 - Dígito Verificador da Conta DAC
+    PadLeft(LNossoNumero, 11, '0')                                               + // 383 a 393 - Nosso Número
+    PadLeft(LDigitoNossoNumero ,1,' ')                                           + // 394 a 394 - Digito Nosso Número
+    IntToStrZero( ARemessa.Count + 1, 6);                                          // 395 a 400 - Número sequencial do registro
+
+    ARemessa.Add(UpperCase(LLinha));
+  end;
+end;
+
+procedure TACBrBancoCitiBank.LerRetorno400(ARetorno: TStringList);
+var 
+  LTamanhoMaximoNossoNum : Integer;
+begin
+  LTamanhoMaximoNossoNum := TamanhoMaximoNossoNum;
+  try
+    if ACBrBanco.ACBrBoleto.LerNossoNumeroCompleto then
+      fpTamanhoMaximoNossoNum := LTamanhoMaximoNossoNum+1;
+    inherited;
+  finally
+    fpTamanhoMaximoNossoNum := LTamanhoMaximoNossoNum;
+  end;
+end;
+
+procedure TACBrBancoCitiBank.LerRetorno400Transacao4(ACBrTitulo :TACBrTitulo; ALinha: String);
+var
+  LURL, LtxId: string;
+begin
+  inherited;
+  LURL := Trim(Copy(ALinha, 29,77));
+  LtxId := Trim(Copy(ALinha,106,35));
+  if NaoEstaVazio(lURL) and NaoEstaVazio(LtxId) then
+     ACBrTitulo.QrCode.PIXQRCodeDinamico(Lurl, LtxId, ACBrTitulo);
+end;
+
+function TACBrBancoCitiBank.ConverterMultaPercentual(const ACBrTitulo: TACBrTitulo): Double;
+begin
+  if ACBrTitulo.MultaValorFixo then
+      if (ACBrTitulo.ValorDocumento > 0) then
+        Result := (ACBrTitulo.PercentualMulta / ACBrTitulo.ValorDocumento) * 100
+      else
+        Result := 0
+    else
+      Result := ACBrTitulo.PercentualMulta;
+end;
+
+function TACBrBancoCitiBank.ConverterJurosValorDiario( const ACBrTitulo: TACBrTitulo): Double;
+begin
+  case ACBrTitulo.CodigoMoraJuros of
+    cjValorDia: Result := ACBrTitulo.ValorMoraJuros;
+    cjTaxaMensal: Result := (ACBrTitulo.ValorMoraJuros * ACBrTitulo.ValorDocumento / 100 / 30);
+    cjIsento: Result := 0;
+    cjValorMensal: Result := (ACBrTitulo.ValorMoraJuros / 30);
+    cjTaxaDiaria: Result := (ACBrTitulo.ValorMoraJuros * ACBrTitulo.ValorDocumento / 100);
+  end;
+end;
+
+function TACBrBancoCitiBank.CodOcorrenciaToTipo(const ACodOcorrencia: Integer): TACBrTipoOcorrencia;
+begin
+  case ACodOcorrencia of
+    02: Result := toRetornoRegistroConfirmado;                  // Entrada confirmada
+    03: Result := toRetornoRegistroRecusado;                    // Transacao rejeitada (motivo na pos 302/321)
+    06: Result := toRetornoLiquidado;                           // Liquidacao / pagamento
+    07: Result := toRetornoDescontoConcedido;                   // Desconto concedido
+    10: Result := toRetornoBaixadoPorDevolucao;                 // Baixa / Devolucao (forma na pos 302/321)
+    11: Result := toRetornoTituloEmSer;                         // Em ser (a vencer)
+    12: Result := toRetornoAbatimentoConcedido;                 // Abatimento concedido
+    14: Result := toRetornoVencimentoAlterado;                  // Vencimento e/ou valor alterado
+    15: Result := toRetornoLiquidadoEmCartorio;                 // Pago em cartorio
+    17: Result := toRetornoLiquidadoAposBaixaOuNaoRegistro;     // Liquidacao apos baixa
+    18: Result := toRetornoBaixadoPorDevolucao;                 // Devolucao por decurso de prazo
+    19: Result := toRetornoConfInstrucaoProtesto;               // Confirmacao instrucao de protesto
+    20: Result := toRetornoConfInstrucaoSustacaoProtesto;       // Confirmacao sustacao de protesto
+    21: Result := toRetornoConfRecPedidoExclusaoNegativacao;    // Confirmacao Pedido Exclusao Serasa
+    22: Result := toRetornoConfRecPedidoNegativacao;            // Titulo enviado para negativacao
+    23: Result := toRetornoEncaminhadoACartorio;                // Titulo enviado a cartorio
+    26: Result := toRetornoInstrucaoRejeitada;                  // Instrucao rejeitada
+    29: Result := toRetornoAlegacaoDoSacado;                    // Alegacao do Sacado
+    31: Result := toRetornoConfEntradaNegativacao;              // Titulo negativado na Serasa
+    34: Result := toRetornoRetiradoDeCartorio;                  // Titulo retirado de cartorio
+    51: Result := toRetornoCustasCartorioDistribuidor;          // Custa de distribuicao
+    52: Result := toRetornoCustasSustacao;                      // Custa de sustacao
+    53: Result := toRetornoCustasProtesto;                      // Custa de protesto
+    95: Result := toRetornoConfEntradaNegativacao;              // Instrucao Negativacao Cumprida
+  else
+    Result := toRemessaRegistrar;
+  end;
+end;
+
+function TACBrBancoCitiBank.TipoOcorrenciaToCod( const ATipoOcorrencia: TACBrTipoOcorrencia): String;
+begin
+  case ATipoOcorrencia of
+    toRetornoRegistroConfirmado:                  Result := '02';
+    toRetornoRegistroRecusado:                    Result := '03';
+    toRetornoLiquidado:                           Result := '06';
+    toRetornoDescontoConcedido:                   Result := '07';
+    toRetornoBaixadoPorDevolucao:                 Result := '10';
+    toRetornoTituloEmSer:                         Result := '11';
+    toRetornoAbatimentoConcedido:                 Result := '12';
+    toRetornoVencimentoAlterado:                  Result := '14';
+    toRetornoLiquidadoEmCartorio:                 Result := '15';
+    toRetornoLiquidadoAposBaixaOuNaoRegistro:     Result := '17';
+    toRetornoConfInstrucaoProtesto:               Result := '19';
+    toRetornoConfInstrucaoSustacaoProtesto:       Result := '20';
+    toRetornoConfRecPedidoExclusaoNegativacao:    Result := '21';
+    toRetornoConfRecPedidoNegativacao:            Result := '22';
+    toRetornoEncaminhadoACartorio:                Result := '23';
+    toRetornoInstrucaoRejeitada:                  Result := '26';
+    toRetornoAlegacaoDoSacado:                    Result := '29';
+    toRetornoConfEntradaNegativacao:              Result := '31';
+    toRetornoRetiradoDeCartorio:                  Result := '34';
+    toRetornoCustasCartorioDistribuidor:          Result := '51';
+    toRetornoCustasSustacao:                      Result := '52';
+    toRetornoCustasProtesto:                      Result := '53';
+  else
+    Result := '';
+  end;
+end;
+
+function TACBrBancoCitiBank.TipoOcorrenciaToDescricao(const ATipoOcorrencia: TACBrTipoOcorrencia): String;
+begin
+  case ATipoOcorrencia of
+    toRetornoRegistroConfirmado:                  Result := '02 - Entrada Confirmada';
+    toRetornoRegistroRecusado:                    Result := '03 - Transacao Rejeitada';
+    toRetornoLiquidado:                           Result := '06 - Liquidacao / Pagamento';
+    toRetornoDescontoConcedido:                   Result := '07 - Desconto Concedido';
+    toRetornoBaixadoPorDevolucao:                 Result := '10 - Baixa / Devolucao';
+    toRetornoTituloEmSer:                         Result := '11 - Em Ser (a vencer)';
+    toRetornoAbatimentoConcedido:                 Result := '12 - Abatimento Concedido';
+    toRetornoVencimentoAlterado:                  Result := '14 - Vencimento e/ou Valor Alterado';
+    toRetornoLiquidadoEmCartorio:                 Result := '15 - Pago em Cartorio';
+    toRetornoLiquidadoAposBaixaOuNaoRegistro:     Result := '17 - Liquidacao apos Baixa';
+    toRetornoConfInstrucaoProtesto:               Result := '19 - Confirmacao Instrucao de Protesto';
+    toRetornoConfInstrucaoSustacaoProtesto:       Result := '20 - Confirmacao Sustacao de Protesto';
+    toRetornoConfRecPedidoExclusaoNegativacao:    Result := '21 - Confirmacao Exclusao Serasa';
+    toRetornoConfRecPedidoNegativacao:            Result := '22 - Titulo Enviado para Negativacao';
+    toRetornoEncaminhadoACartorio:                Result := '23 - Titulo Enviado a Cartorio';
+    toRetornoInstrucaoRejeitada:                  Result := '26 - Instrucao Rejeitada';
+    toRetornoAlegacaoDoSacado:                    Result := '29 - Alegacao do Sacado';
+    toRetornoConfEntradaNegativacao:              Result := '31 - Titulo Negativado na Serasa';
+    toRetornoRetiradoDeCartorio:                  Result := '34 - Titulo Retirado de Cartorio';
+    toRetornoCustasCartorioDistribuidor:          Result := '51 - Custa de Distribuicao';
+    toRetornoCustasSustacao:                      Result := '52 - Custa de Sustacao';
+    toRetornoCustasProtesto:                      Result := '53 - Custa de Protesto';
+  else
+    Result := '';
+  end;
+end;
 
 end.
