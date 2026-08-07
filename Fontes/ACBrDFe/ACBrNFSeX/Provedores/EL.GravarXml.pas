@@ -80,6 +80,7 @@ type
   protected
     procedure Configuracao; override;
 
+    function GerarServico: TACBrXmlNode; override;
   end;
 
   { TNFSeW_ELAPIPropria }
@@ -560,6 +561,61 @@ begin
 
 //  GerarIDDeclaracao := False;
 //  GerarIDRps := True;
+end;
+
+function TNFSeW_EL204.GerarServico: TACBrXmlNode;
+var
+  item: string;
+begin
+  Result := CreateElement('Servico');
+
+  Result.AppendChild(GerarValores);
+
+  Result.AppendChild(AddNode(tcStr, '#20', 'IssRetido', 1, 1, 1,
+    FpAOwner.SituacaoTributariaToStr(NFSe.Servico.Valores.IssRetido), DSC_INDISSRET));
+
+  if not (NFSe.Servico.ItemServico[0].ResponsavelRetencao in [rtPrestador, rtNenhum]) then
+    Result.AppendChild(AddNode(tcStr, '#21', 'ResponsavelRetencao', 1, 1, 0,
+     FpAOwner.ResponsavelRetencaoToStr(NFSe.Servico.ResponsavelRetencao), DSC_INDRESPRET));
+
+  item := FormatarItemServico(NFSe.Servico.ItemListaServico, FormatoItemListaServico);
+
+  Result.AppendChild(AddNode(tcStr, '#29', 'ItemListaServico', 1, 8, 1,
+                                                          item, DSC_CLISTSERV));
+
+  Result.AppendChild(AddNode(tcStr, '#30', 'CodigoCnae', 1, 9, 0,
+                 OnlyNumber(NFSe.Servico.CodigoCnae), DSC_CNAE));
+
+  Result.AppendChild(AddNode(tcStr, '#31', 'CodigoTributacaoMunicipio', 1, 20, 0,
+      NFSe.Servico.CodigoTributacaoMunicipio, DSC_CSERVTRIBMUN));
+
+  Result.AppendChild(AddNode(tcStr, '#31', 'CodigoServicoNacional', 1, 20, 0,
+                        NFSe.Servico.CodigoServicoNacional, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#32', 'CodigoNbs', 1, 9, 0,
+                              NFSe.Servico.CodigoNBS, DSC_CMUN));
+
+  Result.AppendChild(AddNode(tcStr, '#33', 'Discriminacao', 1, 2000, 1,
+      StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+               FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]), DSC_DISCR));
+
+  Result.AppendChild(AddNode(tcInt, '#34', 'CodigoMunicipio', 7, 7, 1,
+                        NFSe.Servico.CodigoMunicipio, DSC_CMUN));
+
+  Result.AppendChild(GerarCodigoPaisServico);
+
+  Result.AppendChild(AddNode(tcInt, '#36', 'ExigibilidadeISS',
+                               NrMinExigISS, NrMaxExigISS, 1,
+    StrToInt(FpAOwner.ExigibilidadeISSToStr(NFSe.Servico.ExigibilidadeISS)), DSC_INDISS));
+
+  Result.AppendChild(AddNode(tcStr, '#39', 'IdentifNaoExigibilidade', 1, 4, 0,
+                      NFSe.Servico.IdentifNaoExigibilidade, ''));
+
+  Result.AppendChild(AddNode(tcInt, '#37', 'MunicipioIncidencia', 7, 7, 0,
+                 NFSe.Servico.MunicipioIncidencia, DSC_MUNINCI));
+
+  Result.AppendChild(AddNode(tcStr, '#38', 'NumeroProcesso', 1, 30, 0,
+                    NFSe.Servico.NumeroProcesso, DSC_NPROCESSO));
 end;
 
 end.
