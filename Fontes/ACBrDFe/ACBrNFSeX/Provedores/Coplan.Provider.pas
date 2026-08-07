@@ -1591,7 +1591,7 @@ var
     Inscrição Federal (14 - CPF completar com 000 à esquerda) + Série DPS (5)+ Núm. DPS (15)
     }
     cMun := Poem_Zeros(Emitente.DadosEmitente.CodigoMunicipio, 7);
-    vCNPJ := OnlyNumber(Emitente.CNPJ);
+    vCNPJ := OnlyCPFCNPJAlphaNum(Emitente.CNPJ);
 
     if Length(vCNPJ) = 11 then
 	    tpInsc := '1'
@@ -2461,7 +2461,7 @@ begin
     end;
   end;
 
-  IdAttr := DefinirIDCancelamento(OnlyNumber(Emitente.CNPJ),
+  IdAttr := DefinirIDCancelamento(OnlyCPFCNPJAlphaNum(Emitente.CNPJ),
                                   OnlyNumber(Emitente.InscMun),
                                   InfoCanc.NumeroNFSe);
 

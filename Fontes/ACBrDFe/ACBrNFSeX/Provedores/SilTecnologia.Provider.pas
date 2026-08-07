@@ -1155,7 +1155,7 @@ begin
 
     xUF := TACBrNFSeX(FAOwner).Configuracoes.WebServices.UF;
 
-    CnpjCpf := OnlyAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
+    CnpjCpf := OnlyCPFCNPJAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
     if Length(CnpjCpf) < 14 then
     begin
       xAutorEvento := '<CPFAutor>' +
@@ -1253,7 +1253,7 @@ begin
     Response.ArquivoEnvio := xEvento;
 
     nomeArq := '';
-    SalvarXmlEvento(ID + '-pedRegEvento', Response.ArquivoEnvio, nomeArq);
+    SalvarXmlEvento(ID + '-pedRegEvento', Response.ArquivoEnvio, nomeArq, dhEvento);
     Response.PathNome := nomeArq;
     Path := '';
     Method := 'POST';

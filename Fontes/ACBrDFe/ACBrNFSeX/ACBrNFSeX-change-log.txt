@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 07/08/2026
+-- Diversos --
+[*] Ajustes para o CNPJ Alfa.
+[*] ACBR-9711 - Ajuste para salvar o XML do evento na pasta com AAAA/MM do 
+    seu processamento.
+   Por: Italo Gurizzato Junior
 -- ACBrNFSeXServicos --
 [*] Incluído o campo Params para a cidade de Medeiros Neto.
    Por: Italo Gurizzato Junior

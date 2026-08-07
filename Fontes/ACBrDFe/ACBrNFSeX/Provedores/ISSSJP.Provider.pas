@@ -286,7 +286,7 @@ begin
     Response.ArquivoEnvio := '<' + Prefixo + 'ConsultarLoteRpsEnvio' + IdAttr + NameSpace + '>' +
                            '<' + Prefixo + 'Prestador>' +
                              '<' + Prefixo2 + 'Cnpj>' +
-                               OnlyNumber(Emitente.CNPJ) +
+                               OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</' + Prefixo2 + 'Cnpj>' +
                              GetInscMunic(Emitente.InscMun, Prefixo2) +
                            '</' + Prefixo + 'Prestador>' +
@@ -306,12 +306,12 @@ begin
 
   with Params do
   begin
-    IdAttr := ' Id="' + OnlyNumber(Emitente.CNPJ) + '" ';
+    IdAttr := ' Id="' + OnlyCPFCNPJAlphaNum(Emitente.CNPJ) + '" ';
 
     Response.ArquivoEnvio := '<' + Prefixo + TagEnvio + IdAttr + NameSpace + '>' +
                                '<' + Prefixo + 'Prestador>' +
                                  '<' + Prefixo2 + 'Cnpj>' +
-                                   OnlyNumber(Emitente.CNPJ) +
+                                   OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                  '</' + Prefixo2 + 'Cnpj>' +
                                  GetInscMunic(Emitente.InscMun, Prefixo2) +
                                '</' + Prefixo + 'Prestador>' +

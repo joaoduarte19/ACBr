@@ -942,7 +942,7 @@ begin
   end;
 
 
-  CNPJ := OnlyAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
+  CNPJ := OnlyCPFCNPJAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
   IM := OnlyAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.InscMun);
   IdAttrib := Response.NumeroLote;
 
@@ -1027,7 +1027,7 @@ begin
     Exit;
   end;
 
-  CNPJ := OnlyAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
+  CNPJ := OnlyCPFCNPJAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
   IM := OnlyAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.InscMun);
   IdAttrib := Response.NumeroLote;
 

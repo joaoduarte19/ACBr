@@ -603,7 +603,7 @@ begin
                          '<ano>' + Ano + '</ano>' +
                          '<mes>' + Mes + '</mes>' +
                          '<cpfcnpj>' +
-                           OnlyNumber(Emitente.CNPJ) +
+                           OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                          '</cpfcnpj>' +
                          '<inscricao>' +
                            OnlyNumber(Emitente.InscMun) +

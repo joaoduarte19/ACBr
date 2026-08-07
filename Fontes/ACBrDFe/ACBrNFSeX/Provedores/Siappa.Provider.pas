@@ -343,7 +343,7 @@ begin
                            Emitente.WSUser +
                            '</ws_003_in_prest_insc_seq>' +
                            '<ws_003_in_prest_cnpj>' +
-                           OnlyNumber(Emitente.CNPJ) +
+                           OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                            '</ws_003_in_prest_cnpj>' +
                            '<ws_003_in_prest_ws_senha>' +
                            Emitente.WSSenha +
@@ -536,7 +536,7 @@ begin
                            Emitente.WSUser +
                            '</ws_002_in_prest_insc_seq>' +
                            '<ws_002_in_prest_cnpj>' +
-                           OnlyNumber(Emitente.CNPJ) +
+                           OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                            '</ws_002_in_prest_cnpj>' +
                            '<ws_002_in_prest_ws_senha>' +
                            Emitente.WSSenha +
@@ -664,7 +664,7 @@ begin
                            Emitente.WSUser +
                            '</Ws_000_in_prest_insc_seq>' +
                            '<Ws_000_in_prest_cnpj>' +
-                           OnlyNumber(Emitente.CNPJ) +
+                           OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                            '</Ws_000_in_prest_cnpj>' +
                            '<Ws_000_in_prest_ws_senha>' +
                            Emitente.WSSenha +

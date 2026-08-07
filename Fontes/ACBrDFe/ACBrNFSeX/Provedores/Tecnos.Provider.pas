@@ -264,7 +264,7 @@ begin
 
   Result := ' ' + ConfigGeral.Identificador + '="1' + // Tipo de operação, no caso envio
             IntToStr(YearOf(Date)) + // ano do lote enviado no formato AAAA
-            OnlyNumber(Cnpj) +
+            OnlyCPFCNPJAlphaNum(Cnpj) +
             Poem_Zeros(OnlyNumber(ID), 16) + '"';
 end;
 

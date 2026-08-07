@@ -1330,7 +1330,7 @@ begin
     Response.ArquivoEnvio := '<' + Prefixo + 'ConsultarSituacaoLoteRpsEnvio' + {NameSpace +} '>' +
                            '<' + Prefixo + 'Prestador>' +
                              '<' + Prefixo2 + 'Cnpj>' +
-                               OnlyNumber(Emitente.CNPJ) +
+                               OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</' + Prefixo2 + 'Cnpj>' +
                              GetInscMunic(Emitente.InscMun, Prefixo2) +
                            '</' + Prefixo + 'Prestador>' +
@@ -1408,7 +1408,7 @@ begin
 
     xUF := TACBrNFSeX(FAOwner).Configuracoes.WebServices.UF;
 
-    CnpjCpf := OnlyAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
+    CnpjCpf := OnlyCPFCNPJAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
     if Length(CnpjCpf) < 14 then
     begin
       xAutorEvento := '<CPFAutor>' +
@@ -1499,7 +1499,7 @@ begin
     Response.ArquivoEnvio := xEvento;
 
     nomeArq := '';
-    SalvarXmlEvento(ID + '-pedRegEvento', Response.ArquivoEnvio, nomeArq);
+    SalvarXmlEvento(ID + '-pedRegEvento', Response.ArquivoEnvio, nomeArq, dhEvento);
     Response.PathNome := nomeArq;
     Path := '';
     Method := 'POST';

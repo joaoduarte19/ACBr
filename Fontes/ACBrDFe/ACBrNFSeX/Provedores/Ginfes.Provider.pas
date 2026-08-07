@@ -236,7 +236,7 @@ begin
                                        InfoCanc.NumeroNFSe +
                                      '</Numero>' +
                                      '<Cnpj>' +
-                                       OnlyNumber(Emitente.CNPJ) +
+                                       OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                      '</Cnpj>' +
                                      GetInscMunic(Emitente.InscMun, Prefixo2) +
                                     '<CodigoMunicipio>' +

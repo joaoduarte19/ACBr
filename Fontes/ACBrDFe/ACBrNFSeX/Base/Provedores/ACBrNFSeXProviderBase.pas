@@ -94,7 +94,8 @@ type
     procedure SalvarXmlNfse(aNota: TNotaFiscal); overload;
     procedure SalvarXmlNfse(const NumeroNFSe: string; const aXml: AnsiString); overload;
     procedure SalvarPDFNfse(const aNome: string; const aPDF: AnsiString);
-    procedure SalvarXmlEvento(const aNome: string; const aEvento: AnsiString; out PathNome: string);
+    procedure SalvarXmlEvento(const aNome: string; const aEvento: AnsiString;
+       out PathNome: string; DataProc: TDateTime = 0);
     procedure SalvarXmlCancelamento(const aNome, aCancelamento: string; out PathNome: string);
 
     function CarregarXmlNfse(aNota: TNotaFiscal; const aXml: string): TNotaFiscal;
@@ -501,7 +502,7 @@ function TACBrNFSeXProvider.GetCpfCnpj(const CpfCnpj: string; const Prefixo: str
 var
   xCpfCnpj: string;
 begin
-  xCpfCnpj := OnlyNumber(CpfCnpj);
+  xCpfCnpj := OnlyCPFCNPJAlphaNum(CpfCnpj);
 
   if xCpfCnpj <> '' then
   begin
@@ -990,7 +991,6 @@ begin
     // Verifica se na seção da cidade tem o campo Params
     ConfigGeral.LoadParams(IniParams, Sessao);
     lValorParams := IniParams.ReadString(Sessao, 'Params', '');
-    lIgnoraParamsProvedor := False;
     lIgnoraParamsProvedor := (POS('*:', lValorParams) > 0) or
                              (POS('*|', lValorParams) > 0) or
                              (POS('*', lValorParams) > 0) or
@@ -1260,7 +1260,7 @@ begin
 end;
 
 procedure TACBrNFSeXProvider.SalvarXmlEvento(const aNome: string;
-  const aEvento: AnsiString; out PathNome: string);
+  const aEvento: AnsiString; out PathNome: string; DataProc: TDateTime = 0);
 var
   aPath, aNomeArq, Extensao: string;
   aConfig: TConfiguracoesNFSe;
@@ -1269,7 +1269,7 @@ var
 begin
   aConfig := TConfiguracoesNFSe(FAOwner.Configuracoes);
 
-  aPath := aConfig.Arquivos.GetPathEvento(0, aConfig.Geral.Emitente.CNPJ,
+  aPath := aConfig.Arquivos.GetPathEvento(DataProc, aConfig.Geral.Emitente.CNPJ,
                         aConfig.Geral.Emitente.DadosEmitente.InscricaoEstadual);
 
   aNomeArq := PathWithDelim(aPath) + aNome + '.xml';
@@ -1739,16 +1739,22 @@ function TACBrNFSeXProvider.ResponsavelRetencaoToStr(
   const t: TnfseResponsavelRetencao): string;
 begin
   Result := EnumeradoToStr(t,
-                           ['1', '', '2', ''],
-                           [rtTomador, rtPrestador, rtIntermediario, rtNenhum]);
+                           ['1', '2'],
+                           [rtTomador, rtIntermediario]);
+//  Result := EnumeradoToStr(t,
+//                           ['1', '', '2', ''],
+//                           [rtTomador, rtPrestador, rtIntermediario, rtNenhum]);
 end;
 
 function TACBrNFSeXProvider.StrToResponsavelRetencao(out ok: boolean;
   const s: string): TnfseResponsavelRetencao;
 begin
   Result := StrToEnumerado(ok, s,
-                           ['1', '', '2', ''],
-                           [rtTomador, rtPrestador, rtIntermediario, rtNenhum]);
+                           ['1', '2'],
+                           [rtTomador, rtIntermediario]);
+//  Result := StrToEnumerado(ok, s,
+//                           ['1', '', '2', ''],
+//                           [rtTomador, rtPrestador, rtIntermediario, rtNenhum]);
 end;
 
 function TACBrNFSeXProvider.ResponsavelRetencaoDescricao(

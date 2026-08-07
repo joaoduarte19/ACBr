@@ -661,7 +661,7 @@ begin
                                        NumeroNota +
                                      '</' + Prefixo2 + 'Numero>' +
                                      '<' + Prefixo2 + 'Cnpj>' +
-                                       OnlyNumber(Emitente.CNPJ) +
+                                       OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                      '</' + Prefixo2 + 'Cnpj>' +
                                      GetInscMunic(Emitente.InscMun, Prefixo2) +
                                      '<' + Prefixo2 + 'CodigoMunicipio>' +

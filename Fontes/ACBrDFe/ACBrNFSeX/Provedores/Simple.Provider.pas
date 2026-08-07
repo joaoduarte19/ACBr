@@ -316,7 +316,7 @@ begin
   Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
 
   Response.ArquivoEnvio := '<iRPS>' + Response.InfConsultaNFSe.NumeroRps + '</iRPS>' +
-                           '<sCPFCNPJ>' + OnlyNumber(Emitente.CNPJ) + '</sCPFCNPJ>' +
+                           '<sCPFCNPJ>' + OnlyCPFCNPJAlphaNum(Emitente.CNPJ) + '</sCPFCNPJ>' +
                            '<dDataRecibo>' +
                              FormatDateTime('YYYY-MM-DD', Response.InfConsultaNFSe.DataRecibo) +
                            '</dDataRecibo>';
@@ -409,7 +409,7 @@ begin
       Response.Metodo := tmConsultarNFSe;
 
       Response.ArquivoEnvio := '<iNota>' + Response.InfConsultaNFSe.NumeroIniNFSe + '</iNota>' +
-                               '<sCPFCNPJ>' + OnlyNumber(Emitente.CNPJ) + '</sCPFCNPJ>';
+                               '<sCPFCNPJ>' + OnlyCPFCNPJAlphaNum(Emitente.CNPJ) + '</sCPFCNPJ>';
     end;
   end;
 end;
@@ -517,7 +517,7 @@ begin
                            '<dDataFinal>' +
                              FormatDateTime('YYYY-MM-DD', Response.InfConsultaNFSe.DataFinal) +
                            '</dDataFinal>' +
-                           '<sCPFCNPJ>' + OnlyNumber(Emitente.CNPJ) + '</sCPFCNPJ>';
+                           '<sCPFCNPJ>' + OnlyCPFCNPJAlphaNum(Emitente.CNPJ) + '</sCPFCNPJ>';
 end;
 
 procedure TACBrNFSeProviderSimple.TratarRetornoConsultaNFSeporFaixa(
@@ -619,7 +619,7 @@ begin
                            '<CancelamentoNota>' +
                              '<sRetornoCanc>' + '</sRetornoCanc>' +
                              '<sContribuinteCanc>' +
-                               OnlyNumber(Emitente.CNPJ) +
+                               OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</sContribuinteCanc>' +
                              '<iNotaCanc>' +
                                Response.InfCancelamento.NumeroNFSe +

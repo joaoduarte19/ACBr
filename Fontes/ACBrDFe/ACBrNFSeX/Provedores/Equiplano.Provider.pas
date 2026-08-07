@@ -305,7 +305,7 @@ begin
                                  '</nrVersaoXml>' +
                                  '<prestador>' +
                                    '<nrCnpj>' +
-                                      OnlyNumber(Emitente.CNPJ) +
+                                      OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                    '</nrCnpj>' +
                                    '<nrInscricaoMunicipal>' +
                                       OnlyNumber(Emitente.InscMun) +
@@ -441,7 +441,7 @@ begin
                                   OnlyNumber(Emitente.InscMun) +
                                '</nrInscricaoMunicipal>' +
                                '<cnpj>' +
-                                  OnlyNumber(Emitente.CNPJ) +
+                                  OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                '</cnpj>' +
                                '<idEntidade>' +
                                   FpCodigoCidade +
@@ -542,7 +542,7 @@ begin
                                   OnlyNumber(Emitente.InscMun) +
                                '</nrInscricaoMunicipal>' +
                                '<cnpj>' +
-                                  OnlyNumber(Emitente.CNPJ) +
+                                  OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                '</cnpj>' +
                                '<idEntidade>' +
                                   FpCodigoCidade +
@@ -721,7 +721,7 @@ begin
                                   OnlyNumber(Emitente.InscMun) +
                                '</nrInscricaoMunicipal>' +
                                '<cnpj>' +
-                                  OnlyNumber(Emitente.CNPJ) +
+                                  OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                '</cnpj>' +
                                '<idEntidade>' +
                                   FpCodigoCidade +
@@ -842,7 +842,7 @@ begin
                                   OnlyNumber(Emitente.InscMun) +
                                '</nrInscricaoMunicipal>' +
                                '<cnpj>' +
-                                  OnlyNumber(Emitente.CNPJ) +
+                                  OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                '</cnpj>' +
                                '<idEntidade>' +
                                   FpCodigoCidade +
@@ -964,7 +964,7 @@ begin
                                   OnlyNumber(Emitente.InscMun) +
                                '</nrInscricaoMunicipal>' +
                                '<cnpj>' +
-                                  OnlyNumber(Emitente.CNPJ) +
+                                  OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                '</cnpj>' +
                                '<idEntidade>' +
                                   FpCodigoCidade +

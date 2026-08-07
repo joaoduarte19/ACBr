@@ -195,7 +195,7 @@ begin
 
   if ConfigGeral.Identificador <> '' then
     IdAttr := ' ' + ConfigGeral.Identificador + '="Canc_' +
-                      OnlyNumber(Emitente.CNPJ) + OnlyNumber(Emitente.InscMun) +
+                      OnlyCPFCNPJAlphaNum(Emitente.CNPJ) + OnlyNumber(Emitente.InscMun) +
                       InfoCanc.NumeroNFSe + '"'
   else
     IdAttr := '';
@@ -238,7 +238,7 @@ begin
   Response.ArquivoEnvio := '<' + Prefixo + 'CancelarNfseEnvio' + NameSpace + '>' +
                          '<' + Prefixo + 'Prestador>' +
                            '<' + PrefixoTS + 'Cnpj>' +
-                             OnlyNumber(Emitente.CNPJ) +
+                             OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                            '</' + PrefixoTS + 'Cnpj>' +
                            GetInscMunic(Emitente.InscMun, PrefixoTS) +
                          '</' + Prefixo + 'Prestador>' +

@@ -335,7 +335,7 @@ begin
   Response.ArquivoEnvio := '<' + Prefixo + 'ConsultarNfseFaixaEnvio' +
                                 NameSpace + '>' +
                              '<Prestador>' +
-                               '<Cnpj>' + OnlyNumber(Emitente.CNPJ) + '</Cnpj>' +
+                               '<Cnpj>' + OnlyCPFCNPJAlphaNum(Emitente.CNPJ) + '</Cnpj>' +
                                '<InscricaoMunicipal>' +
                                   OnlyNumber(Emitente.InscMun) +
                                '</InscricaoMunicipal>' +
@@ -438,7 +438,7 @@ begin
   Response.ArquivoEnvio := '<' + Prefixo + 'GerarNfseEnvio' + NameSpace + '>' +
                              '<LoteRps' + NameSpaceLote + IdAttr  + Versao + '>' +
                                '<NumeroLote>' + Response.NumeroLote + '</NumeroLote>' +
-                               '<Cnpj>' + OnlyNumber(Emitente.CNPJ) + '</Cnpj>' +
+                               '<Cnpj>' + OnlyCPFCNPJAlphaNum(Emitente.CNPJ) + '</Cnpj>' +
                                '<InscricaoMunicipal>' +
                                   OnlyAlphaNum(Emitente.InscMun) +
                                '</InscricaoMunicipal>' +

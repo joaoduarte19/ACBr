@@ -280,7 +280,7 @@ begin
   begin
     Response.ArquivoEnvio := '<EnviaLoteRps' + NameSpace + '>' +
                                '<CnpjCpf>' +
-                                 OnlyNumber(Emitente.CNPJ) +
+                                 OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                '</CnpjCpf>' +
                                '<NumeroLote>' +
                                  Response.NumeroLote +
@@ -404,11 +404,11 @@ begin
 
   Response.ArquivoEnvio := '<ConsultaLoteRps>' +
                              '<CnpjCpf>' +
-                               OnlyNumber(Emitente.CNPJ) +
+                               OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</CnpjCpf>' +
                              '<Consulta>' +
                                '<CnpjCpfPrestador>' +
-                                 OnlyNumber(Emitente.CNPJ) +
+                                 OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                '</CnpjCpfPrestador>' +
                                '<NumeroLote>' +
                                  Response.NumeroLote +
@@ -559,11 +559,11 @@ begin
 
   Response.ArquivoEnvio := '<ConsultaNfse>' +
                              '<CnpjCpf>' +
-                                OnlyNumber(Emitente.CNPJ) +
+                                OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</CnpjCpf>' +
                              '<Consulta>' +
                                '<CnpjCpfPrestador>' +
-                                  OnlyNumber(Emitente.CNPJ) +
+                                  OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                '</CnpjCpfPrestador>' +
                                XmlConsulta +
                                '<Pagina>' +
@@ -746,11 +746,11 @@ begin
 
   Response.ArquivoEnvio := '<CancelaNfse>' +
                              '<CnpjCpf>' +
-                                OnlyNumber(Emitente.CNPJ) +
+                                OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</CnpjCpf>' +
                              '<Cancela>' +
                                '<CnpjCpfPrestador>' +
-                                  OnlyNumber(Emitente.CNPJ) +
+                                  OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                '</CnpjCpfPrestador>' +
                                '<NumeroNfse>' +
                                   Response.InfCancelamento.NumeroNFSe +

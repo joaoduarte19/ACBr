@@ -360,7 +360,7 @@ begin
                                    InfoCanc.NumeroNFSe +
                                  '</' + Prefixo2 + 'Numero>' +
                                  '<' + Prefixo2 + 'Cnpj>' +
-                                   OnlyNumber(Emitente.CNPJ) +
+                                   OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                  '</' + Prefixo2 + 'Cnpj>' +
                                  GetInscMunic(Emitente.InscMun, Prefixo2) +
                                  '<' + Prefixo2 + 'CodigoMunicipio>' +
@@ -391,7 +391,7 @@ begin
     Response.ArquivoEnvio := '<' + Prefixo + 'ConsultarLoteRpsEnvio' + NameSpace + '>' +
                            '<' + Prefixo + 'Prestador' + NameSpace2 + '>' +
                              '<' + Prefixo2 + 'Cnpj>' +
-                               OnlyNumber(Emitente.CNPJ) +
+                               OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</' + Prefixo2 + 'Cnpj>' +
                              GetInscMunic(Emitente.InscMun, Prefixo2) +
                            '</' + Prefixo + 'Prestador>' +
@@ -414,7 +414,7 @@ begin
     Response.ArquivoEnvio := '<'+ TagEnvio + NameSpace + '>' +
                            '<Prestador'+ NameSpace2 + '>' +
                              '<Cnpj>' +
-                               OnlyNumber(Emitente.CNPJ) +
+                               OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</Cnpj>' +
                              GetInscMunic(Emitente.InscMun, '') +
                            '</Prestador>' +
@@ -447,7 +447,7 @@ begin
                            '</' + Prefixo + 'IdentificacaoRps>' +
                            '<' + Prefixo + 'Prestador' + Params.NameSpace2  + '>' +
                              '<' + Prefixo2 + 'Cnpj>' +
-                               OnlyNumber(Emitente.CNPJ) +
+                               OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</' + Prefixo2 + 'Cnpj>' +
                              GetInscMunic(Emitente.InscMun, Prefixo2) +
                            '</' + Prefixo + 'Prestador>' +
@@ -469,7 +469,7 @@ begin
     Response.ArquivoEnvio := '<' + Prefixo + 'ConsultarSituacaoLoteRpsEnvio' + NameSpace + '>' +
                            '<' + Prefixo + 'Prestador' + NameSpace2 + '>' +
                              '<' + Prefixo2 + 'Cnpj>' +
-                               OnlyNumber(Emitente.CNPJ) +
+                               OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</' + Prefixo2 + 'Cnpj>' +
                              GetInscMunic(Emitente.InscMun, Prefixo2) +
                            '</' + Prefixo + 'Prestador>' +

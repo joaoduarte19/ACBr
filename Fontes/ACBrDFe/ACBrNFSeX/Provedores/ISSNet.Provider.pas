@@ -3619,7 +3619,7 @@ begin
     Chave := chNFSe;
 
     nomeArq := '';
-    SalvarXmlEvento(ID + '-pedRegEvento', Response.ArquivoEnvio, nomeArq);
+    SalvarXmlEvento(ID + '-pedRegEvento', Response.ArquivoEnvio, nomeArq, dhEvento);
     Response.PathNome := nomeArq;
   end;
 end;

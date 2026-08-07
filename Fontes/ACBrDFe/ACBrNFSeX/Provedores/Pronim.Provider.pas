@@ -893,7 +893,7 @@ begin
     Exit;
   end;
 
-  CnpjCpf := OnlyAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
+  CnpjCpf := OnlyCPFCNPJAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
 
   Path := '/ConsultarDPS/' + CnpjCpf + '/' + Response.SerieRps + '/' +
           Response.NumeroRps;
@@ -1221,7 +1221,7 @@ begin
             ANode := ANode.Childrens.FindAnyNs('infPedReg');
             Response.idNota := ObterConteudoTag(ANode.Childrens.FindAnyNs('chNFSe'), tcStr);
             nomeArq := '';
-            SalvarXmlEvento(IDEvento + '-procEveNFSe', ArquivoXml, nomeArq);
+            SalvarXmlEvento(IDEvento + '-procEveNFSe', ArquivoXml, nomeArq, Response.Data);
             Response.PathNome := nomeArq;
             AResumo.NomeArq:=nomeArq;
           except
@@ -1268,7 +1268,7 @@ begin
 
     xUF := TACBrNFSeX(FAOwner).Configuracoes.WebServices.UF;
 
-    CnpjCpf := OnlyAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
+    CnpjCpf := OnlyCPFCNPJAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
     if Length(CnpjCpf) < 14 then
     begin
       xAutorEvento := '<CPFAutor>' +
@@ -1341,7 +1341,7 @@ begin
     Response.ArquivoEnvio := xEvento;
 
     nomeArq := '';
-    SalvarXmlEvento(ID + '-pedRegEvento', Response.ArquivoEnvio, nomeArq);
+    SalvarXmlEvento(ID + '-pedRegEvento', Response.ArquivoEnvio, nomeArq, dhEvento);
     Response.PathNome := nomeArq;
   end;
 end;
@@ -1404,7 +1404,7 @@ var
         Response.idNota := ObterConteudoTag(ANode.Childrens.FindAnyNs('chNFSe'), tcStr);
 
         nomeArq := '';
-        SalvarXmlEvento(IDEvento + '-procEveNFSe', EventoXml, nomeArq);
+        SalvarXmlEvento(IDEvento + '-procEveNFSe', EventoXml, nomeArq, Response.Data);
         Response.PathNome := nomeArq;
       except
         on E:Exception do

@@ -792,7 +792,7 @@ end;
 
 procedure TACBrNFSeProviderSimplISSAPIPropria.Configuracao;
 begin
-  inherited;
+  inherited Configuracao;
 
   ConfigSchemas.Validar := False;
 end;
@@ -853,7 +853,7 @@ begin
 
     xUF := TACBrNFSeX(FAOwner).Configuracoes.WebServices.UF;
 
-    CnpjCpf := OnlyAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
+    CnpjCpf := OnlyCPFCNPJAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
     if Length(CnpjCpf) < 14 then
     begin
       xAutorEvento := '<CPFAutor>' +
@@ -939,7 +939,7 @@ begin
     Chave := chNFSe;
 
     nomeArq := '';
-    SalvarXmlEvento(ID + '-pedRegEvento', AnsiString(Response.ArquivoEnvio), nomeArq);
+    SalvarXmlEvento(ID + '-pedRegEvento', AnsiString(Response.ArquivoEnvio), nomeArq, dhEvento);
     Response.PathNome := nomeArq;
     Method := 'POST';
   end;

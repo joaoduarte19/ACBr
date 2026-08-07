@@ -268,7 +268,7 @@ begin
 
     Response.ArquivoEnvio := '<envioLote' + Versao + '>' +
                                '<CNPJ>' +
-                                  OnlyNumber(Emitente.CNPJ) +
+                                  OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                '</CNPJ>' +
                                '<dhTrans>' +
                                   FormatDateTime('yyyy-mm-dd hh:mm:ss', Now) +
@@ -344,7 +344,7 @@ begin
 
   Response.ArquivoEnvio := '<pedidoStatusLote' + Versao + '>' +
                              '<CNPJ>' +
-                                OnlyNumber(Emitente.CNPJ) +
+                                OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</CNPJ>' +
                              '<cLote>' +
                                 Response.NumeroLote +
@@ -493,7 +493,7 @@ begin
 
   Response.ArquivoEnvio := '<pedidoLoteNFSe' + Versao + '>' +
                              '<CNPJ>' +
-                                OnlyNumber(Emitente.CNPJ) +
+                                OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</CNPJ>' +
                              xConsulta +
                            '</pedidoLoteNFSe>';
@@ -597,7 +597,7 @@ begin
 
   Response.ArquivoEnvio := '<pedidoNFSe' + Versao + '>' +
                              '<CNPJ>' +
-                                OnlyNumber(Emitente.CNPJ) +
+                                OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</CNPJ>' +
                              '<chvAcessoNFS-e>' +
                                 Response.InfConsultaNFSe.ChaveNFSe +
@@ -709,7 +709,7 @@ begin
 
   Response.ArquivoEnvio := '<pedCancelaNFSe' + Versao + '>' +
                              '<CNPJ>' +
-                                OnlyNumber(Emitente.CNPJ) +
+                                OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</CNPJ>' +
                              '<chvAcessoNFS-e>' +
                                 Response.InfCancelamento.ChaveNFSe +

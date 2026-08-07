@@ -443,7 +443,7 @@ begin
   Response.ArquivoEnvio := '<' + Prefixo + TagEnvio + NameSpace + '>' +
                          '<' + Prefixo + 'LoteRps' + NameSpaceLote + IdAttr  + Versao + '>' +
                            '<' + PrefixoTS + 'NumeroLote>' + Response.NumeroLote + '</' + PrefixoTS + 'NumeroLote>' +
-                           '<' + PrefixoTS + 'Cnpj>' + OnlyNumber(Emitente.CNPJ) + '</' + PrefixoTS + 'Cnpj>' +
+                           '<' + PrefixoTS + 'Cnpj>' + OnlyCPFCNPJAlphaNum(Emitente.CNPJ) + '</' + PrefixoTS + 'Cnpj>' +
                            GetInscMunic(Emitente.InscMun, PrefixoTS) +
                            '<' + PrefixoTS + 'QuantidadeRps>' +
                               IntToStr(TACBrNFSeX(FAOwner).NotasFiscais.Count) +

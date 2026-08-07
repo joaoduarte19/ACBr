@@ -114,7 +114,7 @@ begin
                  IntToStr(CodigoMunicipio) +
               '</codMunicipio>' +
               '<cnpjPrestador xsi:type="xsd:string">' +
-                 OnlyNumber(Emitente.CNPJ) +
+                 OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
               '</cnpjPrestador>' +
               '<hashValidador xsi:type="xsd:string">' +
                  LowerCase(Emitente.WSChaveAcesso) +
@@ -487,7 +487,7 @@ begin
       Response.ArquivoEnvio := '<' + TagEnvio {+ NameSpace} + '>' +
                                  '<' + 'LoteRps codMunicipio="' + CodMun + '"' + Versao + NameSpace2 + IdAttr + '>' +
                                    '<' + Prefixo2 + 'NumeroLote>' + Response.NumeroLote + '</' + Prefixo2 + 'NumeroLote>' +
-                                   '<' + Prefixo2 + 'Cnpj>' + OnlyNumber(Emitente.CNPJ) + '</' + Prefixo2 + 'Cnpj>' +
+                                   '<' + Prefixo2 + 'Cnpj>' + OnlyCPFCNPJAlphaNum(Emitente.CNPJ) + '</' + Prefixo2 + 'Cnpj>' +
                                    GetInscMunic(Emitente.InscMun, Prefixo2) +
                                    '<' + Prefixo2 + 'QuantidadeRps>' +
                                       IntToStr(TACBrNFSeX(FAOwner).NotasFiscais.Count) +

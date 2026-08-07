@@ -760,7 +760,7 @@ begin
 
   Response.ArquivoEnvio := '<el:autenticarContribuinte xmlns:el="http://des36.el.com.br:8080/el-issonline/">' +
                              '<identificacaoPrestador>' +
-                                OnlyNumber(Emitente.CNPJ) +
+                                OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</identificacaoPrestador>' +
                              '<senha>' +
                                 Emitente.WSSenha +
@@ -871,7 +871,7 @@ begin
 
   with Params do
   begin
-    if Length(OnlyNumber(Emitente.CNPJ)) = 14 then
+    if Length(OnlyCPFCNPJAlphaNum(Emitente.CNPJ)) = 14 then
       xTipoDoc := '2'
     else
       xTipoDoc := '1';
@@ -894,7 +894,7 @@ begin
                  '</QuantidadeRps>' +
                  '<IdentificacaoPrestador>' +
                    '<CpfCnpj>' +
-                     OnlyNumber(Emitente.CNPJ) +
+                     OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                    '</CpfCnpj>' +
                    '<IndicacaoCpfCnpj>' +
                      xTipoDoc +
@@ -910,7 +910,7 @@ begin
 
     Response.ArquivoEnvio := '<el:EnviarLoteRpsEnvio xmlns:el="http://des36.el.com.br:8080/el-issonline/">' +
                                '<identificacaoPrestador>' +
-                                  OnlyNumber(Emitente.CNPJ) +
+                                  OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                '</identificacaoPrestador>' +
                                '<hashIdentificador>' +
                                   FPHash +
@@ -991,7 +991,7 @@ begin
 
   Response.ArquivoEnvio := '<el:ConsultarSituacaoLoteRpsEnvio xmlns:el="http://des36.el.com.br:8080/el-issonline/">' +
                              '<identificacaoPrestador>' +
-                                OnlyNumber(Emitente.CNPJ) +
+                                OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</identificacaoPrestador>' +
                              '<numeroProtocolo>' +
                                 Response.Protocolo +
@@ -1073,7 +1073,7 @@ begin
 
   Response.ArquivoEnvio := '<el:ConsultarLoteRpsEnvio xmlns:el="http://des36.el.com.br:8080/el-issonline/">' +
                              '<identificacaoPrestador>' +
-                                OnlyNumber(Emitente.CNPJ) +
+                                OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</identificacaoPrestador>' +
                              '<numeroProtocolo>' +
                                 Response.Protocolo +
@@ -1264,7 +1264,7 @@ begin
                                 Response.NumeroRps +
                              '</identificacaoRps>' +
                              '<identificacaoPrestador>' +
-                                OnlyNumber(Emitente.CNPJ) +
+                                OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</identificacaoPrestador>' +
                            '</el:ConsultarNfseRpsEnvio>';
 end;
@@ -1375,7 +1375,7 @@ begin
 
   Response.ArquivoEnvio := '<el:ConsultarNfseEnvio xmlns:el="http://des36.el.com.br:8080/el-issonline/">' +
                              '<identificacaoPrestador>' +
-                                OnlyNumber(Emitente.CNPJ) +
+                                OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</identificacaoPrestador>' +
                              '<numeroNfse>' +
                                 Response.InfConsultaNFSe.NumeroIniNFSe +
@@ -1484,7 +1484,7 @@ begin
 
   Response.ArquivoEnvio := '<el:CancelarNfseEnvio xmlns:el="http://des36.el.com.br:8080/el-issonline/">' +
                              '<identificacaoPrestador>' +
-                                OnlyNumber(Emitente.CNPJ) +
+                                OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                              '</identificacaoPrestador>' +
                              '<numeroNfse>' +
                                 Response.InfCancelamento.NumeroNFSe +
@@ -1892,7 +1892,7 @@ begin
     Chave := chNFSe;
 
     nomeArq := '';
-    SalvarXmlEvento(ID + '-pedRegEvento', AnsiString(Response.ArquivoEnvio), nomeArq);
+    SalvarXmlEvento(ID + '-pedRegEvento', AnsiString(Response.ArquivoEnvio), nomeArq, dhEvento);
     Response.PathNome := nomeArq;
 //    Path := '';
     Method := 'POST';

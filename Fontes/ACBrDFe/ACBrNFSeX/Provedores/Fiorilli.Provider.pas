@@ -1169,9 +1169,9 @@ procedure TACBrNFSeProviderFiorilliAPIPropria.TratarRetornoEnviarEvento(
 var
   Document: TACBrXmlDocument;
   AErro: TNFSeEventoCollectionItem;
-  ANode, AuxNode: TACBrXmlNode;
-  ANodeArray: TACBrXMLNodeArray;
-  I: Integer;
+  ANode: TACBrXmlNode;
+//  ANodeArray: TACBrXMLNodeArray;
+//  I: Integer;
 begin
   Document := TACBrXmlDocument.Create;
 

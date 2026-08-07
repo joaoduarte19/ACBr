@@ -108,6 +108,7 @@ type
 
     procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
     procedure GerarMsgDadosCancelaNFSe(Response: TNFSeCancelaNFSeResponse; Params: TNFSeParamsResponse); override;
+    procedure TratarRetornoConsultaLoteRps(Response: TNFSeConsultaLoteRpsResponse); override;
     procedure TratarRetornoConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
   end;
 
@@ -465,6 +466,8 @@ begin
     VersaoDados := '2.03';
     VersaoAtrib := '2.03';
   end;
+
+  ConfigSchemas.Validar := False;
 end;
 
 function TACBrNFSeProviderTinus203.CriarGeradorXml(
@@ -529,6 +532,154 @@ begin
           '</' + Prefixo2 + 'InfPedidoCancelamento>' +
         '</' + Prefixo2 + 'Pedido>' +
       '</' + Prefixo + 'CancelarNfseEnvio>';
+  end;
+end;
+
+procedure TACBrNFSeProviderTinus203.TratarRetornoConsultaLoteRps(
+  Response: TNFSeConsultaLoteRpsResponse);
+var
+  Document: TACBrXmlDocument;
+  ANode, AuxNode: TACBrXmlNode;
+  ANodeArray: TACBrXmlNodeArray;
+  AErro: TNFSeEventoCollectionItem;
+  I: Integer;
+  lNumNFSe, lCodVerif, lNumDPS, lSerieDPS: String;
+  lDataAut: TDateTime;
+  lResumo: TNFSeResumoCollectionItem;
+  lNota: TNotaFiscal;
+begin
+  Document := TACBrXmlDocument.Create;
+
+  try
+    try
+      if Response.ArquivoRetorno = '' then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod201;
+        AErro.Descricao := ACBrStr(Desc201);
+        Exit
+      end;
+
+      Response.Situacao := '3'; // Processado com Falhas
+
+      Document.LoadFromXml(Response.ArquivoRetorno);
+
+      ANode := Document.Root;
+
+      ProcessarMensagemErros(ANode, Response);
+
+      Response.Situacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('Situacao'), tcStr);
+
+      if Response.Situacao = '' then
+        Response.Situacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('SituacaoLoteRps'), tcStr);
+
+      ANode := ANode.Childrens.FindAnyNs('ListaNfse');
+
+      if not Assigned(ANode) then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod202;
+        AErro.Descricao := ACBrStr(Desc202);
+        Exit;
+      end;
+
+      ProcessarMensagemErros(ANode, Response);
+
+      ANodeArray := ANode.Childrens.FindAllAnyNs('CompNfse');
+
+      if not Assigned(ANodeArray) then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod203;
+        AErro.Descricao := ACBrStr(Desc203);
+        Exit;
+      end;
+
+      for I := Low(ANodeArray) to High(ANodeArray) do
+      begin
+        ANode := ANodeArray[I];
+
+        LerCancelamento(ANode, Response);
+
+        LerSubstituicao(ANode, Response);
+
+        AuxNode := ANode.Childrens.FindAnyNs('Nfse');
+
+        if AuxNode = nil then
+        begin
+          AErro := Response.Erros.New;
+          AErro.Codigo := Cod203;
+          AErro.Descricao := ACBrStr(Desc203);
+          Exit;
+        end
+        else
+        begin
+          AuxNode := AuxNode.Childrens.FindAnyNs('infNFSe');
+          if not(Assigned(AuxNode)) then
+          begin
+            AErro := Response.Erros.New;
+            AErro.Codigo := Cod203;
+            AErro.Descricao := ACBrStr(Desc203);
+            Exit;
+          end;
+
+          lNumNFSe := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('nNFSe'), tcStr);
+          lCodVerif := ObterConteudoTag(AuxNode.Attributes.Items['Id']);
+          lDataAut := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('dhProc'), tcDat);
+
+          AuxNode := AuxNode.Childrens.FindAnyNs('DPS');
+          if Assigned(AuxNode) then
+          begin
+            AuxNode := AuxNode.Childrens.FindAnyNs('infDPS');
+            if Assigned(AuxNode) then
+            begin
+              lNumDPS := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('nDPS'), tcStr);
+              lSerieDPS := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('serie'), tcStr);
+            end;
+          end;
+
+          Response.NumeroNota := lNumNFSe;
+          Response.NumeroRps := lNumDPS;
+          Response.CodigoVerificacao := lCodVerif;
+          Response.Data := lDataAut;
+          Response.SerieRps := lSerieDPS;
+
+          Response.Resumos.Clear;
+          lResumo := Response.Resumos.New;
+          lResumo.NumeroNota := lNumNFSe;
+          lResumo.NumeroRps := lNumDPS;
+          lResumo.SerieRps := lSerieDPS;
+          lResumo.Data := lDataAut;
+          lResumo.CodigoVerificacao := lCodVerif;
+
+          lNota := TACBrNFSeX(FAOwner).NotasFiscais.FindByNFSe(lNumNFSe);
+          if not(Assigned(lNota)) then
+            lNota := TACBrNFSeX(FAOwner).NotasFiscais.FindByRPS(lNumDPS);
+
+          lNota := CarregarXmlNfse(lNota, ANode.OuterXml);
+          SalvarXmlNfse(lNota);
+
+//          if PreencherNotaRespostaConsultaLoteRps(AuxNode, ANode, Response) then
+//            Response.Situacao := '4' // Processado com sucesso pois retornou a nota
+//          else
+//          begin
+//            AErro := Response.Erros.New;
+//            AErro.Codigo := Cod203;
+//            AErro.Descricao := ACBrStr(Desc203);
+//            Exit;
+//          end;
+        end;
+      end;
+    except
+      on E:Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(Document);
   end;
 end;
 
