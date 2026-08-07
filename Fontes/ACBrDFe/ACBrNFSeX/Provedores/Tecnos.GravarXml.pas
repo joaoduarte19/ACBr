@@ -367,7 +367,7 @@ begin
   Result.AppendChild(AddNode(tcStr, '#11', 'TipoRetencaoPisCofins', 1, 1, 1,
          tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'TipoEnteGovernamental', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'TipoEnteGovervamental', 1, 1, 1,
                                     tpEnteGovToStr(NFSe.IBSCBS.tpEnteGov), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'TipoOperacao', 1, 1, 1,

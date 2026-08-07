@@ -214,6 +214,7 @@ begin
     GerarNFSe := 'GeracaoNFSe.xsd';
     RecepcionarSincrono := 'EnviarLoteRpsSincronoEnvio.xsd';
     SubstituirNFSe := 'SubstituicaoNFSe.xsd';
+    Validar := False;
   end;
 end;
 

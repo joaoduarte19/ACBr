@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 07/08/2026
+-- Tecnos.GravarXml/Tecnos.Provider --
+[-] ACBr-9699 - Desativa momentaneamente a validação de schemas, pois os .xsd atuais não tem os novos campos da reforma tributária e corrige grafia de tag conforme exemplo disponibilizado
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/93892-acbr-9699-altera%C3%A7%C3%B5es-no-webservice-do-provedor-tecnos/
+         https://www.projetoacbr.com.br/forum/topic/94053-erro-emiss%C3%A3o-nfse-ivoti-rs-tecnos/
 -- Diversos --
 [*] Ajustes para o CNPJ Alfa.
 [*] ACBR-9711 - Ajuste para salvar o XML do evento na pasta com AAAA/MM do 
