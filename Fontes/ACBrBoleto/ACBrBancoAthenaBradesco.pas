@@ -38,7 +38,10 @@ unit ACBrBancoAthenaBradesco;
 interface
 
 uses
-  Classes, SysUtils, ACBrBoleto, ACBrBancoBradesco;
+  Classes,
+  SysUtils,
+  ACBrBoleto,
+  ACBrBancoBradesco;
 
 type
 
@@ -52,8 +55,15 @@ type
 
 implementation
 
-uses {$IFDEF COMPILER6_UP} dateutils {$ELSE} ACBrD5 {$ENDIF},
-   ACBrUtil.Base, ACBrUtil.FilesIO, ACBrUtil.Strings;
+uses
+   {$IFDEF COMPILER6_UP}
+   dateutils
+   {$ELSE}
+   ACBrD5
+   {$ENDIF},
+   ACBrUtil.Base,
+   ACBrUtil.FilesIO,
+   ACBrUtil.Strings;
 
 
 procedure TACBrBancoAthenaBradesco.GerarRegistroHeader400(NumeroRemessa: Integer; ARemessa: TStringList);
@@ -69,7 +79,7 @@ begin
              PadRight('COBRANCA', 15)                           +  { Descrição do tipo de serviço }
              PadLeft(CodigoCedente, 20, '0')                    +  { Codigo da Empresa no Banco }
              PadRight(Nome, 30)                                 +  { Nome da Empresa }
-             IntToStrZero(0, 3)                                 +  { Código do Banco 000 }
+             '237'                                              +  { Código do Banco 237 } 
              PadRight('ATHENABANCO', 15)                        +  { Nome do Banco }
              FormatDateTime('ddmmyy',Now)                       +  { Data de geração do arquivo }
              Space(07)                                          +  { brancos }
