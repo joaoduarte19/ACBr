@@ -222,16 +222,19 @@ begin
         else
           MunicipioIncidencia := StrToIntDef(NFSe.Tomador.Endereco.CodigoMunicipio, 0);
 
-        MunicipioPrestacaoServico := '';
-        xMunicipioIncidencia := '';
-
-        if MunicipioIncidencia > 0 then
+        if IntToStr(MunicipioIncidencia) = CodigoMunicipio then
+          xMunicipioIncidencia := MunicipioPrestacaoServico
+        else
         begin
-          MunicipioPrestacaoServico := ObterNomeMunicipioUF(MunicipioIncidencia, xUF);
-          MunicipioPrestacaoServico := MunicipioPrestacaoServico + '/' + xUF;
+          xMunicipioIncidencia := '';
 
-          xMunicipioIncidencia := MunicipioPrestacaoServico;
-        end;
+          if MunicipioIncidencia > 0 then
+          begin
+            xUF := '';
+            xMunicipioIncidencia := ObterNomeMunicipioUF(MunicipioIncidencia, xUF);
+            xMunicipioIncidencia := xMunicipioIncidencia + '/' + xUF;
+          end;
+        end;  
       end;
     end;
   end;

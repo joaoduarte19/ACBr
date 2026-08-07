@@ -49,6 +49,9 @@ Símbolo : Significado
 -- ISSNet.Provider --
 [*] ACBR-9693 - Alterações visando o envio em lote.
    Por: FI_Sistemas
+-- IPM.LerXml --
+[*] Corrigida leitura e preenchimento da propriedade MunicipioPrestacaoServico para o provedor IPM v1.01
+   Por: Renato Rubinho
 
 06/08/2026
 -- IPM.Provider --
