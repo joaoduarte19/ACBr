@@ -784,8 +784,14 @@ begin
                                                       IBSCBS.vlrReeRepRes, ''));
 
   Result.AppendChild(GerarXMLItemgIBSCBS(IBSCBS.valores.trib.gIBSCBS));
-  Result.AppendChild(GerarXMLItemgTribRegular(IBSCBS.valores.trib.gIBSCBS.gTribRegular));
-  Result.AppendChild(GerarXMLItemgDif(IBSCBS.valores.trib.gIBSCBS.gDif));
+
+  if IBSCBS.valores.trib.gIBSCBS.gTribRegular.CSTReg <> cstNenhum then
+    Result.AppendChild(GerarXMLItemgTribRegular(IBSCBS.valores.trib.gIBSCBS.gTribRegular));
+
+  if (IBSCBS.valores.trib.gIBSCBS.gDif.pDifUF <> 0) or
+     (IBSCBS.valores.trib.gIBSCBS.gDif.pDifMun <> 0) or
+     (IBSCBS.valores.trib.gIBSCBS.gDif.pDifCBS <> 0) then
+    Result.AppendChild(GerarXMLItemgDif(IBSCBS.valores.trib.gIBSCBS.gDif));
 end;
 
 function TNFSeW_Conam.GerarXMLItemgIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode;
