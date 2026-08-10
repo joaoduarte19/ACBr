@@ -331,6 +331,8 @@ begin
       ArquivoCertificado  := pLibPIXCDConfig.PIXCDBradesco.ArqCertificado;
       APIVersao           := pLibPIXCDConfig.PIXCDBradesco.APIVersao;
       Scopes              := pLibPIXCDConfig.PIXCDBradesco.Scopes;
+      URLProducao         := pLibPIXCDConfig.PIXCDBradesco.URLProducao;
+      URLSandbox          := pLibPIXCDConfig.PIXCDBradesco.URLSandBox;
     end;
 
     with ACBrPSPSicredi1 do
@@ -341,6 +343,8 @@ begin
       ArquivoChavePrivada := pLibPIXCDConfig.PIXCDSicredi.ArqChavePrivada;
       ArquivoCertificado  := pLibPIXCDConfig.PIXCDSicredi.ArqCertificado;
       Scopes              := pLibPIXCDConfig.PIXCDSicredi.Scopes;
+      URLProducao         := pLibPIXCDConfig.PIXCDSicredi.URLProducao;
+      URLSandbox          := pLibPIXCDConfig.PIXCDSicredi.URLSandBox;
     end;
 
     with ACBrPSPSicoob1 do
@@ -351,6 +355,8 @@ begin
       ArquivoChavePrivada := pLibPIXCDConfig.PIXCDSiccob.ArqChavePrivada;
       ArquivoCertificado  := pLibPIXCDConfig.PIXCDSiccob.ArqCertificado;
       Scopes              := pLibPIXCDConfig.PIXCDSiccob.Scopes;
+      URLProducao         := pLibPIXCDConfig.PIXCDSiccob.URLProducao;
+      URLSandbox          := pLibPIXCDConfig.PIXCDSiccob.URLSandBox;
     end;
 
     with ACBrPSPShipay1 do
@@ -359,6 +365,8 @@ begin
       SecretKey := pLibPIXCDConfig.PIXCDShipay.SecretKey;
       AccessKey := pLibPIXCDConfig.PIXCDShipay.AccessKey;
       Scopes    := pLibPIXCDConfig.PIXCDShipay.Scopes;
+      URLProducao := pLibPIXCDConfig.PIXCDShipay.URLProducao;
+      URLSandbox  := pLibPIXCDConfig.PIXCDShipay.URLSandBox;
     end;
 
     with ACBrPSPSantander1 do
@@ -369,6 +377,8 @@ begin
       ArquivoPFX         := pLibPIXCDConfig.PIXCDSantander.ArqCertificadoPFX;
       SenhaPFX           := pLibPIXCDConfig.PIXCDSantander.SenhaCertificadoPFX;
       Scopes             := pLibPIXCDConfig.PIXCDSantander.Scopes;
+      URLProducao        := pLibPIXCDConfig.PIXCDSantander.URLProducao;
+      URLSandbox         := pLibPIXCDConfig.PIXCDSantander.URLSandBox;
     end;
 
     with ACBrPSPPixPDV1 do
@@ -378,6 +388,8 @@ begin
       APIVersao    := pLibPIXCDConfig.PIXCDPixPDV.PixPDVAPIVersao;
       ClientSecret := pLibPIXCDConfig.PIXCDPixPDV.SecretKey;
       Scopes       := pLibPIXCDConfig.PIXCDPixPDV.Scopes;
+      URLProducao  := pLibPIXCDConfig.PIXCDPixPDV.URLProducao;
+      URLSandbox   := pLibPIXCDConfig.PIXCDPixPDV.URLSandBox;
     end;
 
     with ACBrPSPPagSeguro1 do
@@ -388,6 +400,8 @@ begin
       ArquivoChavePrivada := pLibPIXCDConfig.PIXCDPagSeguro.ArqChavePrivada;
       ArquivoCertificado  := pLibPIXCDConfig.PIXCDPagSeguro.ArqCertificado;
       Scopes              := pLibPIXCDConfig.PIXCDPagSeguro.Scopes;
+      URLProducao         := pLibPIXCDConfig.PIXCDPagSeguro.URLProducao;
+      URLSandbox          := pLibPIXCDConfig.PIXCDPagSeguro.URLSandBox;
     end;
 
     with ACBrPSPItau1 do
@@ -398,6 +412,8 @@ begin
       ArquivoChavePrivada := pLibPIXCDConfig.PIXCDItau.ArqChavePrivada;
       ArquivoCertificado  := pLibPIXCDConfig.PIXCDItau.ArqCertificado;
       Scopes              := pLibPIXCDConfig.PIXCDItau.Scopes;
+      URLProducao         := pLibPIXCDConfig.PIXCDItau.URLProducao;
+      URLSandbox          := pLibPIXCDConfig.PIXCDItau.URLSandBox;
     end;
 
     with ACBrPSPInter1 do
@@ -408,6 +424,8 @@ begin
       ArquivoChavePrivada := pLibPIXCDConfig.PIXCDInter.ArqChavePrivada;
       ArquivoCertificado  := pLibPIXCDConfig.PIXCDInter.ArqCertificado;
       Scopes              := pLibPIXCDConfig.PIXCDInter.Scopes;
+      URLProducao         := pLibPIXCDConfig.PIXCDInter.URLProducao;
+      URLSandbox          := pLibPIXCDConfig.PIXCDInter.URLSandBox;
     end;
 
     with ACBrPSPGerenciaNet1 do
@@ -417,6 +435,8 @@ begin
       ClientSecret        := pLibPIXCDConfig.PIXCDGerenciaNet.ClientSecret;
       ArquivoPFX          := pLibPIXCDConfig.PIXCDGerenciaNet.ArqPFX;
       Scopes              := pLibPIXCDConfig.PIXCDGerenciaNet.Scopes;
+      URLProducao         := pLibPIXCDConfig.PIXCDGerenciaNet.URLProducao;
+      URLSandbox          := pLibPIXCDConfig.PIXCDGerenciaNet.URLSandBox;
     end;
 
     with ACBrPSPBancoDoBrasil1 do
@@ -431,6 +451,8 @@ begin
       SenhaPFX                := pLibPIXCDConfig.PIXCDBancoDoBrasil.SenhaPFX;
       BBAPIVersao             := pLibPIXCDConfig.PIXCDBancoDoBrasil.BBAPIVersao;
       Scopes                  := pLibPIXCDConfig.PIXCDBancoDoBrasil.Scopes;
+      URLProducao             := pLibPIXCDConfig.PIXCDBancoDoBrasil.URLProducao;
+      URLSandbox              := pLibPIXCDConfig.PIXCDBancoDoBrasil.URLSandBox;
     end;
 
     with ACBrPSPAilos1 do
@@ -442,6 +464,8 @@ begin
       ArquivoCertificado      := pLibPIXCDConfig.PIXCDAilos.ArqCertificado;
       RootCrt                 := pLibPIXCDConfig.PIXCDAilos.ArqCertificadoRoot;
       Scopes                  := pLibPIXCDConfig.PIXCDAilos.Scopes;
+      URLProducao             := pLibPIXCDConfig.PIXCDAilos.URLProducao;
+      URLSandbox              := pLibPIXCDConfig.PIXCDAilos.URLSandBox;
     end;
 
     with ACBrPSPMatera1 do
@@ -455,6 +479,8 @@ begin
       AccountId           := pLibPIXCDConfig.PIXCDMatera.AccountID;
       MediatorFee         := pLibPIXCDConfig.PIXCDMatera.MediatorFee;
       Scopes              := pLibPIXCDConfig.PIXCDMatera.Scopes;
+      URLProducao         := pLibPIXCDConfig.PIXCDMatera.URLProducao;
+      URLSandbox          := pLibPIXCDConfig.PIXCDMatera.URLSandBox;
     end;
 
     with ACBrPSPCielo1 do
@@ -465,6 +491,8 @@ begin
       ArquivoChavePrivada := pLibPIXCDConfig.PIXCDCielo.ArqChavePrivada;
       ArquivoCertificado  := pLibPIXCDConfig.PIXCDCielo.ArqCertificado;
       Scopes              := pLibPIXCDConfig.PIXCDCielo.Scopes;
+      URLProducao         := pLibPIXCDConfig.PIXCDCielo.URLProducao;
+      URLSandbox          := pLibPIXCDConfig.PIXCDCielo.URLSandBox;
     end;
 
     with ACBrPSPMercadoPago1 do
@@ -472,6 +500,8 @@ begin
       ChavePIX    := pLibPIXCDConfig.PIXCDMercadoPago.ChavePIX;
       AccessToken := pLibPIXCDConfig.PIXCDMercadoPago.AccessToken;
       Scopes      := pLibPIXCDConfig.PIXCDMercadoPago.Scopes;
+      URLProducao := pLibPIXCDConfig.PIXCDMercadoPago.URLProducao;
+      URLSandbox  := pLibPIXCDConfig.PIXCDMercadoPago.URLSandBox;
     end;
 
     with ACBrPSPGate2All1 do
@@ -479,6 +509,8 @@ begin
       AuthenticationApi := pLibPIXCDConfig.PIXCDGate2All.AuthenticationApi;
       AuthenticationKey := pLibPIXCDConfig.PIXCDGate2All.AuthenticationKey;
       Scopes            := pLibPIXCDConfig.PIXCDGate2All.Scopes;
+      URLProducao       := pLibPIXCDConfig.PIXCDGate2All.URLProducao;
+      URLSandbox        := pLibPIXCDConfig.PIXCDGate2All.URLSandBox;
     end;
 
     with ACBrPSPBanrisul1 do
@@ -489,6 +521,8 @@ begin
       ArquivoCertificado := pLibPIXCDConfig.PIXCDBanrisul.ArquivoCertificado;
       SenhaPFX           := pLibPIXCDConfig.PIXCDBanrisul.SenhaPFX;
       Scopes             := pLibPIXCDConfig.PIXCDBanrisul.Scopes;
+      URLProducao        := pLibPIXCDConfig.PIXCDBanrisul.URLProducao;
+      URLSandbox         := pLibPIXCDConfig.PIXCDBanrisul.URLSandBox;
     end;
 
     with ACBrPSPC6Bank1 do
@@ -499,6 +533,8 @@ begin
       ArquivoChavePrivada := pLibPIXCDConfig.PIXCDC6Bank.ArqChavePrivada;
       ArquivoCertificado  := pLibPIXCDConfig.PIXCDC6Bank.ArqCertificado;
       Scopes              := pLibPIXCDConfig.PIXCDC6Bank.Scopes;
+      URLProducao         := pLibPIXCDConfig.PIXCDC6Bank.URLProducao;
+      URLSandbox          := pLibPIXCDConfig.PIXCDC6Bank.URLSandBox;
     end;
 
     with ACBrPSPAppLess1 do
@@ -507,6 +543,8 @@ begin
       ClientSecret       := pLibPIXCDConfig.PIXCDAppLess.ClientSecret;
       SecretKeyHMAC      := pLibPIXCDConfig.PIXCDAppLess.SecretKeyHMAC;
       Scopes             := pLibPIXCDConfig.PIXCDAppLess.Scopes;
+      URLProducao        := pLibPIXCDConfig.PIXCDAppLess.URLProducao;
+      URLSandbox         := pLibPIXCDConfig.PIXCDAppLess.URLSandBox;
     end;
 
     with ACBrPSPQQPag1 do
@@ -515,6 +553,8 @@ begin
       ClientID     := pLibPIXCDConfig.PIXCDQQPag.ClientID;
       ClientSecret := pLibPIXCDConfig.PIXCDQQPag.ClientSecret;
       Scopes       := pLibPIXCDConfig.PIXCDQQPag.Scopes;
+      URLProducao  := pLibPIXCDConfig.PIXCDQQPag.URLProducao;
+      URLSandbox   := pLibPIXCDConfig.PIXCDQQPag.URLSandBox;
     end;
 
     {$IFDEF Demo}

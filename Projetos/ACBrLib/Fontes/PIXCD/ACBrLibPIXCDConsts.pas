@@ -207,6 +207,8 @@ const
   CChaveNomeRecebedor = 'NomeRecebedor';
   CChaveUFRecebedor = 'UFRecebedor';
   CChaveScopes = 'Scopes';
+  CChaveURLProducao = 'URLProducao';
+  CChaveURLSandBox = 'URLSandBox';
 
   CSessaoPIXCDBradescoConfig = 'Bradesco';
   CChavePIXBradesco = 'ChavePIX';

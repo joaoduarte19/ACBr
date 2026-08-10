@@ -48,6 +48,8 @@ type
       FScopes: TACBrPSPScopes;
     protected
       FSessaoPSP: String;
+      FURLProducao: String;
+      FURLSandBox: String;
     public
       constructor Create;
 
@@ -55,6 +57,8 @@ type
       procedure LerIni(const AIni: TCustomIniFile); virtual;
 
       property Scopes: TACBrPSPScopes read FScopes write FScopes;
+      property URLProducao: String read FURLProducao write FURLProducao;
+      property URLSandBox: String read FURLSandBox write FURLSandBox;
   end;
 
   { TPIXCDQQPagConfig }
@@ -1461,6 +1465,8 @@ var
 begin
   LScopesStr := SetOfPSPScopesToString(Scopes);
   AIni.WriteString(FSessaoPSP, CChaveScopes, LScopesStr);
+  AIni.WriteString(FSessaoPSP, CChaveURLProducao, URLProducao);
+  AIni.WriteString(FSessaoPSP, CChaveURLSandBox, URLSandBox);
 end;
 
 procedure TPIXCDPSPConfig.LerIni(const AIni: TCustomIniFile);
@@ -1469,6 +1475,8 @@ var
 begin
   LScopesStr := SetOfPSPScopesToString(Scopes);
   Scopes := StringToSetOfPSPScopes(AIni.ReadString(FSessaoPSP, CChaveScopes, LScopesStr));
+  URLProducao := AIni.ReadString(FSessaoPSP, CChaveURLProducao, URLProducao);
+  URLSandBox := AIni.ReadString(FSessaoPSP, CChaveURLSandBox, URLSandBox);
 end;
 
 function StringToSetOfPSPScopes(const AOriginalString: String): TACBrPSPScopes;
