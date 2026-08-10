@@ -403,6 +403,7 @@ type
     fposHasDisplay: Boolean;
     fposHasPrinter: Boolean;
     fposHasStripeReader: Boolean;
+    fposMessageDisplay: String;
 
   private
     xTPagConfiguration: function(
@@ -443,7 +444,6 @@ type
 
   private
     CallbackDmSDK: TPagCallbackDmSDK;
-    fposMessageDisplay: String;
     fQuandoPerguntarMenu: TPagQuandoPerguntarMenu;
     fQuandoPerguntarCampo: TPagQuandoPerguntarCampo;
 
@@ -875,7 +875,7 @@ procedure TPagAPI.Inicializar;
 var
   ret: LongInt;
   POSConfig: TPagPOSConfig;
-  msg: String;
+  msg: AnsiString;
 begin
   if fInicializada then
     Exit;
@@ -954,7 +954,7 @@ end;
 
 procedure TPagAPI.ExibirMensagemPinPad(const MsgPinPad: String);
 var
-  smsg: String;
+  smsg: AnsiString;
   amsg: TPagMsgPinPad;
 begin
   smsg := PadRight(Trim(MsgPinPad), SizeOf(amsg));
