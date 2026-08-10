@@ -358,11 +358,12 @@ type
   end;
   PPagTerminalInfo = ^TPagTerminalInfo;
 
+  TPagMsgPinPad = array [0..31] of AnsiChar;
   TPagPOSConfig = record
     posHasStripeReader: Boolean;
     posHasPrinter: Boolean;
     posHasDisplay: Boolean;
-    posMessageDisplay: array [0..31] of Char;
+    posMessageDisplay: TPagMsgPinPad;
   end;
   PPagPOSConfig = ^TPagPOSConfig;
 
@@ -438,9 +439,11 @@ type
 
     xTPagAbortTerminal: procedure(); cdecl;
 
+    xTPagDisplayMessage: procedure(const message: TPagMsgPinPad); cdecl;
+
   private
     CallbackDmSDK: TPagCallbackDmSDK;
-    fPinPadMsg: String;
+    fposMessageDisplay: String;
     fQuandoPerguntarMenu: TPagQuandoPerguntarMenu;
     fQuandoPerguntarCampo: TPagQuandoPerguntarCampo;
 
@@ -488,6 +491,7 @@ type
     procedure TratarErroTPag(AErrorCode: LongInt); overload;
     procedure TratarErroTPag(AErrorCode: TPagReturnCodes); overload;
 
+    procedure ExibirMensagemPinPad(const MsgPinPad: String);
     function Transacao(Params: TPagTransactionParams): LongInt;
     procedure AbortarTransacao;
     function Cancelamento(const nsuResponse: String; CardType: TPagCardType): LongInt;
@@ -518,7 +522,7 @@ type
     property posHasStripeReader: Boolean read fposHasStripeReader write fposHasStripeReader default True;
     property posHasPrinter: Boolean read fposHasPrinter write fposHasPrinter default False;
     property posHasDisplay: Boolean read fposHasDisplay write fposHasDisplay default True;
-    property PinPadMsg: String read fPinPadMsg write fPinPadMsg;
+    property posMessageDisplay: String read fposMessageDisplay write fposMessageDisplay;
   end;
 
 function GetTEFTPagAPI: TPagAPI;
@@ -846,7 +850,7 @@ begin
   fposHasDisplay := True;
   fposHasPrinter := False;
   fposHasStripeReader := True;
-  fPinPadMsg := '';
+  fposMessageDisplay := '';
 
   CallbackDmSDK.messageProcess := CallBackMessageProcess;
   CallbackDmSDK.messageError := CallBackMessageError;
@@ -897,7 +901,7 @@ begin
   POSConfig.posHasDisplay := fposHasDisplay;
   POSConfig.posHasPrinter := fposHasPrinter;
   POSConfig.posHasStripeReader := fposHasStripeReader;
-  msg := PadRight(Trim(fPinPadMsg), SizeOf(POSConfig.posMessageDisplay));
+  msg := PadRight(Trim(fposMessageDisplay), SizeOf(POSConfig.posMessageDisplay));
   move(msg[1], POSConfig.posMessageDisplay[0], SizeOf(POSConfig.posMessageDisplay));
 
   GravarLog('  call - Configuration');
@@ -946,6 +950,19 @@ begin
   {$ENDIF}
   if (Result = '') then
     Result := ClibDM_SDKVersion;
+end;
+
+procedure TPagAPI.ExibirMensagemPinPad(const MsgPinPad: String);
+var
+  smsg: String;
+  amsg: TPagMsgPinPad;
+begin
+  smsg := PadRight(Trim(MsgPinPad), SizeOf(amsg));
+  move(smsg[1], amsg[0], SizeOf(amsg));
+
+  GravarLog('  call - DisplayMessage('+smsg+')');
+  xTPagDisplayMessage(amsg);
+  fEmTransacao := False;
 end;
 
 function TPagAPI.Transacao(Params: TPagTransactionParams): LongInt;
@@ -1264,6 +1281,7 @@ begin
   TPagFunctionDetect(sLibName, 'terminalInfo', @xTPagTerminalInfo);
   TPagFunctionDetect(sLibName, 'freeTerminalInfo', @xTPagFreeTerminalInfo);
   TPagFunctionDetect(sLibName, 'abortTerminal', @xTPagAbortTerminal);
+  TPagFunctionDetect(sLibName, 'displayMessage', @xTPagDisplayMessage);
 
   fCarregada := True;
 end;
@@ -1299,6 +1317,7 @@ begin
   xTPagTerminalInfo := Nil;
   xTPagFreeTerminalInfo := Nil;
   xTPagAbortTerminal := Nil;
+  xTPagDisplayMessage := Nil;
 end;
 
 procedure TPagAPI.DoException(const AErrorMsg: String);

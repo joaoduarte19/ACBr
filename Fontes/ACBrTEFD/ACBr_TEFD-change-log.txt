@@ -50,6 +50,11 @@ Símbolo : Significado
 [*] Refaforação de código em EfetuarAdministrativa
 [+] Implementado o método: function VersaoAPI: String;
 [+] Adicionado suporte a propriedade: DadosAutomacao.MensagemPinPad
+[+] Implementado suporte ao método ExibirMensagemPinPad
+
+-- ACBrTEFAPI --
+[+] Adicionado o método FormatarMensagemPinPad, para formatar previamente
+    a mensagem que a Automação envia ao PinPad e considerar quebras de linhas com  '|'
 
 -- ACBrTEFComum --
 [*] Adicionado enumerados  tefopCargaTabelas, tefopManutencao em TACBrTEFOperacao

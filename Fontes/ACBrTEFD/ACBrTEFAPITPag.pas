@@ -123,6 +123,7 @@ type
 
     procedure AbortarTransacaoEmAndamento; override;
     function VersaoAPI: String; override;
+    procedure ExibirMensagemPinPad(const MsgPinPad: String); override;
 
     procedure ObterListaDeTransacoes(ListaTransacoes: TACBrTEFRespostas;
       Inicio: TDateTime = 0; Fim: TDateTime = 0;
@@ -291,7 +292,7 @@ begin
   begin
     PathLib := PathDLL;
     Identification := fpACBrTEFAPI.DadosEstabelecimento.CNPJ;
-    PinPadMsg := fpACBrTEFAPI.DadosAutomacao.MensagemPinPad;
+    posMessageDisplay := fpACBrTEFAPI.DadosAutomacao.MensagemPinPad;
     Inicializar;
   end;
 
@@ -708,6 +709,11 @@ end;
 function TACBrTEFAPIClassTPag.VersaoAPI: String;
 begin
   Result := GetTEFTPagAPI.GetlibDM_SDKVersion;
+end;
+
+procedure TACBrTEFAPIClassTPag.ExibirMensagemPinPad(const MsgPinPad: String);
+begin
+  GetTEFTPagAPI.ExibirMensagemPinPad(MsgPinPad);
 end;
 
 procedure TACBrTEFAPIClassTPag.ObterListaDeTransacoes(
