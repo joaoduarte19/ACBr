@@ -244,7 +244,10 @@ begin
   cStat := ObterConteudoTag(ANode.Childrens.FindAnyNs('cStat'), tcInt);
   xMotivo := ObterConteudoTag(ANode.Childrens.FindAnyNs('xMotivo'), tcStr);
 
-  Ler_RetInfEvento(ANode.Childrens.FindAnyNs('retEvento'));
+  if Assigned(ANode.Childrens.FindAnyNs('retEvento')) then
+    Ler_RetInfEvento(ANode.Childrens.FindAnyNs('retEvento'))
+  else
+    Ler_RetInfEvento(ANode);
 end;
 
 procedure TRetEventoNFCom.Ler_RetInfEvento(const ANode: TACBrXmlNode);
