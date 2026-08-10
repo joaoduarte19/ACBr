@@ -107,6 +107,10 @@ begin
       ARetornoWS.DadosRet.IDBoleto.LinhaDig           := Leitor.rCampo(tcStr, 'linhaDigitavel');
       ARetornoWS.DadosRet.IDBoleto.CodBarras          := Leitor.rCampo(tcStr, 'codigoBarras');
 
+      
+      ARetornoWS.DadosRet.TituloRet.CodBarras     := ARetornoWS.DadosRet.IDBoleto.CodBarras;
+      ARetornoWS.DadosRet.TituloRet.LinhaDig      := ARetornoWS.DadosRet.IDBoleto.LinhaDig;
+      ARetornoWS.DadosRet.TituloRet.NossoNumero   := ARetornoWS.DadosRet.IDBoleto.NossoNum;
       ARetornoWS.DadosRet.TituloRet.DataLimitePagto := Leitor.rCampo(tcDat, 'dataLimitePagamento');
       ARetornoWS.CodRetorno                         := Leitor.rCampo(tcStr, 'code');
       ARetornoWS.DadosRet.Excecao                   := Leitor.rCampo(tcStr, 'message');
