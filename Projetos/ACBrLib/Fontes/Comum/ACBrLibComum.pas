@@ -1126,7 +1126,7 @@ end;
 function ObterInformacoesDeAmbienteGrafico(): string;
 begin
   result:=
-  {$IFDEF LCLNoGUIL}
+  {$IFDEF LCLNoGUI}
   'Console'
   {$Else}
    {$IFDEF LCLFpGUI}
