@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 10/08/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9493 - O município de Naviraí/MS trocou de provedor, agora é Elotech.
+   Por: Jefferson Quinelatto
+-- EloTech.GravarXml --
+[*] ACBr-9493 - Incluído a geração da tag RetidoOutrasRetencoes.
+   Por: Jefferson Quinelatto
 -- Conam.GravarXml --
 [*] Alteração visando não gerar os grupos de Tributação Regular e Diferimento quando não o 
     caso.

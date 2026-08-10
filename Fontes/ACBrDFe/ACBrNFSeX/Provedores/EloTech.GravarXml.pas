@@ -316,6 +316,13 @@ begin
   Result.AppendChild(AddNode(tcDe2, '#23', 'OutrasRetencoes', 1, 15, 0,
                     NFSe.Servico.Valores.OutrasRetencoes, DSC_OUTRASRETENCOES));
 
+  if NFSe.Servico.Valores.OutrasRetencoes > 0 then
+    Result.AppendChild(AddNode(tcStr, '#23', 'RetidoOutrasRetencoes', 1, 1, 1,
+                                         FpAOwner.SimNaoToStr(snSim), DSC_VPIS))
+  else
+    Result.AppendChild(AddNode(tcStr, '#23', 'RetidoOutrasRetencoes', 1, 1, 1,
+                                        FpAOwner.SimNaoToStr(snNao), DSC_VPIS));
+
   Result.AppendChild(AddNode(tcDe2, '#23', 'ValTotTributos', 1, 15, 0,
                                   NFSe.Servico.Valores.ValorTotalTributos, ''));
 
