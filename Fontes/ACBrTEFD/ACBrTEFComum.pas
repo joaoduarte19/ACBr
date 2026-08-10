@@ -120,7 +120,9 @@ type
                        tefopPagamentoConta,
                        tefopRelatResumido,
                        tefopRelatSintetico,
-                       tefopRelatDetalhado );
+                       tefopRelatDetalhado,
+                       tefopCargaTabelas,
+                       tefopManutencao );
 
   TACBrTEFTratamentoTransacaoPendente = ( tefpenConfirmar,
                                           tefpenEstornar,

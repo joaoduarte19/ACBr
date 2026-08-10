@@ -41,6 +41,7 @@ uses
   ACBrBase;
 
 const
+  ClibDM_SDKVersion = '0.0.3';
   {$IFDEF MSWINDOWS}
    CTPagLib = 'libDM_SDK.dll';
   {$ELSE}
@@ -361,6 +362,7 @@ type
     posHasStripeReader: Boolean;
     posHasPrinter: Boolean;
     posHasDisplay: Boolean;
+    posMessageDisplay: array [0..31] of Char;
   end;
   PPagPOSConfig = ^TPagPOSConfig;
 
@@ -397,6 +399,9 @@ type
     fOnExibeMensagem: TPagExibeMensagem;
     fDadosDaTransacao: TStringList;
     fOnTransacaoEmAndamento: TPagTransacaoEmAndamento;
+    fposHasDisplay: Boolean;
+    fposHasPrinter: Boolean;
+    fposHasStripeReader: Boolean;
 
   private
     xTPagConfiguration: function(
@@ -435,6 +440,7 @@ type
 
   private
     CallbackDmSDK: TPagCallbackDmSDK;
+    fPinPadMsg: String;
     fQuandoPerguntarMenu: TPagQuandoPerguntarMenu;
     fQuandoPerguntarCampo: TPagQuandoPerguntarCampo;
 
@@ -459,8 +465,6 @@ type
       RequestOption: TPagRequestOptions; InputMode: TPagInputMode; InputConfig: TPagInputModeConfig;
       out Resposta: String; out Cancelar: Boolean);
   public
-    POSConfig: TPagPOSConfig;
-
     constructor Create;
     destructor Destroy; override;
 
@@ -478,6 +482,11 @@ type
     procedure Inicializar;
     procedure DesInicializar;
     procedure Conectar;
+
+    function GetlibDM_SDKVersion: String;
+    procedure GravarLog(const AString: AnsiString; Traduz: Boolean = False);
+    procedure TratarErroTPag(AErrorCode: LongInt); overload;
+    procedure TratarErroTPag(AErrorCode: TPagReturnCodes); overload;
 
     function Transacao(Params: TPagTransactionParams): LongInt;
     procedure AbortarTransacao;
@@ -506,9 +515,10 @@ type
     property QuandoPerguntarCampo: TPagQuandoPerguntarCampo read fQuandoPerguntarCampo
       write fQuandoPerguntarCampo;
 
-    procedure GravarLog(const AString: AnsiString; Traduz: Boolean = False);
-    procedure TratarErroTPag(AErrorCode: LongInt); overload;
-    procedure TratarErroTPag(AErrorCode: TPagReturnCodes); overload;
+    property posHasStripeReader: Boolean read fposHasStripeReader write fposHasStripeReader default True;
+    property posHasPrinter: Boolean read fposHasPrinter write fposHasPrinter default False;
+    property posHasDisplay: Boolean read fposHasDisplay write fposHasDisplay default True;
+    property PinPadMsg: String read fPinPadMsg write fPinPadMsg;
   end;
 
 function GetTEFTPagAPI: TPagAPI;
@@ -833,9 +843,10 @@ begin
   fIdentification := '';
   fDadosDaTransacao := TStringList.Create;
 
-  POSConfig.posHasDisplay := True;
-  POSConfig.posHasPrinter := False;
-  POSConfig.posHasStripeReader := True;
+  fposHasDisplay := True;
+  fposHasPrinter := False;
+  fposHasStripeReader := True;
+  fPinPadMsg := '';
 
   CallbackDmSDK.messageProcess := CallBackMessageProcess;
   CallbackDmSDK.messageError := CallBackMessageError;
@@ -859,7 +870,8 @@ end;
 procedure TPagAPI.Inicializar;
 var
   ret: LongInt;
-
+  POSConfig: TPagPOSConfig;
+  msg: String;
 begin
   if fInicializada then
     Exit;
@@ -881,6 +893,13 @@ begin
     DoException(Format(ACBrStr(sErrEventoNaoAtribuido), ['QuandoPerguntarCampo']));
 
   LoadLibFunctions;
+
+  POSConfig.posHasDisplay := fposHasDisplay;
+  POSConfig.posHasPrinter := fposHasPrinter;
+  POSConfig.posHasStripeReader := fposHasStripeReader;
+  msg := PadRight(Trim(fPinPadMsg), SizeOf(POSConfig.posMessageDisplay));
+  move(msg[1], POSConfig.posMessageDisplay[0], SizeOf(POSConfig.posMessageDisplay));
+
   GravarLog('  call - Configuration');
   ret := xTPagConfiguration( @POSConfig, @CallbackDmSDK );
   GravarLog('   ret - '+IntToStr(ret));
@@ -913,6 +932,20 @@ begin
   GravarLog('   ret - '+IntToStr(ret));
   TratarErroTPag(ret);
   fConectada := True;
+end;
+
+function TPagAPI.GetlibDM_SDKVersion: String;
+var
+  sLibName: String;
+begin
+  Result := '';
+  {$IFDEF MSWINDOWS}
+  sLibName := GetLibFullPath;
+  if (sLibName <> '') and FileExists(sLibName) then
+    Result := GetFileVersion(sLibName);
+  {$ENDIF}
+  if (Result = '') then
+    Result := ClibDM_SDKVersion;
 end;
 
 function TPagAPI.Transacao(Params: TPagTransactionParams): LongInt;

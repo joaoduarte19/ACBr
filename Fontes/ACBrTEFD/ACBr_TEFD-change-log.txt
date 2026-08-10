@@ -45,6 +45,20 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+10/08/2026
+-- ACBrTEFAPITPag, ACBrTEFTPagAPI --
+[*] Refaforação de código em EfetuarAdministrativa
+[+] Implementado o método: function VersaoAPI: String;
+[+] Adicionado suporte a propriedade: DadosAutomacao.MensagemPinPad
+
+-- ACBrTEFComum --
+[*] Adicionado enumerados  tefopCargaTabelas, tefopManutencao em TACBrTEFOperacao
+
+-- ACBrTEFPayGoComum --
+[*] Adicionado suporte aos enumerados tefopCargaTabelas e tefopManutencao no
+    método: EfetuarAdministrativa
+    (por: DSA)
+
 05/08/2026
 -- ACBrTEFAPITPag --
 [*] Correção para Perguntar a Parcela, quando não for informado, em transação Parcelada

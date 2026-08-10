@@ -1060,6 +1060,8 @@ begin
     tefopRelatResumido: Result := PWOPER_RPTSUMMARY;
     tefopRelatSintetico: Result := PWOPER_RPTTRUNC;
     tefopRelatDetalhado: Result := PWOPER_RPTDETAIL;
+    tefopCargaTabelas: Result := PWOPER_CONFIG;
+    tefopManutencao: Result := PWOPER_MAINTENANCE;
   else
     Result := PWOPER_ADMIN;
   end;
