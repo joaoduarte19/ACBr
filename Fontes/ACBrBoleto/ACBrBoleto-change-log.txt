@@ -49,6 +49,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 10/08/2026
+-- Particularidades --
+[+] Adiciona descrição do valor "C" para o campo CodigoMora para o Sicredi adicionado na Rev-47349 pelo ValterPatrick 
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/93240-acbr-9585-boleto-sicredi-informar-juros-mensais/#comment-609566 
 -- ACBrBoletoW_Safra  --
 [-] Ajustes para funcionar em produção e homologação. 
    https://www.projetoacbr.com.br/forum/topic/91006-safra-api-conta-e-digito-no-ambiente-de-homologa%C3%A7%C3%A3o/#comment-595652
