@@ -391,7 +391,7 @@ begin
   Result := CreateElement('IdentificacaoPrestador');
 
   Result.AppendChild(AddNode(tcStr, '#1', 'ChaveDigital', 32, 32, 1,
-                                                              NFSe.ChaveAcesso, ''));
+                                                              ChaveAcesso, ''));
 
   xmlNode := GerarCPFCNPJ(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj);
   Result.AppendChild(xmlNode);

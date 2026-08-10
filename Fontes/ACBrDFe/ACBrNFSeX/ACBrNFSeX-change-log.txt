@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 10/08/2026
+-- Agili.GravarXml --
+[-] Reverte a propriedade ChaveAcesso que foi modificada indevidamente.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/92137-erro-na-emissao-da-nfs-e-provedor-agilil-municipioprestacaoservico/
 -- ACBrNFSeXServicos --
 [*] ACBR-9493 - O município de Naviraí/MS trocou de provedor, agora é Elotech.
    Por: Jefferson Quinelatto
