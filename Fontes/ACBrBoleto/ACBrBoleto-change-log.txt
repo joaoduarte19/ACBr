@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+10/08/2026
+-- ACBrBoletoW_Safra  --
+[-] Ajustes para funcionar em produção e homologação. 
+   https://www.projetoacbr.com.br/forum/topic/91006-safra-api-conta-e-digito-no-ambiente-de-homologa%C3%A7%C3%A3o/#comment-595652
+   Por: jaidomini
+
 06/08/2026
 -- ACBrBoletoW_Caixa.pas  --
 [-] Ajustes referente alteração e cancelamento do desconto
