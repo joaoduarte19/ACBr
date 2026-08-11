@@ -1231,6 +1231,7 @@ begin
       INIRec.WriteString(sSecao, 'xMunicipio', Servico.Endereco.xMunicipio);
       INIRec.WriteString(sSecao, 'Complemento', Servico.Endereco.Complemento);
       INIRec.WriteString(sSecao, 'Logradouro', Servico.Endereco.Endereco);
+      INIRec.WriteString(sSecao, 'TipoLogradouro', Servico.Endereco.TipoLogradouro);
       INIRec.WriteString(sSecao, 'Numero', Servico.Endereco.Numero);
       INIRec.WriteString(sSecao, 'xPais', Servico.Endereco.xPais);
       INIRec.WriteString(sSecao, 'UF', Servico.Endereco.UF);

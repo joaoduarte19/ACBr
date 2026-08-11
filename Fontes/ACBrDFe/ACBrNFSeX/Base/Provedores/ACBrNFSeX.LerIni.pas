@@ -1150,6 +1150,7 @@ begin
     NFSe.Servico.Endereco.CEP := AINIRec.ReadString(sSecao, 'CEP', '');
     NFSe.Servico.Endereco.xMunicipio := AINIRec.ReadString(sSecao, 'xMunicipio', '');
     NFSe.Servico.Endereco.Complemento := AINIRec.ReadString(sSecao, 'Complemento', '');
+    NFSe.Servico.Endereco.TipoLogradouro := AINIRec.ReadString(sSecao, 'TipoLogradouro', '');
     NFSe.Servico.Endereco.Endereco := AINIRec.ReadString(sSecao, 'Logradouro', '');
     NFSe.Servico.Endereco.Numero := AINIRec.ReadString(sSecao, 'Numero', '');
     NFSe.Servico.Endereco.xPais := AINIRec.ReadString(sSecao, 'xPais', '');

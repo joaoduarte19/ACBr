@@ -596,6 +596,7 @@ begin
     NFSe.Servico.CodigoNBS := AINIRec.ReadString(sSecao, 'CodigoNBS', '');
     NFSe.Servico.InfAdicional := AINIRec.ReadString(sSecao, 'InfAdicional', '');
 
+    NFSe.Servico.Endereco.TipoLogradouro := AINIRec.ReadString(sSecao, 'TipoLogradouro', '');
     NFSe.Servico.Endereco.Endereco := AINIRec.ReadString(sSecao, 'Logradouro', '');
     NFSe.Servico.Endereco.Numero := AINIRec.ReadString(sSecao, 'Numero', '');
     NFSe.Servico.Endereco.Bairro := AINIRec.ReadString(sSecao, 'Bairro', '');

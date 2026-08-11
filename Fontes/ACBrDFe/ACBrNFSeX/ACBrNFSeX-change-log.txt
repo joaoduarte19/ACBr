@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/08/2026
+-- ACBrNFSeX.LerIni/ACBrNFSeXGravarXml/Conam.LerXML --
+[*] Adiciona na leitura do INI o elemento TipoLogradouro das informações do endereço do grupo de serviços.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/94074-emiss%C3%A3o-nfse-padr%C3%A3o-conam-destacando-cbs/?&_rid=37999#findComment-615553
+
 10/08/2026
 -- Agili.GravarXml --
 [-] Reverte a propriedade ChaveAcesso que foi modificada indevidamente.
