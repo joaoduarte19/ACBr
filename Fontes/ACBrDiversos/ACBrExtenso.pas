@@ -64,7 +64,7 @@ const
 
 type
 
-  TACBrExtensoFormato = (extPadrao, extDolar, extQuilo);
+  TACBrExtensoFormato = (extPadrao, extDolar, extQuilo, extGuarany);
   TACBrExtensoIdioma = (idiCustom, idiPortuguesBr, idiEspanhol, idiIngles);
 
   { TACBrExtensoIdiomaClass }
@@ -94,6 +94,7 @@ type
     procedure AtribuirReal; virtual; abstract;
     procedure AtribuirDolar; virtual; abstract;
     procedure AtribuirQuilo; virtual; abstract;
+    procedure AtribuirGuarany; virtual; abstract;
 
     function TraduzInteiros(const aValue: Int64; TemDecimal: Boolean): String;
     function TraduzDecimais(const aValue: Integer): String;
@@ -123,6 +124,7 @@ type
     procedure AtribuirReal; override;
     procedure AtribuirDolar; override;
     procedure AtribuirQuilo; override;
+    procedure AtribuirGuarany; override;
     procedure AtribuirValoresDefault; override;
   public
     function TraduzValor(const aValor: Double): String; override;
@@ -135,6 +137,7 @@ type
     procedure AtribuirReal; override;
     procedure AtribuirDolar; override;
     procedure AtribuirQuilo; override;
+    procedure AtribuirGuarany; override;
     procedure AtribuirValoresDefault; override;
   public
   end;
@@ -146,6 +149,7 @@ type
     procedure AtribuirReal; override;
     procedure AtribuirDolar; override;
     procedure AtribuirQuilo; override;
+    procedure AtribuirGuarany; override;
     procedure AtribuirValoresDefault; override;
   public
   end;
@@ -153,10 +157,12 @@ type
   { TACBrExtensoIdiomaCustom }
 
   TACBrExtensoIdiomaCustom = class(TACBrExtensoIdiomaClass)
+  private
   protected
     procedure AtribuirReal; override;
     procedure AtribuirDolar; override;
     procedure AtribuirQuilo; override;
+    procedure AtribuirGuarany; override;
     procedure AtribuirValoresDefault; override;
   public
   end;
@@ -239,6 +245,11 @@ begin
   // Custom utiliza sempre propriedades definidas no componente
 end;
 
+procedure TACBrExtensoIdiomaCustom.AtribuirGuarany;
+begin
+  // Custom utiliza sempre propriedades definidas no componente
+end;
+
 procedure TACBrExtensoIdiomaCustom.AtribuirValoresDefault;
 var
   I: Integer;
@@ -284,6 +295,14 @@ begin
   fsDecimais  := 'Centavos';
 end;
 
+procedure TACBrExtensoIdiomaES.AtribuirGuarany;
+begin
+  fsInteiro   := 'Guarani';
+  fsInteiros  := 'Guaranies';
+  fsDecimal   := 'Cêntimo';
+  fsDecimais  := 'Cêntimos';
+end;
+
 procedure TACBrExtensoIdiomaES.AtribuirQuilo;
 begin
   fsInteiro   := 'Kilo';
@@ -304,6 +323,7 @@ begin
     extPadrao: AtribuirReal;
     extDolar:  AtribuirDolar;
     extQuilo:  AtribuirQuilo;
+    extGuarany: AtribuirGuarany;
   end;
 
   for I := Low(fsMilharSin) to High(fsMilharSin) do
@@ -343,6 +363,14 @@ begin
   fsDecimais:= 'Cents';
 end;
 
+procedure TACBrExtensoIdiomaEN.AtribuirGuarany;
+begin
+  fsInteiro   := 'Guarani';
+  fsInteiros  := 'Guaranies';
+  fsDecimal   := 'Cêntimo';
+  fsDecimais  := 'Cêntimos';
+end;
+
 procedure TACBrExtensoIdiomaEN.AtribuirQuilo;
 begin
   fsInteiro   := 'Kilo';
@@ -363,6 +391,7 @@ begin
     extPadrao: AtribuirReal;
     extDolar:  AtribuirDolar;
     extQuilo:  AtribuirQuilo;
+    extGuarany: AtribuirGuarany;
   end;
 
   for I := Low(fsMilharSin) to High(fsMilharSin) do
@@ -410,6 +439,14 @@ begin
   fsDecimais  := 'Gramas';
 end;
 
+procedure TACBrExtensoIdiomaPTBr.AtribuirGuarany;
+begin
+  fsInteiro   := 'Guarani';
+  fsInteiros  := 'Guaranies';
+  fsDecimal   := 'cêntimo';
+  fsDecimais  := 'cêntimos';
+end;
+
 procedure TACBrExtensoIdiomaPTBr.AtribuirValoresDefault;
 var
   I: Integer;
@@ -422,6 +459,7 @@ begin
     extPadrao: AtribuirReal;
     extDolar:  AtribuirDolar;
     extQuilo:  AtribuirQuilo;
+    extGuarany: AtribuirGuarany;
   end;
 
   for I := Low(fsMilharSin) to High(fsMilharSin) do
@@ -464,6 +502,7 @@ begin
     extPadrao: AtribuirReal;
     extDolar:  AtribuirDolar;
     extQuilo:  AtribuirQuilo;
+    extGuarany: AtribuirGuarany;
   end;
 end;
 

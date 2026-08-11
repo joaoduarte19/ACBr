@@ -39,6 +39,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/08/2026
+-- ACBrExtenso --
+[+] Adicionada moeda guarani
+	Por: Alexandre de Paula
+
 22/10/2024
 -- ACBrValidador --
 [*] Ajuste na validação do CNPJ, para suportar Letras
