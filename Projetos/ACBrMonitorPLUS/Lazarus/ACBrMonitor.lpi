@@ -22,7 +22,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="4"/>
-      <BuildNr Value="478"/>
+      <BuildNr Value="479"/>
       <Language Value="0416"/>
       <CharSet Value="04B0"/>
       <StringTable CompanyName="Projeto ACBr" FileDescription="ACBrMonitor - Permite o uso dos componentes do Projeto ACBr, por comunicação TXT ou Socket"/>
@@ -703,6 +703,7 @@
     </SearchPaths>
     <Linking>
       <Debugging>
+        <DebugInfoType Value="dsDwarf3"/>
         <UseHeaptrc Value="True"/>
         <TrashVariables Value="True"/>
       </Debugging>
