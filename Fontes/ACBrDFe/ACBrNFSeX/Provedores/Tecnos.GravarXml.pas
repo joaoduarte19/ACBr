@@ -98,7 +98,7 @@ begin
 
   FormatoEmissao := tcDatHor;
   FormatoCompetencia := tcDatHor;
-  FormatoItemListaServico := filsComFormatacaoSemZeroEsquerda;
+  FormatoItemListaServico := filsSemFormatacaoSemZeroEsquerda;
 
   FormatoAliq := tcDe2;
 
@@ -146,7 +146,7 @@ begin
   NrOcorrInscEstTomador_1 := 0;
 
   NrOcorrRespRetencao := 1;
-  
+
   GerarTagServicos := False;
 end;
 
@@ -508,7 +508,7 @@ var
 begin
   aDoc := OnlyAlphaNum(CPFCNPJ);
 
-  Result := CreateElement('cpf_cnpj');
+  Result := CreateElement('CpfCnpj');
 
   if length(aDoc) <= 11 then
     Result.AppendChild(AddNode(tcStr, '#34', 'Cpf ', 11, 11, 1, aDoc, DSC_CPF))
