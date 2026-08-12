@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+12/08/2026
+-- ACBrNFSeXProviderBase --
+[-] Faz revert de alteração nas rotinas de conversão ResponsavelRetencaoToStr/StrToResponsavelRetencao que foram enviadas indevidamente.
+   Por: Diego Folieni
+
 11/08/2026
 -- ACBrNFSeX.LerIni/ACBrNFSeXGravarXml/Conam.LerXML --
 [*] Adiciona na leitura do INI o elemento TipoLogradouro das informações do endereço do grupo de serviços.

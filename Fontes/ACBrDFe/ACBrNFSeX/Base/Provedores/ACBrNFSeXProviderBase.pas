@@ -1738,23 +1738,23 @@ end;
 function TACBrNFSeXProvider.ResponsavelRetencaoToStr(
   const t: TnfseResponsavelRetencao): string;
 begin
-  Result := EnumeradoToStr(t,
-                           ['1', '2'],
-                           [rtTomador, rtIntermediario]);
 //  Result := EnumeradoToStr(t,
-//                           ['1', '', '2', ''],
-//                           [rtTomador, rtPrestador, rtIntermediario, rtNenhum]);
+//                           ['1', '2'],
+//                           [rtTomador, rtIntermediario]);
+  Result := EnumeradoToStr(t,
+                           ['1', '', '2', ''],
+                           [rtTomador, rtPrestador, rtIntermediario, rtNenhum]);
 end;
 
 function TACBrNFSeXProvider.StrToResponsavelRetencao(out ok: boolean;
   const s: string): TnfseResponsavelRetencao;
 begin
-  Result := StrToEnumerado(ok, s,
-                           ['1', '2'],
-                           [rtTomador, rtIntermediario]);
 //  Result := StrToEnumerado(ok, s,
-//                           ['1', '', '2', ''],
-//                           [rtTomador, rtPrestador, rtIntermediario, rtNenhum]);
+//                           ['1', '2'],
+//                           [rtTomador, rtIntermediario]);
+  Result := StrToEnumerado(ok, s,
+                           ['1', '', '2', ''],
+                           [rtTomador, rtPrestador, rtIntermediario, rtNenhum]);
 end;
 
 function TACBrNFSeXProvider.ResponsavelRetencaoDescricao(
