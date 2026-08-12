@@ -48,8 +48,8 @@ const
   cDezenasPTBr:   array[0..7] of string = ('Vinte','Trinta','Quarenta','Cinquenta','Sessenta','Setenta','Oitenta','Noventa');
   cCentenasPTBr:  array[0..9] of string = ('Cem','Cento','Duzentos','Trezentos','Quatrocentos','Quinhentos','Seiscentos', 'Setecentos','Oitocentos','Novecentos');
 
-  cMilharSinES:   array[0..2] of string = ('Mil Millones','Millones','Miles');
-  cMilharPluES:   array[0..2] of string = ('Mil Millones','Millones','Miles');
+  cMilharSinES:   array[0..2] of string = ('Mil Millones','Millones','Mil');
+  cMilharPluES:   array[0..2] of string = ('Mil Millones','Millones','Mil');
   cUnidadeES:     array[0..8] of string = ('Uno','Dos','Tres','Cuatro','Cinco','Seis','Siete','Ocho','Nueve');
   cDezES:         array[0..9] of string = ('Diez','Once','Doce','Trece','Catorce','Quince','Dieciséis','Diecisiete','Dieciocho','Diecinueve');
   cDezenasES:     array[0..7] of string = ('Veinte','Treinta','Cuarenta','Cincuenta','Sesenta','Setenta','Ochenta', 'Noventa');
