@@ -435,6 +435,13 @@ begin
       if ATitulo.ValorMoraJuros > 0 then
       begin
         LJsonObject.AddPair('tipoJuros', Self.TipoJuros(ATitulo));
+        case ATitulo.CodigoMoraJuros of
+          cjTaxaMensal:
+            LJsonObject.AddPair('tipoJurosPercentual', 'MENSAL');
+
+          cjTaxaDiaria:
+            LJsonObject.AddPair('tipoJurosPercentual', 'DIARIO');
+        end;
         LJsonObject.AddPair('juros', ATitulo.ValorMoraJuros);
       end;
       if ATitulo.PercentualMulta > 0 then
