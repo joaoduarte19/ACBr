@@ -677,22 +677,22 @@ begin
 
   Valores := inherited GerarValores;
 
-  Valores.AppendChild(AddNode(tcDe2, '#29', 'IbsMunicipal', 1, 5, 0,
+  Valores.AppendChild(AddNode(tcDe2, '#29', 'IbsMunicipal', 1, 5, 1,
                                          NFSe.IBSCBS.valores.IbsMunicipal, ''));
 
-  Valores.AppendChild(AddNode(tcDe2, '#29', 'ValorIbsMunicipal', 1, 15, 0,
+  Valores.AppendChild(AddNode(tcDe2, '#29', 'ValorIbsMunicipal', 1, 15, 1,
                                     NFSe.IBSCBS.valores.ValorIbsMunicipal, ''));
 
-  Valores.AppendChild(AddNode(tcDe2, '#29', 'IbsEstadual', 1, 5, 0,
+  Valores.AppendChild(AddNode(tcDe2, '#29', 'IbsEstadual', 1, 5, 1,
                                           NFSe.IBSCBS.valores.IbsEstadual, ''));
 
-  Valores.AppendChild(AddNode(tcDe2, '#29', 'ValorIbsEstadual', 1, 15, 0,
+  Valores.AppendChild(AddNode(tcDe2, '#29', 'ValorIbsEstadual', 1, 15, 1,
                                      NFSe.IBSCBS.valores.ValorIbsEstadual, ''));
 
-  Valores.AppendChild(AddNode(tcDe2, '#29', 'Cbs', 1, 5, 0,
+  Valores.AppendChild(AddNode(tcDe2, '#29', 'Cbs', 1, 5, 1,
                                                   NFSe.IBSCBS.valores.Cbs, ''));
 
-  Valores.AppendChild(AddNode(tcDe2, '#29', 'ValorCbs', 1, 15, 0,
+  Valores.AppendChild(AddNode(tcDe2, '#29', 'ValorCbs', 1, 15, 1,
                                              NFSe.IBSCBS.valores.ValorCbs, ''));
 
   Result.AppendChild(Valores);
