@@ -41,9 +41,13 @@ uses
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrDFe,
-  ACBrANeParametros, ACBrANeInterface, ACBrANe.Classes, ACBrANe.Conversao,
+  ACBrANeParametros,
+  ACBrANeInterface,
+  ACBrANe.Classes,
+  ACBrANe.Conversao,
   ACBrANeDocumentos,
-  ACBrANe.WebServicesBase, ACBrANe.WebServicesResponse;
+  ACBrANe.WebServicesBase,
+  ACBrANe.WebServicesResponse;
 
 type
   TACBrANeProvider = class(TInterfacedObject, IACBrANeProvider)
@@ -126,9 +130,14 @@ implementation
 uses
   IniFiles,
   ACBrConsts,
-  ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.FilesIO, ACBrUtil.XMLHTML,
+  ACBrUtil.Base,
+  ACBrUtil.Strings,
+  ACBrUtil.FilesIO,
+  ACBrUtil.XMLHTML,
   ACBrDFeException,
-  ACBrANe, ACBrANeConfiguracoes, ACBrANe.Consts;
+  ACBrANe,
+  ACBrANeConfiguracoes,
+  ACBrANe.Consts;
 
 { TACBrANeProvider }
 
@@ -391,6 +400,7 @@ function TACBrANeProvider.GerarXml(const aANe: TANe; var aXml,
 //var
 //  AWriter: TANeWClass;
 begin
+  Result := False;
 {
   AWriter := CriarGeradorXml(aANe);
 
@@ -434,6 +444,7 @@ function TACBrANeProvider.LerXML(const aXML: string; var aANe: TANe;
 //var
 //  AReader: TANeRClass;
 begin
+  Result := False;
 {
   AReader := CriarLeitorXml(aANe);
   AReader.Arquivo := aXML;

@@ -44,7 +44,9 @@ uses
    System.Contnrs,
   {$IFEND}
   ACBrBase,
-  ACBrANe.Classes, ACBrANe.Conversao, ACBrANe.WebServicesBase;
+  ACBrANe.Classes,
+  ACBrANe.Conversao,
+  ACBrANe.WebServicesBase;
 
 type
   TANeEventoCollectionItem = class

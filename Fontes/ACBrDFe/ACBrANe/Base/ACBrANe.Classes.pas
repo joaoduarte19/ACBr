@@ -37,7 +37,8 @@ unit ACBrANe.Classes;
 interface
 
 uses
-  SysUtils, Classes,
+  SysUtils,
+  Classes,
   {$IFNDEF VER130}
     Variants,
   {$ENDIF}

@@ -37,8 +37,11 @@ unit ACBrANeConfiguracoes;
 interface
 
 uses
-  Classes, SysUtils, IniFiles,
-  ACBrDFeConfiguracoes, ACBrANe.Conversao;
+  Classes,
+  SysUtils,
+  IniFiles,
+  ACBrDFeConfiguracoes,
+  ACBrANe.Conversao;
 
 type
 
@@ -122,8 +125,10 @@ type
 implementation
 
 uses
-  ACBrUtil.FilesIO, ACBrUtil.Strings,
-  ACBrANe, ACBrDFeException;
+  ACBrUtil.FilesIO,
+  ACBrUtil.Strings,
+  ACBrANe,
+  ACBrDFeException;
 
 { TConfiguracoesANe }
 

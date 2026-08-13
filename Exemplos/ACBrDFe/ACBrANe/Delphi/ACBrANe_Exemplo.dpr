@@ -11,7 +11,5 @@ uses
 begin
   Application.Initialize;
   Application.CreateForm(TfrmACBrANe, frmACBrANe);
-  Application.CreateForm(TfrmSelecionarCertificado, frmSelecionarCertificado);
-  Application.CreateForm(TfrmStatus, frmStatus);
   Application.Run;
 end.

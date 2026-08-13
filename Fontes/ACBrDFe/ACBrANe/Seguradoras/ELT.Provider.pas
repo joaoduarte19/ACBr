@@ -37,15 +37,19 @@ unit ELT.Provider;
 interface
 
 uses
-  SysUtils, Classes, Variants,
+  SysUtils,
+  Classes,
+  Variants,
   ACBrDFeSSL,
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrXmlDocument,
   ACBrANeDocumentos,
-  ACBrANe.Classes, ACBrANe.Conversao,
+  ACBrANe.Classes,
+  ACBrANe.Conversao,
   ACBrANe.ProviderProprio,
-  ACBrANe.WebServicesBase, ACBrANe.WebServicesResponse;
+  ACBrANe.WebServicesBase,
+  ACBrANe.WebServicesResponse;
 
 type
   TACBrANeWebserviceELT = class(TACBrANeWebserviceSoap11)

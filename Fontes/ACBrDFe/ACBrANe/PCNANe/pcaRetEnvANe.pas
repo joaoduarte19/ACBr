@@ -38,14 +38,17 @@ interface
  uses
   SysUtils, Classes,
   {$IF DEFINED(HAS_SYSTEM_GENERICS)}
-   System.Generics.Collections, System.Generics.Defaults,
+   System.Generics.Collections,
+   System.Generics.Defaults,
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$Else}
    Contnrs,
   {$IfEnd}
   ACBrBase,
-  pcnConversao, pcaConversao, pcnLeitor;
+  pcnConversao,
+  pcaConversao,
+  pcnLeitor;
 
 type
   TRetEnvANe = class;

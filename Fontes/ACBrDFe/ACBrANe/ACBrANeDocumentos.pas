@@ -37,15 +37,21 @@ unit ACBrANeDocumentos;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes,
+  SysUtils,
   {$IF DEFINED(HAS_SYSTEM_GENERICS)}
-   System.Generics.Collections, System.Generics.Defaults,
+   System.Generics.Collections,
+   System.Generics.Defaults,
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$Else}
    Contnrs,
   {$IfEnd}
-  ACBrBase, ACBrDFe, ACBrANeConfiguracoes, ACBrANe.Classes, ACBrANe.Conversao;
+  ACBrBase,
+  ACBrDFe,
+  ACBrANeConfiguracoes,
+  ACBrANe.Classes,
+  ACBrANe.Conversao;
 
 type
 
@@ -63,10 +69,8 @@ type
 
     function CalcularNomeArquivo: string;
     function CalcularPathArquivo: string;
-    procedure SetXmlANe(const Value: string);
-    function GetXmlANe: string;
   public
-    constructor Create(AOwner: TACBrDFe);
+    constructor Create(AOwner: TACBrDFe);reintroduce;
     destructor Destroy; override;
 
     function LerXML(const AXML: string): Boolean;
@@ -143,10 +147,16 @@ type
 implementation
 
 uses
-  synautil, IniFiles, StrUtilsEx,
-  ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.FilesIO, ACBrUtil.XMLHTML,
+  synautil,
+  IniFiles,
+  StrUtilsEx,
+  ACBrUtil.Base,
+  ACBrUtil.Strings,
+  ACBrUtil.FilesIO,
+  ACBrUtil.XMLHTML,
   ACBrDFeUtil,
-  ACBrANe, ACBrANeInterface;
+  ACBrANe,
+  ACBrANeInterface;
 
 { TDocumento }
 
@@ -181,27 +191,22 @@ begin
   FXml := XmlTratado
 end;
 
-procedure TDocumento.SetXmlANe(const Value: string);
-begin
-  LerXML(Value);
-  FXml := Value;
-end;
 
 function TDocumento.GravarXML(const NomeArquivo: string;
   const PathArquivo: string): Boolean;
-var
-  ConteudoEhXml: Boolean;
+//var
+//  ConteudoEhXml: Boolean;
 begin
   if EstaVazio(FXml) then
     GerarXML;
-
+  Result :=  True;
   {
     Tem provedor que é gerando um JSON em vez de XML e o método Gravar acaba
     incluindo na primeira linha do arquivo o encoding do XML.
     Para contornar isso a variável ConteudoEhXml recebe o valor false quando é
     um JSON e o método Gravar não inclui o encoding.
   }
-  ConteudoEhXml := StringIsXML(FXml);
+//  ConteudoEhXml := StringIsXML(FXml);
  {
   if aTipo = txmlANe then
   begin
@@ -283,14 +288,6 @@ begin
   Result := FXml;
 end;
 
-function TDocumento.GetXmlANe: string;
-begin
-  if XmlEhUTF8(FXml) then
-    Result := FXml
-  else
-    Result := '<?xml version="1.0" encoding="UTF-8"?>' + FXml;
-end;
-
 function TDocumento.CalcularNomeArquivo: string;
 var
   xID: string;
@@ -304,12 +301,12 @@ begin
 end;
 
 function TDocumento.CalcularPathArquivo: string;
-var
-  Data: TDateTime;
+//var
+//  Data: TDateTime;
 begin
   with TACBrANe(FACBrANe) do
   begin
-    Data := Now;
+//    Data := Now;
 
 //    Result := PathWithDelim(Configuracoes.Arquivos.GetPathRPS(Data,
 //      FANe.Prestador.IdentificacaoPrestador.CpfCnpj,

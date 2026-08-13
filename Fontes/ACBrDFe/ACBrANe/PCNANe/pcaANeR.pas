@@ -37,12 +37,15 @@ unit pcaANeR;
 interface
 
 uses
-  SysUtils, Classes,
+  SysUtils,
+  Classes,
 {$IFNDEF VER130}
   Variants,
 {$ENDIF}
   ACBrUtil.Base,
-  pcnConversao, pcnLeitor, pcaANe;
+  pcnConversao,
+  pcnLeitor,
+  pcaANe;
 
 type
 

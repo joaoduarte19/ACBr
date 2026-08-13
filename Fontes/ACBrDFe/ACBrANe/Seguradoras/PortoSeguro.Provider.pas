@@ -37,19 +37,42 @@ unit PortoSeguro.Provider;
 interface
 
 uses
-  SysUtils, Classes, Variants,
+  SysUtils,
+  Classes,
+  Variants,
+  ACBrBase,
+  ACBrDFe,
   ACBrDFeSSL,
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrXmlDocument,
   ACBrANeDocumentos,
-  ACBrANe.Classes, ACBrANe.Conversao,
+  ACBrANe.Classes,
+  ACBrANe.Conversao,
   ACBrANe.ProviderProprio,
-  ACBrANe.WebservicesBase, ACBrANe.WebServicesResponse;
+  ACBrANe.WebservicesBase,
+  ACBrANe.WebServicesResponse;
 
 type
   TACBrANeWebservicePortoSeguro = class(TACBrANeWebserviceRest)
+  private
+    FBound: string;
+    FCookies: TStringList;
+    FNomeArquivo: string;
+
+    procedure CapturarCookies;
+    function MontarCookieHeader: string;
+    function MontarCampoFormData(const ANome, AValor: string): string;
+    function MontarLoginUrlEncoded(const AUsuario, ASenha: string): string;
+    function MontarMultipartUpload(const AXml: string): string;
+    procedure EfetuarLogin;
+  protected
+    procedure SetHeaders(aHeaderReq: THTTPHeader); override;
   public
+    constructor Create(AOwner: TACBrDFe; AMetodo: TMetodo; const AURL: string;
+      const AMethod: string = 'POST'); reintroduce;
+    destructor Destroy; override;
+
     function Enviar(const ACabecalho, AMSG: string): string; override;
     function Consultar(const ACabecalho, AMSG: string): string; override;
 
@@ -82,44 +105,23 @@ var
 implementation
 
 uses
+  StrUtils,
   synacode,
   ACBrUtil.Strings,
   ACBrUtil.Base,
   ACBrANe.Consts,
   ACBrDFeException,
-  ACBrANe;
+  ACBrANe,
+  ACBrANeConfiguracoes;
+
+const
+  CRLF = #13#10;
 
 { TACBrANeProviderPortoSeguro }
 
 procedure TACBrANeProviderPortoSeguro.Configuracao;
 begin
   inherited Configuracao;
-(*
-  with ConfigGeral do
-  begin
-    UseCertificateHTTP := True;
-    UseAuthorizationHeader := False;
-
-    Identificador := 'Id';
-  end;
-
-  with ConfigWebServices do
-  begin
-    VersaoDados := '1.00';
-    VersaoAtrib := '1.00';
-    AtribVerLote := '';
-  end;
-
-  // Define o NameSpace utilizado por todos os serviços disponibilizados pelo
-  // provedor
-  SetXmlNameSpace('');
-
-  with ConfigAssinar do
-  begin
-    Enviar    := False;
-    Consultar := False;
-  end;
-*)
   with ConfigSchemas do
   begin
     Enviar := 'ANe.xsd';
@@ -185,76 +187,82 @@ end;
 
 procedure TACBrANeProviderPortoSeguro.PrepararEnviar(Response: TANeEnviarResponse);
 var
-//  AErro: TANeEventoCollectionItem;
   Documento: TDocumento;
 begin
   Documento := TACBrANe(FAOwner).Documentos.Items[0];
 
   XmlDocumento := Documento.ANe.xmlDFe;
-
-  with ConfigMsgDados do
-  begin
-    DadosCabecalho := '<tem:Length>' +
-                         IntToStr(Length(XmlDocumento)) +
-                      '</tem:Length>' +
-                      '<tem:FileName>' +
-                         Documento.ANe.NomeArq +
-                      '</tem:FileName>' +
-                      '<tem:CNPJ>' +
-                         Documento.ANe.CNPJ +
-                      '</tem:CNPJ>';
-  end;
-
-  Response.ArquivoEnvio := '<tem:FileByteStream>' +
-                              EncodeBase64(XmlDocumento) +
-                           '</tem:FileByteStream>';
+  Response.ArquivoEnvio := XmlDocumento;
 
   FpPath := '';
   FpMethod := 'POST';
 end;
 
+function ExtrairJsonString(const AJson, ACampo: string): string;
+var
+  pIni, pFim: Integer;
+  Marca: string;
+begin
+  Result := '';
+  Marca := '"' + ACampo + '":"';
+  pIni := Pos(Marca, AJson);
+
+  if pIni = 0 then
+    Exit;
+
+  pIni := pIni + Length(Marca);
+  pFim := PosEx('"', AJson, pIni);
+
+  if pFim = 0 then
+    pFim := Length(AJson) + 1;
+
+  Result := Copy(AJson, pIni, pFim - pIni);
+end;
+
 procedure TACBrANeProviderPortoSeguro.TratarRetornoEnviar(Response: TANeEnviarResponse);
 var
-  Document: TACBrXmlDocument;
   AErro: TANeEventoCollectionItem;
-  ANode: TACBrXmlNode;
+  Retorno: string;
 begin
-  Document := TACBrXmlDocument.Create;
+  Retorno := Response.ArquivoRetorno;
 
-  try
-    try
-      if Response.ArquivoRetorno = '' then
-      begin
-        AErro := Response.Erros.New;
-        AErro.Codigo := Cod201;
-        AErro.Descricao := ACBrStr(Desc201);
-        Exit
-      end;
-
-      Document.LoadFromXml(Response.ArquivoRetorno);
-
-      ANode := Document.Root;
-
-      ProcessarMensagemErros(ANode, Response);
-
-      Response.Sucesso := (Response.Erros.Count = 0);
-
-      Response.CNPJCliente := ObterConteudoTag(ANode.Childrens.FindAnyNs('CNPJ'), tcStr);
-      Response.CTe := ObterConteudoTag(ANode.Childrens.FindAnyNs('CTE'), tcStr);
-      Response.DataHora := ObterConteudoTag(ANode.Childrens.FindAnyNs('DataHora'), tcDatHor);
-      Response.Protocolo := ObterConteudoTag(ANode.Childrens.FindAnyNs('Protocolo'), tcStr);
-      Response.Status := ObterConteudoTag(ANode.Childrens.FindAnyNs('status'), tcStr);
-    except
-      on E:Exception do
-      begin
-        AErro := Response.Erros.New;
-        AErro.Codigo := Cod999;
-        AErro.Descricao := ACBrStr(Desc999 + E.Message);
-      end;
-    end;
-  finally
-    FreeAndNil(Document);
+  if Trim(Retorno) = '' then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod201;
+    AErro.Descricao := ACBrStr(Desc201);
+    Exit;
   end;
+
+  Response.Sucesso := (Pos('"success":1', Retorno) > 0) and
+                      (Pos('"P":1', Retorno) > 0);
+
+  if Response.Sucesso then
+  begin
+    Response.Protocolo := ExtrairJsonString(Retorno, 'prot');
+    Response.DataHora := Now;
+    Exit;
+  end;
+
+  AErro := Response.Erros.New;
+  AErro.Codigo := Cod999;
+  AErro.Correcao := '';
+
+  if Pos('"logout"', Retorno) > 0 then
+    AErro.Descricao := ACBrStr('Sessao nao autenticada. Verifique usuario e ' +
+      'senha (utilize a senha da API, gerada no modulo Cadastro do Usuario ' +
+      'do portal AverbePorto, e nao a senha de acesso web).')
+  else if Pos('"D":1', Retorno) > 0 then
+    AErro.Descricao := ACBrStr('Duplicado (xml preexistente).')
+  else if Pos('"R":1', Retorno) > 0 then
+    AErro.Descricao := ACBrStr('Rejeitado (xml nao parece ser do tipo certo).')
+  else if Pos('"N":1', Retorno) > 0 then
+    AErro.Descricao := ACBrStr('Negado (nao e xml ou zip).')
+  else
+    AErro.Descricao := ACBrStr('Erro inesperado: ') + Retorno;
+
+  if pos('"error"',Retorno) >0 then
+    AErro.Descricao := AErro.Descricao +#13#10+ ExtrairJsonString(Retorno, 'error');
 end;
 
 procedure TACBrANeProviderPortoSeguro.PrepararConsultar(
@@ -279,44 +287,199 @@ procedure TACBrANeProviderPortoSeguro.TratarRetornoConsultar(
   Response: TANeConsultarResponse);
 begin
   inherited;
-(*
-<data>
- <item0>
-  <chave>12345678901234567890123456789012345678901234</chave>
-  <protocolo>1234567890123456789012345678901234567890</protocolo>
- </item0>
-</data>
-*)
+
 end;
 
 { TACBrANeWebservicePortoSeguro }
 
-function TACBrANeWebservicePortoSeguro.Enviar(const ACabecalho, AMSG: string): string;
-var
-  Request: string;
+constructor TACBrANeWebservicePortoSeguro.Create(AOwner: TACBrDFe;
+  AMetodo: TMetodo; const AURL: string; const AMethod: string);
 begin
-  FPMsgOrig := '<ANe xmlns:tem="http://tempuri.org/">' +
-                  XmlDocumento +
-               '</ANe>';
+  inherited Create(AOwner, AMetodo, AURL, AMethod, 'multipart/form-data');
 
-  Request := '<tem:RemoteFileInfo>';
-  Request := Request + AMSG;
-  Request := Request + '</tem:RemoteFileInfo>';
+  FCookies := TStringList.Create;
+end;
 
-  Result := Executar('http://tempuri.org/IELTAverbaService/FileUpload', Request,
-                     ACabecalho, [''], ['xmlns:tem="http://tempuri.org/"']);
+destructor TACBrANeWebservicePortoSeguro.Destroy;
+begin
+  FCookies.Free;
+
+  inherited Destroy;
+end;
+
+procedure TACBrANeWebservicePortoSeguro.SetHeaders(aHeaderReq: THTTPHeader);
+begin
+  inherited SetHeaders(aHeaderReq);
+  aHeaderReq.AddHeader('User-Agent',
+    'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:12.0) Gecko/20100101 Firefox/12.0');
+  aHeaderReq.AddHeader('Accept', '*/*');
+
+  if FCookies.Count > 0 then
+    aHeaderReq.AddHeader('Cookie', MontarCookieHeader);
+end;
+
+procedure TACBrANeWebservicePortoSeguro.CapturarCookies;
+var
+  i, p: Integer;
+  Linha, Cookie, Nome: string;
+begin
+  for i := 0 to FHttpClient.HeaderResp.Count - 1 do
+  begin
+    Linha := Trim(FHttpClient.HeaderResp[i]);
+
+    if Pos('set-cookie:', LowerCase(Linha)) <> 1 then
+      Continue;
+
+    Cookie := Trim(Copy(Linha, Length('set-cookie:') + 1, Length(Linha)));
+
+    p := Pos(';', Cookie);
+    if p > 0 then
+      Cookie := Trim(Copy(Cookie, 1, p - 1));
+
+    p := Pos('=', Cookie);
+    if p <= 1 then
+      Continue;
+
+    Nome := Copy(Cookie, 1, p - 1);
+    FCookies.Values[Nome] := Copy(Cookie, p + 1, Length(Cookie));
+  end;
+end;
+
+function TACBrANeWebservicePortoSeguro.MontarCookieHeader: string;
+var
+  i: Integer;
+begin
+  Result := '';
+
+  for i := 0 to FCookies.Count - 1 do
+  begin
+    if Result <> '' then
+      Result := Result + '; ';
+
+    Result := Result + FCookies[i];
+  end;
+end;
+
+function TACBrANeWebservicePortoSeguro.MontarCampoFormData(const ANome,
+  AValor: string): string;
+begin
+  Result := '--' + FBound + CRLF +
+            'Content-Disposition: form-data; name="' + ANome + '"' + CRLF +
+            CRLF +
+            AValor + CRLF;
+end;
+
+function TACBrANeWebservicePortoSeguro.MontarLoginUrlEncoded(const AUsuario,
+  ASenha: string): string;
+begin
+  Result :=
+    'mod=login' +
+    '&comp=5' +
+    '&user=' + string(EncodeURLElement(AnsiString(AUsuario))) +
+    '&pass=' + string(EncodeURLElement(AnsiString(ASenha))) +
+    '&dump=1';
+end;
+
+function TACBrANeWebservicePortoSeguro.MontarMultipartUpload(const AXml: string): string;
+begin
+  Result := MontarCampoFormData('mod', 'Upload') +
+            MontarCampoFormData('comp', '5') +
+            MontarCampoFormData('path', 'eguarda/php/') +
+            '--' + FBound + CRLF +
+            'Content-Disposition: form-data; name="file"; filename="' +
+              FNomeArquivo + '"' + CRLF +
+            'Content-Type: text/xml' + CRLF +
+            CRLF +
+            AXml + CRLF +
+            '--' + FBound + '--' + CRLF;
+end;
+
+procedure TACBrANeWebservicePortoSeguro.EfetuarLogin;
+var
+  Usuario, Senha: string;
+  OldURL, OldMimeType, OldMethod, OldEnvio, OldArqEnv, OldArqResp: string;
+  p: Integer;
+begin
+  Usuario := Trim(TConfiguracoesANe(FPConfiguracoes).Geral.Usuario);
+  Senha := Trim(TConfiguracoesANe(FPConfiguracoes).Geral.Senha);
+
+  if (Usuario = '') or (Senha = '') then
+    raise EACBrDFeException.Create(ACBrStr('A seguradora Porto Seguro ' +
+      'necessita que as propriedades: Configuracoes.Geral.Usuario e ' +
+      'Configuracoes.Geral.Senha sejam informadas.'));
+
+  FCookies.Clear;
+
+  OldURL := FPURL;
+  OldMimeType := FPMimeType;
+  OldMethod := FPMethod;
+  OldEnvio := FPEnvio;
+  OldArqEnv := FPArqEnv;
+  OldArqResp := FPArqResp;
+  try
+
+    p := Pos('?', FPURL);
+    if p > 0 then
+      FPURL := Copy(FPURL, 1, p - 1);
+
+    FPMethod := 'POST';
+    FPMimeType := 'application/x-www-form-urlencoded';
+    FPEnvio := MontarLoginUrlEncoded(Usuario, Senha);
+    FPArqEnv := 'ped-login';
+    FPArqResp := 'res-login';
+
+    FHttpClient := FPDFeOwner.SSL.SSLHttpClass;
+    FHttpClient.Clear;
+
+    SalvarEnvio(FPEnvio, FPEnvio);
+    UsarCertificado;
+    EnviarDados('');
+    SalvarRetornoWebService(FPRetorno);
+
+    CapturarCookies;
+
+    if Pos('"logout"', FPRetorno) > 0 then
+      raise EACBrDFeException.Create(ACBrStr('Falha no login AverbePorto: ' +
+        'usuario ou senha invalidos. Utilize a senha da API, gerada no ' +
+        'modulo Cadastro do Usuario do portal (nao a senha de acesso web).') +
+        sLineBreak + 'Body: ' + FPEnvio +
+        sLineBreak + 'Retorno: ' + FPRetorno);
+  finally
+    FPURL := OldURL;
+    FPMimeType := OldMimeType;
+    FPMethod := OldMethod;
+    FPEnvio := OldEnvio;
+    FPArqEnv := OldArqEnv;
+    FPArqResp := OldArqResp;
+  end;
+end;
+
+function TACBrANeWebservicePortoSeguro.Enviar(const ACabecalho, AMSG: string): string;
+begin
+  FPMsgOrig := AMSG;
+
+  EfetuarLogin;
+
+  FNomeArquivo := ExtractFileName(
+    Trim(TACBrANe(FPDFeOwner).Documentos.Items[0].ANe.NomeArq));
+
+  if FNomeArquivo = '' then
+    FNomeArquivo := GerarPrefixoArquivo + '-ANe.xml';
+
+  FBound := IntToHex(Random(MaxInt), 8) + '_ACBr_boundary';
+  FPMimeType := 'multipart/form-data; boundary=' + FBound;
+
+  Result := Executar('', MontarMultipartUpload(AMSG), [], []);
 end;
 
 function TACBrANeWebservicePortoSeguro.Consultar(const ACabecalho,
   AMSG: string): string;
-var
-  Request: string;
 begin
   FPMsgOrig := AMSG;
 
-  Request := AMSG;
+  EfetuarLogin;
 
-  Result := Executar('', Request, [], []);
+  Result := Executar('', AMSG, [], []);
 end;
 
 end.

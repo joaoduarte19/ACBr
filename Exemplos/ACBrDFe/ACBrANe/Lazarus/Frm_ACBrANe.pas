@@ -2,28 +2,28 @@
 { Projeto: Componentes ACBr                                                    }
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
-
+{                                                                              }
 { Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
-
+{                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
-
+{                                                                              }
 {  Esta biblioteca é software livre; você pode redistribuí-la e/ou modificá-la }
 { sob os termos da Licença Pública Geral Menor do GNU conforme publicada pela  }
 { Free Software Foundation; tanto a versão 2.1 da Licença, ou (a seu critério) }
 { qualquer versão posterior.                                                   }
-
+{                                                                              }
 {  Esta biblioteca é distribuída na expectativa de que seja útil, porém, SEM   }
 { NENHUMA GARANTIA; nem mesmo a garantia implícita de COMERCIABILIDADE OU      }
 { ADEQUAÇÃO A UMA FINALIDADE ESPECÍFICA. Consulte a Licença Pública Geral Menor}
 { do GNU para mais detalhes. (Arquivo LICENÇA.TXT ou LICENSE.TXT)              }
-
+{                                                                              }
 {  Você deve ter recebido uma cópia da Licença Pública Geral Menor do GNU junto}
 { com esta biblioteca; se não, escreva para a Free Software Foundation, Inc.,  }
 { no endereço 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
 { Você também pode obter uma copia da licença em:                              }
 { http://www.opensource.org/licenses/lgpl-license.php                          }
-
+{                                                                              }
 { Daniel Simões de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
 {       Rua Coronel Aureliano de Camargo, 963 - Tatuí - SP - 18270-170         }
 {******************************************************************************}
@@ -55,12 +55,12 @@ uses
   ACBrUtil.Datetime,
   ACBrUtil.FilesIO,
   ACBrUtil.Base,
-  ACBrBase,
   ACBrMail,
   ACBrDFe,
   ACBrDFeSSL,
   ACBrANe,
-  ACBrANe.Conversao;
+  ACBrANe.Conversao,
+  Frm_Status;
 
 type
 
@@ -236,6 +236,7 @@ type
     btnConsultar: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnSalvarConfigClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure sbPathANeClick(Sender: TObject);
     procedure sbtnCaminhoCertClick(Sender: TObject);
     procedure sbtnNumSerieClick(Sender: TObject);
@@ -271,6 +272,9 @@ type
     { Private declarations }
     DocNFeCTe: string;
 
+    FStatus:TfrmStatus;
+
+
     procedure GravarConfiguracao;
     procedure LerConfiguracao;
     procedure ConfigurarComponente;
@@ -302,7 +306,6 @@ uses
   ACBrDFeUtil,
   pcnConversao,
   ACBrANe.WebServicesResponse,
-  Frm_Status,
   Frm_SelecionarCertificado;
 
 const
@@ -310,7 +313,7 @@ const
 
   {$R *.lfm}
 
-  { TfrmACBrMDFe }
+  { TfrmACBrANEe }
 
 procedure TfrmACBrANe.AlimentarComponente(ANomeArq: string);
 begin
@@ -382,7 +385,7 @@ procedure TfrmACBrANe.ChecarResposta(aMetodo: TMetodo);
     end;
   end;
 
-  procedure ListaDeResumos(aResumos: TANeResumoCollection; aMetodo: TMetodo);
+  procedure ListaDeResumos(aResumos: TANeResumoCollection);
   var
     I: Integer;
   begin
@@ -468,7 +471,7 @@ begin
     case aMetodo of
       tmEnviar:
         begin
-          with Enviar.Resumos.New. do
+          with Enviar.Resumos.New do
           begin
             memoLog.Lines.Add('Método Executado: ' + MetodoToStr(tmEnviar));
             memoLog.Lines.Add(' ');
@@ -476,24 +479,6 @@ begin
             memoLog.Lines.Add('Xml a ser averbado');
             memoLog.Lines.Add(' ');
             memoLog.Lines.Add('Parâmetros de Retorno');
-            memoLog.Lines.Add('Numero          : ' + Numero);
-            memoLog.Lines.Add('Serie           : ' + Serie);
-            memoLog.Lines.Add('Filial          : ' + Filial);
-            memoLog.Lines.Add('CNPJ Cliente    : ' + CNPJCliente);
-            memoLog.Lines.Add('Tipo Documento  : ' + tpDoc);
-            memoLog.Lines.Add('Data/Hora       : ' + DateTimeToStr(DataHora));
-            memoLog.Lines.Add('Numero do Prot  : ' + Protocolo);
-            memoLog.Lines.Add('Numero Averbação: ' + NumeroAverbacao);
-            memoLog.Lines.Add('Sucesso         : ' + BoolToStr(Sucesso, True));
-
-            ListaDadosSeguro(DadosSeguro);
-            ListaInfo(Info);
-
-            LoadXML(XmlEnvio, WBResposta);
-            LoadXML(XmlRetorno, WBResposta);
-
-            ListaDeErros(Erros);
-            ListaDeAlertas(Alertas);
           end;
         end;
 
@@ -504,15 +489,6 @@ begin
             memoLog.Lines.Add('Método Executado: ' + MetodoToStr(tmConsultar));
             memoLog.Lines.Add(' ');
             memoLog.Lines.Add('Parâmetros de Envio');
-              {
-               memoLog.Lines.Add('Numero do Prot: ' + Protocolo);
-               memoLog.Lines.Add('Numero do Lote: ' + NumeroLote);
-               memoLog.Lines.Add(' ');
-               memoLog.Lines.Add('Parâmetros de Retorno');
-               memoLog.Lines.Add('Situação Lote : ' + Situacao);
-               memoLog.Lines.Add('Descrição Sit : ' + DescSituacao);
-               memoLog.Lines.Add('Sucesso       : ' + BoolToStr(Sucesso, True));
-              }
             LoadXML(XmlEnvio, WBResposta);
             LoadXML(XmlRetorno, WBResposta);
 
@@ -581,14 +557,6 @@ begin
     MemoResp.Lines.Add(CertSubjectName);
     MemoResp.Lines.Add(CertNumeroSerie);
 
-    //MemoDados.Lines.LoadFromFile('c:\temp\teste2.xml');
-    //MemoResp.Lines.Text := Assinar(MemoDados.Lines.Text, 'Entrada', 'Parametros');
-    //Erro := '';
-    //if VerificarAssinatura(MemoResp.Lines.Text, Erro, 'Parametros' ) then
-    //  ShowMessage('OK')
-    //else
-    //  ShowMessage('ERRO: '+Erro)
-
     pgRespostas.ActivePageIndex := 0;
   end;
 end;
@@ -601,6 +569,12 @@ end;
 procedure TfrmACBrANe.btnSalvarConfigClick(Sender: TObject);
 begin
   GravarConfiguracao;
+end;
+
+procedure TfrmACBrANe.FormDestroy(Sender: TObject);
+begin
+  if Assigned(FStatus) then
+     FStatus.free;
 end;
 
 procedure TfrmACBrANe.btnSha256Click(Sender: TObject);
@@ -674,7 +648,15 @@ var
   V: TSSLHttpLib;
   X: TSSLXmlSignLib;
   Y: TSSLType;
+  S :TSeguradora;
 begin
+  FStatus := nil;
+
+  cbSeguradora.Items.Clear;
+  for S := low(TSeguradora) to high(TSeguradora) do
+      cbSeguradora.Items.Add(GetEnumName(TypeInfo(TSeguradora),integer(S)));
+  cbSeguradora.ItemIndex := 0;
+
   cbSSLLib.Items.Clear;
   for T := Low(TSSLLib) to High(TSSLLib) do
     cbSSLLib.Items.Add(GetEnumName(TypeInfo(TSSLLib), integer(T)));
@@ -1089,55 +1071,59 @@ var
   I: integer;
   //  ASerie: String;
   AddRow: boolean;
+  LSelecionarCertificado:TfrmSelecionarCertificado;
 begin
   ACBrANe1.SSL.LerCertificadosStore;
   AddRow := False;
-
-  with frmSelecionarCertificado.StringGrid1 do
-  begin
-    ColWidths[0] := 220;
-    ColWidths[1] := 250;
-    ColWidths[2] := 120;
-    ColWidths[3] := 80;
-    ColWidths[4] := 150;
-
-    Cells[0, 0] := 'Num.Série';
-    Cells[1, 0] := 'Razão Social';
-    Cells[2, 0] := 'CNPJ';
-    Cells[3, 0] := 'Validade';
-    Cells[4, 0] := 'Certificadora';
-  end;
-
-  for I := 0 to ACBrANe1.SSL.ListaCertificados.Count - 1 do
-  begin
-    with ACBrANe1.SSL.ListaCertificados[I] do
+  LSelecionarCertificado := TfrmSelecionarCertificado.create(self);
+  try
+    with LSelecionarCertificado.StringGrid1 do
     begin
-      //      ASerie := NumeroSerie;
+      ColWidths[0] := 220;
+      ColWidths[1] := 250;
+      ColWidths[2] := 120;
+      ColWidths[3] := 80;
+      ColWidths[4] := 150;
 
-      if (CNPJ <> '') then
+      Cells[0, 0] := 'Num.Série';
+      Cells[1, 0] := 'Razão Social';
+      Cells[2, 0] := 'CNPJ';
+      Cells[3, 0] := 'Validade';
+      Cells[4, 0] := 'Certificadora';
+    end;
+
+    for I := 0 to ACBrANe1.SSL.ListaCertificados.Count - 1 do
+    begin
+      with ACBrANe1.SSL.ListaCertificados[I] do
       begin
-        with frmSelecionarCertificado.StringGrid1 do
+        //      ASerie := NumeroSerie;
+
+        if (CNPJ <> '') then
         begin
-          if Addrow then
-            RowCount := RowCount + 1;
+          with LSelecionarCertificado.StringGrid1 do
+          begin
+            if Addrow then
+              RowCount := RowCount + 1;
 
-          Cells[0, RowCount - 1] := NumeroSerie;
-          Cells[1, RowCount - 1] := RazaoSocial;
-          Cells[2, RowCount - 1] := CNPJ;
-          Cells[3, RowCount - 1] := FormatDateBr(DataVenc);
-          Cells[4, RowCount - 1] := Certificadora;
+            Cells[0, RowCount - 1] := NumeroSerie;
+            Cells[1, RowCount - 1] := RazaoSocial;
+            Cells[2, RowCount - 1] := CNPJ;
+            Cells[3, RowCount - 1] := FormatDateBr(DataVenc);
+            Cells[4, RowCount - 1] := Certificadora;
 
-          AddRow := True;
+            AddRow := True;
+          end;
         end;
       end;
     end;
+
+    if LSelecionarCertificado.ShowModal = mrOk then
+      edtNumSerie.Text := LSelecionarCertificado.StringGrid1.Cells[0,
+        LSelecionarCertificado.StringGrid1.Row];
+
+  finally
+    LSelecionarCertificado.free;
   end;
-
-  frmSelecionarCertificado.ShowModal;
-
-  if frmSelecionarCertificado.ModalResult = mrOk then
-    edtNumSerie.Text := frmSelecionarCertificado.StringGrid1.Cells[0,
-      frmSelecionarCertificado.StringGrid1.Row];
 end;
 
 procedure TfrmACBrANe.sbtnPathSalvarClick(Sender: TObject);
@@ -1181,6 +1167,7 @@ var
   Para : String;
   CC   : Tstrings;
 begin
+  Para := EmptyStr;
   if not(InputQuery('Enviar Email', 'Email de destino', Para)) then
     exit;
 
@@ -1235,34 +1222,34 @@ begin
   case ACBrANe1.Status of
      stANeIdle:
        begin
-         if ( frmStatus <> nil ) then frmStatus.Hide;
+         if ( FStatus <> nil ) then FStatus.Hide;
        end;
 
      stANeEnviar:
        begin
-         if ( frmStatus = nil ) then
-           frmStatus := TfrmStatus.Create(Application);
-         frmStatus.lblStatus.Caption := 'Enviando dados do ANe...';
-         frmStatus.Show;
-         frmStatus.BringToFront;
+         if ( FStatus = nil ) then
+           FStatus := TfrmStatus.Create(Application);
+         FStatus.lblStatus.Caption := 'Enviando dados do ANe...';
+         FStatus.Show;
+         FStatus.BringToFront;
        end;
 
      stANeConsultar:
        begin
-         if ( frmStatus = nil ) then
-           frmStatus := TfrmStatus.Create(Application);
-         frmStatus.lblStatus.Caption := 'Consultando dados do ANe...';
-         frmStatus.Show;
-         frmStatus.BringToFront;
+         if ( FStatus = nil ) then
+           FStatus := TfrmStatus.Create(Application);
+         FStatus.lblStatus.Caption := 'Consultando dados do ANe...';
+         FStatus.Show;
+         FStatus.BringToFront;
        end;
 
      stANeEmail:
        begin
-         if ( frmStatus = nil ) then
-           frmStatus := TfrmStatus.Create(Application);
-         frmStatus.lblStatus.Caption := 'Enviando ANe por e-mail...';
-         frmStatus.Show;
-         frmStatus.BringToFront;
+         if ( FStatus = nil ) then
+           FStatus := TfrmStatus.Create(Application);
+         FStatus.lblStatus.Caption := 'Enviando ANe por e-mail...';
+         FStatus.Show;
+         FStatus.BringToFront;
        end;
    end;
 

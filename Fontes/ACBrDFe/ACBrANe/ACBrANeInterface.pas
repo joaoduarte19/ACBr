@@ -37,7 +37,9 @@ unit ACBrANeInterface;
 interface
 
 uses
-  ACBrANe.Classes, ACBrANeParametros, ACBrANe.Conversao;
+  ACBrANe.Classes,
+  ACBrANeParametros,
+  ACBrANe.Conversao;
 
 type
   IACBrANeProvider = interface ['{A1E58624-F7C7-4112-8291-8D0CA39001E3}']

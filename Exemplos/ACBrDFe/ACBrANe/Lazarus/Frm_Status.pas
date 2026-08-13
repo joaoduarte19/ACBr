@@ -35,8 +35,17 @@ unit Frm_Status;
 interface
 
 uses
-  LCLIntf, LCLType, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls;
+  LCLIntf,
+  LCLType,
+  SysUtils,
+  Variants,
+  Classes,
+  Graphics,
+  Controls,
+  Forms,
+  Dialogs,
+  StdCtrls,
+  ExtCtrls;
 
 type
   TfrmStatus = class(TForm)
@@ -48,9 +57,6 @@ type
   public
     { Public declarations }
   end;
-
-var
-  frmStatus: TfrmStatus;
 
 implementation
 

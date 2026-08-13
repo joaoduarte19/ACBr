@@ -37,15 +37,19 @@ unit ATM.Provider;
 interface
 
 uses
-  SysUtils, Classes, Variants,
+  SysUtils,
+  Classes,
+  Variants,
   ACBrDFeSSL,
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrXmlDocument,
   ACBrANeDocumentos,
-  ACBrANe.Classes, ACBrANe.Conversao,
+  ACBrANe.Classes,
+  ACBrANe.Conversao,
   ACBrANe.ProviderProprio,
-  ACBrANe.WebServicesBase, ACBrANe.WebServicesResponse;
+  ACBrANe.WebServicesBase,
+  ACBrANe.WebServicesResponse;
 
 type
   TACBrANeWebserviceATM = class(TACBrANeWebserviceSoap11)
@@ -80,8 +84,10 @@ implementation
 
 uses
   ACBrDFeException,
-  ACBrUtil.XMLHTML, ACBrUtil.Strings,
-  ACBrANe, ACBrANe.Consts;
+  ACBrUtil.XMLHTML,
+  ACBrUtil.Strings,
+  ACBrANe,
+  ACBrANe.Consts;
 
 { TACBrANeProviderATM }
 

@@ -37,7 +37,8 @@ unit ACBrANe.WebServicesBase;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes,
+  SysUtils,
   {$IFNDEF NOGUI}
    {$IFDEF CLX}
      QDialogs,
@@ -51,8 +52,12 @@ uses
   {$ENDIF}
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  ACBrBase, ACBrDFe, ACBrDFeConfiguracoes, ACBrDFeSSL,
-  ACBrXmlDocument, ACBrANe.Conversao;
+  ACBrBase,
+  ACBrDFe,
+  ACBrDFeConfiguracoes,
+  ACBrDFeSSL,
+  ACBrXmlDocument,
+  ACBrANe.Conversao;
 
 resourcestring
   ERR_NAO_IMP = 'Serviço não implementado para esta seguradora.';

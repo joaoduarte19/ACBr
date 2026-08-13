@@ -37,7 +37,9 @@ unit pcaConversao;
 interface
 
 uses
-  SysUtils, StrUtils, Classes;
+  SysUtils,
+  StrUtils,
+  Classes;
 
 type
   TVersaoANe     = (ve200);
@@ -73,7 +75,8 @@ function VersaoANeToDbl(const t: TVersaoANe): Double;
 implementation
 
 uses
-  typinfo, pcnConversao;
+  typinfo,
+  pcnConversao;
 
 function LayOutToSchema(const t: TLayOutANe): TSchemaANe;
 begin

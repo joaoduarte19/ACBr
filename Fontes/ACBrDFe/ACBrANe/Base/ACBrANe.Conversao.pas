@@ -41,7 +41,9 @@ uses
   {$IFNDEF VER130}
     Variants,
   {$ENDIF}
-  Classes, typinfo, StrUtils,
+  Classes,
+  typinfo,
+  StrUtils,
   ACBrBase,
   ACBrDFe.Conversao;
 
@@ -83,7 +85,9 @@ function MetodoToStr(const t: TMetodo): string;
 implementation
 
 uses
-  ACBrUtil.Strings, ACBrUtil.XMLHTML, ACBrUtil.FilesIO,
+  ACBrUtil.Strings,
+  ACBrUtil.XMLHTML,
+  ACBrUtil.FilesIO,
   ACBrXmlBase;
 
 function LayOutToSchema(const t: TLayOutANe): TSchemaANe;

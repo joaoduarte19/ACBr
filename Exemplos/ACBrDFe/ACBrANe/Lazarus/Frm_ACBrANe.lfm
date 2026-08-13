@@ -11,8 +11,10 @@ object frmACBrANe: TfrmACBrANe
   Font.Color = clWindowText
   Font.Height = -14
   Font.Name = 'Tahoma'
-  OnCreate = FormCreate
   Position = poScreenCenter
+  LCLVersion = '4.6.0.0'
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   object pnlMenus: TPanel
     Left = 0
     Height = 814
@@ -100,12 +102,12 @@ object frmACBrANe: TfrmACBrANe
           Height = 600
           Top = 0
           Width = 361
-          ActivePage = TabSheet12
+          ActivePage = TabSheet4
           Align = alClient
           MultiLine = True
-          TabIndex = 3
-          TabOrder = 0
           Options = [nboMultiLine]
+          TabIndex = 1
+          TabOrder = 0
           object TabSheet3: TTabSheet
             Caption = 'Certificado'
             ClientHeight = 570
@@ -1410,8 +1412,8 @@ object frmACBrANe: TfrmACBrANe
         93337FFFF7737777733300000033333333337777773333333333
       }
       NumGlyphs = 2
-      OnClick = btnSalvarConfigClick
       TabOrder = 1
+      OnClick = btnSalvarConfigClick
     end
   end
   object pnlCentral: TPanel
@@ -1472,9 +1474,9 @@ object frmACBrANe: TfrmACBrANe
       Height = 722
       Top = 91
       Width = 729
-      ActivePage = TabSheet6
+      ActivePage = TabSheet5
       Align = alClient
-      TabIndex = 1
+      TabIndex = 0
       TabOrder = 1
       object TabSheet5: TTabSheet
         Caption = 'Respostas'
@@ -1540,6 +1542,10 @@ object frmACBrANe: TfrmACBrANe
             object SynGutterMarks1: TSynGutterMarks
               Width = 30
               MouseActions = <>
+              MaxExtraMarksColums = 0
+              Options = [sgmoDeDuplicateMarksOnOverflow]
+              MarkupInfo.Background = clBtnFace
+              MarkupInfo.Foreground = clNone
             end
             object SynGutterLineNumber1: TSynGutterLineNumber
               Width = 21
@@ -1556,6 +1562,9 @@ object frmACBrANe: TfrmACBrANe
               MouseActions = <>
               ModifiedColor = 59900
               SavedColor = clGreen
+              MarkupInfo.Background = clNone
+              MarkupInfo.Foreground = clGreen
+              MarkupInfo.FrameColor = 59900
             end
             object SynGutterSeparator1: TSynGutterSeparator
               Width = 3
@@ -1667,6 +1676,7 @@ object frmACBrANe: TfrmACBrANe
     Configuracoes.Geral.SSLXmlSignLib = xsNone
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
     Configuracoes.Geral.TipoDoc = tdCTe
+    Configuracoes.Geral.Seguradora = segATM
     Configuracoes.Arquivos.OrdenacaoPath = <>
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 0

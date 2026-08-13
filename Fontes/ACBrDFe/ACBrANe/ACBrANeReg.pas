@@ -37,9 +37,13 @@ unit ACBrANeReg;
 interface
 
 uses
-  SysUtils, Classes,
+  SysUtils,
+  Classes,
   {$IFDEF FPC}
-     LResources, LazarusPackageIntf, PropEdits, componenteditors,
+     LResources,
+     LazarusPackageIntf,
+     PropEdits,
+     componenteditors,
   {$ELSE}
      {$IFNDEF COMPILER6_UP}
         DsgnIntf,
@@ -55,7 +59,9 @@ procedure Register;
 implementation
 
 uses
-  ACBrReg, ACBrDFeConfiguracoes, ACBrANeConfiguracoes;
+  ACBrReg,
+  ACBrDFeConfiguracoes,
+  ACBrANeConfiguracoes;
 
 {$IFNDEF FPC}
    {$R ACBrANe.dcr}

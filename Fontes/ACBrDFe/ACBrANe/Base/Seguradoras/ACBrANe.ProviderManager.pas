@@ -37,7 +37,8 @@ unit ACBrANe.ProviderManager;
 interface
 
 uses
-  SysUtils, Classes,
+  SysUtils,
+  Classes,
   ACBrDFe,
   ACBrANeInterface;
 
@@ -51,7 +52,8 @@ type
 implementation
 
 uses
-  ACBrANe, ACBrANe.Conversao,
+  ACBrANe,
+  ACBrANe.Conversao,
 
   ATM.Provider,
   ELT.Provider,

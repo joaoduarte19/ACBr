@@ -37,11 +37,18 @@ unit ACBrANe;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes,
+  SysUtils,
   ACBrBase,
-  ACBrDFe, ACBrDFeException, ACBrDFeConfiguracoes,
-  ACBrANeConfiguracoes, ACBrANeDocumentos, ACBrANeWebServices,
-  ACBrANe.Classes, ACBrANeInterface, ACBrANe.Conversao,
+  ACBrDFe,
+  ACBrDFeException,
+  ACBrDFeConfiguracoes,
+  ACBrANeConfiguracoes,
+  ACBrANeDocumentos,
+  ACBrANeWebServices,
+  ACBrANe.Classes,
+  ACBrANeInterface,
+  ACBrANe.Conversao,
   ACBrANe.WebServicesBase;
 
 resourcestring

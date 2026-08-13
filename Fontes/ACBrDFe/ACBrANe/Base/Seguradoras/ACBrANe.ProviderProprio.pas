@@ -39,7 +39,8 @@ interface
 uses
   SysUtils, Classes,
   ACBrXmlDocument,
-  ACBrANe.ProviderBase, ACBrANe.WebServicesResponse;
+  ACBrANe.ProviderBase,
+  ACBrANe.WebServicesResponse;
 
 type
 
@@ -72,9 +73,14 @@ type
 implementation
 
 uses
-  ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.XMLHTML,
+  ACBrUtil.Base,
+  ACBrUtil.Strings,
+  ACBrUtil.XMLHTML,
   ACBrDFeException,
-  ACBrANe, ACBrANeDocumentos, ACBrANe.Consts, ACBrANe.Conversao,
+  ACBrANe,
+  ACBrANeDocumentos,
+  ACBrANe.Consts,
+  ACBrANe.Conversao,
   ACBrANe.WebServicesBase;
 
 { TACBrANeProviderProprio }
