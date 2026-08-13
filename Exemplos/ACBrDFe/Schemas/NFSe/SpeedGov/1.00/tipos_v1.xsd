@@ -877,17 +877,17 @@
 	<!-- Tipo Complexo para Controle IBSCBS -->
 	<xsd:complexType name="tcControleIBSCBS">
 		<xsd:sequence>
-			<xsd:element name="FinNFSe" type="xsd:short" minOccurs="0"/>
+			<xsd:element name="finNFSe" type="xsd:short" minOccurs="0"/>
 			<!-- 0=NFS-e regular, 1=NFS-e crédito, 2=NFS-e débito -->
-			<xsd:element name="IndFinal" type="xsd:short" minOccurs="0"/>
+			<xsd:element name="indFinal" type="xsd:short" minOccurs="0"/>
 			<!-- 0=Não, 1=Sim (consumidor final) -->
-			<xsd:element name="TpOper" type="xsd:short" minOccurs="0"/>
+			<xsd:element name="tpOper" type="xsd:short" minOccurs="0"/>
 			<!-- 1-5: Tipos de operação -->
-			<xsd:element name="TpEnteGov" type="xsd:short" minOccurs="0"/>
+			<xsd:element name="tpEnteGov" type="xsd:short" minOccurs="0"/>
 			<!-- 1=União, 2=Estado, 3=DF, 4=Município, 9=Outro -->
-			<xsd:element name="IndDest" type="xsd:short" minOccurs="0"/>
+			<xsd:element name="indDest" type="xsd:short" minOccurs="0"/>
 			<!-- 0-4: Indicador de destinatário -->
-			<xsd:element name="CIndOp" type="tsCodigoIndicadorOp" minOccurs="0"/>
+			<xsd:element name="cIndOp" type="tsCodigoIndicadorOp" minOccurs="0"/>
 			<!-- Código indicador operação (max 6 chars) -->
 			<xsd:element name="XTpEnteGov" type="tsDescricaoGeral" minOccurs="0"/>
 			<!-- Descrição quando TpEnteGov=9 -->
