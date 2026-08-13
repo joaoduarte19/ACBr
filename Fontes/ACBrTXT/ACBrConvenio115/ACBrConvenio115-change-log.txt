@@ -41,6 +41,10 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+13/08/2026
+-- ACBrConvenio115.pas --
+[*] ACBR-9370 Ajuste do CNPJ para Alfanumerico
+		por Larissa Santos
 
 09/02/2023
 [*] TK-3592 Correção Enviar data data atual no caso das notas modelo 21/22, por Innovae Brasil Engenharia / Conf. Daniel Morais

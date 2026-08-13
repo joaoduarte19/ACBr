@@ -532,7 +532,7 @@ class function TACBrConvenio115Mestre.MontaAutenticacaoDocumentoFiscal(const ACn
 var
   SRec: string;
 begin
-  SRec := PadLeft(OnlyNumber(ACnpjCpf), 14, '0') +                                  { 01 - CNPJ/CPF }
+  SRec := PadLeft(OnlyCPFCNPJAlphaNum(ACnpjCpf), 14, '0') +                                  { 01 - CNPJ/CPF }
           PadLeft(IntToStr(aNumeroNF), 9, '0') +                                    { 12 - Numero NF }
           PadLeft(TiraPontos(FormatFloat('#,##0.00', AValorTotal)), 12, '0') +      { 14 - Valor }
           PadLeft(TiraPontos(FormatFloat('#,##0.00', AIcmsBaseCalculo)), 12, '0') + { 15 - Base ICMS }
@@ -540,7 +540,7 @@ begin
   if ADataEmissao >= EncodeDate(2017,1,1) then
     SRec := SRec +
             DtOs(ADataEmissao)                                                      { 09 - Data da Emissão } +
-            PadLeft(OnlyNumber(ACnpjEmitente), 14, '0');                            { 27 - CNPJ/CPF }
+            PadLeft(OnlyCPFCNPJAlphaNum(ACnpjEmitente), 14, '0');                            { 27 - CNPJ/CPF }
   Result := MD5String(SRec);
 end;
 
@@ -556,7 +556,7 @@ function TACBrConvenio115Mestre.RegistroEAssinatura(AVersaoAnterior: Boolean): T
 var
   SRec: string;
 begin
-  SRec := {01} PadLeft(OnlyNumber(Destinatario.CnpjCpf), 14, '0') +
+  SRec := {01} PadLeft(OnlyCPFCNPJAlphaNum(Destinatario.CnpjCpf), 14, '0') +
           {02} PadRight(IfThen(OnlyNumber(Destinatario.InscricaoEstadual) = '', 'ISENTO', OnlyNumber(Destinatario.InscricaoEstadual)), 14) +
           {03} PadRight(TiraAcentos(Destinatario.RazaoSocial), 35) +
           {04} PadRight(UpperCase(Destinatario.UF), 2) +
@@ -618,16 +618,16 @@ begin
   else
   begin
 
-    if (Length(OnlyNumber(Destinatario.CnpjCpf)) <= 11) then
+    if (Length(OnlyCPFCNPJAlphaNum(Destinatario.CnpjCpf)) <= 11) then
     begin
-      if (OnlyNumber(Destinatario.CnpjCpf) = '00000000000') then
+      if (OnlyCPFCNPJAlphaNum(Destinatario.CnpjCpf) = '00000000000') then
         IndicadorPessoa := ipmFisicaSemCpf
       else
         IndicadorPessoa := ipmCpf;
     end
     else
       begin
-        if (OnlyNumber(Destinatario.CnpjCpf) = '00000000000000') then
+        if (OnlyCPFCNPJAlphaNum(Destinatario.CnpjCpf) = '00000000000000') then
           IndicadorPessoa := ipmJuridicaSemCnpj
         else
           IndicadorPessoa := ipmCNPJ;
@@ -638,7 +638,7 @@ begin
           {24} _GetTab11_8_2 +
           {25} '00' + // Telecomunicação é 00
           {26} PadLeft(NumeroTelefonePrincipal, 12) +
-          {27} PadLeft(OnlyNumber(FCnpjEmitente), 14, '0') +
+          {27} PadLeft(OnlyCPFCNPJAlphaNum(FCnpjEmitente), 14, '0') +
           {28} PadRight(NumeroFaturaComercial, 20) +
           {29} PadLeft(TiraPontos(FormatFloat('#,##0.00', OutrosValores)), 12, '0') +
           {30} DataLeituraAnterior +
@@ -754,7 +754,7 @@ begin
   try
     for I := 0 to FMestre.Count - 1 do
     begin
-      SRec := {01} PadLeft(OnlyNumber(FMestre[I].Destinatario.CnpjCpf), 14, '0') +
+      SRec := {01} PadLeft(OnlyCPFCNPJAlphaNum(FMestre[I].Destinatario.CnpjCpf), 14, '0') +
               {02} PadRight(IfThen(OnlyNumber(FMestre[I].Destinatario.InscricaoEstadual) = '', 'ISENTO', OnlyNumber(FMestre[I].Destinatario.InscricaoEstadual)), 14) +
               {03} PadRight(TiraAcentos(FMestre[I].Destinatario.RazaoSocial), 35) +
               {04} PadRight(TiraAcentos(FMestre[I].Destinatario.Logradouro), 45) +
@@ -871,7 +871,7 @@ begin
       UF  |      CNPJ      | Modelo | série | ano | mês | Status | tipo | . | volume
     }
     Result := FUF +
-              PadLeft(OnlyNumber(CnpjEmitente), 14, '0') +
+              PadLeft(OnlyCPFCNPJAlphaNum(CnpjEmitente), 14, '0') +
               PadLeft(IntToStr(Modelo), 2, '0') +
               PadRight(Serie, 3) +
               Copy(IntToStr(Ano), 3, 2) +
@@ -998,7 +998,7 @@ function TACBrConvenio115Item.RegistroEAssinatura(AVersaoAnterior: Boolean): TCo
 var
   SRec: string;
 begin
-  SRec := {01} PadLeft(OnlyNumber(FCnpjCpf), 14, '0') +
+  SRec := {01} PadLeft(OnlyCPFCNPJAlphaNum(FCnpjCpf), 14, '0') +
           {02} PadRight(UpperCase(FUF), 2) +
           {03} IfThen(AVersaoAnterior, IntToStr(Ord(FTipoAssinanteAte201612)), '0') +
           {04} IntToStr(Ord(FTipoUtilizacao)) +
@@ -1178,7 +1178,7 @@ var
   OValidador: TACBrValidador;
   lNumero: String;
 begin
-  lNumero := OnlyNumber(Value);
+  lNumero := OnlyCPFCNPJAlphaNum(Value);
 
   if (lNumero = '00000000000000') or (lNumero = '00000000000') then
   begin
@@ -1190,7 +1190,7 @@ begin
   try
     with OValidador do
     begin
-      if Length(OnlyNumber(Value)) <= 11 then
+      if Length(OnlyCPFCNPJAlphaNum(Value)) <= 11 then
         TipoDocto := docCPF
       else
         TipoDocto := docCNPJ;
