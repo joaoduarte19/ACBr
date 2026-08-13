@@ -484,7 +484,7 @@ begin
 
   // VALOR TOTAL
   x1 := x1 + w3;
-  PDF.TextBox(x1, y1, w4, h + 2, 'VALOR UNITÁRIO (R$)', 'C', 'C', 0, '', false);
+  PDF.TextBox(x1, y1, w4, h + 2, 'VALOR TOTAL (R$)', 'C', 'C', 0, '', false);
   // PDF.Line(x1 + w4, y1, x1 + w4, y1 + Args.Band.Height - 4);
 
   x1 := x;
@@ -870,6 +870,7 @@ var
 begin
   Engine := TFPDFEngine.Create(Self, False);
   try
+    Engine.Compressed := True;
     Engine.SaveToStream(AStream);
   finally
     Engine.Free;
@@ -883,6 +884,7 @@ var
 begin
   Engine := TFPDFEngine.Create(Self, False);
   try
+    Engine.Compressed := True;
     Engine.SaveToFile(NomeArquivoDestinoPDF);
   finally
     Engine.Free;

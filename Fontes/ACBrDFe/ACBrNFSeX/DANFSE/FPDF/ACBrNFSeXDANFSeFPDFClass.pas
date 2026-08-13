@@ -125,7 +125,9 @@ begin
 
     // NT 008 (DANFSe v2.0): layout proprio, obrigatorio para o Padrao Nacional.
     // Os demais provedores (leiaute municipal/ABRASF) continuam no layout antigo.
-    if TACBrNFSeX(ACBrNFSe).Configuracoes.Geral.Provedor = proPadraoNacional then
+    if (TACBrNFSeX(ACBrNFSe).Configuracoes.Geral.Provedor = proPadraoNacional) or
+       (TACBrNFSeX(ACBrNFSe).DANFSE.TipoDANFSE = tpPadraoNacional) or
+       (TACBrNFSeX(ACBrNFSe).Configuracoes.Geral.Layout = loPadraoNacional) then
     begin
       ReportPN := TACBrDANFSeFPDFPadraoNacional.Create(UmaNFSe);
       try
