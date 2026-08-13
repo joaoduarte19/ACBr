@@ -2615,6 +2615,8 @@ begin
           begin
             NumeroNota := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('Numero'), tcStr);
             CodigoVerificacao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('CodigoVerificacao'), tcStr);
+            
+            Link := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('LinkAutenticidade'), tcStr);
           end;
 
           AuxNode2 := AuxNode.Childrens.FindAnyNs('DeclaracaoPrestacaoServico');
