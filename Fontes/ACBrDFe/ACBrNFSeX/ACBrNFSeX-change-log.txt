@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 13/08/2026
+-- Giss.GravarXml --
+[*] ACBR-9352 - Adiciona todos os campos opcionais que estavam faltando do schema.
+   Por: Diego Folieni
 -- ACBrNFSeXLerXml_ABRASFv2 --
 [*] ACBR-9427 - A Chave de Acesso é retornado no campo CodigoVerificacao no provedor Sintese.
    Por: mlgoncalves

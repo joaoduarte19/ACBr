@@ -38,6 +38,7 @@ interface
 
 uses
   SysUtils, Classes, StrUtils, IniFiles,
+  ACBrUtil.Strings,
   ACBrXmlDocument,
   ACBrNFSeXClass,
   ACBrNFSeXGravarXml_ABRASFv2;
@@ -64,6 +65,18 @@ type
 
     function GerarXMLIBSCBSTribValores(valores: Tvalorestrib): TACBrXmlNode; override;
 
+
+    function GeraAtividadeEvento: TACBrXmlNode; override;
+    function GerarIdentificacaoNFSe(const AIndex: Integer): TACBrXmlNode;
+    function GerarIdentificacaoNFe(const AIndex: Integer): TACBrXmlNode;
+    function GerarIdentificacaoOutroDoc(const AIndex: Integer): TACBrXmlNode;
+    function GerarIdentificacaoDocumentosDeducao(const AIndex: Integer): TACBrXmlNode;
+    function GerarIdentificacaoFornecedor(const AIndex: Integer): TACBrXmlNode;
+    function GerarFornecedorExterior(const AIndex: Integer): TACBrXmlNode;
+    function GerarDadosFornecedor(const AIndex: Integer): TACBrXmlNode;
+    function GerarDadosDeducao: TACBrXmlNodeArray;
+    function GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode; override;
+
     procedure GerarINISecaoValores(const AINIRec: TMemIniFile); override;
     procedure GerarINIValoresTribFederal(AINIRec: TMemIniFile);
     procedure GerarINIValoresTotalTrib(AINIRec: TMemIniFile);
@@ -75,6 +88,8 @@ implementation
 uses
   ACBrXmlBase,
   ACBrDFe.Conversao,
+  ACBrDFeUtil,
+  ACBrUtil.Base,
   ACBrNFSeXConsts,
   ACBrNFSeXConversao;
 
@@ -90,14 +105,16 @@ begin
   inherited Configuracao;
 
   NrOcorrCodigoPaisServico := 0;
+  NrOcorrValTotTrib := 0;
+  NrOcorrInformacoesComplemetares := 0;
 
   NrOcorrCodigoPaisTomador := -1;
   NrOcorrcCredPres := -1;
-  NrOcorrDiscriminacao_1 := -1;
-  NrOcorrCodigoMunic_1 := -1;
+  NrOcorrDiscriminacao_1 := 1;
+  NrOcorrCodigoMunic_1 := 1;
 
-  NrOcorrDiscriminacao_2 := 1;
-  NrOcorrCodigoMunic_2 := 1;
+  NrOcorrDiscriminacao_2 := -1;
+  NrOcorrCodigoMunic_2 := -1;
   NrOcorrExigibilidadeISS := 1;
 
   GerarDest := False;
@@ -105,7 +122,24 @@ begin
   GerarTribRegular := False;
   GerargDif := False;
 
+  GerarAtividadeEventoAposIncentivoFiscal := True;
+
   TagTomador := 'TomadorServico';
+end;
+
+function TNFSeW_Giss204.GeraAtividadeEvento: TACBrXmlNode;
+begin
+  Result := nil;
+  if (NFSe.Servico.Evento.idAtvEvt <> '') or (NFSe.Servico.Evento.xNome <> '') then
+  begin
+    Result := CreateElement('Evento');
+    if NFSe.Servico.Evento.idAtvEvt <> '' then
+      Result.AppendChild(AddNode(tcStr, '#1', 'IdentificacaoEvento', 1, 30, 1,
+                                      NFSe.Servico.Evento.idAtvEvt, ''));
+
+    Result.AppendChild(AddNode(tcStr, '#2', 'DescricaoEvento', 1, 255, 0,
+                                    NFSe.Servico.Evento.xNome, ''));
+  end;
 end;
 
 function TNFSeW_Giss204.GerarCodigoPaisServico: TACBrXmlNode;
@@ -135,10 +169,62 @@ begin
 end;
 
 function TNFSeW_Giss204.GerarServico: TACBrXmlNode;
+var
+  item, lNaoExigencia: string;
 begin
-  Result := inherited GerarServico;
+  Result := CreateElement('Servico');
+
+  Result.AppendChild(GerarValores);
+
+  if GerarTagServicos then
+  begin
+    Result.AppendChild(AddNode(tcStr, '#20', 'IssRetido', 1, 1, NrOcorrIssRetido,
+      FpAOwner.SituacaoTributariaToStr(NFSe.Servico.Valores.IssRetido), DSC_INDISSRET));
+
+    Result.AppendChild(AddNode(tcStr, '#21', 'ResponsavelRetencao', 1, 1, NrOcorrRespRetencao,
+     FpAOwner.ResponsavelRetencaoToStr(NFSe.Servico.ResponsavelRetencao), DSC_INDRESPRET));
+
+    item := FormatarItemServico(NFSe.Servico.ItemListaServico, FormatoItemListaServico);
+
+    Result.AppendChild(AddNode(tcStr, '#29', 'ItemListaServico', 1, 8, NrOcorrItemListaServico,
+                                                          item, DSC_CLISTSERV));
+
+    Result.AppendChild(AddNode(tcStr, '#30', 'CodigoCnae', 1, 9, NrOcorrCodigoCNAE,
+                                OnlyNumber(NFSe.Servico.CodigoCnae), DSC_CNAE));
+
+    Result.AppendChild(AddNode(tcStr, '#31', 'CodigoTributacaoMunicipio', 1, 20, NrOcorrCodTribMun_1,
+                     NFSe.Servico.CodigoTributacaoMunicipio, DSC_CSERVTRIBMUN));
+
+    Result.AppendChild(AddNode(tcStr, '#32', 'CodigoNbs', 1, 9, NrOcorrCodigoNBS,
+                                             NFSe.Servico.CodigoNBS, DSC_CMUN));
+
+    Result.AppendChild(AddNode(tcStr, '#32', 'Discriminacao', 1, 2000, NrOcorrDiscriminacao_1,
+      StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+               FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]), DSC_DISCR));
+
+    Result.AppendChild(AddNode(tcStr, '#33', 'CodigoMunicipio', 1, 7, NrOcorrCodigoMunic_1,
+                           OnlyNumber(NFSe.Servico.CodigoMunicipio), DSC_CMUN));
+
+    Result.AppendChild(GerarCodigoPaisServico);
+
+    Result.AppendChild(AddNode(tcInt, '#36', 'ExigibilidadeISS',
+                               NrMinExigISS, NrMaxExigISS, NrOcorrExigibilidadeISS,
+    StrToInt(FpAOwner.ExigibilidadeISSToStr(NFSe.Servico.ExigibilidadeISS)), DSC_INDISS));
+
+    lNaoExigencia:= DSC_INDISS;
+    lNaoExigencia:= StringReplace(lNaoExigencia,  ' da ', ' da não ', [rfReplaceAll]);
+
+    Result.AppendChild(AddNode(tcInt, '#37', 'IdentifNaoExigibilidade', 1, 4, 0,
+        StrToIntDef(NFSe.Servico.IdentifNaoExigibilidade, 0), LNaoExigencia));
+
+    Result.AppendChild(AddNode(tcInt, '#37', 'MunicipioIncidencia', 7, 7, NrOcorrMunIncid,
+                                NFSe.Servico.MunicipioIncidencia, DSC_MUNINCI));
+
+    Result.AppendChild(AddNode(tcStr, '#38', 'NumeroProcesso', 1, 30, NrOcorrNumProcesso,
+                                   NFSe.Servico.NumeroProcesso, DSC_NPROCESSO));
 
     Result.AppendChild(GerarcomExt);
+  end;
 end;
 
 function TNFSeW_Giss204.GerarcomExt: TACBrXmlNode;
@@ -181,6 +267,52 @@ begin
   end;
 end;
 
+function TNFSeW_Giss204.GerarDadosDeducao: TACBrXmlNodeArray;
+var
+  I: Integer;
+begin
+  Result := nil;
+  SetLength(Result, NFSe.Servico.Valores.DocDeducao.Count);
+  for I := 0 to NFSe.Servico.Valores.DocDeducao.Count - 1 do
+  begin
+    Result[I] := CreateElement('Deducao');
+
+    Result[I].AppendChild(AddNode(tcStr, '#1', 'TipoDeducao', 1, 2, 0,
+                              FpAOwner.tpDedRedToStr(NFSe.Servico.Valores.DocDeducao[I].tpDedRed), ''));
+
+    Result[I].AppendChild(AddNode(tcStr, '#2', 'DescricaoDeducao', 1, 150, 0,
+                               NFSe.Servico.Valores.DocDeducao[I].xDescOutDed, ''));
+
+    Result[I].AppendChild(GerarIdentificacaoDocumentosDeducao(I));
+
+    Result[I].AppendChild(GerarDadosFornecedor(I));
+
+    Result[I].AppendChild(AddNode(tcDat, '#3', 'DataEmissao', 10, 10, 1,
+                                  NFSe.Servico.Valores.DocDeducao[I].dtEmiDoc, ''));
+
+    Result[i].AppendChild(AddNode(tcDe2, '#1', 'ValorDedutivel', 1, 15, 1,
+             NFSe.Servico.Valores.DocDeducao[I].vDedutivelRedutivel, ''));
+
+    Result[i].AppendChild(AddNode(tcDe2, '#1', 'ValorUtilizadoDeducao', 1, 15, 1,
+                 NFSe.Servico.Valores.DocDeducao[I].vDeducaoReducao, ''));
+  end;
+end;
+
+function TNFSeW_Giss204.GerarDadosFornecedor(
+  const AIndex: Integer): TACBrXmlNode;
+var
+  lDocDeducao: TDocDeducaoCollectionItem;
+begin
+  Result := CreateElement('DadosFornecedor');
+
+  lDocDeducao := NFSe.Servico.Valores.DocDeducao[AIndex];
+
+  if lDocDeducao.fornec.Identificacao.Nif <> EmptyStr then
+    Result.AppendChild(GerarFornecedorExterior(AIndex))
+  else
+    Result.AppendChild(GerarIdentificacaoFornecedor(AIndex));
+end;
+
 function TNFSeW_Giss204.GerarEnderecoExteriorTomador: TACBrXmlNode;
 begin
   Result := inherited GerarEnderecoExteriorTomador;
@@ -196,6 +328,21 @@ begin
     Result.AppendChild(AddNode(tcStr, '#1', 'xEstProvReg', 1, 60, 1,
                                                  NFSe.Tomador.Endereco.UF, ''));
   end;
+end;
+
+function TNFSeW_Giss204.GerarFornecedorExterior(
+  const AIndex: Integer): TACBrXmlNode;
+var
+  lDocDeducao: TDocDeducaoCollectionItem;
+begin
+  Result := CreateElement('FornecedorExterior');
+
+  lDocDeducao := NFSe.Servico.Valores.DocDeducao[AIndex];
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'NifFornecedor', 1, 40, 0,
+                             lDocDeducao.fornec.Identificacao.Nif, ''));
+  Result.AppendChild(AddNode(tcStr, '#2', 'CodigoPais', 1, 4, 1,
+                             PadLeft(IntToStr(lDocDeducao.fornec.Endereco.CodigoPais), 4, '0'), ''));
 end;
 
 function TNFSeW_Giss204.GerarValores: TACBrXmlNode;
@@ -368,6 +515,98 @@ begin
   AINIRec.WriteFloat(LSecao, 'pTotTribFed', NFSe.Servico.Valores.totTrib.pTotTribFed);
   AINIRec.WriteFloat(LSecao, 'pTotTribEst', NFSe.Servico.Valores.totTrib.pTotTribEst);
   AINIRec.WriteFloat(LSecao, 'pTotTribMun', NFSe.Servico.Valores.totTrib.pTotTribMun);
+end;
+
+function TNFSeW_Giss204.GerarIdentificacaoDocumentosDeducao(
+  const AIndex: Integer): TACBrXmlNode;
+var
+  lDocDeducao: TDocDeducaoCollectionItem;
+begin
+  Result := CreateElement('IdentificacaoDocumentoDeducao');
+
+  lDocDeducao := NFSe.Servico.Valores.DocDeducao[AIndex];
+  if lDocDeducao.NFSeMun.cMunNFSeMun <> EmptyStr then
+    Result.AppendChild(GerarIdentificacaoNFSe(AIndex))
+  else if lDocDeducao.chNFe <> EmptyStr then
+    Result.AppendChild(GerarIdentificacaoNFe(AIndex))
+  else
+    Result.AppendChild(GerarIdentificacaoOutroDoc(AIndex));
+end;
+
+function TNFSeW_Giss204.GerarIdentificacaoFornecedor(
+  const AIndex: Integer): TACBrXmlNode;
+var
+  lDocDeducao: TDocDeducaoCollectionItem;
+begin
+  Result := CreateElement('IdentificacaoFornecedor');
+
+  lDocDeducao := NFSe.Servico.Valores.DocDeducao[AIndex];
+  Result.AppendChild(GerarCPFCNPJ(lDocDeducao.fornec.Identificacao.CpfCnpj));
+end;
+
+function TNFSeW_Giss204.GerarIdentificacaoNFe(
+  const AIndex: Integer): TACBrXmlNode;
+var
+  lDocDeducao: TDocDeducaoCollectionItem;
+begin
+  Result := CreateElement('IdentificacaoNfe');
+
+  lDocDeducao := NFSe.Servico.Valores.DocDeducao[AIndex];
+
+  Result.AppendChild(AddNode(tcInt, '#1','NumeroNfe', 1, 9, 1,
+                     lDocDeducao.nDocFisc, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#2','UfNfe', 2, 2, 1,
+                     CodigoUFParaUF(ExtrairUFChaveAcesso(lDocDeducao.chNFe)), ''));
+
+  Result.AppendChild(AddNode(tcInt, '#3','ChaveAcessoNfe', 44, 44, 0,
+                     lDocDeducao.chNFe, ''));
+end;
+
+function TNFSeW_Giss204.GerarIdentificacaoNFSe(
+  const AIndex: Integer): TACBrXmlNode;
+var
+  lDocDeducao: TDocDeducaoCollectionItem;
+begin
+  Result := CreateElement('IdentificacaoNfse');
+
+  lDocDeducao := NFSe.Servico.Valores.DocDeducao[AIndex];
+
+  Result.AppendChild(AddNode(tcInt, '#1','CodigoMunicipioGerador', 1, 7, 1,
+                     lDocDeducao.NFSeMun.cMunNFSeMun, ''));
+
+  Result.AppendChild(AddNode(tcInt, '#2','NumeroNfse', 1, 15, 1,
+                     lDocDeducao.NFSeMun.nNFSeMun, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#3','CodigoVerificacao', 1, 9, 0,
+                     lDocDeducao.NFSeMun.cVerifNFSeMun, ''));
+end;
+
+function TNFSeW_Giss204.GerarIdentificacaoOutroDoc(
+  const AIndex: Integer): TACBrXmlNode;
+var
+  lDocDeducao: TDocDeducaoCollectionItem;
+begin
+  Result := CreateElement('OutroDocumento');
+
+  lDocDeducao := NFSe.Servico.Valores.DocDeducao[AIndex];
+  Result.AppendChild(AddNode(tcStr, '#1', 'IdentificacaoDocumento', 1, 255, 1,
+                     lDocDeducao.nDoc, ''));
+end;
+
+function TNFSeW_Giss204.GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode;
+var
+  lNodeArray: TACBrXMLNodeArray;
+  I: Integer;
+begin
+  Result := inherited GerarInfDeclaracaoPrestacaoServico;
+
+  lNodeArray := GerarDadosDeducao;
+  if Assigned(lNodeArray) then
+  begin
+    for I := 0 to Length(lNodeArray) - 1 do
+      Result.AppendChild(lNodeArray[I]);
+  end;
 end;
 
 procedure TNFSeW_Giss204.GerarINIComercioExterior(AINIRec: TMemIniFile);
