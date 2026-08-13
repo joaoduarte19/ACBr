@@ -889,13 +889,13 @@ begin
 
         NrOcorrCodigoMunicInterm := 1;
 
-        NrOcorrCodTribMun_1 := -1;
-        NrOcorrDiscriminacao_1 := -1;
-        NrOcorrCodigoMunic_1 := -1;
+        NrOcorrCodTribMun_1 := 0;
+        NrOcorrDiscriminacao_1 := 0;
+        NrOcorrCodigoMunic_1 := 0;
 
-        NrOcorrCodTribMun_2 := 0;
-        NrOcorrDiscriminacao_2 := 0;
-        NrOcorrCodigoMunic_2 := 0;
+        NrOcorrCodTribMun_2 := -1;
+        NrOcorrDiscriminacao_2 := -1;
+        NrOcorrCodigoMunic_2 := -1;
       end;
   else
     begin
