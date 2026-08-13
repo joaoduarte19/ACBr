@@ -194,7 +194,7 @@ resourcestring
   DSC_QTDPTSRESG = 'Qtd de pontos resgatados na data de referência';
   DSC_DREFRESGPTS = 'Data de resgate dos pontos';
   DSC_CHDFEPAGANT = 'Chave de acesso do DF-e de antecipação de pagamento';
-  DSC_NITEMPAGANT = 'Nùmero do item do DF-e de antecipação para refência direta a um item';
+  DSC_NITEMPAGANT = 'Número do item do DF-e de antecipação para refência direta a um item';
 
 implementation
 

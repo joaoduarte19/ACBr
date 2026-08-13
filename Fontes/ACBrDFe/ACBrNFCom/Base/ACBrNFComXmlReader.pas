@@ -509,10 +509,13 @@ begin
   if sAux = '1' then
     Item.Prod.indDevolucao := tiSim;
 
-  //RT
-  Item.Prod.gPagAntecipado.chDFePagAnt := ObterConteudo(ANode.Childrens.FindAnyNs('chDFePagAnt'), tcStr);
-  Item.Prod.gPagAntecipado.nItemPagAnt := ObterConteudo(ANode.Childrens.FindAnyNs('nItemPagAnt'), tcInt);
-
+  
+  NodePagAnt := ANode.Childrens.FindAnyNs('gPagAntecipado');
+  if Assigned(NodePagAnt) then
+  begin
+    Item.Prod.gPagAntecipado.chDFePagAnt := ObterConteudo(NodePagAnt.Childrens.FindAnyNs('chDFePagAnt'), tcStr);
+    Item.Prod.gPagAntecipado.nItemPagAnt := ObterConteudo(NodePagAnt.Childrens.FindAnyNs('nItemPagAnt'), tcInt);
+  end;
 
 end;
 
