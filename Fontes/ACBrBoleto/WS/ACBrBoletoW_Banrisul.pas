@@ -81,7 +81,7 @@ type
     procedure GerarProtesto(AJson: TACBrJSONObject);
     procedure GerarPag_Parcial(AJson: TACBrJSONObject);
     procedure GerarHibrido(AJson: TACBrJSONObject);
-
+    procedure GerarNotas_Fiscais(AJson: TACBrJSONObject);   
   public
     constructor Create(ABoletoWS: TBoletoWS); override;
 
@@ -359,6 +359,8 @@ begin
     if Boleto.Cedente.CedenteWS.IndicadorPix = True then
       GerarHibrido(LJsonBoleto);
 
+    GerarNotas_Fiscais(LJsonBoleto);
+
     AJson.AddPair('titulo', LJsonBoleto);
   end;
 end;
@@ -626,6 +628,29 @@ begin
       AJson.AddPair('multa', LJsonMultaObject);
 
     end;
+  end;
+end;
+
+procedure TBoletoW_Banrisul.GerarNotas_Fiscais(AJson: TACBrJSONObject);
+var
+  I : Integer;
+  LJsonNotas: TACBrJSONArray;
+  LJsonNota: TACBrJSONObject;
+begin
+
+  if Assigned(ATitulo) and Assigned(AJson) then
+  begin
+    LJsonNotas := TACBrJSONArray.Create;
+    for I := 0 to ATitulo.ListaDadosNFe.Count - 1 do
+    begin
+      LJsonNota := TACBrJSONObject.Create;
+      LJsonNota.AddPair('danfe', ATitulo.ListaDadosNFe[I].ChaveNFe);
+      LJsonNotas.AddElementJSON(LJsonNota);
+    end;
+    if ATitulo.ListaDadosNFe.Count > 0 then
+      AJson.AddPair('notas_fiscais', LJsonNotas)
+    else
+      LJsonNotas.Free;
   end;
 end;
 
