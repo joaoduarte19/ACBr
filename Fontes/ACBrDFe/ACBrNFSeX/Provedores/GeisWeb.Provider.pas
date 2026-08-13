@@ -966,11 +966,11 @@ var
 begin
   FPMsgOrig := AMSG;
 
-  Request := '<geis:CancelaNfseRequest ' + NameSpace + '>';
+  Request := '<geis:CancelaNfse ' + NameSpace + '>';
   Request := Request + '<CancelaNfse>' +
                           XmlToStr(AMSG) +
                        '</CancelaNfse>';
-  Request := Request + '</geis:CancelaNfseRequest>';
+  Request := Request + '</geis:CancelaNfse>';
 
   Result := Executar(SoapAction + 'CancelaNfse', Request,
                      ['CancelaNfseResposta', 'CancelaNfseResposta'],
