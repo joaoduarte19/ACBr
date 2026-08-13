@@ -567,7 +567,7 @@ procedure TNFSeR_ABRASFv2.LerInfDeclaracaoPrestacaoServico(
 var
   AuxNode: TACBrXmlNode;
   Ok: Boolean;
-  sNatureza, sData: string;
+  sNatureza: string;
 begin
   if not Assigned(ANode) then Exit;
 
@@ -588,12 +588,7 @@ begin
     LerPrestador(AuxNode);
     LerTomadorServico(AuxNode);
 
-    sData := ObterConteudo(AuxNode.Childrens.FindAnyNs('DataFatoGerador'), tcStr);
-
-    if StrToIntDef(Copy(sData, 1, 4), 0) < 2000 then
-      NFSe.DataFatoGerador := 0
-    else
-      NFSe.DataFatoGerador := ObterConteudo(AuxNode.Childrens.FindAnyNs('DataFatoGerador'), tcDat);
+    NFSe.DataFatoGerador := ObterConteudo(AuxNode.Childrens.FindAnyNs('DataFatoGerador'), tcDat);
 
     LerIntermediarioServico(AuxNode);
     LerConstrucaoCivil(AuxNode);
@@ -686,6 +681,10 @@ begin
 
     if NFSe.ChaveAcesso = '' then
       NFSe.ChaveAcesso := NFSe.infNFSe.ID;
+
+    if NFSe.ChaveAcesso = '' then
+      //a chave de acesso (50 dígitos) do ambiente nacional é retornada no XML pelo campo 'CodigoVerificacao'
+      NFSe.ChaveAcesso := NFSe.CodigoVerificacao;
 
     if NFSe.IdentificacaoRps.Numero = '' then
       NFSe.IdentificacaoRps.Numero := ObterConteudo(AuxNode.Childrens.FindAnyNs('NumeroRps'), tcStr);
@@ -1038,6 +1037,8 @@ begin
       Discriminacao := StringReplace(Discriminacao, FpQuebradeLinha,
                                                     sLineBreak, [rfReplaceAll]);
 
+      VerificarSeConteudoEhLista(Discriminacao);
+
       CodigoMunicipio := ObterConteudo(AuxNode.Childrens.FindAnyNs('CodigoMunicipio'), tcStr);
 
       if CodigoMunicipio = '' then
@@ -1325,8 +1326,6 @@ begin
     Result := LerXmlNfse(XmlNode)
   else
     Result := LerXmlRps(XmlNode);
-
-  VerificarSeConteudoEhLista(NFSe.Servico.Discriminacao);
 
   FreeAndNil(FDocument);
 end;
