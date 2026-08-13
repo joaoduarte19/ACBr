@@ -487,6 +487,7 @@ end;
 procedure TNFComXmlReader.Ler_DetProd(const Item: TDetCollectionItem; const ANode: TACBrXmlNode);
 var
   sAux: string;
+  NodePagAnt:TACBrXmlNode;
 begin
   if not Assigned(Item) then Exit;
   if not Assigned(ANode) then Exit;
