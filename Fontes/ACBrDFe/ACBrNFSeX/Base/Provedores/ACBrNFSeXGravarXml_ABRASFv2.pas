@@ -155,6 +155,7 @@ type
 
     FGerarAtividadeEventoAposConstrucaoCivil : Boolean;
     FGerarAtividadeEventoAposIncentivoFiscal : Boolean;
+    FNrOcorrCodigoServicoNacional: Integer;
   protected
     procedure Configuracao; override;
 
@@ -337,6 +338,7 @@ type
     property NrOcorrDataPagamento: Integer read FNrOcorrDataPagamento write FNrOcorrDataPagamento;
     property NrOcorrInfAdicional: Integer read FNrOcorrInfAdicional write FNrOcorrInfAdicional;
     property NrOcorrCidadeNome: Integer read FNrOcorrCidadeNome write FNrOcorrCidadeNome;
+    property NrOcorrCodigoServicoNacional: Integer read FNrOcorrCodigoServicoNacional write FNrOcorrCodigoServicoNacional;
 
     property GerarTagServicos: Boolean read FGerarTagServicos write FGerarTagServicos;
     property GerarIDDeclaracao: Boolean read FGerarIDDeclaracao write FGerarIDDeclaracao;
@@ -473,6 +475,7 @@ begin
   FNrOcorrRetidoCpp := -1;
   FNrOcorrInfAdicional := -1;
   FNrOcorrCidadeNome := -1;
+  FNrOcorrCodigoServicoNacional := 0;
 
   FGerarTagServicos := True;
   FGerarIDDeclaracao := True;
@@ -762,7 +765,7 @@ begin
     Result.AppendChild(AddNode(tcStr, '#31', 'CodigoTributacaoMunicipio', 1, 20, NrOcorrCodTribMun_2,
                      NFSe.Servico.CodigoTributacaoMunicipio, DSC_CSERVTRIBMUN));
 
-    Result.AppendChild(AddNode(tcStr, '#31', 'CodigoServicoNacional', 1, 20, 0,
+    Result.AppendChild(AddNode(tcStr, '#31', 'CodigoServicoNacional', 1, 20, NrOcorrCodigoServicoNacional,
                                        NFSe.Servico.CodigoServicoNacional, ''));
 
     Result.AppendChild(AddNode(tcStr, '#33', 'Discriminacao', 1, 2000, NrOcorrDiscriminacao_2,

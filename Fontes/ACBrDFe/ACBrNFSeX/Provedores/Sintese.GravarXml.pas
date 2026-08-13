@@ -72,6 +72,12 @@ begin
   TagTomador := 'TomadorServico';
 
   NrOcorrCodigoPaisTomador := -1;
+  NrOcorrDiscriminacao_1 := -1;
+  NrOcorrCodigoMunic_1 := -1;
+  NrOcorrCodigoServicoNacional := -1;
+
+  NrOcorrDiscriminacao_2 := 1;
+  NrOcorrCodigoMunic_2 := 1;
 
   FormatoItemListaServico := filsSemFormatacao;
 end;
