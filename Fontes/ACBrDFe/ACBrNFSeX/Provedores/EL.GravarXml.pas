@@ -574,7 +574,8 @@ begin
   Result.AppendChild(AddNode(tcStr, '#20', 'IssRetido', 1, 1, 1,
     FpAOwner.SituacaoTributariaToStr(NFSe.Servico.Valores.IssRetido), DSC_INDISSRET));
 
-  if not (NFSe.Servico.ItemServico[0].ResponsavelRetencao in [rtPrestador, rtNenhum]) then
+  if (NFSe.Servico.ItemServico.count > 0) and
+     (not (NFSe.Servico.ItemServico[0].ResponsavelRetencao in [rtPrestador, rtNenhum])) then
     Result.AppendChild(AddNode(tcStr, '#21', 'ResponsavelRetencao', 1, 1, 0,
      FpAOwner.ResponsavelRetencaoToStr(NFSe.Servico.ResponsavelRetencao), DSC_INDRESPRET));
 
