@@ -131,22 +131,22 @@ function TNFSeW_SpeedGov.GerarControleIBSCBS: TACBRXmlNode;
 begin
   Result := CreateElement('ControleIBSCBS');
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'FinNFSe', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'finNFSe', 1, 1, 1,
                                         finNFSeToStr(NFSe.IBSCBS.finNFSe), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'IndFinal', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'indFinal', 1, 1, 1,
                                       indFinalToStr(NFSe.IBSCBS.indFinal), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'TpOper', 1, 1, NrOcorrtpOper,
+  Result.AppendChild(AddNode(tcStr, '#1', 'tpOper', 1, 1, NrOcorrtpOper,
                                    tpOperGovNFSeToStr(NFSe.IBSCBS.tpOper), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'TpEnteGov', 1, 1, 0,
+  Result.AppendChild(AddNode(tcStr, '#1', 'tpEnteGov', 1, 1, 0,
                                     tpEnteGovToStr(NFSe.IBSCBS.tpEnteGov), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'IndDest', 1, 1, NrOcorrindDest,
+  Result.AppendChild(AddNode(tcStr, '#1', 'indDest', 1, 1, NrOcorrindDest,
                                         indDestToStr(NFSe.IBSCBS.indDest), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'CIndOp', 6, 6, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'cIndOp', 6, 6, 1,
                                                        NFSe.IBSCBS.cIndOp, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'CST', 6, 6, 0,
@@ -344,7 +344,7 @@ begin
                NFSe.infNFSe.IBSCBS.totCIBS.gCBS.gCBSCredPres.vCredPresCBS, ''));
 
   Result.AppendChild(AddNode(tcDe2, '#29', 'IBSValorTotal', 1, 15, 0,
-    NFSe.IBSCBS.valores.ValorIbsEstadual + NFSe.IBSCBS.valores.IbsMunicipal, ''));
+    NFSe.IBSCBS.valores.ValorIbsEstadual + NFSe.IBSCBS.valores.ValorIbsMunicipal, ''));
 
   Result.AppendChild(AddNode(tcDe2, '#29', 'ValorTotalComTributos', 1, 15, 0,
                                 NFSe.Servico.Valores.ValorTotalNotaFiscal, ''));
@@ -552,11 +552,11 @@ begin
   Result.AppendChild(AddNode(tcDe2, '#22', 'ValorIssRetido', 1, 15, NrOcorrValorISSRetido_2,
                                NFSe.Servico.Valores.ValorIssRetido, DSC_VNFSE));
 
-  Result.AppendChild(AddNode(tcDe2, '#27', 'DescontoIncondicionado', 1, 15, NrOcorrDescIncond,
-                 NFSe.Servico.Valores.DescontoIncondicionado, DSC_VDESCINCOND));
-
   Result.AppendChild(AddNode(tcDe2, '#28', 'DescontoCondicionado', 1, 15, NrOcorrDescCond,
                      NFSe.Servico.Valores.DescontoCondicionado, DSC_VDESCCOND));
+
+  Result.AppendChild(AddNode(tcDe2, '#27', 'DescontoIncondicionado', 1, 15, NrOcorrDescIncond,
+                 NFSe.Servico.Valores.DescontoIncondicionado, DSC_VDESCINCOND));
 
   if (NFSe.Servico.Valores.CSTPis <> cstPisVazio) or
      (NFSe.Servico.Valores.AliquotaPis > 0) or
