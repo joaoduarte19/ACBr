@@ -232,8 +232,12 @@ begin
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ValorCSLL', 1, 15, 0,
                                            NFSe.Servico.Valores.ValorCsll, ''));
 
-  NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ValorCOFINS', 1, 15, 0,
-                                         NFSe.Servico.Valores.ValorCofins, ''));
+  if not(NFSe.Servico.Valores.tribFed.tpRetPisCofins = trpiscofinscsllNaoRetido) then
+    NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ValorCOFINS', 1, 15, 0,
+                                           NFSe.Servico.Valores.ValorCofins, ''))
+  else
+    NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ValorCofinsProprio', 1, 15, 0,
+                                           NFSe.Servico.Valores.ValorCofins, ''));
 
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ValorDeducao', 1, 15, 1,
                                        NFSe.Servico.Valores.ValorDeducoes, ''));
@@ -247,8 +251,12 @@ begin
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ValorOutrosImpostos', 1, 15, 0,
                                      NFSe.Servico.Valores.OutrasRetencoes, ''));
 
-  NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ValorPisPasep', 1, 15, 0,
-                                            NFSe.Servico.Valores.ValorPis, ''));
+  if not(NFSe.Servico.Valores.tribFed.tpRetPisCofins = trpiscofinscsllNaoRetido) then
+    NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ValorPisPasep', 1, 15, 0,
+                                              NFSe.Servico.Valores.ValorPis, ''))
+  else
+    NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ValorPisProprio', 1, 15, 0,
+                                              NFSe.Servico.Valores.ValorPis, ''));
 
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ValorRepasse', 1, 15, 0,
                                         NFSe.Servico.Valores.ValorRepasse, ''));
