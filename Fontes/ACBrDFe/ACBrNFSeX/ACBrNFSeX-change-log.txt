@@ -42,6 +42,18 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+14/08/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9742 - O município de Serra Negra/SP aderiu ao Padrão Nacional
+	Por: Paulo R Vieira Já
+	Veja: https://discordapp.com/channels/798697718800318484/800042186783588364/1537515244077973535 
+[*] ACBR-9737 - O município de Ilheus/BA aderiu ao Padrão Nacional
+	Por: Larissa Santos
+	Veja: https://www.projetoacbr.com.br/forum/topic/94169-erro-x999-erro-de-conex%C3%A3o-erro-12029/ 
+[*] ACBR-9735 - O município de São Gonçalo dos Campos/BA alterou o provedor para WEBISS
+	Por: DeveloperATS
+	Veja: https://www.projetoacbr.com.br/forum/topic/94123-acbr-9735-atualizar-dados-da-cidade-s%C3%A3o-gon%C3%A7alo-dos-camposba-no-arquivo-acbrnfsexservicosini/ 
+
 13/08/2026
 -- Giss.GravarXml --
 [*] ACBR-9352 - Adiciona todos os campos opcionais que estavam faltando do schema.
