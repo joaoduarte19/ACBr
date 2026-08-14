@@ -868,6 +868,9 @@ var
 begin
   AuxNode := ANode.Childrens.FindAnyNs('Nfse');
 
+  if not(Assigned(AuxNode)) then
+    AuxNode := ANode.Childrens.FindAnyNs('NFSe');
+
   if AuxNode <> nil  then
     AuxNode := AuxNode.Childrens.FindAnyNs('infNFSe')
   else
