@@ -92,8 +92,8 @@ procedure TNFSeW_Ginfes.Configuracao;
 begin
   inherited Configuracao;
 
-  NrOcorrValorPis := 1;
-  NrOcorrValorCofins := 1;
+  NrOcorrValorPis := 0;
+  NrOcorrValorCofins := 0;
   NrOcorrValorInss := 1;
   NrOcorrValorIr := 1;
   NrOcorrValorCsll := 1;
@@ -288,12 +288,13 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'CST', 2, 2, 1,
                                CSTToStr(NFSe.Servico.Valores.tribFed.CST), ''));
 
-  if (NFSe.Servico.Valores.tribFed.vBCPisCofins > 0) or
-     (NFSe.Servico.Valores.tribFed.pAliqPis > 0) or
-     (NFSe.Servico.Valores.tribFed.pAliqCofins > 0) or
-     (NFSe.Servico.Valores.tribFed.vPis > 0) or
-     (NFSe.Servico.Valores.tribFed.vCofins > 0) or
-     (NFSe.Servico.Valores.tribFed.CST in [cst04, cst06]) then
+  if not (NFSe.Servico.Valores.tribFed.CST in [cst00, cst08, cst09]) and
+     ((NFSe.Servico.Valores.tribFed.vBCPisCofins > 0) or
+      (NFSe.Servico.Valores.tribFed.pAliqPis > 0) or
+      (NFSe.Servico.Valores.tribFed.pAliqCofins > 0) or
+      (NFSe.Servico.Valores.tribFed.vPis > 0) or
+      (NFSe.Servico.Valores.tribFed.vCofins > 0) or
+      (NFSe.Servico.Valores.tribFed.CST in [cst04, cst06])) then
   begin
     NOcorr := 0;
 

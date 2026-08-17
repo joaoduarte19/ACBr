@@ -42,6 +42,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/08/2026
+-- Ginfes.GravarXml --
+[*] ACBR-9748 - Ajustes para não gerar as tags ValorPis e ValorCofins quando tiver o valor zero.
+    Alteração nas condições para gerar ou não os campos da Tributação Pis/Cofins.
+   Por: Alexandre Soares SP
+   https://www.projetoacbr.com.br/forum/topic/94178-acbrnfsex-%E2%80%93-ginfesembu-gua%C3%A7u-piscofins-retorno-ass%C3%ADncrono-e-identifica%C3%A7%C3%A3o-da-nfs-e/#comment-616216
+
 14/08/2026
 -- PadraoNacional.LerXml --
 [-] Ajuste visando a correta leitura do elemento NFSe quando elemento raiz for CompNFSe
