@@ -13,9 +13,9 @@ inherited frlXDANFSeRLSimplISS: TfrlXDANFSeRLSimplISS
     Margins.BottomMargin = 8.000000000000000000
     BeforePrint = RLNFSeBeforePrint
     object rlbCabecalho: TRLBand
-      Left = 23
-      Top = 30
-      Width = 752
+      Left = 28
+      Top = 38
+      Width = 940
       Height = 97
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -248,9 +248,9 @@ inherited frlXDANFSeRLSimplISS: TfrlXDANFSeRLSimplISS
       end
     end
     object rlbPrestador: TRLBand
-      Left = 23
-      Top = 127
-      Width = 752
+      Left = 28
+      Top = 135
+      Width = 940
       Height = 81
       BandType = btTitle
       Borders.Sides = sdCustom
@@ -565,9 +565,9 @@ inherited frlXDANFSeRLSimplISS: TfrlXDANFSeRLSimplISS
       end
     end
     object rlbTomador: TRLBand
-      Left = 23
-      Top = 208
-      Width = 752
+      Left = 28
+      Top = 216
+      Width = 940
       Height = 84
       BandType = btTitle
       Borders.Sides = sdCustom
@@ -870,9 +870,9 @@ inherited frlXDANFSeRLSimplISS: TfrlXDANFSeRLSimplISS
       end
     end
     object rlbHeaderItens: TRLBand
-      Left = 23
-      Top = 292
-      Width = 752
+      Left = 28
+      Top = 300
+      Width = 940
       Height = 206
       BandType = btColumnHeader
       Borders.Sides = sdCustom
@@ -937,9 +937,9 @@ inherited frlXDANFSeRLSimplISS: TfrlXDANFSeRLSimplISS
       end
     end
     object rlbItens: TRLBand
-      Left = 23
-      Top = 516
-      Width = 752
+      Left = 28
+      Top = 524
+      Width = 940
       Height = 21
       Borders.Sides = sdCustom
       Borders.DrawLeft = True
@@ -950,9 +950,9 @@ inherited frlXDANFSeRLSimplISS: TfrlXDANFSeRLSimplISS
       BeforePrint = rlbItensBeforePrint
     end
     object rlbISSQN: TRLBand
-      Left = 23
-      Top = 555
-      Width = 752
+      Left = 28
+      Top = 563
+      Width = 940
       Height = 274
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -2144,9 +2144,9 @@ inherited frlXDANFSeRLSimplISS: TfrlXDANFSeRLSimplISS
       end
     end
     object rbOutrasInformacoes: TRLBand
-      Left = 23
-      Top = 829
-      Width = 752
+      Left = 28
+      Top = 837
+      Width = 940
       Height = 19
       AutoExpand = False
       AutoSize = True
@@ -2183,9 +2183,9 @@ inherited frlXDANFSeRLSimplISS: TfrlXDANFSeRLSimplISS
       end
     end
     object rlbHeaderItensDetalhado: TRLBand
-      Left = 23
-      Top = 498
-      Width = 752
+      Left = 28
+      Top = 506
+      Width = 940
       Height = 18
       BandType = btColumnHeader
       Borders.Sides = sdCustom
@@ -2301,9 +2301,9 @@ inherited frlXDANFSeRLSimplISS: TfrlXDANFSeRLSimplISS
       end
     end
     object subItens: TRLSubDetail
-      Left = 23
-      Top = 537
-      Width = 752
+      Left = 28
+      Top = 545
+      Width = 940
       Height = 18
       Borders.Sides = sdCustom
       Borders.DrawLeft = True
@@ -2314,7 +2314,7 @@ inherited frlXDANFSeRLSimplISS: TfrlXDANFSeRLSimplISS
       object rlbItensServico: TRLBand
         Left = 1
         Top = 0
-        Width = 750
+        Width = 938
         Height = 18
         BeforePrint = rlbItensServicoBeforePrint
         object txtServicoQtde: TRLLabel
@@ -2430,9 +2430,9 @@ inherited frlXDANFSeRLSimplISS: TfrlXDANFSeRLSimplISS
       end
     end
     object rlbCanhoto: TRLBand
-      Left = 23
-      Top = 848
-      Width = 752
+      Left = 28
+      Top = 856
+      Width = 940
       Height = 73
       BandType = btSummary
       Borders.Sides = sdCustom

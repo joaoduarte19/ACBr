@@ -842,7 +842,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Height = 11
         Top = 2
         Width = 165
-        Caption = 'Local da Prestação / SIgla UF / País'
+        Caption = 'Local da Prestação / Sigla UF / País'
         Font.Color = clBlack
         Font.Height = -9
         Font.Name = 'Arial'

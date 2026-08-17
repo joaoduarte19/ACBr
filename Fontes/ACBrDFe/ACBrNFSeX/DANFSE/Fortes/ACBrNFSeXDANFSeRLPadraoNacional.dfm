@@ -5,7 +5,6 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
   ClientHeight = 815
   TextHeight = 13
   inherited RLNFSe: TRLReport
-    Left = 10
     Top = 10
     Margins.LeftMargin = 6.000000000000000000
     Margins.TopMargin = 5.000000000000000000
@@ -934,7 +933,7 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Top = 2
         Width = 165
         Height = 11
-        Caption = 'Local da Presta'#231#227'o / SIgla UF / Pa'#237's'
+        Caption = 'Local da Presta'#231#227'o / Sigla UF / Pa'#237's'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Height = -9

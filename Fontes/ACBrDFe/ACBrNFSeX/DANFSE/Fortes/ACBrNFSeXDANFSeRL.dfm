@@ -16,8 +16,8 @@ object frlXDANFSeRL: TfrlXDANFSeRL
   object RLNFSe: TRLReport
     Left = 8
     Top = 8
-    Width = 794
-    Height = 1123
+    Width = 992
+    Height = 1403
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
     Font.Height = -13

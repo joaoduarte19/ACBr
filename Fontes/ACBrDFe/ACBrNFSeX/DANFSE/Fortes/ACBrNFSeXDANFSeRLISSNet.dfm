@@ -14,9 +14,9 @@ inherited frlXDANFSeRLISSnet: TfrlXDANFSeRLISSnet
     Margins.BottomMargin = 8.000000000000000000
     BeforePrint = RLNFSeBeforePrint
     object rlbCabecalho: TRLBand
-      Left = 23
-      Top = 30
-      Width = 748
+      Left = 28
+      Top = 38
+      Width = 936
       Height = 78
       Margins.BottomMargin = 1.000000000000000000
       BandType = btHeader
@@ -162,9 +162,9 @@ inherited frlXDANFSeRLISSnet: TfrlXDANFSeRLISSnet
       end
     end
     object rlbPrestador: TRLBand
-      Left = 23
-      Top = 108
-      Width = 748
+      Left = 28
+      Top = 116
+      Width = 936
       Height = 161
       Margins.BottomMargin = 1.000000000000000000
       BandType = btTitle
@@ -520,9 +520,9 @@ inherited frlXDANFSeRLISSnet: TfrlXDANFSeRLISSnet
       end
     end
     object rlbTomador: TRLBand
-      Left = 23
-      Top = 369
-      Width = 748
+      Left = 28
+      Top = 377
+      Width = 936
       Height = 145
       Margins.BottomMargin = 1.000000000000000000
       BandType = btTitle
@@ -858,9 +858,9 @@ inherited frlXDANFSeRLISSnet: TfrlXDANFSeRLISSnet
       end
     end
     object rlbHeaderItens: TRLBand
-      Left = 23
-      Top = 514
-      Width = 748
+      Left = 28
+      Top = 522
+      Width = 936
       Height = 27
       BandType = btColumnHeader
       Borders.Sides = sdCustom
@@ -884,9 +884,9 @@ inherited frlXDANFSeRLISSnet: TfrlXDANFSeRLISSnet
       end
     end
     object rlbItens: TRLBand
-      Left = 23
-      Top = 557
-      Width = 748
+      Left = 28
+      Top = 565
+      Width = 936
       Height = 26
       Margins.BottomMargin = 1.000000000000000000
       Borders.Sides = sdCustom
@@ -911,9 +911,9 @@ inherited frlXDANFSeRLISSnet: TfrlXDANFSeRLISSnet
       end
     end
     object rlbISSQN: TRLBand
-      Left = 23
-      Top = 651
-      Width = 748
+      Left = 28
+      Top = 659
+      Width = 936
       Height = 130
       Margins.BottomMargin = 1.000000000000000000
       BandType = btSummary
@@ -1784,9 +1784,9 @@ inherited frlXDANFSeRLISSnet: TfrlXDANFSeRLISSnet
       end
     end
     object rbOutrasInformacoes: TRLBand
-      Left = 23
-      Top = 781
-      Width = 748
+      Left = 28
+      Top = 789
+      Width = 936
       Height = 50
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -1839,9 +1839,9 @@ inherited frlXDANFSeRLISSnet: TfrlXDANFSeRLISSnet
       end
     end
     object rlbCanhoto: TRLBand
-      Left = 23
-      Top = 854
-      Width = 748
+      Left = 28
+      Top = 862
+      Width = 936
       Height = 73
       BandType = btSummary
       Borders.Sides = sdCustom
@@ -2002,9 +2002,9 @@ inherited frlXDANFSeRLISSnet: TfrlXDANFSeRLISSnet
       end
     end
     object rlbHeaderItensDetalhado: TRLBand
-      Left = 23
-      Top = 541
-      Width = 748
+      Left = 28
+      Top = 549
+      Width = 936
       Height = 16
       BandType = btColumnHeader
       Borders.Sides = sdCustom
@@ -2070,9 +2070,9 @@ inherited frlXDANFSeRLISSnet: TfrlXDANFSeRLISSnet
       end
     end
     object subItens: TRLSubDetail
-      Left = 23
-      Top = 583
-      Width = 748
+      Left = 28
+      Top = 591
+      Width = 936
       Height = 18
       Borders.Sides = sdCustom
       Borders.DrawLeft = True
@@ -2083,7 +2083,7 @@ inherited frlXDANFSeRLISSnet: TfrlXDANFSeRLISSnet
       object rlbItensServico: TRLBand
         Left = 1
         Top = 0
-        Width = 746
+        Width = 934
         Height = 16
         BeforePrint = rlbItensServicoBeforePrint
         object txtServicoQtde: TRLLabel
@@ -2148,9 +2148,9 @@ inherited frlXDANFSeRLISSnet: TfrlXDANFSeRLISSnet
       end
     end
     object RLBand1: TRLBand
-      Left = 23
-      Top = 831
-      Width = 748
+      Left = 28
+      Top = 839
+      Width = 936
       Height = 23
       BandType = btSummary
       BeforePrint = RLBand1BeforePrint
@@ -2198,9 +2198,9 @@ inherited frlXDANFSeRLISSnet: TfrlXDANFSeRLISSnet
       end
     end
     object rlbDadosNota: TRLBand
-      Left = 23
-      Top = 269
-      Width = 748
+      Left = 28
+      Top = 277
+      Width = 936
       Height = 100
       Margins.BottomMargin = 1.000000000000000000
       BandType = btTitle
@@ -2471,9 +2471,9 @@ inherited frlXDANFSeRLISSnet: TfrlXDANFSeRLISSnet
       end
     end
     object rbConstrucao: TRLBand
-      Left = 23
-      Top = 601
-      Width = 748
+      Left = 28
+      Top = 609
+      Width = 936
       Height = 50
       Margins.BottomMargin = 1.000000000000000000
       BandType = btSummary
