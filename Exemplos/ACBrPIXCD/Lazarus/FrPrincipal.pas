@@ -45,7 +45,8 @@ uses
   ImgList, ACBrPIXPSPSicoob, ACBrPIXPSPPagSeguro, ACBrPIXPSPGerenciaNet,
   ACBrPIXPSPBradesco, ACBrPIXPSPPixPDV, ACBrPIXPSPInter, ACBrPIXPSPAilos,
   ACBrPIXPSPMatera, ACBrPIXPSPCielo, ACBrPIXPSPMercadoPago, ACBrPIXPSPGate2All,
-  ACBrPIXPSPBanrisul, ACBrPIXPSPC6Bank, ACBrPIXPSPAppLess, ACBrPIXPSPQQPag
+  ACBrPIXPSPBanrisul, ACBrPIXPSPC6Bank, ACBrPIXPSPAppLess, ACBrPIXPSPQQPag,
+  ACBrPIXPSPCrediSIS
   {$IfDef FPC}
   , DateTimePicker
   {$EndIf};
@@ -75,6 +76,7 @@ type
     ACBrCEP1: TACBrCEP;
     ACBrOpenSSLUtils1: TACBrOpenSSLUtils;
     ACBrPixCD1: TACBrPixCD;
+    ACBrPSPCrediSIS1: TACBrPSPCrediSIS;
     ACBrPSPAilos1: TACBrPSPAilos;
     ACBrPSPAppLess1: TACBrPSPAppLess;
     ACBrPSPBancoDoBrasil1: TACBrPSPBancoDoBrasil;
@@ -229,6 +231,7 @@ type
     cbCieloTipoChave: TComboBox;
     cbSicoobTipoChave: TComboBox;
     cbSicrediTipoChave: TComboBox;
+    cbCrediSISTipoChave: TComboBox;
     cbxAmbiente: TComboBox;
     cbConsultarRecorrenciasStatus: TComboBox;
     cbxBBTipoChave: TComboBox;
@@ -253,6 +256,8 @@ type
     edBBSenhaPFX: TEdit;
     edCancelarCobRTxID: TEdit;
     edConsultarRecorrenciaTxId: TEdit;
+    edCrediSISAgencia: TEdit;
+    edCrediSISConta: TEdit;
     edDesvincularLocRecId: TEdit;
     edConsultarLocationsRecConvenio: TEdit;
     edConsultarLocationsRecFim: TDateTimePicker;
@@ -282,6 +287,9 @@ type
     edPagSeguroCertificadoFinal: TEdit;
     edPagSeguroToken1: TEdit;
     edPagSeguroToken2: TEdit;
+    edCrediSISChavePIX: TEdit;
+    edCrediSISClientID: TEdit;
+    edCrediSISClientSecret: TEdit;
     edSolicitarRetentativaTxID: TEdit;
     edConsultarCobRTxID: TEdit;
     edConsultarCobsRIdRec: TEdit;
@@ -549,6 +557,7 @@ type
     imSicrediErroCertificado: TImage;
     imCieloErroCertificado: TImage;
     imSicrediErroChavePix: TImage;
+    imCrediSISErroChavePix: TImage;
     imSicrediErroChavePrivada: TImage;
     imCieloErroChavePrivada: TImage;
     Label1: TLabel;
@@ -577,6 +586,8 @@ type
     lbBBSenhaPFX: TLabel;
     lbBBVersaoAPI: TLabel;
     lbBradescoAPIVersao: TLabel;
+    lbCrediSISAgencia: TLabel;
+    lbCrediSISConta: TLabel;
     lbQQPagChave: TLabel;
     lbQQPagClientID: TLabel;
     lbQQPagClientSecret: TLabel;
@@ -603,6 +614,9 @@ type
     lbPagSeguroTipoChave: TLabel;
     lbPagSeguroTokenPay1: TLabel;
     lbPagSeguroTokenPay2: TLabel;
+    lbCrediSISChavePIX: TLabel;
+    lbCrediSISClientID: TLabel;
+    lbCrediSISClientSecret: TLabel;
     lbSicrediSenhaChavePrivada: TLabel;
     lbConsultarRecorrenciatxId: TLabel;
     lbPIXPDVVersaoAPI: TLabel;
@@ -614,6 +628,7 @@ type
     lbConsultarLocationsRecItensPorPagina: TLabel;
     lbConsultarLocationsRecPagina: TLabel;
     lbConsultarLocationRecId: TLabel;
+    lbCrediSISTipoChave: TLabel;
     lbSolicitarRetentativaTxID: TLabel;
     lbConsultarCobRTxID: TLabel;
     lbConsultarCobsRIdRec: TLabel;
@@ -942,6 +957,7 @@ type
     pnPagSeguroCertificado: TPanel;
     pnPagSeguroGerarCredenciais: TPanel;
     pnPagSeguroGerarCredenciaisClients: TPanel;
+    pnCrediSIS: TPanel;
     pnSolicitarRetentativa: TPanel;
     pnCancelarCobRRodape: TPanel;
     pnSolicitarRetentativaRodape: TPanel;
@@ -1143,6 +1159,7 @@ type
     Splitter4: TSplitter;
     spCriarCobR: TSplitter;
     spLocationRec: TSplitter;
+    tsCrediSIS: TTabSheet;
     tsQQPag: TTabSheet;
     tsPagSeguroChallenge: TTabSheet;
     tsPagSeguroCertificado: TTabSheet;
@@ -1386,6 +1403,7 @@ type
     procedure edCieloArqChavePrivadaChange(Sender: TObject);
     procedure edCieloArqChavePrivadaExit(Sender: TObject);
     procedure edCieloChavePIXChange(Sender: TObject);
+    procedure edCrediSISChavePIXChange(Sender: TObject);
     procedure edCriarRecorrenciaNomeDevedorChange(Sender: TObject);
     procedure edGerenciaNetChavePIXChange(Sender: TObject);
     procedure edGerenciaNetArqPFXExit(Sender: TObject);
@@ -4109,6 +4127,12 @@ begin
   imCieloErroChavePix.Visible := NaoEstaVazio(edCieloChavePIX.Text) and (cbCieloTipoChave.ItemIndex = 0);
 end;
 
+procedure TForm1.edCrediSISChavePIXChange(Sender: TObject);
+begin
+  cbCrediSISTipoChave.ItemIndex := Integer(DetectarTipoChave(edCrediSISChavePIX.Text));
+  imSicrediErroChavePIX.Visible := (edCrediSISChavePIX.Text <> '') and (cbCrediSISTipoChave.ItemIndex = 0);
+end;
+
 procedure TForm1.edCriarRecorrenciaNomeDevedorChange(Sender: TObject);
 begin
   edCriarRecorrenciaCPFCNPJDevedor.Enabled := NaoEstaVazio(Trim(edCriarRecorrenciaNomeDevedor.Text));
@@ -5442,6 +5466,12 @@ begin
     edQQPagChavePIX.Text := Ini.ReadString('QQPag', 'ChavePIX', '');
     edQQPagClientID.Text := Ini.ReadString('QQPag', 'ClientID', '');
     edQQPagClientSecret.Text := Ini.ReadString('QQPag', 'ClientSecret', '');
+
+    edCrediSISChavePIX.Text := Ini.ReadString('CrediSIS', 'ChavePIX', '');
+    edCrediSISClientID.Text := Ini.ReadString('CrediSIS', 'ClientID', '');
+    edCrediSISClientSecret.Text := Ini.ReadString('CrediSIS', 'ClientSecret', '');
+    edCrediSISAgencia.Text := Ini.ReadString('CrediSIS', 'Agencia', '');
+    edCrediSISConta.Text := Ini.ReadString('CrediSIS', 'Conta', '');
   finally
     Ini.Free;
   end;
@@ -5605,6 +5635,12 @@ begin
     Ini.WriteString('QQPag', 'ChavePIX', edQQPagChavePIX.Text);
     Ini.WriteString('QQPag', 'ClientID', edQQPagClientID.Text);
     Ini.WriteString('QQPag', 'ClientSecret', edQQPagClientSecret.Text);
+
+    Ini.WriteString('CrediSIS', 'ChavePIX', edCrediSISChavePIX.Text);
+    Ini.WriteString('CrediSIS', 'ClientID', edCrediSISClientID.Text);
+    Ini.WriteString('CrediSIS', 'ClientSecret', edCrediSISClientSecret.Text);
+    Ini.WriteString('CrediSIS', 'Agencia', edCrediSISAgencia.Text);
+    Ini.WriteString('CrediSIS', 'Conta', edCrediSISConta.Text);
   finally
      Ini.Free;
   end;
@@ -5855,6 +5891,7 @@ begin
   cbC6BankTipoChave.Items.Assign(cbxBBTipoChave.Items);
   cbMercadoPagoTipoChave.Items.Assign(cbxBBTipoChave.Items);
   cbQQPagTipoChave.Items.Assign(cbxBBTipoChave.Items);
+  cbCrediSISTipoChave.Items.Assign(cbxBBTipoChave.Items);
 
   cbxSolicitarDevolucaoPix_Natureza.Items.Clear;
   for l := 0 to Integer(High(TACBrPIXNaturezaDevolucao)) do
@@ -6009,6 +6046,7 @@ begin
     17: ACBrPixCD1.PSP := ACBrPSPC6Bank1;
     18: ACBrPixCD1.PSP := ACBrPSPAppLess1;
     19: ACBrPixCD1.PSP := ACBrPSPQQPag1;
+    20: ACBrPixCD1.PSP := ACBrPSPCrediSIS1;
   else
     raise Exception.Create('PSP configurado é inválido');
   end;
@@ -6156,6 +6194,12 @@ begin
   ACBrPSPQQPag1.ChavePIX := edQQPagChavePIX.Text;
   ACBrPSPQQPag1.ClientID := edQQPagClientID.Text;
   ACBrPSPQQPag1.ClientSecret := edQQPagClientSecret.Text;
+
+  ACBrPSPCrediSIS1.ChavePIX := edCrediSISChavePIX.Text;
+  ACBrPSPCrediSIS1.ClientID := edCrediSISClientID.Text;
+  ACBrPSPCrediSIS1.ClientSecret := edCrediSISClientSecret.Text;
+  ACBrPSPCrediSIS1.Agencia := edCrediSISAgencia.Text;
+  ACBrPSPCrediSIS1.Conta := edCrediSISConta.Text;
 end;
 
 procedure TForm1.LimparQRCodeEstatico;

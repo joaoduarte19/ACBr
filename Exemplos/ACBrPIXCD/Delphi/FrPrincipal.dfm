@@ -111,7 +111,6 @@ object Form1: TForm1
     ParentFont = False
     Transparent = False
     OnClick = lURLTEFClick
-    ExplicitWidth = 234
   end
   object pgPrincipal: TPageControl
     Left = 0
@@ -5151,7 +5150,6 @@ object Form1: TForm1
           Caption = 'Log das Operacoes'
           Color = clBtnFace
           ParentColor = False
-          ExplicitWidth = 93
         end
         object mLog: TMemo
           Left = 1
@@ -6353,7 +6351,7 @@ object Form1: TForm1
                     Left = 19
                     Top = 24
                     Width = 900
-                    Height = 376
+                    Height = 374
                     ActivePage = tsItauChaveCertificadoArquivos
                     Anchors = [akLeft, akTop, akRight, akBottom]
                     TabOrder = 0
@@ -6362,7 +6360,7 @@ object Form1: TForm1
                       Caption = 'Arquivos'
                       DesignSize = (
                         892
-                        348)
+                        346)
                       object lItauAvisoChaveCertificadoDesabilitado: TLabel
                         Left = 35
                         Top = 16
@@ -6513,12 +6511,12 @@ object Form1: TForm1
                       Caption = 'Gerar Chave e Certificado'
                       DesignSize = (
                         892
-                        348)
+                        346)
                       object pgPSPItauGerarChaveCertificado: TPageControl
                         Left = 16
                         Top = 16
                         Width = 842
-                        Height = 328
+                        Height = 326
                         ActivePage = tsItauCertPasso1
                         Anchors = [akLeft, akTop, akRight, akBottom]
                         TabOrder = 0
@@ -6526,7 +6524,7 @@ object Form1: TForm1
                           Caption = 'Passo 1 - Definir Chave Privada'
                           DesignSize = (
                             834
-                            300)
+                            298)
                           object Label39: TLabel
                             Left = 16
                             Top = 24
@@ -6561,7 +6559,7 @@ object Form1: TForm1
                             Left = 16
                             Top = 72
                             Width = 794
-                            Height = 211
+                            Height = 209
                             Anchors = [akLeft, akTop, akRight, akBottom]
                             Font.Charset = DEFAULT_CHARSET
                             Font.Color = clWindowText
@@ -6574,7 +6572,6 @@ object Form1: TForm1
                             TabOrder = 2
                             WantReturns = False
                             WordWrap = False
-                            ExplicitHeight = 212
                           end
                         end
                         object tsItauCertPasso3: TTabSheet
@@ -6634,7 +6631,7 @@ object Form1: TForm1
                             object lTokenTemporario: TLabel
                               Left = 0
                               Top = 0
-                              Width = 87
+                              Width = 834
                               Height = 13
                               Align = alTop
                               Caption = 'Token Tempor'#225'rio'
@@ -6661,15 +6658,14 @@ object Form1: TForm1
                             Left = 0
                             Top = 136
                             Width = 834
-                            Height = 164
+                            Height = 162
                             Align = alClient
                             BevelOuter = bvNone
                             TabOrder = 2
-                            ExplicitHeight = 165
                             object Label6: TLabel
                               Left = 0
                               Top = 0
-                              Width = 99
+                              Width = 834
                               Height = 13
                               Align = alTop
                               Caption = 'Certificado Recebido'
@@ -6680,7 +6676,7 @@ object Form1: TForm1
                               Left = 0
                               Top = 13
                               Width = 834
-                              Height = 152
+                              Height = 149
                               Align = alClient
                               Font.Charset = DEFAULT_CHARSET
                               Font.Color = clWindowText
@@ -6709,7 +6705,7 @@ object Form1: TForm1
                         object lbItauRenovarCertificadoPEM: TLabel
                           Left = 0
                           Top = 0
-                          Width = 128
+                          Width = 862
                           Height = 13
                           Align = alTop
                           Caption = 'Novo Certificado Recebido'
@@ -10660,6 +10656,7 @@ object Form1: TForm1
                   Top = 47
                   Width = 16
                   Height = 17
+                  Anchors = [akTop, akRight]
                 end
                 object lbQQPagClientSecret: TLabel
                   Left = 24
@@ -10687,6 +10684,7 @@ object Form1: TForm1
                   Top = 43
                   Width = 641
                   Height = 21
+                  Anchors = [akLeft, akTop, akRight]
                   TabOrder = 0
                   OnChange = edQQPagChavePIXChange
                 end
@@ -10695,6 +10693,7 @@ object Form1: TForm1
                   Top = 94
                   Width = 801
                   Height = 21
+                  Anchors = [akLeft, akTop, akRight]
                   TabOrder = 1
                 end
                 object edQQPagClientSecret: TEdit
@@ -10702,6 +10701,7 @@ object Form1: TForm1
                   Top = 151
                   Width = 801
                   Height = 21
+                  Anchors = [akLeft, akTop, akRight]
                   TabOrder = 2
                 end
                 object cbQQPagTipoChave: TComboBox
@@ -10709,7 +10709,128 @@ object Form1: TForm1
                   Top = 43
                   Width = 145
                   Height = 21
+                  Anchors = [akTop, akRight]
                   TabOrder = 3
+                end
+              end
+            end
+            object tsCrediSis: TTabSheet
+              Caption = 'CrediSis'
+              ImageIndex = 20
+              DesignSize = (
+                984
+                492)
+              object pnCrediSis: TPanel
+                Left = 60
+                Top = 84
+                Width = 880
+                Height = 322
+                Anchors = [akLeft, akRight]
+                BevelOuter = bvNone
+                TabOrder = 0
+                DesignSize = (
+                  880
+                  322)
+                object lbCrediSisTipoChave: TLabel
+                  Left = 680
+                  Top = 24
+                  Width = 55
+                  Height = 13
+                  Anchors = [akTop, akRight]
+                  Caption = 'Tipo Chave'
+                  Color = clBtnFace
+                  ParentColor = False
+                end
+                object imCrediSisErroChavePix: TImage
+                  Left = 831
+                  Top = 47
+                  Width = 16
+                  Height = 17
+                  Anchors = [akTop, akRight]
+                end
+                object lbCrediSisClientSecret: TLabel
+                  Left = 24
+                  Top = 132
+                  Width = 60
+                  Height = 13
+                  Caption = 'Client Secret'
+                end
+                object lbCrediSisClientID: TLabel
+                  Left = 24
+                  Top = 75
+                  Width = 40
+                  Height = 13
+                  Caption = 'Client ID'
+                end
+                object lbCrediSisChavePIX: TLabel
+                  Left = 219
+                  Top = 24
+                  Width = 51
+                  Height = 13
+                  Caption = 'Chave PIX'
+                end
+                object lbCrediSisAgencia: TLabel
+                  Left = 24
+                  Top = 24
+                  Width = 39
+                  Height = 13
+                  Caption = 'Ag'#234'ncia'
+                end
+                object lbCrediSisConta: TLabel
+                  Left = 96
+                  Top = 24
+                  Width = 28
+                  Height = 13
+                  Caption = 'Conta'
+                end
+                object edCrediSisChavePIX: TEdit
+                  Left = 219
+                  Top = 43
+                  Width = 446
+                  Height = 21
+                  Anchors = [akLeft, akTop, akRight]
+                  TabOrder = 2
+                  OnChange = edCrediSisChavePIXChange
+                end
+                object edCrediSisClientID: TEdit
+                  Left = 24
+                  Top = 94
+                  Width = 801
+                  Height = 21
+                  Anchors = [akLeft, akTop, akRight]
+                  TabOrder = 4
+                end
+                object edCrediSisClientSecret: TEdit
+                  Left = 24
+                  Top = 151
+                  Width = 801
+                  Height = 21
+                  Anchors = [akLeft, akTop, akRight]
+                  TabOrder = 5
+                end
+                object cbCrediSisTipoChave: TComboBox
+                  Left = 680
+                  Top = 43
+                  Width = 145
+                  Height = 21
+                  Anchors = [akTop, akRight]
+                  TabOrder = 3
+                end
+                object edCrediSisAgencia: TEdit
+                  Left = 24
+                  Top = 43
+                  Width = 60
+                  Height = 21
+                  TabOrder = 0
+                  OnChange = edQQPagChavePIXChange
+                end
+                object edCrediSisConta: TEdit
+                  Left = 96
+                  Top = 43
+                  Width = 109
+                  Height = 21
+                  TabOrder = 1
+                  OnChange = edQQPagChavePIXChange
                 end
               end
             end
@@ -12092,6 +12213,11 @@ object Form1: TForm1
   object ACBrPSPQQPag1: TACBrPSPQQPag
     Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
     Left = 738
+    Top = 416
+  end
+  object ACBrPSPCrediSIS1: TACBrPSPCrediSIS
+    Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
+    Left = 770
     Top = 416
   end
 end

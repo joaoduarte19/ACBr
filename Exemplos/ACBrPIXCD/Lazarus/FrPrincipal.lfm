@@ -11050,6 +11050,131 @@ object Form1: TForm1
                 end
               end
             end
+            object tsCrediSIS: TTabSheet
+              Caption = 'CrediSIS'
+              ClientHeight = 485
+              ClientWidth = 984
+              object pnCrediSIS: TPanel
+                Left = 0
+                Height = 485
+                Top = 0
+                Width = 984
+                Align = alClient
+                BevelOuter = bvNone
+                ClientHeight = 485
+                ClientWidth = 984
+                TabOrder = 0
+                object lbCrediSISTipoChave: TLabel
+                  Left = 727
+                  Height = 15
+                  Top = 128
+                  Width = 60
+                  Anchors = [akTop, akRight]
+                  Caption = 'Tipo Chave'
+                  ParentColor = False
+                end
+                object lbCrediSISClientSecret: TLabel
+                  Left = 70
+                  Height = 15
+                  Top = 230
+                  Width = 66
+                  Caption = 'Client Secret'
+                  ParentColor = False
+                end
+                object lbCrediSISClientID: TLabel
+                  Left = 70
+                  Height = 15
+                  Top = 179
+                  Width = 45
+                  Caption = 'Client ID'
+                  ParentColor = False
+                end
+                object lbCrediSISChavePIX: TLabel
+                  Left = 70
+                  Height = 15
+                  Top = 128
+                  Width = 53
+                  Caption = 'Chave PIX'
+                  ParentColor = False
+                end
+                object imCrediSISErroChavePix: TImage
+                  Left = 891
+                  Height = 16
+                  Top = 148
+                  Width = 16
+                  Anchors = [akTop, akRight]
+                  Visible = False
+                end
+                object edCrediSISClientSecret: TEdit
+                  Left = 70
+                  Height = 23
+                  Top = 250
+                  Width = 816
+                  Anchors = [akTop, akLeft, akRight]
+                  TabOrder = 3
+                end
+                object edCrediSISClientID: TEdit
+                  Left = 70
+                  Height = 23
+                  Top = 195
+                  Width = 816
+                  Anchors = [akTop, akLeft, akRight]
+                  TabOrder = 2
+                end
+                object edCrediSISChavePIX: TEdit
+                  Left = 70
+                  Height = 23
+                  Top = 144
+                  Width = 648
+                  Anchors = [akTop, akLeft, akRight]
+                  TabOrder = 0
+                  OnChange = edCrediSISChavePIXChange
+                end
+                object cbCrediSISTipoChave: TComboBox
+                  Left = 728
+                  Height = 23
+                  Top = 144
+                  Width = 158
+                  Anchors = [akTop, akRight]
+                  ItemHeight = 15
+                  Style = csDropDownList
+                  TabOrder = 1
+                  TabStop = False
+                end
+                object edCrediSISAgencia: TEdit
+                  Left = 70
+                  Height = 23
+                  Top = 298
+                  Width = 239
+                  Anchors = [akTop, akLeft, akRight]
+                  TabOrder = 4
+                end
+                object lbCrediSISAgencia: TLabel
+                  Left = 70
+                  Height = 15
+                  Top = 282
+                  Width = 43
+                  Caption = 'Agência'
+                  ParentColor = False
+                end
+                object lbCrediSISConta: TLabel
+                  Left = 326
+                  Height = 15
+                  Top = 282
+                  Width = 32
+                  Caption = 'Conta'
+                  ParentColor = False
+                end
+                object edCrediSISConta: TEdit
+                  Left = 326
+                  Height = 23
+                  Top = 298
+                  Width = 560
+                  Anchors = [akTop, akLeft, akRight]
+                  TabOrder = 5
+                end
+              end
+            end
           end
         end
       end
@@ -11417,6 +11542,11 @@ object Form1: TForm1
   object ACBrPSPQQPag1: TACBrPSPQQPag
     Scopes = [scCobWrite, scCobRead, scCobVWrite, scCobVRead, scPixWrite, scPixRead]
     Left = 728
+    Top = 416
+  end
+  object ACBrPSPCrediSIS1: TACBrPSPCrediSIS
+    Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
+    Left = 760
     Top = 416
   end
 end
