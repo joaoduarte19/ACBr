@@ -857,6 +857,14 @@ begin
 
       with Titulo do
       begin
+        if (Length(Linha) >= 2) then
+          case Linha[2] of    //002 002 Tipo de Carteira
+            'A': CaracTitulo := tcSimples;
+            'B': CaracTitulo := tcCaucionada;
+            'C': CaracTitulo := tcDescontada;
+            'D': CaracTitulo := tcVinculada;
+          end;
+
         Carteira             := Copy(Linha,14,1);
         if (Carteira = '1') or (Carteira = 'A') then //Cobrança com Registro
         begin
