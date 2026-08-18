@@ -67,7 +67,7 @@ Type
     procedure DefinirRootElement; override;
 
 
-	procedure DefinirServicoEAction; override;
+    procedure DefinirServicoEAction; override;
     function DefinirSOAPAtributtes: string; override;
 
     procedure GerarHeader; override;
@@ -85,9 +85,6 @@ Type
     procedure DefinirURL; override;
 
     function  Modulo11(Valor: String; Base: Integer = 9; Resto : boolean = false) : string;
-
-
-
   public
     constructor Create(ABoletoWS: TBoletoWS); override;
 
@@ -104,7 +101,10 @@ implementation
 
 uses
  ACBrDFeConsts,
- ACBrBoletoPcnConsts, ACBrUtil.Base, ACBrUtil.XMLHTML, ACBrUtil.Strings;
+ ACBrBoletoPcnConsts,
+ ACBrUtil.Base,
+ ACBrUtil.XMLHTML,
+ ACBrUtil.Strings;
 
 
 { TBoletoW_Credisis }
@@ -115,8 +115,8 @@ begin
 end;
 
 procedure TBoletoW_Credisis.DefinirEnvelopeSoap;
-var Texto: String;
-
+var
+   Texto: String;
 begin
   {$IFDEF FPC}
    Texto := '<' + ENCODING_UTF8 + '>';    // Envelope já está sendo montado em UTF8
@@ -152,7 +152,8 @@ begin
 end;
 
 procedure TBoletoW_Credisis.DefinirServicoEAction;
-Var Servico: String;
+Var
+   Servico: String;
 begin
   FPURL.URLProducao := C_URL;
 
@@ -189,7 +190,8 @@ begin
 end;
 
 procedure TBoletoW_Credisis.GeraDesconto;
-Var iTipo : Integer;
+Var
+   iTipo : Integer;
 begin
     if Assigned(ATitulo) then
     Begin
@@ -244,8 +246,9 @@ begin
 end;
 
 procedure TBoletoW_Credisis.GeraJuros;
-Var iTipo : Integer;
-    iDias : Integer;
+Var
+   iTipo : Integer;
+   iDias : Integer;
 begin
     if Assigned(ATitulo) then
     Begin
@@ -278,8 +281,9 @@ begin
 end;
 
 procedure TBoletoW_Credisis.GeraMulta;
-Var iTipo : Integer;
-    iDias : Integer;
+Var
+   iTipo : Integer;
+   iDias : Integer;
 begin
     if Assigned(ATitulo) then
     Begin
@@ -310,7 +314,8 @@ begin
 end;
 
 procedure TBoletoW_Credisis.GeraProtesto;
-Var iTipo : Integer;
+Var
+   iTipo : Integer;
 begin
     if Assigned(ATitulo) then
     Begin
@@ -410,8 +415,9 @@ begin
 end;
 
 procedure TBoletoW_Credisis.GerarTitulo;
-Var vNossoNumero:String;
-    FCalculoDigito : TACBrCalcDigito;
+Var
+   vNossoNumero:String;
+   FCalculoDigito : TACBrCalcDigito;
 
     Function CalcularDigitoVerificador(const ACBrTitulo: TACBrTitulo): string;
     Begin
