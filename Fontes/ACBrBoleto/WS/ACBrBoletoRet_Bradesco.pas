@@ -98,7 +98,9 @@ var
 begin
   if ACBrBoleto.Configuracoes.WebService.UseCertificateHTTP then
   begin //portal developers
-    LData := OnlyNumber(AValue); //remover pontuação, pois não tem um padrao ponto barras ou sem
+    LData := OnlyNumber(AValue); 
+    if Length(LData)<8 then       //a dt de pagto vem com erro, vem 6042026 em vez de 06042026
+      LData := Poem_Zeros(LData,8);
     LAno := Copy(LData, Length(LData) - 3, 4); //ano sempre 4 ultimos digitos
     LMes := Copy(LData, Length(LData) - 5, 2); //mes 2 digitos antes do ano
     LDia := Copy(LData, 1, Length(LData) - 6); //dia = resto (trata dia sem zero a esquerda ex 5062026)
@@ -241,6 +243,13 @@ begin
               ARetornoWS.DadosRet.TituloRet.CodBarras                   := ConverterEBCDICToCodigoBarras(LJsonObject.AsString['codBarras']);
               ARetornoWS.DadosRet.TituloRet.LinhaDig                    := OnlyNumber(LJsonObject.AsString['linhaDig']);
               ARetornoWS.DadosRet.TituloRet.EMV                         := LJsonObject.AsString['semvQrcode'];
+              if LJsonObject.AsInteger['codStatus'] >= 51 then
+              begin
+                ARetornoWS.DadosRet.TituloRet.EstadoTituloCobranca        := CodigoBaixaToDescricao(LJsonObject.AsInteger['codStatus']);
+                ARetornoWS.DadosRet.TituloRet.CodigoEstadoTituloCobranca  := LJsonObject.AsString['codStatus'];
+                ARetornoWS.DadosRet.TituloRet.DataMovimento               := DateBradescoToDateTime(LJsonObject.AsString['dtBaixa']);
+                ARetornoWS.DadosRet.TituloRet.DataBaixa                   := DateBradescoToDateTime(LJsonObject.AsString['dtBaixa']);
+              end;
             end
             else
             begin
