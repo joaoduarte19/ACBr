@@ -98,12 +98,10 @@ var
 begin
   if ACBrBoleto.Configuracoes.WebService.UseCertificateHTTP then
   begin //portal developers
-    LData := OnlyNumber(AValue); 
-    if Length(LData)<8 then       //a dt de pagto vem com erro, vem 6042026 em vez de 06042026
-      LData := Poem_Zeros(LData,8);
-    LAno := Copy(LData, 5, 4);
-    LMes := Copy(LData, 3, 2);
-    LDia := Copy(LData, 1, 2);
+    LData := OnlyNumber(AValue); //remover pontuação, pois não tem um padrao ponto barras ou sem
+    LAno := Copy(LData, Length(LData) - 3, 4); //ano sempre 4 ultimos digitos
+    LMes := Copy(LData, Length(LData) - 5, 2); //mes 2 digitos antes do ano
+    LDia := Copy(LData, 1, Length(LData) - 6); //dia = resto (trata dia sem zero a esquerda ex 5062026)
     LData := Format('%s/%s/%s', [LDia, LMes, LAno]);
   end else
   begin //legado
@@ -206,17 +204,31 @@ begin
               ARetornoWS.DadosRet.TituloRet.SeuNumero                   := LJsonObject.AsString['snumero'];
               ARetornoWS.DadosRet.TituloRet.DataRegistro                := DateBradescoToDateTime(LJsonObject.AsString['dataReg']);
               ARetornoWS.DadosRet.TituloRet.DataProcessamento           := DateBradescoToDateTime(LJsonObject.AsString['dataEmis']);
-              ARetornoWS.DadosRet.TituloRet.Vencimento                  := LJsonObject.AsDateTimeBr['dataVencto'];
+              ARetornoWS.DadosRet.TituloRet.Vencimento                  := DateBradescoToDateTime(LJsonObject.AsString['dataVencto']);
               ARetornoWS.DadosRet.TituloRet.DataDocumento               := DateBradescoToDateTime(LJsonObject.AsString['dataEmis']);
               ARetornoWS.DadosRet.TituloRet.DataMovimento               := DateBradescoToDateTime(LJsonObject.AsString['dtPagto']);
               ARetornoWS.DadosRet.TituloRet.DataBaixa                   := DateBradescoToDateTime(LJsonObject.AsString['dtPagto']);
               ARetornoWS.DadosRet.TituloRet.DataCredito	                := DateBradescoToDateTime(LJsonObject.AsString['dtPagto']);
 
-              ARetornoWS.DadosRet.TituloRet.ValorDocumento              := ValorInteiroParaDouble(LJsonObject.AsInteger['valorMoedaBol']);
+              // 'valorMoedaBol' retorna zerado apos a liquidacao do titulo; nesse caso usa 'valMoeda'
+              if LJsonObject.AsInteger['valorMoedaBol'] > 0 then
+                ARetornoWS.DadosRet.TituloRet.ValorDocumento            := ValorInteiroParaDouble(LJsonObject.AsInteger['valorMoedaBol'])
+              else
+                ARetornoWS.DadosRet.TituloRet.ValorDocumento            := ValorInteiroParaDouble(LJsonObject.AsInteger['valMoeda']);
               ARetornoWS.DadosRet.TituloRet.ValorPago                   := LJsonObject.AsFloat['vlrPagto'];
               ARetornoWS.DadosRet.TituloRet.ValorAbatimento             := ValorInteiroParaDouble(LJsonObject.AsInteger['valAbat']);
               ARetornoWS.DadosRet.TituloRet.DataMulta                   := DateBradescoToDateTime(LJsonObject.AsString['dataMulta']);
-              ARetornoWS.DadosRet.TituloRet.ValorMulta                  := ValorInteiroParaDouble(LJsonObject.AsInteger['valMulta']);
+              // 'codValMul' = 2 indica que 'valMulta' e taxa percentual, nao valor em reais
+              if LJsonObject.AsInteger['codValMul'] = 2 then
+              begin
+                ARetornoWS.DadosRet.TituloRet.PercentualMulta           := ValorInteiroParaDouble(LJsonObject.AsInteger['valMulta']);
+                ARetornoWS.DadosRet.TituloRet.MultaValorFixo            := False;
+              end
+              else
+              begin
+                ARetornoWS.DadosRet.TituloRet.ValorMulta                := ValorInteiroParaDouble(LJsonObject.AsInteger['valMulta']);
+                ARetornoWS.DadosRet.TituloRet.MultaValorFixo            := True;
+              end;
               ARetornoWS.DadosRet.TituloRet.DataMoraJuros               := DateBradescoToDateTime(LJsonObject.AsString['dataPerm']);
               ARetornoWS.DadosRet.TituloRet.ValorMoraJuros              := ValorInteiroParaDouble(LJsonObject.AsInteger['valPerm']);
               ARetornoWS.DadosRet.TituloRet.DataDesconto                := DateBradescoToDateTime(LJsonObject.AsString['dataDesc1']);
@@ -259,7 +271,17 @@ begin
               ARetornoWS.DadosRet.TituloRet.ValorPago                   := LjsonTitulo.AsFloat['vlrPagto'];
               ARetornoWS.DadosRet.TituloRet.ValorAbatimento             := ValorInteiroParaDouble(LjsonTitulo.AsInteger['valAbat']);
               ARetornoWS.DadosRet.TituloRet.DataMulta                   := DateBradescoToDateTime(LjsonTitulo.AsString['dataMulta']);
-              ARetornoWS.DadosRet.TituloRet.ValorMulta                  := ValorInteiroParaDouble(LjsonTitulo.AsInteger['valMulta']);
+              // 'codValMul' = 2 indica que 'valMulta' e taxa percentual, nao valor em reais
+              if LjsonTitulo.AsInteger['codValMul'] = 2 then
+              begin
+                ARetornoWS.DadosRet.TituloRet.PercentualMulta           := ValorInteiroParaDouble(LjsonTitulo.AsInteger['valMulta']);
+                ARetornoWS.DadosRet.TituloRet.MultaValorFixo            := False;
+              end
+              else
+              begin
+                ARetornoWS.DadosRet.TituloRet.ValorMulta                := ValorInteiroParaDouble(LjsonTitulo.AsInteger['valMulta']);
+                ARetornoWS.DadosRet.TituloRet.MultaValorFixo            := True;
+              end;
               ARetornoWS.DadosRet.TituloRet.DataMoraJuros               := DateBradescoToDateTime(LjsonTitulo.AsString['dataPerm']);
               ARetornoWS.DadosRet.TituloRet.ValorMoraJuros              := ValorInteiroParaDouble(LjsonTitulo.AsInteger['valPerm']);
               ARetornoWS.DadosRet.TituloRet.DataDesconto                := DateBradescoToDateTime(LjsonTitulo.AsString['dataDesc1']);
