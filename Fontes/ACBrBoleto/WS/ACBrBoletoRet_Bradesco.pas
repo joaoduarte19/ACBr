@@ -144,6 +144,12 @@ begin
       try
         ARetornoWS.JSON           := LJsonObject.ToJSON;
         case HttpResultCode of
+          404:
+          begin
+            LMensagemRejeicao            := ARetornoWS.CriarRejeicaoLista;
+            LMensagemRejeicao.Codigo     := LJsonObject.AsString['codMensagem'];
+            LMensagemRejeicao.mensagem   := LJsonObject.AsString['mensagem'];
+          end;
           207, 400, 406, 500:
           begin
             LJsonViolacoes := LJsonObject.AsJSONArray['details'];
