@@ -21,7 +21,7 @@
     <Description Value="ACBr - Boleto - (http://www.projetoacbr.com.br/)"/>
     <License Value="LGPL"/>
     <Version Minor="1"/>
-    <Files Count="106">
+    <Files Count="110">
       <Item1>
         <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBoleto.pas"/>
         <UnitName Value="ACBrBoleto"/>
@@ -447,6 +447,22 @@
         <Filename Value="..\..\..\Fontes\ACBrBoleto\ACBrBancoPetraBradesco.pas"/>
         <UnitName Value="ACBrBancoPetraBradesco"/>
       </Item106>
+      <Item107>
+        <Filename Value="..\..\..\Fontes\ACBrBoleto\WS\ACBrBoletoRet_Sisprime_API.pas"/>
+        <UnitName Value="ACBrBoletoRet_Sisprime_API"/>
+      </Item107>
+      <Item108>
+        <Filename Value="..\..\..\Fontes\ACBrBoleto\WS\ACBrBoletoW_Sisprime_API.pas"/>
+        <UnitName Value="ACBrBoletoW_Sisprime_API"/>
+      </Item108>
+      <Item109>
+        <Filename Value="..\..\..\Fontes\ACBrBoleto\WS\ACBrBoletoW_Bradesco.pas"/>
+        <UnitName Value="ACBrBoletoW_Bradesco"/>
+      </Item109>
+      <Item110>
+        <Filename Value="..\..\..\Fontes\ACBrBoleto\WS\ACBrBoletoRet_Bradesco.pas"/>
+        <UnitName Value="ACBrBoletoRet_Bradesco"/>
+      </Item110>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="2">

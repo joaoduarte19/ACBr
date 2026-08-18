@@ -41,7 +41,9 @@ uses
   ACBrBoletoKobana.Classes, ACBrBancoSulcredi, ACBrBoletoW_BTGPactual, 
   ACBrBoletoRet_BTGPactual, ACBrBancoSofisa, ACBrBancoVortx, 
   ACBrBoletoW_Asaas, ACBrBoletoRet_Asaas, ACBrBancoAsaas, 
-  ACBrBancoMultiplicaBradesco, ACBrBancoPetraBradesco, LazarusPackageIntf;
+  ACBrBancoMultiplicaBradesco, ACBrBancoPetraBradesco, 
+  ACBrBoletoRet_Sisprime_API, ACBrBoletoW_Sisprime_API, ACBrBoletoW_Bradesco, 
+  ACBrBoletoRet_Bradesco, LazarusPackageIntf;
 
 implementation
 
