@@ -43,6 +43,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 19/08/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9746 -- OO município de Pelotas/RS aderiu ao Padrão Nacional
+	Por: RegisBender
+	Veja: https://discord.com/channels/798697718800318484/800042186783588364/1537916067035480274
+[*] ACBR-9743 - O município de Canelinha/SC aderiu ao Padrão Nacional
+	Por: Valério
+	Veja: https://discord.com/channels/798697718800318484/1438938923345903656/1537545123250831380
 -- ISSSaoPaulo.GravarXml --
 [*] ACBR-9749 - Removido as condições na chamada da function: GerarXMLImovel.
    Por: Italo Gurizzato Junior
