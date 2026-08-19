@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/08/2026
+-- Tecnos.GravarXml --
+[*] ACBR-9699 - Ajustes visando a geração correta do XML.
+   Por: Diego Folieni
+
 17/08/2026
 -- Ginfes.GravarXml --
 [*] ACBR-9748 - Ajustes para não gerar as tags ValorPis e ValorCofins quando tiver o valor zero.
