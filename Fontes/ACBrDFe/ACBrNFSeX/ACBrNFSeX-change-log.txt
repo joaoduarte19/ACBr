@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 19/08/2026
+-- ISSSaoPaulo.GravarXml --
+[*] ACBR-9749 - Removido as condições na chamada da function: GerarXMLImovel.
+   Por: Italo Gurizzato Junior
 -- Tecnos.GravarXml --
 [*] ACBR-9699 - Ajustes visando a geração correta do XML.
    Por: Diego Folieni

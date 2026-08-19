@@ -489,8 +489,7 @@ function TNFSeW_ISSSaoPaulo.GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode;
 begin
   Result := inherited GerarXMLIBSCBS(IBSCBS);
 
-  if ((IBSCBS.imovel.cCIB <> '') or (IBSCBS.imovel.ender.xLgr <> '')) then
-    Result.AppendChild(GerarXMLImovel(IBSCBS.imovel));
+  Result.AppendChild(GerarXMLImovel(IBSCBS.imovel));
 end;
 
 function TNFSeW_ISSSaoPaulo.GerarXMLImovel(Imovel: TDadosimovel): TACBrXmlNode;
