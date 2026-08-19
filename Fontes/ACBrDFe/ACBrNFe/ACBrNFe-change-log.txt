@@ -44,13 +44,18 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/08/2026
+-- ACBrNFe.XmlWriter --
+[*] Alterado para opcional a geração da tag pDevTrib.
+   Por Italo Giurizzato Junior
+
 30/07/2026
 -- ACBrNFe.IniWriter --
 [*] Adiciona informações faltantes na geração da seção Entrega
    Por: Diego Folieni
 -- ACBrNFe.pas --
 	Ajuste na função GerarDigito_Contigencia() para chaves alfanumericas.
-[*] Por Italo Giurizzato Junior, Diego Folieni e  Daniel de Morais InfoCotidiano
+   Por Italo Giurizzato Junior, Diego Folieni e  Daniel de Morais InfoCotidiano
 	
 
 28/07/2026
