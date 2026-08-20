@@ -50,7 +50,8 @@ uses
 
 const
   cItauURLSandbox = 'https://devportal.itau.com.br/sandboxapi';
-  cItauURLProducao = 'https://secure.api.itau';
+  //cItauURLProducao = 'https://secure.api.itau';
+  cItauURLProducao = 'https://secure.gateway.api.itau'; {https://devportal.itau.com.br/certificados-apis-expiracao-2026}
   cItauURLPixAutomaticoProd = 'https://pixautomatico-recebimentos.api.itau.com';
   cItauURLPixAutomaticoHom = 'https://pixautomatico-recebimentos.api.hom.itau.com';
   cItauURLPixAutomaticoCobR = 'https://pixautomatico-recebimentos.api.itau.com';

@@ -46,6 +46,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+20/08/2026
+--ACBrPIXPSPItau--
+[+] Correção URL conforme notificação https://devportal.itau.com.br/certificados-apis-expiracao-2026#tabela
+  ACBR-9740 - https://www.projetoacbr.com.br/forum/topic/94331-aten%C3%A7%C3%A3o-atualiza%C3%A7%C3%A3o-dos-endpoints-e-da-cadeia-de-certificados-das-apis-do-ita%C3%BA-15092026/
+  Por: Daniel de Morais InfoCotidiano
 
 18/08/2026
 --ACBrPIXCD--
