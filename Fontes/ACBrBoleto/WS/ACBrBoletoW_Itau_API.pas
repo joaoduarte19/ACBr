@@ -112,11 +112,15 @@ type
 
   const
 
-  C_URL_PIX         = 'https://secure.api.itau/pix_recebimentos_conciliacoes/v2';
+  //C_URL_PIX         = 'https://secure.api.itau/pix_recebimentos_conciliacoes/v2';
+  C_URL_PIX         = 'https://secure.gateway.api.itau/pix_recebimentos_conciliacoes/v2';  {https://devportal.itau.com.br/certificados-apis-expiracao-2026}
+
   C_URL_PIX_HOM     = C_URL_PIX;
   C_URL_PIX_SANDBOX = 'https://sandbox.devportal.itau.com.br/itau-ep9-gtw-pix-recebimentos-conciliacoes-v2-ext/v2';
 
-  C_URL         = 'https://api.itau.com.br/cash_management/v2';
+  //C_URL         = 'https://api.itau.com.br/cash_management/v2';
+  C_URL         = 'https://api.gateway.itau.com.br/cash_management/v2';  {https://devportal.itau.com.br/certificados-apis-expiracao-2026}
+
   C_URL_HOM     = C_URL;
   C_URL_SANDBOX = 'https://sandbox.devportal.itau.com.br/itau-ep9-gtw-cash-management-ext-v2/v2';
 

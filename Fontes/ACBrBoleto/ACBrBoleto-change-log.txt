@@ -48,6 +48,13 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+20/08/2026
+-- ACBrBoletoW_Itau_API --
+[+] Ajustado URL atualização de segurança: https://www.projetoacbr.com.br/forum/topic/94331-aten%C3%A7%C3%A3o-atualiza%C3%A7%C3%A3o-dos-endpoints-e-da-cadeia-de-certificados-das-apis-do-ita%C3%BA-15092026/
+   ACBr-9740: https://www.projetoacbr.com.br/forum/topic/94281-acbr-9740altera%C3%A7%C3%B5es-urls-boleto-itau/
+   Por: Uillian Chagas Prates 
+   
+
 10/08/2026
 -- Particularidades --
 [+] Adiciona descrição do valor "C" para o campo CodigoMora para o Sicredi adicionado na Rev-47349 pelo ValterPatrick 
