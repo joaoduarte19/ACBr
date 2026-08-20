@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/08/2026
+-- ISSNet.GravarXml --
+[*] ACBR-9738 - Alteração visando gerar o grupo de endereço nacional corretamente no grupo Obra.
+   Por: Italo Giurizzato Junior
+
 19/08/2026
 -- ACBrNFSeXServicos --
 [*] ACBR-9746 -- OO município de Pelotas/RS aderiu ao Padrão Nacional
@@ -52,7 +57,7 @@ Símbolo : Significado
 	Veja: https://discord.com/channels/798697718800318484/1438938923345903656/1537545123250831380
 -- ISSSaoPaulo.GravarXml --
 [*] ACBR-9749 - Removido as condições na chamada da function: GerarXMLImovel.
-   Por: Italo Gurizzato Junior
+   Por: Italo Giurizzato Junior
 -- Tecnos.GravarXml --
 [*] ACBR-9699 - Ajustes visando a geração correta do XML.
    Por: Diego Folieni
@@ -116,7 +121,7 @@ Símbolo : Significado
 -- Conam.GravarXml --
 [*] Alteração visando não gerar os grupos de Tributação Regular e Diferimento quando não o 
     caso.
-   Por: Italo Gurizzato Junior
+   Por: Italo Giurizzato Junior
 
 07/08/2026
 -- Tecnos.GravarXml/Tecnos.Provider --
@@ -128,16 +133,16 @@ Símbolo : Significado
 [*] Ajustes para o CNPJ Alfa.
 [*] ACBR-9711 - Ajuste para salvar o XML do evento na pasta com AAAA/MM do 
     seu processamento.
-   Por: Italo Gurizzato Junior
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] Incluído o campo Params para a cidade de Medeiros Neto.
-   Por: Italo Gurizzato Junior
+   Por: Italo Giurizzato Junior
 -- EL.GravarXml --
 [*] ACBR-9709 - Alterações visando gerar o grupo Serviço da forma correta.
-   Por: Italo Gurizzato Junior
+   Por: Italo Giurizzato Junior
 -- IPM.Provider --
 [*] Removido variáveis não utilizadas.
-   Por: Italo Gurizzato Junior
+   Por: Italo Giurizzato Junior
 -- ISSNet.Provider --
 [*] ACBR-9693 - Alterações visando o envio em lote.
    Por: FI_Sistemas
