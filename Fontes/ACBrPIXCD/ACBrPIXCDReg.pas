@@ -37,13 +37,30 @@ unit ACBrPIXCDReg;
 interface
 
 uses
-  Classes, SysUtils, ACBrPIXCD,
-  ACBrPIXPSPItau, ACBrPIXPSPBancoDoBrasil, ACBrPIXPSPSantander,
-  ACBrPIXPSPShipay, ACBrPIXPSPSicredi, ACBrPIXPSPSicoob, ACBrPIXPSPPagSeguro,
-  ACBrPIXPSPGerenciaNet, ACBrPIXPSPBradesco, ACBrPIXPSPPixPDV, ACBrPIXPSPInter,
-  ACBrPIXPSPAilos, ACBrPIXPSPMatera, ACBrPIXPSPCielo, ACBrPIXPSPMercadoPago,
-  ACBrPIXPSPGate2All, ACBrPIXPSPBanrisul, ACBrPIXPSPC6Bank, ACBrPIXPSPAppLess,
-  ACBrPIXPSPQQPag, ACBrPIXPSPCrediSIS
+  Classes,
+  SysUtils,
+  ACBrPIXCD,
+  ACBrPIXPSPItau,
+  ACBrPIXPSPBancoDoBrasil,
+  ACBrPIXPSPSantander,
+  ACBrPIXPSPShipay,
+  ACBrPIXPSPSicredi,
+  ACBrPIXPSPSicoob,
+  ACBrPIXPSPPagSeguro,
+  ACBrPIXPSPGerenciaNet,
+  ACBrPIXPSPBradesco,
+  ACBrPIXPSPPixPDV,
+  ACBrPIXPSPInter,
+  ACBrPIXPSPAilos,
+  ACBrPIXPSPMatera,
+  ACBrPIXPSPCielo,
+  ACBrPIXPSPMercadoPago,
+  ACBrPIXPSPGate2All,
+  ACBrPIXPSPBanrisul,
+  ACBrPIXPSPC6Bank,
+  ACBrPIXPSPAppLess,
+  ACBrPIXPSPQQPag,
+  ACBrPIXPSPCrediSIS
   {$IFDEF FPC}, LResources {$ENDIF};
 
 procedure Register;
@@ -56,12 +73,28 @@ implementation
 
 procedure Register;
 begin
-  RegisterComponents('ACBrPIXCD', [TACBrPixCD,
-    TACBrPSPItau, TACBrPSPBancoDoBrasil, TACBrPSPSantander, TACBrPSPShipay,
-    TACBrPSPSicredi, TACBrPSPSicoob, TACBrPSPPagSeguro, TACBrPSPGerenciaNet,
-    TACBrPSPBradesco, TACBrPSPPixPDV, TACBrPSPInter, TACBrPSPAilos,
-    TACBrPSPMatera, TACBrPSPCielo, TACBrPSPMercadoPago, TACBrPSPGate2All,
-    TACBrPSPBanrisul, TACBrPSPC6Bank, TACBrPSPAppLess, TACBrPSPQQPag,
+  RegisterComponents('ACBrPIXCD',
+    [TACBrPixCD,
+    TACBrPSPItau,
+    TACBrPSPBancoDoBrasil,
+    TACBrPSPSantander,
+    TACBrPSPShipay,
+    TACBrPSPSicredi,
+    TACBrPSPSicoob,
+    TACBrPSPPagSeguro,
+    TACBrPSPGerenciaNet,
+    TACBrPSPBradesco,
+    TACBrPSPPixPDV,
+    TACBrPSPInter,
+    TACBrPSPAilos,
+    TACBrPSPMatera,
+    TACBrPSPCielo,
+    TACBrPSPMercadoPago,
+    TACBrPSPGate2All,
+    TACBrPSPBanrisul,
+    TACBrPSPC6Bank,
+    TACBrPSPAppLess,
+    TACBrPSPQQPag,
     TACBrPSPCrediSIS]);
 end;
 

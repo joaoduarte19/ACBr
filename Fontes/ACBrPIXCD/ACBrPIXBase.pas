@@ -44,7 +44,10 @@ unit ACBrPIXBase;
 interface
 
 uses
-  Classes, SysUtils, ACBrJSON, ACBrBase;
+  Classes, 
+  SysUtils, 
+  ACBrJSON, 
+  ACBrBase;
 
 resourcestring
   sErroMetodoNaoImplementado = 'Método %s não implementado para Classe %s';
@@ -179,6 +182,7 @@ type
                         ptcCORRENTE,
                         ptcPOUPANCA,
                         ptcPAGAMENTO );
+
 
   EACBrPixException = class(EACBrException);
 

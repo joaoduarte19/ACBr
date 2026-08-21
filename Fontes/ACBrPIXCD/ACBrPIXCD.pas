@@ -43,8 +43,14 @@ unit ACBrPIXCD;
 interface
 
 uses
-  Classes, SysUtils, httpsend, ssl_openssl,
-  ACBrOpenSSLUtils, ACBrBase, ACBrPIXBase, ACBrPIXBRCode,
+  Classes,
+  SysUtils,
+  httpsend,
+  ssl_openssl,
+  ACBrOpenSSLUtils,
+  ACBrBase,
+  ACBrPIXBase,
+  ACBrPIXBRCode,
   ACBrPIXSchemasPix,
   ACBrPIXSchemasRec,
   ACBrPIXSchemasCob,
@@ -842,12 +848,14 @@ implementation
 
 uses
   StrUtils,
-  synacode, synautil,
+  synacode,
+  synautil,
   ACBrUtil.FilesIO,
   ACBrUtil.Strings,
   ACBrUtil.DateTime,
   ACBrUtil.Base,
-  ACBrCompress, ACBrValidador,
+  ACBrCompress,
+  ACBrValidador,
   ACBrJSON,
   ACBrPIXUtil;
 

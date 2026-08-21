@@ -45,9 +45,13 @@ unit ACBrPIXPSPAppLess;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes,
+  SysUtils,
   {$IFDEF RTL230_UP}ACBrBase,{$ENDIF RTL230_UP}
-  ACBrPIXCD, ACBrPIXBase, ACBrOpenSSLUtils, ACBrSchemasAppLess;
+  ACBrPIXCD,
+  ACBrPIXBase,
+  ACBrOpenSSLUtils,
+  ACBrSchemasAppLess;
 
 const
   cAppLessURLProducao     = 'https://api.appless.dev/pay/prd';
@@ -124,7 +128,9 @@ type
 implementation
 
 uses
-  synautil, synacode, DateUtils, StrUtils,
+  synautil,
+  synacode,
+  DateUtils,
   ACBrJSON,
   ACBrPIXUtil,
   ACBrUtil.Base,

@@ -44,7 +44,10 @@ unit ACBrPIXUtil;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, 
+  SysUtils, 
+  StrUtils,
+  ACBrPIXCD,
   ACBrPIXBase;
 
 const
@@ -60,6 +63,8 @@ resourcestring
   sErroTamanhoCampo = 'Campo %s deve conter %d caracteres';
   sErroCaractereIncorreto = 'O %s caractere do %s deve ser %s';
 
+function StringToPIXAmbiente(const AString : String): TACBrPixCDAmbiente;
+function StringToPIXTipoChave(const AString: String): TACBrPIXTipoChave;
 function DetectarTipoChave(const AChave: String): TACBrPIXTipoChave;
 function ValidarChave(const AChave: String): String;
 function ValidarChaveAleatoria(const AChave: String): Boolean;
@@ -81,6 +86,34 @@ uses
   ACBrUtil.Base,
   ACBrUtil.FilesIO,
   ACBrConsts;
+
+function StringToPIXTipoChave(const AString: String): TACBrPIXTipoChave;
+var
+  s: String;
+begin
+  s := Trim(AString);
+  Case IndexStr(s,['0','1','2','3','4','5']) of
+     0 : result := tchNenhuma;
+     1 : Result := tchEmail;
+     2 : Result := tchCPF;
+     3 : Result := tchCNPJ;
+     4 : Result := tchCelular;
+     5 : Result := tchAleatoria;
+  end;
+end;
+
+function StringToPIXAmbiente(const AString : String): TACBrPixCDAmbiente;
+var
+  s: String;
+begin
+  s := Trim(AString);
+  Case IndexStr(s,['0','1','2']) of
+     0 : result := ambTeste;
+     1 : Result := ambProducao;
+     2 : Result := ambPreProducao
+  end;
+end;
+
 
 function DetectarTipoChave(const AChave: String): TACBrPIXTipoChave;
 var

@@ -44,7 +44,8 @@ unit ACBrPIXBRCode;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes,
+  SysUtils,
   ACBrPIXBase;
 
 const
