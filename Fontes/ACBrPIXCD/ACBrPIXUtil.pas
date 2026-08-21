@@ -92,7 +92,7 @@ var
   s: String;
 begin
   s := Trim(AString);
-  Case IndexStr(s,['0','1','2','3','4','5']) of
+  Case AnsiIndexStr(s,['0','1','2','3','4','5']) of
      0 : result := tchNenhuma;
      1 : Result := tchEmail;
      2 : Result := tchCPF;
