@@ -719,6 +719,9 @@ begin
   Result.AppendChild(AddNode(tcDe2, '#1', 'pRedutor', 1, 2, 1,
                                                  NFSe.infNFSe.IBSCBS.pRedutor));
 
+  Result.AppendChild(AddNode(tcStr, '#', 'cLocalidadeIncid', 1, 9, 1,
+                                                 NFSe.infNFSe.IBSCBS.cLocalidadeIncid, ''));
+
   Result.AppendChild(GerarValoresBrutosIbsCbs);
   Result.AppendChild(GerarTotalizadores);
 end;
@@ -942,6 +945,9 @@ begin
 
     Result.AppendChild(AddNode(tcDe2, '#1', 'pRedutor', 1, 2, 1,
                                                  NFSe.infNFSe.IBSCBS.pRedutor));
+
+    Result.AppendChild(AddNode(tcStr, '#', 'cLocalidadeIncid', 1, 9, 1,
+                                                 NFSe.infNFSe.IBSCBS.cLocalidadeIncid, ''));
 
     Result.AppendChild(GerarValoresBrutosIbsCbs);
     Result.AppendChild(GerarTotalizadores);

@@ -1766,6 +1766,7 @@
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element type="tsAliquota" name="pRedutor" minOccurs="1" maxOccurs="1" />
+            <xsd:element type="tsCodigoMunicipioIbge" name="cLocalidadeIncid" minOccurs="1" maxOccurs="1" />
             <xsd:element type="tcValores" name="valores" minOccurs="1" maxOccurs="1" />
             <xsd:element type="tcTotalizadores" name="totCIBS" minOccurs="1" maxOccurs="1" />
         </xsd:sequence>
