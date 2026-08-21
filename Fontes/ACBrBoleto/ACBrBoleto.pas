@@ -153,7 +153,8 @@ type
     cobBancoVortx,
     cobBancoAsaas,
     cobBancoMultiplicaBradesco,
-    cobBancoPetraBradesco
+    cobBancoPetraBradesco,
+    cobBancoSisprimeAPI
     );
 
   TACBrTitulo = class;

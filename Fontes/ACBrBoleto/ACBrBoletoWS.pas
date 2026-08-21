@@ -254,7 +254,9 @@ uses
   ACBrBoletoW_BTGPactual,
   ACBrBoletoRet_BTGPactual,
   ACBrBoletoW_Asaas,
-  ACBrBoletoRet_Asaas;
+  ACBrBoletoRet_Asaas,
+  ACBrBoletoRet_Sisprime_API,
+  ACBrBoletoW_Sisprime_API;
 
   { TRetornoEnvioClass }
 
@@ -507,6 +509,11 @@ begin
       begin
         FBoletoWSClass := TBoletoW_Asaas.Create(Self);
         FRetornoBanco  := TRetornoEnvio_Asaas.Create(FBoleto);
+      end;
+    cobBancoSisprimeAPI:
+      begin
+        FBoletoWSClass := TBoletoW_Sisprime_API.Create(Self);
+        FRetornoBanco  := TRetornoEnvio_Sisprime_API.Create(FBoleto);
       end;
     else
       FBoletoWSClass := TBoletoWSClass.Create(Self);
