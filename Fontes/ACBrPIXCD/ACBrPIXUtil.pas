@@ -107,7 +107,7 @@ var
   s: String;
 begin
   s := Trim(AString);
-  Case IndexStr(s,['0','1','2']) of
+  Case AnsiIndexStr(s,['0','1','2']) of
      0 : result := ambTeste;
      1 : Result := ambProducao;
      2 : Result := ambPreProducao
