@@ -2061,6 +2061,11 @@ begin
           xmlNode.AppendChild(AddNode(tcDe2, 'N15', 'vICMSMonoOp',
             01, 15, 0, NFe.Det[i].Imposto.ICMS.vICMSMonoOp, DSC_VICMSMONOOP));
 
+          xmlNode.AppendChild(AddNode(tcDe4, 'N15', 'qBCMonoDif',
+            01, 15, 0, NFe.Det[i].Imposto.ICMS.qBCMonoDif, DSC_QBCMONODIF));
+          xmlNode.AppendChild(AddNode(tcDe4, 'N15', 'adRemICMSDif',
+            01, 07, 0, NFe.Det[i].Imposto.ICMS.adRemICMSDif, DSC_ADREMICMSDIF));
+
           if NFe.Det[i].Imposto.ICMS.pDif = 100 then
             FormatoAliq4ou2 := tcDe2
           else

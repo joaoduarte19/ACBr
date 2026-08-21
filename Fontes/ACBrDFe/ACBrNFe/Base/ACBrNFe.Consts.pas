@@ -282,6 +282,7 @@ resourcestring
   DSC_PREDADREM = 'Percentual de redução do valor da alíquota adrem do ICMS';
   DSC_MOTREDADREM = 'Motivo da redução do adrem';
   DSC_VICMSMONOOP = 'Valor do ICMS da operação';
+  DSC_QBCMONODIF = 'Quantidade tributada diferida';
   DSC_QBCMONORET = 'Quantidade tributada retida anteriormente';
   DSC_PDIF = 'Percentual do diferimento';
 

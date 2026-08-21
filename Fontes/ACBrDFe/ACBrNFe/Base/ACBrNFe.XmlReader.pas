@@ -1020,6 +1020,8 @@ var
 
     ANodeImposto.ICMS.qBCMonoRet := ObterConteudo(ANodeICMS.Childrens.Find('qBCMonoRet'), tcDe2);
     ANodeImposto.ICMS.vICMSMonoOp := ObterConteudo(ANodeICMS.Childrens.Find('vICMSMonoOp'), tcDe2);
+    ANodeImposto.ICMS.qBCMonoDif := ObterConteudo(ANodeICMS.Childrens.Find('qBCMonoDif'), tcDe2);
+    ANodeImposto.ICMS.adRemICMSDif := ObterConteudo(ANodeICMS.Childrens.Find('adRemICMSDif'), tcDe4);
 
     sAux := ObterConteudo(ANodeICMS.Childrens.Find('indDeduzDeson'), tcStr);
     ANodeImposto.ICMS.indDeduzDeson := tieNenhum;
