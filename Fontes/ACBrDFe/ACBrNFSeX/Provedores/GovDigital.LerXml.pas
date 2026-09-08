@@ -37,8 +37,8 @@ unit GovDigital.LerXml;
 interface
 
 uses
-  SysUtils, Classes, StrUtils,
-  ACBrNFSeXLerXml_ABRASFv2;
+  SysUtils, Classes, StrUtils, IniFiles, ACBrUtil.Base, ACBrUtil.DateTime,
+  ACBrNFSeXConversao, ACBrNFSeXLerXml_ABRASFv2;
 
 type
   { TNFSeR_GovDigital200 }
@@ -54,6 +54,8 @@ type
 
   TNFSeR_GovDigital201 = class(TNFSeR_ABRASFv2)
   protected
+    procedure LerINISecaoComercioExterior(const AINIRec: TMemIniFile); override;
+    procedure LerINISecaoEvento(const AINIRec: TMemIniFile); override;
 
   public
 
@@ -65,5 +67,53 @@ implementation
 // Essa unit tem por finalidade exclusiva ler o XML do provedor:
 //     GovDigital
 //==============================================================================
+
+{ TNFSeR_GovDigital201 }
+
+procedure TNFSeR_GovDigital201.LerINISecaoComercioExterior(
+  const AINIRec: TMemIniFile);
+var
+  SSecao, sValor: string;
+  Ok: Boolean;
+begin
+  sSecao := 'ComercioExterior'; // Completo
+
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    NFSe.Servico.comExt.mdPrestacao := StrTomdPrestacao(Ok, AINIRec.ReadString(sSecao, 'mdPrestacao', '0'));
+    NFSe.Servico.comExt.vincPrest := StrTovincPrest(Ok, AINIRec.ReadString(sSecao, 'vincPrest', '0'));
+    NFSe.Servico.comExt.tpMoeda := AINIRec.ReadInteger(sSecao, 'tpMoeda', 0);
+    NFSe.Servico.comExt.vServMoeda := StringToFloatDef(AINIRec.ReadString(sSecao, 'vServMoeda', '0'), 0);
+
+    sValor := AINIRec.ReadString(sSecao, 'mecAFComexP', '00');
+    if sValor <> '' then
+      sValor := FormatFloat('00', StrToIntDef(sValor, 0));
+
+    NFSe.Servico.comExt.mecAFComexP := StrTomecAFComexP(Ok, sValor);
+
+    sValor := AINIRec.ReadString(sSecao, 'mecAFComexT', '00');
+    if sValor <> '' then
+      sValor := FormatFloat('00', StrToIntDef(sValor, 0));
+
+    NFSe.Servico.comExt.mecAFComexT := StrTomecAFComexT(Ok, sValor);
+    NFSe.Servico.comExt.movTempBens := StrToMovTempBens(Ok, AINIRec.ReadString(sSecao, 'movTempBens', '0'));
+    NFSe.Servico.comExt.mdic := AINIRec.ReadInteger(sSecao, 'mdic', 0);
+  end;
+end;
+
+procedure TNFSeR_GovDigital201.LerINISecaoEvento(const AINIRec: TMemIniFile);
+var
+  SSecao: string;
+begin
+  sSecao := 'Evento';
+
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    NFSe.Servico.Evento.xNome := AINIRec.ReadString(sSecao, 'RazaoSocial', AINIRec.ReadString(sSecao, 'xNome', ''));
+    NFSe.Servico.Evento.dtIni := StringToDateTimeDef(AINIRec.ReadString(sSecao, 'dtIni', ''), Now);
+    NFSe.Servico.Evento.dtFim := StringToDateTimeDef(AINIRec.ReadString(sSecao, 'dtFim', ''), Now);
+    NFSe.Servico.Evento.idAtvEvt := AINIRec.ReadString(sSecao, 'idAtvEvt', '');
+  end;
+end;
 
 end.

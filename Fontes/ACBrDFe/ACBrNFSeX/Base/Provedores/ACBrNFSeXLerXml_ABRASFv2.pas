@@ -138,6 +138,7 @@ type
     procedure LerINISecaoOrgaoGerador(const AINIRec: TMemIniFile); virtual;
     procedure LerINISecaoParcelas(const AINIRec: TMemIniFile); virtual;
     procedure LerINIValoresTribFederal(AINIRec: TMemIniFile);
+    procedure LerINIValoresTribMunicipal(AINIRec: TMemIniFile);
 
   public
     function LerXml: Boolean; override;
@@ -1400,6 +1401,7 @@ begin
     LerINISecaoOrgaoGerador(LINIRec);
     LerINISecaoParcelas(LINIRec);
     LerINIValoresTribFederal(LINIRec);
+    LerINIValoresTribMunicipal(LINIRec);
 
     // Ler os campos do arquivo INI referente a Reforma Tributária
     LerINIIBSCBS(LINIRec, NFSe.IBSCBS);
@@ -1845,8 +1847,20 @@ begin
   if AINIRec.SectionExists(sSecao) then
   begin
     NFSe.Servico.Valores.tribFed.CST := StrToCST(Ok, AINIRec.ReadString(sSecao, 'CST', ''));
+    NFSe.Servico.Valores.tribFed.tpRetPisCofins := StrTotpRetPisCofins(Ok, AINIRec.ReadString(sSecao, 'tpRetPisCofins', ''));
+    NFSe.Servico.Valores.tpRetPisCofins := NFSe.Servico.Valores.tribFed.tpRetPisCofins;
   end;
 end;
 
+
+procedure TNFSeR_ABRASFv2.LerINIValoresTribMunicipal(AINIRec: TMemIniFile);
+var
+  sSecao: string;
+  Ok: Boolean;
+begin
+  sSecao := 'tribMun';
+  if AINIRec.SectionExists(sSecao) then
+    NFSe.Servico.Valores.tribMun.tpImunidade := StrToTpImunidade(Ok, AINIRec.ReadString(sSecao, 'tpImunidade', ''));
+end;
 
 end.

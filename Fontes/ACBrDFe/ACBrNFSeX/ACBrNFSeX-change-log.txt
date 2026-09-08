@@ -42,6 +42,16 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+08/09/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9811 - Atualiza a cidade de Jaguariuna/SP para a versão 2.01
+   Por: Diego Folieni
+-- ACBRNFSeXGravarXml_ABRASFv2/ACBrNFSeXLerXml_ABRASFV2/GovDigital.GravarXml/GovDigital.LerXml --
+[*] ACBR-9811 - Adiciona geração dos grupos comExt, imovel e atvEvento.
+                Adiciona geração das tags tpImunidade, tpOPer, AliquotaPisPropria, AliquotaCofinsPropria e endereço no grupo ConstrucaoCivil
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/94581-erro-de-valor-no/?&_rid=1706#findComment-619340
+
 03/09/2026
 [*] ACBR-9800 - Alteração de URL de homologação para Campo Grande/MS
 	Veja: https://www.projetoacbr.com.br/forum/topic/94558-acbr-9800-corre%C3%A7%C3%A3o-homrecepcionar-campo-grandems-5002704-%E2%80%94-path-notafiscal-adn-ws-retorna-302/
