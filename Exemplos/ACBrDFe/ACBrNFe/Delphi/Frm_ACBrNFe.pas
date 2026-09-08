@@ -1137,26 +1137,72 @@ begin
           IBSCBS.gIBSCBS.gTribCompraGov.vTribCBS := 50;
 
           //  Informações do tributo: IBS / CBS em operações com imposto monofásico
-          IBSCBS.gIBSCBSMono.gMonoPadrao.qBCMono := 1;
-          IBSCBS.gIBSCBSMono.gMonoPadrao.adRemIBS := 5;
-          IBSCBS.gIBSCBSMono.gMonoPadrao.adRemCBS := 5;
-          IBSCBS.gIBSCBSMono.gMonoPadrao.vIBSMono := 100;
-          IBSCBS.gIBSCBSMono.gMonoPadrao.vCBSMono := 100;
+          {
+          IBSCBS.gIBSCBSMono.gIBSMonoAdRem.gMonoPadrao.qBCMono := 1;
+          IBSCBS.gIBSCBSMono.gIBSMonoAdRem.gMonoPadrao.adRemIBS := 5;
+          IBSCBS.gIBSCBSMono.gIBSMonoAdRem.gMonoPadrao.vIBSMono := 100;
+          }
+          //OU
 
-          IBSCBS.gIBSCBSMono.gMonoReten.qBCMonoReten := 1;
-          IBSCBS.gIBSCBSMono.gMonoReten.adRemIBSReten := 5;
-          IBSCBS.gIBSCBSMono.gMonoReten.vIBSMonoReten := 100;
-          IBSCBS.gIBSCBSMono.gMonoReten.vCBSMonoReten := 100;
+          IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gMonoPadrao.vBCMono := 100;
+          IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gMonoPadrao.pAliqMonoUF := 5;
+          IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gMonoPadrao.vIBSMonoUF := 5;
+          IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gMonoPadrao.pAliqMonoMun := 5;
+          IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gMonoPadrao.vIBSMonoMun := 5;
 
-          IBSCBS.gIBSCBSMono.gMonoRet.qBCMonoRet := 1;
-          IBSCBS.gIBSCBSMono.gMonoRet.adRemIBSRet := 5;
-          IBSCBS.gIBSCBSMono.gMonoRet.vIBSMonoRet := 100;
-          IBSCBS.gIBSCBSMono.gMonoRet.vCBSMonoRet := 100;
+          {
+          IBSCBS.gIBSCBSMono.gCBSMonoAdRem.gMonoPadrao.qBCMono := 1;
+          IBSCBS.gIBSCBSMono.gCBSMonoAdRem.gMonoPadrao.adRemCBS := 5;
+          IBSCBS.gIBSCBSMono.gCBSMonoAdRem.gMonoPadrao.vCBSMono := 100;
+          }
+          //OU
+          IBSCBS.gIBSCBSMono.gCBSMonoAdValorem.gMonoPadrao.vBCMono := 100;
+          IBSCBS.gIBSCBSMono.gCBSMonoAdValorem.gMonoPadrao.pAliqMonoCBS := 5;
+          IBSCBS.gIBSCBSMono.gCBSMonoAdValorem.gMonoPadrao.vCBSMono := 5;
 
-          IBSCBS.gIBSCBSMono.gMonoDif.pDifIBS := 5;
-          IBSCBS.gIBSCBSMono.gMonoDif.vIBSMonoDif := 100;
-          IBSCBS.gIBSCBSMono.gMonoDif.pDifCBS := 5;
-          IBSCBS.gIBSCBSMono.gMonoDif.vCBSMonoDif := 100;
+          {
+          IBSCBS.gIBSCBSMono.gIBSMonoAdRem.gMonoReten.qBCMonoReten := 1;
+          IBSCBS.gIBSCBSMono.gIBSMonoAdRem.gMonoReten.adRemIBSReten := 5;
+          IBSCBS.gIBSCBSMono.gIBSMonoAdRem.gMonoReten.vIBSMonoReten := 100;
+          }
+          //OU
+
+          IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gMonoReten.vBCMonoReten := 100;
+          IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gMonoReten.pAliqMonoReten := 10;
+          IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gMonoReten.vIBSMonoReten := 10;
+
+          {
+          IBSCBS.gIBSCBSMono.gCBSMonoAdRem.gMonoReten.qBCMonoReten := 1;
+          IBSCBS.gIBSCBSMono.gCBSMonoAdRem.gMonoReten.adRemCBSReten := 5;
+          IBSCBS.gIBSCBSMono.gCBSMonoAdRem.gMonoReten.vCBSMonoReten := 100;
+          }
+          //OU
+          IBSCBS.gIBSCBSMono.gCBSMonoAdValorem.gMonoReten.vBCMonoReten := 100;
+          IBSCBS.gIBSCBSMono.gCBSMonoAdValorem.gMonoReten.pAliqMonoReten := 10;
+          IBSCBS.gIBSCBSMono.gCBSMonoAdValorem.gMonoReten.vCBSMonoReten := 10;
+
+          //IBSCBS.gIBSCBSMono.gIBSMonoAdRem.gMonoRet.vIBSMonoRet := 100;
+          //OU
+          IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gMonoRet.vIBSMonoRet := 100;
+          //IBSCBS.gIBSCBSMono.gCBSMonoAdRem.gMonoRet.vCBSMonoRet := 100;
+          //OU
+          IBSCBS.gIBSCBSMono.gCBSMonoAdValorem.gMonoRet.vCBSMonoRet := 100;
+
+          {
+          IBSCBS.gIBSCBSMono.gIBSMonoAdRem.gpBioDiferenca.qBCBioComb := 5;
+          IBSCBS.gIBSCBSMono.gIBSMonoAdRem.gpBioDiferenca.vIBSDiferenca := 10;
+          }
+          //OU
+          IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gpBioDiferenca.qBCBioComb := 5;
+          IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gpBioDiferenca.vIBSDiferenca := 10;
+
+          {
+          IBSCBS.gIBSCBSMono.gCBSMonoAdRem.gpBioDiferenca.qBCBioComb := 5;
+          IBSCBS.gIBSCBSMono.gCBSMonoAdRem.gpBioDiferenca.vCBSDiferenca := 10;
+          }
+          //OU
+          IBSCBS.gIBSCBSMono.gCBSMonoAdValorem.gpBioDiferenca.qBCBioComb := 5;
+          IBSCBS.gIBSCBSMono.gCBSMonoAdValorem.gpBioDiferenca.vCBSDiferenca := 10;
 
           IBSCBS.gIBSCBSMono.vTotIBSMonoItem := 100;
           IBSCBS.gIBSCBSMono.vTotCBSMonoItem := 100;
@@ -2064,26 +2110,71 @@ begin
       IBSCBS.gIBSCBS.gTribCompraGov.vTribCBS := 50;
 
       //  Informações do tributo: IBS / CBS em operações com imposto monofásico
-      IBSCBS.gIBSCBSMono.gMonoPadrao.qBCMono := 1;
-      IBSCBS.gIBSCBSMono.gMonoPadrao.adRemIBS := 5;
-      IBSCBS.gIBSCBSMono.gMonoPadrao.adRemCBS := 5;
-      IBSCBS.gIBSCBSMono.gMonoPadrao.vIBSMono := 100;
-      IBSCBS.gIBSCBSMono.gMonoPadrao.vCBSMono := 100;
+      IBSCBS.gIBSCBSMono.gIBSMonoAdRem.gMonoPadrao.qBCMono := 1;
+      IBSCBS.gIBSCBSMono.gIBSMonoAdRem.gMonoPadrao.adRemIBS := 5;
+      IBSCBS.gIBSCBSMono.gIBSMonoAdRem.gMonoPadrao.vIBSMono := 100;
+      //OU
+      {
+      IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gMonoPadrao.vBCMono := 100;
+      IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gMonoPadrao.pAliqMonoUF := 5;
+      IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gMonoPadrao.vIBSMonoUF := 5;
+      IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gMonoPadrao.pAliqMonoMun := 5;
+      IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gMonoPadrao.vIBSMonoMun := 5;
+      }
 
-      IBSCBS.gIBSCBSMono.gMonoReten.qBCMonoReten := 1;
-      IBSCBS.gIBSCBSMono.gMonoReten.adRemIBSReten := 5;
-      IBSCBS.gIBSCBSMono.gMonoReten.vIBSMonoReten := 100;
-      IBSCBS.gIBSCBSMono.gMonoReten.vCBSMonoReten := 100;
+      IBSCBS.gIBSCBSMono.gCBSMonoAdRem.gMonoPadrao.qBCMono := 1;
+      IBSCBS.gIBSCBSMono.gCBSMonoAdRem.gMonoPadrao.adRemCBS := 5;
+      IBSCBS.gIBSCBSMono.gCBSMonoAdRem.gMonoPadrao.vCBSMono := 100;
+      //OU
+      {
+      IBSCBS.gIBSCBSMono.gCBSMonoAdValorem.gMonoPadrao.vBCMono := 100;
+      IBSCBS.gIBSCBSMono.gCBSMonoAdValorem.gMonoPadrao.pAliqMonoCBS := 5;
+      IBSCBS.gIBSCBSMono.gCBSMonoAdValorem.gMonoPadrao.vCBSMono := 5;
+      }
 
-      IBSCBS.gIBSCBSMono.gMonoRet.qBCMonoRet := 1;
-      IBSCBS.gIBSCBSMono.gMonoRet.adRemIBSRet := 5;
-      IBSCBS.gIBSCBSMono.gMonoRet.vIBSMonoRet := 100;
-      IBSCBS.gIBSCBSMono.gMonoRet.vCBSMonoRet := 100;
+      IBSCBS.gIBSCBSMono.gIBSMonoAdRem.gMonoReten.qBCMonoReten := 1;
+      IBSCBS.gIBSCBSMono.gIBSMonoAdRem.gMonoReten.adRemIBSReten := 5;
+      IBSCBS.gIBSCBSMono.gIBSMonoAdRem.gMonoReten.vIBSMonoReten := 100;
+      //OU
+      {
+      IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gMonoReten.vBCMonoReten := 100;
+      IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gMonoReten.pAliqMonoReten := 10;
+      IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gMonoReten.vIBSMonoReten := 10;
+      }
 
-      IBSCBS.gIBSCBSMono.gMonoDif.pDifIBS := 5;
-      IBSCBS.gIBSCBSMono.gMonoDif.vIBSMonoDif := 100;
-      IBSCBS.gIBSCBSMono.gMonoDif.pDifCBS := 5;
-      IBSCBS.gIBSCBSMono.gMonoDif.vCBSMonoDif := 100;
+      IBSCBS.gIBSCBSMono.gCBSMonoAdRem.gMonoReten.qBCMonoReten := 1;
+      IBSCBS.gIBSCBSMono.gCBSMonoAdRem.gMonoReten.adRemCBSReten := 5;
+      IBSCBS.gIBSCBSMono.gCBSMonoAdRem.gMonoReten.vCBSMonoReten := 100;
+      //OU
+      {
+      IBSCBS.gIBSCBSMono.gCBSMonoAdValorem.gMonoReten.vBCMonoReten := 100;
+      IBSCBS.gIBSCBSMono.gCBSMonoAdValorem.gMonoReten.pAliqMonoReten := 10;
+      IBSCBS.gIBSCBSMono.gCBSMonoAdValorem.gMonoReten.vCBSMonoReten := 10;
+      }
+
+      IBSCBS.gIBSCBSMono.gIBSMonoAdRem.gMonoRet.vIBSMonoRet := 100;
+      //OU
+      //IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gMonoRet.vIBSMonoRet := 100;
+      IBSCBS.gIBSCBSMono.gCBSMonoAdRem.gMonoRet.vCBSMonoRet := 100;
+      //OU
+      IBSCBS.gIBSCBSMono.gCBSMonoAdValorem.gMonoRet.vCBSMonoRet := 100;
+
+
+      IBSCBS.gIBSCBSMono.gIBSMonoAdRem.gpBioDiferenca.qBCBioComb := 5;
+      IBSCBS.gIBSCBSMono.gIBSMonoAdRem.gpBioDiferenca.vIBSDiferenca := 10;
+      //OU
+      {
+      IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gpBioDiferenca.qBCBioComb := 5;
+      IBSCBS.gIBSCBSMono.gIBSMonoAdValorem.gpBioDiferenca.vIBSDiferenca := 10;
+      }
+
+      IBSCBS.gIBSCBSMono.gCBSMonoAdRem.gpBioDiferenca.qBCBioComb := 5;
+      IBSCBS.gIBSCBSMono.gCBSMonoAdRem.gpBioDiferenca.vCBSDiferenca := 10;
+      //OU
+      {
+      IBSCBS.gIBSCBSMono.gCBSMonoAdValorem.gpBioDiferenca.qBCBioComb := 5;
+      IBSCBS.gIBSCBSMono.gCBSMonoAdValorem.gpBioDiferenca.vCBSDiferenca := 10;
+      }
 
       IBSCBS.gIBSCBSMono.vTotIBSMonoItem := 100;
       IBSCBS.gIBSCBSMono.vTotCBSMonoItem := 100;
@@ -3446,7 +3537,7 @@ begin
 
     MemoDados.Lines.Add('');
     MemoDados.Lines.Add('Envio NFe/NFCe');
-    MemoDados.Lines.Add('Chave: ' + ACBrNFe1.NotasFiscais[0].NFe.procNFe.chNFe);
+    MemoDados.Lines.Add('Chave: ' + ACBrNFe1.NotasFiscais[0].NFe.procNFe.chDFe);
     MemoDados.Lines.Add('tpAmb: ' + TpAmbToStr(ACBrNFe1.WebServices.Enviar.TpAmb));
     MemoDados.Lines.Add('verAplic: ' + ACBrNFe1.WebServices.Enviar.verAplic);
     MemoDados.Lines.Add('cStat: ' + IntToStr(ACBrNFe1.WebServices.Enviar.cStat));
@@ -4756,12 +4847,12 @@ begin
     ACBrNFe1.NotasFiscais.Clear;
     ACBrNFe1.NotasFiscais.LoadFromIni(OpenDialog1.FileName);
     ACBrNFe1.NotasFiscais.Assinar;
-//    ACBrNFe1.NotasFiscais.GravarXML();
+    ACBrNFe1.NotasFiscais.GravarXML();
 
     memoLog.Lines.Add('Arquivo gerado em: ' + ACBrNFe1.NotasFiscais[0].NomeArq);
 
     try
-//      ACBrNFe1.NotasFiscais.Validar;
+      ACBrNFe1.NotasFiscais.Validar;
 
       if ACBrNFe1.NotasFiscais[0].Alertas <> '' then
         MemoDados.Lines.Add('Alertas: '+ACBrNFe1.NotasFiscais[0].Alertas);
