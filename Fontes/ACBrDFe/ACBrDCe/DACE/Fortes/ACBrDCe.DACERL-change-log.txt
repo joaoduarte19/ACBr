@@ -41,6 +41,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+08/09/2026
+-- ACBrDCe.DACERLRetrato, ACBrDCe.DACERLRetrato ACBrDCe.DAEventoRLRetrato --
+[*] Ajuste para barras hibridas nos relatorios fortes
+   ACBr-9471
+   Por: Daniel Morais InfoCotidiano
 
 
 07/08/2024

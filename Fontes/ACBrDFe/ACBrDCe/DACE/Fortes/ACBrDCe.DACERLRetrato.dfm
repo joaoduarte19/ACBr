@@ -24,9 +24,9 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
     BeforePrint = RLDCeBeforePrint
     OnDataRecord = RLDCeDataRecord
     object rlbValorTotal: TRLBand
-      Left = 33
-      Top = 488
-      Width = 926
+      Left = 26
+      Top = 481
+      Width = 742
       Height = 41
       AutoSize = True
       BandType = btSummary
@@ -97,9 +97,9 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
       end
     end
     object rlbCabecalhoItens: TRLBand
-      Left = 33
-      Top = 434
-      Width = 926
+      Left = 26
+      Top = 427
+      Width = 742
       Height = 40
       AutoSize = True
       Background.Arrange = baDistributed
@@ -226,9 +226,9 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
       end
     end
     object rlbIdentificacaoRemDest: TRLBand
-      Left = 33
-      Top = 154
-      Width = 926
+      Left = 26
+      Top = 147
+      Width = 742
       Height = 182
       AutoExpand = False
       BandType = btHeader
@@ -569,9 +569,9 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
       end
     end
     object rlbDadosAdicionais: TRLBand
-      Left = 33
-      Top = 529
-      Width = 926
+      Left = 26
+      Top = 522
+      Width = 742
       Height = 287
       AlignToBottom = True
       AutoExpand = False
@@ -769,9 +769,9 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
       end
     end
     object rlbIdentificacaoFisco: TRLBand
-      Left = 33
-      Top = 336
-      Width = 926
+      Left = 26
+      Top = 329
+      Width = 742
       Height = 68
       BandType = btTitle
       BeforePrint = rlbIdentificacaoFiscoBeforePrint
@@ -874,9 +874,9 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
       end
     end
     object rlbCanceladaDenegada: TRLBand
-      Left = 33
-      Top = 404
-      Width = 926
+      Left = 26
+      Top = 397
+      Width = 742
       Height = 30
       BandType = btColumnHeader
       Visible = False
@@ -898,9 +898,9 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
       end
     end
     object subItens: TRLSubDetail
-      Left = 33
-      Top = 474
-      Width = 926
+      Left = 26
+      Top = 467
+      Width = 742
       Height = 14
       Borders.Sides = sdCustom
       Borders.DrawLeft = False
@@ -911,7 +911,7 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
       object rlbItens: TRLBand
         Left = 0
         Top = 0
-        Width = 926
+        Width = 742
         Height = 12
         Background.Height = 487
         Background.Width = 865
@@ -1050,9 +1050,9 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
       end
     end
     object rlbDadosDACE: TRLBand
-      Left = 33
-      Top = 33
-      Width = 926
+      Left = 26
+      Top = 26
+      Width = 742
       Height = 121
       BandType = btHeader
       Borders.Sides = sdCustom
@@ -1180,23 +1180,24 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
         HoldStyle = hsVertically
       end
       object rlbCodigoBarras: TRLBarcode
-        Left = 168
+        Left = 167
         Top = 5
-        Width = 306
+        Width = 378
         Height = 40
         Margins.LeftMargin = 1.000000000000000000
         Margins.RightMargin = 1.000000000000000000
         Alignment = taCenter
         Anchors = [fkLeft, fkTop]
         AutoSize = False
-        BarcodeType = bcCode128C
+        BarcodeType = bcCode128
       end
       object rllXmotivo: TRLLabel
-        Left = 272
+        Left = 167
         Top = 23
-        Width = 100
+        Width = 377
         Height = 22
         Alignment = taCenter
+        AutoSize = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
         Font.Height = -19
@@ -1260,16 +1261,16 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
       end
       object RLDraw25: TRLDraw
         Left = 480
-        Top = 0
+        Top = 71
         Width = 1
-        Height = 120
+        Height = 49
         Angle = 90.000000000000000000
         DrawKind = dkLine
         HoldStyle = hsVertically
       end
       object RLLabel34: TRLLabel
         Tag = 10
-        Left = 550
+        Left = 580
         Top = 17
         Width = 108
         Height = 7
@@ -1285,7 +1286,7 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
       end
       object rllEmissao: TRLLabel
         Tag = 703
-        Left = 550
+        Left = 580
         Top = 40
         Width = 108
         Height = 14
@@ -1326,6 +1327,15 @@ inherited frmDADCeRLRetrato: TfrmDADCeRLRetrato
         Font.Name = 'Arial'
         Font.Style = [fsBold]
         ParentFont = False
+      end
+      object RLDraw11: TRLDraw
+        Left = 550
+        Top = 1
+        Width = 1
+        Height = 70
+        Angle = 90.000000000000000000
+        DrawKind = dkLine
+        HoldStyle = hsVertically
       end
     end
   end

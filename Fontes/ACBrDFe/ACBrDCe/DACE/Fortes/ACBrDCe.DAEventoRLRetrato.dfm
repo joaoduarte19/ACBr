@@ -20,9 +20,9 @@ inherited frmDCeDAEventoRLRetrato: TfrmDCeDAEventoRLRetrato
     Title = 'DACTe CC'
     BeforePrint = RLDCeEventoBeforePrint
     object RLb_09_Itens: TRLBand
-      Left = 33
-      Top = 709
-      Width = 926
+      Left = 26
+      Top = 702
+      Width = 742
       Height = 13
       BandType = btColumnFooter
       Color = clWhite
@@ -136,9 +136,9 @@ inherited frmDCeDAEventoRLRetrato: TfrmDCeDAEventoRLRetrato
       end
     end
     object rlb_01_Titulo: TRLBand
-      Left = 33
-      Top = 33
-      Width = 926
+      Left = 26
+      Top = 26
+      Width = 742
       Height = 73
       BandType = btHeader
       Color = clWhite
@@ -208,18 +208,18 @@ inherited frmDCeDAEventoRLRetrato: TfrmDCeDAEventoRLRetrato
       end
     end
     object rlb_08_HeaderItens: TRLBand
-      Left = 33
-      Top = 693
-      Width = 926
+      Left = 26
+      Top = 686
+      Width = 742
       Height = 16
       BandType = btColumnFooter
       Color = clWhite
       ParentColor = False
     end
     object rlb_10_Sistema: TRLBand
-      Left = 33
-      Top = 722
-      Width = 926
+      Left = 26
+      Top = 715
+      Width = 742
       Height = 19
       AlignToBottom = True
       BandType = btSummary
@@ -260,9 +260,9 @@ inherited frmDCeDAEventoRLRetrato: TfrmDCeDAEventoRLRetrato
       end
     end
     object rlb_05_Evento: TRLBand
-      Left = 33
-      Top = 436
-      Width = 926
+      Left = 26
+      Top = 429
+      Width = 742
       Height = 120
       BandType = btColumnHeader
       Color = clWhite
@@ -598,9 +598,9 @@ inherited frmDCeDAEventoRLRetrato: TfrmDCeDAEventoRLRetrato
       end
     end
     object rlb_03_Emitente: TRLBand
-      Left = 33
-      Top = 196
-      Width = 926
+      Left = 26
+      Top = 189
+      Width = 742
       Height = 120
       BandType = btColumnHeader
       Color = clWhite
@@ -929,9 +929,9 @@ inherited frmDCeDAEventoRLRetrato: TfrmDCeDAEventoRLRetrato
       end
     end
     object rlb_04_Destinatario: TRLBand
-      Left = 33
-      Top = 316
-      Width = 926
+      Left = 26
+      Top = 309
+      Width = 742
       Height = 120
       BandType = btColumnHeader
       Color = clWhite
@@ -1260,9 +1260,9 @@ inherited frmDCeDAEventoRLRetrato: TfrmDCeDAEventoRLRetrato
       end
     end
     object rlb_06_Condicoes: TRLBand
-      Left = 33
-      Top = 556
-      Width = 926
+      Left = 26
+      Top = 549
+      Width = 742
       Height = 137
       BandType = btColumnHeader
       Color = clWhite
@@ -1335,9 +1335,9 @@ inherited frmDCeDAEventoRLRetrato: TfrmDCeDAEventoRLRetrato
       end
     end
     object rlb_02_Documento: TRLBand
-      Left = 33
-      Top = 106
-      Width = 926
+      Left = 26
+      Top = 99
+      Width = 742
       Height = 90
       BandType = btTitle
       Color = clWhite
@@ -1579,15 +1579,15 @@ inherited frmDCeDAEventoRLRetrato: TfrmDCeDAEventoRLRetrato
         Brush.Style = bsClear
       end
       object rliBarCode: TRLBarcode
-        Left = 376
-        Top = 24
-        Width = 357
+        Left = 372
+        Top = 22
+        Width = 364
         Height = 48
         Margins.LeftMargin = 1.000000000000000000
         Margins.RightMargin = 1.000000000000000000
         Alignment = taCenter
         AutoSize = False
-        BarcodeType = bcCode128C
+        BarcodeType = bcCode128
       end
     end
   end

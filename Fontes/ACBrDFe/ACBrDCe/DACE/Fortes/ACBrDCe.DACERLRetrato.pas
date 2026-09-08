@@ -164,6 +164,7 @@ type
     RLLabel7: TRLLabel;
     rlmObservacoes: TRLMemo;
     RLDraw10: TRLDraw;
+    RLDraw11: TRLDraw;
 
     procedure RLDCeBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure RLDCeDataRecord(Sender: TObject; RecNo, CopyNo: Integer;
