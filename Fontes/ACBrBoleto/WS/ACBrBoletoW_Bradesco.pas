@@ -738,8 +738,11 @@ begin
     Exit;
   LJsonObject := TACBrJSONObject.Create;
   try
-    LJsonObject.AddPair('registrarTitulo', 1); //1 = Registrar o título 2 = Somente consistir dados do título
-    LJsonObject.AddPair('codUsuario', 'APISERVIC');//FIXO.
+    if Boleto.Cedente.CedenteWS.IndicadorPix then
+    begin
+      LJsonObject.AddPair('registrarTitulo', 1); //1 = Registrar o título 2 = Somente consistir dados do título
+      LJsonObject.AddPair('codUsuario', 'APISERVIC');//FIXO.
+    end;
     if Boleto.Cedente.TipoInscricao = pJuridica then
     begin
       LJsonObject.AddPair('nroCpfCnpjBenef',    Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 1, 8));
