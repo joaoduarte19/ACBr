@@ -797,7 +797,7 @@ begin
 
     LJsonObject.AddPair('vnmnalTitloCobr', ATitulo.ValorDocumento*100);
     LJsonObject.AddPair('qmoedaNegocTitlo', 0);//FIXO.
-    LJsonObject.AddPair('cespceTitloCobr', EspecieDocumento);
+    LJsonObject.AddPair('cespceTitloCobr', IntToStrZero(EspecieDocumento,2));
     LJsonObject.AddPair('cindcdAceitSacdo', 'N');
    //ctpoProteTitlo: Tipo de protesto automático do título: 1 = Dias corridos | 2 = Dias úteis.
     LJsonObject.AddPair('ctpoProteTitlo', 0);//NÃO Obrigatório;
