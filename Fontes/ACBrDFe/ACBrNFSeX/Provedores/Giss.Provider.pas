@@ -69,6 +69,10 @@ type
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
 
     function PrepararRps(const aXml: string): string;
+    procedure ProcessarMensagemErros(RootNode: TACBrXmlNode;
+                                     Response: TNFSeWebserviceResponse;
+                                     const AListTag: string = 'ListaMensagemRetorno';
+                                     const AMessageTag: string = 'MensagemRetorno'); override;
 
     procedure PrepararEmitir(Response: TNFSeEmiteResponse); override;
     procedure GerarMsgDadosEmitir(Response: TNFSeEmiteResponse;
@@ -682,6 +686,138 @@ begin
   end;
 
   inherited PrepararSubstituiNFSe(Response);
+end;
+
+procedure TACBrNFSeProviderGiss204.ProcessarMensagemErros(
+  RootNode: TACBrXmlNode; Response: TNFSeWebserviceResponse; const AListTag,
+  AMessageTag: string);
+var
+  ANode: TACBrXmlNode;
+  ANodeArray: TACBrXmlNodeArray;
+  AAlerta: TNFSeEventoCollectionItem;
+  Codigo, Mensagem: string;
+
+procedure ProcessarErro(ErrorNode: TACBrXmlNode; const ACodigo, AMensagem: string);
+var
+  Item: TNFSeEventoCollectionItem;
+  Correcao: string;
+begin
+  Correcao := ObterConteudoTag(ErrorNode.Childrens.FindAnyNs('Correcao'), tcStr);
+
+  if (ACodigo = '') and (AMensagem = '') then
+    Exit;
+
+  if VerificarAlerta(ACodigo, AMensagem, Correcao) then
+    Item := Response.Alertas.New
+  else if VerificarErro(ACodigo, AMensagem, Correcao) then
+    Item := Response.Erros.New
+  else
+    Exit;
+
+  Item.Codigo := ACodigo;
+  Item.Descricao := AMensagem;
+  Item.Correcao := Correcao;
+end;
+
+procedure ProcessarErros;
+var
+  I: Integer;
+  lContextoTecnico: String;
+begin
+  if Assigned(ANode) then
+  begin
+    ANodeArray := ANode.Childrens.FindAllAnyNs(AMessageTag);
+
+    if Assigned(ANodeArray) then
+    begin
+      for I := Low(ANodeArray) to High(ANodeArray) do
+      begin
+        Codigo := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('Codigo'), tcStr);
+        Mensagem := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('Mensagem'), tcStr);
+
+        lContextoTecnico := EmptyStr;
+        lContextoTecnico := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('ContextoTecnico'), tcStr);
+        if lContextoTecnico <> '' then
+          Mensagem := Mensagem + sLineBreak + lContextoTecnico;
+        ProcessarErro(ANodeArray[I], Codigo, Mensagem);
+      end;
+    end
+    else
+    begin
+      Codigo := ObterConteudoTag(ANode.Childrens.FindAnyNs('Codigo'), tcStr);
+      Mensagem := ObterConteudoTag(ANode.Childrens.FindAnyNs('Mensagem'), tcStr);
+      lContextoTecnico := EmptyStr;
+      lContextoTecnico := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('ContextoTecnico'), tcStr);
+      if lContextoTecnico <> '' then
+        Mensagem := Mensagem + sLineBreak + lContextoTecnico;
+
+      ProcessarErro(ANode, Codigo, Mensagem);
+    end;
+  end;
+end;
+
+procedure ProcessarAlertas;
+var
+  I: Integer;
+  lContextoTecnico: String;
+begin
+  if Assigned(ANode) then
+  begin
+    ANodeArray := ANode.Childrens.FindAllAnyNs(AMessageTag);
+
+    if Assigned(ANodeArray) then
+    begin
+      for I := Low(ANodeArray) to High(ANodeArray) do
+      begin
+        Mensagem := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('Mensagem'), tcStr);
+
+        if Mensagem <> '' then
+        begin
+          AAlerta := Response.Alertas.New;
+          AAlerta.Codigo := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('Codigo'), tcStr);
+          lContextoTecnico := EmptyStr;
+          lContextoTecnico := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('ContextoTecnico'), tcStr);
+          if lContextoTecnico <> '' then
+            Mensagem := Mensagem + sLineBreak + lContextoTecnico;
+          AAlerta.Descricao := Mensagem;
+          AAlerta.Correcao := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('Correcao'), tcStr);
+        end;
+      end;
+    end
+    else
+    begin
+      Mensagem := ObterConteudoTag(ANode.Childrens.FindAnyNs('Mensagem'), tcStr);
+
+      if Mensagem <> '' then
+      begin
+        AAlerta := Response.Alertas.New;
+        AAlerta.Codigo := ObterConteudoTag(ANode.Childrens.FindAnyNs('Codigo'), tcStr);
+        lContextoTecnico := EmptyStr;
+        lContextoTecnico := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('ContextoTecnico'), tcStr);
+        if lContextoTecnico <> '' then
+          Mensagem := Mensagem + sLineBreak + lContextoTecnico;
+        AAlerta.Descricao := Mensagem;
+        AAlerta.Correcao := ObterConteudoTag(ANode.Childrens.FindAnyNs('Correcao'), tcStr);
+      end;
+    end;
+  end;
+end;
+
+begin
+  ANode := RootNode.Childrens.FindAnyNs(AListTag);
+
+  if (ANode = nil) then
+    ANode := RootNode.Childrens.FindAnyNs('MensagemRetorno');
+
+  ProcessarErros;
+
+  ANode := RootNode.Childrens.FindAnyNs('ListaMensagemRetornoLote');
+
+  ProcessarErros;
+
+  ANode := RootNode.Childrens.FindAnyNs('ListaMensagemAlertaRetorno');
+
+  ProcessarAlertas;
 end;
 
 procedure TACBrNFSeProviderGiss204.GerarMsgDadosSubstituiNFSe(
