@@ -148,7 +148,7 @@ uses
   ACBrLibResposta, ACBrLibDistribuicaoDFe, ACBrLibConsReciDFe,
   ACBrLibConsultaCadastro, ACBrLibNFeConfig, ACBrLibNFeRespostas,
   ACBrDFeUtil, ACBrNFe, ACBrMail, ACBrLibCertUtils,
-  pcnConversao, pcnConversaoNFe, pcnAuxiliar, blcksock, strutils;
+  pcnConversao, pcnConversaoNFe, blcksock, strutils;
 
 { TACBrLibNFe }
 

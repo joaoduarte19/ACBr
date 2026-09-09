@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+09/09/2026
+[-] ACBR-9714 Remove importação de pcnauxiliar de ACBrLibNFeBase.pas
+   Por: doszapro
+  
 04/09/2026
 [-] Substitui pcnAuxiliar por ACBrDFeUtil e pcnConversao por ACBrDFe.Conversao
    Por: Diego Folieni
