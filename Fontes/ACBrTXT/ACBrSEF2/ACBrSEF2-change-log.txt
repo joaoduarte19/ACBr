@@ -47,6 +47,9 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+Data: 09/09/2026
+[-] Ajustado a unit ACBrSEF2_Bloco0.pas, o create TRegistroSEF0025 para compatibilizar com lazarus que estava apresentando erro.
+		por Larissa Santos
 
 Data: 08/07/2017
 [-] Correção para zerar os totalizadores, caso faça mais vezes a geração do arquivo

@@ -604,7 +604,8 @@ end;
 
 constructor TRegistroSEF0025.Create(AOwner: TRegistroSEF0001);
 begin
-  AOwner.fRegistro0025 := {$IFNDEF FPC}inherited Create{$ElSE}TRegistroSEF0025.Create(AOwner){$ENDIF};
+   inherited Create;
+   AOwner.fRegistro0025 := Self;
 end;
 
 { TRegistroSEF0100 }
