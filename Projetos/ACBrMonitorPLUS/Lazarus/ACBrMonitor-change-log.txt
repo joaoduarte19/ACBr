@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+09/09/2026
+-- ACBrMonitor1 --
+[-] [ACBR-9638] Mitigação de Access Violation no Windows quando não há impressora padrão
+    Por: doszapro
+
 04/09/22026
 -- ACBrMonitor1 --
 [*] Altera nomenclatura de chNFe para chDFe

@@ -22,7 +22,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="4"/>
-      <BuildNr Value="490"/>
+      <BuildNr Value="493"/>
       <Language Value="0416"/>
       <CharSet Value="04B0"/>
       <StringTable CompanyName="Projeto ACBr" FileDescription="ACBrMonitor - Permite o uso dos componentes do Projeto ACBr, por comunicação TXT ou Socket"/>
@@ -363,7 +363,7 @@
         <PackageName Value="ACBrBaaS"/>
       </Item43>
     </RequiredPackages>
-    <Units Count="76">
+    <Units Count="77">
       <Unit0>
         <Filename Value="ACBrMonitor.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -688,6 +688,11 @@
         <Filename Value="DoACBrExtratoAPIUnit.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit75>
+      <Unit76>
+        <Filename Value="osprinters.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="OSPrinters"/>
+      </Unit76>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
