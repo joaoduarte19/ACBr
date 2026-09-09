@@ -40,6 +40,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+09/09/2026
+-- ACBrDFe.RTC.IniWriter --
+[*] Corrige a geração do índice das seções de IBSCBS
+   Por: Diego Folieni
+
 04/09/2026
 -- ACBrDFe.RTC.Classes/ACBrDFe.RTC.IniReader/ACBrDFe.RTC.IniWriter --
 -- ACBrDFe.RTC.XmlReader/ACBrDFe.RTC.XmlWriter --
