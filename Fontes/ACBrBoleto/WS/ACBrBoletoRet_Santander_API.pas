@@ -468,7 +468,8 @@ begin
             LListaRetorno.DadosRet.TituloRet.DataBaixa      := StringToDateTimeDef(LPagObject.AsString['date'], 0, 'yyyy-mm-dd');
             LListaRetorno.DadosRet.TituloRet.DataMovimento  := StringToDateTimeDef(LPagObject.AsString['date'], 0, 'yyyy-mm-dd');
             LListaRetorno.DadosRet.TituloRet.DataProcessamento := StringToDateTimeDef(LPagObject.AsString['date'], 0, 'yyyy-mm-dd');
-            LListaRetorno.DadosRet.TituloRet.DataCredito       := StringToDateTimeDef(LPagObject.AsString['date'], 0, 'yyyy-mm-dd');
+            LListaRetorno.DadosRet.TituloRet.DataCredito       := StringToDateTimeDef(LPagObject.AsString['creditDate'], 0, 'yyyy-mm-dd');
+            LListaRetorno.DadosRet.TituloRet.Mensagem.Text     := LPagObject.AsString['type'];
 
             LListaRetorno.DadosRet.TituloRet.ValorRecebido              := LPagObject.AsFloat['paidValue'];
             LListaRetorno.DadosRet.TituloRet.ValorPago                  := LPagObject.AsFloat['paidValue'];
