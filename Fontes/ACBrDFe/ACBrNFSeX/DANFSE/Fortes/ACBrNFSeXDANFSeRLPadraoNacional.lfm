@@ -209,7 +209,6 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
           'chave de acesso no portal nacional da NFS-e'
         )
         ParentFont = False
-        Transparent = False
       end
       object RLLabel23: TRLLabel
         Left = 4
@@ -1594,7 +1593,6 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Font.Height = -11
         Font.Name = 'Arial'
         ParentFont = False
-        Transparent = False
       end
       object rlbHomologacao: TRLLabel
         Left = 279

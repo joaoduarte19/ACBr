@@ -230,7 +230,6 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
           'pela leitura deste c'#243'digo QR ou pela consulta da'
           'chave de acesso no portal nacional da NFS-e')
         ParentFont = False
-        Transparent = False
       end
       object RLLabel23: TRLLabel
         Left = 4
@@ -1769,7 +1768,6 @@ inherited frlXDANFSeRLPadraoNacional: TfrlXDANFSeRLPadraoNacional
         Font.Name = 'Arial'
         Font.Style = []
         ParentFont = False
-        Transparent = False
       end
       object rlbHomologacao: TRLLabel
         Left = 279
