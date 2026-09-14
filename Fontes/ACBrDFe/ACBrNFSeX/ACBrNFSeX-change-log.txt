@@ -43,7 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 14/09/2026
-[-] ACBR-9814 - Corrije a URL de homologação para o município de Vila Velha/ES.
+-- ACBrNFSeXServicos --
+[*] O Provedor correto da cidade de Caico/RN é Tinus.
+   Por: PrimeSoftware
+[-] ACBR-9814 - Corrige a URL de homologação para o município de Vila Velha/ES.
    Por: Diego Folieni
    Veja: https://www.projetoacbr.com.br/forum/topic/94561-acbrlibnfse-pro-210326-cancelarnfse-em-vila-velhaes-com-siltecnologia-retorna-%E2%80%9Cpreparar-cancela-nfse-n%C3%A3o-implementado%E2%80%9D/ 
 [*] ACBR-9813 - Mudança de URLs e Layout para o município de Estância/SE
