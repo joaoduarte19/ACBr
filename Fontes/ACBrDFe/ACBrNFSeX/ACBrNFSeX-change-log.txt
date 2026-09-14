@@ -42,6 +42,29 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+14/09/2026
+[-] ACBR-9814 - Corrije a URL de homologação para o município de Vila Velha/ES.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/94561-acbrlibnfse-pro-210326-cancelarnfse-em-vila-velhaes-com-siltecnologia-retorna-%E2%80%9Cpreparar-cancela-nfse-n%C3%A3o-implementado%E2%80%9D/ 
+[*] ACBR-9813 - Mudança de URLs e Layout para o município de Estância/SE
+	Veja: https://www.projetoacbr.com.br/forum/topic/94597-munic%C3%ADpio-est%C3%A2ncia-se-provedor-webiss/#comment-619354
+	Por: Larissa Santos
+[*] ACBR-9812 - O município de Ijuí/RS aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/94632-iju%C3%AD-rs-transi%C3%A7%C3%A3o-para-o-emissor-nacional-da-nfs-e/ / https://www.projetoacbr.com.br/forum/topic/94563-acbr-9812-altera%C3%A7%C3%A3o-layout-padr%C3%A3o-nacional-prefeitura-municipal-de-iju%C3%AD-rs/ 
+	Por: Valmor Moreira/Uillian Chagas Prates
+[*] ACBR-9804 - O município de Modelo/SC aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/94588-acbr-9805-modelo-sc-4210902-aderiu-ao-padr%C3%A3o-nacional/
+	Por: Léo - Info ON Sistemas
+[*] ACBR-9803 - O município de Picada Café/RS aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/94586-acbr-9803-picada-cafe-rs-aderiu-ao-padr%C3%A3o-nacional/
+	Por: dna.automacao
+[*] ACBR-9801 - Alteração de Layout e URLs para o município de Belém/PA
+	Veja: https://www.projetoacbr.com.br/forum/topic/94622-acbr-9801-nfs-e-bel%C3%A9m-pa-altera%C3%A7%C3%A3o-para-o-modelo-padr%C3%A3o-nacional-com-provedor-local/
+	Por: Teresa/Larissa Santos
+[*] ACBR-9787 - O município de Imbau/PR mudou para o Provedor Equiplano
+	Veja: https://www.projetoacbr.com.br/forum/topic/94524-acbr-9787-cidade-de-imbaupr-mudou-de-elotech-para-equiplano/
+	Por: Destak
+
 11/09/2026
 -- ACBrNFSeXDANFSeRLPadraoNacional --
 [*] Ajustes visando melhor escala no grupo destinatário e exibição de label antes oculto no mesmo grupo.
