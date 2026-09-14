@@ -696,6 +696,7 @@ type
     rliPagamentoReal2: TRLDraw;
     rliPagamentoReal3: TRLDraw;
     rllDocumento3: TRLLabel;
+    rlBarraiCanhoto4: TRLDraw;
 
     procedure rlbContinuacaoInformacoesComplementaresBeforePrint(
       Sender: TObject; var PrintIt: Boolean);
@@ -2247,11 +2248,16 @@ begin
   RLBarraBarcode.Top            := rlBarraiCanhoto1.Top + 3;
 
   rlBarraiCanhoto1.Width        := rlBarraiCanhoto.Width;
-  rlBarraiCanhoto2.Top          := rlBarraiCanhoto1.Top;
+  rlBarraiCanhoto2.Top          := RLBarraResumo.top + 10;
+  rlBarraiCanhoto4.Top          := RLBarraResumo.top + 10;
   rlBarraiCanhoto2.Height       := (rlBarraiCanhoto.Top + rlBarraiCanhoto.Height) - rlBarraiCanhoto1.Top;
-  rlBarraiCanhoto3.Height       := (rlBarraiCanhoto.Top + rlBarraiCanhoto.Height) - rlBarraiCanhoto3.Top;
+  rlBarraiCanhoto4.Height       := (rlBarraiCanhoto.Top + rlBarraiCanhoto.Height) - rlBarraiCanhoto1.Top;
+  rlBarraiCanhoto3.Height       := rlBarraiCanhoto1.Top ;//(rlBarraiCanhoto.Top + rlBarraiCanhoto.Height) - rlBarraiCanhoto3.Top;
 
-  RLBarraBarcode.Left           := rlBarraiCanhoto3.Left + 3;
+  RLBarraBarcode.Left           := rlbCodigoBarras.Left;
+  RLBarraBarcode.Width          := 367;
+  RLBarraBarcode.AutoSize       := false;
+  RLBarraBarcode.Alignment      := taCenter;
 
   rllBarraNFe.Top               := lIAlimento;
   rllBarraNFe.Left              := lIAlibarra - 80;

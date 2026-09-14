@@ -6,7 +6,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
   Font.Height = -18
   TextHeight = 24
   inherited RLNFe: TRLReport
-    Top = 10
+    Top = 5
     Margins.LeftMargin = 7.000000000000000000
     Margins.TopMargin = 7.000000000000000000
     Margins.RightMargin = 7.000000000000000000
@@ -869,14 +869,15 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
         HoldStyle = hsHorizontally
       end
       object rlbCodigoBarras: TRLBarcode
-        Left = 420
-        Top = 6
-        Width = 254
+        Left = 364
+        Top = 7
+        Width = 367
         Height = 40
         Margins.LeftMargin = 1.000000000000000000
         Margins.RightMargin = 1.000000000000000000
         Alignment = taCenter
         Anchors = [fkLeft, fkTop]
+        AutoSize = False
         BarcodeType = bcCode128
       end
       object rllChaveAcesso: TRLLabel
@@ -6136,9 +6137,9 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
         ParentFont = False
       end
       object rlBarramDadosAdicionaisAuxiliar: TRLMemo
-        Left = 116
+        Left = 110
         Top = 45
-        Width = 301
+        Width = 234
         Height = 12
         Behavior = [beSiteExpander]
         Font.Charset = DEFAULT_CHARSET
@@ -6151,16 +6152,17 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
         Visible = False
       end
       object RLBarraBarcode: TRLBarcode
-        Left = 540
-        Top = 31
-        Width = 122
+        Left = 364
+        Top = 32
+        Width = 367
         Height = 38
         Margins.LeftMargin = 1.000000000000000000
         Margins.RightMargin = 1.000000000000000000
-        BarcodeType = bcCode128C
+        Alignment = taCenter
+        BarcodeType = bcCode128
       end
       object rllBarraNFe: TRLLabel
-        Left = 458
+        Left = 466
         Top = 3
         Width = 45
         Height = 16
@@ -6204,7 +6206,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
       object rlBarraiCanhoto1: TRLDraw
         Left = 0
         Top = 25
-        Width = 451
+        Width = 741
         Height = 1
         Borders.Sides = sdCustom
         Borders.DrawLeft = False
@@ -6223,15 +6225,27 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
         Angle = 90.000000000000000000
         DrawKind = dkLine
         HoldStyle = hsVertically
+        Transparent = False
       end
       object rlBarraiCanhoto3: TRLDraw
         Left = 451
         Top = 0
         Width = 1
-        Height = 70
+        Height = 25
         Angle = 90.000000000000000000
         DrawKind = dkLine
         HoldStyle = hsVertically
+        Transparent = False
+      end
+      object rlBarraiCanhoto4: TRLDraw
+        Left = 357
+        Top = 25
+        Width = 1
+        Height = 45
+        Angle = 90.000000000000000000
+        DrawKind = dkLine
+        HoldStyle = hsVertically
+        Transparent = False
       end
     end
     object rlbFaturaReal: TRLBand
