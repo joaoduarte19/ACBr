@@ -44,6 +44,10 @@ Símbolo : Significado
 
 14/09/2026
 -- ACBrNFSeXServicos --
+[*] ACBR-9686 - Bastava incluir o parâmetro LinkURL nas seções dos provedores que tem API Própria, ou seja,
+    usam o layout do Padrão Nacional.
+   Por: Italo Giurizzato Junior
+-- ACBrNFSeXServicos --
 [*] O Provedor correto da cidade de Caico/RN é Tinus.
    Por: PrimeSoftware
 [-] ACBR-9814 - Corrige a URL de homologação para o município de Vila Velha/ES.
