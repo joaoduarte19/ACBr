@@ -327,6 +327,7 @@ const
   CChavePIXBanrisul = 'ChavePIX';
   CChaveClientIDBanrisul = 'ClientID';
   CChaveClientSecretBanrisul = 'ClientSecret';
+  CChaveArquivoPFXBanrisul = 'ArquivoPFX';
   CChaveArquivoCertificadoBanrisul = 'ArquivoCertificado';
   CChaveSenhaPFXBanrisul = 'SenhaPFX';
 
@@ -346,6 +347,13 @@ const
   CChavePIXQQPag = 'ChavePIX';
   CChaveClientIDQQPag = 'ClientID';
   CChaveClientSecretQQPag = 'ClientSecret';
+
+  CSessaoPIXCDCrediSISConfig = 'CrediSIS';
+  CChavePIXCrediSIS = 'ChavePIX';
+  CChaveClientIDCrediSIS = 'ClientID';
+  CChaveClientSecretCrediSIS = 'ClientSecret';
+  CChaveAgenciaCrediSIS = 'Agencia';
+  CChaveContaCrediSIS = 'Conta';
 
 implementation
 

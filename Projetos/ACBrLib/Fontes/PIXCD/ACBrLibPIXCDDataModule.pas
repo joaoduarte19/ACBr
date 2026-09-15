@@ -43,7 +43,7 @@ uses
   ACBrPIXPSPPagSeguro, ACBrPIXPSPGerenciaNet, ACBrPIXPSPPixPDV, ACBrPIXPSPInter,
   ACBrPIXPSPAilos, ACBrPIXPSPMatera, ACBrPIXPSPCielo, ACBrPIXPSPMercadoPago,
   ACBrPIXPSPBanrisul, ACBrPIXPSPGate2All, ACBrPIXPSPC6Bank, ACBrPIXPSPAppLess,
-  ACBrPIXPSPQQPag;
+  ACBrPIXPSPQQPag, ACBrPIXPSPCrediSIS;
 
 type
 
@@ -66,7 +66,8 @@ type
                  Banrisul,
                  C6Bank,
                  AppLess,
-                 QQPag);
+                 QQPag,
+                 CrediSIS);
 
   { TLibPIXCDDM }
 
@@ -79,6 +80,7 @@ type
     ACBrPSPBancoDoBrasil1: TACBrPSPBancoDoBrasil;
     ACBrPSPC6Bank1: TACBrPSPC6Bank;
     ACBrPSPCielo1: TACBrPSPCielo;
+    ACBrPSPCrediSIS1: TACBrPSPCrediSIS;
     ACBrPSPGate2All1: TACBrPSPGate2All;
     ACBrPSPGerenciaNet1: TACBrPSPGerenciaNet;
     ACBrPSPInter1: TACBrPSPInter;
@@ -279,6 +281,7 @@ begin
       C6Bank: ACBrPixCD1.PSP := ACBrPSPC6Bank1;
       AppLess: ACBrPixCD1.PSP := ACBrPSPAppLess1;
       QQPag: ACBrPixCD1.PSP := ACBrPSPQQPag1;
+      CrediSIS: ACBrPixCD1.PSP := ACBrPSPCrediSIS1;
     end;
 
     with ACBrPixCD1 do
@@ -518,6 +521,7 @@ begin
       ChavePIX           := pLibPIXCDConfig.PIXCDBanrisul.ChavePIX;
       ClientID           := pLibPIXCDConfig.PIXCDBanrisul.ClientID;
       ClientSecret       := pLibPIXCDConfig.PIXCDBanrisul.ClientSecret;
+      ArquivoPFX         := pLibPIXCDConfig.PIXCDBanrisul.ArquivoPFX;
       ArquivoCertificado := pLibPIXCDConfig.PIXCDBanrisul.ArquivoCertificado;
       SenhaPFX           := pLibPIXCDConfig.PIXCDBanrisul.SenhaPFX;
       Scopes             := pLibPIXCDConfig.PIXCDBanrisul.Scopes;
@@ -555,6 +559,18 @@ begin
       Scopes       := pLibPIXCDConfig.PIXCDQQPag.Scopes;
       URLProducao  := pLibPIXCDConfig.PIXCDQQPag.URLProducao;
       URLSandbox   := pLibPIXCDConfig.PIXCDQQPag.URLSandBox;
+    end;
+
+    with ACBrPSPCrediSIS1 do
+    begin
+      ChavePIX     := pLibPIXCDConfig.PIXCDCrediSIS.ChavePIX;
+      ClientID     := pLibPIXCDConfig.PIXCDCrediSIS.ClientID;
+      ClientSecret := pLibPIXCDConfig.PIXCDCrediSIS.ClientSecret;
+      Agencia      := pLibPIXCDConfig.PIXCDCrediSIS.Agencia;
+      Conta        := pLibPIXCDConfig.PIXCDCrediSIS.Conta;
+      Scopes       := pLibPIXCDConfig.PIXCDCrediSIS.Scopes;
+      URLProducao  := pLibPIXCDConfig.PIXCDCrediSIS.URLProducao;
+      URLSandbox   := pLibPIXCDConfig.PIXCDCrediSIS.URLSandBox;
     end;
 
     {$IFDEF Demo}
