@@ -4,7 +4,7 @@ plugins {
 val ACBrComumJar = rootProject.extra["ACBrLibComumJar"] as String
 android {
     namespace = "br.com.acbr.lib.pixcd"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
