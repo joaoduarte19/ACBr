@@ -43,6 +43,31 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 16/09/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9828 - O município de Ituporanga/SC aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/94619-acbr-9828-munic%C3%ADpio-ituporangasc-padr%C3%A3o-nacional/
+	Por: BluData
+[*] ACBR-9827 - O município de Piraju/SP aderiu ao Padrão Nacional
+	Veja:https://www.projetoacbr.com.br/forum/topic/94607-acbr-9827-altera%C3%A7%C3%A3o-cidade-piraju-para-ambiente-nacional/ 
+	Por: Ike
+[*] ACBR-9826 - Os municípios Brodowski/SP e Viradouro/SP aderiram ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/94589-acbr-9826-provedor-nacional-para-brodowskisp-e-viradourosp/
+	Por: Leandro Coelho
+[*] ACBR-9825 - Atualização de URL e Layout para o município de Urupes/SP
+	Veja: https://www.projetoacbr.com.br/forum/topic/93708-acbr-9825-nfsex-provedor-fiorilli-%E2%80%94-munic%C3%ADpios-migrados-para-o-webservice-nacional-dps-troca-de-url-no-acbrnfsexservicosini-n%C3%A3o-basta-exige-versao101/
+	Por: João Vitor Bogo 
+[*] ACBR-9824 - Adicionado provedor Padrão Nacional para o município de Paramirim/BA
+	Veja: https://www.projetoacbr.com.br/forum/topic/94688-acbr-9824-nfs-e-provedor-freire-paramirim-ba/
+	Por: Valter Patrick/Larissa Santos
+	Por: Victor H Gonzales - Panda/Larissa Santos
+[*] ACBR-9823 - Adicionado provedor Padrão Nacional para o município de Paim Filho/RS
+	Por: Victor H Gonzales - Panda/Larissa Santos
+[*] ACBR-9820 - Revertida URLs e Provedor de Novo Hamburgo pois eles adiaram a adesão ao Padrão Nacional para 01/11
+	Veja: https://www.projetoacbr.com.br/forum/topic/94530-cidades-atendidas-pelo-ipm-postergaram-a-migra%C3%A7%C3%A3o-para-o-padr%C3%A3o-nacional/ / https://discord.com/channels/798697718800318484/800042186783588364/1546962240865833070
+	Por: DNA Automação
+[*] ACBR-9808 - O município Bom Retiro do Sul/RS aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/94610-acbr-9808-bom-retiro-do-sul-rs-aderiu-ao-padr%C3%A3o-nacional/
+	Por: dna.automacao
 -- Giss.LerXml --
 [+] ACBR-9839 - Correção no campo que vai receber a chave de acesso.
     Em vez de NFSe.Link mudado para NFSe.CodigoVerificacao
