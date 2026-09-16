@@ -1124,6 +1124,8 @@ begin
           AResumo := Response.Resumos.New;
           AResumo.Link := JSon.AsString['chave'];
           AResumo.Situacao := JSon.AsString['situacao'];
+          
+          Response.Situacao := JSon.AsString['situacao'];
           AResumo.CodigoVerificacao := JSon.AsString['codAutenticidade'];
 
           NFSeXml := JSon.AsString['xmlGZipB64'];
