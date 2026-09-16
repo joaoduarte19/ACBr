@@ -32,8 +32,8 @@ inherited LibPIXCDDM: TLibPIXCDDM
   end
   object ACBrPSPShipay1: TACBrPSPShipay[5]
     Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
-    URLSandBox = 'https://api-staging.shipay.com.br'
     URLProducao = 'https://api.shipay.com.br'
+    URLSandBox = 'https://api-staging.shipay.com.br'
     Left = 160
     Top = 96
   end
@@ -113,6 +113,11 @@ inherited LibPIXCDDM: TLibPIXCDDM
   object ACBrPSPQQPag1: TACBrPSPQQPag[20]
     Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
     Left = 54
+    Top = 288
+  end
+  object ACBrPSPCrediSIS1: TACBrPSPCrediSIS[21]
+    Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
+    Left = 152
     Top = 288
   end
 end
