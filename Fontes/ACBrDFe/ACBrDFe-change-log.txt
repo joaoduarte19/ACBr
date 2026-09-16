@@ -39,6 +39,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/09/2026
+-- ACBrDFe.RTC.XmlWriter.pas, ACBrDFe.RTC.XmlReader.pas --
+[-] ACBR-9873 - Ajustado a escrita e a leitura da propriedade pAliqEfet para 4 casas decimais.
+   Por: Daniel de Morais InfoCotidiano
+   Veja: https://www.projetoacbr.com.br/forum/topic/94789-tag-do-grupo-n%C3%A3o-est%C3%A1-aceitando-mais-de-2-casas-decimais/?_rid=1706
+
 11/09/2026
 -- ACBrDFe.RTC.XmlWriter --
 [-] ACBR-9844 - Ajuste para que o grupo gIBSCBSMono seja gerado apenas caso tenha valor atribuído.

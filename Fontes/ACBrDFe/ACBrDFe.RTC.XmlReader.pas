@@ -270,7 +270,7 @@ begin
   if not Assigned(ANode) then Exit;
 
   gRed.pRedAliq := ObterConteudo(ANode.Childrens.Find('pRedAliq'), tcDe4);
-  gRed.pAliqEfet := ObterConteudo(ANode.Childrens.Find('pAliqEfet'), tcDe2);
+  gRed.pAliqEfet := ObterConteudo(ANode.Childrens.Find('pAliqEfet'), tcDe4);
 end;
 
 procedure TDFeRTCXmlReader.Ler_gTribRegular(const ANode: TACBrXmlNode;
