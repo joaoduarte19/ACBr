@@ -44,6 +44,10 @@ Símbolo : Significado
 
 16/09/2026
 -- Giss.LerXml --
+[+] ACBR-9839 - Correção no campo que vai receber a chave de acesso.
+    Em vez de NFSe.Link mudado para NFSe.CodigoVerificacao
+   Por: Italo Giurizzato Junior
+-- Giss.LerXml --
 [+] ACBR-9839 - Implementado a leitura da tag ChaveNotaNacional que contem a chave 
     da NFS-e no ADN, essa informação esta no campo NFSe.Link.
    Por: Italo Giurizzato Junior

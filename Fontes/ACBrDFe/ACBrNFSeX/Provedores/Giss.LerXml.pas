@@ -249,6 +249,7 @@ end;
 function TNFSeR_Giss204.LerXmlNfse(const ANode: TACBrXmlNode): Boolean;
 var
   AuxNode: TACBrXmlNode;
+  lChave: string;
 begin
   Result := True;
 
@@ -264,8 +265,10 @@ begin
   LerNfseCancelamento(ANode);
   LerNfseSubstituicao(ANode);
 
-  if NFSe.Link = '' then
-    NFSe.Link := ObterConteudo(ANode.Childrens.FindAnyNs('ChaveNotaNacional'), tcStr);
+  lChave := ObterConteudo(ANode.Childrens.FindAnyNs('ChaveNotaNacional'), tcStr);
+
+  if lChave = '' then
+    NFSe.CodigoVerificacao := lChave;
 
   LerCampoLink;
 end;
