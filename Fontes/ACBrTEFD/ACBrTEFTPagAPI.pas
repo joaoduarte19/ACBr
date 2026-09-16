@@ -340,7 +340,7 @@ type
     request: PPagRequestData;
     outValue: PAnsiChar;     // buffer alocado pelo SDK
     outValueSize: NativeUInt // tamanho do buffer
-  ): Integer; cdecl;
+  ): LongInt; cdecl;
   TPagCallBackAbortProcess = function: LongInt; cdecl;   // Retorno <> 0 pode abortar processos
 
   TPagCallbackDmSDK = record
