@@ -344,7 +344,7 @@ begin
   Result.AppendChild(GerarPrestador);
   Result.AppendChild(GerarTomador);
   Result.AppendChild(GerarIntermediarioServico);
-  Result.AppendChild(GerarDestinatario);
+//  Result.AppendChild(GerarDestinatario);
   Result.AppendChild(GerarImovel);
   Result.AppendChild(GerarCondicaoPagamento);
   Result.AppendChild(GerarConstrucaoCivil);

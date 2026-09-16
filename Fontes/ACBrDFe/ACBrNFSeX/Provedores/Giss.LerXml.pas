@@ -65,7 +65,7 @@ type
     procedure LerINIValoresTotalTrib(AINIRec: TMemIniFile);
     procedure LerINIComercioExterior(AINIRec: TMemIniFile);
   public
-
+    function LerXmlNfse(const ANode: TACBrXmlNode): Boolean; override;
   end;
 
 implementation
@@ -244,6 +244,30 @@ begin
       nProcesso := ObterConteudo(AuxNode.Childrens.FindAnyNs('nProcesso'), tcStr);
     end;
   end;
+end;
+
+function TNFSeR_Giss204.LerXmlNfse(const ANode: TACBrXmlNode): Boolean;
+var
+  AuxNode: TACBrXmlNode;
+begin
+  Result := True;
+
+  if not Assigned(ANode) then Exit;
+
+  AuxNode := ANode.Childrens.FindAnyNs('Nfse');
+
+  if AuxNode = nil then
+    AuxNode := ANode;
+
+  LerInfNfse(AuxNode);
+
+  LerNfseCancelamento(ANode);
+  LerNfseSubstituicao(ANode);
+
+  if NFSe.Link = '' then
+    NFSe.Link := ObterConteudo(ANode.Childrens.FindAnyNs('ChaveNotaNacional'), tcStr);
+
+  LerCampoLink;
 end;
 
 procedure TNFSeR_Giss204.LerXMLTributacaoFederal(const ANode: TACBrXmlNode);
