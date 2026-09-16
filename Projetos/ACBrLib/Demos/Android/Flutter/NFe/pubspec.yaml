@@ -5,13 +5,13 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.6.2
+  sdk: ^3.11.0
 
 dependencies:
   flutter:
     sdk: flutter
-  fluttertoast: ^8.0.9
-  cupertino_icons: ^1.0.8
+  fluttertoast: ^10.0.0
+  cupertino_icons: ^1.0.9
   # Dependências para garantir a importação correta do diretório Schemas
   path_provider:
   archive:
