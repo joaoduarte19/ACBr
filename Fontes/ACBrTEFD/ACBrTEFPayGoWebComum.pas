@@ -1324,15 +1324,17 @@ begin
     begin
       img := msg;
       msg := '';
+    end
+    else
+    begin
+      if (msg = '') then
+        msg := PadRight(SoftwareHouse, 16) +
+             PadRight(NomeAplicacao + ' ' + VersaoAplicacao, 16);
+
+      if (Trim(msg) = '') then
+        msg := PadCenter(CACBrTEFPGWebMsgPadrao, 16) +
+               PadCenter(CACBrTEFPGWebAPIName, 16);
     end;
-
-    if (msg = '') then
-      msg := PadRight(SoftwareHouse, 16) +
-           PadRight(NomeAplicacao + ' ' + VersaoAplicacao, 16);
-
-    if (msg = '') then
-      msg := PadCenter(CACBrTEFPGWebMsgPadrao, 16) +
-             PadCenter(CACBrTEFPGWebAPIName, 16);
 
     DefinirMensagemPinPad(msg, img);
   except

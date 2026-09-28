@@ -660,8 +660,8 @@ begin
     if Sucesso then
       TextoEspecialOperador := LeInformacao(PWINFO_RESULTMSG, 0).AsBinary
     else
-      TextoEspecialOperador := IfEmptyThen( LeInformacao(PWINFO_CNCDSPMSG, 0).AsBinary,
-                                            LeInformacao(PWINFO_RESULTMSG, 0).AsBinary );
+      TextoEspecialOperador := IfEmptyThen( LeInformacao(PWINFO_RESULTMSG, 0).AsBinary,
+                                            LeInformacao(PWINFO_CNCDSPMSG, 0).AsBinary );
 
     // Workaround, para situações onde a VERO / BANRICOMPRAS não retorna o CodigoAutorizacaoTransacao ou PWINFO_AUTHCODE (0x46)
     if (CodigoAutorizacaoTransacao = '') then
@@ -674,6 +674,8 @@ begin
       TextoEspecialOperador := 'TRANSACAO FINALIZADA'
     else if (copy(TextoEspecialOperador,1,1) = CR) then
       TextoEspecialOperador := copy(TextoEspecialOperador, 2, Length(TextoEspecialOperador));
+
+    TextoEspecialOperador := ACBrStr(TextoEspecialOperador);
   end;
 end;
 

@@ -458,7 +458,7 @@ begin
     PA.Text := DadosAdicionais;
 
     ValDbl := ValorPagto * 100;
-    PA.ValueInfo[PWINFO_FISCALREF] := fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao;
+    PA.ValueInfo[PWINFO_FISCALREF] := LeftStr(fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao, 12);
     PA.ValueInfo[PWINFO_CURREXP] := '2'; // centavos
     PA.ValueInfo[PWINFO_TOTAMNT] := IntToStr(Trunc(RoundTo(ValDbl,-2)));
     PA.ValueInfo[PWINFO_CURRENCY] := IntToStr(fpACBrTEFAPI.DadosAutomacao.MoedaISO4217); // '986' ISO4217 - BRL

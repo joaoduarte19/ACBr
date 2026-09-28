@@ -46,6 +46,17 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 28/09/2026
+-- ACBrTEFAPIPayGoWeb --
+[-] Correção para evitar PWINFO_FISCALREF maior que 12
+
+-- ACBrTEFPayGoWebComum --
+[-] Correção para a correta definição da Mensagem ou Imagem Padrão no PinPad
+
+-- ACBrTEFPayGoComum --
+[*] Método 'ConteudoToPropertyPayGoWeb' modificado para atribuir a 'TextoEspecialOperador',
+    quando não houver Sucesso na transação, PWINFO_RESULTMSG se existir, ou PWINFO_CNCDSPMSG
+[*] Adicionado tratamento de Encoding em 'TextoEspecialOperador'
+
 -- ACBrTEFAPICliSiTef --
 [-] Ajuste apara não responder várias vezes, ao mesmo campo, que foi previamente informado
     https://www.projetoacbr.com.br/forum/index.php?showtopic=94960
