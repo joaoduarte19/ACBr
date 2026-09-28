@@ -572,7 +572,11 @@ begin
       if (fUltimoRetornoAPI = CRET_ITERATIVO_CONTINUA) then
       begin
         if (TipoCampo > 0) then
+        begin
           RespBuffer := fRespostasPorTipo.ValueInfo[TipoCampo];
+          if (RespBuffer <> '') then    // Responde automaticamente, apenas 1 vez, para evitar Loops
+            fRespostasPorTipo.ValueInfo[TipoCampo] := '';
+        end;
 
         if (TipoCampo = 5005) then   // 5005 - Indica que a transação foi finalizada
           EsperaMensagem := CSITEF_ESPERA_MINIMA_MSG_FINALIZACAO

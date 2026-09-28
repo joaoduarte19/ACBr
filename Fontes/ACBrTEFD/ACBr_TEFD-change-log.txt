@@ -45,6 +45,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+28/09/2026
+-- ACBrTEFAPICliSiTef --
+[-] Ajuste apara não responder várias vezes, ao mesmo campo, que foi previamente informado
+    https://www.projetoacbr.com.br/forum/index.php?showtopic=94960
+    (por: DSA)
+
 11/09/2026
 -- ACBrTEFPayGoRedes --
 [-] Correção de Bug, em leitura da Tabela de Redes em D7 e Itens sem CNPJ
