@@ -41,7 +41,7 @@ uses
   ACBrBase;
 
 const
-  ClibDM_SDKVersion = '0.0.3';
+  ClibDM_SDKVersion = '0.0.5';
   {$IFDEF MSWINDOWS}
    CTPagLib = 'libDM_SDK.dll';
   {$ELSE}
