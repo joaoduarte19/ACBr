@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+28/09/2026
+-- ACBrBoletoW_C6.pas --
+[*] Ajustado carteira para envio do nossonumero
+	[ACBR-9389] https://www.projetoacbr.com.br/forum/topic/92331-melhoria-no-registro-de-boleto-c6-bank/
+	Por: Valter Patrick
+
 16/09/2026
 -- Particularidades --
 [-] Ajustado Santander, carteira, modalidade, inter ajustado a orientação para pegar o codigo de operação.
