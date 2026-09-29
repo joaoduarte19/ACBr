@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+29/09/2026
+-- ACBrNFeServicos --
+[-] ACBR-9846 - Corrige a URL de Consulta para o ambiente de produção de NFe.
+   Por: umclic
+   Veja: https://www.projetoacbr.com.br/forum/topic/94714-acbr-9846-endereco-do-site-da-uf-da-consulta-por-chave-de-acesso-diverge-do-previsto/
 
 24/09/2026
 -- ACBrDANFCeFortesFr (pas/dfm/lfm) --
