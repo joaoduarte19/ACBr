@@ -240,6 +240,8 @@ begin
   FpGerarGrupoIBSCBSTot := False;
   ModelosDFe := mdfNFCom;
   tpNFDebito := tdNenhum;
+  NrOcorrgIBSTot := 1;
+  NrOcorrgCBSTot := 1;
 
   ListaDeAlertas.Clear;
 
@@ -1276,7 +1278,14 @@ begin
 end;
 
 function TNFComXmlWriter.Gerar_Total: TACBrXmlNode;
+var
+  NrOcorrvTotDFe: Integer;
 begin
+  if FpGerarGrupoIBSCBSTot then
+    NrOcorrvTotDFe := 1
+  else
+    NrOcorrvTotDFe := 0;
+
   Result := FDocument.CreateElement('total');
 
   Result.AppendChild(AddNode(tcDe2, '#254', 'vProd', 1, 15, 1,
@@ -1310,7 +1319,7 @@ begin
   // Reforma Tributária
   Result.AppendChild(Gerar_IBSCBSTot(NFCom.Total.IBSCBSTot));
 
-  Result.AppendChild(AddNode(tcDe2, '#250', 'vTotDFe', 1, 15, 0,
+  Result.AppendChild(AddNode(tcDe2, '#250', 'vTotDFe', 1, 15, NrOcorrvTotDFe,
                                              NFCom.Total.vTotDFe, DSC_VTOTDFE));
 end;
 
