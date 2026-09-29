@@ -23,7 +23,7 @@
       <RevisionNr Value="0"/>
       <BuildNr Value="4"/>
       <Language Value="0416"/>
-      <StringTable Comments="Projeto ACBr" CompanyName="ACBrBPe - Biblioteca para emissão e impressão do Bilhete de Passagem Eletrônico" FileDescription="ACBrLibBPe" InternalName="ACBrLibBPe" LegalCopyright="Projeto ACBr" LegalTrademarks="Projeto ACBr" ProductName="BPe" ProductVersion="0.0.0.0"/>
+      <StringTable Comments="Projeto ACBr" CompanyName="ACBrBPe - Biblioteca para emissï¿½o e impressï¿½o do Bilhete de Passagem Eletrï¿½nico" FileDescription="ACBrLibBPe" InternalName="ACBrLibBPe" LegalCopyright="Projeto ACBr" LegalTrademarks="Projeto ACBr" ProductName="BPe" ProductVersion="0.0.0.0"/>
       <AutoIncrementBuild Value="False"/>
     </VersionInfo>
     <BuildModes Count="13">
