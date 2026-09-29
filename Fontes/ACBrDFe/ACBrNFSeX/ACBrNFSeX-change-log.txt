@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 29/09/2026
+-- CTA.GravarXml --
+[-] ACBR-9690 - Adiciona a geração dos campos CodigoNBS e CodigoLsnDesdobro para coincidir com estrutura esperada pelo web servisse.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/93681-acbr-9690-prefeitura-r%C3%A1pida-itabora%C3%ADrj-xsd-rejeita-classificacaocnae-e-espera-codigonbs/
 -- Giss.GravarXml --
 [*] Ajuste para que o grupo totTrib seja gerado no XML independente do CST, mesmo que o grupo pai no XML seja opcional, o Giss está devolvendo rejeição quando falta a informação.
    Por: Diego Folieni

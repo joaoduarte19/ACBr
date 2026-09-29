@@ -216,6 +216,11 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'ItemListaServico', 1, 8, NrOcorrItemListaServico,
                                                           item, DSC_CLISTSERV));
 
+  Result.AppendChild(AddNode(tcStr, '#1', 'CodigoNbs', 0, 15, 1, NFSe.Servico.CodigoNBS, DSC_CNBS));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'CodigoLsnDesdobro', 0, 15, 1,
+                                           NFSe.Servico.CodigoServicoNacional, DSC_CSERVTRIBNAC));
+
   Result.AppendChild(AddNode(tcStr, '#1', 'ClassificacaoCNAE', 1, 9, 1,
                                 OnlyNumber(NFSe.Servico.CodigoCnae), DSC_CNAE));
 
