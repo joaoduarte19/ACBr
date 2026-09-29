@@ -352,9 +352,7 @@ begin
   Result := inherited GerarValores;
 
   // Reforma Tributária
-  if (NFSe.Servico.Valores.tribFed.CST <> cstVazio) or
-    (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
-    Result.AppendChild(GerarTrib(NFSe.IBSCBS.valores.trib));
+  Result.AppendChild(GerarTrib(NFSe.IBSCBS.valores.trib));
 
   if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
      (NFSe.IBSCBS.imovel.ender.CEP <> '') or

@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+29/09/2026
+-- Giss.GravarXml --
+[*] Ajuste para que o grupo totTrib seja gerado no XML independente do CST, mesmo que o grupo pai no XML seja opcional, o Giss está devolvendo rejeição quando falta a informação.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/94818-acbr-9885nfsexgiss-204-rejei%C3%A7%C3%A3o-e160-%E2%80%93-writer-n%C3%A3o-gera-no-grupo-tottrib-patch-proposto/ 
+
 28/09/2026
 -- NFOnline.GravarXml --
 [*] ACBR-9921 - Ajustes na geração do XML do RPS, uma vez que tem alterações
