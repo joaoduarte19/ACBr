@@ -2364,10 +2364,12 @@ end;
 
 procedure TCTeXmlReader.Ler_IBSCBS_gALCZFMCBS(const ANode: TACBrXmlNode;
   gALCZFMCBS: TgALCZFMCBS);
+  var sAux : string;
 begin
   if not Assigned(ANode) then Exit;
-
-  gALCZFMCBS.tpALCZFMCBS := StrTotpALCZFMCBS(ObterConteudo(ANode.Childrens.Find('tpALCZFMCBS'), tcStr));
+  sAux := ObterConteudo(ANode.Childrens.Find('tpALCZFMCBS'), tcStr);
+  if sAux <> '' then
+    gALCZFMCBS.tpALCZFMCBS := StrTotpALCZFMCBS(sAux);
   gALCZFMCBS.nProcSuframa := ObterConteudo(ANode.Childrens.Find('nProcSuframa'), tcStr);
   gALCZFMCBS.pAliqEfetRegCBS := ObterConteudo(ANode.Childrens.Find('pAliqEfetRegCBS'), tcDe4);
   gALCZFMCBS.vTribRegCBS := ObterConteudo(ANode.Childrens.Find('vTribRegCBS'), tcDe2);

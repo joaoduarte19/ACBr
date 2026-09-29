@@ -43,6 +43,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+29/09/2026
+-- ACBrCTe.XmlReader.pas --
+[-] Ajuste visando a correta leitura do campo tpALCZFMCBS
+   Por: Daniel de Morais
+
 
 04/09/2026
 -- ACBrCTeWebServices --
