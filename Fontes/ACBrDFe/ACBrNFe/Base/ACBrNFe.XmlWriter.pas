@@ -1868,7 +1868,7 @@ begin
   if ((not (nfe.Ide.finNFe in [fnCredito, fnDebito]) and
        (nfe.Ide.gCompraGov.tpOperGov <> togRecebimentoPag))
       or (nfe.Ide.tpNFCredito in [tcRetorno, tcReducaoValores, tcRetornoRecusaParcial])
-      or (nfe.Ide.tpNFDebito in [tdPerdaEmEstoque])) then
+      or (nfe.Ide.tpNFDebito in [tdPerdaEmEstoque, tdPagamentoAntecipado])) then
   begin
     if ((not (nfe.Ide.finNFe in [fnCredito, fnDebito]) and
         (nfe.Ide.gCompraGov.tpOperGov <> togRecebimentoPag)) or

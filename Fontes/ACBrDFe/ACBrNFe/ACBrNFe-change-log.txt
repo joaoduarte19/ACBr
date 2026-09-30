@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+30/09/2026
+-- ACBrNFe.XmlWriter --
+[-] Ajuste para que sejam gerados os grupos de PIS e COFINS quando nota de pagamento antecipado.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/94786-nfe-finalidade-6nota-de-d%C3%A9bito-tipo-de-d%C3%A9bito-06-pagamento-antecipado/ 
+
 29/09/2026
 -- ACBrNFeServicos --
 [-] ACBR-9846 - Corrige a URL de Consulta para o ambiente de produção de NFe.
