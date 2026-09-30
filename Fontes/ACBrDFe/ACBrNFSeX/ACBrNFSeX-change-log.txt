@@ -43,6 +43,25 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 30/09/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9866 - O município de Catanduva/SP aderiu ao Padrão Nacional
+	Veja: https://discord.com/channels/798697718800318484/1438938923345903656/1551649947131191327
+	Por: ramondandrade
+[*] ACBR-9864 - Troca de provedor Betha para IPM no município de Papanduva/SC
+	Veja: https://www.projetoacbr.com.br/forum/topic/94778-acbr-9864acbr-9865-munic%C3%ADpios-com-provedores-desatualizados-no-acbrnfsexservicosini/
+	Por: lucasatz
+[*] ACBR-9855 - Adiciona o Provedor NFOnline para o município de Piaçabuçu/AL
+	Veja: https://www.projetoacbr.com.br/forum/topic/94748-acbr-9855-nfs-e-pia%C3%A7abu%C3%A7u-al-municipio-de-alagoas/
+	Por Geraldo Moura/Larissa Santos
+[*] ACBR-9852 - Alteração da URL de produção do município de Agua Azul do Norte/PA
+	Veja: https://www.projetoacbr.com.br/forum/topic/94736-novar-url-cidade-%C3%A1gua-azul-do-norte-pa/
+	Por: joemil
+[*] ACBR-9837 - O município de Bom Sucesso do Sul/PR aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/93711-acbr-9837-erro-12007-o-nome-do-servidor-n%C3%A3o-pode-ser/
+	Por: Larissa Santos
+[*] Alteração de URLs e Layout para o município de Quintana/SP
+	Veja: https://www.projetoacbr.com.br/forum/topic/94882-erro-emiss%C3%A3o-nfse-provedor-fiorilli/
+	Por: Larissa Santos
 -- PadraoNacional.LerXML/ACBrNFSeXDANFSeRLPadraoNacional --
 [-] Ajuste visando correta exibição do nome do município na Lib.
    Por: Diego Folieni

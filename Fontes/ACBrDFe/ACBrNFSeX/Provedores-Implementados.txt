@@ -1,116 +1,118 @@
 Layout   Provedor             Quantidade de cidades
 ------   --------             ---------------------
-PN       ABase                 34 cidades - Pronto para a RTC (Padrão Nacional)
+PN       ABase                 37 cidades - Pronto para a RTC (Padrão Nacional)
 ABRASFv2 Actcon                 8 cidades
 ABRASFv2 Adm                   11 cidades
-Próprio  Agili                 20 cidades - Pronto para a RTC (Permite uma lista de itens)
+Próprio  Agili                 21 cidades - Pronto para a RTC (Permite uma lista de itens)
 Próprio  Aspec                 28 cidades                     (Permite uma lista de itens)
 Próprio  AssessorPublico        4 cidades                     (Permite uma lista de itens)
-ABRASFv2 Asten                  1 cidade
 Próprio  Bauhaus                9 cidades                     (Permite uma lista de itens)
-PN       Betha                232 cidades - Pronto para a RTC (Padrão Nacional)
+PN       Betha                226 cidades - Pronto para a RTC (Padrão Nacional)
 ABRASFv2 Centi                 44 cidades
 ABRASFv1 CIGA                   1 cidade
-PN       Citta                 22 cidades - Pronto para a RTC (Padrão Nacional)
-Próprio  Conam                 12 cidades - Pronto para a RTC
-PN       Coplan                33 cidades - Pronto para a RTC (Padrão Nacional)
-Próprio  CTA                    2 cidades                     (Permite uma lista de itens)
+PN       Citta                 23 cidades - Pronto para a RTC (Padrão Nacional)
+Próprio  Conam                 13 cidades - Pronto para a RTC
+PN       Coplan                34 cidades - Pronto para a RTC (Padrão Nacional)
+Próprio  CTA                    1 cidade                      (Permite uma lista de itens)
 Próprio  CTAConsult             5 cidades                     (Permite uma lista de itens)
 ABRASFv2 DataSmart              7 cidades
 PN       DBSeller               4 cidades - Pronto para a RTC (Padrão Nacional)
-ABRASFv2 Desenvolve             4 cidades
-PN       Digifred              12 cidades - Pronto para a RTC (Padrão Nacional)
-PN       DSF                    5 cidades
+ABRASFv2 Desenvolve             3 cidades
+PN       Digifred              13 cidades - Pronto para a RTC (Padrão Nacional)
+PN       DSF                   10 cidades
 Próprio  eGoverneISS            1 cidade 
-PN       EL                   108 cidades - Pronto para a RTC (Padrão Nacional) (Permite uma lista de itens - Layout Próprio)
+PN       EL                   112 cidades - Pronto para a RTC (Padrão Nacional) (Permite uma lista de itens - Layout Próprio)
 ABRASFv2 Elmar                 40 cidades
-ABRASFv2 EloTech               91 cidades - Pronto para a RTC (Permite uma lista de itens)
-Próprio  Equiplano             26 cidades - Pronto para a RTC (Permite uma lista de itens)
-ABRASFv2 eReceita               5 cidades
-ABRASFv2 Etherium               1 cidade  - Pronto para a RTC
+ABRASFv2 EloTech               89 cidades - Pronto para a RTC (Permite uma lista de itens)
+Próprio  Equiplano             28 cidades - Pronto para a RTC (Permite uma lista de itens)
+ABRASFv2 eReceita               4 cidades
 Próprio  Facundo                1 cidade  - Pronto para a RTC
 Próprio  FGMaiss                1 cidade  - Pronto para a RTC
 ABRASFv2 fintelISS              4 cidades - Pronto para a RTC (Permite uma lista de itens)
-PN       Fiorilli             387 cidades - Pronto para a RTC (Padrão Nacional)
+PN       Fiorilli             379 cidades - Pronto para a RTC (Padrão Nacional)
 ABRASFv2 Fisco                 46 cidades
-ABRASFv1 FISSLex                4 cidades
+ABRASFv1 FISSLex                3 cidades
 ABRASFv2 Futurize             111 cidades
-Próprio  GeisWeb                6 cidades - Pronto para a RTC
-ABRASFv2 GestaoISS              9 cidades - Pronto para a RTC
-Próprio  Giap                   5 cidades
-ABRASFv1 Ginfes                18 cidades - Pronto para a RTC
-ABRASFv2 Giss (GissOnline)     24 cidades - Pronto para a RTC  
+Próprio  GeisWeb                5 cidades - Pronto para a RTC
+ABRASFv2 GestaoISS              8 cidades - Pronto para a RTC
+Próprio  Giap                   4 cidades
+ABRASFv1 Ginfes                 7 cidades - Pronto para a RTC
+ABRASFv2 Giss (GissOnline)     31 cidades - Pronto para a RTC  
 ABRASFv2 GovDigital            23 cidades - Pronto para a RTC
 ABRASFv1 Horus                  2 cidades
-ABRASFv2 iiBrasil               2 cidades
+ABRASFv2 iiBrasil               1 cidade 
 PN       infisc                 9 cidades - Pronto para a RTC (Padrão Nacional) (Permite uma lista de itens - Layout Próprio)
 Próprio  Intertec               1 cidade
-Próprio  IPM                  162 cidades - Pronto para a RTC (Permite uma lista de itens - Layout Próprio)
+Próprio  IPM                  156 cidades - Pronto para a RTC (Permite uma lista de itens - Layout Próprio)
 Próprio  ISSBarueri             1 cidade  - Pronto para a RTC (Permite uma lista de itens)
 ABRASFv2 ISSCamacari            1 cidade
-Próprio  ISSCampinas            1 cidade                      (Permite uma lista de itens - Layout Próprio) - Aderiu o layout versão 2.03 da ABRASF
 PN       ISSDigital (Quasar)    3 cidades - Pronto para a RTC (Padrão Nacional)
-ABRASFv2 ISSDSF                 2 cidades                     (Permite uma lista de itens - Layout Próprio) - Aderiu o layout versão 2.03 da ABRASF
+ABRASFv2 ISSDSF                 1 cidade                      (Permite uma lista de itens - Layout Próprio) - Aderiu o layout versão 2.03 da ABRASF
 ABRASFv1 ISSFortaleza           1 cidade  - Pronto para a RTC
-ABRASFv1 ISSIntel              18 cidades
+ABRASFv1 ISSIntel              15 cidades
 ABRASFv2 ISSLegal               9 cidades
 Próprio  ISSMap                10 cidades                     (Permite uma lista de itens na leitura????)
-PN       ISSNet (NotalControl) 23 cidades - Pronto para a RTC (Padrão Nacional)
+PN       ISSNet (NotalControl) 21 cidades - Pronto para a RTC (Padrão Nacional)
 ABRASFv1 ISSSalvador            1 cidade
 Próprio  ISSSaoPaulo            1 cidade  - Pronto para a RTC
 ABRASFv1 Kalana                 3 cidades
-ABRASFv2 MegaSoft             116 cidades
-ABRASFv1 MetropolisWeb          2 cidades
-PN       ModernizacaoPublica    7 cidades - Pronto para a RTC (Padrão Nacional)
+ABRASFv2 MegaSoft             117 cidades
+ABRASFv1 MetropolisWeb          1 cidade 
+PN       ModernizacaoPublica    6 cidades - Pronto para a RTC (Padrão Nacional)
 ABRASFv2 NEAInformatica         2 cidades
-ABRASFv1 NFSeBrasil (Memory)   24 cidades  
-         PadraoNacional      2141 cidades - Pronto para a RTC
+ABRASFv2 NFOnline               1 cidade  - Pronto para a RTC
+ABRASFv1 NFSeBrasil (Memory)   23 cidades  
+         PadraoNacional      2401 cidades - Pronto para a RTC
 Próprio  Prescon                1 cidade
 Próprio  PriMax                 5 cidades - Pronto para a RTC
-ABRASFv2 Prodata                9 cidades
-PN       Pronim               158 cidades - Pronto para a RTC (Padrão Nacional)
-ABRASFv1 Publica               18 cidades - Pronto para a RTC
+ABRASFv2 Prodata                8 cidades
+PN       Pronim               156 cidades - Pronto para a RTC (Padrão Nacional)
+ABRASFv1 Publica               13 cidades - Pronto para a RTC
 ABRASFv2 PublicSoft            23 cidades
-PN       RLZ                    9 cidades - Pronto para a RTC (Padrão Nacional) (Permite uma lista de itens - Layout Próprio)
-ABRASFv2 Saatri                40 cidades - Pronto para a RTC (versão 2.03)
-ABRASFv2 SafeWeb                1 cidade
+PN       RLZ                    8 cidades - Pronto para a RTC (Padrão Nacional) (Permite uma lista de itens - Layout Próprio)
+ABRASFv2 Saatri                43 cidades - Pronto para a RTC (versão 2.03)
 Próprio  Sam                    6 cidades - Pronto para a RTC
-ABRASFv2 SH3                   16 cidades
+ABRASFv2 SH3                   15 cidades
 Próprio  Siappa                 1 cidade
-ABRASFv2 SigCorp                9 cidades - Pronto para a RTC
+ABRASFv2 SigCorp                8 cidades - Pronto para a RTC
 ABRASFv2 Sigep                  9 cidades
 Próprio  SigISS                 4 cidades - Pronto para a RTC
 Próprio  SigISSWeb             11 cidades - Pronto para a RTC
 PN       SilTecnologia          9 cidades - Pronto para a RTC (Padrão Nacional)
-PN       SimplISS              22 cidades - Pronto para a RTC (Padrão Nacional) (Permite uma lista de itens - versão 1 da ABRASF)
+PN       SimplISS              21 cidades - Pronto para a RTC (Padrão Nacional) (Permite uma lista de itens - versão 1 da ABRASF)
 ABRASFv2 Sintese               63 cidades
 ABRASFv2 Sistemas4R             2 cidades
-PN       SpeedGov              31 cidades - Pronto para a RTC
+PN       SpeedGov              35 cidades - Pronto para a RTC
 ABRASFv2 SSInformatica          1 cidade
 ABRASFv2 Sudoeste               7 cidades
 ABRASFv2 SysISS                 5 cidades
-ABRASFv2 Tecnos                40 cidades - Pronto para a RTC
-ABRASFv2 Tinus                 37 cidades - Pronto para a RTC
+ABRASFv2 Tecnos                37 cidades - Pronto para a RTC
+ABRASFv2 Tinus                 39 cidades - Pronto para a RTC
 PN       Tiplan                 7 cidades - Pronto para a RTC (Padrão Nacional)
 ABRASFv2 Tributus              72 cidades
-ABRASFv2 VersaTecnologia       14 cidades - Pronto para a RTC
+ABRASFv2 VersaTecnologia       11 cidades - Pronto para a RTC
 Próprio  WebFisco               3 cidades - Pronto para a RTC (Permite uma lista de itens)
-ABRASFv2 WebISS                82 cidades - Pronto para a RTC
-Próprio  XTRTecnologia          7 cidades                     (Permite uma lista de itens)
+ABRASFv2 WebISS                81 cidades - Pronto para a RTC
+Próprio  XTRTecnologia          6 cidades                     (Permite uma lista de itens)
 
 
+Provedor            Quantidade de cidades
+--------            ---------------------
 Abaco               zero cidades
 ADPM                zero cidades
 AEG                 zero cidades
+Asten               zero cidades
 BHISS               zero cidades
 Contass             zero cidades
 DeISS               zero cidades
 eISS                zero cidades         (Permite uma lista de itens)
+Etherium            zero cidades
 geNFe               zero cidades
 GovBr               zero cidades
 Governa             zero cidades         (Permite uma lista de itens)
 Isaneto             zero cidades
 ISSCambe            zero cidades
+ISSCampinas         zero cidades
 ISSCuritiba         zero cidades
 ISSe                zero cidades
 ISSGoiania          zero cidades
@@ -129,6 +131,7 @@ Mitra               zero cidades
 NFEletronica        zero cidades         (Permite uma lista de itens)
 NotaInteligente     zero cidades
 PRODAUB             zero cidades
+SafeWeb             zero cidades
 Siam                zero cidades
 SiapNet             zero cidades
 SiapSistemas        zero cidades
