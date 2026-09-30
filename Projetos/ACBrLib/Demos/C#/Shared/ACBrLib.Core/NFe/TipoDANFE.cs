@@ -20,6 +20,9 @@ namespace ACBrLib.Core.NFe
         tiNFCe = 4,
 
         [Description("NFCe Digital")]
-        tiMsgEletronica = 5
+        tiMsgEletronica = 5,
+
+        [Description("Simplificado Tipo 2")]
+        tiSimplificadoTipo2 = 6
     }
 }
