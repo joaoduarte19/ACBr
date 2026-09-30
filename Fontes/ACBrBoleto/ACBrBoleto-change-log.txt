@@ -48,6 +48,13 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+30/09/2026
+-- ACBrBoletoW_Bradesco.pas --
+[-] Ajustada a propriedade qtdDecurPrz para enviar 00 quando não informada no Sandbox. Em produção, a propriedade não é obrigatória conforme manual e não temos relatos de rejeições.
+    Removido a propriedade dataLimitePgt10, pois este é um campo de "retorno" e não de envio para registro.
+	[ACBR-8109] https://www.projetoacbr.com.br/forum/topic/85800-api-bradesco-campo-não-obrigatórios/
+	Por: Daniel de Morais
+
 28/09/2026
 -- ACBrBoletoW_C6.pas --
 [*] Ajustado carteira para envio do nossonumero

@@ -755,7 +755,11 @@ begin
       LJsonObject.AddPair('digCpfCnpjBenef',  Copy(OnlyCPFCNPJAlphaNum(Boleto.Cedente.CNPJCPF), 10, 2));
     end;
     if ATitulo.DataLimitePagto > 0 then
-       LJsonObject.AddPair('qtdDecurPrz', DaysBetween(ATitulo.Vencimento, ATitulo.DataLimitePagto));
+      LJsonObject.AddPair('qtdDecurPrz', DaysBetween(ATitulo.Vencimento, ATitulo.DataLimitePagto))
+    else
+      if Boleto.Configuracoes.WebService.Ambiente <> tawsProducao then
+        LJsonObject.AddPair('qtdDecurPrz', '00');
+
     LJsonObject.AddPair('tipoAcesso', 2);//FIXO.
     LJsonObject.AddPair('cpssoaJuridContr', 0);//FIXO.
     LJsonObject.AddPair('ctpoContrNegoc', 0);//FIXO.
@@ -787,9 +791,6 @@ begin
     LJsonObject.AddPair('dvctoTitloCobr', DateTimeToDateBradesco(ATitulo.Vencimento));
     LJsonObject.AddPair('cidtfdTpoVcto', 0);//FIXO.
 
-    //data limite pagto
-    if ATitulo.DataLimitePagto > 0 then
-     LJsonObject.AddPair('dataLimitePgt10', DateTimeToDateBradesco(ATitulo.DataLimitePagto));
     // A propriedade cindcdEconmMoeda só existe no boleto com QrCode/Hibrido tanto no legado/portal dev
     // Segundo manual do portal DEV QrCode v1.8.1 e Convencional v1.7.0
 //	if Boleto.Configuracoes.WebService.UseCertificateHTTP then // Portal Developers
