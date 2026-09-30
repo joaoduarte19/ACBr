@@ -6,6 +6,7 @@
 { Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo: Italo Giurizzato Junior                         }
+{                              Equipe Nexus (Adequação Padrão Nacional IBS/CBS)}
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -40,7 +41,8 @@ uses
   SysUtils, Classes, StrUtils,
   ACBrXmlBase,
   ACBrXmlDocument,
-  ACBrNFSeXGravarXml_ABRASFv2;
+  ACBrNFSeXGravarXml_ABRASFv2,
+  PadraoNacional.GravarXml;
 
 type
   { TNFSeW_SigCorp203 }
@@ -62,10 +64,23 @@ type
     function GerarConstrucaoCivil: TACBrXmlNode; override;
   end;
 
+  { TNFSeW_SigCorpAPIPropria }
+
+  TNFSeW_SigCorpAPIPropria = class(TNFSeW_PadraoNacional)
+  private
+    function DevoGerarXMLObraSigCorp: Boolean;
+    function GerarXMLLocalPrestacaoSigCorp: TACBrXmlNode;
+  protected
+    function GerarXMLInfDps: TACBrXmlNode; override;
+    function GerarXMLPrestador: TACBrXmlNode; override;
+    function GerarXMLServico: TACBrXmlNode; override;
+  end;
+
 implementation
 
 uses
   ACBrDFe.Conversao,
+  ACBrNFSeXConversao,
   ACBrUtil.Strings,
   ACBrNFSeXConsts;
 
@@ -222,6 +237,104 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#32', 'cNBS', 1, 9, 0,
                                                    NFSe.Servico.CodigoNBS, ''));
+end;
+
+{ TNFSeW_SigCorpAPIPropria }
+
+function TNFSeW_SigCorpAPIPropria.DevoGerarXMLObraSigCorp: Boolean;
+begin
+  Result := (NFSe.ConstrucaoCivil.CodigoObra <> '') or
+            (NFSE.ConstrucaoCivil.Cib > 0) or
+            (NFSe.ConstrucaoCivil.Endereco.CEP <> '');
+end;
+
+function TNFSeW_SigCorpAPIPropria.GerarXMLInfDps: TACBrXmlNode;
+begin
+  if Trim(NFSe.verAplic) = '' then
+    NFSe.verAplic := 'ACBrNFSeX-1.00';
+
+  if (Trim(NFSe.cLocEmi) = '') or (NFSe.cLocEmi = '0000000') or (NFSe.cLocEmi = '0') then
+  begin
+    if CodMunEmit <> 0 then
+      NFSe.cLocEmi := IntToStr(CodMunEmit);
+  end;
+
+  Result := inherited GerarXMLInfDps;
+end;
+
+function TNFSeW_SigCorpAPIPropria.GerarXMLLocalPrestacaoSigCorp: TACBrXmlNode;
+var
+  CodMun: string;
+begin
+  Result := CreateElement('locPrest');
+
+  CodMun := Trim(NFSe.Servico.CodigoMunicipio);
+  if CodMun = '' then
+    CodMun := Trim(NFSe.cLocEmi);
+  if (CodMun = '') and (CodMunEmit <> 0) then
+    CodMun := IntToStr(CodMunEmit);
+
+  if CodMun <> '' then
+  begin
+    Result.AppendChild(AddNode(tcStr, '#1', 'cLocPrestacao', 7, 7, 1, CodMun, ''));
+    Result.AppendChild(AddNode(tcStr, '#1', 'cPaisPrestacao', 2, 2, 1, 'BR', ''));
+  end
+  else
+    Result.AppendChild(AddNode(tcStr, '#1', 'cPaisPrestacao', 2, 2, 1,
+                          CodIBGEPaisToSiglaISO2(NFSe.Servico.CodigoPais), ''));
+end;
+
+function TNFSeW_SigCorpAPIPropria.GerarXMLPrestador: TACBrXmlNode;
+begin
+  Result := CreateElement('prest');
+
+  if NFSe.Prestador.IdentificacaoPrestador.CpfCnpj <> '' then
+    Result.AppendChild(AddNodeCNPJCPF('#1', '#1',
+                                 NFSe.Prestador.IdentificacaoPrestador.CpfCnpj))
+  else
+  begin
+    if NFSe.Prestador.IdentificacaoPrestador.Nif <> '' then
+      Result.AppendChild(AddNode(tcStr, '#1', 'NIF', 1, 40, 1,
+                                 NFSe.Prestador.IdentificacaoPrestador.Nif, ''))
+    else
+      Result.AppendChild(AddNode(tcStr, '#1', 'cNaoNIF', 1, 1, 1,
+               NaoNIFToStr(NFSe.Prestador.IdentificacaoPrestador.cNaoNIF), ''));
+  end;
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'CAEPF', 1, 14, 0,
+                              NFSe.Prestador.IdentificacaoPrestador.CAEPF, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'IM', 1, 15, 0,
+                 NFSe.Prestador.IdentificacaoPrestador.InscricaoMunicipal, ''));
+
+  // Exigência estrita do SigCorp / Caraguatatuba: sempre gerar xNome e Endereço do Prestador
+  if NFSe.Prestador.RazaoSocial <> '' then
+    Result.AppendChild(AddNode(tcStr, '#1', 'xNome', 1, 300, 0,
+                                               NFSe.Prestador.RazaoSocial, ''));
+
+  Result.AppendChild(GerarXMLEnderecoPrestador);
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'fone', 6, 20, 0,
+                                          NFSe.Prestador.Contato.Telefone, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'email', 1, 80, 0,
+                                             NFSe.Prestador.Contato.Email, ''));
+
+  Result.AppendChild(GerarXMLRegimeTributacaoPrestador);
+end;
+
+function TNFSeW_SigCorpAPIPropria.GerarXMLServico: TACBrXmlNode;
+begin
+  Result := CreateElement('serv');
+
+  Result.AppendChild(GerarXMLLocalPrestacaoSigCorp);
+  Result.AppendChild(GerarXMLCodigoServico);
+  Result.AppendChild(GerarXMLComercioExterior);
+  if DevoGerarXMLObraSigCorp then
+    Result.AppendChild(GerarXMLObra);
+  Result.AppendChild(GerarXMLAtividadeEvento);
+
+  Result.AppendChild(GerarXMLInformacoesComplementares);
 end;
 
 end.

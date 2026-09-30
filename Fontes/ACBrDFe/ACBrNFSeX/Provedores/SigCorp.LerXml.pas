@@ -6,6 +6,7 @@
 { Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo: Italo Giurizzato Junior                         }
+{                              Equipe Nexus (Adequação Padrão Nacional IBS/CBS)}
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -40,7 +41,8 @@ uses
   SysUtils, Classes, StrUtils,
   ACBrXmlBase,
   ACBrXmlDocument,
-  ACBrNFSeXLerXml_ABRASFv2;
+  ACBrNFSeXLerXml_ABRASFv2,
+  PadraoNacional.LerXml;
 
 type
   { TNFSeR_SigCorp203 }
@@ -64,6 +66,15 @@ type
     procedure LerServico(const ANode: TACBrXmlNode); override;
     procedure LerInfDeclaracaoPrestacaoServico(const ANode: TACBrXmlNode); override;
     procedure LerConstrucaoCivil(const ANode: TACBrXmlNode); override;
+  public
+
+  end;
+
+  { TNFSeR_SigCorpAPIPropria }
+
+  TNFSeR_SigCorpAPIPropria = class(TNFSeR_PadraoNacional)
+  protected
+
   public
 
   end;
