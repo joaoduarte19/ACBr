@@ -1967,8 +1967,7 @@ begin
 
   VerificarSemResposta;
 
-  //A função UTF8ToNativeString deve ser removida quando for refatorado para usar ACBrXMLDocument
-  FNFeRetorno.XmlRetorno := UTF8ToNativeString(ParseText(FPRetWS));
+  FNFeRetorno.XmlRetorno := DecodeHTMLEntities(FPRetWS);
   FNFeRetorno.LerXML;
 
   Fversao := FNFeRetorno.versao;
