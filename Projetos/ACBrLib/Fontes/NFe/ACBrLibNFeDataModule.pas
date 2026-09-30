@@ -239,7 +239,9 @@ begin
   EhCancelada := False;
   if (AACBrNFe.NotasFiscais.Count > 0) then
   begin
-    EhDANFCe := (AACBrNFe.NotasFiscais.Items[0].NFe.Ide.modelo = 65);
+    EhDANFCe := (AACBrNFe.NotasFiscais.Items[0].NFe.Ide.modelo = 65) or
+                (AACBrNFe.NotasFiscais.Items[0].NFe.Ide.tpImp = tiSimplificadoTipo2) or
+                (LibConfig.DANFe.TipoDANFE = tiSimplificadoTipo2);
     EhCancelada := (AACBrNFe.NotasFiscais.Items[0].NFe.procNFe.cStat in [101, 151, 155]);
   end;
 
