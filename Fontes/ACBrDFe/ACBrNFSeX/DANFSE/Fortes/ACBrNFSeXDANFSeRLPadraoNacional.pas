@@ -396,8 +396,8 @@ begin
     Ambiente := 'Produção';
 
   rlmPrefeitura.Lines.Clear;
-  rlmPrefeitura.Lines.Add(ACBrStr('Município: ' + fpNFSe.infNFSe.xLocEmi + '/' +
-                                          fpNFSe.infNFSe.UFLocEmi));
+  rlmPrefeitura.Lines.Add(ACBrStr('Município: ') + fpNFSe.infNFSe.xLocEmi + '/' +
+                                          fpNFSe.infNFSe.UFLocEmi);
   rlmPrefeitura.Lines.Add(ACBrStr('Ambiente Gerador: ' + ambGerToStrText(fpNFSe.infNFSe.ambGer)));
   rlmPrefeitura.Lines.Add(ACBrStr('Tipo Ambiente: ' + Ambiente));
 end;

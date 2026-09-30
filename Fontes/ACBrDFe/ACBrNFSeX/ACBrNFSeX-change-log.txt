@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 30/09/2026
+-- PadraoNacional.LerXML/ACBrNFSeXDANFSeRLPadraoNacional --
+[-] Ajuste visando correta exibição do nome do município na Lib.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/95052-impress%C3%A3o-nfs-e-nacional/ 
 -- ACBrNFSeXServicos --
 [*] ACBR-9926 - Alterado as URLs das cidades Caraguatatuba/SP e Taubaté/SP para passar
     a utilizar a nova API do provedor SigCorp.
