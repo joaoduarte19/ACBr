@@ -205,7 +205,7 @@
     <When Condition=" '$(IsPacking)' == 'true' ">
 
       <ItemGroup>
-        <PackageReference Include="ACBrLib.Core" Version="[1.2.49,)" />
+        <PackageReference Include="ACBrLib.Core" Version="[1.2.51,)" />
       </ItemGroup>
     </When>
     <Otherwise>
