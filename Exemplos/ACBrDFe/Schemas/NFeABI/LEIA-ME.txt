@@ -1,0 +1,14 @@
+Pacote de Schemas XSD - NF-e ABI v1.00
+
+Estrutura reorganizada seguindo o padrão do pacote PL_NFGas_1.00e:
+- todos os arquivos em uma única pasta do pacote;
+- nfeabiTiposBasico_v1.00.xsd centraliza os tipos complexos do leiaute da NF-e ABI;
+- tiposGeralNFeABI_v1.00.xsd centraliza tipos simples gerais;
+- DFeTiposBasicos_v1.00.xsd concentra tipos básicos comuns DF-e/RTC;
+- não há cópias duplicadas de tiposGeral, nfeabiTiposBasico ou xmldsig em subpastas de consulta/evento/nfeabi.
+
+Arquivos principais:
+- nfeabi_v1.00.xsd: raiz NFeABI;
+- procNFeABI_v1.00.xsd: documento processado;
+- eventoNFeABI_v1.00.xsd e procEventoNFeABI_v1.00.xsd: eventos;
+- consSit/consStatServ e retornos: serviços de consulta/status.
