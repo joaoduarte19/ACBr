@@ -163,40 +163,40 @@ begin
   begin
     Result := CreateElement('ConstrucaoCivil');
 
-    Result.AppendChild(AddNode(tcStr, '#54', 'LocalConstrucao', 1,  50, 1,
+    Result.AppendChild(AddNode(tcStr, '#54', 'LocalConstrucao', 1,  50, 0,
                    NFSe.ConstrucaoCivil.LocalConstrucao, DSC_LOCAL_CONSTRUCAO));
 
-    Result.AppendChild(AddNode(tcStr, '#51', 'CodigoObra', 1, 15, 1,
+    Result.AppendChild(AddNode(tcStr, '#51', 'CodigoObra', 1, 15, 0,
                                    NFSe.ConstrucaoCivil.CodigoObra, DSC_COBRA));
 
-    Result.AppendChild(AddNode(tcStr, '#52', 'Art', 1, 15, 1,
+    Result.AppendChild(AddNode(tcStr, '#52', 'Art', 1, 15, 0,
                                             NFSe.ConstrucaoCivil.Art, DSC_ART));
 
-    Result.AppendChild(AddNode(tcInt, '#53', 'ReformaCivil', 1, 15, 1,
+    Result.AppendChild(AddNode(tcInt, '#53', 'ReformaCivil', 1, 15, 0,
              FpAOwner.SimNaoToStr(NFSe.ConstrucaoCivil.ReformaCivil), DSC_ART));
 
     Result.AppendChild(AddNode(tcInt, '#55', 'Cib', 1, 50, 0,
                                             NFSe.ConstrucaoCivil.Cib, DSC_CIB));
 
-    Result.AppendChild(AddNode(tcStr, '#56', 'EstadoObra', 1, 2, 1,
+    Result.AppendChild(AddNode(tcStr, '#56', 'EstadoObra', 1, 2, 0,
                                  NFSe.ConstrucaoCivil.Endereco.UF, DSC_UFOBRA));
 
-    Result.AppendChild(AddNode(tcStr, '#56', 'CidadeObra', 1, 2, 1,
+    Result.AppendChild(AddNode(tcStr, '#56', 'CidadeObra', 1, 2, 0,
                 NFSe.ConstrucaoCivil.Endereco.CodigoMunicipio, DSC_CODMUNOBRA));
 
     Result.AppendChild(AddNode(tcStr, '#56', 'EnderecoObra', 1, 2, 0,
                             NFSe.ConstrucaoCivil.Endereco.Endereco, DSC_EOBRA));
 
-    Result.AppendChild(AddNode(tcInt, '#56', 'NumeroObra', 1, 2, 1,
+    Result.AppendChild(AddNode(tcInt, '#56', 'NumeroObra', 1, 2, 0,
                              NFSe.ConstrucaoCivil.Endereco.Numero, DSC_NEOBRA));
 
-    Result.AppendChild(AddNode(tcStr, '#56', 'BairroObra', 1, 2, 1,
+    Result.AppendChild(AddNode(tcStr, '#56', 'BairroObra', 1, 2, 0,
                              NFSe.ConstrucaoCivil.Endereco.Bairro, DSC_BEOBRA));
 
-    Result.AppendChild(AddNode(tcInt, '#56', 'CepObra', 1, 2, 1,
+    Result.AppendChild(AddNode(tcInt, '#56', 'CepObra', 1, 2, 0,
                                NFSe.ConstrucaoCivil.Endereco.CEP, DSC_CEPOBRA));
 
-    Result.AppendChild(AddNode(tcStr, '#56', 'ComplementoObra', 1, 2, 1,
+    Result.AppendChild(AddNode(tcStr, '#56', 'ComplementoObra', 1, 2, 0,
                         NFSe.ConstrucaoCivil.Endereco.Complemento, DSC_CEOBRA));
   end;
 end;
@@ -211,34 +211,28 @@ begin
   begin
     Result := CreateElement('Endereco');
 
-    Result.AppendChild(AddNode(tcStr, '#39', 'Endereco', 1, 125, NrOcorrEndereco,
+    Result.AppendChild(AddNode(tcStr, '#39', 'Endereco', 1, 125, 1,
                                      NFSe.Tomador.Endereco.Endereco, DSC_XLGR));
 
-    Result.AppendChild(AddNode(tcStr, '#39', 'TipoLogradouro', 1, 50, NrOcorrTipoLogradouro,
-                               NFSe.Tomador.Endereco.TipoLogradouro, DSC_XLGR));
-
-    Result.AppendChild(AddNode(tcStr, '#39', 'Logradouro', 1, 125, NrOcorrLogradouro,
-                                     NFSe.Tomador.Endereco.Endereco, DSC_XLGR));
-
-    Result.AppendChild(AddNode(tcStr, '#40', 'Numero', 1, 10, 0,
+    Result.AppendChild(AddNode(tcStr, '#40', 'Numero', 1, 10, 1,
                                         NFSe.Tomador.Endereco.Numero, DSC_NRO));
 
-    Result.AppendChild(AddNode(tcStr, '#41', 'Complemento', 1, 60, NrOcorrComplTomador,
+    Result.AppendChild(AddNode(tcStr, '#41', 'Complemento', 1, 60, 0,
                                   NFSe.Tomador.Endereco.Complemento, DSC_XCPL));
 
-    Result.AppendChild(AddNode(tcStr, '#42', 'Bairro', 1, 60, 0,
+    Result.AppendChild(AddNode(tcStr, '#42', 'Bairro', 1, 60, 1,
                                     NFSe.Tomador.Endereco.Bairro, DSC_XBAIRRO));
 
-    Result.AppendChild(AddNode(tcStr, '#43', 'CodigoMunicipio', 7, 7, 0,
+    Result.AppendChild(AddNode(tcStr, '#43', 'CodigoMunicipio', 7, 7, 1,
                   OnlyNumber(NFSe.Tomador.Endereco.CodigoMunicipio), DSC_CMUN));
 
-    Result.AppendChild(AddNode(tcStr, '#44', 'Uf', 2, 2, NrOcorrUFTomador,
+    Result.AppendChild(AddNode(tcStr, '#44', 'Uf', 2, 2, 1,
                                              NFSe.Tomador.Endereco.UF, DSC_UF));
 
-    Result.AppendChild(AddNode(tcInt, '#44', 'CodigoPais', 4, 4, NrOcorrCodigoPaisTomador,
+    Result.AppendChild(AddNode(tcInt, '#44', 'CodigoPais', 4, 4, 1,
                                   NFSe.Tomador.Endereco.CodigoPais, DSC_CPAIS));
 
-    Result.AppendChild(AddNode(tcStr, '#45', 'Cep', 8, 8, NrOcorrCepTomador,
+    Result.AppendChild(AddNode(tcStr, '#45', 'Cep', 8, 8, 1,
                                OnlyNumber(NFSe.Tomador.Endereco.CEP), DSC_CEP));
   end;
 end;
@@ -281,7 +275,7 @@ begin
 
   Result.AppendChild(GerarListaServicos);
 
-  Result.AppendChild(AddNode(FormatoCompetencia, '#4', 'Competencia', 10, 10, NrOcorrCompetencia,
+  Result.AppendChild(AddNode(FormatoCompetencia, '#4', 'Competencia', 10, 10, 1,
                                                   NFSe.Competencia, DSC_DHEMI));
 
   Result.AppendChild(GerarServico);
@@ -305,78 +299,78 @@ begin
   Result.AppendChild(GerarImovel(NFSe.IBSCBS.imovel));
   Result.AppendChild(GerarConstrucaoCivil);
 
-  Result.AppendChild(AddNode(tcStr, '#6', 'RegimeEspecialTributacao', 1, 2, NrOcorrRegimeEspecialTributacao,
+  Result.AppendChild(AddNode(tcStr, '#6', 'RegimeEspecialTributacao', 1, 2, 1,
    FpAOwner.RegimeEspecialTributacaoToStr(NFSe.RegimeEspecialTributacao), DSC_REGISSQN));
 
-  Result.AppendChild(AddNode(tcStr, '#7', 'NaturezaOperacao', 1, 3, NrOcorrNaturezaOperacao,
+  Result.AppendChild(AddNode(tcStr, '#7', 'NaturezaOperacao', 1, 3, 1,
                    NaturezaOperacaoToStr(NFSe.NaturezaOperacao), DSC_INDNATOP));
 
-  Result.AppendChild(AddNode(tcStr, '#7', 'OptanteSimplesNacional', 1, 1, NrOcorrOptanteSimplesNacional,
+  Result.AppendChild(AddNode(tcStr, '#7', 'OptanteSimplesNacional', 1, 1, 1,
                FpAOwner.SimNaoToStr(NFSe.OptanteSimplesNacional), DSC_INDOPSN));
 
-  Result.AppendChild(AddNode(tcStr, '#8', 'IncentivoFiscal', 1, 1, NrOcorrIncentCultural,
+  Result.AppendChild(AddNode(tcStr, '#8', 'IncentivoFiscal', 1, 1, 1,
               FpAOwner.SimNaoToStr(NFSe.IncentivadorCultural), DSC_INDINCCULT));
 
-  Result.AppendChild(AddNode(tcStr, '#9', 'PercentualCargaTributaria', 1, 5, NrOcorrPercCargaTrib,
+  Result.AppendChild(AddNode(tcStr, '#9', 'PercentualCargaTributaria', 1, 5, 1,
                                            NFSe.PercentualCargaTributaria, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#9', 'ValorCargaTributaria', 1, 15, NrOcorrValorCargaTrib,
+  Result.AppendChild(AddNode(tcStr, '#9', 'ValorCargaTributaria', 1, 15, 1,
                                                 NFSe.ValorCargaTributaria, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#9', 'PercentualCargaTributariaMunicipal', 1, 5, NrOcorrPercCargaTribMun,
-                                  NFSe.PercentualCargaTributariaMunicipal, ''));
-
-  Result.AppendChild(AddNode(tcStr, '#9', 'ValorCargaTributariaMunicipal', 1, 15, NrOcorrValorCargaTribMun,
-                                       NFSe.ValorCargaTributariaMunicipal, ''));
-
-  Result.AppendChild(AddNode(tcStr, '#9', 'PercentualCargaTributariaEstadual', 1, 5, NrOcorrPercCargaTribEst,
+  Result.AppendChild(AddNode(tcStr, '#9', 'PercentualCargaTributariaEstadual', 1, 5, 1,
                                    NFSe.PercentualCargaTributariaEstadual, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#9', 'ValorCargaTributariaEstadual', 1, 15, NrOcorrValorCargaTribEst,
+  Result.AppendChild(AddNode(tcStr, '#9', 'ValorCargaTributariaEstadual', 1, 15, 1,
                                         NFSe.ValorCargaTributariaEstadual, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#9', 'OutrasInformacoes', 0, 255, NrOcorrOutrasInformacoes,
+  Result.AppendChild(AddNode(tcStr, '#9', 'PercentualCargaTributariaMunicipal', 1, 5, 1,
+                                  NFSe.PercentualCargaTributariaMunicipal, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#9', 'ValorCargaTributariaMunicipal', 1, 15, 1,
+                                       NFSe.ValorCargaTributariaMunicipal, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#9', 'OutrasInformacoes', 0, 255, 1,
     StringReplace(NFSe.OutrasInformacoes, Opcoes.QuebraLinha,
            FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]), DSC_OUTRASINF));
 
-  Result.AppendChild(AddNode(tcInt, '#9', 'TipoNota', 1, 3, NrOcorrTipoNota,
+  Result.AppendChild(AddNode(tcInt, '#9', 'TipoNota', 1, 3, 0,
                                                             NFSe.TipoNota, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#9', 'SiglaUF', 2, 2, NrOcorrSiglaUF,
+  Result.AppendChild(AddNode(tcStr, '#9', 'SiglaUF', 2, 2, 1,
                                                              NFSe.SiglaUF, ''));
 
   if NFSe.Prestador.Endereco.CodigoMunicipio <> '' then
-    Result.AppendChild(AddNode(tcStr, '#9', 'IdCidade', 7, 7, NrOcorrIdCidade,
+    Result.AppendChild(AddNode(tcStr, '#9', 'IdCidade', 7, 7, 1,
                              NFSe.Prestador.Endereco.CodigoMunicipio, DSC_CMUN))
   else
-    Result.AppendChild(AddNode(tcStr, '#9', 'IdCidade', 7, 7, NrOcorrIdCidade,
+    Result.AppendChild(AddNode(tcStr, '#9', 'IdCidade', 7, 7, 1,
                                        NFSe.Servico.CodigoMunicipio, DSC_CMUN));
 
-  Result.AppendChild(AddNode(tcInt, '#9', 'EspecieDocumento', 1, 3, NrOcorrEspDoc,
+  Result.AppendChild(AddNode(tcInt, '#9', 'EspecieDocumento', 1, 3, 0,
                                                     NFSe.EspecieDocumento, ''));
 
-  Result.AppendChild(AddNode(tcInt, '#9', 'SerieTalonario', 1, 3, NrOcorrSerieTal,
+  Result.AppendChild(AddNode(tcInt, '#9', 'SerieTalonario', 1, 3, 0,
                                                       NFSe.SerieTalonario, ''));
 
-  Result.AppendChild(AddNode(tcInt, '#9', 'FormaPagamento', 1, 3, NrOcorrFormaPag,
+  Result.AppendChild(AddNode(tcInt, '#9', 'FormaPagamento', 1, 3, 1,
                                                       NFSe.FormaPagamento, ''));
 
-  Result.AppendChild(AddNode(tcInt, '#9', 'NumeroParcelas', 1, 3, NrOcorrNumParcelas,
+  Result.AppendChild(AddNode(tcInt, '#9', 'NumeroParcelas', 1, 3, 1,
                                                       NFSe.NumeroParcelas, ''));
 
   Result.AppendChild(AddNode(tcStr, '#10', 'CodigoSituacaoTributariaPisCofins', 2, 2, 0,
                                CSTToStr(NFSe.Servico.Valores.tribFed.CST), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#11', 'TipoRetencaoPisCofins', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#11', 'TipoRetencaoPisCofins', 1, 1, 0,
          tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'TipoEnteGovernamental', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'TipoEnteGovernamental', 1, 1, 0,
                                     tpEnteGovToStr(NFSe.IBSCBS.tpEnteGov), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'TipoOperacao', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'TipoOperacao', 1, 1, 0,
                                    tpOperGovNFSeToStr(NFSe.IBSCBS.tpOper), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'IndicadorDestinatarioServico', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'IndicadorDestinatarioServico', 1, 1, 0,
                                         indDestToStr(NFSe.IBSCBS.indDest), ''));
 
   if (NFSe.IBSCBS.dest.xNome <> '') then
@@ -390,7 +384,7 @@ begin
 
   Result.AppendChild(GerarCPFCNPJ(NFSe.Intermediario.Identificacao.CpfCnpj));
 
-  Result.AppendChild(AddNode(tcStr, '#50', 'InscricaoMunicipal', 1, 15, NrOcorrInscEstInter,
+  Result.AppendChild(AddNode(tcStr, '#50', 'InscricaoMunicipal', 1, 15, 1,
                 NFSe.Intermediario.Identificacao.InscricaoMunicipal, DSC_IM));
 end;
 
@@ -406,27 +400,27 @@ begin
     if (Imovel.ender.CEP <> '') then
     begin
       // Endereço Nacional
-      Result.AppendChild(AddNode(tcStr, '#1', 'end_exterior', 1, 1, 1, '0', ''));
+      Result.AppendChild(AddNode(tcStr, '#1', 'end_exterior', 1, 1, 0, '0', ''));
 
       Result.AppendChild(AddNode(tcStr, '#1', 'inscImobFisc', 1, 30, 0,
                                                       Imovel.inscImobFisc, ''));
 
-      Result.AppendChild(AddNode(tcStr, '#1', 'cib', 1, 8, 1,
+      Result.AppendChild(AddNode(tcStr, '#1', 'cib', 1, 8, 0,
                                                               Imovel.cCIB, ''));
 
-      Result.AppendChild(AddNode(tcStr, '#1', 'cep', 8, 8, 1,
+      Result.AppendChild(AddNode(tcStr, '#1', 'cep', 8, 8, 0,
                                                          Imovel.ender.CEP, ''));
 
-      Result.AppendChild(AddNode(tcStr, '#1', 'logradouro', 1, 255, 1,
+      Result.AppendChild(AddNode(tcStr, '#1', 'logradouro', 1, 255, 0,
                                                         Imovel.ender.xLgr, ''));
 
-      Result.AppendChild(AddNode(tcStr, '#1', 'numero', 1, 60, 1,
+      Result.AppendChild(AddNode(tcStr, '#1', 'numero', 1, 60, 0,
                                                          Imovel.ender.nro, ''));
 
       Result.AppendChild(AddNode(tcStr, '#1', 'complemento', 1, 156, 0,
                                                         Imovel.ender.xCpl, ''));
 
-      Result.AppendChild(AddNode(tcStr, '#1', 'bairro', 1, 60, 1,
+      Result.AppendChild(AddNode(tcStr, '#1', 'bairro', 1, 60, 0,
                                                      Imovel.ender.xBairro, ''));
 
     end;
@@ -436,16 +430,16 @@ begin
       // Endereço Exterior
       Result.AppendChild(AddNode(tcStr, '#1', 'end_exterior', 1, 1, 1, '1', ''));
 
-      Result.AppendChild(AddNode(tcStr, '#1', 'codigo_pais', 1, 11, 1,
+      Result.AppendChild(AddNode(tcStr, '#1', 'codigo_pais', 1, 11, 0,
                         CodIBGEPaisToSiglaISO2(Imovel.ender.endExt.cPais), ''));
 
-      Result.AppendChild(AddNode(tcStr, '#1', 'codigo_postal_exterior', 1, 11, 1,
+      Result.AppendChild(AddNode(tcStr, '#1', 'codigo_postal_exterior', 1, 11, 0,
                                              Imovel.ender.endExt.cEndPost, ''));
 
-      Result.AppendChild(AddNode(tcStr, '#1', 'cidade_exterior', 1, 60, 1,
+      Result.AppendChild(AddNode(tcStr, '#1', 'cidade_exterior', 1, 60, 0,
                                               Imovel.ender.endExt.xCidade, ''));
 
-      Result.AppendChild(AddNode(tcStr, '#1', 'estado_exterior', 1, 60, 1,
+      Result.AppendChild(AddNode(tcStr, '#1', 'estado_exterior', 1, 60, 0,
                                           Imovel.ender.endExt.xEstProvReg, ''));
     end;
   end;
