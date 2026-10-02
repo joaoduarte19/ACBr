@@ -7,6 +7,7 @@ Próprio  Agili                 21 cidades - Pronto para a RTC (Permite uma list
 Próprio  Aspec                 28 cidades                     (Permite uma lista de itens)
 Próprio  AssessorPublico        4 cidades                     (Permite uma lista de itens)
 Próprio  Bauhaus                9 cidades                     (Permite uma lista de itens)
+Próprio  Balker                 1 cidade
 PN       Betha                226 cidades - Pronto para a RTC (Padrão Nacional)
 ABRASFv2 Centi                 44 cidades
 ABRASFv1 CIGA                   1 cidade

@@ -52,9 +52,9 @@ type
 
     function GerarDadosPrestador: TACBrXmlNode;
     function GerarDadosServico: TACBrXmlNode;
-    function GerarDadosTomador: TACBrXmlNode;
-    function GerarDetalheServico: TACBrXmlNode;
-    function GerarItem: TACBrXmlNode;
+    function GerarDadosTomador: TACBrXmlNode; virtual;
+    function GerarDetalheServico: TACBrXmlNode; virtual;
+    function GerarItem: TACBrXmlNode; virtual;
   public
     function GerarXml: Boolean; override;
 

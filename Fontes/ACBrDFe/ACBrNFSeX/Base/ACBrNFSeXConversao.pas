@@ -125,7 +125,7 @@ type
   TnfseProvedor = (proNenhum,
                    proPadraoNacional,
                    proAbaco, proABase, proActcon, proAdm, proADPM, proAEG, proAgape,
-                   proAgili, proAspec, proAssessorPublico, proAsten, proBauhaus,
+                   proAgili, proAspec, proAssessorPublico, proAsten, proBalker, proBauhaus,
                    proBetha, proBHISS, proBWSistemas, proCenti, proCIGA, proCitta,
                    proConam, proContass, proCoplan, proCTA, proCTAConsult, proDataSmart,
                    proDBSeller, proDeISS, proDesenvolve, proDigifred, proDSF,

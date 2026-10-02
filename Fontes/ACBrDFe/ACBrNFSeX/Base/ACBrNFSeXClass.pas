@@ -1255,6 +1255,7 @@ type
     FAtualizaTomador: TnfseSimNao;
     FTomadorExterior: TnfseSimNao;
     FTomadorSubstitutoTributario: TnfseSimNao;
+    FaoConsumidor: TnfseSimNao;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1267,6 +1268,9 @@ type
     property AtualizaTomador: TnfseSimNao read FAtualizaTomador write FAtualizaTomador;
     property TomadorExterior: TnfseSimNao read FTomadorExterior write FTomadorExterior;
     property TomadorSubstitutoTributario: TnfseSimNao read FTomadorSubstitutoTributario write FTomadorSubstitutoTributario;
+
+    // Incluido para atender o provedor Balker
+    property aoConsumidor: TnfseSimNao read FaoConsumidor write FaoConsumidor;
   end;
 
   TDadosIntermediario = class(TObject)
@@ -2144,6 +2148,7 @@ type
     FValorCbs: Double;
     FValorIbsEstadual: Double;
     FIbsMunicipal: Double;
+    FibsIsento: TnfseSimNao;
   public
     constructor Create;
     destructor Destroy; override;
@@ -2158,6 +2163,9 @@ type
     property ValorIbsEstadual: Double read FValorIbsEstadual write FValorIbsEstadual;
     property Cbs: Double read FCbs write FCbs;
     property ValorCbs: Double read FValorCbs write FValorCbs;
+
+    // Incluido para atender o provedor Balker
+    property ibsIsento: TnfseSimNao read FibsIsento write FibsIsento;
   end;
 
   { TenderImovel }
@@ -2697,6 +2705,7 @@ begin
   FContato := TContato.Create;
 
   FTomadorExterior := snNao;
+  FaoConsumidor := snNao;
 end;
 
 destructor TDadosTomador.Destroy;
@@ -3507,6 +3516,8 @@ begin
 
   FgReeRepRes := TgReeRepRes.Create;
   Ftrib := Ttrib.Create;
+
+  FibsIsento := snNao;
 end;
 
 destructor Tvalorestrib.Destroy;

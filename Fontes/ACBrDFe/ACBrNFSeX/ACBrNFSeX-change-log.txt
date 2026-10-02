@@ -43,7 +43,14 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 02/10/2026
+-- ACBrNFSeXClass/ACBrNFSeXConversao/ACBRNFSeXProviderManager/Balker.GravarXml/Balker.LerXML/Balker.Provider/Giap.GravarXml --
+[+] ACBR-9447 - Implementa o novo provedor Balker
+   Por: Areco Desenv
+   Veja: https://www.projetoacbr.com.br/forum/topic/92613-acbr-9447-altera%C3%A7%C3%B5es-no-xml-do-provedor-vinhedo-sp/  
 -- ACBrNFSeXServicos --
+[+] ACBR-9447 - A cidade de Vinhedo/SP mudou de provedor, agora é Balker
+   Por: Areco Desenv
+   Veja: https://www.projetoacbr.com.br/forum/topic/92613-acbr-9447-altera%C3%A7%C3%B5es-no-xml-do-provedor-vinhedo-sp/ 
 [*] ACBR-9965 - Alteração de Layout para o município de Rio Grande/RS
 	Veja: https://www.projetoacbr.com.br/forum/topic/95144-troca-de-webservice-rio-grande-rs/
 	Por: dna.automacao

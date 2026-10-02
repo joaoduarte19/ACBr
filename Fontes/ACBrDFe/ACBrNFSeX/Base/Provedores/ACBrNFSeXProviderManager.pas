@@ -64,6 +64,7 @@ uses
   Aspec.Provider,
   AssessorPublico.Provider,
   Asten.Provider,
+  Balker.Provider,
   Bauhaus.Provider,
   Betha.Provider,
   BHISS.Provider,
@@ -247,6 +248,7 @@ begin
         Result := TACBrNFSeProviderAssessorPublico.Create(ACBrNFSe);
 
       proAsten:   Result := TACBrNFSeProviderAsten202.Create(ACBrNFSe);
+      proBalker : Result := TACBrNFSeProviderBalker.Create(ACBrNFSe);
       proBauhaus: Result := TACBrNFSeProviderBauhaus.Create(ACBrNFSe);
 
       proBetha:
