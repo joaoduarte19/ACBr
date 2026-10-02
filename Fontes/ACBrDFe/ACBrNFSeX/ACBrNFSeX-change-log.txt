@@ -44,6 +44,29 @@ Símbolo : Significado
 
 02/10/2026
 -- ACBrNFSeXServicos --
+[*] ACBR-9965 - Alteração de Layout para o município de Rio Grande/RS
+	Veja: https://www.projetoacbr.com.br/forum/topic/95144-troca-de-webservice-rio-grande-rs/
+	Por: dna.automacao
+[*] ACBR-9888 - Alteração na URL de produção para o município de Nova Maringa/MT
+	Veja: https://www.projetoacbr.com.br/forum/topic/94890-acbr-9888-altera%C3%A7%C3%A3o-do-link-de-nova-maringa-mt/
+	Por: Diego Reckziegel 
+[*] ACBR-9878 - Ajuste no Params do provedor SimplISS, que possui a Consulta própria
+	Veja: https://www.projetoacbr.com.br/forum/topic/94819-atualiza%C3%A7%C3%A3o-acbrnfsexservicosini-simpliss/
+	Por: Andriano Teodorico
+[*] ACBR-9875 - Alteração de Layout para o município de Serro/MG
+	Veja: https://www.projetoacbr.com.br/forum/topic/94778-acbr-9864acbr-9865-munic%C3%ADpios-com-provedores-desatualizados-no-acbrnfsexservicosini/?&_rid=153416#findComment-620339
+	Por: Lucasatz
+[*] ACBR-9874 - Alteração de Layout para o município de São João Evangelista/MG
+	Por: Larissa Santos
+[*] ACBR-9867 - O município de Pomerode/SC aderiu ao Padrão Nacional
+	Veja: https://discordapp.com/channels/798697718800318484/800042186783588364/1549529340360794153
+	Por: Ademar Scariot/Larissa Santos
+[*] ACBR-9854 - Alteração de Layout para o município de Bueno Brandão/MG
+	Veja: https://www.projetoacbr.com.br/forum/topic/94744-atualizar-url-para-bueno-brand%C3%A3omg/
+	Por: Fabio Luiz Binhara
+[*] ACBR-9622 - Alteração de Layout para o município de João Pessoa/PB
+	Veja: https://www.projetoacbr.com.br/forum/topic/93421-adequa%C3%A7%C3%A3o-de-nfse-em-jo%C3%A3o-pessoapb-para-a-reforma-tribut%C3%A1ria/
+	Por: TrueSoft/Larissa Santos
 [*] ACBR-9962 - A cidade de São Marcos/RS aderiu ao Emissor Nacional, portanto Padrão Nacional.
    Por: dna.automacao
 [*] ACBR-9961 - A cidade de São Gabriel da Palha/ES passou a utilizar a nova API do provedor.
