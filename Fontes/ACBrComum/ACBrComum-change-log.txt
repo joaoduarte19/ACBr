@@ -37,6 +37,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+02/10/2026
+-- ACBrUtil.Strings.pas --
+[-] Correção no método "GetSysANSIencoding" para pegar corretamente o Encoding
+    em aplicações Console em FPC
+    (por: DSA)
+
 11/09/2026
 -- ACBrUtil.Strings.pas --
 [-] Correção no método "Split" para D7, e Strings que terminam com o Delimitador

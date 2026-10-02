@@ -472,7 +472,7 @@ end;
 {$IfDef FPC}
 function GetSysANSIencoding: String;
 begin
-  Result := {$IfDef NOGUI}GetConsoleTextEncoding{$Else}GetDefaultTextEncoding{$EndIf};
+  Result := GetDefaultTextEncoding;
   if (Result = EncodingUTF8) or (Result = EncodingAnsi) then
     Result := 'cp1252';  // Usando página de código ANSI padrão para o Brasil
 end;
