@@ -42,6 +42,31 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+02/10/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9961 - A cidade de São Gabriel da Palha/ES passou a utilizar a nova API do provedor.
+   Por: PrimeSoftware
+[*] ACBR-9960 - A cidade de Tupandi/RS aderiu ao Emissor Nacional, portanto Padrão Nacional.
+   Por: dna.automacao
+[*] ACBR-9959 - A cidade de Anchieta/ES passou a utilizar a nova API do provedor.
+   Por: Geraldo Moura
+[*] ACBR-9958 - A cidade de Teresina/PI passou a utilizar a nova API do provedor.
+   Por: PrimeSoftware
+[*] ACBR-9949 - A cidade de Petrolina/PE passou a utilizar a nova API do provedor.
+   Por: Windel Sistemas
+[*] ACBR-9947 - A cidade de Conceição do Castelo/ES passou a utilizar a nova API do provedor.
+   Por: Jonathan Botelho
+[*] ACBR-9927 - A cidade de Bossoroca/RS o provedor correto é ABase.
+   Por: dsky
+[*] ACBR-9913 - A cidade de Paranaguá/PR trocou de provedor, agora é EloTech
+   Por: LS Adriano
+[*] ACBR-9894 - Correção na URL da cidade de Santa Terezinha de Itaipu/PR.
+   Por: IgorAcertSoft
+[*] ACBR-9880 - A cidade de Teutônia/RS aderiu ao Emissor Nacional, portanto Padrão Nacional.
+   Por: IgorAcertSoft
+[*] ACBR-9572 - A cidade de São José dos Campos/SP aderiu ao Emissor Nacional, portanto Padrão Nacional.
+   Por: dkinformatica
+
 01/10/2026
 -- Tecnos.GravarXml/Tecnos.Provider --
 [*] ACBR-9946 - Alterações visando gerar e validar o XML do RPS do provedor Tecnos perante
