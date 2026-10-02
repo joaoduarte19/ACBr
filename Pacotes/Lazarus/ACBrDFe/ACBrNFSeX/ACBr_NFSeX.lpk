@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
-  <Package Version="4">
+  <Package Version="5">
     <PathDelim Value="\"/>
     <Name Value="ACBr_NFSeX"/>
     <Type Value="RunAndDesignTime"/>
@@ -13,7 +13,7 @@
         <UnitOutputDirectory Value="..\..\..\..\Lib\Lazarus\ACBrDFe\ACBrNFSeX\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
     </CompilerOptions>
-    <Files Count="461">
+    <Files Count="464">
       <Item1>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\ACBrNFSeXReg.pas"/>
         <HasRegisterProc Value="True"/>
@@ -1859,7 +1859,19 @@
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\NFOnline.Provider.pas"/>
         <UnitName Value="NFOnline.Provider"/>
       </Item461>
-   </Files>
+      <Item462>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\Balker.GravarXml.pas"/>
+        <UnitName Value="Balker.GravarXml"/>
+      </Item462>
+      <Item463>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\Balker.LerXml.pas"/>
+        <UnitName Value="Balker.LerXml"/>
+      </Item463>
+      <Item464>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\Balker.Provider.pas"/>
+        <UnitName Value="Balker.Provider"/>
+      </Item464>
+    </Files>
     <RequiredPkgs Count="2">
       <Item1>
         <PackageName Value="ACBrDFeComum"/>

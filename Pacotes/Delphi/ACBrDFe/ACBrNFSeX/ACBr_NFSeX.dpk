@@ -528,6 +528,9 @@ contains
   WebISS.Provider in '..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\WebISS.Provider.pas',
   XTRTecnologia.GravarJson in '..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\XTRTecnologia.GravarJson.pas',
   XTRTecnologia.LerJson in '..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\XTRTecnologia.LerJson.pas',
-  XTRTecnologia.Provider in '..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\XTRTecnologia.Provider.pas';
+  XTRTecnologia.Provider in '..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\XTRTecnologia.Provider.pas',
+  Balker.GravarXml in '..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\Balker.GravarXml.pas',
+  Balker.LerXml in '..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\Balker.LerXml.pas',
+  Balker.Provider in '..\..\..\..\Fontes\ACBrDFe\ACBrNFSeX\Provedores\Balker.Provider.pas';
 
 end.
