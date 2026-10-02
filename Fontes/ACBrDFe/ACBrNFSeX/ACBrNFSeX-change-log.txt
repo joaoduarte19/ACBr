@@ -44,6 +44,8 @@ Símbolo : Significado
 
 02/10/2026
 -- ACBrNFSeXServicos --
+[*] ACBR-9962 - A cidade de São Marcos/RS aderiu ao Emissor Nacional, portanto Padrão Nacional.
+   Por: dna.automacao
 [*] ACBR-9961 - A cidade de São Gabriel da Palha/ES passou a utilizar a nova API do provedor.
    Por: PrimeSoftware
 [*] ACBR-9960 - A cidade de Tupandi/RS aderiu ao Emissor Nacional, portanto Padrão Nacional.
