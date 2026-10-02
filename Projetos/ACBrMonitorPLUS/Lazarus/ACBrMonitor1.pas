@@ -11463,7 +11463,10 @@ begin
     end
     else
     begin
-      ACBrNFe1.DANFE := ACBrNFeDANFeRL1;
+      if ACBrNFe1.NotasFiscais[0].NFe.Ide.tpImp = tiSimplificadoTipo2 then
+        ACBrNFe1.DANFE := ACBrNFeDANFCeFortes1
+      else
+        ACBrNFe1.DANFE := ACBrNFeDANFeRL1;
       if NaoEstaVazio(cbxImpressora.Text) then
         ACBrNFe1.DANFE.Impressora := cbxImpressora.Text
     end;

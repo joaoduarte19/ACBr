@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+02/10/2026
+-- ACBrMonitor1/DoACBrNFeUnit --
+[+] ACBR-9942 - Adiciona a impressão do DANFe Simplificado Tipo 2
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/94858-danfe-simplificado-tipo-2-sendo-disponibilizado-nos-motores-de-relat%C3%B3rio-do-acbr/
+
 17/09/2026
 -- ACBrMonitor1/DoACBrMDFeUnit/DoACBrNFeUnit --
 [*] Substituição das units pcnConversao por ACBrDFe.Conversao, pmdfMDFeConversao por ACBrMDFe.Conversao, remoção da unit pcnAuxiliar das rotinas do MDFe e melhoria das rotinas LerINI para os objetos MDFe e NFe.

@@ -1614,7 +1614,7 @@ var
   CargaDFe: TACBrCarregarNFe;
   MarcaDagua: String;
   Consumidor: Boolean;
-  Simplificado: Boolean;
+  Simplificado, lSimplificadoTipo2: Boolean;
 begin
   AXML := fpCmd.Params(0);
   AProtocolo := fpCmd.Params(1);
@@ -1629,7 +1629,9 @@ begin
     try
       DoConfiguraDANFe(True, '');
 
-      if (ACBrNFe.NotasFiscais.Items[0].NFe.Ide.modelo = CModeloNFe55) then
+      lSimplificadoTipo2 := ACBrNFe.NotasFiscais.Items[0].NFe.Ide.tpImp = tiSimplificadoTipo2;
+      if (ACBrNFe.NotasFiscais.Items[0].NFe.Ide.modelo = CModeloNFe55) and
+         (not(lSimplificadoTipo2)) then
       begin
         if NaoEstaVazio(MarcaDagua) then
           TACBrNFeDANFeRL(ACBrNFe.DANFE).MarcadAgua:= MarcaDagua
@@ -1646,6 +1648,9 @@ begin
 
       if Simplificado and (ACBrNFe.DANFE is TACBrNFeDANFEClass)  then
         TACBrNFeDANFEClass(ACBrNFe.DANFE).TipoDANFE := tiSimplificado;
+
+      if ((ACBrNFe.DANFE is TACBrNFeDANFCEClass) and (lSimplificadoTipo2)) then
+        TACBrNFeDANFEClass(ACBrNFe.DANFE).TipoDANFE := tiSimplificadoTipo2;
 
       try
         ACBrNFe.NotasFiscais.ImprimirPDF;
@@ -2181,7 +2186,7 @@ var
   APreview: String;
   AMarcaDagua: String;
   AConsumidor: Boolean;
-  ASimplificado: Boolean;
+  ASimplificado, lSimplificadoTipo2: Boolean;
 begin
   AChave := fpCmd.Params(0);
   AImpressora := fpCmd.Params(1);
@@ -2207,7 +2212,10 @@ begin
 
       ACBrNFe.DANFe.Protocolo := trim( AProtocolo );
 
-      if (ACBrNFe.NotasFiscais.Items[0].NFe.Ide.modelo = 55) then
+      lSimplificadoTipo2 := ACBrNFe.NotasFiscais.Items[0].NFe.Ide.tpImp = tiSimplificadoTipo2;
+
+      if (ACBrNFe.NotasFiscais.Items[0].NFe.Ide.modelo = CModeloNFe55) and
+         (not(lSimplificadoTipo2)) then
       begin
         if NaoEstaVazio(AMarcaDagua) then
           TACBrNFeDANFeRL(ACBrNFe.DANFE).MarcadAgua:= AMarcaDagua
@@ -2215,13 +2223,16 @@ begin
           TACBrNFeDANFeRL(ACBrNFe.DANFE).MarcadAgua:= '';
       end;
 
-      if ACBrNFe.NotasFiscais.Items[0].NFe.Ide.modelo = 65 then
+      if ACBrNFe.NotasFiscais.Items[0].NFe.Ide.modelo = CModeloNFe65 then
       begin
         TACBrNFeDANFCEClass(ACBrNFe.DANFE).ViaConsumidor := AConsumidor;
       end;
 
       if ASimplificado and (ACBrNFe.DANFE is TACBrNFeDANFEClass) then
           TACBrNFeDANFEClass(ACBrNFe.DANFE).TipoDANFE := tiSimplificado;
+
+      if ((ACBrNFe.DANFE is TACBrNFeDANFCEClass) and (lSimplificadoTipo2)) then
+        TACBrNFeDANFEClass(ACBrNFe.DANFE).TipoDANFE := tiSimplificadoTipo2;
 
       try
         DoAntesDeImprimir(( StrToBoolDef( APreview, False) ) or (MonitorConfig.DFE.Impressao.DANFE.MostrarPreview ));
