@@ -44,6 +44,10 @@ Símbolo : Significado
 
 05/10/2026
 -- Tecnos.GravarXml --
+[*] ACBR-9946 - Reescrita a função tpEnteGovToStr pois o provedor não segue os valores definidos pelo
+   Padrão Nacional.
+   Por: Italo Giurizzato Junior
+-- Tecnos.GravarXml --
 [*] ACBR-9946 - Alterações visando gerar e validar o XML do RPS do provedor Tecnos perante os Schemas.
    Por: Italo Giurizzato Junior
 
