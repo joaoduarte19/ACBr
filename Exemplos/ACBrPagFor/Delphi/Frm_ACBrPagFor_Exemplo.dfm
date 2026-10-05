@@ -14,12 +14,12 @@ object frmACBrPagFor_Exemplo: TfrmACBrPagFor_Exemplo
   Font.Style = []
   OnCreate = FormCreate
   OnShow = FormShow
-  TextHeight = 13
+  TextHeight = 14
   object Label1: TLabel
     Left = 303
     Top = 134
-    Width = 94
-    Height = 13
+    Width = 95
+    Height = 14
     Caption = 'Log de Mensagens:'
   end
   object btnGerar: TButton
@@ -57,8 +57,8 @@ object frmACBrPagFor_Exemplo: TfrmACBrPagFor_Exemplo
     object lblColaborador: TLabel
       Left = 15
       Top = 404
-      Width = 261
-      Height = 13
+      Width = 251
+      Height = 14
       Cursor = crHandPoint
       Caption = 'Veja a lista de Colaboradores do Projeto ACBr'
       Font.Charset = DEFAULT_CHARSET
@@ -72,8 +72,8 @@ object frmACBrPagFor_Exemplo: TfrmACBrPagFor_Exemplo
     object lblPatrocinador: TLabel
       Left = 15
       Top = 419
-      Width = 265
-      Height = 13
+      Width = 253
+      Height = 14
       Cursor = crHandPoint
       Caption = 'Veja a lista de Patrocinadores do Projeto ACBr'
       Font.Charset = DEFAULT_CHARSET
@@ -87,8 +87,8 @@ object frmACBrPagFor_Exemplo: TfrmACBrPagFor_Exemplo
     object lblDoar1: TLabel
       Left = 21
       Top = 435
-      Width = 255
-      Height = 13
+      Width = 244
+      Height = 14
       Cursor = crHandPoint
       Caption = 'Para se tornar Patrocinador do Projeto ACBr,'
       Font.Charset = DEFAULT_CHARSET
@@ -102,8 +102,8 @@ object frmACBrPagFor_Exemplo: TfrmACBrPagFor_Exemplo
     object lblDoar2: TLabel
       Left = 116
       Top = 451
-      Width = 63
-      Height = 13
+      Width = 59
+      Height = 14
       Cursor = crHandPoint
       Caption = 'clique aqui'
       Font.Charset = DEFAULT_CHARSET
@@ -135,183 +135,183 @@ object frmACBrPagFor_Exemplo: TfrmACBrPagFor_Exemplo
           object Label12: TLabel
             Left = 8
             Top = 4
-            Width = 27
-            Height = 13
+            Width = 25
+            Height = 14
             Caption = 'CNPJ'
           end
           object Label13: TLabel
             Left = 136
             Top = 4
             Width = 41
-            Height = 13
+            Height = 14
             Caption = 'Insc.Est.'
           end
           object Label14: TLabel
             Left = 8
             Top = 44
             Width = 63
-            Height = 13
+            Height = 14
             Caption = 'Raz'#227'o Social'
           end
           object Label15: TLabel
             Left = 8
             Top = 84
-            Width = 40
-            Height = 13
+            Width = 41
+            Height = 14
             Caption = 'Fantasia'
           end
           object Label16: TLabel
             Left = 8
             Top = 164
-            Width = 54
-            Height = 13
+            Width = 56
+            Height = 14
             Caption = 'Logradouro'
           end
           object Label17: TLabel
             Left = 208
             Top = 164
             Width = 37
-            Height = 13
+            Height = 14
             Caption = 'N'#250'mero'
           end
           object Label18: TLabel
             Left = 8
             Top = 204
             Width = 64
-            Height = 13
+            Height = 14
             Caption = 'Complemento'
           end
           object Label19: TLabel
             Left = 136
             Top = 204
-            Width = 27
-            Height = 13
+            Width = 29
+            Height = 14
             Caption = 'Bairro'
           end
           object Label20: TLabel
             Left = 8
             Top = 244
             Width = 61
-            Height = 13
+            Height = 14
             Caption = 'C'#243'd. Cidade '
           end
           object Label21: TLabel
             Left = 76
             Top = 244
             Width = 33
-            Height = 13
+            Height = 14
             Caption = 'Cidade'
           end
           object Label22: TLabel
             Left = 225
             Top = 244
-            Width = 14
-            Height = 13
+            Width = 13
+            Height = 14
             Caption = 'UF'
           end
           object Label23: TLabel
             Left = 136
             Top = 124
-            Width = 21
-            Height = 13
+            Width = 19
+            Height = 14
             Caption = 'CEP'
           end
           object Label24: TLabel
             Left = 8
             Top = 124
             Width = 24
-            Height = 13
+            Height = 14
             Caption = 'Fone'
           end
           object edtEmitCNPJ: TEdit
             Left = 8
             Top = 20
             Width = 123
-            Height = 21
+            Height = 22
             TabOrder = 0
           end
           object edtEmitIE: TEdit
             Left = 137
             Top = 20
             Width = 123
-            Height = 21
+            Height = 22
             TabOrder = 1
           end
           object edtEmitRazao: TEdit
             Left = 8
             Top = 60
             Width = 252
-            Height = 21
+            Height = 22
             TabOrder = 2
           end
           object edtEmitFantasia: TEdit
             Left = 8
             Top = 100
             Width = 252
-            Height = 21
+            Height = 22
             TabOrder = 3
           end
           object edtEmitFone: TEdit
             Left = 8
             Top = 140
             Width = 125
-            Height = 21
+            Height = 22
             TabOrder = 4
           end
           object edtEmitCEP: TEdit
             Left = 137
             Top = 140
             Width = 123
-            Height = 21
+            Height = 22
             TabOrder = 5
           end
           object edtEmitLogradouro: TEdit
             Left = 8
             Top = 180
             Width = 196
-            Height = 21
+            Height = 22
             TabOrder = 6
           end
           object edtEmitNumero: TEdit
             Left = 210
             Top = 180
             Width = 50
-            Height = 21
+            Height = 22
             TabOrder = 7
           end
           object edtEmitComp: TEdit
             Left = 8
             Top = 220
             Width = 123
-            Height = 21
+            Height = 22
             TabOrder = 8
           end
           object edtEmitBairro: TEdit
             Left = 137
             Top = 220
             Width = 123
-            Height = 21
+            Height = 22
             TabOrder = 9
           end
           object edtEmitCodCidade: TEdit
             Left = 8
             Top = 260
             Width = 61
-            Height = 21
+            Height = 22
             TabOrder = 10
           end
           object edtEmitCidade: TEdit
             Left = 76
             Top = 260
             Width = 142
-            Height = 21
+            Height = 22
             TabOrder = 11
           end
           object edtEmitUF: TEdit
             Left = 225
             Top = 260
             Width = 35
-            Height = 21
+            Height = 22
             TabOrder = 12
           end
         end
@@ -322,7 +322,7 @@ object frmACBrPagFor_Exemplo: TfrmACBrPagFor_Exemplo
             Left = 8
             Top = 8
             Width = 31
-            Height = 13
+            Height = 14
             Caption = 'Banco'
           end
           object sbtnPathSalvar: TSpeedButton
@@ -350,7 +350,7 @@ object frmACBrPagFor_Exemplo: TfrmACBrPagFor_Exemplo
             Left = 8
             Top = 52
             Width = 45
-            Height = 13
+            Height = 14
             Caption = 'Conv'#234'nio'
           end
           object cbBanco: TComboBox
@@ -385,14 +385,14 @@ object frmACBrPagFor_Exemplo: TfrmACBrPagFor_Exemplo
             Left = 9
             Top = 269
             Width = 228
-            Height = 21
+            Height = 22
             TabOrder = 2
           end
           object edtConvenio: TEdit
             Left = 8
             Top = 68
             Width = 123
-            Height = 21
+            Height = 22
             TabOrder = 3
           end
           object grpConta: TGroupBox
@@ -405,85 +405,85 @@ object frmACBrPagFor_Exemplo: TfrmACBrPagFor_Exemplo
             object Label3: TLabel
               Left = 8
               Top = 15
-              Width = 39
-              Height = 13
+              Width = 40
+              Height = 14
               Caption = 'Ag'#234'ncia'
             end
             object Label4: TLabel
               Left = 140
               Top = 15
               Width = 15
-              Height = 13
+              Height = 14
               Caption = 'DV'
             end
             object Label5: TLabel
               Left = 7
               Top = 57
               Width = 28
-              Height = 13
+              Height = 14
               Caption = 'Conta'
             end
             object Label6: TLabel
               Left = 139
               Top = 57
               Width = 15
-              Height = 13
+              Height = 14
               Caption = 'DV'
             end
             object Label7: TLabel
               Left = 8
               Top = 101
               Width = 15
-              Height = 13
+              Height = 14
               Caption = 'DV'
             end
             object Label8: TLabel
               Left = 42
               Top = 101
-              Width = 67
-              Height = 13
+              Width = 66
+              Height = 14
               Caption = 'Tipo de Conta'
             end
             object edtAgencia: TEdit
               Left = 8
               Top = 31
               Width = 123
-              Height = 21
+              Height = 22
               TabOrder = 0
             end
             object edtAgenciaDV: TEdit
               Left = 140
               Top = 31
               Width = 25
-              Height = 21
+              Height = 22
               TabOrder = 1
             end
             object edtContaNumero: TEdit
               Left = 7
               Top = 73
               Width = 123
-              Height = 21
+              Height = 22
               TabOrder = 2
             end
             object edtContaDV: TEdit
               Left = 139
               Top = 73
               Width = 25
-              Height = 21
+              Height = 22
               TabOrder = 3
             end
             object edtDV: TEdit
               Left = 8
               Top = 117
               Width = 25
-              Height = 21
+              Height = 22
               TabOrder = 4
             end
             object edtTipoConta: TEdit
               Left = 42
               Top = 117
               Width = 123
-              Height = 21
+              Height = 22
               TabOrder = 5
             end
           end

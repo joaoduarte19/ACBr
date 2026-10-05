@@ -678,10 +678,10 @@ begin
             DataPagamento  := StrToDate('25/07/2016');
             Moeda.Tipo     := tmReal;
             Moeda.Qtde     := 0.0;
-            ValorPagamento := 100.0;
+            ValorPagamento := 100.25;
             NossoNumero    := '';
             DataReal       := StrToDate('25/07/2016');
-            ValorReal      := 100.0;
+            ValorReal      := 100.25;
 
             // Usado pela Caixa
             QtdeParcelas   := 1;
@@ -719,7 +719,7 @@ begin
             end;
 
             DataVencimento:= StrToDate('25/07/2016');
-            Valor         := 100.00;
+            Valor         := 100.25;
             Abatimento    := 0.00;
             Desconto      := 0.00;
             Mora          := 0.00;

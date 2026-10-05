@@ -184,10 +184,10 @@ begin
 
         try
           valorDbl := Campo; // Converte Variant para Double
-          xCampo := TBStrZero(FloatToStr(valorDbl * Fator), Tamanho);
+          xCampo := TBStrZero(IntToStr(Round(valorDbl * Fator)), Tamanho);
         except
           valorDbl := 0;
-          xCampo := TBStrZero(FloatToStr(valorDbl), Tamanho);
+          xCampo := TBStrZero(IntToStr(Round(valorDbl)), Tamanho);
         end;
       end;
 
