@@ -464,6 +464,7 @@ begin
   if not Assigned(ANode) then Exit;
 
   BPe.infValorBPe.vBP := ObterConteudo(ANode.Childrens.Find('vBP'), tcDe2);
+  BPe.infValorBPe.vBPLiq := ObterConteudo(ANode.Childrens.Find('vBPLiq'), tcDe2);
   BPe.infValorBPe.vDesconto := ObterConteudo(ANode.Childrens.Find('vDesconto'), tcDe2);
   BPe.infValorBPe.vPgto := ObterConteudo(ANode.Childrens.Find('vPgto'), tcDe2);
   BPe.infValorBPe.vTroco := ObterConteudo(ANode.Childrens.Find('vTroco'), tcDe2);
@@ -620,6 +621,7 @@ begin
       nContFim := ObterConteudo(ADetNodes[i].Childrens.Find('nContFim'), tcStr);
       qPass := ObterConteudo(ADetNodes[i].Childrens.Find('qPass'), tcStr);
       vBP := ObterConteudo(ADetNodes[i].Childrens.Find('vBP'), tcDe2);
+      vBPLiq := ObterConteudo(ADetNodes[i].Childrens.Find('vBPLiq'), tcDe2);
 
       ANodeNivel3 := ADetNodes[i].Childrens.Find('imp');
 
@@ -679,6 +681,7 @@ begin
 
   BPe.Total.qPass := ObterConteudo(ANode.Childrens.Find('qPass'), tcInt);
   BPe.Total.vBP := ObterConteudo(ANode.Childrens.Find('vBP'), tcDe2);
+  BPe.Total.vBPLiq := ObterConteudo(ANode.Childrens.Find('vBPLiq'), tcDe2);
 
   AuxNode := ANode.Childrens.Find('ICMSTot');
 

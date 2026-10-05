@@ -45,6 +45,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+05/10/2026
+-- Diversos --
+[*] Alterações visando atender a NT 2026/004 versão 1.00
+   Por: Italo Giurizzato Junior
+
 17/09/2026
 -- ACBrBPe,ACBrBPeBilhetes,ACBrBPeDABPEClass,ACBrBPeDABPeFPDF,ACBrBPeDABPeFPDFReg,ACBrBPeUtilsFPDF,ACBr_BPeDABPeFPDF,DCLACBr_BPeDABPeFPDF,ACBr_BPe_DABPeFPDF,ACBr.FrameLista --
 [+] ACBR-9750: Implementado componente ACBr_BPe_DABPeFPDF

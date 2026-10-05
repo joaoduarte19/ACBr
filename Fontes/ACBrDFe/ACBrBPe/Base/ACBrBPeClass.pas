@@ -120,6 +120,7 @@ type
     FvICMS: Double;
     FIBSCBSTot: TIBSCBSTot;
     FvTotDFe: Double;
+    FvBPLiq: Double;
   public
     constructor Create;
     destructor Destroy; override;
@@ -127,6 +128,7 @@ type
 
     property qPass : Integer read FqPass write FqPass;
     property vBP: Double     read FvBP   write FvBP;
+    property vBPLiq: Double  read FvBPLiq write FvBPLiq;
     property vBC: Double     read FvBC   write FvBC;
     property vICMS: Double   read FvICMS write FvICMS;
     // Reforma Tributaria
@@ -143,6 +145,7 @@ type
     FnContFim: String;
     FqPass: String;
     FvBP: Double;
+    FvBPLiq: Double;
     Fimp: TImp;
     FComp: TdetCompCollection;
 
@@ -159,6 +162,7 @@ type
     property nContFim: String         read FnContFim    write FnContFim;
     property qPass: String            read FqPass       write FqPass;
     property vBP: Double              read FvBP         write FvBP;
+    property vBPLiq: Double           read FvBPLiq      write FvBPLiq;
     property imp: TImp                read Fimp         write Fimp;
     property Comp: TdetCompCollection read FComp        write SetComp;
   end;
@@ -607,6 +611,7 @@ type
   TinfValorBPe = class(TObject)
   private
     FvBP: Currency;
+    FvBPLiq: Currency;
     FvDesconto: Currency;
     FvPgto: Currency;
     FvTroco: Currency;
@@ -622,6 +627,7 @@ type
 
     procedure Assign(Source: TinfValorBPe);
     property vBP: Currency read FvBP write FvBP;
+    property vBPLiq: Currency read FvBPLiq write FvBPLiq;
     property vDesconto: Currency read FvDesconto write FvDesconto;
     property vPgto: Currency read FvPgto write FvPgto;
     property vTroco: Currency read FvTroco write FvTroco;
@@ -1476,6 +1482,7 @@ begin
   nContFim    := Source.nContFim;
   qPass       := Source.qPass;
   vBP         := Source.vBP;
+  vBPLiq      := Source.vBPLiq;
 
   imp.Assign(Source.imp);
   Comp.Assign(Source.Comp);
@@ -1563,6 +1570,7 @@ procedure Ttotal.Assign(Source: Ttotal);
 begin
   qPass := Source.qPass;
   vBP := Source.vBP;
+  vBPLiq := Source.vBPLiq;
   vBC := Source.vBC;
   vICMS := Source.vICMS;
   IBSCBSTot := Source.IBSCBSTot;

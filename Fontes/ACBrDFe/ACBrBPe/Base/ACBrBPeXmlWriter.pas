@@ -591,7 +591,8 @@ begin
     Result.AppendChild(AddNode(tcStr, '#50', 'IE', 2, 14, 1,
                                               OnlyNumber(BPe.Comp.IE), DSC_IE));
 
-  Result.AppendChild(Gerar_EnderComp);
+  if BPe.Comp.EnderComp.xLgr <> '' then
+    Result.AppendChild(Gerar_EnderComp);
 end;
 
 function TBPeXmlWriter.Gerar_EnderComp: TACBrXmlNode;
@@ -858,6 +859,9 @@ begin
 
   Result.AppendChild(AddNode(tcDe2, '#115', 'vBP', 1, 15, 1,
                                                  BPe.infValorBPe.vBP, DSC_VBP));
+
+  Result.AppendChild(AddNode(tcDe2, '#115', 'vBPLiq', 1, 15, 0,
+                                           BPe.infValorBPe.vBPLiq, DSC_VBPLIQ));
 
   Result.AppendChild(AddNode(tcDe2, '#116', 'vDesconto', 1, 15, 1,
                                      BPe.infValorBPe.vDesconto, DSC_VDESCONTO));
@@ -1224,6 +1228,9 @@ begin
     Result[i].AppendChild(AddNode(tcDe2, '#55', 'vBP', 1, 15, 1,
                                      BPe.detBPeTM[indice].det[i].vBP, DSC_VBP));
 
+    Result[i].AppendChild(AddNode(tcDe2, '#55', 'vBPLiq', 1, 15, 0,
+                               BPe.detBPeTM[indice].det[i].vBPLiq, DSC_VBPLIQ));
+
     Result[i].AppendChild(Gerar_ImpTM(indice, i));
 
     nodeArray := Gerar_CompValorTM(indice, i);
@@ -1408,6 +1415,9 @@ begin
 
   Result.AppendChild(AddNode(tcDe2, '#87', 'vBP', 1, 15, 1,
                                                        BPe.Total.vBP, DSC_VBP));
+
+  Result.AppendChild(AddNode(tcDe2, '#87', 'vBPLiq', 1, 15, 0,
+                                                 BPe.Total.vBPLiq, DSC_VBPLIQ));
 
   Result.AppendChild(Gerar_TotalICMSTotal);
 
