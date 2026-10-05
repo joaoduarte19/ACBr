@@ -413,12 +413,19 @@ procedure TACBrLib.GravarLog(const AMsg: String; NivelLog: TNivelLog;
   Traduzir: Boolean);
 var
   NomeArq, s: String;
+  lSysInfo: String;
 begin
   if (FLogData < 0) or (Self.Nome = '') or
     (not Assigned(fpConfig)) or (NivelLog > fpConfig.Log.Nivel) then
     Exit;
 
-  s := FormatDateTime('dd/mm/yy hh:nn:ss:zzz', now) {$IFDEF MT} + ' - ThreadID = ' +  IntToHex(GetThreadID,0) + ' , Handle = ' + IntToHex(PtrUInt(self),0) {$ENDIF} + ' - ' + AMsg;
+  lSysInfo:= ' - PID = ' +
+    IntToStr(System.GetProcessID)
+    {$IFDEF MT} + ', ThreadID = ' +  IntToHex(GetThreadID,0) +
+    ', Handle = ' + IntToHex(PtrUInt(self),0)
+    {$ENDIF} + ' - ' + AMsg;
+
+  s := FormatDateTime('dd/mm/yy hh:nn:ss:zzz', now) + lSysInfo;
   {$IfDef ANDROID}{$IfDef FPC}
    SysLogWrite(DefaultSysLogPriority, PAnsiChar(Self.Nome), PAnsiChar(s));      // Write a message to the Android system log.
   {$EndIf}{$EndIf}
