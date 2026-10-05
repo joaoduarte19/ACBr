@@ -876,6 +876,9 @@ begin
     teEmissorProprio:
       xCNPJCPF := DCe.emit.CNPJCPF;
 
+    teECT:
+      xCNPJCPF := DCe.ECT.CNPJ;
+
   else
     xCNPJCPF := DCe.Transportadora.CNPJ;
   end;

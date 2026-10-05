@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+05/10/2026
+-- ACBrDCe.XmlWriter --
+https://www.projetoacbr.com.br/forum/topic/95180-problema-ao-gerar-dc-e-no-tpemit-4-ect/
+[-] ACBr-9979: Ajustes do tpEmit quando teECT para gerar a chave correta
+   Por: Daniel de Morais
+   
 21/09/2026
 -- ACBrDCe.XmlWriter --
 [-] ACBr-9884: Remoção da função OnlyNumber da geração da tag email.
