@@ -358,19 +358,19 @@ begin
   Result.AppendChild(AddNode(tcInt, '#9', 'NumeroParcelas', 1, 3, 1,
                                                       NFSe.NumeroParcelas, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#10', 'CodigoSituacaoTributariaPisCofins', 2, 2, 0,
+  Result.AppendChild(AddNode(tcStr, '#10', 'CodigoSituacaoTributariaPisCofins', 2, 2, 1,
                                CSTToStr(NFSe.Servico.Valores.tribFed.CST), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#11', 'TipoRetencaoPisCofins', 1, 1, 0,
+  Result.AppendChild(AddNode(tcStr, '#11', 'TipoRetencaoPisCofins', 1, 1, 1,
          tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'TipoEnteGovernamental', 1, 1, 0,
+  Result.AppendChild(AddNode(tcStr, '#1', 'TipoEnteGovervamental', 1, 1, 1,
                                     tpEnteGovToStr(NFSe.IBSCBS.tpEnteGov), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'TipoOperacao', 1, 1, 0,
+  Result.AppendChild(AddNode(tcStr, '#1', 'TipoOperacao', 1, 1, 1,
                                    tpOperGovNFSeToStr(NFSe.IBSCBS.tpOper), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'IndicadorDestinatarioServico', 1, 1, 0,
+  Result.AppendChild(AddNode(tcStr, '#1', 'IndicadorDestinatarioServico', 1, 1, 1,
                                         indDestToStr(NFSe.IBSCBS.indDest), ''));
 
   if (NFSe.IBSCBS.dest.xNome <> '') then
