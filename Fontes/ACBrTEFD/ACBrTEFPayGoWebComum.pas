@@ -2044,15 +2044,19 @@ begin
   Erro := Trim(ADefinicaoCampo.MsgValidacao);
 
   case ADefinicaoCampo.ValidacaoDado of
-    pgvDigMod10, pgvCPF_CNPJ, pgvMMAA, pgvDDMMAA:
+    pgvCPF_CNPJ:
+      begin
+        AResposta := OnlyCPFCNPJAlphaNum(AResposta);
+        Valido := (ACBrValidador.ValidarCNPJouCPF(AResposta) = '');
+      end;
+      
+    pgvDigMod10, pgvMMAA, pgvDDMMAA:
       begin
         AResposta := OnlyNumber(AResposta);
 
         case ADefinicaoCampo.ValidacaoDado of
           pgvDigMod10:
             Valido := ValidarModulo10(AResposta);
-          pgvCPF_CNPJ:
-            Valido := (ACBrValidador.ValidarCNPJouCPF(AResposta) = '');
           pgvMMAA:
             Valido := ValidarMMAA(AResposta);
           pgvDDMMAA:
@@ -2496,7 +2500,7 @@ begin
       PWINFO_MERCHNAMEPDC:
         AResposta := NomeEstabelecimento;
       PWINFO_MERCHCNPJCPF:
-        AResposta := OnlyNumber(CNPJEstabelecimento);
+        AResposta := OnlyCPFCNPJAlphaNum(CNPJEstabelecimento);
       PWINFO_POSID:
         AResposta := PontoCaptura;
       PWINFO_USINGPINPAD:
@@ -2577,7 +2581,7 @@ begin
   if ObterDadoDigitadoGenerico(AGetData, AResposta) then
   begin
     if (AGetData.wIdentificador = PWINFO_MERCHCNPJCPF) then
-      AResposta := OnlyNumber(AResposta);
+      AResposta := OnlyCPFCNPJAlphaNum(AResposta); {desde que nao exista prefixo, é cnpjcpf}
 
     Result := PWRET_OK;
     AdicionarParametro(AGetData.wIdentificador, AResposta);
@@ -3262,7 +3266,7 @@ begin
   if fCNPJEstabelecimento = AValue then
     Exit;
 
-  ACNPJ := OnlyNumber(AValue);
+  ACNPJ := OnlyCPFCNPJAlphaNum(AValue);
   if (ACNPJ <> '') then
   begin
     ErroMsg := ACBrValidador.ValidarCNPJ(ACNPJ);

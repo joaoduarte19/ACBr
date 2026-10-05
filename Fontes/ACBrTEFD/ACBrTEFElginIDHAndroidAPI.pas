@@ -583,7 +583,7 @@ begin
   if fCNPJEstabelecimento = AValue then
     Exit;
 
-  ACNPJ := OnlyNumber(AValue);
+  ACNPJ := OnlyCPFCNPJAlphaNum(AValue);
   if (ACNPJ <> '') then
   begin
     ErroMsg := ACBrValidador.ValidarCNPJ(ACNPJ);

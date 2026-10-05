@@ -678,8 +678,8 @@ begin
       jsMerchantInfo := js.AsJSONObject['merchantInfo'];
       if Assigned(jsMerchantInfo) then
       begin
-        cnpjTEF := OnlyNumber(jsMerchantInfo.AsString['merchantDocument']);
-        if (OnlyNumber(fpACBrTEFAPI.DadosEstabelecimento.CNPJ) <> cnpjTEF) then
+        cnpjTEF := OnlyCPFCNPJAlphaNum(jsMerchantInfo.AsString['merchantDocument']);
+        if (OnlyCPFCNPJAlphaNum(fpACBrTEFAPI.DadosEstabelecimento.CNPJ) <> cnpjTEF) then
           DoException(ACBrStr(Format(sACBrAditumCNPJEstabelecimentoDiferente,
                                [fpACBrTEFAPI.DadosEstabelecimento.CNPJ, cnpjTEF]) ));
 

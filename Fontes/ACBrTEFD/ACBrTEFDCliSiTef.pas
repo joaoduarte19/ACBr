@@ -502,7 +502,7 @@ begin
   Respostas.Values['501'] := ifthen(TipoPessoa = 'J','1','0');
 
   if DocumentoPessoa <> '' then
-     Respostas.Values['502'] := OnlyNumber(Trim(DocumentoPessoa));
+     Respostas.Values['502'] := OnlyCPFCNPJAlphaNum(Trim(DocumentoPessoa));
 
   if DataCheque <> 0  then
      Respostas.Values['506'] := FormatDateTime('DDMMYYYY',DataCheque) ;

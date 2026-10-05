@@ -2254,7 +2254,7 @@ begin
     Exit;
   if fInicializada then
     DoException(Format(sACBrTEFAPILibJaInicializada, [CPayKitLib]));
-  fCNPJEstabelecimento := LeftStr(OnlyNumber(AValue), 14);
+  fCNPJEstabelecimento := LeftStr(OnlyCPFCNPJAlphaNum(AValue), 14);
 end;
 
 procedure TACBrTEFPayKitAPI.SetConfiguracaoIpPortaSsl(const AValue: String);
