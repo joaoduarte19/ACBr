@@ -51,6 +51,17 @@ Símbolo : Significado
 [*] ACBR-9946 - Alterações visando gerar e validar o XML do RPS do provedor Tecnos perante os Schemas.
    Por: Italo Giurizzato Junior
 
+05/10/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9985 - Alteração de Layout e URLs para o município de Vitória da Conquista/BA
+	Veja: https://www.projetoacbr.com.br/forum/topic/95136-acbr-9985-erro-emiss%C3%A3o-vitoria-da-conquistaba/
+	Por: Diego Foliene/Larissa Santos
+[*] ACBR-9971 - Alteração de Layout e URLs para o município de Senador Canedo/GO
+	Veja: https://www.projetoacbr.com.br/forum/topic/95090-acbr-9971nfs-e-senador-canedogo-grupo-ibscbs-enviado-%C3%A0-api-mas-ausente-no-xml-autorizado/
+	Por: Diego Foliene/Larissa Santos
+[*] Alteração de Layout e URLs para o município de Marilia/SP
+	Por: Alexandre de Paula/Larissa Santos
+	
 02/10/2026
 -- ACBrNFSeXClass/ACBrNFSeXConversao/ACBRNFSeXProviderManager/Balker.GravarXml/Balker.LerXML/Balker.Provider/Giap.GravarXml --
 [+] ACBR-9447 - Implementa o novo provedor Balker
