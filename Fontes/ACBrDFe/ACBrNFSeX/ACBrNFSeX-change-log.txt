@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+06/10/2026
+-- ACBrNFSeXServicos --
+[*] Cidades atendidas pelo provedor EL que foi ativado a API nova que usa o layout do Padrão Nacional.
+   Por: Italo Giurizzato Junior
+
 05/10/2026
 -- Tecnos.GravarXml --
 [*] ACBR-9946 - Reescrita a função tpEnteGovToStr pois o provedor não segue os valores definidos pelo
