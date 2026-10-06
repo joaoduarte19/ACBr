@@ -74,9 +74,11 @@ type
     function Gerar_IBSCBSNFAg(IBSCBS: TIBSCBS): TACBrXmlNode;
     function Gerar_IBSCBSNFCom(IBSCBS: TIBSCBS): TACBrXmlNode;
     function Gerar_IBSCBSNFe(IBSCBS: TIBSCBS): TACBrXmlNode;
+    function Gerar_IBSCBSNFeABI(IBSCBS: TIBSCBS): TACBrXmlNode;
     function Gerar_IBSCBSNFGas(IBSCBS: TIBSCBS): TACBrXmlNode;
 
     function Gerar_gIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode;
+    function Gerar_gIBSCBSNFeABI(gIBSCBS: TgIBSCBS): TACBrXmlNode;
 
     function Gerar_gIBSUF(gIBSUF: TgIBSUFValores): TACBrXmlNode;
     function Gerar_gIBSMun(gIBSMun: TgIBSMunValores): TACBrXmlNode;
@@ -99,8 +101,11 @@ type
     function Gerar_gCBSTot(gCBS: TgCBS): TACBrXmlNode;
     function Gerar_gEstornoCredTot(gEstornoCred: TgEstornoCred): TACBrXmlNode;
 
-    function Gerar_pgtoVinc(pgtoVinc: TpgtoVinc): TACBrXmlNode;
-    function Gerar_pgto(pgto: TpgtoCollection): TACBrXmlNodeArray;
+    function Gerar_pgtoVinc(pgtoVinc: TpgtoVinc; aTagV: string = 'pgtoVinc';
+      aTag: string = 'pgto'): TACBrXmlNode;
+    function Gerar_pgto(pgto: TpgtoCollection; aTag: string = 'pgto'): TACBrXmlNodeArray;
+
+    function Gerar_gIBSCBSSemProcJur(gIBSCBS: TgIBSCBSSemProcJud): TACBrXmlNode;
 
     // Usado pela NF-e
     function Gerar_gCompraGov(gCompraGov: TgCompraGov): TACBrXmlNode;
@@ -153,6 +158,7 @@ implementation
 
 uses
   ACBrDFeConsts,
+  ACBrUtil.Strings,
   ACBrDFeUtil;
 
 { TDFeRTCXmlWriter }
@@ -252,7 +258,7 @@ begin
     Result.AppendChild(AddNode(tcStr, '#2', 'cClassTrib', 6, 6, 1,
                                             IBSCBS.cClassTrib, DSC_CCLASSTRIB));
 
-    if IBSCBS.indDoacao = tieSim then
+    if (IBSCBS.indDoacao = tieSim) and (ModelosDFe <> mdfNFeABI) then
       Result.AppendChild(AddNode(tcStr, '#3', 'indDoacao', 1, 1, 0,
                                                            '1', DSC_INDDOACAO));
 
@@ -274,6 +280,9 @@ begin
 
       mdfNFe, mdfNFCe:
         Result.AppendChild(Gerar_IBSCBSNFe(IBSCBS));
+
+      mdfNFeABI:
+        Result.AppendChild(Gerar_IBSCBSNFeABI(IBSCBS));
 
       mdfNFGas:
         Result.AppendChild(Gerar_IBSCBSNFGas(IBSCBS));
@@ -392,6 +401,14 @@ begin
   end;
 end;
 
+function TDFeRTCXmlWriter.Gerar_IBSCBSNFeABI(IBSCBS: TIBSCBS): TACBrXmlNode;
+begin
+  Result := nil;
+
+  if IBSCBS.CST in [cst200, cst220, cst221] then
+    Result := Gerar_gIBSCBSNFeABI(IBSCBS.gIBSCBS);
+end;
+
 function TDFeRTCXmlWriter.Gerar_IBSCBSNFGas(IBSCBS: TIBSCBS): TACBrXmlNode;
 begin
   Result := nil;
@@ -422,6 +439,33 @@ begin
     Result.AppendChild(Gerar_gTribCompraGov(gIBSCBS.gTribCompraGov));
 end;
 
+function TDFeRTCXmlWriter.Gerar_gIBSCBSNFeABI(gIBSCBS: TgIBSCBS): TACBrXmlNode;
+begin
+  Result := CreateElement('gIBSCBS');
+
+  Result.AppendChild(AddNode(tcDe2, '#4', 'vOperacIndiv', 1, 15, 1,
+                                          gIBSCBS.vOperacIndiv, DSC_VBCIBSCBS));
+
+  Result.AppendChild(AddNode(tcDe2, '#4', 'vTornaIndiv', 1, 15, 1,
+                                           gIBSCBS.vTornaIndiv, DSC_VBCIBSCBS));
+
+  Result.AppendChild(AddNode(tcDe2, '#4', 'vRedAjusteIndiv', 1, 15, 1,
+                                       gIBSCBS.vRedAjusteIndiv, DSC_VBCIBSCBS));
+
+  Result.AppendChild(AddNode(tcDe2, '#4', 'vRedSocialIndiv', 1, 15, 1,
+                                       gIBSCBS.vRedSocialIndiv, DSC_VBCIBSCBS));
+
+  Result.AppendChild(AddNode(tcDe2, '#4', 'vBC', 1, 15, 1,
+                                                   gIBSCBS.vBC, DSC_VBCIBSCBS));
+
+  Result.AppendChild(Gerar_gIBSUF(gIBSCBS.gIBSUF));
+  Result.AppendChild(Gerar_gIBSMun(gIBSCBS.gIBSMun));
+  Result.AppendChild(Gerar_gCBS(gIBSCBS.gCBS));
+
+  if (gIBSCBS.gTribCompraGov.pAliqIBSUF > 0) and (FtpEnteGov <> tcgNenhum) then
+    Result.AppendChild(Gerar_gTribCompraGov(gIBSCBS.gTribCompraGov));
+end;
+
 function TDFeRTCXmlWriter.Gerar_gIBSUF(
   gIBSUF: TgIBSUFValores): TACBrXmlNode;
 begin
@@ -430,10 +474,10 @@ begin
   Result.AppendChild(AddNode(tcDe4, '#6', 'pIBSUF', 1, 7, 1,
                                                     gIBSUF.pIBSUF, DSC_PIBSUF));
 
-  if gIBSUF.gDif.pDif > 0 then
+  if (gIBSUF.gDif.pDif > 0) and (ModelosDFe <> mdfNFeABI) then
     Result.AppendChild(Gerar_gDif(gIBSUF.gDif));
 
-  if gIBSUF.gDevTrib.vDevTrib > 0 then
+  if (gIBSUF.gDevTrib.vDevTrib > 0) and (ModelosDFe <> mdfNFeABI) then
     Result.AppendChild(Gerar_gDevTrib(gIBSUF.gDevTrib));
 
   if (gIBSUF.gRed.pRedAliq > 0) or (gIBSUF.gRed.pAliqEfet > 0) or
@@ -452,10 +496,10 @@ begin
   Result.AppendChild(AddNode(tcDe4, '#6', 'pIBSMun', 1, 7, 1,
                                                  gIBSMun.pIBSMun, DSC_PIBSMUN));
 
-  if gIBSMun.gDif.pDif > 0 then
+  if (gIBSMun.gDif.pDif > 0) and (ModelosDFe <> mdfNFeABI) then
     Result.AppendChild(Gerar_gDif(gIBSMun.gDif));
 
-  if gIBSMun.gDevTrib.vDevTrib > 0 then
+  if (gIBSMun.gDevTrib.vDevTrib > 0) and (ModelosDFe <> mdfNFeABI) then
     Result.AppendChild(Gerar_gDevTrib(gIBSMun.gDevTrib));
 
   if (gIBSMun.gRed.pRedAliq > 0) or (gIBSMun.gRed.pAliqEfet > 0) or
@@ -474,10 +518,10 @@ begin
   Result.AppendChild(AddNode(tcDe4, '#44', 'pCBS', 1, 7, 1,
                                                           gCBS.pCBS, DSC_PCBS));
 
-  if gCBS.gDif.pDif > 0 then
+  if (gCBS.gDif.pDif > 0) and (ModelosDFe <> mdfNFeABI) then
     Result.AppendChild(Gerar_gDif(gCBS.gDif));
 
-  if gCBS.gDevTrib.vDevTrib > 0 then
+  if (gCBS.gDevTrib.vDevTrib > 0) and (ModelosDFe <> mdfNFeABI) then
     Result.AppendChild(Gerar_gDevTrib(gCBS.gDevTrib));
 
   if (gCBS.gRed.pRedAliq > 0) or (gCBS.gRed.pAliqEfet > 0) or
@@ -733,7 +777,8 @@ begin
                                     gEstornoCred.vCBSEstCred, DSC_VCBSESTCRED));
 end;
 
-function TDFeRTCXmlWriter.Gerar_pgtoVinc(pgtoVinc: TpgtoVinc): TACBrXmlNode;
+function TDFeRTCXmlWriter.Gerar_pgtoVinc(pgtoVinc: TpgtoVinc;
+  aTagV: string = 'pgtoVinc'; aTag: string = 'pgto'): TACBrXmlNode;
 var
   nodeArray: TACBrXmlNodeArray;
   i: integer;
@@ -742,9 +787,9 @@ begin
 
   if pgtoVinc.pgto.Count > 0 then
   begin
-    Result := CreateElement('pgtoVinc');
+    Result := CreateElement(aTagV);
 
-    nodeArray := Gerar_pgto(pgtoVinc.pgto);
+    nodeArray := Gerar_pgto(pgtoVinc.pgto, aTag);
     for i := 0 to pgtoVinc.pgto.Count - 1 do
     begin
       Result.AppendChild(nodeArray[i]);
@@ -752,7 +797,8 @@ begin
   end;
 end;
 
-function TDFeRTCXmlWriter.Gerar_pgto(pgto: TpgtoCollection): TACBrXmlNodeArray;
+function TDFeRTCXmlWriter.Gerar_pgto(pgto: TpgtoCollection;
+  aTag: string = 'pgto'): TACBrXmlNodeArray;
 var
   i: integer;
 begin
@@ -762,7 +808,7 @@ begin
 
   for i := 0 to pgto.Count - 1 do
   begin
-    Result[i] := CreateElement('pgto');
+    Result[i] := CreateElement(aTag);
 
     Result[i].SetAttribute('nPag', IntToStr(pgto[i].nPag));
 
@@ -772,10 +818,10 @@ begin
                                            pgto[i].tpMeioPgto, DSC_TPMEIOPGTO));
 
     Result[i].AppendChild(AddNode(tcStr, '#44', 'CNPJReceb', 14, 14, 1,
-                                             pgto[i].CNPJReceb, DSC_CNPJRECEB));
+                        OnlyCPFCNPJAlphaNum(pgto[i].CNPJReceb), DSC_CNPJRECEB));
 
     Result[i].AppendChild(AddNode(tcStr, '#44', 'CNPJBasePSP', 8, 8, 1,
-                                         pgto[i].CNPJBasePSP, DSC_CNPJBASEPSP));
+                    OnlyCPFCNPJAlphaNum(pgto[i].CNPJBasePSP), DSC_CNPJBASEPSP));
   end;
 
   if pgto.Count > 99 then
@@ -783,6 +829,24 @@ begin
 
   if pgto.Count < 1 then
     wAlerta('#42', 'pgto', '', ERR_MSG_MENOR_MINIMO + '1');
+end;
+
+function TDFeRTCXmlWriter.Gerar_gIBSCBSSemProcJur(
+  gIBSCBS: TgIBSCBSSemProcJud): TACBrXmlNode;
+begin
+  Result := CreateElement('gIBSCBS');
+
+  Result.AppendChild(AddNode(tcDe2, '#4', 'vBC', 1, 15, 1,
+                                                   gIBSCBS.vBC, DSC_VBCIBSCBS));
+
+  Result.AppendChild(AddNode(tcDe2, '#4', 'vIBSUF', 1, 15, 1,
+                                                   gIBSCBS.vIBSUF, DSC_VIBSUF));
+
+  Result.AppendChild(AddNode(tcDe2, '#4', 'vIBSMun', 1, 15, 1,
+                                                 gIBSCBS.vIBSMun, DSC_VIBSMUN));
+
+  Result.AppendChild(AddNode(tcDe2, '#4', 'vCBS', 1, 15, 1,
+                                                       gIBSCBS.vCBS, DSC_VCBS));
 end;
 
 // Usado pela NF-e

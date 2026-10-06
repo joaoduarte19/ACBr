@@ -42,7 +42,8 @@ uses
 type
   // Tipos que não tem funções de conversão
   TModelosDFe = (mdfBPe, mdfBPeTM, mdfBPeTA, mdfCTe, mdfCTeOS, mdfCTeSimp,
-                 mdfGTVe, mdfNF3e, mdfNFAg, mdfNFCom, mdfNFe, mdfNFCe, mdfNFGas);
+                 mdfGTVe, mdfNF3e, mdfNFAg, mdfNFCom, mdfNFe, mdfNFeABI,
+                 mdfNFCe, mdfNFGas);
 
   TACBrTipoCampo = (tcStr, tcInt, tcInt64, tcDat, tcDatHor, tcEsp, tcDe1, tcDe2,
                     tcDe3, tcDe4, tcDe5, tcDe6, tcDe7, tcDe8, tcDe10, tcHor, tcDatCFe,
@@ -1946,8 +1947,6 @@ begin
   if not TryStrToIndAceitacao(s, Result) then
     raise EACBrException.CreateFmt('Valor string inválido para TIndAceitacao: %s', [s]);
 end;
-
-
 
 function TpCredPresIBSZFMToStr(const t: TTpCredPresIBSZFM): string;
 begin

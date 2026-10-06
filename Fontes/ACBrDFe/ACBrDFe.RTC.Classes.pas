@@ -363,6 +363,11 @@ type
     FgCBS: TgCBSValores;
     FgTribRegular: TgTribRegular;
     FgTribCompraGov: TgTribCompraGov;
+
+    FvOperacIndiv: Double;
+    FvTornaIndiv: Double;
+    FvRedAjusteIndiv: Double;
+    FvRedSocialIndiv: Double;
   public
     constructor Create;
     destructor Destroy; override;
@@ -374,6 +379,12 @@ type
     property gCBS: TgCBSValores read FgCBS write FgCBS;
     property gTribRegular: TgTribRegular read FgTribRegular write FgTribRegular;
     property gTribCompraGov: TgTribCompraGov read FgTribCompraGov write FgTribCompraGov;
+
+    property vOperacIndiv: Double read FvOperacIndiv write FvOperacIndiv;
+    property vTornaIndiv: Double read FvTornaIndiv write FvTornaIndiv;
+    property vRedAjusteIndiv: Double read FvRedAjusteIndiv write FvRedAjusteIndiv;
+    property vRedSocialIndiv: Double read FvRedSocialIndiv write FvRedSocialIndiv;
+
   end;
 
   { TgMonoPadraoIBSQtde }
@@ -961,6 +972,23 @@ type
     procedure Assign(Source: TpgtoVinc);
 
     property pgto: TpgtoCollection read Fpgto write Setpgto;
+  end;
+
+  { TgIBSCBSSemProcJud }
+
+  TgIBSCBSSemProcJud = class(TObject)
+  private
+    FvBC: Double;
+    FvIBSUF: Double;
+    FvIBSMun: Double;
+    FvCBS: Double;
+  public
+    procedure Assign(Source: TgIBSCBSSemProcJud);
+
+    property vBC: Double read FvBC write FvBC;
+    property vIBSUF: Double read FvIBSUF write FvIBSUF;
+    property vIBSMun: Double read FvIBSMun write FvIBSMun;
+    property vCBS: Double read FvCBS write FvCBS;
   end;
 
 implementation
@@ -1704,6 +1732,16 @@ procedure TDFErefCollection.SetItem(Index: Integer;
   Value: TDFErefCollectionItem);
 begin
   inherited Items[Index] := Value;
+end;
+
+{ TgIBSCBSSemProcJud }
+
+procedure TgIBSCBSSemProcJud.Assign(Source: TgIBSCBSSemProcJud);
+begin
+  vBC := Source.vBC;
+  vIBSUF := Source.vIBSUF;
+  vIBSMun := Source.vIBSMun;
+  vCBS := Source.vCBS;
 end;
 
 end.

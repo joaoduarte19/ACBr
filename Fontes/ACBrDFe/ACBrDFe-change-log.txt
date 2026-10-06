@@ -39,6 +39,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+06/10/2026
+-- ACBrDFe.Conversao/ACBrDFe.RTC.Classes/ACBrDFe.RTC.IniReader/ACBrDFe.RTC.IniWriter --
+-- ACBrDFe.RTC.XmlReader/ACBrDFe.RTC.XmlWriter --
+[+] Alterações visando a NT 2026/004 e para o ACBrNFeABI.
+   Por: Italo Giurizzato Junior
+
 24/09/2026
 -- ACBrDFe.RTC.XmlWriter --
 [-] As tags vCredPres e vCredPresCondSus dos grupos gIBS e gCBS só devem ser geradas se o DF-e
