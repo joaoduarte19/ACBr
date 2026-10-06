@@ -67,6 +67,7 @@ type
     procedure Gerar_GravarRetificarOperacao(AINIRec: TMemIniFile);
     procedure Gerar_GravarVeiculo(AINIRec: TMemIniFile);
 
+    procedure Gerar_ConsultarTransportador(AINIRec: TMemIniFile);
     procedure Gerar_Consignatario(AINIRec: TMemIniFile);
     procedure Gerar_Contratado(AINIRec: TMemIniFile);
     procedure Gerar_Contratante(AINIRec: TMemIniFile);
@@ -119,6 +120,19 @@ begin
   LSecao := 'Destinatario';
 
   Gerar_Pessoa(AINIRec, LSecao, FCIOT.AdicionarOperacao.Destinatario);
+end;
+
+procedure TCIOTIniWriter.Gerar_ConsultarTransportador(AINIRec: TMemIniFile);
+var
+  LSecao: string;
+begin
+  LSecao := TpOperacaoToNome(FCIOT.Integradora.Operacao);
+
+  AINIRec.WriteString(LSecao, 'CpfCnpjInteressado', FCIOT.ConsultarTransportador.CpfCnpjInteressado);
+  AINIRec.WriteString(LSecao, 'CpfCnpjTransportador', FCIOT.ConsultarTransportador.CpfCnpjTransportador);
+  AINIRec.WriteString(LSecao, 'RNTRCTransportador', FCIOT.ConsultarTransportador.RNTRCTransportador);
+
+  Gerar_Veiculos(AINIRec, FCIOT.ConsultarTransportador.Placas);
 end;
 
 procedure TCIOTIniWriter.Gerar_Consignatario(AINIRec: TMemIniFile);
@@ -204,6 +218,10 @@ begin
   AINIRec.WriteString(LSecao, 'AltoDesempenho', IntToStr(Integer(FCIOT.AdicionarOperacao.AltoDesempenho)));
   AINIRec.WriteString(LSecao, 'ComposicaoVeicular', IntToStr(Integer(FCIOT.AdicionarOperacao.ComposicaoVeicular)));
   AINIRec.WriteString(LSecao, 'RetornoVazio', IntToStr(Integer(FCIOT.AdicionarOperacao.RetornoVazio)));
+  AINIRec.WriteFloat(LSecao, 'ValorFrete', FCIOT.AdicionarOperacao.ValorFrete);
+  AINIRec.WriteString(LSecao, 'DataDeclaracao', DateToStr(FCIOT.AdicionarOperacao.DataDeclaracao));
+  AINIRec.WriteString(LSecao, 'IndContingencia', IntToStr(Integer(FCIOT.AdicionarOperacao.IndContingencia)));
+  AINIRec.WriteString(LSecao, 'JustificativaContingencia', FCIOT.AdicionarOperacao.JustificativaContingencia);
 
   Gerar_Viagem(AINIRec, FCIOT.AdicionarOperacao.Viagens);
   Gerar_Impostos(AINIRec, FCIOT.AdicionarOperacao.Impostos);
@@ -318,6 +336,8 @@ begin
 
   AINIRec.WriteString(LSecao, 'MatrizCNPJ', FCIOT.ObterCodigoOperacaoTransporte.MatrizCNPJ);
   AINIRec.WriteString(LSecao, 'IdOperacaoCliente', FCIOT.ObterCodigoOperacaoTransporte.IdOperacaoCliente);
+  AINIRec.WriteString(LSecao, 'CodigoIdentificacaoOperacao', FCIOT.ObterCodigoOperacaoTransporte.CodigoIdentificacaoOperacao);
+  AINIRec.WriteInteger(LSecao, 'AnoDeclaracao', FCIOT.ObterCodigoOperacaoTransporte.AnoDeclaracao);
 end;
 
 procedure TCIOTIniWriter.Gerar_GravarObterPdf(AINIRec: TMemIniFile);
@@ -379,6 +399,7 @@ begin
   AINIRec.WriteString(LSecao, 'CepOrigem', FCIOT.RetificarOperacao.CepOrigem);
   AINIRec.WriteString(LSecao, 'CepDestino', FCIOT.RetificarOperacao.CepDestino);
   AINIRec.WriteInteger(LSecao, 'DistanciaPercorrida', FCIOT.RetificarOperacao.DistanciaPercorrida);
+  AINIRec.WriteFloat(LSecao, 'ValorFrete', FCIOT.RetificarOperacao.ValorFrete);
 
   Gerar_Veiculos(AINIRec, FCIOT.RetificarOperacao.Veiculos);
 end;
@@ -687,6 +708,8 @@ begin
     LSecao := 'Veiculo' + LItem;
 
     AINIRec.WriteString(LSecao, 'Placa', AVeiculoCollection[i].Placa);
+    AINIRec.WriteString(LSecao, 'RNTRC', AVeiculoCollection[i].RNTRC);
+    AINIRec.WriteInteger(LSecao, 'NumeroEixos', AVeiculoCollection[i].NumeroEixos);
   end;
 end;
 
@@ -714,7 +737,7 @@ begin
     AINIRec.WriteFloat(LSecao, 'LongitudeOrigem', LViagem.LongitudeOrigem);
     AINIRec.WriteFloat(LSecao, 'LatitudeDestino', LViagem.LatitudeDestino);
     AINIRec.WriteFloat(LSecao, 'LongitudeDestino', LViagem.LongitudeDestino);
-
+    AINIRec.WriteInteger(LSecao, 'QtdViagens', LViagem.QtdViagens);
     AINIRec.WriteFloat(LSecao, 'TotalOperacao', LViagem.Valores.TotalOperacao);
     AINIRec.WriteFloat(LSecao, 'TotalViagem', LViagem.Valores.TotalViagem);
     AINIRec.WriteFloat(LSecao, 'TotalDeAdiantamento', LViagem.Valores.TotalDeAdiantamento);
@@ -786,9 +809,17 @@ begin
           Gerar_GravarAdicionarPagamento(LINIRec);
         end;
 
-      opObterCodigoIOT:
+      opObterCodigoIOT,
+      opConsultarCIOTGerado:
         begin
           Gerar_GravarObterCIOT(LINIRec);
+        end;
+
+      opConsultarSituacaoTransportador,
+      opConsultarFrota,
+      opConsultarExcecao:
+        begin
+          Gerar_ConsultarTransportador(LINIRec);
         end;
 
       opObterPdf:

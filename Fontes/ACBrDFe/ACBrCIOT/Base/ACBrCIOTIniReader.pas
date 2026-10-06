@@ -71,6 +71,7 @@ type
     procedure Ler_GravarRetificarOperacao(AINIRec: TMemIniFile);
     procedure Ler_GravarVeiculo(AINIRec: TMemIniFile);
 
+    procedure Ler_ConsultarTransportador(AINIRec: TMemIniFile);
     procedure Ler_Consignatario(AINIRec: TMemIniFile);
     procedure Ler_Contratado(AINIRec: TMemIniFile);
     procedure Ler_Contratante(AINIRec: TMemIniFile);
@@ -174,9 +175,17 @@ begin
           Ler_GravarAdicionarPagamento(LINIRec);
         end;
 
-      opObterCodigoIOT:
+      opObterCodigoIOT,
+      opConsultarCIOTGerado:
         begin
           Ler_GravarObterCIOT(LINIRec);
+        end;
+
+      opConsultarSituacaoTransportador,
+      opConsultarFrota,
+      opConsultarExcecao:
+        begin
+          Ler_ConsultarTransportador(LINIRec);
         end;
 
       opObterPdf:
@@ -229,6 +238,19 @@ begin
   finally
     LINIRec.Free;
   end;
+end;
+
+procedure TCIOTIniReader.Ler_ConsultarTransportador(AINIRec: TMemIniFile);
+var
+  LSecao: string;
+begin
+  LSecao := TpOperacaoToNome(FCIOT.Integradora.Operacao);
+
+  FCIOT.ConsultarTransportador.CpfCnpjInteressado := AINIRec.ReadString(LSecao, 'CpfCnpjInteressado', '');
+  FCIOT.ConsultarTransportador.CpfCnpjTransportador := AINIRec.ReadString(LSecao, 'CpfCnpjTransportador', '');
+  FCIOT.ConsultarTransportador.RNTRCTransportador := AINIRec.ReadString(LSecao, 'RNTRCTransportador', '');
+
+  Ler_Veiculos(AINIRec, FCIOT.ConsultarTransportador.Placas);
 end;
 
 procedure TCIOTIniReader.Ler_Consignatario(AINIRec: TMemIniFile);
@@ -324,6 +346,10 @@ begin
   FCIOT.AdicionarOperacao.AltoDesempenho := Boolean(StrToIntDef(AINIRec.ReadString(LSecao, 'AltoDesempenho', '0'), 0));
   FCIOT.AdicionarOperacao.ComposicaoVeicular := Boolean(StrToIntDef(AINIRec.ReadString(LSecao, 'ComposicaoVeicular', '0'), 0));
   FCIOT.AdicionarOperacao.RetornoVazio := Boolean(StrToIntDef(AINIRec.ReadString(LSecao, 'RetornoVazio', '0'), 0));
+  FCIOT.AdicionarOperacao.ValorFrete := AINIRec.ReadFloat(LSecao, 'ValorFrete', 0);
+  FCIOT.AdicionarOperacao.DataDeclaracao := StringToDateTime(AINIRec.ReadString(LSecao, 'DataDeclaracao', '0'));
+  FCIOT.AdicionarOperacao.IndContingencia := Boolean(StrToIntDef(AINIRec.ReadString(LSecao, 'IndContingencia', '0'), 0));
+  FCIOT.AdicionarOperacao.JustificativaContingencia := AINIRec.ReadString(LSecao, 'JustificativaContingencia', '');
 
   Ler_Viagem(AINIRec, FCIOT.AdicionarOperacao.Viagens);
   Ler_Impostos(AINIRec, FCIOT.AdicionarOperacao.Impostos);
@@ -449,6 +475,8 @@ begin
 
   FCIOT.ObterCodigoOperacaoTransporte.MatrizCNPJ := AINIRec.ReadString(LSecao, 'MatrizCNPJ', '');
   FCIOT.ObterCodigoOperacaoTransporte.IdOperacaoCliente := AINIRec.ReadString(LSecao, 'IdOperacaoCliente', '');
+  FCIOT.ObterCodigoOperacaoTransporte.CodigoIdentificacaoOperacao := AINIRec.ReadString(LSecao, 'CodigoIdentificacaoOperacao', '');
+  FCIOT.ObterCodigoOperacaoTransporte.AnoDeclaracao := AINIRec.ReadInteger(LSecao, 'AnoDeclaracao', 0);
 end;
 
 procedure TCIOTIniReader.Ler_GravarObterPdf(AINIRec: TMemIniFile);
@@ -535,6 +563,7 @@ begin
   FCIOT.RetificarOperacao.CepOrigem := AINIRec.ReadString(LSecao, 'CepOrigem', '0');
   FCIOT.RetificarOperacao.CepDestino := AINIRec.ReadString(LSecao, 'CepDestino', '0');
   FCIOT.RetificarOperacao.DistanciaPercorrida := AINIRec.ReadInteger(LSecao, 'DistanciaPercorrida', 0);
+  FCIOT.RetificarOperacao.ValorFrete := AINIRec.ReadFloat(LSecao, 'ValorFrete', 0);
 
   Ler_Veiculos(AINIRec, FCIOT.RetificarOperacao.Veiculos);
 end;
@@ -892,6 +921,8 @@ begin
     LVeiculo := AVeiculoCollection.New;
 
     LVeiculo.Placa := LFim;
+    LVeiculo.RNTRC := AINIRec.ReadString(LSecao, 'RNTRC', '');
+    LVeiculo.NumeroEixos := AINIRec.ReadInteger(LSecao, 'NumeroEixos', 0);
 
     Inc(i);
   end;
@@ -927,6 +958,7 @@ begin
     LViagem.LongitudeOrigem := AINIRec.ReadFloat(LSecao, 'LongitudeOrigem', 0);
     LViagem.LatitudeDestino := AINIRec.ReadFloat(LSecao, 'LatitudeDestino', 0);
     LViagem.LongitudeDestino := AINIRec.ReadFloat(LSecao, 'LongitudeDestino', 0);
+    LViagem.QtdViagens := AINIRec.ReadInteger(LSecao, 'QtdViagens', 0);
 
     LViagem.Valores.TotalOperacao := AINIRec.ReadFloat(LSecao, 'TotalOperacao', 0);
     LViagem.Valores.TotalViagem := AINIRec.ReadFloat(LSecao, 'TotalViagem', 0);

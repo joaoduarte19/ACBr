@@ -708,15 +708,15 @@ end;
 function TpTipoViagemToEnumStr(const t: TpTipoViagem): string;
 begin
   Result := EnumeradoToStr(t,
-                           ['0', '1', '2', '3'],
-                           [Indefinido, Padrao, TAC_Agregado, Frota]);
+                           ['0', '1', '2', '3', '4'],
+                           [Indefinido, Padrao, TAC_Agregado, Frota, Fracionado]);
 end;
 
 function EnumStrToTpTipoViagem(out ok: boolean; const s: string): TpTipoViagem;
 begin
   Result := StrToEnumerado(ok, s,
-                           ['0', '1', '2', '3'],
-                           [Indefinido, Padrao, TAC_Agregado, Frota]);
+                           ['0', '1', '2', '3', '4'],
+                           [Indefinido, Padrao, TAC_Agregado, Frota, Fracionado]);
 end;
 
 function TpPagamentoToStr(const t: TpTipoPagamento): string;

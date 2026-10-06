@@ -38,6 +38,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+06/10/2026
+--- ACBrCIOTIniReader, ACBrCIOTIniWriter, ACBrCIOTConversao ---
+[+] ACBR-9220 - Implementada Leitura e Escrita de inis para ANTT
+    Por: Renato Rubinho
+
 15/07/2026
 -- Frm_ACBrCIOT --
 [*] ACBR-9243: Ajustes no programa de exemplo com valores válidos na emissão de CIOT
