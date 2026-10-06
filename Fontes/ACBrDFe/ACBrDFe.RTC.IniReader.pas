@@ -604,7 +604,15 @@ procedure TDFeRTCIniReader.Ler_gIBSCBSSemProcJur(AINIRec: TMemIniFile;
 var
   sSecao: string;
 begin
-  sSecao := 'gIBSCBSSemProcJur' + IntToStrZero(Idx1, 2) + IntToStrZero(Idx2, 3);
+  if Idx1 = -1 then
+    sSecao := 'gIBSCBSSemProcJur'
+  else
+  begin
+    if Idx2 = -1 then
+      sSecao := 'gIBSCBSSemProcJur' + IntToStrZero(Idx1, 3)
+    else
+      sSecao := 'gIBSCBSSemProcJur' + IntToStrZero(Idx1, 2) + IntToStrZero(Idx2, 3);
+  end;
 
   if AINIRec.SectionExists(sSecao) then
   begin
