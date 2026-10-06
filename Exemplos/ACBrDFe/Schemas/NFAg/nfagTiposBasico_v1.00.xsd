@@ -121,7 +121,9 @@ Observação: O ambiente autorizador que trabalhar com mais de um Site deverá d
 											<xs:documentation>Tipo de Faturamento da NFAg
 1 - Faturamento Normal; 
 2 - Faturamento por terceiro; 
-3 - Faturamento conjunto</xs:documentation>
+3 - Faturamento conjunto
+4 - Faturamento Agregado
+5 - Faturamento Agregador</xs:documentation>
 											<xs:documentation>1- Faturamento Normal; 2 - Faturamento por terceiro; 3 - Faturamento conjunto</xs:documentation>
 										</xs:annotation>
 									</xs:element>
@@ -517,169 +519,176 @@ Vedado para tpFat 1 e 2</xs:documentation>
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
+						<xs:choice/>
 						<xs:element name="det" maxOccurs="990">
 							<xs:annotation>
 								<xs:documentation>Detalhamento de Produtos e Serviços </xs:documentation>
 							</xs:annotation>
 							<xs:complexType>
 								<xs:sequence>
-									<xs:element name="gTarif" minOccurs="0" maxOccurs="6">
-										<xs:annotation>
-											<xs:documentation>Grupo de Tarifas por Período</xs:documentation>
-										</xs:annotation>
-										<xs:complexType>
-											<xs:sequence>
-												<xs:element name="dIniTarif" type="TData">
-													<xs:annotation>
-														<xs:documentation>Data de início da aplicação da tarifa </xs:documentation>
-														<xs:documentation>Data de início da aplicação da tarifa no período considerado para o faturamento (
+									<xs:choice>
+										<xs:sequence>
+											<xs:annotation>
+												<xs:documentation>Informar para faturamento normal, conjunto, agregado ou faturado por terceiro</xs:documentation>
+											</xs:annotation>
+											<xs:element name="gTarif" minOccurs="0" maxOccurs="6">
+												<xs:annotation>
+													<xs:documentation>Grupo de Tarifas por Período</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="dIniTarif" type="TData">
+															<xs:annotation>
+																<xs:documentation>Data de início da aplicação da tarifa </xs:documentation>
+																<xs:documentation>Data de início da aplicação da tarifa no período considerado para o faturamento (
 Formato AAAA-MM-DD)</xs:documentation>
-													</xs:annotation>
-												</xs:element>
-												<xs:element name="dFimTarif" type="TData" minOccurs="0">
-													<xs:annotation>
-														<xs:documentation>Data de fim da aplicação da tarifa </xs:documentation>
-														<xs:documentation>Data de fim da aplicação da tarifa no período considerado para o faturamento
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="dFimTarif" type="TData" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Data de fim da aplicação da tarifa </xs:documentation>
+																<xs:documentation>Data de fim da aplicação da tarifa no período considerado para o faturamento
  (Formato AAAA-MM-DD)</xs:documentation>
-													</xs:annotation>
-												</xs:element>
-												<xs:element name="nAto">
-													<xs:annotation>
-														<xs:documentation>Número do Ato</xs:documentation>
-														<xs:documentation/>
-													</xs:annotation>
-													<xs:simpleType>
-														<xs:restriction base="TString">
-															<xs:minLength value="4"/>
-															<xs:maxLength value="4"/>
-														</xs:restriction>
-													</xs:simpleType>
-												</xs:element>
-												<xs:element name="anoAto">
-													<xs:annotation>
-														<xs:documentation>Ano do Ato (AAAA)</xs:documentation>
-														<xs:documentation/>
-													</xs:annotation>
-													<xs:simpleType>
-														<xs:restriction base="xs:string">
-															<xs:minLength value="4"/>
-															<xs:maxLength value="4"/>
-															<xs:whiteSpace value="preserve"/>
-															<xs:pattern value="[0-9]{4}"/>
-														</xs:restriction>
-													</xs:simpleType>
-												</xs:element>
-												<xs:element name="tpFaixaCons" type="TFaixa" minOccurs="0">
-													<xs:annotation>
-														<xs:documentation>Faixa Prevista de Consumo</xs:documentation>
-														<xs:documentation>1 - minimo
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="nAto">
+															<xs:annotation>
+																<xs:documentation>Número do Ato</xs:documentation>
+																<xs:documentation/>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="TString">
+																	<xs:minLength value="4"/>
+																	<xs:maxLength value="4"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:element>
+														<xs:element name="anoAto">
+															<xs:annotation>
+																<xs:documentation>Ano do Ato (AAAA)</xs:documentation>
+																<xs:documentation/>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:minLength value="4"/>
+																	<xs:maxLength value="4"/>
+																	<xs:whiteSpace value="preserve"/>
+																	<xs:pattern value="[0-9]{4}"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:element>
+														<xs:element name="tpFaixaCons" type="TFaixa" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Faixa Prevista de Consumo</xs:documentation>
+																<xs:documentation>1 - minimo
 2 - médio
 3 - máximo</xs:documentation>
-													</xs:annotation>
-												</xs:element>
-											</xs:sequence>
-										</xs:complexType>
-									</xs:element>
-									<xs:element name="prod">
-										<xs:annotation>
-											<xs:documentation>Dados do Produto ou Serviço</xs:documentation>
-										</xs:annotation>
-										<xs:complexType>
-											<xs:sequence>
-												<xs:element name="indOrigemQtd" type="TOrigemQtdAG">
-													<xs:annotation>
-														<xs:documentation>Indicador da origem da quantidade faturada</xs:documentation>
-														<xs:documentation>1 - Media; 
+															</xs:annotation>
+														</xs:element>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="prod">
+												<xs:annotation>
+													<xs:documentation>Dados do Produto ou Serviço</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="indOrigemQtd" type="TOrigemQtdAG">
+															<xs:annotation>
+																<xs:documentation>Indicador da origem da quantidade faturada</xs:documentation>
+																<xs:documentation>1 - Media; 
 2 - Medido; 
 3 - Contratada; 
 4 - Calculada ou estimado; 
 5 - Residual Calculado;
 6 - Sem quantidade 
 7 - Por Faixa;
+8 - Mínimo
 
 
 </xs:documentation>
-													</xs:annotation>
-												</xs:element>
-												<xs:element name="gMedicao" minOccurs="0">
-													<xs:annotation>
-														<xs:documentation>Grupo para referenciar qual medição e medida estão relacionadas ao item</xs:documentation>
-													</xs:annotation>
-													<xs:complexType>
-														<xs:sequence>
-															<xs:element name="nMed">
-																<xs:annotation>
-																	<xs:documentation>Referência para a medição ao qual se refere o item</xs:documentation>
-																	<xs:documentation/>
-																</xs:annotation>
-																<xs:simpleType>
-																	<xs:restriction base="xs:string">
-																		<xs:minLength value="2"/>
-																		<xs:maxLength value="2"/>
-																		<xs:whiteSpace value="preserve"/>
-																		<xs:pattern value="0[1-9]|[1-9][0-9]"/>
-																	</xs:restriction>
-																</xs:simpleType>
-															</xs:element>
-															<xs:choice>
-																<xs:element name="gMedida" type="TMedidaAG">
-																	<xs:annotation>
-																		<xs:documentation>Grupo de medida</xs:documentation>
-																	</xs:annotation>
-																</xs:element>
-																<xs:element name="tpMotNaoLeitura" type="TMotNaoLeitura">
-																	<xs:annotation>
-																		<xs:documentation>Tipo Motivo da não leitura</xs:documentation>
-																		<xs:documentation>1 - Consumidor; 
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="gMedicao" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Grupo para referenciar qual medição e medida estão relacionadas ao item</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="nMed">
+																		<xs:annotation>
+																			<xs:documentation>Referência para a medição ao qual se refere o item</xs:documentation>
+																			<xs:documentation/>
+																		</xs:annotation>
+																		<xs:simpleType>
+																			<xs:restriction base="xs:string">
+																				<xs:minLength value="2"/>
+																				<xs:maxLength value="2"/>
+																				<xs:whiteSpace value="preserve"/>
+																				<xs:pattern value="0[1-9]|[1-9][0-9]"/>
+																			</xs:restriction>
+																		</xs:simpleType>
+																	</xs:element>
+																	<xs:choice>
+																		<xs:element name="gMedida" type="TMedidaAG">
+																			<xs:annotation>
+																				<xs:documentation>Grupo de medida</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																		<xs:element name="tpMotNaoLeitura" type="TMotNaoLeitura">
+																			<xs:annotation>
+																				<xs:documentation>Tipo Motivo da não leitura</xs:documentation>
+																				<xs:documentation>1 - Consumidor; 
 2 - Distribuidora; 
 3 - Independente do Consumidor e distribuidora;</xs:documentation>
-																	</xs:annotation>
-																</xs:element>
-															</xs:choice>
-														</xs:sequence>
-													</xs:complexType>
-												</xs:element>
-												<xs:element name="cProd">
-													<xs:annotation>
-														<xs:documentation>Código do produto ou serviço. </xs:documentation>
-													</xs:annotation>
-													<xs:simpleType>
-														<xs:restriction base="TString">
-															<xs:maxLength value="60"/>
-															<xs:minLength value="1"/>
-														</xs:restriction>
-													</xs:simpleType>
-												</xs:element>
-												<xs:element name="xProd">
-													<xs:annotation>
-														<xs:documentation>Descrição do produto ou serviço</xs:documentation>
-													</xs:annotation>
-													<xs:simpleType>
-														<xs:restriction base="TString">
-															<xs:maxLength value="120"/>
-															<xs:minLength value="1"/>
-														</xs:restriction>
-													</xs:simpleType>
-												</xs:element>
-												<xs:element name="cClass">
-													<xs:annotation>
-														<xs:documentation>Código de classificação</xs:documentation>
-														<xs:documentation>Tabela de Classificação de Item da NFAg (validar por RV)</xs:documentation>
-													</xs:annotation>
-													<xs:simpleType>
-														<xs:restriction base="xs:string">
-															<xs:minLength value="7"/>
-															<xs:maxLength value="7"/>
-															<xs:whiteSpace value="preserve"/>
-															<xs:pattern value="[0-9]{7}"/>
-														</xs:restriction>
-													</xs:simpleType>
-												</xs:element>
-												<xs:sequence minOccurs="0">
-													<xs:element name="tpCategoria" type="TCategAG">
-														<xs:annotation>
-															<xs:documentation>Categoria da ligação</xs:documentation>
-															<xs:documentation>01 - Comercial
+																			</xs:annotation>
+																		</xs:element>
+																	</xs:choice>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="cProd">
+															<xs:annotation>
+																<xs:documentation>Código do produto ou serviço. </xs:documentation>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="TString">
+																	<xs:maxLength value="60"/>
+																	<xs:minLength value="1"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:element>
+														<xs:element name="xProd">
+															<xs:annotation>
+																<xs:documentation>Descrição do produto ou serviço</xs:documentation>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="TString">
+																	<xs:maxLength value="120"/>
+																	<xs:minLength value="1"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:element>
+														<xs:element name="cClass">
+															<xs:annotation>
+																<xs:documentation>Código de classificação</xs:documentation>
+																<xs:documentation>Tabela de Classificação de Item da NFAg (validar por RV)</xs:documentation>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:minLength value="7"/>
+																	<xs:maxLength value="7"/>
+																	<xs:whiteSpace value="preserve"/>
+																	<xs:pattern value="[0-9]{7}"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:element>
+														<xs:sequence minOccurs="0">
+															<xs:element name="tpCategoria" type="TCategAG">
+																<xs:annotation>
+																	<xs:documentation>Categoria da ligação</xs:documentation>
+																	<xs:documentation>01 - Comercial
 02 - Consumo Próprio
 04 - Industrial
 06 - Residencial
@@ -690,188 +699,201 @@ Formato AAAA-MM-DD)</xs:documentation>
 11 - Resid.Comercial
 12 - Resid Industrial
 99 - Outras</xs:documentation>
-														</xs:annotation>
-													</xs:element>
-													<xs:element name="xCategoria" minOccurs="0">
-														<xs:annotation>
-															<xs:documentation>Detalhamento da Categoria</xs:documentation>
-														</xs:annotation>
-														<xs:simpleType>
-															<xs:restriction base="TString">
-																<xs:maxLength value="200"/>
-																<xs:minLength value="1"/>
-															</xs:restriction>
-														</xs:simpleType>
-													</xs:element>
-													<xs:element name="qEconomias" minOccurs="0">
-														<xs:annotation>
-															<xs:documentation>Quantidade de economias</xs:documentation>
-															<xs:documentation>Informar a série do documento fiscal (informar zero para série única).</xs:documentation>
-														</xs:annotation>
-														<xs:simpleType>
-															<xs:restriction base="TString">
-																<xs:minLength value="1"/>
-																<xs:maxLength value="5"/>
-															</xs:restriction>
-														</xs:simpleType>
-													</xs:element>
-												</xs:sequence>
-												<xs:element name="uMed">
-													<xs:annotation>
-														<xs:documentation>Unidade Básica de Medida</xs:documentation>
-														<xs:documentation>1 - m3; 
-2 - Litros;
-5 - Unidade
-6 - ton</xs:documentation>
-													</xs:annotation>
-													<xs:simpleType>
-														<xs:restriction base="TUMedItemAG"/>
-													</xs:simpleType>
-												</xs:element>
-												<xs:element name="qFaturada" type="TDec_1100_1104">
-													<xs:annotation>
-														<xs:documentation>Quantidade Faturada</xs:documentation>
-														<xs:documentation>Informar a quantidade de comercialização do produto .</xs:documentation>
-													</xs:annotation>
-												</xs:element>
-												<xs:element name="vItem" type="TDec_1302_1310">
-													<xs:annotation>
-														<xs:documentation>Valor unitário do item</xs:documentation>
-														<xs:documentation>O valor unitário do item no caso de energia elétrica corresponde ao valor da tarifa e dos tributos que devam compor a base de cálculo. O item pode estar acrescido do adicional da bandeira tarifária ou o adicional de bandeira poderá ser lançado como um item específico.
-Este campo também corresponde ao preço médio efetivo relativo ao consumo ativo do período, quando aplicáveis os termos do inciso I da clausula primeira do Convênio ICMS 77/11 (DEVEC).</xs:documentation>
-													</xs:annotation>
-												</xs:element>
-												<xs:element name="fatorPoluicao" type="TDec_1100_1104" minOccurs="0">
-													<xs:annotation>
-														<xs:documentation>Fator de poluição</xs:documentation>
-														<xs:documentation>Se informado multipla ao valor do vItem
-Obrigatoriamente > 1.
-</xs:documentation>
-													</xs:annotation>
-												</xs:element>
-												<xs:element name="vProd" type="TDec_1302_1310">
-													<xs:annotation>
-														<xs:documentation>Valor total do item</xs:documentation>
-													</xs:annotation>
-												</xs:element>
-												<xs:element name="indDevolucao" minOccurs="0">
-													<xs:annotation>
-														<xs:documentation>Indicador de devolução do valor do item</xs:documentation>
-														<xs:documentation>1 – Devolução do valor do item </xs:documentation>
-													</xs:annotation>
-													<xs:simpleType>
-														<xs:restriction base="xs:string">
-															<xs:minLength value="1"/>
-															<xs:maxLength value="1"/>
-															<xs:whiteSpace value="preserve"/>
-															<xs:enumeration value="1"/>
-														</xs:restriction>
-													</xs:simpleType>
-												</xs:element>
-												<xs:element name="gPagAntecipado" minOccurs="0">
-													<xs:annotation>
-														<xs:documentation>Grupo de antecipação de pagamento
-
-Permite informar apenas quando tpPagAnt=3</xs:documentation>
-														<xs:documentation>Informado para abater as parcelas de antecipação de
-pagamento</xs:documentation>
-													</xs:annotation>
-													<xs:complexType>
-														<xs:sequence>
-															<xs:element name="chDFePagAnt" type="TChDFe">
-																<xs:annotation>
-																	<xs:documentation>Chave de acesso da nota de antecipação de pagamento (com tpPagAnt=1 ou 2)</xs:documentation>
-																	<xs:documentation>Referência a DFe emitido anteriormente, referente a pagamento antecipado</xs:documentation>
 																</xs:annotation>
 															</xs:element>
-															<xs:element name="nItemPagAnt" minOccurs="0">
+															<xs:element name="xCategoria" minOccurs="0">
 																<xs:annotation>
-																	<xs:documentation>Número do item do DFe de antecipação para referência direta a um item</xs:documentation>
+																	<xs:documentation>Detalhamento da Categoria</xs:documentation>
 																</xs:annotation>
 																<xs:simpleType>
-																	<xs:restriction base="xs:string">
+																	<xs:restriction base="TString">
+																		<xs:maxLength value="200"/>
 																		<xs:minLength value="1"/>
-																		<xs:maxLength value="3"/>
-																		<xs:whiteSpace value="preserve"/>
-																		<xs:pattern value="[1-9]{1}[0-9]{0,1}|[1-8]{1}[0-9]{2}|[9]{1}[0-8]{1}[0-9]{1}|[9]{1}[9]{1}[0]{1}"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+															<xs:element name="qEconomias" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Quantidade de economias</xs:documentation>
+																	<xs:documentation>Informar a série do documento fiscal (informar zero para série única).</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="TString">
+																		<xs:minLength value="1"/>
+																		<xs:maxLength value="5"/>
 																	</xs:restriction>
 																</xs:simpleType>
 															</xs:element>
 														</xs:sequence>
-													</xs:complexType>
-												</xs:element>
-											</xs:sequence>
-										</xs:complexType>
-									</xs:element>
-									<xs:element name="imposto">
-										<xs:annotation>
-											<xs:documentation>Tributos incidentes no Produto ou Serviço</xs:documentation>
-										</xs:annotation>
-										<xs:complexType>
-											<xs:sequence>
-												<xs:element name="IBSCBS" type="TTribNFAg">
-													<xs:annotation>
-														<xs:documentation>Grupo de informações do IBS e CBS</xs:documentation>
-													</xs:annotation>
-												</xs:element>
-												<xs:element name="PIS" minOccurs="0">
-													<xs:annotation>
-														<xs:documentation>Dados do PIS</xs:documentation>
-													</xs:annotation>
-													<xs:complexType>
-														<xs:sequence>
-															<xs:element name="CST">
+														<xs:element name="uMed">
+															<xs:annotation>
+																<xs:documentation>Unidade Básica de Medida</xs:documentation>
+																<xs:documentation>1 - m3; 
+2 - Litros;
+5 - Unidade
+6 - ton</xs:documentation>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="TUMedItemAG"/>
+															</xs:simpleType>
+														</xs:element>
+														<xs:element name="qFaturada" type="TDec_1100_1104">
+															<xs:annotation>
+																<xs:documentation>Quantidade Faturada</xs:documentation>
+																<xs:documentation>Informar a quantidade de comercialização do produto .</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="vItem" type="TDec_1302_1310">
+															<xs:annotation>
+																<xs:documentation>Valor unitário do item</xs:documentation>
+																<xs:documentation>O valor unitário do item no caso de energia elétrica corresponde ao valor da tarifa e dos tributos que devam compor a base de cálculo. O item pode estar acrescido do adicional da bandeira tarifária ou o adicional de bandeira poderá ser lançado como um item específico.
+Este campo também corresponde ao preço médio efetivo relativo ao consumo ativo do período, quando aplicáveis os termos do inciso I da clausula primeira do Convênio ICMS 77/11 (DEVEC).</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="fatorPoluicao" type="TDec_1100_1104" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Fator de poluição</xs:documentation>
+																<xs:documentation>Se informado multipla ao valor do vItem
+Obrigatoriamente > 1.
+</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="vProd" type="TDec_1302_1310">
+															<xs:annotation>
+																<xs:documentation>Valor total do item</xs:documentation>
+																<xs:documentation>Observação: A partir 2027, os valores de IBS e CBS compõem o Valor Total do Item </xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:sequence minOccurs="0">
+															<xs:element name="vItemLiq" type="TDec_1302_1310">
 																<xs:annotation>
-																	<xs:documentation>classificação Tributária do PIS</xs:documentation>
-																	<xs:documentation>01 – Tributável com alíquota básica
+																	<xs:documentation>Valor unitário do item sem tributos</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="vProdLiq" type="TDec_1302_1310">
+																<xs:annotation>
+																	<xs:documentation>Valor líquido total do item sem tributos</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+														<xs:element name="indDevolucao" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Indicador de devolução do valor do item</xs:documentation>
+																<xs:documentation>1 – Devolução do valor do item </xs:documentation>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:minLength value="1"/>
+																	<xs:maxLength value="1"/>
+																	<xs:whiteSpace value="preserve"/>
+																	<xs:enumeration value="1"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:element>
+														<xs:element name="gPagAntecipado" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Grupo de antecipação de pagamento
+
+Permite informar apenas quando tpPagAnt=3</xs:documentation>
+																<xs:documentation>Informado para abater as parcelas de antecipação de
+pagamento</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="chDFePagAnt" type="TChDFe">
+																		<xs:annotation>
+																			<xs:documentation>Chave de acesso da nota de antecipação de pagamento (com tpPagAnt=1 ou 2)</xs:documentation>
+																			<xs:documentation>Referência a DFe emitido anteriormente, referente a pagamento antecipado</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="nItemPagAnt" minOccurs="0">
+																		<xs:annotation>
+																			<xs:documentation>Número do item do DFe de antecipação para referência direta a um item</xs:documentation>
+																		</xs:annotation>
+																		<xs:simpleType>
+																			<xs:restriction base="xs:string">
+																				<xs:minLength value="1"/>
+																				<xs:maxLength value="3"/>
+																				<xs:whiteSpace value="preserve"/>
+																				<xs:pattern value="[1-9]{1}[0-9]{0,1}|[1-8]{1}[0-9]{2}|[9]{1}[0-8]{1}[0-9]{1}|[9]{1}[9]{1}[0]{1}"/>
+																			</xs:restriction>
+																		</xs:simpleType>
+																	</xs:element>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="imposto">
+												<xs:annotation>
+													<xs:documentation>Tributos incidentes no Produto ou Serviço</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="IBSCBS" type="TTribNFAg">
+															<xs:annotation>
+																<xs:documentation>Grupo de informações do IBS e CBS</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="PIS" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Dados do PIS</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="CST">
+																		<xs:annotation>
+																			<xs:documentation>classificação Tributária do PIS</xs:documentation>
+																			<xs:documentation>01 – Tributável com alíquota básica
 02 – Tributável com alíquota diferenciada
 06 – Tributável com alíquota erro
 07 – Operação isenta de contribuição
 08 – Operação sem incidência da contribuição
 09 – Operação com suspensão da contribuição  
 49 – Outras operações de saída</xs:documentation>
-																</xs:annotation>
-																<xs:simpleType>
-																	<xs:restriction base="xs:string">
-																		<xs:whiteSpace value="preserve"/>
-																		<xs:enumeration value="01"/>
-																		<xs:enumeration value="02"/>
-																		<xs:enumeration value="06"/>
-																		<xs:enumeration value="07"/>
-																		<xs:enumeration value="08"/>
-																		<xs:enumeration value="09"/>
-																		<xs:enumeration value="49"/>
-																	</xs:restriction>
-																</xs:simpleType>
-															</xs:element>
-															<xs:element name="vBC" type="TDec_1302">
-																<xs:annotation>
-																	<xs:documentation>Valor da BC do PIS</xs:documentation>
-																</xs:annotation>
-															</xs:element>
-															<xs:element name="pPIS" type="TDec_0302a04">
-																<xs:annotation>
-																	<xs:documentation>Alíquota do PIS (em percentual)</xs:documentation>
-																</xs:annotation>
-															</xs:element>
-															<xs:element name="vPIS" type="TDec_1302">
-																<xs:annotation>
-																	<xs:documentation>Valor do PIS</xs:documentation>
-																</xs:annotation>
-															</xs:element>
-														</xs:sequence>
-													</xs:complexType>
-												</xs:element>
-												<xs:element name="COFINS" minOccurs="0">
-													<xs:annotation>
-														<xs:documentation>Dados do COFINS</xs:documentation>
-													</xs:annotation>
-													<xs:complexType>
-														<xs:sequence>
-															<xs:element name="CST">
-																<xs:annotation>
-																	<xs:documentation>classificação Tributária do COFINS</xs:documentation>
-																	<xs:documentation>01 – Tributável com alíquota básica
+																		</xs:annotation>
+																		<xs:simpleType>
+																			<xs:restriction base="xs:string">
+																				<xs:whiteSpace value="preserve"/>
+																				<xs:enumeration value="01"/>
+																				<xs:enumeration value="02"/>
+																				<xs:enumeration value="06"/>
+																				<xs:enumeration value="07"/>
+																				<xs:enumeration value="08"/>
+																				<xs:enumeration value="09"/>
+																				<xs:enumeration value="49"/>
+																			</xs:restriction>
+																		</xs:simpleType>
+																	</xs:element>
+																	<xs:element name="vBC" type="TDec_1302">
+																		<xs:annotation>
+																			<xs:documentation>Valor da BC do PIS</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="pPIS" type="TDec_0302a04">
+																		<xs:annotation>
+																			<xs:documentation>Alíquota do PIS (em percentual)</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="vPIS" type="TDec_1302">
+																		<xs:annotation>
+																			<xs:documentation>Valor do PIS</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="COFINS" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Dados do COFINS</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="CST">
+																		<xs:annotation>
+																			<xs:documentation>classificação Tributária do COFINS</xs:documentation>
+																			<xs:documentation>01 – Tributável com alíquota básica
 02 – Tributável com alíquota diferenciada
 06 – Tributável com alíquota erro
 07 – Operação isenta de contribuição
@@ -879,201 +901,260 @@ pagamento</xs:documentation>
 09 – Operação com suspensão da contribuição  
 49 – Outras operações de saída
 </xs:documentation>
-																</xs:annotation>
-																<xs:simpleType>
-																	<xs:restriction base="xs:string">
-																		<xs:whiteSpace value="preserve"/>
-																		<xs:enumeration value="01"/>
-																		<xs:enumeration value="02"/>
-																		<xs:enumeration value="06"/>
-																		<xs:enumeration value="07"/>
-																		<xs:enumeration value="08"/>
-																		<xs:enumeration value="09"/>
-																		<xs:enumeration value="49"/>
-																	</xs:restriction>
-																</xs:simpleType>
-															</xs:element>
-															<xs:element name="vBC" type="TDec_1302">
-																<xs:annotation>
-																	<xs:documentation>Valor da BC do COFINS</xs:documentation>
-																</xs:annotation>
-															</xs:element>
-															<xs:element name="pCOFINS" type="TDec_0302a04">
-																<xs:annotation>
-																	<xs:documentation>Alíquota do COFINS (em percentual)</xs:documentation>
-																</xs:annotation>
-															</xs:element>
-															<xs:element name="vCOFINS" type="TDec_1302">
-																<xs:annotation>
-																	<xs:documentation>Valor do COFINS</xs:documentation>
-																</xs:annotation>
-															</xs:element>
-														</xs:sequence>
-													</xs:complexType>
-												</xs:element>
-												<xs:element name="retTrib" minOccurs="0">
-													<xs:annotation>
-														<xs:documentation>Grupo de informações de retenção de tributos federais</xs:documentation>
-													</xs:annotation>
-													<xs:complexType>
-														<xs:sequence>
-															<xs:element name="vRetPIS" type="TDec_1302_1308">
-																<xs:annotation>
-																	<xs:documentation>Valor do PIS retido</xs:documentation>
-																</xs:annotation>
-															</xs:element>
-															<xs:element name="vRetCofins" type="TDec_1302_1308">
-																<xs:annotation>
-																	<xs:documentation>Valor do COFNS retido</xs:documentation>
-																</xs:annotation>
-															</xs:element>
-															<xs:element name="vRetCSLL" type="TDec_1302_1308">
-																<xs:annotation>
-																	<xs:documentation>Valor da CSLL retida</xs:documentation>
-																</xs:annotation>
-															</xs:element>
-															<xs:element name="vIRRF" type="TDec_1302_1308">
-																<xs:annotation>
-																	<xs:documentation>Valor do IRRF retido</xs:documentation>
-																</xs:annotation>
-															</xs:element>
-														</xs:sequence>
-													</xs:complexType>
-												</xs:element>
-												<xs:element name="TFS" minOccurs="0">
-													<xs:annotation>
-														<xs:documentation>Taxa de Fiscalização de Serviço</xs:documentation>
-													</xs:annotation>
-													<xs:complexType>
-														<xs:sequence>
-															<xs:element name="vBCTFS" type="TDec_1302">
-																<xs:annotation>
-																	<xs:documentation>Valor BC TFS</xs:documentation>
-																</xs:annotation>
-															</xs:element>
-															<xs:element name="pTFS" type="TDec_0302a04">
-																<xs:annotation>
-																	<xs:documentation>Alíquota do TFS</xs:documentation>
-																</xs:annotation>
-															</xs:element>
-															<xs:element name="vTFS" type="TDec_1302">
-																<xs:annotation>
-																	<xs:documentation>Valor TFS</xs:documentation>
-																</xs:annotation>
-															</xs:element>
-														</xs:sequence>
-													</xs:complexType>
-												</xs:element>
-												<xs:element name="TFU" minOccurs="0">
-													<xs:annotation>
-														<xs:documentation>Taxa de Fiscalização de Uso</xs:documentation>
-													</xs:annotation>
-													<xs:complexType>
-														<xs:sequence>
-															<xs:element name="vBCTFU" type="TDec_1302">
-																<xs:annotation>
-																	<xs:documentation>Valor BC TFU</xs:documentation>
-																</xs:annotation>
-															</xs:element>
-															<xs:element name="pTFU" type="TDec_0302a04">
-																<xs:annotation>
-																	<xs:documentation>Alíquota do TFU</xs:documentation>
-																</xs:annotation>
-															</xs:element>
-															<xs:element name="vTFU" type="TDec_1302">
-																<xs:annotation>
-																	<xs:documentation>Valor TFU</xs:documentation>
-																</xs:annotation>
-															</xs:element>
-														</xs:sequence>
-													</xs:complexType>
-												</xs:element>
-											</xs:sequence>
-										</xs:complexType>
-									</xs:element>
-									<xs:element name="gProcRef" minOccurs="0">
-										<xs:annotation>
-											<xs:documentation>Grupo Processo referenciado</xs:documentation>
-											<xs:documentation>Este grupo somente deverá ser preenchido quando houver processo judicial ou administrativo que altere valores.</xs:documentation>
-										</xs:annotation>
-										<xs:complexType>
-											<xs:sequence>
-												<xs:element name="vItem" type="TDec_1302_1310">
-													<xs:annotation>
-														<xs:documentation>Valor unitário do item</xs:documentation>
-														<xs:documentation>Informar o valor sem a influência da decisão judicial/administrativa.</xs:documentation>
-													</xs:annotation>
-												</xs:element>
-												<xs:element name="qFaturada" type="TDec_1100_1104">
-													<xs:annotation>
-														<xs:documentation>Quantidade Faturada</xs:documentation>
-														<xs:documentation>Informar a quantidade de comercialização do produto .</xs:documentation>
-													</xs:annotation>
-												</xs:element>
-												<xs:element name="vProd" type="TDec_1302_1310">
-													<xs:annotation>
-														<xs:documentation>Valor total do item</xs:documentation>
-													</xs:annotation>
-												</xs:element>
-												<xs:element name="indDevolucao" minOccurs="0">
-													<xs:annotation>
-														<xs:documentation>Indicador de devolução do valor do item</xs:documentation>
-														<xs:documentation>1 – Devolução do valor do item </xs:documentation>
-													</xs:annotation>
-													<xs:simpleType>
-														<xs:restriction base="xs:string">
-															<xs:minLength value="1"/>
-															<xs:maxLength value="1"/>
-															<xs:whiteSpace value="preserve"/>
-															<xs:enumeration value="1"/>
-														</xs:restriction>
-													</xs:simpleType>
-												</xs:element>
-												<xs:element name="gProc" maxOccurs="10">
-													<xs:annotation>
-														<xs:documentation>Grupo identificador do Processo</xs:documentation>
-													</xs:annotation>
-													<xs:complexType>
-														<xs:sequence>
-															<xs:element name="tpProc" type="TProcessoAG">
-																<xs:annotation>
-																	<xs:documentation>Tipo de Processo</xs:documentation>
-																	<xs:documentation>0 - Processo Adm Estadual;
+																		</xs:annotation>
+																		<xs:simpleType>
+																			<xs:restriction base="xs:string">
+																				<xs:whiteSpace value="preserve"/>
+																				<xs:enumeration value="01"/>
+																				<xs:enumeration value="02"/>
+																				<xs:enumeration value="06"/>
+																				<xs:enumeration value="07"/>
+																				<xs:enumeration value="08"/>
+																				<xs:enumeration value="09"/>
+																				<xs:enumeration value="49"/>
+																			</xs:restriction>
+																		</xs:simpleType>
+																	</xs:element>
+																	<xs:element name="vBC" type="TDec_1302">
+																		<xs:annotation>
+																			<xs:documentation>Valor da BC do COFINS</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="pCOFINS" type="TDec_0302a04">
+																		<xs:annotation>
+																			<xs:documentation>Alíquota do COFINS (em percentual)</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="vCOFINS" type="TDec_1302">
+																		<xs:annotation>
+																			<xs:documentation>Valor do COFINS</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="retTrib" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Grupo de informações de retenção de tributos federais</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="vRetPIS" type="TDec_1302_1308">
+																		<xs:annotation>
+																			<xs:documentation>Valor do PIS retido</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="vRetCofins" type="TDec_1302_1308">
+																		<xs:annotation>
+																			<xs:documentation>Valor do COFNS retido</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="vRetCSLL" type="TDec_1302_1308">
+																		<xs:annotation>
+																			<xs:documentation>Valor da CSLL retida</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="vIRRF" type="TDec_1302_1308">
+																		<xs:annotation>
+																			<xs:documentation>Valor do IRRF retido</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="TFS" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Taxa de Fiscalização de Serviço</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="vBCTFS" type="TDec_1302">
+																		<xs:annotation>
+																			<xs:documentation>Valor BC TFS</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="pTFS" type="TDec_0302a04">
+																		<xs:annotation>
+																			<xs:documentation>Alíquota do TFS</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="vTFS" type="TDec_1302">
+																		<xs:annotation>
+																			<xs:documentation>Valor TFS</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="TFU" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Taxa de Fiscalização de Uso</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="vBCTFU" type="TDec_1302">
+																		<xs:annotation>
+																			<xs:documentation>Valor BC TFU</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="pTFU" type="TDec_0302a04">
+																		<xs:annotation>
+																			<xs:documentation>Alíquota do TFU</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="vTFU" type="TDec_1302">
+																		<xs:annotation>
+																			<xs:documentation>Valor TFU</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="gProcRef" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Grupo Processo referenciado</xs:documentation>
+													<xs:documentation>Este grupo somente deverá ser preenchido quando houver processo judicial ou administrativo que altere valores.</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="vItem" type="TDec_1302_1310">
+															<xs:annotation>
+																<xs:documentation>Valor unitário do item</xs:documentation>
+																<xs:documentation>Informar o valor sem a influência da decisão judicial/administrativa.</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="qFaturada" type="TDec_1100_1104">
+															<xs:annotation>
+																<xs:documentation>Quantidade Faturada</xs:documentation>
+																<xs:documentation>Informar a quantidade de comercialização do produto .</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="vProd" type="TDec_1302_1310">
+															<xs:annotation>
+																<xs:documentation>Valor total do item</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="indDevolucao" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Indicador de devolução do valor do item</xs:documentation>
+																<xs:documentation>1 – Devolução do valor do item </xs:documentation>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:minLength value="1"/>
+																	<xs:maxLength value="1"/>
+																	<xs:whiteSpace value="preserve"/>
+																	<xs:enumeration value="1"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:element>
+														<xs:element name="gIBSCBS" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Grupo de informações do IBS e CBS a serem considerados sem a aplicação do processo judicial </xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="vBC" type="TDec1302RTC">
+																		<xs:annotation>
+																			<xs:documentation>Valor do BC</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="vIBSUF" type="TDec1302RTC">
+																		<xs:annotation>
+																			<xs:documentation>Valor do IBS de competência das UF</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="vIBSMun" type="TDec1302RTC">
+																		<xs:annotation>
+																			<xs:documentation>Valor do IBS Municipal</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="vCBS" type="TDec1302RTC">
+																		<xs:annotation>
+																			<xs:documentation>Valor da CBS</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="gProc" maxOccurs="10">
+															<xs:annotation>
+																<xs:documentation>Grupo identificador do Processo</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="tpProc" type="TProcessoAG">
+																		<xs:annotation>
+																			<xs:documentation>Tipo de Processo</xs:documentation>
+																			<xs:documentation>0 - Processo Adm Estadual;
 1 - Justiça Federal; 
 2 - Justiça Estadual; 
 3 - Processo Adm Municipal;
 4 - Processo Adm Federal;
 5 - Procon</xs:documentation>
-																</xs:annotation>
-															</xs:element>
-															<xs:element name="nProcesso">
-																<xs:annotation>
-																	<xs:documentation>Número do Processo</xs:documentation>
-																</xs:annotation>
-																<xs:simpleType>
-																	<xs:restriction base="TString">
-																		<xs:minLength value="1"/>
-																		<xs:maxLength value="60"/>
-																	</xs:restriction>
-																</xs:simpleType>
-															</xs:element>
-														</xs:sequence>
-													</xs:complexType>
-												</xs:element>
-											</xs:sequence>
-										</xs:complexType>
-									</xs:element>
-									<xs:element name="infAdProd" minOccurs="0">
-										<xs:annotation>
-											<xs:documentation>Informações adicionais do produto (norma referenciada, informações complementares, etc)</xs:documentation>
-										</xs:annotation>
-										<xs:simpleType>
-											<xs:restriction base="TString">
-												<xs:minLength value="1"/>
-												<xs:maxLength value="500"/>
-											</xs:restriction>
-										</xs:simpleType>
-									</xs:element>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="nProcesso">
+																		<xs:annotation>
+																			<xs:documentation>Número do Processo</xs:documentation>
+																		</xs:annotation>
+																		<xs:simpleType>
+																			<xs:restriction base="TString">
+																				<xs:minLength value="1"/>
+																				<xs:maxLength value="60"/>
+																			</xs:restriction>
+																		</xs:simpleType>
+																	</xs:element>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="infAdProd" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Informações adicionais do produto (norma referenciada, informações complementares, etc)</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="TString">
+														<xs:minLength value="1"/>
+														<xs:maxLength value="500"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:element>
+										</xs:sequence>
+										<xs:element name="gAgregadora">
+											<xs:annotation>
+												<xs:documentation>Informar para faturamento agregador (5)</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="cClass">
+														<xs:annotation>
+															<xs:documentation>Código de classificação</xs:documentation>
+															<xs:documentation>Tabela de Classificação de Item da NFAg (validar por RV)</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:minLength value="7"/>
+																<xs:maxLength value="7"/>
+																<xs:whiteSpace value="preserve"/>
+																<xs:pattern value="[0-9]{7}"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="vTotDFe" type="TDec_1302">
+														<xs:annotation>
+															<xs:documentation>Valor total do documento fiscal da nota agregada</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
 								</xs:sequence>
 								<xs:attribute name="nItem" use="required">
 									<xs:annotation>
@@ -1118,6 +1199,11 @@ TAG OPCIONAL, DEVE SER INFORMADA APENAS NOS CASOS PREVISTOS DE NOTA ANTERIOR REF
 									<xs:element name="vProd" type="TDec_1302">
 										<xs:annotation>
 											<xs:documentation>Valor Total dos produtos e serviços</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="vProdLiq" type="TDec_1302" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Valor Total líquido dos produtos e serviços sem tributos</xs:documentation>
 										</xs:annotation>
 									</xs:element>
 									<xs:element name="vRetTribTot">
@@ -1181,8 +1267,7 @@ TAG OPCIONAL, DEVE SER INFORMADA APENAS NOS CASOS PREVISTOS DE NOTA ANTERIOR REF
 									</xs:element>
 									<xs:element name="vTotDFe" type="TDec_1302">
 										<xs:annotation>
-											<xs:documentation>Valor total do documento fiscal 
-(vNF + total do IBS + total da CBS) 
+											<xs:documentation>Valor total do documento fiscal (vNF) 
 </xs:documentation>
 										</xs:annotation>
 									</xs:element>
@@ -1338,9 +1423,11 @@ Não obrigatória, conforme item 2.3.2 da Seção 11.1 do Módulo 11 do PRODIST.
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
-						<xs:element name="gAgencia">
+						<xs:element name="gAgencia" minOccurs="0">
 							<xs:annotation>
-								<xs:documentation>Grupo de informações da Agência reguladora</xs:documentation>
+								<xs:documentation>Grupo de informações da Agência reguladora
+
+Opcional para tpFat=5</xs:documentation>
 							</xs:annotation>
 							<xs:complexType>
 								<xs:sequence>
@@ -2345,6 +2432,8 @@ Observação: 28 caracteres são representados no schema como 20 bytes do tipo b
 			<xs:enumeration value="1"/>
 			<xs:enumeration value="2"/>
 			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="5"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="TFinNFAg">
@@ -2645,6 +2734,7 @@ Observação: 28 caracteres são representados no schema como 20 bytes do tipo b
 			<xs:enumeration value="5"/>
 			<xs:enumeration value="6"/>
 			<xs:enumeration value="7"/>
+			<xs:enumeration value="8"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="TGrMed">
