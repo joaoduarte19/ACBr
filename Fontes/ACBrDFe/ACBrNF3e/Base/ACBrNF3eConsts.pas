@@ -151,6 +151,8 @@ const
   DSC_CMUNFG = 'Código do Município FG';
   DSC_VITEM = 'Valor líquido do Item';
   DSC_VPROD = 'Valor Total Bruto dos Produtos ou Serviços';
+  DSC_VITEMLIQ = 'Valor unitário do item sem tributos';
+  DSC_VPRODLIQ = 'Valor líquido total do item sem tributos';
   DSC_VBC = 'Valor da BC do ICMS';
   DSC_PICMS = 'Alíquota do imposto';
   DSC_VICMS = 'Valor do ICMS';

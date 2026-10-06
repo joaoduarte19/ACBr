@@ -670,6 +670,8 @@ begin
     Prod.qFaturada := AINIRec.ReadInteger(sSecao, 'qFaturada', 0);
     Prod.vItem := StringToFloatDef(AINIRec.ReadString(sSecao, 'vItem', ''), 0);
     Prod.vProd := StringToFloatDef(AINIRec.ReadString(sSecao, 'vProd', ''), 0);
+    Prod.vItemLiq := StringToFloatDef(AINIRec.ReadString(sSecao, 'vItemLiq', ''), 0);
+    Prod.vProdLiq := StringToFloatDef(AINIRec.ReadString(sSecao, 'vProdLiq', ''), 0);
     Prod.indDevolucao := StrToTIndicador(AINIRec.ReadString(sSecao, 'indDevolucao', ''));
     Prod.indPrecoACL := StrToTIndicador(AINIRec.ReadString(sSecao, 'indPrecoACL', ''));
 
@@ -857,6 +859,7 @@ begin
     gProcRef.vCOFINS := StringToFloatDef(AINIRec.ReadString(sSecao,'vCOFINS', ''), 0);
     gProcRef.vCOFINSEfet := StringToFloatDef(AINIRec.ReadString(sSecao,'vCOFINSEfet', ''), 0);
 
+    Ler_gIBSCBSSemProcJur(AINIRec, gProcRef.gIBSCBS, Idx1, Idx2);
     Ler_gProc(AINIRec, gProcRef.gProc, Idx1, Idx2);
   end;
 end;
@@ -915,6 +918,7 @@ var
 begin
   sSecao := 'total';
   Total.vProd := StringToFloatDef(AINIRec.ReadString(sSecao,'vProd', ''), 0);
+  Total.vProdLiq := StringToFloatDef(AINIRec.ReadString(sSecao,'vProdLiq', ''), 0);
   Total.vBC := StringToFloatDef(AINIRec.ReadString(sSecao,'vBC', ''), 0);
   Total.vICMS := StringToFloatDef(AINIRec.ReadString(sSecao,'vICMS', ''), 0);
   Total.vICMSDeson := StringToFloatDef(AINIRec.ReadString(sSecao,'vICMSDeson', ''), 0);

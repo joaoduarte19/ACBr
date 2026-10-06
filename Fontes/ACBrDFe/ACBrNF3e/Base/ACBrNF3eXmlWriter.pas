@@ -1351,6 +1351,12 @@ begin
   Result.AppendChild(AddNode(tcDe2, '#169', 'vProd', 1, 15, 1,
     NF3e.NFDet[aNFdet].Det[aDet].detItem.Prod.vProd, DSC_VPROD));
 
+  Result.AppendChild(AddNode(tcDe2, '#169', 'vItemLiq', 1, 15, 0,
+    NF3e.NFDet[aNFdet].Det[aDet].detItem.Prod.vItemLiq, DSC_VITEMLIQ));
+
+  Result.AppendChild(AddNode(tcDe2, '#169', 'vProdLiq', 1, 15, 0,
+    NF3e.NFDet[aNFdet].Det[aDet].detItem.Prod.vProdLiq, DSC_VPRODLIQ));
+
   if NF3e.NFDet[aNFdet].Det[aDet].detItem.Prod.indDevolucao = tiSim then
     Result.AppendChild(AddNode(tcStr, '#170', 'indDevolucao', 1, 1, 1, '1', ''));
 
@@ -1851,6 +1857,9 @@ begin
     Result.AppendChild(AddNode(tcDe2, '#243a', 'vCOFINSEfet', 1, 15, 0,
       NF3e.NFDet[aNFdet].Det[aDet].detItem.gProcRef.vCOFINSEfet, DSC_VCOFINSEfet));
 
+    if NF3e.NFDet[aNFdet].Det[aDet].detItem.gProcRef.gIBSCBS.vBC > 0 then
+      Result.AppendChild(Gerar_gIBSCBSSemProcJur(NF3e.NFDet[aNFdet].Det[aDet].detItem.gProcRef.gIBSCBS));
+
     nodeArray := Gerar_NFdet_det_DetItem_gProcRef_gProc(aNFdet, aDet);
     for i := 0 to NF3e.NFDet[aNFdet].Det[aDet].detItem.gProcRef.gProc.Count - 1 do
     begin
@@ -1917,6 +1926,9 @@ begin
 
   Result.AppendChild(AddNode(tcDe2, '#254', 'vProd', 1, 15, 1,
     NF3e.Total.vProd, DSC_VPROD));
+
+  Result.AppendChild(AddNode(tcDe2, '#254', 'vProdLiq', 1, 15, 0,
+    NF3e.Total.vProdLiq, DSC_VPRODLIQ));
 
   Result.AppendChild(Gerar_TotalICMSTotal);
   Result.AppendChild(Gerar_TotalretTrib);

@@ -659,6 +659,8 @@ begin
           detItem.Prod.qFaturada    := ObterConteudo(ANodeNivel4.Childrens.Find('qFaturada'), tcDe4);
           detItem.Prod.vItem        := ObterConteudo(ANodeNivel4.Childrens.Find('vItem'), tcDe10);
           detItem.Prod.vProd        := ObterConteudo(ANodeNivel4.Childrens.Find('vProd'), tcDe10);
+          detItem.Prod.vItemLiq     := ObterConteudo(ANodeNivel4.Childrens.Find('vItemLiq'), tcDe10);
+          detItem.Prod.vProdLiq     := ObterConteudo(ANodeNivel4.Childrens.Find('vProdLiq'), tcDe10);
 
           sAux := ObterConteudo(ANodeNivel4.Childrens.Find('indDevolucao'), tcStr);
           detItem.Prod.indDevolucao := tiNao;
@@ -803,6 +805,8 @@ begin
           detItem.gProcRef.vCOFINS      := ObterConteudo(ANodeNivel4.Childrens.Find('vCOFINS'), tcDe2);
           detItem.gProcRef.vCOFINSEfet  := ObterConteudo(ANodeNivel4.Childrens.Find('vCOFINSEfet'), tcDe2);
 
+          Ler_gIBSCBSSemProcJur(ANodeNivel4.Childrens.Find('gIBSCBS'), detItem.gProcRef.gIBSCBS);
+
           detItem.gProcRef.gProc.Clear;
           ADetChildrensNodes := ANodeNivel4.Childrens.FindAll('gProc');
 
@@ -839,6 +843,7 @@ begin
   if not Assigned(ANode) then Exit;
 
   NF3e.Total.vProd := ObterConteudo(ANode.Childrens.Find('vProd'), tcDe2);
+  NF3e.Total.vProdLiq := ObterConteudo(ANode.Childrens.Find('vProdLiq'), tcDe2);
 
   AuxNode := ANode.Childrens.Find('ICMSTot');
 
