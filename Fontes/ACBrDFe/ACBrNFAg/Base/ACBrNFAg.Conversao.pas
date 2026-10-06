@@ -90,10 +90,10 @@ const
   TFinalidadeArrayStrings: array[TFinalidadeNFAg] of string = ('0', '3');
 
 type
-  TtpFat = (tfNormal, tfTerceiro, tfConjunto);
+  TtpFat = (tfNormal, tfTerceiro, tfConjunto, tfAgregado, tfAgregador);
 
 const
-  TtpFatArrayStrings: array[TtpFat] of string = ('1', '2', '3');
+  TtpFatArrayStrings: array[TtpFat] of string = ('1', '2', '3', '4', '5');
 
 type
   TtpFaixaCons = (tfMinimo, tfMedio, tfMaximo);
@@ -135,12 +135,12 @@ const
     '03', '04');
 
 type
-  TindOrigemQtd = (ioMedia, ioMedido, ioContatada, ioCalculada, ioCusto,
-                   ioSemQuantidade);
+  TindOrigemQtd = (ioMedia, ioMedido, ioContatada, ioCalculada, ioResidual,
+                   ioSemQuantidade, ioPorFaixa, ioMinimo);
 
 const
   TindOrigemQtdArrayStrings: array[TindOrigemQtd] of string = ('1', '2', '3', '4',
-    '5', '6');
+    '5', '6', '7', '8');
 
 type
   TtpMotNaoLeitura = (tmConsumidor, tmDistribuidora,

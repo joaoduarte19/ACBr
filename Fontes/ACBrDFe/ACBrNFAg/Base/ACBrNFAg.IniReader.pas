@@ -71,6 +71,7 @@ type
 
     procedure Ler_gProcRef(AINIRec: TMemIniFile; gProcRef: TgProcRef; DetIndex: Integer);
     procedure Ler_gProc(AINIRec: TMemIniFile; gProc: TgProcCollection; DetIndex: Integer);
+    procedure Ler_gAgregadora(AINIRec: TMemIniFile; gAgregadora: TgAgregadora; DetIndex: Integer);
 
     procedure Ler_PIS(AINIRec: TMemIniFile; PIS: TPIS; Index: Integer);
     procedure Ler_COFINS(AINIRec: TMemIniFile; COFINS: TCOFINS; Index: Integer);
@@ -338,32 +339,39 @@ begin
     Item.chNFAgAnt := AINIRec.ReadString(Secao, 'chNFAgAnt', '');
     Item.nItemAnt := AINIRec.ReadInteger(Secao, 'nItemAnt', 0);
 
-    Item.Prod.indOrigemQtd := StrToindOrigemQtd(AINIRec.ReadString(Secao, 'indOrigemQtd', '1'));
-    Item.Prod.cProd := AINIRec.ReadString(Secao, 'cProd', '');
-    Item.Prod.xProd := AINIRec.ReadString(Secao, 'xProd', '');
-    Item.Prod.cClass := AINIRec.ReadInteger(Secao, 'cClass', 0);
-    Item.Prod.tpCategoria := StrTotpCategoria(AINIRec.ReadString(Secao, 'tpCategoria', '1'));
-    Item.Prod.xCategoria := AINIRec.ReadString(Secao, 'xCategoria', '');
-    Item.Prod.qEconomias := AINIRec.ReadString(Secao, 'qEconomias', '');
-    Item.Prod.uMed := StrTouMedFat(AINIRec.ReadString(Secao, 'uMed', ''));
-    Item.Prod.qFaturada := AINIRec.ReadInteger(Secao, 'qFaturada', 0);
-    Item.Prod.vItem := StringToFloatDef(AINIRec.ReadString(Secao, 'vItem', ''), 0);
+    if NFAg.Ide.tpFat = tfAgregador then
+      Ler_gAgregadora(AINIRec, Item.gAgregadora, Index)
+    else
+    begin
+      Item.Prod.indOrigemQtd := StrToindOrigemQtd(AINIRec.ReadString(Secao, 'indOrigemQtd', '1'));
+      Item.Prod.cProd := AINIRec.ReadString(Secao, 'cProd', '');
+      Item.Prod.xProd := AINIRec.ReadString(Secao, 'xProd', '');
+      Item.Prod.cClass := AINIRec.ReadInteger(Secao, 'cClass', 0);
+      Item.Prod.tpCategoria := StrTotpCategoria(AINIRec.ReadString(Secao, 'tpCategoria', '1'));
+      Item.Prod.xCategoria := AINIRec.ReadString(Secao, 'xCategoria', '');
+      Item.Prod.qEconomias := AINIRec.ReadString(Secao, 'qEconomias', '');
+      Item.Prod.uMed := StrTouMedFat(AINIRec.ReadString(Secao, 'uMed', ''));
+      Item.Prod.qFaturada := AINIRec.ReadInteger(Secao, 'qFaturada', 0);
+      Item.Prod.vItem := StringToFloatDef(AINIRec.ReadString(Secao, 'vItem', ''), 0);
 
-    Item.Prod.fatorPoluicao := StringToFloatDef(AINIRec.ReadString(Secao, 'fatorPoluicao', ''), 0);
-    Item.Prod.vProd := StringToFloatDef(AINIRec.ReadString(Secao, 'vProd', ''), 0);
-    Item.Prod.indDevolucao := StrToTIndicador(AINIRec.ReadString(Secao, 'indDevolucao', ''));
-    Item.infAdProd := AINIRec.ReadString(Secao, 'infAdProd', '');
+      Item.Prod.fatorPoluicao := StringToFloatDef(AINIRec.ReadString(Secao, 'fatorPoluicao', ''), 0);
+      Item.Prod.vProd := StringToFloatDef(AINIRec.ReadString(Secao, 'vProd', ''), 0);
+      Item.Prod.vItemLiq := StringToFloatDef(AINIRec.ReadString(Secao, 'vItemLiq', ''), 0);
+      Item.Prod.vProdLiq := StringToFloatDef(AINIRec.ReadString(Secao, 'vProdLiq', ''), 0);
+      Item.Prod.indDevolucao := StrToTIndicador(AINIRec.ReadString(Secao, 'indDevolucao', ''));
+      Item.infAdProd := AINIRec.ReadString(Secao, 'infAdProd', '');
 
-    Ler_gPagAntecipadoProd(AINIRec, Item.Prod.gPagAntecipado, Index, -1);
-    Ler_gMedicao(AINIRec, Item.Prod.gMedicao, Index);
-    Ler_gTarif(AINIRec, Item.gTarif, Index);
-    Ler_gProcRef(AINIRec, Item.gProcRef, Index);
-    Ler_IBSCBS(AINIRec, Item.Imposto.IBSCBS, Index, -1);
-    Ler_PIS(AINIRec, Item.Imposto.PIS, Index);
-    Ler_COFINS(AINIRec, Item.Imposto.COFINS, Index);
-    Ler_RetTrib(AINIRec, Item.Imposto.RetTrib, Index);
-    Ler_TFS(AINIRec, Item.Imposto.TFS, Index);
-    Ler_TFU(AINIRec, Item.Imposto.TFU, Index);
+      Ler_gPagAntecipadoProd(AINIRec, Item.Prod.gPagAntecipado, Index, -1);
+      Ler_gMedicao(AINIRec, Item.Prod.gMedicao, Index);
+      Ler_gTarif(AINIRec, Item.gTarif, Index);
+      Ler_gProcRef(AINIRec, Item.gProcRef, Index);
+      Ler_IBSCBS(AINIRec, Item.Imposto.IBSCBS, Index, -1);
+      Ler_PIS(AINIRec, Item.Imposto.PIS, Index);
+      Ler_COFINS(AINIRec, Item.Imposto.COFINS, Index);
+      Ler_RetTrib(AINIRec, Item.Imposto.RetTrib, Index);
+      Ler_TFS(AINIRec, Item.Imposto.TFS, Index);
+      Ler_TFU(AINIRec, Item.Imposto.TFU, Index);
+    end;
 
     Inc(Index);
   end;
@@ -436,6 +444,7 @@ begin
   gProcRef.vProd := StringToFloatDef(AINIRec.ReadString(Secao, 'vProd', ''), 0);
   gProcRef.indDevolucao := StrToTIndicador(AINIRec.ReadString(Secao, 'indDevolucao', ''));
 
+  Ler_gIBSCBSSemProcJur(AINIRec, gProcRef.gIBSCBS, DetIndex, -1);
   Ler_gProc(AINIRec, gProcRef.gProc, DetIndex);
 end;
 
@@ -463,6 +472,22 @@ begin
 
     Inc(ProcIndex);
   end;
+end;
+
+procedure TNFAgIniReader.Ler_gAgregadora(AINIRec: TMemIniFile;
+  gAgregadora: TgAgregadora; DetIndex: Integer);
+var
+  Secao: string;
+  Fim: string;
+begin
+  Secao := 'gAgregadora' + IntToStrZero(DetIndex, 3);
+  Fim := AINIRec.ReadString(Secao, 'cClass', 'FIM');
+
+  if (Fim = 'FIM') or (Length(Fim) = 0) then
+    Exit;
+
+  gAgregadora.cClass := Fim;
+  gAgregadora.vTotDFe := StringToFloatDef(AINIRec.ReadString(Secao, 'vTotDFe', ''), 0);
 end;
 
 procedure TNFAgIniReader.Ler_PIS(AINIRec: TMemIniFile; PIS: TPIS; Index: Integer);
@@ -550,6 +575,7 @@ begin
   Secao := 'total';
 
   Total.vProd := StringToFloatDef(AINIRec.ReadString(Secao, 'vProd', ''), 0);
+  Total.vProdLiq := StringToFloatDef(AINIRec.ReadString(Secao, 'vProdLiq', ''), 0);
   Total.vRetPIS := StringToFloatDef(AINIRec.ReadString(Secao, 'vRetPIS', ''), 0);
   Total.vRetCOFINS := StringToFloatDef(AINIRec.ReadString(Secao, 'vRetCOFINS', ''), 0);
   Total.vRetCSLL := StringToFloatDef(AINIRec.ReadString(Secao, 'vRetCSLL', ''), 0);

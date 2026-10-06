@@ -67,6 +67,7 @@ type
 
     procedure Gerar_gProcRef(AINIRec: TMemIniFile; gProcRef: TgProcRef; DetIndex: Integer);
     procedure Gerar_gProc(AINIRec: TMemIniFile; gProc: TgProcCollection; DetIndex: Integer);
+    procedure Gerar_gAgregadora(AINIRec: TMemIniFile; gAgregadora: TgAgregadora; DetIndex: Integer);
 
     procedure Gerar_PIS(AINIRec: TMemIniFile; PIS: TPIS; Index: Integer);
     procedure Gerar_COFINS(AINIRec: TMemIniFile; COFINS: TCOFINS; Index: Integer);
@@ -328,31 +329,38 @@ begin
     AINIRec.WriteString(Secao, 'chNFAgAnt', Det[Index].chNFAgAnt);
     AINIRec.WriteInteger(Secao, 'nItemAnt', Det[Index].nItemAnt);
 
-    AINIRec.WriteString(Secao, 'indOrigemQtd', indOrigemQtdToStr(Det[Index].Prod.indOrigemQtd));
-    AINIRec.WriteString(Secao, 'cProd', Det[Index].Prod.cProd);
-    AINIRec.WriteString(Secao, 'xProd', Det[Index].Prod.xProd);
-    AINIRec.WriteInteger(Secao, 'cClass', Det[Index].Prod.cClass);
-    AINIRec.WriteString(Secao, 'tpCategoria', tpCategoriaToStr(Det[Index].Prod.tpCategoria));
-    AINIRec.WriteString(Secao, 'xCategoria', Det[Index].Prod.xCategoria);
-    AINIRec.WriteString(Secao, 'qEconomias', Det[Index].Prod.qEconomias);
-    AINIRec.WriteString(Secao, 'uMed', uMedFatToStr(Det[Index].Prod.uMed));
-    AINIRec.WriteFloat(Secao, 'qFaturada', Det[Index].Prod.qFaturada);
-    AINIRec.WriteFloat(Secao, 'vItem', Det[Index].Prod.vItem);
-    AINIRec.WriteFloat(Secao, 'fatorPoluicao', Det[Index].Prod.fatorPoluicao);
-    AINIRec.WriteFloat(Secao, 'vProd', Det[Index].Prod.vProd);
-    AINIRec.WriteString(Secao, 'indDevolucao', TIndicadorToStr(Det[Index].Prod.indDevolucao));
-    AINIRec.WriteString(Secao, 'infAdProd', Det[Index].infAdProd);
+    if NFAg.Ide.tpFat = tfAgregador then
+      Gerar_gAgregadora(AINIRec, Det[Index].gAgregadora, Index + 1)
+    else
+    begin
+      AINIRec.WriteString(Secao, 'indOrigemQtd', indOrigemQtdToStr(Det[Index].Prod.indOrigemQtd));
+      AINIRec.WriteString(Secao, 'cProd', Det[Index].Prod.cProd);
+      AINIRec.WriteString(Secao, 'xProd', Det[Index].Prod.xProd);
+      AINIRec.WriteInteger(Secao, 'cClass', Det[Index].Prod.cClass);
+      AINIRec.WriteString(Secao, 'tpCategoria', tpCategoriaToStr(Det[Index].Prod.tpCategoria));
+      AINIRec.WriteString(Secao, 'xCategoria', Det[Index].Prod.xCategoria);
+      AINIRec.WriteString(Secao, 'qEconomias', Det[Index].Prod.qEconomias);
+      AINIRec.WriteString(Secao, 'uMed', uMedFatToStr(Det[Index].Prod.uMed));
+      AINIRec.WriteFloat(Secao, 'qFaturada', Det[Index].Prod.qFaturada);
+      AINIRec.WriteFloat(Secao, 'vItem', Det[Index].Prod.vItem);
+      AINIRec.WriteFloat(Secao, 'fatorPoluicao', Det[Index].Prod.fatorPoluicao);
+      AINIRec.WriteFloat(Secao, 'vProd', Det[Index].Prod.vProd);
+      AINIRec.WriteFloat(Secao, 'vItemLiq', Det[Index].Prod.vItemLiq);
+      AINIRec.WriteFloat(Secao, 'vProdLiq', Det[Index].Prod.vProdLiq);
+      AINIRec.WriteString(Secao, 'indDevolucao', TIndicadorToStr(Det[Index].Prod.indDevolucao));
+      AINIRec.WriteString(Secao, 'infAdProd', Det[Index].infAdProd);
 
-    Gerar_gPagAntecipadoProd(AINIRec, Det[Index].Prod.gPagAntecipado, Index, -1);
-    Gerar_gMedicao(AINIRec, Det[Index].Prod.gMedicao, Index + 1);
-    Gerar_gTarif(AINIRec, Det[Index].gTarif, Index + 1);
-    Gerar_gProcRef(AINIRec, Det[Index].gProcRef, Index + 1);
-    Gerar_IBSCBS(AINIRec, Det[Index].Imposto.IBSCBS, Index + 1, -1);
-    Gerar_PIS(AINIRec, Det[Index].Imposto.PIS, Index + 1);
-    Gerar_COFINS(AINIRec, Det[Index].Imposto.COFINS, Index + 1);
-    Gerar_RetTrib(AINIRec, Det[Index].Imposto.RetTrib, Index + 1);
-    Gerar_TFS(AINIRec, Det[Index].Imposto.TFS, Index + 1);
-    Gerar_TFU(AINIRec, Det[Index].Imposto.TFU, Index + 1);
+      Gerar_gPagAntecipadoProd(AINIRec, Det[Index].Prod.gPagAntecipado, Index, -1);
+      Gerar_gMedicao(AINIRec, Det[Index].Prod.gMedicao, Index + 1);
+      Gerar_gTarif(AINIRec, Det[Index].gTarif, Index + 1);
+      Gerar_gProcRef(AINIRec, Det[Index].gProcRef, Index + 1);
+      Gerar_IBSCBS(AINIRec, Det[Index].Imposto.IBSCBS, Index + 1, -1);
+      Gerar_PIS(AINIRec, Det[Index].Imposto.PIS, Index + 1);
+      Gerar_COFINS(AINIRec, Det[Index].Imposto.COFINS, Index + 1);
+      Gerar_RetTrib(AINIRec, Det[Index].Imposto.RetTrib, Index + 1);
+      Gerar_TFS(AINIRec, Det[Index].Imposto.TFS, Index + 1);
+      Gerar_TFU(AINIRec, Det[Index].Imposto.TFU, Index + 1);
+    end;
   end;
 end;
 
@@ -410,6 +418,7 @@ begin
   AINIRec.WriteFloat(Secao, 'vProd', gProcRef.vProd);
   AINIRec.WriteString(Secao, 'indDevolucao', TIndicadorToStr(gProcRef.indDevolucao));
 
+  Gerar_gIBSCBSSemProcJur(AINIRec, gProcRef.gIBSCBS, DetIndex, -1);
   Gerar_gProc(AINIRec, gProcRef.gProc, DetIndex);
 end;
 
@@ -425,6 +434,17 @@ begin
     AINIRec.WriteString(Secao, 'tpProc', tpProcToStr(gProc[ProcIndex].tpProc));
     AINIRec.WriteString(Secao, 'nProcesso', gProc[ProcIndex].nProcesso);
   end;
+end;
+
+procedure TNFAgIniWriter.Gerar_gAgregadora(AINIRec: TMemIniFile;
+  gAgregadora: TgAgregadora; DetIndex: Integer);
+var
+  Secao: string;
+begin
+  Secao := 'gAgregadora' + IntToStrZero(DetIndex, 3);
+
+  AINIRec.WriteString(Secao, 'cClass', gAgregadora.cClass);
+  AINIRec.WriteFloat(Secao, 'vTotDFe', gAgregadora.vTotDFe);
 end;
 
 procedure TNFAgIniWriter.Gerar_PIS(AINIRec: TMemIniFile; PIS: TPIS; Index: Integer);
@@ -509,6 +529,7 @@ begin
   Secao := 'total';
 
   AINIRec.WriteFloat(Secao, 'vProd', Total.vProd);
+  AINIRec.WriteFloat(Secao, 'vProdLiq', Total.vProdLiq);
   AINIRec.WriteFloat(Secao, 'vRetPIS', Total.vRetPIS);
   AINIRec.WriteFloat(Secao, 'vRetCOFINS', Total.vRetCOFINS);
   AINIRec.WriteFloat(Secao, 'vRetCSLL', Total.vRetCSLL);

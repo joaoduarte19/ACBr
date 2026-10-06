@@ -112,6 +112,7 @@ type
     function GerarTFU(TFU: TTFU): TACBrXmlNode;
     function GerargProcRef(gProcRef: TgProcRef): TACBrXmlNode;
     function GerargProc(gProc: TgProcCollection): TACBrXmlNodeArray;
+    function GerargAgregadora(gAgregadora: TgAgregadora): TACBrXmlNode;
 
     function GerarTotal: TACBrXmlNode;
     function GerarvRetTribTot: TACBrXmlNode;
@@ -347,7 +348,15 @@ begin
   Result.AppendChild(GerarTotal);
   Result.AppendChild(Gerar_pgtoVinc(NFAg.pgtoVinc));
   Result.AppendChild(GerargFat);
-  Result.AppendChild(GerargAgencia);
+
+  if (NFAg.Ide.tpFat <> tfAgregador) then
+    Result.AppendChild(GerargAgencia)
+  else
+  begin
+    if NFAg.gAgencia.nAgenciaAtend <> '' then
+      Result.AppendChild(GerargAgencia);
+  end;
+
   Result.AppendChild(GerargQualiAgua(NFAg.gQualiAgua));
 
   nodeArray := GerarautXML;
@@ -721,18 +730,23 @@ begin
     if NFAg.Det[i].nItemAnt > 0 then
     Result[i].SetAttribute('nItemAnt', IntToStr(NFAg.Det[i].nItemAnt));
 
-    nodeArray := GerargTarif(i);
-    for j := 0 to NFAg.Det[i].gTarif.Count - 1 do
+    if NFAg.Ide.tpFat = tfAgregador then
+      Result[i].AppendChild(GerargAgregadora(NFAg.Det[i].gAgregadora))
+    else
     begin
-      Result[i].AppendChild(nodeArray[j]);
-    end;
+      nodeArray := GerargTarif(i);
+      for j := 0 to NFAg.Det[i].gTarif.Count - 1 do
+      begin
+        Result[i].AppendChild(nodeArray[j]);
+      end;
 
-    Result[i].AppendChild(GerarProd(NFAg.Det[i].Prod));
-    Result[i].AppendChild(GerarImposto(NFAg.Det[i].Imposto));
-    Result[i].AppendChild(GerargProcRef(NFAg.Det[i].gProcRef));
+      Result[i].AppendChild(GerarProd(NFAg.Det[i].Prod));
+      Result[i].AppendChild(GerarImposto(NFAg.Det[i].Imposto));
+      Result[i].AppendChild(GerargProcRef(NFAg.Det[i].gProcRef));
 
-    Result[i].AppendChild(AddNode(tcStr, '#84', 'infAdProd', 1, 500, 0,
+      Result[i].AppendChild(AddNode(tcStr, '#84', 'infAdProd', 1, 500, 0,
                                           NFAg.Det[i].infAdProd, DSC_TPPOSTAR));
+    end;
   end;
 
   if NFAg.Det.Count > 990 then
@@ -822,6 +836,12 @@ begin
   // pode ter 2 ou 10 casas decimais
   Result.AppendChild(AddNode(tcDe2, '#169', 'vProd', 1, 15, 1,
                                                         Prod.vProd, DSC_VPROD));
+
+  Result.AppendChild(AddNode(tcDe2, '#169', 'vItemLiq', 1, 15, 0,
+                                                  Prod.vItemLiq, DSC_VITEMLIQ));
+
+  Result.AppendChild(AddNode(tcDe2, '#169', 'vProdLiq', 1, 15, 0,
+                                                  Prod.vProdLiq, DSC_VPRODLIQ));
 
   if Prod.indDevolucao = tiSim then
     Result.AppendChild(AddNode(tcStr, '#170', 'indDevolucao', 1, 1, 1, '1', ''));
@@ -1024,6 +1044,8 @@ begin
     if gProcRef.indDevolucao = tiSim then
       Result.AppendChild(AddNode(tcStr, '#238', 'indDevolucao', 1, 1, 1, '1', ''));
 
+    Result.AppendChild(Gerar_gIBSCBSSemProcJur(gProcRef.gIBSCBS));
+
     nodeArray := GerargProc(gProcRef.gProc);
     for i := 0 to gProcRef.gProc.Count - 1 do
     begin
@@ -1054,12 +1076,27 @@ begin
     wAlerta('#244', 'gProc', '', ERR_MSG_MAIOR_MAXIMO + '10');
 end;
 
+function TNFAgXmlWriter.GerargAgregadora(
+  gAgregadora: TgAgregadora): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gAgregadora');
+
+  Result.AppendChild(AddNode(tcStr, '#254', 'cClass', 7, 7, 1,
+                                               gAgregadora.cClass, DSC_CCLASS));
+
+  Result.AppendChild(AddNode(tcDe2, '#254', 'vTotDFe', 1, 15, 1,
+                                             gAgregadora.vTotDFe, DSC_VTOTDFE));
+end;
+
 function TNFAgXmlWriter.GerarTotal: TACBrXmlNode;
 begin
   Result := FDocument.CreateElement('total');
 
   Result.AppendChild(AddNode(tcDe2, '#254', 'vProd', 1, 15, 1,
                                                   NFAg.Total.vProd, DSC_VPROD));
+
+  Result.AppendChild(AddNode(tcDe2, '#254', 'vProdLiq', 1, 15, 0,
+                                            NFAg.Total.vProdLiq, DSC_VPRODLIQ));
 
   Result.AppendChild(GerarvRetTribTot);
 

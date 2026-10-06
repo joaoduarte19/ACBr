@@ -78,6 +78,7 @@ type
 
     procedure Ler_gProcRef(const ANode: TACBrXmlNode; gProcRef: TgProcRef);
     procedure Ler_gProc(const ANode: TACBrXmlNode; gProc: TgProcCollection);
+    procedure Ler_gAgregadora(const ANode: TACBrXmlNode; gAgregadora: TgAgregadora);
 
     procedure Ler_Total(const ANode: TACBrXmlNode; Total: TTotal);
     procedure Ler_vRetTribTot(const ANode: TACBrXmlNode; Total: TTotal);
@@ -394,16 +395,21 @@ begin
   Item.chNFAgAnt := ObterConteudoTag(ANode.Attributes.Items['chNFAgAnt']);
   Item.nItemAnt := StrToIntDef(ObterConteudoTag(ANode.Attributes.Items['nItemAnt']), 0);
 
-  TarifNodes := ANode.Childrens.FindAll('gTarif');
-  for i := 0 to Length(TarifNodes) - 1 do
+  if NFAg.Ide.tpFat = tfAgregador then
+    Ler_gAgregadora(ANode.Childrens.FindAnyNs('gAgregadora'), Item.gAgregadora)
+  else
   begin
-    Ler_gTarif(TarifNodes[i], Item.gTarif);
-  end;
+    TarifNodes := ANode.Childrens.FindAll('gTarif');
+    for i := 0 to Length(TarifNodes) - 1 do
+    begin
+      Ler_gTarif(TarifNodes[i], Item.gTarif);
+    end;
 
-  Ler_Prod(ANode.Childrens.FindAnyNs('prod'), Item.Prod);
-  Ler_Imposto(ANode.Childrens.FindAnyNs('imposto'), Item.Imposto);
-  Ler_gProcRef(ANode.Childrens.FindAnyNs('gProcRef'), Item.gProcRef);
-  Item.infAdProd := ObterConteudo(ANode.Childrens.FindAnyNs('infAdProd'), tcStr);
+    Ler_Prod(ANode.Childrens.FindAnyNs('prod'), Item.Prod);
+    Ler_Imposto(ANode.Childrens.FindAnyNs('imposto'), Item.Imposto);
+    Ler_gProcRef(ANode.Childrens.FindAnyNs('gProcRef'), Item.gProcRef);
+    Item.infAdProd := ObterConteudo(ANode.Childrens.FindAnyNs('infAdProd'), tcStr);
+  end;
 end;
 
 procedure TNFAgXmlReader.Ler_gTarif(const ANode: TACBrXmlNode;
@@ -445,6 +451,8 @@ begin
   Prod.vItem := ObterConteudo(ANode.Childrens.FindAnyNs('vItem'), tcDe10);
   Prod.fatorPoluicao := ObterConteudo(ANode.Childrens.FindAnyNs('fatorPoluicao'), tcDe4);
   Prod.vProd := ObterConteudo(ANode.Childrens.FindAnyNs('vProd'), tcDe10);
+  Prod.vItemLiq := ObterConteudo(ANode.Childrens.FindAnyNs('vItemLiq'), tcDe10);
+  Prod.vProdLiq := ObterConteudo(ANode.Childrens.FindAnyNs('vProdLiq'), tcDe10);
 
   Lvalor := ObterConteudo(ANode.Childrens.FindAnyNs('indDevolucao'), tcStr);
 
@@ -574,6 +582,8 @@ begin
 
   Lvalor := ObterConteudo(ANode.Childrens.FindAnyNs('indDevolucao'), tcStr);
 
+  Ler_gIBSCBSSemProcJur(ANode.Childrens.FindAnyNs('gIBSCBS'), gProcRef.gIBSCBS);
+
   if Lvalor <> '' then
     gProcRef.indDevolucao := StrToTIndicador(Lvalor);
 
@@ -598,12 +608,23 @@ begin
   Item.nProcesso := ObterConteudo(ANode.Childrens.FindAnyNs('nProcesso'), tcStr);
 end;
 
+procedure TNFAgXmlReader.Ler_gAgregadora(const ANode: TACBrXmlNode;
+  gAgregadora: TgAgregadora);
+begin
+  if not Assigned(ANode) then
+    Exit;
+
+  gAgregadora.cClass := ObterConteudo(ANode.Childrens.FindAnyNs('cClass'), tcStr);
+  gAgregadora.vTotDFe := ObterConteudo(ANode.Childrens.FindAnyNs('vTotDFe'), tcDe2);
+end;
+
 procedure TNFAgXmlReader.Ler_Total(const ANode: TACBrXmlNode; Total: TTotal);
 begin
   if not Assigned(ANode) then
     Exit;
 
   Total.vProd := ObterConteudo(ANode.Childrens.FindAnyNs('vProd'), tcDe2);
+  Total.vProdLiq := ObterConteudo(ANode.Childrens.FindAnyNs('vProdLiq'), tcDe2);
 
   Ler_vRetTribTot(ANode.Childrens.FindAnyNs('vRetTribTot'), Total);
 

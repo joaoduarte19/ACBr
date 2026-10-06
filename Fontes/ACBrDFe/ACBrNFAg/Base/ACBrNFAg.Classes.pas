@@ -360,6 +360,8 @@ type
     FvItem: Double;
     FfatorPoluicao: Double;
     FvProd: Double;
+    FvItemLiq: Double;
+    FvProdLiq: Double;
     FindDevolucao: TIndicador;
     FgPagAntecipado: TgPagAntecipadoProd;
   public
@@ -381,6 +383,8 @@ type
     property vItem: Double               read FvItem        write FvItem;
     property fatorPoluicao: Double       read FfatorPoluicao write FfatorPoluicao;
     property vProd: Double               read FvProd        write FvProd;
+    property vItemLiq: Double            read FvItemLiq     write FvItemLiq;
+    property vProdLiq: Double            read FvProdLiq     write FvProdLiq;
     property indDevolucao: TIndicador    read FindDevolucao write FindDevolucao;
     property gPagAntecipado: TgPagAntecipadoProd read FgPagAntecipado write FgPagAntecipado;
   end;
@@ -524,6 +528,7 @@ type
     FqFaturada: Double;
     FvProd: Double;
     FindDevolucao: TIndicador;
+    FgIBSCBS: TgIBSCBSSemProcJud;
     FgProc: TgProcCollection;
 
     procedure SetgProc(const Value: TgProcCollection);
@@ -537,7 +542,21 @@ type
     property qFaturada: Double        read FqFaturada    write FqFaturada;
     property vProd: Double            read FvProd        write FvProd;
     property indDevolucao: TIndicador read FindDevolucao write FindDevolucao;
+    property gIBSCBS: TgIBSCBSSemProcJud read FgIBSCBS write FgIBSCBS;
     property gProc: TgProcCollection  read FgProc        write SetgProc;
+  end;
+
+  { TgAgregadora }
+
+  TgAgregadora = class(TObject)
+  private
+    FcClass: string;
+    FvTotDFe: Double;
+  public
+    procedure Assign(Source: TgAgregadora);
+
+    property cClass: string  read FcClass  write FcClass;
+    property vTotDFe: Double read FvTotDFe write FvTotDFe;
   end;
 
   { TDetCollectionItem }
@@ -553,6 +572,7 @@ type
     FImposto: TImposto;
     FgProcRef: TgProcRef;
     FinfAdProd: string;
+    FgAgregadora: TgAgregadora;
 
     procedure SetgTarif(const Value: TgTarifCollection);
   public
@@ -570,6 +590,7 @@ type
     property Imposto: TImposto         read FImposto   write FImposto;
     property gProcRef: TgProcRef       read FgProcRef  write FgProcRef;
     property infAdProd: string         read FinfAdProd write FinfAdProd;
+    property gAgregadora: TgAgregadora read FgAgregadora write FgAgregadora;
   end;
 
   { TDetCollection }
@@ -588,6 +609,7 @@ type
   TTotal = class(TObject)
   private
     FvProd: Double;
+    FvProdLiq: Double;
     FvRetCSLL: Double;
     FvRetPIS: Double;
     FvRetCOFINS: Double;
@@ -606,6 +628,7 @@ type
     procedure Assign(Source: TTotal);
 
     property vProd: Double       read FvProd       write FvProd;
+    property vProdLiq: Double    read FvProdLiq    write FvProdLiq;
     property vRetPIS: Double     read FvRetPIS     write FvRetPIS;
     property vRetCOFINS: Double  read FvRetCOFINS  write FvRetCOFINS;
     property vRetCSLL: Double    read FvRetCSLL    write FvRetCSLL;
@@ -1058,6 +1081,7 @@ end;
 procedure TTotal.Assign(Source: TTotal);
 begin
   vProd := Source.vProd;
+  vProdLiq := Source.vProdLiq;
   vRetCSLL := Source.vRetCSLL;
   vRetPIS := Source.vRetPIS;
   vRetCOFINS := Source.vRetCOFINS;
@@ -1115,6 +1139,7 @@ begin
   nItem := Source.nItem;
   chNFAgAnt := Source.chNFAgAnt;
   nItemAnt := Source.nItemAnt;
+  gAgregadora.Assign(Source.gAgregadora);
 end;
 
 constructor TDetCollectionItem.Create;
@@ -1125,6 +1150,7 @@ begin
   FProd := TProd.Create;
   FImposto := TImposto.Create;
   FgProcRef := TgProcRef.Create;
+  FgAgregadora := TgAgregadora.Create;
 end;
 
 destructor TDetCollectionItem.Destroy;
@@ -1133,6 +1159,7 @@ begin
   FProd.Free;
   FImposto.Free;
   FgProcRef.Free;
+  FgAgregadora.Free;
 
   inherited Destroy;
 end;
@@ -1489,6 +1516,8 @@ begin
   vItem        := Source.vItem;
   fatorPoluicao := Source.fatorPoluicao;
   vProd        := Source.vProd;
+  vItemLiq     := Source.vItemLiq;
+  vProdLiq     := Source.vProdLiq;
   indDevolucao := Source.indDevolucao;
 
   gMedicao.Assign(Source.gMedicao);
@@ -1556,6 +1585,7 @@ begin
   vProd        := Source.vProd;
   indDevolucao := Source.indDevolucao;
   gProc.Assign(Source.gProc);
+  gIBSCBS.Assign(Source.gIBSCBS);
 end;
 
 constructor TgProcRef.Create;
@@ -1563,11 +1593,13 @@ begin
   inherited Create;
 
   FgProc := TgProcCollection.Create;
+  FgIBSCBS := TgIBSCBSSemProcJud.Create;
 end;
 
 destructor TgProcRef.Destroy;
 begin
   FgProc.Free;
+  FgIBSCBS.Free;
 
   inherited Destroy;
 end;
@@ -1838,6 +1870,14 @@ procedure TgAnaliseCollection.SetItem(Index: Integer;
   Value: TgAnaliseCollectionItem);
 begin
   inherited Items[Index] := Value;
+end;
+
+{ TgAgregadora }
+
+procedure TgAgregadora.Assign(Source: TgAgregadora);
+begin
+  cClass := Source.cClass;
+  vTotDFe := Source.vTotDFe;
 end;
 
 end.
