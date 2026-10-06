@@ -43,8 +43,8 @@ uses
   ACBrUtil.Base;
 
 const
-  cIMendesURLProducao = 'http://consultatributos.com.br:8080';
-  cIMendesURLHomologacao = 'http://consultatributos.com.br:8080';
+  cIMendesURLProducao = 'https://consultatributos.com.br:8443';
+  cIMendesURLHomologacao = 'https://consultatributos.com.br:8443';
   cIMendesAPI = 'api';
   cIMendesV1 = 'v1';
   cIMendesV3 = 'v3';
@@ -268,6 +268,7 @@ type
     fdataLimite: TDateTime;
     fportal: TACBrIMendesPortal;
     fregimeEspecial: String;
+    fsubstTribUfDestino: Boolean;
     function GetPortal: TACBrIMendesPortal;
   protected
     procedure AssignSchema(aSource: TACBrAPISchema); override;
@@ -296,6 +297,7 @@ type
     property dataLimite: TDateTime read fdataLimite write fdataLimite;
     property portal: TACBrIMendesPortal read GetPortal;
     property regimeEspecial: String read fregimeEspecial write fregimeEspecial;
+    property substTribUfDestino: Boolean read fsubstTribUfDestino write fsubstTribUfDestino;
   end;
 
   { TACBrIMendesCaracTrib }
@@ -1687,11 +1689,15 @@ begin
     .AddPair('codInterno', fCodInterno)
     .AddPair('codImendes', fCodImendes, False)
     .AddPair('importado', fImportado, False)
-    .AddPair('encontrado', fEncontrado)
     .AddPair('tipo', fTipo, False)
-    .AddPair('chave_retorno', fChaveRetorno, False)
-    .AddPair('dtultcons', FormatDateBr(fDtUltCons, 'YYYY-MM-DD'))
-    .AddPair('dtrev', FormatDateBr(fDtRev, 'YYYY-MM-DD'));
+    .AddPair('chave_retorno', fChaveRetorno, False);
+
+  if fEncontrado then
+    aJSon.AddPair('encontrado', fEncontrado);
+  if (fDtUltCons > 0) then
+    aJSon.AddPair('dtultcons', FormatDateBr(fDtUltCons, 'YYYY-MM-DD'));
+  if (fDtRev > 0) then
+    aJSon.AddPair('dtrev', FormatDateBr(fDtRev, 'YYYY-MM-DD'));
 end;
 
 procedure TACBrIMendesProduto.AssignSchema(aSource: TACBrAPISchema);
@@ -1900,6 +1906,7 @@ begin
   fano := 0;
   fdataLimite := 0;
   fregimeEspecial := EmptyStr;
+  fsubstTribUfDestino := False;
   if Assigned(fportal) then
     fportal.Clear;
 end;
@@ -1922,6 +1929,7 @@ begin
     EstaZerado(fano) and
     EstaZerado(fdataLimite) and
     EstaVazio(fregimeEspecial) and
+    (not fsubstTribUfDestino) and
     (not Assigned(fportal) or fportal.IsEmpty);
 end;
 
@@ -1956,7 +1964,8 @@ begin
     .Value('mes', fmes)
     .Value('ano', fano)
     .Value('dataLimite', s3)
-    .Value('regimeEspecial', fregimeEspecial);
+    .Value('regimeEspecial', fregimeEspecial)
+    .Value('substTribUfDestino', fsubstTribUfDestino);
   fsubstICMS := (s1 = 'S');
   finterdependente := (s2 = 'S');
   if NaoEstaVazio(s3) then
@@ -1973,16 +1982,20 @@ begin
     .AddPair('crt', fcrt)
     .AddPair('regimeTrib', fregimeTrib)
     .AddPair('uf', fuf)
-    .AddPair('municipio', fmunicipio)
+    .AddPair('municipio', fmunicipio, False)
     .AddPair('cnae', fcnae)
     .AddPair('substICMS', IfThen(fsubstICMS, 'S', 'N'))
     .AddPair('interdependente', IfThen(finterdependente, 'S', 'N'))
-    .AddPair('cnaeSecundario', fcnaeSecundario)
-    .AddPair('dia', fdia)
-    .AddPair('mes', fmes)
-    .AddPair('ano', fano)
-    .AddPair('dataLimite', FormatDateBr(fdataLimite, 'YYYY-MM-DD'))
-    .AddPair('regimeEspecial', fregimeEspecial);
+    .AddPair('cnaeSecundario', fcnaeSecundario, False)
+    .AddPair('dia', fdia, False)
+    .AddPair('mes', fmes, False)
+    .AddPair('ano', fano, False)
+    .AddPair('regimeEspecial', fregimeEspecial, False);
+
+  if (fdataLimite > 0) then
+    aJSon.AddPair('dataLimite', FormatDateBr(fdataLimite, 'YYYY-MM-DD'));
+  if fsubstTribUfDestino then
+    aJSon.AddPair('substTribUfDestino', fsubstTribUfDestino);
 
   if Assigned(fportal) and (not fportal.IsEmpty) then
     fportal.WriteToJSon(aJSon);
@@ -2011,6 +2024,7 @@ begin
   fano := Source.ano;
   fdataLimite := Source.dataLimite;
   fregimeEspecial := Source.regimeEspecial;
+  fsubstTribUfDestino := Source.substTribUfDestino;
   if Assigned(Source.portal) then
     Portal.Assign(Source.portal);
 end;
@@ -4950,6 +4964,10 @@ begin
     fConsultarRegimeEspecialResponse.Free;
   if Assigned(fHistoricoAcessoResponse) then
     fHistoricoAcessoResponse.Free;
+  if Assigned(fRemoveDevolvidosRequest) then
+    fRemoveDevolvidosRequest.Free;
+  if Assigned(fInativarRequest) then
+    fInativarRequest.Free;
   inherited Destroy;
 end;
 
@@ -4968,6 +4986,10 @@ begin
     fConsultarRegimeEspecialResponse.Clear;
   if Assigned(fHistoricoAcessoResponse) then
     fHistoricoAcessoResponse.Clear;
+  if Assigned(fInativarRequest) then
+    fInativarRequest.Clear;
+  if Assigned(fRemoveDevolvidosRequest) then
+    fRemoveDevolvidosRequest.Clear;
 end;
 
 procedure TACBrIMendes.Autenticar;

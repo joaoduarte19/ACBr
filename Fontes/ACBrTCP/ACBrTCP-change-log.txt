@@ -36,6 +36,17 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+06/10/2026
+-- ACBrIMendes --
+[*] URLs de produção e homologação alteradas para HTTPS (porta 8443), conforme solicitado pela IMendes.
+    ATENÇÃO: é necessário distribuir as DLLs do OpenSSL (recomendado 1.1) junto com a aplicação.
+[+] Inclusão do campo emit.substTribUfDestino no envio do SaneamentoGrades.
+[-] Campos opcionais do envio do SaneamentoGrades não são mais enviados quando vazios:
+    emit.municipio, dia, mes, ano, dataLimite, cnaeSecundario, regimeEspecial e
+    produtos.encontrado, dtultcons, dtrev (datas vazias eram enviadas como 1899-12-30).
+[-] Correção de vazamento de memória de InativarRequest e RemoveDevolvidosRequest
+    por: Elias Cesar
+
 23/09/2026
 -- ACBrIMendes --
 [+] Inclusão dos grupos precoFabrica e precoMaximoConsumidor no retorno do SaneamentoGrades.
