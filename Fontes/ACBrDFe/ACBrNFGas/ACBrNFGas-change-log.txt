@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+07/10/2026
+-- Diversos --
+[*] ACBr-9957: Alterações visando atender a NT 2026/004 versão 1.00
+   Por: Italo Giurizzato Junior
+
 01/09/2026
 -- ACBrNFGas.Classes/ACBrNFGas.IniReader/ACBrNFGas.IniWriter/ACBrNFGas.XmlReader/ACBrNFGas.XmlWriter --
 [+] Inclusão do Pagamento Antecipado

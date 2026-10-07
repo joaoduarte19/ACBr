@@ -385,6 +385,8 @@ begin
     Item.gNormal.Prod.fatorP := StringToFloatDef(AINIRec.ReadString(Secao, 'fatorP', ''), 0);
     Item.gNormal.Prod.fatorT := StringToFloatDef(AINIRec.ReadString(Secao, 'fatorT', ''), 0);
     Item.gNormal.Prod.vProd := StringToFloatDef(AINIRec.ReadString(Secao, 'vProd', ''), 0);
+    Item.gNormal.Prod.vItemLiq := StringToFloatDef(AINIRec.ReadString(Secao, 'vItemLiq', ''), 0);
+    Item.gNormal.Prod.vProdLiq := StringToFloatDef(AINIRec.ReadString(Secao, 'vProdLiq', ''), 0);
     Item.gNormal.Prod.indDevolucao := StrToTIndicador(AINIRec.ReadString(Secao, 'indDevolucao', ''));
     Item.gNormal.infAdProd := AINIRec.ReadString(Secao, 'infAdProd', '');
 
@@ -436,7 +438,7 @@ begin
 
   while True do
   begin
-    Secao := 'gTarif' + IntToStrZero(DetIndex, 3) + IntToStrZero(TarifIndex, 1);
+    Secao := 'gTarif' + IntToStrZero(DetIndex, 3) + IntToStrZero(TarifIndex, 2);
     Valor := AINIRec.ReadString(Secao, 'dIniTarif', 'FIM');
 
     if (Valor = 'FIM') or (Length(Valor) <= 0) then
@@ -483,6 +485,7 @@ begin
   gProcRef.vProd := StringToFloatDef(AINIRec.ReadString(Secao, 'vProd', ''), 0);
   gProcRef.indDevolucao := StrToTIndicador(AINIRec.ReadString(Secao, 'indDevolucao', ''));
 
+  Ler_gIBSCBSSemProcJur(AINIRec, gProcRef.gIBSCBS, DetIndex, -1);
   Ler_gProc(AINIRec, gProcRef.gProc, DetIndex);
 end;
 
@@ -628,6 +631,7 @@ begin
   Secao := 'total';
 
   Total.vProd := StringToFloatDef(AINIRec.ReadString(Secao, 'vProd', ''), 0);
+  Total.vProdLiq := StringToFloatDef(AINIRec.ReadString(Secao, 'vProdLiq', ''), 0);
   Total.vBC := StringToFloatDef(AINIRec.ReadString(Secao, 'vBC', ''), 0);
   Total.vICMS := StringToFloatDef(AINIRec.ReadString(Secao, 'vICMS', ''), 0);
   Total.vBCST := StringToFloatDef(AINIRec.ReadString(Secao, 'vBCST', ''), 0);

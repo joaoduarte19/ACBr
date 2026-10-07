@@ -92,12 +92,12 @@ const
     '3', '4', '5', '6', '7', '8', '9');
 
 type
-  TindOrigemQtd = (ioMedia, ioMedido, ioContatada, ioCalculada, ioCusto,
-                   ioSemQuantidade);
+  TindOrigemQtd = (ioMedia, ioMedido, ioContratada, ioResidualEstimado,
+                   ioResidualMedido, ioSemQuantidade, ioPorFaixa, ioMinimo);
 
 const
   TindOrigemQtdArrayStrings: array[TindOrigemQtd] of string = ('1', '2', '3', '4',
-    '5', '6');
+    '5', '6', '7', '8');
 
 type
   TuMed = (umm3);

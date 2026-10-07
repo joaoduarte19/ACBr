@@ -218,6 +218,9 @@ resourcestring
   DSC_NMEDIDAMENSAL = 'Media mensal dos valores da analise';
   DSC_xVALORREFERENCIA = 'Valor de referência';
 
+  DSC_VITEMLIQ = 'Valor unitário do item sem tributos';
+  DSC_VPRODLIQ = 'Valor líquido total do item sem tributos';
+
 implementation
 
 end.

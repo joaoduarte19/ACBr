@@ -539,6 +539,8 @@ begin
   Prod.fatorP := ObterConteudo(ANode.Childrens.FindAnyNs('fatorP'), tcDe4);
   Prod.fatorT := ObterConteudo(ANode.Childrens.FindAnyNs('fatorT'), tcDe4);
   Prod.vProd := ObterConteudo(ANode.Childrens.FindAnyNs('vProd'), tcDe10);
+  Prod.vItemLiq := ObterConteudo(ANode.Childrens.FindAnyNs('vItemLiq'), tcDe10);
+  Prod.vProdLiq := ObterConteudo(ANode.Childrens.FindAnyNs('vProdLiq'), tcDe10);
 
   Lvalor := ObterConteudo(ANode.Childrens.FindAnyNs('indDevolucao'), tcStr);
 
@@ -720,6 +722,8 @@ begin
   if Lvalor <> '' then
     gProcRef.indDevolucao := StrToTIndicador(lValor);
 
+  Ler_gIBSCBSSemProcJur(ANode.Childrens.FindAnyNs('gIBSCBS'), gProcRef.gIBSCBS);
+
   ANodes := ANode.Childrens.FindAllAnyNs('gProc');
   for Index := 0 to Length(ANodes) - 1 do
   begin
@@ -746,6 +750,7 @@ begin
     Exit;
 
   Total.vProd := ObterConteudo(ANode.Childrens.FindAnyNs('vProd'), tcDe2);
+  Total.vProdLiq := ObterConteudo(ANode.Childrens.FindAnyNs('vProdLiq'), tcDe2);
 
   Ler_ICMSTot(ANode.Childrens.FindAnyNs('ICMSTot'), Total);
   Ler_vRetTribTot(ANode.Childrens.FindAnyNs('vRetTribTot'), Total);
