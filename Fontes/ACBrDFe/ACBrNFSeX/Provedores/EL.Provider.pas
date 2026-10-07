@@ -1728,9 +1728,6 @@ begin
 
   ConfigGeral.Autenticacao.RequerChaveAcesso := True;
 
-  ConfigMsgDados.EnviarEvento.InfElemento := 'infEvento';
-  ConfigMsgDados.EnviarEvento.DocElemento := 'evento';
-
   ConfigSchemas.Validar := False;
 end;
 
@@ -1811,8 +1808,7 @@ begin
     if (nPedRegEvento <= 0) or (nPedRegEvento > 1) then
       nPedRegEvento := 1;
 
-    IdAttrPRE := 'Id="' + 'PRE' + ID + FormatFloat('000', nPedRegEvento)+ '"';
-    IdAttrEVT := 'Id="' + 'EVT' + ID + FormatFloat('000', nPedRegEvento)+ '"';
+    IdAttrPRE := 'Id="' + 'PRE' + ID + '"';
 
     case tpEvento of
       teCancelamento:
@@ -1862,28 +1858,12 @@ begin
                    '</dhEvento>' +
                    xAutorEvento +
                    '<chNFSe>' + chNFSe + '</chNFSe>' +
-                   '<nPedRegEvento>001</nPedRegEvento>' +
                    '<' + tpEventoToStr(tpEvento) + '>' +
                      '<xDesc>' + tpEventoToDesc(tpEvento) + '</xDesc>' +
                      xCamposEvento +
                    '</' + tpEventoToStr(tpEvento) + '>' +
                  '</infPedReg>' +
                '</pedRegEvento>';
-
-    xEvento := '<evento xmlns="' + ConfigMsgDados.EnviarEvento.xmlns +
-                           '" versao="' + ConfigWebServices.VersaoAtrib + '">' +
-                 '<infEvento ' + IdAttrEVT + '>' +
-                   '<verAplic>' + verAplic + '</verAplic>' +
-                   '<ambGer>' + '1' + '</ambGer>' +
-                   '<nSeqEvento>' + '001' + '</nSeqEvento>' +
-                   '<dhProc>' +
-                     FormatDateTime('yyyy-mm-dd"T"hh:nn:ss', dhEvento) +
-                     GetUTC(xUF, dhEvento) +
-                   '</dhProc>' +
-                   '<nDFe>' + '1' + '</nDFe>' +
-                    xEvento +
-                 '</infEvento>' +
-               '</evento>';
 
     xEvento := ConverteXMLtoUTF8(xEvento);
     xEvento := ChangeLineBreak(xEvento, '');
@@ -1894,7 +1874,6 @@ begin
     nomeArq := '';
     SalvarXmlEvento(ID + '-pedRegEvento', AnsiString(Response.ArquivoEnvio), nomeArq, dhEvento);
     Response.PathNome := nomeArq;
-//    Path := '';
     Method := 'POST';
   end;
 end;

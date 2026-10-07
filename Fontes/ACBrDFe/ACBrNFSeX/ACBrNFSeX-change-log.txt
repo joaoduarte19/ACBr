@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+07/10/2026
+-- EL.Provider --
+[-] Ajustes na geração do pedido de evento que o provedor atualizou para o novo layout
+    estabelecido na documentação do Padrão Nacional.
+   Por: Italo Giurizzato Junior
+
 06/10/2026
 -- ACBrNFSeXServicos --
 [*] Cidades atendidas pelo provedor EL que foi ativado a API nova que usa o layout do Padrão Nacional.
