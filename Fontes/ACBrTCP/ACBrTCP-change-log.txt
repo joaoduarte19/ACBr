@@ -36,6 +36,19 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+07/10/2026
+-- ACBrIMendes --
+[*] URLs alteradas para https://consultatributos.com.br, conforme manual 3.3.26.
+[*] SaneamentoGrades passa a usar a rota saneamento_grades/v3/public/auth/SaneamentoGrades,
+    com autenticação por token (Bearer).
+[+] Renovação automática do token do Inativar, com base no campo "expiracao" retornado pelo login.
+[-] Correção da chave pSuspensaoImportacao no retorno do SaneamentoGrades.
+[-] Inativar deixa de enviar login e senha no header; usa apenas o token.
+[-] Inativar e RemoveDevolvidos passam a validar se há produtos informados, e a mensagem de
+    request vazio foi corrigida.
+[-] Datas vazias não são mais geradas como 30/12/1899 no JSON.
+    por: Elias Cesar
+
 06/10/2026
 -- ACBrIMendes --
 [*] URLs de produção e homologação alteradas para HTTPS (porta 8443), conforme solicitado pela IMendes.

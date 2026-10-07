@@ -43,18 +43,19 @@ uses
   ACBrUtil.Base;
 
 const
-  cIMendesURLProducao = 'https://consultatributos.com.br:8443';
-  cIMendesURLHomologacao = 'https://consultatributos.com.br:8443';
+  cIMendesURLProducao = 'https://consultatributos.com.br';
+  cIMendesURLHomologacao = 'https://consultatributos.com.br';
   cIMendesAPI = 'api';
   cIMendesV1 = 'v1';
   cIMendesV3 = 'v3';
   cIMendesACBr = 'acbr';
+  cIMendesAuth = 'auth';
   cIMendesPublic = 'public';
   cIMendesAPIRegimeEspecial = 'regime_especial';
-  cIMendesEndPointLogin = 'api/auth';
   cIMendesEndpointCadCliente = 'CadCliente';
   cIMendesEndpointEnviaRecebeDados = 'EnviaRecebeDados';
   cIMendesEndpointSaneamentoGrades = 'SaneamentoGrades';
+  cIMendesEndpointSaneamento_Grades = 'saneamento_grades';
   cIMendesEndpointEnviaRegimeEspecial = 'SearchSpecialRegime';
   cIMendesDadosUF = 'uf';
   cIMendesDadosIncludeTrib = 'includeTrib';
@@ -67,8 +68,9 @@ const
   cImendesEnviaRecebeDados = 'envia_recebe_dados';
   cImendesProdutos = 'produtos';
   cImendesInativar = 'inativar';
+  cIMendesTokenMargemExpiracaoSeg = 60;
 
-type    
+type
 
   EACBrIMendesAuthError = class(Exception);
   EACBrIMendesDataSend = class(Exception);
@@ -1014,7 +1016,7 @@ type
     fprecoFabrica: TACBrIMendesGrupoPrecosFabrica;
     fprecoMaximoConsumidor: TACBrIMendesGrupoPrecosMaximoConsumidor;
     fregraGeral: String;
-    fpSuspensaoImporatcao: Double;
+    fpSuspensaoImportacao: Double;
     fregimeEspecial: String;
     fibs: TACBrIMendesGrupoIBS;
     function GetProtocolo: TACBrIMendesGrupoProtocolo;
@@ -1068,7 +1070,7 @@ type
     property precoFabrica: TACBrIMendesGrupoPrecosFabrica read GetPrecoFabrica;
     property precoMaximoConsumidor: TACBrIMendesGrupoPrecosMaximoConsumidor read GetPrecoMaximoConsumidor;
     property regraGeral: String read fregraGeral write fregraGeral;
-    property pSuspensaoImporatcao: Double read fpSuspensaoImporatcao write fpSuspensaoImporatcao;
+    property pSuspensaoImportacao: Double read fpSuspensaoImportacao write fpSuspensaoImportacao;
     property regimeEspecial: String read fregimeEspecial write fregimeEspecial;
     property ibs: TACBrIMendesGrupoIBS read GetIBS;
   end;
@@ -1457,6 +1459,7 @@ type
     fCNPJ: String;
     fToken: String;
     fTokenInativar: String;
+    fTokenInativarExpiracao: TDateTime;
     fSenha: AnsiString;
     fAmbiente: TACBrIMendesAmbiente;
     fRespostaErro: TACBrIMendesErro;
@@ -1479,6 +1482,7 @@ type
     function GetRespostaErro: TACBrIMendesErro;
     function GetSenha: AnsiString;
     function CalcularURL: String;
+    function TokenInativarValido: Boolean;
     procedure SetSenha(AValue: AnsiString);
     procedure ValidarConfiguracao;
   public
@@ -2384,12 +2388,15 @@ end;
 procedure TACBrIMendesResumo.DoWriteToJSon(aJSon: TACBrJSONObject);
 begin
   aJSon
-    .AddPair('dataPrimeiroConsumo', FormatDateBr(fDataPrimeiroConsumo, 'YYYY-MM-DD'), False)
-    .AddPair('dataUltimoConsumo', FormatDateBr(fDataUltimoConsumo, 'YYYY-MM-DD'), False)
     .AddPair('produtosPendentes_Interno', fProdutosPendentes_Interno)
     .AddPair('produtosPendentes_EAN', fProdutosPendentes_EAN)
-    .AddPair('produtosPendentes_Devolvidos', fProdutosPendentes_Devolvidos)
-    .AddPair('produtosPendentes_DataInicio', FormatDateBr(fProdutosPendentes_DataInicio, 'YYYY-MM-DD'), False);
+    .AddPair('produtosPendentes_Devolvidos', fProdutosPendentes_Devolvidos);
+  if (fDataPrimeiroConsumo > 0) then
+    aJSon.AddPair('dataPrimeiroConsumo', FormatDateBr(fDataPrimeiroConsumo, 'YYYY-MM-DD'));
+  if (fDataUltimoConsumo > 0) then
+    aJSon.AddPair('dataUltimoConsumo', FormatDateBr(fDataUltimoConsumo, 'YYYY-MM-DD'));
+  if (fProdutosPendentes_DataInicio > 0) then
+    aJSon.AddPair('produtosPendentes_DataInicio', FormatDateBr(fProdutosPendentes_DataInicio, 'YYYY-MM-DD'));
 end;
 
 procedure TACBrIMendesResumo.AssignSchema(aSource: TACBrAPISchema);
@@ -3942,7 +3949,7 @@ begin
   fdebitoPresumidoNaoCredenciado := 0;
   fampLegal := EmptyStr;
   fregraGeral := EmptyStr;
-  fpSuspensaoImporatcao := 0;
+  fpSuspensaoImportacao := 0;
   fregimeEspecial := EmptyStr;
   if Assigned(fProtocolo) then
     fProtocolo.Clear;
@@ -3993,7 +4000,7 @@ begin
     (not Assigned(fprecoFabrica) or fprecoFabrica.IsEmpty) and
     (not Assigned(fprecoMaximoConsumidor) or fprecoMaximoConsumidor.IsEmpty) and
     EstaVazio(fregraGeral) and
-    EstaZerado(fpSuspensaoImporatcao) and
+    EstaZerado(fpSuspensaoImportacao) and
     EstaVazio(fregimeEspecial) and
     (not Assigned(fibs) or fibs.IsEmpty);
 end;
@@ -4068,7 +4075,7 @@ begin
     .Value('debitoPresumidoNaoCredenciado', fdebitoPresumidoNaoCredenciado)
     .Value('ampLegal', fampLegal)
     .Value('regraGeral', fregraGeral)
-    .Value('pSuspensaoImporatcao', fpSuspensaoImporatcao)
+    .Value('pSuspensaoImportacao', fpSuspensaoImportacao)
     .Value('regimeEspecial', fregimeEspecial);
   if NaoEstaVazio(s1) then
     fdtVigIni := StringToDateTimeDef(s1, 0, 'DD/MM/YYYY');
@@ -4117,7 +4124,7 @@ begin
     .AddPair('debitoPresumidoNaoCredenciado', fdebitoPresumidoNaoCredenciado)
     .AddPair('ampLegal', fampLegal, False)
     .AddPair('regraGeral', fregraGeral, False)
-    .AddPair('pSuspensaoImporatcao', fpSuspensaoImporatcao)
+    .AddPair('pSuspensaoImportacao', fpSuspensaoImportacao)
     .AddPair('regimeEspecial', fregimeEspecial, False);
 
   if Assigned(fProtocolo) then
@@ -4165,7 +4172,7 @@ begin
   fdebitoPresumidoNaoCredenciado := Source.debitoPresumidoNaoCredenciado;
   fampLegal := Source.ampLegal;
   fregraGeral := Source.regraGeral;
-  fpSuspensaoImporatcao := Source.pSuspensaoImporatcao;
+  fpSuspensaoImportacao := Source.pSuspensaoImportacao;
   fregimeEspecial := Source.regimeEspecial;
   Protocolo.Assign(Source.Protocolo);
   precoFabrica.Assign(Source.precoFabrica);
@@ -4851,12 +4858,11 @@ end;
 procedure TACBrIMendes.AutenticarInativar;
 var
   wBody, wResp: TACBrJSONObject;
-  wURL, wBodyStr: String;
+  wURL, wBodyStr, wExpiracao: String;
 begin
-  if NaoEstaVazio(fTokenInativar) then
-    Exit;
-
-  RegistrarLog('  TACBrIMendes.Autenticar');
+  fTokenInativar := EmptyStr;
+  fTokenInativarExpiracao := 0;
+  RegistrarLog('  TACBrIMendes.AutenticarInativar');
   LimparHTTP;
   ValidarConfiguracao;
 
@@ -4880,17 +4886,25 @@ begin
     HTTPMethod(cHTTPMethodPOST, wURL);
 
     if (HTTPResultCode <> HTTP_OK) then
-      raise EACBrIMendesAuthError.Create('Erro ao Autenticar:' + sLineBreak + HTTPResponse);
+      raise EACBrIMendesAuthError.Create('Erro ao AutenticarInativar:' + sLineBreak + HTTPResponse);
 
     wResp := TACBrJSONObject.Parse(HTTPResponse);
     try
       fTokenInativar := wResp.AsString['valor'];
+      wExpiracao := wResp.AsString['expiracao'];
     finally
       wResp.Free;
     end;
+
+    if NaoEstaVazio(wExpiracao) then
+    begin
+      fTokenInativarExpiracao := Iso8601ToDateTime(wExpiracao);
+      if StrHasTimeZone(wExpiracao) then
+        fTokenInativarExpiracao := fTokenInativarExpiracao + (TimeZoneToBias(wExpiracao) / MinsPerDay);
+    end;
   except
     on E: Exception do
-      raise EACBrIMendesAuthError.Create('Erro ao Autenticar:' + sLineBreak + E.Message);
+      raise EACBrIMendesAuthError.Create('Erro ao AutenticarInativar:' + sLineBreak + E.Message);
   end;
 end;
 
@@ -4900,6 +4914,13 @@ begin
     Result := cIMendesURLProducao
   else
     Result := cIMendesURLHomologacao;
+end;
+
+function TACBrIMendes.TokenInativarValido: Boolean;
+begin
+  Result := NaoEstaVazio(fTokenInativar) and
+    (EstaZerado(fTokenInativarExpiracao) or
+     (DateTimeUniversal < (fTokenInativarExpiracao - (cIMendesTokenMargemExpiracaoSeg / SecsPerDay))));
 end;
 
 procedure TACBrIMendes.SetSenha(AValue: AnsiString);
@@ -4937,6 +4958,7 @@ begin
   fCNPJ := EmptyStr;
   fToken := EmptyStr;
   fTokenInativar := EmptyStr;
+  fTokenInativarExpiracao := 0;
   fSenha := EmptyStr;
   fAmbiente := imaNenhum;
   fRespostaErro := Nil;
@@ -4997,13 +5019,11 @@ var
   wBody, wResp: TACBrJSONObject;
   wURL, wBodyStr: String;
 begin
-  if NaoEstaVazio(fToken) then
-    Exit;
-
+  fToken := EmptyStr;
   RegistrarLog('  TACBrIMendes.Autenticar');
-  LimparHTTP;
   ValidarConfiguracao;
 
+  LimparHTTP;
   HttpSend.Protocol := '1.1';
   HttpSend.MimeType := cContentTypeApplicationJSon;
   wBody := TACBrJSONObject.Create;
@@ -5011,7 +5031,6 @@ begin
     wBody
       .AddPair('cnpj', fCNPJ)
       .AddPair('senha', Senha);
-
     wBodyStr := wBody.ToJSON;
     RegistrarLog('Req.Body: ' + wBodyStr);
     WriteStrToStream(HTTPSend.Document, wBodyStr);
@@ -5021,7 +5040,7 @@ begin
 
   try
     wURL := CalcularURL + '/' +
-            cIMendesEndpointSaneamentoGrades + '/' +
+            cIMendesEndpointSaneamento_Grades + '/' +
             cIMendesV3 + '/' +
             cIMendesPublic +
             '/Login';
@@ -5052,11 +5071,14 @@ begin
 
   if SaneamentoGradesRequest.IsEmpty then
     raise EACBrAPIException.CreateFmt('sErroObjetoNaoPrenchido', ['SaneamentoGradesRequest']);
+  if EstaVazio(fToken) then
+    Autenticar;
 
   LimparHTTP;
   HttpSend.Protocol := '1.1';
   HTTPSend.Headers.Add('login: ' + fCNPJ);
   HTTPSend.Headers.Add('senha: ' + Senha);
+  HTTPSend.Headers.Add('Authorization: Bearer ' + fToken);
   HttpSend.MimeType := cContentTypeApplicationJSon;
 
   jBody := TACBrJSONObject.Create;
@@ -5069,7 +5091,10 @@ begin
   end;
 
   try
-    URLPathParams.Add(cIMendesACBr);
+    URLPathParams.Add(cIMendesEndpointSaneamento_Grades);
+    URLPathParams.Add(cIMendesV3);
+    URLPathParams.Add(cIMendesPublic);
+    URLPathParams.Add(cIMendesAuth);
     URLPathParams.Add(cIMendesEndpointSaneamentoGrades);
     HTTPMethod(cHTTPMethodPOST, CalcularURL);
     Result := (HTTPResultCode = HTTP_OK);
@@ -5271,15 +5296,13 @@ begin
   Result := False;
   ValidarConfiguracao;
 
-  if InativarRequest.IsEmpty then
-    raise EACBrAPIException.CreateFmt('sErroObjetoNaoPrenchido', ['InativaRequest']);
-  if EstaVazio(fTokenInativar) then
+  if InativarRequest.IsEmpty or InativarRequest.produtos.IsEmpty then
+    raise EACBrAPIException.CreateFmt(sErroObjetoNaoPrenchido, ['InativarRequest']);
+  if not TokenInativarValido then
     AutenticarInativar;
 
   LimparHTTP;
   HttpSend.Protocol := '1.1';
-  HTTPSend.Headers.Add('login: ' + fCNPJ);
-  HTTPSend.Headers.Add('senha: ' + Senha);
   HTTPSend.Headers.Add('Authorization: Bearer ' + fTokenInativar);
   HttpSend.MimeType := cContentTypeApplicationJSon;
 
@@ -5314,8 +5337,8 @@ begin
   Result := False;
   ValidarConfiguracao;
 
-  if RemoveDevolvidosRequest.IsEmpty then
-    raise EACBrAPIException.CreateFmt('sErroObjetoNaoPrenchido', ['RemoveDevolvidosRequest']);
+  if RemoveDevolvidosRequest.IsEmpty or RemoveDevolvidosRequest.Produtos.IsEmpty then
+    raise EACBrAPIException.CreateFmt(sErroObjetoNaoPrenchido, ['RemoveDevolvidosRequest']);
 
   LimparHTTP;
   HttpSend.Protocol := '1.1';
@@ -5909,9 +5932,11 @@ begin
     .AddPair('cst', fcst, False)
     .AddPair('descrCST', fdescrCST, False)
     .AddPair('aliquota', faliquota)
-    .AddPair('ampLegal', fampLegal, False)
-    .AddPair('dtVigIni', FormatDateBr(fdtVigIni, 'DD/MM/YYYY'), False)
-    .AddPair('dtVigFin', FormatDateBr(fdtVigFin, 'DD/MM/YYYY'), False);
+    .AddPair('ampLegal', fampLegal, False);
+  if (fdtVigIni > 0) then
+    aJSon.AddPair('dtVigIni', FormatDateBr(fdtVigIni, 'DD/MM/YYYY'), False);
+  if (fdtVigFin > 0) then
+    aJSon.AddPair('dtVigFin', FormatDateBr(fdtVigFin, 'DD/MM/YYYY'), False);
 end;
 
 function TACBrIMendesGrupoIS.IsEmpty: Boolean;
