@@ -28639,6 +28639,36 @@ object FrmACBrMonitor: TFrmACBrMonitor
                       TabOrder = 4
                       Text = '1.00'
                     end
+                    object lblVersaoWSCIOT: TLabel
+                      Left = 379
+                      Height = 15
+                      Top = 3
+                      Width = 61
+                      Caption = 'Versão CIOT'
+                      Font.CharSet = ANSI_CHARSET
+                      Font.Color = clBlack
+                      Font.Height = -12
+                      Font.Name = 'Segoe UI Light'
+                      Font.Pitch = fpVariable
+                      Font.Quality = fqDraft
+                      ParentColor = False
+                      ParentFont = False
+                    end
+                    object cbVersaoWSCIOT: TComboBox
+                      Left = 381
+                      Height = 25
+                      Top = 21
+                      Width = 68
+                      Font.Height = -13
+                      ItemHeight = 17
+                      ItemIndex = 0
+                      Items.Strings = (
+                        '5.00'
+                      )
+                      ParentFont = False
+                      TabOrder = 5
+                      Text = '5.00'
+                    end
                   end
                 end
                 object tsWSNFCe: TTabSheet
@@ -30155,6 +30185,172 @@ object FrmACBrMonitor: TFrmACBrMonitor
                       TabOrder = 3
                       OnClick = cbxNomeLongoNFSeClick
                     end
+                  end
+                end
+                object tsWSCIOT: TTabSheet
+                  Caption = 'CIOT'
+                  ClientHeight = 459
+                  ClientWidth = 1105
+                  object lblIntegradoraCIOT: TLabel
+                    Left = 6
+                    Height = 15
+                    Top = 7
+                    Width = 60
+                    Caption = 'Integradora'
+                    Font.CharSet = ANSI_CHARSET
+                    Font.Color = clBlack
+                    Font.Height = -12
+                    Font.Name = 'Segoe UI Light'
+                    Font.Pitch = fpVariable
+                    Font.Quality = fqDraft
+                    ParentColor = False
+                    ParentFont = False
+                  end
+                  object cbIntegradoraCIOT: TComboBox
+                    Left = 6
+                    Height = 25
+                    Top = 25
+                    Width = 190
+                    Font.Height = -13
+                    ItemHeight = 17
+                    ItemIndex = 0
+                    Items.Strings = (
+                      'iNone'
+                      'ieFrete'
+                      'iRepom'
+                      'iPamcard'
+                      'iANTT'
+                    )
+                    ParentFont = False
+                    Style = csDropDownList
+                    TabOrder = 0
+                    Text = 'iNone'
+                  end
+                  object lblHashIntegradorCIOT: TLabel
+                    Left = 6
+                    Height = 15
+                    Top = 56
+                    Width = 82
+                    Caption = 'Hash Integrador'
+                    Font.CharSet = ANSI_CHARSET
+                    Font.Color = clBlack
+                    Font.Height = -12
+                    Font.Name = 'Segoe UI Light'
+                    Font.Pitch = fpVariable
+                    Font.Quality = fqDraft
+                    ParentColor = False
+                    ParentFont = False
+                  end
+                  object edtHashIntegradorCIOT: TEdit
+                    Left = 6
+                    Height = 25
+                    Top = 74
+                    Width = 300
+                    EchoMode = emPassword
+                    Font.Height = -13
+                    ParentFont = False
+                    PasswordChar = '*'
+                    TabOrder = 1
+                  end
+                  object lblUsuarioCIOT: TLabel
+                    Left = 6
+                    Height = 15
+                    Top = 105
+                    Width = 38
+                    Caption = 'Usuário'
+                    Font.CharSet = ANSI_CHARSET
+                    Font.Color = clBlack
+                    Font.Height = -12
+                    Font.Name = 'Segoe UI Light'
+                    Font.Pitch = fpVariable
+                    Font.Quality = fqDraft
+                    ParentColor = False
+                    ParentFont = False
+                  end
+                  object edtUsuarioCIOT: TEdit
+                    Left = 6
+                    Height = 25
+                    Top = 123
+                    Width = 190
+                    Font.Height = -13
+                    ParentFont = False
+                    TabOrder = 2
+                  end
+                  object lblSenhaCIOT: TLabel
+                    Left = 6
+                    Height = 15
+                    Top = 154
+                    Width = 30
+                    Caption = 'Senha'
+                    Font.CharSet = ANSI_CHARSET
+                    Font.Color = clBlack
+                    Font.Height = -12
+                    Font.Name = 'Segoe UI Light'
+                    Font.Pitch = fpVariable
+                    Font.Quality = fqDraft
+                    ParentColor = False
+                    ParentFont = False
+                  end
+                  object edtSenhaCIOT: TEdit
+                    Left = 6
+                    Height = 25
+                    Top = 172
+                    Width = 190
+                    EchoMode = emPassword
+                    Font.Height = -13
+                    ParentFont = False
+                    PasswordChar = '*'
+                    TabOrder = 3
+                  end
+                  object lblCNPJEmitenteCIOT: TLabel
+                    Left = 6
+                    Height = 15
+                    Top = 203
+                    Width = 73
+                    Caption = 'CNPJ Emitente'
+                    Font.CharSet = ANSI_CHARSET
+                    Font.Color = clBlack
+                    Font.Height = -12
+                    Font.Name = 'Segoe UI Light'
+                    Font.Pitch = fpVariable
+                    Font.Quality = fqDraft
+                    ParentColor = False
+                    ParentFont = False
+                  end
+                  object edtCNPJEmitenteCIOT: TEdit
+                    Left = 6
+                    Height = 25
+                    Top = 221
+                    Width = 190
+                    Font.Height = -13
+                    ParentFont = False
+                    TabOrder = 4
+                  end
+                  object lblTokenCIOT: TLabel
+                    Left = 6
+                    Height = 15
+                    Top = 252
+                    Width = 28
+                    Caption = 'Token'
+                    Font.CharSet = ANSI_CHARSET
+                    Font.Color = clBlack
+                    Font.Height = -12
+                    Font.Name = 'Segoe UI Light'
+                    Font.Pitch = fpVariable
+                    Font.Quality = fqDraft
+                    ParentColor = False
+                    ParentFont = False
+                  end
+                  object edtTokenCIOT: TEdit
+                    Left = 6
+                    Height = 25
+                    Top = 270
+                    Width = 300
+                    EchoMode = emPassword
+                    Font.Height = -13
+                    ParentFont = False
+                    PasswordChar = '*'
+                    TabOrder = 5
                   end
                 end
               end
@@ -39155,6 +39351,20 @@ object FrmACBrMonitor: TFrmACBrMonitor
   object ACBrBoletoFPDF1: TACBrBoletoFPDF
     Left = 750
     Top = 638
+  end
+  object ACBrCIOT1: TACBrCIOT
+    Configuracoes.Geral.SSLLib = libNone
+    Configuracoes.Geral.SSLCryptLib = cryNone
+    Configuracoes.Geral.SSLHttpLib = httpNone
+    Configuracoes.Geral.SSLXmlSignLib = xsNone
+    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
+    Configuracoes.Geral.Integradora = iNone
+    Configuracoes.Arquivos.OrdenacaoPath = <>
+    Configuracoes.WebServices.UF = 'SP'
+    Configuracoes.WebServices.AguardarConsultaRet = 0
+    Configuracoes.WebServices.QuebradeLinha = '|'
+    Left = 376
+    Top = 472
   end
   object ACBrExtratoAPI1: TACBrExtratoAPI
     Ambiente = eamHomologacao

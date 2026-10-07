@@ -20,7 +20,7 @@ uses
   DoACBrDFeUnit, ACBrMonitorConsts, ACBrMonitorConfig, DoACBrReinfUnit,
   DoACBreSocialUnit, lazreportpdfexport, ACBrLibeSocialConsts,
   ACBrLibeSocialRespostas, ACBrLibMDFeConsts, ACBrLibMDFeRespostas,
-  ACBrLibReinfConsts, ACBrLibReinfRespostas, ACBrLibNFeRespostas,
+  ACBrLibReinfConsts, ACBrLibReinfRespostas, ACBrLibNFeRespostas, ACBrLibCIOTRespostas,
   ACBrLibNFeConsts, ACBrLibSATConsts, ACBrLibSATRespostas, ACBrLibCEPRespostas,
   ACBrLibCertUtils, ACBrLibDeviceUtils, ACBrLibConsultaCNPJConsts,
   ACBrLibConsultaCPFRespostas, DoCNPJUnit, DoCPFUnit, ACBrLibBoletoRespostas,

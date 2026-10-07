@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+07/10/2026
+--- Diversos ---
+[+] ACBR-9220 - Implementação do CIOT no Monitor
+    Por: Renato Rubinho
+
 02/10/2026
 -- ACBrMonitor1/DoACBrNFeUnit --
 [+] ACBR-9942 - Adiciona a impressão do DANFe Simplificado Tipo 2

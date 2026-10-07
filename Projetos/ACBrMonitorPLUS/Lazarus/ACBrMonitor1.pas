@@ -64,6 +64,7 @@ uses
   ACBrBoletoFPDF, FormConsultaCNPJ, ACBrMonitorMenu, ACBrDFeReport, ACBrNFSeX,
   ACBrNFSeXDANFSeRLClass, DoACBrNFSeUnit, ACBrGTIN, DoACBrGTINUnit, ACBrPIXBase,
   ACBrLibConfig, ACBrExtratoAPI, ACBrExtratoAPIBB, ACBrExtratoAPIInter,
+  ACBrCIOT, DoACBrCIOTUnit, ACBrCIOTConversao,
   ACBrExtratoAPISicoob, DoACBrExtratoAPIUnit, ACBrDFeUtil;
 
 const
@@ -117,6 +118,7 @@ type
     ACBrBPe1: TACBrBPe;
     ACBrBPeDABPeESCPOS1: TACBrBPeDABPeESCPOS;
     ACBrCEP1: TACBrCEP;
+    ACBrCIOT1: TACBrCIOT;
     ACBrConsultaCNPJ1: TACBrConsultaCNPJ;
     ACBrConsultaCPF1: TACBrConsultaCPF;
     ACBrCTe1: TACBrCTe;
@@ -321,6 +323,7 @@ type
     cbHRI: TCheckBox;
     cbHttpLib: TComboBox;
     cbHttpLibBoleto: TComboBox;
+    cbIntegradoraCIOT: TComboBox;
     cbNivelLogBoleto: TComboBox;
     cbIgnorarTags: TCheckBox;
     cbLayoutNFSe: TComboBox;
@@ -363,6 +366,7 @@ type
     cbVersaoWSCTe: TComboBox;
     cbVersaoWSeSocial: TComboBox;
     cbVersaoWSGNRE: TComboBox;
+    cbVersaoWSCIOT: TComboBox;
     cbVersaoWSMDFe: TComboBox;
     cbVersaoWSQRCode: TComboBox;
     cbVersaoWSReinf: TComboBox;
@@ -503,6 +507,7 @@ type
     deUSUDataCadastro: TDateEdit;
     dlgSave: TSaveDialog;
     eAvanco: TEdit;
+    edtCNPJEmitenteCIOT: TEdit;
     edtExtratoAPIInterCertificado: TEdit;
     edtExtratoAPISicoobCertificado: TEdit;
     edtExtratoAPIInterChavePrivada: TEdit;
@@ -539,6 +544,7 @@ type
     edtEnderecoEmitenteNFSe: TEdit;
     edtExtratoAPISicoobClientID: TEdit;
     edtExtratoAPILogArquivo: TEdit;
+    edtHashIntegradorCIOT: TEdit;
     edtLogoNFSe: TEdit;
     edtNumeroEmitenteNFSe: TEdit;
     edtBairroEmitenteNFSe: TEdit;
@@ -564,6 +570,8 @@ type
     edtNomeCidade: TEdit;
     edtConsCNPJSenha: TEdit;
     edtArquivoLogBoleto: TEdit;
+    edtSenhaCIOT: TEdit;
+    edtTokenCIOT: TEdit;
     edtUFCidade: TEdit;
     edtEmailAssuntoNFSe: TEdit;
     edtLogoMarcaPrefeitura: TEdit;
@@ -572,6 +580,7 @@ type
     edtChaveAutenticacaoNFSe: TEdit;
     edtIMEmitenteNFSe: TEdit;
     edtNomePrefeitura: TEdit;
+    edtUsuarioCIOT: TEdit;
     edtUsuarioNFSe: TEdit;
     edtSenhaNFSe: TEdit;
     edtChaveAcessoNFSe: TEdit;
@@ -916,6 +925,13 @@ type
     Label294: TLabel;
     Label295: TLabel;
     Label296: TLabel;
+    lblCNPJEmitenteCIOT: TLabel;
+    lblHashIntegradorCIOT: TLabel;
+    lblIntegradoraCIOT: TLabel;
+    lblSenhaCIOT: TLabel;
+    lblTokenCIOT: TLabel;
+    lblUsuarioCIOT: TLabel;
+    lblVersaoWSCIOT: TLabel;
     lblExtratoAPIBBCertificado: TLabel;
     lblExtratoAPIInterCertificado: TLabel;
     lblExtratoAPIBBChavePrivada: TLabel;
@@ -1504,6 +1520,7 @@ type
     tsEmailNFSe: TTabSheet;
     tsExtratoAPIBancosBB: TTabSheet;
     tsImpNFSe: TTabSheet;
+    tsWSCIOT: TTabSheet;
     tsWSNFSe: TTabSheet;
     tsTesteGTIN: TTabSheet;
     tsImpMDFe: TTabSheet;
@@ -2026,6 +2043,7 @@ type
     FDoACBr: TACBrObjetoACBr;
     FDoNFe: TACBrObjetoNFe;
     FDoCTe: TACBrObjetoCTe;
+    FDoCIOT: TACBrObjetoCIOT;
     FDoMDFe: TACBrObjetoMDFe;
     FDoBoleto: TACBrObjetoBoleto;
     FDoeSocial: TACBrObjetoeSocial;
@@ -2190,7 +2208,7 @@ uses
   ACBrNFeConfiguracoes, ACBrNFeDANFEClass, ACBrCTeConfiguracoes,
   ACBrMDFeConfiguracoes, ACBrGNREConfiguracoes, ACBreSocialConfiguracoes,
   ACBrReinfConfiguracoes, ACBrGTINConfiguracoes, ACBrBPeConfiguracoes,
-  ACBrNFSeXConfiguracoes,
+  ACBrNFSeXConfiguracoes, ACBrCIOTConfiguracoes,
   ACBrDFeDANFeReport, ACBrETQClass, ACBrUtil.Base, ACBrUtil.FilesIO,
   ACBrUtil.Strings, ACBrUtil.DateTime, ACBrUtil.Math;
 
@@ -2295,6 +2313,8 @@ begin
   FDoCTe.OnDepoisDeImprimir := @DepoisDeImprimir;
   FDoCTe.OnConfiguraDACTe   := @ConfiguraDACTe;
   FDoCTe.OnSubstituirVariaveis := @SubstituirVariaveisCTe;
+
+  FDoCIOT := TACBrObjetoCIOT.Create(MonitorConfig, ACBrCIOT1);
 
   FDoMDFe := TACBrObjetoMDFe.Create(MonitorConfig, ACBrMDFe1);
   FDoMDFe.OnAntesDeImprimir := @AntesDeImprimir;
@@ -2493,6 +2513,12 @@ begin
                               , vFormatSettings ) );
     Inc(iGNR);
   end;
+
+  { Criando lista versões CIOT disponiveis }
+  cbVersaoWSCIOT.Items.Clear;
+  for M := Integer(Low(TVersaoCIOT)) to Integer(High(TVersaoCIOT)) do
+    cbVersaoWSCIOT.Items.Add( FormatFloat('0.00', StrToFloat(Copy( GetEnumName(TypeInfo(TVersaoCIOT), M), 3, 1))
+                              , vFormatSettings ) );
 
   { Criando lista versões BPe disponiveis }
   cbVersaoWSBPe.Items.Clear;
@@ -4650,6 +4676,7 @@ begin
       ACBrReinf1.Configuracoes.Geral.SSLXmlSignLib := TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
       ACBrBPe1.Configuracoes.Geral.SSLXmlSignLib := TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
       ACBrGTIN1.Configuracoes.Geral.SSLXmlSignLib := TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
+      ACBrCIOT1.Configuracoes.Geral.SSLXmlSignLib := TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
       ACBrNFSeX1.Configuracoes.Geral.SSLXmlSignLib := TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
     end;
   finally
@@ -4786,6 +4813,7 @@ begin
   ACBrReinf1.Configuracoes.WebServices.TimeZoneConf.Assign( ACBrNFe1.Configuracoes.WebServices.TimeZoneConf );
   ACBrBPe1.Configuracoes.WebServices.TimeZoneConf.Assign( ACBrNFe1.Configuracoes.WebServices.TimeZoneConf );
   ACBrGTIN1.Configuracoes.WebServices.TimeZoneConf.Assign( ACBrNFe1.Configuracoes.WebServices.TimeZoneConf );
+  ACBrCIOT1.Configuracoes.WebServices.TimeZoneConf.Assign( ACBrNFe1.Configuracoes.WebServices.TimeZoneConf );
   ACBrNFSeX1.Configuracoes.WebServices.TimeZoneConf.Assign( ACBrNFe1.Configuracoes.WebServices.TimeZoneConf );
 end;
 
@@ -5276,6 +5304,7 @@ begin
   FDoNFe.Free;
   FDoBoleto.Free;
   FDoCTe.Free;
+  FDoCIOT.Free;
   FDoeSocial.Free;
   FDoReinf.Free;
   FDoBAL.Free;
@@ -6130,6 +6159,9 @@ begin
       cbVersaoWSMDFe.ItemIndex         := cbVersaoWSMDFe.Items.IndexOf(VersaoMDFe);
       cbVersaoWSBPe.ItemIndex          := cbVersaoWSBPe.Items.IndexOf(VersaoBPe);
       cbVersaoWSGNRE.ItemIndex         := cbVersaoWSGNRE.Items.IndexOf(VersaoGNRe);
+      cbVersaoWSCIOT.ItemIndex         := cbVersaoWSCIOT.Items.IndexOf(VersaoCIOT);
+      if cbVersaoWSCIOT.ItemIndex < 0 then
+        cbVersaoWSCIOT.ItemIndex := 0;
       cbVersaoWSeSocial.ItemIndex      := cbVersaoWSeSocial.Items.IndexOf(VersaoeSocial);
       if cbVersaoWSeSocial.ItemIndex < 0 then
         cbVersaoWSeSocial.ItemIndex := cbVersaoWSeSocial.Items.Count - 1;
@@ -6152,6 +6184,16 @@ begin
       edtIDContribuinte.Text             := IdContribuinte;
       edtIDTransmissorReinf.Text         := IdTransmissor;
       cbTipoContribuinte.ItemIndex       := cbTipoContribuinte.Items.IndexOf(TipoContribuinte);
+    end;
+
+    with CIOT do
+    begin
+      cbIntegradoraCIOT.ItemIndex := Integradora;
+      edtHashIntegradorCIOT.Text := HashIntegrador;
+      edtUsuarioCIOT.Text := Usuario;
+      edtSenhaCIOT.Text := Senha;
+      edtCNPJEmitenteCIOT.Text := CNPJEmitente;
+      edtTokenCIOT.Text := Token;
     end;
 
     with WebService.Proxy do
@@ -6331,6 +6373,21 @@ begin
     SetComumConfig(ACBrBPe1.Configuracoes);
     SetComumConfig(ACBrGTIN1.Configuracoes);
     SetComumConfig(ACBrNFSeX1.Configuracoes);
+
+    // eFrete não pode preencher dados de certiticado quando for autenticação por Login
+    SetComumConfig(ACBrCIOT1.Configuracoes);
+    if (ACBrCIOT1.Configuracoes.Geral.Integradora = ieFrete) then
+    begin
+      if ((ACBrCIOT1.Configuracoes.Geral.Usuario <> '') and
+          (ACBrCIOT1.Configuracoes.Geral.Senha <> '')) then
+      begin
+        ACBrCIOT1.Configuracoes.Certificados.ArquivoPFX := '';
+        ACBrCIOT1.Configuracoes.Certificados.DadosPFX := '';
+        ACBrCIOT1.Configuracoes.Certificados.NumeroSerie := '';
+
+        ACBrCIOT1.SSL.UseCertificateHTTP := False;
+      end;
+    end;
 
     AtualizaSSLLibsCombo;
     // Italo;
@@ -7486,6 +7543,7 @@ begin
         VersaoMDFe               := cbVersaoWSMDFe.Text;
         VersaoBPe                := cbVersaoWSBPe.Text;
         VersaoGNRe               := cbVersaoWSGNRE.Text;
+        VersaoCIOT               := cbVersaoWSCIOT.Text;
         VersaoeSocial          := cbVersaoWSeSocial.Text;
         VersaoReinf              := cbVersaoWSReinf.Text;
         VersaoQRCode             := cbVersaoWSQRCode.Text;
@@ -7516,6 +7574,16 @@ begin
         IdContribuinte           := edtIDContribuinte.Text;
         IdTransmissor            := edtIDTransmissorReinf.Text;
         TipoContribuinte         := cbTipoContribuinte.Text;
+      end;
+
+      with CIOT do
+      begin
+        Integradora := cbIntegradoraCIOT.ItemIndex;
+        HashIntegrador := edtHashIntegradorCIOT.Text;
+        Usuario := edtUsuarioCIOT.Text;
+        Senha := edtSenhaCIOT.Text;
+        CNPJEmitente := edtCNPJEmitenteCIOT.Text;
+        Token := edtTokenCIOT.Text;
       end;
 
       with WebService.Proxy do
@@ -8315,6 +8383,8 @@ begin
           FDoNFe.Executar(fsCmd)
         else if fsCmd.Objeto = 'CTE' then
           FDoCTe.Executar(fsCmd)
+        else if fsCmd.Objeto = 'CIOT' then
+          FDoCIOT.Executar(fsCmd)
         else if fsCmd.Objeto = 'MDFE' then
           FDoMDFe.Executar(fsCmd)
         else if fsCmd.Objeto = 'ESOCIAL' then
@@ -12476,6 +12546,18 @@ begin
     if DirectoryExists(PathSchemaDFe) then
       TConfiguracoesReinf(Configuracoes).Arquivos.PathSchemas:= PathSchemaDFe;
   end
+  else if Configuracoes is TConfiguracoesCIOT then
+  begin
+    if cbVersaoWSCIOT.ItemIndex >= 0 then
+      TConfiguracoesCIOT(Configuracoes).Geral.VersaoDF := StrToVersaoCIOT(cbVersaoWSCIOT.Text)
+    else
+      TConfiguracoesCIOT(Configuracoes).Geral.VersaoDF := ve500;
+    TConfiguracoesCIOT(Configuracoes).Geral.Integradora := TCIOTIntegradora(cbIntegradoraCIOT.ItemIndex);
+    TConfiguracoesCIOT(Configuracoes).Geral.HashIntegrador := edtHashIntegradorCIOT.Text;
+    TConfiguracoesCIOT(Configuracoes).Geral.Usuario := edtUsuarioCIOT.Text;
+    TConfiguracoesCIOT(Configuracoes).Geral.Senha := edtSenhaCIOT.Text;
+    TConfiguracoesCIOT(Configuracoes).Geral.CNPJEmitente := edtCNPJEmitenteCIOT.Text;
+  end
   else if Configuracoes is TConfiguracoesGTIN then
   begin
     PathSchemaDFe := edtPathSchemasDFe.Text + PathDelim + 'GTIN';
@@ -12828,6 +12910,7 @@ begin
       ACBrReinf1.Configuracoes.Geral.SSLCryptLib := TSSLCryptLib(cbCryptLib.ItemIndex);
       ACBrBPe1.Configuracoes.Geral.SSLCryptLib := TSSLCryptLib(cbCryptLib.ItemIndex);
       ACBrGTIN1.Configuracoes.Geral.SSLCryptLib := TSSLCryptLib(cbCryptLib.ItemIndex);
+      ACBrCIOT1.Configuracoes.Geral.SSLCryptLib := TSSLCryptLib(cbCryptLib.ItemIndex);
       ACBrNFSeX1.Configuracoes.Geral.SSLCryptLib := TSSLCryptLib(cbCryptLib.ItemIndex);
     end;
   finally
@@ -12849,6 +12932,7 @@ begin
       ACBrReinf1.Configuracoes.Geral.SSLHttpLib := TSSLHttpLib(cbHttpLib.ItemIndex);
       ACBrBPe1.Configuracoes.Geral.SSLHttpLib := TSSLHttpLib(cbHttpLib.ItemIndex);
       ACBrGTIN1.Configuracoes.Geral.SSLHttpLib := TSSLHttpLib(cbHttpLib.ItemIndex);
+      ACBrCIOT1.Configuracoes.Geral.SSLHttpLib := TSSLHttpLib(cbHttpLib.ItemIndex);
       ACBrNFSeX1.Configuracoes.Geral.SSLHttpLib := TSSLHttpLib(cbHttpLib.ItemIndex);
     end;
   finally
@@ -12962,6 +13046,7 @@ begin
       ACBrReinf1.Configuracoes.Geral.SSLLib  := TSSLLib(cbSSLLib.ItemIndex);
       ACBrBPe1.Configuracoes.Geral.SSLLib    := TSSLLib(cbSSLLib.ItemIndex);
       ACBrGTIN1.Configuracoes.Geral.SSLLib   := TSSLLib(cbSSLLib.ItemIndex);
+      ACBrCIOT1.Configuracoes.Geral.SSLLib   := TSSLLib(cbSSLLib.ItemIndex);
       ACBrNFSeX1.Configuracoes.Geral.SSLLib  := TSSLLib(cbSSLLib.ItemIndex);
     end;
   finally
@@ -13336,6 +13421,7 @@ begin
   ACBrReinf1.SSL.SSLType  := TSSLType( cbSSLType.ItemIndex );
   ACBrBPe1.SSL.SSLType    := TSSLType( cbSSLType.ItemIndex );
   ACBrGTIN1.SSL.SSLType   := TSSLType( cbSSLType.ItemIndex );
+  ACBrCIOT1.SSL.SSLType   := TSSLType( cbSSLType.ItemIndex );
   ACBrNFSeX1.SSL.SSLType  := TSSLType( cbSSLType.ItemIndex );
 end;
 
