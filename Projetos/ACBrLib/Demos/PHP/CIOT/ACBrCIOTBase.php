@@ -278,6 +278,7 @@
                                 <option value="1">ieFrete</option>
                                 <option value="2">iRepom</option>
                                 <option value="3">iPamcard</option>
+                                <option value="4">iANTT</option>
                             </select>
                         </div>
                         <div class="grid2Col">

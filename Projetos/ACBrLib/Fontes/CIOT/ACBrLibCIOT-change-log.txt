@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+07/10/2026
+--- ACBrCIOTBase.php, ACBrLib.hnd, ACBrLibCIOTDataModule ---
+[+] ACBR-9220 - Corrigida seleção de integradora na Lib e no programa de exemplo em PHP, atualizamos modelos ini
+    Por: Renato Rubinho
+
 15/07/2026
 -- Diversos --
 [+] ACBR-9243: Implementados programas de exemplo em PHP do CIOT ST e MT.
