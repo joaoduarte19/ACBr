@@ -238,6 +238,7 @@ begin
   assinante.dContratoFim := StringToDateTime(AINIRec.ReadString(sSecao, 'dContratoFim', '0'));
   assinante.NroTermPrinc := AINIRec.ReadString(sSecao, 'NroTermPrinc', '');
   assinante.cUFPrinc := AINIRec.ReadInteger(sSecao, 'cUFPrinc', 0);
+  assinante.cMunPrinc := AINIRec.ReadInteger(sSecao, 'cMunPrinc', 0);
 end;
 
 procedure TNFComIniReader.Ler_TermAdic(AINIRec: TMemIniFile;
@@ -326,6 +327,8 @@ begin
     Item.Prod.vDesc := StringToFloatDef(AINIRec.ReadString(sSecao, 'vDesc', ''), 0);
     Item.Prod.vOutro := StringToFloatDef(AINIRec.ReadString(sSecao, 'vOutro', ''), 0);
     Item.Prod.vProd := StringToFloatDef(AINIRec.ReadString(sSecao, 'vProd', ''), 0);
+    Item.Prod.vItemLiq := StringToFloatDef(AINIRec.ReadString(sSecao, 'vItemLiq', ''), 0);
+    Item.Prod.vProdLiq := StringToFloatDef(AINIRec.ReadString(sSecao, 'vProdLiq', ''), 0);
     Item.Prod.dExpiracao := StringToDateTime(AINIRec.ReadString(sSecao, 'dExpiracao', '0'));
     Item.Prod.indDevolucao := StrToTIndicador(AINIRec.ReadString(sSecao, 'indDevolucao', '0'));
     Item.Prod.CNPJCobrTerc := AINIRec.ReadString(sSecao, 'CNPJCobrTerc', '');
@@ -509,7 +512,9 @@ begin
     gProcRef.vICMS := StringToFloatDef(AINIRec.ReadString(sSecao,'vICMS', ''), 0);
     gProcRef.vPIS := StringToFloatDef(AINIRec.ReadString(sSecao,'vPIS', ''), 0);
     gProcRef.vCOFINS := StringToFloatDef(AINIRec.ReadString(sSecao,'vCOFINS', ''), 0);
+    gProcRef.vFCP := StringToFloatDef(AINIRec.ReadString(sSecao,'vFCP', ''), 0);
 
+    Ler_gIBSCBSSemProcJur(AINIRec, gProcRef.gIBSCBS, Idx, -1);
     Ler_gProc(AINIRec, gProcRef.gProc, Idx);
   end;
 end;
@@ -562,6 +567,7 @@ var
 begin
   sSecao := 'total';
   Total.vProd := StringToFloatDef(AINIRec.ReadString(sSecao,'vProd', ''), 0);
+  Total.vProdLiq := StringToFloatDef(AINIRec.ReadString(sSecao,'vProdLiq', ''), 0);
   Total.vBC := StringToFloatDef(AINIRec.ReadString(sSecao,'vBC', ''), 0);
   Total.vICMS := StringToFloatDef(AINIRec.ReadString(sSecao,'vICMS', ''), 0);
   Total.vICMSDeson := StringToFloatDef(AINIRec.ReadString(sSecao,'vICMSDeson', ''), 0);

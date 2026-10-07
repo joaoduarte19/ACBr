@@ -242,6 +242,7 @@ type
     FdContratoFim: TDateTime;
     FNroTermPrinc: string;
     FcUFPrinc: Integer;
+    FcMunPrinc: Integer;
     FTermAdic: TTermAdicCollection;
 
     procedure SetTermAdic(const Value: TTermAdicCollection);
@@ -259,6 +260,7 @@ type
     property dContratoFim: TDateTime read FdContratoFim write FdContratoFim;
     property NroTermPrinc: string read FNroTermPrinc write FNroTermPrinc;
     property cUFPrinc: Integer read FcUFPrinc write FcUFPrinc;
+    property cMunPrinc: Integer read FcMunPrinc write FcMunPrinc;
     property TermAdic: TTermAdicCollection read FTermAdic write SetTermAdic;
   end;
 
@@ -332,6 +334,8 @@ type
     FvDesc: Double;
     FvOutro: Double;
     FvProd: Double;
+    FvItemLiq: Double;
+    FvProdLiq: Double;
     FdExpiracao: TDateTime;
     FindDevolucao: TIndicador;
     FgPagAntecipado: TgPagAntecipadoProd;
@@ -353,6 +357,8 @@ type
     property vDesc: Double read FvDesc write FvDesc;
     property vOutro: Double read FvOutro write FvOutro;
     property vProd: Double read FvProd write FvProd;
+    property vItemLiq: Double read FvItemLiq write FvItemLiq;
+    property vProdLiq: Double read FvProdLiq write FvProdLiq;
     property dExpiracao: TDateTime read FdExpiracao write FdExpiracao;
     property indDevolucao: TIndicador read FindDevolucao write FindDevolucao;
     property CNPJCobrTerc: string read FCNPJCobrTerc write FCNPJCobrTerc;
@@ -580,6 +586,8 @@ type
     FvICMS: Double;
     FvPIS: Double;
     FvCOFINS: Double;
+    FvFCP: Double;
+    FgIBSCBS: TgIBSCBSSemProcJud;
     FgProc: TgProcCollection;
 
     procedure SetgProc(const Value: TgProcCollection);
@@ -600,6 +608,8 @@ type
     property vICMS: Double read FvICMS write FvICMS;
     property vPIS: Double read FvPIS write FvPIS;
     property vCOFINS: Double read FvCOFINS write FvCOFINS;
+    property vFCP: Double read FvFCP write FvFCP;
+    property gIBSCBS: TgIBSCBSSemProcJud read FgIBSCBS write FgIBSCBS;
     property gProc: TgProcCollection read FgProc write SetgProc;
   end;
 
@@ -669,6 +679,7 @@ type
   TTotal = class(TObject)
   private
     FvProd: Double;
+    FvProdLiq: Double;
     FvBC: Double;
     FvICMS: Double;
     FvICMSDeson: Double;
@@ -694,6 +705,7 @@ type
     procedure Assign(Source: TTotal);
 
     property vProd: Double read FvProd write FvProd;
+    property vProdLiq: Double read FvProdLiq write FvProdLiq;
     property vBC: Double read FvBC write FvBC;
     property vICMS: Double read FvICMS write FvICMS;
     property vICMSDeson: Double read FvICMSDeson write FvICMSDeson;
@@ -1031,6 +1043,8 @@ begin
   vDesc := Source.vDesc;
   vOutro := Source.vOutro;
   vProd := Source.vProd;
+  vItemLiq := Source.vItemLiq;
+  vProdLiq := Source.vProdLiq;
   dExpiracao := Source.dExpiracao;
   indDevolucao := Source.indDevolucao;
   CNPJCobrTerc := Source.CNPJCobrTerc;
@@ -1166,6 +1180,7 @@ begin
   dContratoFim := Source.dContratoFim;
   NroTermPrinc := Source.NroTermPrinc;
   cUFPrinc := Source.cUFPrinc;
+  cMunPrinc := Source.cMunPrinc;
 
   TermAdic.Assign(Source.TermAdic);
 end;
@@ -1479,7 +1494,9 @@ begin
   vICMS := Source.vICMS;
   vPIS := Source.vPIS;
   vCOFINS := Source.vCOFINS;
+  vFCP := Source.vFCP;
 
+  gIBSCBS.Assign(Source.gIBSCBS);
   gProc.Assign(Source.gProc);
 end;
 
@@ -1488,11 +1505,13 @@ begin
   inherited Create;
 
   FgProc := TgProcCollection.Create;
+  FgIBSCBS := TgIBSCBSSemProcJud.Create;
 end;
 
 destructor TgProcRef.Destroy;
 begin
   FgProc.Free;
+  FgIBSCBS.Free;
 
   inherited Destroy;
 end;
@@ -1544,6 +1563,7 @@ end;
 procedure TTotal.Assign(Source: TTotal);
 begin
   vProd := Source.vProd;
+  vProdLiq := Source.vProdLiq;
   vBC := Source.vBC;
   vICMS := Source.vICMS;
   vICMSDeson := Source.vICMSDeson;

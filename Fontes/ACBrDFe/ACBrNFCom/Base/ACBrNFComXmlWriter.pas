@@ -659,6 +659,9 @@ begin
 
     Result.AppendChild(AddNode(tcInt, '#69', 'cUFPrinc', 2, 2, 1,
                                             NFCom.assinante.cUFPrinc, DSC_CUF));
+
+    Result.AppendChild(AddNode(tcInt, '#69', 'cMunPrinc', 7, 7, 0,
+                                          NFCom.assinante.cMunPrinc, DSC_CMUN));
   end;
 
   for i := 0 to NFCom.assinante.TermAdic.Count - 1 do
@@ -840,6 +843,12 @@ begin
   // pode ter 2 ou 8 casas decimais
   Result.AppendChild(AddNode(tcDe8, '#169', 'vProd', 1, 15, 1,
                                         NFCom.Det[aDet].Prod.vProd, DSC_VPROD));
+
+  Result.AppendChild(AddNode(tcDe8, '#169', 'vItemLiq', 1, 15, 0,
+                                  NFCom.Det[aDet].Prod.vItemLiq, DSC_VITEMLIQ));
+
+  Result.AppendChild(AddNode(tcDe8, '#169', 'vProdLiq', 1, 15, 0,
+                                  NFCom.Det[aDet].Prod.vProdLiq, DSC_VPRODLIQ));
 
   Result.AppendChild(AddNode(tcDat, '#169', 'dExpiracao', 10, 10, 0,
                               NFCom.Det[aDet].Prod.dExpiracao, DSC_DEXPIRACAO));
@@ -1221,6 +1230,11 @@ begin
     Result.AppendChild(AddNode(tcDe2, '#243', 'vCOFINS', 1, 15, 0,
                                 NFCom.Det[aDet].gProcRef.vCOFINS, DSC_VCOFINS));
 
+    Result.AppendChild(AddNode(tcDe2, '#243', 'vFCP', 1, 15, 0,
+                                      NFCom.Det[aDet].gProcRef.vFCP, DSC_VFCP));
+
+    Result.AppendChild(Gerar_gIBSCBSSemProcJur(NFCom.Det[aDet].gProcRef.gIBSCBS));
+
     nodeArray := Gerar_det_gProcRef_gProc(aDet);
     for i := 0 to NFCom.Det[aDet].gProcRef.gProc.Count - 1 do
     begin
@@ -1290,6 +1304,9 @@ begin
 
   Result.AppendChild(AddNode(tcDe2, '#254', 'vProd', 1, 15, 1,
                                                  NFCom.Total.vProd, DSC_VPROD));
+
+  Result.AppendChild(AddNode(tcDe2, '#254', 'vProdLiq', 1, 15, 0,
+                                           NFCom.Total.vProdLiq, DSC_VPRODLIQ));
 
   Result.AppendChild(Gerar_Total_ICMSTotal);
 

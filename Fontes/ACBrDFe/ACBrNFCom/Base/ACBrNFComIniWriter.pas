@@ -248,6 +248,7 @@ begin
   AINIRec.WriteString(sSecao, 'dContratoFim', DateTimeToStr(assinante.dContratoFim));
   AINIRec.WriteString(sSecao, 'NroTermPrinc', assinante.NroTermPrinc);
   AINIRec.WriteInteger(sSecao, 'cUFPrinc', assinante.cUFPrinc);
+  AINIRec.WriteInteger(sSecao, 'cMunPrinc', assinante.cMunPrinc);
 end;
 
 procedure TNFComIniWriter.Gerar_TermAdic(AINIRec: TMemIniFile;
@@ -321,6 +322,8 @@ begin
     AINIRec.WriteFloat(sSecao, 'vDesc', Det[i].Prod.vDesc);
     AINIRec.WriteFloat(sSecao, 'vOutro', Det[i].Prod.vOutro);
     AINIRec.WriteFloat(sSecao, 'vProd', Det[i].Prod.vProd);
+    AINIRec.WriteFloat(sSecao, 'vItemLiq', Det[i].Prod.vItemLiq);
+    AINIRec.WriteFloat(sSecao, 'vProdLiq', Det[i].Prod.vProdLiq);
     AINIRec.WriteString(sSecao, 'dExpiracao', DateTimeToStr(Det[i].Prod.dExpiracao));
     AINIRec.WriteString(sSecao, 'indDevolucao', TIndicadorToStr(Det[i].Prod.indDevolucao));
     AINIRec.WriteString(sSecao, 'CNPJCobrTerc', Det[i].Prod.CNPJCobrTerc);
@@ -467,6 +470,9 @@ begin
   AINIRec.WriteFloat(sSecao, 'vICMS', gProcRef.vICMS);
   AINIRec.WriteFloat(sSecao, 'vPIS', gProcRef.vPIS);
   AINIRec.WriteFloat(sSecao, 'vCOFINS', gProcRef.vCOFINS);
+  AINIRec.WriteFloat(sSecao, 'vFCP', gProcRef.vFCP);
+
+  Gerar_gIBSCBSSemProcJur(AINIRec, gProcRef.gIBSCBS, Idx +1, -1);
 end;
 
 procedure TNFComIniWriter.Gerar_gProc(AINIRec: TMemIniFile;
@@ -504,6 +510,7 @@ var
 begin
   sSecao := 'total';
   AINIRec.WriteFloat(sSecao, 'vProd', Total.vProd);
+  AINIRec.WriteFloat(sSecao, 'vProdLiq', Total.vProdLiq);
   AINIRec.WriteFloat(sSecao, 'vBC', Total.vBC);
   AINIRec.WriteFloat(sSecao, 'vICMS', Total.vICMS);
   AINIRec.WriteFloat(sSecao, 'vICMSDeson', Total.vICMSDeson);

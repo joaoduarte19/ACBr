@@ -119,6 +119,8 @@ resourcestring
   DSC_VDESC = 'Valor do Desconto';
   DSC_VOUTRO = 'Outras despesas acessórias ';
   DSC_VPROD = 'Valor total do item';
+  DSC_VITEMLIQ = 'Valor unitário do item sem tributos';
+  DSC_VPRODLIQ = 'Valor líquido total do item sem tributos';
   DSC_CST = 'Classificação Tributária';
   DSC_VBC = 'Valor da Base de Calculo';
   DSC_PICMS = 'Alíquota do ICMS';

@@ -342,6 +342,7 @@ begin
   NFCom.assinante.dContratoFim := ObterConteudo(ANode.Childrens.FindAnyNs('dContratoFim'), tcDat);
   NFCom.assinante.NroTermPrinc := ObterConteudo(ANode.Childrens.FindAnyNs('NroTermPrinc'), tcStr);
   NFCom.assinante.cUFPrinc := ObterConteudo(ANode.Childrens.FindAnyNs('cUFPrinc'), tcInt);
+  NFCom.assinante.cMunPrinc := ObterConteudo(ANode.Childrens.FindAnyNs('cMunPrinc'), tcInt);
 
   NFCom.assinante.TermAdic.Clear;
   ANodes := ANode.Childrens.FindAllAnyNs('NroTermAdic');
@@ -466,6 +467,8 @@ begin
   Item.Prod.vDesc := ObterConteudo(ANode.Childrens.FindAnyNs('vDesc'), tcDe2);
   Item.Prod.vOutro := ObterConteudo(ANode.Childrens.FindAnyNs('vOutro'), tcDe2);
   Item.Prod.vProd := ObterConteudo(ANode.Childrens.FindAnyNs('vProd'), tcDe8);
+  Item.Prod.vItemLiq := ObterConteudo(ANode.Childrens.FindAnyNs('vItemLiq'), tcDe8);
+  Item.Prod.vProdLiq := ObterConteudo(ANode.Childrens.FindAnyNs('vProdLiq'), tcDe8);
   Item.Prod.dExpiracao := ObterConteudo(ANode.Childrens.FindAnyNs('dExpiracao'), tcDat);
 
   sAux := ObterConteudo(ANode.Childrens.FindAnyNs('indDevolucao'), tcStr);
@@ -618,6 +621,9 @@ begin
   Item.gProcRef.vICMS := ObterConteudo(ANode.Childrens.FindAnyNs('vICMS'), tcDe2);
   Item.gProcRef.vPIS := ObterConteudo(ANode.Childrens.FindAnyNs('vPIS'), tcDe2);
   Item.gProcRef.vCOFINS := ObterConteudo(ANode.Childrens.FindAnyNs('vCOFINS'), tcDe2);
+  Item.gProcRef.vFCP := ObterConteudo(ANode.Childrens.FindAnyNs('vFCP'), tcDe2);
+
+  Ler_gIBSCBSSemProcJur(ANode.Childrens.FindAnyNs('gIBSCBS'), Item.gProcRef.gIBSCBS);
 
   ANodes := ANode.Childrens.FindAllAnyNs('gProc');
   for i := 0 to Length(ANodes) - 1 do
@@ -660,6 +666,7 @@ begin
   if not Assigned(ANode) then Exit;
 
   NFCom.Total.vProd := ObterConteudo(ANode.Childrens.FindAnyNs('vProd'), tcDe2);
+  NFCom.Total.vProdLiq := ObterConteudo(ANode.Childrens.FindAnyNs('vProdLiq'), tcDe2);
 
   AuxNode2 := ANode.Childrens.FindAnyNs('ICMSTot');
 
