@@ -32,8 +32,12 @@ type
     btEndpointsLimparLog: TSpeedButton;
     btConfigSenha: TSpeedButton;
     btHistoricoAcessoConsultar: TButton;
+    btInativar: TButton;
+    btRemoveDevolvidos: TButton;
+    btRemoveDevolvidosCarregar: TButton;
     cbConfigAmbiente: TComboBox;
     cbConfigLogNivel: TComboBox;
+    cbInativarCodInterno: TCheckBox;
     edConfigCNPJ: TEdit;
     edConfigLogArq: TEdit;
     edConfigProxyHost: TEdit;
@@ -54,6 +58,8 @@ type
     gbRegimesEspeciais: TGroupBox;
     gbSaneamentoGrades: TGroupBox;
     gbHistoricoAcesso: TGroupBox;
+    gbInativar: TGroupBox;
+    gbRemoveDevolvidos: TGroupBox;
     ImageList1: TImageList;
     lbConsultaAlteradosUF: TLabel;
     lbConsultaDescricaoDescricao: TLabel;
@@ -68,8 +74,15 @@ type
     lbConfigSenha: TLabel;
     lbConfigTimeout: TLabel;
     lbConsultarRegimesEspeciaisUF: TLabel;
+    lbInativarProdutos: TLabel;
+    lbRemoveDevolvidos: TLabel;
+    mmInativarProdutos: TMemo;
     mmLog: TMemo;
+    mmRemoveDevolvidos: TMemo;
     mmSaneamentoGrades: TMemo;
+    pnInativar: TPanel;
+    pnProdutos: TPanel;
+    pnRemoveDevolvidos: TPanel;
     pnSaneamentoGrades: TPanel;
     pnConsultaDescricao: TPanel;
     pnConsultarAlterados: TPanel;
@@ -84,6 +97,7 @@ type
     pnConfigProxy: TPanel;
     pnConfigRodape: TPanel;
     pnEndpointsLog: TPanel;
+    tsProdutos: TTabSheet;
     tsSaneamentoGrades: TTabSheet;
     tsConsultas: TTabSheet;
     tsEndpoints: TTabSheet;
@@ -99,6 +113,9 @@ type
     procedure btConfigSenhaClick(Sender: TObject);
     procedure btSaneamentoEnviarClick(Sender: TObject);
     procedure btHistoricoAcessoConsultarClick(Sender: TObject);
+    procedure btInativarClick(Sender: TObject);
+    procedure btRemoveDevolvidosCarregarClick(Sender: TObject);
+    procedure btRemoveDevolvidosClick(Sender: TObject);
     procedure btSaneamentoPreencherClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -180,6 +197,72 @@ begin
     RegistrarLogTela(FormatarJSON(ACBrIMendes1.HistoricoAcessoResponse.AsJSON))
   else
     RegistrarLogTela(FormatarJSON(ACBrIMendes1.RespostaErro.AsJSON))
+end;
+
+procedure TfrPrincipal.btInativarClick(Sender: TObject);
+var
+  i: Integer;
+  wCodigo: String;
+  wProduto: TACBrImendesInativarProduto;
+begin
+  if (not ConfiguracaoValida) then
+    SolicitarConfiguracao;
+
+  ACBrIMendes1.InativarRequest.Clear;
+  ACBrIMendes1.InativarRequest.cnpj := edConfigCNPJ.Text;
+  for i := 0 to mmInativarProdutos.Lines.Count - 1 do
+  begin
+    wCodigo := Trim(mmInativarProdutos.Lines[i]);
+    if EstaVazio(wCodigo) then
+      Continue;
+
+    wProduto := ACBrIMendes1.InativarRequest.produtos.New;
+    wProduto.codigo := wCodigo;
+    if cbInativarCodInterno.Checked then
+      wProduto.interno := 'S'
+    else
+      wProduto.interno := 'N';
+  end;
+
+  if ACBrIMendes1.Inativar then
+    RegistrarLogTela('Inativar OK: ' + FormatarJSON(String(ACBrIMendes1.HTTPResponse)))
+  else
+    RegistrarLogTela(FormatarJSON(ACBrIMendes1.RespostaErro.AsJSON));
+end;
+
+procedure TfrPrincipal.btRemoveDevolvidosCarregarClick(Sender: TObject);
+var
+  i: Integer;
+begin
+  mmRemoveDevolvidos.Lines.Clear;
+  for i := 0 to ACBrIMendes1.HistoricoAcessoResponse.ProdDevolvidos.Count - 1 do
+    mmRemoveDevolvidos.Lines.Add(ACBrIMendes1.HistoricoAcessoResponse.ProdDevolvidos.Items[i].Id);
+
+  if EstaZerado(mmRemoveDevolvidos.Lines.Count) then
+    RegistrarLogTela('Nenhum produto devolvido. Consulte o Histórico de Acesso antes de carregar.');
+end;
+
+procedure TfrPrincipal.btRemoveDevolvidosClick(Sender: TObject);
+var
+  i: Integer;
+  wId: String;
+begin
+  if (not ConfiguracaoValida) then
+    SolicitarConfiguracao;
+
+  ACBrIMendes1.RemoveDevolvidosRequest.Clear;
+  ACBrIMendes1.RemoveDevolvidosRequest.CNPJ := edConfigCNPJ.Text;
+  for i := 0 to mmRemoveDevolvidos.Lines.Count - 1 do
+  begin
+    wId := Trim(mmRemoveDevolvidos.Lines[i]);
+    if NaoEstaVazio(wId) then
+      ACBrIMendes1.RemoveDevolvidosRequest.Produtos.New.Id := wId;
+  end;
+
+  if ACBrIMendes1.RemoveDevolvidos then
+    RegistrarLogTela('RemoveDevolvidos OK: ' + FormatarJSON(String(ACBrIMendes1.HTTPResponse)))
+  else
+    RegistrarLogTela(FormatarJSON(ACBrIMendes1.RespostaErro.AsJSON));
 end;
 
 procedure TfrPrincipal.btSaneamentoPreencherClick(Sender: TObject);

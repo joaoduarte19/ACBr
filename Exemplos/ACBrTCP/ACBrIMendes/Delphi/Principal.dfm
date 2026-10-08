@@ -1,8 +1,8 @@
 object frPrincipal: TfrPrincipal
   Left = 377
-  Top = 239
-  Width = 829
-  Height = 629
+  Top = 261
+  Width = 794
+  Height = 568
   Caption = 'Aplica'#231#227'o de demonstra'#231#227'o ACBrIMendes'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -95,8 +95,8 @@ object frPrincipal: TfrPrincipal
   object pgImendes: TPageControl
     Left = 0
     Top = 0
-    Width = 813
-    Height = 590
+    Width = 778
+    Height = 529
     ActivePage = tsEndpoints
     Align = alClient
     Images = ImageList1
@@ -107,26 +107,26 @@ object frPrincipal: TfrPrincipal
       Caption = 'Endpoints'
       ImageIndex = 5
       object gbEndpointsLog: TGroupBox
-        Left = 488
+        Left = 475
         Top = 0
-        Width = 317
-        Height = 550
+        Width = 295
+        Height = 489
         Align = alRight
         Caption = 'Log'
         TabOrder = 0
         object pnEndpointsLog: TPanel
           Left = 2
-          Top = 498
-          Width = 313
-          Height = 50
+          Top = 440
+          Width = 291
+          Height = 47
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 0
           object btEndpointsLimparLog: TSpeedButton
-            Left = 183
-            Top = 14
-            Width = 115
-            Height = 27
+            Left = 170
+            Top = 13
+            Width = 107
+            Height = 25
             Caption = 'Limpar Log'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
@@ -142,8 +142,8 @@ object frPrincipal: TfrPrincipal
         object mmLog: TMemo
           Left = 2
           Top = 15
-          Width = 313
-          Height = 483
+          Width = 291
+          Height = 425
           Align = alClient
           ScrollBars = ssBoth
           TabOrder = 1
@@ -152,196 +152,37 @@ object frPrincipal: TfrPrincipal
       object pgEndpoints: TPageControl
         Left = 0
         Top = 0
-        Width = 488
-        Height = 550
-        ActivePage = tsConsultas
+        Width = 475
+        Height = 489
+        ActivePage = tsSaneamentoGrades
         Align = alClient
         Images = ImageList1
         TabHeight = 30
         TabOrder = 1
         TabWidth = 150
-        object tsConsultas: TTabSheet
-          Caption = 'Consultas'
-          ImageIndex = 8
-          object pnConsultas: TPanel
-            Left = 0
-            Top = 0
-            Width = 480
-            Height = 510
-            Align = alClient
-            BevelOuter = bvNone
-            TabOrder = 0
-            object gbConsultaDescricao: TGroupBox
-              Left = 15
-              Top = 23
-              Width = 450
-              Height = 89
-              Caption = 'Consultar Descri'#231#227'o'
-              TabOrder = 0
-              object pnConsultaDescricao: TPanel
-                Left = 2
-                Top = 15
-                Width = 446
-                Height = 72
-                Align = alClient
-                BevelOuter = bvNone
-                TabOrder = 0
-                object lbConsultaDescricaoDescricao: TLabel
-                  Left = 22
-                  Top = 8
-                  Width = 48
-                  Height = 13
-                  Caption = 'Descri'#231#227'o'
-                end
-                object btConsultarDescricao: TButton
-                  Left = 336
-                  Top = 22
-                  Width = 96
-                  Height = 25
-                  Caption = 'Consultar'
-                  TabOrder = 0
-                  OnClick = btConsultarDescricaoClick
-                end
-                object edConsultaDescricaoDescricao: TEdit
-                  Left = 22
-                  Top = 24
-                  Width = 306
-                  Height = 21
-                  TabOrder = 1
-                end
-              end
-            end
-            object gbConsultarAlterados: TGroupBox
-              Left = 15
-              Top = 127
-              Width = 140
-              Height = 121
-              Caption = 'Consultar Alterados'
-              TabOrder = 1
-              object pnConsultarAlterados: TPanel
-                Left = 2
-                Top = 15
-                Width = 136
-                Height = 104
-                Align = alClient
-                BevelOuter = bvNone
-                TabOrder = 0
-                object lbConsultaAlteradosUF: TLabel
-                  Left = 22
-                  Top = 8
-                  Width = 17
-                  Height = 13
-                  Caption = 'UF:'
-                end
-                object edConsultaAlteradosUF: TEdit
-                  Left = 22
-                  Top = 24
-                  Width = 96
-                  Height = 21
-                  TabOrder = 0
-                end
-                object btConsultarAlterados: TButton
-                  Left = 22
-                  Top = 56
-                  Width = 96
-                  Height = 25
-                  Caption = 'Consultar'
-                  TabOrder = 1
-                  OnClick = btConsultarAlteradosClick
-                end
-              end
-            end
-            object gbRegimesEspeciais: TGroupBox
-              Left = 171
-              Top = 127
-              Width = 140
-              Height = 121
-              Caption = 'Regimes Especiais'
-              TabOrder = 2
-              object pnRegimesEspeciais: TPanel
-                Left = 2
-                Top = 15
-                Width = 136
-                Height = 104
-                Align = alClient
-                BevelOuter = bvNone
-                TabOrder = 0
-                object lbConsultarRegimesEspeciaisUF: TLabel
-                  Left = 22
-                  Top = 8
-                  Width = 17
-                  Height = 13
-                  Caption = 'UF:'
-                end
-                object edConsultarRegimesEspeciaisUF: TEdit
-                  Left = 22
-                  Top = 24
-                  Width = 96
-                  Height = 21
-                  TabOrder = 0
-                end
-                object btConsultarRegimesEspeciais: TButton
-                  Left = 22
-                  Top = 56
-                  Width = 96
-                  Height = 25
-                  Caption = 'Consultar'
-                  TabOrder = 1
-                  OnClick = btConsultarRegimesEspeciaisClick
-                end
-              end
-            end
-            object gbHistoricoAcesso: TGroupBox
-              Left = 325
-              Top = 127
-              Width = 140
-              Height = 121
-              Caption = 'Hist'#243'rico Acesso'
-              TabOrder = 3
-              object pnHistoricoAcesso: TPanel
-                Left = 2
-                Top = 15
-                Width = 136
-                Height = 104
-                Align = alClient
-                BevelOuter = bvNone
-                TabOrder = 0
-                object btHistoricoAcessoConsultar: TButton
-                  Left = 24
-                  Top = 32
-                  Width = 96
-                  Height = 25
-                  Caption = 'Consultar'
-                  TabOrder = 0
-                  OnClick = btHistoricoAcessoConsultarClick
-                end
-              end
-            end
-          end
-        end
         object tsSaneamentoGrades: TTabSheet
           Caption = 'Saneamento'
           ImageIndex = 23
           object gbSaneamentoGrades: TGroupBox
-            Left = 8
-            Top = 8
-            Width = 456
-            Height = 449
+            Left = 7
+            Top = 7
+            Width = 442
+            Height = 417
             Caption = 'Saneamento Grades (Request JSON)'
             TabOrder = 0
             object pnSaneamentoGrades: TPanel
-              Left = 0
-              Top = 0
-              Width = 452
-              Height = 429
+              Left = 2
+              Top = 15
+              Width = 438
+              Height = 400
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 0
               object btSaneamentoPreencher: TSpeedButton
-                Left = 8
-                Top = 392
-                Width = 192
-                Height = 27
+                Left = 7
+                Top = 364
+                Width = 179
+                Height = 25
                 Caption = 'Preencher(Dados Ficticios)'
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clWindowText
@@ -354,10 +195,10 @@ object frPrincipal: TfrPrincipal
                 OnClick = btSaneamentoPreencherClick
               end
               object btSaneamentoEnviar: TSpeedButton
-                Left = 213
-                Top = 392
-                Width = 115
-                Height = 27
+                Left = 198
+                Top = 364
+                Width = 107
+                Height = 25
                 Caption = 'Enviar'
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clWindowText
@@ -370,11 +211,287 @@ object frPrincipal: TfrPrincipal
                 OnClick = btSaneamentoEnviarClick
               end
               object mmSaneamentoGrades: TMemo
-                Left = 8
-                Top = 8
-                Width = 432
-                Height = 368
+                Left = 7
+                Top = 7
+                Width = 418
+                Height = 342
                 TabOrder = 0
+              end
+            end
+          end
+        end
+        object tsConsultas: TTabSheet
+          Caption = 'Consultas'
+          ImageIndex = 8
+          object pnConsultas: TPanel
+            Left = 0
+            Top = 0
+            Width = 467
+            Height = 449
+            Align = alClient
+            BevelOuter = bvNone
+            TabOrder = 0
+            object gbConsultaDescricao: TGroupBox
+              Left = 14
+              Top = 21
+              Width = 418
+              Height = 83
+              Caption = 'Consultar Descri'#231#227'o'
+              TabOrder = 0
+              object pnConsultaDescricao: TPanel
+                Left = 2
+                Top = 15
+                Width = 414
+                Height = 66
+                Align = alClient
+                BevelOuter = bvNone
+                TabOrder = 0
+                object lbConsultaDescricaoDescricao: TLabel
+                  Left = 20
+                  Top = 7
+                  Width = 48
+                  Height = 13
+                  Caption = 'Descri'#231#227'o'
+                end
+                object btConsultarDescricao: TButton
+                  Left = 312
+                  Top = 20
+                  Width = 89
+                  Height = 24
+                  Caption = 'Consultar'
+                  TabOrder = 0
+                  OnClick = btConsultarDescricaoClick
+                end
+                object edConsultaDescricaoDescricao: TEdit
+                  Left = 20
+                  Top = 22
+                  Width = 285
+                  Height = 21
+                  TabOrder = 1
+                end
+              end
+            end
+            object gbConsultarAlterados: TGroupBox
+              Left = 14
+              Top = 118
+              Width = 130
+              Height = 112
+              Caption = 'Consultar Alterados'
+              TabOrder = 1
+              object pnConsultarAlterados: TPanel
+                Left = 2
+                Top = 15
+                Width = 126
+                Height = 95
+                Align = alClient
+                BevelOuter = bvNone
+                TabOrder = 0
+                object lbConsultaAlteradosUF: TLabel
+                  Left = 20
+                  Top = 7
+                  Width = 17
+                  Height = 13
+                  Caption = 'UF:'
+                end
+                object edConsultaAlteradosUF: TEdit
+                  Left = 20
+                  Top = 22
+                  Width = 90
+                  Height = 21
+                  TabOrder = 0
+                end
+                object btConsultarAlterados: TButton
+                  Left = 20
+                  Top = 52
+                  Width = 90
+                  Height = 23
+                  Caption = 'Consultar'
+                  TabOrder = 1
+                  OnClick = btConsultarAlteradosClick
+                end
+              end
+            end
+            object gbRegimesEspeciais: TGroupBox
+              Left = 159
+              Top = 118
+              Width = 130
+              Height = 112
+              Caption = 'Regimes Especiais'
+              TabOrder = 2
+              object pnRegimesEspeciais: TPanel
+                Left = 2
+                Top = 15
+                Width = 126
+                Height = 95
+                Align = alClient
+                BevelOuter = bvNone
+                TabOrder = 0
+                object lbConsultarRegimesEspeciaisUF: TLabel
+                  Left = 20
+                  Top = 7
+                  Width = 17
+                  Height = 13
+                  Caption = 'UF:'
+                end
+                object edConsultarRegimesEspeciaisUF: TEdit
+                  Left = 20
+                  Top = 22
+                  Width = 90
+                  Height = 21
+                  TabOrder = 0
+                end
+                object btConsultarRegimesEspeciais: TButton
+                  Left = 20
+                  Top = 52
+                  Width = 90
+                  Height = 23
+                  Caption = 'Consultar'
+                  TabOrder = 1
+                  OnClick = btConsultarRegimesEspeciaisClick
+                end
+              end
+            end
+            object gbHistoricoAcesso: TGroupBox
+              Left = 302
+              Top = 118
+              Width = 130
+              Height = 112
+              Caption = 'Hist'#243'rico Acesso'
+              TabOrder = 3
+              object pnHistoricoAcesso: TPanel
+                Left = 2
+                Top = 15
+                Width = 126
+                Height = 95
+                Align = alClient
+                BevelOuter = bvNone
+                TabOrder = 0
+                object btHistoricoAcessoConsultar: TButton
+                  Left = 22
+                  Top = 30
+                  Width = 89
+                  Height = 23
+                  Caption = 'Consultar'
+                  TabOrder = 0
+                  OnClick = btHistoricoAcessoConsultarClick
+                end
+              end
+            end
+          end
+        end
+        object tsProdutos: TTabSheet
+          Caption = 'Produtos'
+          ImageIndex = 5
+          object pnProdutos: TPanel
+            Left = 0
+            Top = 0
+            Width = 467
+            Height = 449
+            Align = alClient
+            BevelOuter = bvNone
+            TabOrder = 0
+            object gbInativar: TGroupBox
+              Left = 15
+              Top = 7
+              Width = 208
+              Height = 417
+              Caption = 'Inativar Produtos'
+              TabOrder = 0
+              object pnInativar: TPanel
+                Left = 2
+                Top = 15
+                Width = 204
+                Height = 400
+                Align = alClient
+                BevelOuter = bvNone
+                TabOrder = 0
+                object lbInativarProdutos: TLabel
+                  Left = 7
+                  Top = 7
+                  Width = 104
+                  Height = 13
+                  Caption = 'C'#243'digos (um por linha)'
+                end
+                object mmInativarProdutos: TMemo
+                  Left = 7
+                  Top = 24
+                  Width = 190
+                  Height = 307
+                  ScrollBars = ssVertical
+                  TabOrder = 0
+                end
+                object cbInativarCodInterno: TCheckBox
+                  Left = 7
+                  Top = 338
+                  Width = 101
+                  Height = 16
+                  Caption = 'C'#243'digos internos'
+                  TabOrder = 1
+                end
+                object btInativar: TButton
+                  Left = 108
+                  Top = 364
+                  Width = 89
+                  Height = 23
+                  Caption = 'Inativar'
+                  TabOrder = 2
+                  OnClick = btInativarClick
+                end
+              end
+            end
+            object gbRemoveDevolvidos: TGroupBox
+              Left = 230
+              Top = 7
+              Width = 208
+              Height = 417
+              Caption = 'Remover Devolvidos'
+              TabOrder = 1
+              object pnRemoveDevolvidos: TPanel
+                Left = 2
+                Top = 15
+                Width = 204
+                Height = 400
+                Align = alClient
+                BevelOuter = bvNone
+                TabOrder = 0
+                object lbRemoveDevolvidos: TLabel
+                  Left = 7
+                  Top = 7
+                  Width = 82
+                  Height = 13
+                  Caption = 'IDs (um por linha)'
+                end
+                object mmRemoveDevolvidos: TMemo
+                  Left = 7
+                  Top = 24
+                  Width = 190
+                  Height = 307
+                  ScrollBars = ssVertical
+                  TabOrder = 0
+                end
+                object btRemoveDevolvidosCarregar: TButton
+                  Left = 7
+                  Top = 364
+                  Width = 93
+                  Height = 23
+                  Hint = 
+                    'Carrega os IDs dos produtos devolvidos da '#250'ltima consulta de His' +
+                    't'#243'rico de Acesso'
+                  Caption = 'Do Hist'#243'rico'
+                  ParentShowHint = False
+                  ShowHint = True
+                  TabOrder = 1
+                  OnClick = btRemoveDevolvidosCarregarClick
+                end
+                object btRemoveDevolvidos: TButton
+                  Left = 108
+                  Top = 364
+                  Width = 89
+                  Height = 23
+                  Caption = 'Remover'
+                  TabOrder = 2
+                  OnClick = btRemoveDevolvidosClick
+                end
               end
             end
           end
@@ -385,33 +502,33 @@ object frPrincipal: TfrPrincipal
       Caption = 'Configura'#231#227'o'
       ImageIndex = 2
       object pnConfig: TPanel
-        Left = 163
-        Top = 65
-        Width = 440
-        Height = 332
+        Left = 151
+        Top = 60
+        Width = 409
+        Height = 309
         BevelOuter = bvNone
         TabOrder = 0
         object gbConfigLog: TGroupBox
           Left = 0
-          Top = 250
-          Width = 440
-          Height = 82
+          Top = 232
+          Width = 409
+          Height = 77
           Align = alClient
           Caption = 'Log'
           TabOrder = 2
           object pnConfigLog: TPanel
             Left = 2
             Top = 15
-            Width = 436
-            Height = 65
+            Width = 405
+            Height = 60
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 0
             DesignSize = (
-              436
-              65)
+              405
+              60)
             object lbConfigLogArq: TLabel
-              Left = 15
+              Left = 14
               Top = 5
               Width = 36
               Height = 13
@@ -420,7 +537,7 @@ object frPrincipal: TfrPrincipal
               ParentColor = False
             end
             object lbConfigLogNivel: TLabel
-              Left = 280
+              Left = 260
               Top = 5
               Width = 26
               Height = 13
@@ -429,10 +546,10 @@ object frPrincipal: TfrPrincipal
               ParentColor = False
             end
             object btConfigLogArq: TSpeedButton
-              Left = 242
-              Top = 20
-              Width = 24
-              Height = 23
+              Left = 225
+              Top = 19
+              Width = 22
+              Height = 21
               Hint = 'Abrir Arquivo de Log'
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
@@ -445,17 +562,17 @@ object frPrincipal: TfrPrincipal
               OnClick = btConfigLogArqClick
             end
             object edConfigLogArq: TEdit
-              Left = 15
-              Top = 20
-              Width = 228
+              Left = 14
+              Top = 19
+              Width = 212
               Height = 21
               Anchors = [akLeft, akTop, akRight]
               TabOrder = 0
             end
             object cbConfigLogNivel: TComboBox
-              Left = 280
-              Top = 20
-              Width = 139
+              Left = 260
+              Top = 19
+              Width = 129
               Height = 21
               Style = csDropDownList
               ItemHeight = 13
@@ -473,25 +590,25 @@ object frPrincipal: TfrPrincipal
         end
         object gbConfigProxy: TGroupBox
           Left = 0
-          Top = 125
-          Width = 440
-          Height = 125
+          Top = 116
+          Width = 409
+          Height = 116
           Align = alTop
           Caption = 'Proxy'
           TabOrder = 1
           object pnConfigProxy: TPanel
             Left = 2
             Top = 15
-            Width = 436
-            Height = 108
+            Width = 405
+            Height = 99
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 0
             DesignSize = (
-              436
-              108)
+              405
+              99)
             object lbConfigProxyHost: TLabel
-              Left = 15
+              Left = 14
               Top = 5
               Width = 22
               Height = 13
@@ -500,7 +617,7 @@ object frPrincipal: TfrPrincipal
               ParentColor = False
             end
             object lbConfigProxyPorta: TLabel
-              Left = 280
+              Left = 260
               Top = 4
               Width = 25
               Height = 13
@@ -510,8 +627,8 @@ object frPrincipal: TfrPrincipal
               ParentColor = False
             end
             object lbConfigProxyUsuario: TLabel
-              Left = 15
-              Top = 50
+              Left = 14
+              Top = 46
               Width = 36
               Height = 13
               Caption = 'Usu'#225'rio'
@@ -519,8 +636,8 @@ object frPrincipal: TfrPrincipal
               ParentColor = False
             end
             object lbConfigProxySenha: TLabel
-              Left = 280
-              Top = 49
+              Left = 260
+              Top = 46
               Width = 31
               Height = 13
               Anchors = [akTop, akRight]
@@ -529,44 +646,44 @@ object frPrincipal: TfrPrincipal
               ParentColor = False
             end
             object btConfigProxySenha: TSpeedButton
-              Left = 396
-              Top = 65
-              Width = 23
-              Height = 23
+              Left = 368
+              Top = 60
+              Width = 21
+              Height = 22
               AllowAllUp = True
               Anchors = [akTop, akRight]
               GroupIndex = 1
               OnClick = btConfigProxySenhaClick
             end
             object edConfigProxyHost: TEdit
-              Left = 15
-              Top = 20
-              Width = 251
+              Left = 14
+              Top = 19
+              Width = 233
               Height = 21
               Anchors = [akLeft, akTop, akRight]
               TabOrder = 0
             end
             object edConfigProxyUsuario: TEdit
-              Left = 15
-              Top = 64
-              Width = 251
+              Left = 14
+              Top = 59
+              Width = 233
               Height = 21
               Anchors = [akLeft, akTop, akRight]
               TabOrder = 2
             end
             object edConfigProxySenha: TEdit
-              Left = 280
-              Top = 64
-              Width = 117
+              Left = 260
+              Top = 59
+              Width = 109
               Height = 21
               Anchors = [akTop, akRight]
               PasswordChar = '*'
               TabOrder = 3
             end
             object edConfigProxyPorta: TSpinEdit
-              Left = 280
-              Top = 19
-              Width = 139
+              Left = 260
+              Top = 18
+              Width = 129
               Height = 22
               Anchors = [akTop, akRight]
               MaxValue = 999999
@@ -579,25 +696,25 @@ object frPrincipal: TfrPrincipal
         object gpConfigImendes: TGroupBox
           Left = 0
           Top = 0
-          Width = 440
-          Height = 125
+          Width = 409
+          Height = 116
           Align = alTop
           Caption = 'IMendes'
           TabOrder = 0
           object pnConfigIMendes: TPanel
             Left = 2
             Top = 15
-            Width = 436
-            Height = 108
+            Width = 405
+            Height = 99
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 0
             DesignSize = (
-              436
-              108)
+              405
+              99)
             object lbConfigAmbiente: TLabel
-              Left = 15
-              Top = 50
+              Left = 14
+              Top = 46
               Width = 44
               Height = 13
               Caption = 'Ambiente'
@@ -605,8 +722,8 @@ object frPrincipal: TfrPrincipal
               ParentColor = False
             end
             object lbConfigTimeout: TLabel
-              Left = 280
-              Top = 49
+              Left = 260
+              Top = 46
               Width = 38
               Height = 13
               Caption = 'Timeout'
@@ -614,7 +731,7 @@ object frPrincipal: TfrPrincipal
               ParentColor = False
             end
             object lbConfigCNPJ: TLabel
-              Left = 15
+              Left = 14
               Top = 5
               Width = 27
               Height = 13
@@ -623,17 +740,17 @@ object frPrincipal: TfrPrincipal
               ParentColor = False
             end
             object btConfigSenha: TSpeedButton
-              Left = 396
-              Top = 20
-              Width = 23
-              Height = 23
+              Left = 368
+              Top = 19
+              Width = 21
+              Height = 21
               AllowAllUp = True
               Anchors = [akTop, akRight]
               GroupIndex = 1
               OnClick = btConfigSenhaClick
             end
             object lbConfigSenha: TLabel
-              Left = 280
+              Left = 260
               Top = 5
               Width = 31
               Height = 13
@@ -643,18 +760,18 @@ object frPrincipal: TfrPrincipal
               ParentColor = False
             end
             object cbConfigAmbiente: TComboBox
-              Left = 15
-              Top = 65
-              Width = 251
+              Left = 14
+              Top = 60
+              Width = 233
               Height = 21
               Style = csDropDownList
               ItemHeight = 13
               TabOrder = 2
             end
             object edConfigTimeout: TSpinEdit
-              Left = 280
-              Top = 64
-              Width = 139
+              Left = 260
+              Top = 59
+              Width = 129
               Height = 22
               Increment = 10
               MaxValue = 999999
@@ -663,17 +780,17 @@ object frPrincipal: TfrPrincipal
               Value = 0
             end
             object edConfigCNPJ: TEdit
-              Left = 15
-              Top = 20
-              Width = 251
+              Left = 14
+              Top = 19
+              Width = 233
               Height = 21
               Anchors = [akLeft, akTop, akRight]
               TabOrder = 0
             end
             object edConfigSenha: TEdit
-              Left = 280
-              Top = 20
-              Width = 117
+              Left = 260
+              Top = 19
+              Width = 109
               Height = 21
               Anchors = [akTop, akRight]
               PasswordChar = '*'
@@ -684,17 +801,17 @@ object frPrincipal: TfrPrincipal
       end
       object pnConfigRodape: TPanel
         Left = 0
-        Top = 500
-        Width = 805
-        Height = 50
+        Top = 442
+        Width = 770
+        Height = 47
         Align = alBottom
         BevelOuter = bvNone
         TabOrder = 1
         object btConfigSalvar: TSpeedButton
-          Left = 536
-          Top = 13
-          Width = 115
-          Height = 27
+          Left = 498
+          Top = 12
+          Width = 107
+          Height = 25
           Caption = 'Salvar'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -707,10 +824,10 @@ object frPrincipal: TfrPrincipal
           OnClick = btConfigSalvarClick
         end
         object btConfigCancelar: TSpeedButton
-          Left = 657
-          Top = 13
-          Width = 115
-          Height = 27
+          Left = 610
+          Top = 12
+          Width = 107
+          Height = 25
           Caption = 'Cancelar'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText

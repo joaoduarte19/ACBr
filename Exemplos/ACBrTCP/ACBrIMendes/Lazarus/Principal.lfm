@@ -1,11 +1,11 @@
 object frPrincipal: TfrPrincipal
-  Left = 306
-  Height = 590
-  Top = 280
-  Width = 813
+  Left = 349
+  Height = 549
+  Top = 276
+  Width = 894
   Caption = 'Aplicação de demonstração ACBrIMendes'
-  ClientHeight = 590
-  ClientWidth = 813
+  ClientHeight = 549
+  ClientWidth = 894
   Icon.Data = {
     9E09000000000100010018180000010020008809000016000000280000001800
     0000300000000100200000000000000900006400000064000000000000000000
@@ -86,13 +86,13 @@ object frPrincipal: TfrPrincipal
     0000000000000000000000000000000000000000000000000000000000000000
     0000
   }
+  LCLVersion = '4.4.0.0'
   OnCreate = FormCreate
-  LCLVersion = '3.6.0.0'
   object pgImendes: TPageControl
     Left = 0
-    Height = 590
+    Height = 549
     Top = 0
-    Width = 813
+    Width = 894
     ActivePage = tsEndpoints
     Align = alClient
     Images = ImageList1
@@ -102,28 +102,28 @@ object frPrincipal: TfrPrincipal
     TabWidth = 160
     object tsEndpoints: TTabSheet
       Caption = 'Endpoints'
-      ClientHeight = 552
-      ClientWidth = 805
+      ClientHeight = 511
+      ClientWidth = 886
       ImageIndex = 5
       object gbEndpointsLog: TGroupBox
-        Left = 488
-        Height = 552
+        Left = 496
+        Height = 511
         Top = 0
-        Width = 317
+        Width = 390
         Align = alRight
         Caption = 'Log'
-        ClientHeight = 532
-        ClientWidth = 313
+        ClientHeight = 491
+        ClientWidth = 386
         TabOrder = 0
         object pnEndpointsLog: TPanel
           Left = 0
           Height = 50
-          Top = 482
-          Width = 313
+          Top = 441
+          Width = 386
           Align = alBottom
           BevelOuter = bvNone
           ClientHeight = 50
-          ClientWidth = 313
+          ClientWidth = 386
           TabOrder = 0
           object btEndpointsLimparLog: TSpeedButton
             Left = 183
@@ -133,17 +133,17 @@ object frPrincipal: TfrPrincipal
             Caption = 'Limpar Log'
             Images = ImageList1
             ImageIndex = 18
-            OnClick = btEndpointsLimparLogClick
             ShowHint = True
             ParentFont = False
             ParentShowHint = False
+            OnClick = btEndpointsLimparLogClick
           end
         end
         object mmLog: TMemo
           Left = 0
-          Height = 482
+          Height = 441
           Top = 0
-          Width = 313
+          Width = 386
           Align = alClient
           ScrollBars = ssBoth
           TabOrder = 1
@@ -151,9 +151,9 @@ object frPrincipal: TfrPrincipal
       end
       object pgEndpoints: TPageControl
         Left = 0
-        Height = 552
+        Height = 511
         Top = 0
-        Width = 488
+        Width = 496
         ActivePage = tsConsultas
         Align = alClient
         Images = ImageList1
@@ -163,18 +163,18 @@ object frPrincipal: TfrPrincipal
         TabWidth = 150
         object tsConsultas: TTabSheet
           Caption = 'Consultas'
-          ClientHeight = 514
-          ClientWidth = 480
+          ClientHeight = 473
+          ClientWidth = 488
           ImageIndex = 8
           object pnConsultas: TPanel
             Left = 0
-            Height = 514
+            Height = 473
             Top = 0
-            Width = 480
+            Width = 488
             Align = alClient
             BevelOuter = bvNone
-            ClientHeight = 514
-            ClientWidth = 480
+            ClientHeight = 473
+            ClientWidth = 488
             TabOrder = 0
             object gbConsultaDescricao: TGroupBox
               Left = 15
@@ -342,8 +342,8 @@ object frPrincipal: TfrPrincipal
         end
         object tsSaneamentoGrades: TTabSheet
           Caption = 'Saneamento'
-          ClientHeight = 514
-          ClientWidth = 480
+          ClientHeight = 473
+          ClientWidth = 488
           ImageIndex = 23
           object gbSaneamentoGrades: TGroupBox
             Left = 8
@@ -379,10 +379,10 @@ object frPrincipal: TfrPrincipal
                 Caption = 'Preencher(Dados Ficticios)'
                 Images = ImageList1
                 ImageIndex = 29
-                OnClick = btSaneamentoPreencherClick
                 ShowHint = True
                 ParentFont = False
                 ParentShowHint = False
+                OnClick = btSaneamentoPreencherClick
               end
               object btSaneamentoEnviar: TSpeedButton
                 Left = 213
@@ -392,10 +392,137 @@ object frPrincipal: TfrPrincipal
                 Caption = 'Enviar'
                 Images = ImageList1
                 ImageIndex = 11
-                OnClick = btSaneamentoEnviarClick
                 ShowHint = True
                 ParentFont = False
                 ParentShowHint = False
+                OnClick = btSaneamentoEnviarClick
+              end
+            end
+          end
+        end
+        object tsProdutos: TTabSheet
+          Caption = 'Produtos'
+          ClientHeight = 473
+          ClientWidth = 488
+          ImageIndex = 5
+          object pnProdutos: TPanel
+            Left = 0
+            Height = 473
+            Top = 0
+            Width = 488
+            Align = alClient
+            BevelOuter = bvNone
+            ClientHeight = 473
+            ClientWidth = 488
+            TabOrder = 0
+            object gbInativar: TGroupBox
+              Left = 16
+              Height = 449
+              Top = 8
+              Width = 224
+              Caption = 'Inativar Produtos'
+              ClientHeight = 429
+              ClientWidth = 220
+              TabOrder = 0
+              object pnInativar: TPanel
+                Left = 0
+                Height = 429
+                Top = 0
+                Width = 220
+                Align = alClient
+                BevelOuter = bvNone
+                ClientHeight = 429
+                ClientWidth = 220
+                TabOrder = 0
+                object lbInativarProdutos: TLabel
+                  Left = 8
+                  Height = 15
+                  Top = 8
+                  Width = 123
+                  Caption = 'Códigos (um por linha)'
+                end
+                object mmInativarProdutos: TMemo
+                  Left = 8
+                  Height = 330
+                  Top = 26
+                  Width = 204
+                  ScrollBars = ssAutoVertical
+                  TabOrder = 0
+                end
+                object cbInativarCodInterno: TCheckBox
+                  Left = 8
+                  Height = 19
+                  Top = 364
+                  Width = 108
+                  Caption = 'Códigos internos'
+                  TabOrder = 1
+                end
+                object btInativar: TButton
+                  Left = 116
+                  Height = 25
+                  Top = 392
+                  Width = 96
+                  Caption = 'Inativar'
+                  TabOrder = 2
+                  OnClick = btInativarClick
+                end
+              end
+            end
+            object gbRemoveDevolvidos: TGroupBox
+              Left = 248
+              Height = 449
+              Top = 8
+              Width = 224
+              Caption = 'Remover Devolvidos'
+              ClientHeight = 429
+              ClientWidth = 220
+              TabOrder = 1
+              object pnRemoveDevolvidos: TPanel
+                Left = 0
+                Height = 429
+                Top = 0
+                Width = 220
+                Align = alClient
+                BevelOuter = bvNone
+                ClientHeight = 429
+                ClientWidth = 220
+                TabOrder = 0
+                object lbRemoveDevolvidos: TLabel
+                  Left = 8
+                  Height = 15
+                  Top = 8
+                  Width = 95
+                  Caption = 'IDs (um por linha)'
+                end
+                object mmRemoveDevolvidos: TMemo
+                  Left = 8
+                  Height = 330
+                  Top = 26
+                  Width = 204
+                  ScrollBars = ssAutoVertical
+                  TabOrder = 0
+                end
+                object btRemoveDevolvidosCarregar: TButton
+                  Left = 8
+                  Height = 25
+                  Hint = 'Carrega os IDs dos produtos devolvidos da última consulta de Histórico de Acesso'
+                  Top = 392
+                  Width = 100
+                  Caption = 'Do Histórico'
+                  ParentShowHint = False
+                  ShowHint = True
+                  TabOrder = 1
+                  OnClick = btRemoveDevolvidosCarregarClick
+                end
+                object btRemoveDevolvidos: TButton
+                  Left = 116
+                  Height = 25
+                  Top = 392
+                  Width = 96
+                  Caption = 'Remover'
+                  TabOrder = 2
+                  OnClick = btRemoveDevolvidosClick
+                end
               end
             end
           end
@@ -404,8 +531,8 @@ object frPrincipal: TfrPrincipal
     end
     object tsConfig: TTabSheet
       Caption = 'Configuração'
-      ClientHeight = 552
-      ClientWidth = 805
+      ClientHeight = 511
+      ClientWidth = 886
       ImageIndex = 2
       object pnConfig: TPanel
         Left = 163
@@ -468,10 +595,10 @@ object frPrincipal: TfrPrincipal
               Width = 24
               Images = ImageList1
               ImageIndex = 9
-              OnClick = btConfigLogArqClick
               ShowHint = True
               ParentFont = False
               ParentShowHint = False
+              OnClick = btConfigLogArqClick
             end
             object cbConfigLogNivel: TComboBox
               Left = 280
@@ -637,7 +764,7 @@ object frPrincipal: TfrPrincipal
               Left = 280
               Height = 15
               Top = 49
-              Width = 44
+              Width = 45
               Caption = 'Timeout'
               ParentColor = False
             end
@@ -703,12 +830,12 @@ object frPrincipal: TfrPrincipal
       object pnConfigRodape: TPanel
         Left = 0
         Height = 50
-        Top = 502
-        Width = 805
+        Top = 461
+        Width = 886
         Align = alBottom
         BevelOuter = bvNone
         ClientHeight = 50
-        ClientWidth = 805
+        ClientWidth = 886
         TabOrder = 1
         object btConfigSalvar: TSpeedButton
           Left = 536
@@ -718,10 +845,10 @@ object frPrincipal: TfrPrincipal
           Caption = 'Salvar'
           Images = ImageList1
           ImageIndex = 10
-          OnClick = btConfigSalvarClick
           ShowHint = True
           ParentFont = False
           ParentShowHint = False
+          OnClick = btConfigSalvarClick
         end
         object btConfigCancelar: TSpeedButton
           Left = 657
@@ -731,10 +858,10 @@ object frPrincipal: TfrPrincipal
           Caption = 'Cancelar'
           Images = ImageList1
           ImageIndex = 12
-          OnClick = btConfigCancelarClick
           ShowHint = True
           ParentFont = False
           ParentShowHint = False
+          OnClick = btConfigCancelarClick
         end
       end
     end
