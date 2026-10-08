@@ -46,6 +46,12 @@ Símbolo : Significado
 -- Tecnos.GravarXml --
 [-] Alteração para não gerar a tag TipoOperacao quando o tpEnteGov for tcgNenhum.
    Por: WINDEL
+-- ACBrNFSeXServicos --
+[*] Mudança de URLs e migração para o Layout Nacional no município de Porto Velho/RO
+	Por: Baltazar
+[*] Mudança de URLs e migração para o Layout Nacional no município de Alfredo Chaves/ES
+	Veja: https://www.projetoacbr.com.br/forum/topic/95178-erro-e999-provedor-el-alfredo-chaveses-fim-do-modelo-abrasf-e-exig%C3%AAncia-de-dps/#comment-623308
+	Por: Larissa Santos
 [*] ACBR-10005 - Mudança de URLs e migração para o Layout Nacional no município de Medeiros Neto/BA
 	Veja: https://www.projetoacbr.com.br/forum/topic/95259-acbr-10005-nfs-e-medeiros-neto-ba-acbr-api/
 	Por: Larissa Santos/Windel Sistemas
