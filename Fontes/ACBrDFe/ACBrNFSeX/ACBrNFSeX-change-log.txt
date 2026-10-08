@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+08/10/2026
+-- ACBrNFSeXLerXml_ABRASFv2/EL.Provider --
+[*] ACBR-10000 - Ajustes para a correta leitura do XML na versão 2 do layout da ABRASF e
+    no Pedido de evento do provedor EL que agora usa fielmente o layout do Padrão Nacional.
+   Por: Lux.sistemas
+
 07/10/2026
 -- EL.Provider --
 [-] Ajustes na geração do pedido de evento que o provedor atualizou para o novo layout

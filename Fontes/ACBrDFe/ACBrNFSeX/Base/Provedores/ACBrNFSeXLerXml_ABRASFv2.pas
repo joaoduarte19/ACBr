@@ -590,6 +590,9 @@ begin
     LerTomadorServico(AuxNode);
 
     NFSe.DataFatoGerador := ObterConteudo(AuxNode.Childrens.FindAnyNs('DataFatoGerador'), tcDat);
+	
+	if NFSe.DataFatoGerador < EncodeDate(2000, 1, 1) then
+      NFSe.DataFatoGerador := 0;
 
     LerIntermediarioServico(AuxNode);
     LerConstrucaoCivil(AuxNode);
