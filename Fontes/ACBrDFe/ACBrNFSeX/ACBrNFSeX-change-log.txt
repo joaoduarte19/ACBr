@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 08/10/2026
+-- Tecnos.GravarXml --
+[-] Alteração para não gerar a tag TipoOperacao quando o tpEnteGov for tcgNenhum.
+   Por: WINDEL
 [*] ACBR-10005 - Mudança de URLs e migração para o Layout Nacional no município de Medeiros Neto/BA
 	Veja: https://www.projetoacbr.com.br/forum/topic/95259-acbr-10005-nfs-e-medeiros-neto-ba-acbr-api/
 	Por: Larissa Santos/Windel Sistemas

@@ -369,7 +369,8 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'TipoEnteGovernamental', 1, 1, 1,
                                     tpEnteGovToStr(NFSe.IBSCBS.tpEnteGov), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'TipoOperacao', 1, 1, 1,
+  if NFSe.IBSCBS.tpEnteGov <> tcgNenhum then
+    Result.AppendChild(AddNode(tcStr, '#1', 'TipoOperacao', 1, 1, 1,
                                    tpOperGovNFSeToStr(NFSe.IBSCBS.tpOper), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'IndicadorDestinatarioServico', 1, 1, 1,
