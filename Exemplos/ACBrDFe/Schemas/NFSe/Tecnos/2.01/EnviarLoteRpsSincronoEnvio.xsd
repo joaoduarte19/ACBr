@@ -329,7 +329,7 @@
                                         <xsd:element name="CodigoSituacaoTributariaPisCofins" type="xsd:unsignedByte" minOccurs="0" />
                                         <xsd:element name="TipoRetencaoPisCofins" type="xsd:unsignedByte" minOccurs="0" />
                                       </xsd:sequence>
-                                      <xsd:element name="TipoEnteGovervamental" type="xsd:unsignedByte" minOccurs="0" />
+                                      <xsd:element name="TipoEnteGovernamental" type="xsd:unsignedByte" minOccurs="0" />
                                       <xsd:element name="TipoOperacao" type="xsd:unsignedByte" minOccurs="0" />
                                       <xsd:element name="IndicadorDestinatarioServico" type="xsd:unsignedByte" minOccurs="0" />
                                       <xsd:element name="Destinatario" minOccurs="0" maxOccurs="unbounded">
