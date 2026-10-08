@@ -43,6 +43,18 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 08/10/2026
+[*] ACBR-10005 - Mudança de URLs e migração para o Layout Nacional no município de Medeiros Neto/BA
+	Veja: https://www.projetoacbr.com.br/forum/topic/95259-acbr-10005-nfs-e-medeiros-neto-ba-acbr-api/
+	Por: Larissa Santos/Windel Sistemas
+[*] ACBR-9981 - Mudança de URLs e migração para o Layout Nacional no município de Guanhães/MG
+	Veja: https://www.projetoacbr.com.br/forum/topic/95185-acbr-9981-atualizar-dados-da-cidade-de-guanh%C3%A3es-mg-no-arquivo-acbrnfsexservicosini-devido-a-mudan%C3%A7a-nos-endpoints/
+	Por: Facil Sistema Ltda
+[*] ACBR-9976 - Mudança de URLs e migração para o Layout Nacional no município de Eusébio/CE
+	Veja: https://www.projetoacbr.com.br/forum/topic/95171-acbr-9976-emiss%C3%A3o-nfs-e-municipio-eus%C3%A9bioce/
+	Por: PrimeSoftware
+[*] ACBR-9975 - Mudança de URLs e migração para o Layout Nacional no município de Jequié/BA
+	Veja: https://www.projetoacbr.com.br/forum/topic/95172-acbr-9975-emiss%C3%A3o-nfs-e-municipio-jequi%C3%A9ba/
+	Por: PrimeSoftware
 -- ACBrNFSeXLerXml_ABRASFv2/EL.Provider --
 [*] ACBR-10000 - Ajustes para a correta leitura do XML na versão 2 do layout da ABRASF e
     no Pedido de evento do provedor EL que agora usa fielmente o layout do Padrão Nacional.
