@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+08/10/2026
+-- ACBrBancoBanrisul.pas --
+[*] Adicionado a condição LerNossoNumeroCompleto para que retorne o DV do NossoNumero CNAB240 quando true;
+	[ACBR-10011] https://www.projetoacbr.com.br/forum/topic/95269-leitura-arquivo-cnab240-banrisul-n%C3%A3o-est%C3%A1-pegando-todo-nosso-nro/#comment-623197
+	Por: Daniel de Morais
+	
 30/09/2026
 -- ACBrBoletoW_Bradesco.pas --
 [-] Ajustada a propriedade qtdDecurPrz para enviar 00 quando não informada no Sandbox. Em produção, a propriedade não é obrigatória conforme manual e não temos relatos de rejeições.

@@ -47,6 +47,7 @@ type
   TACBrBanrisul=class(TACBrBancoClass)
   private
     FiQtdSegmentoR, FiQtdSegmentoY: integer;
+    function DefineNossoNumeroRetorno(const Retorno: String): String;
   Protected
     procedure EhObrigatorioAgenciaDV; override;
   Public
@@ -1080,79 +1081,83 @@ begin
 
         try
           Titulo := ACBrBanco.ACBrBoleto.CriarTituloNaLista;
-          with Titulo do
-          begin
-            if (FSegT[133] = '1') then
-              Sacado.Pessoa := pFisica
-            else if (FSegT[133] = '2') then
-              Sacado.Pessoa := pJuridica
-            else
-              Sacado.Pessoa := pOutras;
-            case Sacado.Pessoa of
-              pFisica:   Sacado.CNPJCPF := Copy(FSegT, 138, 11);
-              pJuridica: Sacado.CNPJCPF := Copy(FSegT, 135, 14);
-              else
-                Sacado.CNPJCPF := Copy(FSegT, 134, 15);
-            end;
-            Sacado.NomeSacado := Trim(Copy(FSegT, 149, 40));
-
-            NumeroDocumento      := Trim(Copy(FSegT, 59, 15));
-            if trim(Copy(FSegT,106, 25)) <> '' then
-               SeuNumero            := Copy(FSegT,106, 25)
-            else
-               SeuNumero            := NumeroDocumento;
-
-            Carteira             := Copy(FSegT, 58, 1);
-            NossoNumero          := Trim(Copy(FSegT, 38, TamanhoMaximoNossoNum));
-//            NossoNumero          := Trim(Copy(FSegT, 38, 20));
-            Vencimento           := StringToDateTimeDef(Copy(FSegT, 74, 2) +'/'+
-                                                        Copy(FSegT, 76, 2) +'/'+
-                                                        Copy(FSegT, 78, 4), 0, 'DD/MM/YYYY');
-            ValorDocumento       := StrToInt64Def(Copy(FSegT,  82, 15), 0) / 100;
-            ValorDespesaCobranca := StrToInt64Def(Copy(FSegT, 199, 15), 0) / 100;
-            ValorMoraJuros       := StrToInt64Def(Copy(FSegU,  18, 15), 0) / 100;
-            ValorDesconto        := StrToInt64Def(Copy(FSegU,  33, 15), 0) / 100;
-            ValorAbatimento      := StrToInt64Def(Copy(FSegU,  48, 15), 0) / 100;
-            ValorIOF             := StrToInt64Def(Copy(FSegU,  63, 15), 0) / 100;
-            ValorPago            := StrToInt64Def(Copy(FSegU,  78, 15), 0) / 100;
-            ValorRecebido        := StrToInt64Def(Copy(FSegU,  93, 15), 0) / 100;
-            ValorOutrasDespesas  := StrToInt64Def(Copy(FSegU, 108, 15), 0) / 100;
-            ValorOutrosCreditos  := StrToInt64Def(Copy(FSegU, 123, 15), 0) / 100;
-
-            try
-              DataOcorrencia     := StringToDateTimeDef(Copy(FSegU, 138, 2) +'/'+
-                                                        Copy(FSegU, 140, 2) +'/'+
-                                                        Copy(FSegU, 142, 4), 0, 'DD/MM/YYYY');
-            except
-              DataOcorrencia     := 0;
-            end;
-
-            try
-              DataCredito        := StringToDateTimeDef(Copy(FSegU, 146, 2) +'/'+
-                                                        Copy(FSegU, 148, 2) +'/'+
-                                                        Copy(FSegU, 150, 4), 0, 'DD/MM/YYYY');
-            except
-              DataCredito        := 0;
-            end;
-
-            if(Copy(FSegT, 16, 2) = 'AB')then
-              OcorrenciaOriginal.Tipo := CodOcorrenciaToTipo(999)
-            else
-              OcorrenciaOriginal.Tipo := CodOcorrenciaToTipo(StrToIntDef(Copy(FSegT, 16, 2), 0));
-
-            IdxMotivo := 214;
-            while (IdxMotivo < 223) do
+          try
+            with Titulo do
             begin
-              if (Copy(FSegT, IdxMotivo, 2) <> '  ') then begin
-                Titulo.MotivoRejeicaoComando.Add(Copy(FSegT, IdxMotivo, 2));
-                Titulo.DescricaoMotivoRejeicaoComando.Add(
-                   CodMotivoRejeicaoToDescricao(Titulo.OcorrenciaOriginal.Tipo, Trim(Copy(FSegT, IdxMotivo, 2))));
+              if (FSegT[133] = '1') then
+                Sacado.Pessoa := pFisica
+              else if (FSegT[133] = '2') then
+                Sacado.Pessoa := pJuridica
+              else
+                Sacado.Pessoa := pOutras;
+              case Sacado.Pessoa of
+                pFisica:   Sacado.CNPJCPF := Copy(FSegT, 138, 11);
+                pJuridica: Sacado.CNPJCPF := Copy(FSegT, 135, 14);
+                else
+                  Sacado.CNPJCPF := Copy(FSegT, 134, 15);
               end;
-              Inc(IdxMotivo, 2);
-            end;
+              Sacado.NomeSacado := Trim(Copy(FSegT, 149, 40));
 
-            if Trim(Copy(FSegY,82,77)) <> '' then
-              Titulo.QrCode.PIXQRCodeDinamico(Trim(Copy(FSegY,82,77)),Trim(Copy(FSegY,159,35)), Titulo);
+              NumeroDocumento      := Trim(Copy(FSegT, 59, 15));
+              if trim(Copy(FSegT,106, 25)) <> '' then
+                 SeuNumero            := Copy(FSegT,106, 25)
+              else
+                 SeuNumero            := NumeroDocumento;
+
+              Carteira             := Copy(FSegT, 58, 1);
+              NossoNumero          := DefineNossoNumeroRetorno(FSegT);
+  //            NossoNumero          := Trim(Copy(FSegT, 38, 20));
+              Vencimento           := StringToDateTimeDef(Copy(FSegT, 74, 2) +'/'+
+                                                          Copy(FSegT, 76, 2) +'/'+
+                                                          Copy(FSegT, 78, 4), 0, 'DD/MM/YYYY');
+              ValorDocumento       := StrToInt64Def(Copy(FSegT,  82, 15), 0) / 100;
+              ValorDespesaCobranca := StrToInt64Def(Copy(FSegT, 199, 15), 0) / 100;
+              ValorMoraJuros       := StrToInt64Def(Copy(FSegU,  18, 15), 0) / 100;
+              ValorDesconto        := StrToInt64Def(Copy(FSegU,  33, 15), 0) / 100;
+              ValorAbatimento      := StrToInt64Def(Copy(FSegU,  48, 15), 0) / 100;
+              ValorIOF             := StrToInt64Def(Copy(FSegU,  63, 15), 0) / 100;
+              ValorPago            := StrToInt64Def(Copy(FSegU,  78, 15), 0) / 100;
+              ValorRecebido        := StrToInt64Def(Copy(FSegU,  93, 15), 0) / 100;
+              ValorOutrasDespesas  := StrToInt64Def(Copy(FSegU, 108, 15), 0) / 100;
+              ValorOutrosCreditos  := StrToInt64Def(Copy(FSegU, 123, 15), 0) / 100;
+
+              try
+                DataOcorrencia     := StringToDateTimeDef(Copy(FSegU, 138, 2) +'/'+
+                                                          Copy(FSegU, 140, 2) +'/'+
+                                                          Copy(FSegU, 142, 4), 0, 'DD/MM/YYYY');
+              except
+                DataOcorrencia     := 0;
+              end;
+
+              try
+                DataCredito        := StringToDateTimeDef(Copy(FSegU, 146, 2) +'/'+
+                                                          Copy(FSegU, 148, 2) +'/'+
+                                                          Copy(FSegU, 150, 4), 0, 'DD/MM/YYYY');
+              except
+                DataCredito        := 0;
+              end;
+
+              if(Copy(FSegT, 16, 2) = 'AB')then
+                OcorrenciaOriginal.Tipo := CodOcorrenciaToTipo(999)
+              else
+                OcorrenciaOriginal.Tipo := CodOcorrenciaToTipo(StrToIntDef(Copy(FSegT, 16, 2), 0));
+
+              IdxMotivo := 214;
+              while (IdxMotivo < 223) do
+              begin
+                if (Copy(FSegT, IdxMotivo, 2) <> '  ') then begin
+                  Titulo.MotivoRejeicaoComando.Add(Copy(FSegT, IdxMotivo, 2));
+                  Titulo.DescricaoMotivoRejeicaoComando.Add(
+                     CodMotivoRejeicaoToDescricao(Titulo.OcorrenciaOriginal.Tipo, Trim(Copy(FSegT, IdxMotivo, 2))));
+                end;
+                Inc(IdxMotivo, 2);
+              end;
+
+              if Trim(Copy(FSegY,82,77)) <> '' then
+                Titulo.QrCode.PIXQRCodeDinamico(Trim(Copy(FSegY,82,77)),Trim(Copy(FSegY,159,35)), Titulo);
+            end;
+          finally
+            ACBrBanco.TamanhoMaximoNossoNum := 8;
           end;
         except
           FTituloErro.Add(' - Linhas '+ IntToStr(Index) +' e '+ IntToStr(Index + 1));
@@ -1173,6 +1178,19 @@ begin
   except
     raise Exception.Create(ACBrStr('Não foi possível realizar a leitura do arquivo de retorno "'+
                        ACBrBanco.ACBrBoleto.NomeArqRetorno +'" do(a) '+ UpperCase(Nome)));
+  end;
+end;
+
+function TACBrBanrisul.DefineNossoNumeroRetorno(const Retorno: String): String;
+begin
+  if ACBrBanco.ACBrBoleto.LerNossoNumeroCompleto then
+  begin
+    ACBrBanco.TamanhoMaximoNossoNum := 10;
+    Result := Copy(Retorno,38, 10)
+  end else
+  begin
+    ACBrBanco.TamanhoMaximoNossoNum := 8;
+    Result := Copy(Retorno,38, 8);
   end;
 end;
 
