@@ -38,6 +38,18 @@ Símbolo : Significado
 
 08/10/2026
 -- ACBrIMendes --
+[+] Ajustes para utilização do componente na Lib:
+    - Inclusão do método LoadFromIni em SaneamentoGradesRequest, InativarRequest e
+      RemoveDevolvidosRequest (seções [Emitente], [Portal], [Perfil], [Inativar],
+      [RemoveDevolvidos] e [Produto001..NNN]).
+    - Tokens de autenticação passam a ser descartados ao alterar CNPJ, Senha ou Ambiente.
+[-] Correção de vazamento de memória em TACBrIMendesSaneamentoResponse: Cabecalho, Grupos,
+    SemRetorno e BaixaSimilaridade não eram liberados.
+[-] Mensagem de objeto não preenchido passa a usar ACBrStr, corrigindo a acentuação.
+    por: Antonio Carlos Junior
+
+08/10/2026
+-- ACBrIMendes --
 [-] Campo substTribUfDestino movido de emit para perfil, conforme manual.
     por: Elias Cesar
 
