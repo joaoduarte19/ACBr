@@ -270,7 +270,6 @@ type
     fdataLimite: TDateTime;
     fportal: TACBrIMendesPortal;
     fregimeEspecial: String;
-    fsubstTribUfDestino: Boolean;
     function GetPortal: TACBrIMendesPortal;
   protected
     procedure AssignSchema(aSource: TACBrAPISchema); override;
@@ -299,7 +298,6 @@ type
     property dataLimite: TDateTime read fdataLimite write fdataLimite;
     property portal: TACBrIMendesPortal read GetPortal;
     property regimeEspecial: String read fregimeEspecial write fregimeEspecial;
-    property substTribUfDestino: Boolean read fsubstTribUfDestino write fsubstTribUfDestino;
   end;
 
   { TACBrIMendesCaracTrib }
@@ -334,6 +332,7 @@ type
     fprodZFM: String;
     fregimeEspecial: String;
     ffabricacaoPropria: Boolean;
+    fsubstTribUfDestino: Boolean;
 
     function GetCaracTrib: TACBrIMendesCaracTrib;
     function GetUF: TStringList;
@@ -360,6 +359,7 @@ type
     property prodZFM: String read fprodZFM write fprodZFM;
     property regimeEspecial: String read fregimeEspecial write fregimeEspecial;
     property fabricacaoPropria: Boolean read ffabricacaoPropria write ffabricacaoPropria;
+    property substTribUfDestino: Boolean read fsubstTribUfDestino write fsubstTribUfDestino;
   end;
 
   { TACBrIMendesGradesRequest }
@@ -1910,7 +1910,6 @@ begin
   fano := 0;
   fdataLimite := 0;
   fregimeEspecial := EmptyStr;
-  fsubstTribUfDestino := False;
   if Assigned(fportal) then
     fportal.Clear;
 end;
@@ -1933,7 +1932,6 @@ begin
     EstaZerado(fano) and
     EstaZerado(fdataLimite) and
     EstaVazio(fregimeEspecial) and
-    (not fsubstTribUfDestino) and
     (not Assigned(fportal) or fportal.IsEmpty);
 end;
 
@@ -1968,8 +1966,7 @@ begin
     .Value('mes', fmes)
     .Value('ano', fano)
     .Value('dataLimite', s3)
-    .Value('regimeEspecial', fregimeEspecial)
-    .Value('substTribUfDestino', fsubstTribUfDestino);
+    .Value('regimeEspecial', fregimeEspecial);
   fsubstICMS := (s1 = 'S');
   finterdependente := (s2 = 'S');
   if NaoEstaVazio(s3) then
@@ -1998,8 +1995,6 @@ begin
 
   if (fdataLimite > 0) then
     aJSon.AddPair('dataLimite', FormatDateBr(fdataLimite, 'YYYY-MM-DD'));
-  if fsubstTribUfDestino then
-    aJSon.AddPair('substTribUfDestino', fsubstTribUfDestino);
 
   if Assigned(fportal) and (not fportal.IsEmpty) then
     fportal.WriteToJSon(aJSon);
@@ -2028,7 +2023,6 @@ begin
   fano := Source.ano;
   fdataLimite := Source.dataLimite;
   fregimeEspecial := Source.regimeEspecial;
-  fsubstTribUfDestino := Source.substTribUfDestino;
   if Assigned(Source.portal) then
     Portal.Assign(Source.portal);
 end;
@@ -2112,6 +2106,7 @@ begin
   fprodZFM := EmptyStr;
   fregimeEspecial := EmptyStr;
   ffabricacaoPropria := False;
+  fsubstTribUfDestino := False;
 end;
 
 function TACBrIMendesPerfil.IsEmpty: Boolean;
@@ -2128,7 +2123,8 @@ begin
     EstaVazio(fregimeTrib) and
     EstaVazio(fprodZFM) and
     EstaVazio(fregimeEspecial) and
-    (not ffabricacaoPropria);
+    (not ffabricacaoPropria) and
+    (not fsubstTribUfDestino);
 end;
 
 function TACBrIMendesPerfil.GetUF: TStringList;
@@ -2161,7 +2157,8 @@ begin
     .Value('regimeTrib', fregimeTrib)
     .Value('prodZFM', fprodZFM)
     .Value('regimeEspecial', fregimeEspecial)
-    .Value('fabricacaoPropria', ffabricacaoPropria);
+    .Value('fabricacaoPropria', ffabricacaoPropria)
+    .Value('substTribUfDestino', fsubstTribUfDestino);
 
   if aJSon.IsJSONArray('uf') then
   begin
@@ -2193,7 +2190,8 @@ begin
     .AddPair('regimeTrib', fregimeTrib)
     .AddPair('prodZFM', fprodZFM)
     .AddPair('regimeEspecial', fregimeEspecial)
-    .AddPair('fabricacaoPropria', ffabricacaoPropria);
+    .AddPair('fabricacaoPropria', ffabricacaoPropria)
+    .AddPair('substTribUfDestino', fsubstTribUfDestino);
 
   if Assigned(fcaracTrib) and NaoEstaZerado(fcaracTrib.Count) then
   begin
@@ -2235,6 +2233,7 @@ begin
   fprodZFM := Source.prodZFM;
   fregimeEspecial := Source.regimeEspecial;
   ffabricacaoPropria := Source.fabricacaoPropria;
+  fsubstTribUfDestino := Source.substTribUfDestino;
   caracTrib.Clear;
   for i := 0 to Source.caracTrib.Count - 1 do
     caracTrib.Add(Source.caracTrib[i]);
