@@ -487,7 +487,7 @@ end;
 function TACBrTEFAPIClassTPag.ObterCupomReimpressao: Boolean;
 var
   s: String;
-  ret: Integer;
+  ret: LongInt;
 begin
   with GetTEFTPagAPI do
   begin
@@ -767,7 +767,7 @@ begin
   begin
     if (ts in TransactionStatusSet) then
     begin
-      Params.status[num] := Integer(ts);
+      Params.status[num] := Cardinal(ts);
       Inc(num)
     end;
   end;
@@ -778,7 +778,7 @@ begin
   begin
     if (rc in ReadCardTypeSet) then
     begin
-      Params.readCardType[num] := Integer(rc);
+      Params.readCardType[num] := Cardinal(rc);
       Inc(num)
     end;
   end;
