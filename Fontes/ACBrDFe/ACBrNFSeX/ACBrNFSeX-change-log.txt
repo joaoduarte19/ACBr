@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 09/10/2026
+-- PadraoNacional.GravarXml --
+[*] ACBR-9877 - As tags vPis e vCofins alteradas para opcionais.
+    https://www.projetoacbr.com.br/forum/topic/94792-acbr-9877-nfse-padr%C3%A3o-nacional-%E2%80%93-vpisvcofins-gerados-como-obrigat%C3%B3rios-mas-s%C3%A3o-opcionais-no-xsd-nt-0072026/#findComment-623516
+   Por: Ao3 Tech
 -- DSF.Provider --
 [*] ACBR-10025 - Correção do Path de envio do DPS.
    Por: Vanderson Marocchio

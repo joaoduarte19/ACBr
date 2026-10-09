@@ -1719,10 +1719,16 @@ begin
     Result.AppendChild(AddNode(tcDe2, '#1', 'pAliqCofins', 1, 5, 1,
                                  NFSe.Servico.Valores.tribFed.pAliqCofins, ''));
 
-    Result.AppendChild(AddNode(tcDe2, '#1', 'vPis', 1, 15, 1,
+    {
+      As tags vPis e vCofins foram alteradas para opcionais conforme esta nos
+      schemas, segundo testes realizados pelo usuário Ao3 Tech o XML só foi
+      processado com sucesso quando as tags foram omitidas por estarem com os
+      valores zerados.
+    }
+    Result.AppendChild(AddNode(tcDe2, '#1', 'vPis', 1, 15, 0,
                                         NFSe.Servico.Valores.tribFed.vPis, ''));
 
-    Result.AppendChild(AddNode(tcDe2, '#1', 'vCofins', 1, 15, 1,
+    Result.AppendChild(AddNode(tcDe2, '#1', 'vCofins', 1, 15, 0,
                                      NFSe.Servico.Valores.tribFed.vCofins, ''));
   end;
 
