@@ -38,6 +38,17 @@ Símbolo : Significado
 
 09/10/2026
 -- ACBrIMendes --
+[+] Inclusão do campo prodCodImendes em TACBrIMendesGrupo, retornado quando o saneamento é
+    realizado pelo código IMendes.
+[*] Removido o registro do corpo da requisição (Req.Body) no log dos métodos, que ficava
+    duplicado com o log do TACBrHTTP, inclusive com nível de log "Nenhum".
+[*] ConsultarDescricao e ConsultarRegimesEspeciais passam a registrar o corpo da resposta
+    no log, como os demais métodos.
+[-] TACBrIMendes.Clear deixa de criar o objeto RespostaErro quando ele ainda não existe.
+    por: Desenvolvimento Eagle
+
+09/10/2026
+-- ACBrIMendes --
 [+] Conformidade com o manual 3.3.26: novos campos e grupos
 [+] ConsultarAlterados com parâmetro opcional aLimite (dados "CNPJ|UF|LIMITE").
 [+] Propriedade MaxProdutosPorEnvio(default 300), validada no SaneamentoGrades.

@@ -1489,6 +1489,7 @@ type
     fdadosRt: TACBrIMendesGrupoDadosRt;
     fProdCodInterno: TStringList;
     fprodEan: TStringList;
+    fProdCodImendes: TStringList;
     fMensagem: String;
     function GetDadosRt: TACBrIMendesGrupoDadosRt;
     function GetCBS: TACBrIMendesGrupoCBS;
@@ -1497,6 +1498,7 @@ type
     function GetRegras: TACBrIMendesGrupoRegras;
     function GetProdEan: TStringList;
     function GetProdCodInterno: TStringList;
+    function GetProdCodImendes: TStringList;
     function GetIS: TACBrIMendesGrupoIS;
   protected
     procedure AssignSchema(aSource: TACBrAPISchema); override;
@@ -1528,6 +1530,7 @@ type
     property dadosRt: TACBrIMendesGrupoDadosRt read GetDadosRt;
     property prodCodInterno: TStringList read GetProdCodInterno;
     property prodEan: TStringList read GetProdEan;
+    property prodCodImendes: TStringList read GetProdCodImendes;
     property Mensagem: String read fMensagem write fMensagem;
   end;
 
@@ -5744,6 +5747,8 @@ begin
     fProdCodInterno.Free;
   if Assigned(fprodEan) then
     fprodEan.Free;
+  if Assigned(fProdCodImendes) then
+    fProdCodImendes.Free;
   inherited Destroy;
 end;
 
@@ -5769,6 +5774,7 @@ begin
   if Assigned(fdadosRt) then fdadosRt.Clear;
   if Assigned(fProdCodInterno) then fProdCodInterno.Clear;
   if Assigned(fprodEan) then fprodEan.Clear;
+  if Assigned(fProdCodImendes) then fProdCodImendes.Clear;
 end;
 
 function TACBrIMendesGrupo.IsEmpty: Boolean;
@@ -5793,6 +5799,7 @@ begin
     (not Assigned(fdadosRt) or fdadosRt.IsEmpty) and
     ((not Assigned(fProdCodInterno)) or (fProdCodInterno.Count = 0)) and
     ((not Assigned(fprodEan)) or (fprodEan.Count = 0)) and
+    ((not Assigned(fProdCodImendes)) or (fProdCodImendes.Count = 0)) and
     EstaVazio(fMensagem);
 end;
 
@@ -5852,6 +5859,13 @@ begin
   Result := fprodEan;
 end;
 
+function TACBrIMendesGrupo.GetProdCodImendes: TStringList;
+begin
+  if not Assigned(fProdCodImendes) then
+    fProdCodImendes := TStringList.Create;
+  Result := fProdCodImendes;
+end;
+
 procedure TACBrIMendesGrupo.DoReadFromJSon(aJSon: TACBrJSONObject);
 var
   s1, s2: String;
@@ -5898,6 +5912,14 @@ begin
     ja := aJSon.AsJSONArray['prodEan'];
     for i := 0 to ja.Count - 1 do
       prodEan.Add(ja.Items[i]);
+  end;
+
+  if aJSon.IsJSONArray('prodCodImendes') then
+  begin
+    prodCodImendes.Clear;
+    ja := aJSon.AsJSONArray['prodCodImendes'];
+    for i := 0 to ja.Count - 1 do
+      prodCodImendes.Add(ja.Items[i]);
   end;
 
   Regras.ReadFromJSon(aJSon);
@@ -5954,6 +5976,14 @@ begin
     aJSon.AddPair('prodEan', ja);
   end;
 
+  if Assigned(fProdCodImendes) and (fProdCodImendes.Count > 0) then
+  begin
+    ja := TACBrJSONArray.Create;
+    for i := 0 to fProdCodImendes.Count - 1 do
+      ja.AddElement(fProdCodImendes[i]);
+    aJSon.AddPair('prodCodImendes', ja);
+  end;
+
   if Assigned(fRegras) then
     fRegras.WriteToJSon(aJSon);
   if Assigned(fdadosRt) and (not fdadosRt.IsEmpty) then
@@ -5982,6 +6012,7 @@ begin
   dadosRt.Assign(Source.dadosRt);
   prodCodInterno.Assign(Source.prodCodInterno);
   prodEan.Assign(Source.prodEan);
+  prodCodImendes.Assign(Source.prodCodImendes);
 end;
 
 procedure TACBrIMendesGrupo.AssignSchema(aSource: TACBrAPISchema);
@@ -6138,7 +6169,6 @@ begin
       .AddPair('senha', Senha);
 
     wBodyStr := wBody.ToJSON;
-    RegistrarLog('Req.Body: ' + wBodyStr);
     WriteStrToStream(HTTPSend.Document, wBodyStr);
   finally
     wBody.Free;
@@ -6321,7 +6351,8 @@ end;
 
 procedure TACBrIMendes.Clear;
 begin
-  RespostaErro.Clear;
+  if Assigned(fRespostaErro) then
+    fRespostaErro.Clear;
   if Assigned(fSaneamentoGradesRequest) then
     fSaneamentoGradesRequest.Clear;
   if Assigned(fSaneamentoGradesResponse) then
@@ -6359,7 +6390,6 @@ begin
       .AddPair('cnpj', fCNPJ)
       .AddPair('senha', Senha);
     wBodyStr := wBody.ToJSON;
-    RegistrarLog('Req.Body: ' + wBodyStr);
     WriteStrToStream(HTTPSend.Document, wBodyStr);
   finally
     wBody.Free;
@@ -6417,7 +6447,6 @@ begin
   jBody := TACBrJSONObject.Create;
   try
     sBody := SaneamentoGradesRequest.AsJSON;
-    RegistrarLog('Req.Body: ' + sBody);
     WriteStrToStream(HTTPSend.Document, sBody);
   finally
     jBody.Free;
@@ -6467,7 +6496,6 @@ begin
     jBody.AddPair(cIMendesNomeServico, cIMendesServicoDescricaoProdutos);
     jBody.AddPair(cIMendesDadosServico, wCNPJ + '|' + aDescricao + '|' + IntToStr(aTipo));
     sBody := jBody.ToJSON;
-    RegistrarLog('Req.Body: ' + sBody);
     WriteStrToStream(HTTPSend.Document, sBody);
   finally
     jBody.Free;
@@ -6480,6 +6508,7 @@ begin
     URLPathParams.Add(cIMendesEndpointEnviaRecebeDados);
     HTTPMethod(cHTTPMethodPOST, CalcularURL);
     Result := (HTTPResultCode = HTTP_OK);
+    RegistrarLog('Resp.Body: ' + sLineBreak + HTTPResponse);
     if Result then
       ConsultarDescricaoResponse.AsJSON := HTTPResponse
     else
@@ -6518,7 +6547,6 @@ begin
     else
       jBody.AddPair(cIMendesDadosServico, wCNPJ + '|' + aUF);
     sBody := jBody.ToJSON;
-    RegistrarLog('Req.Body: ' + sBody);
     WriteStrToStream(HTTPSend.Document, sBody);
   finally
     jBody.Free;
@@ -6563,7 +6591,6 @@ begin
     jBody.AddPair(cIMendesDadosUF, aUF);
     jBody.AddPair(cIMendesDadosIncludeTrib, aIncludeTrib);
     sBody := jBody.ToJSON;
-    RegistrarLog('Req.Body: ' + sBody);
     WriteStrToStream(HTTPSend.Document, sBody);
   finally
     jBody.Free;
@@ -6574,6 +6601,7 @@ begin
     URLPathParams.Add(cIMendesEndpointEnviaRegimeEspecial);
     HTTPMethod(cHTTPMethodPOST, CalcularURL);
     Result := (HTTPResultCode = HTTP_OK);
+    RegistrarLog('Resp.Body: ' + sLineBreak + HTTPResponse);
     if Result then
       ConsultarRegimeEspecialResponse.AsJSON := HTTPResponse
     else
@@ -6609,7 +6637,6 @@ begin
     jBody.AddPair(cIMendesNomeServico, cIMendesServicoHistoricoAcesso);
     jBody.AddPair(cIMendesDadosServico, wCNPJ);
     sBody := jBody.ToJSON;
-    RegistrarLog('Req.Body: ' + sBody);
     WriteStrToStream(HTTPSend.Document, sBody);
   finally
     jBody.Free;
@@ -6653,7 +6680,6 @@ begin
   HttpSend.MimeType := cContentTypeApplicationJSon;
 
   sBody := InativarRequest.AsJSON;
-  RegistrarLog('Req.Body: ' + sBody);
   WriteStrToStream(HTTPSend.Document, sBody);
 
   try
@@ -6699,7 +6725,6 @@ begin
     jBody.AddPair(cIMendesNomeServico, cIMendesServicoRemoveDevolvidos);
     jBody.AddPair(cIMendesDadosServico, RemoveDevolvidosRequest.AsJSON);
     sBody := jBody.ToJSON;
-    RegistrarLog('Req.Body: ' + sBody);
     WriteStrToStream(HTTPSend.Document, sBody);
   finally
     jBody.Free;
