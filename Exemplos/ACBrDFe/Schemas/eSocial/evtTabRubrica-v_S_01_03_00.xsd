@@ -207,6 +207,16 @@
                                 <xs:documentation>Salário-maternidade 13º salário, pago pelo empregador</xs:documentation>
                             </xs:annotation>
                         </xs:enumeration>
+                        <xs:enumeration value="23">
+                            <xs:annotation>
+                                <xs:documentation>Salário-paternidade mensal, pago pelo empregador</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="24">
+                            <xs:annotation>
+                                <xs:documentation>Salário-paternidade 13º salário, pago pelo empregador</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
                         <xs:enumeration value="25">
                             <xs:annotation>
                                 <xs:documentation>Salário-maternidade mensal, pago pelo INSS</xs:documentation>
@@ -215,6 +225,16 @@
                         <xs:enumeration value="26">
                             <xs:annotation>
                                 <xs:documentation>Salário-maternidade 13° salário, pago pelo INSS</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="27">
+                            <xs:annotation>
+                                <xs:documentation>Salário-paternidade mensal, pago pelo INSS</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="28">
+                            <xs:annotation>
+                                <xs:documentation>Salário-paternidade 13° salário, pago pelo INSS</xs:documentation>
                             </xs:annotation>
                         </xs:enumeration>
                         <xs:enumeration value="31">
@@ -439,6 +459,7 @@
             <xs:element name="observacao" minOccurs="0" type="TS_observacao">
                 <xs:annotation>
                     <xs:documentation>Observações relacionadas à rubrica ou à sua utilização.</xs:documentation>
+                    <xs:documentation>Validação: Preenchimento obrigatório se {tpRubr}(./tpRubr) = [4].</xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="ideProcessoCP" minOccurs="0" maxOccurs="99">

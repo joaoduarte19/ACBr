@@ -221,6 +221,7 @@ type
     FvrCalcSenat: Double;
     FvrSalFam: Double;
     FvrSalMat: Double;
+    FvrSalPat: Double;
     FvrBcCpSM: Double;
   public
     property vrBcCp00: Double read FvrBcCp00;
@@ -245,6 +246,7 @@ type
     property vrCalcSenat: Double read FvrCalcSenat;
     property vrSalFam: Double read FvrSalFam;
     property vrSalMat: Double read FvrSalMat;
+    property vrSalPat: Double read FvrSalPat;
     property vrBcCpSM: Double read FvrBcCpSM;
   end;
 
@@ -821,6 +823,7 @@ begin
 
                 infoCS.ideEstab.Items[i].ideLotacao.Items[j].basesRemun.Items[k].basesCp.FvrSalFam := leitor.rCampo(tcDe2, 'vrSalFam');
                 infoCS.ideEstab.Items[i].ideLotacao.Items[j].basesRemun.Items[k].basesCp.FvrSalMat := leitor.rCampo(tcDe2, 'vrSalMat');
+                infoCS.ideEstab.Items[i].ideLotacao.Items[j].basesRemun.Items[k].basesCp.FvrSalPat := leitor.rCampo(tcDe2, 'vrSalPat');
               end;
 
               if leitor.rExtrai(6, 'basesCp13') <> '' then
@@ -1058,6 +1061,7 @@ begin
                     AIni.WriteFloat(sSecao, 'vrCalcSenat',  vrCalcSenat);
                     AIni.WriteFloat(sSecao, 'vrSalFam',     vrSalFam);
                     AIni.WriteFloat(sSecao, 'vrSalMat',     vrSalMat);
+                    AIni.WriteFloat(sSecao, 'vrSalPat',     vrSalPat);
                     AIni.WriteFloat(sSecao, 'vrBcCpSM',     vrBcCpSM);
                   end;
                 end;

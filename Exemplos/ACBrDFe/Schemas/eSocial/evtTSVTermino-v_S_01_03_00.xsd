@@ -43,7 +43,7 @@
                                 </xs:annotation>
                                 <xs:complexType>
                                     <xs:sequence>
-                                        <xs:element name="dtTerm" type="xs:date">
+                                        <xs:element name="dtTerm" type="TS_dt1890">
                                             <xs:annotation>
                                                 <xs:documentation>Data do término.</xs:documentation>
                                                 <xs:documentation>Validação: Deve ser uma data igual ou anterior à data atual acrescida de 10 (dez) dias.</xs:documentation>
@@ -129,6 +129,12 @@
                                                         <xs:annotation>
                                                             <xs:documentation>Preencher com o novo CPF do trabalhador.</xs:documentation>
                                                             <xs:documentation>Validação: Deve ser um CPF válido e diferente do CPF do empregador e do antigo CPF do trabalhador.</xs:documentation>
+                                                        </xs:annotation>
+                                                    </xs:element>
+                                                    <xs:element name="indCPFDesvinc" minOccurs="0" type="TS_indCPFDesvinc">
+                                                        <xs:annotation>
+                                                            <xs:documentation>Indicativo de casos especiais de mudança de CPF.</xs:documentation>
+                                                            <xs:documentation>Validação: Preenchimento obrigatório e exclusivo se o novo CPF não possuir o {}(2399_ideTrabSemVinculo_cpfTrab) vinculado na base da RFB.</xs:documentation>
                                                         </xs:annotation>
                                                     </xs:element>
                                                 </xs:sequence>

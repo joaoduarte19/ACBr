@@ -179,6 +179,7 @@ type
     FIndTribFolhaPisCofins: TpSimNaoFacultativo;
     FIndTribFolhaPisPasep: TpSimNaoFacultativo;
     FindPertIRRF: TpSimNaoFacultativo;
+    FindSiafi: TpSimNaoFacultativo;
 
     function getDadosIsencao(): TDadosIsencao;
     function getInfoOrgInternacional(): TInfoOrgInternacional;
@@ -212,6 +213,7 @@ type
     property indTribFolhaPisCofins: tpSimNaoFacultativo read FIndTribFolhaPisCofins write FIndTribFolhaPisCofins default snfNao;
     property indTribFolhaPisPasep: tpSimNaoFacultativo read FindTribFolhaPisPasep write FindTribFolhaPisPasep default snfNada;
     property indPertIRRF: tpSimNaoFacultativo read FindPertIRRF write FindPertIRRF default snfNada;
+    property indSiafi: tpSimNaoFacultativo read FindSiafi write FindSiafi default snfNada;
   end;
 
   TInfoEmpregador = class(TObject)
@@ -393,7 +395,9 @@ begin
     if (Self.infoEmpregador.infoCadastro.IndPorte = tpSim) then //Somente empresas que não são (ME e EPP)
       Gerador.wCampo(tcStr, '', 'indPorte', 1, 1, 0, eSSimNaoToStr(Self.infoEmpregador.infoCadastro.IndPorte));
 
-  Gerador.wCampo(tcStr, '', 'indOptRegEletron', 1, 1, 1, eSIndOptRegEletronicoToStr(Self.infoEmpregador.infoCadastro.IndOptRegEletron));
+  // NT 07-2026: o campo indOptRegEletron nao deve ser informado se iniValid for igual ou posterior a 2026-02
+  if (Self.infoEmpregador.idePeriodo.IniValid = '') or (Self.infoEmpregador.idePeriodo.IniValid < '2026-02') then
+    Gerador.wCampo(tcStr, '', 'indOptRegEletron', 1, 1, 1, eSIndOptRegEletronicoToStr(Self.infoEmpregador.infoCadastro.IndOptRegEletron));
 
   if Self.infoEmpregador.infoCadastro.cnpjEFR <> '' then
     Gerador.wCampo(tcStr, '', 'cnpjEFR', 14, 14, 0, Self.infoEmpregador.infoCadastro.cnpjEFR);
@@ -409,6 +413,9 @@ begin
 
   if (VersaoDF > veS01_02_00) then
     Gerador.wCampo(tcStr, '', 'indPertIRRF',  0, 1, 0, eSSimNaoFacultativoToStr(Self.infoEmpregador.infoCadastro.indPertIRRF));
+
+  if (VersaoDF > veS01_02_00) and (infoEmpregador.infoCadastro.indSiafi = snfSim) then
+    Gerador.wCampo(tcStr, '', 'indSiafi',  0, 1, 0, eSSimNaoFacultativoToStr(Self.infoEmpregador.infoCadastro.indSiafi));
 
   GerarDadosIsencao;
   GerarInfoOrgInternacional;
@@ -519,6 +526,7 @@ begin
         infoEmpregador.infoCadastro.indTribFolhaPisCofins := eSStrToSimNaoFacultativo(Ok, INIRec.ReadString(sSecao, 'indTribFolhaPisCofins', ''));
         infoEmpregador.infoCadastro.indTribFolhaPisPasep  := eSStrToSimNaoFacultativo(Ok, INIRec.ReadString(sSecao, 'indTribFolhaPisPasep', ''));
         infoEmpregador.infoCadastro.indPertIRRF  := eSStrToSimNaoFacultativo(Ok, INIRec.ReadString(sSecao, 'indPertIRRF', ''));
+        infoEmpregador.infoCadastro.indSiafi     := eSStrToSimNaoFacultativo(Ok, INIRec.ReadString(sSecao, 'indSiafi', ''));
 
         sSecao := 'dadosIsencao';
         if INIRec.ReadString(sSecao, 'ideMinLei', '') <> '' then

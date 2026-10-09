@@ -530,6 +530,7 @@ begin
 
       sSecao := 'mudancaCPF';
       infoTSVTermino.mudancaCPF.novoCPF := INIRec.ReadString(sSecao, 'novoCPF', EmptyStr);
+      infoTSVTermino.mudancaCPF.indCPFDesvinc := INIRec.ReadString(sSecao, 'indCPFDesvinc', EmptyStr);
 
       I := 1;
       while true do

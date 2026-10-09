@@ -73,11 +73,13 @@ type
     FMtvTermino: tpMtvTermino;
     FCnpjOrgaoSuc: string;
     FNovoCpf: string;
+    FindCPFDesvinc: string;
   public
     property dtTermBeneficio: TDateTime read FDtTermBeneficio write FDtTermBeneficio;
     property mtvTermino: tpMtvTermino read FMtvTermino write FMtvTermino;
     property cnpjOrgaoSuc: string read FCnpjOrgaoSuc write FCnpjOrgaoSuc;
     property novoCPF: string read FNovoCpf write FNovoCpf;
+    property indCPFDesvinc: string read FindCPFDesvinc write FindCPFDesvinc;
   end;
 
   TEvtCdBenTerm = class(TeSocialEvento)
@@ -210,6 +212,7 @@ begin
   Gerador.wCampo(tcStr, '', 'mtvTermino',       2,  2, 1, eStpTpMotCessBenefToStrEX(pInfoBenTermino.mtvTermino));
   Gerador.wCampo(tcStr, '', 'cnpjOrgaoSuc',    14, 14, 0, pInfoBenTermino.cnpjOrgaoSuc);
   Gerador.wCampo(tcStr, '', 'novoCPF',         11, 11, 0, pInfoBenTermino.novoCpf);
+  Gerador.wCampo(tcStr, '', 'indCPFDesvinc',    1,  1, 0, pInfoBenTermino.indCPFDesvinc);
 
   Gerador.wGrupo('/infoBenTermino');
 end;
@@ -281,7 +284,7 @@ begin
       infoBenTermino.mtvTermino      := eSStrToTpMotCessBenefEX(INIRec.ReadString(sSecao, 'mtvTermino', EmptyStr));
       infoBenTermino.cnpjOrgaoSuc    := INIRec.ReadString(sSecao, 'cnpjOrgaoSuc', EmptyStr);
       infoBenTermino.novoCPF         := INIRec.ReadString(sSecao, 'novoCPF', EmptyStr);
-
+      infoBenTermino.indCPFDesvinc   := INIRec.ReadString(sSecao, 'indCPFDesvinc', EmptyStr);
     end;
 
     GerarXML;

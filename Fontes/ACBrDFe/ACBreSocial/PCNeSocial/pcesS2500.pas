@@ -192,14 +192,19 @@ type
   TInfoCompl = class(TObject)
   private
     FcodCBO: string;
+    FnmCargo: string;
+    FnmFuncao: string;
+    FCBOFuncao: string;
     FnatAtividade: tpNatAtividade;
     Fremuneracao: TRemuneracaoCollection;
     FinfoVinc: TInfoVinc;
     FinfoTerm: TInfoTerm;
+    FlocalTrabalho: TLocalTrabalho;
 
     function getRemuneracao(): TRemuneracaoCollection;
     function getInfoVinc(): TInfoVinc;
     function getInfoTerm(): TInfoTerm;
+    function getLocalTrabalho(): TLocalTrabalho;
   public
     constructor Create;
     destructor  Destroy; override;
@@ -207,12 +212,17 @@ type
     function instRemuneracao(): boolean;
     function instInfoVinc(): boolean;
     function instInfoTerm(): boolean;
+    function instLocalTrabalho(): boolean;
 
     property codCBO: string read FCodCBO write FCodCBO;
+    property nmCargo: string read FnmCargo write FnmCargo;
+    property nmFuncao: string read FnmFuncao write FnmFuncao;
+    property CBOFuncao: string read FCBOFuncao write FCBOFuncao;
     property natAtividade: tpNatAtividade read FNatAtividade write FNatAtividade;
     property remuneracao: TRemuneracaoCollection read getRemuneracao write FRemuneracao;
     property infoVinc: TInfoVinc read getInfoVinc write FInfoVinc;
     property infoTerm: TInfoTerm read getInfoTerm write FInfoTerm;
+    property localTrabalho: TLocalTrabalho read getLocalTrabalho write FLocalTrabalho;
   end;
 
   TMudCategAtivCollectionItem = class(TObject)
@@ -472,6 +482,7 @@ type
     FcpfTrab: string;
     FnmTrab: string;
     FdtNascto: TDateTime;
+    FnmSoc: string;
     FideSeqTrab: Integer;
     Fdependente: TDependenteCollectionS2500;
     FinfoContr: TInfoContrCollection;
@@ -488,6 +499,7 @@ type
     property cpfTrab: string read FCpfTrab write FCpfTrab;
     property nmTrab: string read FNmTrab write FNmTrab;
     property dtNascto: TDateTime read FDtNascto write FDtNascto;
+    property nmSoc: string read FnmSoc write FnmSoc;
     property ideSeqTrab: Integer read FideSeqTrab write FideSeqTrab;
     property dependente: TDependenteCollectionS2500 read getDependenteS2500 write FDependente;
     property infoContr: TInfoContrCollection read getInfoContr write FInfoContr;
@@ -860,6 +872,7 @@ begin
   FRemuneracao := nil;
   FInfoVinc := nil;
   FInfoTerm := nil;
+  FLocalTrabalho := nil;
 end;
 
 destructor TInfoCompl.Destroy;
@@ -870,6 +883,8 @@ begin
     FreeAndNil(FInfoVinc);
   if instInfoTerm() then
     FreeAndNil(FInfoTerm);
+  if instLocalTrabalho() then
+    FreeAndNil(FLocalTrabalho);
 
   inherited;
 end;
@@ -908,6 +923,18 @@ end;
 function TInfoCompl.instInfoTerm(): boolean;
 begin
   Result := Assigned(FInfoTerm);
+end;
+
+function TInfoCompl.getLocalTrabalho(): TLocalTrabalho;
+begin
+  if not Assigned(FLocalTrabalho) then
+    FLocalTrabalho := TLocalTrabalho.Create;
+  Result := FLocalTrabalho;
+end;
+
+function TInfoCompl.instLocalTrabalho(): boolean;
+begin
+  Result := Assigned(FLocalTrabalho);
 end;
 
 { TInfoVinc }
@@ -1510,6 +1537,9 @@ end;
 procedure TEvtProcTrab.GerarInfoCompl(obj: TinfoCompl);
 begin
   if (obj.codCBO <> '') or
+     (obj.nmCargo <> '') or
+     (obj.nmFuncao <> '') or
+     (obj.CBOFuncao <> '') or
      (obj.natAtividade <> navNaoInformar) or
      (obj.instRemuneracao()) or
      (obj.InfoVinc.tpRegTrab <> trNenhum) or
@@ -1519,13 +1549,18 @@ begin
      (obj.infoVinc.instObservacoes()) or
      (obj.infoVinc.instSucessaoVinc()) or
      (obj.infoVinc.instInfoDeslig()) or
-     (obj.instInfoTerm())
+     (obj.instInfoTerm()) or
+     (obj.instLocalTrabalho())
   then
   begin
     Gerador.wGrupo('infoCompl');
 
     if obj.codCBO <> '' then
       Gerador.wCampo(tcStr, '', 'codCBO',    1,  6, 1, obj.codCBO);
+
+    Gerador.wCampo(tcStr, '', 'nmCargo',   1, 100, 0, obj.nmCargo);
+    Gerador.wCampo(tcStr, '', 'nmFuncao',  1, 100, 0, obj.nmFuncao);
+    Gerador.wCampo(tcStr, '', 'CBOFuncao', 1,  6, 0, obj.CBOFuncao);
 
     if obj.natAtividade <> navNaoInformar then
       Gerador.wCampo(tcStr, '', 'natAtividade',  1,  1, 1, eSNatAtividadeToStr(obj.natAtividade));
@@ -1538,6 +1573,11 @@ begin
 
     if obj.instInfoTerm() then
       GerarInfoTerm(obj.infoTerm);
+
+    if obj.instLocalTrabalho() and
+       ((obj.localTrabalho.LocalTrabGeral.NrInsc <> '') or
+        (obj.localTrabalho.LocalTempDom.TpLograd <> '')) then
+      GerarLocalTrabalho(obj.localTrabalho);
 
     Gerador.wGrupo('/infoCompl');
   end;
@@ -1792,6 +1832,7 @@ begin
   Gerador.wCampo(tcStr, '', 'cpfTrab',  11, 11, 1, obj.cpfTrab);
   Gerador.wCampo(tcStr, '', 'nmTrab' ,   0, 70, 1, obj.nmTrab);
   Gerador.wCampo(tcDat, '', 'dtNascto', 10, 10, 0, obj.dtNascto);
+  Gerador.wCampo(tcStr, '', 'nmSoc',     2, 70, 0, obj.nmSoc);
   Gerador.wCampo(tcInt, '', 'ideSeqTrab', 0, 3, 0, obj.ideSeqTrab);
 
   if obj.instDependenteS2500() and (VersaoDF <= veS01_01_00) then
@@ -1894,6 +1935,7 @@ begin
       ideTrab.cpfTrab  := INIRec.ReadString(sSecao, 'cpfTrab', EmptyStr);
       ideTrab.nmTrab   := INIRec.ReadString(sSecao, 'nmTrab', EmptyStr);
       ideTrab.dtNascto := StringToDateTime(INIRec.ReadString(sSecao, 'dtNascto', '0'));
+      ideTrab.nmSoc    := INIRec.ReadString(sSecao, 'nmSoc', EmptyStr);
       ideTrab.ideSeqTrab := INIRec.ReadInteger(sSecao, 'ideSeqTrab', 0);
 
       I := 1;
@@ -1942,6 +1984,9 @@ begin
 
           sSecao := 'infoCompl' + IntToStrZero(I, 2);
           infoCompl.codCBO := INIRec.ReadString(sSecao, 'codCBO', EmptyStr);
+          infoCompl.nmCargo   := INIRec.ReadString(sSecao, 'nmCargo', EmptyStr);
+          infoCompl.nmFuncao  := INIRec.ReadString(sSecao, 'nmFuncao', EmptyStr);
+          infoCompl.CBOFuncao := INIRec.ReadString(sSecao, 'CBOFuncao', EmptyStr);
           infoCompl.natAtividade := eSStrToNatAtividade(Ok, INIRec.ReadString(sSecao, 'natAtividade', EmptyStr));
 
           J := 1;
@@ -2017,6 +2062,27 @@ begin
           sSecao := 'infoTerm' + IntToStrZero(I, 2);
           infoCompl.infoTerm.dtTerm       := StringToDateTime(INIRec.ReadString(sSecao, 'dtTerm', '0'));
           infoCompl.infoTerm.mtvDesligTSV := INIRec.ReadString(sSecao, 'mtvDesligTSV', EmptyStr);
+
+          sSecao := 'localTrabGeral' + IntToStrZero(I, 2);
+          if INIRec.ReadString(sSecao, 'nrInsc', '') <> '' then
+          begin
+            infoCompl.localTrabalho.LocalTrabGeral.TpInsc   := eSStrToTpInscricao(Ok, INIRec.ReadString(sSecao, 'tpInsc', '1'));
+            infoCompl.localTrabalho.LocalTrabGeral.NrInsc   := INIRec.ReadString(sSecao, 'nrInsc', EmptyStr);
+            infoCompl.localTrabalho.LocalTrabGeral.DescComp := INIRec.ReadString(sSecao, 'descComp', EmptyStr);
+          end;
+
+          sSecao := 'localTempDom' + IntToStrZero(I, 2);
+          if INIRec.ReadString(sSecao, 'tpLograd', '') <> '' then
+          begin
+            infoCompl.localTrabalho.LocalTempDom.TpLograd    := INIRec.ReadString(sSecao, 'tpLograd', EmptyStr);
+            infoCompl.localTrabalho.LocalTempDom.DscLograd   := INIRec.ReadString(sSecao, 'dscLograd', EmptyStr);
+            infoCompl.localTrabalho.LocalTempDom.NrLograd    := INIRec.ReadString(sSecao, 'nrLograd', EmptyStr);
+            infoCompl.localTrabalho.LocalTempDom.Complemento := INIRec.ReadString(sSecao, 'complemento', EmptyStr);
+            infoCompl.localTrabalho.LocalTempDom.Bairro      := INIRec.ReadString(sSecao, 'bairro', EmptyStr);
+            infoCompl.localTrabalho.LocalTempDom.Cep         := INIRec.ReadString(sSecao, 'cep', EmptyStr);
+            infoCompl.localTrabalho.LocalTempDom.CodMunic    := INIRec.ReadInteger(sSecao, 'codMunic', 0);
+            infoCompl.localTrabalho.LocalTempDom.UF          := INIRec.ReadString(sSecao, 'uf', EmptyStr);
+          end;
 
           J := 1;
           while true do

@@ -440,6 +440,11 @@
                                                                                                 <xs:documentation>Valor pago ao trabalhador a título de salário-maternidade</xs:documentation>
                                                                                             </xs:annotation>
                                                                                         </xs:enumeration>
+                                                                                        <xs:enumeration value="33">
+                                                                                            <xs:annotation>
+                                                                                                <xs:documentation>Valor pago ao trabalhador a título de salário-paternidade</xs:documentation>
+                                                                                            </xs:annotation>
+                                                                                        </xs:enumeration>
                                                                                         <xs:enumeration value="41">
                                                                                             <xs:annotation>
                                                                                                 <xs:documentation>Base de cálculo da contribuição previdenciária normal - Categorias 107 e 108</xs:documentation>
@@ -625,6 +630,7 @@
                                                                                     <xs:documentation>{tpValor}(./tpValor) = [19], {codIncCP}(1010_infoRubrica_inclusao_dadosRubrica_codIncCP) em S-1010 = [15, 16, 21, 22];</xs:documentation>
                                                                                     <xs:documentation>{tpValor}(./tpValor) = [31], {codIncCP}(1010_infoRubrica_inclusao_dadosRubrica_codIncCP) em S-1010 = [51];</xs:documentation>
                                                                                     <xs:documentation>{tpValor}(./tpValor) = [32], {codIncCP}(1010_infoRubrica_inclusao_dadosRubrica_codIncCP) em S-1010 = [21, 22] ou ({natRubr}(1010_infoRubrica_inclusao_dadosRubrica_natRubr) em S-1010 = [4050, 4051] com {codIncCP}(1010_infoRubrica_inclusao_dadosRubrica_codIncCP) em S-1010 = [9X]);</xs:documentation>
+                                                                                    <xs:documentation>{tpValor}(./tpValor) = [33], {codIncCP}(1010_infoRubrica_inclusao_dadosRubrica_codIncCP) em S-1010 = [23, 24] ou ({natRubr}(1010_infoRubrica_inclusao_dadosRubrica_natRubr) em S-1010 = [4052, 4053] com {codIncCP}(1010_infoRubrica_inclusao_dadosRubrica_codIncCP) em S-1010 = [9X]), se {perApur}(5001_ideEvento_perApur) for igual ou posterior a [2027-01];</xs:documentation>
                                                                                     <xs:documentation>{tpValor}(./tpValor) = [41]*, {codIncCP}(1010_infoRubrica_inclusao_dadosRubrica_codIncCP) em S-1010 = [11, 12] e ({grauExp} em S-1200/S-2299 = [1] ou não informado), observado o limite para {codCateg}(../codCateg) = [107, 108];</xs:documentation>
                                                                                     <xs:documentation>{tpValor}(./tpValor) = [42]*, {codIncCP}(1010_infoRubrica_inclusao_dadosRubrica_codIncCP) em S-1010 = [11, 12] e {grauExp} em S-1200/S-2299 = [2], observado o limite para {codCateg}(../codCateg) = [107, 108];</xs:documentation>
                                                                                     <xs:documentation>{tpValor}(./tpValor) = [43]*, {codIncCP}(1010_infoRubrica_inclusao_dadosRubrica_codIncCP) em S-1010 = [11, 12] e {grauExp} em S-1200/S-2299 = [3], observado o limite para {codCateg}(../codCateg) = [107, 108];</xs:documentation>
@@ -842,6 +848,11 @@
                                                                                                             <xs:documentation>Valor pago ao trabalhador a título de salário-maternidade</xs:documentation>
                                                                                                         </xs:annotation>
                                                                                                     </xs:enumeration>
+                                                                                                    <xs:enumeration value="33">
+                                                                                                        <xs:annotation>
+                                                                                                            <xs:documentation>Valor pago ao trabalhador a título de salário-paternidade</xs:documentation>
+                                                                                                        </xs:annotation>
+                                                                                                    </xs:enumeration>
                                                                                                 </xs:restriction>
                                                                                             </xs:simpleType>
                                                                                         </xs:element>
@@ -862,6 +873,7 @@
                                                                                                 <xs:documentation>{tpVrPerRef}(./tpVrPerRef) = [19], {codIncCP}(1010_infoRubrica_inclusao_dadosRubrica_codIncCP) em S-1010 = [15, 16, 21, 22];</xs:documentation>
                                                                                                 <xs:documentation>{tpVrPerRef}(./tpVrPerRef) = [31], {codIncCP}(1010_infoRubrica_inclusao_dadosRubrica_codIncCP) em S-1010 = [51];</xs:documentation>
                                                                                                 <xs:documentation>{tpVrPerRef}(./tpVrPerRef) = [32], {codIncCP}(1010_infoRubrica_inclusao_dadosRubrica_codIncCP) em S-1010 = [21, 22] ou ({natRubr}(1010_infoRubrica_inclusao_dadosRubrica_natRubr) em S-1010 = [4050, 4051] com {codIncCP}(1010_infoRubrica_inclusao_dadosRubrica_codIncCP) em S-1010 = [9X]).</xs:documentation>
+                                                                                                <xs:documentation>{tpVrPerRef}(./tpVrPerRef) = [33], {codIncCP}(1010_infoRubrica_inclusao_dadosRubrica_codIncCP) em S-1010 = [23, 24] ou ({natRubr}(1010_infoRubrica_inclusao_dadosRubrica_natRubr) em S-1010 = [4052, 4053] com {codIncCP}(1010_infoRubrica_inclusao_dadosRubrica_codIncCP) em S-1010 = [9X]), se {perApur}(5001_ideEvento_perApur) for igual ou posterior a [2027-01];</xs:documentation>
                                                                                                 <xs:documentation> </xs:documentation>
                                                                                                 <xs:documentation>b) Somar os valores das rubricas cujo {tpRubr}(1010_infoRubrica_inclusao_dadosRubrica_tpRubr) em S-1010 seja igual a [2, 4] e subtrair os valores das rubricas cujo {tpRubr}(1010_infoRubrica_inclusao_dadosRubrica_tpRubr) em S-1010 seja igual a [1, 3], observando a tabela de relacionamento abaixo:</xs:documentation>
                                                                                                 <xs:documentation>{tpVrPerRef}(./tpVrPerRef) = [21], {codIncCP}(1010_infoRubrica_inclusao_dadosRubrica_codIncCP) em S-1010 = [31, 32];</xs:documentation>

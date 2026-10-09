@@ -167,7 +167,7 @@
                                             </xs:annotation>
                                         </xs:element>
                                         <xs:element name="codCateg" type="TS_codCateg" />
-                                        <xs:element name="dtInicio" type="xs:date">
+                                        <xs:element name="dtInicio" type="TS_dt1890">
                                             <xs:annotation>
                                                 <xs:documentation>Data de início, que pode ser:</xs:documentation>
                                                 <xs:documentation>a) Para o cooperado, a data de ingresso na cooperativa;</xs:documentation>
@@ -317,7 +317,7 @@
                                                                 <xs:element name="cnpjCednt" type="TS_cnpj">
                                                                     <xs:annotation>
                                                                         <xs:documentation>Informar o CNPJ do empregador/órgão público cedente/de origem.</xs:documentation>
-                                                                        <xs:documentation>Validação: Deve ser um CNPJ diferente do CNPJ do empregador/órgão público e diferente dos estabelecimentos informados através do evento S-1005.</xs:documentation>
+                                                                        <xs:documentation>Validação: Deve ser um CNPJ diferente do CNPJ do empregador/órgão público e diferente dos estabelecimentos informados através do evento S-1005, exceto se a natureza jurídica do declarante for Administração Pública (grupo [1]).</xs:documentation>
                                                                         <xs:documentation>REGRA:REGRA_VALIDA_CNPJ</xs:documentation>
                                                                     </xs:annotation>
                                                                 </xs:element>

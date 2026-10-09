@@ -1244,8 +1244,10 @@ type
   TMudancaCPF3 = class
   private
     FnovoCPF: String;
+    FindCPFDesvinc: String;
   public
     property novoCPF: String read FnovoCPF write FnovoCPF;
+    property indCPFDesvinc: String read FindCPFDesvinc write FindCPFDesvinc;
   end;
 
   TVinculo = class

@@ -1132,6 +1132,7 @@ begin
       if INIRec.ReadString(sSecao, 'novoCPF', '') <> '' then
       begin
         infoDeslig.mudancaCPF.novoCPF := INIRec.ReadString(sSecao, 'novoCPF', EmptyStr);
+        infoDeslig.mudancaCPF.indCPFDesvinc := INIRec.ReadString(sSecao, 'indCPFDesvinc', EmptyStr);
       end;
 
       I := 1;

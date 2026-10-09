@@ -989,6 +989,7 @@ begin
   begin
     Gerador.wGrupo('mudancaCPF');
     Gerador.wCampo(tcStr, '', 'novoCPF', 11, 11, 1, pMudancaCPF.novoCPF);
+    Gerador.wCampo(tcStr, '', 'indCPFDesvinc', 1, 1, 0, pMudancaCPF.indCPFDesvinc);
     Gerador.wGrupo('/mudancaCPF');
   end;
 end;

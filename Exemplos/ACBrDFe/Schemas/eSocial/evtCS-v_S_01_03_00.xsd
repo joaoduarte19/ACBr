@@ -618,6 +618,13 @@
                                                                                                 <xs:documentation>Origem: campo {valor}(5001_infoCp_ideEstabLot_infoCategIncid_infoBaseCS_valor) de S-5001, quando {tpValor}(5001_infoCp_ideEstabLot_infoCategIncid_infoBaseCS_tpValor) em S-5001 = [32].</xs:documentation>
                                                                                             </xs:annotation>
                                                                                         </xs:element>
+                                                                                        <xs:element name="vrSalPat" minOccurs="0" type="TS_valorMonetario">
+                                                                                            <xs:annotation>
+                                                                                                <xs:documentation>Valor total do salário-paternidade para a categoria indicada.</xs:documentation>
+                                                                                                <xs:documentation>Origem: campo {valor}(5001_infoCp_ideEstabLot_infoCategIncid_infoBaseCS_valor) de S-5001, quando {tpValor}(5001_infoCp_ideEstabLot_infoCategIncid_infoBaseCS_tpValor) em S-5001 = [33].</xs:documentation>
+                                                                                                <xs:documentation>Validação: Retornar somente se {perApur}(5011_ideEvento_perApur) for igual ou posterior a [2027-01].</xs:documentation>
+                                                                                            </xs:annotation>
+                                                                                        </xs:element>
                                                                                     </xs:sequence>
                                                                                 </xs:complexType>
                                                                             </xs:element>

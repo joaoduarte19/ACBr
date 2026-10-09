@@ -199,6 +199,8 @@ type
                              ciBasedeCalcContribPrevAuxDoenca13oSalDoencaRegPropPrevSocial,
                              cicBasedeCalculodaContribMaternidadeINSS,
                              cicBasedeCalculodaContribMaternidade13INSS,
+                             cicBasedeCalculodaContribPaternidadeINSS,
+                             cicBasedeCalculodaContribPaternidade13INSS,
                              cicContribuicaoDescontadadoSegurado,
                              cicContribuicaoDescontadadoSegurado13oSalario,
                              cicContribuicaoDescontadadoSeguradoSEST,
@@ -214,7 +216,7 @@ type
                              cicIncidExclusivaEmpregadorSalMaternidade,
                              cicIncidExclusivaEmpregadorSalMaternidade13oSalario);
   const
-  tpCodIncCPArrayStrings: array[tpCodIncCP] of string = ( '00', '01', '11', '12', '13', '14', '15', '16', '21', '22', '23', '24', '25', '26', '31',
+  tpCodIncCPArrayStrings: array[tpCodIncCP] of string = ( '00', '01', '11', '12', '13', '14', '15', '16', '21', '22', '23', '24', '25', '26', '27', '28', '31',
                                                           '32', '34', '35', '51', '61', '91', '92', '93', '94', '95', '96', '97', '98');
   type
 
@@ -456,7 +458,7 @@ type
                              relSogro,
                              relAgregadoOutros);
 
-  tpTpRegTrab             = (trNenhum, trCLT, trEstatutario);
+  tpTpRegTrab             = (trNenhum, trCLT, trEstatutario, trNulo);
 
   tpTpRegPrev             = (rpNenhum, rpRGPS, rpRPPS, rpRPPE, rpSPSMFA);
 
@@ -1635,12 +1637,12 @@ end;
 
 function eSTpRegTrabToStr(const t: tpTpRegTrab ): string;
 begin
-  result := EnumeradoToStr2(t,TGenericosString0_2 );
+  result := EnumeradoToStr2(t,TGenericosString0_3 );
 end;
 
 function eSStrToTpRegTrab(var ok: boolean; const s: string): tpTpRegTrab;
 begin
-  result := tpTpRegTrab( StrToEnumerado2(ok , s, TGenericosString0_2 ) );
+  result := tpTpRegTrab( StrToEnumerado2(ok , s, TGenericosString0_3 ) );
 end;
 
 function eSTpRegPrevToStr(const t: tpTpRegPrev ): string;
