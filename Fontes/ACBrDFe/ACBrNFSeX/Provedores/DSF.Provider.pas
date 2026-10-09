@@ -656,7 +656,7 @@ begin
       tmGerar:
         begin
           Result := '{"dpsXmlGZipB64":"' + Result + '"}';
-          Path := '/dps';
+          Path := '/nfse';
         end;
 
       tmEnviarEvento:
