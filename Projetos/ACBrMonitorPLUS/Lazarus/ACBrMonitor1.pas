@@ -11534,7 +11534,12 @@ begin
     else
     begin
       if ACBrNFe1.NotasFiscais[0].NFe.Ide.tpImp = tiSimplificadoTipo2 then
-        ACBrNFe1.DANFE := ACBrNFeDANFCeFortes1
+      begin
+        if (rgModeloDANFeNFCE.ItemIndex <> CMODELO_NFCE_FORTES) then
+          ACBrNFe1.DANFE := ACBrNFeDANFeESCPOS1
+        else
+          ACBrNFe1.DANFE := ACBrNFeDANFCeFortes1
+      end
       else
         ACBrNFe1.DANFE := ACBrNFeDANFeRL1;
       if NaoEstaVazio(cbxImpressora.Text) then

@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+09/10/2026
+-- ACBrMonitor1 --
+[-] Corrige seleção do componente de impressão quando DANFe Simplificado Tipo 2 para considerar ESCPOS também.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/95129-impress%C3%A3o-de-danfe-simplificada-tipo-2-na-bobina/?&_rid=124795#findComment-623343 
+
 07/10/2026
 --- Diversos ---
 [+] ACBR-9220 - Implementação do CIOT no Monitor
