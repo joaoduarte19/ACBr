@@ -36,6 +36,17 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+09/10/2026
+-- ACBrIMendes --
+[+] Conformidade com o manual 3.3.26: novos campos e grupos
+[+] ConsultarAlterados com parâmetro opcional aLimite (dados "CNPJ|UF|LIMITE").
+[+] Propriedade MaxProdutosPorEnvio(default 300), validada no SaneamentoGrades.
+[+] Exceção EACBrIMendesLimiteRequisicoes para HTTP 429, com o valor do Retry-After.
+[*] TimeOut padrão alterado para 300000ms, conforme recomendação do manual.
+[*] Token do SaneamentoGrades passa a ser renovado após 2 horas de validade.
+[-] Correção do prodCodInterno no JSON do grupo.
+    por: Elias Cesar
+
 08/10/2026
 -- ACBrIMendes --
 [+] Ajustes para utilização do componente na Lib:
