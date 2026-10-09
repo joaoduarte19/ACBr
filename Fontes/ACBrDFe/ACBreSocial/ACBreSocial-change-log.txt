@@ -57,6 +57,10 @@ Símbolo : Significado
 [+] ACBR-9919: Implementada NT 2026/007
   Por: Renato Rubinho
   Veja: https://www.projetoacbr.com.br/forum/topic/94987-publicada-nota-t%C3%A9cnica-alterando-eventos-e-valida%C3%A7%C3%B5es-do-e-social/
+-- pcesS1210 --
+[*] ACBR-9977: Corrigida leitura da chave tpDep do ini quando em branco ou não informada no evento S1210
+  Por: Renato Rubinho
+  Veja: https://www.projetoacbr.com.br/forum/topic/95173-acbr-9977-problema-na-gera%C3%A7%C3%A3o-de-arquivos-xml-do-esocial-evento-s-1210/
 
 06/08/2026
 -- pcesS1299 --

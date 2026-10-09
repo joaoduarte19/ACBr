@@ -1473,10 +1473,10 @@ begin
     Gerador.wCampo(tcStr, '', 'nome',        0, 70,  0, obj[i].nome);
 
     if obj[i].depIRRF = snfSim then
+    begin
       Gerador.wCampo(tcStr, '', 'depIRRF',   1,  1,  1, eSSimNaoFacultativoToStr(obj[i].depIRRF));
-    
-    if obj[i].tpDep <> tdNenhum then
       Gerador.wCampo(tcInt, '', 'tpDep',     2,  2,  0, eStpDepToStr(obj[i].tpDep));
+    end;
 
     Gerador.wCampo(tcStr, '', 'descrDep',    0, 100, 0, obj[i].descrDep);
 
@@ -2397,7 +2397,7 @@ begin
               dtNascto := StringToDateTime(INIRec.ReadString(sSecao, 'dtNascto', '0'));
               nome := INIRec.ReadString(sSecao, 'nome', '');
               depIRRF := eSStrToSimNaoFacultativo(Ok, INIRec.ReadString(sSecao, 'depIRRF', ''));
-              tpDep := eSStrToTpDep(Ok, INIRec.ReadString(sSecao, 'tpDep', '01'));
+              tpDep := eSStrToTpDep(Ok, INIRec.ReadString(sSecao, 'tpDep', ''));
               descrDep := INIRec.ReadString(sSecao, 'descrDep', '');
             end;
 
