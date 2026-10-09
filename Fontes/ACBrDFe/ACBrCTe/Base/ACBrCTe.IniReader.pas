@@ -566,6 +566,7 @@ var
 begin
   Emit.CNPJ  := AINIRec.ReadString('emit','CNPJ','');
   Emit.IE    := AINIRec.ReadString('emit','IE','');
+  Emit.IEST  := AINIRec.ReadString('emit','IEST','');
   Emit.xNome := AINIRec.ReadString('emit','xNome','');
   Emit.xFant := AINIRec.ReadString('emit','xFant','');
   Emit.CRT   := StrToCRTCTe(ok, AINIRec.ReadString('emit','CRT', ''));

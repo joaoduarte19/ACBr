@@ -532,6 +532,7 @@ procedure TCTeIniWriter.Gerar_Emitente(AINIRec: TMemIniFile; Emit: TEmit);
 begin
   AINIRec.WriteString('emit', 'CNPJ', Emit.CNPJ);
   AINIRec.WriteString('emit', 'IE', Emit.IE);
+  AINIRec.WriteString('emit', 'IEST', Emit.IEST);
   AINIRec.WriteString('emit', 'xNome', Emit.xNome);
   AINIRec.WriteString('emit', 'xFant', Emit.xFant);
   AINIRec.WriteString('emit', 'CRT', CRTCTeToStr(Emit.CRT));
