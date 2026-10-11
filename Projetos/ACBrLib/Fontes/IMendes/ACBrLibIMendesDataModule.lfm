@@ -1,0 +1,14 @@
+inherited LibIMendesDM: TLibIMendesDM
+  Height = 137
+  HorizontalOffset = 2256
+  VerticalOffset = 373
+  Width = 171
+  object ACBrIMendes1: TACBrIMendes[0]
+    ProxyPort = '8080'
+    ContentsEncodingCompress = []
+    NivelLog = 0
+    Ambiente = imaNenhum
+    Left = 72
+    Top = 48
+  end
+end
