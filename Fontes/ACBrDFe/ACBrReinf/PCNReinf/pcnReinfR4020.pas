@@ -602,8 +602,8 @@ end;
 procedure TevtRetPJ.Gerarretencoes(item: Tretencoes);
 begin
   if (item.vlrIR <> 0) or
+     (item.vlrBaseIR <> 0) or
      (item.vlrAgreg <> 0) or
-     (item.vlrCSLL <> 0) or
      (item.vlrCSLL <> 0) or
      (item.vlrCofins <> 0) or
      (item.vlrPP <> 0) then

@@ -41,6 +41,13 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+13/10/2026
+-- pcnReinfR4020 --
+[*] ACBR-9792 - Ajuste na geração do grupo <retencoes> para considerar vlrBaseIR > 0
+  Por: Jonathan Gonçalves
+  Veja: https://www.projetoacbr.com.br/forum/topic/94162-acbr-9792r-4020-ajuste-na-gera%C3%A7%C3%A3o-do-grupo-para-considerar-vlrbaseir-0/
+
 02/07/2026
 -- Diversas units Reinf  --
 [*] Ajuste diversos para CNPJ Alfanuméricos
