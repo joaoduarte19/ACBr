@@ -43,6 +43,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 13/10/2026
+-- Equiplano.GravarXml --
+[-] Ajuste na geração do elemento nrTelefone para que coincida com o arquivo de schema.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/95342-corre%C3%A7%C3%A3o-xsd-equiplano-retirar-obrigatoriedade-do-tsnrtelefone/ 
+-- ISSBarueri.Provider --
+[-] Ajuste no tratamento implementado no commit 48303 visando tornar mais inteligente a adição do sufixo ".TXT"
+   Por: Victor H Gonzales - Panda
 -- PadraoNacional.GravarXml/PadraoNacional.LerXml --
 [-] Adiciona leitura e geração da chave CodigoMunicipio para a seção ConstrucaoCivil
    Por: Diego Folieni

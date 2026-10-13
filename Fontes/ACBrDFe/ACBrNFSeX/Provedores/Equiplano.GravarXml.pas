@@ -399,7 +399,7 @@ begin
     Result.AppendChild(AddNode(tcStr, '#1', 'nrCep', 0, 15, 1,
                                     OnlyNumber(NFSe.Tomador.Endereco.CEP), ''));
 
-    Result.AppendChild(AddNode(tcStr, '#1', 'nrTelefone', 0, 20, 1,
+    Result.AppendChild(AddNode(tcStr, '#1', 'nrTelefone', 1, 20, 0,
                                             NFSe.Tomador.Contato.Telefone, ''));
   end;
 end;
