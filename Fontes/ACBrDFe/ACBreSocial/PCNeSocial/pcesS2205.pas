@@ -55,6 +55,7 @@ uses
    Contnrs,
   {$IFEND}
   ACBrBase, pcnConversao,
+  pcnLeitor,
   pcesCommon, pcesConversaoeSocial, pcesGerador;
 
 type
@@ -74,6 +75,7 @@ type
     destructor Destroy; override;
 
     function GerarXML: boolean; override;
+    function LerXML: Boolean;
     function LerArqIni(const AIniString: String): Boolean;
 
     property dtAlteracao: TDateTime read FdtAlteracao write FdtAlteracao;
@@ -428,6 +430,114 @@ begin
     XML := FXML;
   finally
     INIRec.Free;
+  end;
+end;
+
+function TEvtAltCadastral.LerXML: Boolean;
+var
+  Leitor: TLeitor;
+  bOK: Boolean;
+  I: Integer;
+begin
+  Result := True;
+  Leitor := TLeitor.Create;
+  try
+    Leitor.Arquivo := XML;
+    if Leitor.rExtrai(1, 'evtAltCadastral') <> '' then
+    begin
+      Id := Leitor.rAtributo('Id=');
+      if Leitor.rExtrai(2, 'ideEvento') <> '' then
+      begin
+        FIdeEvento.indRetif := eSStrToIndRetificacao(bOK, Leitor.rCampo(tcStr, 'indRetif'));
+        FIdeEvento.ProcEmi  := eSStrToprocEmi(bOK, Leitor.rCampo(tcStr, 'procEmi'));
+        FIdeEvento.NrRecibo := Leitor.rCampo(tcStr, 'nrRecibo');
+        FIdeEvento.VerProc  := Leitor.rCampo(tcStr, 'verProc');
+      end;
+      if Leitor.rExtrai(2, 'ideEmpregador') <> '' then
+      begin
+        FIdeEmpregador.TpInsc := eSStrToTpInscricao(bOK, Leitor.rCampo(tcStr, 'tpInsc'));
+        FIdeEmpregador.NrInsc := Leitor.rCampo(tcStr, 'nrInsc');
+      end;
+      if Leitor.rExtrai(2, 'ideTrabalhador') <> '' then
+        ideTrabalhador.cpfTrab   := Leitor.rCampo(tcStr, 'cpfTrab');
+      if Leitor.rExtrai(2, 'alteracao') <> '' then
+      begin
+        dtAlteracao := StringToDateTime(Leitor.rCampo(tcDat, 'dtAlteracao'));
+
+        trabalhador.NmTrab     := Leitor.rCampo(tcStr, 'nmTrab');
+        trabalhador.Sexo       := Leitor.rCampo(tcStr, 'sexo');
+        trabalhador.RacaCor    := StrToIntDef(Leitor.rCampo(tcStr, 'racaCor'),0); //integer
+        trabalhador.EstCiv     := StrToIntDef(Leitor.rCampo(tcStr, 'estCiv'),0);//integer
+        trabalhador.GrauInstr  := Leitor.rCampo(tcStr, 'grauInstr', '01');
+        trabalhador.nmSoc      := Leitor.rCampo(tcStr, 'nmSoc');
+        trabalhador.PaisNac    := Leitor.rCampo(tcStr, 'paisNac');
+        if Leitor.rExtrai(3, 'endereco') <> '' then
+        begin
+          if Leitor.rExtrai(4, 'brasil') <> '' then
+          begin
+            Trabalhador.Endereco.Brasil.TpLograd    := Leitor.rCampo(tcStr, 'tpLograd');
+            Trabalhador.Endereco.Brasil.DscLograd   := Leitor.rCampo(tcStr, 'dscLograd');
+            Trabalhador.Endereco.Brasil.NrLograd    := Leitor.rCampo(tcStr, 'nrLograd');
+            Trabalhador.Endereco.Brasil.Complemento := Leitor.rCampo(tcStr, 'complemento');
+            Trabalhador.Endereco.Brasil.Bairro      := Leitor.rCampo(tcStr, 'bairro');
+            Trabalhador.Endereco.Brasil.Cep         := Leitor.rCampo(tcStr, 'cep');
+            Trabalhador.Endereco.Brasil.CodMunic    := StrToIntDef(Leitor.rCampo(tcStr, 'codMunic'),0);  //integer
+            Trabalhador.Endereco.Brasil.UF          := Leitor.rCampo(tcStr, 'uf');
+          end;
+          if Leitor.rExtrai(4, 'exterior') <> '' then
+          begin
+            Trabalhador.Endereco.Exterior.PaisResid   := Leitor.rCampo(tcStr, 'paisResid');
+            Trabalhador.Endereco.Exterior.DscLograd   := Leitor.rCampo(tcStr, 'dscLograd');
+            Trabalhador.Endereco.Exterior.NrLograd    := Leitor.rCampo(tcStr, 'nrLograd');
+            Trabalhador.Endereco.Exterior.Complemento := Leitor.rCampo(tcStr, 'complemento');
+            Trabalhador.Endereco.Exterior.Bairro      := Leitor.rCampo(tcStr, 'bairro');
+            Trabalhador.Endereco.Exterior.NmCid       := Leitor.rCampo(tcStr, 'nmCid');
+            Trabalhador.Endereco.Exterior.CodPostal   := Leitor.rCampo(tcStr, 'codPostal');
+          end;
+        end;
+        if Leitor.rExtrai(3, 'trabImig') <> '' then
+        begin
+          trabalhador.trabImig.tmpResid := StrTotpTmpResid(bOK, Leitor.rCampo(tcStr, 'tmpResid'));
+          trabalhador.trabImig.condIng  := StrTotpCondIng(bOK, Leitor.rCampo(tcStr, 'condIng'));
+        end;
+        if Leitor.rExtrai(3, 'infoDeficiencia') <> '' then
+        begin
+          trabalhador.infoDeficiencia.DefFisica      := eSStrToSimNao(bOk, Leitor.rCampo(tcStr, 'defFisica'));
+          trabalhador.infoDeficiencia.DefVisual      := eSStrToSimNao(bOk, Leitor.rCampo(tcStr, 'defVisual'));
+          trabalhador.infoDeficiencia.DefAuditiva    := eSStrToSimNao(bOk, Leitor.rCampo(tcStr, 'defAuditiva'));
+          trabalhador.infoDeficiencia.DefMental      := eSStrToSimNao(bOk, Leitor.rCampo(tcStr, 'defMental'));
+          trabalhador.infoDeficiencia.DefIntelectual := eSStrToSimNao(bOk, Leitor.rCampo(tcStr, 'defIntelectual'));
+          trabalhador.infoDeficiencia.ReabReadap     := eSStrToSimNao(bOk, Leitor.rCampo(tcStr, 'reabReadap'));
+          trabalhador.infoDeficiencia.infoCota       := eSStrToSimNaoFacultativo(bOk, Leitor.rCampo(tcStr, 'infoCota'));
+          trabalhador.infoDeficiencia.Observacao     := Leitor.rCampo(tcStr, 'observacao');
+        end;
+
+        i := 0;
+        while Leitor.rExtrai(3, 'dependente', '', i + 1) <> '' do
+        begin
+          with Trabalhador.Dependente.New do
+          begin
+            tpDep    := eSStrToTpDep(bOK, Leitor.rCampo(tcStr, 'tpDep'));
+            nmDep    := Leitor.rCampo(tcStr, 'nmDep');
+            dtNascto := StringToDateTime(Leitor.rCampo(tcDat, 'dtNascto'));
+            cpfDep   := Leitor.rCampo(tcStr, 'cpfDep');
+            sexoDep  := Leitor.rCampo(tcStr, 'sexoDep');
+            depIRRF  := eSStrToSimNao(bOK, Leitor.rCampo(tcStr, 'depIRRF', 'S'));
+            depSF    := eSStrToSimNao(bOK, Leitor.rCampo(tcStr, 'depSF', 'S'));
+            incTrab  := eSStrToSimNao(bOK, Leitor.rCampo(tcStr, 'incTrab', 'S'));
+            descrDep := Leitor.rCampo(tcStr, 'descrDep');
+          end;
+          Inc(i);
+        end;
+        if Leitor.rExtrai(3, 'contato') <> '' then
+        begin
+          Trabalhador.contato.FonePrinc     := Leitor.rCampo(tcStr, 'fonePrinc');
+          Trabalhador.contato.EmailPrinc    := Leitor.rCampo(tcStr, 'emailPrinc');
+        end;
+      end;
+    end;
+  finally
+    Leitor.Free;
   end;
 end;
 

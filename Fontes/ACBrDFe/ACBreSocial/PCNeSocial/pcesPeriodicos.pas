@@ -636,10 +636,22 @@ begin
   typVersaoDF := TACBreSocial(Self.Owner).Configuracoes.Geral.VersaoDF;
 
   case StringXMLToTipoEvento(Ok, AXMLString, typVersaoDF) of
-    teS1200: Self.S1200.New.EvtRemun.XML := AXMLString;
+    teS1200: begin
+      with Self.S1200.New do
+      begin
+        EvtRemun.XML := AXMLString;
+        EvtRemun.LerXML;
+      end;
+    end;
     teS1202: Self.S1202.New.EvtRmnRPPS.XML := AXMLString;
     teS1207: Self.S1207.New.EvtBenPrRP.XML := AXMLString;
-    teS1210: Self.S1210.New.EvtPgtos.XML := AXMLString;
+    teS1210: begin
+      with Self.S1210.New do
+      begin
+        EvtPgtos.XML := AXMLString;
+        EvtPgtos.LerXML;
+      end;
+    end;
     teS1220: Self.S1220.New.EvtInfoIR.XML := AXMLString;
     teS1250: Self.S1250.New.EvtAqProd.XML := AXMLString;
     teS1260: Self.S1260.New.EvtComProd.XML := AXMLString;

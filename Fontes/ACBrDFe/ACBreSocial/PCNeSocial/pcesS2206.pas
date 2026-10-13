@@ -55,6 +55,7 @@ uses
    Contnrs,
   {$IFEND}
   ACBrBase, pcnConversao,
+  pcnLeitor,
   pcesCommon, pcesConversaoeSocial, pcesGerador;
 
 type
@@ -117,6 +118,7 @@ type
     destructor Destroy; override;
 
     function GerarXML: boolean; override;
+    function LerXML: Boolean;
     function LerArqIni(const AIniString: String): Boolean;
 
     property IdeEvento : TIdeEvento2 read FIdeEvento write FIdeEvento;
@@ -644,6 +646,158 @@ begin
     XML := FXML;
   finally
     INIRec.Free;
+  end;
+end;
+
+function TEvtAltContratual.LerXML: Boolean;
+var
+  Leitor: TLeitor;
+  bOK: Boolean;
+  I: Integer;
+begin
+  Result := True;
+  Leitor := TLeitor.Create;
+  try
+    Leitor.Arquivo := XML;
+    if Leitor.rExtrai(1, 'evtAltContratual') <> '' then
+    begin
+      Id := Leitor.rAtributo('Id=');
+      if Leitor.rExtrai(2, 'ideEvento') <> '' then
+      begin
+        FIdeEvento.indRetif := eSStrToIndRetificacao(bOK, Leitor.rCampo(tcStr, 'indRetif'));
+        FIdeEvento.NrRecibo := Leitor.rCampo(tcStr, 'nrRecibo');
+        FIdeEvento.ProcEmi  := eSStrToprocEmi(bOK, Leitor.rCampo(tcStr, 'procEmi'));
+        FIdeEvento.VerProc  := Leitor.rCampo(tcStr, 'verProc');
+      end;
+      if Leitor.rExtrai(2, 'ideEmpregador') <> '' then
+      begin
+        FIdeEmpregador.TpInsc := eSStrToTpInscricao(bOK, Leitor.rCampo(tcStr, 'tpInsc'));
+        FIdeEmpregador.NrInsc := Leitor.rCampo(tcStr, 'nrInsc');
+      end;
+      if Leitor.rExtrai(2, 'ideVinculo') <> '' then
+      begin
+        ideVinculo.cpfTrab   := Leitor.rCampo(tcStr, 'cpfTrab');
+        ideVinculo.Matricula := Leitor.rCampo(tcStr, 'matricula');
+      end;
+      if Leitor.rExtrai(2, 'altContratual') <> '' then
+      begin
+        altContratual.dtAlteracao := StringToDateTime(Leitor.rCampo(tcDat, 'dtAlteracao'));
+        altContratual.dtEf        := StringToDateTime(Leitor.rCampo(tcDat, 'dtEf'));
+        altContratual.dscAlt      := Leitor.rCampo(tcStr, 'dscAlt');
+        if Leitor.rExtrai(3, 'vinculo') <> '' then
+        begin
+          altContratual.vinculo.TpRegPrev      := eSStrTotpRegPrev(bOk, Leitor.rCampo(tcStr, 'tpRegPrev'));
+          if Leitor.rExtrai(4, 'infoRegimeTrab') <> '' then
+          begin
+            if Leitor.rExtrai(5, 'infoCeletista') <> '' then
+            begin
+              altContratual.vinculo.InfoRegimeTrab.InfoCeletista.TpRegJor          := eSStrToTpRegJor(bOk, Leitor.rCampo(tcStr, 'tpRegJor'));
+              altContratual.vinculo.InfoRegimeTrab.InfoCeletista.NatAtividade      := eSStrToNatAtividade(bOk, Leitor.rCampo(tcStr, 'natAtividade'));
+              if Leitor.rCampo(tcStr, 'dtBase') <> '' then
+                altContratual.vinculo.InfoRegimeTrab.InfoCeletista.dtBase          := Leitor.rCampo(tcStr, 'dtBase');
+              altContratual.vinculo.InfoRegimeTrab.InfoCeletista.cnpjSindCategProf := Leitor.rCampo(tcStr, 'cnpjSindCategProf');
+              if Leitor.rExtrai(6, 'trabTemporario') <> '' then
+                 altContratual.vinculo.InfoRegimeTrab.InfoCeletista.trabTemporario.justProrr   := Leitor.rCampo(tcStr, 'justProrr');
+              if Leitor.rExtrai(6, 'aprend') <> '' then
+              begin
+                 altContratual.vinculo.InfoRegimeTrab.InfoCeletista.aprend.indAprend := eSStrTotpIndAprend(bOk, Leitor.rCampo(tcStr, 'indAprend'));
+                 altContratual.vinculo.InfoRegimeTrab.InfoCeletista.aprend.cnpjEntQual := Leitor.rCampo(tcStr, 'cnpjEntQual', '');
+                 altContratual.vinculo.InfoRegimeTrab.InfoCeletista.aprend.TpInsc := eSStrToTpInscricao(bOk, Leitor.rCampo(tcStr, 'tpInsc'));
+                 altContratual.vinculo.InfoRegimeTrab.InfoCeletista.aprend.NrInsc := Leitor.rCampo(tcStr, 'nrInsc', '');
+                 altContratual.vinculo.InfoRegimeTrab.InfoCeletista.aprend.cnpjPrat := Leitor.rCampo(tcStr, 'cnpjPrat', '');
+              end;
+            end;
+            if Leitor.rExtrai(5, 'infoEstatutario') <> '' then
+            begin
+              altContratual.vinculo.InfoRegimeTrab.infoEstatutario.IndProvim            := eSStrToIndProvim(bOk, Leitor.rCampo(tcStr, 'indProvim'));
+              altContratual.vinculo.InfoRegimeTrab.infoEstatutario.TpProv               := eSStrToTpProv(bOk, Leitor.rCampo(tcStr, 'tpProv'));
+              altContratual.vinculo.InfoRegimeTrab.infoEstatutario.DtNomeacao           := StringToDateTime(Leitor.rCampo(tcDat, 'dtNomeacao'));
+              altContratual.vinculo.InfoRegimeTrab.infoEstatutario.DtPosse              := StringToDateTime(Leitor.rCampo(tcDat, 'dtPosse'));
+              altContratual.vinculo.InfoRegimeTrab.infoEstatutario.DtExercicio          := StringToDateTime(Leitor.rCampo(tcDat, 'dtExercicio'));
+              altContratual.vinculo.InfoRegimeTrab.infoEstatutario.tpPlanRP             := eSStrToTpPlanRP(bOk, Leitor.rCampo(tcStr, 'tpPlanRP'));
+              altContratual.vinculo.InfoRegimeTrab.infoEstatutario.infoDecJud.nrProcJud := Leitor.rCampo(tcStr, 'nrProcJud');
+              altContratual.vinculo.InfoRegimeTrab.infoEstatutario.indTetoRGPS          := eSStrToSimNaoFacultativo(bOk, Leitor.rCampo(tcStr, 'indTetoRGPS'));
+              altContratual.vinculo.InfoRegimeTrab.infoEstatutario.indAbonoPerm         := eSStrToSimNaoFacultativo(bOk, Leitor.rCampo(tcStr, 'indAbonoPerm'));
+              altContratual.vinculo.InfoRegimeTrab.infoEstatutario.dtIniAbono           := StringToDateTime(Leitor.rCampo(tcDat, 'dtIniAbono'));
+            end;
+          end;
+          if Leitor.rExtrai(4, 'infoContrato') <> '' then
+          begin
+            altContratual.vinculo.infoContrato.nmCargo      := Leitor.rCampo(tcStr, 'nmCargo');
+            altContratual.vinculo.infoContrato.CBOCargo     := Leitor.rCampo(tcStr, 'CBOCargo');
+            altContratual.vinculo.infoContrato.nmFuncao     := Leitor.rCampo(tcStr, 'nmFuncao');
+            altContratual.vinculo.infoContrato.CBOFuncao    := Leitor.rCampo(tcStr, 'CBOFuncao');
+            altContratual.vinculo.infoContrato.acumCargo    := eSStrToSimNaoFacultativo(bOk, Leitor.rCampo(tcStr, 'acumCargo'));
+            altContratual.vinculo.infoContrato.CodCateg    := StrToIntDef(Leitor.rCampo(tcStr, 'codCateg'), 0);
+            if Leitor.rExtrai(5, 'remuneracao') <> '' then
+            begin
+              altContratual.vinculo.infoContrato.remuneracao.VrSalFx    := StringToFloatDef(Leitor.rCampo(tcStr, 'vrSalFx'), 0);
+              altContratual.vinculo.infoContrato.remuneracao.UndSalFixo := eSStrToUndSalFixo(bOk, Leitor.rCampo(tcStr, 'undSalFixo'));
+              altContratual.vinculo.infoContrato.remuneracao.DscSalVar  := Leitor.rCampo(tcStr, 'dscSalVar');
+            end;
+            if Leitor.rExtrai(5, 'duracao') <> '' then
+            begin
+              altContratual.vinculo.infoContrato.duracao.TpContr   := eSStrToTpContr(bOk, Leitor.rCampo(tcStr, 'tpContr'));
+              altContratual.vinculo.infoContrato.duracao.dtTerm    := StringToDateTime(Leitor.rCampo(tcDat, 'dtTerm'));
+              altContratual.vinculo.infoContrato.duracao.objDet    := Leitor.rCampo(tcStr, 'objDet');
+            end;
+            if Leitor.rExtrai(5, 'localTrabalho') <> '' then
+            begin
+              if Leitor.rExtrai(6, 'localTrabGeral') <> '' then
+              begin
+                altContratual.vinculo.infoContrato.LocalTrabalho.LocalTrabGeral.TpInsc   := eSStrToTpInscricao(bOk, Leitor.rCampo(tcStr, 'tpInsc'));
+                altContratual.vinculo.infoContrato.LocalTrabalho.LocalTrabGeral.NrInsc   := Leitor.rCampo(tcStr, 'nrInsc');
+                altContratual.vinculo.infoContrato.LocalTrabalho.LocalTrabGeral.DescComp := Leitor.rCampo(tcStr, 'descComp');
+              end;
+              if Leitor.rExtrai(6, 'localTempDom') <> '' then
+              begin
+                altContratual.vinculo.infoContrato.LocalTrabalho.LocalTempDom.TpLograd    := Leitor.rCampo(tcStr, 'tpLograd');
+                altContratual.vinculo.infoContrato.LocalTrabalho.LocalTempDom.DscLograd   := Leitor.rCampo(tcStr, 'dscLograd');
+                altContratual.vinculo.infoContrato.LocalTrabalho.LocalTempDom.NrLograd    := Leitor.rCampo(tcStr, 'nrLograd');
+                altContratual.vinculo.infoContrato.LocalTrabalho.LocalTempDom.Complemento := Leitor.rCampo(tcStr, 'complemento');
+                altContratual.vinculo.infoContrato.LocalTrabalho.LocalTempDom.Bairro      := Leitor.rCampo(tcStr, 'bairro');
+                altContratual.vinculo.infoContrato.LocalTrabalho.LocalTempDom.Cep         := Leitor.rCampo(tcStr, 'cep');
+                altContratual.vinculo.infoContrato.LocalTrabalho.LocalTempDom.CodMunic    := StrToIntDef(Leitor.rCampo(tcStr, 'CodMunic'), 0);
+                altContratual.vinculo.infoContrato.LocalTrabalho.LocalTempDom.uf          := Leitor.rCampo(tcStr, 'uf');
+              end;
+            end;
+            if Leitor.rExtrai(5, 'horContratual') <> '' then
+            begin
+              altContratual.vinculo.infoContrato.horContratual.QtdHrsSem := StringToFloatDef(Leitor.rCampo(tcStr, 'qtdHrsSem'), 0);
+              altContratual.vinculo.infoContrato.horContratual.TpJornada := eSStrToTpJornada(bOk, Leitor.rCampo(tcStr, 'tpJornada'));
+              altContratual.vinculo.infoContrato.horContratual.tmpParc   := StrTotpTmpParc(bOk, Leitor.rCampo(tcStr, 'tmpParc'));
+              altContratual.vinculo.infoContrato.horContratual.horNoturno:= eSStrToSimNao(bOk, Leitor.rCampo(tcStr, 'horNoturno'));
+              altContratual.vinculo.infoContrato.horContratual.dscJorn   := Leitor.rCampo(tcStr, 'dscJorn');
+            end;
+            if Leitor.rExtrai(5, 'alvaraJudicial') <> '' then
+              altContratual.vinculo.infoContrato.alvaraJudicial.NrProcJud := Leitor.rCampo(tcStr, 'nrProcJud');
+
+            i := 0;
+            while Leitor.rExtrai(5, 'observacoes', '', i + 1) <> '' do
+            begin
+              with altContratual.vinculo.infoContrato.observacoes.New do
+              begin
+                observacao := Leitor.rCampo(tcStr, 'observacao', '');
+              end;
+              Inc(i);
+            end;
+
+            i := 0;
+            while Leitor.rExtrai(5, 'treiCap', '', i + 1) <> '' do
+            begin
+              with altContratual.vinculo.infoContrato.treiCap.New do
+              begin
+                codTreiCap := Leitor.rCampo(tcStr, 'codTreiCap', '');
+              end;
+              Inc(i);
+            end;
+          end;
+        end;
+
+      end;
+    end;
+  finally
+    Leitor.Free;
   end;
 end;
 

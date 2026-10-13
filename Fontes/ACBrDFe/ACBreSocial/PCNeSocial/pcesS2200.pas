@@ -951,7 +951,7 @@ begin
 
           if Leitor.rExtrai(4, 'horContratual') <> '' then
           begin
-            vinculo.infoContrato.horContratual.QtdHrsSem := StrToIntDef(Leitor.rCampo(tcStr, 'qtdHrsSem'), 0);
+            vinculo.infoContrato.horContratual.QtdHrsSem := StringToFloatDef(Leitor.rCampo(tcStr, 'qtdHrsSem'), 0);
             vinculo.infoContrato.horContratual.TpJornada := eSStrToTpJornada(bOk, Leitor.rCampo(tcStr, 'tpJornada'));
             vinculo.infoContrato.horContratual.DscTpJorn := Leitor.rCampo(tcStr, 'dscTpJorn');
             vinculo.infoContrato.horContratual.dscJorn   := Leitor.rCampo(tcStr, 'dscJorn');

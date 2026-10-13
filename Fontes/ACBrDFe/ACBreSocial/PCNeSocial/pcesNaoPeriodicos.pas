@@ -1254,8 +1254,22 @@ begin
         EvtAdmissao.LerXML;
       end;
     end;
-    teS2205: Self.S2205.New.EvtAltCadastral.XML := AXMLString;
-    teS2206: Self.S2206.New.EvtAltContratual.XML := AXMLString;
+    teS2205:
+    begin
+      with Self.S2205.New do
+      begin
+        EvtAltCadastral.XML := AXMLString;
+        EvtAltCadastral.LerXML;
+      end;
+    end;
+    teS2206:
+    begin
+      with Self.S2206.New do
+      begin
+        EvtAltContratual.XML := AXMLString;
+        EvtAltContratual.LerXML;
+      end;
+    end;
     teS2210:
     begin
       with Self.S2210.New do
@@ -1273,7 +1287,13 @@ begin
       end;
     end;
     teS2221: Self.S2221.New.EvtToxic.XML := AXMLString;
-    teS2230: Self.S2230.New.EvtAfastTemp.XML := AXMLString;
+    teS2230: begin
+      with Self.S2230.New do
+      begin
+        EvtAfastTemp.XML := AXMLString;
+        EvtAfastTemp.LerXML;
+      end;
+    end;
     teS2231: Self.S2231.New.EvtCessao.XML := AXMLString;
     teS2240:
     begin
@@ -1287,7 +1307,13 @@ begin
     teS2250: Self.S2250.New.EvtAvPrevio.XML := AXMLString;
     teS2260: Self.S2260.New.EvtConvInterm.XML := AXMLString;
     teS2298: Self.S2298.New.EvtReintegr.XML := AXMLString;
-    teS2299: Self.S2299.New.EvtDeslig.XML := AXMLString;
+    teS2299: begin
+      with Self.S2299.New do
+      begin
+        EvtDeslig.XML := AXMLString;
+        EvtDeslig.LerXML;
+      end;
+    end;
     teS2300: Self.S2300.New.EvtTSVInicio.XML := AXMLString;
     teS2306: Self.S2306.New.EvtTSVAltContr.XML := AXMLString;
     teS2399: Self.S2399.New.EvtTSVTermino.XML := AXMLString;

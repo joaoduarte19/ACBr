@@ -52,6 +52,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+13/10/2026
+-- pcesNaoPeriodicos,pcesPeriodicos,pcesS1200,pcesS1210,pcesS2200,pcesS2205,pcesS2206,pcesS2230,pcesS2299 --
+[+] ACBR-9793 - Implementada leitura dos xmls de diversos eventos
+  Por: Hudson G Leite
+  Veja: https://www.projetoacbr.com.br/forum/topic/94236-acbr-9793adicionado-lerxml-para-s-2205-e-s-2206/
+
 09/10/2026
 -- Diversos --
 [+] ACBR-9919: Implementada NT 2026/007

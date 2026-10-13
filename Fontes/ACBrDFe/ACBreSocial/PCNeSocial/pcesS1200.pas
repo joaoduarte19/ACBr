@@ -63,6 +63,7 @@ uses
 	pcnGerador,
   pcesCommon, 
 	pcesConversaoeSocial, 
+  pcnLeitor,
 	pcesGerador;
 
 type
@@ -365,6 +366,7 @@ type
     destructor Destroy; override;
 
     function GerarXML: boolean; override;
+    function LerXML: Boolean;
     function LerArqIni(const AIniString: String): Boolean;
 
     property ideEvento: TIdeEvento3 read FIdeEvento write FIdeEvento;
@@ -1644,6 +1646,268 @@ begin
     XML := FXML;
   finally
     INIRec.Free;
+  end;
+end;
+
+function TEvtRemun.LerXML: Boolean;
+var
+  Leitor: TLeitor;
+  bOK: Boolean;
+  I, J, K, M, N, P: Integer;
+begin
+  Result := True;
+  Leitor := TLeitor.Create;
+  try
+    Leitor.Arquivo := XML;
+
+    if Leitor.rExtrai(1, 'evtRemun') <> '' then
+    begin
+      Id := Leitor.rAtributo('Id=');
+
+      if Leitor.rExtrai(2, 'ideEvento') <> '' then
+      begin
+        FIdeEvento.indRetif := eSStrToIndRetificacao(bOK, Leitor.rCampo(tcStr, 'indRetif'));
+        FIdeEvento.NrRecibo := Leitor.rCampo(tcStr, 'nrRecibo');
+        FIdeEvento.indApuracao := eSStrToIndApuracao(bOk, Leitor.rCampo(tcStr, 'indApuracao'));
+        FIdeEvento.perApur  := Leitor.rCampo(tcStr, 'perApur');
+        FIdeEvento.ProcEmi  := eSStrToprocEmi(bOK, Leitor.rCampo(tcStr, 'procEmi'));
+        FIdeEvento.VerProc  := Leitor.rCampo(tcStr, 'verProc');
+      end;
+
+      if Leitor.rExtrai(2, 'ideEmpregador') <> '' then
+      begin
+        FIdeEmpregador.TpInsc := eSStrToTpInscricao(bOK, Leitor.rCampo(tcStr, 'tpInsc'));
+        FIdeEmpregador.NrInsc := Leitor.rCampo(tcStr, 'nrInsc');
+      end;
+
+      if Leitor.rExtrai(2, 'ideTrabalhador') <> '' then
+      begin
+        ideTrabalhador.cpfTrab   := Leitor.rCampo(tcStr, 'cpfTrab');
+        if Leitor.rExtrai(3, 'infoMV') <> '' then
+        begin
+          ideTrabalhador.infoMV.indMV   := eSStrToIndMV(bOk, Leitor.rCampo(tcStr, 'indMV'));
+
+          i := 0;
+          while Leitor.rExtrai(4, 'remunOutrEmpr', '', i + 1) <> '' do
+          begin
+            with ideTrabalhador.infoMV.remunOutrEmpr.New do
+            begin
+              TpInsc := eSStrToTpInscricao(bOK, Leitor.rCampo(tcStr, 'tpInsc'));
+              NrInsc := Leitor.rCampo(tcStr, 'nrInsc');
+              codCateg := Leitor.rCampo(tcInt, 'codCateg');
+              vlrRemunOE := StringToFloatDef(Leitor.rCampo(tcStr, 'vlrRemunOE'), 0);
+            end;
+            Inc(i);
+          end;
+        end;
+
+        if Leitor.rExtrai(3, 'infoComplem') <> '' then
+        begin
+          ideTrabalhador.infoComplem.nmTrab := Leitor.rCampo(tcStr, 'nmTrab');
+          ideTrabalhador.infoComplem.dtNascto := StringToDateTime(Leitor.rCampo(tcDat, 'dtNascto'));
+          if Leitor.rExtrai(4, 'sucessaoVinc') <> '' then
+          begin
+            ideTrabalhador.infoComplem.sucessaoVinc.tpInsc := eSStrToTpInscricao(bOK, Leitor.rCampo(tcStr, 'tpInsc'));
+            ideTrabalhador.infoComplem.sucessaoVinc.NrInsc := Leitor.rCampo(tcStr, 'nrInsc');
+            ideTrabalhador.infoComplem.sucessaoVinc.matricAnt := Leitor.rCampo(tcStr, 'matricAnt');
+            ideTrabalhador.infoComplem.sucessaoVinc.dtAdm := StringToDateTime(Leitor.rCampo(tcDat, 'dtAdm'));
+            ideTrabalhador.infoComplem.sucessaoVinc.observacao := Leitor.rCampo(tcStr, 'observacao');
+          end;
+        end;
+
+        i := 0;
+        while Leitor.rExtrai(3, 'procJudTrab', '', i + 1) <> '' do
+        begin
+          with ideTrabalhador.procJudTrab.New do
+          begin
+            tpTrib := eSStrToTpTributo(bOK, Leitor.rCampo(tcStr, 'tpInsc'));
+            nrProcJud := Leitor.rCampo(tcStr, 'nrProcJud');
+            codSusp := Leitor.rCampo(tcStr, 'codCateg');
+          end;
+          Inc(i);
+        end;
+
+        i := 0;
+        while Leitor.rExtrai(3, 'infoInterm', '', i + 1) <> '' do
+        begin
+          with ideTrabalhador.infoInterm.New do
+          begin
+            dia := Leitor.rCampo(tcInt, 'dia');
+            hrsTrab := Leitor.rCampo(tcStr, 'hrsTrab', '');
+          end;
+          Inc(i);
+        end;
+      end;
+
+      i := 0;
+      while Leitor.rExtrai(2, 'dmDev', '', i + 1) <> '' do
+      begin
+        with dmDev.New do
+        begin
+          ideDmDev := Leitor.rCampo(tcStr, 'ideDmDev', '');
+          codCateg := Leitor.rCampo(tcInt, 'codCateg');
+          indRRA := eSStrToSimNaoFacultativo(bOk, Leitor.rCampo(tcStr, 'indRRA'));
+          if Leitor.rExtrai(3, 'infoRRA') <> '' then
+          begin
+            infoRRA.tpProcRRA := eSStrToTpProcRRA(bOk, Leitor.rCampo(tcStr, 'tpProcRRA'));
+            infoRRA.nrProcRRA := Leitor.rCampo(tcStr, 'nrProcRRA');
+            infoRRA.descRRA := Leitor.rCampo(tcStr, 'descRRA');
+            infoRRA.qtdMesesRRA := StringToFloatDef(Leitor.rCampo(tcStr, 'qtdMesesRRA'), 0);
+            if Leitor.rExtrai(4, 'despProcJud') <> '' then
+            begin
+              infoRRA.despProcJud.vlrDespCustas := StringToFloatDef(Leitor.rCampo(tcStr, 'vlrDespCustas'), 0);
+              infoRRA.despProcJud.vlrDespAdvogados := StringToFloatDef(Leitor.rCampo(tcStr, 'vlrDespAdvogados'), 0);
+            end;
+
+            j := 0;
+            while Leitor.rExtrai(4, 'ideAdv', '', j + 1) <> '' do
+            begin
+              with infoRRA.ideAdv.New do
+              begin
+                TpInsc := eSStrToTpInscricao(bOK, Leitor.rCampo(tcStr, 'tpInsc'));
+                NrInsc := Leitor.rCampo(tcStr, 'nrInsc');
+                vlrAdv := StringToFloatDef(Leitor.rCampo(tcStr, 'vlrAdv'), 0);
+              end;
+              Inc(j);
+            end;
+          end;
+
+          if Leitor.rExtrai(3, 'infoPerApur') <> '' then
+          begin
+            j := 0;
+            while Leitor.rExtrai(4, 'ideEstabLot', '', j + 1) <> '' do
+            begin
+              with infoPerApur.ideEstabLot.New do
+              begin
+                TpInsc := eSStrToTpInscricao(bOK, Leitor.rCampo(tcStr, 'tpInsc'));
+                NrInsc := Leitor.rCampo(tcStr, 'nrInsc');
+                codLotacao := Leitor.rCampo(tcStr, 'codLotacao');
+                if Leitor.rCampo(tcInt, 'qtdDiasAv') > 0 then
+                  qtdDiasAv := Leitor.rCampo(tcInt, 'qtdDiasAv');
+
+                k := 0;
+                while Leitor.rExtrai(5, 'remunPerApur', '', k + 1) <> '' do
+                begin
+                  with remunPerApur.New do
+                  begin
+                    matricula := Leitor.rCampo(tcStr, 'matricula');
+                    indSimples := eSStrToIndSimples(bOk, Leitor.rCampo(tcStr, 'indSimples'));
+
+                    m := 0;
+                    while Leitor.rExtrai(6, 'itensRemun', '', m + 1) <> '' do
+                    begin
+                      with itensRemun.New do
+                      begin
+                        codRubr := Leitor.rCampo(tcStr, 'codRubr');
+                        ideTabRubr := Leitor.rCampo(tcStr, 'ideTabRubr');
+                        qtdRubr := StringToFloatDef(Leitor.rCampo(tcStr, 'qtdRubr'), 0);
+                        fatorRubr := StringToFloatDef(Leitor.rCampo(tcStr, 'fatorRubr'), 0);
+                        vrRubr := StringToFloatDef(Leitor.rCampo(tcStr, 'vrRubr'), 0);
+                        indApurIR := eSStrToTpindApurIR(bOk, Leitor.rCampo(tcStr, 'indApurIR'));
+                        if Leitor.rExtrai(7, 'descFolha') <> '' then
+                        begin
+                          descFolha.tpDesc := (eSStrToTtpDesc(Leitor.rCampo(tcStr, 'tpDesc')));
+                          descFolha.instFinanc := Leitor.rCampo(tcStr, 'instFinanc');
+                          descFolha.nrDoc := Leitor.rCampo(tcStr, 'nrDoc');
+                          if Leitor.rCampo(tcStr, 'observacao') <> '' then
+                             descFolha.observacao := Leitor.rCampo(tcStr, 'observacao');
+                        end;
+                      end;
+                      inc(m);
+                    end;
+
+                    if Leitor.rExtrai(6, 'infoAgNocivo') <> '' then
+                      infoAgNocivo.grauExp := eSStrToGrauExp(bOk, Leitor.rCampo(tcStr, 'grauExp'));
+                  end;
+                  inc(k);
+                end;
+              end;
+              Inc(j);
+            end;
+          end;
+
+          if Leitor.rExtrai(3, 'infoPerAnt') <> '' then
+          begin
+            j := 0;
+            while Leitor.rExtrai(4, 'ideADC', '', j + 1) <> '' do
+            begin
+              with infoPerAnt.ideADC.New do
+              begin
+                if Leitor.rCampo(tcDat, 'dtAcConv') > 0 then
+                  dtAcConv := Leitor.rCampo(tcDat, 'dtAcConv');
+                tpAcConv := eSStrToTpAcConv(bOk, Leitor.rCampo(tcStr, 'tpAcConv'));
+                dsc := Leitor.rCampo(tcStr, 'dsc');
+                remunSuc := eSStrToSimNao(bOk, Leitor.rCampo(tcStr, 'remunSuc'));
+
+                k := 0;
+                while Leitor.rExtrai(5, 'idePeriodo', '', k + 1) <> '' do
+                begin
+                  with idePeriodo.New do
+                  begin
+                    perRef := Leitor.rCampo(tcStr, 'perRef');
+
+                    m := 0;
+                    while Leitor.rExtrai(6, 'ideEstabLot', '', m + 1) <> '' do
+                    begin
+                      with ideEstabLot.New do
+                      begin
+                        TpInsc := eSStrToTpInscricao(bOK, Leitor.rCampo(tcStr, 'tpInsc'));
+                        NrInsc := Leitor.rCampo(tcStr, 'nrInsc');
+                        codLotacao := Leitor.rCampo(tcStr, 'codLotacao');
+
+                        n := 0;
+                        while Leitor.rExtrai(7, 'remunPerAnt', '', n + 1) <> '' do
+                        begin
+                          with remunPerAnt.New do
+                          begin
+                            matricula := Leitor.rCampo(tcStr, 'matricula');
+                            indSimples := eSStrToIndSimples(bOk, Leitor.rCampo(tcStr, 'indSimples'));
+
+                            p:= 0;
+                            while Leitor.rExtrai(8, 'itensRemun', '', p + 1) <> '' do
+                            begin
+                              with itensRemun.New do
+                              begin
+                                codRubr := Leitor.rCampo(tcStr, 'codRubr');
+                                ideTabRubr := Leitor.rCampo(tcStr, 'ideTabRubr');
+                                qtdRubr := StringToFloatDef(Leitor.rCampo(tcStr, 'qtdRubr'), 0);
+                                fatorRubr := StringToFloatDef(Leitor.rCampo(tcStr, 'fatorRubr'), 0);
+                                vrRubr := StringToFloatDef(Leitor.rCampo(tcStr, 'vrRubr'), 0);
+                                indApurIR := eSStrToTpindApurIR(bOk, Leitor.rCampo(tcStr, 'indApurIR'));
+                              end;
+                              inc(p);
+                            end;
+
+                            if Leitor.rExtrai(8, 'infoAgNocivo') <> '' then
+                              infoAgNocivo.grauExp := eSStrToGrauExp(bOk, Leitor.rCampo(tcStr, 'grauExp'));
+                          end;
+                          inc(n);
+                        end;
+                      end;
+                      inc(m);
+                    end;
+                  end;
+                  inc(k);
+                end;
+              end;
+              inc(j);
+            end;
+          end;
+
+          if Leitor.rExtrai(3, 'infoComplCont') <> '' then
+          begin
+            infoComplCont.codCBO := Leitor.rCampo(tcStr, 'codCBO');
+            infoComplCont.natAtividade := eSStrToNatAtividade(bOk, Leitor.rCampo(tcStr, 'natAtividade'));
+            if Leitor.rCampo(tcInt, 'qtdDiasTrab') > 0 then
+              infoComplCont.qtdDiasTrab := Leitor.rCampo(tcStr, 'qtdDiasTrab');
+          end;
+        end;
+        Inc(i);
+      end;
+
+    end;
+  finally
+    Leitor.Free;
   end;
 end;
 

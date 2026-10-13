@@ -55,6 +55,7 @@ uses
   ACBrBase,
   ACBrDFeConsts,
   pcnConversao, pcnGerador,
+  pcnLeitor,
   pcesCommon, pcesConversaoeSocial, pcesGerador;
 
 type
@@ -246,6 +247,7 @@ type
     destructor  Destroy; override;
 
     function GerarXML: boolean; override;
+    function LerXML: Boolean;
     function LerArqIni(const AIniString: String): Boolean;
 
     property IdeEvento: TIdeEvento2 read FIdeEvento write FIdeEvento;
@@ -760,6 +762,90 @@ begin
     XML := FXML;
   finally
     INIRec.Free;
+  end;
+end;
+
+function TEvtAfastTemp.LerXML: Boolean;
+var
+  Leitor: TLeitor;
+  bOK: Boolean;
+  I: Integer;
+begin
+  Result := True;
+  Leitor := TLeitor.Create;
+  try
+    Leitor.Arquivo := XML;
+    if Leitor.rExtrai(1, 'evtAfastTemp') <> '' then
+    begin
+      Id := Leitor.rAtributo('Id=');
+      if Leitor.rExtrai(2, 'ideEvento') <> '' then
+      begin
+        FIdeEvento.indRetif := eSStrToIndRetificacao(bOK, Leitor.rCampo(tcStr, 'indRetif'));
+        FIdeEvento.NrRecibo := Leitor.rCampo(tcStr, 'nrRecibo');
+        FIdeEvento.ProcEmi  := eSStrToprocEmi(bOK, Leitor.rCampo(tcStr, 'procEmi'));
+        FIdeEvento.VerProc  := Leitor.rCampo(tcStr, 'verProc');
+      end;
+      if Leitor.rExtrai(2, 'ideEmpregador') <> '' then
+      begin
+        FIdeEmpregador.TpInsc := eSStrToTpInscricao(bOK, Leitor.rCampo(tcStr, 'tpInsc'));
+        FIdeEmpregador.NrInsc := Leitor.rCampo(tcStr, 'nrInsc');
+      end;
+      if Leitor.rExtrai(2, 'ideVinculo') <> '' then
+      begin
+        ideVinculo.cpfTrab   := Leitor.rCampo(tcStr, 'cpfTrab');
+        ideVinculo.Matricula := Leitor.rCampo(tcStr, 'matricula');
+        ideVinculo.codCateg := Leitor.rCampo(tcInt, 'codCateg');
+      end;
+      if Leitor.rExtrai(2, 'infoAfastamento') <> '' then
+      begin
+        if Leitor.rExtrai(3, 'iniAfastamento') <> '' then
+        begin
+          infoAfastamento.iniAfastamento.DtIniAfast := Leitor.rCampo(tcDat, 'dtIniAfast');
+          infoAfastamento.iniAfastamento.codMotAfast := eSStrTotpMotivosAfastamento(bOk, Leitor.rCampo(tcStr, 'codMotAfast'));
+          infoAfastamento.iniAfastamento.infoMesmoMtv := eSStrToSimNao(bOk, Leitor.rCampo(tcStr, 'infoMesmoMtv'));
+          infoAfastamento.iniAfastamento.tpAcidTransito := tpatNao;
+          if Leitor.rCampo(tcStr, 'tpAcidTransito') <> '' then
+             infoAfastamento.iniAfastamento.tpAcidTransito := eSStrTotpTpAcidTransito(bOk, Leitor.rCampo(tcStr, 'tpAcidTransito'));
+          infoAfastamento.iniAfastamento.observacao := Leitor.rCampo(tcStr, 'observacao');
+
+          if Leitor.rExtrai(4, 'perAquis') <> '' then
+          begin
+            infoAfastamento.iniAfastamento.perAquis.dtInicio := Leitor.rCampo(tcDat, 'dtInicio');
+            infoAfastamento.iniAfastamento.perAquis.dtFim := Leitor.rCampo(tcDat, 'dtFim');
+          end;
+
+          if Leitor.rExtrai(4, 'infoCessao') <> '' then
+          begin
+            infoAfastamento.iniAfastamento.infoCessao.cnpjCess := Leitor.rCampo(tcStr, 'cnpjCess');
+            infoAfastamento.iniAfastamento.infoCessao.infOnus := StrTotpInfOnus(bOk, Leitor.rCampo(tcStr, 'infOnus'));
+          end;
+
+          if Leitor.rExtrai(4, 'infoMandSind') <> '' then
+          begin
+            infoAfastamento.iniAfastamento.infoMandSind.cnpjSind := Leitor.rCampo(tcStr, 'cnpjSind');
+            infoAfastamento.iniAfastamento.infoMandSind.infOnusRemun := StrTotpOnusRemun(bOk, Leitor.rCampo(tcStr, 'infOnusRemun'));
+          end;
+
+          if Leitor.rExtrai(4, 'infoMandElet') <> '' then
+          begin
+            infoAfastamento.iniAfastamento.infoMandElet.cnpjMandElet := Leitor.rCampo(tcStr, 'cnpjMandElet');
+            infoAfastamento.iniAfastamento.infoMandElet.indRemunCargo := eSStrToSimNao(bOk, Leitor.rCampo(tcStr, 'indRemunCargo'));
+          end;
+        end;
+
+        if Leitor.rExtrai(3, 'infoRetif') <> '' then
+        begin
+          infoAfastamento.infoRetif.origRetif := Leitor.rCampo(tcInt, 'origRetif');
+          infoAfastamento.infoRetif.tpProc := eSStrToTpProcesso(bOk, Leitor.rCampo(tcStr, 'tpProc'));
+          infoAfastamento.infoRetif.nrProc := Leitor.rCampo(tcStr, 'nrProc');
+        end;
+
+        if Leitor.rExtrai(3, 'fimAfastamento') <> '' then
+          infoAfastamento.fimAfastamento.dtTermAfast := Leitor.rCampo(tcDat, 'dtTermAfast');
+      end;
+    end;
+  finally
+    Leitor.Free;
   end;
 end;
 
