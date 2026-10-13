@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+13/10/2026
+-- PadraoNacional.GravarXml/PadraoNacional.LerXml --
+[-] Adiciona leitura e geração da chave CodigoMunicipio para a seção ConstrucaoCivil
+   Por: Diego Folieni
+
 09/10/2026
 -- PadraoNacional.GravarXml --
 [*] ACBR-9877 - As tags vPis e vCofins alteradas para opcionais.

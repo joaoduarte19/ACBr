@@ -2142,6 +2142,7 @@ begin
 
   AINIRec.WriteString(LSecao, 'CEP', NFSe.ConstrucaoCivil.Endereco.CEP);
   AINIRec.WriteString(LSecao, 'xMunicipio', NFSe.ConstrucaoCivil.Endereco.xMunicipio);
+  AINIRec.WriteString(LSecao, 'CodigoMunicipio', NFSe.ConstrucaoCivil.Endereco.CodigoMunicipio);
   AINIRec.WriteString(LSecao, 'UF', NFSe.ConstrucaoCivil.Endereco.UF);
   AINIRec.WriteString(LSecao, 'Logradouro', NFSe.ConstrucaoCivil.Endereco.Endereco);
   AINIRec.WriteString(LSecao, 'Numero', NFSe.ConstrucaoCivil.Endereco.Numero);
