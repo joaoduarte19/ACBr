@@ -10834,6 +10834,111 @@ object Form1: TForm1
                 end
               end
             end
+            object tsCaixa: TTabSheet
+              Caption = 'Caixa'
+              ImageIndex = 21
+              DesignSize = (
+                984
+                492)
+              object pnCaixa: TPanel
+                Left = 60
+                Top = 84
+                Width = 880
+                Height = 322
+                Anchors = [akLeft, akRight]
+                BevelOuter = bvNone
+                TabOrder = 0
+                DesignSize = (
+                  880
+                  322)
+                object lbCaixaChavePIX: TLabel
+                  Left = 24
+                  Top = 24
+                  Width = 51
+                  Height = 13
+                  Caption = 'Chave PIX'
+                end
+                object lbCaixaTipoChave: TLabel
+                  Left = 680
+                  Top = 24
+                  Width = 55
+                  Height = 13
+                  Anchors = [akTop, akRight]
+                  Caption = 'Tipo Chave'
+                  Color = clBtnFace
+                  ParentColor = False
+                end
+                object imCaixaErroChavePix: TImage
+                  Left = 831
+                  Top = 47
+                  Width = 16
+                  Height = 17
+                  Anchors = [akTop, akRight]
+                end
+                object lbCaixaClientID: TLabel
+                  Left = 24
+                  Top = 75
+                  Width = 40
+                  Height = 13
+                  Caption = 'Client ID'
+                end
+                object lbCaixaClientSecret: TLabel
+                  Left = 24
+                  Top = 132
+                  Width = 60
+                  Height = 13
+                  Caption = 'Client Secret'
+                end
+                object lbCaixaAPIKey: TLabel
+                  Left = 24
+                  Top = 189
+                  Width = 39
+                  Height = 13
+                  Caption = 'API Key'
+                end
+                object edCaixaChavePIX: TEdit
+                  Left = 24
+                  Top = 43
+                  Width = 641
+                  Height = 21
+                  Anchors = [akLeft, akTop, akRight]
+                  TabOrder = 0
+                  OnChange = edCaixaChavePIXChange
+                end
+                object cbCaixaTipoChave: TComboBox
+                  Left = 680
+                  Top = 43
+                  Width = 145
+                  Height = 21
+                  Anchors = [akTop, akRight]
+                  TabOrder = 1
+                end
+                object edCaixaClientID: TEdit
+                  Left = 24
+                  Top = 94
+                  Width = 801
+                  Height = 21
+                  Anchors = [akLeft, akTop, akRight]
+                  TabOrder = 2
+                end
+                object edCaixaClientSecret: TEdit
+                  Left = 24
+                  Top = 151
+                  Width = 801
+                  Height = 21
+                  Anchors = [akLeft, akTop, akRight]
+                  TabOrder = 3
+                end
+                object edCaixaAPIKey: TEdit
+                  Left = 24
+                  Top = 208
+                  Width = 801
+                  Height = 21
+                  Anchors = [akLeft, akTop, akRight]
+                  TabOrder = 4
+                end
+              end
+            end
           end
         end
       end
@@ -12218,6 +12323,10 @@ object Form1: TForm1
   object ACBrPSPCrediSIS1: TACBrPSPCrediSIS
     Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
     Left = 770
+    Top = 416
+  end
+  object ACBrPSPCaixa1: TACBrPSPCaixa
+    Left = 802
     Top = 416
   end
 end

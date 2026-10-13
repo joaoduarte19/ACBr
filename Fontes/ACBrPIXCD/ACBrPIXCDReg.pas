@@ -60,7 +60,8 @@ uses
   ACBrPIXPSPC6Bank,
   ACBrPIXPSPAppLess,
   ACBrPIXPSPQQPag,
-  ACBrPIXPSPCrediSIS
+  ACBrPIXPSPCrediSIS,
+  ACBrPIXPSPCaixa
   {$IFDEF FPC}, LResources {$ENDIF};
 
 procedure Register;
@@ -95,7 +96,8 @@ begin
     TACBrPSPC6Bank,
     TACBrPSPAppLess,
     TACBrPSPQQPag,
-    TACBrPSPCrediSIS]);
+    TACBrPSPCrediSIS,
+    TACBrPSPCaixa]);
 end;
 
 {$IFDEF FPC}

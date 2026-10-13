@@ -26,7 +26,8 @@ uses
   ACBrPIXSchemasRecParticipantes, ACBrPIXSchemasRecBase, ACBrPIXSchemasRec, 
   ACBrPIXSchemasSolicRec, ACBrPIXSchemasCobR, ACBrShipaySchemas, 
   ACBrSchemasMatera, ACBrSchemasGate2All, ACBrPIXPSPC6Bank, ACBrPIXPSPAppLess, 
-  ACBrSchemasAppLess, ACBrPIXPSPQQPag, ACBrPIXPSPCrediSIS, LazarusPackageIntf;
+  ACBrSchemasAppLess, ACBrPIXPSPQQPag, ACBrPIXPSPCrediSIS, ACBrPIXPSPCaixa,
+  LazarusPackageIntf;
 
 implementation
 

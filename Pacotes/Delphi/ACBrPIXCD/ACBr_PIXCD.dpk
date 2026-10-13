@@ -89,6 +89,7 @@ contains
   ACBrPIXSchemasSolicRec in '..\..\..\Fontes\ACBrPIXCD\ACBrPIXSchemasSolicRec.pas',
   ACBrPIXSchemasCobR in '..\..\..\Fontes\ACBrPIXCD\ACBrPIXSchemasCobR.pas',
   ACBrPIXSchemasWebhook in '..\..\..\Fontes\ACBrPIXCD\ACBrPIXSchemasWebhook.pas',
-  ACBrPIXPSPSicoob in '..\..\..\Fontes\ACBrPIXCD\ACBrPIXPSPSicoob.pas';
+  ACBrPIXPSPSicoob in '..\..\..\Fontes\ACBrPIXCD\ACBrPIXPSPSicoob.pas',
+  ACBrPIXPSPCaixa in '..\..\..\Fontes\ACBrPIXCD\ACBrPIXPSPCaixa.pas';
 
 end.
