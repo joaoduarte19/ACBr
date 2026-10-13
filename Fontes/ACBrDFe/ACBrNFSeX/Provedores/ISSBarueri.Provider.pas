@@ -932,11 +932,15 @@ begin
 
   // o WS requer o nome de arquivo com prefixo RET + Protocolo + .TXT
   if pos('ENV',Response.Protocolo) > 0 then
-    sArq:= StringReplace(Response.Protocolo, 'ENV', 'RET', [rfReplaceAll]) + '.TXT'
+    sArq:= StringReplace(Response.Protocolo, 'ENV', 'RET', [rfReplaceAll])
   else if pos('RET',Response.Protocolo) = 0 then
-    sArq:= 'RET' + Response.Protocolo + '.TXT'
+    sArq:= 'RET' + Response.Protocolo
   else
-    sArq:= Response.Protocolo + '.TXT';
+    sArq:= Response.Protocolo;
+
+  // o protocolo pode ja vir com a extensao (ex.: RET...TXT)
+  if UpperCase(Copy(sArq, Length(sArq) - 3, 4)) <> '.TXT' then
+    sArq:= sArq + '.TXT';
 
   XML := '<NFeLoteBaixarArquivo xmlns="http://www.barueri.sp.gov.br/nfe">';
   XML := XML + '<InscricaoMunicipal>' + Emitente.InscMun + '</InscricaoMunicipal>';
