@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+14/10/2026
+-- PadraoNacional.Provider --
+[-] Melhoria na rotina que trata o retorno da consulta DFe visando corrigir Access Violation.
+   Por: Jairo Motta
+
 13/10/2026
 -- Equiplano.GravarXml --
 [-] Ajuste na geração do elemento nrTelefone para que coincida com o arquivo de schema.
