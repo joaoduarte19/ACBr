@@ -43,9 +43,31 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 14/10/2026
--- PadraoNacional.Provider --
-[-] Melhoria na rotina que trata o retorno da consulta DFe visando corrigir Access Violation.
-   Por: Jairo Motta
+-- ACBrNFSeXServicos --
+[*] ACBR-10044 - Alteração de URLs para o município de Farroupilha/RS
+	Veja: https://www.projetoacbr.com.br/forum/topic/95347-acbr-10044-endere%C3%A7o-da-cidade-farroupilhars/
+	Por: Marco Moreira
+[*] ACBR-10021 - O município de Tremembé/SP trocou de Provedor, agora é SigCorp
+	Veja:  https://www.projetoacbr.com.br/forum/topic/95239-acbr-9983acbr-10021-sigiss-trememb%C3%A9-sp/
+	Por: Hunes/Larissa Santos
+[*] ACBR-10010 - Adicionado Provedor Pronim para o município de Joia/RS
+	Veja: https://www.projetoacbr.com.br/forum/topic/95249-acbr-10010-provedor-para-o-munic%C3%ADpio-de-j%C3%B3ia-rs-pronim/
+	Por: dsky
+[*] ACBR-10009 - O município de Três Lagoas/MS aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/95250-acbr-10009-nota-servi%C3%A7o-tr%C3%AAs-lagoas-ms/
+	Por: FabioTellini/Larissa Santos
+[*] ACBR-10008 - O município de Ourinhos/SP aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/95220-acbr-10008-nota-servi%C3%A7o-ourinhos/
+	Por: FabioTellini/Larissa Santos
+[*] ACBR-10007 - O município de Guaranta do Norte/MT não aderiu ao Padrão Nacional, permanece utilizando o Provedor Agili
+	Veja: https://www.projetoacbr.com.br/forum/topic/95215-acbr-10007-atualiza%C3%A7%C3%A3o-acbrnfsexservicosini-cuiab%C3%A1-mt-e-guarant%C3%A3-do-norte-mt/#comment-622799
+	Por: Leandro.ledo
+[*] ACBR-9996 - Alteração de Layout e URLs para o município de São Joaquim da Barra/SP
+	Veja: https://www.projetoacbr.com.br/forum/topic/95197-acbr-9996-cidade-de-s%C3%A3o-joaquim-da-barrasp-url-encontrada-no-site-da-prefeitura-difere-de-acbrnfexservicosini-cod-ibge-3549409/
+	Por: aocampioni
+[*] ACBR-9970 - O município de Jataí/GO mudou de provedor Sigep para Centi
+	Veja: https://www.projetoacbr.com.br/forum/topic/95152-acbr-9970-mudan%C3%A7a-do-provedor-da-cidade-de-jata%C3%AD-go/
+	Por: Márcio Baroni
 
 13/10/2026
 -- Equiplano.GravarXml --
