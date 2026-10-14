@@ -77,6 +77,7 @@
         QQPag,
         IBGE,
         AbecsPinpad,
-        AbecsPinpad_Device
+        AbecsPinpad_Device,
+        IMendes
     }
 }
