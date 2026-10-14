@@ -52,6 +52,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+14/10/2026
+-- pcesRetConsultaIdentEvt --
+[*] ACBR-9772 - Corrigida leitura do retorno da ConsultaIdentificadoresEventosTrabalhador com mais de um identificadorEvt no S1000
+  Por: Renato Rubinho
+
 13/10/2026
 -- pcesNaoPeriodicos,pcesPeriodicos,pcesS1200,pcesS1210,pcesS2200,pcesS2205,pcesS2206,pcesS2230,pcesS2299 --
 [+] ACBR-9793 - Implementada leitura dos xmls de diversos eventos

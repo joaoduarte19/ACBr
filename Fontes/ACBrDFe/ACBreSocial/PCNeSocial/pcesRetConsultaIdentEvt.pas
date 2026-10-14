@@ -144,8 +144,7 @@ end;
 
 function TRetConsultaIdentEvt.LerXml: boolean;
 var
-//  ok: boolean;
-  i{, j, k}: Integer;
+  i: Integer;
 begin
   Result := False;
   try
@@ -164,14 +163,17 @@ begin
         RetIdentEvts.qtdeTotEvtsConsulta := Leitor.rCampo(tcInt, 'qtdeTotEvtsConsulta');
         RetIdentEvts.dhUltimoEvtRetornado := Leitor.rCampo(tcDat, 'dhUltimoEvtRetornado');
 
-        i := 0;
-        while Leitor.rExtrai(3, 'identificadoresEvts', '', i + 1) <> '' do
+        if Leitor.rExtrai(3, 'identificadoresEvts') <> '' then
         begin
-          RetIdentEvts.New;
-          RetIdentEvts.Items[i].Id := FLeitor.rCampo(tcStr, 'id');
-          RetIdentEvts.Items[i].nrRec := Leitor.rCampo(tcStr, 'nrRec');
+          i := 0;
+          while Leitor.rExtrai(4, 'identificadorEvt', '', i + 1) <> '' do
+          begin
+            RetIdentEvts.New;
+            RetIdentEvts.Items[i].Id := Leitor.rCampo(tcStr, 'id');
+            RetIdentEvts.Items[i].nrRec := Leitor.rCampo(tcStr, 'nrRec');
 
-          inc(i);
+            inc(i);
+          end;
         end;
       end;
 
