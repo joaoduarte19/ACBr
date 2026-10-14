@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+14/10/2026
+-- ACBrNFeDANFeRLRetrato --
+[-] Ajuste para a quebra de linha da propriedade RLMemoInfAd (infAdProd )
+   Por: Daniel de Morais
+   Veja: https://www.projetoacbr.com.br/forum/topic/95345-campo-do-infadprod-n%C3%A3o-respeitando-as-margens/
+
 30/09/2026
 -- ACBrNFeWebServices --
 [-] Ajuste visando evitar erro de UTF-8 ao consultar recibo.

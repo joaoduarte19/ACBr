@@ -6964,7 +6964,7 @@ inherited frlDANFeRLRetrato: TfrlDANFeRLRetrato
           Tag = 705
           Left = 4
           Top = 1
-          Width = 736
+          Width = 655
           Height = 10
           Behavior = [beSiteExpander]
           Font.Charset = DEFAULT_CHARSET
