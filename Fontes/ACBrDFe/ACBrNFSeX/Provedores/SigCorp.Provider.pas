@@ -172,6 +172,8 @@ type
     FPath: string;
     FMethod: string;
     FChave: string;
+    FUltimoProtocolo, FUltimoNumeroRps, FUltimaSerieRps: string;
+    FUltimoPrestador: string;
 
   protected
     procedure Configuracao; override;
@@ -183,6 +185,10 @@ type
     procedure PrepararEmitir(Response: TNFSeEmiteResponse); override;
     procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
 
+    procedure PrepararConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
+    procedure TratarRetornoConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
+    procedure TratarRetornoConsultaProtocolo(Response: TNFSeWebserviceResponse);
+
     procedure PrepararConsultaLoteRps(Response: TNFSeConsultaLoteRpsResponse); override;
     procedure TratarRetornoConsultaLoteRps(Response: TNFSeConsultaLoteRpsResponse); override;
 
@@ -193,6 +199,8 @@ type
       Response: TNFSeWebserviceResponse; const AListTag: string);
 
     procedure ValidarSchema(Response: TNFSeWebserviceResponse; aMetodo: TMetodo); override;
+    function PrepararArquivoEnvio(const aXml: string; aMetodo: TMetodo): string; override;
+
   public
     function RegimeEspecialTributacaoToStr(const t: TnfseRegimeEspecialTributacao): string; override;
     function StrToRegimeEspecialTributacao(out ok: boolean; const s: string): TnfseRegimeEspecialTributacao; override;
@@ -1487,6 +1495,8 @@ begin
     ServicosDisponibilizados.ObterDANFSE := True;
     ModoEnvio := meUnitario;
 
+    ServicosDisponibilizados.ConsultarLote := True;
+
     // Desativa exigência de certificado mTLS na camada HTTP e ativa autenticação por login/senha
     UseCertificateHTTP := False;
     Autenticacao.RequerCertificado := False;
@@ -1539,7 +1549,10 @@ function TACBrNFSeProviderSigCorpAPIPropria.CriarServiceClient(
 var
   URL, AMimeType: string;
 begin
-  URL := GetWebServiceURL(AMetodo);
+  if AMetodo = tmConsultarNFSePorRps then
+    URL := GetWebServiceURL(tmConsultarLote)
+  else
+    URL := GetWebServiceURL(AMetodo);
 
   if AMetodo in [tmRecepcionar, tmGerar, tmRecepcionarSincrono] then
   begin
@@ -1596,6 +1609,20 @@ begin
     Exit;
   end;
 
+  if TACBrNFSeX(FAOwner).NotasFiscais.Count <> 1 then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := 'SIGCORP_DPS_UNICA';
+    AErro.Descricao := 'A API SigCorp exige uma unica DPS por requisicao.';
+    AErro.Correcao := 'Emita uma nota por vez e guarde o protocolo de cada envio.';
+    Exit;
+  end;
+
+  FUltimoProtocolo := '';
+  FUltimoNumeroRps := '';
+  FUltimaSerieRps := '';
+  FUltimoPrestador := '';
+  Path := '';
   for I := 0 to TACBrNFSeX(FAOwner).NotasFiscais.Count - 1 do
   begin
     Nota := TACBrNFSeX(FAOwner).NotasFiscais.Items[I];
@@ -1620,6 +1647,7 @@ var
   I: Integer;
   ItemObj: TACBrJSONObject;
 begin
+  Response.Sucesso := False;
   if Response.ArquivoRetorno = '' then
   begin
     AErro := Response.Erros.New;
@@ -1634,14 +1662,23 @@ begin
       if Document <> nil then
       begin
         try
-          Protocolo := Document.AsString['protocolo'];
+          Protocolo := Trim(Document.AsString['protocolo']);
         except
           Protocolo := '';
         end;
 
         if Protocolo <> '' then
         begin
+          if TACBrNFSeX(FAOwner).NotasFiscais.Count = 1 then
+          begin
+            FUltimoProtocolo := Protocolo;
+            FUltimoNumeroRps := Trim(TACBrNFSeX(FAOwner).NotasFiscais.Items[0].NFSe.IdentificacaoRps.Numero);
+            FUltimaSerieRps := Trim(TACBrNFSeX(FAOwner).NotasFiscais.Items[0].NFSe.IdentificacaoRps.Serie);
+            FUltimoPrestador := OnlyNumber(TACBrNFSeX(FAOwner).NotasFiscais.Items[0].NFSe.Prestador.IdentificacaoPrestador.CpfCnpj);
+          end;
           Response.Protocolo := Protocolo;
+          Response.Situacao := 'em_processamento';
+          Response.DescSituacao := 'DPS recebida. Guarde o protocolo e consulte o processamento para obter a NFS-e.';
           Response.Sucesso := True;
         end
         else
@@ -1742,6 +1779,54 @@ begin
   end;
 end;
 
+function TACBrNFSeProviderSigCorpAPIPropria.PrepararArquivoEnvio(const aXml: string; aMetodo: TMetodo): string;
+begin
+  if aMetodo in [tmGerar, tmRecepcionar, tmRecepcionarSincrono] then
+  begin    
+    Result := aXml;
+    Method := 'POST';
+  end
+  else
+    Result := inherited PrepararArquivoEnvio(aXml, aMetodo);
+end;
+
+procedure TACBrNFSeProviderSigCorpAPIPropria.PrepararConsultaNFSeporRps(
+  Response: TNFSeConsultaNFSeporRpsResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+  Prestador: string;
+begin
+  Path := '';
+  Prestador := OnlyNumber(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
+  if (Prestador = '') and (TACBrNFSeX(FAOwner).NotasFiscais.Count = 1) then
+    Prestador := OnlyNumber(TACBrNFSeX(FAOwner).NotasFiscais.Items[0].NFSe.Prestador.IdentificacaoPrestador.CpfCnpj);
+
+  if (FUltimoProtocolo = '') or (FUltimoPrestador = '') or
+     (Prestador <> FUltimoPrestador) or
+     (Trim(Response.NumeroRps) <> FUltimoNumeroRps) or
+     (Trim(Response.SerieRps) <> FUltimaSerieRps) then
+  begin
+    Response.Sucesso := False;
+    AErro := Response.Erros.New;
+    AErro.Codigo := 'SIGCORP_PROTOCOLO_NAO_DISPONIVEL';
+    AErro.Descricao := 'Nao ha protocolo de emissao em memoria para este RPS e prestador.';
+    AErro.Correcao := 'Consulte com ConsultarLoteRps usando o protocolo salvo na emissao. Nao reenvie uma DPS aceita apenas para recuperar o protocolo.';
+    Exit;
+  end;
+
+  Response.Protocolo := FUltimoProtocolo;
+  Path := '/' + FUltimoProtocolo;
+  Response.ArquivoEnvio := Path;
+  Method := 'GET';
+end;
+
+procedure TACBrNFSeProviderSigCorpAPIPropria.TratarRetornoConsultaNFSeporRps(
+  Response: TNFSeConsultaNFSeporRpsResponse);
+begin
+  TratarRetornoConsultaProtocolo(Response);
+  // Estas subclasses redeclaram CodigoVerificacao com outro campo privado.
+  Response.CodigoVerificacao := TNFSeWebserviceResponse(Response).CodigoVerificacao;
+end;
 procedure TACBrNFSeProviderSigCorpAPIPropria.PrepararConsultaLoteRps(
   Response: TNFSeConsultaLoteRpsResponse);
 var
@@ -1762,6 +1847,13 @@ end;
 
 procedure TACBrNFSeProviderSigCorpAPIPropria.TratarRetornoConsultaLoteRps(
   Response: TNFSeConsultaLoteRpsResponse);
+begin
+  TratarRetornoConsultaProtocolo(Response);
+  Response.CodigoVerificacao := TNFSeWebserviceResponse(Response).CodigoVerificacao;
+end;
+
+procedure TACBrNFSeProviderSigCorpAPIPropria.TratarRetornoConsultaProtocolo(
+  Response: TNFSeWebserviceResponse);
 var
   Document: TACBrJSONObject;
   AErro: TNFSeEventoCollectionItem;
@@ -1769,7 +1861,16 @@ var
   ANota: TNotaFiscal;
   I: Integer;
   ItemObj: TACBrJSONObject;
+  XmlDocument: TACBrXmlDocument;
+  InfNode: TACBrXmlNode;
 begin
+  Response.Sucesso := False;
+  Response.NumeroNota := '';
+  Response.CodigoVerificacao := '';
+  Response.idNota := '';
+  Response.Link := '';
+  Response.Data := 0;
+  Response.DescSituacao := '';
   if Response.ArquivoRetorno = '' then
   begin
     AErro := Response.Erros.New;
@@ -1784,7 +1885,7 @@ begin
       if Document <> nil then
       begin
         try
-          Status := LowerCase(Document.AsString['status']);
+          Status := LowerCase(Trim(Document.AsString['status']));
         except
           Status := '';
         end;
@@ -1800,39 +1901,72 @@ begin
 
         try
           Link := Document.AsString['linkImpressao'];
-          Chave := Document.AsString['chave'];
+          Chave := Trim(Document.AsString['chave']);
+          if Chave = '' then
+            Chave := Trim(Document.AsString['chaveAcesso']);
         except
           Link := '';
           Chave := '';
         end;
 
-        if (Status = 'aprovado') or (Status = 'autorizado') or (XmlNfse <> '') then
+        if (Status = 'aprovado') or (Status = 'autorizado') or
+           ((Status = '') and (XmlNfse <> '')) then
         begin
-          Response.Sucesso := True;
+          Response.Link := Link;
+          Response.DescSituacao := 'Processamento aprovado; aguardando o XML da NFS-e.';
 
           if XmlNfse <> '' then
           begin
+            XmlDocument := TACBrXmlDocument.Create;
+            try
+              XmlDocument.LoadFromXml(XmlNfse);
+              InfNode := nil;
+              if XmlDocument.Root <> nil then
+                InfNode := XmlDocument.Root.Childrens.FindAnyNs('infNFSe');
+              if InfNode = nil then
+                raise EACBrDFeException.Create('O retorno nao contem o XML nacional da NFS-e (infNFSe).');
+            finally
+              XmlDocument.Free;
+            end;
+
             if TACBrNFSeX(FAOwner).NotasFiscais.Count > 0 then
               ANota := TACBrNFSeX(FAOwner).NotasFiscais.Items[0]
             else
               ANota := TACBrNFSeX(FAOwner).NotasFiscais.New;
 
-            ANota.XmlNfse := XmlNfse;
-            ANota.LerXML(XmlNfse);
+            if not ANota.LerXML(XmlNfse) then
+              raise EACBrDFeException.Create('Nao foi possivel ler o XML da NFS-e retornada.');
+            if ANota.NFSe.infNFSe.nNFSe = '' then
+              raise EACBrDFeException.Create('O XML retornado nao informa o numero da NFS-e.');
+
+            ANota.NFSe.ChaveAcesso := ANota.NFSe.infNFSe.ID;
+            if ANota.NFSe.ChaveAcesso = '' then
+              ANota.NFSe.ChaveAcesso := Chave;
+            if ANota.NFSe.CodigoVerificacao = '' then
+              ANota.NFSe.CodigoVerificacao := ANota.NFSe.ChaveAcesso;
+
+            Response.NumeroNota := ANota.NFSe.Numero;
+            Response.CodigoVerificacao := ANota.NFSe.CodigoVerificacao;
+            Response.idNota := ANota.NFSe.ChaveAcesso;
+            Response.Data := ANota.NFSe.infNFSe.dhProc;
+            Response.DescSituacao := 'NFS-e processada; XML recebido.';
+            if Status = '' then
+              Response.Situacao := 'aprovado';
 
             if Link <> '' then
               ANota.NFSe.Link := Link;
-            if Chave <> '' then
-              ANota.NFSe.ChaveAcesso := Chave;
+            SalvarXmlNfse(ANota);
           end;
+          Response.Sucesso := True;
         end
         else if (Status = 'em_processamento') or (Status = 'processando') or (Status = 'aguardando') then
         begin
           Response.Sucesso := True;
-          Response.Situacao := 'Lote em processamento';
+          Response.DescSituacao := 'Lote em processamento. Consulte novamente pelo mesmo protocolo.';
         end
         else
         begin
+          Response.DescSituacao := 'Consulte os erros retornados pelo provedor.';
           Response.Sucesso := False;
           try
             ProcessarMensagemDeErros(Document, Response, 'erros');
@@ -1874,7 +2008,6 @@ begin
                 end
                 else
                 begin
-                  AErro := Response.Erros.New;
                   AErro.Codigo := Cod201;
                   try
                     AErro.Descricao := Document.AsJSONArray['message'].Items[I];
@@ -1977,7 +2110,7 @@ var
   procedure AdicionaCollectionItem(JSonItem: TACBrJSONObject; Collection: TNFSeEventoCollection);
   var
     AItem: TNFSeEventoCollectionItem;
-    Codigo, Descricao, Correcao: string;
+    Codigo, Descricao, Correcao, Campo: string;
   begin
     if JSonItem = nil then
       Exit;
@@ -2000,6 +2133,8 @@ var
         Descricao := JSonItem.AsString['descricao'];
       if Descricao = '' then
         Descricao := JSonItem.AsString['message'];
+      if Descricao = '' then
+        Descricao := JSonItem.AsString['mensagem'];
     except
       Descricao := '';
     end;
@@ -2012,6 +2147,24 @@ var
         Correcao := JSonItem.AsString['complemento'];
     except
       Correcao := '';
+    end;
+
+    try
+      Campo := JSonItem.AsString['campo'];
+    except
+      Campo := '';
+    end;
+    if SameText(Codigo, 'NOTA_DUPLICADA') then
+    begin
+      Response.DescSituacao := 'Tentativa rejeitada por duplicidade. A nota original precisa ser consultada.';
+      if Correcao = '' then
+        Correcao := 'Consulte pelo protocolo da emissao original ou recupere o XML autorizado no portal. O protocolo desta tentativa identifica a rejeicao, nao a nota original.';
+    end;
+    if Campo <> '' then
+    begin
+      if Correcao <> '' then
+        Correcao := Correcao + ' ';
+      Correcao := Correcao + 'Campo: ' + Campo + '.';
     end;
 
     if (Codigo <> '') or (Descricao <> '') then
@@ -2086,9 +2239,14 @@ begin
     Exit;
 
   // Verifica se no retorno contem a lista de Erros
-  VerificaSeObjetoOuArray(AListTag, Response.Erros);
+  // A mesma lista nao deve gerar duas ocorrencias de cada erro.
+  if (AListTag <> '') and (AListTag <> 'erros') and
+     (AListTag <> 'erro') and (AListTag <> 'motivos') and
+     (AListTag <> 'message') and (AListTag <> 'mensagem') then
+    VerificaSeObjetoOuArray(AListTag, Response.Erros);
   VerificaSeObjetoOuArray('erros', Response.Erros);
   VerificaSeObjetoOuArray('erro', Response.Erros);
+  VerificaSeObjetoOuArray('motivos', Response.Erros);
   VerificaSeObjetoOuArray('message', Response.Erros);
   VerificaSeObjetoOuArray('mensagem', Response.Erros);
   VerificaSeObjetoOuArray('Alertas', Response.Alertas);
