@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/10/2026
+-- ACBrNFSeXServicos --
+[-] A município de Ronda Alta/RS migrou para o Padrão Nacional.
+   Por: VEXCOM Sistemas - Valtair
+   Veja: https://www.projetoacbr.com.br/forum/topic/95380-nfse-%E2%80%94-ronda-altars-4316105-migrou-para-o-padr%C3%A3o-nacional-mas-o-acbrnfsexservicosini-ainda-traz-digifred/ 
+
 14/10/2026
 -- ACBrNFSeXServicos --
 [*] ACBR-10044 - Alteração de URLs para o município de Farroupilha/RS
