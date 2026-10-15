@@ -84,7 +84,8 @@ type
     function GerarInformacoesConsumidor(Lateral: Boolean = False): String;
     function GerarInformacoesIdentificacaoNFCe(Lateral: Boolean = False): String;
     function GerarMensagemFiscal: String;
-    function GerarInformacoesQRCode(const DadosQRCode: String; Cancelamento: Boolean = False): String;
+    function GerarInformacoesQRCode(const DadosQRCode: String; Cancelamento: Boolean = False;
+      Lateral: Boolean = False): String;
     procedure GerarMensagemInteresseContribuinte;
     procedure GerarTotalTributos;
     procedure GerarCupomVerde(const QRCode, MsgRodape: String);
@@ -910,10 +911,15 @@ begin
 end;
 
 function TACBrNFeDANFeESCPOS.GerarInformacoesQRCode(const DadosQRCode: String;
-  Cancelamento: Boolean): String;
+  Cancelamento: Boolean; Lateral: Boolean): String;
 var
   InfoQrCode: TStringList;
+  LarguraModulo: Integer;
 begin
+  LarguraModulo := FPosPrinter.ConfigQRCode.LarguraModulo;
+  if Lateral and EhSimplificadoTipo2 then
+    LarguraModulo := Max(1, Trunc(LarguraModulo * 0.75));
+
   InfoQrCode := TStringList.Create;
   try
     if Cancelamento then
@@ -924,7 +930,7 @@ begin
 
     InfoQrCode.Add( '<qrcode_tipo>2</qrcode_tipo>'+
                     '<qrcode_error>0</qrcode_error>'+
-                    '<qrcode_largura>'+IntToStr(FPosPrinter.ConfigQRCode.LarguraModulo)+'</qrcode_largura>'+
+                    '<qrcode_largura>'+IntToStr(LarguraModulo)+'</qrcode_largura>'+
                     '<qrcode>'+DadosQRCode+'</qrcode>');
 
     if Cancelamento then
@@ -1010,7 +1016,7 @@ begin
                               FPosPrinter.ConfigurarRegiaoModoPagina(
                                 EsquerdaQRCode, 0, AlturaMax,
                                 (CLarguraRegiaoEsquerda-EsquerdaQRCode) ) +
-                              GerarInformacoesQRCode(DadosQRCode, False));
+                              GerarInformacoesQRCode(DadosQRCode, False, True));
       FPosPrinter.Buffer.Add( FPosPrinter.ConfigurarRegiaoModoPagina(
                                 CLarguraRegiaoEsquerda, 0, AlturaMax, 325) +
                               TextoLateral.Text + '</mp>');
