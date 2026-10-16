@@ -1555,10 +1555,11 @@ begin
   begin
     Gerador.wGrupo('infoCompl');
 
+    Gerador.wCampo(tcStr, '', 'nmCargo',   1, 100, 0, obj.nmCargo);
+
     if obj.codCBO <> '' then
       Gerador.wCampo(tcStr, '', 'codCBO',    1,  6, 1, obj.codCBO);
 
-    Gerador.wCampo(tcStr, '', 'nmCargo',   1, 100, 0, obj.nmCargo);
     Gerador.wCampo(tcStr, '', 'nmFuncao',  1, 100, 0, obj.nmFuncao);
     Gerador.wCampo(tcStr, '', 'CBOFuncao', 1,  6, 0, obj.CBOFuncao);
 

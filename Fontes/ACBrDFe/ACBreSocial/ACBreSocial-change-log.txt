@@ -52,6 +52,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/10/2026
+-- pcesS2500.pas --
+[*] - ACBR-10064 - Ajuste da ordem dos campos.
+  Por: CarlosSolla - Rev. Alexandre de Paula
+  
 14/10/2026
 -- pcesRetConsultaIdentEvt --
 [*] ACBR-9772 - Corrigida leitura do retorno da ConsultaIdentificadoresEventosTrabalhador com mais de um identificadorEvt no S1000
