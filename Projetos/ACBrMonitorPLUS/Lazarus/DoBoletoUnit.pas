@@ -476,6 +476,7 @@ begin
           end;
 
           fpCmd.Resposta := GerarResposta<TRetornoRegistroWeb>(Titulos);
+          fpCmd.Resposta := sLineBreak + fpCmd.Resposta;
         finally
           for I:= 0 to High(Titulos) do
           begin
@@ -1368,6 +1369,7 @@ begin
           end;
 
           fpCmd.Resposta := GerarResposta<TRetornoRegistroWeb>(Titulos);
+          fpCmd.Resposta := sLineBreak + fpCmd.Resposta;
         finally
           for I:= 0 to High(Titulos) do
           begin
