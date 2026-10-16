@@ -553,6 +553,8 @@ type
 
   TACBrTEFRespClass = class of TACBrTEFResp;
 
+function TratarNomeImagemPinPad(const NomeImagem: String): String;
+function FormatarMensagemPinPad(const MsgPinPad: String): String;
 function NomeCampo(const Identificacao: Integer; const Sequencia: Integer): String;
 
 implementation
@@ -564,6 +566,31 @@ uses
   ACBrUtil.Base,
   ACBrUtil.FilesIO,
   ACBrConsts;
+
+function TratarNomeImagemPinPad(const NomeImagem: String): String;
+begin
+  Result := UpperCase(PadRight(OnlyAlphaNum(NomeImagem), 8, '0'));
+end;
+
+// Formata uma String de até 32 carateres em 2 linhas
+// Considera '|' como quebra de linha
+function FormatarMensagemPinPad(const MsgPinPad: String): String;
+var
+  s, l1, l2: String;
+  p: Integer;
+begin
+  s := MsgPinPad;
+  p := pos('|', s);
+  if (p = 0) then
+  begin
+    p := 17;
+    Insert('|', s, p);
+  end;
+
+  l1 := PadRight(copy(s, 1, p-1), 16);
+  l2 := PadRight(copy(s, p+1, Length(s)), 16);
+  Result := l1 + l2;
+end;
 
 function NomeCampo(const Identificacao: Integer; const Sequencia: Integer): String;
 var

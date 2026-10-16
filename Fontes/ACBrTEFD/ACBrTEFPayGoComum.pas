@@ -675,7 +675,7 @@ begin
     else if (copy(TextoEspecialOperador,1,1) = CR) then
       TextoEspecialOperador := copy(TextoEspecialOperador, 2, Length(TextoEspecialOperador));
 
-    TextoEspecialOperador := ACBrStr(TextoEspecialOperador);
+    TextoEspecialOperador := AnsiToNativeString(TextoEspecialOperador);
   end;
 end;
 

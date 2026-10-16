@@ -45,6 +45,17 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/10/2026
+-- ACBrTEFAPI, ACBrTEFComum --
+[*] Metodos movidos da classe TACBrTEFAPI para Unit ACBrTEFComum, para permitir
+    uso dos mesmos em outros componentes
+    function TratarNomeImagemPinPad(const NomeImagem: String): String;
+    function FormatarMensagemPinPad(const MsgPinPad: String): String;
+
+-- ACBrTEFPayGoComum --
+[-] Correção para a correta definição da Mensagem ou Imagem Padrão no PinPad
+    (por: DSA)
+
 28/09/2026
 -- ACBrTEFAPIPayGoWeb --
 [-] Correção para evitar PWINFO_FISCALREF maior que 12
