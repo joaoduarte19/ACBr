@@ -799,7 +799,8 @@ begin
         (ClassName + sLineBreak+'Quando TipoPagamento aceitar pagamento parcial,'+sLineBreak+
          'informar QtdePagamentoParcial maior que zero !');
 
-    LJsonDados.AddPair('quantidade_maximo_parcial', ATitulo.QtdePagamentoParcial);
+    if LAceitarPagamentoParcial then
+      LJsonDados.AddPair('quantidade_maximo_parcial', ATitulo.QtdePagamentoParcial);
     LJsonDados.AddPair('desconto_expresso', 'False');
 
   end;
