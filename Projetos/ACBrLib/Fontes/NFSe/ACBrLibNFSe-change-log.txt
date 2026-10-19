@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/10/2026
+-- ACBrLibNFSeBase,ACBrLibNFSeConsts,ACBrLibNFSeMT,ACBrLibNFSeST,ACBrLibRespostas,ACBrLibNFSE.lpr --
+[+] Adiciona informações no Log e um novo método NFSE_ObterURLsProvedor
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/95301-d%C3%BAvidas-na-configura%C3%A7%C3%A3o-e-rejei%C3%A7%C3%B5es-de-nfs-e-de-sorocaba/#comment-624503 
+
 14/07/2026
 -- ACBrLibNFSeConfig --
 [*] Declara ACBrDFe.Conversao no uses para usar EnumeradoToStr/StrToEnumerado dela.

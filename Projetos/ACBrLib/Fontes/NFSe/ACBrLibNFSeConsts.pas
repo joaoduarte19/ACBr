@@ -63,6 +63,9 @@ const
   CSessaoRespConsultarParametros = 'ConsultarParametros';
   CSessaoRespConsultaNFSePorNumero = 'ConsultaNFSePorNumero';
   CSessaoObterInformacoesProvedor = 'ObterInformacoesProvedor';
+  CSessaoObterURLsProvedor = 'ObterURLsProvedor';
+  CSessaoURLsProducao = 'URLSProducao';
+  CSessaoURLsHomologacao = 'URLSHomologacao';
 
   CSessaoRespErro = 'Erro';
   CSessaoRespAlerta = 'Alerta';

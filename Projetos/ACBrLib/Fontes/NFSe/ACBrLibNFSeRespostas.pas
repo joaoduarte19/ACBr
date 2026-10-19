@@ -40,7 +40,7 @@ interface
 uses
   SysUtils, Classes, contnrs, ACBrLibResposta, ACBrNFSeXNotasFiscais,
   ACBrNFSeX, ACBrNFSeXWebservicesResponse, ACBrNFSeXWebserviceBase,
-  ACBrDFe.Conversao,ACBrNFSeXConversao, ACBrNFSeXConfiguracoes,
+  ACBrDFe.Conversao,ACBrNFSeXConversao, ACBrNFSeXConfiguracoes, ACBrNFSeXParametros,
   ACBrBase, ACBrLibConfig, ACBrLibComum;
 
 type
@@ -533,6 +533,88 @@ type
     property Particularidades: String read FParticularidades;
   end;
 
+  { TListaURLsProvedor }
+
+  TListaURLsProvedor = class(TACBrLibRespostaBase)
+  private
+    FAbrirSessao: string;
+    FCancelarNFSe: string;
+    FConsultarDFe: string;
+    FConsultarEvento: string;
+    FConsultarLinkNFSe: string;
+    FConsultarLote: string;
+    FConsultarNFSe: string;
+    FConsultarNFSePorChave: string;
+    FConsultarNFSePorFaixa: string;
+    FConsultarNFSeRps: string;
+    FConsultarNFSeServicoPrestado: string;
+    FConsultarNFSeServicoTomado: string;
+    FConsultarParam: string;
+    FConsultarSeqRps: string;
+    FConsultarSituacao: string;
+    FEnviarEvento: string;
+    FFecharSessao: string;
+    FGerarNFSe: string;
+    FGerarToken: string;
+    FObterDANFSE: string;
+    FRecepcionar: string;
+    FRecepcionarSincrono: string;
+    FSubstituirNFSe: string;
+    FTesteEnvio: string;
+  public
+    constructor Create(const ASessao: String; const ATipo: TACBrLibRespostaTipo; const ACodificacao: TACBrLibCodificacao);
+    destructor Destroy; override;
+
+    procedure Processar(const Response: TWebserviceInfo); reintroduce;
+  published
+    property Recepcionar: string read FRecepcionar write FRecepcionar;
+    property ConsultarLote: string read FConsultarLote write FConsultarLote;
+    property ConsultarNFSeRps: string read FConsultarNFSeRps write FConsultarNFSeRps;
+    property ConsultarSituacao: string read FConsultarSituacao write FConsultarSituacao;
+    property ConsultarNFSe: string read FConsultarNFSe write FConsultarNFSe;
+    property ConsultarNFSePorChave: string read FConsultarNFSePorChave write FConsultarNFSePorChave;
+    property ConsultarNFSePorFaixa: string read FConsultarNFSePorFaixa write FConsultarNFSePorFaixa;
+    property ConsultarNFSeServicoPrestado: string read FConsultarNFSeServicoPrestado write FConsultarNFSeServicoPrestado;
+    property ConsultarNFSeServicoTomado: string read FConsultarNFSeServicoTomado write FConsultarNFSeServicoTomado;
+    property ConsultarLinkNFSe: string read FConsultarLinkNFSe write FConsultarLinkNFSe;
+    property CancelarNFSe: string read FCancelarNFSe write FCancelarNFSe;
+    property GerarNFSe: string read FGerarNFSe write FGerarNFSe;
+    property RecepcionarSincrono: string read FRecepcionarSincrono write FRecepcionarSincrono;
+    property SubstituirNFSe: string read FSubstituirNFSe write FSubstituirNFSe;
+    property AbrirSessao: string read FAbrirSessao write FAbrirSessao;
+    property FecharSessao: string read FFecharSessao write FFecharSessao;
+    property TesteEnvio: string read FTesteEnvio write FTesteEnvio;
+    property GerarToken: string read FGerarToken write FGerarToken;
+    property EnviarEvento: string read FEnviarEvento write FEnviarEvento;
+    property ConsultarEvento: string read FConsultarEvento write FConsultarEvento;
+    property ConsultarDFe: string read FConsultarDFe write FConsultarDFe;
+    property ConsultarParam: string read FConsultarParam write FConsultarParam;
+    property ConsultarSeqRps: string read FConsultarSeqRps write FConsultarSeqRps;
+    property ObterDANFSE: string read FObterDANFSE write FObterDANFSE;
+  end;
+
+  { TObterURLsProvedorResposta }
+
+  TObterURLsProvedorResposta = class(TACBrLibRespostaBase)
+  private
+    FAtribVerLote: string;
+    FURLsHomologacao: TListaURLsProvedor;
+    FURLsProducao: TListaURLsProvedor;
+    FVersaoAtrib: string;
+    FVersaoDados: string;
+  public
+    constructor Create(const ATipo: TACBrLibRespostaTipo; const AFormato: TACBrLibCodificacao); reintroduce;
+    destructor Destroy; override;
+
+    procedure Processar(const Response: TConfigWebServices); reintroduce;
+  published
+    property VersaoDados: string read FVersaoDados write FVersaoDados;
+    property VersaoAtrib: string read FVersaoAtrib write FVersaoAtrib;
+    property AtribVerLote: string read FAtribVerLote write FAtribVerLote;
+    property URLsHomologacao: TListaURLsProvedor read FURLsHomologacao;
+    property URLsProducao: TListaURLsProvedor read FURLsProducao;
+  end;
+
   { TObterDANFSeResposta }
 
   TObterDANFSeResposta = class(TLibNFSeServiceResposta)
@@ -669,6 +751,101 @@ begin
   else
     FParticularidades := FParticularidades + 'NãoAtendeReformaTributaria';
 
+end;
+
+{ TListaURLsProvedor }
+
+constructor TListaURLsProvedor.Create(const ASessao: String;
+  const ATipo: TACBrLibRespostaTipo; const ACodificacao: TACBrLibCodificacao);
+begin
+  AbrirSessao := '';
+  CancelarNFSe := '';
+  ConsultarDFe := '';
+  ConsultarEvento := '';
+  ConsultarLinkNFSe := '';
+  ConsultarLote := '';
+  ConsultarNFSe := '';
+  ConsultarNFSePorChave := '';
+  ConsultarNFSePorFaixa := '';
+  ConsultarNFSeRps := '';
+  ConsultarNFSeServicoPrestado := '';
+  ConsultarNFSeServicoTomado := '';
+  ConsultarParam := '';
+  ConsultarSeqRps := '';
+  ConsultarSituacao := '';
+  EnviarEvento := '';
+  FecharSessao := '';
+  GerarNFSe := '';
+  GerarToken := '';
+  ObterDANFSE := '';
+  Recepcionar := '';
+  RecepcionarSincrono := '';
+  SubstituirNFSe := '';
+  TesteEnvio := '';
+  inherited Create(ASessao, ATipo, ACodificacao);
+end;
+
+destructor TListaURLsProvedor.Destroy;
+begin
+  inherited Destroy;
+end;
+
+procedure TListaURLsProvedor.Processar(const Response: TWebserviceInfo);
+begin
+  AbrirSessao                  := Response.AbrirSessao;
+  CancelarNFSe                 := Response.CancelarNFSe;
+  ConsultarDFe                 := Response.ConsultarDFe;
+  ConsultarEvento              := Response.ConsultarEvento;
+  ConsultarLinkNFSe            := Response.ConsultarLinkNFSe;
+  ConsultarLote                := Response.ConsultarLote;
+  ConsultarNFSe                := Response.ConsultarNFSe;
+  ConsultarNFSePorChave        := Response.ConsultarNFSePorChave;
+  ConsultarNFSePorFaixa        := Response.ConsultarNFSePorFaixa;
+  ConsultarNFSeRps             := Response.ConsultarNFSeRps;
+  ConsultarNFSeServicoPrestado := Response.ConsultarNFSeServicoPrestado;
+  ConsultarNFSeServicoTomado   := Response.ConsultarNFSeServicoTomado;
+  ConsultarParam               := Response.ConsultarParam;
+  ConsultarSeqRps              := Response.ConsultarSeqRps;
+  ConsultarSituacao            := Response.ConsultarSituacao;
+  EnviarEvento                 := Response.EnviarEvento;
+  FecharSessao                 := Response.FecharSessao;
+  GerarNFSe                    := Response.GerarNFSe;
+  GerarToken                   := Response.GerarToken;
+  ObterDANFSE                  := Response.ObterDANFSE;
+  Recepcionar                  := Response.Recepcionar;
+  RecepcionarSincrono          := Response.RecepcionarSincrono;
+  SubstituirNFSe               := Response.SubstituirNFSe;
+  TesteEnvio                   := Response.TesteEnvio;
+end;
+
+{ TObterURLsProvedorResposta }
+
+constructor TObterURLsProvedorResposta.Create(
+  const ATipo: TACBrLibRespostaTipo; const AFormato: TACBrLibCodificacao);
+begin
+  FAtribVerLote := '';
+  FURLsHomologacao := TListaURLsProvedor.Create(CSessaoURLsHomologacao, ATipo, AFormato);
+  FURLsProducao := TListaURLsProvedor.Create(CSessaoURLsProducao, ATipo, AFormato);
+  FVersaoAtrib := '';
+  FVersaoDados := '';
+
+  inherited Create(CSessaoObterURLsProvedor, ATipo, AFormato);
+end;
+
+destructor TObterURLsProvedorResposta.Destroy;
+begin
+  inherited Destroy;
+end;
+
+procedure TObterURLsProvedorResposta.Processar(
+  const Response: TConfigWebServices);
+begin
+  AtribVerLote := Response.AtribVerLote;
+  VersaoDados := Response.VersaoDados;
+  VersaoAtrib := Response.VersaoAtrib;
+
+  URLsHomologacao.Processar(REsponse.Homologacao);
+  URLsProducao.Processar(Response.Producao);
 end;
 
 { TObterDANFSeResposta }

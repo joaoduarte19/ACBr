@@ -216,6 +216,9 @@ function NFSE_ConsultarParametros(const libHandle: PLibHandle; aTipoParametroMun
 function NFSE_ObterInformacoesProvedor(const libHandle: PLibHandle; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 
+function NFSE_ObterURLsProvedor(const libHandle: PLibHandle; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
 function NFSE_SetVersaoDF (const libHandle: PLibHandle; const sVersao: PAnsiChar):integer;
  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 
@@ -974,6 +977,21 @@ begin
   try
     VerificarLibInicializada(libHandle);
     Result := TACBrLibNFSe(libHandle^.Lib).ObterInformacoesProvedor(sResposta, esTamanho);
+  except
+      on E: EACBrLibException do
+         Result := E.Erro;
+
+      on E: Exception do
+         Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function NFSE_ObterURLsProvedor(const libHandle: PLibHandle; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(libHandle);
+    Result := TACBrLibNFSe(libHandle^.Lib).ObterURLsProvedor(sResposta, esTamanho);
   except
       on E: EACBrLibException do
          Result := E.Erro;

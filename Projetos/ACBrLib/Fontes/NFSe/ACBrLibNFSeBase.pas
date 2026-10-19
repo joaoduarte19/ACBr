@@ -37,7 +37,7 @@ interface
 
 uses
   Classes, SysUtils,
-  ACBrLibComum, ACBrLibNFSeDataModule;
+  ACBrLibComum, ACBrLibNFSeDataModule, ACBrNFSeXWebservicesResponse;
 
 type
 
@@ -49,6 +49,7 @@ type
 
     function SetRetornoNFSeRPSCarregadas(const Count: integer): Integer;
     function SetRetornoNFSeCarregadas(const Count: Integer): Integer;
+    procedure GravarLogsHttp(const AMetodo: String; const AWebService: TNFSeWebserviceResponse);
 
   protected
     procedure Inicializar; override;
@@ -106,6 +107,7 @@ type
     function ObterDANFSE(const aChaveNFSe: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
     function ConsultarParametros(aTipoParametroMunicipio: Integer; const aCodigoServico: PAnsiChar; aCompetencia: TDateTime; aNumeroBeneficio: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
     function ObterInformacoesProvedor(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+    function ObterURLsProvedor(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
     function SetVersaoDF(const sVersao: PAnsiChar):integer;
 
   end;
@@ -162,6 +164,30 @@ end;
 function TACBrLibNFSe.SetRetornoNFSeCarregadas(const Count: Integer): Integer;
 begin
   Result := SetRetorno(0, Format(SInfNFSeCarregadas, [Count]));
+end;
+
+procedure TACBrLibNFSe.GravarLogsHttp(const AMetodo: String;
+  const AWebService: TNFSeWebserviceResponse);
+  function OcultarHeaders(const AHeaders: String): String;
+  const
+    CHARS_VISIVEIS = 6;
+    MINIMO_PARA_OCULTAR = CHARS_VISIVEIS * 2 + 1;
+  begin
+    if Length(AHeaders) = 0 then
+    begin
+      Result := AHeaders;
+      exit;
+    end;
+    if Length(AHeaders) <= MINIMO_PARA_OCULTAR then
+      Result := StringOfChar('*', Length(AHeaders))
+    else
+      Result := Copy(AHeaders, 1, CHARS_VISIVEIS) + '...' +
+                Copy(AHeaders, Length(AHeaders) - CHARS_VISIVEIS + 1, CHARS_VISIVEIS);
+  end;
+begin
+  GravarLog(AMetodo + ' - ReqURL: ' + AWebService.ReqUrl, logParanoico, True);
+  GravarLog(AMetodo + ' - ReqHeaders: ' + OcultarHeaders(AWebService.ReqHeaders), logParanoico, True);
+  GravarLog(AMetodo + ' - Method: ' + AWebService.ReqMethod, logParanoico, True);
 end;
 
 function TACBrLibNFSe.CarregarXML(const eArquivoOuXML: PAnsiChar): Integer;
@@ -516,8 +542,13 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.Emitir(aLote, ModoEnvio, aImprimir);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_Emitir', NFSeDM.ACBrNFSeX1.WebService.Emite);
+
       Resp := TEmiteResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
+
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.Emite);
 
         Resposta := Resp.Gerar;
@@ -559,6 +590,10 @@ begin
        try
          InfCancelamentoNFSe.LerFromIni(aInfCancelamentoNFSe);
          NFSeDM.ACBrNFSeX1.CancelarNFSe(InfCancelamentoNFSe);
+
+         if Config.Log.Nivel = logParanoico then
+           GravarLogsHttp('NFSE_Cancelar', NFSeDM.ACBrNFSeX1.WebService.CancelaNFSe);
+
          Resp := TCancelarNFSeResposta.Create(Config.TipoResposta, Config.CodResposta);
          try
            Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.CancelaNFSe);
@@ -606,6 +641,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.SubstituirNFSe(NumeroNFSe, SerieNFSe, CodigoCancelamento, MotivoCancelamento, NumeroLote, CodigoCancelamento);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_SubstituirNFSe', NFSeDM.ACBrNFSeX1.WebService.SubstituiNFSe);
+
       Resp := TSubstituirNFSeResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.SubstituiNFSe);
@@ -710,6 +749,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.GerarToken;
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_GerarToken', NFSeDM.ACBrNFSeX1.WebService.GerarToken);
+
       Resp:= TGerarTokenResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.GerarToken);
@@ -750,6 +793,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarSituacao(Protocolo, NumLote);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarSituacao', NFSeDM.ACBrNFSeX1.WebService.ConsultaSituacao);
+
       Resp := TConsultaSituacaoResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaSituacao);
@@ -790,6 +837,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarLoteRps(Protocolo, NumLote);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarLoteRps', NFSeDM.ACBrNFSeX1.WebService.ConsultaLoteRps);
+
       Resp := TConsultaLoteRpsResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaLoteRps);
@@ -832,6 +883,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarNFSePorRps(NumeroRps, Serie, Tipo, CodigoVerificacao);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarNFSePorRps', NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSeporRps);
+
       Resp := TConsultaNFSePorRpsResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSeporRps);
@@ -871,6 +926,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarNFSePorNumero(Numero, aPagina);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarNFSePorNumero', NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
+
       Resp := TConsultaNFSeResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
@@ -912,6 +971,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarNFSePorPeriodo(aDataInicial, aDataFinal, aPagina, NumeroLote, TipoPeriodo);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarNFSePorPeriodo', NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
+
       Resp := TConsultaNFSeResposta.Create(Config.TipoResposta, config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
@@ -952,6 +1015,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarNFSePorFaixa(NumeroInicial, NumeroFinal, aPagina);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarNFSePorFaixa', NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
+
       Resp := TConsultaNFSeResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
@@ -995,6 +1062,10 @@ begin
       try
         InfConsultaNFSe.LerFromIni(aInfConsultaNFSe);
         NFSeDM.ACBrNFSeX1.ConsultarNFSeGenerico(InfConsultaNFSe);
+
+        if Config.Log.Nivel = logParanoico then
+          GravarLogsHttp('NFSE_ConsultarNFSeGenerico', NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
+
         Resp := TConsultaNFSeResposta.Create(Config.TipoResposta, Config.CodResposta);
         try
           Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
@@ -1042,6 +1113,10 @@ begin
       try
         InfConsultaLinkNFSe.LerFromIni(aInfConsultaLinkNFSe);
         NFSeDM.ACBrNFSeX1.ConsultarLinkNFSe(InfConsultaLinkNFSe);
+
+        if Config.Log.Nivel = logParanoico then
+          GravarLogsHttp('NFSE_ConsultarLinkNFSe', NFSeDM.ACBrNFSeX1.WebService.ConsultaLinkNFSe);
+
         Resp := TConsultarLinkNFSeResposta.Create(Config.TipoResposta, Config.CodResposta);
         try
           Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaLinkNFSe);
@@ -1287,6 +1362,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarNFSeServicoPrestadoPorNumero(aNumero, aPagina, aDataInicial, aDataFinal, TipoPeriodo);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarNFSeServicoPrestadoPorNumero', NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
+
       Resp := TConsultaNFSeResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
@@ -1325,6 +1404,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarNFSeServicoPrestadoPorPeriodo(aDataInicial, aDataFinal, aPagina, TipoPeriodo);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarNFSeServicoPrestadoPorPeriodo', NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
+
       Resp := TConsultaNFSeResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
@@ -1367,6 +1450,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarNFSeServicoPrestadoPorTomador(CNPJ, InscMunicipal, aPagina, aDataInicial, aDataFinal, TipoPeriodo);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarNFSeServicoPrestadoPorTomador', NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
+
       Resp := TConsultaNFSeResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
@@ -1409,6 +1496,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarNFSeServicoTomadoPorIntermediario(CNPJ, InscMunicipal, aPagina, aDataInicial, aDataFinal, TipoPeriodo);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarNFSeServicoPrestadoPorIntermediario', NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
+
       Resp := TConsultaNFSeResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
@@ -1450,6 +1541,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarNFSeServicoTomadoPorNumero(Numero, aPagina, aDataInicial, aDataFinal, TipoPeriodo);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarNFSeServicoTomadoPorNumero', NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
+
       Resp := TConsultaNFSeResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
@@ -1492,6 +1587,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarNFSeServicoTomadoPorPrestador(CNPJ, InscMunicipal, aPagina, aDataInicial, aDataFinal, TipoPeriodo);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarNFSeServicoTomadoPorPrestador', NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
+
       Resp := TConsultaNFSeResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
@@ -1534,6 +1633,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarNFSeServicoTomadoPorTomador(CNPJ, InscMunicipal, aPagina, aDataInicial, aDataFinal, TipoPeriodo);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarNFSeServicoTomadoPorTomador', NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
+
       Resp := TConsultaNFSeResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
@@ -1572,6 +1675,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarNFSeServicoTomadoPorPeriodo(aDataInicial, aDataFinal, aPagina, TipoPeriodo);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarNFSeServicoTomadoPorPeriodo', NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
+
       Resp := TConsultaNFSeResposta.Create(Config.TipoResposta, config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
@@ -1614,6 +1721,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarNFSeServicoTomadoPorIntermediario(CNPJ, InscMunicipal, aPagina, aDataInicial, aDataFinal, TipoPeriodo);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarNFSeServicoTomadoPorIntermediario', NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
+
       Resp := TConsultaNFSeResposta.Create(Config.TipoResposta, config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
@@ -1657,6 +1768,10 @@ begin
       try
         InfEvento.LerFromIni(aInfEvento);
         NFSeDM.ACBrNFSeX1.EnviarEvento(InfEvento);
+
+        if Config.Log.Nivel = logParanoico then
+          GravarLogsHttp('NFSE_EnviarEvento', NFSeDM.ACBrNFSeX1.WebService.EnviarEvento);
+
         Resp:= TEnviarEventoResposta.Create(Config.TipoResposta, Config.CodResposta);
         try
           Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.EnviarEvento);
@@ -1700,6 +1815,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarDPSPorChave(ChaveDPS);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarDPSPorChave', NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSeporRps);
+
       Resp := TConsultaNFSePorRpsResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSeporRps);
@@ -1739,6 +1858,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarNFSePorChave(ChaveNFSe);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarNFSePorChave', NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
+
       Resp := TConsultaNFSeResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
@@ -1780,6 +1903,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarEvento(Chave, TipoEvento, aNumSeq);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarEvento', NFSeDM.ACBrNFSeX1.WebService.ConsultarEvento);
+
       Resp := TConsultaEventoResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultarEvento);
@@ -1817,6 +1944,10 @@ begin
     try
       NFSeDM.ACBrNFSeX1.ConsultarDFe(aNSU);
       Resp := TConsultaDFeResposta.Create(Config.TipoResposta, Config.CodResposta);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarDFe', NFSeDM.ACBrNFSeX1.WebService.ConsultarDFe);
+
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultarDFe);
 
@@ -1855,6 +1986,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ObterDANFSE(ChaveNFSe);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ObterDANFSe', NFSeDM.ACBrNFSeX1.WebService.ObterDANFSe);
+
       Resp := TObterDANFSeResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ObterDANFSe);
@@ -1898,6 +2033,10 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ConsultarParametros(TipoParametro, CodigoServico, aCompetencia, NumeroBeneficio);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarParametros', NFSeDM.ACBrNFSeX1.WebService.ConsultarParam);
+
       Resp:= TConsultaParametrosResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultarParam);
@@ -1933,6 +2072,43 @@ begin
       Resp := TObterInformacoesProvedorResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.Configuracoes.Geral);
+
+        Resposta := Resp.Gerar;
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        Resp.Free;
+      end;
+    finally
+      NFSeDM.Destravar;
+    end;
+  except
+    on E: EACBrLibException do
+       Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
+
+    on E: Exception do
+       Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
+  end;
+end;
+
+function TACBrLibNFSe.ObterURLsProvedor(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+var
+  Resp: TObterURLsProvedorResposta;
+  Resposta: AnsiString;
+begin
+  try
+    GravarLog('NFSE_ObterURLsProvedor', logNormal);
+
+    NFSeDM.Travar;
+    try
+      if not Assigned(NFSeDM.ACBrNFSeX1.Provider) then
+      begin
+        Result := SetRetorno(ErrExecutandoMetodo, 'Nenhum provedor selecionado');
+        exit;
+      end;
+      Resp := TObterURLsProvedorResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        Resp.Processar(NFSeDM.ACBrNFSeX1.Provider.ConfigWebServices);
 
         Resposta := Resp.Gerar;
         MoverStringParaPChar(Resposta, sResposta, esTamanho);

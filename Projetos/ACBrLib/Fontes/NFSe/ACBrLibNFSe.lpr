@@ -101,6 +101,7 @@ exports
   NFSE_SalvarPDF,
   NFSE_ObterInformacoesProvedor,
   NFSE_SetVersaoDF,
+  NFSE_ObterURLsProvedor,
 
   // Servico Prestado
   NFSE_ConsultarNFSeServicoPrestadoPorNumero,
