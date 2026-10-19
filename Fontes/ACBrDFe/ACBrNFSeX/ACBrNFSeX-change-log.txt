@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/10/2026
+-- Giss.GravarXml --
+[*] ACBR-10067 - Alteração nas condições para gerar ou não os percentuais dos totais do tributos.
+   Por: Bessani
+
 15/10/2026
 -- ACBrNFSeXServicos --
 [-] A município de Ronda Alta/RS migrou para o Padrão Nacional.

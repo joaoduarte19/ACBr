@@ -448,9 +448,7 @@ begin
     Result.AppendChild(AddNode(tcStr, '#1', 'indTotTrib', 1, 1, 1,
                   indTotTribToStr(NFSe.Servico.Valores.totTrib.indTotTrib), ''))
   else
-  if (NFSe.Servico.Valores.totTrib.pTotTribFed > 0) or
-     (NFSe.Servico.Valores.totTrib.pTotTribEst > 0) or
-     (NFSe.Servico.Valores.totTrib.pTotTribMun > 0) then
+  if NFSe.OptanteSimplesNacional = snNao then
     Result.AppendChild(GerarXMLPercentualTotalTributos)
   else
     Result.AppendChild(AddNode(tcDe2, '#1', 'pTotTribSN', 1, 5, 1,
