@@ -43,6 +43,19 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 19/10/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-10080 - O município de Primavera do Leste/MT aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/95440-acbr-10080-alterar-provedor-de-primavera-do-leste-mt/
+	Por: Diego Reckziegel
+[*] ACBR-10077 - Mudança de URLs e migração para o Layout Nacional no município de Jaru/RO
+	Veja: https://www.projetoacbr.com.br/forum/topic/95207-sigcorp-ipatinga-mg/
+	Por: Diego Reckziegel
+[*] ACBR-10076 - Mudança de URLs e migração para o Layout Nacional no município de Ipatinga/MG
+	Veja: https://www.projetoacbr.com.br/forum/topic/95207-sigcorp-ipatinga-mg/
+	Por: DanielF
+[*] ACBR-10053 - O município de Quatro Barra/PR aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/95399-acbr-10053-quatro-barraspr-migrou-para-o-padr%C3%A3o-nacional/
+	Por: Ramon Valentim
 -- Sintese.GravarXml --
 [-] Ajuste para que o ItemServico não seja formatado automaticamente.
    Por: Larissa Santos
