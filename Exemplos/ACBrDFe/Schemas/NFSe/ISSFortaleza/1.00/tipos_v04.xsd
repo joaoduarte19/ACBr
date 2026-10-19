@@ -533,12 +533,6 @@
 			<xsd:whiteSpace value="collapse"/>
 		</xsd:restriction>
 	</xsd:simpleType>
-	<xsd:simpleType name="tsCodigoMunicipioDocFiscal">
-		<xsd:restriction base="xsd:string">
-			<xsd:pattern value="[0-9]{17}"/>
-			<xsd:whiteSpace value="collapse"/>
-		</xsd:restriction>
-	</xsd:simpleType>
 	<xsd:simpleType name="tsTipoChaveDFe">
 		<xsd:restriction base="xsd:byte">
 			<xsd:pattern value="1|2|3|9"/>
@@ -557,6 +551,18 @@
 			<xsd:whiteSpace value="collapse"/>
 		</xsd:restriction>
 	</xsd:simpleType>
+	<xsd:simpleType name="tsTipoCstPisCofins">
+        <xsd:restriction base="xsd:token">
+            <xsd:pattern value="00|01|02|03|04|05|06|07|08|09|49|50|51|52|53|54|55|56|60|61|62|63|64|65|66|67|70|71|72|73|74|75|98|99"/>
+            <xsd:whiteSpace value="collapse"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="tsTipoRetencaoPisCofins">
+        <xsd:restriction base="xsd:token">
+            <xsd:pattern value="0|1|2|3|4|5|6|7|8|9"/>
+            <xsd:whiteSpace value="collapse"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 	<!--  tipos complexo -->
 	<xsd:complexType name="tcCpfCnpj">
 		<xsd:choice>
@@ -640,7 +646,8 @@
 			<xsd:element name="Aliquota" type="tsAliquota" minOccurs="0"/>
 			<xsd:element name="ValorLiquidoNfse" type="tsValor" minOccurs="0"/>
 			<xsd:element name="DescontoIncondicionado" type="tsValor" minOccurs="0"/>
-			<xsd:element name="DescontoCondicionado" type="tsValor" minOccurs="0"/>
+			<xsd:element name="DescontoCondicionado" type="tsValor" minOccurs="0" />
+			<xsd:element name="BaseCalculoPisCofins" type="tsValor" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="tcDadosServico">
@@ -652,12 +659,15 @@
 			<xsd:element name="Discriminacao" type="tsDiscriminacao"/>
 			<xsd:element name="CodigoMunicipio" type="tsCodigoMunicipioIbge"/>
 			<xsd:element name="CodigoNbs" type="tsCodigoNbs" minOccurs="0"/>
+			<xsd:element name="TipoRetencaoPisCofins" type="tsTipoRetencaoPisCofins" minOccurs="0"/>
+            <xsd:element name="TipoCstPisCofins" type="tsTipoCstPisCofins" minOccurs="0"/>
+			
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="tcDadosConstrucaoCivil">
 		<xsd:sequence>
-			<xsd:element name="CodigoObra" type="tsCodigoObra"/>
-			<xsd:element name="Art" type="tsArt"/>
+			<xsd:element name="CodigoObra" type="tsCodigoObra" minOccurs="0"/>
+			<xsd:element name="Art" type="tsArt" minOccurs="0"/>
 			<xsd:element name="InscImobFiscal" type="tsInscImobFiscal" minOccurs="0"/>
 			<xsd:element name="CadNacObra" type="tsCadNacObra" minOccurs="0"/>
 			<xsd:element name="Endereco" type="tcEndereco" minOccurs="0"/>
@@ -737,8 +747,8 @@
 	<xsd:complexType name="tcDestinatario">
 	  	<xsd:sequence>
 	  		<xsd:element name="CpfCnpj" type="tcCpfCnpj" minOccurs="0"/>
-      	  	<xsd:element name="Nif" type="tsNif" minOccurs="0"/>
-      	  	<xsd:element name="NaoNif" type="tsNaoNif"/>
+      	  	<xsd:element name="Nif" type="tsNif" minOccurs="0" />
+      	  	<xsd:element name="NaoNif" type="tsNaoNif" minOccurs="0"/>
       	  	<xsd:element name="Nome" type="tsDesc150" minOccurs="0"/>
       	  	<xsd:element name="Endereco" type="tcEndereco" minOccurs="0"/>
       	  	<xsd:element name="Contato" type="tcContato" minOccurs="0"/>
@@ -785,7 +795,7 @@
 	</xsd:complexType>
 	<xsd:complexType name="tcDocumentosFiscaisOutro">
 		<xsd:sequence>
-			<xsd:element name="CodigoMunicipioDocFiscal" type="tsCodigoMunicipioDocFiscal" minOccurs="0" />
+			<xsd:element name="CodigoMunicipioDocFiscal" type="tsCodigoMunicipioIbge" minOccurs="0" />
 			<xsd:element name="NumeroDocumentoFiscal" type="tsDesc255" minOccurs="0" />
 			<xsd:element name="DescTipoChaveDFe" type="tsDesc255" minOccurs="0" />
 		</xsd:sequence>
@@ -800,7 +810,7 @@
 		<xsd:sequence>
 			<xsd:element name="CpfCnpj" type="tcCpfCnpj" minOccurs="0" />
 			<xsd:element name="Nif" type="tsNif" minOccurs="0"/>
-      	  	<xsd:element name="NaoNif" type="tsNaoNif"/>
+      	  	<xsd:element name="NaoNif" type="tsNaoNif" minOccurs="0"/>
 			<xsd:element name="Nome" type="tsDesc150" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
