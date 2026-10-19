@@ -73,6 +73,7 @@ type
     procedure LerConstrucaoCivil(const aNode: TACBrXmlNode); override;
     procedure LerAtividadeEvento(const aNode: TACBrXmlNode); override;
     procedure LerEndereco(const aNode: TACBrXmlNode; aEndereco: TEndereco);
+    procedure LerValores(const ANode: TACBrXmlNode); override;
   public
     function LerXmlRps(const aNode: TACBrXmlNode): Boolean; override;
   end;
@@ -305,14 +306,20 @@ end;
 procedure TNFSeR_ISSFortaleza.LerServico(const aNode: TACBrXmlNode);
 var
   servicoNode: TACBrXmlNode;
+  Ok: Boolean;
 begin
   inherited LerServico(aNode);
                      
   if not Assigned(aNode) then Exit;
 
   servicoNode := aNode.Childrens.FindAnyNs('Servico');
+
   if Assigned(servicoNode) then
+  begin
     NFSe.Servico.CodigoNBS := ObterConteudo(servicoNode.Childrens.FindAnyNs('CodigoNbs'), tcStr);
+    NFSe.Servico.Valores.tribFed.tpRetPisCofins := StrTotpRetPisCofins(Ok, ObterConteudo(servicoNode.Childrens.FindAnyNs('TipoRetencaoPisCofins'), tcStr));
+    NFSe.Servico.Valores.tribFed.CST := StrToCST(Ok, ObterConteudo(servicoNode.Childrens.FindAnyNs('TipoCstPisCofins'), tcStr));
+  end;
 end;
 
 procedure TNFSeR_ISSFortaleza.LerConstrucaoCivil(const aNode: TACBrXmlNode);
@@ -367,6 +374,17 @@ begin
   infRpsNode := ANode.Childrens.FindAnyNs('InfRps');
   if Assigned(infRpsNode) then
     LerXMLIBSCBS(infRpsNode);
+end;
+
+procedure TNFSeR_ISSFortaleza.LerValores(const ANode: TACBrXmlNode);
+var
+  AuxNode: TACBrXmlNode;
+begin
+  inherited LerValores(aNode);
+
+  AuxNode := aNode.Childrens.FindAnyNs('Valores');
+  if Assigned(AuxNode) then
+    NFSe.Servico.Valores.tribFed.vBCPisCofins := ObterConteudo(aNode.Childrens.FindAnyNs('BaseCalculoPisCofins'), tcDe2);
 end;
 
 end.

@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 19/10/2026
+-- ISSFortaleza.GravarXml/ISSFortaleza.LerXml --
+[*] ACBR-10072 - Alteração visando a leitura/escrita das tags: 
+    TipoRetencaoPisCofins e TipoCstPisCofins dentro do grupo Serviço e
+    BaseCalculoPisCofins dentro do grupo Valores.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] ACBR-10080 - O município de Primavera do Leste/MT aderiu ao Padrão Nacional
 	Veja: https://www.projetoacbr.com.br/forum/topic/95440-acbr-10080-alterar-provedor-de-primavera-do-leste-mt/

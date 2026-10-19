@@ -77,6 +77,7 @@ type
     function GerarEnderecoEvento: TACBrXmlNode; override;
     function GerarEnderecoExteriorEvento: TACBrXmlNode; override;
     function GerarComercioExterior: TACBrXmlNode; override;
+    function GerarValores: TACBrXmlNode; override;
   end;
 
 implementation
@@ -121,6 +122,12 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#1', 'CodigoNbs', 1, 9, 0,
                                                    NFSe.Servico.CodigoNBS, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'TipoRetencaoPisCofins', 1, 1, 0,
+         tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'TipoCstPisCofins', 2, 2, 0,
+                               CSTToStr(NFSe.Servico.Valores.tribFed.CST), ''));
 end;
 
 function TNFSeW_ISSFortaleza.GerarInfRps: TACBrXmlNode;
@@ -642,6 +649,14 @@ begin
     Result.AppendChild(AddNode(tcInt, '#1', 'Mdic', 1, 1, 1,
                                                  NFSe.Servico.comExt.mdic, ''));
   end;
+end;
+
+function TNFSeW_ISSFortaleza.GerarValores: TACBrXmlNode;
+begin
+ Result := inherited GerarValores;
+
+  Result.AppendChild(AddNode(tcDe2, '#28', 'BaseCalculoPisCofins', 1, 15, 0,
+                                NFSe.Servico.Valores.tribFed.vBCPisCofins, ''));
 end;
 
 end.
