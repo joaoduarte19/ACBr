@@ -51,7 +51,7 @@ uses
   ACBrConsts,
   pcnCIOTW, 
   pcnCIOTR,
-  pcnConversao,
+  ACBrDFe.Conversao,
   pcnGerador, 
   pcnLeitor,
   pcnCIOT, 

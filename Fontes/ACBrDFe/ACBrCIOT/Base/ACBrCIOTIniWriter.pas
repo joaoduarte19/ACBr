@@ -66,7 +66,6 @@ type
     procedure Gerar_GravarRegistrarQtdeMercadoriaDesembarque(AINIRec: TMemIniFile);
     procedure Gerar_GravarRetificarOperacao(AINIRec: TMemIniFile);
     procedure Gerar_GravarVeiculo(AINIRec: TMemIniFile);
-
     procedure Gerar_ConsultarTransportador(AINIRec: TMemIniFile);
     procedure Gerar_Consignatario(AINIRec: TMemIniFile);
     procedure Gerar_Contratado(AINIRec: TMemIniFile);
@@ -219,7 +218,7 @@ begin
   AINIRec.WriteString(LSecao, 'ComposicaoVeicular', IntToStr(Integer(FCIOT.AdicionarOperacao.ComposicaoVeicular)));
   AINIRec.WriteString(LSecao, 'RetornoVazio', IntToStr(Integer(FCIOT.AdicionarOperacao.RetornoVazio)));
   AINIRec.WriteFloat(LSecao, 'ValorFrete', FCIOT.AdicionarOperacao.ValorFrete);
-  AINIRec.WriteString(LSecao, 'DataDeclaracao', DateToStr(FCIOT.AdicionarOperacao.DataDeclaracao));
+  AINIRec.WriteString(LSecao, 'DataDeclaracao', DateTimeToStr(FCIOT.AdicionarOperacao.DataDeclaracao));
   AINIRec.WriteString(LSecao, 'IndContingencia', IntToStr(Integer(FCIOT.AdicionarOperacao.IndContingencia)));
   AINIRec.WriteString(LSecao, 'JustificativaContingencia', FCIOT.AdicionarOperacao.JustificativaContingencia);
 
@@ -399,6 +398,11 @@ begin
   AINIRec.WriteString(LSecao, 'CepOrigem', FCIOT.RetificarOperacao.CepOrigem);
   AINIRec.WriteString(LSecao, 'CepDestino', FCIOT.RetificarOperacao.CepDestino);
   AINIRec.WriteInteger(LSecao, 'DistanciaPercorrida', FCIOT.RetificarOperacao.DistanciaPercorrida);
+  AINIRec.WriteFloat(LSecao, 'ValorFrete', FCIOT.RetificarOperacao.ValorFrete);
+  AINIRec.WriteFloat(LSecao, 'LatitudeOrigem', FCIOT.RetificarOperacao.LatitudeOrigem);
+  AINIRec.WriteFloat(LSecao, 'LongitudeOrigem', FCIOT.RetificarOperacao.LongitudeOrigem);
+  AINIRec.WriteFloat(LSecao, 'LatitudeDestino', FCIOT.RetificarOperacao.LatitudeDestino);
+  AINIRec.WriteFloat(LSecao, 'LongitudeDestino', FCIOT.RetificarOperacao.LongitudeDestino);
   AINIRec.WriteFloat(LSecao, 'ValorFrete', FCIOT.RetificarOperacao.ValorFrete);
 
   Gerar_Veiculos(AINIRec, FCIOT.RetificarOperacao.Veiculos);

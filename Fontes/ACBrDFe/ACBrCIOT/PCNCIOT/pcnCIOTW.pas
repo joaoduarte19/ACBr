@@ -145,7 +145,6 @@ end;
 
 function TCIOTWClass.GerarXml: Boolean;
 begin
-  Result := False;
   raise EACBrDFeException.Create(ClassName + '.GerarXml, não implementado');
 end;
 

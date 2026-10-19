@@ -58,7 +58,6 @@ type
     FPStatus: TStatusACBrCIOT;
     FPLayout: TLayOutCIOT;
     FPConfiguracoesCIOT: TConfiguracoesCIOT;
-    FPANTT: Boolean;
   protected
     procedure InicializarServico; override;
     procedure DefinirEnvelopeSoap; override;
@@ -86,6 +85,7 @@ type
   protected
     procedure DefinirServicoEAction; override;
     procedure DefinirDadosMsg; override;
+    procedure DefinirEnvelopeSoap; override;
     procedure DefinirURL; override;
     function TratarResposta: Boolean; override;
 
@@ -176,7 +176,6 @@ begin
   FPBodyElement   := '';
   FPMimeType      := 'text/xml';
   FPSoapVersion   := 'soap';
-  FPANTT       := False;
 end;
 
 procedure TCIOTWebService.Clear;
@@ -184,7 +183,6 @@ begin
   inherited Clear;
 
   FPStatus := stCIOTIdle;
-  FPANTT := False;
 end;
 
 procedure TCIOTWebService.InicializarServico;
@@ -268,7 +266,7 @@ end;
 
 procedure TCIOTWebService.EnviarDados;
 Var
-  Tentar, Tratado: Boolean;
+  Tentar, Tratado, IsANTT: Boolean;
 begin
   { sobrescrever apenas se necessário.
     Você também pode mudar apenas o valor de "FLayoutServico" na classe
@@ -277,8 +275,11 @@ begin
   FPRetWS := '';
   FPRetornoWS := '';
   Tentar := True;
+  IsANTT := (FPConfiguracoesCIOT.Geral.Integradora = iANTT);
 
-  FPEnvelopeSoap := UTF8ToNativeString(FPEnvelopeSoap);
+  // O JSON da ANTT ja esta em UTF8 e deve ser enviado sem conversao.
+  if not IsANTT then
+    FPEnvelopeSoap := UTF8ToNativeString(FPEnvelopeSoap);
 
   while Tentar do
   begin
@@ -294,11 +295,10 @@ begin
                                  FormatDateBr(FPDFeOwner.SSL.CertDataVenc)));
 
     try
-
-      if FPANTT then
-        FPRetornoWS := String(FPDFeOwner.SSL.HTTPGet(FPURL))
-      else
-        FPRetornoWS := FPDFeOwner.SSL.Enviar(FPEnvelopeSoap, FPURL, FPSoapAction, FPMimeType);
+      // Na ANTT as rejeicoes podem retornar HTTP 4xx com o JSON de erro no
+      // corpo, que sera tratado em TratarResposta. Envelope vazio = GET.
+      FPRetornoWS := FPDFeOwner.SSL.Enviar(FPEnvelopeSoap, FPURL, FPSoapAction,
+        FPMimeType, '', not IsANTT);
     except
       if Assigned(FPDFeOwner.OnTransmitError) then
         FPDFeOwner.OnTransmitError(FPDFeOwner.SSL.HTTPResultCode,
@@ -480,14 +480,14 @@ begin
       begin
         Acao := ServicoANTT(FContratos.Items[0].CIOT.Integradora.Operacao);
 
-        FPMimeType := 'application/json';
-        FPANTT := (FContratos.Items[0].CIOT.Integradora.Operacao = opConsultarExcecao);
+        FPMimeType := 'application/json; charset=utf-8';
 
         FPArqEnv  := 'ped-' + Acao;
         FPArqResp := 'res-' + Acao;
 
         FPServico := Acao;
-        FPSoapAction := '*';
+        // Servico REST: nao deve ser enviado o header SOAPAction.
+        FPSoapAction := '';
 
         Exit;
       end;
@@ -869,6 +869,17 @@ begin
   FPSoapAction := Servico + Acao;
 end;
 
+procedure TCIOTEnviar.DefinirEnvelopeSoap;
+begin
+  inherited DefinirEnvelopeSoap;
+
+  // ConsultarExcecao da ANTT e consumido via GET (parametro na URL); com o
+  // envelope vazio o TDFeSSL.Enviar utiliza o verbo GET.
+  if (FPConfiguracoesCIOT.Geral.Integradora = iANTT) and
+     (FContratos.Items[0].CIOT.Integradora.Operacao = opConsultarExcecao) then
+    FPEnvelopeSoap := '';
+end;
+
 procedure TCIOTEnviar.DefinirURL;
 var
   Operacao: TpOperacao;
@@ -886,7 +897,6 @@ begin
           FPURL := FPURL + '/';
 
         FPURL := FPURL + ServicoANTT(Operacao);
-
 
         if Operacao = opConsultarExcecao then
           FPURL := FPURL + '?CPFCNPJTransportador=' +
@@ -959,7 +969,16 @@ var
 begin
   case FPConfiguracoesCIOT.Geral.Integradora of
     iANTT:
-      FPRetWS := FPRetornoWS;
+      begin
+        FPRetWS := FPRetornoWS;
+
+        // Resposta de erro HTTP sem JSON no corpo nao pode ser interpretada.
+        if ((FPDFeOwner.SSL.HTTPResultCode < 200) or
+            (FPDFeOwner.SSL.HTTPResultCode > 299)) and
+           (Copy(Trim(FPRetWS), 1, 1) <> '{') then
+          GerarException(ACBrStr(Format('Erro HTTP %d ao acessar: %s',
+            [FPDFeOwner.SSL.HTTPResultCode, FPURL])) + CRLF + FPRetWS);
+      end;
     iPamcard:
       FPRetWS := SeparaDados(FPRetornoWS, 'env:Body');
   else

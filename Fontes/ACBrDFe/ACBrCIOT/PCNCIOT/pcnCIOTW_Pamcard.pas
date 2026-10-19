@@ -52,7 +52,7 @@ uses
   ACBrConsts,
   pcnCIOTW, 
   pcnCIOTR,
-  pcnConversao,
+  ACBrDFe.Conversao,
   pcnGerador, 
   pcnLeitor,
   pcnCIOT, 
@@ -69,7 +69,7 @@ type
     FIndicePessoaFiscal: Integer;
     FVersaoDF: TVersaoCIOT;
   protected
-    procedure AddFieldNoXml( const Tipo: TpcnTipoCampo; ID, TAG: string; const min, max, ocorrencias: smallint; const valor: variant; const Descricao: string = ''; ParseTextoXML: Boolean = True; Atributo: String = '' );
+    procedure AddFieldNoXml( const Tipo: TACBrTipoCampo; ID, TAG: string; const min, max, ocorrencias: smallint; const valor: variant; const Descricao: string = ''; ParseTextoXML: Boolean = True; Atributo: String = '' );
 
     procedure GerarAlterarContratoFrete;
     procedure GerarAlterarStatusParcela;
@@ -115,7 +115,7 @@ type
 
 implementation
 
-procedure TCIOTW_Pamcard.AddFieldNoXml(const Tipo: TpcnTipoCampo; ID, TAG: string; const min, max, ocorrencias: smallint; const valor: variant; const Descricao: string; ParseTextoXML: Boolean; Atributo: String);
+procedure TCIOTW_Pamcard.AddFieldNoXml(const Tipo: TACBrTipoCampo; ID, TAG: string; const min, max, ocorrencias: smallint; const valor: variant; const Descricao: string; ParseTextoXML: Boolean; Atributo: String);
 
   function IsEmptyDate(wAno, wMes, wDia: Word): Boolean;
   begin

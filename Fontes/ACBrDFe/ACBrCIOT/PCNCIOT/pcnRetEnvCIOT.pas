@@ -40,7 +40,7 @@ uses
   SysUtils,
   StrUtils,
   Classes,
-  pcnConversao,
+  ACBrDFe.Conversao,
   pcnLeitor,
   pcnCIOT,
   ACBrCIOTConversao,
@@ -56,7 +56,10 @@ type
     FOperacao: TpOperacao;
 
     function PamcardTransformarXmlKeyValueParaTagsDiretas(const InputXML: string): string;
-    function LerCampoANTT(AJSon: TACBrJSONObject; const AName: string): string;
+    function LerCampoANTT(AJSon: TACBrJSONObject; const AName: string;
+      const ASomentePrimeiro: Boolean = False): string;
+    function LerBooleanANTT(AJSon: TACBrJSONObject; const AName: string): Boolean;
+    procedure LerErroValidacaoANTT(AJSon: TACBrJSONObject);
   public
     constructor Create;
     destructor Destroy; override;
@@ -851,7 +854,7 @@ begin
 end;
 
 function TRetornoEnvio.LerCampoANTT(AJSon: TACBrJSONObject;
-  const AName: string): string;
+  const AName: string; const ASomentePrimeiro: Boolean): string;
 var
   LArr: TACBrJSONArray;
   i: Integer;
@@ -860,26 +863,60 @@ begin
   // como string ou como array de strings.
   Result := '';
 
-  try
-    LArr := AJSon.AsJSONArray[AName];
+  if not AJSon.ValueExists(AName) then
+    Exit;
 
-    if Assigned(LArr) and (LArr.Count > 0) then
-    begin
-      for i := 0 to LArr.Count - 1 do
-      begin
-        if Result <> '' then
-          Result := Result + ' | ';
-
-        Result := Result + LArr.Items[i];
-      end;
-
-      Exit;
-    end;
-  except
-    // Valor nao e um array, sera lido como string abaixo
+  if not AJSon.IsJSONArray(AName) then
+  begin
+    Result := AJSon.AsString[AName];
+    Exit;
   end;
 
-  Result := AJSon.AsString[AName];
+  LArr := AJSon.AsJSONArray[AName];
+
+  for i := 0 to LArr.Count - 1 do
+  begin
+    if Result <> '' then
+      Result := Result + ' | ';
+
+    Result := Result + LArr.Items[i];
+
+    if ASomentePrimeiro then
+      Exit;
+  end;
+end;
+
+function TRetornoEnvio.LerBooleanANTT(AJSon: TACBrJSONObject;
+  const AName: string): Boolean;
+var
+  LValor: string;
+begin
+  // Alguns campos logicos sao retornados como booleano e outros como 0/1.
+  LValor := LowerCase(Trim(AJSon.AsString[AName]));
+  Result := (LValor = 'true') or (LValor = '1');
+end;
+
+procedure TRetornoEnvio.LerErroValidacaoANTT(AJSon: TACBrJSONObject);
+var
+  LErros: TACBrJSONObject;
+begin
+  // Erros de validacao do modelo (ProblemDetails): title, status, errors.
+  with RetEnvio do
+  begin
+    Codigo := AJSon.AsString['status'];
+    Mensagem := AJSon.AsString['title'];
+
+    if AJSon.ValueExists('detail') then
+      Mensagem := Trim(Mensagem + ' ' + AJSon.AsString['detail']);
+
+    if AJSon.IsJSONObject('errors') then
+    begin
+      LErros := AJSon.AsJSONObject['errors'];
+
+      if Assigned(LErros) then
+        Mensagem := Trim(Mensagem + ' ' + LErros.ToJSON);
+    end;
+  end;
 end;
 
 function TRetornoEnvio.LerRetorno_ANTT: Boolean;
@@ -887,7 +924,7 @@ var
   LJSon, LRetorno, LItem: TACBrJSONObject;
   LFrota: TACBrJSONArray;
   LVeiculo: TVeiculoCollectionItem;
-  LTipoTransportador: string;
+  LTipoTransportador, LCodigo: string;
   i: Integer;
 begin
   Result := False;
@@ -905,8 +942,13 @@ begin
         Protocolo := LJSon.AsString['Protocolo'];
         ProtocoloServico := Protocolo;
 
+        if (Codigo = '') and (Mensagem = '') and LJSon.ValueExists('title') then
+          LerErroValidacaoANTT(LJSon);
+
         // 110 - Dados inseridos com sucesso; 111 - Consulta realizada com sucesso
-        if (Codigo = '110') or (Codigo = '111') then
+        LCodigo := Trim(LerCampoANTT(LJSon, 'Codigo', True));
+
+        if (LCodigo = '110') or (LCodigo = '111') then
           Sucesso := 'true'
         else
           Sucesso := 'false';
@@ -918,29 +960,27 @@ begin
               Proprietario.CNPJ        := LJSon.AsString['CpfCnpjTransportador'];
               Proprietario.RNTRC       := LJSon.AsString['RNTRCTransportador'];
               Proprietario.RazaoSocial := LJSon.AsString['NomeRazaoSocialTransportador'];
-              Proprietario.RNTRCAtivo  := LJSon.AsBoolean['RNTRCAtivo'];
+              Proprietario.RNTRCAtivo  := LerBooleanANTT(LJSon, 'RNTRCAtivo');
 
-              LTipoTransportador := LJSon.AsString['TipoTransportador'];
+              LTipoTransportador := UpperCase(Trim(LJSon.AsString['TipoTransportador']));
 
-              if LTipoTransportador <> '' then
+              if (LTipoTransportador = 'TAC') or (LTipoTransportador = 'ETC') or
+                 (LTipoTransportador = 'CTC') then
                 Proprietario.Tipo := StrToTipoProprietario(LTipoTransportador);
 
-              Proprietario.TACouEquiparado := LJSon.AsBoolean['EquiparadoTAC'];
+              Proprietario.TACouEquiparado := LerBooleanANTT(LJSon, 'EquiparadoTAC');
 
-              if Operacao = opConsultarFrota then
+              if (Operacao = opConsultarFrota) and LJSon.IsJSONArray('Frota') then
               begin
                 LFrota := LJSon.AsJSONArray['Frota'];
 
-                if Assigned(LFrota) then
+                for i := 0 to LFrota.Count - 1 do
                 begin
-                  for i := 0 to LFrota.Count - 1 do
-                  begin
-                    LItem := LFrota.ItemAsJSONObject[i];
+                  LItem := LFrota.ItemAsJSONObject[i];
 
-                    LVeiculo := Veiculos.New;
-                    LVeiculo.Placa := LItem.AsString['PlacaVeiculo'];
-                    LVeiculo.SituacaoVeiculo := LItem.AsBoolean['SituacaoVeiculoFrotaTransportador'];
-                  end;
+                  LVeiculo := Veiculos.New;
+                  LVeiculo.Placa := LItem.AsString['PlacaVeiculo'];
+                  LVeiculo.SituacaoVeiculo := LerBooleanANTT(LItem, 'SituacaoVeiculoFrotaTransportador');
                 end;
               end;
             end;
@@ -978,12 +1018,15 @@ begin
 
           opConsultarExcecao:
             begin
-              LRetorno := LJSon.AsJSONObject['Retorno'];
-
-              if Assigned(LRetorno) then
+              if LJSon.IsJSONObject('Retorno') then
               begin
-                Proprietario.CNPJ := LRetorno.AsString['CpfCnpjTransportador'];
-                Excecao := LRetorno.AsBoolean['Flag'];
+                LRetorno := LJSon.AsJSONObject['Retorno'];
+
+                if Assigned(LRetorno) then
+                begin
+                  Proprietario.CNPJ := LRetorno.AsString['CpfCnpjTransportador'];
+                  Excecao := LerBooleanANTT(LRetorno, 'Flag');
+                end;
               end;
             end;
 

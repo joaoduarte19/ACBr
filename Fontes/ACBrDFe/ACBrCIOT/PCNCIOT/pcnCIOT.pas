@@ -1096,6 +1096,10 @@ type
     FDistanciaPercorrida: Integer;
     //ANTT
     FValorFrete: Double;
+    FLatitudeOrigem: Double;
+    FLongitudeOrigem: Double;
+    FLatitudeDestino: Double;
+    FLongitudeDestino: Double;
 
     procedure SetVeiculos(const Value: TVeiculoCollection);
   public
@@ -1120,6 +1124,10 @@ type
     property DistanciaPercorrida: Integer read FDistanciaPercorrida write FDistanciaPercorrida;
     //ANTT
     property ValorFrete: Double read FValorFrete write FValorFrete;
+    property LatitudeOrigem: Double read FLatitudeOrigem write FLatitudeOrigem;
+    property LongitudeOrigem: Double read FLongitudeOrigem write FLongitudeOrigem;
+    property LatitudeDestino: Double read FLatitudeDestino write FLatitudeDestino;
+    property LongitudeDestino: Double read FLongitudeDestino write FLongitudeDestino;
   end;
 
   TCancelarOperacao = class(TObjectBase)

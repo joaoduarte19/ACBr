@@ -39,6 +39,37 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 06/10/2026
+-- pcnCIOTW_ANTT --
+[-] ANTT (PEF v1.1): campos do JSON gerados conforme os exemplos do manual
+    (valores, datas logicas, eixos e codigos como string; ponto decimal).
+[-] ANTT: preservado o CNPJ alfanumerico nos campos CPF/CNPJ.
+[-] ANTT: CpfCnpjDestinatario nao e mais enviado para TAC-Agregado.
+[-] ANTT: JustificativaContingencia enviada somente quando IndContingencia = true (B103/B104).
+[-] ANTT: campos bancarios somente para os tipos de pagamento 1 a 4 e campos PIX
+    somente para o tipo 6 (B92/B99).
+[-] ANTT: Origem/Destino gerados com o mesmo tipo de localizacao, o mais
+    especifico comum ao par (B109 a B111).
+[*] ANTT: DataDeclaracao assume a data/hora atual quando nao informada e
+    alertas para campos obrigatorios.
+-- ACBrCIOTWebServices --
+[-] ANTT: ConsultarExcecao passa a usar SSL.Enviar (GET com certificado e
+    timeout), removido o header SOAPAction e a conversao UTF8 indevida do JSON.
+[*] ANTT: rejeicoes HTTP 4xx com JSON no corpo sao lidas no RetEnvio.
+-- pcnRetEnvCIOT --
+[-] ANTT: leitura segura de Codigo/Mensagem (string ou array), sucesso pelo
+    primeiro codigo, campos logicos aceitando true/false ou 1/0 e
+    TipoTransportador invalido nao interrompe a leitura.
+[+] ANTT: leitura de erros de validacao (ProblemDetails).
+-- pcnCIOT --
+[+] ANTT: Latitude/Longitude de origem e destino em TRetificarOperacao.
+-- ACBrCIOTIniReader, ACBrCIOTIniWriter --
+[+] ANTT: operacoes ConsultarSituacaoTransportador, ConsultarFrota,
+    ConsultarExcecao e ConsultarCIOTGerado e campos ValorFrete, DataDeclaracao,
+    IndContingencia, JustificativaContingencia, RNTRC/NumeroEixos do veiculo,
+    QtdViagens, AnoDeclaracao e coordenadas da retificacao.
+  Por: Juliomar
+
+06/10/2026
 --- ACBrCIOTIniReader, ACBrCIOTIniWriter, ACBrCIOTConversao ---
 [+] ACBR-9220 - Implementada Leitura e Escrita de inis para ANTT
     Por: Renato Rubinho

@@ -40,7 +40,7 @@ uses
   SysUtils,
   StrUtils, 
   Classes,
-  pcnConversao;
+  ACBrDFe.Conversao;
 
 const
   NAME_SPACE_CIOT  = '';

@@ -70,7 +70,6 @@ type
     procedure Ler_GravarRegistrarQtdeMercadoriaDesembarque(AINIRec: TMemIniFile);
     procedure Ler_GravarRetificarOperacao(AINIRec: TMemIniFile);
     procedure Ler_GravarVeiculo(AINIRec: TMemIniFile);
-
     procedure Ler_ConsultarTransportador(AINIRec: TMemIniFile);
     procedure Ler_Consignatario(AINIRec: TMemIniFile);
     procedure Ler_Contratado(AINIRec: TMemIniFile);
@@ -261,6 +260,7 @@ begin
 
   Ler_Responsavel(AINIRec, LSecao, FCIOT.AdicionarOperacao.Consignatario);
 end;
+
 
 procedure TCIOTIniReader.Ler_Contratado(AINIRec: TMemIniFile);
 var
@@ -564,6 +564,11 @@ begin
   FCIOT.RetificarOperacao.CepDestino := AINIRec.ReadString(LSecao, 'CepDestino', '0');
   FCIOT.RetificarOperacao.DistanciaPercorrida := AINIRec.ReadInteger(LSecao, 'DistanciaPercorrida', 0);
   FCIOT.RetificarOperacao.ValorFrete := AINIRec.ReadFloat(LSecao, 'ValorFrete', 0);
+  FCIOT.RetificarOperacao.LatitudeOrigem := AINIRec.ReadFloat(LSecao, 'LatitudeOrigem', 0);
+  FCIOT.RetificarOperacao.LongitudeOrigem := AINIRec.ReadFloat(LSecao, 'LongitudeOrigem', 0);
+  FCIOT.RetificarOperacao.LatitudeDestino := AINIRec.ReadFloat(LSecao, 'LatitudeDestino', 0);
+  FCIOT.RetificarOperacao.LongitudeDestino := AINIRec.ReadFloat(LSecao, 'LongitudeDestino', 0);
+  FCIOT.RetificarOperacao.ValorFrete := AINIRec.ReadFloat(LSecao, 'ValorFrete', 0);
 
   Ler_Veiculos(AINIRec, FCIOT.RetificarOperacao.Veiculos);
 end;
@@ -709,7 +714,6 @@ end;
 procedure TCIOTIniReader.Ler_NotaFiscalDesembarque(AINIRec: TMemIniFile; ANotaFiscalCollection: TNotaFiscalCollection);
 var
   LSecao: string;
-  ok: boolean;
   i: Integer;
   LNotaFiscal: TNotaFiscalCollectionItem;
   LFim: string;

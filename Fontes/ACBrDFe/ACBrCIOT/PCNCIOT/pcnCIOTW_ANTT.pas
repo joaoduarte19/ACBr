@@ -42,10 +42,19 @@ uses
   pcnCIOTW,
   pcnCIOT,
   ACBrCIOTConversao,
-  ACBrJSON,
-  ACBrUtil.Strings;
+  ACBrJSON;
 
 type
+  { Tipo de localizacao usado nos pares Origem/Destino (regras B109 a B111) }
+  TTipoLocalizacaoANTT = (tlNenhum, tlMunicipio, tlCep, tlLatLong);
+
+  TLocalizacaoANTT = record
+    CodigoMunicipio: Integer;
+    Cep: string;
+    Latitude: Double;
+    Longitude: Double;
+  end;
+
   { TCIOTW_ANTT }
 
   TCIOTW_ANTT = class(TCIOTWClass)
@@ -56,10 +65,23 @@ type
     function TipoPagamentoANTT(APagamento: TPagamentoCollectionItem): Integer;
     function IndPagamentoANTT(const AIndicadorPagamento: string): Integer;
     function DataHoraANTT(const AValue: TDateTime): string;
+    function DecimalANTT(const AValue: Double; const ADecimais: Integer): string;
+    function InteiroANTT(const AValue: Integer): string;
+    function BooleanoANTT(const AValue: Boolean): string;
     function FormatarRNTRC(const AValue: string): string;
 
-    procedure GerarOrigemDestino(AJSon: TACBrJSONObject; AViagem: TViagemCollectionItem;
-      const AComDistancia: Boolean; const AComQtdViagens: Boolean);
+    function Localizacao(const ACodigoMunicipio: Integer; const ACep: string;
+      const ALatitude, ALongitude: Double): TLocalizacaoANTT;
+    function PossuiLocalizacao(const ALocal: TLocalizacaoANTT;
+      const ATipo: TTipoLocalizacaoANTT): Boolean;
+    function TipoLocalizacaoMaisEspecifico(const ALocal: TLocalizacaoANTT): TTipoLocalizacaoANTT;
+    function GerarLocalizacao(const ASufixo: string; const ALocal: TLocalizacaoANTT;
+      const ATipo: TTipoLocalizacaoANTT): TACBrJSONObject;
+    procedure GerarOrigemDestino(AJSon: TACBrJSONObject;
+      const AOrigem, ADestino: TLocalizacaoANTT);
+    function GerarItemOrigemDestino(AViagem: TViagemCollectionItem;
+      const AComDistancia, AComQtdViagens: Boolean): TACBrJSONObject;
+    function GerarPagamento(APagamento: TPagamentoCollectionItem): TACBrJSONObject;
 
     function GerarConsultarSituacaoTransportador: TACBrJSONObject;
     function GerarConsultarFrotaTransportador: TACBrJSONObject;
@@ -80,6 +102,24 @@ type
 
 implementation
 
+uses
+  ACBrUtil.Base,
+  ACBrUtil.Strings;
+
+const
+  // Tipos de operacao de transporte da ANTT
+  cOperacaoCargaLotacao    = 1;
+  cOperacaoCargaFracionada = 2;
+  cOperacaoTACAgregado     = 3;
+
+  // Tipos de pagamento da ANTT
+  cPagamentoIP            = 1;
+  cPagamentoContaCorrente = 2;
+  cPagamentoContaPoupanca = 3;
+  cPagamentoContaPagto    = 4;
+  cPagamentoOutros        = 5;
+  cPagamentoPix           = 6;
+
 { TCIOTW_ANTT }
 
 constructor TCIOTW_ANTT.Create(ACIOTW: TCIOTW);
@@ -97,8 +137,36 @@ begin
   Result := FormatDateTime('yyyy-mm-dd"T"hh:nn:ss', AValue);
 end;
 
+function TCIOTW_ANTT.DecimalANTT(const AValue: Double;
+  const ADecimais: Integer): string;
+begin
+  // Os campos decimais sao enviados como string, com ponto decimal e sem
+  // separador de milhar. Valor zero gera string vazia (campo omitido).
+  if AValue = 0 then
+    Result := ''
+  else
+    Result := FloatToString(AValue, '.', FloatMask(ADecimais, False));
+end;
+
+function TCIOTW_ANTT.InteiroANTT(const AValue: Integer): string;
+begin
+  if AValue = 0 then
+    Result := ''
+  else
+    Result := IntToStr(AValue);
+end;
+
+function TCIOTW_ANTT.BooleanoANTT(const AValue: Boolean): string;
+begin
+  if AValue then
+    Result := 'true'
+  else
+    Result := 'false';
+end;
+
 function TCIOTW_ANTT.FormatarRNTRC(const AValue: string): string;
 begin
+  // Regra B60: RNTRC com 8 digitos deve ser completado com zero a esquerda.
   Result := OnlyNumber(AValue);
 
   if Result <> '' then
@@ -107,50 +175,45 @@ end;
 
 function TCIOTW_ANTT.TipoOperacaoANTT: Integer;
 begin
-  // 1 - Operação Carga Lotação; 2 - Operação Carga Fracionada;
-  // 3 - Operação TAC-Agregado
   case CIOT.AdicionarOperacao.TipoViagem of
-    Padrao:       Result := 1;
-    Fracionado:   Result := 2;
-    TAC_Agregado: Result := 3;
+    Padrao:       Result := cOperacaoCargaLotacao;
+    Fracionado:   Result := cOperacaoCargaFracionada;
+    TAC_Agregado: Result := cOperacaoTACAgregado;
   else
     begin
       Result := 0;
-      Gerador.wAlerta('', 'TipoOperacao', 'Tipo de Operação',
-        'Tipo de viagem inválido para a integradora ANTT. Utilize Padrao, Fracionado ou TAC_Agregado.');
+      Gerador.wAlerta('', 'TipoOperacao', 'Tipo de Operacao',
+        'Tipo de viagem invalido para a integradora ANTT. Utilize Padrao, Fracionado ou TAC_Agregado.');
     end;
   end;
 end;
 
 function TCIOTW_ANTT.TipoPagamentoANTT(APagamento: TPagamentoCollectionItem): Integer;
 begin
-  // 1 - IP (cartão pré-pago emitido por IP ou IF); 2 - Conta Corrente;
-  // 3 - Conta Poupança; 4 - Conta Pagamento; 5 - Outros; 6 - Pix
   if APagamento.ValorChavePix <> '' then
-    Result := 6
+    Result := cPagamentoPix
   else
   begin
     case APagamento.TipoPagamento of
       TransferenciaBancaria:
         case APagamento.InformacoesBancarias.TipoConta of
-          tcContaCorrente:   Result := 2;
-          tcContaPoupanca:   Result := 3;
-          tcContaPagamentos: Result := 4;
+          tcContaPoupanca:   Result := cPagamentoContaPoupanca;
+          tcContaPagamentos: Result := cPagamentoContaPagto;
         else
-          Result := 2;
+          Result := cPagamentoContaCorrente;
         end;
 
       eFRETE, Parceiro:
-        Result := 1;
+        Result := cPagamentoIP;
     else // Outros, DepositoAgendado
-      Result := 5;
+      Result := cPagamentoOutros;
     end;
   end;
 end;
 
 function TCIOTW_ANTT.IndPagamentoANTT(const AIndicadorPagamento: string): Integer;
 begin
-  // 0 = à vista / 1 = a prazo
+  // 0 = a vista / 1 = a prazo
   if (AIndicadorPagamento = '1') or SameText(AIndicadorPagamento, 'APrazo') or
      SameText(AIndicadorPagamento, 'A Prazo') then
     Result := 1
@@ -158,33 +221,159 @@ begin
     Result := 0;
 end;
 
-procedure TCIOTW_ANTT.GerarOrigemDestino(AJSon: TACBrJSONObject;
-  AViagem: TViagemCollectionItem; const AComDistancia: Boolean;
-  const AComQtdViagens: Boolean);
-var
-  LOrigem, LDestino: TACBrJSONObject;
+function TCIOTW_ANTT.Localizacao(const ACodigoMunicipio: Integer;
+  const ACep: string; const ALatitude, ALongitude: Double): TLocalizacaoANTT;
 begin
-  LOrigem := TACBrJSONObject.Create;
-  LOrigem
-    .AddPair('CodigoMunicipioOrigem', AViagem.CodigoMunicipioOrigem, False)
-    .AddPair('CepOrigem', OnlyNumber(AViagem.CepOrigem), False)
-    .AddPair('LatitudeOrigem', AViagem.LatitudeOrigem, False)
-    .AddPair('LongitudeOrigem', AViagem.LongitudeOrigem, False);
-  AJSon.AddPair('Origem', LOrigem);
+  Result.CodigoMunicipio := ACodigoMunicipio;
+  Result.Cep := OnlyNumber(ACep);
+  Result.Latitude := ALatitude;
+  Result.Longitude := ALongitude;
+end;
 
-  LDestino := TACBrJSONObject.Create;
-  LDestino
-    .AddPair('CodigoMunicipioDestino', AViagem.CodigoMunicipioDestino, False)
-    .AddPair('CepDestino', OnlyNumber(AViagem.CepDestino), False)
-    .AddPair('LatitudeDestino', AViagem.LatitudeDestino, False)
-    .AddPair('LongitudeDestino', AViagem.LongitudeDestino, False);
-  AJSon.AddPair('Destino', LDestino);
+function TCIOTW_ANTT.PossuiLocalizacao(const ALocal: TLocalizacaoANTT;
+  const ATipo: TTipoLocalizacaoANTT): Boolean;
+begin
+  case ATipo of
+    tlLatLong:   Result := (ALocal.Latitude <> 0) and (ALocal.Longitude <> 0);
+    tlCep:       Result := (ALocal.Cep <> '');
+    tlMunicipio: Result := (ALocal.CodigoMunicipio > 0);
+  else
+    Result := False;
+  end;
+end;
+
+function TCIOTW_ANTT.TipoLocalizacaoMaisEspecifico(
+  const ALocal: TLocalizacaoANTT): TTipoLocalizacaoANTT;
+begin
+  if PossuiLocalizacao(ALocal, tlLatLong) then
+    Result := tlLatLong
+  else if PossuiLocalizacao(ALocal, tlCep) then
+    Result := tlCep
+  else if PossuiLocalizacao(ALocal, tlMunicipio) then
+    Result := tlMunicipio
+  else
+    Result := tlNenhum;
+end;
+
+function TCIOTW_ANTT.GerarLocalizacao(const ASufixo: string;
+  const ALocal: TLocalizacaoANTT; const ATipo: TTipoLocalizacaoANTT): TACBrJSONObject;
+begin
+  Result := TACBrJSONObject.Create;
+
+  case ATipo of
+    tlMunicipio:
+      Result.AddPair('CodigoMunicipio' + ASufixo, InteiroANTT(ALocal.CodigoMunicipio));
+
+    tlCep:
+      Result.AddPair('Cep' + ASufixo, ALocal.Cep);
+
+    tlLatLong:
+      Result
+        .AddPair('Latitude' + ASufixo, DecimalANTT(ALocal.Latitude, 6))
+        .AddPair('Longitude' + ASufixo, DecimalANTT(ALocal.Longitude, 6));
+  end;
+end;
+
+procedure TCIOTW_ANTT.GerarOrigemDestino(AJSon: TACBrJSONObject;
+  const AOrigem, ADestino: TLocalizacaoANTT);
+var
+  LTipo, LTipoOrigem, LTipoDestino: TTipoLocalizacaoANTT;
+begin
+  // Regras B109 a B111: origem e destino devem usar o mesmo tipo de
+  // localizacao, sempre o mais especifico: LatLong -> CEP -> Municipio.
+  LTipo := tlLatLong;
+
+  while (LTipo > tlNenhum) and
+        not (PossuiLocalizacao(AOrigem, LTipo) and PossuiLocalizacao(ADestino, LTipo)) do
+    LTipo := Pred(LTipo);
+
+  if LTipo <> tlNenhum then
+  begin
+    LTipoOrigem := LTipo;
+    LTipoDestino := LTipo;
+  end
+  else
+  begin
+    Gerador.wAlerta('', 'OrigemDestino', 'Origem/Destino',
+      'Origem e destino devem ser informados com o mesmo tipo de localizacao (municipio, CEP ou coordenadas).');
+
+    LTipoOrigem := TipoLocalizacaoMaisEspecifico(AOrigem);
+    LTipoDestino := TipoLocalizacaoMaisEspecifico(ADestino);
+  end;
+
+  AJSon
+    .AddPair('Origem', GerarLocalizacao('Origem', AOrigem, LTipoOrigem))
+    .AddPair('Destino', GerarLocalizacao('Destino', ADestino, LTipoDestino));
+end;
+
+function TCIOTW_ANTT.GerarItemOrigemDestino(AViagem: TViagemCollectionItem;
+  const AComDistancia, AComQtdViagens: Boolean): TACBrJSONObject;
+begin
+  Result := TACBrJSONObject.Create;
+
+  GerarOrigemDestino(Result,
+    Localizacao(AViagem.CodigoMunicipioOrigem, AViagem.CepOrigem,
+      AViagem.LatitudeOrigem, AViagem.LongitudeOrigem),
+    Localizacao(AViagem.CodigoMunicipioDestino, AViagem.CepDestino,
+      AViagem.LatitudeDestino, AViagem.LongitudeDestino));
 
   if AComDistancia then
-    AJSon.AddPair('DistanciaPercorrida', AViagem.DistanciaPercorrida, False);
+    Result.AddPair('DistanciaPercorrida', AViagem.DistanciaPercorrida, False);
 
   if AComQtdViagens then
-    AJSon.AddPair('QtdViagens', AViagem.QtdViagens, False);
+    Result.AddPair('QtdViagens', AViagem.QtdViagens, False);
+end;
+
+function TCIOTW_ANTT.GerarPagamento(APagamento: TPagamentoCollectionItem): TACBrJSONObject;
+var
+  LTipoPagamento: Integer;
+  LNumeroConta: string;
+begin
+  LTipoPagamento := TipoPagamentoANTT(APagamento);
+
+  Result := TACBrJSONObject.Create;
+  Result.AddPair('TipoPagamento', LTipoPagamento);
+
+  // Regras B92 e B99: campos bancarios somente para os tipos 1 a 4 e campos
+  // PIX somente para o tipo 6.
+  with APagamento.InformacoesBancarias do
+  begin
+    if LTipoPagamento in [cPagamentoIP..cPagamentoContaPagto] then
+    begin
+      LNumeroConta := Conta;
+
+      if (LTipoPagamento = cPagamentoIP) and (LNumeroConta = '') then
+        LNumeroConta := Cartao.Numero;
+
+      Result.AddPair('CodigoInstituicaoFinanceira', OnlyNumber(InstituicaoBancaria), False);
+
+      if LTipoPagamento <> cPagamentoIP then
+        Result.AddPair('NumeroAgencia', Agencia, False);
+
+      Result.AddPair('NumeroConta', LNumeroConta, False);
+    end;
+  end;
+
+  if LTipoPagamento = cPagamentoPix then
+  begin
+    Result
+      .AddPair('ChavePix', APagamento.ValorChavePix, False)
+      .AddPair('IdentificadorPix', APagamento.IdentificadorPix, False);
+  end;
+
+  Result
+    .AddPair('CpfCnpjCreditado', OnlyCPFCNPJAlphaNum(APagamento.CpfCnpjCreditado))
+    .AddPair('CodigoPagamento', APagamento.CodigoPagamento, False)
+    .AddPair('IndPagamento', IntToStr(IndPagamentoANTT(APagamento.IndicadorPagamento)));
+
+  // Regras B105 e B106: dados de parcelamento somente quando a prazo.
+  if IndPagamentoANTT(APagamento.IndicadorPagamento) = 1 then
+  begin
+    Result
+      .AddPair('NumeroParcela', InteiroANTT(APagamento.NumeroParcela), False)
+      .AddPairISODate('DataVencimento', APagamento.DataDeLiberacao, False)
+      .AddPair('ValorParcela', DecimalANTT(APagamento.Valor, 2), False);
+  end;
 end;
 
 function TCIOTW_ANTT.GerarConsultarSituacaoTransportador: TACBrJSONObject;
@@ -194,8 +383,8 @@ begin
   with CIOT.ConsultarTransportador do
   begin
     Result
-      .AddPair('CpfCnpjInteressado', OnlyNumber(CpfCnpjInteressado))
-      .AddPair('CpfCnpjTransportador', OnlyNumber(CpfCnpjTransportador))
+      .AddPair('CpfCnpjInteressado', OnlyCPFCNPJAlphaNum(CpfCnpjInteressado))
+      .AddPair('CpfCnpjTransportador', OnlyCPFCNPJAlphaNum(CpfCnpjTransportador))
       .AddPair('RNTRCTransportador', FormatarRNTRC(RNTRCTransportador));
   end;
 end;
@@ -218,9 +407,9 @@ end;
 function TCIOTW_ANTT.GerarDeclaracaoOperacaoTransporte: TACBrJSONObject;
 var
   LTipoOperacao, i: Integer;
+  LDataDeclaracao: TDateTime;
   LVeiculos, LOrigemDestino, LInfPagamento, LContratantes: TACBrJSONArray;
-  LVeiculo, LItemOD, LPagamento, LDadosCarga, LIndicadores: TACBrJSONObject;
-  LPagto: TPagamentoCollectionItem;
+  LVeiculo, LDadosCarga, LIndicadores: TACBrJSONObject;
 begin
   LTipoOperacao := TipoOperacaoANTT;
 
@@ -228,21 +417,51 @@ begin
 
   with CIOT.AdicionarOperacao do
   begin
+    if IdOperacaoCliente = '' then
+      Gerador.wAlerta('', 'IdOperacaoTransporte', 'Id da Operacao de Transporte',
+        'O Codigo Identificador da Operacao de Transporte (IdOperacaoCliente) deve ser informado.');
+
+    if Veiculos.Count = 0 then
+      Gerador.wAlerta('', 'Veiculos', 'Veiculos',
+        'Deve ser informado ao menos um veiculo.');
+
+    if Pagamentos.Count = 0 then
+      Gerador.wAlerta('', 'InfPagamento', 'Informacoes do Pagamento',
+        'Deve ser informado ao menos um pagamento.');
+
+    if IndContingencia and (JustificativaContingencia = '') then
+      Gerador.wAlerta('', 'JustificativaContingencia', 'Justificativa da Contingencia',
+        'A justificativa deve ser informada quando IndContingencia = true.');
+
+    // Regra B11: a data da declaracao deve estar proxima da data/hora atual.
+    LDataDeclaracao := DataDeclaracao;
+
+    if LDataDeclaracao = 0 then
+      LDataDeclaracao := Now;
+
     Result
       .AddPair('IdOperacaoTransporte', IdOperacaoCliente)
       .AddPair('TipoOperacao', LTipoOperacao)
-      .AddPair('CpfCnpjContratado', OnlyNumber(Contratado.CpfOuCnpj))
+      .AddPair('CpfCnpjContratado', OnlyCPFCNPJAlphaNum(Contratado.CpfOuCnpj))
       .AddPair('RNTRCContratado', FormatarRNTRC(Contratado.RNTRC))
-      .AddPair('CpfCnpjContratante', OnlyNumber(Contratante.CpfOuCnpj))
-      .AddPair('RNTRCContratante', FormatarRNTRC(Contratante.RNTRC), False)
-      .AddPair('CpfCnpjDestinatario', OnlyNumber(Destinatario.CpfOuCnpj), False)
-      .AddPair('ValorFrete', ValorFrete)
-      .AddPair('DataDeclaracao', DataHoraANTT(DataDeclaracao))
-      .AddPair('IndContingencia', IndContingencia)
-      .AddPair('JustificativaContingencia', JustificativaContingencia, False);
+      .AddPair('CpfCnpjContratante', OnlyCPFCNPJAlphaNum(Contratante.CpfOuCnpj))
+      .AddPair('RNTRCContratante', FormatarRNTRC(Contratante.RNTRC), False);
 
-    // Para TAC-Agregado a data de início da viagem não deve ser informada (regra B56).
-    if LTipoOperacao <> 3 then
+    // O destinatario nao deve ser informado para TAC-Agregado.
+    if LTipoOperacao <> cOperacaoTACAgregado then
+      Result.AddPair('CpfCnpjDestinatario', OnlyCPFCNPJAlphaNum(Destinatario.CpfOuCnpj), False);
+
+    Result
+      .AddPair('ValorFrete', DecimalANTT(ValorFrete, 2))
+      .AddPair('DataDeclaracao', DataHoraANTT(LDataDeclaracao))
+      .AddPair('IndContingencia', BooleanoANTT(IndContingencia));
+
+    // Regras B103 e B104: justificativa somente em contingencia.
+    if IndContingencia then
+      Result.AddPair('JustificativaContingencia', JustificativaContingencia, False);
+
+    // Regra B56: para TAC-Agregado a data de inicio da viagem nao deve ser informada.
+    if LTipoOperacao <> cOperacaoTACAgregado then
       Result.AddPairISODate('DataInicioViagem', DataInicioViagem, False);
 
     Result.AddPairISODate('DataFimViagem', DataFimViagem, False);
@@ -255,44 +474,44 @@ begin
       LVeiculo
         .AddPair('Placa', Veiculos[i].Placa)
         .AddPair('RNTRC', FormatarRNTRC(Veiculos[i].RNTRC), False)
-        .AddPair('NumeroEixos', Veiculos[i].NumeroEixos, False);
+        .AddPair('NumeroEixos', InteiroANTT(Veiculos[i].NumeroEixos), False);
 
       LVeiculos.AddElementJSON(LVeiculo);
     end;
 
     Result.AddPair('Veiculos', LVeiculos);
 
-    // Origem/Destino não se aplica a TAC-Agregado na declaração (regra B62).
-    if (LTipoOperacao <> 3) and (Viagens.Count > 0) then
+    // Regra B62: Origem/Destino e dados da carga nao se aplicam a TAC-Agregado
+    // na declaracao.
+    if LTipoOperacao <> cOperacaoTACAgregado then
     begin
-      LOrigemDestino := TACBrJSONArray.Create;
-
-      for i := 0 to Viagens.Count - 1 do
+      if Viagens.Count > 0 then
       begin
-        LItemOD := TACBrJSONObject.Create;
-        GerarOrigemDestino(LItemOD, Viagens[i], True, False);
-        LOrigemDestino.AddElementJSON(LItemOD);
+        LOrigemDestino := TACBrJSONArray.Create;
+
+        for i := 0 to Viagens.Count - 1 do
+          LOrigemDestino.AddElementJSON(GerarItemOrigemDestino(Viagens[i], True, False));
+
+        Result.AddPair('OrigemDestino', LOrigemDestino);
       end;
 
-      Result.AddPair('OrigemDestino', LOrigemDestino);
-    end;
-
-    if LTipoOperacao <> 3 then
-    begin
       LDadosCarga := TACBrJSONObject.Create;
       LDadosCarga
-        .AddPair('CodigoNaturezaCarga', CodigoNCMNaturezaCarga, False)
-        .AddPair('PesoCarga', PesoCarga, False)
-        .AddPair('CodigoTipoCarga', StrToIntDef(TipoCargaToStr(CodigoTipoCarga), 0), False);
+        .AddPair('CodigoNaturezaCarga', InteiroANTT(CodigoNCMNaturezaCarga), False)
+        .AddPair('PesoCarga', DecimalANTT(PesoCarga, 2), False)
+        .AddPair('CodigoTipoCarga', InteiroANTT(StrToIntDef(TipoCargaToStr(CodigoTipoCarga), 0)), False);
 
-      if (LTipoOperacao = 2) and (ContratantesCargaFracionada.Count > 0) then
+      if (LTipoOperacao = cOperacaoCargaFracionada) and
+         (ContratantesCargaFracionada.Count > 0) then
       begin
         LContratantes := TACBrJSONArray.Create;
 
         for i := 0 to ContratantesCargaFracionada.Count - 1 do
-          LContratantes.AddElement(OnlyNumber(ContratantesCargaFracionada[i].CpfOuCnpj));
+          LContratantes.AddElement(OnlyCPFCNPJAlphaNum(ContratantesCargaFracionada[i].CpfOuCnpj));
 
-        LDadosCarga.AddPair('ContratantesCargaFrac', LContratantes);
+        // Nome conforme o exemplo JSON do manual (a tabela cita
+        // "ContratantesCargaFrac"). Validar em homologacao.
+        LDadosCarga.AddPair('ContratantesCargFrac', LContratantes);
       end;
 
       Result.AddPair('DadosCarga', LDadosCarga);
@@ -303,44 +522,19 @@ begin
       LInfPagamento := TACBrJSONArray.Create;
 
       for i := 0 to Pagamentos.Count - 1 do
-      begin
-        LPagto := Pagamentos[i];
-
-        LPagamento := TACBrJSONObject.Create;
-        LPagamento
-          .AddPair('TipoPagamento', TipoPagamentoANTT(LPagto))
-          .AddPair('CodigoInstituicaoFinanceira',
-            StrToIntDef(OnlyNumber(LPagto.InformacoesBancarias.InstituicaoBancaria), 0), False)
-          .AddPair('NumeroAgencia', LPagto.InformacoesBancarias.Agencia, False)
-          .AddPair('NumeroConta', LPagto.InformacoesBancarias.Conta, False)
-          .AddPair('ChavePix', LPagto.ValorChavePix, False)
-          .AddPair('CpfCnpjCreditado', OnlyNumber(LPagto.CpfCnpjCreditado))
-          .AddPair('CodigoPagamento', LPagto.CodigoPagamento, False)
-          .AddPair('IdentificadorPix', LPagto.IdentificadorPix, False)
-          .AddPair('IndPagamento', IndPagamentoANTT(LPagto.IndicadorPagamento));
-
-        if IndPagamentoANTT(LPagto.IndicadorPagamento) = 1 then
-        begin
-          LPagamento
-            .AddPair('NumeroParcela', LPagto.NumeroParcela)
-            .AddPairISODate('DataVencimento', LPagto.DataDeLiberacao)
-            .AddPair('ValorParcela', LPagto.Valor);
-        end;
-
-        LInfPagamento.AddElementJSON(LPagamento);
-      end;
+        LInfPagamento.AddElementJSON(GerarPagamento(Pagamentos[i]));
 
       Result.AddPair('InfPagamento', LInfPagamento);
     end;
 
-    // Indicadores operacionais são obrigatórios somente para Carga Lotação.
-    if LTipoOperacao = 1 then
+    // Indicadores operacionais sao obrigatorios somente para Carga Lotacao.
+    if LTipoOperacao = cOperacaoCargaLotacao then
     begin
       LIndicadores := TACBrJSONObject.Create;
       LIndicadores
-        .AddPair('IndAltoDesempenho', AltoDesempenho)
-        .AddPair('IndRetornoVazio', RetornoVazio)
-        .AddPair('ComposicaoVeicular', ComposicaoVeicular);
+        .AddPair('IndAltoDesempenho', BooleanoANTT(AltoDesempenho))
+        .AddPair('IndRetornoVazio', BooleanoANTT(RetornoVazio))
+        .AddPair('ComposicaoVeicular', BooleanoANTT(ComposicaoVeicular));
 
       Result.AddPair('InfIndicadoresOperacionais', LIndicadores);
     end;
@@ -361,8 +555,9 @@ end;
 
 function TCIOTW_ANTT.GerarRetificacaoOperacaoTransporte: TACBrJSONObject;
 var
+  LOrigem, LDestino: TLocalizacaoANTT;
   LOrigemDestino: TACBrJSONArray;
-  LItemOD, LOrigem, LDestino, LDadosCarga: TACBrJSONObject;
+  LItemOD, LDadosCarga: TACBrJSONObject;
 begin
   Result := TACBrJSONObject.Create;
 
@@ -370,26 +565,19 @@ begin
   begin
     Result
       .AddPair('CodigoIdentificacaoOperacao', CodigoIdentificacaoOperacao)
-      .AddPair('ValorFrete', ValorFrete, False)
+      .AddPair('ValorFrete', DecimalANTT(ValorFrete, 2), False)
       .AddPairISODate('DataFimViagem', DataFimViagem, False);
 
-    if (CodigoMunicipioOrigem > 0) or (CepOrigem <> '') or
-       (CodigoMunicipioDestino > 0) or (CepDestino <> '') then
+    LOrigem := Localizacao(CodigoMunicipioOrigem, CepOrigem,
+      LatitudeOrigem, LongitudeOrigem);
+    LDestino := Localizacao(CodigoMunicipioDestino, CepDestino,
+      LatitudeDestino, LongitudeDestino);
+
+    if (TipoLocalizacaoMaisEspecifico(LOrigem) <> tlNenhum) or
+       (TipoLocalizacaoMaisEspecifico(LDestino) <> tlNenhum) then
     begin
-      LOrigem := TACBrJSONObject.Create;
-      LOrigem
-        .AddPair('CodigoMunicipioOrigem', CodigoMunicipioOrigem, False)
-        .AddPair('CepOrigem', OnlyNumber(CepOrigem), False);
-
-      LDestino := TACBrJSONObject.Create;
-      LDestino
-        .AddPair('CodigoMunicipioDestino', CodigoMunicipioDestino, False)
-        .AddPair('CepDestino', OnlyNumber(CepDestino), False);
-
       LItemOD := TACBrJSONObject.Create;
-      LItemOD
-        .AddPair('Origem', LOrigem)
-        .AddPair('Destino', LDestino);
+      GerarOrigemDestino(LItemOD, LOrigem, LDestino);
 
       LOrigemDestino := TACBrJSONArray.Create;
       LOrigemDestino.AddElementJSON(LItemOD);
@@ -397,13 +585,14 @@ begin
       Result.AddPair('OrigemDestino', LOrigemDestino);
     end;
 
-    if (CodigoNCMNaturezaCarga > 0) or (PesoCarga > 0) then
+    if (CodigoNCMNaturezaCarga > 0) or (PesoCarga > 0) or
+       (CodigoTipoCarga <> tpNaoAplicavel) then
     begin
       LDadosCarga := TACBrJSONObject.Create;
       LDadosCarga
-        .AddPair('CodigoNaturezaCarga', CodigoNCMNaturezaCarga, False)
-        .AddPair('PesoCarga', PesoCarga, False)
-        .AddPair('CodigoTipoCarga', StrToIntDef(TipoCargaToStr(CodigoTipoCarga), 0), False);
+        .AddPair('CodigoNaturezaCarga', InteiroANTT(CodigoNCMNaturezaCarga), False)
+        .AddPair('PesoCarga', DecimalANTT(PesoCarga, 2), False)
+        .AddPair('CodigoTipoCarga', InteiroANTT(StrToIntDef(TipoCargaToStr(CodigoTipoCarga), 0)), False);
 
       Result.AddPair('DadosCarga', LDadosCarga);
     end;
@@ -413,7 +602,7 @@ end;
 function TCIOTW_ANTT.GerarEncerramentoOperacaoTransporte: TACBrJSONObject;
 var
   LOrigemDestino: TACBrJSONArray;
-  LItemOD, LDadosCarga: TACBrJSONObject;
+  LDadosCarga: TACBrJSONObject;
   i: Integer;
 begin
   Result := TACBrJSONObject.Create;
@@ -422,25 +611,22 @@ begin
   begin
     Result.AddPair('CodigoIdentificacaoOperacao', CodigoIdentificacaoOperacao);
 
-    // Origem/Destino é obrigatório somente para TAC-Agregado (regra B58).
+    // Origem/Destino e obrigatorio somente para TAC-Agregado (regra B58).
     if Viagens.Count > 0 then
     begin
       LOrigemDestino := TACBrJSONArray.Create;
 
       for i := 0 to Viagens.Count - 1 do
-      begin
-        LItemOD := TACBrJSONObject.Create;
-        GerarOrigemDestino(LItemOD, Viagens[i], True, True);
-        LOrigemDestino.AddElementJSON(LItemOD);
-      end;
+        LOrigemDestino.AddElementJSON(GerarItemOrigemDestino(Viagens[i], True, True));
 
       Result.AddPair('OrigemDestino', LOrigemDestino);
     end;
 
+    // Peso da carga e obrigatorio somente para Carga Lotacao (regra B65).
     if PesoCarga > 0 then
     begin
       LDadosCarga := TACBrJSONObject.Create;
-      LDadosCarga.AddPair('PesoTotalCarga', PesoCarga);
+      LDadosCarga.AddPair('PesoTotalCarga', DecimalANTT(PesoCarga, 2));
 
       Result.AddPair('DadosCarga', LDadosCarga);
     end;
@@ -449,11 +635,11 @@ end;
 
 function TCIOTW_ANTT.GerarConsultarExcecao: TACBrJSONObject;
 begin
-  // Serviço consumido via GET com query parameter; o JSON gerado aqui serve
-  // para registro/log do envio.
+  // Servico consumido via GET com query parameter; o JSON gerado aqui serve
+  // somente para registro/log do envio.
   Result := TACBrJSONObject.Create;
   Result.AddPair('CPFCNPJTransportador',
-    OnlyNumber(CIOT.ConsultarTransportador.CpfCnpjTransportador));
+    OnlyCPFCNPJAlphaNum(CIOT.ConsultarTransportador.CpfCnpjTransportador));
 end;
 
 function TCIOTW_ANTT.GerarConsultarCIOTGerado: TACBrJSONObject;
@@ -505,8 +691,8 @@ begin
     opConsultarCIOTGerado:
       LJSon := GerarConsultarCIOTGerado;
   else
-    Gerador.wAlerta('', 'Operacao', 'Operação',
-      'Operação não disponível para a integradora ANTT.');
+    Gerador.wAlerta('', 'Operacao', 'Operacao',
+      'Operacao nao disponivel para a integradora ANTT.');
   end;
 
   if Assigned(LJSon) then
