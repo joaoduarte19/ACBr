@@ -79,7 +79,7 @@ begin
   NrOcorrDiscriminacao_2 := 1;
   NrOcorrCodigoMunic_2 := 1;
 
-  FormatoItemListaServico := filsSemFormatacao;
+  FormatoItemListaServico := filsNaoSeAplica;
 end;
 
 end.

@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 19/10/2026
+-- Sintese.GravarXml --
+[-] Ajuste para que o ItemServico não seja formatado automaticamente.
+   Por: Larissa Santos
 -- Giss.GravarXml --
 [*] ACBR-10067 - Alteração nas condições para gerar ou não os percentuais dos totais do tributos.
    Por: Bessani
