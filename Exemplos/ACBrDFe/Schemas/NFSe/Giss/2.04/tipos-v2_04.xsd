@@ -495,6 +495,12 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
+	<xsd:simpleType name="tsContextoTecnico">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="4000" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
 	<xsd:simpleType name="tsCodigoCancelamentoNfse">
 		<xsd:annotation>
 			<xsd:documentation>Codigo do Cancelamento da NFS-e (
@@ -611,42 +617,57 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 	
-	<xsd:simpleType name="TSDec2V2">
-		<xsd:annotation>
-			<xsd:documentation>Valor decimal com 1 ou 2 dígitos mais 2 casas decimais</xsd:documentation>
-		</xsd:annotation>
-		<xsd:restriction base="xsd:string">
-			<xsd:whiteSpace value="preserve"/>
-			<xsd:pattern value="0|0\.[0-9]{2}|[1-9]{1}[0-9]{0,1}(\.[0-9]{2})?"/>
-		</xsd:restriction>
-	</xsd:simpleType>
+    <xsd:simpleType name="TSDec2V2">
+        <xsd:annotation>
+            <xsd:documentation>
+                Valor decimal com 1 ou 2 dígitos inteiros e até 2 casas decimais
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <!-- Máximo de 4 dígitos no total (2 inteiros + 2 decimais) -->
+            <xsd:totalDigits value="4"/>
+            <!-- Exatamente 2 casas decimais -->
+            <xsd:fractionDigits value="2"/>
+            <!-- Valor mínimo e máximo permitidos -->
+            <xsd:minInclusive value="0.00"/>
+            <xsd:maxInclusive value="99.99"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 	
-	<xsd:simpleType name="TSDec15V2">
-		<xsd:annotation>
-			<xsd:documentation>Valor decimal com 1 a 15 dígitos mais 2 casas decimais</xsd:documentation>
-		</xsd:annotation>
-		<xsd:restriction base="xsd:string">
-			<xsd:whiteSpace value="preserve"/>
-			<xsd:pattern value="0|0\.[0-9]{2}|[1-9]{1}[0-9]{0,14}(\.[0-9]{2})?"/>
-		</xsd:restriction>
-	</xsd:simpleType>
+    <xsd:simpleType name="TSDec15V2">
+        <xsd:annotation>
+            <xsd:documentation>
+                Valor decimal com 1 a 15 dígitos inteiros e até 2 casas decimais
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <!-- Total digits = max 17 (15 inteiros + 2 decimais) -->
+            <xsd:totalDigits value="17"/>
+            <!-- Até 2 casas decimais -->
+            <xsd:fractionDigits value="2"/>
+            <!-- Valor mínimo -->
+            <xsd:minInclusive value="0.00"/>
+            <!-- Valor máximo = 999999999999999.99 -->
+            <xsd:maxInclusive value="999999999999999.99"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 	
 	
 	<xsd:simpleType name="TSTipoRetPISCofins">
 		<xsd:annotation>
 			<xsd:documentation>
         Tipo de retencao do Pis/Cofins:
-        0 - PIS/COFINS/CSLL Não Retidos;
-        1 - PIS/COFINS Retidos;
-        2 - PIS/COFINS Não Retidos;
-        3 - PIS/COFINS/CSLL Retidos;
-        4 - PIS/COFINS Retidos, CSLL Não Retido;
-        5 - PIS Retido, COFINS/CSLL Não Retido;
-        6 - COFINS Retido, PIS/CSLL Não Retido;
-        7 - PIS Não Retido, COFINS/CSLL Retidos;
-        8 - PIS/COFINS Não Retidos, CSLL Retido;
-        9 - COFINS Não Retido, PIS/CSLL Retidos;
-      </xsd:documentation>
+	        0 - PIS/COFINS/CSLL Não Retidos;
+	        1 - PIS/COFINS Retidos;
+	        2 - PIS/COFINS Não Retidos;
+	        3 - PIS/COFINS/CSLL Retidos;
+	        4 - PIS/COFINS Retidos, CSLL Não Retido;
+	        5 - PIS Retido, COFINS/CSLL Não Retido;
+	        6 - COFINS Retido, PIS/CSLL Não Retido;
+	        7 - PIS Não Retido, COFINS/CSLL Retidos;
+	        8 - PIS/COFINS Não Retidos, CSLL Retido;
+	        9 - COFINS Não Retido, PIS/CSLL Retidos;
+	      </xsd:documentation>
 		</xsd:annotation>
 		<xsd:restriction base="xsd:string">
 			<xsd:whiteSpace value="preserve"/>
@@ -667,11 +688,17 @@
 		<xsd:annotation>
 			<xsd:documentation>Valor decimal com 1 a 3 dígitos mais 2 casas decimais</xsd:documentation>
 		</xsd:annotation>
-		<xsd:restriction base="xsd:string">
-			<xsd:whiteSpace value="preserve"/>
-			<xsd:pattern value="0|0\.[0-9]{2}|[1-9]{1}[0-9]{0,2}(\.[0-9]{2})?"/>
-		</xsd:restriction>
-	</xsd:simpleType>
+        <xsd:restriction base="xsd:decimal">
+            <!-- Total digits = max 5 (3 inteiros + 2 decimais) -->
+            <xsd:totalDigits value="5"/>
+            <!-- Até 2 casas decimais -->
+            <xsd:fractionDigits value="2"/>
+            <!-- Valor mínimo -->
+            <xsd:minInclusive value="0.00"/>
+            <!-- Valor máximo = 999.99 -->
+            <xsd:maxInclusive value="999.99"/>
+        </xsd:restriction>
+	</xsd:simpleType>	
 	
 	<xsd:simpleType name="TSTipoCST">
 		<xsd:annotation>
@@ -1274,7 +1301,23 @@ Tipo de Operação com Entes Governanementais ou outros serviços sobre bens im�
     		<xsd:restriction base="xsd:string">
       	<xsd:pattern value="[0-9A-Z]{50}" />
     	</xsd:restriction>
-  </xsd:simpleType>		
+  </xsd:simpleType>
+	<xsd:simpleType name="tpChaveDPS">
+		<xsd:annotation>
+			<xsd:documentation>Identificador da DPS no padrao nacional, sem o literal DPS</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[0-9]{42}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tpSerieDPS">
+		<xsd:annotation>
+			<xsd:documentation>Serie da DPS no padrao nacional</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[0-9]{1,5}" />
+		</xsd:restriction>
+	</xsd:simpleType>
 	
 	<!-- definition of complex elements -->
 	<xsd:complexType name="tcCpfCnpj">
@@ -1477,7 +1520,7 @@ Tipo de Operação com Entes Governanementais ou outros serviços sobre bens im�
 				<xsd:element name="pTotTribSN" type="TSDec2V2">
 					<xsd:annotation>
 						<xsd:documentation>
-              Valor percentual aproximado do total dos tributos da alíquota do Simples Nacional (%)
+              Valor percentual aproximado do total dos tributos da alíquota do Simples Nacional (%).
             </xsd:documentation>
 					</xsd:annotation>
 				</xsd:element>
@@ -2370,7 +2413,7 @@ Tipo de Operação com Entes Governanementais ou outros serviços sobre bens im�
           </xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="IBSCBS" type="TCRTCInfoIBSCBS" minOccurs="0" maxOccurs="1">
+			<xsd:element name="IBSCBS" type="TCRTCInfoIBSCBS" minOccurs="0" maxOccurs="1" >
 				<xsd:annotation>
 					<xsd:documentation>Grupo de informações declaradas pelo emitente referentes ao IBS e à CBS</xsd:documentation>
 				</xsd:annotation>
@@ -2388,6 +2431,11 @@ Tipo de Operação com Entes Governanementais ou outros serviços sobre bens im�
 				maxOccurs="1" />
 			<xsd:element name="ValorLiquidoNfse" type="tsValor"
 				minOccurs="1" maxOccurs="1" />
+			<xsd:element name="ValorTotalRetencoes" type="TSDec15V2" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Valor total das retencoes: PIS, COFINS, INSS, IR, CSLL, outras retencoes e ISSQN retidos</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	
@@ -2870,6 +2918,16 @@ Tipo de Operação com Entes Governanementais ou outros serviços sobre bens im�
           			<xsd:documentation>chave de acesso da NFSE no ADN</xsd:documentation>
         		</xsd:annotation>
       		</xsd:element>						
+			<xsd:element name="ChaveDPS" type="tpChaveDPS" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Identificador da DPS no padrao nacional, sem o literal DPS. Reservado: sera informado quando a chave passar a ser gerada na emissao da NFS-e</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SerieDPS" type="tpSerieDPS" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Serie da DPS utilizada na transmissao da NFS-e ao Ambiente de Dados Nacional</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -2880,6 +2938,8 @@ Tipo de Operação com Entes Governanementais ou outros serviços sobre bens im�
 			<xsd:element name="Mensagem" type="tsDescricaoMensagemAlerta"
 				minOccurs="1" maxOccurs="1" />
 			<xsd:element name="Correcao" type="tsDescricaoMensagemAlerta"
+				minOccurs="0" maxOccurs="1" />
+			<xsd:element name="ContextoTecnico" type="tsContextoTecnico"
 				minOccurs="0" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
@@ -2947,4 +3007,3 @@ Tipo de Operação com Entes Governanementais ou outros serviços sobre bens im�
 	<xsd:element name="CompNfse" type="tcCompNfse" />
 
 </xsd:schema>
-
