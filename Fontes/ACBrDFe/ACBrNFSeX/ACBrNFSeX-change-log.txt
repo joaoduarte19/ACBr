@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 19/10/2026
+-- Diversos --
+[+] Ajustes visando adicionar novos logs para melhorar análise da LibNFSe.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/95301-d%C3%BAvidas-na-configura%C3%A7%C3%A3o-e-rejei%C3%A7%C3%B5es-de-nfs-e-de-sorocaba/#comment-624503 
 -- ISSFortaleza.GravarXml/ISSFortaleza.LerXml --
 [*] ACBR-10072 - Alteração visando a leitura/escrita das tags: 
     TipoRetencaoPisCofins e TipoCstPisCofins dentro do grupo Serviço e

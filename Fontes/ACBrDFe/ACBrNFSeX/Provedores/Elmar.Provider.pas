@@ -239,6 +239,8 @@ begin
   aHeaderReq.AddHeader('Authorization', Auth);
 //    aHeaderReq.AddHeader('Connection', 'keep-alive');
   aHeaderReq.AddHeader('Accept', '*/*');
+
+  ReqHeaders := aHeaderReq.Text;
 end;
 
 function TACBrNFSeXWebserviceElmar202.Recepcionar(const ACabecalho,

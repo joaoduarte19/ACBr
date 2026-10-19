@@ -1013,6 +1013,8 @@ begin
       AnsiString(WSSenha))));
 
   aHeaderReq.AddHeader('Authorization', Auth);
+
+  ReqHeaders := aHeaderReq.Text;
 end;
 
 function TACBrNFSeXWebserviceModernizacaoPublicaAPIPropria.ConsultarNFSePorRps(

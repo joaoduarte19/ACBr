@@ -402,6 +402,8 @@ begin
 
   if (TConfiguracoesNFSe(FPConfiguracoes).WebServices.AmbienteCodigo = 1) then
     aHeaderReq.AddHeader('producao', 'true');
+
+  ReqHeaders := aHeaderReq.Text;
 end;
 
 function TACBrNFSeXWebservicePublicSoft203.Recepcionar(const ACabecalho,

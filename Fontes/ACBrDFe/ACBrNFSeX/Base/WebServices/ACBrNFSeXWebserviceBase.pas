@@ -74,6 +74,7 @@ type
   protected
     FPHttpClient: TDFeSSLHttpClass;
     FPMethod: string;
+    FMetodo: TMetodo;
 
     FPFaultNode: string;
     FPFaultCodeNode: string;
@@ -86,9 +87,9 @@ type
     FPEnvio: string;
     FPRetorno: string;
     FUseOuterXml: Boolean;
+    FReqHeaders: string;
 
     {$IFDEF ACBR_API}
-    FReqHeaders: string;
     FRespHeaders: string;
     FRespStatusCode: Integer;
     FReqContentLength: Int64;
@@ -188,9 +189,10 @@ type
     property Method: string read FPMethod;
     property Path: string read FPath write FPath;
     property HtmlRetorno: string read FHtmlRetorno;
+    property Metodo: TMetodo read FMetodo;
+    property ReqHeaders: string read FReqHeaders write FReqHeaders;
 
     {$IFDEF ACBR_API}
-    property ReqHeaders: string read FReqHeaders write FReqHeaders;
     property RespHeaders: string read FRespHeaders write FRespHeaders;
     property RespStatusCode: Integer read FRespStatusCode write FRespStatusCode;
     property ReqContentLength: Int64 read FReqContentLength write FReqContentLength;
@@ -698,6 +700,7 @@ begin
 
   FPURL := AURL;
   FPMethod := AMethod;
+  FMetodo := AMetodo;
 end;
 
 procedure TACBrNFSeXWebservice.FazerLog(const Msg: string; Exibir: Boolean);
@@ -965,6 +968,8 @@ procedure TACBrNFSeXWebservice.SetHeaders(aHeaderReq: THTTPHeader);
 begin
   if TACBrNFSeX(FPDFeOwner).Provider.ConfigGeral.UseAuthorizationHeader then
     aHeaderReq.AddHeader('Authorization', TConfiguracoesNFSe(FPConfiguracoes).Geral.Emitente.WSChaveAutoriz);
+
+  ReqHeaders := aHeaderReq.Text;
 end;
 
 function TACBrNFSeXWebservice.GetSoapBody(const Response: string): string;

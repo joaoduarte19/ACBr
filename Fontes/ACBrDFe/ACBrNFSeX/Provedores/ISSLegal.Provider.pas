@@ -193,6 +193,8 @@ procedure TACBrNFSeXWebserviceISSLegal203.SetHeaders(aHeaderReq: THTTPHeader);
 begin
   aHeaderReq.AddHeader('Authorization',
              TConfiguracoesNFSe(FPConfiguracoes).Geral.Emitente.WSChaveAutoriz);
+
+  ReqHeaders := aHeaderReq.Text;
 end;
 
 function TACBrNFSeXWebserviceISSLegal203.Recepcionar(const ACabecalho,

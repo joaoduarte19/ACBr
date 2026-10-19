@@ -923,6 +923,8 @@ begin
 
 //    aHeaderReq.AddHeader('Content-Type', 'application/x-www-form-urlencoded');
     aHeaderReq.AddHeader('Authorization', Auth);
+
+    ReqHeaders := aHeaderReq.Text;
   end;
 end;
 

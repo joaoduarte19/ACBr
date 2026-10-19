@@ -2323,7 +2323,9 @@ begin
       EmiteResponse.Sucesso := True;
       EmiteResponse.EnvelopeEnvio := AService.Envio;
       EmiteResponse.EnvelopeRetorno := AService.Retorno;
-
+      EmiteResponse.ReqUrl := AService.URL;
+      EmiteResponse.ReqMethod := AService.Method;
+      EmiteResponse.ReqHeaders := AService.ReqHeaders;
       {$IFDEF ACBR_API}
       FillHttpInfo(EmiteResponse, AService);
       {$ENDIF}
@@ -2334,7 +2336,9 @@ begin
         begin
           EmiteResponse.EnvelopeEnvio := AService.Envio;
           EmiteResponse.EnvelopeRetorno := AService.Retorno;
-
+          EmiteResponse.ReqUrl := AService.URL;
+          EmiteResponse.ReqMethod := AService.Method;
+          EmiteResponse.ReqHeaders := AService.ReqHeaders;
           {$IFDEF ACBR_API}
           FillHttpInfo(EmiteResponse, AService);
           {$ENDIF}
@@ -2408,6 +2412,9 @@ begin
       ConsultaSituacaoResponse.Sucesso := True;
       ConsultaSituacaoResponse.EnvelopeEnvio := AService.Envio;
       ConsultaSituacaoResponse.EnvelopeRetorno := AService.Retorno;
+      ConsultaSituacaoResponse.ReqUrl :=  AService.URL;
+      ConsultaSituacaoResponse.ReqMethod := AService.Method;
+      ConsultaSituacaoResponse.ReqHeaders := AService.ReqHeaders;
 
       {$IFDEF ACBR_API}
       FillHttpInfo(ConsultaSituacaoResponse, AService);
@@ -2419,6 +2426,9 @@ begin
         begin
           ConsultaSituacaoResponse.EnvelopeEnvio := AService.Envio;
           ConsultaSituacaoResponse.EnvelopeRetorno := AService.Retorno;
+          ConsultaSituacaoResponse.ReqUrl :=  AService.URL;
+          ConsultaSituacaoResponse.ReqMethod := AService.Method;
+          ConsultaSituacaoResponse.ReqHeaders := AService.ReqHeaders;
 
           {$IFDEF ACBR_API}
           FillHttpInfo(ConsultaSituacaoResponse, AService);
@@ -2492,6 +2502,9 @@ begin
       ConsultaLoteRpsResponse.Sucesso := True;
       ConsultaLoteRpsResponse.EnvelopeEnvio := AService.Envio;
       ConsultaLoteRpsResponse.EnvelopeRetorno := AService.Retorno;
+      ConsultaLoteRpsResponse.ReqUrl :=  AService.URL;
+      ConsultaLoteRpsResponse.ReqHeaders := AService.ReqHeaders;
+      ConsultaLoteRpsResponse.ReqMethod := AService.Method;
 
       {$IFDEF ACBR_API}
       FillHttpInfo(ConsultaLoteRpsResponse, AService);
@@ -2503,6 +2516,9 @@ begin
         begin
           ConsultaLoteRpsResponse.EnvelopeEnvio := AService.Envio;
           ConsultaLoteRpsResponse.EnvelopeRetorno := AService.Retorno;
+          ConsultaLoteRpsResponse.ReqUrl := AService.URL;
+          ConsultaLoteRpsResponse.ReqHeaders := AService.ReqHeaders;
+          ConsultaLoteRpsResponse.ReqMethod := AService.Method;
 
           {$IFDEF ACBR_API}
           FillHttpInfo(ConsultaLoteRpsResponse, AService);
@@ -2577,6 +2593,9 @@ begin
       ConsultaNFSeporRpsResponse.Sucesso := True;
       ConsultaNFSeporRpsResponse.EnvelopeEnvio := AService.Envio;
       ConsultaNFSeporRpsResponse.EnvelopeRetorno := AService.Retorno;
+      ConsultaNFSeporRpsResponse.ReqUrl := AService.URL;
+      ConsultaNFSeporRpsResponse.ReqMethod := AService.Method;
+      ConsultaNFSeporRpsResponse.ReqHeaders := AService.ReqHeaders;
 
       {$IFDEF ACBR_API}
       FillHttpInfo(ConsultaNFSeporRpsResponse, AService);
@@ -2588,6 +2607,9 @@ begin
         begin
           ConsultaNFSeporRpsResponse.EnvelopeEnvio := AService.Envio;
           ConsultaNFSeporRpsResponse.EnvelopeRetorno := AService.Retorno;
+          ConsultaNFSeporRpsResponse.ReqUrl := AService.URL;
+          ConsultaNFSeporRpsResponse.ReqMethod := AService.Method;
+          ConsultaNFSeporRpsResponse.ReqHeaders := AService.ReqHeaders;
 
           {$IFDEF ACBR_API}
           FillHttpInfo(ConsultaNFSeporRpsResponse, AService);
@@ -2662,6 +2684,9 @@ begin
       ConsultarEventoResponse.Sucesso := True;
       ConsultarEventoResponse.EnvelopeEnvio := AService.Envio;
       ConsultarEventoResponse.EnvelopeRetorno := AService.Retorno;
+      ConsultarEventoResponse.ReqUrl := AService.URL;
+      ConsultarEventoResponse.ReqHeaders := AService.ReqHeaders;
+      ConsultarEventoResponse.ReqMethod := AService.Method;
 
       {$IFDEF ACBR_API}
       FillHttpInfo(ConsultarEventoResponse, AService);
@@ -2673,6 +2698,10 @@ begin
         begin
           ConsultarEventoResponse.EnvelopeEnvio := AService.Envio;
           ConsultarEventoResponse.EnvelopeRetorno := AService.Retorno;
+          ConsultarEventoResponse.ReqUrl := AService.URL;
+          ConsultarEventoResponse.ReqHeaders := AService.ReqHeaders;
+          ConsultarEventoResponse.ReqMethod := AService.Method;
+
 
           {$IFDEF ACBR_API}
           FillHttpInfo(ConsultarEventoResponse, AService);
@@ -2748,6 +2777,9 @@ begin
       ConsultarParamResponse.Sucesso := True;
       ConsultarParamResponse.EnvelopeEnvio := AService.Envio;
       ConsultarParamResponse.EnvelopeRetorno := AService.Retorno;
+      ConsultarParamResponse.ReqUrl := AService.URL;
+      ConsultarParamResponse.ReqHeaders := AService.ReqHeaders;
+      ConsultarParamResponse.ReqMethod := AService.Method;
 
       {$IFDEF ACBR_API}
       FillHttpInfo(ConsultarParamResponse, AService);
@@ -2759,6 +2791,9 @@ begin
         begin
           ConsultarParamResponse.EnvelopeEnvio := AService.Envio;
           ConsultarParamResponse.EnvelopeRetorno := AService.Retorno;
+          ConsultarParamResponse.ReqUrl := AService.URL;
+          ConsultarParamResponse.ReqHeaders := AService.ReqHeaders;
+          ConsultarParamResponse.ReqMethod := AService.Method;
 
           {$IFDEF ACBR_API}
           FillHttpInfo(ConsultarParamResponse, AService);
@@ -2833,6 +2868,9 @@ begin
       ConsultarDFeResponse.Sucesso := True;
       ConsultarDFeResponse.EnvelopeEnvio := AService.Envio;
       ConsultarDFeResponse.EnvelopeRetorno := AService.Retorno;
+      ConsultarDFeResponse.ReqURL := AService.URL;
+      ConsultarDFeResponse.ReqHeaders := AService.ReqHeaders;
+      ConsultarDFeResponse.ReqMethod := AService.Method;
 
       {$IFDEF ACBR_API}
       FillHttpInfo(ConsultarDFeResponse, AService);
@@ -2844,6 +2882,9 @@ begin
         begin
           ConsultarDFeResponse.EnvelopeEnvio := AService.Envio;
           ConsultarDFeResponse.EnvelopeRetorno := AService.Retorno;
+          ConsultarDFeResponse.ReqURL := AService.URL;
+          ConsultarDFeResponse.ReqHeaders := AService.ReqHeaders;
+          ConsultarDFeResponse.ReqMethod := AService.Method;
 
           {$IFDEF ACBR_API}
           FillHttpInfo(ConsultarDFeResponse, AService);
@@ -2959,6 +3000,9 @@ begin
       ConsultaNFSeResponse.EnvelopeEnvio := AService.Envio;
       ConsultaNFSeResponse.EnvelopeRetorno := AService.Retorno;
       ConsultaNFSeResponse.HtmlRetorno := AService.HtmlRetorno;
+      ConsultaNFSeResponse.ReqURL := AService.URL;
+      ConsultaNFSeResponse.ReqHeaders := AService.ReqHeaders;
+      ConsultaNFSeResponse.ReqMethod := AService.Method;
 
       {$IFDEF ACBR_API}
       FillHttpInfo(ConsultaNFSeResponse, AService);
@@ -2970,6 +3014,9 @@ begin
         begin
           ConsultaNFSeResponse.EnvelopeEnvio := AService.Envio;
           ConsultaNFSeResponse.EnvelopeRetorno := AService.Retorno;
+          ConsultaNFSeResponse.ReqURL := AService.URL;
+          ConsultaNFSeResponse.ReqHeaders := AService.ReqHeaders;
+          ConsultaNFSeResponse.ReqMethod := AService.Method;
 
           {$IFDEF ACBR_API}
           FillHttpInfo(ConsultaNFSeResponse, AService);
@@ -3043,6 +3090,9 @@ begin
       ConsultaLinkNFSeResponse.Sucesso := True;
       ConsultaLinkNFSeResponse.EnvelopeEnvio := AService.Envio;
       ConsultaLinkNFSeResponse.EnvelopeRetorno := AService.Retorno;
+      ConsultaLinkNFSeResponse.ReqURL := AService.URL;
+      ConsultaLinkNFSeResponse.ReqHeaders := AService.ReqHeaders;
+      ConsultaLinkNFSeResponse.ReqMethod := AService.Method;
 
       {$IFDEF ACBR_API}
       FillHttpInfo(ConsultaLinkNFSeResponse, AService);
@@ -3054,6 +3104,9 @@ begin
         begin
           ConsultaLinkNFSeResponse.EnvelopeEnvio := AService.Envio;
           ConsultaLinkNFSeResponse.EnvelopeRetorno := AService.Retorno;
+          ConsultaLinkNFSeResponse.ReqURL := AService.URL;
+          ConsultaLinkNFSeResponse.ReqHeaders := AService.ReqHeaders;
+          ConsultaLinkNFSeResponse.ReqMethod := AService.Method;
 
           {$IFDEF ACBR_API}
           FillHttpInfo(ConsultaLinkNFSeResponse, AService);
@@ -3138,6 +3191,9 @@ begin
       CancelaNFSeResponse.Sucesso := True;
       CancelaNFSeResponse.EnvelopeEnvio := AService.Envio;
       CancelaNFSeResponse.EnvelopeRetorno := AService.Retorno;
+      CancelaNFSeResponse.ReqURL := AService.URL;
+      CancelaNFSeResponse.ReqHeaders := AService.ReqHeaders;
+      CancelaNFSeResponse.ReqMethod := AService.Method;
 
       {$IFDEF ACBR_API}
       FillHttpInfo(CancelaNFSeResponse, AService);
@@ -3149,6 +3205,9 @@ begin
         begin
           CancelaNFSeResponse.EnvelopeEnvio := AService.Envio;
           CancelaNFSeResponse.EnvelopeRetorno := AService.Retorno;
+          CancelaNFSeResponse.ReqURL := AService.URL;
+          CancelaNFSeResponse.ReqMethod := AService.Method;
+          CancelaNFSeResponse.ReqHeaders := AService.ReqHeaders;
 
           {$IFDEF ACBR_API}
           FillHttpInfo(CancelaNFSeResponse, AService);
@@ -3280,6 +3339,9 @@ begin
       SubstituiNFSeResponse.Sucesso := True;
       SubstituiNFSeResponse.EnvelopeEnvio := AService.Envio;
       SubstituiNFSeResponse.EnvelopeRetorno := AService.Retorno;
+      SubstituiNFSeResponse.ReqURL := AService.URL;
+      SubstituiNFSeResponse.ReqHeaders := AService.ReqHeaders;
+      SubstituiNFSeResponse.ReqMethod := AService.Method;
 
       {$IFDEF ACBR_API}
       FillHttpInfo(SubstituiNFSeResponse, AService);
@@ -3291,6 +3353,9 @@ begin
         begin
           SubstituiNFSeResponse.EnvelopeEnvio := AService.Envio;
           SubstituiNFSeResponse.EnvelopeRetorno := AService.Retorno;
+          SubstituiNFSeResponse.ReqURL := AService.URL;
+          SubstituiNFSeResponse.ReqHeaders := AService.ReqHeaders;
+          SubstituiNFSeResponse.ReqMethod := AService.Method;
 
           {$IFDEF ACBR_API}
           FillHttpInfo(SubstituiNFSeResponse, AService);
@@ -3364,6 +3429,9 @@ begin
       GerarTokenResponse.Sucesso := True;
       GerarTokenResponse.EnvelopeEnvio := AService.Envio;
       GerarTokenResponse.EnvelopeRetorno := AService.Retorno;
+      GerarTokenResponse.ReqUrl := AService.URL;
+      GerarTokenResponse.ReqHeaders := AService.ReqHeaders;
+      GerarTokenResponse.ReqMethod := AService.Method;
 
       {$IFDEF ACBR_API}
       FillHttpInfo(GerarTokenResponse, AService);
@@ -3375,6 +3443,9 @@ begin
         begin
           GerarTokenResponse.EnvelopeEnvio := AService.Envio;
           GerarTokenResponse.EnvelopeRetorno := AService.Retorno;
+          GerarTokenResponse.ReqUrl := AService.URL;
+          GerarTokenResponse.ReqHeaders := AService.ReqHeaders;
+          GerarTokenResponse.ReqMethod := AService.Method;
 
           {$IFDEF ACBR_API}
           FillHttpInfo(GerarTokenResponse, AService);
@@ -3457,6 +3528,9 @@ begin
       EnviarEventoResponse.Sucesso := True;
       EnviarEventoResponse.EnvelopeEnvio := AService.Envio;
       EnviarEventoResponse.EnvelopeRetorno := AService.Retorno;
+      EnviarEventoResponse.ReqURL := AService.URL;
+      EnviarEventoResponse.ReqHeaders := AService.ReqHeaders;
+      EnviarEventoResponse.ReqMethod := AService.Method;
 
       {$IFDEF ACBR_API}
       FillHttpInfo(EnviarEventoResponse, AService);
@@ -3468,6 +3542,9 @@ begin
         begin
           EnviarEventoResponse.EnvelopeEnvio := AService.Envio;
           EnviarEventoResponse.EnvelopeRetorno := AService.Retorno;
+          EnviarEventoResponse.ReqURL := AService.URL;
+          EnviarEventoResponse.ReqHeaders := AService.ReqHeaders;
+          EnviarEventoResponse.ReqMethod := AService.Method;
 
           {$IFDEF ACBR_API}
           FillHttpInfo(EnviarEventoResponse, AService);
@@ -3541,6 +3618,9 @@ begin
       ConsultarSeqRpsResponse.Sucesso := True;
       ConsultarSeqRpsResponse.EnvelopeEnvio := AService.Envio;
       ConsultarSeqRpsResponse.EnvelopeRetorno := AService.Retorno;
+      ConsultarSeqRpsResponse.ReqUrl := AService.URL;
+      ConsultarSeqRpsResponse.ReqMethod := AService.Method;
+      ConsultarSeqRpsResponse.ReqHeaders := AService.ReqHeaders;
 
       {$IFDEF ACBR_API}
       FillHttpInfo(ConsultarSeqRpsResponse, AService);
@@ -3552,6 +3632,9 @@ begin
         begin
           ConsultarSeqRpsResponse.EnvelopeEnvio := AService.Envio;
           ConsultarSeqRpsResponse.EnvelopeRetorno := AService.Retorno;
+          ConsultarSeqRpsResponse.ReqUrl := AService.URL;
+          ConsultarSeqRpsResponse.ReqMethod := AService.Method;
+          ConsultarSeqRpsResponse.ReqHeaders := AService.ReqHeaders;
 
           {$IFDEF ACBR_API}
           FillHttpInfo(ConsultarSeqRpsResponse, AService);

@@ -654,6 +654,8 @@ procedure TACBrNFSeXWebserviceSigISSWeb.SetHeaders(aHeaderReq: THTTPHeader);
 begin
   if FAjustaSetHeader then
     aHeaderReq.AddHeader('Authorization', TACBrNFSeX(FPDFeOwner).WebService.GerarToken.Token);
+
+  ReqHeaders := aHeaderReq.Text;
 end;
 
 function TACBrNFSeXWebserviceSigISSWeb.GerarToken(const ACabecalho,

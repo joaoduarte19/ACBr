@@ -597,6 +597,8 @@ begin
 
   aHeaderReq.AddHeader('Authorization', Auth);
   aHeaderReq.AddHeader('postman-token', Token);
+
+  ReqHeaders := aHeaderReq.Text;
 end;
 
 function TACBrNFSeXWebserviceGiap.DefinirMsgEnvio(const Message, SoapAction,

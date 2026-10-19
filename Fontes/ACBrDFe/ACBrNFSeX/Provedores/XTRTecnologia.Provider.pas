@@ -575,6 +575,8 @@ procedure TACBrNFSeXWebserviceXTRTecnologia.SetHeaders(aHeaderReq: THTTPHeader);
 begin
   aHeaderReq.AddHeader('Authorization',
              TConfiguracoesNFSe(FPConfiguracoes).Geral.Emitente.WSChaveAutoriz);
+
+  ReqHeaders := aHeaderReq.Text;
 end;
 
 function TACBrNFSeXWebserviceXTRTecnologia.GerarNFSe(const ACabecalho, AMSG: String): string;

@@ -982,6 +982,8 @@ begin
     aHeaderReq.AddHeader('Connection', 'keep-alive');
     aHeaderReq.AddHeader('Accept', '*/*');
   end;
+
+  ReqHeaders := aHeaderReq.Text;
 end;
 
 function TACBrNFSeXWebserviceSoftPlan.GerarNFSe(const ACabecalho,

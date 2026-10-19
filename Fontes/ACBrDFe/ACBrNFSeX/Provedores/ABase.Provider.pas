@@ -896,6 +896,8 @@ procedure TACBrNFSeXWebserviceABaseAPIPropria.SetHeaders(
   aHeaderReq: THTTPHeader);
 begin
   aHeaderReq.AddHeader('ApiKey', TConfiguracoesNFSe(FPConfiguracoes).Geral.Emitente.WSChaveAcesso);
+
+  ReqHeaders := aHeaderReq.Text;
 end;
 
 function TACBrNFSeXWebserviceABaseAPIPropria.TratarXmlRetornado(

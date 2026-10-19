@@ -1414,6 +1414,8 @@ begin
   if FNumeroNFSe <> '' then
     aHeaderReq.AddHeader('X-NFSe-nNFSe', FNumeroNFSe);
   aHeaderReq.AddHeader('Accept', 'application/json');
+
+  ReqHeaders := aHeaderReq.Text;
 end;
 
 function TACBrNFSeXWebserviceSigCorpAPIPropria.Recepcionar(const ACabecalho,

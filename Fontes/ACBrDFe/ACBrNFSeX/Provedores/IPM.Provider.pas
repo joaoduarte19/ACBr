@@ -1836,6 +1836,8 @@ begin
         AnsiString(WSSenha))));
 
     aHeaderReq.AddHeader('Authorization', Auth);
+
+    ReqHeaders := aHeaderReq.Text;
   end;
 end;
 
@@ -2209,6 +2211,8 @@ begin
         AnsiString(WSSenha))));
 
     aHeaderReq.AddHeader('Authorization', Auth);
+
+    ReqHeaders := aHeaderReq.Text;
   end;
 end;
 
