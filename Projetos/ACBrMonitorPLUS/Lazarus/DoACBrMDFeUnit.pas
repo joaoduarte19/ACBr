@@ -1128,7 +1128,6 @@ end;
 }
 procedure TMetodoSetformaEmissao.Executar;
 var
-  OK: boolean;
   FormaEmissao: TACBrTipoEmissao;
   NFormaEmissao: Integer;
 begin
@@ -1136,11 +1135,7 @@ begin
 
   with TACBrObjetoMDFe(fpObjetoDono) do
   begin
-    OK := False;
     FormaEmissao := StrToTipoEmissao(IntToStr(NFormaEmissao));
-
-    if not OK then
-      raise Exception.Create('Forma de Emissão Inválida: ' + TipoEmissaoToStr(FormaEmissao));
 
     with MonitorConfig.DFE.WebService do
       FormaEmissaoMDFe := StrToInt(TipoEmissaoToStr(FormaEmissao)) -1;
@@ -1155,7 +1150,6 @@ end;
 }
 procedure TMetodoSetTipoImpressao.Executar;
 var
-  OK: boolean;
   TipoDAMDFe: TACBrTipoImpressao;
   NTipoImpressao: Integer;
 begin
@@ -1163,11 +1157,7 @@ begin
 
   with TACBrObjetoMDFe(fpObjetoDono) do
   begin
-    OK := False;
     TipoDAMDFe := StrToTpImp(IntToStr(NTipoImpressao));
-
-    if not OK then
-      raise Exception.Create('Tipo Impressão Inválido: ' + TpImpToStr(TipoDAMDFe));
 
     with MonitorConfig.DFE.Impressao.Geral do
       DANFE := StrToInt(TpImpToStr(TipoDAMDFe)) -1;

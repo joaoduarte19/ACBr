@@ -43,6 +43,13 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+19/10/2026
+-- DoACBrMDFeUnit --
+[-] ACBR-10070 - MDFe - Corrigido tratamento de erro nos comandos SetFormaEmissao e SetTipoImpressao 
+   Por: Renato Rubinho
+   Veja: https://www.projetoacbr.com.br/forum/topic/95417-acbr-10070-mdfesetformaemissao-forma-de-emiss%C3%A3o-inv%C3%A1lida-1/
+
 16/10/2026
 -- DoBoletoUnit --
 [-] Corrigido a sintaxe de resposta dos metodos: ConsultarTitulosPorPeriodo e EnviarBoleto
