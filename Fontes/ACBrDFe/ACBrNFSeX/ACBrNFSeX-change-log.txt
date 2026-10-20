@@ -43,6 +43,15 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/10/2026
+-- PadraoNacional.Provider --
+[*] ACBR-10047 - Alteração visando considerar os demais tipos de cancelamento no 
+    Tratar Retorno do Enviar Eventos.
+   Por: Leandro Ledo
+[*] ACBR-10051 - Alteração visando considerar os demais tipos de cancelamento no 
+    Consultar Eventos.
+   Por: Armando Boza
+[*] ACBR-10062 - Alteração visando retornar no campo CodigoVerificacao a chave de acesso.
+   Por: Alex Heinen
 -- NFOnline.GravarXml --
 [*] ACBR-9921 - Alteração visando gerar o XML conforme esperado pelo provedor.
    Por: Italo Giurizzato Junior

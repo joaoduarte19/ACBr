@@ -431,6 +431,7 @@ var
         ANode := ANode.Childrens.FindAnyNs('infDPS');
         NumDps := ObterConteudoTag(ANode.Childrens.FindAnyNs('nDPS'), tcStr);
 
+        Response.CodigoVerificacao := CodVerif;
         Response.NumeroNota := NumNFSe;
         Response.Data := DataAut;
         Response.XmlRetorno := NFSeXml;
@@ -832,7 +833,10 @@ begin
             Response.XmlRetorno := EventoXml;
 
             case Response.tpEvento of
-              teCancelamento:
+              teCancelamento,
+              teCancelamentoSubstituicao,
+              teCancelamentoDeferido,
+              teCancelamentoPorOficio:
                 begin
                   Response.SucessoCanc := True;
                   Response.DescSituacao := 'Nota Cancelada';
@@ -994,7 +998,10 @@ begin
             Response.XmlRetorno := ArquivoXml;
 
             case Response.tpEvento of
-              teCancelamento:
+              teCancelamento,
+              teCancelamentoSubstituicao,
+              teCancelamentoDeferido,
+              teCancelamentoPorOficio:
                 begin
                   Response.SucessoCanc := True;
                   Response.DescSituacao := 'Nota Cancelada';
@@ -1187,7 +1194,7 @@ begin
                 AResumo.tpEvento := Response.tpEvento;
                 AResumo.idNota := Response.idNota;
                 AResumo.NomeArq := nomeArq;
-                AResumo.XmlRetorno := ArquivoXML;
+                AResumo.XmlRetorno := ArquivoXml;
               except
                 on E:Exception do
                 begin
