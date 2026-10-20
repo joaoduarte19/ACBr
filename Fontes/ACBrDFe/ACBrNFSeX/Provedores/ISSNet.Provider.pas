@@ -3641,7 +3641,7 @@ procedure TACBrNFSeProviderISSNetAPIPropria.TratarRetornoEnviarEvento(
 var
   Document: TACBrXmlDocument;
   ANode, AuxNode: TACBrXmlNode;
-  IdAttr, nomeArq: string;
+  nomeArq: string;
   AErro: TNFSeEventoCollectionItem;
 begin
   Document := TACBrXmlDocument.Create;
@@ -3660,7 +3660,15 @@ begin
 
       ProcessarMensagemErros(Document.Root, Response);
 
-      ANode := Document.Root.Childrens.FindAnyNs('Evento');
+      ANode := Document.Root.Childrens.FindAnyNs('ListaEvento');
+
+      if Assigned(ANode) then
+        ANode := ANode.Childrens.FindAnyNs('evento')
+      else
+        ANode := Document.Root.Childrens.FindAnyNs('evento');
+
+      if not Assigned(ANode) then
+        ANode := Document.Root.Childrens.FindAnyNs('Evento');
 
       if not Assigned(ANode) then
       begin
@@ -3674,9 +3682,9 @@ begin
 
       if not Assigned(AuxNode) then Exit;
 
-      Response.idEvento := ObterConteudoTag(ANode.Attributes.Items[IdAttr]);
-      Response.DataCanc := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhProc'), tcDatHor);
-      Response.NumeroNota := ObterConteudoTag(ANode.Childrens.FindAnyNs('nDFe'), tcStr);
+      Response.idEvento := ObterConteudoTag(AuxNode.Attributes.Items['Id']);
+      Response.DataCanc := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('dhProc'), tcDatHor);
+      Response.NumeroNota := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('nDFSe'), tcStr);
 
       if Response.DataCanc > 0 then
       begin

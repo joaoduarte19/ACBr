@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/10/2026
+-- ISSNet.Provider --
+[*] ACBR-10033 - Alteração visando a leitura correta do Retorno do Envio do Evento.
+   Por: kauajuno
 -- ACBrNFSeXProviderBase --
 [*] ACBR-10035 - Alteração visando considerar a URL do Padrão Nacional em vez do provedor
     quando a propriedade LayoutNFSe estiver com o valor lnfsPadraoNacionalv1.
