@@ -233,7 +233,7 @@ begin
         raise Exception.Create('Campo NossoNumero é inválido obrigatóriamente deve ser informado valor 0!');
     end;
 
-    if not LCarteira in[15,16,21] then
+    if not (LCarteira in[15,16,21]) then
       raise Exception.Create('Campo Carteira é inválido obrigatóriamente deve ser informado valor 15, 16 ou 21. Não previsto outra carteira na API!');
 
     case StrToIntDef(ATitulo.Carteira,0) of
@@ -265,10 +265,12 @@ begin
       if (Trim(ATitulo.Mensagem.Text) <> '') then
       begin
         LMensagem := TACBrJSONArray.Create;
-        for I := 0 to 3 do
+        for I := 0 to ATitulo.Mensagem.Count - 1 do
         begin
-          LMensagem.AddElement(Trim(Copy(ATitulo.Mensagem[I],0,80)));
-          if LMensagem.Count + 1 > I then
+          if Trim(ATitulo.Mensagem[I]) = '' then
+            Continue;
+          LMensagem.AddElement(Copy(Trim(ATitulo.Mensagem[I]),1,80));
+          if LMensagem.Count >= 4 then
             Break;
         end;
         LJson.AddPair('instructions',LMensagem)
@@ -339,8 +341,11 @@ begin
             .AddPair('dead_line',IfThen(ATitulo.DataMulta > 0, DaysBetween(ATitulo.Vencimento,ATitulo.DataMulta), 1) )
         );
       end;
-      LJson.AddPair('our_number',ATitulo.NossoNumero)
-          .AddPair('payer',
+      //our_number somente quando informado (> 0). Enviar 0/0000000000 faz o C6 (v1), devolver o our_number zerado no retorno em vez do nosso numero gerado pelo banco.
+      if StrToInt64Def(ATitulo.NossoNumero,0) > 0 then
+        LJson.AddPair('our_number',ATitulo.NossoNumero);
+
+      LJson.AddPair('payer',
           TACBrJSONObject.Create
             .AddPair('name', Copy(Trim(ATitulo.Sacado.NomeSacado),1,33) )//na documentação é 40 mas a API valida 33
             .AddPair('tax_id', LCNPJCPFPayer )

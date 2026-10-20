@@ -48,6 +48,13 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+20/10/2026
+-- ACBrBoletoW_C6.pas --
+[*] Ajustadas as validações da carteira (15 e 16 em produção e 21 em homologação), o envio de até 4 linhas de instruções de 80 caracteres e o envio do our_number somente quando informado (> 0).
+	[ACBR-10085] https://www.projetoacbr.com.br/forum/topic/95460-ajuste-no-c6-bank-na-unit-acbrboletow_c6pas-api-v1-retorna-our_number-0000000000-desde-que-o-requisicaojson-passou-a-enviar-o-campo/
+	Por: Jhonlenon Ribeiro / Daniel de Morais
+
 19/10/2026
 -- ACBrBoletoW_Itau_API --
 [*] Ajustado para enviar quantidade_maximo_parcial somente quando houver pagamento parcial. 
