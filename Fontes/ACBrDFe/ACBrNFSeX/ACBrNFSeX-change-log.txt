@@ -42,6 +42,22 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/10/2026
+-- ACBrNFSeXServicos --
+[*] Cidades atendidas pelo provedor EL que foi ativado a API nova que usa o layout do Padrão Nacional.
+   Por: Italo Giurizzato Junior
+[*] Mudança de URLs e migração para o Layout Nacional no município de Sao Joao da Barra/RJ
+	Por: Baltazar
+[*] ACBR-10089 - Mudança de URLs e migração para o Layout Nacional no município de Cuiabá/MT
+	Veja: https://www.projetoacbr.com.br/forum/topic/95464-acbr-10089-cuiab%C3%A1-mt-aderiu-novo-webservice-provedor-issnet-com-layout-padr%C3%A3o-nacional-101/
+	Por: Reginaldo Rodrigues Pereira
+[*] ACBR-10079 - O município de Nova Mutum/MT aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/95439-acbr-10079-alterar-provedor-de-nova-mutum-mt/
+	Por: Diego Reckziegel
+[*] ACBR-10063 - O município de Santa Maria do Herval/RS aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/95418-acbr-10063-altera%C3%A7%C3%A3o-provedor-da-cidade-de-santa-maria-do-herval-rs/
+	Por: MGWare Dev
+
 19/10/2026
 -- Diversos --
 [+] Ajustes visando adicionar novos logs para melhorar análise da LibNFSe.
