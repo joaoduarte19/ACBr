@@ -375,6 +375,9 @@ begin
      (Pos('{', LDiscriminacao) > 0) and (Pos('}', LDiscriminacao) > 0) then
   begin
     FpAOwner.ConfigGeral.DetalharServico := True;
+    // Limpa a lista para evitar duplicidade ao fazer a leitura do XML com o
+    // componente já carregado.
+    NFSe.Servico.ItemServico.Clear;
 
     if Pos('":', LDiscriminacao) > 0 then
       LerListaJson(LDiscriminacao)

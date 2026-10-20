@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/10/2026
+-- ACBrNFSeXLerXml --
+[*] ACBR-9592 - Alteração visando limpar a lista ItemServico ao checar se o campo
+    Discriminacao possui uma lista de itens.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] Cidades atendidas pelo provedor EL que foi ativado a API nova que usa o layout do Padrão Nacional.
    Por: Italo Giurizzato Junior
