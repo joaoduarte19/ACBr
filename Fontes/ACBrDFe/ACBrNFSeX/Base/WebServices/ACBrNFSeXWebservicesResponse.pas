@@ -387,6 +387,7 @@ type
     FCancelamento: TNFSeCancelamento;
     FCNPJCPFTomador: string;
     FInfConsultaNFSe: TInfConsultaNFSe;
+    FChaveAcessoNacional: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -400,6 +401,7 @@ type
     property Cancelamento: TNFSeCancelamento read FCancelamento write FCancelamento;
     property CNPJCPFTomador: string read FCNPJCPFTomador write FCNPJCPFTomador;
     property InfConsultaNFSe: TInfConsultaNFSe read FInfConsultaNFSe write FInfConsultaNFSe;
+    property ChaveAcessoNacional: string read FChaveAcessoNacional write FChaveAcessoNacional;
   end;
 
   TNFSeConsultaNFSeResponse = class(TNFSeWebserviceResponse)
@@ -935,6 +937,7 @@ begin
   CodigoVerificacao := '';
   NumNotaSubstituidora := '';
   CNPJCPFTomador := '';
+  ChaveAcessoNacional := '';
 
   if Assigned(FCancelamento) then
     FCancelamento.Free;

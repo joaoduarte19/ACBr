@@ -1159,6 +1159,7 @@ begin
         begin
           NumeroNota := NumNFSe;
           CodigoVerificacao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('CodigoVerificacao'), tcStr);
+          ChaveAcessoNacional := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('chaveAcessoNacional'), tcStr);
           Data := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('DataEmissao'), FpFormatoDataEmissao);
         end;
 

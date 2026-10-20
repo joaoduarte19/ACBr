@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/10/2026
+-- ACBrNFSeXProviderABRASFv2/ACBrNFSeXLerXml_ABRASFv2/ACBrNFSeXWebservicesResponse --
+[*] ACBR-9931 - Alteração visando o retorno da Chave de Acesso Nacional ao ler o retorno da 
+    Consulta da NFSe por RPS.
+   Por: Italo Giurizzato Junior
 -- ISSNet.Provider --
 [*] ACBR-10033 - Alteração visando a leitura correta do Retorno do Envio do Evento.
    Por: kauajuno
