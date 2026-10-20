@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/10/2026
+-- ACBrNFSeXProviderBase --
+[*] ACBR-10035 - Alteração visando considerar a URL do Padrão Nacional em vez do provedor
+    quando a propriedade LayoutNFSe estiver com o valor lnfsPadraoNacionalv1.
+   Por: Marcos Rogerio Zaccaro
 -- PadraoNacional.Provider --
 [*] ACBR-10047 - Alteração visando considerar os demais tipos de cancelamento no 
     Tratar Retorno do Enviar Eventos.

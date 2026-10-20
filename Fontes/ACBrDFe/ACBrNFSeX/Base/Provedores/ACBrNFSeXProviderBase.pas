@@ -1007,8 +1007,11 @@ begin
 
     if(not(lIgnoraParamsProvedor))then
       lValorParams := lValorParams + IniParams.ReadString(Sessao, 'Params', '');
+
     // Verifica se na seção do provedor tem o Params: APIPropria
-    APIPropria := (Pos('APIPropria:', lValorParams) > 0);
+    APIPropria := False;
+    if (TACBrNFSeX(FAOwner).Configuracoes.Geral.Provedor <> proPadraoNacional) then
+      APIPropria := (Pos('APIPropria:', lValorParams) > 0);
 
     if not APIPropria then
     begin
@@ -2701,7 +2704,6 @@ begin
           ConsultarEventoResponse.ReqUrl := AService.URL;
           ConsultarEventoResponse.ReqHeaders := AService.ReqHeaders;
           ConsultarEventoResponse.ReqMethod := AService.Method;
-
 
           {$IFDEF ACBR_API}
           FillHttpInfo(ConsultarEventoResponse, AService);
