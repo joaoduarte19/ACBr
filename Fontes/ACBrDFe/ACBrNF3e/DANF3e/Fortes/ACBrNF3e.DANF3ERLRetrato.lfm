@@ -1,7 +1,11 @@
 inherited frmDANF3eRLRetrato: TfrmDANF3eRLRetrato
   Left = 233
+  Height = 567
   Top = 15
+  Width = 1005
   Caption = 'frmDANF3eRLRetrato'
+  ClientHeight = 567
+  ClientWidth = 1005
   Font.Height = -18
   inherited RLNF3e: TRLReport
     Left = 32
@@ -1955,12 +1959,11 @@ inherited frmDANF3eRLRetrato: TfrmDANF3eRLRetrato
       end
       object rllChave: TRLLabel
         Tag = 703
-        Left = 372
-        Height = 14
+        Left = 677
+        Height = 16
         Top = 173
-        Width = 361
+        Width = 57
         Alignment = taRightJustify
-        AutoSize = False
         Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Arial'

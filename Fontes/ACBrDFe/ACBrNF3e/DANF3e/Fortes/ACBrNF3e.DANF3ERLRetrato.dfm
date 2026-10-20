@@ -2120,12 +2120,11 @@ inherited frmDANF3eRLRetrato: TfrmDANF3eRLRetrato
       end
       object rllChave: TRLLabel
         Tag = 703
-        Left = 372
+        Left = 677
         Top = 173
-        Width = 361
-        Height = 14
+        Width = 57
+        Height = 16
         Alignment = taRightJustify
-        AutoSize = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Height = -13

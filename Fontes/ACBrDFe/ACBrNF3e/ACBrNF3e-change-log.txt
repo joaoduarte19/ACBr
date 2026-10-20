@@ -41,6 +41,10 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+20/10/2026
+-- ACBrNF3e.DANF3ERLRetrato --
+[*] ACBr-9471: Ajustes para alfanumericos
+   Por: Daniel de Morais
 
 06/10/2026
 -- Diversos --
