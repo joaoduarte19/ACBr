@@ -233,7 +233,9 @@ begin
   Result.AppendChild(GerarPrestador);
   Result.AppendChild(GerarTomador);
   Result.AppendChild(GerarIntermediarioServico);
-  Result.AppendChild(GerarXMLDestinatario(NFSe.IBSCBS.dest));
+
+  if NFSe.IBSCBS.dest.xNome <> '' then
+    Result.AppendChild(GerarXMLDestinatario(NFSe.IBSCBS.dest));
 
   Result.AppendChild(AddNode(tcStr, '#6', 'RegimeEspecialTributacao', 1, 2, 1,
    FpAOwner.RegimeEspecialTributacaoToStr(NFSe.RegimeEspecialTributacao), DSC_REGISSQN));

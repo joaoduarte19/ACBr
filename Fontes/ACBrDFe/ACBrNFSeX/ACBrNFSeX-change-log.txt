@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/10/2026
+-- NFOnline.GravarXml --
+[*] ACBR-9921 - Alteração visando gerar o XML conforme esperado pelo provedor.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXLerXml --
 [*] ACBR-9592 - Alteração visando limpar a lista ItemServico ao checar se o campo
     Discriminacao possui uma lista de itens.
