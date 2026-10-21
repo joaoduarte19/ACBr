@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+21/10/2026
+-- ACBrNFe.EnvEvento --
+[-] Adiciona leitura do elemento cCredPress no INI e no XML para o evento de solicitação de apropriação de crédito presumido.
+   Por: Dalmark Systems
+   Veja: https://www.projetoacbr.com.br/forum/topic/95490-acbrlib-evento-211110-%E2%80%93-ccredpres-n%C3%A3o-%C3%A9-lido-do-ini/ 
+
 15/10/2026
 -- ACBrNFeServicos --
 [-] A URL do QrCode da NF-e com DANFe Simplificado Tipo 2 para o ambiente de homologação de SP foi atualizada.

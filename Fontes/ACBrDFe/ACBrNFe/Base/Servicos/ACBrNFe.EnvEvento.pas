@@ -1307,6 +1307,7 @@ begin
               infEvento.detEvento.gCredPres.New;
               infEvento.detEvento.gCredPres[i].nItem := RetEventoNFe.InfEvento.detEvento.gCredPres[i].nItem;
               infEvento.detEvento.gCredPres[i].vBCCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].vBCCredPres;
+              infEvento.detEvento.gCredPres[i].cCredPres := RetEventoNFe.InfEvento.detEvento.gCredPres[i].cCredPres;
               infEvento.detEvento.gCredPres[i].gIBSCredPres.pCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gIBSCredPres.pCredPres;
               infEvento.detEvento.gCredPres[i].gIBSCredPres.vCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gIBSCredPres.vCredPres;
               infEvento.detEvento.gCredPres[i].gCBSCredPres.pCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gCBSCredPres.pCredPres;
@@ -1720,6 +1721,7 @@ begin
                 infEvento.detEvento.gCredPres.New;
                 infEvento.detEvento.gCredPres[J].nItem := StrToIntDef(sFim, 0);
                 infEvento.detEvento.gCredPres[J].vBCCredPres := INIRec.ReadFloat(sSecao, 'vBCCredPres', 0);
+                infEvento.detEvento.gCredPres[J].cCredPres := StrTocCredPres(INIRec.ReadString(sSecao, 'cCredPres', ''));
 
                 sSecao := 'gIBSCredPres' + IntToStrZero(J+1, 3);
                 if INIRec.SectionExists(sSecao) then
