@@ -94,7 +94,7 @@ object frmACBrCIOT: TfrmACBrCIOT
           Top = 0
           Width = 287
           Height = 476
-          ActivePage = TabSheet12
+          ActivePage = TabSheet4
           Align = alClient
           MultiLine = True
           TabOrder = 0
@@ -1322,34 +1322,77 @@ object frmACBrCIOT: TfrmACBrCIOT
       object tsOperacao: TTabSheet
         Caption = 'Opera'#231#227'o'
         ImageIndex = 1
-        object rgOperacao: TRadioGroup
-          Left = 3
-          Top = 3
-          Width = 545
-          Height = 233
-          Caption = ' Opera'#231#245'es do e-Frete '
-          Columns = 2
-          ItemIndex = 0
-          Items.Strings = (
-            'Login (Necess'#225'rio se usado sem Cert.)'
-            'Cadastrar Propriet'#225'rio do Ve'#237'culo'
-            'Cadastrar Ve'#237'culo'
-            'Cadastrar Motorista'
-            'Adicionar Opera'#231#227'o de Transporte'
-            'Adicionar Viagem a uma Opera'#231#227'o de Transporte'
-            'Adicionar Pagamento a uma Opera'#231#227'o de Trans.'
-            'Obter C'#243'digo Identifica'#231#227'o Opera'#231#227'o Transp.'
-            'Obter Pdf Opera'#231#227'o Transporte'
-            'Retificar Opera'#231#227'o de Transporte'
-            'Cancelar Opera'#231#227'o de Transporte'
-            'Cancelar Pag. Progr. para uma Oper. de Trans.'
-            'Encerrar uma Opera'#231#227'o de Transporte'
-            'Logout (Necess'#225'rio se usado sem Cert.)'
-            'Consultar Tipos de Carga'
-            'Alterar Data de Libera'#231#227'o de Pagamento'
-            'Registrar Qtde da Mercadoria no Desembarque'
-            'Registrar Pagamento Quita'#231#227'o')
+        object pgIntegradora: TPageControl
+          Left = 0
+          Top = 0
+          Width = 559
+          Height = 238
+          ActivePage = tsEfrete
+          Align = alClient
           TabOrder = 0
+          object tsEfrete: TTabSheet
+            Caption = 'eFrete'
+            object rgOperacaoEFrete: TRadioGroup
+              Left = 0
+              Top = 0
+              Width = 551
+              Height = 210
+              Align = alClient
+              Caption = ' Opera'#231#245'es do e-Frete '
+              Columns = 2
+              ItemIndex = 0
+              Items.Strings = (
+                'Login (Necess'#225'rio se usado sem Cert.)'
+                'Cadastrar Propriet'#225'rio do Ve'#237'culo'
+                'Cadastrar Ve'#237'culo'
+                'Cadastrar Motorista'
+                'Adicionar Opera'#231#227'o de Transporte'
+                'Adicionar Viagem a uma Opera'#231#227'o de Transporte'
+                'Adicionar Pagamento a uma Opera'#231#227'o de Trans.'
+                'Obter C'#243'digo Identifica'#231#227'o Opera'#231#227'o Transp.'
+                'Obter Pdf Opera'#231#227'o Transporte'
+                'Retificar Opera'#231#227'o de Transporte'
+                'Cancelar Opera'#231#227'o de Transporte'
+                'Cancelar Pag. Progr. para uma Oper. de Trans.'
+                'Encerrar uma Opera'#231#227'o de Transporte'
+                'Logout (Necess'#225'rio se usado sem Cert.)'
+                'Consultar Tipos de Carga'
+                'Alterar Data de Libera'#231#227'o de Pagamento'
+                'Registrar Qtde da Mercadoria no Desembarque'
+                'Registrar Pagamento Quita'#231#227'o')
+              TabOrder = 0
+              ExplicitLeft = -264
+              ExplicitTop = -68
+              ExplicitWidth = 545
+              ExplicitHeight = 233
+            end
+          end
+          object tsANTT: TTabSheet
+            Caption = 'ANTT'
+            ImageIndex = 1
+            object rgOperacaoANTT: TRadioGroup
+              Left = 0
+              Top = 0
+              Width = 551
+              Height = 210
+              Align = alClient
+              Caption = 'Opera'#231#245'es ANTT (Necess'#225'rio certificado configurado)'
+              Items.Strings = (
+                'Verifica se o transportador est'#225' ativo e apto na ANTT'
+                'Consulta os ve'#237'culos vinculados ao transportador'
+                'Gera o CIOT (servi'#231'o central do processo)'
+                'Cancela um CIOT j'#225' emitido'
+                'Retifica informa'#231#245'es de uma opera'#231#227'o'
+                'Encerra a opera'#231#227'o de transporte'
+                'Consulta exce'#231#245'es cadastradas para o transportador'
+                'Consulta um CIOT j'#225' gerado')
+              TabOrder = 0
+              ExplicitLeft = 184
+              ExplicitTop = 56
+              ExplicitWidth = 185
+              ExplicitHeight = 105
+            end
+          end
         end
       end
       object tsEnvios: TTabSheet
@@ -1454,6 +1497,8 @@ object frmACBrCIOT: TfrmACBrCIOT
           Height = 316
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 562
+          ExplicitHeight = 318
           ControlData = {
             4C000000C6390000A92000000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
@@ -1549,7 +1594,7 @@ object frmACBrCIOT: TfrmACBrCIOT
     Configuracoes.Geral.SSLXmlSignLib = xsNone
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
     Configuracoes.Geral.RetirarAcentos = False
-    Configuracoes.Geral.Integradora = ieFrete
+    Configuracoes.Geral.Integradora = iANTT
     Configuracoes.Arquivos.OrdenacaoPath = <>
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 0
