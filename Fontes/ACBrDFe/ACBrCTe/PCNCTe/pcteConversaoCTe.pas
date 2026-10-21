@@ -463,7 +463,8 @@ function StrTotpContratacao(out ok: boolean; const s: string): TtpContratacao;
 implementation
 
 uses
-  typinfo;
+  typinfo,
+  ACBrDFe.Conversao;
 
 function ModeloNFToStr(const t: TpcteModeloNF): string;
 begin
@@ -1138,6 +1139,7 @@ begin
 end;
 
 initialization
-  RegisterStrToTpEventoDFe(StrToTpEventoCTe, 'CTe');
+  //RegisterStrToTpEventoDFe(StrToTpEventoCTe, 'CTe');
+  ACBrDFe.Conversao.RegisterStrToTpEventoDFe(StrToTpEventoCTe, 'CTe');
 
 end.

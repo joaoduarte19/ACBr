@@ -39,7 +39,8 @@ interface
 uses
   SysUtils, Classes,
   {$IF DEFINED(HAS_SYSTEM_GENERICS)}
-   System.Generics.Collections, System.Generics.Defaults,
+   System.Generics.Collections, 
+   System.Generics.Defaults,
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$IfEnd}
@@ -550,6 +551,8 @@ end;
 
 procedure TRetDistDFeInt.LerGrupo_ide(const ANode: TACBrXmlNode;
   Indice: Integer);
+var
+  NodeTpNF: TACBrXmlNode;
 begin
   if not Assigned(ANode) then Exit;
 
@@ -559,7 +562,10 @@ begin
   if docZip[Indice].resDFe.dhEmi  = 0 then
     docZip[Indice].resDFe.dhEmi := ObterConteudoTag(ANode.Childrens.FindAnyNs('dEmi'), tcDat);
 
-  docZip[Indice].resDFe.tpNF := StrToTpNF(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpNF'), tcStr));
+  // tpNF só existe na NF-e; CT-e/MDF-e não possuem a tag
+  NodeTpNF := ANode.Childrens.FindAnyNs('tpNF');
+  if Assigned(NodeTpNF) then
+    docZip[Indice].resDFe.tpNF:= StrToTpNF(ObterConteudoTag(NodeTpNF, tcStr));
 end;
 
 procedure TRetDistDFeInt.LerGrupo_emit(const ANode: TACBrXmlNode;
@@ -897,35 +903,31 @@ var
 begin
   Document := TACBrXmlDocument.Create;
 
-  try
-    try
-      Result := False;
+  try    
+    Result := False;
 
-      if XmlRetorno = '' then Exit;
+    if XmlRetorno = '' then Exit;
 
-      XML := XmlRetorno;
-      Document.LoadFromXml(XmlRetorno);
+    XML := XmlRetorno;
+    Document.LoadFromXml(XmlRetorno);
 
-      ANode := Document.Root;
+    ANode := Document.Root;
 
-      if Assigned(ANode) then
-      begin
-        versao := ObterConteudoTag(ANode.Attributes.Items['versao']);
-        tpAmb := StrToTipoAmbiente(ObterConteudoTag(Anode.Childrens.FindAnyNs('tpAmb'), tcStr));
-        verAplic := ObterConteudoTag(ANode.Childrens.FindAnyNs('verAplic'), tcStr);
-        cStat := ObterConteudoTag(ANode.Childrens.FindAnyNs('cStat'), tcInt);
-        xMotivo := ACBrStr(ObterConteudoTag(ANode.Childrens.FindAnyNs('xMotivo'), tcStr));
-        dhResp := ObterConteudoTag(Anode.Childrens.FindAnyNs('dhResp'), tcDatHor);
-        ultNSU := ACBrStr(ObterConteudoTag(ANode.Childrens.FindAnyNs('ultNSU'), tcStr));
-        maxNSU := ACBrStr(ObterConteudoTag(ANode.Childrens.FindAnyNs('maxNSU'), tcStr));
+    if Assigned(ANode) then
+    begin
+      versao := ObterConteudoTag(ANode.Attributes.Items['versao']);
+      tpAmb := StrToTipoAmbiente(ObterConteudoTag(Anode.Childrens.FindAnyNs('tpAmb'), tcStr));
+      verAplic := ObterConteudoTag(ANode.Childrens.FindAnyNs('verAplic'), tcStr);
+      cStat := ObterConteudoTag(ANode.Childrens.FindAnyNs('cStat'), tcInt);
+      xMotivo := ACBrStr(ObterConteudoTag(ANode.Childrens.FindAnyNs('xMotivo'), tcStr));
+      dhResp := ObterConteudoTag(Anode.Childrens.FindAnyNs('dhResp'), tcDatHor);
+      ultNSU := ACBrStr(ObterConteudoTag(ANode.Childrens.FindAnyNs('ultNSU'), tcStr));
+      maxNSU := ACBrStr(ObterConteudoTag(ANode.Childrens.FindAnyNs('maxNSU'), tcStr));
 
-        LerLoteDistDFeInt(ANode);
-      end;
-
-      Result := True;
-    except
-      Result := False;
+      LerLoteDistDFeInt(ANode);
     end;
+
+    Result := True;
   finally
     FreeAndNil(Document);
   end;
