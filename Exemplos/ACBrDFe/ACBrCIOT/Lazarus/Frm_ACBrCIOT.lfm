@@ -12,24 +12,24 @@ object frmACBrCIOT: TfrmACBrCIOT
   Font.Height = -14
   Font.Name = 'Tahoma'
   Position = poScreenCenter
-  LCLVersion = '4.6.0.0'
+  LCLVersion = '4.8.0.0'
   OnCreate = FormCreate
   object pnlMenus: TPanel
     Left = 0
-    Height = 612
+    Height = 765
     Top = 0
     Width = 371
     Align = alLeft
-    ClientHeight = 612
+    ClientHeight = 765
     ClientWidth = 371
     ParentBackground = False
     TabOrder = 0
     object lblColaborador: TLabel
       Cursor = crHandPoint
       Left = 20
-      Height = 13
+      Height = 16
       Top = 672
-      Width = 261
+      Width = 324
       Caption = 'Veja a lista de Colaboradores do Projeto ACBr'
       Font.Color = clNavy
       Font.Height = -14
@@ -42,9 +42,9 @@ object frmACBrCIOT: TfrmACBrCIOT
     object lblPatrocinador: TLabel
       Cursor = crHandPoint
       Left = 18
-      Height = 13
+      Height = 16
       Top = 691
-      Width = 265
+      Width = 326
       Caption = 'Veja a lista de Patrocinadores do Projeto ACBr'
       Font.Color = clGreen
       Font.Height = -14
@@ -57,9 +57,9 @@ object frmACBrCIOT: TfrmACBrCIOT
     object lblDoar1: TLabel
       Cursor = crHandPoint
       Left = 24
-      Height = 13
+      Height = 16
       Top = 710
-      Width = 255
+      Width = 311
       Caption = 'Para se tornar Patrocinador do Projeto ACBr,'
       Font.Color = clRed
       Font.Height = -14
@@ -72,9 +72,9 @@ object frmACBrCIOT: TfrmACBrCIOT
     object lblDoar2: TLabel
       Cursor = crHandPoint
       Left = 144
-      Height = 13
+      Height = 16
       Top = 726
-      Width = 63
+      Width = 77
       Caption = 'clique aqui'
       Font.Color = clRed
       Font.Height = -14
@@ -94,13 +94,13 @@ object frmACBrCIOT: TfrmACBrCIOT
       TabOrder = 0
       object TabSheet1: TTabSheet
         Caption = 'Configurações'
-        ClientHeight = 478
-        ClientWidth = 287
+        ClientHeight = 600
+        ClientWidth = 361
         object PageControl4: TPageControl
           Left = 0
-          Height = 478
+          Height = 600
           Top = 0
-          Width = 287
+          Width = 361
           ActivePage = TabSheet12
           Align = alClient
           MultiLine = True
@@ -109,13 +109,13 @@ object frmACBrCIOT: TfrmACBrCIOT
           TabOrder = 0
           object TabSheet3: TTabSheet
             Caption = 'Certificado'
-            ClientHeight = 0
-            ClientWidth = 0
+            ClientHeight = 570
+            ClientWidth = 353
             object lSSLLib: TLabel
               Left = 49
-              Height = 13
+              Height = 17
               Top = 20
-              Width = 30
+              Width = 40
               Alignment = taRightJustify
               Caption = 'SSLLib'
               Color = clBtnFace
@@ -124,9 +124,9 @@ object frmACBrCIOT: TfrmACBrCIOT
             end
             object lCryptLib: TLabel
               Left = 36
-              Height = 13
+              Height = 17
               Top = 54
-              Width = 40
+              Width = 52
               Alignment = taRightJustify
               Caption = 'CryptLib'
               Color = clBtnFace
@@ -135,9 +135,9 @@ object frmACBrCIOT: TfrmACBrCIOT
             end
             object lHttpLib: TLabel
               Left = 44
-              Height = 13
+              Height = 17
               Top = 88
-              Width = 34
+              Width = 44
               Alignment = taRightJustify
               Caption = 'HttpLib'
               Color = clBtnFace
@@ -146,9 +146,9 @@ object frmACBrCIOT: TfrmACBrCIOT
             end
             object lXmlSign: TLabel
               Left = 21
-              Height = 13
+              Height = 17
               Top = 121
-              Width = 52
+              Width = 68
               Alignment = taRightJustify
               Caption = 'XMLSignLib'
               Color = clBtnFace
@@ -161,23 +161,23 @@ object frmACBrCIOT: TfrmACBrCIOT
               Top = 148
               Width = 329
               Caption = 'Certificado'
-              ClientHeight = 162
+              ClientHeight = 158
               ClientWidth = 325
               ParentBackground = False
               TabOrder = 0
               object Label1: TLabel
                 Left = 8
-                Height = 13
+                Height = 17
                 Top = 2
-                Width = 41
+                Width = 54
                 Caption = 'Caminho'
                 ParentColor = False
               end
               object Label2: TLabel
                 Left = 8
-                Height = 13
+                Height = 17
                 Top = 52
-                Width = 30
+                Width = 38
                 Caption = 'Senha'
                 ParentColor = False
               end
@@ -205,9 +205,9 @@ object frmACBrCIOT: TfrmACBrCIOT
               end
               object Label25: TLabel
                 Left = 8
-                Height = 13
+                Height = 17
                 Top = 102
-                Width = 79
+                Width = 101
                 Caption = 'Número de Série'
                 ParentColor = False
               end
@@ -257,14 +257,14 @@ object frmACBrCIOT: TfrmACBrCIOT
               end
               object edtCaminho: TEdit
                 Left = 8
-                Height = 21
+                Height = 25
                 Top = 22
                 Width = 281
                 TabOrder = 0
               end
               object edtSenha: TEdit
                 Left = 8
-                Height = 21
+                Height = 25
                 Top = 72
                 Width = 311
                 EchoMode = emPassword
@@ -273,7 +273,7 @@ object frmACBrCIOT: TfrmACBrCIOT
               end
               object edtNumSerie: TEdit
                 Left = 8
-                Height = 21
+                Height = 25
                 Top = 122
                 Width = 241
                 TabOrder = 2
@@ -330,13 +330,13 @@ object frmACBrCIOT: TfrmACBrCIOT
               Top = 410
               Width = 329
               Caption = 'Calculo de Hash e assinatura'
-              ClientHeight = 68
+              ClientHeight = 64
               ClientWidth = 325
               ParentBackground = False
               TabOrder = 6
               object Edit1: TEdit
                 Left = 1
-                Height = 21
+                Height = 25
                 Top = 0
                 Width = 311
                 TabOrder = 0
@@ -353,9 +353,9 @@ object frmACBrCIOT: TfrmACBrCIOT
               end
               object cbAssinar: TCheckBox
                 Left = 178
-                Height = 19
+                Height = 21
                 Top = 34
-                Width = 54
+                Width = 63
                 Caption = 'Assinar'
                 Checked = True
                 State = cbChecked
@@ -382,40 +382,40 @@ object frmACBrCIOT: TfrmACBrCIOT
             end
             object cbSSLLib: TComboBox
               Left = 100
-              Height = 21
+              Height = 25
               Top = 10
               Width = 200
-              ItemHeight = 13
+              ItemHeight = 17
               Style = csDropDownList
               TabOrder = 9
               OnChange = cbSSLLibChange
             end
             object cbCryptLib: TComboBox
               Left = 100
-              Height = 21
+              Height = 25
               Top = 44
               Width = 200
-              ItemHeight = 13
+              ItemHeight = 17
               Style = csDropDownList
               TabOrder = 10
               OnChange = cbCryptLibChange
             end
             object cbHttpLib: TComboBox
               Left = 100
-              Height = 21
+              Height = 25
               Top = 78
               Width = 200
-              ItemHeight = 13
+              ItemHeight = 17
               Style = csDropDownList
               TabOrder = 11
               OnChange = cbHttpLibChange
             end
             object cbXmlSignLib: TComboBox
               Left = 100
-              Height = 21
+              Height = 25
               Top = 111
               Width = 200
-              ItemHeight = 13
+              ItemHeight = 17
               Style = csDropDownList
               TabOrder = 12
               OnChange = cbXmlSignLibChange
@@ -423,8 +423,8 @@ object frmACBrCIOT: TfrmACBrCIOT
           end
           object TabSheet4: TTabSheet
             Caption = 'Geral'
-            ClientHeight = 0
-            ClientWidth = 0
+            ClientHeight = 570
+            ClientWidth = 353
             ImageIndex = 1
             object GroupBox3: TGroupBox
               Left = 4
@@ -432,7 +432,7 @@ object frmACBrCIOT: TfrmACBrCIOT
               Top = 15
               Width = 331
               Caption = 'Geral'
-              ClientHeight = 468
+              ClientHeight = 464
               ClientWidth = 327
               ParentBackground = False
               TabOrder = 0
@@ -460,33 +460,33 @@ object frmACBrCIOT: TfrmACBrCIOT
               end
               object Label29: TLabel
                 Left = 8
-                Height = 13
+                Height = 17
                 Top = 92
-                Width = 86
+                Width = 111
                 Caption = 'Forma de Emissão'
                 ParentColor = False
               end
               object Label31: TLabel
                 Left = 8
-                Height = 13
+                Height = 17
                 Top = 45
-                Width = 72
+                Width = 90
                 Caption = 'Formato Alerta'
                 ParentColor = False
               end
               object Label32: TLabel
                 Left = 9
-                Height = 13
+                Height = 17
                 Top = 146
-                Width = 119
+                Width = 153
                 Caption = 'Versão Documento Fiscal'
                 ParentColor = False
               end
               object Label42: TLabel
                 Left = 9
-                Height = 13
+                Height = 17
                 Top = 265
-                Width = 198
+                Width = 258
                 Caption = 'Diretórios com os arquivos XSD(Schemas)'
                 ParentColor = False
               end
@@ -514,48 +514,48 @@ object frmACBrCIOT: TfrmACBrCIOT
               end
               object Label7: TLabel
                 Left = 9
-                Height = 13
+                Height = 17
                 Top = 318
-                Width = 62
+                Width = 77
                 Caption = 'Integrardora'
                 ParentColor = False
               end
               object Label30: TLabel
                 Left = 8
-                Height = 13
+                Height = 17
                 Top = 370
-                Width = 36
+                Width = 45
                 Caption = 'Usuário'
                 ParentColor = False
               end
               object Label33: TLabel
                 Left = 170
-                Height = 13
+                Height = 17
                 Top = 370
-                Width = 30
+                Width = 38
                 Caption = 'Senha'
                 ParentColor = False
               end
               object Label34: TLabel
                 Left = 8
-                Height = 13
+                Height = 17
                 Top = 421
-                Width = 79
+                Width = 99
                 Caption = 'Hash Integrador'
                 ParentColor = False
               end
               object edtPathLogs: TEdit
                 Left = 9
-                Height = 21
+                Height = 25
                 Top = 239
                 Width = 285
                 TabOrder = 0
               end
               object ckSalvar: TCheckBox
                 Left = 9
-                Height = 15
+                Height = 20
                 Top = 219
-                Width = 209
+                Width = 245
                 Caption = 'Salvar Arquivos de Envio e Resposta'
                 Font.Color = clWindowText
                 Font.Height = -14
@@ -565,76 +565,76 @@ object frmACBrCIOT: TfrmACBrCIOT
               end
               object cbFormaEmissao: TComboBox
                 Left = 8
-                Height = 21
+                Height = 25
                 Top = 112
                 Width = 310
-                ItemHeight = 13
+                ItemHeight = 17
                 TabOrder = 2
               end
               object cbxAtualizarXML: TCheckBox
                 Left = 8
-                Height = 17
+                Height = 21
                 Top = 2
-                Width = 97
+                Width = 100
                 Caption = 'Atualizar XML'
                 TabOrder = 3
               end
               object cbxExibirErroSchema: TCheckBox
                 Left = 8
-                Height = 17
+                Height = 21
                 Top = 22
-                Width = 129
+                Width = 137
                 Caption = 'Exibir Erro Schema'
                 TabOrder = 4
               end
               object edtFormatoAlerta: TEdit
                 Left = 8
-                Height = 21
+                Height = 25
                 Top = 65
                 Width = 310
                 TabOrder = 5
               end
               object cbxRetirarAcentos: TCheckBox
                 Left = 9
-                Height = 17
+                Height = 21
                 Top = 196
-                Width = 193
+                Width = 233
                 Caption = 'Retirar Acentos dos XMLs enviados'
                 TabOrder = 6
               end
               object cbVersaoDF: TComboBox
                 Left = 9
-                Height = 21
+                Height = 25
                 Top = 166
                 Width = 310
-                ItemHeight = 13
+                ItemHeight = 17
                 TabOrder = 7
               end
               object edtPathSchemas: TEdit
                 Left = 9
-                Height = 21
+                Height = 25
                 Top = 285
                 Width = 285
                 TabOrder = 8
               end
               object cbbIntegradora: TComboBox
                 Left = 8
-                Height = 21
+                Height = 25
                 Top = 336
                 Width = 310
-                ItemHeight = 13
+                ItemHeight = 17
                 TabOrder = 9
               end
               object edtUsuarioWebService: TEdit
                 Left = 8
-                Height = 21
+                Height = 25
                 Top = 390
                 Width = 154
                 TabOrder = 10
               end
               object edtSenhaWebService: TEdit
                 Left = 164
-                Height = 21
+                Height = 25
                 Top = 390
                 Width = 154
                 EchoMode = emPassword
@@ -643,7 +643,7 @@ object frmACBrCIOT: TfrmACBrCIOT
               end
               object edtHashIntegrador: TEdit
                 Left = 8
-                Height = 21
+                Height = 25
                 Top = 441
                 Width = 310
                 TabOrder = 12
@@ -652,8 +652,8 @@ object frmACBrCIOT: TfrmACBrCIOT
           end
           object TabSheet7: TTabSheet
             Caption = 'WebService'
-            ClientHeight = 0
-            ClientWidth = 0
+            ClientHeight = 570
+            ClientWidth = 353
             ImageIndex = 2
             object GroupBox4: TGroupBox
               Left = 6
@@ -661,15 +661,15 @@ object frmACBrCIOT: TfrmACBrCIOT
               Top = 5
               Width = 331
               Caption = 'WebService'
-              ClientHeight = 220
+              ClientHeight = 216
               ClientWidth = 327
               ParentBackground = False
               TabOrder = 0
               object Label6: TLabel
                 Left = 8
-                Height = 13
+                Height = 16
                 Top = 2
-                Width = 121
+                Width = 153
                 Caption = 'Selecione UF de Destino:'
                 Font.Color = clWindowText
                 Font.Height = -14
@@ -679,9 +679,9 @@ object frmACBrCIOT: TfrmACBrCIOT
               end
               object lTimeOut: TLabel
                 Left = 206
-                Height = 13
+                Height = 17
                 Top = 128
-                Width = 40
+                Width = 52
                 Caption = 'TimeOut'
                 Color = clBtnFace
                 ParentColor = False
@@ -689,9 +689,9 @@ object frmACBrCIOT: TfrmACBrCIOT
               end
               object lSSLLib1: TLabel
                 Left = 21
-                Height = 13
+                Height = 17
                 Top = 192
-                Width = 41
+                Width = 54
                 Alignment = taRightJustify
                 Caption = 'SSLType'
                 Color = clBtnFace
@@ -700,9 +700,9 @@ object frmACBrCIOT: TfrmACBrCIOT
               end
               object cbxVisualizar: TCheckBox
                 Left = 8
-                Height = 17
+                Height = 20
                 Top = 130
-                Width = 153
+                Width = 150
                 Caption = 'Visualizar Mensagem'
                 Font.Color = clWindowText
                 Font.Height = -14
@@ -712,13 +712,13 @@ object frmACBrCIOT: TfrmACBrCIOT
               end
               object cbUF: TComboBox
                 Left = 8
-                Height = 24
+                Height = 28
                 Top = 22
                 Width = 311
                 Font.Color = clWindowText
                 Font.Height = -16
                 Font.Name = 'MS Sans Serif'
-                ItemHeight = 16
+                ItemHeight = 20
                 ItemIndex = 24
                 Items.Strings = (
                   'AC'
@@ -768,7 +768,7 @@ object frmACBrCIOT: TfrmACBrCIOT
                 ChildSizing.ShrinkVertical = crsScaleChilds
                 ChildSizing.Layout = cclLeftToRightThenTopToBottom
                 ChildSizing.ControlsPerLine = 2
-                ClientHeight = 47
+                ClientHeight = 43
                 ClientWidth = 307
                 Columns = 2
                 ItemIndex = 0
@@ -781,15 +781,15 @@ object frmACBrCIOT: TfrmACBrCIOT
               end
               object cbxSalvarSOAP: TCheckBox
                 Left = 8
-                Height = 17
+                Height = 21
                 Top = 152
-                Width = 153
+                Width = 155
                 Caption = 'Salvar envelope SOAP'
                 TabOrder = 3
               end
               object seTimeOut: TSpinEdit
                 Left = 206
-                Height = 22
+                Height = 25
                 Top = 148
                 Width = 82
                 Increment = 10
@@ -800,11 +800,11 @@ object frmACBrCIOT: TfrmACBrCIOT
               end
               object cbSSLType: TComboBox
                 Left = 88
-                Height = 21
+                Height = 25
                 Hint = 'Depende de configuração de  SSL.HttpLib'
                 Top = 182
                 Width = 200
-                ItemHeight = 13
+                ItemHeight = 17
                 Style = csDropDownList
                 TabOrder = 5
                 OnChange = cbSSLTypeChange
@@ -816,66 +816,66 @@ object frmACBrCIOT: TfrmACBrCIOT
               Top = 354
               Width = 331
               Caption = 'Proxy'
-              ClientHeight = 112
+              ClientHeight = 108
               ClientWidth = 327
               ParentBackground = False
               TabOrder = 1
               object Label8: TLabel
                 Left = 8
-                Height = 13
+                Height = 17
                 Top = 2
-                Width = 22
+                Width = 28
                 Caption = 'Host'
                 ParentColor = False
               end
               object Label9: TLabel
                 Left = 258
-                Height = 13
+                Height = 17
                 Top = 2
-                Width = 26
+                Width = 33
                 Caption = 'Porta'
                 ParentColor = False
               end
               object Label10: TLabel
                 Left = 8
-                Height = 13
+                Height = 17
                 Top = 52
-                Width = 36
+                Width = 45
                 Caption = 'Usuário'
                 ParentColor = False
               end
               object Label11: TLabel
                 Left = 170
-                Height = 13
+                Height = 17
                 Top = 52
-                Width = 30
+                Width = 38
                 Caption = 'Senha'
                 ParentColor = False
               end
               object edtProxyHost: TEdit
                 Left = 8
-                Height = 21
+                Height = 25
                 Top = 22
                 Width = 241
                 TabOrder = 0
               end
               object edtProxyPorta: TEdit
                 Left = 258
-                Height = 21
+                Height = 25
                 Top = 22
                 Width = 62
                 TabOrder = 1
               end
               object edtProxyUser: TEdit
                 Left = 8
-                Height = 21
+                Height = 25
                 Top = 72
                 Width = 154
                 TabOrder = 2
               end
               object edtProxySenha: TEdit
                 Left = 166
-                Height = 21
+                Height = 25
                 Top = 72
                 Width = 154
                 EchoMode = emPassword
@@ -889,60 +889,60 @@ object frmACBrCIOT: TfrmACBrCIOT
               Top = 250
               Width = 331
               Caption = 'Retorno de Envio'
-              ClientHeight = 78
+              ClientHeight = 74
               ClientWidth = 327
               ParentBackground = False
               TabOrder = 2
               object Label36: TLabel
                 Left = 114
-                Height = 13
+                Height = 17
                 Top = 16
-                Width = 51
+                Width = 63
                 Caption = 'Tentativas'
                 ParentColor = False
               end
               object Label37: TLabel
                 Left = 218
-                Height = 13
+                Height = 17
                 Top = 16
-                Width = 44
+                Width = 54
                 Caption = 'Intervalo'
                 ParentColor = False
               end
               object Label38: TLabel
                 Left = 8
-                Height = 13
+                Height = 17
                 Hint = 'Aguardar quantos segundos para primeira consulta de retorno de envio'
                 Top = 16
-                Width = 45
+                Width = 56
                 Caption = 'Aguardar'
                 ParentColor = False
               end
               object cbxAjustarAut: TCheckBox
                 Left = 8
-                Height = 17
+                Height = 21
                 Top = 0
-                Width = 234
+                Width = 285
                 Caption = 'Ajustar Automaticamente prop. "Aguardar"'
                 TabOrder = 0
               end
               object edtTentativas: TEdit
                 Left = 114
-                Height = 21
+                Height = 25
                 Top = 36
                 Width = 71
                 TabOrder = 2
               end
               object edtIntervalo: TEdit
                 Left = 218
-                Height = 21
+                Height = 25
                 Top = 36
                 Width = 71
                 TabOrder = 3
               end
               object edtAguardar: TEdit
                 Left = 8
-                Height = 21
+                Height = 25
                 Hint = 'Aguardar quantos segundos para primeira consulta de retorno de envio'
                 Top = 36
                 Width = 71
@@ -952,200 +952,200 @@ object frmACBrCIOT: TfrmACBrCIOT
           end
           object TabSheet12: TTabSheet
             Caption = 'Emitente'
-            ClientHeight = 434
-            ClientWidth = 279
+            ClientHeight = 570
+            ClientWidth = 353
             ImageIndex = 3
             object Label12: TLabel
               Left = 10
-              Height = 13
+              Height = 17
               Top = 5
-              Width = 25
+              Width = 32
               Caption = 'CNPJ'
               ParentColor = False
             end
             object Label13: TLabel
               Left = 170
-              Height = 13
+              Height = 17
               Top = 5
-              Width = 43
+              Width = 52
               Caption = 'Insc.Est.'
               ParentColor = False
             end
             object Label14: TLabel
               Left = 10
-              Height = 13
+              Height = 17
               Top = 55
-              Width = 60
+              Width = 75
               Caption = 'Razão Social'
               ParentColor = False
             end
             object Label15: TLabel
               Left = 10
-              Height = 13
+              Height = 17
               Top = 105
-              Width = 41
+              Width = 49
               Caption = 'Fantasia'
               ParentColor = False
             end
             object Label16: TLabel
               Left = 10
-              Height = 13
+              Height = 17
               Top = 205
-              Width = 55
+              Width = 72
               Caption = 'Logradouro'
               ParentColor = False
             end
             object Label17: TLabel
               Left = 260
-              Height = 13
+              Height = 17
               Top = 205
-              Width = 37
+              Width = 49
               Caption = 'Número'
               ParentColor = False
             end
             object Label18: TLabel
               Left = 10
-              Height = 13
+              Height = 17
               Top = 255
-              Width = 65
+              Width = 86
               Caption = 'Complemento'
               ParentColor = False
             end
             object Label19: TLabel
               Left = 170
-              Height = 13
+              Height = 17
               Top = 255
-              Width = 28
+              Width = 35
               Caption = 'Bairro'
               ParentColor = False
             end
             object Label20: TLabel
               Left = 10
-              Height = 13
+              Height = 17
               Top = 305
-              Width = 62
+              Width = 78
               Caption = 'Cód. Cidade '
               ParentColor = False
             end
             object Label21: TLabel
               Left = 95
-              Height = 13
+              Height = 17
               Top = 305
-              Width = 33
+              Width = 41
               Caption = 'Cidade'
               ParentColor = False
             end
             object Label22: TLabel
               Left = 281
-              Height = 13
+              Height = 17
               Top = 305
-              Width = 13
+              Width = 16
               Caption = 'UF'
               ParentColor = False
             end
             object Label23: TLabel
               Left = 170
-              Height = 13
+              Height = 17
               Top = 155
-              Width = 19
+              Width = 25
               Caption = 'CEP'
               ParentColor = False
             end
             object Label24: TLabel
               Left = 10
-              Height = 13
+              Height = 17
               Top = 155
-              Width = 24
+              Width = 30
               Caption = 'Fone'
               ParentColor = False
             end
             object edtEmitCNPJ: TEdit
               Left = 10
-              Height = 21
+              Height = 25
               Top = 25
               Width = 154
               TabOrder = 0
             end
             object edtEmitIE: TEdit
               Left = 171
-              Height = 21
+              Height = 25
               Top = 25
               Width = 154
               TabOrder = 1
             end
             object edtEmitRazao: TEdit
               Left = 10
-              Height = 21
+              Height = 25
               Top = 75
               Width = 315
               TabOrder = 2
             end
             object edtEmitFantasia: TEdit
               Left = 10
-              Height = 21
+              Height = 25
               Top = 125
               Width = 315
               TabOrder = 3
             end
             object edtEmitFone: TEdit
               Left = 10
-              Height = 21
+              Height = 25
               Top = 175
               Width = 156
               TabOrder = 4
             end
             object edtEmitCEP: TEdit
               Left = 171
-              Height = 21
+              Height = 25
               Top = 175
               Width = 154
               TabOrder = 5
             end
             object edtEmitLogradouro: TEdit
               Left = 10
-              Height = 21
+              Height = 25
               Top = 225
               Width = 245
               TabOrder = 6
             end
             object edtEmitNumero: TEdit
               Left = 262
-              Height = 21
+              Height = 25
               Top = 225
               Width = 62
               TabOrder = 7
             end
             object edtEmitComp: TEdit
               Left = 10
-              Height = 21
+              Height = 25
               Top = 275
               Width = 154
               TabOrder = 8
             end
             object edtEmitBairro: TEdit
               Left = 171
-              Height = 21
+              Height = 25
               Top = 275
               Width = 154
               TabOrder = 9
             end
             object edtEmitCodCidade: TEdit
               Left = 10
-              Height = 21
+              Height = 25
               Top = 325
               Width = 76
               TabOrder = 10
             end
             object edtEmitCidade: TEdit
               Left = 95
-              Height = 21
+              Height = 25
               Top = 325
               Width = 178
               TabOrder = 11
             end
             object edtEmitUF: TEdit
               Left = 281
-              Height = 21
+              Height = 25
               Top = 325
               Width = 44
               TabOrder = 12
@@ -1153,8 +1153,8 @@ object frmACBrCIOT: TfrmACBrCIOT
           end
           object TabSheet13: TTabSheet
             Caption = 'Arquivos'
-            ClientHeight = 0
-            ClientWidth = 0
+            ClientHeight = 570
+            ClientWidth = 353
             ImageIndex = 4
             object sbPathCIOT: TSpeedButton
               Left = 309
@@ -1180,17 +1180,17 @@ object frmACBrCIOT: TfrmACBrCIOT
             end
             object Label35: TLabel
               Left = 8
-              Height = 13
+              Height = 17
               Top = 145
-              Width = 100
+              Width = 125
               Caption = 'Pasta Arquivos CIOT'
               ParentColor = False
             end
             object Label47: TLabel
               Left = 8
-              Height = 13
+              Height = 17
               Top = 200
-              Width = 109
+              Width = 138
               Caption = 'Pasta Arquivos Evento'
               ParentColor = False
             end
@@ -1218,71 +1218,71 @@ object frmACBrCIOT: TfrmACBrCIOT
             end
             object cbxSalvarArqs: TCheckBox
               Left = 8
-              Height = 17
+              Height = 21
               Top = 0
-              Width = 210
+              Width = 248
               Caption = 'Salvar Arquivos em Pastas Separadas'
               TabOrder = 0
             end
             object cbxPastaMensal: TCheckBox
               Left = 8
-              Height = 17
+              Height = 21
               Top = 20
-              Width = 210
+              Width = 175
               Caption = 'Criar Pastas Mensalmente'
               TabOrder = 1
             end
             object cbxAdicionaLiteral: TCheckBox
               Left = 8
-              Height = 17
+              Height = 21
               Top = 40
-              Width = 210
+              Width = 242
               Caption = 'Adicionar Literal no nome das pastas'
               TabOrder = 2
             end
             object cbxEmissaoPathCIOT: TCheckBox
               Left = 8
-              Height = 17
+              Height = 21
               Top = 60
-              Width = 251
+              Width = 315
               Caption = 'Salvar Documento pelo campo Data de Emissão'
               TabOrder = 3
             end
             object cbxSalvaPathEvento: TCheckBox
               Left = 8
-              Height = 17
+              Height = 21
               Top = 80
-              Width = 233
+              Width = 188
               Caption = 'Salvar Arquivos de Eventos'
               TabOrder = 4
             end
             object cbxSepararPorCNPJ: TCheckBox
               Left = 8
-              Height = 17
+              Height = 21
               Top = 100
-              Width = 233
+              Width = 252
               Caption = 'Separar Arqs pelo CNPJ do Certificado'
               TabOrder = 5
             end
             object edtPathCIOT: TEdit
               Left = 8
-              Height = 21
+              Height = 25
               Top = 165
               Width = 294
               TabOrder = 6
             end
             object edtPathEvento: TEdit
               Left = 8
-              Height = 21
+              Height = 25
               Top = 220
               Width = 294
               TabOrder = 7
             end
             object cbxSepararPorModelo: TCheckBox
               Left = 8
-              Height = 17
+              Height = 21
               Top = 120
-              Width = 251
+              Width = 272
               Caption = 'Separar Arqs pelo Modelo do Documento'
               TabOrder = 8
             end
@@ -1291,97 +1291,97 @@ object frmACBrCIOT: TfrmACBrCIOT
       end
       object TabSheet14: TTabSheet
         Caption = 'Email'
-        ClientHeight = 0
-        ClientWidth = 0
+        ClientHeight = 600
+        ClientWidth = 361
         ImageIndex = 2
         object Label3: TLabel
           Left = 10
-          Height = 13
+          Height = 17
           Top = 10
-          Width = 69
+          Width = 89
           Caption = 'Servidor SMTP'
           ParentColor = False
         end
         object Label4: TLabel
           Left = 258
-          Height = 13
+          Height = 17
           Top = 10
-          Width = 26
+          Width = 33
           Caption = 'Porta'
           ParentColor = False
         end
         object Label5: TLabel
           Left = 10
-          Height = 13
+          Height = 17
           Top = 60
-          Width = 36
+          Width = 45
           Caption = 'Usuário'
           ParentColor = False
         end
         object Label26: TLabel
           Left = 171
-          Height = 13
+          Height = 17
           Top = 60
-          Width = 30
+          Width = 38
           Caption = 'Senha'
           ParentColor = False
         end
         object Label27: TLabel
           Left = 10
-          Height = 13
+          Height = 17
           Top = 110
-          Width = 122
+          Width = 155
           Caption = 'Assunto do email enviado'
           ParentColor = False
         end
         object Label28: TLabel
           Left = 10
-          Height = 13
+          Height = 17
           Top = 200
-          Width = 93
+          Width = 120
           Caption = 'Mensagem do Email'
           ParentColor = False
         end
         object edtSmtpHost: TEdit
           Left = 10
-          Height = 21
+          Height = 25
           Top = 30
           Width = 241
           TabOrder = 0
         end
         object edtSmtpPort: TEdit
           Left = 258
-          Height = 21
+          Height = 25
           Top = 30
           Width = 64
           TabOrder = 1
         end
         object edtSmtpUser: TEdit
           Left = 10
-          Height = 21
+          Height = 25
           Top = 80
           Width = 150
           TabOrder = 2
         end
         object edtSmtpPass: TEdit
           Left = 171
-          Height = 21
+          Height = 25
           Top = 80
           Width = 150
           TabOrder = 3
         end
         object edtEmailAssunto: TEdit
           Left = 10
-          Height = 21
+          Height = 25
           Top = 130
           Width = 311
           TabOrder = 4
         end
         object cbEmailSSL: TCheckBox
           Left = 12
-          Height = 17
+          Height = 21
           Top = 170
-          Width = 167
+          Width = 193
           Caption = 'SMTP exige conexão segura'
           TabOrder = 5
         end
@@ -1420,75 +1420,128 @@ object frmACBrCIOT: TfrmACBrCIOT
     end
   end
   object pnlCentral: TPanel
-    Left = 297
-    Height = 612
+    Left = 371
+    Height = 765
     Top = 0
-    Width = 569
+    Width = 711
     Align = alClient
-    ClientHeight = 612
-    ClientWidth = 569
+    ClientHeight = 765
+    ClientWidth = 711
     ParentBackground = False
     TabOrder = 1
     object pgcBotoes: TPageControl
       Left = 1
       Height = 310
       Top = 1
-      Width = 567
+      Width = 709
       ActivePage = tsOperacao
       Align = alTop
       TabIndex = 0
       TabOrder = 0
       object tsOperacao: TTabSheet
         Caption = 'Operação'
-        ClientHeight = 222
-        ClientWidth = 559
+        ClientHeight = 280
+        ClientWidth = 701
         ImageIndex = 1
-        object rgOperacao: TRadioGroup
-          Left = 4
-          Height = 260
-          Top = 4
-          Width = 681
-          AutoFill = True
-          Caption = 'Operação'
-          ChildSizing.LeftRightSpacing = 6
-          ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-          ChildSizing.EnlargeVertical = crsHomogenousChildResize
-          ChildSizing.ShrinkHorizontal = crsScaleChilds
-          ChildSizing.ShrinkVertical = crsScaleChilds
-          ChildSizing.Layout = cclLeftToRightThenTopToBottom
-          ChildSizing.ControlsPerLine = 2
-          ClientHeight = 242
-          ClientWidth = 677
-          Columns = 2
-          ItemIndex = 0
-          Items.Strings = (
-            'Login (Necessário se usado sem Cert.)'
-            'Cadastrar Proprietário do Veículo'
-            'Cadastrar Veículo'
-            'Cadastrar Motorista'
-            'Adicionar Operação de Transporte'
-            'Adicionar Viagem a uma Operação de Transporte'
-            'Adicionar Pagamento a uma Operação de Trans.'
-            'Obter Código Identificação Operação Transp.'
-            'Obter Pdf Operação Transporte'
-            'Retificar Operação de Transporte'
-            'Cancelar Operação de Transporte'
-            'Cancelar Pag. Progr. para uma Oper. de Trans.'
-            'Encerrar uma Operação de Transporte'
-            'Logout (Necessário se usado sem Cert.)'
-            'Consultar Tipos de Carga'
-            'Alterar Data de Liberação de Pagamento'
-            'Registrar Qtde da Mercadoria no Desembarque'
-            'Registrar Pagamento Quitação'
-          )
-          ParentBackground = False
+        object pgIntegradora: TPageControl
+          Left = 0
+          Height = 280
+          Top = 0
+          Width = 701
+          ActivePage = tsANTT
+          Align = alClient
+          TabIndex = 1
           TabOrder = 0
+          object tsEfrete: TTabSheet
+            Caption = 'eFrete'
+            ClientHeight = 250
+            ClientWidth = 693
+            object rgOperacaoEFrete: TRadioGroup
+              Left = 0
+              Height = 250
+              Top = 0
+              Width = 693
+              Align = alClient
+              AutoFill = True
+              Caption = ' Operações do e-Frete '
+              ChildSizing.LeftRightSpacing = 6
+              ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+              ChildSizing.EnlargeVertical = crsHomogenousChildResize
+              ChildSizing.ShrinkHorizontal = crsScaleChilds
+              ChildSizing.ShrinkVertical = crsScaleChilds
+              ChildSizing.Layout = cclLeftToRightThenTopToBottom
+              ChildSizing.ControlsPerLine = 2
+              ClientHeight = 228
+              ClientWidth = 689
+              Columns = 2
+              ItemIndex = 0
+              Items.Strings = (
+                'Login (Necessário se usado sem Cert.)'
+                'Cadastrar Proprietário do Veículo'
+                'Cadastrar Veículo'
+                'Cadastrar Motorista'
+                'Adicionar Operação de Transporte'
+                'Adicionar Viagem a uma Operação de Transporte'
+                'Adicionar Pagamento a uma Operação de Trans.'
+                'Obter Código Identificação Operação Transp.'
+                'Obter Pdf Operação Transporte'
+                'Retificar Operação de Transporte'
+                'Cancelar Operação de Transporte'
+                'Cancelar Pag. Progr. para uma Oper. de Trans.'
+                'Encerrar uma Operação de Transporte'
+                'Logout (Necessário se usado sem Cert.)'
+                'Consultar Tipos de Carga'
+                'Alterar Data de Liberação de Pagamento'
+                'Registrar Qtde da Mercadoria no Desembarque'
+                'Registrar Pagamento Quitação'
+              )
+              ParentBackground = False
+              TabOrder = 0
+            end
+          end
+          object tsANTT: TTabSheet
+            Caption = 'ANTT'
+            ClientHeight = 250
+            ClientWidth = 693
+            ImageIndex = 1
+            object rgOperacaoANTT: TRadioGroup
+              Left = 0
+              Height = 250
+              Top = 0
+              Width = 693
+              Align = alClient
+              AutoFill = True
+              Caption = 'Operações ANTT (Necessário certificado configurado)'
+              ChildSizing.LeftRightSpacing = 6
+              ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+              ChildSizing.EnlargeVertical = crsHomogenousChildResize
+              ChildSizing.ShrinkHorizontal = crsScaleChilds
+              ChildSizing.ShrinkVertical = crsScaleChilds
+              ChildSizing.Layout = cclLeftToRightThenTopToBottom
+              ChildSizing.ControlsPerLine = 1
+              ClientHeight = 228
+              ClientWidth = 689
+              ItemIndex = 0
+              Items.Strings = (
+                'Verifica se o transportador está ativo e apto na ANTT'
+                'Consulta os veículos vinculados ao transportador'
+                'Gera o CIOT (serviço central do processo)'
+                'Cancela um CIOT já emitido'
+                'Retifica informações de uma operação'
+                'Encerra a operação de transporte'
+                'Consulta exceções cadastradas para o transportador'
+                'Consulta um CIOT já gerado'
+              )
+              ParentBackground = False
+              TabOrder = 0
+            end
+          end
         end
       end
       object tsEnvios: TTabSheet
         Caption = 'Envios'
-        ClientHeight = 0
-        ClientWidth = 0
+        ClientHeight = 280
+        ClientWidth = 701
         ImageIndex = 2
         object btnGerarCIOT: TButton
           Left = 11
@@ -1520,8 +1573,8 @@ object frmACBrCIOT: TfrmACBrCIOT
       end
       object tsOutros: TTabSheet
         Caption = 'Outros'
-        ClientHeight = 222
-        ClientWidth = 559
+        ClientHeight = 280
+        ClientWidth = 701
         object btnLerArqINI: TButton
           Left = 6
           Height = 40
@@ -1544,22 +1597,22 @@ object frmACBrCIOT: TfrmACBrCIOT
     end
     object pgRespostas: TPageControl
       Left = 1
-      Height = 362
-      Top = 249
-      Width = 567
+      Height = 453
+      Top = 311
+      Width = 709
       ActivePage = TabSheet5
       Align = alClient
       TabIndex = 0
       TabOrder = 1
       object TabSheet5: TTabSheet
         Caption = 'Respostas'
-        ClientHeight = 336
-        ClientWidth = 559
+        ClientHeight = 423
+        ClientWidth = 701
         object MemoResp: TMemo
           Left = 0
-          Height = 336
+          Height = 423
           Top = 0
-          Width = 559
+          Width = 701
           Align = alClient
           ScrollBars = ssVertical
           TabOrder = 0
@@ -1567,14 +1620,14 @@ object frmACBrCIOT: TfrmACBrCIOT
       end
       object TabSheet6: TTabSheet
         Caption = 'XML Resposta'
-        ClientHeight = 336
-        ClientWidth = 559
+        ClientHeight = 423
+        ClientWidth = 701
         ImageIndex = 1
         inline WBResposta: TSynEdit
           Left = 0
-          Height = 336
+          Height = 423
           Top = 0
-          Width = 559
+          Width = 701
           Align = alClient
           Font.Height = -16
           Font.Name = 'Courier New'
@@ -1658,14 +1711,14 @@ object frmACBrCIOT: TfrmACBrCIOT
       end
       object TabSheet8: TTabSheet
         Caption = 'Log'
-        ClientHeight = 0
-        ClientWidth = 0
+        ClientHeight = 423
+        ClientWidth = 701
         ImageIndex = 2
         object memoLog: TMemo
           Left = 0
-          Height = 334
+          Height = 423
           Top = 0
-          Width = 559
+          Width = 701
           Align = alClient
           ScrollBars = ssVertical
           TabOrder = 0
@@ -1673,28 +1726,28 @@ object frmACBrCIOT: TfrmACBrCIOT
       end
       object TabSheet9: TTabSheet
         Caption = 'Documento'
-        ClientHeight = 0
-        ClientWidth = 0
+        ClientHeight = 423
+        ClientWidth = 701
         ImageIndex = 3
         object trvwDocumento: TTreeView
           Left = 0
-          Height = 334
+          Height = 423
           Top = 0
-          Width = 559
+          Width = 701
           Align = alClient
           TabOrder = 0
         end
       end
       object TabSheet10: TTabSheet
         Caption = 'Retorno Completo WS'
-        ClientHeight = 0
-        ClientWidth = 0
+        ClientHeight = 423
+        ClientWidth = 701
         ImageIndex = 4
         object memoRespWS: TMemo
           Left = 0
-          Height = 334
+          Height = 423
           Top = 0
-          Width = 559
+          Width = 701
           Align = alClient
           ScrollBars = ssVertical
           TabOrder = 0
@@ -1702,14 +1755,14 @@ object frmACBrCIOT: TfrmACBrCIOT
       end
       object Dados: TTabSheet
         Caption = 'Dados'
-        ClientHeight = 0
-        ClientWidth = 0
+        ClientHeight = 423
+        ClientWidth = 701
         ImageIndex = 5
         object MemoDados: TMemo
           Left = 0
-          Height = 334
+          Height = 423
           Top = 0
-          Width = 559
+          Width = 701
           Align = alClient
           Lines.Strings = (
             ''

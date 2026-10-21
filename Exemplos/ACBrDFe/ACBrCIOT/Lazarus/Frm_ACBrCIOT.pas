@@ -39,7 +39,6 @@ uses
   ACBrDFe,
   ACBrDFeSSL,
   ACBrMail,
-  ACBrUtil,
   Buttons,
   Classes,
   ComCtrls,
@@ -58,6 +57,10 @@ uses
   SysUtils,
   Variants,
 
+  ACBrDFe.Conversao,
+  ACBrUtil.DateTime,
+  ACBrUtil.FilesIO,
+  ACBrUtil.base,
   ACBrCIOTConversao;
 
 
@@ -68,12 +71,17 @@ type
   TfrmACBrCIOT = class(TForm)
     btnGerarArqINI: TButton;
     btnLerArqINI: TButton;
+    pgIntegradora: TPageControl;
     pnlMenus: TPanel;
     pnlCentral: TPanel;
     PageControl1: TPageControl;
+    rgOperacaoANTT: TRadioGroup;
+    rgOperacaoEFrete: TRadioGroup;
     SynXMLSyn1: TSynXMLSyn;
     TabSheet1: TTabSheet;
     PageControl4: TPageControl;
+    tsANTT: TTabSheet;
+    tsEfrete: TTabSheet;
     tsOutros: TTabSheet;
     TabSheet3: TTabSheet;
     lSSLLib: TLabel;
@@ -240,7 +248,6 @@ type
     btnCriarEnviar: TButton;
     btnEnviarCiotEmail: TButton;
     tsOperacao: TTabSheet;
-    rgOperacao: TRadioGroup;
     procedure btnGerarArqINIClick(Sender: TObject);
     procedure btnLerArqINIClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -284,7 +291,8 @@ type
     procedure LerConfiguracao;
     procedure ConfigurarComponente;
     procedure ConfigurarEmail;
-    procedure AlimentarComponente;
+    procedure AlimentarComponenteEFrete;
+    procedure AlimentarComponenteANTT;
     procedure LoadXML(MyMemo: TMemo; SynEdit: TSynEdit);
     procedure AtualizarSSLLibsCombo;
   public
@@ -306,7 +314,7 @@ uses
   Grids,
   math,
   pcnAuxiliar,
-  pcnConversao,
+  pcnCiot,
   Printers,
   strutils,
   TypInfo;
@@ -364,14 +372,14 @@ begin
   Application.ProcessMessages;
 end;
 
-procedure TfrmACBrCIOT.AlimentarComponente;
+procedure TfrmACBrCIOT.AlimentarComponenteEFrete;
 begin
   with ACBrCIOT1.Contratos.Add.CIOT do
   begin
     // Só é necessario se usar usuario e senha e não o certificado
     Integradora.Token := sToken;
 
-    case rgOperacao.ItemIndex of
+    case rgOperacaoEFrete.ItemIndex of
       0: begin
            // Login - Solicita Token
            Integradora.Operacao := opLogin;
@@ -1156,6 +1164,201 @@ begin
   //  ACBrCIOT1.Contratos.GerarCIOT;
 end;
 
+procedure TfrmACBrCIOT.AlimentarComponenteANTT;
+var
+  LCIOT :TCIOT;
+  LVeiculo :TVeiculoCollectionItem;
+  LViagem :TViagemCollectionItem;
+  LPagamento :TPagamentoCollectionItem;
+begin
+  LCIOT := ACBrCIOT1.Contratos.Add.CIOT;
+  case rgOperacaoANTT.ItemIndex of
+    0: begin
+      LCIOT.Integradora.Operacao :=  opConsultarSituacaoTransportador;
+      LCIOT.ConsultarTransportador.CpfCnpjInteressado:= '000.000.000-00';
+      LCIOT.ConsultarTransportador.CpfCnpjTransportador := '000.000.000-00';
+      LCIOT.ConsultarTransportador.RNTRCTransportador := '12345678';
+    end;
+    1: begin
+      LCIOT.Integradora.Operacao :=  opConsultarFrota;
+      LCIOT.ConsultarTransportador.CpfCnpjInteressado:= '000.000.000-00';
+      LCIOT.ConsultarTransportador.CpfCnpjTransportador := '000.000.000-00';
+      LCIOT.ConsultarTransportador.RNTRCTransportador := '12345678';
+
+      //varias
+      LCIOT.ConsultarTransportador.Placas.new.Placa := 'ABC1X12';
+    end;
+
+    2: begin
+      LCIOT.Integradora.Operacao :=  opAdicionar;
+
+      LCIOT.AdicionarOperacao.IdOperacaoCliente := '123';
+      LCIOT.AdicionarOperacao.TipoViagem := Padrao; //Fracionado //TAC_Agregado
+      LCIOT.AdicionarOperacao.Contratado.CpfOuCnpj := '000.000.000-00';
+      LCIOT.AdicionarOperacao.Contratado.RNTRC := '12345678';
+      LCIOT.AdicionarOperacao.Contratante.CpfOuCnpj := '000.000.000-00';
+      LCIOT.AdicionarOperacao.Contratante.RNTRC := '12345678';
+
+      // O destinatario nao deve ser informado para TAC-Agregado.
+      if LCIOT.AdicionarOperacao.TipoViagem <> TAC_Agregado then
+        LCIOT.AdicionarOperacao.Destinatario.CpfOuCnpj := '000.000.000-00';
+
+      LCIOT.AdicionarOperacao.ValorFrete := 0;
+      LCIOT.AdicionarOperacao.DataDeclaracao := now;//use dados do seu banco
+      LCIOT.AdicionarOperacao.IndContingencia := false;
+
+      // Regras B103 e B104: justificativa somente em contingencia.
+      if LCIOT.AdicionarOperacao.IndContingencia then
+        LCIOT.AdicionarOperacao.JustificativaContingencia := 'xxxxx';
+
+      // Regra B56: para TAC-Agregado a data de inicio da viagem nao deve ser informada.
+      if LCIOT.AdicionarOperacao.TipoViagem <> TAC_Agregado then
+        LCIOT.AdicionarOperacao.DataInicioViagem := now;//seu dados
+
+      LCIOT.AdicionarOperacao.DataFimViagem := now+1;
+
+      LVeiculo := LCIOT.AdicionarOperacao.Veiculos.New;
+      LVeiculo.Placa := 'ABC1x12';
+      LVeiculo.RNTRC := '12345678';
+      LVeiculo.NumeroEixos := 1;
+
+      // Regra B62: Origem/Destino e dados da carga nao se aplicam a TAC-Agregado
+      // na declaracao.
+      if LCIOT.AdicionarOperacao.TipoViagem <> TAC_Agregado then
+      begin
+        LViagem := LCIOT.AdicionarOperacao.Viagens.New;
+
+        LViagem.CodigoMunicipioOrigem := 123456;
+        LViagem.CodigoMunicipioDestino := 123456;
+
+        /// OU
+//        LViagem.LatitudeOrigem := 123;
+//        LViagem.LongitudeOrigem :=123;
+//        LViagem.LatitudeDestino := 123;
+//        LViagem.LongitudeDestino := 123;
+
+        /// OU
+//        LViagem.CepOrigem := '123456';
+//        LViagem.CepDestino := '123123';
+
+        LViagem.DistanciaPercorrida := 1231;
+        LViagem.QtdViagens := 1;
+
+        LCIOT.AdicionarOperacao.CodigoNCMNaturezaCarga := 123;
+        LCIOT.AdicionarOperacao.PesoCarga := 123;
+        LCIOT.AdicionarOperacao.CodigoTipoCarga := tpNaoAplicavel;// outro tipos
+
+        if LCIOT.AdicionarOperacao.TipoViagem = Fracionado then
+        begin
+          LCIOT.AdicionarOperacao.ContratantesCargaFracionada.New.CpfOuCnpj := '000.000.000-00';
+        end;
+      end;
+
+      LPagamento := LCIOT.AdicionarOperacao.Pagamentos.New;
+      LPagamento.TipoPagamento := TransferenciaBancaria;
+
+      LPagamento.InformacoesBancarias.Conta := '123';
+      LPagamento.InformacoesBancarias.Agencia := '123';
+      LPagamento.InformacoesBancarias.Cartao.Numero := '123';
+      LPagamento.InformacoesBancarias.InstituicaoBancaria := 'abc';
+
+
+      ///PIX
+      LPagamento.ValorChavePix := 'xxx';
+      LPagamento.IdentificadorPix := 'xxxx';
+
+
+      LPagamento.CpfCnpjCreditado := '123.123.123-12';
+      LPagamento.CodigoPagamento := '123';
+      LPagamento.IndicadorPagamento := 'A Prazo';
+
+       // Regras B105 e B106: dados de parcelamento somente quando a prazo.
+       LPagamento.NumeroParcela := 2;
+       LPagamento.DataDeLiberacao := now;
+       LPagamento.Valor := 123;
+
+//      // Indicadores operacionais sao obrigatorios somente para Carga Lotacao.
+      if LCIOT.AdicionarOperacao.TipoViagem = Padrao then
+      begin
+        LCIOT.AdicionarOperacao.AltoDesempenho := true;
+        LCIOT.AdicionarOperacao.RetornoVazio := false;
+        LCIOT.AdicionarOperacao.ComposicaoVeicular := false;
+      end;
+
+    end;
+
+    3: begin
+      LCIOT.Integradora.Operacao :=    opCancelar;
+      LCIOT.CancelarOperacao.CodigoIdentificacaoOperacao :='123123';
+      LCIOT.CancelarOperacao.Motivo := 'xxxx';
+    end;
+
+    4: begin
+      LCIOT.Integradora.Operacao :=    opRetificar;
+//        LJSon := GerarRetificacaoOperacaoTransporte;
+      LCIOT.RetificarOperacao.CodigoIdentificacaoOperacao := '1231';
+      LCIOT.RetificarOperacao.ValorFrete := 1;
+      LCIOT.RetificarOperacao.DataFimViagem := now+1;
+        LCIOT.RetificarOperacao.CodigoMunicipioOrigem := 123456;
+        LCIOT.RetificarOperacao.CodigoMunicipioDestino := 123456;
+
+        /// OU
+//        LCIOT.RetificarOperacao.LatitudeOrigem := 123;
+//        LCIOT.RetificarOperacao.LongitudeOrigem :=123;
+//        LCIOT.RetificarOperacao.LatitudeDestino := 123;
+//        LCIOT.RetificarOperacao.LongitudeDestino := 123;
+
+        /// OU
+//        LCIOT.RetificarOperacao.CepOrigem := '123456';
+//        LCIOT.RetificarOperacao.CepDestino := '123123';
+
+        LCIOT.RetificarOperacao.CodigoNCMNaturezaCarga := 1;
+        LCIOT.RetificarOperacao.PesoCarga := 12;
+        LCIOT.RetificarOperacao.CodigoTipoCarga := tpNaoAplicavel;
+
+    end;
+
+    5: begin
+      LCIOT.Integradora.Operacao :=    opEncerrar;
+      LCIOT.EncerrarOperacao.CodigoIdentificacaoOperacao:= '1231';
+
+      // Origem/Destino e obrigatorio somente para TAC-Agregado (regra B58).
+            LViagem := LCIOT.EncerrarOperacao.Viagens.New;
+
+            LViagem.CodigoMunicipioOrigem := 123456;
+            LViagem.CodigoMunicipioDestino := 123456;
+
+            /// OU
+      //        LViagem.LatitudeOrigem := 123;
+      //        LViagem.LongitudeOrigem :=123;
+      //        LViagem.LatitudeDestino := 123;
+      //        LViagem.LongitudeDestino := 123;
+
+            /// OU
+      //        LViagem.CepOrigem := '123456';
+      //        LViagem.CepDestino := '123123';
+
+              LViagem.DistanciaPercorrida := 1231;
+              LViagem.QtdViagens := 1;
+
+//       Peso da carga e obrigatorio somente para Carga Lotacao (regra B65).
+       LCIOT.EncerrarOperacao.PesoCarga := 1231
+    end;
+
+    6: begin
+      LCIOT.Integradora.Operacao :=    opConsultarExcecao;
+      LCIOT.ConsultarTransportador.CpfCnpjTransportador := '123.123.123-12';
+    end;
+
+    7: begin
+      LCIOT.Integradora.Operacao :=    opObterCodigoIOT;//      opConsultarCIOTGerado:
+      LCIOT.ObterCodigoOperacaoTransporte.CodigoIdentificacaoOperacao := '123123';
+      LCIOT.ObterCodigoOperacaoTransporte.AnoDeclaracao := 2026;
+    end;
+  end;
+
+end;
+
 procedure TfrmACBrCIOT.AtualizarSSLLibsCombo;
 begin
   cbSSLLib.ItemIndex := integer(ACBrCIOT1.Configuracoes.Geral.SSLLib);
@@ -1175,7 +1378,11 @@ end;
 procedure TfrmACBrCIOT.btnCriarEnviarClick(Sender: TObject);
 begin
   ACBrCIOT1.Contratos.Clear;
-  AlimentarComponente;
+  if pgIntegradora.ActivePage = tsEfrete then
+    AlimentarComponenteEfrete
+  else
+  if pgIntegradora.ActivePage = tsANTT then
+    AlimentarComponenteANTT;
   ACBrCIOT1.Enviar;
 
   MemoResp.Lines.Text := UTF8Encode(ACBrCIOT1.WebServices.CIOTEnviar.RetWS);
@@ -1288,7 +1495,11 @@ begin
     exit;
 
   ACBrCIOT1.Contratos.Clear;
-  AlimentarComponente;
+  if pgIntegradora.ActivePage = tsEfrete then
+    AlimentarComponenteEfrete
+  else
+  if pgIntegradora.ActivePage = tsANTT then
+    AlimentarComponenteANTT;
   ACBrCIOT1.Contratos.Items[0].GravarXML('', '');
 
   ShowMessage('Arquivo gerado em: ' + ACBrCIOT1.Contratos.Items[0].NomeArq);
@@ -1431,13 +1642,13 @@ end;
 procedure TfrmACBrCIOT.FormCreate(Sender: TObject);
 var
   T: TSSLLib;
-  I: TpcnTipoEmissao;
+  I: TACBrTipoEmissao;
   K: TVersaoCIOT;
   U: TSSLCryptLib;
   V: TSSLHttpLib;
   X: TSSLXmlSignLib;
   Y: TSSLType;
-  Z: Integer;
+  Integradora: TCIOTIntegradora;
 begin
   cbSSLLib.Items.Clear;
   for T := Low(TSSLLib) to High(TSSLLib) do
@@ -1465,8 +1676,8 @@ begin
   cbSSLType.ItemIndex := 0;
 
   cbFormaEmissao.Items.Clear;
-  for I := Low(TpcnTipoEmissao) to High(TpcnTipoEmissao) do
-    cbFormaEmissao.Items.Add(GetEnumName(TypeInfo(TpcnTipoEmissao), integer(I)));
+  for I := Low(TACBrTipoEmissao) to High(TACBrTipoEmissao) do
+    cbFormaEmissao.Items.Add(GetEnumName(TypeInfo(TACBrTipoEmissao), integer(I)));
   cbFormaEmissao.ItemIndex := 0;
 
   cbVersaoDF.Items.Clear;
@@ -1475,8 +1686,8 @@ begin
   cbVersaoDF.ItemIndex := 0;
 
   cbbIntegradora.Items.Clear;
-  for Z := Integer(Low(TCIOTIntegradora)) to Integer(High(TCIOTIntegradora)) do
-    cbbIntegradora.Items.Add(GetEnumName(TypeInfo(TCIOTIntegradora), Z ));
+  for Integradora := Low(TCIOTIntegradora) to High(TCIOTIntegradora) do
+    cbbIntegradora.Items.Add(GetEnumName(TypeInfo(TCIOTIntegradora), integer(Integradora) ));
   cbbIntegradora.ItemIndex := 0;
 
   LerConfiguracao;
@@ -1520,7 +1731,11 @@ var
   ArqINI: TStringList;
 begin
   ACBrCIOT1.Contratos.Clear;
-  AlimentarComponente;
+    if pgIntegradora.ActivePage = tsEfrete then
+    AlimentarComponenteEfrete
+  else
+  if pgIntegradora.ActivePage = tsANTT then
+    AlimentarComponenteANTT;
   ACBrCIOT1.Contratos.GerarCIOT;
 
   ArqINI := TStringList.Create;
@@ -1789,7 +2004,7 @@ begin
     ExibirErroSchema := cbxExibirErroSchema.Checked;
     RetirarAcentos := cbxRetirarAcentos.Checked;
     FormatoAlerta := edtFormatoAlerta.Text;
-    FormaEmissao := TpcnTipoEmissao(cbFormaEmissao.ItemIndex);
+    FormaEmissao := TACBrTipoEmissao(cbFormaEmissao.ItemIndex);
     VersaoDF := TVersaoCIOT(cbVersaoDF.ItemIndex);
     Integradora := StrToIntegradora(cbbIntegradora.Text);
     Usuario := edtUsuarioWebService.Text;
@@ -1800,7 +2015,7 @@ begin
   with ACBrCIOT1.Configuracoes.WebServices do
   begin
     UF := cbUF.Text;
-    Ambiente := StrToTpAmb(Ok, IntToStr(rgTipoAmb.ItemIndex + 1));
+    Ambiente := StrToTipoAmbiente(IntToStr(rgTipoAmb.ItemIndex + 1));
     Visualizar := cbxVisualizar.Checked;
     Salvar := cbxSalvarSOAP.Checked;
 
