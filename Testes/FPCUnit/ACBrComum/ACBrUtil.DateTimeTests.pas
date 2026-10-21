@@ -125,6 +125,18 @@ type
     procedure ConverteString_DataEHoraSemMilisegundosZonaDiferenteDaLocal_Sucesso;
   end;
 
+  { EncodeDataHoraTest }
+
+  EncodeDataHoraTest = class(TTestCase)
+  published
+    procedure DataSemSeparador_FormatoSemSeparador;
+    procedure AnoMesSemSeparador_FormatoSemSeparador;
+    procedure DataSemSeparador_FormatoComSeparador;
+    procedure DataComSeparador;
+    procedure DataEHora;
+    procedure DataVaziaOuZerada;
+  end;
+
   {$IfDef FPC}
   { StrHasTimeZone }
 
@@ -946,6 +958,72 @@ begin
   CheckNotEquals(UmaDataHora, Iso8601ToDateTime(DataEmString))
 end;
 
+{ EncodeDataHoraTest }
+
+procedure EncodeDataHoraTest.DataSemSeparador_FormatoSemSeparador;
+begin
+  // Ex.: ISSBarueri informa a data de emissão como 'YYYYMMDD'
+  CheckEquals(EncodeDate(2026,10,13), EncodeDataHora('20261013', 'YYYYMMDD'),
+              'Falha ao converter 20261013 no formato YYYYMMDD');
+end;
+
+procedure EncodeDataHoraTest.AnoMesSemSeparador_FormatoSemSeparador;
+begin
+  CheckEquals(EncodeDate(2026,10,01), EncodeDataHora('202610', 'YYYYMM'),
+              'Falha ao converter 202610 no formato YYYYMM');
+end;
+
+procedure EncodeDataHoraTest.DataSemSeparador_FormatoComSeparador;
+begin
+  CheckEquals(EncodeDate(2026,10,13), EncodeDataHora('20261013', 'YYYY/MM/DD'),
+              'Falha ao converter 20261013 no formato YYYY/MM/DD');
+
+  CheckEquals(EncodeDate(2026,10,13), EncodeDataHora('20261013', ''),
+              'Falha ao converter 20261013 sem formato específico');
+
+  CheckEquals(EncodeDate(2026,10,13), EncodeDataHora('20261013'),
+              'Falha ao converter 20261013 com o formato padrão');
+
+  CheckEquals(EncodeDate(2026,10,01), EncodeDataHora('202610'),
+              'Falha ao converter 202610 com o formato padrão');
+end;
+
+procedure EncodeDataHoraTest.DataComSeparador;
+begin
+  CheckEquals(EncodeDate(2026,10,13), EncodeDataHora('2026/10/13', 'YYYY/MM/DD'),
+              'Falha ao converter 2026/10/13 no formato YYYY/MM/DD');
+
+  CheckEquals(EncodeDate(2026,10,13), EncodeDataHora('2026-10-13', 'YYYY/MM/DD'),
+              'Falha ao converter 2026-10-13 no formato YYYY/MM/DD');
+
+  CheckEquals(EncodeDate(2026,10,13), EncodeDataHora('2026-10-13', 'yyyy-MM-dd'),
+              'Falha ao converter 2026-10-13 no formato yyyy-MM-dd');
+
+  CheckEquals(EncodeDate(2026,10,13), EncodeDataHora('13/10/2026', 'DD/MM/YYYY'),
+              'Falha ao converter 13/10/2026 no formato DD/MM/YYYY');
+
+  CheckEquals(EncodeDate(2026,10,13), EncodeDataHora('13-10-2026', 'DD-MM-YYYY'),
+              'Falha ao converter 13-10-2026 no formato DD-MM-YYYY');
+
+  CheckEquals(EncodeDate(2026,10,13), EncodeDataHora('10/13/2026', 'MM/DD/YYYY'),
+              'Falha ao converter 10/13/2026 no formato MM/DD/YYYY');
+end;
+
+procedure EncodeDataHoraTest.DataEHora;
+begin
+  // SameDateTime: a soma Data + Hora pode diferir nas últimas casas decimais
+  CheckTrue(SameDateTime(EncodeDate(2026,10,13) + EncodeTime(10,20,30,0),
+                         EncodeDataHora('2026-10-13T10:20:30')),
+            'Falha ao converter 2026-10-13T10:20:30');
+end;
+
+procedure EncodeDataHoraTest.DataVaziaOuZerada;
+begin
+  CheckEquals(0, EncodeDataHora(''), 'Data vazia deveria retornar 0');
+  CheckEquals(0, EncodeDataHora('00000000', 'YYYYMMDD'),
+              'Data zerada deveria retornar 0');
+end;
+
 
 
 
@@ -963,6 +1041,7 @@ initialization
   _RegisterTest('ACBrComum.ACBrUtil.DateTime', DTtoSTest);
   _RegisterTest('ACBrComum.ACBrUtil.DateTime', DateTimeToIso8601Test);
   _RegisterTest('ACBrComum.ACBrUtil.DateTime', Iso8601ToDateTimeTest);
+  _RegisterTest('ACBrComum.ACBrUtil.DateTime', EncodeDataHoraTest);
   {$IfDef FPC}
   _RegisterTest('ACBrComum.ACBrUtil.DateTime', StrHasTimeZoneTest);
   {$EndIf}
