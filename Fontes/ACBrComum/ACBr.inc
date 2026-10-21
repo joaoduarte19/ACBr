@@ -56,6 +56,8 @@
 {$DEFINE DFE_SEM_CAPICOM}
 // Descomente a linha abaixo, se você não utiliza a obsoleta MSXML para Assinatura de XML (RECOMENDADO)
 {$DEFINE DFE_SEM_MSXML}
+// Descomente a linha abaixo, se você está numa versão antiga do Windows como XP ou CE (NAO RECOMENDADO)
+{.$DEFINE DFE_SEM_WINSECCNG}
 // Descomente a linha abaixo, se você não deseja adicionar a Dependência da INDY nos seus Projetos
 {.$DEFINE DFE_SEM_INDY}
 // Descomente a linha abaixo, se você deseja que sejam utilizadas as classes baseadas na ACBrXMLDocument
@@ -152,6 +154,7 @@
 {$IFNDEF MSWINDOWS}   // Linux, apenas OpenSSL, sem Capicom
   {$DEFINE DFE_SEM_CAPICOM}
   {$DEFINE DFE_SEM_MSXML}
+  {$DEFINE DFE_SEM_WINSECCNG}
   {$DEFINE DFE_SEM_INDY}
   {$UnDef STDCALL}
 {$ENDIF}
@@ -214,6 +217,7 @@
     {$UNDEF VCL}
     {$DEFINE DFE_SEM_CAPICOM}
     {$DEFINE DFE_SEM_MSXML}
+    {$DEFINE DFE_SEM_WINSECCNG}
     {$UNDEF USE_DELAYED}
     {$LEGACYIFEND ON}
   {$ENDIF}
