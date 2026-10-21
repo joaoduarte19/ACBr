@@ -43,6 +43,15 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 21/10/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-10087 - Alteração de Provedor para o município de Nova Olimpia/MT
+   Veja: https://www.projetoacbr.com.br/forum/topic/95457-acbr-10087-alterar-provedor-de-nova-olimpia-mt/
+   Por: Diego Reckziegel
+[*] Atualiza a URL de homologação para o novo endereço publicado em aviso do provedor
+   Por: Diego Folieni
+[-] Corrige a URL de produção de São Joaquim da Barra/SP
+   Por: Diego Folieni
+
 -- Giss.GravarXml --
 [-] Ajuste para que a tag tribFed que é opcional de acordo com o schema não seja gerada vazia quando nada informado.
    Por: Diego Folieni
