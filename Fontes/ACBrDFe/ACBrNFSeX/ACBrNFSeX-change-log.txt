@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+21/10/2026
+-- Giss.GravarXml --
+[-] Ajuste para que a tag tribFed que é opcional de acordo com o schema não seja gerada vazia quando nada informado.
+   Por: Diego Folieni
+
 20/10/2026
 -- ACBrNFSeXProviderABRASFv2/ACBrNFSeXLerXml_ABRASFv2/ACBrNFSeXWebservicesResponse --
 [*] ACBR-9931 - Alteração visando o retorno da Chave de Acesso Nacional ao ler o retorno da 

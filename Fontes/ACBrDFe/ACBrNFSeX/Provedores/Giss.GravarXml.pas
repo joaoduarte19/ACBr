@@ -378,10 +378,13 @@ end;
 
 function TNFSeW_Giss204.GerarXMLTributacaoFederal: TACBrXmlNode;
 begin
-  Result := CreateElement('tribFed');
+  Result := nil;
 
   if NFSe.Servico.Valores.tribFed.CST <> cstVazio then
+  begin
+    Result := CreateElement('tribFed');
     Result.AppendChild(GerarXMLTributacaoOutrosPisCofins);
+  end;
   {
   if (NFSe.Servico.Valores.tribFed.vRetCP > 0) or
      (NFSe.Servico.Valores.tribFed.vRetIRRF > 0) or
