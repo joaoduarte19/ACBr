@@ -103,7 +103,9 @@ contains
   
     ACBrDFeCry.WinUtils in '..\..\..\Fontes\ACBrDFe\ACBrDFeCry.WinUtils.pas',
     ACBRDFeWinCrypt in '..\..\..\Fontes\ACBrDFe\ACBRDFeWinCrypt.pas',
+    {$IfNDef DFE_SEM_WINSECCNG}
     ACBrDFeWinSecCNG in '..\..\..\Fontes\ACBrDFe\ACBrDFeWinSecCNG.pas',
+    {$EndIf}
     ACBrDFeHttpWinApi in '..\..\..\Fontes\ACBrDFe\ACBrDFeHttpWinApi.pas',
     
     {$IfNDef DFE_SEM_MSXML}

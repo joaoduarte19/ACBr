@@ -524,7 +524,9 @@ uses
   {$EndIf}
   {$IfDef MSWINDOWS}
    ,ACBrDFeWinCrypt, ACBrDFeHttpWinApi, ACBrDFeCry.WinUtils
+   {$IfNDef DFE_SEM_WINSECCNG}
    ,ACBrDFeWinSecCNG
+   {$EndIf}
    {$IfNDef DFE_SEM_MSXML}
     ,ACBrDFeXsMsXml
    {$EndIf}
@@ -1882,11 +1884,11 @@ begin
 
     cryCNGCrypt:
     begin
-      {$IfDef MSWINDOWS}
+      {$IfNDef DFE_SEM_WINSECCNG}
        FreeSSLCryptLib;
        FSSLCryptClass := TDFeWinSecCNGCrypt.Create(Self);
       {$Else}
-       raise EACBrDFeException.Create('Suporte a libWinCrypt disponível apenas em MSWINDOWS');
+       raise EACBrDFeException.Create('Suporte a WinSecCNGCrypt foi desativado por compilação {$DEFINE DFE_SEM_WINSECCNG} ');
       {$EndIf}
     end;
 

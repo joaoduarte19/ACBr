@@ -12913,7 +12913,7 @@ object frmPrincipal: TfrmPrincipal
         end
         object ckbRemoveXMLSec: TCheckBox
           Left = 262
-          Top = 16
+          Top = 14
           Width = 227
           Height = 17
           Hint = '*Recomendado Desabilita o usa da DLL XMLSec'
@@ -12938,19 +12938,17 @@ object frmPrincipal: TfrmPrincipal
         object ckbRemoverCastWarnings: TCheckBox
           Left = 6
           Top = 79
-          Width = 379
+          Width = 203
           Height = 17
           Hint = 
             '*Recomendado marcar caso n'#227'o esteja resolvendo problemas com str' +
             'ings.'
-          Caption = 
-            'Remover Warnings de CAST causados por WideString/String/AnsiStri' +
-            'ng'
+          Caption = 'Remover Warnings de CAST em strings'
           ParentShowHint = False
           ShowHint = True
           TabOrder = 6
         end
-        object ckbNaoUtilizarMsXML: TCheckBox
+        object ckbRemoveMsXML: TCheckBox
           Left = 6
           Top = 58
           Width = 227
@@ -12977,17 +12975,30 @@ object frmPrincipal: TfrmPrincipal
         object ckbInstalarNaIDE64Bits: TCheckBox
           Left = 6
           Top = 100
-          Width = 400
+          Width = 227
           Height = 17
           Hint = 
             'Registra os pacotes Win64 na IDE de 64 bits do Delphi (dispon'#237've' +
             'l a partir do Delphi 12.3). Requer a plataforma Win64 marcada.'
-          Caption = 'Instalar tamb'#233'm na IDE 64 bits (se houver suporte)'
+          Caption = 'Instalar na IDE 64 bits (se houver suporte)'
           Checked = True
           ParentShowHint = False
           ShowHint = True
           State = cbChecked
-          TabOrder = 9
+          TabOrder = 8
+        end
+        object ckbRemoveSecCNG: TCheckBox
+          Left = 262
+          Top = 81
+          Width = 280
+          Height = 17
+          Hint = 
+            'Registra os pacotes Win64 na IDE de 64 bits do Delphi (dispon'#237've' +
+            'l a partir do Delphi 12.3). Requer a plataforma Win64 marcada.'
+          Caption = 'N'#227'o utilizar WinSec CNG (Marcar para Windows XP/CE)'
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 7
         end
       end
       object grpInstalacao: TGroupBox

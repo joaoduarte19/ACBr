@@ -65,6 +65,7 @@ type
     DeveInstalarOpenSSL: Boolean;
     DeveInstalarXMLSec: Boolean;
     DeveInstalarMsXML: Boolean;
+    DeveInstalarWinSecCNG: Boolean;
     UsarCargaTardiaDLL: Boolean;
     RemoverStringCastWarnings: Boolean;
     DeveSobrescreverDllsExistentes: Boolean;
@@ -72,7 +73,7 @@ type
     UsarExportadorFRPNG: Boolean;
     UsarACBrXmlDocument: Boolean;
   public
-    procedure DesligarDefines(const ArquivoACBrInc: TFileName);
+    procedure AtualizarDefinesNoArquivoACBrinc(const ArquivoACBrInc: TFileName);
     procedure RedefinirValoresOpcoesParaPadrao;
     procedure CarregarDeArquivoIni(const ArquivoIni: string);
     procedure SalvarEmArquivoIni(const ArquivoIni: string);
@@ -1117,7 +1118,7 @@ function TACBrInstallComponentes.Instalar(ListaPacotes: TPacotes; ListaVersoesIn
 var
   I: Integer;
 begin
-  OpcoesCompilacao.DesligarDefines(OpcoesInstall.DiretorioRaizACBr + 'Fontes\ACBrComum\ACBr.inc');
+  OpcoesCompilacao.AtualizarDefinesNoArquivoACBrinc(OpcoesInstall.DiretorioRaizACBr + 'Fontes\ACBrComum\ACBr.inc');
   FJaCopiouDLLs := False;
   FJaFezLimpezaArquivoACBrAntigos := False;
   FIDEsLimpasNestaExecucao.Clear;
@@ -1885,6 +1886,7 @@ begin
 //    DeveInstalarOpenSSL       := ArqIni.ReadBool('CONFIG','InstalaOpenSSL', DeveInstalarOpenSSL);
 //    DeveInstalarXMLSec        := False;
     DeveInstalarMsXML         := ArqIni.ReadBool('CONFIG','InstalaMsXML', DeveInstalarMsXML);
+    DeveInstalarWinSecCNG     := True;
     UsarCargaTardiaDLL        := ArqIni.ReadBool('CONFIG','CargaDllTardia', True);
     RemoverStringCastWarnings := ArqIni.ReadBool('CONFIG','RemoverCastWarnings', RemoverStringCastWarnings);
     DeveSobrescreverDllsExistentes := ArqIni.ReadBool('CONFIG','SobrescreverDLL', DeveSobrescreverDllsExistentes);;
@@ -1907,6 +1909,7 @@ begin
     ArqIni.WriteBool('CONFIG','InstalaCapicom', DeveInstalarCapicom);
 //    ArqIni.WriteBool('CONFIG','InstalaXmlSec', DeveInstalarXMLSec);
     ArqIni.WriteBool('CONFIG','InstalaMsXML', DeveInstalarMsXML);
+    ArqIni.WriteBool('CONFIG','InstalaWinSecCNG', DeveInstalarWinSecCNG);
     ArqIni.WriteBool('CONFIG','CargaDllTardia', UsarCargaTardiaDLL);
     ArqIni.WriteBool('CONFIG','RemoverCastWarnings', RemoverStringCastWarnings);
     ArqIni.WriteBool('CONFIG','SobrescreverDLL', DeveSobrescreverDllsExistentes);
@@ -1919,7 +1922,7 @@ begin
 
 end;
 
-procedure TACBrCompilerOpcoes.DesligarDefines(const ArquivoACBrInc: TFileName);
+procedure TACBrCompilerOpcoes.AtualizarDefinesNoArquivoACBrinc(const ArquivoACBrInc: TFileName);
 var
   LTempFile: TStringList;
   LConteudoOriginal: string;
@@ -1932,6 +1935,8 @@ begin
     DesligarDefineACBrInc(LTempFile, 'DFE_SEM_CAPICOM', not DeveInstalarCapicom);
     DesligarDefineACBrInc(LTempFile, 'DFE_SEM_XMLSEC', not DeveInstalarXMLSec);
     DesligarDefineACBrInc(LTempFile, 'DFE_SEM_MSXML', not DeveInstalarMsXML);
+    DesligarDefineACBrInc(LTempFile, 'DFE_SEM_WINSECCNG', not DeveInstalarWinSecCNG);
+
     DesligarDefineACBrInc(LTempFile, 'USE_DELAYED', UsarCargaTardiaDLL);
     DesligarDefineACBrInc(LTempFile, 'REMOVE_CAST_WARN', RemoverStringCastWarnings);
     DesligarDefineACBrInc(LTempFile, 'USE_EXPORT_FR_SVG', UsarExportadorFRSVG);
@@ -1959,6 +1964,7 @@ begin
   UsarExportadorFRSVG            := False;
   UsarExportadorFRPNG            := False;
   UsarACBrXmlDocument            := False;
+  DeveInstalarWinSecCNG := True;
 end;
 
 
