@@ -162,7 +162,7 @@
         </Formats>
       </TfrxMemoView>
       <TfrxPictureView Name="ImgEmvQrcode" AllowVectorExport="True" Left="400,63018" Top="72,5906" Width="113,38582677" Height="113,38582677" OnBeforePrint="ImgEmvQrcodeOnBeforePrint" Frame.Typ="0" HightQuality="False" Transparent="False" TransparentColor="16777215"/>
-      <TfrxMemoView Name="Memo152" AllowVectorExport="True" Left="3,77953" Top="188,9765" Width="706,77211" Height="22,67718" StretchMode="smMaxHeight" Font.Charset="1" Font.Color="0" Font.Height="-9" Font.Name="Arial" Font.Style="0" Frame.Typ="0" ParentFont="False" WordBreak="True" Text="[Titulo.&#34;EMV&#34;]"/>
+      <TfrxMemoView Name="Memo152" AllowVectorExport="True" Left="3,77953" Top="188,9765" Width="706,77211" Height="22,67718" Font.Charset="1" Font.Color="0" Font.Height="-9" Font.Name="Arial" Font.Style="0" Frame.Typ="0" ParentFont="False" WordBreak="True" Text="[Titulo.&#34;EMV&#34;]"/>
     </TfrxMasterData>
   </TfrxReportPage>
 </TfrxReport>
