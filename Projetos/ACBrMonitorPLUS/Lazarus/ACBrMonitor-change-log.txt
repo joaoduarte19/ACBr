@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+22/10/2026
+-- DoACBrNFeUnit --
+[-] Melhora condição dos métodos de impressão e PDF para gerar corretamente a ViaConsumidor/ViaEstabelecimento quando DANFe Simplificado Tipo 2
+   Por: Diego Folieni
+
 19/10/2026
 -- DoACBrMDFeUnit --
 [-] ACBR-10070 - MDFe - Corrigido tratamento de erro nos comandos SetFormaEmissao e SetTipoImpressao 
