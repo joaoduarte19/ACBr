@@ -824,7 +824,17 @@ begin
       if (ValorLiquidoNfse > 0) and (ValorServicos <= 0) then
          ValorServicos := ValorLiquidoNfse;
 
-      RetencoesFederais := ValorIr + ValorInss + ValorPis + ValorCofins + ValorCsll;
+      case tribFed.tpRetPisCofins of
+        trpiscofinscsllNaoRetido:
+          RetencoesFederais := ValorInss + ValorIr;
+
+        trpiscofinscsllRetido, trpiscofinsRetidocsllNaoRetido, trPisRetidoCofinsCsllNaoRetido,
+          trCofinsRetidoPisCsllNaoRetido, trCofinsCsllRetidoPisNaoRetido,
+          trCsllRetidoPisCofinsNaoRetido, trPisCsllRetidoCofinsNaoRetido:
+          RetencoesFederais := ValorInss + ValorIr + tribFed.vRetCSLL;
+      else
+        RetencoesFederais := ValorInss + ValorIr + ValorPis + ValorCofins + ValorCsll;
+      end;
 
       ValorTotalNotaFiscal := ValorServicos - DescontoCondicionado - DescontoIncondicionado;
     end;

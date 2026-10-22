@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/10/2026
+-- Centi.LerXml --
+[-] ACBR-10016 - Correção no calculo do campo RetencoesFederais.
+   Por: Diego Reckziegel
 -- ACBrNFSeXProviderBase --
 [*] ACBR-10036 - Alterações visando não gerar as pastas quando as propriedades de configuração
     não estão ativadas para salvar os arquivos em disco.
