@@ -309,6 +309,7 @@ function TNFSeR_ISSSaoPaulo.LerXmlNfse(const ANode: TACBrXmlNode): Boolean;
 var
   LValor: string;
   LOk :Boolean;
+  LUF: string;
 begin
   Result := True;
 
@@ -427,8 +428,25 @@ begin
 
   NFSe.Servico.CodigoMunicipio := ObterConteudo(ANode.Childrens.FindAnyNs('MunicipioPrestacao'), tcStr);
 
+  NFSe.Servico.xMunicipioIncidencia := '';
+  if NFSe.Servico.MunicipioIncidencia > 0 then
+  begin
+    LUF := '';
+    NFSe.Servico.xMunicipioIncidencia := ObterNomeMunicipioUF(NFSe.Servico.MunicipioIncidencia, LUF);
+  end;
+
   if NFSe.Servico.CodigoMunicipio = '' then
     NFSe.Servico.CodigoMunicipio := NFSe.Prestador.Endereco.CodigoMunicipio;
+
+  NFSe.Servico.MunicipioPrestacaoServico := '';
+  if StrToIntDef(NFSe.Servico.CodigoMunicipio, 0) > 0 then
+  begin
+    LUF := '';
+    NFSe.Servico.MunicipioPrestacaoServico := ObterNomeMunicipioUF(StrToIntDef(NFSe.Servico.CodigoMunicipio, 0), LUF);
+
+    if (NFSe.Servico.MunicipioPrestacaoServico <> '') and (LUF <> '') then
+      NFSe.Servico.MunicipioPrestacaoServico := NFSe.Servico.MunicipioPrestacaoServico + '/' + LUF;
+  end;
 
   NFSe.ConstrucaoCivil.nNumeroEncapsulamento := ObterConteudo(ANode.Childrens.FindAnyNs('NumeroEncapsulamento'), tcStr);
   NFSe.Servico.ValorTotalRecebido := ObterConteudo(ANode.Childrens.FindAnyNs('ValorTotalRecebido'), tcDe2);

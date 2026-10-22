@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/10/2026
+-- ISSSaoPaulo.LerXml --
+[-] ACBR-10039 - Correção para imprimir o município da prestação e de incidência.
+   Por: Fabio Tellini
 -- ACBrNFSeXProviderBase/Agili.Provider/TaxTecnologia.Provider --
 -- Tecnos.Provider/VersaTecnologia.Provider --
 [*] ACBR-3035 - Alterações visando resolver o problema de valores duplicados na função de conversão
