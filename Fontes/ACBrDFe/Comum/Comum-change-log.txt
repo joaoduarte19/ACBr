@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+22/10/2026
+-- ACBrDFeComum.Inut/ACBrDFeComum.RetInut --
+[+] Implementação de novas units para enviar o pedido de inutilização e leitura do retorno genérica
+    pode ser utilizada tanto no CT-e quanto na NF-e/NFC-e.
+   Por: Italo Giurizzato Junior
+
 17/09/2026
 -- ACBrDFeComum.ConsStatServ/ACBrDFeComum.DistDFeInt/ACBrDFeComum.RetDistDFeInt --
 [*] Troca da unit pcnConversao por ACBrDFe.Conversao
