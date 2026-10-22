@@ -38,6 +38,7 @@ interface
 
 uses
   SysUtils, Classes, Variants,
+  ACBrBase,
   ACBrDFeSSL,
   ACBrXmlBase, ACBrXmlDocument,
   ACBrNFSeXNotasFiscais,
@@ -45,6 +46,9 @@ uses
   ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
   ACBrNFSeXProviderProprio,
   ACBrNFSeXWebserviceBase, ACBrNFSeXWebservicesResponse;
+
+const
+  EnumsResponsavelRetencaoSuportadosAgili = [rtTomador, rtPrestador, rtIntermediario];
 
 type
   TACBrNFSeXWebserviceAgili = class(TACBrNFSeXWebserviceNoSoap)
@@ -96,6 +100,7 @@ type
                                      const AListTag: string = '';
                                      const AMessageTag: string = 'Erro'); override;
 
+    function EnumeradoResponsavelRetencaoEhSuportado(const t: TnfseResponsavelRetencao): Boolean;
   public
     function SimNaoToStr(const t: TnfseSimNao): string; override;
     function StrToSimNao(out ok: boolean; const s: string): TnfseSimNao; override;
@@ -117,6 +122,7 @@ type
 implementation
 
 uses
+  TypInfo,
   ACBrDFe.Conversao,
   ACBrUtil.Base, ACBrUtil.XMLHTML, ACBrUtil.Strings,
   ACBrDFeException,
@@ -216,6 +222,12 @@ begin
   end;
 end;
 
+function TACBrNFSeProviderAgili.EnumeradoResponsavelRetencaoEhSuportado(
+  const t: TnfseResponsavelRetencao): Boolean;
+begin
+  Result := (t in EnumsResponsavelRetencaoSuportadosAgili);
+end;
+
 function TACBrNFSeProviderAgili.RegimeEspecialTributacaoDescricao(
   const t: TnfseRegimeEspecialTributacao): string;
 begin
@@ -248,6 +260,10 @@ end;
 function TACBrNFSeProviderAgili.ResponsavelRetencaoToStr(
   const t: TnfseResponsavelRetencao): string;
 begin
+  if not EnumeradoResponsavelRetencaoEhSuportado(t) then
+    raise EACBrException.Create('Valor inválido para TnfseResponsavelRetencao: '+
+      GetEnumName(TypeInfo(TnfseResponsavelRetencao), Ord(t)) );
+
   result := EnumeradoToStr(t, ['-1', '-2', '-3'],
                            [rtTomador, rtIntermediario, rtPrestador]);
 end;

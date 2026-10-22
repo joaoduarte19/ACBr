@@ -38,6 +38,7 @@ interface
 
 uses
   SysUtils, Classes,
+  ACBrBase,
   ACBrXmlBase,
   ACBrXmlDocument,
   ACBrNFSeXClass,
@@ -47,6 +48,9 @@ uses
   ACBrNFSeXProviderABRASFv2,
   ACBrNFSeXWebserviceBase,
   ACBrNFSeXWebservicesResponse;
+
+const
+  EnumsResponsavelRetencaoSuportadosTecnos = [rtTomador, rtIntermediario, rtNenhum];
 
 type
   TACBrNFSeXWebserviceTecnos201 = class(TACBrNFSeXWebserviceSoap11)
@@ -91,6 +95,7 @@ type
                                      const AListTag: string = 'ListaMensagemRetorno';
                                      const AMessageTag: string = 'MensagemRetorno'); override;
 
+    function EnumeradoResponsavelRetencaoEhSuportado(const t: TnfseResponsavelRetencao): Boolean;
   public
     function RegimeEspecialTributacaoToStr(const t: TnfseRegimeEspecialTributacao): string; override;
     function StrToRegimeEspecialTributacao(out ok: boolean; const s: string): TnfseRegimeEspecialTributacao; override;
@@ -104,6 +109,7 @@ type
 implementation
 
 uses
+  TypInfo,
   DateUtils,
   ACBrDFe.Conversao,
   ACBrUtil.Strings,
@@ -576,6 +582,12 @@ begin
   end;
 end;
 
+function TACBrNFSeProviderTecnos201.EnumeradoResponsavelRetencaoEhSuportado(
+  const t: TnfseResponsavelRetencao): Boolean;
+begin
+  Result := (t in EnumsResponsavelRetencaoSuportadosTecnos);
+end;
+
 function TACBrNFSeProviderTecnos201.RegimeEspecialTributacaoToStr(
   const t: TnfseRegimeEspecialTributacao): string;
 begin
@@ -617,6 +629,10 @@ end;
 function TACBrNFSeProviderTecnos201.ResponsavelRetencaoToStr(
   const t: TnfseResponsavelRetencao): string;
 begin
+  if not EnumeradoResponsavelRetencaoEhSuportado(t) then
+    raise EACBrException.Create('Valor inválido para TnfseResponsavelRetencao: '+
+      GetEnumName(TypeInfo(TnfseResponsavelRetencao), Ord(t)) );
+
   Result := EnumeradoToStr(t,
                              ['1', '2', '3'],
                              [rtNenhum, rtTomador, rtIntermediario]);

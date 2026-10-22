@@ -49,6 +49,9 @@ uses
   ACBrNFSeXWebserviceBase,
   ACBrNFSeXWebservicesResponse;
 
+const
+  EnumsResponsavelRetencaoSuportadosVersaTecnologia = [rtTomador, rtPrestador, rtNenhum];
+
 type
   TACBrNFSeXWebserviceVersaTecnologia200 = class(TACBrNFSeXWebserviceSoap11)
   private
@@ -79,6 +82,8 @@ type
     function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
     function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
+
+    function EnumeradoResponsavelRetencaoEhSuportado(const t: TnfseResponsavelRetencao): Boolean;
   public
     function ResponsavelRetencaoToStr(const t: TnfseResponsavelRetencao): string; override;
     function StrToResponsavelRetencao(out ok: boolean; const s: string): TnfseResponsavelRetencao; override;
@@ -124,6 +129,7 @@ type
 implementation
 
 uses
+  TypInfo,
   ACBrDFe.Conversao,
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML,
@@ -184,6 +190,12 @@ begin
   end;
 end;
 
+function TACBrNFSeProviderVersaTecnologia200.EnumeradoResponsavelRetencaoEhSuportado(
+  const t: TnfseResponsavelRetencao): Boolean;
+begin
+  Result := (t in EnumsResponsavelRetencaoSuportadosVersaTecnologia);
+end;
+
 function TACBrNFSeProviderVersaTecnologia200.ResponsavelRetencaoDescricao(
   const t: TnfseResponsavelRetencao): string;
 begin
@@ -198,9 +210,13 @@ end;
 function TACBrNFSeProviderVersaTecnologia200.ResponsavelRetencaoToStr(
   const t: TnfseResponsavelRetencao): string;
 begin
+  if not EnumeradoResponsavelRetencaoEhSuportado(t) then
+    raise EACBrException.Create('Valor inválido para TnfseResponsavelRetencao: '+
+      GetEnumName(TypeInfo(TnfseResponsavelRetencao), Ord(t)) );
+
   Result := EnumeradoToStr(t,
-                           ['1', '2', '', ''],
-                           [rtTomador, rtPrestador, rtIntermediario, rtNenhum]);
+                           ['1', '2', ''],
+                           [rtTomador, rtPrestador, rtNenhum]);
 end;
 
 function TACBrNFSeProviderVersaTecnologia200.StrToResponsavelRetencao(

@@ -42,6 +42,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+22/10/2026
+-- ACBrNFSeXProviderBase/Agili.Provider/TaxTecnologia.Provider --
+-- Tecnos.Provider/VersaTecnologia.Provider --
+[*] ACBR-3035 - Alterações visando resolver o problema de valores duplicados na função de conversão
+    StrToResponsavelRetencao.
+   Por: Elton Barbosa/Italo Giurizzato Junior
+
 21/10/2026
 -- ACBrNFSeXServicos --
 [*] ACBR-10087 - Alteração de Provedor para o município de Nova Olimpia/MT

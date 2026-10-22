@@ -49,6 +49,9 @@ uses
   ACBrNFSeXWebserviceBase,
   ACBrNFSeXWebservicesResponse;
 
+const
+  EnumsResponsavelRetencaoSuportadosTaxTecnologia = [rtTomador, rtPrestador, rtNenhum];
+
 type
   TACBrNFSeXWebserviceTaxTecnologia204 = class(TACBrNFSeXWebserviceSoap11)
   private
@@ -82,6 +85,8 @@ type
 
     procedure GerarMsgDadosCancelaNFSe(Response: TNFSeCancelaNFSeResponse;
       Params: TNFSeParamsResponse); override;
+
+    function EnumeradoResponsavelRetencaoEhSuportado(const t: TnfseResponsavelRetencao): Boolean;
   public
     function GetSchemaPath: string; override;
 
@@ -93,6 +98,7 @@ type
 implementation
 
 uses
+  TypInfo,
   ACBrDFe.Conversao,
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML,
@@ -240,6 +246,12 @@ begin
   end;
 end;
 
+function TACBrNFSeProviderTaxTecnologia204.EnumeradoResponsavelRetencaoEhSuportado(
+  const t: TnfseResponsavelRetencao): Boolean;
+begin
+  Result := (t in EnumsResponsavelRetencaoSuportadosTaxTecnologia);
+end;
+
 function TACBrNFSeProviderTaxTecnologia204.ResponsavelRetencaoDescricao(
   const t: TnfseResponsavelRetencao): string;
 begin
@@ -254,9 +266,14 @@ end;
 function TACBrNFSeProviderTaxTecnologia204.ResponsavelRetencaoToStr(
   const t: TnfseResponsavelRetencao): string;
 begin
+  if not EnumeradoResponsavelRetencaoEhSuportado(t) then
+    raise EACBrException.Create('Valor inválido para TnfseResponsavelRetencao: '+
+      GetEnumName(TypeInfo(TnfseResponsavelRetencao), Ord(t)) );
+
+
   Result := EnumeradoToStr(t,
-                           ['1', '2', '', ''],
-                           [rtTomador, rtPrestador, rtIntermediario, rtNenhum]);
+                           ['1', '2', ''],
+                           [rtTomador, rtPrestador, rtNenhum]);
 end;
 
 function TACBrNFSeProviderTaxTecnologia204.StrToResponsavelRetencao(
