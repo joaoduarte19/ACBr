@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/10/2026
+-- Centi.GravarXml --
+[-] ACBR-9943 - Alterado a formatação do ItemListaServico para filsNaoSeAplica, desta forma
+    o que for informado no campo ItemListaServico é o que vai constar no XML.
+   Por: Italo Giurizzato Junior
 -- Centi.LerXml --
 [-] ACBR-10016 - Correção no calculo do campo RetencoesFederais.
    Por: Diego Reckziegel

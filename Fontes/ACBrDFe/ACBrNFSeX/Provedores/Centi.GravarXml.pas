@@ -80,7 +80,7 @@ begin
   FormatoEmissao := tcDatHor;
   FormatoCompetencia := tcDatHor;
   FormatoAliq := tcDe2;
-  FormatoItemListaServico := filsSemFormatacaoSemZeroEsquerda;
+  FormatoItemListaServico := filsNaoSeAplica;
 
   if FpAOwner.ConfigGeral.Params.TemParametro('NaoFormatarItemServico') then
     FormatoItemListaServico := filsSemFormatacao;
