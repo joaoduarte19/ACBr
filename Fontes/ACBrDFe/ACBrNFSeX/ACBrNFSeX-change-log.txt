@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/10/2026
+-- ACBrNFSeXProviderBase --
+[*] ACBR-10036 - Alterações visando não gerar as pastas quando as propriedades de configuração
+    não estão ativadas para salvar os arquivos em disco.
+   Por: Alex Heinen
 -- ISSSaoPaulo.LerXml --
 [-] ACBR-10039 - Correção para imprimir o município da prestação e de incidência.
    Por: Fabio Tellini

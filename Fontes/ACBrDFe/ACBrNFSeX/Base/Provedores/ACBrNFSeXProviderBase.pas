@@ -1158,15 +1158,16 @@ begin
   else
     Data := Now;
 
-  aPath := aConfig.Arquivos.GetPathNFSe(Data, aConfig.Geral.Emitente.CNPJ,
-                        aConfig.Geral.Emitente.DadosEmitente.InscricaoEstadual);
-
-  aNomeArq := TACBrNFSeX(FAOwner).GetNumID(aNota.NFSe) + '-nfse.xml';
-  aNota.NomeArq := PathWithDelim(aPath) + aNomeArq;
   aNota.Confirmada := True;
 
   if FAOwner.Configuracoes.Arquivos.Salvar then
   begin
+    aPath := aConfig.Arquivos.GetPathNFSe(Data, aConfig.Geral.Emitente.CNPJ,
+                        aConfig.Geral.Emitente.DadosEmitente.InscricaoEstadual);
+
+    aNomeArq := TACBrNFSeX(FAOwner).GetNumID(aNota.NFSe) + '-nfse.xml';
+    aNota.NomeArq := PathWithDelim(aPath) + aNomeArq;
+
     case ConfigGeral.FormatoArqNota of
       tfaJson:
         Extensao := '.json';
@@ -1212,14 +1213,14 @@ var
 begin
   aConfig := TConfiguracoesNFSe(FAOwner.Configuracoes);
 
-  aPath := aConfig.Arquivos.GetPathNFSe(0, aConfig.Geral.Emitente.CNPJ,
-                        aConfig.Geral.Emitente.DadosEmitente.InscricaoEstadual);
-
-  aNomeArq := NumeroNFSe + '-nfse.xml';
-  aNomeArq := PathWithDelim(aPath) + aNomeArq;
-
   if FAOwner.Configuracoes.Arquivos.Salvar then
   begin
+    aPath := aConfig.Arquivos.GetPathNFSe(0, aConfig.Geral.Emitente.CNPJ,
+                        aConfig.Geral.Emitente.DadosEmitente.InscricaoEstadual);
+
+    aNomeArq := NumeroNFSe + '-nfse.xml';
+    aNomeArq := PathWithDelim(aPath) + aNomeArq;
+
     case ConfigGeral.FormatoArqNota of
       tfaJson:
         Extensao := '.json';
@@ -1277,13 +1278,13 @@ var
 begin
   aConfig := TConfiguracoesNFSe(FAOwner.Configuracoes);
 
-  aPath := aConfig.Arquivos.GetPathEvento(DataProc, aConfig.Geral.Emitente.CNPJ,
-                        aConfig.Geral.Emitente.DadosEmitente.InscricaoEstadual);
-
-  aNomeArq := PathWithDelim(aPath) + aNome + '.xml';
-
   if FAOwner.Configuracoes.Arquivos.Salvar then
   begin
+    aPath := aConfig.Arquivos.GetPathEvento(DataProc, aConfig.Geral.Emitente.CNPJ,
+                        aConfig.Geral.Emitente.DadosEmitente.InscricaoEstadual);
+
+    aNomeArq := PathWithDelim(aPath) + aNome + '.xml';
+
     case ConfigGeral.FormatoArqEvento of
       tfaJson:
         Extensao := '.json';
@@ -1323,13 +1324,13 @@ var
 begin
   aConfig := TConfiguracoesNFSe(FAOwner.Configuracoes);
 
-  aPath := aConfig.Arquivos.GetPathCan(0, aConfig.Geral.Emitente.CNPJ,
-                        aConfig.Geral.Emitente.DadosEmitente.InscricaoEstadual);
-
-  aNomeArq := PathWithDelim(aPath) + aNome + '.xml';
-
   if FAOwner.Configuracoes.Arquivos.Salvar then
   begin
+    aPath := aConfig.Arquivos.GetPathCan(0, aConfig.Geral.Emitente.CNPJ,
+                        aConfig.Geral.Emitente.DadosEmitente.InscricaoEstadual);
+
+    aNomeArq := PathWithDelim(aPath) + aNome + '.xml';
+
     case ConfigGeral.FormatoArqEvento of
       tfaJson:
         Extensao := '.json';
