@@ -44,6 +44,8 @@ Símbolo : Significado
 
 23/10/2026
 -- ACBrNFSeXServicos --
+[-] A cidade de Carazinho/RS aderiu ao padrão nacional.
+   Por: Suporte OTT Sistemas
 [*] ACBR-10103 - Troca de provedor para o município de Ibirama/SC agora é IPM
 	Por: Alex Miranda
 [*] ACBR-10078 - Mudança de URLs e migração para o Layout Nacional no município de Cocalinho/MT
