@@ -42,6 +42,20 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/10/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-10103 - Troca de provedor para o município de Ibirama/SC agora é IPM
+	Por: Alex Miranda
+[*] ACBR-10078 - Mudança de URLs e migração para o Layout Nacional no município de Cocalinho/MT
+	Veja: https://discord.com/channels/798697718800318484/800042186783588364/1562404972392489010
+	Por: Diego Reckziegel
+[*] ACBR-10100 - O município de Gravatal não aderiu ao Padrão Nacional. Está utilizando o Provedor IPM
+	Veja: https://www.projetoacbr.com.br/forum/topic/95493-acbr-10100-gravatal-sc-provedor-correto-%C3%A9-ipm/
+	Por: dsky
+[*] ACBR-10092 - Mudança de URLs e migração para o Layout Nacional no município de Areado/MG
+	Veja: https://discord.com/channels/798697718800318484/800042186783588364/1562404972392489010
+	Por: Ronas
+
 22/10/2026
 -- Centi.GravarXml --
 [-] ACBR-9943 - Alterado a formatação do ItemListaServico para filsNaoSeAplica, desta forma
