@@ -45,6 +45,10 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+23/10/2026
+-- ACBrPAF_H_Class.pas, ACBrPAF_S_Class.pas --
+[*] Ajustes campos alfanumericos.
+    por : Larissa Santos
 
 23/09/2018
 -- ACBrPAF_J_Class

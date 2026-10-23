@@ -37,7 +37,7 @@ unit ACBrPAF_S_Class;
 interface
 
 uses SysUtils, Classes, DateUtils, ACBrTXTClass, ACBrPAFRegistros,
-     ACBrPAF_S;
+     ACBrPAF_S, ACBrUtil.Strings;
 
 type
 
@@ -123,7 +123,7 @@ begin
         if Layout = lpPAFECF then
         begin
           Add( LFill('S2') +
-               LFill(CNPJ, 14) +
+               LFill(OnlyCPFCNPJAlphaNum(CNPJ), 14) +
                LFill(DT_ABER, 'yyyymmddhhnnss') +
                //RFill(SITU, 1) +
                RFill(NUM_MESA, 13, ifThen(RegistroValido, ' ', '?')) +
@@ -135,7 +135,7 @@ begin
         else
         begin
           Add( LFill('S2') +
-               LFill(CNPJ, 14) +
+               LFill(OnlyCPFCNPJAlphaNum(CNPJ), 14) +
                LFill(DT_ABER, 'yyyymmddhhnnss') +
                RFill(NUM_MESA, 13, ifThen(RegistroValido, ' ', '?')) +
                LFill(VL_TOT, 13, 2) +
@@ -162,7 +162,7 @@ begin
       with RegS2.RegistroS3.Items[intFor] do
       begin
         Add( LFill('S3') +
-             LFill(RegS2.CNPJ, 14) +
+             LFill(OnlyCPFCNPJAlphaNum(RegS2.CNPJ), 14) +
              LFill(RegS2.DT_ABER, 'yyyymmddhhnnss') +
              RFill(NUM_MESA, 13, ifThen(RegistroValido, ' ', '?')) +
              RFill(COD_ITEM, 14) +

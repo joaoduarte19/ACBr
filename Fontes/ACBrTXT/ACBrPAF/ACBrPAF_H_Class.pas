@@ -117,7 +117,7 @@ begin
         Check(funChecaIE(IE, UF), '(H1) ESTABELECIMENTO: A Inscrição Estadual "%s" digitada é inválida!', [IE]);
 
         Add(LFill('H1') +
-            LFill(OnlyNumber(CNPJ), 14) +
+            LFill(OnlyCPFCNPJAlphaNum(CNPJ), 14) +
             RFill(IE, 14) +
             RFill(IM, 14) +
             RFill(RAZAOSOCIAL, 50, ifThen(not InclusaoExclusao, ' ', '?')) +
@@ -168,7 +168,7 @@ begin
       with FRegistroH2.Items[intFor] do
       begin
         Add( LFill('H2') +
-             LFill(OnlyNumber(CNPJ_CRED_CARTAO), 14) +
+             LFill(OnlyCPFCNPJAlphaNum(CNPJ_CRED_CARTAO), 14) +
              RFill(NUM_FAB, 20) +
              RFill(MF_ADICIONAL, 1) +
              RFill(TIPO_ECF, 7) +
@@ -179,9 +179,9 @@ begin
              LFill(CCF, 9) +
              LFill(VLR_TROCO, 13) +
              LFill(DT_TROCO, 'yyyymmdd') +
-             LFill(OnlyNumber(CPF), 14) +
+             LFill(OnlyCPFCNPJAlphaNum(CPF), 14) +
              LFill(Titulo, 7) +
-             LFill(OnlyNumber(CNPJ), 14) );
+             LFill(OnlyCPFCNPJAlphaNum(CNPJ), 14) );
       end;
       FRegistroH9.TOT_REG := FRegistroH9.TOT_REG + 1;
     end;
@@ -198,7 +198,7 @@ begin
         Check(funChecaIE(FRegistroH1.IE, FRegistroH1.UF), '(H9) TOTALIZAÇÃO: A Inscrição Estadual "%s" digitada é inválida!', [FRegistroH1.IE]);
         ///
         Add(LFill('H9') +
-            LFill(OnlyNumber(FRegistroH1.CNPJ), 14) +
+            LFill(OnlyCPFCNPJAlphaNum(FRegistroH1.CNPJ), 14) +
             RFill(FRegistroH1.IE, 14) +
             RFill(FRegistroH1.IM, 14) +
             LFill(TOT_REG, 6, 0));
