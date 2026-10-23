@@ -73,8 +73,6 @@ type
 
   TfrmACBrNFe = class(TForm)
     ACBrNFeDANFeFPDF1: TACBrNFeDANFeFPDF;
-    btnNFCeDownloadXML: TButton;
-    btnNFCeListagemChaves: TButton;
     pnlMenus: TPanel;
     pnlCentral: TPanel;
     PageControl1: TPageControl;
@@ -353,8 +351,6 @@ type
     Sucessora: TTabSheet;
     btnSolicApropriacaoCredPres: TButton;
 
-    procedure btnNFCeDownloadXMLClick(Sender: TObject);
-    procedure btnNFCeListagemChavesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnSalvarConfigClick(Sender: TObject);
     procedure sbPathNFeClick(Sender: TObject);
@@ -455,10 +451,6 @@ type
     procedure AtualizarSSLLibsCombo;
     procedure PrepararImpressao;
 
-    // Paginacao automatica da lista de chaves (SAE NFC-e): repete a consulta a
-    // partir de dhEmisUltNfce enquanto cStat = 101 (lista incompleta)
-    function ObterListaChavesCompleta(ADataHoraInicial, ADataHoraFinal: TDateTime;
-      AChaves: TStrings; AIntervaloMs: Integer = 1000): Boolean;
   public
     { Public declarations }
   end;
@@ -488,7 +480,6 @@ uses
   ACBrNFe.EnvEvento,
   ACBrNFe.EventoClass,
   ACBrDFe.Conversao,
-  ACBrNFe.RetObterDFe,
   pcnConversao,
   pcnConversaoNFe,
   ACBrDFeConfiguracoes,
@@ -6014,149 +6005,6 @@ begin
   PageControl4.ActivePageIndex := 3;
 end;
 
-procedure TfrmACBrNFe.btnNFCeListagemChavesClick(Sender: TObject);
-var
-  xTitulo, xDataIni, xDataFim, xPaginar: String;
-  DataIni, DataFim: TDateTime;
-  Chaves: TStringList;
-  Paginar: Boolean;
-  i: Integer;
-begin
-  // Servico SAE NFC-e (SEFAZ-SP): requer UF = SP e certificado e-CNPJ do emitente
-  xTitulo := 'NFCe Listagem de Chaves (SAE SEFAZ-SP)';
-
-  if ACBrNFe1.Configuracoes.WebServices.UF <> 'SP' then
-    raise Exception.Create('O serviço está disponível apenas para a UF SP. ' +
-      'Ajuste em Configurações > WebServices.');
-
-  xDataIni := FormatDateTime('dd/mm/yyyy hh:nn', IncDay(Now, -1));
-  if not(InputQuery(xTitulo, 'Data/Hora inicial (dd/mm/aaaa hh:nn)', xDataIni)) then
-    Exit;
-
-  xDataFim := '';
-  if not(InputQuery(xTitulo, 'Data/Hora final (dd/mm/aaaa hh:nn) - opcional', xDataFim)) then
-    Exit;
-
-  xPaginar := 'S';
-  if not(InputQuery(xTitulo, 'Paginar automaticamente se a lista vier incompleta? (S/N)', xPaginar)) then
-    Exit;
-
-  if not TryStrToDateTime(Trim(xDataIni), DataIni) then
-    raise Exception.Create('Data/Hora inicial inválida: ' + xDataIni);
-
-  DataFim := 0;  // 0 = não informa dataHoraFinal (até o momento atual)
-  if Trim(xDataFim) <> '' then
-    if not TryStrToDateTime(Trim(xDataFim), DataFim) then
-      raise Exception.Create('Data/Hora final inválida: ' + xDataFim);
-
-  Paginar := UpperCase(Trim(xPaginar)) = 'S';
-
-  Chaves := TStringList.Create;
-  try
-    if Paginar then
-      // Repete a consulta a partir de dhEmisUltNfce enquanto cStat = 101
-      ObterListaChavesCompleta(DataIni, DataFim, Chaves)
-    else
-    begin
-      // Equivale a: ACBrNFe1.ObterDFe(aotListaChaves, '', DataIni, DataFim);
-      ACBrNFe1.ObterListaChaves(DataIni, DataFim);
-      Chaves.Assign(ACBrNFe1.WebServices.ObterDFe.retObterDFe.chNFCe);
-    end;
-
-    MemoResp.Lines.Text := ACBrNFe1.WebServices.ObterDFe.RetWS;
-    memoRespWS.Lines.Text := ACBrNFe1.WebServices.ObterDFe.RetornoWS;
-    LoadXML(MemoResp, WBResposta);
-
-    // Dados da última resposta recebida
-    with ACBrNFe1.WebServices.ObterDFe.retObterDFe do
-    begin
-      MemoDados.Lines.Add('');
-      MemoDados.Lines.Add(xTitulo);
-      MemoDados.Lines.Add('versao.........: ' + versao);
-      MemoDados.Lines.Add('tpAmb..........: ' + TpAmbToStr(tpAmb));
-      MemoDados.Lines.Add('verAplic.......: ' + verAplic);
-      MemoDados.Lines.Add('dhReq..........: ' + DateTimeToStr(dhReq));
-      MemoDados.Lines.Add('cStat..........: ' + IntToStr(cStat));
-      MemoDados.Lines.Add('xMotivo........: ' + xMotivo);
-
-      if dhEmisUltNfce <> 0 then
-        MemoDados.Lines.Add('dhEmisUltNfce..: ' + DateTimeToStr(dhEmisUltNfce));
-
-      // 101 = lista incompleta: reduza o período ou use a paginação automática
-      if ListaIncompleta then
-        MemoDados.Lines.Add('ATENÇÃO: lista incompleta, ajuste o período de busca.');
-    end;
-
-    MemoDados.Lines.Add('Total de chaves: ' + IntToStr(Chaves.Count));
-    for i := 0 to Chaves.Count - 1 do
-      MemoDados.Lines.Add('  ' + Chaves[i]);
-  finally
-    Chaves.Free;
-  end;
-end;
-
-procedure TfrmACBrNFe.btnNFCeDownloadXMLClick(Sender: TObject);
-var
-  xTitulo, xChave: String;
-  i: Integer;
-begin
-  // Servico SAE NFC-e (SEFAZ-SP): requer UF = SP e certificado e-CNPJ do emitente
-  xTitulo := 'NFCe Download XML (SAE SEFAZ-SP)';
-
-  if ACBrNFe1.Configuracoes.WebServices.UF <> 'SP' then
-    raise Exception.Create('O serviço está disponível apenas para a UF SP. ' +
-      'Ajuste em Configurações > WebServices.');
-
-  xChave := '';
-  if not(InputQuery(xTitulo, 'Chave da NFC-e (44 posições)', xChave)) then
-    Exit;
-
-  xChave := Trim(xChave);
-
-  // Equivale a: ACBrNFe1.ObterDFe(aotDownloadXml, xChave);
-  ACBrNFe1.ObterDownloadXml(xChave);
-
-  MemoResp.Lines.Text := ACBrNFe1.WebServices.ObterDFe.RetWS;
-  memoRespWS.Lines.Text := ACBrNFe1.WebServices.ObterDFe.RetornoWS;
-  LoadXML(MemoResp, WBResposta);
-
-  with ACBrNFe1.WebServices.ObterDFe.retObterDFe do
-  begin
-    MemoDados.Lines.Add('');
-    MemoDados.Lines.Add(xTitulo);
-    MemoDados.Lines.Add('versao.....: ' + versao);
-    MemoDados.Lines.Add('tpAmb......: ' + TpAmbToStr(tpAmb));
-    MemoDados.Lines.Add('verAplic...: ' + verAplic);
-    MemoDados.Lines.Add('dhReq......: ' + DateTimeToStr(dhReq));
-    MemoDados.Lines.Add('cStat......: ' + IntToStr(cStat));
-    MemoDados.Lines.Add('xMotivo....: ' + xMotivo);
-    MemoDados.Lines.Add('');
-
-    // Documentos extraidos (NFC-e e eventos), com os XMLs em memoria
-    MemoDados.Lines.Add('Documentos extraidos: ' + IntToStr(Documentos.Count));
-
-    for i := 0 to Documentos.Count - 1 do
-      with Documentos[i] do
-      begin
-        MemoDados.Lines.Add('');
-
-        if Tipo = tdNFCe then
-          MemoDados.Lines.Add('  NFC-e')
-        else
-          MemoDados.Lines.Add('  Evento (' + TpEventoToStr(tpEvento) + ')');
-
-        MemoDados.Lines.Add('    Chave...: ' + Chave);
-        MemoDados.Lines.Add('    Id......: ' + Id);
-        MemoDados.Lines.Add('    versao..: ' + versao);
-        MemoDados.Lines.Add('    nProt...: ' + nProt);
-        MemoDados.Lines.Add('    dhInc...: ' + DateTimeToStr(dhInc));
-        MemoDados.Lines.Add('    dhDoc...: ' + DateTimeToStr(dhDoc));
-        MemoDados.Lines.Add('    NomeArq.: ' + NomeArq);
-        MemoDados.Lines.Add('    XML.....: ' + XML);
-      end;
-  end;
-end;
-
 procedure TfrmACBrNFe.GravarConfiguracao;
 var
   IniFile: String;
@@ -6586,70 +6434,6 @@ begin
   ACBrPosPrinter1.CortaPapel         := cbCortarPapel.Checked;
 
   ACBrPosPrinter1.Ativar;
-end;
-
-function TfrmACBrNFe.ObterListaChavesCompleta(ADataHoraInicial,
-  ADataHoraFinal: TDateTime; AChaves: TStrings; AIntervaloMs: Integer): Boolean;
-{ Regras da paginacao:
-  - O servico trabalha com precisao de minutos e devolve no maximo 2000 chaves.
-  - cStat 101 = lista incompleta: a proxima consulta comeca em dhEmisUltNfce
-    (truncado em minutos), por isso o minuto de corte vem repetido e as chaves
-    duplicadas sao descartadas.
-  - Se o periodo nao avancar, ha mais chaves em um unico minuto do que o limite
-    do servico: levanta excecao em vez de repetir indefinidamente.
-  - AIntervaloMs = pausa entre as consultas (limite de acessos por IP).
-  - Em caso de erro (ex.: 656 Consumo indevido) a excecao e levantada, mas
-    AChaves ja contem o que foi obtido ate ali. }
-var
-  Lista: TStringList;
-  DataIni, ProxIni: TDateTime;
-  Continuar: Boolean;
-  I: Integer;
-begin
-  Result := False;
-
-  if not Assigned(AChaves) then
-    raise Exception.Create('Lista de chaves (AChaves) nao informada');
-
-  Lista := TStringList.Create;
-  try
-    Lista.Sorted := True;
-    Lista.Duplicates := dupIgnore;  // periodos consecutivos se sobrepoem
-
-    // O servico trabalha com precisao de minutos
-    DataIni := RecodeMilliSecond(RecodeSecond(ADataHoraInicial, 0), 0);
-
-    repeat
-      ACBrNFe1.ObterListaChaves(DataIni, ADataHoraFinal);
-
-      with ACBrNFe1.WebServices.ObterDFe.retObterDFe do
-      begin
-        for I := 0 to chNFCe.Count - 1 do
-          Lista.Add(chNFCe[I]);
-
-        Continuar := ListaIncompleta;
-        if Continuar then
-        begin
-          ProxIni := RecodeMilliSecond(RecodeSecond(dhEmisUltNfce, 0), 0);
-
-          // Sem avanco = mais chaves no mesmo minuto do que o limite do servico
-          if (dhEmisUltNfce = 0) or (ProxIni <= DataIni) then
-            raise Exception.Create('Nao foi possivel avancar o periodo: o limite ' +
-              'de chaves por resposta foi atingido dentro de um unico minuto');
-
-          DataIni := ProxIni;
-        end;
-      end;
-
-      if Continuar and (AIntervaloMs > 0) then
-        Sleep(AIntervaloMs);
-    until not Continuar;
-
-    Result := True;
-  finally
-    AChaves.Assign(Lista);  // mantem o parcial mesmo se houver excecao
-    Lista.Free;
-  end;
 end;
 
 procedure TfrmACBrNFe.sbPathEventoClick(Sender: TObject);

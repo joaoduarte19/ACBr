@@ -56,8 +56,6 @@ uses
   ACBrNFe.RetEnvEvento,
   ACBrDFeComum.DistDFeInt,
   ACBrDFeComum.RetDistDFeInt,
-  ACBrDFeComum.ObterDFe,
-  ACBrNFe.RetObterDFe,
   ACBrDFeComum.RetEnvio,
   ACBrDFeComum.RetConsReciDFe,
   ACBrDFeComum.Proc,
@@ -563,44 +561,6 @@ type
     property retDistDFeInt: TretDistDFeInt read FretDistDFeInt;
   end;
 
-  { TNFeObterDFe }
-
-  TNFeObterDFe = class(TNFeWebService)
-  private
-    FTipo: TACBrObterTipo;
-    FDataHoraInicial: TDateTime;
-    FDataHoraFinal: TDateTime;
-    FChNFCe: String;
-    FlistaArqs: TStringList;
-
-    FretObterDFe: TRetObterDFe;
-
-    procedure AjustarPorTipo;
-    procedure ValidarTipo;
-    procedure SalvarArquivosDownload;
-  protected
-    procedure DefinirURL; override;
-    procedure DefinirServicoEAction; override;
-    procedure DefinirDadosMsg; override;
-    function TratarResposta: Boolean; override;
-
-    function GerarMsgLog: String; override;
-    function GerarMsgErro(E: Exception): String; override;
-  public
-    constructor Create(AOwner: TACBrDFe); override;
-    destructor Destroy; override;
-    procedure Clear; override;
-
-    property Tipo: TACBrObterTipo read FTipo write FTipo;
-    property DataHoraInicial: TDateTime read FDataHoraInicial write FDataHoraInicial;
-    property DataHoraFinal: TDateTime read FDataHoraFinal write FDataHoraFinal;
-    property ChNFCe: String read FChNFCe write FChNFCe;
-
-    property ListaArqs: TStringList read FlistaArqs;
-
-    property retObterDFe: TRetObterDFe read FretObterDFe;
-  end;
-
   { TNFeEnvioWebService }
 
   TNFeEnvioWebService = class(TNFeWebService)
@@ -645,7 +605,6 @@ type
     FEnvEvento: TNFeEnvEvento;
     FAdministrarCSCNFCe: TAdministrarCSCNFCe;
     FDistribuicaoDFe: TDistribuicaoDFe;
-    FObterDFe: TNFeObterDFe;
     FEnvioWebService: TNFeEnvioWebService;
   public
     constructor Create(AOwner: TACBrDFe); overload;
@@ -672,7 +631,6 @@ type
       read FAdministrarCSCNFCe write FAdministrarCSCNFCe;
     property DistribuicaoDFe: TDistribuicaoDFe
       read FDistribuicaoDFe write FDistribuicaoDFe;
-    property ObterDFe: TNFeObterDFe read FObterDFe write FObterDFe;
     property EnvioWebService: TNFeEnvioWebService
       read FEnvioWebService write FEnvioWebService;
   end;
@@ -4229,262 +4187,6 @@ begin
   end;
 end;
 
-{ TNFeObterDFe }
-
-constructor TNFeObterDFe.Create(AOwner: TACBrDFe);
-begin
-  FretObterDFe := TRetObterDFe.Create;
-  FlistaArqs := TStringList.Create;
-  FTipo := aotNenhum;
-
-  inherited Create(AOwner);
-end;
-
-destructor TNFeObterDFe.Destroy;
-begin
-  FretObterDFe.Free;
-  FlistaArqs.Free;
-
-  inherited Destroy;
-end;
-
-procedure TNFeObterDFe.AjustarPorTipo;
-begin
-  case FTipo of
-    aotListaChaves:
-      begin
-        FPLayout := LayNFCeListagemChaves;
-        FPArqEnv := 'ped-obter-lst';
-        FPArqResp := 'obter-lst';
-      end;
-
-    aotDownloadXml:
-      begin
-        FPLayout := LayNFCeDownloadXML;
-        FPArqEnv := 'ped-obter-xml';
-        FPArqResp := 'obter-xml';
-      end;
-  else
-    begin
-      FPLayout := LayNFCeListagemChaves;
-      FPArqEnv := 'ped-obter';
-      FPArqResp := 'obter';
-    end;
-  end;
-end;
-
-procedure TNFeObterDFe.Clear;
-begin
-  inherited Clear;
-
-  FPStatus := stObterDFe;
-  FPBodyElement := 'nfeDadosMsg';
-  FPHeaderElement := '';  // sem <soap:Header>, como nos demais servicos 4.00
-  AjustarPorTipo;
-
-  if Assigned(FretObterDFe) then
-    FretObterDFe.Clear;
-
-  if Assigned(FlistaArqs) then
-    FlistaArqs.Clear;
-end;
-
-procedure TNFeObterDFe.ValidarTipo;
-begin
-  if FTipo = aotNenhum then
-    GerarException(ACBrStr('Obter DFe: informe o tipo da consulta ' +
-                           '(aotListaChaves ou aotDownloadXml)'));
-end;
-
-procedure TNFeObterDFe.DefinirURL;
-var
-  Versao: Double;
-begin
-  ValidarTipo;
-  AjustarPorTipo;
-
-  Versao := 0;
-  FPVersaoServico := '';
-  FPURL := '';
-  FPServico := '';
-  FPSoapAction := '';
-
-  Versao := VersaoDFToDbl(FPConfiguracoesNFe.Geral.VersaoDF);
-  TACBrNFe(FPDFeOwner).LerServicoDeParams(
-    ModeloDFToPrefixo(moNFCe),
-    FPConfiguracoesNFe.WebServices.UF,
-    FPConfiguracoesNFe.WebServices.Ambiente,
-    LayOutToServico(FPLayout),
-    Versao,
-    FPURL, FPServico, FPSoapAction);
-
-  FPVersaoServico := FloatToString(Versao, '.', '0.00');
-end;
-
-procedure TNFeObterDFe.DefinirServicoEAction;
-begin
-  case FTipo of
-    aotListaChaves:
-      begin
-        FPServico := GetUrlWsd + 'NFCeListagemChaves';
-        FPSoapAction := FPServico + '/nfceListagemChaves';
-      end;
-
-    aotDownloadXml:
-      begin
-        FPServico := GetUrlWsd + 'NFCeDownloadXML';
-        FPSoapAction := FPServico + '/nfceDownloadXML';
-      end;
-  end;
-end;
-
-procedure TNFeObterDFe.DefinirDadosMsg;
-var
-  ObterDFe: TObterDFe;
-  xChave, ArqSchema: String;
-begin
-  if FTipo = aotDownloadXml then
-  begin
-    xChave := Trim(FChNFCe);
-    if (xChave <> '') and (ModeloDFe(xChave) <> moNFCe) then
-      GerarException(ACBrStr('A chave informada nao e de uma NFC-e (modelo 65)'));
-  end;
-
-  ObterDFe := TObterDFe.Create(FPVersaoServico, NAME_SPACE,
-                 'nfceListagemChaves', 'nfceDownloadXML',
-                 'chNFCe');
-  try
-    ObterDFe.Tipo := FTipo;
-    ObterDFe.tpAmb := FPConfiguracoesNFe.WebServices.Ambiente;
-    ObterDFe.DataHoraInicial := FDataHoraInicial;
-    ObterDFe.DataHoraFinal := FDataHoraFinal;
-    ObterDFe.Chave := FChNFCe;
-
-    FPDadosMsg := ObterDFe.GerarXML;
-  finally
-    ObterDFe.Free;
-  end;
-
-  ArqSchema := TACBrNFe(FPDFeOwner).GerarNomeArqSchema(FPLayout,
-                                                       StringToFloatDef(FPVersaoServico, 0));
-  if EstaVazio(ArqSchema) then
-    GerarException(ACBrStr('Arquivo de Schema "' +
-      SchemaNFeToStr(LayOutToSchema(FPLayout)) + '_v' + FPVersaoServico +
-      '.xsd" nao encontrado na pasta de Schemas: ' + sLineBreak +
-      FPConfiguracoesNFe.Arquivos.PathSchemas));
-
-  if not TACBrNFe(FPDFeOwner).SSL.Validar(FPDadosMsg, ArqSchema, FPMsg) then
-    GerarException(ACBrStr('Falha na validacao dos dados do servico Obter DFe: ') +
-                   FPMsg);
-end;
-
-function TNFeObterDFe.TratarResposta: Boolean;
-begin
-  FPRetWS := SeparaDadosArray(['nfeResultMsg'], FPRetornoWS);
-
-  VerificarSemResposta;
-
-  FretObterDFe.XmlRetorno := FPRetWS;
-  if not FretObterDFe.LerXml then
-    GerarException(ACBrStr('Nao foi possivel interpretar o retorno do servico ' +
-                           'Obter DFe') + sLineBreak + FPRetornoWS);
-
-  FPMsg := FretObterDFe.xMotivo;
-
-  Result := FretObterDFe.cStat in [100, 101, 107, 200];
-
-  if (FTipo = aotDownloadXml) and (FretObterDFe.cStat = 200) then
-    SalvarArquivosDownload;
-end;
-
-procedure TNFeObterDFe.SalvarArquivosDownload;
-var
-  I: Integer;
-  LDoc: TObterDFeDocumento;
-  LItem: TObterDFeProcItem;
-  LData: TDateTime;
-  LPath, LNomeArq, LChave: string;
-begin
-  for I := 0 to FretObterDFe.Documentos.Count - 1 do
-  begin
-    LDoc := FretObterDFe.Documentos[I];
-    LItem := LDoc.Origem;
-
-    if FPConfiguracoesNFe.Arquivos.EmissaoPathNFe and (LDoc.dhDoc <> 0) then
-      LData := LDoc.dhDoc
-    else
-      LData := Now;
-
-    if LDoc.Tipo = tdNFCe then
-    begin
-      LChave := LDoc.Chave;
-      if LChave = '' then
-        LChave := Trim(FChNFCe);
-
-      LNomeArq := LChave + '-nfe.xml';
-      LPath := FPConfiguracoesNFe.Arquivos.GetPathNFe(LData, LItem.CNPJCPF,
-                                                      LItem.IE, 65);
-    end
-    else
-    begin
-      if not FPConfiguracoesNFe.Arquivos.SalvarEvento then
-        Continue;
-
-      if LDoc.Id <> '' then
-        LNomeArq := RemoverLiteralChave(LDoc.Id)
-      else
-        LNomeArq := Trim(FChNFCe) + '-' + IntToStr(I);
-
-      LNomeArq := LNomeArq + '-ped-eve.xml';
-
-      LPath := FPConfiguracoesNFe.Arquivos.GetPathEvento(LDoc.tpEvento,
-                         LItem.CNPJCPF, FretObterDFe.nfeProc.IE, LData);
-    end;
-
-    if not FPConfiguracoesNFe.Arquivos.Salvar then
-      Continue;
-
-    FPDFeOwner.Gravar(LNomeArq, LDoc.XML, LPath);
-    LDoc.NomeArq := PathWithDelim(LPath) + LNomeArq;
-    LItem.NomeArq := LDoc.NomeArq;
-    FlistaArqs.Add(LDoc.NomeArq);
-  end;
-end;
-
-function TNFeObterDFe.GerarMsgLog: String;
-begin
-  Result := Format(ACBrStr('Versao Layout: %s ' + sLineBreak +
-                           'Ambiente: %s ' + sLineBreak +
-                           'Versao Aplicativo: %s ' + sLineBreak +
-                           'Status Codigo: %s ' + sLineBreak +
-                           'Status Descricao: %s ' + sLineBreak +
-                           'Data/Hora Requisicao: %s ' + sLineBreak),
-                   [FretObterDFe.versao, TipoAmbienteToStr(FretObterDFe.tpAmb),
-                    FretObterDFe.verAplic, IntToStr(FretObterDFe.cStat),
-                    FretObterDFe.xMotivo,
-                    IfThen(FretObterDFe.dhReq = 0, '',
-                           FormatDateTimeBr(FretObterDFe.dhReq))]);
-
-  case FTipo of
-    aotListaChaves:
-      Result := Result + Format(ACBrStr('Chaves retornadas: %d ' + sLineBreak +
-                                        'Emissao da ultima NFC-e: %s ' + sLineBreak),
-                         [FretObterDFe.chNFCe.Count,
-                          IfThen(FretObterDFe.dhEmisUltNfce = 0, '',
-                                 FormatDateTimeBr(FretObterDFe.dhEmisUltNfce))]);
-
-    aotDownloadXml:
-      Result := Result + Format(ACBrStr('Eventos retornados: %d ' + sLineBreak),
-                         [FretObterDFe.procEventoNFe.Count]);
-  end;
-end;
-
-function TNFeObterDFe.GerarMsgErro(E: Exception): String;
-begin
-  Result := ACBrStr('WebService Obter DFe (SAE NFC-e):' + sLineBreak +
-                    '- Inativo ou Inoperante tente novamente.');
-end;
-
 { TNFeEnvioWebService }
 
 constructor TNFeEnvioWebService.Create(AOwner: TACBrDFe);
@@ -4574,7 +4276,6 @@ begin
   FEnvEvento := TNFeEnvEvento.Create(FACBrNFe, TACBrNFe(FACBrNFe).EventoNFe);
   FAdministrarCSCNFCe := TAdministrarCSCNFCe.Create(FACBrNFe);
   FDistribuicaoDFe := TDistribuicaoDFe.Create(FACBrNFe);
-  FObterDFe := TNFeObterDFe.Create(FACBrNFe);
   FEnvioWebService := TNFeEnvioWebService.Create(FACBrNFe);
 end;
 
@@ -4590,7 +4291,6 @@ begin
   FEnvEvento.Free;
   FAdministrarCSCNFCe.Free;
   FDistribuicaoDFe.Free;
-  FObterDFe.Free;
   FEnvioWebService.Free;
 
   inherited Destroy;

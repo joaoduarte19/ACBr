@@ -1827,24 +1827,6 @@ object frmACBrNFe: TfrmACBrNFe
           TabOrder = 5
           OnClick = btnAdministrarCSCClick
         end
-        object btnNFCeListagemChaves: TButton
-          Left = 191
-          Top = 100
-          Width = 177
-          Height = 25
-          Caption = 'NFCe ListagemChaves'
-          TabOrder = 6
-          OnClick = btnNFCeListagemChavesClick
-        end
-        object btnNFCeDownloadXML: TButton
-          Left = 375
-          Top = 100
-          Width = 177
-          Height = 25
-          Caption = 'NFCe DownloadXML'
-          TabOrder = 7
-          OnClick = btnNFCeDownloadXMLClick
-        end
       end
       object tsEventos: TTabSheet
         Caption = 'Eventos'

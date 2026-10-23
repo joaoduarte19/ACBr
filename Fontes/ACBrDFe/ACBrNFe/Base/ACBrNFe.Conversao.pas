@@ -211,8 +211,7 @@ type
   TStatusACBrNFe = (stIdle, stNFeStatusServico, stNFeRecepcao, stNFeRetRecepcao,
     stNFeConsulta, stNFeCancelamento, stNFeInutilizacao, stNFeRecibo,
     stNFeCadastro, stNFeEmail, stNFeCCe, stNFeEvento, stConsNFeDest,
-    stDownloadNFe, stAdmCSCNFCe, stDistDFeInt, stEnvioWebService,
-    stObterDFe);
+    stDownloadNFe, stAdmCSCNFCe, stDistDFeInt, stEnvioWebService);
 
   TpcnInformacoesDePagamento = (eipNunca, eipAdicionais, eipQuadro);
 
@@ -242,8 +241,7 @@ type
                 schAceiteDebitoApuracaoNotaCredito, schImobilizacaoItem,
                 schSolicApropCredCombustivel, schSolicApropCredBensServicos,
                 schManifPedTransfCredIBSSucessao, schManifPedTransfCredCBSSucessao,
-                schAtualizacaoDataPrevisaoEntrega,
-                schnfceListagemChaves, schnfceDownloadXML);
+                schAtualizacaoDataPrevisaoEntrega);
 
 const
   TSchemaNFeArrayStrings: array[TSchemaNFe] of string = ('Erro', 'Nfe',
@@ -262,8 +260,7 @@ const
     'AceiteDebitoApuracaoNotaCredito', 'ImobilizacaoItem',
     'SolicApropCredCombustivel', 'SolicApropCredBensServicos',
     'ManifPedTransfCredIBSSucessao', 'ManifPedTransfCredCBSSucessao',
-    'AtualizacaoDataPrevisaoEntrega',
-    'nfceListagemChaves', 'nfceDownloadXML');
+    'AtualizacaoDataPrevisaoEntrega');
 
   TEventoArrayStrings: array[TSchemaNFe] of string = ('', '', 'e110111', '',
     'e110110', '', '', 'e110140', '', '', '', '', '', '', '', '', '', '', '',
@@ -271,7 +268,7 @@ const
     'e210220', 'e210240', 'e110130', 'e110131', 'e110150', 'e110192', 'e110193',
     'e110750', 'e110751', 'e110001', 'e112110', 'e112120', 'e112130', 'e112140',
     'e211110', 'e211120', 'e211124', 'e211128', 'e211130', 'e211140', 'e211150',
-    'e212110', 'e212120', 'e112150', '', '');
+    'e212110', 'e212120', 'e112150');
 
 type
   TLayOut = (LayNfeRecepcao, LayNfeRetRecepcao, LayNfeCancelamento,
@@ -279,8 +276,7 @@ type
     LayNfeCadastro, LayNFeCCe, LayNFeEvento, LayNFeEventoAN, LayNFeConsNFeDest,
     LayNFeDownloadNFe, LayNfeAutorizacao, LayNfeRetAutorizacao,
     LayAdministrarCSCNFCe, LayDistDFeInt, LayNFCeEPEC, LayNFeURLQRCode,
-    LayURLConsultaNFe, LayURLConsultaNFCe,
-    LayNFCeListagemChaves, LayNFCeDownloadXML);
+    LayURLConsultaNFe, LayURLConsultaNFCe);
 
 const
   TLayOutArrayStrings: array[TLayOut] of string = ('NfeRecepcao',
@@ -289,8 +285,7 @@ const
     'RecepcaoEvento', 'RecepcaoEvento', 'RecepcaoEvento', 'NfeConsultaDest',
     'NfeDownloadNF', 'NfeAutorizacao', 'NfeRetAutorizacao', 'AdministrarCSCNFCe',
     'NFeDistribuicaoDFe', 'EventoEPEC', 'URL-QRCode', 'URL-ConsultaNFe',
-    'URL-ConsultaNFCe',
-    'NFCeListagemChaves', 'NFCeDownloadXML');
+    'URL-ConsultaNFCe');
 
 type
   TpcnFinalidadeNFe = (fnNormal, fnComplementar, fnAjuste, fnDevolucao,
@@ -1175,14 +1170,12 @@ begin
      'NfeConsultaProtocolo', 'NfeStatusServico', 'NfeConsultaCadastro',
      'RecepcaoEvento', 'RecepcaoEvento', 'RecepcaoEvento', 'NfeConsultaDest',
      'NfeDownloadNF', 'NfeAutorizacao', 'NfeRetAutorizacao', 'AdministrarCSCNFCe',
-     'NFeDistribuicaoDFe', 'EventoEPEC',
-     'NFCeListagemChaves', 'NFCeDownloadXML'],
+     'NFeDistribuicaoDFe', 'EventoEPEC'],
     [ LayNfeRecepcao, LayNfeRetRecepcao, LayNfeCancelamento, LayNfeInutilizacao,
       LayNfeConsulta, LayNfeStatusServico, LayNfeCadastro,
       LayNFeCCe, LayNFeEvento, LayNFeEventoAN, LayNFeConsNFeDest,
       LayNFeDownloadNFe, LayNfeAutorizacao, LayNfeRetAutorizacao,
-      LayAdministrarCSCNFCe, LayDistDFeInt, LayNFCeEPEC,
-      LayNFCeListagemChaves, LayNFCeDownloadXML ] );
+      LayAdministrarCSCNFCe, LayDistDFeInt, LayNFCeEPEC ] );
 end;
 
 function ServicoToLayOut(out ok: Boolean; const s: String): TLayOut;
@@ -1192,14 +1185,12 @@ begin
    'NfeConsultaProtocolo', 'NfeStatusServico', 'NfeConsultaCadastro',
    'RecepcaoEvento', 'RecepcaoEvento', 'RecepcaoEvento', 'NfeConsultaDest',
    'NfeDownloadNF', 'NfeAutorizacao', 'NfeRetAutorizacao', 'AdministrarCSCNFCe',
-   'NFeDistribuicaoDFe', 'EventoEPEC',
-   'NFCeListagemChaves', 'NFCeDownloadXML'],
+   'NFeDistribuicaoDFe', 'EventoEPEC'],
   [ LayNfeRecepcao, LayNfeRetRecepcao, LayNfeCancelamento, LayNfeInutilizacao,
     LayNfeConsulta, LayNfeStatusServico, LayNfeCadastro,
     LayNFeCCe, LayNFeEvento, LayNFeEventoAN, LayNFeConsNFeDest,
     LayNFeDownloadNFe, LayNfeAutorizacao, LayNfeRetAutorizacao,
-    LayAdministrarCSCNFCe, LayDistDFeInt, LayNFCeEPEC,
-    LayNFCeListagemChaves, LayNFCeDownloadXML ] );
+    LayAdministrarCSCNFCe, LayDistDFeInt, LayNFCeEPEC ] );
 end;
 
 function LayOutToSchema(const t: TLayOut): TSchemaNFe;
@@ -1222,8 +1213,6 @@ begin
     LayAdministrarCSCNFCe: Result := schadmCscNFCe;
     LayDistDFeInt:        Result := schdistDFeInt;
     LayNFCeEPEC:          Result := scheventoEPEC;
-    LayNFCeListagemChaves: Result := schnfceListagemChaves;
-    LayNFCeDownloadXML:   Result := schnfceDownloadXML;
   else
     Result := schErro;
   end;

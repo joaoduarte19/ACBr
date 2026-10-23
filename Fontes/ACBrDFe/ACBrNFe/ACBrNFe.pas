@@ -171,11 +171,6 @@ type
       ANSU: String): Boolean;
     function DistribuicaoDFePorChaveNFe(AcUFAutor: integer; const ACNPJCPF,
       AchNFe: String): Boolean;
-    function ObterDFe(AACBrObterTipo: TACBrObterTipo; const AChNFCe: String = '';
-      ADataHoraInicial: TDateTime = 0; ADataHoraFinal: TDateTime = 0): Boolean;
-    function ObterListaChaves(ADataHoraInicial: TDateTime;
-      ADataHoraFinal: TDateTime = 0): Boolean;
-    function ObterDownloadXml(const AChNFCe: String): Boolean;
     function Inutilizar(const ACNPJ, AJustificativa: String;
       AAno, ASerie, ANumInicial, ANumFinal: Integer): Boolean;
 
@@ -1122,35 +1117,6 @@ function TACBrNFe.DistribuicaoDFePorChaveNFe(AcUFAutor: integer; const ACNPJCPF,
   AchNFe: String): Boolean;
 begin
   Result := Distribuicao(AcUFAutor, ACNPJCPF, '', '', AchNFe);
-end;
-
-function TACBrNFe.ObterDFe(AACBrObterTipo: TACBrObterTipo; const AChNFCe: String;
-  ADataHoraInicial: TDateTime; ADataHoraFinal: TDateTime): Boolean;
-begin
-  if AACBrObterTipo = aotNenhum then
-    GerarException(ACBrStr('Obter DFe: informe o tipo da consulta ' +
-                           '(aotListaChaves ou aotDownloadXml)'));
-
-  WebServices.ObterDFe.Tipo := AACBrObterTipo;
-  WebServices.ObterDFe.ChNFCe := AChNFCe;
-  WebServices.ObterDFe.DataHoraInicial := ADataHoraInicial;
-  WebServices.ObterDFe.DataHoraFinal := ADataHoraFinal;
-
-  Result := WebServices.ObterDFe.Executar;
-
-  if not Result then
-    GerarException( WebServices.ObterDFe.Msg );
-end;
-
-function TACBrNFe.ObterListaChaves(ADataHoraInicial: TDateTime;
-  ADataHoraFinal: TDateTime): Boolean;
-begin
-  Result := ObterDFe(aotListaChaves, '', ADataHoraInicial, ADataHoraFinal);
-end;
-
-function TACBrNFe.ObterDownloadXml(const AChNFCe: String): Boolean;
-begin
-  Result := ObterDFe(aotDownloadXml, AChNFCe);
 end;
 
 function TACBrNFe.Inutilizar(const ACNPJ, AJustificativa: String; AAno, ASerie,

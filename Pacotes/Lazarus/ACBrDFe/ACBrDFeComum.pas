@@ -13,9 +13,9 @@ uses
   ACBrXmlReader, ACBrXmlWriter, ACBrDFeComum.ConsCad, ACBrDFeComum.RetConsCad, 
   ACBrDFeComum.ConsReciDFe, ACBrDFeComum.RetConsReciDFe, 
   ACBrDFeComum.ConsStatServ, ACBrDFeComum.RetConsStatServ, ACBrDFeComum.Proc, 
-  ACBrDFeComum.DistDFeInt, ACBrDFeComum.RetDistDFeInt, ACBrDFeComum.RetEnvio, 
-  ACBrDFe.RTC.Classes, ACBrDFe.RTC.IniReader, ACBrDFe.RTC.IniWriter, 
-  ACBrDFe.RTC.XmlReader, ACBrDFe.RTC.XmlWriter, ACBrDFeComum.ObterDFe;
+  ACBrDFeComum.DistDFeInt, ACBrDFeComum.RetDistDFeInt, ACBrDFeComum.RetEnvio,
+  ACBrDFe.RTC.Classes, ACBrDFe.RTC.IniReader, ACBrDFe.RTC.IniWriter,
+  ACBrDFe.RTC.XmlReader, ACBrDFe.RTC.XmlWriter;
 
 implementation
 
