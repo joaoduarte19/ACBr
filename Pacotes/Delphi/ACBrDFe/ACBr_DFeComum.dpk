@@ -67,6 +67,7 @@ contains
   ACBrDFeComum.Proc in '..\..\..\Fontes\ACBrDFe\Comum\ACBrDFeComum.Proc.pas',
   ACBrDFeComum.DistDFeInt in '..\..\..\Fontes\ACBrDFe\Comum\ACBrDFeComum.DistDFeInt.pas',
   ACBrDFeComum.RetDistDFeInt in '..\..\..\Fontes\ACBrDFe\Comum\ACBrDFeComum.RetDistDFeInt.pas',
+  ACBrDFeComum.ObterDFe in '..\..\..\Fontes\ACBrDFe\Comum\ACBrDFeComum.ObterDFe.pas',
   ACBrDFeComum.RetEnvio in '..\..\..\Fontes\ACBrDFe\Comum\ACBrDFeComum.RetEnvio.pas',
 
   {$IfNDef DFE_SEM_MSXML}

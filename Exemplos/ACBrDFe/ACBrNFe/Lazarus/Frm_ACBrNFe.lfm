@@ -11,7 +11,7 @@ object frmACBrNFe: TfrmACBrNFe
   Font.Height = -11
   Font.Name = 'Tahoma'
   Position = poScreenCenter
-  LCLVersion = '4.4.0.0'
+  LCLVersion = '4.8.0.0'
   OnCreate = FormCreate
   object pnlMenus: TPanel
     Left = 0
@@ -1923,6 +1923,24 @@ object frmACBrNFe: TfrmACBrNFe
           Caption = 'Administrar CSC'
           TabOrder = 5
           OnClick = btnAdministrarCSCClick
+        end
+        object btnNFCeListagemChaves: TButton
+          Left = 192
+          Height = 25
+          Top = 100
+          Width = 177
+          Caption = 'NFCe ListagemChaves'
+          TabOrder = 6
+          OnClick = btnNFCeListagemChavesClick
+        end
+        object btnNFCeDownloadXML: TButton
+          Left = 376
+          Height = 25
+          Top = 100
+          Width = 177
+          Caption = 'NFCe DownloadXML'
+          TabOrder = 7
+          OnClick = btnNFCeDownloadXMLClick
         end
       end
       object tsEventos: TTabSheet
