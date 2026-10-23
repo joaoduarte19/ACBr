@@ -45,6 +45,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/10/2026
+-- ACBrBPeRetEnvEvento --
+[-] ACBR-10058 - Ajuste para ler o evento do cancelamento.
+   https://www.projetoacbr.com.br/forum/topic/95383-acbr-10058-erro-no-cancelamento-de-bpe/#comment-625247
+   Por: Daniel de Morais
+
 05/10/2026
 -- Diversos --
 [*] Alterações visando atender a NT 2026/004 versão 1.00

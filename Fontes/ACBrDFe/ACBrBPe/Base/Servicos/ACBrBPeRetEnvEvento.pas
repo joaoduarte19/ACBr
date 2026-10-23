@@ -229,6 +229,7 @@ end;
 procedure TRetEventoBPe.Ler_RetEvento(const ANode: TACBrXmlNode);
 var
   aValor: string;
+  AuxNode: TACBrXmlNode;
 begin
   if not Assigned(ANode) then Exit;
 
@@ -244,7 +245,26 @@ begin
   cStat := ObterConteudoTag(ANode.Childrens.FindAnyNs('cStat'), tcInt);
   xMotivo := ObterConteudoTag(ANode.Childrens.FindAnyNs('xMotivo'), tcStr);
 
-  Ler_RetInfEvento(ANode.Childrens.FindAnyNs('retEvento'));
+  AuxNode := ANode.Childrens.FindAnyNs('retEvento');
+
+  // BP-e: procEventoBPe possui o retEventoBPe como filho
+  if not Assigned(AuxNode) then
+    AuxNode := ANode.Childrens.FindAnyNs('retEventoBPe');
+
+  // BP-e: retEventoBPe possui o infEvento diretamente
+  if not Assigned(AuxNode) and (ANode.LocalName = 'retEventoBPe') then
+    AuxNode := ANode;
+
+  Ler_RetInfEvento(AuxNode);
+
+  if cStat = 0 then
+  begin
+    tpAmb := retInfEvento.tpAmb;
+    verAplic := retInfEvento.verAplic;
+    cOrgao := retInfEvento.cOrgao;
+    cStat := retInfEvento.cStat;
+    xMotivo := retInfEvento.xMotivo;
+  end;
 end;
 
 procedure TRetEventoBPe.Ler_RetInfEvento(const ANode: TACBrXmlNode);
