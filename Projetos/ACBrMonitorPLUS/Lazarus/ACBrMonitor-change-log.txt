@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/10/2026
+-- ACBrMonitor1, DoACBrCTeUnit --
+[*] Ajuste visando substituir as ocorrências de pcteConversaoCTe para ACBrCTe.Conversao.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/94539-fim-do-uso-da-unit-pcnconversao-nos-dfe-e-uso-das-units-exclusivas-para-a-rtc/
+
 22/10/2026
 -- DoACBrNFeUnit --
 [-] Melhora condição dos métodos de impressão e PDF para gerar corretamente a ViaConsumidor/ViaEstabelecimento quando DANFe Simplificado Tipo 2

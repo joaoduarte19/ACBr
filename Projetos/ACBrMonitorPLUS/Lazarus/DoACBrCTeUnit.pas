@@ -410,8 +410,8 @@ implementation
 uses
   IniFiles, DateUtils, Forms, strutils,
   ACBrDFeConfiguracoes, ACBrLibConfig,
-  pcnConversao, pcteConversaoCTe,
-  pcnAuxiliar, pcteCTeR, DoACBrUnit, ACBrCTe.Classes;
+  ACBrDFe.Conversao, ACBrCTe.Conversao,
+  ACBrCTE.XmlReader, DoACBrUnit, ACBrCTe.Classes;
 
 { TACBrObjetoCTe }
 
@@ -686,35 +686,15 @@ begin
 end;
 
 function TACBrObjetoCTe.GerarCTeIni(XML: string): string;
-var
-  INIRec: TMemIniFile;
-  IniCTe: TStringList;
-  LocCTeR: TCTeR;
 begin
-  INIRec := TMemIniFile.Create('CTe.ini');
-
   fACBrCTe.Conhecimentos.Clear;
   if FilesExists(XML) then
-    fACBrCTe.Conhecimentos.LoadFromFile(XML)
+    fACBrCTe.Conhecimentos.LoadFromFile(XML, True)
   else
-  begin
-    LocCTeR := TCTeR.Create(fACBrCTe.Conhecimentos.Add.CTe);
-    try
-      LocCTeR.Leitor.Arquivo := ConvertStrRecived(XML);
-      LocCTeR.LerXml;
-      fACBrCTe.Conhecimentos.Items[0].XML := LocCTeR.Leitor.Arquivo;
-      fACBrCTe.Conhecimentos.GerarCTe;
-    finally
-      LocCTeR.Free;
-    end;
-  end;
+    fACBrCTe.Conhecimentos.LoadFromString(ConvertStrRecived(XML), True);
 
-  IniCTe := TStringList.Create;
-  IniCTe.Text := fACBrCTe.Conhecimentos.GerarIni();
-  INIRec.SetStrings(IniCTe);
-  INIRec.Free;
-  Result := IniCTe.Text;
-  IniCTe.Free;
+  Result := fACBrCTe.Conhecimentos.GerarIni();
+  WriteToTxt('CTe.ini', Result);
 end;
 
 { TACBrCarregarCTe }
@@ -932,7 +912,7 @@ end;
 procedure TMetodoSetformaEmissao.Executar;
 var
   OK: boolean;
-  FormaEmissao: TpcnTipoEmissao;
+  FormaEmissao: TACBrTipoEmissao;
   NFormaEmissao: Integer;
 begin
   NFormaEmissao := StrToIntDef(fpCmd.Params(0), 1);
@@ -940,13 +920,13 @@ begin
   with TACBrObjetoCTe(fpObjetoDono) do
   begin
     OK := False;
-    FormaEmissao := StrToTpEmis(OK, IntToStr(NFormaEmissao));
+    FormaEmissao := StrToTipoEmissao(IntToStr(NFormaEmissao));
 
     if not OK then
-      raise Exception.Create('Forma de Emissão Inválida: ' + TpEmisToStr(FormaEmissao));
+      raise Exception.Create('Forma de Emissão Inválida: ' + TipoEmissaoToStr(FormaEmissao));
 
     with MonitorConfig.DFE.WebService do
-      FormaEmissaoCTe := StrToInt(TpEmisToStr(FormaEmissao)) - 1;
+      FormaEmissaoCTe := StrToInt(TipoEmissaoToStr(FormaEmissao)) - 1;
 
     MonitorConfig.SalvarArquivo;
   end;
@@ -2566,7 +2546,7 @@ var
   CargaDFeEvento: TACBrCarregarCTeEvento;
   CargaDFe: TACBrCarregarCTe;
   AEnviaPDF: Boolean;
-  TipoEvento: TpcnTpEvento;
+  TipoEvento: TACBrTipoEvento;
 begin
   ADestinatario := fpCmd.Params(0);
   APathXMLEvento := fpCmd.Params(1);
@@ -2830,7 +2810,7 @@ end;
 }
 procedure TMetodoSetTipoImpressao.Executar;
 var
-  TipodeDACTE: TpcnTipoImpressao;
+  TipodeDACTE: TACBrTipoImpressao;
   Ok: Boolean;
   TpImp: string;
 begin
@@ -2841,7 +2821,7 @@ begin
     OK := False;
 
     if (TpImp = '1') or (TpImp = '2') then
-      TipodeDACTE := StrToTpImp(OK, tpImp);
+      TipodeDACTE := StrToTpImp(tpImp);
 
     if not OK then
       raise Exception.Create('Tipo Impressão Inválido: ' + tpImp);

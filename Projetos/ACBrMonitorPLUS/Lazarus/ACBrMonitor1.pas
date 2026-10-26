@@ -48,7 +48,7 @@ uses
   ACBrDANFCeFortesFr, ACBrDANFCeFortesFrA4, ACBrNFeDANFeRLClass, ACBrBoleto,
   ACBrBoletoFCFortesFr, Printers, DbCtrls, DBGrids, LazHelpHTML,
   SynHighlighterXML, SynMemo, PrintersDlgs, IpHtml, TreeFilterEdit,
-  ACBrNFSeXConversao, ACBrDFe.Conversao, pcnConversaoNFe, pcteConversaoCTe,
+  ACBrNFSeXConversao, ACBrDFe.Conversao, pcnConversaoNFe, ACBrCTe.Conversao,
   ACBrBPeConversao, ACBrSAT, ACBrSATExtratoESCPOS, ACBrSATExtratoFortesFr,
   ACBrSATClass, pcnRede, pgnreConversao, ACBrDFeSSL, ACBrGNRE2,
   ACBrGNReGuiaRLClass, ACBrBlocoX, ACBrMDFe, ACBrMDFeDAMDFeRLClass, ACBrCTe,
@@ -6419,7 +6419,7 @@ begin
     end;
     ACBrNFe1.Integrador          := nil;
 
-    ACBrCTeDACTeRL1.TamanhoPapel    := TpcnTamanhoPapel(rgTamanhoPapelDacte.ItemIndex);
+    ACBrCTeDACTeRL1.TamanhoPapel    := TTamanhoPapel(rgTamanhoPapelDacte.ItemIndex);
 
     ACBrCTe1.DACTe.TipoDACTE        := StrToTpImp(IntToStr(rgTipoDanfe.ItemIndex+1));
     ACBrCTe1.DACTe.Logo             := edtLogoMarca.Text;
@@ -12394,7 +12394,7 @@ begin
   else if Configuracoes is TConfiguracoesCTe then
   begin
     TConfiguracoesCTe(Configuracoes).Geral.FormaEmissao := StrToTipoEmissao(IntToStr(cbFormaEmissaoCTe.ItemIndex + 1));
-    TConfiguracoesCTe(Configuracoes).Geral.VersaoDF     := StrToVersaoCTe(ok, cbVersaoWSCTe.Text);
+    TConfiguracoesCTe(Configuracoes).Geral.VersaoDF     := StrToVersaoCTe(Ok, cbVersaoWSCTe.Text);
 
     TConfiguracoesCTe(Configuracoes).Arquivos.IniServicos    := edtArquivoWebServicesCTe.Text;
     TConfiguracoesCTe(Configuracoes).Arquivos.EmissaoPathCTe := cbxEmissaoPathNFe.Checked;
@@ -12730,7 +12730,7 @@ begin
         lAuxStr := IfThen(toma.IE<>'', toma.IE, Ide.toma4.IE);
         TextoStr := StringReplace(TextoStr,'[TomaIE]',       lAuxStr,      [rfReplaceAll, rfIgnoreCase]);
 
-        TextoStr := StringReplace(TextoStr,'[ChaveCTe]',     procCTe.chCTe, [rfReplaceAll, rfIgnoreCase]);
+        TextoStr := StringReplace(TextoStr,'[ChaveCTe]',     procCTe.chDFe, [rfReplaceAll, rfIgnoreCase]);
 
         TextoStr := StringReplace(TextoStr,'[SerieCTe]',      FormatFloat('000',           Ide.serie),         [rfReplaceAll, rfIgnoreCase]);
         TextoStr := StringReplace(TextoStr,'[NumeroCTe]',     FormatFloat('000000000',     Ide.nCT),           [rfReplaceAll, rfIgnoreCase]);
