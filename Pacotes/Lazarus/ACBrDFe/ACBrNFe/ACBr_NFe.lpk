@@ -20,7 +20,7 @@
     </CompilerOptions>
     <Description Value="ACBr - Nota Fiscal Eletrônica - (http://www.projetoacbr.com.br/)"/>
     <License Value="LGPL"/>
-    <Files Count="29">
+    <Files Count="30">
       <Item1>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFe.pas"/>
         <UnitName Value="ACBrNFe"/>
@@ -138,6 +138,10 @@
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDI\ACBrDIDeclaracaoImportacao.pas"/>
         <UnitName Value="ACBrDIDeclaracaoImportacao"/>
       </Item29>
+      <Item30>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\ACBrNFe.RetObterDFe.pas"/>
+        <UnitName Value="ACBrNFe.RetObterDFe"/>
+      </Item30>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="1">

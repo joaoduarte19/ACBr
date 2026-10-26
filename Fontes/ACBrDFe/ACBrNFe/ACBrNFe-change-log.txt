@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/10/2026
+-- Diversos --
+[+] ACBR-9000 - ObterDFe - Implementados métodos SAE NFC-e SEFAZ-SP - NFCeListagemChaves e NFCeDownloadXML
+   Por: Renato Rubinho
+   Veja: https://www.projetoacbr.com.br/forum/topic/90552-sefaz-de-sp-disponibiliza-web-service-para-download-dos-xmls-das-nfc-es
+
 21/10/2026
 -- ACBrNFe.EnvEvento --
 [-] Adiciona leitura do elemento cCredPress no INI e no XML para o evento de solicitação de apropriação de crédito presumido.

@@ -115,6 +115,7 @@ contains
   ACBrNFe.RetConsSit in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\ACBrNFe.RetConsSit.pas',
   ACBrNFe.RetEnvEvento in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\ACBrNFe.RetEnvEvento.pas',
   ACBrNFe.RetInut in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\ACBrNFe.RetInut.pas',
+  ACBrNFe.RetObterDFe in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\ACBrNFe.RetObterDFe.pas',
 
   ACBrDFeDANFeReport in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\ACBrDFeDANFeReport.pas',
   ACBrNFeDANFEClass in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\ACBrNFeDANFEClass.pas',

@@ -630,6 +630,13 @@ const
   TtpPagAntArrayStrings: array[TtpPagAnt] of string = ('', '1', '2', '3');
 
 type
+  TACBrObterTipo = (aotNenhum, aotListaChaves, aotDownloadXml);
+
+const
+  TACBrObterTipoArrayStrings: array[TACBrObterTipo] of string = ('Nenhum',
+    'ListaChaves', 'DownloadXml');
+
+type
   TtpALCZFMCBS = (tpALCZFMCBSnOpInd, tpALCZFMCBSOpInd);
 
 const
@@ -659,6 +666,9 @@ function StrToTpImp(const s: string): TACBrTipoImpressao;
 function TipoEmissaoToStr(const t: TACBrTipoEmissao): string;
 function TryStrToTipoEmissao(const s: string; out Value: TACBrTipoEmissao): Boolean;
 function StrToTipoEmissao(const s: string): TACBrTipoEmissao;
+
+function ObterTipoToStr(const t: TACBrObterTipo): string;
+function StrToObterTipo(const s: string): TACBrObterTipo;
 
 function TipoAmbienteToStr(const t: TACBrTipoAmbiente): string;
 function TryStrToTipoAmbiente(const s: string; out Value: TACBrTipoAmbiente): Boolean;
@@ -919,6 +929,31 @@ function StrToTipoEmissao(const s: string): TACBrTipoEmissao;
 begin
   if not TryStrToTipoEmissao(s, Result) then
     raise EACBrException.CreateFmt('Valor string inválido para TACBrTipoEmissao: %s', [s]);
+end;
+
+function ObterTipoToStr(const t: TACBrObterTipo): string;
+begin
+  Result := TACBrObterTipoArrayStrings[t];
+end;
+
+function StrToObterTipo(const s: string): TACBrObterTipo;
+var
+  idx: TACBrObterTipo;
+begin
+  if Trim(s) = '' then
+  begin
+    Result := aotNenhum;
+    Exit;
+  end;
+
+  for idx := Low(TACBrObterTipoArrayStrings) to High(TACBrObterTipoArrayStrings) do
+    if SameText(TACBrObterTipoArrayStrings[idx], Trim(s)) then
+    begin
+      Result := idx;
+      Exit;
+    end;
+
+  raise EACBrException.CreateFmt('Valor string invalido para TACBrObterTipo: %s', [s]);
 end;
 
 function TipoAmbienteToStr(const t: TACBrTipoAmbiente): string;
