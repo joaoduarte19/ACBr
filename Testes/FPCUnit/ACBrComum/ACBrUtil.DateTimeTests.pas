@@ -137,7 +137,6 @@ type
     procedure DataVaziaOuZerada;
   end;
 
-  {$IfDef FPC}
   { StrHasTimeZone }
 
   StrHasTimeZoneTest = class(TTestCase)
@@ -145,7 +144,6 @@ type
     procedure DataComTimeZone;
     procedure DataSemTimeZone;
   end;
-  {$ENDIf}
 
 
 implementation
@@ -184,6 +182,33 @@ uses
     else
       Result := '+'+Result;
   end;
+  {$ELSE}
+  var
+    ttsp: TTimeSpan;
+    Hora, Min: Integer;
+  begin
+    ttsp := TTimeZone.Local.GetUtcOffset(now);
+    Hora := ttsp.Hours;
+    Min  := ttsp.Minutes;
+
+    if Abs(Hora) < 10 then
+      Result := '0'+ abs(Hora).ToString
+    else
+      Result := abs(Hora).ToString;
+    Result := Result +':';
+    if Abs(min) < 10 then
+      Result := Result+ '0'+ abs(Min).ToString
+    else
+      Result := Result+ abs(Min).ToString;
+
+    if (Min < 0) or (Hora < 0) then
+      Result := '-'+Result
+    else
+      Result := '+'+Result;
+
+  end;
+  {$ENDIF}
+
 
 { StrHasTimeZone }
 
@@ -296,35 +321,6 @@ begin
   CheckFalse(hasTMZ, 'Str:2023-06-22 00:00|Esperado:False|Resultado:True');
 
 end;
-
-  {$ELSE}
-  var
-    ttsp: TTimeSpan;
-    Hora, Min: Integer;
-  begin
-    ttsp := TTimeZone.Local.GetUtcOffset(now);
-    Hora := ttsp.Hours;
-    Min  := ttsp.Minutes;
-
-    if Abs(Hora) < 10 then
-      Result := '0'+ abs(Hora).ToString
-    else
-      Result := abs(Hora).ToString;
-    Result := Result +':';
-    if Abs(min) < 10 then
-      Result := Result+ '0'+ abs(Min).ToString
-    else
-      Result := Result+ abs(Min).ToString;
-
-    if (Min < 0) or (Hora < 0) then
-      Result := '-'+Result
-    else
-      Result := '+'+Result;
-
-  end;
-  {$ENDIF}
-
-
 
 
 { IncWorkingDayTest }
@@ -1042,8 +1038,6 @@ initialization
   _RegisterTest('ACBrComum.ACBrUtil.DateTime', DateTimeToIso8601Test);
   _RegisterTest('ACBrComum.ACBrUtil.DateTime', Iso8601ToDateTimeTest);
   _RegisterTest('ACBrComum.ACBrUtil.DateTime', EncodeDataHoraTest);
-  {$IfDef FPC}
   _RegisterTest('ACBrComum.ACBrUtil.DateTime', StrHasTimeZoneTest);
-  {$EndIf}
 
 end.

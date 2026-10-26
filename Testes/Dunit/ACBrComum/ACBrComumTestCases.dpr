@@ -38,7 +38,8 @@ uses
   ACBrTests.Util in '..\..\ACBrTests.Util.pas',
   acbrutiltest in '..\..\FPCUnit\ACBrComum\acbrutiltest.pas',
   ACBrUtil.StringsTests in '..\..\FPCUnit\ACBrComum\ACBrUtil.StringsTests.pas',
-  ACBrUtil.DateTimeTests in '..\..\FPCUnit\ACBrComum\ACBrUtil.DateTimeTests.pas';
+  ACBrUtil.DateTimeTests in '..\..\FPCUnit\ACBrComum\ACBrUtil.DateTimeTests.pas',
+  ACBrUtil.FilesIOTests in '..\..\FPCUnit\ACBrComum\ACBrUtil.FilesIOTests.pas';
 
 begin
   ACBrRunTests;
