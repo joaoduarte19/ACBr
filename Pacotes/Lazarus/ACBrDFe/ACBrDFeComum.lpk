@@ -23,7 +23,7 @@
       </Other>
     </CompilerOptions>
     <Description Value="ACBr - Biblioteca com Métodos e Classes em comum a todos Documentos Fiscais Eletrônicos"/>
-    <Files Count="27">
+    <Files Count="29">
       <Item1>
         <Filename Value="..\..\..\Fontes\ACBrDFe\ACBrDFeConfiguracoes.pas"/>
         <UnitName Value="ACBrDFeConfiguracoes"/>
@@ -132,7 +132,14 @@
         <Filename Value="..\..\..\Fontes\ACBrDFe\ACBrDFe.RTC.XmlWriter.pas"/>
         <UnitName Value="ACBrDFe.RTC.XmlWriter"/>
       </Item27>
-    </Files>
+      <Item28>
+        <Filename Value="..\..\..\Fontes\ACBrDFe\Comum\ACBrDFeComum.Inut.pas"/>
+        <UnitName Value="ACBrDFeComum.Inut"/>
+      </Item28>
+      <Item29>
+        <Filename Value="..\..\..\Fontes\ACBrDFe\Comum\ACBrDFeComum.RetInut.pas"/>
+        <UnitName Value="ACBrDFeComum.RetInut"/>
+      </Item29>   </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="4">
       <Item1>
