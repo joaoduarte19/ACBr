@@ -42,6 +42,15 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/10/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-9969 - Incluido os campos ProVersaoNT e HomVersaoNT para os provedores que aderiram ao
+    layout do Padrão Nacional visando atender a NT 009 versão 1.01
+   Por: Italo Giurizzato Junior
+[*] ACBR-10117 - Alteração de URLs para o município de Farroupilha/RS
+	Veja: https://www.projetoacbr.com.br/forum/topic/95581-acbr-10117-troca-de-url-farroupilha-rs/
+	Por: dna.automacao
+	
 23/10/2026
 -- ACBrNFSeXServicos --
 [*] ACBR-10097 - Mudança de URLs e migração para o Layout Nacional no município de Buritis/RO
