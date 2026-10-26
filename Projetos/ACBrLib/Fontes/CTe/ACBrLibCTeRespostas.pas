@@ -38,7 +38,7 @@ interface
 
 uses
   SysUtils, Classes, contnrs,
-  {pcteRetEnvEventoCTe,} ACBrCTe.EventoClass,
+  ACBrCTe.EventoClass,
   ACBrLibConsReciDFe, ACBrLibResposta, ACBrLibConfig, ACBrCTe, ACBrDFeUtil;
 
 type
@@ -238,7 +238,7 @@ type
 implementation
 
 uses
-  pcnConversao, pcteConversaoCTe,
+  ACBrCTe.Conversao,
   ACBrDFe.Conversao,  ACBrXMLBase,
   ACBrUtil.Base, ACBrUtil.FilesIO, ACBrUtil.Strings,
   ACBrLibCTeConsts;
@@ -253,7 +253,7 @@ end;
 procedure TEventoItemResposta.Processar(const RetInfEvento: TRetInfEvento);
 begin
   FId := RetInfEvento.Id;
-  FtpAmb := TpAmbToStr(RetInfEvento.tpAmb);
+  FtpAmb := TipoAmbienteToStr(RetInfEvento.tpAmb);
   FverAplic := RetInfEvento.verAplic;
   FcOrgao := RetInfEvento.cOrgao;
   FcStat := RetInfEvento.cStat;
@@ -293,7 +293,7 @@ begin
   with ACBrCTe.WebServices.EnvEvento.EventoRetorno do
   begin
     Self.VerAplic := VerAplic;
-    Self.tpAmb := TpAmbToStr(tpAmb);
+    Self.tpAmb := TipoAmbienteToStr(tpAmb);
     Self.CStat := cStat;
     Self.XMotivo := XMotivo;
     Self.idLote := IdLote;
@@ -322,7 +322,7 @@ begin
   with ACBrCTe.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfevento do
     begin
       Self.Versao := verAplic;
-      Self.TpAmb := TpAmbToStr(TpAmb);
+      Self.TpAmb := TipoAmbienteToStr(TpAmb);
       Self.VerAplic := VerAplic;
       Self.CStat := cStat;
       Self.XMotivo := XMotivo;
@@ -366,7 +366,7 @@ begin
   with ACBrCTe.WebServices.Enviar do
   begin
     Self.Versao := verAplic;
-    Self.TpAmb := TpAmbToStr(TpAmb);
+    Self.TpAmb := TipoAmbienteToStr(TpAmb);
     Self.verAplic := verAplic;
     Self.CStat := cStat;
     Self.XMotivo := xMotivo;
@@ -385,11 +385,11 @@ begin
   begin
     Self.Xml := ACBrCTe.Conhecimentos.Items[0].XMLOriginal;
 
-    FItem := TRetornoItemResposta.Create('CTe' + DevolveChaveCTe(ACBrCTe.Conhecimentos.Items[0].CTe.procCTe.chCTe), Tipo, Codificacao);
+    FItem := TRetornoItemResposta.Create('CTe' + DevolveChaveCTe(ACBrCTe.Conhecimentos.Items[0].CTe.procCTe.chDFe), Tipo, Codificacao);
     FItem.Id := ACBrCTe.Conhecimentos.Items[0].CTe.procCTe.Id;
-    FItem.tpAmb := TpAmbToStr(ACBrCTe.Conhecimentos.Items[0].CTe.procCTe.tpAmb);
+    FItem.tpAmb := TipoAmbienteToStr(ACBrCTe.Conhecimentos.Items[0].CTe.procCTe.tpAmb);
     FItem.verAplic := ACBrCTe.Conhecimentos.Items[0].CTe.procCTe.verAplic;
-    FItem.chDFe := ACBrCTe.Conhecimentos.Items[0].CTe.procCTe.chCTe;
+    FItem.chDFe := ACBrCTe.Conhecimentos.Items[0].CTe.procCTe.chDFe;
     FItem.dhRecbto := ACBrCTe.Conhecimentos.Items[0].CTe.procCTe.dhRecbto;
     FItem.nProt := ACBrCTe.Conhecimentos.Items[0].CTe.procCTe.nProt;
     FItem.digVal := ACBrCTe.Conhecimentos.Items[0].CTe.procCTe.digVal;
@@ -427,7 +427,7 @@ begin
   begin
     Self.Msg := StatusServico.Msg;
     Self.Versao := StatusServico.versao;
-    Self.TpAmb := TpAmbToStr(StatusServico.TpAmb);
+    Self.TpAmb := TipoAmbienteToStr(StatusServico.TpAmb);
     Self.VerAplic := StatusServico.VerAplic;
     Self.CStat := StatusServico.CStat;
     Self.XMotivo := StatusServico.XMotivo;
@@ -451,7 +451,7 @@ begin
    begin
      Self.Msg := Inutilizacao.Msg;
      Self.Versao := Inutilizacao.versao;
-     Self.TpAmb := TpAmbToStr(Inutilizacao.TpAmb);
+     Self.TpAmb := TipoAmbienteToStr(Inutilizacao.TpAmb);
      Self.VerAplic := Inutilizacao.VerAplic;
      Self.CStat := Inutilizacao.CStat;
      Self.XMotivo := Inutilizacao.XMotivo;
@@ -474,7 +474,7 @@ begin
    begin
      Self.Msg := Consulta.Msg;
      Self.Versao := Consulta.versao;
-     Self.TpAmb := TpAmbToStr(Consulta.TpAmb);
+     Self.TpAmb := TipoAmbienteToStr(Consulta.TpAmb);
      Self.VerAplic := Consulta.VerAplic;
      Self.CStat := Consulta.CStat;
      Self.XMotivo := Consulta.XMotivo;
