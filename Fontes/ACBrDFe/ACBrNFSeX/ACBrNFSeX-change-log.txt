@@ -44,6 +44,9 @@ Símbolo : Significado
 
 23/10/2026
 -- ACBrNFSeXServicos --
+[*] ACBR-10097 - Mudança de URLs e migração para o Layout Nacional no município de Buritis/RO
+	Veja: https://www.projetoacbr.com.br/forum/topic/95484-acbr-10097-falha-de-conex%C3%A3o-timeout-na-url-cadastrada-para-buritis-ro-fiorilli/#comment-625293
+	Por: Larissa Santos/Valmor Moreira
 [-] A cidade de Carazinho/RS aderiu ao padrão nacional.
    Por: Suporte OTT Sistemas
 [*] ACBR-10103 - Troca de provedor para o município de Ibirama/SC agora é IPM
