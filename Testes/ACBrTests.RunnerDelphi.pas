@@ -181,7 +181,8 @@ implementation
     {$ELSE}
     procedure ConsoleDUnit;
     begin
-      with TextTestRunner.RunRegisteredTests do
+      // "rxbHaltOnFailures" abaixo força o retorno de exit-code diferente de zero.
+      with TextTestRunner.RunRegisteredTests(rxbHaltOnFailures) do
         Free;
       PausaSeNaoTiverCI
     end;
