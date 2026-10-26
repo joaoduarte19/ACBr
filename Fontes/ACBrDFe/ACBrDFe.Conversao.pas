@@ -257,18 +257,19 @@ type
   TCSTIcms = (cstVazio, cst00, cst10, cst20, cst30, cst40, cst41, cst45, cst50,
     cst51, cst60, cst70, cst80, cst81, cst90, cstICMSOutraUF, cstICMSSN,
     cstPart10, cstPart90, cstRep41, cstRep60, cst02, cst15, cst53, cst61, cst01,
-    cst12, cst13, cst14, cst21, cst72, cst73, cst74, cstPart20); //80 e 81 apenas para CTe
+    cst12, cst13, cst14, cst21, cst72, cst73, cst74, cstPart20,
+    cstICMSPrevisto); //80 e 81 apenas para CTe
 
 const
   TCSTIcmsArrayStringsEnt: array[TCSTIcms] of string = ('', '00', '10', '20', '30',
     '40', '41', '45', '50', '51', '60', '70', '80', '81', '90', '91', 'SN',
     '10part', '90part', '41rep', '60rep', '02', '15', '53', '61', '01', '12',
-    '13', '14', '21', '72', '73', '74', '20part');
+    '13', '14', '21', '72', '73', '74', '20part', 'IP');
 
   TCSTIcmsArrayStringsSai: array[TCSTIcms] of string = ('', '00', '10', '20', '30',
     '40', '41', '45', '50', '51', '60', '70', '80', '81', '90', '90', 'SN',
     '10', '90', '41', '60', '02', '15', '53', '61', '01', '12', '13', '14', '21',
-    '72', '73', '74', '20');
+    '72', '73', '74', '20', 'IP');
 
   TCSTIcmsDescricaoArrayStrings: array[TCSTIcms] of string = ('VAZIO',
     '00 - TRIBUTAÇÃO NORMAL DO ICMS',
@@ -303,7 +304,8 @@ const
     '72',
     '73',
     '74',
-    '20');
+    '20',
+    'IP - Valor do ICMS a incidir no momento do fornecimento futuro.');
 
 type
   // NFe e SAT
@@ -632,6 +634,15 @@ type
 
 const
   TtpALCZFMCBSArrayStrings: array[TtpALCZFMCBS] of string = ('1', '2');
+
+type
+  TCSTIS = (cstisNenhum,
+            cstis000, cstis100, cstis200, cstis300, cstis400, cstis500, cstis600);
+
+const
+  TCSTISArrayStrings: array[TCSTIS] of string = ('',
+    '000', '100', '200', '300', '400','500', '600');
+
 {
   Declaração das funções de conversão
 }
@@ -814,6 +825,10 @@ function StrTotpPagAnt(const s: string): TtpPagAnt;
 function tpALCZFMCBSToStr(const t: TtpALCZFMCBS): string;
 function TryStrTotpALCZFMCBS(const s: string; out Value: TtpALCZFMCBS): Boolean;
 function StrTotpALCZFMCBS(const s: string): TtpALCZFMCBS;
+
+function CSTISToStr(const t: TCSTIS): string;
+function TryStrToCSTIS(const s: string; out Value: TCSTIS): Boolean;
+function StrToCSTIS(const s: string): TCSTIS;
 
 var
   StrToTpEventoDFeList: array of TStrToTpEventoDFe;
@@ -2011,6 +2026,33 @@ function StrTotpALCZFMCBS(const s: string): TtpALCZFMCBS;
 begin
   if not TryStrTotpALCZFMCBS(s, Result) then
      raise EACBrException.CreateFmt('Valor string inválido para TtpALCZFMCBS: %s', [s]);
+end;
+
+function CSTISToStr(const t: TCSTIS): string;
+begin
+  Result := TCSTISArrayStrings[t];
+end;
+
+function TryStrToCSTIS(const s: string; out Value: TCSTIS): Boolean;
+var
+  idx: TCSTIS;
+begin
+  Result := False;
+  for idx := Low(TCSTISArrayStrings) to High(TCSTISArrayStrings) do
+  begin
+    if TCSTISArrayStrings[idx] = s then
+    begin
+      Value := idx;
+      Result := True;
+      Exit;
+    end;
+  end;
+end;
+
+function StrToCSTIS(const s: string): TCSTIS;
+begin
+  if not TryStrToCSTIS(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TCSTIS: %s', [s]);
 end;
 
 end.
