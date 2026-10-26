@@ -39,7 +39,9 @@ interface
 
 uses
   Classes, Sysutils, IniFiles,
-  ACBrDFeConfiguracoes, pcnConversao, pcteConversaoCTe;
+  ACBrDFeConfiguracoes,
+  ACBrDFe.Conversao,
+  ACBrCTe.Conversao;
 
 type
 
@@ -86,7 +88,7 @@ type
 
     function GetPathCTe(Data: TDateTime = 0; const CNPJ: String = ''; const IE: String = ''; Modelo: Integer = 0): String;
     function GetPathInu(Data: TDateTime = 0; const CNPJ: String = ''; const IE: String = ''): String;
-    function GetPathEvento(tipoEvento: TpcnTpEvento; const CNPJ: String = ''; const IE: String = ''; Data: TDateTime = 0): String;
+    function GetPathEvento(tipoEvento: TACBrTipoEvento; const CNPJ: String = ''; const IE: String = ''; Data: TDateTime = 0): String;
   published
     property EmissaoPathCTe: Boolean     read FEmissaoPathCte write FEmissaoPathCTe default False;
     property SalvarEvento: Boolean read FSalvarEvento write FSalvarEvento default False;
@@ -274,7 +276,7 @@ begin
   Result := GetPath(FPathInu, 'Inu', CNPJ, IE, Data);
 end;
 
-function TArquivosConfCTe.GetPathEvento(tipoEvento: TpcnTpEvento;
+function TArquivosConfCTe.GetPathEvento(tipoEvento: TACBrTipoEvento;
   const CNPJ: String = ''; const IE: String = ''; Data: TDateTime = 0): String;
 var
   Dir: String;

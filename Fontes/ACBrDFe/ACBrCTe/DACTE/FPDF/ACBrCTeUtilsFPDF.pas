@@ -42,8 +42,8 @@ uses
   SysUtils,
   StrUtils,
   ACBrCTe.Classes,
-  pcnConversao,
-  pcteConversaoCTe,
+  ACBrDFe.Conversao,
+  ACBrCTe.Conversao,
   ACBrCTe,
   ACBrCTeDACTEClass,
   StrUtilsEx;
@@ -74,7 +74,7 @@ type
       property FormatSettings: TFormatSettings read FFormatSettings write FFormatSettings;
   end;
 
-  function TipoDocumentoAnteriorStr(const ATpDoc : TpcteTipoDocumentoAnterior):String;
+  function TipoDocumentoAnteriorStr(const ATpDoc : TTipoDocumentoAnterior):String;
 
 implementation
 
@@ -114,7 +114,7 @@ begin
   inherited;
 end;
 
-function TipoDocumentoAnteriorStr(const ATpDoc : TpcteTipoDocumentoAnterior):String;
+function TipoDocumentoAnteriorStr(const ATpDoc : TTipoDocumentoAnterior):String;
 begin
   case ATpDoc of
     daCTRC  : Result := 'CTRC';

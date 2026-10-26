@@ -59,6 +59,7 @@ resourcestring
   DSC_TPDOC    = 'Tipo de documento originário';
   DSC_OUTROS   = 'Descrição';
   DSC_VTPREST  = 'Valor total da prestação do serviço';
+  DSC_VTPRESTLIQ = 'Valor Líquido da Prestação SEM tributos';
   DSC_VREC     = 'Valor a Receber';
   DSC_XNOMEC   = 'Nome do Componente';
   DSC_VCOMP    = 'Valor do Componente';
@@ -105,6 +106,7 @@ resourcestring
   DSC_CAPKG     = 'Capacidade em KG';
   DSC_CAPM3     = 'Capacidade em M3';
   DSC_INDSN     = 'Indicador de Simples Nacional';
+  DSC_VICMSPREVISTO = 'Valor do ICMS a incidir no momento do fornecimento futuro.';
   DSC_NMINU     = 'Número da Minuta';
   DSC_NOCA      = 'Número Operacional do Conhecimento Aéreo';
   DSC_XLAGEMI   = 'Identificação do Emissor';

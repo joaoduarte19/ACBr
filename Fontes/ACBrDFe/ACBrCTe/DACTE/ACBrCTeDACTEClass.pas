@@ -40,11 +40,10 @@ interface
 
 uses
   SysUtils, Classes,
-  pcnConversao,
   ACBrBase,
   ACBrDFeReport,
   ACBrDFe.Conversao,
-  pcteConversaoCTe,
+  ACBrCTe.Conversao,
   ACBrCTe.Classes;
 
 type
@@ -64,8 +63,8 @@ type
     FACBrCTE: TComponent;
     FImprimirHoraSaida: boolean;
     FImprimirHoraSaida_Hora: string;
-    FTipoDACTE: TpcnTipoImpressao;
-    FTamanhoPapel: TpcnTamanhoPapel;
+    FTipoDACTE: TACBrTipoImpressao;
+    FTamanhoPapel: TTamanhoPapel;
     FProtocolo: string;
     FCancelada: boolean;
     FResumoCanhoto: boolean;
@@ -95,8 +94,8 @@ type
     property ACBrCTE: TComponent read FACBrCTE write SetACBrCTE;
     property ImprimirHoraSaida: boolean read FImprimirHoraSaida write FImprimirHoraSaida;
     property ImprimirHoraSaida_Hora: string read FImprimirHoraSaida_Hora write FImprimirHoraSaida_Hora;
-    property TipoDACTE: TpcnTipoImpressao read FTipoDACTE write FTipoDACTE;
-    property TamanhoPapel: TpcnTamanhoPapel read FTamanhoPapel write FTamanhoPapel;
+    property TipoDACTE: TACBrTipoImpressao read FTipoDACTE write FTipoDACTE;
+    property TamanhoPapel: TTamanhoPapel read FTamanhoPapel write FTamanhoPapel;
     property Protocolo: string read FProtocolo write FProtocolo;
     property Cancelada: boolean read FCancelada write FCancelada;
     property ExibeResumoCanhoto: boolean read FResumoCanhoto write FResumoCanhoto;

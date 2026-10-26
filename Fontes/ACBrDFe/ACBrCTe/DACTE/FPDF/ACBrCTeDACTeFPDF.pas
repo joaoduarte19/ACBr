@@ -50,13 +50,13 @@ uses
   ACBrCTe.EnvEvento, 
   ACBrCTe.EventoClass,
   ACBrDFe.Conversao, 
-  pcnConversao, 
-  pcteConversaoCTe,
-  ACBrValidador, 
-  ACBrUtil.DateTime, 
+  ACBrCTe.Conversao,
+  ACBrValidador,
+  ACBrUtil.Base,
+  ACBrUtil.DateTime,
   ACBrUtil.Strings, 
   ACBrUtil.FilesIO,
-  ACBrDFeUtil, 
+  ACBrDFeUtil,
   ACBrUtil.Compatibilidade, 
   ACBrCTe, 
   ACBrBase, 
@@ -1517,7 +1517,7 @@ begin
   w := w1;
   LPDF.SetFont(6, '');
   LPDF.TextBox(x, y, w, h, 'ÓRGÃO', 'T', 'C', 1, '');
-  Texto := CUFtoUF(FProcEvento.InfEvento.cOrgao);
+  Texto := CodigoUFparaUF(FProcEvento.InfEvento.cOrgao);
   LPDF.SetFont(10, '');
   LPDF.TextBox(x, y, w, h, Texto, 'B', 'C', 0, '');
 
@@ -2354,7 +2354,7 @@ begin
   LPDF.SetFont('Arial', '', 8);
   x1 := x;
   y1 := y - 45;
-  LTexto := tpCTToStrText(LCTE.ide.tpCTe);
+  LTexto := tpCTeToStrText(LCTE.ide.tpCTe);
   LPDF.TextBox(x1, y1, 84, 4, LTexto, 'T', 'L', False);
 
   //Tipo do Serviço
@@ -2451,7 +2451,7 @@ begin
   LPDF.SetFont(7, 'B');
   LPDF.TextBox(x1 - 2, y1 + 10, 88, 7, 'Chave de acesso', 'T', 'L', False);
   LPDF.SetFont(7, '');
-  LPDF.TextBox(x1, y1 + 13, 88, 4, FormatarChaveAcesso(OnlyAlphaNum(LCTE.infCTe.Id)), 'T', 'C', False);
+  LPDF.TextBox(x1, y1 + 13, 88, 4, FormatarChaveAcesso(RemoverLiteralChave(LCTE.infCTe.Id)), 'T', 'C', False);
   //LPDF.TextBox(x1, y1 + 2, 86, 18, LTexto, 'C', 'C', False);
   //codigo de barras
   y1 := -65;

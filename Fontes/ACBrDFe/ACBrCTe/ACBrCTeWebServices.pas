@@ -47,13 +47,13 @@ uses
   ACBrDFeComum.RetConsReciDFe,
   ACBrDFeComum.RetConsCad,
   ACBrDFeComum.RetEnvio,
-  pcteConversaoCTe, pcteProcCTe,
+  ACBrDFeComum.Proc,
+  ACBrCTe.Conversao,
   ACBrCTe.EnvEvento,
   ACBrCTe.RetEnvEvento,
   ACBrCTe.RetConsSit,
   ACBrDFeComum.DistDFeInt,
   ACBrDFeComum.RetDistDFeInt,
-//  pcnDistDFeInt, pcnRetDistDFeInt,
   ACBrCTeConhecimentos, ACBrCTeConfiguracoes,
   ACBrCTe.Consts;
 
@@ -294,7 +294,7 @@ type
     FcUF: Integer;
     FRetCTeDFe: String;
 
-    FprotCTe: TProcCTe;
+    FprotCTe: TProcDFe;
     FretCancCTe: TRetCancCTe;
     FprocEventoCTe: TRetEventoCTeCollection;
 
@@ -326,7 +326,7 @@ type
     property cUF: Integer read FcUF;
     property RetCTeDFe: String read FRetCTeDFe;
 
-    property protCTe: TProcCTe read FprotCTe;
+    property protCTe: TProcDFe read FprotCTe;
     property retCancCTe: TRetCancCTe read FretCancCTe;
     property procEventoCTe: TRetEventoCTeCollection read FprocEventoCTe;
   end;
@@ -597,12 +597,15 @@ uses
   ACBrUtil.XMLHTML,
   ACBrUtil.FilesIO,
   ACBrCompress, ACBrCTe,
-  pcnGerador, pcnLeitor,
   ACBrDFeComum.ConsCad,
   ACBrDFeComum.ConsStatServ,
   ACBrDFeComum.RetConsStatServ,
+  ACBrDFeComum.ConsReciDFe,
   ACBrCTe.ConsSit,
-  pcteInutCTe, pcteRetInutCTe, pcnConsReciDFe;
+//  pcteInutCTe,
+//  pcteRetInutCTe,
+  ACBrDFeComum.Inut,
+  ACBrDFeComum.RetInut;
 
 { TCTeWebService }
 
@@ -1137,7 +1140,7 @@ function TCTeRecepcao.TratarResposta: Boolean;
 var
   I: integer;
   chCTe, AXML, NomeXMLSalvo: String;
-  AProcCTe: TProcCTe;
+  AProcCTe: TProcDFe;
   SalvarXML: Boolean;
 begin
   FPRetWS := SeparaDadosArray(['cteRecepcaoLoteResult'
@@ -1213,22 +1216,32 @@ begin
                   CTe.procCTe.cStat := FCTeRetornoSincrono.protCTe.cStat;
                   CTe.procCTe.tpAmb := FCTeRetornoSincrono.tpAmb;
                   CTe.procCTe.verAplic := FCTeRetornoSincrono.verAplic;
-                  CTe.procCTe.chCTe := FCTeRetornoSincrono.protCTe.chDFe;
+                  CTe.procCTe.chDFe := FCTeRetornoSincrono.protCTe.chDFe;
                   CTe.procCTe.dhRecbto := FCTeRetornoSincrono.protCTe.dhRecbto;
                   CTe.procCTe.nProt := FCTeRetornoSincrono.protCTe.nProt;
                   CTe.procCTe.digVal := FCTeRetornoSincrono.protCTe.digVal;
                   CTe.procCTe.xMotivo := FCTeRetornoSincrono.protCTe.xMotivo;
 
-                  AProcCTe := TProcCTe.Create;
+                  case FPConfiguracoesCTe.Geral.ModeloDF of
+                    moCTe:
+                      AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteProc', 'CTe');
+
+                    moCTeOS:
+                      AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteosProc', 'CTeOS');
+
+                    moCTeSimp:
+                      AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteProc', 'CTe');
+                  else
+                    AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'gtveProc', 'GTVe');
+                  end;
+
                   try
                     // Processando em UTF8, para poder gravar arquivo corretamente //
-                    AProcCTe.XML_CTe := RemoverDeclaracaoXML(XMLAssinado);
+                    AProcCTe.XML_DFe := RemoverDeclaracaoXML(XMLAssinado);
                     AProcCTe.XML_Prot := FCTeRetornoSincrono.XMLprotCTe;
-                    AProcCTe.Versao := FPVersaoServico;
-                    AjustarOpcoes( AProcCTe.Gerador.Opcoes );
                     AProcCTe.GerarXML;
 
-                    XMLOriginal := AProcCTe.Gerador.ArquivoFormatoXML;
+                    XMLOriginal := AProcCTe.GerarXML;
 
                     if FPConfiguracoesCTe.Arquivos.Salvar then
                     begin
@@ -1366,22 +1379,32 @@ begin
               CTe.procCTe.cStat := FCTeRetornoSincrono.protCTe.cStat;
               CTe.procCTe.tpAmb := FCTeRetornoSincrono.tpAmb;
               CTe.procCTe.verAplic := FCTeRetornoSincrono.verAplic;
-              CTe.procCTe.chCTe := FCTeRetornoSincrono.protCTe.chDFe;
+              CTe.procCTe.chDFe := FCTeRetornoSincrono.protCTe.chDFe;
               CTe.procCTe.dhRecbto := FCTeRetornoSincrono.protCTe.dhRecbto;
               CTe.procCTe.nProt := FCTeRetornoSincrono.protCTe.nProt;
               CTe.procCTe.digVal := FCTeRetornoSincrono.protCTe.digVal;
               CTe.procCTe.xMotivo := FCTeRetornoSincrono.protCTe.xMotivo;
 
-              AProcCTe := TProcCTe.Create;
+              case FPConfiguracoesCTe.Geral.ModeloDF of
+                moCTe:
+                  AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteProc', 'CTe');
+
+                moCTeOS:
+                  AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteosProc', 'CTeOS');
+
+                moCTeSimp:
+                  AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteProc', 'CTe');
+              else
+                AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'gtveProc', 'GTVe');
+              end;
+
               try
                 // Processando em UTF8, para poder gravar arquivo corretamente //
-                AProcCTe.XML_CTe := RemoverDeclaracaoXML(XMLAssinado);
+                AProcCTe.XML_DFe := RemoverDeclaracaoXML(XMLAssinado);
                 AProcCTe.XML_Prot := FCTeRetornoSincrono.XMLprotCTe;
-                AProcCTe.Versao := FPVersaoServico;
-                AjustarOpcoes( AProcCTe.Gerador.Opcoes );
                 AProcCTe.GerarXML;
 
-                XMLOriginal := AProcCTe.Gerador.ArquivoFormatoXML;
+                XMLOriginal := AProcCTe.GerarXML;
 
                 if FPConfiguracoesCTe.Arquivos.Salvar then
                 begin
@@ -1564,7 +1587,7 @@ begin
         if RemoverLiteralChave(FCTeRetorno.ProtDFe.Items[i].chDFe) = FConhecimentos.Items[J].NumID then
         begin
           FConhecimentos.Items[j].CTe.procCTe.verAplic := '';
-          FConhecimentos.Items[j].CTe.procCTe.chCTe    := '';
+          FConhecimentos.Items[j].CTe.procCTe.chDFe    := '';
           FConhecimentos.Items[j].CTe.procCTe.dhRecbto := 0;
           FConhecimentos.Items[j].CTe.procCTe.nProt    := '';
           FConhecimentos.Items[j].CTe.procCTe.digVal   := '';
@@ -1686,11 +1709,7 @@ begin
     ConsReciCTe.nRec := FRecibo;
 //    ConsReciCTe.Versao := FPVersaoServico;
 
-    AjustarOpcoes( ConsReciCTe.Gerador.Opcoes );
-
-    ConsReciCTe.GerarXML;
-
-    FPDadosMsg := ConsReciCTe.Gerador.ArquivoFormatoXML;
+    FPDadosMsg := ConsReciCTe.GerarXML;
   finally
     ConsReciCTe.Free;
   end;
@@ -1720,7 +1739,7 @@ end;
 function TCTeRetRecepcao.TratarRespostaFinal: Boolean;
 var
   I, J: Integer;
-  AProcCTe: TProcCTe;
+  AProcCTe: TProcDFe;
   AInfProt: TProtDFeCollection;
 //  NomeXML: String;
   SalvarXML: Boolean;
@@ -1755,7 +1774,7 @@ begin
         begin
           CTe.procCTe.tpAmb := AInfProt.Items[I].tpAmb;
           CTe.procCTe.verAplic := AInfProt.Items[I].verAplic;
-          CTe.procCTe.chCTe := AInfProt.Items[I].chDFe;
+          CTe.procCTe.chDFe := AInfProt.Items[I].chDFe;
           CTe.procCTe.dhRecbto := AInfProt.Items[I].dhRecbto;
           CTe.procCTe.nProt := AInfProt.Items[I].nProt;
           CTe.procCTe.digVal := AInfProt.Items[I].digVal;
@@ -1766,16 +1785,28 @@ begin
         // Monta o XML do CT-e assinado e com o protocolo de Autorização
         if (AInfProt.Items[I].cStat = 100) or (AInfProt.Items[I].cStat = 150) then
         begin
-          AProcCTe := TProcCTe.Create;
+          case FPConfiguracoesCTe.Geral.ModeloDF of
+            moCTe:
+              AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteProc', 'CTe');
+
+            moCTeOS:
+              AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteosProc', 'CTeOS');
+
+            moCTeSimp:
+              AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteProc', 'CTe');
+          else
+            AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'gtveProc', 'GTVe');
+          end;
+
           try
-            AProcCTe.XML_CTe := RemoverDeclaracaoXML(FConhecimentos.Items[J].XMLAssinado);
+            // Processando em UTF8, para poder gravar arquivo corretamente //
+            AProcCTe.XML_DFe := RemoverDeclaracaoXML(FConhecimentos.Items[J].XMLAssinado);
             AProcCTe.XML_Prot := AInfProt.Items[I].XMLprotDFe;
-            AProcCTe.Versao := FPVersaoServico;
             AProcCTe.GerarXML;
 
             with FConhecimentos.Items[J] do
             begin
-              XMLOriginal := AProcCTe.Gerador.ArquivoFormatoXML;
+              XMLOriginal := AProcCTe.GerarXML;
 
               if FPConfiguracoesCTe.Arquivos.Salvar then
               begin
@@ -2001,11 +2032,7 @@ begin
     ConsReciCTe.nRec := FRecibo;
 //    ConsReciCTe.Versao := FPVersaoServico;
 
-    AjustarOpcoes( ConsReciCTe.Gerador.Opcoes );
-
-    ConsReciCTe.GerarXML;
-
-    FPDadosMsg := ConsReciCTe.Gerador.ArquivoFormatoXML;
+    FPDadosMsg := ConsReciCTe.GerarXML;
   finally
     ConsReciCTe.Free;
   end;
@@ -2099,7 +2126,7 @@ begin
   if Assigned(FprocEventoCTe) then
     FprocEventoCTe.Free;
 
-  FprotCTe       := TProcCTe.Create;
+  FprotCTe       := TProcDFe.Create('', '', '', '');
   FretCancCTe    := TRetCancCTe.Create;
   FprocEventoCTe := TRetEventoCTeCollection.Create;
 end;
@@ -2244,7 +2271,7 @@ var
   CTeRetorno: TRetConsSitCTe;
   SalvarXML, CTCancelado, Atualiza: Boolean;
   aEventos, sPathCTe, NomeXMLSalvo: String;
-  AProcCTe: TProcCTe;
+  AProcCTe: TProcDFe;
   I, J, K, Inicio, Fim: Integer;
   dhEmissao: TDateTime;
 begin
@@ -2294,12 +2321,12 @@ begin
 
     // <protCTe> - Retorno dos dados do ENVIO da CT-e
     // Considerá-los apenas se não existir nenhum evento de cancelamento (110111)
-    FprotCTe.PathCTe := CTeRetorno.protCTe.PathDFe;
-    FprotCTe.PathRetConsReciCTe := CTeRetorno.protCTe.PathRetConsReciDFe;
-    FprotCTe.PathRetConsSitCTe := CTeRetorno.protCTe.PathRetConsSitDFe;
+    FprotCTe.PathDFe := CTeRetorno.protCTe.PathDFe;
+    FprotCTe.PathRetConsReciDFe := CTeRetorno.protCTe.PathRetConsReciDFe;
+    FprotCTe.PathRetConsSitDFe := CTeRetorno.protCTe.PathRetConsSitDFe;
     FprotCTe.tpAmb := CTeRetorno.protCTe.tpAmb;
     FprotCTe.verAplic := CTeRetorno.protCTe.verAplic;
-    FprotCTe.chCTe := CTeRetorno.protCTe.chDFe;
+    FprotCTe.chDFe := CTeRetorno.protCTe.chDFe;
     FprotCTe.dhRecbto := CTeRetorno.protCTe.dhRecbto;
     FprotCTe.nProt := CTeRetorno.protCTe.nProt;
     FprotCTe.digVal := CTeRetorno.protCTe.digVal;
@@ -2308,7 +2335,7 @@ begin
 
     if FCTeChave = '' then
     begin
-      FCTeChave := FprotCTe.chCTe;
+      FCTeChave := FprotCTe.chDFe;
       FdhRecbto := FprotCTe.dhRecbto;
     end;
 
@@ -2461,21 +2488,33 @@ begin
                 CTe.procCTe.Id := CTeRetorno.protCTe.Id;
                 CTe.procCTe.tpAmb := CTeRetorno.tpAmb;
                 CTe.procCTe.verAplic := CTeRetorno.verAplic;
-                CTe.procCTe.chCTe := CTeRetorno.chCTe;
+                CTe.procCTe.chDFe := CTeRetorno.chCTe;
                 CTe.procCTe.dhRecbto := FDhRecbto;
                 CTe.procCTe.nProt := FProtocolo;
                 CTe.procCTe.digVal := CTeRetorno.protCTe.digVal;
                 CTe.procCTe.cStat := CTeRetorno.protCTe.cStat;
                 CTe.procCTe.xMotivo := CTeRetorno.protCTe.xMotivo;
 
-                AProcCTe := TProcCTe.Create;
+                case FPConfiguracoesCTe.Geral.ModeloDF of
+                  moCTe:
+                    AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteProc', 'CTe');
+
+                  moCTeOS:
+                    AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteosProc', 'CTeOS');
+
+                  moCTeSimp:
+                    AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteProc', 'CTe');
+                else
+                  AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'gtveProc', 'GTVe');
+                end;
+
                 try
-                  AProcCTe.XML_CTe := RemoverDeclaracaoXML(XMLOriginal);
+                  // Processando em UTF8, para poder gravar arquivo corretamente //
+                  AProcCTe.XML_DFe := RemoverDeclaracaoXML(XMLAssinado);
                   AProcCTe.XML_Prot := CTeRetorno.XMLprotCTe;
-                  AProcCTe.Versao := FPVersaoServico;
                   AProcCTe.GerarXML;
 
-                  XMLOriginal := AProcCTe.Gerador.ArquivoFormatoXML;
+                  XMLOriginal := AProcCTe.GerarXML;
 
                   FRetCTeDFe := '';
                   aEventos := '';
@@ -2670,12 +2709,12 @@ end;
 
 procedure TCTeInutilizacao.DefinirDadosMsg;
 var
-  InutCTe: TinutCTe;
+  InutCTe: TinutDFe;
 begin
   if FPConfiguracoesCTe.Geral.VersaoDF >= ve400 then
     raise EACBrCTeException.Create('A partir da versão 4.00 o serviço de Inutilizadação foi descontinuado.');
 
-  InutCTe := TinutCTe.Create;
+  InutCTe := TinutDFe.Create(NAME_SPACE_CTE, 'CTe', 'nCTIni', 'nCTFin');
   try
     InutCTe.tpAmb := FPConfiguracoesCTe.WebServices.Ambiente;
     InutCTe.cUF := FPConfiguracoesCTe.WebServices.UFCodigo;
@@ -2683,16 +2722,16 @@ begin
     InutCTe.CNPJ := FCNPJ;
     InutCTe.modelo := FModelo;
     InutCTe.serie := FSerie;
-    InutCTe.nCTIni := FNumeroInicial;
-    InutCTe.nCTFin := FNumeroFinal;
+    InutCTe.nNumIni := FNumeroInicial;
+    InutCTe.nNumFin := FNumeroFinal;
     InutCTe.xJust := FJustificativa;
     InutCTe.Versao := FPVersaoServico;
 
-    AjustarOpcoes( InutCTe.Gerador.Opcoes );
+//    AjustarOpcoes( InutCTe.Gerador.Opcoes );
 
-    InutCTe.GerarXML;
+//    InutCTe.GerarXML;
 
-    AssinarXML( NativeStringToUTF8( InutCTe.Gerador.ArquivoFormatoXML ),
+    AssinarXML( NativeStringToUTF8( InutCTe.GerarXML ),
                 'inutCTe', 'infInut', 'Falha ao assinar Inutilização de numeração.');
 
     FID := InutCTe.ID;
@@ -2703,14 +2742,13 @@ end;
 
 function TCTeInutilizacao.TratarResposta: Boolean;
 var
-  CTeRetorno: TRetInutCTe;
+  CTeRetorno: TRetInutDFe;
 begin
-  CTeRetorno := TRetInutCTe.Create;
+  CTeRetorno := TRetInutDFe.Create('CTe', 'nCTIni', 'nCTFin');
   try
     FPRetWS := SeparaDados(FPRetornoWS, 'cteInutilizacaoCTResult');
 
-    //A função UTF8ToNativeString deve ser removida quando for refatorado para usar ACBrXmlDocument
-    CTeRetorno.Leitor.Arquivo := UTF8ToNativeString(ParseText(FPRetWS));
+    CTeRetorno.XmlRetorno := FPRetWS;
     CTeRetorno.LerXml;
 
     Fversao := CTeRetorno.versao;
@@ -3896,9 +3934,10 @@ begin
 end;
 
 procedure TCTeEnvioWebService.DefinirDadosMsg;
-var
-  LeitorXML: TLeitor;
+//var
+//  LeitorXML: TLeitor;
 begin
+{
   LeitorXML := TLeitor.Create;
   try
     LeitorXML.Arquivo := FXMLEnvio;
@@ -3907,7 +3946,7 @@ begin
   finally
     LeitorXML.Free;
   end;
-
+}
   FPDadosMsg := FXMLEnvio;
 end;
 

@@ -51,7 +51,6 @@ uses
   RLReport, RLFilters, RLPDFFilter, RLMetaFile, RLFeedBack, RLParser,
   RLConsts, RLUtils, RLTypes, RLRichText, RLBarcode, RLPrintDialog, RLPrinters,
   ACBrDFe.Conversao,
-  pcnConversao,
   ACBrCTeDACTeRL;
 
 type
@@ -729,7 +728,9 @@ uses
   ACBrUtil.Strings,
   ACBrUtil.DateTime,
   ACBrValidador, ACBrImage, ACBrDelphiZXingQRCode,
-  ACBrCTe, pcteConversaoCTe, ACBrCTe.Classes,
+  ACBrCTe,
+  ACBrCTe.Conversao,
+  ACBrCTe.Classes,
   ACBrDFeUtil, ACBrDFeReportFortes;
 
 {$IFnDEF FPC}
@@ -1251,9 +1252,9 @@ begin
   rllModal.Caption := ACBrStr(TpModalToStrText(fpCTe.Ide.modal));
   rllModelo.Caption := IntToStr(fpCTe.Ide.modelo);
   rllEmissao.Caption := FormatDateTimeBr(fpCTe.Ide.dhEmi);
-  rllChave.Caption := FormatarChaveAcesso(OnlyAlphaNum(fpCTe.InfCTe.Id));
+  rllChave.Caption := FormatarChaveAcesso(RemoverLiteralChave(fpCTe.InfCTe.Id));
 
-  rllTipoCte.Caption := ACBrStr(tpCTToStrText(fpCTe.Ide.tpCTe));
+  rllTipoCte.Caption := ACBrStr(tpCTeToStrText(fpCTe.Ide.tpCTe));
   rllTipoServico.Caption := ACBrStr(TpServToStrText(fpCTe.Ide.tpServ));
 
   // CTe 3.0 **************************************************************

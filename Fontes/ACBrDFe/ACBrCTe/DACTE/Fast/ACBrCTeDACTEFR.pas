@@ -41,8 +41,12 @@ interface
 
 uses
   SysUtils, Classes, ACBrCTeDACTEClass, ACBrBase,
-  ACBrCTe.Classes, pcnConversao, frxClass, DBClient, frxDBSet, frxBarcode, frxExportPDF,
-  ACBrCTe.EnvEvento, pcteInutCTe, pcteRetInutCTe, ACBrCTe,
+  ACBrCTe.Classes, ACBrDFe.Conversao, frxClass, DBClient, frxDBSet, frxBarcode, frxExportPDF,
+  ACBrCTe.EnvEvento,
+//  pcteInutCTe, pcteRetInutCTe,
+  ACBrDFeComum.Inut,
+  ACBrDFecomum.RetInut,
+  ACBrCTe,
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrUtil.FilesIO,
@@ -59,7 +63,7 @@ type
     FDACTEClassOwner: TACBrCTeDACTEClass;
     FCTe            : TCTe;
     FEvento         : TEventoCTe;
-    FInutilizacao   : TRetInutCTe;
+    FInutilizacao   : TRetInutDFe;
     FFastFile       : String;
     FEspessuraBorda : Integer;
     FFastFileEvento : string;
@@ -189,7 +193,7 @@ type
     procedure ImprimirINUTILIZACAOPDF(ACTE: TCTe = nil); override;
     property CTE: TCTe read FCTe write FCTe;
     property Evento: TEventoCTe read FEvento write FEvento;
-    property Inutilizacao: TRetInutCTe read FInutilizacao write FInutilizacao;
+    property Inutilizacao: TRetInutDFe read FInutilizacao write FInutilizacao;
     property DACTEClassOwner: TACBrCTeDACTEClass read FDACTEClassOwner;
 
   published
@@ -203,14 +207,13 @@ type
   end;
 
 var
-  TipoEvento: TpcnTpEvento;
+  TipoEvento: TACBrTipoEvento;
 
 implementation
 
 uses
-  pcteConversaoCTe,
-  ACBrDFe.Conversao,
-  ACBrDFeUtil, ACBrImage, ACBrDelphiZXingQRCode, ACBrValidador, 
+  ACBrCTe.Conversao,
+  ACBrDFeUtil, ACBrImage, ACBrDelphiZXingQRCode, ACBrValidador,
   ACBrUtil.FR;
 
 function CollateBr(Str: string): string;
@@ -1414,7 +1417,7 @@ begin
       frxPDFExport.ShowDialog := False;
       NomeArq := Trim(DACTEClassOwner.NomeDocumento);
       if EstaVazio(NomeArq) then
-        NomeArq := RemoverLiteralChave(TACBrCTe(ACBrCTe).InutCTe.RetInutCTe.Id) + '-procInutCTe.pdf';
+        NomeArq := RemoverLiteralChave(TACBrCTe(ACBrCTe).InutCTe.RetInutDFe.Id) + '-procInutCTe.pdf';
       frxPDFExport.FileName := PathWithDelim(DACTEClassOwner.PathPDF) + NomeArq;
 
 
@@ -1637,7 +1640,7 @@ begin
   begin
     if assigned(TACBrCTe(ACBrCTe).InutCTe) then
     begin
-      Inutilizacao := TACBrCTe(ACBrCTe).InutCTe.RetInutCTe;
+      Inutilizacao := TACBrCTe(ACBrCTe).InutCTe.RetInutDFe;
       CarregaDadosInutilizacao;
     end
     else
@@ -1874,7 +1877,7 @@ begin
 end;
 
 procedure TACBrCTeDACTEFR.CarregaDadosEventos;
-  Function MantertpAmb( s : TpcnTipoAmbiente ) : String;
+  Function MantertpAmb( s : TACBrTipoAmbiente ) : String;
   begin
     case s of
       taProducao    : Result := 'PRODUÇÃO';
@@ -2185,15 +2188,15 @@ begin
          FieldByName('Modelo').AsInteger    := Modelo;
          FieldByName('Serie').AsInteger     := Serie;
          FieldByName('Ano').AsInteger       := Ano;
-         FieldByName('nCTIni').AsInteger    := nCTIni;
-         FieldByName('nCTFin').AsInteger    := nCTFin;
+         FieldByName('nCTIni').AsInteger    := nNumIni;
+         FieldByName('nCTFin').AsInteger    := nNumFin;
          FieldByName('xJust').AsString      := xJust;
          FieldByName('versao').AsString     := versao;
          FieldByName('verAplic').AsString   := verAplic;
          FieldByName('cStat').AsInteger     := cStat;
          FieldByName('xMotivo').AsString    := xMotivo;
          FieldByName('dhRecbto').AsDateTime := dhRecbto;
-         FieldByName('cUF').AsString        := CUFtoUF(cUF);
+         FieldByName('cUF').AsString        := CodigoUFparaUF(cUF);
 
          case tpAmb of
             taProducao:    FieldByName('tpAmb').AsString := ACBrStr('PRODUÇÃO');

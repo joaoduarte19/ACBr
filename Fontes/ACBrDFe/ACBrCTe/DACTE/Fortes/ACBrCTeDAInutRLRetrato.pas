@@ -150,20 +150,20 @@ begin
 
   with fpInutCTe do
   begin
-    rllOrgao.Caption := IntToStr(RetInutCTe.cUF);
+    rllOrgao.Caption := IntToStr(RetInutDFe.cUF);
 
     case tpAmb of
       taProducao: rllTipoAmbiente.Caption := ACBrStr('PRODUÇÃO');
       taHomologacao: rllTipoAmbiente.Caption := ACBrStr('HOMOLOGAÇÃO - SEM VALOR FISCAL');
     end;
 
-    rllAno.Caption := IntToStr(RetInutCTe.ano);
-    rllModelo.Caption := IntToStr(RetInutCTe.Modelo);
-    rllSerie.Caption := IntToStr(RetInutCTe.Serie);
-    rllNumeracao.Caption := IntToStr(RetInutCTe.nCTIni) + ' a ' + IntToStr(RetInutCTe.nCTFin);
-    rllStatus.Caption := IntToStr(RetInutCTe.cStat) + ' - ' + RetInutCTe.xMotivo;
-    rllProtocolo.Caption := RetInutCTe.nProt + ' ' + DateTimeToStr(RetInutCTe.dhRecbto);
-    rllJustificativa.Lines.Text := RetInutCTe.xJust;
+    rllAno.Caption := IntToStr(RetInutDFe.ano);
+    rllModelo.Caption := IntToStr(RetInutDFe.Modelo);
+    rllSerie.Caption := IntToStr(RetInutDFe.Serie);
+    rllNumeracao.Caption := IntToStr(RetInutDFe.nNumIni) + ' a ' + IntToStr(RetInutDFe.nNumFin);
+    rllStatus.Caption := IntToStr(RetInutDFe.cStat) + ' - ' + RetInutDFe.xMotivo;
+    rllProtocolo.Caption := RetInutDFe.nProt + ' ' + DateTimeToStr(RetInutDFe.dhRecbto);
+    rllJustificativa.Lines.Text := RetInutDFe.xJust;
   end;
 end;
 

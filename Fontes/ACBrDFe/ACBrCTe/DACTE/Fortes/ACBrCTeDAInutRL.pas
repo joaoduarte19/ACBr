@@ -44,7 +44,9 @@ uses
   {$ELSE}Graphics, Controls, Forms, Dialogs, ExtCtrls,{$ENDIF}
   {$IFDEF BORLAND} DBClient, {$ELSE} BufDataset, {$ENDIF} DB,
   Printers, RLReport, RLFilters, RLPrinters, RLPDFFilter, RLConsts,
-  ACBrCTe.Classes, pcnConversao, pcteInutCTe,
+  ACBrCTe.Classes, ACBrDFe.Conversao,
+//  pcteInutCTe,
+  ACBrDFeComum.Inut,
   ACBrCTe, ACBrCTeDACTeRLClass;
 
 type
@@ -61,13 +63,13 @@ type
     cdsItens:  {$IFDEF BORLAND} TClientDataSet {$ELSE} TBufDataset{$ENDIF};
     procedure ConfigDataSet;
   protected
-    fpInutCTe: TInutCTe;
+    fpInutCTe: TInutDFe;
     fpCTe: TCTe;
     fpDACTe: TACBrCTeDACTeRL;
 
   public
-    class procedure Imprimir(ADACTe: TACBrCTeDACTeRL; AInutCTe: TInutCTe; ACTe: TCTe = nil);
-    class procedure SalvarPDF(ADACTe: TACBrCTeDACTeRL; AInutCTe: TInutCTe; AFile: String; ACTe: TCTe = nil);
+    class procedure Imprimir(ADACTe: TACBrCTeDACTeRL; AInutCTe: TInutDFe; ACTe: TCTe = nil);
+    class procedure SalvarPDF(ADACTe: TACBrCTeDACTeRL; AInutCTe: TInutDFe; AFile: String; ACTe: TCTe = nil);
   end;
 
 implementation
@@ -83,7 +85,7 @@ uses
   {$R *.lfm}
 {$ENDIF}
 
-class procedure TfrmCTeDAInutRL.Imprimir(ADACTe: TACBrCTeDACTeRL; AInutCTe: TInutCTe; ACTe: TCTe = nil);
+class procedure TfrmCTeDAInutRL.Imprimir(ADACTe: TACBrCTeDACTeRL; AInutCTe: TInutDFe; ACTe: TCTe = nil);
 var
   DACTeInuReport: TfrmCTeDAInutRL;
 begin
@@ -112,7 +114,7 @@ begin
   end;
 end;
 
-class procedure TfrmCTeDAInutRL.SalvarPDF(ADACTe: TACBrCTeDACTeRL; AInutCTe: TInutCTe; AFile: String; ACTe: TCTe = nil);
+class procedure TfrmCTeDAInutRL.SalvarPDF(ADACTe: TACBrCTeDACTeRL; AInutCTe: TInutDFe; AFile: String; ACTe: TCTe = nil);
 var
   DACTeInuReport: TfrmCTeDAInutRL;
   i :integer;

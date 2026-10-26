@@ -50,7 +50,7 @@ uses
   pcteCTeR,
   pcteCTeW,
   {$EndIf}
-  pcnConversao,
+  ACBrDFe.Conversao,
   ACBrXmlBase,
   ACBrCTe.IniReader, ACBrCTe.IniWriter;
 
@@ -205,7 +205,7 @@ uses
   ACBrUtil.FilesIO,
   ACBrUtil.DateTime,
   ACBrDFeUtil,
-  pcteConversaoCTe,
+  ACBrCTe.Conversao,
   ACBrXmlDocument;
 
 { Conhecimento }
@@ -705,6 +705,7 @@ end;
 
 function Conhecimento.GerarCTeIni: String;
 begin
+  FCTeIniW.ModeloDF := TACBrCTe(TConhecimentos(Collection).ACBrCTe).Configuracoes.Geral.ModeloDF;
   Result := FCTeIniW.GravarIni;
 end;
 
@@ -735,15 +736,10 @@ begin
 
     TimeZoneConf.Assign( Configuracoes.WebServices.TimeZoneConf );
 
-    {
-      Ao gerar o XML as tags e atributos tem que ser exatamente os da configuração
-    }
-    {
     FCTeW.VersaoDF := Configuracoes.Geral.VersaoDF;
     FCTeW.ModeloDF := Configuracoes.Geral.ModeloDF;
     FCTeW.tpAmb := Configuracoes.WebServices.Ambiente;
     FCTeW.tpEmis := Configuracoes.Geral.FormaEmissao;
-    }
     FCTeW.idCSRT := Configuracoes.RespTec.IdCSRT;
     FCTeW.CSRT   := Configuracoes.RespTec.CSRT;
   end;
@@ -831,7 +827,7 @@ begin
      (Copy(CTe.infCTe.ID, 24,  2) <> IntToStr(CTe.ide.modelo)) or
      (Copy(CTe.infCTe.ID, 26,  3) <> IntToStrZero(CTe.ide.serie, 3)) or
      (Copy(CTe.infCTe.ID, 29,  9) <> IntToStrZero(CTe.ide.nCT, 9)) or
-     (Copy(CTe.infCTe.ID, 38,  1) <> TpEmisToStr(CTe.ide.tpEmis)) or
+     (Copy(CTe.infCTe.ID, 38,  1) <> TipoEmissaoToStr(CTe.ide.tpEmis)) or
      (Copy(CTe.infCTe.ID, 39,  8) <> IntToStrZero(CTe.ide.cCT, 8)));
 end;
 

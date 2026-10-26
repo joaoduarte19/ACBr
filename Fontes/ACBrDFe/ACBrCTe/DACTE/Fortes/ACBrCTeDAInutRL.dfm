@@ -16,8 +16,8 @@ object frmCTeDAInutRL: TfrmCTeDAInutRL
   object RLCTeInut: TRLReport
     Left = 21
     Top = 51
-    Width = 794
-    Height = 1123
+    Width = 992
+    Height = 1403
     DataSource = DataSource1
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText

@@ -44,13 +44,12 @@ uses
    System.Contnrs,
   {$IfEnd}
   ACBrDFeConsts,
-  pcteConversaoCTe,
   ACBrCTe.Consts,
   ACBrCTe.EventoClass,
   ACBrBase,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  pcnConversao,
+  ACBrCTe.Conversao,
   ACBrXmlWriter,
   ACBrXmlDocument;
 
@@ -137,7 +136,7 @@ type
 
     function LerXML(const CaminhoArquivo: string): Boolean;
     function LerXMLFromString(const AXML: string): Boolean;
-    function ObterNomeArquivo(tpEvento: TpcnTpEvento): string;
+    function ObterNomeArquivo(tpEvento: TACBrTipoEvento): string;
     function LerFromIni(const AIniString: string; CCe: Boolean = True): Boolean;
 
     property idLote: Int64 read FidLote write FidLote;
@@ -184,7 +183,7 @@ begin
   inherited;
 end;
 
-function TEventoCTe.ObterNomeArquivo(tpEvento: TpcnTpEvento): string;
+function TEventoCTe.ObterNomeArquivo(tpEvento: TACBrTipoEvento): string;
 begin
   case tpEvento of
     teCCe: Result := IntToStr(Self.idLote) + '-cce.xml';
@@ -754,7 +753,7 @@ begin
                                                 Evento[Idx].FInfEvento.cOrgao));
 
   Result.AppendChild(AddNode(tcStr, 'HP09', 'tpAmb', 1, 1, 1,
-                           TpAmbToStr(Evento[Idx].InfEvento.tpAmb), DSC_TPAMB));
+                    TipoAmbienteToStr(Evento[Idx].InfEvento.tpAmb), DSC_TPAMB));
 
   sDoc := OnlyCPFCNPJAlphaNum(Evento[Idx].InfEvento.CNPJ);
 
@@ -1050,7 +1049,7 @@ begin
               infEvento.detEvento.vICMSST := StringToFloatDef(INIRec.ReadString(sSecao, 'vICMSST', ''), 0);
               infEvento.detEvento.vTPrest := StringToFloatDef(INIRec.ReadString(sSecao, 'vTPrest', ''), 0);
               infEvento.detEvento.vCarga := StringToFloatDef(INIRec.ReadString(sSecao, 'vCarga', ''), 0);
-              InfEvento.detEvento.modal := StrToTpModal(ok, INIRec.ReadString(sSecao, 'modal', '01'));
+              InfEvento.detEvento.modal := StrToTpModal(INIRec.ReadString(sSecao, 'modal', '01'));
               infEvento.detEvento.UFIni := INIRec.ReadString(sSecao, 'UFIni', '');
               infEvento.detEvento.UFFim := INIRec.ReadString(sSecao, 'UFFim', '');
               infEvento.detEvento.dhEmi := StringToDateTime(INIRec.ReadString(sSecao, 'dhEmi', ''));
@@ -1336,10 +1335,10 @@ begin
                                               pgto.tpMeioPgto, DSC_TPMEIOPGTO));
 
   Result.AppendChild(AddNode(tcStr, '#44', 'CNPJReceb', 14, 14, 1,
-                                                OnlyCPFCNPJAlphaNum(pgto.CNPJReceb), DSC_CNPJRECEB));
+                           OnlyCPFCNPJAlphaNum(pgto.CNPJReceb), DSC_CNPJRECEB));
 
   Result.AppendChild(AddNode(tcStr, '#44', 'CNPJBasePSP', 8, 8, 1,
-                                            OnlyCPFCNPJAlphaNum(pgto.CNPJBasePSP), DSC_CNPJBASEPSP));
+                       OnlyCPFCNPJAlphaNum(pgto.CNPJBasePSP), DSC_CNPJBASEPSP));
 end;
 
 function TEventoCTe.Gerar_Evento_CancelamentoVinculoPagamento(

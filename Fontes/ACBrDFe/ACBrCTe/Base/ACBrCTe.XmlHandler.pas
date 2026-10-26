@@ -36,14 +36,17 @@ interface
 
 uses
   Classes, SysUtils,
-  ACBrXmlDocument, ACBrXmlReader,
+  ACBrXmlDocument,
+  ACBrXmlReader,
   ACBrXmlBase,
-  ACBrCTe.Classes, pcnConversao, pcteProcCTe;
+  ACBrCTe.Classes,
+  ACBrDFeComum.Proc,
+  ACBrDFe.Conversao;
 
 type
   TprotCTeHandler = class
   public
-    procedure LerProtCTe(const ANode: TACBrXmlNode; const procCTe: TProcCTe);
+    procedure LerProtCTe(const ANode: TACBrXmlNode; const procCTe: TProcDFe);
   end;
 
   TInfPercursoHandler = class
@@ -202,78 +205,78 @@ type
   TICMS00Handler = class
   private
     FLiAhInformacao: Boolean;
-    FSituTrib: TpcnCSTIcms;
+    FSituTrib: TCSTIcms;
   public
     procedure LerICMS00(const ANode: TACBrXMLNode; const ICMS00: TCST00);
 //  published
     property LiAhInformacao: Boolean read FLiAhInformacao;
-    property SituTrib: TpcnCSTIcms read FSituTrib;
+    property SituTrib: TCSTIcms read FSituTrib;
   end;
 
   TICMS20Handler = class
   private
     FLiAhInformacao: Boolean;
-    FSituTrib: TpcnCSTIcms;
+    FSituTrib: TCSTIcms;
   public
     procedure LerICMS20(const ANode: TACBrXMLNode; const ICMS20: TCST20);
 //  published
     property LiAhInformacao: Boolean read FLiAhInformacao;
-    property SituTrib: TpcnCSTIcms read FSituTrib;
+    property SituTrib: TCSTIcms read FSituTrib;
   end;
 
   TICMS45Handler = class
   private
     FLiAhInformacao: Boolean;
-    FSituTrib: TpcnCSTIcms;
+    FSituTrib: TCSTIcms;
   public
     procedure LerICMS45(const ANode: TACBrXMLNode; const ICMS45: TCST45);
 //  published
     property LiAhInformacao: Boolean read FLiAhInformacao;
-    property SituTrib: TpcnCSTIcms read FSituTrib;
+    property SituTrib: TCSTIcms read FSituTrib;
   end;
 
   TICMS60Handler = class
   private
     FLiAhInformacao: Boolean;
-    FSituTrib: TpcnCSTIcms;
+    FSituTrib: TCSTIcms;
   public
     procedure LerICMS60(const ANode: TACBrXMLNode; const ICMS60: TCST60);
 //  published
     property LiAhInformacao: Boolean read FLiAhInformacao;
-    property SituTrib: TpcnCSTIcms read FSituTrib;
+    property SituTrib: TCSTIcms read FSituTrib;
   end;
 
   TICMS90Handler = class
   private
     FLiAhInformacao: Boolean;
-    FSituTrib: TpcnCSTIcms;
+    FSituTrib: TCSTIcms;
   public
     procedure LerICMS90(const ANode: TACBrXMLNode; const ICMS90: TCST90);
 //  published
     property LiAhInformacao: Boolean read FLiAhInformacao;
-    property SituTrib: TpcnCSTIcms read FSituTrib;
+    property SituTrib: TCSTIcms read FSituTrib;
   end;
 
   TICMSOutraUFHandler = class
   private
     FLiAhInformacao: Boolean;
-    FSituTrib: TpcnCSTIcms;
+    FSituTrib: TCSTIcms;
   public
     procedure LerICMSOutraUF(const ANode: TACBrXMLNode; const ICMSOutraUF: TICMSOutraUF);
 //  published
     property LiAhInformacao: Boolean read FLiAhInformacao;
-    property SituTrib: TpcnCSTIcms read FSituTrib;
+    property SituTrib: TCSTIcms read FSituTrib;
   end;
 
   TICMSSNHandler = class
   private
     FLiAhInformacao: Boolean;
-    FSituTrib: TpcnCSTIcms;
+    FSituTrib: TCSTIcms;
   public
     procedure LerICMSSN(const ANode: TACBrXMLNode; const ICMSSN: TICMSSN);
 //  published
     property LiAhInformacao: Boolean read FLiAhInformacao;
-    property SituTrib: TpcnCSTIcms read FSituTrib;
+    property SituTrib: TCSTIcms read FSituTrib;
   end;
 
   TICMSHandler = class
@@ -893,7 +896,7 @@ implementation
 
 uses
   ACBrUtil.Base,
-  pcteConversaoCTe;
+  ACBrCTe.Conversao;
 
 { TCTeXmlReader }
 
@@ -988,9 +991,8 @@ end;
 
 { TprotCTeHandle }
 
-procedure TprotCTeHandler.LerProtCTe(const ANode: TACBrXmlNode; const procCTe: TProcCTe);
+procedure TprotCTeHandler.LerProtCTe(const ANode: TACBrXmlNode; const procCTe: TProcDFe);
 var
-  Ok: Boolean;
   AuxNode: TACBrXmlNode;
 begin
   if not Assigned(ANode) then exit;
@@ -998,9 +1000,9 @@ begin
   AuxNode := ANode.Childrens.FindAnyNs('infProt');
   if Assigned(AuxNode) then
   begin
-    procCTe.tpAmb := StrToTpAmb(Ok, ObterConteudoTag(AuxNode.Childrens.FindAnyNs('tpAmb'), tcStr));
+    procCTe.tpAmb := StrToTipoAmbiente(ObterConteudoTag(AuxNode.Childrens.FindAnyNs('tpAmb'), tcStr));
     procCTe.verAplic := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('verAplic'), tcStr);
-    procCTe.chCTe := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('chCTe'), tcStr);
+    procCTe.chDFe := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('chCTe'), tcStr);
     procCTe.dhRecbto := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('dhRecbto'), tcDatHor);
     procCTe.nProt := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('nProt'), tcStr);
     procCTe.digVal := ObterConteudoTag(AuxNode.Childrens.FindAnyNS('digVal'), tcStr);
@@ -1044,12 +1046,12 @@ begin
   (*B08*)Ide.serie := ObterConteudoTag(ANode.Childrens.FindAnyNs('serie'), tcStr);
   (*B09*)Ide.nCT := ObterConteudoTag(ANode.Childrens.FindAnyNs('nCT'), tcInt);
   (*B10*)Ide.dhEmi := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhEmi'), tcDatHor);
-  (*B11*)Ide.tpImp := StrToTpImp(Ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpImp'), tcStr));
-  (*B12*)Ide.tpEmis := StrToTpEmis(OK, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpEmis'), tcStr));
+  (*B11*)Ide.tpImp := StrToTpImp(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpImp'), tcStr));
+  (*B12*)Ide.tpEmis := StrToTipoEmissao(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpEmis'), tcStr));
   (*B13*)Ide.cDV := ObterConteudoTag(ANode.Childrens.FindAnyNs('cDV'), tcInt);
-  (*B14*)Ide.tpAmb := StrToTpAmb(OK, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
+  (*B14*)Ide.tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
   (*B15*)Ide.tpCTe := StrTotpCTe(OK, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpCTe'), tcStr));
-  (*B15a*)Ide.procEmi := StrToprocEmi(OK, ObterConteudoTag(ANode.Childrens.FindAnyNs('procEmi'), tcStr));
+  (*B15a*)Ide.procEmi := StrToprocEmi(ObterConteudoTag(ANode.Childrens.FindAnyNs('procEmi'), tcStr));
   (*B15b*)Ide.verProc := ObterConteudoTag(ANode.Childrens.FindAnyNs('verProc'), tcStr);
 
   if ObterConteudoTag(ANode.Childrens.FindAnyNs('indGlobalizado'), tcStr) = '1' then
@@ -1061,7 +1063,7 @@ begin
   (*B16*)Ide.cMunEnv := ObterConteudoTag(ANode.Childrens.FindAnyNs('cMunEnv'), tcInt);
   (*B17*)Ide.xMunEnv := ObterConteudoTag(ANode.Childrens.FindAnyNs('xMunEnv'), tcStr);
   (*B18*)Ide.UFEnv := ObterConteudoTag(ANode.Childrens.FindAnyNs('UFEnv'), tcStr);
-  (*B19*)Ide.modal := StrToTpModal(OK, ObterConteudoTag(ANode.Childrens.FindAnyNs('modal'), tcStr));
+  (*B19*)Ide.modal := StrToTpModal(ObterConteudoTag(ANode.Childrens.FindAnyNs('modal'), tcStr));
   (*B20*)Ide.tpServ := StrtoTpServ(Ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpServ'), tcStr));
   (*B21*)Ide.cMunIni := ObterConteudoTag(ANode.Childrens.FindAnyNs('cMunIni'), tcInt);
   (*B22*)Ide.xMunIni := ObterConteudoTag(ANode.Childrens.FindAnyNs('xMunIni'), tcStr);
@@ -1075,7 +1077,7 @@ begin
   (*#57*)Ide.dhCont := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhCont'), tcDatHor);
   (*#58*)Ide.xJust := ObterConteudoTag(ANode.Childrens.FindAnyNs('xJust'), tcStr);
 
-  Ide.IndIEToma := StrToindIEDest(OK, ObterConteudoTag(ANode.Childrens.FindAnyNs('indIEToma'), tcStr));
+  Ide.IndIEToma := StrToindIEDest(ObterConteudoTag(ANode.Childrens.FindAnyNs('indIEToma'), tcStr));
 
   Ide.dhSaidaOrig := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhSaidaOrig'), tcDatHor);
   Ide.dhChegadaDest := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhChegadaDest'), tcDatHor);
@@ -1386,7 +1388,7 @@ begin
   toma.email := ObterConteudoTag(ANode.Childrens.FindAnyNs('email'), tcStr);
 
   toma.Toma := StrToTpTomador(Ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('toma'), tcStr));
-  toma.indIEToma := StrToindIEDest(OK, ObterConteudoTag(ANode.Childrens.FindAnyNs('indIEToma'), tcStr));
+  toma.indIEToma := StrToindIEDest(ObterConteudoTag(ANode.Childrens.FindAnyNs('indIEToma'), tcStr));
 
   FEnderHandler.LerEnder(ANode.Childrens.FindAnyNs('enderToma'), toma.enderToma);
 end;
@@ -1770,7 +1772,7 @@ begin
   if not Assigned(ANode) then exit;
 
   FSituTrib     := cst00;
-  ICMS00.CST   := StrToCSTICMS(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('CST'), tcStr));
+  ICMS00.CST   := StrToCSTICMS(ObterConteudoTag(ANode.Childrens.FindAnyNs('CST'), tcStr));
   ICMS00.vBC   := ObterConteudoTag(ANode.Childrens.FindAnyNs('vBC'), tcDe2);
   ICMS00.pICMS := ObterConteudoTag(ANode.Childrens.FindAnyNs('pICMS'), tcDe2);
   ICMS00.vICMS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vICMS'), tcDe2);
@@ -1789,7 +1791,7 @@ begin
   if not Assigned(ANode) then exit;
 
   FSituTrib      := cst20;
-  ICMS20.CST    := StrToCSTICMS(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('CST'), tcStr));
+  ICMS20.CST    := StrToCSTICMS(ObterConteudoTag(ANode.Childrens.FindAnyNs('CST'), tcStr));
   ICMS20.pRedBC := ObterConteudoTag(ANode.Childrens.FindAnyNs('pRedBC'), tcDe2);
   ICMS20.vBC    := ObterConteudoTag(ANode.Childrens.FindAnyNs('vBC'), tcDe2);
   ICMS20.pICMS  := ObterConteudoTag(ANode.Childrens.FindAnyNs('pICMS'), tcDe2);
@@ -1807,7 +1809,7 @@ begin
   FLiAhInformacao := False;
   if not Assigned(ANode) then exit;
 
-  ICMS45.CST := StrToCSTICMS(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('CST'), tcStr));
+  ICMS45.CST := StrToCSTICMS(ObterConteudoTag(ANode.Childrens.FindAnyNs('CST'), tcStr));
 
   case ICMS45.CST of
     cst40: FSituTrib := cst40;
@@ -1829,7 +1831,7 @@ begin
   if not Assigned(ANode) then exit;
 
   FSituTrib         := cst60;
-  ICMS60.CST        := StrToCSTICMS(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('CST'), tcStr));
+  ICMS60.CST        := StrToCSTICMS(ObterConteudoTag(ANode.Childrens.FindAnyNs('CST'), tcStr));
   ICMS60.vBCSTRet   := ObterConteudoTag(ANode.Childrens.FindAnyNs('vBCSTRet'), tcDe2);
   ICMS60.vICMSSTRet := ObterConteudoTag(ANode.Childrens.FindAnyNs('vICMSSTRet'), tcDe2);
   ICMS60.pICMSSTRet := ObterConteudoTag(ANode.Childrens.FindANyNs('pICMSSTRet'), tcDe2);
@@ -1849,7 +1851,7 @@ begin
   if not Assigned(ANode) then exit;
 
   FSituTrib     := cst90;
-  ICMS90.CST    := StrToCSTICMS(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('CST'), tcStr));
+  ICMS90.CST    := StrToCSTICMS(ObterConteudoTag(ANode.Childrens.FindAnyNs('CST'), tcStr));
   ICMS90.pRedBC := ObterConteudoTag(ANode.Childrens.FindAnyNs('pRedBC'), tcDe2);
   ICMS90.vBC    := ObterConteudoTag(ANode.Childrens.FindAnyNs('vBC'), tcDe2);
   ICMS90.pICMS  := ObterConteudoTag(ANode.Childrens.FindAnyNs('pICMS'), tcDe2);
@@ -1871,7 +1873,7 @@ begin
 
   // ICMS devido à UF de origem da prestação, quando diferente da UF do emitente
   FSituTrib                 := cstICMSOutraUF;
-  ICMSOutraUF.CST           := StrToCSTICMS(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('CST'), tcStr));
+  ICMSOutraUF.CST           := StrToCSTICMS(ObterConteudoTag(ANode.Childrens.FindAnyNs('CST'), tcStr));
   ICMSOutraUF.pRedBCOutraUF := ObterConteudoTag(ANode.Childrens.FindAnyNs('pRedBCOutraUF'), tcDe2);
   ICMSOutraUF.vBCOutraUF    := ObterConteudoTag(ANode.Childrens.FindAnyNs('vBCOutraUF'), tcDe2);
   ICMSOutraUF.pICMSOutraUF  := ObterConteudoTag(ANode.Childrens.FindAnyNs('pICMSOutraUF'), tcDe2);
@@ -1891,7 +1893,7 @@ begin
 
   // ICMS Simples Nacional
   FSituTrib := cstICMSSN;
-  ICMSSN.CST := StrToCSTICMS(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('CST'), tcStr));
+  ICMSSN.CST := StrToCSTICMS(ObterConteudoTag(ANode.Childrens.FindAnyNs('CST'), tcStr));
   ICMSSN.indSN := ObterConteudoTag(ANode.Childrens.FindAnyNs('indSN'), tcInt);
 
   FLiAhInformacao := True;
@@ -2226,7 +2228,7 @@ var
 begin
   if not Assigned(ANode) then exit;
 
-  infUnidTranspItem.tpUnidTransp := StrToUnidTransp(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpUnidTransp'), tcStr));
+  infUnidTranspItem.tpUnidTransp := StrToUnidTransp(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpUnidTransp'), tcStr));
   infUnidTranspItem.idUnidTransp := ObterConteudoTag(ANode.Childrens.FindAnyNs('idUnidTransp'), tcStr);
   infUnidTranspItem.qtdRat := ObterConteudoTag(ANode.Childrens.FindAnyNs('qtdRat'), tcDe2);
 
@@ -2297,7 +2299,7 @@ begin
   for i:=0 to Length(AuxNodeArray)-1 do
   begin
     infUnidCarga.New;
-    infUnidCarga[i].tpUnidCarga := StrToUnidCarga(ok, ObterConteudoTag(AuxNodeArray[i].Childrens.FindAnyNs('tpUnidCarga'), tcStr));
+    infUnidCarga[i].tpUnidCarga := StrToUnidCarga(ObterConteudoTag(AuxNodeArray[i].Childrens.FindAnyNs('tpUnidCarga'), tcStr));
     infUnidCarga[i].idUnidCarga := ObterConteudoTag(AuxNodeArray[i].Childrens.FindAnyNs('idUnidCarga'), tcStr);
     infUnidCarga[i].qtdRat      := ObterConteudoTag(AuxNodeArray[i].Childrens.FindAnyNs('qtdRat'), tcDe2);
 
@@ -2684,8 +2686,8 @@ begin
     veic[i].capM3   := ObterConteudoTag(AuxNodeArray[i].Childrens.FindAnyNs('capM3'), tcInt);
     veic[i].tpProp  := StrToTpPropriedade(ok, ObterConteudoTag(AuxNodeArray[i].Childrens.FindAnyNs('tpProp'), tcStr));
     veic[i].tpVeic  := StrToTpVeiculo(ok, ObterConteudoTag(AuxNodeArray[i].Childrens.FindAnyNs('tpVeic'), tcStr));
-    veic[i].tpRod   := StrToTpRodado(ok, ObterConteudoTag(AuxNodeArray[i].Childrens.FindAnyNs('tpRod'), tcStr));
-    veic[i].tpCar   := StrToTpCarroceria(ok, ObterConteudoTag(AuxNodeArray[i].Childrens.FindAnyNs('tpCar'), tcStr));
+    veic[i].tpRod   := StrToTpRodado(ObterConteudoTag(AuxNodeArray[i].Childrens.FindAnyNs('tpRod'), tcStr));
+    veic[i].tpCar   := StrToTpCarroceria(ObterConteudoTag(AuxNodeArray[i].Childrens.FindAnyNs('tpCar'), tcStr));
     veic[i].UF      := ObterConteudoTag(AuxNodeArray[i].Childrens.FindAnyNs('UF'), tcStr);
 
     FPropHandler.LerProp(AuxNodeArray[i].Childrens.FindAnyNs('prop'), veic[i].Prop);
@@ -2706,7 +2708,7 @@ begin
   prop.xNome := ObterConteudoTag(ANode.Childrens.FindAnyNs('xNome'), tcStr);
   prop.IE := ObterConteudoTag(ANode.Childrens.FindAnyNs('IE'), tcStr);
   prop.UF := ObterConteudoTag(ANode.Childrens.FindAnyNs('UF'), tcStr);
-  prop.tpProp := StrToTpProp(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpProp'), tcStr));
+  prop.tpProp := StrToTpProp(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpProp'), tcStr));
 end;
 
 { TlacRodoHandler }
@@ -2907,7 +2909,7 @@ begin
 
   indAlteratoma := ObterConteudoTag(ANode.Childrens.FindAnyNs('indAlteraToma'), tcStr);
   if indAlteratoma <> '' then
-    infCTeSub.indAlteraToma := StrToTIndicador(Ok, indAlteraToma);
+    infCTeSub.indAlteraToma := StrToTIndicador(indAlteraToma);
 
   FTomaICMSHandler.LerTomaICMS(ANode.Childrens.FindAnyNs('tomaICMS'), infCTeSub.tomaICMS);
   FTomaNaoICMSHandler.LerNaoTomaICMS(ANode.Childrens.FindAnyNs('tomaNaoICMS'), infCTeSub.tomaNaoICMS);
@@ -3316,7 +3318,7 @@ begin
   propOS.xNome := ObterConteudoTag(ANode.Childrens.FindAnyNs('xNome'), tcStr);
   propOS.IE := ObterConteudoTag(ANode.Childrens.FindAnyNs('IE'), tcStr);
   propOS.UF := ObterConteudoTag(ANode.Childrens.FindAnyNs('UF'), tcStr);
-  propOS.tpProp := StrToTpProp(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpProp'), tcStr));
+  propOS.tpProp := StrToTpProp(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpProp'), tcStr));
 end;
 
 { TInfFretamentoHandler }
@@ -3483,7 +3485,7 @@ begin
   aquav.prtEmb   := ObterConteudoTag(ANode.Childrens.FindAnyNs('prtEmb'), tcStr);
   aquav.prtTrans := ObterConteudoTag(ANode.Childrens.FindAnyNs('prtTrans'), tcStr);
   aquav.prtDest  := ObterConteudoTag(ANode.Childrens.FindAnyNs('prtDest'), tcStr);
-  aquav.tpNav    := StrToTpNavegacao(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs( 'tpNav'), tcStr));
+  aquav.tpNav    := StrToTpNavegacao(ObterConteudoTag(ANode.Childrens.FindAnyNs( 'tpNav'), tcStr));
   aquav.irin     := ObterConteudoTag(ANode.Childrens.FindAnyNs('irin'), tcStr);
 
   FBalsaHandler.LerBalsa(ANode, aquav.balsa);

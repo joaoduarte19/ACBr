@@ -48,7 +48,6 @@ uses
   DB, StrUtils,
   RLReport, RLFilters, RLPDFFilter, RLTypes, RLBarcode, RLRichText,
   ACBrDFe.Conversao,
-  pcnConversao,
   ACBrCTeDACTeRL;
 
 type
@@ -520,8 +519,10 @@ uses
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrUtil.DateTime,
-  ACBrValidador, pcteConversaoCTe,
-  ACBrCTe.Classes, ACBrDFeReportFortes;
+  ACBrValidador,
+  ACBrCTe.Conversao,
+  ACBrCTe.Classes,
+  ACBrDFeReportFortes;
 
 {$IFnDEF FPC}
   {$R *.dfm}
@@ -826,7 +827,7 @@ begin
     format('%2.2d', [fpTotalPages]);
   rllEmissao.Caption := FormatDateTimeBr(fpCTe.Ide.dhEmi);
   rliBarCode.Caption := RemoverLiteralChave(fpCTe.InfCTe.Id);
-  rllChave.Caption := FormatarChaveAcesso(OnlyAlphaNum(fpCTe.InfCTe.Id));
+  rllChave.Caption := FormatarChaveAcesso(RemoverLiteralChave(fpCTe.InfCTe.Id));
 
   if not fpDACTe.ExpandeLogoMarca then
   begin
@@ -857,7 +858,7 @@ begin
     end;
   end;
 
-  rllTipoCte.Caption := tpCTToStrText(fpCTe.Ide.tpCTe);
+  rllTipoCte.Caption := tpCTeToStrText(fpCTe.Ide.tpCTe);
   rllTipoServico.Caption := TpServToStrText(fpCTe.Ide.tpServ);
   if fpCTe.Ide.Toma4.xNome = '' then
     rllTomaServico.Caption := TpTomadorToStrText(fpCTe.Ide.Toma03.Toma)

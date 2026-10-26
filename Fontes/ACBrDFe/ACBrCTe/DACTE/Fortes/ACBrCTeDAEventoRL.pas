@@ -46,7 +46,7 @@ uses
   {$IFDEF BORLAND} DBClient, {$ELSE} BufDataset, {$ENDIF} DB,
   RLReport, RLFilters, RLPrinters, RLPDFFilter, RLConsts, RLBarcode,
   ACBrCTe, ACBrCTeDACTeRLClass,
-  ACBrCTe.Classes, pcnConversao, ACBrCTe.EnvEvento;
+  ACBrCTe.Classes, ACBrDFe.Conversao, ACBrCTe.EnvEvento;
 
 type
 

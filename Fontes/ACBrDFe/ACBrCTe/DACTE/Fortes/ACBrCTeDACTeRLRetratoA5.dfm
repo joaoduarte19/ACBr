@@ -6,6 +6,7 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
   Font.Height = -8
   Font.Name = 'Arial'
   Font.Style = [fsBold]
+  StyleElements = [seFont, seClient, seBorder]
   TextHeight = 10
   inherited RLCTe: TRLReport
     Left = 16
@@ -20,9 +21,9 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
     Title = 'DACTe Retrato A5'
     BeforePrint = RLCTeBeforePrint
     object rlb_08_Itens: TRLBand
-      Left = 26
-      Top = 762
-      Width = 742
+      Left = 33
+      Top = 769
+      Width = 926
       Height = 16
       Borders.Sides = sdCustom
       Borders.DrawLeft = False
@@ -176,9 +177,9 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
       end
     end
     object rlb_01_Recibo: TRLBand
-      Left = 26
-      Top = 26
-      Width = 742
+      Left = 33
+      Top = 33
+      Width = 926
       Height = 56
       BandType = btHeader
       Color = clWhite
@@ -460,9 +461,9 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
       end
     end
     object rlb_07_HeaderItens: TRLBand
-      Left = 26
-      Top = 751
-      Width = 742
+      Left = 33
+      Top = 758
+      Width = 926
       Height = 11
       BandType = btColumnHeader
       Color = clWhite
@@ -580,9 +581,9 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
       end
     end
     object rlb_09_Obs: TRLBand
-      Left = 26
-      Top = 695
-      Width = 742
+      Left = 33
+      Top = 702
+      Width = 926
       Height = 56
       AlignToBottom = True
       BandType = btHeader
@@ -883,9 +884,9 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
       end
     end
     object rlb_02_Cabecalho: TRLBand
-      Left = 26
-      Top = 228
-      Width = 742
+      Left = 33
+      Top = 235
+      Width = 926
       Height = 148
       BandType = btHeader
       Color = clWhite
@@ -1513,9 +1514,9 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
       end
     end
     object rlb_03_DadosDACTe: TRLBand
-      Left = 26
-      Top = 376
-      Width = 742
+      Left = 33
+      Top = 383
+      Width = 926
       Height = 81
       BandType = btHeader
       Color = clWhite
@@ -2187,9 +2188,9 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
       end
     end
     object rlb_04_DadosNotaFiscal: TRLBand
-      Left = 26
-      Top = 522
-      Width = 742
+      Left = 33
+      Top = 529
+      Width = 926
       Height = 65
       BandType = btHeader
       Color = clWhite
@@ -2911,9 +2912,9 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
       end
     end
     object rlb_05_Complemento: TRLBand
-      Left = 26
-      Top = 587
-      Width = 742
+      Left = 33
+      Top = 594
+      Width = 926
       Height = 61
       BandType = btHeader
       Color = clWhite
@@ -3009,9 +3010,9 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
       end
     end
     object rlb_17_Sistema: TRLBand
-      Left = 26
-      Top = 1154
-      Width = 742
+      Left = 33
+      Top = 1161
+      Width = 926
       Height = 13
       AlignToBottom = True
       BandType = btSummary
@@ -3052,9 +3053,9 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
       end
     end
     object rlb_06_ValorPrestacao: TRLBand
-      Left = 26
-      Top = 648
-      Width = 742
+      Left = 33
+      Top = 655
+      Width = 926
       Height = 47
       BandType = btHeader
       Color = clWhite
@@ -3387,9 +3388,9 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
       end
     end
     object rlb_12_ModAereo: TRLBand
-      Left = 26
-      Top = 881
-      Width = 742
+      Left = 33
+      Top = 888
+      Width = 926
       Height = 97
       BandType = btColumnFooter
       Color = clWhite
@@ -3899,9 +3900,9 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
       end
     end
     object rlb_13_ModAquaviario: TRLBand
-      Left = 26
-      Top = 791
-      Width = 742
+      Left = 33
+      Top = 798
+      Width = 926
       Height = 90
       BandType = btColumnFooter
       Color = clWhite
@@ -4226,9 +4227,9 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
       end
     end
     object rlb_14_ModFerroviario: TRLBand
-      Left = 26
-      Top = 784
-      Width = 742
+      Left = 33
+      Top = 791
+      Width = 926
       Height = 7
       BandType = btColumnFooter
       Color = clWhite
@@ -4236,9 +4237,9 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
       BeforePrint = rlb_14_ModFerroviarioBeforePrint
     end
     object rlb_15_ModDutoviario: TRLBand
-      Left = 26
-      Top = 778
-      Width = 742
+      Left = 33
+      Top = 785
+      Width = 926
       Height = 6
       BandType = btColumnFooter
       Color = clWhite
@@ -4246,9 +4247,9 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
       BeforePrint = rlb_15_ModDutoviarioBeforePrint
     end
     object rlb_01_Recibo_Aereo: TRLBand
-      Left = 26
-      Top = 82
-      Width = 742
+      Left = 33
+      Top = 89
+      Width = 926
       Height = 146
       BandType = btHeader
       Color = clWhite
@@ -4503,9 +4504,9 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
       end
     end
     object rlb_11_ModRodLot104: TRLBand
-      Left = 26
-      Top = 978
-      Width = 742
+      Left = 33
+      Top = 985
+      Width = 926
       Height = 108
       BandType = btColumnFooter
       Color = clWhite
@@ -4977,9 +4978,9 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
       end
     end
     object rlb_18_Recibo: TRLBand
-      Left = 26
-      Top = 1086
-      Width = 742
+      Left = 33
+      Top = 1093
+      Width = 926
       Height = 68
       BandType = btSummary
       Color = clWhite
@@ -5253,9 +5254,9 @@ inherited frmDACTeRLRetratoA5: TfrmDACTeRLRetratoA5
       end
     end
     object rlb_03_DadosRedespachoExpedidor: TRLBand
-      Left = 26
-      Top = 457
-      Width = 742
+      Left = 33
+      Top = 464
+      Width = 926
       Height = 65
       BandType = btHeader
       Color = clWhite

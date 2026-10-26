@@ -45,8 +45,10 @@ uses
   ACBrCTeDACTEClass, ACBrDFeException,
   ACBrCTe.Classes,
   ACBrDFe.Conversao,
-  pcteConversaoCTe,
-  ACBrCTe.EnvEvento, pcteInutCTe,
+  ACBrCTe.Conversao,
+  ACBrCTe.EnvEvento,
+//  pcteInutCTe,
+  ACBrDFeComum.Inut,
   ACBrDFeUtil;
 
 const
@@ -66,7 +68,7 @@ type
     FDACTe: TACBrCTeDACTEClass;
     FConhecimentos: TConhecimentos;
     FEventoCTe: TEventoCTe;
-    FInutCTe: TInutCTe;
+    FInutCTe: TInutDFe;
     FStatus: TStatusACBrCTe;
     FWebServices: TWebServices;
 
@@ -154,7 +156,7 @@ type
     property WebServices: TWebServices     read FWebServices   write FWebServices;
     property Conhecimentos: TConhecimentos read FConhecimentos write FConhecimentos;
     property EventoCTe: TEventoCTe         read FEventoCTe     write FEventoCTe;
-    property InutCTe: TInutCTe             read FInutCTe       write FInutCTe;
+    property InutCTe: TInutDFe             read FInutCTe       write FInutCTe;
     property Status: TStatusACBrCTe        read FStatus;
 
   published
@@ -181,7 +183,7 @@ begin
 
   FConhecimentos := TConhecimentos.Create(Self, Conhecimento);
   FEventoCTe := TEventoCTe.Create;
-  FInutCTe := TInutCTe.Create;
+  FInutCTe := TInutDFe.Create('', '', '', '');
   FWebServices := TWebServices.Create(Self);
 end;
 

@@ -43,11 +43,16 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+26/10/2026
+-- Diversos --
+[*] Alterações visando atender a NT 2026/004 versão 1.00
+   Por: Italo Giurizzato Junior
+
 29/09/2026
 -- ACBrCTe.XmlReader.pas --
 [-] Ajuste visando a correta leitura do campo tpALCZFMCBS
    Por: Daniel de Morais
-
 
 04/09/2026
 -- ACBrCTeWebServices --

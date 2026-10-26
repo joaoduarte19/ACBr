@@ -51,7 +51,7 @@ uses
   {$IFDEF BORLAND} DBClient, {$ELSE} BufDataset, {$ENDIF} DB,
   RLReport, RLFilters, RLPrinters, RLPDFFilter, RLConsts, RLBarcode,
   ACBrCTe, ACBrCTeDACTeRLClass,
-  ACBrCTe.Classes, pcnConversao;
+  ACBrCTe.Classes, ACBrDFe.Conversao;
 
 type
 
@@ -92,8 +92,10 @@ type
 implementation
 
 uses
-  MaskUtils, pcteConversaoCTe,
-  ACBrDFeUtil, ACBrDFeReportFortes;
+  MaskUtils,
+  ACBrCTe.Conversao,
+  ACBrDFeUtil,
+  ACBrDFeReportFortes;
 
 
 {$ifdef FPC}

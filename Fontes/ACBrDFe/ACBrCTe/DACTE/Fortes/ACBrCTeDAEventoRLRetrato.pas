@@ -45,7 +45,7 @@ uses
   Messages, Graphics, Controls, Forms, Dialogs, ExtCtrls, MaskUtils, StdCtrls,
   {$ENDIF}
   RLReport, RLFilters, RLPDFFilter,
-  pcnConversao, RLBarcode, DB, StrUtils, RLRichText, ACBrCTeDAEventoRL;
+  ACBrDFe.Conversao, RLBarcode, DB, StrUtils, RLRichText, ACBrCTeDAEventoRL;
 
 type
 
@@ -215,7 +215,8 @@ uses
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrUtil.DateTime,
-  ACBrValidador, pcteConversaoCTe;
+  ACBrValidador,
+  ACBrCTe.Conversao;
 
 {$IFnDEF FPC}
   {$R *.dfm}
@@ -299,7 +300,7 @@ begin
     rllNumCTe.Caption := FormatFloat('000,000,000', fpCTe.Ide.nCT);
     rllEmissao.Caption := FormatDateTimeBr(fpCTe.Ide.dhEmi);
     rliBarCode.Caption := RemoverLiteralChave(fpCTe.InfCTe.Id);
-    rllChave.Caption := FormatarChaveAcesso(OnlyAlphaNum(fpCTe.InfCTe.Id));
+    rllChave.Caption := FormatarChaveAcesso(RemoverLiteralChave(fpCTe.InfCTe.Id));
   end;
 end;
 

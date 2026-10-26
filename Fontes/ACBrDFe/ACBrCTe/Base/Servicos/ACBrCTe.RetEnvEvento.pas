@@ -43,7 +43,7 @@ uses
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$IfEnd}
-  pcnConversao,
+  ACBrDFe.Conversao,
   ACBrCTe.EventoClass,
   ACBrBase,
   ACBrXmlBase,
@@ -73,7 +73,7 @@ type
   private
     FidLote: Int64;
     Fversao: string;
-    FtpAmb: TpcnTipoAmbiente;
+    FtpAmb: TACBrTipoAmbiente;
     FverAplic: string;
     FcStat: Integer;
     FcOrgao: Integer;
@@ -105,7 +105,7 @@ type
 
     property idLote: Int64                      read FidLote    write FidLote;
     property versao: string                     read Fversao    write Fversao;
-    property tpAmb: TpcnTipoAmbiente            read FtpAmb     write FtpAmb;
+    property tpAmb: TACBrTipoAmbiente           read FtpAmb     write FtpAmb;
     property verAplic: string                   read FverAplic  write FverAplic;
     property cOrgao: Integer                    read FcOrgao    write FcOrgao;
     property cStat: Integer                     read FcStat     write FcStat;
@@ -122,7 +122,7 @@ type
 implementation
 
 uses
-  pcteConversaoCTe,
+  ACBrCTe.Conversao,
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML;
 
@@ -347,7 +347,7 @@ begin
     infEvento.detEvento.UF := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('UF'), tcStr);
     infEvento.detEvento.CNPJCPF := ObterConteudoTagCNPJCPF(AuxNode);
     infEvento.detEvento.IE := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('IE'), tcStr);
-    infEvento.detEvento.modal := StrToTpModal(ok, ObterConteudoTag(AuxNode.Childrens.FindAnyNs('modal'), tcStr));
+    infEvento.detEvento.modal := StrToTpModal(ObterConteudoTag(AuxNode.Childrens.FindAnyNs('modal'), tcStr));
     infEvento.DetEvento.UFIni := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('UFIni'), tcStr);
     infEvento.DetEvento.UFFim := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('UFFim'), tcStr);
     infEvento.DetEvento.xOBS := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('xOBS'), tcStr);
@@ -421,14 +421,13 @@ end;
 procedure TRetEventoCTe.Ler_MDFe(const ANode: TACBrXmlNode);
 var
   Item: TMDFe;
-  Ok: Boolean;
 begin
   if not Assigned(ANode) then Exit;
 
   Item := InfEvento.detEvento.MDFe;
 
   Item.chMDFe := ObterConteudoTag(ANode.Childrens.FindAnyNs('chMDFe'), tcStr);
-  Item.modal := StrToTpModal(Ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('modal'), tcStr));
+  Item.modal := StrToTpModal(ObterConteudoTag(ANode.Childrens.FindAnyNs('modal'), tcStr));
   Item.dhEmi := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhEmi'), tcDatHor);
   Item.nProt := ObterConteudoTag(ANode.Childrens.FindAnyNs('nProt'), tcStr);
   Item.dhRecbto := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhRecbto'), tcDatHor);
@@ -455,7 +454,7 @@ begin
   if not Assigned(ANode) then Exit;
 
   infEvento.Id := ObterConteudoTag(ANode.Attributes.Items['Id']);
-  infEvento.tpAmb := StrToTpAmb(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
+  infEvento.tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
   infEvento.cOrgao := ObterConteudoTag(ANode.Childrens.FindAnyNs('cOrgao'), tcInt);
   infEvento.CNPJ := ObterConteudoTagCNPJCPF(ANode);
   infEvento.chCTe := ObterConteudoTag(ANode.Childrens.FindAnyNs('chCTe'), tcStr);
@@ -478,7 +477,7 @@ begin
   Item.RetInfEvento.XML := ANode.OuterXml;
 
   Item.RetInfEvento.Id := ObterConteudoTag(ANode.Attributes.Items['Id']);
-  Item.RetInfEvento.tpAmb := StrToTpAmb(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
+  Item.RetInfEvento.tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
   Item.RetInfEvento.verAplic := ObterConteudoTag(ANode.Childrens.FindAnyNs('verAplic'), tcStr);
   Item.RetInfEvento.cOrgao := ObterConteudoTag(ANode.Childrens.FindAnyNs('cOrgao'), tcInt);
   Item.RetInfEvento.cStat := ObterConteudoTag(ANode.Childrens.FindAnyNs('cStat'), tcInt);

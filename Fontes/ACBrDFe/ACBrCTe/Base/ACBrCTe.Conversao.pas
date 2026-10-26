@@ -39,20 +39,20 @@ interface
 uses
   SysUtils, StrUtils, Classes,
   ACBrBase,
-  pcnConversao;
+  ACBrDFe.Conversao;
 
 type
-  TpcnTamanhoPapel = (tpA4, tpA4_2vias, tpA5);
+  TTamanhoPapel = (tpA4, tpA4_2vias, tpA5);
 
 type
-  TpcteModeloNF = (moNF011AAvulsa, moNFProdutor);
+  TModeloNF = (moNF011AAvulsa, moNFProdutor);
 const
-  TpcteModeloNFArrayStrings: array[TpcteModeloNF] of string = ('01','04');
+  TModeloNFArrayStrings: array[TModeloNF] of string = ('01','04');
 
-function ModeloNFToStr(const t: TpcteModeloNF): string;  deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS}'Use a função ModeloNFToStrEX'{$ENDIF};
-function StrToModeloNF(out ok: boolean; const s: string): TpcteModeloNF;  deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS}'Use a função StrToModeloNFEX'{$ENDIF};
-function ModeloNFToStrEX(const t: TpcteModeloNF): string;
-function StrToModeloNFEX(const s: string): TpcteModeloNF;
+function ModeloNFToStr(const t: TModeloNF): string;  deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS}'Use a função ModeloNFToStrEX'{$ENDIF};
+function StrToModeloNF(out ok: boolean; const s: string): TModeloNF;  deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS}'Use a função StrToModeloNFEX'{$ENDIF};
+function ModeloNFToStrEX(const t: TModeloNF): string;
+function StrToModeloNFEX(const s: string): TModeloNF;
 
 type
   TStatusACBrCTe = (stCTeIdle, stCTeStatusServico, stCTeRecepcao, stCTeRetRecepcao,
@@ -67,22 +67,23 @@ const
   TVersaoCTeArrayDouble: array[TVersaoCTe] of Double = (2.00, 3.00, 4.00);
 
 type
-  TSchemaCTe = ( schErro, schCTe, schCTeOS, schGTVe, schcancCTe, schInutCTe,
-                 schEventoCTe, schCTeSimp,
-                 schconsReciCTe, schconsSitCTe, schconsStatServCTe, schconsCad,
-                 schcteModalAereo, schcteModalAquaviario, schcteModalDutoviario,
-                 schcteModalFerroviario, schcteModalRodoviario, schcteMultiModal,
-                 schevEPECCTe, schevCancCTe, schevRegMultimodal, schevCCeCTe,
-                 schdistDFeInt, schcteModalRodoviarioOS, schevPrestDesacordo,
-                 schevGTV, schevCECTe, schevCancCECTe, schevCancPrestDesacordo,
-                 schevIECTe, schevCancIECTe);
+  TSchemaCTe = (schErro, schCTe, schCTeOS, schGTVe, schcancCTe, schInutCTe,
+                schEventoCTe, schCTeSimp,
+                schconsReciCTe, schconsSitCTe, schconsStatServCTe, schconsCad,
+                schcteModalAereo, schcteModalAquaviario, schcteModalDutoviario,
+                schcteModalFerroviario, schcteModalRodoviario, schcteMultiModal,
+                schevEPECCTe, schevCancCTe, schevRegMultimodal, schevCCeCTe,
+                schdistDFeInt, schcteModalRodoviarioOS, schevPrestDesacordo,
+                schevGTV, schevCECTe, schevCancCECTe, schevCancPrestDesacordo,
+                schevIECTe, schevCancIECTe, schevVincPgto, schevCancVincPgto);
 
 const
   TSchemaCTeArrayStrings: array[TSchemaCTe] of string = ('', '', '', '', '', '',
     '', '', '', '', '', '', '', '', '', '', '', '', 'evEPECCTe', 'evCancCTe',
     'evRegMultimodal', 'evCCeCTe', 'distDFeInt', 'cteModalRodoviarioOS',
     'evPrestDesacordo', 'evGTV', 'evCECTe', 'evCancCECTe',
-    'evCancPrestDesacordo', 'evIECTe', 'evCancIECTe');
+    'evCancPrestDesacordo', 'evIECTe', 'evCancIECTe', 'evVincPgto',
+    'evCancVincPgto');
 
 type
   TLayOutCTe = (LayCTeRecepcao, LayCTeRetRecepcao, LayCTeCancelamento,
@@ -110,154 +111,154 @@ const
   TModeloCTeArrayStrings: array[TModeloCTe] of string = ('57', '64', '67', '57');
 
 type
-  TpcteFormaPagamento = (fpPago, fpAPagar, fpOutros);
+  TFormaPagamento = (fpPago, fpAPagar, fpOutros);
 
 const
-  TFormaPagamentoArrayStrings: array[TpcteFormaPagamento] of string = ('0',
+  TFormaPagamentoArrayStrings: array[TFormaPagamento] of string = ('0',
     '1', '2');
-  TFormaPagamentoDescArrayStrings: array[TpcteFormaPagamento]
+  TFormaPagamentoDescArrayStrings: array[TFormaPagamento]
      of string = ('PAGO', 'A PAGAR', 'OUTROS');
 
 type
-  TpcteTipoCTe = (tcNormal, tcComplemento, tcAnulacao, tcSubstituto, tcGTVe,
+  TTipoCTe = (tcNormal, tcComplemento, tcAnulacao, tcSubstituto, tcGTVe,
                   tcCTeSimp, tcSubstCTeSimpl);
 
 const
-  TTipoCTeArrayStrings: array[TpcteTipoCTe] of string = ('0', '1', '2', '3',
+  TTipoCTeArrayStrings: array[TTipoCTe] of string = ('0', '1', '2', '3',
     '4', '5', '6');
-  TTipoCTeDescArrayStrings: array[TpcteTipoCTe] of string = ('NORMAL',
+  TTipoCTeDescArrayStrings: array[TTipoCTe] of string = ('NORMAL',
     'COMPLEMENTO', 'ANULAÇÃO', 'SUBSTITUTO', 'GTVe', 'CTeSimp',
     'SubstCTeSimpl');
 
 type
-  TpcteTipoServico = (tsNormal, tsSubcontratacao, tsRedespacho, tsIntermediario,
-                      tsMultimodal, tsTranspPessoas, tsTranspValores,
-                      tsExcessoBagagem, tsGTV);
+  TTipoServico = (tsNormal, tsSubcontratacao, tsRedespacho, tsIntermediario,
+                  tsMultimodal, tsTranspPessoas, tsTranspValores,
+                  tsExcessoBagagem, tsGTV);
 
 const
-  TTipoServicoArrayStrings: array[TpcteTipoServico] of string = ('0', '1',
+  TTipoServicoArrayStrings: array[TTipoServico] of string = ('0', '1',
     '2', '3', '4', '6', '7', '8', '9');
-  TTipoServicoDescArrayStrings: array[TpcteTipoServico]
+  TTipoServicoDescArrayStrings: array[TTipoServico]
     of string = ('NORMAL', 'SUBCONTRATAÇÃO', 'REDESPACHO',
       'REDESP. INTERMEDIÁRIO', 'VINC. A MULTIMODAL', 'TRANSP. PESSOAS',
       'TRANSP. VALORES', 'EXCESSO BAGAGEM', 'GTV');
 
 type
-  TpcteRetira = (rtSim, rtNao);
+  TRetira = (rtSim, rtNao);
 
 const
-  TRetiraArrayStrings: array[TpcteRetira] of string = ('0', '1');
+  TRetiraArrayStrings: array[TRetira] of string = ('0', '1');
 
 type
-  TpcteTomador = (tmRemetente, tmExpedidor, tmRecebedor, tmDestinatario,
+  TTomador = (tmRemetente, tmExpedidor, tmRecebedor, tmDestinatario,
                   tmOutros);
 
 const
-  TTomadorArrayStrings: array[TpcteTomador] of string = ('0', '1', '2', '3',
+  TTomadorArrayStrings: array[TTomador] of string = ('0', '1', '2', '3',
     '4');
-  TTomadorDescArrayStrings: array[TpcteTomador] of string = ('REMETENTE',
+  TTomadorDescArrayStrings: array[TTomador] of string = ('REMETENTE',
     'EXPEDIDOR', 'RECEBEDOR', 'DESTINATARIO', 'OUTROS');
 
 type
-  TpcteLotacao = (ltNao, ltSim);
+  TLotacao = (ltNao, ltSim);
 
 const
-  TLotacaoArrayStrings: array[TpcteLotacao] of string = ('0', '1');
+  TLotacaoArrayStrings: array[TLotacao] of string = ('0', '1');
 
 type
-  TpcteDirecao = (drNorte, drLeste, drSul, drOeste);
+  TDirecao = (drNorte, drLeste, drSul, drOeste);
 
 const
-  TDirecaoArrayStrings: array[TpcteDirecao] of string = ('N', 'L', 'S', 'O');
+  TDirecaoArrayStrings: array[TDirecao] of string = ('N', 'L', 'S', 'O');
 
 type
-  TpcteTipoTrafego = (ttProprio, ttMutuo, ttRodoferroviario, ttRodoviario);
+  TTipoTrafego = (ttProprio, ttMutuo, ttRodoferroviario, ttRodoviario);
 
 const
-  TTipoTrafegoArrayStrings: array[TpcteTipoTrafego] of string = ('0', '1',
+  TTipoTrafegoArrayStrings: array[TTipoTrafego] of string = ('0', '1',
     '2', '3');
 
 type
-  TpcteTipoDataPeriodo = (tdSemData, tdNaData, tdAteData, tdApartirData,
+  TTipoDataPeriodo = (tdSemData, tdNaData, tdAteData, tdApartirData,
                           tdNoPeriodo, tdNaoInformado);
 
 const
-  TTipoDataPeriodoArrayStrings: array[TpcteTipoDataPeriodo] of string = ('0',
-    '1', '2', '3', '4', 'N');
+  TTipoDataPeriodoArrayStrings: array[TTipoDataPeriodo] of string = ('0',
+    '1', '2', '3', '4', '-1');
 
 type
-  TpcteTipoHorarioIntervalo = (thSemHorario, thNoHorario, thAteHorario,
+  TTipoHorarioIntervalo = (thSemHorario, thNoHorario, thAteHorario,
                                thApartirHorario, thNoIntervalo, thNaoInformado);
 
 const
-  TTipoHorarioIntervaloArrayStrings: array[TpcteTipoHorarioIntervalo]
-     of string = ('0', '1', '2', '3', '4', 'N');
+  TTipoHorarioIntervaloArrayStrings: array[TTipoHorarioIntervalo]
+     of string = ('0', '1', '2', '3', '4', '-1');
 
 type
-  TpcteTipoDocumento = (tdDeclaracao, tdDutoviario, tdCFeSAT, tdNFCe, tdOutros);
+  TTipoDocumento = (tdDeclaracao, tdDutoviario, tdCFeSAT, tdNFCe, tdOutros);
 
 const
-  TTipoDocumentoArrayStrings: array[TpcteTipoDocumento] of string = ('00',
+  TTipoDocumentoArrayStrings: array[TTipoDocumento] of string = ('00',
     '10', '59', '65', '99');
 
 type
-  TpcteTipoDocumentoAnterior = (daCTRC, daCTAC, daACT, daNF7, daNF27, daCAN,
+  TTipoDocumentoAnterior = (daCTRC, daCTAC, daACT, daNF7, daNF27, daCAN,
                                 daCTMC, daATRE, daDTA, daCAI, daCCPI, daCA,
                                 daTIF, daBL, daOutros);
 
 const
-  TTipoDocumentoAnteriorArrayStrings: array[TpcteTipoDocumentoAnterior]
+  TTipoDocumentoAnteriorArrayStrings: array[TTipoDocumentoAnterior]
      of string = ('00', '01', '02', '03', '04', '05', '06', '07', '08', '09',
        '10', '11', '12', '13', '99');
 
 type
-  TpcteRspPagPedagio = (rpEmitente, rpRemetente, rpExpedidor, rpRecebedor,
+  TRspPagPedagio = (rpEmitente, rpRemetente, rpExpedidor, rpRecebedor,
                         rpDestinatario, rpTomadorServico);
 
 const
-  TRspPagPedagioArrayStrings: array[TpcteRspPagPedagio] of string = ('0',
+  TRspPagPedagioArrayStrings: array[TRspPagPedagio] of string = ('0',
     '1', '2', '3', '4', '5');
 
 type
-  TpcteTipoDispositivo = (tdCartaoMagnetico, tdTAG, tdTicket);
+  TTipoDispositivo = (tdCartaoMagnetico, tdTAG, tdTicket);
 
 const
-  TTipoDispositivoArrayStrings: array[TpcteTipoDispositivo]
+  TTipoDispositivoArrayStrings: array[TTipoDispositivo]
      of string = ('1', '2', '3');
 
 type
-  TpcteTipoPropriedade = (tpProprio, tpTerceiro);
+  TTipoPropriedade = (tpProprio, tpTerceiro);
 
 const
-  TTipoPropriedadeArrayStrings: array[TpcteTipoPropriedade] of string = ('P',
+  TTipoPropriedadeArrayStrings: array[TTipoPropriedade] of string = ('P',
     'T');
 
 type
-  TpcteTrafegoMutuo = (tmOrigem, tmDestino);
+  TTrafegoMutuo = (tmOrigem, tmDestino);
 
 const
-  TTrafegoMutuoArrayStrings: array[TpcteTrafegoMutuo] of string = ('1', '2');
+  TTrafegoMutuoArrayStrings: array[TTrafegoMutuo] of string = ('1', '2');
 
 type
-  TpcnindNegociavel = (inNaoNegociavel, inNegociavel);
+  TindNegociavel = (inNaoNegociavel, inNegociavel);
 
 const
-  TindNegociavelArrayStrings: array[TpcnindNegociavel] of string = ('0', '1');
+  TindNegociavelArrayStrings: array[TindNegociavel] of string = ('0', '1');
 
 type
-  TpcteTipoVeiculo = (tvTracao, tvReboque);
+  TTipoVeiculo = (tvTracao, tvReboque);
 
 const
-  TTipoVeiculoArrayStrings: array[TpcteTipoVeiculo] of string = ('0', '1');
+  TTipoVeiculoArrayStrings: array[TTipoVeiculo] of string = ('0', '1');
 
 type
-  TpcteRspSeg = (rsRemetente, rsExpedidor, rsRecebedor, rsDestinatario,
+  TRspSeg = (rsRemetente, rsExpedidor, rsRecebedor, rsDestinatario,
                  rsEmitenteCTe, rsTomadorServico);
 
 const
-  TRspSegArrayStrings: array[TpcteRspSeg] of string = ('0', '1', '2', '3',
+  TRspSegArrayStrings: array[TRspSeg] of string = ('0', '1', '2', '3',
     '4', '5');
-  TRspSegDescArrayStrings: array[TpcteRspSeg] of string = ('REMETENTE',
+  TRspSegDescArrayStrings: array[TRspSeg] of string = ('REMETENTE',
     'EXPEDIDOR', 'RECEBEDOR', 'DESTINATARIO', 'EMITENTE', 'TOMADOR SERVICO');
 
 type
@@ -335,7 +336,7 @@ const
 {
   Declaração das funções de conversão
 }
-function StrToTpEventoCTe(out ok: boolean; const s: string): TpcnTpEvento;
+function StrToTpEventoCTe(out ok: boolean; const s: string): TACBrTipoEvento;
 
 function LayOutToServico(const t: TLayOutCTe): String;
 function ServicoToLayOut(out ok: Boolean; const s: String): TLayOutCTe;
@@ -351,67 +352,66 @@ function VersaoCTeToStr(const t: TVersaoCTe): String;
 function DblToVersaoCTe(out ok: Boolean; const d: Double): TVersaoCTe;
 function VersaoCTeToDbl(const t: TVersaoCTe): Double;
 
-function tpforPagToStr(const t: TpcteFormaPagamento): string;
-function tpforPagToStrText(const t: TpcteFormaPagamento): string;
-function StrTotpforPag(out ok: boolean; const s: string): TpcteFormaPagamento;
+function tpforPagToStr(const t: TFormaPagamento): string;
+function tpforPagToStrText(const t: TFormaPagamento): string;
+function StrTotpforPag(out ok: boolean; const s: string): TFormaPagamento;
 
-function tpCTePagToStr(const t: TpcteTipoCTe): string;
-function tpCTToStr(const t: TpcteTipoCTe): string;
-function tpCTToStrText(const t: TpcteTipoCTe): string;
-function StrTotpCTe(out ok: boolean; const s: string): TpcteTipoCTe;
+function tpCTeToStr(const t: TTipoCTe): string;
+function tpCTeToStrText(const t: TTipoCTe): string;
+function StrTotpCTe(out ok: boolean; const s: string): TTipoCTe;
 
-function TpServPagToStr(const t: TpcteTipoServico): string;
-function TpServToStrText(const t: TpcteTipoServico): string;
-function StrToTpServ(out ok: boolean; const s: string): TpcteTipoServico;
+function TpServPagToStr(const t: TTipoServico): string;
+function TpServToStrText(const t: TTipoServico): string;
+function StrToTpServ(out ok: boolean; const s: string): TTipoServico;
 
-function TpRetiraPagToStr(const t: TpcteRetira): string;
-function StrToTpRetira(out ok: boolean; const s: string): TpcteRetira;
+function TpRetiraPagToStr(const t: TRetira): string;
+function StrToTpRetira(out ok: boolean; const s: string): TRetira;
 
-function TpTomadorPagToStr(const t: TpcteTomador): string;
-function TpTomadorToStr(const t: TpcteTomador): String;
-function TpTomadorToStrText(const t: TpcteTomador): String;
-function StrToTpTomador(out ok: boolean; const s: String ): TpcteTomador;
+function TpTomadorPagToStr(const t: TTomador): string;
+function TpTomadorToStr(const t: TTomador): String;
+function TpTomadorToStrText(const t: TTomador): String;
+function StrToTpTomador(out ok: boolean; const s: String ): TTomador;
 
-function TpLotacaoToStr(const t: TpcteLotacao): string;
-function StrToTpLotacao(out ok: boolean; const s: String ): TpcteLotacao;
+function TpLotacaoToStr(const t: TLotacao): string;
+function StrToTpLotacao(out ok: boolean; const s: String ): TLotacao;
 
-function TpDirecaoToStr(const t: TpcteDirecao): string;
-function StrToTpDirecao(out ok: boolean; const s: string): TpcteDirecao;
+function TpDirecaoToStr(const t: TDirecao): string;
+function StrToTpDirecao(out ok: boolean; const s: string): TDirecao;
 
-function TpTrafegoToStr(const t: TpcteTipoTrafego): string;
-function StrToTpTrafego(out ok: boolean; const s: string): TpcteTipoTrafego;
+function TpTrafegoToStr(const t: TTipoTrafego): string;
+function StrToTpTrafego(out ok: boolean; const s: string): TTipoTrafego;
 
-function TpDataPeriodoToStr(const t: TpcteTipoDataPeriodo): string;
-function StrToTpDataPeriodo(out ok: boolean; const s: string): TpcteTipoDataPeriodo;
+function TpDataPeriodoToStr(const t: TTipoDataPeriodo): string;
+function StrToTpDataPeriodo(out ok: boolean; const s: string): TTipoDataPeriodo;
 
-function TpHorarioIntervaloToStr(const t: TpcteTipoHorarioIntervalo): string;
-function StrToTpHorarioIntervalo(out ok: boolean; const s: string): TpcteTipoHorarioIntervalo;
+function TpHorarioIntervaloToStr(const t: TTipoHorarioIntervalo): string;
+function StrToTpHorarioIntervalo(out ok: boolean; const s: string): TTipoHorarioIntervalo;
 
-function TpDocumentoToStr(const t: TpcteTipoDocumento): string;
-function StrToTpDocumento(out ok: boolean; const s: string): TpcteTipoDocumento;
+function TpDocumentoToStr(const t: TTipoDocumento): string;
+function StrToTpDocumento(out ok: boolean; const s: string): TTipoDocumento;
 
-function TpDocumentoAnteriorToStr(const t: TpcteTipoDocumentoAnterior): string;
-function StrToTpDocumentoAnterior(out ok: boolean; const s: string): TpcteTipoDocumentoAnterior;
+function TpDocumentoAnteriorToStr(const t: TTipoDocumentoAnterior): string;
+function StrToTpDocumentoAnterior(out ok: boolean; const s: string): TTipoDocumentoAnterior;
 
-function RspPagPedagioToStr(const t: TpcteRspPagPedagio): string;
-function StrToRspPagPedagio(out ok: boolean; const s: string): TpcteRspPagPedagio;
+function RspPagPedagioToStr(const t: TRspPagPedagio): string;
+function StrToRspPagPedagio(out ok: boolean; const s: string): TRspPagPedagio;
 
-function TpDispositivoToStr(const t: TpcteTipoDispositivo): string;
-function StrToTpDispositivo(out ok: boolean; const s: string): TpcteTipoDispositivo;
+function TpDispositivoToStr(const t: TTipoDispositivo): string;
+function StrToTpDispositivo(out ok: boolean; const s: string): TTipoDispositivo;
 
-function TpPropriedadeToStr(const t: TpcteTipoPropriedade): string;
-function StrToTpPropriedade(out ok: boolean; const s: string): TpcteTipoPropriedade;
+function TpPropriedadeToStr(const t: TTipoPropriedade): string;
+function StrToTpPropriedade(out ok: boolean; const s: string): TTipoPropriedade;
 
-function TrafegoMutuoToStr(const t: TpcteTrafegoMutuo): string;
-function StrToTrafegoMutuo(out ok: boolean; const s: string): TpcteTrafegoMutuo;
+function TrafegoMutuoToStr(const t: TTrafegoMutuo): string;
+function StrToTrafegoMutuo(out ok: boolean; const s: string): TTrafegoMutuo;
 
-function indNegociavelToStr(const t: TpcnindNegociavel ): string;
-function StrToindNegociavel(out ok: boolean; const s: string): TpcnindNegociavel;
+function indNegociavelToStr(const t: TindNegociavel ): string;
+function StrToindNegociavel(out ok: boolean; const s: string): TindNegociavel;
 
-function TpVeiculoToStr(const t: TpcteTipoVeiculo): string;
-function StrToTpVeiculo(out ok: boolean; const s: string): TpcteTipoVeiculo;
+function TpVeiculoToStr(const t: TTipoVeiculo): string;
+function StrToTpVeiculo(out ok: boolean; const s: string): TTipoVeiculo;
 
-function GetVersaoModalCTe(AVersaoDF: TVersaoCTe; AModal: TpcteModal): string;
+function GetVersaoModalCTe(AVersaoDF: TVersaoCTe; AModal: TModal): string;
 
 function ModeloCTeToStr(const t: TModeloCTe): String;
 function StrToModeloCTe(out ok: Boolean; const s: String): TModeloCTe;
@@ -420,9 +420,9 @@ function ModeloCTeToPrefixo(const t: TModeloCTe): String;
 function TEspecieToStr(const t: TEspecie): String;
 function StrToTEspecie(out ok: Boolean; const s: String): TEspecie;
 
-function TpRspSeguroToStr(const t: TpcteRspSeg): String;
-function TpRspSeguroToStrText(const t: TpcteRspSeg): String;
-function StrToTpRspSeguro(out ok: boolean; const s: String ): TpcteRspSeg;
+function TpRspSeguroToStr(const t: TRspSeg): String;
+function TpRspSeguroToStrText(const t: TRspSeg): String;
+function StrToTpRspSeguro(out ok: boolean; const s: String ): TRspSeg;
 
 function TpInfManuToStr(const t: TpInfManu): string;
 function StrToTpInfManu(out ok: boolean; const s: string): TpInfManu;
@@ -463,39 +463,39 @@ implementation
 uses
   typinfo;
 
-function ModeloNFToStr(const t: TpcteModeloNF): string;
+function ModeloNFToStr(const t: TModeloNF): string;
 begin
   result := EnumeradoToStr(t, ['01','04'],
    [moNF011AAvulsa, moNFProdutor]);
 end;
 
-function StrToModeloNF(out ok: boolean; const s: string): TpcteModeloNF;
+function StrToModeloNF(out ok: boolean; const s: string): TModeloNF;
 begin
   result := StrToEnumerado(ok, s, ['01','04'],
    [moNF011AAvulsa, moNFProdutor]);
 end;
 
-function ModeloNFToStrEX(const t: TpcteModeloNF): string;
+function ModeloNFToStrEX(const t: TModeloNF): string;
 begin
-  Result := TpcteModeloNFArrayStrings[t];
+  Result := TModeloNFArrayStrings[t];
 end;
 
-function StrToModeloNFEX(const s: string): TpcteModeloNF;
+function StrToModeloNFEX(const s: string): TModeloNF;
 var
-  idx: TpcteModeloNF;
+  idx: TModeloNF;
 begin
-  for idx:= Low(TpcteModeloNFArrayStrings) to High(TpcteModeloNFArrayStrings)do
+  for idx:= Low(TModeloNFArrayStrings) to High(TModeloNFArrayStrings)do
   begin
-    if(TpcteModeloNFArrayStrings[idx] = s)then
+    if(TModeloNFArrayStrings[idx] = s)then
     begin
       Result := idx;
       Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TpcteModeloNF: %s', [s]);
+  raise EACBrException.CreateFmt('Valor string inválido para TModeloNF: %s', [s]);
 end;
 
-function StrToTpEventoCTe(out ok: boolean; const s: string): TpcnTpEvento;
+function StrToTpEventoCTe(out ok: boolean; const s: string): TACBrTipoEvento;
 begin
   Result := StrToEnumerado(ok, s,
             ['-99999', '110110', '110111', '110113', '110160', '110170',
@@ -628,14 +628,14 @@ begin
   end;
 end;
 
-function tpCTToStr(const t: TpcteTipoCTe): string;
+function tpCTeToStr(const t: TTipoCTe): string;
 begin
   result := EnumeradoToStr(t, ['0', '1', '2', '3', '4', '5', '6'],
                    [tcNormal, tcComplemento, tcAnulacao, tcSubstituto, tcGTVe,
                     tcCTeSimp, tcSubstCTeSimpl]);
 end;
 
-function tpCTToStrText(const t: TpcteTipoCTe): string;
+function tpCTeToStrText(const t: TTipoCTe): string;
 begin
   result := EnumeradoToStr(t, ['NORMAL', 'COMPLEMENTO', 'ANULAÇÃO', 'SUBSTITUTO',
                                'GTVe', 'CTe Simplificado',
@@ -644,39 +644,32 @@ begin
                     tcCTeSimp, tcSubstCTeSimpl]);
 end;
 
-function tpforPagToStr(const t: TpcteFormaPagamento): string;
-begin
-  result := EnumeradoToStr(t, ['0','1', '2'],
-                              [fpPago, fpAPagar, fpOutros]);
-end;
-
-function tpforPagToStrText(const t: TpcteFormaPagamento): string;
-begin
-  result := EnumeradoToStr(t, ['PAGO','A PAGAR', 'OUTROS'],
-                              [fpPago, fpAPagar, fpOutros]);
-end;
-
-function StrTotpforPag(out ok: boolean; const s: string): TpcteFormaPagamento;
-begin
-  result := StrToEnumerado(ok, s, ['0', '1', '2'],
-                                  [fpPago, fpAPagar, fpOutros]);
-end;
-
-function tpCTePagToStr(const t: TpcteTipoCTe): string;
-begin
-  result := EnumeradoToStr(t, ['0', '1', '2', '3', '4', '5', '6'],
-                   [tcNormal, tcComplemento, tcAnulacao, tcSubstituto, tcGTVe,
-                    tcCTeSimp, tcSubstCTeSimpl]);
-end;
-
-function StrTotpCTe(out ok: boolean; const s: string): TpcteTipoCTe;
+function StrTotpCTe(out ok: boolean; const s: string): TTipoCTe;
 begin
   result := StrToEnumerado(ok, s, ['0', '1', '2', '3', '4', '5', '6'],
                    [tcNormal, tcComplemento, tcAnulacao, tcSubstituto, tcGTVe,
                     tcCTeSimp, tcSubstCTeSimpl]);
 end;
 
-function TpServPagToStr(const t: TpcteTipoServico): string;
+function tpforPagToStr(const t: TFormaPagamento): string;
+begin
+  result := EnumeradoToStr(t, ['0','1', '2'],
+                              [fpPago, fpAPagar, fpOutros]);
+end;
+
+function tpforPagToStrText(const t: TFormaPagamento): string;
+begin
+  result := EnumeradoToStr(t, ['PAGO','A PAGAR', 'OUTROS'],
+                              [fpPago, fpAPagar, fpOutros]);
+end;
+
+function StrTotpforPag(out ok: boolean; const s: string): TFormaPagamento;
+begin
+  result := StrToEnumerado(ok, s, ['0', '1', '2'],
+                                  [fpPago, fpAPagar, fpOutros]);
+end;
+
+function TpServPagToStr(const t: TTipoServico): string;
 begin
   result := EnumeradoToStr(t, ['0','1', '2', '3', '4', '6', '7', '8', '9'],
                               [tsNormal, tsSubcontratacao, tsRedespacho,
@@ -684,7 +677,7 @@ begin
                                tsTranspValores, tsExcessoBagagem, tsGTV]);
 end;
 
-function TpServToStrText(const t: TpcteTipoServico): string;
+function TpServToStrText(const t: TTipoServico): string;
 begin
   result := EnumeradoToStr(t, ['NORMAL','SUBCONTRATAÇÃO', 'REDESPACHO',
                                'REDESP. INTERMEDIÁRIO', 'VINC. A MULTIMODAL',
@@ -696,7 +689,7 @@ begin
                                tsExcessoBagagem, tsGTV]);
 end;
 
-function StrToTpServ(out ok: boolean; const s: string): TpcteTipoServico;
+function StrToTpServ(out ok: boolean; const s: string): TTipoServico;
 begin
   result := StrToEnumerado(ok, s, ['0', '1', '2', '3', '4', '6', '7', '8', '9'],
                                   [tsNormal, tsSubcontratacao, tsRedespacho,
@@ -705,116 +698,116 @@ begin
                                    tsExcessoBagagem, tsGTV]);
 end;
 
-function TpRetiraPagToStr(const t: TpcteRetira): string;
+function TpRetiraPagToStr(const t: TRetira): string;
 begin
   result := EnumeradoToStr(t, ['0','1'], [rtSim, rtNao]);
 end;
 
-function StrToTpRetira(out ok: boolean; const s: string): TpcteRetira;
+function StrToTpRetira(out ok: boolean; const s: string): TRetira;
 begin
   result := StrToEnumerado(ok, s, ['0', '1'], [rtSim, rtNao]);
 end;
 
-function TpTomadorPagToStr(const t: TpcteTomador): string;
+function TpTomadorPagToStr(const t: TTomador): string;
 begin
   result := EnumeradoToStr(t, ['0','1', '2', '3', '4'],
              [tmRemetente, tmExpedidor, tmRecebedor, tmDestinatario, tmOutros]);
 end;
 
-function TpTomadorToStr(const t: TpcteTomador): String;
+function TpTomadorToStr(const t: TTomador): String;
 begin
   result := EnumeradoToStr(t, ['0', '1', '2', '3', '4'],
              [tmRemetente, tmExpedidor, tmRecebedor, tmDestinatario, tmOutros]);
 end;
 
-function TpTomadorToStrText(const t: TpcteTomador): String;
+function TpTomadorToStrText(const t: TTomador): String;
 begin
   result := EnumeradoToStr(t, ['REMETENTE', 'EXPEDIDOR', 'RECEBEDOR',
                                'DESTINATARIO', 'OUTROS'],
              [tmRemetente, tmExpedidor, tmRecebedor, tmDestinatario, tmOutros]);
 end;
 
-function TpLotacaoToStr(const t: TpcteLotacao): string;
+function TpLotacaoToStr(const t: TLotacao): string;
 begin
   result := EnumeradoToStr(t, ['0','1'], [ltNao, ltSim]);
 end;
 
-function StrToTpTomador(out ok: boolean; const s: String ): TpcteTomador;
+function StrToTpTomador(out ok: boolean; const s: String ): TTomador;
 begin
   result := StrToEnumerado(ok, s, ['0', '1', '2', '3', '4'],
              [tmRemetente, tmExpedidor, tmRecebedor, tmDestinatario, tmOutros]);
 end;
 
-function StrToTpLotacao(out ok: boolean; const s: String ): TpcteLotacao;
+function StrToTpLotacao(out ok: boolean; const s: String ): TLotacao;
 begin
   result := StrToEnumerado(ok, s, ['0', '1'], [ltNao, ltSim]);
 end;
 
-function TpDirecaoToStr(const t: TpcteDirecao): string;
+function TpDirecaoToStr(const t: TDirecao): string;
 begin
   result := EnumeradoToStr(t, ['N','L','S','O'],
                               [drNorte , drLeste, drSul, drOeste]);
 end;
 
-function StrToTpDirecao(out ok: boolean; const s: string): TpcteDirecao;
+function StrToTpDirecao(out ok: boolean; const s: string): TDirecao;
 begin
   result := StrToEnumerado(ok, s, ['N','L','S','O'],
                                   [drNorte , drLeste, drSul, drOeste]);
 end;
 
-function TpTrafegoToStr(const t: TpcteTipoTrafego): string;
+function TpTrafegoToStr(const t: TTipoTrafego): string;
 begin
   result := EnumeradoToStr(t, ['0','1','2','3'],
                         [ttProprio , ttMutuo, ttRodoferroviario, ttRodoviario]);
 end;
 
-function StrToTpTrafego(out ok: boolean; const s: string): TpcteTipoTrafego;
+function StrToTpTrafego(out ok: boolean; const s: string): TTipoTrafego;
 begin
   result := StrToEnumerado(ok, s, ['0','1','2','3'],
                         [ttProprio , ttMutuo, ttRodoferroviario, ttRodoviario]);
 end;
 
-function TpDataPeriodoToStr(const t: TpcteTipoDataPeriodo): string;
+function TpDataPeriodoToStr(const t: TTipoDataPeriodo): string;
 begin
-  result := EnumeradoToStr(t, ['0','1','2','3','4','N'],
+  result := EnumeradoToStr(t, ['0','1','2','3','4','-1'],
                               [tdSemData, tdNaData, tdAteData, tdApartirData,
                                tdNoPeriodo, tdNaoInformado]);
 end;
 
-function StrToTpDataPeriodo(out ok: boolean; const s: string): TpcteTipoDataPeriodo;
+function StrToTpDataPeriodo(out ok: boolean; const s: string): TTipoDataPeriodo;
 begin
-  result := StrToEnumerado(ok, s, ['0','1','2','3','4','N'],
+  result := StrToEnumerado(ok, s, ['0','1','2','3','4','-1'],
                                   [tdSemData, tdNaData, tdAteData, tdApartirData,
                                    tdNoPeriodo, tdNaoInformado]);
 end;
 
-function TpHorarioIntervaloToStr(const t: TpcteTipoHorarioIntervalo): string;
+function TpHorarioIntervaloToStr(const t: TTipoHorarioIntervalo): string;
 begin
-  result := EnumeradoToStr(t, ['0','1','2','3','4','N'],
+  result := EnumeradoToStr(t, ['0','1','2','3','4','-1'],
                               [thSemHorario, thNoHorario, thAteHorario,
                                thApartirHorario, thNoIntervalo, thNaoInformado]);
 end;
 
-function StrToTpHorarioIntervalo(out ok: boolean; const s: string): TpcteTipoHorarioIntervalo;
+function StrToTpHorarioIntervalo(out ok: boolean; const s: string): TTipoHorarioIntervalo;
 begin
-  result := StrToEnumerado(ok, s, ['0','1','2','3','4','N'],
+  result := StrToEnumerado(ok, s, ['0','1','2','3','4','-1'],
                                   [thSemHorario, thNoHorario, thAteHorario,
                                    thApartirHorario, thNoIntervalo, thNaoInformado]);
 end;
 
-function TpDocumentoToStr(const t: TpcteTipoDocumento): string;
+function TpDocumentoToStr(const t: TTipoDocumento): string;
 begin
   result := EnumeradoToStr(t, ['00', '10', '59', '65', '99'],
                               [tdDeclaracao, tdDutoviario, tdCFeSAT, tdNFCe, tdOutros]);
 end;
 
-function StrToTpDocumento(out ok: boolean; const s: string): TpcteTipoDocumento;
+function StrToTpDocumento(out ok: boolean; const s: string): TTipoDocumento;
 begin
   result := StrToEnumerado(ok, s, ['00', '10', '59', '65', '99'],
                                   [tdDeclaracao, tdDutoviario, tdCFeSAT, tdNFCe, tdOutros]);
 end;
 
-function TpDocumentoAnteriorToStr(const t: TpcteTipoDocumentoAnterior): string;
+function TpDocumentoAnteriorToStr(const t: TTipoDocumentoAnterior): string;
 begin
   result := EnumeradoToStr(t, ['00', '01', '02', '03', '04', '05', '06', '07',
                                '08', '09', '10', '11', '12', '13', '99'],
@@ -822,7 +815,7 @@ begin
                           daATRE, daDTA, daCAI, daCCPI, daCA, daTIF, daBL, daOutros]);
 end;
 
-function StrToTpDocumentoAnterior(out ok: boolean; const s: string): TpcteTipoDocumentoAnterior;
+function StrToTpDocumentoAnterior(out ok: boolean; const s: string): TTipoDocumentoAnterior;
 begin
   result := StrToEnumerado(ok, s, ['00', '01', '02', '03', '04', '05', '06', '07',
                                    '08', '09', '10', '11', '12', '13', '99'],
@@ -830,73 +823,73 @@ begin
                           daATRE, daDTA, daCAI, daCCPI, daCA, daTIF, daBL, daOutros]);
 end;
 
-function RspPagPedagioToStr(const t: TpcteRspPagPedagio): string;
+function RspPagPedagioToStr(const t: TRspPagPedagio): string;
 begin
   result := EnumeradoToStr(t, ['0','1','2','3','4','5'],
                              [rpEmitente, rpRemetente, rpExpedidor, rpRecebedor,
                               rpDestinatario, rpTomadorServico]);
 end;
 
-function StrToRspPagPedagio(out ok: boolean; const s: string): TpcteRspPagPedagio;
+function StrToRspPagPedagio(out ok: boolean; const s: string): TRspPagPedagio;
 begin
   result := StrToEnumerado(ok, s, ['0','1','2','3','4','5'],
                              [rpEmitente, rpRemetente, rpExpedidor, rpRecebedor,
                               rpDestinatario, rpTomadorServico]);
 end;
 
-function TpDispositivoToStr(const t: TpcteTipoDispositivo): string;
+function TpDispositivoToStr(const t: TTipoDispositivo): string;
 begin
   result := EnumeradoToStr(t, ['1','2','3'], [tdCartaoMagnetico, tdTAG, tdTicket]);
 end;
 
-function StrToTpDispositivo(out ok: boolean; const s: string): TpcteTipoDispositivo;
+function StrToTpDispositivo(out ok: boolean; const s: string): TTipoDispositivo;
 begin
   result := StrToEnumerado(ok, s, ['1','2','3'], [tdCartaoMagnetico, tdTAG, tdTicket]);
 end;
 
-function TpPropriedadeToStr(const t: TpcteTipoPropriedade): string;
+function TpPropriedadeToStr(const t: TTipoPropriedade): string;
 begin
   result := EnumeradoToStr(t, ['P','T'], [tpProprio, tpTerceiro]);
 end;
 
-function StrToTpPropriedade(out ok: boolean; const s: string): TpcteTipoPropriedade;
+function StrToTpPropriedade(out ok: boolean; const s: string): TTipoPropriedade;
 begin
   result := StrToEnumerado(ok, s, ['P','T'], [tpProprio, tpTerceiro]);
 end;
 
-function TrafegoMutuoToStr(const t: TpcteTrafegoMutuo): string;
+function TrafegoMutuoToStr(const t: TTrafegoMutuo): string;
 begin
   result := EnumeradoToStr(t, ['1','2'],
    [tmOrigem, tmDestino]);
 end;
 
-function StrToTrafegoMutuo(out ok: boolean; const s: string): TpcteTrafegoMutuo;
+function StrToTrafegoMutuo(out ok: boolean; const s: string): TTrafegoMutuo;
 begin
   result := StrToEnumerado(ok, s, ['1','2'],
    [tmOrigem, tmDestino]);
 end;
 
-function indNegociavelToStr(const t: TpcnindNegociavel ): string;
+function indNegociavelToStr(const t: TindNegociavel ): string;
 begin
   result := EnumeradoToStr(t, ['0', '1'], [inNaoNegociavel, inNegociavel]);
 end;
 
-function StrToindNegociavel(out ok: boolean; const s: string): TpcnindNegociavel;
+function StrToindNegociavel(out ok: boolean; const s: string): TindNegociavel;
 begin
   result := StrToEnumerado(ok, s, ['0', '1'], [inNaoNegociavel, inNegociavel]);
 end;
 
-function TpVeiculoToStr(const t: TpcteTipoVeiculo): string;
+function TpVeiculoToStr(const t: TTipoVeiculo): string;
 begin
   result := EnumeradoToStr(t, ['0','1'], [tvTracao, tvReboque]);
 end;
 
-function StrToTpVeiculo(out ok: boolean; const s: string): TpcteTipoVeiculo;
+function StrToTpVeiculo(out ok: boolean; const s: string): TTipoVeiculo;
 begin
   result := StrToEnumerado(ok, s, ['0','1'], [tvTracao, tvReboque]);
 end;
 
-function GetVersaoModalCTe(AVersaoDF: TVersaoCTe; AModal: TpcteModal): string;
+function GetVersaoModalCTe(AVersaoDF: TVersaoCTe; AModal: TModal): string;
 begin
   result := '';
 
@@ -951,14 +944,14 @@ begin
                                   [teNumerario, teCheque, teMoeda, teOutros]);
 end;
 
-function TpRspSeguroToStr(const t: TpcteRspSeg): String;
+function TpRspSeguroToStr(const t: TRspSeg): String;
 begin
   result := EnumeradoToStr(t, ['0', '1', '2', '3', '4', '5'],
                          [rsRemetente, rsExpedidor, rsRecebedor, rsDestinatario,
                           rsEmitenteCTe, rsTomadorServico]);
 end;
 
-function TpRspSeguroToStrText(const t: TpcteRspSeg): String;
+function TpRspSeguroToStrText(const t: TRspSeg): String;
 begin
   result := EnumeradoToStr(t, ['REMETENTE', 'EXPEDIDOR', 'RECEBEDOR',
                                'DESTINATARIO', 'EMITENTE', 'TOMADOR SERVICO'],
@@ -966,7 +959,7 @@ begin
                           rsEmitenteCTe, rsTomadorServico]);
 end;
 
-function StrToTpRspSeguro(out ok: boolean; const s: String ): TpcteRspSeg;
+function StrToTpRspSeguro(out ok: boolean; const s: String ): TRspSeg;
 begin
   result := StrToEnumerado(ok, s, ['0', '1', '2', '3', '4', '5'],
                          [rsRemetente, rsExpedidor, rsRecebedor, rsDestinatario,

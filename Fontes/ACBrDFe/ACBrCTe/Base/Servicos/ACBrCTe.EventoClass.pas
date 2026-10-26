@@ -43,8 +43,8 @@ uses
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$IfEnd}
-  pcnConversao,
-  pcteConversaoCTe,
+  ACBrDFe.Conversao,
+  ACBrCTe.Conversao,
   ACBrBase;
 
 type
@@ -186,13 +186,13 @@ type
   TMDFe = class(TObject)
   private
     FchMDFe: string;
-    Fmodal: TpcteModal;
+    Fmodal: TModal;
     FdhEmi: TDateTime;
     FnProt: string;
     FdhRecbto: TDateTime;
   public
     property chMDFe: string read FchMDFe write FchMDFe;
-    property modal: TpcteModal read Fmodal write Fmodal;
+    property modal: TModal read Fmodal write Fmodal;
     property dhEmi: TDateTime read FdhEmi write FdhEmi;
     property nProt: string read FnProt write FnProt;
     property dhRecbto: TDateTime read FdhRecbto write FdhRecbto;
@@ -210,14 +210,14 @@ type
     FvICMSST: Currency;
     FvTPrest: Currency;
     FvCarga: Currency;
-    Ftoma: TpcteTomador;
+    Ftoma: TTomador;
     FUF: string;
     FCNPJCPF: string;
     FIE: string;
-    Fmodal: TpcteModal;
+    Fmodal: TModal;
     FUFIni: string;
     FUFFim: string;
-    FtpCTe: TpcteTipoCTe;
+    FtpCTe: TTipoCTe;
     FdhEmi: TDateTime;
 
     FxRegistro: string; // MultiModal
@@ -276,14 +276,14 @@ type
     property vICMSST: Currency  read FvICMSST    write FvICMSST;
     property vTPrest: Currency  read FvTPrest    write FvTPrest;
     property vCarga: Currency   read FvCarga     write FvCarga;
-    property toma: TpcteTomador read Ftoma       write Ftoma;
+    property toma: TTomador     read Ftoma       write Ftoma;
     property UF: string         read FUF         write FUF;
     property CNPJCPF: string    read FCNPJCPF    write FCNPJCPF;
     property IE: string         read FIE         write FIE;
-    property modal: TpcteModal  read Fmodal      write Fmodal;
+    property modal: TModal      read Fmodal      write Fmodal;
     property UFIni: string      read FUFIni      write FUFIni;
     property UFFim: string      read FUFFim      write FUFFim;
-    property tpCTe: TpcteTipoCTe read FtpCTe      write FtpCTe;
+    property tpCTe: TTipoCTe    read FtpCTe      write FtpCTe;
     property dhEmi: TDateTime   read FdhEmi      write FdhEmi;
     property xRegistro: string  read FxRegistro  write FxRegistro;
     property nDoc: string       read FnDoc       write FnDoc;
@@ -333,12 +333,12 @@ type
   TInfEvento = class
   private
     FId: string;
-    FtpAmbiente: TpcnTipoAmbiente;
+    FtpAmbiente: TACBrTipoAmbiente;
     FCNPJ: string;
     FcOrgao: Integer;
     FChave: string;
     FDataEvento: TDateTime;
-    FTpEvento: TpcnTpEvento;
+    FTpEvento: TACBrTipoEvento;
     FnSeqEvento: Integer;
     FVersaoEvento: string;
     FDetEvento: TDetEvento;
@@ -349,15 +349,15 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    function DescricaoTipoEvento(TipoEvento:TpcnTpEvento): string;
+    function DescricaoTipoEvento(TipoEvento:TACBrTipoEvento): string;
 
     property Id: string              read FId           write FId;
     property cOrgao: Integer         read getcOrgao     write FcOrgao;
-    property tpAmb: TpcnTipoAmbiente read FtpAmbiente   write FtpAmbiente;
+    property tpAmb: TACBrTipoAmbiente read FtpAmbiente   write FtpAmbiente;
     property CNPJ: string            read FCNPJ         write FCNPJ;
     property chCTe: string           read FChave        write FChave;
     property dhEvento: TDateTime     read FDataEvento   write FDataEvento;
-    property tpEvento: TpcnTpEvento  read FTpEvento     write FTpEvento;
+    property tpEvento: TACBrTipoEvento read FTpEvento     write FTpEvento;
     property nSeqEvento: Integer     read FnSeqEvento   write FnSeqEvento;
     property versaoEvento: string    read FVersaoEvento write FversaoEvento;
     property detEvento: TDetEvento   read FDetEvento    write FDetEvento;
@@ -371,13 +371,13 @@ type
   TRetInfEvento = class
   private
     FId: string;
-    FtpAmb: TpcnTipoAmbiente;
+    FtpAmb: TACBrTipoAmbiente;
     FverAplic: string;
     FcOrgao: Integer;
     FcStat: Integer;
     FxMotivo: string;
     FchCTe: string;
-    FtpEvento: TpcnTpEvento;
+    FtpEvento: TACBrTipoEvento;
     FxEvento: string;
     FnSeqEvento: Integer;
     FCNPJDest: string;
@@ -388,13 +388,13 @@ type
     FNomeArquivo: string;
   public
     property Id: string              read FId          write FId;
-    property tpAmb: TpcnTipoAmbiente read FtpAmb       write FtpAmb;
+    property tpAmb: TACBrTipoAmbiente read FtpAmb       write FtpAmb;
     property verAplic: string        read FverAplic    write FverAplic;
     property cOrgao: Integer         read FcOrgao      write FcOrgao;
     property cStat: Integer          read FcStat       write FcStat;
     property xMotivo: string         read FxMotivo     write FxMotivo;
     property chCTe: string           read FchCTe       write FchCTe;
-    property tpEvento: TpcnTpEvento  read FtpEvento    write FtpEvento;
+    property tpEvento: TACBrTipoEvento read FtpEvento    write FtpEvento;
     property xEvento: string         read FxEvento     write FxEvento;
     property nSeqEvento: Integer     read FnSeqEvento  write FnSeqEvento;
     property CNPJDest: string        read FCNPJDest    write FCNPJDest;
@@ -534,7 +534,7 @@ begin
   end;
 end;
 
-function TInfEvento.DescricaoTipoEvento(TipoEvento: TpcnTpEvento): string;
+function TInfEvento.DescricaoTipoEvento(TipoEvento: TACBrTipoEvento): string;
 begin
   case TipoEvento of
     teCCe                      : Result := 'CARTA DE CORREÇÃO ELETRÔNICA';
