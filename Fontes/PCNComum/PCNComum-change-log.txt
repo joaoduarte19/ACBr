@@ -38,6 +38,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/10/2026
+-- pcnConversao --
+[+] Incluído o enumerado cstICMSPrevisto a ser utilizado pela NFe.
+   Por: Italo Giurizzato Junior
+
 09/07/2026
 -- pcnConversao --
 [*] ACBR-9624 - Revert da alteração que remove o enumerado do evento 211120
