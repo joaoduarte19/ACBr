@@ -606,6 +606,7 @@ begin
 
     {Carrega valores da prestacao de servico}
     vPrest.vTPrest := 100.00;
+    vPrest.vTPrestLiq := 100.00;
     vPrest.vRec    := 100.00;
 
     {Carrega componentes do valor da prestacao}
@@ -686,21 +687,21 @@ begin
 
       Imp.IBSCBS.gIBSCBS.vBC := 100;
 
-      Imp.IBSCBS.gIBSCBS.gIBSUF.pIBS := 5;
+      Imp.IBSCBS.gIBSCBS.gIBSUF.pIBSUF := 5;
       Imp.IBSCBS.gIBSCBS.gIBSUF.gDif.pDif := 5;
       Imp.IBSCBS.gIBSCBS.gIBSUF.gDif.vDif := 50;
       Imp.IBSCBS.gIBSCBS.gIBSUF.gDevTrib.vDevTrib := 50;
       Imp.IBSCBS.gIBSCBS.gIBSUF.gRed.pRedAliq := 5;
       Imp.IBSCBS.gIBSCBS.gIBSUF.gRed.pAliqEfet := 5;
-      Imp.IBSCBS.gIBSCBS.gIBSUF.vIBS := 50;
+      Imp.IBSCBS.gIBSCBS.gIBSUF.vIBSUF := 50;
 
-      Imp.IBSCBS.gIBSCBS.gIBSMun.pIBS := 5;
+      Imp.IBSCBS.gIBSCBS.gIBSMun.pIBSMun := 5;
       Imp.IBSCBS.gIBSCBS.gIBSMun.gDif.pDif := 5;
       Imp.IBSCBS.gIBSCBS.gIBSMun.gDif.vDif := 50;
       Imp.IBSCBS.gIBSCBS.gIBSMun.gDevTrib.vDevTrib := 50;
       Imp.IBSCBS.gIBSCBS.gIBSMun.gRed.pRedAliq := 5;
       Imp.IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet := 5;
-      Imp.IBSCBS.gIBSCBS.gIBSMun.vIBS := 50;
+      Imp.IBSCBS.gIBSCBS.gIBSMun.vIBSMun := 50;
 
       // vIBS = vIBS do IBSUF + vIBS do IBSMun
       Imp.IBSCBS.gIBSCBS.vIBS := 100;
@@ -1026,6 +1027,7 @@ begin
       cMunFim := 2900207;
       xMunFim := 'ABARE';
       vPrest := 100;
+      vPrestLiq := 100;
       vRec := 0;
 
       {Carrega componentes do valor da prestacao}
@@ -1217,21 +1219,21 @@ begin
 
       Imp.IBSCBS.gIBSCBS.vBC := 100;
 
-      Imp.IBSCBS.gIBSCBS.gIBSUF.pIBS := 5;
+      Imp.IBSCBS.gIBSCBS.gIBSUF.pIBSUF := 5;
       Imp.IBSCBS.gIBSCBS.gIBSUF.gDif.pDif := 5;
       Imp.IBSCBS.gIBSCBS.gIBSUF.gDif.vDif := 50;
       Imp.IBSCBS.gIBSCBS.gIBSUF.gDevTrib.vDevTrib := 50;
       Imp.IBSCBS.gIBSCBS.gIBSUF.gRed.pRedAliq := 5;
       Imp.IBSCBS.gIBSCBS.gIBSUF.gRed.pAliqEfet := 5;
-      Imp.IBSCBS.gIBSCBS.gIBSUF.vIBS := 50;
+      Imp.IBSCBS.gIBSCBS.gIBSUF.vIBSUF := 50;
 
-      Imp.IBSCBS.gIBSCBS.gIBSMun.pIBS := 5;
+      Imp.IBSCBS.gIBSCBS.gIBSMun.pIBSMun := 5;
       Imp.IBSCBS.gIBSCBS.gIBSMun.gDif.pDif := 5;
       Imp.IBSCBS.gIBSCBS.gIBSMun.gDif.vDif := 50;
       Imp.IBSCBS.gIBSCBS.gIBSMun.gDevTrib.vDevTrib := 50;
       Imp.IBSCBS.gIBSCBS.gIBSMun.gRed.pRedAliq := 5;
       Imp.IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet := 5;
-      Imp.IBSCBS.gIBSCBS.gIBSMun.vIBS := 50;
+      Imp.IBSCBS.gIBSCBS.gIBSMun.vIBSMun := 50;
 
       // vIBS = vIBS do IBSUF + vIBS do IBSMun
       Imp.IBSCBS.gIBSCBS.vIBS := 100;
@@ -1268,6 +1270,7 @@ begin
 
     {Informações sobre Total}
     total.vTPrest := 100;
+    total.vTPrestLiq := 100;
     total.vTRec := 0;
 
     {Lista de até 10 CNPJ/CPF de pessoas Autorizadas a baixar o xml}
@@ -1544,6 +1547,7 @@ begin
 
     {Carrega valores da prestacao de servico}
     vPrest.vTPrest := 100.00;
+    vPrest.vTPrestLiq := 100.00;
     vPrest.vRec    := 100.00;
 
     {Carrega componentes do valor da prestacao}
@@ -1608,21 +1612,21 @@ begin
 
       Imp.IBSCBS.gIBSCBS.vBC := 100;
 
-      Imp.IBSCBS.gIBSCBS.gIBSUF.pIBS := 5;
+      Imp.IBSCBS.gIBSCBS.gIBSUF.pIBSUF := 5;
       Imp.IBSCBS.gIBSCBS.gIBSUF.gDif.pDif := 5;
       Imp.IBSCBS.gIBSCBS.gIBSUF.gDif.vDif := 50;
       Imp.IBSCBS.gIBSCBS.gIBSUF.gDevTrib.vDevTrib := 50;
       Imp.IBSCBS.gIBSCBS.gIBSUF.gRed.pRedAliq := 5;
       Imp.IBSCBS.gIBSCBS.gIBSUF.gRed.pAliqEfet := 5;
-      Imp.IBSCBS.gIBSCBS.gIBSUF.vIBS := 50;
+      Imp.IBSCBS.gIBSCBS.gIBSUF.vIBSUF := 50;
 
-      Imp.IBSCBS.gIBSCBS.gIBSMun.pIBS := 5;
+      Imp.IBSCBS.gIBSCBS.gIBSMun.pIBSMun := 5;
       Imp.IBSCBS.gIBSCBS.gIBSMun.gDif.pDif := 5;
       Imp.IBSCBS.gIBSCBS.gIBSMun.gDif.vDif := 50;
       Imp.IBSCBS.gIBSCBS.gIBSMun.gDevTrib.vDevTrib := 50;
       Imp.IBSCBS.gIBSCBS.gIBSMun.gRed.pRedAliq := 5;
       Imp.IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet := 5;
-      Imp.IBSCBS.gIBSCBS.gIBSMun.vIBS := 50;
+      Imp.IBSCBS.gIBSCBS.gIBSMun.vIBSMun := 50;
 
       // vIBS = vIBS do IBSUF + vIBS do IBSMun
       Imp.IBSCBS.gIBSCBS.vIBS := 100;
