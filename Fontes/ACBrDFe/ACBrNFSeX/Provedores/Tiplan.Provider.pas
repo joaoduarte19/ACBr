@@ -116,6 +116,8 @@ type
     function PrepararArquivoEnvio(const aXml: string; aMetodo: TMetodo): string; override;
 
     procedure PrepararConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
+  public
+    function GetSchemaPath: string; override;
   end;
 
 implementation
@@ -128,6 +130,7 @@ uses
   ACBrUtil.XMLHTML,
   ACBrUtil.Base,
   ACBrUtil.Strings,
+  ACBrUtil.FilesIO,
   ACBrDFeException,
   ACBrNFSeX,
   ACBrNFSeXConsts,
@@ -556,6 +559,23 @@ begin
       raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
     else
       raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
+end;
+
+function TACBrNFSeProviderTiplanAPIPropria.GetSchemaPath: string;
+begin
+  {
+    Usar essa função até que o provedor faça alteração e passa a usar os novos
+    Schemas publicados pela Receita Federal.
+  }
+  with TACBrNFSeX(FAOwner).Configuracoes do
+  begin
+    if Geral.APIPropria then
+      Result := PathWithDelim(Arquivos.PathSchemas + 'PadraoNacional')
+    else
+      Result := PathWithDelim(Arquivos.PathSchemas + Geral.xProvedor);
+
+    Result := PathWithDelim(Result + VersaoNFSeToStr(Geral.Versao));
   end;
 end;
 

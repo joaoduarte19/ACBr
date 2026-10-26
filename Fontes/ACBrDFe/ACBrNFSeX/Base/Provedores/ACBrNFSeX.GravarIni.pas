@@ -434,6 +434,7 @@ begin
   AINIRec.WriteString(LSecao, 'tpEmit', tpEmitToStr(NFSe.tpEmit));
   AINIRec.WriteString(LSecao, 'cMotivoEmisTI', cMotivoEmisTIToStr(NFSe.cMotivoEmisTI));
   AINIRec.WriteString(LSecao, 'cLocEmi', NFSe.cLocEmi);
+  AINIRec.WriteString(LSecao, 'chNFSeRej', NFSe.chNFSeRej);
 
   AINIRec.WriteString(LSecao, 'SituacaoTrib', FpAOwner.SituacaoTribToStr(NFSe.SituacaoTrib));
   AINIRec.WriteString(LSecao, 'Producao', FpAOwner.SimNaoToStr(NFSe.Producao));
@@ -854,6 +855,9 @@ begin
     AINIRec.WriteFloat(LSecao, 'ValorIPI', NFSe.Servico.Valores.ValorIPI);
     AINIRec.WriteFloat(LSecao, 'ValorInicialCobrado', NFSe.Servico.Valores.ValorInicialCobrado);
     AINIRec.WriteFloat(LSecao, 'ValorFinalCobrado', NFSe.Servico.Valores.ValorFinalCobrado);
+
+    AINIRec.WriteFloat(LSecao, 'pAjusteBCISSQN', NFSe.Servico.Valores.pAjusteBCISSQN);
+    AINIRec.WriteFloat(LSecao, 'vAjusteBCISSQN', NFSe.Servico.Valores.vAjusteBCISSQN);
 
     PularLinha(AINIRec, LSecao);
 
@@ -1353,6 +1357,9 @@ begin
     AINIRec.WriteFloat(LSecao, 'ValorIPI', NFSe.Servico.ItemServico[I].ValorIPI);
     AINIRec.WriteFloat(LSecao, 'ValorInicialCobrado', NFSe.Servico.ItemServico[I].ValorInicialCobrado);
     AINIRec.WriteFloat(LSecao, 'ValorFinalCobrado', NFSe.Servico.ItemServico[I].ValorFinalCobrado);
+
+//    AINIRec.WriteFloat(LSecao, 'pAjusteBCISSQN', NFSe.Servico.ItemServico[I].pAjusteBCISSQN);
+//    AINIRec.WriteFloat(LSecao, 'vAjusteBCISSQN', NFSe.Servico.ItemServico[I].vAjusteBCISSQN);
 
     PularLinha(AINIRec, LSecao);
 

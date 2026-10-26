@@ -970,6 +970,12 @@ var
     if (ConfigWebServices.Homologacao.LinkURL = '') and
        (ConfigGeral.Params.ParamTemValor('ServicosPadraoNacional', 'LinkNFSe')) then
       ConfigWebServices.LoadLinkUrlHomologacao(IniParams, 'PadraoNacional');
+
+    if (ConfigWebServices.Producao.VersaoNT = '') then
+      ConfigWebServices.LoadVersaoNTProducao(IniParams, 'PadraoNacional');
+
+    if (ConfigWebServices.Homologacao.VersaoNT = '') then
+      ConfigWebServices.LoadVersaoNTHomologacao(IniParams, 'PadraoNacional');
   end;
 begin
   IniParams := TMemIniFile.Create('');
@@ -993,6 +999,9 @@ begin
     ConfigWebServices.LoadNameSpaceHomologacao(IniParams, Sessao);
     ConfigWebServices.LoadSoapActionProducao(IniParams, Sessao);
     ConfigWebServices.LoadSoapActionHomologacao(IniParams, Sessao);
+    ConfigWebServices.LoadVersaoNTProducao(IniParams, Sessao);
+    ConfigWebServices.LoadVersaoNTHomologacao(IniParams, Sessao);
+
     // Verifica se na seção da cidade tem o campo Params
     ConfigGeral.LoadParams(IniParams, Sessao);
     lValorParams := IniParams.ReadString(Sessao, 'Params', '');
@@ -1051,6 +1060,9 @@ begin
       if (ConfigWebServices.Homologacao.LinkURL = '') or
          (TACBrNFSeX(FAOwner).Configuracoes.Geral.Provedor = proPadraoNacional) then
         ConfigWebServices.LoadLinkUrlHomologacao(IniParams, Sessao);
+
+      ConfigWebServices.LoadVersaoNTProducao(IniParams, Sessao);
+      ConfigWebServices.LoadVersaoNTHomologacao(IniParams, Sessao);
     end;
 
     // Carrega as URLs dos Serviços do Padrão Nacional caso constam no Params

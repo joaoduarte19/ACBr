@@ -135,6 +135,7 @@ type
 implementation
 
 uses
+  ACBrNFSeX,
   ACBrUtil.Base,
   ACBrUtil.FilesIO,
   ACBrUtil.DateTime;
@@ -437,6 +438,7 @@ begin
     NFSe.tpEmit := StrTotpEmit(Ok, AINIRec.ReadString(sSecao, 'tpEmit', '1'));
     NFSe.cLocEmi := AINIRec.ReadString(sSecao, 'cLocEmi', '');
     NFSe.cMotivoEmisTI := StrTocMotivoEmisTI(AINIRec.ReadString(sSecao, 'cMotivoEmisTI', ''));
+    NFSe.chNFSeRej := AINIRec.ReadString(sSecao, 'chNFSeRej', '');
 
     // Provedor Infisc e SigISS
     NFSe.id_sis_legado := AINIRec.ReadInteger(sSecao, 'id_sis_legado', 0);

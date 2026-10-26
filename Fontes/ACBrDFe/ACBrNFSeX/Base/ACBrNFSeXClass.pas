@@ -418,6 +418,8 @@ type
     FtpRetPisCofins: TtpRetPisCofins;
     //SpeedGov
     FBaseCalculoPisCofins: Double;
+    FpAjusteBCISSQN: Double;
+    FvAjusteBCISSQN: Double;
 
     procedure SetDocDeducao(const Value: TDocDeducaoCollection);
   public
@@ -498,6 +500,9 @@ type
     property tribMun: TtribMun read FtribMun write FtribMun;
     property tribFed: TtribFed read FtribFed write FtribFed;
     property totTrib: TtotTrib read FtotTrib write FtotTrib;
+    property pAjusteBCISSQN: Double read FpAjusteBCISSQN write FpAjusteBCISSQN;
+    property vAjusteBCISSQN: Double read FvAjusteBCISSQN write FvAjusteBCISSQN;
+
 
     //provedor CTAConsult
     property TipoDeducao: TTipoDeducao read FTipoDeducao write FTipoDeducao;
@@ -2403,6 +2408,7 @@ type
     FQtdReg40: Integer;
     FQtdReg50: Integer;
     FValReg30: Double;
+    FchNFSeRej: string;
 
     procedure Setemail(const Value: TemailCollection);
     procedure SetInformacoesComplementares(const Value: string);
@@ -2540,6 +2546,7 @@ type
     property subst: TSubstituicao read Fsubst write Fsubst;
     property cMotivoEmisTI: TcMotivoEmisTI read FcMotivoEmisTI write FcMotivoEmisTI;
     property cLocEmi: string read FcLocEmi write FcLocEmi;
+    property chNFSeRej: string read FchNFSeRej write FchNFSeRej;
 
     // Reforma Tributaria
     property IBSCBS: TIBSCBSDPS read FIBSCBS write FIBSCBS;

@@ -126,7 +126,7 @@ type
     procedure PrepararConsultaLoteRps(Response: TNFSeConsultaLoteRpsResponse); override;
     procedure TratarRetornoConsultaLoteRps(Response: TNFSeConsultaLoteRpsResponse); override;
   public
-
+    function GetSchemaPath: string; override;
   end;
 
 implementation
@@ -136,6 +136,7 @@ uses
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML,
   ACBrUtil.Base,
+  ACBrUtil.FilesIO,
   ACBrDFeException,
   ACBrNFSeX,
   ACBrNFSeXConsts,
@@ -648,6 +649,23 @@ begin
       raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
     else
       raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
+end;
+
+function TACBrNFSeProviderISSDigitalAPIPropria.GetSchemaPath: string;
+begin
+  {
+    Usar essa função até que o provedor faça alteração e passa a usar os novos
+    Schemas publicados pela Receita Federal.
+  }
+  with TACBrNFSeX(FAOwner).Configuracoes do
+  begin
+    if Geral.APIPropria then
+      Result := PathWithDelim(Arquivos.PathSchemas + 'PadraoNacional')
+    else
+      Result := PathWithDelim(Arquivos.PathSchemas + Geral.xProvedor);
+
+    Result := PathWithDelim(Result + VersaoNFSeToStr(Geral.Versao));
   end;
 end;
 

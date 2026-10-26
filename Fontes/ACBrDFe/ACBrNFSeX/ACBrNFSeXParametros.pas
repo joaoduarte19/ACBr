@@ -329,6 +329,8 @@ type
     FConsultarSeqRps: string;
     // URL de homologação ou produção para o serviço ObterDANFSE
     FObterDANFSE: string;
+    // Numero da NT em uso (0 = nenhuma)
+    FVersaoNT: string;
 
   public
     property LinkURL: string read FLinkURL;
@@ -359,6 +361,7 @@ type
     property ConsultarParam: string read FConsultarParam;
     property ConsultarSeqRps: string read FConsultarSeqRps;
     property ObterDANFSE: string read FObterDANFSE;
+    property VersaoNT: string read FVersaoNT;
 
   end;
 
@@ -393,6 +396,9 @@ type
     // Releitura das URLs visando consumir os serviços da API do Padrão Nacional
     procedure LoadUrlProducaoAPIPadraoNacional(AINI: TCustomIniFile; const AServico: string);
     procedure LoadUrlHomologacaoAPIPadraoNacional(AINI: TCustomIniFile; const AServico: string);
+
+    procedure LoadVersaoNTProducao(AINI: TCustomIniFile; const ASession: string);
+    procedure LoadVersaoNTHomologacao(AINI: TCustomIniFile; const ASession: string);
 
     property VersaoDados: string read FVersaoDados write FVersaoDados;
     property VersaoAtrib: string read FVersaoAtrib write FVersaoAtrib;
@@ -926,6 +932,18 @@ begin
     sObterDANFSE:
      Homologacao.FObterDANFSE := AINI.ReadString('PadraoNacional', 'HomObterDANFSE', '');
   end;
+end;
+
+procedure TConfigWebServices.LoadVersaoNTHomologacao(AINI: TCustomIniFile;
+  const ASession: string);
+begin
+  Homologacao.FVersaoNT := AINI.ReadString(ASession, 'HomVersaoNT', '');
+end;
+
+procedure TConfigWebServices.LoadVersaoNTProducao(AINI: TCustomIniFile;
+  const ASession: string);
+begin
+  Producao.FVersaoNT := AINI.ReadString(ASession, 'ProVersaoNT', '');
 end;
 
 { TConfigMsgDados }

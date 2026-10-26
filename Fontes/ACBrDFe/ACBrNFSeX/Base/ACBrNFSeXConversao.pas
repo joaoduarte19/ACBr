@@ -57,6 +57,10 @@ type
                      stNFSeConsultarParam, stNFSeConsultarSeqRps,
                      stNFSeConsultarLinkNFSe, stNFSEObterDANFSE);
 
+  // Revisao da Nota Tecnica do Padrao Nacional, independente de versao XML.
+  // Novas revisoes devem acrescentar valores e regras explicitas neste tipo.
+  TVersaoNTPadraoNacional = (ntPNNenhuma, ntPN009v101);
+
   TStatusRPS = (srNormal, srCancelado);
 
   TtpXML = (txmlRPS, txmlNFSe, txmlEspelho);
@@ -787,6 +791,9 @@ function TipoEmissaoDescricao(const t: TTipoEmissao): string;
 
 function EmpreitadaGlobalToStr(const t: TEmpreitadaGlobal): string;
 function StrToEmpreitadaGlobal(out ok: boolean; const s: string): TEmpreitadaGlobal;
+
+function VersaoNTPadraoNacionalToStr(const t: TVersaoNTPadraoNacional): string;
+function StrToVersaoNTPadraoNacional(out ok: Boolean; const s: string): TVersaoNTPadraoNacional;
 
 function VersaoNFSeToStr(const t: TVersaoNFSe): string;
 function StrToVersaoNFSe(out ok: Boolean; const s: string): TVersaoNFSe;
@@ -13166,6 +13173,16 @@ begin
   Result := StrToEnumerado(ok, s,
                            ['1', '2'],
                            [EgConstrucaoCivil, EgOutros]);
+end;
+
+function VersaoNTPadraoNacionalToStr(const t: TVersaoNTPadraoNacional): string;
+begin
+  Result := EnumeradoToStr(t, ['0', '009.1.01'], [ntPNNenhuma, ntPN009v101]);
+end;
+
+function StrToVersaoNTPadraoNacional(out ok: Boolean; const s: string): TVersaoNTPadraoNacional;
+begin
+  Result := StrToEnumerado(ok, Trim(s), ['0', '009.1.01'], [ntPNNenhuma, ntPN009v101]);
 end;
 
 function VersaoNFSeToStr(const t: TVersaoNFSe): string;

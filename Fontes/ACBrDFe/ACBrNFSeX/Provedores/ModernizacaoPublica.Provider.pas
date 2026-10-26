@@ -87,6 +87,7 @@ type
   protected
     procedure SetHeaders(aHeaderReq: THTTPHeader); override;
   public
+    function GerarNFSe(const ACabecalho, AMSG: String): string; override;
 
     function ConsultarNFSePorRps(const ACabecalho, AMSG: String): string; override;
 
@@ -121,6 +122,8 @@ type
                                      Response: TNFSeWebserviceResponse;
                                      const AListTag: string = 'ListaMensagemRetorno';
                                      const AMessageTag: string = 'Erro'); override;
+  public
+    function GetSchemaPath: string; override;
   end;
 
 implementation
@@ -762,6 +765,23 @@ begin
   end;
 end;
 
+function TACBrNFSeProviderModernizacaoPublicaAPIPropria.GetSchemaPath: string;
+begin
+  {
+    Usar essa função até que o provedor faça alteração e passa a usar os novos
+    Schemas publicados pela Receita Federal.
+  }
+  with TACBrNFSeX(FAOwner).Configuracoes do
+  begin
+    if Geral.APIPropria then
+      Result := PathWithDelim(Arquivos.PathSchemas + 'PadraoNacional')
+    else
+      Result := PathWithDelim(Arquivos.PathSchemas + Geral.xProvedor);
+
+    Result := PathWithDelim(Result + VersaoNFSeToStr(Geral.Versao));
+  end;
+end;
+
 procedure TACBrNFSeProviderModernizacaoPublicaAPIPropria.TratarRetornoConsultaNFSeporRps(
   Response: TNFSeConsultaNFSeporRpsResponse);
 var
@@ -1017,13 +1037,28 @@ begin
   ReqHeaders := aHeaderReq.Text;
 end;
 
+function TACBrNFSeXWebserviceModernizacaoPublicaAPIPropria.GerarNFSe(
+  const ACabecalho, AMSG: String): string;
+var
+  Request: string;
+begin
+    FPMsgOrig := AMSG;
+
+    Request := '<def:GerarNfse>';
+    Request := Request + '<Nfsecabecmsg>' + XmlToStr(ACabecalho) + '</Nfsecabecmsg>';
+    Request := Request + '<Nfsedadosmsg>' + XmlToStr(AMSG) + '</Nfsedadosmsg>';
+    Request := Request + '</def:GerarNfse>';
+
+    Result := Executar('', Request,
+                       ['GerarNfseReturn', 'GerarNfseResposta'],
+                       ['xmlns:def="http://DefaultNamespace"']);
+end;
+
 function TACBrNFSeXWebserviceModernizacaoPublicaAPIPropria.ConsultarNFSePorRps(
   const ACabecalho, AMSG: String): string;
 var
   Request: string;
 begin
-//  if TACBrNFSeX(FPDFeOwner).Provider.ConfigGeral.Params.ParamTemValor('ServicosAPIPropria', 'ConsultarNFSeRps') then
-//  begin
     FPMsgOrig := AMSG;
 
     Request := '<def:ConsultarNfsePorRps>';
@@ -1034,9 +1069,6 @@ begin
     Result := Executar('', Request,
                        ['ConsultarNfsePorRpsReturn', 'ConsultarNfseRpsResposta'],
                        ['xmlns:def="http://DefaultNamespace"']);
-//  end
-//  else
-//    Result := inherited ConsultarNFSePorRps(ACabecalho, AMSG);
 end;
 
 function TACBrNFSeXWebserviceModernizacaoPublicaAPIPropria.TratarXmlRetornado(

@@ -117,6 +117,8 @@ type
 
     function TrocaEscapeporConchete(const aXml: string): string;
   public
+    function GetSchemaPath: string; override;
+
     function RegimeEspecialTributacaoToStr(const t: TnfseRegimeEspecialTributacao): string; override;
     function StrToRegimeEspecialTributacao(out ok: boolean; const s: string): TnfseRegimeEspecialTributacao; override;
     function RegimeEspecialTributacaoDescricao(const t: TnfseRegimeEspecialTributacao): string; override;
@@ -1566,6 +1568,16 @@ begin
 
     Method := 'POST';
   end;
+end;
+
+function TACBrNFSeProviderPadraoNacional.GetSchemaPath: string;
+begin
+  Result := inherited GetSchemaPath;
+
+  if ConfigGeral.Ambiente = taProducao then
+    Result := Result + 'Producao'
+  else
+    Result := Result + 'Homologacao';
 end;
 
 function TACBrNFSeProviderPadraoNacional.RegimeEspecialTributacaoToStr(

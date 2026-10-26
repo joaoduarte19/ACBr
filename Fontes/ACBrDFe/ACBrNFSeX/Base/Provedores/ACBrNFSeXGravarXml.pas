@@ -972,6 +972,7 @@ begin
       //Padrão Nacional
       INIRec.WriteString(sSecao, 'verAplic', verAplic);
       INIRec.WriteString(sSecao, 'tpEmit', tpEmitToStr(tpEmit));
+      INIRec.WriteString(LSecao, 'chNFSeRej', NFSe.chNFSeRej);
 
       //Provedor Governa
       INIRec.WriteString(sSecao, 'RegRec', RegRecToStr(RegRec));

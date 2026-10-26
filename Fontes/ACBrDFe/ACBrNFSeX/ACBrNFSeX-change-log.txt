@@ -43,8 +43,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 26/10/2026
+-- Diversos --
+[*] ACBR-9969 - Alterações visando atender a NT 009 versão 1.01 implementada neste primeiro momento no ambiente
+    de homologação da API do SERPRO, novos ajustes podem ser necessários quando os provedores que aderiram o
+    layout do Padrão Nacional também fizerem as alterações para a NT mencionada.
+   Por: André Ferreira de Moraes/Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
-[*] ACBR-9969 - Incluido os campos ProVersaoNT e HomVersaoNT para os provedores que aderiram ao
+[*] ACBR-9969 - Incluído os campos ProVersaoNT e HomVersaoNT para os provedores que aderiram ao
     layout do Padrão Nacional visando atender a NT 009 versão 1.01
    Por: Italo Giurizzato Junior
 [*] ACBR-10117 - Alteração de URLs para o município de Farroupilha/RS

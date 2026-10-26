@@ -38,9 +38,12 @@ interface
 
 uses
   SysUtils, Classes, StrUtils, IniFiles,
-  ACBrXmlBase, ACBrXmlDocument,
+  ACBrXmlBase,
+  ACBrXmlDocument,
   ACBrNFSeXClass,
-  ACBrNFSeXConversao, ACBrNFSeXLerXml;
+  ACBrDFe.Conversao,
+  ACBrNFSeXConversao,
+  ACBrNFSeXLerXml;
 
 type
   { TNFSeR_PadraoNacional }
@@ -48,6 +51,7 @@ type
   TNFSeR_PadraoNacional = class(TNFSeRClass)
   protected
     FpTipoXML: string;
+    FpVersaoNT: TVersaoNTPadraoNacional;
 
     procedure LerXMLinfNFSe(const ANode: TACBrXmlNode);
     procedure LerXMLEmitente(const ANode: TACBrXmlNode);
@@ -57,6 +61,7 @@ type
     procedure LerXMLDPS(const ANode: TACBrXmlNode);
 
     procedure LerXMLinfDPS(const ANode: TACBrXmlNode);
+    procedure LerXMLTributos(const ANode: TACBrXmlNode; trib: Ttrib); override;
     procedure LerXMLSubstituicao(const ANode: TACBrXmlNode);
 
     procedure LerXMLPrestador(const ANode: TACBrXmlNode);
@@ -94,6 +99,7 @@ type
     procedure LerXMLServicoPrestado(const ANode: TACBrXmlNode);
     procedure LerXMLDescontos(const ANode: TACBrXmlNode);
     procedure LerXMLDeducoes(const ANode: TACBrXmlNode);
+    procedure LerXMLAjusteBC(const ANode: TACBrXmlNode);
     procedure LerXMLDocDeducoes(const ANode: TACBrXmlNode);
     procedure LerXMLNFSeMunicipio(const ANode: TACBrXmlNode; Item: Integer);
     procedure LerXMLNFNFS(const ANode: TACBrXmlNode; Item: Integer);
@@ -151,8 +157,8 @@ type
 implementation
 
 uses
+  ACBrNFSeX,
   ACBrDFeUtil,
-  ACBrDFe.Conversao,
   ACBrUtil.Base,
   ACBrUtil.XMLHTML,
   ACBrUtil.DateTime,
@@ -291,6 +297,22 @@ begin
     begin
       DescontoIncondicionado := ObterConteudo(AuxNode.Childrens.FindAnyNs('vDescIncond'), tcDe2);
       DescontoCondicionado := ObterConteudo(AuxNode.Childrens.FindAnyNs('vDescCond'), tcDe2);
+    end;
+  end;
+end;
+
+procedure TNFSeR_PadraoNacional.LerXMLAjusteBC(const ANode: TACBrXmlNode);
+var
+  AuxNode: TACBrXmlNode;
+begin
+  AuxNode := ANode.Childrens.FindAnyNs('vAjusteBC');
+
+  if AuxNode <> nil then
+  begin
+    with NFSe.Servico.Valores do
+    begin
+      pAjusteBCISSQN := ObterConteudo(AuxNode.Childrens.FindAnyNs('pAjusteBCISSQN'), tcDe2);
+      vAjusteBCISSQN := ObterConteudo(AuxNode.Childrens.FindAnyNs('vAjusteBCISSQN'), tcDe2);
     end;
   end;
 end;
@@ -846,6 +868,7 @@ begin
     NFSe.tpEmit := StrTotpEmit(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpEmit'), tcStr));
     NFSe.cMotivoEmisTI := StrTocMotivoEmisTI(ObterConteudo(AuxNode.Childrens.FindAnyNs('cMotivoEmisTI'), tcStr));
     NFSe.cLocEmi := ObterConteudo(AuxNode.Childrens.FindAnyNs('cLocEmi'), tcStr);
+    NFSe.chNFSeRej := ObterConteudo(AuxNode.Childrens.FindAnyNs('chNFSeRej'), tcStr);
 
     NFSe.Producao := FpAOwner.StrToSimNao(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpAmb'), tcStr));
 
@@ -858,6 +881,21 @@ begin
 
     // Reforma Tributária
     LerXMLIBSCBSDPS(AuxNode.Childrens.FindAnyNs('IBSCBS'), NFSe.IBSCBS);
+
+    NFSe.IBSCBS.finNFSe := StrTofinNFSe(ObterConteudo(AuxNode.Childrens.FindAnyNs('finNFSe'), tcStr));
+  end;
+end;
+
+procedure TNFSeR_PadraoNacional.LerXMLTributos(const ANode: TACBrXmlNode; trib: Ttrib);
+begin
+  inherited LerXMLTributos(ANode, trib);
+
+  if not Assigned(ANode) then Exit;
+
+  if Assigned(ANode.Childrens.FindAnyNs('CST')) then
+  begin
+    trib.gIBSCBS.CST := StrToCSTIBSCBS(ObterConteudo(ANode.Childrens.FindAnyNs('CST'), tcStr));
+    trib.gIBSCBS.cClassTrib := ObterConteudo(ANode.Childrens.FindAnyNs('cClassTrib'), tcStr);
   end;
 end;
 
@@ -1481,7 +1519,12 @@ begin
   begin
     LerXMLServicoPrestado(AuxNode);
     LerXMLDescontos(AuxNode);
-    LerXMLDeducoes(AuxNode);
+
+    if FpVersaoNT = ntPN009v101 then
+      LerXMLAjusteBC(AuxNode)
+    else
+      LerXMLDeducoes(AuxNode);
+
     LerXMLTributacao(AuxNode);
   end;
 end;
@@ -1542,6 +1585,7 @@ end;
 function TNFSeR_PadraoNacional.LerXml: Boolean;
 var
   XmlNode: TACBrXmlNode;
+  Ok: Boolean;
 begin
   FpQuebradeLinha := FpAOwner.ConfigGeral.QuebradeLinha;
 
@@ -1549,6 +1593,11 @@ begin
     raise Exception.Create('Arquivo xml não carregado.');
 
   LerParamsTabIni(True);
+
+  if FpAOwner.ConfigGeral.Ambiente = taProducao then
+    FpVersaoNT := StrToVersaoNTPadraoNacional(Ok, FpAOwner.ConfigWebServices.Producao.VersaoNT)
+  else
+    FpVersaoNT := StrToVersaoNTPadraoNacional(Ok, FpAOwner.ConfigWebServices.Homologacao.VersaoNT);
 
   Arquivo := NormatizarXml(Arquivo);
 
@@ -1799,6 +1848,7 @@ begin
     NFSe.tpEmit := StrTotpEmit(Ok, AINIRec.ReadString(sSecao, 'tpEmit', '1'));
     NFSe.cLocEmi := AINIRec.ReadString(sSecao, 'cLocEmi', '');
     NFSe.cMotivoEmisTI := StrTocMotivoEmisTI(AINIRec.ReadString(sSecao, 'cMotivoEmisTI', ''));
+    NFSe.chNFSeRej := AINIRec.ReadString(sSecao, 'chNFSeRej', '');
   end;
 end;
 
@@ -2169,6 +2219,8 @@ begin
     NFSe.Servico.Valores.DescontoCondicionado := StringToFloatDef(AINIRec.ReadString(sSecao, 'DescontoCondicionado', ''), 0);
     NFSe.Servico.Valores.AliquotaDeducoes := StringToFloatDef(AINIRec.ReadString(sSecao, 'AliquotaDeducoes', ''), 0);
     NFSe.Servico.Valores.ValorDeducoes := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorDeducoes', ''), 0);
+    NFSe.Servico.Valores.pAjusteBCISSQN := StringToFloatDef(AINIRec.ReadString(sSecao, 'pAjusteBCISSQN', ''), 0);
+    NFSe.Servico.Valores.vAjusteBCISSQN := StringToFloatDef(AINIRec.ReadString(sSecao, 'vAjusteBCISSQN', ''), 0);
   end;
 end;
 

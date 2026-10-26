@@ -41,6 +41,8 @@ uses
   ACBrXmlBase,
   ACBrXmlDocument,
   ACBrNFSeXClass,
+  ACBrDFe.Conversao,
+  ACBrNFSeXConversao,
   ACBrNFSeXGravarXml;
 
 type
@@ -53,6 +55,7 @@ type
   protected
     FpVersao: string;
     LSecao: string;
+    FpVersaoNT: TVersaoNTPadraoNacional;
 
     function GerarChaveDPS(const AcMun, ACNPJCPF, ASerie, ANumero: string): string;
     function GerarChaveNFSe(const AcMun, AAmbGer, ACNPJCPF,
@@ -68,6 +71,9 @@ type
     function GerarXMLDPS: TACBrXmlNode; virtual;
 
     function GerarXMLInfDps: TACBrXmlNode; virtual;
+    function GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode; override;
+    function GerarXMLIBSCBSTribValores(valores: Tvalorestrib): TACBrXmlNode; override;
+    function GerarXMLgIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode; override;
 
     function GerarXMLSubstituicao: TACBrXmlNode;
 
@@ -106,6 +112,7 @@ type
 
     function GerarXMLServicoPrestado: TACBrXmlNode;
     function GerarXMLDescontos: TACBrXmlNode;
+    function GerarXMLAjusteBC: TACBrXmlNode;
     function GerarXMLDeducoes: TACBrXmlNode;
     function GerarXMLDocDeducoes: TACBrXmlNode;
     function GerarXMLListaDocDeducoes: TACBrXmlNodeArray;
@@ -167,9 +174,7 @@ uses
   ACBrUtil.DateTime,
   ACBrUtil.Strings,
   ACBrNFSeXConsts,
-  ACBrDFe.Conversao,
   ACBrNFSeX,
-  ACBrNFSeXConversao,
   ACBrValidador;
 
 //==============================================================================
@@ -675,6 +680,13 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'cMotivoEmisTI', 1, 1, 0,
                                    cMotivoEmisTIToStr(NFSe.cMotivoEmisTI), ''));
 
+  if FpVersaoNT = ntPN009v101 then
+    Result.AppendChild(AddNode(tcStr, '#1', 'finNFSe', 1, 1, 1,
+                              finNFSeToStr(NFSe.IBSCBS.finNFSe), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'chNFSeRej', 50, 50, 0,
+                                                           NFSe.chNFSeRej, ''));
+
   Result.AppendChild(AddNode(tcInt, '#1', 'cLocEmi', 7, 7, 1,
                                                        CodigoLocalEmissao, ''));
 
@@ -691,6 +703,95 @@ begin
      (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
      (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
     Result.AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
+end;
+
+function TNFSeW_PadraoNacional.GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode;
+begin
+  if FpVersaoNT = ntPNNenhuma then
+  begin
+    Result := inherited GerarXMLIBSCBS(IBSCBS);
+    Exit;
+  end;
+
+  Result := CreateElement(TagIBSCBS);
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'indFinal', 1, 1, NrOcorrindFinal,
+                                           indFinalToStr(IBSCBS.indFinal), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'cIndOp', 6, 6, 0, IBSCBS.cIndOp, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'tpOper', 1, 1, NrOcorrtpOper,
+                                        tpOperGovNFSeToStr(IBSCBS.tpOper), ''));
+
+  if IBSCBS.gRefNFSe.Count > 0 then
+    Result.AppendChild(GerarXMLgRefNFSe(IBSCBS.gRefNFSe));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'tpEnteGov', 1, 1, 0,
+                                         tpEnteGovToStr(IBSCBS.tpEnteGov), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'indDest', 1, 1, NrOcorrindDest,
+                                             indDestToStr(IBSCBS.indDest), ''));
+
+  if (IBSCBS.dest.xNome <> '') and GerarDest then
+    Result.AppendChild(GerarXMLDestinatario(IBSCBS.dest));
+
+  if ((IBSCBS.imovel.cCIB <> '') or (IBSCBS.imovel.ender.xLgr <> '')) and GerarImovel then
+    Result.AppendChild(GerarXMLImovel(IBSCBS.imovel));
+
+  // Falta implementar o grupo <bensMoveis>
+
+  Result.AppendChild(GerarXMLIBSCBSTribValores(IBSCBS.valores));
+end;
+
+function TNFSeW_PadraoNacional.GerarXMLIBSCBSTribValores(valores: Tvalorestrib): TACBrXmlNode;
+var
+  TribNode: TACBrXmlNode;
+begin
+  if FpVersaoNT = ntPNNenhuma then
+  begin
+    Result := inherited GerarXMLIBSCBSTribValores(valores);
+    Exit;
+  end;
+
+  Result := CreateElement('valores');
+
+  TribNode := CreateElement('trib');
+
+  TribNode.AppendChild(AddNode(tcStr, '#1', 'CST', 3, 3, 1,
+                                 CSTIBSCBSToStr(valores.trib.gIBSCBS.CST), ''));
+
+  TribNode.AppendChild(AddNode(tcStr, '#1', 'cClassTrib', 6, 6, 1,
+                                          valores.trib.gIBSCBS.cClassTrib, ''));
+
+  if (valores.trib.gIBSCBS.cCredPres <> cpNenhum) or
+     (valores.trib.gIBSCBS.gTribRegular.CSTReg <> cstNenhum)  or
+     ((valores.trib.gIBSCBS.gDif.pDifUF > 0) or (valores.trib.gIBSCBS.gDif.pDifMun > 0) or
+     (valores.trib.gIBSCBS.gDif.pDifCBS > 0)) then
+    TribNode.AppendChild(GerarXMLgIBSCBS(valores.trib.gIBSCBS));
+
+  Result.AppendChild(TribNode);
+end;
+
+function TNFSeW_PadraoNacional.GerarXMLgIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode;
+begin
+  if FpVersaoNT = ntPNNenhuma then
+  begin
+    Result := inherited GerarXMLgIBSCBS(gIBSCBS);
+    Exit;
+  end;
+
+  Result := CreateElement('gIBSCBS');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'cCredPres', 2, 2, NrOcorrcCredPres,
+                                        cCredPresToStr(gIBSCBS.cCredPres), ''));
+
+  if (gIBSCBS.gTribRegular.CSTReg <> cstNenhum) and
+     (gIBSCBS.gTribRegular.cClassTribReg <> '') and GerarTribRegular then
+    Result.AppendChild(GerarXMLgTribRegular(gIBSCBS.gTribRegular));
+
+  if ((gIBSCBS.gDif.pDifUF > 0) or (gIBSCBS.gDif.pDifMun > 0) or
+     (gIBSCBS.gDif.pDifCBS > 0)) and GerargDif then
+    Result.AppendChild(GerarXMLgDif(gIBSCBS.gDif));
 end;
 
 function TNFSeW_PadraoNacional.GerarXMLSubstituicao: TACBrXmlNode;
@@ -1022,12 +1123,14 @@ begin
   Result.AppendChild(GerarXMLLocalPrestacao);
   Result.AppendChild(GerarXMLCodigoServico);
   Result.AppendChild(GerarXMLComercioExterior);
+
   if VersaoNFSe = ve100 then
     Result.AppendChild(GerarXMLLocacaoSubLocacao);
+
   if DevoGerarXMLObra then
     Result.AppendChild(GerarXMLObra);
-  Result.AppendChild(GerarXMLAtividadeEvento);
 
+  Result.AppendChild(GerarXMLAtividadeEvento);
   Result.AppendChild(GerarXMLInformacoesComplementares);
 end;
 
@@ -1044,6 +1147,8 @@ begin
 end;
 
 function TNFSeW_PadraoNacional.GerarXMLCodigoServico: TACBrXmlNode;
+var
+  Descricao: TACBrXmlNode;
 begin
   Result := CreateElement('cServ');
 
@@ -1053,15 +1158,22 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'cTribMun', 3, 3, 0,
                                    NFSe.Servico.CodigoTributacaoMunicipio, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'xDescServ', 1, 2000, 1,
+  // The 20/10/2026 restricted-production XSD places the description last.
+  Descricao := AddNode(tcStr, '#1', 'xDescServ', 1, 2000, 1,
     StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
-                          FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll])));
+    FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]));
+
+  if FpVersaoNT = ntPNNenhuma then
+    Result.AppendChild(Descricao);
 
   Result.AppendChild(AddNode(tcStr, '#1', 'cNBS', 9, 9, 0,
                                                    NFSe.Servico.CodigoNBS, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'cIntContrib', 1, 20, 0,
                                             NFSe.Servico.CodigoInterContr, ''));
+
+  if FpVersaoNT = ntPN009v101 then
+    Result.AppendChild(Descricao);
 end;
 
 function TNFSeW_PadraoNacional.GerarXMLComercioExterior: TACBrXmlNode;
@@ -1330,7 +1442,12 @@ begin
 
   Result.AppendChild(GerarXMLServicoPrestado);
   Result.AppendChild(GerarXMLDescontos);
-  Result.AppendChild(GerarXMLDeducoes);
+
+  if FpVersaoNT = ntPN009v101 then
+    Result.AppendChild(GerarXMLAjusteBC)
+  else
+    Result.AppendChild(GerarXMLDeducoes);
+
   Result.AppendChild(GerarXMLTributacao);
 end;
 
@@ -1386,6 +1503,24 @@ begin
   begin
     Result := CreateElement('vDedRed');
     Result.AppendChild(GerarXMLDocDeducoes);
+  end;
+end;
+
+function TNFSeW_PadraoNacional.GerarXMLAjusteBC: TACBrXmlNode;
+begin
+  Result := nil;
+
+  if (NFSe.Servico.Valores.pAjusteBCISSQN > 0) or
+     (NFSe.Servico.Valores.vAjusteBCISSQN > 0) then
+  begin
+    Result := CreateElement('vAjusteBC');
+
+    Result.AppendChild(AddNode(tcDe2, '#1', 'pAjusteBCISSQN', 3, 5, 1,
+                                      NFSe.Servico.Valores.pAjusteBCISSQN, ''));
+
+    Result.AppendChild(AddNode(tcDe2, '#1', 'vAjusteBCISSQN', 1, 15, 1,
+                                      NFSe.Servico.Valores.vAjusteBCISSQN, ''));
+    // Falta implementar o grupo <documentos>
   end;
 end;
 
@@ -1823,11 +1958,50 @@ function TNFSeW_PadraoNacional.GerarXml: Boolean;
 var
   NFSeNode, xmlNode: TACBrXmlNode;
   chave, CodigoMun, CNPJ: string;
+  Ok: Boolean;
 begin
   Configuracao;
   LerParamsTabIni(True);
 
+  if FpAOwner.ConfigGeral.Ambiente = taProducao then
+    FpVersaoNT := StrToVersaoNTPadraoNacional(Ok, FpAOwner.ConfigWebServices.Producao.VersaoNT)
+  else
+    FpVersaoNT := StrToVersaoNTPadraoNacional(Ok, FpAOwner.ConfigWebServices.Homologacao.VersaoNT);
+
   ListaDeAlertas.Clear;
+
+  if not (FpVersaoNT in [ntPNNenhuma, ntPN009v101]) then
+    raise EACBrNFSeException.Create('VersaoNT do Padrao Nacional nao suportada.');
+
+  if FpVersaoNT = ntPN009v101 then
+  begin
+    if VersaoNFSe <> ve101 then
+      raise EACBrNFSeException.Create('NT009 exige a versao XML 1.01 da DPS.');
+
+    // O pacote de producao restrita de 20/10/2026 admite apenas finNFSe=0.
+    if NFSe.IBSCBS.finNFSe <> fnfsRegular then
+      raise EACBrNFSeException.Create('NT009: finalidade nao suportada pelo pacote de producao restrita de 20/10/2026.');
+
+    if ((NFSe.IBSCBS.indDest = idTomadorAdquirenteDestinatarioIguais) and
+        (NFSe.IBSCBS.dest.xNome <> '')) or
+       ((NFSe.IBSCBS.indDest = idTomadorAdquirenteIguais) and
+        (NFSe.IBSCBS.dest.xNome = '')) then
+      raise EACBrNFSeException.Create('NT009: informe o destinatario conforme indDest.');
+    {
+    if not NFSe.GerarGrupoIBSCBS and
+       ((cCredPresToStr(NFSe.IBSCBS.valores.trib.gIBSCBS.cCredPres) <> '') or
+        (NFSe.IBSCBS.valores.trib.gIBSCBS.gTribRegular.cClassTribReg <> '') or
+        (NFSe.IBSCBS.valores.trib.gIBSCBS.gDif.pDifUF <> 0) or
+        (NFSe.IBSCBS.valores.trib.gIBSCBS.gDif.pDifMun <> 0) or
+        (NFSe.IBSCBS.valores.trib.gIBSCBS.gDif.pDifCBS <> 0)) then
+      raise EACBrNFSeException.Create('NT009: o detalhamento IBS/CBS possui valores e nao pode ser omitido.');
+    }
+    // Evita descartar valores de grupos substituidos por vAjusteBC.
+    if (NFSe.Servico.Valores.ValorDeducoes <> 0) or
+       (NFSe.Servico.Valores.DocDeducao.Count > 0) or
+       (NFSe.IBSCBS.valores.gReeRepRes.documentos.Count > 0) then
+      raise EACBrNFSeException.Create('NT009: deducoes e reembolsos exigem implementacao de vAjusteBC.');
+  end;
 
   FDocument.Clear();
 
@@ -1917,7 +2091,8 @@ begin
   GerarINIValoresTotalTrib(AINIRec);
 
   // Reforma Tributária
-  if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
+  if (FpVersaoNT = ntPN009v101) or (NFSe.IBSCBS.dest.xNome <> '') or
+     (NFSe.IBSCBS.imovel.cCIB <> '') or
      (NFSe.IBSCBS.imovel.ender.CEP <> '') or
      (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
      (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
@@ -1950,7 +2125,8 @@ begin
   GerarINIValoresTotalTrib(AINIRec);
 
   // Reforma Tributária
-  if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
+  if (FpVersaoNT = ntPN009v101) or (NFSe.IBSCBS.dest.xNome <> '') or
+     (NFSe.IBSCBS.imovel.cCIB <> '') or
      (NFSe.IBSCBS.imovel.ender.CEP <> '') or
      (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
      (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
@@ -1999,6 +2175,7 @@ begin
   AINIRec.WriteString(LSecao, 'tpEmit', tpEmitToStr(NFSe.tpEmit));
   AINIRec.WriteString(LSecao, 'cMotivoEmisTI', cMotivoEmisTIToStr(NFSe.cMotivoEmisTI));
   AINIRec.WriteString(LSecao, 'cLocEmi', NFSe.cLocEmi);
+  AINIRec.WriteString(LSecao, 'chNFSeRej', NFSe.chNFSeRej);
 end;
 
 procedure TNFSeW_PadraoNacional.GerarININFSeSubstituicao(AINIRec: TMemIniFile);
@@ -2213,6 +2390,8 @@ begin
   AINIRec.WriteFloat(LSecao, 'DescontoCondicionado', NFSe.Servico.Valores.DescontoCondicionado);
   AINIRec.WriteFloat(LSecao, 'AliquotaDeducoes', NFSe.Servico.Valores.AliquotaDeducoes);
   AINIRec.WriteFloat(LSecao, 'ValorDeducoes', NFSe.Servico.Valores.ValorDeducoes);
+  AINIRec.WriteFloat(LSecao, 'pAjusteBCISSQN', NFSe.Servico.Valores.pAjusteBCISSQN);
+  AINIRec.WriteFloat(LSecao, 'vAjusteBCISSQN', NFSe.Servico.Valores.vAjusteBCISSQN);
 end;
 
 procedure TNFSeW_PadraoNacional.GerarINIDocumentosDeducoes(
