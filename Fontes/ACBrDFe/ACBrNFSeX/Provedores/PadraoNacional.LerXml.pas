@@ -854,6 +854,7 @@ procedure TNFSeR_PadraoNacional.LerXMLinfDPS(const ANode: TACBrXmlNode);
 var
   AuxNode: TACBrXmlNode;
   Ok: Boolean;
+  Lvalor: string;
 begin
   AuxNode := ANode.Childrens.FindAnyNs('infDPS');
 
@@ -882,7 +883,12 @@ begin
     // Reforma Tributária
     LerXMLIBSCBSDPS(AuxNode.Childrens.FindAnyNs('IBSCBS'), NFSe.IBSCBS);
 
-    NFSe.IBSCBS.finNFSe := StrTofinNFSe(ObterConteudo(AuxNode.Childrens.FindAnyNs('finNFSe'), tcStr));
+    lvalor := ObterConteudo(AuxNode.Childrens.FindAnyNs('finNFSe'), tcStr);
+
+    if Lvalor = '' then
+      NFSe.IBSCBS.finNFSe := fnfsRegular
+    else
+      NFSe.IBSCBS.finNFSe := StrTofinNFSe(Lvalor);
   end;
 end;
 
