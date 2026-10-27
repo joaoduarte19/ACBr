@@ -8,11 +8,22 @@ namespace ACBrLib.Core.CTe
 {
     public enum ModalCTe
     {
+        [EnumValue("01")]
         moRodoviario = 1,
+
+        [EnumValue("02")]
         moAereo = 2,
+
+        [EnumValue("03")]
         moAquaviario = 3,
+
+        [EnumValue("04")]
         moFerroviario = 4,
+
+        [EnumValue("05")]
         moDutoviario = 5,
-        moMultimodal =6
+
+        [EnumValue("06")]
+        moMultimodal = 6
     }
 }
