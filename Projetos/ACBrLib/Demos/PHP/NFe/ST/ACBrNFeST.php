@@ -689,6 +689,42 @@ function DistribuicaoDFePorChave($ffi, $AcUFAutor, $AeCNPJCPF, $AechNFe, &$retor
     return 0;
 }
 
+function ObterListaChaves($ffi, $AeDataHoraInicial, $AeDataHoraFinal, &$retornoGeral)
+{
+    $tamanhoBuffer = 1048576;
+    $esTamanho = FFI::new("long");
+    $esTamanho->cdata = $tamanhoBuffer;
+    $sMensagem = FFI::new("char[" . $tamanhoBuffer . "]");
+    $retorno = $ffi->NFE_ObterListaChaves($AeDataHoraInicial, $AeDataHoraFinal, $sMensagem, FFI::addr($esTamanho));
+
+    if ($retorno !== 0) {
+        if (UltimoRetorno($ffi, $retorno, $sMensagem, "Erro ao obter lista de chaves", 1) != 0)
+            return -10;
+    }
+
+    $retornoGeral = FFI::string($sMensagem);
+
+    return 0;
+}
+
+function ObterDownloadXml($ffi, $AeChNFCe, &$retornoGeral)
+{
+    $tamanhoBuffer = 1048576;
+    $esTamanho = FFI::new("long");
+    $esTamanho->cdata = $tamanhoBuffer;
+    $sMensagem = FFI::new("char[" . $tamanhoBuffer . "]");
+    $retorno = $ffi->NFE_ObterDownloadXml($AeChNFCe, $sMensagem, FFI::addr($esTamanho));
+
+    if ($retorno !== 0) {
+        if (UltimoRetorno($ffi, $retorno, $sMensagem, "Erro ao obter download do XML", 1) != 0)
+            return -10;
+    }
+
+    $retornoGeral = FFI::string($sMensagem);
+
+    return 0;
+}
+
 function EnviarEmail($ffi, $AePara, $AeChaveNFe, $AEnviaPDF, $AeAssunto, $AeCC, $AeAnexos, $AeMensagem, &$retornoGeral)
 {
     $esTamanho = FFI::new("long");

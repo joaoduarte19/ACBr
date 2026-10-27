@@ -549,6 +549,22 @@ try {
         }
     }
 
+    if ($metodo == "ObterListaChaves") {
+        $processo = "NFE_ObterListaChaves";
+
+        if (ObterListaChaves($ffi, $_POST['AeDataHoraInicial'], $_POST['AeDataHoraFinal'], $resultado) != 0) {
+            exit;
+        }
+    }
+
+    if ($metodo == "ObterDownloadXml") {
+        $processo = "NFE_ObterDownloadXml";
+
+        if (ObterDownloadXml($ffi, $_POST['AeChNFCe'], $resultado) != 0) {
+            exit;
+        }
+    }
+
     if ($metodo == "EnviarEmail") {
         $processo = "NFE_CarregarXml";
 

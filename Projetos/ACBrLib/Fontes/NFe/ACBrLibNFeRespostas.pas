@@ -42,6 +42,7 @@ uses
   ACBrNFe.EventoClass,
   ACBrNFe.RetEnvEvento,
   ACBrNFe.RetConsSit,
+  ACBrNFe.RetObterDFe,
   ACBrLibResposta, ACBrLibConfig,
   ACBrLibConsReciDFe, ACBrNFe;
 
@@ -558,6 +559,126 @@ type
     property EnvioResposta: TEnvioResposta read FEnvioResposta write FEnvioResposta;
     property RetornoResposta: TRetornoResposta read FRetornoResposta write FRetornoResposta;
     property NFe_Arq: TObjectList read FNFe_Arq;
+
+  end;
+
+  { TObterChaveItemResposta }
+  TObterChaveItemResposta = class(TACBrLibRespostaBase)
+  private
+    FChave: String;
+
+  public
+    constructor Create(const AId: Integer; const ATipo: TACBrLibRespostaTipo;
+      const AFormato: TACBrLibCodificacao); reintroduce;
+
+    procedure Processar(const AChave: String); reintroduce;
+
+  published
+    property Chave: String read FChave write FChave;
+
+  end;
+
+  { TObterListaChavesResposta }
+  TObterListaChavesResposta = class(TLibNFeResposta)
+  private
+    FVersao: String;
+    FtpAmb: String;
+    FverAplic: String;
+    FdhReq: TDateTime;
+    FcStat: Integer;
+    FxMotivo: String;
+    FListaIncompleta: Boolean;
+    FdhEmisUltNfce: TDateTime;
+    FQtdChaves: Integer;
+    FChaves: TObjectList;
+
+  public
+    constructor Create(const ATipo: TACBrLibRespostaTipo;
+      const AFormato: TACBrLibCodificacao); reintroduce;
+    destructor Destroy; override;
+
+    procedure Processar(const ARetObterDFe: TRetObterDFe; const AMsg: String); reintroduce;
+
+  published
+    property Versao: String read FVersao write FVersao;
+    property tpAmb: String read FtpAmb write FtpAmb;
+    property VerAplic: String read FverAplic write FverAplic;
+    property dhReq: TDateTime read FdhReq write FdhReq;
+    property CStat: Integer read FcStat write FcStat;
+    property XMotivo: String read FxMotivo write FxMotivo;
+    property ListaIncompleta: Boolean read FListaIncompleta write FListaIncompleta;
+    property dhEmisUltNfce: TDateTime read FdhEmisUltNfce write FdhEmisUltNfce;
+    property QtdChaves: Integer read FQtdChaves write FQtdChaves;
+    property Chaves: TObjectList read FChaves;
+
+  end;
+
+  { TObterDownloadXmlItemResposta }
+  TObterDownloadXmlItemResposta = class(TACBrLibRespostaBase)
+  private
+    FVersao: String;
+    FdhInc: TDateTime;
+    FnProt: String;
+    FId: String;
+    FChave: String;
+    FCNPJCPF: String;
+    FxNome: String;
+    FIE: String;
+    FdhDoc: TDateTime;
+    FtpEvento: String;
+    FXml: String;
+    FNomeArquivo: String;
+
+  public
+    constructor Create(const ASessao: String; const ATipo: TACBrLibRespostaTipo;
+      const AFormato: TACBrLibCodificacao); reintroduce;
+
+    procedure Processar(const ADoc: TObterDFeDocumento); reintroduce;
+
+  published
+    property Versao: String read FVersao write FVersao;
+    property dhInc: TDateTime read FdhInc write FdhInc;
+    property nProt: String read FnProt write FnProt;
+    property Id: String read FId write FId;
+    property Chave: String read FChave write FChave;
+    property CNPJCPF: String read FCNPJCPF write FCNPJCPF;
+    property xNome: String read FxNome write FxNome;
+    property IE: String read FIE write FIE;
+    property dhDoc: TDateTime read FdhDoc write FdhDoc;
+    property tpEvento: String read FtpEvento write FtpEvento;
+    property Xml: String read FXml write FXml;
+    property NomeArquivo: String read FNomeArquivo write FNomeArquivo;
+
+  end;
+
+  { TObterDownloadXmlResposta }
+  TObterDownloadXmlResposta = class(TLibNFeResposta)
+  private
+    FVersao: String;
+    FtpAmb: String;
+    FverAplic: String;
+    FdhReq: TDateTime;
+    FcStat: Integer;
+    FxMotivo: String;
+    FNFCe: TObterDownloadXmlItemResposta;
+    FEventos: TObjectList;
+
+  public
+    constructor Create(const ATipo: TACBrLibRespostaTipo;
+      const AFormato: TACBrLibCodificacao); reintroduce;
+    destructor Destroy; override;
+
+    procedure Processar(const ARetObterDFe: TRetObterDFe; const AMsg: String); reintroduce;
+
+  published
+    property Versao: String read FVersao write FVersao;
+    property tpAmb: String read FtpAmb write FtpAmb;
+    property VerAplic: String read FverAplic write FverAplic;
+    property dhReq: TDateTime read FdhReq write FdhReq;
+    property CStat: Integer read FcStat write FcStat;
+    property XMotivo: String read FxMotivo write FxMotivo;
+    property NFCe: TObterDownloadXmlItemResposta read FNFCe write FNFCe;
+    property Eventos: TObjectList read FEventos;
 
   end;
 
@@ -1180,6 +1301,141 @@ begin
       ProcEvento := TConsultaNFeProcEventoResposta.Create(I + 1, Tipo, Codificacao);
       ProcEvento.Processar(Consulta.procEventoNFe.Items[I]);
       FEventos.Add(ProcEvento);
+    end;
+  end;
+end;
+
+{ TObterChaveItemResposta }
+
+constructor TObterChaveItemResposta.Create(const AId: Integer;
+  const ATipo: TACBrLibRespostaTipo; const AFormato: TACBrLibCodificacao);
+begin
+  inherited Create('Chave' + Trim(IntToStrZero(AId, 4)), ATipo, AFormato);
+end;
+
+procedure TObterChaveItemResposta.Processar(const AChave: String);
+begin
+  FChave := AChave;
+end;
+
+{ TObterListaChavesResposta }
+
+constructor TObterListaChavesResposta.Create(const ATipo: TACBrLibRespostaTipo;
+  const AFormato: TACBrLibCodificacao);
+begin
+  inherited Create(CSessaoRespObterListaChaves, ATipo, AFormato);
+  FChaves := TObjectList.Create;
+end;
+
+destructor TObterListaChavesResposta.Destroy;
+begin
+  FChaves.Clear;
+  FChaves.Free;
+
+  inherited Destroy;
+end;
+
+procedure TObterListaChavesResposta.Processar(const ARetObterDFe: TRetObterDFe;
+  const AMsg: String);
+var
+  I: Integer;
+  LItem: TObterChaveItemResposta;
+begin
+  Msg := AMsg;
+  Versao := ARetObterDFe.versao;
+  tpAmb := TipoAmbienteToStr(ARetObterDFe.tpAmb);
+  VerAplic := ARetObterDFe.verAplic;
+  dhReq := ARetObterDFe.dhReq;
+  CStat := ARetObterDFe.cStat;
+  XMotivo := ARetObterDFe.xMotivo;
+  ListaIncompleta := ARetObterDFe.ListaIncompleta;
+  dhEmisUltNfce := ARetObterDFe.dhEmisUltNfce;
+  QtdChaves := ARetObterDFe.chNFCe.Count;
+
+  for I := 0 to ARetObterDFe.chNFCe.Count - 1 do
+  begin
+    LItem := TObterChaveItemResposta.Create(I + 1, Tipo, Codificacao);
+    LItem.Processar(ARetObterDFe.chNFCe[I]);
+    FChaves.Add(LItem);
+  end;
+end;
+
+{ TObterDownloadXmlItemResposta }
+
+constructor TObterDownloadXmlItemResposta.Create(const ASessao: String;
+  const ATipo: TACBrLibRespostaTipo; const AFormato: TACBrLibCodificacao);
+begin
+  inherited Create(ASessao, ATipo, AFormato);
+end;
+
+procedure TObterDownloadXmlItemResposta.Processar(const ADoc: TObterDFeDocumento);
+begin
+  Versao := ADoc.versao;
+  dhInc := ADoc.dhInc;
+  nProt := ADoc.nProt;
+  Id := ADoc.Id;
+  Chave := ADoc.Chave;
+  if Assigned(ADoc.Origem) then
+  begin
+    CNPJCPF := ADoc.Origem.CNPJCPF;
+    xNome := ADoc.Origem.xNome;
+    IE := ADoc.Origem.IE;
+  end;
+  dhDoc := ADoc.dhDoc;
+  if ADoc.Tipo = tdEvento then
+    tpEvento := TpEventoToStr(ADoc.tpEvento);
+  Xml := ADoc.XML;
+  NomeArquivo := ADoc.NomeArq;
+end;
+
+{ TObterDownloadXmlResposta }
+
+constructor TObterDownloadXmlResposta.Create(const ATipo: TACBrLibRespostaTipo;
+  const AFormato: TACBrLibCodificacao);
+begin
+  inherited Create(CSessaoRespObterDownloadXml, ATipo, AFormato);
+  FNFCe := nil;
+  FEventos := TObjectList.Create;
+end;
+
+destructor TObterDownloadXmlResposta.Destroy;
+begin
+  if Assigned(FNFCe) then FNFCe.Free;
+
+  FEventos.Clear;
+  FEventos.Free;
+
+  inherited Destroy;
+end;
+
+procedure TObterDownloadXmlResposta.Processar(const ARetObterDFe: TRetObterDFe;
+  const AMsg: String);
+var
+  I: Integer;
+  LItem: TObterDownloadXmlItemResposta;
+begin
+  Msg := AMsg;
+  Versao := ARetObterDFe.versao;
+  tpAmb := TipoAmbienteToStr(ARetObterDFe.tpAmb);
+  VerAplic := ARetObterDFe.verAplic;
+  dhReq := ARetObterDFe.dhReq;
+  CStat := ARetObterDFe.cStat;
+  XMotivo := ARetObterDFe.xMotivo;
+
+  for I := 0 to ARetObterDFe.Documentos.Count - 1 do
+  begin
+    if ARetObterDFe.Documentos[I].Tipo = tdNFCe then
+    begin
+      if Assigned(FNFCe) then FNFCe.Free;
+      FNFCe := TObterDownloadXmlItemResposta.Create('NFCe', Tipo, Codificacao);
+      FNFCe.Processar(ARetObterDFe.Documentos[I]);
+    end
+    else
+    begin
+      LItem := TObterDownloadXmlItemResposta.Create('Evento' + Trim(IntToStrZero(FEventos.Count + 1, 3)),
+                                                   Tipo, Codificacao);
+      LItem.Processar(ARetObterDFe.Documentos[I]);
+      FEventos.Add(LItem);
     end;
   end;
 end;

@@ -121,6 +121,10 @@ type
     function DistribuicaoDFePorChave(const AcUFAutor: integer;
       eCNPJCPF, echNFe: PAnsiChar; const sResposta: PAnsiChar;
       var esTamanho: Integer): Integer;
+    function ObterListaChaves(const eDataHoraInicial, eDataHoraFinal: PAnsiChar;
+      const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+    function ObterDownloadXml(const eChNFCe: PAnsiChar;
+      const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
     function EnviarEmail(const ePara, eXmlNFe: PAnsiChar; const AEnviaPDF: boolean;
       const eAssunto, eCC, eAnexos, eMensagem: PAnsiChar): Integer;
     function EnviarEmailEvento(const ePara, eXmlEvento, eXmlNFe: PAnsiChar;
@@ -1597,6 +1601,115 @@ begin
 
         MoverStringParaPChar(Resposta, sResposta, esTamanho);
         Result := SetRetorno(ErrOK, Resposta);
+      end;
+    finally
+      NFeDM.Destravar;
+    end;
+  except
+    on E: EACBrLibException do
+      Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
+
+    on E: EACBrDFeExceptionTimeOut do
+      Result := SetRetorno(ErrTimeOut, ConverterStringSaida(E.Message));
+
+    on E: Exception do
+      Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
+  end;
+end;
+
+function TACBrLibNFe.ObterListaChaves(const eDataHoraInicial, eDataHoraFinal: PAnsiChar;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+var
+  LDataHoraInicial, LDataHoraFinal: String;
+  LDataIni, LDataFim: TDateTime;
+  LResposta: Ansistring;
+  LResp: TObterListaChavesResposta;
+begin
+  try
+    LDataHoraInicial := Trim(ConverterStringEntrada(eDataHoraInicial));
+    LDataHoraFinal := Trim(ConverterStringEntrada(eDataHoraFinal));
+
+    if Config.Log.Nivel > logNormal then
+      GravarLog('NFe_ObterListaChaves(' + LDataHoraInicial + ',' + LDataHoraFinal + ')', logCompleto, True)
+    else
+      GravarLog('NFe_ObterListaChaves', logNormal);
+
+    NFeDM.Travar;
+    try
+      if not TryStrToDateTime(LDataHoraInicial, LDataIni) then
+        raise EACBrLibException.Create(ErrExecutandoMetodo, Format(SErrDataHoraInvalida, [LDataHoraInicial]));
+
+      LDataFim := 0;
+      if LDataHoraFinal <> '' then
+        if not TryStrToDateTime(LDataHoraFinal, LDataFim) then
+          raise EACBrLibException.Create(ErrExecutandoMetodo, Format(SErrDataHoraInvalida, [LDataHoraFinal]));
+
+      with NFeDM do
+      begin
+        ACBrNFe1.ObterListaChaves(LDataIni, LDataFim);
+
+        LResp := TObterListaChavesResposta.Create(Config.TipoResposta, Config.CodResposta);
+        try
+          LResp.Processar(ACBrNFe1.WebServices.ObterDFe.retObterDFe,
+                         ACBrNFe1.WebServices.ObterDFe.Msg);
+          LResposta := LResp.Gerar;
+        finally
+          LResp.Free;
+        end;
+
+        MoverStringParaPChar(LResposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, LResposta);
+      end;
+    finally
+      NFeDM.Destravar;
+    end;
+  except
+    on E: EACBrLibException do
+      Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
+
+    on E: EACBrDFeExceptionTimeOut do
+      Result := SetRetorno(ErrTimeOut, ConverterStringSaida(E.Message));
+
+    on E: Exception do
+      Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
+  end;
+end;
+
+function TACBrLibNFe.ObterDownloadXml(const eChNFCe: PAnsiChar;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+var
+  LChNFCe: String;
+  LResposta: Ansistring;
+  LResp: TObterDownloadXmlResposta;
+begin
+  try
+    LChNFCe := Trim(ConverterStringEntrada(eChNFCe));
+
+    if Config.Log.Nivel > logNormal then
+      GravarLog('NFe_ObterDownloadXml(' + LChNFCe + ')', logCompleto, True)
+    else
+      GravarLog('NFe_ObterDownloadXml', logNormal);
+
+    NFeDM.Travar;
+    try
+      if not ValidarChave(LChNFCe) then
+        raise EACBrLibException.Create(ErrChaveNFe, Format(SErrChaveInvalida, [LChNFCe]));
+
+      with NFeDM do
+      begin
+        ACBrNFe1.ObterDownloadXml(LChNFCe);
+
+        LResp := TObterDownloadXmlResposta.Create(Config.TipoResposta, Config.CodResposta);
+        try
+          LResp.Processar(ACBrNFe1.WebServices.ObterDFe.retObterDFe,
+                         ACBrNFe1.WebServices.ObterDFe.Msg);
+          LResposta := LResp.Gerar;
+        finally
+          LResp.Free;
+        end;
+
+        MoverStringParaPChar(LResposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, LResposta);
       end;
     finally
       NFeDM.Destravar;

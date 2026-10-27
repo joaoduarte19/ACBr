@@ -708,6 +708,8 @@
                     <input type="button" id="ConsultarComChave" value="Consultar com Chave">
                     <input type="button" id="ConsultarRecibo" value="Consultar Recibo">
                     <input type="button" id="ConsultaCadastro" value="Consultar Cadastro">
+                    <input type="button" id="ObterListaChaves" value="Listagem de Chaves NFC-e (SP)">
+                    <input type="button" id="ObterDownloadXml" value="Download XML NFC-e (SP)">
                 </div>
             </div>
             <div id="eventos" class="panelAba button-container">
@@ -1106,6 +1108,27 @@
                         });
                     }, false);
                 }, false);
+            });
+        });
+
+        $('#ObterListaChaves').on('click', function() {
+            inputBox("Digite a data/hora inicial (dd/mm/aaaa hh:nn):", function(AeDataHoraInicial) {
+                inputBox("Digite a data/hora final (dd/mm/aaaa hh:nn) - opcional:", function(AeDataHoraFinal) {
+                    chamaAjaxEnviar({
+                        metodo: "ObterListaChaves",
+                        AeDataHoraInicial: AeDataHoraInicial,
+                        AeDataHoraFinal: AeDataHoraFinal || ""
+                    });
+                }, false);
+            });
+        });
+
+        $('#ObterDownloadXml').on('click', function() {
+            inputBox("Digite a chave da NFC-e:", function(AeChNFCe) {
+                chamaAjaxEnviar({
+                    metodo: "ObterDownloadXml",
+                    AeChNFCe: AeChNFCe
+                });
             });
         });
 

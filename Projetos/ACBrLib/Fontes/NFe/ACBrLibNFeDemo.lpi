@@ -498,7 +498,7 @@
         </Mode0>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="8">
+    <RequiredPackages Count="9">
       <Item1>
         <PackageName Value="ACBr_Integrador"/>
       </Item1>
@@ -523,6 +523,9 @@
       <Item8>
         <PackageName Value="FCL"/>
       </Item8>
+      <Item9>
+        <PackageName Value="ACBr_NFe_DanfeFPDF"/>
+      </Item9>
     </RequiredPackages>
     <Units Count="22">
       <Unit0>

@@ -87,6 +87,10 @@ int NFE_DistribuicaoDFePorNSU(const uintptr_t libHandle, int AcUFAutor, const ch
     const char* sResposta, long* esTamanho);
 int NFE_DistribuicaoDFePorChave(const uintptr_t libHandle, int AcUFAutor, const char* eCNPJCPF, const char* echNFe,
     const char* sResposta, long* esTamanho);
+int NFE_ObterListaChaves(const uintptr_t libHandle, const char* eDataHoraInicial, const char* eDataHoraFinal,
+    const char* sResposta, long* esTamanho);
+int NFE_ObterDownloadXml(const uintptr_t libHandle, const char* eChNFCe,
+    const char* sResposta, long* esTamanho);
 int NFE_EnviarEmail(const uintptr_t libHandle, const char* ePara, const char* eChaveNFe, int AEnviaPDF,
     const char* eAssunto, const char* eCC, const char* eAnexos, const char* eMensagem);
 int NFE_EnviarEmailEvento(const uintptr_t libHandle, const char* ePara, const char* eChaveEvento, const char* eChaveNFe,

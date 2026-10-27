@@ -147,6 +147,12 @@ function NFE_DistribuicaoDFePorNSU(const libHandle: PLibHandle; const AcUFAutor:
 function NFE_DistribuicaoDFePorChave(const libHandle: PLibHandle; const AcUFAutor: integer; eCNPJCPF, echNFe: PAnsiChar;
   const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+function NFE_ObterListaChaves(const libHandle: PLibHandle; const eDataHoraInicial, eDataHoraFinal: PAnsiChar;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+function NFE_ObterDownloadXml(const libHandle: PLibHandle; const eChNFCe: PAnsiChar;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 function NFE_EnviarEmail(const libHandle: PLibHandle; const ePara, eChaveNFe: PAnsiChar; const AEnviaPDF: Boolean;
   const eAssunto, eCC, eAnexos, eMensagem: PAnsiChar): Integer;
   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
@@ -712,6 +718,36 @@ begin
   try
     VerificarLibInicializada(libHandle);
     Result := TACBrLibNFe(libHandle^.Lib).DistribuicaoDFePorChave(AcUFAutor, eCNPJCPF, echNFe, sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+     Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function NFE_ObterListaChaves(const libHandle: PLibHandle; const eDataHoraInicial, eDataHoraFinal: PAnsiChar;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer; {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(libHandle);
+    Result := TACBrLibNFe(libHandle^.Lib).ObterListaChaves(eDataHoraInicial, eDataHoraFinal, sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+     Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function NFE_ObterDownloadXml(const libHandle: PLibHandle; const eChNFCe: PAnsiChar;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer; {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(libHandle);
+    Result := TACBrLibNFe(libHandle^.Lib).ObterDownloadXml(eChNFCe, sResposta, esTamanho);
   except
     on E: EACBrLibException do
      Result := E.Erro;

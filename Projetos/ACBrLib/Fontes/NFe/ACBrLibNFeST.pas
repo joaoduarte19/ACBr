@@ -147,6 +147,12 @@ function NFE_DistribuicaoDFePorNSU(const AcUFAutor: integer; eCNPJCPF, eNSU: PAn
 function NFE_DistribuicaoDFePorChave(const AcUFAutor: integer; eCNPJCPF, echNFe: PAnsiChar;
   const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+function NFE_ObterListaChaves(const eDataHoraInicial, eDataHoraFinal: PAnsiChar;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+function NFE_ObterDownloadXml(const eChNFCe: PAnsiChar;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 function NFE_EnviarEmail(const ePara, eChaveNFe: PAnsiChar; const AEnviaPDF: Boolean;
   const eAssunto, eCC, eAnexos, eMensagem: PAnsiChar): Integer;
   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
@@ -717,6 +723,38 @@ begin
   try
     VerificarLibInicializada(pLib);
     Result := TACBrLibNFe(pLib^.Lib).DistribuicaoDFePorChave(AcUFAutor, eCNPJCPF, echNFe, sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+     Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function NFE_ObterListaChaves(const eDataHoraInicial, eDataHoraFinal: PAnsiChar;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibNFe(pLib^.Lib).ObterListaChaves(eDataHoraInicial, eDataHoraFinal, sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+     Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function NFE_ObterDownloadXml(const eChNFCe: PAnsiChar;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibNFe(pLib^.Lib).ObterDownloadXml(eChNFCe, sResposta, esTamanho);
   except
     on E: EACBrLibException do
      Result := E.Erro;

@@ -170,6 +170,14 @@ function NFE_DistribuicaoDFePorChave(const AcUFAutor: integer; eCNPJCPF, echNFe:
   const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrNFeLIBName;
 
+function NFE_ObterListaChaves(const eDataHoraInicial, eDataHoraFinal: PAnsiChar;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrNFeLIBName;
+
+function NFE_ObterDownloadXml(const eChNFCe: PAnsiChar;
+  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrNFeLIBName;
+
 function NFE_EnviarEmail(const ePara, eChaveNFe: PAnsiChar; const AEnviaPDF: Boolean;
   const eAssunto, eCC, eAnexos, eMensagem: PAnsiChar): Integer;
   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrNFeLIBName;

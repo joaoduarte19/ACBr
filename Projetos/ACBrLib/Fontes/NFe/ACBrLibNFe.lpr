@@ -81,6 +81,8 @@ exports
   NFE_DistribuicaoDFe,
   NFE_DistribuicaoDFePorNSU,
   NFE_DistribuicaoDFePorChave,
+  NFE_ObterListaChaves,
+  NFE_ObterDownloadXml,
   NFE_EnviarEmail,
   NFE_EnviarEmailEvento,
   NFE_Imprimir,

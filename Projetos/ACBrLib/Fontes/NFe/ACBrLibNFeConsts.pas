@@ -133,6 +133,8 @@ const
   CSessaoRespConsultaCadastro = 'ConsultaCadastro';
   CSessaoRespEvento = 'Evento';
   CSessaoRespConsultaInfCan = 'InfCan';
+  CSessaoRespObterListaChaves = 'ObterListaChaves';
+  CSessaoRespObterDownloadXml = 'ObterDownloadXml';
   CSessaoResposta = 'Resposta';
 
   ErrValidacaoNFe = -11;
@@ -151,6 +153,7 @@ Resourcestring
   SErrChaveInvalida = 'Chave % inválida.';
   SErrCNPJInvalido = 'CNPJ % inválido.';
   SErrCNPJCPFInvalido = 'CNPJ/CPF % inválido.';
+  SErrDataHoraInvalida = 'Data/Hora % inválida.';
 
 implementation
 
