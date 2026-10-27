@@ -389,6 +389,8 @@ const
   CMetodoSetformaemissao =             'setformaemissao';
   CMetodoSetTipoImpressao =            'settipoimpressao';
   CMetodoSetRespTecnico =              'setresptecnico';
+  CMetodoObterListaChaves =            'obterlistachaves';
+  CMetodoObterDownloadXml =            'obterdownloadxml';
   CMetodoSetPathArquivoWebServices =   'SetPathArquivoWebServices';
 
   CMetodoSetversaodf =                 'setversaodf';

@@ -443,6 +443,18 @@ public
   procedure Executar; override;
 end;
 
+{ TMetodoObterListaChaves}
+TMetodoObterListaChaves = class(TACBrMetodo)
+public
+  procedure Executar; override;
+end;
+
+{ TMetodoObterDownloadXml}
+TMetodoObterDownloadXml = class(TACBrMetodo)
+public
+  procedure Executar; override;
+end;
+
 implementation
 
 uses
@@ -519,6 +531,8 @@ begin
   ListaDeMetodos.Add(CMetodoDataVencimentoCertificado);
   ListaDeMetodos.Add(CMetodoSetTipoImpressao);
   ListaDeMetodos.Add(CMetodoSetRespTecnico);
+  ListaDeMetodos.Add(CMetodoObterListaChaves);
+  ListaDeMetodos.Add(CMetodoObterDownloadXml);
 
   // DoACBrUnit
   ListaDeMetodos.Add(CMetodoSavetofile);
@@ -611,6 +625,8 @@ begin
     56 : AMetodoClass := TMetodoCertificadoDataVencimento; // DataVencimentoCertificado
     57 : AMetodoClass := TMetodoSetTipoImpressao;
     58 : AMetodoClass := TMetodoSetRespTecnico;
+    59 : AMetodoClass := TMetodoObterListaChaves;
+    60 : AMetodoClass := TMetodoObterDownloadXml;
 
     else
       begin
@@ -3565,6 +3581,74 @@ begin
     end;
 
     MonitorConfig.SalvarArquivo;
+  end;
+end;
+
+{ TMetodoObterListaChaves }
+
+{ Params: 0 - Data/Hora inicial (ex.: 20/10/2026 08:00)
+          1 - Data/Hora final (opcional; se vazia, consulta ate a data/hora atual)
+  Servico SAE NFC-e da SEFAZ-SP (NFCeListagemChaves)
+}
+procedure TMetodoObterListaChaves.Executar;
+var
+  LIni, LFim: String;
+  LDataIni, LDataFim: TDateTime;
+  LResp: TObterListaChavesResposta;
+begin
+  LIni := Trim(fpCmd.Params(0));
+  LFim := Trim(fpCmd.Params(1));
+
+  if not TryStrToDateTime(LIni, LDataIni) then
+    raise Exception.Create('Data/Hora inicial ' + LIni + ' inválida.');
+
+  LDataFim := 0;
+  if LFim <> '' then
+    if not TryStrToDateTime(LFim, LDataFim) then
+      raise Exception.Create('Data/Hora final ' + LFim + ' inválida.');
+
+  with TACBrObjetoNFe(fpObjetoDono) do
+  begin
+    DoValidarIntegradorNFCe();
+    ACBrNFe.ObterListaChaves(LDataIni, LDataFim);
+    LResp := TObterListaChavesResposta.Create(TpResp, codUTF8);
+    try
+      LResp.Processar(ACBrNFe.WebServices.ObterDFe.retObterDFe,
+                     ACBrNFe.WebServices.ObterDFe.Msg);
+      fpCmd.Resposta := sLineBreak + LResp.Gerar;
+    finally
+      LResp.Free;
+    end;
+  end;
+end;
+
+{ TMetodoObterDownloadXml }
+
+{ Params: 0 - Chave da NFC-e que se deseja baixar (XML completo e eventos)
+  Servico SAE NFC-e da SEFAZ-SP (NFCeDownloadXML)
+}
+procedure TMetodoObterDownloadXml.Executar;
+var
+  LChave: String;
+  LResp: TObterDownloadXmlResposta;
+begin
+  LChave := Trim(fpCmd.Params(0));
+
+  if not ValidarChave(LChave) then
+    raise Exception.Create('Chave ' + LChave + ' inválida.');
+
+  with TACBrObjetoNFe(fpObjetoDono) do
+  begin
+    DoValidarIntegradorNFCe();
+    ACBrNFe.ObterDownloadXml(LChave);
+    LResp := TObterDownloadXmlResposta.Create(TpResp, codUTF8);
+    try
+      LResp.Processar(ACBrNFe.WebServices.ObterDFe.retObterDFe,
+                     ACBrNFe.WebServices.ObterDFe.Msg);
+      fpCmd.Resposta := sLineBreak + LResp.Gerar;
+    finally
+      LResp.Free;
+    end;
   end;
 end;
 
