@@ -114,7 +114,7 @@ begin
   Http.Password := ClientSecret;
   TransmitirHttp(ChttpMethodPOST, wURL, wResultCode, wRespostaHttp);
 
-  if (wResultCode = HTTP_CREATED) then
+  if (wResultCode = HTTP_CREATED) or (wResultCode = HTTP_OK) then
   begin
     js := TACBrJSONObject.Parse(wRespostaHttp);
     try

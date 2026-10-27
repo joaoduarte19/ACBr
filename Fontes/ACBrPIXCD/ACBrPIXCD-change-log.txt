@@ -46,6 +46,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+27/10/2026
+-- ACBrPIXPSPCielo --
+[*] Ajuste no retorno da API PIX Cielo.
+    por: Robert Marx
+
 08/10/2026
 -- ACBrPIXCD --
 [+] Adicionado o PSP Caixa.
