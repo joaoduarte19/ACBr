@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/10/2026
+-- eGoverneISS.GravarXml --
+[*] Altera a cardinalidade dos campos de endereço de Prestação do serviço para que não sejam gerados vazios caso nada tenha sido informado.
+   Por: Diego Folieni \ Victor H Gonzales - Panda
+   Veja: https://www.projetoacbr.com.br/forum/topic/95584-n%C3%A3o-foi-encontrado-munic%C3%ADpio-com-o-c%C3%B3digo-informado-na-tag-codigocidadeibgeprestacaoservico-nfs-e-osascosp/#comment-625530 
+
 26/10/2026
 -- Diversos --
 [*] ACBR-9969 - Alterações visando atender a NT 009 versão 1.01 implementada neste primeiro momento no ambiente
