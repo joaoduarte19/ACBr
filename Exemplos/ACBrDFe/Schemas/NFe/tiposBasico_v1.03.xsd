@@ -99,6 +99,15 @@
 			<xs:pattern value="[0-9]{3,4}"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="TCnpjBase">
+		<xs:annotation>
+			<xs:documentation>Tipo CNPJ Base</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve"/>
+			<xs:pattern value="[A-Z0-9]{8}"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:simpleType name="TCnpj">
 		<xs:annotation>
 			<xs:documentation>Tipo Número do CNPJ</xs:documentation>
@@ -913,4 +922,44 @@ acrescentado:
 			<xs:element name="Exponent" type="xs:base64Binary"/>
 		</xs:sequence>
 	</xs:complexType>
+	<xs:group name="ECT_Evento">
+		<xs:sequence>
+			<xs:element name="cRastreio">
+				<xs:annotation>
+					<xs:documentation>Código de rastreamento da ECT</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[A-Za-z0-9]{13}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="dhPostagem" type="nfe:TDateTimeUTC">
+				<xs:annotation>
+					<xs:documentation>Data e hora da postagem, no formato AAAA-MM-DDThh:mm:ssTZD</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="UFAgencia" type="nfe:TUf">
+				<xs:annotation>
+					<xs:documentation>UF da agência em que foi feita a postagem</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="cMunAgencia" type="nfe:TCodMunIBGE">
+				<xs:annotation>
+					<xs:documentation>Código IBGE do município que fez a postagem</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="xAgencia">
+				<xs:annotation>
+					<xs:documentation>Nome da agência em que foi feita a postagem</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="nfe:TString">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="150"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
 </xs:schema>
