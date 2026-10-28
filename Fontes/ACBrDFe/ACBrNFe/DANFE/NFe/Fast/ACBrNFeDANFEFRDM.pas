@@ -41,7 +41,7 @@ interface
 uses
   SysUtils, Classes, Forms, DB, DBClient, Graphics,
   ACBrNFe.EnvEvento,
-  ACBrNFe.RetInut, ACBrNFe.Classes, ACBrDFe.Conversao,
+  ACBrDFeComum.RetInut, ACBrNFe.Classes, ACBrDFe.Conversao,
   ACBrDFeReport, ACBrDFeDANFeReport, ACBrNFeDANFEClass,
   frxClass, frxExportPDF, frxDBSet, frxBarcode,
   ACBrUtil.FR;
@@ -90,7 +90,7 @@ type
     FfrxInformacoesAdicionais: TfrxDBDataset;
     cdsPagamento: TClientDataSet;
     FfrxPagamento: TfrxDBDataset;
-    FInutilizacao: TRetInutNFe;
+    FInutilizacao: TRetInutDFe;
     FfrxInutilizacao: TfrxDBDataset;
     cdsInutilizacao: TClientDataSet;
 
@@ -138,7 +138,7 @@ type
 
     property NFe: TNFe read FNFe write FNFe;
     property Evento: TEventoNFe read FEvento write FEvento;
-    property Inutilizacao: TRetInutNFe read FInutilizacao write FInutilizacao;
+    property Inutilizacao: TRetInutDFe read FInutilizacao write FInutilizacao;
     property DANFEClassOwner: TACBrDFeDANFeReport read FDANFEClassOwner;
     property frxReport: TfrxReport read FfrxReport;
     property frxPDFExport: TfrxPDFExport read FfrxPDFExport;
@@ -2140,8 +2140,8 @@ begin
          FieldByName('Modelo').AsInteger    := Modelo;
          FieldByName('Serie').AsInteger     := Serie;
          FieldByName('Ano').AsInteger       := Ano;
-         FieldByName('nNFIni').AsInteger    := nNFIni;
-         FieldByName('nNFFin').AsInteger    := nNFFin;
+         FieldByName('nNFIni').AsInteger    := nNumIni;
+         FieldByName('nNFFin').AsInteger    := nNumFin;
          FieldByName('xJust').AsString      := xJust;
          FieldByName('versao').AsString     := versao;
          FieldByName('verAplic').AsString   := verAplic;
@@ -2394,7 +2394,7 @@ begin
   begin
     if Assigned(TACBrNFe(DANFEClassOwner.ACBrNFe).InutNFe) then
     begin
-      Inutilizacao := TACBrNFe(DANFEClassOwner.ACBrNFe).InutNFe.RetInutNFe;
+      Inutilizacao := TACBrNFe(DANFEClassOwner.ACBrNFe).InutNFe.RetInutDFe;
       CarregaDadosInutilizacao;
     end
     else
