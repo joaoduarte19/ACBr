@@ -400,7 +400,7 @@ begin
            PadLeft(cCredPresToStr(NFSe.IBSCBS.valores.trib.gIBSCBS.cCredPres),2,' ');
 
   Linha := Linha + PadLeft(tpEnteGovToStr(NFSe.IBSCBS.tpEnteGov),1,'0');
-  Linha := Linha + tpOperGovNFSeToStr(NFSe.IBSCBS.tpOper);
+  Linha := Linha + PadRight(tpOperGovNFSeToStr(NFSe.IBSCBS.tpOper), 1, ' ');
   Linha := Linha + Space(50);
   Linha := Linha + Space(8);
   Linha := Linha + Space(150);
