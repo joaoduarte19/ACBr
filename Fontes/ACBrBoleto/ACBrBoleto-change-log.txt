@@ -49,6 +49,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+28/10/2026
+-- ACBrBoletoRet_BancoBrasil_API, ACBrBoletoW_BancoBrasil_API --
+[*] Ajustado a propriedade indicadorAceiteTituloVencido para ser enviado S ou N, e mapeado retorno CNPJCPF Sacado
+	[ACBR-9741] https://www.projetoacbr.com.br/forum/topic/93745-api-boleto-bb-indicadoraceitetitulovencido/
+	Por: Valter Patrick / Thiago Balbino
+
+
 20/10/2026
 -- ACBrBoletoW_C6.pas --
 [*] Ajustadas as validações da carteira (15 e 16 em produção e 21 em homologação), o envio de até 4 linhas de instruções de 80 caracteres e o envio do our_number somente quando informado (> 0).

@@ -288,6 +288,7 @@ begin
 
             ARetornoWS.DadosRet.TituloRet.CodigoOcorrenciaCartorio   := IntToStr(LJsonObject.AsInteger['codigoOcorrenciaCartorio']);
 
+            ARetornoWS.DadosRet.TituloRet.Sacado.CNPJCPF             := LJsonObject.AsString['numeroInscricaoSacadoCobranca'];
             ARetornoWS.DadosRet.TituloRet.Sacado.NomeSacado          := LJsonObject.AsString['nomeSacadoCobranca'];
             ARetornoWS.DadosRet.TituloRet.Sacado.Logradouro          := LJsonObject.AsString['textoEnderecoSacadoCobranca'];
             ARetornoWS.DadosRet.TituloRet.Sacado.Bairro              := LJsonObject.AsString['nomeBairroSacadoCobranca'];

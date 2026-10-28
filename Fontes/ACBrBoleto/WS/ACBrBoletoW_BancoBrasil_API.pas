@@ -392,6 +392,11 @@ begin
       begin
         LJsonObject.AddPair('indicadorAceiteTituloVencido', 'S');
         LJsonObject.AddPair('numeroDiasLimiteRecebimento', Trunc(ATitulo.DataLimitePagto - ATitulo.Vencimento));
+      end
+      else
+      begin
+        LJsonObject.AddPair('indicadorAceiteTituloVencido', 'N');
+        LJsonObject.AddPair('numeroDiasLimiteRecebimento', 0);
       end;
 
       LJsonObject.AddPair('codigoAceite', IfThen(ATitulo.Aceite = atSim,'A','N'));
