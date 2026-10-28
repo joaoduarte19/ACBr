@@ -45,6 +45,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+28/10/2026
+-- Inclusão para novas DANFes RTC --
+[+] #ACBR-9948 - DANFE no leiaute da Reforma Tributária (NT 2026.010 v1.00), modelo retrato e paisagem (ACBR-9986/ACBR-9987).
+  Selecionado no TACBrNFeDANFeRL por LeiauteDANFE = ldReformaTributaria 
+  Por: Daniel de Morais InfoCotidiano
 
 14/09/2026
 -- Ajustes NFE ACBrNFeDANFeRLRetrato--

@@ -149,6 +149,7 @@ type
     property FormatarNumeroDocumento: Boolean read FFormatarNumeroDocumento write FFormatarNumeroDocumento default True;
     property ExibeCampoDuplicata: Boolean read FExibeCampoDuplicata write FExibeCampoDuplicata default True;
     property LogoemCima: Boolean read FLogoEmCima write FLogoEmCima default False;
+    property LeiauteDANFE;
   end;
 
 

@@ -46,6 +46,7 @@ type
   TinfAdcProd = (infNenhum, infDescricao, infSeparadamente);
   TValorLiquido = (TVLFrete,TVLDesconto, TVLOutros, TVLSeguros);
   TValorLiquidoFlag = Set of TValorLiquido;
+  TLeiauteDANFE = (ldPadrao, ldReformaTributaria);
 
   { TACBrDFeDANFeReport }
   {$IFDEF RTL230_UP}
@@ -72,6 +73,7 @@ type
     FExibeInforAdicProduto: TinfAdcProd;
     FImprimeNomeFantasia: Boolean;
     FTipoDANFE: TACBrTipoImpressao;
+    FLeiauteDANFE: TLeiauteDANFE;
     FImprimeXPedNItemPed : Boolean;
 
     procedure SetACBrNFE(const AValue: TComponent);
@@ -135,6 +137,7 @@ type
     property vTribMun: currency read FvTribMun write FvTribMun;
     property FonteTributos: String read FFonteTributos write FFonteTributos;
     property ChaveTributos: String read FChaveTributos write FChaveTributos;
+    property LeiauteDANFE: TLeiauteDANFE read FLeiauteDANFE write FLeiauteDANFE default ldPadrao;
 
   published
     property ACBrNFe: TComponent read FACBrNFe write SetACBrNFE;
@@ -197,6 +200,7 @@ begin
 
   FACBrNFe                    := nil;
   FTipoDANFE                  := tiRetrato;
+  FLeiauteDANFE               := ldPadrao;
   FImprimeTotalLiquido        := False;
   FProtocoloNFe               := '';
   FNFeCancelada               := False;

@@ -119,6 +119,7 @@ contains
 
   ACBrDFeDANFeReport in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\ACBrDFeDANFeReport.pas',
   ACBrNFeDANFEClass in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\ACBrNFeDANFEClass.pas',
+  ACBrNFeDANFeRTC in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\ACBrNFeDANFeRTC.pas',
   {ACBrDI}
   ACBrDIDeclaracaoImportacao in '..\..\..\..\Fontes\ACBrDFe\ACBrDI\ACBrDIDeclaracaoImportacao.pas',
   pcnDI in '..\..\..\..\Fontes\ACBrDFe\ACBrDI\PCNDI\pcnDI.pas',

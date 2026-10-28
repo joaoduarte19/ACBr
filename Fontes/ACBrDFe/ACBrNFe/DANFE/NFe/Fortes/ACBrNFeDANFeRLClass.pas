@@ -102,6 +102,8 @@ type
     FRecuoEmpresa: Integer;
     FRecuoLogo: Integer;
     FImprimeContinuacaoDadosAdicionaisPrimeiraPagina: Boolean;
+
+    function UsaLeiauteRTC: Boolean;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -147,6 +149,7 @@ implementation
 uses
   synautil,
   ACBrNFe,
+  ACBrDFeDANFeReport,
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrUtil.FilesIO,
@@ -159,6 +162,8 @@ uses
   ACBrNFeDANFeEventoRLRetrato,
   ACBrNFeDANFeRLSimplificado,
   ACBrNFeDANFeRLEtiqueta,
+  ACBrNFeDANFeRLRetratoRTC,
+  ACBrNFeDANFeRLPaisagemRTC,
   ACBrNFeDAInutRLRetrato;
 
 { TFonte }
@@ -224,6 +229,11 @@ begin
     FExibeEAN := False;
 end;
 
+function TACBrNFeDANFeRL.UsaLeiauteRTC: Boolean;
+begin
+  Result := (LeiauteDANFE = ldReformaTributaria) and (TipoDANFE in [tiRetrato, tiPaisagem]) and not Etiqueta;
+end;
+
 procedure TACBrNFeDANFeRL.ImprimirDANFE(ANFe: TNFe = nil);
 var
   i: Integer;
@@ -240,6 +250,15 @@ begin
   begin
     SetLength(Notas, 1);
     Notas[0] := ANFe;
+  end;
+
+  if UsaLeiauteRTC then
+  begin
+    if (TipoDANFE = tiPaisagem) then
+      TfrlDANFeRLPaisagemRTC.Imprimir(Self, Notas)
+    else
+      TfrlDANFeRLRetratoRTC.Imprimir(Self, Notas);
+    Exit;
   end;
 
   case TipoDANFE of
@@ -272,6 +291,15 @@ var
     Result := DefinirNomeArquivo(Self.PathPDF,
                                  RemoverLiteralChave(ANFe.infNFe.ID) + '-nfe.pdf',
                                  Self.NomeDocumento);
+
+    if UsaLeiauteRTC then
+    begin
+      if (Self.TipoDANFE = tiPaisagem) then
+        TfrlDANFeRLPaisagemRTC.SalvarPDF(Self, ANFe, Result)
+      else
+        TfrlDANFeRLRetratoRTC.SalvarPDF(Self, ANFe, Result);
+      Exit;
+    end;
 
     case Self.TipoDANFE of
       tiPaisagem:
@@ -317,6 +345,15 @@ var
   procedure StreamDANFEPDFTipo(ANFe: TNFe; const AStream: TStream);
   begin
     AStream.Size := 0;
+    if UsaLeiauteRTC then
+    begin
+      if (Self.TipoDANFE = tiPaisagem) then
+        TfrlDANFeRLPaisagemRTC.SalvarPDF(Self, ANFe, AStream)
+      else
+        TfrlDANFeRLRetratoRTC.SalvarPDF(Self, ANFe, AStream);
+      Exit;
+    end;
+
     case Self.TipoDANFE of
       tiPaisagem:
         TfrlDANFeRLPaisagem.SalvarPDF(Self, ANFe, AStream);

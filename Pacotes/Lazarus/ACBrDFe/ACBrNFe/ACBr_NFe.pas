@@ -15,7 +15,8 @@ uses
   ACBrNFe.RetInut, ACBrNFe.XmlReader, ACBrNFe.XmlWriter, ACBrNFe.Consts, 
   ACBrNFe.Conversao, ACBrNFe.IniReader, ACBrNFe.IniWriter, ACBrNFe.JSONReader, 
   ACBrNFe.JSONWriter, ACBrNFe.ValidarRegrasdeNegocio, pcnDI, pcnDIR, 
-  ACBrDIDeclaracaoImportacao, ACBrNFe.RetObterDFe, LazarusPackageIntf;
+  ACBrDIDeclaracaoImportacao, ACBrNFe.RetObterDFe, ACBrNFeDANFeRTC,
+  LazarusPackageIntf;
 
 implementation
 

@@ -12,7 +12,8 @@ uses
   ACBrNFeDANFeRLRetrato, ACBrNFeDANFeRLPaisagem, ACBrNFeDANFeEventoRL, 
   ACBrNFeDANFeEventoRLRetrato, ACBrNFeDANFeRLSimplificado, ACBrNFeDAInutRL, 
   ACBrNFeDAInutRLRetrato, ACBrNFeDANFeRLEtiqueta, ACBrDANFCeFortesFr, 
-  ACBrDANFCeFortesFrA4, LazarusPackageIntf;
+  ACBrDANFCeFortesFrA4, ACBrNFeDANFeRLRTC, ACBrNFeDANFeRLRetratoRTC, 
+  ACBrNFeDANFeRLPaisagemRTC, LazarusPackageIntf;
 
 implementation
 

@@ -21,7 +21,7 @@
     </CompilerOptions>
     <Description Value="ACBr - DANFe em FortesReport - (http://www.projetoacbr.com.br/)"/>
     <License Value="LGPL"/>
-    <Files Count="15">
+    <Files Count="18">
       <Item1>
         <Filename Value="..\..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\Fortes\ACBrNFeDANFeRL.pas"/>
         <UnitName Value="ACBrNFeDANFeRL"/>
@@ -83,6 +83,18 @@
         <Filename Value="..\..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\NFCe\Fortes\ACBrDANFCeFortesFrA4.pas"/>
         <UnitName Value="ACBrDANFCeFortesFrA4"/>
       </Item15>
+      <Item16>
+        <Filename Value="..\..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\Fortes\ACBrNFeDANFeRLRTC.pas"/>
+        <UnitName Value="ACBrNFeDANFeRLRTC"/>
+      </Item16>
+      <Item17>
+        <Filename Value="..\..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\Fortes\ACBrNFeDANFeRLRetratoRTC.pas"/>
+        <UnitName Value="ACBrNFeDANFeRLRetratoRTC"/>
+      </Item17>
+      <Item18>
+        <Filename Value="..\..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\Fortes\ACBrNFeDANFeRLPaisagemRTC.pas"/>
+        <UnitName Value="ACBrNFeDANFeRLPaisagemRTC"/>
+      </Item18>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>
