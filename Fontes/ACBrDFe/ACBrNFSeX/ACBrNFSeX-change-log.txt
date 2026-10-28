@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 28/10/2026
+-- MegaSoft.GravarXml --
+[*] ACBR-10046 - Alteração visando gerar o grupo InfIbsCbs da Reforma Tributária.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] ACBR-10132 - Inclusão de Provedor Padrão Nacional para o município de Japaratinga/AL
 	Por: Baltazar

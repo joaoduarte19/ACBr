@@ -40,6 +40,7 @@ uses
   SysUtils, Classes, StrUtils,
   ACBrXmlBase,
   ACBrXmlDocument,
+  ACBrNFSeXClass,
   ACBrNFSeXGravarXml_ABRASFv2;
 
 type
@@ -52,6 +53,7 @@ type
     function GerarContatoTomador: TACBrXmlNode; override;
     function GerarStatus: TACBrXmlNode; override;
     function GerarServico: TACBrXmlNode; override;
+    function GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode; override;
   end;
 
 implementation
@@ -104,6 +106,21 @@ begin
   Result := nil;
 end;
 
+function TNFSeW_MegaSoft200.GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode;
+begin
+  Result := CreateElement('InfIbsCbs');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'Cst', 3, 3, 1,
+                          CSTIBSCBSToStr(IBSCBS.valores.trib.gIBSCBS.CST), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'ClassificacaoTributaria', 6, 6, 1,
+                                   IBSCBS.valores.trib.gIBSCBS.cClassTrib, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'IndicadorOperacao', 6, 6, 1,
+                                                            IBSCBS.cIndOp, ''));
+  // Os demais campos são opcionais, vão ser implementados futuramente
+end;
+
 function TNFSeW_MegaSoft200.GerarServico: TACBrXmlNode;
 begin
   Result := CreateElement('Servico');
@@ -125,6 +142,12 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#32', 'NumeroNbs', 1, 12, 1,
                                             NFSe.Servico.CodigoNBS, DSC_CMUN));
+
+  if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
+     (NFSe.IBSCBS.imovel.ender.CEP <> '') or
+     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
+     (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
+    Result.AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
 
   Result.AppendChild(AddNode(tcStr, '#32', 'Discriminacao', 1, 2000, 1,
     StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
