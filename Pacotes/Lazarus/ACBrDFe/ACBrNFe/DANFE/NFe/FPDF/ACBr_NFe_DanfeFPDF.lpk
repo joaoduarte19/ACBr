@@ -20,7 +20,7 @@
     </CompilerOptions>
     <Description Value="ACBr - DANFe em FPDF - (http://www.projetoacbr.com.br/)"/>
     <License Value="LGPL"/>
-    <Files Count="5">
+    <Files Count="6">
       <Item1>
         <Filename Value="..\..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\FPDF\ACBrNFeDANFeFPDF.pas"/>
         <UnitName Value="ACBrNFeDANFeFPDF"/>
@@ -43,6 +43,10 @@
         <HasRegisterProc Value="True"/>
         <UnitName Value="ACBrNFCeDANFeFPDFReg"/>
       </Item5>
+      <Item6>
+        <Filename Value="..\..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\FPDF\ACBrNFeDANFeFPDFRTC.pas"/>
+        <UnitName Value="ACBrNFeDANFeFPDFRTC"/>
+      </Item6>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="1">

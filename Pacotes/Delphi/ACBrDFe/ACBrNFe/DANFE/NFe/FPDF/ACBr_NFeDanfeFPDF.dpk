@@ -68,5 +68,7 @@ requires
 
 contains
   ACBrNFeDANFeFPDF in '..\..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\FPDF\ACBrNFeDANFeFPDF.pas',
+  ACBrNFeDANFeFPDFRTC in '..\..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\NFe\FPDF\ACBrNFeDANFeFPDFRTC.pas',
   ACBrNFCeDANFeFPDF in '..\..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\NFCe\FPDF\ACBrNFCeDANFeFPDF.pas';
+
 end.

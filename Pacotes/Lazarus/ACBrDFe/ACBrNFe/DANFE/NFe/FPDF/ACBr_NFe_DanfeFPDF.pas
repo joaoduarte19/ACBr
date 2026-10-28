@@ -9,7 +9,7 @@ interface
 
 uses
   ACBrNFeDANFeFPDF, ACBrNFeDANFeFPDFReg, ACBrNFeUtilsFPDF, ACBrNFCeDANFeFPDF, 
-  ACBrNFCeDANFeFPDFReg, LazarusPackageIntf;
+  ACBrNFCeDANFeFPDFReg, ACBrNFeDANFeFPDFRTC, LazarusPackageIntf;
 
 implementation
 
