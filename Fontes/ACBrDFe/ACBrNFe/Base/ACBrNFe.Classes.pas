@@ -50,7 +50,6 @@ uses
   ACBrDFe.Conversao,
   ACBrDFe.RTC.Classes,
   ACBrNFe.Conversao,
-  pcnConversaoNFe,
   ACBrXmlBase,
   {$IFNDEF USE_ACBr_XMLDOCUMENT}
    pcnSignature,
@@ -95,12 +94,12 @@ type
 
   TRefECF = class(TObject)
   private
-    Fmodelo: TpcnECFModRef;
+    Fmodelo: TECFModRef;
     FnECF: string;
     FnCOO: string;
   public
     procedure Assign(Source: TRefECF);
-    property modelo:TpcnECFModRef read FModelo write Fmodelo default ECFModRefVazio;
+    property modelo:TECFModRef read FModelo write Fmodelo default ECFModRefVazio;
     property nECF: string read FnECF write FnECF;
     property nCOO: string read FnCOO write FnCOO;
   end;
@@ -170,7 +169,7 @@ type
     FcUF: Integer;
     FcNF: Integer;
     FnatOp: string;
-    FindPag: TpcnIndicadorPagamento;
+    FindPag: TIndicadorPagamento;
     Fmodelo: Integer;
     Fserie: Integer;
     FnNF: Integer;
@@ -178,16 +177,16 @@ type
     FdSaiEnt: TDateTime;
     FhSaiEnt: TDateTime;
     FtpNF: TTipoNFe;
-    FidDest: TpcnDestinoOperacao;
+    FidDest: TDestinoOperacao;
     FcMunFG: Integer;
     FNFref: TNFrefCollection;
     FtpImp: TACBrTipoImpressao;
     FtpEmis: TACBrTipoEmissao;
     FcDV: Integer;
     FtpAmb: TACBrTipoAmbiente;
-    FfinNFe : TpcnFinalidadeNFe;
-    FindFinal: TpcnConsumidorFinal;
-    FindPres: TpcnPresencaComprador;
+    FfinNFe : TFinalidadeNFe;
+    FindFinal: TConsumidorFinal;
+    FindPres: TPresencaComprador;
     FindIntermed: TindIntermed;
     FprocEmi: TACBrProcessoEmissao;
     FverProc: string;
@@ -213,7 +212,7 @@ type
     property cUF: Integer read FcUF write FcUF;
     property cNF: Integer read FcNF write FcNF;
     property natOp: string read FnatOp write FnatOp;
-    property indPag: TpcnIndicadorPagamento read FindPag write FindPag default ipPrazo;
+    property indPag: TIndicadorPagamento read FindPag write FindPag default ipPrazo;
     property modelo: Integer read Fmodelo write Fmodelo;
     property serie: Integer read Fserie write Fserie;
     property nNF: Integer read FnNF write FnNF;
@@ -221,16 +220,16 @@ type
     property dSaiEnt: TDateTime read FdSaiEnt write FdSaiEnt;
     property hSaiEnt: TDateTime read FhSaiEnt write FhSaiEnt;
     property tpNF: TTipoNFe read FtpNF write FtpNF default tnSaida;
-    property idDest: TpcnDestinoOperacao read FidDest write FidDest;
+    property idDest: TDestinoOperacao read FidDest write FidDest;
     property cMunFG: Integer read FcMunFG write FcMunFG;
     property NFref: TNFrefCollection read FNFref write SetNFref;
     property tpImp: TACBrTipoImpressao read FtpImp write FtpImp default tiPaisagem;
     property tpEmis: TACBrTipoEmissao read FtpEmis write FtpEmis default teNormal;
     property cDV: Integer read FcDV write FcDV;
     property tpAmb: TACBrTipoAmbiente read FtpAmb write FtpAmb default taHomologacao;
-    property finNFe: TpcnFinalidadeNFe read FfinNFe write FfinNFe default fnNormal;
-    property indFinal: TpcnConsumidorFinal read FindFinal write FindFinal;
-    property indPres: TpcnPresencaComprador read FindPres write FindPres;
+    property finNFe: TFinalidadeNFe read FfinNFe write FfinNFe default fnNormal;
+    property indFinal: TConsumidorFinal read FindFinal write FindFinal;
+    property indPres: TPresencaComprador read FindPres write FindPres;
     property indIntermed: TindIntermed read FindIntermed write FindIntermed;
     property cIndOp: string read FcIndOp write FcIndOp;
     property procEmi: TACBrProcessoEmissao read FprocEmi write FprocEmi default peAplicativoContribuinte;
@@ -289,7 +288,7 @@ type
     FIEST: string;
     FIM: string;
     FCNAE: string;
-    FCRT: TpcnCRT;
+    FCRT: TCRT;
     FISUFEmit: string;
   public
     constructor Create();
@@ -304,7 +303,7 @@ type
     property IEST: string read FIEST write FIEST;
     property IM: string read FIM write FIM;
     property CNAE: string read FCNAE write FCNAE;
-    property CRT: TpcnCRT read FCRT write FCRT;
+    property CRT: TCRT read FCRT write FCRT;
     property ISUFEmit: string read FISUFEmit write FISUFEmit;
   end;
 
@@ -513,9 +512,9 @@ type
     FxLocDesemb: string;
     FUFDesemb: string;
     FdDesemb: TDateTime;
-    FtpViaTransp: TpcnTipoViaTransp;
+    FtpViaTransp: TTipoViaTransp;
     FvAFRMM: Currency;
-    FtpIntermedio: TpcnTipoIntermedio;
+    FtpIntermedio: TTipoIntermedio;
     FCNPJ: string;
     FUFTerceiro: string;
     FcExportador: string;
@@ -532,9 +531,9 @@ type
     property xLocDesemb: string read FxLocDesemb write FxLocDesemb;
     property UFDesemb: string read FUFDesemb write FUFDesemb;
     property dDesemb: TDateTime read FdDesemb write FdDesemb;
-    property tpViaTransp: TpcnTipoViaTransp read FtpViaTransp write FtpViaTransp;
+    property tpViaTransp: TTipoViaTransp read FtpViaTransp write FtpViaTransp;
     property vAFRMM: Currency read FvAFRMM write FvAFRMM;
-    property tpIntermedio: TpcnTipoIntermedio read FtpIntermedio write FtpIntermedio;
+    property tpIntermedio: TTipoIntermedio read FtpIntermedio write FtpIntermedio;
     property CNPJ: string read FCNPJ write FCNPJ;
     property UFTerceiro: string read FUFTerceiro write FUFTerceiro;
     property cExportador: string read FcExportador write FcExportador;
@@ -618,7 +617,7 @@ type
 
   TveicProd = class(TObject)
   private
-    FtpOP: TpcnTipoOperacao;
+    FtpOP: TTipoOperacao;
     Fchassi: string;
     FcCor: string;
     FxCor: string;
@@ -637,7 +636,7 @@ type
     FtpVeic: Integer;
     FespVeic: Integer;
     FVIN: string;
-    FcondVeic: TpcnCondicaoVeiculo;
+    FcondVeic: TCondicaoVeiculo;
     FcMod: string;
     FcCorDENATRAN: string;
     Flota: Integer;
@@ -646,7 +645,7 @@ type
     function getCombDescricao: string;
   public
     procedure Assign(Source: TveicProd);
-    property tpOP: TpcnTipoOperacao read FtpOP write FtpOP;
+    property tpOP: TTipoOperacao read FtpOP write FtpOP;
     property chassi: string read Fchassi write Fchassi;
     property cCor: string read FcCor write FcCor;
     property xCor: string read FxCor write FxCor;
@@ -666,7 +665,7 @@ type
     property tpVeic: Integer read FtpVeic write FtpVeic;
     property espVeic: Integer read FespVeic write FespVeic;
     property VIN: string read FVIN write FVIN;
-    property condVeic: TpcnCondicaoVeiculo read FcondVeic write FcondVeic;
+    property condVeic: TCondicaoVeiculo read FcondVeic write FcondVeic;
     property cMod: string read FcMod write FcMod;
     property cCorDENATRAN: string read FcCorDENATRAN write FcCorDENATRAN;
     property lota: Integer read Flota write Flota;
@@ -712,13 +711,13 @@ type
 
   TArmaCollectionItem = class(TObject)
   private
-    FtpArma: TpcnTipoArma;
+    FtpArma: TTipoArma;
     FnSerie: string;
     FnCano: string;
     Fdescr: string;
   public
     procedure Assign(Source: TArmaCollectionItem);
-    property tpArma: TpcnTipoArma read FtpArma write FtpArma default taUsoPermitido;
+    property tpArma: TTipoArma read FtpArma write FtpArma default taUsoPermitido;
     property nSerie: string read FnSerie write FnSerie;
     property nCano: string read FnCano write FnCano;
     property descr: string read Fdescr write Fdescr;
@@ -962,7 +961,7 @@ type
     FvSeg: Currency;
     FvDesc: Currency;
     FvOutro: Currency;
-    FIndTot: TpcnIndicadorTotal;
+    FIndTot: TIndicadorTotal;
     FDI: TDICollection;
     FxPed: string;
     FnItemPed: string;
@@ -976,7 +975,7 @@ type
     FnFCI: string;
     FNVE: TNVECollection;
     FCEST: string;
-    FindEscala: TpcnIndEscala;
+    FindEscala: TIndEscala;
     FCNPJFab: string;
     FcBenef: string;
     FcBarra: string;
@@ -984,6 +983,8 @@ type
     FCredPresumido: TCredPresumidoCollection;
     FindBemMovelUsado: TIndicadorEx;
     FtpCredPresIBSZFM: TtpCredPresIBSZFM;
+    //FvUnComLiq: Currency;
+    //FvProdLiq: Currency;
 
     procedure SetDI(Value: TDICollection);
     procedure SetRastro(Value: TRastroCollection);
@@ -1022,7 +1023,7 @@ type
     property vSeg: Currency read FvSeg write FvSeg;
     property vDesc: Currency read FvDesc write FvDesc;
     property vOutro: Currency read FvOutro write FvOutro;
-    property IndTot: TpcnIndicadorTotal read FIndTot write FIndTot default itSomaTotalNFe;
+    property IndTot: TIndicadorTotal read FIndTot write FIndTot default itSomaTotalNFe;
     property DI: TDICollection read FDI write SetDI;
     property xPed: string read FxPed write FxPed;
     property nItemPed : string read FnItemPed write FnItemPed;
@@ -1035,7 +1036,7 @@ type
     property nRECOPI: string read FnRECOPI write FnRECOPI;
     property nFCI: string read FnFCI write FnFCI;
     property CEST: string read FCEST write FCEST;
-    property indEscala: TpcnIndEscala read FindEscala write FindEscala default ieNenhum;
+    property indEscala: TIndEscala read FindEscala write FindEscala default ieNenhum;
     property CNPJFab: string read FCNPJFab write FCNPJFab;
     property cBenef: string read FcBenef write FcBenef;
     property CredPresumido: TCredPresumidoCollection read FCredPresumido write SetCredPresumido;
@@ -1050,12 +1051,12 @@ type
     Forig: TOrigemMercadoria;          //N11
     FCST: TCSTIcms;                    //N12
     FCSOSN: TCSOSNIcms;                //N12a
-    FmodBC: TpcnDeterminacaoBaseIcms;     //N13
+    FmodBC: TDeterminacaoBaseIcms;     //N13
     FpRedBC: Currency;                    //N14
     FvBC: Currency;                       //N15
     FpICMS: Currency;                     //N16
     FvICMS: Currency;                     //N17
-    FmodBCST: TpcnDeterminacaoBaseIcmsST; //N18
+    FmodBCST: TDeterminacaoBaseIcmsST; //N18
     FpMVAST: Currency;                    //N19
     FpRedBCST: Currency;                  //N20
     FvBCST: Currency;                     //N21
@@ -1065,7 +1066,7 @@ type
     FpBCOp: Currency;                     //N25
     FvBCSTRet: Currency;                  //N26
     FvICMSSTRet: Currency;                //N27
-    FmotDesICMS: TpcnMotivoDesoneracaoICMS; //N28
+    FmotDesICMS: TMotivoDesoneracaoICMS; //N28
     FpCredSN: Currency;                   //N29
     FvCredICMSSN: Currency;               //N30
     FvBCSTDest: Currency;                 //N31
@@ -1090,7 +1091,7 @@ type
     FvICMSEfet: Currency;
     FvICMSSubstituto: Currency;
     FvICMSSTDeson: Currency;
-    FmotDesICMSST: TpcnMotivoDesoneracaoICMS;
+    FmotDesICMSST: TMotivoDesoneracaoICMS;
     FvFCPDif: Currency;
     FvFCPEfet: Currency;
     FpFCPDif: Currency;
@@ -1111,6 +1112,7 @@ type
     FqBCMonoRet: Currency;
     FindDeduzDeson: TIndicadorEx;
     FcBenefRBC: string;
+    //FvICMSPrevisto: Currency;
   public
     constructor Create;
 
@@ -1119,12 +1121,12 @@ type
     property orig: TOrigemMercadoria read Forig write Forig default oeNacional;
     property CST: TCSTIcms read FCST write FCST default cst00;
     property CSOSN: TCSOSNIcms read FCSOSN write FCSOSN;
-    property modBC: TpcnDeterminacaoBaseIcms read FmodBC write FmodBC default dbiMargemValorAgregado;
+    property modBC: TDeterminacaoBaseIcms read FmodBC write FmodBC default dbiMargemValorAgregado;
     property pRedBC: Currency read FpRedBC write FpRedBC;
     property vBC: Currency read FvBC write FvBC;
     property pICMS: Currency read FpICMS write FpICMS;
     property vICMS: Currency read FvICMS write FvICMS;
-    property modBCST: TpcnDeterminacaoBaseIcmsST read FmodBCST write FmodBCST default dbisPrecoTabelado;
+    property modBCST: TDeterminacaoBaseIcmsST read FmodBCST write FmodBCST default dbisPrecoTabelado;
     property pMVAST: Currency read FpMVAST write FpMVAST;
     property pRedBCST: Currency read FpRedBCST write FpRedBCST;
     property vBCST: Currency read FvBCST write FvBCST;
@@ -1134,7 +1136,7 @@ type
     property pBCOp: Currency read FpBCOp write FpBCOp;
     property vBCSTRet: Currency read FvBCSTRet write FvBCSTRet;
     property vICMSSTRet: Currency read FvICMSSTRet write FvICMSSTRet;
-    property motDesICMS: TpcnMotivoDesoneracaoICMS read FmotDesICMS write FmotDesICMS;
+    property motDesICMS: TMotivoDesoneracaoICMS read FmotDesICMS write FmotDesICMS;
     property pCredSN: Currency read FpCredSN write FpCredSN;
     property vCredICMSSN: Currency read FvCredICMSSN write FvCredICMSSN;
     property vBCSTDest: Currency read FvBCSTDest write FvBCSTDest;
@@ -1159,7 +1161,7 @@ type
     property vICMSEfet: Currency read FvICMSEfet write FvICMSEfet;
     property vICMSSubstituto: Currency read FvICMSSubstituto write FvICMSSubstituto;
     property vICMSSTDeson: Currency read FvICMSSTDeson write FvICMSSTDeson;
-    property motDesICMSST: TpcnMotivoDesoneracaoICMS read FmotDesICMSST write FmotDesICMSST;
+    property motDesICMSST: TMotivoDesoneracaoICMS read FmotDesICMSST write FmotDesICMSST;
     property pFCPDif: Currency read FpFCPDif write FpFCPDif;
     property vFCPDif: Currency read FvFCPDif write FvFCPDif;
     property vFCPEfet: Currency read FvFCPEfet write FvFCPEfet;
@@ -1196,7 +1198,7 @@ type
     FcSelo: string;
     FqSelo: Integer;
     FcEnq: string;
-    FCST: TpcnCstIpi;
+    FCST: TCstIpi;
     FvBC: Currency;
     FqUnid: Currency;
     FvUnid: Currency;
@@ -1209,7 +1211,7 @@ type
     property cSelo: string read FcSelo write FcSelo;
     property qSelo: Integer read FqSelo write FqSelo;
     property cEnq: string read FcEnq write FcEnq;
-    property CST: TpcnCstIpi read FCST write FCST default ipi00;
+    property CST: TCstIpi read FCST write FCST default ipi00;
     property vBC: Currency read FvBC write FvBC;
     property qUnid: Currency read FqUnid write FqUnid;
     property vUnid: Currency read FvUnid write FvUnid;
@@ -1324,14 +1326,14 @@ type
     FvISSQN: Currency;
     FcMunFG: Integer;
     FcListServ: string;
-    FcSitTrib: TpcnISSQNcSitTrib;
+    FcSitTrib: TISSQNcSitTrib;
     FvDeducao: Currency;
     FvOutro: Currency;
     FvDescIncond: Currency;
     FvDescCond: Currency;
-    FindISSRet: TpcnindISSRet;
+    FindISSRet: TindISSRet;
     FvISSRet: Currency;
-    FindISS: TpcnindISS;
+    FindISS: TindISS;
     FcServico: string;
     FcMun: Integer;
     FcPais: Integer;
@@ -1344,14 +1346,14 @@ type
     property vISSQN: Currency read FvISSQN write FvISSQN;
     property cMunFG: Integer read FcMunFG write FcMunFG;
     property cListServ: string read FcListServ write FcListServ;
-    property cSitTrib: TpcnISSQNcSitTrib read FcSitTrib write FcSitTrib default ISSQNcSitTribVazio;
+    property cSitTrib: TISSQNcSitTrib read FcSitTrib write FcSitTrib default ISSQNcSitTribVazio;
     property vDeducao: Currency read FvDeducao write FvDeducao;
     property vOutro: Currency read FvOutro write FvOutro;
     property vDescIncond: Currency read FvDescIncond write FvDescIncond;
     property vDescCond: Currency read FvDescCond write FvDescCond;
-    property indISSRet: TpcnindISSRet read FindISSRet write FindISSRet;
+    property indISSRet: TindISSRet read FindISSRet write FindISSRet;
     property vISSRet: Currency read FvISSRet write FvISSRet;
-    property indISS: TpcnindISS read FindISS write FindISS;
+    property indISS: TindISS read FindISS write FindISS;
     property cServico: string read FcServico write FcServico;
     property cMun: Integer read FcMun write FcMun;
     property cPais: Integer read FcPais write FcPais;
@@ -1631,6 +1633,7 @@ type
     FISTot: TISTot;
     FIBSCBSTot: TIBSCBSTot;
     FvNFTot: Double;
+    //FvProdLiqTot: Double;
   public
     constructor Create();
     destructor Destroy; override;
@@ -1795,7 +1798,7 @@ type
 
   TTransp = class(TObject)
   private
-    FmodFrete: TpcnModalidadeFrete;
+    FmodFrete: TModalidadeFrete;
     FTransporta: TTransporta;
     FretTransp: TretTransp;
     FveicTransp: TveicTransp;
@@ -1808,7 +1811,7 @@ type
     destructor Destroy; override;
 
     procedure Assign(Source: TTransp);
-    property modFrete: TpcnModalidadeFrete read FmodFrete write FmodFrete;
+    property modFrete: TModalidadeFrete read FmodFrete write FmodFrete;
     property Transporta: TTransporta read FTransporta write FTransporta;
     property retTransp: TretTransp read FretTransp write FretTransp;
     property veicTransp: TveicTransp read FveicTransp write FveicTransp;
@@ -1882,14 +1885,14 @@ type
 
   TpagCollectionItem = class(TObject)
   private
-    FtPag: TpcnFormaPagamento;
+    FtPag: TTipoPagamento;
     FxPag: string;
     FvPag: Currency;
     FtpIntegra: TtpIntegra;
     FCNPJ: string;
-    FtBand: TpcnBandeiraCartao;
+    FtBand: TBandeiraCartao;
     FcAut: string;
-    FindPag: TpcnIndicadorPagamento;
+    FindPag: TIndicadorPagamento;
     FdPag: TDateTime;
     FCNPJPag: string;
     FUFPag: string;
@@ -1899,13 +1902,13 @@ type
     constructor Create;
     procedure Assign(Source: TpagCollectionItem);
 
-    property indPag: TpcnIndicadorPagamento read FindPag write FindPag default ipNenhum;
-    property tPag: TpcnFormaPagamento read FtPag write FtPag;
+    property indPag: TIndicadorPagamento read FindPag write FindPag default ipNenhum;
+    property tPag: TTipoPagamento read FtPag write FtPag;
     property xPag: string read FxPag write FxPag;
     property vPag: Currency read FvPag write FvPag;
     property tpIntegra: TtpIntegra read FtpIntegra write FtpIntegra;
     property CNPJ: string read FCNPJ write FCNPJ;
-    property tBand: TpcnBandeiraCartao read FtBand write FtBand;
+    property tBand: TBandeiraCartao read FtBand write FtBand;
     property cAut: string read FcAut write FcAut;
     property dPag: TDateTime read FdPag write FdPag;
     property CNPJPag: string read FCNPJPag write FCNPJPag;
@@ -2000,13 +2003,13 @@ type
   TprocRefCollectionItem = class(TObject)
   private
     FnProc: string;
-    FindProc: TpcnIndicadorProcesso;
+    FindProc: TIndicadorProcesso;
     FtpAto: TtpAto;
   public
     procedure Assign(Source: TprocRefCollectionItem);
 
     property nProc: string read FnProc write FnProc;
-    property indProc: TpcnIndicadorProcesso read FindProc write FindProc default ipSEFAZ;
+    property indProc: TIndicadorProcesso read FindProc write FindProc default ipSEFAZ;
     property tpAto: TtpAto read FtpAto write FtpAto;
   end;
 
@@ -2316,6 +2319,7 @@ type
     FCobr: TCobr;
     Fpag: TpagCollection;
     FinfIntermed: TinfIntermed;
+    FpgtoVinc: TpgtoVinc;
     FInfAdic: TInfAdic;
     Fexporta: Texporta;
     Fcompra: Tcompra;
@@ -2351,6 +2355,7 @@ type
     property Cobr: TCobr read FCobr write FCobr;
     property pag: TpagCollection read Fpag write Setpag;
     property infIntermed: TinfIntermed read FinfIntermed write FinfIntermed;
+    property pgtoVinc: TpgtoVinc read FpgtoVinc write FpgtoVinc;
     property InfAdic: TInfAdic read FInfAdic write FInfAdic;
     property exporta: Texporta read Fexporta write Fexporta;
     property compra: Tcompra read Fcompra write Fcompra;
@@ -2420,6 +2425,7 @@ begin
   Fpag     := TpagCollection.Create;
   FTransp  := TTransp.Create;
   FinfIntermed := TinfIntermed.Create;
+  FpgtoVinc := TpgtoVinc.Create;
   FinfAdic := TinfAdic.Create;
   FExporta := TExporta.Create;
   FCompra  := TCompra.Create;
@@ -2456,6 +2462,7 @@ begin
   Fpag.Free;
   FTransp.Free;
   FinfIntermed.Free;
+  FpgtoVinc.Free;
   FinfAdic.Free;
   FExporta.Free;
   FCompra.Free;
@@ -4441,8 +4448,9 @@ end;
 constructor TpagCollectionItem.Create;
 begin
   inherited Create;
+
   FindPag := ipNenhum;
-  FtBand := TpcnBandeiraCartao(-1);
+  FtBand := TBandeiraCartao(-1);
 end;
 
 { TobsContCollectionItem }

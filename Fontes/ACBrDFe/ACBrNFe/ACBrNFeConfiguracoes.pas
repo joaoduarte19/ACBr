@@ -41,7 +41,7 @@ uses
   Classes, SysUtils, IniFiles,
   ACBrDFeConfiguracoes,
   ACBrDFe.Conversao,
-  pcnConversaoNFe;
+  ACBrNFe.Conversao;
 
 type
 
@@ -49,21 +49,21 @@ type
 
   TGeralConfNFe = class(TGeralConf)
   private
-    FModeloDF: TpcnModeloDF;
+    FModeloDF: TModeloDF;
     FModeloDFCodigo: integer;
-    FVersaoDF: TpcnVersaoDF;
+    FVersaoDF: TVersaoDF;
     FAtualizarXMLCancelado: Boolean;
     FIdCSC: String;
     FCSC: String;
-    FVersaoQRCode: TpcnVersaoQrCode;
+    FVersaoQRCode: TVersaoQrCode;
     FCamposFatObrigatorios: Boolean;
     FForcarGerarTagRejeicao938: TForcarGeracaoTag;
     FForcarGerarTagRejeicao906: TForcarGeracaoTag;
 
     procedure SetCSC(const AValue: String);
     procedure SetIdCSC(const AValue: String);
-    procedure SetModeloDF(AValue: TpcnModeloDF);
-    procedure SetVersaoDF(const Value: TpcnVersaoDF);
+    procedure SetModeloDF(AValue: TModeloDF);
+    procedure SetVersaoDF(const Value: TVersaoDF);
   public
     constructor Create(AOwner: TConfiguracoes); override;
     procedure Assign(DeGeralConfNFe: TGeralConfNFe); reintroduce;
@@ -71,14 +71,14 @@ type
     procedure LerIni(const AIni: TCustomIniFile); override;
 
   published
-    property ModeloDF: TpcnModeloDF read FModeloDF write SetModeloDF default moNFe;
+    property ModeloDF: TModeloDF read FModeloDF write SetModeloDF default moNFe;
     property ModeloDFCodigo: integer read FModeloDFCodigo;
-    property VersaoDF: TpcnVersaoDF read FVersaoDF write SetVersaoDF default ve400;
+    property VersaoDF: TVersaoDF read FVersaoDF write SetVersaoDF default ve400;
     property AtualizarXMLCancelado: Boolean
       read FAtualizarXMLCancelado write FAtualizarXMLCancelado default False;
     property IdCSC: String read FIdCSC write SetIdCSC;
     property CSC: String read FCSC write SetCSC;
-    property VersaoQRCode: TpcnVersaoQrCode read FVersaoQRCode write FVersaoQRCode default veqr200;
+    property VersaoQRCode: TVersaoQrCode read FVersaoQRCode write FVersaoQRCode default veqr200;
     property CamposFatObrigatorios: Boolean
       read FCamposFatObrigatorios write FCamposFatObrigatorios default True;
     property ForcarGerarTagRejeicao938: TForcarGeracaoTag read FForcarGerarTagRejeicao938 write FForcarGerarTagRejeicao938 default fgtNunca;
@@ -244,16 +244,16 @@ begin
 
   IdCSC                     := AIni.ReadString(fpConfiguracoes.SessaoIni, 'IdCSC', IdCSC);
   CSC                       := AIni.ReadString(fpConfiguracoes.SessaoIni, 'CSC', CSC);
-  ModeloDF                  := TpcnModeloDF(AIni.ReadInteger(fpConfiguracoes.SessaoIni, 'ModeloDF', Integer(ModeloDF)));
-  VersaoDF                  := TpcnVersaoDF(AIni.ReadInteger(fpConfiguracoes.SessaoIni, 'VersaoDF', Integer(VersaoDF)));
+  ModeloDF                  := TModeloDF(AIni.ReadInteger(fpConfiguracoes.SessaoIni, 'ModeloDF', Integer(ModeloDF)));
+  VersaoDF                  := TVersaoDF(AIni.ReadInteger(fpConfiguracoes.SessaoIni, 'VersaoDF', Integer(VersaoDF)));
   AtualizarXMLCancelado     := AIni.ReadBool(fpConfiguracoes.SessaoIni, 'AtualizarXMLCancelado', AtualizarXMLCancelado);
-  VersaoQRCode              := TpcnVersaoQrCode(AIni.ReadInteger(fpConfiguracoes.SessaoIni, 'VersaoQRCode', Integer(VersaoQRCode)));
+  VersaoQRCode              := TVersaoQrCode(AIni.ReadInteger(fpConfiguracoes.SessaoIni, 'VersaoQRCode', Integer(VersaoQRCode)));
   CamposFatObrigatorios     := AIni.ReadBool(fpConfiguracoes.SessaoIni, 'CamposFatObrigatorios', CamposFatObrigatorios);
   ForcarGerarTagRejeicao938 := TForcarGeracaoTag(AIni.ReadInteger(fpConfiguracoes.SessaoIni, 'TagNT2018005', Integer(ForcarGerarTagRejeicao938)));
   ForcarGerarTagRejeicao906 := TForcarGeracaoTag(AIni.ReadInteger(fpConfiguracoes.SessaoIni, 'ForcarGerarTagRejeicao906', Integer(ForcarGerarTagRejeicao906)));
 end;
 
-procedure TGeralConfNFe.SetModeloDF(AValue: TpcnModeloDF);
+procedure TGeralConfNFe.SetModeloDF(AValue: TModeloDF);
 begin
   FModeloDF := AValue;
   FModeloDFCodigo := StrToInt(ModeloDFToStr(FModeloDF));
@@ -275,7 +275,7 @@ begin
   FIdCSC:=IntToStrZero(StrToIntDef(AValue,0),6);
 end;
 
-procedure TGeralConfNFe.SetVersaoDF(const Value: TpcnVersaoDF);
+procedure TGeralConfNFe.SetVersaoDF(const Value: TVersaoDF);
 begin
   FVersaoDF := Value;
 end;

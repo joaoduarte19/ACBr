@@ -205,7 +205,7 @@ type
 implementation
 
 uses
-  ACBrNFe, ACBrUtil.Strings, StrUtils, pcnConversaoNFe;
+  ACBrNFe, ACBrUtil.Strings, StrUtils, ACBrNFe.Conversao;
 
 constructor TACBrNFeDANFEFR.Create(AOwner: TComponent);
 begin

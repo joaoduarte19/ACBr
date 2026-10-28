@@ -39,7 +39,7 @@ interface
 uses
   SysUtils, Classes,
   ACBrDFe.Conversao,
-  pcnConversaoNFe;
+  ACBrNFe.Conversao;
 
 type
 
@@ -47,7 +47,7 @@ type
   private
     FVersao: string;
     FtpAmb: TACBrTipoAmbiente;
-    FindOP: TpcnIndOperacao;
+    FindOP: TIndOperacao;
     FraizCNPJ: string;
     FidCsc: Integer;
     FcodigoCsc: string;
@@ -57,7 +57,7 @@ type
 
     property Versao: string          read FVersao    write FVersao;
     property tpAmb: TACBrTipoAmbiente read FtpAmb     write FtpAmb;
-    property indOP: TpcnIndOperacao  read FindOP     write FindOP;
+    property indOP: TIndOperacao     read FindOP     write FindOP;
     property raizCNPJ: string        read FraizCNPJ  write FraizCNPJ;
     property idCsc: Integer          read FidCsc     write FidCsc;
     property codigoCsc: string       read FcodigoCsc write FcodigoCsc;

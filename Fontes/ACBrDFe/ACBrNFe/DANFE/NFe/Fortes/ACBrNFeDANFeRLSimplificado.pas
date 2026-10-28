@@ -220,7 +220,7 @@ uses
   ACBrDFeReportFortes,
   ACBrNFe.Classes,
   ACBrDFe.Conversao,
-  pcnConversaoNFe;
+  ACBrNFe.Conversao;
 
 {$IfNDef FPC}
   {$R *.dfm}

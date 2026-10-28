@@ -49,7 +49,8 @@ uses
 	{$ENDIF}
   {$ENDIF}
   ACBrNFe.Classes,
-  ACBrNFe.Inut,
+//  ACBrNFe.Inut,
+  ACBrDFeComum.Inut,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.DateTime,
   ACBrNFeDANFeRLClass, ACBrDFeReportFortes,
   RLReport, RLFilters, RLPDFFilter;
@@ -62,13 +63,13 @@ type
     RLNFeInut: TRLReport;
     RLPDFFilter1: TRLPDFFilter;
   protected
-    fpInutNFe: TInutNFe;
+    fpInutNFe: TInutDFe;
     fpNFe: TNFe;
     fpDANFe: TACBrNFeDANFeRL;
   public
-    class procedure Imprimir(aDANFe: TACBrNFeDANFeRL; AInutNFe: TInutNFe; ANFe: TNFe = nil);
-    class procedure SalvarPDF(aDANFe: TACBrNFeDANFeRL; AInutNFe: TInutNFe; const AFile: String = ''; ANFe: TNFe = nil); overload;
-    class procedure SalvarPDF(aDANFe: TACBrNFeDANFeRL; AInutNFe: TInutNFe; AStream: TStream; ANFe: TNFe = nil); overload;
+    class procedure Imprimir(aDANFe: TACBrNFeDANFeRL; AInutNFe: TInutDFe; ANFe: TNFe = nil);
+    class procedure SalvarPDF(aDANFe: TACBrNFeDANFeRL; AInutNFe: TInutDFe; const AFile: String = ''; ANFe: TNFe = nil); overload;
+    class procedure SalvarPDF(aDANFe: TACBrNFeDANFeRL; AInutNFe: TInutDFe; AStream: TStream; ANFe: TNFe = nil); overload;
 
   end;
 
@@ -80,7 +81,7 @@ implementation
   {$R *.lfm}
 {$ENDIF}
 
-class procedure TfrmNFeDAInutRL.Imprimir(aDANFe: TACBrNFeDANFeRL; AInutNFe: TInutNFe; ANFe: TNFe = nil);
+class procedure TfrmNFeDAInutRL.Imprimir(aDANFe: TACBrNFeDANFeRL; AInutNFe: TInutDFe; ANFe: TNFe = nil);
 Var
    DANFeReport: TfrmNFeDAInutRL;
 begin
@@ -107,7 +108,7 @@ begin
   end;
 end;
 
-class procedure TfrmNFeDAInutRL.SalvarPDF(aDANFe: TACBrNFeDANFeRL; AInutNFe: TInutNFe; const AFile: String = ''; ANFe: TNFe = nil);
+class procedure TfrmNFeDAInutRL.SalvarPDF(aDANFe: TACBrNFeDANFeRL; AInutNFe: TInutDFe; const AFile: String = ''; ANFe: TNFe = nil);
 var
    i :integer;
    DANFeReport: TfrmNFeDAInutRL;
@@ -155,7 +156,7 @@ begin
   end;
 end;
 
-class procedure TfrmNFeDAInutRL.SalvarPDF(aDANFe: TACBrNFeDANFeRL; AInutNFe: TInutNFe; AStream: TStream; ANFe: TNFe = nil);
+class procedure TfrmNFeDAInutRL.SalvarPDF(aDANFe: TACBrNFeDANFeRL; AInutNFe: TInutDFe; AStream: TStream; ANFe: TNFe = nil);
 var
    i :integer;
    DANFeReport: TfrmNFeDAInutRL;

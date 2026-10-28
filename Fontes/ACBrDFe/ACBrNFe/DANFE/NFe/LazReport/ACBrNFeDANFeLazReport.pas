@@ -55,9 +55,10 @@ uses
   LResources,
   ACBrNFe.Classes,
   ACBrDFe.Conversao,
-  pcnConversaoNFe,
+  ACBrNFe.Conversao,
   ACBrNFe.EnvEvento,
-  ACBrNFe.RetInut,
+//  ACBrNFe.RetInut,
+  ACBrDFeComum.RetInut,
   ACBrNFe, 
   ACBrNFeDANFEClass, 
   ACBrUtil.Base, 
@@ -112,7 +113,7 @@ type
     procedure ImprimirINUTILIZACAOPDF(NFE: TNFe = nil); override;
     procedure DesignReport(NFE: TNFe); overload;
     procedure DesignReport(EventoNFe: TEventoNFe); overload;
-    procedure DesignReport(RetInutNFe: TRetInutNFe); overload;
+    procedure DesignReport(RetInutNFe: TRetInutDFe); overload;
 
     property Report: TfrReport read GetReport;
     property PreparedReport: TfrReport read GetPreparedReport;
@@ -176,7 +177,7 @@ type
     FDANFE: TACBrNFeDANFeLazReport;
     FNFe: TNFe;
     FEvento: TEventoNFe;
-    FInutilizacao: TRetInutNFe;
+    FInutilizacao: TRetInutDFe;
 
     procedure CarregaIdentificacao;
     procedure CarregaEmitente;
@@ -203,7 +204,7 @@ type
 
     property NFe: TNFe read FNFe write FNFe;
     property Evento: TEventoNFe read FEvento write FEvento;
-    property Inutilizacao: TRetInutNFe read FInutilizacao write FInutilizacao;
+    property Inutilizacao: TRetInutDFe read FInutilizacao write FInutilizacao;
     property DANFE: TACBrNFeDANFeLazReport read FDANFE;
     property Report: TfrReport read FfrReport;
     property PrintDialog: TPrintDialog read FPrintDialog;
@@ -284,7 +285,7 @@ begin
   FdmDanfe.Report.DesignReport;
 end;
 
-procedure TACBrNFeDANFeLazReport.DesignReport(RetInutNFe: TRetInutNFe);
+procedure TACBrNFeDANFeLazReport.DesignReport(RetInutNFe: TRetInutDFe);
 var
   wProjectStream: TStringStream;
 begin
@@ -526,7 +527,7 @@ begin
   begin
     if assigned(TACBrNFe(ACBrNFe).InutNFe) then
     begin
-      FdmDanfe.Inutilizacao := TACBrNFe(ACBrNFe).InutNFe.RetInutNFe;
+      FdmDanfe.Inutilizacao := TACBrNFe(ACBrNFe).InutNFe.RetInutDFe;
       FdmDanfe.CarregaDadosInutilizacao;
     end
     else
@@ -849,7 +850,7 @@ procedure TACBrNFeDANFeLazReport.ImprimirINUTILIZACAOPDF(NFE: TNFe);
 begin
   if PrepareReportInutilizacao then
   begin
-    FPArquivoPDF := RemoverLiteralChave(TACBrNFe(ACBrNFe).InutNFe.RetInutNFe.Id);
+    FPArquivoPDF := RemoverLiteralChave(TACBrNFe(ACBrNFe).InutNFe.RetInutDFe.Id);
     FPArquivoPDF := PathWithDelim(Self.PathPDF) + FPArquivoPDF + '-procInutNFe.pdf';
 
     if not DirectoryExists(ExtractFileDir(FPArquivoPDF)) then
@@ -2502,8 +2503,8 @@ begin
       FieldByName('Modelo').AsInteger := Modelo;
       FieldByName('Serie').AsInteger := Serie;
       FieldByName('Ano').AsInteger := Ano;
-      FieldByName('nNFIni').AsInteger := nNFIni;
-      FieldByName('nNFFin').AsInteger := nNFFin;
+      FieldByName('nNFIni').AsInteger := nNumIni;
+      FieldByName('nNFFin').AsInteger := nNumFin;
       FieldByName('xJust').AsString := xJust;
       FieldByName('versao').AsString := versao;
       FieldByName('verAplic').AsString := verAplic;

@@ -43,7 +43,7 @@ uses
   StrUtils,
   ACBrNFe.Classes,
   ACBrDFe.Conversao,
-  pcnConversaoNFe,
+  ACBrNFe.Conversao,
   ACBrNFe,
   ACBrNFeDANFEClass,
   StrUtilsEx,

@@ -45,7 +45,7 @@ uses Classes, SysUtils,
   ACBrBase,
   ACBrNFe.Classes,
   ACBrDFe.Conversao,
-  pcnConversaoNFe,
+  ACBrNFe.Conversao,
   ACBrDFeUtil;
 
 const
@@ -127,7 +127,7 @@ type
   {$ENDIF RTL230_UP}
   TACBrECFVirtualNFCeClass = class(TACBrECFVirtualPrinterClass)
   private
-    function AdivinharFormaPagamento(const DescricaoPagto: string): TpcnFormaPagamento;
+    function AdivinharFormaPagamento(const DescricaoPagto: string): TTipoPagamento;
     procedure SomaTotais;
     procedure CancelarNFCe;
     function GetACBrECF: TACBrECF;
@@ -370,7 +370,7 @@ begin
 end;
 
 function TACBrECFVirtualNFCeClass.AdivinharFormaPagamento(const DescricaoPagto: string
-  ): TpcnFormaPagamento;
+  ): TTipoPagamento;
 var
   Descricao: string;
 begin

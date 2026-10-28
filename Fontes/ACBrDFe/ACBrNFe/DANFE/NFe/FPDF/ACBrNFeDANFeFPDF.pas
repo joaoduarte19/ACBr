@@ -49,7 +49,7 @@ uses
   ACBr_fpdf_report,
   ACBrNFe.Classes,
   ACBrDFe.Conversao,
-  pcnConversaoNFe,
+  ACBrNFe.Conversao,
   ACBrNFe.EventoClass,
   ACBrNFe.EnvEvento,
   ACBrValidador,

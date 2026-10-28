@@ -44,9 +44,10 @@ uses
   ACBrDFeDANFeReport,
   ACBrNFe.Classes,
   ACBrDFe.Conversao,
-  pcnConversaoNFe,
+  ACBrNFe.Conversao,
   ACBrNFe.EnvEvento,
-  ACBrNFe.Inut,
+  ACBrDFeComum.Inut,
+//  ACBrNFe.Inut,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.Math, ACBrUtil.FilesIO;
 
 const
@@ -79,7 +80,7 @@ type
     FNotasFiscais: TNotasFiscais;
     FCartaCorrecao: TCartaCorrecao;
     FEventoNFe: TEventoNFe;
-    FInutNFe: TInutNFe;
+    FInutNFe: TInutDFe;
     FStatus: TStatusACBrNFe;
     FWebServices: TWebServices;
 
@@ -111,7 +112,7 @@ type
 
     function GetNomeModeloDFe: String; override;
     function GetNameSpaceURI: String; override;
-    function EhAutorizacao(AVersao: TpcnVersaoDF; AModelo: TpcnModeloDF;
+    function EhAutorizacao(AVersao: TVersaoDF; AModelo: TModeloDF;
       AUFCodigo: Integer): Boolean;
 
     function CstatConfirmada(AValue: integer): Boolean;
@@ -129,8 +130,8 @@ type
       var URL: String; var Servico: String; var SoapAction: String); reintroduce; overload;
     function LerVersaoDeParams(LayOutServico: TLayOut): String; reintroduce; overload;
 
-    function AjustarVersaoQRCode( AVersaoQRCode: TpcnVersaoQrCode;
-      AVersaoXML: TpcnVersaoDF): TpcnVersaoQrCode;
+    function AjustarVersaoQRCode( AVersaoQRCode: TVersaoQrCode;
+      AVersaoXML: TVersaoDF): TVersaoQrCode;
 
     function GetURLConsultaNFCe(const CUF: integer;
       const TipoAmbiente: TACBrTipoAmbiente;
@@ -152,7 +153,7 @@ type
     property NotasFiscais: TNotasFiscais read FNotasFiscais write FNotasFiscais;
     property CartaCorrecao: TCartaCorrecao read FCartaCorrecao write FCartaCorrecao;
     property EventoNFe: TEventoNFe read FEventoNFe write FEventoNFe;
-    property InutNFe: TInutNFe read FInutNFe write FInutNFe;
+    property InutNFe: TInutDFe read FInutNFe write FInutNFe;
     property Status: TStatusACBrNFe read FStatus;
 
     procedure SetStatus(const stNewStatus: TStatusACBrNFe);
@@ -161,7 +162,7 @@ type
     procedure ImprimirInutilizacao;
     procedure ImprimirInutilizacaoPDF;
 
-    function AdministrarCSC(const ARaizCNPJ: String; AIndOP: TpcnIndOperacao;
+    function AdministrarCSC(const ARaizCNPJ: String; AIndOP: TIndOperacao;
       AIdCSC: integer; const ACodigoCSC: String): Boolean;
     function DistribuicaoDFe(AcUFAutor: integer; const ACNPJCPF, AultNSU,
       ANSU: String; const AchNFe: String = ''): Boolean;
@@ -211,7 +212,7 @@ begin
   FNotasFiscais := TNotasFiscais.Create(Self, NotaFiscal);
   FCartaCorrecao := TCartaCorrecao.Create; //(Self);
   FEventoNFe := TEventoNFe.Create;
-  FInutNFe := TInutNFe.Create;
+  FInutNFe := TInutDFe.Create('', '', '', '');
   FWebServices := TWebServices.Create(Self);
 end;
 
@@ -315,7 +316,7 @@ begin
   end;
 end;
 
-function TACBrNFe.EhAutorizacao( AVersao: TpcnVersaoDF; AModelo: TpcnModeloDF;
+function TACBrNFe.EhAutorizacao( AVersao: TVersaoDF; AModelo: TModeloDF;
   AUFCodigo: Integer ): Boolean;
 begin
   Result := (AVersao >= ve310);
@@ -504,13 +505,13 @@ begin
   Result := FloatToString(Versao, '.', '0.00');
 end;
 
-function TACBrNFe.AjustarVersaoQRCode(AVersaoQRCode: TpcnVersaoQrCode;
-  AVersaoXML: TpcnVersaoDF): TpcnVersaoQrCode;
+function TACBrNFe.AjustarVersaoQRCode(AVersaoQRCode: TVersaoQrCode;
+  AVersaoXML: TVersaoDF): TVersaoQrCode;
 begin
   if (AVersaoXML <= ve310) then
     Result := veqr000
   else     // ve400 ou superior
-    Result := TpcnVersaoQrCode(max(Integer(AVersaoQRCode), Integer(veqr100)));
+    Result := TVersaoQrCode(max(Integer(AVersaoQRCode), Integer(veqr100)));
 end;
 
 procedure TACBrNFe.LerServicoDeParams(LayOutServico: TLayOut;
@@ -540,8 +541,8 @@ end;
 function TACBrNFe.GetURLConsultaNFCe(const CUF: integer;
   const TipoAmbiente: TACBrTipoAmbiente; const Versao: Double): String;
 var
-  VersaoDFe: TpcnVersaoDF;
-  VersaoQrCode: TpcnVersaoQrCode;
+  VersaoDFe: TVersaoDF;
+  VersaoQrCode: TVersaoQrCode;
   ok: Boolean;
 begin
   VersaoDFe := DblToVersaoDF(ok, Versao);
@@ -560,8 +561,8 @@ function TACBrNFe.GetURLQRCode(const CUF: integer;
 var
   idNFe, sdhEmi_HEX, sdigVal_HEX, sNF, sICMS, cIdCSC, cCSC, sCSC,
   sEntrada, cHashQRCode, urlUF, cDest: String;
-  VersaoDFe: TpcnVersaoDF;
-  VersaoQrCode: TpcnVersaoQrCode;
+  VersaoDFe: TVersaoDF;
+  VersaoQrCode: TVersaoQrCode;
   ok: Boolean;
 begin
   VersaoDFe := DblToVersaoDF(ok, Versao);
@@ -638,8 +639,8 @@ end;
 function TACBrNFe.GetURLQRCode(FNFe: TNFe): string;
 var
   ok: Boolean;
-  VersaoDFe: TpcnVersaoDF;
-  VersaoQrCode: TpcnVersaoQrCode;
+  VersaoDFe: TVersaoDF;
+  VersaoQrCode: TVersaoQrCode;
 begin
   if FNFe.Ide.modelo = 55 then
   begin
@@ -1071,7 +1072,7 @@ begin
     DANFE.ImprimirINUTILIZACAOPDF;
 end;
 
-function TACBrNFe.AdministrarCSC(const ARaizCNPJ: String; AIndOP: TpcnIndOperacao;
+function TACBrNFe.AdministrarCSC(const ARaizCNPJ: String; AIndOP: TIndOperacao;
   AIdCSC: integer; const ACodigoCSC: String): Boolean;
 begin
   WebServices.AdministrarCSCNFCe.RaizCNPJ := ARaizCNPJ;

@@ -38,9 +38,10 @@ uses
   Classes, SysUtils,
   ACBrXmlBase,
   ACBrDFe.Conversao,
+  ACBrDFe.RTC.Classes,
   ACBrDFe.RTC.XmlWriter,
   ACBrNFe.Classes,
-  pcnConversaoNFe,
+  ACBrNFe.Conversao,
   ACBrXmlDocument, ACBrXmlWriter;
 
 type
@@ -85,8 +86,8 @@ type
 
     FIdCSRT: integer;
     FCSRT: string;
-    FVersaoDF: TpcnVersaoDF;
-    FModeloDF: TpcnModeloDF;
+    FVersaoDF: TVersaoDF;
+    FModeloDF: TModeloDF;
     FtpAmb: TACBrTipoAmbiente;
     FtpEmis: TACBrTipoEmissao;
     FpGerarGrupoIBSCBSTot: Boolean;
@@ -187,8 +188,8 @@ type
     property NFe: TNFe read FNFe write FNFe;
     property IdCSRT: integer read FIdCSRT write FIdCSRT;
     property CSRT: string read FCSRT write FCSRT;
-    property VersaoDF: TpcnVersaoDF read FVersaoDF write FVersaoDF;
-    property ModeloDF: TpcnModeloDF read FModeloDF write FModeloDF;
+    property VersaoDF: TVersaoDF read FVersaoDF write FVersaoDF;
+    property ModeloDF: TModeloDF read FModeloDF write FModeloDF;
     property tpAmb: TACBrTipoAmbiente read FtpAmb write FtpAmb;
     property tpEmis: TACBrTipoEmissao read FtpEmis write FtpEmis;
   end;
@@ -434,6 +435,7 @@ begin
   end;
 
   Result.AppendChild(GerarInfIntermed);
+  Result.AppendChild(Gerar_pgtoVinc(NFe.pgtoVinc, 'gPgtoVinc', 'gPgto'));
   Result.AppendChild(GerarInfAdic);
   Result.AppendChild(GerarExporta);
   Result.AppendChild(GerarCompra);
@@ -730,7 +732,7 @@ begin
   if NFe.Emit.IE = 'ISENTO' then
     Result.AppendChild(AddNode(tcStr, 'C17', 'IE', 00, 14, 1, NFe.Emit.IE, DSC_IE))
   else
-    Result.AppendChild(AddNode(tcStr, 'C17', 'IE', 00, 14, 1,
+    Result.AppendChild(AddNode(tcStr, 'C17', 'IE', 00, 14, 0,
       OnlyNumber(NFe.Emit.IE), DSC_IE));
 
   if (Opcoes.ValidarInscricoes) and (NFe.Ide.procEmi <> peAvulsaFisco) then

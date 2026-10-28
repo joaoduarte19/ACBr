@@ -172,21 +172,21 @@ begin
 
 
   // Preeche os campos - Quadro Inutilizacao
-  rllOrgao.Caption := IntToStr(fpInutNFe.RetInutNFe.cUF);
-  case fpInutNFe.RetInutNFe.tpAmb of
+  rllOrgao.Caption := IntToStr(fpInutNFe.RetInutDFe.cUF);
+  case fpInutNFe.RetInutDFe.tpAmb of
     taProducao:
       rllTipoAmbiente.Caption := ACBrStr('PRODUÇÃO');
     taHomologacao:
       rllTipoAmbiente.Caption := ACBrStr('HOMOLOGAÇÃO - SEM VALOR FISCAL');
   end;
 
-  rllAno.Caption              := IntToStr(fpInutNFe.RetInutNFe.ano);
-  rllModelo.Caption           := IntToStr(fpInutNFe.RetInutNFe.modelo);
-  rllSerie.Caption            := IntToStr(fpInutNFe.RetInutNFe.serie);
-  rllNumeracao.Caption        := IntToStr(fpInutNFe.RetInutNFe.nNFIni) + ACBrStr(' a ') + IntToStr(fpInutNFe.RetInutNFe.nNFFin);
-  rllStatus.Caption           := IntToStr(fpInutNFe.RetInutNFe.cStat) + ' - ' + fpInutNFe.RetInutNFe.xMotivo;
-  rllProtocolo.Caption        := fpInutNFe.RetInutNFe.nProt + ' ' + FormatDateTimeBr(fpInutNFe.RetInutNFe.dhRecbto);
-  rllJustificativa.Lines.Text := ACBrStr(StringReplace(fpInutNFe.RetInutNFe.xJust, fpDANFe.CaractereQuebraDeLinha, sLineBreak, [rfReplaceAll]));
+  rllAno.Caption              := IntToStr(fpInutNFe.RetInutDFe.ano);
+  rllModelo.Caption           := IntToStr(fpInutNFe.RetInutDFe.modelo);
+  rllSerie.Caption            := IntToStr(fpInutNFe.RetInutDFe.serie);
+  rllNumeracao.Caption        := IntToStr(fpInutNFe.RetInutDFe.nNumIni) + ACBrStr(' a ') + IntToStr(fpInutNFe.RetInutDFe.nNumFin);
+  rllStatus.Caption           := IntToStr(fpInutNFe.RetInutDFe.cStat) + ' - ' + fpInutNFe.RetInutDFe.xMotivo;
+  rllProtocolo.Caption        := fpInutNFe.RetInutDFe.nProt + ' ' + FormatDateTimeBr(fpInutNFe.RetInutDFe.dhRecbto);
+  rllJustificativa.Lines.Text := ACBrStr(StringReplace(fpInutNFe.RetInutDFe.xJust, fpDANFe.CaractereQuebraDeLinha, sLineBreak, [rfReplaceAll]));
 
   rllDataHoraImpressao.Caption := ACBrStr('DATA E HORA DA IMPRESSÃO: ') + FormatDateTimeBr(Now);
 

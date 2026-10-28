@@ -44,8 +44,7 @@ uses
    System.Contnrs,
   {$IfEnd}
   ACBrDFe.Conversao,
-  pcnConversaoNFe,
-//  ACBrNFe.Conversao,
+  ACBrNFe.Conversao,
   ACBrDFe.RTC.Classes,
   ACBrNFe.Classes,
   ACBrBase,
@@ -53,6 +52,20 @@ uses
 
 type
   EventoException = class(EACBrException);
+
+  Tpgto = class
+  private
+    FtpMeioPgto: string;
+    FCNPJReceb: string;
+    FCNPJBasePSP: string;
+    FidTransacao: string;
+  public
+
+    property tpMeioPgto: string read FtpMeioPgto write FtpMeioPgto;
+    property CNPJReceb: string read FCNPJReceb write FCNPJReceb;
+    property CNPJBasePSP: string read FCNPJBasePSP write FCNPJBasePSP;
+    property idTransacao: string read FidTransacao write FidTransacao;
+  end;
 
   TDestinatario = class(TObject)
   private
@@ -107,28 +120,28 @@ type
 
   TdetPagCollectionItem = class
   private
-    FindPag: TpcnIndicadorPagamento;
-    FtPag: TpcnFormaPagamento;
+    FindPag: TIndicadorPagamento;
+    FtPag: TTipoPagamento;
     FxPag: string;
     FvPag: Currency;
     FdPag: TDateTime;
     FCNPJPag: string;
     FUFPag: string;
     FCNPJIF: string;
-    FtBand: TpcnBandeiraCartao;
+    FtBand: TBandeiraCartao;
     FcAut: string;
     FCNPJReceb: string;
     FUFReceb: string;
   public
-    property indPag: TpcnIndicadorPagamento read FindPag write FindPag default ipNenhum;
-    property tPag: TpcnFormaPagamento read FtPag write FtPag;
+    property indPag: TIndicadorPagamento read FindPag write FindPag default ipNenhum;
+    property tPag: TTipoPagamento read FtPag write FtPag;
     property xPag: string read FxPag write FxPag;
     property vPag: Currency read FvPag write FvPag;
     property dPag: TDateTime read FdPag write FdPag;
     property CNPJPag: string read FCNPJPag write FCNPJPag;
     property UFPag: string read FUFPag write FUFPag;
     property CNPJIF: string read FCNPJIF write FCNPJIF;
-    property tBand: TpcnBandeiraCartao read FtBand write FtBand;
+    property tBand: TBandeiraCartao read FtBand write FtBand;
     property cAut: string read FcAut write FcAut;
     property CNPJReceb: string read FCNPJReceb write FCNPJReceb;
     property UFReceb: string read FUFReceb write FUFReceb;
@@ -467,7 +480,7 @@ type
     FnProt: string;        // Cancelamento
     FxJust: string;        // Cancelamento e Manif. Destinatario
     FcOrgaoAutor: Integer; // EPEC
-    FtpAutor: TpcnTipoAutor;
+    FtpAutor: TTipoAutor;
     FverAplic: string;
     FdhEmi: TDateTime;
     FtpNF: TTipoNFe;
@@ -511,6 +524,7 @@ type
     FgPerecimentoForn: TgPerecimentoFornCollection;
     FgItemNaoFornecido: TgItemNaoFornecidoCollection;
     FdPrevEntrega: TDateTime;
+    Fpgto: Tpgto;
 
     procedure setxCondUso(const Value: string);
     procedure SetitemPedido(const Value: TitemPedidoCollection);
@@ -534,7 +548,7 @@ type
     property nProt: string          read FnProt       write FnProt;
     property xJust: string          read FxJust       write FxJust;
     property cOrgaoAutor: Integer   read FcOrgaoAutor write FcOrgaoAutor;
-    property tpAutor: TpcnTipoAutor read FtpAutor     write FtpAutor;
+    property tpAutor: TTipoAutor    read FtpAutor     write FtpAutor;
     property verAplic: string       read FverAplic    write FverAplic;
     property chNFeRef: string       read FchNFeRef    write FchNFeRef;
     property dhEmi: TDateTime       read FdhEmi       write FdhEmi;
@@ -544,7 +558,6 @@ type
     property vNF: Currency          read FvNF         write FvNF;
     property vICMS: Currency        read FvICMS       write FvICMS;
     property vST: Currency          read FvST         write FvST;
-
 
     property itemPedido: TitemPedidoCollection read FitemPedido        write SetitemPedido;
     property idPedidoCancelado: string         read FidPedidoCancelado write FidPedidoCancelado;
@@ -583,6 +596,7 @@ type
     property gCredito: TgCreditoCollection read FgCredito write SetgCredito;
     property indAceitacao: TIndAceitacao read  FIndAceitacao write SetIndAceitacao;
     property dPrevEntrega: TDateTime read FdPrevEntrega write FdPrevEntrega;
+    property pgto: Tpgto read Fpgto write Fpgto;
   end;
 
   TInfEvento = class
@@ -872,6 +886,7 @@ begin
   FgConsumoZFM := TgConsumoZFMCollection.Create;
   FgPerecimentoForn := TgPerecimentoFornCollection.Create;
   FgItemNaoFornecido := TgItemNaoFornecidoCollection.Create;
+  Fpgto := Tpgto.Create;
 end;
 
 destructor TDetEvento.Destroy;
@@ -889,6 +904,7 @@ begin
   FgConsumoZFM.Free;
   FgPerecimentoForn.Free;
   FgItemNaoFornecido.Free;
+  Fpgto.Free;
 
   inherited;
 end;

@@ -168,7 +168,7 @@ uses
   ACBrUtil.Strings,
   ACBrUtil.FilesIO,
   ACBrDFe.Conversao,
-  pcnConversaoNFe;
+  ACBrNFe.Conversao;
 
 { TNFeJSONReader }
 
@@ -1812,8 +1812,6 @@ begin
   if not Assigned(AJSONObject) then
     Exit;
 
-  //Usar string até a publicação de uma tabela de CSTs oficial para o IS
-  //AISel.CSTIS := StrToCSTIS(AJSONObject.AsString['CSTIS']);
   AISel.CSTIS := AJSONObject.AsString['CSTIS'];
   AISel.cClassTribIS := AJSONObject.AsString['cClassTribIS'];
   AISel.vBCIS := AJSONObject.AsFloat['vBCIS'];

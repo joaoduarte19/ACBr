@@ -41,8 +41,7 @@ uses
   ACBrNFe.Classes,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  pcnConversaoNFe;
-//  ACBrNFe.Conversao;
+  ACBrNFe.Conversao;
 
 type
   { TNFeValidarRegras }
@@ -53,7 +52,7 @@ type
     FpAgora: TDateTime;
 
     FNFe: TNFe;
-    FVersaoDF: TpcnVersaoDF;
+    FVersaoDF: TVersaoDF;
     FAmbiente: TACBrTipoAmbiente;
     FtpEmis: Integer;
     FCodigoUF: Integer;
@@ -88,7 +87,7 @@ type
     function Validar(Agora: TDateTime): Boolean;
 
     property NFe: TNFe read FNFe write FNFe;
-    property VersaoDF: TpcnVersaoDF read FVersaoDF write FVersaoDF;
+    property VersaoDF: TVersaoDF read FVersaoDF write FVersaoDF;
     property Ambiente: TACBrTipoAmbiente read FAmbiente write FAmbiente;
     property tpEmis: Integer read FtpEmis write FtpEmis;
     property CodigoUF: Integer read FCodigoUF write FCodigoUF;

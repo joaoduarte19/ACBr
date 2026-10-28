@@ -44,7 +44,7 @@ uses
   ACBrDFe.Conversao,
   ACBrDFeDANFeReport,
   ACBrNFe.Classes,
-  pcnConversaoNFe, 
+  ACBrNFe.Conversao,
   StrUtilsEx, 
   TypInfo;
 
@@ -77,7 +77,7 @@ type
     FImprimeDescPorPercentual: Boolean;
     FImprimeValor: TImprimirUnidQtdeValor;
     FImprimeDetalhamentoEspecifico: Boolean;
-    FImprimeDescAcrescItem: TpcnImprimeDescAcrescItem;
+    FImprimeDescAcrescItem: TImprimeDescAcrescItem;
     FPosCanhoto: TPosRecibo;
     FPosCanhotoLayout: TPosReciboLayout;
     FExibeResumoCanhoto: Boolean;
@@ -91,16 +91,16 @@ type
     FDetArmamentos: TDetArmamentos;
     FDetCombustiveis: TDetCombustiveis;
     FDetRastros: TDetRastros;
-    FTributosPercentual: TpcnPercentualTributos;
+    FTributosPercentual: TPercentualTributos;
     FTributosPercentualPersonalizado: Double;
     FExpandirDadosAdicionaisAuto: boolean;
-    FExibeCampoDePagamento: TpcnInformacoesDePagamento;
+    FExibeCampoDePagamento: TInformacoesDePagamento;
     FEtiqueta: Boolean;
     FFormatarNumeroDocumento : Boolean;
     FExibeCampoDuplicata: Boolean;
     FLogoEmCima: Boolean;
 
-    procedure SetTributosPercentual(const AValue: TpcnPercentualTributos);
+    procedure SetTributosPercentual(const AValue: TPercentualTributos);
     procedure SetTributosPercentualPersonalizado(const AValue: Double);
   public
     constructor Create(AOwner: TComponent); override;
@@ -126,7 +126,7 @@ type
     property ImprimeValor: TImprimirUnidQtdeValor read FImprimeValor write FImprimeValor default iuComercial;
     property ImprimeDescPorPercentual: Boolean read FImprimeDescPorPercentual write FImprimeDescPorPercentual default False;
     property ImprimeDetalhamentoEspecifico: Boolean read FImprimeDetalhamentoEspecifico write FImprimeDetalhamentoEspecifico default True;
-    property ImprimeDescAcrescItem: TpcnImprimeDescAcrescItem read FImprimeDescAcrescItem write FImprimeDescAcrescItem default idaiSempre;
+    property ImprimeDescAcrescItem: TImprimeDescAcrescItem read FImprimeDescAcrescItem write FImprimeDescAcrescItem default idaiSempre;
     property PosCanhoto: TPosRecibo read FPosCanhoto write FPosCanhoto default prCabecalho;
     property PosCanhotoLayout: TPosReciboLayout read FPosCanhotoLayout write FPosCanhotoLayout default prlPadrao;
     property ExibeResumoCanhoto: Boolean read FExibeResumoCanhoto write FExibeResumoCanhoto default True;
@@ -140,10 +140,10 @@ type
     property DetArmamentos: TDetArmamentos read FDetArmamentos write FDetArmamentos default [da_tpArma, da_nSerie, da_nCano, da_descr];
     property DetCombustiveis: TDetCombustiveis read FDetCombustiveis write FDetCombustiveis default [dc_cProdANP, dc_CODIF, dc_qTemp, dc_UFCons, dc_CIDE, dc_qBCProd, dc_vAliqProd, dc_vCIDE];
     property DetRastros: TDetRastros read FDetRastros write FDetRastros default [dr_nLote, dr_qLote, dr_dFab, dr_dVal, dr_cAgreg];
-    property TributosPercentual: TpcnPercentualTributos read FTributosPercentual write SetTributosPercentual default ptValorProdutos;
+    property TributosPercentual: TPercentualTributos read FTributosPercentual write SetTributosPercentual default ptValorProdutos;
     property TributosPercentualPersonalizado: Double read FTributosPercentualPersonalizado write SetTributosPercentualPersonalizado;
     property ExpandirDadosAdicionaisAuto: boolean read FExpandirDadosAdicionaisAuto write FExpandirDadosAdicionaisAuto default False;
-    property ExibeCampoDePagamento: TpcnInformacoesDePagamento read FExibeCampoDePagamento write FExibeCampoDePagamento default eipNunca;
+    property ExibeCampoDePagamento: TInformacoesDePagamento read FExibeCampoDePagamento write FExibeCampoDePagamento default eipNunca;
     property FormularioContinuo;
     property Etiqueta: Boolean read FEtiqueta write FEtiqueta default False;
     property FormatarNumeroDocumento: Boolean read FFormatarNumeroDocumento write FFormatarNumeroDocumento default True;
@@ -238,7 +238,7 @@ begin
   FLogoEmCima                      := False;
 end;
 
-procedure TACBrNFeDANFEClass.SetTributosPercentual(const AValue: TpcnPercentualTributos);
+procedure TACBrNFeDANFEClass.SetTributosPercentual(const AValue: TPercentualTributos);
 begin
   FTributosPercentual := AValue;
   if (AValue <> ptPersonalizado) then
@@ -694,7 +694,7 @@ begin
   Result := '';
 
   try
-    if (aPagto.tBand >= Low(TpcnBandeiraCartao)) and (aPagto.tBand <= High(TpcnBandeiraCartao)) then
+    if (aPagto.tBand >= Low(TBandeiraCartao)) and (aPagto.tBand <= High(TBandeiraCartao)) then
       LDescBandeira:= BandeiraCartaoToDescStr(aPagto.tBand);
 
     if aPagto.cAut <>'' then

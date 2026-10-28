@@ -43,6 +43,18 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+28/10/2026
+-- Diversos --
+[*] ACBR-9954 - Adequa o componente a nota técnica 2026.006 v1.00
+   Por: Italo Giurizzato Junior
+   Veja: https://www.projetoacbr.com.br/forum/topic/95147-publicada-nota-t%C3%A9cnica-adicionando-grupo-para-o-splitpayment-na-nfe-e-na-nfce-nt-2026006-v100/
+[*] ACBR-9982 - Adequa o componente a nota técnica 2026.007 v1.10
+   Por: douglaslimber / Italo Giurizzato Junior
+   Veja: https://www.projetoacbr.com.br/forum/topic/93973-publicada-nota-t%C3%A9cnica-que-permite-emiss%C3%A3o-de-nf-e-sem-informar-a-ie-do-emitente-nt2026007-v100/
+[*] Substitui as ocorrências de pcnConversaoNFe para ACBrNFe.Conversao.
+   Por: Italo Giurizzato Junior
+
 28/10/2026
 -- Diversos DANFe FPDF --
 [+] #ACBR-9948 - DANFE no leiaute da Reforma Tributária (NT 2026.010 v1.00), modelo retrato e paisagem (ACBR-9988/ACBR-9989).

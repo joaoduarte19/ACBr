@@ -101,7 +101,7 @@ uses
   StrUtils, DateUtils,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.DateTime,
   ACBrValidador, ACBrDFeUtil,
-  ACBrDFeReportFortes, ACBrNFe.Classes, ACBrDFe.Conversao, pcnConversaoNFe;
+  ACBrDFeReportFortes, ACBrNFe.Classes, ACBrDFe.Conversao, ACBrNFe.Conversao;
 
 {$IfNDef FPC}
   {$R *.dfm}

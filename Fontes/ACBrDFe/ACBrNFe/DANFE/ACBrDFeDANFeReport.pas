@@ -39,7 +39,7 @@ interface
 uses
   Classes, SysUtils,
   ACBrBase, ACBrDFeReport,
-  ACBrDFe.Conversao, ACBrNFe.Classes, pcnConversaoNFe;
+  ACBrDFe.Conversao, ACBrNFe.Classes, ACBrNFe.Conversao;
 
 type
   TpcnTributos = (trbNenhum, trbNormal, trbSeparadamente);
@@ -122,7 +122,7 @@ type
     function ManterObsFisco(ANFe: TNFe): String; virtual;
     function ManterProcreferenciado(ANFe: TNFe): String; virtual;
     function ManterVprod(dVProd, dvDesc: Double): String; virtual;
-    function ManterCst(dCRT: TpcnCRT; dCSOSN: TCSOSNIcms; dCST: TCSTIcms): String; virtual;
+    function ManterCst(dCRT: TCRT; dCSOSN: TCSOSNIcms; dCST: TCSTIcms): String; virtual;
     function ManterdvTotTrib(dvTotTrib: Double): String; virtual;
     function CalcularValorLiquidoItem(const ANFE: TNFe;  const ANItem: Integer; ATipoCalculo: TValorLiquidoFlag): Double; overload;
     function CalcularValorLiquidoItem(const ANFE: TNFe; const ANItem: Integer):Double;overload;
@@ -615,7 +615,7 @@ begin
             + ManterXPedNItemPed(aNFE, inItem);
 end;
 
-function TACBrDFeDANFeReport.ManterCst(dCRT: TpcnCRT; dCSOSN: TCSOSNIcms; dCST: TCSTIcms): String;
+function TACBrDFeDANFeReport.ManterCst(dCRT: TCRT; dCSOSN: TCSOSNIcms; dCST: TCSTIcms): String;
 begin
   if (dCRT in [crtSimplesNacional, crtMEI]) and not (dCST in [cst02, cst15, cst53, cst61]) then
     Result := CSOSNIcmsToStr(dCSOSN)

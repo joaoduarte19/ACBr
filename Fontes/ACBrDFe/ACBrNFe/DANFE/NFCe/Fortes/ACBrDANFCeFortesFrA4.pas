@@ -323,7 +323,7 @@ uses
   ACBrUtil.Strings, 
   ACBrUtil.FilesIO, 
   ACBrUtil.DateTime,
-  pcnConversaoNFe,
+  ACBrNFe.Conversao,
   ACBrDFeDANFeReport,
   ACBrDFeReportFortes,
   ACBrValidador, 

@@ -41,7 +41,8 @@ uses
   ACBrBase, ACBrNFeDANFEClass, ACBrPosPrinter,
   ACBrNFe.Classes,
   ACBrNFe.EnvEvento,
-  ACBrNFe.Inut,
+//  ACBrNFe.Inut,
+  ACBrDFeComum.Inut,
   ACBrDFeDANFeReport;
 
 const
@@ -65,7 +66,7 @@ type
     procedure MontarEnviarDANFE(NFE: TNFe; const AResumido: Boolean);
     procedure SetPosPrinter(AValue: TACBrPosPrinter);
     procedure GerarIdentificacaoInutilizacao;
-    procedure GerarDadosInutilizacao(fpInutNFe: TinutNFe);
+    procedure GerarDadosInutilizacao(fpInutNFe: TinutDFe);
   protected
     FpNFe: TNFe;
     FpEvento: TEventoNFe;
@@ -1229,27 +1230,27 @@ begin
   FPosPrinter.Imprimir('', True, True, True, AVias);
 end;
 
-procedure TACBrNFeDANFeESCPOS.GerarDadosInutilizacao(fpInutNFe: TinutNFe);
+procedure TACBrNFeDANFeESCPOS.GerarDadosInutilizacao(fpInutNFe: TinutDFe);
 const
   iTamanhoColunaRotulos = 18;
 var
   sTipoAmbiente: string;
 begin
   FPosPrinter.Buffer.Add(ACBrStr('</fn></ce><n>INUTILIZAÇÃO</n>'));
-  FPosPrinter.Buffer.Add('</fn></ae>' + PadRight('ÓRGÃO:', iTamanhoColunaRotulos) + IntToStr(fpInutNFe.RetInutNFe.cUF));
-  case fpInutNFe.RetInutNFe.tpAmb of
+  FPosPrinter.Buffer.Add('</fn></ae>' + PadRight('ÓRGÃO:', iTamanhoColunaRotulos) + IntToStr(fpInutNFe.RetInutDFe.cUF));
+  case fpInutNFe.RetInutDFe.tpAmb of
     taProducao:
       sTipoAmbiente := ACBrStr('PRODUÇÃO');
     taHomologacao:
       sTipoAmbiente := ACBrStr('HOMOLOGAÇÃO - SEM VALOR FISCAL');
   end;
   FPosPrinter.Buffer.Add(ACBrStr(PadRight('AMBIENTE:', iTamanhoColunaRotulos)) + sTipoAmbiente);
-  FPosPrinter.Buffer.Add(ACBrStr(PadRight('ANO:', iTamanhoColunaRotulos)) + IntToStr(fpInutNFe.RetInutNFe.ano));
-  FPosPrinter.Buffer.Add(ACBrStr(PadRight('MODELO:', iTamanhoColunaRotulos)) + IntToStr(fpInutNFe.RetInutNFe.modelo));
-  FPosPrinter.Buffer.Add(ACBrStr(PadRight('SERIE:', iTamanhoColunaRotulos)) + IntToStr(fpInutNFe.RetInutNFe.serie));
-  FPosPrinter.Buffer.Add(ACBrStr(PadRight('NUM. INUTILIZADA:', iTamanhoColunaRotulos)) + IntToStr(fpInutNFe.RetInutNFe.nNFIni) + ACBrStr(' a ') + IntToStr(fpInutNFe.RetInutNFe.nNFFin));
-  FPosPrinter.Buffer.Add(ACBrStr(PadRight('STATUS:', iTamanhoColunaRotulos)) + IntToStr(fpInutNFe.RetInutNFe.cStat) + ' - ' + fpInutNFe.RetInutNFe.xMotivo);
-  FPosPrinter.Buffer.Add(ACBrStr(PadRight('NÚM. PROTOCOLO:', iTamanhoColunaRotulos)) + fpInutNFe.RetInutNFe.nProt + ' ' + FormatDateTimeBr(fpInutNFe.RetInutNFe.dhRecbto));
+  FPosPrinter.Buffer.Add(ACBrStr(PadRight('ANO:', iTamanhoColunaRotulos)) + IntToStr(fpInutNFe.RetInutDFe.ano));
+  FPosPrinter.Buffer.Add(ACBrStr(PadRight('MODELO:', iTamanhoColunaRotulos)) + IntToStr(fpInutNFe.RetInutDFe.modelo));
+  FPosPrinter.Buffer.Add(ACBrStr(PadRight('SERIE:', iTamanhoColunaRotulos)) + IntToStr(fpInutNFe.RetInutDFe.serie));
+  FPosPrinter.Buffer.Add(ACBrStr(PadRight('NUM. INUTILIZADA:', iTamanhoColunaRotulos)) + IntToStr(fpInutNFe.RetInutDFe.nNumIni) + ACBrStr(' a ') + IntToStr(fpInutNFe.RetInutDFe.nNumFin));
+  FPosPrinter.Buffer.Add(ACBrStr(PadRight('STATUS:', iTamanhoColunaRotulos)) + IntToStr(fpInutNFe.RetInutDFe.cStat) + ' - ' + fpInutNFe.RetInutDFe.xMotivo);
+  FPosPrinter.Buffer.Add(ACBrStr(PadRight('NÚM. PROTOCOLO:', iTamanhoColunaRotulos)) + fpInutNFe.RetInutDFe.nProt + ' ' + FormatDateTimeBr(fpInutNFe.RetInutDFe.dhRecbto));
   FPosPrinter.Buffer.Add('</linha_simples>');
 end;
 
@@ -1264,7 +1265,7 @@ end;
 
 procedure TACBrNFeDANFeESCPOS.ImprimirINUTILIZACAO(ANFe: TNFe);
 var
-  fpInutNFe: TInutNFe;
+  fpInutNFe: TInutDFe;
   sJustificativa: string;
 
 begin
@@ -1294,7 +1295,7 @@ begin
   end;
   GerarDadosInutilizacao(fpInutNFe);
 
-  sJustificativa := ACBrStr(fpInutNFe.RetInutNFe.xJust);
+  sJustificativa := ACBrStr(fpInutNFe.RetInutDFe.xJust);
   if sJustificativa <> '' then
   begin
     FPosPrinter.Buffer.Add('</fn></ce><n>JUSTIFICATIVA</n>');

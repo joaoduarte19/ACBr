@@ -51,7 +51,7 @@ uses
   ACBrNFe.EventoClass,
   ACBrNFe.EnvEvento,
   ACBrDFe.Conversao,
-  pcnConversaoNFe,
+  ACBrNFe.Conversao,
   ACBrValidador,
   ACBrUtil.Compatibilidade,
   ACBrUtil.DateTime,

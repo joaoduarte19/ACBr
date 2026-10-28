@@ -754,7 +754,7 @@ uses
   ACBrNFeDANFeRLClass, ACBrDFeUtil, ACBrValidador,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.DateTime,
   ACBrDFeDANFeReport, ACBrDFeReportFortes,
-  ACBrNFe.Classes, pcnConversaoNFe, ACBrNFe;
+  ACBrNFe.Classes, ACBrNFe.Conversao, ACBrNFe;
 
 {$IfNDef FPC}
  {$R *.dfm}

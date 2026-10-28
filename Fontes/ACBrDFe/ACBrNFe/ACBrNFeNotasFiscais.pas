@@ -213,7 +213,7 @@ uses
   ACBrUtil.DateTime,
   ACBrUtil.Math,
   ACBrDFeUtil,
-  pcnConversaoNFe;
+  ACBrNFe.Conversao;
 
 { NotaFiscal }
 
@@ -393,7 +393,7 @@ var
   NotaEhValida, ok: Boolean;
   ALayout: TLayOut;
   VerServ: Real;
-  Modelo: TpcnModeloDF;
+  Modelo: TModeloDF;
   cUF: Integer;
 begin
   AXML := FXMLAssinado;

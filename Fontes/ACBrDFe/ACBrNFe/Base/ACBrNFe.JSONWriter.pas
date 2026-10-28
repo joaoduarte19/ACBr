@@ -42,7 +42,7 @@ uses
   ACBrDFe.RTC.Classes,
   ACBrNFe.Classes,
   ACBrDFe.Conversao,
-  pcnConversaoNFe;
+  ACBrNFe.Conversao;
 
 type
 
@@ -2583,8 +2583,6 @@ begin
     exit;
 
   lISelJSONObj := TACBrJSONObject.Create;
-  //Usar string até a publicação de uma tabela de CSTs oficial para o IS
-  //lISelJSONObj.AddPair('CSTIS', CSTISToStr(AISel.CSTIS));
   lISelJSONObj.AddPair('CSTIS', AISel.CSTIS);
   lISelJSONObj.AddPair('cClassTribIS', AISel.cClassTribIS);
   lISelJSONObj.AddPair('vBCIS', AISel.vBCIS);

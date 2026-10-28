@@ -128,7 +128,7 @@ type
 implementation
 
 uses
-  pcnConversaoNFe,
+  ACBrNFe.Conversao,
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML;
 

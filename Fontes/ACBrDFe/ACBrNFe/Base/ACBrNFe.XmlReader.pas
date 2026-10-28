@@ -98,7 +98,7 @@ uses
   ACBrUtil.DateTime,
   ACBrUtil.XMLHTML,
   ACBrUtil.FilesIO,
-  pcnConversaoNFe;
+  ACBrNFe.Conversao;
 
 { TNFeXmlReader }
 constructor TNFeXmlReader.Create(AOwner: TNFe);
@@ -216,6 +216,8 @@ begin
   LerTransp(ANode.Childrens.Find('transp'));
   LerCobr(ANode);
   LerInfIntermed(ANode.Childrens.Find('infIntermed'));
+  Ler_pgtoVinc(ANode.Childrens.Find('gPgtoVinc'), NFe.pgtoVinc);
+
   LerInfAdic(ANode.Childrens.Find('infAdic'));
   LerExporta(ANode.Childrens.Find('exporta'));
   LerCompra(ANode.Childrens.Find('compra'));

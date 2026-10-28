@@ -44,7 +44,7 @@ uses
    System.Contnrs,
   {$IfEnd}
   ACBrBase,
-  pcnConversaoNFe,
+  ACBrNFe.Conversao,
   ACBrXmlBase,
   ACBrDFe.Conversao;
 
@@ -73,7 +73,7 @@ type
   private
     Fversao: string;
     FtpAmb: TACBrTipoAmbiente;
-    FindOP: TpcnIndOperacao;
+    FindOP: TIndOperacao;
     FcStat: Integer;
     FxMotivo: string;
     FdadosCsc: TRetdadosCscCollection;
@@ -85,7 +85,7 @@ type
 
     property versao: string                   read Fversao   write Fversao;
     property tpAmb: TACBrTipoAmbiente         read FtpAmb    write FtpAmb;
-    property indOP: TpcnIndOperacao           read FindOP    write FindOP;
+    property indOP: TIndOperacao              read FindOP    write FindOP;
     property cStat: Integer                   read FcStat    write FcStat;
     property xMotivo: string                  read FxMotivo  write FxMotivo;
     property dadosCsc: TRetdadosCscCollection read FdadosCsc write FdadosCsc;

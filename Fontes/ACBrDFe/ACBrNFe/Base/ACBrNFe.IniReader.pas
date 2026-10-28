@@ -42,7 +42,7 @@ uses
   ACBrNFe.Classes,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  pcnConversaoNFe;
+  ACBrNFe.Conversao;
 
 type
   { TNFeIniReader }
@@ -50,7 +50,7 @@ type
   TNFeIniReader = class(TDFeRTCIniReader)
   private
     FNFe: TNFe;
-    FVersaoDF: TpcnVersaoDF;
+    FVersaoDF: TVersaoDF;
     FAmbiente: Integer;
     FtpEmis: Integer;
 
@@ -122,7 +122,7 @@ type
     function LerIni(const AIniString: string): Boolean;
 
     property NFe: TNFe read FNFe write FNFe;
-    property VersaoDF: TpcnVersaoDF read FVersaoDF write FVersaoDF;
+    property VersaoDF: TVersaoDF read FVersaoDF write FVersaoDF;
     property Ambiente: Integer read FAmbiente write FAmbiente;
     property tpEmis: Integer read FtpEmis write FtpEmis;
   end;
@@ -174,6 +174,7 @@ begin
     Ler_Duplicata(INIRec, FNFe.Cobr.Dup);
     Ler_Pagamento(INIRec, FNFe.pag);
     Ler_InfIntermed(INIRec, FNFe.infIntermed);
+    Ler_pgtoVinc(INIRec, FNFe.pgtoVinc.pgto);
     Ler_DadosAdicionais(INIRec, FNFe.InfAdic);
     Ler_ObsContribuinte(INIRec, FNFe.InfAdic.obsCont);
     Ler_ObsFisco(INIRec, FNFe.InfAdic.obsFisco);

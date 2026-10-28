@@ -122,6 +122,8 @@ type
     function Gerar_Evento_ConciliacaoFinanceira(Idx: Integer): TACBrXmlNode;
     function Gerar_DetalhePagamento(Idx: Integer): TACBrXmlNodeArray;
     function Gerar_Evento_CancConciliacaoFinanceira(Idx: Integer): TACBrXmlNode;
+    function Gerar_Evento_VinculoPagamento(Idx: Integer): TACBrXmlNode;
+    function Gerar_Pagamento(pgto: Tpgto): TACBrXmlNode;
     // Reforma Tributária
     function Gerar_Evento_CancelamentoGenerico(Idx: Integer): TACBrXmlNode;
     function Gerar_Evento_PagIntegLibCredPresAdq(Idx: Integer): TACBrXmlNode;
@@ -156,8 +158,6 @@ type
     function Gerar_gControleEstoque(gControleEstoque: TgControleEstoqueItemNaoFornecido): TACBrXMLNode; overload;
     function Gerar_Evento_AtualizacaoDataPrevisaoEntrega(Idx: Integer): TACBrXmlNode;
     function Gerar_Evento_ManifestacaoPedidoTransfCreditoIBSCBSOperacoesSucessao(Idx: Integer): TACBrXmlNode;
-
-
   public
     constructor Create;
     destructor Destroy; override;
@@ -187,7 +187,7 @@ uses
   ACBrUtil.DateTime,
   ACBrUtil.FilesIO,
   ACBrNFe.RetEnvEvento,
-  pcnConversaoNFe;
+  ACBrNFe.Conversao;
 
 { TEventoNFe }
 
@@ -875,7 +875,7 @@ begin
     Result[i] := CreateElement('detPag');
 
     Result[i].AppendChild(AddNode(tcStr, 'P22', 'indPag', 01, 01, 0,
-      IndpagToStr(Evento[Idx].InfEvento.detEvento.detPag[i].indPag), DSC_INDPAG));
+      IndpagToStrEX(Evento[Idx].InfEvento.detEvento.detPag[i].indPag), DSC_INDPAG));
 
     Result[i].AppendChild(AddNode(tcStr, 'P23', 'tPag', 02, 02, 1,
       FormaPagamentoToStr(Evento[Idx].InfEvento.detEvento.detPag[i].tPag), DSC_TPAG));
@@ -1085,6 +1085,9 @@ begin
 
     teManifPedTransfCredIBSSucessao,
     teManifPedTransfCredCBSSucessao : Result.AppendChild(Gerar_Evento_ManifestacaoPedidoTransfCreditoIBSCBSOperacoesSucessao(Idx));
+
+    teVinculoPgto:
+      Result.AppendChild(Gerar_Evento_VinculoPagamento(Idx));
   end;
 end;
 
@@ -1107,6 +1110,45 @@ begin
 
   if Evento[Idx].FInfEvento.detEvento.itemPedido.Count > 990 then
     wAlerta('#1', 'itemPedido', '', ERR_MSG_MAIOR_MAXIMO + '990');
+end;
+
+function TEventoNFe.Gerar_Evento_VinculoPagamento(Idx: Integer): TACBrXmlNode;
+begin
+  Result := CreateElement('detEvento');
+  Result.SetAttribute('versao', Versao);
+
+  Result.AppendChild(AddNode(tcStr, 'P19', 'descEvento', 4, 60, 1,
+                                            Evento[Idx].FInfEvento.DescEvento));
+
+  Result.AppendChild(AddNode(tcInt, 'HP20', 'cOrgaoAutor', 1, 2, 1,
+                                 Evento[Idx].FInfEvento.detEvento.cOrgaoAutor));
+
+  Result.AppendChild(AddNode(tcStr, 'HP21', 'tpAutor', 1, 1, 1,
+                     TipoAutorToStr(Evento[Idx].FInfEvento.detEvento.tpAutor)));
+
+  Result.AppendChild(AddNode(tcStr, 'P22', 'verAplic', 1, 20, 1,
+                                    Evento[Idx].FInfEvento.detEvento.verAplic));
+
+  Result.AppendChild(AddNode(tcStr, 'HP23', 'nProt', 15, 17, 1,
+                                       Evento[Idx].FInfEvento.detEvento.nProt));
+
+  Result.AppendChild(Gerar_Pagamento(Evento[Idx].FInfEvento.detEvento.pgto));
+end;
+
+function TEventoNFe.Gerar_Pagamento(pgto: Tpgto): TACBrXmlNode;
+begin
+  Result := CreateElement('gPgto');
+
+  Result.SetAttribute('idTransacao', pgto.idTransacao);
+
+  Result.AppendChild(AddNode(tcStr, '#44', 'tpMeioPgto', 2, 2, 1,
+                                              pgto.tpMeioPgto, DSC_TPMEIOPGTO));
+
+  Result.AppendChild(AddNode(tcStr, '#44', 'CNPJReceb', 14, 14, 1,
+                           OnlyCPFCNPJAlphaNum(pgto.CNPJReceb), DSC_CNPJRECEB));
+
+  Result.AppendChild(AddNode(tcStr, '#44', 'CNPJBasePSP', 8, 8, 1,
+                       OnlyCPFCNPJAlphaNum(pgto.CNPJBasePSP), DSC_CNPJBASEPSP));
 end;
 
 function TEventoNFe.GetOpcoes: TACBrXmlWriterOptions;
@@ -1386,8 +1428,15 @@ begin
               infEvento.detEvento.gCredito[i].vCredCBS := RetEventoNFe.InfEvento.detEvento.gCredito[i].vCredCBS;
             end;
           end;
-      end;
 
+        teVinculoPgto:
+          begin
+            infEvento.detEvento.pgto.idTransacao := RetEventoNFe.InfEvento.detEvento.pgto.idTransacao;
+            infEvento.detEvento.pgto.tpMeioPgto := RetEventoNFe.InfEvento.detEvento.pgto.tpMeioPgto;
+            infEvento.detEvento.pgto.CNPJReceb := RetEventoNFe.InfEvento.detEvento.pgto.CNPJReceb;
+            infEvento.detEvento.pgto.CNPJBasePSP := RetEventoNFe.InfEvento.detEvento.pgto.CNPJBasePSP;
+          end;
+      end;
 
       signature.URI := RetEventoNFe.signature.URI;
       signature.DigestValue := RetEventoNFe.signature.DigestValue;
@@ -1592,7 +1641,7 @@ begin
 
                 ItemDetPag := infEvento.detEvento.detPag.New;
 
-                ItemDetPag.indPag := StrToIndpag(ok, INIRec.ReadString(sSecao, 'indPag', ''));
+                ItemDetPag.indPag := StrToIndpagEX(INIRec.ReadString(sSecao, 'indPag', ''));
                 ItemDetPag.tPag := StrToFormaPagamento(ok, INIRec.ReadString(sSecao, 'tPag', '01'));
                 ItemDetPag.xPag := INIRec.ReadString(sSecao, 'xPag', '');
                 ItemDetPag.vPag := StringToFloatDef(sFim, 0);
@@ -1668,6 +1717,7 @@ begin
                 Inc(J);
               end;
             end;
+
           teFornecNaoRealizPagAntec:
             begin
               infEvento.detEvento.tpAutor := StrToTipoAutor(ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
@@ -1691,21 +1741,25 @@ begin
                 Inc(J);
               end;
             end;
+
           teAtualizacaoDataPrevisaoEntrega:
             begin
               infEvento.detEvento.tpAutor := StrToTipoAutor(ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
               infEvento.detEvento.dPrevEntrega := INIRec.ReadDate(sSecao, 'dPrevEntrega', 0);
             end;
+
           teManifPedTransfCredIBSSucessao,
           teManifPedTransfCredCBSSucessao:
             begin
               infEvento.detEvento.tpAutor := StrToTipoAutor(ok, INIRec.ReadString(sSecao, 'tpAutor', '8'));
               infEvento.detEvento.indAceitacao := StrToIndAceitacao(INIRec.ReadString(sSecao, 'indAceitacao', ''));
             end;
+
           tePagIntegLibCredPresAdq:
             begin
               infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
             end;
+
           teSolicApropCredPres:
             begin
               infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
@@ -1739,6 +1793,7 @@ begin
                 Inc(J);
               end;
             end;
+
           teDestItemConsPessoal:
             begin
               infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
@@ -1766,6 +1821,7 @@ begin
                 Inc(J);
               end;
             end;
+
           tePerecPerdaRouboFurtoTranspContratAqu:
             begin
               infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
@@ -1789,11 +1845,13 @@ begin
                 Inc(J);
               end;
             end;
+
           teAceiteDebitoApuracaoNotaCredito:
             begin
               infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
               infEvento.detEvento.indAceitacao := StrToIndAceitacao(INIRec.ReadString(sSecao, 'indAceitacao', '0'));
             end;
+
           teImobilizacaoItem:
             begin
               infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
@@ -1816,6 +1874,7 @@ begin
                 Inc(J);
               end;
             end;
+
           teSolicApropCredCombustivel:
             begin
               infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
@@ -1838,6 +1897,7 @@ begin
                 Inc(J);
               end;
             end;
+
           teSolicApropCredBensServicos:
             begin
               infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
@@ -1856,6 +1916,14 @@ begin
 
                 Inc(J);
               end;
+            end;
+
+          teVinculoPgto:
+            begin
+              infEvento.detEvento.pgto.idTransacao := INIRec.ReadString(sSecao, 'idTransacao', '');
+              infEvento.detEvento.pgto.tpMeioPgto := INIRec.ReadString(sSecao, 'tpMeioPgto', '');
+              infEvento.detEvento.pgto.CNPJReceb := INIRec.ReadString(sSecao, 'CNPJReceb', '');
+              infEvento.detEvento.pgto.CNPJBasePSP := INIRec.ReadString(sSecao, 'CNPJBasePSP', '');
             end;
         end;
       end;
@@ -2367,6 +2435,14 @@ begin
               Evento[i].InfEvento.detEvento.gCredito[j].vCredIBS := lAuxJSONObj.AsFloat['vCredIBS'];
               Evento[i].InfEvento.detEvento.gCredito[j].vCredCBS := lAuxJSONObj.AsFloat['vCredCBS'];
             end;
+          end;
+
+        teVinculoPgto:
+          begin
+            Evento[i].infEvento.detEvento.pgto.idTransacao := lDetEventoJSONObj.AsString['idTransacao'];
+            Evento[i].infEvento.detEvento.pgto.tpMeioPgto := lDetEventoJSONObj.AsString['tpMeioPgto'];
+            Evento[i].infEvento.detEvento.pgto.CNPJReceb := lDetEventoJSONObj.AsString['CNPJReceb'];
+            Evento[i].infEvento.detEvento.pgto.CNPJBasePSP := lDetEventoJSONObj.AsString['CNPJBasePSP'];
           end;
       end;
     end;
