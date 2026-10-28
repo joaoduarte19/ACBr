@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+28/10/2026
+-- ACBrEPCBloco_P_Class, ACBrSpedPisCofins --
+[-] ACBR-10115 - EFDContrib - Correção no contador do Registro P e configurado para não gerar posterior a 2025, conforme NT 09/2024
+    por: Renato Rubinho
+
 04/05/2026
 -- ACBrEPCBloco_M_Class --
 [*] #ACBR-9334 - Correção nas casas decimais da BC e Aliq no registro M515 do EFDContribuições

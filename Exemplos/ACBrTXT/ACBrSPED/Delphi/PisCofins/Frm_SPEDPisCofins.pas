@@ -79,6 +79,8 @@ type
     btnB_F: TButton;
     btnB_M: TButton;
     btnB_P: TButton;
+    LblDtRef: TLabel;
+    DtRef: TDateTimePicker;
     procedure btnB_0Click(Sender: TObject);
     procedure btnB_9Click(Sender: TObject);
     procedure btnTXTClick(Sender: TObject);
@@ -94,6 +96,7 @@ type
     procedure btnB_AClick(Sender: TObject);
     procedure btnVariosBlocosClick(Sender: TObject);
     procedure btnB_PClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
      procedure LoadToMemo;
     { Private declarations }
@@ -141,8 +144,8 @@ begin
            //P100 - Demais Documentos e Operações Geradoras de Contribuição e Créditos
            with RegistroP100New do
            begin
-             DT_INI := StrToDate('01/04/2014');
-             DT_FIM := StrToDate('30/04/2014');
+             DT_INI := StartOfTheMonth(DtRef.Date);
+             DT_FIM := EndOfTheMonth(DtRef.Date);
              VL_REC_TOT_EST := 0;
              COD_ATIV_ECON := '00000025';
              VL_REC_ATIV_ESTAB := 0;
@@ -157,7 +160,7 @@ begin
            //REGISTRO P200: CONSOLIDAÇÃO DA CONTRIBUIÇÃO PREVIDENCIÁRIA SOBRE A RECEITA BRUTA
            with RegistroP200New do
            begin
-             PER_REF := FormatDateTime('mmyyyy', StrToDate('30/04/2014'));
+             PER_REF := FormatDateTime('mmyyyy', EndOfTheMonth(DtRef.Date));
              VL_TOT_CONT_APU := 0;
              VL_TOT_AJ_REDUC := 0;
              VL_TOT_AJ_ACRES := 0;
@@ -195,8 +198,8 @@ begin
    btnB_C.Enabled := True ;
    with ACBrSPEDPisCofins1 do
    begin
-     DT_INI := StrToDate('01/04/2014');
-     DT_FIN := StrToDate('30/04/2014');
+     DT_INI := StartOfTheMonth(DtRef.Date);
+     DT_FIN := EndOfTheMonth(DtRef.Date);
      IniciaGeracao;
    end;
 
@@ -204,8 +207,8 @@ begin
    begin
       with ACBrSPEDPisCofins1 do
       begin
-//         DT_INI := StrToDate('01/04/2014');
-//         DT_FIN := StrToDate('30/04/2014');
+//         DT_INI := StartOfTheMonth(DtRef.Date);
+//         DT_FIN := EndOfTheMonth(DtRef.Date);
          LinhasBuffer := StrToIntDef( edBufLinhas.Text, 0 );
 
 //         IniciaGeracao;
@@ -219,7 +222,7 @@ begin
       // Dados da Empresa
       with Registro0000New do
       begin
-        COD_VER          := vlVersao201;
+        COD_VER          := High(TACBrVersaoLeiauteSPEDContribuicoes);
         TIPO_ESCRIT      := tpEscrOriginal;
         IND_SIT_ESP      := indSitAbertura;
         NUM_REC_ANTERIOR := '';
@@ -367,8 +370,8 @@ begin
                       if (int0200 = 11) then with Registro0205New do
                       begin
                         DESCR_ANT_ITEM := 'DESCRIÇÃO ANTERIOR DO ITEM 11';
-                        DT_INI := StrToDate('01/04/2014');
-                        DT_FIM := StrToDate('15/04/2014'); //Observe que o campo é DT_FIM e não DT_FIN
+                        DT_INI := StartOfTheMonth(DtRef.Date);
+                        DT_FIM := EndOfTheMonth(DtRef.Date); //Observe que o campo é DT_FIM e não DT_FIN
                       end;
                     end;
                  end;
@@ -378,7 +381,7 @@ begin
            // FILHO - REGISTRO 0500: PLANO DE CONTAS CONTÁBEIS
            with Registro0500New do
            begin
-             DT_ALT := StrToDate('01/04/2014');
+             DT_ALT := StartOfTheMonth(DtRef.Date);
              COD_NAT_CC := ncgAtivo;
              IND_CTA := indCTASintetica;
              NIVEL := '0';
@@ -426,8 +429,8 @@ begin
 
    with ACBrSPEDPisCofins1 do
    begin
-      DT_INI := StrToDate('01/04/2014');
-      DT_FIN := StrToDate('30/04/2014');
+      DT_INI := StartOfTheMonth(DtRef.Date);
+      DT_FIN := EndOfTheMonth(DtRef.Date);
    end;
 
    // Limpa a lista de erros.
@@ -471,8 +474,8 @@ procedure TFrmSPEDPisCofins.btnErrorClick(Sender: TObject);
 begin
    with ACBrSPEDPisCofins1 do
    begin
-      DT_INI := StrToDate('01/04/2014');
-      DT_FIN := StrToDate('30/04/2014');
+      DT_INI := StartOfTheMonth(DtRef.Date);
+      DT_FIN := EndOfTheMonth(DtRef.Date);
    end;
 
    // Limpa a lista de erros.
@@ -1192,6 +1195,11 @@ end;
 procedure TFrmSPEDPisCofins.edtFileChange(Sender: TObject);
 begin
    ACBrSPEDPisCofins1.Arquivo := edtFile.Text ;
+end;
+
+procedure TFrmSPEDPisCofins.FormCreate(Sender: TObject);
+begin
+  DtRef.Date := StartOfTheMonth(IncMonth(now, -1));
 end;
 
 procedure TFrmSPEDPisCofins.LoadToMemo;

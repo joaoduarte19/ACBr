@@ -316,7 +316,8 @@ end;
 
 procedure TBloco_P.WriteRegistroP990;
 begin
-  if Assigned(RegistroP990) then
+  if Assigned(RegistroP990) and
+     (Self.DT_INI < EncodeDate(2025,01,01)) then
   begin
      with RegistroP990 do
      begin

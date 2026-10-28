@@ -12,6 +12,7 @@ object FrmSPEDPisCofins: TFrmSPEDPisCofins
   Font.Style = []
   OldCreateOrder = True
   Position = poScreenCenter
+  OnCreate = FormCreate
   DesignSize = (
     687
     547)
@@ -146,6 +147,15 @@ object FrmSPEDPisCofins: TFrmSPEDPisCofins
       Color = clBtnFace
       ParentColor = False
     end
+    object LblDtRef: TLabel
+      Left = 424
+      Top = 14
+      Width = 74
+      Height = 13
+      Caption = 'M'#234's Refer'#234'ncia'
+      Color = clBtnFace
+      ParentColor = False
+    end
     object edtFile: TEdit
       Left = 22
       Top = 28
@@ -185,6 +195,15 @@ object FrmSPEDPisCofins: TFrmSPEDPisCofins
       Height = 21
       TabOrder = 2
       Text = '5'
+    end
+    object DtRef: TDateTimePicker
+      Left = 424
+      Top = 28
+      Width = 90
+      Height = 21
+      Date = 46323.000000000000000000
+      Time = 0.498320694452559100
+      TabOrder = 3
     end
   end
   object Panel2: TPanel
