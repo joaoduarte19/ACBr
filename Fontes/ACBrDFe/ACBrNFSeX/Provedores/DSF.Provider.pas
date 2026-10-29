@@ -133,6 +133,7 @@ type
                                      const AListTag: string = 'Erros'); override;
 
     function PrepararArquivoEnvio(const aXml: string; aMetodo: TMetodo): string; override;
+    procedure PrepararConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
   public
     function GetSchemaPath: string; override;
   end;
@@ -147,7 +148,9 @@ uses
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML,
   ACBrUtil.FilesIO,
+  ACBrUtil.Base,
   ACBrDFeException,
+  ACBrNFSeXConsts,
   DSF.GravarXml,
   DSF.LerXml;
 
@@ -694,6 +697,24 @@ begin
 
     Method := 'POST';
   end;
+end;
+
+procedure TACBrNFSeProviderDSFAPIPropria.PrepararConsultaNFSeporRps(
+  Response: TNFSeConsultaNFSeporRpsResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+begin
+  if EstaVazio(Response.idRps) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod126;
+    AErro.Descricao := ACBrStr(Desc126);
+    Exit;
+  end;
+
+  Path := '/api/adn/dps/' + Response.idRps;
+  Response.ArquivoEnvio := Path;
+  Method := 'GET';
 end;
 
 procedure TACBrNFSeProviderDSFAPIPropria.ProcessarMensagemDeErros(
