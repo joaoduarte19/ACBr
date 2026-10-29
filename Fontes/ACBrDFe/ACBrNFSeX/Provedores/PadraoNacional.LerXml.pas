@@ -860,7 +860,11 @@ begin
 
   if AuxNode <> nil then
   begin
-    NFSe.infID.ID := OnlyNumber(ObterConteudoTag(AuxNode.Attributes.Items['Id']));
+    NFSe.infID.ID := RemoverLiteralChave(ObterConteudoTag(AuxNode.Attributes.Items['Id']));
+
+    if NFSe.infID.ID = '' then
+      NFSe.infID.ID := RemoverLiteralChave(ObterConteudoTag(AuxNode.Attributes.Items['id']));
+
     NFSe.DataEmissaoRPS := ObterConteudo(AuxNode.Childrens.FindAnyNs('dhEmi'), tcDatHor);
     NFSe.verAplic := ObterConteudo(AuxNode.Childrens.FindAnyNs('verAplic'), tcStr);
     NFSe.IdentificacaoRps.Serie := ObterConteudo(AuxNode.Childrens.FindAnyNs('serie'), tcStr);
@@ -940,7 +944,11 @@ begin
     gerado automaticamente pelo sistema gerador da NFS-e.
     }
 
-    NFSe.infNFSe.ID := OnlyNumber(ObterConteudoTag(AuxNode.Attributes.Items['Id']));
+    NFSe.infNFSe.ID := RemoverLiteralChave(ObterConteudoTag(AuxNode.Attributes.Items['Id']));
+
+    if NFSe.infNFSe.ID = '' then
+      NFSe.infNFSe.ID := RemoverLiteralChave(ObterConteudoTag(AuxNode.Attributes.Items['id']));
+
     NFSe.infNFSe.xLocEmi := ObterConteudo(AuxNode.Childrens.FindAnyNs('xLocEmi'), tcStr);
     NFSe.infNFSe.xLocPrestacao := ObterConteudo(AuxNode.Childrens.FindAnyNs('xLocPrestacao'), tcStr);
     NFSe.infNFSe.nNFSe := ObterConteudo(AuxNode.Childrens.FindAnyNs('nNFSe'), tcStr);

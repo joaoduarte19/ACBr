@@ -1400,11 +1400,11 @@ begin
   if Usuario = '' then
     Usuario := Trim(TConfiguracoesNFSe(FPConfiguracoes).Geral.Emitente.InscMun);
   Senha := Trim(TConfiguracoesNFSe(FPConfiguracoes).Geral.Emitente.WSSenha);
-  sCNPJ := OnlyNumber(TConfiguracoesNFSe(FPConfiguracoes).Geral.Emitente.CNPJ);
+  sCNPJ := OnlyCPFCNPJAlphaNum(TConfiguracoesNFSe(FPConfiguracoes).Geral.Emitente.CNPJ);
 
   // Fallback se o CNPJ não foi informado nas Configurações Gerais, mas existe nota carregada
   if (sCNPJ = '') and Assigned(FPDFeOwner) and (TACBrNFSeX(FPDFeOwner).NotasFiscais.Count > 0) then
-    sCNPJ := OnlyNumber(TACBrNFSeX(FPDFeOwner).NotasFiscais.Items[0].NFSe.Prestador.IdentificacaoPrestador.CpfCnpj);
+    sCNPJ := OnlyCPFCNPJAlphaNum(TACBrNFSeX(FPDFeOwner).NotasFiscais.Items[0].NFSe.Prestador.IdentificacaoPrestador.CpfCnpj);
 
   Auth := 'Basic ' + string(EncodeBase64(AnsiString(Usuario + ':' + Senha)));
 
@@ -1676,7 +1676,7 @@ begin
             FUltimoProtocolo := Protocolo;
             FUltimoNumeroRps := Trim(TACBrNFSeX(FAOwner).NotasFiscais.Items[0].NFSe.IdentificacaoRps.Numero);
             FUltimaSerieRps := Trim(TACBrNFSeX(FAOwner).NotasFiscais.Items[0].NFSe.IdentificacaoRps.Serie);
-            FUltimoPrestador := OnlyNumber(TACBrNFSeX(FAOwner).NotasFiscais.Items[0].NFSe.Prestador.IdentificacaoPrestador.CpfCnpj);
+            FUltimoPrestador := OnlyCPFCNPJAlphaNum(TACBrNFSeX(FAOwner).NotasFiscais.Items[0].NFSe.Prestador.IdentificacaoPrestador.CpfCnpj);
           end;
           Response.Protocolo := Protocolo;
           Response.Situacao := 'em_processamento';
@@ -1799,9 +1799,9 @@ var
   Prestador: string;
 begin
   Path := '';
-  Prestador := OnlyNumber(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
+  Prestador := OnlyCPFCNPJAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
   if (Prestador = '') and (TACBrNFSeX(FAOwner).NotasFiscais.Count = 1) then
-    Prestador := OnlyNumber(TACBrNFSeX(FAOwner).NotasFiscais.Items[0].NFSe.Prestador.IdentificacaoPrestador.CpfCnpj);
+    Prestador := OnlyCPFCNPJAlphaNum(TACBrNFSeX(FAOwner).NotasFiscais.Items[0].NFSe.Prestador.IdentificacaoPrestador.CpfCnpj);
 
   if (FUltimoProtocolo = '') or (FUltimoPrestador = '') or
      (Prestador <> FUltimoPrestador) or

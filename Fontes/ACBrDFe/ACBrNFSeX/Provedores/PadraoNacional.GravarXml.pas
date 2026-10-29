@@ -220,7 +220,7 @@ begin
   Núm. DPS (15)
   }
   cMun  := Poem_Zeros(AcMun, 7);
-  vCNPJ := OnlyNumber(ACNPJCPF);
+  vCNPJ := OnlyCPFCNPJAlphaNum(ACNPJCPF);
 
   if Length(vCNPJ) = 11 then
     tpInsc := '1'
@@ -251,7 +251,7 @@ begin
     }
 
   cMun  := Poem_Zeros(AcMun, 7);
-  vCNPJ := OnlyNumber(ACNPJCPF);
+  vCNPJ := OnlyCPFCNPJAlphaNum(ACNPJCPF);
 
   if Length(vCNPJ) = 11 then
     tpInsc := '1'

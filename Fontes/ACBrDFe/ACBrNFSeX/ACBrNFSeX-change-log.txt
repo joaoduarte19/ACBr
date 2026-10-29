@@ -43,8 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 29/10/2026
+-- PadraoNacional.GravarXml/PadraoNacional.LerXml/SigCorp.Provider --
+[*] O provedor SigCorp esta retornando o atributo "Id" todo em minúsculo, alteração visando
+    contornar essa alteração feita pelo provedor.
+   Por: Italo Giurizzato Junior
 -- DSF.Provider --
-[*] Sobreescrito a procedure PrepararConsultaNFSeporRps para gerar a URL correta do provedor.
+[*] Sobrescrito a procedure PrepararConsultaNFSeporRps para gerar a URL correta do provedor.
    Por: Italo Giurizzato Junior
 
 28/10/2026
