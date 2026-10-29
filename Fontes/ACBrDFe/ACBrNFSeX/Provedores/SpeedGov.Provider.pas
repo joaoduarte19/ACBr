@@ -873,13 +873,46 @@ end;
 
 procedure TACBrNFSeProviderSpeedGovAPIPropria.TratarRetornoEmitir(
   Response: TNFSeEmiteResponse);
+var
+  Document: TACBrJSONObject;
+  AErro: TNFSeEventoCollectionItem;
 begin
   if Pos('codigo_erro', Response.ArquivoRetorno) > 0 then
   begin
     Response.ArquivoRetorno := '{"Erros":' + Response.ArquivoRetorno + '}';
   end;
 
-  inherited TratarRetornoEmitir(Response);
+  if Response.ArquivoRetorno = '' then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod201;
+    AErro.Descricao := ACBrStr(Desc201);
+    Exit
+  end;
+
+  Document := TACBrJsonObject.Parse(Response.ArquivoRetorno);
+
+  try
+    try
+      ProcessarMensagemDeErros(Document, Response);
+      Response.Sucesso := (Response.Erros.Count = 0);
+
+      Response.Data := Now;
+      Response.Protocolo := Document.AsString['numero_protocolo'];
+      Response.idNota := Document.AsString['numero_nota'];
+      Response.ChaveNotaNacional := Document.AsString['chave_acesso'];
+      Response.Situacao := Document.AsString['mensagem'];
+    except
+      on E:Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(Document);
+  end;
 end;
 
 procedure TACBrNFSeProviderSpeedGovAPIPropria.PrepararConsultaSituacao(
@@ -895,7 +928,7 @@ begin
     Exit;
   end;
 
-  Path := '/v101/protocolo/' + Response.Protocolo;
+  Path := '/protocolo/' + Response.Protocolo;
   Response.ArquivoEnvio := Path;
   Method := 'GET';
 end;

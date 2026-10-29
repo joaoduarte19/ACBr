@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 29/10/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-10107 - A cidade de Timon/MA continua com o provedor SpeedGov.
+   Por: PrimeSoftware
+-- SpeedGov.Provider --
+[*] ACBR-10107 - Ajustes no TratarRetornoEmitir para ler corretamente o retorno.
+   Por: Italo Giurizzato Junior
 -- ISSBarueri.Provider --
 [-] ACBR-10030 - Correção na contagem de linhas do registro 3
    Por: Italo Giurizzato Junior
