@@ -1227,7 +1227,7 @@ begin
                       AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteProc', 'CTe');
 
                     moCTeOS:
-                      AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteosProc', 'CTeOS');
+                      AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteOSProc', 'CTeOS');
 
                     moCTeSimp:
                       AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteProc', 'CTe');
@@ -1390,7 +1390,7 @@ begin
                   AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteProc', 'CTe');
 
                 moCTeOS:
-                  AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteosProc', 'CTeOS');
+                  AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteOSProc', 'CTeOS');
 
                 moCTeSimp:
                   AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteProc', 'CTe');
@@ -1790,7 +1790,7 @@ begin
               AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteProc', 'CTe');
 
             moCTeOS:
-              AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteosProc', 'CTeOS');
+              AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteOSProc', 'CTeOS');
 
             moCTeSimp:
               AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteProc', 'CTe');
@@ -2500,7 +2500,7 @@ begin
                     AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteProc', 'CTe');
 
                   moCTeOS:
-                    AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteosProc', 'CTeOS');
+                    AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteOSProc', 'CTeOS');
 
                   moCTeSimp:
                     AProcCTe := TProcDFe.Create(FPVersaoServico, NAME_SPACE_CTE, 'cteProc', 'CTe');
