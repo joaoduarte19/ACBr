@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 29/10/2026
+-- ISSBarueri.Provider --
+[-] ACBR-10030 - Correção na contagem de linhas do registro 3
+   Por: Italo Giurizzato Junior
 -- ISSBarueri.GravarXml/ISSBarueri.Provider --
 [*] ACBR-10030 - Alteração visando emitir corretamente as notas fiscais.
    Por: Geraldo Moura/Victor H Gonzales - Panda

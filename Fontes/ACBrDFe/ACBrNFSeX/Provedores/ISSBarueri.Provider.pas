@@ -647,7 +647,7 @@ begin
                            Nota.NFSe.Servico.Valores.ValorCsll +
                            Nota.NFSe.Servico.Valores.ValorDespesasNaoTributaveis;
 
-    if ValorTotalRetencoes > 0 then
+    if Nota.NFSe.Servico.Valores.ValorDespesasNaoTributaveis > 0 then
       Inc(TotalLinhas);
 
     if Nota.NFSe.Servico.Valores.ValorIr > 0 then
