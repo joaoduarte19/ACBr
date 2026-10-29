@@ -325,22 +325,19 @@ begin
   else
     Linha := Linha + Space(7);
 
-  if NFSe.Tomador.IdentificacaoTomador.Nif <> '' then
-    Linha := Linha + NFSe.Tomador.IdentificacaoTomador.Nif
-  else
-    Linha := Linha + Space(40);
+  Linha := Linha + PadRight(NFSe.Tomador.IdentificacaoTomador.Nif, 40, ' ');
 
   Linha := Linha + PadLeft(NFSe.Servico.CodigoNBS, 9, '0');
 
-  if (NFSe.Servico.CodigoPais <> 1) and (NFSe.Tomador.Endereco.CEP <> '') then
-    Linha := Linha + PadLeft(NFSe.Tomador.Endereco.CEP, 11, ' ')
+  // Código de Endereço Postal (70-80) e Estado/Província/Região (81-140)
+  // somente para Tomador Estrangeiro
+  if Length(NFSe.Tomador.IdentificacaoTomador.CpfCnpj) < 11 then
+  begin
+    Linha := Linha + PadRight(NFSe.Tomador.Endereco.CEP, 11, ' ');
+    Linha := Linha + PadRight(NFSe.Tomador.Endereco.UF, 60, ' ');
+  end
   else
-    Linha := Linha + Space(11);
-
-  if (NFSe.Servico.CodigoPais <> 1) and (NFSe.Tomador.Endereco.xMunicipio <> '') then
-    Linha := Linha + PadLeft(NFSe.Tomador.Endereco.xMunicipio, 60, ' ')
-  else
-    Linha := Linha + Space(60);
+    Linha := Linha + Space(11) + Space(60);
 
   if NFSe.Tomador.IdentificacaoTomador.Nif <> '' then
     Linha := Linha + vincPrestToStr(NFSe.Servico.comExt.vincPrest)
@@ -395,6 +392,7 @@ end;
 procedure TNFSeW_ISSBarueri.GerarRegistroTipo5;
 var
   Linha, xUF: string;
+  DestEstrangeiro: Boolean;
 begin
   Linha := '5' +
            PadLeft(cCredPresToStr(NFSe.IBSCBS.valores.trib.gIBSCBS.cCredPres),2,' ');
@@ -406,28 +404,62 @@ begin
   Linha := Linha + Space(150);
   Linha := Linha + PadLeft('0', 3, '0');
   Linha := Linha + '0';
-  Linha := Linha + '2';
-
-  if NFSe.IBSCBS.indDest = idTomadorAdquirenteDestinatarioIguais then
+  // Indicador do Destinatário = 1: o destinatário não é o próprio tomador e
+  // os seus dados (218-697) devem ser informados
+  if NFSe.IBSCBS.indDest = idTomadorAdquirenteIguais then
   begin
-    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.CNPJCPF, 14, '0');
-    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.xNome, 60, ' ');
-    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.ender.xLgr, 75, ' ');
-    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.ender.nro, 9, ' ');
-    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.ender.xCpl, 30, ' ');
-    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.ender.xBairro, 40, ' ');
-    Linha := Linha + PadLeft(ObterNomeMunicipioUF(NFSe.IBSCBS.Dest.ender.endNac.cMun, xUF), 40, ' ');
-    Linha := Linha + PadLeft(IntToStr(NFSe.IBSCBS.Dest.ender.endNac.cMun), 7, '0');
-    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.ender.UF, 2, ' ');
-    Linha := Linha + PadLeft(IntToStr(CodIBGEPaisToCodISO(NFSe.IBSCBS.Dest.ender.endExt.cPais)), 3, '0');
-    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.ender.endNac.CEP, 8, '0');
-    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.email, 80, ' ');
-    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.NIF, 40, ' ');
-    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.ender.endExt.xEstProvReg, 11, ' ');
-    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.ender.endExt.cEndPost, 60, ' ');
+    DestEstrangeiro := (NFSe.IBSCBS.Dest.NIF <> '') or
+                       ((NFSe.IBSCBS.Dest.ender.endExt.cPais <> 0) and
+                        (NFSe.IBSCBS.Dest.ender.endExt.cPais <> 1058));
+
+    if DestEstrangeiro then
+    begin
+      Linha := Linha + '1';
+      Linha := Linha + Space(14);
+    end
+    else
+    begin
+      Linha := Linha + '2';
+      Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.CNPJCPF, 14, '0');
+    end;
+
+    Linha := Linha + PadRight(NFSe.IBSCBS.Dest.xNome, 60, ' ');
+    Linha := Linha + PadRight(NFSe.IBSCBS.Dest.ender.xLgr, 75, ' ');
+    Linha := Linha + PadRight(NFSe.IBSCBS.Dest.ender.nro, 9, ' ');
+    Linha := Linha + PadRight(NFSe.IBSCBS.Dest.ender.xCpl, 30, ' ');
+    Linha := Linha + PadRight(NFSe.IBSCBS.Dest.ender.xBairro, 40, ' ');
+
+    if DestEstrangeiro then
+    begin
+      Linha := Linha + PadRight(NFSe.IBSCBS.Dest.ender.endExt.xCidade, 40, ' ');
+      Linha := Linha + Space(7);
+      Linha := Linha + Space(2);
+      Linha := Linha + PadLeft(IntToStr(CodIBGEPaisToCodISO(NFSe.IBSCBS.Dest.ender.endExt.cPais)), 3, '0');
+      Linha := Linha + Space(8);
+    end
+    else
+    begin
+      Linha := Linha + PadRight(ObterNomeMunicipioUF(NFSe.IBSCBS.Dest.ender.endNac.cMun, xUF), 40, ' ');
+      Linha := Linha + PadLeft(IntToStr(NFSe.IBSCBS.Dest.ender.endNac.cMun), 7, '0');
+      Linha := Linha + PadRight(NFSe.IBSCBS.Dest.ender.UF, 2, ' ');
+      Linha := Linha + Space(3);
+      Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.ender.endNac.CEP, 8, '0');
+    end;
+
+    Linha := Linha + PadRight(NFSe.IBSCBS.Dest.email, 80, ' ');
+
+    if DestEstrangeiro then
+    begin
+      Linha := Linha + PadRight(NFSe.IBSCBS.Dest.NIF, 40, ' ');
+      Linha := Linha + PadRight(NFSe.IBSCBS.Dest.ender.endExt.cEndPost, 11, ' ');
+      Linha := Linha + PadRight(NFSe.IBSCBS.Dest.ender.endExt.xEstProvReg, 60, ' ');
+    end
+    else
+      Linha := Linha + Space(40) + Space(11) + Space(60);
   end
   else
   begin
+    Linha := Linha + '2';
     Linha := Linha + Space(14);
     Linha := Linha + Space(60);
     Linha := Linha + Space(75);
@@ -455,7 +487,8 @@ begin
   ValorTotalRetencoes := NFSe.Servico.Valores.ValorIr +
                          NFSe.Servico.Valores.ValorPis +
                          NFSe.Servico.Valores.ValorCofins +
-                         NFSe.Servico.Valores.ValorCsll;
+                         NFSe.Servico.Valores.ValorCsll +
+                         NFSe.Servico.Valores.ValorDespesasNaoTributaveis;
 
   FConteudoTxt.Add(
     '9'+ // Tipo do Registro S Numérico 1 1 1 9

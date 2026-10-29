@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 29/10/2026
+-- ISSBarueri.GravarXml/ISSBarueri.Provider --
+[*] ACBR-10030 - Alteração visando emitir corretamente as notas fiscais.
+   Por: Geraldo Moura/Victor H Gonzales - Panda
 -- PadraoNacional.GravarXml/PadraoNacional.LerXml/SigCorp.Provider --
 [*] O provedor SigCorp esta retornando o atributo "Id" todo em minúsculo, alteração visando
     contornar essa alteração feita pelo provedor.
