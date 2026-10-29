@@ -2103,6 +2103,7 @@ begin
     if LCTE.Emit.EnderEmit.xCpl <> '' then
       LEmitente_conteudo2 := LEmitente_conteudo2 + ' - ' + LCTE.Emit.EnderEmit.xCpl;
     LEmitente_conteudo2 := LEmitente_conteudo2 + sLineBreak + LCTE.Emit.EnderEmit.xBairro + ' - ' + LCTE.Emit.EnderEmit.xMun + ' - ' + LCTE.Emit.EnderEmit.UF + sLineBreak + 'CEP: ' + IfThen(LCTE.Emit.EnderEmit.CEP > 0, FormatarCEP(LCTE.Emit.EnderEmit.CEP));
+    LEmitente_conteudo2 := LEmitente_conteudo2 + sLineBreak + 'CNPJ: ' + FormatarCNPJouCPF(LCTE.Emit.CNPJ) + sLineBreak + 'INSC. EST.: ' + LCTE.Emit.IE ;
     if LCTE.Emit.EnderEmit.fone <> '' then
       LEmitente_conteudo2 := LEmitente_conteudo2 + sLineBreak + 'Fone/Fax: ' + LCTE.Emit.EnderEmit.fone;
 

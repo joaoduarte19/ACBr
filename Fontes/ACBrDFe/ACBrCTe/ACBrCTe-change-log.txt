@@ -48,6 +48,10 @@ Símbolo : Significado
 -- ACBrCTeWebServices --
 [-] Correção na geração da tag raiz do CTe OS Protocolado.
    Por: Italo Giurizzato Junior
+-- ACBrCTeDACTeFPDF --
+[*] ACBR-9912 - Configurada impressão do CNPJ e IE do emitente no DACTeFPDF
+   Por: Rodrigo Cardilo
+   Veja: https://www.projetoacbr.com.br/forum/topic/94582-acbr-9912-impress%C3%A3o-do-dacte-no-acbrctedactefpdf-sem-cnpj-e-inscri%C3%A7%C3%A3o-do-emitente/
 
 26/10/2026
 -- Diversos --
