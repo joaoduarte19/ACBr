@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+30/10/2026
+-- ACBrLibNFeConsts, ACBrLibNFeConfig --
+[+] ACBR-10137 - Nova chave [DANFE] LeiauteDANFE (0 = Padrão, 1 = Reforma Tributária) que define a propriedade LeiauteDANFE do DANFE, para imprimir no leiaute da NT 2026.010 (Fortes e FPDF).
+   Por: Daniel de Morais InfoCotidiano
+
 27/10/2026
 -- Diversos --
 [+] ACBR-9000 - ObterDFe - Implementados métodos SAE NFC-e SEFAZ-SP - NFCeListagemChaves e NFCeDownloadXML

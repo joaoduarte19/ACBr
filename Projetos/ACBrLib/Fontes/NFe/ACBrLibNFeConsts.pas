@@ -56,6 +56,7 @@ const
   CChaveImprimeNomeFantasia = 'ImprimeNomeFantasia';
   CChaveExibeInforAdicProduto = 'ExibeInforAdicProduto';
   CChaveQuebraLinhaEmDetalhamentos = 'QuebraLinhaEmDetalhamentos';
+  CChaveLeiauteDANFE = 'LeiauteDANFE';
 
   CSessaoDANFENFE = 'DANFENFe';
   CChaveFormularioContinuo = 'FormularioContinuo';

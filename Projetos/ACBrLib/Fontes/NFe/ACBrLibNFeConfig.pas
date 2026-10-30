@@ -236,6 +236,7 @@ type
     FExibeTotalTributosItem: Boolean;
     FExibeInforAdicProduto: TinfAdcProd;
     FImprimeNomeFantasia: Boolean;
+    FLeiauteDANFE: TLeiauteDANFE;
     FNFeConfig: TDANFeNFeConfig;
     FNFCeConfig: TDANFeNFCeConfig;
 
@@ -264,6 +265,7 @@ type
     property ExibeInforAdicProduto: TinfAdcProd read FExibeInforAdicProduto write FExibeInforAdicProduto;
     property ImprimeCodigoEan: Boolean read FImprimeCodigoEan write FImprimeCodigoEan;
     property ImprimeNomeFantasia: Boolean read FImprimeNomeFantasia write FImprimeNomeFantasia;
+    property LeiauteDANFE: TLeiauteDANFE read FLeiauteDANFE write FLeiauteDANFE;
     property NFe: TDANFeNFeConfig read FNFeConfig;
     property NFCe: TDANFeNFCeConfig read FNFCeConfig;
 
@@ -750,6 +752,7 @@ begin
   FImprimeNomeFantasia := False;
   FExibeInforAdicProduto := infDescricao;
   FQuebraLinhaEmDetalhamentos := True;
+  FLeiauteDANFE := ldPadrao;
 
   if not Assigned(FNFeConfig) then
     FNFeConfig := TDANFeNFeConfig.Create
@@ -780,6 +783,10 @@ begin
   FImprimeNomeFantasia := AIni.ReadBool(CSessaoDANFE, CChaveImprimeNomeFantasia, FImprimeNomeFantasia);
   FExibeInforAdicProduto := TinfAdcProd(AIni.ReadInteger(CSessaoDANFE, CChaveExibeInforAdicProduto, Integer(FExibeInforAdicProduto)));
   FQuebraLinhaEmDetalhamentos := AIni.ReadBool(CSessaoDANFE, CChaveQuebraLinhaEmDetalhamentos, FQuebraLinhaEmDetalhamentos);
+  if not AIni.ValueExists(CSessaoDANFE, CChaveLeiauteDANFE) then
+    AIni.WriteInteger(CSessaoDANFE, CChaveLeiauteDANFE, Integer(ldPadrao));
+
+  FLeiauteDANFE := TLeiauteDANFE(AIni.ReadInteger(CSessaoDANFE, CChaveLeiauteDANFE, Integer(FLeiauteDANFE)));
 
   FNFeConfig.LerIni(AIni);
   FNFCeConfig.LerIni(AIni);
@@ -802,6 +809,7 @@ begin
   AIni.WriteBool(CSessaoDANFE, CChaveImprimeNomeFantasia, FImprimeNomeFantasia);
   AIni.WriteInteger(CSessaoDANFE, CChaveExibeInforAdicProduto, Integer(FExibeInforAdicProduto));
   AIni.WriteBool(CSessaoDANFE, CChaveQuebraLinhaEmDetalhamentos, FQuebraLinhaEmDetalhamentos);
+  AIni.WriteInteger(CSessaoDANFE, CChaveLeiauteDANFE, Integer(FLeiauteDANFE));
 
   FNFeConfig.GravarIni(AIni);
   FNFCeConfig.GravarIni(AIni);
@@ -826,6 +834,7 @@ begin
     ImprimeNomeFantasia := FImprimeNomeFantasia;
     ExibeInforAdicProduto := FExibeInforAdicProduto;
     QuebraLinhaEmDetalhamentos := FQuebraLinhaEmDetalhamentos;
+    LeiauteDANFE := FLeiauteDANFE;
   end;
 
   {$IfNDef NOREPORT}
