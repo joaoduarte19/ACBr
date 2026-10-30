@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+30/10/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-10144 - Alteração de provedor para Neropolis/GO, agora é MegaSoft
+	Veja: https://www.projetoacbr.com.br/forum/topic/95671-acbr-10144-troca-de-provedor-do-munic%C3%ADpio-de-ner%C3%B3polis-go-em-acbrnfsexservicosini-para-megasoft/
+	Por: kauajuno
+
 29/10/2026
 -- ACBrNFSeXServicos --
 [*] ACBR-10107 - A cidade de Timon/MA continua com o provedor SpeedGov.
