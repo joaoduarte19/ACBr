@@ -2725,7 +2725,7 @@ Private Sub cmbUFEmitente_Click()
         Case "AM"
             CodigoMunicipio.Amazonas cmbCidadeEmitente
         Case "AP"
-            ' Se tiver: CodigoMunicipio.Amapa cmbCidadeEmitente
+            CodigoMunicipio.Amapa cmbCidadeEmitente
         Case "BA"
             CodigoMunicipio.Bahia cmbCidadeEmitente
         Case "CE"
@@ -2788,6 +2788,7 @@ Private Sub Form_Load()
     CodigoMunicipio.Acre cmbCidadeEmitente          ' AC
     CodigoMunicipio.Alagoas cmbCidadeEmitente       ' AL
     CodigoMunicipio.Amazonas cmbCidadeEmitente      ' AM
+    CodigoMunicipio.Amapa cmbCidadeEmitente        ' AP
     CodigoMunicipio.Bahia cmbCidadeEmitente         ' BA
     CodigoMunicipio.Ceara cmbCidadeEmitente         ' CE
     CodigoMunicipio.EspiritoSanto cmbCidadeEmitente ' ES
