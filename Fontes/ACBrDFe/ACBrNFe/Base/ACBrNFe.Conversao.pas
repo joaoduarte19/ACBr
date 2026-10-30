@@ -263,7 +263,7 @@ const
     'AceiteDebitoApuracaoNotaCredito', 'ImobilizacaoItem',
     'SolicApropCredCombustivel', 'SolicApropCredBensServicos',
     'ManifPedTransfCredIBSSucessao', 'ManifPedTransfCredCBSSucessao',
-    'AtualizacaoDataPrevisaoEntrega', 'evCancVincPgto',
+    'AtualizacaoDataPrevisaoEntrega', 'evVincPgto',
     'nfceListagemChaves', 'nfceDownloadXML');
 
   TEventoArrayStrings: array[TSchemaNFe] of string = ('', '', 'e110111', '',
@@ -1542,7 +1542,7 @@ begin
                                'e112120', 'e112130', 'e112140', 'e211110',
                                'e211120', 'e211124', 'e211128', 'e211130',
                                'e211140', 'e211150', 'e212110', 'e212120',
-                               'e112150'],
+                               'e112150', 'e110300'],
     [schCancGenerico,
      schEnvCCe, schcancNFe, schCancSubst, schEnvEPEC,
      schPedProrrog1, schPedProrrog2, schCanPedProrrog1, schCanPedProrrog2,
@@ -1555,7 +1555,7 @@ begin
      schPerecPerdaRouboFurtoTranspContratAqu, schAceiteDebitoApuracaoNotaCredito,
      schImobilizacaoItem, schSolicApropCredCombustivel, schSolicApropCredBensServicos,
      schManifPedTransfCredIBSSucessao, schManifPedTransfCredCBSSucessao,
-     schAtualizacaoDataPrevisaoEntrega]);
+     schAtualizacaoDataPrevisaoEntrega, schevVincPgto]);
 end;
 
 function AutorizacaoToStr(const t: TAutorizacao): string;

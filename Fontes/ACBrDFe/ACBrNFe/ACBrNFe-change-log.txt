@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+30/10/2026
+-- ACBrNFe.Conversao/pcnConversaoNFe --
+[-] Correção para emitir o evento de Vinculação de Pagamento
+   Por: Italo Giurizzato Junior
+
 28/10/2026
 -- Diversos --
 [*] ACBR-9954 - Adequa o componente a nota técnica 2026.006 v1.00

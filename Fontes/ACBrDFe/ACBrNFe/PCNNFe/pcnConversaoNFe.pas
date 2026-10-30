@@ -585,7 +585,7 @@ const
     'AceiteDebitoApuracaoNotaCredito', 'ImobilizacaoItem',
     'SolicApropCredCombustivel', 'SolicApropCredBensServicos',
     'ManifPedTransfCredIBSSucessao', 'ManifPedTransfCredCBSSucessao',
-    'AtualizacaoDataPrevisaoEntrega', 'evCancVincPgto',
+    'AtualizacaoDataPrevisaoEntrega', 'evVincPgto',
     'nfceListagemChaves', 'nfceDownloadXML');
 
   TEventoArrayStrings: array[TSchemaNFe] of string = ('', '', 'e110111', '',
