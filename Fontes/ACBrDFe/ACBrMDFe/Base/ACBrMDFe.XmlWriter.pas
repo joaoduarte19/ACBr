@@ -1728,7 +1728,7 @@ begin
       Result[i].AppendChild(nodeArray[j]);
     end;
 
-    Result[i].AppendChild(AddNode(tcDe2, '#062', 'qtdRat', 1, 5, 0,
+    Result[i].AppendChild(AddNode(tcDe3, '#062', 'qtdRat', 1, 5, 0,
      MDFe.infDoc.infMunDescarga[Idx1].infCTe[Idx2].infUnidTransp[i].qtdRat, DSC_QTDRAT));
   end;
 
@@ -1816,7 +1816,7 @@ begin
       Result[i].AppendChild(nodeArray[j]);
     end;
 
-    Result[i].AppendChild(AddNode(tcDe2, '#061', 'qtdRat', 1, 5, 1,
+    Result[i].AppendChild(AddNode(tcDe3, '#061', 'qtdRat', 1, 5, 1,
       MDFe.infDoc.infMunDescarga[Idx1].infCTe[Idx2].infUnidTransp[Idx3].infUnidCarga[i].qtdRat, DSC_QTDRAT));
   end;
 
@@ -1946,7 +1946,7 @@ begin
       Result[i].AppendChild(nodeArray[j]);
     end;
 
-    Result[i].AppendChild(AddNode(tcDe2, '#062', 'qtdRat', 1, 5, 0,
+    Result[i].AppendChild(AddNode(tcDe3, '#062', 'qtdRat', 1, 5, 0,
      MDFe.infDoc.infMunDescarga[Idx1].infCT[Idx2].infUnidTransp[i].qtdRat, DSC_QTDRAT));
   end;
 
@@ -1999,7 +1999,7 @@ begin
       Result[i].AppendChild(nodeArray[j]);
     end;
 
-    Result[i].AppendChild(AddNode(tcDe2, '#061', 'qtdRat', 1, 5, 1,
+    Result[i].AppendChild(AddNode(tcDe3, '#061', 'qtdRat', 1, 5, 1,
       MDFe.infDoc.infMunDescarga[Idx1].infCT[Idx2].infUnidTransp[Idx3].infUnidCarga[i].qtdRat, DSC_QTDRAT));
   end;
 
@@ -2105,7 +2105,7 @@ begin
       Result[i].AppendChild(nodeArray[j]);
     end;
 
-    Result[i].AppendChild(AddNode(tcDe2, '#062', 'qtdRat', 1, 5, 0,
+    Result[i].AppendChild(AddNode(tcDe3, '#062', 'qtdRat', 1, 5, 0,
      MDFe.infDoc.infMunDescarga[Idx1].infNFe[Idx2].infUnidTransp[i].qtdRat, DSC_QTDRAT));
   end;
 
@@ -2193,7 +2193,7 @@ begin
       Result[i].AppendChild(nodeArray[j]);
     end;
 
-    Result[i].AppendChild(AddNode(tcDe2, '#061', 'qtdRat', 1, 5, 1,
+    Result[i].AppendChild(AddNode(tcDe3, '#061', 'qtdRat', 1, 5, 1,
       MDFe.infDoc.infMunDescarga[Idx1].infNFe[Idx2].infUnidTransp[Idx3].infUnidCarga[i].qtdRat, DSC_QTDRAT));
   end;
 
@@ -2297,7 +2297,7 @@ begin
       Result[i].AppendChild(nodeArray[j]);
     end;
 
-    Result[i].AppendChild(AddNode(tcDe2, '#062', 'qtdRat', 1, 5, 0,
+    Result[i].AppendChild(AddNode(tcDe3, '#062', 'qtdRat', 1, 5, 0,
      MDFe.infDoc.infMunDescarga[Idx1].infNF[Idx2].infUnidTransp[i].qtdRat, DSC_QTDRAT));
   end;
 
@@ -2350,7 +2350,7 @@ begin
       Result[i].AppendChild(nodeArray[j]);
     end;
 
-    Result[i].AppendChild(AddNode(tcDe2, '#061', 'qtdRat', 1, 5, 1,
+    Result[i].AppendChild(AddNode(tcDe3, '#061', 'qtdRat', 1, 5, 1,
       MDFe.infDoc.infMunDescarga[Idx1].infNF[Idx2].infUnidTransp[Idx3].infUnidCarga[i].qtdRat, DSC_QTDRAT));
   end;
 
@@ -2453,7 +2453,7 @@ begin
       Result[i].AppendChild(nodeArray[j]);
     end;
 
-    Result[i].AppendChild(AddNode(tcDe2, '#062', 'qtdRat', 1, 5, 0,
+    Result[i].AppendChild(AddNode(tcDe3, '#062', 'qtdRat', 1, 5, 0,
      MDFe.infDoc.infMunDescarga[Idx1].infMDFeTransp[Idx2].infUnidTransp[i].qtdRat, DSC_QTDRAT));
   end;
 
@@ -2541,7 +2541,7 @@ begin
       Result[i].AppendChild(nodeArray[j]);
     end;
 
-    Result[i].AppendChild(AddNode(tcDe2, '#061', 'qtdRat', 1, 5, 1,
+    Result[i].AppendChild(AddNode(tcDe3, '#061', 'qtdRat', 1, 5, 1,
       MDFe.infDoc.infMunDescarga[Idx1].infMDFeTransp[Idx2].infUnidTransp[Idx3].infUnidCarga[i].qtdRat, DSC_QTDRAT));
   end;
 

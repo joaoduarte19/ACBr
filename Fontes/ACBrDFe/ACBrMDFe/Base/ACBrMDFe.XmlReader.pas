@@ -1089,7 +1089,7 @@ begin
     Ler_lacUnidCargaCTe(ANodes[i], IteminfUnidCarga);
   end;
 
-  IteminfUnidCarga.qtdRat := ObterConteudo(ANode.Childrens.Find('qtdRat'), tcDe2);
+  IteminfUnidCarga.qtdRat := ObterConteudo(ANode.Childrens.Find('qtdRat'), tcDe3);
 end;
 
 procedure TMDFeXmlReader.Ler_lacUnidCargaCTe(const ANode: TACBrXmlNode;
@@ -1222,7 +1222,7 @@ begin
     Ler_lacUnidCargaCT(ANodes[i], IteminfUnidCarga);
   end;
 
-  IteminfUnidCarga.qtdRat := ObterConteudo(ANode.Childrens.Find('qtdRat'), tcDe2);
+  IteminfUnidCarga.qtdRat := ObterConteudo(ANode.Childrens.Find('qtdRat'), tcDe3);
 end;
 
 procedure TMDFeXmlReader.Ler_lacUnidCargaCT(const ANode: TACBrXmlNode;
@@ -1331,7 +1331,7 @@ begin
     Ler_lacUnidCargaNFe(ANodes[i], IteminfUnidCarga);
   end;
 
-  IteminfUnidCarga.qtdRat := ObterConteudo(ANode.Childrens.Find('qtdRat'), tcDe2);
+  IteminfUnidCarga.qtdRat := ObterConteudo(ANode.Childrens.Find('qtdRat'), tcDe3);
 end;
 
 procedure TMDFeXmlReader.Ler_lacUnidCargaNFe(const ANode: TACBrXmlNode;
@@ -1454,7 +1454,7 @@ begin
     Ler_lacUnidCargaNF(ANodes[i], IteminfUnidCarga);
   end;
 
-  IteminfUnidCarga.qtdRat := ObterConteudo(ANode.Childrens.Find('qtdRat'), tcDe2);
+  IteminfUnidCarga.qtdRat := ObterConteudo(ANode.Childrens.Find('qtdRat'), tcDe3);
 end;
 
 procedure TMDFeXmlReader.Ler_lacUnidCargaNF(const ANode: TACBrXmlNode;
@@ -1562,7 +1562,7 @@ begin
     Ler_lacUnidCargaMDFe(ANodes[i], IteminfUnidCarga);
   end;
 
-  IteminfUnidCarga.qtdRat := ObterConteudo(ANode.Childrens.Find('qtdRat'), tcDe2);
+  IteminfUnidCarga.qtdRat := ObterConteudo(ANode.Childrens.Find('qtdRat'), tcDe3);
 end;
 
 procedure TMDFeXmlReader.Ler_lacUnidCargaMDFe(const ANode: TACBrXmlNode;
