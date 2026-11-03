@@ -42,6 +42,29 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/11/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-10164 - O município de Tijucas/SC aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/95744-acbr-10164-mudan%C3%A7a-de-provedor-ipm-para-padr%C3%A3o-nacional-tijucassc/
+	Por: Centrodata Sistemas/Larissa Santos
+[*] ACBR-10163 - O município de Cascavel/PR aderiu ao Padrão Nacional
+	Veja: https://discord.com/channels/798697718800318484/800042186783588364/1565726154437169273
+	Por: Alexandre Magno/Daniel de Morais InfoCotidiano
+[*] ACBR-10162 - O município de Barretos/SP aderiu ao Padrão Nacional
+	Veja: https://discord.com/channels/798697718800318484/800042186783588364/1567147661067558922
+	Por: Italo Carminati
+[*] ACBR-10155 - O município de Marília/SP aderiu ao Padrão Nacional
+	Por: Edson/Sófolha
+[*] ACBR-10141 - O município de Miranda/MS aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/95658-acbr-10141-cidade-de-mirandams-vai-usar-somente-padr%C3%A3o-nacional-a-partir-de-01112026/#findComment-625872
+	Por: OlavoJr
+[*] ACBR-10120 - O município de Santo Augusto/RS aderiu ao Padrão Nacional	
+	Veja: https://discordapp.com/channels/798697718800318484/800042186783588364/1564610363188711527
+	Por: Suporte OTT Sistemas
+[*] ACBR-9674 - O município de Cuiabá/MT aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/94328-acbr-9674-mudan%C3%A7a-da-nfs-e-de-cuiab%C3%A1mt-para-o-emissor-nacional/
+	Por: ArecoDesenv
+
 30/10/2026
 -- ACBrNFSeXServicos --
 [*] ACBR-10144 - Alteração de provedor para Neropolis/GO, agora é MegaSoft
