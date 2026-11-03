@@ -487,7 +487,7 @@ begin
 
         FPServico := Acao;
         // Servico REST: nao deve ser enviado o header SOAPAction.
-        FPSoapAction := '';
+        FPSoapAction := '*';
 
         Exit;
       end;
