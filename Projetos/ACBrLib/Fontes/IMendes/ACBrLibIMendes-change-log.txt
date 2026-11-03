@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+03/11/2026
+-- ACBrLibIMendesConsoleMT.lpi, ACBrLibIMendesConsoleMTDemo.lpi --
+[+] Adiciona suporte experimental a build Linux/ARM64
+[*] Erros conhecidos: https://gitlab.com/freepascal.org/fpc/source/-/work_items/39492
+   Por: doszapro
+
 11/10/2026
 -- ACBrLibIMendesRespostas --
 [+] Inclusão do campo ProdCodImendes no retorno do SaneamentoGrades (seção GrupoNNN),

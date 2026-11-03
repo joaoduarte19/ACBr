@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/11/2026
+-- ACBrLibBoletoConsoleMT.lpi, ACBrLibBoletoConsoleMTDemo.lpi --
+[+] Adiciona suporte experimental a build Linux/ARM64
+[*] Erros conhecidos: https://gitlab.com/freepascal.org/fpc/source/-/work_items/39492
+   Por: doszapro
+
 20/05/2026
 -- ACBrLibBoletoConsoleMT, ACBrLiBoletoConsoleDemoMT --
 [+] Adiciona perfil de compilação para Console MT para Windows

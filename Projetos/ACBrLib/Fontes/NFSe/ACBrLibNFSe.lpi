@@ -13,20 +13,18 @@
       <SessionStorage Value="InProjectDir"/>
       <Title Value="ACBrLibNFSe"/>
       <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
       <XPManifest>
         <DpiAware Value="True/PM"/>
       </XPManifest>
-      <UseXPManifest Value="True"/>
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <AutoIncrementBuild Value="False"/>
       <MajorVersionNr Value="2"/>
-      <RevisionNr Value="0"/>
+      <MinorVersionNr Value="1"/>
       <BuildNr Value="343"/>
       <Language Value="0416"/>
       <StringTable CompanyName="Projeto ACBr" FileDescription="ACBrNFSe - Biblioteca para emissão e impressão de nota fiscal eletrônica de serviço" InternalName="ACBrLibNFSe" LegalCopyright="Projeto ACBr" LegalTrademarks="Projeto ACBr" ProductName="ACBrNFSe " ProductVersion="1.0.0.0"/>
-      <MinorVersionNr Value="1"/>
     </VersionInfo>
     <BuildModes Count="13">
       <Item1 Name="Win32-i386-CDECL" Default="True"/>
@@ -488,7 +486,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dMT -dNOGUI"/>
+            <CustomOptions Value="-dMT -dNOGUI -g"/>
           </Other>
         </CompilerOptions>
       </Item12>

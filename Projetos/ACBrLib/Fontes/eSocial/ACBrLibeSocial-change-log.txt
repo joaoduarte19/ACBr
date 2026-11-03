@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/11/2026
+-- ACBrLibeSocialConsoleMT.lpi, ACBrLibeSocialConsoleMTDemo.lpi --
+[+] Adiciona suporte experimental a build Linux/ARM64
+[*] Erros conhecidos: https://gitlab.com/freepascal.org/fpc/source/-/work_items/39492
+   Por: doszapro
+
 09/04/2026
 -- ACBrLibeSocialRespostas --
 [-] Altera o índice das seções da Consulta ao montar a resposta para gerar corretamente quando houver mais de 10 ocorrências.

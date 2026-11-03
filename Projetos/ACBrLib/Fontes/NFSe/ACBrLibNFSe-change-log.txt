@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/11/2026
+-- ACBrLibNFSeConsoleMT.lpi, ACBrLibNFSeConsoleMTDemo.lpi --
+[+] Adiciona suporte experimental a build Linux/ARM64
+[*] Erros conhecidos: https://gitlab.com/freepascal.org/fpc/source/-/work_items/39492
+   Por: doszapro
+
 19/10/2026
 -- ACBrLibNFSeBase,ACBrLibNFSeConsts,ACBrLibNFSeMT,ACBrLibNFSeST,ACBrLibRespostas,ACBrLibNFSE.lpr --
 [+] Adiciona informações no Log e um novo método NFSE_ObterURLsProvedor

@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/11/2026
+-- ACBrLibNFeConsoleMT.lpi, ACBrLibNFeConsoleMTDemo.lpi --
+[+] Adiciona suporte experimental a build Linux/ARM64
+[*] Erros conhecidos: https://gitlab.com/freepascal.org/fpc/source/-/work_items/39492
+   Por: doszapro
+
 30/10/2026
 -- ACBrLibNFeConsts, ACBrLibNFeConfig --
 [+] ACBR-10137 - Nova chave [DANFE] LeiauteDANFE (0 = Padrão, 1 = Reforma Tributária) que define a propriedade LeiauteDANFE do DANFE, para imprimir no leiaute da NT 2026.010 (Fortes e FPDF).

@@ -42,6 +42,12 @@ S�mbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Corre��o de Bug (assim esperamos)
 
+03/11/2026
+-- ACBrLibIBGEConsoleMT.lpi, ACBrLibIBGEConsoleMTDemo.lpi --
+[+] Adiciona suporte experimental a build Linux/ARM64
+[*] Erros conhecidos: https://gitlab.com/freepascal.org/fpc/source/-/work_items/39492
+   Por: doszapro
+
 09/10/2025
 -- ACBrLibIBGEConsoleMT.lpi, ACBrLibIBGEConsoleMTDemo.lpi --
 [+] TK-7487 - Habilita 16KB de alinhamento nos LPI console da ACBrLibIBGE, obs: para ndk <=r22b

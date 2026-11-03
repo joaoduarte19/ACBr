@@ -23,7 +23,7 @@
       <Macro1 Name="ACBrDir" Value="$Env(ACBR_HOME)"/>
       <Macro2 Name="LCLWidgetType" Value="nogui"/>
     </MacroValues>
-    <BuildModes Count="6">
+    <BuildModes Count="7">
       <Item1 Name="i386-CDECL-DEBUG" Default="True"/>
       <Item2 Name="Linux-x86_64-MT">
         <MacroValues Count="2">
@@ -220,9 +220,48 @@
           </Other>
         </CompilerOptions>
       </Item6>
+      <Item7 Name="Linux-ARM64-v8a-MT">
+        <MacroValues Count="2">
+          <Macro1 Name="ACBrDir" Value="$Env(ACBR_HOME)"/>
+          <Macro2 Name="LCLWidgetType" Value="nogui"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="bin\Demo\Linux\CONSOLE-MT\arm64-v8a\acbrimendes64"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum"/>
+            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrTCP;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace"/>
+            <UnitOutputDirectory Value="lib\CONSOLE-$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <TargetCPU Value="aarch64"/>
+            <TargetOS Value="linux"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <StripSymbols Value="True"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <ExecutableType Value="Library"/>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dDemo -dMT -dNOGUI"/>
+          </Other>
+        </CompilerOptions>
+      </Item7>
       <SharedMatrixOptions Count="2">
-        <Item1 ID="481937260514" Modes="i386-CDECL-DEBUG,Linux-x86_64-MT,android-armeabi-v7a,android-arm64-v8a,Linux-i386-MT,Win64-x86_64-MT" Type="IDEMacro" MacroName="ACBrDir" Value="$Env(ACBR_HOME)"/>
-        <Item2 ID="905162738417" Modes="i386-CDECL-DEBUG,Linux-x86_64-MT,android-armeabi-v7a,android-arm64-v8a,Linux-i386-MT,Win64-x86_64-MT" Type="IDEMacro" MacroName="LCLWidgetType" Value="nogui"/>
+        <Item1 ID="481937260514" Modes="i386-CDECL-DEBUG,Linux-x86_64-MT,android-armeabi-v7a,android-arm64-v8a,Linux-i386-MT,Win64-x86_64-MT,Linux-ARM64-v8a-MT" Type="IDEMacro" MacroName="ACBrDir" Value="$Env(ACBR_HOME)"/>
+        <Item2 ID="905162738417" Modes="i386-CDECL-DEBUG,Linux-x86_64-MT,android-armeabi-v7a,android-arm64-v8a,Linux-i386-MT,Win64-x86_64-MT,Linux-ARM64-v8a-MT" Type="IDEMacro" MacroName="LCLWidgetType" Value="nogui"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
