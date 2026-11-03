@@ -475,7 +475,7 @@ var
   fsvSeg, fsvDesc, fsvII, fsvIPI, fsvPIS, fsvCOFINS, fsvOutro, fsvServ, fsvNF,
   fsvTotPag, fsvPISST, fsvCOFINSST, fsvFCP, fsvFCPST, fsvFCPSTRet, fsvIPIDevol,
   fsvPISServico, fsvCOFINSServico, fsvICMSMonoReten: Currency;
-  FaturamentoDireto, NFImportacao, UFCons, bServico : Boolean;
+  FaturamentoDireto, NFImportacao, UFCons, bServico, PagPosterior : Boolean;
 begin
   FpAgora := Agora;
   GravaLog('Inicio da Validação');
@@ -1147,9 +1147,12 @@ begin
       fnNormal, fnComplementar:
       begin
         fsvTotPag := 0;
+        PagPosterior := False;
         for I := 0 to NFe.pag.Count-1 do
         begin
           fsvTotPag :=  fsvTotPag + NFe.pag[I].vPag;
+          if NFe.pag[I].tPag = fpPagamentoPosterior then
+            PagPosterior := True;
         end;
 
         {
@@ -1172,7 +1175,8 @@ begin
           end;
 
           GravaLog('Validar: 865-Total dos pagamentos NFCe');
-          if (ComparaValor(fsvTotPag, NFe.Total.ICMSTot.vNF, TOLERANCIA_COMPARACAO_001) < 0) then
+          if not PagPosterior and
+             (ComparaValor(fsvTotPag, NFe.Total.ICMSTot.vNF, TOLERANCIA_COMPARACAO_001) < 0) then
             AdicionaErro('865-Rejeição: Total dos pagamentos menor que o total da nota');
         end;
 
@@ -1194,6 +1198,17 @@ begin
           if (NFe.pag[I].tPag <> fpSemPagamento) then
             AdicionaErro('871-Rejeição: O campo Meio de Pagamento deve ser preenchido com a opção Sem Pagamento');
         end;
+      end;
+    end;
+
+    GravaLog('Validar: 904-Valor do pagamento informado indevidamente');
+    for I := 0 to NFe.pag.Count-1 do
+    begin
+      if (NFe.pag[I].tPag in [fpSemPagamento, fpPagamentoPosterior]) and
+         (ComparaValor(NFe.pag[I].vPag, 0, TOLERANCIA_COMPARACAO_001) <> 0) then
+      begin
+        AdicionaErro('904-Rejeição: Informado indevidamente campo valor de pagamento');
+        Break;
       end;
     end;
   end;

@@ -43,6 +43,10 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+03/11/2026
+-- ACBrNFe.ValidarRegrasdeNegocio --
+[-] Ajuste nas regras 865 e 904 para o meio de pagamento 91 (Pagamento Posterior), conforme NT 2025.001 v1.03.
+   Por: Daniel Morais InfoCotidiano
 
 30/10/2026
 -- ACBrNFe.Conversao/pcnConversaoNFe --
