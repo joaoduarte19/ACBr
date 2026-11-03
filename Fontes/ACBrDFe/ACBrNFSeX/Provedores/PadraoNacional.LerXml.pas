@@ -625,6 +625,7 @@ procedure TNFSeR_PadraoNacional.LerXMLEnderecoNacionalFornecedor(
   const ANode: TACBrXmlNode; Item: Integer);
 var
   AuxNode: TACBrXmlNode;
+  xUF: string;
 begin
   AuxNode := ANode.Childrens.FindAnyNs('endNac');
 
@@ -634,6 +635,10 @@ begin
     begin
       CodigoMunicipio := ObterConteudo(AuxNode.Childrens.FindAnyNs('cMun'), tcStr);
       CEP := ObterConteudo(AuxNode.Childrens.FindAnyNs('CEP'), tcStr);
+      xMunicipio := ObterNomeMunicipioUF(StrToIntDef(CodigoMunicipio, 0), xUF);
+
+      if UF = '' then
+        UF := xUF;
     end;
   end;
 end;
@@ -969,6 +974,12 @@ begin
     NFSe.Servico.xMunicipioIncidencia := NFSe.infNFSe.xLocIncid;
     NFSe.DataEmissao := NFSe.infNFSe.dhProc;
 
+    if NFSe.infNFSe.UFLocIncid = EmptyStr then
+    begin
+      ObterNomeMunicipioUF(NFSe.infNFSe.cLocIncid, lUF);
+      NFSe.infNFSe.UFLocIncid := lUF;
+    end;
+
     LerXMLEmitente(AuxNode);
     LerXMLValoresNFSe(AuxNode);
     LerXMLDPS(AuxNode);
@@ -1044,6 +1055,7 @@ begin
     begin
       NFSe.InfNFSe.IBSCBS.cLocalidadeIncid := NFSe.InfNFSe.cLocIncid;
       NFSe.InfNFSe.IBSCBS.xLocalidadeIncid := NFSe.infNFSe.xLocIncid;
+      NFSe.InfNFSe.IBSCBS.UFLocalidadeIncid := NFSe.infNFSe.UFLocIncid;
     end;
 
     if NFSe.infNFSe.xLocEmi = NFSe.Emitente.Endereco.xMunicipio then

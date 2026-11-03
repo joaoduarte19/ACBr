@@ -382,11 +382,14 @@ begin
     Result := Ellipsis(AnsiUpperCase(End_.xMunicipio) + ' / ' + End_.UF, 37)
   else if Trim(End_.CodigoMunicipio) <> '' then
   begin
+    Result := Ellipsis(AnsiUpperCase(End_.xMunicipio) + ' / ' + End_.UF, 37);
+    {
     NomeMun := ObterNomeMunicipio(StrToIntDef(End_.CodigoMunicipio, 0), UFMun, '', False);
     if NomeMun <> '' then
       Result := Ellipsis(AnsiUpperCase(NomeMun) + ' / ' + IfThen(End_.UF <> '', End_.UF, UFMun), 37)
     else
       Result := End_.CodigoMunicipio + ' / ' + End_.UF;
+    }
   end;
 end;
 
@@ -444,11 +447,14 @@ begin
     Result := Ellipsis(AnsiUpperCase(End_.DescricaoMunicipio) + ' / ' + End_.UF, 37)
   else if Assigned(End_.endNac) and (End_.endNac.cMun <> 0) then
   begin
+    Result := Ellipsis(AnsiUpperCase(End_.endNac.xMunicipio) + ' / ' + End_.UF, 37);
+    {
     NomeMun := ObterNomeMunicipio(End_.endNac.cMun, UFMun, '', False);
     if NomeMun <> '' then
       Result := Ellipsis(AnsiUpperCase(NomeMun) + ' / ' + IfThen(End_.endNac.UF <> '', End_.endNac.UF, UFMun), 37)
     else
       Result := IntToStr(End_.endNac.cMun) + ' / ' + End_.endNac.UF;
+    }
   end
   else if Assigned(End_.endExt) then
     Result := Ellipsis(End_.endExt.xCidade + ' / ' + End_.endExt.xEstProvReg, 37);
@@ -1259,11 +1265,11 @@ begin
   DesenharCampo(PDF, X + 2 * ColW, Y, ColW, LineH, 'Codigo da NBS',
                 NN(S.CodigoNbs));
 
-  NomeMunPrestacao := Trim(FNFSe.infNFSe.xLocPrestacao);
+  NomeMunPrestacao := Trim(S.MunicipioPrestacaoServico);
   if NomeMunPrestacao = '' then
-    NomeMunPrestacao := Trim(S.MunicipioPrestacaoServico);
+    NomeMunPrestacao := Trim(FNFSe.infNFSe.xLocPrestacao);
 
-  UFMunPrestacao := ObterUFPorCodigoMunicipio(S.CodigoMunicipio);
+//  UFMunPrestacao := ObterUFPorCodigoMunicipio(S.CodigoMunicipio);
 
   if (NomeMunPrestacao <> '') and (NomeMunPrestacao <> '/') then
   begin
@@ -1273,6 +1279,7 @@ begin
     else
       PaisISO := AnsiUpperCase(StringReplace(NomeMunPrestacao, '/', ' / ', [])) + ' / BR';
   end
+  {
   else if Trim(S.CodigoMunicipio) <> '' then
   begin
     NomeMunPrestacao := ObterNomeMunicipio(StrToIntDef(S.CodigoMunicipio, 0), UFMunPrestacao, '', False);
@@ -1281,6 +1288,7 @@ begin
     else
       PaisISO := '-';
   end
+  }
   else
     PaisISO := '-';
   DesenharCampo(PDF, X + 3 * ColW, Y, ColW, LineH,
@@ -1445,13 +1453,14 @@ begin
   DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH, 'CST / cClassTrib', CSTcClassTrib);
 
   UFIncidencia := IBSCBSNfse.UFLocalidadeIncid;
+  {
   if Trim(UFIncidencia) = '' then
   begin
     UFIncidencia := ObterUFPorCodigoMunicipio(IntToStr(IBSCBSNfse.cLocalidadeIncid));
     if (UFIncidencia = '') and (IBSCBSNfse.cLocalidadeIncid <> 0) then
       ObterNomeMunicipio(IBSCBSNfse.cLocalidadeIncid, UFIncidencia, '', False);
   end;
-
+  }
   IndOpMunUF := NN(FNFSe.IBSCBS.cIndOp) + ' / ' + NN(IntToStr(IBSCBSNfse.cLocalidadeIncid)) +
     ' / ' + NN(IBSCBSNfse.xLocalidadeIncid) + ' / ' + NN(UFIncidencia);
   DesenharCampo(PDF, X + 2 * ColW, Y, 2 * ColW, LineH,

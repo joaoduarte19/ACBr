@@ -1827,6 +1827,7 @@ type
     // Reforma Tributaria
     FIBSCBS: TIBSCBSNfse;
     FUFLocEmi: string;
+    FUFLocIncid: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1850,6 +1851,7 @@ type
     property emit: TDadosPessoa read Femit write Femit;
     property valores: TValoresNfse read Fvalores write Fvalores;
     property UFLocEmi: string read FUFLocEmi write FUFLocEmi;
+    property UFLocIncid: string read FUFLocIncid write FUFLocIncid;
     // Reforma Tributaria
     property IBSCBS: TIBSCBSNfse read FIBSCBS write FIBSCBS;
   end;
@@ -1890,10 +1892,12 @@ type
     FcMun: Integer;
     FCEP: string;
     FUF: string;
+    FxMunicipio: string;
   public
     property cMun: Integer read FcMun write FcMun;
     property CEP: string read FCEP write FCEP;
     property UF: string read FUF write FUF;
+    property xMunicipio: string read FxMunicipio write FxMunicipio;
   end;
 
   { TendExt }

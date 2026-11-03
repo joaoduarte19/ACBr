@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 03/11/2026
+-- ACBrNFSeXClass/ACBrNFSeXDANFSeRLPadraoNacional --
+-- ACBr.DANFSeX.FPDFPadraoNacional/PadraoNacional.LerXml --
+[*] Alterações visando não usar a função ObterNomeMunicipio, pois ela acessa o
+    WS do IBGE que no momento da impressão do DANFSE pode estar offline.
+   Por: Italo Giurizzato Junior
+
 -- ACBrNFSeXServicos --
 [*] ACBR-10164 - O município de Tijucas/SC aderiu ao Padrão Nacional
 	Veja: https://www.projetoacbr.com.br/forum/topic/95744-acbr-10164-mudan%C3%A7a-de-provedor-ipm-para-padr%C3%A3o-nacional-tijucassc/

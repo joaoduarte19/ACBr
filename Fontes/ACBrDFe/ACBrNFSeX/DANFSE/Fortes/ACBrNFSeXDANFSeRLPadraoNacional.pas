@@ -769,9 +769,8 @@ begin
 
   if fpNFSe.infNFSe.xLocIncid <> '' then
   begin
-    rllMunicipioIncidencia.Caption := fpNFSe.infNFSe.xLocIncid;
-    ObterNomeMunicipio(fpNFSe.infNFSe.cLocIncid, xUF);
-    rllMunicipioIncidencia.Caption := rllMunicipioIncidencia.Caption + ' / ' + xUF;
+    rllMunicipioIncidencia.Caption := fpNFSe.infNFSe.xLocIncid + ' / ' +
+                                      fpNFSe.infNFSe.UFLocIncid;
 
     if fpNFSe.Servico.Valores.tribMun.cPaisResult > 0 then
       rllMunicipioIncidencia.Caption := rllMunicipioIncidencia.Caption + ' / ' +
