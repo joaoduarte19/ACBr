@@ -58,8 +58,6 @@ uses
   ACBrNFeDANFEClass,
   ACBrNFeDANFEFRDM,
   frxClass,
-  frxSmartMemo,
-  frCoreClasses,
   ACBrNFeDANFEFR;
 
 type
@@ -184,7 +182,7 @@ begin
   end
   else if Pos('inuti', LowerCase(lstbxFR3.Items[lstbxFR3.ItemIndex])) > 0 then
   begin
-    if ACBrNFe1.InutNFe.RetInutNFe.nProt = EmptyStr then
+    if ACBrNFe1.InutNFe.RetInutDFe.nProt = EmptyStr then
       raise Exception.Create('Não foi carregado nenhuma inutilização');
 
     case rgModelo.ItemIndex of

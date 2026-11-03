@@ -11,8 +11,10 @@ object frmPrincipal: TfrmPrincipal
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OldCreateOrder = True
   Position = poScreenCenter
   OnCreate = FormCreate
+  PixelsPerInch = 96
   TextHeight = 13
   object imgLogo: TImage
     Left = 0
@@ -29,8 +31,6 @@ object frmPrincipal: TfrmPrincipal
     Height = 92
     Align = alBottom
     TabOrder = 0
-    ExplicitTop = 436
-    ExplicitWidth = 356
     object Image1: TImage
       Left = 172
       Top = 37
@@ -83,8 +83,6 @@ object frmPrincipal: TfrmPrincipal
     ActivePage = TabArquivos
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 356
-    ExplicitHeight = 287
     object TabArquivos: TTabSheet
       Caption = 'Arquivos *Fr3'
       object lstbxFR3: TListBox
@@ -95,13 +93,15 @@ object frmPrincipal: TfrmPrincipal
         Align = alClient
         ItemHeight = 13
         TabOrder = 0
-        ExplicitWidth = 348
-        ExplicitHeight = 259
       end
     end
     object TabCustomizacao: TTabSheet
       Caption = 'Customiza'#231#227'o'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Label9: TLabel
         Left = 113
         Top = 150
@@ -291,6 +291,10 @@ object frmPrincipal: TfrmPrincipal
     object Decimais: TTabSheet
       Caption = 'Decimais'
       ImageIndex = 2
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object RgTipodedecimais: TRadioGroup
         Left = 0
         Top = 0
@@ -315,6 +319,10 @@ object frmPrincipal: TfrmPrincipal
         object TabtdetInteger: TTabSheet
           Caption = 'tdetInteger'
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object Label5: TLabel
             Left = 16
             Top = 24
@@ -373,6 +381,10 @@ object frmPrincipal: TfrmPrincipal
         object TabtdetMascara: TTabSheet
           Caption = 'tdetMascara'
           ImageIndex = 2
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object Label7: TLabel
             Left = 5
             Top = 5
@@ -448,7 +460,6 @@ object frmPrincipal: TfrmPrincipal
       'NFCe (ACBrNFeDANFCEFR)')
     TabOrder = 2
     OnClick = rgModeloClick
-    ExplicitWidth = 356
   end
   object OpenDialog1: TOpenDialog
     Filter = 'xml|*.xml'
@@ -457,7 +468,7 @@ object frmPrincipal: TfrmPrincipal
   end
   object frxReport1: TfrxReport
     Tag = 1
-    Version = '2026.1.7'
+    Version = '6.3.1'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
