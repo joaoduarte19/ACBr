@@ -34,7 +34,7 @@
 (*
 
   Documentação SmartTEF
-  https://poscontrolecombr-my.sharepoint.com/:f:/g/personal/emerson_poscontrole_com_br/EiUWGpBTwyhImcFhFgrJTJMBu36C-KZm1knClhR6p5nA9g?e=7PzZVD
+  https://docs.smarttef.com.br
 
 *)
 
@@ -54,6 +54,7 @@ uses
 const
   cSmartTEFURL = 'https://api.smarttef.mobi';
   cSmartTEFEndpointGet = 'get';
+  cSmartTEFEndpointForm = 'form';
   cSmartTEFEndpointUser = 'user';
   cSmartTEFEndpointBlock = 'block';
   cSmartTEFEndpointPrint = 'print';
@@ -68,6 +69,8 @@ const
   cSmartTEFEndpointUnblock = 'unblock';
   cSmartTEFEndpointPooling = 'pooling';
   cSmartTEFEndpointManager = 'manager';
+  cSmartTEFEndpointPayments = 'payments';
+  cSmartTEFEndpointAnonymize = 'anonymize';
   cSmartTEFEndpointNickname = 'nickname';
   cSmartTEFEndpointCommands = 'commands';
   cSmartTEFEndpointEstornar = 'estornar';  
@@ -96,7 +99,10 @@ type
     stsEST,       // Estorno
     stsIMP,       // Impresso
     stsREJ,       // Rejeitado
-    stsPROC       // Processando
+    stsPROC,      // Processando
+    stsPARTIAL_PAG, // Multiplos pagamentos: encerrada por finalizacao parcial, com saldo em aberto
+    stsPARTIAL_EST, // Multiplos pagamentos: estorno parcial (ao menos um pagamento ainda nao estornado)
+    stsPULLED       // Formulario
   );
 
   TACBrSmartTEFPaymentType = (
@@ -111,13 +117,22 @@ type
   TACBrSmartTEFFeeType = (
     sftNone,
     sftStore,
-    sftClient
+    sftClient,
+    sftNenhum
   );
 
   TACBrSmartTEFOrderType = (
     sotNone,
     sotCrdUnico,
-    sotNrm
+    sotNrm,
+    sotGrouped
+  );
+
+  TACBrSmartTEFCardType = (
+    sctNone,
+    sctPayment,
+    sctPrint,
+    sctForm
   );
 
   TACBrSmartTEFUserType = (
@@ -127,6 +142,37 @@ type
     stoGER
   );
 
+  TACBrSmartTEFFormFieldType = (
+    sffNone,
+    sffTexto,
+    sffNumber,
+    sffData,
+    sffCPF,
+    sffCNPJ,
+    sffCEP,
+    sffEmail
+  );
+
+  TACBrSmartTEFFormFillOutType = (
+    sfoNone,
+    sfoComum,
+    sfoObrigatorio
+  );
+
+  TACBrSmartTEFOrderTarget = (
+    stgNone,
+    stgUSR,
+    stgPOS,
+    stgSemDestino
+  );
+
+  TACBrSmartTEFAgregate = (
+    sagNone,
+    sagIndependente,
+    sagPrint,
+    sagPayment
+  );
+
   { TACBrSmartTEFOrderExtras }
 
   TACBrSmartTEFOrderExtras = class(TACBrAPISchema)
@@ -134,11 +180,14 @@ type
     fCPF: String;
     fCNPJ: String;
     fNome: String;
+    fCampos: TStringList;
+    function GetCampos: TStringList;
   protected
     procedure AssignSchema(aSource: TACBrAPISchema); override;
     procedure DoWriteToJson(aJson: TACBrJSONObject); override;
     procedure DoReadFromJson(aJson: TACBrJSONObject); override;
   public
+    destructor Destroy; override;
     procedure Clear; override;
     function IsEmpty: Boolean; override;
     procedure Assign(Source: TACBrSmartTEFOrderExtras);
@@ -146,13 +195,106 @@ type
     property CPF: String read fCPF write fCPF;
     property CNPJ: String read fCNPJ write fCNPJ;
     property Nome: String read fNome write fNome;
+    property Campos: TStringList read GetCampos;
   end;
+
+  { TACBrSmartTEFFormField }
+
+  TACBrSmartTEFFormField = class(TACBrAPISchema)
+  private
+    ffield: String;
+    fvalue: String;
+    ftype: TACBrSmartTEFFormFieldType;
+    fneeded: Boolean;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJson(aJson: TACBrJSONObject); override;
+    procedure DoReadFromJson(aJson: TACBrJSONObject); override;
+  public
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrSmartTEFFormField);
+
+    property field: String read ffield write ffield;
+    property value: String read fvalue write fvalue;
+    property type_: TACBrSmartTEFFormFieldType read ftype write ftype;
+    property needed: Boolean read fneeded write fneeded;
+  end;
+
+  { TACBrSmartTEFFormFieldList }
+
+  TACBrSmartTEFFormFieldList = class(TACBrAPISchemaArray)
+  private
+    function GetItem(Index: Integer): TACBrSmartTEFFormField;
+    procedure SetItem(Index: Integer; AValue: TACBrSmartTEFFormField);
+  protected
+    function NewSchema: TACBrAPISchema; override;
+  public
+    function Add(aItem: TACBrSmartTEFFormField): Integer;
+    procedure Insert(Index: Integer; aItem: TACBrSmartTEFFormField);
+    function New: TACBrSmartTEFFormField;
+    property Items[Index: Integer]: TACBrSmartTEFFormField read GetItem write SetItem; default;
+  end;
+
+  { TACBrSmartTEFFormRequest }
+
+  TACBrSmartTEFFormRequest = class(TACBrAPISchema)
+  private
+    fform: TACBrSmartTEFFormFieldList;
+    fserial_pos: String;
+    fuser_id: Integer;
+    fform_name: String;
+    ffill_out_type: TACBrSmartTEFFormFillOutType;
+    fextras: TACBrSmartTEFOrderExtras;
+    fhas_details: Boolean;
+    function GetForm: TACBrSmartTEFFormFieldList;
+    function GetExtras: TACBrSmartTEFOrderExtras;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJson(aJson: TACBrJSONObject); override;
+    procedure DoReadFromJson(aJson: TACBrJSONObject); override;
+  public
+    destructor Destroy; override;
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrSmartTEFFormRequest);
+
+    property form: TACBrSmartTEFFormFieldList read GetForm;
+    property serial_pos: String read fserial_pos write fserial_pos;
+    property user_id: Integer read fuser_id write fuser_id;
+    property form_name: String read fform_name write fform_name;
+    property fill_out_type: TACBrSmartTEFFormFillOutType read ffill_out_type write ffill_out_type;
+    property extras: TACBrSmartTEFOrderExtras read GetExtras;
+    property has_details: Boolean read fhas_details write fhas_details;
+  end;
+
+  { TACBrSmartTEFFormCreateRequest }
+
+  TACBrSmartTEFFormCreateRequest = class(TACBrSmartTEFFormRequest)
+  private
+    fcnpj: String;
+    forder_type: TACBrSmartTEFOrderType;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJson(aJson: TACBrJSONObject); override;
+    procedure DoReadFromJson(aJson: TACBrJSONObject); override;
+  public
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrSmartTEFFormCreateRequest);
+
+    property cnpj: String read fcnpj write fcnpj;
+    property order_type: TACBrSmartTEFOrderType read forder_type write forder_type;
+  end;
+
+  TACBrSmartTEFFormResponseSchema = class;
 
   { TACBrSmartTEFOrderCreateRequest }
 
   TACBrSmartTEFOrderCreateRequest = class(TACBrAPISchema)
   private
     fvalue: Double;
+    fcnpj: String;
     fpayment_type: TACBrSmartTEFPaymentType;
     finstallments: Integer;
     fmin_installments: Integer;
@@ -163,7 +305,11 @@ type
     fuser_id: Integer;
     ffee_type: TACBrSmartTEFFeeType;
     fhas_details: Boolean;
+    fallow_multi_payments: Boolean;
+    fallow_cash_payment: Boolean;
+    fform: TACBrSmartTEFFormRequest;
     function GetExtras: TACBrSmartTEFOrderExtras;
+    function GetForm: TACBrSmartTEFFormRequest;
   protected
     procedure AssignSchema(aSource: TACBrAPISchema); override;
     procedure DoWriteToJson(aJson: TACBrJSONObject); override;
@@ -175,6 +321,7 @@ type
     procedure Assign(Source: TACBrSmartTEFOrderCreateRequest);
 
     property value: Double read fvalue write fvalue;
+    property cnpj: String read fcnpj write fcnpj;
     property payment_type: TACBrSmartTEFPaymentType read fpayment_type write fpayment_type;
     property installments: Integer read finstallments write finstallments;
     property min_installments: Integer read fmin_installments write fmin_installments;
@@ -185,6 +332,9 @@ type
     property user_id: Integer read fuser_id write fuser_id;
     property fee_type: TACBrSmartTEFFeeType read ffee_type write ffee_type;
     property has_details: Boolean read fhas_details write fhas_details;
+    property allow_multi_payments: Boolean read fallow_multi_payments write fallow_multi_payments;
+    property allow_cash_payment: Boolean read fallow_cash_payment write fallow_cash_payment;
+    property form: TACBrSmartTEFFormRequest read GetForm;
   end;
 
   { TACBrSmartTEFOrderResponseSchema }
@@ -195,11 +345,17 @@ type
     fpayment_status: TACBrSmartTEFStatus;
     forder_type: TACBrSmartTEFOrderType;
     fcharge_id: String;
+    fallow_multi_payments: Boolean;
+    fallow_cash_payment: Boolean;
+    fhas_details: Boolean;
+    fform: TACBrSmartTEFFormResponseSchema;
+    function GetForm: TACBrSmartTEFFormResponseSchema;
   protected
     procedure AssignSchema(aSource: TACBrAPISchema); override;
     procedure DoWriteToJson(aJson: TACBrJSONObject); override;
     procedure DoReadFromJson(aJson: TACBrJSONObject); override;
   public
+    destructor Destroy; override;
     procedure Clear; override;
     function IsEmpty: Boolean; override;
     procedure Assign(Source: TACBrSmartTEFOrderResponseSchema);
@@ -208,6 +364,50 @@ type
     property payment_status: TACBrSmartTEFStatus read fpayment_status write fpayment_status;
     property order_type: TACBrSmartTEFOrderType read forder_type write forder_type;
     property charge_id: String read fcharge_id write fcharge_id;
+    property allow_multi_payments: Boolean read fallow_multi_payments write fallow_multi_payments;
+    property allow_cash_payment: Boolean read fallow_cash_payment write fallow_cash_payment;
+    property has_details: Boolean read fhas_details write fhas_details;
+    property form: TACBrSmartTEFFormResponseSchema read GetForm;
+  end;
+
+  { TACBrSmartTEFAnonymizeRequest }
+
+  TACBrSmartTEFAnonymizeRequest = class(TACBrAPISchema)
+  private
+    fpayments_identifers: TStringList;
+    function GetPayments_identifers: TStringList;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJson(aJson: TACBrJSONObject); override;
+    procedure DoReadFromJson(aJson: TACBrJSONObject); override;
+  public
+    destructor Destroy; override;
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrSmartTEFAnonymizeRequest);
+
+    property payments_identifers: TStringList read GetPayments_identifers;
+  end;
+
+  { TACBrSmartTEFAnonymizeResponseSchema }
+
+  TACBrSmartTEFAnonymizeResponseSchema = class(TACBrAPISchema)
+  private
+    frowsAffected: Integer;
+    fhasChanges: Boolean;
+    fmessage: String;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJson(aJson: TACBrJSONObject); override;
+    procedure DoReadFromJson(aJson: TACBrJSONObject); override;
+  public
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrSmartTEFAnonymizeResponseSchema);
+
+    property rowsAffected: Integer read frowsAffected write frowsAffected;
+    property hasChanges: Boolean read fhasChanges write fhasChanges;
+    property message: String read fmessage write fmessage;
   end;
 
   { TACBrSmartTEFReason }
@@ -246,6 +446,10 @@ type
     property store: String read fstore write fstore;
   end;
 
+  TACBrSmartTEFCardDetailsList = class;
+  TACBrSmartTEFFormDetailsList = class;
+  TACBrSmartTEFLocation = class;
+
   { TACBrSmartTEFCardClass }
 
   TACBrSmartTEFCardClass = class(TACBrAPISchema)
@@ -278,16 +482,37 @@ type
     frefund_serial_pos: String;
     frefund_user_id: Integer;
     fcoupon: TACBrSmartTEFCoupon;
-    frefund_coupon: String;
+    frefund_coupon: TACBrSmartTEFCoupon;
     ffee_type: TACBrSmartTEFFeeType;
     fprint_identifier: String;
     fprint_status: TACBrSmartTEFStatus;
     ffile: String;
     fprint_id: String;
+    fremaining_payment_amount: Double;
+    fpartial_payments: TACBrSmartTEFCardDetailsList;
+    fmin_installments: Integer;
+    fpayment_extras: String;
+    fpackage_name: String;
+    frefund_date: TDateTime;
+    fcontrole_versao: String;
+    fconn_type: String;
+    fbatt_level: String;
+    fcharging: Boolean;
+    flocation: TACBrSmartTEFLocation;
+    fstore_id: Integer;
+    fgrouped_payments: TACBrSmartTEFCardDetailsList;
+    fform_order: TACBrSmartTEFFormDetailsList;
 
     function GetExtras: TACBrSmartTEFOrderExtras;
     function GetReason: TACBrSmartTEFReason;
     function Getcoupon: TACBrSmartTEFCoupon;
+    function Getrefund_coupon: TACBrSmartTEFCoupon;
+    function Getpartial_payments: TACBrSmartTEFCardDetailsList;
+    function GetLocation: TACBrSmartTEFLocation;
+    function Getgrouped_payments: TACBrSmartTEFCardDetailsList;
+    function Getform_order: TACBrSmartTEFFormDetailsList;
+    function GetTipo: TACBrSmartTEFCardType;
+
   protected
     procedure AssignSchema(aSource: TACBrAPISchema); override;
     procedure DoWriteToJson(aJson: TACBrJSONObject); override;
@@ -321,12 +546,27 @@ type
     property refund_serial_pos: String read frefund_serial_pos write frefund_serial_pos;
     property refund_user_id: Integer read frefund_user_id write frefund_user_id;
     property coupon: TACBrSmartTEFCoupon read Getcoupon;
-    property refund_coupon: String read frefund_coupon write frefund_coupon;
+    property refund_coupon: TACBrSmartTEFCoupon read Getrefund_coupon;
     property fee_type: TACBrSmartTEFFeeType read ffee_type write ffee_type;
     property print_identifier: String read fprint_identifier write fprint_identifier;
     property print_status: TACBrSmartTEFStatus read fprint_status write fprint_status;
     property file_: String read ffile write ffile;
     property print_id: String read fprint_id write fprint_id;
+    property remaining_payment_amount: Double read fremaining_payment_amount write fremaining_payment_amount;
+    property partial_payments: TACBrSmartTEFCardDetailsList read Getpartial_payments;
+    property min_installments: Integer read fmin_installments write fmin_installments;
+    property payment_extras: String read fpayment_extras write fpayment_extras;
+    property package_name: String read fpackage_name write fpackage_name;
+    property refund_date: TDateTime read frefund_date write frefund_date;
+    property controle_versao: String read fcontrole_versao write fcontrole_versao;
+    property conn_type: String read fconn_type write fconn_type;
+    property batt_level: String read fbatt_level write fbatt_level;
+    property charging: Boolean read fcharging write fcharging;
+    property location: TACBrSmartTEFLocation read GetLocation;
+    property store_id: Integer read fstore_id write fstore_id;
+    property grouped_payments: TACBrSmartTEFCardDetailsList read Getgrouped_payments;
+    property form_order: TACBrSmartTEFFormDetailsList read Getform_order;
+    property tipo: TACBrSmartTEFCardType read GetTipo;
   public
     destructor Destroy; override;
     procedure Clear; override;
@@ -368,6 +608,20 @@ type
     property coupon;
     property refund_coupon;
     property fee_type;
+    property remaining_payment_amount;
+    property partial_payments;
+    property min_installments;
+    property payment_extras;
+    property package_name;
+    property refund_date;
+    property controle_versao;
+    property conn_type;
+    property batt_level;
+    property charging;
+    property location;
+    property grouped_payments;
+    property form_order;
+    property tipo;
   end;
 
   {TACBrSmartTEFCardDetailsList}
@@ -417,12 +671,17 @@ type
 
   TACBrSmartTEFPrintCreateRequest = class(TACBrAPISchema)
   private
+    fcnpj: String;
     forder_type: TACBrSmartTEFOrderType;
     fprint_id: String;
     ffile: TACBrSmartTEFPrintFile;
     fserial_pos: String;
     fuser_id: Integer;
+    fhas_details: Boolean;
+    fis_from_text: Boolean;
+    fextras: TACBrSmartTEFOrderExtras;
     function GetFile: TACBrSmartTEFPrintFile;
+    function GetExtras: TACBrSmartTEFOrderExtras;
   protected
     procedure AssignSchema(aSource: TACBrAPISchema); override;
     procedure DoWriteToJson(aJson: TACBrJSONObject); override;
@@ -433,10 +692,14 @@ type
     function IsEmpty: Boolean; override;
     procedure Assign(Source: TACBrSmartTEFPrintCreateRequest);
 
+    property cnpj: String read fcnpj write fcnpj;
     property order_type: TACBrSmartTEFOrderType read forder_type write forder_type;
     property print_id: String read fprint_id write fprint_id;
     property serial_pos: String read fserial_pos write fserial_pos;
     property user_id: Integer read fuser_id write fuser_id;
+    property has_details: Boolean read fhas_details write fhas_details;
+    property is_from_text: Boolean read fis_from_text write fis_from_text;
+    property extras: TACBrSmartTEFOrderExtras read GetExtras;
     property file_: TACBrSmartTEFPrintFile read GetFile;
   end;
 
@@ -465,7 +728,12 @@ type
     property user_id;
     property type_;
     property has_details;
-  end; 
+    property location;
+    property reason;
+    property extras;
+    property store_id;
+    property tipo;
+  end;
 
   { TACBrSmartTEFPrintCancelResponse }
   TACBrSmartTEFPrintCancelResponse = class(TACBrSmartTEFCardClass)
@@ -494,6 +762,139 @@ type
     property long: String read flong write flong;
   end;
 
+  { TACBrSmartTEFFormClass }
+
+  TACBrSmartTEFFormClass = class(TACBrAPISchema)
+  private
+    fform_identifier: String;
+    fcnpj: String;
+    fcreate_at: TDateTime;
+    fupdate_at: TDateTime;
+    forder_type: TACBrSmartTEFOrderType;
+    fform_status: TACBrSmartTEFStatus;
+    fserial_pos: String;
+    fuser_id: Integer;
+    ftype: String;
+    fcontrole_versao: String;
+    fconn_type: String;
+    fbatt_level: String;
+    fcharging: Boolean;
+    flocation: TACBrSmartTEFLocation;
+    freason: TACBrSmartTEFReason;
+    fform_name: String;
+    forder_target: TACBrSmartTEFOrderTarget;
+    fpackage_name: String;
+    fstore_id: Integer;
+    fform_url: String;
+    ffill_out_type: TACBrSmartTEFFormFillOutType;
+    fagregate: TACBrSmartTEFAgregate;
+    forder_target_initial: TACBrSmartTEFOrderTarget;
+    fserial_pos_initial: String;
+    fuser_id_initial: Integer;
+    fextras: TACBrSmartTEFOrderExtras;
+    fhas_details: Boolean;
+    function GetLocation: TACBrSmartTEFLocation;
+    function GetReason: TACBrSmartTEFReason;
+    function GetExtras: TACBrSmartTEFOrderExtras;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJson(aJson: TACBrJSONObject); override;
+    procedure DoReadFromJson(aJson: TACBrJSONObject); override;
+
+    property form_identifier: String read fform_identifier write fform_identifier;
+    property cnpj: String read fcnpj write fcnpj;
+    property create_at: TDateTime read fcreate_at write fcreate_at;
+    property update_at: TDateTime read fupdate_at write fupdate_at;
+    property order_type: TACBrSmartTEFOrderType read forder_type write forder_type;
+    property form_status: TACBrSmartTEFStatus read fform_status write fform_status;
+    property serial_pos: String read fserial_pos write fserial_pos;
+    property user_id: Integer read fuser_id write fuser_id;
+    property type_: String read ftype write ftype;
+    property controle_versao: String read fcontrole_versao write fcontrole_versao;
+    property conn_type: String read fconn_type write fconn_type;
+    property batt_level: String read fbatt_level write fbatt_level;
+    property charging: Boolean read fcharging write fcharging;
+    property location: TACBrSmartTEFLocation read GetLocation;
+    property reason: TACBrSmartTEFReason read GetReason;
+    property form_name: String read fform_name write fform_name;
+    property order_target: TACBrSmartTEFOrderTarget read forder_target write forder_target;
+    property package_name: String read fpackage_name write fpackage_name;
+    property store_id: Integer read fstore_id write fstore_id;
+    property form_url: String read fform_url write fform_url;
+    property fill_out_type: TACBrSmartTEFFormFillOutType read ffill_out_type write ffill_out_type;
+    property agregate: TACBrSmartTEFAgregate read fagregate write fagregate;
+    property order_target_initial: TACBrSmartTEFOrderTarget read forder_target_initial write forder_target_initial;
+    property serial_pos_initial: String read fserial_pos_initial write fserial_pos_initial;
+    property user_id_initial: Integer read fuser_id_initial write fuser_id_initial;
+    property extras: TACBrSmartTEFOrderExtras read GetExtras;
+    property has_details: Boolean read fhas_details write fhas_details;
+  public
+    destructor Destroy; override;
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrSmartTEFFormClass);
+  end;
+
+  { TACBrSmartTEFFormResponseSchema }
+
+  TACBrSmartTEFFormResponseSchema = class(TACBrSmartTEFFormClass)
+  public
+    property form_identifier;
+    property form_status;
+    property order_type;
+    property form_url;
+    property form_name;
+    property fill_out_type;
+  end;
+
+  { TACBrSmartTEFFormDetails }
+
+  TACBrSmartTEFFormDetails = class(TACBrSmartTEFFormClass)
+  public
+    property form_identifier;
+    property cnpj;
+    property create_at;
+    property update_at;
+    property order_type;
+    property form_status;
+    property serial_pos;
+    property user_id;
+    property type_;
+    property controle_versao;
+    property conn_type;
+    property batt_level;
+    property charging;
+    property location;
+    property reason;
+    property form_name;
+    property order_target;
+    property package_name;
+    property store_id;
+    property form_url;
+    property fill_out_type;
+    property agregate;
+    property order_target_initial;
+    property serial_pos_initial;
+    property user_id_initial;
+    property extras;
+    property has_details;
+  end;
+
+  { TACBrSmartTEFFormDetailsList }
+
+  TACBrSmartTEFFormDetailsList = class(TACBrAPISchemaArray)
+  private
+    function GetItem(Index: Integer): TACBrSmartTEFFormDetails;
+    procedure SetItem(Index: Integer; AValue: TACBrSmartTEFFormDetails);
+  protected
+    function NewSchema: TACBrAPISchema; override;
+  public
+    function Add(aItem: TACBrSmartTEFFormDetails): Integer;
+    procedure Insert(Index: Integer; aItem: TACBrSmartTEFFormDetails);
+    function New: TACBrSmartTEFFormDetails;
+    property Items[Index: Integer]: TACBrSmartTEFFormDetails read GetItem write SetItem; default;
+  end;
+
   { TACBrSmartTEFTerminalDetails }
 
   TACBrSmartTEFTerminalDetails = class(TACBrAPISchema)
@@ -503,8 +904,8 @@ type
     fcontrole_versao: String;
     factive: Boolean;
     fserial_pos: String;
-    fconn_type: Integer;
-    fbatt_level: Integer;
+    fconn_type: String;
+    fbatt_level: String;
     fcharging: Boolean;
     fstore_id: Integer;
     fcreate_at: TDateTime;
@@ -527,8 +928,8 @@ type
     property controle_versao: String read fcontrole_versao write fcontrole_versao;
     property active: Boolean read factive write factive;
     property serial_pos: String read fserial_pos write fserial_pos;
-    property conn_type: Integer read fconn_type write fconn_type;
-    property batt_level: Integer read fbatt_level write fbatt_level;
+    property conn_type: String read fconn_type write fconn_type;
+    property batt_level: String read fbatt_level write fbatt_level;
     property charging: Boolean read fcharging write fcharging;
     property store_id: Integer read fstore_id write fstore_id;
     property create_at: TDateTime read fcreate_at write fcreate_at;
@@ -693,7 +1094,7 @@ type
     fcity_id: Integer;
     fstate_id: Integer;
     fzip_code: String;
-    fdisctrict: String;
+    fdistrict: String;
     faddress: String;
     fintegrator_id: Integer;
     function GetWebhook: TACBrSmartTEFWebhook;
@@ -721,7 +1122,7 @@ type
     property city_id: Integer read fcity_id write fcity_id;
     property state_id: Integer read fstate_id write fstate_id;
     property zip_code: String read fzip_code write fzip_code;
-    property disctrict: String read fdisctrict write fdisctrict;
+    property district: String read fdistrict write fdistrict;
     property address: String read faddress write faddress;
     property integrator_id: Integer read fintegrator_id write fintegrator_id;
   end;
@@ -771,7 +1172,19 @@ type
   end;
 
   TACBrSmartTEFPoolingSchemas = class(TACBrSmartTEFCardClass)
+  private
+    fformulario: TACBrSmartTEFFormDetails;
+    function GetFormulario: TACBrSmartTEFFormDetails;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJson(aJson: TACBrJSONObject); override;
+    procedure DoReadFromJson(aJson: TACBrJSONObject); override;
   public
+    destructor Destroy; override;
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrSmartTEFPoolingSchemas);
+
     property payment_identifier;
     property cnpj;
     property create_at;
@@ -806,6 +1219,22 @@ type
     property print_status;
     property file_;
     property print_id;
+    property remaining_payment_amount;
+    property partial_payments;
+    property min_installments;
+    property payment_extras;
+    property package_name;
+    property refund_date;
+    property controle_versao;
+    property conn_type;
+    property batt_level;
+    property charging;
+    property location;
+    property store_id;
+    property grouped_payments;
+    property form_order;
+    property tipo;
+    property formulario: TACBrSmartTEFFormDetails read GetFormulario;
   end;
 
   { TACBrSmartTEFPoolingList }
@@ -830,6 +1259,9 @@ type
     ftimestamp: TDateTime;
     fpath: String;
     fmessage: String;
+    ferror_code: String;
+    facquirer: String;
+    fpayment_identifier: String;
   protected
     procedure AssignSchema(aSource: TACBrAPISchema); override;
     procedure DoWriteToJson(aJson: TACBrJSONObject); override;
@@ -842,6 +1274,9 @@ type
     property message: String read fmessage;
     property timestamp: TDateTime read ftimestamp;
     property path: String read fpath;
+    property error_code: String read ferror_code;
+    property acquirer: String read facquirer;
+    property payment_identifier: String read fpayment_identifier;
   end;
 
   { TACBrSmartTEFError }
@@ -873,8 +1308,18 @@ function SmartTEFFeeTypeToString(aTipo: TACBrSmartTEFFeeType): String;
 function StringToSmartTEFFeeType(const aString: String): TACBrSmartTEFFeeType;
 function SmartTEFOrderTypeToString(aTipo: TACBrSmartTEFOrderType): String;
 function StringToSmartTEFOrderType(const aString: String): TACBrSmartTEFOrderType;
+function SmartTEFCardTypeToString(aTipo: TACBrSmartTEFCardType): String;
+function StringToSmartTEFCardType(const aString: String): TACBrSmartTEFCardType;
 function SmartTEFUserTypeToString(aTipo: TACBrSmartTEFUserType): String;
 function StringToSmartTEFUserType(const aString: String): TACBrSmartTEFUserType;
+function SmartTEFFormFieldTypeToString(aTipo: TACBrSmartTEFFormFieldType): String;
+function StringToSmartTEFFormFieldType(const aString: String): TACBrSmartTEFFormFieldType;
+function SmartTEFFormFillOutTypeToString(aTipo: TACBrSmartTEFFormFillOutType): String;
+function StringToSmartTEFFormFillOutType(const aString: String): TACBrSmartTEFFormFillOutType;
+function SmartTEFOrderTargetToString(aTipo: TACBrSmartTEFOrderTarget): String;
+function StringToSmartTEFOrderTarget(const aString: String): TACBrSmartTEFOrderTarget;
+function SmartTEFAgregateToString(aTipo: TACBrSmartTEFAgregate): String;
+function StringToSmartTEFAgregate(const aString: String): TACBrSmartTEFAgregate;
 
 implementation
 
@@ -899,6 +1344,9 @@ begin
     stsIMP: Result := 'IMP';
     stsREJ: Result := 'REJ';
     stsPROC: Result := 'PROC';
+    stsPARTIAL_PAG: Result := 'PARTIAL_PAG';
+    stsPARTIAL_EST: Result := 'PARTIAL_EST';
+    stsPULLED: Result := 'PULLED';
   else
     Result := EmptyStr;
   end;
@@ -934,7 +1382,13 @@ begin
   else if (s = 'REJ') then
     Result := stsREJ
   else if (s = 'PROC') then
-    Result := stsPROC;
+    Result := stsPROC
+  else if (s = 'PARTIAL_PAG') then
+    Result := stsPARTIAL_PAG
+  else if (s = 'PARTIAL_EST') then
+    Result := stsPARTIAL_EST
+  else if (s = 'PULLED') then
+    Result := stsPULLED;
 end;
 
 function SmartTEFPaymentTypeToString(aTipo: TACBrSmartTEFPaymentType): String;
@@ -974,6 +1428,7 @@ begin
   case aTipo of
     sftStore: Result := 'F_STORE';
     sftClient: Result := 'F_CLIENT';
+    sftNenhum: Result := 'NONE';
   else
     Result := EmptyStr;
   end;
@@ -989,7 +1444,9 @@ begin
   if (s = 'F_STORE') then
     Result := sftStore
   else if (s = 'F_CLIENT') then
-    Result := sftClient;
+    Result := sftClient
+  else if (s = 'NONE') then
+    Result := sftNenhum;
 end;
 
 function SmartTEFOrderTypeToString(aTipo: TACBrSmartTEFOrderType): String;
@@ -997,6 +1454,7 @@ begin
   case aTipo of
     sotCrdUnico: Result := 'CRD_UNICO';
     sotNrm: Result := 'NRM';
+    sotGrouped: Result := 'GROUPED';
   else
     Result := EmptyStr;
   end;
@@ -1012,7 +1470,35 @@ begin
   if (s = 'CRD_UNICO') then
     Result := sotCrdUnico
   else if (s = 'NRM') then
-    Result := sotNrm;
+    Result := sotNrm
+  else if (s = 'GROUPED') then
+    Result := sotGrouped;
+end;
+
+function SmartTEFCardTypeToString(aTipo: TACBrSmartTEFCardType): String;
+begin
+  case aTipo of
+    sctPayment: Result := 'PAYMENT';
+    sctPrint: Result := 'PRINT';
+    sctForm: Result := 'FORM';
+  else
+    Result := EmptyStr;
+  end;
+end;
+
+function StringToSmartTEFCardType(const aString: String): TACBrSmartTEFCardType;
+var
+  s: String;
+begin
+  Result := sctNone;
+  s := UpperCase(Trim(aString));
+
+  if (s = 'PAYMENT') then
+    Result := sctPayment
+  else if (s = 'PRINT') then
+    Result := sctPrint
+  else if (s = 'FORM') then
+    Result := sctForm;
 end;
 
 function SmartTEFUserTypeToString(aTipo: TACBrSmartTEFUserType): String;
@@ -1039,6 +1525,119 @@ begin
     Result := stoOPER
   else if (s = 'GER') then
     Result := stoGER;
+end;
+
+function SmartTEFFormFieldTypeToString(aTipo: TACBrSmartTEFFormFieldType): String;
+begin
+  case aTipo of
+    sffTexto: Result := 'TEXTO';
+    sffNumber: Result := 'NUMBER';
+    sffData: Result := 'DATA';
+    sffCPF: Result := 'CPF';
+    sffCNPJ: Result := 'CNPJ';
+    sffCEP: Result := 'CEP';
+    sffEmail: Result := 'EMAIL';
+  else
+    Result := EmptyStr;
+  end;
+end;
+
+function StringToSmartTEFFormFieldType(const aString: String): TACBrSmartTEFFormFieldType;
+var
+  s: String;
+begin
+  Result := sffNone;
+  s := UpperCase(Trim(aString));
+
+  if (s = 'TEXTO') then
+    Result := sffTexto
+  else if (s = 'NUMBER') then
+    Result := sffNumber
+  else if (s = 'DATA') then
+    Result := sffData
+  else if (s = 'CPF') then
+    Result := sffCPF
+  else if (s = 'CNPJ') then
+    Result := sffCNPJ
+  else if (s = 'CEP') then
+    Result := sffCEP
+  else if (s = 'EMAIL') then
+    Result := sffEmail;
+end;
+
+function SmartTEFFormFillOutTypeToString(aTipo: TACBrSmartTEFFormFillOutType): String;
+begin
+  case aTipo of
+    sfoComum: Result := 'REQUEST_COMUM_FORM';
+    sfoObrigatorio: Result := 'REQUEST_MANDATORY_FORM';
+  else
+    Result := EmptyStr;
+  end;
+end;
+
+function StringToSmartTEFFormFillOutType(const aString: String): TACBrSmartTEFFormFillOutType;
+var
+  s: String;
+begin
+  Result := sfoNone;
+  s := UpperCase(Trim(aString));
+
+  if (s = 'REQUEST_COMUM_FORM') then
+    Result := sfoComum
+  else if (s = 'REQUEST_MANDATORY_FORM') then
+    Result := sfoObrigatorio;
+end;
+
+function SmartTEFOrderTargetToString(aTipo: TACBrSmartTEFOrderTarget): String;
+begin
+  case aTipo of
+    stgUSR: Result := 'USR';
+    stgPOS: Result := 'POS';
+    stgSemDestino: Result := 'NONE';
+  else
+    Result := EmptyStr;
+  end;
+end;
+
+function StringToSmartTEFOrderTarget(const aString: String): TACBrSmartTEFOrderTarget;
+var
+  s: String;
+begin
+  Result := stgNone;
+  s := UpperCase(Trim(aString));
+
+  if (s = 'USR') then
+    Result := stgUSR
+  else if (s = 'POS') then
+    Result := stgPOS
+  else if (s = 'NONE') then
+    Result := stgSemDestino;
+end;
+
+function SmartTEFAgregateToString(aTipo: TACBrSmartTEFAgregate): String;
+begin
+  case aTipo of
+    sagIndependente: Result := 'NONE';
+    sagPrint: Result := 'PRINT';
+    sagPayment: Result := 'PAYMENT';
+  else
+    Result := EmptyStr;
+  end;
+end;
+
+function StringToSmartTEFAgregate(const aString: String): TACBrSmartTEFAgregate;
+var
+  s: String;
+begin
+  Result := sagNone;
+  s := UpperCase(Trim(aString));
+
+  if (s = 'NONE') then
+    Result := sagIndependente
+  else if (s = 'PRINT') then
+    Result := sagPrint
+  else if (s = 'PAYMENT') then
+    Result := sagPayment;
 end;
 
 { TACBrSmartTEFLocation }
@@ -1089,6 +1688,293 @@ begin
   Result := EstaVazio(flat) and EstaVazio(flong);
 end;
 
+{ TACBrSmartTEFFormClass }
+
+procedure TACBrSmartTEFFormClass.Assign(Source: TACBrSmartTEFFormClass);
+begin
+  if not Assigned(Source) then
+    Exit;
+
+  fform_identifier := Source.form_identifier;
+  fcnpj := Source.cnpj;
+  fcreate_at := Source.create_at;
+  fupdate_at := Source.update_at;
+  forder_type := Source.order_type;
+  fform_status := Source.form_status;
+  fserial_pos := Source.serial_pos;
+  fuser_id := Source.user_id;
+  ftype := Source.type_;
+  fcontrole_versao := Source.controle_versao;
+  fconn_type := Source.conn_type;
+  fbatt_level := Source.batt_level;
+  fcharging := Source.charging;
+  location.Assign(Source.location);
+  reason.Assign(Source.reason);
+  fform_name := Source.form_name;
+  forder_target := Source.order_target;
+  fpackage_name := Source.package_name;
+  fstore_id := Source.store_id;
+  fform_url := Source.form_url;
+  ffill_out_type := Source.fill_out_type;
+  fagregate := Source.agregate;
+  forder_target_initial := Source.order_target_initial;
+  fserial_pos_initial := Source.serial_pos_initial;
+  fuser_id_initial := Source.user_id_initial;
+  extras.Assign(Source.extras);
+  fhas_details := Source.has_details;
+end;
+
+procedure TACBrSmartTEFFormClass.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrSmartTEFFormClass) then
+    Assign(TACBrSmartTEFFormClass(aSource));
+end;
+
+procedure TACBrSmartTEFFormClass.Clear;
+begin
+  fform_identifier := EmptyStr;
+  fcnpj := EmptyStr;
+  fcreate_at := 0;
+  fupdate_at := 0;
+  forder_type := sotNone;
+  fform_status := stsNone;
+  fserial_pos := EmptyStr;
+  fuser_id := 0;
+  ftype := EmptyStr;
+  fcontrole_versao := EmptyStr;
+  fconn_type := EmptyStr;
+  fbatt_level := EmptyStr;
+  fcharging := False;
+  if Assigned(flocation) then
+    flocation.Clear;
+  if Assigned(freason) then
+    freason.Clear;
+  fform_name := EmptyStr;
+  forder_target := stgNone;
+  fpackage_name := EmptyStr;
+  fstore_id := 0;
+  fform_url := EmptyStr;
+  ffill_out_type := sfoNone;
+  fagregate := sagNone;
+  forder_target_initial := stgNone;
+  fserial_pos_initial := EmptyStr;
+  fuser_id_initial := 0;
+  if Assigned(fextras) then
+    fextras.Clear;
+  fhas_details := False;
+end;
+
+destructor TACBrSmartTEFFormClass.Destroy;
+begin
+  if Assigned(flocation) then
+    flocation.Free;
+  if Assigned(freason) then
+    freason.Free;
+  if Assigned(fextras) then
+    fextras.Free;
+  inherited;
+end;
+
+procedure TACBrSmartTEFFormClass.DoReadFromJson(aJson: TACBrJSONObject);
+var
+  sCreateAt, sUpdateAt, sOrderType, sFormStatus, sOrderTarget, sFillOutType,
+    sAgregate, sOrderTargetInitial: String;
+begin
+  if not Assigned(aJson) then
+    Exit;
+
+  {$IfDef FPC}
+    sCreateAt := EmptyStr;
+    sUpdateAt := EmptyStr;
+    sOrderType := EmptyStr;
+    sFormStatus := EmptyStr;
+    sOrderTarget := EmptyStr;
+    sFillOutType := EmptyStr;
+    sAgregate := EmptyStr;
+    sOrderTargetInitial := EmptyStr;
+  {$EndIf}
+
+  aJson
+    .Value('form_identifier', fform_identifier)
+    .Value('cnpj', fcnpj)
+    .Value('create_at', sCreateAt)
+    .Value('update_at', sUpdateAt)
+    .Value('order_type', sOrderType)
+    .Value('form_status', sFormStatus)
+    .Value('serial_pos', fserial_pos)
+    .Value('user_id', fuser_id)
+    .Value('type', ftype)
+    .Value('controle_versao', fcontrole_versao)
+    .Value('conn_type', fconn_type)
+    .Value('batt_level', fbatt_level)
+    .Value('charging', fcharging)
+    .Value('form_name', fform_name)
+    .Value('order_target', sOrderTarget)
+    .Value('package_name', fpackage_name)
+    .Value('store_id', fstore_id)
+    .Value('form_url', fform_url)
+    .Value('fill_out_type', sFillOutType)
+    .Value('agregate', sAgregate)
+    .Value('order_target_initial', sOrderTargetInitial)
+    .Value('serial_pos_initial', fserial_pos_initial)
+    .Value('user_id_initial', fuser_id_initial)
+    .Value('has_details', fhas_details);
+
+  if NaoEstaVazio(sCreateAt) then
+    fcreate_at := Iso8601ToDateTime(sCreateAt);
+  if NaoEstaVazio(sUpdateAt) then
+    fupdate_at := Iso8601ToDateTime(sUpdateAt);
+  if NaoEstaVazio(sOrderType) then
+    forder_type := StringToSmartTEFOrderType(sOrderType);
+  if NaoEstaVazio(sFormStatus) then
+    fform_status := StringToSmartTEFStatus(sFormStatus);
+  if NaoEstaVazio(sOrderTarget) then
+    forder_target := StringToSmartTEFOrderTarget(sOrderTarget);
+  if NaoEstaVazio(sFillOutType) then
+    ffill_out_type := StringToSmartTEFFormFillOutType(sFillOutType);
+  if NaoEstaVazio(sAgregate) then
+    fagregate := StringToSmartTEFAgregate(sAgregate);
+  if NaoEstaVazio(sOrderTargetInitial) then
+    forder_target_initial := StringToSmartTEFOrderTarget(sOrderTargetInitial);
+
+  if aJson.IsJSONObject('location') then
+    location.ReadFromJson(aJson);
+  if aJson.IsJSONObject('reason') then
+    reason.ReadFromJson(aJson);
+  if aJson.IsJSONObject('extras') then
+    extras.ReadFromJson(aJson);
+end;
+
+procedure TACBrSmartTEFFormClass.DoWriteToJson(aJson: TACBrJSONObject);
+begin
+  if not Assigned(aJson) then
+    Exit;
+
+  aJson
+    .AddPair('form_identifier', fform_identifier, False)
+    .AddPair('cnpj', fcnpj, False)
+    .AddPair('order_type', SmartTEFOrderTypeToString(forder_type), False)
+    .AddPair('form_status', SmartTEFStatusToString(fform_status), False)
+    .AddPair('serial_pos', fserial_pos, False)
+    .AddPair('user_id', fuser_id, False)
+    .AddPair('type', ftype, False)
+    .AddPair('controle_versao', fcontrole_versao, False)
+    .AddPair('conn_type', fconn_type, False)
+    .AddPair('batt_level', fbatt_level, False)
+    .AddPair('form_name', fform_name, False)
+    .AddPair('order_target', SmartTEFOrderTargetToString(forder_target), False)
+    .AddPair('package_name', fpackage_name, False)
+    .AddPair('store_id', fstore_id, False)
+    .AddPair('form_url', fform_url, False)
+    .AddPair('fill_out_type', SmartTEFFormFillOutTypeToString(ffill_out_type), False)
+    .AddPair('agregate', SmartTEFAgregateToString(fagregate), False)
+    .AddPair('order_target_initial', SmartTEFOrderTargetToString(forder_target_initial), False)
+    .AddPair('serial_pos_initial', fserial_pos_initial, False)
+    .AddPair('user_id_initial', fuser_id_initial, False);
+
+  if fcharging then
+    aJson.AddPair('charging', True);
+  if fhas_details then
+    aJson.AddPair('has_details', True);
+  if NaoEstaZerado(fcreate_at) then
+    aJson.AddPair('create_at', DateTimeToIso8601(fcreate_at));
+  if NaoEstaZerado(fupdate_at) then
+    aJson.AddPair('update_at', DateTimeToIso8601(fupdate_at));
+
+  if Assigned(flocation) then
+    flocation.WriteToJson(aJson);
+  if Assigned(freason) then
+    freason.WriteToJson(aJson);
+  if Assigned(fextras) then
+    fextras.WriteToJson(aJson);
+end;
+
+function TACBrSmartTEFFormClass.GetLocation: TACBrSmartTEFLocation;
+begin
+  if not Assigned(flocation) then
+    flocation := TACBrSmartTEFLocation.Create('location');
+  Result := flocation;
+end;
+
+function TACBrSmartTEFFormClass.GetReason: TACBrSmartTEFReason;
+begin
+  if not Assigned(freason) then
+    freason := TACBrSmartTEFReason.Create('reason');
+  Result := freason;
+end;
+
+function TACBrSmartTEFFormClass.GetExtras: TACBrSmartTEFOrderExtras;
+begin
+  if not Assigned(fextras) then
+    fextras := TACBrSmartTEFOrderExtras.Create('extras');
+  Result := fextras;
+end;
+
+function TACBrSmartTEFFormClass.IsEmpty: Boolean;
+begin
+  Result :=
+    EstaVazio(fform_identifier) and
+    EstaVazio(fcnpj) and
+    EstaZerado(fcreate_at) and
+    EstaZerado(fupdate_at) and
+    (forder_type = sotNone) and
+    (fform_status = stsNone) and
+    EstaVazio(fserial_pos) and
+    EstaZerado(fuser_id) and
+    EstaVazio(ftype) and
+    EstaVazio(fcontrole_versao) and
+    EstaVazio(fconn_type) and
+    EstaVazio(fbatt_level) and
+    not fcharging and
+    (not Assigned(flocation) or flocation.IsEmpty) and
+    (not Assigned(freason) or freason.IsEmpty) and
+    EstaVazio(fform_name) and
+    (forder_target = stgNone) and
+    EstaVazio(fpackage_name) and
+    EstaZerado(fstore_id) and
+    EstaVazio(fform_url) and
+    (ffill_out_type = sfoNone) and
+    (fagregate = sagNone) and
+    (forder_target_initial = stgNone) and
+    EstaVazio(fserial_pos_initial) and
+    EstaZerado(fuser_id_initial) and
+    (not Assigned(fextras) or fextras.IsEmpty) and
+    not fhas_details;
+end;
+
+{ TACBrSmartTEFFormDetailsList }
+
+function TACBrSmartTEFFormDetailsList.GetItem(Index: Integer): TACBrSmartTEFFormDetails;
+begin
+  Result := TACBrSmartTEFFormDetails(inherited Items[Index]);
+end;
+
+procedure TACBrSmartTEFFormDetailsList.SetItem(Index: Integer; AValue: TACBrSmartTEFFormDetails);
+begin
+  inherited Items[Index] := AValue;
+end;
+
+function TACBrSmartTEFFormDetailsList.NewSchema: TACBrAPISchema;
+begin
+  Result := New;
+end;
+
+function TACBrSmartTEFFormDetailsList.Add(aItem: TACBrSmartTEFFormDetails): Integer;
+begin
+  Result := inherited Add(aItem);
+end;
+
+procedure TACBrSmartTEFFormDetailsList.Insert(Index: Integer; aItem: TACBrSmartTEFFormDetails);
+begin
+  inherited Insert(Index, aItem);
+end;
+
+function TACBrSmartTEFFormDetailsList.New: TACBrSmartTEFFormDetails;
+begin
+  Result := TACBrSmartTEFFormDetails.Create;
+  Self.Add(Result);
+end;
+
 { TACBrSmartTEFTerminalDetails }
 
 procedure TACBrSmartTEFTerminalDetails.Assign(Source: TACBrSmartTEFTerminalDetails);
@@ -1124,8 +2010,8 @@ begin
   fcontrole_versao := EmptyStr;
   factive := False;
   fserial_pos := EmptyStr;
-  fconn_type := 0;
-  fbatt_level := 0;
+  fconn_type := EmptyStr;
+  fbatt_level := EmptyStr;
   fcharging := False;
   fstore_id := 0;
   fcreate_at := 0;
@@ -1217,8 +2103,8 @@ begin
     EstaVazio(fcontrole_versao) and
     not factive and
     EstaVazio(fserial_pos) and
-    EstaZerado(fconn_type) and
-    EstaZerado(fbatt_level) and
+    EstaVazio(fconn_type) and
+    EstaVazio(fbatt_level) and
     not fcharging and
     EstaZerado(fstore_id) and
     EstaZerado(fcreate_at) and
@@ -1346,7 +2232,7 @@ begin
   fcity_id := Source.city_id;
   fstate_id := Source.state_id;
   fzip_code := Source.zip_code;
-  fdisctrict := Source.disctrict;
+  fdistrict := Source.district;
   faddress := Source.address;
   fintegrator_id := Source.integrator_id;
 end;
@@ -1433,6 +2319,72 @@ begin
   Result := TACBrSmartTEFStoreSettings(inherited Items[Index]);
 end;
 
+{ TACBrSmartTEFPoolingSchemas }
+
+procedure TACBrSmartTEFPoolingSchemas.Assign(Source: TACBrSmartTEFPoolingSchemas);
+begin
+  if not Assigned(Source) then
+    Exit;
+
+  inherited Assign(Source);
+  if Assigned(Source.fformulario) then
+    formulario.Assign(Source.fformulario)
+  else if Assigned(fformulario) then
+    fformulario.Clear;
+end;
+
+procedure TACBrSmartTEFPoolingSchemas.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrSmartTEFPoolingSchemas) then
+    Assign(TACBrSmartTEFPoolingSchemas(aSource))
+  else
+    inherited AssignSchema(aSource);
+end;
+
+procedure TACBrSmartTEFPoolingSchemas.Clear;
+begin
+  inherited Clear;
+  if Assigned(fformulario) then
+    fformulario.Clear;
+end;
+
+destructor TACBrSmartTEFPoolingSchemas.Destroy;
+begin
+  if Assigned(fformulario) then
+    fformulario.Free;
+  inherited;
+end;
+
+procedure TACBrSmartTEFPoolingSchemas.DoReadFromJson(aJson: TACBrJSONObject);
+begin
+  inherited DoReadFromJson(aJson);
+
+  if Assigned(aJson) and (tipo = sctForm) then
+    formulario.ReadFromJson(aJson);
+end;
+
+procedure TACBrSmartTEFPoolingSchemas.DoWriteToJson(aJson: TACBrJSONObject);
+begin
+  inherited DoWriteToJson(aJson);
+
+  if Assigned(fformulario) then
+    fformulario.WriteToJson(aJson);
+end;
+
+function TACBrSmartTEFPoolingSchemas.GetFormulario: TACBrSmartTEFFormDetails;
+begin
+  if not Assigned(fformulario) then
+    fformulario := TACBrSmartTEFFormDetails.Create;
+  Result := fformulario;
+end;
+
+function TACBrSmartTEFPoolingSchemas.IsEmpty: Boolean;
+begin
+  Result :=
+    inherited IsEmpty and
+    ((not Assigned(fformulario)) or fformulario.IsEmpty);
+end;
+
 { TACBrSmartTEFPoolingList }
 
 function TACBrSmartTEFPoolingList.GetItem(Index: Integer): TACBrSmartTEFPoolingSchemas;
@@ -1513,7 +2465,7 @@ begin
   fcity_id := 0;
   fstate_id := 0;
   fzip_code := EmptyStr;
-  fdisctrict := EmptyStr;
+  fdistrict := EmptyStr;
   faddress := EmptyStr;
   fintegrator_id := 0;
   if Assigned(fwebhook) then
@@ -1553,7 +2505,7 @@ begin
     .Value('city_id', fcity_id)
     .Value('state_id', fstate_id)
     .Value('zip_code', fzip_code)
-    .Value('disctrict', fdisctrict)
+    .Value('district', fdistrict)
     .Value('address', faddress)
     .Value('integrator_id', fintegrator_id);
 
@@ -1582,7 +2534,7 @@ begin
     .AddPair('city_id', fcity_id, False)
     .AddPair('state_id', fstate_id, False)
     .AddPair('zip_code', fzip_code, False)
-    .AddPair('disctrict', fdisctrict, False)
+    .AddPair('district', fdistrict, False)
     .AddPair('address', faddress, False)
     .AddPair('integrator_id', fintegrator_id, False);
 
@@ -1618,7 +2570,7 @@ begin
     EstaZerado(fcity_id) and
     EstaZerado(fstate_id) and
     EstaVazio(fzip_code) and
-    EstaVazio(fdisctrict) and
+    EstaVazio(fdistrict) and
     EstaVazio(faddress) and
     EstaZerado(fintegrator_id) and
     ((not Assigned(fwebhook)) or fwebhook.IsEmpty);
@@ -1751,6 +2703,10 @@ begin
   fCPF := Source.CPF;
   fCNPJ := Source.CNPJ;
   fNome := Source.Nome;
+  if Assigned(Source.fCampos) then
+    Campos.Assign(Source.fCampos)
+  else if Assigned(fCampos) then
+    fCampos.Clear;
 end;
 
 procedure TACBrSmartTEFOrderExtras.AssignSchema(aSource: TACBrAPISchema);
@@ -1764,6 +2720,22 @@ begin
   fCPF := EmptyStr;
   fCNPJ := EmptyStr;
   fNome := EmptyStr;
+  if Assigned(fCampos) then
+    fCampos.Clear;
+end;
+
+destructor TACBrSmartTEFOrderExtras.Destroy;
+begin
+  if Assigned(fCampos) then
+    fCampos.Free;
+  inherited;
+end;
+
+function TACBrSmartTEFOrderExtras.GetCampos: TStringList;
+begin
+  if not Assigned(fCampos) then
+    fCampos := TStringList.Create;
+  Result := fCampos;
 end;
 
 procedure TACBrSmartTEFOrderExtras.DoReadFromJson(aJson: TACBrJSONObject);
@@ -1778,6 +2750,8 @@ begin
 end;
 
 procedure TACBrSmartTEFOrderExtras.DoWriteToJson(aJson: TACBrJSONObject);
+var
+  i: Integer;
 begin
   if not Assigned(aJson) then
     Exit;
@@ -1786,6 +2760,11 @@ begin
     .AddPair('CPF', fCPF, False)
     .AddPair('CNPJ', fCNPJ, False)
     .AddPair('Nome', fNome, False);
+
+  if Assigned(fCampos) then
+    for i := 0 to fCampos.Count - 1 do
+      if NaoEstaVazio(fCampos.Names[i]) then
+        aJson.AddPair(fCampos.Names[i], fCampos.ValueFromIndex[i], False);
 end;
 
 function TACBrSmartTEFOrderExtras.IsEmpty: Boolean;
@@ -1793,7 +2772,299 @@ begin
   Result :=
     EstaVazio(fCPF) and
     EstaVazio(fCNPJ) and
-    EstaVazio(fNome);
+    EstaVazio(fNome) and
+    ((not Assigned(fCampos)) or (fCampos.Count = 0));
+end;
+
+{ TACBrSmartTEFFormField }
+
+procedure TACBrSmartTEFFormField.Assign(Source: TACBrSmartTEFFormField);
+begin
+  if not Assigned(Source) then
+    Exit;
+
+  ffield := Source.field;
+  fvalue := Source.value;
+  ftype := Source.type_;
+  fneeded := Source.needed;
+end;
+
+procedure TACBrSmartTEFFormField.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrSmartTEFFormField) then
+    Assign(TACBrSmartTEFFormField(aSource));
+end;
+
+procedure TACBrSmartTEFFormField.Clear;
+begin
+  ffield := EmptyStr;
+  fvalue := EmptyStr;
+  ftype := sffNone;
+  fneeded := False;
+end;
+
+procedure TACBrSmartTEFFormField.DoReadFromJson(aJson: TACBrJSONObject);
+var
+  sType: String;
+begin
+  if not Assigned(aJson) then
+    Exit;
+
+  {$IfDef FPC}
+    sType := EmptyStr;
+  {$EndIf}
+
+  aJson
+    .Value('field', ffield)
+    .Value('value', fvalue)
+    .Value('type', sType)
+    .Value('needed', fneeded);
+
+  if NaoEstaVazio(sType) then
+    ftype := StringToSmartTEFFormFieldType(sType);
+end;
+
+procedure TACBrSmartTEFFormField.DoWriteToJson(aJson: TACBrJSONObject);
+begin
+  if not Assigned(aJson) then
+    Exit;
+
+  aJson
+    .AddPair('field', ffield)
+    .AddPair('value', fvalue, False)
+    .AddPair('type', SmartTEFFormFieldTypeToString(ftype), False);
+
+  if fneeded then
+    aJson.AddPair('needed', True);
+end;
+
+function TACBrSmartTEFFormField.IsEmpty: Boolean;
+begin
+  Result :=
+    EstaVazio(ffield) and
+    EstaVazio(fvalue) and
+    (ftype = sffNone) and
+    not fneeded;
+end;
+
+{ TACBrSmartTEFFormFieldList }
+
+function TACBrSmartTEFFormFieldList.GetItem(Index: Integer): TACBrSmartTEFFormField;
+begin
+  Result := TACBrSmartTEFFormField(inherited Items[Index]);
+end;
+
+procedure TACBrSmartTEFFormFieldList.SetItem(Index: Integer; AValue: TACBrSmartTEFFormField);
+begin
+  inherited Items[Index] := AValue;
+end;
+
+function TACBrSmartTEFFormFieldList.NewSchema: TACBrAPISchema;
+begin
+  Result := New;
+end;
+
+function TACBrSmartTEFFormFieldList.Add(aItem: TACBrSmartTEFFormField): Integer;
+begin
+  Result := inherited Add(aItem);
+end;
+
+procedure TACBrSmartTEFFormFieldList.Insert(Index: Integer; aItem: TACBrSmartTEFFormField);
+begin
+  inherited Insert(Index, aItem);
+end;
+
+function TACBrSmartTEFFormFieldList.New: TACBrSmartTEFFormField;
+begin
+  Result := TACBrSmartTEFFormField.Create;
+  Self.Add(Result);
+end;
+
+{ TACBrSmartTEFFormRequest }
+
+procedure TACBrSmartTEFFormRequest.Assign(Source: TACBrSmartTEFFormRequest);
+begin
+  if not Assigned(Source) then
+    Exit;
+
+  if Assigned(Source.fform) then
+    form.Assign(Source.fform)
+  else if Assigned(fform) then
+    fform.Clear;
+  fserial_pos := Source.serial_pos;
+  fuser_id := Source.user_id;
+  fform_name := Source.form_name;
+  ffill_out_type := Source.fill_out_type;
+  extras.Assign(Source.extras);
+  fhas_details := Source.has_details;
+end;
+
+procedure TACBrSmartTEFFormRequest.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrSmartTEFFormRequest) then
+    Assign(TACBrSmartTEFFormRequest(aSource));
+end;
+
+procedure TACBrSmartTEFFormRequest.Clear;
+begin
+  if Assigned(fform) then
+    fform.Clear;
+  fserial_pos := EmptyStr;
+  fuser_id := 0;
+  fform_name := EmptyStr;
+  ffill_out_type := sfoNone;
+  if Assigned(fextras) then
+    fextras.Clear;
+  fhas_details := False;
+end;
+
+destructor TACBrSmartTEFFormRequest.Destroy;
+begin
+  if Assigned(fform) then
+    fform.Free;
+  if Assigned(fextras) then
+    fextras.Free;
+  inherited;
+end;
+
+procedure TACBrSmartTEFFormRequest.DoReadFromJson(aJson: TACBrJSONObject);
+var
+  sFillOutType: String;
+begin
+  if not Assigned(aJson) then
+    Exit;
+
+  {$IfDef FPC}
+    sFillOutType := EmptyStr;
+  {$EndIf}
+
+  aJson
+    .Value('serial_pos', fserial_pos)
+    .Value('user_id', fuser_id)
+    .Value('form_name', fform_name)
+    .Value('fill_out_type', sFillOutType)
+    .Value('has_details', fhas_details);
+
+  if NaoEstaVazio(sFillOutType) then
+    ffill_out_type := StringToSmartTEFFormFillOutType(sFillOutType);
+
+  if aJson.IsJSONArray('form') then
+    form.ReadFromJson(aJson);
+
+  extras.ReadFromJson(aJson);
+end;
+
+procedure TACBrSmartTEFFormRequest.DoWriteToJson(aJson: TACBrJSONObject);
+begin
+  if not Assigned(aJson) then
+    Exit;
+
+  if Assigned(fform) then
+    fform.WriteToJson(aJson);
+
+  aJson
+    .AddPair('serial_pos', fserial_pos, False)
+    .AddPair('user_id', fuser_id, False)
+    .AddPair('form_name', fform_name, False)
+    .AddPair('fill_out_type', SmartTEFFormFillOutTypeToString(ffill_out_type), False);
+
+  if fhas_details then
+    aJson.AddPair('has_details', True);
+
+  if Assigned(fextras) then
+    fextras.WriteToJson(aJson);
+end;
+
+function TACBrSmartTEFFormRequest.GetForm: TACBrSmartTEFFormFieldList;
+begin
+  if not Assigned(fform) then
+    fform := TACBrSmartTEFFormFieldList.Create('form');
+  Result := fform;
+end;
+
+function TACBrSmartTEFFormRequest.GetExtras: TACBrSmartTEFOrderExtras;
+begin
+  if not Assigned(fextras) then
+    fextras := TACBrSmartTEFOrderExtras.Create('extras');
+  Result := fextras;
+end;
+
+function TACBrSmartTEFFormRequest.IsEmpty: Boolean;
+begin
+  Result :=
+    (not Assigned(fform) or fform.IsEmpty) and
+    EstaVazio(fserial_pos) and
+    EstaZerado(fuser_id) and
+    EstaVazio(fform_name) and
+    (ffill_out_type = sfoNone) and
+    (not Assigned(fextras) or fextras.IsEmpty) and
+    not fhas_details;
+end;
+
+{ TACBrSmartTEFFormCreateRequest }
+
+procedure TACBrSmartTEFFormCreateRequest.Assign(Source: TACBrSmartTEFFormCreateRequest);
+begin
+  if not Assigned(Source) then
+    Exit;
+
+  inherited Assign(Source);
+  fcnpj := Source.cnpj;
+  forder_type := Source.order_type;
+end;
+
+procedure TACBrSmartTEFFormCreateRequest.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrSmartTEFFormCreateRequest) then
+    Assign(TACBrSmartTEFFormCreateRequest(aSource));
+end;
+
+procedure TACBrSmartTEFFormCreateRequest.Clear;
+begin
+  inherited Clear;
+  fcnpj := EmptyStr;
+  forder_type := sotNone;
+end;
+
+procedure TACBrSmartTEFFormCreateRequest.DoReadFromJson(aJson: TACBrJSONObject);
+var
+  sOrderType: String;
+begin
+  if not Assigned(aJson) then
+    Exit;
+
+  inherited DoReadFromJson(aJson);
+
+  {$IfDef FPC}
+    sOrderType := EmptyStr;
+  {$EndIf}
+
+  aJson
+    .Value('cnpj', fcnpj)
+    .Value('order_type', sOrderType);
+
+  if NaoEstaVazio(sOrderType) then
+    forder_type := StringToSmartTEFOrderType(sOrderType);
+end;
+
+procedure TACBrSmartTEFFormCreateRequest.DoWriteToJson(aJson: TACBrJSONObject);
+begin
+  if not Assigned(aJson) then
+    Exit;
+
+  inherited DoWriteToJson(aJson);
+
+  aJson
+    .AddPair('cnpj', fcnpj, False)
+    .AddPair('order_type', SmartTEFOrderTypeToString(forder_type), False);
+end;
+
+function TACBrSmartTEFFormCreateRequest.IsEmpty: Boolean;
+begin
+  Result :=
+    inherited IsEmpty and
+    EstaVazio(fcnpj) and
+    (forder_type = sotNone);
 end;
 
 { TACBrSmartTEFOrderCreateRequest }
@@ -1804,6 +3075,7 @@ begin
     Exit;
 
   fvalue := Source.value;
+  fcnpj := Source.cnpj;
   fpayment_type := Source.payment_type;
   finstallments := Source.installments;
   fmin_installments := Source.min_installments;
@@ -1814,6 +3086,9 @@ begin
   fuser_id := Source.user_id;
   ffee_type := Source.fee_type;
   fhas_details := Source.has_details;
+  fallow_multi_payments := Source.allow_multi_payments;
+  fallow_cash_payment := Source.allow_cash_payment;
+  form.Assign(Source.form);
 end;
 
 procedure TACBrSmartTEFOrderCreateRequest.AssignSchema(aSource: TACBrAPISchema);
@@ -1825,6 +3100,7 @@ end;
 procedure TACBrSmartTEFOrderCreateRequest.Clear;
 begin
   fvalue := 0;
+  fcnpj := EmptyStr;
   fpayment_type := stpNone;
   finstallments := 0;
   fmin_installments := 0;
@@ -1836,12 +3112,18 @@ begin
   fuser_id := 0;
   ffee_type := sftNone;
   fhas_details := False;
+  fallow_multi_payments := False;
+  fallow_cash_payment := False;
+  if Assigned(fform) then
+    fform.Clear;
 end;
 
 destructor TACBrSmartTEFOrderCreateRequest.Destroy;
 begin
   if Assigned(fextras) then
     fextras.Free;
+  if Assigned(fform) then
+    fform.Free;
   inherited;
 end;
 
@@ -1860,6 +3142,7 @@ begin
 
   aJson
     .Value('value', fvalue)
+    .Value('cnpj', fcnpj)
     .Value('payment_type', sPaymentType)
     .Value('installments', finstallments)
     .Value('min_installments', fmin_installments)
@@ -1868,9 +3151,13 @@ begin
     .Value('serial_pos', fserial_pos)
     .Value('user_id', fuser_id)
     .Value('fee_type', sFeeType)
-    .Value('has_details', fhas_details);
+    .Value('has_details', fhas_details)
+    .Value('allow_multi_payments', fallow_multi_payments)
+    .Value('allow_cash_payment', fallow_cash_payment);
 
   extras.ReadFromJson(aJson);
+  if aJson.IsJSONObject('form') then
+    form.ReadFromJson(aJson);
 
   if NaoEstaVazio(sPaymentType) then
     fpayment_type := StringToSmartTEFPaymentType(sPaymentType);
@@ -1887,6 +3174,7 @@ begin
 
   aJson
     .AddPair('value', fvalue)
+    .AddPair('cnpj', fcnpj, False)
     .AddPair('payment_type', SmartTEFPaymentTypeToString(fpayment_type), False)
     .AddPair('installments', finstallments, False)
     .AddPair('min_installments', fmin_installments, False)
@@ -1895,10 +3183,19 @@ begin
     .AddPair('serial_pos', fserial_pos, False)
     .AddPair('user_id', fuser_id, False)
     .AddPair('fee_type', SmartTEFFeeTypeToString(ffee_type), False)
-    .AddPair('has_details', fhas_details);
+    .AddPair('has_details', fhas_details or fallow_multi_payments);
+
+  // Multiplos pagamentos exige has_details = true (false retorna HTTP 400)
+  if fallow_multi_payments then
+    aJson.AddPair('allow_multi_payments', True);
+  if fallow_cash_payment then
+    aJson.AddPair('allow_cash_payment', True);
 
   if Assigned(fextras) then
     fextras.WriteToJson(aJson);
+
+  if Assigned(fform) then
+    fform.WriteToJson(aJson);
 end;
 
 function TACBrSmartTEFOrderCreateRequest.GetExtras: TACBrSmartTEFOrderExtras;
@@ -1908,10 +3205,18 @@ begin
   Result := fextras;
 end;
 
+function TACBrSmartTEFOrderCreateRequest.GetForm: TACBrSmartTEFFormRequest;
+begin
+  if not Assigned(fform) then
+    fform := TACBrSmartTEFFormRequest.Create('form');
+  Result := fform;
+end;
+
 function TACBrSmartTEFOrderCreateRequest.IsEmpty: Boolean;
 begin
   Result :=
     EstaZerado(fvalue) and
+    EstaVazio(fcnpj) and
     (fpayment_type = stpNone) and
     EstaZerado(finstallments) and
     EstaZerado(fmin_installments) and
@@ -1921,7 +3226,10 @@ begin
     EstaVazio(fserial_pos) and
     EstaZerado(fuser_id) and
     (ffee_type = sftNone) and
-    not fhas_details;
+    not fhas_details and
+    not fallow_multi_payments and
+    not fallow_cash_payment and
+    (not Assigned(fform) or fform.IsEmpty);
 end;
 
 { TACBrSmartTEFOrderResponseSchema }
@@ -1935,6 +3243,10 @@ begin
   fpayment_status := Source.payment_status;
   forder_type := Source.order_type;
   fcharge_id := Source.charge_id;
+  fallow_multi_payments := Source.allow_multi_payments;
+  fallow_cash_payment := Source.allow_cash_payment;
+  fhas_details := Source.has_details;
+  form.Assign(Source.form);
 end;
 
 procedure TACBrSmartTEFOrderResponseSchema.AssignSchema(aSource: TACBrAPISchema);
@@ -1949,6 +3261,25 @@ begin
   fpayment_status := stsNone;
   forder_type := sotNone;
   fcharge_id := EmptyStr;
+  fallow_multi_payments := False;
+  fallow_cash_payment := False;
+  fhas_details := False;
+  if Assigned(fform) then
+    fform.Clear;
+end;
+
+destructor TACBrSmartTEFOrderResponseSchema.Destroy;
+begin
+  if Assigned(fform) then
+    fform.Free;
+  inherited;
+end;
+
+function TACBrSmartTEFOrderResponseSchema.GetForm: TACBrSmartTEFFormResponseSchema;
+begin
+  if not Assigned(fform) then
+    fform := TACBrSmartTEFFormResponseSchema.Create('form');
+  Result := fform;
 end;
 
 procedure TACBrSmartTEFOrderResponseSchema.DoReadFromJson(aJson: TACBrJSONObject);
@@ -1967,13 +3298,19 @@ begin
     .Value('payment_identifier', fpayment_identifier)
     .Value('payment_status', sPaymentStatus)
     .Value('order_type', sOrderType)
-    .Value('charge_id', fcharge_id);
+    .Value('charge_id', fcharge_id)
+    .Value('allow_multi_payments', fallow_multi_payments)
+    .Value('allow_cash_payment', fallow_cash_payment)
+    .Value('has_details', fhas_details);
 
   if NaoEstaVazio(sPaymentStatus) then
     fpayment_status := StringToSmartTEFStatus(sPaymentStatus);
 
   if NaoEstaVazio(sOrderType) then
     forder_type := StringToSmartTEFOrderType(sOrderType);
+
+  if aJson.IsJSONObject('form') then
+    form.ReadFromJson(aJson);
 end;
 
 procedure TACBrSmartTEFOrderResponseSchema.DoWriteToJson(aJson: TACBrJSONObject);
@@ -1985,7 +3322,13 @@ begin
     .AddPair('payment_identifier', fpayment_identifier)
     .AddPair('payment_status', SmartTEFStatusToString(fpayment_status))
     .AddPair('order_type', SmartTEFOrderTypeToString(forder_type))
-    .AddPair('charge_id', fcharge_id);
+    .AddPair('charge_id', fcharge_id)
+    .AddPair('allow_multi_payments', fallow_multi_payments)
+    .AddPair('allow_cash_payment', fallow_cash_payment)
+    .AddPair('has_details', fhas_details);
+
+  if Assigned(fform) then
+    fform.WriteToJson(aJson);
 end;
 
 function TACBrSmartTEFOrderResponseSchema.IsEmpty: Boolean;
@@ -1994,7 +3337,145 @@ begin
     EstaVazio(fpayment_identifier) and
     (fpayment_status = stsNone) and
     (forder_type = sotNone) and
-    EstaVazio(fcharge_id);
+    EstaVazio(fcharge_id) and
+    not fallow_multi_payments and
+    not fallow_cash_payment and
+    not fhas_details and
+    (not Assigned(fform) or fform.IsEmpty);
+end;
+
+{ TACBrSmartTEFAnonymizeRequest }
+
+procedure TACBrSmartTEFAnonymizeRequest.Assign(Source: TACBrSmartTEFAnonymizeRequest);
+begin
+  if not Assigned(Source) then
+    Exit;
+
+  if Assigned(Source.fpayments_identifers) then
+    payments_identifers.Assign(Source.fpayments_identifers)
+  else if Assigned(fpayments_identifers) then
+    fpayments_identifers.Clear;
+end;
+
+procedure TACBrSmartTEFAnonymizeRequest.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrSmartTEFAnonymizeRequest) then
+    Assign(TACBrSmartTEFAnonymizeRequest(aSource));
+end;
+
+procedure TACBrSmartTEFAnonymizeRequest.Clear;
+begin
+  if Assigned(fpayments_identifers) then
+    fpayments_identifers.Clear;
+end;
+
+destructor TACBrSmartTEFAnonymizeRequest.Destroy;
+begin
+  if Assigned(fpayments_identifers) then
+    fpayments_identifers.Free;
+  inherited;
+end;
+
+procedure TACBrSmartTEFAnonymizeRequest.DoReadFromJson(aJson: TACBrJSONObject);
+var
+  ja: TACBrJSONArray;
+  i: Integer;
+begin
+  if not Assigned(aJson) then
+    Exit;
+
+  if not aJson.IsJSONArray('payments_identifers') then
+    Exit;
+
+  ja := aJson.AsJSONArray['payments_identifers'];
+  for i := 0 to ja.Count - 1 do
+    payments_identifers.Add(ja.Items[i]);
+end;
+
+procedure TACBrSmartTEFAnonymizeRequest.DoWriteToJson(aJson: TACBrJSONObject);
+var
+  ja: TACBrJSONArray;
+  i: Integer;
+begin
+  if not Assigned(aJson) then
+    Exit;
+
+  if (not Assigned(fpayments_identifers)) or (fpayments_identifers.Count = 0) then
+    Exit;
+
+  ja := TACBrJSONArray.Create;
+  for i := 0 to fpayments_identifers.Count - 1 do
+    ja.AddElement(fpayments_identifers[i]);
+  aJson.AddPair('payments_identifers', ja);
+end;
+
+function TACBrSmartTEFAnonymizeRequest.GetPayments_identifers: TStringList;
+begin
+  if not Assigned(fpayments_identifers) then
+    fpayments_identifers := TStringList.Create;
+  Result := fpayments_identifers;
+end;
+
+function TACBrSmartTEFAnonymizeRequest.IsEmpty: Boolean;
+begin
+  Result := (not Assigned(fpayments_identifers)) or (fpayments_identifers.Count = 0);
+end;
+
+{ TACBrSmartTEFAnonymizeResponseSchema }
+
+procedure TACBrSmartTEFAnonymizeResponseSchema.Assign(Source: TACBrSmartTEFAnonymizeResponseSchema);
+begin
+  if not Assigned(Source) then
+    Exit;
+
+  frowsAffected := Source.rowsAffected;
+  fhasChanges := Source.hasChanges;
+  fmessage := Source.message;
+end;
+
+procedure TACBrSmartTEFAnonymizeResponseSchema.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrSmartTEFAnonymizeResponseSchema) then
+    Assign(TACBrSmartTEFAnonymizeResponseSchema(aSource));
+end;
+
+procedure TACBrSmartTEFAnonymizeResponseSchema.Clear;
+begin
+  frowsAffected := 0;
+  fhasChanges := False;
+  fmessage := EmptyStr;
+end;
+
+procedure TACBrSmartTEFAnonymizeResponseSchema.DoReadFromJson(aJson: TACBrJSONObject);
+begin
+  if not Assigned(aJson) then
+    Exit;
+
+  aJson
+    .Value('rowsAffected', frowsAffected)
+    .Value('hasChanges', fhasChanges)
+    .Value('message', fmessage);
+end;
+
+procedure TACBrSmartTEFAnonymizeResponseSchema.DoWriteToJson(aJson: TACBrJSONObject);
+begin
+  if not Assigned(aJson) then
+    Exit;
+
+  aJson
+    .AddPair('rowsAffected', frowsAffected)
+    .AddPair('message', fmessage, False);
+
+  if fhasChanges then
+    aJson.AddPair('hasChanges', True);
+end;
+
+function TACBrSmartTEFAnonymizeResponseSchema.IsEmpty: Boolean;
+begin
+  Result :=
+    EstaZerado(frowsAffected) and
+    not fhasChanges and
+    EstaVazio(fmessage);
 end;
 
 { TACBrSmartTEFReason }
@@ -2119,12 +3600,35 @@ begin
   frefund_serial_pos := Source.refund_serial_pos;
   frefund_user_id := Source.refund_user_id;
   coupon.Assign(Source.coupon);
-  frefund_coupon := Source.refund_coupon;
+  refund_coupon.Assign(Source.refund_coupon);
   ffee_type := Source.fee_type;
   fprint_identifier := Source.print_identifier;
   fprint_status := Source.print_status;
   ffile := Source.file_;
   fprint_id := Source.print_id;
+  fremaining_payment_amount := Source.remaining_payment_amount;
+  if Assigned(Source.fpartial_payments) then
+    partial_payments.Assign(Source.fpartial_payments)
+  else if Assigned(fpartial_payments) then
+    fpartial_payments.Clear;
+  fmin_installments := Source.min_installments;
+  fpayment_extras := Source.payment_extras;
+  fpackage_name := Source.package_name;
+  frefund_date := Source.refund_date;
+  fcontrole_versao := Source.controle_versao;
+  fconn_type := Source.conn_type;
+  fbatt_level := Source.batt_level;
+  fcharging := Source.charging;
+  location.Assign(Source.location);
+  fstore_id := Source.store_id;
+  if Assigned(Source.fgrouped_payments) then
+    grouped_payments.Assign(Source.fgrouped_payments)
+  else if Assigned(fgrouped_payments) then
+    fgrouped_payments.Clear;
+  if Assigned(Source.fform_order) then
+    form_order.Assign(Source.fform_order)
+  else if Assigned(fform_order) then
+    fform_order.Clear;
 end;
 
 procedure TACBrSmartTEFCardClass.AssignSchema(aSource: TACBrAPISchema);
@@ -2166,12 +3670,31 @@ begin
   frefund_user_id := 0;
   if Assigned(fcoupon) then
     fcoupon.Clear;
-  frefund_coupon := EmptyStr;
+  if Assigned(frefund_coupon) then
+    frefund_coupon.Clear;
   ffee_type := sftNone;
   fprint_identifier := EmptyStr;
   fprint_status := stsNone;
   ffile := EmptyStr;
   fprint_id := EmptyStr;
+  fremaining_payment_amount := 0;
+  if Assigned(fpartial_payments) then
+    fpartial_payments.Clear;
+  fmin_installments := 0;
+  fpayment_extras := EmptyStr;
+  fpackage_name := EmptyStr;
+  frefund_date := 0;
+  fcontrole_versao := EmptyStr;
+  fconn_type := EmptyStr;
+  fbatt_level := EmptyStr;
+  fcharging := False;
+  if Assigned(flocation) then
+    flocation.Clear;
+  fstore_id := 0;
+  if Assigned(fgrouped_payments) then
+    fgrouped_payments.Clear;
+  if Assigned(fform_order) then
+    fform_order.Clear;
 end;
 
 destructor TACBrSmartTEFCardClass.Destroy;
@@ -2182,13 +3705,23 @@ begin
     freason.Free;
   if Assigned(fcoupon) then
     fcoupon.Free;
+  if Assigned(frefund_coupon) then
+    frefund_coupon.Free;
+  if Assigned(fpartial_payments) then
+    fpartial_payments.Free;
+  if Assigned(flocation) then
+    flocation.Free;
+  if Assigned(fgrouped_payments) then
+    fgrouped_payments.Free;
+  if Assigned(fform_order) then
+    fform_order.Free;
   inherited;
 end;
 
 procedure TACBrSmartTEFCardClass.DoReadFromJson(aJson: TACBrJSONObject);
 var
   sCreateAt, sUpdateAt, sPaymentDate, sOrderType, sPaymentType, sPaymentStatus,
-    sFeeType, sStatus: String;
+    sFeeType, sStatus, sRefundDate: String;
 begin
   if not Assigned(aJson) then
     Exit;
@@ -2201,6 +3734,8 @@ begin
     sPaymentType := EmptyStr;
     sPaymentStatus := EmptyStr;
     sFeeType := EmptyStr;
+    sStatus := EmptyStr;
+    sRefundDate := EmptyStr;
   {$EndIf}
 
   aJson
@@ -2221,6 +3756,7 @@ begin
     .Value('nsu_sitef', fnsu_sitef)
     .Value('acquirer', facquirer)
     .Value('acquirer_cnpj', facquirer_cnpj)
+    .Value('remaining_payment_amount', fremaining_payment_amount)
     .Value('serial_pos', fserial_pos)
     .Value('user_id', fuser_id)
     .Value('has_details', fhas_details)
@@ -2229,12 +3765,19 @@ begin
     .Value('refund_autorization_code', frefund_autorization_code)
     .Value('refund_serial_pos', frefund_serial_pos)
     .Value('refund_user_id', frefund_user_id)
-    .Value('refund_coupon', frefund_coupon)
     .Value('fee_type', sFeeType)
     .Value('print_identifier', fprint_identifier)
     .Value('print_status', sStatus)
     .Value('file', ffile)
-    .Value('print_id', fprint_id);
+    .Value('print_id', fprint_id)
+    .Value('min_installments', fmin_installments)
+    .Value('package_name', fpackage_name)
+    .Value('refund_date', sRefundDate)
+    .Value('controle_versao', fcontrole_versao)
+    .Value('conn_type', fconn_type)
+    .Value('batt_level', fbatt_level)
+    .Value('charging', fcharging)
+    .Value('store_id', fstore_id);
 
   if NaoEstaVazio(sCreateAt) then
     fcreate_at := Iso8601ToDateTime(sCreateAt);
@@ -2242,6 +3785,8 @@ begin
     fupdate_at := Iso8601ToDateTime(sUpdateAt);
   if NaoEstaVazio(sPaymentDate) then
     fpayment_date := Iso8601ToDateTime(sPaymentDate);
+  if NaoEstaVazio(sRefundDate) then
+    frefund_date := Iso8601ToDateTime(sRefundDate);
   if NaoEstaVazio(sOrderType) then
     forder_type := StringToSmartTEFOrderType(sOrderType);
   if NaoEstaVazio(sPaymentType) then
@@ -2256,6 +3801,24 @@ begin
   extras.ReadFromJson(aJson);
   reason.ReadFromJson(aJson);
   coupon.ReadFromJSon(aJson);
+  if aJson.IsJSONObject('refound_coupon') then
+    refund_coupon.ReadFromJSon(aJson);
+
+  if aJson.IsJSONObject('payment_extras') then
+    fpayment_extras := aJson.AsJSONObject['payment_extras'].ToJSON;
+  if aJson.IsJSONObject('location') then
+    location.ReadFromJSon(aJson);
+
+  if aJson.IsJSONArray('partial_payments') then
+    partial_payments.ReadFromJSon(aJson)
+  else if Assigned(fpartial_payments) then
+    fpartial_payments.Clear;
+
+  if aJson.IsJSONArray('grouped_payments') then
+    grouped_payments.ReadFromJSon(aJson);
+
+  if aJson.IsJSONArray('form_order') then
+    form_order.ReadFromJSon(aJson);
 end;
 
 procedure TACBrSmartTEFCardClass.DoWriteToJson(aJson: TACBrJSONObject);
@@ -2280,6 +3843,7 @@ begin
     .AddPair('nsu_sitef', fnsu_sitef, False)
     .AddPair('acquirer', facquirer, False)
     .AddPair('acquirer_cnpj', facquirer_cnpj, False)
+    .AddPair('remaining_payment_amount', fremaining_payment_amount, False)
     .AddPair('serial_pos', fserial_pos, False)
     .AddPair('user_id', fuser_id, False)
     .AddPair('has_details', fhas_details)
@@ -2288,10 +3852,18 @@ begin
     .AddPair('refund_autorization_code', frefund_autorization_code, False)
     .AddPair('refund_serial_pos', frefund_serial_pos, False)
     .AddPair('refund_user_id', frefund_user_id, False)
-    .AddPair('refund_coupon', frefund_coupon, False)
     .AddPair('fee_type', SmartTEFFeeTypeToString(ffee_type), False)
     .AddPair('file', ffile, False)
-    .AddPair('print_id', fprint_id, False);
+    .AddPair('print_id', fprint_id, False)
+    .AddPair('min_installments', fmin_installments, False)
+    .AddPair('package_name', fpackage_name, False)
+    .AddPair('controle_versao', fcontrole_versao, False)
+    .AddPair('conn_type', fconn_type, False)
+    .AddPair('batt_level', fbatt_level, False)
+    .AddPair('store_id', fstore_id, False);
+
+  if fcharging then
+    aJson.AddPair('charging', True);
 
   if NaoEstaZerado(fcreate_at) then
     aJson.AddPair('create_at', DateTimeToIso8601(fcreate_at));
@@ -2302,6 +3874,15 @@ begin
   if NaoEstaZerado(fpayment_date) then
     aJson.AddPair('payment_date', DateTimeToIso8601(fpayment_date));
 
+  if NaoEstaZerado(frefund_date) then
+    aJson.AddPair('refund_date', DateTimeToIso8601(frefund_date));
+
+  if NaoEstaVazio(fpayment_extras) then
+    aJson.AddPairJSONObject('payment_extras', fpayment_extras);
+
+  if Assigned(flocation) then
+    flocation.WriteToJson(aJson);
+
   if Assigned(fextras) then
     fextras.WriteToJson(aJson);
 
@@ -2310,6 +3891,18 @@ begin
 
   if Assigned(fcoupon) then
     fcoupon.WriteToJson(aJson);
+
+  if Assigned(frefund_coupon) then
+    frefund_coupon.WriteToJson(aJson);
+
+  if Assigned(fpartial_payments) then
+    fpartial_payments.WriteToJSon(aJson);
+
+  if Assigned(fgrouped_payments) then
+    fgrouped_payments.WriteToJSon(aJson);
+
+  if Assigned(fform_order) then
+    fform_order.WriteToJSon(aJson);
 end;
 
 function TACBrSmartTEFCardClass.GetExtras: TACBrSmartTEFOrderExtras;
@@ -2331,6 +3924,46 @@ begin
   if not Assigned(fcoupon) then
     fcoupon := TACBrSmartTEFCoupon.Create('coupon');
   Result := fcoupon;
+end;
+
+function TACBrSmartTEFCardClass.Getrefund_coupon: TACBrSmartTEFCoupon;
+begin
+  if not Assigned(frefund_coupon) then
+    frefund_coupon := TACBrSmartTEFCoupon.Create('refound_coupon');
+  Result := frefund_coupon;
+end;
+
+function TACBrSmartTEFCardClass.Getpartial_payments: TACBrSmartTEFCardDetailsList;
+begin
+  if not Assigned(fpartial_payments) then
+    fpartial_payments := TACBrSmartTEFCardDetailsList.Create('partial_payments');
+  Result := fpartial_payments;
+end;
+
+function TACBrSmartTEFCardClass.GetLocation: TACBrSmartTEFLocation;
+begin
+  if not Assigned(flocation) then
+    flocation := TACBrSmartTEFLocation.Create('location');
+  Result := flocation;
+end;
+
+function TACBrSmartTEFCardClass.Getgrouped_payments: TACBrSmartTEFCardDetailsList;
+begin
+  if not Assigned(fgrouped_payments) then
+    fgrouped_payments := TACBrSmartTEFCardDetailsList.Create('grouped_payments');
+  Result := fgrouped_payments;
+end;
+
+function TACBrSmartTEFCardClass.Getform_order: TACBrSmartTEFFormDetailsList;
+begin
+  if not Assigned(fform_order) then
+    fform_order := TACBrSmartTEFFormDetailsList.Create('form_order');
+  Result := fform_order;
+end;
+
+function TACBrSmartTEFCardClass.GetTipo: TACBrSmartTEFCardType;
+begin
+  Result := StringToSmartTEFCardType(ftype);
 end;
 
 function TACBrSmartTEFCardClass.IsEmpty: Boolean;
@@ -2364,8 +3997,22 @@ begin
     EstaVazio(frefund_serial_pos) and
     EstaZerado(frefund_user_id) and
     (not Assigned(fcoupon) or fcoupon.IsEmpty) and
-    EstaVazio(frefund_coupon) and
-    (ffee_type = sftNone);
+    (not Assigned(frefund_coupon) or frefund_coupon.IsEmpty) and
+    (ffee_type = sftNone) and
+    EstaZerado(fremaining_payment_amount) and
+    (not Assigned(fpartial_payments) or fpartial_payments.IsEmpty) and
+    EstaZerado(fmin_installments) and
+    EstaVazio(fpayment_extras) and
+    EstaVazio(fpackage_name) and
+    EstaZerado(frefund_date) and
+    EstaVazio(fcontrole_versao) and
+    EstaVazio(fconn_type) and
+    EstaVazio(fbatt_level) and
+    not fcharging and
+    (not Assigned(flocation) or flocation.IsEmpty) and
+    EstaZerado(fstore_id) and
+    (not Assigned(fgrouped_payments) or fgrouped_payments.IsEmpty) and
+    (not Assigned(fform_order) or fform_order.IsEmpty);
 end;
 
 { TACBrSmartTEFCardDetailsList }
@@ -2431,6 +4078,10 @@ begin
   if not Assigned(aJson) then
     Exit;
 
+  {$IfDef FPC}
+    s := EmptyStr;
+  {$EndIf}
+
   aJson
     .Value('name', fname)
     .Value('data', s);
@@ -2440,13 +4091,24 @@ begin
 end;
 
 procedure TACBrSmartTEFPrintFile.DoWriteToJson(aJson: TACBrJSONObject);
+var
+  s: String;
+  p: Integer;
 begin
   if not Assigned(aJson) then
     Exit;
 
+  s := String(fdata);
+  if (LowerCase(Copy(s, 1, 5)) = 'data:') then
+  begin
+    p := Pos(',', s);
+    if (p > 0) then
+      s := Copy(s, p + 1, Length(s));
+  end;
+
   aJson
-    .AddPair('name', fname)
-    .AddPair('data', fdata);
+    .AddPair('name', fname, False)
+    .AddPair('data', s);
 end;
 
 function TACBrSmartTEFPrintFile.IsEmpty: Boolean;
@@ -2461,8 +4123,14 @@ begin
   if not Assigned(Source) then
     Exit;
 
+  fcnpj := Source.cnpj;
   forder_type := Source.order_type;
   fprint_id := Source.print_id;
+  fserial_pos := Source.serial_pos;
+  fuser_id := Source.user_id;
+  fhas_details := Source.has_details;
+  fis_from_text := Source.is_from_text;
+  extras.Assign(Source.extras);
   file_.Assign(Source.file_);
 end;
 
@@ -2474,16 +4142,23 @@ end;
 
 procedure TACBrSmartTEFPrintCreateRequest.Clear;
 begin
+  fcnpj := EmptyStr;
   forder_type := sotNone;
   fprint_id := EmptyStr;
   fserial_pos := EmptyStr;
   fuser_id := 0;
+  fhas_details := False;
+  fis_from_text := False;
+  if Assigned(fextras) then
+    fextras.Clear;
   if Assigned(ffile) then
     ffile.Clear;
 end;
 
 destructor TACBrSmartTEFPrintCreateRequest.Destroy;
 begin
+  if Assigned(fextras) then
+    fextras.Free;
   if Assigned(ffile) then
     ffile.Free;
   inherited;
@@ -2501,13 +4176,19 @@ begin
   {$EndIf}
 
   aJson
+    .Value('cnpj', fcnpj)
     .Value('order_type', sOrderType)
     .Value('serial_pos', fserial_pos)
     .Value('user_id', fuser_id)
-    .Value('print_id', fprint_id);
+    .Value('print_id', fprint_id)
+    .Value('has_details', fhas_details)
+    .Value('is_from_text', fis_from_text);
 
   if NaoEstaVazio(sOrderType) then
     forder_type := StringToSmartTEFOrderType(sOrderType);
+
+  if aJson.IsJSONObject('extras') then
+    extras.ReadFromJson(aJson);
 
   file_.ReadFromJson(aJson);
 end;
@@ -2518,13 +4199,29 @@ begin
     Exit;
 
   aJson
-    .AddPair('order_type', SmartTEFOrderTypeToString(forder_type))
+    .AddPair('cnpj', fcnpj, False)
+    .AddPair('order_type', SmartTEFOrderTypeToString(forder_type), False)
     .AddPair('serial_pos', fserial_pos, False)
     .AddPair('user_id', fuser_id, False)
     .AddPair('print_id', fprint_id, False);
 
+  if fhas_details then
+    aJson.AddPair('has_details', True);
+  if fis_from_text then
+    aJson.AddPair('is_from_text', True);
+
+  if Assigned(fextras) then
+    fextras.WriteToJson(aJson);
+
   if Assigned(ffile) then
     ffile.WriteToJson(aJson);
+end;
+
+function TACBrSmartTEFPrintCreateRequest.GetExtras: TACBrSmartTEFOrderExtras;
+begin
+  if not Assigned(fextras) then
+    fextras := TACBrSmartTEFOrderExtras.Create('extras');
+  Result := fextras;
 end;
 
 function TACBrSmartTEFPrintCreateRequest.GetFile: TACBrSmartTEFPrintFile;
@@ -2537,10 +4234,14 @@ end;
 function TACBrSmartTEFPrintCreateRequest.IsEmpty: Boolean;
 begin
   Result :=
+    EstaVazio(fcnpj) and
     (forder_type = sotNone) and
     EstaVazio(fserial_pos) and
     EstaZerado(fuser_id) and
     EstaVazio(fprint_id) and
+    not fhas_details and
+    not fis_from_text and
+    ((not Assigned(fextras)) or fextras.IsEmpty) and
     ((not Assigned(ffile)) or ffile.IsEmpty);
 end;
 
@@ -2627,6 +4328,9 @@ begin
   fmessage := Source.message;
   ftimestamp := Source.timestamp;
   fpath := Source.path;
+  ferror_code := Source.error_code;
+  facquirer := Source.acquirer;
+  fpayment_identifier := Source.payment_identifier;
 end;
 
 procedure TACBrSmartTEFErrorData.AssignSchema(aSource: TACBrAPISchema);
@@ -2640,37 +4344,73 @@ begin
   fmessage := EmptyStr;
   ftimestamp := 0;
   fpath := EmptyStr;
+  ferror_code := EmptyStr;
+  facquirer := EmptyStr;
+  fpayment_identifier := EmptyStr;
+end;
+
+function SmartTEFErrorMessageFromArray(aJsonArray: TACBrJSONArray): String; forward;
+
+function SmartTEFErrorMessageFromObject(aJson: TACBrJSONObject): String;
+begin
+  if aJson.IsJSONArray('message') then
+    Result := SmartTEFErrorMessageFromArray(aJson.AsJSONArray['message'])
+  else if aJson.IsJSONObject('message') then
+    Result := SmartTEFErrorMessageFromObject(aJson.AsJSONObject['message'])
+  else
+    Result := aJson.AsString['message'];
+
+  if EstaVazio(Result) then
+    Result := aJson.ToJSON;
+end;
+
+function SmartTEFErrorMessageFromArray(aJsonArray: TACBrJSONArray): String;
+var
+  i: Integer;
+  s: String;
+  bObjetos: Boolean;
+begin
+  Result := EmptyStr;
+  s := Trim(Copy(Trim(aJsonArray.ToJSON), 2, MaxInt));
+  bObjetos := NaoEstaVazio(s) and (s[1] = '{');
+
+  for i := 0 to aJsonArray.Count - 1 do
+  begin
+    if bObjetos then
+      s := SmartTEFErrorMessageFromObject(aJsonArray.ItemAsJSONObject[i])
+    else
+      s := aJsonArray.Items[i];
+    Result := Result + s + sLineBreak;
+  end;
 end;
 
 procedure TACBrSmartTEFErrorData.DoReadFromJson(aJson: TACBrJSONObject);
 var
-  wTimestamp, wMsg: String;
-  ja: TACBrJSONArray;
-  i: Integer;
+  wTimestamp: String;
 begin
   if not Assigned(aJson) then
     Exit;
 
   {$IfDef FPC}
-    wMsg := EmptyStr;
     wTimestamp := EmptyStr;
   {$EndIf}
 
   aJson
     .Value('timestamp', wTimestamp)
-    .Value('path', fpath);
+    .Value('path', fpath)
+    .Value('error_code', ferror_code)
+    .Value('acquirer', facquirer)
+    .Value('payment_identifier', fpayment_identifier);
 
-  if (not aJSon.IsJSONArray('message')) then
-    aJson.Value('message', fmessage)
+  if aJson.IsJSONArray('message') then
+    fmessage := SmartTEFErrorMessageFromArray(aJson.AsJSONArray['message'])
+  else if aJson.IsJSONObject('message') then
+    fmessage := SmartTEFErrorMessageFromObject(aJson.AsJSONObject['message'])
   else
-  begin
-    ja := aJSon.AsJSONArray['message'];
-    for i := 0 to ja.Count - 1 do
-    begin
-      ja.ItemAsJSONObject[i].Value('message', wMsg);
-      fmessage := fmessage + wMsg + sLineBreak;
-    end;
-  end;
+    aJson.Value('message', fmessage);
+
+  if EstaVazio(fmessage) then
+    aJson.Value('msg', fmessage);
 
   if NaoEstaVazio(wTimestamp) then
     ftimestamp := Iso8601ToDateTime(wTimestamp);
@@ -2683,7 +4423,10 @@ begin
 
   aJson
     .AddPair('message', fmessage)
-    .AddPair('path', fpath);
+    .AddPair('path', fpath)
+    .AddPair('error_code', ferror_code, False)
+    .AddPair('acquirer', facquirer, False)
+    .AddPair('payment_identifier', fpayment_identifier, False);
   if NaoEstaZerado(ftimestamp) then
     aJson.AddPair('timestamp', DateTimeToIso8601(ftimestamp));
 end;
@@ -2693,7 +4436,10 @@ begin
   Result :=
     EstaVazio(fmessage) and
     EstaZerado(ftimestamp) and
-    EstaVazio(fpath);
+    EstaVazio(fpath) and
+    EstaVazio(ferror_code) and
+    EstaVazio(facquirer) and
+    EstaVazio(fpayment_identifier);
 end;
 
 { TACBrSmartTEFError }

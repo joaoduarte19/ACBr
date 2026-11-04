@@ -34,7 +34,7 @@
 (*
 
   Documentação SmartTEF
-  https://poscontrolecombr-my.sharepoint.com/:f:/g/personal/emerson_poscontrole_com_br/EiUWGpBTwyhImcFhFgrJTJMBu36C-KZm1knClhR6p5nA9g?e=7PzZVD
+  https://docs.smarttef.com.br
 
 *)
 
@@ -58,7 +58,45 @@ type
     function payment_status: TACBrSmartTEFStatus;
     function order_type: TACBrSmartTEFOrderType;
     function charge_id: String;
+    function allow_multi_payments: Boolean;
+    function allow_cash_payment: Boolean;
+    function has_details: Boolean;
+    function form: TACBrSmartTEFFormResponseSchema;
     function ToJson: String;
+  end;
+
+  { IACBrSmartTEFAnonymizeResponse }
+
+  IACBrSmartTEFAnonymizeResponse = interface
+  ['{9A5F58F0-1BA8-4F2C-A265-597741B6C8E5}']
+    procedure LoadJson(aJson: String);
+    function rowsAffected: Integer;
+    function hasChanges: Boolean;
+    function message: String;
+    function ToJson: String;
+  end;
+
+  { IACBrSmartTEFFormResponse }
+
+  IACBrSmartTEFFormResponse = interface
+  ['{5585C626-AE8D-4EDC-B7C3-F71852AAD89E}']
+    procedure LoadJson(aJson: String);
+    function form_identifier: String;
+    function form_status: TACBrSmartTEFStatus;
+    function order_type: TACBrSmartTEFOrderType;
+    function form_url: String;
+    function form_name: String;
+    function fill_out_type: TACBrSmartTEFFormFillOutType;
+    function ToJson: String;
+  end;
+
+  { IACBrSmartTEFFormDetailsResponse }
+
+  IACBrSmartTEFFormDetailsResponse = interface
+  ['{ADD09834-D32F-48D3-95E5-FC445B9DD0C4}']
+    procedure LoadJson(aJson: String);
+    function ToJson: String;
+    function formulario: TACBrSmartTEFFormDetails;
   end;
 
   { IACBrSmartTEFPrintResponse }
@@ -151,7 +189,7 @@ type
     function city_id: Integer;
     function state_id: Integer;
     function zip_code: String;
-    function disctrict: String;
+    function district: String;
     function address: String;
     function integrator_id: Integer;
   end;
@@ -172,6 +210,7 @@ type
     procedure LoadJson(aJson: String);
     function ToJson: String;
     function poolingList: TACBrSmartTEFPoolingList;
+    function pooling_time: Integer;
   end;
 
 implementation

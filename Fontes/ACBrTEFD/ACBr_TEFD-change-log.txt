@@ -45,6 +45,61 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+04/11/2026
+-- ACBrTEFSmartTEFSchemas --
+[+] Novas classes para Formulários: TACBrSmartTEFFormRequest,
+    TACBrSmartTEFFormCreateRequest, TACBrSmartTEFFormField,
+    TACBrSmartTEFFormFieldList, TACBrSmartTEFFormClass,
+    TACBrSmartTEFFormResponseSchema, TACBrSmartTEFFormDetails e
+    TACBrSmartTEFFormDetailsList
+[+] Novas classes TACBrSmartTEFAnonymizeRequest e TACBrSmartTEFAnonymizeResponseSchema
+[+] Objeto 'form' e propriedade 'cnpj' em TACBrSmartTEFOrderCreateRequest
+[+] Propriedades 'has_details' e 'form' em TACBrSmartTEFOrderResponseSchema
+[+] Propriedades 'cnpj', 'has_details', 'is_from_text' e 'extras' em
+    TACBrSmartTEFPrintCreateRequest
+[+] Novas propriedades em TACBrSmartTEFCardClass: min_installments, payment_extras,
+    package_name, refund_date, controle_versao, conn_type, batt_level, charging,
+    location, store_id, grouped_payments, form_order e tipo
+[+] Propriedade 'formulario' em TACBrSmartTEFPoolingSchemas, preenchida nos itens
+    do tipo FORM
+[+] Propriedade 'Campos' (Nome=Valor) em TACBrSmartTEFOrderExtras, para chaves livres
+[+] Propriedades 'error_code', 'acquirer' e 'payment_identifier' em
+    TACBrSmartTEFErrorData (recusa de estorno PIX)
+[+] Novos valores: sotGrouped (GROUPED), sftNenhum (NONE) e stsPULLED
+[+] Novos enums: TACBrSmartTEFFormFieldType, TACBrSmartTEFFormFillOutType,
+    TACBrSmartTEFOrderTarget, TACBrSmartTEFAgregate e TACBrSmartTEFCardType
+[*] TACBrSmartTEFPrintFile: 'name' passa a ser opcional e o prefixo data URI é
+    removido de 'data' antes do envio
+[*] TACBrSmartTEFStore: propriedade 'disctrict' renomeada para 'district',
+    acompanhando a API
+[-] TACBrSmartTEFTerminalDetails: 'conn_type' e 'batt_level' passam a ser String
+    (erro de conversão ao listar terminais com conn_type "WIFI")
+[-] TACBrSmartTEFErrorData: leitura de 'message' enviado como lista de textos ou
+    como objeto, e de 'msg' nos erros internos
+[-] TACBrSmartTEFCardClass: 'refund_coupon' passa a ser lido de 'refound_coupon',
+    como objeto (TACBrSmartTEFCoupon)
+[-] TACBrSmartTEFPrintCreateRequest: não envia mais 'order_type' vazio e o Assign
+    passa a copiar 'serial_pos' e 'user_id'
+    ATENÇÃO: alterações de tipo/nome que podem exigir ajuste no código:
+    - TACBrSmartTEFTerminalDetails.conn_type e batt_level: Integer -> String
+    - TACBrSmartTEFCardClass.refund_coupon: String -> TACBrSmartTEFCoupon
+    - TACBrSmartTEFStore.disctrict -> district
+
+-- ACBrTEFSmartTEFAPI, ACBrTEFSmartTEFInterface --
+[+] Nova propriedade OrdemFormulario, com os métodos Criar, Consultar e Cancelar
+[+] Novo método OrdemPagamento.Anonimizar, usando AnonimizacaoSolicitada (lote) ou
+    um único Payment Identifier
+[+] Pooling: 'pooling_time' na resposta, validação da janela de 24 horas e
+    overload que recebe apenas a data inicial
+[*] OrdemPagamento.Consultar envia 'payment_identifier' e 'charge_id' juntos,
+    quando os dois forem informados
+[*] IACBrSmartTEFStoreResponse: função 'disctrict' renomeada para 'district'
+[-] TACBrSmartTEFStoreResponse.store_id retornava o state_id
+[-] Terminais.AlterarNickname passa a aceitar apelido vazio (limpa o apelido)
+[-] Autenticar não envia 'cnpj_integrador' vazio e preenche RespostaErro em
+    caso de falha
+    por: Elias Cesar
+
 16/10/2026
 -- ACBrTEFAPI, ACBrTEFComum --
 [*] Metodos movidos da classe TACBrTEFAPI para Unit ACBrTEFComum, para permitir

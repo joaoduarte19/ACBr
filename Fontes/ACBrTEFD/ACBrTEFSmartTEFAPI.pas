@@ -34,7 +34,7 @@
 (*
 
   Documentação SmartTEF
-  https://poscontrolecombr-my.sharepoint.com/:f:/g/personal/emerson_poscontrole_com_br/EiUWGpBTwyhImcFhFgrJTJMBu36C-KZm1knClhR6p5nA9g?e=7PzZVD
+  https://docs.smarttef.com.br
 
 *)
 
@@ -73,7 +73,63 @@ type
     function payment_status: TACBrSmartTEFStatus;
     function order_type: TACBrSmartTEFOrderType;
     function charge_id: String;
+    function allow_multi_payments: Boolean;
+    function allow_cash_payment: Boolean;
+    function has_details: Boolean;
+    function form: TACBrSmartTEFFormResponseSchema;
     function ToJson: String;
+  end;
+
+  { TACBrSmartTEFAnonymizeResponse }
+
+  TACBrSmartTEFAnonymizeResponse = class(TInterfacedObject, IACBrSmartTEFAnonymizeResponse)
+  private
+    fResponseSchemas: TACBrSmartTEFAnonymizeResponseSchema;
+  protected
+    function responseSchemas: TACBrSmartTEFAnonymizeResponseSchema;
+  public
+    destructor Destroy; override;
+
+    procedure LoadJson(aJson: String);
+
+    function rowsAffected: Integer;
+    function hasChanges: Boolean;
+    function message: String;
+    function ToJson: String;
+  end;
+
+  { TACBrSmartTEFFormResponse }
+
+  TACBrSmartTEFFormResponse = class(TInterfacedObject, IACBrSmartTEFFormResponse)
+  private
+    fResponseSchemas: TACBrSmartTEFFormResponseSchema;
+  protected
+    function responseSchemas: TACBrSmartTEFFormResponseSchema;
+  public
+    destructor Destroy; override;
+
+    procedure LoadJson(aJson: String);
+
+    function form_identifier: String;
+    function form_status: TACBrSmartTEFStatus;
+    function order_type: TACBrSmartTEFOrderType;
+    function form_url: String;
+    function form_name: String;
+    function fill_out_type: TACBrSmartTEFFormFillOutType;
+    function ToJson: String;
+  end;
+
+  { TACBrSmartTEFFormDetailsResponse }
+
+  TACBrSmartTEFFormDetailsResponse = class(TInterfacedObject, IACBrSmartTEFFormDetailsResponse)
+  private
+    fformulario: TACBrSmartTEFFormDetails;
+  public
+    destructor Destroy; override;
+
+    procedure LoadJson(aJson: String);
+    function ToJson: String;
+    function formulario: TACBrSmartTEFFormDetails;
   end;
 
   { TACBrSmartTEFPrintResponse }
@@ -204,7 +260,7 @@ type
     function city_id: Integer;
     function state_id: Integer;
     function zip_code: String;
-    function disctrict: String;
+    function district: String;
     function address: String;
     function integrator_id: Integer;
   end;
@@ -227,12 +283,14 @@ type
   TACBrSmartTEFPoolingListResponse = class(TInterfacedObject, IACBrSmartTEFPoolingResponse)
   private
     fpoolingList: TACBrSmartTEFPoolingList;
+    fpooling_time: Integer;
   public
     destructor Destroy; override;
 
     procedure LoadJson(aJson: String);
     function ToJson: String;
     function poolingList: TACBrSmartTEFPoolingList;
+    function pooling_time: Integer;
   end;
 
   { TACBrSmartTEFOrdemPagamento }
@@ -242,8 +300,10 @@ type
     fOwner: TACBrSmartTEF;
     fRespostaErro: TACBrSmartTEFError;
     fOrdemPagamentoSolicitada: TACBrSmartTEFOrderCreateRequest;
+    fAnonimizacaoSolicitada: TACBrSmartTEFAnonymizeRequest;
 
     function GetOrdemPagamentoSolicitada: TACBrSmartTEFOrderCreateRequest;
+    function GetAnonimizacaoSolicitada: TACBrSmartTEFAnonymizeRequest;
     function GetRespostaErro: TACBrSmartTEFError;
     procedure SetRespostaErro(aJson: String);
   public
@@ -254,8 +314,34 @@ type
     function Consultar(const aPaymentIdentifier: String; out aResponse: IACBrSmartTEFCardDetailsListResponse; const aChargeId: String = ''): Boolean;
     function Cancelar(const aPaymentIdentifier: String; out aResponse: IACBrSmartTEFOrderResponse): Boolean;
     function Estornar(const aPaymentIdentifier: String; out aResponse: IACBrSmartTEFOrderResponse): Boolean;
+    function Anonimizar(out aResponse: IACBrSmartTEFAnonymizeResponse): Boolean; overload;
+    function Anonimizar(const aPaymentIdentifier: String; out aResponse: IACBrSmartTEFAnonymizeResponse): Boolean; overload;
 
     property OrdemPagamentoSolicitada: TACBrSmartTEFOrderCreateRequest read GetOrdemPagamentoSolicitada;
+    property AnonimizacaoSolicitada: TACBrSmartTEFAnonymizeRequest read GetAnonimizacaoSolicitada;
+    property RespostaErro: TACBrSmartTEFError read GetRespostaErro;
+  end;
+
+  { TACBrSmartTEFOrdemFormulario }
+
+  TACBrSmartTEFOrdemFormulario = class
+  private
+    fOwner: TACBrSmartTEF;
+    fRespostaErro: TACBrSmartTEFError;
+    fOrdemFormularioSolicitada: TACBrSmartTEFFormCreateRequest;
+
+    function GetOrdemFormularioSolicitada: TACBrSmartTEFFormCreateRequest;
+    function GetRespostaErro: TACBrSmartTEFError;
+    procedure SetRespostaErro(aJson: String);
+  public
+    constructor Create(aOwner: TACBrSmartTEF);
+    destructor Destroy; override;
+
+    function Criar(out aResponse: IACBrSmartTEFFormResponse): Boolean;
+    function Consultar(const aFormIdentifier: String; out aResponse: IACBrSmartTEFFormDetailsResponse): Boolean;
+    function Cancelar(const aFormIdentifier: String; out aResponse: IACBrSmartTEFFormResponse): Boolean;
+
+    property OrdemFormularioSolicitada: TACBrSmartTEFFormCreateRequest read GetOrdemFormularioSolicitada;
     property RespostaErro: TACBrSmartTEFError read GetRespostaErro;
   end;
 
@@ -353,8 +439,10 @@ type
     fTerminais: TACBrSmartTEFTerminais;
     fOrdemImpressao: TACBrSmartTEFOrdemImpressao;
     fOrdemPagamento: TACBrSmartTEFOrdemPagamento;
+    fOrdemFormulario: TACBrSmartTEFOrdemFormulario;
     fRespostaErro: TACBrSmartTEFError;
     function GetLoja: TACBrSmartTEFLoja;
+    function GetOrdemFormulario: TACBrSmartTEFOrdemFormulario;
     function GetOrdemImpressao: TACBrSmartTEFOrdemImpressao;
     function GetOrdemPagamento: TACBrSmartTEFOrdemPagamento;
     function GetRespostaErro: TACBrSmartTEFError;
@@ -371,10 +459,12 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
-    function Pooling(const aInicio, aFim: TDateTime; out aResponse: IACBrSmartTEFPoolingResponse): Boolean;
+    function Pooling(const aInicio, aFim: TDateTime; out aResponse: IACBrSmartTEFPoolingResponse): Boolean; overload;
+    function Pooling(const aInicio: TDateTime; out aResponse: IACBrSmartTEFPoolingResponse): Boolean; overload;
 
     property OrdemPagamento: TACBrSmartTEFOrdemPagamento read GetOrdemPagamento;
     property OrdemImpressao: TACBrSmartTEFOrdemImpressao read GetOrdemImpressao;
+    property OrdemFormulario: TACBrSmartTEFOrdemFormulario read GetOrdemFormulario;
     property Terminais: TACBrSmartTEFTerminais read GetTerminais;
     property Usuarios: TACBrSmartTEFUsuarios read GetUsuarios;
     property Loja: TACBrSmartTEFLoja read GetLoja;
@@ -392,7 +482,7 @@ type
 implementation
 
 uses
-  synautil,
+  synautil, DateUtils,
   ACBrUtil.DateTime,
   ACBrUtil.Strings,
   ACBrUtil.Base;
@@ -419,6 +509,13 @@ begin
   Result := fOrdemPagamentoSolicitada;
 end;
 
+function TACBrSmartTEFOrdemPagamento.GetAnonimizacaoSolicitada: TACBrSmartTEFAnonymizeRequest;
+begin
+  if (not Assigned(fAnonimizacaoSolicitada)) then
+    fAnonimizacaoSolicitada := TACBrSmartTEFAnonymizeRequest.Create;
+  Result := fAnonimizacaoSolicitada;
+end;
+
 constructor TACBrSmartTEFOrdemPagamento.Create(aOwner: TACBrSmartTEF);
 begin
   inherited Create;
@@ -431,6 +528,8 @@ begin
     fRespostaErro.Free;
   if Assigned(fOrdemPagamentoSolicitada) then
     fOrdemPagamentoSolicitada.Free;
+  if Assigned(fAnonimizacaoSolicitada) then
+    fAnonimizacaoSolicitada.Free;
   inherited Destroy;
 end;
 
@@ -484,10 +583,9 @@ begin
   fOwner.PrepararHTTP;
   jo := TACBrJSONObject.Create;
   try
-    if NaoEstaVazio(aPaymentIdentifier) then
-      jo.AddPair('payment_identifier', aPaymentIdentifier)
-    else
-      jo.AddPair('charge_id', aChargeId);
+    jo
+      .AddPair('payment_identifier', aPaymentIdentifier, False)
+      .AddPair('charge_id', aChargeId, False);
 
     fOwner.HttpSend.MimeType := cContentTypeApplicationJSon;
     WriteStrToStream(fOwner.HTTPSend.Document, jo.ToJSON);
@@ -588,6 +686,215 @@ begin
   fOwner.URLPathParams.Add(cSmartTEFEndpointOrder);
   fOwner.URLPathParams.Add(cSmartTEFEndpointStatus);
   fOwner.URLPathParams.Add(cSmartTEFEndpointEstornar);
+
+  try
+    fOwner.HTTPMethod(ChttpMethodPOST, cSmartTEFURL);
+  except
+    RespostaErro.AsJSON := fOwner.HTTPResponse;
+    if RespostaErro.IsEmpty then
+      raise;
+  end;
+
+  Result := (fOwner.HTTPResultCode in [HTTP_OK, HTTP_CREATED]);
+  if Result then
+    aResponse.LoadJson(fOwner.HTTPResponse)
+  else
+    SetRespostaErro(fOwner.HTTPResponse);
+end;
+
+function TACBrSmartTEFOrdemPagamento.Anonimizar(out aResponse: IACBrSmartTEFAnonymizeResponse): Boolean;
+begin
+  {$IfDef FPC}
+  Result := False;
+  {$EndIf}
+  aResponse := TACBrSmartTEFAnonymizeResponse.Create;
+
+  if (not Assigned(fAnonimizacaoSolicitada)) or fAnonimizacaoSolicitada.IsEmpty then
+    fOwner.DispararExcecao(EACBrAPIException.Create(Format(sErrorInvalidObject, ['AnonimizacaoSolicitada'])));
+
+  if (fAnonimizacaoSolicitada.payments_identifers.Count > 100) then
+    fOwner.DispararExcecao(EACBrAPIException.Create(Format(sErrorInvalidParameter, ['payments_identifers (1 a 100)'])));
+
+  fOwner.PrepararHTTP;
+  WriteStrToStream(fOwner.HTTPSend.Document, fAnonimizacaoSolicitada.AsJSON);
+  fOwner.HttpSend.MimeType := cContentTypeApplicationJSon;
+  fOwner.HTTPSend.Headers.Add(fOwner.GetAuthorizationERP);
+  fOwner.HTTPSend.Headers.Add(cSmartTEFHeaderGWKey + fOwner.GWTokenLoja);
+  fOwner.URLPathParams.Add(cSmartTEFEndpointManager);
+  fOwner.URLPathParams.Add(cSmartTEFEndpointStore);
+  fOwner.URLPathParams.Add(cSmartTEFEndpointPayments);
+  fOwner.URLPathParams.Add(cSmartTEFEndpointAnonymize);
+
+  try
+    fOwner.HTTPMethod(ChttpMethodPOST, cSmartTEFURL);
+  except
+    RespostaErro.AsJSON := fOwner.HTTPResponse;
+    if RespostaErro.IsEmpty then
+      raise;
+  end;
+
+  Result := (fOwner.HTTPResultCode in [HTTP_OK, HTTP_CREATED]);
+  if Result then
+    aResponse.LoadJson(fOwner.HTTPResponse)
+  else
+    SetRespostaErro(fOwner.HTTPResponse);
+end;
+
+function TACBrSmartTEFOrdemPagamento.Anonimizar(const aPaymentIdentifier: String;
+  out aResponse: IACBrSmartTEFAnonymizeResponse): Boolean;
+begin
+  if EstaVazio(aPaymentIdentifier) then
+    raise EACBrAPIException.Create(Format(sErrorInvalidObject, ['PaymentIdentifier']));
+
+  AnonimizacaoSolicitada.Clear;
+  AnonimizacaoSolicitada.payments_identifers.Add(aPaymentIdentifier);
+  Result := Anonimizar(aResponse);
+end;
+
+{ TACBrSmartTEFOrdemFormulario }
+
+function TACBrSmartTEFOrdemFormulario.GetOrdemFormularioSolicitada: TACBrSmartTEFFormCreateRequest;
+begin
+  if (not Assigned(fOrdemFormularioSolicitada)) then
+    fOrdemFormularioSolicitada := TACBrSmartTEFFormCreateRequest.Create;
+  Result := fOrdemFormularioSolicitada;
+end;
+
+function TACBrSmartTEFOrdemFormulario.GetRespostaErro: TACBrSmartTEFError;
+begin
+  if (not Assigned(fRespostaErro)) then
+    fRespostaErro := TACBrSmartTEFError.Create;
+  Result := fRespostaErro;
+end;
+
+procedure TACBrSmartTEFOrdemFormulario.SetRespostaErro(aJson: String);
+begin
+  RespostaErro.AsJSON := aJson;
+  fOwner.RespostaErro.AsJSON := aJson;
+end;
+
+constructor TACBrSmartTEFOrdemFormulario.Create(aOwner: TACBrSmartTEF);
+begin
+  inherited Create;
+  fOwner := aOwner;
+end;
+
+destructor TACBrSmartTEFOrdemFormulario.Destroy;
+begin
+  if Assigned(fRespostaErro) then
+    fRespostaErro.Free;
+  if Assigned(fOrdemFormularioSolicitada) then
+    fOrdemFormularioSolicitada.Free;
+  inherited Destroy;
+end;
+
+function TACBrSmartTEFOrdemFormulario.Criar(out aResponse: IACBrSmartTEFFormResponse): Boolean;
+begin
+  {$IfDef FPC}
+  Result := False;
+  {$EndIf}
+  aResponse := TACBrSmartTEFFormResponse.Create;
+
+  if (not Assigned(fOrdemFormularioSolicitada)) or fOrdemFormularioSolicitada.form.IsEmpty then
+    fOwner.DispararExcecao(EACBrAPIException.Create(Format(sErrorInvalidObject, ['OrdemFormularioSolicitada'])));
+
+  fOwner.PrepararHTTP;
+  WriteStrToStream(fOwner.HTTPSend.Document, fOrdemFormularioSolicitada.AsJSON);
+  fOwner.HttpSend.MimeType := cContentTypeApplicationJSon;
+  fOwner.HTTPSend.Headers.Add(fOwner.GetAuthorizationERP);
+  fOwner.HTTPSend.Headers.Add(cSmartTEFHeaderGWKey + fOwner.GWTokenLoja);
+  fOwner.URLPathParams.Add(cSmartTEFEndpointCommands);
+  fOwner.URLPathParams.Add(cSmartTEFEndpointForm);
+  fOwner.URLPathParams.Add(cSmartTEFEndpointCreate);
+
+  try
+    fOwner.HTTPMethod(ChttpMethodPOST, cSmartTEFURL);
+  except
+    RespostaErro.AsJSON := fOwner.HTTPResponse;
+    if RespostaErro.IsEmpty then
+      raise;
+  end;
+
+  Result := (fOwner.HTTPResultCode = HTTP_CREATED);
+  if Result then
+    aResponse.LoadJson(fOwner.HTTPResponse)
+  else
+    SetRespostaErro(fOwner.HTTPResponse);
+end;
+
+function TACBrSmartTEFOrdemFormulario.Consultar(const aFormIdentifier: String;
+  out aResponse: IACBrSmartTEFFormDetailsResponse): Boolean;
+var
+  jo: TACBrJSONObject;
+begin
+  {$IfDef FPC}
+  Result := False;
+  {$EndIf}
+  aResponse := TACBrSmartTEFFormDetailsResponse.Create;
+
+  if EstaVazio(aFormIdentifier) then
+    raise EACBrAPIException.Create(Format(sErrorInvalidObject, ['FormIdentifier']));
+
+  fOwner.PrepararHTTP;
+  jo := TACBrJSONObject.Create;
+  try
+    jo.AddPair('form_identifier', aFormIdentifier);
+    fOwner.HttpSend.MimeType := cContentTypeApplicationJSon;
+    WriteStrToStream(fOwner.HTTPSend.Document, jo.ToJSON);
+  finally
+    jo.Free;
+  end;
+
+  fOwner.HTTPSend.Headers.Add(fOwner.GetAuthorizationERP);
+  fOwner.HTTPSend.Headers.Add(cSmartTEFHeaderGWKey + fOwner.GWTokenLoja);
+  fOwner.URLPathParams.Add(cSmartTEFEndpointPooling);
+  fOwner.URLPathParams.Add(cSmartTEFEndpointForm);
+  fOwner.URLPathParams.Add(cSmartTEFEndpointGet);
+
+  try
+    fOwner.HTTPMethod(ChttpMethodPOST, cSmartTEFURL);
+  except
+    RespostaErro.AsJSON := fOwner.HTTPResponse;
+    if RespostaErro.IsEmpty then
+      raise;
+  end;
+
+  Result := (fOwner.HTTPResultCode in [HTTP_OK, HTTP_CREATED]);
+  if Result then
+    aResponse.LoadJson(fOwner.HTTPResponse)
+  else
+    SetRespostaErro(fOwner.HTTPResponse);
+end;
+
+function TACBrSmartTEFOrdemFormulario.Cancelar(const aFormIdentifier: String;
+  out aResponse: IACBrSmartTEFFormResponse): Boolean;
+var
+  jo: TACBrJSONObject;
+begin
+  {$IfDef FPC}
+  Result := False;
+  {$EndIf}
+  aResponse := TACBrSmartTEFFormResponse.Create;
+
+  if EstaVazio(aFormIdentifier) then
+    raise EACBrAPIException.Create(Format(sErrorInvalidObject, ['FormIdentifier']));
+
+  fOwner.PrepararHTTP;
+  jo := TACBrJSONObject.Create;
+  try
+    jo.AddPair('form_identifier', aFormIdentifier);
+    fOwner.HttpSend.MimeType := cContentTypeApplicationJSon;
+    WriteStrToStream(fOwner.HTTPSend.Document, jo.ToJSON);
+  finally
+    jo.Free;
+  end;
+
+  fOwner.HTTPSend.Headers.Add(fOwner.GetAuthorizationERP);
+  fOwner.HTTPSend.Headers.Add(cSmartTEFHeaderGWKey + fOwner.GWTokenLoja);
+  fOwner.URLPathParams.Add(cSmartTEFEndpointCommands);
+  fOwner.URLPathParams.Add(cSmartTEFEndpointForm);
+  fOwner.URLPathParams.Add(cSmartTEFEndpointStatus);
+  fOwner.URLPathParams.Add(cSmartTEFEndpointCancel);
 
   try
     fOwner.HTTPMethod(ChttpMethodPOST, cSmartTEFURL);
@@ -715,12 +1022,12 @@ end;
 
 function TACBrSmartTEFStoreResponse.ToJson: String;
 begin
-  Result := fstoreSchemas.AsJSON;
+  Result := storeSchemas.AsJSON;
 end;
 
 function TACBrSmartTEFStoreResponse.store_id: Integer;
 begin
-  Result := storeSchemas.state_id;
+  Result := storeSchemas.store_id;
 end;
 
 function TACBrSmartTEFStoreResponse.cnpj: String;
@@ -788,9 +1095,9 @@ begin
   Result := storeSchemas.zip_code;
 end;
 
-function TACBrSmartTEFStoreResponse.disctrict: String;
+function TACBrSmartTEFStoreResponse.district: String;
 begin
-  Result := storeSchemas.disctrict;
+  Result := storeSchemas.district;
 end;
 
 function TACBrSmartTEFStoreResponse.address: String;
@@ -839,8 +1146,23 @@ begin
 end;
 
 procedure TACBrSmartTEFPoolingListResponse.LoadJson(aJson: String);
+var
+  jo: TACBrJSONObject;
 begin
   poolingList.AsJSON := aJson;
+
+  fpooling_time := 0;
+  jo := TACBrJSONObject.Parse(aJson);
+  try
+    fpooling_time := StrToIntDef(jo.AsString['pooling_time'], 0);
+  finally
+    jo.Free;
+  end;
+end;
+
+function TACBrSmartTEFPoolingListResponse.pooling_time: Integer;
+begin
+  Result := fpooling_time;
 end;
 
 function TACBrSmartTEFPoolingListResponse.ToJson: String;
@@ -1080,9 +1402,6 @@ begin
 
   if EstaVazio(aSerialPos) then
     raise EACBrAPIException.Create(Format(sErrorInvalidObject, ['SerialPos']));
-
-  if EstaVazio(aNickname) then
-    raise EACBrAPIException.Create(Format(sErrorInvalidObject, ['aNickname']));
 
   fOwner.PrepararHTTP;
   jo := TACBrJSONObject.Create;
@@ -1389,6 +1708,13 @@ begin
   Result := fLoja;
 end;
 
+function TACBrSmartTEF.GetOrdemFormulario: TACBrSmartTEFOrdemFormulario;
+begin
+  if (not Assigned(fOrdemFormulario)) then
+    fOrdemFormulario := TACBrSmartTEFOrdemFormulario.Create(Self);
+  Result := fOrdemFormulario;
+end;
+
 procedure TACBrSmartTEF.Autenticar;
 var
   Body, wBearerToken: String;
@@ -1401,7 +1727,7 @@ begin
   try
     js
       .AddPair('cnpj', CNPJLoja)
-      .AddPair('cnpj_integrador', CNPJIntegrador);
+      .AddPair('cnpj_integrador', CNPJIntegrador, False);
     Body := js.ToJSON;
     WriteStrToStream(HTTPSend.Document, Body);
     HttpSend.MimeType := cContentTypeApplicationJSon;
@@ -1416,7 +1742,17 @@ begin
   URLPathParams.Add(cSmartTEFEndpointStore);
   URLPathParams.Add(cSmartTEFEndpointGet);
   URLPathParams.Add(cSmartTEFEndpointToken);
-  HTTPMethod(ChttpMethodPOST, cSmartTEFURL);
+
+  try
+    HTTPMethod(ChttpMethodPOST, cSmartTEFURL);
+  except
+    try
+      RespostaErro.AsJSON := HTTPResponse;
+    except
+      RespostaErro.Clear;
+    end;
+    raise;
+  end;
 
   if (HTTPResultCode = HTTP_CREATED) then
   begin
@@ -1489,22 +1825,34 @@ begin
     fOrdemImpressao.Free;
   if Assigned(fOrdemPagamento) then
     fOrdemPagamento.Free;
+  if Assigned(fOrdemFormulario) then
+    fOrdemFormulario.Free;
   if Assigned(fRespostaErro) then
     fRespostaErro.Free;
   inherited Destroy;
 end;
 
+function TACBrSmartTEF.Pooling(const aInicio: TDateTime; out aResponse: IACBrSmartTEFPoolingResponse): Boolean;
+begin
+  Result := Pooling(aInicio, IncDay(aInicio), aResponse);
+end;
+
 function TACBrSmartTEF.Pooling(const aInicio, aFim: TDateTime; out aResponse: IACBrSmartTEFPoolingResponse): Boolean;
 var
   jo: TACBrJSONObject;
+  wSegundos: Int64;
 begin
   {$IfDef FPC}
-  Result := False; 
+  Result := False;
   {$EndIf}
   aResponse := TACBrSmartTEFPoolingListResponse.Create;
 
   if EstaZerado(aInicio) or EstaZerado(aFim) then
     raise EACBrAPIException.Create(Format(sErrorInvalidParameter, ['Inicio/Fim']));
+
+  wSegundos := Round((RecodeMilliSecond(aFim, 0) - RecodeMilliSecond(aInicio, 0)) * SecsPerDay);
+  if (Abs(wSegundos - SecsPerDay) > 1) then
+    raise EACBrAPIException.Create(Format(sErrorInvalidParameter, ['Inicio/Fim (intervalo de 24 horas)']));
 
   PrepararHTTP;
   jo := TACBrJSONObject.Create;
@@ -1579,9 +1927,152 @@ begin
   Result := responseSchemas.charge_id;
 end;
 
+function TACBrSmartTEFOrderResponse.allow_multi_payments: Boolean;
+begin
+  Result := responseSchemas.allow_multi_payments;
+end;
+
+function TACBrSmartTEFOrderResponse.allow_cash_payment: Boolean;
+begin
+  Result := responseSchemas.allow_cash_payment;
+end;
+
+function TACBrSmartTEFOrderResponse.has_details: Boolean;
+begin
+  Result := responseSchemas.has_details;
+end;
+
+function TACBrSmartTEFOrderResponse.form: TACBrSmartTEFFormResponseSchema;
+begin
+  Result := responseSchemas.form;
+end;
+
 function TACBrSmartTEFOrderResponse.ToJson: String;
 begin
   Result := responseSchemas.AsJSON;
+end;
+
+{ TACBrSmartTEFAnonymizeResponse }
+
+function TACBrSmartTEFAnonymizeResponse.responseSchemas: TACBrSmartTEFAnonymizeResponseSchema;
+begin
+  if (not Assigned(fResponseSchemas)) then
+    fResponseSchemas := TACBrSmartTEFAnonymizeResponseSchema.Create;
+  Result := fResponseSchemas;
+end;
+
+destructor TACBrSmartTEFAnonymizeResponse.Destroy;
+begin
+  if Assigned(fResponseSchemas) then
+    fResponseSchemas.Free;
+  inherited Destroy;
+end;
+
+procedure TACBrSmartTEFAnonymizeResponse.LoadJson(aJson: String);
+begin
+  responseSchemas.AsJSON := aJson;
+end;
+
+function TACBrSmartTEFAnonymizeResponse.rowsAffected: Integer;
+begin
+  Result := responseSchemas.rowsAffected;
+end;
+
+function TACBrSmartTEFAnonymizeResponse.hasChanges: Boolean;
+begin
+  Result := responseSchemas.hasChanges;
+end;
+
+function TACBrSmartTEFAnonymizeResponse.message: String;
+begin
+  Result := responseSchemas.message;
+end;
+
+function TACBrSmartTEFAnonymizeResponse.ToJson: String;
+begin
+  Result := responseSchemas.AsJSON;
+end;
+
+{ TACBrSmartTEFFormResponse }
+
+function TACBrSmartTEFFormResponse.responseSchemas: TACBrSmartTEFFormResponseSchema;
+begin
+  if (not Assigned(fResponseSchemas)) then
+    fResponseSchemas := TACBrSmartTEFFormResponseSchema.Create;
+  Result := fResponseSchemas;
+end;
+
+destructor TACBrSmartTEFFormResponse.Destroy;
+begin
+  if Assigned(fResponseSchemas) then
+    fResponseSchemas.Free;
+  inherited Destroy;
+end;
+
+procedure TACBrSmartTEFFormResponse.LoadJson(aJson: String);
+begin
+  responseSchemas.AsJSON := aJson;
+end;
+
+function TACBrSmartTEFFormResponse.form_identifier: String;
+begin
+  Result := responseSchemas.form_identifier;
+end;
+
+function TACBrSmartTEFFormResponse.form_status: TACBrSmartTEFStatus;
+begin
+  Result := responseSchemas.form_status;
+end;
+
+function TACBrSmartTEFFormResponse.order_type: TACBrSmartTEFOrderType;
+begin
+  Result := responseSchemas.order_type;
+end;
+
+function TACBrSmartTEFFormResponse.form_url: String;
+begin
+  Result := responseSchemas.form_url;
+end;
+
+function TACBrSmartTEFFormResponse.form_name: String;
+begin
+  Result := responseSchemas.form_name;
+end;
+
+function TACBrSmartTEFFormResponse.fill_out_type: TACBrSmartTEFFormFillOutType;
+begin
+  Result := responseSchemas.fill_out_type;
+end;
+
+function TACBrSmartTEFFormResponse.ToJson: String;
+begin
+  Result := responseSchemas.AsJSON;
+end;
+
+{ TACBrSmartTEFFormDetailsResponse }
+
+destructor TACBrSmartTEFFormDetailsResponse.Destroy;
+begin
+  if Assigned(fformulario) then
+    fformulario.Free;
+  inherited Destroy;
+end;
+
+procedure TACBrSmartTEFFormDetailsResponse.LoadJson(aJson: String);
+begin
+  formulario.AsJSON := aJson;
+end;
+
+function TACBrSmartTEFFormDetailsResponse.ToJson: String;
+begin
+  Result := formulario.AsJSON;
+end;
+
+function TACBrSmartTEFFormDetailsResponse.formulario: TACBrSmartTEFFormDetails;
+begin
+  if (not Assigned(fformulario)) then
+    fformulario := TACBrSmartTEFFormDetails.Create;
+  Result := fformulario;
 end;
 
 { TACBrSmartTEFPrintResponse }
