@@ -80,6 +80,8 @@ type
     cbConfigLogNivel: TComboBox;
     cbUsuariosCriarTipo: TComboBox;
     cbOrdemPagamentoCriarDetalhes: TCheckBox;
+    cbOrdemPagamentoPermitirMultiplosPagamentos: TCheckBox;
+    cbOrdemPagamentoPermitirPagamentoDinheiro: TCheckBox;
     cbOrdemPagamentoCriarTipoJuros: TComboBox;
     cbOrdemPagamentoCriarTipoOrdem: TComboBox;
     cbOrdemImpressaoCriarTipoOrdem: TComboBox;
@@ -560,6 +562,8 @@ begin
     extras.CPF := edOrdemPagamentoCriarCPF.Text;
     extras.CNPJ := edOrdemPagamentoCriarCNPJ.Text;
     extras.Nome := edOrdemPagamentoCriarNome.Text;
+    allow_multi_payments := cbOrdemPagamentoPermitirMultiplosPagamentos.Checked;
+    allow_cash_payment := cbOrdemPagamentoPermitirPagamentoDinheiro.Checked;
   end;
 
   if ACBrSmartTEF.OrdemPagamento.Criar(resp) then

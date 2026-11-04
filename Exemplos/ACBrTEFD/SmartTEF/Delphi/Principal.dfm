@@ -397,11 +397,11 @@ object frPrincipal: TfrPrincipal
                     end
                     object btOrdemPagamentoCriar: TBitBtn
                       Left = 427
-                      Top = 230
+                      Top = 266
                       Width = 120
                       Height = 30
                       Caption = 'Criar'
-                      TabOrder = 10
+                      TabOrder = 12
                       OnClick = btOrdemPagamentoCriarClick
                     end
                     object edOrdemPagamentoCriarValor: TEdit
@@ -465,12 +465,12 @@ object frPrincipal: TfrPrincipal
                     end
                     object gbOrdemPagamentoCriarDetalhes: TGroupBox
                       Left = 20
-                      Top = 130
+                      Top = 166
                       Width = 527
                       Height = 89
                       Enabled = False
                       ParentBackground = False
-                      TabOrder = 9
+                      TabOrder = 11
                       object pnOrdemPagamentoCriarDetalhes: TPanel
                         Left = 2
                         Top = 15
@@ -526,13 +526,29 @@ object frPrincipal: TfrPrincipal
                     end
                     object cbOrdemPagamentoCriarDetalhes: TCheckBox
                       Left = 25
-                      Top = 128
+                      Top = 164
                       Width = 95
                       Height = 19
                       Hint = 'Caso a op'#231#227'o seja false, n'#227'o ser'#225' exibido tela'
                       Caption = 'Exibir Detalhes'
-                      TabOrder = 8
+                      TabOrder = 10
                       OnClick = cbOrdemPagamentoCriarDetalhesChange
+                    end
+                    object cbOrdemPagamentoPermitirMultiplosPagamentos: TCheckBox
+                      Left = 20
+                      Top = 120
+                      Width = 182
+                      Height = 17
+                      Caption = 'Permitir M'#250'ltiplos Pagamentos'
+                      TabOrder = 8
+                    end
+                    object cbOrdemPagamentoPermitirPagamentoDinheiro: TCheckBox
+                      Left = 256
+                      Top = 120
+                      Width = 192
+                      Height = 17
+                      Caption = 'Permitir Pagamento em Dinheiro'
+                      TabOrder = 9
                     end
                   end
                 end
