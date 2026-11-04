@@ -347,7 +347,8 @@ begin
     infEvento.detEvento.UF := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('UF'), tcStr);
     infEvento.detEvento.CNPJCPF := ObterConteudoTagCNPJCPF(AuxNode);
     infEvento.detEvento.IE := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('IE'), tcStr);
-    infEvento.detEvento.modal := StrToTpModal(ObterConteudoTag(AuxNode.Childrens.FindAnyNs('modal'), tcStr));
+    if Assigned(AuxNode.Childrens.FindAnyNs('modal')) then
+      infEvento.detEvento.modal := StrToTpModal(ObterConteudoTag(AuxNode.Childrens.FindAnyNs('modal'), tcStr));
     infEvento.DetEvento.UFIni := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('UFIni'), tcStr);
     infEvento.DetEvento.UFFim := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('UFFim'), tcStr);
     infEvento.DetEvento.xOBS := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('xOBS'), tcStr);
