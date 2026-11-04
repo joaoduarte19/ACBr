@@ -666,6 +666,43 @@ object frPrincipal: TfrPrincipal
                     end
                   end
                 end
+                object tsOrdemPagamentoAnonimizar: TTabSheet
+                  Caption = 'Anonimizar'
+                  object pnOrdemPagamentoAnonimizar: TPanel
+                    Left = 0
+                    Top = 0
+                    Width = 567
+                    Height = 384
+                    Align = alClient
+                    BevelOuter = bvNone
+                    ParentBackground = False
+                    TabOrder = 0
+                    object lbOrdemPagamentoAnonimizarIdentificadores: TLabel
+                      Left = 20
+                      Top = 20
+                      Width = 250
+                      Height = 13
+                      Caption = 'Payment Identifiers (um por linha, m'#225'ximo 100)'
+                    end
+                    object mmOrdemPagamentoAnonimizarIdentificadores: TMemo
+                      Left = 20
+                      Top = 35
+                      Width = 527
+                      Height = 200
+                      ScrollBars = ssVertical
+                      TabOrder = 0
+                    end
+                    object btOrdemPagamentoAnonimizar: TBitBtn
+                      Left = 427
+                      Top = 250
+                      Width = 120
+                      Height = 30
+                      Caption = 'Anonimizar'
+                      TabOrder = 1
+                      OnClick = btOrdemPagamentoAnonimizarClick
+                    end
+                  end
+                end
               end
             end
             object tsOrdemImpressao: TTabSheet
@@ -891,6 +928,197 @@ object frPrincipal: TfrPrincipal
                       Default = True
                       TabOrder = 1
                       OnClick = btOrdemImpressaoCancelarClick
+                    end
+                  end
+                end
+              end
+            end
+            object tsOrdemFormulario: TTabSheet
+              Caption = 'Formul'#225'rios'
+              object pcOrdemFormulario: TPageControl
+                Left = 0
+                Top = 0
+                Width = 575
+                Height = 424
+                ActivePage = tsOrdemFormularioCriar
+                Align = alClient
+                TabHeight = 30
+                TabOrder = 0
+                TabWidth = 139
+                object tsOrdemFormularioCriar: TTabSheet
+                  Caption = 'Criar'
+                  object pnOrdemFormularioCriar: TPanel
+                    Left = 0
+                    Top = 0
+                    Width = 567
+                    Height = 384
+                    Align = alClient
+                    BevelOuter = bvNone
+                    ParentBackground = False
+                    TabOrder = 0
+                    object lbOrdemFormularioCriarTipoOrdem: TLabel
+                      Left = 20
+                      Top = 20
+                      Width = 55
+                      Height = 13
+                      Caption = 'Tipo Ordem'
+                    end
+                    object lbOrdemFormularioCriarNome: TLabel
+                      Left = 156
+                      Top = 20
+                      Width = 79
+                      Height = 13
+                      Hint = 'Deve ser '#250'nico entre os formul'#225'rios pendentes ou em processamento'
+                      Caption = 'Nome Formul'#225'rio'
+                    end
+                    object lbOrdemFormularioCriarIdUsuario: TLabel
+                      Left = 291
+                      Top = 20
+                      Width = 50
+                      Height = 13
+                      Hint = 'N'#227'o pode ser enviado junto com o Serial POS'
+                      Caption = 'ID Usuario'
+                    end
+                    object lbOrdemFormularioCriarSerialPOS: TLabel
+                      Left = 427
+                      Top = 20
+                      Width = 51
+                      Height = 13
+                      Hint = 'N'#227'o pode ser enviado junto com o ID Usuario'
+                      Caption = 'Serial POS'
+                    end
+                    object lbOrdemFormularioCriarCampos: TLabel
+                      Left = 20
+                      Top = 70
+                      Width = 400
+                      Height = 13
+                      Caption =
+                        'Campos (um por linha: Campo=TIPO, prefixo * para obrigat'#243'rio. ' +
+                        'Tipos: TEXTO, NUMBER, DATA, CPF, CNPJ, CEP, EMAIL)'
+                    end
+                    object cbOrdemFormularioCriarTipoOrdem: TComboBox
+                      Left = 20
+                      Top = 35
+                      Width = 123
+                      Height = 21
+                      Style = csDropDownList
+                      TabOrder = 0
+                    end
+                    object edOrdemFormularioCriarNome: TEdit
+                      Left = 156
+                      Top = 35
+                      Width = 120
+                      Height = 21
+                      Hint = 'Deve ser '#250'nico entre os formul'#225'rios pendentes ou em processamento'
+                      TabOrder = 1
+                    end
+                    object edOrdemFormularioCriarIdUsuario: TEdit
+                      Left = 291
+                      Top = 35
+                      Width = 120
+                      Height = 21
+                      Hint = 'N'#227'o pode ser enviado junto com o Serial POS'
+                      TabOrder = 2
+                    end
+                    object edOrdemFormularioCriarSerialPOS: TEdit
+                      Left = 427
+                      Top = 35
+                      Width = 120
+                      Height = 21
+                      Hint = 'N'#227'o pode ser enviado junto com o ID Usuario'
+                      TabOrder = 3
+                    end
+                    object mmOrdemFormularioCriarCampos: TMemo
+                      Left = 20
+                      Top = 85
+                      Width = 527
+                      Height = 150
+                      Lines.Strings = (
+                        '*Email=EMAIL'
+                        'Observacao=TEXTO')
+                      ScrollBars = ssVertical
+                      TabOrder = 4
+                    end
+                    object btOrdemFormularioCriar: TBitBtn
+                      Left = 427
+                      Top = 250
+                      Width = 120
+                      Height = 30
+                      Caption = 'Criar'
+                      TabOrder = 5
+                      OnClick = btOrdemFormularioCriarClick
+                    end
+                  end
+                end
+                object tsOrdemFormularioConsultar: TTabSheet
+                  Caption = 'Consultar'
+                  object pnOrdemFormularioConsultar: TPanel
+                    Left = 0
+                    Top = 0
+                    Width = 567
+                    Height = 384
+                    Align = alClient
+                    BevelOuter = bvNone
+                    ParentBackground = False
+                    TabOrder = 0
+                    object lbOrdemFormularioConsultarFormIdentifier: TLabel
+                      Left = 20
+                      Top = 20
+                      Width = 75
+                      Height = 13
+                      Caption = 'Form Identifier'
+                    end
+                    object edOrdemFormularioConsultarFormIdentifier: TEdit
+                      Left = 20
+                      Top = 35
+                      Width = 527
+                      Height = 21
+                      TabOrder = 0
+                    end
+                    object btOrdemFormularioConsultar: TBitBtn
+                      Left = 427
+                      Top = 80
+                      Width = 120
+                      Height = 30
+                      Caption = 'Consultar'
+                      TabOrder = 1
+                      OnClick = btOrdemFormularioConsultarClick
+                    end
+                  end
+                end
+                object tsOrdemFormularioCancelar: TTabSheet
+                  Caption = 'Cancelar'
+                  object pnOrdemFormularioCancelar: TPanel
+                    Left = 0
+                    Top = 0
+                    Width = 567
+                    Height = 384
+                    Align = alClient
+                    BevelOuter = bvNone
+                    ParentBackground = False
+                    TabOrder = 0
+                    object lbOrdemFormularioCancelarFormIdentifier: TLabel
+                      Left = 20
+                      Top = 20
+                      Width = 75
+                      Height = 13
+                      Caption = 'Form Identifier'
+                    end
+                    object edOrdemFormularioCancelarFormIdentifier: TEdit
+                      Left = 20
+                      Top = 35
+                      Width = 527
+                      Height = 21
+                      TabOrder = 0
+                    end
+                    object btOrdemFormularioCancelar: TBitBtn
+                      Left = 427
+                      Top = 80
+                      Width = 120
+                      Height = 30
+                      Caption = 'Cancelar'
+                      TabOrder = 1
+                      OnClick = btOrdemFormularioCancelarClick
                     end
                   end
                 end

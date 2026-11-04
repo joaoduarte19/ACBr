@@ -246,6 +246,36 @@ type
     tsEndpoints: TTabSheet;
     tsConfig: TTabSheet;
     tsOrdemPagamentoCriar: TTabSheet;
+    tsOrdemPagamentoAnonimizar: TTabSheet;
+    pnOrdemPagamentoAnonimizar: TPanel;
+    lbOrdemPagamentoAnonimizarIdentificadores: TLabel;
+    mmOrdemPagamentoAnonimizarIdentificadores: TMemo;
+    btOrdemPagamentoAnonimizar: TBitBtn;
+    tsOrdemFormulario: TTabSheet;
+    pcOrdemFormulario: TPageControl;
+    tsOrdemFormularioCriar: TTabSheet;
+    pnOrdemFormularioCriar: TPanel;
+    lbOrdemFormularioCriarTipoOrdem: TLabel;
+    cbOrdemFormularioCriarTipoOrdem: TComboBox;
+    lbOrdemFormularioCriarNome: TLabel;
+    edOrdemFormularioCriarNome: TEdit;
+    lbOrdemFormularioCriarIdUsuario: TLabel;
+    edOrdemFormularioCriarIdUsuario: TEdit;
+    lbOrdemFormularioCriarSerialPOS: TLabel;
+    edOrdemFormularioCriarSerialPOS: TEdit;
+    lbOrdemFormularioCriarCampos: TLabel;
+    mmOrdemFormularioCriarCampos: TMemo;
+    btOrdemFormularioCriar: TBitBtn;
+    tsOrdemFormularioConsultar: TTabSheet;
+    pnOrdemFormularioConsultar: TPanel;
+    lbOrdemFormularioConsultarFormIdentifier: TLabel;
+    edOrdemFormularioConsultarFormIdentifier: TEdit;
+    btOrdemFormularioConsultar: TBitBtn;
+    tsOrdemFormularioCancelar: TTabSheet;
+    pnOrdemFormularioCancelar: TPanel;
+    lbOrdemFormularioCancelarFormIdentifier: TLabel;
+    edOrdemFormularioCancelarFormIdentifier: TEdit;
+    btOrdemFormularioCancelar: TBitBtn;
     procedure btConfigLerParametrosClick(Sender: TObject);
     procedure btConfigProxySenhaClick(Sender: TObject);
     procedure btConfigSalvarClick(Sender: TObject);
@@ -260,6 +290,10 @@ type
     procedure btOrdemPagamentoConsultarClick(Sender: TObject);
     procedure btOrdemPagamentoCriarClick(Sender: TObject);
     procedure btOrdemPagamentoEstornarClick(Sender: TObject);
+    procedure btOrdemPagamentoAnonimizarClick(Sender: TObject);
+    procedure btOrdemFormularioCriarClick(Sender: TObject);
+    procedure btOrdemFormularioConsultarClick(Sender: TObject);
+    procedure btOrdemFormularioCancelarClick(Sender: TObject);
     procedure btTerminaisBloquearClick(Sender: TObject);
     procedure btTerminaisDesbloquearClick(Sender: TObject);
     procedure btTerminaisListarClick(Sender: TObject);
@@ -363,6 +397,7 @@ begin
   if ACBrSmartTEF.Pooling(wIni, wFim, resp) then
   begin
     AdicionarLog('[CONSULTADO]' + sLineBreak + FormatarJSON(resp.ToJson));
+    AdicionarLog('Intervalo recomendado (pooling_time): ' + IntToStr(resp.pooling_time) + 's');
     ShowMessage('Consulta efetuada com Sucesso');
   end
   else
@@ -553,6 +588,128 @@ begin
   end
   else
     AdicionarLog(FormatarJSON(ACBrSmartTEF.OrdemPagamento.RespostaErro.AsJSON));
+end;
+
+procedure TfrPrincipal.btOrdemPagamentoAnonimizarClick(Sender: TObject);
+var
+  i: Integer;
+  wId: String;
+  resp: IACBrSmartTEFAnonymizeResponse;
+begin
+  ACBrSmartTEF.OrdemPagamento.AnonimizacaoSolicitada.Clear;
+  for i := 0 to mmOrdemPagamentoAnonimizarIdentificadores.Lines.Count - 1 do
+  begin
+    wId := Trim(mmOrdemPagamentoAnonimizarIdentificadores.Lines[i]);
+    if NaoEstaVazio(wId) then
+      ACBrSmartTEF.OrdemPagamento.AnonimizacaoSolicitada.payments_identifers.Add(wId);
+  end;
+
+  if ACBrSmartTEF.OrdemPagamento.AnonimizacaoSolicitada.IsEmpty then
+  begin
+    ShowMessage('Informe ao menos um Payment Identifier para anonimizar');
+    Exit;
+  end;
+
+  if ACBrSmartTEF.OrdemPagamento.Anonimizar(resp) then
+  begin
+    AdicionarLog('[ANONIMIZADO]' + sLineBreak + FormatarJSON(resp.ToJson));
+    ShowMessage('Pagamentos anonimizados: ' + IntToStr(resp.rowsAffected));
+  end
+  else
+    AdicionarLog(FormatarJSON(ACBrSmartTEF.OrdemPagamento.RespostaErro.AsJSON));
+end;
+
+procedure TfrPrincipal.btOrdemFormularioCriarClick(Sender: TObject);
+var
+  i, p: Integer;
+  wLinha: String;
+  wCampo: TACBrSmartTEFFormField;
+  resp: IACBrSmartTEFFormResponse;
+begin
+  with ACBrSmartTEF.OrdemFormulario.OrdemFormularioSolicitada do
+  begin
+    Clear;
+    order_type := TACBrSmartTEFOrderType(cbOrdemFormularioCriarTipoOrdem.ItemIndex);
+    form_name := edOrdemFormularioCriarNome.Text;
+    user_id := StrToIntDef(edOrdemFormularioCriarIdUsuario.Text, 0);
+    serial_pos := edOrdemFormularioCriarSerialPOS.Text;
+
+    // Cada linha: Campo=TIPO. Prefixo * torna o campo obrigatório
+    for i := 0 to mmOrdemFormularioCriarCampos.Lines.Count - 1 do
+    begin
+      wLinha := Trim(mmOrdemFormularioCriarCampos.Lines[i]);
+      if EstaVazio(wLinha) then
+        Continue;
+
+      wCampo := form.New;
+      wCampo.needed := (wLinha[1] = '*');
+      if wCampo.needed then
+        Delete(wLinha, 1, 1);
+
+      p := Pos('=', wLinha);
+      if (p > 0) then
+      begin
+        wCampo.field := Trim(Copy(wLinha, 1, p - 1));
+        wCampo.type_ := StringToSmartTEFFormFieldType(Copy(wLinha, p + 1, Length(wLinha)));
+      end
+      else
+        wCampo.field := wLinha;
+    end;
+  end;
+
+  if ACBrSmartTEF.OrdemFormulario.OrdemFormularioSolicitada.form.IsEmpty then
+  begin
+    ShowMessage('Informe ao menos um campo para o formulário');
+    Exit;
+  end;
+
+  if ACBrSmartTEF.OrdemFormulario.Criar(resp) then
+  begin
+    AdicionarLog('[FORMULARIO CRIADO]' + sLineBreak + FormatarJSON(resp.ToJson));
+    edOrdemFormularioConsultarFormIdentifier.Text := resp.form_identifier;
+    edOrdemFormularioCancelarFormIdentifier.Text := resp.form_identifier;
+    ShowMessage('Formulário criado com Sucesso');
+  end
+  else
+    AdicionarLog(FormatarJSON(ACBrSmartTEF.OrdemFormulario.RespostaErro.AsJSON));
+end;
+
+procedure TfrPrincipal.btOrdemFormularioConsultarClick(Sender: TObject);
+var
+  resp: IACBrSmartTEFFormDetailsResponse;
+begin
+  if EstaVazio(edOrdemFormularioConsultarFormIdentifier.Text) then
+  begin
+    ShowMessage('Informe o Form Identifier para consulta');
+    Exit;
+  end;
+
+  if ACBrSmartTEF.OrdemFormulario.Consultar(edOrdemFormularioConsultarFormIdentifier.Text, resp) then
+  begin
+    AdicionarLog('[CONSULTADO]' + sLineBreak + FormatarJSON(resp.ToJson));
+    ShowMessage('Consulta efetuada com Sucesso');
+  end
+  else
+    AdicionarLog(FormatarJSON(ACBrSmartTEF.OrdemFormulario.RespostaErro.AsJSON));
+end;
+
+procedure TfrPrincipal.btOrdemFormularioCancelarClick(Sender: TObject);
+var
+  resp: IACBrSmartTEFFormResponse;
+begin
+  if EstaVazio(edOrdemFormularioCancelarFormIdentifier.Text) then
+  begin
+    ShowMessage('Informe o Form Identifier para cancelamento');
+    Exit;
+  end;
+
+  if ACBrSmartTEF.OrdemFormulario.Cancelar(edOrdemFormularioCancelarFormIdentifier.Text, resp) then
+  begin
+    AdicionarLog('[CANCELADO]' + sLineBreak + FormatarJSON(resp.ToJson));
+    ShowMessage('Formulário cancelado com Sucesso');
+  end
+  else
+    AdicionarLog(FormatarJSON(ACBrSmartTEF.OrdemFormulario.RespostaErro.AsJSON));
 end;
 
 procedure TfrPrincipal.btTerminaisBloquearClick(Sender: TObject);
@@ -848,6 +1005,11 @@ begin
   ImageList1.GetBitmap(16, btOrdemImpressaoCriar.Glyph);
   ImageList1.GetBitmap(17, btOrdemImpressaoCancelar.Glyph);
 
+  ImageList1.GetBitmap(17, btOrdemPagamentoAnonimizar.Glyph);
+  ImageList1.GetBitmap(16, btOrdemFormularioCriar.Glyph);
+  ImageList1.GetBitmap(8, btOrdemFormularioConsultar.Glyph);
+  ImageList1.GetBitmap(17, btOrdemFormularioCancelar.Glyph);
+
   ImageList1.GetBitmap(8, btTerminaisListar.Glyph);
   ImageList1.GetBitmap(11, btTerminaisNickname.Glyph);
   ImageList1.GetBitmap(16, btTerminaisDesbloquear.Glyph);
@@ -872,13 +1034,17 @@ begin
 
   cbOrdemPagamentoCriarTipoOrdem.Items.Clear;
   cbOrdemImpressaoCriarTipoOrdem.Items.Clear;
-  for j := 0 to Integer(High(TACBrSmartTEFOrderType)) do
+  cbOrdemFormularioCriarTipoOrdem.Items.Clear;
+  // GROUPED e aplicado pela API e nao deve ser enviado pelo ERP
+  for j := 0 to Integer(sotNrm) do
   begin
     cbOrdemPagamentoCriarTipoOrdem.Items.Add(SmartTEFOrderTypeToString(TACBrSmartTEFOrderType(j)));
     cbOrdemImpressaoCriarTipoOrdem.Items.Add(SmartTEFOrderTypeToString(TACBrSmartTEFOrderType(j)));
+    cbOrdemFormularioCriarTipoOrdem.Items.Add(SmartTEFOrderTypeToString(TACBrSmartTEFOrderType(j)));
   end;
   cbOrdemPagamentoCriarTipoOrdem.ItemIndex := 0;
   cbOrdemImpressaoCriarTipoOrdem.ItemIndex := 0;
+  cbOrdemFormularioCriarTipoOrdem.ItemIndex := 0;
 
   cbOrdemPagamentoCriarTipoJuros.Items.Clear;
   for k := 0 to Integer(High(TACBrSmartTEFFeeType)) do
