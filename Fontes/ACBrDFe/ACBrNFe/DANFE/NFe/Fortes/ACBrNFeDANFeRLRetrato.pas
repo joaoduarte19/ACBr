@@ -582,6 +582,7 @@ type
     RLLabel44: TRLLabel;
     RLLabel45: TRLLabel;
     RLDraw40: TRLDraw;
+    RLLabel10: TRLLabel;
     RLLquadroEntregaNome: TRLLabel;
     RLLquadroEntregaDocumento: TRLLabel;
     RLLquadroEntregaIE: TRLLabel;
