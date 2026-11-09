@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+09/11/2026
+-- Equiplano.Provider/Equiplano.GravarXml --
+[*] ACBR-10086 - Alguns ajustes para atender a versão 2
+   Por: Italo Giurizzato Junior
+
 03/11/2026
 -- ACBrNFSeXClass/ACBrNFSeXDANFSeRLPadraoNacional --
 -- ACBr.DANFSeX.FPDFPadraoNacional/PadraoNacional.LerXml --

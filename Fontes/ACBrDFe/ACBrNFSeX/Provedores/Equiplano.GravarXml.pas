@@ -125,15 +125,14 @@ begin
 
   NFSeNode.AppendChild(GerarRetencoes);
 
-  if Trim(NFSe.IBSCBS.valores.trib.gIBSCBS.cClassTrib) <> '' then
-    NFSeNode.AppendChild(GerarIBSCBS);
-
-  if NFSe.Servico.Valores.DescontoIncondicionado > 0 then
-    NFseNode.AppendChild(AddNode(tcDe2, '#1', 'vlDesconto', 1, 15, 1,
-                              NFSe.Servico.Valores.DescontoIncondicionado, ''));
-
   NFseNode.AppendChild(AddNode(tcStr, '#1', 'dsImpostos', 1, 500, 0,
                                           NFSe.Servico.Valores.dsImpostos, ''));
+
+  NFseNode.AppendChild(AddNode(tcDe2, '#1', 'vlDesconto', 1, 15, 0,
+                              NFSe.Servico.Valores.DescontoIncondicionado, ''));
+
+  if Trim(NFSe.IBSCBS.valores.trib.gIBSCBS.cClassTrib) <> '' then
+    NFSeNode.AppendChild(GerarIBSCBS);
 
   Result := True;
 end;
@@ -154,12 +153,12 @@ begin
 
   Result := CreateElement('documento');
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'nrDocumento', 1, 14, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'nrDocumento', 1, 20, 1,
                     OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'tpDocumento', 1, 1, 1, sTpDoc, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'dsDocumentoEstrangeiro', 0, 20, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'dsDocumentoEstrangeiro', 1, 30, 0,
                          NFSe.Tomador.IdentificacaoTomador.DocEstrangeiro, ''));
 end;
 
@@ -284,9 +283,6 @@ begin
   begin
     Result.AppendChild(AddNode(tcStr, '#', 'nrServico', 1, 12, 0,
                                        NFSe.Servico.CodigoServicoNacional, ''));
-
-    Result.AppendChild(AddNode(tcStr, '#', 'cdNbs', 1, 9, 0,
-                                                   NFSe.Servico.CodigoNBS, ''));
   end
   else
   begin
@@ -296,6 +292,8 @@ begin
                                                                   SubItem, ''));
   end;
 
+  Result.AppendChild(AddNode(tcStr, '#', 'cdNbs', 1, 9, 1,
+                                                   NFSe.Servico.CodigoNBS, ''));
   if Indice >= 0 then
   begin
     Result.AppendChild(AddNode(tcDe2, '#1', 'vlServico', 1, 15, 1,
@@ -315,6 +313,9 @@ begin
 
   if (NFSe.Servico.Valores.ValorDeducoes > 0) then
     Result.AppendChild(GerarDeducao);
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vlDescontoIncondicionado', 1, 15, 0,
+                              NFSe.Servico.Valores.DescontoIncondicionado, ''));
 
   if Indice >= 0 then
   begin
@@ -375,26 +376,26 @@ begin
     Result.AppendChild(AddNode(tcStr, '#1', 'nrInscricaoMunicipal', 1, 20, 0,
                       NFSe.Tomador.IdentificacaoTomador.InscricaoMunicipal, ''));
 
-    Result.AppendChild(AddNode(tcStr, '#1', 'dsEndereco', 1, 40, 1,
+    Result.AppendChild(AddNode(tcStr, '#1', 'dsEndereco', 1, 125, 1,
                                            NFSe.Tomador.Endereco.Endereco, ''));
 
-    Result.AppendChild(AddNode(tcStr, '#1', 'nrEndereco', 0, 10, 1,
+    Result.AppendChild(AddNode(tcStr, '#1', 'nrEndereco', 1, 10, 1,
                                              NFSe.Tomador.Endereco.Numero, ''));
 
-    Result.AppendChild(AddNode(tcStr, '#1', 'dsComplemento', 0, 60, 1,
+    Result.AppendChild(AddNode(tcStr, '#1', 'dsComplemento', 1, 40, 1,
                                         NFSe.Tomador.Endereco.Complemento, ''));
 
-    Result.AppendChild(AddNode(tcStr, '#1', 'nmBairro', 0, 25, 1,
+    Result.AppendChild(AddNode(tcStr, '#1', 'nmBairro', 1, 50, 1,
                                              NFSe.Tomador.Endereco.Bairro, ''));
 
     Result.AppendChild(AddNode(tcStr, '#1', 'nrCidadeIbge', 0, 7, 1,
                                     NFSe.Tomador.Endereco.CodigoMunicipio, ''));
 
-    Result.AppendChild(AddNode(tcStr, '#1', 'nmUf', 0, 2, 1,
+    Result.AppendChild(AddNode(tcStr, '#1', 'nmUf', 1, 2, 1,
                                                  NFSe.Tomador.Endereco.UF, ''));
 
-    Result.AppendChild(AddNode(tcStr, '#1', 'nmPais', 0, 40, 1,
-                                              NFSe.Tomador.Endereco.xPais, ''));
+//    Result.AppendChild(AddNode(tcStr, '#1', 'nmPais', 0, 40, 1,
+//                                              NFSe.Tomador.Endereco.xPais, ''));
 
     Result.AppendChild(AddNode(tcStr, '#1', 'nrCep', 0, 15, 1,
                                     OnlyNumber(NFSe.Tomador.Endereco.CEP), ''));

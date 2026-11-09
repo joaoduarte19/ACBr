@@ -168,14 +168,14 @@ begin
     CancelarNFSe.InfElemento := 'prestador';
     CancelarNFSe.DocElemento := 'esCancelarNfseEnvio';
 
-    DadosCabecalho := '1';
+    DadosCabecalho := '2';
   end;
 
   SetNomeXSD('***');
 
   with ConfigSchemas do
   begin
-    Recepcionar := 'esRecepcionarLoteRpsEnvio_v01.xsd';
+    Recepcionar := 'esRecepcionarLoteRpsEnvio_v02.xsd';
     ConsultarSituacao := 'esConsultarSituacaoLoteRpsEnvio_v01.xsd';
     ConsultarLote := 'esConsultarLoteRpsEnvio_v01.xsd';
     ConsultarNFSeRps := 'esConsultarNfsePorRpsEnvio_v01.xsd';
@@ -301,7 +301,7 @@ begin
                                     IntToStr(TACBrNFSeX(FAOwner).NotasFiscais.Count) +
                                  '</qtRps>' +
                                  '<nrVersaoXml>' +
-                                    '1' +
+                                    '2' +
                                  '</nrVersaoXml>' +
                                  '<prestador>' +
                                    '<nrCnpj>' +
