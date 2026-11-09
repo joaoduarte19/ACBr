@@ -1200,7 +1200,7 @@ begin
                                FormatDateTimeBr(Now) + ' - ' + fpDANFSe.Usuario;
 
   rllSistema.Visible := NaoEstaVazio(fpDANFSe.Sistema);
-  rllSistema.Caption := Format('Desenvolvido por %s', [fpDANFSe.Sistema]);
+  rllSistema.Caption := fpDANFSe.Sistema;
 end;
 
 procedure TfrlXDANFSeRLPadraoNacional.rlbCanhotoBeforePrint(Sender: TObject;
