@@ -45,6 +45,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 09/11/2026
+-- ACBrNFe.JSONReader/ACBrNFe.JSONWriter/ACBrNFe.XmlReader --
+[*] ACBR-9950 - Ajustes nas units de leitura e escria em JSON e uma correção na 
+    unit que faz a leitura do XML, visando a NT 2026/008 v1.01
+   Por: Italo Giurizzato Junior
 -- Diversos --
 [*] ACBR-9950 - Adequa o componente a nota técnica 2026.008 v1.01
    Por: Italo Giurizzato Junior

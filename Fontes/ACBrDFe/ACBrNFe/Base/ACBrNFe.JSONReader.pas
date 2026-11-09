@@ -626,6 +626,8 @@ begin
   AProd.qCom     := AJSONObject.AsFloat['qCom'];
   AProd.vUnCom  := AJSONObject.AsFloat['vUnCom'];
   AProd.vProd    := AJSONObject.AsFloat['vProd'];
+  AProd.vUnComLiq    := AJSONObject.AsFloat['vUnComLiq'];
+  AProd.vProdLiq    := AJSONObject.AsFloat['vProdLiq'];
   AProd.cEANTrib := AJSONObject.AsString['cEANTrib'];
   AProd.cBarraTrib := AJSONObject.AsString['cBarraTrib'];
   AProd.uTrib    := AJSONObject.AsString['uTrib'];
@@ -1019,6 +1021,8 @@ begin
 
     LerDetImposto_ICMS(lICMSJSONObj.AsJSONObject['ICMSPart'], AImposto.ICMS);
     LerDetImposto_ICMS(lICMSJSONObj.AsJSONObject['ICMSST'], AImposto.ICMS);
+
+    LerDetImposto_ICMS(lICMSJSONObj.AsJSONObject['ICMSPrevistoPagtoAntecip'], AImposto.ICMS);
   end;
 
   LerDetImposto_ICMSICMSUFDest(AJSONObject.AsJSONObject['ICMSUFDest'], AImposto.ICMSUFDest);
@@ -1109,6 +1113,8 @@ begin
   AICMS.vICMSMonoOp := AJSONObject.AsFloat['vICMSMonoOp'];
   AICMS.indDeduzDeson := StrToTIndicadorEx(AJSONObject.AsString['indDeduzDeson']);
   AICMS.cBenefRBC := AJSONObject.AsString['cBenefRBC'];
+
+  AICMS.vICMSPrevisto := AJSONObject.AsFloat['vICMSPrevisto'];
 end;
 
 procedure TNFeJSONReader.LerDetImposto_ICMSICMSUFDest(const AJSONObject: TACBrJSONObject; AICMSUfDest: TICMSUFDest);
@@ -1329,6 +1335,8 @@ procedure TNFeJSONReader.LerTotal(const AJSONObject: TACBrJSONObject; ATotal: TT
 begin
   if not Assigned(AJSONObject) then
     Exit;
+
+  ATotal.vProdLiqTot := AJSONObject.AsFloat['vProdLiqTot'];
 
   LerTotal_ICMSTot(AJSONObject.AsJSONObject['ICMSTot'], ATotal.ICMSTot);
   LerTotal_ISSQNTot(AJSONObject.AsJSONObject['ISSQNtot'], ATotal.ISSQNtot);

@@ -1033,7 +1033,11 @@ begin
         cst90 : Item.Imposto.ICMS.CST := cstPart90;
       end;
     end
-    else if Assigned(AuxNode.Childrens.FindAnyNs('ICMSST')) then
+    else
+    if Assigned(AuxNode.Childrens.FindAnyNs('ICMSPrevistoPagtoAntecip')) then
+      Item.Imposto.ICMS.CST := cstICMSPrevisto
+    else
+    if Assigned(AuxNode.Childrens.FindAnyNs('ICMSST')) then
     begin
       case Item.Imposto.ICMS.CST of
         cst41 : Item.Imposto.ICMS.CST := cstRep41;
