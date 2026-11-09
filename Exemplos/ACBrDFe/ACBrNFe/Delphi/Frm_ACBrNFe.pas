@@ -486,6 +486,7 @@ uses
   ACBrNFe.EventoClass,
   ACBrNFe.RetObterDFe,
   ACBrDFe.Conversao,
+  ACBrDFe.RTC.Classes,
   pcnConversao,
   pcnConversaoNFe,
   ACBrDFeConfiguracoes,
@@ -820,7 +821,9 @@ begin
       Prod.uCom     := 'UN';
       Prod.qCom     := 1;
       Prod.vUnCom   := 100;
+      Prod.vUnComLiq := 100;
       Prod.vProd    := 100;
+      Prod.vProdLiq := 100;
 
       Prod.cEANTrib  := '7896523206646';
       Prod.uTrib     := 'UN';
@@ -1339,6 +1342,7 @@ begin
       // Valor total da NF-e com IBS / CBS / IS
       Total.vNFTot := 100;
     end;
+    Total.vProdLiqTot := 100;
 
     Transp.modFrete := mfSemFrete; // NFC-e não pode ter FRETE
 
@@ -1354,6 +1358,15 @@ begin
       }
       vPag := 100;
     end;
+
+//    with pgtoVinc.pgto.New do
+//    begin
+//      tpMeioPgto := '17';
+//      CNPJReceb := '05481336000137';
+//      CNPJBasePSP := '05481336';
+//      nPag := 1;
+//      idTransacao := '1234567890123456';
+//    end;
 
     // O grupo infIntermed só deve ser gerado nos casos de operação não presencial
     // pela internet em site de terceiros (Intermediadores).
@@ -1429,6 +1442,7 @@ var
 //    ProcReferenciado: TprocRefCollectionItem;
   Defensivo: TdefensivoCollectionItem;
   InfoPgto: TpagCollectionItem;
+//  pgtoVinc: TpgtoCollectionItem;
 begin
   NotaF := ACBrNFe1.NotasFiscais.Add;
   NotaF.NFe.Ide.natOp     := 'VENDA PRODUCAO DO ESTAB.';
@@ -1629,7 +1643,9 @@ begin
   Produto.Prod.uCom     := 'UN';
   Produto.Prod.qCom     := 1;
   Produto.Prod.vUnCom   := 100;
+  Produto.Prod.vUnComLiq := 100;
   Produto.Prod.vProd    := 100;
+  Produto.Prod.vProdLiq := 100;
 
   Produto.Prod.cEANTrib  := '7896523206646';
   Produto.Prod.uTrib     := 'UN';
@@ -2364,6 +2380,7 @@ begin
     // Valor total da NF-e com IBS / CBS / IS
     NotaF.NFe.Total.vNFTot := 100;
   end;
+  NotaF.NFe.Total.vProdLiqTot := 100;
 
   NotaF.NFe.Transp.modFrete := mfContaEmitente;
   NotaF.NFe.Transp.Transporta.CNPJCPF  := '';
@@ -2464,6 +2481,13 @@ begin
   InfoPgto.CNPJ      := '05481336000137';
   InfoPgto.tBand     := bcVisa;
   InfoPgto.cAut      := '1234567890123456';
+
+//  pgtoVinc := NotaF.NFe.pgtoVinc.pgto.New;
+//  pgtoVinc.tpMeioPgto := '17';
+//  pgtoVinc.CNPJReceb := '05481336000137';
+//  pgtoVinc.CNPJBasePSP := '05481336';
+//  pgtoVinc.nPag := 1;
+//  pgtoVinc.idTransacao := '1234567890123456';
 
 // YA09 Troco
 // Regra opcional: Informar se valor dos pagamentos maior que valor da nota.
