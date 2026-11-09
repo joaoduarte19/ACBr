@@ -200,6 +200,9 @@ type
     procedure GerarINIgRefNFSe(AINIRec: TMemIniFile; gRefNFSe: TgRefNFSeCollection);
     procedure GerarINIDestinatario(AINIRec: TMemIniFile; Dest: TDadosdaPessoa);
     procedure GerarINIImovel(AINIRec: TMemIniFile; Imovel: TDadosimovel);
+    procedure GerarINIgLocacao(AINIRec: TMemIniFile; gLocacao: TgLocacao);
+    procedure GerarINIgUnidImob(AINIRec: TMemIniFile; gUnidImob: TgUnidImobCollection);
+    procedure GerarINIbensMoveis(AINIRec: TMemIniFile; bensMoveis: TbensMoveisCollection);
     procedure GerarINIIBSCBSValores(AINIRec: TMemIniFile; Valores: Tvalorestrib); virtual;
     procedure GerarINIDocumentos(AINIRec: TMemIniFile; Documentos: TdocumentosCollection);
     procedure GerarINITributacao(AINIRec: TMemIniFile; Tributacao: Ttrib);
@@ -2185,6 +2188,7 @@ begin
   GerarINIgRefNFSe(AINIRec, IBSCBS.gRefNFSe);
   GerarINIDestinatario(AINIRec, IBSCBS.dest);
   GerarINIImovel(AINIRec, IBSCBS.imovel);
+  GerarINIbensMoveis(AINIRec, IBSCBS.bensMoveis);
   GerarINIIBSCBSValores(AINIRec, IBSCBS.valores);
 end;
 
@@ -2250,6 +2254,84 @@ begin
   AINIRec.WriteString(LSecao, 'cEndPost', Imovel.ender.endExt.cEndPost);
   AINIRec.WriteString(LSecao, 'xCidade', Imovel.ender.endExt.xCidade);
   AINIRec.WriteString(LSecao, 'xEstProvReg', Imovel.ender.endExt.xEstProvReg);
+
+  // PadraoNacional - NT 009
+  if Imovel.cMun > 0 then
+    AINIRec.WriteInteger(LSecao, 'cMun', Imovel.cMun);
+
+  GerarINIgLocacao(AINIRec, Imovel.gLocacao);
+  GerarINIgUnidImob(AINIRec, Imovel.gUnidImob);
+end;
+
+procedure TNFSeWClass.GerarINIgLocacao(AINIRec: TMemIniFile;
+  gLocacao: TgLocacao);
+begin
+  if (gLocacao.pCopropriedade = 0) and (gLocacao.vTotOper = 0) then
+    Exit;
+
+  LSecao := 'gLocacao';
+
+  AINIRec.WriteFloat(LSecao, 'pCopropriedade', gLocacao.pCopropriedade);
+  AINIRec.WriteFloat(LSecao, 'vTotOper', gLocacao.vTotOper);
+
+  if gLocacao.vDescIncondTot > 0 then
+    AINIRec.WriteFloat(LSecao, 'vDescIncondTot', gLocacao.vDescIncondTot);
+
+  if gLocacao.vDescCondTot > 0 then
+    AINIRec.WriteFloat(LSecao, 'vDescCondTot', gLocacao.vDescCondTot);
+
+  if gLocacao.dVencOrig > 0 then
+    AINIRec.WriteString(LSecao, 'dVencOrig', DateToStr(gLocacao.dVencOrig));
+end;
+
+procedure TNFSeWClass.GerarINIgUnidImob(AINIRec: TMemIniFile;
+  gUnidImob: TgUnidImobCollection);
+var
+  i, j: Integer;
+begin
+  for i := 0 to gUnidImob.Count - 1 do
+  begin
+    LSecao := 'gUnidImob' + IntToStrZero(i+1, 2);
+
+    AINIRec.WriteString(LSecao, 'inscImobFisc', gUnidImob[i].inscImobFisc);
+    AINIRec.WriteString(LSecao, 'cCIB', gUnidImob[i].cCIB);
+
+    AINIRec.WriteString(LSecao, 'CEP', gUnidImob[i].ender.CEP);
+    AINIRec.WriteString(LSecao, 'Logradouro', gUnidImob[i].ender.xLgr);
+    AINIRec.WriteString(LSecao, 'Numero', gUnidImob[i].ender.nro);
+    AINIRec.WriteString(LSecao, 'Complemento', gUnidImob[i].ender.xCpl);
+    AINIRec.WriteString(LSecao, 'Bairro', gUnidImob[i].ender.xBairro);
+
+    for j := 0 to gUnidImob[i].gAjusteBCLocImoveis.Count - 1 do
+    begin
+      if j > 998 then
+        Break;
+
+      LSecao := 'gAjusteBCLocImoveis' + IntToStrZero(i+1, 2) + IntToStrZero(j+1, 3);
+
+      AINIRec.WriteString(LSecao, 'tpAjusteBCLocImoveis', tpAjusteBCLocImoveisToStr(gUnidImob[i].gAjusteBCLocImoveis[j].tpAjusteBCLocImoveis));
+      AINIRec.WriteString(LSecao, 'xTpAjusteBCLocImoveis', gUnidImob[i].gAjusteBCLocImoveis[j].xTpAjusteBCLocImoveis);
+      AINIRec.WriteFloat(LSecao, 'vAjusteBCLocImoveis', gUnidImob[i].gAjusteBCLocImoveis[j].vAjusteBCLocImoveis);
+    end;
+  end;
+end;
+
+procedure TNFSeWClass.GerarINIbensMoveis(AINIRec: TMemIniFile;
+  bensMoveis: TbensMoveisCollection);
+var
+  i: Integer;
+begin
+  for i := 0 to bensMoveis.Count - 1 do
+  begin
+    if i > 998 then
+      Break;
+
+    LSecao := 'bensMoveis' + IntToStrZero(i+1, 3);
+
+    AINIRec.WriteString(LSecao, 'cNCMBemMovel', bensMoveis[i].cNCMBemMovel);
+    AINIRec.WriteString(LSecao, 'xNCMBemMovel', bensMoveis[i].xNCMBemMovel);
+    AINIRec.WriteInteger(LSecao, 'qtdNCMBemMovel', bensMoveis[i].qtdNCMBemMovel);
+  end;
 end;
 
 procedure TNFSeWClass.GerarINIIBSCBSValores(AINIRec: TMemIniFile;
@@ -2348,6 +2430,13 @@ begin
 
   AINIRec.WriteFloat(LSecao, 'vBC', Valores.vBC);
   AINIRec.WriteFloat(LSecao, 'vCalcReeRepRes', Valores.vCalcReeRepRes);
+
+  // PadraoNacional - NT 009
+  if Valores.vCalcAjusteBCIBSCBS > 0 then
+    AINIRec.WriteFloat(LSecao, 'vCalcAjusteBCIBSCBS', Valores.vCalcAjusteBCIBSCBS);
+
+  if Valores.vCalcAjusteBCLocImoveis > 0 then
+    AINIRec.WriteFloat(LSecao, 'vCalcAjusteBCLocImoveis', Valores.vCalcAjusteBCLocImoveis);
 
   AINIRec.WriteFloat(LSecao, 'pIBSUF', Valores.uf.pIBSUF);
   AINIRec.WriteFloat(LSecao, 'pRedAliqUF', Valores.uf.pRedAliqUF);

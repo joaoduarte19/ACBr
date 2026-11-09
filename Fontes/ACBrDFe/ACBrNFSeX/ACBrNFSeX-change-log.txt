@@ -43,6 +43,26 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 09/11/2026
+-- PadraoNacional.LerXml --
+[*] Na leitura da NFS-e da NT 009, quando o ADN não devolve vCalcAjusteBCISSQN, o
+    vAjusteBCISSQN da DPS passa a preencher vCalcDR e ValorDeducoes.
+   Por: Cosme Eduardo Zanon
+-- ACBrNFSeXConversao/ACBrNFSeXClass/ACBrNFSeXGravarXml/ACBrNFSeXLerXml --
+-- PadraoNacional.GravarXml/PadraoNacional.LerXml --
+[+] Inclusão do grupo documentos/docAjusteBC em vAjusteBC e do grupo bensMoveis do
+    IBSCBS da NT 009 versão 1.01, na geração e leitura do XML e do INI.
+[+] Leitura das tags de retorno vCalcAjusteBCISSQN, vCalcAjusteBCIBSCBS e
+    vCalcAjusteBCLocImoveis da NFS-e, com gravação e leitura no INI.
+[*] Geração de vAjusteBC com apenas pAjusteBCISSQN ou vAjusteBCISSQN (xs:choice) e do
+    grupo gIBSCBS vazio para os CST 000, 010, 011, 200, 221, 515 e 550.
+[*] Leitura de vAjusteBC e vDedRed pelo conteúdo do XML e não pela versão da NT.
+[*] Na NT 009 a exceção de deduções e reembolsos passa a valer somente para DocDeducao,
+    gReeRepRes e ValorDeducoes diferente do vCalcDR.
+[*] Alertas para IBSCBS/dest/xNome com mais de 150 caracteres, tpEnteGov 5 ou 6 e
+    mais de 1000 ocorrências de docAjusteBC, bensMoveis e gAjusteBCLocImoveis.
+[-] INI do grupo imovel: cMun, vDescIncondTot, vDescCondTot e dVencOrig gravados somente
+    quando informados e no máximo 999 itens por lista (sufixo de 3 dígitos).
+   Por: Cosme Eduardo Zanon
 -- Equiplano.Provider/Equiplano.GravarXml --
 [*] ACBR-10086 - Alguns ajustes para atender a versão 2
    Por: Italo Giurizzato Junior

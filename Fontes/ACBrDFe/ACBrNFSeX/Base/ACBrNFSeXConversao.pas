@@ -723,6 +723,21 @@ const
     '04', '99');
 
 type
+  TtpAjusteBCLocImoveis = (tabl01, tabl02, tabl03, tabl04, tabl99);
+
+const
+  TtpAjusteBCLocImoveisArrayStrings: array[TtpAjusteBCLocImoveis] of string = ('01',
+    '02', '03', '04', '99');
+
+type
+  TtpAjusteBC = (tajbc2, tajbc5, tajbc6, tajbc7, tajbc8, tajbc9, tajbc99,
+    tajbc101, tajbc102, tajbc103, tajbc104, tajbc105, tajbc199);
+
+const
+  TtpAjusteBCArrayStrings: array[TtpAjusteBC] of string = ('2', '5', '6', '7',
+    '8', '9', '99', '101', '102', '103', '104', '105', '199');
+
+type
   TindCompGov  = (icgNenhum, icgSim, icgNao);
 
 const
@@ -965,6 +980,12 @@ function StrTotipoChaveDFe(const s: string): TtipoChaveDFe;
 
 function tpReeRepResToStr(const t: TtpReeRepRes): string;
 function StrTotpReeRepRes(const s: string): TtpReeRepRes;
+
+function tpAjusteBCLocImoveisToStr(const t: TtpAjusteBCLocImoveis): string;
+function StrTotpAjusteBCLocImoveis(const s: string): TtpAjusteBCLocImoveis;
+
+function tpAjusteBCToStr(const t: TtpAjusteBC): string;
+function StrTotpAjusteBC(const s: string): TtpAjusteBC;
 
 function indCompGovToStr(const t: TindCompGov): string;
 function StrToindCompGov(const s: string): TindCompGov;
@@ -14286,6 +14307,46 @@ begin
     end;
   end;
   raise EACBrException.CreateFmt('Valor string inválido para TtpReeRepRes: %s', [s]);
+end;
+
+function tpAjusteBCLocImoveisToStr(const t: TtpAjusteBCLocImoveis): string;
+begin
+  Result := TtpAjusteBCLocImoveisArrayStrings[t];
+end;
+
+function StrTotpAjusteBCLocImoveis(const s: string): TtpAjusteBCLocImoveis;
+var
+  idx: TtpAjusteBCLocImoveis;
+begin
+  for idx:= Low(TtpAjusteBCLocImoveisArrayStrings) to High(TtpAjusteBCLocImoveisArrayStrings) do
+  begin
+    if (TtpAjusteBCLocImoveisArrayStrings[idx] = s) then
+    begin
+      Result := idx;
+      exit;
+    end;
+  end;
+  raise EACBrException.CreateFmt('Valor string invalido para TtpAjusteBCLocImoveis: %s', [s]);
+end;
+
+function tpAjusteBCToStr(const t: TtpAjusteBC): string;
+begin
+  Result := TtpAjusteBCArrayStrings[t];
+end;
+
+function StrTotpAjusteBC(const s: string): TtpAjusteBC;
+var
+  idx: TtpAjusteBC;
+begin
+  for idx:= Low(TtpAjusteBCArrayStrings) to High(TtpAjusteBCArrayStrings) do
+  begin
+    if (TtpAjusteBCArrayStrings[idx] = s) then
+    begin
+      Result := idx;
+      exit;
+    end;
+  end;
+  raise EACBrException.CreateFmt('Valor string invalido para TtpAjusteBC: %s', [s]);
 end;
 
 function indCompGovToStr(const t: TindCompGov): string;
