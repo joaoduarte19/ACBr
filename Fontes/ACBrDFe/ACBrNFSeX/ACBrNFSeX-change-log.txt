@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 09/11/2026
+-- ACBrNFseXServicos --
+[*] ACBR-10174 - O município de Porto Feliz/SP aderiu ao Padrão Nacional
+	Por: Baltazar
 -- PadraoNacional.LerXml --
 [*] Na leitura da NFS-e da NT 009, quando o ADN não devolve vCalcAjusteBCISSQN, o
     vAjusteBCISSQN da DPS passa a preencher vCalcDR e ValorDeducoes.
