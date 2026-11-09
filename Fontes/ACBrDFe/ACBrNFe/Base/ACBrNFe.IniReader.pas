@@ -516,6 +516,8 @@ begin
       Prod.qCom     := StringToFloatDef( AINIRec.ReadString(sSecao,'qCom'   ,AINIRec.ReadString(sSecao,'Quantidade'  ,'')) ,0);
       Prod.vUnCom   := StringToFloatDef( AINIRec.ReadString(sSecao,'vUnCom' ,AINIRec.ReadString(sSecao,'ValorUnitario','')) ,0);
       Prod.vProd    := StringToFloatDef( AINIRec.ReadString(sSecao,'vProd'  ,AINIRec.ReadString(sSecao,'ValorTotal' ,'')) ,0);
+      Prod.vUnComLiq := StringToFloatDef(AINIRec.ReadString(sSecao,'vUnComLiq', ''), 0);
+      Prod.vProdLiq := StringToFloatDef(AINIRec.ReadString(sSecao,'vProdLiq', ''), 0);
 
       if Length(AINIRec.ReadString( sSecao,'cEANTrib','')) > 0 then
         Prod.cEANTrib      := AINIRec.ReadString( sSecao,'cEANTrib'      ,'');
@@ -1066,6 +1068,7 @@ begin
     ICMS.qBCMonoRet := StringToFloatDef( AINIRec.ReadString(sSecao,'qBCMonoRet','') ,0);
     ICMS.vICMSMonoOp := StringToFloatDef( AINIRec.ReadString(sSecao,'vICMSMonoOp','') ,0);
     ICMS.indDeduzDeson := StrToTIndicadorEx(AINIRec.ReadString(sSecao,'indDeduzDeson', ''));
+    ICMS.vICMSPrevisto := StringToFloatDef( AINIRec.ReadString(sSecao,'vICMSPrevisto','') ,0);
   end;
 end;
 
@@ -1277,6 +1280,7 @@ end;
 
 procedure TNFeIniReader.Ler_Total(AINIRec: TMemIniFile; ICMSTot: TICMSTot);
 begin
+  FNFe.Total.vProdLiqTot := StringToFloatDef( AINIRec.ReadString('Total','vProdLiqTot',''),0);
   ICMSTot.vBC     := StringToFloatDef( AINIRec.ReadString('Total','vBC'       ,AINIRec.ReadString('Total','BaseICMS','')) ,0);
   ICMSTot.vICMS   := StringToFloatDef( AINIRec.ReadString('Total','vICMS'     ,AINIRec.ReadString('Total','ValorICMS','')) ,0);
   ICMSTot.vICMSDeson := StringToFloatDef( AINIRec.ReadString('Total','vICMSDeson',''),0);

@@ -983,8 +983,8 @@ type
     FCredPresumido: TCredPresumidoCollection;
     FindBemMovelUsado: TIndicadorEx;
     FtpCredPresIBSZFM: TtpCredPresIBSZFM;
-    //FvUnComLiq: Currency;
-    //FvProdLiq: Currency;
+    FvUnComLiq: Currency;
+    FvProdLiq: Currency;
 
     procedure SetDI(Value: TDICollection);
     procedure SetRastro(Value: TRastroCollection);
@@ -1042,6 +1042,8 @@ type
     property CredPresumido: TCredPresumidoCollection read FCredPresumido write SetCredPresumido;
     property indBemMovelUsado: TIndicadorEx read FindBemMovelUsado write FindBemMovelUsado default tieNenhum;
     property tpCredPresIBSZFM: TtpCredPresIBSZFM read FtpCredPresIBSZFM write FtpCredPresIBSZFM;
+    property vUnComLiq: Currency read FvUnComLiq write FvUnComLiq;
+    property vProdLiq: Currency read FvProdLiq write FvProdLiq;
   end;
 
   { TICMS }
@@ -1112,7 +1114,7 @@ type
     FqBCMonoRet: Currency;
     FindDeduzDeson: TIndicadorEx;
     FcBenefRBC: string;
-    //FvICMSPrevisto: Currency;
+    FvICMSPrevisto: Currency;
   public
     constructor Create;
 
@@ -1187,6 +1189,7 @@ type
 
     property indDeduzDeson: TIndicadorEx read FindDeduzDeson write FindDeduzDeson default tieNenhum;
     property cBenefRBC: string read FcBenefRBC write FcBenefRBC;
+    property vICMSPrevisto: Currency read FvICMSPrevisto write FvICMSPrevisto;
   end;
 
   { TIPI }
@@ -1633,7 +1636,7 @@ type
     FISTot: TISTot;
     FIBSCBSTot: TIBSCBSTot;
     FvNFTot: Double;
-    //FvProdLiqTot: Double;
+    FvProdLiqTot: Double;
   public
     constructor Create();
     destructor Destroy; override;
@@ -1647,6 +1650,7 @@ type
     property ISTot: TISTot read FISTot write FISTot;
     property IBSCBSTot: TIBSCBSTot read FIBSCBSTot write FIBSCBSTot;
     property vNFTot: Double read FvNFTot write FvNFTot;
+    property vProdLiqTot: Double read FvProdLiqTot write FvProdLiqTot;
   end;
 
   { TTransporta }
@@ -2822,6 +2826,8 @@ begin
   cBenef    := Source.cBenef;
   CredPresumido.Assign(Source.CredPresumido);
   indBemMovelUsado := Source.indBemMovelUsado;
+  vUnComLiq := Source.vUnComLiq;
+  vProdLiq := Source.vProdLiq;
 end;
 
 procedure TProd.setCFOP(const Value: string);
@@ -3175,6 +3181,7 @@ begin
   ISTot.Assign(Source.ISTot);
 //  IBSCBSTot.Assign(Source.IBSCBSTot);
   vNFTot := Source.vNFTot;
+  vProdLiqTot := Source.vProdLiqTot;
 end;
 
 constructor TTotal.Create();
@@ -4172,6 +4179,7 @@ begin
   qBCMonoRet := Source.qBCMonoRet;
   indDeduzDeson := Source.indDeduzDeson;
   cBenefRBC := Source.cBenefRBC;
+  vICMSPrevisto := Source.vICMSPrevisto;
 end;
 
 constructor TICMS.Create;

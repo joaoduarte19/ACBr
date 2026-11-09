@@ -508,6 +508,8 @@ begin
   AINIRec.WriteFloat(sSecao, 'qCom', Prod.qCom);
   AINIRec.WriteFloat(sSecao, 'vUnCom', Prod.vUnCom);
   AINIRec.WriteFloat(sSecao, 'vProd', Prod.vProd);
+  AINIRec.WriteFloat(sSecao, 'vUnComLiq', Prod.vUnComLiq);
+  AINIRec.WriteFloat(sSecao, 'vProdLiq', Prod.vProdLiq);
   AINIRec.WriteString(sSecao, 'cEANTrib', Prod.cEANTrib);
   AINIRec.WriteString(sSecao, 'cBarraTrib', Prod.cBarraTrib);
   AINIRec.WriteString(sSecao, 'uTrib', Prod.uTrib);
@@ -950,6 +952,7 @@ begin
   AINIRec.WriteFloat(sSecao, 'qBCMonoRet', ICMS.qBCMonoRet);
   AINIRec.WriteFloat(sSecao, 'vICMSMonoOp', ICMS.vICMSMonoOp);
   AINIRec.WriteString(sSecao, 'indDeduzDeson', TIndicadorExToStr(ICMS.indDeduzDeson));
+  AINIRec.WriteFloat(sSecao, 'vICMSPrevisto', ICMS.vICMSPrevisto);
 end;
 
 procedure TNFeIniWriter.Gerar_ImpostoICMSUFDest(AINIRec: TMemIniFile;
@@ -1162,6 +1165,7 @@ end;
 
 procedure TNFeIniWriter.Gerar_Total(AINIRec: TMemIniFile; Total: TTotal);
 begin
+  AINIRec.WriteFloat('Total', 'vProdLiqTot', Total.vProdLiqTot);
   AINIRec.WriteFloat('Total', 'vBC', Total.ICMSTot.vBC);
   AINIRec.WriteFloat('Total', 'vICMS', Total.ICMSTot.vICMS);
   AINIRec.WriteFloat('Total', 'vICMSDeson', Total.ICMSTot.vICMSDeson);

@@ -43,6 +43,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+09/11/2026
+-- Diversos --
+[*] ACBR-9950 - Adequa o componente a nota técnica 2026.008 v1.01
+   Por: Italo Giurizzato Junior
+
 03/11/2026
 -- ACBrNFe.ValidarRegrasdeNegocio --
 [-] Ajuste nas regras 865 e 904 para o meio de pagamento 91 (Pagamento Posterior), conforme NT 2025.001 v1.03.

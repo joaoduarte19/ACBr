@@ -1235,6 +1235,12 @@ begin
   Result.AppendChild(AddNode(tcDe2, 'I11', 'vProd', 00, 15, 1,
     NFe.Det[i].Prod.vProd, DSC_VPROD));
 
+  Result.AppendChild(AddNode(tcDe10, 'I11', 'vUnComLiq', 00, 15, 0,
+                                     NFe.Det[i].Prod.vUnComLiq, DSC_VUNCOMLIQ));
+
+  Result.AppendChild(AddNode(tcDe2, 'I11', 'vProdLiq', 00, 15, 0,
+                                       NFe.Det[i].Prod.vProdLiq, DSC_VPRODLIQ));
+
   // Implementação futura - regra de validação somente em 01/12/2018
   if (NFe.infNFe.Versao >= 4) and (trim(NFe.Det[i].Prod.cEANTrib) = '') and
      (CompareDate(NFe.Ide.dEmi, StringToDateTime('01/12/2018')) > 0) then
@@ -1902,6 +1908,7 @@ begin
   end;
 
   // Reforma Tributária
+//  if (NFe.Det[i].Imposto.ISel.CSTIS <> cstisNenhum) and
   if (NFe.Det[i].Imposto.ISel.CSTIS <> '') and
      (NFe.Det[i].Imposto.ISel.vBCIS > 0) then
     Result.AppendChild(Gerar_ISel(NFe.Det[i].Imposto.ISel));
@@ -1939,6 +1946,7 @@ var
       cstPart90: Result := 'Part';
       cstRep41: Result := 'ST';
       cstRep60: Result := IfThen(NFe.infNFe.Versao < 4, '60', 'ST');
+      cstICMSPrevisto: Result := 'IP';
     end;
   end;
 
@@ -2064,11 +2072,19 @@ begin
       crtRegimeNormal, crtSimplesExcessoReceita:
       begin
         sTagTemp := BuscaTag(NFe.Det[i].Imposto.ICMS.CST);
-        xmlNode := Result.AddChild('ICMS' + sTagTemp);
-        xmlNode.AppendChild(AddNode(tcStr, 'N11', 'orig', 01,
-          01, 1, OrigTOStr(NFe.Det[i].Imposto.ICMS.orig), DSC_ORIG));
-        xmlNode.AppendChild(AddNode(tcStr, 'N12', 'CST', 02,
-          02, 1, CSTICMSTOStr(NFe.Det[i].Imposto.ICMS.CST), DSC_CST));
+
+        if sTagTemp <> 'IP' then
+        begin
+          xmlNode := Result.AddChild('ICMS' + sTagTemp);
+
+          xmlNode.AppendChild(AddNode(tcStr, 'N11', 'orig', 01, 01, 1,
+                            OrigTOStr(NFe.Det[i].Imposto.ICMS.orig), DSC_ORIG));
+
+          xmlNode.AppendChild(AddNode(tcStr, 'N12', 'CST', 02, 02, 1,
+                           CSTICMSTOStr(NFe.Det[i].Imposto.ICMS.CST), DSC_CST));
+        end
+        else
+          xmlNode := Result.AddChild('ICMSPrevistoPagtoAntecip');
 
         case NFe.Det[i].Imposto.ICMS.CST of
           cst00:
@@ -2729,6 +2745,10 @@ begin
               xmlNode.AppendChild(AddNode(tcDe2, 'N37', 'vICMSEfet', 01, 15, 1, NFe.Det[i].Imposto.ICMS.vICMSEfet, DSC_VICMSEFET));
             end;
           end;
+
+          cstICMSPrevisto:
+            xmlNode.AppendChild(AddNode(tcDe2, 'N31', 'vICMSPrevisto', 01, 15, 1,
+                     NFe.Det[i].Imposto.ICMS.vICMSPrevisto, DSC_VICMSPREVISTO));
         end;
       end;
       crtSimplesNacional, crtMEI:
@@ -3512,6 +3532,9 @@ end;
 function TNFeXmlWriter.GerarTotal: TACBrXmlNode;
 begin
   Result := FDocument.CreateElement('total');
+
+  Result.AppendChild(AddNode(tcDe2, 'W60', 'vProdLiqTot', 1, 15, 0,
+                                       NFe.Total.vProdLiqTot, DSC_VPRODLIQTOT));
 
   Result.AppendChild(GerarTotalICMSTotal);
   Result.AppendChild(GerarTotalISSQNtot);

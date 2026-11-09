@@ -609,6 +609,8 @@ begin
   Item.Prod.qCom     := ObterConteudo(ANode.Childrens.Find('qCom'), tcDe4);
   Item.Prod.vUnCom   := ObterConteudo(ANode.Childrens.Find('vUnCom'), tcDe10);
   Item.Prod.vProd    := ObterConteudo(ANode.Childrens.Find('vProd'), tcDe2);
+  Item.Prod.vUnComLiq := ObterConteudo(ANode.Childrens.Find('vUnComLiq'), tcDe10);
+  Item.Prod.vProdLiq := ObterConteudo(ANode.Childrens.Find('vProdLiq'), tcDe2);
   Item.Prod.cEANTrib := ObterConteudo(ANode.Childrens.Find('cEANTrib'), tcStr);
   Item.Prod.cBarraTrib := ObterConteudo(ANode.Childrens.Find('cBarraTrib'), tcStr);
   Item.Prod.uTrib    := ObterConteudo(ANode.Childrens.Find('uTrib'), tcStr);
@@ -983,6 +985,7 @@ var
       ANodeImposto.ICMS.indDeduzDeson := tieNao;
 
     ANodeImposto.ICMS.cBenefRBC := ObterConteudo(ANodeICMS.Childrens.Find('cBenefRBC'), tcStr);
+    ANodeImposto.ICMS.vICMSPrevisto := ObterConteudo(ANodeICMS.Childrens.Find('vICMSPrevisto'), tcDe2);
   end;
 
 begin
@@ -1019,6 +1022,7 @@ begin
 
   LerICMS('ICMSPart', Item.Imposto);
   LerICMS('ICMSST', Item.Imposto);
+  LerICMS('ICMSPrevistoPagtoAntecip', Item.Imposto);
 
   if (AuxNode <> nil) then
   begin
@@ -1354,6 +1358,7 @@ begin
   Ler_ISTot(ANode.Childrens.Find('ISTot'), NFe.Total.ISTot);
   Ler_IBSCBSTot(ANode.Childrens.Find('IBSCBSTot'), NFe.Total.IBSCBSTot);
 
+  NFe.Total.vProdLiqTot := ObterConteudo(ANode.Childrens.Find('vProdLiqTot'), tcDe2);
   NFe.Total.vNFTot := ObterConteudo(ANode.Childrens.Find('vNFTot'), tcDe2);
 end;
 
