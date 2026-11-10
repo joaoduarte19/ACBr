@@ -438,18 +438,29 @@ end;
 procedure TfrlXDANFSeRLPadraoNacional.rlbBanda03_EmitenteBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
 var
-  xNome: string;
+  xNome, xEndereco: string;
 begin
   inherited;
 
   xNome := fpNFSe.infNFSe.emit.RazaoSocial;
+
   if Length(xNome) > 65 then
     xNome := Copy(xNome, 1, 65) + '...';
 
   rllEmitenteNome.Caption := xNome;
-  rllEmitenteEndereco.Caption := fpNFSe.infNFSe.emit.Endereco.Endereco + ', ' +
-                                 fpNFSe.infNFSe.emit.Endereco.Numero + ', ' +
-                                 fpNFSe.infNFSe.emit.Endereco.Bairro;
+
+  xEndereco := fpNFSe.infNFSe.emit.Endereco.Endereco + ', ' +
+               fpNFSe.infNFSe.emit.Endereco.Numero + ', ';
+
+  if fpNFSe.infNFSe.emit.Endereco.Complemento <> '' then
+    xEndereco := xEndereco + fpNFSe.infNFSe.emit.Endereco.Complemento + ', ';
+
+  xEndereco := xEndereco + fpNFSe.infNFSe.emit.Endereco.Bairro;
+
+  if Length(xEndereco) > 77 then
+    xEndereco := Copy(xEndereco, 1, 77) + '...';
+
+  rllEmitenteEndereco.Caption := xEndereco;
 
   case fpNFSe.OptanteSN of
     osnNaoOptante:
@@ -494,7 +505,7 @@ end;
 procedure TfrlXDANFSeRLPadraoNacional.rlbBanda04_TomadorBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
 var
-  xNome: string;
+  xNome, xEndereco: string;
 begin
   inherited;
 
@@ -503,9 +514,19 @@ begin
     xNome := Copy(xNome, 1, 65) + '...';
 
   rllTomaNome.Caption := xNome;
-  rllTomaEndereco.Caption := fpNFSe.Tomador.Endereco.Endereco + ', ' +
-                                 fpNFSe.Tomador.Endereco.Numero + ', ' +
-                                 fpNFSe.Tomador.Endereco.Bairro;
+
+  xEndereco := fpNFSe.Tomador.Endereco.Endereco + ', ' +
+               fpNFSe.Tomador.Endereco.Numero + ', ';
+
+  if fpNFSe.Tomador.Endereco.Complemento <> '' then
+    xEndereco := xEndereco + fpNFSe.Tomador.Endereco.Complemento + ', ';
+
+  xEndereco := xEndereco + fpNFSe.Tomador.Endereco.Bairro;
+
+  if Length(xEndereco) > 77 then
+    xEndereco := Copy(xEndereco, 1, 77) + '...';
+
+  rllTomaEndereco.Caption := xEndereco;
 
   if fpNFSe.infNFSe.emit.Identificacao.Nif <> '' then
     rllTomaCNPJ.Caption := fpNFSe.Tomador.IdentificacaoTomador.Nif
@@ -524,7 +545,7 @@ end;
 procedure TfrlXDANFSeRLPadraoNacional.rlbBanda05_DestinatarioBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
 var
-  xNome: string;
+  xNome, xEndereco: string;
 begin
   inherited;
 
@@ -560,9 +581,20 @@ begin
       xNome := Copy(xNome, 1, 65) + '...';
 
     rllDestNome.Caption := xNome;
-    rllDestEndereco.Caption := fpNFSe.IBSCBS.dest.ender.xLgr + ', ' +
-                                   fpNFSe.IBSCBS.dest.ender.nro + ', ' +
-                                   fpNFSe.IBSCBS.dest.ender.xBairro;
+
+
+    xEndereco := fpNFSe.IBSCBS.dest.ender.xLgr + ', ' +
+                 fpNFSe.IBSCBS.dest.ender.nro + ', ';
+
+    if fpNFSe.IBSCBS.dest.ender.xCpl <> '' then
+      xEndereco := xEndereco + fpNFSe.IBSCBS.dest.ender.xCpl + ', ';
+
+    xEndereco := xEndereco + fpNFSe.IBSCBS.dest.ender.xBairro;
+
+    if Length(xEndereco) > 77 then
+      xEndereco := Copy(xEndereco, 1, 77) + '...';
+
+    rllDestEndereco.Caption := xEndereco;
 
     if fpNFSe.infNFSe.emit.Identificacao.Nif <> '' then
       rllDestCNPJ.Caption := fpNFSe.IBSCBS.dest.Nif
@@ -582,7 +614,7 @@ end;
 procedure TfrlXDANFSeRLPadraoNacional.rlbBanda06_IntermediarioBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
 var
-  xNome: string;
+  xNome, xEndereco: string;
 begin
   inherited;
 
@@ -616,9 +648,19 @@ begin
       xNome := Copy(xNome, 1, 65) + '...';
 
     rllInterNome.Caption := xNome;
-    rllInterEndereco.Caption := fpNFSe.Intermediario.Endereco.Endereco + ', ' +
-                                   fpNFSe.Intermediario.Endereco.Numero + ', ' +
-                                   fpNFSe.Intermediario.Endereco.Bairro;
+
+    xEndereco := fpNFSe.Intermediario.Endereco.Endereco + ', ' +
+                 fpNFSe.Intermediario.Endereco.Numero + ', ';
+
+    if fpNFSe.Intermediario.Endereco.Complemento <> '' then
+      xEndereco := xEndereco + fpNFSe.Intermediario.Endereco.Complemento + ', ';
+
+    xEndereco := xEndereco + fpNFSe.Intermediario.Endereco.Bairro;
+
+    if Length(xEndereco) > 77 then
+      xEndereco := Copy(xEndereco, 1, 77) + '...';
+
+    rllInterEndereco.Caption := xEndereco;
 
     if fpNFSe.infNFSe.emit.Identificacao.Nif <> '' then
       rllInterCNPJ.Caption := fpNFSe.Intermediario.Identificacao.Nif
