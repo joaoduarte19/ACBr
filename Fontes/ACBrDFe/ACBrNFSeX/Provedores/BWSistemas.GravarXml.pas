@@ -81,6 +81,7 @@ begin
   NrOcorrDescCond := 1;
   NrOcorrValorIr := 1;
   NrOcorrRegimeEspecialTributacao := 1;
+  FormatoAliq := tcDe2;
 end;
 
 function TNFSeW_BWSistemas200.GerarServico: TACBrXmlNode;

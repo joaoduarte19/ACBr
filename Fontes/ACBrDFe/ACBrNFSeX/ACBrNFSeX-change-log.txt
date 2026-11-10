@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 10/11/2026
+-- BWSistemas.GravarXml --
+[*] ACBR-10160 - Alteração para deixar a alíquota com 2 casas decimais.
+   Por: Geraldo Moura
 -- ACBrNFSeXDANFSeRLPadraoNacional --
 [*] ACBR-10161 - Alteração visando a impressão do complemento do Emitente,
     Prestador, Tomador e Intermediário.
