@@ -57,6 +57,9 @@ type
 
     procedure Ler_IBSCBS(const ANode: TACBrXmlNode; IBSCBS: TIBSCBS);
     procedure Ler_gIBSCBS(const ANode: TACBrXmlNode; gIBSCBS: TgIBSCBS);
+    procedure Ler_gTribSN(const ANode: TACBrXmlNode; gTribSN: TTribSN);
+    procedure Ler_gIBSSN(const ANode: TACBrXmlNode; gIBSSN: TgIBSSN);
+    procedure Ler_gCBSSN(const ANode: TACBrXmlNode; gCBSSN: TgCBSSN);
 
     procedure Ler_gIBSUF(const ANode: TACBrXmlNode; gIBSUF: TgIBSUFValores);
     procedure Ler_gIBSMun(const ANode: TACBrXmlNode; gIBSMun: TgIBSMunValores);
@@ -78,6 +81,7 @@ type
     procedure Ler_gIBSMunTot(const ANode: TACBrXmlNode; gIBSMunTot: TgIBSMunTot);
     procedure Ler_gCBSTot(const ANode: TACBrXmlNode; gCBS: TgCBS);
     procedure Ler_gEstornoCredTot(const ANode: TACBrXmlNode; gEstornoCred: TgEstornoCred);
+    procedure Ler_gTribSNTot(const ANode: TACBrXmlNode; gTribSN: TgTribSN);
 
     procedure Ler_pgtoVinc(const ANode: TACBrXmlNode; pgtoVinc: TpgtoVinc);
     procedure Ler_pgto(const ANode: TACBrXmlNode; pgto: TpgtoCollection);
@@ -189,6 +193,7 @@ begin
   IBSCBS.indDoacao := StrToTIndicadorEx(ObterConteudo(ANode.Childrens.Find('indDoacao'), tcStr));
 
   Ler_gIBSCBS(ANode.Childrens.Find('gIBSCBS'), IBSCBS.gIBSCBS);
+  Ler_gTribSN(ANode.Childrens.Find('gTribSN'), IBSCBS.gTribSN);
   Ler_gIBSCBSMono(ANode.Childrens.Find('gIBSCBSMono'), IBSCBS.gIBSCBSMono);
   Ler_gTransfCred(ANode.Childrens.Find('gTransfCred'), IBSCBS.gTransfCred);
   Ler_gAjusteCompet(ANode.Childrens.Find('gAjusteCompet'), IBSCBS.gAjusteCompet);
@@ -214,6 +219,33 @@ begin
   Ler_gCBS(ANode.Childrens.Find('gCBS'), gIBSCBS.gCBS);
   Ler_gTribRegular(ANode.Childrens.Find('gTribRegular'), gIBSCBS.gTribRegular);
   Ler_gTribCompraGov(ANode.Childrens.Find('gTribCompraGov'), gIBSCBS.gTribCompraGov);
+end;
+
+procedure TDFeRTCXmlReader.Ler_gTribSN(const ANode: TACBrXmlNode;
+  gTribSN: TTribSN);
+begin
+  if not Assigned(ANode) then Exit;
+
+  Ler_gIBSSN(ANode.Childrens.Find('gIBSSN'), gTribSN.gIBSSN);
+  Ler_gCBSSN(ANode.Childrens.Find('gCBSSN'), gTribSN.gCBSSN);
+end;
+
+procedure TDFeRTCXmlReader.Ler_gIBSSN(const ANode: TACBrXmlNode;
+  gIBSSN: TgIBSSN);
+begin
+  if not Assigned(ANode) then Exit;
+
+  gIBSSN.pIBSSN := ObterConteudo(ANode.Childrens.Find('pIBSSN'), tcDe4);
+  gIBSSN.vIBSSN := ObterConteudo(ANode.Childrens.Find('vIBSSN'), tcDe2);
+end;
+
+procedure TDFeRTCXmlReader.Ler_gCBSSN(const ANode: TACBrXmlNode;
+  gCBSSN: TgCBSSN);
+begin
+  if not Assigned(ANode) then Exit;
+
+  gCBSSN.pCBSSN := ObterConteudo(ANode.Childrens.Find('pCBSSN'), tcDe4);
+  gCBSSN.vCBSSN := ObterConteudo(ANode.Childrens.Find('vCBSSN'), tcDe2);
 end;
 
 procedure TDFeRTCXmlReader.Ler_gIBSUF(const ANode: TACBrXmlNode; gIBSUF: TgIBSUFValores);
@@ -342,6 +374,7 @@ begin
 
   Ler_gIBSTot(ANode.Childrens.Find('gIBS'), IBSCBSTot.gIBS);
   Ler_gCBSTot(ANode.Childrens.Find('gCBS'), IBSCBSTot.gCBS);
+  Ler_gTribSNTot(ANode.Childrens.Find('gTribSN'), IBSCBSTot.gTribSN);
   Ler_gMonoTot(ANode.Childrens.Find('gMono'), IBSCBSTot.gMono);
   Ler_gEstornoCredTot(ANode.Childrens.Find('gEstornoCred'), IBSCBSTot.gEstornoCred);
 end;
@@ -398,6 +431,15 @@ begin
 
   gEstornoCred.vIBSEstCred := ObterConteudo(ANode.Childrens.Find('vIBSEstCred'), tcDe2);
   gEstornoCred.vCBSEstCred := ObterConteudo(ANode.Childrens.Find('vCBSEstCred'), tcDe2);
+end;
+
+procedure TDFeRTCXmlReader.Ler_gTribSNTot(const ANode: TACBrXmlNode;
+  gTribSN: TgTribSN);
+begin
+  if not Assigned(ANode) then Exit;
+
+  gTribSN.vIBSSN := ObterConteudo(ANode.Childrens.Find('vIBSSN'), tcDe2);
+  gTribSN.vCBSSN := ObterConteudo(ANode.Childrens.Find('vCBSSN'), tcDe2);
 end;
 
 procedure TDFeRTCXmlReader.Ler_pgtoVinc(const ANode: TACBrXmlNode;

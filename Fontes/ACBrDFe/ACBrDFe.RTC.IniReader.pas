@@ -59,6 +59,9 @@ type
 
     procedure Ler_IBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBS; Idx1, Idx2: Integer);
     procedure Ler_gIBSCBS(AINIRec: TMemIniFile; gIBSCBS: TgIBSCBS; Idx1, Idx2: Integer);
+    procedure Ler_gTribSN(AINIRec: TMemIniFile; gTribSN: TTribSN; Idx1, Idx2: Integer);
+    procedure Ler_gIBSSN(AINIRec: TMemIniFile; gIBSSN: TgIBSSN; Idx1, Idx2: Integer);
+    procedure Ler_gCBSSN(AINIRec: TMemIniFile; gCBSSN: TgCBSSN; Idx1, Idx2: Integer);
 
     procedure Ler_gIBSUF(AINIRec: TMemIniFile; gIBSUF: TgIBSUFValores; Idx1, Idx2: Integer);
     procedure Ler_gIBSMun(AINIRec: TMemIniFile; gIBSMun: TgIBSMunValores; Idx1, Idx2: Integer);
@@ -76,6 +79,7 @@ type
     procedure Ler_gIBSMunTot(AINIRec: TMemIniFile; gIBSMunTot: TgIBSMunTot);
     procedure Ler_gCBSTot(AINIRec: TMemIniFile; gCBS: TgCBS);
     procedure Ler_gEstornoCredTot(AINIRec: TMemIniFile; gEstornoCred: TgEstornoCred);
+    procedure Ler_gTribSNTot(AINIRec: TMemIniFile; gTribSN: TgTribSN);
 
     procedure Ler_pgtoVinc(AINIRec: TMemIniFile; pgto: TpgtoCollection);
 
@@ -235,6 +239,7 @@ begin
     IBSCBS.indDoacao := StrToTIndicadorEx(AINIRec.ReadString(sSecao, 'indDoacao', ''));
 
     Ler_gIBSCBS(AINIRec, IBSCBS.gIBSCBS, Idx1, Idx2);
+    Ler_gTribSN(AINIRec, IBSCBS.gTribSN, Idx1, Idx2);
     Ler_gEstornoCred(AINIRec, IBSCBS.gEstornoCred, Idx1, Idx2);
 
     Ler_gIBSCBSMono(AINIRec, IBSCBS.gIBSCBSMono, Idx1);
@@ -275,6 +280,57 @@ begin
     Ler_gALCZFMCBS(AINIRec, gIBSCBS.gCBS.gALCZFMCBS, Idx1, Idx2);
     Ler_gTribReg(AINIRec, gIBSCBS.gTribRegular, Idx1, Idx2);
     Ler_gTribCompraGov(AINIRec, gIBSCBS.gTribCompraGov, Idx1, Idx2);
+  end;
+end;
+
+procedure TDFeRTCIniReader.Ler_gTribSN(AINIRec: TMemIniFile; gTribSN: TTribSN;
+  Idx1, Idx2: Integer);
+begin
+  Ler_gIBSSN(AINIRec, gTribSN.gIBSSN, Idx1, Idx2);
+  Ler_gCBSSN(AINIRec, gTribSN.gCBSSN, Idx1, Idx2);
+end;
+
+procedure TDFeRTCIniReader.Ler_gIBSSN(AINIRec: TMemIniFile; gIBSSN: TgIBSSN;
+  Idx1, Idx2: Integer);
+var
+  sSecao: string;
+begin
+  if Idx1 = -1 then
+    sSecao := 'gIBSSN'
+  else
+  begin
+    if Idx2 = -1 then
+      sSecao := 'gIBSSN' + IntToStrZero(Idx1, 3)
+    else
+      sSecao := 'gIBSSN' + IntToStrZero(Idx1, 2) + IntToStrZero(Idx2, 3);
+  end;
+
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    gIBSSN.pIBSSN := StringToFloatDef(AINIRec.ReadString(sSecao,'pIBSSN',''),0);
+    gIBSSN.vIBSSN := StringToFloatDef(AINIRec.ReadString(sSecao,'vIBSSN',''),0);
+  end;
+end;
+
+procedure TDFeRTCIniReader.Ler_gCBSSN(AINIRec: TMemIniFile; gCBSSN: TgCBSSN;
+  Idx1, Idx2: Integer);
+var
+  sSecao: string;
+begin
+  if Idx1 = -1 then
+    sSecao := 'gCBSSN'
+  else
+  begin
+    if Idx2 = -1 then
+      sSecao := 'gCBSSN' + IntToStrZero(Idx1, 3)
+    else
+      sSecao := 'gCBSSN' + IntToStrZero(Idx1, 2) + IntToStrZero(Idx2, 3);
+  end;
+
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    gCBSSN.pCBSSN := StringToFloatDef(AINIRec.ReadString(sSecao,'pCBSSN',''),0);
+    gCBSSN.vCBSSN := StringToFloatDef(AINIRec.ReadString(sSecao,'vCBSSN',''),0);
   end;
 end;
 
@@ -485,6 +541,7 @@ begin
 
     Ler_gIBSTot(AINIRec, IBSCBSTot.gIBS);
     Ler_gCBSTot(AINIRec, IBSCBSTot.gCBS);
+    Ler_gTribSNTot(AINIRec, IBSCBSTot.gTribSN);
     Ler_gMonoTot(AINIRec, IBSCBSTot.gMono);
     Ler_gEstornoCredTot(AINIRec, IBSCBSTot.gEstornoCred);
   end;
@@ -566,6 +623,20 @@ begin
   begin
     gEstornoCred.vIBSEstCred := StringToFloatDef(AINIRec.ReadString(sSecao,'vIBSEstCred','') ,0);
     gEstornoCred.vCBSEstCred := StringToFloatDef(AINIRec.ReadString(sSecao,'vCBSEstCred','') ,0);
+  end;
+end;
+
+procedure TDFeRTCIniReader.Ler_gTribSNTot(AINIRec: TMemIniFile;
+  gTribSN: TgTribSN);
+var
+  sSecao: string;
+begin
+  sSecao := 'gTribSNTot';
+
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    gTribSN.vIBSSN := StringToFloatDef(AINIRec.ReadString(sSecao,'vIBSSN','') ,0);
+    gTribSN.vCBSSN := StringToFloatDef(AINIRec.ReadString(sSecao,'vCBSSN','') ,0);
   end;
 end;
 

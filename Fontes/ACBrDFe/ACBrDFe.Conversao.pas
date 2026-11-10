@@ -643,12 +643,31 @@ const
   TtpALCZFMCBSArrayStrings: array[TtpALCZFMCBS] of string = ('1', '2');
 
 type
+  {
+   000 = Tributado com Imposto Seletivo
+   100 = Imunidade
+   200 = Não ocorrencia do Fato Gerador
+   300 = Devolução
+   400 = Suspensão
+   500 = Aliquota zero
+   600 = Isenção
+  }
   TCSTIS = (cstisNenhum,
             cstis000, cstis100, cstis200, cstis300, cstis400, cstis500, cstis600);
 
 const
   TCSTISArrayStrings: array[TCSTIS] of string = ('',
     '000', '100', '200', '300', '400','500', '600');
+
+type
+  TtpRegimeIBSCBS = (trNenhum, trSNRegimeRegular,
+                     trNormalPendenteCRT1SemRegimeRegular,
+                     trNormalPendenteCRT2SemRegimeRegular,
+                     trNormalPendenteCRT12RegimeRegular);
+
+const
+  TtpRegimeIBSCBSArrayStrings: array[TtpRegimeIBSCBS] of string = ('', '1', '2',
+    '3', '4');
 
 {
   Declaração das funções de conversão
@@ -839,6 +858,9 @@ function StrTotpALCZFMCBS(const s: string): TtpALCZFMCBS;
 function CSTISToStr(const t: TCSTIS): string;
 function TryStrToCSTIS(const s: string; out Value: TCSTIS): Boolean;
 function StrToCSTIS(const s: string): TCSTIS;
+
+function tpRegimeIBSCBSToStr(const t: TtpRegimeIBSCBS): string;
+function StrTotpRegimeIBSCBS(const s: string): TtpRegimeIBSCBS;
 
 var
   StrToTpEventoDFeList: array of TStrToTpEventoDFe;
@@ -2088,6 +2110,26 @@ function StrToCSTIS(const s: string): TCSTIS;
 begin
   if not TryStrToCSTIS(s, Result) then
     raise EACBrException.CreateFmt('Valor string inválido para TCSTIS: %s', [s]);
+end;
+
+function tpRegimeIBSCBSToStr(const t: TtpRegimeIBSCBS): string;
+begin
+  Result := TtpRegimeIBSCBSArrayStrings[t];
+end;
+
+function StrTotpRegimeIBSCBS(const s: string): TtpRegimeIBSCBS;
+var
+  idx: TtpRegimeIBSCBS;
+begin
+  for idx:= Low(TtpRegimeIBSCBSArrayStrings) to High(TtpRegimeIBSCBSArrayStrings) do
+  begin
+    if(TtpRegimeIBSCBSArrayStrings[idx] = s)then
+    begin
+      Result := idx;
+      exit;
+    end;
+  end;
+  raise EACBrException.CreateFmt('Valor string inválido para TtpRegimeIBSCBS: %s', [s]);
 end;
 
 end.

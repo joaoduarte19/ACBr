@@ -179,6 +179,10 @@ resourcestring
   DSC_INDDOACAO = 'Informar quando doação';
   DSC_VIBSESTCRED = 'Valor do IBS a ser estornado';
   DSC_VCBSESTCRED = 'Valor do CBS a ser estornado';
+  DSC_VIBSSN = 'Valor total de IBS SN';
+  DSC_VCBSSN = 'Valor total da CBS SN';
+  DSC_PIBSSN = 'Aliquota do IBS SN';
+  DSC_PCBSSN = 'Aliquota do CBS SN';
 
   DSC_VTOTDFE = 'Valor total do documento fiscal';
 
@@ -248,6 +252,8 @@ resourcestring
   DSC_VTRIBREGCBS = 'Valor efetivo sem a redução';
   DSC_CHDFEPAGANT = 'Chave de acesso do DF-e de antecipação de pagamento';
   DSC_NITEMPAGANT = 'Nùmero do item do DF-e de antecipação para refência direta a um item';
+
+  DSC_TPREGIMEIBSCBS = 'Tipo de Regime de Apuração do IBS e da CBS';
 
 implementation
 
