@@ -83,6 +83,7 @@ ResourceString
 
   SErroVersaoInvalida = 'Versão Inválida.';
   SErroTipoContribuinteInvalido = 'Tipo de Contribuinte Inválido.';
+  SErroLeiauteDANFEInvalido = 'Leiaute DANFE Inválido. Informe 0-Padrão ou 1-Reforma Tributária.';
 
 const
   CMonitorIni = 'ACBrMonitor.ini';
@@ -391,6 +392,7 @@ const
   CMetodoSetRespTecnico =              'setresptecnico';
   CMetodoObterListaChaves =            'obterlistachaves';
   CMetodoObterDownloadXml =            'obterdownloadxml';
+  CMetodoSetLeiauteDANFE =             'setleiautedanfe';
   CMetodoSetPathArquivoWebServices =   'SetPathArquivoWebServices';
 
   CMetodoSetversaodf =                 'setversaodf';
@@ -1133,6 +1135,7 @@ const
   CKeyDANFEImprimeDescAcrescItemNFe =      'ImprimeDescAcrescItemNFe';
   CKeyDANFEImprimirCampoFormaPagamento =   'ImprimirCampoFormaPagamento';
   CKeyDANFEImprimeXPedNitemPed =           'ImprimeXPedNitemPed';
+  CKeyDANFELeiauteDANFE =                  'LeiauteDANFE';
 
 
   CSecDANFCe =                         'DANFCe';

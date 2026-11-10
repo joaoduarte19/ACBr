@@ -31801,6 +31801,33 @@ object FrmACBrMonitor: TFrmACBrMonitor
                     ParentFont = False
                     TabOrder = 27
                   end
+                  object lblLeiauteDANFE: TLabel
+                    Left = 728
+                    Height = 17
+                    Top = 64
+                    Width = 88
+                    Caption = 'Leiaute DANFE:'
+                    Font.Height = -13
+                    ParentColor = False
+                    ParentFont = False
+                  end
+                  object cbxLeiauteDANFE: TComboBox
+                    Left = 728
+                    Height = 25
+                    Top = 82
+                    Width = 200
+                    Font.Height = -13
+                    ItemHeight = 17
+                    ItemIndex = 0
+                    Items.Strings = (
+                      'Padrão'
+                      'Reforma Tributária (RTC)'
+                    )
+                    ParentFont = False
+                    Style = csDropDownList
+                    TabOrder = 28
+                    Text = 'Padrão'
+                  end
                 end
                 object tsImpNFCe: TTabSheet
                   Caption = 'NFC-e'

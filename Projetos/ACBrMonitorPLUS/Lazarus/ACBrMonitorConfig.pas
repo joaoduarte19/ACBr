@@ -367,6 +367,7 @@ type
     ImprimeContinuacaoDadosAdicionaisPrimeiraPagina: Boolean;
     ImprimirCampoFormaPagamento      : Integer;
     ImprimeXPedNitemPed              : boolean;
+    LeiauteDANFE                     : Integer;
     ImprimeNNFFormatadoNFe           : boolean;
   end;
 
@@ -1354,6 +1355,7 @@ begin
       Ini.WriteBool( CSecDANFE,  CKeyDANFEImprimeContinuacaoDadosAdicionaisPrimeiraPagina, ImprimeContinuacaoDadosAdicionaisPrimeiraPagina );
       Ini.WriteInteger (CSecDANFE, CKeyDANFEImprimirCampoFormaPagamento, ImprimirCampoFormaPagamento);
       Ini.WriteBool( CSecDANFE,  CKeyDANFEImprimeXPedNitemPed  , ImprimeXPedNitemPed );
+      Ini.WriteInteger( CSecDANFE, CKeyDANFELeiauteDANFE , LeiauteDANFE );
 
     end;
 
@@ -2178,6 +2180,7 @@ begin
                                                         ImprimeContinuacaoDadosAdicionaisPrimeiraPagina );
       ImprimirCampoFormaPagamento   := Ini.ReadInteger( CSecDANFE, CKeyDANFEImprimirCampoFormaPagamento  , ImprimirCampoFormaPagamento );
       ImprimeXPedNitemPed           := Ini.ReadBool( CSecDANFE, CKeyDANFEImprimeXPedNitemPed  , ImprimeXPedNitemPed );
+      LeiauteDANFE               := Ini.ReadInteger( CSecDANFE, CKeyDANFELeiauteDANFE, LeiauteDANFE );
 
     end;
 
@@ -2994,6 +2997,7 @@ begin
     ExpandirDadosAdicionaisAuto := False;
     ImprimeContinuacaoDadosAdicionaisPrimeiraPagina:= False;
     ImprimeXPedNitemPed        := False;
+    LeiauteDANFE               := 0;
   end;
 
   with DFe.Impressao.DACTE do

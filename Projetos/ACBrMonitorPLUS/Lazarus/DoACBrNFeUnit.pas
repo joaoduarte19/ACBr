@@ -455,6 +455,12 @@ public
   procedure Executar; override;
 end;
 
+{ TMetodoSetLeiauteDANFE}
+TMetodoSetLeiauteDANFE = class(TACBrMetodo)
+public
+  procedure Executar; override;
+end;
+
 implementation
 
 uses
@@ -533,6 +539,7 @@ begin
   ListaDeMetodos.Add(CMetodoSetRespTecnico);
   ListaDeMetodos.Add(CMetodoObterListaChaves);
   ListaDeMetodos.Add(CMetodoObterDownloadXml);
+  ListaDeMetodos.Add(CMetodoSetLeiauteDANFE);
 
   // DoACBrUnit
   ListaDeMetodos.Add(CMetodoSavetofile);
@@ -627,6 +634,7 @@ begin
     58 : AMetodoClass := TMetodoSetRespTecnico;
     59 : AMetodoClass := TMetodoObterListaChaves;
     60 : AMetodoClass := TMetodoObterDownloadXml;
+    61 : AMetodoClass := TMetodoSetLeiauteDANFE;
 
     else
       begin
@@ -3649,6 +3657,26 @@ begin
     finally
       LResp.Free;
     end;
+  end;
+end;
+
+{ TMetodoSetLeiauteDANFE }
+
+{ Params: 0 - Leiaute: informar 0-Padrao 1-Reforma Tributaria (RTC)
+}
+procedure TMetodoSetLeiauteDANFE.Executar;
+var
+  Leiaute: Integer;
+begin
+  Leiaute := StrToIntDef(fpCmd.Params(0), -1);
+  if not (Leiaute in [0, 1]) then
+    raise Exception.Create(sLineBreak + SErroLeiauteDANFEInvalido);
+
+  with TACBrObjetoNFe(fpObjetoDono) do
+  begin
+    with MonitorConfig.DFE.Impressao.DANFE do
+      LeiauteDANFE := Leiaute;
+    MonitorConfig.SalvarArquivo;
   end;
 end;
 

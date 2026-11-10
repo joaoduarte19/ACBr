@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+10/11/2026
+-- ACBrMonitor1, ACBrMonitorConfig, ACBrMonitorConsts, DoACBrNFeUnit --
+[+] ACBR-9948 - Nova opção Leiaute DANFE em DFe  Impressão > NFe ([DANFE] LeiauteDANFE: 0 = Padrão, 1 = Reforma Tributária) para imprimir o DANFE no leiaute da NT 2026.010.
+[+] ACBR-9948 - Novo método NFe.SetLeiauteDANFE(nLeiaute) (0 = Padrão, 1 = Reforma Tributária) para alterar a opção Leiaute DANFE.
+   Por: Daniel de Morais InfoCotidiano
+
 27/10/2026
 -- ACBrMonitorConsts, DoACBrNFeUnit --
 [+] ACBR-9000 - ObterDFe - Implementados métodos SAE NFC-e SEFAZ-SP - NFCeListagemChaves e NFCeDownloadXML
