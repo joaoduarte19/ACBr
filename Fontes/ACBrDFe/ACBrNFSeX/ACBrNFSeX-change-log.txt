@@ -43,6 +43,14 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 10/11/2026
+-- ACBrNFseXServicos --
+[*] ACBR-10202 - O município de Aguas de Santa Barbara/SP aderiu ao Padrão Nacional
+	Por: Baltazar
+[*] ACBR-10196 - O município de Gramado/RS aderiu ao Padrão Nacional
+	Por: Baltazar
+[*] ACBR-10190 - O município de Osório/RS aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/95866-acbr-10190-acbrnfsexservicosini-%E2%80%94-os%C3%B3riors-4313508-no-padr%C3%A3o-nacional-emissor-nacional/
+	Por: rpaulogio
 -- BWSistemas.GravarXml --
 [*] ACBR-10160 - Alteração para deixar a alíquota com 2 casas decimais.
    Por: Geraldo Moura
