@@ -87,6 +87,7 @@ type
     function Gerar_Endereco(const xTag: string; Endereco: TEndereco): TACBrXmlNode;
 
     function Gerar_Ide: TACBrXmlNode;
+    function Gerar_gMultaJuros(gMultaJuros: TgMultaJuros): TACBrXmlNode;
     function Gerar_Compl: TACBrXmlNode;
     function Gerar_Emit: TACBrXmlNode;
     function Gerar_EnderEmit: TACBrXmlNode;
@@ -774,6 +775,18 @@ begin
                                 tpPagAntToStr(CTe.Ide.tpPagAnt), DSC_TPPAGANT));
 
   Result.AppendChild(Gerar_gPagAntecipadoIde(CTe.ide.gPagAntecipado));
+
+  if CTe.Ide.gMultaJuros.chCTeRef <> '' then
+    Result.AppendChild(Gerar_gMultaJuros(CTe.Ide.gMultaJuros));
+end;
+
+function TCTeXmlWriter.Gerar_gMultaJuros(
+  gMultaJuros: TgMultaJuros): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gMultaJuros');
+
+  Result.AppendChild(AddNode(tcStr, '#25', 'chCTeRef', 44, 44, 1,
+                                           gMultaJuros.chCTeRef, DSC_CHCTEREF));
 end;
 
 function TCTeXmlWriter.Gerar_Compl: TACBrXmlNode;
@@ -992,6 +1005,9 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#104', 'ISUFEmit', 8, 9, 0,
                                               CTe.Emit.ISUFEmit, DSC_ISUFEMIT));
+
+  Result.AppendChild(AddNode(tcStr, '#104', 'tpRegimeIBSCBS', 1, 1, 0,
+             tpRegimeIBSCBSToStr(CTe.Emit.tpRegimeIBSCBS), DSC_TPREGIMEIBSCBS));
 end;
 
 function TCTeXmlWriter.Gerar_EnderEmit: TACBrXmlNode;
@@ -1430,7 +1446,8 @@ begin
   if (VersaoDF >= ve400) and (CTe.imp.IBSCBS.CST <> cstNenhum) and
      (CTe.imp.IBSCBS.cClassTrib <> '') then
   begin
-    Result.AppendChild(Gerar_IBSCBS(CTe.imp.IBSCBS));
+    if (ModeloDF <> moCTeSimp) then
+      Result.AppendChild(Gerar_IBSCBS(CTe.imp.IBSCBS));
 
     if (ModeloDF in [moCTe, moCTeOS]) then
       Result.AppendChild(AddNode(tcDe2, '#250', 'vTotDFe', 1, 15, 1,

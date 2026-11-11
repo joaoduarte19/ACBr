@@ -65,6 +65,7 @@ type
     procedure Ler_GTVe(AINIRec: TMemIniFile);
 
     procedure Ler_Identificacao(AINIRec: TMemIniFile; Ide: TIde);
+    procedure Ler_gMultaJuros(AINIRec: TMemIniFile; gMultaJuros: TgMultaJuros);
     procedure Ler_InfPercurso(AINIRec: TMemIniFile; infPercurso: TinfPercursoCollection);
     procedure Ler_Tomador4(AINIRec: TMemIniFile; toma4: TToma4);
     procedure Ler_Complemento(AINIRec: TMemIniFile; Compl: TCompl);
@@ -250,6 +251,17 @@ begin
 
   Ler_gPagAntecipadoIde(AINIRec, Ide.gPagAntecipado);
   Ler_gCompraGovReduzido(AINIRec, Ide.gCompraGov);
+  Ler_gMultaJuros(AINIRec, Ide.gMultaJuros);
+end;
+
+procedure TCTeIniReader.Ler_gMultaJuros(AINIRec: TMemIniFile;
+  gMultaJuros: TgMultaJuros);
+var
+  sSecao: string;
+begin
+  sSecao := 'gMultaJuros';
+
+  gMultaJuros.chCTeRef := AINIRec.ReadString(sSecao, 'chCTeRef', '');
 end;
 
 procedure TCTeIniReader.Ler_CTe(AINIRec: TMemIniFile);
@@ -530,6 +542,7 @@ begin
   Emit.xFant := AINIRec.ReadString('emit','xFant','');
   Emit.CRT   := StrToCRTCTe(ok, AINIRec.ReadString('emit','CRT', ''));
   Emit.ISUFEmit := AINIRec.ReadString('emit','ISUFEmit', '');
+  Emit.tpRegimeIBSCBS   := StrTotpRegimeIBSCBS(AINIRec.ReadString('emit', 'tpRegimeIBSCBS', ''));
 
   Emit.enderEmit.xLgr    := AINIRec.ReadString('emit','xLgr','');
   Emit.enderEmit.nro     := AINIRec.ReadString('emit','nro','');

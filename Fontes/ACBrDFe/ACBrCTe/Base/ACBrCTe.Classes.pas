@@ -139,6 +139,16 @@ type
     property Items[Index: Integer]: TinfPercursoCollectionItem read GetItem write SetItem; default;
   end;
 
+  TgMultaJuros = class(TObject)
+  private
+    FchCTeRef: String;
+
+  public
+    procedure Assign(Source: TgMultaJuros);
+
+    property chCTeRef: string read FchCTeRef write FchCTeRef;
+  end;
+
   TIde = class(TObject)
   private
     FcUF: Integer;
@@ -185,6 +195,7 @@ type
     FgCompraGov: TgCompraGovReduzido;
     FtpPagAnt: TtpPagAnt;
     FgPagAntecipado: TgPagAntecipado;
+    FgMultaJuros: TgMultaJuros;
 
     procedure SetinfPercurso(Value: TinfPercursoCollection);
     procedure SetgPagAntecipado(const Value: TgPagAntecipado);
@@ -237,6 +248,7 @@ type
     property gCompraGov: TgCompraGovReduzido read FgCompraGov write FgCompraGov;
     property tpPagAnt: TtpPagAnt read FtpPagAnt write FtpPagAnt default tpaNenhum;
     property gPagAntecipado: TgPagAntecipado read FgPagAntecipado write SetgPagAntecipado;
+    property gMultaJuros: TgMultaJuros read FgMultaJuros write FgMultaJuros;
   end;
 
   TPassCollectionItem = class(TObject)
@@ -441,6 +453,7 @@ type
     FEnderEmit: TEnderEmit;
     FCRT: TCRT;
     FISUFEmit: string;
+    FtpRegimeIBSCBS: TtpRegimeIBSCBS;
   public
     constructor Create;
     destructor Destroy; override;
@@ -453,6 +466,7 @@ type
     property enderEmit: TEnderEmit read FEnderEmit write FEnderEmit;
     property CRT: TCRT             read FCRT       write FCRT;
     property ISUFEmit: string      read FISUFEmit  write FISUFEmit;
+    property tpRegimeIBSCBS: TtpRegimeIBSCBS read FtpRegimeIBSCBS write FtpRegimeIBSCBS;
   end;
 
   TToma = class(TObject)
@@ -2673,6 +2687,7 @@ begin
   FindGlobalizado := tiNao;
   FgCompraGov := TgCompraGovReduzido.Create;
   FgPagAntecipado := TgPagAntecipado.Create;
+  FgMultaJuros := TgMultaJuros.Create;
 end;
 
 destructor TIde.Destroy;
@@ -2682,6 +2697,7 @@ begin
   FinfPercurso.Free;
   FgCompraGov.Free;
   FgPagAntecipado.Free;
+  FgMultaJuros.Free;
 
   inherited;
 end;
@@ -4786,6 +4802,13 @@ begin
   FIBSCBSTot.Free;
 
   inherited;
+end;
+
+{ TgMultaJuros }
+
+procedure TgMultaJuros.Assign(Source: TgMultaJuros);
+begin
+  chCTeRef := Source.chCTeRef;
 end;
 
 end.

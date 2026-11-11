@@ -266,6 +266,8 @@ resourcestring
   DSC_CODPONTOSAIDA = 'Código do Ponto de Saída';
   DSC_NCONTRATO = 'Número do Contrato de Capacidade';
 
+  DSC_CHCTEREF = 'Chave de acesso do CTe Referenciado para cobrar multa e juros';
+
 implementation
 
 end.

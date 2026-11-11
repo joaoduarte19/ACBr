@@ -60,6 +60,7 @@ type
     procedure Gerar_GTVe(AINIRec: TMemIniFile);
 
     procedure Gerar_Identificacao(AINIRec: TMemIniFile; Ide: TIde);
+    procedure Gerar_gMultaJuros(AINIRec: TMemIniFile; gMultaJuros: TgMultaJuros);
     procedure Gerar_Tomador4(AINIRec: TMemIniFile; toma4: TToma4);
     procedure Gerar_Complemento(AINIRec: TMemIniFile; Compl: TCompl);
     procedure Gerar_ComplementoPassagem(AINIRec: TMemIniFile; pass: TPassCollection);
@@ -271,6 +272,19 @@ begin
 
   if StrToModeloCTe(Ok, IntToStr(Ide.modelo)) = moCTe then
     AINIRec.WriteString('toma3', 'toma', TpTomadorToStr(Ide.toma03.Toma));
+
+  if Ide.gMultaJuros.chCTeRef <> '' then
+    Gerar_gMultaJuros(AINIRec, Ide.gMultaJuros);
+end;
+
+procedure TCTeIniWriter.Gerar_gMultaJuros(AINIRec: TMemIniFile;
+  gMultaJuros: TgMultaJuros);
+var
+  sSecao: string;
+begin
+  sSecao := 'gMultaJuros';
+
+  AINIRec.WriteString(sSecao, 'chCTeRef', gMultaJuros.chCTeRef);
 end;
 
 procedure TCTeIniWriter.Gerar_CTe(AINIRec: TMemIniFile);
@@ -514,6 +528,7 @@ begin
   AINIRec.WriteString('emit', 'xFant', Emit.xFant);
   AINIRec.WriteString('emit', 'CRT', CRTCTeToStr(Emit.CRT));
   AINIRec.WriteString('emit', 'ISUFEmit', Emit.ISUFEmit);
+  AINIRec.WriteString('emit', 'tpRegimeIBSCBS', tpRegimeIBSCBSToStr(Emit.tpRegimeIBSCBS));
 
   AINIRec.WriteString('emit', 'xLgr', Emit.enderEmit.xLgr);
   AINIRec.WriteString('emit', 'nro', Emit.enderEmit.nro);
