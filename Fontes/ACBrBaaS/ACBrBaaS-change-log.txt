@@ -37,6 +37,17 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/11/2026
+-- ACBrExtratoAPI --
+[+] Implementada rotina para possibilitar configuração das propriedades específicas 
+    dos bancos pelo Object Inspector em DesignTime.
+    por: Elias Cesar
+
+11/11/2026
+-- ACBrExtratoAPIBB --
+[+] Implementada API v2 do Banco do Brasil no componente ACBrExtratoAPI.
+    por: Daniel Morais
+
 27/05/2026
 -- ACBrSchemasPagamentosAPI, ACBrSchemasTransferenciasAPIBB, uPagamentos, uTransferencias --
 [*] Alteração dos tipos de campos de CPF/CNPJ para string nos PagamentosAPI

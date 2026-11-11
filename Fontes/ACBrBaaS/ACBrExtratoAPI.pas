@@ -41,7 +41,12 @@ interface
 uses
   Classes, SysUtils, ACBrSocket, ACBrBase, ACBrAPIBase;
 
-type   
+type
+
+  TACBrExtratoAPIVersao = (
+    exvPadrao,
+    exvVersao2
+  );
 
   TACBrExtratoAPIAmbiente = (
     eamNenhum,
@@ -58,7 +63,8 @@ type
   TACBrExtratoAPITipoOperacao = (
     etoNenhum,
     etoDebito,
-    etoCredito
+    etoCredito,
+    etoBloqueado
   );
 
   TACBrExtratoAPI = class;
@@ -149,6 +155,7 @@ type
 
   TACBrExtratoAPIBancoClass = class(TACBrHTTP)
   private
+    fAPIVersao: TACBrExtratoAPIVersao;
     fClientID: String;
     fClientSecret: String;
 
@@ -174,6 +181,7 @@ type
     constructor Create(aOwner: TACBrExtratoAPI); overload;
     destructor Destroy; override;
 
+    function APIVersaoPermitida(const AVersao: TACBrExtratoAPIVersao): Boolean; virtual;
     function ConsultarExtrato(
       const aAgencia, aConta: String;
       const aDataInicio: TDateTime = 0;
@@ -184,6 +192,7 @@ type
     property ExtratoConsultado: TACBrExtratoConsultado read GetExtratoConsultado;
     property RespostaErro: TACBrExtratoErro read GetRespostaErro;
   published
+    property APIVersao: TACBrExtratoAPIVersao read fAPIVersao write fAPIVersao default exvPadrao;
     property ClientID: String read fClientID write fClientID;
     property ClientSecret: String read fClientSecret write fClientSecret;
   end;
@@ -228,7 +237,7 @@ type
 implementation
 
 uses
- ACBrUtil.Base, ACBrExtratoAPIBB, ACBrExtratoAPIInter, ACBrExtratoAPISicoob;
+  TypInfo, ACBrUtil.Base, ACBrUtil.Strings, ACBrExtratoAPIBB, ACBrExtratoAPIInter, ACBrExtratoAPISicoob;
 
 function TipoLancamentoToString(const aTipo: TACBrExtratoAPITipoOperacao): String;
 begin
@@ -236,6 +245,7 @@ begin
   case aTipo of
     etoDebito: Result := 'D';
     etoCredito: Result := 'C';
+    etoBloqueado: Result := '*';
   end;
 end;
 
@@ -248,7 +258,9 @@ begin
   if (s = 'D') then
     Result := etoDebito
   else if (s = 'C') then
-    Result := etoCredito;;
+    Result := etoCredito
+  else if (s = '*') then
+    Result := etoBloqueado;
 end;
 
 { TACBrExtratoErro }
@@ -415,6 +427,7 @@ end;
 constructor TACBrExtratoAPIBancoClass.Create(aOwner: TACBrExtratoAPI);
 begin
   inherited Create(aOwner);
+  SetSubComponent(True);
   fpOwner := aOwner;
   fpToken := EmptyStr;
   fpAutenticado := False;
@@ -430,6 +443,12 @@ begin
   if Assigned(fpExtratoConsultado) then
     fpExtratoConsultado.Free;
   inherited Destroy;
+end;
+
+function TACBrExtratoAPIBancoClass.APIVersaoPermitida(const AVersao: TACBrExtratoAPIVersao): Boolean;
+begin
+  { Sobreescrever na Classe do Banco, caso suporte outras versoes }
+  Result := (AVersao = exvPadrao);
 end;
 
 function TACBrExtratoAPIBancoClass.ConsultarExtrato(const aAgencia, aConta: String;
@@ -459,9 +478,11 @@ begin
   if (fBancoConsulta = aValue) then
     Exit;
 
-  if Assigned(fBanco) then
+  // Em design time o Object Inspector pode manter referências aos Bancos anteriores;
+  // eles continuam pertencendo a este componente e são liberados junto com ele
+  if Assigned(fBanco) and (not (csDesigning in ComponentState)) then
     fBanco.Free;
-                           
+
   fBancoConsulta := aValue;
   case aValue of
     bccBancoDoBrasil: fBanco := TACBrExtratoAPIBB.Create(Self);
@@ -486,6 +507,9 @@ function TACBrExtratoAPI.ConsultarExtrato(const aAgencia, aConta: String;
   const aDataInicio: TDateTime; const aDataFim: TDateTime;
   const aPagina: Integer; const aRegistrosPorPag: Integer): Boolean;
 begin
+  if (not Banco.APIVersaoPermitida(fBanco.APIVersao)) then
+    raise EACBrAPIException.Create(ACBrStr('Versão da API não suportada pelo banco selecionado'));
+
   Result := fBanco.ConsultarExtrato(aAgencia, aConta, aDataInicio, aDataFim, aPagina, aRegistrosPorPag);
 end;
 

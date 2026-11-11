@@ -52,6 +52,8 @@ const
   cExtratoBBParamDevAppKey = 'gw-dev-app-key';
   cExtratoBBURLSandbox = 'https://api.hm.bb.com.br/extratos/v1';
   cExtratoBBURLProducao = 'https://api-extratos.bb.com.br/extratos/v1';
+  cExtratoBBURLSandboxV2 = 'https://extratos.mtls.api.hm.bb.com.br/v2';
+  cExtratoBBURLProducaoV2 = 'https://extratos.mtls.api.bb.com.br/v2';
   cExtratoBBURLAuthSandbox = 'https://oauth.hm.bb.com.br/oauth/token';
   cExtratoBBURLAuthProducao = 'https://oauth.bb.com.br/oauth/token';
   cExtratoBBPathCC = 'conta-corrente';
@@ -59,12 +61,6 @@ const
   cExtratoBBPathConta = 'conta';
 
 type
-
-  {TACBrExtratoBBTipoLancamento = (
-    etlNenhum,
-    etlDebito,
-    etlCredito
-  );}
 
   TACBrExtratoBBTipoPessoa = (
     etpNenhum,
@@ -84,7 +80,7 @@ type
     fdataMovimento: TDateTime;
     findicadorTipoLancamento: String;
     fnumeroContaContrapartida: String;
-    fnumeroCpfCnpjContrapartida: Integer;
+    fnumeroCpfCnpjContrapartida: String;
     fnumeroDocumento: Int64;
     fnumeroLote: Integer;
     ftextoDescricaoHistorico: String;
@@ -93,6 +89,11 @@ type
     fvalorLancamento: Double;
     findicadorSinalLancamento: TACBrExtratoAPITipoOperacao;
     findicadorTipoPessoaContrapartida: TACBrExtratoBBTipoPessoa;
+    fcodigoSubHistorico: Integer;
+    fcodigoIdentificadorSisPgtoBrl: String;
+    ftextoIdentificadorUnicoTransacao: String;
+    fcodigoConfederacaoNacionalBancos: Integer;
+    ftextoCampoIndeterminado: String;
   protected
     procedure AssignSchema(aSource: TACBrAPISchema); override;
     procedure DoWriteToJSon(aJSon: TACBrJSONObject); override;
@@ -113,12 +114,19 @@ type
     property valorLancamento: Double read fvalorLancamento write fvalorLancamento;
     property indicadorSinalLancamento: TACBrExtratoAPITipoOperacao read findicadorSinalLancamento write findicadorSinalLancamento;
     property textoInformacaoComplementar: String read ftextoInformacaoComplementar write ftextoInformacaoComplementar;
-    property numeroCpfCnpjContrapartida: Integer read fnumeroCpfCnpjContrapartida write fnumeroCpfCnpjContrapartida;
+    property numeroCpfCnpjContrapartida: String read fnumeroCpfCnpjContrapartida write fnumeroCpfCnpjContrapartida;
     property indicadorTipoPessoaContrapartida: TACBrExtratoBBTipoPessoa read findicadorTipoPessoaContrapartida write findicadorTipoPessoaContrapartida;
     property codigoBancoContrapartida: Integer read fcodigoBancoContrapartida write fcodigoBancoContrapartida;
     property codigoAgenciaContrapartida: Integer read fcodigoAgenciaContrapartida write fcodigoAgenciaContrapartida;
     property numeroContaContrapartida: String read fnumeroContaContrapartida write fnumeroContaContrapartida;
     property textoDvContaContrapartida: String read ftextoDvContaContrapartida write ftextoDvContaContrapartida;
+
+    // Somente API v2
+    property codigoSubHistorico: Integer read fcodigoSubHistorico write fcodigoSubHistorico;
+    property codigoIdentificadorSisPgtoBrl: String read fcodigoIdentificadorSisPgtoBrl write fcodigoIdentificadorSisPgtoBrl;
+    property textoIdentificadorUnicoTransacao: String read ftextoIdentificadorUnicoTransacao write ftextoIdentificadorUnicoTransacao;
+    property codigoConfederacaoNacionalBancos: Integer read fcodigoConfederacaoNacionalBancos write fcodigoConfederacaoNacionalBancos;
+    property textoCampoIndeterminado: String read ftextoCampoIndeterminado write ftextoCampoIndeterminado;
   end;
 
   { TACBrExtratoBBListaLancamento }
@@ -223,6 +231,7 @@ type
   public
     destructor Destroy; override;
 
+    function APIVersaoPermitida(const AVersao: TACBrExtratoAPIVersao): Boolean; override;
     function ConsultarExtrato(
       const aAgencia, aConta: String;
       const aDataInicio: TDateTime = 0;
@@ -231,6 +240,7 @@ type
       const aRegistrosPorPag: Integer = 0): Boolean; override;
 
     property ExtratoBBErros: TACBrExtratoBBErros read GetExtratoBBErros;
+  published
     property DeveloperApplicationKey: String read fDeveloperApplicationKey write fDeveloperApplicationKey;
     property xMCITeste: String read fxMCITeste write fxMCITeste; // Apenas para Homologação
   end;
@@ -264,7 +274,7 @@ begin
   s := UpperCase(aStr);
   if (s = 'F') then
     Result := etpFisica
-  else if (s = 'F') then
+  else if (s = 'J') then
     Result := etpJuridica;
 end;
 
@@ -325,6 +335,12 @@ begin
     .Value('mensagem', fpmensagem)
     .Value('ocorrencia', focorrencia)
     .Value('versao', fversao);
+
+  // API v2: retorna "code" e "message"
+  if EstaVazio(fpcodigo) then
+    aJSon.Value('code', fpcodigo);
+  if EstaVazio(fpmensagem) then
+    aJSon.Value('message', fpmensagem);
 end;
 
 procedure TACBrExtratoBBErro.Clear;
@@ -359,10 +375,23 @@ begin
   if (not Assigned(fpOwner)) then
     Exit;
 
-  if (fpOwner.Ambiente = eamProducao) then
-    Result := cExtratoBBURLProducao
-  else if (fpOwner.Ambiente = eamHomologacao) then
-    Result := cExtratoBBURLSandbox;
+  if (APIVersao = exvVersao2) then
+  begin
+    if (fpOwner.Ambiente = eamProducao) then
+      Result := cExtratoBBURLProducaoV2
+    else if (fpOwner.Ambiente = eamHomologacao) then
+      Result := cExtratoBBURLSandboxV2;
+  end
+  else
+  begin
+    if (fpOwner.Ambiente = eamProducao) then
+      Result := cExtratoBBURLProducao
+    else if (fpOwner.Ambiente = eamHomologacao) then
+      Result := cExtratoBBURLSandbox;
+  end;
+
+  if EstaVazio(Result) then
+    DispararExcecao(EACBrAPIException.Create(ACBrStr('Nenhuma URL encontrada. Verifique a configuração do ambiente e APIVersao.')));
 end;
 
 procedure TACBrExtratoAPIBB.Autenticar;
@@ -456,14 +485,30 @@ begin
   inherited Destroy;
 end;
 
+function TACBrExtratoAPIBB.APIVersaoPermitida(const AVersao: TACBrExtratoAPIVersao): Boolean;
+begin
+  Result := (AVersao in [exvPadrao, exvVersao2]);
+end;
+
 function TACBrExtratoAPIBB.ConsultarExtrato(const aAgencia, aConta: String;
   const aDataInicio: TDateTime; const aDataFim: TDateTime;
   const aPagina: Integer; const aRegistrosPorPag: Integer): Boolean;
+var
+  wResposta: String;
+  wErro: TACBrJSONObject;
 begin
   Result := False;
   if EstaVazio(aAgencia) or EstaVazio(aConta) then
     Exit;
-         
+
+  // API v2 utiliza mTLS: Certificado e Chave Privada (ou PFX) são obrigatórios em Produção.
+  // Em Homologação não é validado, pois a documentação (OpenAPI) não deixa explícita a obrigatoriedade
+  if (APIVersao = exvVersao2) and (fpOwner.Ambiente = eamProducao) and
+     (not VerificarSeIncluiPFX(cHTTPMethodGET, EmptyStr)) and
+     ((not VerificarSeIncluiCertificado(cHTTPMethodGET, EmptyStr)) or
+      (not VerificarSeIncluiChavePrivada(cHTTPMethodGET, EmptyStr))) then
+    DispararExcecao(EACBrAPIException.Create(ACBrStr('Certificado e/ou Chave Privada não informados')));
+
   PrepararHTTP;
   RegistrarLog('  TACBrExtratoAPIBB.ConsultarExtrato(Ag: ' + aAgencia +
     ' - Conta: ' + aConta + ')');
@@ -498,9 +543,28 @@ begin
     ExtratoConsultado.AsJSON := UTF8ToNativeString(HTTPResponse)
   else
   begin
-    ExtratoBBErros.AsJSON := HTTPResponse;
-    if NaoEstaZerado(ExtratoBBErros.Count) then
-      RespostaErro.AsJSON := ExtratoBBErros[0].AsJSON;
+    wResposta := Trim(HTTPResponse);
+    if (wResposta <> '') and (wResposta[1] = '{') then
+    begin
+      ExtratoBBErros.AsJSON := wResposta;
+      if NaoEstaZerado(ExtratoBBErros.Count) then
+        RespostaErro.AsJSON := ExtratoBBErros[0].AsJSON
+      else
+        RespostaErro.AsJSON := wResposta;  // API v2 retorna objeto único (code/message)
+    end
+    else
+    begin
+      // Gateway pode responder sem corpo ou com HTML (ex.: 401, 403, 503)
+      wErro := TACBrJSONObject.Create;
+      try
+        wErro
+          .AddPair('codigo', IntToStr(HTTPResultCode))
+          .AddPair('mensagem', wResposta);
+        RespostaErro.AsJSON := wErro.ToJSON;
+      finally
+        wErro.Free;
+      end;
+    end;
   end;
 end;
 
@@ -572,8 +636,9 @@ begin
         InfoComplementar := flistaLancamento[i].textoInformacaoComplementar;
         Identificador:= 'DOC' + IntToStr(flistaLancamento[i].numeroDocumento)
                       + 'LOTE'+ IntToStr(flistaLancamento[i].numeroLote);
-        if NaoEstaZerado(flistaLancamento[i].numeroCpfCnpjContrapartida) then
-          CPFCNPJ:= IntToStr(flistaLancamento[i].numeroCpfCnpjContrapartida);
+        if NaoEstaVazio(flistaLancamento[i].numeroCpfCnpjContrapartida) and
+           (flistaLancamento[i].numeroCpfCnpjContrapartida <> '0') then
+          CPFCNPJ := flistaLancamento[i].numeroCpfCnpjContrapartida;
       end;
     end;
   end;
@@ -686,12 +751,17 @@ begin
     .AddPair('textoDescricaoHistorico', ftextoDescricaoHistorico)
     .AddPair('textoDvContaContrapartida', ftextoDvContaContrapartida)
     .AddPair('textoInformacaoComplementar', ftextoInformacaoComplementar)
+    .AddPair('codigoSubHistorico', fcodigoSubHistorico)
+    .AddPair('codigoIdentificadorSisPgtoBrl', fcodigoIdentificadorSisPgtoBrl)
+    .AddPair('textoIdentificadorUnicoTransacao', ftextoIdentificadorUnicoTransacao)
+    .AddPair('codigoConfederacaoNacionalBancos', fcodigoConfederacaoNacionalBancos)
+    .AddPair('textoCampoIndeterminado', ftextoCampoIndeterminado)
     .AddPair('valorLancamento:Double', fvalorLancamento);
 end;
 
 procedure TACBrExtratoBBLancamento.DoReadFromJSon(aJSon: TACBrJSONObject);
 var
-  s1, s2, s3, s4: String;
+  s1, s2, s3, s4, s5: String;
   d, m, a: word;
 begin
   {$IfDef FPC}
@@ -699,6 +769,7 @@ begin
   s2 := EmptyStr;
   s3 := EmptyStr;
   s4 := EmptyStr;
+  s5 := EmptyStr;
   {$EndIf}
 
   AJSon
@@ -712,13 +783,35 @@ begin
     .Value('dataMovimento', s4)
     .Value('indicadorTipoLancamento', findicadorTipoLancamento)
     .Value('numeroContaContrapartida', fnumeroContaContrapartida)
-    .Value('numeroCpfCnpjContrapartida', fnumeroCpfCnpjContrapartida)
     .Value('numeroDocumento', fnumeroDocumento)
     .Value('numeroLote', fnumeroLote)
-    .Value('textoDescricaoHistorico', ftextoDescricaoHistorico)
-    .Value('textoDvContaContrapartida', ftextoDvContaContrapartida)
     .Value('textoInformacaoComplementar', ftextoInformacaoComplementar)
-    .Value('valorLancamento', fvalorLancamento);
+    .Value('valorLancamento', fvalorLancamento)
+    .Value('codigoSubHistorico', fcodigoSubHistorico)
+    .Value('codigoIdentificadorSisPgtoBrl', fcodigoIdentificadorSisPgtoBrl)
+    .Value('textoIdentificadorUnicoTransacao', ftextoIdentificadorUnicoTransacao)
+    .Value('codigoConfederacaoNacionalBancos', fcodigoConfederacaoNacionalBancos)
+    .Value('textoCampoIndeterminado', ftextoCampoIndeterminado);
+
+  // API v2: campos com nomes diferentes da v1, mas com a mesma informação.
+  // Mantidas as propriedades da v1 para não quebrar a compatibilidade
+  if AJSon.ValueExists('textoDescricaoSubHistorico') then
+    AJSon.Value('textoDescricaoSubHistorico', ftextoDescricaoHistorico)
+  else
+    AJSon.Value('textoDescricaoHistorico', ftextoDescricaoHistorico);
+
+  if AJSon.ValueExists('textoDigitoVerificadorContaContrapartida') then
+    AJSon.Value('textoDigitoVerificadorContaContrapartida', ftextoDvContaContrapartida)
+  else
+    AJSon.Value('textoDvContaContrapartida', ftextoDvContaContrapartida);
+
+  // v1 retorna número e v2 retorna string
+  if AJSon.ValueExists('numeroCadastroPessoaFisicaCadastroNacPessoasJuridicasContrapartida') then
+    AJSon.Value('numeroCadastroPessoaFisicaCadastroNacPessoasJuridicasContrapartida', s5)
+  else
+    AJSon.Value('numeroCpfCnpjContrapartida', s5);
+  fnumeroCpfCnpjContrapartida := Trim(s5);
+
   findicadorSinalLancamento := StringToTipoLancamento(s1);
   findicadorTipoPessoaContrapartida := StringToTipoPessoa(s2);
 
@@ -758,7 +851,7 @@ begin
   findicadorTipoLancamento := '';
   fcodigoBancoContrapartida := 0;  
   fcodigoAgenciaContrapartida := 0;
-  fnumeroCpfCnpjContrapartida := 0;
+  fnumeroCpfCnpjContrapartida := EmptyStr;
   fcodigoHistorico := EmptyStr;
   fnumeroContaContrapartida := EmptyStr;
   ftextoDescricaoHistorico := EmptyStr;
@@ -766,6 +859,11 @@ begin
   ftextoInformacaoComplementar := EmptyStr;
   findicadorSinalLancamento := etoNenhum;
   findicadorTipoPessoaContrapartida := etpNenhum;
+  fcodigoSubHistorico := 0;
+  fcodigoIdentificadorSisPgtoBrl := EmptyStr;
+  ftextoIdentificadorUnicoTransacao := EmptyStr;
+  fcodigoConfederacaoNacionalBancos := 0;
+  ftextoCampoIndeterminado := EmptyStr;
 end;
 
 function TACBrExtratoBBLancamento.IsEmpty: Boolean;
@@ -780,14 +878,19 @@ begin
     EstaVazio(findicadorTipoLancamento) and
     EstaZerado(fcodigoBancoContrapartida) and
     EstaZerado(fcodigoAgenciaContrapartida) and
-    EstaZerado(fnumeroCpfCnpjContrapartida) and
+    EstaVazio(fnumeroCpfCnpjContrapartida) and
     EstaVazio(fcodigoHistorico) and
     EstaVazio(fnumeroContaContrapartida) and
     EstaVazio(ftextoDescricaoHistorico) and
     EstaVazio(ftextoDvContaContrapartida) and
     EstaVazio(ftextoInformacaoComplementar) and
     (findicadorSinalLancamento = etoNenhum) and
-    (findicadorTipoPessoaContrapartida = etpNenhum);
+    (findicadorTipoPessoaContrapartida = etpNenhum) and
+    EstaZerado(fcodigoSubHistorico) and
+    EstaVazio(fcodigoIdentificadorSisPgtoBrl) and
+    EstaVazio(ftextoIdentificadorUnicoTransacao) and
+    EstaZerado(fcodigoConfederacaoNacionalBancos) and
+    EstaVazio(ftextoCampoIndeterminado);
 end;
 
 procedure TACBrExtratoBBLancamento.Assign(aSource: TACBrExtratoBBLancamento);
@@ -809,6 +912,11 @@ begin
   ftextoInformacaoComplementar := aSource.textoInformacaoComplementar;
   findicadorSinalLancamento := aSource.indicadorSinalLancamento;
   findicadorTipoPessoaContrapartida := aSource.indicadorTipoPessoaContrapartida;
+  fcodigoSubHistorico := aSource.codigoSubHistorico;
+  fcodigoIdentificadorSisPgtoBrl := aSource.codigoIdentificadorSisPgtoBrl;
+  ftextoIdentificadorUnicoTransacao := aSource.textoIdentificadorUnicoTransacao;
+  fcodigoConfederacaoNacionalBancos := aSource.codigoConfederacaoNacionalBancos;
+  ftextoCampoIndeterminado := aSource.textoCampoIndeterminado;
 end;
 
 end.
