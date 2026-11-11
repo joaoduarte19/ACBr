@@ -418,7 +418,7 @@ function TDFeRTCXmlWriter.Gerar_IBSCBSNFeABI(IBSCBS: TIBSCBS): TACBrXmlNode;
 begin
   Result := nil;
 
-  if IBSCBS.CST in [cst200, cst220, cst221] then
+  if IBSCBS.CST in [cst200, cst220, cst221, cst410, cst820] then
     Result := Gerar_gIBSCBSNFeABI(IBSCBS.gIBSCBS);
 end;
 
@@ -459,13 +459,13 @@ begin
   Result.AppendChild(AddNode(tcDe2, '#4', 'vOperacIndiv', 1, 15, 1,
                                           gIBSCBS.vOperacIndiv, DSC_VBCIBSCBS));
 
-  Result.AppendChild(AddNode(tcDe2, '#4', 'vTornaIndiv', 1, 15, 1,
+  Result.AppendChild(AddNode(tcDe2, '#4', 'vTornaIndiv', 1, 15, 0,
                                            gIBSCBS.vTornaIndiv, DSC_VBCIBSCBS));
 
-  Result.AppendChild(AddNode(tcDe2, '#4', 'vRedAjusteIndiv', 1, 15, 1,
+  Result.AppendChild(AddNode(tcDe2, '#4', 'vRedAjusteIndiv', 1, 15, 0,
                                        gIBSCBS.vRedAjusteIndiv, DSC_VBCIBSCBS));
 
-  Result.AppendChild(AddNode(tcDe2, '#4', 'vRedSocialIndiv', 1, 15, 1,
+  Result.AppendChild(AddNode(tcDe2, '#4', 'vRedSocialIndiv', 1, 15, 0,
                                        gIBSCBS.vRedSocialIndiv, DSC_VBCIBSCBS));
 
   Result.AppendChild(AddNode(tcDe2, '#4', 'vBC', 1, 15, 1,

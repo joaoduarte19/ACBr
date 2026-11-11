@@ -1236,8 +1236,8 @@ end;
 procedure TgIBSUFValores.Assign(Source: TgIBSUFValores);
 begin
   pIBSUF := Source.pIBSUF;
-  gDif := Source.gDif;
-  gRed := Source.gRed;
+  gDif.Assign(Source.gDif);
+  gRed.Assign(Source.gRed);
   vIBSUF := Source.vIBSUF;
   gDevTrib.Assign(Source.gDevTrib);
 end;
@@ -1265,8 +1265,8 @@ end;
 procedure TgIBSMunValores.Assign(Source: TgIBSMunValores);
 begin
   pIBSMun := Source.pIBSMun;
-  gDif := Source.gDif;
-  gRed := Source.gRed;
+  gDif.Assign(Source.gDif);
+  gRed.Assign(Source.gRed);
   vIBSMun := Source.vIBSMun;
   gDevTrib.Assign(Source.gDevTrib);
 end;
@@ -1294,8 +1294,8 @@ end;
 procedure TgCBSValores.Assign(Source: TgCBSValores);
 begin
   pCBS := Source.pCBS;
-  gDif := Source.gDif;
-  gRed := Source.gRed;
+  gDif.Assign(Source.gDif);
+  gRed.Assign(Source.gRed);
   vCBS := Source.vCBS;
   gDevTrib.Assign(Source.gDevTrib);
   gALCZFMCBS.Assign(Source.gALCZFMCBS);

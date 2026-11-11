@@ -101,6 +101,7 @@ resourcestring
   DSC_XJUST = 'Justificativa';
   DSC_QRCODE = 'Assinatura Digital para uso em QRCODE';
   DSC_QRCODDFe = 'Texto do QR-Code para consulta';
+  DSC_NSITEAUTORIZ = 'Site autorizador';
 
   // Descrição de Dados da Pessoa Física ou Jurídica
   DSC_CRT = 'Código de Regime Tributário';
@@ -118,6 +119,7 @@ resourcestring
   DSC_XPAIS = 'Nome do País';
   DSC_FONE = 'Telefone';
   DSC_EMAIL = 'Endereço de E-mail';
+  DSC_TPEMIT = 'Tipo de Emitente';
 
   // Descrição de Informações do Contribuinte/Fisco
   DSC_XOBS = 'Observação';
@@ -150,6 +152,7 @@ resourcestring
   DSC_NSU = 'NSU específico';
 
   // Reforma Tributária
+  DSC_VBC = 'Valor da Base de Calculo';
   DSC_TPENTEGOV = 'Tipo de Ente governamental';
   DSC_PREDUTOR = 'Percentual de redução de aliquota em compra governamental';
   DSC_TPOPERGOV = 'Tipo de Operação com o ente governamental';

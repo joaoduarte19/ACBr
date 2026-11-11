@@ -40,6 +40,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 11/11/2026
+-- ACBrDFe.RTC.Classes/ACBrDFe.RTC.XmlWriter/ACBrDFeConsts.pas
+[*] Ajustes na geração do gIBSCBS da NFeABI, correções nos Assign, inclusão de novas constantes.
+   Por: Leonardo Gomes/Italo Giurizzato Junior
+
 -- ACBrDFe.Conversao --
 [+] Acrescentado o enumerado tnNenhum ao tipo TTipoNavegacao visando não gerar a tag,
     uma vez que ela é opcional.
