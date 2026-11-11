@@ -20,9 +20,9 @@ inherited frmNFComDAEventoRLRetrato: TfrmNFComDAEventoRLRetrato
     Title = 'DACTe CC'
     BeforePrint = RLNFComEventoBeforePrint
     object RLb_09_Itens: TRLBand
-      Left = 33
-      Top = 709
-      Width = 926
+      Left = 26
+      Top = 702
+      Width = 742
       Height = 13
       BandType = btColumnFooter
       Color = clWhite
@@ -136,9 +136,9 @@ inherited frmNFComDAEventoRLRetrato: TfrmNFComDAEventoRLRetrato
       end
     end
     object rlb_01_Titulo: TRLBand
-      Left = 33
-      Top = 33
-      Width = 926
+      Left = 26
+      Top = 26
+      Width = 742
       Height = 73
       BandType = btHeader
       Color = clWhite
@@ -208,18 +208,18 @@ inherited frmNFComDAEventoRLRetrato: TfrmNFComDAEventoRLRetrato
       end
     end
     object rlb_08_HeaderItens: TRLBand
-      Left = 33
-      Top = 693
-      Width = 926
+      Left = 26
+      Top = 686
+      Width = 742
       Height = 16
       BandType = btColumnFooter
       Color = clWhite
       ParentColor = False
     end
     object rlb_10_Sistema: TRLBand
-      Left = 33
-      Top = 722
-      Width = 926
+      Left = 26
+      Top = 715
+      Width = 742
       Height = 19
       AlignToBottom = True
       BandType = btSummary
@@ -260,9 +260,9 @@ inherited frmNFComDAEventoRLRetrato: TfrmNFComDAEventoRLRetrato
       end
     end
     object rlb_05_Evento: TRLBand
-      Left = 33
-      Top = 436
-      Width = 926
+      Left = 26
+      Top = 429
+      Width = 742
       Height = 120
       BandType = btColumnHeader
       Color = clWhite
@@ -598,9 +598,9 @@ inherited frmNFComDAEventoRLRetrato: TfrmNFComDAEventoRLRetrato
       end
     end
     object rlb_03_Emitente: TRLBand
-      Left = 33
-      Top = 196
-      Width = 926
+      Left = 26
+      Top = 189
+      Width = 742
       Height = 120
       BandType = btColumnHeader
       Color = clWhite
@@ -929,9 +929,9 @@ inherited frmNFComDAEventoRLRetrato: TfrmNFComDAEventoRLRetrato
       end
     end
     object rlb_04_Destinatario: TRLBand
-      Left = 33
-      Top = 316
-      Width = 926
+      Left = 26
+      Top = 309
+      Width = 742
       Height = 120
       BandType = btColumnHeader
       Color = clWhite
@@ -1260,9 +1260,9 @@ inherited frmNFComDAEventoRLRetrato: TfrmNFComDAEventoRLRetrato
       end
     end
     object rlb_06_Condicoes: TRLBand
-      Left = 33
-      Top = 556
-      Width = 926
+      Left = 26
+      Top = 549
+      Width = 742
       Height = 137
       BandType = btColumnHeader
       Color = clWhite
@@ -1335,9 +1335,9 @@ inherited frmNFComDAEventoRLRetrato: TfrmNFComDAEventoRLRetrato
       end
     end
     object rlb_02_Documento: TRLBand
-      Left = 33
-      Top = 106
-      Width = 926
+      Left = 26
+      Top = 99
+      Width = 742
       Height = 90
       BandType = btTitle
       Color = clWhite
@@ -1369,7 +1369,7 @@ inherited frmNFComDAEventoRLRetrato: TfrmNFComDAEventoRLRetrato
       object RLDraw81: TRLDraw
         Left = 1
         Top = 44
-        Width = 368
+        Width = 340
         Height = 1
         HelpContext = 1
         Brush.Style = bsClear
@@ -1443,7 +1443,7 @@ inherited frmNFComDAEventoRLRetrato: TfrmNFComDAEventoRLRetrato
         Transparent = False
       end
       object rlLabel23: TRLLabel
-        Left = 112
+        Left = 107
         Top = 19
         Width = 70
         Height = 9
@@ -1461,7 +1461,7 @@ inherited frmNFComDAEventoRLRetrato: TfrmNFComDAEventoRLRetrato
         Transparent = False
       end
       object rllNumNFCom: TRLLabel
-        Left = 110
+        Left = 105
         Top = 27
         Width = 72
         Height = 15
@@ -1499,7 +1499,7 @@ inherited frmNFComDAEventoRLRetrato: TfrmNFComDAEventoRLRetrato
         Brush.Style = bsClear
       end
       object rlLabel33: TRLLabel
-        Left = 246
+        Left = 241
         Top = 19
         Width = 95
         Height = 9
@@ -1516,7 +1516,7 @@ inherited frmNFComDAEventoRLRetrato: TfrmNFComDAEventoRLRetrato
         Transparent = False
       end
       object rllEmissao: TRLLabel
-        Left = 246
+        Left = 241
         Top = 27
         Width = 58
         Height = 13
@@ -1531,7 +1531,7 @@ inherited frmNFComDAEventoRLRetrato: TfrmNFComDAEventoRLRetrato
         Transparent = False
       end
       object rlsLinhaV07: TRLDraw
-        Left = 368
+        Left = 340
         Top = 15
         Width = 1
         Height = 66
@@ -1556,7 +1556,7 @@ inherited frmNFComDAEventoRLRetrato: TfrmNFComDAEventoRLRetrato
       object rllChave: TRLLabel
         Left = 6
         Top = 60
-        Width = 356
+        Width = 320
         Height = 14
         Alignment = taCenter
         AutoSize = False
@@ -1579,15 +1579,15 @@ inherited frmNFComDAEventoRLRetrato: TfrmNFComDAEventoRLRetrato
         Brush.Style = bsClear
       end
       object rliBarCode: TRLBarcode
-        Left = 376
-        Top = 24
-        Width = 357
+        Left = 345
+        Top = 22
+        Width = 392
         Height = 48
         Margins.LeftMargin = 1.000000000000000000
         Margins.RightMargin = 1.000000000000000000
         Alignment = taCenter
         AutoSize = False
-        BarcodeType = bcCode128C
+        BarcodeType = bcCode128
       end
     end
   end

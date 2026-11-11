@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/11/2025
+-- ACBrNFCom.DAEventoRLRetrato dfm/lfm --
+[*] [ACBr-9471] Ajuste alfanumerico fortes Eventos.
+   Por: Daniel de Morais
+
 19/11/2025
 -- ACBrNFCom.DANFComRLRetrato --
 [*] Ajuste para imprimir o Valor Desconto em vez de Valor Isento.
