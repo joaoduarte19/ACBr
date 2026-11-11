@@ -230,6 +230,20 @@ para tpEmis diferente de 1</xs:documentation>
 											<xs:documentation>Grupo de Compras Governamentais</xs:documentation>
 										</xs:annotation>
 									</xs:element>
+									<xs:element name="gMultaJuros" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Grupo de informações de multa e juros</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="chBPeRef" type="TChDFe">
+													<xs:annotation>
+														<xs:documentation>Chave de acesso do BPe Referenciado para cobrar multa e juros</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
@@ -310,6 +324,18 @@ para tpEmis diferente de 1</xs:documentation>
 												<xs:whiteSpace value="preserve"/>
 											</xs:restriction>
 										</xs:simpleType>
+									</xs:element>
+									<xs:element name="tpRegimeIBSCBS" type="TRegimeIBSCBS" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Tipo de Regime de Apuração do IBS e da CBS </xs:documentation>
+											<xs:documentation>1 - Contribuinte do Simples Nacional (CRT=1 ou 2) com opção pelo regime regular do IBS e da CBS; 
+
+2 - Contribuinte do Regime Normal (CRT=3) com opção pendente pelo CRT=”1 - Simples Nacional” sem regime regular do IBS e da CBS; 
+
+3 - Contribuinte do Regime Normal (CRT=3) com opção pendente pelo CRT=”2-Simples Nacional, excesso sublimite de receita bruta” sem regime regular do IBS e da CBS; 
+
+4 - Contribuinte do Regime Normal (CRT=3) com opção pendente pelo Simples Nacional (CRT=1 ou 2), com regime regular do IBS e da CBS. </xs:documentation>
+										</xs:annotation>
 									</xs:element>
 								</xs:sequence>
 							</xs:complexType>
@@ -681,7 +707,6 @@ Informar se tpTrecho = 3</xs:documentation>
 											<xs:element name="vBP" type="TDec_1302">
 												<xs:annotation>
 													<xs:documentation>Valor do Bilhete de Passagem</xs:documentation>
-													<xs:documentation>Observação: A partir 2027, os valores de IBS e CBS compõem o Valor Total do Bilhete</xs:documentation>
 												</xs:annotation>
 											</xs:element>
 											<xs:element name="vBPLiq" type="TDec_1302" minOccurs="0">
@@ -826,7 +851,7 @@ Informar 0.00 em caso de passagem comercializada sem nenhum desconto</xs:documen
 											</xs:element>
 											<xs:element name="vTotDFe" type="TDec_1302">
 												<xs:annotation>
-													<xs:documentation>Valor total do documento fiscal (vBP)</xs:documentation>
+													<xs:documentation>Valor total do documento fiscal (vBP + IBS + CBS)</xs:documentation>
 												</xs:annotation>
 											</xs:element>
 										</xs:sequence>
@@ -1305,6 +1330,33 @@ para tpEmis diferente de 1</xs:documentation>
 											<xs:documentation>Grupo de Compras Governamentais</xs:documentation>
 										</xs:annotation>
 									</xs:element>
+									<xs:element name="indFornecimento" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Indicador de BPe de Fornecimento</xs:documentation>
+											<xs:documentation>Informar quando BPe de fornecimento: 
+   -   Transporte para colaborares,
+   -   Tripulacao de outra empresa 
+   -   Quando data do embarque for ate 5 dias da data de emissao
+
+Observação: Esse indicador dispensa o evento de confirmação de embarque</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="1"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="gMultaJuros" minOccurs="0">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="chBPeRef" type="TChDFe">
+													<xs:annotation>
+														<xs:documentation>Chave de acesso do BPe Referenciado para cobrar multa e juros</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
@@ -1435,6 +1487,18 @@ para tpEmis diferente de 1</xs:documentation>
 											</xs:restriction>
 										</xs:simpleType>
 									</xs:element>
+									<xs:element name="tpRegimeIBSCBS" type="TRegimeIBSCBS" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Tipo de Regime de Apuração do IBS e da CBS </xs:documentation>
+											<xs:documentation>1 - Contribuinte do Simples Nacional (CRT=1 ou 2) com opção pelo regime regular do IBS e da CBS; 
+
+2 - Contribuinte do Regime Normal (CRT=3) com opção pendente pelo CRT=”1 - Simples Nacional” sem regime regular do IBS e da CBS; 
+
+3 - Contribuinte do Regime Normal (CRT=3) com opção pendente pelo CRT=”2-Simples Nacional, excesso sublimite de receita bruta” sem regime regular do IBS e da CBS; 
+
+4 - Contribuinte do Regime Normal (CRT=3) com opção pendente pelo Simples Nacional (CRT=1 ou 2), com regime regular do IBS e da CBS. </xs:documentation>
+										</xs:annotation>
+									</xs:element>
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
@@ -1530,7 +1594,6 @@ para tpEmis diferente de 1</xs:documentation>
 												<xs:element name="vBP" type="TDec_1302">
 													<xs:annotation>
 														<xs:documentation>Valor da soma dos Bilhetes de Passagem da viagem</xs:documentation>
-														<xs:documentation>A partir de 2027, os valores de IBS e CBS compõem o valor do BPe</xs:documentation>
 													</xs:annotation>
 												</xs:element>
 												<xs:element name="vBPLiq" type="TDec_1302" minOccurs="0">
@@ -1680,7 +1743,7 @@ para tpEmis diferente de 1</xs:documentation>
 									</xs:element>
 									<xs:element name="vTotDFe" type="TDec_1302" minOccurs="0">
 										<xs:annotation>
-											<xs:documentation>Valor total do documento fiscal (vBP) 
+											<xs:documentation>Valor total do documento fiscal (vBP + IBS + CBS) 
 </xs:documentation>
 										</xs:annotation>
 									</xs:element>
@@ -1985,6 +2048,20 @@ para tpEmis diferente de 1</xs:documentation>
 											<xs:documentation>Grupo de Compras Governamentais</xs:documentation>
 										</xs:annotation>
 									</xs:element>
+									<xs:element name="gMultaJuros" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Grupo de informações de multa e juros</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="chBPeRef" type="TChDFe">
+													<xs:annotation>
+														<xs:documentation>Chave de acesso do BPe Referenciado para cobrar multa e juros</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
@@ -2114,6 +2191,18 @@ para tpEmis diferente de 1</xs:documentation>
 												<xs:whiteSpace value="preserve"/>
 											</xs:restriction>
 										</xs:simpleType>
+									</xs:element>
+									<xs:element name="tpRegimeIBSCBS" type="TRegimeIBSCBS" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Tipo de Regime de Apuração do IBS e da CBS </xs:documentation>
+											<xs:documentation>1 - Contribuinte do Simples Nacional (CRT=1 ou 2) com opção pelo regime regular do IBS e da CBS; 
+
+2 - Contribuinte do Regime Normal (CRT=3) com opção pendente pelo CRT=”1 - Simples Nacional” sem regime regular do IBS e da CBS; 
+
+3 - Contribuinte do Regime Normal (CRT=3) com opção pendente pelo CRT=”2-Simples Nacional, excesso sublimite de receita bruta” sem regime regular do IBS e da CBS; 
+
+4 - Contribuinte do Regime Normal (CRT=3) com opção pendente pelo Simples Nacional (CRT=1 ou 2), com regime regular do IBS e da CBS. </xs:documentation>
+										</xs:annotation>
 									</xs:element>
 								</xs:sequence>
 							</xs:complexType>
@@ -2637,7 +2726,6 @@ Informar se tpTrecho = 3</xs:documentation>
 									<xs:element name="vBP" type="TDec_1302">
 										<xs:annotation>
 											<xs:documentation>Valor do Bilhete de Passagem</xs:documentation>
-											<xs:documentation>A partir de 2027 os valores de IBS e CBS compõem o valor total do bilhete</xs:documentation>
 										</xs:annotation>
 									</xs:element>
 									<xs:element name="vBPLiq" type="TDec_1302" minOccurs="0">
@@ -2847,7 +2935,7 @@ Informar 0.00 em caso de passagem comercializada sem nenhum desconto</xs:documen
 									</xs:element>
 									<xs:element name="vTotDFe" type="TDec_1302" minOccurs="0">
 										<xs:annotation>
-											<xs:documentation>Valor total do documento fiscal (vBP)
+											<xs:documentation>Valor total do documento fiscal (vBP + IBS + CBS)
 </xs:documentation>
 										</xs:annotation>
 									</xs:element>
