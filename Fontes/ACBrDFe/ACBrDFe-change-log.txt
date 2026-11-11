@@ -39,6 +39,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/11/2026
+-- ACBrDFe.RTC.IniWriter/ACBrDFe.RTC.XmlWriter --
+[-] Alteração visando não gerar os campos tpALCZFMCBS e nProcSuframa se o DF-e
+    não for NF-e/NFC-e.
+   Por: Jonathan Gonçalves
+
 10/11/2026
 -- ACBrDFe.Conversao/ACBrDFe.RTC.Classes/ACBrDFe.RTC.IniReader --
 -- ACBrDFe.RTC.IniWriter/ACBrDFe.RTC.XmlReader/ACBrDFe.RTC.XmlWriter --

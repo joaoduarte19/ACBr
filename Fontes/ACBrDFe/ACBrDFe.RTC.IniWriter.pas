@@ -692,8 +692,12 @@ begin
       sSecao := 'gALCZFMCBS' + IntToStrZero(Idx1 + 1, 2) + IntToStrZero(Idx2 + 1, 3);
   end;
 
-  AINIRec.WriteString(sSecao, 'tpALCZFMCBS', tpALCZFMCBSToStr(gALCZFMCBS.tpALCZFMCBS) );
-  AINIRec.WriteString(sSecao, 'nProcSuframa', gALCZFMCBS.nProcSuframa);
+  if ModelosDFe in [mdfNFe, mdfNFCe, mdfNFeABI] then
+  begin
+    AINIRec.WriteString(sSecao, 'tpALCZFMCBS', tpALCZFMCBSToStr(gALCZFMCBS.tpALCZFMCBS));
+    AINIRec.WriteString(sSecao, 'nProcSuframa', gALCZFMCBS.nProcSuframa);
+  end;
+
   AINIRec.WriteFloat( sSecao, 'pAliqEfetRegCBS', gALCZFMCBS.pAliqEfetRegCBS);
   AINIRec.WriteFloat( sSecao, 'vTribRegCBS', gALCZFMCBS.vTribRegCBS);
 end;
