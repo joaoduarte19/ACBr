@@ -170,6 +170,18 @@
 			<xs:minInclusive value="2025-01"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="TRegimeIBSCBS">
+		<xs:annotation>
+			<xs:documentation>Tipo de Regime de Apuração do IBS e da CBS </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve"/>
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:complexType name="TTribNFCom">
 		<xs:annotation>
 			<xs:documentation>Grupo de informações da Tributação da NFCom</xs:documentation>
@@ -187,6 +199,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="gIBSCBS" type="TCIBS" minOccurs="0"/>
+			<xs:element name="gTribSN" type="TTribSN" minOccurs="0"/>
 			<xs:element name="gEstornoCred" type="TEstornoCred" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Informado conforme indicador no cClassTrib</xs:documentation>
@@ -251,6 +264,7 @@
 			<xs:element name="cClassTrib" type="TcClassTrib"/>
 			<xs:element name="indDoacao" type="TIndDoacao" minOccurs="0"/>
 			<xs:element name="gIBSCBS" type="TCIBS" minOccurs="0"/>
+			<xs:element name="gTribSN" type="TTribSN" minOccurs="0"/>
 			<xs:element name="gEstornoCred" type="TEstornoCred" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Informado conforme indicador no cClassTrib</xs:documentation>
@@ -271,6 +285,7 @@
 			<xs:element name="cClassTrib" type="TcClassTrib"/>
 			<xs:element name="indDoacao" type="TIndDoacao" minOccurs="0"/>
 			<xs:element name="gIBSCBS" type="TCIBS" minOccurs="0"/>
+			<xs:element name="gTribSN" type="TTribSN" minOccurs="0"/>
 			<xs:element name="gEstornoCred" type="TEstornoCred" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Informado conforme indicador no cClassTrib</xs:documentation>
@@ -291,6 +306,7 @@
 			<xs:element name="cClassTrib" type="TcClassTrib"/>
 			<xs:element name="indDoacao" type="TIndDoacao" minOccurs="0"/>
 			<xs:element name="gIBSCBS" type="TCIBS" minOccurs="0"/>
+			<xs:element name="gTribSN" type="TTribSN" minOccurs="0"/>
 			<xs:element name="gEstornoCred" type="TEstornoCred" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Informado conforme indicador no cClassTrib</xs:documentation>
@@ -340,7 +356,7 @@
 				<xs:element name="gIBSCBS" type="TCIBS_NFe"/>
 				<xs:element name="gIBSCBSMono" type="TMonofasia">
 					<xs:annotation>
-						<xs:documentation>Grupo de Informações do IBS e CBS em operações com imposto monofásico (CST 620)</xs:documentation>
+						<xs:documentation>Informar essa opção da Choice para Monofasia (CST 620)</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="gTransfCred" type="TTransfCred">
@@ -529,6 +545,25 @@
 						<xs:element name="vCBS" type="TDec1302RTC">
 							<xs:annotation>
 								<xs:documentation>Valor total da CBS</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="gTribSN" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Totalização da CBS</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="vIBSSN" type="TDec1302RTC">
+							<xs:annotation>
+								<xs:documentation>Valor total de IBS SN</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="vCBSSN" type="TDec1302RTC">
+							<xs:annotation>
+								<xs:documentation>Valor total da CBS SN</xs:documentation>
 							</xs:annotation>
 						</xs:element>
 					</xs:sequence>
@@ -725,6 +760,51 @@
 						<xs:element name="vCBSEstCred" type="TDec1302RTC">
 							<xs:annotation>
 								<xs:documentation>Valor total da CBS estornada</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TTribSN">
+		<xs:annotation>
+			<xs:documentation>Tipo CBS IBS Completo</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="gIBSSN" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Tributação SN do IBS</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="pIBSSN" type="TDec_0302_04RTC">
+							<xs:annotation>
+								<xs:documentation>Aliquota do IBS SN</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="vIBSSN" type="TDec1302RTC">
+							<xs:annotation>
+								<xs:documentation>Valor do IBS SN</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="gCBSSN" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Tributação SN do CBS</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="pCBSSN" type="TDec_0302_04RTC">
+							<xs:annotation>
+								<xs:documentation>Aliquota do CBS SN</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="vCBSSN" type="TDec1302RTC">
+							<xs:annotation>
+								<xs:documentation>Valor do CBS SN</xs:documentation>
 							</xs:annotation>
 						</xs:element>
 					</xs:sequence>
@@ -1442,6 +1522,114 @@ OBS: Percentuais definidos no art. 450, § 1º, da LC 214/25 para o cálculo do 
 			<xs:element name="vCredPresIBSZFM" type="TDec1302RTC">
 				<xs:annotation>
 					<xs:documentation>Valor do crédito presumido calculado sobre o saldo devedor apurado</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TTribItemSN">
+		<xs:annotation>
+			<xs:documentation>Tipo Detalhamento dos Tributos por Item</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="vRBSNItem" type="TDec1302RTC">
+				<xs:annotation>
+					<xs:documentation>Valor da receita bruta do Simples Nacional atribuída ao item. 
+Se item tributável, RBSNitem = vTPrest </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="tpRBSN" type="TRBSN">
+				<xs:annotation>
+					<xs:documentation>Tipo de Receita Bruta do Simples Nacional</xs:documentation>
+					<xs:documentation>Tipo de Receita Bruta do Simples Nacional 
+referente ao cClassTrib do item 
+0 - Não é receita bruta 
+1 - Receita bruta - interna 
+2 - Receita bruta - interna sem cálculo de IBS e CBS 
+3 - Receita bruta – exportação direta 
+4 - Receita bruta - exportação indireta 
+5 - Receita bruta - mercado interno e exportação 
+9 - Fornecimento incompatível com SN</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="pIBSSN" type="TDec_0302_04RTC" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Alíquota aplicável de cálculo do IBS referente ao 
+item </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vIBSSN" type="TDec1302RTC" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Valor do IBS devido pelo Simples Nacional. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="pCBSSN" type="TDec_0302_04RTC" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Alíquota aplicável de cálculo da CBS referente ao 
+item </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vCBSSN" type="TDec1302RTC" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Valor da CBS devido pelo Simples Nacional. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vIBSPendSusp" type="TDec1302RTC" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Valor do IBS pendente ou suspenso referente ao 
+item</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vCBSPendSusp" type="TDec1302RTC" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Valor da CBS pendente ou suspenso referente ao 
+item</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="nItem" use="required">
+			<xs:annotation>
+				<xs:documentation>Número do item</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:whiteSpace value="preserve"/>
+					<xs:pattern value="[1-9]{1}[0-9]{0,3}"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="TTotalSN">
+		<xs:annotation>
+			<xs:documentation>Tipo dados de totais do SN</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="vRBSNTot" type="TDec1302RTC">
+				<xs:annotation>
+					<xs:documentation>Valor total da receita bruta do Simples Nacional, correspondente ao somatório dos valores atribuídos aos itens do DFe </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vIBSSNTot" type="TDec1302RTC" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Valor total do IBS devido pelo Simples Nacional 
+apurado no documento </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vIBSSNtotPendSusp" type="TDec1302RTC" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Valor total do IBS devido pelo Simples Nacional cuja apropriação encontra-se pendente ou com 
+exigibilidade suspensa </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vCBSSNTot" type="TDec1302RTC" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Valor total da CBS devido pelo Simples Nacional 
+apurado no documento </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vCBSSNtotPendSusp" type="TDec1302RTC" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Valor total do CBS devido pelo Simples Nacional cuja apropriação encontra-se pendente ou com 
+exigibilidade suspensa </xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
