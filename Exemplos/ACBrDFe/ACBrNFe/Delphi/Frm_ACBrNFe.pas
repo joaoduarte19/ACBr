@@ -67,7 +67,7 @@ uses
   ACBrDANFCeFortesFrA4,
   Frm_Status,
   Frm_SelecionarCertificado,
-  Frm_ConfiguraSerial, Vcl.CheckLst;
+  Frm_ConfiguraSerial, CheckLst;
 
 type
   TNotasTecnicas = (nt2026006, nt2026007, nt2026008);
