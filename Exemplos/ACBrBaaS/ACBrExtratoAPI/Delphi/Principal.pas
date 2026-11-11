@@ -110,6 +110,8 @@ type
     edSicoobClientID: TEdit;
     edSicoobChavePrivada: TEdit;
     edSicoobCertificado: TEdit;
+    cbVersaoAPIBB: TComboBox;
+    lbBBAPIVersao: TLabel;
     procedure btBBAcharCertificadoClick(Sender: TObject);
     procedure btBBAcharChavePrivadaClick(Sender: TObject);
     procedure btConfigLogArquivoClick(Sender: TObject);
@@ -345,6 +347,8 @@ begin
     edBBClientSecret.Text := wIni.ReadString('BB', 'ClientSecret', EmptyStr);
     edBBCertificado.Text := wIni.ReadString('BB', 'Certificado', EmptyStr);
     edBBChavePrivada.Text := wIni.ReadString('BB', 'ChavePrivada', EmptyStr);
+    cbVersaoAPIBB.ItemIndex := cbVersaoAPIBB.Items.IndexOf(wIni.ReadString('BB', 'Versao', 'V1'));
+
 
     edInterClientID.Text := wIni.ReadString('Inter', 'ClientID', EmptyStr);
     edInterClientSecret.Text := wIni.ReadString('Inter', 'ClientSecret', EmptyStr);
@@ -384,6 +388,8 @@ begin
     wIni.WriteString('BB', 'ClientSecret', edBBClientSecret.Text);
     wIni.WriteString('BB', 'Certificado', edBBCertificado.Text);
     wIni.WriteString('BB', 'ChavePrivada', edBBChavePrivada.Text);
+    wIni.WriteString('BB', 'Versao', cbVersaoAPIBB.Text);
+
 
     wIni.WriteString('Inter', 'ClientID', edInterClientID.Text);
     wIni.WriteString('Inter', 'ClientSecret', edInterClientSecret.Text);
@@ -427,6 +433,12 @@ begin
     ArquivoCertificado := edBBCertificado.Text;
     ArquivoChavePrivada := edBBChavePrivada.Text;
     DeveloperApplicationKey := eBBDevAppKey.Text;
+
+    if cbVersaoAPIBB.Text = 'V2' then
+       ACBrExtratoAPI1.APIVersao := eavBBv2
+    else
+       ACBrExtratoAPI1.APIVersao := eavPadrao;
+
     if (ACBrExtratoAPI1.Ambiente = eamHomologacao) then
       xMCITeste := edBBMCITeste.Text;
   end;

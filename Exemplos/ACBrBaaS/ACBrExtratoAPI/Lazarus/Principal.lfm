@@ -1,21 +1,22 @@
 object frPrincipal: TfrPrincipal
-  Left = 2514
+  Left = 678
   Height = 588
-  Top = 218
+  Top = 259
   Width = 705
   Caption = 'Aplicação de Demonstração ACBrExtratoAPI'
   ClientHeight = 588
   ClientWidth = 705
+  Position = poDesktopCenter
+  LCLVersion = '4.4.0.0'
   OnCreate = FormCreate
-  LCLVersion = '2.2.4.0'
   object pgPrincipal: TPageControl
     Left = 0
     Height = 588
     Top = 0
     Width = 705
-    ActivePage = tsConsulta
+    ActivePage = tsConfig
     Align = alClient
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 0
     object tsConsulta: TTabSheet
       Caption = 'Extrato'
@@ -27,8 +28,8 @@ object frPrincipal: TfrPrincipal
         Top = 72
         Width = 168
         Caption = 'Consultar Extrato'
-        OnClick = btConsultarExtratoClick
         TabOrder = 0
+        OnClick = btConsultarExtratoClick
       end
       object edAgencia: TEdit
         Left = 20
@@ -200,9 +201,9 @@ object frPrincipal: TfrPrincipal
               Top = 25
               Width = 170
               ItemHeight = 15
-              OnChange = cbConfigGeralBancoChange
               Style = csDropDownList
               TabOrder = 0
+              OnChange = cbConfigGeralBancoChange
             end
             object cbConfigGeralAmbiente: TComboBox
               Left = 15
@@ -210,9 +211,9 @@ object frPrincipal: TfrPrincipal
               Top = 75
               Width = 170
               ItemHeight = 15
-              OnChange = cbConfigGeralAmbienteChange
               Style = csDropDownList
               TabOrder = 1
+              OnChange = cbConfigGeralAmbienteChange
             end
             object lbConfigGeralAmbiente: TLabel
               Left = 15
@@ -370,10 +371,10 @@ object frPrincipal: TfrPrincipal
               Top = 25
               Width = 24
               ImageIndex = 9
-              OnClick = btConfigLogArquivoClick
               ShowHint = True
               ParentFont = False
               ParentShowHint = False
+              OnClick = btConfigLogArquivoClick
             end
             object cbConfigLogNivel: TComboBox
               Left = 15
@@ -454,7 +455,7 @@ object frPrincipal: TfrPrincipal
                   Left = 330
                   Height = 15
                   Top = 10
-                  Width = 222
+                  Width = 221
                   Caption = 'x-br-com-bb-ipa-miteste (Homologação)'
                   ParentColor = False
                 end
@@ -485,7 +486,7 @@ object frPrincipal: TfrPrincipal
                   Left = 15
                   Height = 23
                   Top = 75
-                  Width = 615
+                  Width = 466
                   TabOrder = 2
                 end
                 object lbBBClientSecret: TLabel
@@ -510,10 +511,10 @@ object frPrincipal: TfrPrincipal
                   Width = 592
                   Anchors = [akTop, akLeft, akRight]
                   AutoSize = False
-                  OnChange = edBBArqsChange
-                  OnExit = edBBChavePrivadaExit
                   TabOrder = 4
                   Text = 'BBChavePrivada.key'
+                  OnChange = edBBArqsChange
+                  OnExit = edBBChavePrivadaExit
                 end
                 object lbBBChavePrivada: TLabel
                   Left = 15
@@ -541,10 +542,10 @@ object frPrincipal: TfrPrincipal
                   Font.Height = -11
                   Font.Name = 'MS Sans Serif'
                   ImageIndex = 9
-                  OnClick = btBBAcharChavePrivadaClick
                   ShowHint = True
                   ParentFont = False
                   ParentShowHint = False
+                  OnClick = btBBAcharChavePrivadaClick
                 end
                 object btBBAcharCertificado: TSpeedButton
                   Left = 606
@@ -556,10 +557,10 @@ object frPrincipal: TfrPrincipal
                   Font.Height = -11
                   Font.Name = 'MS Sans Serif'
                   ImageIndex = 9
-                  OnClick = btBBAcharCertificadoClick
                   ShowHint = True
                   ParentFont = False
                   ParentShowHint = False
+                  OnClick = btBBAcharCertificadoClick
                 end
                 object edBBCertificado: TEdit
                   Left = 15
@@ -568,10 +569,10 @@ object frPrincipal: TfrPrincipal
                   Width = 592
                   Anchors = [akTop, akLeft, akRight]
                   AutoSize = False
-                  OnChange = edBBArqsChange
-                  OnExit = edBBCertificadoExit
                   TabOrder = 5
                   Text = 'BBCertificado.pem'
+                  OnChange = edBBArqsChange
+                  OnExit = edBBCertificadoExit
                 end
                 object lbBBCertificado: TLabel
                   Left = 15
@@ -588,6 +589,29 @@ object frPrincipal: TfrPrincipal
                   Width = 89
                   Caption = '(Não informado)'
                   ParentColor = False
+                end
+                object lbBBAPIVersao: TLabel
+                  Left = 487
+                  Height = 15
+                  Top = 60
+                  Width = 34
+                  Caption = 'Versão'
+                  ParentColor = False
+                end
+                object cbVersaoAPIBB: TComboBox
+                  Left = 487
+                  Height = 23
+                  Top = 75
+                  Width = 143
+                  ItemHeight = 15
+                  ItemIndex = 0
+                  Items.Strings = (
+                    'V1'
+                    'V2'
+                  )
+                  Style = csDropDownList
+                  TabOrder = 6
+                  Text = 'V1'
                 end
               end
             end
@@ -654,10 +678,10 @@ object frPrincipal: TfrPrincipal
                   Width = 592
                   Anchors = [akTop, akLeft, akRight]
                   AutoSize = False
-                  OnChange = edInterArqsChange
-                  OnExit = edInterChavePrivadaExit
                   TabOrder = 2
                   Text = 'InterChavePrivada.key'
+                  OnChange = edInterArqsChange
+                  OnExit = edInterChavePrivadaExit
                 end
                 object lbInterChavePrivada: TLabel
                   Left = 15
@@ -685,10 +709,10 @@ object frPrincipal: TfrPrincipal
                   Font.Height = -11
                   Font.Name = 'MS Sans Serif'
                   ImageIndex = 9
-                  OnClick = btInterAcharChavePrivadaClick
                   ShowHint = True
                   ParentFont = False
                   ParentShowHint = False
+                  OnClick = btInterAcharChavePrivadaClick
                 end
                 object btInterAcharCertificado: TSpeedButton
                   Left = 606
@@ -700,10 +724,10 @@ object frPrincipal: TfrPrincipal
                   Font.Height = -11
                   Font.Name = 'MS Sans Serif'
                   ImageIndex = 9
-                  OnClick = btInterAcharCertificadoClick
                   ShowHint = True
                   ParentFont = False
                   ParentShowHint = False
+                  OnClick = btInterAcharCertificadoClick
                 end
                 object edInterCertificado: TEdit
                   Left = 15
@@ -712,10 +736,10 @@ object frPrincipal: TfrPrincipal
                   Width = 592
                   Anchors = [akTop, akLeft, akRight]
                   AutoSize = False
-                  OnChange = edInterArqsChange
-                  OnExit = edInterCertificadoExit
                   TabOrder = 3
                   Text = 'InterCertificado.pem'
+                  OnChange = edInterArqsChange
+                  OnExit = edInterCertificadoExit
                 end
                 object lbInterCertificado: TLabel
                   Left = 15
@@ -824,10 +848,10 @@ object frPrincipal: TfrPrincipal
                     Font.Height = -11
                     Font.Name = 'MS Sans Serif'
                     ImageIndex = 9
-                    OnClick = btSicoobAcharChavePrivadaClick
                     ShowHint = True
                     ParentFont = False
                     ParentShowHint = False
+                    OnClick = btSicoobAcharChavePrivadaClick
                   end
                   object btSicoobAcharCertificado: TSpeedButton
                     Left = 611
@@ -839,10 +863,10 @@ object frPrincipal: TfrPrincipal
                     Font.Height = -11
                     Font.Name = 'MS Sans Serif'
                     ImageIndex = 9
-                    OnClick = btSicoobAcharCertificadoClick
                     ShowHint = True
                     ParentFont = False
                     ParentShowHint = False
+                    OnClick = btSicoobAcharCertificadoClick
                   end
                   object edSicoobCertificado: TEdit
                     Left = 16
@@ -894,8 +918,8 @@ object frPrincipal: TfrPrincipal
           Top = 8
           Width = 168
           Caption = 'Gravar Configuração'
-          OnClick = btGravarConfigClick
           TabOrder = 0
+          OnClick = btGravarConfigClick
         end
         object btLerConfig: TButton
           Left = 20
@@ -903,14 +927,19 @@ object frPrincipal: TfrPrincipal
           Top = 8
           Width = 168
           Caption = 'Ler Configuração'
-          OnClick = btLerConfigClick
           TabOrder = 1
+          OnClick = btLerConfigClick
         end
       end
     end
   end
   object ACBrExtratoAPI1: TACBrExtratoAPI
     Ambiente = eamHomologacao
+    BancoConsulta = bccBancoDoBrasil
+    Banco.ProxyPort = '8080'
+    Banco.ContentsEncodingCompress = []
+    Banco.NivelLog = 0
+    Banco.APIVersao = exvVersao2
     LogNivel = 0
     Left = 176
     Top = 8

@@ -1,19 +1,17 @@
 object frPrincipal: TfrPrincipal
   Left = 1042
   Top = 224
-  Width = 721
-  Height = 627
   Caption = 'Aplica'#231#227'o de Demonstra'#231#227'o ACBrExtratoAPI'
+  ClientHeight = 588
+  ClientWidth = 705
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  OldCreateOrder = True
   OnCreate = FormCreate
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 14
   object pgPrincipal: TPageControl
     Left = 0
     Top = 0
@@ -24,11 +22,14 @@ object frPrincipal: TfrPrincipal
     TabOrder = 0
     object tsConsulta: TTabSheet
       Caption = 'Extrato'
+      DesignSize = (
+        697
+        559)
       object Label5: TLabel
         Left = 20
         Top = 20
-        Width = 39
-        Height = 13
+        Width = 40
+        Height = 14
         Caption = 'Ag'#234'ncia'
         Color = clBtnFace
         ParentColor = False
@@ -37,7 +38,7 @@ object frPrincipal: TfrPrincipal
         Left = 201
         Top = 20
         Width = 28
-        Height = 13
+        Height = 14
         Caption = 'Conta'
         Color = clBtnFace
         ParentColor = False
@@ -45,8 +46,8 @@ object frPrincipal: TfrPrincipal
       object lbInicio: TLabel
         Left = 376
         Top = 20
-        Width = 27
-        Height = 13
+        Width = 24
+        Height = 14
         Caption = 'In'#237'cio'
         Color = clBtnFace
         ParentColor = False
@@ -55,7 +56,7 @@ object frPrincipal: TfrPrincipal
         Left = 494
         Top = 20
         Width = 16
-        Height = 13
+        Height = 14
         Caption = 'Fim'
         Color = clBtnFace
         ParentColor = False
@@ -73,14 +74,14 @@ object frPrincipal: TfrPrincipal
         Left = 20
         Top = 35
         Width = 168
-        Height = 21
+        Height = 22
         TabOrder = 1
       end
       object edConta: TEdit
         Left = 201
         Top = 35
         Width = 160
-        Height = 21
+        Height = 22
         TabOrder = 2
       end
       object gdLancamentos: TStringGrid
@@ -107,8 +108,8 @@ object frPrincipal: TfrPrincipal
         Top = 35
         Width = 103
         Height = 23
-        Date = 45544.501780219910000000
-        Time = 45544.501780219910000000
+        Date = 45544.000000000000000000
+        Time = 0.501780219907232100
         TabOrder = 4
       end
       object edFim: TDateTimePicker
@@ -116,8 +117,8 @@ object frPrincipal: TfrPrincipal
         Top = 35
         Width = 103
         Height = 23
-        Date = 45544.501780219910000000
-        Time = 45544.501780219910000000
+        Date = 45544.000000000000000000
+        Time = 0.501780219907232100
         TabOrder = 5
       end
     end
@@ -142,9 +143,9 @@ object frPrincipal: TfrPrincipal
           TabOrder = 0
           object pnConfigGeral: TPanel
             Left = 2
-            Top = 15
+            Top = 16
             Width = 204
-            Height = 121
+            Height = 120
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 0
@@ -152,7 +153,7 @@ object frPrincipal: TfrPrincipal
               Left = 15
               Top = 10
               Width = 31
-              Height = 13
+              Height = 14
               Caption = 'Banco'
               Color = clBtnFace
               ParentColor = False
@@ -160,8 +161,8 @@ object frPrincipal: TfrPrincipal
             object lbConfigGeralAmbiente: TLabel
               Left = 15
               Top = 60
-              Width = 44
-              Height = 13
+              Width = 45
+              Height = 14
               Caption = 'Ambiente'
               Color = clBtnFace
               ParentColor = False
@@ -170,9 +171,8 @@ object frPrincipal: TfrPrincipal
               Left = 15
               Top = 25
               Width = 170
-              Height = 21
+              Height = 22
               Style = csDropDownList
-              ItemHeight = 13
               TabOrder = 0
               OnChange = cbConfigGeralBancoChange
             end
@@ -180,9 +180,8 @@ object frPrincipal: TfrPrincipal
               Left = 15
               Top = 75
               Width = 170
-              Height = 21
+              Height = 22
               Style = csDropDownList
-              ItemHeight = 13
               TabOrder = 1
               OnChange = cbConfigGeralAmbienteChange
             end
@@ -198,20 +197,20 @@ object frPrincipal: TfrPrincipal
           TabOrder = 1
           object pnConfigProxy: TPanel
             Left = 2
-            Top = 15
+            Top = 16
             Width = 241
-            Height = 121
+            Height = 120
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 0
             DesignSize = (
               241
-              121)
+              120)
             object lbConfigProxyHost: TLabel
               Left = 15
               Top = 10
               Width = 22
-              Height = 13
+              Height = 14
               Caption = 'Host'
               Color = clBtnFace
               ParentColor = False
@@ -220,7 +219,7 @@ object frPrincipal: TfrPrincipal
               Left = 140
               Top = 10
               Width = 25
-              Height = 13
+              Height = 14
               Caption = 'Porta'
               Color = clBtnFace
               ParentColor = False
@@ -228,8 +227,8 @@ object frPrincipal: TfrPrincipal
             object lbConfigProxyUsuario: TLabel
               Left = 15
               Top = 60
-              Width = 36
-              Height = 13
+              Width = 37
+              Height = 14
               Caption = 'Usu'#225'rio'
               Color = clBtnFace
               ParentColor = False
@@ -238,7 +237,7 @@ object frPrincipal: TfrPrincipal
               Left = 140
               Top = 60
               Width = 31
-              Height = 13
+              Height = 14
               Caption = 'Senha'
               Color = clBtnFace
               ParentColor = False
@@ -257,21 +256,21 @@ object frPrincipal: TfrPrincipal
               Left = 15
               Top = 25
               Width = 111
-              Height = 21
+              Height = 22
               TabOrder = 0
             end
             object edConfigProxyUsuario: TEdit
               Left = 15
               Top = 75
               Width = 111
-              Height = 21
+              Height = 22
               TabOrder = 1
             end
             object edConfigProxySenha: TEdit
               Left = 140
               Top = 75
               Width = 63
-              Height = 21
+              Height = 22
               PasswordChar = '*'
               TabOrder = 2
             end
@@ -279,7 +278,7 @@ object frPrincipal: TfrPrincipal
               Left = 140
               Top = 25
               Width = 85
-              Height = 22
+              Height = 23
               MaxValue = 999999
               MinValue = 0
               TabOrder = 3
@@ -297,17 +296,17 @@ object frPrincipal: TfrPrincipal
           TabOrder = 2
           object pnConfigLog: TPanel
             Left = 2
-            Top = 15
+            Top = 16
             Width = 200
-            Height = 121
+            Height = 120
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 0
             object lbConfigLogArquivo: TLabel
               Left = 15
               Top = 10
-              Width = 36
-              Height = 13
+              Width = 38
+              Height = 14
               Caption = 'Arquivo'
               Color = clBtnFace
               ParentColor = False
@@ -315,8 +314,8 @@ object frPrincipal: TfrPrincipal
             object lbConfigLogNivel: TLabel
               Left = 15
               Top = 60
-              Width = 26
-              Height = 13
+              Width = 23
+              Height = 14
               Caption = 'N'#237'vel'
               Color = clBtnFace
               ParentColor = False
@@ -341,16 +340,15 @@ object frPrincipal: TfrPrincipal
               Left = 15
               Top = 25
               Width = 147
-              Height = 21
+              Height = 22
               TabOrder = 0
             end
             object cbConfigLogNivel: TComboBox
               Left = 15
               Top = 75
               Width = 170
-              Height = 21
+              Height = 22
               Style = csDropDownList
-              ItemHeight = 13
               ItemIndex = 2
               TabOrder = 1
               Text = 'Normal'
@@ -387,27 +385,27 @@ object frPrincipal: TfrPrincipal
               Left = 0
               Top = 0
               Width = 689
-              Height = 292
+              Height = 291
               Align = alClient
               Caption = 'Banco do Brasil'
               TabOrder = 0
               Visible = False
               object pnConfigBB: TPanel
                 Left = 2
-                Top = 15
+                Top = 16
                 Width = 685
-                Height = 275
+                Height = 273
                 Align = alClient
                 BevelOuter = bvNone
                 TabOrder = 0
                 DesignSize = (
                   685
-                  275)
+                  273)
                 object lbBBMCITeste: TLabel
                   Left = 330
                   Top = 10
-                  Width = 183
-                  Height = 13
+                  Width = 192
+                  Height = 14
                   Caption = 'x-br-com-bb-ipa-miteste (Homologa'#231#227'o)'
                   Color = clBtnFace
                   ParentColor = False
@@ -415,8 +413,8 @@ object frPrincipal: TfrPrincipal
                 object lbBBDevAppKey: TLabel
                   Left = 15
                   Top = 10
-                  Width = 125
-                  Height = 13
+                  Width = 126
+                  Height = 14
                   Caption = 'Developer Application Key'
                   Color = clBtnFace
                   ParentColor = False
@@ -424,8 +422,8 @@ object frPrincipal: TfrPrincipal
                 object lbBBClientID: TLabel
                   Left = 15
                   Top = 60
-                  Width = 40
-                  Height = 13
+                  Width = 38
+                  Height = 14
                   Caption = 'Client ID'
                   Color = clBtnFace
                   ParentColor = False
@@ -433,8 +431,8 @@ object frPrincipal: TfrPrincipal
                 object lbBBClientSecret: TLabel
                   Left = 15
                   Top = 110
-                  Width = 60
-                  Height = 13
+                  Width = 61
+                  Height = 14
                   Caption = 'Client Secret'
                   Color = clBtnFace
                   ParentColor = False
@@ -442,8 +440,8 @@ object frPrincipal: TfrPrincipal
                 object lbBBChavePrivada: TLabel
                   Left = 15
                   Top = 160
-                  Width = 109
-                  Height = 13
+                  Width = 111
+                  Height = 14
                   Caption = 'Arquivo Chave Privada'
                   Color = clBtnFace
                   ParentColor = False
@@ -451,8 +449,8 @@ object frPrincipal: TfrPrincipal
                 object lbBBErroChavePrivada: TLabel
                   Left = 144
                   Top = 160
-                  Width = 75
-                  Height = 13
+                  Width = 78
+                  Height = 14
                   Caption = '(N'#227'o informado)'
                   Color = clBtnFace
                   ParentColor = False
@@ -492,8 +490,8 @@ object frPrincipal: TfrPrincipal
                 object lbBBCertificado: TLabel
                   Left = 15
                   Top = 210
-                  Width = 115
-                  Height = 13
+                  Width = 116
+                  Height = 14
                   Caption = 'Arquivo Certificado PEM'
                   Color = clBtnFace
                   ParentColor = False
@@ -501,38 +499,47 @@ object frPrincipal: TfrPrincipal
                 object lbBBErroCertificado: TLabel
                   Left = 155
                   Top = 210
-                  Width = 75
-                  Height = 13
+                  Width = 78
+                  Height = 14
                   Caption = '(N'#227'o informado)'
+                  Color = clBtnFace
+                  ParentColor = False
+                end
+                object lbBBAPIVersao: TLabel
+                  Left = 487
+                  Top = 59
+                  Width = 35
+                  Height = 14
+                  Caption = 'Vers'#227'o'
                   Color = clBtnFace
                   ParentColor = False
                 end
                 object edBBMCITeste: TEdit
                   Left = 330
                   Top = 25
-                  Width = 300
-                  Height = 21
+                  Width = 317
+                  Height = 22
                   TabOrder = 0
                 end
                 object eBBDevAppKey: TEdit
                   Left = 15
                   Top = 25
                   Width = 300
-                  Height = 21
+                  Height = 22
                   TabOrder = 1
                 end
                 object edBBClientID: TEdit
                   Left = 15
                   Top = 75
-                  Width = 615
-                  Height = 21
+                  Width = 452
+                  Height = 22
                   TabOrder = 2
                 end
                 object edBBClientSecret: TEdit
                   Left = 15
                   Top = 125
-                  Width = 615
-                  Height = 21
+                  Width = 632
+                  Height = 22
                   TabOrder = 3
                 end
                 object edBBChavePrivada: TEdit
@@ -559,6 +566,19 @@ object frPrincipal: TfrPrincipal
                   OnChange = edBBArqsChange
                   OnExit = edBBCertificadoExit
                 end
+                object cbVersaoAPIBB: TComboBox
+                  Left = 487
+                  Top = 75
+                  Width = 160
+                  Height = 22
+                  Style = csDropDownList
+                  ItemIndex = 0
+                  TabOrder = 6
+                  Text = 'V1'
+                  Items.Strings = (
+                    'V1'
+                    'V2')
+                end
               end
             end
           end
@@ -568,27 +588,27 @@ object frPrincipal: TfrPrincipal
               Left = 0
               Top = 0
               Width = 689
-              Height = 292
+              Height = 291
               Align = alClient
               Caption = 'Banco Inter'
               TabOrder = 0
               Visible = False
               object pnConfigInter: TPanel
                 Left = 2
-                Top = 15
+                Top = 16
                 Width = 685
-                Height = 275
+                Height = 273
                 Align = alClient
                 BevelOuter = bvNone
                 TabOrder = 0
                 DesignSize = (
                   685
-                  275)
+                  273)
                 object lbInterClientID: TLabel
                   Left = 15
                   Top = 10
-                  Width = 40
-                  Height = 13
+                  Width = 38
+                  Height = 14
                   Caption = 'Client ID'
                   Color = clBtnFace
                   ParentColor = False
@@ -596,8 +616,8 @@ object frPrincipal: TfrPrincipal
                 object lbInterClientSecret: TLabel
                   Left = 15
                   Top = 60
-                  Width = 60
-                  Height = 13
+                  Width = 61
+                  Height = 14
                   Caption = 'Client Secret'
                   Color = clBtnFace
                   ParentColor = False
@@ -605,8 +625,8 @@ object frPrincipal: TfrPrincipal
                 object lbInterChavePrivada: TLabel
                   Left = 15
                   Top = 110
-                  Width = 109
-                  Height = 13
+                  Width = 111
+                  Height = 14
                   Caption = 'Arquivo Chave Privada'
                   Color = clBtnFace
                   ParentColor = False
@@ -614,8 +634,8 @@ object frPrincipal: TfrPrincipal
                 object lbInterErroChavePrivada: TLabel
                   Left = 144
                   Top = 110
-                  Width = 75
-                  Height = 13
+                  Width = 78
+                  Height = 14
                   Caption = '(N'#227'o informado)'
                   Color = clBtnFace
                   ParentColor = False
@@ -655,8 +675,8 @@ object frPrincipal: TfrPrincipal
                 object lbInterCertificado: TLabel
                   Left = 15
                   Top = 160
-                  Width = 115
-                  Height = 13
+                  Width = 116
+                  Height = 14
                   Caption = 'Arquivo Certificado PEM'
                   Color = clBtnFace
                   ParentColor = False
@@ -664,8 +684,8 @@ object frPrincipal: TfrPrincipal
                 object lbInterErroCertificado: TLabel
                   Left = 155
                   Top = 160
-                  Width = 75
-                  Height = 13
+                  Width = 78
+                  Height = 14
                   Caption = '(N'#227'o informado)'
                   Color = clBtnFace
                   ParentColor = False
@@ -674,14 +694,14 @@ object frPrincipal: TfrPrincipal
                   Left = 15
                   Top = 25
                   Width = 615
-                  Height = 23
+                  Height = 22
                   TabOrder = 0
                 end
                 object edInterClientSecret: TEdit
                   Left = 15
                   Top = 75
                   Width = 615
-                  Height = 23
+                  Height = 22
                   TabOrder = 1
                 end
                 object edInterChavePrivada: TEdit
@@ -718,27 +738,27 @@ object frPrincipal: TfrPrincipal
               Left = 0
               Top = 0
               Width = 689
-              Height = 292
+              Height = 291
               Align = alClient
               Caption = 'Sicoob'
               TabOrder = 0
               Visible = False
               object pnConfigSicoob: TPanel
                 Left = 2
-                Top = 15
+                Top = 16
                 Width = 685
-                Height = 275
+                Height = 273
                 Align = alClient
                 BevelOuter = bvNone
                 TabOrder = 0
                 DesignSize = (
                   685
-                  275)
+                  273)
                 object lbSicoobClientID: TLabel
                   Left = 15
                   Top = 10
-                  Width = 40
-                  Height = 13
+                  Width = 38
+                  Height = 14
                   Caption = 'Client ID'
                   Color = clBtnFace
                   ParentColor = False
@@ -746,8 +766,8 @@ object frPrincipal: TfrPrincipal
                 object Label3: TLabel
                   Left = 15
                   Top = 58
-                  Width = 109
-                  Height = 13
+                  Width = 111
+                  Height = 14
                   Caption = 'Arquivo Chave Privada'
                   Color = clBtnFace
                   ParentColor = False
@@ -755,8 +775,8 @@ object frPrincipal: TfrPrincipal
                 object lbSicoobErroChavePrivada: TLabel
                   Left = 144
                   Top = 58
-                  Width = 75
-                  Height = 13
+                  Width = 78
+                  Height = 14
                   Caption = '(N'#227'o informado)'
                   Color = clBtnFace
                   ParentColor = False
@@ -796,8 +816,8 @@ object frPrincipal: TfrPrincipal
                 object Label7: TLabel
                   Left = 15
                   Top = 108
-                  Width = 115
-                  Height = 13
+                  Width = 116
+                  Height = 14
                   Caption = 'Arquivo Certificado PEM'
                   Color = clBtnFace
                   ParentColor = False
@@ -805,8 +825,8 @@ object frPrincipal: TfrPrincipal
                 object lbSicoobErroCertificado: TLabel
                   Left = 155
                   Top = 108
-                  Width = 75
-                  Height = 13
+                  Width = 78
+                  Height = 14
                   Caption = '(N'#227'o informado)'
                   Color = clBtnFace
                   ParentColor = False
@@ -815,7 +835,7 @@ object frPrincipal: TfrPrincipal
                   Left = 15
                   Top = 25
                   Width = 615
-                  Height = 21
+                  Height = 22
                   TabOrder = 0
                 end
                 object edSicoobChavePrivada: TEdit
@@ -847,7 +867,7 @@ object frPrincipal: TfrPrincipal
       end
       object pnConfigRodape: TPanel
         Left = 0
-        Top = 511
+        Top = 510
         Width = 697
         Height = 49
         Align = alBottom
@@ -876,6 +896,9 @@ object frPrincipal: TfrPrincipal
   end
   object ACBrExtratoAPI1: TACBrExtratoAPI
     Ambiente = eamHomologacao
+    Banco.ProxyPort = '8080'
+    Banco.ContentsEncodingCompress = []
+    Banco.NivelLog = 0
     LogNivel = 0
     Left = 176
     Top = 8
