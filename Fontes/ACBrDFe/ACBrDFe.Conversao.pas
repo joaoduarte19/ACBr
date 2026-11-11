@@ -485,10 +485,10 @@ const
 
 type
   // CTe e MDFe
-  TTipoNavegacao = (tnInterior, tnCabotagem);
+  TTipoNavegacao = (tnInterior, tnCabotagem, tnNenhum);
 
 const
-  TTipoNavegacaoArrayStrings: array[TTipoNavegacao] of string = ('0', '1');
+  TTipoNavegacaoArrayStrings: array[TTipoNavegacao] of string = ('0', '1', '');
 
 type
   // CTe e NFe
