@@ -81,7 +81,7 @@ const
   CDESTAXA_ADM_ULTIMA = 'Ultima';
   CDESTAXA_ADM_FECHAR = 'Fechar';
   CDESTAXA_STR_QRCODE = 'QRCODE';
-  
+
   CDESTAXA_MASCARA_VALIDADE = 'MM/yy';
   CDESTAXA_MASCARA_DATA1 = 'dd/MM/yy';
   CDESTAXA_MASCARA_DATA2 = 'dd/MM/yyyy';
@@ -561,6 +561,7 @@ type
     procedure AutomacaoColetarOpcao;
     procedure AutomacaoColetarInformacao;
     function AutomacaoColetarInformacaoExtrato:string;
+    function AutomacaoColetarDataExtrato: string;
     procedure AutomacaoExibirMensagem(MilissegundosExibicao: Integer = 0);
 
     procedure ProcessarColeta;
@@ -1557,7 +1558,7 @@ begin
     //Requisicao.transacao_coleta_pinpad_formato := '1';
     Requisicao.mensagem := '7';
   end
-  else if aTransacao = CDESTAXA_ADM_EXTRATOPORPERIODO then
+  else if (aTransacao = CDESTAXA_ADM_EXTRATOPORPERIODO) then
   begin
     Requisicao.servico := dxsExecutar;
     Requisicao.transacao := CDESTAXA_ADM_EXTRATO_TRANSACAO;
@@ -1568,6 +1569,15 @@ begin
        ResultPeriodo := StringReplace(ResultPeriodo,'"','',[rfReplaceAll]);
 
     ResultPeriodo := StringReplace(ResultPeriodo,';','";"',[rfReplaceAll]);
+    Requisicao.transacao_periodo := ResultPeriodo;
+  end
+  else if (aTransacao = CDESTAXA_ADM_EXTRATO_TRANSACAO) then
+  begin
+    Requisicao.servico := dxsExecutar;
+    Requisicao.transacao := CDESTAXA_ADM_EXTRATO_TRANSACAO;
+    ResultPeriodo := Self.fDestaxaClient.AutomacaoColetarDataExtrato;
+    if EstaVazio(ResultPeriodo) then
+      Exit;
     Requisicao.transacao_periodo := ResultPeriodo;
   end
   else if aTransacao = CDESTAXA_ADM_CONSULTASALDOCARTAO then
@@ -1751,6 +1761,24 @@ begin
   else
     result := wResposta;
 end;
+
+function TACBrTEFDestaxaClient.AutomacaoColetarDataExtrato: string;
+var
+  wResposta: String;
+  wCancelar: Boolean;
+  wTipo: TACBrTEFDestaxaColetaTipo;
+begin
+  Result := EmptyStr;
+  wCancelar := False;
+  wResposta := EmptyStr;
+  wTipo := dctDataHora;
+  if Assigned(fOnColetarInformacao) then
+    fOnColetarInformacao('Data do extrato', 'dd/MM/yyyy', wTipo, wResposta, wCancelar);
+
+  if not wCancelar then
+    Result := Trim(wResposta);
+end;
+
 procedure TACBrTEFDestaxaClient.AutomacaoColetarInformacao;
 var
   wResposta: String;
@@ -1807,8 +1835,6 @@ begin
   while (ColetaResposta.automacao_coleta_retorno in [dcrExecutarProcedimento, dcrErroParametrosInvalidos]) do
   begin
     ColetaRequisicao.Clear;
-    if Requisicao.transacao = CDESTAXA_ADM_EXTRATO_TRANSACAO then
-      ColetaResposta.automacao_coleta_tipo := dctPeriodo;
 
     if (Pos(CDESTAXA_STR_QRCODE, ColetaResposta.automacao_coleta_mensagem) > 0) then
       AutomacaoExibirQRCode
