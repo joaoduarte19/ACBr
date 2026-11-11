@@ -104,6 +104,7 @@ uses
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrUtil.DateTime,
+  ACBrUtil.XMLHTML,
   ACBrXmlDocument;
 
 { TProcDFe }
@@ -146,6 +147,7 @@ var
   Document: TACBrXmlDocument;
   ANode: TACBrXmlNode;
   ANodes: TACBrXmlNodeArray;
+  LXMLDFe, LXMLProt: string;
 begin
   XMLDFe := TStringList.Create;
   XMLinfProt := TStringList.Create;
@@ -292,13 +294,23 @@ begin
 
     // Gerar arquivo
     if (XML_DFe <> '') and (XML_prot <> '') then
+    begin
+      // XML_DFe (XMLAssinado) e XML_prot (OuterXml) ja estao em UTF8.
+      // Apenas concatena e inclui a declaracao UTF-8, para que SetXMLOriginal ->
+      // ConverteXMLtoUTF8 reconheca o XML e nao o converta novamente (dupla conversao).
+      LXMLDFe  := RemoverDeclaracaoXML(FXML_DFe);
+      LXMLProt := RemoverDeclaracaoXML(XML_prot);
+
       Result := '<' + FptagGrupo + ' ' + FpNameSpace + ' versao="' + FpVersao + '">' +
                   '<' + FptagDFe + ' xmlns' +
-                    RetornarConteudoEntre(FXML_DFe, '<' + FptagDFe + ' xmlns',
-                                                    '</' + FptagDFe + '>') +
+                    RetornarConteudoEntre(LXMLDFe, '<' + FptagDFe + ' xmlns',
+                                                   '</' + FptagDFe + '>') +
                   '</' + FptagDFe + '>' +
-                  XML_prot +
-                '</' + FptagGrupo + '>'
+                  LXMLProt +
+                '</' + FptagGrupo + '>';
+
+      Result := InserirDeclaracaoXMLSeNecessario(Result);
+    end
     else
       Result := '';
   finally

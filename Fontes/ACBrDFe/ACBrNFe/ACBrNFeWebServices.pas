@@ -917,7 +917,7 @@ begin
 
   NFeRetorno := TRetConsStatServ.Create('');
   try
-    NFeRetorno.XmlRetorno := FPRetWS; // ParseText(FPRetWS);
+    NFeRetorno.XmlRetorno := FPRetWS;
     NFeRetorno.LerXml;
 
     Fversao := NFeRetorno.versao;
@@ -1247,7 +1247,7 @@ begin
     else
       AXML := FPRetWS;
 
-    FNFeRetornoSincrono.XmlRetorno := AXML; // ParseText(AXML);
+    FNFeRetornoSincrono.XmlRetorno := AXML;
     FNFeRetornoSincrono.LerXml;
 
     Fversao := FNFeRetornoSincrono.versao;
@@ -1348,7 +1348,7 @@ begin
   end
   else
   begin
-    FNFeRetorno .XmlRetorno := FPRetWS; // ParseText(FPRetWS);
+    FNFeRetorno .XmlRetorno := FPRetWS;
     FNFeRetorno.LerXml;
 
     Fversao := FNFeRetorno.versao;
@@ -1663,7 +1663,8 @@ begin
   VerificarSemResposta;
 
   //A função UTF8ToNativeString deve ser removida quando for refatorado para usar ACBrXMLDocument
-  FNFeRetorno.XmlRetorno := UTF8ToNativeString(ParseText(FPRetWS));
+  // Mantem UTF8: LoadFromXml usa AnsiString (UTF8ToNativeString gerava bytes CP1252)
+  FNFeRetorno.XmlRetorno := FPRetWS; // Não usar ParserText FPRetWS já tem que estar em UTF8
   FNFeRetorno.LerXML;
 
   Fversao := FNFeRetorno.versao;
@@ -2015,7 +2016,7 @@ begin
 
   VerificarSemResposta;
 
-  FNFeRetorno.XmlRetorno := DecodeHTMLEntities(FPRetWS);
+  FNFeRetorno.XmlRetorno := FPRetWS;
   FNFeRetorno.LerXML;
 
   Fversao := FNFeRetorno.versao;
@@ -2280,7 +2281,7 @@ begin
 
     VerificarSemResposta;
 
-    NFeRetorno.XmlRetorno := FPRetWS; // ParseText(FPRetWS);
+    NFeRetorno.XmlRetorno := FPRetWS;
     NFeRetorno.LerXML;
 
     NFCancelada := False;
@@ -2809,7 +2810,7 @@ begin
 
     VerificarSemResposta;
 
-    NFeRetorno.XmlRetorno := FPRetWS; // ParseText(FPRetWS);
+    NFeRetorno.XmlRetorno := FPRetWS;
     NFeRetorno.LerXml;
 
     Fversao := NFeRetorno.versao;
@@ -3027,8 +3028,7 @@ begin
 
   VerificarSemResposta;
 
-  FRetConsCad.XmlRetorno := FPRetWS; //ParseText(FPRetWS); removido o parser por conta do ACBrDocumentXML que
-                                     //não esta conseguindo ler & precisa ser &amp;
+  FRetConsCad.XmlRetorno := FPRetWS;
   FRetConsCad.LerXml;
 
   Fversao := FRetConsCad.versao;
@@ -3794,7 +3794,7 @@ begin
 
   VerificarSemResposta;
 
-  EventoRetorno.XmlRetorno := FPRetWS; // ParseText(FPRetWS);
+  EventoRetorno.XmlRetorno := FPRetWS;
   EventoRetorno.LerXml;
 
   FcStat := EventoRetorno.cStat;
@@ -3964,7 +3964,7 @@ begin
 
   VerificarSemResposta;
 
-  FretAdmCSCNFCe.XmlRetorno := FPRetWS; // ParseText(FPRetWS);
+  FretAdmCSCNFCe.XmlRetorno := FPRetWS;
   FretAdmCSCNFCe.LerXml;
 
   FPMsg := FretAdmCSCNFCe.xMotivo;
@@ -4116,9 +4116,6 @@ begin
 
   VerificarSemResposta;
 
-  // Processando em UTF8, para poder gravar arquivo corretamente //
-  //A função UTF8ToNativeString deve ser removida quando for refatorado para usar ACBrXMLDocument
-//  FretDistDFeInt.Leitor.Arquivo := UTF8ToNativeString(ParseText(FPRetWS));
   FretDistDFeInt.XmlRetorno := FPRetWS;
   FretDistDFeInt.LerXml;
 
