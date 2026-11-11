@@ -133,6 +133,8 @@ resourcestring
   DSC_TBAND = 'Bandeira da Operadora de Cartão';
   DSC_CAUT = 'Número da Autorização';
 
+  DSC_CHBPEREF = 'Chave de acesso do BPe Referenciado para cobrar multa e juros';
+
 implementation
 
 end.

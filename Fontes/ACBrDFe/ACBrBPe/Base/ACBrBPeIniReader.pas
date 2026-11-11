@@ -53,8 +53,11 @@ type
     FVersaoDF: TVersaoBPe;
     FAmbiente: Integer;
     FtpEmis: Integer;
+    sSecao: string;
+    sFim: string;
 
     procedure Ler_Identificacao(AINIRec: TMemIniFile; Ide: TIde);
+    procedure Ler_gMultaJuros(AINIRec: TMemIniFile; gMultaJuros: TgMultaJuros);
     procedure Ler_Emitente(AINIRec: TMemIniFile; Emit: TEmit);
     procedure Ler_Comprador(AINIRec: TMemIniFile; Comp: TComp);
     procedure Ler_Agencia(AINIRec: TMemIniFile; Agencia: TAgencia);
@@ -179,6 +182,15 @@ begin
   Ide.xJust   := AINIRec.ReadString('ide', 'xJust', '');
 
   Ler_gCompraGovReduzido(AINIRec, Ide.gCompraGov);
+  Ler_gMultaJuros(AINIRec, Ide.gMultaJuros);
+end;
+
+procedure TBPeIniReader.Ler_gMultaJuros(AINIRec: TMemIniFile;
+  gMultaJuros: TgMultaJuros);
+begin
+  sSecao := 'gMultaJuros';
+
+  gMultaJuros.chBPeRef := AINIRec.ReadString(sSecao, 'chBPeRef', '');
 end;
 
 procedure TBPeIniReader.Ler_Emitente(AINIRec: TMemIniFile; Emit: TEmit);
@@ -198,6 +210,7 @@ begin
   Emit.CRT   := StrToCRT(OK, AINIRec.ReadString('emit', 'CRT', '3'));
   Emit.TAR   := AINIRec.ReadString('emit', 'TAR', '');
   Emit.ISUFEmit := AINIRec.ReadString('emit','ISUFEmit', '');
+  Emit.tpRegimeIBSCBS   := StrTotpRegimeIBSCBS(AINIRec.ReadString('emit', 'tpRegimeIBSCBS', ''));
 
   Emit.enderEmit.xLgr    := AINIRec.ReadString('emit', 'xLgr', '');
   Emit.enderEmit.nro     := AINIRec.ReadString('emit', 'nro', '');
@@ -309,7 +322,6 @@ procedure TBPeIniReader.Ler_InfViagem(AINIRec: TMemIniFile;
   infViagem: TInfViagemCollection);
 var
   I: Integer;
-  sSecao, sFim: String;
   OK: Boolean;
   IteminfViagem: TInfViagemCollectionItem;
 begin
@@ -373,7 +385,6 @@ procedure TBPeIniReader.Ler_Componentes(AINIRec: TMemIniFile;
   Comp: TCompCollection);
 var
   I: Integer;
-  sSecao, sFim: String;
   OK: Boolean;
   ItemComp: TCompCollectionItem;
 begin
@@ -397,8 +408,6 @@ begin
 end;
 
 procedure TBPeIniReader.Ler_Impostos(AINIRec: TMemIniFile; Imp: TImp);
-var
-  sSecao, sFim: String;
 begin
   if BPe.ide.tpBPe <> tbBPeTM then
     Imp.vTotDFe := StringToFloatDef(AINIRec.ReadString('Imp', 'vTotDFe', ''), 0);
@@ -421,7 +430,6 @@ end;
 
 procedure TBPeIniReader.Ler_ICMS(AINIRec: TMemIniFile; ICMS: TICMS);
 var
-  sSecao, sFim: String;
   OK: Boolean;
 begin
   //
@@ -472,7 +480,6 @@ procedure TBPeIniReader.Ler_Pagamentos(AINIRec: TMemIniFile;
   Pag: TpagCollection);
 var
   I: Integer;
-  sSecao, sFim: String;
   OK: Boolean;
   ItemPag: TpagCollectionItem;
 begin
@@ -512,7 +519,6 @@ procedure TBPeIniReader.Ler_AutorizadosXml(AINIRec: TMemIniFile;
   autXML: TautXMLCollection);
 var
   I: Integer;
-  sSecao, sFim: String;
 begin
   //
   // Seção [auxXMLxx] Autorizados para Download do XML do BPe 01-10
@@ -542,8 +548,6 @@ end;
 
 procedure TBPeIniReader.Ler_InfRespTec(AINIRec: TMemIniFile;
   infRespTec: TinfRespTec);
-var
-  sSecao: string;
 begin
   //
   // Seção [infRespTec] Informações do Responsável Técnico
@@ -562,7 +566,6 @@ procedure TBPeIniReader.Ler_detBPeTM(AINIRec: TMemIniFile;
   detBPeTM: TdetBPeTMCollection);
 var
   i: Integer;
-  sSecao, sFim: string;
   Item: TdetBPeTMCollectionItem;
 begin
   I := 1 ;
@@ -623,8 +626,6 @@ end;
 
 procedure TBPeIniReader.Ler_DetImposto(AINIRec: TMemIniFile; imp: TImp; Idx1,
   Idx2: Integer);
-var
-  sSecao, sFim: String;
 begin
   sSecao := 'ICMS'+IntToStrZero(Idx1,2)+IntToStrZero(Idx2,3);
   sFim   := AINIRec.ReadString(sSecao, 'CST', 'FIM');
@@ -662,8 +663,6 @@ begin
 end;
 
 procedure TBPeIniReader.Ler_Total(AINIRec: TMemIniFile; total: Ttotal);
-var
-  sSecao: string;
 begin
   sSecao := 'total';
   if AINIRec.SectionExists(sSecao) then

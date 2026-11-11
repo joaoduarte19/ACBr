@@ -56,6 +56,7 @@ type
     procedure Ler_ProtBPe(const ANode: TACBrXmlNode);
     procedure Ler_InfBPe(const ANode: TACBrXmlNode);
     procedure Ler_Ide(const ANode: TACBrXmlNode);
+    procedure Ler_gMultaJuros(const ANode: TACBrXmlNode; gMultaJuros: TgMultaJuros);
 
     procedure Ler_Emit(const ANode: TACBrXmlNode);
     procedure Ler_EnderEmit(const ANode: TACBrXmlNode);
@@ -276,6 +277,15 @@ begin
 
   // Reforma Tritutária
   Ler_gCompraGovReduzido(ANode.Childrens.Find('gCompraGov'), BPe.Ide.gCompraGov);
+  Ler_gMultaJuros(ANode.Childrens.Find('gMultaJuros'), BPe.Ide.gMultaJuros);
+end;
+
+procedure TBPeXmlReader.Ler_gMultaJuros(const ANode: TACBrXmlNode;
+  gMultaJuros: TgMultaJuros);
+begin
+  if not Assigned(ANode) then Exit;
+
+  gMultaJuros.chBPeRef := ObterConteudo(ANode.Childrens.Find('chBPeRef'), tcStr);
 end;
 
 procedure TBPeXmlReader.Ler_Emit(const ANode: TACBrXmlNode);
@@ -297,6 +307,7 @@ begin
   Ler_EnderEmit(ANode.Childrens.Find('enderEmit'));
 
   BPe.Emit.TAR := ObterConteudo(ANode.Childrens.Find('TAR'), tcStr);
+  BPe.Emit.tpRegimeIBSCBS := StrTotpRegimeIBSCBS(ObterConteudo(ANode.Childrens.Find('tpRegimeIBSCBS'), tcStr));
 end;
 
 procedure TBPeXmlReader.Ler_EnderEmit(const ANode: TACBrXmlNode);

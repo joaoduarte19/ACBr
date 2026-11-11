@@ -51,8 +51,10 @@ type
   private
     FBPe: TBPe;
     FModeloDF: TModeloBPe;
+    sSecao: string;
 
     procedure Gerar_Identificacao(AINIRec: TMemIniFile; Ide: TIde);
+    procedure Gerar_gMultaJuros(AINIRec: TMemIniFile; gMultaJuros: TgMultaJuros);
     procedure Gerar_Emitente(AINIRec: TMemIniFile; Emit: TEmit);
     procedure Gerar_Comprador(AINIRec: TMemIniFile; Comp: TComp);
     procedure Gerar_Agencia(AINIRec: TMemIniFile; Agencia: TAgencia);
@@ -200,6 +202,17 @@ begin
 
   // Reforma Tritutária
   Gerar_gCompraGovReduzido(AINIRec, Ide.gCompraGov);
+
+  if Ide.gMultaJuros.chBPeRef <> '' then
+    Gerar_gMultaJuros(AINIRec, Ide.gMultaJuros);
+end;
+
+procedure TBPeIniWriter.Gerar_gMultaJuros(AINIRec: TMemIniFile;
+  gMultaJuros: TgMultaJuros);
+begin
+  sSecao := 'gMultaJuros';
+
+  AINIRec.WriteString(sSecao, 'chBPeRef', gMultaJuros.chBPeRef);
 end;
 
 procedure TBPeIniWriter.Gerar_Emitente(AINIRec: TMemIniFile; Emit: TEmit);
@@ -216,6 +229,7 @@ begin
   AINIRec.WriteString('emit', 'CNAE', Emit.CNAE);
   AINIRec.WriteString('emit', 'CRT', CRTToStr(Emit.CRT));
   AINIRec.WriteString('emit', 'ISUFEmit', Emit.ISUFEmit);
+  AINIRec.WriteString('emit', 'tpRegimeIBSCBS', tpRegimeIBSCBSToStr(Emit.tpRegimeIBSCBS));
 
   AINIRec.WriteString('emit', 'xLgr', Emit.enderEmit.xLgr);
   AINIRec.WriteString('emit', 'nro', Emit.enderEmit.nro);
@@ -317,7 +331,6 @@ procedure TBPeIniWriter.Gerar_InfViagem(AINIRec: TMemIniFile;
   infViagem: TInfViagemCollection);
 var
   i: integer;
-  sSecao: string;
 begin
    // Informações da Viagem
 
@@ -371,7 +384,6 @@ procedure TBPeIniWriter.Gerar_Componentes(AINIRec: TMemIniFile;
   Comp: TCompCollection);
 var
   i: integer;
-  sSecao: string;
 begin
   // Componentes do Valor
 
@@ -432,7 +444,6 @@ procedure TBPeIniWriter.Gerar_Pagamentos(AINIRec: TMemIniFile;
   Pag: TpagCollection);
 var
   i: integer;
-  sSecao: string;
 begin
   // Pagamentos
 
@@ -459,7 +470,6 @@ end;
 procedure TBPeIniWriter.Gerar_DetBPeTM(AINIRec: TMemIniFile; DetBPeTM: TdetBPeTMCollection);
 var
   i: integer;
-  sSecao: string;
 begin
   for i := 0 to detBPeTM.Count - 1 do
   begin
@@ -544,8 +554,6 @@ begin
 end;
 
 procedure TBPeIniWriter.Gerar_Total(AINIRec: TMemIniFile; Total: Ttotal);
-var
-  sSecao: string;
 begin
   sSecao := 'total';
 
@@ -569,7 +577,6 @@ procedure TBPeIniWriter.Gerar_AutorizadosXml(AINIRec: TMemIniFile;
   autXML: TautXMLCollection);
 var
   i: integer;
-  sSecao: string;
 begin
   // Autorizados a baixar o XML
 

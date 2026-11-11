@@ -45,6 +45,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/11/2026
+-- Diversos --
+[*] Alterações visando atender a NT 2026/004 versão 1.01 e NT 2026/005 versão 1.00
+   Por: Italo Giurizzato Junior
+
 23/10/2026
 -- ACBrBPeRetEnvEvento --
 [-] ACBR-10058 - Ajuste para ler o evento do cancelamento.

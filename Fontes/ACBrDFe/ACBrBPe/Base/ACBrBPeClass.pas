@@ -319,6 +319,16 @@ type
     property ID: String read FID write FID;
   end;
 
+  TgMultaJuros = class(TObject)
+  private
+    FchBPeRef: String;
+
+  public
+    procedure Assign(Source: TgMultaJuros);
+
+    property chBPeRef: string read FchBPeRef write FchBPeRef;
+  end;
+
   TIde = class(TObject)
   private
     FcUF: Integer;
@@ -343,6 +353,7 @@ type
     FxJust  : String;
     FCFOP: Integer;
     FgCompraGov: TgCompraGovReduzido;
+    FgMultaJuros: TgMultaJuros;
 
   public
     constructor Create;
@@ -372,6 +383,7 @@ type
     property xJust: String read FxJust write FxJust;
     property CFOP: Integer read FCFOP write FCFOP;
     property gCompraGov: TgCompraGovReduzido read FgCompraGov write FgCompraGov;
+    property gMultaJuros: TgMultaJuros read FgMultaJuros write FgMultaJuros;
   end;
 
   TEmit = class(TObject)
@@ -387,6 +399,7 @@ type
     FenderEmit: TenderEmit;
     FTAR: String;
     FISUFEmit: string;
+    FtpRegimeIBSCBS: TtpRegimeIBSCBS;
   public
     constructor Create;
     destructor Destroy; override;
@@ -403,6 +416,7 @@ type
     property EnderEmit: TEnderEmit read FEnderEmit write FEnderEmit;
     property TAR: String read FTAR write FTAR;
     property ISUFEmit: string read FISUFEmit write FISUFEmit;
+    property tpRegimeIBSCBS: TtpRegimeIBSCBS read FtpRegimeIBSCBS write FtpRegimeIBSCBS;
   end;
 
   TEnderEmit = class(TObject)
@@ -925,7 +939,7 @@ end;
 
 procedure TinfBPe.Assign(Source: TinfBPe);
 begin
-  ID     := Source.ID;
+  ID := Source.ID;
   Versao := Source.Versao;
 end;
 
@@ -936,11 +950,13 @@ begin
   inherited Create;
 
   FgCompraGov := TgCompraGovReduzido.Create;
+  FgMultaJuros := TgMultaJuros.Create;
 end;
 
 destructor TIde.Destroy;
 begin
   FgCompraGov.Free;
+  FgMultaJuros.Free;
 
   inherited;
 end;
@@ -970,6 +986,7 @@ begin
   CFOP    := Source.CFOP;
   CFOP    := Source.CFOP;
   gCompraGov.Assign(Source.gCompraGov);
+  gMultaJuros.Assign(Source.gMultaJuros);
 end;
 
 {Emit}
@@ -987,6 +1004,7 @@ begin
   EnderEmit.Assign(Source.EnderEmit);
   TAR   := Source.TAR;
   ISUFEmit := Source.ISUFEmit;
+  tpRegimeIBSCBS := Source.tpRegimeIBSCBS;
 end;
 
 constructor TEmit.Create;
@@ -1599,6 +1617,13 @@ begin
   CNPJBasePSP := Source.CNPJBasePSP;
   nPag := Source.nPag;
   idTransacao := Source.idTransacao;
+end;
+
+{ TgMultaJuros }
+
+procedure TgMultaJuros.Assign(Source: TgMultaJuros);
+begin
+  chBPeRef := Source.chBPeRef;
 end;
 
 end.
