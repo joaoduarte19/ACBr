@@ -1896,6 +1896,12 @@ begin
         Result.AppendChild(GerarDetImpostoIPI(i));
         Result.AppendChild(GerarDetImpostoII(i));
       end;
+    end
+    else if ((nfe.Ide.finNFe = fnDebito) and (nfe.Ide.tpNFDebito = tdPagamentoAntecipado)) or
+      (nfe.Ide.gCompraGov.tpOperGov = togRecebimentoPagFornecPosterior) then
+    begin
+      Result.AppendChild(GerarDetImpostoICMS(i));
+      Result.AppendChild(GerarDetImpostoIPI(i));
     end;
 
     Result.AppendChild(GerarDetImpostoPIS(i));
