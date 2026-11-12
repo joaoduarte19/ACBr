@@ -470,7 +470,7 @@ begin
   // Reforma Tributária
   Result.AppendChild(Gerar_gCompraGovReduzido(BPe.Ide.gCompraGov));
 
-  if BPe.Ide.gMultaJuros.chBPeRef <> '' then
+  if (BPe.ide.tpBPe <> tbBPeTM) and (BPe.Ide.gMultaJuros.chBPeRef <> '') then
     Result.AppendChild(Gerar_gMultaJuros(BPe.Ide.gMultaJuros));
 end;
 

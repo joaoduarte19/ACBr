@@ -203,7 +203,7 @@ begin
   // Reforma Tritutária
   Gerar_gCompraGovReduzido(AINIRec, Ide.gCompraGov);
 
-  if Ide.gMultaJuros.chBPeRef <> '' then
+  if (ide.tpBPe <> tbBPeTM) and (Ide.gMultaJuros.chBPeRef <> '') then
     Gerar_gMultaJuros(AINIRec, Ide.gMultaJuros);
 end;
 

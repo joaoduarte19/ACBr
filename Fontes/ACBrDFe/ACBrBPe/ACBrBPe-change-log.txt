@@ -45,6 +45,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+12/11/2026
+-- ACBrBPeIniWriter/ACBrBPeXmlWriter --
+[*] Alterações visando não gerar o grupo gMultaJuros se for BPe TM.
+   Por: Italo Giurizzato Junior
+
 11/11/2026
 -- Diversos --
 [*] Alterações visando atender a NT 2026/004 versão 1.01 e NT 2026/005 versão 1.00
