@@ -7,7 +7,6 @@ inherited frmCTeDAEventoRLRetrato: TfrmCTeDAEventoRLRetrato
   Font.Height = -8
   Font.Name = 'Arial'
   Font.Style = [fsBold]
-  StyleElements = [seFont, seClient, seBorder]
   TextHeight = 10
   inherited RLCTeEvento: TRLReport
     Left = 0
