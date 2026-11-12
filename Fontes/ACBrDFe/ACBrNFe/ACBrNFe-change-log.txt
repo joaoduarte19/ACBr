@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+12/11/2026
+-- ACBrNFe.Classes --
+[*] ACBR-10195 - Alterado o tipo da propriedade vUnComLiq para Double.
+   Por: Dinarte Moscon
+
 11/11/2026
 -- ACBrNFe.XmlWriter --
 [*] Adiciona condição para geração do grupo de ICMSPrevisto quando nota de débito.

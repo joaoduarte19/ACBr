@@ -983,7 +983,7 @@ type
     FCredPresumido: TCredPresumidoCollection;
     FindBemMovelUsado: TIndicadorEx;
     FtpCredPresIBSZFM: TtpCredPresIBSZFM;
-    FvUnComLiq: Currency;
+    FvUnComLiq: Double;
     FvProdLiq: Currency;
 
     procedure SetDI(Value: TDICollection);
@@ -1042,7 +1042,7 @@ type
     property CredPresumido: TCredPresumidoCollection read FCredPresumido write SetCredPresumido;
     property indBemMovelUsado: TIndicadorEx read FindBemMovelUsado write FindBemMovelUsado default tieNenhum;
     property tpCredPresIBSZFM: TtpCredPresIBSZFM read FtpCredPresIBSZFM write FtpCredPresIBSZFM;
-    property vUnComLiq: Currency read FvUnComLiq write FvUnComLiq;
+    property vUnComLiq: Double read FvUnComLiq write FvUnComLiq;
     property vProdLiq: Currency read FvProdLiq write FvProdLiq;
   end;
 
