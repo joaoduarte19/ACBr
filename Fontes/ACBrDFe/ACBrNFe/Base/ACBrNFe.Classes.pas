@@ -3134,7 +3134,7 @@ begin
   ISSQN.Assign(Source.ISSQN);
   ICMSUFDest.Assign(Source.ICMSUFDest);
   ISel.Assign(Source.ISel);
-//  IBSCBS.Assign(Source.IBSCBS);
+  IBSCBS.Assign(Source.IBSCBS);
 end;
 
 constructor TImposto.Create();

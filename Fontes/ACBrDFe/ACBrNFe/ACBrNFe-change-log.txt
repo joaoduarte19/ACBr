@@ -46,6 +46,9 @@ Símbolo : Significado
 
 12/11/2026
 -- ACBrNFe.Classes --
+[*] ACBR-10191 - descomentado a linha de atribuição do IBSCBS do Assing da classe TImposto.
+   Por: Italo Giurizzato Junior
+-- ACBrNFe.Classes --
 [*] ACBR-10195 - Alterado o tipo da propriedade vUnComLiq para Double.
    Por: Dinarte Moscon
 
