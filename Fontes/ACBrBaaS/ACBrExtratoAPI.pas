@@ -222,10 +222,10 @@ type
 
     property ExtratoConsultado: TACBrExtratoConsultado read GetExtratoConsultado;
   published
-    property Banco: TACBrExtratoAPIBancoClass read GetBanco;
     property Ambiente: TACBrExtratoAPIAmbiente read fAmbiente write fAmbiente default eamNenhum;
     property BancoConsulta: TACBrExtratoAPIBancoConsulta read fBancoConsulta write SetBancoConsulta
       default bccNenhum;
+    property Banco: TACBrExtratoAPIBancoClass read GetBanco;
 
     property LogArquivo: String read fLogArquivo write fLogArquivo;
     property LogNivel: Byte read fLogNivel write fLogNivel default 1;
@@ -507,7 +507,7 @@ function TACBrExtratoAPI.ConsultarExtrato(const aAgencia, aConta: String;
   const aDataInicio: TDateTime; const aDataFim: TDateTime;
   const aPagina: Integer; const aRegistrosPorPag: Integer): Boolean;
 begin
-  if (not Banco.APIVersaoPermitida(fBanco.APIVersao)) then
+  if (not Banco.APIVersaoPermitida(Banco.APIVersao)) then
     raise EACBrAPIException.Create(ACBrStr('Versão da API não suportada pelo banco selecionado'));
 
   Result := fBanco.ConsultarExtrato(aAgencia, aConta, aDataInicio, aDataFim, aPagina, aRegistrosPorPag);

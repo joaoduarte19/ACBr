@@ -37,6 +37,22 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+12/11/2026
+-- ACBrExtratoAPIBB --
+[*] ATENÇÃO: A propriedade numeroCpfCnpjContrapartida de TACBrExtratoBBLancamento
+    foi alterada de Integer para String, para suportar CNPJ alfanumérico.
+    Códigos que a utilizam como número precisam ser ajustados.
+[-] Correção do StringToTipoPessoa, que não reconhecia 'J' (Pessoa Jurídica).
+    por: Elias Cesar
+
+12/11/2026
+-- ACBrExtratoAPI --
+[+] Novo tipo de operação etoBloqueado, para lançamentos com sinal '*'.
+[-] Correção na ordem das propriedades publicadas: BancoConsulta volta a ser gravada
+    antes de Banco no DFM/LFM. Antes, ao reabrir o form, as propriedades do Banco
+    eram perdidas ou geravam erro de leitura.
+    por: Elias Cesar
+
 11/11/2026
 -- ACBrExtratoAPI --
 [+] Implementada rotina para possibilitar configuração das propriedades específicas 
