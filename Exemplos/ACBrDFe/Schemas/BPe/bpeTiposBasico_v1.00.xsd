@@ -1346,17 +1346,6 @@ Observação: Esse indicador dispensa o evento de confirmação de embarque</xs:
 											</xs:restriction>
 										</xs:simpleType>
 									</xs:element>
-									<xs:element name="gMultaJuros" minOccurs="0">
-										<xs:complexType>
-											<xs:sequence>
-												<xs:element name="chBPeRef" type="TChDFe">
-													<xs:annotation>
-														<xs:documentation>Chave de acesso do BPe Referenciado para cobrar multa e juros</xs:documentation>
-													</xs:annotation>
-												</xs:element>
-											</xs:sequence>
-										</xs:complexType>
-									</xs:element>
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
