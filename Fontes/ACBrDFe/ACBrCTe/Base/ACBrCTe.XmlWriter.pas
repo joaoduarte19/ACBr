@@ -1453,7 +1453,13 @@ begin
     if (ModeloDF in [moCTe, moCTeOS]) then
       Result.AppendChild(AddNode(tcDe2, '#250', 'vTotDFe', 1, 15, 1,
                                                  CTe.Imp.vTotDFe, DSC_VTOTDFE));
-  end;
+  end
+  else
+  // Sem o grupo IBSCBS o vTotDFe continua sendo aceito pelo schema (0-1) e
+  // a SEFAZ compara o vRec com ele (rejeicao 531 quando nao informado)
+  if (VersaoDF >= ve400) and (ModeloDF in [moCTe, moCTeOS]) then
+    Result.AppendChild(AddNode(tcDe2, '#250', 'vTotDFe', 1, 15, 0,
+                                                 CTe.Imp.vTotDFe, DSC_VTOTDFE));
 end;
 
 function TCTeXmlWriter.Gerar_ICMS: TACBrXmlNode;

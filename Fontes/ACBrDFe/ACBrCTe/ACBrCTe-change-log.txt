@@ -45,6 +45,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 12/11/2026
+-- ACBrCTe.XmlWriter --
+[*] ACBR-10208 - Alteração visando gerar a tag vTotDFe mesmo com a ausência do grupo
+    IBSCBS.
+   Por: Paulo Alexandre Hostert
 -- ACBrCTe.IniWriter/ACBrCTe.XmlWriter --
 [*] Alterações visando gerar a tag tpRegimeIBSCBS se for CTe Simpl, CTe e CTe OS.
    Por: Italo Giurizzato Junior
