@@ -233,7 +233,7 @@ procedure TDFeRTCIniWriter.Gerar_IBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBS; I
 var
   sSecao: string;
 begin
-  if (IBSCBS.gIBSCBS.vBC > 0) then
+  if (IBSCBS.CST <> cstNenhum) and (IBSCBS.cClassTrib <> '') then
   begin
     if Idx1 = -1 then
       sSecao := 'IBSCBS'
@@ -271,18 +271,22 @@ begin
       mdfNFGas:
         Gerar_IBSCBSNFGas(AINIRec, IBSCBS, Idx1, Idx2);
     end;
-  end;
 
-  if (IBSCBS.gEstornoCred.vIBSEstCred > 0) or (IBSCBS.gEstornoCred.vCBSEstCred > 0) or
-     ((ModelosDFe = mdfNFe) and (tpNFDebito = tdPerdaEmEstoque)) then
-    Gerar_gEstornoCred(AINIRec, IBSCBS.gEstornoCred, Idx1, Idx2);
+    if ModelosDFe in [mdfBPe, mdfBPeTM, mdfBPeTA, mdfCTe, mdfCTeOS, mdfCTeSimp,
+                      mdfGTVe, mdfNFAg, mdfNFCom, mdfNFe, mdfNFCe] then
+      Gerar_gTribSN(AINIRec, IBSCBS.gTribSN, Idx1, Idx2);
 
-  if ModelosDFe = mdfNFe then
-  begin
-    if (IBSCBS.gCredPresOper.cCredPres <> cpNenhum) then
-      Gerar_gCredPresOper(AINIRec, IBSCBS.gCredPresOper, Idx1)
-    else if (IBSCBS.gCredPresIBSZFM.tpCredPresIBSZFM <> tcpNenhum) then
-      Gerar_gCredPresIBSZFM(AINIRec, IBSCBS.gCredPresIBSZFM, Idx1);
+    if (IBSCBS.gEstornoCred.vIBSEstCred > 0) or (IBSCBS.gEstornoCred.vCBSEstCred > 0) or
+       ((ModelosDFe = mdfNFe) and (tpNFDebito = tdPerdaEmEstoque)) then
+      Gerar_gEstornoCred(AINIRec, IBSCBS.gEstornoCred, Idx1, Idx2);
+
+    if ModelosDFe = mdfNFe then
+    begin
+      if (IBSCBS.gCredPresOper.cCredPres <> cpNenhum) then
+        Gerar_gCredPresOper(AINIRec, IBSCBS.gCredPresOper, Idx1)
+      else if (IBSCBS.gCredPresIBSZFM.tpCredPresIBSZFM <> tcpNenhum) then
+        Gerar_gCredPresIBSZFM(AINIRec, IBSCBS.gCredPresIBSZFM, Idx1);
+    end;
   end;
 end;
 
@@ -302,8 +306,6 @@ begin
       if IBSCBS.CST in [cst000, cst200, cst222] then
         Gerar_gIBSCBS(AINIRec, IBSCBS.gIBSCBS, Idx1, Idx2);
   end;
-
-  Gerar_gTribSN(AINIRec, IBSCBS.gTribSN, Idx1, Idx2);
 end;
 
 procedure TDFeRTCIniWriter.Gerar_IBSCBSCTe(AINIRec: TMemIniFile;
@@ -322,8 +324,6 @@ begin
       if IBSCBS.CST in [cst000, cst200, cst222] then
         Gerar_gIBSCBS(AINIRec, IBSCBS.gIBSCBS, Idx1, Idx2);
   end;
-
-  Gerar_gTribSN(AINIRec, IBSCBS.gTribSN, Idx1, Idx2);
 end;
 
 procedure TDFeRTCIniWriter.Gerar_IBSCBSNF3e(AINIRec: TMemIniFile;
@@ -338,8 +338,6 @@ procedure TDFeRTCIniWriter.Gerar_IBSCBSNFAg(AINIRec: TMemIniFile;
 begin
   if IBSCBS.CST = cst000 then
     Gerar_gIBSCBS(AINIRec, IBSCBS.gIBSCBS, Idx1, Idx2);
-
-  Gerar_gTribSN(AINIRec, IBSCBS.gTribSN, Idx1, Idx2);
 end;
 
 procedure TDFeRTCIniWriter.Gerar_IBSCBSNFCom(AINIRec: TMemIniFile;
@@ -347,8 +345,6 @@ procedure TDFeRTCIniWriter.Gerar_IBSCBSNFCom(AINIRec: TMemIniFile;
 begin
   if IBSCBS.CST in [cst000, cst200] then
     Gerar_gIBSCBS(AINIRec, IBSCBS.gIBSCBS, Idx1, Idx2);
-
-  Gerar_gTribSN(AINIRec, IBSCBS.gTribSN, Idx1, Idx2);
 end;
 
 procedure TDFeRTCIniWriter.Gerar_IBSCBSNFe(AINIRec: TMemIniFile;

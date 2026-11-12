@@ -295,6 +295,10 @@ begin
       Result.AppendChild(nil);
     end;
 
+    if ModelosDFe in [mdfBPe, mdfBPeTM, mdfBPeTA, mdfCTe, mdfCTeOS, mdfCTeSimp,
+                      mdfGTVe, mdfNFAg, mdfNFCom, mdfNFe, mdfNFCe] then
+      Result.AppendChild(Gerar_gTribSN(IBSCBS.gTribSN));
+
     if (IBSCBS.gEstornoCred.vIBSEstCred > 0) or (IBSCBS.gEstornoCred.vCBSEstCred > 0) or
        ((ModelosDFe = mdfNFe) and (tpNFDebito = tdPerdaEmEstoque)) then
       Result.AppendChild(Gerar_gEstornoCred(IBSCBS.gEstornoCred));
@@ -326,8 +330,6 @@ begin
       if IBSCBS.CST in [cst000, cst200, cst222] then
         Result := Gerar_gIBSCBS(IBSCBS.gIBSCBS);
   end;
-
-  Result.AppendChild(Gerar_gTribSN(IBSCBS.gTribSN));
 end;
 
 function TDFeRTCXmlWriter.Gerar_IBSCBSCTe(IBSCBS: TIBSCBS): TACBrXmlNode;
@@ -347,8 +349,6 @@ begin
       if IBSCBS.CST in [cst000, cst200, cst222] then
         Result := Gerar_gIBSCBS(IBSCBS.gIBSCBS);
   end;
-
-  Result.AppendChild(Gerar_gTribSN(IBSCBS.gTribSN));
 end;
 
 function TDFeRTCXmlWriter.Gerar_IBSCBSNF3e(IBSCBS: TIBSCBS): TACBrXmlNode;
@@ -365,8 +365,6 @@ begin
 
   if IBSCBS.CST = cst000 then
     Result := Gerar_gIBSCBS(IBSCBS.gIBSCBS);
-
-  Result.AppendChild(Gerar_gTribSN(IBSCBS.gTribSN));
 end;
 
 function TDFeRTCXmlWriter.Gerar_IBSCBSNFCom(IBSCBS: TIBSCBS): TACBrXmlNode;
@@ -375,8 +373,6 @@ begin
 
   if IBSCBS.CST in [cst000, cst200] then
     Result := Gerar_gIBSCBS(IBSCBS.gIBSCBS);
-
-  Result.AppendChild(Gerar_gTribSN(IBSCBS.gTribSN));
 end;
 
 function TDFeRTCXmlWriter.Gerar_IBSCBSNFe(IBSCBS: TIBSCBS): TACBrXmlNode;
