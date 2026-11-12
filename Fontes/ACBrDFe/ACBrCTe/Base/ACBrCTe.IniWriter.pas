@@ -528,7 +528,9 @@ begin
   AINIRec.WriteString('emit', 'xFant', Emit.xFant);
   AINIRec.WriteString('emit', 'CRT', CRTCTeToStr(Emit.CRT));
   AINIRec.WriteString('emit', 'ISUFEmit', Emit.ISUFEmit);
-  AINIRec.WriteString('emit', 'tpRegimeIBSCBS', tpRegimeIBSCBSToStr(Emit.tpRegimeIBSCBS));
+
+  if ModeloDF in [moCTeSimp, moCTe, moCTeOS] then
+    AINIRec.WriteString('emit', 'tpRegimeIBSCBS', tpRegimeIBSCBSToStr(Emit.tpRegimeIBSCBS));
 
   AINIRec.WriteString('emit', 'xLgr', Emit.enderEmit.xLgr);
   AINIRec.WriteString('emit', 'nro', Emit.enderEmit.nro);

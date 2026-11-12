@@ -1006,7 +1006,8 @@ begin
   Result.AppendChild(AddNode(tcStr, '#104', 'ISUFEmit', 8, 9, 0,
                                               CTe.Emit.ISUFEmit, DSC_ISUFEMIT));
 
-  Result.AppendChild(AddNode(tcStr, '#104', 'tpRegimeIBSCBS', 1, 1, 0,
+  if ModeloDF in [moCTeSimp, moCTe, moCTeOS] then
+    Result.AppendChild(AddNode(tcStr, '#104', 'tpRegimeIBSCBS', 1, 1, 0,
              tpRegimeIBSCBSToStr(CTe.Emit.tpRegimeIBSCBS), DSC_TPREGIMEIBSCBS));
 end;
 
