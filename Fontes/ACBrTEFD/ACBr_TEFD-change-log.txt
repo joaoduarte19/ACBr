@@ -45,6 +45,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+12/11/2026
+-- ACBrTEFDestaxaComum --
+[*] Coleta de Data do Extrato: Adicionada a função AutomacaoColetarDataExtrato para solicitar a data do extrato ao operador por meio do evento fOnColetarInformacao (configurado com o tipo dctDataHora e máscara dd/MM/yyyy).
+[*] Parâmetro de Período na Requisição: Implementado o tratamento para a transação administrativa CDESTAXA_ADM_EXTRATO_TRANSACAO, validando o retorno da data e enviando-a no campo transacao_periodo da requisição.
+  Modificações e Remoções (ACBrTEFDestaxaComum.pas)
+[*] Ajuste no Processo de Coleta: Removida a atribuição automática do tipo de coleta dctPeriodo para a transação de extrato (CDESTAXA_ADM_EXTRATO_TRANSACAO) dentro do método ProcessarColeta.
+
+
 04/11/2026
 -- ACBrTEFSmartTEFSchemas --
 [+] Novas classes para Formulários: TACBrSmartTEFFormRequest,
