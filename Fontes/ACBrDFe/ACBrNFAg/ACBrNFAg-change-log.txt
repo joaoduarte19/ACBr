@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+12/10/2026
+-- ACBrNFAgNotasFiscais/ACBrNFAg.XmlReader --
+[-] ACBr-10124: Correções visando realizar a leitura do XML.
+   Por: Leandro Vignoto
+
 06/10/2026
 -- Diversos --
 [*] ACBr-9955: Alterações visando atender a NT 2026/004 versão 1.00

@@ -888,7 +888,10 @@ begin
   N := PosNFAg;
   while N > 0 do
   begin
-    P := Pos('</NFAgProc>', XMLStr);
+    P := Pos('</nfagProc>', XMLStr);
+
+    if P <= 0 then
+      P := Pos('</NFAgProc>', XMLStr);
 
     if P <= 0 then
       P := Pos('</procNFAg>', XMLStr);  // NFAg obtida pelo Portal da Receita

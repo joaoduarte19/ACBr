@@ -143,7 +143,7 @@ begin
   Document.Clear();
   Document.LoadFromXml(Arquivo);
 
-  if Document.Root.Name = 'NFAgProc' then
+  if Document.Root.Name = 'nfagProc' then
   begin
     Ler_ProtNFAg(Document.Root.Childrens.Find('protNFAg'));
     NFAgNode := Document.Root.Childrens.Find('NFAg');
@@ -788,7 +788,7 @@ procedure TNFAgXmlReader.Ler_gQualiAgua(const ANode: TACBrXmlNode;
 var
   xData: string;
   ANodes: TACBrXmlNodeArray;
-  i: Integer;
+  i, mes: Integer;
 begin
   if not Assigned(ANode) then
     Exit;
@@ -797,8 +797,17 @@ begin
 
   if xData <> '' then
   begin
-    xData := '01/' + Copy(xData, 5, 2) + '/' + Copy(xData, 1, 4);
-    gQualiAgua.CompetAnalise := StrToDate(xData);
+    { Conforme consta no Manual a tag contem AAAAMM, mas o portal esta retornando
+      MMAAAA
+    }
+    mes := StrToInt(Copy(xData, 1, 2));
+
+    if (mes >= 1) and (mes <= 12) then
+      xData := '01/' + Copy(xData, 1, 2) + '/' + Copy(xData, 3, 4)
+    else
+      xData := '01/' + Copy(xData, 5, 2) + '/' + Copy(xData, 1, 4);
+
+    gQualiAgua.CompetAnalise := StrToDateDef(xData,0);
   end
   else
     gQualiAgua.CompetAnalise := 0;
