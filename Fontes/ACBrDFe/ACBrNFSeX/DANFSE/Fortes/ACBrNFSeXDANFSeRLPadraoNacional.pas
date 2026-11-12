@@ -747,8 +747,8 @@ procedure TfrlXDANFSeRLPadraoNacional.rlbBanda10_TributacaoMunicipalBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
 var
   LvDedRed: Double;
+  LtpBM: string;
   i: Integer;
-  xUF: string;
 begin
   inherited;
 
@@ -868,15 +868,25 @@ begin
     rllRegimeEspecial.Caption := ACBrStr('Nenhum');
   end;
 
-  if fpNFSe.Servico.Valores.tribMun.nBM <> '' then
-    rllBeneficioMunic.Caption := fpNFSe.Servico.Valores.tribMun.nBM
+  LtpBM := Trim(fpNFSe.infNFSe.valores.tpBM);
+  if LtpBM = '' then
+    LtpBM := tpBMToStr(fpNFSe.Servico.Valores.tribMun.tpBM);
+
+  if LtpBM = '1' then
+    rllBeneficioMunic.Caption := ACBrStr('Isenção')
+  else if LtpBM = '2' then
+    rllBeneficioMunic.Caption := ACBrStr('Redução da BC (em porcentagem)')
+  else if LtpBM = '3' then
+    rllBeneficioMunic.Caption := ACBrStr('Redução da BC (em valor)')
+  else if LtpBM = '4' then
+    rllBeneficioMunic.Caption := ACBrStr('Alíquota Diferenciada')
   else
     rllBeneficioMunic.Caption := '-';
 
   if fpNFSe.infNFSe.Valores.vCalcBM > 0 then
     rllCalculoBM.Caption := 'R$ ' + FormatFloatBr(fpNFSe.infNFSe.Valores.vCalcBM)
   else
-    rllValorISSQNApurado.Caption := '-';
+    rllCalculoBM.Caption := '-';
 
   if fpNFSe.infNFSe.Valores.ValorIss > 0 then
     rllValorISSQNApurado.Caption := 'R$ ' + FormatFloatBr(fpNFSe.infNFSe.Valores.ValorIss)
