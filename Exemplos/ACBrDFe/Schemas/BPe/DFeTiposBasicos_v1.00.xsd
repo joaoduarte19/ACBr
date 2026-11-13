@@ -264,7 +264,6 @@
 			<xs:element name="cClassTrib" type="TcClassTrib"/>
 			<xs:element name="indDoacao" type="TIndDoacao" minOccurs="0"/>
 			<xs:element name="gIBSCBS" type="TCIBS" minOccurs="0"/>
-			<xs:element name="gTribSN" type="TTribSN" minOccurs="0"/>
 			<xs:element name="gEstornoCred" type="TEstornoCred" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Informado conforme indicador no cClassTrib</xs:documentation>
