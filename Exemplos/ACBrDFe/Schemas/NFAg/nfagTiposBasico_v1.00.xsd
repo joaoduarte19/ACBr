@@ -352,9 +352,11 @@ A tabela cClass terá uma flag que sinaliza se o tipo de item é de prestação 
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
-						<xs:element name="ligacao">
+						<xs:element name="ligacao" minOccurs="0">
 							<xs:annotation>
-								<xs:documentation>Dados da Ligação</xs:documentation>
+								<xs:documentation>Dados da Ligação
+
+Opcional para Faturamento = 5 (Agregador)</xs:documentation>
 							</xs:annotation>
 							<xs:complexType>
 								<xs:sequence>
@@ -519,7 +521,6 @@ Vedado para tpFat 1 e 2</xs:documentation>
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
-						<xs:choice/>
 						<xs:element name="det" maxOccurs="990">
 							<xs:annotation>
 								<xs:documentation>Detalhamento de Produtos e Serviços </xs:documentation>
@@ -761,7 +762,6 @@ Obrigatoriamente > 1.
 														<xs:element name="vProd" type="TDec_1302_1310">
 															<xs:annotation>
 																<xs:documentation>Valor total do item</xs:documentation>
-																<xs:documentation>Observação: A partir 2027, os valores de IBS e CBS compõem o Valor Total do Item </xs:documentation>
 															</xs:annotation>
 														</xs:element>
 														<xs:sequence minOccurs="0">
@@ -1267,7 +1267,7 @@ TAG OPCIONAL, DEVE SER INFORMADA APENAS NOS CASOS PREVISTOS DE NOTA ANTERIOR REF
 									</xs:element>
 									<xs:element name="vTotDFe" type="TDec_1302">
 										<xs:annotation>
-											<xs:documentation>Valor total do documento fiscal (vNF) 
+											<xs:documentation>Valor total do documento fiscal (vNF + IBS + CBS) 
 </xs:documentation>
 										</xs:annotation>
 									</xs:element>
@@ -1427,7 +1427,7 @@ Não obrigatória, conforme item 2.3.2 da Seção 11.1 do Módulo 11 do PRODIST.
 							<xs:annotation>
 								<xs:documentation>Grupo de informações da Agência reguladora
 
-Opcional para tpFat=5</xs:documentation>
+VEDADO para tpFat=5</xs:documentation>
 							</xs:annotation>
 							<xs:complexType>
 								<xs:sequence>
