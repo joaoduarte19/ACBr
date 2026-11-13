@@ -308,6 +308,8 @@ type
     FvMedAtu: Double;
     FtpEqp: TtpEqp;
     FtpMedidor: TtpMedidor;
+    FdMedProx: TDateTime;
+    FdescPontoCons: string;
   public
     procedure Assign(Source: TgMedCollectionItem);
 
@@ -319,6 +321,8 @@ type
     property vMedAtu: Double read FvMedAtu write FvMedAtu;
     property tpEqp: TtpEqp read FtpEqp write FtpEqp;
     property tpMedidor: TtpMedidor read FtpMedidor write FtpMedidor;
+    property dMedProx: TDateTime read FdMedProx write FdMedProx;
+    property descPontoCons: string read FdescPontoCons write FdescPontoCons;
   end;
 
   { TgMedCollection }
@@ -485,6 +489,7 @@ type
     FpRedBCST: Double;
     FvBCFCPST: Double;
     FindDeduzDeson: TIndicadorEx;
+    FvICMSPrevisto: Double;
   public
     procedure Assign(Source: TICMS);
 
@@ -522,6 +527,7 @@ type
     property pRedBCST: Double read FpRedBCST write FpRedBCST;
     property vBCFCPST: Double read FvBCFCPST write FvBCFCPST;
     property indDeduzDeson: TIndicadorEx read FindDeduzDeson write FindDeduzDeson default tieNenhum;
+    property vICMSPrevisto: Double read FvICMSPrevisto write FvICMSPrevisto;
   end;
 
   { TPIS }
@@ -1361,6 +1367,8 @@ begin
   vMedAtu := Source.vMedAtu;
   tpEqp := Source.tpEqp;
   tpMedidor := Source.tpMedidor;
+  dMedProx := Source.dMedProx;
+  descPontoCons := Source.descPontoCons;
 end;
 
 { TDetCollection }
@@ -1628,8 +1636,7 @@ begin
   pRedBCST := Source.pRedBCST;
   vBCFCPST := Source.vBCFCPST;
   indDeduzDeson := Source.indDeduzDeson;
-
-
+  vICMSPrevisto := Source.vICMSPrevisto;
 end;
 
 { TPIS }

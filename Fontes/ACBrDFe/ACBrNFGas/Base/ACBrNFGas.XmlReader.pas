@@ -457,8 +457,10 @@ begin
   Item.vMedAnt := ObterConteudo(ANode.Childrens.FindAnyNs('vMedAnt'), tcDe4);
   Item.dMedAtu := ObterConteudo(ANode.Childrens.FindAnyNs('dMedAtu'), tcDat);
   Item.vMedAtu := ObterConteudo(ANode.Childrens.FindAnyNs('vMedAtu'), tcDe4);
+  Item.dMedProx := ObterConteudo(ANode.Childrens.FindAnyNs('dMedProx'), tcDat);
   Item.tpEqp := StrTotpEqp(ObterConteudo(ANode.Childrens.FindAnyNs('tpEqp'), tcStr));
   Item.tpMedidor := StrTotpMedidor(ObterConteudo(ANode.Childrens.FindAnyNs('tpMedidor'), tcStr));
+  Item.descPontoCons := ObterConteudo(ANode.Childrens.FindAnyNs('descPontoCons'), tcStr);
 end;
 
 procedure TNFGasXmlReader.Ler_Det(const ANode: TACBrXmlNode);
@@ -617,6 +619,7 @@ begin
   if not Assigned(ICMSNode) then ICMSNode := ANode.Childrens.FindAnyNs('ICMS60');
   if not Assigned(ICMSNode) then ICMSNode := ANode.Childrens.FindAnyNs('ICMS70');
   if not Assigned(ICMSNode) then ICMSNode := ANode.Childrens.FindAnyNs('ICMS90');
+  if not Assigned(ICMSNode) then ICMSNode := ANode.Childrens.FindAnyNs('gICMSPrevistoPagtoAntecip');
 
   if not Assigned(ICMSNode) then
     Exit;
@@ -654,6 +657,7 @@ begin
   ICMS.vICMSEfet := ObterConteudo(ICMSNode.Childrens.FindAnyNs('vICMSEfet'), tcDe2);
   ICMS.pFCP := ObterConteudo(ICMSNode.Childrens.FindAnyNs('pFCP'), tcDe4);
   ICMS.vFCP := ObterConteudo(ICMSNode.Childrens.FindAnyNs('vFCP'), tcDe2);
+  ICMS.vICMSPrevisto := ObterConteudo(ICMSNode.Childrens.FindAnyNs('vICMSPrevisto'), tcDe2);
 
   Lvalor := ObterConteudo(ANode.Childrens.FindAnyNs('indSemCST'), tcStr);
 

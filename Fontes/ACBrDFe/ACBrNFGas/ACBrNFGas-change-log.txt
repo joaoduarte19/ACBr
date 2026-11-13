@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+13/10/2026
+-- Diversos --
+[*] ACBr-10172: Alterações visando atender a NT 2026/004 versão 1.01
+   Por: Italo Giurizzato Junior
+
 07/10/2026
 -- Diversos --
 [*] ACBr-9957: Alterações visando atender a NT 2026/004 versão 1.00

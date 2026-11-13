@@ -331,8 +331,10 @@ begin
     AINIRec.WriteFloat(Secao, 'vMedAnt', gMed[Index].vMedAnt);
     AINIRec.WriteString(Secao, 'dMedAtu', DateTimeToIni(gMed[Index].dMedAtu));
     AINIRec.WriteFloat(Secao, 'vMedAtu', gMed[Index].vMedAtu);
+    AINIRec.WriteString(Secao, 'dMedProx', DateTimeToIni(gMed[Index].dMedProx));
     AINIRec.WriteString(Secao, 'tpEqp', tpEqpToStr(gMed[Index].tpEqp));
     AINIRec.WriteString(Secao, 'tpMedidor', tpMedidorToStr(gMed[Index].tpMedidor));
+    AINIRec.WriteString(Secao, 'descPontoCons', gMed[Index].descPontoCons);
   end;
 end;
 
@@ -506,6 +508,7 @@ begin
   AINIRec.WriteFloat(Secao, 'vICMSEfet', ICMS.vICMSEfet);
   AINIRec.WriteFloat(Secao, 'pFCP', ICMS.pFCP);
   AINIRec.WriteFloat(Secao, 'vFCP', ICMS.vFCP);
+  AINIRec.WriteFloat(Secao, 'vICMSPrevisto', ICMS.vICMSPrevisto);
 end;
 
 procedure TNFGasIniWriter.Gerar_PIS(AINIRec: TMemIniFile; PIS: TPIS; Index: Integer);
