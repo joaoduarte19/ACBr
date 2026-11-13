@@ -63,6 +63,7 @@ const
   CxMCITeste = 'xMCITeste';
 
   CBancoConsulta = 'BancoConsulta';
+  CChaveAPIVersao = 'APIVersao';
 
 implementation
 

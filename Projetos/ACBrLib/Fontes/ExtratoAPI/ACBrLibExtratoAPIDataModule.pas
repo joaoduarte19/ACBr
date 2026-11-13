@@ -76,6 +76,7 @@ begin
   ACBrExtratoAPI1.LogArquivo := LLibExtratoAPIConfig.ExtratoAPIConfig.ArqLog;
   ACBrExtratoAPI1.LogNivel := LLibExtratoAPIConfig.ExtratoAPIConfig.NivelLog;
   ACBrExtratoAPI1.BancoConsulta := LLibExtratoAPIConfig.ExtratoAPIConfig.BancoConsulta;
+  ACBrExtratoAPI1.Banco.APIVersao := LLibExtratoAPIConfig.ExtratoAPIConfig.APIVersao;
 
   case ACBrExtratoAPI1.BancoConsulta of
     bccBancoDoBrasil: AplicarConfiguracoesBB(TACBrExtratoAPIBB(ACBrExtratoAPI1.Banco), LLibExtratoAPIConfig);

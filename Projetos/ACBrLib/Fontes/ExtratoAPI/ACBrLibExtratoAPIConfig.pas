@@ -110,6 +110,7 @@ type
     FArqLOG: String;
     FNivelLog: Byte;
     FBancoConsulta: TACBrExtratoAPIBancoConsulta;
+    FAPIVersao: TACBrExtratoAPIVersao;
   public
     constructor Create;
     destructor Destroy; override;
@@ -121,6 +122,7 @@ type
     property ArqLog: String read FArqLOG write FArqLOG;
     property NivelLog: Byte read FNivelLog write FNivelLog;
     property BancoConsulta: TACBrExtratoAPIBancoConsulta read FBancoConsulta write FBancoConsulta;
+    property APIVersao: TACBrExtratoAPIVersao read FAPIVersao write FAPIVersao;
   end;
 
   { TLibExtratoAPIConfig }
@@ -364,6 +366,7 @@ begin
   FArqLOG := '';
   FNivelLog := 1;
   FBancoConsulta := bccNenhum;
+  FAPIVersao := exvPadrao;
 end;
 
 destructor TExtratoAPIConfig.Destroy;
@@ -381,6 +384,9 @@ begin
   LRetorno := AIni.ReadInteger(CSessaoExtratoAPIConfig, CBancoConsulta, Integer(BancoConsulta));
   if ((LRetorno >= 0) and (LRetorno <= Integer(High(TACBrExtratoAPIBancoConsulta)))) then
     BancoConsulta := TACBrExtratoAPIBancoConsulta(LRetorno);
+  LRetorno := AIni.ReadInteger(CSessaoExtratoAPIConfig, CChaveAPIVersao, Integer(APIVersao));
+  if ((LRetorno >= 0) and (LRetorno <= Integer(High(TACBrExtratoAPIVersao)))) then
+    APIVersao := TACBrExtratoAPIVersao(LRetorno);
 end;
 
 procedure TExtratoAPIConfig.GravarIni(const AIni: TCustomIniFile);
@@ -389,6 +395,7 @@ begin
   AIni.WriteString(CSessaoExtratoAPIConfig, CChaveArqLogExtratoAPI, ArqLog);
   AIni.WriteInteger(CSessaoExtratoAPIConfig, CChaveNivelLog, NivelLog);
   AIni.WriteInteger(CSessaoExtratoAPIConfig, CBancoConsulta, Integer(BancoConsulta));
+  AIni.WriteInteger(CSessaoExtratoAPIConfig, CChaveAPIVersao, Integer(APIVersao));
 end;
 
 end.
