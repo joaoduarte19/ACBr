@@ -144,11 +144,12 @@ const
   TuMedArrayStrings: array[TuMed] of string = ('1', '2', '3', '4');
 
 type
-  TCSTIcms = (cst00, cst20, cst40, cst41, cst51, cst90, cstICMSSN);
+  TCSTIcms = (cst00, cst20, cst40, cst41, cst51, cst90, cstICMSSN,
+              cstICMSPrevisto);
 
 const
   TCSTIcmsArrayStrings: array[TCSTIcms] of string = ('00', '20', '40', '41', '51',
-    '90', 'SN');
+    '90', 'SN', 'IS');
 
 type
   TCSTPis = (pis01, pis02, pis06, pis07, pis08, pis09, pis49);

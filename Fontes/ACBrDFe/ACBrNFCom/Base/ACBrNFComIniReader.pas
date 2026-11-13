@@ -185,6 +185,7 @@ begin
   Emit.xNome := AINIRec.ReadString(sSecao, 'xNome', '');
   Emit.xFant := AINIRec.ReadString(sSecao, 'xFant', '');
   Emit.ISUFEmit := AINIRec.ReadString('emit','ISUFEmit', '');
+  Emit.tpRegimeIBSCBS   := StrTotpRegimeIBSCBS(AINIRec.ReadString('emit', 'tpRegimeIBSCBS', ''));
   // Endereço do Emitente
   Emit.EnderEmit.xLgr := AINIRec.ReadString(sSecao, 'xLgr', '');
   Emit.EnderEmit.nro := AINIRec.ReadString(sSecao, 'nro', '');
@@ -373,6 +374,7 @@ begin
     Imposto.ICMS.pRedBC := StringToFloatDef(AINIRec.ReadString(sSecao, 'pRedBC', ''), 0);
     Imposto.ICMS.vICMSDeson := StringToFloatDef(AINIRec.ReadString(sSecao, 'vICMSDeson', ''), 0);
     Imposto.ICMS.cBenef := AINIRec.ReadString(sSecao,'cBenef', '');
+    Imposto.ICMS.vICMSPrevisto := StringToFloatDef(AINIRec.ReadString(sSecao, 'vICMSPrevisto', ''), 0);
   end;
 end;
 

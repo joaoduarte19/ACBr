@@ -195,6 +195,7 @@ begin
   AINIRec.WriteString(sSecao, 'xNome', Emit.xNome);
   AINIRec.WriteString(sSecao, 'xFant', Emit.xFant);
   AINIRec.WriteString(sSecao, 'ISUFEmit', Emit.ISUFEmit);
+  AINIRec.WriteString('emit', 'tpRegimeIBSCBS', tpRegimeIBSCBSToStr(Emit.tpRegimeIBSCBS));
   // Endereço do Emitente
   AINIRec.WriteString(sSecao, 'xLgr', Emit.EnderEmit.xLgr);
   AINIRec.WriteString(sSecao, 'nro', Emit.EnderEmit.nro);
@@ -364,6 +365,7 @@ begin
   AINIRec.WriteFloat(sSecao, 'pRedBC', Imposto.ICMS.pRedBC);
   AINIRec.WriteFloat(sSecao, 'vICMSDeson', Imposto.ICMS.vICMSDeson);
   AINIRec.WriteString(sSecao, 'cBenef', Imposto.ICMS.cBenef);
+  AINIRec.WriteFloat(sSecao, 'vICMSPrevisto', Imposto.ICMS.vICMSPrevisto);
 end;
 
 procedure TNFComIniWriter.Gerar_ICMSUFDest(AINIRec: TMemIniFile;

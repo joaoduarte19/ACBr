@@ -164,6 +164,7 @@ type
     FxFant: string;
     FenderEmit: TEndereco;
     FISUFEmit: string;
+    FtpRegimeIBSCBS: TtpRegimeIBSCBS;
   public
     constructor Create;
     destructor Destroy; override;
@@ -178,6 +179,7 @@ type
     property xFant: string read FxFant write FxFant;
     property EnderEmit: TEndereco read FEnderEmit write FEnderEmit;
     property ISUFEmit: string read FISUFEmit write FISUFEmit;
+    property tpRegimeIBSCBS: TtpRegimeIBSCBS read FtpRegimeIBSCBS write FtpRegimeIBSCBS;
   end;
 
   { TDest }
@@ -379,6 +381,7 @@ type
     FvICMSDeson: Double;
     FcBenef: string;
     FindSN: TIndicador;
+    FvICMSPrevisto: Double;
   public
     procedure Assign(Source: TICMS);
 
@@ -392,6 +395,7 @@ type
     property vICMSDeson: Double read FvICMSDeson write FvICMSDeson;
     property cBenef: string read FcBenef write FcBenef;
     property indSN: TIndicador read FindSN write FindSN;
+    property vICMSPrevisto: Double read FvICMSPrevisto write FvICMSPrevisto;
   end;
 
    { TICMSUFDestCollectionItem }
@@ -940,6 +944,7 @@ begin
   vICMSDeson := Source.vICMSDeson;
   cBenef := Source.cBenef;
   indSN := Source.indSN;
+  vICMSPrevisto := Source.vICMSPrevisto;
 end;
 
 { TPIS }
@@ -1261,6 +1266,7 @@ begin
   xNome := Source.xNome;
   xFant := Source.xFant;
   ISUFEmit := Source.ISUFEmit;
+  tpRegimeIBSCBS := Source.tpRegimeIBSCBS;
 
   EnderEmit.Assign(Source.EnderEmit);
 end;

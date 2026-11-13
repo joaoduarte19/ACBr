@@ -485,6 +485,9 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#104', 'ISUFEmit', 8, 9, 0,
                                             NFCom.Emit.ISUFEmit, DSC_ISUFEMIT));
+
+  Result.AppendChild(AddNode(tcStr, '#104', 'tpRegimeIBSCBS', 1, 1, 0,
+           tpRegimeIBSCBSToStr(NFCom.Emit.tpRegimeIBSCBS), DSC_TPREGIMEIBSCBS));
 end;
 
 function TNFComXmlWriter.Gerar_EmitEnderEmit: TACBrXmlNode;
@@ -905,6 +908,7 @@ function TNFComXmlWriter.Gerar_det_imposto_ICMS(aDet: Integer): TACBrXmlNode;
       cst41: result := '40';
       cst51: result := '51';
       cst90: result := '90';
+      cstICMSPrevisto: Result := 'IP';
     else
       Result := 'SN';
     end;
@@ -922,9 +926,16 @@ begin
     if sCST = 'SN' then
       sCST := '90';
 
-    Result := FDocument.CreateElement('ICMS' + sTagTemp);
+    if sTagTemp <> 'IP' then
+    begin
+      Result := FDocument.CreateElement('ICMS' + sTagTemp);
 
-    Result.AppendChild(AddNode(tcStr, '#174', 'CST', 2, 2, 1, sCST, DSC_CST));
+      Result.AppendChild(AddNode(tcStr, '#174', 'CST', 2, 2, 1,
+                                                   CSTICMSTOStr(CST), DSC_CST));
+
+    end
+    else
+      Result := Result.AddChild('ICMSPrevistoPagtoAntecip');
 
     case CST of
       cst00:
@@ -1018,6 +1029,9 @@ begin
                                                              vICMS, DSC_VICMS));
         end;
 
+      cstICMSPrevisto:
+        Result.AppendChild(AddNode(tcDe2, 'N31', 'vICMSPrevisto', 01, 15, 1,
+                 vICMSPrevisto, DSC_VICMSPREVISTO));
     else
       begin
         // cstICMSSN

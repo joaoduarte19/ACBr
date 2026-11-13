@@ -271,6 +271,7 @@ begin
   NFCom.Emit.xFant := ObterConteudo(ANode.Childrens.FindAnyNs('xFant'), tcStr);
   NFCom.Emit.CRT:= StrToCRT(ObterConteudo(ANode.Childrens.FindAnyNs('CRT'),tcStr));
   NFCom.Emit.ISUFEmit:= ObterConteudo(ANode.Childrens.Find('ISUFEmit'), tcStr);
+  NFCom.Emit.tpRegimeIBSCBS := StrTotpRegimeIBSCBS(ObterConteudo(ANode.Childrens.Find('tpRegimeIBSCBS'), tcStr));
 
   Ler_EmitEnderEmit(ANode.Childrens.FindAnyNs('enderEmit'));
 end;
@@ -501,6 +502,7 @@ var
     Item.Imposto.ICMS.pRedBC := ObterConteudo(AICMSNode.Childrens.FindAnyNs('pRedBC'), tcDe2);
     Item.Imposto.ICMS.vICMSDeson := ObterConteudo(AICMSNode.Childrens.FindAnyNs('vICMSDeson'), tcDe2);
     Item.Imposto.ICMS.cBenef := ObterConteudo(AICMSNode.Childrens.FindAnyNs('cBenef'), tcStr);
+    Item.Imposto.ICMS.vICMSPrevisto := ObterConteudo(AICMSNode.Childrens.Find('vICMSPrevisto'), tcDe2);
 
     sAux := ObterConteudo(ANode.Childrens.FindAnyNs('indSN'), tcStr);
     Item.Imposto.ICMS.indSN := tiNao;
@@ -524,6 +526,7 @@ begin
     LerICMS(ANode.Childrens.FindAnyNs('ICMS51'));
     LerICMS(ANode.Childrens.FindAnyNs('ICMS90'));
     LerICMS(ANode.Childrens.FindAnyNs('ICMSSN'));
+    LerICMS(ANode.Childrens.FindAnyNs('gICMSPrevistoPagtoAntecip'));
 
     Item.Imposto.ICMSUFDest.Clear;
     ANodes := ANode.Childrens.FindAllAnyNs('ICMSUFDest');
