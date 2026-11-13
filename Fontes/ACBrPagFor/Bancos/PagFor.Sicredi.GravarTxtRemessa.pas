@@ -338,12 +338,12 @@ begin
       if CodigoUG > 0 then
         GravarCampo(CodigoUG, 6, tcInt)
       else
-        GravarCampo(' ', 6, tcStr);
+        GravarCampo('0', 6, tcStrZero);
 
       if CodigoISPB > 0 then
         GravarCampo(CodigoISPB, 8, tcInt)
       else
-        GravarCampo(' ', 8, tcStr);
+        GravarCampo('0', 8, tcStrZero);
 
       ValidarLinha('B');
       IncluirLinha;

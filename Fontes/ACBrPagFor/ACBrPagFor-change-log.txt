@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+13/11/2026
+-- PagFor.Sicredi.GravarTxtRemessa --
+[*] ACBR-10209: Possível solução para gerar corretamente os campos CodigoUG e CodigoISPB.
+  Por: Italo Giurizzato Junior
+
 26/05/2026
 -- Diversos --
 [*] ACBR-9368: Alterações visando o CNPJ Alfa.
