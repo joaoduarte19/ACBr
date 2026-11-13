@@ -667,6 +667,7 @@ begin
   AINIRec.WriteFloat(sSecao, 'vBCEfet', ICMS.vBCEfet);
   AINIRec.WriteFloat(sSecao, 'pICMSEfet', ICMS.pICMSEfet);
   AINIRec.WriteFloat(sSecao, 'vICMSEfet', ICMS.vICMSEfet);
+  AINIRec.WriteFloat(sSecao, 'vICMSPrevisto', ICMS.vICMSPrevisto);
 end;
 
 procedure TNF3eIniWriter.Gerar_PIS(AINIRec: TMemIniFile; PIS: TPIS; Idx1,

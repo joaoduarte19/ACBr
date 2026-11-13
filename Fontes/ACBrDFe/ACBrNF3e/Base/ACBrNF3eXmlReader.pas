@@ -530,6 +530,7 @@ var
     ANodeImposto.ICMS.vBCEfet := ObterConteudo(ANodeNivel5.Childrens.Find('vBCEfet'), tcDe2);
     ANodeImposto.ICMS.pICMSEfet := ObterConteudo(ANodeNivel5.Childrens.Find('pICMSEfet'), tcDe2);
     ANodeImposto.ICMS.vICMSEfet := ObterConteudo(ANodeNivel5.Childrens.Find('vICMSEfet'), tcDe2);
+    ANodeImposto.ICMS.vICMSPrevisto := ObterConteudo(ANodeNivel5.Childrens.Find('vICMSPrevisto'), tcDe2);
   end;
 begin
   Item := NF3e.NFDet.New;
@@ -722,6 +723,7 @@ begin
             LerICMS('ICMS51', detItem.Imposto);
             LerICMS('ICMS60', detItem.Imposto);
             LerICMS('ICMS90', detItem.Imposto);
+            LerICMS('gICMSPrevistoPagtoAntecip', detItem.Imposto);
           end;
 
           ANodeNivel5 := ANodeNivel4.Childrens.Find('PIS');

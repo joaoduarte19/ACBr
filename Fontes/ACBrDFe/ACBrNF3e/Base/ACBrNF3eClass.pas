@@ -538,6 +538,7 @@ type
     FvICMSEfet: Double;
     FvBCEfet: Double;
     FpRedBCEfet: Double;
+    FvICMSPrevisto: Currency;
   public
     procedure Assign(Source: TICMS);
 
@@ -567,6 +568,7 @@ type
     property vBCEfet: Double read FvBCEfet write FvBCEfet;
     property pICMSEfet: Double read FpICMSEfet write FpICMSEfet;
     property vICMSEfet: Double read FvICMSEfet write FvICMSEfet;
+    property vICMSPrevisto: Currency read FvICMSPrevisto write FvICMSPrevisto;
   end;
 
   { TImposto }
@@ -1784,6 +1786,7 @@ begin
   vICMSEfet  := Source.vICMSEfet;
   pICMSSTRet := Source.pICMSSTRet;
   vICMSSubstituto := Source.vICMSSubstituto;
+  vICMSPrevisto := Source.vICMSPrevisto;
 end;
 
 { TImposto }

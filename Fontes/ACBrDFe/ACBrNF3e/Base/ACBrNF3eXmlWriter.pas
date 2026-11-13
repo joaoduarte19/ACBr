@@ -1351,11 +1351,11 @@ begin
   Result.AppendChild(AddNode(tcDe2, '#169', 'vProd', 1, 15, 1,
     NF3e.NFDet[aNFdet].Det[aDet].detItem.Prod.vProd, DSC_VPROD));
 
-  Result.AppendChild(AddNode(tcDe2, '#169', 'vItemLiq', 1, 15, 0,
-    NF3e.NFDet[aNFdet].Det[aDet].detItem.Prod.vItemLiq, DSC_VITEMLIQ));
+  Result.AppendChild(AddNode(tcDe10, '#169', 'vItemLiq', 1, 15, 0,
+             NF3e.NFDet[aNFdet].Det[aDet].detItem.Prod.vItemLiq, DSC_VITEMLIQ));
 
-  Result.AppendChild(AddNode(tcDe2, '#169', 'vProdLiq', 1, 15, 0,
-    NF3e.NFDet[aNFdet].Det[aDet].detItem.Prod.vProdLiq, DSC_VPRODLIQ));
+  Result.AppendChild(AddNode(tcDe10, '#169', 'vProdLiq', 1, 15, 0,
+             NF3e.NFDet[aNFdet].Det[aDet].detItem.Prod.vProdLiq, DSC_VPRODLIQ));
 
   if NF3e.NFDet[aNFdet].Det[aDet].detItem.Prod.indDevolucao = tiSim then
     Result.AppendChild(AddNode(tcStr, '#170', 'indDevolucao', 1, 1, 1, '1', ''));
@@ -1459,6 +1459,7 @@ function TNF3eXmlWriter.Gerar_NFdet_det_DetItem_Imposto_ICMS(aNFdet,
       cst51: result := '51';
       cst60: result := '60';
       cst90: result := '90';
+      cstICMSPrevisto: Result := 'IP';
     end;
   end;
 
@@ -1470,10 +1471,16 @@ begin
   begin
     sTagTemp := BuscaTag(CST);
 
-    Result := FDocument.CreateElement('ICMS' + sTagTemp);
+    if sTagTemp <> 'IP' then
+    begin
+      Result := FDocument.CreateElement('ICMS' + sTagTemp);
 
-    Result.AppendChild(AddNode(tcStr, '#174', 'CST', 2, 2, 1,
+      Result.AppendChild(AddNode(tcStr, '#174', 'CST', 2, 2, 1,
                                                    CSTICMSTOStr(CST), DSC_CST));
+
+    end
+    else
+      Result := Result.AddChild('ICMSPrevistoPagtoAntecip');
 
     case CST of
       cst00:
@@ -1663,6 +1670,10 @@ begin
                                                                vFCP, DSC_VFCP));
           end;
         end;
+
+      cstICMSPrevisto:
+        Result.AppendChild(AddNode(tcDe2, 'N31', 'vICMSPrevisto', 01, 15, 1,
+                 vICMSPrevisto, DSC_VICMSPREVISTO));
     end;
   end;
 end;
@@ -1928,7 +1939,7 @@ begin
     NF3e.Total.vProd, DSC_VPROD));
 
   Result.AppendChild(AddNode(tcDe2, '#254', 'vProdLiq', 1, 15, 0,
-    NF3e.Total.vProdLiq, DSC_VPRODLIQ));
+                                            NF3e.Total.vProdLiq, DSC_VPRODLIQ));
 
   Result.AppendChild(Gerar_TotalICMSTotal);
   Result.AppendChild(Gerar_TotalretTrib);

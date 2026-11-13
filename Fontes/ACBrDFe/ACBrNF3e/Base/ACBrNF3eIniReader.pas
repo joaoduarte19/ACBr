@@ -743,6 +743,7 @@ begin
     ICMS.vBCEfet := StringToFloatDef(AINIRec.ReadString(sSecao, 'vBCEfet', ''), 0);
     ICMS.pICMSEfet := StringToFloatDef(AINIRec.ReadString(sSecao, 'pICMSEfet', ''), 0);
     ICMS.vICMSEfet := StringToFloatDef(AINIRec.ReadString(sSecao, 'vICMSEfet', ''), 0);
+    ICMS.vICMSPrevisto := StringToFloatDef(AINIRec.ReadString(sSecao, 'vICMSPrevisto', ''), 0);
   end;
 end;
 

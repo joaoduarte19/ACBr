@@ -350,11 +350,12 @@ const
     '49 - Outras Operações de Saída');
 
 type
-  TCSTIcms = (cst00, cst10, cst20, cst40, cst41, cst51, cst60, cst90);
+  TCSTIcms = (cst00, cst10, cst20, cst40, cst41, cst51, cst60, cst90,
+              cstICMSPrevisto);
 
 const
   TCSTIcmsArrayStrings: array[TCSTIcms] of string = ('00', '10', '20', '40',
-    '41', '51', '60', '90');
+    '41', '51', '60', '90', 'IS');
   TCSTIcmsDescArrayStrings: array[TCSTIcms] of string = (
     '00 - Tributado Integralmente',
     '10 - Tributada e com cobrança do ICMS por substituição tributária',
@@ -363,7 +364,8 @@ const
     '41 - ICMS não Tributado',
     '51 - Diferimento',
     '60 - ICMS cobrado anteriormente por substituição tributária',
-    '90 - ICMS Outros');
+    '90 - ICMS Outros',
+    'IS - gICMSPrevistoPagtoAntecip');
 
 type
   TindIEDest = (inContribuinte, inIsento, inNaoContribuinte);

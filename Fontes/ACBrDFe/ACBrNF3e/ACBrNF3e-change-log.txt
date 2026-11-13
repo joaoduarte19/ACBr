@@ -41,6 +41,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+13/10/2026
+-- Diversos --
+[*] ACBr-10169: Alterações visando atender a NT 2026/004 versão 1.01
+   Por: Italo Giurizzato Junior
+
 20/10/2026
 -- ACBrNF3e.DANF3ERLRetrato --
 [*] ACBr-9471: Ajustes para alfanumericos
