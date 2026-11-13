@@ -621,25 +621,30 @@ end;
 
 function TNFAgXmlWriter.GerarLigacao: TACBrXmlNode;
 begin
-  Result := FDocument.CreateElement('ligacao');
+  Result := nil;
 
-  Result.AppendChild(AddNode(tcStr, '#57', 'idLigacao', 1, 20, 1,
+  if NFAg.ligacao.idLigacao <> '' then
+  begin
+    Result := FDocument.CreateElement('ligacao');
+
+    Result.AppendChild(AddNode(tcStr, '#57', 'idLigacao', 1, 20, 1,
                                         NFAg.ligacao.idLigacao, DSC_IDLIGACAO));
 
-  Result.AppendChild(AddNode(tcStr, '#58', 'idCodCliente', 2, 20, 0,
+    Result.AppendChild(AddNode(tcStr, '#58', 'idCodCliente', 2, 20, 0,
                                   NFAg.ligacao.idCodCliente, DSC_IDCODCLIENTE));
 
-  Result.AppendChild(AddNode(tcStr, '#59', 'tpLigacao', 1, 1, 1,
+    Result.AppendChild(AddNode(tcStr, '#59', 'tpLigacao', 1, 1, 1,
                         tpLigacaoToStr(NFAg.ligacao.tpLigacao), DSC_TPLIGACAO));
 
-  Result.AppendChild(AddNode(tcStr, '#66', 'latGPS', 2, 10, 1,
+    Result.AppendChild(AddNode(tcStr, '#66', 'latGPS', 2, 10, 1,
                                               NFAg.ligacao.latGPS, DSC_LATGPS));
 
-  Result.AppendChild(AddNode(tcStr, '#67', 'longGPS', 2, 10, 1,
+    Result.AppendChild(AddNode(tcStr, '#67', 'longGPS', 2, 10, 1,
                                             NFAg.ligacao.longGPS, DSC_LONGGPS));
 
-  Result.AppendChild(AddNode(tcStr, '#68', 'codRoteiroLeitura', 2, 100, 0,
+    Result.AppendChild(AddNode(tcStr, '#68', 'codRoteiroLeitura', 2, 100, 0,
                         NFAg.ligacao.codRoteiroLeitura, DSC_CODROTEIROLEITURA));
+  end;
 end;
 
 function TNFAgXmlWriter.GerargSub: TACBrXmlNode;

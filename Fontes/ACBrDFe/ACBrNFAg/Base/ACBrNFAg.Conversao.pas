@@ -135,7 +135,7 @@ const
     '03', '04');
 
 type
-  TindOrigemQtd = (ioMedia, ioMedido, ioContatada, ioCalculada, ioResidual,
+  TindOrigemQtd = (ioMedia, ioMedido, ioContratada, ioCalculada, ioResidual,
                    ioSemQuantidade, ioPorFaixa, ioMinimo);
 
 const
