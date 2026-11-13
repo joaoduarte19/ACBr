@@ -257,6 +257,7 @@ resourcestring
   DSC_NITEMPAGANT = 'Nùmero do item do DF-e de antecipação para refência direta a um item';
 
   DSC_TPREGIMEIBSCBS = 'Tipo de Regime de Apuração do IBS e da CBS';
+  DSC_VICMSPREVISTO = 'Valor do ICMS Previsto';
 
 implementation
 

@@ -296,7 +296,7 @@ begin
     end;
 
     if ModelosDFe in [mdfBPe, mdfBPeTM, mdfBPeTA, mdfCTe, mdfCTeOS, mdfCTeSimp,
-                      mdfGTVe, mdfNFAg, mdfNFCom, mdfNFe, mdfNFCe] then
+                      mdfGTVe, mdfNFCom, mdfNFe, mdfNFCe] then
       Result.AppendChild(Gerar_gTribSN(IBSCBS.gTribSN));
 
     if (IBSCBS.gEstornoCred.vIBSEstCred > 0) or (IBSCBS.gEstornoCred.vCBSEstCred > 0) or
