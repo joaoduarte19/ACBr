@@ -37,6 +37,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+13/11/2026
+-- ACBrUtil.Strings.pas --
+[-] Correção no método "AddDelimitedTextToList" para evitar "Range check error"
+    http://www.projetoacbr.com.br/forum/index.php?showtopic=95959
+    (por: DSA)
+
 02/10/2026
 -- ACBrUtil.Strings.pas --
 [-] Correção no método "GetSysANSIencoding" para pegar corretamente o Encoding

@@ -1598,7 +1598,7 @@ begin
        Pi := Pf + 1;  // Pula o Delimiter
      end;
 
-     if (Pi > 1) and (AText[Pi-1] = ADelimiter) then // Termina com Delimiter ?
+     if (Pi > 1) and (Pi-1 <= L) and (AText[Pi-1] = ADelimiter) then // Termina com Delimiter ?
        SL.Add('');                                   // Se SIM, adiciona item vazio
 
     {$EndIf}
