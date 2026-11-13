@@ -314,7 +314,6 @@ resourcestring
   DSC_VUNCOMLIQ = 'Valor Líquido Unitário do Produto ou Serviço (sem tributos)';
   DSC_VPRODLIQ = 'Valor Líquido do Produto ou Serviço (sem tributos)';
   DSC_VPRODLIQTOT = 'Valor Total Líquido dos Produtos ou Serviços (sem tributos)';
-  DSC_VICMSPREVISTO = 'Valor do ICMS Previsto';
   DSC_VFRETE = 'Valor Total do Frete';
   DSC_VDESC = 'Valor do desconto';
   DSC_VOUTRO = 'Outras Despesas Acessórias';

@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+13/11/2026
+-- ACBrNFe.Consts --
+[*] A constante DSC_VICMSPREVISTO foi movida para a unit ACBrDFeConsts, uma vez que ela
+    poderá ser utilizada por diversos DF-e.
+   Por: Italo Giurizzato Junior
+
 12/11/2026
 -- ACBrNFe.Classes --
 [*] ACBR-10191 - descomentado a linha de atribuição do IBSCBS do Assing da classe TImposto.
