@@ -43,17 +43,16 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 16/11/2026
+-- ISSNet.Provider/PadraoNacional.LerXml --
+[+] ACBR-9915 - Ajustes visando o provedor ISSNet.
+   Por: nenelvida/Italo Giurizzato Junior
 -- SpeedGov.Provider --
 [+] ACBR-9729 - Implementa o cancelamento para a API própria no provedor SpeedGov.
    Por: Diego Folieni
    Veja: https://www.projetoacbr.com.br/forum/topic/94069-acbr-9729cancelamento-nfse-via-api-pr%C3%B3pria-speedgov-juazeiro-do-norte-ce/  
-
-16/11/2026
 -- Diversos --
 [*] ACBR-10091 - Ajustes para cnpj alfa-numérico
 	Por: Daniel de Morais InfoCotidiano
-
-16/11/2026
 -- ACBrNFSeXGravarXml/ACBrNFSeXLerXml --
 [+] Implementado a escrita e leitura dos grupos: gPgtoVinc e pgto.
    Por: Italo Giurizzato Junior

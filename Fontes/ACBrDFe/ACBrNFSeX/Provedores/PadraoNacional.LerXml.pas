@@ -1132,13 +1132,28 @@ end;
 procedure TNFSeR_PadraoNacional.LerXMLinfNFSe(const ANode: TACBrXmlNode);
 var
   AuxNode: TACBrXmlNode;
-  Ok: Boolean;
+  Ok, Evt: Boolean;
   lUF: String;
 begin
   AuxNode := ANode.Childrens.FindAnyNs('Nfse');
 
-  if not(Assigned(AuxNode)) then
+  if not (Assigned(AuxNode)) then
     AuxNode := ANode.Childrens.FindAnyNs('NFSe');
+
+  if not (Assigned(AuxNode)) then
+  begin
+    AuxNode := ANode.Childrens.FindAnyNs('CompNfse');
+
+    if AuxNode <> nil then
+      AuxNode := AuxNode.Childrens.FindAnyNs('NFSe');
+
+    Evt := (Pos('<e101101>', ANode.OuterXml) > 0);
+  end
+  else
+  begin
+    if AuxNode <> nil then
+      AuxNode := ANode.Childrens.FindAnyNs('NFSe');
+  end;
 
   if AuxNode <> nil  then
     AuxNode := AuxNode.Childrens.FindAnyNs('infNFSe')
@@ -1163,6 +1178,9 @@ begin
     Código numérico de 9 Posições numérico, aleatório,
     gerado automaticamente pelo sistema gerador da NFS-e.
     }
+
+    if Evt then
+      NFSe.SituacaoNfse := TStatusNFSe.snCancelado;
 
     NFSe.infNFSe.ID := RemoverLiteralChave(ObterConteudoTag(AuxNode.Attributes.Items['Id']));
 
