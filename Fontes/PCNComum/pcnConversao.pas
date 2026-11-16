@@ -95,13 +95,12 @@ type
   TpcnindIEDest = ACBrDFe.Conversao.TindIEDest;
   TpcnRegTribISSQN = ACBrDFe.Conversao.TRegTribISSQN;
   TpcnindIncentivo = ACBrDFe.Conversao.TindIncentivo;
+  TtpRegimeIBSCBS = ACBrDFe.Conversao.TtpRegimeIBSCBS;
   // SAT
   TpcnRegTrib = ACBrDFe.Conversao.TRegTrib;
   TpcnindRatISSQN = ACBrDFe.Conversao.TindRatISSQN;
   TpcnindRegra = ACBrDFe.Conversao.TindRegra;
   TpcnCodigoMP = ACBrDFe.Conversao.TCodigoMP;
-
-
 
   // Enumerados do TACBrTipoCampo
 const
@@ -578,6 +577,14 @@ const
   mpSemPagamento = {$IFDEF SUPPORTS_SCOPEDENUMS}TCodigoMP.{$ENDIF}mpSemPagamento deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TCodigoMP da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   mpOutros = {$IFDEF SUPPORTS_SCOPEDENUMS}TCodigoMP.{$ENDIF}mpOutros deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TCodigoMP da Unit ACBrDFe.Conversao.pas' {$ENDIF};
 
+  // Enumerados do TtpRegimeIBSCBS
+const
+  trNenhum = {$IFDEF SUPPORTS_SCOPEDENUMS}TtpRegimeIBSCBS.{$ENDIF}trNenhum deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TtpRegimeIBSCBS da Unit ACBrDFe.Conversao.pas' {$ENDIF};
+  trSNRegimeRegular = {$IFDEF SUPPORTS_SCOPEDENUMS}TtpRegimeIBSCBS.{$ENDIF}trSNRegimeRegular deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TtpRegimeIBSCBS da Unit ACBrDFe.Conversao.pas' {$ENDIF};
+  trNormalPendenteCRT1SemRegimeRegular = {$IFDEF SUPPORTS_SCOPEDENUMS}TtpRegimeIBSCBS.{$ENDIF}trNormalPendenteCRT1SemRegimeRegular deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TtpRegimeIBSCBS da Unit ACBrDFe.Conversao.pas' {$ENDIF};
+  trNormalPendenteCRT2SemRegimeRegular = {$IFDEF SUPPORTS_SCOPEDENUMS}TtpRegimeIBSCBS.{$ENDIF}trNormalPendenteCRT2SemRegimeRegular deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TtpRegimeIBSCBS da Unit ACBrDFe.Conversao.pas' {$ENDIF};
+  trNormalPendenteCRT12RegimeRegular = {$IFDEF SUPPORTS_SCOPEDENUMS}TtpRegimeIBSCBS.{$ENDIF}trNormalPendenteCRT12RegimeRegular deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TtpRegimeIBSCBS da Unit ACBrDFe.Conversao.pas' {$ENDIF};
+
 type
   TStrToTpEvento = function (out ok: boolean; const s: String): TpcnTpEvento;
 
@@ -752,6 +759,9 @@ function indIncentivoToStrTagPosText(const t: TpcnindIncentivo ): string; deprec
 function StrToTpEventoDFe(out ok: boolean; const s, aDFe: string): TpcnTpEvento; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o método StrToTpEventoDFe da Unit ACBrDFe.Conversao.pas' {$ENDIF};
 
 procedure RegisterStrToTpEventoDFe(AConvertProcedure: TStrToTpEvento; ADFe: String); deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o método RegisterStrToTpEventoDFe da Unit ACBrDFe.Conversao.pas' {$ENDIF};
+
+function tpRegimeIBSCBSToStr(const t: TtpRegimeIBSCBS): String; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o método tpRegimeIBSCBSToStr da Unit ACBrDFe.Conversao.pas' {$ENDIF};
+function StrTotpRegimeIBSCBS(const s: String): TtpRegimeIBSCBS; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o método StrTotpRegimeIBSCBS da Unit ACBrDFe.Conversao.pas' {$ENDIF};
 
 var
   StrToTpEventoDFeList: array of TStrToTpEventoDFe;
@@ -1627,6 +1637,27 @@ begin
     NomeDFe := UpperDFe;
     StrToTpEventoMethod := AConvertProcedure;
   end;
+end;
+
+function tpRegimeIBSCBSToStr(const t: TtpRegimeIBSCBS): string;
+begin
+  Result := TtpRegimeIBSCBSArrayStrings[t];
+end;
+
+function StrTotpRegimeIBSCBS(const s: string): TtpRegimeIBSCBS;
+var
+  idx: TtpRegimeIBSCBS;
+begin
+  for idx:= Low(TtpRegimeIBSCBSArrayStrings) to High(TtpRegimeIBSCBSArrayStrings) do
+  begin
+    if(TtpRegimeIBSCBSArrayStrings[idx] = s)then
+    begin
+      Result := idx;
+      exit;
+    end;
+  end;
+
+  raise Exception.Create(Format('"%s" não é um valor TtpRegimeIBSCBS válido.',[s]));
 end;
 
 end.

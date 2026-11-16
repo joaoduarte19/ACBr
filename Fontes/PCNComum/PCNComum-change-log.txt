@@ -38,6 +38,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/11/2026
+-- pcnConversao --
+[+] Incluído o tipo TtpRegimeIBSCBS e as funções de conversão
+   Por: Italo Giurizzato Junior
+
 26/10/2026
 -- pcnConversao --
 [+] Incluído o enumerado cstICMSPrevisto a ser utilizado pela NFe.
