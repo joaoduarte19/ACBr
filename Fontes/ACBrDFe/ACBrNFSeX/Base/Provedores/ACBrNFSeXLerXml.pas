@@ -133,6 +133,9 @@ type
     procedure LerXMLTotgCBS(const ANode: TACBrXmlNode; gCBS: TgCBS);
     procedure LerXMLgCBSCredPres(const ANode: TACBrXmlNode; gCBSCredPres: TgCBSCredPres);
 
+    procedure LerXMLpgtoVinc(const ANode: TACBrXmlNode; gpgtoVinc: TgPgtoVinc);
+    procedure LerXMLpgto(const ANode: TACBrXmlNode; pgto: TpgtoCollection);
+
     //====== Ler o Arquivo INI===========================================
     // Reforma Tributária DPS
     procedure LerINIIBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBSDPS); virtual;
@@ -2095,6 +2098,39 @@ begin
 
   gCBSCredPres.pCredPresCBS := ObterConteudo(ANode.Childrens.FindAnyNs('pCredPresCBS'), tcDe2);
   gCBSCredPres.vCredPresCBS := ObterConteudo(ANode.Childrens.FindAnyNs('vCredPresCBS'), tcDe2);
+end;
+
+procedure TNFSeRClass.LerXMLpgtoVinc(const ANode: TACBrXmlNode;
+  gpgtoVinc: TgPgtoVinc);
+var
+  i: Integer;
+  ANodes: TACBrXmlNodeArray;
+begin
+  if not Assigned(ANode) then Exit;
+
+  ANodes := ANode.Childrens.FindAll('gPgtoVinc');
+
+  for i := 0 to Length(ANodes) - 1 do
+  begin
+    LerXMLpgto(ANodes[i], gpgtoVinc.pgto);
+  end;
+end;
+
+procedure TNFSeRClass.LerXMLpgto(const ANode: TACBrXmlNode;
+  pgto: TpgtoCollection);
+var
+  Item: TpgtoCollectionItem;
+begin
+  if not Assigned(ANode) then Exit;
+
+  Item := pgto.New;
+
+  Item.nPag := StrToInt(ObterConteudoTag(ANode.Attributes.Items['nPag']));
+  Item.idTransacao := ObterConteudoTag(ANode.Attributes.Items['idTransacao']);
+
+  Item.tpMeioPgto := ObterConteudo(ANode.Childrens.Find('tpMeioPgto'), tcStr);
+  Item.CNPJReceb := ObterConteudo(ANode.Childrens.Find('CNPJReceb'), tcStr);
+  Item.CNPJBasePSP := ObterConteudo(ANode.Childrens.Find('CNPJBasePSP'), tcStr);
 end;
 
 // Reforma Tributária

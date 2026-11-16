@@ -195,6 +195,10 @@ type
     function GerarXMLgIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode; virtual;
     function GerarXMLgTribRegular(gTribRegular: TgTribRegular): TACBrXmlNode; virtual;
     function GerarXMLgDif(gDif: TgDif): TACBrXmlNode;
+
+    function Gerar_pgtoVinc(gpgtoVinc: TgPgtoVinc): TACBrXmlNode;
+    function Gerar_pgto(pgto: TpgtoCollection): TACBrXmlNodeArray;
+
     // Reforma Tributária DPS
     procedure GerarINIIBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBSDPS); virtual;
     procedure GerarINIgRefNFSe(AINIRec: TMemIniFile; gRefNFSe: TgRefNFSeCollection);
@@ -2171,6 +2175,58 @@ begin
 
   Result.AppendChild(AddNode(tcDe2, '#1', 'pDifCBS', 1, 15, 1,
                                                              gDif.pDifCBS, ''));
+end;
+
+function TNFSeWClass.Gerar_pgtoVinc(gpgtoVinc: TgPgtoVinc): TACBrXmlNode;
+var
+  nodeArray: TACBrXmlNodeArray;
+  i: integer;
+begin
+  Result := nil;
+
+  if gpgtoVinc.pgto.Count > 0 then
+  begin
+    Result := CreateElement('gPgtoVinc');
+
+    nodeArray := Gerar_pgto(gpgtoVinc.pgto);
+    for i := 0 to gpgtoVinc.pgto.Count - 1 do
+    begin
+      Result.AppendChild(nodeArray[i]);
+    end;
+  end;
+end;
+
+function TNFSeWClass.Gerar_pgto(pgto: TpgtoCollection): TACBrXmlNodeArray;
+var
+  i: integer;
+begin
+  Result := nil;
+
+  SetLength(Result, pgto.Count);
+
+  for i := 0 to pgto.Count - 1 do
+  begin
+    Result[i] := CreateElement('pgto');
+
+    Result[i].SetAttribute('nPag', IntToStr(pgto[i].nPag));
+
+    Result[i].SetAttribute('idTransacao', pgto[i].idTransacao);
+
+    Result[i].AppendChild(AddNode(tcStr, '#44', 'tpMeioPgto', 2, 2, 1,
+                                           pgto[i].tpMeioPgto, DSC_TPMEIOPGTO));
+
+    Result[i].AppendChild(AddNode(tcStr, '#44', 'CNPJReceb', 14, 14, 1,
+                        OnlyCPFCNPJAlphaNum(pgto[i].CNPJReceb), DSC_CNPJRECEB));
+
+    Result[i].AppendChild(AddNode(tcStr, '#44', 'CNPJBasePSP', 8, 8, 1,
+                    OnlyCPFCNPJAlphaNum(pgto[i].CNPJBasePSP), DSC_CNPJBASEPSP));
+  end;
+
+  if pgto.Count > 99 then
+    wAlerta('#42', 'pgto', '', ERR_MSG_MAIOR_MAXIMO + '99');
+
+  if pgto.Count < 1 then
+    wAlerta('#42', 'pgto', '', ERR_MSG_MENOR_MINIMO + '1');
 end;
 
 procedure TNFSeWClass.GerarINIIBSCBS(AINIRec: TMemIniFile;
