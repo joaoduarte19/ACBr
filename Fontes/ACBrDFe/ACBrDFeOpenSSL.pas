@@ -185,7 +185,7 @@ begin
   lOpenSSLUtils := TACBrOpenSSLUtils.Create(nil);
   try
     lOpenSSLUtils.LoadPFXFromStr(FpDFeSSL.DadosPFX, FpDFeSSL.Senha);
-    Result := lOpenSSLUtils.GenerateCMSDetatechedSignature(ABody);
+    Result := lOpenSSLUtils.GenerateCMSDetachedSignature(ABody);
   finally
     FreeAndNil(lOpenSSLUtils);
   end;

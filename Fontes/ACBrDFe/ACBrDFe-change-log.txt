@@ -40,6 +40,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 16/11/2026
+-- ACBrDFeOpenSSL --
+[-] Corrige a grafia do nome da nova função de GenerateCMSDetatechedSignature para GenerateCMSDetachedSignature.
+   Por: Diego Folieni
+
 -- ACBrDFeSSL/ACBrDFeOpenSSL/ACBrDFeWinCrypt/ACBrDFeWinSecCNG --
 [+] ACBR-9729 - Implementa método para gerar assinatura CMS destacada.
    Por: Diego Folieni
