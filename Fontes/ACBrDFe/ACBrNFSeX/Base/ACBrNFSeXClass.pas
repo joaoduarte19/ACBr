@@ -2404,6 +2404,49 @@ type
     property Items[Index: Integer]: TbensMoveisCollectionItem read GetItem write SetItem; default;
   end;
 
+  { TpgtoCollectionItem }
+  // PadraoNacional - NT 009
+  TpgtoCollectionItem = class(TObject)
+  private
+    FnPag: Integer;
+    FidTransacao: string;
+    FtpMeioPgto: string;
+    FCNPJReceb: string;
+    FCNPJBasePSP: string;
+  public
+    property nPag: Integer read FnPag write FnPag;
+    property idTransacao: string read FidTransacao write FidTransacao;
+    property tpMeioPgto: string read FtpMeioPgto write FtpMeioPgto;
+    property CNPJReceb: string read FCNPJReceb write FCNPJReceb;
+    property CNPJBasePSP: string read FCNPJBasePSP write FCNPJBasePSP;
+  end;
+
+  { TpgtoCollection }
+  // PadraoNacional - NT 009
+  TpgtoCollection = class(TACBrObjectList)
+  private
+    function GetItem(Index: Integer): TpgtoCollectionItem;
+    procedure SetItem(Index: Integer; Value: TpgtoCollectionItem);
+  public
+    function Add: TpgtoCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
+    function New: TpgtoCollectionItem;
+    property Items[Index: Integer]: TpgtoCollectionItem read GetItem write SetItem; default;
+  end;
+
+  { TgPgtoVinc }
+  // PadraoNacional - NT 009
+  TgPgtoVinc = class(TObject)
+  private
+    Fpgto: TpgtoCollection;
+
+    procedure Setpgto(const Value: TpgtoCollection);
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    property pgto: TpgtoCollection read Fpgto write Setpgto;
+  end;
+
   { TIBSCBSDPS }
   // PadraoNacional
   TIBSCBSDPS = class(TObject)
@@ -2418,6 +2461,7 @@ type
     Fdest: TDadosdaPessoa;
     Fimovel: TDadosimovel;
     FbensMoveis: TbensMoveisCollection;
+    FgPgtoVinc: TgPgtoVinc;
     Fvalores: Tvalorestrib;
     FOperExterior: TIndicador;
     FOperUF: string;
@@ -2446,6 +2490,7 @@ type
 
     // NT 009
     property bensMoveis: TbensMoveisCollection read FbensMoveis write SetbensMoveis;
+    property gPgtoVinc: TgPgtoVinc read FgPgtoVinc write FgPgtoVinc;
 
     // Incluido para atender o provedor SigISSWeb
     property OperExterior: TIndicador read FOperExterior write FOperExterior;
@@ -4196,6 +4241,50 @@ begin
   FtpBM := tbNenhum;
   FtpSusp := tsNenhum;
   FtpImunidade := timNenhum;
+end;
+
+{ TgPgtoVinc }
+
+constructor TgPgtoVinc.Create;
+begin
+  inherited Create;
+
+  Fpgto := TpgtoCollection.Create;
+end;
+
+destructor TgPgtoVinc.Destroy;
+begin
+  Fpgto.Free;
+
+  inherited;
+end;
+
+procedure TgPgtoVinc.Setpgto(const Value: TpgtoCollection);
+begin
+  Fpgto := Value;
+end;
+
+{ TpgtoCollection }
+
+function TpgtoCollection.Add: TpgtoCollectionItem;
+begin
+  Result := Self.New;
+end;
+
+function TpgtoCollection.GetItem(Index: Integer): TpgtoCollectionItem;
+begin
+  Result := TpgtoCollectionItem(inherited Items[Index]);
+end;
+
+function TpgtoCollection.New: TpgtoCollectionItem;
+begin
+  Result := TpgtoCollectionItem.Create;
+  Self.Add(Result);
+end;
+
+procedure TpgtoCollection.SetItem(Index: Integer; Value: TpgtoCollectionItem);
+begin
+  inherited Items[Index] := Value;
 end;
 
 end.

@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 16/11/2026
+-- ACBrNFSeXClass --
+[+] Implementado as classes: TpgtoCollectionItem e TgPgtoVinc.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] ACBR-10233 - O município de Goianesia/GO aderiu ao Padrão Nacional	
 	Veja: https://www.projetoacbr.com.br/forum/topic/95970-goian%C3%A9sia-go-provedor-desatualizado/
