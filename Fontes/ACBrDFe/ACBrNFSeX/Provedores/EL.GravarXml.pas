@@ -357,9 +357,9 @@ begin
   Result := CreateElement('IdentificacaoPrestador');
 
   Result.AppendChild(AddNode(tcStr, '#1', 'CpfCnpj', 11, 14, 1,
-                OnlyNumber(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj), ''));
+                OnlyCPFCNPJAlphaNum(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj), ''));
 
-  if Length(OnlyNumber(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj)) <= 11 then
+  if Length(OnlyCPFCNPJAlphaNum(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj)) <= 11 then
     Result.AppendChild(AddNode(tcStr, '#1', 'IndicacaoCpfCnpj', 1, 1, 1,
                                                                        '1', ''))
   else
@@ -375,9 +375,9 @@ begin
   Result := CreateElement('IdentificacaoTomador');
 
   Result.AppendChild(AddNode(tcStr, '#1', 'CpfCnpj', 11, 14, 1,
-                    OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
+                    OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
 
-  if Length(OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj)) <= 11 then
+  if Length(OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj)) <= 11 then
     Result.AppendChild(AddNode(tcStr, '#1', 'IndicacaoCpfCnpj', 1, 1, 1,
                                                                        '1', ''))
   else
@@ -399,9 +399,9 @@ begin
                                            NFSe.Intermediario.RazaoSocial, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'CpfCnpj', 14, 14, 1,
-                     OnlyNumber(NFSe.Intermediario.Identificacao.CpfCnpj), ''));
+                     OnlyCPFCNPJAlphaNum(NFSe.Intermediario.Identificacao.CpfCnpj), ''));
 
-  if Length(OnlyNumber(NFSe.Intermediario.Identificacao.CpfCnpj)) <= 11 then
+  if Length(OnlyCPFCNPJAlphaNum(NFSe.Intermediario.Identificacao.CpfCnpj)) <= 11 then
     Result.AppendChild(AddNode(tcStr, '#1', 'IndicacaoCpfCnpj', 1, 1, 1,
                                                                        '1', ''))
   else

@@ -288,7 +288,7 @@ begin
       RazaoSocial := jsAux.AsString['RazaoSocial'];
       NomeFantasia := jsAux.AsString['NomeFantasia'];
 
-      IdentificacaoPrestador.CpfCnpj := OnlyNumber(jsAux.AsString['Cnpj']);
+      IdentificacaoPrestador.CpfCnpj := OnlyCPFCNPJAlphaNum(jsAux.AsString['Cnpj']);
       IdentificacaoPrestador.CpfCnpj := PadLeft(IdentificacaoPrestador.CpfCnpj, 14, '0');
       IdentificacaoPrestador.InscricaoMunicipal := jsAux.AsString['InscricaoMunicipal'];
 
@@ -312,7 +312,7 @@ begin
       RazaoSocial := jsAux.AsString['RazaoSocial'];
       NomeFantasia := jsAux.AsString['NomeFantasia'];
 
-      IdentificacaoTomador.CpfCnpj := OnlyNumber(jsAux.AsString['NrDocumento']);
+      IdentificacaoTomador.CpfCnpj := OnlyCPFCNPJAlphaNum(jsAux.AsString['NrDocumento']);
       aValor  := jsAux.AsString['TipoPessoa'];
 
       if ((aValor = 'J') or (aValor = '2')) then

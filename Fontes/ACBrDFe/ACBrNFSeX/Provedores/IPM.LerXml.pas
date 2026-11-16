@@ -367,7 +367,7 @@ begin
   begin
     with NFSe do
     begin
-      Prestador.IdentificacaoPrestador.CpfCnpj := OnlyNumber(ObterConteudo(AuxNode.Childrens.FindAnyNs('cpfcnpj'), tcStr));
+      Prestador.IdentificacaoPrestador.CpfCnpj := OnlyCPFCNPJAlphaNum(ObterConteudo(AuxNode.Childrens.FindAnyNs('cpfcnpj'), tcStr));
       Prestador.IdentificacaoPrestador.CpfCnpj := PadLeft(Prestador.IdentificacaoPrestador.CpfCnpj, 14, '0');
 
       Prestador.Endereco.CodigoMunicipio := CodTOMToCodIBGE(ObterConteudo(AuxNode.Childrens.FindAnyNs('cidade'), tcStr));
@@ -432,7 +432,7 @@ begin
       Endereco.PontoReferencia := ObterConteudo(AuxNode.Childrens.FindAnyNs('ponto_referencia'), tcStr);
       Endereco.Bairro := ObterConteudo(AuxNode.Childrens.FindAnyNs('bairro'), tcStr);
 
-      IdentificacaoTomador.CpfCnpj := OnlyNumber(ObterConteudo(AuxNode.Childrens.FindAnyNs('cpfcnpj'), tcStr));
+      IdentificacaoTomador.CpfCnpj := OnlyCPFCNPJAlphaNum(ObterConteudo(AuxNode.Childrens.FindAnyNs('cpfcnpj'), tcStr));
       aValor := ObterConteudo(AuxNode.Childrens.FindAnyNs('tipo'), tcStr);
 
       if aValor = 'E' then

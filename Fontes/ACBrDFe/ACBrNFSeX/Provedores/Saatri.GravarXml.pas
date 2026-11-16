@@ -97,7 +97,7 @@ end;
 procedure TNFSeW_Saatri201.DefinirIDDeclaracao;
 begin
   NFSe.InfID.ID := 'Declaracao_' +
-                      OnlyNumber(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj);
+                      OnlyCPFCNPJAlphaNum(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj);
 end;
 
 procedure TNFSeW_Saatri201.DefinirIDRps;

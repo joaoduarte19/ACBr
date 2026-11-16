@@ -75,7 +75,7 @@ begin
   Result := CreateElement('tTomador');
 
   Result.AppendChild(AddNode(tcStr, '#1', 'sCPFTomador', 1, 14, 0,
-                    OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
+                    OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
 
   Result.AppendChild(AddNode(tcStr, '#2', 'sNomeTomador', 1, 60, 0,
                                                  NFSe.Tomador.RazaoSocial, ''));
@@ -176,7 +176,7 @@ begin
                                                                        '', ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'sContribuinte', 1, 14, 1,
-                OnlyNumber(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj), ''));
+                OnlyCPFCNPJAlphaNum(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj), ''));
 
   NFSeNode.AppendChild(AddNode(tcInt, '#1', 'iRecibo', 1, 8, 1,
                                              NFSe.IdentificacaoRps.Numero, ''));

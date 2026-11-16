@@ -444,7 +444,7 @@ begin
 
       Result := TACBrNFSeX(ACBrNFSe).Configuracoes.Arquivos.GetPath(
                 Result, DescricaoModelo,
-                OnlyNumber(ANFSe.Prestador.IdentificacaoPrestador.CpfCnpj),
+                OnlyCPFCNPJAlphaNum(ANFSe.Prestador.IdentificacaoPrestador.CpfCnpj),
                 OnlyNumber(ANFSe.Prestador.IdentificacaoPrestador.InscricaoEstadual),
                 dhEmissao);
     end;

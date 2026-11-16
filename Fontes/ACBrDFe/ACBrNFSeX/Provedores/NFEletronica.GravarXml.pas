@@ -211,7 +211,7 @@ function TNFSeW_NFEletronica.GerarCPFCNPJTomador(
 var
   aDoc: string;
 begin
-  aDoc := OnlyNumber(CPFCNPJ);
+  aDoc := OnlyCPFCNPJAlphaNum(CPFCNPJ);
 
   Result := CreateElement('CpfCnpj');
 

@@ -176,7 +176,7 @@ begin
   CpfCnpj := Trim(NFSe.Tomador.IdentificacaoTomador.CpfCnpj);
 
   if (CpfCnpj <> 'CONSUMIDOR') and (CpfCnpj <> 'EXTERIOR') then
-    CpfCnpj := OnlyNumber(CpfCnpj);
+    CpfCnpj := OnlyCPFCNPJAlphaNum(CpfCnpj);
 
   {
     Se hover municipios com apostofro deve ser substituido por espaço,

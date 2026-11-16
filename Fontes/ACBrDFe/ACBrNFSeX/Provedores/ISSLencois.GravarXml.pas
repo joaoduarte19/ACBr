@@ -190,7 +190,7 @@ begin
   begin
     if NFSe.Tomador.Endereco.UF <> 'EX' then
       Result.AppendChild(AddNode(tcStr, '#1', 'CPF_CNPJ', 11, 14, 1,
-                    OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
+                    OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
 
     Result.AppendChild(AddNode(tcStr, '#1', 'Nome', 1, 50, 0,
                                                  NFSe.Tomador.RazaoSocial, ''));
@@ -201,7 +201,7 @@ begin
     Result.AppendChild(AddNode(tcStr, '#1', 'Email', 1, 50, 1,
                                                NFSe.Tomador.Contato.Email, ''));
 
-    if Length(OnlyNumber(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj)) <= 11 then
+    if Length(OnlyCPFCNPJAlphaNum(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj)) <= 11 then
       Result.AppendChild(AddNode(tcStr, '#1', 'Particular', 1, 1, 1, '1', ''))
     else
       Result.AppendChild(AddNode(tcStr, '#1', 'Particular', 1, 1, 1, '0', ''));

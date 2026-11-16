@@ -170,7 +170,7 @@ begin
                                  ['N', 'S'], [stNormal, stRetencao]);
 
     // Tomador do Serviço
-    LCPFCNPJTomador := OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj);
+    LCPFCNPJTomador := OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj);
 
     if LCPFCNPJTomador = '' then
       LIndTomador := '3'
@@ -184,7 +184,7 @@ begin
     LTomador := LIndTomador + Poem_Zeros(LCPFCNPJTomador, 14);
 
     // Prestador Intermediario
-    LCPFCNPJInter := OnlyNumber(NFSe.Intermediario.Identificacao.CpfCnpj);
+    LCPFCNPJInter := OnlyCPFCNPJAlphaNum(NFSe.Intermediario.Identificacao.CpfCnpj);
 
     if LCPFCNPJInter = '' then
       LIndInter := '3'
@@ -586,7 +586,7 @@ begin
 
   LListaRps := ChangeLineBreak(LListaRps, '');
 
-  LDoc := OnlyNumber(LEmitente.CNPJ);
+  LDoc := OnlyCPFCNPJAlphaNum(LEmitente.CNPJ);
 
   if Length(LDoc) = 14 then
     LCNPJCPF := '<CNPJ>' + LDoc + '</CNPJ>'
@@ -805,7 +805,7 @@ begin
   else
     LNameSpace := ' xmlns="' + ConfigMsgDados.ConsultarSituacao.xmlns + '"';
 
-  LDoc := OnlyNumber(LEmitente.CNPJ);
+  LDoc := OnlyCPFCNPJAlphaNum(LEmitente.CNPJ);
 
   if Length(LDoc) = 14 then
     LCNPJCPF := '<CNPJ>' + LDoc + '</CNPJ>'
@@ -931,7 +931,7 @@ begin
   else
     LNameSpace := ' xmlns="' + ConfigMsgDados.ConsultarLote.xmlns + '"';
 
-  LDoc := OnlyNumber(Emitente.CNPJ);
+  LDoc := OnlyCPFCNPJAlphaNum(Emitente.CNPJ);
 
   if Length(LDoc) = 14 then
     LCNPJCPF := '<CNPJ>' + LDoc + '</CNPJ>'
@@ -1059,7 +1059,7 @@ begin
   else
     LNameSpace := ' xmlns="' + ConfigMsgDados.ConsultarNFSeRps.xmlns + '"';
 
-  LDoc := OnlyNumber(LEmitente.CNPJ);
+  LDoc := OnlyCPFCNPJAlphaNum(LEmitente.CNPJ);
 
   if Length(LDoc) = 14 then
     LCNPJCPF := '<CNPJ>' + LDoc + '</CNPJ>'
@@ -1203,7 +1203,7 @@ begin
   else
     LNameSpace := ' xmlns="' + ConfigMsgDados.ConsultarNFSe.xmlns + '"';
 
-  LDoc := OnlyNumber(LEmitente.CNPJ);
+  LDoc := OnlyCPFCNPJAlphaNum(LEmitente.CNPJ);
 
   if Length(LDoc) = 14 then
     LCNPJCPF := '<CNPJ>' + LDoc + '</CNPJ>'
@@ -1350,14 +1350,14 @@ begin
   else
     LNameSpace := ' xmlns="' + ConfigMsgDados.ConsultarNFSe.xmlns + '"';
 
-  LDoc := OnlyNumber(LEmitente.CNPJ);
+  LDoc := OnlyCPFCNPJAlphaNum(LEmitente.CNPJ);
 
   if Length(LDoc) = 14 then
     LCNPJCPF := '<CNPJ>' + LDoc + '</CNPJ>'
   else
     LCNPJCPF := '<CPF>' + LDoc + '</CPF>';
 
-  LDocPrestador := OnlyNumber(Response.InfConsultaNFSe.CNPJPrestador);
+  LDocPrestador := OnlyCPFCNPJAlphaNum(Response.InfConsultaNFSe.CNPJPrestador);
 
   if Length(LDocPrestador) = 14 then
     LCNPJCPFPrestador := '<CNPJ>' + LDocPrestador + '</CNPJ>'
@@ -1510,14 +1510,14 @@ begin
   else
     LNameSpace := ' xmlns="' + ConfigMsgDados.ConsultarNFSe.xmlns + '"';
 
-  LDoc := OnlyNumber(LEmitente.CNPJ);
+  LDoc := OnlyCPFCNPJAlphaNum(LEmitente.CNPJ);
 
   if Length(LDoc) = 14 then
     LCNPJCPF := '<CNPJ>' + LDoc + '</CNPJ>'
   else
     LCNPJCPF := '<CPF>' + LDoc + '</CPF>';
 
-  LDocTomador := OnlyNumber(Response.InfConsultaNFSe.CNPJTomador);
+  LDocTomador := OnlyCPFCNPJAlphaNum(Response.InfConsultaNFSe.CNPJTomador);
 
   LIMTomador := OnlyNumber(Response.InfConsultaNFSe.IMTomador);
 
@@ -1673,7 +1673,7 @@ begin
   LAssinatura := string(TACBrNFSeX(FAOwner).SSL.CalcHash(AnsiString(LAssinatura),
                                                     dgstSHA1, outBase64, True));
 
-  LDoc := OnlyNumber(LEmitente.CNPJ);
+  LDoc := OnlyCPFCNPJAlphaNum(LEmitente.CNPJ);
 
   if Length(LDoc) = 14 then
     LCNPJCPF := '<CNPJ>' + LDoc + '</CNPJ>'

@@ -253,9 +253,9 @@ begin
   try
     AJSon
 
-      .AddPair(IfThen(Length(OnlyNumber(NFSe.Prestador.IdentificacaoPrestador.Cnpj)) = 11, 'cpfPessoaPrestador', 'cnpjPessoaPrestador'), NFSe.Prestador.IdentificacaoPrestador.Cnpj)
+      .AddPair(IfThen(Length(OnlyCPFCNPJAlphaNum(NFSe.Prestador.IdentificacaoPrestador.Cnpj)) = 11, 'cpfPessoaPrestador', 'cnpjPessoaPrestador'), NFSe.Prestador.IdentificacaoPrestador.Cnpj)
 
-      .AddPair(IfThen(Length(OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj)) = 11, 'cpfPessoaTomador', 'cnpjPessoaTomador'), NFSe.Tomador.IdentificacaoTomador.CpfCnpj);
+      .AddPair(IfThen(Length(OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj)) = 11, 'cpfPessoaTomador', 'cnpjPessoaTomador'), NFSe.Tomador.IdentificacaoTomador.CpfCnpj);
       if NFSe.Tomador.IdentificacaoTomador.Tipo = tpPF then
          AJSon.AddPair('nomePessoaTomador', Trim(NFSe.Tomador.RazaoSocial))
       else

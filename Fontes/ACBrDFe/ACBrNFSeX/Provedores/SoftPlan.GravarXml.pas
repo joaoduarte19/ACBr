@@ -195,7 +195,7 @@ begin
                                                             NFSe.InfID.ID, ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'identificacaoTomador', 0, 20, 1,
-                       OnlyNumber(NFSe.Tomador.IdentificacaoTomador.Cnpj), ''));
+                       OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.Cnpj), ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'inscricaoMunicipalTomador', 0, 30, 0,
                      NFSe.Tomador.IdentificacaoTomador.InscricaoMunicipal, ''));

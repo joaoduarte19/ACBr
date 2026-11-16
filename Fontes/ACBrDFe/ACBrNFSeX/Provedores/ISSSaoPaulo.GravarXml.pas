@@ -296,7 +296,7 @@ begin
   LNFSeNode.AppendChild(AddNode(tcStr, '#1', 'EmailTomador', 1, 75, 0,
                                                NFSe.Tomador.Contato.Email, ''));
 
-  if OnlyNumber(NFSe.Intermediario.Identificacao.CpfCnpj) <> '' then
+  if OnlyCPFCNPJAlphaNum(NFSe.Intermediario.Identificacao.CpfCnpj) <> '' then
   begin
     LNode := GerarCPFCNPJIntermediario;
     LNFSeNode.AppendChild(LNode);

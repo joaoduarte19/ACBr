@@ -145,7 +145,7 @@ begin
     sTpDoc := '3'  // Estrangeiro
   else
   begin
-    if (Length(OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj)) = 14) then
+    if (Length(OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj)) = 14) then
       sTpDoc := '2'  // CNPJ
     else
       sTpDoc := '1'; // CPF
@@ -154,7 +154,7 @@ begin
   Result := CreateElement('documento');
 
   Result.AppendChild(AddNode(tcStr, '#1', 'nrDocumento', 1, 20, 1,
-                    OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
+                    OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'tpDocumento', 1, 1, 1, sTpDoc, ''));
 

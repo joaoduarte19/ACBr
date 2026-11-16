@@ -107,7 +107,7 @@ begin
      OnlyNumber(NFSe.Prestador.IdentificacaoPrestador.InscricaoMunicipal), ''));
 
   Result.AppendChild(AddNode(tcStr, '#2', 'cnpj', 1, 14, 1,
-                   OnlyNumber(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj), ''));
+                   OnlyCPFCNPJAlphaNum(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj), ''));
 
   Result.AppendChild(AddNode(tcStr, '#2', 'senha', 1, 10, 1, Senha, DSC_SENHA));
 
@@ -149,7 +149,7 @@ begin
          FpAOwner.TipoPessoaToStr(NFSe.Tomador.IdentificacaoTomador.Tipo), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'tomador_cnpj', 1, 15, 1,
-                    OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
+                    OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'tomador_email', 1, 100, 0,
                                                NFSe.Tomador.Contato.Email, ''));
@@ -348,10 +348,10 @@ begin
      OnlyNumber(NFSe.Prestador.IdentificacaoPrestador.InscricaoMunicipal), ''));
 
   Result.AppendChild(AddNode(tcStr, '#2', 'cnpj', 1, 14, 1,
-                   OnlyNumber(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj), ''));
+                   OnlyCPFCNPJAlphaNum(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj), ''));
 
   Result.AppendChild(AddNode(tcStr, '#2', 'cpf', 1, 14, 1,
-                                                      OnlyNumber(Usuario), ''));
+                                                      OnlyCPFCNPJAlphaNum(Usuario), ''));
 
   Result.AppendChild(AddNode(tcStr, '#2', 'senha', 1, 10, 1, Senha, DSC_SENHA));
 
@@ -427,7 +427,7 @@ begin
          FpAOwner.TipoPessoaToStr(NFSe.Tomador.IdentificacaoTomador.Tipo), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'tomador_cnpj', 1, 15, 1,
-                    OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
+                    OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'tomador_email', 1, 100, 0,
                                                NFSe.Tomador.Contato.Email, ''));

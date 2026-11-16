@@ -93,7 +93,7 @@ begin
                             Usuario, ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'ws_001_in_prest_cnpj', 14, 14, 1,
-                            OnlyNumber(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj), ''));
+                            OnlyCPFCNPJAlphaNum(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj), ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'ws_001_in_prest_ws_senha', 1, 20, 1,
                             Senha, ''));
@@ -101,7 +101,7 @@ begin
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'ws_001_in_prest_ws_token', 1, 20, 1,
                             ChaveAutoriz, ''));
 
-  cpfCnpj := OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj);
+  cpfCnpj := OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj);
 
   if Length(cpfCnpj) > 11 then
     tipoDocumento := 'J'

@@ -211,7 +211,7 @@ begin
                                         NFSe.Tomador.Endereco.Complemento, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'documento', 1, 14, 1,
-                    OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
+                    OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'email', 1, 14, 1,
                                                NFSe.Tomador.Contato.Email, ''));
@@ -231,7 +231,7 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'pais', 1, 9, 1,
                                               NFSe.Tomador.Endereco.xPais, ''));
 
-  if length(OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj)) = 11 then
+  if length(OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj)) = 11 then
     Result.AppendChild(AddNode(tcStr, '#1', 'tipoDoc', 1, 1, 1, 'F', ''))
   else
     Result.AppendChild(AddNode(tcStr, '#1', 'tipoDoc', 1, 1, 1, 'J', ''));

@@ -180,7 +180,7 @@ begin
                      NFSe.Tomador.IdentificacaoTomador.InscricaoMunicipal, ''));
 
   Result.AppendChild(AddNode(tcStr, '#2', 'cpfcnpj', 11, 14, 1,
-                    OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
+                    OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
 
   Result.AppendChild(AddNode(tcStr, '#2', 'rgie', 1, 20, 0,
           OnlyNumber(NFSe.Tomador.IdentificacaoTomador.InscricaoEstadual), ''));
@@ -210,7 +210,7 @@ begin
   FDocument.Root := NFSeNode;
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'cpfcnpj', 11, 14, 1,
-                OnlyNumber(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj), ''));
+                OnlyCPFCNPJAlphaNum(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj), ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'inscricao', 1, 20, 1,
      OnlyNumber(NFSe.Prestador.IdentificacaoPrestador.InscricaoMunicipal), ''));

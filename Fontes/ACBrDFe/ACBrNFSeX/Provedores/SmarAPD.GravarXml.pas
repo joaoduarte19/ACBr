@@ -140,7 +140,7 @@ begin
     NFSeNode.AppendChild(AddNode(tcStr, '#2', 'tppessoa', 1, 1, 1, 'O', ''))
   else
   begin
-    if length(OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj)) = 11 then
+    if length(OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj)) = 11 then
       NFSeNode.AppendChild(AddNode(tcStr, '#2', 'tppessoa', 1, 1, 1, 'F', ''))
     else
       NFSeNode.AppendChild(AddNode(tcStr, '#2', 'tppessoa', 1, 1, 1, 'J', ''));
@@ -179,7 +179,7 @@ begin
                                                NFSe.Tomador.Contato.Email, ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#2', 'cpfcnpjtomador', 1, 14, 1,
-                    OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
+                    OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#2', 'inscricaoestadualtomador', 1, 14, 1,
           OnlyNumber(NFSe.Tomador.IdentificacaoTomador.InscricaoEstadual), ''));
@@ -199,7 +199,7 @@ begin
                                            NFSe.Transportadora.xNomeTrans, ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#2', 'cpfcnpjtransportadora', 1, 20, 0,
-                            OnlyNumber(NFSe.Transportadora.xCpfCnpjTrans), ''));
+                            OnlyCPFCNPJAlphaNum(NFSe.Transportadora.xCpfCnpjTrans), ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#2', 'enderecotransportadora', 1, 255, 0,
                                             NFSe.Transportadora.xEndTrans, ''));

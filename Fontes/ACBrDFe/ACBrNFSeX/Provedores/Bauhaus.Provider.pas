@@ -361,7 +361,7 @@ begin
             if TACBrNFSeX(FAOwner).Configuracoes.Arquivos.NomeLongoNFSe then
               NomeXml := GerarNomeNFSe(TACBrNFSeX(FAOwner).Configuracoes.WebServices.UFCodigo,
                                       Response.Data,
-                                      OnlyNumber(CNPJ),
+                                      OnlyCPFCNPJAlphaNum(CNPJ),
                                       StrToInt64Def(Response.NumeroNota, 0))
             else
               NomeXml := Response.NumeroNota + Response.SerieNota;
@@ -507,7 +507,7 @@ begin
               if TACBrNFSeX(FAOwner).Configuracoes.Arquivos.NomeLongoNFSe then
                 NomeXml := GerarNomeNFSe(TACBrNFSeX(FAOwner).Configuracoes.WebServices.UFCodigo,
                                         Response.Data,
-                                        OnlyNumber(CNPJ),
+                                        OnlyCPFCNPJAlphaNum(CNPJ),
                                         StrToInt64Def(Response.NumeroNota, 0))
               else
                 NomeXml := Response.NumeroNota + Response.SerieNota;

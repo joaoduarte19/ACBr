@@ -546,7 +546,7 @@ begin
      9 | N |Código numérico aleatório
   }
   cUF := IntToStr(UFtoCUF(NFSe.Prestador.Endereco.UF));
-  CNPJ := Poem_Zeros(OnlyNumber(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj), 14);
+  CNPJ := Poem_Zeros(OnlyCPFCNPJAlphaNum(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj), 14);
   Modelo := NFSe.ModeloNFSe;
   aSerie := Poem_Zeros(UpperCase(NFSE.SeriePrestacao), 3);
   Numero := Poem_Zeros(NFSe.Numero, 9);

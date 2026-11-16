@@ -107,7 +107,7 @@ begin
                                                              sTipoDeducao, ''));
 
     Result[i].AppendChild(AddNode(tcStr, '#', 'CPFCNPJReferencia', 0, 14, 0,
-              OnlyNumber(NFSe.Servico.Deducao.Items[i].CpfCnpjReferencia), ''));
+              OnlyCPFCNPJAlphaNum(NFSe.Servico.Deducao.Items[i].CpfCnpjReferencia), ''));
 
     Result[i].AppendChild(AddNode(tcStr, '#', 'NumeroNFReferencia', 0, 10, 0,
                          NFSe.Servico.Deducao.Items[i].NumeroNFReferencia, ''));
@@ -246,7 +246,7 @@ begin
                                  NFSe.Servico.Valores.ValorDeducoes)), 15);
   sCodAtividade   := PadRight(NFSe.Servico.CodigoCnae, 9, '0');
   sCodAtividade   := Poem_Zeros( OnlyNumber( sCodAtividade ), 10);
-  sCPFCNPJTomador := Poem_Zeros( OnlyNumber( NFSe.Tomador.IdentificacaoTomador.CpfCnpj), 14);
+  sCPFCNPJTomador := Poem_Zeros( OnlyCPFCNPJAlphaNum( NFSe.Tomador.IdentificacaoTomador.CpfCnpj), 14);
 
 
   sAssinatura := sIEEmit + SerieRPS + NumeroRPS + sDataEmis + sTributacao +
@@ -309,7 +309,7 @@ begin
                      NFSe.Tomador.IdentificacaoTomador.InscricaoMunicipal, ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CPFCNPJTomador', 1, 14, 1,
-                    OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
+                    OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'RazaoSocialTomador', 1, 120, 1,
                                                  NFSe.Tomador.RazaoSocial, ''));
@@ -449,7 +449,7 @@ begin
                                                   NFSE.MotivoCancelamento, ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CPFCNPJIntermediario', 0, 14, 0,
-    OnlyNumber(NFSe.Intermediario.Identificacao.CpfCnpj), ''));
+    OnlyCPFCNPJAlphaNum(NFSe.Intermediario.Identificacao.CpfCnpj), ''));
 
   xmlNode := GerarDeducoes;
   NFSeNode.AppendChild(xmlNode);

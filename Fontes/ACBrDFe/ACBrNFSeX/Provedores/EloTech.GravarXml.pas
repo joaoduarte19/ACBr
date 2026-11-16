@@ -141,7 +141,7 @@ begin
   Result.AppendChild(AddNode(tcStr, '#', 'TipoDeducao', 1, 1, 1,
     FpAOwner.TipoDeducaoToStr(NFSe.Servico.ItemServico[Item].DadosDeducao.TipoDeducao)));
 
-  aDoc := OnlyNumber(NFSe.Servico.ItemServico[Item].DadosDeducao.CpfCnpj);
+  aDoc := OnlyCPFCNPJAlphaNum(NFSe.Servico.ItemServico[Item].DadosDeducao.CpfCnpj);
 
   if length(aDoc) <= 11 then
     Result.AppendChild(AddNode(tcStr, '#', 'Cpf ', 11, 11, 1, aDoc, DSC_CPF))

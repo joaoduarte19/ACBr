@@ -475,7 +475,7 @@ begin
   Result := CreateElement('prestador');
 
   Result.AppendChild(AddNode(tcStr, '#1', 'cpfcnpj', 11, 14, 1,
-          OnlyNumber(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj), DSC_CNPJ));
+          OnlyCPFCNPJAlphaNum(NFSe.Prestador.IdentificacaoPrestador.CpfCnpj), DSC_CNPJ));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'cidade', 1, 9, 0,
   CodIBGEToCodTOM(StrToIntDef(NFSe.Prestador.Endereco.CodigoMunicipio, 0)), ''));
@@ -504,13 +504,13 @@ begin
   else
   begin
     if (NFSe.Tomador.IdentificacaoTomador.Tipo in [tpPFNaoIdentificada, tpPF]) and
-       (Length(OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj)) < 14) then
+       (Length(OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj)) < 14) then
       Result.AppendChild(AddNode(tcStr, '#1', 'tipo', 1, 1, 1, 'F', ''))
     else
       Result.AppendChild(AddNode(tcStr, '#1', 'tipo', 1, 1, 1, 'J', ''));
 
     Result.AppendChild(AddNode(tcStr, '#1', 'cpfcnpj', 1, 14, FpNrOcorrTagsTomador,
-                OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), DSC_CNPJ));
+                OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj), DSC_CNPJ));
 
     Result.AppendChild(AddNode(tcStr, '#1', 'ie', 0, 16, FpNrOcorrTagsTomador,
         OnlyNumber(NFSe.Tomador.IdentificacaoTomador.InscricaoEstadual), DSC_IE));

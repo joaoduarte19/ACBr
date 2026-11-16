@@ -151,7 +151,7 @@ begin
                                  ['N', 'S'], [stNormal, stRetencao]);
 
     // Tomador do Serviço
-    sCPFCNPJTomador := OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj);
+    sCPFCNPJTomador := OnlyCPFCNPJAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj);
 
     if Length(sCPFCNPJTomador) = 11 then
       sIndTomador := '1'
@@ -164,7 +164,7 @@ begin
     sTomador := sIndTomador + Poem_Zeros(sCPFCNPJTomador, 14);
 
     // Prestador Intermediario
-    sCPFCNPJInter := OnlyNumber(NFSe.Intermediario.Identificacao.CpfCnpj);
+    sCPFCNPJInter := OnlyCPFCNPJAlphaNum(NFSe.Intermediario.Identificacao.CpfCnpj);
 
     if Length(sCPFCNPJInter) = 11 then
       sIndInter := '1'
@@ -529,7 +529,7 @@ begin
                     CodIBGEToCodTOM(TACBrNFSeX(FAOwner).Configuracoes.Geral.CodigoMunicipio) +
                   '</CodCidade>' +
                   '<CPFCNPJRemetente>' +
-                    OnlyNumber(Emitente.CNPJ) +
+                    OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                   '</CPFCNPJRemetente>' +
                   '<RazaoSocialRemetente>' +
                     TiraAcentos(Trim(Emitente.RazSocial)) +
@@ -759,7 +759,7 @@ begin
                                  CodIBGEToCodTOM(TACBrNFSeX(FAOwner).Configuracoes.Geral.CodigoMunicipio) +
                                '</CodCidade>' +
                                '<CPFCNPJRemetente>' +
-                                 OnlyNumber(Emitente.CNPJ) +
+                                 OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                '</CPFCNPJRemetente>' +
                                '<Versao>1</Versao>' +
                                '<NumeroLote>' +
@@ -971,7 +971,7 @@ begin
                                  CodIBGEToCodTOM(TACBrNFSeX(FAOwner).Configuracoes.Geral.CodigoMunicipio) +
                                '</CodCidade>' +
                                '<CPFCNPJRemetente>' +
-                                 OnlyNumber(Emitente.CNPJ) +
+                                 OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                '</CPFCNPJRemetente>' +
                                '<transacao>false</transacao>' +
                                '<Versao>1</Versao>' +
@@ -1066,7 +1066,7 @@ begin
                                  Emitente.InscMun +
                                '</IMPrestador>' +
                                '<CPFCNPJRemetente>' +
-                                 OnlyNumber(Emitente.CNPJ) +
+                                 OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                '</CPFCNPJRemetente>' +
                                '<Versao>1</Versao>' +
                              '</Cabecalho>' +
@@ -1300,7 +1300,7 @@ begin
                                  CodIBGEToCodTOM(TACBrNFSeX(FAOwner).Configuracoes.Geral.CodigoMunicipio) +
                                '</CodCidade>' +
                                '<CPFCNPJRemetente>' +
-                                 OnlyNumber(Emitente.CNPJ) +
+                                 OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                '</CPFCNPJRemetente>' +
                                '<InscricaoMunicipalPrestador>' +
                                  OnlyNumber(Emitente.InscMun) +
@@ -1497,7 +1497,7 @@ begin
                                  CodIBGEToCodTOM(TACBrNFSeX(FAOwner).Configuracoes.Geral.CodigoMunicipio) +
                                '</CodCidade>' +
                                '<CPFCNPJRemetente>' +
-                                 OnlyNumber(Emitente.CNPJ) +
+                                 OnlyCPFCNPJAlphaNum(Emitente.CNPJ) +
                                '</CPFCNPJRemetente>' +
                                '<transacao>false</transacao>' +
                                '<Versao>1</Versao>' +
