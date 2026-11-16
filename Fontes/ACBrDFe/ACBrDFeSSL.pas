@@ -171,6 +171,8 @@ type
        const Hash: AnsiString;
        const Assinado: Boolean =  False): Boolean; virtual;
 
+    function GerarCMSDestacado(const ABody: AnsiString): AnsiString; virtual;
+
     procedure CarregarCertificado;
     procedure DescarregarCertificado; virtual;
     function SelecionarCertificado: String; virtual;
@@ -421,6 +423,8 @@ type
        const Digest: TSSLDgst;
        const Hash: AnsiString;
        const Assinado: Boolean =  False): Boolean; overload;
+
+   function GerarCMSDestacado(const ABody: AnsiString): AnsiString;
 
    function CalcHMAC( const BinaryString: AnsiString;
       const AKey: AnsiString;
@@ -979,6 +983,12 @@ function TDFeSSLCryptClass.GetCertIssuerName: String;
 begin
   CarregarCertificadoSeVazio;
   Result := FpDadosCertificado.IssuerName;
+end;
+
+function TDFeSSLCryptClass.GerarCMSDestacado(const ABody: AnsiString): AnsiString;
+begin
+ {$IfDef FPC}Result := EmptyStr;{$EndIf}
+  raise EACBrDFeException.Create('"GerarCMSDestacado" não suportado em: ' + ClassName);
 end;
 
 function TDFeSSLCryptClass.GetCertCertificadora: String;
@@ -1713,6 +1723,11 @@ end;
 function TDFeSSL.GetCertIssuerName: String;
 begin
   Result := FSSLCryptClass.CertIssuerName;
+end;
+
+function TDFeSSL.GerarCMSDestacado(const ABody: AnsiString): AnsiString;
+begin
+  Result := FSSLCryptClass.GerarCMSDestacado(ABody);
 end;
 
 function TDFeSSL.GetCertCertificadora: String;

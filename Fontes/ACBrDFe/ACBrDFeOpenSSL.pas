@@ -88,6 +88,8 @@ type
        const Hash: AnsiString;
        const Assinado: Boolean =  False): Boolean; override;
 
+    function GerarCMSDestacado(const ABody: AnsiString): AnsiString; override;
+
     procedure DescarregarCertificado; override;
     function CarregarCertificadoPublico(const DadosX509Base64: Ansistring): Boolean; override;
 
@@ -171,6 +173,21 @@ begin
     IssuerName := GetIssuerName( cert );
     DERBase64 := CertToDERBase64( cert );
     Tipo := tpcA1;  // OpenSSL somente suporta A1
+  end;
+end;
+
+function TDFeOpenSSL.GerarCMSDestacado(const ABody: AnsiString): AnsiString;
+var
+  lOpenSSLUtils: TACBrOpenSSLUtils;
+begin
+  Result := EmptyStr;
+  CarregarCertificadoSeNecessario;
+  lOpenSSLUtils := TACBrOpenSSLUtils.Create(nil);
+  try
+    lOpenSSLUtils.LoadPFXFromStr(FpDFeSSL.DadosPFX, FpDFeSSL.Senha);
+    Result := lOpenSSLUtils.GenerateCMSDetatechedSignature(ABody);
+  finally
+    FreeAndNil(lOpenSSLUtils);
   end;
 end;
 

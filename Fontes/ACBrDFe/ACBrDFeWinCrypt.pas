@@ -77,6 +77,8 @@ type
        const Hash: AnsiString;
        const Assinado: Boolean =  False): Boolean; override;
 
+    function GerarCMSDestacado(const ABody: AnsiString): AnsiString; override;
+
     function SelecionarCertificado: String; override;
     procedure LerCertificadosStore; override;
     procedure DescarregarCertificado; override;
@@ -246,6 +248,48 @@ begin
         raise;
     end;
   end;
+end;
+
+function TDFeWinCrypt.GerarCMSDestacado(const ABody: AnsiString): AnsiString;
+const
+  DETACHED_SIGN: Boolean = True;
+var
+  lSignParams: CRYPT_SIGN_MESSAGE_PARA;
+  lCerts:      array[0..0] of PCCERT_CONTEXT;
+  lpData:      PByte;
+  lDataSize:   DWORD;
+  lSignedBlob: array of Byte;
+  lSignedSize: DWORD;
+  lDER: AnsiString;
+begin
+  Result := EmptyStr;
+  CarregarCertificadoSeNecessario;
+
+  ZeroMemory(@lSignParams, SizeOf(lSignParams));
+  lSignParams.cbSize            := SizeOf(lSignParams);
+  lSignParams.dwMsgEncodingType := X509_ASN_ENCODING or PKCS_7_ASN_ENCODING;
+  lSignParams.pSigningCert      := FpCertContext;
+  lSignParams.HashAlgorithm.pszObjId := PAnsiChar(szOID_RSA_SHA256RSA);
+  lCerts[0]                     := FpCertContext;
+  lSignParams.cMsgCert          := 1;
+  lSignParams.rgpMsgCert        := @lCerts[0];
+//  lSignParams.cMsgCert          := 0;
+//  lSignParams.rgpMsgCert        := nil;
+
+  lpData    := PByte(PAnsiChar(ABody));
+  lDataSize := Length(ABody);
+
+  lSignedSize := 0;
+  CryptSignMessage(lSignParams, DETACHED_SIGN, 1, @lpData, @lDataSize, nil, lSignedSize);
+
+  SetLength(lSignedBlob, lSignedSize);
+  if not CryptSignMessage(lSignParams, DETACHED_SIGN, 1, @lpData, @lDataSize,
+                          @lSignedBlob[0], lSignedSize) then
+    raise Exception.Create(Format('Falha ao assinar: %d', [GetLastError]));
+
+  SetLength(lDER, lSignedSize);
+  Move(lSignedBlob[0], lDER[1], lSignedSize);
+  Result := EncodeBase64(lDER);
 end;
 
 procedure TDFeWinCrypt.GetCertContextInfo(ADadosCertificado: TDadosCertificado;

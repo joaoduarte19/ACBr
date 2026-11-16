@@ -77,6 +77,8 @@ type
        const Hash: AnsiString;
        const Assinado: Boolean =  False): Boolean; override;
 
+    function GerarCMSDestacado(const ABody: AnsiString): AnsiString; override;
+
     function SelecionarCertificado: String; override;
     procedure LerCertificadosStore; override;
     procedure DescarregarCertificado; override;
@@ -245,6 +247,91 @@ begin
       On E: Exception do
         raise;
     end;
+  end;
+end;
+
+function TDFeWinSecCNGCrypt.GerarCMSDestacado(const ABody: AnsiString): AnsiString;
+var
+  lhKey:           HCRYPTPROV_OR_NCRYPT_KEY_HANDLE;
+  ldwKeySpec:      DWORD;
+  lfCallerFreeKey: BOOL;
+  lSignerInfo:     CMSG_SIGNER_ENCODE_INFO;
+  lSignedInfo:     CMSG_SIGNED_ENCODE_INFO;
+  lSigners:        array[0..0] of CMSG_SIGNER_ENCODE_INFO;
+  lhMsg:           HCRYPTMSG;
+  lSignedSize:     DWORD;
+  lSignedBlob:     array of Byte;
+  lDER:            AnsiString;
+  lCertBlob: CRYPT_DATA_BLOB;
+begin
+  Result := EmptyStr;
+  CarregarCertificadoSeNecessario;
+
+  lhKey           := 0;
+  ldwKeySpec      := 0;
+  lfCallerFreeKey := False;
+
+  if not CryptAcquireCertificatePrivateKey(
+    FpCertContext,
+    CRYPT_ACQUIRE_ONLY_NCRYPT_KEY_FLAG,
+    nil,
+    lhKey,
+    ldwKeySpec,
+    lfCallerFreeKey
+  ) then
+    raise Exception.Create(Format('Falha ao obter chave privada CNG: %d', [GetLastError]));
+  try
+    lCertBlob.cbData := FpCertContext^.cbCertEncoded;
+    lCertBlob.pbData := FpCertContext^.pbCertEncoded;
+
+    ZeroMemory(@lSignerInfo, SizeOf(lSignerInfo));
+    lSignerInfo.cbSize                 := SizeOf(lSignerInfo);
+    lSignerInfo.pCertInfo              := FpCertContext^.pCertInfo;
+    lSignerInfo.hCryptProv             := lhKey;
+    lSignerInfo.dwKeySpec              := ldwKeySpec;
+    lSignerInfo.HashAlgorithm.pszObjId := PAnsiChar(szOID_NIST_sha256);
+
+    lSigners[0] := lSignerInfo;
+
+    ZeroMemory(@lSignedInfo, SizeOf(lSignedInfo));
+    lSignedInfo.cbSize    := SizeOf(lSignedInfo);
+    lSignedInfo.cSigners  := 1;
+    lSignedInfo.rgSigners := @lSigners[0];
+    lSignedInfo.cCertEncoded := 1;
+    lSignedInfo.rgCertEncoded := @lCertBlob;
+
+    lhMsg := CryptMsgOpenToEncode(
+      X509_ASN_ENCODING or PKCS_7_ASN_ENCODING,
+      CMSG_DETACHED_FLAG,
+      CMSG_SIGNED,
+      @lSignedInfo,
+      nil,
+      nil
+    );
+    if not(Assigned(lhMsg)) then    
+      raise Exception.Create(Format('CryptMsgOpenToEncode falhou: %d', [GetLastError]));
+    try
+      if not CryptMsgUpdate(lhMsg, PByte(PAnsiChar(ABody)), Length(ABody), True) then
+        raise Exception.Create(Format('CryptMsgUpdate falhou: %d', [GetLastError]));
+
+      lSignedSize := 0;
+      if not CryptMsgGetParam(lhMsg, CMSG_CONTENT_PARAM, 0, nil, lSignedSize) then
+        raise Exception.Create(Format('Falha ao obter tamanho: %d', [GetLastError]));
+
+      SetLength(lSignedBlob, lSignedSize);
+      if not CryptMsgGetParam(lhMsg, CMSG_CONTENT_PARAM, 0,
+                              @lSignedBlob[0], lSignedSize) then
+        raise Exception.Create(Format('Falha ao obter assinatura: %d', [GetLastError]));
+
+      SetLength(lDER, lSignedSize);
+      Move(lSignedBlob[0], lDER[1], lSignedSize);
+      Result := EncodeBase64(lDER);
+    finally
+      CryptMsgClose(lhMsg);
+    end;
+  finally
+    if lfCallerFreeKey then
+      NCryptFreeObject(lhKey);
   end;
 end;
 
