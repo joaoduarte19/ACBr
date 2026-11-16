@@ -710,7 +710,7 @@ end;
 
 procedure TEmpresaConfig.LerIni(const AIni: TCustomIniFile);
 begin
-  FCNPJ := OnlyNumber(AIni.ReadString(FSessao, CChaveCNPJ, FCNPJ));
+  FCNPJ := OnlyCPFCNPJAlphaNum(AIni.ReadString(FSessao, CChaveCNPJ, FCNPJ));
   FRazaoSocial := AIni.ReadString(FSessao, CChaveRazaoSocial, FRazaoSocial);
   FNomeFantasia := AIni.ReadString(FSessao, CChaveNomeFantasia, FNomeFantasia);
   FWebSite := AIni.ReadString(FSessao, CChaveWebSite, FWebSite);
