@@ -3733,6 +3733,7 @@ begin
   Fimovel := TDadosimovel.Create;
   FbensMoveis := TbensMoveisCollection.Create;
   Fvalores := Tvalorestrib.Create;
+  FgPgtoVinc := TgPgtoVinc.Create;;
 end;
 
 destructor TIBSCBSDPS.Destroy;
@@ -3742,6 +3743,7 @@ begin
   Fimovel.Free;
   FbensMoveis.Free;
   Fvalores.Free;
+  FgPgtoVinc.Free;
 
   inherited Destroy;
 end;
