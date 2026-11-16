@@ -35,7 +35,7 @@
     <License Value="LGPL
 "/>
     <Version Minor="9"/>
-    <Files Count="98">
+    <Files Count="99">
       <Item1>
         <Filename Value="..\..\..\Fontes\ACBrSerial\ACBrSerialReg.pas"/>
         <HasRegisterProc Value="True"/>
@@ -429,6 +429,10 @@
         <Filename Value="..\..\..\Fontes\ACBrSerial\ACBrBALWeightechWT3000IR_ABS_Fm1Fm2Fm9.pas"/>
         <UnitName Value="ACBrBALWeightechWT3000IR_ABS_Fm1Fm2Fm9"/>
       </Item98>
+      <Item99>
+        <Filename Value="..\..\..\Fontes\ACBrSerial\ACBrBALI9ID12B.pas"/>
+        <UnitName Value="ACBrBALI9ID12B"/>
+      </Item99>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="3">

@@ -73,6 +73,7 @@ contains
   ACBrBALMarte in '..\..\..\Fontes\ACBrSerial\ACBrBALMarte.pas',
   ACBrBALLenkeLK2500 in '..\..\..\Fontes\ACBrSerial\ACBrBALLenkeLK2500.pas',
   ACBrBALWeighTRUTest in '..\..\..\Fontes\ACBrSerial\ACBrBALWeighTRUTest.pas',
+  ACBrBALI9ID12B in '..\..\..\Fontes\ACBrSerial\ACBrBALI9ID12B.pas',
   ACBrBALTrentin in '..\..\..\Fontes\ACBrSerial\ACBrBALTrentin.pas',
   ACBrBALWeightechWT3000IR_ABS in '..\..\..\Fontes\ACBrSerial\ACBrBALWeightechWT3000IR_ABS.pas',
   ACBrBALWeightechWT3000IR_ABS_Fm1Fm2Fm9 in '..\..\..\Fontes\ACBrSerial\ACBrBALWeightechWT3000IR_ABS_Fm1Fm2Fm9.pas',

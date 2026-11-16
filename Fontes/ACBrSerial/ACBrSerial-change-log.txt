@@ -37,6 +37,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos) 
+02/02/2026
+
+-- ACBrBAL --
+[+] ACBR-8651 Adiciona modelo Ramuza
+[*] https://www.projetoacbr.com.br/forum/topic/90066-projeto-acbr-adiciona-suporte-a-balan%C3%A7as-ramuza/
+  Por: doszapro
 
 20/03/2026
 -- ACBrETQTspl.pas --
