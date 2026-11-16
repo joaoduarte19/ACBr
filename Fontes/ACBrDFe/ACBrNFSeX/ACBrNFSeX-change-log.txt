@@ -42,6 +42,18 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/11/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-10233 - O município de Goianesia/GO aderiu ao Padrão Nacional	
+	Veja: https://www.projetoacbr.com.br/forum/topic/95970-goian%C3%A9sia-go-provedor-desatualizado/
+	Por: Alessandro Cardoso
+[*] ACBR-10217 - O município de Santa Barbara/MG aderiu ao Padrão Nacional	
+	Veja: https://www.projetoacbr.com.br/forum/topic/95977-acbr-10217-atualizar-dados-da-cidade-santa-barbara-mg-no-arquivo-acbrnfsexservicosini/
+	Por: Facil Sistemas Ltda/Valter Patrick
+[*] ACBR-10105 - O município de Massaranduba/SC aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/95524-acbr-10105-atualiza%C3%A7%C3%A3o-municipios-sc/
+	Por: Diogo Loff/Ramon Valentim
+
 10/11/2026
 -- ACBrNFseXServicos --
 [*] ACBR-10202 - O município de Aguas de Santa Barbara/SP aderiu ao Padrão Nacional
