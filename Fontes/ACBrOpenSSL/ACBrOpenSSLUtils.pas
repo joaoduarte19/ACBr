@@ -197,7 +197,7 @@ type
       Padding: TACBrOpenSSLPadding = rsaPKCS1_OAEP_PADDING ;
       OutputType: TACBrOpenSSLStrType = sttBinary): AnsiString;
 
-    function GenerateCMSDetatechedSignature(const ABody: AnsiString): AnsiString;
+    function GenerateCMSDetachedSignature(const ABody: AnsiString): AnsiString;
 
   public
     property Version: String read GetVersion;
@@ -1767,7 +1767,7 @@ begin
   Result := ExtractModulusAndExponentFromKey(fEVP_PrivateKey, Modulus, Exponent);
 end;
 
-function TACBrOpenSSLUtils.GenerateCMSDetatechedSignature(const ABody: AnsiString): AnsiString;
+function TACBrOpenSSLUtils.GenerateCMSDetachedSignature(const ABody: AnsiString): AnsiString;
 var
   lBioIn, lBioOut: PBIO;
   lCMS: PCMS_ContentInfo;

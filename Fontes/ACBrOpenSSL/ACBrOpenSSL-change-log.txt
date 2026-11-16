@@ -39,6 +39,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 16/11/2026
+-- ACBrOpenSSLUtils --
+[-] Corrige a grafia do nome da nova função de GenerateCMSDetatechedSignature para GenerateCMSDetachedSignature.
+   Por: Diego Folieni
 -- ACBrOpenSSLUtils, OpenSSLExt --
 [+] ACBR-9729 - Implementa método para gerar assinatura CMS destacada.
    Por: Diego Folieni
