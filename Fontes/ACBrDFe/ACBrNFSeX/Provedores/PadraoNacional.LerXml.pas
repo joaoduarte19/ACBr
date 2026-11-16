@@ -1180,7 +1180,7 @@ begin
     }
 
     if Evt then
-      NFSe.SituacaoNfse := TStatusNFSe.snCancelado;
+      NFSe.SituacaoNfse := snCancelado;
 
     NFSe.infNFSe.ID := RemoverLiteralChave(ObterConteudoTag(AuxNode.Attributes.Items['Id']));
 
