@@ -5075,7 +5075,7 @@ end;
 
 procedure TFrmACBrMonitor.edtBOLCNPJKeyPress(Sender: TObject; var Key: char);
 begin
-  if not CharInSet( Key, [#8,'0'..'9'] ) then
+  if not CharInSet( Key, [#8,'0'..'9','A'..'Z','a'..'z'] ) then
     Key := #0;
 end;
 
@@ -5100,7 +5100,7 @@ end;
 procedure TFrmACBrMonitor.edtCNPJContadorKeyPress(Sender: TObject; var Key: char
   );
 begin
-  if not CharInSet( Key, [#8,'0'..'9'] ) then
+  if not CharInSet( Key, [#8,'0'..'9','A'..'Z','a'..'z'] ) then
     Key := #0;
 end;
 
@@ -5127,7 +5127,7 @@ end;
 
 procedure TFrmACBrMonitor.edtEmitCNPJKeyPress(Sender: TObject; var Key: char);
 begin
-  if not CharInSet( Key, [#8,'0'..'9'] ) then
+  if not CharInSet( Key, [#8,'0'..'9','A'..'Z','a'..'z'] ) then
     Key := #0;
 end;
 
@@ -5186,7 +5186,7 @@ end;
 
 procedure TFrmACBrMonitor.edtSwHCNPJKeyPress(Sender: TObject; var Key: char);
 begin
-  if not CharInSet( Key, [#8,'0'..'9'] ) then
+  if not CharInSet( Key, [#8,'0'..'9','A'..'Z','a'..'z'] ) then
     Key := #0;
 end;
 

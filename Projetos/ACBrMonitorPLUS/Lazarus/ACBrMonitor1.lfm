@@ -19978,7 +19978,6 @@ object FrmACBrMonitor: TFrmACBrMonitor
                     Font.Height = -13
                     ParentFont = False
                     TabOrder = 2
-                    OnKeyPress = edOnlyNumbers
                   end
                   object Label87: TLabel
                     AnchorSideLeft.Control = edSH_CNPJ
@@ -20299,7 +20298,6 @@ object FrmACBrMonitor: TFrmACBrMonitor
                 Font.Height = -13
                 ParentFont = False
                 TabOrder = 1
-                OnKeyPress = edOnlyNumbers
               end
               object Label49: TLabel
                 AnchorSideLeft.Control = edUSUEndereco
