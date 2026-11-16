@@ -602,6 +602,9 @@ type
   // PEM
   Ppem_password_cb = Pointer;
 
+  //CMS
+  PCMS_ContentInfo = Pointer;
+
   // PKCS7
   PPKCS7  = ^PKCS7;
   PPKCS7_DIGEST  = ^PKCS7_DIGEST;
@@ -1544,6 +1547,12 @@ var
   procedure CRYPTOcleanupAllExData;
   procedure OPENSSLaddallalgorithms;
 
+  //CMS
+  function CMS_sign(signcert: PX509; pKey: PEVP_PKEY; certs: Pstack_st_X509; data: PBIO; flags: longint): PCMS_ContentInfo;
+  procedure CMS_free(a: PCMS_ContentInfo);
+  function i2d_CMS_bio(bp: PBIO; cms: PCMS_ContentInfo): longint;
+
+
   // PKCS7 functions
   function PKCS7_ISSUER_AND_SERIAL_new : PPKCS7_ISSUER_AND_SERIAL;
   procedure PKCS7_ISSUER_AND_SERIAL_free (a:PPKCS7_ISSUER_AND_SERIAL);
@@ -1606,6 +1615,7 @@ var
   function PKCS7_add0_attrib_signing_time(si:PPKCS7_SIGNER_INFO; t:PASN1_TIME):longint;
   function PKCS7_add1_attrib_digest(si:PPKCS7_SIGNER_INFO; md:Pbyte; mdlen:longint):longint;
   function BIO_new_PKCS7(_out:PBIO; p7:PPKCS7):PBIO;
+  function i2d_PKCS7_bio(bp: PBIO; p7: PPKCS7): longint;
   procedure ERR_load_PKCS7_strings;
 
   // BN functions
@@ -1688,6 +1698,44 @@ function DestroyLibeaInterface: Boolean; deprecated;
 
 function LibNumVersion: String;
 function LibVersionIsGreaterThan1_0_0: Boolean;
+
+//pkcs7.h
+const
+  PKCS7_TEXT = $1;
+  PKCS7_NOCERTS = $2;
+  PKCS7_NOSIGS = $4;
+  PKCS7_NOCHAIN = $8;
+  PKCS7_NOINTERN = $10;
+  PKCS7_NOVERIFY = $20;
+  PKCS7_DETACHED = $40;
+  PKCS7_BINARY = $80;
+  PKCS7_NOATTR = $100;
+  PKCS7_NOSMIMECAP = $200;
+  PKCS7_NOOLDMIMETYPE = $400;
+  PKCS7_CRLFEOL = $800;
+  PKCS7_STREAM = $1000;
+  PKCS7_NOCRL = $2000;
+  PKCS7_PARTIAL = $4000;
+  PKCS7_REUSE_DIGEST = $8000;
+  PKCS7_NO_DUAL_CONTENT = $10000;
+
+  CMS_TEXT = $1;
+  CMS_NOCERTS = $2;
+  CMS_NOSIGS = $4;
+  CMS_NOCHAIN = $8;
+  CMS_NOINTERN = $10;
+  CMS_NOVERIFY = $20;
+  CMS_DETACHED = $40;
+  CMS_BINARY = $80;
+  CMS_NOATTR = $100;
+  CMS_NOSMIMECAP = $200;
+  CMS_NOOLDMIMETYPE = $400;
+  CMS_CRLFEOL = $800;
+  CMS_STREAM = $1000;
+  CMS_NOCRL = $2000;
+  CMS_PARTIAL = $4000;
+  CMS_REUSE_DIGEST = $8000;
+  CMS_NO_DUAL_CONTENT = $10000;
 
 var
   OpenSSL_unavailable_functions: string;
@@ -2441,7 +2489,12 @@ var
   _PKCS7_add0_attrib_signing_time : function(si:PPKCS7_SIGNER_INFO; t:PASN1_TIME):longint;cdecl;
   _PKCS7_add1_attrib_digest : function(si:PPKCS7_SIGNER_INFO; md:Pbyte; mdlen:longint):longint;cdecl;
   _BIO_new_PKCS7 : function(_out:PBIO; p7:PPKCS7):PBIO;cdecl;
+  _i2d_PKCS7_bio: function(bp: PBIO; p7:PPKCS7): longint;cdecl;
   _ERR_load_PKCS7_strings : procedure;cdecl;
+
+  _CMS_sign: function(signcert: PX509; pKey: PEVP_PKEY; certs: Pstack_st_X509; data: PBIO; flags: longint): PCMS_ContentInfo; cdecl;
+  _CMS_ContentInfo_free : procedure(a:PCMS_ContentInfo);cdecl;
+  _i2d_CMS_bio: function(bp: PBIO; CMS: PCMS_ContentInfo): longint;cdecl;
 
   // BN
   _BN_new : function():PBIGNUM; cdecl;
@@ -5134,11 +5187,41 @@ begin
     Result:=Nil;
 end;
 
+function i2d_PKCS7_bio(bp: PBIO; p7: PPKCS7): longint;
+begin
+  if InitSSLInterface and Assigned(_i2d_PKCS7_bio) then
+    Result := _i2d_PKCS7_bio(bp, p7)
+  else
+    Result := 0;
+end;
+
 procedure ERR_load_PKCS7_strings;
 
 begin
   if InitSSLInterface and Assigned(_ERR_load_PKCS7_strings) then
     _ERR_load_PKCS7_strings
+end;
+
+function CMS_sign(signcert: PX509; pKey: PEVP_PKEY; certs: Pstack_st_X509; data: PBIO; flags: longint): PCMS_ContentInfo;
+begin
+  if InitSSLInterface and Assigned(_CMS_sign) then
+    Result:= _CMS_sign(signcert, pKey, certs, data, flags)
+  else
+    Result:=Nil;
+end;
+
+procedure CMS_free(a:PCMS_ContentInfo);
+begin
+  if InitSSLInterface and Assigned(_CMS_ContentInfo_free) then
+    _CMS_ContentInfo_free(a)
+end;
+
+function i2d_CMS_bio(bp: PBIO; cms: PCMS_ContentInfo): longint;
+begin
+  if InitSSLInterface and Assigned(_i2d_CMS_bio) then
+    Result := _i2d_CMS_bio(bp, cms)
+  else
+    Result := 0;
 end;
 
 // BN
@@ -5946,7 +6029,12 @@ begin
   _PKCS7_add0_attrib_signing_time:=GetProcAddr(SSLUtilHandle,'PKCS7_add0_attrib_signing_time');
   _PKCS7_add1_attrib_digest:=GetProcAddr(SSLUtilHandle,'PKCS7_add1_attrib_digest');
   _BIO_new_PKCS7:=GetProcAddr(SSLUtilHandle,'BIO_new_PKCS7');
+  _i2d_PKCS7_bio:=GetProcAddr(SSLUtilHandle, 'i2d_PKCS7_bio');
   _ERR_load_PKCS7_strings:=GetProcAddr(SSLUtilHandle,'ERR_load_PKCS7_strings');
+
+  _CMS_sign:=GetProcAddr(SSLUtilHandle, 'CMS_sign');
+  _CMS_ContentInfo_free:=GetProcAddr(SSLUtilHandle, 'CMS_ContentInfo_free');
+  _i2d_CMS_bio:=GetProcAddr(SSLUtilHandle, 'i2d_CMS_bio');
 
   // BN
   _BN_new:=GetProcAddr(SSLUtilHandle,'BN_new');
@@ -6138,7 +6226,13 @@ begin
   _PKCS7_add0_attrib_signing_time:=nil;
   _PKCS7_add1_attrib_digest:=nil;
   _BIO_new_PKCS7:=nil;
+  _i2d_PKCS7_bio:=nil;
   _ERR_load_PKCS7_strings:=nil;
+
+  //CMS
+  _CMS_sign := nil;
+  _CMS_ContentInfo_free := nil;
+  _i2d_CMS_bio := nil;
 
   // BN
   _BN_new:=nil;

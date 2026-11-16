@@ -38,6 +38,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/11/2026
+-- ACBrOpenSSLUtils, OpenSSLExt --
+[+] ACBR-9729 - Implementa método para gerar assinatura CMS destacada.
+   Por: Diego Folieni
+
 17/04/2026
 -- ACBrOpenSSLUtils --
 [+] Adicionada propriedade, para expor o certificado lido (read-only)

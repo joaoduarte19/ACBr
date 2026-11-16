@@ -197,6 +197,8 @@ type
       Padding: TACBrOpenSSLPadding = rsaPKCS1_OAEP_PADDING ;
       OutputType: TACBrOpenSSLStrType = sttBinary): AnsiString;
 
+    function GenerateCMSDetatechedSignature(const ABody: AnsiString): AnsiString;
+
   public
     property Version: String read GetVersion;
 
@@ -1763,6 +1765,43 @@ function TACBrOpenSSLUtils.ExtractModulusAndExponentFromPrivateKey(out
 begin
   CheckPrivateKeyIsLoaded;
   Result := ExtractModulusAndExponentFromKey(fEVP_PrivateKey, Modulus, Exponent);
+end;
+
+function TACBrOpenSSLUtils.GenerateCMSDetatechedSignature(const ABody: AnsiString): AnsiString;
+var
+  lBioIn, lBioOut: PBIO;
+  lCMS: PCMS_ContentInfo;
+  lFlags: Integer;
+  lDER: AnsiString;
+begin
+  Result := '';
+  CheckCertificateIsLoaded;
+  CheckPrivateKeyIsLoaded;
+
+  lFlags := CMS_DETACHED or CMS_BINARY or CMS_NOSMIMECAP;
+
+  lBioIn := BIO_new_mem_buf(PAnsiChar(ABody), Length(ABody));
+  try
+    lCMS := CMS_sign(CertX509, fEVP_PrivateKey, nil, lBioIn, lFlags);
+    if lCMS = nil then
+      raise EACBrOpenSSLException.Create('Falha ao criar CMS');
+    try
+      lBioOut := BIOnew(BIOsmem());
+      try
+        if i2d_CMS_bio(lBioOut, lCMS) <= 0 then
+          raise EACBrOpenSSLException.Create('Falha ao serializar CMS');
+
+        lDER := BioToStr(lBioOut);
+        Result := EncodeBase64(lDER);
+      finally
+        BioFreeAll(lBioOut);
+      end;
+    finally
+      CMS_free(lCMS);
+    end;
+  finally
+    BioFreeAll(lBioIn);
+  end;
 end;
 
 function TACBrOpenSSLUtils.GeneratePublicKeyFromPrivateKey: String;
