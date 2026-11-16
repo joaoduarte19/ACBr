@@ -41,6 +41,13 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+16/11/2026
+-- SpeedGov.Provider --
+[+] ACBR-9729 - Implementa o cancelamento para a API própria no provedor SpeedGov.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/94069-acbr-9729cancelamento-nfse-via-api-pr%C3%B3pria-speedgov-juazeiro-do-norte-ce/  
+
 16/11/2026
 -- Diversos --
 [*] ACBR-10091 - Ajustes para cnpj alfa-numérico
