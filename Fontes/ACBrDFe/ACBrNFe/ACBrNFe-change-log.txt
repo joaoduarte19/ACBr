@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/11/2026
+-- ACBrNFe.Conversao --
+[-] Corrige Access Violation (Lazarus) na função BandeiraCartaoToDescStr quando o enumerado TBandeiraCartao estiver inválido.
+   Exemplo: TBandeiraCartao(-1);
+   Por: Victor H Gonzales - Pandaaa
+
 13/11/2026
 -- ACBrNFe.Consts --
 [*] A constante DSC_VICMSPREVISTO foi movida para a unit ACBrDFeConsts, uma vez que ela

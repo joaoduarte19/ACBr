@@ -851,36 +851,21 @@ end;
 
 function BandeiraCartaoToDescStr(const t: TBandeiraCartao): string;
 begin
-  case t of
-    bcVisa:            Result := 'Visa';
-    bcMasterCard:      Result := 'MasterCard';
-    bcAmericanExpress: Result := 'AmericanExpress';
-    bcSorocred:        Result := 'Sorocred';
-    bcDinersClub:      Result := 'Diners Club';
-    bcElo:             Result := 'Elo';
-    bcHipercard:       Result := 'Hipercard';
-    bcAura:            Result := 'Aura';
-    bcCabal:           Result := 'Cabal';
-    bcAlelo:           Result := 'Alelo';
-    bcBanesCard:       Result := 'BanesCard';
-    bcCalCard:         Result := 'CalCard';
-    bcCredz:           Result := 'Credz';
-    bcDiscover:        Result := 'Discover';
-    bcGoodCard:        Result := 'GoodCard';
-    bcGreenCard:       Result := 'GreenCard';
-    bcHiper:           Result := 'Hiper';
-    bcJcB:             Result := 'JcB';
-    bcMais:            Result := 'Mais';
-    bcMaxVan:          Result := 'MaxVan';
-    bcPolicard:        Result := 'Policard';
-    bcRedeCompras:     Result := 'RedeCompras';
-    bcSodexo:          Result := 'Sodexo';
-    bcValeCard:        Result := 'ValeCard';
-    bcVerocheque:      Result := 'Verocheque';
-    bcVR:              Result := 'VR';
-    bcTicket:          Result := 'Ticket';
-    bcOutros:          Result := 'Outros'
-  end;
+  // Usa EnumeradoToStr em vez de "case" para nao gerar AV quando "t" estiver
+  // fora da faixa do enumerado (ex.: TBandeiraCartao(-1)). No FPC o case e
+  // compilado como jump table sem verificacao de limites.
+  result := EnumeradoToStr(t, ['Visa', 'MasterCard', 'AmericanExpress', 'Sorocred',
+                               'Diners Club', 'Elo', 'Hipercard', 'Aura', 'Cabal',
+                               'Alelo', 'BanesCard', 'CalCard', 'Credz', 'Discover',
+                               'GoodCard', 'GreenCard', 'Hiper', 'JcB', 'Mais',
+                               'MaxVan', 'Policard', 'RedeCompras', 'Sodexo',
+                               'ValeCard', 'Verocheque', 'VR', 'Ticket', 'Outros'],
+                              [bcVisa, bcMasterCard, bcAmericanExpress, bcSorocred,
+                               bcDinersClub, bcElo, bcHipercard, bcAura, bcCabal,
+                               bcAlelo, bcBanesCard, bcCalCard, bcCredz, bcDiscover,
+                               bcGoodCard, bcGreenCard, bcHiper, bcJcB, bcMais,
+                               bcMaxVan, bcPolicard, bcRedeCompras, bcSodexo,
+                               bcValeCard, bcVerocheque, bcVR, bcTicket, bcOutros]);
 end;
 
 function BandeiraCartaoToStr(const t: TBandeiraCartao): string;
