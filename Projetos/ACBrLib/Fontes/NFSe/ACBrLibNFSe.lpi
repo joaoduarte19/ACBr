@@ -488,7 +488,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dMT -dNOGUI -g"/>
+            <CustomOptions Value="-dMT -dNOGUI"/>
           </Other>
         </CompilerOptions>
       </Item12>
