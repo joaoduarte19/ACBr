@@ -40,8 +40,14 @@ Símbolo : Significado
 
 
 17/11/2026
+-- ACBrBALRamuza --
+[-] Corrige procedimento de "SolicitaPeso" considerando os caracteres ENQ: 0x5,0x5A,0x5B e 0x6.
+  Por: doszapro
+
+17/11/2026
 -- ACBrRFD --
 [*] ACBR-10091 - SH_CNPJ e CONT_CNPJ passam a aceitar CNPJ alfanumérico, mantendo letras maiúsculas e números.
+
   (por: Daniel de Morais Infocotidiano)
 
 16/11/2026

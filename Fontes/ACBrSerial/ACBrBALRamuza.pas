@@ -59,6 +59,7 @@ type
     procedure LeSerial( MillisecTimeOut : Integer = 500) ; override;
     function InterpretarRepostaPeso(const aResposta: AnsiString): Double; override;
     function EnviarPrecoKg(const aValor: Currency; aMillisecTimeOut: Integer = 3000): Boolean; override;
+    procedure SolicitarPeso; override;
   end;
 
 implementation
@@ -226,6 +227,14 @@ begin
   Sleep(200);
 
   Result := (fpDevice.LeString(aMillisecTimeOut) = ACK);
+end;
+
+procedure TACBrBALRamuza.SolicitarPeso;
+var
+  lComandoLePeso: string;
+begin
+  lComandoLePeso:= #05 + ansichar($5A) +ansichar($5B) +ansichar($06);
+  fpDevice.EnviaString(lComandoLePeso);
 end;
 
 end.
