@@ -221,6 +221,7 @@ begin
 
   // Reforma Tributária
   LerINIIBSCBS(AINIRec, NFSe.IBSCBS);
+  LerINIIBSCBSNFSe(AINIRec, NFSe.infNFSe.IBSCBS);
 
   LerINIQuartos(AINIRec);
   LerINIDespesas(AINIRec);
