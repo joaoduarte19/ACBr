@@ -384,6 +384,7 @@ var
   parser_ctxt: xmlSchemaParserCtxtPtr;
   schema: xmlSchemaPtr;
   valid_ctxt: xmlSchemaValidCtxtPtr;
+  RealPath: String;
 begin
   InitLibXML2;
 
@@ -404,7 +405,18 @@ begin
       Exit;
     end;
 
-    parser_ctxt := xmlSchemaNewParserCtxt(PAnsiChar(ansistring(ArqSchema)));
+    {$IfDef MSWINDOWS}
+     // Em caminho de rede (\\servidor\pasta) a libxml2 perde uma barra ao montar a
+     // base dos xs:include/xs:import (fica /servidor/pasta) e nao os encontra.
+     // Na forma de URI file://///servidor/pasta/arquivo.xsd a base fica correta.
+     RealPath := StringReplace(ArqSchema, '\', '/', [rfReplaceAll]);
+     if (Copy(RealPath, 1, 2) = '//') then
+       RealPath := 'file:///' + RealPath;
+    {$Else}
+     RealPath := ArqSchema;
+    {$EndIf}
+
+    parser_ctxt := xmlSchemaNewParserCtxt(PAnsiChar(ansistring(RealPath)));
     // unable to create a parser context for the schema */
     if (parser_ctxt = nil) then
     begin

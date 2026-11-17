@@ -39,6 +39,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/11/2026
+-- ACBrDFeXsLibXml2 --
+[-] Correção para aceitar Paths em formato Windows UNC
+    http://www.projetoacbr.com.br/forum/index.php?showtopic=96010
+    (por: Alexandre Scheidt e I.A.)
+
 16/11/2026
 -- ACBrDFeOpenSSL --
 [-] Corrige a grafia do nome da nova função de GenerateCMSDetatechedSignature para GenerateCMSDetachedSignature.
