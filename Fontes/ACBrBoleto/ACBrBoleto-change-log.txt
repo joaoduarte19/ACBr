@@ -49,6 +49,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/11/2026
+-- ACBrBoletoRet_Bradesco.pas --
+[-] Ajustado o LerRetorno para tratar retornos que não são JSON (ex.: HTTP 422 em text/plain "Erro na conversão de campos"), gerando a rejeição com o código HTTP e o texto devolvido pelo banco, em vez de gerar EJsonParserException e deixar a lista de rejeições vazia.
+	[ACBR-10241] https://www.projetoacbr.com.br/forum/topic/96018-api-boleto-comum-—-http-422-e-ejsonparserexception/
+	Por: Daniel de Morais
+
 28/10/2026
 -- ACBrBoletoRet_BancoBrasil_API, ACBrBoletoW_BancoBrasil_API --
 [*] Ajustado a propriedade indicadorAceiteTituloVencido para ser enviado S ou N, e mapeado retorno CNPJCPF Sacado

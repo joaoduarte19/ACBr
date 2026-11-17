@@ -147,6 +147,16 @@ begin
 
   if RetWS <> '' then
   begin
+    // Retorno não JSON (ex.: 422 em text/plain)
+    if Copy(Trim(RetWS), 1, 1) <> '{' then
+    begin
+      LMensagemRejeicao          := ARetornoWS.CriarRejeicaoLista;
+      LMensagemRejeicao.Codigo   := IntToStr(HTTPResultCode);
+      LMensagemRejeicao.Mensagem := RetWS;
+      Result := False;
+      Exit;
+    end;
+
     try
       LJsonObject := TACBrJSONObject.Parse(RetWS);
       try
