@@ -225,7 +225,7 @@ begin
     oFile.LoadFromFile(FOFXFile);
     i := 0;
 
-    if (Pos('ENCODING:UTF-8',oFile.Text) > 0) then
+    if (Pos('ENCODING:UTF-8', StringReplace(UpperCase(oFile.Text), ' ', '', [rfReplaceAll])) > 0) then
       oFile.Text := UTF8ToNativeString(oFile.Text);
 
     oFile.Text := StringReplace(oFile.Text, '<', sLineBreak + '<', [rfReplaceAll]);

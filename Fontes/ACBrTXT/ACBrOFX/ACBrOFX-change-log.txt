@@ -48,6 +48,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/11/2026
+[-] ACBR-9688 - ACBrOFX - Correção na identificação do ENCODING UTF-8 quando o cabeçalho possui espaços ou letras minúsculas (ex.: C6 Bank) - https://www.projetoacbr.com.br/forum/topic/93171-sugest%C3%A3o-de-corre%C3%A7%C3%A3o-falha-na-identifica%C3%A7%C3%A3o-de-encoding-utf-8-no-acbrofx-ex-c6-bank/
+   Por: Embrati / Larissa Santos
+
 03/03/2026
 [*] ACBR-8909 - ACBrOFX - Tratamento para quebra de linhas quando houverem tags sem fechamento - https://www.projetoacbr.com.br/forum/topic/90003-acbr-8909-erro-ao-ler-arquivo-ofx-caixa-economica-federal-invalid-argument-to-date-enconde/
    Por: Weber de Paula / Renato Rubinho
