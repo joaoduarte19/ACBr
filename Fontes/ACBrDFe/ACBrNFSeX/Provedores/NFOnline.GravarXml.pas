@@ -39,7 +39,8 @@ interface
 uses
   SysUtils, Classes, StrUtils,
   ACBrNFSeXGravarXml_ABRASFv2,
-  ACBrXmlDocument;
+  ACBrXmlDocument,
+  ACBrNFSeXClass;
 
 type
   { TNFSeW_NFOnline203 }
@@ -51,6 +52,9 @@ type
     function GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode; override;
     function GerarServico: TACBrXmlNode; override;
     function GerarValores: TACBrXmlNode; override;
+    function GerarTomador: TACBrXmlNode; override;
+    function GerarIntermediarioServico: TACBrXmlNode; override;
+    function GerarXMLDestinatario(Dest: TDadosdaPessoa): TACBrXmlNode; override;
   end;
 
 implementation
@@ -72,31 +76,9 @@ procedure TNFSeW_NFOnline203.Configuracao;
 begin
   inherited Configuracao;
 
-  {
-     Todos os parâmetros de configuração estão com os seus valores padrões.
+  GerarEnderecoExterior := False;
 
-     Se a configuração padrão atende o provedor ela pode ser excluida dessa
-     procedure.
-
-     Portanto deixe somente os parâmetros de configuração que foram alterados
-     para atender o provedor.
-  }
-
-  // Propriedades de Formatação de informações
-  // elas requerem que seja declarado em uses a unit: ACBrXmlBase
-  {
-  FormatoEmissao     := tcDat;
-  FormatoCompetencia := tcDat;
-
-  FormatoAliq := tcDe4;
-  }
-
-  // elas requerem que seja declarado em uses a unit: ACBrNFSeXConversao
-  {
-  // filsComFormatacao, filsSemFormatacao, filsComFormatacaoSemZeroEsquerda
-  FormatoItemListaServico := filsComFormatacao;
-  }
-
+  (*
   DivAliq100  := False;
 
   NrMinExigISS := 1;
@@ -110,10 +92,6 @@ begin
   GerarNSRps := True;
 
   GerarIDDeclaracao := True;
-  GerarEnderecoExterior := True;
-
-  TagTomador := 'Tomador';
-  TagIntermediario := 'Intermediario';
 
   // Numero de Ocorrencias Minimas de uma tag
   // se for  0 só gera a tag se o conteudo for diferente de vazio ou zero
@@ -202,6 +180,7 @@ begin
   NrOcorrRetidoIr := -1;
   NrOcorrAliquotaCsll := -1;
   NrOcorrRetidoCsll := -1;
+  *)
 end;
 
 function TNFSeW_NFOnline203.GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode;
@@ -252,8 +231,13 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'TipoEnteGovernamental', 1, 1, 0,
                                     tpEnteGovToStr(NFSe.IBSCBS.tpEnteGov), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'ServicoResultadoOutroPais', 2, 2, 0,
-         CodIBGEPaisToSiglaISO2(NFSe.Servico.Valores.tribMun.cPaisResult), ''));
+  if (NFSe.Servico.Valores.tribMun.cPaisResult <> 0) and
+     (NFSe.Servico.Valores.tribMun.cPaisResult <> 1058) then
+    Result.AppendChild(AddNode(tcBool, '#1', 'ServicoResultadoOutroPais', 2, 5, 0,
+                                                                      True, ''))
+  else
+    Result.AppendChild(AddNode(tcBool, '#1', 'ServicoResultadoOutroPais', 2, 5, 0,
+                                                                    False, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'PaisPrestacao', 2, 2, 0,
                           CodIBGEPaisToSiglaISO2(NFSe.Servico.CodigoPais), ''));
@@ -266,6 +250,33 @@ begin
   if GerarAtividadeEventoAposIncentivoFiscal then
     Result.AppendChild(GeraAtividadeEvento);
 }
+end;
+
+function TNFSeW_NFOnline203.GerarIntermediarioServico: TACBrXmlNode;
+begin
+  Result := nil;
+
+  if (NFSe.Intermediario.RazaoSocial <> '') or
+     (NFSe.Intermediario.Identificacao.CpfCnpj <> '') then
+  begin
+    Result := CreateElement('Intermediario');
+
+    Result.AppendChild(AddNode(tcInt, '#38', 'InformaIntermediario', 1, 40, 1, 1));
+
+    Result.AppendChild(GerarIdentificacaoIntermediarioServico);
+
+    Result.AppendChild(AddNode(tcStr, '#48', 'RazaoSocial', 1, 115, NrOcorrRazaoSocialInterm,
+                                    NFSe.Intermediario.RazaoSocial, DSC_XNOME));
+
+    Result.AppendChild(AddNode(tcStr, '#49', 'CodigoMunicipio', 7, 7,
+       NrOcorrCodigoMunicInterm, NFSe.Intermediario.CodigoMunicipio, DSC_CMUN));
+  end
+  else
+  begin
+     Result := CreateElement('Intermediario');
+
+     Result.AppendChild(AddNode(tcInt, '#38', 'InformaIntermediario', 1, 40, 1, 0));
+  end;
 end;
 
 function TNFSeW_NFOnline203.GerarServico: TACBrXmlNode;
@@ -312,6 +323,56 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#1', 'CodigoIndicadorOperacaoFornecimento', 6, 6, 1,
                                                        NFSe.IBSCBS.cIndOp, ''));
+end;
+
+function TNFSeW_NFOnline203.GerarTomador: TACBrXmlNode;
+begin
+  Result := nil;
+
+  if (NFSe.Tomador.IdentificacaoTomador.CpfCnpj <> '') or
+     (NFSe.Tomador.RazaoSocial <> '') or
+     (NFSe.Tomador.Endereco.Endereco <> '') or
+     (NFSe.Tomador.Contato.Telefone <> '') or
+     (NFSe.Tomador.Contato.Email <>'') then
+  begin
+    Result := CreateElement('Tomador');
+
+    Result.AppendChild(AddNode(tcInt, '#38', 'InformaTomador', 1, 40, 1, 1));
+
+    if (NFSe.Tomador.IdentificacaoTomador.CpfCnpj <> '') or
+       (NFSe.Tomador.IdentificacaoTomador.InscricaoMunicipal <> '') then
+      Result.AppendChild(GerarIdentificacaoTomador);
+
+    if GerarTagNifTomador and (NFSe.Tomador.Endereco.UF = 'EX') and
+       (NFSe.Tomador.IdentificacaoTomador.Nif <> '') then
+      Result.AppendChild(AddNode(tcStr, '#38', 'NifTomador', 1, 40, 1,
+                                        NFSe.Tomador.IdentificacaoTomador.Nif));
+
+    Result.AppendChild(AddNode(tcStr, '#38', 'RazaoSocial', 1, 115, 0,
+                                          NFSe.Tomador.RazaoSocial, DSC_XNOME));
+
+    if GerarEnderecoExterior and (NFSe.Tomador.Endereco.CodigoPais <> 1058) then
+      Result.AppendChild(GerarEnderecoExteriorTomador)
+    else
+      Result.AppendChild(GerarEnderecoTomador);
+
+    Result.AppendChild(GerarContatoTomador);
+
+    Result.AppendChild(AddNode(tcStr, '#38', 'InscricaoEstadual', 1, 20, NrOcorrInscEstTomador_2,
+                  NFSe.Tomador.IdentificacaoTomador.InscricaoEstadual, DSC_IE));
+
+    Result.AppendChild(AddNode(tcStr, '#', 'AtualizaTomador', 1, 1, NrOcorrAtualizaTomador,
+                   FpAOwner.SimNaoToStr(NFSe.Tomador.AtualizaTomador), '****'));
+
+    Result.AppendChild(AddNode(tcStr, '#', 'TomadorExterior', 1, 1, NrOcorrTomadorExterior,
+                   FpAOwner.SimNaoToStr(NFSe.Tomador.TomadorExterior), '****'));
+  end
+  else
+  begin
+    Result := CreateElement('Tomador');
+
+    Result.AppendChild(AddNode(tcInt, '#38', 'InformaTomador', 1, 40, 1, 0));
+  end;
 end;
 
 function TNFSeW_NFOnline203.GerarValores: TACBrXmlNode;
@@ -373,8 +434,36 @@ begin
   Result.AppendChild(AddNode(tcDe2, '#1', 'ValorCBS', 1, 7, 0,
                                     NFSe.infNFSe.IBSCBS.totCIBS.gCBS.vCBS, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#34', 'CodigoMunicipio', 1, 7, 1,
+  Result.AppendChild(AddNode(tcStr, '#34', 'MunicipioServico', 1, 7, 1,
                                        NFSe.Servico.CodigoMunicipio, DSC_CMUN));
+end;
+
+function TNFSeW_NFOnline203.GerarXMLDestinatario(
+  Dest: TDadosdaPessoa): TACBrXmlNode;
+begin
+  Result := CreateElement('Destinatario');
+
+  if Dest.CNPJCPF <> NFSe.Tomador.IdentificacaoTomador.CpfCnpj then
+  begin
+    if Dest.CNPJCPF <> '' then
+      Result.AppendChild(AddNodeCNPJCPF('#1', '#1', Dest.CNPJCPF))
+    else
+    if Dest.Nif <> '' then
+      Result.AppendChild(AddNode(tcStr, '#1', 'NIF', 1, 40, 1, Dest.Nif, ''))
+    else
+      Result.AppendChild(AddNode(tcStr, '#1', 'cNaoNIF', 1, 1, 1,
+                                                NaoNIFToStr(Dest.cNaoNIF), ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'xNome', 1, 300, 1, Dest.xNome, ''));
+
+    Result.AppendChild(GerarXMLEnderecoDestinatario(Dest.ender));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'fone', 6, 20, 0, Dest.fone, ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'email', 1, 80, 0, Dest.email, ''));
+  end
+  else
+    Result.AppendChild(AddNode(tcStr, '#1', 'DestinatarioTomador', 1, 1, 1, 0, ''));
 end;
 
 end.
