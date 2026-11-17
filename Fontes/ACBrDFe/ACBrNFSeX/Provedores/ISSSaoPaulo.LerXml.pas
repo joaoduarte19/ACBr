@@ -314,13 +314,15 @@ procedure TNFSeR_ISSSaoPaulo.LerXMLIBSCBSDPS(const ANode: TACBrXmlNode;
 begin
   inherited LerXmlIBSCBSDPS(ANode, IBSCBS);
 
+  if not Assigned(ANode) then Exit;
+
   LerXMLImovel(ANode.Childrens.FindAnyNs('imovelobra'), IBSCBS.imovel);
 
   // Falta o campo indDoacao
 
   NFSe.Servico.Valores.tribMun.cPaisResult := SiglaISO2ToCodIBGEPais(ObterConteudo(ANode.Childrens.FindAnyNs('cPaisResult'), tcStr));
 
-  LerXmlpgtoVinc(ANode, IBSCBS.gPgtoVinc);
+  LerXmlpgtoVinc(ANode.Childrens.FindAnyNs('gPgtoVinc'), IBSCBS.gPgtoVinc);
 end;
 
 procedure TNFSeR_ISSSaoPaulo.LerXMLImovel(const ANode: TACBrXmlNode;

@@ -65,6 +65,7 @@ type
     FpAOwner: IACBrNFSeXProvider;
     FpQuebradeLinha: string;
     FpIniParamsTabCarregado: Boolean;
+    FpVersaoNT: TVersaoNTPadraoNacional;
 
     procedure Configuracao; virtual;
 
@@ -769,9 +770,15 @@ function TNFSeRClass.LerIni: Boolean;
 var
   INIRec: TMemIniFile;
   TipoXML: string;
+  Ok: Boolean;
 //  RIni: TNFSeIniReader;
 begin
   // Usar o FpAOwner em vez de  FProvider
+  if FpAOwner.ConfigGeral.Ambiente = taProducao then
+    FpVersaoNT := StrToVersaoNTPadraoNacional(Ok, FpAOwner.ConfigWebServices.Producao.VersaoNT)
+  else
+    FpVersaoNT := StrToVersaoNTPadraoNacional(Ok, FpAOwner.ConfigWebServices.Homologacao.VersaoNT);
+
   {
   RIni := TNFSeIniReader.Create(NFSe, FpAOwner);
 
@@ -934,7 +941,9 @@ begin
       // Provedor SigISSWeb
       NFSe.verAplic := AINIRec.ReadString(sSecao, 'verAplic', 'ACBrNFSeX-1.00');
       NFSe.chNFSeRej := AINIRec.ReadString(sSecao, 'chNFSeRej', '');
-      NFSe.IBSCBS.finNFSe := StrTofinNFSe(AINIRec.ReadString(sSecao, 'finNFSe', '0'));
+
+      if FpVersaoNT = ntPN009v101 then
+        NFSe.IBSCBS.finNFSe := StrTofinNFSe(AINIRec.ReadString(sSecao, 'finNFSe', '0'));
     end;
 
     sSecao := 'RpsSubstituido';
@@ -1673,9 +1682,12 @@ var
 begin
   if not Assigned(ANode) then Exit;
 
-  aValor := ObterConteudo(ANode.Childrens.FindAnyNs('finNFSe'), tcStr);
-  if aValor <> '' then
-    IBSCBS.finNFSe := StrTofinNFSe(aValor);
+  if FpVersaoNT = ntPNNenhuma then
+  begin
+    aValor := ObterConteudo(ANode.Childrens.FindAnyNs('finNFSe'), tcStr);
+    if aValor <> '' then
+      IBSCBS.finNFSe := StrTofinNFSe(aValor);
+  end;
 
   IBSCBS.indFinal := StrToindFinal(ObterConteudo(ANode.Childrens.FindAnyNs('indFinal'), tcStr));
   IBSCBS.cIndOp := ObterConteudo(ANode.Childrens.FindAnyNs('cIndOp'), tcStr);
@@ -2109,7 +2121,7 @@ var
 begin
   if not Assigned(ANode) then Exit;
 
-  ANodes := ANode.Childrens.FindAll('gPgtoVinc');
+  ANodes := ANode.Childrens.FindAll('pgto');
 
   for i := 0 to Length(ANodes) - 1 do
   begin
@@ -2143,7 +2155,9 @@ begin
   sSecao := 'IBSCBSDPS';
   if AINIRec.SectionExists(sSecao) then
   begin
-    IBSCBS.finNFSe := StrTofinNFSe(AINIRec.ReadString(sSecao, 'finNFSe', '0'));
+    if FpVersaoNT = ntPNNenhuma then
+      IBSCBS.finNFSe := StrTofinNFSe(AINIRec.ReadString(sSecao, 'finNFSe', '0'));
+
     IBSCBS.indFinal := StrToindFinal(AINIRec.ReadString(sSecao, 'indFinal', '1'));
     IBSCBS.cIndOp := AINIRec.ReadString(sSecao, 'cIndOp', '');
     IBSCBS.tpOper := StrTotpOperGovNFSe(AINIRec.ReadString(sSecao, 'tpOper', ''));

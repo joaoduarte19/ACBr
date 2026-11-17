@@ -440,7 +440,9 @@ begin
     NFSe.cLocEmi := AINIRec.ReadString(sSecao, 'cLocEmi', '');
     NFSe.cMotivoEmisTI := StrTocMotivoEmisTI(AINIRec.ReadString(sSecao, 'cMotivoEmisTI', ''));
     NFSe.chNFSeRej := AINIRec.ReadString(sSecao, 'chNFSeRej', '');
-    NFSe.IBSCBS.finNFSe := StrTofinNFSe(AINIRec.ReadString(sSecao, 'finNFSe', '0'));
+
+    if FpVersaoNT = ntPN009v101 then
+      NFSe.IBSCBS.finNFSe := StrTofinNFSe(AINIRec.ReadString(sSecao, 'finNFSe', '0'));
 
     // Provedor Infisc e SigISS
     NFSe.id_sis_legado := AINIRec.ReadInteger(sSecao, 'id_sis_legado', 0);
@@ -1734,7 +1736,9 @@ begin
 
   if AINIRec.SectionExists(sSecao) then
   begin
-    IBSCBS.finNFSe := StrTofinNFSe(AINIRec.ReadString(sSecao, 'finNFSe', ''));
+    if FpVersaoNT = ntPNNenhuma then
+      IBSCBS.finNFSe := StrTofinNFSe(AINIRec.ReadString(sSecao, 'finNFSe', '0'));
+
     IBSCBS.indFinal := StrToindFinal(AINIRec.ReadString(sSecao, 'indFinal', ''));
     IBSCBS.cIndOp := AINIRec.ReadString(sSecao, 'cIndOp', '');
     IBSCBS.tpOper := StrTotpOperGovNFSe(AINIRec.ReadString(sSecao, 'tpOper', ''));

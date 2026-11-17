@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 17/11/2026
+-- Diversos --
+[*] Vários ajustes visando a não sobrescrita do valor de finNFSe e a correção
+    para não ocorrer AV ao ler o grupo gPgtoVinc.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos -- 
 [*] ACBR-10247 - O município de Janaúba/SC aderiu ao Padrão Nacional
 	Veja: https://discord.com/channels/798697718800318484/800042186783588364/1572306599588925655

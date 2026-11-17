@@ -1025,12 +1025,15 @@ begin
     // Reforma Tributária
     LerXMLIBSCBSDPS(AuxNode.Childrens.FindAnyNs('IBSCBS'), NFSe.IBSCBS);
 
-    lvalor := ObterConteudo(AuxNode.Childrens.FindAnyNs('finNFSe'), tcStr);
+    if FpVersaoNT = ntPN009v101 then
+    begin
+      lvalor := ObterConteudo(AuxNode.Childrens.FindAnyNs('finNFSe'), tcStr);
 
-    if Lvalor = '' then
-      NFSe.IBSCBS.finNFSe := fnfsRegular
-    else
-      NFSe.IBSCBS.finNFSe := StrTofinNFSe(Lvalor);
+      if Lvalor = '' then
+        NFSe.IBSCBS.finNFSe := fnfsRegular
+      else
+        NFSe.IBSCBS.finNFSe := StrTofinNFSe(Lvalor);
+    end;
   end;
 end;
 
@@ -2121,7 +2124,9 @@ begin
     NFSe.cLocEmi := AINIRec.ReadString(sSecao, 'cLocEmi', '');
     NFSe.cMotivoEmisTI := StrTocMotivoEmisTI(AINIRec.ReadString(sSecao, 'cMotivoEmisTI', ''));
     NFSe.chNFSeRej := AINIRec.ReadString(sSecao, 'chNFSeRej', '');
-    NFSe.IBSCBS.finNFSe := StrTofinNFSe(AINIRec.ReadString(sSecao, 'finNFSe', '0'));
+
+    if FpVersaoNT = ntPN009v101 then
+      NFSe.IBSCBS.finNFSe := StrTofinNFSe(AINIRec.ReadString(sSecao, 'finNFSe', '0'));
   end;
 end;
 

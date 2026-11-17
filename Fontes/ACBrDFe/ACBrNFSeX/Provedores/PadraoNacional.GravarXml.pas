@@ -699,7 +699,7 @@ begin
 
   if FpVersaoNT = ntPN009v101 then
     Result.AppendChild(AddNode(tcStr, '#1', 'finNFSe', 1, 1, 1,
-                              finNFSeToStr(NFSe.IBSCBS.finNFSe), ''));
+                                        finNFSeToStr(NFSe.IBSCBS.finNFSe), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'chNFSeRej', 50, 50, 0,
                                                            NFSe.chNFSeRej, ''));
@@ -2499,6 +2499,9 @@ begin
   AINIRec.WriteString(LSecao, 'cMotivoEmisTI', cMotivoEmisTIToStr(NFSe.cMotivoEmisTI));
   AINIRec.WriteString(LSecao, 'cLocEmi', NFSe.cLocEmi);
   AINIRec.WriteString(LSecao, 'chNFSeRej', NFSe.chNFSeRej);
+
+  if FpVersaoNT = ntPN009v101 then
+    AINIRec.WriteString(LSecao, 'finNFSe', finNFSeToStr(NFSe.IBSCBS.finNFSe));
 end;
 
 procedure TNFSeW_PadraoNacional.GerarININFSeSubstituicao(AINIRec: TMemIniFile);

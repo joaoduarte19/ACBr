@@ -134,6 +134,7 @@ type
     FpAOwner: IACBrNFSeXProvider;
     LSecao: string;
     FpIniParamsTabCarregado: Boolean;
+    FpVersaoNT: TVersaoNTPadraoNacional;
 
     FConteudoTxt: TStringList;
 
@@ -840,8 +841,13 @@ end;
 function TNFSeWClass.GerarIni: string;
 var
   WIni: TNFSeIniWriter;
+  Ok: Boolean;
 begin
   // Usar o FpAOwner em vez de  FProvider
+  if FpAOwner.ConfigGeral.Ambiente = taProducao then
+    FpVersaoNT := StrToVersaoNTPadraoNacional(Ok, FpAOwner.ConfigWebServices.Producao.VersaoNT)
+  else
+    FpVersaoNT := StrToVersaoNTPadraoNacional(Ok, FpAOwner.ConfigWebServices.Homologacao.VersaoNT);
 
   WIni := TNFSeIniWriter.Create(NFSe, FpAOwner);
 
@@ -1793,8 +1799,11 @@ function TNFSeWClass.GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode;
 begin
   Result := CreateElement(TagIBSCBS);
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'finNFSe', 1, 1, NrOcorrfinNFSe,
+  if FpVersaoNT = ntPNNenhuma then
+  begin
+    Result.AppendChild(AddNode(tcStr, '#1', 'finNFSe', 1, 1, NrOcorrfinNFSe,
                                              finNFSeToStr(IBSCBS.finNFSe), ''));
+  end;
 
   Result.AppendChild(AddNode(tcStr, '#1', 'indFinal', 1, 1, NrOcorrindFinal,
                                            indFinalToStr(IBSCBS.indFinal), ''));
@@ -2234,7 +2243,9 @@ procedure TNFSeWClass.GerarINIIBSCBS(AINIRec: TMemIniFile;
 begin
   LSecao := 'IBSCBSDPS';
 
-  AINIRec.WriteString(LSecao, 'finNFSe', finNFSeToStr(IBSCBS.finNFSe));
+  if FpVersaoNT = ntPNNenhuma then
+    AINIRec.WriteString(LSecao, 'finNFSe', finNFSeToStr(NFSe.IBSCBS.finNFSe));
+
   AINIRec.WriteString(LSecao, 'indFinal', indFinalToStr(IBSCBS.indFinal));
   AINIRec.WriteString(LSecao, 'cIndOp', IBSCBS.cIndOp);
   AINIRec.WriteString(LSecao, 'tpOper', tpOperGovNFSeToStr(IBSCBS.tpOper));

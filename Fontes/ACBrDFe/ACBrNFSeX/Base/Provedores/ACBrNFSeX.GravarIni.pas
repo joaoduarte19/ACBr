@@ -491,6 +491,9 @@ begin
   AINIRec.WriteInteger(LSecao, 'id_sis_legado', NFSe.id_sis_legado);
   AINIRec.WriteString(LSecao, 'DeducaoMateriais', FpAOwner.SimNaoToStr(NFSe.DeducaoMateriais));
 
+  if FpVersaoNT = ntPN009v101 then
+    AINIRec.WriteString(LSecao, 'finNFSe', finNFSeToStr(NFSe.IBSCBS.finNFSe));
+
   PularLinha(AINIRec, LSecao);
 end;
 
@@ -1611,7 +1614,9 @@ procedure TNFSeIniWriter.GerarINIIBSCBS(AINIRec: TMemIniFile;
 begin
   LSecao := 'IBSCBSDPS';
 
-  AINIRec.WriteString(LSecao, 'finNFSe', finNFSeToStr(IBSCBS.finNFSe));
+  if FpVersaoNT = ntPNNenhuma then
+    AINIRec.WriteString(LSecao, 'finNFSe', finNFSeToStr(IBSCBS.finNFSe));
+
   AINIRec.WriteString(LSecao, 'indFinal', indFinalToStr(IBSCBS.indFinal));
   AINIRec.WriteString(LSecao, 'cIndOp', IBSCBS.cIndOp);
   AINIRec.WriteString(LSecao, 'tpOper', tpOperGovNFSeToStr(IBSCBS.tpOper));
