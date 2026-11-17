@@ -43,6 +43,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+17/11/2026
+-- ACBrMonitor1 --
+[-] ACBR-10091 - CNPJ da Software House e do Usuário (RFD) passam a aceitar somente números e letras, convertendo para maiúsculas na digitação.
+   Por: Daniel de Morais InfoCotidiano
+
 16/11/2026
 -- ACBrMonitor1--
 [+] ACBR-10091 - Ajustes CNPJ Alfanuméricos

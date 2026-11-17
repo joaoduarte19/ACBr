@@ -1821,6 +1821,7 @@ type
     procedure ACBrECF1MsgPoucoPapel(Sender: TObject);
     procedure bConfigClick(Sender: TObject);
     procedure edOnlyNumbers(Sender: TObject; var Key: char);
+    procedure edOnlyCNPJAlphaNum(Sender: TObject; var Key: char);
     procedure bECFTestarClick(Sender: TObject);
     procedure bECFLeituraXClick(Sender: TObject);
     procedure bECFAtivarClick(Sender: TObject);
@@ -8598,6 +8599,13 @@ end;
 procedure TFrmACBrMonitor.edOnlyNumbers(Sender: TObject; var Key: char);
 begin
   if not (Key in ['0'..'9', #13, #8]) then
+    Key := #0;
+end;
+
+procedure TFrmACBrMonitor.edOnlyCNPJAlphaNum(Sender: TObject; var Key: char);
+begin
+  Key := UpCase(Key);
+  if not CharInSet( Key, [#8, #13, '0'..'9', 'A'..'Z'] ) then
     Key := #0;
 end;
 
