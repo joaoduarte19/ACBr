@@ -4,34 +4,6 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema_v02.xsd" />
 	<!-- Tipos Simples -->
-
-  <xs:simpleType name="TSTipoRetPISCofins">
-    <xs:annotation>
-      <xs:documentation>
-        Tipo de retencao do Pis/Cofins:
-        0 - PIS/COFINS/CSLL Não Retidos;
-        3 - PIS/COFINS/CSLL Retidos;
-        4 - PIS/COFINS Retidos, CSLL Não Retido;
-        5 - PIS Retido, COFINS/CSLL Não Retido;
-        6 - COFINS Retido, PIS/CSLL Não Retido;
-        7 - PIS Não Retido, COFINS/CSLL Retidos;
-        8 - PIS/COFINS Não Retidos, CSLL Retido;
-        9 - COFINS Não Retido, PIS/CSLL Retidos;
-      </xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:whiteSpace value="preserve"/>
-      <xs:enumeration value="0"/>
-      <xs:enumeration value="3"/>
-      <xs:enumeration value="4"/>
-      <xs:enumeration value="5"/>
-      <xs:enumeration value="6"/>
-      <xs:enumeration value="7"/>
-      <xs:enumeration value="8"/>
-      <xs:enumeration value="9"/>
-    </xs:restriction>
-  </xs:simpleType>
-
 	<xs:simpleType name="tpAliquota">
 		<xs:annotation>
 			<xs:documentation>Tipo utilizado para valor de alíquota</xs:documentation>
@@ -73,11 +45,27 @@
 		<xs:restriction base="xs:base64Binary">
 		</xs:restriction>
 	</xs:simpleType>
+  <xs:simpleType name="tpString">
+    <xs:annotation>
+      <xs:documentation>Tipo de string genérico.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="([!-ÿ]{1}[ -ÿ]{0,}[!-ÿ]{1}|[!-ÿ]{1}){0,}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="tpStringQuebraLinha">
+    <xs:annotation>
+      <xs:documentation>Tipo de string genérico com quebra de linha.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[\s!-ÿ]{1}[\s -ÿ]{0,}[\s!-ÿ]{1}|[\s!-ÿ]{1}"/>
+    </xs:restriction>
+  </xs:simpleType>
 	<xs:simpleType name="tpBairro">
 		<xs:annotation>
 			<xs:documentation>Tipo bairro.</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="xs:string">
+		<xs:restriction base="tipos:tpString">
 			<xs:minLength value="0" />
 			<xs:maxLength value="30" />
 			<xs:whiteSpace value="collapse" />
@@ -196,7 +184,7 @@
 		<xs:annotation>
 			<xs:documentation>Tipo complemento do endereço.</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="xs:string">
+		<xs:restriction base="tipos:tpString">
 			<xs:minLength value="0" />
 			<xs:maxLength value="30" />
 			<xs:whiteSpace value="collapse" />
@@ -241,7 +229,7 @@
 		<xs:annotation>
 			<xs:documentation>Tipo descrição do evento.</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="xs:string">
+		<xs:restriction base="tipos:tpString">
 			<xs:minLength value="0" />
 			<xs:maxLength value="300" />
 			<xs:whiteSpace value="collapse" />
@@ -251,7 +239,7 @@
 		<xs:annotation>
 			<xs:documentation>Tipo Discriminação Serviços.</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="xs:string">
+		<xs:restriction base="tipos:tpStringQuebraLinha">
 			<xs:minLength value="1" />
 			<xs:maxLength value="2000" />
 			<xs:whiteSpace value="collapse" />
@@ -307,7 +295,7 @@
 		<xs:annotation>
 			<xs:documentation>Endereço.</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="xs:string">
+		<xs:restriction base="tipos:tpString">
 			<xs:minLength value="0" />
 			<xs:maxLength value="50" />
 			<xs:whiteSpace value="collapse" />
@@ -385,7 +373,7 @@
 		<xs:annotation>
 			<xs:documentation>Tipo número do endereço.</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="xs:string">
+		<xs:restriction base="tipos:tpString">
 			<xs:minLength value="0" />
 			<xs:maxLength value="10" />
 			<xs:whiteSpace value="collapse" />
@@ -487,7 +475,7 @@
 		<xs:annotation>
 			<xs:documentation>Tipo série de documento.</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="xs:string">
+		<xs:restriction base="tipos:tpString">
 			<xs:minLength value="1" />
 			<xs:maxLength value="5" />
 			<xs:whiteSpace value="collapse" />
@@ -815,6 +803,102 @@
 			<xs:maxLength value="150"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="tpAjusteBC">
+		<xs:annotation>
+			<xs:documentation>Tipo de ajuste.</xs:documentation>
+			<xs:documentation>2 = Materiais</xs:documentation>
+			<xs:documentation>5 = Repasse consorciado</xs:documentation>
+			<xs:documentation>6 = Repasse plano de saúde</xs:documentation>
+			<xs:documentation>7 = Serviços</xs:documentation>
+			<xs:documentation>8 = Subempreitada de mão de obra</xs:documentation>
+			<xs:documentation>9 = Profissional parceiro</xs:documentation>
+			<xs:documentation>99 = Outras deduções exclusivas do ISSQN</xs:documentation>
+			<xs:documentation>101 = Repasse de remuneração por intermediação de imóveis a demais corretores envolvidos na operação </xs:documentation>
+			<xs:documentation>102 = Repasse de valores a fornecedor relativo a fornecimento intermediado por agência de turismo  </xs:documentation>
+			<xs:documentation>103 = Reembolso ou ressarcimento recebido por agência de propaganda e publicidade por valores pagos relativos a serviços de produção externa por conta e ordem de terceiro</xs:documentation>
+			<xs:documentation>104 = Reembolso ou ressarcimento recebido por agência de propaganda e publicidade por valores pagos relativos a serviços de mídia por conta e ordem de terceiro </xs:documentation>
+			<xs:documentation>105 = Glosa de Serviços de Saúde</xs:documentation>
+			<xs:documentation>199 = Outros reembolsos ou ressarcimentos recebidos por valores pagos relativos a operações por conta e ordem de terceiro</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>2 = Materiais</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="5">
+				<xs:annotation>
+					<xs:documentation>5 = Repasse consorciado</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="6">
+				<xs:annotation>
+					<xs:documentation>6 = Repasse plano de saúde</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="7">
+				<xs:annotation>
+					<xs:documentation>7 = Serviços</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="8">
+				<xs:annotation>
+					<xs:documentation>8 = Subempreitada de mão de obra</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="9">
+				<xs:annotation>
+					<xs:documentation>9 = Profissional parceiro</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="99">
+				<xs:annotation>
+					<xs:documentation>99 = Outras deduções exclusivas do ISSQN</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="101">
+				<xs:annotation>
+					<xs:documentation>101 = Repasse de remuneração por intermediação de imóveis a demais corretores envolvidos na operação</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="102">
+				<xs:annotation>
+					<xs:documentation>102 = Repasse de valores a fornecedor relativo a fornecimento intermediado por agência de turismo</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="103">
+				<xs:annotation>
+					<xs:documentation>103 = Reembolso ou ressarcimento recebido por agência de propaganda e publicidade por valores pagos relativos a serviços de produção externa por conta e ordem de terceiro.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="104">
+				<xs:annotation>
+					<xs:documentation>104 = Reembolso ou ressarcimento recebido por agência de propaganda e publicidade por valores pagos relativos a serviços de mídia por conta e ordem de terceiro.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="105">
+				<xs:annotation>
+					<xs:documentation>105 = Glosa de Serviços de Saúde.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="199">
+				<xs:annotation>
+					<xs:documentation>199 = Outros reembolsos ou ressarcimentos recebidos por valores pagos relativos a operações por conta e ordem de terceiro.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tpXTpAjusteBC">
+		<xs:annotation>
+			<xs:documentation>Descrição do ajuste quando o tipo informado (tpAjusteBC) é: 99 – Outras deduções exclusivas do ISSQN ou </xs:documentation>
+			<xs:documentation>199 – Outros reembolsos ou ressarcimentos recebidos por valores pagos relativos a operações por conta e ordem de terceiro.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="collapse"/>
+			<xs:minLength value="1"/>
+			<xs:maxLength value="150"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:simpleType name="tpXNomeEvt">
 		<xs:annotation>
 			<xs:documentation>Tipo Nome do evento cultural, artístico, esportivo.</xs:documentation>
@@ -857,6 +941,480 @@
 			<xs:element name="cPaisPrestacao" type="tipos:tpCodigoPaisISO" minOccurs="1" maxOccurs="1" />
 		</xs:choice>
 	</xs:group>
+	<xs:simpleType name="tpRetencaoPisCofins">
+		<xs:annotation>
+			<xs:documentation>Tipo de retenção para os tributos federais conforme numerados.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="0">
+				<xs:annotation>
+					<xs:documentation>PIS/COFINS/CSLL Não Retidos.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>PIS/COFINS/CSLL Retidos.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="4">
+				<xs:annotation>
+					<xs:documentation>PIS/COFINS Retidos, CSLL Não Retido.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="5">
+				<xs:annotation>
+					<xs:documentation>PIS Retido, COFINS/CSLL Não Retido.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="6">
+				<xs:annotation>
+					<xs:documentation>COFINS Retido, PIS/CSLL Não Retidos.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="7">
+				<xs:annotation>
+					<xs:documentation>PIS Não Retido, COFINS/CSLL Retidos.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="8">
+				<xs:annotation>
+					<xs:documentation>PIS/COFINS Não Retidos, CSLL Retido.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="9">
+				<xs:annotation>
+					<xs:documentation>COFINS Não Retido, PIS/CSLL Retidos.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tpMdPrestacao">
+		<xs:annotation>
+			<xs:documentation>Modo de Prestação</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="0">
+				<xs:annotation>
+					<xs:documentation>0 = Desconhecido (tipo não informado na nota de origem).</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>1 = Transfronteiriço.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>2 = Consumo no Brasil.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>3 = Movimento Temporário de Pessoas Físicas.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="4">
+				<xs:annotation>
+					<xs:documentation>4 = Consumo no Exterior.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="5">
+				<xs:annotation>
+					<xs:documentation>5 = Consumo concomitante no território nacional e exterior.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tpVincPrest">
+		<xs:annotation>
+			<xs:documentation>Vínculo entre as partes no negócio</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="0">
+				<xs:annotation>
+					<xs:documentation>0 = Sem vínculo com o Tomador/Prestador.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>1 = Controlada.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>2 = Controladora.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>3 = Coligada.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="4">
+				<xs:annotation>
+					<xs:documentation>4 = Matriz.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="5">
+				<xs:annotation>
+					<xs:documentation>5 = Filial ou sucursal.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="6">
+				<xs:annotation>
+					<xs:documentation>6 = Outro vínculo.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="9">
+				<xs:annotation>
+					<xs:documentation>9 = Desconhecido (tipo não informado na nota de origem).</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tpMoeda">
+		<xs:annotation>
+			<xs:documentation>Identifica a moeda da transação comercial. O usuário deve informar o código da moeda.	</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tpNFatura">
+		<xs:annotation>
+			<xs:documentation>Número da identificação da fatura de serviços ou do documento que comprove a transação (DECRETO Nº 12.955, DE 29 DE ABRIL DE 2026, Art. 74 § 1º ) </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{20}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tpMecAFComexP">
+		<xs:annotation>
+			<xs:documentation>Mecanismo de apoio/fomento ao Comércio Exterior utilizado pelo prestador do serviço</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="0">
+				<xs:annotation>
+					<xs:documentation>00 = Desconhecido (tipo não informado na nota de origem).</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>01 = Nenhum.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>02 = ACC - Adiantamento sobre Contrato de Câmbio – Redução a Zero do IR e do IOF.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>03 = ACE – Adiantamento sobre Cambiais Entregues - Redução a Zero do IR e do IOF.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="4">
+				<xs:annotation>
+					<xs:documentation>04 = BNDES-Exim Pós-Embarque – Serviços.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="5">
+				<xs:annotation>
+					<xs:documentation>05 = BNDES-Exim Pré-Embarque - Serviços.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="6">
+				<xs:annotation>
+					<xs:documentation>06 = FGE - Fundo de Garantia à Exportação.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="7">
+				<xs:annotation>
+					<xs:documentation>07 = PROEX - EQUALIZAÇÃO.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="8">
+				<xs:annotation>
+					<xs:documentation>08 = PROEX - Financiamento.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tpMecAFComexT">
+		<xs:annotation>
+			<xs:documentation>Mecanismo de apoio/fomento ao Comércio Exterior utilizado pelo tomador do serviço</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="0">
+				<xs:annotation>
+					<xs:documentation>00 = Desconhecido (tipo não informado na nota de origem).</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>01 = Nenhum.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>02 = Adm. Pública e Repr. Internacional.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>03 = Aluguéis e Arrend. Mercantil de maquinas, equip., embarc. e aeronaves.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="4">
+				<xs:annotation>
+					<xs:documentation>04 = Arrendamento Mercantil de aeronave para empresa de transporte aéreo público.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="5">
+				<xs:annotation>
+					<xs:documentation>05 = Comissão a agentes externos na exportação.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="6">
+				<xs:annotation>
+					<xs:documentation>06 = Despesas de armazenagem, mov. e transporte de carga no exterior.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="7">
+				<xs:annotation>
+					<xs:documentation>07 = Eventos FIFA (subsidiária).</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="8">
+				<xs:annotation>
+					<xs:documentation>08 = Eventos FIFA.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="9">
+				<xs:annotation>
+					<xs:documentation>09 = Fretes, arrendamentos de embarcações ou aeronaves e outros.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="10">
+				<xs:annotation>
+					<xs:documentation>10 = Material Aeronáutico.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="11">
+				<xs:annotation>
+					<xs:documentation>11 = Promoção de Bens no Exterior.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="12">
+				<xs:annotation>
+					<xs:documentation>12 = Promoção de Dest. Turísticos Brasileiros.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="13">
+				<xs:annotation>
+					<xs:documentation>13 = Promoção do Brasil no Exterior.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="14">
+				<xs:annotation>
+					<xs:documentation>14 = Promoção Serviços no Exterior.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="15">
+				<xs:annotation>
+					<xs:documentation>15 = RECINE.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="16">
+				<xs:annotation>
+					<xs:documentation>16 = RECOPA.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="17">
+				<xs:annotation>
+					<xs:documentation>17 = Registro e Manutenção de marcas, patentes e cultivares.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="18">
+				<xs:annotation>
+					<xs:documentation>18 = REICOMP.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="19">
+				<xs:annotation>
+					<xs:documentation>19 = REIDI.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="20">
+				<xs:annotation>
+					<xs:documentation>20 = REPENEC.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="21">
+				<xs:annotation>
+					<xs:documentation>21 = REPES.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="22">
+				<xs:annotation>
+					<xs:documentation>22 = RETAERO.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="23">
+				<xs:annotation>
+					<xs:documentation>23 = RETID.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="24">
+				<xs:annotation>
+					<xs:documentation>24 = Royalties, Assistência Técnica, Científica e Assemelhados.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="25">
+				<xs:annotation>
+					<xs:documentation>25 = Serviços de avaliação da conformidade vinculados aos Acordos da OMC.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="26">
+				<xs:annotation>
+					<xs:documentation>26 = ZPE.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tpMovTempBens">
+		<xs:annotation>
+			<xs:documentation>Comércio Exterior - Vínculo da Operação à Movimentação Temporária de Bens</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="0">
+				<xs:annotation>
+					<xs:documentation>0 = Desconhecido (tipo não informado na nota de origem).</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>1 = Não.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>2 = Vinculada - Declaração Única de Importação.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>3 = Vinculada - Declaração Única de Exportação.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tpNDUIMP">
+		<xs:annotation>
+			<xs:documentation>Número da Declaração Única de Importação (DUIMP).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="collapse"/>
+			<xs:minLength value="0"/>
+			<xs:maxLength value="15"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tpNDUE">
+		<xs:annotation>
+			<xs:documentation>Número da Declaração Única de Exportação (DU-E).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="collapse"/>
+			<xs:minLength value="0"/>
+			<xs:maxLength value="14"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tpMdic">
+		<xs:annotation>
+			<xs:documentation>Indicador se a NFS-e deverá ser disponibilizada ao MDIC</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="0">
+				<xs:annotation>
+					<xs:documentation>0 = Não enviar para o MDIC.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>1 = Enviar para o MDIC.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tpNContCambio">
+		<xs:annotation>
+			<xs:documentation>Número da identificação do contrato de câmbio ou do documento que comprove o pagamento (Art. 74, § 1º, do DECRETO Nº 12.955, DE 29 DE ABRIL DE 2026, que Regulamenta a Contribuição Social sobre Bens e Serviços – CBS e dá outras providências.) </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{20}"/>
+		</xs:restriction>
+	</xs:simpleType>
+		<xs:simpleType name="tpNPag">
+		<xs:annotation>
+			<xs:documentation>Numerador único de cada pagamento.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tpIdTransacao">
+		<xs:annotation>
+			<xs:documentation>Identificador específico da transação financeira, de acordo com o pagamento.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9A-Z]{2,35}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tpMeioPgto">
+		<xs:annotation>
+			<xs:documentation>Código do meio de pagamento utilizado</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="15">
+				<xs:annotation>
+					<xs:documentation>15 = Boleto.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="17">
+				<xs:annotation>
+					<xs:documentation>17 = Pix QRCode dinâmico.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="18">
+				<xs:annotation>
+					<xs:documentation>18 = TED.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="20">
+				<xs:annotation>
+					<xs:documentation>20 = PIX chave ou QRCode estático.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="23">
+				<xs:annotation>
+					<xs:documentation>23 = PIX automático.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="24">
+				<xs:annotation>
+					<xs:documentation>24 = TEF / booktransfer.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tpCNPJBase">
+		<xs:annotation>
+			<xs:documentation>CNPJ base.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9A-Z]{8}"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<!-- Tipos Complexos -->
 	<xs:complexType name="tpEvento">
 		<xs:sequence>
@@ -1132,6 +1690,25 @@
 			<xs:element name="documentos" type="tipos:tpDocumento" minOccurs="1" maxOccurs="100" />
 		</xs:sequence>
 	</xs:complexType>
+	<xs:complexType name="tpGrupoDocAjusteBC">
+		<xs:annotation>
+			<xs:documentation>Grupo de informações de documento utilizado para ajuste dos  </xs:documentation>
+			<xs:documentation>valores de base de cálculo (ISSQN e/ou IBS/CBS). </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="docAjusteBC" type="tipos:tpDocAjusteBC" minOccurs="1" maxOccurs="1000" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="tpGrupoComExt">
+		<xs:annotation>
+			<xs:documentation>Grupo com informações sobre transações entre residentes ou domiciliados no Brasil com residentes ou domiciliados no exterior associadas a NFSE.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="comExt" type="tipos:tpComExt" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	
 	<xs:complexType name="tpImovelObra">
 		<xs:annotation>
 			<xs:documentation>Tipo de imovel/obra.</xs:documentation>
@@ -1181,6 +1758,52 @@
 			<xs:element name="vlrReeRepRes" type="tipos:tpValor" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Valor monetário (total ou parcial, conforme documento informado) utilizado para não inclusão na base de cálculo do ISS e do IBS e da CBS da NFS-e que está sendo emitida (R$).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="tpDocAjusteBC">
+		<xs:annotation>
+			<xs:documentation>Grupo de informações de documento utilizado para ajuste dos valores de base de cálculo (ISSQN e/ou IBS/CBS).</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="dFeNacional" type="tipos:tpDFeNacional" minOccurs="1" maxOccurs="1" />
+				<xs:element name="docFiscalOutro" type="tipos:tpDocFiscalOutro" minOccurs="1" maxOccurs="1" />
+				<xs:element name="docOutro" type="tipos:tpDocOutro" minOccurs="1" maxOccurs="1" />
+			</xs:choice>
+			<xs:element name="fornec" type="tipos:tpFornecedor" minOccurs="0" maxOccurs="1" />
+			<xs:element name="dtEmiDoc" type="xs:date" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Data da emissão do documento dedutível. Ano, mês e dia (AAAA-MM-DD).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dtCompDoc" type="xs:date" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Data da competência do documento dedutível. Ano, mês e dia (AAAA-MM-DD).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="tpAjusteBC" type="tipos:tpAjusteBC" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Tipo de valor incluído neste documento, recebido por motivo de estarem relacionadas a operações de terceiros, </xs:documentation>
+					<xs:documentation>objeto de reembolso, repasse ou ressarcimento pelo recebedor, já tributados e aqui referenciados.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="xTpAjusteBC" type="tipos:tpXTpAjusteBC" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Descrição do reembolso ou ressarcimento</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vTotDoc" type="tipos:tpValor" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Valor monetário total do documento informado (R$).</xs:documentation>
+					<xs:documentation>Este é o valor total no documento informado que é passível de ajuste de base(s) de cálculo.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vAjusteAplic" type="tipos:tpValor" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Valor monetário efetivamente utilizado para ajuste de base(s) de cálculo do valor do serviço da NFS-e que está sendo emitida (R$)..</xs:documentation>
+					<xs:documentation>Deve ser menor ou igual ao valor total do documento (vTotDoc).</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -1247,6 +1870,81 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+	<xs:complexType name="tpComExt">
+		<xs:annotation>
+			<xs:documentation>Informação sobre a transação entre residentes ou domiciliados no Brasil com residentes ou domiciliados no exterior.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="mdPrestacao" type="tipos:tpMdPrestacao" minOccurs="1" maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>Modo de Prestação.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vincPrest" type="tipos:tpVincPrest" minOccurs="1" maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>Vínculo entre as partes no negócio.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="tpMoeda" type="tipos:tpMoeda" minOccurs="1" maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>Identifica a moeda da transação comercial. Deve informar o código da moeda.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="nFatura" type="tipos:tpNFatura" minOccurs="0" maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>Número da identificação da fatura de serviços ou do documento que </xs:documentation>
+					<xs:documentation>comprove a transação</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vFatura" type="tipos:tpValor" minOccurs="0" maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>Valor total da fatura de serviços ou do documento que comprove a transação, </xs:documentation>
+					<xs:documentation>expresso na moeda identificada em tpMoeda.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="mecAFComexP" type="tipos:tpMecAFComexP" minOccurs="1" maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>Mecanismo de apoio/fomento ao Comércio Exterior utilizado pelo prestador do serviço </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="mecAFComexT" type="tipos:tpMecAFComexT" minOccurs="1" maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>Mecanismo de apoio/fomento ao Comércio Exterior utilizado pelo tomador do serviço </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="movTempBens" type="tipos:tpMovTempBens" minOccurs="1" maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>Vínculo da Operação à Movimentação Temporária de Bens </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="nDUIMP" type="tipos:tpNDUIMP" minOccurs="0" maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>Número da Declaração Única de Importação (DUIMP).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="nDUE" type="tipos:tpNDUE" minOccurs="0" maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>Número da Declaração Única de Exportação (DU-E).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="mdic" type="tipos:tpMdic" minOccurs="0" maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>Indicador se a NFS-e deverá ser disponibilizada ao MDIC.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="nContCambio" type="tipos:tpNContCambio" minOccurs="0" maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>Número da identificação do contrato de câmbio ou do documento que comprove o pagamento</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vAjusteBCIBSCBSComE" type="tipos:tpValor" minOccurs="0" maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>Valor monetário padrão para ajuste dos valores de base de </xs:documentation>
+					<xs:documentation>cálculo do IBS/CBS nos casos de Comércio Exterior. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="tpAtividadeEvento">
 		<xs:annotation>
 			<xs:documentation>Tipo de informações relativas à atividades de eventos.</xs:documentation>
@@ -1272,6 +1970,48 @@
 					<xs:documentation>Endereço do Evento.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+		<xs:complexType name="tpPgtoVinc">
+		<xs:annotation>
+			<xs:documentation>Dados dos pagamentos vinculados à NFS-e.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="nPag" type="tipos:tpNPag" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Numerador único de cada pagamento.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="idTransacao" type="tipos:tpIdTransacao" minOccurs="1" maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>Identificador da transacão financeira, de acordo com o pagamento.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="tpMeioPgto" type="tipos:tpMeioPgto" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Código de pagamento utilizado.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CNPJReceb" type="tipos:tpCNPJ" minOccurs="1" maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>CNPJ completo do recebedor do pagamento (fornecedor, plataforma, ou </xs:documentation>
+					<xs:documentation>outra entidade que receba o pagamento do adquirente).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CNPJBasePSP" type="tipos:tpCNPJBase" minOccurs="1" maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>CNPJ base da instituição financeira ou de pagamento (fornecedor, plataforma, ou </xs:documentation>
+					<xs:documentation>outra entidade que receba o pagamento do adquirente).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="tpGPgtoVinc">
+		<xs:annotation>
+			<xs:documentation>Dados dos pagamentos vinculados à NFS-e.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="pgto" type="tipos:tpPgtoVinc" minOccurs="1" maxOccurs="99" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="tpIBSCBS">
@@ -1333,6 +2073,21 @@
 					<xs:documentation>Informações sobre o Tipo de Imóvel/Obra.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="indDoacao" type="tipos:tpNaoSim" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Indica uma operação de doação.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="cPaisResult" type="tipos:tpCodigoPaisISO" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Código do país (Tabela de Países ISO) em que ocorreu o resultado do serviço.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+				<xs:element name="gPgtoVinc" type="tipos:tpGPgtoVinc" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Grupo de informações da vinculação com a transação de pagamento.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="tpGIBSCBS">
@@ -1346,6 +2101,11 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="gTribRegular" type="tipos:tpGTribRegular" minOccurs="0" maxOccurs="1" />
+			<xs:element name="gEstornoCred" type="tipos:tpGEstornoCred" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Informações relacionadas aos estornos de créditos do IBS e da CBS.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="tpGTribRegular">
@@ -1356,6 +2116,23 @@
 			<xs:element name="cClassTribReg" type="tipos:tpClassificacaoTributaria" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Código de classificação Tributária do IBS e da CBS.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="tpGEstornoCred">
+		<xs:annotation>
+			<xs:documentation>Informações relacionadas aos estornos de créditos do IBS e da CBS.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="vIBSEstCred" type="tipos:tpValor" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Valor do IBS a ser estornado.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vCBSEstCred" type="tipos:tpValor" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Valor do CBS a ser estornado.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -1585,6 +2362,19 @@
 					<xs:documentation>Grupo de informações relativas a valores incluídos neste documento e recebidos por </xs:documentation>
 					<xs:documentation>motivo de estarem relacionadas a operações de terceiros, objeto de reembolso, repasse ou </xs:documentation>
 					<xs:documentation>ressarcimento pelo recebedor, já tributados e aqui referenciados.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vAjusteBC" type="tipos:tpGrupoDocAjusteBC" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Grupo de informações relativas ao valores para ajuste dos valores </xs:documentation>
+					<xs:documentation>de base de cálculo. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="comExt" type="tipos:tpComExt" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Grupo de informações sobre transações entre residentes ou</xs:documentation>
+					<xs:documentation>domiciliados no Brasil com residentes ou domiciliados no exterior. </xs:documentation>
+					<xs:documentation>Pode ocorrer valor de ajuste da base de cálculo do IBS/CBS nos casos de comércio exterior. </xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="trib" type="tipos:tpTrib" minOccurs="1" maxOccurs="1">
@@ -1844,6 +2634,11 @@
 					<xs:documentation>Valor do total recebido.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="RetencaoPisCofins" type="tipos:tpRetencaoPisCofins" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Tipo de retenção para os tributos federais PIS/COFINS e CSLL</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:choice minOccurs="0">
 				<xs:element name="ValorInicialCobrado" type="tipos:tpValor" minOccurs="1" maxOccurs="1">
 					<xs:annotation>
@@ -2088,9 +2883,9 @@
 					<xs:documentation>Valor do total recebido.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="RetencaoPisCofins" type="tipos:TSTipoRetPISCofins" minOccurs="0" maxOccurs="1">
+			<xs:element name="RetencaoPisCofins" type="tipos:tpRetencaoPisCofins" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>Tipo de Retenção do PIS/COFINS.</xs:documentation>
+					<xs:documentation>Tipo de retenção para os tributos federais PIS/COFINS e CSLL</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:choice>
