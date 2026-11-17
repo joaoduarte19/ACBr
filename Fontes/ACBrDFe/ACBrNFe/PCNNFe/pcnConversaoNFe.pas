@@ -113,6 +113,7 @@ type
   TtpGuia = ACBrNFe.Conversao.TtpGuia;
   // Reforma Tributária
   TtpNFCredito = ACBrNFe.Conversao.TtpNFCredito;
+  TcAtivSN = ACBrNFe.Conversao.TcAtivSN;
 
 const
   // Enumerados do TIndicadorPagamento
@@ -564,6 +565,14 @@ const
   tcTransferenciaCreditoSucessao = {$IFDEF SUPPORTS_SCOPEDENUMS}TtpNFCredito.{$ENDIF}tcTransferenciaCreditoSucessao deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TtpNFCredito da Unit ACBrNFe.Conversao.pas' {$ENDIF};
   tcRetornoRecusaParcial = {$IFDEF SUPPORTS_SCOPEDENUMS}TtpNFCredito.{$ENDIF}tcRetornoRecusaParcial deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TtpNFCredito da Unit ACBrNFe.Conversao.pas' {$ENDIF};
 
+  // Enumerados do TcAtivSN
+  caNenhum = {$IFDEF SUPPORTS_SCOPEDENUMS}TcAtivSN.{$ENDIF}caNenhum deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TcAtivSN da Unit ACBrNFe.Conversao.pas' {$ENDIF};
+  caRevendaMercadorias = {$IFDEF SUPPORTS_SCOPEDENUMS}TcAtivSN.{$ENDIF}caRevendaMercadorias deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TcAtivSN da Unit ACBrNFe.Conversao.pas' {$ENDIF};
+  caOperacoesSemIncidenciaICMS = {$IFDEF SUPPORTS_SCOPEDENUMS}TcAtivSN.{$ENDIF}caOperacoesSemIncidenciaICMS deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TcAtivSN da Unit ACBrNFe.Conversao.pas' {$ENDIF};
+  caVendaMercadorias = {$IFDEF SUPPORTS_SCOPEDENUMS}TcAtivSN.{$ENDIF}caVendaMercadorias deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TcAtivSN da Unit ACBrNFe.Conversao.pas' {$ENDIF};
+  caOperacoesIdustrializacaoZFM = {$IFDEF SUPPORTS_SCOPEDENUMS}TcAtivSN.{$ENDIF}caOperacoesIdustrializacaoZFM deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TcAtivSN da Unit ACBrNFe.Conversao.pas' {$ENDIF};
+  caOperacoesNaoTributaveis = {$IFDEF SUPPORTS_SCOPEDENUMS}TcAtivSN.{$ENDIF}caOperacoesNaoTributaveis deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TcAtivSN da Unit ACBrNFe.Conversao.pas' {$ENDIF};
+
 const
   TVersaoDFArrayStrings: array[TpcnVersaoDF] of string = ('2.00', '3.00', '3.10',
     '4.00');
@@ -818,6 +827,9 @@ function StrToTtpGuia(const s: String): TtpGuia; deprecated {$IfDef SUPPORTS_DEP
 // Reforma Tributária
 function tpNFCreditoToStr(const t: TtpNFCredito): string; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o método tpNFCreditoToStr da Unit ACBrNFe.Conversao.pas' {$ENDIF};
 function StrTotpNFCredito(const s: string): TtpNFCredito; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o método StrTotpNFCredito da Unit ACBrNFe.Conversao.pas' {$ENDIF};
+
+function cAtivSNToStr(const t: TcAtivSN): string; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o método cAtivSNToStr da Unit ACBrNFe.Conversao.pas' {$ENDIF};
+function StrTocAtivSN(const s: string): TcAtivSN; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o método StrTocAtivSN da Unit ACBrNFe.Conversao.pas' {$ENDIF};
 
 implementation
 
@@ -2048,6 +2060,26 @@ begin
     end;
   end;
   raise EACBrException.CreateFmt('Valor string inválido para TtpNFCredito: %s', [s]);
+end;
+
+function cAtivSNToStr(const t: TcAtivSN): string;
+begin
+  Result := cAtivSNArrayStrings[t];
+end;
+
+function StrTocAtivSN(const s: string): TcAtivSN;
+var
+  idx: TcAtivSN;
+begin
+  for idx:= Low(cAtivSNArrayStrings) to High(cAtivSNArrayStrings) do
+  begin
+    if cAtivSNArrayStrings[idx] = s then
+    begin
+      Result := idx;
+      exit;
+    end;
+  end;
+  raise EACBrException.CreateFmt('Valor string inválido para TcAtivSN: %s', [s]);
 end;
 
 initialization

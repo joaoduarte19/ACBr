@@ -365,6 +365,7 @@ begin
   NFe.Emit.IM      := ObterConteudo(ANode.Childrens.Find('IM'), tcStr);
   NFe.Emit.CNAE    := ObterConteudo(ANode.Childrens.Find('CNAE'), tcStr);
   NFe.Emit.CRT     := StrToCRT(ok, ObterConteudo(ANode.Childrens.Find('CRT'), tcStr));
+  NFe.Emit.tpRegimeIBSCBS := StrTotpRegimeIBSCBS(ObterConteudo(ANode.Childrens.Find('tpRegimeIBSCBS'), tcStr));
   NFe.Emit.ISUFEmit:= ObterConteudo(ANode.Childrens.Find('ISUFEmit'), tcStr);
 
   LerEmitEnderEmit(ANode.Childrens.Find('enderEmit'));
@@ -627,6 +628,7 @@ begin
   Item.Prod.nFCI     := ObterConteudo(ANode.Childrens.Find('nFCI'), tcStr);
   // Reforma Tributária
   Item.Prod.indBemMovelUsado := StrToTIndicadorEx(ObterConteudo(ANode.Childrens.Find('indBemMovelUsado'), tcStr));
+  Item.Prod.cAtivSN := StrTocAtivSN(ObterConteudo(ANode.Childrens.Find('cAtivSN'), tcStr));
 
   ANodes := ANode.Childrens.FindAll('NVE');
   for i := 0 to Length(ANodes) - 1 do

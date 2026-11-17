@@ -377,6 +377,7 @@ begin
   lEmitJSONObj.AddPair('IM', AEmit.IM);
   lEmitJSONObj.AddPair('CNAE', AEmit.CNAE);
   lEmitJSONObj.AddPair('CRT', CRTToStr(AEmit.CRT));
+  lEmitJSONObj.AddPair('tpRegimeIBSCBS', tpRegimeIBSCBSToStr(AEmit.tpRegimeIBSCBS));
   lEmitJSONObj.AddPair('ISUFEmit', AEmit.ISUFEmit);
 
   GerarEmitEnderEmit(AEmit.enderEmit, lEmitJSONObj);
@@ -673,6 +674,7 @@ begin
   lProdJSONObj.AddPair('nFCI', AProd.nFCI);
   // Reforma Tributria
   lProdJSONObj.AddPair('indBemMovelUsado', TIndicadorExToStr(AProd.indBemMovelUsado));
+  lProdJSONObj.AddPair('cAtivSN', cAtivSNToStr(AProd.cAtivSN));
 
   GerarDetProd_CredPresumido(AProd.CredPresumido, lProdJSONObj);
   GerarDetProd_NVE(AProd.NVE, lProdJSONObj);

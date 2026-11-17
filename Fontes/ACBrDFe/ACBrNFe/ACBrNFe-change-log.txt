@@ -45,6 +45,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 17/11/2026
+-- ACBrNFe.XmlWriter --
+[*] ACBR-10236 - Alteração visando gerar o grupo ICMSPrevistoPagtoAntecip também para o
+    CRT 1 e 4 (Simples Nacional e MEI).
+   Por: Compusofts
+-- Diversos --
+[*] ACBR-10159 - Ajustes para atender a NT 2026/005 versão 1.00
+   Por: Italo Giurizzato Junior
 -- ACBrNFe.Conversao --
 [-] Corrige Access Violation (Lazarus) na função BandeiraCartaoToDescStr quando o enumerado TBandeiraCartao estiver inválido.
    Exemplo: TBandeiraCartao(-1);

@@ -327,7 +327,9 @@ begin
   AINIRec.WriteString('Emitente', 'IM', Emit.IM);
   AINIRec.WriteString('Emitente', 'CNAE', Emit.CNAE);
   AINIRec.WriteString('Emitente', 'CRT', CRTToStr(Emit.CRT));
+  AINIRec.WriteString('Emitente', 'tpRegimeIBSCBS', tpRegimeIBSCBSToStr(Emit.tpRegimeIBSCBS));
   AINIRec.WriteString('Emitente', 'ISUFEmit', Emit.ISUFEmit);
+
   AINIRec.WriteString('Emitente', 'xLgr', Emit.EnderEmit.xLgr);
   AINIRec.WriteString('Emitente', 'nro', Emit.EnderEmit.nro);
   AINIRec.WriteString('Emitente', 'xCpl', Emit.EnderEmit.xCpl);
@@ -526,6 +528,7 @@ begin
   AINIRec.WriteString(sSecao, 'nRECOPI', Prod.nRECOPI);
   // Reforma Tributária
   AINIRec.WriteString(sSecao, 'indBemMovelUsado', TIndicadorExToStr(Prod.indBemMovelUsado));
+  AINIRec.WriteString(sSecao, 'cAtivSN', cAtivSNToStr(Prod.cAtivSN));
 end;
 
 procedure TNFeIniWriter.Gerar_NVE(AINIRec: TMemIniFile; NVE: TNVECollection;

@@ -324,6 +324,7 @@ begin
   Emit.IM      := AINIRec.ReadString( sSecao,'IM'  ,'');
   Emit.CNAE    := AINIRec.ReadString( sSecao,'CNAE','');
   Emit.CRT     := StrToCRT(ok, AINIRec.ReadString( sSecao,'CRT','3'));
+  Emit.tpRegimeIBSCBS := StrTotpRegimeIBSCBS(AINIRec.ReadString('emit', 'tpRegimeIBSCBS', ''));
   Emit.ISUFEmit:= AINIRec.ReadString( sSecao,'ISUFEmit','');
 
   Emit.EnderEmit.xLgr := AINIRec.ReadString( sSecao, 'xLgr' ,AINIRec.ReadString(  sSecao, 'Logradouro', ''));
@@ -543,6 +544,7 @@ begin
 
       // Reforma Tributária
       Prod.indBemMovelUsado := StrToTIndicadorEx(AINIRec.ReadString(sSecao, 'indBemMovelUsado', ''));
+      Prod.cAtivSN := StrTocAtivSN(AINIRec.ReadString(sSecao, 'cAtivSN', ''));
 
       vItem := StringToFloatDef( AINIRec.ReadString(sSecao,'vItem','') ,0);
 

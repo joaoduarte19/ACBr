@@ -390,6 +390,7 @@ begin
   AEmit.IM := AJSONObject.AsString['IM'];
   AEmit.CNAE := AJSONObject.AsString['CNAE'];
   AEmit.CRT := StrToCRT(ok, AJSONObject.AsString['CRT']);
+  AEmit.tpRegimeIBSCBS := StrTotpRegimeIBSCBS(AJSONObject.AsString['tpRegimeIBSCBS']);
   AEmit.ISUFEmit := AJSONObject.AsString['ISUFEmit'];
 
   LerEmitEnderEmit(AJSONObject.AsJSONObject['enderEmit'], AEmit.enderEmit);
@@ -644,6 +645,7 @@ begin
   AProd.nFCI     := AJSONObject.AsString['nFCI'];
   // Reforma Tributria
   AProd.indBemMovelUsado := StrToTIndicadorEx(AJSONObject.AsString['indBemMovelUsado']);
+  AProd.cAtivSN := StrTocAtivSN(AJSONObject.AsString['cAtivSN']);
 
   LerDetProd_CredPresumido(AJSONObject.AsJSONArray['gCred'], AProd.CredPresumido);
   LerDetProd_NVE(AJSONObject.AsJSONArray['NVE'], AProd.NVE);

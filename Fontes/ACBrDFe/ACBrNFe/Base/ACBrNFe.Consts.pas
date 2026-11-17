@@ -422,6 +422,7 @@ resourcestring
   DSC_INDBEMMOVELUSADO = 'Indicador de fornecimento de bem móvel usado';
   DSC_DPREVENTREGA = 'Data de previsão de entrega';
   DSC_VBCCREDPRES = 'Valor da Base de Cálculo do Crédito Presumido da Operação ';
+  DSC_CATIVSN = 'Código de atividade do Simples Nacional';
 
 implementation
 

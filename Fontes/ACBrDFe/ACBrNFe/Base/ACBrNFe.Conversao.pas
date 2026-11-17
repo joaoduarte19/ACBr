@@ -418,6 +418,15 @@ const
   TtpNFCreditoArrayStrings: array[TtpNFCredito] of string = ('', '01', '02', '03',
     '04', '05', '06');
 
+type
+  TcAtivSN = (caNenhum, caRevendaMercadorias, caOperacoesSemIncidenciaICMS,
+              caVendaMercadorias, caOperacoesIdustrializacaoZFM,
+              caOperacoesNaoTributaveis);
+
+const
+  cAtivSNArrayStrings: array[TcAtivSN] of string = ('', '01', '02', '03', '04',
+    '90');
+
 {
   Declaração das funções de conversão
 }
@@ -502,6 +511,9 @@ function StrToTtpGuia(const s: string): TtpGuia;
 // Reforma Tributária
 function tpNFCreditoToStr(const t: TtpNFCredito): string;
 function StrTotpNFCredito(const s: string): TtpNFCredito;
+
+function cAtivSNToStr(const t: TcAtivSN): string;
+function StrTocAtivSN(const s: string): TcAtivSN;
 
 implementation
 
@@ -1657,6 +1669,26 @@ begin
     end;
   end;
   raise EACBrException.CreateFmt('Valor string inválido para TtpNFCredito: %s', [s]);
+end;
+
+function cAtivSNToStr(const t: TcAtivSN): string;
+begin
+  Result := cAtivSNArrayStrings[t];
+end;
+
+function StrTocAtivSN(const s: string): TcAtivSN;
+var
+  idx: TcAtivSN;
+begin
+  for idx:= Low(cAtivSNArrayStrings) to High(cAtivSNArrayStrings) do
+  begin
+    if cAtivSNArrayStrings[idx] = s then
+    begin
+      Result := idx;
+      exit;
+    end;
+  end;
+  raise EACBrException.CreateFmt('Valor string inválido para TcAtivSN: %s', [s]);
 end;
 
 initialization

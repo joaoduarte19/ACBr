@@ -290,11 +290,13 @@ type
     FCNAE: string;
     FCRT: TCRT;
     FISUFEmit: string;
+    FtpRegimeIBSCBS: TtpRegimeIBSCBS;
   public
     constructor Create();
     destructor Destroy; override;
 
     procedure Assign(Source: TEmit);
+
     property CNPJCPF: string read FCNPJCPF write FCNPJCPF;
     property xNome: string read FxNome write FxNome;
     property xFant: string read FxFant write FxFant;
@@ -305,6 +307,7 @@ type
     property CNAE: string read FCNAE write FCNAE;
     property CRT: TCRT read FCRT write FCRT;
     property ISUFEmit: string read FISUFEmit write FISUFEmit;
+    property tpRegimeIBSCBS: TtpRegimeIBSCBS read FtpRegimeIBSCBS write FtpRegimeIBSCBS;
   end;
 
   { TAvulsa }
@@ -985,6 +988,7 @@ type
     FtpCredPresIBSZFM: TtpCredPresIBSZFM;
     FvUnComLiq: Double;
     FvProdLiq: Currency;
+    FcAtivSN: TcAtivSN;
 
     procedure SetDI(Value: TDICollection);
     procedure SetRastro(Value: TRastroCollection);
@@ -1044,6 +1048,7 @@ type
     property tpCredPresIBSZFM: TtpCredPresIBSZFM read FtpCredPresIBSZFM write FtpCredPresIBSZFM;
     property vUnComLiq: Double read FvUnComLiq write FvUnComLiq;
     property vProdLiq: Currency read FvProdLiq write FvProdLiq;
+    property cAtivSN: TcAtivSN read FcAtivSN write FcAtivSN;
   end;
 
   { TICMS }
@@ -2707,7 +2712,8 @@ begin
   IM      := Source.IM;
   CNAE    := Source.CNAE;
   CRT     := Source.CRT;
-  ISUFEmit:= Source.ISUFEmit;
+  ISUFEmit := Source.ISUFEmit;
+  tpRegimeIBSCBS := Source.tpRegimeIBSCBS;
 end;
 
 constructor TEmit.Create();
@@ -2828,6 +2834,7 @@ begin
   indBemMovelUsado := Source.indBemMovelUsado;
   vUnComLiq := Source.vUnComLiq;
   vProdLiq := Source.vProdLiq;
+  cAtivSN := Source.cAtivSN;
 end;
 
 procedure TProd.setCFOP(const Value: string);
