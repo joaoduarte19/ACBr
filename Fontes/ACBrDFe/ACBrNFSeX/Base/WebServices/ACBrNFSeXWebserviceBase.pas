@@ -1384,9 +1384,9 @@ begin
         FPRetorno := RemoverDeclaracaoXML(FPRetorno);
         FPRetorno := AnsiToNativeString(FPRetorno);
         FPRetorno := NativeStringToUTF8(FPRetorno);
-      end;
 
-      FPRetorno := '<?xml version="1.0" encoding="UTF-8"?>' + FPRetorno;
+        FPRetorno := '<?xml version="1.0" encoding="UTF-8"?>' + FPRetorno;
+      end;
     end;
     {$ENDIF}
 
