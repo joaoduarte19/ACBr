@@ -43,6 +43,16 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 17/11/2026
+-- ACBrNFSeXServicos -- 
+[*] ACBR-10247 - O município de Janaúba/SC aderiu ao Padrão Nacional
+	Veja: https://discord.com/channels/798697718800318484/800042186783588364/1572306599588925655
+	Por: Leandro Figueiredo
+[*] ACBR-10246 - O município de Guaramirim/SC aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/96059-nt-2026005-preenchimento-do-ini-para-adequa%C3%A7%C3%A3o-%C3%A0-nt-2026005-%E2%80%93-simples-nacional/#comment-628486
+	Por: Diogo Loff
+[*] ACBR-10237 - O município de Pinhalzinho/SC aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/96024-nfs-e-provedor-padrao-nacional-pinhalzinho-sc-mudança-para-o-padrão-nacional/
+	Por: Léo - Info ON Sistemas
 -- ACBrNFSeX.LerIni.pas/ACBrNFSeXLerXml/PadraoNacional.LerXml --
 [*] ACBR-10234 - Alteração visando a leitura do campo finNFSe na seção IdentificacaoRPS.
    Por: Italo Giurizzato Junior
