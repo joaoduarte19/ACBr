@@ -37,22 +37,30 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos) 
+
+
 17/11/2026
 -- ACBrRFD --
 [*] ACBR-10091 - SH_CNPJ e CONT_CNPJ passam a aceitar CNPJ alfanumérico, mantendo letras maiúsculas e números.
   (por: Daniel de Morais Infocotidiano)
 
-02/02/2026
+16/11/2026
+-- ACBrBAL -- 
+[+] Adiciona modelo de Balança I9-12B
+  Por: Leonardo Miranda
 
+20/03/2026
+-- ACBrETQTspl.pas --
+
+[*] ACBr-9120 Realizado diversos ajustes para impressão com texto, area reverse, Caixa TSPL
+  (por: Daniel de Morais Infocotidiano)
+
+02/02/2026
 -- ACBrBAL --
 [+] ACBR-8651 Adiciona modelo Ramuza
 [*] https://www.projetoacbr.com.br/forum/topic/90066-projeto-acbr-adiciona-suporte-a-balan%C3%A7as-ramuza/
   Por: doszapro
 
-20/03/2026
--- ACBrETQTspl.pas --
-[*] ACBr-9120 Realizado diversos ajustes para impressão com texto, area reverse, Caixa TSPL
-  (por: Daniel de Morais Infocotidiano)
   
 11/12/2025
 -- ACBrAbecsPinPad --
