@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 17/11/2026
+-- ACBrNFSeX.LerIni.pas/ACBrNFSeXLerXml/PadraoNacional.LerXml --
+[*] ACBR-10234 - Alteração visando a leitura do campo finNFSe na seção IdentificacaoRPS.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeX.LerIni --
 [*] ACBR-10157 - Alteração visando a leitura da seção IBSCBSNFSE ao ler o arquivo INI
     de um RPS/DPS.

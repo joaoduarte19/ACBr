@@ -934,6 +934,7 @@ begin
       // Provedor SigISSWeb
       NFSe.verAplic := AINIRec.ReadString(sSecao, 'verAplic', 'ACBrNFSeX-1.00');
       NFSe.chNFSeRej := AINIRec.ReadString(sSecao, 'chNFSeRej', '');
+      NFSe.IBSCBS.finNFSe := StrTofinNFSe(AINIRec.ReadString(sSecao, 'finNFSe', '0'));
     end;
 
     sSecao := 'RpsSubstituido';

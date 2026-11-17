@@ -2121,6 +2121,7 @@ begin
     NFSe.cLocEmi := AINIRec.ReadString(sSecao, 'cLocEmi', '');
     NFSe.cMotivoEmisTI := StrTocMotivoEmisTI(AINIRec.ReadString(sSecao, 'cMotivoEmisTI', ''));
     NFSe.chNFSeRej := AINIRec.ReadString(sSecao, 'chNFSeRej', '');
+    NFSe.IBSCBS.finNFSe := StrTofinNFSe(AINIRec.ReadString(sSecao, 'finNFSe', '0'));
   end;
 end;
 
