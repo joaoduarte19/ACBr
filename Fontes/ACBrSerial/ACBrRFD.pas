@@ -1917,7 +1917,7 @@ end;
 
 procedure TACBrRFD.SetSH_CNPJ(const AValue: String);
 begin
-  fsSH_CNPJ := Trim( OnlyNumber( AValue ) ) ;
+  fsSH_CNPJ := Trim( OnlyCPFCNPJAlphaNum( AValue ) ) ;
 end;
 
 procedure TACBrRFD.SetSH_IE(const AValue: String);
@@ -1982,7 +1982,7 @@ end;
 
 procedure TACBrRFD.SetCONT_CNPJ(const AValue: String);
 begin
-  fsCONT_CNPJ := Trim(LeftStr( OnlyNumber( AValue ), 14));
+  fsCONT_CNPJ := Trim(LeftStr( OnlyCPFCNPJAlphaNum( AValue ), 14));
 end;
 
 procedure TACBrRFD.SetCONT_IE(const AValue: String);

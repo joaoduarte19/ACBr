@@ -37,6 +37,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos) 
+17/11/2026
+-- ACBrRFD --
+[*] ACBR-10091 - SH_CNPJ e CONT_CNPJ passam a aceitar CNPJ alfanumérico, mantendo letras maiúsculas e números.
+  (por: Daniel de Morais Infocotidiano)
+
 02/02/2026
 
 -- ACBrBAL --
