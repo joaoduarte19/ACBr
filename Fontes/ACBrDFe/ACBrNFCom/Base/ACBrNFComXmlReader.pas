@@ -507,7 +507,29 @@ var
     sAux := ObterConteudo(ANode.Childrens.FindAnyNs('indSN'), tcStr);
     Item.Imposto.ICMS.indSN := tiNao;
     if sAux = '1' then
+    begin
       Item.Imposto.ICMS.indSN := tiSim;
+      Item.Imposto.ICMS.CST := cstICMSSN;
+    end;
+
+    if Item.Imposto.ICMS.vICMSPrevisto > 0 then
+      Item.Imposto.ICMS.CST := cstICMSPrevisto;
+  end;
+
+  procedure LerICMSPrevisto(const AICMSNode: TACBrXmlNode);
+  begin
+    if not Assigned(AICMSNode) then
+      exit;
+    Item.Imposto.ICMS.CST := cstICMSPrevisto;
+    Item.Imposto.ICMS.vBC := 0;
+    Item.Imposto.ICMS.pICMS := 0;
+    Item.Imposto.ICMS.vICMS := 0;
+    Item.Imposto.ICMS.pFCP := 0;
+    Item.Imposto.ICMS.vFCP := 0;
+    Item.Imposto.ICMS.pRedBC := 0;
+    Item.Imposto.ICMS.vICMSDeson := 0;
+    Item.Imposto.ICMS.cBenef := '';
+    Item.Imposto.ICMS.vICMSPrevisto := ObterConteudo(AICMSNode.Childrens.Find('vICMSPrevisto'), tcDe2);
   end;
 begin
   if not Assigned(Item) then Exit;
@@ -526,7 +548,7 @@ begin
     LerICMS(ANode.Childrens.FindAnyNs('ICMS51'));
     LerICMS(ANode.Childrens.FindAnyNs('ICMS90'));
     LerICMS(ANode.Childrens.FindAnyNs('ICMSSN'));
-    LerICMS(ANode.Childrens.FindAnyNs('gICMSPrevistoPagtoAntecip'));
+    LerICMSPrevisto(ANode.Childrens.FindAnyNs('gICMSPrevistoPagtoAntecip'));
 
     Item.Imposto.ICMSUFDest.Clear;
     ANodes := ANode.Childrens.FindAllAnyNs('ICMSUFDest');

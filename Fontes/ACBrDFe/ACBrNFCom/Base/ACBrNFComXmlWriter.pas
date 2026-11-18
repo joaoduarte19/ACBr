@@ -926,13 +926,15 @@ begin
     if sCST = 'SN' then
       sCST := '90';
 
-    Result := FDocument.CreateElement('ICMS' + sTagTemp);
-
     if sTagTemp <> 'IP' then
+    begin
+      Result := FDocument.CreateElement('ICMS' + sTagTemp);
+
       Result.AppendChild(AddNode(tcStr, '#174', 'CST', 2, 2, 1,
-                                                    CSTICMSTOStr(CST), DSC_CST))
+                                                   CSTICMSTOStr(CST), DSC_CST));
+    end
     else
-      Result := Result.AddChild('ICMSPrevistoPagtoAntecip');
+      Result := FDocument.CreateElement('gICMSPrevistoPagtoAntecip');
 
     case CST of
       cst00:

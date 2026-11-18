@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 18/10/2026
+-- ACBrNFComXmlReader/ACBrNFComXmlWriter --
+[-] Ajustes na geração e leitura do grupo <impostos>
+   Por: Italo Giurizzato Junior
 -- ACBrNFComXmlWriter --
 [-] ACBr-10239: Correção visando a gerar o grupo ICMSPrevistoPagtoAntecip dentro do grupo ICMS.
    Por: Bruno Siqueira
