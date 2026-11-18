@@ -930,8 +930,7 @@ begin
     begin
       Result := FDocument.CreateElement('ICMS' + sTagTemp);
 
-      Result.AppendChild(AddNode(tcStr, '#174', 'CST', 2, 2, 1,
-                                                   CSTICMSTOStr(CST), DSC_CST));
+      Result.AppendChild(AddNode(tcStr, '#174', 'CST', 2, 2, 1, sCST, DSC_CST));
     end
     else
       Result := FDocument.CreateElement('gICMSPrevistoPagtoAntecip');
