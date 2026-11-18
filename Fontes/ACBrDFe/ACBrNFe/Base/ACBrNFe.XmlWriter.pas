@@ -91,6 +91,9 @@ type
     FtpAmb: TACBrTipoAmbiente;
     FtpEmis: TACBrTipoEmissao;
     FpGerarGrupoIBSCBSTot: Boolean;
+    FpGerarGrupoICMS: Boolean;
+    FpGerarGrupoPIS: Boolean;
+    FpGerarGrupoCOFINS: Boolean;
 
     function GerarInfNFe: TACBrXmlNode;
     function GerarIde: TACBrXmlNode;
@@ -287,11 +290,17 @@ begin
 }
   Result := False;
   FpGerarGrupoIBSCBSTot := False;
+  FpGerarGrupoICMS := True;
+  FpGerarGrupoPIS := True;
+  FpGerarGrupoCOFINS := True;
 
   case ModeloDF of
     moNFe: ModelosDFe := mdfNFe;
     moNFCe: ModelosDFe := mdfNFCe;
   end;
+
+  if Trim(NFe.Emit.IE) = '' then
+    FpGerarGrupoICMS := False;
 
   tpNFDebito := NFe.Ide.tpNFDebito;
 
@@ -1999,6 +2008,11 @@ var
   end;
 
 begin
+  Result := nil;
+
+  if not FpGerarGrupoICMS then
+    Exit;
+
   Result := FDocument.CreateElement('ICMS');
 
   case NFe.Det[i].Imposto.ICMS.CST of
@@ -3114,7 +3128,7 @@ var
 begin
   Result := nil;
 
-  if (NFe.Ide.modelo <> 55) and ((NFe.Det[i].Imposto.PIS.vBC = 0) and
+  if FpGerarGrupoPIS and (NFe.Ide.modelo <> 55) and ((NFe.Det[i].Imposto.PIS.vBC = 0) and
     (NFe.Det[i].Imposto.PIS.pPIS = 0) and (NFe.Det[i].Imposto.PIS.vPIS = 0) and
     (NFe.Det[i].Imposto.PIS.qBCProd = 0) and
     (NFe.Det[i].Imposto.PIS.vAliqProd = 0) and
@@ -3281,7 +3295,7 @@ var
 begin
   Result := nil;
 
-  if (NFe.Ide.modelo <> 55) and ((NFe.Det[i].Imposto.COFINS.vBC = 0) and
+  if FpGerarGrupoCOFINS and (NFe.Ide.modelo <> 55) and ((NFe.Det[i].Imposto.COFINS.vBC = 0) and
     (NFe.Det[i].Imposto.COFINS.pCOFINS = 0) and
     (NFe.Det[i].Imposto.COFINS.vCOFINS = 0) and
     (NFe.Det[i].Imposto.COFINS.qBCProd = 0) and
