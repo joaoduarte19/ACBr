@@ -570,7 +570,7 @@ const
   caRevendaMercadorias = {$IFDEF SUPPORTS_SCOPEDENUMS}TcAtivSN.{$ENDIF}caRevendaMercadorias deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TcAtivSN da Unit ACBrNFe.Conversao.pas' {$ENDIF};
   caOperacoesSemIncidenciaICMS = {$IFDEF SUPPORTS_SCOPEDENUMS}TcAtivSN.{$ENDIF}caOperacoesSemIncidenciaICMS deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TcAtivSN da Unit ACBrNFe.Conversao.pas' {$ENDIF};
   caVendaMercadorias = {$IFDEF SUPPORTS_SCOPEDENUMS}TcAtivSN.{$ENDIF}caVendaMercadorias deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TcAtivSN da Unit ACBrNFe.Conversao.pas' {$ENDIF};
-  caOperacoesIdustrializacaoZFM = {$IFDEF SUPPORTS_SCOPEDENUMS}TcAtivSN.{$ENDIF}caOperacoesIdustrializacaoZFM deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TcAtivSN da Unit ACBrNFe.Conversao.pas' {$ENDIF};
+  caOperacoesIndustrializacaoZFM = {$IFDEF SUPPORTS_SCOPEDENUMS}TcAtivSN.{$ENDIF}caOperacoesIndustrializacaoZFM deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TcAtivSN da Unit ACBrNFe.Conversao.pas' {$ENDIF};
   caOperacoesNaoTributaveis = {$IFDEF SUPPORTS_SCOPEDENUMS}TcAtivSN.{$ENDIF}caOperacoesNaoTributaveis deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TcAtivSN da Unit ACBrNFe.Conversao.pas' {$ENDIF};
 
 const

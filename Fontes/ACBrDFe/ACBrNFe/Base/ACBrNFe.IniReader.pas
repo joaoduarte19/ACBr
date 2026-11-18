@@ -324,7 +324,7 @@ begin
   Emit.IM      := AINIRec.ReadString( sSecao,'IM'  ,'');
   Emit.CNAE    := AINIRec.ReadString( sSecao,'CNAE','');
   Emit.CRT     := StrToCRT(ok, AINIRec.ReadString( sSecao,'CRT','3'));
-  Emit.tpRegimeIBSCBS := StrTotpRegimeIBSCBS(AINIRec.ReadString('emit', 'tpRegimeIBSCBS', ''));
+  Emit.tpRegimeIBSCBS := StrTotpRegimeIBSCBS(AINIRec.ReadString(sSecao, 'tpRegimeIBSCBS', ''));
   Emit.ISUFEmit:= AINIRec.ReadString( sSecao,'ISUFEmit','');
 
   Emit.EnderEmit.xLgr := AINIRec.ReadString( sSecao, 'xLgr' ,AINIRec.ReadString(  sSecao, 'Logradouro', ''));

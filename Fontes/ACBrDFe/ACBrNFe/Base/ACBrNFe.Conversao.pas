@@ -420,7 +420,7 @@ const
 
 type
   TcAtivSN = (caNenhum, caRevendaMercadorias, caOperacoesSemIncidenciaICMS,
-              caVendaMercadorias, caOperacoesIdustrializacaoZFM,
+              caVendaMercadorias, caOperacoesIndustrializacaoZFM,
               caOperacoesNaoTributaveis);
 
 const
