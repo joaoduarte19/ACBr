@@ -753,7 +753,8 @@ begin
     end;
   end;
 
-  if CTe.Ide.tpEmis = teFSDA then
+  // NT 2026.004: tpEmis=2 (Contingencia Offline) exige dhCont/xJust
+  if CTe.Ide.tpEmis in [teFSDA, teContingencia] then
   begin
     if VersaoDF >= ve300 then
       Result.AppendChild(AddNode(tcStr, '#057', 'dhCont', 25, 25, 1,
@@ -1445,16 +1446,9 @@ begin
 
   // Reforma Tributária
   if (VersaoDF >= ve400) and (CTe.imp.IBSCBS.CST <> cstNenhum) and
-     (CTe.imp.IBSCBS.cClassTrib <> '') then
-  begin
-    if (ModeloDF <> moCTeSimp) then
+     (CTe.imp.IBSCBS.cClassTrib <> '') and (ModeloDF <> moCTeSimp) then
       Result.AppendChild(Gerar_IBSCBS(CTe.imp.IBSCBS));
 
-    if (ModeloDF in [moCTe, moCTeOS]) then
-      Result.AppendChild(AddNode(tcDe2, '#250', 'vTotDFe', 1, 15, 1,
-                                                 CTe.Imp.vTotDFe, DSC_VTOTDFE));
-  end
-  else
   // Sem o grupo IBSCBS o vTotDFe continua sendo aceito pelo schema (0-1) e
   // a SEFAZ compara o vRec com ele (rejeicao 531 quando nao informado)
   if (VersaoDF >= ve400) and (ModeloDF in [moCTe, moCTeOS]) then
