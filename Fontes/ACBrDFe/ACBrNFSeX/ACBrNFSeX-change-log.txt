@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 18/11/2026
+-- PadraoNacional.GravarXml --
+[*] ACBR-10232 - Alteração visando usar o caracter de quebra de linha definido pelo usuário.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXDANFSeFR --
 [*] ACBR-10258 - Alterado o limite para 2000 a quantidade de caracteres do campo Discriminação.
    Por: Léo - Info ON Sistemas

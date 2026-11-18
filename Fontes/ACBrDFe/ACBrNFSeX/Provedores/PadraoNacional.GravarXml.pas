@@ -1560,7 +1560,8 @@ begin
     Result.AppendChild(GerarXMLgItemPed);
 
     Result.AppendChild(AddNode(tcStr, '#1', 'xInfComp', 1, 2000, 0,
-                                          NFSe.Servico.infoCompl.xInfComp, ''));
+      StringReplace(NFSe.Servico.infoCompl.xInfComp, Opcoes.QuebraLinha,
+                          FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll])));
   end;
 end;
 
