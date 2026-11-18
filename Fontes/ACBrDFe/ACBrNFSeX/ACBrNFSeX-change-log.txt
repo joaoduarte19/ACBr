@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+18/11/2026
+-- PadraoNacional.GravarXml/PadraoNacional.LerXml --
+[*] Comentado a definição da propriedade FpVersaoNT nas referidas units pois elas já estão definidas
+    nas units ACBrNFeXGravarXml e ACBrNFSeXLerXml.
+   Por: Italo Giurizzato Junior
+
 17/11/2026
 -- Diversos --
 [*] Vários ajustes visando a não sobrescrita do valor de finNFSe e a correção

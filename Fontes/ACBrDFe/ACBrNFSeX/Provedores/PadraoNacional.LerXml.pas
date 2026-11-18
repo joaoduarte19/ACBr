@@ -51,7 +51,7 @@ type
   TNFSeR_PadraoNacional = class(TNFSeRClass)
   protected
     FpTipoXML: string;
-    FpVersaoNT: TVersaoNTPadraoNacional;
+//    FpVersaoNT: TVersaoNTPadraoNacional;
 
     procedure LerXMLinfNFSe(const ANode: TACBrXmlNode);
     procedure LerXMLEmitente(const ANode: TACBrXmlNode);

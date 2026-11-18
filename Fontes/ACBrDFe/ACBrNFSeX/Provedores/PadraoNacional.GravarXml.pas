@@ -55,7 +55,7 @@ type
   protected
     FpVersao: string;
     LSecao: string;
-    FpVersaoNT: TVersaoNTPadraoNacional;
+//    FpVersaoNT: TVersaoNTPadraoNacional;
 
     function GerarChaveDPS(const AcMun, ACNPJCPF, ASerie, ANumero: string): string;
     function GerarChaveNFSe(const AcMun, AAmbGer, ACNPJCPF,
