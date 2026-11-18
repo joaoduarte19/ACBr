@@ -45,7 +45,7 @@ uses
    Forms, Graphics,
   {$EndIf}
   ACBrNFeDANFEClass, ACBrBase,
-  ACBrNFe.Classes, ACBrDFe.Conversao, ACBrDFeUtil,
+  ACBrNFe.Classes, ACBrNFe.EnvEvento, ACBrDFe.Conversao, ACBrDFeUtil,
   RLConsts, RLUtils, RLReport, RLBarcode, RLPDFFilter, RLHTMLFilter,
   RLFilters, RLPrinters, RLTypes, Controls;
 
@@ -54,6 +54,7 @@ const
 
 type
   TACBrNFeDANFCeFiltro = (fiNenhum, fiPDF, fiHTML ) ;
+  TACBrNFeDANFCeLayout = (laVenda, laCancelada, laEvento);
 
   { TACBrNFeDANFCeFortes }
   {$IFDEF RTL230_UP}
@@ -65,18 +66,21 @@ type
     FTamanhoLogoHeight: Integer;
     FTamanhoLogoWidth: Integer;
 
-    procedure ImprimirInterno(const Cancelado: Boolean;
+    procedure ImprimirInterno(const ALayoutNFCe: TACBrNFeDANFCeLayout;
       const DanfeResumido : Boolean = False;
       const AFiltro : TACBrNFeDANFCeFiltro = fiNenhum;
       const AStream: TStream = nil);
   protected
     FpNFe: TNFe;
+    FpInfEvento: TInfEventoCollectionItem;
 
     procedure AtribuirNFe(NFE: TNFe = Nil);
+    procedure AtribuirEvento(const AInfEvento: TInfEventoCollectionItem = nil);
     procedure Imprimir(const DanfeResumido : Boolean = False; const AFiltro : TACBrNFeDANFCeFiltro = fiNenhum;
                        const AStream: TStream = nil);
     procedure ImprimirCancelado(const DanfeResumido : Boolean = False; const AFiltro : TACBrNFeDANFCeFiltro = fiNenhum;
                                 const AStream: TStream = nil);
+    procedure ImprimirEventos(const AFiltro: TACBrNFeDANFCeFiltro = fiNenhum; const AStream: TStream = nil);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -261,6 +265,57 @@ type
     RLBand12: TRLBand;
     RLDraw15: TRLDraw;
     rllFisco: TRLLabel;
+    rlEvento: TRLReport;
+    rlbCabecalhoEvento: TRLBand;
+    rlmTitEvento: TRLMemo;
+    rlmAvisoEvento: TRLMemo;
+    rlmConsulteEvento: TRLMemo;
+    rlbDadosNotaEvento: TRLBand;
+    rldEvento1: TRLDraw;
+    rlmDadosNotaEvento: TRLMemo;
+    rllTitChaveEvento: TRLLabel;
+    rlmChaveNFeEvento: TRLMemo;
+    rlbQRCodeEvento: TRLBand;
+    rldEvento2: TRLDraw;
+    rllConsultaQRCodeEvento: TRLLabel;
+    imgQRCodeEvento: TRLImage;
+    rlbDadosEvento: TRLBand;
+    rldEvento3: TRLDraw;
+    rlmDescEvento: TRLMemo;
+    rldEvento4: TRLDraw;
+    rlpTipoEvento: TRLPanel;
+    rllTitTipoEvento: TRLLabel;
+    rlmTipoEvento: TRLMemo;
+    rlpPedidoEvento: TRLPanel;
+    rllTitDataHoraPedido: TRLLabel;
+    rllDataHoraPedido: TRLLabel;
+    rllTitAmbienteEvento: TRLLabel;
+    rllAmbienteEvento: TRLLabel;
+    rlpAutorEvento: TRLPanel;
+    rllTitAutorEvento: TRLLabel;
+    rllAutorEvento: TRLLabel;
+    rllTitSeqEvento: TRLLabel;
+    rllSeqEvento: TRLLabel;
+    rllTitOrgaoEvento: TRLLabel;
+    rllOrgaoEvento: TRLLabel;
+    rlpSeqEvento: TRLPanel;
+    rlpAmbienteOrgaoEvento: TRLPanel;
+    rlpOrgaoRecepcaoEvento: TRLPanel;
+    rlpProtocoloEvento: TRLPanel;
+    rllTitProtocoloEvento: TRLLabel;
+    rlmProtocoloEvento: TRLMemo;
+    rlpSituacaoEvento: TRLPanel;
+    rllTitSituacaoEvento: TRLLabel;
+    rlmSituacaoEvento: TRLMemo;
+    rlpRegistroEvento: TRLPanel;
+    rllTitDataHoraRegistro: TRLLabel;
+    rllDataHoraRegistro: TRLLabel;
+    rllTitOrgaoRecepcao: TRLLabel;
+    rllOrgaoRecepcao: TRLLabel;
+    rlbRodapeEvento: TRLBand;
+    rldEvento5: TRLDraw;
+    rllSistemaEvento: TRLLabel;
+    rlpGapEspacoFinalEvento: TRLPanel;
 
     procedure FormDestroy(Sender: TObject);
     procedure pAsteriscoBeforePrint(Sender: TObject; var PrintIt: boolean);
@@ -306,6 +361,12 @@ type
       var PrintIt: Boolean);
     procedure rlbMensagemFiscalCancBeforePrint(Sender: TObject;
       var PrintIt: Boolean);
+    procedure rlEventoBeforePrint(Sender: TObject; var PrintIt: Boolean);
+    procedure rlbQRCodeEventoBeforePrint(Sender: TObject; var PrintIt: Boolean);
+    procedure rlbDadosEventoBeforePrint(Sender: TObject; var PrintIt: Boolean);
+    procedure rlbDadosNotaEventoBeforePrint(Sender: TObject;
+      var PrintIt: Boolean);
+    procedure rlbRodapeEventoBeforePrint(Sender: TObject; var PrintIt: Boolean);
   private
     fACBrNFeDANFCeFortes: TACBrNFeDANFCeFortes;
     fNumItem: Integer;
@@ -513,6 +574,24 @@ begin
 
 end;
 
+procedure TACBrNFeDANFCeFortesFr.rlbQRCodeEventoBeforePrint(Sender: TObject;
+  var PrintIt: Boolean);
+var
+  lQrCode: String;
+  lNFe: TNFe;
+begin
+  lNFe := ACBrNFeDANFCeFortes.FpNFe;
+  // QRCode  //
+  if EstaVazio(Trim(lNFe.infNFeSupl.qrCode)) then
+    lQrcode := TACBrNFe(ACBrNFeDANFCeFortes.ACBrNFe).GetURLQRCode(lNFe)
+  else
+    lQrcode := lNFe.infNFeSupl.qrCode;
+
+  PintarQRCode(lQrcode , imgQRCodeEvento.Picture.Bitmap, qrUTF8NoBOM);
+
+  PrintIt := Trim(lQrCode) <> EmptyStr;
+end;
+
 procedure TACBrNFeDANFCeFortesFr.rlbQRLateralBeforePrint(Sender: TObject;
   var PrintIt: Boolean);
 var
@@ -604,6 +683,12 @@ begin
 
     lObservacoes.Visible := ( lObservacoes.Lines.Count > 0 );
   end;
+end;
+
+procedure TACBrNFeDANFCeFortesFr.rlbRodapeEventoBeforePrint(Sender: TObject;
+  var PrintIt: Boolean);
+begin
+  rllSistemaEvento.Caption := fACBrNFeDANFCeFortes.Sistema;
 end;
 
 procedure TACBrNFeDANFCeFortesFr.rlbMensagemFiscalCancBeforePrint(
@@ -1006,6 +1091,54 @@ begin
   end;
 end;
 
+procedure TACBrNFeDANFCeFortesFr.rlbDadosEventoBeforePrint(Sender: TObject;
+  var PrintIt: Boolean);
+var
+  lAuxStr: String;
+  lTipoAmb: TACBrTipoAmbiente;
+begin
+  lAuxStr := ACBrNFeDANFCeFortes.FpInfEvento.InfEvento.DescricaoTipoEvento(ACBrNFeDANFCeFortes.FpInfEvento.InfEvento.tpEvento);
+  lAuxStr := ACBrStr(lAuxStr);
+  rlmDescEvento.Lines.Clear;
+  rlmDescEvento.Lines.Add(lAuxStr);
+
+  // Dados do pedido de registro do evento
+  rlmTipoEvento.Lines.Text := TpEventoToStr(ACBrNFeDANFCeFortes.FpInfEvento.InfEvento.tpEvento) + ' - ' + lAuxStr;
+
+  lTipoAmb := ACBrNFeDANFCeFortes.FpInfEvento.InfEvento.tpAmb;
+  lAuxStr := ifThen(lTipoAmb = taHomologacao, ACBrStr('HOMOLOGAÇÃO'), ACBrStr('PRODUÇÃO'));
+  rllDataHoraPedido.Caption := FormatDateTimeBr(ACBrNFeDANFCeFortes.FpInfEvento.InfEvento.dhEvento);
+  rllAmbienteEvento.Caption := TipoAmbienteToStr(lTipoAmb) + ' - ' + lAuxStr;
+
+  rllAutorEvento.Caption := FormatarCNPJ(ACBrNFeDANFCeFortes.FpInfEvento.InfEvento.CNPJ);
+  rllSeqEvento.Caption   := IntToStrZero(ACBrNFeDANFCeFortes.FpInfEvento.InfEvento.nSeqEvento, 10);
+  rllOrgaoEvento.Caption := CodigoUFparaUF(ACBrNFeDANFCeFortes.FpInfEvento.InfEvento.cOrgao);
+
+  // Retorno da SEFAZ
+  rlmSituacaoEvento.Lines.Text := IntToStr(ACBrNFeDANFCeFortes.FpInfEvento.RetInfEvento.cStat) + ' - ' +
+                                ACBrNFeDANFCeFortes.FpInfEvento.RetInfEvento.xMotivo;
+
+  rllDataHoraRegistro.Caption := ifThen(ACBrNFeDANFCeFortes.FpInfEvento.RetInfEvento.dhRegEvento <> 0,
+                                      FormatDateTimeBr(ACBrNFeDANFCeFortes.FpInfEvento.RetInfEvento.dhRegEvento), '');
+
+  rllOrgaoRecepcao.Caption := CodigoUFparaUF(ACBrNFeDANFCeFortes.FpInfEvento.RetInfEvento.cOrgao) +
+                            ifThen(NaoEstaVazio(ACBrNFeDANFCeFortes.FpInfEvento.RetInfEvento.verAplic),
+                                   ' (' + ACBrNFeDANFCeFortes.FpInfEvento.RetInfEvento.verAplic + ')', '');
+end;
+
+procedure TACBrNFeDANFCeFortesFr.rlbDadosNotaEventoBeforePrint(Sender: TObject;
+  var PrintIt: Boolean);
+var
+  lNFe: TNFe;
+begin
+  lNFe := ACBrNFeDANFCeFortes.FpNFe;
+  rlmDadosNotaEvento.Lines.Text := 'MODELO: ' + IntToStr(lNFe.Ide.modelo) +
+                                 ACBrStr(' SÉRIE: ') + IntToStr(lNFe.Ide.serie) +
+                                 ACBrStr(' NÚMERO: ') + IntToStr(lNFe.Ide.nNF);
+  rlmChaveNFeEvento.Lines.Clear;
+  rlmChaveNFeEvento.Lines.Add(FormatarChaveAcesso(RemoverLiteralChave(lNFe.infNFe.ID)));
+end;
+
 procedure TACBrNFeDANFCeFortesFr.rlbDescItemBeforePrint(Sender: TObject;
   var PrintIt: Boolean);
 var
@@ -1375,6 +1508,21 @@ begin
   end;
 end;
 
+procedure TACBrNFeDANFCeFortesFr.rlEventoBeforePrint(Sender: TObject;
+  var PrintIt: Boolean);
+begin
+  fNumItem  := 0;
+  fNumPagto := 0;
+  fTotalPagto := 0;
+  fNumObs   := 0;
+  fObsFisco.Clear;
+
+  rlpGapEspacoFinalEvento.Height := ACBrNFeDANFCeFortes.EspacoFinal;
+
+  rlmProtocoloEvento.Lines.Clear;
+  rlmProtocoloEvento.Lines.Add(ACBrNFeDANFCeFortes.FpInfEvento.RetInfEvento.nProt);
+end;
+
 { TACBrNFeDANFCeFortes }
 
 constructor TACBrNFeDANFCeFortes.Create(AOwner: TComponent);
@@ -1408,19 +1556,52 @@ end;
 
 procedure TACBrNFeDANFCeFortes.ImprimirEVENTO(NFE: TNFe);
 begin
-  ImprimirDANFECancelado(NFE);
+  AtribuirNFe(NFE);
+  ImprimirEventos;
 end;
 
 procedure TACBrNFeDANFCeFortes.ImprimirEVENTOPDF(NFE: TNFe);
 begin
   AtribuirNFe(NFE);
-  ImprimirCancelado(True, fiPDF);
+  ImprimirEventos(fiPDF);
 end;
 
 procedure TACBrNFeDANFCeFortes.ImprimirEVENTOPDF(AStream: TStream; NFE: TNFe = nil);
 begin
   AtribuirNFe(NFE);
-  ImprimirCancelado(True, fiPDF, AStream);
+
+  ImprimirEventos(fiPDF, AStream);
+end;
+
+procedure TACBrNFeDANFCeFortes.ImprimirEventos(const AFiltro: TACBrNFeDANFCeFiltro; const AStream: TStream);
+var
+  I: Integer;
+  lListaEventos: TInfEventoCollection;
+begin
+  if not(Assigned(FpNFe)) then
+    raise EACBrException.Create('Nenhuma nota fiscal atribuída para o impresso');
+
+  lListaEventos := TACBrNFe(ACBrNFe).EventoNFe.Evento;
+
+  if lListaEventos.Count <= 0 then
+    raise EACBrException.Create('Nenhum evento carregado para ser impresso');
+
+  for I := 0 to Pred(lListaEventos.Count) do
+  begin
+    AtribuirEvento(lListaEventos[I]);
+
+    if RemoverLiteralChave(FpNFe.infNFe.ID) <> RemoverLiteralChave(FpInfEvento.InfEvento.chNFe) then
+      raise EACBrException.Create(ACBrStr('Evento não pertence à NFC-e atribuída'));
+
+    if lListaEventos[I].InfEvento.tpEvento = teCancelamento then
+      ImprimirInterno(laCancelada, False, AFiltro, AStream)
+    else
+      ImprimirInterno(laEvento, False, AFiltro, AStream);
+
+    // Um stream comporta um único PDF
+    if Assigned(AStream) then
+      Break;
+  end;
 end;
 
 procedure TACBrNFeDANFCeFortes.ImprimirDANFEResumido(NFE: TNFe);
@@ -1475,21 +1656,22 @@ end;
 procedure TACBrNFeDANFCeFortes.Imprimir(const DanfeResumido: Boolean; const AFiltro: TACBrNFeDANFCeFiltro;
   const AStream: TStream);
 begin
-  ImprimirInterno(False, DanfeResumido, AFiltro, AStream);
+  ImprimirInterno(laVenda, DanfeResumido, AFiltro, AStream);
 end;
 
 procedure TACBrNFeDANFCeFortes.ImprimirCancelado(const DanfeResumido: Boolean; const AFiltro: TACBrNFeDANFCeFiltro;
   const  AStream: TStream);
 begin
-  ImprimirInterno(True, DanfeResumido, AFiltro, AStream);
+  ImprimirInterno(laCancelada, DanfeResumido, AFiltro, AStream);
 end;
 
-procedure TACBrNFeDANFCeFortes.ImprimirInterno(const Cancelado: Boolean;  const DanfeResumido: Boolean;
+procedure TACBrNFeDANFCeFortes.ImprimirInterno(const ALayoutNFCe: TACBrNFeDANFCeLayout;  const DanfeResumido: Boolean;
   const AFiltro: TACBrNFeDANFCeFiltro; const  AStream: TStream);
 var
   frACBrNFeDANFCeFortesFr: TACBrNFeDANFCeFortesFr;
   RLLayout: TRLReport;
   RLFiltro: TRLCustomSaveFilter;
+  lNomeArquivoPDF: String;
 begin
   frACBrNFeDANFCeFortesFr := TACBrNFeDANFCeFortesFr.Create(Self);
   try
@@ -1502,18 +1684,34 @@ begin
       end;
 
       Filtro := AFiltro;
-      if Cancelado then
-        RLLayout := rlCancelamento
-      else
-        RLLayout := rlVenda;
+
+      case ALayoutNFCe of
+        laVenda:
+        begin
+          RLLayout := rlVenda;
+          RLLayout.JobTitle := NomeDocumento;
+          if RLLayout.JobTitle = EmptyStr then
+            RLLayout.JobTitle := RemoverLiteralChave(FpNFe.infNFe.ID) +'-nfe.xml';
+        end;
+        laCancelada:
+        begin
+          RLLayout := rlCancelamento;
+          RLLayout.JobTitle := NomeDocumento;
+          if RLLayout.JobTitle = EmptyStr then
+            RLLayout.JobTitle := RemoverLiteralChave(FpNFe.infNFe.ID) +'-cancelado-nfe.xml';
+        end;
+        laEvento:
+        begin
+          RLLayout := rlEvento;
+          RLLayout.JobTitle := NomeDocumento;
+          if RLLayout.JobTitle = EmptyStr then
+            RLLayout.JobTitle := RemoverLiteralChave(FpNFe.infNFe.ID) +'-evento-nfe.xml';
+        end;
+      end;
 
       Resumido := DanfeResumido or (not Self.ImprimeItens);
 
       TDFeReportFortes.AjustarReport(RLLayout, ACBrNFeDANFCeFortes);
-
-      RLLayout.JobTitle := NomeDocumento;
-      if (RLLayout.JobTitle = '') then
-        RLLayout.JobTitle := RemoverLiteralChave(FpNFe.infNFe.ID) + IfThen(Cancelado, '-cancelado', '')+'-nfe.xml';
 
       // Largura e Margens do Relatório //
       RLLayout.Width := LarguraBobina;
@@ -1559,8 +1757,15 @@ begin
           else
           begin
             //RLFiltro.FileName := PathWithDelim(ACBrNFeDANFCeFortes.PathPDF) + ChangeFileExt( RLLayout.JobTitle, '.pdf');
+            // No evento o nome leva o código do evento, para não sobrescrever o PDF da NFC-e
+            if ALayoutNFCe = laEvento then
+              lNomeArquivoPDF := TpEventoToStr(FpInfEvento.InfEvento.tpEvento) +
+                                 RemoverLiteralChave(FpNFe.infNFe.ID) + '-nfe.pdf'
+            else
+              lNomeArquivoPDF := RemoverLiteralChave(FpNFe.infNFe.ID) + '-nfe.pdf';
+
             RLFiltro.FileName := DefinirNomeArquivo(ACBrNFeDANFCeFortes.PathPDF,
-                                                    RemoverLiteralChave(FpNFe.infNFe.ID) + '-nfe.pdf',
+                                                    lNomeArquivoPDF,
                                                     ACBrNFeDANFCeFortes.NomeDocumento);
             RLFiltro.FilterPages( RLLayout.Pages );
             ACBrNFeDANFCeFortes.FPArquivoPDF := RLFiltro.FileName;
@@ -1572,6 +1777,14 @@ begin
   finally
     frACBrNFeDANFCeFortesFr.Free ;
   end;
+end;
+
+procedure TACBrNFeDANFCeFortes.AtribuirEvento(const AInfEvento: TInfEventoCollectionItem);
+begin
+  if not(Assigned(AInfEvento)) then
+    raise EACBrException.Create('Informações do evento não atribuídas');
+
+  FpInfEvento := AInfEvento;
 end;
 
 procedure TACBrNFeDANFCeFortes.AtribuirNFe(NFE: TNFe);

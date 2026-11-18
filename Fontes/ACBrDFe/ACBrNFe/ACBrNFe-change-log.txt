@@ -45,6 +45,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 18/11/2026
+-- ACBrDANFCeFortesFr --
+[+] ACBR-9753 - Adiciona novo impresso para os eventos da NFC-e no motor Fortes Report.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/96091-disponibilizado-impresso-de-evento-para-nfc-e-no-fortes-report/ 
 -- ACBrNFe.Conversao/pcnConversaoNFe --
 [*] Correção ortográfica no enumerado caOperacoesIndustrializacaoZFM que estava como caOperacoesIdustrializacaoZFM.
 -- ACBrNFe.IniReader --
