@@ -37,13 +37,14 @@ unit ACBrNFeABI.EventoClass;
 interface
 
 uses
-  SysUtils, Classes,
+  SysUtils,
+  Classes,
   {$IF DEFINED(HAS_SYSTEM_GENERICS)}
-   System.Generics.Collections, System.Generics.Defaults,
+   System.Generics.Collections,
+   System.Generics.Defaults,
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$IFEND}
-  ACBrBase,
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrNFeABI.Conversao;
@@ -59,6 +60,13 @@ type
     FxJust: string;        // Cancelamento
 
     FidPedidoCancelado: string;
+    FcdEventoPag, FCST, FcClassTrib: string;
+    FvParcela, FvAcrescimos, FvTotalParcela, FvOrigParcela, FvAcrescParcela: Double;
+    FdataPag: TDateTime;
+    FvOperacIndiv, FvRedAjusteIndiv, FvRedSocialIndiv, FvBC: Double;
+    FpIBSUF, FpRedAliqIBSUF, FpAliqEfetIBSUF, FvIBSUF: Double;
+    FpIBSMun, FpRedAliqIBSMun, FpAliqEfetIBSMun, FvIBSMun: Double;
+    FpCBS, FpRedAliqCBS, FpAliqEfetCBS, FvCBS: Double;
   public
     property versao: string     read FVersao     write FVersao;
     property descEvento: string read FDescEvento write FDescEvento;
@@ -66,6 +74,33 @@ type
     property xJust: string      read FxJust      write FxJust;
 
     property idPedidoCancelado: string read FidPedidoCancelado write FidPedidoCancelado;
+
+    procedure Assign(Source: TDetEvento);
+    property cdEventoPag: string read FcdEventoPag write FcdEventoPag;   // 01 incorporacao / 02 complementar
+    property vParcela: Double read FvParcela write FvParcela;
+    property vAcrescimos: Double read FvAcrescimos write FvAcrescimos;
+    property vTotalParcela: Double read FvTotalParcela write FvTotalParcela;
+    property vOrigParcela: Double read FvOrigParcela write FvOrigParcela;
+    property vAcrescParcela: Double read FvAcrescParcela write FvAcrescParcela;
+    property dataPag: TDateTime read FdataPag write FdataPag;
+    property CST: string read FCST write FCST;
+    property cClassTrib: string read FcClassTrib write FcClassTrib;
+    property vOperacIndiv: Double read FvOperacIndiv write FvOperacIndiv;
+    property vRedAjusteIndiv: Double read FvRedAjusteIndiv write FvRedAjusteIndiv;
+    property vRedSocialIndiv: Double read FvRedSocialIndiv write FvRedSocialIndiv;
+    property vBC: Double read FvBC write FvBC;
+    property pIBSUF: Double read FpIBSUF write FpIBSUF;
+    property pRedAliqIBSUF: Double read FpRedAliqIBSUF write FpRedAliqIBSUF;
+    property pAliqEfetIBSUF: Double read FpAliqEfetIBSUF write FpAliqEfetIBSUF;
+    property vIBSUF: Double read FvIBSUF write FvIBSUF;
+    property pIBSMun: Double read FpIBSMun write FpIBSMun;
+    property pRedAliqIBSMun: Double read FpRedAliqIBSMun write FpRedAliqIBSMun;
+    property pAliqEfetIBSMun: Double read FpAliqEfetIBSMun write FpAliqEfetIBSMun;
+    property vIBSMun: Double read FvIBSMun write FvIBSMun;
+    property pCBS: Double read FpCBS write FpCBS;
+    property pRedAliqCBS: Double read FpRedAliqCBS write FpRedAliqCBS;
+    property pAliqEfetCBS: Double read FpAliqEfetCBS write FpAliqEfetCBS;
+    property vCBS: Double read FvCBS write FvCBS;
   end;
 
   TInfEvento = class
@@ -147,6 +182,42 @@ type
 
 implementation
 
+{ TDetEvento }
+
+procedure TDetEvento.Assign(Source: TDetEvento);
+begin
+  FVersao := Source.FVersao;
+  FDescEvento := Source.FDescEvento;
+  FnProt := Source.FnProt;
+  FxJust := Source.FxJust;
+  FidPedidoCancelado := Source.FidPedidoCancelado;
+  FcdEventoPag := Source.FcdEventoPag;
+  FvParcela := Source.FvParcela;
+  FvAcrescimos := Source.FvAcrescimos;
+  FvTotalParcela := Source.FvTotalParcela;
+  FvOrigParcela := Source.FvOrigParcela;
+  FvAcrescParcela := Source.FvAcrescParcela;
+  FdataPag := Source.FdataPag;
+  FCST := Source.FCST;
+  FcClassTrib := Source.FcClassTrib;
+  FvOperacIndiv := Source.FvOperacIndiv;
+  FvRedAjusteIndiv := Source.FvRedAjusteIndiv;
+  FvRedSocialIndiv := Source.FvRedSocialIndiv;
+  FvBC := Source.FvBC;
+  FpIBSUF := Source.FpIBSUF;
+  FpRedAliqIBSUF := Source.FpRedAliqIBSUF;
+  FpAliqEfetIBSUF := Source.FpAliqEfetIBSUF;
+  FvIBSUF := Source.FvIBSUF;
+  FpIBSMun := Source.FpIBSMun;
+  FpRedAliqIBSMun := Source.FpRedAliqIBSMun;
+  FpAliqEfetIBSMun := Source.FpAliqEfetIBSMun;
+  FvIBSMun := Source.FvIBSMun;
+  FpCBS := Source.FpCBS;
+  FpRedAliqCBS := Source.FpRedAliqCBS;
+  FpAliqEfetCBS := Source.FpAliqEfetCBS;
+  FvCBS := Source.FvCBS;
+end;
+
 { TInfEvento }
 
 constructor TInfEvento.Create;
@@ -177,6 +248,7 @@ function TInfEvento.getDescEvento: string;
 begin
   case fTpEvento of
     teCancelamento: Result := 'Cancelamento';
+    tePagamentoOperacao: Result := 'Pagamento de Parcela'; 
   else
     Result := '';
   end;
@@ -185,7 +257,10 @@ end;
 function TInfEvento.getTipoEvento: string;
 begin
   try
-    Result := TpEventoToStr( FTpEvento );
+    if FTpEvento = tePagamentoOperacao then
+      Result := '112310'
+    else
+      Result := TpEventoToStr( FTpEvento );
   except
     Result := '';
   end;
@@ -195,6 +270,7 @@ function TInfEvento.DescricaoTipoEvento(TipoEvento: TACBrTipoEvento): string;
 begin
   case TipoEvento of
     teCancelamento: Result := 'CANCELAMENTO DE DC-e';
+    tePagamentoOperacao: Result := 'PAGAMENTO DE PARCELA';
   else
     Result := 'Não Definido';
   end;

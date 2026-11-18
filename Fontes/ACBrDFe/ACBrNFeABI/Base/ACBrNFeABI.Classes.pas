@@ -38,12 +38,14 @@ unit ACBrNFeABI.Classes;
 interface
 
 uses
-  SysUtils, Classes,
+  SysUtils,
+  Classes,
 {$IFNDEF VER130}
   Variants,
 {$ENDIF}
   {$IF DEFINED(HAS_SYSTEM_GENERICS)}
-   System.Generics.Collections, System.Generics.Defaults,
+   System.Generics.Collections,
+   System.Generics.Defaults,
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$IFEND}

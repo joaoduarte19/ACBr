@@ -37,7 +37,8 @@ unit ACBrNFeABI.ConsSit;
 interface
 
 uses
-  SysUtils, Classes,
+  SysUtils,
+  Classes,
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrDFeUtil;

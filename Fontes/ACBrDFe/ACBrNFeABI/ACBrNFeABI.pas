@@ -38,14 +38,23 @@ unit ACBrNFeABI;
 interface
 
 uses
-  Classes, SysUtils, synautil,
-  ACBrDFe, ACBrDFeConfiguracoes, ACBrDFeException, ACBrBase,
+  Classes,
+  SysUtils,
+  synautil,
+  ACBrDFe,
+  ACBrDFeConfiguracoes,
+  ACBrDFeException,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  ACBrNFeABIConfiguracoes, ACBrNFeABIWebServices, ACBrNFeABINotasFiscais,
-  ACBrNFeABI.DANFEABIClass, ACBrNFeABI.Classes, ACBrNFeABI.Conversao,
+  ACBrNFeABIConfiguracoes,
+  ACBrNFeABIWebServices,
+  ACBrNFeABINotasFiscais,
+  ACBrNFeABI.DANFEABIClass,
+  ACBrNFeABI.Classes,
+  ACBrNFeABI.Conversao,
   ACBrNFeABI.EventoClass,
-  ACBrNFeABI.EnvEvento, ACBrDFeUtil;
+  ACBrNFeABI.EnvEvento,
+  ACBrDFeUtil;
 
 const
   ACBRNFeABI_NAMESPACE = 'http://www.portalfiscal.inf.br/nfeabi';
@@ -253,14 +262,10 @@ end;
 
 function TACBrNFeABI.GetURLConsulta(const CUF: integer;
   const TipoAmbiente: TACBrTipoAmbiente; const Versao: Double): String;
-//var
-//  VersaoDFe: TVersaoNFeABI;
-//  ok: Boolean;
 begin
   // Se futuramente viermos a ter versões diferentes de URL de consulta
   // devemos descomentar as linhas e trocar o zero da função abaixo pela variável
   // VersaoDFe
-//  VersaoDFe := DblToVersaoNFeABI(ok, Versao);
   Result := LerURLDeParams('NFeABI', CodigoUFparaUF(CUF), TipoAmbiente, 'URL-Consulta', 0);
 end;
 
@@ -268,11 +273,7 @@ function TACBrNFeABI.GetURLQRCode(FNFeABI: TNFeABI): String;
 var
   idNFeABI,
   sEntrada, urlUF, Passo3, Passo4, Sign: String;
-//  VersaoDFe: TVersaoNFeABI;
-//  ok: Boolean;
 begin
-//  VersaoDFe := DblToVersaoNFeABI(ok, Versao);
-
   urlUF := LerURLDeParams('NFeABI', CodigoUFparaUF(FNFeABI.Ide.cUF),
                              FNFeABI.Ide.tpAmb, 'URL-QRCode', 0);
 
@@ -287,23 +288,12 @@ begin
   // Passo 2 calcular o SHA-1 da string idNFeABI se emissão em contingência
   if FNFeABI.ide.tpEmis = teContingencia then
   begin
-  { italo
-    if trim(FNFeABI.emit.idOutros) <> '' then
-      Passo3 := '&idOutros=' + FNFeABI.emit.idOutros
-    else
-    begin
-      if Length(FNFeABI.emit.CNPJCPF) = 14 then
-        Passo3 := '&CNPJ=' + FNFeABI.emit.CNPJCPF
-      else
-        Passo3 := '&CPF=' + FNFeABI.emit.CNPJCPF;
-    end;
-    }
     // Tipo de Emissão em Contingência
     SSL.CarregarCertificadoSeNecessario;
     Sign := SSL.CalcHash(idNFeABI, dgstSHA1, outBase64, True);
     Passo4 := '&sign='+Sign;
 
-    sEntrada := sEntrada + Passo3 + Passo4;
+    sEntrada := sEntrada  + Passo4;
   end;
 
   Result := urlUF + sEntrada;
@@ -369,6 +359,7 @@ begin
 
       case lTipoEvento of
         teCancelamento: Result := schevCancNFeABI;
+        tePagamentoOperacao: Result := schevPagParcelaNFeABI; 
       else 
         Result := schErroNFeABI;
       end;

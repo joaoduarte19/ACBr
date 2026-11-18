@@ -38,9 +38,14 @@ unit ACBrNFeABIReg;
 interface
 
 uses
-  SysUtils, Classes, ACBrNFeABI,
+  SysUtils,
+  Classes, 
+  ACBrNFeABI,
   {$IFDEF FPC}
-     LResources, LazarusPackageIntf, PropEdits, componenteditors
+     LResources,
+     LazarusPackageIntf,
+     PropEdits,
+     componenteditors
   {$ELSE}
      {$IFNDEF COMPILER6_UP}
         DsgnIntf
@@ -55,7 +60,10 @@ procedure Register;
 implementation
 
 uses
-  ACBrReg, ACBrDFeConfiguracoes, ACBrNFeABIConfiguracoes, ACBrDFeRegUtil;
+  ACBrReg,
+  ACBrDFeConfiguracoes,
+  ACBrNFeABIConfiguracoes,
+  ACBrDFeRegUtil;
 
 {$IFNDEF FPC}
    {$R ACBrNFeABI.dcr}
@@ -98,7 +106,7 @@ end;
 
 {$IFDEF FPC}
 initialization
-   {$I ACBrNFeABI.lrs}
+  {$I ACBrNFeABI.lrs}
 {$ENDIF}
 
 end.

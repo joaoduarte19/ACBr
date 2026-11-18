@@ -74,7 +74,7 @@ contains
   ACBrNFeABIConfiguracoes in '..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\ACBrNFeABIConfiguracoes.pas',
   ACBrNFeABINotasFiscais in '..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\ACBrNFeABINotasFiscais.pas',
   ACBrNFeABIWebServices in '..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\ACBrNFeABIWebServices.pas',
-  ACBrNFeABI.DANFEABIClass in '..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\DACE\ACBrNFeABI.DANFEABIClass.pas',
+  ACBrNFeABI.DANFEABIClass in '..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\DANFeABI\ACBrNFeABI.DANFEABIClass.pas',
   ACBrNFeABI.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\Base\ACBrNFeABI.Classes.pas',
   ACBrNFeABI.Consts in '..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\Base\ACBrNFeABI.Consts.pas',
   ACBrNFeABI.Conversao in '..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\Base\ACBrNFeABI.Conversao.pas',

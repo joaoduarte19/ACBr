@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="5">
+    <PathDelim Value="\"/>
+    <Name Value="ACBr_NFeABI"/>
+    <Type Value="RunAndDesignTime"/>
+    <Author Value="Juliomar Marchetti - Daniel Simões de Almeida"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI;..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\Base;..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\Base\Servicos;..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\DANFeABI"/>
+        <UnitOutputDirectory Value="..\..\..\..\Lib\Lazarus\ACBrDFe\ACBrNFeABI\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Other>
+        <CompilerMessages>
+          <IgnoredMessages idx5024="True"/>
+        </CompilerMessages>
+      </Other>
+    </CompilerOptions>
+    <Description Value="ACBr - Nota Fiscal Eletrônica - (http://www.projetoacbr.com.br/)"/>
+    <License Value="LGPL"/>
+    <Files Count="49">
+      <Item1>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\ACBrNFeABI.pas"/>
+        <UnitName Value="ACBrNFeABI"/>
+      </Item1>
+      <Item32>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\ACBrNFeABIConfiguracoes.pas"/>
+        <UnitName Value="ACBrNFeABIConfiguracoes"/>
+      </Item32>
+      <Item33>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\ACBrNFeABINotasFiscais.pas"/>
+        <UnitName Value="ACBrNFeABINotasFiscais"/>
+      </Item33>
+      <Item34>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\ACBrNFeABIReg.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ACBrNFeABIReg"/>
+      </Item34>
+      <Item35>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\ACBrNFeABIWebServices.pas"/>
+        <UnitName Value="ACBrNFeABIWebServices"/>
+      </Item35>
+      <Item36>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\Base\ACBrNFeABI.Classes.pas"/>
+        <UnitName Value="ACBrNFeABI.Classes"/>
+      </Item36>
+      <Item37>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\Base\ACBrNFeABI.Consts.pas"/>
+        <UnitName Value="ACBrNFeABI.Consts"/>
+      </Item37>
+      <Item38>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\Base\ACBrNFeABI.Conversao.pas"/>
+        <UnitName Value="ACBrNFeABI.Conversao"/>
+      </Item38>
+      <Item39>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\Base\ACBrNFeABI.IniReader.pas"/>
+        <UnitName Value="ACBrNFeABI.IniReader"/>
+      </Item39>
+      <Item40>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\Base\ACBrNFeABI.IniWriter.pas"/>
+        <UnitName Value="ACBrNFeABI.IniWriter"/>
+      </Item40>
+      <Item41>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\Base\ACBrNFeABI.ValidarRegrasdeNegocio.pas"/>
+        <UnitName Value="ACBrNFeABI.ValidarRegrasdeNegocio"/>
+      </Item41>
+      <Item42>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\Base\ACBrNFeABI.XmlReader.pas"/>
+        <UnitName Value="ACBrNFeABI.XmlReader"/>
+      </Item42>
+      <Item43>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\Base\ACBrNFeABI.XmlWriter.pas"/>
+        <UnitName Value="ACBrNFeABI.XmlWriter"/>
+      </Item43>
+      <Item44>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\Base\Servicos\ACBrNFeABI.ConsSit.pas"/>
+        <UnitName Value="ACBrNFeABI.ConsSit"/>
+      </Item44>
+      <Item45>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\Base\Servicos\ACBrNFeABI.EnvEvento.pas"/>
+        <UnitName Value="ACBrNFeABI.EnvEvento"/>
+      </Item45>
+      <Item46>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\Base\Servicos\ACBrNFeABI.EventoClass.pas"/>
+        <UnitName Value="ACBrNFeABI.EventoClass"/>
+      </Item46>
+      <Item47>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\Base\Servicos\ACBrNFeABI.RetConsSit.pas"/>
+        <UnitName Value="ACBrNFeABI.RetConsSit"/>
+      </Item47>
+      <Item48>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\Base\Servicos\ACBrNFeABI.RetEnvEvento.pas"/>
+        <UnitName Value="ACBrNFeABI.RetEnvEvento"/>
+      </Item48>
+      <Item49>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\DANFeABI\ACBrNFeABI.DANFEABIClass.pas"/>
+        <AddToUsesPkgSection Value="False"/>
+      </Item49>
+    </Files>
+    <CompatibilityMode Value="True"/>
+    <RequiredPkgs Count="1">
+      <Item1>
+        <PackageName Value="ACBrDFeComum"/>
+      </Item1>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

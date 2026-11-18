@@ -33,8 +33,17 @@ unit Frm_Status;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls;
+  Windows, 
+	Messages, 
+	SysUtils, 
+	Variants, 
+	Classes, 
+	Graphics, 
+	Controls, 
+	Forms,
+  Dialogs, 
+	StdCtrls, 
+	ExtCtrls;
 
 type
   TfrmStatus = class(TForm)

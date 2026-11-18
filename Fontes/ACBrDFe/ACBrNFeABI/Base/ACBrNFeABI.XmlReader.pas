@@ -38,8 +38,10 @@ unit ACBrNFeABI.XmlReader;
 interface
 
 uses
-  Classes, SysUtils,
-  ACBrXmlDocument, ACBrXmlReader,
+  Classes,
+  SysUtils,
+  ACBrXmlDocument,
+  ACBrXmlReader,
   ACBrDFe.RTC.XmlReader,
   ACBrDFeComum.Proc,
   ACBrNFeABI.Classes;

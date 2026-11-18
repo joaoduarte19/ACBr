@@ -362,6 +362,16 @@ echo "* Arquivo   ACBrBaaS.lrs   gerado   *"
 echo "****************************************"
 echo.
 
+:NFeABI
+%1\tools\lazres.exe ACBrNFeABI.lrs TACBrNFeABI.png
+move ACBrNFeABI.lrs ..\ACBrDFe\ACBrNFEABI
+echo.
+echo "****************************************"
+echo "* Arquivo   ACBrNFeABI.lrs   gerado   *"
+echo "****************************************"
+echo.
+
+
 GOTO fim
 
 :param_default

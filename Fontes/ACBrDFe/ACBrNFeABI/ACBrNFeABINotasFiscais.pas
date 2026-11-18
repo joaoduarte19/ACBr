@@ -39,16 +39,16 @@ interface
 
 uses
   Classes,
-	SysUtils, 
-	StrUtils,
+  SysUtils,
+  StrUtils,
   ACBrBase,
   ACBrNFeABIConfiguracoes,
   ACBrNFeABI.Classes,
-	ACBrNFeABI.XmlReader,
-	ACBrNFeABI.XmlWriter,
+  ACBrNFeABI.XmlReader,
+  ACBrNFeABI.XmlWriter,
   ACBrNFeABI.IniReader,
   ACBrNFeABI.IniWriter,
-	ACBrDFe.Conversao;
+  ACBrDFe.Conversao;
 
 type
 
@@ -184,19 +184,19 @@ implementation
 
 uses
   Dateutils, 
-	IniFiles,
+  IniFiles,
   synautil,
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML,
   ACBrUtil.FilesIO,
   ACBrUtil.DateTime,
-	ACBrXmlBase,
+  ACBrXmlBase,
   ACBrXmlDocument,
   ACBrNFeABI,
-	ACBrDFeUtil,
+  ACBrDFeUtil,
   ACBrNFeABI.ValidarRegrasdeNegocio,
-	ACBrNFeABI.Conversao;
+  ACBrNFeABI.Conversao;
 
 { Declaracao }
 

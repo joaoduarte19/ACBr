@@ -38,7 +38,8 @@ unit ACBrNFeABI.IniReader;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes,
+  SysUtils,
   IniFiles,
   ACBrNFeABI.Classes,
   ACBrNFeABI.Conversao,

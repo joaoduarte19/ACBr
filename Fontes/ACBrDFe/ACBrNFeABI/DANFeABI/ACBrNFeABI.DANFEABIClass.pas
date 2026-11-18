@@ -37,7 +37,8 @@ unit ACBrNFeABI.DANFEABIClass;
 interface
 
 uses
-  SysUtils, Classes,
+  SysUtils,
+  Classes,
   ACBrBase,
   ACBrDFeReport,
   ACBrNFeABI.Classes,

@@ -37,16 +37,17 @@ unit ACBrNFeABI.EnvEvento;
 interface
 
 uses
-  SysUtils, Classes,
+  SysUtils,
+  Classes,
   {$IF DEFINED(HAS_SYSTEM_GENERICS)}
-   System.Generics.Collections, System.Generics.Defaults,
+   System.Generics.Collections,
+   System.Generics.Defaults,
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$IfEnd}
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrDFeConsts,
-  ACBrNFeABI.Consts,
   ACBrNFeABI.EventoClass,
   ACBrBase,
   ACBrXmlWriter,
@@ -98,6 +99,7 @@ type
     function Gerar_InfEvento(Idx: Integer): TACBrXmlNode;
     function Gerar_DetEvento(Idx: Integer): TACBrXmlNode;
     function Gerar_Evento_Cancelamento(Idx: Integer): TACBrXmlNode;
+    function Gerar_Evento_PagParcela(Idx: Integer): TACBrXmlNode; 
   public
     constructor Create;
     destructor Destroy; override;
@@ -153,6 +155,7 @@ function TEventoNFeABI.ObterNomeArquivo(tpEvento: TACBrTipoEvento): string;
 begin
   case tpEvento of
     teCancelamento: Result := IntToStr(Self.idLote) + '-can-eve.xml';
+    tePagamentoOperacao: Result := IntToStr(Self.idLote) + '-pagparc-eve.xml';
   else
     raise EventoException.Create('Obter nome do arquivo de Evento não Implementado!');
   end;
@@ -191,12 +194,74 @@ begin
   Result.AppendChild(AddNode(tcStr, 'EP02', 'descEvento', 4, 60, 1,
                                             Evento[Idx].FInfEvento.DescEvento));
 
-  Result.AppendChild(AddNode(tcStr, 'EP03', 'nProt', 15, 15, 1,
+  Result.AppendChild(AddNode(tcStr, 'EP03', 'nProt', 16, 16, 1, 
+                                      
                                        Evento[Idx].FInfEvento.detEvento.nProt));
 
   Result.AppendChild(AddNode(tcStr, 'EP04', 'xJust', 15, 255, 1,
                                        Evento[Idx].FInfEvento.detEvento.xJust));
 
+end;
+
+function TEventoNFeABI.Gerar_Evento_PagParcela(Idx: Integer): TACBrXmlNode;
+
+  function GrupoAliq(const ATag, ATagAliq, ATagValor: string;
+    AAliq, ARedAliq, AAliqEfet, AValor: Double): TACBrXmlNode;
+  var
+    NodeRed: TACBrXmlNode;
+  begin
+    Result := CreateElement(ATag);
+    Result.AppendChild(AddNode(tcDe4, 'ZZA17', ATagAliq, 1, 7, 1, AAliq));
+    NodeRed := CreateElement('gRed');
+    NodeRed.AppendChild(AddNode(tcDe4, 'ZZA19', 'pRedAliq', 1, 7, 1, ARedAliq));
+    NodeRed.AppendChild(AddNode(tcDe4, 'ZZA20', 'pAliqEfet', 1, 7, 1, AAliqEfet));
+    Result.AppendChild(NodeRed);
+    Result.AppendChild(AddNode(tcDe2, 'ZZA21', ATagValor, 1, 15, 1, AValor));
+  end;
+
+var
+  Det: TDetEvento;
+  NodeG: TACBrXmlNode;
+  Incorp: Boolean;
+begin
+  Det := Evento[Idx].FInfEvento.detEvento;
+  Incorp := Det.cdEventoPag = '01';
+
+  Result := CreateElement('evPagParcelaNFeABI');
+  Result.SetAttribute('versao', Versao);
+  Result.AppendChild(AddNode(tcStr, 'ZZA01b', 'descEvento', 5, 60, 1,
+                                            Evento[Idx].FInfEvento.DescEvento));
+  Result.AppendChild(AddNode(tcStr, 'ZZA02', 'cdEventoPag', 2, 2, 1, Det.cdEventoPag));
+  if Incorp then
+  begin
+    Result.AppendChild(AddNode(tcDe2, 'ZZA03', 'vParcela', 1, 15, 1, Det.vParcela));
+    Result.AppendChild(AddNode(tcDe2, 'ZZA04', 'vAcrescimos', 1, 15, 1, Det.vAcrescimos));
+    Result.AppendChild(AddNode(tcDe2, 'ZZA05', 'vTotalParcela', 1, 15, 1, Det.vTotalParcela));
+  end
+  else
+  begin
+    Result.AppendChild(AddNode(tcDe2, 'ZZA06', 'vOrigParcela', 1, 15, 1, Det.vOrigParcela));
+    Result.AppendChild(AddNode(tcDe2, 'ZZA07', 'vAcrescParcela', 1, 15, 1, Det.vAcrescParcela));
+  end;
+  Result.AppendChild(AddNode(tcDat, 'ZZA08', 'dataPag', 10, 10, 1, Det.dataPag));
+  Result.AppendChild(AddNode(tcStr, 'ZZA09', 'CST', 3, 3, 1, Det.CST));
+  Result.AppendChild(AddNode(tcStr, 'ZZA10', 'cClassTrib', 6, 6, 1, Det.cClassTrib));
+
+  NodeG := CreateElement('gIBSCBS');
+  if Incorp then
+  begin
+    NodeG.AppendChild(AddNode(tcDe2, 'ZZA12', 'vOperacIndiv', 1, 15, 1, Det.vOperacIndiv));
+    NodeG.AppendChild(AddNode(tcDe2, 'ZZA13', 'vRedAjusteIndiv', 1, 15, 0, Det.vRedAjusteIndiv));
+    NodeG.AppendChild(AddNode(tcDe2, 'ZZA14', 'vRedSocialIndiv', 1, 15, 0, Det.vRedSocialIndiv));
+  end;
+  NodeG.AppendChild(AddNode(tcDe2, 'ZZA15', 'vBC', 1, 15, 1, Det.vBC));
+  NodeG.AppendChild(GrupoAliq('gIBSUF', 'pIBSUF', 'vIBSUF', Det.pIBSUF, Det.pRedAliqIBSUF,
+    Det.pAliqEfetIBSUF, Det.vIBSUF));
+  NodeG.AppendChild(GrupoAliq('gIBSMun', 'pIBSMun', 'vIBSMun', Det.pIBSMun, Det.pRedAliqIBSMun,
+    Det.pAliqEfetIBSMun, Det.vIBSMun));
+  NodeG.AppendChild(GrupoAliq('gCBS', 'pCBS', 'vCBS', Det.pCBS, Det.pRedAliqCBS,
+    Det.pAliqEfetCBS, Det.vCBS));
+  Result.AppendChild(NodeG);
 end;
 
 function TEventoNFeABI.Gerar_DetEvento(Idx: Integer): TACBrXmlNode;
@@ -206,18 +271,17 @@ begin
 
   case Evento[Idx].InfEvento.tpEvento of
     teCancelamento: Result.AppendChild(Gerar_Evento_Cancelamento(Idx));
+    tePagamentoOperacao: Result.AppendChild(Gerar_Evento_PagParcela(Idx)); 
   end;
 end;
 
 function TEventoNFeABI.Gerar_InfEvento(Idx: Integer): TACBrXmlNode;
-var
-  sDoc: string;
 begin
   Evento[Idx].InfEvento.id := 'ID' + Evento[Idx].InfEvento.TipoEvento +
                              RemoverLiteralChave(Evento[Idx].InfEvento.chNFeABI) +
-                             Format('%.3d', [Evento[Idx].InfEvento.nSeqEvento]);
+                             IntToStr(Evento[Idx].InfEvento.nSeqEvento);
 
-  if Length(Evento[Idx].InfEvento.id) < 54 then
+  if Length(Evento[Idx].InfEvento.id) < 53 then 
     wAlerta('P04', 'ID', '', 'ID de Evento inválido');
 
   Result := CreateElement('infEvento');

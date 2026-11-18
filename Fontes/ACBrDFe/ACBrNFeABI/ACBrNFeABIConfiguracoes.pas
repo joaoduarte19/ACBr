@@ -38,8 +38,12 @@ unit ACBrNFeABIConfiguracoes;
 interface
 
 uses
-  Classes, SysUtils, IniFiles,
-  ACBrDFeConfiguracoes, ACBrDFe.Conversao, ACBrNFeABI.Conversao;
+  Classes,
+  SysUtils,
+  IniFiles,
+  ACBrDFeConfiguracoes,
+  ACBrDFe.Conversao,
+  ACBrNFeABI.Conversao;
 
 type
 
@@ -118,7 +122,8 @@ type
 implementation
 
 uses
-  ACBrUtil.Strings, ACBrUtil.FilesIO,
+  ACBrUtil.Strings,
+  ACBrUtil.FilesIO,
   DateUtils;
 
 { TConfiguracoesNFeABI }

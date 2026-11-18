@@ -38,7 +38,9 @@ unit ACBrNFeABI.Conversao;
 interface
 
 uses
-  SysUtils, StrUtils, Classes,
+  SysUtils,
+  StrUtils,
+  Classes,
   ACBrDFe.Conversao;
 
 type
@@ -53,11 +55,12 @@ const
 
 type
   TSchemaNFeABI = (schErroNFeABI, schNFeABI, schEventoNFeABI, schconsSitNFeABI,
-                schconsStatServNFeABI, schevCancNFeABI);
+                schconsStatServNFeABI, schevCancNFeABI,
+                schevPagParcelaNFeABI);
 
 const
   TSchemaNFeABIArrayStrings: array[TSchemaNFeABI] of string = ('', '', '', '', '',
-    'evCancNFeABI');
+    'evCancNFeABI', 'evPagParcelaNFeABI'); 
 
 type
   TLayOutNFeABI = (LayNFeABIAutorizacao, LayNFeABIConsulta, LayNFeABIStatusServico,
@@ -172,7 +175,7 @@ uses
 function StrTotpEventoNFeABI(out ok: boolean; const s: string): TACBrTipoEvento;
 begin
   Result := StrToEnumerado(ok, s,
-            ['-99999', '110111', '110112', '110114', '110115', '110116',
+            ['-99999', '110111', '110112', '110114', '110115', '112310', 
              '310112', '510620'],
             [teNaoMapeado, teCancelamento, teEncerramento, teInclusaoCondutor,
              teInclusaoDFe, tePagamentoOperacao, teEncerramentoFisco,

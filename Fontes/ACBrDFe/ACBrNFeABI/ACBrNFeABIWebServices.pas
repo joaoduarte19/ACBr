@@ -38,7 +38,9 @@ unit ACBrNFeABIWebServices;
 interface
 
 uses
-  Classes, SysUtils, synacode,
+  Classes,
+  SysUtils,
+  synacode,
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrDFe,
@@ -820,7 +822,7 @@ begin
   if Assigned(FprocEventoNFeABI) then
     FprocEventoNFeABI.Free;
 
-  FprotNFeABI       := TProcDFe.Create(FPVersaoServico, NAME_SPACE_NFeABI, 'NFeABIProc', 'NFeABI');
+  FprotNFeABI       := TProcDFe.Create(FPVersaoServico, NAME_SPACE_NFeABI, 'nfeabiProc', 'NFeABI'); 
   FprocEventoNFeABI := TRetEventoNFeABICollection.Create;
 end;
 
@@ -940,7 +942,6 @@ begin
 end;
 
 var
-//  NFeABIRetorno: TRetConsSitNFeABI;
   SalvarXML, NFeABICancelado, Atualiza: Boolean;
   aEventos, sPathNFeABI, NomeXMLSalvo: string;
   AProcNFeABI: TProcDFe;
@@ -1011,81 +1012,10 @@ begin
           InfEvento.dhEvento        := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.InfEvento.dhEvento;
           InfEvento.TpEvento        := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.InfEvento.TpEvento;
           InfEvento.nSeqEvento      := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.InfEvento.nSeqEvento;
-//          InfEvento.VersaoEvento    := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.InfEvento.VersaoEvento;
           InfEvento.DetEvento.nProt := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.InfEvento.DetEvento.nProt;
           InfEvento.DetEvento.xJust := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.InfEvento.DetEvento.xJust;
-          {
-          InfEvento.DetEvento.xNome := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.InfEvento.DetEvento.xNome;
-          InfEvento.DetEvento.CPF   := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.InfEvento.DetEvento.CPF;
-          InfEvento.DetEvento.cUF   := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.InfEvento.DetEvento.cUF;
-          InfEvento.DetEvento.cMun  := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.InfEvento.DetEvento.cMun;
-          InfEvento.DetEvento.dtEnc := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.InfEvento.DetEvento.dtEnc;
-          }
-          {
-          retEvento.Clear;
-          for J := 0 to FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.retEvento.Count-1 do
-          begin
-            with retEvento.New.RetInfEvento do
-            begin
-              Id          := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.retEvento.Items[j].RetInfEvento.Id;
-              tpAmb       := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.retEvento.Items[j].RetInfEvento.tpAmb;
-              verAplic    := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.retEvento.Items[j].RetInfEvento.verAplic;
-              cOrgao      := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.retEvento.Items[j].RetInfEvento.cOrgao;
-              cStat       := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.retEvento.Items[j].RetInfEvento.cStat;
-              xMotivo     := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.retEvento.Items[j].RetInfEvento.xMotivo;
-              chNFeABI       := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.retEvento.Items[j].RetInfEvento.chNFeABI;
-              tpEvento    := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.retEvento.Items[j].RetInfEvento.tpEvento;
-              xEvento     := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.retEvento.Items[j].RetInfEvento.xEvento;
-              nSeqEvento  := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.retEvento.Items[j].RetInfEvento.nSeqEvento;
-              CNPJDest    := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.retEvento.Items[j].RetInfEvento.CNPJDest;
-              emailDest   := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.retEvento.Items[j].RetInfEvento.emailDest;
-              dhRegEvento := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.retEvento.Items[j].RetInfEvento.dhRegEvento;
-              nProt       := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.retEvento.Items[j].RetInfEvento.nProt;
-              XML         := FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI.retEvento.Items[j].RetInfEvento.XML;
-            end;
-          end;
-          }
         end;
 
-        with FNFeABIRetorno.procEventoNFeABI.Items[I].RetEventoNFeABI do
-        begin
-        {
-          for j := 0 to retEvento.Count -1 do
-          begin
-            aEventos := aEventos + sLineBreak + sLineBreak +
-              Format(ACBrStr('Número de sequência: %s ' + sLineBreak +
-                             'Código do evento: %s ' + sLineBreak +
-                             'Descrição do evento: %s ' + sLineBreak +
-                             'Status do evento: %s ' + sLineBreak +
-                             'Descrição do status: %s ' + sLineBreak +
-                             'Protocolo: %s ' + sLineBreak +
-                             'Data/Hora do registro: %s '),
-                     [IntToStr(InfEvento.nSeqEvento),
-                      TpEventoToStr(InfEvento.TpEvento),
-                      InfEvento.DescEvento,
-                      IntToStr(retEvento.Items[J].RetInfEvento.cStat),
-                      retEvento.Items[J].RetInfEvento.xMotivo,
-                      retEvento.Items[J].RetInfEvento.nProt,
-                      FormatDateTimeBr(retEvento.Items[J].RetInfEvento.dhRegEvento)]);
-
-            if retEvento.Items[J].RetInfEvento.tpEvento = teCancelamento then
-            begin
-              NFeABICancelado := True;
-              FProtocolo := retEvento.Items[J].RetInfEvento.nProt;
-              FDhRecbto := retEvento.Items[J].RetInfEvento.dhRegEvento;
-              FPMsg := retEvento.Items[J].RetInfEvento.xMotivo;
-            end;
-
-            if retEvento.Items[J].RetInfEvento.tpEvento = teEncerramento then
-            begin
-              NFeABIncerrado := True;
-              FProtocolo := retEvento.Items[J].RetInfEvento.nProt;
-              FDhRecbto := retEvento.Items[J].RetInfEvento.dhRegEvento;
-              FPMsg := retEvento.Items[J].RetInfEvento.xMotivo;
-            end;
-          end;
-          }
-        end;
       end;
     end;
 
@@ -1104,7 +1034,7 @@ begin
         begin
           with TACBrNFeABI(FPDFeOwner).NotasFiscais.Items[i] do
           begin
-            if (Copy(FNFeABIChave, 4, Length(FNFeABIChave)) = NumID) then
+            if (RemoverLiteralChave(FNFeABIChave) = NumID) then 
             begin
               Atualiza := (NaoEstaVazio(FNFeABIRetorno.XMLprotNFeABI));
 
@@ -1134,7 +1064,7 @@ begin
                 NFeABI.procNFeABI.cStat := FNFeABIRetorno.cStat;
                 NFeABI.procNFeABI.xMotivo := FNFeABIRetorno.xMotivo;
 
-                AProcNFeABI := TProcDFe.Create(FPVersaoServico, NAME_SPACE_NFeABI, 'NFeABIProc', 'NFeABI');
+                AProcNFeABI := TProcDFe.Create(FPVersaoServico, NAME_SPACE_NFeABI, 'nfeabiProc', 'NFeABI'); 
                 try
                   AProcNFeABI.XML_DFe := RemoverDeclaracaoXML(XMLOriginal);
                   AProcNFeABI.XML_Prot := FNFeABIRetorno.XMLprotNFeABI;
@@ -1151,7 +1081,7 @@ begin
 
                     FRetNFeABIDFe := '<NFeABIDFe>' +
                                     '<procNFeABI versao="' + FVersao + '">' +
-                                      SeparaDados(XMLOriginal, 'NFeABIProc') +
+                                      SeparaDados(XMLOriginal, 'nfeabiProc') + 
                                     '</procNFeABI>' +
                                     '<procEventoNFeABI versao="' + FVersao + '">' +
                                       aEventos +
@@ -1327,6 +1257,23 @@ begin
   FPSoapAction := FPServico + '/nfeabiRecepcaoEvento';
 end;
 
+function ElementoEventoComNS(const AXML: AnsiString; const ATag: string): AnsiString;
+var
+  I, F: Integer;
+  S: string;
+begin
+  S := string(AXML);
+  Result := '';
+  I := Pos('<' + ATag, S);
+  F := Pos('</' + ATag + '>', S);
+  if (I = 0) or (F = 0) then
+    Exit;
+  S := Copy(S, I, F - I + Length(ATag) + 3);
+  if Pos('xmlns', Copy(S, 1, Pos('>', S))) = 0 then
+    S := '<' + ATag + ' xmlns="' + ACBRNFeABI_NAMESPACE + '"' + Copy(S, Length(ATag) + 2, MaxInt);
+  Result := AnsiString(S);
+end;
+
 procedure TNFeABIEnvEvento.DefinirDadosMsg;
 var
   EventoNFeABI: TEventoNFeABI;
@@ -1362,6 +1309,12 @@ begin
             infEvento.detEvento.nProt := FEvento.Evento[i].InfEvento.detEvento.nProt;
             infEvento.detEvento.xJust := FEvento.Evento[i].InfEvento.detEvento.xJust;
           end;
+
+          tePagamentoOperacao:
+          begin
+            SchemaEventoNFeABI := schevPagParcelaNFeABI;
+            infEvento.detEvento.Assign(FEvento.Evento[i].InfEvento.detEvento);
+          end;
         end;
       end;
     end;
@@ -1396,11 +1349,9 @@ begin
 
     case SchemaEventoNFeABI of
       schevCancNFeABI:
-        begin
-          AXMLEvento := '<evCancNFeABI xmlns="' + ACBRNFeABI_NAMESPACE + '">' +
-                          Trim(RetornarConteudoEntre(AXMLEvento, '<evCancNFeABI>', '</evCancNFeABI>')) +
-                        '</evCancNFeABI>';
-        end;
+        AXMLEvento := ElementoEventoComNS(AXMLEvento, 'evCancNFeABI');
+      schevPagParcelaNFeABI:
+        AXMLEvento := ElementoEventoComNS(AXMLEvento, 'evPagParcelaNFeABI');
     else
       AXMLEvento := '';
     end;

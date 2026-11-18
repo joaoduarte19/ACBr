@@ -38,13 +38,15 @@ unit ACBrNFeABI.XmlWriter;
 interface
 
 uses
-  SysUtils, Classes,
+  SysUtils,
+  Classes,
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrXmlDocument,
   ACBrXmlWriter,
   ACBrNFeABI.Classes,
   ACBrNFeABI.Conversao,
+  ACBrDFe.RTC.Classes, 
   ACBrDFe.RTC.XmlWriter;
 
 type
@@ -107,6 +109,8 @@ type
     function Gerar_gIntermedCorret(gIntermedCorret: tgIntermedCorretCollection): TACBrXmlNodeArray;
 
     function Gerar_ginfTrib(ginfTrib: TginfTrib): TACBrXmlNode;
+    function Gerar_IBSCBSNFeABIProprio(IBSCBS: TIBSCBS): TACBrXmlNode; 
+    function Gerar_GrupoAliqNFeABI(const ATag, ATagAliq, ATagValor: string; AAliq, ARedAliq, AAliqEfet, AValor: Double): TACBrXmlNode;
 
     function Gerar_pag(pag: Tpag): TACBrXmlNode;
     function Gerar_detPagImovel(detPagImovel: tdetPagImovelCollection): TACBrXmlNodeArray;
@@ -310,7 +314,8 @@ begin
      (NFeABI.pag.detPagIncorpLote.Count > 0) then
     Result.AppendChild(Gerar_pag(NFeABI.pag));
 
-  Result.AppendChild(Gerar_Total(NFeABI.total));
+  if NFeABI.infOper.gIncorpLote.indIncorpLote <> tiSim then
+    Result.AppendChild(Gerar_Total(NFeABI.total));
   Result.AppendChild(Gerar_InfAdic(NFeABI.infAdic));
   Result.AppendChild(Gerar_infRespTec(NFeABI.infRespTec));
 end;
@@ -324,7 +329,8 @@ begin
   if not ValidarCodigoUF(Ide.cUF) then
     wAlerta('B02', 'cUF', DSC_CUF, ERR_MSG_INVALIDO);
 
-  Result.AppendChild(AddNode(tcInt, 'B03', 'cNF', 6, 6, 1, Ide.cNF, DSC_CDF));
+  Result.AppendChild(AddNode(tcInt, 'B03', 'cNF', 7, 7, 1, 
+                                                      Ide.cNF, DSC_CDF));
 
   Result.AppendChild(AddNode(tcInt, 'B04', 'mod', 2, 2, 1, Ide.modelo, DSC_MOD));
 
@@ -495,7 +501,7 @@ begin
     Result[i] := FDocument.CreateElement('transmit');
     Result[i].SetAttribute('nTransmit', IntToStr(i + 1));
 
-    if transmit[i].indDeclarante = tieSim then
+    if transmit[i].indDeclarante <> tieNenhum then 
       Result[i].AppendChild(AddNode(tcStr, 'I17c', 'indDeclarante', 1, 1, 1,
               TIndicadorExToStr(transmit[i].indDeclarante), DSC_INDDECLARANTE));
 
@@ -531,7 +537,7 @@ begin
     Result[i] := FDocument.CreateElement('adquirente');
     Result[i].SetAttribute('nAdquir', IntToStr(i + 1));
 
-    if adquirente[i].indDeclarante = tieSim then
+    if adquirente[i].indDeclarante <> tieNenhum then 
       Result[i].AppendChild(AddNode(tcStr, 'I17c', 'indDeclarante', 1, 1, 1,
             TIndicadorExToStr(adquirente[i].indDeclarante), DSC_INDDECLARANTE));
 
@@ -841,7 +847,7 @@ begin
 
   Result.AppendChild(Gerar_gCompraGovReduzido(ginfTrib.gCompraGov));
 
-  Result.AppendChild(Gerar_IBSCBS(ginfTrib.IBSCBS));
+  Result.AppendChild(Gerar_IBSCBSNFeABIProprio(ginfTrib.IBSCBS));
 end;
 
 function TNFeABIXmlWriter.Gerar_pag(pag: Tpag): TACBrXmlNode;
@@ -1164,5 +1170,54 @@ begin
     FDocument.Root.AppendChild(xmlNode);
   end;
 end;
+
+
+function TNFeABIXmlWriter.Gerar_GrupoAliqNFeABI(const ATag, ATagAliq, ATagValor: string;
+  AAliq, ARedAliq, AAliqEfet, AValor: Double): TACBrXmlNode;
+var
+  NodeRed: TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement(ATag);
+  Result.AppendChild(AddNode(tcDe4, '#6', ATagAliq, 1, 7, 1, AAliq, ''));
+  NodeRed := FDocument.CreateElement('gRed');
+  NodeRed.AppendChild(AddNode(tcDe4, '#14', 'pRedAliq', 1, 7, 1, ARedAliq, ''));
+  NodeRed.AppendChild(AddNode(tcDe4, '#15', 'pAliqEfet', 1, 7, 1, AAliqEfet, ''));
+  Result.AppendChild(NodeRed);
+  Result.AppendChild(AddNode(tcDe2, '#23', ATagValor, 1, 15, 1, AValor, ''));
+end;
+
+function TNFeABIXmlWriter.Gerar_IBSCBSNFeABIProprio(IBSCBS: TIBSCBS): TACBrXmlNode;
+var
+  NodeG: TACBrXmlNode;
+begin
+  Result := nil;
+  if (IBSCBS.CST = cstNenhum) or (IBSCBS.cClassTrib = '') then
+    Exit;
+
+  Result := FDocument.CreateElement('IBSCBS');
+  Result.AppendChild(AddNode(tcStr, '#1', 'CST', 3, 3, 1, CSTIBSCBSToStr(IBSCBS.CST), ''));
+  Result.AppendChild(AddNode(tcStr, '#2', 'cClassTrib', 6, 6, 1, IBSCBS.cClassTrib, ''));
+
+  if not (IBSCBS.CST in [cst200, cst220, cst221]) then
+    Exit;
+
+  NodeG := FDocument.CreateElement('gIBSCBS');
+  NodeG.AppendChild(AddNode(tcDe2, '#4', 'vOperacIndiv', 1, 15, 1, IBSCBS.gIBSCBS.vOperacIndiv, ''));
+  NodeG.AppendChild(AddNode(tcDe2, '#4', 'vTornaIndiv', 1, 15, 0, IBSCBS.gIBSCBS.vTornaIndiv, ''));
+  NodeG.AppendChild(AddNode(tcDe2, '#4', 'vRedAjusteIndiv', 1, 15, 0, IBSCBS.gIBSCBS.vRedAjusteIndiv, ''));
+  NodeG.AppendChild(AddNode(tcDe2, '#4', 'vRedSocialIndiv', 1, 15, 0, IBSCBS.gIBSCBS.vRedSocialIndiv, ''));
+  NodeG.AppendChild(AddNode(tcDe2, '#4', 'vBC', 1, 15, 1, IBSCBS.gIBSCBS.vBC, ''));
+  NodeG.AppendChild(Gerar_GrupoAliqNFeABI('gIBSUF', 'pIBSUF', 'vIBSUF',
+    IBSCBS.gIBSCBS.gIBSUF.pIBSUF, IBSCBS.gIBSCBS.gIBSUF.gRed.pRedAliq,
+    IBSCBS.gIBSCBS.gIBSUF.gRed.pAliqEfet, IBSCBS.gIBSCBS.gIBSUF.vIBSUF));
+  NodeG.AppendChild(Gerar_GrupoAliqNFeABI('gIBSMun', 'pIBSMun', 'vIBSMun',
+    IBSCBS.gIBSCBS.gIBSMun.pIBSMun, IBSCBS.gIBSCBS.gIBSMun.gRed.pRedAliq,
+    IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet, IBSCBS.gIBSCBS.gIBSMun.vIBSMun));
+  NodeG.AppendChild(Gerar_GrupoAliqNFeABI('gCBS', 'pCBS', 'vCBS',
+    IBSCBS.gIBSCBS.gCBS.pCBS, IBSCBS.gIBSCBS.gCBS.gRed.pRedAliq,
+    IBSCBS.gIBSCBS.gCBS.gRed.pAliqEfet, IBSCBS.gIBSCBS.gCBS.vCBS));
+  Result.AppendChild(NodeG);
+end;
+
 
 end.

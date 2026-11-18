@@ -37,7 +37,8 @@ unit ACBrNFeABI.ValidarRegrasdeNegocio;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes,
+  SysUtils,
   ACBrNFeABI.Classes,
   ACBrXmlBase,
   ACBrDFe.Conversao,
