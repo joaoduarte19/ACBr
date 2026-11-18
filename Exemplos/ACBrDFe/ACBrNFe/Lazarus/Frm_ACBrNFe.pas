@@ -69,11 +69,11 @@ uses
   Types;
 
 type
-  TNotasTecnicas = (nt2026006, nt2026007, nt2026008);
+  TNotasTecnicas = (nt2026005, nt2026006, nt2026007, nt2026008);
   TNotasTecnicasSelecionadas = set of TNotasTecnicas;
 
 const
-  TNotasTecnicasArrayString: array [TNotasTecnicas] of string = ('NT 2026.006', 'NT 2026.007', 'NT 2026.008');
+  TNotasTecnicasArrayString: array [TNotasTecnicas] of string = ('NT 2026.005', 'NT 2026.006', 'NT 2026.007', 'NT 2026.008');
 
 type
 
@@ -748,6 +748,9 @@ begin
         refDFEChave := '12345678901234567890123456789012345678904567';
     end;
 
+    if nt2026005 in NTsSelecionadas then
+      Emit.tpRegimeIBSCBS := trSNRegimeRegular;
+
     Emit.CNPJCPF           := edtEmitCNPJ.Text;
     if not(nt2026007 in NTsSelecionadas) then
       Emit.IE                := edtEmitIE.Text;
@@ -827,6 +830,9 @@ begin
       Prod.cEAN     := '7896523206646';
       Prod.xProd    := 'Descrição do Produto';
       Prod.NCM      := '94051010'; // Tabela NCM disponível em  http://www.receita.fazenda.gov.br/Aliquotas/DownloadArqTIPI.htm
+
+      if nt2026005 in NTsSelecionadas then
+        Prod.cAtivSN := caVendaMercadorias;
 
       // Reforma Tributária
       if rgReformaTributaria.ItemIndex = 0 then
@@ -1290,6 +1296,15 @@ begin
           // Alíquota efetiva de ref. da CBS
           IBSCBS.gIBSCBS.gCBS.gALCZFMCBS.pAliqEfetRegCBS := 1; // Percentual efetivo sem redução
           IBSCBS.gIBSCBS.gCBS.gALCZFMCBS.vTribRegCBS     := 1; // Valor efetivo sem redução
+
+          if nt2026005 in NTsSelecionadas then
+          begin
+            IBSCBS.gTribSN.gIBSSN.pIBSSN := 10;
+            IBSCBS.gTribSN.gIBSSN.vIBSSN := 10;
+
+            IBSCBS.gTribSN.gCBSSN.pCBSSN := 10;
+            IBSCBS.gTribSN.gCBSSN.vCBSSN := 10;
+          end;
         end;
       end;
     end;
@@ -1362,6 +1377,12 @@ begin
 
       Total.IBSCBSTot.gEstornoCred.vIBSEstCred := 100;
       Total.IBSCBSTot.gEstornoCred.vCBSEstCred := 100;
+
+      if nt2026005 in NTsSelecionadas then
+      begin
+        Total.IBSCBSTot.gTribSN.vIBSSN := 10;
+        Total.IBSCBSTot.gTribSN.vCBSSN := 10;
+      end;
 
       // Valor total da NF-e com IBS / CBS / IS
       Total.vNFTot := 100;
@@ -1571,6 +1592,10 @@ begin
   Referenciada.RefECF.nECF    := '';          // |- Cupom Fiscal
   Referenciada.RefECF.nCOO    := '';          // |
   *)
+
+  if nt2026005 in NTsSelecionadas then
+    NotaF.NFe.Emit.tpRegimeIBSCBS := trSNRegimeRegular;
+
   NotaF.NFe.Emit.CNPJCPF           := edtEmitCNPJ.Text;
   if not(nt2026007 in NTsSelecionadas) then
     NotaF.NFe.Emit.IE                := edtEmitIE.Text;
@@ -1665,6 +1690,9 @@ begin
   Produto.Prod.cEAN     := '7896523206646';
   Produto.Prod.xProd    := 'Camisa Polo ACBr';
   Produto.Prod.NCM      := '61051000';
+
+  if nt2026005 in NTsSelecionadas then
+    Produto.Prod.cAtivSN := caVendaMercadorias;
 
   // Reforma Tributária
   if rgReformaTributaria.ItemIndex = 0 then
@@ -2293,6 +2321,15 @@ begin
       // Alíquota efetiva de ref. da CBS
       IBSCBS.gIBSCBS.gCBS.gALCZFMCBS.pAliqEfetRegCBS := 1; // Percentual efetivo sem redução
       IBSCBS.gIBSCBS.gCBS.gALCZFMCBS.vTribRegCBS     := 1; // Valor efetivo sem redução
+
+      if nt2026005 in NTsSelecionadas then
+      begin
+        IBSCBS.gTribSN.gIBSSN.pIBSSN := 10;
+        IBSCBS.gTribSN.gIBSSN.vIBSSN := 10;
+
+        IBSCBS.gTribSN.gCBSSN.pCBSSN := 10;
+        IBSCBS.gTribSN.gCBSSN.vCBSSN := 10;
+      end;
     end;
   end;
 
@@ -2418,6 +2455,12 @@ begin
 
     NotaF.NFe.Total.IBSCBSTot.gEstornoCred.vIBSEstCred := 100;
     NotaF.NFe.Total.IBSCBSTot.gEstornoCred.vCBSEstCred := 100;
+
+    if nt2026005 in NTsSelecionadas then
+    begin
+      NotaF.NFe.Total.IBSCBSTot.gTribSN.vIBSSN := 10;
+      NotaF.NFe.Total.IBSCBSTot.gTribSN.vCBSSN := 10;
+    end;
 
     // Valor total da NF-e com IBS / CBS / IS
     NotaF.NFe.Total.vNFTot := 100;
