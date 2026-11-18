@@ -3177,7 +3177,7 @@ begin
       Result[i].AppendChild(nodeArray[j]);
     end;
 
-    Gerar_IBSCBS(CTe.det[i].IBSCBS);
+    Result[i].AppendChild(Gerar_IBSCBS(CTe.det[i].IBSCBS));
 
     nodeArray := Gerar_InfNFe(CTe.det[i].InfNFe);
 
