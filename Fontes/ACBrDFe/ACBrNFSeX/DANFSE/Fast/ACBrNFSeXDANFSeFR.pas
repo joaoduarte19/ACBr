@@ -587,7 +587,7 @@ begin
   cdsServicos.FieldDefs.Add('CodigoCnae', ftString, 15);
   cdsServicos.FieldDefs.Add('CodigoNbs', ftString, 9);
   cdsServicos.FieldDefs.Add('CodigoTributacaoMunicipio', ftString, 20);
-  cdsServicos.FieldDefs.Add('Discriminacao', ftString, 1300);
+  cdsServicos.FieldDefs.Add('Discriminacao', ftString, 2000);
   cdsServicos.FieldDefs.Add('ExigibilidadeISS', ftString, 40);
   cdsServicos.FieldDefs.Add('CodigoMunicipio', ftString, 60);
   cdsServicos.FieldDefs.Add('MunicipioIncidencia', ftString, 60);
@@ -1675,7 +1675,7 @@ begin
     #13,
     [rfReplaceAll, rfIgnoreCase]);
 
-  SuprimeTexto(LCDS.FieldByName('Discriminacao').AsString, 1300);
+  SuprimeTexto(LCDS.FieldByName('Discriminacao').AsString, 2000);
 
   LCDS.FieldByName('CodigoPais').AsString := IntToStr(ANFSe.Servico.CodigoPais);
   LCDS.FieldByName('xNomePais').AsString  := CodIBGEPaisToDescricao(ANFSe.Servico.CodigoPais);

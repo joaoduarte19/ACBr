@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 18/11/2026
+-- ACBrNFSeXDANFSeFR --
+[*] ACBR-10258 - Alterado o limite para 2000 a quantidade de caracteres do campo Discriminação.
+   Por: Léo - Info ON Sistemas
 -- PadraoNacional.GravarXml/PadraoNacional.LerXml --
 [*] Comentado a definição da propriedade FpVersaoNT nas referidas units pois elas já estão definidas
     nas units ACBrNFeXGravarXml e ACBrNFSeXLerXml.
