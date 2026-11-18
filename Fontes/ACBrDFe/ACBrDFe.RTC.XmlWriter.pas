@@ -731,7 +731,8 @@ begin
          (IBSCBSTot.gCBS.vCredPres > 0) or (IBSCBSTot.gCBS.vCredPresCondSus > 0))) then
       Result.AppendChild(Gerar_gCBSTot(IBSCBSTot.gCBS));
 
-    Result.AppendChild(Gerar_gTribSNTot(IBSCBSTot.gTribSN));
+    if not(ModelosDFe in [mdfNFe, mdfNFCe]) then
+      Result.AppendChild(Gerar_gTribSNTot(IBSCBSTot.gTribSN));
 
     if (NrOcorrgMonoTot = 1) or
        ((NrOcorrgMonoTot = 0) and
@@ -742,6 +743,9 @@ begin
 
     if (IBSCBSTot.gEstornoCred.vIBSEstCred > 0) or (IBSCBSTot.gEstornoCred.vCBSEstCred > 0) then
       Result.AppendChild(Gerar_gEstornoCredTot(IBSCBSTot.gEstornoCred));
+
+    if ModelosDFe in [mdfNFe, mdfNFCe] then
+      Result.AppendChild(Gerar_gTribSNTot(IBSCBSTot.gTribSN));
   end;
 end;
 

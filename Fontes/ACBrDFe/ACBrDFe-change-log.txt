@@ -39,6 +39,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+18/11/2026
+-- ACBrDFe.RTC.XmlWriter --
+[-] Ajuste visando a correta geração do elemento gTribSN que tem ordem diferente dependendo do DFe no grupo IBSCBSTot.
+   Por: Diego Folieni
+
 17/11/2026
 -- ACBrDFeXsLibXml2 --
 [-] Correção para aceitar Paths em formato Windows UNC
