@@ -2280,7 +2280,7 @@ begin
   Configuracao;
   LerParamsTabIni(True);
 
-  if FpAOwner.ConfigGeral.Ambiente = taProducao then
+  if Ambiente = taProducao then
     FpVersaoNT := StrToVersaoNTPadraoNacional(Ok, FpAOwner.ConfigWebServices.Producao.VersaoNT)
   else
     FpVersaoNT := StrToVersaoNTPadraoNacional(Ok, FpAOwner.ConfigWebServices.Homologacao.VersaoNT);

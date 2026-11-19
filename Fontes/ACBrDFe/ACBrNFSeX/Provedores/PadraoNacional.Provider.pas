@@ -1574,7 +1574,7 @@ function TACBrNFSeProviderPadraoNacional.GetSchemaPath: string;
 begin
   Result := inherited GetSchemaPath;
 
-  if ConfigGeral.Ambiente = taProducao then
+  if TACBrNFSeX(FAOwner).Configuracoes.WebServices.Ambiente = taProducao then
     Result := Result + 'Producao'
   else
     Result := Result + 'Homologacao';

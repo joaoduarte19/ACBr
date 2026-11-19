@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/11/2026
+-- ACBrNFSeXGravarXML\PadraoNacional.GravarXml\PadraoNacional.Provider --
+[-] ACBR-10234 - Ajuste visando corrigir geração indevida da tag finNFSe no XML do padrão nacional quando configurado ambiente de produção.
+   Por: Diego Folieni
+
 18/11/2026
 -- PadraoNacional.GravarXml --
 [*] ACBR-10232 - Alteração visando usar o caracter de quebra de linha definido pelo usuário.
