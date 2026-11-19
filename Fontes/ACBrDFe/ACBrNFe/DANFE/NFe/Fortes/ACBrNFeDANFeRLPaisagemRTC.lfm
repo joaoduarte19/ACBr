@@ -3687,7 +3687,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           Left = 4
           Height = 9
           Top = 1
-          Width = 314
+          Width = 302
           AutoSize = True
           Font.Color = clBlack
           Font.Height = -8
@@ -3698,7 +3698,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           Left = 4
           Height = 9
           Top = 10
-          Width = 314
+          Width = 302
           AutoSize = True
           Font.Color = clGray
           Font.Height = -7

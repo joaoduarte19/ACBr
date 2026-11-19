@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/11/2026
+-- ACBrDFeDANFeReport, ACBrNFeDANFeRLRetratoRTC, ACBrNFeDANFeRLPaisagemRTC --
+[+] ACBR-10250 - Nova propriedade ImprimeCodigoProduto (padrão True) que imprime o código do produto (cProd) antes da descrição, no formato "código - descrição", no DANFE da Reforma Tributária (Fortes, retrato e paisagem).
+   Reduzida a largura da descrição e das informações adicionais do item no DANFE da Reforma Tributária (Fortes) para o texto não ultrapassar a linha da coluna.
+   Por: Daniel de Morais InfoCotidiano
+
 18/11/2026
 -- ACBrNFe.XmlWriter --
 [*] ACBR-10244 - Criado propriedades privadas para definir se deve ou não gerar o grupo ICMS.

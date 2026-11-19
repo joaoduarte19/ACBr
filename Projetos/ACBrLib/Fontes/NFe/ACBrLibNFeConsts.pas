@@ -53,6 +53,7 @@ const
   CChaveImprimeTributos = 'ImprimeTributos';
   CChaveExibeTotalTributosItem = 'ExibeTotalTributosItem';
   CChaveImprimeCodigoEan = 'ImprimeCodigoEan';
+  CChaveImprimeCodigoProduto = 'ImprimeCodigoProduto';
   CChaveImprimeNomeFantasia = 'ImprimeNomeFantasia';
   CChaveExibeInforAdicProduto = 'ExibeInforAdicProduto';
   CChaveQuebraLinhaEmDetalhamentos = 'QuebraLinhaEmDetalhamentos';

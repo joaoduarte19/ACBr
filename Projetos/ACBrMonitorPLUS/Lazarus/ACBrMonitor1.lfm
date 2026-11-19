@@ -31828,6 +31828,16 @@ object FrmACBrMonitor: TFrmACBrMonitor
                     TabOrder = 28
                     Text = 'Padrão'
                   end
+                  object cbxImprimeCodigoProdutoRTC: TCheckBox
+                    Left = 8
+                    Height = 21
+                    Top = 342
+                    Width = 254
+                    Caption = 'Imprimir Código Produto (DANFE RTC)'
+                    Font.Height = -13
+                    ParentFont = False
+                    TabOrder = 29
+                  end
                 end
                 object tsImpNFCe: TTabSheet
                   Caption = 'NFC-e'

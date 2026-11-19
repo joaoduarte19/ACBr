@@ -231,6 +231,7 @@ type
     FTipoDANFE: TpcnTipoImpressao;
     FImprimeTotalLiquido: Boolean;
     FImprimeCodigoEan: Boolean;
+    FImprimeCodigoProduto: Boolean;
     FImprimeTributos: TpcnTributos;
     FQuebraLinhaEmDetalhamentos: Boolean;
     FExibeTotalTributosItem: Boolean;
@@ -264,6 +265,7 @@ type
     property ExibeTotalTributosItem: Boolean read FExibeTotalTributosItem write FExibeTotalTributosItem;
     property ExibeInforAdicProduto: TinfAdcProd read FExibeInforAdicProduto write FExibeInforAdicProduto;
     property ImprimeCodigoEan: Boolean read FImprimeCodigoEan write FImprimeCodigoEan;
+    property ImprimeCodigoProduto: Boolean read FImprimeCodigoProduto write FImprimeCodigoProduto;
     property ImprimeNomeFantasia: Boolean read FImprimeNomeFantasia write FImprimeNomeFantasia;
     property LeiauteDANFE: TLeiauteDANFE read FLeiauteDANFE write FLeiauteDANFE;
     property NFe: TDANFeNFeConfig read FNFeConfig;
@@ -749,6 +751,7 @@ begin
   FImprimeTributos := trbNormal;
   FExibeTotalTributosItem := False;
   FImprimeCodigoEan := False;
+  FImprimeCodigoProduto := True;
   FImprimeNomeFantasia := False;
   FExibeInforAdicProduto := infDescricao;
   FQuebraLinhaEmDetalhamentos := True;
@@ -780,6 +783,7 @@ begin
   FImprimeTributos := TpcnTributos(AIni.ReadInteger(CSessaoDANFE, CChaveImprimeTributos, Integer(FImprimeTributos)));
   FExibeTotalTributosItem := AIni.ReadBool(CSessaoDANFE, CChaveExibeTotalTributosItem, FExibeTotalTributosItem);
   FImprimeCodigoEan := AIni.ReadBool(CSessaoDANFE, CChaveImprimeCodigoEan, FImprimeCodigoEan);
+  FImprimeCodigoProduto := AIni.ReadBool(CSessaoDANFE, CChaveImprimeCodigoProduto, FImprimeCodigoProduto);
   FImprimeNomeFantasia := AIni.ReadBool(CSessaoDANFE, CChaveImprimeNomeFantasia, FImprimeNomeFantasia);
   FExibeInforAdicProduto := TinfAdcProd(AIni.ReadInteger(CSessaoDANFE, CChaveExibeInforAdicProduto, Integer(FExibeInforAdicProduto)));
   FQuebraLinhaEmDetalhamentos := AIni.ReadBool(CSessaoDANFE, CChaveQuebraLinhaEmDetalhamentos, FQuebraLinhaEmDetalhamentos);
@@ -806,6 +810,7 @@ begin
   AIni.WriteInteger(CSessaoDANFE, CChaveImprimeTributos, Integer(FImprimeTributos));
   AIni.WriteBool(CSessaoDANFE, CChaveExibeTotalTributosItem, FExibeTotalTributosItem);
   AIni.WriteBool(CSessaoDANFE, CChaveImprimeCodigoEan, FImprimeCodigoEan);
+  AIni.WriteBool(CSessaoDANFE, CChaveImprimeCodigoProduto, FImprimeCodigoProduto);
   AIni.WriteBool(CSessaoDANFE, CChaveImprimeNomeFantasia, FImprimeNomeFantasia);
   AIni.WriteInteger(CSessaoDANFE, CChaveExibeInforAdicProduto, Integer(FExibeInforAdicProduto));
   AIni.WriteBool(CSessaoDANFE, CChaveQuebraLinhaEmDetalhamentos, FQuebraLinhaEmDetalhamentos);
@@ -831,6 +836,7 @@ begin
     ImprimeTributos := FImprimeTributos;
     ExibeTotalTributosItem := FExibeTotalTributosItem;
     ImprimeCodigoEan := FImprimeCodigoEan;
+    ImprimeCodigoProduto := FImprimeCodigoProduto;
     ImprimeNomeFantasia := FImprimeNomeFantasia;
     ExibeInforAdicProduto := FExibeInforAdicProduto;
     QuebraLinhaEmDetalhamentos := FQuebraLinhaEmDetalhamentos;

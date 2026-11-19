@@ -3972,7 +3972,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
         object rlmXProd: TRLMemo
           Left = 2
           Top = 1
-          Width = 146
+          Width = 140
           Height = 9
           AutoSize = True
           Font.Charset = DEFAULT_CHARSET
@@ -3985,7 +3985,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
         object rlmInfAdProd: TRLMemo
           Left = 2
           Top = 10
-          Width = 146
+          Width = 140
           Height = 9
           AutoSize = True
           Font.Charset = DEFAULT_CHARSET

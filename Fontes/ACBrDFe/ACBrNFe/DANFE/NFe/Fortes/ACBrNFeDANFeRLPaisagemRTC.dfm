@@ -4073,7 +4073,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
         object rlmXProd: TRLMemo
           Left = 4
           Top = 1
-          Width = 314
+          Width = 302
           Height = 9
           AutoSize = True
           Font.Charset = DEFAULT_CHARSET
@@ -4086,7 +4086,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
         object rlmInfAdProd: TRLMemo
           Left = 4
           Top = 10
-          Width = 314
+          Width = 302
           Height = 9
           AutoSize = True
           Font.Charset = DEFAULT_CHARSET

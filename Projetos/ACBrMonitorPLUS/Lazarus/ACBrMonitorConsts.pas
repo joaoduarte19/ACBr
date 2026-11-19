@@ -1136,6 +1136,7 @@ const
   CKeyDANFEImprimirCampoFormaPagamento =   'ImprimirCampoFormaPagamento';
   CKeyDANFEImprimeXPedNitemPed =           'ImprimeXPedNitemPed';
   CKeyDANFELeiauteDANFE =                  'LeiauteDANFE';
+  CKeyDANFEImprimeCodigoProduto =          'ImprimeCodigoProduto';
 
 
   CSecDANFCe =                         'DANFCe';

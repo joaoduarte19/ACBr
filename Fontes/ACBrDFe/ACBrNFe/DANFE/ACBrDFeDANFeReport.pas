@@ -60,6 +60,7 @@ type
     FProtocoloNFe: String;
     FNFeCancelada: Boolean;
     FImprimeCodigoEan: Boolean;
+    FImprimeCodigoProduto: Boolean;
     FImprimeInfContr: Boolean;
     FExibeICMSDesoneradoComoDesconto: Boolean;
     FvTribFed: currency;
@@ -108,6 +109,7 @@ type
 
     function SeparadorDetalhamentos: String; virtual;
     function ManterCodigo(const scEAN, scProd: String): String; virtual;
+    function ManterCodigoXProd(const scProd, sXProd: String): String; virtual;
     function ManterNomeImpresso(const sXNome, sXFant: String): String; virtual;
     function ManterXProd(aNFE: TNFe; const inItem: Integer): String;
     function ManterUnidades(const sUCom, sUTrib: String): String; virtual;
@@ -149,6 +151,7 @@ type
     property ExibeTotalTributosItem: Boolean read FExibeTotalTributosItem write FExibeTotalTributosItem default False;
     property ExibeInforAdicProduto: TinfAdcProd read FExibeInforAdicProduto write FExibeInforAdicProduto default infDescricao;
     property ImprimeCodigoEan: Boolean read FImprimeCodigoEan write FImprimeCodigoEan default False;
+    property ImprimeCodigoProduto: Boolean read FImprimeCodigoProduto write FImprimeCodigoProduto default True;
     property ImprimeInfContr: Boolean read FImprimeInfContr write FImprimeInfContr default True;
     property ImprimeNomeFantasia: Boolean read FImprimeNomeFantasia write FImprimeNomeFantasia default False;
     property ImprimeXPedNItemPed : Boolean read FImprimeXPedNItemPed write FImprimeXPedNItemPed default False;
@@ -212,6 +215,7 @@ begin
   FImprimeTributos            := trbNormal;
   FExibeTotalTributosItem     := False;
   FImprimeCodigoEan           := False;
+  FImprimeCodigoProduto       := True;
   FImprimeInfContr            := True;
   FImprimeNomeFantasia        := False;
   FExibeInforAdicProduto      := infDescricao;
@@ -409,6 +413,14 @@ begin
             ( Result <>  '' )
           ) then
       Result := Trim(scProd);
+end;
+
+function TACBrDFeDANFeReport.ManterCodigoXProd(const scProd, sXProd: String): String;
+begin
+  Result := sXProd;
+
+  if FImprimeCodigoProduto and (Trim(scProd) <> '') then
+    Result := Trim(scProd) + ' - ' + Result;
 end;
 
 function TACBrDFeDANFeReport.ManterNomeImpresso(const sXNome, sXFant: String): String;

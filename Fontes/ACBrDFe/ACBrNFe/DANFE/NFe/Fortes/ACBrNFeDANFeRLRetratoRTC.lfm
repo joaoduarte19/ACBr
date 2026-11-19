@@ -3581,7 +3581,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Left = 2
           Height = 9
           Top = 1
-          Width = 146
+          Width = 140
           AutoSize = True
           Font.Color = clBlack
           Font.Height = -8
@@ -3592,7 +3592,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Left = 2
           Height = 9
           Top = 10
-          Width = 146
+          Width = 140
           AutoSize = True
           Font.Color = clGray
           Font.Height = -7

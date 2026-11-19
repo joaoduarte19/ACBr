@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/11/2026
+-- ACBrLibNFeConsts, ACBrLibNFeConfig --
+[+] ACBR-10250 - Nova chave [DANFE] ImprimeCodigoProduto (padrão 1) que define a propriedade ImprimeCodigoProduto do DANFE, para imprimir o código do produto antes da descrição no DANFE da Reforma Tributária (Fortes).
+   Por: Daniel de Morais InfoCotidiano
+
 03/11/2026
 -- ACBrLibNFeConsoleMT.lpi, ACBrLibNFeConsoleMTDemo.lpi --
 [+] Adiciona suporte experimental a build Linux/ARM64

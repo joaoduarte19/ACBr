@@ -45,6 +45,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+19/11/2026
+-- ACBrNFeDANFeRLRetratoRTC, ACBrNFeDANFeRLPaisagemRTC --
+[+] #ACBR-10250 - Impressão do código do produto (cProd) antes da descrição, no formato "código - descrição", controlada pela propriedade ImprimeCodigoProduto (padrão True).
+  Reduzida a largura da descrição e das informações adicionais do item para o texto não ultrapassar a linha da coluna.
+  Por: Daniel de Morais InfoCotidiano
+
 28/10/2026
 -- Inclusão para novas DANFes RTC --
 [+] #ACBR-9948 - DANFE no leiaute da Reforma Tributária (NT 2026.010 v1.00), modelo retrato e paisagem (ACBR-9986/ACBR-9987).
