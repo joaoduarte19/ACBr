@@ -43,6 +43,20 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 19/11/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-10261 - O município de Embu das Artes/SP aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/96109-embu-das-artes-sp-passou-a-utilizar-o-emissor-nacional-da-nfs-e/
+	Por: doliveira.genius
+[*] ACBR-10260 - O município de Carapicuíba/SP aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/96107-acbr-10260-carapicu%C3%ADbasp-passou-a-utilizar-o-emissor-nacional-da-nfs-e/
+	Por: doliveira.genius
+[*] ACBR-10259 - O município de Morro da Fumaça/SC aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/96031-acbr-10255acbr-10246-topico-acbr-10105-atualiza%C3%A7%C3%A3o-municipios-sc/#comment-628535
+	Por: Diogo Loff
+[*] ACBR-10249 - O município de Cornelio Procopio/PR aderiu ao Padrão Nacional
+	Por: Baltazar
+
+19/11/2026
 -- ACBrNFSeXGravarXML\PadraoNacional.GravarXml\PadraoNacional.Provider --
 [-] ACBR-10234 - Ajuste visando corrigir geração indevida da tag finNFSe no XML do padrão nacional quando configurado ambiente de produção.
    Por: Diego Folieni
