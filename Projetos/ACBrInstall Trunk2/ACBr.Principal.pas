@@ -105,7 +105,6 @@ type
     pnlLogo: TPanel;
     lblNotaDelphiAntigo: TLabel;
     lblSombra: TLabel;
-    ckbNaoUtilizarMsXML: TCheckBox;
     ckbUsarACBrXmlDocument: TCheckBox;
     ckbInstalarNaIDE64Bits: TCheckBox;
     Label15: TLabel;
@@ -126,6 +125,7 @@ type
     Label13: TLabel;
     Label17: TLabel;
     Label18: TLabel;
+    ckbRemoveMsXML: TCheckBox;
     procedure btnDesmarcarTodasClick(Sender: TObject);
     procedure imgPropaganda1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -743,7 +743,7 @@ begin
   OpcoesCompilacao.DeveInstalarCapicom       := not ckbRemoveCapicom.Checked;
   OpcoesCompilacao.DeveInstalarOpenSSL       := not ckbRemoveOpenSSL.Checked;
   OpcoesCompilacao.DeveInstalarXMLSec        := not ckbRemoveXMLSec.Checked;
-  OpcoesCompilacao.DeveInstalarMsXML         := not ckbNaoUtilizarMsXML.Checked;
+  OpcoesCompilacao.DeveInstalarMsXML         := not ckbRemoveMsXML.Checked;
   OpcoesCompilacao.UsarCargaTardiaDLL        := ckbCargaDllTardia.Checked;
   OpcoesCompilacao.RemoverStringCastWarnings := ckbRemoverCastWarnings.Checked;
   OpcoesCompilacao.UsarExportadorFRSVG       := chkExportadorFastSVG.Checked;
@@ -770,7 +770,7 @@ begin
   ckbRemoveCapicom.Checked          := not OpcoesCompilacao.DeveInstalarCapicom;
   ckbRemoveOpenSSL.Checked          := not OpcoesCompilacao.DeveInstalarOpenSSL;
   ckbRemoveXMLSec.Checked           := not OpcoesCompilacao.DeveInstalarXMLSec;
-  ckbNaoUtilizarMsXML.Checked       := not OpcoesCompilacao.DeveInstalarMsXML;
+  ckbRemoveMsXML.Checked            := not OpcoesCompilacao.DeveInstalarMsXML;
   ckbCargaDllTardia.Checked         := OpcoesCompilacao.UsarCargaTardiaDLL;
   ckbRemoverCastWarnings.Checked    := OpcoesCompilacao.RemoverStringCastWarnings;
   chkExportadorFastSVG.Checked      := OpcoesCompilacao.UsarExportadorFRSVG;

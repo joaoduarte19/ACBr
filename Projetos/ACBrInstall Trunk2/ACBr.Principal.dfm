@@ -12937,7 +12937,7 @@ object frmPrincipal: TfrmPrincipal
         end
         object ckbRemoverCastWarnings: TCheckBox
           Left = 6
-          Top = 79
+          Top = 77
           Width = 203
           Height = 17
           Hint = 
