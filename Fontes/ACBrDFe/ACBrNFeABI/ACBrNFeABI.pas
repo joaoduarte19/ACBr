@@ -41,6 +41,7 @@ uses
   Classes,
   SysUtils,
   synautil,
+  ACBrBase,
   ACBrDFe,
   ACBrDFeConfiguracoes,
   ACBrDFeException,
