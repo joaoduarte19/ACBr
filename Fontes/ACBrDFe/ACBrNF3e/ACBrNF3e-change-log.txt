@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/11/2026
+-- ACBrNF3eServicos --
+[-] ACBr-10274: Para as UF: MA e PA o campo Usar estava apontando para NF3e_SVAN 
+    sendo que o correto é NF3e_SVRS.
+   Por: marcos.schmitz
+
 13/10/2026
 -- Diversos --
 [*] ACBr-10169: Alterações visando atender a NT 2026/004 versão 1.01
