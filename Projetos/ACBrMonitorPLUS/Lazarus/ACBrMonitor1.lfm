@@ -31468,7 +31468,7 @@ object FrmACBrMonitor: TFrmACBrMonitor
                     Height = 21
                     Top = 191
                     Width = 237
-                    Caption = 'Exibir Código GTIN (modo Paisagem)'
+                    Caption = 'Exibir Código GTIN(Paisagem/RTC)'
                     Font.Height = -13
                     ParentFont = False
                     TabOrder = 9

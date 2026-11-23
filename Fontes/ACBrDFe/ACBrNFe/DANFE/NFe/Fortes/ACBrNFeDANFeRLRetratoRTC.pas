@@ -614,7 +614,7 @@ begin
   LDet := fpNFe.Det.Items[FNumItem];
   LItem := fpRTC.Item(FNumItem);
 
-  rlmXProd.Lines.Text := fpDANFe.ManterCodigoXProd(LDet.Prod.cProd, LDet.Prod.xProd);
+  rlmXProd.Lines.Text := fpDANFe.ManterCodigoEANXProd(LDet.Prod.cEAN, LDet.Prod.cProd, LDet.Prod.xProd);
 
   LInfAd := Copy(fpDANFe.ManterXProd(fpNFe, FNumItem), Length(LDet.Prod.xProd) + 1, MaxInt);
   if (fpDANFe.ExibeInforAdicProduto = infSeparadamente) then

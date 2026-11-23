@@ -43,6 +43,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+23/11/2026
+-- ACBrMonitor1 --
+[*] ACBR-10270 - A opção "Exibir Código GTIN" ([DANFE] ExibirEAN) passa a valer também para o DANFE da Reforma Tributária. Texto da opção alterado para "Exibir Código GTIN(Paisagem/RTC)".
+   Por: Daniel de Morais InfoCotidiano
+
 19/11/2026
 -- ACBrMonitor1, ACBrMonitorConfig, ACBrMonitorConsts --
 [+] ACBR-10250 - Nova opção "Imprimir Código Produto (DANFE RTC)" em DFe Impressão > NFe ([DANFE] ImprimeCodigoProduto, padrão 1) para imprimir o código do produto antes da descrição no DANFE da Reforma Tributária.

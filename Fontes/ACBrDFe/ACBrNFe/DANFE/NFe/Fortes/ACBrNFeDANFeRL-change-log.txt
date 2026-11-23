@@ -45,6 +45,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+23/11/2026
+-- ACBrNFeDANFeRLClass, ACBrNFeDANFeRLRetratoRTC, ACBrNFeDANFeRLPaisagemRTC --
+[+] #ACBR-10270 - A propriedade ExibeEAN passa a imprimir o EAN no DANFE RTC (retrato e paisagem). O DANFE padrão não foi alterado.
+  Por: Daniel de Morais InfoCotidiano
+
 19/11/2026
 -- ACBrNFeDANFeRLRetratoRTC, ACBrNFeDANFeRLPaisagemRTC --
 [+] #ACBR-10250 - Impressão do código do produto (cProd) antes da descrição, no formato "código - descrição", controlada pela propriedade ImprimeCodigoProduto (padrão True).

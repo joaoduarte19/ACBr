@@ -102,6 +102,7 @@ type
     FRecuoEmpresa: Integer;
     FRecuoLogo: Integer;
     FImprimeContinuacaoDadosAdicionaisPrimeiraPagina: Boolean;
+    FExibeEANInformado: Boolean;
 
     function UsaLeiauteRTC: Boolean;
   public
@@ -118,6 +119,7 @@ type
     procedure ImprimirINUTILIZACAO(ANFe: TNFe = nil); override;
     procedure ImprimirINUTILIZACAOPDF(ANFe: TNFe = nil); override;
     procedure ImprimirINUTILIZACAOPDF(AStream: TStream; ANFe: TNFe = nil); override;
+    function ManterCodigoEANXProd(const scEAN, scProd, sXProd: String): String;
 
   published
     property MarcadAgua: String read FMarcadagua write FMarcadagua;
@@ -195,6 +197,7 @@ begin
 
   FLarguraCodProd       := 54;
   FExibeEAN             := False;
+  FExibeEANInformado    := False;
   FAltLinhaComun        := 30;
   FEspacoEntreProdutos  := 7;
   FAlternaCoresProdutos := False;
@@ -215,6 +218,7 @@ end;
 
 procedure TACBrNFeDANFeRL.SetExibeEAN(AValue: Boolean);
 begin
+  FExibeEANInformado := AValue;
   if TipoDANFE = tiRetrato then
     FExibeEAN := False
   else
@@ -232,6 +236,19 @@ end;
 function TACBrNFeDANFeRL.UsaLeiauteRTC: Boolean;
 begin
   Result := (LeiauteDANFE = ldReformaTributaria) and (TipoDANFE in [tiRetrato, tiPaisagem]) and not Etiqueta;
+end;
+
+function TACBrNFeDANFeRL.ManterCodigoEANXProd(const scEAN, scProd, sXProd: String): String;
+var
+  LEAN: String;
+begin
+  Result := sXProd;
+
+  LEAN := Trim(scEAN);
+  if FExibeEANInformado and (LEAN <> '') and (LEAN <> 'SEM GTIN') then
+    Result := LEAN + ' - ' + Result;
+
+  Result := ManterCodigoXProd(scProd, Result);
 end;
 
 procedure TACBrNFeDANFeRL.ImprimirDANFE(ANFe: TNFe = nil);
