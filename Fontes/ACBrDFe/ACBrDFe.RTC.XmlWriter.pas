@@ -842,7 +842,7 @@ begin
   begin
     Result := CreateElement('gTribSN');
 
-    Result.AppendChild(AddNode(tcDe2, '#1', 'vIBSSN', 1, 7, 1,
+    Result.AppendChild(AddNode(tcDe2, '#1', 'vIBSSN', 1, 15, 1,
                                                    gTribSN.vIBSSN, DSC_VIBSSN));
 
     Result.AppendChild(AddNode(tcDe2, '#1', 'vCBSSN', 1, 15, 1,

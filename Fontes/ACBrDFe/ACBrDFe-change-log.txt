@@ -39,6 +39,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/11/2026
+-- ACBrDFe.RTC.XmlWriter --
+[*] Ajustado o tamanho da tag vIBSSN para 15 em vez de 7 dentro da function gTribSNTot.
+   Por: Renato Ricci
+
 18/11/2026
 -- ACBrDFe.RTC.XmlWriter --
 [-] Ajuste visando a correta geração do elemento gTribSN que tem ordem diferente dependendo do DFe no grupo IBSCBSTot.
