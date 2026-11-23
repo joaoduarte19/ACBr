@@ -1447,7 +1447,7 @@ begin
   // Reforma Tributária
   if (VersaoDF >= ve400) and (CTe.imp.IBSCBS.CST <> cstNenhum) and
      (CTe.imp.IBSCBS.cClassTrib <> '') and (ModeloDF <> moCTeSimp) then
-      Result.AppendChild(Gerar_IBSCBS(CTe.imp.IBSCBS));
+    Result.AppendChild(Gerar_IBSCBS(CTe.imp.IBSCBS));
 
   // Sem o grupo IBSCBS o vTotDFe continua sendo aceito pelo schema (0-1) e
   // a SEFAZ compara o vRec com ele (rejeicao 531 quando nao informado)
