@@ -535,7 +535,7 @@ end;
 
 function TACBrDANFSeFPDFPadraoNacional.GetFinalidadeDescricao: string;
 begin
-  finNFSeToStrText(FNFSe.IBSCBS.finNFSe);
+  Result := finNFSeToStrText(FNFSe.IBSCBS.finNFSe);
 end;
 
 function TACBrDANFSeFPDFPadraoNacional.GetEmitenteDescricao: string;

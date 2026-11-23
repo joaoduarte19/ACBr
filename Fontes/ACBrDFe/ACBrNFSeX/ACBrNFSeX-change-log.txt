@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/11/2026
+-- ACBr.DANFSeX.FPDFPadraoNacional --
+[-] ACBR-10228 - Acrescentado o Result para retornar o valor da função: GetFinalidadeDescricao.
+   Por: Italo Giurizzato Junior
+
 19/11/2026
 -- ACBrNFSeXServicos --
 [*] ACBR-10261 - O município de Embu das Artes/SP aderiu ao Padrão Nacional
