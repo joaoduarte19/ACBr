@@ -148,6 +148,8 @@ type
     FConta: string;
     FTipoConta: tpTipoConta;
     FCartao: TCartao;
+    FTipoChavePix: tpTipoChavePix;
+    FChavePix: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -158,6 +160,8 @@ type
     property Conta: string read FConta write FConta;
     property TipoConta: tpTipoConta read FTipoConta write FTipoConta;
     property Cartao: TCartao read FCartao write FCartao;
+    property TipoChavePix: tpTipoChavePix read FTipoChavePix write FTipoChavePix;
+    property ChavePix: string read FChavePix write FChavePix;
   end;
 
   TPessoa = class(TObject)
@@ -649,6 +653,7 @@ type
     FValor: Double;
     FValorCarregado: Double;
     FTagEmissorId: Integer;
+    FTagEmissorTipo: Integer;
     FCaminho: Integer;
     FProtocolo: string;
     FKm: Double;
@@ -671,6 +676,7 @@ type
     property Valor: Double read FValor write FValor;
     property ValorCarregado: Double read FValorCarregado write FValorCarregado;
     property TagEmissorId: Integer read FTagEmissorId write FTagEmissorId;
+    property TagEmissorTipo: Integer read FTagEmissorTipo write FTagEmissorTipo;
     property Caminho: Integer read FCaminho write FCaminho;
     property Protocolo: string read FProtocolo write FProtocolo;
     property Km: Double read FKm write FKm;
@@ -732,6 +738,7 @@ type
   private
     FValorBruto: Double;
     FValorBaseApuracao: Double;
+    FIndicadorPagamento: TpIndicadorPagamentoPamcard;
     FItens: TFreteItemCollection;
     procedure SetItens(const Value: TFreteItemCollection);
   public
@@ -740,6 +747,7 @@ type
 
     property ValorBruto: Double read FValorBruto write FValorBruto;
     property ValorBaseApuracao: Double read FValorBaseApuracao write FValorBaseApuracao;
+    property IndicadorPagamento: TpIndicadorPagamentoPamcard read FIndicadorPagamento write FIndicadorPagamento;
     property Itens: TFreteItemCollection read FItens write SetItens;
   end;
 
@@ -908,6 +916,23 @@ type
     property Pedagio: TPedagio read FPedagio write FPedagio;
   end;
 
+  TConsultarFreteMinimo = class(TObjectBase)
+  private
+    FVeiculoCategoria: string;
+    FDistanciaPercorrida: Integer;
+    FTipoCarga: tpTipoCarga;
+    FAltoDesempenho: Boolean;
+    FComposicaoVeicular: Boolean;
+    FRetornoVazio: Boolean;
+  public
+    property VeiculoCategoria: string read FVeiculoCategoria write FVeiculoCategoria;
+    property DistanciaPercorrida: Integer read FDistanciaPercorrida write FDistanciaPercorrida;
+    property TipoCarga: tpTipoCarga read FTipoCarga write FTipoCarga;
+    property AltoDesempenho: Boolean read FAltoDesempenho write FAltoDesempenho;
+    property ComposicaoVeicular: Boolean read FComposicaoVeicular write FComposicaoVeicular;
+    property RetornoVazio: Boolean read FRetornoVazio write FRetornoVazio;
+  end;
+
   TPagamentoPedagio = class(TObjectBase)
   private
     FCodigoIdentificacaoOperacao: string;
@@ -917,6 +942,39 @@ type
     property CodigoIdentificacaoOperacao: string read FCodigoIdentificacaoOperacao write FCodigoIdentificacaoOperacao;
     property IdOperacaoIntegradora: string read FIdOperacaoIntegradora write FIdOperacaoIntegradora;
     property IdOperacaoCliente: string read FIdOperacaoCliente write FIdOperacaoCliente;
+  end;
+
+  TColetaEntregaCollectionItem = class(TObject)
+  private
+    FOrigemIBGE: Integer;
+    FOrigemCEP: string;
+    FOrigemLatitude: string;
+    FOrigemLongitude: string;
+    FDestinoIBGE: Integer;
+    FDestinoCEP: string;
+    FDestinoLatitude: string;
+    FDestinoLongitude: string;
+    FDistancia: Integer;
+  public
+    property OrigemIBGE: Integer read FOrigemIBGE write FOrigemIBGE;
+    property OrigemCEP: string read FOrigemCEP write FOrigemCEP;
+    property OrigemLatitude: string read FOrigemLatitude write FOrigemLatitude;
+    property OrigemLongitude: string read FOrigemLongitude write FOrigemLongitude;
+    property DestinoIBGE: Integer read FDestinoIBGE write FDestinoIBGE;
+    property DestinoCEP: string read FDestinoCEP write FDestinoCEP;
+    property DestinoLatitude: string read FDestinoLatitude write FDestinoLatitude;
+    property DestinoLongitude: string read FDestinoLongitude write FDestinoLongitude;
+    property Distancia: Integer read FDistancia write FDistancia;
+  end;
+
+  TColetaEntregaCollection = class(TACBrObjectList)
+  private
+    function GetItem(Index: Integer): TColetaEntregaCollectionItem;
+    procedure SetItem(Index: Integer; Value: TColetaEntregaCollectionItem);
+  public
+    function Add: TColetaEntregaCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
+    function New: TColetaEntregaCollectionItem;
+    property Items[Index: Integer]: TColetaEntregaCollectionItem read GetItem write SetItem; default;
   end;
 
   TAdicionarOperacao = class(TObjectBase)
@@ -981,7 +1039,8 @@ type
     FDiferencaFreteTarifaMotorista: Double;
     FComprovacaoObservacao: string;
     FCiotEmissor: TPessoa;
-    FContratacaoTipo: Integer;
+    FTipoOperacao: TpTipoOperacaoPamcard;
+    FColetaEntrega: TColetaEntregaCollection;
 
     //ANTT
     FValorFrete: Double;
@@ -996,6 +1055,7 @@ type
     procedure SetObservacoesAoTransportador(const Value: TMensagemCollection);
     procedure SetPostos(const Value: TPostoCollection);
     procedure SetParcelas(const Value: TParcelaCollection);
+    procedure SetColetaEntrega(const Value: TColetaEntregaCollection);
   public
     constructor Create;
     destructor Destroy; override;
@@ -1056,7 +1116,8 @@ type
     property DiferencaFreteTarifaMotorista: Double read FDiferencaFreteTarifaMotorista write FDiferencaFreteTarifaMotorista;
     property ComprovacaoObservacao: string read FComprovacaoObservacao write FComprovacaoObservacao;
     property CiotEmissor: TPessoa read FCiotEmissor write FCiotEmissor;
-    property ContratacaoTipo: Integer read FContratacaoTipo write FContratacaoTipo;
+    property TipoOperacao: TpTipoOperacaoPamcard read FTipoOperacao write FTipoOperacao;
+    property ColetaEntrega: TColetaEntregaCollection read FColetaEntrega write SetColetaEntrega;
 
     property Integrador: string read FIntegrador write FIntegrador;
 
@@ -1204,6 +1265,23 @@ type
     property Motivo: string read FMotivo write FMotivo;
   end;
 
+  TRotaEncerrarOperacaoTacAgregadoCollectionItem = class(TObject)
+  private
+    FQtdViagens: Integer;
+  public
+    property QtdViagens: Integer read FQtdViagens write FQtdViagens;
+  end;
+
+  TRotaEncerrarOperacaoTacAgregadoCollection = class(TACBrObjectList)
+  private
+    function GetItem(Index: Integer): TRotaEncerrarOperacaoTacAgregadoCollectionItem;
+    procedure SetItem(Index: Integer; Value: TRotaEncerrarOperacaoTacAgregadoCollectionItem);
+  public
+    function Add: TRotaEncerrarOperacaoTacAgregadoCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
+    function New: TRotaEncerrarOperacaoTacAgregadoCollectionItem;
+    property Items[Index: Integer]: TRotaEncerrarOperacaoTacAgregadoCollectionItem read GetItem write SetItem; default;
+  end;
+
   TEncerrarOperacao = class(TObjectBase)
   private
     FCodigoIdentificacaoOperacao: string;
@@ -1217,10 +1295,14 @@ type
     FQuantidadeTransferencias: Integer;
     FValorSaques: Double;
     FValorTransferencias: Double;
-    FFrete: TFrete;
+    //FFrete: TFrete; Pamcard, removido na v9.2
+    FRotasTacAgregado: TRotaEncerrarOperacaoTacAgregadoCollection;
+    FOrigensDestinosTacAgregado: TColetaEntregaCollection;
 
     procedure SetViagens(const Value: TViagemCollection);
     procedure SetPagamentos(const Value: TPagamentoCollection);
+    procedure SetRotasTacAgregado(const Value: TRotaEncerrarOperacaoTacAgregadoCollection);
+    procedure SetOrigensDestinosTacAgregado(const Value: TColetaEntregaCollection);
   public
     constructor Create;
     destructor Destroy; override;
@@ -1236,7 +1318,9 @@ type
     property QuantidadeTransferencias: Integer read FQuantidadeTransferencias write FQuantidadeTransferencias;
     property ValorSaques: Double read FValorSaques write FValorSaques;
     property ValorTransferencias: Double read FValorTransferencias write FValorTransferencias;
-    property Frete: TFrete read FFrete write FFrete;
+    //property Frete: TFrete read FFrete write FFrete; Pamcard, removido na v9.2
+    property RotasTacAgregado: TRotaEncerrarOperacaoTacAgregadoCollection read FRotasTacAgregado write SetRotasTacAgregado;
+    property OrigensDestinosTacAgregado: TColetaEntregaCollection read FOrigensDestinosTacAgregado write SetOrigensDestinosTacAgregado;
   end;
 
   TGravarVeiculo = class(TObject)
@@ -1441,6 +1525,7 @@ type
     FIncluirRota: TIncluirRota;
     FRoterizar: TRoterizar;
     FPagamentoPedagio: TPagamentoPedagio;
+    FConsultarFreteMinimo: TConsultarFreteMinimo;
 
     //ANTT
     FConsultarTransportador: TConsultarTransportador;
@@ -1472,6 +1557,7 @@ type
     property IncluirRota: TIncluirRota read FIncluirRota write FIncluirRota;
     property Roterizar: TRoterizar read FRoterizar write FRoterizar;
     property PagamentoPedagio: TPagamentoPedagio read FPagamentoPedagio write FPagamentoPedagio;
+    property ConsultarFreteMinimo: TConsultarFreteMinimo read FConsultarFreteMinimo write FConsultarFreteMinimo;
 
     //ANTT
     property ConsultarTransportador: TConsultarTransportador read FConsultarTransportador write FConsultarTransportador;
@@ -1530,6 +1616,9 @@ type
     FValorLiquido: Double;
     FValorQuebra: Double;
     FValorDiferencaDeFrete: Double;
+    FValorFreteMinimo: Double;
+    FValorFreteMinimoIda: Double;
+    FValorFreteMinimoRetorno: Double;
 
     //Pamcard
     FCartaoNumero: String;
@@ -1562,6 +1651,7 @@ type
     FDiferencaFreteCredito: Boolean;
     FDiferencaFreteDebito: Boolean;
     FDiferencaFreteTarifaMotorista: Double;
+    FAlertaFreteMinimo: string;
 
     //ANTT
     FCodigoVerificador: String;
@@ -1610,6 +1700,9 @@ type
     property ValorLiquido: Double read FValorLiquido write FValorLiquido;
     property ValorQuebra: Double read FValorQuebra write FValorQuebra;
     property ValorDiferencaDeFrete: Double read FValorDiferencaDeFrete write FValorDiferencaDeFrete;
+    property ValorFreteMinimo: Double read FValorFreteMinimo write FValorFreteMinimo;
+    property ValorFreteMinimoIda: Double read FValorFreteMinimoIda write FValorFreteMinimoIda;
+    property ValorFreteMinimoRetorno: Double read FValorFreteMinimoRetorno write FValorFreteMinimoRetorno;
 
     //Pamcard
     property CartaoNumero: String read FCartaoNumero write FCartaoNumero;
@@ -1642,7 +1735,8 @@ type
     property DiferencaFreteCredito: Boolean read FDiferencaFreteCredito write FDiferencaFreteCredito;
     property DiferencaFreteDebito: Boolean read FDiferencaFreteDebito write FDiferencaFreteDebito;
     property DiferencaFreteTarifaMotorista: Double read FDiferencaFreteTarifaMotorista write FDiferencaFreteTarifaMotorista;
-
+    property AlertaFreteMinimo: string read FAlertaFreteMinimo write FAlertaFreteMinimo;
+    
     //ANTT
     property CodigoVerificador: String read FCodigoVerificador write FCodigoVerificador;
     // Retorno de ConsultarExcecao: true se o transportador esta na lista de excecoes.
@@ -1684,6 +1778,7 @@ begin
   FIncluirRota := TIncluirRota.Create;
   FRoterizar := TRoterizar.Create;
   FPagamentoPedagio := TPagamentoPedagio.Create;
+  FConsultarFreteMinimo := TConsultarFreteMinimo.Create;
 
   //ANTT
   FConsultarTransportador := TConsultarTransportador.Create;
@@ -1715,6 +1810,7 @@ begin
   FIncluirRota.Free;
   FRoterizar.Free;
   FPagamentoPedagio.Free;
+  FConsultarFreteMinimo.Free;
 
   //ANTT
   FConsultarTransportador.Free;
@@ -1751,6 +1847,7 @@ begin
   FParcelas := TParcelaCollection.Create;
   FQuitacao := TQuitacao.Create;
   FCiotEmissor := TPessoa.Create;
+  FColetaEntrega := TColetaEntregaCollection.Create;
 end;
 
 destructor TAdicionarOperacao.Destroy;
@@ -1778,8 +1875,14 @@ begin
   FParcelas.Free;
   FQuitacao.Free;
   FCiotEmissor.Free;
+  FColetaEntrega.Free;
 
   inherited Destroy;
+end;
+
+procedure TAdicionarOperacao.SetColetaEntrega(const Value: TColetaEntregaCollection);
+begin
+  FColetaEntrega := Value;
 end;
 
 procedure TAdicionarOperacao.SetObservacoesAoCredenciado(
@@ -2071,7 +2174,9 @@ begin
   FViagens := TViagemCollection.Create;
   FPagamentos := TPagamentoCollection.Create;
   FImpostos := TImpostos.Create;
-  Frete := TFrete.Create;
+  //Frete := TFrete.Create; Pamcard, removido na v9.2
+  FRotasTacAgregado := TRotaEncerrarOperacaoTacAgregadoCollection.Create;
+  FOrigensDestinosTacAgregado := TColetaEntregaCollection.Create;
 end;
 
 destructor TEncerrarOperacao.Destroy;
@@ -2079,14 +2184,26 @@ begin
   FViagens.Free;
   FPagamentos.Free;
   FImpostos.Free;
-  Frete.Free;
+  //Frete.Free; Pamcard, removido na v9.2
+  FRotasTacAgregado.Free;
+  FOrigensDestinosTacAgregado.Free;
 
   inherited Destroy;
+end;
+
+procedure TEncerrarOperacao.SetOrigensDestinosTacAgregado(const Value: TColetaEntregaCollection);
+begin
+  FOrigensDestinosTacAgregado := Value;
 end;
 
 procedure TEncerrarOperacao.SetPagamentos(const Value: TPagamentoCollection);
 begin
   FPagamentos := Value;
+end;
+
+procedure TEncerrarOperacao.SetRotasTacAgregado(const Value: TRotaEncerrarOperacaoTacAgregadoCollection);
+begin
+  FRotasTacAgregado := Value;
 end;
 
 procedure TEncerrarOperacao.SetViagens(const Value: TViagemCollection);
@@ -2772,6 +2889,52 @@ begin
 end;
 
 procedure TPessoaCollection.SetItem(Index: Integer; Value: TPessoa);
+begin
+  inherited Items[Index] := Value;
+end;
+
+{ TColetaEntregaCollection }
+
+function TColetaEntregaCollection.Add: TColetaEntregaCollectionItem;
+begin
+  Result := Self.New;
+end;
+
+function TColetaEntregaCollection.GetItem(Index: Integer): TColetaEntregaCollectionItem;
+begin
+  Result := TColetaEntregaCollectionItem(inherited Items[Index]);
+end;
+
+function TColetaEntregaCollection.New: TColetaEntregaCollectionItem;
+begin
+  Result := TColetaEntregaCollectionItem.Create;
+  Self.Add(Result);
+end;
+
+procedure TColetaEntregaCollection.SetItem(Index: Integer; Value: TColetaEntregaCollectionItem);
+begin
+  inherited Items[Index] := Value;
+end;
+
+{ TRotaEncerrarOperacaoTacAgregadoCollection }
+
+function TRotaEncerrarOperacaoTacAgregadoCollection.Add: TRotaEncerrarOperacaoTacAgregadoCollectionItem;
+begin
+  Result := Self.New;
+end;
+
+function TRotaEncerrarOperacaoTacAgregadoCollection.GetItem(Index: Integer): TRotaEncerrarOperacaoTacAgregadoCollectionItem;
+begin
+  Result := TRotaEncerrarOperacaoTacAgregadoCollectionItem(inherited Items[Index]);
+end;
+
+function TRotaEncerrarOperacaoTacAgregadoCollection.New: TRotaEncerrarOperacaoTacAgregadoCollectionItem;
+begin
+  Result := TRotaEncerrarOperacaoTacAgregadoCollectionItem.Create;
+  Self.Add(Result);
+end;
+
+procedure TRotaEncerrarOperacaoTacAgregadoCollection.SetItem(Index: Integer; Value: TRotaEncerrarOperacaoTacAgregadoCollectionItem);
 begin
   inherited Items[Index] := Value;
 end;

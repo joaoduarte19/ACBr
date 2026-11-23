@@ -38,6 +38,39 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/11/2026
+-- ACBrCIOTConversao --
+[+] Pamcard: operações Adicionar TAC Agregado, Encerrar TAC Agregado e
+    Consultar Frete Mínimo.
+[+] Pamcard: tipo de chave PIX, tipo de operação (lotação/fracionada) e
+    indicador de pagamento (à vista/a prazo).
+-- pcnCIOT --
+[+] Pamcard: chave PIX do favorecido, tipo do emissor da TAG de pedágio,
+    indicador de pagamento do frete, tipo de operação e coleta/entrega.
+[+] Pamcard: consulta de frete mínimo e retorno com valor mínimo, ida,
+    retorno e alerta.
+[+] Pamcard: rotas (quantidade de viagens) e origens/destinos no
+    encerramento de TAC agregado.
+[*] Pamcard: ContratacaoTipo da inclusão substituído por TipoOperacao.
+[-] Pamcard v9.2: frete removido do encerramento da operação.
+-- pcnCIOTW_Pamcard --
+[+] Pamcard: geração de InsertTacFreightContract, CloseTACFreightContract e
+    FindMinimumFreight.
+[*] Pamcard: documentos do favorecido numerados em sequência e enviados
+    somente quando preenchidos (RNTRC, RG e PIS); complemento do endereço
+    opcional.
+[+] Pamcard: chave PIX, número de eixos, tipo do emissor da TAG, indicador
+    de pagamento, tipo de operação, contratantes da carga fracionada e
+    coleta/entrega.
+-- pcnRetEnvCIOT --
+[+] Pamcard: leitura do alerta de frete mínimo na inclusão e dos valores da
+    consulta de frete mínimo.
+[*] Pamcard: encerramento de TAC agregado usa a mesma leitura do encerramento.
+-- ACBrCIOTWebServices --
+[+] Pamcard: arquivos de envio e retorno de InsertTacFreightContract,
+    CloseTACFreightContract e FindMinimumFreight.
+  Por: Centrodata Sistemas
+
 06/10/2026
 -- pcnCIOTW_ANTT --
 [-] ANTT (PEF v1.1): campos do JSON gerados conforme os exemplos do manual

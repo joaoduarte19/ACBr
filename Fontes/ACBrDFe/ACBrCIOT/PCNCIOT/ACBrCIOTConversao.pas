@@ -91,6 +91,7 @@ type
                 opConsultaViagem, opConsultaParcela, opConsultarCartao,
                 opConsultarConta, opConsultarFavorecido, opConsultarFrota,
                 opConsultarRNTRC, opConsultarTAG, opPagamentoPedagio,
+                opAdicionarTacAgregado, opEncerrarTacAgregado, opConsultarFreteMinimo,
                 opConsultarSituacaoTransportador, opConsultarExcecao,
                 opConsultarCIOTGerado );
 
@@ -105,6 +106,7 @@ const
     'Consultar Viagem', 'Consultar Parcela', 'Consultar Cartao',
     'Consultar Conta', 'Consultar Favorecido', 'Consultar Frota',
     'Consultar RNTRC', 'Consultar TAG', 'Pagamento Pedágio',
+    'Adicionar TAC Agregado', 'Encerrar TAC Agregado', 'Consultar Frete Mínimo',
     'Consultar Situação Transportador', 'Consultar Exceção',
     'Consultar CIOT Gerado' );
 
@@ -117,6 +119,16 @@ const
 
   tpTipoContaArrayIndex: array[tpTipoConta] of Integer = ( 0,
      1, 2, 3);
+
+type
+  tpTipoChavePix = ( cpIndefinido, cpCPFCNPJ, cpEmail, cpTelefone, cpAleatoria );
+
+const
+  tpTipoChavePixArrayStrings: array[tpTipoChavePix] of string = ( 'Indefinido',
+    'CPF/CNPJ', 'E-mail', 'Telefone Celular', 'Chave Aleatoria' );
+
+  tpTipoChavePixArrayIndex: array[tpTipoChavePix] of Integer = ( 0,
+    1, 2, 3, 4);
 
 type
   tpTipoEmbalagem = (teIndefinido, teBigbag, tePallet, teGranel, teContainer,
@@ -279,6 +291,22 @@ const
     'Documento proprio do cliente', 'Numero pedido', 'Ordem de venda', 'Numero load',
     'Ordem de coleta', 'Autorizacao de carregamento', 'Autorizacao de saida' );
 
+type
+  tpTipoOperacaoPamcard = ( topIndefinido, topLotacao, topFracionada );
+
+const
+  tpTipoOperacaoPamcardArrayIndex: array[tpTipoOperacaoPamcard] of Integer = (0, 1, 2);
+
+  tpTipoOperacaoPamcardArrayStrings: array[tpTipoOperacaoPamcard] of string = ('', 'Lotacao', 'Fracionada');
+
+type
+  tpIndicadorPagamentoPamcard = (ipVista, ipPrazo);
+
+const
+  tpIndicadorPagamentoPamcardArrayIndex: array[tpIndicadorPagamentoPamcard] of Integer = (0, 1);
+
+  tpIndicadorPagamentoPamcardArrayStrings: array[tpIndicadorPagamentoPamcard] of string = ('A Vista', 'A Prazo');
+
 {
   Declaração das funções de conversão
 }
@@ -308,6 +336,13 @@ function TipoContaToIndex(const t: tpTipoConta): Integer;
 function IndexToTipoConta(const s: Integer): tpTipoConta;
 function tpTipoContaToEnumStr(const t: tpTipoConta): string;
 function EnumStrTotpTipoConta(out ok: boolean; const s: string): tpTipoConta;
+
+function TipoChavePixToStr(const t: tpTipoChavePix): string;
+function StrToTipoChavePix(const s: string): tpTipoChavePix;
+function TipoChavePixToIndex(const t: tpTipoChavePix): Integer;
+function IndexToTipoChavePix(const s: Integer): tpTipoChavePix;
+function tpTipoChavePixToEnumStr(const t: tpTipoChavePix): string;
+function EnumStrTotpTipoChavePix(out ok: boolean; const s: string): tpTipoChavePix;
 
 function TipoEmbalagemToStr(const t: tpTipoEmbalagem): string;
 function StrToTipoEmbalagem(const s: string): tpTipoEmbalagem;
@@ -417,6 +452,20 @@ function TipoDocumentoPamcardToStr(const t: tpTipoDocumentoPamcard): string;
 function StrToTipoDocumentoPamcard(const s: string): tpTipoDocumentoPamcard;
 function tpTipoDocumentoPamcardToEnumStr(const t: tpTipoDocumentoPamcard): string;
 function EnumStrTotpTipoDocumentoPamcard(out ok: boolean; const s: string): tpTipoDocumentoPamcard;
+
+function TipoOperacaoPamcardToStr(const t: tpTipoOperacaoPamcard): string;
+function StrToTipoOperacaoPamcard(const s: string): tpTipoOperacaoPamcard;
+function TipoOperacaoPamcardToIndex(const t: tpTipoOperacaoPamcard): Integer;
+function IndexToTipoOperacaoPamcard(const s: Integer): tpTipoOperacaoPamcard;
+function tpTipoOperacaoPamcardToEnumStr(const t: tpTipoOperacaoPamcard): string;
+function EnumStrTotpTipoOperacaoPamcard(out ok: boolean; const s: string): tpTipoOperacaoPamcard;
+
+function IndicadorPagamentoPamcardToStr(const t: tpIndicadorPagamentoPamcard): string;
+function StrToIndicadorPagamentoPamcard(const s: string): tpIndicadorPagamentoPamcard;
+function IndicadorPagamentoPamcardToIndex(const t: tpIndicadorPagamentoPamcard): Integer;
+function IndexToIndicadorPagamentoPamcard(const s: Integer): tpIndicadorPagamentoPamcard;
+function tpIndicadorPagamentoPamcardToEnumStr(const t: tpIndicadorPagamentoPamcard): string;
+function EnumStrTotpIndicadorPagamentoPamcard(out ok: boolean; const s: string): tpIndicadorPagamentoPamcard;
 
 implementation
 
@@ -643,6 +692,62 @@ begin
   Result := StrToEnumerado(ok, s,
                            ['0', '1', '2', '3'],
                            [tcIndefinido, tcContaCorrente, tcContaPoupanca, tcContaPagamentos]);
+end;
+
+function TipoChavePixToStr(const t: tpTipoChavePix): string;
+begin
+  result := tpTipoChavePixArrayStrings[t];
+end;
+
+function StrToTipoChavePix(const s: string): tpTipoChavePix;
+var
+  idx: tpTipoChavePix;
+begin
+  for idx := Low(tpTipoChavePixArrayStrings) to High(tpTipoChavePixArrayStrings) do
+  begin
+    if (tpTipoChavePixArrayStrings[idx] = s) then
+    begin
+      result := idx;
+      exit;
+    end;
+  end;
+
+  raise EACBrException.CreateFmt('Valor string inválido para tpTipoChavePix: %s', [s]);
+end;
+
+function TipoChavePixToIndex(const t: tpTipoChavePix): Integer;
+begin
+  result := tpTipoChavePixArrayIndex[t];
+end;
+
+function IndexToTipoChavePix(const s: Integer): tpTipoChavePix;
+var
+  idx: tpTipoChavePix;
+begin
+  for idx := Low(tpTipoChavePixArrayIndex) to High(tpTipoChavePixArrayIndex) do
+  begin
+    if (tpTipoChavePixArrayIndex[idx] = s) then
+    begin
+      result := idx;
+      exit;
+    end;
+  end;
+
+  raise EACBrException.CreateFmt('Valor string inválido para tpTipoChavePix: %s', [s]);
+end;
+
+function tpTipoChavePixToEnumStr(const t: tpTipoChavePix): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['0', '1', '2', '3', '4'],
+                           [cpIndefinido, cpCPFCNPJ, cpEmail, cpTelefone, cpAleatoria]);
+end;
+
+function EnumStrTotpTipoChavePix(out ok: boolean; const s: string): tpTipoChavePix;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['0', '1', '2', '3', '4'],
+                           [cpIndefinido, cpCPFCNPJ, cpEmail, cpTelefone, cpAleatoria]);
 end;
 
 function TipoEmbalagemToStr(const t: tpTipoEmbalagem): string;
@@ -1073,7 +1178,9 @@ begin
                             '19', '20', '21',
                             '22', '23', '24',
                             '25', '26', '27',
-                            '28', '29', '30'],
+                            '28', '29', '30',
+                            '31', '32', '33',
+                            '34', '35', '36'],
                            [opLogin, opLogout,
                             opGravarProprietario, opGravarVeiculo, opGravarMotorista,
                             opAdicionar, opAdicionarViagem, opAdicionarPagamento,
@@ -1085,7 +1192,9 @@ begin
                             opIncluirRota, opRoteirizar, opIncluirCartaoPortador,
                             opConsultaViagem, opConsultaParcela, opConsultarCartao,
                             opConsultarConta, opConsultarFavorecido, opConsultarFrota,
-                            opConsultarRNTRC, opConsultarTAG, opPagamentoPedagio]);
+                            opConsultarRNTRC, opConsultarTAG, opPagamentoPedagio,
+                            opAdicionarTacAgregado, opEncerrarTacAgregado, opConsultarFreteMinimo,
+                            opConsultarSituacaoTransportador, opConsultarExcecao, opConsultarCIOTGerado]);
 end;
 
 function EnumStrToTpOperacao(out ok: boolean; const s: string): TpOperacao;
@@ -1102,7 +1211,9 @@ begin
                             '19', '20', '21',
                             '22', '23', '24',
                             '25', '26', '27',
-                            '28', '29', '30'],
+                            '28', '29', '30',
+                            '31', '32', '33',
+                            '34', '35', '36'],
                            [opLogin, opLogout,
                             opGravarProprietario, opGravarVeiculo, opGravarMotorista,
                             opAdicionar, opAdicionarViagem, opAdicionarPagamento,
@@ -1114,7 +1225,9 @@ begin
                             opIncluirRota, opRoteirizar, opIncluirCartaoPortador,
                             opConsultaViagem, opConsultaParcela, opConsultarCartao,
                             opConsultarConta, opConsultarFavorecido, opConsultarFrota,
-                            opConsultarRNTRC, opConsultarTAG, opPagamentoPedagio]);
+                            opConsultarRNTRC, opConsultarTAG, opPagamentoPedagio,
+                            opAdicionarTacAgregado, opEncerrarTacAgregado, opConsultarFreteMinimo,
+                            opConsultarSituacaoTransportador, opConsultarExcecao, opConsultarCIOTGerado]);
 end;
 
 function TpOperacaoToInt(const t: TpOperacao): Integer;
@@ -1472,6 +1585,119 @@ begin
                            [tdpNaoAplicavel, tdpManifesto, tdpRomaneio, tdpPlanoViagem, tdpAWB, tdpConhecimento,
                             tdpNotaFiscal, tdpDocumentoProprioCliente, tdpNumeroPedido, tdpOrdemVenda, tdpNumeroLoad,
                             tdpOrdemColeta, tdpAutorizacaoCarregamento, tdpAutorizacaoSaida]);
+end;
+
+
+function TipoOperacaoPamcardToStr(const t: tpTipoOperacaoPamcard): string;
+begin
+  result := tpTipoOperacaoPamcardArrayStrings[t];
+end;
+
+function StrToTipoOperacaoPamcard(const s: string): tpTipoOperacaoPamcard;
+var
+  idx: tpTipoOperacaoPamcard;
+begin
+  for idx := Low(tpTipoOperacaoPamcardArrayStrings) to High(tpTipoOperacaoPamcardArrayStrings) do
+  begin
+    if (tpTipoOperacaoPamcardArrayStrings[idx] = s) then
+    begin
+      result := idx;
+      exit;
+    end;
+  end;
+
+  raise EACBrException.CreateFmt('Valor string inválido para tpTipoOperacaoPamcard: %s', [s]);
+end;
+
+function TipoOperacaoPamcardToIndex(const t: tpTipoOperacaoPamcard): Integer;
+begin
+  result := tpTipoOperacaoPamcardArrayIndex[t];
+end;
+
+function IndexToTipoOperacaoPamcard(const s: Integer): tpTipoOperacaoPamcard;
+var
+  idx: tpTipoOperacaoPamcard;
+begin
+  for idx := Low(tpTipoOperacaoPamcardArrayIndex) to High(tpTipoOperacaoPamcardArrayIndex) do
+  begin
+    if (tpTipoOperacaoPamcardArrayIndex[idx] = s) then
+    begin
+      result := idx;
+      exit;
+    end;
+  end;
+
+  raise EACBrException.CreateFmt('Valor string inválido para tpTipoOperacaoPamcard: %s', [s]);
+end;
+
+function tpTipoOperacaoPamcardToEnumStr(const t: tpTipoOperacaoPamcard): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['0', '1', '2'],
+                           [topIndefinido, topLotacao, topFracionada]);
+end;
+
+function EnumStrTotpTipoOperacaoPamcard(out ok: boolean; const s: string): tpTipoOperacaoPamcard;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['0', '1', '2'],
+                           [topIndefinido, topLotacao, topFracionada]);
+end;
+
+function IndicadorPagamentoPamcardToStr(const t: tpIndicadorPagamentoPamcard): string;
+begin
+  result := tpIndicadorPagamentoPamcardArrayStrings[t];
+end;
+
+function StrToIndicadorPagamentoPamcard(const s: string): tpIndicadorPagamentoPamcard;
+var
+  idx: tpIndicadorPagamentoPamcard;
+begin
+  for idx := Low(tpIndicadorPagamentoPamcardArrayStrings) to High(tpIndicadorPagamentoPamcardArrayStrings) do
+  begin
+    if (tpIndicadorPagamentoPamcardArrayStrings[idx] = s) then
+    begin
+      result := idx;
+      exit;
+    end;
+  end;
+
+  raise EACBrException.CreateFmt('Valor string inválido para tpIndicadorPagamentoPamcard: %s', [s]);
+end;
+
+function IndicadorPagamentoPamcardToIndex(const t: tpIndicadorPagamentoPamcard): Integer;
+begin
+  result := tpIndicadorPagamentoPamcardArrayIndex[t];
+end;
+
+function IndexToIndicadorPagamentoPamcard(const s: Integer): tpIndicadorPagamentoPamcard;
+var
+  idx: tpIndicadorPagamentoPamcard;
+begin
+  for idx := Low(tpIndicadorPagamentoPamcardArrayIndex) to High(tpIndicadorPagamentoPamcardArrayIndex) do
+  begin
+    if (tpIndicadorPagamentoPamcardArrayIndex[idx] = s) then
+    begin
+      result := idx;
+      exit;
+    end;
+  end;
+
+  raise EACBrException.CreateFmt('Valor string inválido para tpIndicadorPagamentoPamcard: %s', [s]);
+end;
+
+function tpIndicadorPagamentoPamcardToEnumStr(const t: tpIndicadorPagamentoPamcard): string;
+begin
+  Result := EnumeradoToStr(t,
+                           ['0', '1'],
+                           [ipVista, ipPrazo]);
+end;
+
+function EnumStrTotpIndicadorPagamentoPamcard(out ok: boolean; const s: string): tpIndicadorPagamentoPamcard;
+begin
+  Result := StrToEnumerado(ok, s,
+                           ['0', '1'],
+                           [ipVista, ipPrazo]);
 end;
 
 end.

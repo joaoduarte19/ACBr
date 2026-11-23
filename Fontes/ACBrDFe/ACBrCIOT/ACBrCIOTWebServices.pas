@@ -510,6 +510,12 @@ begin
               FPArqResp := 'res-InserirContratoFrete';
             end;
 
+          opAdicionarTacAgregado:
+            begin
+              FPArqEnv  := 'ped-InsertTacFreightContract';
+              FPArqResp := 'res-InsertTacFreightContract';
+            end;
+
           opObterCodigoIOT:
             begin
               FPArqEnv  := 'ped-FindFreightContract';
@@ -532,6 +538,12 @@ begin
             begin
               FPArqEnv  := 'ped-CloseFreightContract';
               FPArqResp := 'res-CloseFreightContract';
+            end;
+
+          opEncerrarTacAgregado:
+            begin
+              FPArqEnv  := 'ped-CloseTACFreightContract';
+              FPArqResp := 'res-CloseTACFreightContract';
             end;
 
           opIncluirRota:
@@ -610,6 +622,12 @@ begin
             begin
               FPArqEnv  := 'ped-PayParcel';
               FPArqResp := 'res-PayParcel';
+            end;
+
+          opConsultarFreteMinimo:
+            begin
+              FPArqEnv  := 'ped-FindMinimumFreight';
+              FPArqResp := 'res-FindMinimumFreight';
             end;
         else
           FPArqEnv  := 'ped-';

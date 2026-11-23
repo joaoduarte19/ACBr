@@ -413,9 +413,10 @@ begin
           RetEnvio.CartaoNumero := leitor.rCampo( tcStr, 'viagem.cartao.numero' );
         end;
 
-        opAdicionar: begin
+        opAdicionar, opAdicionarTacAgregado: begin
           RetEnvio.Digito := leitor.rCampo( tcStr, 'viagem.digito' );
           RetEnvio.Id := leitor.rCampo( tcStr, 'viagem.id' );
+          RetEnvio.AlertaFreteMinimo := leitor.rCampo( tcStr, 'viagem.alerta.frete.minimo' );
           RetEnvio.CodigoIdentificacaoOperacao := leitor.rCampo( tcStr, 'viagem.antt.ciot.numero' );
           RetEnvio.Protocolo := leitor.rCampo( tcStr, 'viagem.antt.ciot.protocolo' );
           RetEnvio.EstadoCiot := ecEmViagem;
@@ -720,7 +721,7 @@ begin
           // sem implementação
         end;
 
-        opEncerrar: begin
+        opEncerrar, opEncerrarTacAgregado: begin
           RetEnvio.ProtocoloEncerramento := leitor.rCampo( tcStr, 'viagem.antt.ciot.encerramento.numero' );
           RetEnvio.CodigoIdentificacaoOperacao := leitor.rCampo( tcStr, 'viagem.antt.ciot.numero' );
           RetEnvio.Protocolo := leitor.rCampo( tcStr, 'viagem.antt.ciot.protocolo' );
@@ -830,6 +831,12 @@ begin
               end;
             end;
           end;
+        end;
+
+        opConsultarFreteMinimo: begin
+          RetEnvio.ValorFreteMinimo := leitor.rCampo( tcDe2, 'viagem.frete.minimo.valor' );
+          RetEnvio.ValorFreteMinimoIda := leitor.rCampo( tcDe2, 'viagem.frete.minimo.valor.ida' );
+          RetEnvio.ValorFreteMinimoRetorno := leitor.rCampo( tcDe2, 'viagem.frete.minimo.valor.retorno' );
         end;
       end;
     end;
