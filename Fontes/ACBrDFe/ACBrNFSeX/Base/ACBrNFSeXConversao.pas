@@ -503,6 +503,8 @@ type
 
 const
   TtribISSQNArrayStrings: array[TtribISSQN] of string = ('1', '2', '3', '4');
+  TtribISSQNArrayDescricaoStrings: array[TtribISSQN] of string =
+    ('Operação Tributável', 'Imunidade', 'Exportação', 'Não Incidência');
 
 type
   TtpImunidade = (timNenhum, timImunidade, timPatrimonio, timTemplos,
@@ -886,6 +888,7 @@ function StrTorodagem(out ok: Boolean; const s: string): Trodagem;
 
 function tribISSQNToStr(const t: TtribISSQN): string;
 function StrTotribISSQN(out ok: Boolean; const s: string): TtribISSQN;
+function tribISSQNToDescricao(const t: TtribISSQN): string;
 
 function tpImunidadeToStr(const t: TtpImunidade): string;
 function StrTotpImunidade(out ok: Boolean; const s: string): TtpImunidade;
@@ -13627,6 +13630,11 @@ begin
   result := StrToEnumerado(ok, s,
                            ['1', '2', '3', '4'],
             [tiOperacaoTributavel, tiImunidade, tiExportacao, tiNaoIncidencia]);
+end;
+
+function tribISSQNToDescricao(const t: TtribISSQN): string;
+begin
+  Result := TtribISSQNArrayDescricaoStrings[t];
 end;
 
 function tpImunidadeToStr(const t: TtpImunidade): string;

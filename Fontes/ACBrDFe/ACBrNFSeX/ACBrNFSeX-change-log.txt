@@ -43,6 +43,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/11/2026
+-- ACBrNFSeXConversao --
+[+] ACBR-10265 - Incluído a função tribISSQNToDescricao para retornar a descrição do tribISSQN.
+   Por: Italo Giurizzato Junior
+-- ACBr.DANFSeX.FPDFPadraoNacional --
+[*] ACBR-10265 - Alteração visando o uso da função tribISSQNToDescricao, comentado as linhas que ocultava
+    o quadro referente a Tributação Municipal.
+   Por: Italo Giurizzato Junior
 -- ACBr.DANFSeX.FPDFPadraoNacional --
 [-] ACBR-10228 - Acrescentado o Result para retornar o valor da função: GetFinalidadeDescricao.
    Por: Italo Giurizzato Junior
