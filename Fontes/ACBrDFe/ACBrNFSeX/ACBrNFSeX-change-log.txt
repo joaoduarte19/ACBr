@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/11/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-10276 - O município de Biguaçu/SC aderiu ao Padrão Nacional
+	Veja: https://www.projetoacbr.com.br/forum/topic/96132-mudan%C3%A7a-de-provedor-ipm-para-padr%C3%A3o-nacional-bigua%C3%A7usc/#comment-629013
+	Por: Centrodata Sistemas
 -- Fisco.GravarXml --
 [+] ACBR-10275 - Sobrescrito a function GerarServico visando gerar as tags: cClassTrib, cIndOp, CST e
     tpRetPisCofins.

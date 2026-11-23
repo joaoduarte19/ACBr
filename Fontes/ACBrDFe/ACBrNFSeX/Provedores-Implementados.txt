@@ -43,7 +43,7 @@ ABRASFv2 GovDigital            23 cidades - Pronto para a RTC
 ABRASFv1 Horus                  2 cidades
 ABRASFv2 iiBrasil               1 cidade 
 PN       infisc                 9 cidades - Pronto para a RTC (Padrão Nacional) (Permite uma lista de itens - Layout Próprio)
-Próprio  IPM                  144 cidades - Pronto para a RTC (Permite uma lista de itens - Layout Próprio)
+Próprio  IPM                  143 cidades - Pronto para a RTC (Permite uma lista de itens - Layout Próprio)
 Próprio  ISSBarueri             1 cidade  - Pronto para a RTC (Permite uma lista de itens)
 ABRASFv2 ISSCamacari            1 cidade
 PN       ISSDigital (Quasar)    3 cidades - Pronto para a RTC (Padrão Nacional)
@@ -61,7 +61,7 @@ PN       ModernizacaoPublica    6 cidades - Pronto para a RTC (Padrão Nacional)
 ABRASFv2 NEAInformatica         2 cidades
 ABRASFv2 NFOnline               2 cidade  - Pronto para a RTC
 ABRASFv1 NFSeBrasil (Memory)   23 cidades  
-         PadraoNacional      2451 cidades - Pronto para a RTC
+         PadraoNacional      2452 cidades - Pronto para a RTC
 Próprio  Prescon                1 cidade
 Próprio  PriMax                 5 cidades - Pronto para a RTC
 ABRASFv2 Prodata                7 cidades
