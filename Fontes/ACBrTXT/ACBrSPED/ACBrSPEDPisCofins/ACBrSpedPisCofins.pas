@@ -2342,8 +2342,7 @@ procedure TACBrSPEDPisCofins.WriteRegistroP001;
 begin
    Bloco_P.WriteRegistroP001;
    // Se o bloco não foi gerado, não precisamos contabilizar nos registros do bloco 9.
-   if (Self.DT_INI >= EncodeDate(2025, 01, 01)) or
-      ((Bloco_P.RegistroP001.IND_MOV <> imSemDados)) then
+   if Self.DT_INI >= EncodeDate(2025, 01, 01) then
      Exit;
 
    with Bloco_9.Registro9900 do
@@ -2414,6 +2413,10 @@ end;
 
 procedure TACBrSPEDPisCofins.WriteRegistroP990;
 begin
+  // Se o bloco não foi gerado, não precisamos contabilizar nos registros do bloco 9.
+  if Self.DT_INI >= EncodeDate(2025, 01, 01) then
+    Exit;
+
   with Bloco_9.Registro9900.New do
   begin
     REG_BLC := 'P990';
