@@ -290,6 +290,9 @@ begin
 }
   Result := False;
   FpGerarGrupoIBSCBSTot := False;
+
+  // Propriedades criadas para definir se os grupos ICMS, PIS e COFINS devem
+  // ou não ser gerados.
   FpGerarGrupoICMS := True;
   FpGerarGrupoPIS := True;
   FpGerarGrupoCOFINS := True;
@@ -299,6 +302,8 @@ begin
     moNFCe: ModelosDFe := mdfNFCe;
   end;
 
+  // O grupo ICMS não deve ser gerado quando o Contribuinte for Exclusivo do IBS/CBS
+  // neste caso ele não tem Inscrição Estadual
   if Trim(NFe.Emit.IE) = '' then
     FpGerarGrupoICMS := False;
 
@@ -3128,7 +3133,10 @@ var
 begin
   Result := nil;
 
-  if FpGerarGrupoPIS and (NFe.Ide.modelo <> 55) and ((NFe.Det[i].Imposto.PIS.vBC = 0) and
+  if not FpGerarGrupoPIS then
+    Exit;
+
+  if (NFe.Ide.modelo <> 55) and ((NFe.Det[i].Imposto.PIS.vBC = 0) and
     (NFe.Det[i].Imposto.PIS.pPIS = 0) and (NFe.Det[i].Imposto.PIS.vPIS = 0) and
     (NFe.Det[i].Imposto.PIS.qBCProd = 0) and
     (NFe.Det[i].Imposto.PIS.vAliqProd = 0) and
@@ -3295,7 +3303,10 @@ var
 begin
   Result := nil;
 
-  if FpGerarGrupoCOFINS and (NFe.Ide.modelo <> 55) and ((NFe.Det[i].Imposto.COFINS.vBC = 0) and
+  if not FpGerarGrupoCOFINS then
+    Exit;
+
+  if (NFe.Ide.modelo <> 55) and ((NFe.Det[i].Imposto.COFINS.vBC = 0) and
     (NFe.Det[i].Imposto.COFINS.pCOFINS = 0) and
     (NFe.Det[i].Imposto.COFINS.vCOFINS = 0) and
     (NFe.Det[i].Imposto.COFINS.qBCProd = 0) and

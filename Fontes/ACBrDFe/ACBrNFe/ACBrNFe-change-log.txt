@@ -44,6 +44,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/11/2026
+-- ACBrNFe.XmlWriter --
+[*] Acrescentado as linhas if not FpGerarGrupoPIS then Exit; e if not FpGerarGrupoCOFINS then Exit; dentro das procedures GerarDetImpostoPIS e
+    GerarDetImpostoCOFINS e removendo do segundo IF a condição: FpGerarGrupoPIS e FpGerarGrupoCOFINS das procedures mencionadas.
+    Hoje o valor True atribuído as propriedades: FpGerarGrupoPIS e FpGerarGrupoCOFINS não são alterados, mas futuramente poderão ser.
+   Por: Italo Giurizzato Junior
+
 19/11/2026
 -- ACBrDFeDANFeReport, ACBrNFeDANFeRLRetratoRTC, ACBrNFeDANFeRLPaisagemRTC --
 [+] ACBR-10250 - Nova propriedade ImprimeCodigoProduto (padrão True) que imprime o código do produto (cProd) antes da descrição, no formato "código - descrição", no DANFE da Reforma Tributária (Fortes, retrato e paisagem).
